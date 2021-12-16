@@ -2,75 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D15B847730F
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 14:24:04 +0100 (CET)
-Received: from localhost ([::1]:37832 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4F47477340
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 14:36:21 +0100 (CET)
+Received: from localhost ([::1]:52988 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxqjr-0000Kj-J1
-	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 08:24:03 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37010)
+	id 1mxqvk-0002l2-VB
+	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 08:36:20 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37028)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mxqgR-0006ev-FH
- for qemu-devel@nongnu.org; Thu, 16 Dec 2021 08:20:31 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:45606)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mxqgV-0006gf-Be
+ for qemu-devel@nongnu.org; Thu, 16 Dec 2021 08:20:35 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:44495)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mxqgP-0008EI-1P
- for qemu-devel@nongnu.org; Thu, 16 Dec 2021 08:20:30 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mxqgS-0008Eu-SB
+ for qemu-devel@nongnu.org; Thu, 16 Dec 2021 08:20:34 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639660828;
+ s=mimecast20190719; t=1639660832;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=VJ7YOUjdlkzlcNRbhLkMCwWwZMCHFg71MNYomo0s7g4=;
- b=ab7oArBNUOl+OyOXs3gahToLpuz1puWUqHyVZke1SlO5jRHJVDHKwRcjym4dglvnN9X/S4
- ZC1qK3Uiqon5c98V2FGH5ssRriLZ28lBbs3EKIjdhQ8mXO77ax3l/QY1xqkvHWm0NUfbYT
- 3bU7a4lfPE5Kc22iu0fCDEUr4brAj9c=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=t0HaJa5hL0xbci94VgrhNJFI3KFO8etTJC6TchOuXSE=;
+ b=gmOmqOvSyZSblzZDQz6Eb+0mK68ysT95jvjG7pRTNJ/0SlMG68lwULM31dAeeZWsPN8d8D
+ IJTiI4IncUvLbsP0S8+fVwUbFDdJK2JYQ+Yqu43nx8IBOJcB468058/MMMvKgFSBZHDbLq
+ 4NwCTYYxSBNbn+r2GsqQu/wGmM1iheQ=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-207-VOSiDwpLOcu6jBEwXzB4Kw-1; Thu, 16 Dec 2021 08:20:27 -0500
-X-MC-Unique: VOSiDwpLOcu6jBEwXzB4Kw-1
-Received: by mail-wm1-f72.google.com with SMTP id
- z199-20020a1c7ed0000000b003456affcffaso1272870wmc.2
- for <qemu-devel@nongnu.org>; Thu, 16 Dec 2021 05:20:27 -0800 (PST)
+ us-mta-605-DTm0DKXRMn2kh8ukrt-9GQ-1; Thu, 16 Dec 2021 08:20:31 -0500
+X-MC-Unique: DTm0DKXRMn2kh8ukrt-9GQ-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ l34-20020a05600c1d2200b00344d34754e4so1255273wms.7
+ for <qemu-devel@nongnu.org>; Thu, 16 Dec 2021 05:20:31 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=mPHqi2XWfNb0OMkEfV5JfcbdcAojSbcSN1Tsill8YPI=;
- b=gwcZqhFmVsdmS6PhgGQ+1Ae0q4Cpy0eeZnk1+JlLPA+ih5B0EOCSNTJL98g5CA8Qiz
- rZ9ltt2ORGLfhtwsQE0xV3elZXCYgr/hzjTw0Cdj5NPlLixwyruvJ7S2tJjg3sVPdcin
- fe/p17n2aEM3/UoJoinEllvHh273dBWb1vsAcvSZ/yBRKfCB2X7SaGCg+mTGOHtyHZUX
- QglWN9aqRyxXSBSMXwHZ3k+JWEjNXaRu90PTEudT2eIUTV7Qdc6PF/i1hD1579vsEfsG
- hGnRuR4KEHG64FnYH8CUwU1AWEZVSOCHkaIZXGEJrsfPeCXLkNY5XUALOU52QLVWyR3s
- v0lQ==
-X-Gm-Message-State: AOAM530mjCY5fOwjSNXgAKQj7GHOyopxw4OuWskNFiLyLeh4Cspd25V+
- BVEYUSC0+eEBK6MEeCAli4Uha9/y8ttaDHXNBKvBqJU2wBv3r/zqEaC0xSN0sjUeGo/qIbbYDiQ
- wzvKtdBAfh+0fU+fLvZ7asOqalRDTRbMw4mCIPuBZUQoYRFxE4VyFWXvs5ZTPddBD
-X-Received: by 2002:a7b:cc13:: with SMTP id f19mr807273wmh.150.1639660825724; 
- Thu, 16 Dec 2021 05:20:25 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyMndlGAkDhMkr/FzqlN0wq0wyPQdKkHDBs7i71i2ns3kTtfQPu3W1qThC4bbxR31zwr+mFNA==
-X-Received: by 2002:a7b:cc13:: with SMTP id f19mr807258wmh.150.1639660825478; 
- Thu, 16 Dec 2021 05:20:25 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=t0HaJa5hL0xbci94VgrhNJFI3KFO8etTJC6TchOuXSE=;
+ b=fdLHo6X9k5oo1uMoXaNJN/jf8hIAJhrsh3gqFE8PeX5nxNK0rF71MIQPFQ+YLe2j0t
+ l8b/EjAN3wETy/UltNesbH2rvc/W/dQljw3GMSfin2sgSOCIZO/+nB1dcq8W3E7FqyI5
+ JFY2nngHtkxDxkGFuLfsyJEvMoURL9GcFKdsoxNZdQ4jsdSr8Mt5GkcH9GgVREmMWReH
+ dSFrd7epiKRMg6nST9/9fYzRb1fu6GDXmwg0K1SIuQB8ZcWHEmuTIXgQ0CumA5S/Md99
+ fWTKdllug4c6u2ZyDArdBJ53H6YU/uoA7E/20Y6EEfPl7BZfFMwlakAOTvl6gqC1kL90
+ nMnw==
+X-Gm-Message-State: AOAM531g2jioZdhdIeQKm6NOH0zgvM8nLkZG98wDrk7js3FChGROZN/H
+ cw9H/Tru4KfYx+UBxBfTQycMbqzVAVliQITFHeEAQGoZo04UzoM7HycXTiNZXXmEbA6LPL8mt5z
+ skWJRDV23swDRJs0iqD4N8wDE67NQyHHZFdB+qhA+/cDi37IqGRd2Gdk90wdHp8lO
+X-Received: by 2002:a5d:4486:: with SMTP id j6mr1263871wrq.160.1639660829932; 
+ Thu, 16 Dec 2021 05:20:29 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwQ8DG5F2/GyHtKr4ceY/cv2HsvzJMgdXn0wjTMzUVOvZl4mD4Z+fq+HLBWqw1JPcGEtabUNg==
+X-Received: by 2002:a5d:4486:: with SMTP id j6mr1263857wrq.160.1639660829743; 
+ Thu, 16 Dec 2021 05:20:29 -0800 (PST)
 Received: from localhost.localdomain
  (174.red-83-50-185.dynamicip.rima-tde.net. [83.50.185.174])
- by smtp.gmail.com with ESMTPSA id l9sm5750104wrs.101.2021.12.16.05.20.24
+ by smtp.gmail.com with ESMTPSA id d13sm622953wru.41.2021.12.16.05.20.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Dec 2021 05:20:24 -0800 (PST)
+ Thu, 16 Dec 2021 05:20:29 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 0/8] tests/unit: Rework test-smp-parse tests
-Date: Thu, 16 Dec 2021 14:20:07 +0100
-Message-Id: <20211216132015.815493-1-philmd@redhat.com>
+Subject: [PATCH v6 1/8] tests/unit/test-smp-parse: Pass machine type as
+ argument to tests
+Date: Thu, 16 Dec 2021 14:20:08 +0100
+Message-Id: <20211216132015.815493-2-philmd@redhat.com>
 X-Mailer: git-send-email 2.33.1
+In-Reply-To: <20211216132015.815493-1-philmd@redhat.com>
+References: <20211216132015.815493-1-philmd@redhat.com>
 MIME-Version: 1.0
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
@@ -93,42 +97,69 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Eduardo Habkost <eduardo@habkost.net>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Yanan Wang <wangyanan55@huawei.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since v5:=0D
-- Adapt test class names (Yanan Wang)=0D
-=0D
-Since v4:=0D
-- Rebase (skipping merged patches)=0D
-- Renamed tests (Yanan Wang)=0D
-=0D
-Since v2:=0D
-- Restore 'dies_supported' field in test_with_dies (Yanan)=0D
-- Add R-b tags=0D
-- QOM-ify the TYPE_MACHINE classes=0D
-=0D
-Supersedes: <20211115145900.2531865-1-philmd@redhat.com>=0D
-=0D
-Philippe Mathieu-Daud=C3=A9 (8):=0D
-  tests/unit/test-smp-parse: Pass machine type as argument to tests=0D
-  tests/unit/test-smp-parse: Split the 'generic' test in valid / invalid=0D
-  tests/unit/test-smp-parse: Add 'smp-with-dies' machine type=0D
-  tests/unit/test-smp-parse: Add 'smp-generic-invalid' machine type=0D
-  tests/unit/test-smp-parse: Add 'smp-generic-valid' machine type=0D
-  tests/unit/test-smp-parse: Simplify pointer to compound literal use=0D
-  tests/unit/test-smp-parse: Constify some pointer/struct=0D
-  hw/core: Rename smp_parse() -> machine_parse_smp_config()=0D
-=0D
- include/hw/boards.h         |   3 +-=0D
- hw/core/machine-smp.c       |   6 +-=0D
- hw/core/machine.c           |   2 +-=0D
- tests/unit/test-smp-parse.c | 181 +++++++++++++++++++++++-------------=0D
- 4 files changed, 121 insertions(+), 71 deletions(-)=0D
-=0D
---=20=0D
-2.33.1=0D
-=0D
+Use g_test_add_data_func() instead of g_test_add_func() so we can
+pass the machine type to the tests (we will soon have different
+machine types).
+
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Yanan Wang <wangyanan55@huawei.com>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+---
+ tests/unit/test-smp-parse.c | 18 ++++++++++++------
+ 1 file changed, 12 insertions(+), 6 deletions(-)
+
+diff --git a/tests/unit/test-smp-parse.c b/tests/unit/test-smp-parse.c
+index b02450e25a3..37c6b4981db 100644
+--- a/tests/unit/test-smp-parse.c
++++ b/tests/unit/test-smp-parse.c
+@@ -487,9 +487,10 @@ static void machine_base_class_init(ObjectClass *oc, void *data)
+     mc->name = g_strdup(SMP_MACHINE_NAME);
+ }
+ 
+-static void test_generic(void)
++static void test_generic(const void *opaque)
+ {
+-    Object *obj = object_new(TYPE_MACHINE);
++    const char *machine_type = opaque;
++    Object *obj = object_new(machine_type);
+     MachineState *ms = MACHINE(obj);
+     MachineClass *mc = MACHINE_GET_CLASS(obj);
+     SMPTestData *data = &(SMPTestData){{ }};
+@@ -525,9 +526,10 @@ static void test_generic(void)
+     object_unref(obj);
+ }
+ 
+-static void test_with_dies(void)
++static void test_with_dies(const void *opaque)
+ {
+-    Object *obj = object_new(TYPE_MACHINE);
++    const char *machine_type = opaque;
++    Object *obj = object_new(machine_type);
+     MachineState *ms = MACHINE(obj);
+     MachineClass *mc = MACHINE_GET_CLASS(obj);
+     SMPTestData *data = &(SMPTestData){{ }};
+@@ -599,8 +601,12 @@ int main(int argc, char *argv[])
+ 
+     g_test_init(&argc, &argv, NULL);
+ 
+-    g_test_add_func("/test-smp-parse/generic", test_generic);
+-    g_test_add_func("/test-smp-parse/with_dies", test_with_dies);
++    g_test_add_data_func("/test-smp-parse/generic",
++                         TYPE_MACHINE,
++                         test_generic);
++    g_test_add_data_func("/test-smp-parse/with_dies",
++                         TYPE_MACHINE,
++                         test_with_dies);
+ 
+     g_test_run();
+ 
+-- 
+2.33.1
 
 
