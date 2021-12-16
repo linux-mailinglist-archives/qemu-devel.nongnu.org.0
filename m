@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D6CF476E15
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 10:48:26 +0100 (CET)
-Received: from localhost ([::1]:33562 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17DB5476E45
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 10:51:14 +0100 (CET)
+Received: from localhost ([::1]:42078 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxnNB-00079v-8G
-	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 04:48:25 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51246)
+	id 1mxnPt-0004Ny-6l
+	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 04:51:13 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51352)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mxnJs-0004HR-Cg
- for qemu-devel@nongnu.org; Thu, 16 Dec 2021 04:45:00 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48893)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mxnK7-0004aV-FD
+ for qemu-devel@nongnu.org; Thu, 16 Dec 2021 04:45:16 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22520)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mxnJq-0001KW-3h
- for qemu-devel@nongnu.org; Thu, 16 Dec 2021 04:44:59 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mxnJz-0001Mo-03
+ for qemu-devel@nongnu.org; Thu, 16 Dec 2021 04:45:14 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639647897;
+ s=mimecast20190719; t=1639647905;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=LKJLNxVfkGgux1atlcZhqkYAQPup2aXsjNB+NrEmFMQ=;
- b=b62sJe0lzdFqciFXt4Ql5jj/q6yB80nFU+cJRyOGe8Kf5KamjDYs6VMuRCrlzdaxnm/uAs
- 5mvpXDrWnu+0HVj9cgUbtoQh1fZU3EmgXBMJD43TSxmo2kwWHffg+VQKJJ9mm/cN8f+2AZ
- 5bnxdPpYo2I6T0qdvbLpN6Al8+9u4tY=
+ bh=a80gDk1phil+1e7zCFMjM3dYrJijHCwryDTIZ+NXPws=;
+ b=NrE7i9xV8DchVIueUefVZsFqss1ozJfp5xGdcAjUWcbinYkB4WY38/MzhvwQ/Qrjk+iXV0
+ Nz11Qkd0c3SzJ4f84Inzyw6UBbCuHWYUoEnniO5L5ZqHFmYbYW/Ns7cS01qjFpQouY2seA
+ SCruNSrrOXd8hYK6EyQEBM82vOUPsdQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-614-uZ7r4mYzMaCqZ6S5aqr75Q-1; Thu, 16 Dec 2021 04:44:55 -0500
-X-MC-Unique: uZ7r4mYzMaCqZ6S5aqr75Q-1
+ us-mta-424-EiMriNapO6GIZBjDChbp3w-1; Thu, 16 Dec 2021 04:44:56 -0500
+X-MC-Unique: EiMriNapO6GIZBjDChbp3w-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 335C4100CC86;
- Thu, 16 Dec 2021 09:44:54 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 938041934101;
+ Thu, 16 Dec 2021 09:44:55 +0000 (UTC)
 Received: from thuth.com (dhcp-192-183.str.redhat.com [10.33.192.183])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1BFD310A403A;
- Thu, 16 Dec 2021 09:44:52 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7B7E410A403A;
+ Thu, 16 Dec 2021 09:44:54 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 3/8] s390x/pci: use a reserved ID for the default PCI group
-Date: Thu, 16 Dec 2021 10:44:42 +0100
-Message-Id: <20211216094447.58496-4-thuth@redhat.com>
+Subject: [PULL 4/8] s390x/pci: don't use hard-coded dma range in reg_ioat
+Date: Thu, 16 Dec 2021 10:44:43 +0100
+Message-Id: <20211216094447.58496-5-thuth@redhat.com>
 In-Reply-To: <20211216094447.58496-1-thuth@redhat.com>
 References: <20211216094447.58496-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -85,34 +85,62 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Matthew Rosato <mjrosato@linux.ibm.com>
 
-The current default PCI group being used can technically collide with a
-real group ID passed from a hostdev.  Let's instead use a group ID that
-comes from a special pool (0xF0-0xFF) that is architected to be reserved
-for simulated devices.
+Instead use the values from clp info, they will either be the hard-coded
+values or what came from the host driver via vfio.
 
-Fixes: 28dc86a072 ("s390x/pci: use a PCI Group structure")
+Fixes: 9670ee752727 ("s390x/pci: use a PCI Function structure")
 Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
 Reviewed-by: Eric Farman <farman@linux.ibm.com>
 Reviewed-by: Pierre Morel <pmorel@linux.ibm.com>
-Message-Id: <20211203142706.427279-2-mjrosato@linux.ibm.com>
+Message-Id: <20211203142706.427279-3-mjrosato@linux.ibm.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- include/hw/s390x/s390-pci-bus.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/s390x/s390-pci-inst.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/include/hw/s390x/s390-pci-bus.h b/include/hw/s390x/s390-pci-bus.h
-index aa891c178d..2727e7bdef 100644
---- a/include/hw/s390x/s390-pci-bus.h
-+++ b/include/hw/s390x/s390-pci-bus.h
-@@ -313,7 +313,7 @@ typedef struct ZpciFmb {
- } ZpciFmb;
- QEMU_BUILD_BUG_MSG(offsetof(ZpciFmb, fmt0) != 48, "padding in ZpciFmb");
+diff --git a/hw/s390x/s390-pci-inst.c b/hw/s390x/s390-pci-inst.c
+index 1c8ad91175..11b7f6bfa1 100644
+--- a/hw/s390x/s390-pci-inst.c
++++ b/hw/s390x/s390-pci-inst.c
+@@ -916,9 +916,10 @@ int pci_dereg_irqs(S390PCIBusDevice *pbdev)
+     return 0;
+ }
  
--#define ZPCI_DEFAULT_FN_GRP 0x20
-+#define ZPCI_DEFAULT_FN_GRP 0xFF
- typedef struct S390PCIGroup {
-     ClpRspQueryPciGrp zpci_group;
-     int id;
+-static int reg_ioat(CPUS390XState *env, S390PCIIOMMU *iommu, ZpciFib fib,
++static int reg_ioat(CPUS390XState *env, S390PCIBusDevice *pbdev, ZpciFib fib,
+                     uintptr_t ra)
+ {
++    S390PCIIOMMU *iommu = pbdev->iommu;
+     uint64_t pba = ldq_p(&fib.pba);
+     uint64_t pal = ldq_p(&fib.pal);
+     uint64_t g_iota = ldq_p(&fib.iota);
+@@ -927,7 +928,7 @@ static int reg_ioat(CPUS390XState *env, S390PCIIOMMU *iommu, ZpciFib fib,
+ 
+     pba &= ~0xfff;
+     pal |= 0xfff;
+-    if (pba > pal || pba < ZPCI_SDMA_ADDR || pal > ZPCI_EDMA_ADDR) {
++    if (pba > pal || pba < pbdev->zpci_fn.sdma || pal > pbdev->zpci_fn.edma) {
+         s390_program_interrupt(env, PGM_OPERAND, ra);
+         return -EINVAL;
+     }
+@@ -1125,7 +1126,7 @@ int mpcifc_service_call(S390CPU *cpu, uint8_t r1, uint64_t fiba, uint8_t ar,
+         } else if (pbdev->iommu->enabled) {
+             cc = ZPCI_PCI_LS_ERR;
+             s390_set_status_code(env, r1, ZPCI_MOD_ST_SEQUENCE);
+-        } else if (reg_ioat(env, pbdev->iommu, fib, ra)) {
++        } else if (reg_ioat(env, pbdev, fib, ra)) {
+             cc = ZPCI_PCI_LS_ERR;
+             s390_set_status_code(env, r1, ZPCI_MOD_ST_INSUF_RES);
+         }
+@@ -1150,7 +1151,7 @@ int mpcifc_service_call(S390CPU *cpu, uint8_t r1, uint64_t fiba, uint8_t ar,
+             s390_set_status_code(env, r1, ZPCI_MOD_ST_SEQUENCE);
+         } else {
+             pci_dereg_ioat(pbdev->iommu);
+-            if (reg_ioat(env, pbdev->iommu, fib, ra)) {
++            if (reg_ioat(env, pbdev, fib, ra)) {
+                 cc = ZPCI_PCI_LS_ERR;
+                 s390_set_status_code(env, r1, ZPCI_MOD_ST_INSUF_RES);
+             }
 -- 
 2.27.0
 
