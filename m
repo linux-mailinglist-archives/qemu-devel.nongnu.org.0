@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4834A477FF1
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 23:15:33 +0100 (CET)
-Received: from localhost ([::1]:51444 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39CB4477F9B
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 22:52:53 +0100 (CET)
+Received: from localhost ([::1]:35034 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxz2B-0000qt-Ur
-	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 17:15:31 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38572)
+	id 1mxygG-0003yj-7U
+	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 16:52:52 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38568)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1mxxM6-0004f7-GU; Thu, 16 Dec 2021 15:27:58 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:29944)
+ id 1mxxM5-0004cp-Up; Thu, 16 Dec 2021 15:27:57 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:41222)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1mxxM4-0007ai-AN; Thu, 16 Dec 2021 15:27:58 -0500
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1BGJU4Fh001798; 
- Thu, 16 Dec 2021 20:27:28 GMT
+ id 1mxxM4-0007bH-99; Thu, 16 Dec 2021 15:27:57 -0500
+Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1BGKJrl1015972; 
+ Thu, 16 Dec 2021 20:27:29 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3cype3cm0h-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3cyqbjas77-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 16 Dec 2021 20:27:28 +0000
-Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1BGKRSRF023232;
- Thu, 16 Dec 2021 20:27:28 GMT
+ Thu, 16 Dec 2021 20:27:29 +0000
+Received: from m0098394.ppops.net (m0098394.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1BGKK5Iq017529;
+ Thu, 16 Dec 2021 20:27:29 GMT
 Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com
  [159.122.73.70])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3cype3ckyy-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3cyqbjas6f-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 16 Dec 2021 20:27:27 +0000
+ Thu, 16 Dec 2021 20:27:28 +0000
 Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
- by ppma01fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1BGKCjII011781;
- Thu, 16 Dec 2021 20:27:25 GMT
-Received: from b06cxnps3074.portsmouth.uk.ibm.com
- (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
- by ppma01fra.de.ibm.com with ESMTP id 3cy7k3j3ye-1
+ by ppma01fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1BGKCgY2011757;
+ Thu, 16 Dec 2021 20:27:26 GMT
+Received: from b06cxnps4076.portsmouth.uk.ibm.com
+ (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
+ by ppma01fra.de.ibm.com with ESMTP id 3cy7k3j3yh-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 16 Dec 2021 20:27:25 +0000
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com
- (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
- by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 1BGKRNjb47579614
+ Thu, 16 Dec 2021 20:27:26 +0000
+Received: from d06av24.portsmouth.uk.ibm.com (mk.ibm.com [9.149.105.60])
+ by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 1BGKRNkT22675816
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Thu, 16 Dec 2021 20:27:23 GMT
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 1420AA4066;
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id B4A9242042;
  Thu, 16 Dec 2021 20:27:23 +0000 (GMT)
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id BEE9DA4060;
- Thu, 16 Dec 2021 20:27:22 +0000 (GMT)
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 73AFF42045;
+ Thu, 16 Dec 2021 20:27:23 +0000 (GMT)
 Received: from smtp.tlslab.ibm.com (unknown [9.101.4.1])
- by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with SMTP;
- Thu, 16 Dec 2021 20:27:22 +0000 (GMT)
+ by d06av24.portsmouth.uk.ibm.com (Postfix) with SMTP;
+ Thu, 16 Dec 2021 20:27:23 +0000 (GMT)
 Received: from yukon.ibmuc.com (unknown [9.171.48.122])
- by smtp.tlslab.ibm.com (Postfix) with ESMTP id 04A1B220238;
- Thu, 16 Dec 2021 21:27:21 +0100 (CET)
+ by smtp.tlslab.ibm.com (Postfix) with ESMTP id B2C952201A0;
+ Thu, 16 Dec 2021 21:27:22 +0100 (CET)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
-Subject: [PULL 099/101] ppc/pnv: Remove "system-memory" property from PHB4 PEC
-Date: Thu, 16 Dec 2021 21:26:12 +0100
-Message-Id: <20211216202614.414266-100-clg@kaod.org>
+Subject: [PULL 100/101] ppc/pnv: Move realize of PEC stacks under the PEC model
+Date: Thu, 16 Dec 2021 21:26:13 +0100
+Message-Id: <20211216202614.414266-101-clg@kaod.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211216202614.414266-1-clg@kaod.org>
 References: <20211216202614.414266-1-clg@kaod.org>
@@ -70,17 +69,17 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: k7xDP6TUkOiMq3UhqODbxGWPWSSYa-K0
-X-Proofpoint-ORIG-GUID: vBSBdGyFuUEWO3qhVQG8kbvMxAMwpmuP
+X-Proofpoint-GUID: z9KrkYWSdphCTWouBiqpjsApYwn20lLx
+X-Proofpoint-ORIG-GUID: GwXFSwx72Tyzonv-ASIBxXeKt9Vib7i0
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
  definitions=2021-12-16_08,2021-12-16_01,2021-12-02_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=653
- impostorscore=0 phishscore=0 mlxscore=0 lowpriorityscore=0 suspectscore=0
- bulkscore=0 clxscore=1034 adultscore=0 priorityscore=1501 spamscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2110150000 definitions=main-2112160109
+ mlxscore=0 adultscore=0
+ malwarescore=0 bulkscore=0 mlxlogscore=922 impostorscore=0
+ lowpriorityscore=0 suspectscore=0 phishscore=0 spamscore=0
+ priorityscore=1501 clxscore=1034 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2110150000 definitions=main-2112160109
 Received-SPF: softfail client-ip=148.163.156.1; envelope-from=clg@kaod.org;
  helo=mx0a-001b2d01.pphosted.com
 X-Spam_score_int: -11
@@ -100,76 +99,156 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Frederic Barrat <fbarrat@linux.ibm.com>,
- Peter Maydell <peter.maydell@linaro.org>,
+Cc: Peter Maydell <peter.maydell@linaro.org>,
  Daniel Henrique Barboza <danielhb413@gmail.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is not useful and will be in the way for support of user created
-PHB4 devices.
+This change will help us providing support for user created PHB4
+devices.
 
 Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-Reviewed-by: Frederic Barrat <fbarrat@linux.ibm.com>
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
-Message-Id: <20211213132830.108372-13-clg@kaod.org>
+Message-Id: <20211213132830.108372-14-clg@kaod.org>
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 ---
- hw/pci-host/pnv_phb4_pec.c | 6 +-----
- hw/ppc/pnv.c               | 2 --
- 2 files changed, 1 insertion(+), 7 deletions(-)
+ hw/pci-host/pnv_phb4_pec.c | 34 ++++++++++++++++++++++++++++++----
+ hw/ppc/pnv.c               | 37 ++++---------------------------------
+ 2 files changed, 34 insertions(+), 37 deletions(-)
 
 diff --git a/hw/pci-host/pnv_phb4_pec.c b/hw/pci-host/pnv_phb4_pec.c
-index a7dd4173d598..dfed2af0f7df 100644
+index dfed2af0f7df..24a3adcae326 100644
 --- a/hw/pci-host/pnv_phb4_pec.c
 +++ b/hw/pci-host/pnv_phb4_pec.c
-@@ -124,7 +124,7 @@ static uint64_t pnv_pec_stk_nest_xscom_read(void *opa=
-que, hwaddr addr,
- static void pnv_pec_stk_update_map(PnvPhb4PecStack *stack)
+@@ -556,6 +556,10 @@ static void pnv_pec_stk_realize(DeviceState *dev, Er=
+ror **errp)
  {
+     PnvPhb4PecStack *stack =3D PNV_PHB4_PEC_STACK(dev);
      PnvPhb4PecState *pec =3D stack->pec;
--    MemoryRegion *sysmem =3D pec->system_memory;
-+    MemoryRegion *sysmem =3D get_system_memory();
-     uint64_t bar_en =3D stack->nest_regs[PEC_NEST_STK_BAR_EN];
-     uint64_t bar, mask, size;
++    PnvPhb4PecClass *pecc =3D PNV_PHB4_PEC_GET_CLASS(pec);
++    PnvChip *chip =3D pec->chip;
++    uint32_t pec_nest_base;
++    uint32_t pec_pci_base;
      char name[64];
-@@ -394,8 +394,6 @@ static void pnv_pec_realize(DeviceState *dev, Error *=
-*errp)
-     char name[64];
-     int i;
 =20
--    assert(pec->system_memory);
--
-     if (pec->index >=3D PNV_CHIP_GET_CLASS(pec->chip)->num_pecs) {
-         error_setg(errp, "invalid PEC index: %d", pec->index);
-         return;
-@@ -486,8 +484,6 @@ static Property pnv_pec_properties[] =3D {
-         DEFINE_PROP_UINT32("chip-id", PnvPhb4PecState, chip_id, 0),
-         DEFINE_PROP_LINK("chip", PnvPhb4PecState, chip, TYPE_PNV_CHIP,
-                          PnvChip *),
--        DEFINE_PROP_LINK("system-memory", PnvPhb4PecState, system_memory=
+     assert(pec);
+@@ -579,10 +583,32 @@ static void pnv_pec_stk_realize(DeviceState *dev, E=
+rror **errp)
+     pnv_xscom_region_init(&stack->phb_regs_mr, OBJECT(&stack->phb),
+                           &pnv_phb4_xscom_ops, &stack->phb, name, 0x40);
+=20
+-    /*
+-     * Let the machine/chip realize the PHB object to customize more
+-     * easily some fields
+-     */
++    object_property_set_int(OBJECT(&stack->phb), "chip-id", pec->chip_id=
 ,
--                     TYPE_MEMORY_REGION, MemoryRegion *),
-         DEFINE_PROP_END_OF_LIST(),
- };
++                            &error_fatal);
++    object_property_set_int(OBJECT(&stack->phb), "version", pecc->versio=
+n,
++                            &error_fatal);
++    object_property_set_int(OBJECT(&stack->phb), "device-id", pecc->devi=
+ce_id,
++                            &error_fatal);
++    object_property_set_link(OBJECT(&stack->phb), "stack", OBJECT(stack)=
+,
++                             &error_abort);
++    if (!sysbus_realize(SYS_BUS_DEVICE(&stack->phb), errp)) {
++        return;
++    }
++
++    pec_nest_base =3D pecc->xscom_nest_base(pec);
++    pec_pci_base =3D pecc->xscom_pci_base(pec);
++
++    /* Populate the XSCOM address space. */
++    pnv_xscom_add_subregion(chip,
++                            pec_nest_base + 0x40 * (stack->stack_no + 1)=
+,
++                            &stack->nest_regs_mr);
++    pnv_xscom_add_subregion(chip,
++                            pec_pci_base + 0x40 * (stack->stack_no + 1),
++                            &stack->pci_regs_mr);
++    pnv_xscom_add_subregion(chip,
++                            pec_pci_base + PNV9_XSCOM_PEC_PCI_STK0 +
++                            0x40 * stack->stack_no,
++                            &stack->phb_regs_mr);
+ }
 =20
+ static Property pnv_pec_stk_properties[] =3D {
 diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-index 712200264be2..57a5180bccf2 100644
+index 57a5180bccf2..c0b47a7d8909 100644
 --- a/hw/ppc/pnv.c
 +++ b/hw/ppc/pnv.c
-@@ -1396,8 +1396,6 @@ static void pnv_chip_power9_phb_realize(PnvChip *ch=
-ip, Error **errp)
-                                 &error_fatal);
-         object_property_set_link(OBJECT(pec), "chip", OBJECT(chip),
-                                  &error_fatal);
--        object_property_set_link(OBJECT(pec), "system-memory",
--                                 OBJECT(get_system_memory()), &error_abo=
-rt);
-         if (!qdev_realize(DEVICE(pec), NULL, errp)) {
-             return;
-         }
+@@ -1380,10 +1380,10 @@ static void pnv_chip_quad_realize(Pnv9Chip *chip9=
+, Error **errp)
+     }
+ }
+=20
+-static void pnv_chip_power9_phb_realize(PnvChip *chip, Error **errp)
++static void pnv_chip_power9_pec_realize(PnvChip *chip, Error **errp)
+ {
+     Pnv9Chip *chip9 =3D PNV9_CHIP(chip);
+-    int i, j;
++    int i;
+=20
+     for (i =3D 0; i < chip->num_pecs; i++) {
+         PnvPhb4PecState *pec =3D &chip9->pecs[i];
+@@ -1405,35 +1405,6 @@ static void pnv_chip_power9_phb_realize(PnvChip *c=
+hip, Error **errp)
+=20
+         pnv_xscom_add_subregion(chip, pec_nest_base, &pec->nest_regs_mr)=
+;
+         pnv_xscom_add_subregion(chip, pec_pci_base, &pec->pci_regs_mr);
+-
+-        for (j =3D 0; j < pec->num_stacks; j++) {
+-            PnvPhb4PecStack *stack =3D &pec->stacks[j];
+-            Object *obj =3D OBJECT(&stack->phb);
+-
+-            object_property_set_int(obj, "chip-id", chip->chip_id,
+-                                    &error_fatal);
+-            object_property_set_int(obj, "version", pecc->version,
+-                                    &error_fatal);
+-            object_property_set_int(obj, "device-id", pecc->device_id,
+-                                    &error_fatal);
+-            object_property_set_link(obj, "stack", OBJECT(stack),
+-                                     &error_abort);
+-            if (!sysbus_realize(SYS_BUS_DEVICE(obj), errp)) {
+-                return;
+-            }
+-
+-            /* Populate the XSCOM address space. */
+-            pnv_xscom_add_subregion(chip,
+-                                   pec_nest_base + 0x40 * (stack->stack_=
+no + 1),
+-                                   &stack->nest_regs_mr);
+-            pnv_xscom_add_subregion(chip,
+-                                    pec_pci_base + 0x40 * (stack->stack_=
+no + 1),
+-                                    &stack->pci_regs_mr);
+-            pnv_xscom_add_subregion(chip,
+-                                    pec_pci_base + PNV9_XSCOM_PEC_PCI_ST=
+K0 +
+-                                    0x40 * stack->stack_no,
+-                                    &stack->phb_regs_mr);
+-        }
+     }
+ }
+=20
+@@ -1529,8 +1500,8 @@ static void pnv_chip_power9_realize(DeviceState *de=
+v, Error **errp)
+     memory_region_add_subregion(get_system_memory(), PNV9_HOMER_BASE(chi=
+p),
+                                 &chip9->homer.regs);
+=20
+-    /* PHBs */
+-    pnv_chip_power9_phb_realize(chip, &local_err);
++    /* PEC PHBs */
++    pnv_chip_power9_pec_realize(chip, &local_err);
+     if (local_err) {
+         error_propagate(errp, local_err);
+         return;
 --=20
 2.31.1
 
