@@ -2,71 +2,148 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EA8F477054
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 12:33:07 +0100 (CET)
-Received: from localhost ([::1]:58946 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B563E477050
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 12:32:35 +0100 (CET)
+Received: from localhost ([::1]:57894 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxp0U-00076Z-Ox
-	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 06:33:06 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34440)
+	id 1mxozy-0006PG-HC
+	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 06:32:34 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34260)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mxozC-0005fG-QK
- for qemu-devel@nongnu.org; Thu, 16 Dec 2021 06:31:46 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45316)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1mxoyZ-0004fS-Bo; Thu, 16 Dec 2021 06:31:10 -0500
+Received: from mail-eopbgr60093.outbound.protection.outlook.com
+ ([40.107.6.93]:30272 helo=EUR04-DB3-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mxoz8-0005SI-PN
- for qemu-devel@nongnu.org; Thu, 16 Dec 2021 06:31:45 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639654301;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=kqVYoxbxgufKQJHJr64Etu/B2p7gG/4srzJD3MYakvI=;
- b=PpugwJXlcfGNPbRwgYSX6er4cMzj8xdkddhxqatXZ5Xu+ubVsZU5nHJEZhXdwW/0GTogX0
- mtwAyqDI1l2ixkLRS0y2FmbjetFQRqJ/Z0tqcG/KpZkNvtgLnKURUTdVoE+P8Qih3j95Vo
- 1Pxolon13/lU6OTr+v79SApovcaJ4eo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-596-a4XWvqiLNYO-M4ynwLf99w-1; Thu, 16 Dec 2021 06:31:38 -0500
-X-MC-Unique: a4XWvqiLNYO-M4ynwLf99w-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A40ED81CCB9;
- Thu, 16 Dec 2021 11:31:36 +0000 (UTC)
-Received: from localhost (unknown [10.39.194.163])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6D4052E058;
- Thu, 16 Dec 2021 11:30:21 +0000 (UTC)
-Date: Thu, 16 Dec 2021 11:30:20 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: john.levon@nutanix.com, thanos.makatos@nutanix.com
-Subject: Re: [PATCH v4 08/14] vfio-user: handle PCI config space accesses
-Message-ID: <YbsjTPnOiAkNKmhb@stefanha-x1.localdomain>
-References: <cover.1639549843.git.jag.raman@oracle.com>
- <34e287d0a8d585f104bdd06681b32fc93e8746c7.1639549843.git.jag.raman@oracle.com>
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1mxoyP-0005IK-7J; Thu, 16 Dec 2021 06:31:05 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=PzCC5SMXRVxfK5nkjJQW2OsJDgqu+TPu6uNyP7jJwQ0zem/QZXb2A8BpAyDRNZOIOMbZZ+5JAZ+Hpo9IcArAtFRYSnfQcsgFeHAFm10VYr2T7H3GVMBl5FSb5oNqTBOu0FINUOrsEGFyZb3lnVZpcqLNnBK9E+CMZAFzlY9hvjRtS1lHH6Q19i9M9M5FZjQkSYjllaYdxr+atk3FbKpoMoWUqpa8QJDio2HIZOJtD7U67UeJiBj2F9m/ByuuvczfTup+FUdYrkzujPuFMOF2BiMSlrPhdSDnMnoQb/JzVVMjwN1YJPkp5VpjJl+Rfp2Vys8rEkDCeeccwTQcLBsgng==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=/OK+ku7dsVc5641TjAFLdrz3xVQfizmXuRf9jeNVUKc=;
+ b=RIQlpkv2a4ZeZ5s4EjQVQco8pGWAXLmoY+kL/fTljjRxVO7aOhgoHYtBEE06ankWfsTtuezt7DjikDnj5ZXXWQCYom+B2o4ZuYgEuUUMluPOdwom5up8tXX4KWGF65tF/LTRqQ0Kkk+IoO1KcpOq3VYRQUVo/xdJSNHNsqrDS6VsUh7vnnQFWMygtJBlJy/ksVH8hWAFDtX01yW0GL9OUy3Pv6HpxfH+0VDNxu9JawSTMcZV5CTHY6JcHOhRL9X+eAWAz22jWIeqGT3eFw6N89U6pQFgVG3Q3YTIld5EGywD7idEb9EDPFQknJXI3xIJRv8HqYkl+7QE97Vjf315cw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=/OK+ku7dsVc5641TjAFLdrz3xVQfizmXuRf9jeNVUKc=;
+ b=qlfq2eJJ8VWX132G+/USTKuQT6xbKGNeiUMiic6p5RppWPYte2xuTsXO/pniEANRVrGR5Z/c0KuWzkmPcWRwTKN/KTfDIBQ+VuYjp9l0WHEBm14I4AAU2lAWLmu9llfbjcws2IdBQAc3dymDb8uGMDJZQfD1TvBN2Idir7+dXMs=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM9PR08MB6737.eurprd08.prod.outlook.com (2603:10a6:20b:304::18)
+ by AM0PR08MB3090.eurprd08.prod.outlook.com (2603:10a6:208:56::23)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4778.14; Thu, 16 Dec
+ 2021 11:30:52 +0000
+Received: from AM9PR08MB6737.eurprd08.prod.outlook.com
+ ([fe80::2078:5a2:1898:d83a]) by AM9PR08MB6737.eurprd08.prod.outlook.com
+ ([fe80::2078:5a2:1898:d83a%7]) with mapi id 15.20.4669.024; Thu, 16 Dec 2021
+ 11:30:52 +0000
+Message-ID: <acf190e1-e1a2-77c2-87ba-6bf330fc0bb4@virtuozzo.com>
+Date: Thu, 16 Dec 2021 14:30:49 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH v2 23/25] python: remove the old QMP package
+Content-Language: en-US
+To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
+Cc: Eduardo Habkost <eduardo@habkost.net>,
+ Daniel Berrange <berrange@redhat.com>, Andrea Bolognani
+ <abologna@redhat.com>, Wainer Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ qemu-block@nongnu.org
+References: <20211215193939.3768033-1-jsnow@redhat.com>
+ <20211215193939.3768033-24-jsnow@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+In-Reply-To: <20211215193939.3768033-24-jsnow@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR3P281CA0058.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:4b::19) To AM9PR08MB6737.eurprd08.prod.outlook.com
+ (2603:10a6:20b:304::18)
 MIME-Version: 1.0
-In-Reply-To: <34e287d0a8d585f104bdd06681b32fc93e8746c7.1639549843.git.jag.raman@oracle.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="k+kU4GmQ4iNJJAcD"
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.718,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Received: from [192.168.100.10] (185.215.60.230) by
+ FR3P281CA0058.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:4b::19) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=) via Frontend Transport;
+ Thu, 16 Dec 2021 11:30:51 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 9f8526f1-4271-4d42-51fc-08d9c087842b
+X-MS-TrafficTypeDiagnostic: AM0PR08MB3090:EE_
+X-Microsoft-Antispam-PRVS: <AM0PR08MB3090C3512C38E13B6F0D3750C1779@AM0PR08MB3090.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3513;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: IyXXnHD+ipizEAdV9ZPhWdKWqNfoRhDNwspm+W4KC1ckAYrlL77+T54IeGfa5IpS6dCU3DT6olubX7JoLjhpsk2aJEuZaZR3zzMi3f9jirOQ3Rv8Wi3RqHDsohTKne4YLZZjFxjERbajTfA+adV6YHVTTBaw2JITXMP1LcdxAXQ85JtgGK+2Sv3OlOBjD3bfDzAWpP/yyxJUhgZnTse1vw24P/qahFYbbiasQOG0CwQv5RBBXqM3FQKIwbUoNANjhjIb6K5MeUwT52BhJ9shxO6/LppJMyEcH0tEX+6SEJLpTQB8b2Wn7z4g2VcbArhwx9P2lf8sxtsXMHHEjhzm/if/629awvPvJTasfmb5jFoA+rkIgT9ixFo2ZkEmywSHB+UB5Ryiutg7gns6hPF4CRtZeNPQJ7uO68zYudqXHhvQtlNPL/XZv39tRbvATrHfobWj2+YQdtmMDwXyQfFByGKBe8to6AjKtwdnBkLs4HUaWvXOhqbxRCYIdbTleLCe+pyGSD39grgZeTNBB30J4yo+hQws6xP5SMUnHbR3vDwolfxK/gqzmRqNkDhh48APhvFyg6dIg7KXHn8otQ8MCDEpHBJ4zxjZyVT2IHGEr8UcbjDgONeONbhEdtUR1ZB4Uq9IFBDkZv6H9SM7mo3lgfmw9NbG2FaU8ryJ2Dq9ow6qg3CwHWh0HR3D6HSR99ahR37MuOgkj8gIYmgmk5sxnhLAshrYZm7QiSp1QmXzAQO84lyVqgIFBVSpxK4bZ3SvBAdVnSs1o33/ZdCTRdjj1A==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM9PR08MB6737.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(16576012)(558084003)(66476007)(31696002)(54906003)(316002)(5660300002)(6486002)(36756003)(8676002)(8936002)(956004)(2616005)(38100700002)(508600001)(38350700002)(31686004)(7416002)(4326008)(26005)(86362001)(66946007)(2906002)(66556008)(52116002)(186003)(45980500001)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eU1XUzNGWG9VeUNHM1B3eFdvcjNhMHQ0NmRMYUxpdGRnSkd2cXJOWm5XL2xF?=
+ =?utf-8?B?Q2gxL1QzOUw5SEhta0s0NTlUVnBnL2pHMUFxVlJzb3VvOCtkbUIwVWtXWkFQ?=
+ =?utf-8?B?MFdwak14N3pKU2xMTkUyQmVYVGJzV21FNnQrc1B5ckp4a1ZyaExzazQzZGtF?=
+ =?utf-8?B?NVVOOVN0WEs0eWU4RVBuVjBRQjlnektMV3gvbWdCa0Jvem9YdExlV1RTUm03?=
+ =?utf-8?B?aUgrTFAzYkRRNS9yQXplTVdxNHpoT1NtYjRQWlEyZUlHREpjT3NZWmRBdVRF?=
+ =?utf-8?B?ekxLc0pmTnBRSmk0VXFoK2ZYd1d2REpYK3RGNkNtOFA0aUVqWVNCeG1ZNzVu?=
+ =?utf-8?B?bjEzS2k0UzNqdzhLMjdUR3g3cys2UFdDczlPMEZvUXpubzV6c013d0dWK3hH?=
+ =?utf-8?B?bUtwWnlveHI4VWYvaW4vYzh2Q1BJbnYrRkxFdEJRWGpIR1orM015MHN1SDVS?=
+ =?utf-8?B?aUxhS2t6SWUzd2pwNW01OXIyUk4vWldSK3NRbmRUSUVwL1NqcDRQYjRkbUNO?=
+ =?utf-8?B?Tm10V0E1VEpWQjVMVFdzcHlNc3lDUXdvS01rQUoxZ3ljbGlGTktOQzIweXBB?=
+ =?utf-8?B?NzBmbXlKRllDTHRLaHc5Q3R0OHA0WVdrdDdyeXQ5THZSNzBHM1VjNzVMc2lY?=
+ =?utf-8?B?OXpCeitrT0d5a3VMSjJtbko1QW5hYUcvUytQSit3N1Y0ZERyRjNod0c0RVhO?=
+ =?utf-8?B?d29rQ0hJMWVYVTBHMC8vNnNXYnlHWC8vU2grZXcyMjlkdkx0cno4b2I5Ymh2?=
+ =?utf-8?B?NEFadVBkelArK3c2Vi9sQ1J3dnBkQ3RScGJZQmZGNGNIRGFrL2wvdnZQNkI5?=
+ =?utf-8?B?ZjV5UG90NHdBRWxhejFGTkVxYndidGI1cEZJcTVCV0s3RzZYVjVNYi8vRC9I?=
+ =?utf-8?B?UHo4TU1DWjZ1SEduaGkwSDdYWFI2UVl0WDY0dDVjRndlRmp2M2RZb2ZWV09Q?=
+ =?utf-8?B?WmN5NStReGtTR21PTUlBWWlQRFlBbnYrdDF1MXhvUVpaNm5BdzhRY1FPMFR0?=
+ =?utf-8?B?akpIWWo0V0ZWWlp4TGJJR2t3emlxSDl5WWNEMGdVVVZ3WWlvbFkwZzlhZjFx?=
+ =?utf-8?B?VHIyZDdxT3F1MGpSbTN5UEVXTHdPbWxjUmMxUCtoT3hXSDErTThkZmdMWWFH?=
+ =?utf-8?B?ZVRFSkJLbHZhb2xCZ1pqL0orM0hXUHJZZU9QQ3pTV3ZGVmpHWFNNK29FaTFu?=
+ =?utf-8?B?MENYeStHankzV1E1UTNFUnVvYmpPU1lheXZqMnZaMExGejdLUmJucVQyOHJM?=
+ =?utf-8?B?MGpEWmJUbFZUK3ZMRnZoYUZxM3hScGFNWkVsekg5Wmk1RXBhdFlmMWxFY3NP?=
+ =?utf-8?B?b0ozck50RHlzeVBlU3VyVjFmTXFDYXJzdGpuS2J4aHpqVVFzQ2ROc0lxcElH?=
+ =?utf-8?B?ZXVTbGk3cllCUC9EWlhZNDM2T3FYaEdMbEwvRHU0Y0RuZkhJOWRROGxzWmNs?=
+ =?utf-8?B?NmV0OUpUVkJGZThYY1NPWEk2NHM5aUtLRGtUcDlDcDJrQ3pobjlxWGVoTzdi?=
+ =?utf-8?B?N1VQbTdwTTJ6RFBzcytzVStsUkdGQTNwREE0K0VKZDJ0WWpXN1NVUEFsbW1q?=
+ =?utf-8?B?UFppT1lNbllPUGdZUU1INFNRcUlXaHRIUnJzbkdkUHBJSURhbm5rdUszUDdj?=
+ =?utf-8?B?K0lKZkZtdU9NSjJtbzJjTzJNbjNyWDNZczVvSC9aNW54bzAvOHdPc1VrVTBP?=
+ =?utf-8?B?ajFibnpzajB3L3d2T3c3MHE2NWdiVTYzbzE0S0QyKzBRTmxReEFoOVViOGF5?=
+ =?utf-8?B?bjd0OWdQejRpazd6b1Z5bnN5NDJrV2ZLQTEzcWJWWjNEaWVBWjJKZFR0aUZF?=
+ =?utf-8?B?T1ZtekZXYjcvbUVONVdEbTJVeG8yai81KzkxSkExbUttYmw3SmtoWENCMzBj?=
+ =?utf-8?B?UzhwQTJ0K2dSa3lmcW02dlprOFdsNFZ0eDB6NTJ5TnBOcVBCOTJROVl3TTFu?=
+ =?utf-8?B?b2V6c3dWQTRXVXk2NzhNMmdxbzg3cmlPL0NWb0F3aFd0S1ZJcnF2WWNBcWNW?=
+ =?utf-8?B?MjNDM3BsdEdaMTk3bFVyeDh2TXp5NzFqUFk4bU5sSklrbjJqQnRJaFJvc2lo?=
+ =?utf-8?B?OUQ2T01xR0ZEbzlSNXN5cGxzQnlONlVjMXp6N3czYitTZGZhRUEybzVmUTl5?=
+ =?utf-8?B?cHdzQmQxUWNTODErU3psSkZTRUFDSWZ1ZXgvaU05dHI3NkRlRHlQMm1rbTZu?=
+ =?utf-8?B?R0pTejJWdjA2UTFYVHJCRTFJU2RkWTB0ZjIxU1FUbFlVK1liWVQrd2hkYjJ5?=
+ =?utf-8?Q?SkBYIXum1h66VXHL5Sb5KqJFWIYuo/MdSS6+eVFCYA=3D?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9f8526f1-4271-4d42-51fc-08d9c087842b
+X-MS-Exchange-CrossTenant-AuthSource: AM9PR08MB6737.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Dec 2021 11:30:52.2077 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: WvNJX13ePk4uzcoYseZ2azZLm6fjry+LGt8uFR+wkMvU3gdsi6ZrfhTeKZenqOQ91m+UPv1k3AYxtAPeqwqDJakO5sGb2o3ycv8OchQJa1Y=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR08MB3090
+Received-SPF: pass client-ip=40.107.6.93;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR04-DB3-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.034, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,120 +157,17 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: elena.ufimtseva@oracle.com, john.g.johnson@oracle.com, thuth@redhat.com,
- Jagannathan Raman <jag.raman@oracle.com>, bleal@redhat.com,
- swapnil.ingle@nutanix.com, philmd@redhat.com, qemu-devel@nongnu.org,
- wainersm@redhat.com, alex.williamson@redhat.com, marcandre.lureau@gmail.com,
- crosa@redhat.com, pbonzini@redhat.com, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---k+kU4GmQ4iNJJAcD
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+15.12.2021 22:39, John Snow wrote:
+> Thank you for your service!
+> 
+> Signed-off-by: John Snow<jsnow@redhat.com>
 
-On Wed, Dec 15, 2021 at 10:35:32AM -0500, Jagannathan Raman wrote:
-> Define and register handlers for PCI config space accesses
->=20
-> Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-> Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
-> Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
-> ---
->  hw/remote/vfio-user-obj.c | 45 +++++++++++++++++++++++++++++++++++++++
->  hw/remote/trace-events    |  2 ++
->  2 files changed, 47 insertions(+)
->=20
-> diff --git a/hw/remote/vfio-user-obj.c b/hw/remote/vfio-user-obj.c
-> index a01a0ad185..c6d0c675b7 100644
-> --- a/hw/remote/vfio-user-obj.c
-> +++ b/hw/remote/vfio-user-obj.c
-> @@ -43,6 +43,7 @@
->  #include "qapi/qapi-visit-sockets.h"
->  #include "qemu/notify.h"
->  #include "qemu/thread.h"
-> +#include "qemu/main-loop.h"
->  #include "sysemu/sysemu.h"
->  #include "libvfio-user.h"
->  #include "hw/qdev-core.h"
-> @@ -174,6 +175,39 @@ retry_attach:
->      qemu_set_fd_handler(o->vfu_poll_fd, vfu_object_ctx_run, NULL, o);
->  }
-> =20
-> +static ssize_t vfu_object_cfg_access(vfu_ctx_t *vfu_ctx, char * const bu=
-f,
-> +                                     size_t count, loff_t offset,
-> +                                     const bool is_write)
-> +{
-> +    VfuObject *o =3D vfu_get_private(vfu_ctx);
-> +    uint32_t pci_access_width =3D sizeof(uint32_t);
-> +    size_t bytes =3D count;
-> +    uint32_t val =3D 0;
-> +    char *ptr =3D buf;
-> +    int len;
-> +
-> +    while (bytes > 0) {
-> +        len =3D (bytes > pci_access_width) ? pci_access_width : bytes;
-> +        if (is_write) {
-> +            memcpy(&val, ptr, len);
-> +            pci_host_config_write_common(o->pci_dev, offset,
-> +                                         pci_config_size(o->pci_dev),
-> +                                         val, len);
-> +            trace_vfu_cfg_write(offset, val);
-> +        } else {
-> +            val =3D pci_host_config_read_common(o->pci_dev, offset,
-> +                                              pci_config_size(o->pci_dev=
-), len);
-> +            memcpy(ptr, &val, len);
-> +            trace_vfu_cfg_read(offset, val);
-> +        }
-> +        offset +=3D len;
-> +        ptr +=3D len;
-> +        bytes -=3D len;
-> +    }
-> +
-> +    return count;
-> +}
-> +
->  /*
->   * TYPE_VFU_OBJECT depends on the availability of the 'socket' and 'devi=
-ce'
->   * properties. It also depends on devices instantiated in QEMU. These
-> @@ -244,6 +278,17 @@ static void vfu_object_init_ctx(VfuObject *o, Error =
-**errp)
->          goto fail;
->      }
-> =20
-> +    ret =3D vfu_setup_region(o->vfu_ctx, VFU_PCI_DEV_CFG_REGION_IDX,
-> +                           pci_config_size(o->pci_dev), &vfu_object_cfg_=
-access,
-> +                           VFU_REGION_FLAG_RW | VFU_REGION_FLAG_ALWAYS_C=
-B,
-> +                           NULL, 0, -1, 0);
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-Thanos or John: QEMU's pci_host_config_read/write_common() works with
-host-endian values. I don't know which endianness libvfio-user's region
-callbacks expect. Does this patch look endian-safe to you (e.g. will it
-work on a big-endian host)?
-
-Thanks,
-Stefan
-
---k+kU4GmQ4iNJJAcD
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmG7I0wACgkQnKSrs4Gr
-c8jsqQf/b8i3ieRLyDTYd6mlp+PrczZLMCExhSkuTrKsAMnx97mNqgE/yMnYs0rW
-1buTSx52NlFzmSMl5SCCwI6qCHyHaaw5u5FsSimUA4LxRky5L7XhIbDMvnez3qa/
-bYcAX1xlP8lwZjwW095bhCkINDnQmNArAy4HN9dao8kakIbrPJQHi8mIQxXSYcn2
-MBUBmNOAg646vNh7zJ8HP67PYhjD4gImc+vd1BSKwgqygNbmfkD/HfgddXedEKgo
-rZl34fL/TvYkT2SQPW3qAeq6yLWbwPeU8udGfk/CIMfx6g/fZ9OpJcytCvMS/iPA
-/B+JKipT3fQNZrbKcsd1xs14+306WQ==
-=wB0w
------END PGP SIGNATURE-----
-
---k+kU4GmQ4iNJJAcD--
-
+-- 
+Best regards,
+Vladimir
 
