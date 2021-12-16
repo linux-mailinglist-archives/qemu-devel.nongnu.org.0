@@ -2,106 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9746E4775B0
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 16:19:05 +0100 (CET)
-Received: from localhost ([::1]:37998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 963FE4775B6
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 16:20:34 +0100 (CET)
+Received: from localhost ([::1]:40956 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxsXA-00035n-8E
-	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 10:19:04 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40424)
+	id 1mxsYb-00058X-N6
+	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 10:20:33 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40732)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
- id 1mxsUd-0001Sc-Vr; Thu, 16 Dec 2021 10:16:29 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:11342)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mxsVX-0002qP-Nq
+ for qemu-devel@nongnu.org; Thu, 16 Dec 2021 10:17:23 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:40966)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
- id 1mxsUV-0006Px-CM; Thu, 16 Dec 2021 10:16:24 -0500
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1BGE2511018712; 
- Thu, 16 Dec 2021 15:16:16 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=mnp2m9qhM42JOQ6SKSKp5wgLHWXRBxMDM9ya0U7txJs=;
- b=FOi9o9NidnveaFkBtZeOkUgb5D0U2cHk/O1HIskUKWdxo5EYXeGzCG0su+eok3EC2GUS
- AfU+33F5xAPoA0gKnCMgu+ToCRn5B3JSiY8Zx3NmI5NpyFK7qn/FDMN9/t0Zqa1wcUp9
- sWrlZVfDWSAVBLzbIuiMP46rVTGvWKJvL5iPveyIhkZXn+JY8C4bsJmNomqgUG+HAh3f
- 0teBrmxCgyTeqfmRAhk9u6x4+OWyIlPem83C7MNbdHu07d0MpAAHccc7q6X8emsCPU7t
- VxAZlni+8WFJapZBf9tT4Q95UwdZE5FSx2rH/Trqhde8NFulk37DVNUh1RCBDsU+7vWH Bg== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3cyn1k02w9-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 16 Dec 2021 15:16:15 +0000
-Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1BGEu06X003973;
- Thu, 16 Dec 2021 15:16:15 GMT
-Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
- [169.53.41.122])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3cyn1k02vs-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 16 Dec 2021 15:16:15 +0000
-Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
- by ppma04dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1BGFE4Cb003103;
- Thu, 16 Dec 2021 15:16:14 GMT
-Received: from b03cxnp07029.gho.boulder.ibm.com
- (b03cxnp07029.gho.boulder.ibm.com [9.17.130.16])
- by ppma04dal.us.ibm.com with ESMTP id 3cy7hfmw9s-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 16 Dec 2021 15:16:14 +0000
-Received: from b03ledav004.gho.boulder.ibm.com
- (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
- by b03cxnp07029.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 1BGFGCWV32637420
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 16 Dec 2021 15:16:12 GMT
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 568907807C;
- Thu, 16 Dec 2021 15:16:12 +0000 (GMT)
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D796778060;
- Thu, 16 Dec 2021 15:16:10 +0000 (GMT)
-Received: from [9.211.79.24] (unknown [9.211.79.24])
- by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTP;
- Thu, 16 Dec 2021 15:16:10 +0000 (GMT)
-Message-ID: <b445e4e7-21b1-b9bc-3d9f-9f5f94c1d7fa@linux.ibm.com>
-Date: Thu, 16 Dec 2021 10:16:10 -0500
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mxsVV-0006bY-8O
+ for qemu-devel@nongnu.org; Thu, 16 Dec 2021 10:17:22 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1639667840;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=FwBayHBiFe6NdAnXE1FAHg5+uvd0tHfRlCiaRIojRcA=;
+ b=K4+fIIw6+oO+tiNO5OYUi1ochHCBTtCz83MhWKqwk29zH8/wAH/2dGfdVACrUutXYApCXP
+ ccih8S1Sl+6fpNjgWNLXl7+21h7c+NX7ABvznTeJ9BSJ6sxIYNsstSXjPN59fC3XB4NjOQ
+ DhJuwcMe3DQSmeElOt8qWKi5zzNmOm8=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-513--igXDLsjMcaFEPPL9swzIg-1; Thu, 16 Dec 2021 10:17:18 -0500
+X-MC-Unique: -igXDLsjMcaFEPPL9swzIg-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ q17-20020adfcd91000000b0017bcb12ad4fso7019164wrj.12
+ for <qemu-devel@nongnu.org>; Thu, 16 Dec 2021 07:17:17 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=FwBayHBiFe6NdAnXE1FAHg5+uvd0tHfRlCiaRIojRcA=;
+ b=oaV2R3wVxUGBrkP06NaKtj8IMIckyFOZ+Auja2K8KuciFze84zvyN6bQahLedG3cRG
+ HhAMgTJGfp9eOZ7Ecqcy1J5uPrdymTeKUZxY1a4Jy8XQ2+yk4Da4MtjCxroruiPOVFWH
+ RRJ3Tbiea4P95GjPGEMkp5jA9NHQwwpWMLJidMj5a03QWxUo3LUBzxZgg5BHS1BpVlJ1
+ X5mvdqrrcQHfeLbmYw+sKBbZnQVYBLG9Pkeyfc5J2jJ+Pnx43s34q7mg4yvztE0uLduw
+ xMPHGNlyb8KmQsVsJP464qlm8ivCQUkZUlwSrOjZAtXsii3d8Iv6oOvJdJLf8DJdvX1L
+ tWiw==
+X-Gm-Message-State: AOAM530AJ+caMI93+FeJZ2rfOGE6KOOuQaoH0667ssw1dljkTZdqj6oo
+ sD/GhjzKKvODQtpRGaVsc6Kpf0HNLw4hyC7S3TJwmhxskjJwKFnSs4kIeIzbghkREvARb1HKXRr
+ ooFwGY1cL2RUiUYM=
+X-Received: by 2002:a5d:47a4:: with SMTP id 4mr9686778wrb.16.1639667835509;
+ Thu, 16 Dec 2021 07:17:15 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwRDsFCPqSgkBx8lRLFmZibjERp0CaAlCT7It73MQcBQjCeD8UGP7N4KUAENazVXh1LmON4Gw==
+X-Received: by 2002:a5d:47a4:: with SMTP id 4mr9686737wrb.16.1639667835204;
+ Thu, 16 Dec 2021 07:17:15 -0800 (PST)
+Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
+ ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
+ by smtp.gmail.com with ESMTPSA id n24sm4857591wms.45.2021.12.16.07.17.14
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 16 Dec 2021 07:17:14 -0800 (PST)
+Message-ID: <57a6f75e-5722-eda1-de64-c2f24dd4d8e3@redhat.com>
+Date: Thu, 16 Dec 2021 16:17:13 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.3.0
-Subject: Re: [PATCH 12/12] s390x/pci: let intercept devices have separate PCI
- groups
+Subject: Re: [PATCH v5 03/31] assertions for block global state API
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
+References: <20211124064418.3120601-1-eesposit@redhat.com>
+ <20211124064418.3120601-4-eesposit@redhat.com>
+From: Hanna Reitz <hreitz@redhat.com>
+In-Reply-To: <20211124064418.3120601-4-eesposit@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Language: en-US
-To: Pierre Morel <pmorel@linux.ibm.com>, qemu-s390x@nongnu.org
-References: <20211207210425.150923-1-mjrosato@linux.ibm.com>
- <20211207210425.150923-13-mjrosato@linux.ibm.com>
- <599c66a7-6e91-1fd0-ac96-bec7ffe51dfe@linux.ibm.com>
-From: Matthew Rosato <mjrosato@linux.ibm.com>
-In-Reply-To: <599c66a7-6e91-1fd0-ac96-bec7ffe51dfe@linux.ibm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: LFSvmGH9jWRHhMN6rYPT3QE6fxfnrQgu
-X-Proofpoint-GUID: fcEiz2IWt_2rCBw8Skray-llxBMwgTfV
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2021-12-16_05,2021-12-16_01,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 mlxlogscore=999
- lowpriorityscore=0 priorityscore=1501 impostorscore=0 suspectscore=0
- clxscore=1015 malwarescore=0 spamscore=0 mlxscore=0 adultscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2110150000 definitions=main-2112160085
-Received-SPF: pass client-ip=148.163.156.1;
- envelope-from=mjrosato@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.034,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.718,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.034, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -114,306 +100,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: farman@linux.ibm.com, kvm@vger.kernel.org, schnelle@linux.ibm.com,
- cohuck@redhat.com, richard.henderson@linaro.org, thuth@redhat.com,
- qemu-devel@nongnu.org, pasic@linux.ibm.com, alex.williamson@redhat.com,
- mst@redhat.com, pbonzini@redhat.com, david@redhat.com,
- borntraeger@linux.ibm.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ qemu-devel@nongnu.org, John Snow <jsnow@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/16/21 3:15 AM, Pierre Morel wrote:
-> 
-> 
-> On 12/7/21 22:04, Matthew Rosato wrote:
->> Let's use the reserved pool of simulated PCI groups to allow intercept
->> devices to have separate groups from interpreted devices as some group
->> values may be different. If we run out of simulated PCI groups, 
->> subsequent
->> intercept devices just get the default group.
->> Furthermore, if we encounter any PCI groups from hostdevs that are marked
->> as simulated, let's just assign them to the default group to avoid
->> conflicts between host simulated groups and our own simulated groups.
-> 
-> I have a problem here.
-> We will have the same hardware viewed by 2 different VFIO implementation 
-> (interpretation vs interception) reporting different groups ID.
-
-Yes -- To be clear, this patch proposes that the interpreted device will 
-continue to report the passthrough group ID and the intercept device 
-will use a simulated group ID.
-
-> 
-> The alternative is to have them reporting same group ID with different 
-> values.
+On 24.11.21 07:43, Emanuele Giuseppe Esposito wrote:
+> All the global state (GS) API functions will check that
+> qemu_in_main_thread() returns true. If not, it means
+> that the safety of BQL cannot be guaranteed, and
+> they need to be moved to I/O.
 >
+> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+> ---
+>   block.c        | 135 ++++++++++++++++++++++++++++++++++++++++++++++++-
+>   block/commit.c |   2 +
+>   block/io.c     |  14 +++++
+>   blockdev.c     |   1 +
+>   4 files changed, 150 insertions(+), 2 deletions(-)
+>
+> diff --git a/block.c b/block.c
+> index 84de6867e6..49bee69e27 100644
+> --- a/block.c
+> +++ b/block.c
 
-I don't think we can do this.  For starters, we would have to throw out 
-the group tracking we do in QEMU; but for all we know the guest could be 
-doing similar tracking -- the implication of the group ID is that 
-everyone shares the same values so I don't think we can get away with 
-reporting different values for 2 members of the same group.
+[...]
 
-I think the other alternative is rather to always do something like...
+> @@ -975,6 +992,7 @@ BlockDriver *bdrv_probe_all(const uint8_t *buf, int buf_size,
+>   {
+>       int score_max = 0, score;
+>       BlockDriver *drv = NULL, *d;
+> +    assert(qemu_in_main_thread());
 
-1) host reports its value via vfio capabilities as 'this is what an 
-interpreted device can use'
-2) QEMU must accept those values as-is OR reduce them to some subset of 
-what both interpretation and intercept can support, and report only 
-those values for all devices in the group.  (More on this further down)
+While reviewing patch 13 and the find_image_format() it touches, I 
+noticed that this function is called from raw_co_pwritev() to prevent 
+the guest from writing image headers into probed-raw images.
+
+Reproducible like so:
+
+$ qemu-img create -f raw test.img 64M
+Formatting 'test.img', fmt=raw size=67108864
+$ ./qemu-system-x86_64 \
+     -object iothread,id=iothr0 \
+     -drive if=none,id=drv0,file=test.img \
+     -device virtio-blk,drive=drv0,iothread=iothr0 \
+     -monitor stdio
+WARNING: Image format was not specified for 'test.img' and probing 
+guessed raw.
+          Automatically detecting the format is dangerous for raw 
+images, write operations on block 0 will be restricted.
+          Specify the 'raw' format explicitly to remove the restrictions.
+QEMU 6.1.93 monitor - type 'help' for more information
+(qemu) qemu-io drv0 "write 0 512"
+qemu-system-x86_64: ../block.c:1004: bdrv_probe_all: Assertion 
+`qemu_in_main_thread()' failed.
+[1]    108256 IOT instruction (core dumped)  ./qemu-system-x86_64 
+-object iothread,id=iothr0 -drive  -device  -monitor
 
 
-> I fear both are wrong.
-> 
-> On the other hand, should we have a difference in the QEMU command line 
-> between intercepted and interpreted devices for default values.
+I don’t think there’s any reason not to classify bdrv_probe_all() as an 
+I/O function then, is there?
 
-I'm not sure I follow what you suggest here.  Even if we somehow 
-provided a command-line means for specifying some of these values, they 
-would still be presented to the guest via clp and if the guest has 2 
-devices in the same group the clp results had better be the same.
+(Also, bdrv_probe_all() is part of block_int.h, so this assertion would 
+actually belong in patch 8, not here.)
 
-> If not why not give up the host values so that in an hypothetical future 
-> migration we are clean with the GID ?
-> 
+Hanna
 
-Well, the interpreted device will use the passthrough group ID so in a 
-hypothetical future migration scenario we should be good there.
-
-And simulated devices will still use the default group, so we should 
-also be OK there.
-
-This really changes the behavior for 2 other classes of device:
-
-1) Intercept passthrough devices -- Yes, I agree that doing this is a 
-bit weird.  But my thinking was that these devices should be the 
-exception case rather than the norm moving forward, and it would clearly 
-dilineate the different in Q PCI FNGRP values.
-
-2) nested simulated devices -- These aren't using real GIDs anyway and I 
-would expect them to also be using the default group already -- forcing 
-these to the default group was basically to make sure they didn't 
-conflict with the simulated groups being created for intercept devices 
-above.
-
-> I am not sure of this, just want to open a little discussion on this.
-
-FWIW, I'm not 100% on this either, so a better idea is welcome.  One 
-thing I don't like, for example, is that we only have 16 simulated 
-groups to work with, and for example we might find it useful later to 
-split simulated devices into different groups based on type.
-
-> 
-> For example what could go wrong to keep the host values returned by the 
-> CAP?
-
-As-is, we risk advertising the wrong maxstbl and dtsm value for some 
-devices in the group, depending on which device is plugged first. 
-Imagine you have 2 devices on group 5; one will be interpreted and the 
-other intercepted.
-
-If the interpreted device plugs first, we will use the passthrough 
-maxstbl and dtsm for all devices in the group; so the intercept device 
-gets these values too.
-
-If the intercept device plugs first, we will use the QEMU value for DTSM 
-and the smaller maxstbl requried for intercept passthrough.  So the 
-interpreted device gets these values too.
-
-Worth noting, we could have more of these differences later -- But if we 
-want to avoid splitting the group, then we I think we have to circle 
-back to my 'alternative idea' above and provide equivalent support or 
-toleration for intercept devices so that we can report a single group 
-value that both types can support.
-
-So insofar as dealing with the differences today...  maxstbl is pretty 
-easy, we can just tolerate supporting the larger maxstbl in QEMU by 
-adding logic to break up the I/O in pcistb_service_call.  We might have 
-to provide 2 different maxstbl values over vfio capabilities however 
-(what interpretation can support vs what kernel api supports for 
-intercept as this could change between host kernel versions)
-
-DTSM is a little trickier.  We are actually OK today because both 
-intercept and interpreted devices will report the same value anyway, but 
-that could change in the future.  Maybe here QEMU must report
-
-dtsm = (QEMU_SUPPORT_MASK & HOST_SUPPORT_MASK);
-
-So basically: ensure that only what both QEMU intercept and passthrough 
-supports is advertised via the clp.  If we want to support a new type 
-later, then we must either support it in both kvm and QEMU to enable it 
-for the guest (or disallow intercept devices on that group, or provide 
-some means of forcing an intercept device to the default group, etc)
-
-If we do the above, then I think we can drop the idea of using simulated 
-groups for intercpet passthrough devices.  What do you think?
-
-> 
-> 
->>
->> Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
->> ---
->>   hw/s390x/s390-pci-bus.c         | 19 ++++++++++++++--
->>   hw/s390x/s390-pci-vfio.c        | 40 ++++++++++++++++++++++++++++++---
->>   include/hw/s390x/s390-pci-bus.h |  6 ++++-
->>   3 files changed, 59 insertions(+), 6 deletions(-)
->>
->> diff --git a/hw/s390x/s390-pci-bus.c b/hw/s390x/s390-pci-bus.c
->> index ab442f17fb..8b0f3ef120 100644
->> --- a/hw/s390x/s390-pci-bus.c
->> +++ b/hw/s390x/s390-pci-bus.c
->> @@ -747,13 +747,14 @@ static void s390_pci_iommu_free(S390pciState *s, 
->> PCIBus *bus, int32_t devfn)
->>       object_unref(OBJECT(iommu));
->>   }
->> -S390PCIGroup *s390_group_create(int id)
->> +S390PCIGroup *s390_group_create(int id, int host_id)
->>   {
->>       S390PCIGroup *group;
->>       S390pciState *s = s390_get_phb();
->>       group = g_new0(S390PCIGroup, 1);
->>       group->id = id;
->> +    group->host_id = host_id;
->>       QTAILQ_INSERT_TAIL(&s->zpci_groups, group, link);
->>       return group;
->>   }
->> @@ -771,12 +772,25 @@ S390PCIGroup *s390_group_find(int id)
->>       return NULL;
->>   }
->> +S390PCIGroup *s390_group_find_host_sim(int host_id)
->> +{
->> +    S390PCIGroup *group;
->> +    S390pciState *s = s390_get_phb();
->> +
->> +    QTAILQ_FOREACH(group, &s->zpci_groups, link) {
->> +        if (group->id >= ZPCI_SIM_GRP_START && group->host_id == 
->> host_id) {
->> +            return group;
->> +        }
->> +    }
->> +    return NULL;
->> +}
->> +
->>   static void s390_pci_init_default_group(void)
->>   {
->>       S390PCIGroup *group;
->>       ClpRspQueryPciGrp *resgrp;
->> -    group = s390_group_create(ZPCI_DEFAULT_FN_GRP);
->> +    group = s390_group_create(ZPCI_DEFAULT_FN_GRP, ZPCI_DEFAULT_FN_GRP);
->>       resgrp = &group->zpci_group;
->>       resgrp->fr = 1;
->>       resgrp->dasm = 0;
->> @@ -824,6 +838,7 @@ static void s390_pcihost_realize(DeviceState *dev, 
->> Error **errp)
->>                                              NULL, g_free);
->>       s->zpci_table = g_hash_table_new_full(g_int_hash, g_int_equal, 
->> NULL, NULL);
->>       s->bus_no = 0;
->> +    s->next_sim_grp = ZPCI_SIM_GRP_START;
->>       QTAILQ_INIT(&s->pending_sei);
->>       QTAILQ_INIT(&s->zpci_devs);
->>       QTAILQ_INIT(&s->zpci_dma_limit);
->> diff --git a/hw/s390x/s390-pci-vfio.c b/hw/s390x/s390-pci-vfio.c
->> index c9269683f5..bdc5892287 100644
->> --- a/hw/s390x/s390-pci-vfio.c
->> +++ b/hw/s390x/s390-pci-vfio.c
->> @@ -305,13 +305,17 @@ static void s390_pci_read_group(S390PCIBusDevice 
->> *pbdev,
->>   {
->>       struct vfio_info_cap_header *hdr;
->>       struct vfio_device_info_cap_zpci_group *cap;
->> +    S390pciState *s = s390_get_phb();
->>       ClpRspQueryPciGrp *resgrp;
->>       VFIOPCIDevice *vpci =  container_of(pbdev->pdev, VFIOPCIDevice, 
->> pdev);
->>       hdr = vfio_get_device_info_cap(info, 
->> VFIO_DEVICE_INFO_CAP_ZPCI_GROUP);
->> -    /* If capability not provided, just use the default group */
->> -    if (hdr == NULL) {
->> +    /*
->> +     * If capability not provided or the underlying hostdev is 
->> simulated, just
->> +     * use the default group.
->> +     */
->> +    if (hdr == NULL || pbdev->zpci_fn.pfgid >= ZPCI_SIM_GRP_START) {
->>           trace_s390_pci_clp_cap(vpci->vbasedev.name,
->>                                  VFIO_DEVICE_INFO_CAP_ZPCI_GROUP);
->>           pbdev->zpci_fn.pfgid = ZPCI_DEFAULT_FN_GRP;
->> @@ -320,11 +324,41 @@ static void s390_pci_read_group(S390PCIBusDevice 
->> *pbdev,
->>       }
->>       cap = (void *) hdr;
->> +    /*
->> +     * For an intercept device, let's use an existing simulated group 
->> if one
->> +     * one was already created for other intercept devices in this 
->> group.
->> +     * If not, create a new simulated group if any are still available.
->> +     * If all else fails, just fall back on the default group.
->> +     */
->> +    if (!pbdev->interp) {
->> +        pbdev->pci_group = 
->> s390_group_find_host_sim(pbdev->zpci_fn.pfgid);
->> +        if (pbdev->pci_group) {
->> +            /* Use existing simulated group */
->> +            pbdev->zpci_fn.pfgid = pbdev->pci_group->id;
->> +            return;
->> +        } else {
->> +            if (s->next_sim_grp == ZPCI_DEFAULT_FN_GRP) {
->> +                /* All out of simulated groups, use default */
->> +                trace_s390_pci_clp_cap(vpci->vbasedev.name,
->> +                                       VFIO_DEVICE_INFO_CAP_ZPCI_GROUP);
->> +                pbdev->zpci_fn.pfgid = ZPCI_DEFAULT_FN_GRP;
->> +                pbdev->pci_group = s390_group_find(ZPCI_DEFAULT_FN_GRP);
->> +                return;
->> +            } else {
->> +                /* We can assign a new simulated group */
->> +                pbdev->zpci_fn.pfgid = s->next_sim_grp;
->> +                s->next_sim_grp++;
->> +                /* Fall through to create the new sim group using CLP 
->> info */
->> +            }
->> +        }
->> +    }
->> +
->>       /* See if the PCI group is already defined, create if not */
->>       pbdev->pci_group = s390_group_find(pbdev->zpci_fn.pfgid);
->>       if (!pbdev->pci_group) {
->> -        pbdev->pci_group = s390_group_create(pbdev->zpci_fn.pfgid);
->> +        pbdev->pci_group = s390_group_create(pbdev->zpci_fn.pfgid,
->> +                                             pbdev->zpci_fn.pfgid);
->>           resgrp = &pbdev->pci_group->zpci_group;
->>           if (cap->flags & VFIO_DEVICE_INFO_ZPCI_FLAG_REFRESH) {
->> diff --git a/include/hw/s390x/s390-pci-bus.h 
->> b/include/hw/s390x/s390-pci-bus.h
->> index 9941ca0084..8664023d5d 100644
->> --- a/include/hw/s390x/s390-pci-bus.h
->> +++ b/include/hw/s390x/s390-pci-bus.h
->> @@ -315,13 +315,16 @@ typedef struct ZpciFmb {
->>   QEMU_BUILD_BUG_MSG(offsetof(ZpciFmb, fmt0) != 48, "padding in 
->> ZpciFmb");
->>   #define ZPCI_DEFAULT_FN_GRP 0xFF
->> +#define ZPCI_SIM_GRP_START 0xF0
->>   typedef struct S390PCIGroup {
->>       ClpRspQueryPciGrp zpci_group;
->>       int id;
->> +    int host_id;
->>       QTAILQ_ENTRY(S390PCIGroup) link;
->>   } S390PCIGroup;
->> -S390PCIGroup *s390_group_create(int id);
->> +S390PCIGroup *s390_group_create(int id, int host_id);
->>   S390PCIGroup *s390_group_find(int id);
->> +S390PCIGroup *s390_group_find_host_sim(int host_id);
->>   struct S390PCIBusDevice {
->>       DeviceState qdev;
->> @@ -370,6 +373,7 @@ struct S390pciState {
->>       QTAILQ_HEAD(, S390PCIBusDevice) zpci_devs;
->>       QTAILQ_HEAD(, S390PCIDMACount) zpci_dma_limit;
->>       QTAILQ_HEAD(, S390PCIGroup) zpci_groups;
->> +    uint8_t next_sim_grp;
->>   };
->>   S390pciState *s390_get_phb(void);
->>
-> 
+>   
+>       QLIST_FOREACH(d, &bdrv_drivers, list) {
+>           if (d->bdrv_probe) {
 
 
