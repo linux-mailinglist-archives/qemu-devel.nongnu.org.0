@@ -2,88 +2,110 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB72E476B56
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 09:02:57 +0100 (CET)
-Received: from localhost ([::1]:55764 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CD8F476B71
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 09:09:27 +0100 (CET)
+Received: from localhost ([::1]:33418 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxlj6-0004vl-E6
-	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 03:02:56 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53164)
+	id 1mxlpN-0000an-SO
+	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 03:09:25 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53506)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
- id 1mxlhV-0003R6-HK
- for qemu-devel@nongnu.org; Thu, 16 Dec 2021 03:01:18 -0500
-Received: from smtp-relay-services-1.canonical.com ([185.125.188.251]:45510)
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1mxlj9-00066n-Ke; Thu, 16 Dec 2021 03:02:59 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:57628
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
- id 1mxlhO-0007I9-RR
- for qemu-devel@nongnu.org; Thu, 16 Dec 2021 03:01:17 -0500
-Received: from loganberry.canonical.com (loganberry.canonical.com
- [91.189.90.37])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by smtp-relay-services-1.canonical.com (Postfix) with ESMTPSA id 8802B3F13F
- for <qemu-devel@nongnu.org>; Thu, 16 Dec 2021 08:01:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=launchpad.net;
- s=20210803; t=1639641662;
- bh=Ui1pDI5czKI4sqXF6+msZGbI2feEwuvL+sVa47x4x6I=;
- h=MIME-Version:Content-Type:Date:From:To:Reply-To:References:
- Message-Id:Subject;
- b=sBcQFRf71cyUCTXOnOBl+80X9fwBDRQyMx3oT3KkCWUMsxuLpz/sa6QoR1LX1O4iQ
- 7bveSm2nLSa8ldGXUc6ll9IgVErN8ooohJt+k9mToVzt0qpf0e4xSbeD3zEtnvceYL
- Yuz2+Vy+msQ9fZduE60psgPvR7h5PIB55ntlg3CwgJnaXZIwOLTxVAFvj1JkUoA0Nb
- JnRrLBH3Hn2hTiKhnyre/Zvp9Kv936CIQ5wz5thlr+d/Imvxk707YT9LoInNGucJFM
- IGAHfkir1mYaExIG6t2iq20FTj0YLrL6H91Kaiy0u2y10j4ejvb4ep10OEePSuULnY
- 9hAWIN/Unan+Q==
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 6782D2E81DB
- for <qemu-devel@nongnu.org>; Thu, 16 Dec 2021 08:00:58 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1mxlj7-0007Z9-AR; Thu, 16 Dec 2021 03:02:59 -0500
+Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1BG4Uvg7031103; 
+ Thu, 16 Dec 2021 08:02:53 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=s7NSrt+/tTDdrbLSs9S2vOoNOVKkh7EAo4+5c/tldVw=;
+ b=rDO4G0pLFKzRAsZeWOCcWEyzKUrEccyK+yP2gXR7iASdgNjozRj90F6zNkPeIEy++qo2
+ OCzaJBoBaw3HugJCxJn9KR71msep5ixn6lym9BKhjuDANABbWArQgc9qHKq/4NQRAAqn
+ ur6UG4vdGDi84fr1/GzFi3qrVehrmU/Nvii3F0yAtVr3k6m3DoeP/Gx2fnLu2SN3QK9r
+ zsrcF+H9YSx55MFippRz4z0QdCeiYVpTAzEnY5Ha9j8Wx1Gv72FNoMbsi/osbGZvSDRz
+ Y0OwaEz9LyrXxN2ESOsDHmTHQ6xrQqwL2Q2BBk/xpGKHnvbH92Cf/EJTUd2W2WAp8S5w MA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3cyr222g1n-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 16 Dec 2021 08:02:53 +0000
+Received: from m0098413.ppops.net (m0098413.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1BG7reWo006204;
+ Thu, 16 Dec 2021 08:02:53 GMT
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.102])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3cyr222g0y-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 16 Dec 2021 08:02:53 +0000
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+ by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1BG7v76T019482;
+ Thu, 16 Dec 2021 08:02:51 GMT
+Received: from b06cxnps4076.portsmouth.uk.ibm.com
+ (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
+ by ppma06ams.nl.ibm.com with ESMTP id 3cy78ec86b-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 16 Dec 2021 08:02:51 +0000
+Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
+ [9.149.105.62])
+ by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 1BG82lFQ37814680
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 16 Dec 2021 08:02:47 GMT
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id B345DAE04D;
+ Thu, 16 Dec 2021 08:02:47 +0000 (GMT)
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 00BCAAE056;
+ Thu, 16 Dec 2021 08:02:47 +0000 (GMT)
+Received: from [9.171.32.185] (unknown [9.171.32.185])
+ by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Thu, 16 Dec 2021 08:02:46 +0000 (GMT)
+Message-ID: <b2843451-245a-f5a2-b5eb-22463a257457@linux.ibm.com>
+Date: Thu, 16 Dec 2021 09:03:51 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 16 Dec 2021 07:53:48 -0000
-From: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF?= <1749393@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
- status=Fix Released; importance=Undecided; assignee=None; 
-X-Launchpad-Bug: distribution=ubuntu; distroseries=focal; sourcepackage=qemu;
- component=main; status=Fix Committed; importance=Medium;
- assignee=christian.ehrhardt@canonical.com; 
-X-Launchpad-Bug-Tags: arm linux-user qemu-20.10 server-next verification-done
- verification-done-focal
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: brian-murray doko gerard-f-vidal-4 hertzog janitor
- komainu8 laurent-vivier paelzer peterogden pmaydell racb rth sebunger44
-X-Launchpad-Bug-Reporter: =?utf-8?q?Rapha=C3=ABl_Hertzog_=28hertzog=29?=
-X-Launchpad-Bug-Modifier: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF_=28paelzer=29?=
-References: <151859702399.9461.6832978283203997178.malonedeb@chaenomeles.canonical.com>
-Message-Id: <163964122904.23212.8821515572273364562.malone@gac.canonical.com>
-Subject: [Bug 1749393] Re: sbrk() not working under qemu-user with a
- PIE-compiled binary?
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="cd8f08e7e7c160b1710e2cad6ba032fb74527860"; Instance="production"
-X-Launchpad-Hash: 67907456181a21f4c20645851ec8d8f9ef7e704f
-Received-SPF: pass client-ip=185.125.188.251;
- envelope-from=noreply@launchpad.net; helo=smtp-relay-services-1.canonical.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH 10/12] s390x/pci: use I/O Address Translation assist when
+ interpreting
+Content-Language: en-US
+To: Matthew Rosato <mjrosato@linux.ibm.com>, qemu-s390x@nongnu.org
+References: <20211207210425.150923-1-mjrosato@linux.ibm.com>
+ <20211207210425.150923-11-mjrosato@linux.ibm.com>
+From: Pierre Morel <pmorel@linux.ibm.com>
+In-Reply-To: <20211207210425.150923-11-mjrosato@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: IxURieEXoQ1kjJRXVawyUywqa0uoV70I
+X-Proofpoint-ORIG-GUID: hNtfWMoZJX0MuGa3QjQZdu-vPWAmvg4n
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2021-12-16_03,2021-12-14_01,2021-12-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 suspectscore=0
+ mlxscore=0 impostorscore=0 spamscore=0 clxscore=1015 adultscore=0
+ bulkscore=0 malwarescore=0 mlxlogscore=999 priorityscore=1501
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2110150000 definitions=main-2112160041
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=pmorel@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.034,
  RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -92,123 +114,248 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1749393 <1749393@bugs.launchpad.net>
+Cc: farman@linux.ibm.com, kvm@vger.kernel.org, schnelle@linux.ibm.com,
+ cohuck@redhat.com, richard.henderson@linaro.org, thuth@redhat.com,
+ qemu-devel@nongnu.org, pasic@linux.ibm.com, alex.williamson@redhat.com,
+ mst@redhat.com, pbonzini@redhat.com, david@redhat.com,
+ borntraeger@linux.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-FYI the release of this is slowed down by the slow verification of bug
-https://bugs.launchpad.net/ubuntu/+source/qemu/+bug/1929926
 
---=20
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1749393
 
-Title:
-  sbrk() not working under qemu-user with a PIE-compiled binary?
+On 12/7/21 22:04, Matthew Rosato wrote:
+> Allow the underlying kvm host to handle the Refresh PCI Translation
+> instruction intercepts.
+> 
+> Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
+> ---
+>   hw/s390x/s390-pci-bus.c          |  6 ++--
+>   hw/s390x/s390-pci-inst.c         | 51 ++++++++++++++++++++++++++++++--
+>   hw/s390x/s390-pci-vfio.c         | 33 +++++++++++++++++++++
+>   include/hw/s390x/s390-pci-inst.h |  2 +-
+>   include/hw/s390x/s390-pci-vfio.h | 10 +++++++
+>   5 files changed, 95 insertions(+), 7 deletions(-)
+> 
+> diff --git a/hw/s390x/s390-pci-bus.c b/hw/s390x/s390-pci-bus.c
+> index 1ae8792a26..ab442f17fb 100644
+> --- a/hw/s390x/s390-pci-bus.c
+> +++ b/hw/s390x/s390-pci-bus.c
+> @@ -196,7 +196,7 @@ void s390_pci_sclp_deconfigure(SCCB *sccb)
+>               pci_dereg_irqs(pbdev);
+>           }
+>           if (pbdev->iommu->enabled) {
+> -            pci_dereg_ioat(pbdev->iommu);
+> +            pci_dereg_ioat(pbdev);
+>           }
+>           pbdev->state = ZPCI_FS_STANDBY;
+>           rc = SCLP_RC_NORMAL_COMPLETION;
+> @@ -1261,7 +1261,7 @@ static void s390_pcihost_reset(DeviceState *dev)
+>                   pci_dereg_irqs(pbdev);
+>               }
+>               if (pbdev->iommu->enabled) {
+> -                pci_dereg_ioat(pbdev->iommu);
+> +                pci_dereg_ioat(pbdev);
+>               }
+>               pbdev->state = ZPCI_FS_STANDBY;
+>               s390_pci_perform_unplug(pbdev);
+> @@ -1402,7 +1402,7 @@ static void s390_pci_device_reset(DeviceState *dev)
+>           pci_dereg_irqs(pbdev);
+>       }
+>       if (pbdev->iommu->enabled) {
+> -        pci_dereg_ioat(pbdev->iommu);
+> +        pci_dereg_ioat(pbdev);
+>       }
+>   
+>       fmb_timer_free(pbdev);
+> diff --git a/hw/s390x/s390-pci-inst.c b/hw/s390x/s390-pci-inst.c
+> index 02093e82f9..598e5a5d52 100644
+> --- a/hw/s390x/s390-pci-inst.c
+> +++ b/hw/s390x/s390-pci-inst.c
+> @@ -978,6 +978,24 @@ int pci_dereg_irqs(S390PCIBusDevice *pbdev)
+>       return 0;
+>   }
+>   
+> +static int reg_ioat_interp(S390PCIBusDevice *pbdev, uint64_t iota)
+> +{
+> +    int rc;
+> +
+> +    rc = s390_pci_probe_ioat(pbdev);
+> +    if (rc) {
+> +        return rc;
+> +    }
+> +
+> +    rc = s390_pci_set_ioat(pbdev, iota);
+> +    if (rc) {
+> +        return rc;
+> +    }
+> +
+> +    pbdev->iommu->enabled = true;
+> +    return 0;
+> +}
+> +
+>   static int reg_ioat(CPUS390XState *env, S390PCIBusDevice *pbdev, ZpciFib fib,
+>                       uintptr_t ra)
+>   {
+> @@ -995,6 +1013,16 @@ static int reg_ioat(CPUS390XState *env, S390PCIBusDevice *pbdev, ZpciFib fib,
+>           return -EINVAL;
+>       }
+>   
+> +    /* If this is an interpreted device, we must use the IOAT assist */
+> +    if (pbdev->interp) {
+> +        if (reg_ioat_interp(pbdev, g_iota)) {
+> +            error_report("failure starting ioat assist");
+> +            s390_program_interrupt(env, PGM_OPERAND, ra);
+> +            return -EINVAL;
+> +        }
+> +        return 0;
+> +    }
+> +
+>       /* currently we only support designation type 1 with translation */
+>       if (!(dt == ZPCI_IOTA_RTTO && t)) {
+>           error_report("unsupported ioat dt %d t %d", dt, t);
+> @@ -1011,8 +1039,25 @@ static int reg_ioat(CPUS390XState *env, S390PCIBusDevice *pbdev, ZpciFib fib,
+>       return 0;
+>   }
+>   
+> -void pci_dereg_ioat(S390PCIIOMMU *iommu)
+> +static void dereg_ioat_interp(S390PCIBusDevice *pbdev)
+>   {
+> +    if (s390_pci_probe_ioat(pbdev) != 0) {
+> +        return;
+> +    }
+> +
+> +    s390_pci_set_ioat(pbdev, 0);
+> +    pbdev->iommu->enabled = false;
+> +}
+> +
+> +void pci_dereg_ioat(S390PCIBusDevice *pbdev)
+> +{
+> +    S390PCIIOMMU *iommu = pbdev->iommu;
+> +
+> +    if (pbdev->interp) {
+> +        dereg_ioat_interp(pbdev);
+> +        return;
+> +    }
+> +
+>       s390_pci_iommu_disable(iommu);
+>       iommu->pba = 0;
+>       iommu->pal = 0;
+> @@ -1251,7 +1296,7 @@ int mpcifc_service_call(S390CPU *cpu, uint8_t r1, uint64_t fiba, uint8_t ar,
+>               cc = ZPCI_PCI_LS_ERR;
+>               s390_set_status_code(env, r1, ZPCI_MOD_ST_SEQUENCE);
+>           } else {
+> -            pci_dereg_ioat(pbdev->iommu);
+> +            pci_dereg_ioat(pbdev);
+>           }
+>           break;
+>       case ZPCI_MOD_FC_REREG_IOAT:
+> @@ -1262,7 +1307,7 @@ int mpcifc_service_call(S390CPU *cpu, uint8_t r1, uint64_t fiba, uint8_t ar,
+>               cc = ZPCI_PCI_LS_ERR;
+>               s390_set_status_code(env, r1, ZPCI_MOD_ST_SEQUENCE);
+>           } else {
+> -            pci_dereg_ioat(pbdev->iommu);
+> +            pci_dereg_ioat(pbdev);
+>               if (reg_ioat(env, pbdev, fib, ra)) {
+>                   cc = ZPCI_PCI_LS_ERR;
+>                   s390_set_status_code(env, r1, ZPCI_MOD_ST_INSUF_RES);
+> diff --git a/hw/s390x/s390-pci-vfio.c b/hw/s390x/s390-pci-vfio.c
+> index 6f9271df87..6fc03a858a 100644
+> --- a/hw/s390x/s390-pci-vfio.c
+> +++ b/hw/s390x/s390-pci-vfio.c
+> @@ -240,6 +240,39 @@ int s390_pci_get_aif(S390PCIBusDevice *pbdev, bool enable, bool assist)
+>       return rc;
+>   }
+>   
+> +int s390_pci_probe_ioat(S390PCIBusDevice *pbdev)
+> +{
+> +    VFIOPCIDevice *vdev = container_of(pbdev->pdev, VFIOPCIDevice, pdev);
+> +    struct vfio_device_feature feat = {
+> +        .argsz = sizeof(struct vfio_device_feature),
+> +        .flags = VFIO_DEVICE_FEATURE_PROBE + VFIO_DEVICE_FEATURE_ZPCI_IOAT
+> +    };
+> +
+> +    assert(vdev);
+> +
+> +    return ioctl(vdev->vbasedev.fd, VFIO_DEVICE_FEATURE, &feat);
+> +}
+> +
+> +int s390_pci_set_ioat(S390PCIBusDevice *pbdev, uint64_t iota)
+> +{
+> +    VFIOPCIDevice *vdev = container_of(pbdev->pdev, VFIOPCIDevice, pdev);
+> +    g_autofree struct vfio_device_feature *feat;
+> +    struct vfio_device_zpci_ioat *data;
+> +    int size;
+> +
+> +    assert(vdev);
 
-Status in QEMU:
-  Fix Released
-Status in qemu package in Ubuntu:
-  Fix Released
-Status in qemu source package in Focal:
-  Fix Committed
+Same comment as Thomas in the previous patch.
 
-Bug description:
-  [Impact]
+> +
+> +    size = sizeof(*feat) + sizeof(*data);
+> +    feat = g_malloc0(size);
+> +    feat->argsz = size;
+> +    feat->flags = VFIO_DEVICE_FEATURE_SET + VFIO_DEVICE_FEATURE_ZPCI_IOAT;
+> +
+> +    data = (struct vfio_device_zpci_ioat *)&feat->data;
+> +    data->iota = iota;
+> +
+> +    return ioctl(vdev->vbasedev.fd, VFIO_DEVICE_FEATURE, feat);
+> +}
+> +
+>   static void s390_pci_read_base(S390PCIBusDevice *pbdev,
+>                                  struct vfio_device_info *info)
+>   {
+> diff --git a/include/hw/s390x/s390-pci-inst.h b/include/hw/s390x/s390-pci-inst.h
+> index a55c448aad..13566fb7b4 100644
+> --- a/include/hw/s390x/s390-pci-inst.h
+> +++ b/include/hw/s390x/s390-pci-inst.h
+> @@ -99,7 +99,7 @@ typedef struct ZpciFib {
+>   } QEMU_PACKED ZpciFib;
+>   
+>   int pci_dereg_irqs(S390PCIBusDevice *pbdev);
+> -void pci_dereg_ioat(S390PCIIOMMU *iommu);
+> +void pci_dereg_ioat(S390PCIBusDevice *pbdev);
+>   int clp_service_call(S390CPU *cpu, uint8_t r2, uintptr_t ra);
+>   int pcilg_service_call(S390CPU *cpu, uint8_t r1, uint8_t r2, uintptr_t ra);
+>   int pcistg_service_call(S390CPU *cpu, uint8_t r1, uint8_t r2, uintptr_t ra);
+> diff --git a/include/hw/s390x/s390-pci-vfio.h b/include/hw/s390x/s390-pci-vfio.h
+> index 6cec38a863..e7a2d8ff77 100644
+> --- a/include/hw/s390x/s390-pci-vfio.h
+> +++ b/include/hw/s390x/s390-pci-vfio.h
+> @@ -28,6 +28,8 @@ int s390_pci_probe_aif(S390PCIBusDevice *pbdev);
+>   int s390_pci_set_aif(S390PCIBusDevice *pbdev, ZpciFib *fib, bool enable,
+>                        bool assist);
+>   int s390_pci_get_aif(S390PCIBusDevice *pbdev, bool enable, bool assist);
+> +int s390_pci_probe_ioat(S390PCIBusDevice *pbdev);
+> +int s390_pci_set_ioat(S390PCIBusDevice *pbdev, uint64_t iota);
+>   
+>   void s390_pci_get_clp_info(S390PCIBusDevice *pbdev);
+>   #else
+> @@ -68,6 +70,14 @@ static inline int s390_pci_get_aif(S390PCIBusDevice *pbdev, bool enable,
+>   {
+>       return -EINVAL;
+>   }
+> +static inline int s390_pci_probe_ioat(S390PCIBusDevice *pbdev)
+> +{
+> +    return -EINVAL;
+> +}
+> +static inline int s390_pci_set_ioat(S390PCIBusDevice *pbdev, uint64_t iota)
+> +{
+> +    return -EINVAL;
+> +}
+>   static inline void s390_pci_get_clp_info(S390PCIBusDevice *pbdev) { }
+>   #endif
+>   
+> 
 
-  =C2=A0* The current space reserved can be too small and we can end up
-  =C2=A0=C2=A0=C2=A0with no space at all for BRK. It can happen to any case=
-, but is
-  =C2=A0=C2=A0=C2=A0much more likely with the now common PIE binaries.
+LGTM
+With the change
 
-  =C2=A0* Backport the upstream fix which reserves a bit more space while l=
-oading
-  =C2=A0=C2=A0=C2=A0and giving it back after interpreter and stack is loade=
-d.
+Reviewed-by: Pierre Morel <pmorel@linux.ibm.com>
 
-  [Test Plan]
 
-  =C2=A0* On x86 run:
-  sudo apt install -y qemu-user-static docker.io
-  sudo docker run --rm arm64v8/debian:bullseye bash -c 'apt update && apt i=
-nstall -y wget'
-  ...
-  Running hooks in /etc/ca-certificates/update.d...
-  done.
-  Errors were encountered while processing:
-  =C2=A0libc-bin
-  E: Sub-process /usr/bin/dpkg returned an error code (1)
-
- =20
-  Second test from bug 1928075
-
-  $ sudo qemu-debootstrap --arch=3Darm64 bullseye bullseye-arm64
-  http://ftp.debian.org/debian
-
-  In the bad case this is failing like
-  W: Failure trying to run: /sbin/ldconfig
-  W: See //debootstrap/debootstrap.log for detail
-
-  And in that log file you'll see the segfault
-  $ tail -n 2 bullseye-arm64/debootstrap/debootstrap.log
-  qemu: uncaught target signal 11 (Segmentation fault) - core dumped
-  Segmentation fault (core dumped)
-
-  [Where problems could occur]
-
-  =C2=A0* Regressions would be around use-cases of linux-user that is
-  =C2=A0=C2=A0=C2=A0emulation not of a system but of binaries.
-  =C2=A0=C2=A0=C2=A0Commonly uses for cross-tests and cross-builds so that =
-is the
-  =C2=A0=C2=A0=C2=A0space to watch for regressions
-
-  [Other Info]
-
-  =C2=A0* n/a
-
-  ---
-
-  In Debian unstable, we recently switched bash to be a PIE-compiled
-  binary (for hardening). Unfortunately this resulted in bash being
-  broken when run under qemu-user (for all target architectures, host
-  being amd64 for me).
-
-  $ sudo chroot /srv/chroots/sid-i386/ qemu-i386-static /bin/bash
-  bash: xmalloc: .././shell.c:1709: cannot allocate 10 bytes (0 bytes alloc=
-ated)
-
-  bash has its own malloc implementation based on sbrk():
-  https://git.savannah.gnu.org/cgit/bash.git/tree/lib/malloc/malloc.c
-
-  When we disable this internal implementation and rely on glibc's
-  malloc, then everything is fine. But it might be that glibc has a
-  fallback when sbrk() is not working properly and it might hide the
-  underlying problem in qemu-user.
-
-  This issue has also been reported to the bash upstream author and he sugg=
-ested that the issue might be in qemu-user so I'm opening a ticket here. He=
-re's the discussion with the bash upstream author:
-  https://lists.gnu.org/archive/html/bug-bash/2018-02/threads.html#00080
-
-  You can find the problematic bash binary in that .deb file:
-  http://snapshot.debian.org/archive/debian/20180206T154716Z/pool/main/b/ba=
-sh/bash_4.4.18-1_i386.deb
-
-  The version of qemu I have been using is 2.11 (Debian package qemu-
-  user-static version 1:2.11+dfsg-1) but I have had reports that the
-  problem is reproducible with older versions (back to 2.8 at least).
-
-  Here are the related Debian bug reports:
-  https://bugs.debian.org/889869
-  https://bugs.debian.org/865599
-
-  It's worth noting that bash used to have this problem (when compiled as a=
- PIE binary) even when run directly but then something got fixed in the ker=
-nel and now the problem only appears when run under qemu-user:
-  https://bugs.launchpad.net/ubuntu/+source/linux/+bug/1518483
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1749393/+subscriptions
-
+-- 
+Pierre Morel
+IBM Lab Boeblingen
 
