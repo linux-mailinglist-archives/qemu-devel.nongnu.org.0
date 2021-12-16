@@ -2,83 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45CFF4768B1
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 04:28:38 +0100 (CET)
-Received: from localhost ([::1]:39412 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C244A4768DC
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 04:54:09 +0100 (CET)
+Received: from localhost ([::1]:42432 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxhRd-0002JF-D5
-	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 22:28:37 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37152)
+	id 1mxhqK-0005hj-DK
+	for lists+qemu-devel@lfdr.de; Wed, 15 Dec 2021 22:54:08 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40606)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1mxhQN-0001V7-78
- for qemu-devel@nongnu.org; Wed, 15 Dec 2021 22:27:19 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50410)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1mxhQK-0005or-2o
- for qemu-devel@nongnu.org; Wed, 15 Dec 2021 22:27:17 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639625234;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=qNoDHn30PH5I3byNZ0pzM8DE3QrHWocdOICt/VpRx6A=;
- b=VkHobP+gXmipRRWmtvDdHyIGPG4/5o53IduD3Fdre0XOnZBbSF73586zJOkAjvRi1pSYwP
- f8j0zjazyUTZGHwFKUCjOhkfkI05nTe9t07OCVm6GLlbZ36T6xqXCL63kQ0ydk9nLB7Olo
- u6C2Ra0iiChHGn5fqWvrJCi7xuHygno=
-Received: from mail-lj1-f197.google.com (mail-lj1-f197.google.com
- [209.85.208.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-482-nHpKuDpJP5yZwUFxpcPjtQ-1; Wed, 15 Dec 2021 22:27:13 -0500
-X-MC-Unique: nHpKuDpJP5yZwUFxpcPjtQ-1
-Received: by mail-lj1-f197.google.com with SMTP id
- i123-20020a2e2281000000b0021cfde1fa8eso7969833lji.7
- for <qemu-devel@nongnu.org>; Wed, 15 Dec 2021 19:27:13 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mxhpM-0004rs-EV
+ for qemu-devel@nongnu.org; Wed, 15 Dec 2021 22:53:08 -0500
+Received: from [2607:f8b0:4864:20::62a] (port=45810
+ helo=mail-pl1-x62a.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mxhpI-00023x-I3
+ for qemu-devel@nongnu.org; Wed, 15 Dec 2021 22:53:06 -0500
+Received: by mail-pl1-x62a.google.com with SMTP id w24so5663709ply.12
+ for <qemu-devel@nongnu.org>; Wed, 15 Dec 2021 19:53:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=c7dtqfqUGYpURJLUiRBAdh+GEkSX0Hnoa+Az7G/KBrM=;
+ b=Q1v0YM40EU/de/AfUD6dBIbCYCSQsAWVa6fbEs4sI5Lsaj+cJCOFwhg3+YrJ3+w3Qq
+ SE2fMRDua80spd/tcb1anJ898NucqgUQumNL7JzYOadGMifx9rvQGuJxggIKMIKsWwrw
+ KEkyL7vQ1VsLa6CbGSA9lWJedzplwKghUPQvYkHcyFapGTIH/BgDxYZKY+mJK143zpAL
+ HKLhhsSQFil4p19+PSzDq/rMZ8H0E23YiicG6WuMICDxfKi6ttipd6t1jAzNzCjgF+c3
+ zbefzdCVyIg4cdrF7INjmi4BurZfX0+Azg5VOUyD7erj/ITK6YXUYgGl3u6sh23UD6D9
+ t8hA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=qNoDHn30PH5I3byNZ0pzM8DE3QrHWocdOICt/VpRx6A=;
- b=KM+7dckvn40ucaPG2vA7gg5+BAThEUnYuZ9yqGVyrXB2X6027tgZnmaij0ShH1Pg4g
- Xhj+gUxN7Qa6fFobSdigT9dsOkoVHJcWLsNqvnAomQnogcyC7/GQAoQpQ2QwdYIuDl9O
- GZy5gTxWwbw5P/UaffLVunBNQMiAD/zlALG2gSyMk6iLqzG7xiGIIbHtXm7b8c/IcUxd
- TEjuCXZPDHUQob/jaDNgQEN9mR+BYlycW8CpFoqKmeQq0CESNfdFuz80RuPDqQtu+BkM
- sertpD+7nCdr0eecCNiLBJ7W2ONCt0Zf2V8VjebRTew95QBEU/Mb2dKYLtBOHCL9Sj8R
- sgmw==
-X-Gm-Message-State: AOAM5323s1byX9A0ZdtczC7QKMofwvNCwR8U2QMpK0Y9hr6Y0mFTbJid
- CEy0N4gwrQWzyZWGvYIwHG7SL7rWUe97fKBW97/qVZU2k35IU5yqswtNSUhV29MQ65tUArlK0pW
- Bz/BnV00HPL5J8yoPJuEB3FT+31R+Byc=
-X-Received: by 2002:ac2:518b:: with SMTP id u11mr13013650lfi.498.1639625231290; 
- Wed, 15 Dec 2021 19:27:11 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxkzLuvaP3z+yrsIG3HS2ymF5rGl1c5KDRXswFq2bmEKIxgZnvS13G/324YhYCTQGOvWPlDDtNQ//gra5h7O24=
-X-Received: by 2002:ac2:518b:: with SMTP id u11mr13013631lfi.498.1639625231020; 
- Wed, 15 Dec 2021 19:27:11 -0800 (PST)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=c7dtqfqUGYpURJLUiRBAdh+GEkSX0Hnoa+Az7G/KBrM=;
+ b=u8pTguyIvMBTEtRsoWhfeF+/DbfKD1gGsfIXpn0q72wi0fKY0hND2YaKZEnvfdrLiv
+ bKAKl0btFPTHIEEWI1AUvmULEocsyM4S02SvS87tMkYpi9GWIMFl7ZzHrDOWfcNA0KOu
+ iGqpMMggpfpJWvSW3hSv3gN7FDNWUeMMWDBnXO9LlZreW0qvKC9R9jSpqIij6vbsykXT
+ 1/Qw8U7lbAfS9i9DK96C5DtVUpQ5Z/BZr+yRDeewy5bRcOOZuwgEqmv8YsMh2wMwQsN3
+ TXTatrJUB0e0tiQGkbvPCjEi59w2WPcQZNQJPAq1uoOZd8gZS1i07A+gmNvoEdZo/KIe
+ nT4A==
+X-Gm-Message-State: AOAM530vv0iSoAFbFHxp9fY5vrO2x7tdGfIDwxDDnoyaOtOsqDeZyri9
+ aFqMd+jxGVvPFAyeZB735vr8fG09QlmJaA==
+X-Google-Smtp-Source: ABdhPJzLCoPfzvgWRjD9BqQi5A4E0Y5g1/HK3pFk85tnzgib+toHwyVtl3r7llfAbPGkZume2kEixQ==
+X-Received: by 2002:a17:90b:1bc3:: with SMTP id
+ oa3mr3703228pjb.52.1639626782815; 
+ Wed, 15 Dec 2021 19:53:02 -0800 (PST)
+Received: from [192.168.1.13] (174-21-75-75.tukw.qwest.net. [174.21.75.75])
+ by smtp.gmail.com with ESMTPSA id z2sm4127143pff.107.2021.12.15.19.53.02
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 15 Dec 2021 19:53:02 -0800 (PST)
+Subject: Re: [PULL 000/102] ppc queue
+To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20211215165847.321042-1-clg@kaod.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <2ef5a85e-8955-2028-026d-7cb3ad13d718@linaro.org>
+Date: Wed, 15 Dec 2021 19:53:00 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-References: <20211215144718.311979-1-philmd@redhat.com>
-In-Reply-To: <20211215144718.311979-1-philmd@redhat.com>
-From: Jason Wang <jasowang@redhat.com>
-Date: Thu, 16 Dec 2021 11:27:00 +0800
-Message-ID: <CACGkMEv53evZSfc_3xn=orgRCBE94Q0aHLO0VZrLjNykw9S-+A@mail.gmail.com>
-Subject: Re: [PATCH] hw/net/vmxnet3: Log guest-triggerable errors using
- LOG_GUEST_ERROR
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.719,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20211215165847.321042-1-clg@kaod.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62a
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62a.google.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.64,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,84 +91,245 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Duhao <504224090@qq.com>, Dmitry Fleytman <dmitry.fleytman@gmail.com>,
- Dike <dike199774@qq.com>, qemu-devel <qemu-devel@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Dec 15, 2021 at 10:47 PM Philippe Mathieu-Daud=C3=A9
-<philmd@redhat.com> wrote:
->
-> The "Interrupt Cause" register (VMXNET3_REG_ICR) is read-only.
-> Write accesses are ignored. Log them with as LOG_GUEST_ERROR
-> instead of aborting:
->
->   [R +0.239743] writeq 0xe0002031 0x46291a5a55460800
->   ERROR:hw/net/vmxnet3.c:1819:vmxnet3_io_bar1_write: code should not be r=
-eached
->   Thread 1 "qemu-system-i38" received signal SIGABRT, Aborted.
->   (gdb) bt
->   #3  0x74c397d3 in __GI_abort () at abort.c:79
->   #4  0x76d3cd4c in g_assertion_message (domain=3D<optimized out>, file=
-=3D<optimized out>, line=3D<optimized out>, func=3D<optimized out>, message=
-=3D<optimized out>) at ../glib/gtestutils.c:3223
->   #5  0x76d9d45f in g_assertion_message_expr
->       (domain=3D0x0, file=3D0x59fc2e53 "hw/net/vmxnet3.c", line=3D1819, f=
-unc=3D0x59fc11e0 <__func__.vmxnet3_io_bar1_write> "vmxnet3_io_bar1_write", =
-expr=3D<optimized out>)
->       at ../glib/gtestutils.c:3249
->   #6  0x57e80a3a in vmxnet3_io_bar1_write (opaque=3D0x62814100, addr=3D56=
-, val=3D70, size=3D4) at hw/net/vmxnet3.c:1819
->   #7  0x58c2d894 in memory_region_write_accessor (mr=3D0x62816b90, addr=
-=3D56, value=3D0x7fff9450, size=3D4, shift=3D0, mask=3D4294967295, attrs=3D=
-...) at softmmu/memory.c:492
->   #8  0x58c2d1d2 in access_with_adjusted_size (addr=3D56, value=3D0x7fff9=
-450, size=3D1, access_size_min=3D4, access_size_max=3D4, access_fn=3D
->       0x58c2d290 <memory_region_write_accessor>, mr=3D0x62816b90, attrs=
-=3D...) at softmmu/memory.c:554
->   #9  0x58c2bae7 in memory_region_dispatch_write (mr=3D0x62816b90, addr=
-=3D56, data=3D70, op=3DMO_8, attrs=3D...) at softmmu/memory.c:1504
->   #10 0x58bfd034 in flatview_write_continue (fv=3D0x606000181700, addr=3D=
-0xe0002038, attrs=3D..., ptr=3D0x7fffb9e0, len=3D1, addr1=3D56, l=3D1, mr=
-=3D0x62816b90)
->       at softmmu/physmem.c:2782
->   #11 0x58beba00 in flatview_write (fv=3D0x606000181700, addr=3D0xe000203=
-1, attrs=3D..., buf=3D0x7fffb9e0, len=3D8) at softmmu/physmem.c:2822
->   #12 0x58beb589 in address_space_write (as=3D0x608000015f20, addr=3D0xe0=
-002031, attrs=3D..., buf=3D0x7fffb9e0, len=3D8) at softmmu/physmem.c:2914
->
-> Reported-by: Dike <dike199774@qq.com>
-> Reported-by: Duhao <504224090@qq.com>
-> BugLink: https://bugzilla.redhat.com/show_bug.cgi?id=3D2032932
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+On 12/15/21 8:57 AM, Cédric Le Goater wrote:
+> The following changes since commit 76b56fdfc9fa43ec6e5986aee33f108c6c6a511e:
+> 
+>    Merge tag 'block-pull-request' of https://gitlab.com/stefanha/qemu into staging (2021-12-14 12:46:18 -0800)
+> 
+> are available in the Git repository at:
+> 
+>    https://github.com/legoater/qemu/ tags/pull-ppc-20211215
+> 
+> for you to fetch changes up to cdf906d7ea79afb3283b57e3cf1b89f1334f7f2b:
+> 
+>    ppc/pnv: Use QOM hierarchy to scan PEC PHB4 devices (2021-12-15 08:20:37 +0100)
+> 
+> ----------------------------------------------------------------
+> ppc 7.0 queue:
+> 
+> * General cleanup for Mac machines (Peter)
+> * Fixes for FPU exceptions (Lucas)
+> * Support for new ISA31 instructions (Matheus)
+> * Fixes for ivshmem (Daniel)
+> * Cleanups for PowerNV PHB (Christophe and Cedric)
+> * Updates of PowerNV and pSeries documentation (Leonardo and Daniel)
+> * Fixes for PowerNV (Daniel)
+> * Large cleanup of FPU implementation (Richard)
+> * Removal of SoftTLBs support for PPC74x CPUs (Fabiano)
+> * Fixes for exception models in MPCx and 60x CPUs (Fabiano)
+> * Removal of 401/403 CPUs (Cedric)
+> * Deprecation of taihu machine (Thomas)
+> * Large rework of PPC405 machine (Cedric)
+> * Fixes for VSX instructions (Victor and Matheus)
+> * Fix for e6500 CPU (Fabiano)
+> * Initial support for PMU (Daniel)
+> 
+> ----------------------------------------------------------------
+> Alexey Kardashevskiy (1):
+>        pseries: Update SLOF firmware image
+> 
+> Christophe Lombard (1):
+>        pci-host: Allow extended config space access for PowerNV PHB4 model
+> 
+> Cédric Le Goater (28):
+>        Merge tag 'qemu-slof-20211112' of github.com:aik/qemu into ppc-next
+>        target/ppc: remove 401/403 CPUs
+>        ppc/ppc405: Change kernel load address
+>        ppc: Add trace-events for DCR accesses
+>        ppc/ppc405: Convert printfs to trace-events
+>        ppc/ppc405: Drop flag parameter in ppc405_set_bootinfo()
+>        ppc/ppc405: Change ppc405ep_init() return value
+>        ppc/ppc405: Add some address space definitions
+>        ppc/ppc405: Remove flash support
+>        ppc/ppc405: Rework FW load
+>        ppc/ppc405: Introduce ppc405_set_default_bootinfo()
+>        ppc/ppc405: Fix boot from kernel
+>        ppc/ppc405: Change default PLL values at reset
+>        ppc/ppc405: Fix bi_pci_enetaddr2 field in U-Boot board information
+>        ppc/ppc405: Add update of bi_procfreq field
+>        ppc/pnv: Introduce a "chip" property under PHB3
+>        ppc/pnv: Use the chip class to check the index of PHB3 devices
+>        ppc/pnv: Drop the "num-phbs" property
+>        ppc/pnv: Move mapping of the PHB3 CQ regions under pnv_pbcq_realize()
+>        ppc/pnv: Use QOM hierarchy to scan PHB3 devices
+>        ppc/pnv: Introduce a num_pecs class attribute for PHB4 PEC devices
+>        ppc/pnv: Introduce version and device_id class atributes for PHB4 devices
+>        ppc/pnv: Introduce a "chip" property under the PHB4 model
+>        ppc/pnv: Introduce a num_stack class attribute
+>        ppc/pnv: Compute the PHB index from the PHB4 PEC model
+>        ppc/pnv: Remove "system-memory" property from PHB4 PEC
+>        ppc/pnv: Move realize of PEC stacks under the PEC model
+>        ppc/pnv: Use QOM hierarchy to scan PEC PHB4 devices
+> 
+> Daniel Henrique Barboza (13):
+>        ivshmem.c: change endianness to LITTLE_ENDIAN
+>        ivshmem-test.c: enable test_ivshmem_server for ppc64 arch
+>        ppc/pnv.c: add a friendly warning when accel=kvm is used
+>        docs/system/ppc/powernv.rst: document KVM support status
+>        ppc/pnv.c: fix "system-id" FDT when -uuid is set
+>        target/ppc: introduce PMUEventType and PMU overflow timers
+>        target/ppc: PMU basic cycle count for pseries TCG
+>        target/ppc: PMU: update counters on PMCs r/w
+>        target/ppc: PMU: update counters on MMCR1 write
+>        target/ppc: enable PMU counter overflow with cycle events
+>        target/ppc: enable PMU instruction count
+>        target/ppc/power8-pmu.c: add PM_RUN_INST_CMPL (0xFA) event
+>        PPC64/TCG: Implement 'rfebb' instruction
+> 
+> Fabiano Rosas (8):
+>        target/ppc: Disable software TLB for the 7450 family
+>        target/ppc: Disable unused facilities in the e600 CPU
+>        target/ppc: Remove the software TLB model of 7450 CPUs
+>        target/ppc: Fix MPCxxx FPU interrupt address
+>        target/ppc: Remove 603e exception model
+>        target/ppc: Set 601v exception model id
+>        target/ppc: Fix e6500 boot
+>        Revert "target/ppc: Move SPR_DSISR setting to powerpc_excp"
+> 
+> Leonardo Garcia (5):
+>        docs: Minor updates on the powernv documentation.
+>        docs: Introducing pseries documentation.
+>        docs: rSTify ppc-spapr-hcalls.txt
+>        docs: Rename ppc-spapr-hcalls.txt to ppc-spapr-hcalls.rst.
+>        Link new ppc-spapr-hcalls.rst file to pseries.rst.
+> 
+> Lucas Mateus Castro (alqotel) (3):
+>        target/ppc: Fixed call to deferred exception
+>        test/tcg/ppc64le: test mtfsf
+>        target/ppc: ppc_store_fpscr doesn't update bits 0 to 28 and 52
+> 
+> Matheus Ferst (6):
+>        target/ppc: Implement Vector Expand Mask
+>        target/ppc: Implement Vector Extract Mask
+>        target/ppc: Implement Vector Mask Move insns
+>        target/ppc: fix xscvqpdp register access
+>        target/ppc: move xscvqpdp to decodetree
+>        target/ppc: do not silence SNaN in xscvspdpn
+> 
+> Peter Maydell (1):
+>        hw/ppc/mac.h: Remove MAX_CPUS macro
+> 
+> Richard Henderson (34):
+>        softfloat: Extend float_exception_flags to 16 bits
+>        softfloat: Add flag specific to Inf - Inf
+>        softfloat: Add flag specific to Inf * 0
+>        softfloat: Add flags specific to Inf / Inf and 0 / 0
+>        softfloat: Add flag specific to sqrt(-x)
+>        softfloat: Add flag specific to convert non-nan to int
+>        softfloat: Add flag specific to signaling nans
+>        target/ppc: Update float_invalid_op_addsub for new flags
+>        target/ppc: Update float_invalid_op_mul for new flags
+>        target/ppc: Update float_invalid_op_div for new flags
+>        target/ppc: Move float_check_status from FPU_FCTI to translate
+>        target/ppc: Update float_invalid_cvt for new flags
+>        target/ppc: Fix VXCVI return value
+>        target/ppc: Remove inline from do_fri
+>        target/ppc: Use FloatRoundMode in do_fri
+>        target/ppc: Tidy inexact handling in do_fri
+>        target/ppc: Clean up do_fri
+>        target/ppc: Update fmadd for new flags
+>        target/ppc: Split out do_fmadd
+>        target/ppc: Do not call do_float_check_status from do_fmadd
+>        target/ppc: Split out do_frsp
+>        target/ppc: Update do_frsp for new flags
+>        target/ppc: Use helper_todouble in do_frsp
+>        target/ppc: Update sqrt for new flags
+>        target/ppc: Update xsrqpi and xsrqpxp to new flags
+>        target/ppc: Update fre to new flags
+>        softfloat: Add float64r32 arithmetic routines
+>        target/ppc: Add helpers for fmadds et al
+>        target/ppc: Add helper for fsqrts
+>        target/ppc: Add helpers for fadds, fsubs, fdivs
+>        target/ppc: Add helper for fmuls
+>        target/ppc: Add helper for frsqrtes
+>        target/ppc: Update fres to new flags and float64r32
+>        target/ppc: Use helper_todouble/tosingle in helper_xststdcsp
+> 
+> Thomas Huth (1):
+>        ppc: Mark the 'taihu' machine as deprecated
+> 
+> Victor Colombo (2):
+>        target/ppc: Fix xs{max, min}[cj]dp to use VSX registers
+>        target/ppc: Move xs{max,min}[cj]dp to decodetree
+> 
+>   docs/about/deprecated.rst               |   9 +
+>   docs/specs/ppc-spapr-hcalls.rst         | 100 +++++
+>   docs/specs/ppc-spapr-hcalls.txt         |  78 ----
+>   docs/system/ppc/powernv.rst             |  68 ++--
+>   docs/system/ppc/pseries.rst             | 226 +++++++++++
+>   hw/ppc/mac.h                            |   3 -
+>   hw/ppc/ppc405.h                         |  14 +-
+>   include/fpu/softfloat-types.h           |  23 +-
+>   include/fpu/softfloat.h                 |  14 +-
+>   include/hw/pci-host/pnv_phb3.h          |   3 +
+>   include/hw/pci-host/pnv_phb4.h          |   5 +
+>   include/hw/ppc/pnv.h                    |   2 +
+>   target/ppc/cpu-models.h                 |  19 -
+>   target/ppc/cpu-qom.h                    |  12 +-
+>   target/ppc/cpu.h                        |  63 ++-
+>   target/ppc/helper.h                     |  29 +-
+>   target/ppc/power8-pmu.h                 |  26 ++
+>   target/ppc/spr_tcg.h                    |   5 +
+>   target/ppc/insn32.decode                |  54 ++-
+>   fpu/softfloat.c                         | 114 +++++-
+>   hw/misc/ivshmem.c                       |   2 +-
+>   hw/pci-host/pnv_phb3.c                  |   3 +-
+>   hw/pci-host/pnv_phb3_pbcq.c             |  11 +
+>   hw/pci-host/pnv_phb4.c                  |   1 +
+>   hw/pci-host/pnv_phb4_pec.c              |  75 +++-
+>   hw/ppc/mac_newworld.c                   |   3 +-
+>   hw/ppc/mac_oldworld.c                   |   3 +-
+>   hw/ppc/pnv.c                            | 177 +++++----
+>   hw/ppc/ppc.c                            |   2 +
+>   hw/ppc/ppc405_boards.c                  | 245 ++++++------
+>   hw/ppc/ppc405_uc.c                      | 225 +++++------
+>   hw/ppc/spapr_cpu_core.c                 |   1 +
+>   target/ppc/cpu-models.c                 |  34 --
+>   target/ppc/cpu.c                        |   2 +-
+>   target/ppc/cpu_init.c                   | 658 +++-----------------------------
+>   target/ppc/excp_helper.c                |  95 +++--
+>   target/ppc/fpu_helper.c                 | 598 ++++++++++++++++-------------
+>   target/ppc/helper_regs.c                |   7 +
+>   target/ppc/mmu_common.c                 |  60 +--
+>   target/ppc/mmu_helper.c                 |  32 --
+>   target/ppc/power8-pmu.c                 | 350 +++++++++++++++++
+>   target/ppc/translate.c                  | 104 +++--
+>   tests/qtest/ivshmem-test.c              |   5 +-
+>   tests/tcg/ppc64le/mtfsf.c               |  61 +++
+>   tests/tcg/ppc64le/non_signalling_xscv.c |  36 ++
+>   fpu/softfloat-parts.c.inc               |  57 +--
+>   fpu/softfloat-specialize.c.inc          |  12 +-
+>   target/ppc/power8-pmu-regs.c.inc        |  69 +++-
+>   target/ppc/translate/branch-impl.c.inc  |  33 ++
+>   target/ppc/translate/fp-impl.c.inc      |  53 +--
+>   target/ppc/translate/vmx-impl.c.inc     | 231 +++++++++++
+>   target/ppc/translate/vsx-impl.c.inc     |  55 ++-
+>   target/ppc/translate/vsx-ops.c.inc      |   5 -
+>   hw/ppc/trace-events                     |  23 ++
+>   pc-bios/README                          |   2 +-
+>   pc-bios/slof.bin                        | Bin 991744 -> 991920 bytes
+>   roms/SLOF                               |   2 +-
+>   target/ppc/meson.build                  |   1 +
+>   tests/tcg/ppc64/Makefile.target         |   5 +-
+>   tests/tcg/ppc64le/Makefile.target       |   5 +-
+>   60 files changed, 2555 insertions(+), 1655 deletions(-)
+>   create mode 100644 docs/specs/ppc-spapr-hcalls.rst
+>   delete mode 100644 docs/specs/ppc-spapr-hcalls.txt
+>   create mode 100644 target/ppc/power8-pmu.h
+>   create mode 100644 target/ppc/power8-pmu.c
+>   create mode 100644 tests/tcg/ppc64le/mtfsf.c
+>   create mode 100644 tests/tcg/ppc64le/non_signalling_xscv.c
+>   create mode 100644 target/ppc/translate/branch-impl.c.inc
 
-Applied.
+Fails testing:
 
-Thanks
+/home/gitlab-runner/builds/yKcZqVC9/0/qemu-project/qemu/docs/specs/ppc-spapr-hcalls.rst:101:Block 
+quote ends without a blank line; unexpected unindent.
 
-> ---
->  hw/net/vmxnet3.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
->
-> diff --git a/hw/net/vmxnet3.c b/hw/net/vmxnet3.c
-> index f65af4e9ef2..0b7acf7f895 100644
-> --- a/hw/net/vmxnet3.c
-> +++ b/hw/net/vmxnet3.c
-> @@ -1816,7 +1816,9 @@ vmxnet3_io_bar1_write(void *opaque,
->      case VMXNET3_REG_ICR:
->          VMW_CBPRN("Write BAR1 [VMXNET3_REG_ICR] =3D %" PRIx64 ", size %d=
-",
->                    val, size);
-> -        g_assert_not_reached();
-> +        qemu_log_mask(LOG_GUEST_ERROR,
-> +                      "%s: write to read-only register VMXNET3_REG_ICR\n=
-",
-> +                      TYPE_VMXNET3);
->          break;
->
->      /* Event Cause Register */
-> --
-> 2.33.1
->
 
+r~
 
