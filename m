@@ -2,62 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA2C84773F6
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 15:09:45 +0100 (CET)
-Received: from localhost ([::1]:36450 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35377477443
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 15:17:49 +0100 (CET)
+Received: from localhost ([::1]:52416 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxrS4-0000xj-Ul
-	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 09:09:44 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50376)
+	id 1mxrZr-0003ou-19
+	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 09:17:47 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51624)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1mxrPD-0007AI-15; Thu, 16 Dec 2021 09:06:47 -0500
-Received: from szxga01-in.huawei.com ([45.249.212.187]:3510)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1mxrP0-0004RQ-8m; Thu, 16 Dec 2021 09:06:46 -0500
-Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.56])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4JFDNZ5D0BzZdVC;
- Thu, 16 Dec 2021 22:03:26 +0800 (CST)
-Received: from [10.174.187.128] (10.174.187.128) by
- dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.1.2308.20; Thu, 16 Dec 2021 22:06:27 +0800
-Subject: Re: [PATCH v4 03/10] hw/core/machine: Wrap target specific parameters
- together
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-CC: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones
- <drjones@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>, Marcel Apfelbaum
- <marcel.apfelbaum@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>, "Michael S
- . Tsirkin" <mst@redhat.com>, Igor Mammedov <imammedo@redhat.com>, Ani Sinha
- <ani@anisinha.ca>, Markus Armbruster <armbru@redhat.com>, Eric Blake
- <eblake@redhat.com>, <wanghaibin.wang@huawei.com>, <qemu-devel@nongnu.org>,
- <qemu-arm@nongnu.org>
-References: <20211121122502.9844-1-wangyanan55@huawei.com>
- <20211121122502.9844-4-wangyanan55@huawei.com>
- <7c4f8cdf-2a8c-35a6-a425-c549de34c9b6@redhat.com>
-Message-ID: <b93e9f94-4276-59b2-3a17-31ffc71620db@huawei.com>
-Date: Thu, 16 Dec 2021 22:06:27 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
+ id 1mxrU3-0005ck-DP; Thu, 16 Dec 2021 09:11:47 -0500
+Received: from [201.28.113.2] (port=9856 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <matheus.ferst@eldorado.org.br>)
+ id 1mxrU1-0005cQ-Ex; Thu, 16 Dec 2021 09:11:47 -0500
+Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
+ Microsoft SMTPSVC(8.5.9600.16384); Thu, 16 Dec 2021 11:10:40 -0300
+Received: from eldorado.org.br (unknown [10.10.70.45])
+ by power9a (Postfix) with ESMTP id 6EA1B800EBC;
+ Thu, 16 Dec 2021 11:10:40 -0300 (-03)
+From: matheus.ferst@eldorado.org.br
+To: qemu-devel@nongnu.org,
+	qemu-ppc@nongnu.org
+Subject: [PATCH] tests/tcg/ppc64le: remove INT128 requirement to run
+ non_signalling_xscv
+Date: Thu, 16 Dec 2021 11:09:51 -0300
+Message-Id: <20211216140951.1183987-1-matheus.ferst@eldorado.org.br>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <7c4f8cdf-2a8c-35a6-a425-c549de34c9b6@redhat.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-Originating-IP: [10.174.187.128]
-X-ClientProxiedBy: dggeme713-chm.china.huawei.com (10.1.199.109) To
- dggpemm500023.china.huawei.com (7.185.36.83)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.187;
- envelope-from=wangyanan55@huawei.com; helo=szxga01-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.034,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-OriginalArrivalTime: 16 Dec 2021 14:10:40.0842 (UTC)
+ FILETIME=[B516AAA0:01D7F286]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
+Received-SPF: pass client-ip=201.28.113.2;
+ envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -70,36 +54,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: peter.maydell@linaro.org, Matheus Ferst <matheus.ferst@eldorado.org.br>,
+ danielhb413@gmail.com, richard.henderson@linaro.org, groug@kaod.org,
+ f4bug@amsat.org, clg@kaod.org, alex.bennee@linaro.org, aurelien@aurel32.net,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  "wangyanan (Y)" <wangyanan55@huawei.com>
-From:  "wangyanan (Y)" via <qemu-devel@nongnu.org>
 
-Hi,
+From: Matheus Ferst <matheus.ferst@eldorado.org.br>
 
-On 2021/12/16 21:23, Philippe Mathieu-Daudé wrote:
-> On 11/21/21 13:24, Yanan Wang wrote:
->> Wrap the CPU target specific parameters together into a single
->> variable, so that we don't need to update the other lines but
->> a single line when new topology parameters are introduced.
-> Where new params are introduced? Not in this series apparently.
-The commit message may not clearly express what I mean.
-A new parameter "clusters" is added in patch #2, and now we have
-specific dies and clusters, I tried to wrap these two parameters together
-so that the code lines can be shorter and look more concise.
+The values can be passed with registers to the inline assembler and
+moved to/from the VSR with mtvsrd/mfvsrd.
 
-If it's thought not that necessary to do this change, I will get rid of this
-patch of course.
+Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
+---
+ tests/tcg/ppc64le/non_signalling_xscv.c | 27 +++++++++++++------------
+ 1 file changed, 14 insertions(+), 13 deletions(-)
 
-Thanks,
-Yanan
->
->> No functional change intended.
->>
->> Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
->> ---
->>   hw/core/machine-smp.c | 17 ++++++++++-------
->>   1 file changed, 10 insertions(+), 7 deletions(-)
-> .
+diff --git a/tests/tcg/ppc64le/non_signalling_xscv.c b/tests/tcg/ppc64le/non_signalling_xscv.c
+index 77f0703333..494e01864d 100644
+--- a/tests/tcg/ppc64le/non_signalling_xscv.c
++++ b/tests/tcg/ppc64le/non_signalling_xscv.c
+@@ -5,23 +5,24 @@
+ 
+ #define TEST(INSN, B_HI, B_LO, T_HI, T_LO) \
+     do {                                                                \
+-        __uint128_t t, b = B_HI;                                        \
+-        b <<= 64;                                                       \
+-        b |= B_LO;                                                      \
+-        asm(INSN " %x0, %x1\n\t"                                        \
+-            : "=wa" (t)                                                 \
+-            : "wa" (b));                                                \
++        uint64_t th, tl, bh = B_HI, bl = B_LO;                          \
++        asm("mtvsrd 0, %3\n\t"                                          \
++            "xxswapd 0, 0\n\t"                                          \
++            "mtvsrd 0, %2\n\t"                                          \
++            INSN " 0, 0\n\t"                                            \
++            "mfvsrd %0, 0\n\t"                                          \
++            "xxswapd 0, 0\n\t"                                          \
++            "mfvsrd %1, 0\n\t"                                          \
++            : "=r" (th), "=r" (tl)                                      \
++            : "r" (bh), "r" (bl)                                        \
++            : "vs0");                                                   \
+         printf(INSN "(0x%016" PRIx64 "%016" PRIx64 ") = 0x%016" PRIx64  \
+-               "%016" PRIx64 "\n", (uint64_t)(b >> 64), (uint64_t)b,    \
+-               (uint64_t)(t >> 64), (uint64_t)t);                       \
+-        assert((uint64_t)(t >> 64) == T_HI && (uint64_t)t == T_LO);     \
++               "%016" PRIx64 "\n", bh, bl, th, tl);                     \
++        assert(th == T_HI && tl == T_LO);                               \
+     } while (0)
+ 
+ int main(void)
+ {
+-#ifndef __SIZEOF_INT128__
+-    puts("__uint128_t not available, skipping...\n");
+-#else
+     /* SNaN shouldn't be silenced */
+     TEST("xscvspdpn", 0x7fbfffff00000000ULL, 0x0, 0x7ff7ffffe0000000ULL, 0x0);
+     TEST("xscvdpspn", 0x7ff7ffffffffffffULL, 0x0, 0x7fbfffff7fbfffffULL, 0x0);
+@@ -31,6 +32,6 @@ int main(void)
+      * signifcand will return Infinity as the result.
+      */
+     TEST("xscvdpspn", 0x7ff000001fffffffULL, 0x0, 0x7f8000007f800000ULL, 0x0);
+-#endif
++
+     return 0;
+ }
+-- 
+2.25.1
 
 
