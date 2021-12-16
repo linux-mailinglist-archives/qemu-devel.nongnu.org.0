@@ -2,138 +2,139 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49B744771F9
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 13:39:40 +0100 (CET)
-Received: from localhost ([::1]:37556 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF8074771FD
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 13:40:47 +0100 (CET)
+Received: from localhost ([::1]:37770 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxq2h-0001Tl-Al
-	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 07:39:35 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48498)
+	id 1mxq3x-0001dk-8L
+	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 07:40:46 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48500)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <david.edmondson@oracle.com>)
- id 1mxpxy-0007ju-46
+ id 1mxpxy-0007jv-49
  for qemu-devel@nongnu.org; Thu, 16 Dec 2021 07:34:34 -0500
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:56988)
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:57708)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <david.edmondson@oracle.com>)
- id 1mxpxv-0004Dj-IU
+ id 1mxpxv-0004Dq-IT
  for qemu-devel@nongnu.org; Thu, 16 Dec 2021 07:34:33 -0500
-Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1BGCSVnw011864; 
- Thu, 16 Dec 2021 12:34:29 GMT
+Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1BG8naJo000415; 
+ Thu, 16 Dec 2021 12:34:30 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references :
  content-transfer-encoding : content-type : mime-version;
- s=corp-2021-07-09; bh=I0P1aGMLMoJxTLWDQM/PNsEy/ZhdYkLd00ji1HwQTB4=;
- b=w7zrBYhMr+KvHAy22Bz45Cv669ZZPZSxvrtLyKJRQxXX7WHgDo9f29HNQwdkgYpMddKj
- bCN26Noy2ICLAHPitYXFXW60eazFtVR/YyTCsYpYRz1PaX9omBXVhnug+A8CvcC0uu+D
- k6jNRzEGqMUFaKsPFPuSj292JMonm1JnVm3+n/ZxKdfrsjmnA5PXUr7kzqMPH0Ja12I8
- BL2M1vqyS15ScReqzvwoMo6Yl2uVd/Qncy6UDZ+dk8AFhsDKVTyyuvldA2BDWaZAeR51
- BPRPYnoFG9yWfd9b9on9cQeRuIBrXqHJ5SiDzFmKC/vsfI1ofAxt9wtRSgPnHKMsv7Bm gg== 
+ s=corp-2021-07-09; bh=hUG48cg0MCXpY3SO0zaHJHYfx84Nz2c1bWIOu46P8gA=;
+ b=nySiPaOCpS5f8ogIt5W5IwFSvNhCoYI5lYBYQbbD3FatVG7fXyL9n91yin+FPDQtpThi
+ uoXeTsQlKw4lxZvRd01aX1+CpnsQD3TQLp+WjUbAnjm8Ca2P9fDl9OaneMbIdkfK2m3v
+ IYdeuNzIPSJvX2Xqn9KQ5jFrecxcAfxV2TtRngKpcjM8E21GcXFeO1rDIGV53kp27DLy
+ y3l9Oid4IwsyakZnR1N8YFt4gKe87dlI5l4AZ6UdTaGnSN2itmKcS2OyQKoO6aDI7L5a
+ BsYSbeCdv7ueUWBS8RgrL3L48UxGkxLuuQEPSEfqiYWT72z4jFRGBQ0xB+IrODYDBcbY xw== 
 Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
- by mx0b-00069f02.pphosted.com with ESMTP id 3cyknp2m3m-1
+ by mx0b-00069f02.pphosted.com with ESMTP id 3cyknrjjq3-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 16 Dec 2021 12:34:29 +0000
+ Thu, 16 Dec 2021 12:34:30 +0000
 Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
- by aserp3030.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 1BGCWBmO080254;
- Thu, 16 Dec 2021 12:34:28 GMT
+ by aserp3030.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 1BGCWBmP080254;
+ Thu, 16 Dec 2021 12:34:29 GMT
 Received: from nam04-bn8-obe.outbound.protection.outlook.com
  (mail-bn8nam08lp2044.outbound.protection.outlook.com [104.47.74.44])
- by aserp3030.oracle.com with ESMTP id 3cyju9tk9h-2
+ by aserp3030.oracle.com with ESMTP id 3cyju9tk9h-3
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Thu, 16 Dec 2021 12:34:28 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=DKuCTgK6j8NRS9L1SmX3jk59yJGQB8Vpq6fI10n+b5dzwa8uh8JsT1cCUX+IsEHxFGWHiWbfAzNZcAIWDIRaoOgOyQV4eT2AKVoldcWTuhcvvvVFM1rnGlJ+o+h2X/CNi4XYCWaq+2lBfcntpGw8cnYkq1/27XjTCWdD0qzapu7BcNuEuU076hIosVWDl04zyMsniyWr05tx6gL0YQPK2+CSyqD/5brBdC8oWyCBNubjyloDhYut8fHfFtQ32lz8F6ctNQ454dEEEJrb4I33DjvKYRdCrxuGksOY3C8WMn4y2NZm+y8/RzP2d2oSem5xga1jLWN6hb1GoWLcTVbkKA==
+ b=NAasXY3l16FDlxTQdAMFWevKiBrWgl/nGbmonKGkOiVmedPzX53MPqxBH900Q3vnWPSYWM6Zfx/Ab6YcSU4LvKCO0+750Kl3Bq3/l8OpuZF4Mr9vAhmJNmsdJJOqk9OijC9V+uQH6NdAhLQhLxG2nJb1o5s9CbqX7avDbz8mdlJ0H40kvbxLbje6Lgw34y6/tf1bn2kfbAFQGjwBDhj44MSGamQpqO+IMSWmjKgCE0zvhMY6H8WpUqwGVVZQp2ZumgwKElKuU7x8gwvWYke/qw3zkOlWKUArGGBpDczuZwPv10ES0bpCA1fvIRnh3PBmWUTzcK5+5qVWufaNm0vWAA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=I0P1aGMLMoJxTLWDQM/PNsEy/ZhdYkLd00ji1HwQTB4=;
- b=IBcL+xL1wl4nHmHmh3nOF5i9+0qpxWQpx8/EhKEZH4cCSljIaiNK3sP4c6YHhMlyuxPMsGVkn3Y82nLvdnhP0vlGqhK/zf/3ff0vN7rWaSprPqaOnUAJewTx7kb50CIayWJskTF4r3oTt2nbs0mrIwd6sFa9ABU5UWdrJU7JNizPqRQle7GMJgaIWAX2XI51kLJL9JLKAcETMf3ZCq/DDjLAQ2I0S9uk0nDn7Raro1/Kdwm7CPr1rshUUQUQMoH+oyxtrUnkKfhDpVCiZbiz9zcZk6EQO76hKLeqFQLepcqthF9OT6jfrY4x99jH2c/xYzsYzCerxjxYZbsPZygvfg==
+ bh=hUG48cg0MCXpY3SO0zaHJHYfx84Nz2c1bWIOu46P8gA=;
+ b=HD3o5pa26oo63EikTPWQKj+/XWcy8do7dt7FLuiKQU2qNwxts2Q0gkMhjx678iOFauHibMP6ocpaZd/FbvcXty+6O5NBRd5cG6MrqPsFkAUNPLCp5bzfIIZwjTec7axFYJzjwDmGkTpsI6YD7Ku7eDV1FxSjahVuv2V01+ZGe96r/eIHjGG84NRMCRkZL/jbhJc9ZMW1GDnRKk+RZAtcjSR0lIDSlDTTMgmT18DwUOPBsUUI1k1F/y9flnPcauy79O/UZ0Jl7Zaslj7zpT9bgAFdTQEEO/EdNlsYhXR7ynt8Xtl1r/2Aybb7XK5wqUuwOAEBIVIU5SyI87528z+KDA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=I0P1aGMLMoJxTLWDQM/PNsEy/ZhdYkLd00ji1HwQTB4=;
- b=G7mR+3qytYIH3/kcWHkHbCrPSRhNJTFK6xpqSImX7Kboqw64BX3BJkdd0425MVEiWi9HCZTPkloEpMGLnBvpZpmS8P56753T++D9ZqF2l5SmLg2b0YS/Ttlsl0umng2SZ57oFoGkiqBKKYuw9rGYw7CNTbUMtDfpMyTm6ylk/J8=
+ bh=hUG48cg0MCXpY3SO0zaHJHYfx84Nz2c1bWIOu46P8gA=;
+ b=B9IowkclM5szdFPZDhKTMdQT4rjy6S/msjMAkcepJVVLTn4zTR3IbLU1Rpy5PIOdLb1ULRqhQTqbaOFEnJ//c5R1GpIh6wQAsrGvQO9w9AAvbvRs7So+3mTbqkOx/94G64ZbRa1BwWcJKVDzv+tYBt4dWw2ZQV3q5+JR5/erS9w=
 Received: from MN2PR10MB3149.namprd10.prod.outlook.com (2603:10b6:208:128::31)
  by MN2PR10MB3661.namprd10.prod.outlook.com (2603:10b6:208:110::16)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4778.18; Thu, 16 Dec
- 2021 12:34:27 +0000
+ 2021 12:34:28 +0000
 Received: from MN2PR10MB3149.namprd10.prod.outlook.com
  ([fe80::992c:e877:f87a:4c10]) by MN2PR10MB3149.namprd10.prod.outlook.com
  ([fe80::992c:e877:f87a:4c10%6]) with mapi id 15.20.4778.018; Thu, 16 Dec 2021
- 12:34:27 +0000
+ 12:34:28 +0000
 From: David Edmondson <david.edmondson@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC 1/2] migration: Introduce ram_transferred_add()
-Date: Thu, 16 Dec 2021 12:34:19 +0000
-Message-Id: <20211216123420.1328937-2-david.edmondson@oracle.com>
+Subject: [RFC 2/2] migration: Tally pre-copy,
+ downtime and post-copy bytes independently
+Date: Thu, 16 Dec 2021 12:34:20 +0000
+Message-Id: <20211216123420.1328937-3-david.edmondson@oracle.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20211216123420.1328937-1-david.edmondson@oracle.com>
 References: <20211216123420.1328937-1-david.edmondson@oracle.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: LO2P123CA0025.GBRP123.PROD.OUTLOOK.COM (2603:10a6:600::13)
- To MN2PR10MB3149.namprd10.prod.outlook.com
+X-ClientProxiedBy: LO4P123CA0258.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:194::11) To MN2PR10MB3149.namprd10.prod.outlook.com
  (2603:10b6:208:128::31)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 061c5822-f9a7-42a4-4cec-08d9c0906605
+X-MS-Office365-Filtering-Correlation-Id: 8b38781a-bddc-46e2-5b35-08d9c0906633
 X-MS-TrafficTypeDiagnostic: MN2PR10MB3661:EE_
-X-Microsoft-Antispam-PRVS: <MN2PR10MB36618C424C6777AF1F6B6F7288779@MN2PR10MB3661.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2733;
+X-Microsoft-Antispam-PRVS: <MN2PR10MB36615806F3399D69331DA58588779@MN2PR10MB3661.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:220;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: QgXZnyVBohOhBxNIBa4P43MFwoVUDpytiOgcIw7ruN9IN7PUcQ/HsFv1mFHZLiLwdE8eRfqaCZUlVPJHxGXaRhFlHcAWbGmbi67JhzFUrC+dyM1ICZwhOSspHhbXfWdnpqGLH+5vjGNKReBXs3T0wJtEKoE85YQirEt3XgTu4uwNE4IKzF+3S/8Mle6KbTaeloRYb8bLa6VqYH/JpW26v54VlcCvWGS8DBb9z2JWDQ8aJLvDG5HTmQpHcVoVvvzeGiNZ8E+qemt1k6G/CfWHln+r/yeReOGtvs13aidbEeqnnygKPS0smZlBelyK31dENqg3mV0DBYm/pydR8kXsMpVzVW+kFsIa58C25I4PzkDzRTJqhraBoEmmZUQekkjKHyXbAhYf0oPQByJvnS70U9Rjkwo0EcZorXCI9XnzGFiDOqFTHhy9qlurDlec68OcAxM/Tl0u0ejBr9GvFLiealFX9fct/aLUcu8EWBeEfJNDjEDIwkHuSEC/vLw9qn6a4XBffy/wyYXyFNF5uWm6EmNG86UxSzhC2VVwqY2Q1BnFPzZCM+CAH9k0qQvDxhuzsQbIGeGLVQKbFBmH98cIPrXVnyGJ2/6OmW5X0nDl7f7waWEMFa7MaC2r0oXszAP8eE+PFhmWg/C9x26961mgng==
+X-Microsoft-Antispam-Message-Info: m4YCAmgV6Pz8b6WmeyFWoMDfh0BJzjkIhSwlptxG1s/pWhwGbF6km1ADAovTDEZCsngnae7MGeoxPmJJmIc6veG8yo12yXgTaUdqoe95FHmfCMTqx8qrHw6avZF9UiYd/Gq2U6vSYvTpu+rC2wMVcFQQFmHuONB+EFb+LmD0sB+lMNs4pkZZ0SN5OnNU0kmDGqX3gekZwI8jOVCd8izIzzwv+hEiJq1DB8BnACxHJYUKi1MqH3Usp5BAV6kPYcvrU11kexO8DLGPyrPjwU1oUjJRLPMxmtVc4L9yjqx9QVqKsFNfWf6J0PqiMsg4lEzzIGKQsYN6NaOJV5Bk0UKMRfAlCvmPdDWMwzeKWhaR62LWe4PyNL7/v+E668v5PUtMxgqomwNV5qs6TQbkQZtDZ+TRtLNVzj+Prdrp8+RuBzaeub+298RfY3ATYOPwnjg6uHsx7nHKQdpn1acIgXyw80RQeFLTyGaoe+mMWlSrguDNPJBV75SiUxjprD3v/LGNt+qPt5weS580H1Mh+P/xK9/Dl9sCUVWiYj3h+Rc2gyDgwjwB9X0F6J2W/dadJYaSt52nUirxthHpj/LuLUS6gKe/AsiN+i4z+iWy3mYhl6dGNf3iRpl69buqeDs0FrYJdutfJeJ2n1kDY8ThlX/JeQ==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:MN2PR10MB3149.namprd10.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(366004)(66476007)(5660300002)(66556008)(6512007)(86362001)(508600001)(2616005)(44832011)(38100700002)(6666004)(36756003)(186003)(6506007)(2906002)(6916009)(66946007)(52116002)(6486002)(107886003)(83380400001)(54906003)(8936002)(4326008)(8676002)(316002)(1076003);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?hr24ftmMZEzFAxyzLMYnsfSGDKcyzumJuVJZ5WsIV9mcic2/kVUIcza8pToh?=
- =?us-ascii?Q?2GQlVVLwczLYsvhxgWXD2U/u83GunULPKFSEQIPswn2gbNLQifIcROmvYgO1?=
- =?us-ascii?Q?Rq35gPpoqbdzeJNIXsf12BIFSlxGNt57qkfkLkUZaj44wqWgwXE4fQNKxjn+?=
- =?us-ascii?Q?bHnBaa2pFq3qtese2I/Or5XamV19HiKPjjrO4uYYU7gVLp16HUTjzzDaYXDT?=
- =?us-ascii?Q?hXCsWXKnDIkT7fztwWMig4ZoVKkh3ybwiP9tAO6h+BceNJ5ke1vh1yzT64Wj?=
- =?us-ascii?Q?FxxkeSsMyCVFerjpLK9aDhagO5j6gCPP1oNY5vdGhR89Kw5phc3wGPwxDINV?=
- =?us-ascii?Q?SzpT0VG3lAMaREnzrUExIsXwCKPfEaBWeny5byR95abKLaVFPmEKwoYg0lP9?=
- =?us-ascii?Q?FJjP1cgz4MBNYg/9mxwtYxXIFLR3M3NA6Bbfs9WsrUPKGD6U84rdDndGfw/C?=
- =?us-ascii?Q?guvbkvLwFq9F0anL8rv2jDnCXLZRb/EOazlLNO/QJmXA4D/mhHg33zsFVtbi?=
- =?us-ascii?Q?5xm5dT/88yGpAQ/pFwI+Uvix/JZPWuqqkgB3PfcllJxMGGGnhXvPsMqYks7b?=
- =?us-ascii?Q?XsjwDYcok/+jx190FyAx7wke+w2O5RCWTuU5ppUwdq3qTmsHGQjRwYp6tXA0?=
- =?us-ascii?Q?hzuM5dRouTG2+UkZo/tt0y+V7BD0R7VEiW9RVEMeHQvL77D5SqupkE41wykZ?=
- =?us-ascii?Q?MqXUXeQmE8H+0jxcr80SU1JlShI5S5XVcwTFxZeoikFvV+lTOVs8fHWFdM71?=
- =?us-ascii?Q?FOQxl7YTu21dRpabRUQe3xoSXzd3QQYyTJQalXTKcNXrRxIGBsYHjwPkBxR1?=
- =?us-ascii?Q?aZXdARaw6Ql+V8Jb4GiyLft1pfbhtKxfKeGbe4j1snjBNYyzEXZVEif+SH5x?=
- =?us-ascii?Q?SDXv6j5hg7+Oh+yiyIYTL1oc2viWfVKMdTy4uLcaly8k7X3xq7xiNankMsev?=
- =?us-ascii?Q?L4AiLTohBSZ53jzjqfM686Io/9pITGYGJ1FRZKNHKu6P58iLmgH3PhSSp7RR?=
- =?us-ascii?Q?34ENLW7NuGRSEEGo2zcx18THbSjx0J6uvQ/OP7nnkuuRESuLlUF5MoM2fOF9?=
- =?us-ascii?Q?CJCp4z0RPlK01IutJyOB4McVmCJwTA2GJm0/Pg6PqeqN48raOQAXOfKY44Y3?=
- =?us-ascii?Q?ps6CasVR6tc644oftRQDsKcgsNQjWv18HpeoaoHSmJPefXKjv2lS69ZvHizA?=
- =?us-ascii?Q?wANzD8go8YU46qzwsik0JRv+zY2+ILLV6SQrt2H+QIlzcsI6wMAebca3UOUu?=
- =?us-ascii?Q?K6f7Cn3feEbe5ny63XZGSLNuTY3yr8goA6eRfr+FKu4QMRyN3IijiFNlrbQ2?=
- =?us-ascii?Q?zqRxo0bC0APERoXYlcw6w9OzB5F5fG9jtpClta+4I6O8We/oDhzN9gK1OBth?=
- =?us-ascii?Q?/cOPHDlYciuXDQ7sHL2RnVjIT8vu/im5EcFJyRmydiMZiIuR4FQQ9mqUBbTo?=
- =?us-ascii?Q?V0mNfdteRWc1a3QX45zaVDOL4USs5ECvVZ5lpd/DHw1YBgz/xmk6odDfRwch?=
- =?us-ascii?Q?gZ/otqo+zC1NXTbYZOgxyk3pXN//PXdXNa4xDrJtKWg26dEdMy07Ea+C/OoN?=
- =?us-ascii?Q?q58xYN8Nmd5u6EuNjS91Qnk+46TLd+IkL1bD4BnWXkViCP1GbMj0NGcicsyh?=
- =?us-ascii?Q?A2A9ciJi9bLjUJHKUslMHpv94w8EOyaOAcNPE7xGIg0PfeuxHwS43BI1sVYh?=
- =?us-ascii?Q?giDKk8YM/lya9Qj11gdWKxtCQJWbVQm6AHscaQB9tQnkQ0pZ?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Fq6gYAxEfK0fu9w0iFCmygE/aEMNsxbOmVikJ6F1L/bzKznv7adhICHF9ZYL?=
+ =?us-ascii?Q?7tSXZguUSIs7QnzyamlYnIHpeEm02SVnUDsjPL4wp5998crFJ/hlu0AoJWmR?=
+ =?us-ascii?Q?NsBmI8M0g4ao5JBTpDDbt3pd6yZ3PxGS+PiQ+W/FWFoTvk+iYqwjSyfApOdj?=
+ =?us-ascii?Q?bttfuck9Rs7I7Agglhbb83VzY8jfWIAuPfuw32p58moeeDMxd8SEBjG12jbm?=
+ =?us-ascii?Q?VEUR29f/+NtKSXGqoSpLGnf9TtjLlGBcKN47h+TO9R6tY0wu61B7A57yG+eY?=
+ =?us-ascii?Q?OaAe/iuLlqfdSCQook7ahL8KSexDrrnogxMx638a+Fl4vs0ADmpbdglYJv/M?=
+ =?us-ascii?Q?SlEFrir3ecslK23luQm85fmakF5xcfJhJJB41FY3o2Uy+Di9clICTohl04zp?=
+ =?us-ascii?Q?mhbmY1elVEov75SCiz//8/sIdDKOx80pQ/lK5Zy308hwk4icE6s5mZlddfCu?=
+ =?us-ascii?Q?o/BLoH9yvVwM5HpxEHyFHC7BYCvfuJg1l09VEkiUHXZ4G0TPdhUlZ+/hv2ky?=
+ =?us-ascii?Q?bwf+WMVuW/gC481+y/w3eecy1YLBkxwgAx6RSiOaFLhJJZ0S89lrv5SgAxZw?=
+ =?us-ascii?Q?5pNEhBZAnR4zt+wnEBMKS6i60rUcQGYdASBcluS/xQN4biG2E6x7BNjZAz8G?=
+ =?us-ascii?Q?5ffyiweBMuoLMNpl5vOhi9v4cojeaJhBLFMK2e/2Gm0lV0XlTa3ziXYHYUof?=
+ =?us-ascii?Q?ADvW4zGlo6FCU/Jt7GWG0Ge0G10TZvb7m6jI9lBvL5FgiE1cFG5cm5KK3Jcf?=
+ =?us-ascii?Q?lXhC3kCQUtVwJ898YhtMUicv+CxurkVao6Je4/mfoHLEx/uqxVbY2ALAKSmk?=
+ =?us-ascii?Q?t2sj7vOWEFK1m+8HXRxjx99apIKU9Bh5JsbQ6jJzZ3csAy1olqwCgkMXZIvK?=
+ =?us-ascii?Q?aUbdjl91PFUkrqoZwAAj65UdVazPSZx0071botrQJNOdQX8Q/KpCUR00i4si?=
+ =?us-ascii?Q?tNCpneOKZcVbQM0uD3WMYlSuK2L0VHYSOrDQqvkwxMb2Krmn4ceK8LERO/wx?=
+ =?us-ascii?Q?W5MpMcS/ZN8Ku8Ui37OLuh26hzxJb+NkDMx3DcuZrB7jaedzP/BkGs5jA1Bc?=
+ =?us-ascii?Q?0dlrfn+UGzqQOIp7F5xDAKl/mIf+oqmTjOaLwMnjS8SLfIf74VHr80yLxAJd?=
+ =?us-ascii?Q?G9mNRjihW4wBwNctvBk/Swwzaiir/fxjGd2oskKSSymhj3lLpbYYNfK6TrWs?=
+ =?us-ascii?Q?DQsSLJSMcLwOq7aNAZUsd77aYPUCe/EGin3MhYajnQY4s6rXg26bhbIRztdB?=
+ =?us-ascii?Q?yT5Fa/7rHZ3oxUsHBIUBK3l0WnW4dzoqHHRBKYea652ipt7w2AN8XFK/kKjA?=
+ =?us-ascii?Q?b/sewnkW55Zo5zOyezfzIJ+HUtfvGEfvfRajPLfPQDPJu5cFU7CIAk2QUlMa?=
+ =?us-ascii?Q?PyBKDwUcukxtEzXye43M6dE8ysSwYWQvabGj4I41olbpbHrLHZj4ZSAkZaW9?=
+ =?us-ascii?Q?VChFZrUIgu27LDJjTWrmeGDENeQc85f2NNgaPtZWUX7yWP4my+thnIMLqH35?=
+ =?us-ascii?Q?4janXetkq+Im+yIkH9atHBkUeyNnC9m+kNkCYDvDEptqCuwRdo5RMI2aL2px?=
+ =?us-ascii?Q?QyUkWqPx3sLQ8BvSVYHcHJAA1SvlWk509bIKRXQKW55bg3RA0QQ1sqDAYJzq?=
+ =?us-ascii?Q?9g/4PQbOsTJIS4yrtv6Ur1v6DKwP2MLogMG9IjLD/q3oX4+Zc5BVsHzDoEG5?=
+ =?us-ascii?Q?S93BpCn8RgM5IUTK4dL6UwGDIyhsJPku0tHYJgRnWUZMrwW0?=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 061c5822-f9a7-42a4-4cec-08d9c0906605
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8b38781a-bddc-46e2-5b35-08d9c0906633
 X-MS-Exchange-CrossTenant-AuthSource: MN2PR10MB3149.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Dec 2021 12:34:27.6298 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Dec 2021 12:34:27.6438 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: PwN7yJ8laBLNhRGrbx3eMZr6MOfoHR0ua7D7GDoCZuyZXhya5JBR1/8jtBLKvVm+7kN717wWtWdOnlfei5ypjZD8z77C56mYgD/7qco6BsM=
+X-MS-Exchange-CrossTenant-UserPrincipalName: FNvDkcEBm8RSIlVCcjJJ4Vmb3XXUZVWW6VeOklUfUL95zvP/caB5+SC3nVR2lWs8t6UWhyPbED+euD+HqGt5I6nBWeBuiMaKPPt+LOesplQ=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR10MB3661
 X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10199
  signatures=668683
@@ -142,8 +143,8 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
  spamscore=0 mlxscore=0 adultscore=0 bulkscore=0 suspectscore=0
  malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2110150000 definitions=main-2112160070
-X-Proofpoint-ORIG-GUID: wxVtpKCVESzHcAOoNVnM7Ic6oN9HvGZs
-X-Proofpoint-GUID: wxVtpKCVESzHcAOoNVnM7Ic6oN9HvGZs
+X-Proofpoint-ORIG-GUID: zQoJzxaGmERHMkHttCvJp6_rLyAZjFnm
+X-Proofpoint-GUID: zQoJzxaGmERHMkHttCvJp6_rLyAZjFnm
 Received-SPF: pass client-ip=205.220.165.32;
  envelope-from=david.edmondson@oracle.com; helo=mx0a-00069f02.pphosted.com
 X-Spam_score_int: -27
@@ -172,116 +173,87 @@ Cc: David Edmondson <david.edmondson@oracle.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-...and use it.
+Provide information on the number of bytes copied in the pre-copy,
+downtime and post-copy phases of migration.
 
 Signed-off-by: David Edmondson <david.edmondson@oracle.com>
 ---
- migration/ram.c | 23 ++++++++++++++---------
- migration/ram.h |  1 +
- 2 files changed, 15 insertions(+), 9 deletions(-)
+ migration/migration.c |  3 +++
+ migration/ram.c       |  7 +++++++
+ monitor/hmp-cmds.c    | 12 ++++++++++++
+ qapi/migration.json   |  4 +++-
+ 4 files changed, 25 insertions(+), 1 deletion(-)
 
+diff --git a/migration/migration.c b/migration/migration.c
+index 3de11ae921..3950510be7 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -1013,6 +1013,9 @@ static void populate_ram_info(MigrationInfo *info, MigrationState *s)
+     info->ram->page_size = page_size;
+     info->ram->multifd_bytes = ram_counters.multifd_bytes;
+     info->ram->pages_per_second = s->pages_per_second;
++    info->ram->precopy_bytes = ram_counters.precopy_bytes;
++    info->ram->downtime_bytes = ram_counters.downtime_bytes;
++    info->ram->postcopy_bytes = ram_counters.postcopy_bytes;
+ 
+     if (migrate_use_xbzrle()) {
+         info->has_xbzrle_cache = true;
 diff --git a/migration/ram.c b/migration/ram.c
-index 57efa67f20..48ef2819f6 100644
+index 48ef2819f6..6c5c8441fd 100644
 --- a/migration/ram.c
 +++ b/migration/ram.c
-@@ -386,6 +386,11 @@ uint64_t ram_bytes_remaining(void)
+@@ -388,6 +388,13 @@ MigrationStats ram_counters;
  
- MigrationStats ram_counters;
- 
-+void ram_transferred_add(uint64_t bytes)
-+{
-+    ram_counters.transferred += bytes;
-+}
-+
- /* used by the search for pages to send */
- struct PageSearchStatus {
-     /* Current block being searched */
-@@ -767,7 +772,7 @@ static int save_xbzrle_page(RAMState *rs, uint8_t **current_data,
-      * RAM_SAVE_FLAG_CONTINUE.
-      */
-     xbzrle_counters.bytes += bytes_xbzrle - 8;
--    ram_counters.transferred += bytes_xbzrle;
-+    ram_transferred_add(bytes_xbzrle);
- 
-     return 1;
- }
-@@ -1198,7 +1203,7 @@ static int save_zero_page(RAMState *rs, RAMBlock *block, ram_addr_t offset)
- 
-     if (len) {
-         ram_counters.duplicate++;
--        ram_counters.transferred += len;
-+        ram_transferred_add(len);
-         return 1;
-     }
-     return -1;
-@@ -1234,7 +1239,7 @@ static bool control_save_page(RAMState *rs, RAMBlock *block, ram_addr_t offset,
-     }
- 
-     if (bytes_xmit) {
--        ram_counters.transferred += bytes_xmit;
-+        ram_transferred_add(bytes_xmit);
-         *pages = 1;
-     }
- 
-@@ -1265,8 +1270,8 @@ static bool control_save_page(RAMState *rs, RAMBlock *block, ram_addr_t offset,
- static int save_normal_page(RAMState *rs, RAMBlock *block, ram_addr_t offset,
-                             uint8_t *buf, bool async)
+ void ram_transferred_add(uint64_t bytes)
  {
--    ram_counters.transferred += save_page_header(rs, rs->f, block,
--                                                 offset | RAM_SAVE_FLAG_PAGE);
-+    ram_transferred_add(save_page_header(rs, rs->f, block,
-+                                         offset | RAM_SAVE_FLAG_PAGE));
-     if (async) {
-         qemu_put_buffer_async(rs->f, buf, TARGET_PAGE_SIZE,
-                               migrate_release_ram() &
-@@ -1274,7 +1279,7 @@ static int save_normal_page(RAMState *rs, RAMBlock *block, ram_addr_t offset,
-     } else {
-         qemu_put_buffer(rs->f, buf, TARGET_PAGE_SIZE);
-     }
--    ram_counters.transferred += TARGET_PAGE_SIZE;
-+    ram_transferred_add(TARGET_PAGE_SIZE);
-     ram_counters.normal++;
-     return 1;
++    if (runstate_is_running()) {
++        ram_counters.precopy_bytes += bytes;
++    } else if (migration_in_postcopy()) {
++        ram_counters.postcopy_bytes += bytes;
++    } else {
++        ram_counters.downtime_bytes += bytes;
++    }
+     ram_counters.transferred += bytes;
  }
-@@ -1373,7 +1378,7 @@ exit:
- static void
- update_compress_thread_counts(const CompressParam *param, int bytes_xmit)
- {
--    ram_counters.transferred += bytes_xmit;
-+    ram_transferred_add(bytes_xmit);
  
-     if (param->zero_page) {
-         ram_counters.duplicate++;
-@@ -2298,7 +2303,7 @@ void acct_update_position(QEMUFile *f, size_t size, bool zero)
-         ram_counters.duplicate += pages;
-     } else {
-         ram_counters.normal += pages;
--        ram_counters.transferred += size;
-+        ram_transferred_add(size);
-         qemu_update_position(f, size);
+diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
+index 9c91bf93e9..6049772178 100644
+--- a/monitor/hmp-cmds.c
++++ b/monitor/hmp-cmds.c
+@@ -293,6 +293,18 @@ void hmp_info_migrate(Monitor *mon, const QDict *qdict)
+             monitor_printf(mon, "postcopy request count: %" PRIu64 "\n",
+                            info->ram->postcopy_requests);
+         }
++        if (info->ram->precopy_bytes) {
++            monitor_printf(mon, "precopy ram: %" PRIu64 " kbytes\n",
++                           info->ram->precopy_bytes >> 10);
++        }
++        if (info->ram->downtime_bytes) {
++            monitor_printf(mon, "downtime ram: %" PRIu64 " kbytes\n",
++                           info->ram->downtime_bytes >> 10);
++        }
++        if (info->ram->postcopy_bytes) {
++            monitor_printf(mon, "postcopy ram: %" PRIu64 " kbytes\n",
++                           info->ram->postcopy_bytes >> 10);
++        }
      }
- }
-@@ -3133,7 +3138,7 @@ out:
-         multifd_send_sync_main(rs->f);
-         qemu_put_be64(f, RAM_SAVE_FLAG_EOS);
-         qemu_fflush(f);
--        ram_counters.transferred += 8;
-+        ram_transferred_add(8);
  
-         ret = qemu_file_get_error(f);
-     }
-diff --git a/migration/ram.h b/migration/ram.h
-index c515396a9a..a5b2ffdc18 100644
---- a/migration/ram.h
-+++ b/migration/ram.h
-@@ -51,6 +51,7 @@ int xbzrle_cache_resize(uint64_t new_size, Error **errp);
- uint64_t ram_bytes_remaining(void);
- uint64_t ram_bytes_total(void);
- void mig_throttle_counter_reset(void);
-+void ram_transferred_add(uint64_t bytes);
+     if (info->has_disk) {
+diff --git a/qapi/migration.json b/qapi/migration.json
+index bbfd48cf0b..69ec9dc3a6 100644
+--- a/qapi/migration.json
++++ b/qapi/migration.json
+@@ -54,7 +54,9 @@
+            'normal-bytes': 'int', 'dirty-pages-rate' : 'int',
+            'mbps' : 'number', 'dirty-sync-count' : 'int',
+            'postcopy-requests' : 'int', 'page-size' : 'int',
+-           'multifd-bytes' : 'uint64', 'pages-per-second' : 'uint64' } }
++           'multifd-bytes' : 'uint64', 'pages-per-second' : 'uint64',
++           'precopy-bytes' : 'uint64', 'downtime-bytes' : 'uint64',
++           'postcopy-bytes' : 'uint64' } }
  
- uint64_t ram_pagesize_summary(void);
- int ram_save_queue_pages(const char *rbname, ram_addr_t start, ram_addr_t len);
+ ##
+ # @XBZRLECacheStats:
 -- 
 2.33.0
 
