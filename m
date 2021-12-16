@@ -2,82 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A13AB477FF6
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 23:21:55 +0100 (CET)
-Received: from localhost ([::1]:34252 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82F9F478023
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 23:47:30 +0100 (CET)
+Received: from localhost ([::1]:42998 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxz8M-00008p-Q7
-	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 17:21:54 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42648)
+	id 1mxzX7-0001du-Hh
+	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 17:47:29 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43536)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mxxgK-0004xP-LU
- for qemu-devel@nongnu.org; Thu, 16 Dec 2021 15:48:55 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:23219)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mxxg6-0003W7-TV
- for qemu-devel@nongnu.org; Thu, 16 Dec 2021 15:48:40 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639687717;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=RHxII5qHkUudrOo9Ahfn94N8JIBUTIXfSG58ReBE3RQ=;
- b=JE2sgNrdRJCPaPWY4JaZJ4A8Et358c/B9XgySZWIBcmOl5LlQStf7GSV8lNiN9ETf3j7I4
- k/OO6ARRxXE95oD5fvPAQ229bZcpAoK5Huq0E51xsFsWty6MGlzSHrIFDXdIpLjGsKMXYj
- uKPdcMz0Qa+SYqOpLK4Qofp+qhAJFyM=
-Received: from mail-ua1-f70.google.com (mail-ua1-f70.google.com
- [209.85.222.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-223-Cz7B3GvYPbqqz2JL7MnDKA-1; Thu, 16 Dec 2021 15:48:36 -0500
-X-MC-Unique: Cz7B3GvYPbqqz2JL7MnDKA-1
-Received: by mail-ua1-f70.google.com with SMTP id
- t22-20020ab02696000000b002e970ec14a3so124071uao.19
- for <qemu-devel@nongnu.org>; Thu, 16 Dec 2021 12:48:36 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1mxxlV-0006T4-EZ
+ for qemu-devel@nongnu.org; Thu, 16 Dec 2021 15:54:13 -0500
+Received: from [2a00:1450:4864:20::431] (port=42730
+ helo=mail-wr1-x431.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1mxxlT-0004ga-HE
+ for qemu-devel@nongnu.org; Thu, 16 Dec 2021 15:54:13 -0500
+Received: by mail-wr1-x431.google.com with SMTP id c4so245640wrd.9
+ for <qemu-devel@nongnu.org>; Thu, 16 Dec 2021 12:54:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=i8F1tGHHJn/8X1S7A3mjlZad7t1hOk6jVyBEfW6QX30=;
+ b=bSBo9uQOdv66yCjsYPPbohmbIb29usAtWCK6r6Cm7Hf2o3WaCS8LIupfhfbN7zFRQt
+ uJ9icqb+F2c+rHjGNn770OKIcpC1mJ4lOy+HtnJI2rPEof2u6RaGzhCmsNnswDO8INkc
+ gVNF0HpQVF0qM6MwnnRHMXz5P0YHv9whVD/dP1ocztTfedsunzbNteBVXwRLCvKxa3lQ
+ DqhaJ6j1dQ2snnpQwFGXMh/pFLq7/9UYzPEJv14zpyIo3NNC1n7q2NTI+oXJwEOOyXT2
+ KHgot3rLdEGj+7kY3lGVupGNoqY28COyLZSDpNE5YWcH47xxEe9VYGDyv4x99LlPCBcx
+ dd4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=RHxII5qHkUudrOo9Ahfn94N8JIBUTIXfSG58ReBE3RQ=;
- b=cr2Ntt8/9ogdhKkbvsdrrWz5fL+ibgz6qbXrA3DYHh3N271E3IL4bFVoInQNt0vdOY
- u0SkqH8N2VS1RoA90hVWpLvuIghNmPKbSUtiAdGNbA3g3VUyojxixexMQdvUnnk8+VUw
- vHoo1UHECTutFF0bwJlp5a6aLQLi7UxiNVAd4RUcD1L97r4gbjBltHrgjb+Nasm4WrJ1
- rlrbGrV+ATEh22UnZKiVBtJEIjgpnTnBij0iMIrUiJkpl9cH6dDJItCH2y4tEoae3Fod
- b9I/5higavkGGzwgZSpitnSrTJWkERFZ1Kx6QoyWTgPljFQ9MIYa2HvOGt/RLXTPZAID
- 3vWw==
-X-Gm-Message-State: AOAM532HBNXmWrdyd/vpInLJEY8NaU8aph12Zy5jqklVsFSYuUnK7mUb
- lRdzOhYJsgkatpxtCSNZI/C5txHzU9LTdLWrLUMN8JSa42j/+bHISQQk/WtZ7kBB9oxIBcGaGX/
- JDRExueqTToP17fSWl3RroK0X+HVv9TA=
-X-Received: by 2002:a1f:a4c5:: with SMTP id n188mr7350893vke.35.1639687715996; 
- Thu, 16 Dec 2021 12:48:35 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyLDA9BK4iORkTyxvPk5BU/e/AVHf33INAH2kqcAJ8Lb1izHaJjL3R0EbWOLW0q2tp2pCvtQYyus9Lrava/ABw=
-X-Received: by 2002:a1f:a4c5:: with SMTP id n188mr7350883vke.35.1639687715816; 
- Thu, 16 Dec 2021 12:48:35 -0800 (PST)
+ bh=i8F1tGHHJn/8X1S7A3mjlZad7t1hOk6jVyBEfW6QX30=;
+ b=0DrOJA0OJdT8xSv/v2juuW+wdaEPAOHOQn7WfF9i02qW8NRPI67puXlmaaUtzIbLYs
+ IaW2RnvSKIuxH7HLauRxX7LRKef7XZQDWIVh5UOnPp5AEYD/O3M1bL7SrnHxFvqcu5qa
+ qbREwQgx5o+ideAVwETpWE9LnRQrS3xcqYDPtKuR2WR+VNQuZOisCwdeyFAtJ+YV+eE2
+ EyS2W3iZlNYx56ma+DXoioJGfa+PBIJ7wNt5Trk+xQDiYDSU8Fhfb730DWPribvjMl7Z
+ POqNGU515Bm6UiZfn9fnxzbxz+/+uSRgxfUrkDTsyWE6nxXbGx5FihNnV+NrLb8aZw97
+ dNjQ==
+X-Gm-Message-State: AOAM532gsHFVf2kzIFk1D9DJm/gJe7ELiAlWB8ocJzuVrnJX6rN9e8rZ
+ tPvvEMPYXXJAwgw0LR41WQi7L86vxQQXeOjknGg=
+X-Google-Smtp-Source: ABdhPJyQBONS8ccc6AOV9xlFOcxR/wzkkgRbB+kR+/1XtyW+BPiMe5brhXH/RwfLecQ++s9mSUDYsYQ3qKyxTgZpDbA=
+X-Received: by 2002:a05:6000:18a3:: with SMTP id
+ b3mr10917416wri.343.1639688047748; 
+ Thu, 16 Dec 2021 12:54:07 -0800 (PST)
 MIME-Version: 1.0
-References: <20211215193939.3768033-1-jsnow@redhat.com>
- <20211215193939.3768033-16-jsnow@redhat.com>
- <fb2f7353-7cd8-28af-5f38-d9fd68440155@virtuozzo.com>
-In-Reply-To: <fb2f7353-7cd8-28af-5f38-d9fd68440155@virtuozzo.com>
-From: John Snow <jsnow@redhat.com>
-Date: Thu, 16 Dec 2021 15:48:24 -0500
-Message-ID: <CAFn=p-Yir6Nr3h4JUuSO9t7CvwqQ_RmA-wUbVi0Mou5hUdiPXA@mail.gmail.com>
-Subject: Re: [PATCH v2 15/25] scripts/render-block-graph: switch to AQMP
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="000000000000d8185605d3498b9a"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.718,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20211009210838.2219430-1-marcandre.lureau@redhat.com>
+ <20211013052214.stif2dodyueetm3p@sirius.home.kraxel.org>
+In-Reply-To: <20211013052214.stif2dodyueetm3p@sirius.home.kraxel.org>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Fri, 17 Dec 2021 00:53:55 +0400
+Message-ID: <CAJ+F1C+ByHUSshCcrXYf+sw1yRjV4+AzWYPk_=oMwyWoAV3v_A@mail.gmail.com>
+Subject: Re: [PATCH v2 00/37] Add D-Bus display backend
+To: Gerd Hoffmann <kraxel@redhat.com>
+Content-Type: multipart/alternative; boundary="000000000000a0e77b05d3499f59"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::431
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-wr1-x431.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,154 +81,208 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>, Kevin Wolf <kwolf@redhat.com>,
- Daniel Berrange <berrange@redhat.com>, Beraldo Leal <bleal@redhat.com>,
- Qemu-block <qemu-block@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, Wainer Moschetta <wainersm@redhat.com>,
- Andrea Bolognani <abologna@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Cleber Rosa <crosa@redhat.com>
+Cc: QEMU <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000d8185605d3498b9a
+--000000000000a0e77b05d3499f59
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Dec 16, 2021 at 5:58 AM Vladimir Sementsov-Ogievskiy <
-vsementsov@virtuozzo.com> wrote:
+Hi
 
-> 15.12.2021 22:39, John Snow wrote:
-> > Creating an instance of qemu.aqmp.ExecuteError is too involved here, so
-> > just drop the specificity down to a generic AQMPError.
->
-> s/AQMPError/QMPError/  ?
->
->
-The problem with relying on linters to achieve consistency is that they
-don't lint your commit messages :)
+On Wed, Oct 13, 2021 at 9:23 AM Gerd Hoffmann <kraxel@redhat.com> wrote:
 
-Fixed, thank you.
-
-
+> On Sun, Oct 10, 2021 at 01:08:01AM +0400, marcandre.lureau@redhat.com
+> wrote:
+> > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 > >
-> > Signed-off-by: John Snow <jsnow@redhat.com>
+> > Hi,
+> >
+> > Both Spice and VNC are relatively complex and inefficient for local-onl=
+y
+> > display/console export.
+> >
+> > The goal of this display backend is to export over D-Bus an interface
+> close to
+> > the QEMU internal APIs. Any -display or -audio backend should be
+> possible to
+> > implement externally that way. It will allow third-parties to maintain
+> their own
+> > backends (UI toolkits, servers etc), and eventually reduce the
+> responsability on
+> > QEMU.
+> >
+> > D-Bus is the protocol of choice for the desktop, it has many convenient
+> bindings
+> > for various languages and tools. Data blob transfer is more efficient
+> than QMP
+> > too. Backends can come and go as needed: you can have several display
+> opened
+> > (say Boxes & virt-manager), while exporting the display over VNC for
+> example
+> > from a different process. It works best on Unix, but there is some
+> Windows
+> > support too (even Windows has some AF_UNIX nowadays, and the WSL2
+> situation may
+> > change the future of QEMU on Windows anyway).
+> >
+> > Using it only requires "-display dbus" on any reasonable Linux desktop
+> with a
+> > D-Bus session bus. Then you use can use busctl, d-feet or gdbus, ex:
+> > $ gdbus introspect --session -r -d org.qemu -o /
+> >
+> > See the different patches and documentation for further options. The
+> p2p=3Don mode
+> > should also allow users running bus-less (on MacOS for ex). We can also
+> add TCP
+> > socket if needed (although more work would be needed in this case to
+> replace
+> > the FD-passing with some extra TCP listening socket).
 >
+> Wow.  That series got a lot of fine tuning.  The patches look all good
+> to me.
 >
-> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
->
-> > ---
-> >   scripts/render_block_graph.py | 8 +++-----
-> >   1 file changed, 3 insertions(+), 5 deletions(-)
-> >
-> > diff --git a/scripts/render_block_graph.py
-> b/scripts/render_block_graph.py
-> > index da6acf050d..97778927f3 100755
-> > --- a/scripts/render_block_graph.py
-> > +++ b/scripts/render_block_graph.py
-> > @@ -25,10 +25,8 @@
-> >   from graphviz import Digraph
-> >
-> >   sys.path.append(os.path.join(os.path.dirname(__file__), '..',
-> 'python'))
-> > -from qemu.qmp import (
-> > -    QEMUMonitorProtocol,
-> > -    QMPResponseError,
-> > -)
-> > +from qemu.aqmp import QMPError
-> > +from qemu.aqmp.legacy import QEMUMonitorProtocol
-> >
-> >
-> >   def perm(arr):
-> > @@ -105,7 +103,7 @@ def command(self, cmd):
-> >           reply = json.loads(subprocess.check_output(ar))
-> >
-> >           if 'error' in reply:
-> > -            raise QMPResponseError(reply)
-> > +            raise QMPError(reply)
-> >
-> >           return reply['return']
-> >
-> >
->
->
-> --
-> Best regards,
-> Vladimir
->
+> Acked-by: Gerd Hoffmann <kraxel@redhat.com>
 >
 
---000000000000d8185605d3498b9a
+I have rebased the series and added your acked-by (
+https://gitlab.com/marcandre.lureau/qemu/-/tree/dbus)
+
+The client side is still in development. However, the libvirt series is in
+shape (
+https://patchew.org/Libvirt/20211202142411.1718032-1-marcandre.lureau@redha=
+t.com/),
+waiting for QEMU side to land.
+
+Should I make a PR or ask for more reviews? Since this is fairly long to
+review but quite independent from existing code, I think sending a PR is
+reasonable wdyt?
+
+
+> > A WIP Rust/Gtk4 client and VNC server is:
+> https://gitlab.com/marcandre.lureau/qemu-display/
+> > (check README.md for details, then `cargo run` should connect to QEMU)
+>
+> Hmm, that wants rather cutting edge versions, stock Fedora 34 isn't new
+> enough to build it.  And I don't feel like updating to Fedora 35 beta
+> for that.  So unfortunately I couldn't easily test it, but I'd love to
+> see that live in action.
+>
+> Is it possible to keep the client running while starting and stopping
+> qemu (comparable to "virt-viewer --wait --reconnect" behaviour)?
+>
+>
+That's doable. I just added a --wait option to the demo client.
+
+For reconnect to work, we would need a better way to track name ownership
+changes (connection and disconnections) in zbus. I am working on it.
+
+thanks
+
+--=20
+Marc-Andr=C3=A9 Lureau
+
+--000000000000a0e77b05d3499f59
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Dec 16, 2021 at 5:58 AM Vladi=
-mir Sementsov-Ogievskiy &lt;<a href=3D"mailto:vsementsov@virtuozzo.com">vse=
-mentsov@virtuozzo.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_qu=
-ote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,20=
-4);padding-left:1ex">15.12.2021 22:39, John Snow wrote:<br>
-&gt; Creating an instance of qemu.aqmp.ExecuteError is too involved here, s=
-o<br>
-&gt; just drop the specificity down to a generic AQMPError.<br>
-<br>
-s/AQMPError/QMPError/=C2=A0 ?<br>
-<br></blockquote><div><br></div><div>The problem with relying on linters to=
- achieve consistency is that they don&#39;t lint your commit messages :)</d=
-iv><div><br></div><div>Fixed, thank you.<br></div><div>=C2=A0</div><blockqu=
-ote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px=
- solid rgb(204,204,204);padding-left:1ex">
+<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
+"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Oct 13, 2021 at 9:23 AM Ger=
+d Hoffmann &lt;<a href=3D"mailto:kraxel@redhat.com" target=3D"_blank">kraxe=
+l@redhat.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" styl=
+e=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddin=
+g-left:1ex">On Sun, Oct 10, 2021 at 01:08:01AM +0400, <a href=3D"mailto:mar=
+candre.lureau@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>=
+ wrote:<br>
+&gt; From: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@re=
+dhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br>
 &gt; <br>
-&gt; Signed-off-by: John Snow &lt;<a href=3D"mailto:jsnow@redhat.com" targe=
-t=3D"_blank">jsnow@redhat.com</a>&gt;<br>
-<br>
-<br>
-Reviewed-by: Vladimir Sementsov-Ogievskiy &lt;<a href=3D"mailto:vsementsov@=
-virtuozzo.com" target=3D"_blank">vsementsov@virtuozzo.com</a>&gt;<br>
-<br>
-&gt; ---<br>
-&gt;=C2=A0 =C2=A0scripts/render_block_graph.py | 8 +++-----<br>
-&gt;=C2=A0 =C2=A01 file changed, 3 insertions(+), 5 deletions(-)<br>
+&gt; Hi,<br>
 &gt; <br>
-&gt; diff --git a/scripts/render_block_graph.py b/scripts/render_block_grap=
-h.py<br>
-&gt; index da6acf050d..97778927f3 100755<br>
-&gt; --- a/scripts/render_block_graph.py<br>
-&gt; +++ b/scripts/render_block_graph.py<br>
-&gt; @@ -25,10 +25,8 @@<br>
-&gt;=C2=A0 =C2=A0from graphviz import Digraph<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt;=C2=A0 =C2=A0sys.path.append(os.path.join(os.path.dirname(__file__), &#=
-39;..&#39;, &#39;python&#39;))<br>
-&gt; -from qemu.qmp import (<br>
-&gt; -=C2=A0 =C2=A0 QEMUMonitorProtocol,<br>
-&gt; -=C2=A0 =C2=A0 QMPResponseError,<br>
-&gt; -)<br>
-&gt; +from qemu.aqmp import QMPError<br>
-&gt; +from qemu.aqmp.legacy import QEMUMonitorProtocol<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt;=C2=A0 =C2=A0def perm(arr):<br>
-&gt; @@ -105,7 +103,7 @@ def command(self, cmd):<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0reply =3D json.loads(subproces=
-s.check_output(ar))<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if &#39;error&#39; in reply:<b=
+&gt; Both Spice and VNC are relatively complex and inefficient for local-on=
+ly<br>
+&gt; display/console export.<br>
+&gt; <br>
+&gt; The goal of this display backend is to export over D-Bus an interface =
+close to<br>
+&gt; the QEMU internal APIs. Any -display or -audio backend should be possi=
+ble to<br>
+&gt; implement externally that way. It will allow third-parties to maintain=
+ their own<br>
+&gt; backends (UI toolkits, servers etc), and eventually reduce the respons=
+ability on<br>
+&gt; QEMU.<br>
+&gt; <br>
+&gt; D-Bus is the protocol of choice for the desktop, it has many convenien=
+t bindings<br>
+&gt; for various languages and tools. Data blob transfer is more efficient =
+than QMP<br>
+&gt; too. Backends can come and go as needed: you can have several display =
+opened<br>
+&gt; (say Boxes &amp; virt-manager), while exporting the display over VNC f=
+or example<br>
+&gt; from a different process. It works best on Unix, but there is some Win=
+dows<br>
+&gt; support too (even Windows has some AF_UNIX nowadays, and the WSL2 situ=
+ation may<br>
+&gt; change the future of QEMU on Windows anyway).<br>
+&gt; <br>
+&gt; Using it only requires &quot;-display dbus&quot; on any reasonable Lin=
+ux desktop with a<br>
+&gt; D-Bus session bus. Then you use can use busctl, d-feet or gdbus, ex:<b=
 r>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 raise QMPResponseError(repl=
-y)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 raise QMPError(reply)<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return reply[&#39;return&#39;]=
-<br>
-&gt;=C2=A0 =C2=A0<br>
+&gt; $ gdbus introspect --session -r -d org.qemu -o /<br>
 &gt; <br>
+&gt; See the different patches and documentation for further options. The p=
+2p=3Don mode<br>
+&gt; should also allow users running bus-less (on MacOS for ex). We can als=
+o add TCP<br>
+&gt; socket if needed (although more work would be needed in this case to r=
+eplace<br>
+&gt; the FD-passing with some extra TCP listening socket).<br>
+<br>
+Wow.=C2=A0 That series got a lot of fine tuning.=C2=A0 The patches look all=
+ good<br>
+to me.<br>
+<br>
+Acked-by: Gerd Hoffmann &lt;<a href=3D"mailto:kraxel@redhat.com" target=3D"=
+_blank">kraxel@redhat.com</a>&gt;<br></blockquote><div><br></div><div>I hav=
+e rebased the series and added your acked-by (<a href=3D"https://gitlab.com=
+/marcandre.lureau/qemu/-/tree/dbus" target=3D"_blank">https://gitlab.com/ma=
+rcandre.lureau/qemu/-/tree/dbus</a>)</div><div><br></div><div>The client si=
+de is still in development. However, the libvirt series is in shape (<a hre=
+f=3D"https://patchew.org/Libvirt/20211202142411.1718032-1-marcandre.lureau@=
+redhat.com/" target=3D"_blank">https://patchew.org/Libvirt/20211202142411.1=
+718032-1-marcandre.lureau@redhat.com/</a>), waiting for QEMU side to land.<=
+br></div><div><br></div><div>Should I make a PR or ask for more reviews? Si=
+nce this is fairly long to review but quite independent from existing code,=
+ I think sending a PR is reasonable wdyt?<br></div><div><br></div><blockquo=
+te class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px =
+solid rgb(204,204,204);padding-left:1ex">
+<br>
+&gt; A WIP Rust/Gtk4 client and VNC server is: <a href=3D"https://gitlab.co=
+m/marcandre.lureau/qemu-display/" rel=3D"noreferrer" target=3D"_blank">http=
+s://gitlab.com/marcandre.lureau/qemu-display/</a><br>
+&gt; (check README.md for details, then `cargo run` should connect to QEMU)=
 <br>
 <br>
--- <br>
-Best regards,<br>
-Vladimir<br>
+Hmm, that wants rather cutting edge versions, stock Fedora 34 isn&#39;t new=
 <br>
-</blockquote></div></div>
+enough to build it.=C2=A0 And I don&#39;t feel like updating to Fedora 35 b=
+eta<br>
+for that.=C2=A0 So unfortunately I couldn&#39;t easily test it, but I&#39;d=
+ love to<br>
+see that live in action.<br>
+<br>
+Is it possible to keep the client running while starting and stopping<br>
+qemu (comparable to &quot;virt-viewer --wait --reconnect&quot; behaviour)?<=
+br clear=3D"all"><br></blockquote><div><br></div><div>That&#39;s doable. I =
+just added a --wait option to the demo client.</div><div><br></div><div>For=
+ reconnect to work, we would need a better way to track name ownership chan=
+ges (connection and disconnections) in zbus. I am working on it.</div><div>=
+<br></div>thanks<br></div><br>-- <br><div dir=3D"ltr">Marc-Andr=C3=A9 Lurea=
+u<br></div></div>
 
---000000000000d8185605d3498b9a--
-
+--000000000000a0e77b05d3499f59--
 
