@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F007047745A
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 15:21:29 +0100 (CET)
-Received: from localhost ([::1]:60938 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DE8B47745D
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 15:22:52 +0100 (CET)
+Received: from localhost ([::1]:36096 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxrdQ-0001IO-G8
-	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 09:21:28 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53212)
+	id 1mxrel-0003nR-9i
+	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 09:22:51 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53464)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bleal@redhat.com>) id 1mxra8-0006v4-9l
- for qemu-devel@nongnu.org; Thu, 16 Dec 2021 09:18:04 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37649)
+ (Exim 4.90_1) (envelope-from <bleal@redhat.com>) id 1mxrah-0007Ww-6K
+ for qemu-devel@nongnu.org; Thu, 16 Dec 2021 09:18:39 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57567)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bleal@redhat.com>) id 1mxra4-00078O-Uk
- for qemu-devel@nongnu.org; Thu, 16 Dec 2021 09:18:03 -0500
+ (Exim 4.90_1) (envelope-from <bleal@redhat.com>) id 1mxrae-0007M3-Kl
+ for qemu-devel@nongnu.org; Thu, 16 Dec 2021 09:18:38 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639664280;
+ s=mimecast20190719; t=1639664316;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=b0Meeo1LRX0XmpR1uNVzywnA87r9KOP7rZ3pn5N8hFM=;
- b=aZWiEkp2Om1FmP4uDuLYAZBkQJrJ8ws7HEvmjyBWxXQzAzL+SWsET2xvID84F+odTcvgJW
- K2nlCg9UFznVJvXg/gL57sLcscGsCIBuD2l4n8GqLmQy0F4MHAq25djep4Jvycz+/nW0NJ
- 4aGAMVA2dIhILn1o1BTfb2Hr29vQ7i0=
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
- [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=pKDPJYRDSXPtRq/TULiTrrG8lW1Y4KTq6/99BfFlo/8=;
+ b=SCXd01PLDyc+ViXHS6zCE+IKIVZCfY0YwkXmpBLf1Ko6Z+w9QpKQDNsh02iDqfBmZOQGFv
+ Fo776L/DNsiOLjUVuVgbma/r9MUwYlGf0fvYQlwMANxM/GVF5DgLgeNTP6xe1/o3wIV4iY
+ F1JCUxjZJAx8szeP/JgvluJDv8Z9r98=
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-14-qcuEXlCENQ2dkr4gf0M3YA-1; Thu, 16 Dec 2021 09:17:58 -0500
-X-MC-Unique: qcuEXlCENQ2dkr4gf0M3YA-1
-Received: by mail-qv1-f70.google.com with SMTP id
- h14-20020a0562140dae00b003ae664126e9so33926990qvh.3
- for <qemu-devel@nongnu.org>; Thu, 16 Dec 2021 06:17:58 -0800 (PST)
+ us-mta-444-Cx1_7pHSMzSNQfSwbrQ6gg-1; Thu, 16 Dec 2021 09:18:35 -0500
+X-MC-Unique: Cx1_7pHSMzSNQfSwbrQ6gg-1
+Received: by mail-qt1-f200.google.com with SMTP id
+ g16-20020ac85810000000b002b212f2662aso33605419qtg.20
+ for <qemu-devel@nongnu.org>; Thu, 16 Dec 2021 06:18:32 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=b0Meeo1LRX0XmpR1uNVzywnA87r9KOP7rZ3pn5N8hFM=;
- b=TVoOAWk6wWeE79p9yMVHrAbC3vfJehTq2kKVuMNovuqgfHuJrlzCF9eKNGhcxUkax8
- wr2lEcI87G6aot0WDFxG8Na/Fh6rhqmUDbyVJyIdMrSdPU3j5v45DXU1ekXxTxLuXp06
- MKI0gosjJqu+3PHyqUZ8dQraBlH+LYVqjtjpwgCxKVah+PAnuZfqZh5kPTmjJY+d69Rs
- eL9SK8Ip5cFUKkb6IY0cmcEhhjjRgHSSDeDCjD7tNXmCQBf5oDTAYCffepkqJ+JQ3rhs
- iDjbRPTHm5L2vnJ+pF8py5OEAEPdE7YykVI/py8TV0qnQLSS1hSLnQIwuj+GlwjRThas
- 1EsA==
-X-Gm-Message-State: AOAM530RZjsaSjGhGjZVz01mFUcRkNi1o8QS8VHQ3Unxh/luaW6ePIIY
- f6+7wvmNnHEGkCZ6PoN03YwYfK5PlbAX7pTUvSPBS+J40wjzUshJ6ru5KPcht2/wIo8cXBxWVMM
- SOQ1p+BtY7E9hQi4=
-X-Received: by 2002:a05:622a:3cc:: with SMTP id
- k12mr16805819qtx.412.1639664277958; 
- Thu, 16 Dec 2021 06:17:57 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJy6zSXTZcQ9k9T2n11n5ERGjHJwn2OiWsh7zoSqAvPOcJal5oISgbo74A//Y8iLNgwRoSUaoQ==
-X-Received: by 2002:a05:622a:3cc:: with SMTP id
- k12mr16805761qtx.412.1639664277501; 
- Thu, 16 Dec 2021 06:17:57 -0800 (PST)
+ bh=pKDPJYRDSXPtRq/TULiTrrG8lW1Y4KTq6/99BfFlo/8=;
+ b=0z6plMso652jKfjUIu7a82A+PhCSBXfiQuLwC3iB676i4xjrN0tM6q1lGMWbGq1Kwr
+ 0d+ddjS2pOQkiiZ35LNcOsRXO/CjwKFdFa38G6ydaOqOHdMNwaiU4NyfQRncgDXOAbMb
+ G16X3XiZThHbdxhGieysAZNCHaoZalbdKPYRuqxkAv9mYnpIMQW+4fWSX1dhRunpbYO7
+ 2stOT/BUgAUXJivy5GwugSNsGp3VPRYNSaotWXRskWDDDbJqBBpO/Sw9gmovYGX1SQFU
+ fHsBfE/xBtcORni9p6aCpCT+voWkBQ/FJ4COEhhwn+128wtcZnW6TdO95K65l+UZ+Mxu
+ 53qQ==
+X-Gm-Message-State: AOAM532i7c1998f78Sq4HfI7O74W93kz+VFIthAtvFBB3ws+TA+tg/0q
+ 8Ue1k/xMzgoLhsuuN5mXxv69l899x1yI15cW45AcwEvINOX+65wZAYxzBVVZ9EscuZXfeppxukU
+ 9AQyaNiiSckM/lOE=
+X-Received: by 2002:a05:6214:411d:: with SMTP id
+ kc29mr15966592qvb.22.1639664312575; 
+ Thu, 16 Dec 2021 06:18:32 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwE2hCk5WP45YAUtpIPqfq6FyUSpZJyhwCMY+P+ASFxIUpS27Oh5a32HwlSVTms/eGYwv3qOw==
+X-Received: by 2002:a05:6214:411d:: with SMTP id
+ kc29mr15966569qvb.22.1639664312424; 
+ Thu, 16 Dec 2021 06:18:32 -0800 (PST)
 Received: from localhost ([181.191.236.130])
- by smtp.gmail.com with ESMTPSA id 22sm4272718qtw.12.2021.12.16.06.17.56
+ by smtp.gmail.com with ESMTPSA id n12sm2747931qkh.52.2021.12.16.06.18.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Dec 2021 06:17:57 -0800 (PST)
-Date: Thu, 16 Dec 2021 11:17:54 -0300
+ Thu, 16 Dec 2021 06:18:31 -0800 (PST)
+Date: Thu, 16 Dec 2021 11:18:30 -0300
 From: Beraldo Leal <bleal@redhat.com>
 To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH v2 23/25] python: remove the old QMP package
-Message-ID: <20211216141754.zs4lijfo6ibozsme@laptop.redhat>
+Subject: Re: [PATCH v2 24/25] python: re-enable pylint duplicate-code warnings
+Message-ID: <20211216141830.6kfv7uaryf3yfdul@laptop.redhat>
 References: <20211215193939.3768033-1-jsnow@redhat.com>
- <20211215193939.3768033-24-jsnow@redhat.com>
+ <20211215193939.3768033-25-jsnow@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20211215193939.3768033-24-jsnow@redhat.com>
+In-Reply-To: <20211215193939.3768033-25-jsnow@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=bleal@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -105,489 +105,27 @@ Cc: Eduardo Habkost <eduardo@habkost.net>, Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Dec 15, 2021 at 02:39:37PM -0500, John Snow wrote:
-> Thank you for your service!
+On Wed, Dec 15, 2021 at 02:39:38PM -0500, John Snow wrote:
+> With the old library gone, there's nothing duplicated in the tree, so
+> the warning suppression can be removed.
 > 
 > Signed-off-by: John Snow <jsnow@redhat.com>
 > ---
->  python/PACKAGE.rst          |   4 +-
->  python/README.rst           |   2 +-
->  python/qemu/qmp/README.rst  |   9 -
->  python/qemu/qmp/__init__.py | 396 ------------------------------------
->  python/qemu/qmp/py.typed    |   0
->  python/setup.cfg            |   3 +-
->  6 files changed, 4 insertions(+), 410 deletions(-)
->  delete mode 100644 python/qemu/qmp/README.rst
->  delete mode 100644 python/qemu/qmp/__init__.py
->  delete mode 100644 python/qemu/qmp/py.typed
+>  python/setup.cfg | 1 -
+>  1 file changed, 1 deletion(-)
 > 
-> diff --git a/python/PACKAGE.rst b/python/PACKAGE.rst
-> index b0b86cc4c3..ddfa9ba3f5 100644
-> --- a/python/PACKAGE.rst
-> +++ b/python/PACKAGE.rst
-> @@ -8,11 +8,11 @@ to change at any time.
->  Usage
->  -----
->  
-> -The ``qemu.qmp`` subpackage provides a library for communicating with
-> +The ``qemu.aqmp`` subpackage provides a library for communicating with
->  QMP servers. The ``qemu.machine`` subpackage offers rudimentary
->  facilities for launching and managing QEMU processes. Refer to each
->  package's documentation
-> -(``>>> help(qemu.qmp)``, ``>>> help(qemu.machine)``)
-> +(``>>> help(qemu.aqmp)``, ``>>> help(qemu.machine)``)
->  for more information.
->  
->  Contributing
-> diff --git a/python/README.rst b/python/README.rst
-> index fcf74f69ea..eb5213337d 100644
-> --- a/python/README.rst
-> +++ b/python/README.rst
-> @@ -3,7 +3,7 @@ QEMU Python Tooling
->  
->  This directory houses Python tooling used by the QEMU project to build,
->  configure, and test QEMU. It is organized by namespace (``qemu``), and
-> -then by package (e.g. ``qemu/machine``, ``qemu/qmp``, etc).
-> +then by package (e.g. ``qemu/machine``, ``qemu/aqmp``, etc).
->  
->  ``setup.py`` is used by ``pip`` to install this tooling to the current
->  environment. ``setup.cfg`` provides the packaging configuration used by
-> diff --git a/python/qemu/qmp/README.rst b/python/qemu/qmp/README.rst
-> deleted file mode 100644
-> index 5bfb82535f..0000000000
-> --- a/python/qemu/qmp/README.rst
-> +++ /dev/null
-> @@ -1,9 +0,0 @@
-> -qemu.qmp package
-> -================
-> -
-> -This package provides a library used for connecting to and communicating
-> -with QMP servers. It is used extensively by iotests, vm tests,
-> -avocado tests, and other utilities in the ./scripts directory. It is
-> -not a fully-fledged SDK and is subject to change at any time.
-> -
-> -See the documentation in ``__init__.py`` for more information.
-> diff --git a/python/qemu/qmp/__init__.py b/python/qemu/qmp/__init__.py
-> deleted file mode 100644
-> index 4e08641154..0000000000
-> --- a/python/qemu/qmp/__init__.py
-> +++ /dev/null
-> @@ -1,396 +0,0 @@
-> -"""
-> -QEMU Monitor Protocol (QMP) development library & tooling.
-> -
-> -This package provides a fairly low-level class for communicating to QMP
-> -protocol servers, as implemented by QEMU, the QEMU Guest Agent, and the
-> -QEMU Storage Daemon. This library is not intended for production use.
-> -
-> -`QEMUMonitorProtocol` is the primary class of interest, and all errors
-> -raised derive from `QMPError`.
-> -"""
-> -
-> -# Copyright (C) 2009, 2010 Red Hat Inc.
-> -#
-> -# Authors:
-> -#  Luiz Capitulino <lcapitulino@redhat.com>
-> -#
-> -# This work is licensed under the terms of the GNU GPL, version 2.  See
-> -# the COPYING file in the top-level directory.
-> -
-> -import errno
-> -import json
-> -import logging
-> -import socket
-> -import struct
-> -from types import TracebackType
-> -from typing import (
-> -    Any,
-> -    Dict,
-> -    List,
-> -    Optional,
-> -    TextIO,
-> -    Tuple,
-> -    Type,
-> -    TypeVar,
-> -    Union,
-> -    cast,
-> -)
-> -
-> -
-> -#: QMPMessage is an entire QMP message of any kind.
-> -QMPMessage = Dict[str, Any]
-> -
-> -#: QMPReturnValue is the 'return' value of a command.
-> -QMPReturnValue = object
-> -
-> -#: QMPObject is any object in a QMP message.
-> -QMPObject = Dict[str, object]
-> -
-> -# QMPMessage can be outgoing commands or incoming events/returns.
-> -# QMPReturnValue is usually a dict/json object, but due to QAPI's
-> -# 'returns-whitelist', it can actually be anything.
-> -#
-> -# {'return': {}} is a QMPMessage,
-> -# {} is the QMPReturnValue.
-> -
-> -
-> -InternetAddrT = Tuple[str, int]
-> -UnixAddrT = str
-> -SocketAddrT = Union[InternetAddrT, UnixAddrT]
-> -
-> -
-> -class QMPError(Exception):
-> -    """
-> -    QMP base exception
-> -    """
-> -
-> -
-> -class QMPConnectError(QMPError):
-> -    """
-> -    QMP connection exception
-> -    """
-> -
-> -
-> -class QMPCapabilitiesError(QMPError):
-> -    """
-> -    QMP negotiate capabilities exception
-> -    """
-> -
-> -
-> -class QMPTimeoutError(QMPError):
-> -    """
-> -    QMP timeout exception
-> -    """
-> -
-> -
-> -class QMPProtocolError(QMPError):
-> -    """
-> -    QMP protocol error; unexpected response
-> -    """
-> -
-> -
-> -class QMPResponseError(QMPError):
-> -    """
-> -    Represents erroneous QMP monitor reply
-> -    """
-> -    def __init__(self, reply: QMPMessage):
-> -        try:
-> -            desc = reply['error']['desc']
-> -        except KeyError:
-> -            desc = reply
-> -        super().__init__(desc)
-> -        self.reply = reply
-> -
-> -
-> -class QEMUMonitorProtocol:
-> -    """
-> -    Provide an API to connect to QEMU via QEMU Monitor Protocol (QMP) and then
-> -    allow to handle commands and events.
-> -    """
-> -
-> -    #: Logger object for debugging messages
-> -    logger = logging.getLogger('QMP')
-> -
-> -    def __init__(self, address: SocketAddrT,
-> -                 server: bool = False,
-> -                 nickname: Optional[str] = None):
-> -        """
-> -        Create a QEMUMonitorProtocol class.
-> -
-> -        @param address: QEMU address, can be either a unix socket path (string)
-> -                        or a tuple in the form ( address, port ) for a TCP
-> -                        connection
-> -        @param server: server mode listens on the socket (bool)
-> -        @raise OSError on socket connection errors
-> -        @note No connection is established, this is done by the connect() or
-> -              accept() methods
-> -        """
-> -        self.__events: List[QMPMessage] = []
-> -        self.__address = address
-> -        self.__sock = self.__get_sock()
-> -        self.__sockfile: Optional[TextIO] = None
-> -        self._nickname = nickname
-> -        if self._nickname:
-> -            self.logger = logging.getLogger('QMP').getChild(self._nickname)
-> -        if server:
-> -            self.__sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-> -            self.__sock.bind(self.__address)
-> -            self.__sock.listen(1)
-> -
-> -    def __get_sock(self) -> socket.socket:
-> -        if isinstance(self.__address, tuple):
-> -            family = socket.AF_INET
-> -        else:
-> -            family = socket.AF_UNIX
-> -        return socket.socket(family, socket.SOCK_STREAM)
-> -
-> -    def __negotiate_capabilities(self) -> QMPMessage:
-> -        greeting = self.__json_read()
-> -        if greeting is None or "QMP" not in greeting:
-> -            raise QMPConnectError
-> -        # Greeting seems ok, negotiate capabilities
-> -        resp = self.cmd('qmp_capabilities')
-> -        if resp and "return" in resp:
-> -            return greeting
-> -        raise QMPCapabilitiesError
-> -
-> -    def __json_read(self, only_event: bool = False) -> Optional[QMPMessage]:
-> -        assert self.__sockfile is not None
-> -        while True:
-> -            data = self.__sockfile.readline()
-> -            if not data:
-> -                return None
-> -            # By definition, any JSON received from QMP is a QMPMessage,
-> -            # and we are asserting only at static analysis time that it
-> -            # has a particular shape.
-> -            resp: QMPMessage = json.loads(data)
-> -            if 'event' in resp:
-> -                self.logger.debug("<<< %s", resp)
-> -                self.__events.append(resp)
-> -                if not only_event:
-> -                    continue
-> -            return resp
-> -
-> -    def __get_events(self, wait: Union[bool, float] = False) -> None:
-> -        """
-> -        Check for new events in the stream and cache them in __events.
-> -
-> -        @param wait (bool): block until an event is available.
-> -        @param wait (float): If wait is a float, treat it as a timeout value.
-> -
-> -        @raise QMPTimeoutError: If a timeout float is provided and the timeout
-> -                                period elapses.
-> -        @raise QMPConnectError: If wait is True but no events could be
-> -                                retrieved or if some other error occurred.
-> -        """
-> -
-> -        # Current timeout and blocking status
-> -        current_timeout = self.__sock.gettimeout()
-> -
-> -        # Check for new events regardless and pull them into the cache:
-> -        self.__sock.settimeout(0)  # i.e. setblocking(False)
-> -        try:
-> -            self.__json_read()
-> -        except OSError as err:
-> -            # EAGAIN: No data available; not critical
-> -            if err.errno != errno.EAGAIN:
-> -                raise
-> -        finally:
-> -            self.__sock.settimeout(current_timeout)
-> -
-> -        # Wait for new events, if needed.
-> -        # if wait is 0.0, this means "no wait" and is also implicitly false.
-> -        if not self.__events and wait:
-> -            if isinstance(wait, float):
-> -                self.__sock.settimeout(wait)
-> -            try:
-> -                ret = self.__json_read(only_event=True)
-> -            except socket.timeout as err:
-> -                raise QMPTimeoutError("Timeout waiting for event") from err
-> -            except Exception as err:
-> -                msg = "Error while reading from socket"
-> -                raise QMPConnectError(msg) from err
-> -            finally:
-> -                self.__sock.settimeout(current_timeout)
-> -
-> -            if ret is None:
-> -                raise QMPConnectError("Error while reading from socket")
-> -
-> -    T = TypeVar('T')
-> -
-> -    def __enter__(self: T) -> T:
-> -        # Implement context manager enter function.
-> -        return self
-> -
-> -    def __exit__(self,
-> -                 # pylint: disable=duplicate-code
-> -                 # see https://github.com/PyCQA/pylint/issues/3619
-> -                 exc_type: Optional[Type[BaseException]],
-> -                 exc_val: Optional[BaseException],
-> -                 exc_tb: Optional[TracebackType]) -> None:
-> -        # Implement context manager exit function.
-> -        self.close()
-> -
-> -    def connect(self, negotiate: bool = True) -> Optional[QMPMessage]:
-> -        """
-> -        Connect to the QMP Monitor and perform capabilities negotiation.
-> -
-> -        @return QMP greeting dict, or None if negotiate is false
-> -        @raise OSError on socket connection errors
-> -        @raise QMPConnectError if the greeting is not received
-> -        @raise QMPCapabilitiesError if fails to negotiate capabilities
-> -        """
-> -        self.__sock.connect(self.__address)
-> -        self.__sockfile = self.__sock.makefile(mode='r')
-> -        if negotiate:
-> -            return self.__negotiate_capabilities()
-> -        return None
-> -
-> -    def accept(self, timeout: Optional[float] = 15.0) -> QMPMessage:
-> -        """
-> -        Await connection from QMP Monitor and perform capabilities negotiation.
-> -
-> -        @param timeout: timeout in seconds (nonnegative float number, or
-> -                        None). The value passed will set the behavior of the
-> -                        underneath QMP socket as described in [1].
-> -                        Default value is set to 15.0.
-> -
-> -        @return QMP greeting dict
-> -        @raise OSError on socket connection errors
-> -        @raise QMPConnectError if the greeting is not received
-> -        @raise QMPCapabilitiesError if fails to negotiate capabilities
-> -
-> -        [1]
-> -        https://docs.python.org/3/library/socket.html#socket.socket.settimeout
-> -        """
-> -        self.__sock.settimeout(timeout)
-> -        self.__sock, _ = self.__sock.accept()
-> -        self.__sockfile = self.__sock.makefile(mode='r')
-> -        return self.__negotiate_capabilities()
-> -
-> -    def cmd_obj(self, qmp_cmd: QMPMessage) -> QMPMessage:
-> -        """
-> -        Send a QMP command to the QMP Monitor.
-> -
-> -        @param qmp_cmd: QMP command to be sent as a Python dict
-> -        @return QMP response as a Python dict
-> -        """
-> -        self.logger.debug(">>> %s", qmp_cmd)
-> -        self.__sock.sendall(json.dumps(qmp_cmd).encode('utf-8'))
-> -        resp = self.__json_read()
-> -        if resp is None:
-> -            raise QMPConnectError("Unexpected empty reply from server")
-> -        self.logger.debug("<<< %s", resp)
-> -        return resp
-> -
-> -    def cmd(self, name: str,
-> -            args: Optional[Dict[str, object]] = None,
-> -            cmd_id: Optional[object] = None) -> QMPMessage:
-> -        """
-> -        Build a QMP command and send it to the QMP Monitor.
-> -
-> -        @param name: command name (string)
-> -        @param args: command arguments (dict)
-> -        @param cmd_id: command id (dict, list, string or int)
-> -        """
-> -        qmp_cmd: QMPMessage = {'execute': name}
-> -        if args:
-> -            qmp_cmd['arguments'] = args
-> -        if cmd_id:
-> -            qmp_cmd['id'] = cmd_id
-> -        return self.cmd_obj(qmp_cmd)
-> -
-> -    def command(self, cmd: str, **kwds: object) -> QMPReturnValue:
-> -        """
-> -        Build and send a QMP command to the monitor, report errors if any
-> -        """
-> -        ret = self.cmd(cmd, kwds)
-> -        if 'error' in ret:
-> -            raise QMPResponseError(ret)
-> -        if 'return' not in ret:
-> -            raise QMPProtocolError(
-> -                "'return' key not found in QMP response '{}'".format(str(ret))
-> -            )
-> -        return cast(QMPReturnValue, ret['return'])
-> -
-> -    def pull_event(self,
-> -                   wait: Union[bool, float] = False) -> Optional[QMPMessage]:
-> -        """
-> -        Pulls a single event.
-> -
-> -        @param wait (bool): block until an event is available.
-> -        @param wait (float): If wait is a float, treat it as a timeout value.
-> -
-> -        @raise QMPTimeoutError: If a timeout float is provided and the timeout
-> -                                period elapses.
-> -        @raise QMPConnectError: If wait is True but no events could be
-> -                                retrieved or if some other error occurred.
-> -
-> -        @return The first available QMP event, or None.
-> -        """
-> -        self.__get_events(wait)
-> -
-> -        if self.__events:
-> -            return self.__events.pop(0)
-> -        return None
-> -
-> -    def get_events(self, wait: bool = False) -> List[QMPMessage]:
-> -        """
-> -        Get a list of available QMP events and clear all pending events.
-> -
-> -        @param wait (bool): block until an event is available.
-> -        @param wait (float): If wait is a float, treat it as a timeout value.
-> -
-> -        @raise QMPTimeoutError: If a timeout float is provided and the timeout
-> -                                period elapses.
-> -        @raise QMPConnectError: If wait is True but no events could be
-> -                                retrieved or if some other error occurred.
-> -
-> -        @return The list of available QMP events.
-> -        """
-> -        self.__get_events(wait)
-> -        events = self.__events
-> -        self.__events = []
-> -        return events
-> -
-> -    def clear_events(self) -> None:
-> -        """
-> -        Clear current list of pending events.
-> -        """
-> -        self.__events = []
-> -
-> -    def close(self) -> None:
-> -        """
-> -        Close the socket and socket file.
-> -        """
-> -        if self.__sock:
-> -            self.__sock.close()
-> -        if self.__sockfile:
-> -            self.__sockfile.close()
-> -
-> -    def settimeout(self, timeout: Optional[float]) -> None:
-> -        """
-> -        Set the socket timeout.
-> -
-> -        @param timeout (float): timeout in seconds (non-zero), or None.
-> -        @note This is a wrap around socket.settimeout
-> -
-> -        @raise ValueError: if timeout was set to 0.
-> -        """
-> -        if timeout == 0:
-> -            msg = "timeout cannot be 0; this engages non-blocking mode."
-> -            msg += " Use 'None' instead to disable timeouts."
-> -            raise ValueError(msg)
-> -        self.__sock.settimeout(timeout)
-> -
-> -    def send_fd_scm(self, fd: int) -> None:
-> -        """
-> -        Send a file descriptor to the remote via SCM_RIGHTS.
-> -        """
-> -        if self.__sock.family != socket.AF_UNIX:
-> -            raise RuntimeError("Can't use SCM_RIGHTS on non-AF_UNIX socket.")
-> -
-> -        self.__sock.sendmsg(
-> -            [b' '],
-> -            [(socket.SOL_SOCKET, socket.SCM_RIGHTS, struct.pack('@i', fd))]
-> -        )
-> diff --git a/python/qemu/qmp/py.typed b/python/qemu/qmp/py.typed
-> deleted file mode 100644
-> index e69de29bb2..0000000000
 > diff --git a/python/setup.cfg b/python/setup.cfg
-> index 510df23698..5140a5b322 100644
+> index 5140a5b322..c341e922c2 100644
 > --- a/python/setup.cfg
 > +++ b/python/setup.cfg
-> @@ -24,10 +24,9 @@ classifiers =
->  [options]
->  python_requires = >= 3.6
->  packages =
-> -    qemu.qmp
-> +    qemu.aqmp
->      qemu.machine
->      qemu.utils
-> -    qemu.aqmp
+> @@ -114,7 +114,6 @@ ignore_missing_imports = True
+>  disable=consider-using-f-string,
+>          too-many-function-args,  # mypy handles this with less false positives.
+>          no-member,  # mypy also handles this better.
+> -        duplicate-code,  # To be removed by the end of this patch series.
 >  
->  [options.package_data]
->  * = py.typed
+>  [pylint.basic]
+>  # Good variable names which should always be accepted, separated by a comma.
 
 Reviewed-by: Beraldo Leal <bleal@redhat.com>
 
