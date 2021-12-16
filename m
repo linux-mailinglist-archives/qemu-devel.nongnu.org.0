@@ -2,92 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 963FE4775B6
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 16:20:34 +0100 (CET)
-Received: from localhost ([::1]:40956 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D69A4775F9
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 16:30:43 +0100 (CET)
+Received: from localhost ([::1]:48126 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxsYb-00058X-N6
-	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 10:20:33 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40732)
+	id 1mxsiQ-0001W1-5S
+	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 10:30:42 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43114)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mxsVX-0002qP-Nq
- for qemu-devel@nongnu.org; Thu, 16 Dec 2021 10:17:23 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:40966)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mxsVV-0006bY-8O
- for qemu-devel@nongnu.org; Thu, 16 Dec 2021 10:17:22 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639667840;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=FwBayHBiFe6NdAnXE1FAHg5+uvd0tHfRlCiaRIojRcA=;
- b=K4+fIIw6+oO+tiNO5OYUi1ochHCBTtCz83MhWKqwk29zH8/wAH/2dGfdVACrUutXYApCXP
- ccih8S1Sl+6fpNjgWNLXl7+21h7c+NX7ABvznTeJ9BSJ6sxIYNsstSXjPN59fC3XB4NjOQ
- DhJuwcMe3DQSmeElOt8qWKi5zzNmOm8=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-513--igXDLsjMcaFEPPL9swzIg-1; Thu, 16 Dec 2021 10:17:18 -0500
-X-MC-Unique: -igXDLsjMcaFEPPL9swzIg-1
-Received: by mail-wr1-f69.google.com with SMTP id
- q17-20020adfcd91000000b0017bcb12ad4fso7019164wrj.12
- for <qemu-devel@nongnu.org>; Thu, 16 Dec 2021 07:17:17 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1mxsgM-0000mw-12
+ for qemu-devel@nongnu.org; Thu, 16 Dec 2021 10:28:34 -0500
+Received: from [2a00:1450:4864:20::331] (port=38633
+ helo=mail-wm1-x331.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1mxsgK-00086O-6j
+ for qemu-devel@nongnu.org; Thu, 16 Dec 2021 10:28:33 -0500
+Received: by mail-wm1-x331.google.com with SMTP id
+ p36-20020a05600c1da400b003457428ec78so839701wms.3
+ for <qemu-devel@nongnu.org>; Thu, 16 Dec 2021 07:28:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=FwBayHBiFe6NdAnXE1FAHg5+uvd0tHfRlCiaRIojRcA=;
- b=oaV2R3wVxUGBrkP06NaKtj8IMIckyFOZ+Auja2K8KuciFze84zvyN6bQahLedG3cRG
- HhAMgTJGfp9eOZ7Ecqcy1J5uPrdymTeKUZxY1a4Jy8XQ2+yk4Da4MtjCxroruiPOVFWH
- RRJ3Tbiea4P95GjPGEMkp5jA9NHQwwpWMLJidMj5a03QWxUo3LUBzxZgg5BHS1BpVlJ1
- X5mvdqrrcQHfeLbmYw+sKBbZnQVYBLG9Pkeyfc5J2jJ+Pnx43s34q7mg4yvztE0uLduw
- xMPHGNlyb8KmQsVsJP464qlm8ivCQUkZUlwSrOjZAtXsii3d8Iv6oOvJdJLf8DJdvX1L
- tWiw==
-X-Gm-Message-State: AOAM530AJ+caMI93+FeJZ2rfOGE6KOOuQaoH0667ssw1dljkTZdqj6oo
- sD/GhjzKKvODQtpRGaVsc6Kpf0HNLw4hyC7S3TJwmhxskjJwKFnSs4kIeIzbghkREvARb1HKXRr
- ooFwGY1cL2RUiUYM=
-X-Received: by 2002:a5d:47a4:: with SMTP id 4mr9686778wrb.16.1639667835509;
- Thu, 16 Dec 2021 07:17:15 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwRDsFCPqSgkBx8lRLFmZibjERp0CaAlCT7It73MQcBQjCeD8UGP7N4KUAENazVXh1LmON4Gw==
-X-Received: by 2002:a5d:47a4:: with SMTP id 4mr9686737wrb.16.1639667835204;
- Thu, 16 Dec 2021 07:17:15 -0800 (PST)
-Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
- ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
- by smtp.gmail.com with ESMTPSA id n24sm4857591wms.45.2021.12.16.07.17.14
+ bh=GH8wM7rNeI7/vlORnQgeg8n3AqVIkJAnaLwSiVtjIIs=;
+ b=pW7tXMJO1Dp3NcjfSoi/p+PLlOKhC0vtnR9WJaMedzhTtW1rMOpI0nIUNSDrycql1r
+ kUqm+A1aU/RsyLDJuDeTiaeIZ63KGLO6cLicJvVNZGuS+eHu1C3oHtTTAKG0FNQAtp1H
+ wZyFffelml58R/TSMeQog2ZKHsysvqyv50S6mlra0rV4bJCgP+9oxIzKGS7SPWGb9yFv
+ g38sjKN1O2Z2OaIPBbqM7bG17ESwTQZg5sSRZakbQ6Ym1wwNVGVes8RNhXBq+AT8W9Z3
+ lQdoITJsbz7ENKtITnSKyoaf1FuXCJMfm8ZtF07r9db3TbbDV6M8cR4Bk8cwKcddWCWM
+ j2jQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=GH8wM7rNeI7/vlORnQgeg8n3AqVIkJAnaLwSiVtjIIs=;
+ b=7P+0amea9TJ5Rlq4kCc6Et53yom8zJWoiESTQYv72KGJnvi1ivA2DXXP4tsvxydiwx
+ sH2HkSbASJfm009DNEyrLjwZpO2XFgUpRAV+XmiYjbd1Usem53cVyEaL6kulb4rQGbm+
+ ercUx4zN3VSamlx5D9PUb6LWVQNBmhInx0U94uaJ9ItALAXef1yIRaXnf3OLVGkRfnrE
+ VXibSffE9gOV/KNkcvx60NwLYhWiT0R0x1zZDeoixOeBkPSU1OnZGNlWpyIScx2YY6pR
+ Wkan0Bbjor3vh4QDUVcoukhVJ+ilk3qTcxvbzYLc5Jih30NBVAzNzbQDoeSX5HpifCh9
+ Zfkw==
+X-Gm-Message-State: AOAM530D/w53LK1oRLch4Kn55Z49xvppw0mepH0g1zToc95tknj1k9Mj
+ zhIGKdvBX7T0K6z/CscAhxE=
+X-Google-Smtp-Source: ABdhPJyOK2DENtcfHeeUHVZIrsoF1z2UM5BMsjeYwwZGnN+NXwrwnhBTV/Nyoyoe2j15vIbdrS4eYg==
+X-Received: by 2002:a05:600c:4f48:: with SMTP id
+ m8mr5630425wmq.50.1639668510793; 
+ Thu, 16 Dec 2021 07:28:30 -0800 (PST)
+Received: from [10.32.176.104] (nat-pool-mxp-t.redhat.com. [149.6.153.186])
+ by smtp.googlemail.com with ESMTPSA id t11sm4864629wrz.97.2021.12.16.07.28.29
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 16 Dec 2021 07:17:14 -0800 (PST)
-Message-ID: <57a6f75e-5722-eda1-de64-c2f24dd4d8e3@redhat.com>
-Date: Thu, 16 Dec 2021 16:17:13 +0100
+ Thu, 16 Dec 2021 07:28:30 -0800 (PST)
+Message-ID: <8dd178b7-631b-25b4-4f68-334b0d583f72@redhat.com>
+Date: Thu, 16 Dec 2021 16:28:29 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH v5 03/31] assertions for block global state API
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
-References: <20211124064418.3120601-1-eesposit@redhat.com>
- <20211124064418.3120601-4-eesposit@redhat.com>
-From: Hanna Reitz <hreitz@redhat.com>
-In-Reply-To: <20211124064418.3120601-4-eesposit@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+ Thunderbird/91.2.0
+Subject: Re: Redesign of QEMU startup & initial configuration
 Content-Language: en-US
+To: Markus Armbruster <armbru@redhat.com>
+References: <87lf13cx3x.fsf@dusky.pond.sub.org> <YbJU5vVdesoGuug9@redhat.com>
+ <87mtl88t0j.fsf@dusky.pond.sub.org>
+ <a31201bb-78de-e926-1476-b48b008745c1@redhat.com>
+ <878rwozfqm.fsf@dusky.pond.sub.org>
+ <16cd5683-4f97-d24c-dd19-24febcab7ba8@redhat.com>
+ <877dc7tnjf.fsf@dusky.pond.sub.org>
+ <da52f408-6037-20a9-78a9-77f12d86f620@redhat.com>
+ <875yroyhih.fsf@dusky.pond.sub.org>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <875yroyhih.fsf@dusky.pond.sub.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.718,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.034, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::331
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x331.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.034,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,82 +100,134 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+Cc: Damien Hedde <damien.hedde@greensocs.com>,
  =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
- qemu-devel@nongnu.org, John Snow <jsnow@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Markus Armbruster <armbru@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Eric Blake <eblake@redhat.com>
+ Mark Burton <mark.burton@greensocs.com>, qemu-devel@nongnu.org,
+ Mirela Grujic <mirela.grujic@greensocs.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 24.11.21 07:43, Emanuele Giuseppe Esposito wrote:
-> All the global state (GS) API functions will check that
-> qemu_in_main_thread() returns true. If not, it means
-> that the safety of BQL cannot be guaranteed, and
-> they need to be moved to I/O.
->
-> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-> ---
->   block.c        | 135 ++++++++++++++++++++++++++++++++++++++++++++++++-
->   block/commit.c |   2 +
->   block/io.c     |  14 +++++
->   blockdev.c     |   1 +
->   4 files changed, 150 insertions(+), 2 deletions(-)
->
-> diff --git a/block.c b/block.c
-> index 84de6867e6..49bee69e27 100644
-> --- a/block.c
-> +++ b/block.c
+On 12/16/21 11:24, Markus Armbruster wrote:
+>> Not really, in particular the startup has been mostly reworked already
+>> and I disagree that it is messy.  softmmu/vl.c is messy, sure: it has
+>> N different command line parser for command line options, magic
+>> related to default devices, and complicated ordering of -object
+>> creation.
+>>
+>> But the building of emulator data structures is not messy; only the
+>> code that transforms the user's instructions into startup commands.
+>> The messy parts are almost entirely contained within softmmu/vl.c.
+> 
+> In my opinion, the worst mess is the reordering and the (commonly
+> unstated, sometimes unknown) dependencies that govern it.
+> The reordering is part of the stable interface.  Its finer points
+> basically nobody understands, at least not without staring at the code.
 
-[...]
+Then we agree, because that's what I meant by "the messy parts are 
+almost entirely contained within softmmu/vl.c".
 
-> @@ -975,6 +992,7 @@ BlockDriver *bdrv_probe_all(const uint8_t *buf, int buf_size,
->   {
->       int score_max = 0, score;
->       BlockDriver *drv = NULL, *d;
-> +    assert(qemu_in_main_thread());
+>> The one (and important, but fixable) exception is backends for
+>> on-board devices: serial_hd, drive_get, and nd_table.
+> 
+> Practical ideas on fixing it?
 
-While reviewing patch 13 and the find_image_format() it touches, I 
-noticed that this function is called from raw_co_pwritev() to prevent 
-the guest from writing image headers into probed-raw images.
+What you did with pflash, turned up to 11.
 
-Reproducible like so:
+>>> * A new binary sidesteps the need to manage incompatible change.
+>>
+>> More precisely, a new binary sidesteps the need to integrate an
+>> existing mechanism with a new transport, and deal with the
+>> incompatibilities that arise.
+> 
+> I'm not sure I got this.
 
-$ qemu-img create -f raw test.img 64M
-Formatting 'test.img', fmt=raw size=67108864
-$ ./qemu-system-x86_64 \
-     -object iothread,id=iothr0 \
-     -drive if=none,id=drv0,file=test.img \
-     -device virtio-blk,drive=drv0,iothread=iothr0 \
-     -monitor stdio
-WARNING: Image format was not specified for 'test.img' and probing 
-guessed raw.
-          Automatically detecting the format is dangerous for raw 
-images, write operations on block 0 will be restricted.
-          Specify the 'raw' format explicitly to remove the restrictions.
-QEMU 6.1.93 monitor - type 'help' for more information
-(qemu) qemu-io drv0 "write 0 512"
-qemu-system-x86_64: ../block.c:1004: bdrv_probe_all: Assertion 
-`qemu_in_main_thread()' failed.
-[1]    108256 IOT instruction (core dumped)  ./qemu-system-x86_64 
--object iothread,id=iothr0 -drive  -device  -monitor
+Configuring the VM part in CLI and part in QMP is not something anybody 
+needs nor should desire.  A new binary can use the CLI only for things 
+that really have to be done before QMP is up, for example the 
+configuration of sandboxing or tracing; and even that is only 
+nice-to-have and not absolutely necessary.
 
+>> The problem is that CLI and HMP, being targeted to humans (and as you
+>> say below humans matter), are not necessarily trivial transports.  If
+>> people find the trivial transport unusable, we will not be able to
+>> retire the old CLI.
+> 
+> Yes, a trivial CLI transport alone may not suffice to retire the old
+> CLI.  By itself, that doesn't mean trivial transports must be avoided.
+> 
+> Do I have to argue the benefits of a trivial configuration file
+> transport?
 
-I don’t think there’s any reason not to classify bdrv_probe_all() as an 
-I/O function then, is there?
+I think you do; I'm not sure that a trivial configuration file transport 
+is useful.  It's a middle ground in sophistication that I'm not sure 
+would serve many people.  The only source of bug reports for -readconfig 
+has been lxd, and I think we agree that they would be served better by QMP.
 
-(Also, bdrv_probe_all() is part of block_int.h, so this assertion would 
-actually belong in patch 8, not here.)
+> Do I have to argue the benefits of a trivial CLI transport for use by
+> relatively unsophisticated programs / relatively sophisticated humans
+> (such as developers)? Can we agree these benefits are not zero?
 
-Hanna
+We can.  But again I think you're misunderstanding the pain that the 
+existing CLI inflicts on users.  Most users do not find the ordering 
+complicated in practice; they do not even know that the issue exists. 
+The problem that users have is the 100+ character command lines, and 
+that can be fixed in two ways:
 
->   
->       QLIST_FOREACH(d, &bdrv_drivers, list) {
->           if (d->bdrv_probe) {
+- with a trivial configuration file transport
 
+- with a management tool such as virt-manager or virsh.
+
+And I maintain that most users would be better served by the latter.  In 
+fact, I constantly wonder how much we're overestimating the amount of 
+people that are using QEMU.  In every post (Reddit, HN, wherever) that 
+mentions QEMU being too complex and not having a front-end like 
+VirtualBox, there's always someone that mentions virt-manager.
+
+For developers it's different of course.
+
+>> Bad CLI is also very hard to deprecate because, unlike QMP (for which
+>> you can delegate the workarounds to Libvirt & friends) and HMP (for
+>> which people can just learn the new thing and type it), it is baked in
+>> countless scripts.  People hate it when scripts break.
+> 
+> I assure you that bad QMP is plenty hard to deprecate, even when libvirt
+> can be updated to cope.
+
+Right, and CLI is worse. :)
+
+>> The issues with the CLI then can be completely self-contained within
+>> softmmu/vl.c, and will not influence the innards of QEMU.
+> 
+> The issues with the CLI will still influence its users. Can we
+> agree that human users deserve something better than the current
+> CLI?
+
+Deserve, yes.  Need, not sure.  Do you agree that a lot of clients of 
+QEMU would be better served by Libvirt (programs) and virt-manager (humans)?
+
+So, if I have to choose between better QMP now and better CLI now, I 
+choose better QMP now.  Exactly to avoid the "somebody could" trap and 
+focus on something that "we can" do now.
+
+> I think we can learn from our experience with HMP/QMP.
+> 
+> Good:
+> 
+> * Separate interfaces for machines and for humans
+> * Layering the human interface on top of the machine interface: HMP
+>    commands implemented on top of QMP's internal C interface.
+
+Agreed.  CLI should likewise be implemented on top of QMP's internal C 
+interface, the same way non-preconfig mode concludes startup with 
+qmp_x_exit_preconfig(NULL).  Second choice (inferior but sometimes 
+acceptable): implement it on top of the same QOM interfaces as the QOM 
+commands.
+
+> * The stable interface is clear: QMP unless explicitly marked unstable.
+
+Agreed, the problem here is that CLI is harder to evolve.
+
+Paolo
 
