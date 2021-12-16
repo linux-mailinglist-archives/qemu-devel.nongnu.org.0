@@ -2,72 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60ECE4778A6
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 17:23:21 +0100 (CET)
-Received: from localhost ([::1]:45886 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E884E4778FB
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 17:28:40 +0100 (CET)
+Received: from localhost ([::1]:48740 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxtXM-0006MM-8V
-	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 11:23:20 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56550)
+	id 1mxtcV-00008E-Ug
+	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 11:28:39 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57526)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mxtWF-0005Yx-Go
- for qemu-devel@nongnu.org; Thu, 16 Dec 2021 11:22:11 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53592)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mxtbJ-0007ia-FI
+ for qemu-devel@nongnu.org; Thu, 16 Dec 2021 11:27:25 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51581)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mxtWE-0003cm-56
- for qemu-devel@nongnu.org; Thu, 16 Dec 2021 11:22:11 -0500
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mxtbH-0004Bp-Qm
+ for qemu-devel@nongnu.org; Thu, 16 Dec 2021 11:27:25 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639671729;
+ s=mimecast20190719; t=1639672039;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=OhBGCVUW6gjZLQaR96koZrEkrwWiZ0j/whXmSGFCxSU=;
- b=Ec7gdiVTZJ1z3CzUkj8E1oRSHrt+kPERTeAu+uYDq3AMNqXTcOm5EMEdjCjq/vr3kV12IX
- ZyzBjZaQpuK78gTgfBv2aqQzendtmtKyw6nqS8zlY3AoHHeZqyaSoOtB+Z+spsaYeO6OcY
- L2P+PQyRfgOmdzISEb1wCF19mJuze5A=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=vXO3DHnhua7Z/Jj2XFftDl7jqw8Xq35n6R+MffOvD0I=;
+ b=NZyisFwTrZDNuNS9kvB/nREf1MBjDGcvMnIV2mE66RNayVq8U2qY0o12y9CHz/FEbu4e53
+ Xnyva4J7cjJxQYU/iE/Uko61JfeVULchSlIpjUss/N8l0hIYmaKpBHvjOWA4uZL97KGcXW
+ HFUA0/9kFTZ1ULgVwc7oWxGLKaMfJQE=
+Received: from mail-ua1-f72.google.com (mail-ua1-f72.google.com
+ [209.85.222.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-502-HuDkN_1uNE-UnlAmtJT3PQ-1; Thu, 16 Dec 2021 11:22:06 -0500
-X-MC-Unique: HuDkN_1uNE-UnlAmtJT3PQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6DB2285B6C6;
- Thu, 16 Dec 2021 16:22:03 +0000 (UTC)
-Received: from localhost (unknown [10.39.194.163])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 317CEE2FA;
- Thu, 16 Dec 2021 16:21:45 +0000 (UTC)
-Date: Thu, 16 Dec 2021 16:21:44 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Subject: Re: [RFC PATCH v2 02/14] job.h: categorize fields in struct Job
-Message-ID: <YbtnmL/3+NAzP85e@stefanha-x1.localdomain>
-References: <20211104145334.1346363-1-eesposit@redhat.com>
- <20211104145334.1346363-3-eesposit@redhat.com>
+ us-mta-530-xebYswPgP_ieXfKgwFmDxQ-1; Thu, 16 Dec 2021 11:27:16 -0500
+X-MC-Unique: xebYswPgP_ieXfKgwFmDxQ-1
+Received: by mail-ua1-f72.google.com with SMTP id
+ q12-20020a9f2b4c000000b002ddac466f76so15812072uaj.12
+ for <qemu-devel@nongnu.org>; Thu, 16 Dec 2021 08:27:16 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=vXO3DHnhua7Z/Jj2XFftDl7jqw8Xq35n6R+MffOvD0I=;
+ b=QgLLuQ5G3he43vU4zxlTCWMS07Eefln9PI0quZzj/4AS8Yb9xSYTSNFKmk8zDZKois
+ Mpd1PMFfZrxUJqAfnnreOA4lZp3rJpwbJkGc4n+UmW5rGzqcuAgQY/WQ5tEMXJKj9duD
+ hwmwIALbUTl9CtQVV7nOe7D0yhf2YnqqwIhys3hozoq2n5AlTQEuOZ3AcB56hi3GeK9T
+ d2tVZ09Ik2HRK9bxxd7ifEhL7x8+pknvPBSkk0CsBVsiw6P8rNu/luAfmLCI7Q07nrtL
+ KNrzMvxSFSMITZdDAbSACb65A7+tYM4zdTr1h/nZXxJm+Pan41or9g+3ixzpuleYkZYU
+ 366A==
+X-Gm-Message-State: AOAM530vcrOj/1Jz13VysM5qDmp/QE1ciquqyl04GVT3rZDlvcn8w0s9
+ utrGdc37R33tth1O5bjL1urieHZNuuml4M7EYVva6B4MjQJ2t2hg4dBuE92S5lhQx33PrOMUWUj
+ Rv3AV8NHtPb5Yi5JLTJPcrnNmPU80LSs=
+X-Received: by 2002:a67:d78c:: with SMTP id q12mr6191744vsj.35.1639672035766; 
+ Thu, 16 Dec 2021 08:27:15 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwgJbT1kceDaFkf5csMta9Pe6/Od1osGg64xPNttcrGNJ0uyCT2BuC00uJSGZ03LvnyctK/IQbb9mS/lBgFvsA=
+X-Received: by 2002:a67:d78c:: with SMTP id q12mr6191735vsj.35.1639672035567; 
+ Thu, 16 Dec 2021 08:27:15 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20211104145334.1346363-3-eesposit@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+References: <20211215193939.3768033-1-jsnow@redhat.com>
+ <YbsaCNlzcnQUOcza@redhat.com>
+In-Reply-To: <YbsaCNlzcnQUOcza@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Date: Thu, 16 Dec 2021 11:27:04 -0500
+Message-ID: <CAFn=p-ansvqEOwrbqTkRuTSyQsuhUeWbf5N1bicfn5n-sK7H4g@mail.gmail.com>
+Subject: Re: [PATCH v2 00/25] Python: delete synchronous qemu.qmp package
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="S9Hact2avRxai05F"
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+Content-Type: multipart/alternative; boundary="0000000000003a804505d345e572"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.718,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,78 +89,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
- Wen Congyang <wencongyang2@huawei.com>,
- Xie Changlong <xiechanglong.d@gmail.com>,
- Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- Hanna Reitz <hreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- John Snow <jsnow@redhat.com>
+Cc: Eduardo Habkost <eduardo@habkost.net>, Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Beraldo Leal <bleal@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Wainer Moschetta <wainersm@redhat.com>, Andrea Bolognani <abologna@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---S9Hact2avRxai05F
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+--0000000000003a804505d345e572
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Nov 04, 2021 at 10:53:22AM -0400, Emanuele Giuseppe Esposito wrote:
-> Categorize the fields in struct Job to understand which ones
-> need to be protected by the job mutex and which don't.
->=20
-> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-> ---
->  include/qemu/job.h | 57 +++++++++++++++++++++++++++-------------------
->  1 file changed, 34 insertions(+), 23 deletions(-)
->=20
-> diff --git a/include/qemu/job.h b/include/qemu/job.h
-> index ccf7826426..f7036ac6b3 100644
-> --- a/include/qemu/job.h
-> +++ b/include/qemu/job.h
-> @@ -40,27 +40,52 @@ typedef struct JobTxn JobTxn;
->   * Long-running operation.
->   */
->  typedef struct Job {
-> +
-> +    /* Fields set at initialization (job_create), and never modified */
-> +
->      /** The ID of the job. May be NULL for internal jobs. */
->      char *id;
-> =20
-> -    /** The type of this job. */
-> +    /**
-> +     * The type of this job.
-> +     * All callbacks are called with job_mutex *not* held.
-> +     */
->      const JobDriver *driver;
-> =20
-> -    /** Reference count of the block job */
-> -    int refcnt;
-> -
-> -    /** Current state; See @JobStatus for details. */
-> -    JobStatus status;
-> -
->      /** AioContext to run the job coroutine in */
->      AioContext *aio_context;
+On Thu, Dec 16, 2021 at 5:51 AM Daniel P. Berrang=C3=A9 <berrange@redhat.co=
+m>
+wrote:
 
-"Fields set at initialization (job_create), and never modified" does not
-apply here. blockjob.c:child_job_set_aio_ctx() changes it at runtime.
+> On Wed, Dec 15, 2021 at 02:39:14PM -0500, John Snow wrote:
+> > GitLab: https://gitlab.com/jsnow/qemu/-/commits/python-qmp-legacy-switc=
+h
+> > CI: https://gitlab.com/jsnow/qemu/-/pipelines/430491195
+> >
+> > Hi, this series is part of an effort to publish the qemu.qmp package on
+> > PyPI. It is the first of three series to complete this work:
+> >
+> > --> (1) Switch the new Async QMP library in to python/qemu/qmp
+> >     (2) Fork python/qemu/qmp out into its own repository,
+> >         with updated GitLab CI/CD targets to build packages.
+> >     (3) Update qemu.git to install qemu.qmp from PyPI,
+> >         and then delete python/qemu/qmp.
+>
+> What timeframe are you suggesting step (3) for ?
+>
+>
+Roughly around when (2) happens; I don't want to maintain the same code in
+two different places.
 
---S9Hact2avRxai05F
-Content-Type: application/pgp-signature; name="signature.asc"
 
------BEGIN PGP SIGNATURE-----
+> In the series for (2) you're calling it version 0.0.1 indicating
+> it is liable to  have API incompatible changes.
+>
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmG7Z5gACgkQnKSrs4Gr
-c8jqrwf/acDbWXH2sxUrqwAOEcXJydVSqomOqRMyYx/GCqKpSsjt0VY4duXWcjIt
-Wxl1yog4gL/DTM/uAnDioLGrbXA/Lu3oR2rvoutLCkKilaZZf2YgZnFQ251tiK3x
-9RrIlg5kjwKiY/xk6GtPaNzCGOjAAAsS23XaClplXld/gPUplcJfQf35NQtcGWrm
-47Y1Ho6gP/0cvQqu5iOU+dgpRCSPiHqxaz268qVbyTGIoVEuab3lR52+KYkuHKwQ
-lUlJ9u0z2bEQKETX6blrXAogqwxYN447DHerrJHH4ZUPxo3jkMvE2ULSy+4S2rma
-XEba5KEJZKhQKFXYeURzjXBG1SuxRg==
-=ymvm
------END PGP SIGNATURE-----
+Yes. (We can pin to version 0.0.1 in-tree and bump it manually when
+required.)
 
---S9Hact2avRxai05F--
+
+> For step (3), either we're going to have to fetch a precise
+> version number to avoid risk of API breakage, or we're going
+> to have to call it stable in (2) and commit to the API.
+>
+
+Pinning is what I'd prefer, I have some changes in mind that may require
+some API changes, so I'd rather not call it stable yet.
+
+--0000000000003a804505d345e572
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Dec 16, 2021 at 5:51 AM Danie=
+l P. Berrang=C3=A9 &lt;<a href=3D"mailto:berrange@redhat.com">berrange@redh=
+at.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"m=
+argin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left=
+:1ex">On Wed, Dec 15, 2021 at 02:39:14PM -0500, John Snow wrote:<br>
+&gt; GitLab: <a href=3D"https://gitlab.com/jsnow/qemu/-/commits/python-qmp-=
+legacy-switch" rel=3D"noreferrer" target=3D"_blank">https://gitlab.com/jsno=
+w/qemu/-/commits/python-qmp-legacy-switch</a><br>
+&gt; CI: <a href=3D"https://gitlab.com/jsnow/qemu/-/pipelines/430491195" re=
+l=3D"noreferrer" target=3D"_blank">https://gitlab.com/jsnow/qemu/-/pipeline=
+s/430491195</a><br>
+&gt; <br>
+&gt; Hi, this series is part of an effort to publish the qemu.qmp package o=
+n<br>
+&gt; PyPI. It is the first of three series to complete this work:<br>
+&gt; <br>
+&gt; --&gt; (1) Switch the new Async QMP library in to python/qemu/qmp<br>
+&gt;=C2=A0 =C2=A0 =C2=A0(2) Fork python/qemu/qmp out into its own repositor=
+y,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0with updated GitLab CI/CD targets to =
+build packages.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0(3) Update qemu.git to install qemu.qmp from PyPI,<=
+br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0and then delete python/qemu/qmp.<br>
+<br>
+What timeframe are you suggesting step (3) for ?<br>
+<br></blockquote><div><br></div><div>Roughly around when (2) happens; I don=
+&#39;t want to maintain the same code in two different places.<br></div><di=
+v>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px=
+ 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+In the series for (2) you&#39;re calling it version 0.0.1 indicating<br>
+it is liable to=C2=A0 have API incompatible changes.<br></blockquote><div><=
+br></div><div>Yes. (We can pin to version 0.0.1 in-tree and bump it manuall=
+y when required.)<br></div><div>=C2=A0<br></div><blockquote class=3D"gmail_=
+quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,=
+204);padding-left:1ex">
+For step (3), either we&#39;re going to have to fetch a precise<br>
+version number to avoid risk of API breakage, or we&#39;re going<br>
+to have to call it stable in (2) and commit to the API.<br></blockquote><di=
+v><br></div><div>Pinning is what I&#39;d prefer, I have some changes in min=
+d that may require some API changes, so I&#39;d rather not call it stable y=
+et.<br></div><div>=C2=A0</div></div></div>
+
+--0000000000003a804505d345e572--
 
 
