@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAC04476A2E
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 07:02:18 +0100 (CET)
-Received: from localhost ([::1]:49026 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81A63476A34
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 07:03:19 +0100 (CET)
+Received: from localhost ([::1]:50216 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxjqM-0007H3-0Y
-	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 01:02:18 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33444)
+	id 1mxjrK-0008Ax-7o
+	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 01:03:18 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33776)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
- id 1mxjmc-0004fd-Lr
- for qemu-devel@nongnu.org; Thu, 16 Dec 2021 00:58:26 -0500
-Received: from [2a00:1450:4864:20::433] (port=37636
- helo=mail-wr1-x433.google.com)
+ id 1mxjnl-0006UA-MD
+ for qemu-devel@nongnu.org; Thu, 16 Dec 2021 00:59:38 -0500
+Received: from [2a00:1450:4864:20::32c] (port=52027
+ helo=mail-wm1-x32c.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
- id 1mxjmb-0001d5-5d
- for qemu-devel@nongnu.org; Thu, 16 Dec 2021 00:58:26 -0500
-Received: by mail-wr1-x433.google.com with SMTP id t26so5731607wrb.4
- for <qemu-devel@nongnu.org>; Wed, 15 Dec 2021 21:58:24 -0800 (PST)
+ id 1mxjnk-0001lw-9E
+ for qemu-devel@nongnu.org; Thu, 16 Dec 2021 00:59:37 -0500
+Received: by mail-wm1-x32c.google.com with SMTP id z206so3949660wmc.1
+ for <qemu-devel@nongnu.org>; Wed, 15 Dec 2021 21:59:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=brainfault-org.20210112.gappssmtp.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=c41tIVzFGawss7XCLy1uCOAjcGULbVDr63K0n2a/lLA=;
- b=kyYT30lIkEsHNo7u+0kP0B73+gZN+Jm9sdZQgDmpAwDA4WqcOJGKfdbVfNr++HpvmV
- DOJs1XRso+fWMENSDOJLqvDr8tsHLw2Q4XLLysLHoV5d4n6s5wslRDBMWO48o1VEVyZ7
- l+5pOOehZOC7TxietPZ8MDfPOjNwcdQpCwH/qMZTxYzOiibv4z6poEnMTIuMvzgSXrRL
- Qv9GUqh8EYvYBqnG2tPOPJr1c+Y7K7KxikL1uKShPCa3D9UeqzAYvemYgjkA4GH8eqvy
- fULzB13SWjTSYZwLasC7LEk3WwVO1T3zKokq8a8jPUTqbdFhXw6ErUsljnRgttLTQm7y
- Av+w==
+ :cc; bh=yrYb7Y57MNJ1ypAuWPYKmsktjE8dfNJSOS27DVuDDwo=;
+ b=sXKpLls3yqgPgKMZB5zDmjaoPpg1ZUfxbUL3Dt2cGQWBw1o2shoUMRIlHyyZEnGu4V
+ WjyW5xAaLGC5atrTetWch2KnZp3AGdYcD8tMU9D+M40p8GZLmWD8meBoLopqYFGskcrm
+ 8QT77Yxc/w3qlli/UcdC9sjBBGJ61R4A3s3fiTxBWk450t/5uxBi7psZtXM7RFCJn2uO
+ 1/M5tSRtV63A6DOvYZYoEbg4lkPrIQ22hV+glF8l6d0S3Y/d1WMMA7E26trlyGt3+qIU
+ ysJsZ3p05fqVN18kEQos/xSeRt6kkc5GlLIQyw+RLU31JvuIJvFCXBwRF0pjH6+1LjDQ
+ XFCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=c41tIVzFGawss7XCLy1uCOAjcGULbVDr63K0n2a/lLA=;
- b=vTHY0MRGfDoEbHQ7A6+blG/AlWfcFaGWt0tG+kOlO7CVpgbRbAKc2IyTV7B8cjh8AU
- imoMMeGXHFtM27apRz4ScldOGlDBlVH4GNVL+OrwAKon1rTogDb6yACxVmdwknGfu/OA
- XE511PRlKLWKavjoqPmHOTyv07rYtxe4LMWamKtqHKZkbxEE37krxnVgjbVpkD9KO5QX
- FCWUcC32dWBGc0zkX2gcvvue8154einMnE/qoWhmYSGih6/wyXA8UKD54NS6rC/Zuldl
- BhDr5QGhY4/oXPuRRkL+/p/tpvH+AnG5MCcqjEqGMHzSMO9nlGOYBFGxmeP2xCOj5Zda
- ftcg==
-X-Gm-Message-State: AOAM530Khw7f9qYHHW+Y+aMwrhzVfF7j5wZZlB6VRKOEE8aKkODVlOHN
- rtyOwPLZq+pE+aQ42RBnUA6IVXSFo3KoLmBCBEBTVA==
-X-Google-Smtp-Source: ABdhPJwp/JdTsQ3mhO24aoDz5XPnnu9mWGISR79rEFe/3UtQFHrNNXgowXOg9oTzTazS7SkylrsDiMoJ71tiMXog2ms=
-X-Received: by 2002:adf:d1e2:: with SMTP id g2mr7415987wrd.346.1639634303827; 
- Wed, 15 Dec 2021 21:58:23 -0800 (PST)
+ bh=yrYb7Y57MNJ1ypAuWPYKmsktjE8dfNJSOS27DVuDDwo=;
+ b=e15W8fj/gtu9Hue065HM11lzrWZivCrHIrrIX/WmAXSPIGNHRT+ARtJwmZQhms3qm8
+ yNuRbn/vHhyTSEgwoZwMsUDLpzZUwn/ozCgvP5RMjOouNSCSGJLvPW0B2iqpC01zk3xi
+ VseApyDlbrTvXd4YBl+ecHB7uwUO2s+twQEIREnnPbJfZ5Y//FVl+9FT9pWjTFTbCMrX
+ /pzs26HUDBsAu+BBolg9riJKBsC0lUP6t2vRheIFMm5iN1GNcvpS0gZGNPaNByvA+z3D
+ W8fIBeuR2J171a3VB7hMxLGLyuj+ClVtHo03XFrRqr7IaIazvsuX6T8fkmCvOqy63Pss
+ 7zKA==
+X-Gm-Message-State: AOAM533AjWmkJxSxLkOY7Lzv25BuxZne1Tk33Phd5MUtjw2e1l8bYFtd
+ JqKRckV97TCM3Tdnpao7Ffy2ime0BS9Nw1KYfDzc3w==
+X-Google-Smtp-Source: ABdhPJwJjuLKRli1inWgYXf/V6WGJco/XX7oHBTLoOXmboz1R2G3z5xHVXjUMWUaic22R98orbFAYyVD1wqO5/ZhAhE=
+X-Received: by 2002:a7b:c7cd:: with SMTP id z13mr3400480wmk.59.1639634374324; 
+ Wed, 15 Dec 2021 21:59:34 -0800 (PST)
 MIME-Version: 1.0
 References: <20211216045427.757779-1-alistair.francis@opensource.wdc.com>
- <20211216045427.757779-9-alistair.francis@opensource.wdc.com>
-In-Reply-To: <20211216045427.757779-9-alistair.francis@opensource.wdc.com>
+ <20211216045427.757779-6-alistair.francis@opensource.wdc.com>
+In-Reply-To: <20211216045427.757779-6-alistair.francis@opensource.wdc.com>
 From: Anup Patel <anup@brainfault.org>
-Date: Thu, 16 Dec 2021 11:28:12 +0530
-Message-ID: <CAAhSdy0ruRoGvxby2Y44NwSmtPWyGqO03es-W4fegmcWa0mxJw@mail.gmail.com>
-Subject: Re: [PATCH v2 8/9] hw/riscv: virt: Allow support for 32 cores
+Date: Thu, 16 Dec 2021 11:29:23 +0530
+Message-ID: <CAAhSdy3OkjDtwdN8g6Ea=soCAXb=tO=je4zb7zRRXVoj-CXmxg@mail.gmail.com>
+Subject: Re: [PATCH v2 5/9] target/riscv: Mark the Hypervisor extension as non
+ experimental
 To: Alistair Francis <alistair.francis@opensource.wdc.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::433
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32c
  (failed)
-Received-SPF: none client-ip=2a00:1450:4864:20::433;
- envelope-from=anup@brainfault.org; helo=mail-wr1-x433.google.com
+Received-SPF: none client-ip=2a00:1450:4864:20::32c;
+ envelope-from=anup@brainfault.org; helo=mail-wm1-x32c.google.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
@@ -93,22 +94,11 @@ On Thu, Dec 16, 2021 at 10:27 AM Alistair Francis
 >
 > From: Alistair Francis <alistair.francis@wdc.com>
 >
-> Linux supports up to 32 cores for both 32-bit and 64-bit RISC-V, so
-> let's set that as the maximum for the virt board.
+> The Hypervisor spec is now frozen, so remove the experimental tag.
 >
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/435
 > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 
-Overall, no issues with this patch. I have added PATCH23 in
-the AIA v5 series which allows upto 512 CPUs . This is a hard
-limit based on address space based on PLIC, ACLINT, IMSIC,
-and APLIC address utilization and is also suitable for both RV32
-and RV64.
-
-IMO, we should keep QEMU VIRT_CPUS_MAX as high as
-possible to allow any kind of software Linux, OpenSBI, FreeBSD,
-Xvisor, Xen, etc. Let the guest software decide it's own limit (such
-as NR_CPUS of Linux).
+Looks good to me.
 
 Reviewed-by: Anup Patel <anup.patel@wdc.com>
 
@@ -116,22 +106,29 @@ Regards,
 Anup
 
 > ---
->  include/hw/riscv/virt.h | 2 +-
+>  target/riscv/cpu.c | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/include/hw/riscv/virt.h b/include/hw/riscv/virt.h
-> index b8ef99f348..6e9f61ccd9 100644
-> --- a/include/hw/riscv/virt.h
-> +++ b/include/hw/riscv/virt.h
-> @@ -24,7 +24,7 @@
->  #include "hw/block/flash.h"
->  #include "qom/object.h"
->
-> -#define VIRT_CPUS_MAX 8
-> +#define VIRT_CPUS_MAX 32
->  #define VIRT_SOCKETS_MAX 8
->
->  #define TYPE_RISCV_VIRT_MACHINE MACHINE_TYPE_NAME("virt")
+> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> index f812998123..1edb2771b4 100644
+> --- a/target/riscv/cpu.c
+> +++ b/target/riscv/cpu.c
+> @@ -626,6 +626,7 @@ static Property riscv_cpu_properties[] = {
+>      DEFINE_PROP_BOOL("c", RISCVCPU, cfg.ext_c, true),
+>      DEFINE_PROP_BOOL("s", RISCVCPU, cfg.ext_s, true),
+>      DEFINE_PROP_BOOL("u", RISCVCPU, cfg.ext_u, true),
+> +    DEFINE_PROP_BOOL("h", RISCVCPU, cfg.ext_h, false),
+>      DEFINE_PROP_BOOL("Counters", RISCVCPU, cfg.ext_counters, true),
+>      DEFINE_PROP_BOOL("Zifencei", RISCVCPU, cfg.ext_ifencei, true),
+>      DEFINE_PROP_BOOL("Zicsr", RISCVCPU, cfg.ext_icsr, true),
+> @@ -639,7 +640,6 @@ static Property riscv_cpu_properties[] = {
+>      DEFINE_PROP_BOOL("x-zbb", RISCVCPU, cfg.ext_zbb, false),
+>      DEFINE_PROP_BOOL("x-zbc", RISCVCPU, cfg.ext_zbc, false),
+>      DEFINE_PROP_BOOL("x-zbs", RISCVCPU, cfg.ext_zbs, false),
+> -    DEFINE_PROP_BOOL("x-h", RISCVCPU, cfg.ext_h, false),
+>      DEFINE_PROP_BOOL("x-j", RISCVCPU, cfg.ext_j, false),
+>      DEFINE_PROP_BOOL("x-v", RISCVCPU, cfg.ext_v, false),
+>      DEFINE_PROP_STRING("vext_spec", RISCVCPU, cfg.vext_spec),
 > --
 > 2.31.1
 >
