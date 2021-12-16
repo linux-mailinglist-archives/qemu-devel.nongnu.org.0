@@ -2,83 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38EB9477965
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 17:39:44 +0100 (CET)
-Received: from localhost ([::1]:56340 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A26BB47796E
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 17:40:58 +0100 (CET)
+Received: from localhost ([::1]:58736 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxtnD-0005om-BB
-	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 11:39:43 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60236)
+	id 1mxtoP-0007SD-Pq
+	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 11:40:57 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60546)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mxtmD-00057y-N6
- for qemu-devel@nongnu.org; Thu, 16 Dec 2021 11:38:41 -0500
-Received: from [2607:f8b0:4864:20::102f] (port=38903
- helo=mail-pj1-x102f.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mxtmB-0005gA-U1
- for qemu-devel@nongnu.org; Thu, 16 Dec 2021 11:38:41 -0500
-Received: by mail-pj1-x102f.google.com with SMTP id
- n15-20020a17090a394f00b001b0f6d6468eso3111351pjf.3
- for <qemu-devel@nongnu.org>; Thu, 16 Dec 2021 08:38:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:references:from:message-id:date:user-agent:mime-version
- :in-reply-to:content-language:content-transfer-encoding;
- bh=TFwKTH4LtTpDuZl5ZgBUSTrQgVfxuVLAFgwDKvI0eoI=;
- b=nH38c/+z7mE0iRQUEXAbHIUWfpU2pn4YG/wEDCttxGAPoUUpR5CRNBBj8XALOBAatQ
- t2ZusLdeL3upKVP8DhVt+syx++WCbWZd6hlttXVXtz0ddSG3moAkFoW7wJ8ZXLKRTBzt
- OBueFdTHJsKN4cJtoi9kxABEd9jFQ8H3sw5/njLiCgDc0WtPlT+twL0SpcUvE9RQP2QV
- x+wp98OB4qDnkmy4SsFg6lwbfO4GrjZl1NZC2bPHcfhOajS5FzTp9nlvHGRvdUkDDkbC
- v/SY+64dfdssYDzDDKZpfk1UslghPVKeEQnLBqKj/Zj+Ir/5GZJoJxlyErJtSQ56tPbU
- oxkQ==
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1mxtn4-0006Af-QD
+ for qemu-devel@nongnu.org; Thu, 16 Dec 2021 11:39:34 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:24882)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1mxtn2-0005lG-I4
+ for qemu-devel@nongnu.org; Thu, 16 Dec 2021 11:39:33 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1639672766;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=TYFfqzSJwbx+ErAZPfyo+D7N4l9ybQslI2Zf9Hah63c=;
+ b=Oe4RLSxD0oVGmlsrMVfXVCVr/r3jfBdD0bRFzeDfGT6TIULh77FWO4QUg1GJAkae0PdWf0
+ n8xM4rHvciSNwmztHz8uikEPvJUVz66oawMQ1Tmc2TkFF4sjeWSTOELX3WSNIL7020b8ky
+ C4YRPeRpJThF3vpLErshNp4KTWM54BY=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-125-JSpISjgWNAWMzCxP-XL1Hg-1; Thu, 16 Dec 2021 11:39:25 -0500
+X-MC-Unique: JSpISjgWNAWMzCxP-XL1Hg-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ dm10-20020a05640222ca00b003f808b5aa18so885969edb.4
+ for <qemu-devel@nongnu.org>; Thu, 16 Dec 2021 08:39:25 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=TFwKTH4LtTpDuZl5ZgBUSTrQgVfxuVLAFgwDKvI0eoI=;
- b=SI8E8K5EV1XQsJFe148PAvQ/HSx9r5jJ88SnuUZKOm7iD1XM98lx2RGvLpRnALQl4v
- 9CZqWJkJzJEP2oc8bQFvFfO1p8DM+w0oPwDVZ3td4+WQenXHPE6LYgAgV2hYjx2va4TA
- /IMGboPjn8BX0fUm21xd9Um4xc+rsPbokFdTZUKNySyHjFIlEjPPGtjgWjYSdvAx//A4
- I89etimOqtt6hMEgoY/8a1SHFXPogwJgphwc92ntrjefU0bYDipQzsfvoO1mNWR1caVL
- ytvD+txB1y5W1voltZg5VD+O+icyGCSJUSwzFF6ls9hgKjJa1daXEwceodkO3MFGbxaD
- rc7A==
-X-Gm-Message-State: AOAM532M/eroU0SmmLLpHFvF7JCTDbr2ztwoSRu9j9LYKRm7bYQvBJAX
- vtpTzp9TXw7Bl5g1NwfVQZJeyHNPUHy2/Q==
-X-Google-Smtp-Source: ABdhPJxbEisEnPciLljPjIWt/4IaldGaMDfPXPjjy0FadHZrrz8unyuhA1tdx7d4+Q4Jx7gzXft10w==
-X-Received: by 2002:a17:90a:5ae2:: with SMTP id
- n89mr2696420pji.177.1639672718409; 
- Thu, 16 Dec 2021 08:38:38 -0800 (PST)
-Received: from [192.168.1.13] (174-21-75-75.tukw.qwest.net. [174.21.75.75])
- by smtp.gmail.com with ESMTPSA id q8sm6380659pfk.152.2021.12.16.08.38.37
+ bh=TYFfqzSJwbx+ErAZPfyo+D7N4l9ybQslI2Zf9Hah63c=;
+ b=NrfDNzJjGoPoXTmBNbEg56Vklg7iu8g2ET9JgPpvJAMq9XIjQ54jwmDxIcZjYBvSTi
+ NzQyFh2JdwnUWI9pf+w3wEneSHH7vDxSrwlkQ9iPqhhvrhobK01kHhGW1udP4O4J9dVj
+ PnqStBnCtZd8tBQgEyneq9FiWCNUdtJYYkmIasSFbLetDzZ1lqmZ9e+TTDPzpWK7jkvI
+ 0nGY4eOEoa4Wx2Wn30LHz6UxX3Z09eyfX00U7PPEoY2qcaNw7DbbDv/ndcgvUo66i3vy
+ PbJ6AWRCTMIU3tLsvoKcH5UAVz6tZKD9vUuC2yWAUgWEKvE2sXPOkinkDZ7W9xa0IFk7
+ NMXw==
+X-Gm-Message-State: AOAM533FkPd/RA+M/P4+DNoMcPxZAvDs6Y4bCIJK1N8wsWE13mwkDTUk
+ FV11Fw4GSedg5CyCcdOyzxO+a1CeSRXHuAt0LQUl4WEfN+FkMjsAt8Lst8g1mb7dxg9KXnTHvrr
+ lcuSY1EmEl/k8tb4=
+X-Received: by 2002:a17:907:608b:: with SMTP id
+ ht11mr16320916ejc.558.1639672764054; 
+ Thu, 16 Dec 2021 08:39:24 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzwGs/NTi+n+Qt+9QW76R82L7LVudAF0xI72OahtsU+iL0FzVctxpPDC7J0hJ6Am99p/1QmfA==
+X-Received: by 2002:a17:907:608b:: with SMTP id
+ ht11mr16320878ejc.558.1639672763680; 
+ Thu, 16 Dec 2021 08:39:23 -0800 (PST)
+Received: from ?IPV6:2a04:ee41:4:31cb:e591:1e1e:abde:a8f1?
+ ([2a04:ee41:4:31cb:e591:1e1e:abde:a8f1])
+ by smtp.gmail.com with ESMTPSA id c13sm1985102ejj.144.2021.12.16.08.39.22
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 16 Dec 2021 08:38:37 -0800 (PST)
-Subject: Re: [PULL 0/8] s390x patches (and one gitlab-CI fix)
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
-References: <20211216094447.58496-1-thuth@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <76b05ebe-6c6e-7bdc-016b-dc36aaadb2d4@linaro.org>
-Date: Thu, 16 Dec 2021 08:38:35 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ Thu, 16 Dec 2021 08:39:23 -0800 (PST)
+Message-ID: <63b9e91f-23d9-edc7-d011-4ecd233d0af2@redhat.com>
+Date: Thu, 16 Dec 2021 17:39:21 +0100
 MIME-Version: 1.0
-In-Reply-To: <20211216094447.58496-1-thuth@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH v5 13/31] block.c: add assertions to static functions
+To: Hanna Reitz <hreitz@redhat.com>, qemu-block@nongnu.org
+References: <20211124064418.3120601-1-eesposit@redhat.com>
+ <20211124064418.3120601-14-eesposit@redhat.com>
+ <2ed0053b-0868-b60e-7a55-2987ea5efccb@redhat.com>
+From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+In-Reply-To: <2ed0053b-0868-b60e-7a55-2987ea5efccb@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eesposit@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102f
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.034,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eesposit@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.718,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.034, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,80 +105,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ qemu-devel@nongnu.org, John Snow <jsnow@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/16/21 1:44 AM, Thomas Huth wrote:
->   Hi!
-> 
-> The following changes since commit e630bc7ec9dda656a452ed28cac4d1e9ed605d71:
-> 
->    Merge tag 'pull-block-2021-12-15' of git://repo.or.cz/qemu/armbru into staging (2021-12-15 12:14:44 -0800)
-> 
-> are available in the Git repository at:
-> 
->    https://gitlab.com/thuth/qemu.git tags/s390x-2021-12-16
-> 
-> for you to fetch changes up to 79e42726050b7be6c2104a9af678ce911897dfaa:
-> 
->    gitlab-ci: Speed up the msys2-64bit job by using --without-default-devices (2021-12-16 10:22:39 +0100)
-> 
-> ----------------------------------------------------------------
-> * Small fixes for the s390x PCI code
-> * Fix reset handling of the diag318 data
-> * Add compat machines for 7.0 (all architectures)
-> * Ease timeout problem of the new msys2-64bit job
-> 
-> ----------------------------------------------------------------
-> Christian Borntraeger (1):
->        MAINTAINERS: update email address of Christian Borntraeger
-> 
-> Collin L. Walling (1):
->        s390: kvm: adjust diag318 resets to retain data
-> 
-> Cornelia Huck (1):
->        hw: Add compat machines for 7.0
-> 
-> Matthew Rosato (4):
->        s390x/pci: use a reserved ID for the default PCI group
->        s390x/pci: don't use hard-coded dma range in reg_ioat
->        s390x/pci: use the passthrough measurement update interval
->        s390x/pci: add supported DT information to clp response
-> 
-> Thomas Huth (1):
->        gitlab-ci: Speed up the msys2-64bit job by using --without-default-devices
-> 
->   .gitlab-ci.d/windows.yml        |  2 +-
->   .mailmap                        |  1 +
->   MAINTAINERS                     |  6 +++---
->   hw/arm/virt.c                   |  9 ++++++++-
->   hw/core/machine.c               |  3 +++
->   hw/i386/pc.c                    |  3 +++
->   hw/i386/pc_piix.c               | 14 +++++++++++++-
->   hw/i386/pc_q35.c                | 13 ++++++++++++-
->   hw/ppc/spapr.c                  | 15 +++++++++++++--
->   hw/s390x/s390-pci-bus.c         |  1 +
->   hw/s390x/s390-pci-inst.c        | 15 +++++++++------
->   hw/s390x/s390-pci-vfio.c        |  1 +
->   hw/s390x/s390-virtio-ccw.c      | 14 +++++++++++++-
->   include/hw/boards.h             |  3 +++
->   include/hw/i386/pc.h            |  3 +++
->   include/hw/s390x/s390-pci-bus.h |  3 ++-
->   include/hw/s390x/s390-pci-clp.h |  3 ++-
->   target/s390x/cpu.h              |  4 ++--
->   target/s390x/kvm/kvm.c          |  4 ++++
->   19 files changed, 97 insertions(+), 20 deletions(-)
-
-Fails like so:
-
-  (162/171) tests/avocado/x86_cpu_model_versions.py:X86CPUModelAliases.test_4_1_alias: 
-FAIL: None != 'Cascadelake-Server-v1' : Cascadelake-Server must be an alias of 
-Cascadelake-Server-v1 (0.14 s)
-
-https://gitlab.com/qemu-project/qemu/-/jobs/1893456217
-
-Which is presumably the compat machines in patch 7.
 
 
-r~
+On 16/12/2021 17:08, Hanna Reitz wrote:
+> On 24.11.21 07:44, Emanuele Giuseppe Esposito wrote:
+>> Following the assertion derived from the API split,
+>> propagate the assertion also in the static functions.
+>>
+>> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+>> ---
+>>   block.c | 45 ++++++++++++++++++++++++++++++++++++++++++++-
+>>   1 file changed, 44 insertions(+), 1 deletion(-)
+> 
+> Looks good to me, just one small question:
+> 
+>> diff --git a/block.c b/block.c
+>> index 5516c84ec4..b77ab0a104 100644
+>> --- a/block.c
+>> +++ b/block.c
+> 
+> [...]
+> 
+>> @@ -1241,6 +1252,7 @@ static void bdrv_temp_snapshot_options(int 
+>> *child_flags, QDict *child_options,
+>>                                          int parent_flags, QDict 
+>> *parent_options)
+>>   {
+>>       *child_flags = (parent_flags & ~BDRV_O_SNAPSHOT) | 
+>> BDRV_O_TEMPORARY;
+>> +    assert(qemu_in_main_thread());
+> 
+> Stylistically, it’s a bit strange that in other places, this assertion 
+> comes right after all local variable declarations, or after some 
+> assertions that are already present in that place; but here, it follows 
+> a normal statement.  Is that on purpose?
+
+Nope :) Just a misread, I don't even recall when I added this.
+But I appreciate the investigative spirit :)
+> 
+>>       /* For temporary files, unconditional cache=unsafe is fine */
+>>       qdict_set_default_str(child_options, BDRV_OPT_CACHE_DIRECT, "off");
+> 
+
 
