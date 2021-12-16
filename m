@@ -2,60 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CFE1477DCE
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 21:46:55 +0100 (CET)
-Received: from localhost ([::1]:33606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 466DA477DD3
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 21:49:08 +0100 (CET)
+Received: from localhost ([::1]:38982 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxxeQ-00089f-9a
-	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 15:46:54 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37570)
+	id 1mxxgY-0003IL-Dh
+	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 15:49:06 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37540)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1mxxLV-0002Uv-8W; Thu, 16 Dec 2021 15:27:21 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:52640)
+ id 1mxxLU-0002TR-98; Thu, 16 Dec 2021 15:27:20 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:44176
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1mxxLK-0007MZ-Rr; Thu, 16 Dec 2021 15:27:17 -0500
-Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1BGI6RDc015804; 
+ id 1mxxLK-0007Mo-K9; Thu, 16 Dec 2021 15:27:17 -0500
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1BGJIq8g005112; 
+ Thu, 16 Dec 2021 20:26:48 GMT
+Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.70])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3cye12hs8b-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 16 Dec 2021 20:26:47 +0000
+Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
+ by ppma01fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1BGKCha7011764;
  Thu, 16 Dec 2021 20:26:46 GMT
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.102])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3cyfdpyytb-1
+Received: from b06avi18626390.portsmouth.uk.ibm.com
+ (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
+ by ppma01fra.de.ibm.com with ESMTP id 3cy7k3j3wr-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 16 Dec 2021 20:26:46 +0000
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
- by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1BGKDD3x019537;
- Thu, 16 Dec 2021 20:26:43 GMT
-Received: from b06cxnps3074.portsmouth.uk.ibm.com
- (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
- by ppma06ams.nl.ibm.com with ESMTP id 3cy78ek0qf-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 16 Dec 2021 20:26:43 +0000
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com
- (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
- by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 1BGKQfpC46137644
+ Thu, 16 Dec 2021 20:26:45 +0000
+Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com
+ [9.149.105.60])
+ by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 1BGKIfRP46596400
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 16 Dec 2021 20:26:41 GMT
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 4AF31A405B;
- Thu, 16 Dec 2021 20:26:41 +0000 (GMT)
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 05F9CA4054;
- Thu, 16 Dec 2021 20:26:41 +0000 (GMT)
+ Thu, 16 Dec 2021 20:18:41 GMT
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 983D442041;
+ Thu, 16 Dec 2021 20:26:43 +0000 (GMT)
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 5D9E64204C;
+ Thu, 16 Dec 2021 20:26:43 +0000 (GMT)
 Received: from smtp.tlslab.ibm.com (unknown [9.101.4.1])
- by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with SMTP;
- Thu, 16 Dec 2021 20:26:40 +0000 (GMT)
+ by d06av24.portsmouth.uk.ibm.com (Postfix) with SMTP;
+ Thu, 16 Dec 2021 20:26:43 +0000 (GMT)
 Received: from yukon.ibmuc.com (unknown [9.171.48.122])
- by smtp.tlslab.ibm.com (Postfix) with ESMTP id 5CB32220238;
- Thu, 16 Dec 2021 21:26:40 +0100 (CET)
+ by smtp.tlslab.ibm.com (Postfix) with ESMTP id A9964220238;
+ Thu, 16 Dec 2021 21:26:42 +0100 (CET)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
-Subject: [PULL 035/101] target/ppc: Tidy inexact handling in do_fri
-Date: Thu, 16 Dec 2021 21:25:08 +0100
-Message-Id: <20211216202614.414266-36-clg@kaod.org>
+Subject: [PULL 039/101] target/ppc: Do not call do_float_check_status from
+ do_fmadd
+Date: Thu, 16 Dec 2021 21:25:12 +0100
+Message-Id: <20211216202614.414266-40-clg@kaod.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211216202614.414266-1-clg@kaod.org>
 References: <20211216202614.414266-1-clg@kaod.org>
@@ -63,24 +65,25 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: -n_faB0FRa2Omb_jXBDw7Ip5dVCkbQ4y
-X-Proofpoint-ORIG-GUID: -n_faB0FRa2Omb_jXBDw7Ip5dVCkbQ4y
+X-Proofpoint-GUID: PwgGQ2qf0W-RZtHnaV6lrXiqYm1bgMwM
+X-Proofpoint-ORIG-GUID: PwgGQ2qf0W-RZtHnaV6lrXiqYm1bgMwM
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
  definitions=2021-12-16_08,2021-12-16_01,2021-12-02_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1034
- lowpriorityscore=0 mlxlogscore=690 adultscore=0 priorityscore=1501
- phishscore=0 malwarescore=0 spamscore=0 impostorscore=0 bulkscore=0
- mlxscore=0 suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ priorityscore=1501
+ malwarescore=0 suspectscore=0 impostorscore=0 spamscore=0 clxscore=1034
+ adultscore=0 mlxscore=0 lowpriorityscore=0 phishscore=0 bulkscore=0
+ mlxlogscore=595 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2110150000 definitions=main-2112160109
-Received-SPF: softfail client-ip=148.163.156.1; envelope-from=clg@kaod.org;
+Received-SPF: softfail client-ip=148.163.158.5; envelope-from=clg@kaod.org;
  helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -11
-X-Spam_score: -1.2
-X-Spam_bar: -
-X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
+X-Spam_score_int: -7
+X-Spam_score: -0.8
+X-Spam_bar: /
+X-Spam_report: (-0.8 / 5.0 requ) BAYES_00=-1.9, KHOP_HELO_FCRDNS=0.399,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,41 +104,37 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-In GEN_FLOAT_B, we called helper_reset_fpstatus immediately
-before calling helper_fri*.  Therefore get_float_exception_flags
-is known to be zero, and this code can be simplified.
+We will process flags other than in valid in helper_float_check_status,
+which is invoked after the writeback to FRT.
+Fixes a bug in which FRT is not written when OE/UE/XE are enabled.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20211119160502.17432-17-richard.henderson@linaro.org>
+Message-Id: <20211119160502.17432-21-richard.henderson@linaro.org>
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 ---
- target/ppc/fpu_helper.c | 6 +-----
- 1 file changed, 1 insertion(+), 5 deletions(-)
+ target/ppc/fpu_helper.c | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
 diff --git a/target/ppc/fpu_helper.c b/target/ppc/fpu_helper.c
-index c3e0efe7c312..d4f72c296fad 100644
+index d7e0362e808e..dd9d40f74b9b 100644
 --- a/target/ppc/fpu_helper.c
 +++ b/target/ppc/fpu_helper.c
-@@ -654,16 +654,12 @@ static uint64_t do_fri(CPUPPCState *env, uint64_t a=
-rg,
-         float_invalid_op_vxsnan(env, GETPC());
-         farg.ll =3D arg | 0x0008000000000000ULL;
-     } else {
--        int inexact =3D get_float_exception_flags(&env->fp_status) &
--                      float_flag_inexact;
-         set_float_rounding_mode(rounding_mode, &env->fp_status);
-         farg.ll =3D float64_round_to_int(farg.d, &env->fp_status);
-         set_float_rounding_mode(old_rounding_mode, &env->fp_status);
+@@ -699,11 +699,8 @@ static float64 do_fmadd(CPUPPCState *env, float64 a,=
+ float64 b,
+     float64 ret =3D float64_muladd(a, b, c, madd_flags, &env->fp_status)=
+;
+     int flags =3D get_float_exception_flags(&env->fp_status);
 =20
-         /* fri* does not set FPSCR[XX] */
--        if (!inexact) {
--            env->fp_status.float_exception_flags &=3D ~float_flag_inexac=
-t;
+-    if (flags) {
+-        if (flags & float_flag_invalid) {
+-            float_invalid_op_madd(env, flags, 1, retaddr);
 -        }
-+        env->fp_status.float_exception_flags &=3D ~float_flag_inexact;
+-        do_float_check_status(env, retaddr);
++    if (unlikely(flags & float_flag_invalid)) {
++        float_invalid_op_madd(env, flags, 1, retaddr);
      }
-     do_float_check_status(env, GETPC());
-     return farg.ll;
+     return ret;
+ }
 --=20
 2.31.1
 
