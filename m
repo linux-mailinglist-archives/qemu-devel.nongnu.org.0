@@ -2,72 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F183847738B
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 14:50:00 +0100 (CET)
-Received: from localhost ([::1]:49884 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE0BF4773B4
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 14:55:25 +0100 (CET)
+Received: from localhost ([::1]:33816 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxr8x-00040H-Lb
-	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 08:49:59 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44042)
+	id 1mxrEC-0004ME-AR
+	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 08:55:24 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44644)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bleal@redhat.com>) id 1mxr5M-0000TA-Gm
- for qemu-devel@nongnu.org; Thu, 16 Dec 2021 08:46:16 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21119)
+ (Exim 4.90_1) (envelope-from <bleal@redhat.com>) id 1mxr6s-0003KT-IU
+ for qemu-devel@nongnu.org; Thu, 16 Dec 2021 08:47:54 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49983)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bleal@redhat.com>) id 1mxr5K-0000RY-8f
- for qemu-devel@nongnu.org; Thu, 16 Dec 2021 08:46:15 -0500
+ (Exim 4.90_1) (envelope-from <bleal@redhat.com>) id 1mxr6q-00010s-Pw
+ for qemu-devel@nongnu.org; Thu, 16 Dec 2021 08:47:50 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639662372;
+ s=mimecast20190719; t=1639662468;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=nUVRnWblM71VCFdM2wtVZtTGrkxnzW+QRDk9wUvIjA0=;
- b=BfqnqDSNfaJ6TexS4xFePKi2mFDlJFrhz4Sm7hLZFQwgd7FnqLRf+sKtxg9DAm3ItrGmE2
- /q18gVOz/MHUkQGFQcL0PHXnzkkWMq7/Wq68hfWHCdV4EopDWVZVZLwupxUT9Mp/4tt2bm
- fx4ZramiB8ypPFOvK476PIyyEdp6DL4=
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=g1VYfxIQPQWChZZDEKx4S0P1k12gBtblo7iJ3GokaM8=;
+ b=c5FVG+g4MwAdJvNI/DPyl96Ez0v2Us1Bv9d5920CUB4p01hhzS2NBk8s3l0hwbWsubC/MI
+ ppYHfPmiC/8hRpyAIBN3bj5U+PAdcWfsxj4P2PRND8jYKu4qPMcEsWCc38CK/iG7md1VKv
+ h8ZgC8zA50yTuxN19ckABVwDQH+pGME=
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-322-3TEc3QtsN7iIXiBuOAjhdg-1; Thu, 16 Dec 2021 08:46:11 -0500
-X-MC-Unique: 3TEc3QtsN7iIXiBuOAjhdg-1
-Received: by mail-qt1-f199.google.com with SMTP id
- e2-20020ac84142000000b002b4bc4ffc49so33618245qtm.8
- for <qemu-devel@nongnu.org>; Thu, 16 Dec 2021 05:46:11 -0800 (PST)
+ us-mta-292-Z-PHdRThNfyKjQQY8-5uxw-1; Thu, 16 Dec 2021 08:47:47 -0500
+X-MC-Unique: Z-PHdRThNfyKjQQY8-5uxw-1
+Received: by mail-qv1-f72.google.com with SMTP id
+ kl17-20020a056214519100b003ba5b03606fso33965796qvb.0
+ for <qemu-devel@nongnu.org>; Thu, 16 Dec 2021 05:47:47 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=nUVRnWblM71VCFdM2wtVZtTGrkxnzW+QRDk9wUvIjA0=;
- b=7+lW1tJXgTSDL6lofIx/cXDTUoZ9JOnJJ63+ghk4mc6OidEw6XYdKbvW5139TxUrdR
- rsoh4YVtXgf27Zr4ZCjHaKrAcC0DurV9Mzh62rV3TshdVgh16Orf+rygr4lBoYY/m7Lj
- DVCl2Nc7S1LUC8/SMairn6sGvtXWS+5RzJJd1aG5l13e7UEjVsm1Ckgn4FgC9sRoXjwO
- k6UzGBn/Nla+o4aURmXSJfml/j4fsk8nVeepYExhkycvA5cY933dkXJ7H4mdNY6OLSZq
- DDeoBoLenSw5fyoBHdVYy0mo4KD7mhibgh7cofeyq5VHJQbMrIDFJEGCyXGsI8k/FyV0
- LSVA==
-X-Gm-Message-State: AOAM532Cm41BzlzDnm6+THkr5DUzQYsSFSkSGschTlYrwx+rc7z2AepH
- r7bsfiiVA7UIUKjIWGtI0H2I7IEx2D6yUVLZYkUvhEw1bz0xuIZ19ZRMxFfckhhvcnnf9kyXOU+
- 5vdcGkW9h+wXVlgA=
-X-Received: by 2002:a05:622a:1207:: with SMTP id
- y7mr16750984qtx.635.1639662371032; 
- Thu, 16 Dec 2021 05:46:11 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxu6sAdjhv/Ockk59yiE9mZUB/SZGzukZUcdFRInHFo7wDaGlMw/34erR6tdJV1fpleTik3og==
-X-Received: by 2002:a05:622a:1207:: with SMTP id
- y7mr16750970qtx.635.1639662370874; 
- Thu, 16 Dec 2021 05:46:10 -0800 (PST)
+ bh=g1VYfxIQPQWChZZDEKx4S0P1k12gBtblo7iJ3GokaM8=;
+ b=b6oi/Ui8yZ5VA1NQuHdZ0PdAQzNTlwJXRHV8JmiAVpQnaEMfFqAiARyr+B/H+9IIu7
+ UMI/HSvdQ3+i2jH4vm1chDx9nNbRWqUNI/zYMcCR/ArMwUixjlpUivDYRkyJTk7W7C1f
+ Zi99DK+HB1Cz0pvP/JTqM+qTvdAvodb+YdmsNUYCYNTspAR7MPMfYAID3z6WjttThVg4
+ 44FqrLwM86MVS5OV3uC3fJulxcjOXHZlReZN0Al8QPuCYymj56F5IRirDgtyFUrHOHtA
+ OWMgEwI9mSGP7cdq7aPTaePeKBvTs5rSJUIEpth0a5Mxm+dmtstmhF49mO/Xy78nFKMc
+ Dpzw==
+X-Gm-Message-State: AOAM530X5YEfkiC2EejBvNfNaZ5j8doMz6dqhzHgvdRCi+rfacJd+G5K
+ J7+W493DFLQA7UjeXW7ltwaFjP/b/Qa6c6gm54MHlTI5z0EAo9woIG7PHmFVGntkFpt8sf9Njov
+ wq+b+TI3FMfRt+VA=
+X-Received: by 2002:a37:5cc:: with SMTP id 195mr12009537qkf.680.1639662465724; 
+ Thu, 16 Dec 2021 05:47:45 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJy8WROG8WKV0GLSzX5cWN41JwAItRqphj4TosomudhKJCV0DOixw/uQi33zuY6++lrDWfTeZw==
+X-Received: by 2002:a37:5cc:: with SMTP id 195mr12009523qkf.680.1639662465533; 
+ Thu, 16 Dec 2021 05:47:45 -0800 (PST)
 Received: from localhost ([181.191.236.130])
- by smtp.gmail.com with ESMTPSA id bm35sm2769420qkb.86.2021.12.16.05.46.10
+ by smtp.gmail.com with ESMTPSA id ay36sm2748923qkb.60.2021.12.16.05.47.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Dec 2021 05:46:10 -0800 (PST)
-Date: Thu, 16 Dec 2021 10:46:03 -0300
+ Thu, 16 Dec 2021 05:47:45 -0800 (PST)
+Date: Thu, 16 Dec 2021 10:47:43 -0300
 From: Beraldo Leal <bleal@redhat.com>
 To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH v2 14/25] scripts/cpu-x86-uarch-abi: switch to AQMP
-Message-ID: <20211216134603.sqqflkjchgqtryu4@laptop.redhat>
+Subject: Re: [PATCH v2 15/25] scripts/render-block-graph: switch to AQMP
+Message-ID: <20211216134743.tyctvqzy6lbxqfuk@laptop.redhat>
 References: <20211215193939.3768033-1-jsnow@redhat.com>
- <20211215193939.3768033-15-jsnow@redhat.com>
+ <20211215193939.3768033-16-jsnow@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20211215193939.3768033-15-jsnow@redhat.com>
+In-Reply-To: <20211215193939.3768033-16-jsnow@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=bleal@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -105,34 +103,40 @@ Cc: Eduardo Habkost <eduardo@habkost.net>, Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Dec 15, 2021 at 02:39:28PM -0500, John Snow wrote:
+On Wed, Dec 15, 2021 at 02:39:29PM -0500, John Snow wrote:
+> Creating an instance of qemu.aqmp.ExecuteError is too involved here, so
+> just drop the specificity down to a generic AQMPError.
+> 
 > Signed-off-by: John Snow <jsnow@redhat.com>
 > ---
->  scripts/cpu-x86-uarch-abi.py | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  scripts/render_block_graph.py | 8 +++-----
+>  1 file changed, 3 insertions(+), 5 deletions(-)
 > 
-> diff --git a/scripts/cpu-x86-uarch-abi.py b/scripts/cpu-x86-uarch-abi.py
-> index 8963d90f0b..c262d2f027 100644
-> --- a/scripts/cpu-x86-uarch-abi.py
-> +++ b/scripts/cpu-x86-uarch-abi.py
-> @@ -6,7 +6,7 @@
->  # compatibility levels for each CPU model.
->  #
+> diff --git a/scripts/render_block_graph.py b/scripts/render_block_graph.py
+> index da6acf050d..97778927f3 100755
+> --- a/scripts/render_block_graph.py
+> +++ b/scripts/render_block_graph.py
+> @@ -25,10 +25,8 @@
+>  from graphviz import Digraph
 >  
-> -from qemu import qmp
+>  sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'python'))
+> -from qemu.qmp import (
+> -    QEMUMonitorProtocol,
+> -    QMPResponseError,
+> -)
+> +from qemu.aqmp import QMPError
 > +from qemu.aqmp.legacy import QEMUMonitorProtocol
->  import sys
->  
->  if len(sys.argv) != 2:
-> @@ -66,7 +66,7 @@
 >  
 >  
->  sock = sys.argv[1]
-> -shell = qmp.QEMUMonitorProtocol(sock)
-> +shell = QEMUMonitorProtocol(sock)
->  shell.connect()
+>  def perm(arr):
+> @@ -105,7 +103,7 @@ def command(self, cmd):
+>          reply = json.loads(subprocess.check_output(ar))
 >  
->  models = shell.cmd("query-cpu-definitions")
+>          if 'error' in reply:
+> -            raise QMPResponseError(reply)
+> +            raise QMPError(reply)
+>  
+>          return reply['return']
 
 Reviewed-by: Beraldo Leal <bleal@redhat.com>
 
