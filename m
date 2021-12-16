@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81A63476A34
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 07:03:19 +0100 (CET)
-Received: from localhost ([::1]:50216 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36732476A3C
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 07:13:42 +0100 (CET)
+Received: from localhost ([::1]:54678 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxjrK-0008Ax-7o
-	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 01:03:18 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33776)
+	id 1mxk1M-0003Ku-Dy
+	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 01:13:40 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36352)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
- id 1mxjnl-0006UA-MD
- for qemu-devel@nongnu.org; Thu, 16 Dec 2021 00:59:38 -0500
-Received: from [2a00:1450:4864:20::32c] (port=52027
- helo=mail-wm1-x32c.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
- id 1mxjnk-0001lw-9E
- for qemu-devel@nongnu.org; Thu, 16 Dec 2021 00:59:37 -0500
-Received: by mail-wm1-x32c.google.com with SMTP id z206so3949660wmc.1
- for <qemu-devel@nongnu.org>; Wed, 15 Dec 2021 21:59:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=brainfault-org.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=yrYb7Y57MNJ1ypAuWPYKmsktjE8dfNJSOS27DVuDDwo=;
- b=sXKpLls3yqgPgKMZB5zDmjaoPpg1ZUfxbUL3Dt2cGQWBw1o2shoUMRIlHyyZEnGu4V
- WjyW5xAaLGC5atrTetWch2KnZp3AGdYcD8tMU9D+M40p8GZLmWD8meBoLopqYFGskcrm
- 8QT77Yxc/w3qlli/UcdC9sjBBGJ61R4A3s3fiTxBWk450t/5uxBi7psZtXM7RFCJn2uO
- 1/M5tSRtV63A6DOvYZYoEbg4lkPrIQ22hV+glF8l6d0S3Y/d1WMMA7E26trlyGt3+qIU
- ysJsZ3p05fqVN18kEQos/xSeRt6kkc5GlLIQyw+RLU31JvuIJvFCXBwRF0pjH6+1LjDQ
- XFCA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=yrYb7Y57MNJ1ypAuWPYKmsktjE8dfNJSOS27DVuDDwo=;
- b=e15W8fj/gtu9Hue065HM11lzrWZivCrHIrrIX/WmAXSPIGNHRT+ARtJwmZQhms3qm8
- yNuRbn/vHhyTSEgwoZwMsUDLpzZUwn/ozCgvP5RMjOouNSCSGJLvPW0B2iqpC01zk3xi
- VseApyDlbrTvXd4YBl+ecHB7uwUO2s+twQEIREnnPbJfZ5Y//FVl+9FT9pWjTFTbCMrX
- /pzs26HUDBsAu+BBolg9riJKBsC0lUP6t2vRheIFMm5iN1GNcvpS0gZGNPaNByvA+z3D
- W8fIBeuR2J171a3VB7hMxLGLyuj+ClVtHo03XFrRqr7IaIazvsuX6T8fkmCvOqy63Pss
- 7zKA==
-X-Gm-Message-State: AOAM533AjWmkJxSxLkOY7Lzv25BuxZne1Tk33Phd5MUtjw2e1l8bYFtd
- JqKRckV97TCM3Tdnpao7Ffy2ime0BS9Nw1KYfDzc3w==
-X-Google-Smtp-Source: ABdhPJwJjuLKRli1inWgYXf/V6WGJco/XX7oHBTLoOXmboz1R2G3z5xHVXjUMWUaic22R98orbFAYyVD1wqO5/ZhAhE=
-X-Received: by 2002:a7b:c7cd:: with SMTP id z13mr3400480wmk.59.1639634374324; 
- Wed, 15 Dec 2021 21:59:34 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mxjzT-0002b6-Vk
+ for qemu-devel@nongnu.org; Thu, 16 Dec 2021 01:11:44 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:22084)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mxjzP-0005dl-AB
+ for qemu-devel@nongnu.org; Thu, 16 Dec 2021 01:11:43 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1639635095;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=SIfou6Mx4pH9PzLKLu8nXmeFRc9rYSghvRdrQpBXUSg=;
+ b=C0PIpq68XDb1Emjg/HFIH+50b8tJkNGUlDbK4jESKO85xLFYB2SE+YUZyuHniP0lbQLirM
+ DsJbFomvGVTjEImF96XsZxk9B7oYeek19S8mu/8X7CdzVF6NqsRk5IYyF4TH0cHXFiY5r4
+ JnctBtRCupT2w81Gyp/MAhX9XbHvdWc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-381-SqA5DrNZON-zk-ehOWUG_Q-1; Thu, 16 Dec 2021 01:11:32 -0500
+X-MC-Unique: SqA5DrNZON-zk-ehOWUG_Q-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6B08C2F31;
+ Thu, 16 Dec 2021 06:11:31 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.39.192.14])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 237577D490;
+ Thu, 16 Dec 2021 06:11:31 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id DE7FB18003A3; Thu, 16 Dec 2021 07:11:28 +0100 (CET)
+Date: Thu, 16 Dec 2021 07:11:28 +0100
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: "Annie.li" <annie.li@oracle.com>
+Subject: Re: [PATCH 1/1] pcie: Do not set power state for some hot-plugged
+ devices
+Message-ID: <20211216061128.vtap3lunpuye36il@sirius.home.kraxel.org>
+References: <20211214215312.944-1-annie.li@oracle.com>
+ <20211215060513.kugy3y32nj2te7ui@sirius.home.kraxel.org>
+ <1f85fe9e-0753-c35a-668d-3b6779bc703b@oracle.com>
 MIME-Version: 1.0
-References: <20211216045427.757779-1-alistair.francis@opensource.wdc.com>
- <20211216045427.757779-6-alistair.francis@opensource.wdc.com>
-In-Reply-To: <20211216045427.757779-6-alistair.francis@opensource.wdc.com>
-From: Anup Patel <anup@brainfault.org>
-Date: Thu, 16 Dec 2021 11:29:23 +0530
-Message-ID: <CAAhSdy3OkjDtwdN8g6Ea=soCAXb=tO=je4zb7zRRXVoj-CXmxg@mail.gmail.com>
-Subject: Re: [PATCH v2 5/9] target/riscv: Mark the Hypervisor extension as non
- experimental
-To: Alistair Francis <alistair.francis@opensource.wdc.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32c
- (failed)
-Received-SPF: none client-ip=2a00:1450:4864:20::32c;
- envelope-from=anup@brainfault.org; helo=mail-wm1-x32c.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=no autolearn_force=no
+In-Reply-To: <1f85fe9e-0753-c35a-668d-3b6779bc703b@oracle.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.718,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,56 +81,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Bin Meng <bin.meng@windriver.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Alistair Francis <alistair23@gmail.com>, Bin Meng <bmeng.cn@gmail.com>,
- Palmer Dabbelt <palmer@dabbelt.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Dec 16, 2021 at 10:27 AM Alistair Francis
-<alistair.francis@opensource.wdc.com> wrote:
->
-> From: Alistair Francis <alistair.francis@wdc.com>
->
-> The Hypervisor spec is now frozen, so remove the experimental tag.
->
-> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+  Hi,
 
-Looks good to me.
+> > Maybe we should just not set DeviceState->hotplugged = true for devices
+> > added in VM_STATE_PRELAUNCH?  It's not actual hotplug (i.e. device added
+> > while the system is running) after all ...
 
-Reviewed-by: Anup Patel <anup.patel@wdc.com>
+> Simply not setting "DeviceState->hotplugged" doesn't work. Devices created
+> in
+> PHASE_MACHINE_READY phase are treated as hot-plugged devices. So I just
+> tried
+> following change for the quick test, the device is still invisible to the
+> firmware with
+> this change.
 
-Regards,
-Anup
+Looking again, the difference is probably the reset handling.
+pcie_cap_slot_reset() will turn on power (via PCI_EXP_SLTCTL_PCC) in
+case some device is plugged into the slot.
 
-> ---
->  target/riscv/cpu.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index f812998123..1edb2771b4 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -626,6 +626,7 @@ static Property riscv_cpu_properties[] = {
->      DEFINE_PROP_BOOL("c", RISCVCPU, cfg.ext_c, true),
->      DEFINE_PROP_BOOL("s", RISCVCPU, cfg.ext_s, true),
->      DEFINE_PROP_BOOL("u", RISCVCPU, cfg.ext_u, true),
-> +    DEFINE_PROP_BOOL("h", RISCVCPU, cfg.ext_h, false),
->      DEFINE_PROP_BOOL("Counters", RISCVCPU, cfg.ext_counters, true),
->      DEFINE_PROP_BOOL("Zifencei", RISCVCPU, cfg.ext_ifencei, true),
->      DEFINE_PROP_BOOL("Zicsr", RISCVCPU, cfg.ext_icsr, true),
-> @@ -639,7 +640,6 @@ static Property riscv_cpu_properties[] = {
->      DEFINE_PROP_BOOL("x-zbb", RISCVCPU, cfg.ext_zbb, false),
->      DEFINE_PROP_BOOL("x-zbc", RISCVCPU, cfg.ext_zbc, false),
->      DEFINE_PROP_BOOL("x-zbs", RISCVCPU, cfg.ext_zbs, false),
-> -    DEFINE_PROP_BOOL("x-h", RISCVCPU, cfg.ext_h, false),
->      DEFINE_PROP_BOOL("x-j", RISCVCPU, cfg.ext_j, false),
->      DEFINE_PROP_BOOL("x-v", RISCVCPU, cfg.ext_v, false),
->      DEFINE_PROP_STRING("vext_spec", RISCVCPU, cfg.vext_spec),
-> --
-> 2.31.1
->
->
+So I suspect when plugging devices during VM_STATE_PRELAUNCH they are
+resetted individually (specifically before the device is plugged),
+whereas otherwise they are resetted when all devices are plugged in.
+
+Does resetting devices when leaving RUN_STATE_PRELAUNCH fix this?
+
+take care,
+  Gerd
+
 
