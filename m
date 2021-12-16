@@ -2,72 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEB964776BC
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 17:06:22 +0100 (CET)
-Received: from localhost ([::1]:47842 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC6BA4776D3
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 17:07:02 +0100 (CET)
+Received: from localhost ([::1]:50000 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxtGv-0004xM-Kn
-	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 11:06:21 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51948)
+	id 1mxtHa-0006Pb-3X
+	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 11:07:02 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52482)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <venture@google.com>)
- id 1mxtEL-0003rP-5X
- for qemu-devel@nongnu.org; Thu, 16 Dec 2021 11:03:41 -0500
-Received: from [2607:f8b0:4864:20::930] (port=36677
- helo=mail-ua1-x930.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <venture@google.com>)
- id 1mxtEJ-0006yS-PM
- for qemu-devel@nongnu.org; Thu, 16 Dec 2021 11:03:40 -0500
-Received: by mail-ua1-x930.google.com with SMTP id r15so48019045uao.3
- for <qemu-devel@nongnu.org>; Thu, 16 Dec 2021 08:03:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=mime-version:from:date:message-id:subject:to;
- bh=NHnHtz0q1sdj5N9xqVTMfNZfORE4R6qlqQqQ2bxTP/s=;
- b=tS7ZRljsUSoez/QfAjsiTJhOC5Yq1UPRMmkOCf3rcWzKeZNVoHXhxFNkZNN4DFOW5H
- 9tTAJ7ar6NUDC6/y9igl3XYl7csegX5ljB8Wx6c1bDmRNzufHehky6L7nLQFeIO+DnXZ
- 04QJo7uccirvYNh+I8yt+m3lRiyJAS0aGTaC8erXlCdbA41PgZ4liPhkqgV9vOEcJc1I
- 43lrgLKlQIuscviAi+ocEn2Eb4uDHr3IEAqG9UhVJ0ZDQRfhAcQcobQ8lBsEtPmlK2SZ
- wooT5G+ie7pcdTz5JdwS7t9GU+/GJpg3WOL0gu8VBWxpJ5IdfF8m56bQ4TzO3fcl4nKi
- sGyA==
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1mxtGC-0004p0-M4
+ for qemu-devel@nongnu.org; Thu, 16 Dec 2021 11:05:36 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22638)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1mxtGA-0007A9-8i
+ for qemu-devel@nongnu.org; Thu, 16 Dec 2021 11:05:35 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1639670732;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=TXcUz2GFf7eDMWuCGJtshTGMOPThsXqrOJBIwAxq0Uc=;
+ b=i5/ytCPPpdVTip8HvKHakKyAZsf3SVO3+aOF5Nq1rO7qVrOIKTnCCvq9dxMCWQrKjKWekQ
+ oC66lwP/vXGvMEyKMA7ZMaXu7lGJ0EgbsxyL8KASPNyGnBSBXHGaaoMmtOng3foDu3evSj
+ OVfazZWC37ZklT0E52CpMV4fbNsKoZg=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-114-UEKi3tPoPJqQAMucjCkodg-1; Thu, 16 Dec 2021 11:05:28 -0500
+X-MC-Unique: UEKi3tPoPJqQAMucjCkodg-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ z18-20020a05640240d200b003f8024280adso1905885edb.15
+ for <qemu-devel@nongnu.org>; Thu, 16 Dec 2021 08:05:28 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=NHnHtz0q1sdj5N9xqVTMfNZfORE4R6qlqQqQ2bxTP/s=;
- b=Q6BAfM2ib2k8NEZ11mF9uuYpf650c/u+xJIPI3f6/sgOiZfWYzDhZPWNrmH4U81ZZy
- fFfgidEWxS2snaTZdl4Iyq/68jS5mpwY1MGzJIGgqccJOUaXDz7DZHv5hMrSHPtR+P7C
- bc5sEW/KadthtQPPNdEzNLyoeKleP7PCU53LAauNbW8GZtNsVUAwMA4Y6MQ0Fye7ryHQ
- O0qk9ZYTFjqerus9lprgd7hCN5Eh8f/OwZVegdoYq2SXkWD6uVKS1oGBLcZLJWgEFfo4
- 9GnPs/qoYNSNAJYdfgjtGDcUUoA4Mc/yAFfLk/bzhi8w9Ppub0I6grs8zd8sUBgKv7HT
- PF6A==
-X-Gm-Message-State: AOAM531d8Pqmj0XEC0jkXwVcZJ/4ZclBhvPkUxL60gWnmJDl3YihMDSL
- sL9nCN0ps5tro2CEOIf56e2K8d83+gQqhhuXitKtZuSK6Fs=
-X-Google-Smtp-Source: ABdhPJzHRLWuZBpOB3biKzOGmysRccIhjXrf2LePoxMPPVuTFy2saFgchE6GFbFYq1yAW/gpsj3YWpZTcq8y3DIlBTE=
-X-Received: by 2002:a67:fa12:: with SMTP id i18mr5644236vsq.49.1639670617648; 
- Thu, 16 Dec 2021 08:03:37 -0800 (PST)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=TXcUz2GFf7eDMWuCGJtshTGMOPThsXqrOJBIwAxq0Uc=;
+ b=QRaPnuMpSlantNZQWTo1Bvw1xBXQPR77UuHjcm7YdnkNFcE+MxZdJDDWDlxl3bfjbE
+ 8Z+MY+HYxFMaqAdTqYdKWDr6246zavVt324WGLpbPo032WlMIQbk4SAbctlitLrgOI+I
+ 7S4W80vRUb2/Q7AzGMK3t+882680sFNQsSKAtgl3EDd+Ghq9VXpKCr7E2mkrE+SRvVC9
+ zl9qr0ZbEM550t8eS4uDxmt1ZZyizgAWgXR/pHaVi91/O5mTsLh6qzWBAZem9va5FI/r
+ tb2t8TyGAhbx+eX6NlErOHvoOdCQqJA6P5TwgYtqAuVQanzDrJPNIiW6d0/IvI22p+UP
+ H6Mw==
+X-Gm-Message-State: AOAM5330B+SnEinRkmMf9DRGbKVQgQ5BiyuHgNZiaJ9S4q5pnk/KbVjF
+ 0xnBGfkdgMRRHT/3IBcauyk/9boP1avWa+ork9zzo/S0/tuOUXLzwslLEVZxEqZ14PTT0PT56JY
+ ykd0VxZdnDjuHrpM=
+X-Received: by 2002:a05:6402:2814:: with SMTP id
+ h20mr20970098ede.288.1639670726865; 
+ Thu, 16 Dec 2021 08:05:26 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxk7isudFZwLw85LK2LP4IxDNqVauCVlA+lL1x0nmvGmZuCVKbEpti1iM9Yh73+k5pg0Mvl9g==
+X-Received: by 2002:a05:6402:2814:: with SMTP id
+ h20mr20970059ede.288.1639670726458; 
+ Thu, 16 Dec 2021 08:05:26 -0800 (PST)
+Received: from ?IPV6:2a04:ee41:4:31cb:e591:1e1e:abde:a8f1?
+ ([2a04:ee41:4:31cb:e591:1e1e:abde:a8f1])
+ by smtp.gmail.com with ESMTPSA id do16sm1960970ejc.190.2021.12.16.08.05.25
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 16 Dec 2021 08:05:25 -0800 (PST)
+Message-ID: <937d15e5-4ba5-af84-f3bf-a4aa828f9d82@redhat.com>
+Date: Thu, 16 Dec 2021 17:05:24 +0100
 MIME-Version: 1.0
-From: Patrick Venture <venture@google.com>
-Date: Thu, 16 Dec 2021 08:03:26 -0800
-Message-ID: <CAO=notwUAezOS58BBPL4-fzENrUj55Tbdi1Lwvjz1Y_vpc69uA@mail.gmail.com>
-Subject: Introducing PECI support in Qemu
-To: QEMU Developers <qemu-devel@nongnu.org>,
- OpenBMC Maillist <openbmc@lists.ozlabs.org>, 
- Titus Rwantare <titusr@google.com>
-Content-Type: multipart/alternative; boundary="000000000000b71a2805d3459041"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::930
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::930;
- envelope-from=venture@google.com; helo=mail-ua1-x930.google.com
-X-Spam_score_int: -140
-X-Spam_score: -14.1
-X-Spam_bar: --------------
-X-Spam_report: (-14.1 / 5.0 requ) BAYES_50=0.8, DKIMWL_WL_MED=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH v5 10/31] block.c: modify .attach and .detach callbacks of
+ child_of_bds
+To: Hanna Reitz <hreitz@redhat.com>, qemu-block@nongnu.org
+References: <20211124064418.3120601-1-eesposit@redhat.com>
+ <20211124064418.3120601-11-eesposit@redhat.com>
+ <f996c8cc-c025-f8a5-c89d-cd8b8a94e7c5@redhat.com>
+From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+In-Reply-To: <f996c8cc-c025-f8a5-c89d-cd8b8a94e7c5@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eesposit@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.718,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=no autolearn_force=no
+ NICE_REPLY_A=-0.034, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,41 +106,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ qemu-devel@nongnu.org, John Snow <jsnow@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000b71a2805d3459041
-Content-Type: text/plain; charset="UTF-8"
 
-Hi all;
 
-My team has a working PECI bus/device in Qemu, but we only have internal
-board specifications that enable it.  We'd like to upstream it as soon
-as possible, but obviously we can't enable testing for it without an
-upstream board that uses it.  We only have it attached to Nuvoton 7xx
-presently, but are slated to enable it for the Aspeed series in the
-next quarter.
+On 16/12/2021 15:57, Hanna Reitz wrote:
+> On 24.11.21 07:43, Emanuele Giuseppe Esposito wrote:
+>> According to the assertions put in the previous patch, we should
+>> first drain and then modify the ->children list. In this way
+>> we prevent other iothreads to read the list while it is being
+>> updated.
+>>
+>> In this case, moving the drain won't cause any harm, because
+>> child is a parameter of the drain function so it will still be
+>> included in the operation, despite not being in the list.
+> 
+> Sounds good.
 
-Does anyone have an upstream Nuvoton 7xx series BMC board that has PECI
-enabled in the DTS, where we can enable it to their qemu board to enable
-the upstream testing? (think: qtest).
+Uhm.. I don't think this is useful at all. I was thinking to drop this 
+patch in v6.
 
-Patrick
+My plans on subtree drains, ->children and ->parent lists are explained 
+in "Removal of Aiocontext lock and usage of subtree drains in aborted 
+transactions"
 
---000000000000b71a2805d3459041
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+https://patchew.org/QEMU/20211213104014.69858-1-eesposit@redhat.com/
 
-<div dir=3D"ltr">Hi all;<div><br></div><div>My team has a working PECI bus/=
-device in Qemu, but we only have internal board specifications that enable =
-it.=C2=A0 We&#39;d like to upstream it as soon as=C2=A0possible, but obviou=
-sly we can&#39;t enable testing for it without an upstream board that uses =
-it.=C2=A0 We only have it attached to Nuvoton 7xx presently, but are slated=
- to enable it for the Aspeed series in the next=C2=A0quarter.</div><div><br=
-></div><div>Does anyone have an upstream Nuvoton 7xx series BMC board that =
-has PECI enabled in the DTS, where we can enable it to their qemu board to =
-enable the upstream testing? (think: qtest).</div><div><br></div><div>Patri=
-ck</div></div>
+And as I say there, commit d736f119da makes sure that it is safe to 
+modify the graph even side a bdrv_subtree_drained_begin/end() section.
+So this should be unnecessary.
 
---000000000000b71a2805d3459041--
+Thank you,
+Emanuele
+> 
+>> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+>> ---
+>>   block.c | 5 ++---
+>>   1 file changed, 2 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/block.c b/block.c
+>> index 522a273140..5516c84ec4 100644
+>> --- a/block.c
+>> +++ b/block.c
+>> @@ -1416,6 +1416,7 @@ static void bdrv_child_cb_attach(BdrvChild *child)
+>>   {
+>>       BlockDriverState *bs = child->opaque;
+>> +    bdrv_apply_subtree_drain(child, bs);
+>>       assert_bdrv_graph_writable(bs);
+>>       QLIST_INSERT_HEAD(&bs->children, child, next);
+>> @@ -1423,7 +1424,6 @@ static void bdrv_child_cb_attach(BdrvChild *child)
+>>           bdrv_backing_attach(child);
+>>       }
+>> -    bdrv_apply_subtree_drain(child, bs);
+> 
+> I think we should also remove the empty line above.
+> 
+> Hanna
+> 
+>>   }
+>>   static void bdrv_child_cb_detach(BdrvChild *child)
+>> @@ -1434,10 +1434,9 @@ static void bdrv_child_cb_detach(BdrvChild *child)
+>>           bdrv_backing_detach(child);
+>>       }
+>> -    bdrv_unapply_subtree_drain(child, bs);
+>> -
+>>       assert_bdrv_graph_writable(bs);
+>>       QLIST_REMOVE(child, next);
+>> +    bdrv_unapply_subtree_drain(child, bs);
+>>   }
+>>   static int bdrv_child_cb_update_filename(BdrvChild *c, 
+>> BlockDriverState *base,
+> 
+
 
