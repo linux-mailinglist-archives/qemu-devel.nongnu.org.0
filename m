@@ -2,71 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12F5E477360
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 14:42:20 +0100 (CET)
-Received: from localhost ([::1]:38338 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EA14477353
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 14:40:04 +0100 (CET)
+Received: from localhost ([::1]:32786 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxr1X-0003o2-6p
-	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 08:42:19 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37112)
+	id 1mxqzL-0008Gr-LB
+	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 08:40:03 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37086)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mxqgk-0006kw-RF
- for qemu-devel@nongnu.org; Thu, 16 Dec 2021 08:20:51 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51238)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mxqgj-0006kI-N1
+ for qemu-devel@nongnu.org; Thu, 16 Dec 2021 08:20:49 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21220)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mxqgi-0008KT-8B
- for qemu-devel@nongnu.org; Thu, 16 Dec 2021 08:20:50 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mxqgi-0008MP-7n
+ for qemu-devel@nongnu.org; Thu, 16 Dec 2021 08:20:49 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639660840;
+ s=mimecast20190719; t=1639660845;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=1chFsAOK0rTvA7TehLOkyqZafZUrvfp4t7SGxNleGGw=;
- b=UKeLArtn1mF4w2MoUm378xRwmxnSMd/SuSSe66zY/2yCyDizXpks/xeLCZvFQQC8YLAnm7
- /Rw3I8iFGoESb/qncik8hxgtxTi9Y1ENAzja0CFd814To3GP0bpv9hEbQD3pRH2GuKalmd
- 0YJORsljHTNI7tNRkU3nkq20FkOZMQY=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Jq9mjYYb0qGdPqgYaDEj1wSgWHxTePfmSvB1yYAydck=;
+ b=SL2EdyvhbwMcdBWrmK1gtkypcMOKOX9pJqV6BTryHD+HhKX9dscs7QcITW4w1suHbS5B4W
+ 9Bbogv0Hbp6FKCumwLM0qv2owiN+e9QNV0aM5jb0pouHPAPBElJChO+ZaCinH4NQuSUKGf
+ WN5EfygwrigmIZFVNJnBMlh3gKEfbOU=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-516-SMOq3L9vO1eVUALNuFvAYA-1; Thu, 16 Dec 2021 08:20:40 -0500
-X-MC-Unique: SMOq3L9vO1eVUALNuFvAYA-1
-Received: by mail-wm1-f70.google.com with SMTP id
- ay17-20020a05600c1e1100b0033f27b76819so13809199wmb.4
- for <qemu-devel@nongnu.org>; Thu, 16 Dec 2021 05:20:39 -0800 (PST)
+ us-mta-546-S78x5mFMMBCT6CjqBtBu2w-1; Thu, 16 Dec 2021 08:20:44 -0500
+X-MC-Unique: S78x5mFMMBCT6CjqBtBu2w-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ s23-20020adf9797000000b001a24674f0f7so478721wrb.9
+ for <qemu-devel@nongnu.org>; Thu, 16 Dec 2021 05:20:44 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=1chFsAOK0rTvA7TehLOkyqZafZUrvfp4t7SGxNleGGw=;
- b=K1QDxW945YZgWKBIj/JcpKP8tt2IJ4YKHELj5t/mu1XvRGYQlni9bI/ICuO5wRvH/p
- vYzL4a0nBWnb3tNjOQ2oFhyccDKSJQvjNEpL1C/3Ex9mPMOL5L2cl++HfSSIGsKiIv9W
- 9RnGMWVdy56IVc60oT9Et05e4rlluoChUNUQNWaH5iiN4ZsOl82FAdVOKD1Rn/A2IkIR
- CDwL21EjP212ndE8LYaLJbdlTNdWlN0fS+NQA5ZfBkusqZ3qdNb+n9rLgRkUh1wwS8b1
- AOUXt/aElDxscA156mVZVfb/hLxyQ/EMHEHIjro0WiDzaitU/PI+/gcNjqudDDgyscDb
- FYcQ==
-X-Gm-Message-State: AOAM532GqlQCH15yMPLcY70QP3Bz9CllfyNDZ/+7D7O+E3XYXzAmQX+R
- wGHQ5os36iSIJfWYNWptwnYlnYArruh06jTcuTkcZfqQz1q9/2VQsr3WKjnhUH8U1zANwopeGV5
- pTH9Fv1UyWuoztX9nDKJpc8M6c1bmereAIlhfCb+JK3rTpAWbVV3m1N6Euxl3+7os
-X-Received: by 2002:a05:6000:104c:: with SMTP id
- c12mr8638553wrx.588.1639660838581; 
- Thu, 16 Dec 2021 05:20:38 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJz9FyDLN2KLSJxbfwjviG1yY8ZaRuGTvyxYv7cYvz73wWlktpKvitGPeP6AifT0+LQF5uwrZQ==
-X-Received: by 2002:a05:6000:104c:: with SMTP id
- c12mr8638525wrx.588.1639660838335; 
- Thu, 16 Dec 2021 05:20:38 -0800 (PST)
+ bh=Jq9mjYYb0qGdPqgYaDEj1wSgWHxTePfmSvB1yYAydck=;
+ b=6gJv+MKdBfsQJL5jHWMcCh0eQ41rYhD/rn+4g8r5+o5VU+YAevUThkaOCZ4lbClplv
+ FqQjWqmktZNbSNxkHu7Zaw/n/5W0qhtSffSvEkBO/GeU/LcAARWXKJPCsLkWxM4FSCea
+ Y9wUZE8S+slXyIi2FhIkNAF3vCyIfsrzQMk7qDmrAroOMPUsM2c86+409+a4863qezsL
+ jOR4ycQ2726vUCEpcNhJFNxt+Ajal70ds9f0NIRe5axYvwWJ+CgkIOKc3n31Dxa9oZBG
+ TPA5HTqQuHXS5r47VdIlsqZquXq3rIQaTI3eRFcRgaxA2nTQHIrcfpI+FcARBu1g7drJ
+ PG2Q==
+X-Gm-Message-State: AOAM531tFnZixKfrJ6bP9bl+ZaPMQIQXTTI2En4CWS7/eU7wRdYZWU80
+ ktbblilIPwjiev6qloOrAVQODqtHdV9LrG4F4O1suP8Yw8urCsExmJSbon7iaO0zRydJvjU+27n
+ W2jig/3w8eRp1KbizRbENATGsjttA73Z5WiUMUnd2tLQ9aQu55I7Otop1nAXAXZ1k
+X-Received: by 2002:a5d:50c7:: with SMTP id f7mr8721530wrt.327.1639660842883; 
+ Thu, 16 Dec 2021 05:20:42 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxC9x+fuE0iUTpPPeFN3hAmrvHgs+mtnao9AhdPvImgRKlxsxQmddMWnfRev9Gzspys9TuanA==
+X-Received: by 2002:a5d:50c7:: with SMTP id f7mr8721510wrt.327.1639660842620; 
+ Thu, 16 Dec 2021 05:20:42 -0800 (PST)
 Received: from localhost.localdomain
  (174.red-83-50-185.dynamicip.rima-tde.net. [83.50.185.174])
- by smtp.gmail.com with ESMTPSA id t11sm4597752wrz.97.2021.12.16.05.20.37
+ by smtp.gmail.com with ESMTPSA id j18sm10293444wmq.44.2021.12.16.05.20.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Dec 2021 05:20:37 -0800 (PST)
+ Thu, 16 Dec 2021 05:20:42 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 3/8] tests/unit/test-smp-parse: Add 'smp-with-dies' machine
- type
-Date: Thu, 16 Dec 2021 14:20:10 +0100
-Message-Id: <20211216132015.815493-4-philmd@redhat.com>
+Subject: [PATCH v6 4/8] tests/unit/test-smp-parse: Add 'smp-generic-invalid'
+ machine type
+Date: Thu, 16 Dec 2021 14:20:11 +0100
+Message-Id: <20211216132015.815493-5-philmd@redhat.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211216132015.815493-1-philmd@redhat.com>
 References: <20211216132015.815493-1-philmd@redhat.com>
@@ -100,83 +98,83 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Eduardo Habkost <eduardo@habkost.net>,
  Richard Henderson <richard.henderson@linaro.org>,
- Yanan Wang <wangyanan55@huawei.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Avoid modifying the MachineClass internals by adding the
-'smp-with-dies' machine, which inherits from TYPE_MACHINE.
+'smp-generic-invalid' machine, which inherits from TYPE_MACHINE.
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Yanan Wang <wangyanan55@huawei.com>
-Tested-by: Yanan Wang <wangyanan55@huawei.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- tests/unit/test-smp-parse.c | 22 +++++++++++++++-------
- 1 file changed, 15 insertions(+), 7 deletions(-)
+ tests/unit/test-smp-parse.c | 25 ++++++++++++++++---------
+ 1 file changed, 16 insertions(+), 9 deletions(-)
 
 diff --git a/tests/unit/test-smp-parse.c b/tests/unit/test-smp-parse.c
-index 425ed6b6b92..f66cf7bb598 100644
+index f66cf7bb598..47e11089e22 100644
 --- a/tests/unit/test-smp-parse.c
 +++ b/tests/unit/test-smp-parse.c
-@@ -487,6 +487,16 @@ static void machine_base_class_init(ObjectClass *oc, void *data)
+@@ -487,6 +487,17 @@ static void machine_base_class_init(ObjectClass *oc, void *data)
      mc->name = g_strdup(SMP_MACHINE_NAME);
  }
  
-+static void machine_with_dies_class_init(ObjectClass *oc, void *data)
++static void machine_generic_invalid_class_init(ObjectClass *oc, void *data)
 +{
 +    MachineClass *mc = MACHINE_CLASS(oc);
 +
-+    mc->min_cpus = MIN_CPUS;
-+    mc->max_cpus = MAX_CPUS;
++    /* Force invalid min CPUs and max CPUs */
++    mc->min_cpus = 2;
++    mc->max_cpus = 511;
 +
-+    mc->smp_props.dies_supported = true;
++    mc->smp_props.dies_supported = false;
 +}
 +
- static void test_generic_valid(const void *opaque)
+ static void machine_with_dies_class_init(ObjectClass *oc, void *data)
  {
-     const char *machine_type = opaque;
-@@ -548,9 +558,6 @@ static void test_with_dies(const void *opaque)
-     unsigned int num_dies = 2;
+     MachineClass *mc = MACHINE_CLASS(oc);
+@@ -530,10 +541,6 @@ static void test_generic_invalid(const void *opaque)
+     SMPTestData *data = &(SMPTestData){};
      int i;
  
--    /* Force the SMP compat properties */
--    mc->smp_props.dies_supported = true;
+-    /* Force invalid min CPUs and max CPUs */
+-    mc->min_cpus = 2;
+-    mc->max_cpus = 511;
 -
-     for (i = 0; i < ARRAY_SIZE(data_generic_valid); i++) {
-         *data = data_generic_valid[i];
+     for (i = 0; i < ARRAY_SIZE(data_generic_invalid); i++) {
+         *data = data_generic_invalid[i];
          unsupported_params_init(mc, data);
-@@ -588,9 +595,6 @@ static void test_with_dies(const void *opaque)
+@@ -541,10 +548,6 @@ static void test_generic_invalid(const void *opaque)
          smp_parse_test(ms, data, false);
      }
  
--    /* Restore the SMP compat properties */
--    mc->smp_props.dies_supported = false;
+-    /* Reset the supported min CPUs and max CPUs */
+-    mc->min_cpus = MIN_CPUS;
+-    mc->max_cpus = MAX_CPUS;
 -
      object_unref(obj);
  }
  
-@@ -602,6 +606,10 @@ static const TypeInfo smp_machine_types[] = {
+@@ -606,6 +609,10 @@ static const TypeInfo smp_machine_types[] = {
          .class_init     = machine_base_class_init,
          .class_size     = sizeof(MachineClass),
          .instance_size  = sizeof(MachineState),
 +    }, {
-+        .name           = MACHINE_TYPE_NAME("smp-with-dies"),
++        .name           = MACHINE_TYPE_NAME("smp-generic-invalid"),
 +        .parent         = TYPE_MACHINE,
-+        .class_init     = machine_with_dies_class_init,
-     }
- };
- 
-@@ -620,7 +628,7 @@ int main(int argc, char *argv[])
++        .class_init     = machine_generic_invalid_class_init,
+     }, {
+         .name           = MACHINE_TYPE_NAME("smp-with-dies"),
+         .parent         = TYPE_MACHINE,
+@@ -625,7 +632,7 @@ int main(int argc, char *argv[])
                           TYPE_MACHINE,
+                          test_generic_valid);
+     g_test_add_data_func("/test-smp-parse/generic/invalid",
+-                         TYPE_MACHINE,
++                         MACHINE_TYPE_NAME("smp-generic-invalid"),
                           test_generic_invalid);
      g_test_add_data_func("/test-smp-parse/with_dies",
--                         TYPE_MACHINE,
-+                         MACHINE_TYPE_NAME("smp-with-dies"),
-                          test_with_dies);
- 
-     g_test_run();
+                          MACHINE_TYPE_NAME("smp-with-dies"),
 -- 
 2.33.1
 
