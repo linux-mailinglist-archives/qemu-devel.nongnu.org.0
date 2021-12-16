@@ -2,151 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67E45476E8E
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 11:09:56 +0100 (CET)
-Received: from localhost ([::1]:50108 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67149476E65
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 10:57:39 +0100 (CET)
+Received: from localhost ([::1]:56120 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxnhz-00054A-EW
-	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 05:09:55 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:32968)
+	id 1mxnW6-0005iY-Bd
+	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 04:57:38 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53306)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1mxneK-0001UM-DH; Thu, 16 Dec 2021 05:06:08 -0500
-Received: from [2a01:111:f400:fe08::723] (port=38246
- helo=EUR03-AM5-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mxnTC-00046H-7b
+ for qemu-devel@nongnu.org; Thu, 16 Dec 2021 04:54:39 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:29049)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1mxneI-0006P5-F1; Thu, 16 Dec 2021 05:06:07 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=NFX0y1rJRo9xP2rvuCdme/oBPTzJY1opwihwzgEHp9NcuwmdMyAvAwjl/TgCfmZu9uX0nblqbtJ7djQU4RwrkHuE2/n93F8z2J6rUqAzqGFv7uDE1tEC9DXNaXKZNk1IVRfdzpHvlrMn4VA/ttvXBVvG8Jgi7UQgtBrNpca75StOekPNPJAgR4Xlr22fQTXULwpMRiiyvN2mGbFZV4wQfcec8q8qFbFxCt8FMI7y0wStS9cb+IwvpJjOZWwU1tmGL5b2OCll+UuXoFeukrJRNn7QGv8pwoh7fs9LUEnoDJLKVTj7uV8eNwmzll/67vUuB9W6HBBGnBvhQOehp84cXA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=uWoipwOG/zszP6imOfhvBcFed6O9P5dtlhHB114IR8w=;
- b=XkzoAgSL/8B6clNtie8DiyhR8dx/jtrioakbrxOJ1W9cxs1v21kxhYIunG/vYaOAgQxlAQaSNOci3++ZhrrP6mA0slYxq7TO7aqYQawZpOc3/qdsiDoMyE94khaWlhE/8t7JD6VcAfj36VOicEZMZj2mz0QvqJJ3/RPIxoidBR3wyH4rZ0sKeE1vSbFTC9JBGg/Z4ZBJBbaY08uzF9zeb4VKC0me3yjpTdFxvnEIGmolEzPFCqxhJHp7Bk4XDSbJAT/JEQDQ3KV/PW2dNTaaxzNWY5ApVZGbUVXr9SUPkt7C2xVvUllxoZqHZSeIZc2dEtuTDjnk/oEFWuPtC0kDRQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=uWoipwOG/zszP6imOfhvBcFed6O9P5dtlhHB114IR8w=;
- b=DQyHXL3HH5j9yeAEN/1qZuULfmERtUqizT+TUX546JoxfIlhNGtyY2PoLyr6PUiN4M1+WQ2L2xM9b6bsPnEeUHhHfYrtMAws40olhMdXhccPu49mjD4UF573s9Lh3OtbPaJ1MESgUGOCWnyMYxg5IpUPC8lnaU3DVyV0Bop4zvw=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM9PR08MB6737.eurprd08.prod.outlook.com (2603:10a6:20b:304::18)
- by AM0PR08MB3284.eurprd08.prod.outlook.com (2603:10a6:208:5d::13)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4778.18; Thu, 16 Dec
- 2021 09:51:30 +0000
-Received: from AM9PR08MB6737.eurprd08.prod.outlook.com
- ([fe80::2078:5a2:1898:d83a]) by AM9PR08MB6737.eurprd08.prod.outlook.com
- ([fe80::2078:5a2:1898:d83a%7]) with mapi id 15.20.4669.024; Thu, 16 Dec 2021
- 09:51:30 +0000
-Message-ID: <d02c037f-6d6d-7ea8-4647-87dd9f5f014b@virtuozzo.com>
-Date: Thu, 16 Dec 2021 12:51:27 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH v2 02/25] python/aqmp: handle asyncio.TimeoutError on
- execute()
-Content-Language: en-US
-To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
-Cc: Eduardo Habkost <eduardo@habkost.net>,
- Daniel Berrange <berrange@redhat.com>, Andrea Bolognani
- <abologna@redhat.com>, Wainer Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- qemu-block@nongnu.org
-References: <20211215193939.3768033-1-jsnow@redhat.com>
- <20211215193939.3768033-3-jsnow@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-In-Reply-To: <20211215193939.3768033-3-jsnow@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AM6P194CA0063.EURP194.PROD.OUTLOOK.COM
- (2603:10a6:209:84::40) To AM9PR08MB6737.eurprd08.prod.outlook.com
- (2603:10a6:20b:304::18)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mxnT0-0003Eu-N4
+ for qemu-devel@nongnu.org; Thu, 16 Dec 2021 04:54:37 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1639648460;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Xs5OY7Sv6bIvDjHloU4Ht/3jxhseiWqoJRVcBCuWBaA=;
+ b=D76EF0rBYNp8YS7EnDe3k15PLPebFlkxFNqxlAhee/Ttzd+D5WZZrf2W8Hq5Qwq3z4hAwp
+ 4uY9uXpHTL9emNxFGldEisXxf8M0yChudkP6PlJ9F13tG/aLVAHb9OY0xAWSfOMCiTZBTy
+ 1TuB3eJ/OPr7zXuK6lBj/6lKVMjnjyQ=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-161-QGGSWhPvMM6VclH8hUOlBg-1; Thu, 16 Dec 2021 04:54:19 -0500
+X-MC-Unique: QGGSWhPvMM6VclH8hUOlBg-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ n16-20020a05600c3b9000b003331973fdbbso10080169wms.0
+ for <qemu-devel@nongnu.org>; Thu, 16 Dec 2021 01:54:19 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=Xs5OY7Sv6bIvDjHloU4Ht/3jxhseiWqoJRVcBCuWBaA=;
+ b=otdeBQV0XhAtciORZES/XjmIGUG5U2ubEQEHu8SAkxGQfAOG6DwWHDBsJ57NDZzoE+
+ g+wAcs+WXYcxz6yPI9zpc7j9VHTmhgNaSVmSOWaLT2W4xIWJYCD86I6Xns3EGqrRYU9W
+ 1FeKHlRPwSlM7vilCL1wg1D2iJuMtzm8ooDK9Y2jnSfwcqzN+R8BZWAYOeL3+HasApSo
+ IVknDiqrxISWYlo7hcHvmvK8lfAe6N5jH+wqY+0c6GRmtDamqYs1r74EzoB1G0y2FyBa
+ MPA/gbdHH3ukR+ot/O2h3cF16e0eZPOS35uluedr7KHTq/dNPNxfofml3WgbjtO5XrRa
+ UEgg==
+X-Gm-Message-State: AOAM533Wi8cJjp/6C78tIBmdbo/dhPIoDxDeQvseIv4hr9k9PMerjgK7
+ 8gJnOfXoHeZ3595Awb17Ut9idKELbB33KyQpuhMt6jTdrpAhUczVZnvoYZpKqgyqrlBe8xo67sg
+ xhdSb5WNEj4eKhtc=
+X-Received: by 2002:a1c:a783:: with SMTP id q125mr4147090wme.132.1639648458533; 
+ Thu, 16 Dec 2021 01:54:18 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJy8lQTfXNJEdGdU1K0uAy1KyJRmhdN2ApllMsPDjYZv7vt+MM+8ny5aoG+pbQxM3Xp2+9BArg==
+X-Received: by 2002:a1c:a783:: with SMTP id q125mr4147067wme.132.1639648458279; 
+ Thu, 16 Dec 2021 01:54:18 -0800 (PST)
+Received: from [192.168.1.36] (174.red-83-50-185.dynamicip.rima-tde.net.
+ [83.50.185.174])
+ by smtp.gmail.com with ESMTPSA id u10sm5850533wrs.99.2021.12.16.01.54.17
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 16 Dec 2021 01:54:17 -0800 (PST)
+Message-ID: <8a41180b-b627-bc04-6144-62ee19b799ea@redhat.com>
+Date: Thu, 16 Dec 2021 10:54:16 +0100
 MIME-Version: 1.0
-Received: from [192.168.100.10] (185.215.60.230) by
- AM6P194CA0063.EURP194.PROD.OUTLOOK.COM (2603:10a6:209:84::40) with Microsoft
- SMTP Server (version=TLS1_2, cipher=) via Frontend Transport;
- Thu, 16 Dec 2021 09:51:29 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 75957c86-0af3-4f00-acb5-08d9c079a2b1
-X-MS-TrafficTypeDiagnostic: AM0PR08MB3284:EE_
-X-Microsoft-Antispam-PRVS: <AM0PR08MB328499688625BBD88682D35EC1779@AM0PR08MB3284.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ZImjyNJ7dcmHkKvxi+Vklu0oWbRopTzoMEPGNuc2RWfBV5pN+NExUZMOC2puLGRlEF8P/nWyWXDQHmXaiAD+LzMIvhSO4T+XjTq5d8j06mmdLaS6W4bY2o5txrE8Kx7Uc9Yq861+R5RK3u/OAhyGTqIQiVdrA709RvQGuQGtn2gM6iZoZk0dO38d+gO4wIoubwRW6SU4MruQfqryCPFeSdgILv3NuwC/ddeVZGOPTKtMt5+uwtLWDZ7hs/U/OPZGICerw6H8gVMLV7QNpTupXZtuiv13SSyt1v4lXeTS8S5OVFi9Pj8TAGIN6im+j/i1JBJDaoMDiGHtWryAh0NOIOTfxTy6jRLdi0Nk7HNVAX70W4r0+i6Z2R9aVv5Qlggfpkkq5fA2cqpQR1N97A4XUL9b/OMqWbhYGYZM/BCHOALPrNUkyVLsdiJFSAqdmFpVwWFjEaGAd09GHKKvJ1J7Ufzxv0l+ml4GGxIoPVDQxJx5gsR6A3zIdfJvonAGCneXcRyxrU/ZT/0S+w5sC7oSQo2EYxekzm3iL3vYMMfxNuG2wBNRgMJCrQDl+OBcaX/2OKuoShzpI8TDCHjlMhoqOn27m95aKpmWnXtg1k7RMWCHsz+eKS+oe+MYYL+OieFz5JfKjQWTE6d6HnZba0qnSKL9caqbgToW4+khzxKwfUYmOnHFCUlJnrbBSLwN6mswetAIyKnHchWniWeFfdwtC0pW9URq5om1Mam2PLjDTDY+sQcRQKm1N1EriCchXx5GuWSVB7b0H/oc/rCoSrlczQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM9PR08MB6737.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(186003)(956004)(38100700002)(38350700002)(8936002)(8676002)(66946007)(66476007)(66556008)(7416002)(6486002)(316002)(16576012)(5660300002)(2616005)(2906002)(52116002)(26005)(31696002)(31686004)(83380400001)(54906003)(86362001)(4326008)(508600001)(36756003)(43740500002)(45980500001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SGhSQjhNK3VubEV2cFY4V1l5b2tibUlMQ1hvVTlSSS9qSVJ6ODJVYTI3ZkVk?=
- =?utf-8?B?bExyY2ZuSk5KVElNWi80VjQyTXhYMlh2SVg1MGo5RE1MVFF2MDlDbUZlQ1ov?=
- =?utf-8?B?c2xlS0VFUm1ScUFkRXJjNXg4VmdKZ1NuZ21aN1U1cW5Hb1VUWFM5dUpSYUNX?=
- =?utf-8?B?UEgwbDZEL0xYc00wSDZES2JVNHY5YVFhREREbDB5Q0ZxRjdLaEx1dk9yZlFt?=
- =?utf-8?B?WlljdG9RQzB0TzNCb0FOWWpvMVp0REQ2YnZVbG5Wd3NKUDdiVE5EQVFSNnV0?=
- =?utf-8?B?MnRPWGRzNnN0WWk2OFJaTjhGcEE2azNNL3FNUE9MZFMySWk3Y2dwTWZHVm0r?=
- =?utf-8?B?Z0MrYnFHUXFCZUZBT3RHZ1BuK0VFdWVKb2w3a0hPRi85d2pXcUx6b1c1WktZ?=
- =?utf-8?B?VG12ellZcUdxTEY2WnBaK1Q0azBMdElTbDh2clBqcUZMMzJJNUlPM1N2NEE2?=
- =?utf-8?B?Vm95bjdxeHJOT3hwd085RDFNbTh0bGcvQWF3RUNiaWRuazRLdGV4aCt1VG1w?=
- =?utf-8?B?bHpJSTdJOUxVSDNvVGhHQnJ2a3V6QVpTeVN4M2N2NlRoM3VYTWhHdEFXaDN3?=
- =?utf-8?B?U0ZBWDhDSExLajhoVU1lSmtkOG0vMTh0WFN0WU9IckNuVXNINGFzWHBMNHI1?=
- =?utf-8?B?NG5LaFFUZ3dzaG5oRzBTbzlhT2pKL1AybHRwOTZFcEdCb09IaEtrT0p2R3cw?=
- =?utf-8?B?TmRQMzVlajdqVVFBdjBDc0FrR1lweVRBMW1sZjcydWVHY3JDYUVSV3VTdWg2?=
- =?utf-8?B?OVJ2bVAyVXF1MU5IblhwK3ZlKzc1R3FxcW44UlcrR3NscmRQakdKZWN3QXl4?=
- =?utf-8?B?UnVVWkVKNmp0KzNmb0doaG10andYaE52aUNuT1pyUy95bWJ3d2dJVkdVVmYr?=
- =?utf-8?B?d2hSNmZNMUs1REtIM0d1NnNWTTZEbFBEYWFCZVRWYlFBOWt5NW9wNW9zRVVP?=
- =?utf-8?B?Rmg5eHRtTE5NZWVxWTE0Tit2WGNDaytvTHV1NnUydzRoN2N3RFFqYkc0bDMz?=
- =?utf-8?B?MWwzdnFiYUNkUEhVN1ZzemlFeFJ0anYxSzE4cWFEUkNzVzB2QjkzR1c4SC9M?=
- =?utf-8?B?U2hMZmRuZm9hV1B1NHlacDNpakZpZ2QxRG1wbEgyN1o2MjhiV25rTWFoWDRs?=
- =?utf-8?B?cCthbUlKVm03ck1vVGpzb2Vxbzg4UmV6cTVCc0hsNktFcnZWL09jcmwySzVs?=
- =?utf-8?B?YmZxbzNERXZVUnp2NTkxZm1qaWduRnByem5YRnhTbmU4OUE3OUthVWt1QnNO?=
- =?utf-8?B?anhLcXNoelJaZlRSdDc5OUpxREZEeldYNjJvSm03N1hoUjI4cnJhd3JmOFJ5?=
- =?utf-8?B?bDBmSW1lN3dVdElBZlJQb0tmZ1hMTys4ekRNdWFUKzR0dDR2SUJrZFRKRGEr?=
- =?utf-8?B?c0cxTjZqVEN0dk5Na2dzTGluNG9JQkFza2d0VzU3bmZWaFpaTXlDeFdza1dB?=
- =?utf-8?B?YW5PQkNRaFFNQnBBNFRteEJrczlKSUVhejNCOEQ5NlZRbC9ONFlxbXZPeXFu?=
- =?utf-8?B?bG9QbmVmdFl3MEpMSVJDb25oV1h4UkdVSnJEVFVoV1VoT1pkMjMxQlBYMnBa?=
- =?utf-8?B?SHZnU0xhcnlrTUhtSUdvU3NyWDJROGJvejY2OWYwSFFmd2c2S1RDd2dDZ1pR?=
- =?utf-8?B?VFdrL2NXZnhhSC9hUkt0SmlzYWdTc1hZeUhmTjI3VkxCNHZ3c0RzSXllWitL?=
- =?utf-8?B?VWYwNkFPZmdGa0hNa1F5RGdiVUdjbUxhWmgrM3ZkNEpYSTJualJVZ1RCeldI?=
- =?utf-8?B?WldrRlhhZWVOeG9JSW5hS1ZiM2d4Y1ZSZndRVDFRSWErV0RDT01TbGUrbi9G?=
- =?utf-8?B?b3h3YUhtb3JEV3YrTjQ3YU5kZlQ1OHo5U3RjeFdBZHQvaHBjY2JlbkVtQVVK?=
- =?utf-8?B?MXROaE1RUWVWR1FMTE9lMzNrWFZ3NjNoYWNUOWtSZVljSE9PYVd2aUc1VWEy?=
- =?utf-8?B?MG1iV1BRd3lhdUFXSXJVbHQvdmRJNlE1T29PeVZVL3dHamowNGQ3bmtudUdU?=
- =?utf-8?B?cjAxanI4R01rNHNMOE5RTGNVb3owbnlhblF5ZGlNTlRxVFpBV044QXR1QXIy?=
- =?utf-8?B?ay8xalFVajJyUHN4SkhXT3ZST0w2dzJ2dGo5UzFxVXpmSUxlSUpRclk5Q1Fr?=
- =?utf-8?B?SWNqOXVQc0ZxZEladUFKeloxdURTcG5NVEhRUUMyWjVLdDdDRGNvTG1iVjdw?=
- =?utf-8?B?UFZ1RWZSa3BVZkgxclE5NCtoZVg5dXgvUVRsazBWY2gvYXJjSFlYZkFqRGdq?=
- =?utf-8?B?eWhTeVNhT3Yxc3p2aGdxaTkwS2FBPT0=?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 75957c86-0af3-4f00-acb5-08d9c079a2b1
-X-MS-Exchange-CrossTenant-AuthSource: AM9PR08MB6737.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Dec 2021 09:51:30.4208 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: O5Mm76zvXTvT6Z55ekcQWU7bb0gz5/tz/5WsmmhOk9txFUa6XGCQbKdLeXgo4ps4WXsNjl1db5uI2nFazg8KlopPMVxhZSqtQBucOGvXPlM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR08MB3284
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a01:111:f400:fe08::723
- (failed)
-Received-SPF: pass client-ip=2a01:111:f400:fe08::723;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR03-AM5-obe.outbound.protection.outlook.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.034, RDNS_NONE=0.793,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH v4 0/3] hw/block/fdc: Fix CVE-2021-20196
+To: Kevin Wolf <kwolf@redhat.com>, QEMU Security <qemu-security@nongnu.org>
+References: <20211124161536.631563-1-philmd@redhat.com>
+ <YbNZXXoqhB1nqEYE@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+In-Reply-To: <YbNZXXoqhB1nqEYE@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.718,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.034, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -159,63 +100,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-15.12.2021 22:39, John Snow wrote:
-> This exception can be injected into any await statement. If we are
-> canceled via timeout, we want to clear the pending execution record on
-> our way out.
-
-Hmm, but there are more await statements in the file, shouldn't we care about them too ?
-
+On 12/10/21 14:42, Kevin Wolf wrote:
+> Am 24.11.2021 um 17:15 hat Philippe Mathieu-Daudé geschrieben:
+>> Since v3:
+>> - Preliminary extract blk_create_empty_drive()
+>> - qtest checks qtest_check_clang_sanitizer() enabled
+>> - qtest uses null-co:// driver instead of file
+>>
+>> Philippe Mathieu-Daudé (3):
+>>   hw/block/fdc: Extract blk_create_empty_drive()
+>>   hw/block/fdc: Kludge missing floppy drive to fix CVE-2021-20196
+>>   tests/qtest/fdc-test: Add a regression test for CVE-2021-20196
 > 
-> Signed-off-by: John Snow <jsnow@redhat.com>
-> ---
->   python/qemu/aqmp/qmp_client.py | 8 ++++++--
->   1 file changed, 6 insertions(+), 2 deletions(-)
-> 
-> diff --git a/python/qemu/aqmp/qmp_client.py b/python/qemu/aqmp/qmp_client.py
-> index 8105e29fa8..6a985ffe30 100644
-> --- a/python/qemu/aqmp/qmp_client.py
-> +++ b/python/qemu/aqmp/qmp_client.py
-> @@ -435,7 +435,11 @@ async def _issue(self, msg: Message) -> Union[None, str]:
->               msg_id = msg['id']
->   
->           self._pending[msg_id] = asyncio.Queue(maxsize=1)
-> -        await self._outgoing.put(msg)
-> +        try:
-> +            await self._outgoing.put(msg)
-> +        except:
+> If I may ask a meta question: No doubt that this is a bug and it's good
+> that we fixed it, but why was it assigned a CVE?
 
-Doesn't pylint and others complain about plain "except". Do we really need to catch any exception here? As far as I know that's not a good practice.
+No clue, I suppose this is audited and handled by qemu-security@ team
+members. Cc'ing them.
 
-> +            del self._pending[msg_id]
-> +            raise
->   
->           return msg_id
->   
-> @@ -452,9 +456,9 @@ async def _reply(self, msg_id: Union[str, None]) -> Message:
->               was lost, or some other problem.
->           """
->           queue = self._pending[msg_id]
-> -        result = await queue.get()
->   
->           try:
-> +            result = await queue.get()
->               if isinstance(result, ExecInterruptedError):
->                   raise result
->               return result
-> 
+> Any guest can legitimately shut down and we don't consider that a denial
+> of service. This bug was essentially just another undocumented way for
+> the guest kernel to shut down, as unprivileged users in the guest can't
+> normally access the I/O ports of the floppy controller. I don't think we
+> generally consider guests killing themselves a security problem as long
+> as it requires kernel or root privileges in the guest.
 
-This one looks good, just include it into existing try-finally
+Agreed.
 
-Hmm. _issue() and _reply() are used only in one place, as a pair. It looks like both "awaits" should be better under one try-finally block.
-
-For example, move "self._pending[msg_id] = asyncio.Queue(maxsize=1)" to _execute, and just do try-finally in _execute() around _issue and _reply. Or may be just merge the whole logic in _execute, it doesn't seem too much. What do you think?
-
-
--- 
-Best regards,
-Vladimir
 
