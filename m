@@ -2,88 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CA40477301
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 14:19:19 +0100 (CET)
-Received: from localhost ([::1]:60402 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75C5947739B
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 14:51:28 +0100 (CET)
+Received: from localhost ([::1]:51892 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxqfG-0004is-0f
-	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 08:19:18 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35460)
+	id 1mxrAM-0005jY-DS
+	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 08:51:26 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36060)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bleal@redhat.com>) id 1mxqcL-0002re-7l
- for qemu-devel@nongnu.org; Thu, 16 Dec 2021 08:16:18 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:20384)
+ (Exim 4.90_1) (envelope-from <nrb@linux.ibm.com>)
+ id 1mxqe1-0004iM-CE; Thu, 16 Dec 2021 08:18:01 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:60638)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bleal@redhat.com>) id 1mxqcG-0006wZ-91
- for qemu-devel@nongnu.org; Thu, 16 Dec 2021 08:16:16 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639660568;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=uOC6naAZHyotOBROzybQtHxV3pzPo8s9wyZfsr5xv9s=;
- b=YfXL9w5usU82Xkdllq9UtWVlxh6M9//gy9IfOhmYLBsc60BAGMeLQ1mqgno720TEm93ViC
- Nj/uaabdPYAzZk/kbFj5JPLwA0dQK9gKADrAgahFi7leLUSUUIWiDRtiadN9UPUbrWLgSi
- TDw0TEG/cCYpbPrwNHvI4VIMyO3gYiY=
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-629-AicMk1aqPYyMTxih6oGSOw-1; Thu, 16 Dec 2021 08:16:07 -0500
-X-MC-Unique: AicMk1aqPYyMTxih6oGSOw-1
-Received: by mail-qv1-f69.google.com with SMTP id
- 12-20020a05621420cc00b00410c7826fc6so6801928qve.19
- for <qemu-devel@nongnu.org>; Thu, 16 Dec 2021 05:16:07 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=uOC6naAZHyotOBROzybQtHxV3pzPo8s9wyZfsr5xv9s=;
- b=DY7OKz+cTyhPWiQmu2YG6yIEpyjB9X9eWE/4KbZ6+U1dlJkcHhLdbTCcAjpESUM8QQ
- tTY6ZN6QlVVTnJPSTCEnJyB8N0sQ//kAT9v9EqYDyZZCho1PkOev4/Kh6CIUEFUxgRIX
- vLazWjt2IJmkjXrzS1yTs1R2dbwsgLp6yC9IGx/DAkKgw/+chFabghaXdZONzJo6f/Ms
- 99XbUp+4O8VvNEqmQuCUWHQALEtdnCNZsYrdsplheJzoRxVIpGKr7EK+lyu5fTlHLdb1
- J4QIPpnr7KlIWa4sT8JFMhNJiZcyEOoh0bdeCKvah54pkw2/3Vfm7ntHGrkR6pQCfOTE
- bKZg==
-X-Gm-Message-State: AOAM532rlEYD+LT+Ik0JVCOXrixlDVtDqzYqkzmmLtPdmm9ErZ1HJ52u
- rmRfR+f4Q4nVngsVPUC3Y4NKxdhYDKBDVfkiNfq8suoP5WzegEpI41hqmyQz+Z5HxtCh3EGsNfi
- WeHjinW0J8n6/eqA=
-X-Received: by 2002:a05:6214:2682:: with SMTP id
- gm2mr11382711qvb.2.1639660566635; 
- Thu, 16 Dec 2021 05:16:06 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJy1O54yiIVTggBvq2B0mEBCOGw4Nm/HUEkCckMg+/USs56CNjogltlq5orOLeSVT1EOt7KLag==
-X-Received: by 2002:a05:6214:2682:: with SMTP id
- gm2mr11382685qvb.2.1639660566410; 
- Thu, 16 Dec 2021 05:16:06 -0800 (PST)
-Received: from localhost ([181.191.236.130])
- by smtp.gmail.com with ESMTPSA id x4sm4234067qtw.44.2021.12.16.05.16.05
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Dec 2021 05:16:05 -0800 (PST)
-Date: Thu, 16 Dec 2021 10:16:03 -0300
-From: Beraldo Leal <bleal@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH v2 04/25] python/aqmp: add SocketAddrT to package root
-Message-ID: <20211216131603.tsomctdifr6qcru3@laptop.redhat>
-References: <20211215193939.3768033-1-jsnow@redhat.com>
- <20211215193939.3768033-5-jsnow@redhat.com>
+ (Exim 4.90_1) (envelope-from <nrb@linux.ibm.com>)
+ id 1mxqdx-0007eK-Ad; Thu, 16 Dec 2021 08:18:01 -0500
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1BGAxdJF001491; 
+ Thu, 16 Dec 2021 13:17:52 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding; s=pp1;
+ bh=Dxpct/PVMPtprUdLdZkgL/YkkoCP088nv+SmNqfl0UM=;
+ b=SpaO+0LZy3QqCHCajbvo9yqa2iPlsTOpvYxncC4AxCoI5eg7eOx6XzURraithMoYCLRw
+ XKaPhyjFQinQUel1uFv4qG8kjpXxC+7co490diWtk4kVWnMLBv4ohh8vLbntNVbaAxE3
+ IVo1IROSS+8Bn3HgOb9uSBS75rC2EcPFKvzAzF+3jnSENZhlMixS6Jte17RdVpSdxiVt
+ DNUFxL/JzEnzySDEP8M3tD6fG8Y8fNtu4Kya7QU3EsxdNYmWP//5zOAUemY/Mhrq2E11
+ 53ESTNUQl/wQgHepxqb10qbZenUuLCiz69DWdhXsx2mrBdXYxwGTbaV0eKNKxSFmICa5 +A== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3cys717h04-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 16 Dec 2021 13:17:52 +0000
+Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1BGCkDQf009460;
+ Thu, 16 Dec 2021 13:17:52 GMT
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.99])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3cys717gyf-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 16 Dec 2021 13:17:52 +0000
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+ by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1BGDHe2C011991;
+ Thu, 16 Dec 2021 13:17:49 GMT
+Received: from b06cxnps3074.portsmouth.uk.ibm.com
+ (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
+ by ppma04ams.nl.ibm.com with ESMTP id 3cy7qw748k-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 16 Dec 2021 13:17:49 +0000
+Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
+ [9.149.105.62])
+ by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 1BGDHkJF21561628
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 16 Dec 2021 13:17:46 GMT
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 72A15AE05A;
+ Thu, 16 Dec 2021 13:17:46 +0000 (GMT)
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 28C42AE058;
+ Thu, 16 Dec 2021 13:17:46 +0000 (GMT)
+Received: from t46lp57.lnxne.boe (unknown [9.152.108.100])
+ by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Thu, 16 Dec 2021 13:17:46 +0000 (GMT)
+From: Nico Boehr <nrb@linux.ibm.com>
+To: qemu-s390x@nongnu.org
+Subject: [PATCH qemu] s390x/css: fix PMCW invalid mask
+Date: Thu, 16 Dec 2021 14:16:57 +0100
+Message-Id: <20211216131657.1057978-1-nrb@linux.ibm.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-In-Reply-To: <20211215193939.3768033-5-jsnow@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=bleal@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=bleal@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.718,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: F-yW9XOGIWf722_kxTQ81pAswULyMT1t
+X-Proofpoint-GUID: BD4bIynvn1j5_K04vv2LNCYQ7YkhqwyU
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2021-12-16_04,2021-12-16_01,2021-12-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ mlxlogscore=817 malwarescore=0 clxscore=1011 mlxscore=0 bulkscore=0
+ suspectscore=0 phishscore=0 spamscore=0 impostorscore=0 adultscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2110150000 definitions=main-2112160073
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=nrb@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Thu, 16 Dec 2021 08:46:41 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,54 +105,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>, Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Daniel Berrange <berrange@redhat.com>, qemu-block@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- Wainer Moschetta <wainersm@redhat.com>, Andrea Bolognani <abologna@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Cleber Rosa <crosa@redhat.com>
+Cc: thuth@redhat.com, Nico Boehr <nrb@linux.ibm.com>, frankja@linux.ibm.com,
+ pmorel@linux.ibm.com, cohuck@redhat.com, qemu-devel@nongnu.org,
+ pasic@linux.ibm.com, borntraeger@de.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Dec 15, 2021 at 02:39:18PM -0500, John Snow wrote:
-> It's a commonly needed definition, it can be re-exported by the root.
-> 
-> Signed-off-by: John Snow <jsnow@redhat.com>
-> ---
->  python/qemu/aqmp/__init__.py | 10 +++++++++-
->  1 file changed, 9 insertions(+), 1 deletion(-)
-> 
-> diff --git a/python/qemu/aqmp/__init__.py b/python/qemu/aqmp/__init__.py
-> index 880d5b6fa7..c6fa2dda58 100644
-> --- a/python/qemu/aqmp/__init__.py
-> +++ b/python/qemu/aqmp/__init__.py
-> @@ -26,7 +26,12 @@
->  from .error import AQMPError
->  from .events import EventListener
->  from .message import Message
-> -from .protocol import ConnectError, Runstate, StateError
-> +from .protocol import (
-> +    ConnectError,
-> +    Runstate,
-> +    SocketAddrT,
-> +    StateError,
-> +)
->  from .qmp_client import ExecInterruptedError, ExecuteError, QMPClient
->  
->  
-> @@ -48,4 +53,7 @@
->      'ConnectError',
->      'ExecuteError',
->      'ExecInterruptedError',
-> +
-> +    # Type aliases
-> +    'SocketAddrT',
->  )
+Previously, we required bits 5, 6 and 7 to be zero (0x07 == 0b111). But,
+as per the principles of operation, bit 5 is ignored in MSCH and bits 0,
+1, 6 and 7 need to be zero.
 
-Reviewed-by: Beraldo Leal <bleal@redhat.com>
+As both PMCW_FLAGS_MASK_INVALID and ioinst_schib_valid() are only used
+by ioinst_handle_msch(), adjust the mask accordingly.
 
---
-Beraldo
+Fixes: db1c8f53bfb1 ("s390: Channel I/O basic definitions.")
+Signed-off-by: Nico Boehr <nrb@linux.ibm.com>
+Reviewed-by: Pierre Morel <pmorel@linux.ibm.com>
+Reviewed-by: Halil Pasic <pasic@linux.ibm.com>
+Reviewed-by: Janosch Frank <frankja@linux.ibm.com>
+---
+ include/hw/s390x/ioinst.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/include/hw/s390x/ioinst.h b/include/hw/s390x/ioinst.h
+index 3771fff9d44d..ea8d0f244492 100644
+--- a/include/hw/s390x/ioinst.h
++++ b/include/hw/s390x/ioinst.h
+@@ -107,7 +107,7 @@ QEMU_BUILD_BUG_MSG(sizeof(PMCW) != 28, "size of PMCW is wrong");
+ #define PMCW_FLAGS_MASK_MP 0x0004
+ #define PMCW_FLAGS_MASK_TF 0x0002
+ #define PMCW_FLAGS_MASK_DNV 0x0001
+-#define PMCW_FLAGS_MASK_INVALID 0x0700
++#define PMCW_FLAGS_MASK_INVALID 0xc300
+ 
+ #define PMCW_CHARS_MASK_ST 0x00e00000
+ #define PMCW_CHARS_MASK_MBFC 0x00000004
+-- 
+2.31.1
 
 
