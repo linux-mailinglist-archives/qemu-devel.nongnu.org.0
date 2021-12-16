@@ -2,60 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52F74477DD6
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 21:50:12 +0100 (CET)
-Received: from localhost ([::1]:42438 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CBAD477DC1
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 21:43:29 +0100 (CET)
+Received: from localhost ([::1]:52474 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxxhb-0005dj-DL
-	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 15:50:11 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37118)
+	id 1mxxb5-0001oP-Sk
+	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 15:43:27 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37018)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1mxxKw-0001Et-4t; Thu, 16 Dec 2021 15:26:46 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:28256)
+ id 1mxxKs-0001Az-3L; Thu, 16 Dec 2021 15:26:42 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:46576
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1mxxKs-0007Jd-7b; Thu, 16 Dec 2021 15:26:44 -0500
-Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1BGHhquT006213; 
+ id 1mxxKo-0007HX-NC; Thu, 16 Dec 2021 15:26:40 -0500
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1BGISBeu014257; 
  Thu, 16 Dec 2021 20:26:27 GMT
-Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.99])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3cy2tr1gxf-1
+Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.108])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3cygmwwudw-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Thu, 16 Dec 2021 20:26:26 +0000
-Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
- by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1BGKBqpr016331;
- Thu, 16 Dec 2021 20:26:24 GMT
-Received: from b06avi18878370.portsmouth.uk.ibm.com
- (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
- by ppma04ams.nl.ibm.com with ESMTP id 3cy7qwatac-1
+Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
+ by ppma05fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1BGKCWHn010861;
+ Thu, 16 Dec 2021 20:26:25 GMT
+Received: from b06cxnps4074.portsmouth.uk.ibm.com
+ (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
+ by ppma05fra.de.ibm.com with ESMTP id 3cy78hj779-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Thu, 16 Dec 2021 20:26:24 +0000
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
- [9.149.105.61])
- by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 1BGKQLnB46661932
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
+ [9.149.105.59])
+ by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 1BGKQM8T23986542
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 16 Dec 2021 20:26:21 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D37A211C04A;
- Thu, 16 Dec 2021 20:26:21 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 92D4611C052;
- Thu, 16 Dec 2021 20:26:21 +0000 (GMT)
+ Thu, 16 Dec 2021 20:26:22 GMT
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 82B3BA4051;
+ Thu, 16 Dec 2021 20:26:22 +0000 (GMT)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 411DFA4057;
+ Thu, 16 Dec 2021 20:26:22 +0000 (GMT)
 Received: from smtp.tlslab.ibm.com (unknown [9.101.4.1])
- by d06av25.portsmouth.uk.ibm.com (Postfix) with SMTP;
- Thu, 16 Dec 2021 20:26:21 +0000 (GMT)
+ by d06av23.portsmouth.uk.ibm.com (Postfix) with SMTP;
+ Thu, 16 Dec 2021 20:26:22 +0000 (GMT)
 Received: from yukon.ibmuc.com (unknown [9.171.48.122])
- by smtp.tlslab.ibm.com (Postfix) with ESMTP id DAED02201A0;
- Thu, 16 Dec 2021 21:26:20 +0100 (CET)
+ by smtp.tlslab.ibm.com (Postfix) with ESMTP id 849C5220238;
+ Thu, 16 Dec 2021 21:26:21 +0100 (CET)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
-Subject: [PULL 006/101] target/ppc: Implement Vector Expand Mask
-Date: Thu, 16 Dec 2021 21:24:39 +0100
-Message-Id: <20211216202614.414266-7-clg@kaod.org>
+Subject: [PULL 007/101] target/ppc: Implement Vector Extract Mask
+Date: Thu, 16 Dec 2021 21:24:40 +0100
+Message-Id: <20211216202614.414266-8-clg@kaod.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211216202614.414266-1-clg@kaod.org>
 References: <20211216202614.414266-1-clg@kaod.org>
@@ -63,24 +64,25 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: 2rJzIlBaOk5-PNZwSxdFYyoSfS0suwuA
-X-Proofpoint-ORIG-GUID: 2rJzIlBaOk5-PNZwSxdFYyoSfS0suwuA
+X-Proofpoint-GUID: _0h5ihzajNptmxZMuuUwmKcXbyfi_h9r
+X-Proofpoint-ORIG-GUID: _0h5ihzajNptmxZMuuUwmKcXbyfi_h9r
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
  definitions=2021-12-16_08,2021-12-16_01,2021-12-02_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 spamscore=0
- adultscore=0 bulkscore=0 mlxscore=0 suspectscore=0 malwarescore=0
- phishscore=0 clxscore=1034 mlxlogscore=999 priorityscore=1501
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ priorityscore=1501
+ spamscore=0 phishscore=0 clxscore=1034 lowpriorityscore=0 malwarescore=0
+ mlxlogscore=999 mlxscore=0 impostorscore=0 adultscore=0 bulkscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2110150000 definitions=main-2112160109
-Received-SPF: softfail client-ip=148.163.156.1; envelope-from=clg@kaod.org;
+Received-SPF: softfail client-ip=148.163.158.5; envelope-from=clg@kaod.org;
  helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -11
-X-Spam_score: -1.2
-X-Spam_bar: -
-X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
+X-Spam_score_int: -7
+X-Spam_score: -0.8
+X-Spam_bar: /
+X-Spam_report: (-0.8 / 5.0 requ) BAYES_00=-1.9, KHOP_HELO_FCRDNS=0.399,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,79 +105,117 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 From: Matheus Ferst <matheus.ferst@eldorado.org.br>
 
 Implement the following PowerISA v3.1 instructions:
-vexpandbm: Vector Expand Byte Mask
-vexpandhm: Vector Expand Halfword Mask
-vexpandwm: Vector Expand Word Mask
-vexpanddm: Vector Expand Doubleword Mask
-vexpandqm: Vector Expand Quadword Mask
+vextractbm: Vector Extract Byte Mask
+vextracthm: Vector Extract Halfword Mask
+vextractwm: Vector Extract Word Mask
+vextractdm: Vector Extract Doubleword Mask
+vextractqm: Vector Extract Quadword Mask
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
-Message-Id: <20211203194229.746275-2-matheus.ferst@eldorado.org.br>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20211203194229.746275-3-matheus.ferst@eldorado.org.br>
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 ---
- target/ppc/insn32.decode            | 11 ++++++++++
- target/ppc/translate/vmx-impl.c.inc | 34 +++++++++++++++++++++++++++++
- 2 files changed, 45 insertions(+)
+ target/ppc/insn32.decode            |  6 +++
+ target/ppc/translate/vmx-impl.c.inc | 82 +++++++++++++++++++++++++++++
+ 2 files changed, 88 insertions(+)
 
 diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
-index e135b8aba417..9a28f1d266bb 100644
+index 9a28f1d266bb..639ac22bf055 100644
 --- a/target/ppc/insn32.decode
 +++ b/target/ppc/insn32.decode
-@@ -56,6 +56,9 @@
- &VX_uim4        vrt uim vrb
- @VX_uim4        ...... vrt:5 . uim:4 vrb:5 ...........  &VX_uim4
+@@ -419,6 +419,12 @@ VEXPANDWM       000100 ..... 00010 ..... 11001000010=
+    @VX_tb
+ VEXPANDDM       000100 ..... 00011 ..... 11001000010    @VX_tb
+ VEXPANDQM       000100 ..... 00100 ..... 11001000010    @VX_tb
 =20
-+&VX_tb          vrt vrb
-+@VX_tb          ...... vrt:5 ..... vrb:5 ...........    &VX_tb
-+
- &X              rt ra rb
- @X              ...... rt:5 ra:5 rb:5 .......... .      &X
-=20
-@@ -408,6 +411,14 @@ VINSWVRX        000100 ..... ..... ..... 00110001111=
-    @VX
- VSLDBI          000100 ..... ..... ..... 00 ... 010110  @VN
- VSRDBI          000100 ..... ..... ..... 01 ... 010110  @VN
-=20
-+## Vector Mask Manipulation Instructions
-+
-+VEXPANDBM       000100 ..... 00000 ..... 11001000010    @VX_tb
-+VEXPANDHM       000100 ..... 00001 ..... 11001000010    @VX_tb
-+VEXPANDWM       000100 ..... 00010 ..... 11001000010    @VX_tb
-+VEXPANDDM       000100 ..... 00011 ..... 11001000010    @VX_tb
-+VEXPANDQM       000100 ..... 00100 ..... 11001000010    @VX_tb
++VEXTRACTBM      000100 ..... 01000 ..... 11001000010    @VX_tb
++VEXTRACTHM      000100 ..... 01001 ..... 11001000010    @VX_tb
++VEXTRACTWM      000100 ..... 01010 ..... 11001000010    @VX_tb
++VEXTRACTDM      000100 ..... 01011 ..... 11001000010    @VX_tb
++VEXTRACTQM      000100 ..... 01100 ..... 11001000010    @VX_tb
 +
  # VSX Load/Store Instructions
 =20
  LXV             111101 ..... ..... ............ . 001   @DQ_TSX
 diff --git a/target/ppc/translate/vmx-impl.c.inc b/target/ppc/translate/v=
 mx-impl.c.inc
-index 8eb8d3a06720..ebb048432369 100644
+index ebb048432369..96c97bf6e74c 100644
 --- a/target/ppc/translate/vmx-impl.c.inc
 +++ b/target/ppc/translate/vmx-impl.c.inc
-@@ -1491,6 +1491,40 @@ static bool trans_VSRDBI(DisasContext *ctx, arg_VN=
- *a)
+@@ -1525,6 +1525,88 @@ static bool trans_VEXPANDQM(DisasContext *ctx, arg=
+_VX_tb *a)
      return true;
  }
 =20
-+static bool do_vexpand(DisasContext *ctx, arg_VX_tb *a, unsigned vece)
++static bool do_vextractm(DisasContext *ctx, arg_VX_tb *a, unsigned vece)
 +{
++    const uint64_t elem_width =3D 8 << vece, elem_count_half =3D 8 >> ve=
+ce,
++                   mask =3D dup_const(vece, 1 << (elem_width - 1));
++    uint64_t i, j;
++    TCGv_i64 lo, hi, t0, t1;
++
 +    REQUIRE_INSNS_FLAGS2(ctx, ISA310);
 +    REQUIRE_VECTOR(ctx);
 +
-+    tcg_gen_gvec_sari(vece, avr_full_offset(a->vrt), avr_full_offset(a->=
-vrb),
-+                      (8 << vece) - 1, 16, 16);
++    hi =3D tcg_temp_new_i64();
++    lo =3D tcg_temp_new_i64();
++    t0 =3D tcg_temp_new_i64();
++    t1 =3D tcg_temp_new_i64();
++
++    get_avr64(lo, a->vrb, false);
++    get_avr64(hi, a->vrb, true);
++
++    tcg_gen_andi_i64(lo, lo, mask);
++    tcg_gen_andi_i64(hi, hi, mask);
++
++    /*
++     * Gather the most significant bit of each element in the highest el=
+ement
++     * element. E.g. for bytes:
++     * aXXXXXXXbXXXXXXXcXXXXXXXdXXXXXXXeXXXXXXXfXXXXXXXgXXXXXXXhXXXXXXX
++     *     & dup(1 << (elem_width - 1))
++     * a0000000b0000000c0000000d0000000e0000000f0000000g0000000h0000000
++     *     << 32 - 4
++     * 0000e0000000f0000000g0000000h00000000000000000000000000000000000
++     *     |
++     * a000e000b000f000c000g000d000h000e0000000f0000000g0000000h0000000
++     *     << 16 - 2
++     * 00c000g000d000h000e0000000f0000000g0000000h000000000000000000000
++     *     |
++     * a0c0e0g0b0d0f0h0c0e0g000d0f0h000e0g00000f0h00000g0000000h0000000
++     *     << 8 - 1
++     * 0b0d0f0h0c0e0g000d0f0h000e0g00000f0h00000g0000000h00000000000000
++     *     |
++     * abcdefghbcdefgh0cdefgh00defgh000efgh0000fgh00000gh000000h0000000
++     */
++    for (i =3D elem_count_half / 2, j =3D 32; i > 0; i >>=3D 1, j >>=3D =
+1) {
++        tcg_gen_shli_i64(t0, hi, j - i);
++        tcg_gen_shli_i64(t1, lo, j - i);
++        tcg_gen_or_i64(hi, hi, t0);
++        tcg_gen_or_i64(lo, lo, t1);
++    }
++
++    tcg_gen_shri_i64(hi, hi, 64 - elem_count_half);
++    tcg_gen_extract2_i64(lo, lo, hi, 64 - elem_count_half);
++    tcg_gen_trunc_i64_tl(cpu_gpr[a->vrt], lo);
++
++    tcg_temp_free_i64(hi);
++    tcg_temp_free_i64(lo);
++    tcg_temp_free_i64(t0);
++    tcg_temp_free_i64(t1);
 +
 +    return true;
 +}
 +
-+TRANS(VEXPANDBM, do_vexpand, MO_8)
-+TRANS(VEXPANDHM, do_vexpand, MO_16)
-+TRANS(VEXPANDWM, do_vexpand, MO_32)
-+TRANS(VEXPANDDM, do_vexpand, MO_64)
++TRANS(VEXTRACTBM, do_vextractm, MO_8)
++TRANS(VEXTRACTHM, do_vextractm, MO_16)
++TRANS(VEXTRACTWM, do_vextractm, MO_32)
++TRANS(VEXTRACTDM, do_vextractm, MO_64)
 +
-+static bool trans_VEXPANDQM(DisasContext *ctx, arg_VX_tb *a)
++static bool trans_VEXTRACTQM(DisasContext *ctx, arg_VX_tb *a)
 +{
 +    TCGv_i64 tmp;
 +
@@ -185,11 +225,11 @@ vrb),
 +    tmp =3D tcg_temp_new_i64();
 +
 +    get_avr64(tmp, a->vrb, true);
-+    tcg_gen_sari_i64(tmp, tmp, 63);
-+    set_avr64(a->vrt, tmp, false);
-+    set_avr64(a->vrt, tmp, true);
++    tcg_gen_shri_i64(tmp, tmp, 63);
++    tcg_gen_trunc_i64_tl(cpu_gpr[a->vrt], tmp);
 +
 +    tcg_temp_free_i64(tmp);
++
 +    return true;
 +}
 +
