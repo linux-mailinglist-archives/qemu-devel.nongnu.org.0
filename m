@@ -2,109 +2,171 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47DEE478002
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 23:30:14 +0100 (CET)
-Received: from localhost ([::1]:49238 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15839478054
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Dec 2021 00:12:59 +0100 (CET)
+Received: from localhost ([::1]:60214 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxzGP-0002xK-CD
-	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 17:30:13 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55722)
+	id 1mxzvl-0005vG-KS
+	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 18:12:57 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48930)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
- id 1mxyVQ-0004UF-Ex
- for qemu-devel@nongnu.org; Thu, 16 Dec 2021 16:41:40 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:58578)
+ (Exim 4.90_1) (envelope-from <annie.li@oracle.com>)
+ id 1mxzto-0005Ci-OP
+ for qemu-devel@nongnu.org; Thu, 16 Dec 2021 18:10:56 -0500
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:16002)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
- id 1mxyVO-0005ez-D9
- for qemu-devel@nongnu.org; Thu, 16 Dec 2021 16:41:40 -0500
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1BGJE0Z7009912; 
- Thu, 16 Dec 2021 21:41:35 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ (Exim 4.90_1) (envelope-from <annie.li@oracle.com>)
+ id 1mxztm-0000Wd-5C
+ for qemu-devel@nongnu.org; Thu, 16 Dec 2021 18:10:56 -0500
+Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1BGLE6Ed012926; 
+ Thu, 16 Dec 2021 23:10:47 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=nnQcvrIKZcAtmuCSJtRpH2VcbWvgmS+mGpZ9O1QTZuw=;
- b=GAo7kmcU/USwK1+H+jaHIaNzm/4wKu6lO7Ae5O5NtqQLbfcIzYWx/FT1DufsI+y/q+cc
- WjwLQbqk74MnNBmNx/4fYGdSUaQbY1XXtO94u4tx4jCiP8SNCehIkrlDUV/lBwtcaVqC
- cLz98NM+u9ljpbh6k3riHKJ2si0EaR3B9Uco+YQ1jin7mSo6c9CiOR70Yx3tKwoZk9KD
- 1ru1OYjS24yKrio0QUtgK6m8bhiezyzXt2ZZ8nHAOFDES85IqkSQ/YOM3J9+59tmyC/q
- qDmFAWTb0tMTJM1Q6/pHoOsDzeZUPIIVG4+0Y/bYwll5pfpbW3bLFoApAXMfRpsVhUPD aw== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3cyn1k8cmb-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 16 Dec 2021 21:41:35 +0000
-Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1BGLVBLL000378;
- Thu, 16 Dec 2021 21:41:34 GMT
-Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
- [169.53.41.122])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3cyn1k8ckt-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 16 Dec 2021 21:41:34 +0000
-Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
- by ppma04dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1BGLW5vI000847;
- Thu, 16 Dec 2021 21:41:33 GMT
-Received: from b03cxnp08025.gho.boulder.ibm.com
- (b03cxnp08025.gho.boulder.ibm.com [9.17.130.17])
- by ppma04dal.us.ibm.com with ESMTP id 3cy7hfxvga-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 16 Dec 2021 21:41:33 +0000
-Received: from b03ledav006.gho.boulder.ibm.com
- (b03ledav006.gho.boulder.ibm.com [9.17.130.237])
- by b03cxnp08025.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 1BGLfWCL23462258
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 16 Dec 2021 21:41:32 GMT
-Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 32F05C6059;
- Thu, 16 Dec 2021 21:41:32 +0000 (GMT)
-Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 8D900C6063;
- Thu, 16 Dec 2021 21:41:29 +0000 (GMT)
-Received: from [9.160.32.17] (unknown [9.160.32.17])
- by b03ledav006.gho.boulder.ibm.com (Postfix) with ESMTP;
- Thu, 16 Dec 2021 21:41:29 +0000 (GMT)
-Message-ID: <1c972953-a7b0-f06c-7d78-0e5fbf13b00e@linux.ibm.com>
-Date: Thu, 16 Dec 2021 23:41:27 +0200
-MIME-Version: 1.0
+ subject : to : cc : references : from : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=corp-2021-07-09;
+ bh=qc8Fih5B9BKijDx4Ybaj+cRli/fkhFIvqax2EJFBvms=;
+ b=GAhucZhEAAthMPePqQq7cVqPUaRguunHTDPbyyTkaLs3h71b6DnQBE6RA1DSZwK3GklU
+ QXa8WLf3A35wg7IGAK0iAHplMb6zcFAmKUI416KHVdTHrAj7Cu3BcPBfIOKkqtunWmaZ
+ aKgSOenDMZLR+oFqyjXING59cBGl5UJmBdy0+hjz4yX5EmNl5DYHVPB/1v0PTZGIa7en
+ 2UtcHj2kEHVebo2esssNYG/Ll8x6ZMrcnYWbExT2Uw8zlZhqwgjUPKTsH56+ep7Y0BAv
+ 0wQ5Fo4/0wjd08pCEykjPnG9IlwRbKeCZdoAGiBJgxN6SdqAR2IH0tfmT3IbhDWEPSyV wg== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+ by mx0b-00069f02.pphosted.com with ESMTP id 3cyknrm7fq-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 16 Dec 2021 23:10:47 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+ by aserp3030.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 1BGNAEs6088157;
+ Thu, 16 Dec 2021 23:10:45 GMT
+Received: from nam12-bn8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12lp2170.outbound.protection.outlook.com [104.47.55.170])
+ by aserp3030.oracle.com with ESMTP id 3cyjuam2j0-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 16 Dec 2021 23:10:45 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=VavslQ9puU0HDWmGj/VgkSXP9wNgipKobfxW5/GcKkb8aFrtZD/lqTyfJ2ePP5hW1ro10ZkLqc4z7u8+Ir24c/Q/43EfI+NTP1LzIRg6Db9QA04AliqAjmda/HhSs0wOYanBPWyG+S42Fil2dz4Aj9Y5RNufWgX1GkYmBXDlpN2/4U3/RyN8cCu53BnTyMlMOu8oVMHT4cuh9mFf7GQY7Md6UHc8uWkOxptwhwcE6SbeCcJeHALRMEiNOKqA/8uHcmwlNn2/AId3YjHkv/gb/S1HhHGHetdLCCQKfmnJV5UWY4B2xsYU/fh/gFF/l3klVW3sKXBopHOW+3YKaxCM4w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=qc8Fih5B9BKijDx4Ybaj+cRli/fkhFIvqax2EJFBvms=;
+ b=ffRRQAVe4tByClk8p78qv7dN5nH7kb09HAtTDVanW0Mg2BtzBaT0SXWfgzmEDqWjW8/PdEIvXeH+JCyAQRvT0RsNLQnupmzZn8ASxQ+5DqTOxaEIG+KtGpec2XzVyox64huuVcMkZRqK84FsxdaRebIjKyO2VMOOXouI9nqpLKeoo7tFC8L7azjnUI1R/efQ+xnQEXggpy4RdbsC3+NPSDvmlgQ3sZ5zPdzp9wrx7GlLXl+u9bZUpESsEUk7fHwILzx+4zTg7qlKMCwOVj7K+4Fe+MGdiMwgw1RXDfI2D6QmfAtYPuaSZAayjYA9PoCETOucCE+/aAh71Jd7G9DFgA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=qc8Fih5B9BKijDx4Ybaj+cRli/fkhFIvqax2EJFBvms=;
+ b=oXsIluAdPyBCRLSPHYO+gGUBRP2l6S1mb15uX+OpwXOM0k07i77FUiV71EIWHrATeAWYdFEh9QVSDGcBqrDcNSrFZWJuSSF3qC1BBrQHkE+3AWVDw2AUm0X7GiLCmTpOMTrER/BoplegnBFL1FXeE8lGTXQzDWQkctwyRsTh2AQ=
+Received: from DM6PR10MB2523.namprd10.prod.outlook.com (2603:10b6:5:b2::27) by
+ DM6PR10MB4297.namprd10.prod.outlook.com (2603:10b6:5:210::11) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4801.14; Thu, 16 Dec 2021 23:10:43 +0000
+Received: from DM6PR10MB2523.namprd10.prod.outlook.com
+ ([fe80::99f0:c772:4eda:d1e8]) by DM6PR10MB2523.namprd10.prod.outlook.com
+ ([fe80::99f0:c772:4eda:d1e8%6]) with mapi id 15.20.4801.015; Thu, 16 Dec 2021
+ 23:10:43 +0000
+Message-ID: <22554a74-3ac4-cce5-e082-d961ee922a1e@oracle.com>
+Date: Thu, 16 Dec 2021 18:10:40 -0500
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH] docs: Add measurement calculation details to
- amd-memory-encryption.txt
+ Thunderbird/91.2.0
+Subject: Re: [PATCH 1/1] pcie: Do not set power state for some hot-plugged
+ devices
 Content-Language: en-US
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <20211214135910.2732101-1-dovmurik@linux.ibm.com>
- <Ybjk6XJUNIyC/LX5@redhat.com>
- <336cbad3-06da-f11c-8cd1-ca058dd9c6b0@linux.ibm.com>
- <YbtkzdpERCnODpft@redhat.com>
-From: Dov Murik <dovmurik@linux.ibm.com>
-In-Reply-To: <YbtkzdpERCnODpft@redhat.com>
-Content-Type: text/plain; charset=UTF-8
+To: Gerd Hoffmann <kraxel@redhat.com>
+References: <20211214215312.944-1-annie.li@oracle.com>
+ <20211215060513.kugy3y32nj2te7ui@sirius.home.kraxel.org>
+ <1f85fe9e-0753-c35a-668d-3b6779bc703b@oracle.com>
+ <20211216061128.vtap3lunpuye36il@sirius.home.kraxel.org>
+From: "Annie.li" <annie.li@oracle.com>
+In-Reply-To: <20211216061128.vtap3lunpuye36il@sirius.home.kraxel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: bWX6Sb6VdSP1YhElQnSzTuhOWju-FQMs
-X-Proofpoint-GUID: BJbXbflXOSCU2I9yXNeueRNAQT-pIgvV
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2021-12-16_08,2021-12-16_01,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 mlxlogscore=999
- lowpriorityscore=0 priorityscore=1501 impostorscore=0 suspectscore=0
- clxscore=1015 malwarescore=0 spamscore=0 mlxscore=0 adultscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2110150000 definitions=main-2112160115
-Received-SPF: pass client-ip=148.163.156.1;
- envelope-from=dovmurik@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+X-ClientProxiedBy: SA0PR13CA0003.namprd13.prod.outlook.com
+ (2603:10b6:806:130::8) To DM6PR10MB2523.namprd10.prod.outlook.com
+ (2603:10b6:5:b2::27)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 445dd9d4-3475-4fae-7152-08d9c0e948f8
+X-MS-TrafficTypeDiagnostic: DM6PR10MB4297:EE_
+X-Microsoft-Antispam-PRVS: <DM6PR10MB429738AD09C8F0EA53C6F09CE5779@DM6PR10MB4297.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: oi1MzS8FciYvApvEJhCjlrf2DJM0FzpXV9RGk3ANVuYyk3XQOC3n+UAir2Xy97cASlutcuCCAkm9xc89Efs23LyrD+LrwlBFkvgXSAxeiBpzfHTX0BcUJUIChN2ZTIdyKo6ajnfGbnO/Viau/QiBPnDxPKfe8NEJ87o7JazJy7hMZ/oeicd8lW+p6JhQjZ9f0VbmUj/VsFMnxqtQA3zlfFZn7kawzj2YJbcAW0LycEkCsA2oex/rmbLofJqeYYKSn3ZHDR6MUt5GA+JC7pc1CnrPxYf3NUw4Nh+64MNiZSivmrl/QNUq2VyaD1pAMUNYiHTWZE+3aH2fSXhOobQ5ukgxHN5XV0Bwb/LV0vRnO+go3WP8JTLhAkKQQJfBIG1j1DpbjA0xd0EaWyivtknUVxwsUlrNLIsaWqqi3TVF8MuyxjVPrhCKKuS03J+M8jeas9O2s4yJTOAphwo+Cgomduvi3F/Bd07fqkepLIZHkgIUh+TtpQPWEiTJ/KHxXg3kJE87/iWz73PyzBJv1nVWRafPjVBHvyO52pnDJG7QQUup4pQ6n95XkXen5IXkLvTXS7ripuw93L+/EFipB8IJprVgLGwQz/CwQha++dXygQ0e55PaajMoPHQItDSVkrUXT6y9lIUIPkerV88C5r9mJA5GRGBwoYgLAketE778rMGIe31E5v411Y8bPh3W+jpOxqjpfi8YejA/jEeMaNWzzsKryGf1hhU961eqs6aoRo0V/6tT5m+xWxPdIOvy0isK
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM6PR10MB2523.namprd10.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(366004)(26005)(31686004)(6506007)(6916009)(86362001)(66946007)(5660300002)(2906002)(2616005)(4326008)(53546011)(186003)(6512007)(6486002)(31696002)(38100700002)(316002)(66476007)(8936002)(66556008)(36756003)(8676002)(508600001)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Ly95KzhIcTBkM3VyelhoWU1YZnV0SzRsemt5NXB6Z1NocWdnUWdDQmZPbEZL?=
+ =?utf-8?B?b3JCVXNqMmZ5RWZkYXoyRS9KRGlzNG54Ri9mcElZeFliRHNqSUxOYXlzMWpD?=
+ =?utf-8?B?VVJXdzFLRnFaMGp0OG1zbTZnWXd2VWc5RytNUUt3TFArbGw1TFpXYmpoMExC?=
+ =?utf-8?B?WTZzbWtoS3I4T1dxaUlFZHUvZWJGMW1najRjV2pYNmtCWURQS2t6Z05KV1ZJ?=
+ =?utf-8?B?WGt4WTRhSGVXanJLNE9FbjI2Q3hZUkJTQ3BZNjBLRDVrb1ZYYi9uZUtlZ09B?=
+ =?utf-8?B?eDdISERtZ2VCUVE5cmhpUUw5ZllaY0JLZEQyNlZHaVc5S3F0N3NvenFxY2s5?=
+ =?utf-8?B?TXN3Q0plT2tXdGsyTWZKcVZzbHhsNXRNaVJ1V0RER2R4b2JCYWduSnFCUUdi?=
+ =?utf-8?B?a1plb2RYbmt2WmdxdFJWVXhTSGhDRGg4Y0plUHg0SU0vUFdHTFRyRUxreW1j?=
+ =?utf-8?B?eFFCbkwydW4zNXdLVGpnTkVvZXArUTVjMEl3TjczWnBBOTM0WmxYdTBSZzl2?=
+ =?utf-8?B?QkY1dWZLaTJLYzNySVYrVFhiMUdmKyttcmc0MVpObDdwRWFUT1ZYYVBtNkww?=
+ =?utf-8?B?OWloY1lkaWY3MmYyL2V1MG1SS1RiTjJ2MnR6K094TEl3NENkY1NZbzJwcWtQ?=
+ =?utf-8?B?UWhtdE9yQTNqazBTMVlLaDUvOHA2RmFncnBmem1xcmloeEcwdGl3VUtvVW9E?=
+ =?utf-8?B?amRMRlZnUlVvMllQbDZYSzlBOXc2Zk1sTGt5KzlpTEFja2x3WitSVEVYK1pa?=
+ =?utf-8?B?QXNKWlQ0eW1JTUFhcW1TdVRaYk40aUo2YmNNb1VnUGd3UGFOdDZ4UmtLZzFR?=
+ =?utf-8?B?L3QxYUhoYlpFdVU2ZUJuM3FzZll6eVhwSjl4aFIrVllsYkVjNk1UVzhYR1lk?=
+ =?utf-8?B?WVdaSEg0NGFtdnNwSEZwQlpNZHYyZEpSZXVybm5uaUVxUktoTU4ycVdiSGNx?=
+ =?utf-8?B?Y2lVV0FlcmptUUlTc08yTTlkdTBDTUpMZzNIZkRkY2l5MnJyamNsV2s4aXBX?=
+ =?utf-8?B?UEIwMGdaYlRaVVhWYkFWeHcwSkVXZGpSMHBZbzJWYXgwN3RLY0tZdDRHOVVY?=
+ =?utf-8?B?QkppRkg2Qk80Uk5mM2gva091QnFzVU1EMGlKcTB0QWRjN09hSFNPNXlJWTFR?=
+ =?utf-8?B?L1hxREx3Q0IzQ2hGS0I3c0FwVE8zc2o0L1BHZGlCcWd0bUNOaDJqbmZlR1hQ?=
+ =?utf-8?B?cC9hWisyRm5HcUlGaCtFQitvT1J6L2FiWTAxcVR5R1lNWHJSRGlZeVliVUla?=
+ =?utf-8?B?NEFoazQ2MXlHdENYdWxiVW41dFh4ZzhieTh5VWtveU9sVlovaW4rd0F5WDl2?=
+ =?utf-8?B?YzhvV3JFbVhzeHFHSU13aW5TTkdEMUxJN3pCQ2haK3RaQmhTL0RlVk94Yjc3?=
+ =?utf-8?B?bGRGdnE4WmU0Wjl5NzMyN1QvZ1JkVWNURGt3anVxbFFMOVhBdm5LclBhSk54?=
+ =?utf-8?B?K3RqK2RHR3NkSkdZS2Y5L2F3Q05kazVoUlRrSkJ4UDRPUWhISzBwM2tlTnRD?=
+ =?utf-8?B?d2MxUzFpOWhIbk03YVg5ME9BV045Q3p3VExDK0ZxbDVRM0hwTWt4aVZUWnpZ?=
+ =?utf-8?B?eUwzMmlaT3FnczNkNFp3Vy9GaEVqbVBFVElPTGhxY3lFWDZsYVVZS3Z6c29B?=
+ =?utf-8?B?U01oL1p0MW1sRngzVlNweER1T0V4SUoyTmtzUTRRak1YQ1FtZ2NmVURBS3BE?=
+ =?utf-8?B?TEkwL3R0SFpPMXhnZ3R1NSttalNXdnQzZHd3d1cwQllUT0FHNEs0MGlibUlM?=
+ =?utf-8?B?YkZPcWpnbXpiU1F2Z3Zuc2VZRHNaM25sMnpUeDQvZGdSSjV1M0xSK0JSR2Ns?=
+ =?utf-8?B?RS9XaFJpMlFZaGI2SG9aNzdKd3FNZ2hIUWNhMDRSMGxKa1lpMThyT3FrTSt5?=
+ =?utf-8?B?V1dPQng2SHJlVFcvb2pCdW5wVzdnOGRMdkI5eU9wL3JWMnhoZWxVNHE1Tm1T?=
+ =?utf-8?B?d2xXVkt6TWRkYVVTT3ltN2ZFY1RyQzk0RVNBakxoT0tBZldueWNEbjRiNEYr?=
+ =?utf-8?B?Qkc2c1F1ZUhCTVlzVGdLU1JRM2M1ZktiMm11Y2MvMDdpY1JCMnZ2QVJHanI5?=
+ =?utf-8?B?RGVIOTczQ1ZMY3VRSStFUm1USlBqMXNYWHd2MEg5a1QwT0U2MWYyRXZxNmhE?=
+ =?utf-8?B?SHFlVkRqdmpjMGMrYzgzVDJObkdUWVJBQTdOUUptL0VnRzNRblUxUlJlaWN5?=
+ =?utf-8?Q?xCLNAvoXUfULVOyZIiaiVw4=3D?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 445dd9d4-3475-4fae-7152-08d9c0e948f8
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR10MB2523.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Dec 2021 23:10:43.5352 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: /wbb+0RVibGEHUmrEb2lz/jTjAI/G9YQAttgHvhlS25HVuSLyoapR2NJeu8RM7rIgTE+VSFWxlOFWjcrEntmrQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR10MB4297
+X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10200
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
+ phishscore=0
+ spamscore=0 mlxscore=0 adultscore=0 bulkscore=0 suspectscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2110150000 definitions=main-2112160121
+X-Proofpoint-ORIG-GUID: bCisR1HWrDOtPrfE4M2Vb_r8NY5TOZhl
+X-Proofpoint-GUID: bCisR1HWrDOtPrfE4M2Vb_r8NY5TOZhl
+Received-SPF: pass client-ip=205.220.165.32; envelope-from=annie.li@oracle.com;
+ helo=mx0a-00069f02.pphosted.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.034,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.034,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -117,173 +179,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Tom Lendacky <thomas.lendacky@amd.com>, Ashish Kalra <ashish.kalra@amd.com>,
- Brijesh Singh <brijesh.singh@amd.com>, James Bottomley <jejb@linux.ibm.com>,
- Marcelo Tosatti <mtosatti@redhat.com>, qemu-devel@nongnu.org,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Dov Murik <dovmurik@linux.ibm.com>,
- Tobin Feldman-Fitzthum <tobin@linux.ibm.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hello Gerd,
 
+On 12/16/2021 1:11 AM, Gerd Hoffmann wrote:
+>    Hi,
+>
+>>> Maybe we should just not set DeviceState->hotplugged = true for devices
+>>> added in VM_STATE_PRELAUNCH?  It's not actual hotplug (i.e. device added
+>>> while the system is running) after all ...
+>> Simply not setting "DeviceState->hotplugged" doesn't work. Devices created
+>> in
+>> PHASE_MACHINE_READY phase are treated as hot-plugged devices. So I just
+>> tried
+>> following change for the quick test, the device is still invisible to the
+>> firmware with
+>> this change.
+> Looking again, the difference is probably the reset handling.
+> pcie_cap_slot_reset() will turn on power (via PCI_EXP_SLTCTL_PCC) in
+> case some device is plugged into the slot.
+If the VM is booting from the system disk in the qemu command line(no 
+hot-plug),
+pcie_cap_slot_reset turns on the power for this device. And this happens 
+before
+the VM runs into VM_STATE_PRELAUNCH state.(I add '-S' option in this case
+for comparison)
+>
+> So I suspect when plugging devices during VM_STATE_PRELAUNCH they are
+> resetted individually (specifically before the device is plugged),
+When the device is hot-plugged in VM_STATE_PRELAUNCH state, there is no
+reset for the device during this state. Before entering this state,
+pcie_cap_slot_reset  does get called for the device(like general VM 
+booting).
+However, it doesn't turn on the power. I think this is due to that the 
+device isn't
+hot-plugged yet, and "populated" value is false.
+> whereas otherwise they are resetted when all devices are plugged in.
+>
+> Does resetting devices when leaving RUN_STATE_PRELAUNCH fix this?
+I suppose only calling pcie_cap_slot_reset  isn't sufficient? maybe 
+rp_reset?
+However, the place of state transition is in runstate_set. I don't know
+hot to hook this function to trigger the reset yet.
+Just thinking of the implementation, if the patch is deployed in this way,
+isn't the change is more complicated than the current one? :) Maybe I've
+missed something here.
 
-On 16/12/2021 18:09, Daniel P. Berrangé wrote:
-> On Thu, Dec 16, 2021 at 12:38:34PM +0200, Dov Murik wrote:
->>
->>
->> On 14/12/2021 20:39, Daniel P. Berrangé wrote:
->>> On Tue, Dec 14, 2021 at 01:59:10PM +0000, Dov Murik wrote:
->>>> Add a section explaining how the Guest Owner should calculate the
->>>> expected guest launch measurement for SEV and SEV-ES.
->>>>
->>>> Also update the name and link to the SEV API Spec document.
->>>>
->>>> Signed-off-by: Dov Murik <dovmurik@linux.ibm.com>
->>>> Suggested-by: Daniel P. Berrangé <berrange@redhat.com>
->>>> ---
->>>>  docs/amd-memory-encryption.txt | 50 +++++++++++++++++++++++++++++++---
->>>>  1 file changed, 46 insertions(+), 4 deletions(-)
->>>>
->>>> diff --git a/docs/amd-memory-encryption.txt b/docs/amd-memory-encryption.txt
->>>> index ffca382b5f..f97727482f 100644
->>>> --- a/docs/amd-memory-encryption.txt
->>>> +++ b/docs/amd-memory-encryption.txt
->>>> @@ -43,7 +43,7 @@ The guest policy is passed as plaintext. A hypervisor may choose to read it,
->>>>  but should not modify it (any modification of the policy bits will result
->>>>  in bad measurement). The guest policy is a 4-byte data structure containing
->>>>  several flags that restricts what can be done on a running SEV guest.
->>>> -See KM Spec section 3 and 6.2 for more details.
->>>> +See SEV API Spec [1] section 3 and 6.2 for more details.
->>>>  
->>>>  The guest policy can be provided via the 'policy' property (see below)
->>>>  
->>>> @@ -88,7 +88,7 @@ expects.
->>>>  LAUNCH_FINISH finalizes the guest launch and destroys the cryptographic
->>>>  context.
->>>>  
->>>> -See SEV KM API Spec [1] 'Launching a guest' usage flow (Appendix A) for the
->>>> +See SEV API Spec [1] 'Launching a guest' usage flow (Appendix A) for the
->>>>  complete flow chart.
->>>>  
->>>>  To launch a SEV guest
->>>> @@ -113,6 +113,45 @@ a SEV-ES guest:
->>>>   - Requires in-kernel irqchip - the burden is placed on the hypervisor to
->>>>     manage booting APs.
->>>>  
->>>> +Calculating expected guest launch measurement
->>>> +---------------------------------------------
->>>> +In order to verify the guest launch measurement, The Guest Owner must compute
->>>> +it in the exact same way as it is calculated by the AMD-SP.  SEV API Spec [1]
->>>> +section 6.5.1 describes the AMD-SP operations:
->>>> +
->>>> +    GCTX.LD is finalized, producing the hash digest of all plaintext data
->>>> +    imported into the guest.
->>>> +
->>>> +    The launch measurement is calculated as:
->>>> +
->>>> +    HMAC(0x04 || API_MAJOR || API_MINOR || BUILD || GCTX.POLICY || GCTX.LD || MNONCE; GCTX.TIK)
->>>> +
->>>> +    where "||" represents concatenation.
->>>> +
->>>> +The values of API_MAJOR, API_MINOR, BUILD, and GCTX.POLICY can be obtained
->>>> +from the 'query-sev' qmp command.
->>>> +
->>>> +The value of MNONCE is part of the response of 'query-sev-launch-measure': it
->>>> +is the last 16 bytes of the base64-decoded data field (see SEV API Spec [1]
->>>> +section 6.5.2 Table 52: LAUNCH_MEASURE Measurement Buffer).
->>>> +
->>>> +The value of GCTX.LD is SHA256(firmware_blob || kernel_hashes_blob || vmsas_blob),
->>>> +where:
->>>> +
->>>> +* firmware_blob is the content of the entire firmware flash file (for example,
->>>> +  OVMF.fd).
->>>
->>> Lets add a caveat that the firmware flash should be built to be stateless
->>> ie that it is not secure to attempt to measure a guest where the firmware
->>> uses an NVRAM store.
->>>
->>
->> * firmware_blob is the content of the entire firmware flash file (for   
->>   example, OVMF.fd).  Note that you must build a stateless firmware file    
->>   which doesn't use an NVRAM store, because the NVRAM area is not
->>   measured, and therefore it is not secure to use a firmware which uses 
->>   state from an NVRAM store.
-> 
-> Looks good to me.
-> 
->>>> +* if kernel is used, and kernel-hashes=on, then kernel_hashes_blob is the
->>>> +  content of PaddedSevHashTable (including the zero padding), which itself
->>>> +  includes the hashes of kernel, initrd, and cmdline that are passed to the
->>>> +  guest.  The PaddedSevHashTable struct is defined in target/i386/sev.c .
->>>> +* if SEV-ES is enabled (policy & 0x4 != 0), vmsas_blob is the concatenation of
->>>> +  all VMSAs of the guest vcpus.  Each VMSA is 4096 bytes long; its content is
->>>> +  defined inside Linux kernel code as struct vmcb_save_area, or in AMD APM
->>>> +  Volume 2 [2] Table B-2: VMCB Layout, State Save Area.
->>>
->>> Is there any practical guidance we can give apps on the way the VMSAs
->>> can be expected to be initialized ? eg can they assume essentially
->>> all fields in vmcb_save_area are 0 initialized except for certain
->>> ones ? Is initialization likely to vary at all across KVM or EDK2
->>> vesions or something ?
->>
->> From my own experience, the VMSA of vcpu0 doesn't change; it is basically what QEMU
->> sets up in x86_cpu_reset() (which is mostly zeros but not all).  I don't know if it
->> may change in newer QEMU (machine types?) or kvm.  As for vcpu1+, in SEV-ES the
->> CS:EIP for the APs is taken from a GUIDed table at the end of the OVMF image, and has
->> actually changed a few months ago when the memory layout changed to support both TDX
->> and SEV.
-> 
-> That is an unplesantly large number of moving parts that could
-> potentially impact the expected state :-(  I think we need to
-> be careful to avoid gratuitous changes, to avoid creating a
-> combinatorial expansion in the number of possibly valid VMSA
-> blocks.
-> 
-> It makes me wonder if we need to think about defining some
-> standard approach for distro vendors (and/or cloud vendors)
-> to publish the expected contents for various combinations
-> of their software pieces.
-> 
->>
->>
->> Here are the VMSAs for my 2-vcpu SEV-ES VM:
->>
->>
->> $ hd vmsa/vmsa_cpu0.bin
-> 
-> ...snipp...
-> 
-> was there a nice approach / tool you used to capture
-> this initial state ?
-> 
-
-I wouldn't qualify this as nice: I ended up modifying my
-host kernel's kvm (see patch below).  Later I wrote a
-script to parse that hex dump from the kernel log into
-proper 4096-byte binary VMSA files.
-
-
-
-diff --git a/arch/x86/kvm/svm/sev.c b/arch/x86/kvm/svm/sev.c
-index 7fbce342eec4..4e45fe37b93d 100644
---- a/arch/x86/kvm/svm/sev.c
-+++ b/arch/x86/kvm/svm/sev.c
-@@ -624,6 +624,12 @@ static int sev_launch_update_vmsa(struct kvm *kvm, struct kvm_sev_cmd *argp)
-                 */
-                clflush_cache_range(svm->vmsa, PAGE_SIZE);
-
-+                /* dubek */
-+                pr_info("DEBUG_VMSA - cpu %d START ---------------\n", i);
-+                print_hex_dump(KERN_INFO, "DEBUG_VMSA", DUMP_PREFIX_OFFSET, 16, 1, svm->vmsa, PAGE_SIZE, true);
-+                pr_info("DEBUG_VMSA - cpu %d END ---------------\n", i);
-+                /* ----- */
-+
-                vmsa.handle = sev->handle;
-                vmsa.address = __sme_pa(svm->vmsa);
-                vmsa.len = PAGE_SIZE;
-
-
+Thanks
+Annie
+>
+> take care,
+>    Gerd
+>
 
