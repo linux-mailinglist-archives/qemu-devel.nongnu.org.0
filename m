@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45A0A47732A
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 14:31:09 +0100 (CET)
-Received: from localhost ([::1]:46440 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDE2D477342
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 14:36:37 +0100 (CET)
+Received: from localhost ([::1]:53940 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxqqc-0006Qa-Cb
-	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 08:31:04 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37258)
+	id 1mxqw0-0003Nm-51
+	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 08:36:36 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37300)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mxqgw-0006sa-AM
- for qemu-devel@nongnu.org; Thu, 16 Dec 2021 08:21:03 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:51035)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mxqgz-0006vT-SD
+ for qemu-devel@nongnu.org; Thu, 16 Dec 2021 08:21:05 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35368)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mxqgu-0008Ob-RT
- for qemu-devel@nongnu.org; Thu, 16 Dec 2021 08:21:02 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mxqgx-0008PK-6W
+ for qemu-devel@nongnu.org; Thu, 16 Dec 2021 08:21:05 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639660858;
+ s=mimecast20190719; t=1639660862;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XIR/7k3+LEqXkFaBCSIJ9jj6FHOlOGORQLMrHC9gYqo=;
- b=VEswnaTavNZ86BByiDfMUI0BCd0LLmgSmWjh/H1IdQSZfu9ZMhM5QD2nAZ2hnFMxxD5YIT
- jiBMutKpCI767mNdVBbNOSmTDXr405Hf0IsFGE9FPjthGpoNCfINh7E24To3NGXi7OsJiK
- E2/uPcaulRJhy2i268UT7KCPErvD6V0=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=qjhf+bvQNgSb5Piftj9ZwUSggj/6sIcVgFV+K5PRUr0=;
+ b=GZT7q4MSqCtokuJTVS4lrCvAeG66Yif1rTX7bRKQyqZZMjHr6Wa4bVmEfTvV88vDo5AVzQ
+ 3zlLJbuLDpCcpVuy4bOM0eUji1kr2OXeu14o8jcJm8Hsz8w2LKzZXM6P6G7NXJI++K/RIX
+ MayYYASXGCDY+scNkbv2anfOtlkdiq4=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-453-J8I--slNNtOUUjoZhH3OZA-1; Thu, 16 Dec 2021 08:20:57 -0500
-X-MC-Unique: J8I--slNNtOUUjoZhH3OZA-1
-Received: by mail-wm1-f72.google.com with SMTP id
- l34-20020a05600c1d2200b00344d34754e4so1255727wms.7
- for <qemu-devel@nongnu.org>; Thu, 16 Dec 2021 05:20:57 -0800 (PST)
+ us-mta-208-OUpFXy-LMreEO-7kd1aEUQ-1; Thu, 16 Dec 2021 08:21:01 -0500
+X-MC-Unique: OUpFXy-LMreEO-7kd1aEUQ-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ b83-20020a1c1b56000000b0033283ea5facso962837wmb.1
+ for <qemu-devel@nongnu.org>; Thu, 16 Dec 2021 05:21:01 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=XIR/7k3+LEqXkFaBCSIJ9jj6FHOlOGORQLMrHC9gYqo=;
- b=mmPLM6pfb84+/7ulJvRFCy4CciAJGfIvmb+MtdwDbX7FNy6CRiGR/xZFlFKVG9DdF/
- IAsocSmgPQQ2JtVhIK3HBjYmSrYfHXaI4Q0luNn0EamxrgM6LsfkRkaO57v9NJFKQ398
- HUHE7c/iljipZnz39z3+TeU44TXyWOAgthkZOGpNsicGJAkS/prPlCxUpnjarR3So7iS
- jWtGl6AlaaKAHP9HVhR7wy/0heHz634DXy9RvHmzJhEErXG4FhJiHYQ8QA6JqLuMlHPN
- 3uXjdHDFE4zBMqYXCMYD3BR/u8QRJUBpDrOdQN5kVuYqZiZguyErT4wXuVlAmyTv4PDj
- Yt4A==
-X-Gm-Message-State: AOAM530CwVFaIgq3K+CZusnZgBxcLMc70G8fulfvSyIAKVQe6kA4ftp7
- NfTjPKzrtR8OcknOpY/nXwVFIKQJzO7KQipdEpiz2OhaGlc76k6wYJi/Ajl67Hy7A/62BWXuOUm
- V0M9i9VwaSdy+OqKhvRR4+p3s/oX7KsLLx5PerHKO7BOFnAYdaKPV8C/rWhDybd+9
-X-Received: by 2002:a05:600c:b43:: with SMTP id
- k3mr4914771wmr.159.1639660855902; 
- Thu, 16 Dec 2021 05:20:55 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJx7U9ulwEmx8HA2/W7bSkCYEuamU6pe/+WHQWJiprLrnjx/99BgT0v2MoxfsRIEgrzN+DUZGA==
-X-Received: by 2002:a05:600c:b43:: with SMTP id
- k3mr4914741wmr.159.1639660855649; 
- Thu, 16 Dec 2021 05:20:55 -0800 (PST)
+ bh=qjhf+bvQNgSb5Piftj9ZwUSggj/6sIcVgFV+K5PRUr0=;
+ b=KX7RY/d4MkvxOWFZOqH7W3otFY1vgc0TA0WGihlh0OIcAyWw6cyS7RFgJW0cIOtekV
+ E7guZUI5JVWm+/o3XsX0sx95DE+GgII9MbKWTi0232Kb/ClnKtPHYvMTzKAKUkoe0pGF
+ xl1KQbDEWIYxJfSIQJzqsnUUPjzuYhPynBL9rcXBrNDn3i47bwEKHneQyNpJ6aQS817j
+ Mtn7qeT+Umnm6e0ijNDlVQTyV1Kx6PvqX5mQblSJonSw/JEQRTWapfTj+TSMZ6G9WC7m
+ DDvWxLwvgorAxVNopuNajPDxvmB1wVK78f5QitLu+T8z3i/gJqLdqXouYNgf1OiBnCoq
+ ugOA==
+X-Gm-Message-State: AOAM5316sMibK/3R0+ekJeoZ4gY1vI/K61q4pbMESERrOTCMIwAFrD6Z
+ 26FO55GmLKrzZUYYuYyECEHUkSh/FUKHcK25IxpJwgT4v0nefTko82hfR0LlMzBpUO+F8f3CvgL
+ AGsppT91XYgckZ6/BpEz+HeJo59ohC8EKt1PKL0Ex3vFD/+ksLxdCf+vWNzCfZOlA
+X-Received: by 2002:a05:6000:1541:: with SMTP id
+ 1mr8843909wry.347.1639660860290; 
+ Thu, 16 Dec 2021 05:21:00 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxF6mqbnnOOH3WtFObppwPWGxmCzxXXciFV6QUOHqi4+4GvdHf1nWm8z4QCZxFjkTYfPtVJ3g==
+X-Received: by 2002:a05:6000:1541:: with SMTP id
+ 1mr8843884wry.347.1639660860004; 
+ Thu, 16 Dec 2021 05:21:00 -0800 (PST)
 Received: from localhost.localdomain
  (174.red-83-50-185.dynamicip.rima-tde.net. [83.50.185.174])
- by smtp.gmail.com with ESMTPSA id w25sm5045259wmk.20.2021.12.16.05.20.54
+ by smtp.gmail.com with ESMTPSA id g18sm4785470wrv.42.2021.12.16.05.20.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Dec 2021 05:20:55 -0800 (PST)
+ Thu, 16 Dec 2021 05:20:59 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 7/8] tests/unit/test-smp-parse: Constify some pointer/struct
-Date: Thu, 16 Dec 2021 14:20:14 +0100
-Message-Id: <20211216132015.815493-8-philmd@redhat.com>
+Subject: [PATCH v6 8/8] hw/core: Rename smp_parse() ->
+ machine_parse_smp_config()
+Date: Thu, 16 Dec 2021 14:20:15 +0100
+Message-Id: <20211216132015.815493-9-philmd@redhat.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211216132015.815493-1-philmd@redhat.com>
 References: <20211216132015.815493-1-philmd@redhat.com>
@@ -76,15 +77,15 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.718,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,8 +105,10 @@ Cc: Eduardo Habkost <eduardo@habkost.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Declare structures const when we don't need to modify
-them at runtime.
+All methods related to MachineState are prefixed with "machine_".
+smp_parse() does not need to be an exception. Rename it and
+const'ify the SMPConfiguration argument, since it doesn't need
+to be modified.
 
 Reviewed-by: Andrew Jones <drjones@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
@@ -113,67 +116,96 @@ Reviewed-by: Yanan Wang <wangyanan55@huawei.com>
 Tested-by: Yanan Wang <wangyanan55@huawei.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- tests/unit/test-smp-parse.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ include/hw/boards.h         | 3 ++-
+ hw/core/machine-smp.c       | 6 ++++--
+ hw/core/machine.c           | 2 +-
+ tests/unit/test-smp-parse.c | 8 ++++----
+ 4 files changed, 11 insertions(+), 8 deletions(-)
 
+diff --git a/include/hw/boards.h b/include/hw/boards.h
+index 9c1c1901046..7597cec4400 100644
+--- a/include/hw/boards.h
++++ b/include/hw/boards.h
+@@ -34,7 +34,8 @@ HotpluggableCPUList *machine_query_hotpluggable_cpus(MachineState *machine);
+ void machine_set_cpu_numa_node(MachineState *machine,
+                                const CpuInstanceProperties *props,
+                                Error **errp);
+-void smp_parse(MachineState *ms, SMPConfiguration *config, Error **errp);
++void machine_parse_smp_config(MachineState *ms,
++                              const SMPConfiguration *config, Error **errp);
+ 
+ /**
+  * machine_class_allow_dynamic_sysbus_dev: Add type to list of valid devices
+diff --git a/hw/core/machine-smp.c b/hw/core/machine-smp.c
+index 116a0cbbfab..2cbfd574293 100644
+--- a/hw/core/machine-smp.c
++++ b/hw/core/machine-smp.c
+@@ -44,7 +44,8 @@ static char *cpu_hierarchy_to_string(MachineState *ms)
+ }
+ 
+ /*
+- * smp_parse - Generic function used to parse the given SMP configuration
++ * machine_parse_smp_config: Generic function used to parse the given
++ *                           SMP configuration
+  *
+  * Any missing parameter in "cpus/maxcpus/sockets/cores/threads" will be
+  * automatically computed based on the provided ones.
+@@ -63,7 +64,8 @@ static char *cpu_hierarchy_to_string(MachineState *ms)
+  * introduced topology members which are likely to be target specific should
+  * be directly set as 1 if they are omitted (e.g. dies for PC since 4.1).
+  */
+-void smp_parse(MachineState *ms, SMPConfiguration *config, Error **errp)
++void machine_parse_smp_config(MachineState *ms,
++                              const SMPConfiguration *config, Error **errp)
+ {
+     MachineClass *mc = MACHINE_GET_CLASS(ms);
+     unsigned cpus    = config->has_cpus ? config->cpus : 0;
+diff --git a/hw/core/machine.c b/hw/core/machine.c
+index 53a99abc560..3993c534b90 100644
+--- a/hw/core/machine.c
++++ b/hw/core/machine.c
+@@ -761,7 +761,7 @@ static void machine_set_smp(Object *obj, Visitor *v, const char *name,
+         return;
+     }
+ 
+-    smp_parse(ms, config, errp);
++    machine_parse_smp_config(ms, config, errp);
+ }
+ 
+ static void machine_class_init(ObjectClass *oc, void *data)
 diff --git a/tests/unit/test-smp-parse.c b/tests/unit/test-smp-parse.c
-index 395929b66cf..0f98c9509ee 100644
+index 0f98c9509ee..b6df8137fcc 100644
 --- a/tests/unit/test-smp-parse.c
 +++ b/tests/unit/test-smp-parse.c
-@@ -83,7 +83,7 @@ typedef struct SMPTestData {
-  * then test the automatic calculation algorithm of the missing
-  * values in the parser.
-  */
--static struct SMPTestData data_generic_valid[] = {
-+static const struct SMPTestData data_generic_valid[] = {
-     {
-         /* config: no configuration provided
-          * expect: cpus=1,sockets=1,cores=1,threads=1,maxcpus=1 */
-@@ -285,7 +285,7 @@ static struct SMPTestData data_generic_valid[] = {
+@@ -337,7 +337,7 @@ static const struct SMPTestData data_with_dies_invalid[] = {
      },
  };
  
--static struct SMPTestData data_generic_invalid[] = {
-+static const struct SMPTestData data_generic_invalid[] = {
-     {
-         /* config: -smp 2,dies=2 */
-         .config = SMP_CONFIG_WITH_DIES(T, 2, F, 0, T, 2, F, 0, F, 0, F, 0),
-@@ -319,7 +319,7 @@ static struct SMPTestData data_generic_invalid[] = {
-     },
- };
- 
--static struct SMPTestData data_with_dies_invalid[] = {
-+static const struct SMPTestData data_with_dies_invalid[] = {
-     {
-         /* config: -smp 16,sockets=2,dies=2,cores=4,threads=2,maxcpus=16 */
-         .config = SMP_CONFIG_WITH_DIES(T, 16, T, 2, T, 2, T, 4, T, 2, T, 16),
-@@ -356,7 +356,7 @@ static char *smp_config_to_string(SMPConfiguration *config)
-         config->has_maxcpus ? "true" : "false", config->maxcpus);
- }
- 
--static char *cpu_topology_to_string(CpuTopology *topo)
-+static char *cpu_topology_to_string(const CpuTopology *topo)
+-static char *smp_config_to_string(SMPConfiguration *config)
++static char *smp_config_to_string(const SMPConfiguration *config)
  {
      return g_strdup_printf(
-         "(CpuTopology) {\n"
-@@ -372,7 +372,7 @@ static char *cpu_topology_to_string(CpuTopology *topo)
+         "(SMPConfiguration) {\n"
+@@ -371,7 +371,7 @@ static char *cpu_topology_to_string(const CpuTopology *topo)
+         topo->cores, topo->threads, topo->max_cpus);
  }
  
- static void check_parse(MachineState *ms, SMPConfiguration *config,
--                        CpuTopology *expect_topo, const char *expect_err,
-+                        const CpuTopology *expect_topo, const char *expect_err,
+-static void check_parse(MachineState *ms, SMPConfiguration *config,
++static void check_parse(MachineState *ms, const SMPConfiguration *config,
+                         const CpuTopology *expect_topo, const char *expect_err,
                          bool is_valid)
  {
-     g_autofree char *config_str = smp_config_to_string(config);
-@@ -466,7 +466,7 @@ static void smp_parse_test(MachineState *ms, SMPTestData *data, bool is_valid)
- }
+@@ -380,8 +380,8 @@ static void check_parse(MachineState *ms, SMPConfiguration *config,
+     g_autofree char *output_topo_str = NULL;
+     Error *err = NULL;
  
- /* The parsed results of the unsupported parameters should be 1 */
--static void unsupported_params_init(MachineClass *mc, SMPTestData *data)
-+static void unsupported_params_init(const MachineClass *mc, SMPTestData *data)
- {
-     if (!mc->smp_props.dies_supported) {
-         data->expect_prefer_sockets.dies = 1;
+-    /* call the generic parser smp_parse() */
+-    smp_parse(ms, config, &err);
++    /* call the generic parser */
++    machine_parse_smp_config(ms, config, &err);
+ 
+     output_topo_str = cpu_topology_to_string(&ms->smp);
+ 
 -- 
 2.33.1
 
