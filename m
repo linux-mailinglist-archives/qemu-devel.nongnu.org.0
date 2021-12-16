@@ -2,60 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D966477FEE
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 23:13:43 +0100 (CET)
-Received: from localhost ([::1]:47954 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C76C7477EE5
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 22:36:14 +0100 (CET)
+Received: from localhost ([::1]:51430 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxz0Q-0006t7-6D
-	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 17:13:42 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37912)
+	id 1mxyQ9-0001zC-Kd
+	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 16:36:13 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37980)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1mxxLg-00038Z-Ea; Thu, 16 Dec 2021 15:27:32 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:54810)
+ id 1mxxLk-0003CL-8m; Thu, 16 Dec 2021 15:27:36 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:22330)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1mxxLa-0007Q6-JR; Thu, 16 Dec 2021 15:27:32 -0500
-Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1BGK0LCP017012; 
- Thu, 16 Dec 2021 20:26:56 GMT
-Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.107])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3cyqbjarvr-1
+ id 1mxxLb-0007QS-23; Thu, 16 Dec 2021 15:27:33 -0500
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1BGJF2V5010048; 
+ Thu, 16 Dec 2021 20:26:57 GMT
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.99])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3cys71g2rt-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Thu, 16 Dec 2021 20:26:56 +0000
-Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
- by ppma03fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1BGKCgMd024625;
- Thu, 16 Dec 2021 20:26:53 GMT
-Received: from b06avi18626390.portsmouth.uk.ibm.com
- (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
- by ppma03fra.de.ibm.com with ESMTP id 3cy7k9j4dc-1
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+ by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1BGKBqpw016331;
+ Thu, 16 Dec 2021 20:26:54 GMT
+Received: from b06cxnps3075.portsmouth.uk.ibm.com
+ (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
+ by ppma04ams.nl.ibm.com with ESMTP id 3cy7qwatc8-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 16 Dec 2021 20:26:53 +0000
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
- [9.149.105.58])
- by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 1BGKInU437683492
+ Thu, 16 Dec 2021 20:26:54 +0000
+Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
+ [9.149.105.62])
+ by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 1BGKQp3q33620244
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 16 Dec 2021 20:18:49 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 303B94C046;
+ Thu, 16 Dec 2021 20:26:51 GMT
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id BE010AE04D;
  Thu, 16 Dec 2021 20:26:51 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id EA92B4C04A;
- Thu, 16 Dec 2021 20:26:50 +0000 (GMT)
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 8580AAE045;
+ Thu, 16 Dec 2021 20:26:51 +0000 (GMT)
 Received: from smtp.tlslab.ibm.com (unknown [9.101.4.1])
- by d06av22.portsmouth.uk.ibm.com (Postfix) with SMTP;
- Thu, 16 Dec 2021 20:26:50 +0000 (GMT)
+ by d06av26.portsmouth.uk.ibm.com (Postfix) with SMTP;
+ Thu, 16 Dec 2021 20:26:51 +0000 (GMT)
 Received: from yukon.ibmuc.com (unknown [9.171.48.122])
- by smtp.tlslab.ibm.com (Postfix) with ESMTP id 4B1BD2201A0;
+ by smtp.tlslab.ibm.com (Postfix) with ESMTP id D9AF4220238;
  Thu, 16 Dec 2021 21:26:50 +0100 (CET)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
-Subject: [PULL 052/101] target/ppc: Update fres to new flags and float64r32
-Date: Thu, 16 Dec 2021 21:25:25 +0100
-Message-Id: <20211216202614.414266-53-clg@kaod.org>
+Subject: [PULL 053/101] target/ppc: Use helper_todouble/tosingle in
+ helper_xststdcsp
+Date: Thu, 16 Dec 2021 21:25:26 +0100
+Message-Id: <20211216202614.414266-54-clg@kaod.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211216202614.414266-1-clg@kaod.org>
 References: <20211216202614.414266-1-clg@kaod.org>
@@ -63,17 +64,17 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: yKvvOC8hwAb-TszQOHv3_nRbhSXEg_4p
-X-Proofpoint-ORIG-GUID: yKvvOC8hwAb-TszQOHv3_nRbhSXEg_4p
+X-Proofpoint-ORIG-GUID: QBiWO6qx7Av-qzTy2Rt5NtP69aXYJDWz
+X-Proofpoint-GUID: QBiWO6qx7Av-qzTy2Rt5NtP69aXYJDWz
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
  definitions=2021-12-16_08,2021-12-16_01,2021-12-02_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 adultscore=0
- malwarescore=0 bulkscore=0 mlxlogscore=579 impostorscore=0
- lowpriorityscore=0 suspectscore=0 phishscore=0 spamscore=0
- priorityscore=1501 clxscore=1034 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2110150000 definitions=main-2112160109
+ lowpriorityscore=0
+ mlxlogscore=428 malwarescore=0 clxscore=1034 mlxscore=0 bulkscore=0
+ suspectscore=0 phishscore=0 spamscore=0 impostorscore=0 adultscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2110150000 definitions=main-2112160109
 Received-SPF: softfail client-ip=148.163.156.1; envelope-from=clg@kaod.org;
  helo=mx0a-001b2d01.pphosted.com
 X-Spam_score_int: -11
@@ -101,55 +102,67 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-There is no double-rounding bug here, because the result is
-merely an estimate to within 1 part in 256, but perform the
-operation with float64r32_div for consistency.
+When computing the predicate "is this value currently formatted
+for single precision", we do not want to round the value according
+to the current rounding mode, nor perform a floating-point equality.
+We want to see if the N bits that make up single-precision are the
+only ones set within the register, and then a bitwise equality.
 
-Use float_flag_invalid_snan instead of recomputing the
-snan-ness of the operand.
+Fixes a bug in which a single-precision NaN is considered !SP,
+because float64_eq(nan, nan) is always false.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20211119160502.17432-34-richard.henderson@linaro.org>
+Message-Id: <20211119160502.17432-35-richard.henderson@linaro.org>
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 ---
- target/ppc/fpu_helper.c | 20 ++++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
+ target/ppc/fpu_helper.c | 21 ++++++++++-----------
+ 1 file changed, 10 insertions(+), 11 deletions(-)
 
 diff --git a/target/ppc/fpu_helper.c b/target/ppc/fpu_helper.c
-index 83c8f2556cc7..c955b20739ac 100644
+index c955b20739ac..1e9a16154036 100644
 --- a/target/ppc/fpu_helper.c
 +++ b/target/ppc/fpu_helper.c
-@@ -861,20 +861,20 @@ float64 helper_fre(CPUPPCState *env, float64 arg)
- /* fres - fres. */
- uint64_t helper_fres(CPUPPCState *env, uint64_t arg)
+@@ -3163,26 +3163,25 @@ void helper_xststdcsp(CPUPPCState *env, uint32_t =
+opcode, ppc_vsr_t *xb)
  {
--    CPU_DoubleU farg;
--    float32 f32;
--
--    farg.ll =3D arg;
-+    /* "Estimate" the reciprocal with actual division.  */
-+    float64 ret =3D float64r32_div(float64_one, arg, &env->fp_status);
-+    int flags =3D get_float_exception_flags(&env->fp_status);
+     uint32_t dcmx, sign, exp;
+     uint32_t cc, match =3D 0, not_sp =3D 0;
++    float64 arg =3D xb->VsrD(0);
++    float64 arg_sp;
 =20
--    if (unlikely(float64_is_signaling_nan(farg.d, &env->fp_status))) {
--        /* sNaN reciprocal */
-+    if (unlikely(flags & float_flag_invalid_snan)) {
-         float_invalid_op_vxsnan(env, GETPC());
+     dcmx =3D DCMX(opcode);
+-    exp =3D (xb->VsrD(0) >> 52) & 0x7FF;
++    exp =3D (arg >> 52) & 0x7FF;
++    sign =3D float64_is_neg(arg);
+=20
+-    sign =3D float64_is_neg(xb->VsrD(0));
+-    if (float64_is_any_nan(xb->VsrD(0))) {
++    if (float64_is_any_nan(arg)) {
+         match =3D extract32(dcmx, 6, 1);
+-    } else if (float64_is_infinity(xb->VsrD(0))) {
++    } else if (float64_is_infinity(arg)) {
+         match =3D extract32(dcmx, 4 + !sign, 1);
+-    } else if (float64_is_zero(xb->VsrD(0))) {
++    } else if (float64_is_zero(arg)) {
+         match =3D extract32(dcmx, 2 + !sign, 1);
+-    } else if (float64_is_zero_or_denormal(xb->VsrD(0)) ||
+-               (exp > 0 && exp < 0x381)) {
++    } else if (float64_is_zero_or_denormal(arg) || (exp > 0 && exp < 0x3=
+81)) {
+         match =3D extract32(dcmx, 0 + !sign, 1);
      }
--    farg.d =3D float64_div(float64_one, farg.d, &env->fp_status);
--    f32 =3D float64_to_float32(farg.d, &env->fp_status);
--    farg.d =3D float32_to_float64(f32, &env->fp_status);
-+    if (unlikely(flags & float_flag_divbyzero)) {
-+        float_zero_divide_excp(env, GETPC());
-+        /* For FPSCR.ZE =3D=3D 0, the result is 1/2.  */
-+        ret =3D float64_set_sign(float64_half, float64_is_neg(arg));
-+    }
 =20
--    return farg.ll;
-+    return ret;
- }
+-    not_sp =3D !float64_eq(xb->VsrD(0),
+-                         float32_to_float64(
+-                             float64_to_float32(xb->VsrD(0), &env->fp_st=
+atus),
+-                             &env->fp_status), &env->fp_status);
++    arg_sp =3D helper_todouble(helper_tosingle(arg));
++    not_sp =3D arg !=3D arg_sp;
 =20
- /* frsqrte  - frsqrte. */
+     cc =3D sign << CRF_LT_BIT | match << CRF_EQ_BIT | not_sp << CRF_SO_B=
+IT;
+     env->fpscr &=3D ~FP_FPCC;
 --=20
 2.31.1
 
