@@ -2,75 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89F8C4772B3
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 14:07:46 +0100 (CET)
-Received: from localhost ([::1]:49396 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0935F4772DB
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 14:15:00 +0100 (CET)
+Received: from localhost ([::1]:55888 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxqU5-0004v5-7m
-	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 08:07:45 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54664)
+	id 1mxqb4-0001QA-D8
+	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 08:14:58 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54780)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mxqJo-0004Fi-Pu; Thu, 16 Dec 2021 07:57:09 -0500
-Received: from [2a00:1450:4864:20::433] (port=41518
- helo=mail-wr1-x433.google.com)
+ (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
+ id 1mxqJz-0004Pk-Hv
+ for qemu-devel@nongnu.org; Thu, 16 Dec 2021 07:57:19 -0500
+Received: from [2a00:1450:4864:20::429] (port=34398
+ helo=mail-wr1-x429.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mxqJj-00022L-3I; Thu, 16 Dec 2021 07:57:08 -0500
-Received: by mail-wr1-x433.google.com with SMTP id a9so44037286wrr.8;
- Thu, 16 Dec 2021 04:57:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=UufwO9KGbGkX/wnG41kqfgB3vVtM5x/uZTCDfb4Lk80=;
- b=oq9VA0ofunUDQ5iKzkD2GJAdWBW8N1ljNv4/O/0z06LyBewFK/Dnf11Jg/6QmliwiE
- Fa0ADbi77QldaEHUC+xxvGvAuS4gEcm2KEUcWK/Xr08bGNLWCDqvMxLj3o70U98W/XaC
- nK1O1sayPR51t1V4qU7H/PCx6MqPCsQSNWv3Hp2BfidxeNEeOfbgjjbUf2zHdwsyApDk
- Jc9fDgy4uEQgMqeezzQUYzxRDiftfkF7Y7Q0TIUAWnjYF90F8pDUoIKeyEBTSqbtNKHi
- xGFFstqn7n3ZDUZmNd1eVL+8iTELLzekbpUip3T4UiEL0bjKSksnq6l8PrjGF73OehsI
- 0L4Q==
+ (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
+ id 1mxqJx-00024U-GJ
+ for qemu-devel@nongnu.org; Thu, 16 Dec 2021 07:57:18 -0500
+Received: by mail-wr1-x429.google.com with SMTP id s1so9922760wrg.1
+ for <qemu-devel@nongnu.org>; Thu, 16 Dec 2021 04:57:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=vUOhw4MzPwlig/N3h9CCxcN2gmPc08bdlgxkafnqUgo=;
+ b=E4S4E3RwqueMqpSdyCAQ+HbnEZkibMjOu0KdB9wbyVrLpxZWYVBbdIkKhKGg8y8ife
+ e+EYttbbFNR2g0l0BCzpFSfkYo1DeQ4saojltJ4QDzWXmmTysH2TheWnxSfWFqVkz27q
+ k6+aycqTrQKuSFRfDx0MlacWIe9xUJslIiz+2hopc3EDadFtcWPvobI7On+fVMthmpiw
+ HjLOPe93gex7hLQqIzyiKocuAtMeuOSXgXCMhQh6dwjxCeq9rspcN824V0ZMn8rsKyT0
+ rCQSYLwc/Pa9lwT8pJ15nJPuq77SZ+N2DKjXmgGhT40L/CgPs4IHVihcZEhGmy4/m88k
+ rrCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=UufwO9KGbGkX/wnG41kqfgB3vVtM5x/uZTCDfb4Lk80=;
- b=hXkvvnicZjb/jHiArAKf5gvC4KY6PGEl6AsetM5TgFw3wHNtouSal5R7fHq2QoZdvg
- rlh3wWpKDkUnEn02hO28PLW+ZwWi2D4G6L0SO5M+AydrmcLMxPCaVCLZgI/ji7VHCLxe
- g1zAZtJVWL8Y4YzlR1KhvAwmTejAOFTRkrxFsR5KhFC1THyPX5G/C7Y0B7vq3UnVstJd
- Epsq1eqysSeZIoyy0mskWjvwUHLLlgNF0hzNluWFp5fRKod8PqyXW6YaG/SlVgyWGnex
- vxMEzDUkNiNqnVSix1EghyJrwxreOFMDyjBqw1/cK3VuuFxqrUtEo2C85NUlFF0+Z27s
- xVIw==
-X-Gm-Message-State: AOAM533gRREmjw+YhQQTrRooX0TYtSvTshiQf8kYLes5oeMUktyzXySj
- covNOOasEO6LqdLsNhBJmItO3HCWoGw=
-X-Google-Smtp-Source: ABdhPJxC5ZIJYyL8h+M0pNYxeItxUSN2uSMdb7J0SgWxt43QIIi5Sq/uX8bUQELc3wrnefp9E1ZaYw==
-X-Received: by 2002:adf:9d8c:: with SMTP id p12mr6837114wre.622.1639659420879; 
- Thu, 16 Dec 2021 04:57:00 -0800 (PST)
-Received: from localhost.localdomain
- (174.red-83-50-185.dynamicip.rima-tde.net. [83.50.185.174])
- by smtp.gmail.com with ESMTPSA id o12sm4284302wrv.76.2021.12.16.04.56.59
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=vUOhw4MzPwlig/N3h9CCxcN2gmPc08bdlgxkafnqUgo=;
+ b=32i4MvbwE8y7BppKAGOikGV56Zbl54fblT1VYPj5ME64bOp33DkvFzMNV5HtPGLeYS
+ FNvGIH4wZFqocHiUu+MHZt5b63fA6wXWgpZBH83xJ9zblG1qLgZpyc/qMK6gEp8gr1Qj
+ 3Dc0g+JhXL4x+lbOw+U0CvFTHyFBVASykTvN0y3hrfDjZxi+UMoeDMle53bxjxxtjqS2
+ DxcgybLdUrs5o1BJiM9ydBQycgiS0Ypp9DXmWtkUUH5GG14wPk2O5RfkGljQfZFcVIDv
+ 350rcJfdOarFESaeYfy/IoDH26Gl+awjnnnAOU/R1R5+Q1QwVM4IQzqWcjNIVQMnNTNo
+ N2lw==
+X-Gm-Message-State: AOAM531aUcnj/NVphJJh6GOfdbirSJG7D6MkJrmRR/XRIf48ClaLYvVW
+ elhs+qpd0yOeyXCoDyhJ0pkJuHoVQXWqtg==
+X-Google-Smtp-Source: ABdhPJz84xaJz5LkOvWXjXLI6KzZkMV6FYoseogY5khkKU42nVV0li8kxoKbIeVS6Wij+FBiNGSQNg==
+X-Received: by 2002:adf:9e49:: with SMTP id v9mr8720680wre.469.1639659436184; 
+ Thu, 16 Dec 2021 04:57:16 -0800 (PST)
+Received: from myrica (cpc92880-cmbg19-2-0-cust679.5-4.cable.virginm.net.
+ [82.27.106.168])
+ by smtp.gmail.com with ESMTPSA id w25sm4993533wmk.20.2021.12.16.04.57.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Dec 2021 04:57:00 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 0/2] hw/net: Move MV88W8618 network device out of hw/arm/
- directory
-Date: Thu, 16 Dec 2021 13:56:45 +0100
-Message-Id: <20211216125647.805544-1-f4bug@amsat.org>
-X-Mailer: git-send-email 2.33.1
+ Thu, 16 Dec 2021 04:57:15 -0800 (PST)
+Date: Thu, 16 Dec 2021 12:56:53 +0000
+From: Jean-Philippe Brucker <jean-philippe@linaro.org>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PULL 31/33] tests/acpi: add test case for VIOT
+Message-ID: <Ybs3lb7rZ0lP1I/N@myrica>
+References: <20211215104049.2030475-1-peter.maydell@linaro.org>
+ <20211215104049.2030475-32-peter.maydell@linaro.org>
+ <54ed293c-9f7a-f82d-7a6d-35d51eb45b77@linaro.org>
+ <YbsNoEUfJRsqtKmF@myrica>
+ <CAFEAcA_T-_bouEcfxydBmXUts4-rhUW4cb3KU=x-7WRgJM4smA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::433
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAFEAcA_T-_bouEcfxydBmXUts4-rhUW4cb3KU=x-7WRgJM4smA@mail.gmail.com>
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::429
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x433.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=jean-philippe@linaro.org; helo=mail-wr1-x429.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
@@ -85,32 +90,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
- qemu-arm@nongnu.org, Jan Kiszka <jan.kiszka@web.de>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This series simply extract the MV88W8618 device from the ARM=0D
-machine in hw/arm/ and move it to hw/net/.=0D
-=0D
-Since v1:=0D
-- update (c) notice=0D
-=0D
-Philippe Mathieu-Daud=C3=A9 (2):=0D
-  hw/arm/musicpal: Fix coding style of code related to MV88W8618 device=0D
-  hw/net: Move MV88W8618 network device out of hw/arm/ directory=0D
-=0D
- include/hw/net/mv88w8618_eth.h |  12 +=0D
- hw/arm/musicpal.c              | 380 +------------------------------=0D
- hw/net/mv88w8618_eth.c         | 402 +++++++++++++++++++++++++++++++++=0D
- MAINTAINERS                    |   2 +=0D
- hw/net/meson.build             |   1 +=0D
- 5 files changed, 418 insertions(+), 379 deletions(-)=0D
- create mode 100644 include/hw/net/mv88w8618_eth.h=0D
- create mode 100644 hw/net/mv88w8618_eth.c=0D
-=0D
--- =0D
-2.33.1=0D
-=0D
+On Thu, Dec 16, 2021 at 11:28:04AM +0000, Peter Maydell wrote:
+> On Thu, 16 Dec 2021 at 09:58, Jean-Philippe Brucker
+> <jean-philippe@linaro.org> wrote:
+> >
+> > On Wed, Dec 15, 2021 at 04:59:10PM -0800, Richard Henderson wrote:
+> > > On 12/15/21 2:40 AM, Peter Maydell wrote:
+> > > > From: Jean-Philippe Brucker <jean-philippe@linaro.org>
+> > > >
+> > > > Add two test cases for VIOT, one on the q35 machine and the other on
+> > > > virt. To test complex topologies the q35 test has two PCIe buses that
+> > > > bypass the IOMMU (and are therefore not described by VIOT), and two
+> > > > buses that are translated by virtio-iommu.
+> > > >
+> > > > Reviewed-by: Eric Auger <eric.auger@redhat.com>
+> > > > Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+> > > > Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
+> > > > Message-id: 20211210170415.583179-7-jean-philippe@linaro.org
+> > > > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> > > > ---
+> > > >   tests/qtest/bios-tables-test.c | 38 ++++++++++++++++++++++++++++++++++
+> > > >   1 file changed, 38 insertions(+)
+> > >
+> > > I should have been more careful while applying.  The aarch64 host failure
+> > > for this is not transient as I first assumed:
+> > >
+> > > PASS 5 qtest-aarch64/bios-tables-test /aarch64/acpi/virt/oem-fields
+> > > qemu-system-aarch64: kvm_init_vcpu: kvm_arch_init_vcpu failed (0): Invalid argument
+> > > Broken pipe
+> > > ERROR qtest-aarch64/bios-tables-test - too few tests run (expected 6, got 5)
+> > > make: *** [Makefile.mtest:312: run-test-37] Error 1
+> >
+> > I'm guessing adding "tcg_only = true", like all other virt machine tests
+> > in this file, should work around this, but I don't really understand the
+> > problem because I can't reproduce it on my aarch64 host (I'm running
+> > "configure --target-list=aarch64-softmmu" followed by "make -j10
+> > check-qtest V=1" in a loop)
+> 
+> What host are you testing on? The test case explicitly asks
+> for "-cpu cortex-a57", so it is only going to work with KVM
+> on hosts with a Cortex-A57.
+
+Ah yes that is it, I'm running AMD Seattle which has 8 Cortex-A57. Sorry
+about this
+
+Thanks,
+Jean
+
+> 
+> Richard: given I'm off work for Christmas now, if Jean-Philippe's
+> suggested fix fixes this are you OK with just applying it directly
+> to un-break the CI ?
+> 
+> thanks
+> -- PMM
 
