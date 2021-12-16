@@ -2,93 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1359A47731D
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 14:29:09 +0100 (CET)
-Received: from localhost ([::1]:44018 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EB89477355
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 14:40:22 +0100 (CET)
+Received: from localhost ([::1]:33468 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxqom-0004es-5R
-	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 08:29:08 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38020)
+	id 1mxqzc-0000NA-Vv
+	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 08:40:21 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38136)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mxqjg-0001d8-Ml
- for qemu-devel@nongnu.org; Thu, 16 Dec 2021 08:23:52 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27556)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1mxqk4-0002Lv-9b
+ for qemu-devel@nongnu.org; Thu, 16 Dec 2021 08:24:16 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48950)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mxqjf-0000V0-5t
- for qemu-devel@nongnu.org; Thu, 16 Dec 2021 08:23:52 -0500
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1mxqk2-0000XB-Gz
+ for qemu-devel@nongnu.org; Thu, 16 Dec 2021 08:24:16 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639661030;
+ s=mimecast20190719; t=1639661053;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=CyqJvCZgSeYqSaSJX8CibDEHflrmsRZgXyVxRI4bC9w=;
- b=CwhDvcBAG++9iM8DNVdPuWaE1zDwRTihzWjWE9QCmi80RDvP2SF51L/yRlOW96YXMCRLyG
- UeY26YHuh0eWgEybdcs+NKL7SezQ5kiwxDtxNrl1T36N+LIJDUNfPVvD173acpPGpKRq74
- TiBeJjRQH1zC+Z2+Q2PYZUEMvF9T3X8=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=PVzp3hambPZar63yBmaVj+cWzS5Eahbj8lX0x2xvUUQ=;
+ b=Nbh+4VpDKIVL+8D2t7ghb8WNeaWYeGa9NkCeRUcUa/VHMGRxMKwLH9Lnj+fR6g7LQQB8jh
+ 4G1mJVmmJY1gtY1iGBHVbNfPVqYtjdKBzVIwJYgQIH3pe8meX4vhgZYRWGJym1al93uInP
+ fn2LvtNvt3jGL/cGvgwYCtLKCUSn/2g=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-580-GjD952uANcGlYQtUMIhR5g-1; Thu, 16 Dec 2021 08:23:49 -0500
-X-MC-Unique: GjD952uANcGlYQtUMIhR5g-1
-Received: by mail-wr1-f71.google.com with SMTP id
- n22-20020adf8b16000000b001a22f61b29cso1532014wra.23
- for <qemu-devel@nongnu.org>; Thu, 16 Dec 2021 05:23:49 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=CyqJvCZgSeYqSaSJX8CibDEHflrmsRZgXyVxRI4bC9w=;
- b=FQK6PggtIzmGQXPT8IafXGzyXVZ62AZewnZiolrMpBD8uz73eaSXvZi8NpLRekc8OU
- WHX4ODuF3NRyXEyjC0EpyZH4HEfkzBtvfYCs/FZyYHT6JRXuGvRcqMNOuGYTF/bOaTQ6
- uGpG1kVAwPs+5C61fs28ImfHibDWHPe6RB+Qt1xPX5ebMGEZrzENEUhV4ltB3PK6SPTK
- JkXLG59ElxI7tALCQat0U0bvg56gcf/coEd3E5Uc4jVB/bQWQOY7H8gnq30z0EWe48Qq
- wiIji/3Qk0+zbR9wkpUS+GcAGDqFQE9RIpyR68D3yrH85F+iWCCrnAiHdEPycicOFyiZ
- Bbpw==
-X-Gm-Message-State: AOAM532Z69DGEYpGCSHe33XGaJ1zAn9WYwI4q3zrZqYqEOjorCHLi/mV
- 263FKTtSJUPwYP66kiwpsBMJXjklsgCrjLucPAO0nFqmjfVdsUtuvGitGPTWUujq7DVW8IQSoWo
- 70JQyyHGB2c7NBSk=
-X-Received: by 2002:adf:ee47:: with SMTP id w7mr8929484wro.368.1639661028480; 
- Thu, 16 Dec 2021 05:23:48 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJw0pZrE8UAnEzkYNzUKEdZI7UorCBUEtSIc0vJdQ5IP2xuM4xyHiliteNSISmnx2WTCkTCiVw==
-X-Received: by 2002:adf:ee47:: with SMTP id w7mr8929467wro.368.1639661028343; 
- Thu, 16 Dec 2021 05:23:48 -0800 (PST)
-Received: from [192.168.1.36] (174.red-83-50-185.dynamicip.rima-tde.net.
- [83.50.185.174])
- by smtp.gmail.com with ESMTPSA id bg12sm5853557wmb.5.2021.12.16.05.23.47
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 16 Dec 2021 05:23:47 -0800 (PST)
-Message-ID: <7c4f8cdf-2a8c-35a6-a425-c549de34c9b6@redhat.com>
-Date: Thu, 16 Dec 2021 14:23:46 +0100
+ us-mta-8-Pa7eTVX8PUOAvwaZm_Zc-A-1; Thu, 16 Dec 2021 08:24:09 -0500
+X-MC-Unique: Pa7eTVX8PUOAvwaZm_Zc-A-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 678D3835E2A;
+ Thu, 16 Dec 2021 13:24:08 +0000 (UTC)
+Received: from localhost (unknown [10.39.194.163])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EB84B5BE1D;
+ Thu, 16 Dec 2021 13:24:07 +0000 (UTC)
+Date: Thu, 16 Dec 2021 13:24:06 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Jagannathan Raman <jag.raman@oracle.com>
+Subject: Re: [PATCH v4 09/14] vfio-user: handle DMA mappings
+Message-ID: <Ybs99rFUKFBIL/Md@stefanha-x1.localdomain>
+References: <cover.1639549843.git.jag.raman@oracle.com>
+ <2c9baf82a342cfc4ff3d35e017908b9050faf409.1639549843.git.jag.raman@oracle.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH v4 03/10] hw/core/machine: Wrap target specific parameters
- together
-To: Yanan Wang <wangyanan55@huawei.com>, qemu-devel@nongnu.org,
- qemu-arm@nongnu.org
-References: <20211121122502.9844-1-wangyanan55@huawei.com>
- <20211121122502.9844-4-wangyanan55@huawei.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <20211121122502.9844-4-wangyanan55@huawei.com>
+In-Reply-To: <2c9baf82a342cfc4ff3d35e017908b9050faf409.1639549843.git.jag.raman@oracle.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="wtb8MS6ShWHYZguB"
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -35
-X-Spam_score: -3.6
+X-Spam_score_int: -34
+X-Spam_score: -3.5
 X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.718,
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.718,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.034, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,26 +80,130 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
- wanghaibin.wang@huawei.com, Markus Armbruster <armbru@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>,
- Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>
+Cc: elena.ufimtseva@oracle.com, john.g.johnson@oracle.com, thuth@redhat.com,
+ bleal@redhat.com, swapnil.ingle@nutanix.com, john.levon@nutanix.com,
+ philmd@redhat.com, qemu-devel@nongnu.org, wainersm@redhat.com,
+ alex.williamson@redhat.com, thanos.makatos@nutanix.com,
+ marcandre.lureau@gmail.com, crosa@redhat.com, pbonzini@redhat.com,
+ alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/21/21 13:24, Yanan Wang wrote:
-> Wrap the CPU target specific parameters together into a single
-> variable, so that we don't need to update the other lines but
-> a single line when new topology parameters are introduced.
+--wtb8MS6ShWHYZguB
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Where new params are introduced? Not in this series apparently.
-
-> No functional change intended.
-> 
-> Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
+On Wed, Dec 15, 2021 at 10:35:33AM -0500, Jagannathan Raman wrote:
+> Define and register callbacks to manage the RAM regions used for
+> device DMA
+>=20
+> Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+> Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
+> Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
+> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 > ---
->  hw/core/machine-smp.c | 17 ++++++++++-------
->  1 file changed, 10 insertions(+), 7 deletions(-)
+>  hw/remote/vfio-user-obj.c | 48 +++++++++++++++++++++++++++++++++++++++
+>  hw/remote/trace-events    |  2 ++
+>  2 files changed, 50 insertions(+)
+>=20
+> diff --git a/hw/remote/vfio-user-obj.c b/hw/remote/vfio-user-obj.c
+> index c6d0c675b7..46f2251a68 100644
+> --- a/hw/remote/vfio-user-obj.c
+> +++ b/hw/remote/vfio-user-obj.c
+> @@ -208,6 +208,47 @@ static ssize_t vfu_object_cfg_access(vfu_ctx_t *vfu_=
+ctx, char * const buf,
+>      return count;
+>  }
+> =20
+> +static void dma_register(vfu_ctx_t *vfu_ctx, vfu_dma_info_t *info)
+> +{
+> +    MemoryRegion *subregion =3D NULL;
+> +    g_autofree char *name =3D NULL;
+> +    static unsigned int suffix;
+> +    struct iovec *iov =3D &info->iova;
+> +
+> +    if (!info->vaddr) {
+> +        return;
+> +    }
+> +
+> +    name =3D g_strdup_printf("remote-mem-%u", suffix++);
+> +
+> +    subregion =3D g_new0(MemoryRegion, 1);
+> +
+> +    memory_region_init_ram_ptr(subregion, NULL, name,
+> +                               iov->iov_len, info->vaddr);
+> +
+> +    memory_region_add_subregion(get_system_memory(), (hwaddr)iov->iov_ba=
+se,
+> +                                subregion);
+> +
+> +    trace_vfu_dma_register((uint64_t)iov->iov_base, iov->iov_len);
+> +}
+> +
+> +static void dma_unregister(vfu_ctx_t *vfu_ctx, vfu_dma_info_t *info)
+> +{
+> +    MemoryRegion *mr =3D NULL;
+> +    ram_addr_t offset;
+> +
+> +    mr =3D memory_region_from_host(info->vaddr, &offset);
+> +    if (!mr) {
+> +        return;
+> +    }
+> +
+> +    memory_region_del_subregion(get_system_memory(), mr);
+> +
+> +    object_unparent((OBJECT(mr)));
+> +
+> +    trace_vfu_dma_unregister((uint64_t)info->iova.iov_base);
+> +}
+
+This does not support hot unplug (memory regions pointing to memory
+mapped by libvfio-user are left registered). The code should keep a list
+(e.g. https://docs.gtk.org/glib/struct.SList.html) of memory regions and
+automatically remove them before destroying the vfu context.
+
+It also doesn't support multiple vfio-user server instances running in
+the same QEMU process. get_system_memory() is global but the memory
+regions provided by vfio-user are per-client (i.e. VM). If multiple VMs
+are connected to one vfio-user server process then they conflict.
+
+I don't know the best way to support multiple vfio-user server
+instances, it would be straightforward if QEMU supported multiple
+MachineStates and didn't use global get_system_memory()/get_io_memory()
+APIs. It would be nice to solve that in the future.
+
+Maybe it's too hard to change that, I haven't looked. An alternative is
+to make the x-remote machine empty (it doesn't create any devices) and
+instead create a new PCI bus, interrupt controller, memory MemoryRegion,
+and io MemoryRegion in VfuObject. Stop using get_system_memory() and
+instead use the per-VfuObject memory MemoryRegion.
+
+In either of those approaches it's probably necessary to specify the PCI
+bus ID in --device and device_add so it's clear which vfio-user server
+the PCI device is associated with.
+
+The multiple vfio-user server instance limitation doesn't need to be
+solved now, but I wanted to share some ideas around it. Maybe someone
+has better ideas or is aware of limitations preventing what I described.
+
+Stefan
+
+--wtb8MS6ShWHYZguB
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmG7PfYACgkQnKSrs4Gr
+c8i7OQgApfW67UxQ9+qFWqG0+iZgXBcMU5Pil4Rc8RJfFoopslL4ne0O5ZV69nuK
+Gp3/uTH6ce5SGbq2ivdl/qb6vF1SaqVairPzx+cFD1WQk35n2ON8oz7Cm8WD69fK
+VyuwPhv4OBM6Lo5hN/nFVKu0dLU7aeb2Q1AZSyG7u3tYD/3RY2sMzXZ5Q5WcB4Ot
+iRcEWepMJJNN++8OhvPjgloX8LMR/vZS4Ju5o3t40+yPtrNAe7qw1oigk3R6LErh
+v1AF9UlNizalux9hMXopiasoLT5jS9uK1tBpvoQ55tbfuK2gicnPBWClHDCBgF2v
+8qrB2W+pdHJT6LDXwa0Ro06NrAyxxw==
+=c1Ay
+-----END PGP SIGNATURE-----
+
+--wtb8MS6ShWHYZguB--
 
 
