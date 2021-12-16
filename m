@@ -2,87 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D4F0477B73
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 19:23:03 +0100 (CET)
-Received: from localhost ([::1]:39066 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3358E477BA6
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 19:37:17 +0100 (CET)
+Received: from localhost ([::1]:44912 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxvPC-0000TG-HD
-	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 13:23:02 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60506)
+	id 1mxvcx-00059r-SP
+	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 13:37:15 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35118)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mcascell@redhat.com>)
- id 1mxvNf-0007W3-5D
- for qemu-devel@nongnu.org; Thu, 16 Dec 2021 13:21:27 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:49221)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mxvbL-0003iV-Db
+ for qemu-devel@nongnu.org; Thu, 16 Dec 2021 13:35:35 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51547)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mcascell@redhat.com>)
- id 1mxvNc-0005K0-2I
- for qemu-devel@nongnu.org; Thu, 16 Dec 2021 13:21:26 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mxvbI-0007CM-KC
+ for qemu-devel@nongnu.org; Thu, 16 Dec 2021 13:35:34 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639678883;
+ s=mimecast20190719; t=1639679726;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=N+aq10VOb/+OYsNPJn8OeDGvt78tp66X5FV7Szzj95M=;
- b=dlwQKkunteJrKsK/ACaE3lBFpPF2V5ezO2YtP98+s92U6nhD/3tl+7klkT9Dq7YKGvD3SH
- b6EwNjCydsVe96qy/gbeGooD49PboXGBQtu3nPT1+XBcDpeBgeiDhWjhD0cSKmedNvifqA
- kz+Wh4xITOJ8CvjBBQUPjIzhCwk0ETU=
-Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com
- [209.85.210.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=P0fytyxwoXOOiWYXcnMWpHkvdD8aQw9J0oUlJ4K+GOI=;
+ b=izsrQ/9M5x/E+Yd8WtpP+farf/eWQ9a+TAY3NNKuObbfBkK4TfNNVu9nPj+PKOvYyaaEQi
+ 7XmmaQug6wILF8LUZcNY/ZU+sZXfWe77g5QmTj5zlLdYrix7qbDbpN5mmhyXsmcUecOqG5
+ 7hHhmGJJkNclckk/SHKn+EUudu89ckU=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-221-bzZHWQ8HO2qbikbPfdbk_A-1; Thu, 16 Dec 2021 13:21:22 -0500
-X-MC-Unique: bzZHWQ8HO2qbikbPfdbk_A-1
-Received: by mail-pf1-f197.google.com with SMTP id
- m16-20020a628c10000000b004a282d715b2so26562pfd.11
- for <qemu-devel@nongnu.org>; Thu, 16 Dec 2021 10:21:21 -0800 (PST)
+ us-mta-160-owJT-hbqPUeKh19p7pdzfg-1; Thu, 16 Dec 2021 13:35:25 -0500
+X-MC-Unique: owJT-hbqPUeKh19p7pdzfg-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ 205-20020a1c00d6000000b003335d1384f1so1673588wma.3
+ for <qemu-devel@nongnu.org>; Thu, 16 Dec 2021 10:35:25 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=N+aq10VOb/+OYsNPJn8OeDGvt78tp66X5FV7Szzj95M=;
- b=TOu6eQzjCurQ36KuAqfiP9Js5w9T3cAory8BVHuw4ccDI3ML9K+ZP6taneXSrGArY/
- DQbtP8ePQ93OzhsRXOrqJZvgMsHnQwi5IGmiAovhthyAv4ZBcj9FKfcn/6ItRcmgjbRh
- nQLkp2++fDhPtSsSI4FS/DzGSzYMzqSUtTqtmbD+9Wn5W5eVBgrdzuatPAJDGxj6/ogE
- 2lk02CX6D/LDWNplLoRmVEro4haYuyaKaAinGfQjrR7KUFtQmPWGav+mz2/8v+pFCBkV
- D5BDpxevFs9xwLxRT0FFUvjB1NOi0ZdJ5XwmUmhqTkPQvUQbIAEw62J0KQZPdSQk0hZu
- t/tA==
-X-Gm-Message-State: AOAM533t9F+AzKKRRs/XOVbykks50YbD8+UlKEwuZ9SD6uQ/Fp4aJ8xz
- 085rZSxPYwB8iUEGB9xYvfDNUxclMEtspT15t69wa98g0HbmXkNWHw5Rp2fwczgWvyBpb/a4duk
- 6828PlU4zlvY3sPfRzuf4SCeKCx+V/z8=
-X-Received: by 2002:a05:6a00:26ca:b0:4a8:3129:84e with SMTP id
- p10-20020a056a0026ca00b004a83129084emr15306521pfw.74.1639678880680; 
- Thu, 16 Dec 2021 10:21:20 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyyi9gDzIkBRtGlx+PsA6g1UoTBs4d/Qm8dkUUqQ0xIJtp/Mr4JGTD5Qa0fB4+shlYMZq23QPd4ig4slV6lc14=
-X-Received: by 2002:a05:6a00:26ca:b0:4a8:3129:84e with SMTP id
- p10-20020a056a0026ca00b004a83129084emr15306499pfw.74.1639678880452; Thu, 16
- Dec 2021 10:21:20 -0800 (PST)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=P0fytyxwoXOOiWYXcnMWpHkvdD8aQw9J0oUlJ4K+GOI=;
+ b=xTLYTMVphYKxdW0KcgKKzs62hF6l/ASew0gm03K3lRC1ycMwiEEKbFuGLZbI3SYbRe
+ EuPRs1JMyKeEGqV/ZJYRXkLzay+Rs2Ohi22hCZbvdY3dL7F0+BxkSN7/0klIXBRDgdiO
+ 1xLMpR8zX7i4rgAfZ8CfdIqf8e6DThD5ShVDViJTQwU9GXQ8LwRFZas2Jnqmd66od+b+
+ o99p2BkVJ1Yqc1AlTcTDxjAlYKY87yXV0RfftB5ExGjocd139DvELAv2HtwLrpyQXT8a
+ c+PdAt4bCR/2VsmsCQqMXPLHzWo+608MbmnVrFQz9AGfO1LbCcY1e9IlUZ/lTwAIyfnL
+ S/GA==
+X-Gm-Message-State: AOAM532wk8WLjO7oYKIQvmov8fHgLIXU5SN0JRetnVGbTxA8kBVeQXxC
+ 3cR1ARvAh5r/vMaIfJ5QjnK+QrUvRpidD3LHz/LrsodwLilZQ5vaYMI0qbq9iZdMaAEVBOq5O3/
+ 5Gu0sXFkRxEwkuBs=
+X-Received: by 2002:a5d:6dc1:: with SMTP id d1mr10555862wrz.282.1639679724120; 
+ Thu, 16 Dec 2021 10:35:24 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyciRfbxfMYiJh+wpfHBzsZ8TVPvA+wvPG757/Pk7SJ/Ig8nP42N27t71rSWVi0Ir3ZWPHjyA==
+X-Received: by 2002:a5d:6dc1:: with SMTP id d1mr10555846wrz.282.1639679723883; 
+ Thu, 16 Dec 2021 10:35:23 -0800 (PST)
+Received: from [192.168.1.36] (174.red-83-50-185.dynamicip.rima-tde.net.
+ [83.50.185.174])
+ by smtp.gmail.com with ESMTPSA id 138sm8554580wma.17.2021.12.16.10.35.23
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 16 Dec 2021 10:35:23 -0800 (PST)
+Message-ID: <0e38d05c-829d-d827-30de-9019a9fb60c3@redhat.com>
+Date: Thu, 16 Dec 2021 19:35:22 +0100
 MIME-Version: 1.0
-References: <20211216175510.884749-1-philmd@redhat.com>
- <20211216175510.884749-3-philmd@redhat.com>
-In-Reply-To: <20211216175510.884749-3-philmd@redhat.com>
-From: Mauro Matteo Cascella <mcascell@redhat.com>
-Date: Thu, 16 Dec 2021 19:21:09 +0100
-Message-ID: <CAA8xKjWiei-2hU1XHpeaeePcRBOpqQUjW0UcNHHT8rTLUTewag@mail.gmail.com>
-Subject: Re: [PATCH 2/2] hw/nvme/ctrl: Prohibit DMA accesses to devices
- (CVE-2021-3929)
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH] e1000: fix tx re-entrancy problem
+To: Jon Maloy <jmaloy@redhat.com>, qemu-devel@nongnu.org,
+ Jason Wang <jasowang@redhat.com>, Alexander Bulekov <alxndr@redhat.com>
+References: <20211021161047.578751-1-jmaloy@redhat.com>
+ <61ba1305-321a-1de2-a399-e7b608e4dad4@redhat.com>
+ <d8f0ab15-de92-4286-485f-dff907ac0762@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+In-Reply-To: <d8f0ab15-de92-4286-485f-dff907ac0762@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mcascell@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mcascell@redhat.com;
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.718,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.034, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,53 +102,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Darren Kenny <darren.kenny@oracle.com>,
- "open list:Block layer core" <qemu-block@nongnu.org>,
- David Hildenbrand <david@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Li Qiang <liq3ea@gmail.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Peter Xu <peterx@redhat.com>, Qiuhao Li <Qiuhao.Li@outlook.com>,
- Alexander Bulekov <alxndr@bu.edu>, Keith Busch <kbusch@kernel.org>,
- Bandan Das <bsd@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Klaus Jensen <its@irrelevant.dk>,
- "Edgar E . Iglesias" <edgar.iglesias@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Dec 16, 2021 at 6:55 PM Philippe Mathieu-Daud=C3=A9
-<philmd@redhat.com> wrote:
->
-> Fixes: CVE-2021-3929
+On 12/16/21 16:51, Jon Maloy wrote:
+> On 12/16/21 04:36, Philippe Mathieu-Daudé wrote:
+>> Hi Jon,
+>>
+>> On 10/21/21 18:10, Jon Maloy wrote:
+>>> The fact that the MMIO handler is not re-entrant causes an infinite
+>>> loop under certain conditions:
+>>>
+>>> Guest write to TDT ->  Loopback -> RX (DMA to TDT) -> TX
+>>>
+>>> We now eliminate the effect of this problem locally in e1000, by adding
+>>> a boolean in struct E1000State indicating when the TX side is busy. This
+>>> will cause any entering new call to return early instead of interfering
+>>> with the ongoing work, and eliminates any risk of looping.
+>>>
+>>> This is intended to address CVE-2021-20257.
+>>>
+>>> Signed-off-by: Jon Maloy <jmaloy@redhat.com>
+>>> ---
+>>>   hw/net/e1000.c | 7 +++++++
+>>>   1 file changed, 7 insertions(+)
+>> I can not find the reproducer in the repository, have you sent one?
+>>
+> No, I did not add it to the repo.
+> It was referenced from the tracker BZ, but I was unable to get access
+> back then.
+> It ended up with that I had it sent by mail to me directly.
+> 
+> What is your question? Is it that it should be in the repo, or that you
+> cannot find it?
 
-RHBZ: https://bugzilla.redhat.com/show_bug.cgi?id=3D2020298
-
-> Reported-by: Qiuhao Li <Qiuhao.Li@outlook.com>
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> ---
->  hw/nvme/ctrl.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-> index 604ed0aea0d..2be2c340b34 100644
-> --- a/hw/nvme/ctrl.c
-> +++ b/hw/nvme/ctrl.c
-> @@ -1146,7 +1146,7 @@ static uint16_t nvme_tx(NvmeCtrl *n, NvmeSg *sg, ui=
-nt8_t *ptr, uint32_t len,
->      assert(sg->flags & NVME_SG_ALLOC);
->
->      if (sg->flags & NVME_SG_DMA) {
-> -        const MemTxAttrs attrs =3D MEMTXATTRS_UNSPECIFIED;
-> +        const MemTxAttrs attrs =3D { .memory =3D true };
->          MemTxResult res;
->          uint64_t residual;
->
-> --
-> 2.33.1
->
-
---=20
-Mauro Matteo Cascella
-Red Hat Product Security
-PGP-Key ID: BB3410B0
+Well I'd like to reproduce the bug, but first I can not find it ;)
+Having such reproducer committed along with the fix help catching
+future regressions if we refactor code elsewhere.
 
 
