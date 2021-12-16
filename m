@@ -2,72 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 317154773C0
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 14:58:24 +0100 (CET)
-Received: from localhost ([::1]:40924 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D09B4773E9
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 Dec 2021 15:02:48 +0100 (CET)
+Received: from localhost ([::1]:51458 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mxrH4-0000qj-QI
-	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 08:58:22 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45378)
+	id 1mxrLL-0008KG-JA
+	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 09:02:47 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46354)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bleal@redhat.com>) id 1mxrA1-0007M4-Sc
- for qemu-devel@nongnu.org; Thu, 16 Dec 2021 08:51:05 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:38848)
+ (Exim 4.90_1) (envelope-from <bleal@redhat.com>) id 1mxrEP-0006IV-4t
+ for qemu-devel@nongnu.org; Thu, 16 Dec 2021 08:55:37 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:53200)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bleal@redhat.com>) id 1mxr9x-0001ly-Lr
- for qemu-devel@nongnu.org; Thu, 16 Dec 2021 08:51:03 -0500
+ (Exim 4.90_1) (envelope-from <bleal@redhat.com>) id 1mxrEL-0002Pw-0a
+ for qemu-devel@nongnu.org; Thu, 16 Dec 2021 08:55:34 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639662661;
+ s=mimecast20190719; t=1639662931;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=XR5z4SZiG6mZ+//Zqk8F5eQvNy0uiytJBaao2c5A5kE=;
- b=C9d7z8g2keC/QXLEFlKeswgBTUfMwecHa/SdYdG6Gq+KFv73i2gPmtPXk72n7dhJJpcHbk
- eX2dWjlCeEXDn6wvRN2viSGD1wFOwGo4x/FfuSpUskg6JRYl0RQkmkuegdnhxdOUYgyB/m
- UQijGw98CP5Sz5oxdcoIp+bVUozcM5k=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=4tWi0CELFcouf8NJ5zdsUJnAgLLBiqnzOZpCknwHqZs=;
+ b=cxo/YqMfdZwiT7uGilkclKh9X/1vFru3uVGFn+RJ77D1mLdSroXW/82fQEx8MkYWkUGbfx
+ 7LsfEJrf5qr/Wq7mjrc68EodNX27X2JVeik/hyh6//lmH3cvPfecacvYvVGQR/JDtY9Hmt
+ 8GZjpCztBUjHSR28tBh2x99zfXozuAM=
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-391-B0NVV6jzPz-NYR7zyC_tFw-1; Thu, 16 Dec 2021 08:51:00 -0500
-X-MC-Unique: B0NVV6jzPz-NYR7zyC_tFw-1
-Received: by mail-qk1-f197.google.com with SMTP id
- v13-20020a05620a440d00b00468380f4407so20662634qkp.17
- for <qemu-devel@nongnu.org>; Thu, 16 Dec 2021 05:51:00 -0800 (PST)
+ us-mta-625-d3QTVY-BMNCVY8X3wVgqpA-1; Thu, 16 Dec 2021 08:55:30 -0500
+X-MC-Unique: d3QTVY-BMNCVY8X3wVgqpA-1
+Received: by mail-qt1-f198.google.com with SMTP id
+ g2-20020ac87d02000000b002b277218d03so33534065qtb.16
+ for <qemu-devel@nongnu.org>; Thu, 16 Dec 2021 05:55:30 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=XR5z4SZiG6mZ+//Zqk8F5eQvNy0uiytJBaao2c5A5kE=;
- b=q4wPmz4N/O96IfP/TuR1RNdE0HzN9LD64Lq8d8wST3abGljopmaEdz/E3LzyR6kdDe
- B1ksJfHwELa+aLJ1La0K4zqyiXHuMeL9TOGriOZfhuh6RsfljzMzA4Bj2KQJaVaXLxfy
- 8XmARbl1xFeuikjPW0e1h7+rBNBVi2ITgqBnq2MK/ytnJsRkn6AjR1rJuhENsB5YFe3Y
- iw6I20wp+8LfW4wbmFgrRK7xkukCojNfa4uA6Fr/OpuaobQGyhGTHBRHsceWQuNqu6UL
- VY6VyREVCg2KpHI4ufH9eLDRGqJe2NFIPi7KnJx76fHnst1kZ7s21D5RYnN5D+4KzNXD
- VtPQ==
-X-Gm-Message-State: AOAM533F0ZgY11PYci+is8tX3FDajKPxBipkmhnxVL7u9YSD/IZ0VBhr
- 2P0r0Crwwr378DUxWENASz3xxGqNGOk6wrs5E3SxtiKpOkl6SqToY9rawfqq68oy/WDMXMskbwG
- XngnD2TE1483XAeg=
-X-Received: by 2002:a05:620a:4011:: with SMTP id
- h17mr12278252qko.564.1639662659390; 
- Thu, 16 Dec 2021 05:50:59 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyVhgpp0FZxsgJ3pbAAu7ADWDPxcd7ZIgDIXt0IZO7WEiTTOcfOgqwPgTNxcgOTitZ7rKWA+Q==
-X-Received: by 2002:a05:620a:4011:: with SMTP id
- h17mr12278238qko.564.1639662659193; 
- Thu, 16 Dec 2021 05:50:59 -0800 (PST)
+ bh=4tWi0CELFcouf8NJ5zdsUJnAgLLBiqnzOZpCknwHqZs=;
+ b=biV07hFAPq5DYldVIjIfZQFB8b03W0Xoi1C24K1ikeATmGvbSnQnV2WA8ynYhu+n+A
+ lX19Q0MxiEHolAO7Du5nikChtVSchFJCz1cOcDjCWV3ckV+O0TCjwcmGzAAKkfGIgkH+
+ SBEf78meQkZiYvjKidxxNpniyj/lkArkfukBYejETCIuWPl/+ydzBoiFCrPPTSS7/leJ
+ 98lNgQMcH1Q/iA22cZdIt7D7W/50bkBhbDOaYepW1FKDDqhY4ZyED8v6Db4X217Tzfxv
+ /6LOG7nIfw7rgVUkxEA7mZxLhgpeozcBELyUuCVypfXP1yHeDfQY4X97FxVM/g5ltoRL
+ 9VJQ==
+X-Gm-Message-State: AOAM531pkOPWAWDYUtLCmSFIRxdcbKS1BqRimW4X9tLC6hWs7CoSOBZ2
+ X/osbuub8XkRzmc3YT8kYhGF5iKLElc6Fm8mWIjc9AKieDe7r8FmPA0SuVQMMT9dJT7G7CH84nF
+ I7bQnEi8QYTVDH/4=
+X-Received: by 2002:ac8:7d0e:: with SMTP id g14mr16753347qtb.638.1639662930351; 
+ Thu, 16 Dec 2021 05:55:30 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzndjLTAterd844PPRVr4IbYBGeOKpP/bdrQsVHyS62ked+O0ZazKzqthCt3/OPzo5AbBixHg==
+X-Received: by 2002:ac8:7d0e:: with SMTP id g14mr16753316qtb.638.1639662930146; 
+ Thu, 16 Dec 2021 05:55:30 -0800 (PST)
 Received: from localhost ([181.191.236.130])
- by smtp.gmail.com with ESMTPSA id d19sm4268380qtb.47.2021.12.16.05.50.58
+ by smtp.gmail.com with ESMTPSA id ay36sm2760591qkb.60.2021.12.16.05.55.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Dec 2021 05:50:58 -0800 (PST)
-Date: Thu, 16 Dec 2021 10:50:51 -0300
+ Thu, 16 Dec 2021 05:55:29 -0800 (PST)
+Date: Thu, 16 Dec 2021 10:55:22 -0300
 From: Beraldo Leal <bleal@redhat.com>
 To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH v2 17/25] iotests/mirror-top-perms: switch to AQMP
-Message-ID: <20211216135051.oxnidozxbps44kf4@laptop.redhat>
+Subject: Re: [PATCH v2 18/25] iotests: switch to AQMP
+Message-ID: <20211216135522.qy74zxp6k63luv2c@laptop.redhat>
 References: <20211215193939.3768033-1-jsnow@redhat.com>
- <20211215193939.3768033-18-jsnow@redhat.com>
+ <20211215193939.3768033-19-jsnow@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20211215193939.3768033-18-jsnow@redhat.com>
+In-Reply-To: <20211215193939.3768033-19-jsnow@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=bleal@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -82,7 +80,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.718,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,54 +103,27 @@ Cc: Eduardo Habkost <eduardo@habkost.net>, Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Dec 15, 2021 at 02:39:31PM -0500, John Snow wrote:
-> Signed-off-by: John Snow <jsnow@redhat.com>
-> 
-> ---
-> 
-> Note: I still need to adjust the logging. The problem now is that the
-> logging messages include the PID of the test process, so they need to be
-> filtered out. I'll investigate that for a follow-up, or for v2.
-> 
-> I could just add yet another filtering function somewhere, but I think
-> it's getting out of hand with how many filters and loggers there are, so
-> I want to give it a slightly more serious treatment instead of a
-> hackjob.
+On Wed, Dec 15, 2021 at 02:39:32PM -0500, John Snow wrote:
+> Simply import the type defition from the new location.
 > 
 > Signed-off-by: John Snow <jsnow@redhat.com>
 > ---
->  tests/qemu-iotests/tests/mirror-top-perms | 7 +++----
->  1 file changed, 3 insertions(+), 4 deletions(-)
+>  tests/qemu-iotests/iotests.py | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/tests/qemu-iotests/tests/mirror-top-perms b/tests/qemu-iotests/tests/mirror-top-perms
-> index 0a51a613f3..f394931a00 100755
-> --- a/tests/qemu-iotests/tests/mirror-top-perms
-> +++ b/tests/qemu-iotests/tests/mirror-top-perms
-> @@ -23,7 +23,6 @@ import os
+> diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
+> index 83bfedb902..cb21aebe36 100644
+> --- a/tests/qemu-iotests/iotests.py
+> +++ b/tests/qemu-iotests/iotests.py
+> @@ -37,7 +37,7 @@
+>  from contextlib import contextmanager
 >  
->  from qemu.aqmp import ConnectError
->  from qemu.machine import machine
-> -from qemu.qmp import QMPConnectError
+>  from qemu.machine import qtest
+> -from qemu.qmp import QMPMessage
+> +from qemu.aqmp.legacy import QMPMessage
 >  
->  import iotests
->  from iotests import change_log_level, qemu_img
-> @@ -101,13 +100,13 @@ class TestMirrorTopPerms(iotests.QMPTestCase):
->          self.vm_b.add_device('virtio-blk,drive=drive0,share-rw=on')
->          try:
->              # Silence AQMP errors temporarily.
-> -            # TODO: Remove this and just allow the errors to be logged when
-> -            # AQMP fully replaces QMP.
-> +            # TODO: Remove change_log_level and allow the errors to be logged.
-> +            #       This necessitates a PID filter on *all* logging output.
->              with change_log_level('qemu.aqmp'):
->                  self.vm_b.launch()
->                  print('ERROR: VM B launched successfully, '
->                        'this should not have happened')
-> -        except (QMPConnectError, ConnectError):
-> +        except ConnectError:
->              assert 'Is another process using the image' in self.vm_b.get_log()
->  
->          result = self.vm.qmp('block-job-cancel',
+>  # Use this logger for logging messages directly from the iotests module
+>  logger = logging.getLogger('qemu.iotests')
 
 Reviewed-by: Beraldo Leal <bleal@redhat.com>
 
