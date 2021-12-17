@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3397A478DF9
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Dec 2021 15:41:29 +0100 (CET)
-Received: from localhost ([::1]:55348 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8054F478E65
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Dec 2021 15:49:05 +0100 (CET)
+Received: from localhost ([::1]:44512 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1myEQK-0007XM-85
-	for lists+qemu-devel@lfdr.de; Fri, 17 Dec 2021 09:41:28 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40132)
+	id 1myEXg-0002tG-Iu
+	for lists+qemu-devel@lfdr.de; Fri, 17 Dec 2021 09:49:04 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40182)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1myEND-000541-Gm
- for qemu-devel@nongnu.org; Fri, 17 Dec 2021 09:38:15 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24559)
+ id 1myENF-00059f-Qp
+ for qemu-devel@nongnu.org; Fri, 17 Dec 2021 09:38:17 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39567)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1myEN9-000715-GQ
- for qemu-devel@nongnu.org; Fri, 17 Dec 2021 09:38:14 -0500
+ id 1myENE-00073F-C8
+ for qemu-devel@nongnu.org; Fri, 17 Dec 2021 09:38:17 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639751889;
+ s=mimecast20190719; t=1639751895;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=a5dC8hDfVVT7XCxwJuEf3jf06NPq72if0VJ11FfXd2E=;
- b=aKiWBuob7HWL3z0UmHeTb4l3r1B07ES3P6PWwqUmX06SO5UDe7cQvdgIbPt0uHQkqHGOfl
- J5Lu3qyjZ0m2o6efL09frvz4HB8aa9Ixl5jI3DlFSjhx695hG1Y5dEYXC2FfiZdy59HCiv
- YyfjJu9VSD6Qz9W+Vd54VYogHh9eBdY=
+ bh=1NPxNJl2P8NzMZgu63BRXG6ySBfg6/iOpK/WPgt+1bc=;
+ b=RPg//5r3TRu9FdAqco+b2mtJzIL2RKH5bCpDGc1Nxik4BqkIm8Kk6hUH/b8FEsHuckE7kd
+ LzClBviOYLN7PkvVRy+L+Y89upx8rvxalk6iVWF++8jkYSCEgAJc2XhS1fuJNAnXlbcxBa
+ wbbAFb1GqBN/X85bp3I4ct1xJTbZNis=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-264-K0tObQ0jMg-IBJ6Bok6SWg-1; Fri, 17 Dec 2021 09:38:08 -0500
-X-MC-Unique: K0tObQ0jMg-IBJ6Bok6SWg-1
+ us-mta-492-SYP3YIUnP_uBLUbpItTNnw-1; Fri, 17 Dec 2021 09:38:11 -0500
+X-MC-Unique: SYP3YIUnP_uBLUbpItTNnw-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A53021006AA0;
- Fri, 17 Dec 2021 14:38:06 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E847385B67F;
+ Fri, 17 Dec 2021 14:38:10 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.10])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AC7655ED4D;
- Fri, 17 Dec 2021 14:38:05 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 22B765ED3F;
+ Fri, 17 Dec 2021 14:38:09 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PULL 01/36] ui/vdagent: add CHECK_SPICE_PROTOCOL_VERSION
-Date: Fri, 17 Dec 2021 18:37:21 +0400
-Message-Id: <20211217143756.1831099-2-marcandre.lureau@redhat.com>
+Subject: [PULL 02/36] ui/vdagent: replace #if 0 with protocol version check
+Date: Fri, 17 Dec 2021 18:37:22 +0400
+Message-Id: <20211217143756.1831099-3-marcandre.lureau@redhat.com>
 In-Reply-To: <20211217143756.1831099-1-marcandre.lureau@redhat.com>
 References: <20211217143756.1831099-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
@@ -90,45 +90,43 @@ From: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Acked-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- meson.build  | 5 +++++
- ui/vdagent.c | 8 ++++++++
- 2 files changed, 13 insertions(+)
+ ui/vdagent.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/meson.build b/meson.build
-index ae67ca28ab38..58718691d7fc 100644
---- a/meson.build
-+++ b/meson.build
-@@ -1487,6 +1487,11 @@ config_host_data.set('CONFIG_ZSTD', zstd.found())
- config_host_data.set('CONFIG_FUSE', fuse.found())
- config_host_data.set('CONFIG_FUSE_LSEEK', fuse_lseek.found())
- config_host_data.set('CONFIG_SPICE_PROTOCOL', spice_protocol.found())
-+if spice_protocol.found()
-+config_host_data.set('CONFIG_SPICE_PROTOCOL_MAJOR', spice_protocol.version().split('.')[0])
-+config_host_data.set('CONFIG_SPICE_PROTOCOL_MINOR', spice_protocol.version().split('.')[1])
-+config_host_data.set('CONFIG_SPICE_PROTOCOL_MICRO', spice_protocol.version().split('.')[2])
-+endif
- config_host_data.set('CONFIG_SPICE', spice.found())
- config_host_data.set('CONFIG_X11', x11.found())
- config_host_data.set('CONFIG_CFI', get_option('cfi'))
 diff --git a/ui/vdagent.c b/ui/vdagent.c
-index 19e8fbfc96f1..1f8fc77ee8f3 100644
+index 1f8fc77ee8f3..64e00170017f 100644
 --- a/ui/vdagent.c
 +++ b/ui/vdagent.c
-@@ -17,6 +17,14 @@
- 
- #include "spice/vd_agent.h"
- 
-+#define CHECK_SPICE_PROTOCOL_VERSION(major, minor, micro) \
-+    (CONFIG_SPICE_PROTOCOL_MAJOR > (major) ||             \
-+     (CONFIG_SPICE_PROTOCOL_MAJOR == (major) &&           \
-+      CONFIG_SPICE_PROTOCOL_MINOR > (minor)) ||           \
-+     (CONFIG_SPICE_PROTOCOL_MAJOR == (major) &&           \
-+      CONFIG_SPICE_PROTOCOL_MINOR == (minor) &&           \
-+      CONFIG_SPICE_PROTOCOL_MICRO >= (micro)))
-+
- #define VDAGENT_BUFFER_LIMIT (1 * MiB)
- #define VDAGENT_MOUSE_DEFAULT true
- #define VDAGENT_CLIPBOARD_DEFAULT false
+@@ -87,8 +87,10 @@ static const char *cap_name[] = {
+     [VD_AGENT_CAP_MONITORS_CONFIG_POSITION]       = "monitors-config-position",
+     [VD_AGENT_CAP_FILE_XFER_DISABLED]             = "file-xfer-disabled",
+     [VD_AGENT_CAP_FILE_XFER_DETAILED_ERRORS]      = "file-xfer-detailed-errors",
+-#if 0
++#if CHECK_SPICE_PROTOCOL_VERSION(0, 14, 0)
+     [VD_AGENT_CAP_GRAPHICS_DEVICE_INFO]           = "graphics-device-info",
++#endif
++#if CHECK_SPICE_PROTOCOL_VERSION(0, 14, 1)
+     [VD_AGENT_CAP_CLIPBOARD_NO_RELEASE_ON_REGRAB] = "clipboard-no-release-on-regrab",
+     [VD_AGENT_CAP_CLIPBOARD_GRAB_SERIAL]          = "clipboard-grab-serial",
+ #endif
+@@ -110,7 +112,7 @@ static const char *msg_name[] = {
+     [VD_AGENT_CLIENT_DISCONNECTED]   = "client-disconnected",
+     [VD_AGENT_MAX_CLIPBOARD]         = "max-clipboard",
+     [VD_AGENT_AUDIO_VOLUME_SYNC]     = "audio-volume-sync",
+-#if 0
++#if CHECK_SPICE_PROTOCOL_VERSION(0, 14, 0)
+     [VD_AGENT_GRAPHICS_DEVICE_INFO]  = "graphics-device-info",
+ #endif
+ };
+@@ -128,7 +130,7 @@ static const char *type_name[] = {
+     [VD_AGENT_CLIPBOARD_IMAGE_BMP]  = "bmp",
+     [VD_AGENT_CLIPBOARD_IMAGE_TIFF] = "tiff",
+     [VD_AGENT_CLIPBOARD_IMAGE_JPG]  = "jpg",
+-#if 0
++#if CHECK_SPICE_PROTOCOL_VERSION(0, 14, 3)
+     [VD_AGENT_CLIPBOARD_FILE_LIST]  = "files",
+ #endif
+ };
 -- 
 2.34.1.8.g35151cf07204
 
