@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69E2C479561
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Dec 2021 21:21:18 +0100 (CET)
-Received: from localhost ([::1]:43684 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B57FA479558
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Dec 2021 21:17:40 +0100 (CET)
+Received: from localhost ([::1]:39288 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1myJjB-0005H8-IA
-	for lists+qemu-devel@lfdr.de; Fri, 17 Dec 2021 15:21:17 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40110)
+	id 1myJff-0002D5-RF
+	for lists+qemu-devel@lfdr.de; Fri, 17 Dec 2021 15:17:39 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40088)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1myJZ1-0006Fu-66; Fri, 17 Dec 2021 15:10:50 -0500
-Received: from mout.kundenserver.de ([212.227.126.130]:51513)
+ id 1myJYm-00061D-Ls; Fri, 17 Dec 2021 15:10:32 -0500
+Received: from mout.kundenserver.de ([212.227.126.131]:55089)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1myJYq-0001MG-54; Fri, 17 Dec 2021 15:10:37 -0500
+ id 1myJYl-0001Kn-2F; Fri, 17 Dec 2021 15:10:32 -0500
 Received: from quad ([82.142.30.186]) by mrelayeu.kundenserver.de (mreue011
- [212.227.15.167]) with ESMTPSA (Nemesis) id 1MmUYD-1mGQ9O0Ufx-00iSYq; Fri, 17
- Dec 2021 21:10:23 +0100
+ [212.227.15.167]) with ESMTPSA (Nemesis) id 1MXXdn-1n08iO3gnH-00Z2lC; Fri, 17
+ Dec 2021 21:10:24 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 4/9] hw/avr: Realize AVRCPU qdev object using qdev_realize()
-Date: Fri, 17 Dec 2021 21:10:14 +0100
-Message-Id: <20211217201019.1652798-5-laurent@vivier.eu>
+Subject: [PULL 5/9] hw/virtio/vhost: Fix typo in comment.
+Date: Fri, 17 Dec 2021 21:10:15 +0100
+Message-Id: <20211217201019.1652798-6-laurent@vivier.eu>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211217201019.1652798-1-laurent@vivier.eu>
 References: <20211217201019.1652798-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:R70kTna8rRJD+JhV25qXyrvnmPOe12pS+SsPgukOH90eTZXweCA
- 7oAzql7rmqeoaa5XjpS0rM3IyHKylb8F19Ln4DCO2wNSKold5GtjTAktFdQe3T7wCFwmNIc
- 0nV5U4r/szSoe5ijt7qjXeUDka/g/2sSR6Z+k0RrNPhz7Wp3xpMOrKZmukyJc6xwU1ZxknJ
- PaH06bjPvZSan6pnD2XLg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:fZ9wgF/45kY=:2MSIvKqM72rNPqLGLj0AXS
- MVccKNUGRv4s4/DJAJNGs0AtUXeaCaOZ7MYQPQVadbqPwHFK+4MEFlrbCkmA1OJNgJWe/1+OC
- 1nKkXtYDv1Gtq3xIBgAA5kDEnBPsv13lyegeHVDVbX1LNd2cdKJ81FqOPMmCPRhyTxUNxP2GC
- c3bZs9ZH5JwXjFP9JdtUh16RZub4wW4/EufA5DA9s473izfGuCrCCqk0UM3YFK2yHL1dOUswH
- yLrlqNED+GwNv1KZq1kOtkJrf0BuWWHM8JFivZbve9mcE0PWtzbGuAtu6TW2NbeMeb2RUJRD4
- J5tXGueGYZtpHlISsc45fPOZlOCHGSE4KXo4IAy97FaqBFhEZ33NsRjJHlMNm7xJhDNWM2nlU
- s6rT/LmafAza0a8xc1R89/Q5VZyAd6uAHXLBlvsnKVK8pNYaEHSfoWOxdCG8TvJ3+eV5Qiuaw
- Ny4aWNDnPl+Lx0vNTaXqN3ufR2lqCtzyMl+vrCF9DMM9eYt05L/SSZmEHfOYPxefcO3HlzcqY
- wgp/Blg9G1BJCm2F9VO67Hc4/ZnciNR/uId65/vVPWUTpyFJeFt/3TIKCihaBl1ML6f41YZFb
- w6sZ44wbRCXdamMzbE0Dg/2Vpk9pgXlWk9xQj/gYWmL40GlHydQsVvBDfI6N9u4Tki1whVQXY
- aeYGh/fcS5koBmN+4LtgfDGR3FkmGgGbjo0L/EKptP+w+h1QYsgniEFWruYGoMDQsbg0=
-Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:Yp9InfhxjS+IS2Gv4DyCN+O6FlSuobETECztAK1zs9ZGMMRGR4e
+ HM9r7EmKV4P6b3YStylpv2MaZKPEbSJD1IaQ3yQbN2upQqHoTr9Cyjr9beDqZhlWmGtygIb
+ n5+HYoE6NtxK/D3a9fcb6RsJq09k/bWVGWMGYlg3In1cNvuIKAdX0yCCCV2Q2DILfJguHDh
+ 6Pqsm+pGbCxxp7S3+tiaw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:qf6sSX9QtPU=:lwHID7xH7Fyi/hx1KD1hbf
+ rArFthZ+p0MAfwnxqu2LxKHkEiydh95CDuh2rOQUxnKKADilgsYSabr5FAd1Qz7zcGazHMagO
+ klzqupSH6Imj6J/Vs0lglbZo28ccAzL2VpZsP9d3onh9t4PJyUighM4M40izkJSB8L/5mH7aB
+ 73RFlvM08xsfDW/wJrcqYamDAvRQIFvob1C6PbxtPmBlhhcwAfHyaBzIzw3M6lDSp8rWSe+o3
+ d0pJesQs8DNbf1amUTaLkUu/BH5EltaJF5P/+LuQELqbChu3GVebvlygh+13aTACqLMIHwoDp
+ wqKyTe1QeYbayaLZk46UDBOfldj5NpvZ475v+WFEwovopTet/GNsZc8P0x4LDsO2ADKSjhv5y
+ 5P2U9GvG/6UQTyQ3Jc6Ts51Bpsh129CI6DTfVcKKsZEdolV8nryvKuhKzJT/2OCwOIk8Vtzp9
+ HGBO0hdliG6vpDOqkpoVsG6GqpMLPWThikGKJv4yUoyYbDakg9THIePD88VVDYZkzzlrrK4nY
+ CMSYuXpY9ongJgKuS4WDtPam0yax2ttp+Q+Jv3mCYUqwHQnccHSOrds50afk/PLQmJznuvNGO
+ KwAuMoXj7YEIbuQ7jTk0juFyKXMCDaLUGFQ4HtWduQ3SloNI4WsbwHO5qnaVE0+Pnr9PAgwm7
+ nBAyuC3Dx5x9QdOECWR2h8ilOMgfewmIfDx+j+pGt/91X4wX6WNBOy1DJhSlrtcDLmSo=
+Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -66,39 +66,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Michael Rolnik <mrolnik@gmail.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+Cc: qemu-trivial@nongnu.org, Leonardo Garcia <lagarcia@br.ibm.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+From: Leonardo Garcia <lagarcia@br.ibm.com>
 
-TYPE_AVR_CPU inherits TYPE_CPU, which itself inherits TYPE_DEVICE.
-TYPE_DEVICE instances are realized using qdev_realize(), we don't
-need to access QOM internal values.
-
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Michael Rolnik <mrolnik@gmail.com>
-Message-Id: <20211205224109.322152-1-f4bug@amsat.org>
+Signed-off-by: Leonardo Garcia <lagarcia@br.ibm.com>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <a10a0ddab65b474ebea1e1141abe0f4aa463909b.1637668012.git.lagarcia@br.ibm.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/avr/atmega.c | 2 +-
+ hw/virtio/vhost.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/avr/atmega.c b/hw/avr/atmega.c
-index 0608e2d475ee..a34803e64272 100644
---- a/hw/avr/atmega.c
-+++ b/hw/avr/atmega.c
-@@ -233,7 +233,7 @@ static void atmega_realize(DeviceState *dev, Error **errp)
- 
-     /* CPU */
-     object_initialize_child(OBJECT(dev), "cpu", &s->cpu, mc->cpu_type);
--    object_property_set_bool(OBJECT(&s->cpu), "realized", true, &error_abort);
-+    qdev_realize(DEVICE(&s->cpu), NULL, &error_abort);
-     cpudev = DEVICE(&s->cpu);
- 
-     /* SRAM */
+diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
+index 437347ad01c9..20913cf8fb4b 100644
+--- a/hw/virtio/vhost.c
++++ b/hw/virtio/vhost.c
+@@ -313,7 +313,7 @@ static int vhost_dev_has_iommu(struct vhost_dev *dev)
+      * For vhost, VIRTIO_F_IOMMU_PLATFORM means the backend support
+      * incremental memory mapping API via IOTLB API. For platform that
+      * does not have IOMMU, there's no need to enable this feature
+-     * which may cause unnecessary IOTLB miss/update trnasactions.
++     * which may cause unnecessary IOTLB miss/update transactions.
+      */
+     return virtio_bus_device_iommu_enabled(vdev) &&
+            virtio_host_has_feature(vdev, VIRTIO_F_IOMMU_PLATFORM);
 -- 
 2.33.1
 
