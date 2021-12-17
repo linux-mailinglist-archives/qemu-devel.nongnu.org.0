@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7855F478E32
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Dec 2021 15:46:01 +0100 (CET)
-Received: from localhost ([::1]:35900 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B46F2478E76
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Dec 2021 15:52:36 +0100 (CET)
+Received: from localhost ([::1]:52788 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1myEUi-0005L2-KJ
-	for lists+qemu-devel@lfdr.de; Fri, 17 Dec 2021 09:46:00 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40270)
+	id 1myEb5-0000ER-Pn
+	for lists+qemu-devel@lfdr.de; Fri, 17 Dec 2021 09:52:35 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40290)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1myEO5-0006BQ-On
- for qemu-devel@nongnu.org; Fri, 17 Dec 2021 09:39:11 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:30552)
+ id 1myEOE-0006MB-JC
+ for qemu-devel@nongnu.org; Fri, 17 Dec 2021 09:39:18 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:49923)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1myENq-000778-NF
- for qemu-devel@nongnu.org; Fri, 17 Dec 2021 09:39:09 -0500
+ id 1myEOD-0007AY-3D
+ for qemu-devel@nongnu.org; Fri, 17 Dec 2021 09:39:18 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639751934;
+ s=mimecast20190719; t=1639751956;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=BdzU92WGn1A58ygWK4ITnPJIjSHful7PtBJGOw21P0U=;
- b=LxXaV96DPAD1Gq8LLW5tfyB895rTSnetde0t7fdd6Lsf98ELnniJ+xPcdYCanxXPP3xHZI
- J0P9b8OQecK8iAvM6p5MIz/o+fArj8g8E9fhAwuFVDRvVy52pPzIohLtw2x1l/emBvTg8V
- n0OCjnna2aJpRQ/nyvcn5RtD0jY3VyA=
+ bh=Ik1aOcvACZNdTpGkn7ShOwvsQ23obbqSt5eucpHy45k=;
+ b=Hn2pVV/qIHekG/KQSbNzorgADEVKrCSEvf2psGvc7FSS1UVPPIa/A2nAU55gSgqG+WQWfP
+ y7G6CqlfxZtA7nu5J8HJPchIvkY5e7bTwxCFdIor5fPYcGr8Vw9aIp1wHgk2bbuPHSvHbm
+ XqvqZ9ACAMfHegDsplpeAMymcIgOvVc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-517-xFw4q9U7ON-9tkXxvbTd9w-1; Fri, 17 Dec 2021 09:38:51 -0500
-X-MC-Unique: xFw4q9U7ON-9tkXxvbTd9w-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-619-t6LlE17uPiyEfgeDNZqOrA-1; Fri, 17 Dec 2021 09:39:08 -0500
+X-MC-Unique: t6LlE17uPiyEfgeDNZqOrA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C222385EE60;
- Fri, 17 Dec 2021 14:38:49 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1181B85EE68;
+ Fri, 17 Dec 2021 14:39:07 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.10])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 108A21037F53;
- Fri, 17 Dec 2021 14:38:30 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B27405E487;
+ Fri, 17 Dec 2021 14:38:53 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PULL 04/36] ui/vdagent: add serial capability support
-Date: Fri, 17 Dec 2021 18:37:24 +0400
-Message-Id: <20211217143756.1831099-5-marcandre.lureau@redhat.com>
+Subject: [PULL 05/36] ui/clipboard: add qemu_clipboard_check_serial()
+Date: Fri, 17 Dec 2021 18:37:25 +0400
+Message-Id: <20211217143756.1831099-6-marcandre.lureau@redhat.com>
 In-Reply-To: <20211217143756.1831099-1-marcandre.lureau@redhat.com>
 References: <20211217143756.1831099-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -61,11 +61,12 @@ Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.129.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.718,
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.718,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,134 +87,60 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-The Spice agent implements a simple serial mechanism to avoid clipboard
-races between client & guest. See:
-https://gitlab.freedesktop.org/spice/spice-protocol/-/commit/045a6978d6dbbf7046affc5c321fa8177c8cce56
-
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Acked-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- include/ui/clipboard.h |  4 ++++
- ui/vdagent.c           | 39 ++++++++++++++++++++++++++++++++++++++-
- ui/trace-events        |  1 +
- 3 files changed, 43 insertions(+), 1 deletion(-)
+ include/ui/clipboard.h | 10 ++++++++++
+ ui/clipboard.c         | 15 +++++++++++++++
+ 2 files changed, 25 insertions(+)
 
 diff --git a/include/ui/clipboard.h b/include/ui/clipboard.h
-index d82cf314811c..e590b453c8b7 100644
+index e590b453c8b7..2c6488c1eec8 100644
 --- a/include/ui/clipboard.h
 +++ b/include/ui/clipboard.h
-@@ -102,6 +102,8 @@ struct QemuClipboardNotify {
-  * @owner: clipboard owner.
-  * @selection: clipboard selection.
-  * @types: clipboard data array (one entry per type).
-+ * @has_serial: whether @serial is available.
-+ * @serial: the grab serial counter.
-  *
-  * Clipboard content data and metadata.
+@@ -172,6 +172,16 @@ void qemu_clipboard_peer_release(QemuClipboardPeer *peer,
   */
-@@ -109,6 +111,8 @@ struct QemuClipboardInfo {
-     uint32_t refcount;
-     QemuClipboardPeer *owner;
-     QemuClipboardSelection selection;
-+    bool has_serial;
-+    uint32_t serial;
-     struct {
-         bool available;
-         bool requested;
-diff --git a/ui/vdagent.c b/ui/vdagent.c
-index de827aad27ab..b4fdae69177f 100644
---- a/ui/vdagent.c
-+++ b/ui/vdagent.c
-@@ -59,6 +59,7 @@ struct VDAgentChardev {
+ QemuClipboardInfo *qemu_clipboard_info(QemuClipboardSelection selection);
  
-     /* clipboard */
-     QemuClipboardPeer cbpeer;
-+    uint32_t last_serial[QEMU_CLIPBOARD_SELECTION__COUNT];
-     uint32_t cbpending[QEMU_CLIPBOARD_SELECTION__COUNT];
- };
- typedef struct VDAgentChardev VDAgentChardev;
-@@ -203,6 +204,9 @@ static void vdagent_send_caps(VDAgentChardev *vd)
-     if (vd->clipboard) {
-         caps->caps[0] |= (1 << VD_AGENT_CAP_CLIPBOARD_BY_DEMAND);
-         caps->caps[0] |= (1 << VD_AGENT_CAP_CLIPBOARD_SELECTION);
-+#if CHECK_SPICE_PROTOCOL_VERSION(0, 14, 1)
-+        caps->caps[0] |= (1 << VD_AGENT_CAP_CLIPBOARD_GRAB_SERIAL);
-+#endif
++/**
++ * qemu_clipboard_check_serial
++ *
++ * @info: clipboard info.
++ * @client: whether to check from the client context and priority.
++ *
++ * Return TRUE if the @info has a higher serial than the current clipboard.
++ */
++bool qemu_clipboard_check_serial(QemuClipboardInfo *info, bool client);
++
+ /**
+  * qemu_clipboard_info_new
+  *
+diff --git a/ui/clipboard.c b/ui/clipboard.c
+index 743b39edf424..ffbd80e5c60e 100644
+--- a/ui/clipboard.c
++++ b/ui/clipboard.c
+@@ -41,6 +41,21 @@ void qemu_clipboard_peer_release(QemuClipboardPeer *peer,
      }
+ }
  
-     vdagent_send_msg(vd, msg);
-@@ -333,7 +337,8 @@ static void vdagent_send_clipboard_grab(VDAgentChardev *vd,
++bool qemu_clipboard_check_serial(QemuClipboardInfo *info, bool client)
++{
++    if (!info->has_serial ||
++        !cbinfo[info->selection] ||
++        !cbinfo[info->selection]->has_serial) {
++        return true;
++    }
++
++    if (client) {
++        return cbinfo[info->selection]->serial >= info->serial;
++    } else {
++        return cbinfo[info->selection]->serial > info->serial;
++    }
++}
++
+ void qemu_clipboard_update(QemuClipboardInfo *info)
  {
-     g_autofree VDAgentMessage *msg =
-         g_malloc0(sizeof(VDAgentMessage) +
--                  sizeof(uint32_t) * (QEMU_CLIPBOARD_TYPE__COUNT + 1));
-+                  sizeof(uint32_t) * (QEMU_CLIPBOARD_TYPE__COUNT + 1) +
-+                  sizeof(uint32_t));
-     uint8_t *s = msg->data;
-     uint32_t *data = (uint32_t *)msg->data;
-     uint32_t q, type;
-@@ -346,6 +351,19 @@ static void vdagent_send_clipboard_grab(VDAgentChardev *vd,
-         return;
-     }
- 
-+#if CHECK_SPICE_PROTOCOL_VERSION(0, 14, 1)
-+    if (vd->caps & (1 << VD_AGENT_CAP_CLIPBOARD_GRAB_SERIAL)) {
-+        if (!info->has_serial) {
-+            /* client should win */
-+            info->serial = vd->last_serial[info->selection]++;
-+            info->has_serial = true;
-+        }
-+        *data = info->serial;
-+        data++;
-+        msg->size += sizeof(uint32_t);
-+    }
-+#endif
-+
-     for (q = 0; q < QEMU_CLIPBOARD_TYPE__COUNT; q++) {
-         type = type_qemu_to_vdagent(q);
-         if (type != VD_AGENT_CLIPBOARD_NONE && info->types[q].available) {
-@@ -494,6 +512,24 @@ static void vdagent_clipboard_recv_grab(VDAgentChardev *vd, uint8_t s, uint32_t
- 
-     trace_vdagent_cb_grab_selection(GET_NAME(sel_name, s));
-     info = qemu_clipboard_info_new(&vd->cbpeer, s);
-+#if CHECK_SPICE_PROTOCOL_VERSION(0, 14, 1)
-+    if (vd->caps & (1 << VD_AGENT_CAP_CLIPBOARD_GRAB_SERIAL)) {
-+        if (size < sizeof(uint32_t)) {
-+            /* this shouldn't happen! */
-+            return;
-+        }
-+
-+        info->has_serial = true;
-+        info->serial = *(uint32_t *)data;
-+        if (info->serial < vd->last_serial[s]) {
-+            /* discard lower-ordering guest grab */
-+            return;
-+        }
-+        vd->last_serial[s] = info->serial;
-+        data += sizeof(uint32_t);
-+        size -= sizeof(uint32_t);
-+    }
-+#endif
-     if (size > sizeof(uint32_t) * 10) {
-         /*
-          * spice has 6 types as of 2021. Limiting to 10 entries
-@@ -671,6 +707,7 @@ static void vdagent_chr_recv_caps(VDAgentChardev *vd, VDAgentMessage *msg)
-         qemu_input_handler_activate(vd->mouse_hs);
-     }
-     if (have_clipboard(vd) && vd->cbpeer.notifier.notify == NULL) {
-+        memset(vd->last_serial, 0, sizeof(vd->last_serial));
-         vd->cbpeer.name = "vdagent";
-         vd->cbpeer.notifier.notify = vdagent_clipboard_notify;
-         vd->cbpeer.request = vdagent_clipboard_request;
-diff --git a/ui/trace-events b/ui/trace-events
-index b9c0dd0fa11d..e832c3e3659d 100644
---- a/ui/trace-events
-+++ b/ui/trace-events
-@@ -135,3 +135,4 @@ vdagent_recv_msg(const char *name, uint32_t size) "msg %s, size %d"
- vdagent_peer_cap(const char *name) "cap %s"
- vdagent_cb_grab_selection(const char *name) "selection %s"
- vdagent_cb_grab_type(const char *name) "type %s"
-+vdagent_cb_serial_discard(uint32_t current, uint32_t received) "current=%u, received=%u"
+     QemuClipboardNotify notify = {
 -- 
 2.34.1.8.g35151cf07204
 
