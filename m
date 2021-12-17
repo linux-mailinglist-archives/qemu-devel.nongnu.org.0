@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E851479551
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Dec 2021 21:15:41 +0100 (CET)
-Received: from localhost ([::1]:33924 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5921D47955D
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Dec 2021 21:18:53 +0100 (CET)
+Received: from localhost ([::1]:40136 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1myJdk-0006xE-C9
-	for lists+qemu-devel@lfdr.de; Fri, 17 Dec 2021 15:15:40 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40046)
+	id 1myJgq-0002md-DJ
+	for lists+qemu-devel@lfdr.de; Fri, 17 Dec 2021 15:18:52 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40082)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1myJYl-0005wH-8J; Fri, 17 Dec 2021 15:10:31 -0500
-Received: from mout.kundenserver.de ([212.227.126.135]:55323)
+ id 1myJYm-0005zw-C3; Fri, 17 Dec 2021 15:10:32 -0500
+Received: from mout.kundenserver.de ([212.227.126.135]:60303)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1myJYj-0001K7-C5; Fri, 17 Dec 2021 15:10:30 -0500
+ id 1myJYk-0001KQ-AF; Fri, 17 Dec 2021 15:10:31 -0500
 Received: from quad ([82.142.30.186]) by mrelayeu.kundenserver.de (mreue011
- [212.227.15.167]) with ESMTPSA (Nemesis) id 1M72Xn-1mrRXC1K3T-008XfC; Fri, 17
- Dec 2021 21:10:25 +0100
+ [212.227.15.167]) with ESMTPSA (Nemesis) id 1MofLl-1m9pVY3vKL-00p4H2; Fri, 17
+ Dec 2021 21:10:26 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 7/9] glib-compat: Introduce g_memdup2() wrapper
-Date: Fri, 17 Dec 2021 21:10:17 +0100
-Message-Id: <20211217201019.1652798-8-laurent@vivier.eu>
+Subject: [PULL 8/9] tests/qtest: Replace g_memdup() by g_memdup2()
+Date: Fri, 17 Dec 2021 21:10:18 +0100
+Message-Id: <20211217201019.1652798-9-laurent@vivier.eu>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211217201019.1652798-1-laurent@vivier.eu>
 References: <20211217201019.1652798-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:UeMXTxEg4EZxikICzR28+jbzOvBt+qYBo66QQvSlzlZMPxYxKa6
- 8Zlt9gUR0RdLQMwks26xphRyjvlaUyzVLqNPRDwCLH7pAJxixV4O55pIHJ8U56BwlTvYS61
- NhPs0MIJYnWB+y9AWCa1FBub2s97dViQduaDqdZ1GOVslhiFOHHMWOPgjW3fA19ugC8rkD6
- uk2RwfHlUVLiu0dimD92g==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:QJFJ1H0ftOo=:fML5X/pRHoasRnp12sVCgd
- cwiihyEKbXMSamd4gOKNEQ5VM9RJlwwAqa3aBeErm7CblgRc80Y00obtvJBgq8sfXJtTPpbCl
- PeqmzfKRONkmxrzp709EuAxpLcP8nv3uvoY2FUYQr00tDhL09VvAUUJg5x1HSP3Um73LS5gV3
- J/7uBUWgMPFKvIhzfDMo+jpgpXM+yWMtvnQfpNRcrM08gR9d7Njq9uGL4YV+JUPnoOwcjlnIK
- 61o/sjN5Ah28pEoEOeMhYZK4e4o3nKi9I9b/bzGjxqRrS9O/3PchRIUhDFWX8agf6SXOGTdL/
- 43+ZGKU1IZRnoYmICliNbSfp4ju01pYe8bOHlkUNIX9PRWy5idqqOOW5pP8ndIXFrZgYh3aXv
- 6L9hkuDJ8UC8TK5JzAQCn5arEbHTqA4gYyUQZZyeufiyosNcxQn7s1LRG+U8Hiu3HTOOVz0pc
- YBv83WT70KQgMkxF1dJS9nogHgm+4Xx1MJNy5L+/M450qGI/i5tDvtw/Q5/ZiDb1rKanRQ81J
- qovb1CwRd0KsJq6eZFE/9AdNVBZBYo8TGgscSu/Eh6t5z46G8NcJynl8IMgX+S587jEA0WHxA
- ZSg3BoNJNzvPiRm6XxoOrPEzax0sKnf6oKZMn6BckgNQuCv6y5hMCv+Q3Ro+7TKqzIwNwnsUQ
- 27QldzoOXxVHV/BMS83MlnnGlREKrwM0lErS1HM7EOW6Rj+f3wOCxRwR6CK765/0q9J8=
+X-Provags-ID: V03:K1:IRl181831kfe7Kst9/qSnJ/Ub6AHW1ciwDNOZLIa4NxnFzqvaMy
+ Cq54sPP5afFS1QtMXhfEYkCQQfia/q8NJaJ6ctFMrp/Ew2REO4AxSmoXuTibQcgLKtSvISd
+ EY3UEbyIiKbU8NLbuTS6kGYzEe3fiTwLnjUHfYly3rjnsQ3agS3Kh8Z/uNrqSWzx6MMtv2m
+ h8E+4HAMXwl8x7BjCIOHw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:QkQYXng95t8=:fP3L+dRY7rM693uG46DOXe
+ uxZLlBY9X7760qkYrZaRwIBlUO/Gsvb6hLIZDZGyhIu5a7H5YMqdgJRhaPArfjXyfRHm4VS+u
+ cDLg5PQ/0ISElcNMA2XyHRE2NecUxtlx0NAStj9nJwEs6uJGCWNENU/hmc/v023/JfpTFEFxn
+ WkWyf2uoT1cnAZfwRbroI2Ljg2qyD7MUzJYpZqyGmF4fmyMmjX8npvuKT9D7Kam6PJiFnWxTb
+ Bb6wOwl8GupCA0QC84AvZ8Xl1Fvfx6DB5Xm6/s0AqgbPpLWg3WJ1Ef7OAyxlnYTdzuZPgzKR5
+ TZNkjDuZWtKXtxnqoXTmJYGIJatQhTpbn3nP3I84F/ibXbU2KKmS+/sgewbyoMwRbY3ODZg2h
+ i6gt/gHD0wfUcUpb46++gf4Ns3yB41/YzZBg9UIOixV74wLcPloU0fBiBLYW09YPZgvCUHAC+
+ uAgJ9gXMwUe3qOHEGX+Ro+q64l13JtYbKpF6VGCAGWMawh1g2K9opkdObdY32aeCFLj1KGVoK
+ 89F6XGvtVXQNAcUS9IGDi0mL0kkujrCmp6DkcMV+RireKBW03FI77axkYCIPoxkDSs7Itzft1
+ DsAAhwn5aIhOk8UVf7T3Qs+jz8EvfC3GoOXxpdVROnEsC2mvmhXpav2YZaKagZB+10sr3R54o
+ i1Ox+IWlbhaOk4+WGT2yu5xQ3jsj9KL69j0SCMFaz48VneY/DHZ2QAEkf2mx/d6YfNLE=
 Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
@@ -66,7 +66,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Eric Blake <eblake@redhat.com>,
+Cc: qemu-trivial@nongnu.org, Thomas Huth <thuth@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
@@ -74,82 +74,64 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-When experimenting raising GLIB_VERSION_MIN_REQUIRED to 2.68
-(Fedora 34 provides GLib 2.68.1) we get:
+Per https://discourse.gnome.org/t/port-your-module-from-g-memdup-to-g-memdup2-now/5538
 
-  hw/virtio/virtio-crypto.c:245:24: error: 'g_memdup' is deprecated: Use 'g_memdup2' instead [-Werror,-Wdeprecated-declarations]
-  ...
+  The old API took the size of the memory to duplicate as a guint,
+  whereas most memory functions take memory sizes as a gsize. This
+  made it easy to accidentally pass a gsize to g_memdup(). For large
+  values, that would lead to a silent truncation of the size from 64
+  to 32 bits, and result in a heap area being returned which is
+  significantly smaller than what the caller expects. This can likely
+  be exploited in various modules to cause a heap buffer overflow.
 
-g_memdup() has been updated by g_memdup2() to fix eventual security
-issues (size argument is 32-bit and could be truncated / wrapping).
-GLib recommends to copy their static inline version of g_memdup2():
-https://discourse.gnome.org/t/port-your-module-from-g-memdup-to-g-memdup2-now/5538
+Replace g_memdup() by the safer g_memdup2() wrapper.
 
-Our glib-compat.h provides a comment explaining how to deal with
-these deprecated declarations (see commit e71e8cc0355
-"glib: enforce the minimum required version and warn about old APIs").
-
-Following this comment suggestion, implement the g_memdup2_qemu()
-wrapper to g_memdup2(), and use the safer equivalent inlined when
-we are using pre-2.68 GLib.
-
-Reported-by: Eric Blake <eblake@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
-Message-Id: <20210903174510.751630-3-philmd@redhat.com>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Message-Id: <20210903174510.751630-25-philmd@redhat.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- include/glib-compat.h | 37 +++++++++++++++++++++++++++++++++++++
- 1 file changed, 37 insertions(+)
+ tests/qtest/libqos/ahci.c   | 6 +++---
+ tests/qtest/libqos/qgraph.c | 2 +-
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/include/glib-compat.h b/include/glib-compat.h
-index 9e95c888f54f..8d01a8c01fb8 100644
---- a/include/glib-compat.h
-+++ b/include/glib-compat.h
-@@ -68,6 +68,43 @@
-  * without generating warnings.
-  */
+diff --git a/tests/qtest/libqos/ahci.c b/tests/qtest/libqos/ahci.c
+index fba3e7a954ed..eaa2096512e5 100644
+--- a/tests/qtest/libqos/ahci.c
++++ b/tests/qtest/libqos/ahci.c
+@@ -639,8 +639,8 @@ void ahci_exec(AHCIQState *ahci, uint8_t port,
+     AHCIOpts *opts;
+     uint64_t buffer_in;
  
-+/*
-+ * g_memdup2_qemu:
-+ * @mem: (nullable): the memory to copy.
-+ * @byte_size: the number of bytes to copy.
-+ *
-+ * Allocates @byte_size bytes of memory, and copies @byte_size bytes into it
-+ * from @mem. If @mem is %NULL it returns %NULL.
-+ *
-+ * This replaces g_memdup(), which was prone to integer overflows when
-+ * converting the argument from a #gsize to a #guint.
-+ *
-+ * This static inline version is a backport of the new public API from
-+ * GLib 2.68, kept internal to GLib for backport to older stable releases.
-+ * See https://gitlab.gnome.org/GNOME/glib/-/issues/2319.
-+ *
-+ * Returns: (nullable): a pointer to the newly-allocated copy of the memory,
-+ *          or %NULL if @mem is %NULL.
-+ */
-+static inline gpointer g_memdup2_qemu(gconstpointer mem, gsize byte_size)
-+{
-+#if GLIB_CHECK_VERSION(2, 68, 0)
-+    return g_memdup2(mem, byte_size);
-+#else
-+    gpointer new_mem;
-+
-+    if (mem && byte_size != 0) {
-+        new_mem = g_malloc(byte_size);
-+        memcpy(new_mem, mem, byte_size);
-+    } else {
-+        new_mem = NULL;
-+    }
-+
-+    return new_mem;
-+#endif
-+}
-+#define g_memdup2(m, s) g_memdup2_qemu(m, s)
-+
- #if defined(G_OS_UNIX)
- /*
-  * Note: The fallback implementation is not MT-safe, and it returns a copy of
+-    opts = g_memdup((opts_in == NULL ? &default_opts : opts_in),
+-                    sizeof(AHCIOpts));
++    opts = g_memdup2((opts_in == NULL ? &default_opts : opts_in),
++                     sizeof(AHCIOpts));
+ 
+     buffer_in = opts->buffer;
+ 
+@@ -860,7 +860,7 @@ AHCICommand *ahci_command_create(uint8_t command_name)
+     g_assert(!props->ncq || props->lba48);
+ 
+     /* Defaults and book-keeping */
+-    cmd->props = g_memdup(props, sizeof(AHCICommandProp));
++    cmd->props = g_memdup2(props, sizeof(AHCICommandProp));
+     cmd->name = command_name;
+     cmd->xbytes = props->size;
+     cmd->prd_size = 4096;
+diff --git a/tests/qtest/libqos/qgraph.c b/tests/qtest/libqos/qgraph.c
+index d1dc49193055..109ff04e1e8f 100644
+--- a/tests/qtest/libqos/qgraph.c
++++ b/tests/qtest/libqos/qgraph.c
+@@ -93,7 +93,7 @@ static void add_edge(const char *source, const char *dest,
+     edge->type = type;
+     edge->dest = g_strdup(dest);
+     edge->edge_name = g_strdup(opts->edge_name ?: dest);
+-    edge->arg = g_memdup(opts->arg, opts->size_arg);
++    edge->arg = g_memdup2(opts->arg, opts->size_arg);
+ 
+     edge->before_cmd_line =
+         opts->before_cmd_line ? g_strconcat(" ", opts->before_cmd_line, NULL) : NULL;
 -- 
 2.33.1
 
