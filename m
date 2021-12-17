@@ -2,84 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F0284792F3
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Dec 2021 18:39:52 +0100 (CET)
-Received: from localhost ([::1]:47746 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A097C47933D
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Dec 2021 18:58:08 +0100 (CET)
+Received: from localhost ([::1]:54578 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1myHCx-0005Kv-HC
-	for lists+qemu-devel@lfdr.de; Fri, 17 Dec 2021 12:39:51 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59830)
+	id 1myHUd-0002dL-BK
+	for lists+qemu-devel@lfdr.de; Fri, 17 Dec 2021 12:58:07 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35238)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1myHB4-0004Kt-Ec; Fri, 17 Dec 2021 12:37:54 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:17898)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1myHB2-0006gx-1Z; Fri, 17 Dec 2021 12:37:54 -0500
-Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1BHFCAOr028065; 
- Fri, 17 Dec 2021 17:37:41 GMT
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.102])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3d0j1vrt21-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 17 Dec 2021 17:37:40 +0000
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
- by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1BHGxwll020051;
- Fri, 17 Dec 2021 17:37:38 GMT
-Received: from b06avi18626390.portsmouth.uk.ibm.com
- (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
- by ppma06ams.nl.ibm.com with ESMTP id 3cy78eusvh-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 17 Dec 2021 17:37:38 +0000
-Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com
- [9.149.105.60])
- by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 1BHHTVPJ42926360
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 17 Dec 2021 17:29:31 GMT
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D381442041;
- Fri, 17 Dec 2021 17:37:35 +0000 (GMT)
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 978404204B;
- Fri, 17 Dec 2021 17:37:35 +0000 (GMT)
-Received: from smtp.tlslab.ibm.com (unknown [9.101.4.1])
- by d06av24.portsmouth.uk.ibm.com (Postfix) with SMTP;
- Fri, 17 Dec 2021 17:37:35 +0000 (GMT)
-Received: from yukon.ibmuc.com (unknown [9.171.48.122])
- by smtp.tlslab.ibm.com (Postfix) with ESMTP id AED13220121;
- Fri, 17 Dec 2021 18:37:34 +0100 (CET)
-From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-To: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
-Subject: [PULL v3 000/101] ppc queue
-Date: Fri, 17 Dec 2021 18:37:33 +0100
-Message-Id: <20211217173733.727398-1-clg@kaod.org>
-X-Mailer: git-send-email 2.31.1
-Content-Type: text/plain; charset=UTF-8
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: hU-_SLApLn8gQ15tvMtYQ9awOoiiNEXM
-X-Proofpoint-ORIG-GUID: hU-_SLApLn8gQ15tvMtYQ9awOoiiNEXM
-Content-Transfer-Encoding: quoted-printable
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1myHRZ-0001XC-Bz
+ for qemu-devel@nongnu.org; Fri, 17 Dec 2021 12:54:58 -0500
+Received: from [2607:f8b0:4864:20::529] (port=42592
+ helo=mail-pg1-x529.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1myHRW-0003bn-07
+ for qemu-devel@nongnu.org; Fri, 17 Dec 2021 12:54:56 -0500
+Received: by mail-pg1-x529.google.com with SMTP id g2so262588pgo.9
+ for <qemu-devel@nongnu.org>; Fri, 17 Dec 2021 09:54:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=utaK6Im8fj6jQkl5x+7gGiAxz01z/0QMzo+jEXs6kvM=;
+ b=jd01PnwXR8nH+UlVRrP0D1940UyFCjMuHqp1uAiy5UAaWSlBu+smljvCYpKwroCOXh
+ Ebih8FgTFGKkNze3NgojkI9f5B9ipQ7zLUvmQvRuMW4RvANLWYvaoW2UzOcIIXDcnIPu
+ 4NWdJ54foyCRDoEHVdQUdtAq016P0kGEQyeeXaxx3INnJejWXqqJ0QtjoNk4vH0m15rT
+ SdoQF1KOCojJin6fNjPodqE9JIVfyiDHjv+GZ7OucgwXwH3dCvFm70s97lREux3ibaN5
+ T+GG7B3hOaeXe4lEOdl9h0wlbBzB1qzq/LMV+HANteqIBsNi+UsEjYQKucown8JDBs4x
+ ZPCg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=utaK6Im8fj6jQkl5x+7gGiAxz01z/0QMzo+jEXs6kvM=;
+ b=X6cCB+wePcy6Inw3e6uf9M0Oxb1K37lzRzoMnaNn/n+nO+4/VccOahRTfoAitxU0Kf
+ Ag9FjP1m7L7Gj+qZNKFuXnIKfD6NkCtiKnQnMlFSE/aRUTDkB/mJ4VM8aqm8BsJM/3Dq
+ isXxdDfu44u54cHZ0QD21tcx4k0ZleQzphJz1hwgQwMhSLC0LnMy0bOw3VIDa7bae7Yt
+ 5ZjBNAHvraqyqMREnMZqVB5oRJBb1PKGjk0NUX2jZxNT7NyRMtCTgZ3f4+f9ielCFZnx
+ 5bMSQPQuqYH3L9hn1PzTRWjtvtz7LTUJbhEU185ZtC0N7jb1mlgYFo6CYSa6s3Ia9xov
+ ZzMg==
+X-Gm-Message-State: AOAM5320dT2M/IoPKK69+bbdILdGtjEAqcQJuVxuox95Iw8hqhyYjHvn
+ xC+phQnyH2mFtFg0ny5VqnFTHw==
+X-Google-Smtp-Source: ABdhPJxW4zWUSjNxU0vHYBhiZnFlHpPwbS+ySSeomdETBfumihXtUdaQ3wfWRkDnew3beTFhP1Ir1g==
+X-Received: by 2002:a63:4a19:: with SMTP id x25mr3869629pga.202.1639763682258; 
+ Fri, 17 Dec 2021 09:54:42 -0800 (PST)
+Received: from [192.168.1.13] (174-21-75-75.tukw.qwest.net. [174.21.75.75])
+ by smtp.gmail.com with ESMTPSA id e11sm8890404pjl.20.2021.12.17.09.54.41
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 17 Dec 2021 09:54:41 -0800 (PST)
+Subject: Re: [PULL v2 0/7] s390x patches (and one gitlab-CI fix)
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+References: <20211217144634.141481-1-thuth@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <c83b4e3d-2ecb-f78e-135e-ed097e0a9a76@linaro.org>
+Date: Fri, 17 Dec 2021 09:54:40 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2021-12-17_07,2021-12-16_01,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 mlxlogscore=999
- clxscore=1034 suspectscore=0 spamscore=0 malwarescore=0 bulkscore=0
- priorityscore=1501 lowpriorityscore=0 mlxscore=0 impostorscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2110150000 definitions=main-2112170100
-Received-SPF: softfail client-ip=148.163.156.1; envelope-from=clg@kaod.org;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -11
-X-Spam_score: -1.2
-X-Spam_bar: -
-X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
+In-Reply-To: <20211217144634.141481-1-thuth@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::529
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::529;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x529.google.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.716,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,252 +89,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+Cc: qemu-s390x@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 76b56fdfc9fa43ec6e5986aee33f108c6c6a511e:
+On 12/17/21 6:46 AM, Thomas Huth wrote:
+>   Hi!
+> 
+> The following changes since commit 29eb5c2c86f935b0e9700fad2ecfe8a32b011d57:
+> 
+>    Merge tag 'for-upstream' of https://gitlab.com/bonzini/qemu into staging (2021-12-16 08:39:20 -0800)
+> 
+> are available in the Git repository at:
+> 
+>    https://gitlab.com/thuth/qemu.git tags/s390x-2021-12-17
+> 
+> for you to fetch changes up to 9f8e6cad65a66b27e797defe639a4a4fd4330f23:
+> 
+>    gitlab-ci: Speed up the msys2-64bit job by using --without-default-devices (2021-12-17 09:12:37 +0100)
+> 
+> ----------------------------------------------------------------
+> * Small fixes for the s390x PCI code
+> * Fix reset handling of the diag318 data
+> * Ease timeout problem of the new msys2-64bit job
+> 
+> ----------------------------------------------------------------
+> 
+> v2: Dropped the patch that introced the new machine types
+> 
+> Christian Borntraeger (1):
+>        MAINTAINERS: update email address of Christian Borntraeger
+> 
+> Collin L. Walling (1):
+>        s390: kvm: adjust diag318 resets to retain data
+> 
+> Matthew Rosato (4):
+>        s390x/pci: use a reserved ID for the default PCI group
+>        s390x/pci: don't use hard-coded dma range in reg_ioat
+>        s390x/pci: use the passthrough measurement update interval
+>        s390x/pci: add supported DT information to clp response
+> 
+> Thomas Huth (1):
+>        gitlab-ci: Speed up the msys2-64bit job by using --without-default-devices
+> 
+>   .gitlab-ci.d/windows.yml        |  2 +-
+>   .mailmap                        |  1 +
+>   MAINTAINERS                     |  6 +++---
+>   hw/s390x/s390-pci-bus.c         |  1 +
+>   hw/s390x/s390-pci-inst.c        | 15 +++++++++------
+>   hw/s390x/s390-pci-vfio.c        |  1 +
+>   include/hw/s390x/s390-pci-bus.h |  3 ++-
+>   include/hw/s390x/s390-pci-clp.h |  3 ++-
+>   target/s390x/cpu.h              |  4 ++--
+>   target/s390x/kvm/kvm.c          |  4 ++++
+>   10 files changed, 26 insertions(+), 14 deletions(-)
 
-  Merge tag 'block-pull-request' of https://gitlab.com/stefanha/qemu into s=
-taging (2021-12-14 12:46:18 -0800)
+Applied, thanks.
 
-are available in the Git repository at:
-
-  https://github.com/legoater/qemu/ tags/pull-ppc-20211217
-
-for you to fetch changes up to 0e6232bc3cb96bdf6fac1b5d7659aa9887afe657:
-
-  ppc/pnv: Use QOM hierarchy to scan PEC PHB4 devices (2021-12-17 17:57:19 =
-+0100)
-
-Changes in v3:
-
- - Fixed patch "docs: Introducing pseries documentation" with a newline
-   and checked documentation generation with :
-
-      make docker-test-build@ubuntu1804 TARGET_LIST=3Di386-softmmu
-
-Changes in v2:
-
- - Fixed patch "docs: rSTify ppc-spapr-hcalls.txt" with a newline
- - dropped patch "target/ppc: do not silence SNaN in xscvspdpn" which
-   still had some comments pending.
-
-----------------------------------------------------------------
-ppc 7.0 queue:
-
-* General cleanup for Mac machines (Peter)
-* Fixes for FPU exceptions (Lucas)
-* Support for new ISA31 instructions (Matheus)
-* Fixes for ivshmem (Daniel)
-* Cleanups for PowerNV PHB (Christophe and Cedric)
-* Updates of PowerNV and pSeries documentation (Leonardo and Daniel)
-* Fixes for PowerNV (Daniel)
-* Large cleanup of FPU implementation (Richard)
-* Removal of SoftTLBs support for PPC74x CPUs (Fabiano)
-* Fixes for exception models in MPCx and 60x CPUs (Fabiano)
-* Removal of 401/403 CPUs (Cedric)
-* Deprecation of taihu machine (Thomas)
-* Large rework of PPC405 machine (Cedric)
-* Fixes for VSX instructions (Victor and Matheus)
-* Fix for e6500 CPU (Fabiano)
-* Initial support for PMU (Daniel)
-
-----------------------------------------------------------------
-Alexey Kardashevskiy (1):
-      pseries: Update SLOF firmware image
-
-Christophe Lombard (1):
-      pci-host: Allow extended config space access for PowerNV PHB4 model
-
-C=C3=A9dric Le Goater (28):
-      Merge tag 'qemu-slof-20211112' of github.com:aik/qemu into ppc-next
-      target/ppc: remove 401/403 CPUs
-      ppc/ppc405: Change kernel load address
-      ppc: Add trace-events for DCR accesses
-      ppc/ppc405: Convert printfs to trace-events
-      ppc/ppc405: Drop flag parameter in ppc405_set_bootinfo()
-      ppc/ppc405: Change ppc405ep_init() return value
-      ppc/ppc405: Add some address space definitions
-      ppc/ppc405: Remove flash support
-      ppc/ppc405: Rework FW load
-      ppc/ppc405: Introduce ppc405_set_default_bootinfo()
-      ppc/ppc405: Fix boot from kernel
-      ppc/ppc405: Change default PLL values at reset
-      ppc/ppc405: Fix bi_pci_enetaddr2 field in U-Boot board information
-      ppc/ppc405: Add update of bi_procfreq field
-      ppc/pnv: Introduce a "chip" property under PHB3
-      ppc/pnv: Use the chip class to check the index of PHB3 devices
-      ppc/pnv: Drop the "num-phbs" property
-      ppc/pnv: Move mapping of the PHB3 CQ regions under pnv_pbcq_realize()
-      ppc/pnv: Use QOM hierarchy to scan PHB3 devices
-      ppc/pnv: Introduce a num_pecs class attribute for PHB4 PEC devices
-      ppc/pnv: Introduce version and device_id class atributes for PHB4 dev=
-ices
-      ppc/pnv: Introduce a "chip" property under the PHB4 model
-      ppc/pnv: Introduce a num_stack class attribute
-      ppc/pnv: Compute the PHB index from the PHB4 PEC model
-      ppc/pnv: Remove "system-memory" property from PHB4 PEC
-      ppc/pnv: Move realize of PEC stacks under the PEC model
-      ppc/pnv: Use QOM hierarchy to scan PEC PHB4 devices
-
-Daniel Henrique Barboza (13):
-      ivshmem.c: change endianness to LITTLE_ENDIAN
-      ivshmem-test.c: enable test_ivshmem_server for ppc64 arch
-      ppc/pnv.c: add a friendly warning when accel=3Dkvm is used
-      docs/system/ppc/powernv.rst: document KVM support status
-      ppc/pnv.c: fix "system-id" FDT when -uuid is set
-      target/ppc: introduce PMUEventType and PMU overflow timers
-      target/ppc: PMU basic cycle count for pseries TCG
-      target/ppc: PMU: update counters on PMCs r/w
-      target/ppc: PMU: update counters on MMCR1 write
-      target/ppc: enable PMU counter overflow with cycle events
-      target/ppc: enable PMU instruction count
-      target/ppc/power8-pmu.c: add PM_RUN_INST_CMPL (0xFA) event
-      PPC64/TCG: Implement 'rfebb' instruction
-
-Fabiano Rosas (8):
-      target/ppc: Disable software TLB for the 7450 family
-      target/ppc: Disable unused facilities in the e600 CPU
-      target/ppc: Remove the software TLB model of 7450 CPUs
-      target/ppc: Fix MPCxxx FPU interrupt address
-      target/ppc: Remove 603e exception model
-      target/ppc: Set 601v exception model id
-      target/ppc: Fix e6500 boot
-      Revert "target/ppc: Move SPR_DSISR setting to powerpc_excp"
-
-Leonardo Garcia (5):
-      docs: Minor updates on the powernv documentation.
-      docs: Introducing pseries documentation.
-      docs: rSTify ppc-spapr-hcalls.txt
-      docs: Rename ppc-spapr-hcalls.txt to ppc-spapr-hcalls.rst.
-      Link new ppc-spapr-hcalls.rst file to pseries.rst.
-
-Lucas Mateus Castro (alqotel) (3):
-      target/ppc: Fixed call to deferred exception
-      test/tcg/ppc64le: test mtfsf
-      target/ppc: ppc_store_fpscr doesn't update bits 0 to 28 and 52
-
-Matheus Ferst (5):
-      target/ppc: Implement Vector Expand Mask
-      target/ppc: Implement Vector Extract Mask
-      target/ppc: Implement Vector Mask Move insns
-      target/ppc: fix xscvqpdp register access
-      target/ppc: move xscvqpdp to decodetree
-
-Peter Maydell (1):
-      hw/ppc/mac.h: Remove MAX_CPUS macro
-
-Richard Henderson (34):
-      softfloat: Extend float_exception_flags to 16 bits
-      softfloat: Add flag specific to Inf - Inf
-      softfloat: Add flag specific to Inf * 0
-      softfloat: Add flags specific to Inf / Inf and 0 / 0
-      softfloat: Add flag specific to sqrt(-x)
-      softfloat: Add flag specific to convert non-nan to int
-      softfloat: Add flag specific to signaling nans
-      target/ppc: Update float_invalid_op_addsub for new flags
-      target/ppc: Update float_invalid_op_mul for new flags
-      target/ppc: Update float_invalid_op_div for new flags
-      target/ppc: Move float_check_status from FPU_FCTI to translate
-      target/ppc: Update float_invalid_cvt for new flags
-      target/ppc: Fix VXCVI return value
-      target/ppc: Remove inline from do_fri
-      target/ppc: Use FloatRoundMode in do_fri
-      target/ppc: Tidy inexact handling in do_fri
-      target/ppc: Clean up do_fri
-      target/ppc: Update fmadd for new flags
-      target/ppc: Split out do_fmadd
-      target/ppc: Do not call do_float_check_status from do_fmadd
-      target/ppc: Split out do_frsp
-      target/ppc: Update do_frsp for new flags
-      target/ppc: Use helper_todouble in do_frsp
-      target/ppc: Update sqrt for new flags
-      target/ppc: Update xsrqpi and xsrqpxp to new flags
-      target/ppc: Update fre to new flags
-      softfloat: Add float64r32 arithmetic routines
-      target/ppc: Add helpers for fmadds et al
-      target/ppc: Add helper for fsqrts
-      target/ppc: Add helpers for fadds, fsubs, fdivs
-      target/ppc: Add helper for fmuls
-      target/ppc: Add helper for frsqrtes
-      target/ppc: Update fres to new flags and float64r32
-      target/ppc: Use helper_todouble/tosingle in helper_xststdcsp
-
-Thomas Huth (1):
-      ppc: Mark the 'taihu' machine as deprecated
-
-Victor Colombo (2):
-      target/ppc: Fix xs{max, min}[cj]dp to use VSX registers
-      target/ppc: Move xs{max,min}[cj]dp to decodetree
-
- docs/about/deprecated.rst              |   9 +
- docs/specs/ppc-spapr-hcalls.rst        | 100 +++++
- docs/specs/ppc-spapr-hcalls.txt        |  78 ----
- docs/system/ppc/powernv.rst            |  68 ++--
- docs/system/ppc/pseries.rst            | 226 +++++++++++
- hw/ppc/mac.h                           |   3 -
- hw/ppc/ppc405.h                        |  14 +-
- include/fpu/softfloat-types.h          |  23 +-
- include/fpu/softfloat.h                |  14 +-
- include/hw/pci-host/pnv_phb3.h         |   3 +
- include/hw/pci-host/pnv_phb4.h         |   5 +
- include/hw/ppc/pnv.h                   |   2 +
- target/ppc/cpu-models.h                |  19 -
- target/ppc/cpu-qom.h                   |  12 +-
- target/ppc/cpu.h                       |  63 +++-
- target/ppc/helper.h                    |  29 +-
- target/ppc/power8-pmu.h                |  26 ++
- target/ppc/spr_tcg.h                   |   5 +
- target/ppc/insn32.decode               |  54 ++-
- fpu/softfloat.c                        | 114 +++++-
- hw/misc/ivshmem.c                      |   2 +-
- hw/pci-host/pnv_phb3.c                 |   3 +-
- hw/pci-host/pnv_phb3_pbcq.c            |  11 +
- hw/pci-host/pnv_phb4.c                 |   1 +
- hw/pci-host/pnv_phb4_pec.c             |  75 +++-
- hw/ppc/mac_newworld.c                  |   3 +-
- hw/ppc/mac_oldworld.c                  |   3 +-
- hw/ppc/pnv.c                           | 177 +++++----
- hw/ppc/ppc.c                           |   2 +
- hw/ppc/ppc405_boards.c                 | 245 ++++++------
- hw/ppc/ppc405_uc.c                     | 225 ++++++-----
- hw/ppc/spapr_cpu_core.c                |   1 +
- target/ppc/cpu-models.c                |  34 --
- target/ppc/cpu.c                       |   2 +-
- target/ppc/cpu_init.c                  | 658 +++--------------------------=
-----
- target/ppc/excp_helper.c               |  95 +++--
- target/ppc/fpu_helper.c                | 593 +++++++++++++++--------------
- target/ppc/helper_regs.c               |   7 +
- target/ppc/mmu_common.c                |  60 +--
- target/ppc/mmu_helper.c                |  32 --
- target/ppc/power8-pmu.c                | 350 ++++++++++++++++++
- target/ppc/translate.c                 | 104 ++++--
- tests/qtest/ivshmem-test.c             |   5 +-
- tests/tcg/ppc64le/mtfsf.c              |  61 +++
- fpu/softfloat-parts.c.inc              |  57 +--
- fpu/softfloat-specialize.c.inc         |  12 +-
- target/ppc/power8-pmu-regs.c.inc       |  69 +++-
- target/ppc/translate/branch-impl.c.inc |  33 ++
- target/ppc/translate/fp-impl.c.inc     |  53 +--
- target/ppc/translate/vmx-impl.c.inc    | 231 ++++++++++++
- target/ppc/translate/vsx-impl.c.inc    |  55 ++-
- target/ppc/translate/vsx-ops.c.inc     |   5 -
- hw/ppc/trace-events                    |  23 ++
- pc-bios/README                         |   2 +-
- pc-bios/slof.bin                       | Bin 991744 -> 991920 bytes
- roms/SLOF                              |   2 +-
- target/ppc/meson.build                 |   1 +
- tests/tcg/ppc64/Makefile.target        |   1 +
- tests/tcg/ppc64le/Makefile.target      |   1 +
- 59 files changed, 2514 insertions(+), 1647 deletions(-)
- create mode 100644 docs/specs/ppc-spapr-hcalls.rst
- delete mode 100644 docs/specs/ppc-spapr-hcalls.txt
- create mode 100644 target/ppc/power8-pmu.h
- create mode 100644 target/ppc/power8-pmu.c
- create mode 100644 tests/tcg/ppc64le/mtfsf.c
- create mode 100644 target/ppc/translate/branch-impl.c.inc
+r~
 
