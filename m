@@ -2,85 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F6F8479179
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Dec 2021 17:29:46 +0100 (CET)
-Received: from localhost ([::1]:59698 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44E0047918B
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Dec 2021 17:35:39 +0100 (CET)
+Received: from localhost ([::1]:38668 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1myG77-00018b-26
-	for lists+qemu-devel@lfdr.de; Fri, 17 Dec 2021 11:29:45 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43232)
+	id 1myGCn-0006fI-TH
+	for lists+qemu-devel@lfdr.de; Fri, 17 Dec 2021 11:35:37 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45068)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1myG5p-0000Be-8r
- for qemu-devel@nongnu.org; Fri, 17 Dec 2021 11:28:25 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24416)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1myG5l-0000pZ-Jz
- for qemu-devel@nongnu.org; Fri, 17 Dec 2021 11:28:23 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639758500;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=5U44A8+v1GVVjCZZEqZbRv3fvWmOHJ4XKta+nWQmiPg=;
- b=bvp2dYuEOsFs4Osgf/tykyFmrhLRn0m/KqmeityDh+aC5pYH1x2i/lzLrSwvB51Dgf0x2C
- iehrOJn5zVckxvXnk8UrN9M6sl9b5DX06+ziuSVj+eTQiQ9B1AJhP2j5YjH/GSgPxn0zZF
- Cj3TSRDm2iJq78ddNCykqDhBfIK8K8k=
-Received: from mail-ua1-f70.google.com (mail-ua1-f70.google.com
- [209.85.222.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-216-amyTgROgMQiIuv0T-YQRzQ-1; Fri, 17 Dec 2021 11:28:17 -0500
-X-MC-Unique: amyTgROgMQiIuv0T-YQRzQ-1
-Received: by mail-ua1-f70.google.com with SMTP id
- x4-20020ab05ac4000000b002f713d873c4so1529205uae.9
- for <qemu-devel@nongnu.org>; Fri, 17 Dec 2021 08:28:17 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1myGB3-0005Kh-0G
+ for qemu-devel@nongnu.org; Fri, 17 Dec 2021 11:33:49 -0500
+Received: from [2607:f8b0:4864:20::102c] (port=53130
+ helo=mail-pj1-x102c.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1myGB0-0001oi-CJ
+ for qemu-devel@nongnu.org; Fri, 17 Dec 2021 11:33:48 -0500
+Received: by mail-pj1-x102c.google.com with SMTP id co15so2749024pjb.2
+ for <qemu-devel@nongnu.org>; Fri, 17 Dec 2021 08:33:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=lpZjjq0iHw/IiylqIuHrujkWJpotC/LDJzFsCcKMWZw=;
+ b=UL1ikLRDG8u/5gc511xsGTNI4YyG10bdDSwZpn7WJn1hpMhpbrXFpdAzlr1qGbuJKY
+ wB09M/Kzmc5O0S9JOMik9QMngZ1OwBqSnzbIKQ9uoT3Jzhcm7imIaGtBysF9IEHVCNyt
+ 8NnUnPdPo/pyQ2qzNruE+AOEd90E4c3EdrLJo5R50hGrpCQ8n1Fh7FySyv4792fLTN0+
+ quXXy56NIWaCtZLGVrjChMlZVzbc1sDxUxh1BKVJGkU0DmgyrjeQlcz1KP6OqBo4RBsN
+ jHSgsVlJUpS+WdEK+DEkIXdrZXJeL88J2Wq/F8foKIx8d25IWdQaQcqzZXe6XnH1Xlri
+ IwyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=5U44A8+v1GVVjCZZEqZbRv3fvWmOHJ4XKta+nWQmiPg=;
- b=ryhBtorclb1HKbr4j7IR07jB/SyqKce3U+cPHiQ2ZmEDqkLgvrOZyjSIc2d83rhEDK
- 7kDf09172csQzqw4iPr6b+VWrpQd4Wet+s6+Td2s1IKIrfcmIiPgVrXhUm6CS5kUPtck
- xGT4yUU7VMAs7a4Q0KPeL5TGLMpOy3K9H46UGUTzydubZphYirz9Z7uJ041rXfz7Hqe6
- y5uFoqztzvDNk6k/BUJeleYhojozfCMadTCwXGb8F/5LIwaiWvBXDM9pqCVwVGWrlNdG
- 5DueH8SasBfGA2jO6cbDjIV+neoKuUaf8df4VYkSJJx2O+ODLv/9PfI16ohKknWd4Vun
- EaJA==
-X-Gm-Message-State: AOAM530YVYmQfFrarsfzOIP+KFrdSYCWby/eZ8XT2rw1KwyP0EW8r9Mo
- KiTpEVPjaAI9MXqOjabuE8e189JV8KA3OEhspG4qEvbIl360qVb4DVV1QBfapvNlT0UBb4FjnXx
- THKl8PCLytFCcu951QTTFkYKq0q1tX1k=
-X-Received: by 2002:a05:6102:c86:: with SMTP id
- f6mr1613537vst.38.1639758496555; 
- Fri, 17 Dec 2021 08:28:16 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwoPp3eA4Xcx0DrIkfqTXCgJ/scAvf6cpXd3GsUyDnL1rxSIJuukZKfDG/X0S54vZ1HtQ5RWIlWpXVVq32rMjo=
-X-Received: by 2002:a05:6102:c86:: with SMTP id
- f6mr1613527vst.38.1639758496353; 
- Fri, 17 Dec 2021 08:28:16 -0800 (PST)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=lpZjjq0iHw/IiylqIuHrujkWJpotC/LDJzFsCcKMWZw=;
+ b=v1LOQZfBf8aGql89RC+6EclcVBRKqAjq/1ClNb/HjMRPQ9er73oO6lOvYxNqw6ZXAk
+ p7cKsXDZAgRq/xDNzTlEenyEyjy/i+v7BiIUYTY+d/9hHfq5P8percAXkBCmWx/NdAgS
+ XZnaprWiX51yLhc9BB71VrSQsr2qOFq218BVgrbD5018HZR9PPGLYZSluUoWznO9VXGQ
+ SyeSzS8Lls/Usd4v0S+90KEAeAv3aLf0aHk+CJsR3dAtix3BxA/LqSKw0UHpdbNNtxfn
+ 6/bSQLVVfn6FPoH20sMy5M9oo+2rNZPZZDMJnMt0C1OtPYqaVnJ4TwwQcyAM/xckmAoj
+ ZVhA==
+X-Gm-Message-State: AOAM531KnTWN17zILprsNIyx16GOs/fWBWrIupOR4dsjPMv2CCVqvogf
+ Fxw19qF9jYikApAk4CyanDOLcw==
+X-Google-Smtp-Source: ABdhPJwm0fpNEemwPaExgF+OQlokl7oPJWJ98GN/OccbA1lrZQDRtv40dH5iY+ux1A44zCcbu//e9g==
+X-Received: by 2002:a17:902:a60e:b0:148:ad72:f8e8 with SMTP id
+ u14-20020a170902a60e00b00148ad72f8e8mr4179128plq.143.1639758824738; 
+ Fri, 17 Dec 2021 08:33:44 -0800 (PST)
+Received: from [192.168.1.13] (174-21-75-75.tukw.qwest.net. [174.21.75.75])
+ by smtp.gmail.com with ESMTPSA id ot1sm10431380pjb.6.2021.12.17.08.33.44
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 17 Dec 2021 08:33:44 -0800 (PST)
+Subject: Re: [PULL v2 000/101] ppc queue
+To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20211216202614.414266-1-clg@kaod.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <cf2bd3a9-007a-5881-efb8-9e6195958030@linaro.org>
+Date: Fri, 17 Dec 2021 08:33:42 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-References: <20211215193939.3768033-1-jsnow@redhat.com>
- <20211215193939.3768033-26-jsnow@redhat.com>
- <59b70dd8-cae7-4106-7ba3-ba0b6f74897d@virtuozzo.com>
- <CAFn=p-apQ=rocDVeAUCu_JJVAPV90H3uRemWv0ndEwOmKq6nMA@mail.gmail.com>
- <cbf2841c-dbd6-5284-b8a3-06b19b1c9f0a@virtuozzo.com>
-In-Reply-To: <cbf2841c-dbd6-5284-b8a3-06b19b1c9f0a@virtuozzo.com>
-From: John Snow <jsnow@redhat.com>
-Date: Fri, 17 Dec 2021 11:28:05 -0500
-Message-ID: <CAFn=p-bkVnUeAc=zEOUhZ8qqOLLR7TbOSrn6QDjHnvNnoP_W5Q@mail.gmail.com>
-Subject: Re: [PATCH v2 25/25] python: rename qemu.aqmp to qemu.qmp
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="000000000000b1640305d35a0613"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
+In-Reply-To: <20211216202614.414266-1-clg@kaod.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102c
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102c.google.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
 X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.718,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.716,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,266 +91,253 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>, Kevin Wolf <kwolf@redhat.com>,
- Daniel Berrange <berrange@redhat.com>, Beraldo Leal <bleal@redhat.com>,
- Qemu-block <qemu-block@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, Wainer Moschetta <wainersm@redhat.com>,
- Andrea Bolognani <abologna@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Cleber Rosa <crosa@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000b1640305d35a0613
-Content-Type: text/plain; charset="UTF-8"
+On 12/16/21 12:24 PM, Cédric Le Goater wrote:
+> The following changes since commit 76b56fdfc9fa43ec6e5986aee33f108c6c6a511e:
+> 
+>    Merge tag 'block-pull-request' of https://gitlab.com/stefanha/qemu into staging (2021-12-14 12:46:18 -0800)
+> 
+> are available in the Git repository at:
+> 
+>    https://github.com/legoater/qemu/ tags/pull-ppc-20211216
+> 
+> for you to fetch changes up to 292c21ede9b6618ab0f51cbfa0efeb1464232506:
+> 
+>    ppc/pnv: Use QOM hierarchy to scan PEC PHB4 devices (2021-12-16 20:11:56 +0100)
+> 
+> Changes in v2:
+> 
+>   - Fixed patch "docs: rSTify ppc-spapr-hcalls.txt" with a newline
+>   - dropped patch "target/ppc: do not silence SNaN in xscvspdpn" which
+>     still add some comments pending.
+> 
+> ----------------------------------------------------------------
+> ppc 7.0 queue:
+> 
+> * General cleanup for Mac machines (Peter)
+> * Fixes for FPU exceptions (Lucas)
+> * Support for new ISA31 instructions (Matheus)
+> * Fixes for ivshmem (Daniel)
+> * Cleanups for PowerNV PHB (Christophe and Cedric)
+> * Updates of PowerNV and pSeries documentation (Leonardo and Daniel)
+> * Fixes for PowerNV (Daniel)
+> * Large cleanup of FPU implementation (Richard)
+> * Removal of SoftTLBs support for PPC74x CPUs (Fabiano)
+> * Fixes for exception models in MPCx and 60x CPUs (Fabiano)
+> * Removal of 401/403 CPUs (Cedric)
+> * Deprecation of taihu machine (Thomas)
+> * Large rework of PPC405 machine (Cedric)
+> * Fixes for VSX instructions (Victor and Matheus)
+> * Fix for e6500 CPU (Fabiano)
+> * Initial support for PMU (Daniel)
+> 
+> ----------------------------------------------------------------
+> Alexey Kardashevskiy (1):
+>        pseries: Update SLOF firmware image
+> 
+> Christophe Lombard (1):
+>        pci-host: Allow extended config space access for PowerNV PHB4 model
+> 
+> Cédric Le Goater (28):
+>        Merge tag 'qemu-slof-20211112' of github.com:aik/qemu into ppc-next
+>        target/ppc: remove 401/403 CPUs
+>        ppc/ppc405: Change kernel load address
+>        ppc: Add trace-events for DCR accesses
+>        ppc/ppc405: Convert printfs to trace-events
+>        ppc/ppc405: Drop flag parameter in ppc405_set_bootinfo()
+>        ppc/ppc405: Change ppc405ep_init() return value
+>        ppc/ppc405: Add some address space definitions
+>        ppc/ppc405: Remove flash support
+>        ppc/ppc405: Rework FW load
+>        ppc/ppc405: Introduce ppc405_set_default_bootinfo()
+>        ppc/ppc405: Fix boot from kernel
+>        ppc/ppc405: Change default PLL values at reset
+>        ppc/ppc405: Fix bi_pci_enetaddr2 field in U-Boot board information
+>        ppc/ppc405: Add update of bi_procfreq field
+>        ppc/pnv: Introduce a "chip" property under PHB3
+>        ppc/pnv: Use the chip class to check the index of PHB3 devices
+>        ppc/pnv: Drop the "num-phbs" property
+>        ppc/pnv: Move mapping of the PHB3 CQ regions under pnv_pbcq_realize()
+>        ppc/pnv: Use QOM hierarchy to scan PHB3 devices
+>        ppc/pnv: Introduce a num_pecs class attribute for PHB4 PEC devices
+>        ppc/pnv: Introduce version and device_id class atributes for PHB4 devices
+>        ppc/pnv: Introduce a "chip" property under the PHB4 model
+>        ppc/pnv: Introduce a num_stack class attribute
+>        ppc/pnv: Compute the PHB index from the PHB4 PEC model
+>        ppc/pnv: Remove "system-memory" property from PHB4 PEC
+>        ppc/pnv: Move realize of PEC stacks under the PEC model
+>        ppc/pnv: Use QOM hierarchy to scan PEC PHB4 devices
+> 
+> Daniel Henrique Barboza (13):
+>        ivshmem.c: change endianness to LITTLE_ENDIAN
+>        ivshmem-test.c: enable test_ivshmem_server for ppc64 arch
+>        ppc/pnv.c: add a friendly warning when accel=kvm is used
+>        docs/system/ppc/powernv.rst: document KVM support status
+>        ppc/pnv.c: fix "system-id" FDT when -uuid is set
+>        target/ppc: introduce PMUEventType and PMU overflow timers
+>        target/ppc: PMU basic cycle count for pseries TCG
+>        target/ppc: PMU: update counters on PMCs r/w
+>        target/ppc: PMU: update counters on MMCR1 write
+>        target/ppc: enable PMU counter overflow with cycle events
+>        target/ppc: enable PMU instruction count
+>        target/ppc/power8-pmu.c: add PM_RUN_INST_CMPL (0xFA) event
+>        PPC64/TCG: Implement 'rfebb' instruction
+> 
+> Fabiano Rosas (8):
+>        target/ppc: Disable software TLB for the 7450 family
+>        target/ppc: Disable unused facilities in the e600 CPU
+>        target/ppc: Remove the software TLB model of 7450 CPUs
+>        target/ppc: Fix MPCxxx FPU interrupt address
+>        target/ppc: Remove 603e exception model
+>        target/ppc: Set 601v exception model id
+>        target/ppc: Fix e6500 boot
+>        Revert "target/ppc: Move SPR_DSISR setting to powerpc_excp"
+> 
+> Leonardo Garcia (5):
+>        docs: Minor updates on the powernv documentation.
+>        docs: Introducing pseries documentation.
+>        docs: rSTify ppc-spapr-hcalls.txt
+>        docs: Rename ppc-spapr-hcalls.txt to ppc-spapr-hcalls.rst.
+>        Link new ppc-spapr-hcalls.rst file to pseries.rst.
+> 
+> Lucas Mateus Castro (alqotel) (3):
+>        target/ppc: Fixed call to deferred exception
+>        test/tcg/ppc64le: test mtfsf
+>        target/ppc: ppc_store_fpscr doesn't update bits 0 to 28 and 52
+> 
+> Matheus Ferst (5):
+>        target/ppc: Implement Vector Expand Mask
+>        target/ppc: Implement Vector Extract Mask
+>        target/ppc: Implement Vector Mask Move insns
+>        target/ppc: fix xscvqpdp register access
+>        target/ppc: move xscvqpdp to decodetree
+> 
+> Peter Maydell (1):
+>        hw/ppc/mac.h: Remove MAX_CPUS macro
+> 
+> Richard Henderson (34):
+>        softfloat: Extend float_exception_flags to 16 bits
+>        softfloat: Add flag specific to Inf - Inf
+>        softfloat: Add flag specific to Inf * 0
+>        softfloat: Add flags specific to Inf / Inf and 0 / 0
+>        softfloat: Add flag specific to sqrt(-x)
+>        softfloat: Add flag specific to convert non-nan to int
+>        softfloat: Add flag specific to signaling nans
+>        target/ppc: Update float_invalid_op_addsub for new flags
+>        target/ppc: Update float_invalid_op_mul for new flags
+>        target/ppc: Update float_invalid_op_div for new flags
+>        target/ppc: Move float_check_status from FPU_FCTI to translate
+>        target/ppc: Update float_invalid_cvt for new flags
+>        target/ppc: Fix VXCVI return value
+>        target/ppc: Remove inline from do_fri
+>        target/ppc: Use FloatRoundMode in do_fri
+>        target/ppc: Tidy inexact handling in do_fri
+>        target/ppc: Clean up do_fri
+>        target/ppc: Update fmadd for new flags
+>        target/ppc: Split out do_fmadd
+>        target/ppc: Do not call do_float_check_status from do_fmadd
+>        target/ppc: Split out do_frsp
+>        target/ppc: Update do_frsp for new flags
+>        target/ppc: Use helper_todouble in do_frsp
+>        target/ppc: Update sqrt for new flags
+>        target/ppc: Update xsrqpi and xsrqpxp to new flags
+>        target/ppc: Update fre to new flags
+>        softfloat: Add float64r32 arithmetic routines
+>        target/ppc: Add helpers for fmadds et al
+>        target/ppc: Add helper for fsqrts
+>        target/ppc: Add helpers for fadds, fsubs, fdivs
+>        target/ppc: Add helper for fmuls
+>        target/ppc: Add helper for frsqrtes
+>        target/ppc: Update fres to new flags and float64r32
+>        target/ppc: Use helper_todouble/tosingle in helper_xststdcsp
+> 
+> Thomas Huth (1):
+>        ppc: Mark the 'taihu' machine as deprecated
+> 
+> Victor Colombo (2):
+>        target/ppc: Fix xs{max, min}[cj]dp to use VSX registers
+>        target/ppc: Move xs{max,min}[cj]dp to decodetree
+> 
+>   docs/about/deprecated.rst              |   9 +
+>   docs/specs/ppc-spapr-hcalls.rst        | 100 +++++
+>   docs/specs/ppc-spapr-hcalls.txt        |  78 ----
+>   docs/system/ppc/powernv.rst            |  68 ++--
+>   docs/system/ppc/pseries.rst            | 226 +++++++++++
+>   hw/ppc/mac.h                           |   3 -
+>   hw/ppc/ppc405.h                        |  14 +-
+>   include/fpu/softfloat-types.h          |  23 +-
+>   include/fpu/softfloat.h                |  14 +-
+>   include/hw/pci-host/pnv_phb3.h         |   3 +
+>   include/hw/pci-host/pnv_phb4.h         |   5 +
+>   include/hw/ppc/pnv.h                   |   2 +
+>   target/ppc/cpu-models.h                |  19 -
+>   target/ppc/cpu-qom.h                   |  12 +-
+>   target/ppc/cpu.h                       |  63 +++-
+>   target/ppc/helper.h                    |  29 +-
+>   target/ppc/power8-pmu.h                |  26 ++
+>   target/ppc/spr_tcg.h                   |   5 +
+>   target/ppc/insn32.decode               |  54 ++-
+>   fpu/softfloat.c                        | 114 +++++-
+>   hw/misc/ivshmem.c                      |   2 +-
+>   hw/pci-host/pnv_phb3.c                 |   3 +-
+>   hw/pci-host/pnv_phb3_pbcq.c            |  11 +
+>   hw/pci-host/pnv_phb4.c                 |   1 +
+>   hw/pci-host/pnv_phb4_pec.c             |  75 +++-
+>   hw/ppc/mac_newworld.c                  |   3 +-
+>   hw/ppc/mac_oldworld.c                  |   3 +-
+>   hw/ppc/pnv.c                           | 177 +++++----
+>   hw/ppc/ppc.c                           |   2 +
+>   hw/ppc/ppc405_boards.c                 | 245 ++++++------
+>   hw/ppc/ppc405_uc.c                     | 225 ++++++-----
+>   hw/ppc/spapr_cpu_core.c                |   1 +
+>   target/ppc/cpu-models.c                |  34 --
+>   target/ppc/cpu.c                       |   2 +-
+>   target/ppc/cpu_init.c                  | 658 +++------------------------------
+>   target/ppc/excp_helper.c               |  95 +++--
+>   target/ppc/fpu_helper.c                | 593 +++++++++++++++--------------
+>   target/ppc/helper_regs.c               |   7 +
+>   target/ppc/mmu_common.c                |  60 +--
+>   target/ppc/mmu_helper.c                |  32 --
+>   target/ppc/power8-pmu.c                | 350 ++++++++++++++++++
+>   target/ppc/translate.c                 | 104 ++++--
+>   tests/qtest/ivshmem-test.c             |   5 +-
+>   tests/tcg/ppc64le/mtfsf.c              |  61 +++
+>   fpu/softfloat-parts.c.inc              |  57 +--
+>   fpu/softfloat-specialize.c.inc         |  12 +-
+>   target/ppc/power8-pmu-regs.c.inc       |  69 +++-
+>   target/ppc/translate/branch-impl.c.inc |  33 ++
+>   target/ppc/translate/fp-impl.c.inc     |  53 +--
+>   target/ppc/translate/vmx-impl.c.inc    | 231 ++++++++++++
+>   target/ppc/translate/vsx-impl.c.inc    |  55 ++-
+>   target/ppc/translate/vsx-ops.c.inc     |   5 -
+>   hw/ppc/trace-events                    |  23 ++
+>   pc-bios/README                         |   2 +-
+>   pc-bios/slof.bin                       | Bin 991744 -> 991920 bytes
+>   roms/SLOF                              |   2 +-
+>   target/ppc/meson.build                 |   1 +
+>   tests/tcg/ppc64/Makefile.target        |   1 +
+>   tests/tcg/ppc64le/Makefile.target      |   1 +
+>   59 files changed, 2514 insertions(+), 1647 deletions(-)
+>   create mode 100644 docs/specs/ppc-spapr-hcalls.rst
+>   delete mode 100644 docs/specs/ppc-spapr-hcalls.txt
+>   create mode 100644 target/ppc/power8-pmu.h
+>   create mode 100644 target/ppc/power8-pmu.c
+>   create mode 100644 tests/tcg/ppc64le/mtfsf.c
+>   create mode 100644 target/ppc/translate/branch-impl.c.inc
 
-On Fri, Dec 17, 2021, 2:40 AM Vladimir Sementsov-Ogievskiy <
-vsementsov@virtuozzo.com> wrote:
+Different docs failure:
 
-> 17.12.2021 00:10, John Snow wrote:
-> >
-> >
-> > On Thu, Dec 16, 2021 at 6:41 AM Vladimir Sementsov-Ogievskiy <
-> vsementsov@virtuozzo.com <mailto:vsementsov@virtuozzo.com>> wrote:
-> >
-> >     15.12.2021 22:39, John Snow wrote:
-> >      > Now that we are fully switched over to the new QMP library, move
-> it back
-> >      > over the old namespace. This is being done primarily so that we
-> may
-> >      > upload this package simply as "qemu.qmp" without introducing
-> confusion
-> >      > over whether or not "aqmp" is a new protocol or not.
-> >      >
-> >      > The trade-off is increased confusion inside the QEMU developer
-> >      > tree. Sorry!
-> >      >
-> >      > Signed-off-by: John Snow<jsnow@redhat.com <mailto:
-> jsnow@redhat.com>>
-> >
-> >     Great job!
-> >
-> >     I looked thorough the patch, changes looks correct. Simply rename
-> every aqmp / AQMP occurrence.. But:
-> >
-> >
-> >     [root@kvm review]# git grep -i aqmp
-> >     python/qemu/qmp/aqmp_tui.py:AQMP TUI
-> >     python/qemu/qmp/aqmp_tui.py:AQMP TUI is an asynchronous interface
-> built on top the of the AQMP library.
-> >     python/qemu/qmp/aqmp_tui.py:Example Usage: aqmp-tui <SOCKET | TCP
-> IP:PORT>
-> >     python/qemu/qmp/aqmp_tui.py:Full Usage: aqmp-tui --help
-> >     python/qemu/qmp/aqmp_tui.py:    Implements the AQMP TUI.
-> >     python/qemu/qmp/aqmp_tui.py:    parser =
-> argparse.ArgumentParser(description='AQMP TUI')
-> >     python/qemu/qmp/legacy.py:        self._aqmp = QMPClient(nickname)
-> >     python/qemu/qmp/legacy.py:        if self._aqmp.greeting is not None:
-> >     python/qemu/qmp/legacy.py:            return
-> self._aqmp.greeting._asdict()
-> >     python/qemu/qmp/legacy.py:        self._aqmp.await_greeting =
-> negotiate
-> >     python/qemu/qmp/legacy.py:        self._aqmp.negotiate = negotiate
-> >     python/qemu/qmp/legacy.py:
-> self._aqmp.connect(self._address)
-> >     python/qemu/qmp/legacy.py:        self._aqmp.await_greeting = True
-> >     python/qemu/qmp/legacy.py:        self._aqmp.negotiate = True
-> >     python/qemu/qmp/legacy.py:
-> self._aqmp.accept(self._address),
-> >     python/qemu/qmp/legacy.py:                self._aqmp._raw(qmp_cmd,
-> assign_id=False),
-> >     python/qemu/qmp/legacy.py:            self._aqmp.execute(cmd, kwds),
-> >     python/qemu/qmp/legacy.py:            if self._aqmp.events.empty():
-> >     python/qemu/qmp/legacy.py:                self._aqmp.events.get(),
-> >     python/qemu/qmp/legacy.py:        events = [dict(x) for x in
-> self._aqmp.events.clear()]
-> >     python/qemu/qmp/legacy.py:        self._aqmp.events.clear()
-> >     python/qemu/qmp/legacy.py:            self._aqmp.disconnect()
-> >     python/qemu/qmp/legacy.py:        self._aqmp.send_fd_scm(fd)
-> >     python/qemu/qmp/legacy.py:        if self._aqmp.runstate ==
-> Runstate.IDLE:
-> >     python/setup.cfg:# AQMP TUI dependencies
-> >     python/setup.cfg:    aqmp-tui = qemu.qmp.aqmp_tui:main [tui]
-> >     python/setup.cfg:[mypy-qemu.qmp.aqmp_tui]
-> >
-> >     [root@kvm review]# git ls-tree -r --name-only HEAD | grep -i aqmp
-> >     python/qemu/qmp/aqmp_tui.py
-> >
-> >
-> >     I think, this all should be renamed too
-> >
-> >
-> > For aqmp_tui.py, sure. The new TUI isn't 100% ready to replace qmp-shell
-> yet, so I wasn't entirely certain what to name it... qmp-tui?
-> >
-> > *shrugs*.
->
-> I don't remember what tui is abbreviating) qmp-tui is OK, and it may be
-> renamed to qmp-shell when it is ready to replace it..
->
+Warning, treated as error:
+/tmp/qemu-test/src/docs/system/ppc/pseries.rst:241:Unexpected indentation.
 
-"text user interface", by analogy with GUI (graphical UI).
+You can test this yourself with
+
+make docker-test-build@ubuntu1804 TARGET_LIST=i386-softmmu
 
 
-> >
-> > for legacy.py, it's just an internal variable name and I wasn't sure it
-> was worth the churn just to change a private variable. I could still do it
-> if you feel strongly about it.
-> >
->
-> I'd rename everything.
->
-
-Alright, I'll do so in the respin.
-
-
->
-> --
-> Best regards,
-> Vladimir
->
-
-Thanks for the reviews!
-
->
-
---000000000000b1640305d35a0613
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">On Fri, Dec 17, 2021, 2:40 AM Vladimir Sementsov-Ogiev=
-skiy &lt;<a href=3D"mailto:vsementsov@virtuozzo.com">vsementsov@virtuozzo.c=
-om</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margi=
-n:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">17.12.2021 00:10,=
- John Snow wrote:<br>
-&gt; <br>
-&gt; <br>
-&gt; On Thu, Dec 16, 2021 at 6:41 AM Vladimir Sementsov-Ogievskiy &lt;<a hr=
-ef=3D"mailto:vsementsov@virtuozzo.com" target=3D"_blank" rel=3D"noreferrer"=
->vsementsov@virtuozzo.com</a> &lt;mailto:<a href=3D"mailto:vsementsov@virtu=
-ozzo.com" target=3D"_blank" rel=3D"noreferrer">vsementsov@virtuozzo.com</a>=
-&gt;&gt; wrote:<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A015.12.2021 22:39, John Snow wrote:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt; Now that we are fully switched over to the ne=
-w QMP library, move it back<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt; over the old namespace. This is being done pr=
-imarily so that we may<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt; upload this package simply as &quot;qemu.qmp&=
-quot; without introducing confusion<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt; over whether or not &quot;aqmp&quot; is a new=
- protocol or not.<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt; The trade-off is increased confusion inside t=
-he QEMU developer<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt; tree. Sorry!<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 &gt; Signed-off-by: John Snow&lt;<a href=3D"mailto=
-:jsnow@redhat.com" target=3D"_blank" rel=3D"noreferrer">jsnow@redhat.com</a=
-> &lt;mailto:<a href=3D"mailto:jsnow@redhat.com" target=3D"_blank" rel=3D"n=
-oreferrer">jsnow@redhat.com</a>&gt;&gt;<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0Great job!<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0I looked thorough the patch, changes looks correct.=
- Simply rename every aqmp / AQMP occurrence.. But:<br>
-&gt; <br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0[root@kvm review]# git grep -i aqmp<br>
-&gt;=C2=A0 =C2=A0 =C2=A0python/qemu/qmp/aqmp_tui.py:AQMP TUI<br>
-&gt;=C2=A0 =C2=A0 =C2=A0python/qemu/qmp/aqmp_tui.py:AQMP TUI is an asynchro=
-nous interface built on top the of the AQMP library.<br>
-&gt;=C2=A0 =C2=A0 =C2=A0python/qemu/qmp/aqmp_tui.py:Example Usage: aqmp-tui=
- &lt;SOCKET | TCP IP:PORT&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0python/qemu/qmp/aqmp_tui.py:Full Usage: aqmp-tui --=
-help<br>
-&gt;=C2=A0 =C2=A0 =C2=A0python/qemu/qmp/aqmp_tui.py:=C2=A0 =C2=A0 Implement=
-s the AQMP TUI.<br>
-&gt;=C2=A0 =C2=A0 =C2=A0python/qemu/qmp/aqmp_tui.py:=C2=A0 =C2=A0 parser =
-=3D argparse.ArgumentParser(description=3D&#39;AQMP TUI&#39;)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0python/qemu/qmp/legacy.py:=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 self._aqmp =3D QMPClient(nickname)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0python/qemu/qmp/legacy.py:=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 if self._aqmp.greeting is not None:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0python/qemu/qmp/legacy.py:=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 return self._aqmp.greeting._asdict()<br>
-&gt;=C2=A0 =C2=A0 =C2=A0python/qemu/qmp/legacy.py:=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 self._aqmp.await_greeting =3D negotiate<br>
-&gt;=C2=A0 =C2=A0 =C2=A0python/qemu/qmp/legacy.py:=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 self._aqmp.negotiate =3D negotiate<br>
-&gt;=C2=A0 =C2=A0 =C2=A0python/qemu/qmp/legacy.py:=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 self._aqmp.connect(self._address)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0python/qemu/qmp/legacy.py:=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 self._aqmp.await_greeting =3D True<br>
-&gt;=C2=A0 =C2=A0 =C2=A0python/qemu/qmp/legacy.py:=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 self._aqmp.negotiate =3D True<br>
-&gt;=C2=A0 =C2=A0 =C2=A0python/qemu/qmp/legacy.py:=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 self._aqmp.accept(self._address),<br>
-&gt;=C2=A0 =C2=A0 =C2=A0python/qemu/qmp/legacy.py:=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self._aqmp._raw(qmp_cmd, assign_id=3DFalse)=
-,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0python/qemu/qmp/legacy.py:=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 self._aqmp.execute(cmd, kwds),<br>
-&gt;=C2=A0 =C2=A0 =C2=A0python/qemu/qmp/legacy.py:=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 if self._aqmp.events.empty():<br>
-&gt;=C2=A0 =C2=A0 =C2=A0python/qemu/qmp/legacy.py:=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self._aqmp.events.get(),<br>
-&gt;=C2=A0 =C2=A0 =C2=A0python/qemu/qmp/legacy.py:=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 events =3D [dict(x) for x in self._aqmp.events.clear()]<br>
-&gt;=C2=A0 =C2=A0 =C2=A0python/qemu/qmp/legacy.py:=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 self._aqmp.events.clear()<br>
-&gt;=C2=A0 =C2=A0 =C2=A0python/qemu/qmp/legacy.py:=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 self._aqmp.disconnect()<br>
-&gt;=C2=A0 =C2=A0 =C2=A0python/qemu/qmp/legacy.py:=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 self._aqmp.send_fd_scm(fd)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0python/qemu/qmp/legacy.py:=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 if self._aqmp.runstate =3D=3D Runstate.IDLE:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0python/setup.cfg:# AQMP TUI dependencies<br>
-&gt;=C2=A0 =C2=A0 =C2=A0python/setup.cfg:=C2=A0 =C2=A0 aqmp-tui =3D qemu.qm=
-p.aqmp_tui:main [tui]<br>
-&gt;=C2=A0 =C2=A0 =C2=A0python/setup.cfg:[mypy-qemu.qmp.aqmp_tui]<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0[root@kvm review]# git ls-tree -r --name-only HEAD =
-| grep -i aqmp<br>
-&gt;=C2=A0 =C2=A0 =C2=A0python/qemu/qmp/aqmp_tui.py<br>
-&gt; <br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0I think, this all should be renamed too<br>
-&gt; <br>
-&gt; <br>
-&gt; For aqmp_tui.py, sure. The new TUI isn&#39;t 100% ready to replace qmp=
--shell yet, so I wasn&#39;t entirely certain what to name it... qmp-tui?<br=
->
-&gt; <br>
-&gt; *shrugs*.<br>
-<br>
-I don&#39;t remember what tui is abbreviating) qmp-tui is OK, and it may be=
- renamed to qmp-shell when it is ready to replace it..<br></blockquote></di=
-v></div><div dir=3D"auto"><br></div><div dir=3D"auto">&quot;text user inter=
-face&quot;, by analogy with GUI (graphical UI).</div><div dir=3D"auto"><br>=
-</div><div dir=3D"auto"><div class=3D"gmail_quote"><blockquote class=3D"gma=
-il_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-lef=
-t:1ex"><br>
-&gt; <br>
-&gt; for legacy.py, it&#39;s just an internal variable name and I wasn&#39;=
-t sure it was worth the churn just to change a private variable. I could st=
-ill do it if you feel strongly about it.<br>
-&gt; <br>
-<br>
-I&#39;d rename everything.<br></blockquote></div></div><div dir=3D"auto"><b=
-r></div><div dir=3D"auto">Alright, I&#39;ll do so in the respin.=C2=A0</div=
-><div dir=3D"auto"><br></div><div dir=3D"auto"><div class=3D"gmail_quote"><=
-blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px=
- #ccc solid;padding-left:1ex">
-<br>
-<br>
--- <br>
-Best regards,<br>
-Vladimir<br></blockquote></div></div><div dir=3D"auto"><br></div><div dir=
-=3D"auto">Thanks for the reviews!</div><div dir=3D"auto"><div class=3D"gmai=
-l_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;borde=
-r-left:1px #ccc solid;padding-left:1ex"></blockquote></div></div></div>
-
---000000000000b1640305d35a0613--
+r~
 
 
