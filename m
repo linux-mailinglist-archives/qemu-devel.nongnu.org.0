@@ -2,80 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB78C479683
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Dec 2021 22:49:44 +0100 (CET)
-Received: from localhost ([::1]:47340 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6355947968D
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Dec 2021 22:51:40 +0100 (CET)
+Received: from localhost ([::1]:49542 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1myL6l-0007s2-Qj
-	for lists+qemu-devel@lfdr.de; Fri, 17 Dec 2021 16:49:43 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60386)
+	id 1myL8d-0000wz-Hk
+	for lists+qemu-devel@lfdr.de; Fri, 17 Dec 2021 16:51:39 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60706)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1myL5b-00074f-Ai
- for qemu-devel@nongnu.org; Fri, 17 Dec 2021 16:48:31 -0500
-Received: from [2607:f8b0:4864:20::62c] (port=42606
- helo=mail-pl1-x62c.google.com)
+ id 1myL6v-0000C3-7d
+ for qemu-devel@nongnu.org; Fri, 17 Dec 2021 16:49:53 -0500
+Received: from [2607:f8b0:4864:20::62a] (port=36457
+ helo=mail-pl1-x62a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1myL5Y-0004vN-RZ
- for qemu-devel@nongnu.org; Fri, 17 Dec 2021 16:48:31 -0500
-Received: by mail-pl1-x62c.google.com with SMTP id u17so2954505plg.9
- for <qemu-devel@nongnu.org>; Fri, 17 Dec 2021 13:48:22 -0800 (PST)
+ id 1myL6t-0005GT-Gd
+ for qemu-devel@nongnu.org; Fri, 17 Dec 2021 16:49:52 -0500
+Received: by mail-pl1-x62a.google.com with SMTP id c6so2967607plg.3
+ for <qemu-devel@nongnu.org>; Fri, 17 Dec 2021 13:49:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:references:from:message-id:date:user-agent:mime-version
  :in-reply-to:content-language:content-transfer-encoding;
- bh=ntSXbINneTFif6rl4ghOm5qREJg5i6DIe2LOkXt5egw=;
- b=LVo9XwwPH9Sduq9SrGYTw9Uv3aHv2zlgaQoDNAx7UtemjIE+PiTnyWE1966fGJ8ESO
- eUGWyO4nFI7JcMGvgR3Zcp4ikqIInBkCgPTsfFFF98UdvjMOFrmbjJMqOacivIWbiVnw
- fkklrtDz8dyYoHQGQItCiPU70lhLq831vm8ODHJ3yBbGngvbqfllP5Q9/3NtzpR7mFac
- BcucF94aEDc15RaFUZK3Cyw6a5PxxAtY2159Zb5Me6fXGPnjp1fKQ1mgTjIUervuVDl6
- hgdJzL4DBe1CI+MXnbU6/GbZAIUqfpy2Uq7eifXAqVMDIxsHoBKNJkx4ZmEWgT/5Fe84
- yVvQ==
+ bh=CymFIEmqC3fq8arUWFfvTBPDyVcBoNJdGJVeIuWyeNw=;
+ b=CvswbRenf7Y81vPM9f9SwAN99oOBUHqyf0YvXCzkQNBPpDA/2titW1NG/H3EECJu1b
+ 5Q6FbxT359Xh+YgCnkr9PX2EXY3bKYL1GIazs2Sh5U5M9acTbJA4h0Ky5ve/l7NLGqqg
+ iVIXa7B1yWYUAUt1HOu1Lnw8T78PsDXMVWP+fVaYlJuxvVbHTtfd3E5gIm6IQBRHNAUu
+ pKt6zQVDKk73CYldf9EybE6LxHkWnI9mSo1IAvr1owqrzPcZxq5d6In7VCZ0/1BBfjV4
+ AoDoyvJsNbuDT8HybWHdGz2Kp9sXiMit7IcRMRce5QTxpAj2SpizvGDK2XHkoPCveUTM
+ HXmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=ntSXbINneTFif6rl4ghOm5qREJg5i6DIe2LOkXt5egw=;
- b=TraX2qq9N8J79IGeVMT7A5BMH2PEhJ8q9V4fxFJXGTuS3fzsdQXR5xDbc8Tiy33aZg
- OVAKxXuDSJWH5JOk1rb8Ly6on9TPu8M+oJBdfry3Xa5Fq0Pm3NCKBEfCce//gLuczz8v
- aeEyQ7O76QTLSD9c1dD5n7q73kPcxOL0TzcrGmuNlfNU4vAJuNBv+C4e7K5nNGSXm/Pp
- BxSwZHJxe7Q6feejerKb8L2V0yZ0905AF4wwUqEffhqX1iQh4QZk9FNCn3jYsu1DPHaY
- Z1MUci/eBXGFguNpozNO429ORRZTsxpfBLxFDjrj/+bt/D2Ru76CQcuAqKw4fiDSxut7
- uSBA==
-X-Gm-Message-State: AOAM531/ECpktm0GzP4gS3uAkoPS//5M+cBCzMLfh+1O4xckYHfKHw/d
- RMzc6A4Rooba+fUhKZGchzBDeGIm0iWXEQ==
-X-Google-Smtp-Source: ABdhPJwC8Fg8+8SguBHm1X6ADIU8W9Q4/+MzEX/nKHaC7IigArRtdjBg/NbciK5jwGzD0M3BrYN/4Q==
-X-Received: by 2002:a17:90b:4a43:: with SMTP id
- lb3mr6048936pjb.222.1639777701976; 
- Fri, 17 Dec 2021 13:48:21 -0800 (PST)
+ bh=CymFIEmqC3fq8arUWFfvTBPDyVcBoNJdGJVeIuWyeNw=;
+ b=f0CglKBRW8tnBjEhZOWz+ofwwl4jWXT36kQ4jKPEMtWDq+tQt4qzorJrwvtzg3Rato
+ n6judFThFwP2Jcr0T007MtLDYCEM86MgDzQBToXDIyaj9D5GTK2QFy16vil87f+jAXSK
+ rD4nPxV2MKRTTpmMvBMz8BWVMtIzBe13brTlyJchbmlEq5bsdG5N9me2O5iM+0OjLYdy
+ O4I7tv6/qVTxioXYVSdqo42phitpxzBdO6fTeKmZS0Xw/2uKOOkGaQcckaD+07t2U21B
+ 8anGFJQva0XFibnHJlA9+PmDOH1ZzqFV5KmJGkxaCOWzrAvUPh4dNO97I+ljUBJZo/EG
+ mjBA==
+X-Gm-Message-State: AOAM533OTYnWznwcTPi7LeUN4XwCG2vyUPetcLrWEJm6XijZ0avuTAQh
+ KpY/hmPo+kUKHCP2yBmcWa0GyycBnmpvwA==
+X-Google-Smtp-Source: ABdhPJz51zzklZtTf8tIFyfdiP7eqxo0bHHEGsi7zGuKnYRgePDePG3D8xI9y4Ak3fBQxO0I4/IevA==
+X-Received: by 2002:a17:902:e812:b0:148:a2e7:fb48 with SMTP id
+ u18-20020a170902e81200b00148a2e7fb48mr4942501plg.137.1639777789916; 
+ Fri, 17 Dec 2021 13:49:49 -0800 (PST)
 Received: from [192.168.1.13] (174-21-75-75.tukw.qwest.net. [174.21.75.75])
- by smtp.gmail.com with ESMTPSA id l22sm3908677pfc.167.2021.12.17.13.48.21
+ by smtp.gmail.com with ESMTPSA id pc10sm10423492pjb.9.2021.12.17.13.49.49
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 17 Dec 2021 13:48:21 -0800 (PST)
-Subject: Re: [PATCH 07/10] configure: unify x86_64 and x32
-To: Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
+ Fri, 17 Dec 2021 13:49:49 -0800 (PST)
+Subject: Re: [PATCH 08/10] meson: rename "arch" variable
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
 References: <20211216085139.99682-1-pbonzini@redhat.com>
- <20211216085139.99682-8-pbonzini@redhat.com>
- <92c807dc-8608-5afe-d4c4-04876beea4d7@redhat.com>
- <7711e8ef-a890-3732-9a7c-cb9326325319@redhat.com>
+ <20211216085139.99682-9-pbonzini@redhat.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <286a0cdd-898c-354d-82c9-3925039aea18@linaro.org>
-Date: Fri, 17 Dec 2021 13:48:20 -0800
+Message-ID: <08c3de8e-d9b7-06f9-f14a-9a6ebbebc59b@linaro.org>
+Date: Fri, 17 Dec 2021 13:49:48 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <7711e8ef-a890-3732-9a7c-cb9326325319@redhat.com>
+In-Reply-To: <20211216085139.99682-9-pbonzini@redhat.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62c
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62a
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62a.google.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
@@ -98,34 +94,16 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/16/21 7:30 AM, Paolo Bonzini wrote:
-> On 12/16/21 10:10, Philippe Mathieu-Daudé wrote:
->> On 12/16/21 09:51, Paolo Bonzini wrote:
->>> The only difference between the two, as far as either configure or
->>> Meson are concerned, is in the multilib flags passed to the compiler.
->>>
->>> For QEMU, this fixes the handling of TYPE_OLDDEVT in
->>> include/exec/user/thunk.h and enables testing of dirty ring buffer,
->>> because both are using HOST_X86_64.
->>>
->>> For tests/tcg, this means that on a hypothetical x32 host the
->>> cross compiler will not be used to build the tests.
->>
->> Why not add the cross compiler definitions to tests/tcg?
->>
->> +: ${cross_cc_x32="$cross_cc_x86_64"}
->> +: ${cross_cc_cflags_x32="-mx32"}
+On 12/16/21 12:51 AM, Paolo Bonzini wrote:
+> Avoid confusion between the ARCH variable of configure/config-host.mak
+> and the same-named variable of meson.build.
 > 
-> tests/tcg does not support building x32 tests right now, does it?
+> Signed-off-by: Paolo Bonzini<pbonzini@redhat.com>
+> ---
+>   meson.build | 12 ++++++------
+>   1 file changed, 6 insertions(+), 6 deletions(-)
 
-We don't have docker support for x32, if that's what you mean.  But if you have x32 
-libraries installed on your host, I would think it would work.
-
-
-> What I meant is that, if you're on an x32 host, tests/tcg will now build i386 and
-> x86-64 tests with the native compiler.
-And of course, those multilibs must be installed as well.
-
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 r~
 
