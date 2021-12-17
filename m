@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B46F2478E76
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Dec 2021 15:52:36 +0100 (CET)
-Received: from localhost ([::1]:52788 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45062478E55
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Dec 2021 15:47:00 +0100 (CET)
+Received: from localhost ([::1]:37260 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1myEb5-0000ER-Pn
-	for lists+qemu-devel@lfdr.de; Fri, 17 Dec 2021 09:52:35 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40290)
+	id 1myEVf-0006Jh-C2
+	for lists+qemu-devel@lfdr.de; Fri, 17 Dec 2021 09:46:59 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40320)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1myEOE-0006MB-JC
- for qemu-devel@nongnu.org; Fri, 17 Dec 2021 09:39:18 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:49923)
+ id 1myEOP-0006Xj-Dq
+ for qemu-devel@nongnu.org; Fri, 17 Dec 2021 09:39:29 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31847)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1myEOD-0007AY-3D
- for qemu-devel@nongnu.org; Fri, 17 Dec 2021 09:39:18 -0500
+ id 1myEON-0007Bt-P1
+ for qemu-devel@nongnu.org; Fri, 17 Dec 2021 09:39:29 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639751956;
+ s=mimecast20190719; t=1639751967;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Ik1aOcvACZNdTpGkn7ShOwvsQ23obbqSt5eucpHy45k=;
- b=Hn2pVV/qIHekG/KQSbNzorgADEVKrCSEvf2psGvc7FSS1UVPPIa/A2nAU55gSgqG+WQWfP
- y7G6CqlfxZtA7nu5J8HJPchIvkY5e7bTwxCFdIor5fPYcGr8Vw9aIp1wHgk2bbuPHSvHbm
- XqvqZ9ACAMfHegDsplpeAMymcIgOvVc=
+ bh=PTaK1a69TtLIDRmbIPom99p5Z8GUUHoLyoJrUB/igII=;
+ b=g9ClfIxCQVvMGrcFPF9whrkZuz9untiQgMHN7ldKUOq6/wfzQilq5mhbIOj41iYhb2QnSv
+ wgvrAzY9bWWswbq6DdnT2BAMW9ZNt0ET9MS4SQ1wcklsqCzISQ8Vb/Va6ZChWtQmvnkJBg
+ LtsYPSoNXxS+FYig9RP43GQKbIBB3BU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-619-t6LlE17uPiyEfgeDNZqOrA-1; Fri, 17 Dec 2021 09:39:08 -0500
-X-MC-Unique: t6LlE17uPiyEfgeDNZqOrA-1
+ us-mta-524-2V3w3gptOmSYEHRPbN-21w-1; Fri, 17 Dec 2021 09:39:23 -0500
+X-MC-Unique: 2V3w3gptOmSYEHRPbN-21w-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1181B85EE68;
- Fri, 17 Dec 2021 14:39:07 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E4F4685EE67;
+ Fri, 17 Dec 2021 14:39:22 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.10])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B27405E487;
- Fri, 17 Dec 2021 14:38:53 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 021DF50E11;
+ Fri, 17 Dec 2021 14:39:10 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PULL 05/36] ui/clipboard: add qemu_clipboard_check_serial()
-Date: Fri, 17 Dec 2021 18:37:25 +0400
-Message-Id: <20211217143756.1831099-6-marcandre.lureau@redhat.com>
+Subject: [PULL 06/36] ui/clipboard: add a clipboard reset serial event
+Date: Fri, 17 Dec 2021 18:37:26 +0400
+Message-Id: <20211217143756.1831099-7-marcandre.lureau@redhat.com>
 In-Reply-To: <20211217143756.1831099-1-marcandre.lureau@redhat.com>
 References: <20211217143756.1831099-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
@@ -58,7 +58,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124;
+Received-SPF: pass client-ip=170.10.133.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
@@ -90,57 +90,136 @@ From: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Acked-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- include/ui/clipboard.h | 10 ++++++++++
- ui/clipboard.c         | 15 +++++++++++++++
- 2 files changed, 25 insertions(+)
+ include/ui/clipboard.h |  9 +++++++++
+ ui/clipboard.c         |  7 +++++++
+ ui/gtk-clipboard.c     |  3 +++
+ ui/vdagent.c           | 12 ++++++++++++
+ ui/vnc-clipboard.c     |  3 +++
+ ui/cocoa.m             |  3 +++
+ 6 files changed, 37 insertions(+)
 
 diff --git a/include/ui/clipboard.h b/include/ui/clipboard.h
-index e590b453c8b7..2c6488c1eec8 100644
+index 2c6488c1eec8..ce76aa451f64 100644
 --- a/include/ui/clipboard.h
 +++ b/include/ui/clipboard.h
-@@ -172,6 +172,16 @@ void qemu_clipboard_peer_release(QemuClipboardPeer *peer,
+@@ -73,11 +73,13 @@ struct QemuClipboardPeer {
+  * enum QemuClipboardNotifyType
+  *
+  * @QEMU_CLIPBOARD_UPDATE_INFO: clipboard info update
++ * @QEMU_CLIPBOARD_RESET_SERIAL: reset clipboard serial
+  *
+  * Clipboard notify type.
   */
- QemuClipboardInfo *qemu_clipboard_info(QemuClipboardSelection selection);
+ enum QemuClipboardNotifyType {
+     QEMU_CLIPBOARD_UPDATE_INFO,
++    QEMU_CLIPBOARD_RESET_SERIAL,
+ };
+ 
+ /**
+@@ -230,6 +232,13 @@ void qemu_clipboard_info_unref(QemuClipboardInfo *info);
+  */
+ void qemu_clipboard_update(QemuClipboardInfo *info);
  
 +/**
-+ * qemu_clipboard_check_serial
++ * qemu_clipboard_reset_serial
 + *
-+ * @info: clipboard info.
-+ * @client: whether to check from the client context and priority.
-+ *
-+ * Return TRUE if the @info has a higher serial than the current clipboard.
++ * Reset the clipboard serial.
 + */
-+bool qemu_clipboard_check_serial(QemuClipboardInfo *info, bool client);
++void qemu_clipboard_reset_serial(void);
 +
  /**
-  * qemu_clipboard_info_new
+  * qemu_clipboard_request
   *
 diff --git a/ui/clipboard.c b/ui/clipboard.c
-index 743b39edf424..ffbd80e5c60e 100644
+index ffbd80e5c60e..82572ea1169b 100644
 --- a/ui/clipboard.c
 +++ b/ui/clipboard.c
-@@ -41,6 +41,21 @@ void qemu_clipboard_peer_release(QemuClipboardPeer *peer,
+@@ -129,6 +129,13 @@ void qemu_clipboard_request(QemuClipboardInfo *info,
+     info->owner->request(info, type);
+ }
+ 
++void qemu_clipboard_reset_serial(void)
++{
++    QemuClipboardNotify notify = { .type = QEMU_CLIPBOARD_RESET_SERIAL };
++
++    notifier_list_notify(&clipboard_notifiers, &notify);
++}
++
+ void qemu_clipboard_set_data(QemuClipboardPeer *peer,
+                              QemuClipboardInfo *info,
+                              QemuClipboardType type,
+diff --git a/ui/gtk-clipboard.c b/ui/gtk-clipboard.c
+index 44ff810234ff..e0b8b283fef8 100644
+--- a/ui/gtk-clipboard.c
++++ b/ui/gtk-clipboard.c
+@@ -127,6 +127,9 @@ static void gd_clipboard_notify(Notifier *notifier, void *data)
+     case QEMU_CLIPBOARD_UPDATE_INFO:
+         gd_clipboard_update_info(gd, notify->info);
+         return;
++    case QEMU_CLIPBOARD_RESET_SERIAL:
++        /* ignore */
++        return;
      }
  }
  
-+bool qemu_clipboard_check_serial(QemuClipboardInfo *info, bool client)
+diff --git a/ui/vdagent.c b/ui/vdagent.c
+index b4fdae69177f..7ea4bc5d9a26 100644
+--- a/ui/vdagent.c
++++ b/ui/vdagent.c
+@@ -466,6 +466,15 @@ static void vdagent_clipboard_update_info(VDAgentChardev *vd,
+     }
+ }
+ 
++static void vdagent_clipboard_reset_serial(VDAgentChardev *vd)
 +{
-+    if (!info->has_serial ||
-+        !cbinfo[info->selection] ||
-+        !cbinfo[info->selection]->has_serial) {
-+        return true;
-+    }
++    Chardev *chr = CHARDEV(vd);
 +
-+    if (client) {
-+        return cbinfo[info->selection]->serial >= info->serial;
-+    } else {
-+        return cbinfo[info->selection]->serial > info->serial;
-+    }
++    /* reopen the agent connection to reset the serial state */
++    qemu_chr_be_event(chr, CHR_EVENT_CLOSED);
++    qemu_chr_be_event(chr, CHR_EVENT_OPENED);
 +}
 +
- void qemu_clipboard_update(QemuClipboardInfo *info)
+ static void vdagent_clipboard_notify(Notifier *notifier, void *data)
  {
-     QemuClipboardNotify notify = {
+     VDAgentChardev *vd =
+@@ -476,6 +485,9 @@ static void vdagent_clipboard_notify(Notifier *notifier, void *data)
+     case QEMU_CLIPBOARD_UPDATE_INFO:
+         vdagent_clipboard_update_info(vd, notify->info);
+         return;
++    case QEMU_CLIPBOARD_RESET_SERIAL:
++        vdagent_clipboard_reset_serial(vd);
++        return;
+     }
+ }
+ 
+diff --git a/ui/vnc-clipboard.c b/ui/vnc-clipboard.c
+index 6a0b1058840e..d48f75eb1ab4 100644
+--- a/ui/vnc-clipboard.c
++++ b/ui/vnc-clipboard.c
+@@ -230,6 +230,9 @@ static void vnc_clipboard_notify(Notifier *notifier, void *data)
+     case QEMU_CLIPBOARD_UPDATE_INFO:
+         vnc_clipboard_update_info(vs, notify->info);
+         return;
++    case QEMU_CLIPBOARD_RESET_SERIAL:
++        /* ignore */
++        return;
+     }
+ }
+ 
+diff --git a/ui/cocoa.m b/ui/cocoa.m
+index 6745e3fc8ca4..69b6c07d5386 100644
+--- a/ui/cocoa.m
++++ b/ui/cocoa.m
+@@ -1837,6 +1837,9 @@ static void cocoa_clipboard_notify(Notifier *notifier, void *data)
+     case QEMU_CLIPBOARD_UPDATE_INFO:
+         cocoa_clipboard_update_info(notify->info);
+         return;
++    case QEMU_CLIPBOARD_RESET_SERIAL:
++        /* ignore */
++        return;
+     }
+ }
+ 
 -- 
 2.34.1.8.g35151cf07204
 
