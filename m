@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86E78478D07
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Dec 2021 15:06:17 +0100 (CET)
-Received: from localhost ([::1]:46050 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DC29478CD7
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Dec 2021 14:53:52 +0100 (CET)
+Received: from localhost ([::1]:48252 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1myDsG-0005Wm-3Z
-	for lists+qemu-devel@lfdr.de; Fri, 17 Dec 2021 09:06:16 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54112)
+	id 1myDgF-0004cV-Hk
+	for lists+qemu-devel@lfdr.de; Fri, 17 Dec 2021 08:53:51 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54144)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1myDZj-0005kp-LG
- for qemu-devel@nongnu.org; Fri, 17 Dec 2021 08:47:09 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:41972)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1myDZm-0005me-Gx
+ for qemu-devel@nongnu.org; Fri, 17 Dec 2021 08:47:11 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25804)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1myDZi-0008ME-0b
- for qemu-devel@nongnu.org; Fri, 17 Dec 2021 08:47:07 -0500
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1myDZl-0008N8-2Y
+ for qemu-devel@nongnu.org; Fri, 17 Dec 2021 08:47:10 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639748825;
+ s=mimecast20190719; t=1639748828;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=hFc7fj3ByAzhOQCUJkIyjkyCsudyMWMEgKTKmRh5kWM=;
- b=KWfYU1gmvW8RNQSR61odK0nqm47oGqpNBA+2zRu3TtLW/TDEqDmkRMnN1NfazvLD6FJ2nj
- lNSDrDp4Ktl7rGYi6jdhvIKT+mCIWYcpMYfWkMlUBbOJLmhns25LVLQCB4lYfPApJrPP2N
- HXJzwMJonlRyeTIIFdmZg5ocMuI+IbM=
+ bh=kzq1+LNic1KF/MEspKD0a9iTSfwrsblw57W1b4UDQ9Y=;
+ b=TWJ2R+okuu2JmMfiklW7so54zFgLsdFfHCjGCGaQnRxQYLwPGa6azAEUlxR8DRCaUudP4t
+ +9BdxZ37yvsrmPbUnel7EUxNnUhUUPaZzOC7zo5mYwHfg5+SbZWj7KXXCoUxW+ONR8YqvO
+ 1cpe+oV9RZlIF7plspr1LdGvX2GATLA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-671-6QTiFyijNquUO8alX_H_NQ-1; Fri, 17 Dec 2021 08:47:02 -0500
-X-MC-Unique: 6QTiFyijNquUO8alX_H_NQ-1
+ us-mta-194-jMIdMK2mMreKWTJqrRMm6w-1; Fri, 17 Dec 2021 08:47:05 -0500
+X-MC-Unique: jMIdMK2mMreKWTJqrRMm6w-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3E5161015DA4;
- Fri, 17 Dec 2021 13:47:01 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8220D801962;
+ Fri, 17 Dec 2021 13:47:04 +0000 (UTC)
 Received: from t480s.redhat.com (unknown [10.39.193.204])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0CF465E482;
- Fri, 17 Dec 2021 13:46:46 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 936345E482;
+ Fri, 17 Dec 2021 13:47:01 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 4/8] util/oslib-posix: Don't create too many threads with
- small memory or little pages
-Date: Fri, 17 Dec 2021 14:46:07 +0100
-Message-Id: <20211217134611.31172-5-david@redhat.com>
+Subject: [PATCH v2 5/8] util/oslib-posix: Avoid creating a single thread with
+ MADV_POPULATE_WRITE
+Date: Fri, 17 Dec 2021 14:46:08 +0100
+Message-Id: <20211217134611.31172-6-david@redhat.com>
 In-Reply-To: <20211217134611.31172-1-david@redhat.com>
 References: <20211217134611.31172-1-david@redhat.com>
 MIME-Version: 1.0
@@ -57,7 +57,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -91,63 +91,36 @@ Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>, Gavin Shan <gshan@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Let's limit the number of threads to something sane, especially that
-- We don't have more threads than the number of pages we have
-- We don't have threads that initialize small (< 64 MiB) memory
+Let's simplify the case when we only want a single thread and don't have
+to mess with signal handlers.
 
 Reviewed-by: Pankaj Gupta <pankaj.gupta@ionos.com>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 Reviewed-by: Michal Privoznik <mprivozn@redhat.com>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- util/oslib-posix.c | 12 ++++++++++--
- 1 file changed, 10 insertions(+), 2 deletions(-)
+ util/oslib-posix.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
 diff --git a/util/oslib-posix.c b/util/oslib-posix.c
-index cf2ead54ad..67c08a425e 100644
+index 67c08a425e..efa4f96d56 100644
 --- a/util/oslib-posix.c
 +++ b/util/oslib-posix.c
-@@ -40,6 +40,7 @@
- #include <libgen.h>
- #include "qemu/cutils.h"
- #include "qemu/compiler.h"
-+#include "qemu/units.h"
- 
- #ifdef CONFIG_LINUX
- #include <sys/syscall.h>
-@@ -525,7 +526,8 @@ static void *do_madv_populate_write_pages(void *arg)
-     return (void *)(uintptr_t)ret;
- }
- 
--static inline int get_memset_num_threads(int smp_cpus)
-+static inline int get_memset_num_threads(size_t hpagesize, size_t numpages,
-+                                         int smp_cpus)
- {
-     long host_procs = sysconf(_SC_NPROCESSORS_ONLN);
-     int ret = 1;
-@@ -533,6 +535,12 @@ static inline int get_memset_num_threads(int smp_cpus)
-     if (host_procs > 0) {
-         ret = MIN(MIN(host_procs, MAX_MEM_PREALLOC_THREAD_COUNT), smp_cpus);
+@@ -564,6 +564,14 @@ static int touch_all_pages(char *area, size_t hpagesize, size_t numpages,
      }
-+
-+    /* Especially with gigantic pages, don't create more threads than pages. */
-+    ret = MIN(ret, numpages);
-+    /* Don't start threads to prealloc comparatively little memory. */
-+    ret = MIN(ret, MAX(1, hpagesize * numpages / (64 * MiB)));
-+
-     /* In case sysconf() fails, we fall back to single threaded */
-     return ret;
- }
-@@ -542,7 +550,7 @@ static int touch_all_pages(char *area, size_t hpagesize, size_t numpages,
- {
-     static gsize initialized = 0;
-     MemsetContext context = {
--        .num_threads = get_memset_num_threads(smp_cpus),
-+        .num_threads = get_memset_num_threads(hpagesize, numpages, smp_cpus),
-     };
-     size_t numpages_per_thread, leftover;
-     void *(*touch_fn)(void *);
+ 
+     if (use_madv_populate_write) {
++        /* Avoid creating a single thread for MADV_POPULATE_WRITE */
++        if (context.num_threads == 1) {
++            if (qemu_madvise(area, hpagesize * numpages,
++                             QEMU_MADV_POPULATE_WRITE)) {
++                return -errno;
++            }
++            return 0;
++        }
+         touch_fn = do_madv_populate_write_pages;
+     } else {
+         touch_fn = do_touch_pages;
 -- 
 2.31.1
 
