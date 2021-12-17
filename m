@@ -2,94 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 853C04786E2
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Dec 2021 10:17:06 +0100 (CET)
-Received: from localhost ([::1]:46448 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 696054786EA
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Dec 2021 10:19:56 +0100 (CET)
+Received: from localhost ([::1]:52112 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1my9MP-0007w1-MX
-	for lists+qemu-devel@lfdr.de; Fri, 17 Dec 2021 04:17:05 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50190)
+	id 1my9P9-0003HR-IT
+	for lists+qemu-devel@lfdr.de; Fri, 17 Dec 2021 04:19:55 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50838)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1my9K1-0005e5-VS
- for qemu-devel@nongnu.org; Fri, 17 Dec 2021 04:14:37 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:59500)
+ (Exim 4.90_1) (envelope-from <borntraeger@linux.ibm.com>)
+ id 1my9NS-0001sX-5L; Fri, 17 Dec 2021 04:18:10 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:50174)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1my9Jy-0006sM-HN
- for qemu-devel@nongnu.org; Fri, 17 Dec 2021 04:14:35 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639732473;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=RsDj6nTc+4l4ojG7cyEuQ3smAn2DL2n3PJQtzyJm4HQ=;
- b=V1o1XuxMUhyRXIknRTrClNHTtrMwpcoA3tuHdfw2J6BbHQnK5viVSeo1cSplBm+++b5okB
- kJVCmfVYhApWJZUrvLcwlMpHDxOhd63J5OTNMDd9W3C1bqs8yVJBdRNxmguExNAiyVZhRR
- CXkoVI76kgLfBa7elaVqR/y8o66PGBU=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-169-AycGpL9fMXu-MeautnkUTA-1; Fri, 17 Dec 2021 04:13:28 -0500
-X-MC-Unique: AycGpL9fMXu-MeautnkUTA-1
-Received: by mail-ed1-f69.google.com with SMTP id
- eg23-20020a056402289700b003f80a27ca2bso1362494edb.14
- for <qemu-devel@nongnu.org>; Fri, 17 Dec 2021 01:13:28 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:from:to:cc:references:in-reply-to
- :content-transfer-encoding;
- bh=RsDj6nTc+4l4ojG7cyEuQ3smAn2DL2n3PJQtzyJm4HQ=;
- b=YVUGEU/ilej+2AaoxcIcIcdDrdR/Tt396Uj7WfS3c2u3N8pFv9TnXPrB8CQ4k899JQ
- UDJzPNO/y4dVs+/J4ZMN2F4EwQSm93URtvY/yiehtUzTjdgAML9t8Z+pNWjmsukF0X//
- 5cwui5vdOdarlHMKLbYAC2HGm0c0E2pWb9DVsI2GYyrKuhBiTcEdeCSXJ8rGZ93FFGaj
- eR9W32jWQ6L6gt+8Q0Cavzr0kWb+xVgKS/Zf4wR6aSWIhKbADdTNs49Wis5LfKiUQm2v
- sp3sgAA1qCYwjlXY6PK9emvLlKdwvGGPmqJUDNGNgx4gUtRyH4F3xoB4VcEUklME4vTq
- oy/A==
-X-Gm-Message-State: AOAM531D8ejfkr4+Lx7IcnFOHw6e+P2s2QGcl2LvSDGLvYeGaoNPYUtZ
- g1fqH5jnH3brU5c4DsqbPsKntCZRHNXXd1Ia4uWiZUsDsEwY4I/4Y/2x7jR0nAud0TlYWv0zwyc
- aBCVMk1tFmKxzhitbuyFs94NHMYF8rPU7M9BC//P1gq9V2FDjYki+DCLxp8InZp56fV0=
-X-Received: by 2002:a17:907:9713:: with SMTP id
- jg19mr1866545ejc.262.1639732407163; 
- Fri, 17 Dec 2021 01:13:27 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwN+f9H/zf2tvmKiNrPSwoUzJrFAYWxSufy/5LtokEXHnCykegub7FCxTZATmd296d+yp/Okg==
-X-Received: by 2002:a17:907:9713:: with SMTP id
- jg19mr1866520ejc.262.1639732406731; 
- Fri, 17 Dec 2021 01:13:26 -0800 (PST)
-Received: from ?IPV6:2001:b07:add:ec09:c399:bc87:7b6c:fb2a?
- ([2001:b07:add:ec09:c399:bc87:7b6c:fb2a])
- by smtp.googlemail.com with ESMTPSA id o13sm2661440ejy.192.2021.12.17.01.13.25
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 17 Dec 2021 01:13:26 -0800 (PST)
-Message-ID: <ff8ce273-30d4-2895-f374-87fcbee2e612@redhat.com>
-Date: Fri, 17 Dec 2021 10:13:25 +0100
+ (Exim 4.90_1) (envelope-from <borntraeger@linux.ibm.com>)
+ id 1my9NQ-0000jJ-CL; Fri, 17 Dec 2021 04:18:09 -0500
+Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1BH71erF017663; 
+ Fri, 17 Dec 2021 09:18:03 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=fsgDETjS/+KdERY05SY1CvdLmE3+2/3B0+czWa/5t/w=;
+ b=JLnE5N+mBfZB+ad14JitJdPSPAnoERpA/vBBkFPK5RLIEM+8fJLfnfrj6j1cP78xftP9
+ TkP8qccUnt4W7OO7NFVKydEGyE1WwXCMRYUc3T75qiaNV6bb1ECLeRjI7rkidCad4a5f
+ om4pULcs7oNllaiCr73/X0aV3qhFBvOwyDXhN42eIjaJriJRfQDOnZrgUeZyQ1Z7ttMP
+ jmIkb5C4vUun79A4/p3P8RraKBEcCqlR/XPs8Ub2oJ2GuD3ILim5V8XJ7w5pkGMy0cwF
+ vvi5IdZv1FyfD45Hs+Mt/RzO9yQV92sJsjm1tq6IzYNwyyTT3dC5326u2zTszFiQ/DAq 6g== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3cynfx2x7s-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 17 Dec 2021 09:18:03 +0000
+Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1BH9Gtlo019150;
+ Fri, 17 Dec 2021 09:18:03 GMT
+Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.108])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3cynfx2x6g-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 17 Dec 2021 09:18:02 +0000
+Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
+ by ppma05fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1BH96qlf015988;
+ Fri, 17 Dec 2021 09:18:00 GMT
+Received: from b06avi18626390.portsmouth.uk.ibm.com
+ (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
+ by ppma05fra.de.ibm.com with ESMTP id 3cy78hpprd-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 17 Dec 2021 09:18:00 +0000
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com
+ (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
+ by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 1BH99r9T44171764
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 17 Dec 2021 09:09:53 GMT
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id D9CDCA4060;
+ Fri, 17 Dec 2021 09:17:56 +0000 (GMT)
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 2BCDDA4054;
+ Fri, 17 Dec 2021 09:17:56 +0000 (GMT)
+Received: from [9.171.60.51] (unknown [9.171.60.51])
+ by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Fri, 17 Dec 2021 09:17:56 +0000 (GMT)
+Message-ID: <9170c198-d5da-1d41-c1d1-81a0e3a8e634@linux.ibm.com>
+Date: Fri, 17 Dec 2021 10:17:55 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH] thunk: do not use HOST_* defines
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-References: <20211216100527.103021-1-pbonzini@redhat.com>
-In-Reply-To: <20211216100527.103021-1-pbonzini@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+ Thunderbird/91.3.0
+Subject: Re: [PATCH 00/12] s390x/pci: zPCI interpretation support
 Content-Language: en-US
+To: Matthew Rosato <mjrosato@linux.ibm.com>,
+ Pierre Morel <pmorel@linux.ibm.com>, qemu-s390x@nongnu.org
+References: <20211207210425.150923-1-mjrosato@linux.ibm.com>
+ <e1ba4cce-d6b9-bc86-9999-dc135046129d@linux.ibm.com>
+ <6103b709-f29d-16f2-7fe6-f9a25dd85b89@linux.ibm.com>
+From: Christian Borntraeger <borntraeger@linux.ibm.com>
+In-Reply-To: <6103b709-f29d-16f2-7fe6-f9a25dd85b89@linux.ibm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -51
-X-Spam_score: -5.2
-X-Spam_bar: -----
-X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.718,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.716, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: KtpZLSHHFDzVR5vn_e1ooCdKyH-QEW2y
+X-Proofpoint-ORIG-GUID: wuj4l0OYeTFV_gAr13E-x2bVQEvvEFPc
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2021-12-17_03,2021-12-16_01,2021-12-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 mlxscore=0
+ lowpriorityscore=0 phishscore=0 adultscore=0 spamscore=0
+ priorityscore=1501 bulkscore=0 mlxlogscore=999 malwarescore=0
+ suspectscore=0 impostorscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2110150000 definitions=main-2112170051
+Received-SPF: pass client-ip=148.163.156.1;
+ envelope-from=borntraeger@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -36
+X-Spam_score: -3.7
+X-Spam_bar: ---
+X-Spam_report: (-3.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.716,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -103,55 +114,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com
+Cc: farman@linux.ibm.com, kvm@vger.kernel.org, schnelle@linux.ibm.com,
+ cohuck@redhat.com, richard.henderson@linaro.org, thuth@redhat.com,
+ qemu-devel@nongnu.org, pasic@linux.ibm.com, alex.williamson@redhat.com,
+ mst@redhat.com, pbonzini@redhat.com, david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/16/21 11:05, Paolo Bonzini wrote:
-> Just use sizeof, avoiding the need to write down all the ABIs twice.
-> 
-> Cc: Laurent Vivier <lvivier@redhat.com>
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 
-This breaks bsd-user, I'll resend when "[PATCH v7 00/15] linux-user: 
-simplify safe signal handling" is in.
 
-Paolo
+Am 15.12.21 um 16:53 schrieb Matthew Rosato:
+> On 12/15/21 2:35 AM, Pierre Morel wrote:
+>>
+>>
+>> On 12/7/21 22:04, Matthew Rosato wrote:
+>>> Note:  The first 3 patches of this series are included as pre-reqs, but
+>>> should be pulled via a separate series.  Also, patch 5 is needed to
+>>> support 5.16+ linux header-sync and was already done by Paolo but not
+>>> merged yet so is thus included here as well.
+>>>
+>>> For QEMU, the majority of the work in enabling instruction interpretation
+>>> is handled via new VFIO ioctls to SET the appropriate interpretation and
+>>> interrupt forwarding modes, and to GET the function handle to use for
+>>> interpretive execution.
+>>>
+>>> This series implements these new ioctls, as well as adding a new, optional
+>>> 'intercept' parameter to zpci to request interpretation support not be used
+>>> as well as an 'intassist' parameter to determine whether or not the
+>>> firmware assist will be used for interrupt delivery or whether the host
+>>> will be responsible for delivering all interrupts.
+>>
+>> In which circumstances do we have an added value by not using interrupt delivered by firmware?
+>>
+> 
+> Disabling it can be a tool to debug and assist in problem determination, but that's about the only scenario I can think of where you would intentionally want to disable intassist.  Perhaps then it's not worth leaving in place.
 
-> ---
->   include/exec/user/thunk.h | 12 ++----------
->   1 file changed, 2 insertions(+), 10 deletions(-)
-> 
-> diff --git a/include/exec/user/thunk.h b/include/exec/user/thunk.h
-> index 300a840d58..c50ba17317 100644
-> --- a/include/exec/user/thunk.h
-> +++ b/include/exec/user/thunk.h
-> @@ -22,6 +22,7 @@
->   
->   #include "cpu.h"
->   #include "exec/user/abitypes.h"
-> +#include <asm/posix_types.h>
->   
->   /* types enums definitions */
->   
-> @@ -109,16 +110,7 @@ static inline int thunk_type_size(const argtype *type_ptr, int is_host)
->           break;
->       case TYPE_OLDDEVT:
->           if (is_host) {
-> -#if defined(HOST_X86_64)
-> -            return 8;
-> -#elif defined(HOST_ALPHA) || defined(HOST_IA64) || defined(HOST_MIPS) || \
-> -      defined(HOST_PARISC) || defined(HOST_SPARC64)
-> -            return 4;
-> -#elif defined(HOST_PPC)
-> -            return sizeof(void *);
-> -#else
-> -            return 2;
-> -#endif
-> +            return sizeof(__kernel_old_dev_t);
->           } else {
->   #if defined(TARGET_X86_64)
->               return 8;
-> 
+I would leave it in in case we run into problems. Things like the nomio parameter for the kernel have proven to be useful.
 
 
