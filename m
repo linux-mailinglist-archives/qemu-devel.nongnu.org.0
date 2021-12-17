@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FF07478F62
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Dec 2021 16:21:10 +0100 (CET)
-Received: from localhost ([::1]:39444 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 495E3478F57
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Dec 2021 16:17:29 +0100 (CET)
+Received: from localhost ([::1]:58612 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1myF2j-0007UQ-Bk
-	for lists+qemu-devel@lfdr.de; Fri, 17 Dec 2021 10:21:09 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42142)
+	id 1myEz9-0001Ng-TH
+	for lists+qemu-devel@lfdr.de; Fri, 17 Dec 2021 10:17:27 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42168)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1myEUd-0007SB-4g
- for qemu-devel@nongnu.org; Fri, 17 Dec 2021 09:45:55 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43308)
+ id 1myEUz-0007nM-Id
+ for qemu-devel@nongnu.org; Fri, 17 Dec 2021 09:46:22 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56730)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1myEUb-0002qm-J7
- for qemu-devel@nongnu.org; Fri, 17 Dec 2021 09:45:54 -0500
+ id 1myEUx-000305-La
+ for qemu-devel@nongnu.org; Fri, 17 Dec 2021 09:46:16 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639752353;
+ s=mimecast20190719; t=1639752375;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/I9K6kD8hofZ3E5tucSZC0k9jpSA/jYzjNFhe+WbYHs=;
- b=Q9N+pupiuX17hrjjvnu0i/FtSgNZ7GEQrvO7LSDIPHViSDGjQNjiXI6YoIr1xiD7ht6SR3
- KRHVOhbBqZZFU7Tdwra6e/osMsln57jNJedpTT7fYQpBeG/U+wBAV4oPC3PhUutYrS/nMa
- Ui0twFKYwl4CVWA5Eja1/lKeQRZK+KU=
+ bh=awJ2n4cyrUOej0DYMrmyz63id18O91nsw+yeiU0fVw8=;
+ b=a+ouDhENM23eRrspCGiDhWZGTyqNK4kVIHpMhTwi55FcJS41SHKMvSGA2ZJy8aiql07Lzl
+ 7f2sO9euftgJNYijM7mFzTrBUW5aZAdQAiSi55WoSav0wYSgds6w6baOuDHLnJB93KMmda
+ NpPveJi6UIMipYP6feMdjAZ7T3K5s+g=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-454-IRwTR05oNW6fJqdGY4mOAw-1; Fri, 17 Dec 2021 09:45:47 -0500
-X-MC-Unique: IRwTR05oNW6fJqdGY4mOAw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-642-c27VkRcsOq2Md6bLygmLyA-1; Fri, 17 Dec 2021 09:46:01 -0500
+X-MC-Unique: c27VkRcsOq2Md6bLygmLyA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B7435344DD;
- Fri, 17 Dec 2021 14:45:46 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ED44A1927800;
+ Fri, 17 Dec 2021 14:46:00 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.10])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 516525E493;
- Fri, 17 Dec 2021 14:45:13 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 868437B015;
+ Fri, 17 Dec 2021 14:45:50 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PULL 35/36] ui/dbus: register D-Bus VC handler
-Date: Fri, 17 Dec 2021 18:37:55 +0400
-Message-Id: <20211217143756.1831099-36-marcandre.lureau@redhat.com>
+Subject: [PULL 36/36] MAINTAINERS: update D-Bus section
+Date: Fri, 17 Dec 2021 18:37:56 +0400
+Message-Id: <20211217143756.1831099-37-marcandre.lureau@redhat.com>
 In-Reply-To: <20211217143756.1831099-1-marcandre.lureau@redhat.com>
 References: <20211217143756.1831099-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -87,85 +87,35 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Export the default consoles over the D-Bus chardev.
-
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Acked-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- ui/dbus.c | 53 +++++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 53 insertions(+)
+ MAINTAINERS | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
 
-diff --git a/ui/dbus.c b/ui/dbus.c
-index 41f1716f255a..b2c1c9fb522c 100644
---- a/ui/dbus.c
-+++ b/ui/dbus.c
-@@ -357,6 +357,57 @@ dbus_display_class_init(ObjectClass *oc, void *data)
-                                    get_gl_mode, set_gl_mode);
- }
+diff --git a/MAINTAINERS b/MAINTAINERS
+index fbd6d0b174af..7ef72fc7cc21 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2873,11 +2873,15 @@ D-Bus
+ M: Marc-André Lureau <marcandre.lureau@redhat.com>
+ S: Maintained
+ F: backends/dbus-vmstate.c
+-F: tests/dbus-vmstate*
++F: ui/dbus*
++F: audio/dbus*
+ F: util/dbus.c
++F: include/ui/dbus*
+ F: include/qemu/dbus.h
+-F: docs/interop/dbus.rst
+-F: docs/interop/dbus-vmstate.rst
++F: docs/interop/dbus*
++F: docs/sphinx/dbus*
++F: docs/sphinx/fakedbusdoc.py
++F: tests/qtest/dbus*
  
-+#define TYPE_CHARDEV_VC "chardev-vc"
-+
-+typedef struct DBusVCClass {
-+    DBusChardevClass parent_class;
-+
-+    void (*parent_parse)(QemuOpts *opts, ChardevBackend *b, Error **errp);
-+} DBusVCClass;
-+
-+DECLARE_CLASS_CHECKERS(DBusVCClass, DBUS_VC,
-+                       TYPE_CHARDEV_VC)
-+
-+static void
-+dbus_vc_parse(QemuOpts *opts, ChardevBackend *backend,
-+              Error **errp)
-+{
-+    DBusVCClass *klass = DBUS_VC_CLASS(object_class_by_name(TYPE_CHARDEV_VC));
-+    const char *name = qemu_opt_get(opts, "name");
-+    const char *id = qemu_opts_id(opts);
-+
-+    if (name == NULL) {
-+        if (g_str_has_prefix(id, "compat_monitor")) {
-+            name = "org.qemu.monitor.hmp.0";
-+        } else if (g_str_has_prefix(id, "serial")) {
-+            name = "org.qemu.console.serial.0";
-+        } else {
-+            name = "";
-+        }
-+        if (!qemu_opt_set(opts, "name", name, errp)) {
-+            return;
-+        }
-+    }
-+
-+    klass->parent_parse(opts, backend, errp);
-+}
-+
-+static void
-+dbus_vc_class_init(ObjectClass *oc, void *data)
-+{
-+    DBusVCClass *klass = DBUS_VC_CLASS(oc);
-+    ChardevClass *cc = CHARDEV_CLASS(oc);
-+
-+    klass->parent_parse = cc->parse;
-+    cc->parse = dbus_vc_parse;
-+}
-+
-+static const TypeInfo dbus_vc_type_info = {
-+    .name = TYPE_CHARDEV_VC,
-+    .parent = TYPE_CHARDEV_DBUS,
-+    .class_init = dbus_vc_class_init,
-+};
-+
- static void
- early_dbus_init(DisplayOptions *opts)
- {
-@@ -370,6 +421,8 @@ early_dbus_init(DisplayOptions *opts)
- 
-         display_opengl = 1;
-     }
-+
-+    type_register(&dbus_vc_type_info);
- }
- 
- static void
+ Seccomp
+ M: Eduardo Otubo <otubo@redhat.com>
 -- 
 2.34.1.8.g35151cf07204
 
