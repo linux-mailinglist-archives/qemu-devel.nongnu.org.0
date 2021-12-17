@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7792F479550
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Dec 2021 21:15:04 +0100 (CET)
-Received: from localhost ([::1]:60144 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C591D479544
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Dec 2021 21:12:44 +0100 (CET)
+Received: from localhost ([::1]:53440 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1myJd9-0005X1-Jj
-	for lists+qemu-devel@lfdr.de; Fri, 17 Dec 2021 15:15:03 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39956)
+	id 1myJat-0000s3-Ub
+	for lists+qemu-devel@lfdr.de; Fri, 17 Dec 2021 15:12:43 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39978)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1myJYh-0005po-SZ; Fri, 17 Dec 2021 15:10:27 -0500
-Received: from mout.kundenserver.de ([212.227.126.131]:59525)
+ id 1myJYi-0005rb-LP; Fri, 17 Dec 2021 15:10:28 -0500
+Received: from mout.kundenserver.de ([212.227.126.133]:42525)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1myJYg-0001IJ-CF; Fri, 17 Dec 2021 15:10:27 -0500
+ id 1myJYh-0001Ii-0u; Fri, 17 Dec 2021 15:10:28 -0500
 Received: from quad ([82.142.30.186]) by mrelayeu.kundenserver.de (mreue011
- [212.227.15.167]) with ESMTPSA (Nemesis) id 1McXs5-1mLwSu386H-00cufE; Fri, 17
- Dec 2021 21:10:21 +0100
+ [212.227.15.167]) with ESMTPSA (Nemesis) id 1MD9jV-1mpky72CfJ-0097k8; Fri, 17
+ Dec 2021 21:10:22 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 2/9] target/i386/kvm: Replace use of __u32 type
-Date: Fri, 17 Dec 2021 21:10:12 +0100
-Message-Id: <20211217201019.1652798-3-laurent@vivier.eu>
+Subject: [PULL 3/9] qemu-keymap: Add license in generated files
+Date: Fri, 17 Dec 2021 21:10:13 +0100
+Message-Id: <20211217201019.1652798-4-laurent@vivier.eu>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211217201019.1652798-1-laurent@vivier.eu>
 References: <20211217201019.1652798-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:fyWsljQuV2ckBBMTcxXIz+WOj/dSSWgGibWMtCyplCIyCga1TSe
- ZgHMLnB+W4739oebK3R7hlPKweuB58jzdNHL9grO4bCqQMr9p9Nfcz3TmOOyuK6pN1YTY1L
- sDXVsyIMissdM0oZant+gJ3GKAFOONnZHA59Ho09UY9r4yqZtOye/2t+DPD0onS606kj7Yb
- /UzB2zHGyY12ZYNYI4CpQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:hEQm1re27Go=:AgqnFOhiEqEGMED4hGi4sr
- 9xTtFyXMDCzqx3DzRiWG4Aspp9KajXXzY76S81oRaJt50BHR15lUhArk8SncwT1pqeR1hc7pO
- GeLxIyJ7aV5n49CyEgi32kwMlWxptFPudzz9kaQj7kemz5uSicitZHtdgmq2j/VdtZORmAHkk
- ZDQdF3Uj4ceYms6xikYHCU2XbTsnUPfys6nxFX4sbWD0SZ72g08RDUkahiEYu19euxQTVMrzw
- kPCWkM7mX4gbJaFEnl7s3U3w3G1f7gUP9kMl+hdZAHsE46XNTbxF9PWLbKPUBwAqMRYucmPUk
- i9rAOdown8g3otD4hSEXDNVIudtfWrLgsWLIVO+OenKrEsd4gTevhw/9pG3vA/cefgheBCbe1
- StvMK/cKYZ+OyrVN27sEYQLKeWyDpdJ+2SG67RtT5kaKucSmAr7qctO8dqD/9216BkPWIW27F
- xR2/FAaUa2ed6/R2kdFd8Md78vCgd6W/JbIjsWBgUzr3x9cRmYyZaiigz2sqdIxfI1UXM4K6A
- VWOct/CHrdaV3KjpINCFkx98fo31pWHGgmcCJF7+x0M9nBuFhl7700SKxtlXhAQnFZ6mA6FUS
- GS8L4QLaSxywRD7//VqBnxEfeDPw1aTkuINuSw5T/HE9UlVRZALtSM0HabAGuH5y/DPwK5jgD
- 0GIRD+UOcvcuXpQlvU2oIip/oUZPjYISf1JBG4zH1n4nUEkq7ZA7h2N9q8xSHtC50qBc=
-Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:A3llPF56irfZvVW8MkGLCyDMUK72MzADvHBAYtB54wwt07A7CYF
+ NKVOW4AFXO9RQ4TaFiljNVLcZqHpfr5pJeHK2A3gqIrusI0HFnwPtfygCwxatiT66tRL8CE
+ ZqAmyGGSAgGKJCHUuGeUBqjhLn1axrX/hKCSQx2VkDl++Ll4oVPjP00BzrueIb/jjcqw4Uk
+ Ehl2UJC35eHiqxFStioHg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:+QzkVDwHR5c=:UXu/ms6/8Lv/MzlupUTVGs
+ eZI9ylHAgPdYmF6nuMsRgkmOIdjpC7buwCObzwgNfWRPzaqBcW9BzGDzamBc6MDHkEVIlP+5Q
+ q+fGLjPJllqN6IiujAR6WA8A1AejeaP/F38nzVVJLDZj4gQIPv+MJEVqDsYMNNbwM+mlSTrnT
+ wOcB/QrEt84fvtSu44FW1/eEUd4ak9JB9YNY931s7uhFw7JURaEWokUTmtFPb2ZzKYDEbuo+R
+ MIiyMC2rt0sHtsdGr0Oi9+CstZWbjTpRxr8FWul3cv15uM5fLaTs+F/8CUIWAo066nzXow8Uo
+ 47jOKmJl3lI1T2y8VSF/F9OGvgrTlHFNV8N69Cvd50jhXbbvx7E1QEVB+fCM3ZG34RsqOWAKa
+ gLKK1JE8bl1TiTpRmLaobyynbaAxWC2IH0Pv/svv6GuQWdlPhB4BxBIW/StWqFNK6SDMw1JPJ
+ flZPCxdjCZtWPpSlSkbH5oX/0h99hc2qa5+WbWfDdyaKi8hnzDNmthcTsMzE/PycMweITcq/W
+ 4dYSypjcK4ihBztJypdhgV3D72TTklFPlE1YZflsUWmw7itd9SzZqSeNv2WnAhN6yp57gOr1m
+ Gv2iPYPcBFm8K2ZGtYV+F20Kfm47XqyX2d8q7vbMM5WApJjzBdz1mwCy1I+Sx05uc65cxG3ZY
+ xwnfIyChYXyjw4zbIW+RvPr6q4Apw6i5jGcP+jFJU/OM8uYyIpfud7hTN2gKB6ACXZI8=
+Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -66,38 +66,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
+Cc: qemu-trivial@nongnu.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Laurent Vivier <laurent@vivier.eu>
+ Laurent Vivier <laurent@vivier.eu>, Warner Losh <imp@bsdimp.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-QEMU coding style mandates to not use Linux kernel internal
-types for scalars types. Replace __u32 by uint32_t.
-
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20211116193955.2793171-1-philmd@redhat.com>
+Reviewed-by: Warner Losh <imp@bsdimp.com>
+Message-Id: <20211117174533.1900570-1-philmd@redhat.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- target/i386/kvm/kvm.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ qemu-keymap.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
-index 5a698bde19ac..13f8e30c2a54 100644
---- a/target/i386/kvm/kvm.c
-+++ b/target/i386/kvm/kvm.c
-@@ -1406,7 +1406,7 @@ static int hyperv_fill_cpuids(CPUState *cs,
-     c->edx = cpu->hyperv_limits[2];
+diff --git a/qemu-keymap.c b/qemu-keymap.c
+index 536e8f2385d7..4095b654a607 100644
+--- a/qemu-keymap.c
++++ b/qemu-keymap.c
+@@ -187,6 +187,7 @@ int main(int argc, char *argv[])
+     }
  
-     if (hyperv_feat_enabled(cpu, HYPERV_FEAT_EVMCS)) {
--        __u32 function;
-+        uint32_t function;
- 
-         /* Create zeroed 0x40000006..0x40000009 leaves */
-         for (function = HV_CPUID_IMPLEMENT_LIMITS + 1;
+     fprintf(outfile,
++            "# SPDX-License-Identifier: GPL-2.0-or-later\n"
+             "#\n"
+             "# generated by qemu-keymap\n"
+             "#    model   : %s\n"
 -- 
 2.33.1
 
