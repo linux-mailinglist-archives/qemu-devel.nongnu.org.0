@@ -2,63 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2FAC4781BE
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Dec 2021 01:46:10 +0100 (CET)
-Received: from localhost ([::1]:35898 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0515E478230
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Dec 2021 02:35:54 +0100 (CET)
+Received: from localhost ([::1]:42416 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1my1Nx-0005qD-Eb
-	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 19:46:09 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37458)
+	id 1my2A4-0004TD-Kj
+	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 20:35:52 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47776)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1my1Fw-0003fL-RS; Thu, 16 Dec 2021 19:37:54 -0500
-Received: from [2607:f8b0:4864:20::d2a] (port=35499
- helo=mail-io1-xd2a.google.com)
+ id 1my27N-0003az-0L
+ for qemu-devel@nongnu.org; Thu, 16 Dec 2021 20:33:07 -0500
+Received: from [2607:f8b0:4864:20::d2b] (port=39653
+ helo=mail-io1-xd2b.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1my1Fv-00074M-Dx; Thu, 16 Dec 2021 19:37:52 -0500
-Received: by mail-io1-xd2a.google.com with SMTP id 14so810830ioe.2;
- Thu, 16 Dec 2021 16:37:50 -0800 (PST)
+ id 1my27L-0006k7-9a
+ for qemu-devel@nongnu.org; Thu, 16 Dec 2021 20:33:04 -0500
+Received: by mail-io1-xd2b.google.com with SMTP id c3so911739iob.6
+ for <qemu-devel@nongnu.org>; Thu, 16 Dec 2021 17:33:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=+hOz8IxXG4sIt5jxiS7v3+2MQSrZNOG0/+ISRJ3HY2s=;
- b=L/6d66ZEJcvf7mWM8oOorzY3RFWCehwBsGAAdecWpwyrJKgv4vCoUEbPZnGK87Cj8T
- c/GxAPHT7sZQGDUD/Y3j/nXPs3YZk4yYRIuDM45oK4WWQ8y8p+L2oEmcY4IJC5IvvQuf
- 8RbUvpvOv601jBOePHkMvd0uZwKVo2rPQgvK68kO1HORNAyiM5PLY/UDIZe8hKtdOUfm
- p2k+H9J7ROnEiwaVAz3vgKzB0WOVkZlgRVSeHdCLjJo9MY5VfWJlPx1MS9YdPoDA9UaZ
- VTkRrP9JXjHabVPJgoPk3+b7vc8f5FTgcj7BdJxV/TWWaIN4Wrvn/32A8iMwFjwTSKtd
- ZShg==
+ :cc; bh=ls6miQ+GqoBucTFu1t85ng3KERrkD1gBvXOPsVBUmWw=;
+ b=bprd/SrknrxmMga0/4sRIBj833arOsoXyAYEXnAMd4LbzVQNrjr+H5ZWZKiwMnAaQn
+ xs8Qr/5xj18Fp4kTwG/NCYJY6ByyyTH4prdcDIKy0jcPBSWVQZRRc0k25KG8XtUjLPIu
+ NylUVbuMSmDn+qcfDINgP7JCrayCBQiVMspG0ft+eigwThsA1bLxnXB89Zdiy8l9zPL9
+ Nt0gRK6Q/s1nJo8sXJAEEchpR8jdK+SyMw+K6k6W3WQZE9xro53Vtf3qZUvjskr05p3S
+ aJmPtvJ7C0QqlPaAU8UjG0Tr36vfl17eLg7Rtk+co6Qlnf6ZsaA++ytBs0y0QYA7YKU0
+ CEwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=+hOz8IxXG4sIt5jxiS7v3+2MQSrZNOG0/+ISRJ3HY2s=;
- b=rkIQsoMMaMNnm2qc4u7cZE88lYOmclCSCnJ/1gyT5hUI77Clwhd1BJaFc/3IqRy1Ck
- qV3gd2mBCT8Fc7DeKEEcpFR4RVGPBOKO7TMM3lLRJJwuNp0ELlAYzBT186WQvK/fv7s3
- 1+r6/VTQpCP/rROvXcXnM3SYVUT7n/WJf+OAUfZMGFFNHI9NxKvLGa0hlrS/AFzh4J61
- w6/yJkG+BeEYp20g3xVupdih3nuU066MkpjRUVa5Zyqpem6RxIKneTnSv74jsTWvXLSg
- eHo5ntjN0FrYmyGhnqpuqDCYPgdfmudbmxqPTU6ib2SA8dCfJ4iKRvKEsr+AlHv2quyl
- 8X0A==
-X-Gm-Message-State: AOAM530hzueghLd0WyKmo3wG2MXX7ZVLeMcA8mO2Um0lVXf8CcpM6e9h
- 6HCBLsII9XttR0JectEBAEH9fw2UrTFtQ8psl/Q=
-X-Google-Smtp-Source: ABdhPJzATcSKSIS4Ge+fgztL1BNeytuPggajHqg/aWy4RjP8alzh+w/GqEiINydI+lAG8mAALuitNblhsSEtQQ2FC4A=
-X-Received: by 2002:a6b:f212:: with SMTP id q18mr434473ioh.16.1639701469586;
- Thu, 16 Dec 2021 16:37:49 -0800 (PST)
+ bh=ls6miQ+GqoBucTFu1t85ng3KERrkD1gBvXOPsVBUmWw=;
+ b=AF+WGYWSawIrN9T1Dqdi3DwdKRl/Rm/jL0Es0tIB8umHzRKIiRTGDxNqDwIvSqAEBu
+ WVbAOXuopdWdzte1iXQWIg0eTa8NhQL8GlZhJlnKSFTg0Dm44HtADn9GToPC9m7lR6uU
+ jWuBNWMh9185Y3Cb675YJSQz4M1FPtekGZeEwOm56PWedXYFeukeWJCpgRoN13iDoC7V
+ +pluWNzSq0jR20HzM+HaBdjenZG1/vAryBN8UhwdBG0PQMNZG9TMObe/H63/vI5sxF3T
+ 1KA9YzU0+7xQSoPKqFsDLjT/tVwictMeI4KmGqWlzfxtIQBrUEeLuuK41FIsR8C7c5Pp
+ huhw==
+X-Gm-Message-State: AOAM5327vuPA3YSsf6awtZ6LMtYjbP4jsfXmPKp9x+DQF6Erw+RR7PBP
+ Ni18O9SIzt/ON6jV1B4m4wpeSjhxBt6SqGsnZnk=
+X-Google-Smtp-Source: ABdhPJyUcdOqtRnfP/m12Q7h1qq+D9rZDfkP9pQ+OE1yagIOQ4b/I85U+DmQYaCy1ra+NMowa37tgg1llvy2BV2u+tw=
+X-Received: by 2002:a05:6638:12d3:: with SMTP id
+ v19mr429419jas.318.1639704781409; 
+ Thu, 16 Dec 2021 17:33:01 -0800 (PST)
 MIME-Version: 1.0
-References: <20211123090902.23321-1-zhiwei_liu@c-sky.com>
- <CAKmqyKOD0JSY3FFBOt6L3=JwRVOsf35eCkpHrB4GvzsTUsOypw@mail.gmail.com>
-In-Reply-To: <CAKmqyKOD0JSY3FFBOt6L3=JwRVOsf35eCkpHrB4GvzsTUsOypw@mail.gmail.com>
+References: <20211216073111.2890607-1-raj.khem@gmail.com>
+In-Reply-To: <20211216073111.2890607-1-raj.khem@gmail.com>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 17 Dec 2021 10:37:23 +1000
-Message-ID: <CAKmqyKPiqLhw0zZK_f-8-WYdc4NYDgqrLTTE9_3k8YgX54F3LA@mail.gmail.com>
-Subject: Re: [PATCH v3 1/1] target/riscv: Fix PMP propagation for tlb
-To: LIU Zhiwei <zhiwei_liu@c-sky.com>
+Date: Fri, 17 Dec 2021 11:32:35 +1000
+Message-ID: <CAKmqyKPCDF4TjK7m2=HEjrNhnUw-YoyBvBUJv60BzvFoP=2F6g@mail.gmail.com>
+Subject: Re: [PATCH] riscv: Set 5.4 as minimum kernel version for riscv32
+To: Khem Raj <raj.khem@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d2a
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d2b
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d2a;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd2a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d2b;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd2b.google.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
@@ -79,42 +81,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <Alistair.Francis@wdc.com>, Bin Meng <bin.meng@windriver.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
+Cc: Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bin.meng@windriver.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
  "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Dec 8, 2021 at 1:23 PM Alistair Francis <alistair23@gmail.com> wrote:
+On Thu, Dec 16, 2021 at 5:33 PM Khem Raj <raj.khem@gmail.com> wrote:
 >
-> On Tue, Nov 23, 2021 at 7:09 PM LIU Zhiwei <zhiwei_liu@c-sky.com> wrote:
-> >
-> > Only the pmp index that be checked by pmp_hart_has_privs can be used
-> > by pmp_get_tlb_size to avoid an error pmp index.
-> >
-> > Before modification, we may use an error pmp index. For example,
-> > we check address 0x4fc, and the size 0x4 in pmp_hart_has_privs. If there
-> > is an pmp rule, valid range is [0x4fc, 0x500), then pmp_hart_has_privs
-> > will return true;
-> >
-> > However, this checked pmp index is discarded as pmp_hart_has_privs
-> > return bool value. In pmp_is_range_in_tlb, it will traverse all pmp
-> > rules. The tlb_sa will be 0x0, and tlb_ea will be 0x4fff. If there is
-> > a pmp rule [0x10, 0x4]. It will be misused as it is legal in
-> > pmp_get_tlb_size.
-> >
-> > Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
+> 5.4 is first stable API as far as rv32 is concerned see [1]
 >
-> Thanks!
+> [1] https://sourceware.org/git/?p=glibc.git;a=commit;h=7a55dd3fb6d2c307a002a16776be84310b9c8989
 >
-> Applied to riscv-to-apply.next
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> Cc: Palmer Dabbelt <palmer@dabbelt.com>
+> Cc: Alistair Francis <alistair.francis@wdc.com>
+> Cc: Bin Meng <bin.meng@windriver.com>
 
-This patch causes lots of Linux boot failures. I see messages like this:
-
-Invalid write at addr 0x22048, size 8, region '(null)', reason: rejected
-
-from QEMU and the guest fails to start.
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
 Alistair
+
+> ---
+>  linux-user/riscv/target_syscall.h | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/linux-user/riscv/target_syscall.h b/linux-user/riscv/target_syscall.h
+> index dc597c8972..9b13161324 100644
+> --- a/linux-user/riscv/target_syscall.h
+> +++ b/linux-user/riscv/target_syscall.h
+> @@ -45,10 +45,11 @@ struct target_pt_regs {
+>
+>  #ifdef TARGET_RISCV32
+>  #define UNAME_MACHINE "riscv32"
+> +#define UNAME_MINIMUM_RELEASE "5.4.0"
+>  #else
+>  #define UNAME_MACHINE "riscv64"
+> -#endif
+>  #define UNAME_MINIMUM_RELEASE "4.15.0"
+> +#endif
+>
+>  #define TARGET_MINSIGSTKSZ 2048
+>  #define TARGET_MCL_CURRENT 1
+> --
+> 2.34.1
+>
+>
 
