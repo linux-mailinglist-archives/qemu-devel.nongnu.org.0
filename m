@@ -2,82 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6504F478C22
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Dec 2021 14:22:33 +0100 (CET)
-Received: from localhost ([::1]:36126 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67F2F478C53
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Dec 2021 14:29:40 +0100 (CET)
+Received: from localhost ([::1]:40882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1myDBw-0008WS-Hg
-	for lists+qemu-devel@lfdr.de; Fri, 17 Dec 2021 08:22:32 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47526)
+	id 1myDIm-0003bB-Ey
+	for lists+qemu-devel@lfdr.de; Fri, 17 Dec 2021 08:29:37 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48796)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1myD8p-0006p0-9l
- for qemu-devel@nongnu.org; Fri, 17 Dec 2021 08:19:19 -0500
-Received: from [2a00:1450:4864:20::32f] (port=55944
- helo=mail-wm1-x32f.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1myD8n-0000SZ-FU
- for qemu-devel@nongnu.org; Fri, 17 Dec 2021 08:19:18 -0500
-Received: by mail-wm1-x32f.google.com with SMTP id p18so1568776wmq.5
- for <qemu-devel@nongnu.org>; Fri, 17 Dec 2021 05:19:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=ZsaEJrruBmye0yFhJBa9hC8CjRoPdOnQTJ8nDWAT/GY=;
- b=jxssmGgzMiph9OHBzwuQRMpfXnsfMXHq2bMcuX6BX3Ad3+k2ujEXhHsOjp2pOQ+q7r
- NrHX/T3g4AsZ+N+OYiiod0BmKJT73wiT9CQ1ZwpbIra2C42zB0A0a9dmt3oFKkguU8CM
- OgXZJ9qGwSYMXbMyUGJV3Zl+vJDES0Gn92N6sz/QKcMFbqIiCbLyByJmknYllXFTF8py
- iI1NvVHVqX+nSh+9xzZGK+yuJ+zYxu+BPmEB6Wx9Kqhp0mkMiuWGUNDrHX+HO5GK/q0f
- JnxUF49pMjPpXkBV82mLNaECkDaRxDxVNNQMfKVLXHt4+Yhq0uZr74knjHkLBXB1xAB0
- P5LQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=ZsaEJrruBmye0yFhJBa9hC8CjRoPdOnQTJ8nDWAT/GY=;
- b=AKpxEx8j9XKuBJtpl/24HWpdAmJJ+lAzl7WIXYLigMw7tyGdnV/tacqmdkMbOqtOdu
- V55mIhRTP1VoGZihGQ/CT4+pu2Ip1rK1fdnBKi+D5Ry+9ecN7H/GabhgYGbG1nzWTk1d
- 9zsVPQzyZf/EZcxN5C3/FhAs7LynNeeIh8ryoGM6VguWC1nO+XbbLCikdjjc4pT8lSIy
- zzoFbb45Q6YjQOWoliSMPOPcXA/h4uq+SlFbVkNlMtg7okf4b5/P0wqrO4BuBLET/CNx
- h5cxwxiGxtQVnygk5LJpUE3qQxNNz7vyKziQq40U+hx4nfzyz3lbBWU/H2vqtPzgtgBr
- 8zPg==
-X-Gm-Message-State: AOAM5339ILivGvbQH2cK2/LZUCfJOK+IQjMad9I1uqx7k4Il7pB5TV2u
- yZs8jGxwasUU6+q7v5g3LO06ew==
-X-Google-Smtp-Source: ABdhPJxKXnFrNvetINHi7pfu00TDilvYE8SmYXMH9pSmmw6nTdDhL5f/a7TcPTg1m1g8VUsvdhSbZQ==
-X-Received: by 2002:a1c:1b15:: with SMTP id b21mr2710941wmb.174.1639747151107; 
- Fri, 17 Dec 2021 05:19:11 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id l5sm8643499wrs.59.2021.12.17.05.19.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 17 Dec 2021 05:19:09 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 1E6B81FF96;
- Fri, 17 Dec 2021 13:19:09 +0000 (GMT)
-References: <20211216144442.2270605-1-alex.bennee@linaro.org>
- <b905eba0-b724-60ad-ab3c-8033bfab0f32@vivier.eu>
-User-agent: mu4e 1.7.5; emacs 28.0.90
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Laurent Vivier <laurent@vivier.eu>
-Subject: Re: [RFC PATCH] linux-user: don't adjust base of found hole
-Date: Fri, 17 Dec 2021 13:18:33 +0000
-In-reply-to: <b905eba0-b724-60ad-ab3c-8033bfab0f32@vivier.eu>
-Message-ID: <87mtkze5de.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1myDEW-0002KR-Fg
+ for qemu-devel@nongnu.org; Fri, 17 Dec 2021 08:25:12 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57435)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1myDES-0002N8-Lo
+ for qemu-devel@nongnu.org; Fri, 17 Dec 2021 08:25:10 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1639747507;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=hquZxWJ0Bq8ck222W72+fGUvLeRJWNHmxRKV0yeBoUM=;
+ b=cOMq5ETtqSY55ey4f6jFIoRUkJDNuBOyDtEPQDPGbrTCOBTJ6kL/qpwzKRpJfMtJApLh5X
+ 37CAiZUEMa12UTyhTr1Yb6hlwTa7VHadf/b3nSRoPx1oNOwmReOiKwALvLxPKwW3XgGT4T
+ JEuFNrHoQtklDFGQhAxn9+4yJjx1cTc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-550-WTaA7CzxPzO06JNm5-7nBA-1; Fri, 17 Dec 2021 08:24:54 -0500
+X-MC-Unique: WTaA7CzxPzO06JNm5-7nBA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E0A191006AA3;
+ Fri, 17 Dec 2021 13:24:52 +0000 (UTC)
+Received: from redhat.com (unknown [10.22.32.60])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8F931610D0;
+ Fri, 17 Dec 2021 13:24:37 +0000 (UTC)
+Date: Fri, 17 Dec 2021 13:24:33 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Dov Murik <dovmurik@linux.ibm.com>
+Subject: Re: [PATCH] docs: Add measurement calculation details to
+ amd-memory-encryption.txt
+Message-ID: <YbyPkfJSpMRfDltv@redhat.com>
+References: <20211214135910.2732101-1-dovmurik@linux.ibm.com>
+ <Ybjk6XJUNIyC/LX5@redhat.com>
+ <336cbad3-06da-f11c-8cd1-ca058dd9c6b0@linux.ibm.com>
+ <YbtkzdpERCnODpft@redhat.com>
+ <1c972953-a7b0-f06c-7d78-0e5fbf13b00e@linux.ibm.com>
 MIME-Version: 1.0
+In-Reply-To: <1c972953-a7b0-f06c-7d78-0e5fbf13b00e@linux.ibm.com>
+User-Agent: Mutt/2.1.3 (2021-09-10)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32f
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32f.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.718,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,58 +87,187 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: richard.henderson@linaro.org, qemu-devel@nongnu.org
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Tom Lendacky <thomas.lendacky@amd.com>, Ashish Kalra <ashish.kalra@amd.com>,
+ Brijesh Singh <brijesh.singh@amd.com>, James Bottomley <jejb@linux.ibm.com>,
+ Marcelo Tosatti <mtosatti@redhat.com>, qemu-devel@nongnu.org,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Tobin Feldman-Fitzthum <tobin@linux.ibm.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Thu, Dec 16, 2021 at 11:41:27PM +0200, Dov Murik wrote:
+> 
+> 
+> On 16/12/2021 18:09, Daniel P. Berrangé wrote:
+> > On Thu, Dec 16, 2021 at 12:38:34PM +0200, Dov Murik wrote:
+> >>
+> >>
+> >> On 14/12/2021 20:39, Daniel P. Berrangé wrote:
+> >>> On Tue, Dec 14, 2021 at 01:59:10PM +0000, Dov Murik wrote:
+> >>>> Add a section explaining how the Guest Owner should calculate the
+> >>>> expected guest launch measurement for SEV and SEV-ES.
+> >>>>
+> >>>> Also update the name and link to the SEV API Spec document.
+> >>>>
+> >>>> Signed-off-by: Dov Murik <dovmurik@linux.ibm.com>
+> >>>> Suggested-by: Daniel P. Berrangé <berrange@redhat.com>
+> >>>> ---
+> >>>>  docs/amd-memory-encryption.txt | 50 +++++++++++++++++++++++++++++++---
+> >>>>  1 file changed, 46 insertions(+), 4 deletions(-)
+> >>>>
+> >>>> diff --git a/docs/amd-memory-encryption.txt b/docs/amd-memory-encryption.txt
+> >>>> index ffca382b5f..f97727482f 100644
+> >>>> --- a/docs/amd-memory-encryption.txt
+> >>>> +++ b/docs/amd-memory-encryption.txt
+> >>>> @@ -43,7 +43,7 @@ The guest policy is passed as plaintext. A hypervisor may choose to read it,
+> >>>>  but should not modify it (any modification of the policy bits will result
+> >>>>  in bad measurement). The guest policy is a 4-byte data structure containing
+> >>>>  several flags that restricts what can be done on a running SEV guest.
+> >>>> -See KM Spec section 3 and 6.2 for more details.
+> >>>> +See SEV API Spec [1] section 3 and 6.2 for more details.
+> >>>>  
+> >>>>  The guest policy can be provided via the 'policy' property (see below)
+> >>>>  
+> >>>> @@ -88,7 +88,7 @@ expects.
+> >>>>  LAUNCH_FINISH finalizes the guest launch and destroys the cryptographic
+> >>>>  context.
+> >>>>  
+> >>>> -See SEV KM API Spec [1] 'Launching a guest' usage flow (Appendix A) for the
+> >>>> +See SEV API Spec [1] 'Launching a guest' usage flow (Appendix A) for the
+> >>>>  complete flow chart.
+> >>>>  
+> >>>>  To launch a SEV guest
+> >>>> @@ -113,6 +113,45 @@ a SEV-ES guest:
+> >>>>   - Requires in-kernel irqchip - the burden is placed on the hypervisor to
+> >>>>     manage booting APs.
+> >>>>  
+> >>>> +Calculating expected guest launch measurement
+> >>>> +---------------------------------------------
+> >>>> +In order to verify the guest launch measurement, The Guest Owner must compute
+> >>>> +it in the exact same way as it is calculated by the AMD-SP.  SEV API Spec [1]
+> >>>> +section 6.5.1 describes the AMD-SP operations:
+> >>>> +
+> >>>> +    GCTX.LD is finalized, producing the hash digest of all plaintext data
+> >>>> +    imported into the guest.
+> >>>> +
+> >>>> +    The launch measurement is calculated as:
+> >>>> +
+> >>>> +    HMAC(0x04 || API_MAJOR || API_MINOR || BUILD || GCTX.POLICY || GCTX.LD || MNONCE; GCTX.TIK)
+> >>>> +
+> >>>> +    where "||" represents concatenation.
+> >>>> +
+> >>>> +The values of API_MAJOR, API_MINOR, BUILD, and GCTX.POLICY can be obtained
+> >>>> +from the 'query-sev' qmp command.
+> >>>> +
+> >>>> +The value of MNONCE is part of the response of 'query-sev-launch-measure': it
+> >>>> +is the last 16 bytes of the base64-decoded data field (see SEV API Spec [1]
+> >>>> +section 6.5.2 Table 52: LAUNCH_MEASURE Measurement Buffer).
+> >>>> +
+> >>>> +The value of GCTX.LD is SHA256(firmware_blob || kernel_hashes_blob || vmsas_blob),
+> >>>> +where:
+> >>>> +
+> >>>> +* firmware_blob is the content of the entire firmware flash file (for example,
+> >>>> +  OVMF.fd).
+> >>>
+> >>> Lets add a caveat that the firmware flash should be built to be stateless
+> >>> ie that it is not secure to attempt to measure a guest where the firmware
+> >>> uses an NVRAM store.
+> >>>
+> >>
+> >> * firmware_blob is the content of the entire firmware flash file (for   
+> >>   example, OVMF.fd).  Note that you must build a stateless firmware file    
+> >>   which doesn't use an NVRAM store, because the NVRAM area is not
+> >>   measured, and therefore it is not secure to use a firmware which uses 
+> >>   state from an NVRAM store.
+> > 
+> > Looks good to me.
+> > 
+> >>>> +* if kernel is used, and kernel-hashes=on, then kernel_hashes_blob is the
+> >>>> +  content of PaddedSevHashTable (including the zero padding), which itself
+> >>>> +  includes the hashes of kernel, initrd, and cmdline that are passed to the
+> >>>> +  guest.  The PaddedSevHashTable struct is defined in target/i386/sev.c .
+> >>>> +* if SEV-ES is enabled (policy & 0x4 != 0), vmsas_blob is the concatenation of
+> >>>> +  all VMSAs of the guest vcpus.  Each VMSA is 4096 bytes long; its content is
+> >>>> +  defined inside Linux kernel code as struct vmcb_save_area, or in AMD APM
+> >>>> +  Volume 2 [2] Table B-2: VMCB Layout, State Save Area.
+> >>>
+> >>> Is there any practical guidance we can give apps on the way the VMSAs
+> >>> can be expected to be initialized ? eg can they assume essentially
+> >>> all fields in vmcb_save_area are 0 initialized except for certain
+> >>> ones ? Is initialization likely to vary at all across KVM or EDK2
+> >>> vesions or something ?
+> >>
+> >> From my own experience, the VMSA of vcpu0 doesn't change; it is basically what QEMU
+> >> sets up in x86_cpu_reset() (which is mostly zeros but not all).  I don't know if it
+> >> may change in newer QEMU (machine types?) or kvm.  As for vcpu1+, in SEV-ES the
+> >> CS:EIP for the APs is taken from a GUIDed table at the end of the OVMF image, and has
+> >> actually changed a few months ago when the memory layout changed to support both TDX
+> >> and SEV.
+> > 
+> > That is an unplesantly large number of moving parts that could
+> > potentially impact the expected state :-(  I think we need to
+> > be careful to avoid gratuitous changes, to avoid creating a
+> > combinatorial expansion in the number of possibly valid VMSA
+> > blocks.
+> > 
+> > It makes me wonder if we need to think about defining some
+> > standard approach for distro vendors (and/or cloud vendors)
+> > to publish the expected contents for various combinations
+> > of their software pieces.
+> > 
+> >>
+> >>
+> >> Here are the VMSAs for my 2-vcpu SEV-ES VM:
+> >>
+> >>
+> >> $ hd vmsa/vmsa_cpu0.bin
+> > 
+> > ...snipp...
+> > 
+> > was there a nice approach / tool you used to capture
+> > this initial state ?
+> > 
+> 
+> I wouldn't qualify this as nice: I ended up modifying my
+> host kernel's kvm (see patch below).  Later I wrote a
+> script to parse that hex dump from the kernel log into
+> proper 4096-byte binary VMSA files.
 
-Laurent Vivier <laurent@vivier.eu> writes:
+Heh, that's basically the same as Sergio Lopez told me he did
+for libkrun.
 
-> Le 16/12/2021 =C3=A0 15:44, Alex Benn=C3=A9e a =C3=A9crit=C2=A0:
->> The pgb_find_hole function goes to the trouble of taking account of
->> both mmap_min_addr and any offset we've applied to decide the starting
->> address of a potential hole. This is especially important for
->> emulating 32bit ARM in a 32bit build as we have applied the offset to
->> ensure there will be space to map the ARM_COMMPAGE bellow the main
->> guest map (using wrapped arithmetic).
->> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/690
->> ---
->>   linux-user/elfload.c | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->> diff --git a/linux-user/elfload.c b/linux-user/elfload.c
->> index 238979b8b6..8d839b79fb 100644
->> --- a/linux-user/elfload.c
->> +++ b/linux-user/elfload.c
->> @@ -2334,7 +2334,7 @@ static uintptr_t pgb_find_hole(uintptr_t guest_loa=
-ddr, uintptr_t guest_size,
->>             /* Record the lowest successful match. */
->>           if (ret < 0) {
->> -            ret =3D align_start - guest_loaddr;
->> +            ret =3D align_start;
->>           }
->>           /* If this hole contains the identity map, select it. */
->>           if (align_start <=3D guest_loaddr &&
->>=20
->
-> It seems not consistent with what we have with fallback where we substrac=
-t the guest_loadaddr:
->
-> 2289     if (!maps) {
-> 2290         ret =3D pgd_find_hole_fallback(guest_size, brk, align, offse=
-t);
-> 2291         return ret =3D=3D -1 ? -1 : ret - guest_loaddr;
-> 2292     }
+He suggested that it might be desirable to expose this info
+in sysfs. Perhaps a entry for debugfs from KVM for each
+VM to export the initial state.
 
-Hmm yeah. I can just make that a straight:
+> diff --git a/arch/x86/kvm/svm/sev.c b/arch/x86/kvm/svm/sev.c
+> index 7fbce342eec4..4e45fe37b93d 100644
+> --- a/arch/x86/kvm/svm/sev.c
+> +++ b/arch/x86/kvm/svm/sev.c
+> @@ -624,6 +624,12 @@ static int sev_launch_update_vmsa(struct kvm *kvm, struct kvm_sev_cmd *argp)
+>                  */
+>                 clflush_cache_range(svm->vmsa, PAGE_SIZE);
+> 
+> +                /* dubek */
+> +                pr_info("DEBUG_VMSA - cpu %d START ---------------\n", i);
+> +                print_hex_dump(KERN_INFO, "DEBUG_VMSA", DUMP_PREFIX_OFFSET, 16, 1, svm->vmsa, PAGE_SIZE, true);
+> +                pr_info("DEBUG_VMSA - cpu %d END ---------------\n", i);
+> +                /* ----- */
+> +
+>                 vmsa.handle = sev->handle;
+>                 vmsa.address = __sme_pa(svm->vmsa);
+>                 vmsa.len = PAGE_SIZE;
+> 
+> 
 
-  return pgd_find_hole_fallback(guest_size, brk, align, offset);
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
->
-> Thanks,
-> Laurent
-
-
---=20
-Alex Benn=C3=A9e
 
