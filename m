@@ -2,60 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2ABDF478CFC
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Dec 2021 15:02:25 +0100 (CET)
-Received: from localhost ([::1]:38286 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8982478CE8
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Dec 2021 14:56:41 +0100 (CET)
+Received: from localhost ([::1]:56266 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1myDoW-00009d-5m
-	for lists+qemu-devel@lfdr.de; Fri, 17 Dec 2021 09:02:24 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53424)
+	id 1myDiy-0001al-Tm
+	for lists+qemu-devel@lfdr.de; Fri, 17 Dec 2021 08:56:40 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53938)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1myDXA-0003zj-Bb
- for qemu-devel@nongnu.org; Fri, 17 Dec 2021 08:44:28 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:42567)
+ id 1myDYo-0005S7-CQ
+ for qemu-devel@nongnu.org; Fri, 17 Dec 2021 08:46:16 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:38733)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1myDX8-00061Y-Ij
- for qemu-devel@nongnu.org; Fri, 17 Dec 2021 08:44:28 -0500
+ id 1myDYm-00089G-Jl
+ for qemu-devel@nongnu.org; Fri, 17 Dec 2021 08:46:10 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639748666;
+ s=mimecast20190719; t=1639748768;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=grdJCQFq0CnPfK8IG6P9M7aXLslUbiUFWUPfJzKLpJ4=;
- b=UPNdvmEq11jod2b5akquuLEcaUzrg40cfFa+eKuyAYcabTg86sF8AVGYV9gMe6gwxN8ebd
- Vh1LCxSAuAEXqRW3kvlySKhiin8k94TPM4feHG4Lvox0cVmhdykzp91+6DDJIubSwXzNRf
- DM4Y4cOI9LjIQmcPwjTsijNSGO7AG3g=
+ bh=T2ftCLmTMpd2r2fk1Wt5K2/OoyY4a3QBDuQA8gpF9fQ=;
+ b=Haj2IzkOuDh0DMKI9F1famKogvk841NSgypWozsVnvG136Qe1m9Z1JB8MbiYyjz6G64OLA
+ /9zOzXHY3/hB+/d47qQEdp2bhpFGNoedUmsfvuaMR9j2D3yGrH4dMdIt/1144XXuQMxRHT
+ sRiLp2LciMVOLsijB2KEKj0OD9IgdGo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-581-Gkg4u-GBPJusg16uXxK9gQ-1; Fri, 17 Dec 2021 08:44:13 -0500
-X-MC-Unique: Gkg4u-GBPJusg16uXxK9gQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-517-jQ6zo_E7P-Gl4R6B0NqnXw-1; Fri, 17 Dec 2021 08:46:05 -0500
+X-MC-Unique: jQ6zo_E7P-Gl4R6B0NqnXw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 912C081EE6E;
- Fri, 17 Dec 2021 13:44:11 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D0A728DD876;
+ Fri, 17 Dec 2021 13:46:04 +0000 (UTC)
 Received: from redhat.com (unknown [10.22.32.60])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7CCB945D9C;
- Fri, 17 Dec 2021 13:43:10 +0000 (UTC)
-Date: Fri, 17 Dec 2021 13:43:08 +0000
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DCBFE610A7;
+ Fri, 17 Dec 2021 13:46:01 +0000 (UTC)
+Date: Fri, 17 Dec 2021 13:45:58 +0000
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: Re: [PATCH v3 02/28] glib-compat: Introduce g_memdup2() wrapper
-Message-ID: <YbyT7D/UpSGpmC24@redhat.com>
-References: <20210903174510.751630-1-philmd@redhat.com>
- <20210903174510.751630-3-philmd@redhat.com>
- <875yrofxki.fsf@linaro.org>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [RFC qemu.qmp PATCH 17/24] Makefile: add build and publish targets
+Message-ID: <YbyUlrmexR77cbip@redhat.com>
+References: <20211215210634.3779791-1-jsnow@redhat.com>
+ <20211215210634.3779791-18-jsnow@redhat.com>
+ <YbsZe9A/Lf2g1Xk8@redhat.com>
+ <CAFn=p-bPUsw19uW=gfzGBwT5zDm3t4QHCvzf0nJjbcwcOKkA=g@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <875yrofxki.fsf@linaro.org>
+In-Reply-To: <CAFn=p-bPUsw19uW=gfzGBwT5zDm3t4QHCvzf0nJjbcwcOKkA=g@mail.gmail.com>
 User-Agent: Mutt/2.1.3 (2021-09-10)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -85,115 +86,80 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org,
- Gerd Hoffmann <kraxel@redhat.com>, Eric Blake <eblake@redhat.com>,
- qemu-block@nongnu.org, David Hildenbrand <david@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-arm@nongnu.org,
- John Snow <jsnow@redhat.com>, David Gibson <david@gibson.dropbear.id.au>,
- Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Hanna Reitz <hreitz@redhat.com>, qemu-ppc@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Eduardo Habkost <eduardo@habkost.net>, Beraldo Leal <bleal@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Dec 16, 2021 at 02:11:37PM +0000, Alex Bennée wrote:
+On Thu, Dec 16, 2021 at 06:35:23PM -0500, John Snow wrote:
+> On Thu, Dec 16, 2021 at 5:48 AM Daniel P. Berrangé <berrange@redhat.com>
+> wrote:
 > 
-> Philippe Mathieu-Daudé <philmd@redhat.com> writes:
-> 
-> > When experimenting raising GLIB_VERSION_MIN_REQUIRED to 2.68
-> > (Fedora 34 provides GLib 2.68.1) we get:
+> > On Wed, Dec 15, 2021 at 04:06:27PM -0500, John Snow wrote:
+> > > Signed-off-by: John Snow <jsnow@redhat.com>
+> > > ---
+> > >  Makefile | 32 ++++++++++++++++++++++++++++++++
+> > >  1 file changed, 32 insertions(+)
+> > >
+> > > diff --git a/Makefile b/Makefile
+> > > index 97d737a..81bfca8 100644
+> > > --- a/Makefile
+> > > +++ b/Makefile
+> > > @@ -110,3 +110,35 @@ distclean: clean
+> > >       rm -f .coverage .coverage.*
+> > >       rm -rf htmlcov/
+> > >       rm -rf test-results/
+> > > +
+> > > +.PHONY: pristine
+> > > +pristine:
+> > > +     @git diff-files --quiet --ignore-submodules -- || \
+> > > +             (echo "You have unstaged changes."; exit 1)
+> > > +     @git diff-index --cached --quiet HEAD --ignore-submodules -- || \
+> > > +             (echo "Your index contains uncommitted changes."; exit 1)
+> > > +     @[ -z "$(shell git ls-files -o)" ] || \
+> > > +             (echo "You have untracked files: $(shell git ls-files
+> > -o)"; exit 1)
+> > > +
+> > > +dist: setup.cfg setup.py Makefile README.rst
+> > > +     python3 -m build
+> > > +     @touch dist
+> > > +
+> > > +.PHONY: pre-publish
+> > > +pre-publish: pristine dist
+> > > +     @git describe --exact-match 2>/dev/null || \
+> > > +             (echo -e "\033[0;31mThere is no annotated tag for this
+> > commit.\033[0m"; exit 1)
+> > > +     python3 -m twine check --strict dist/*
+> > > +     git push -v --atomic --follow-tags --dry-run
+> > > +
+> > > +.PHONY: publish
+> > > +publish: pre-publish
+> > > +     # Set the username via TWINE_USERNAME.
+> > > +     # Set the password via TWINE_PASSWORD.
+> > > +     # Set the pkg repository via TWINE_REPOSITORY.
+> > > +     python3 -m twine upload --verbose dist/*
+> > > +     git push -v --atomic --follow-tags
+> > > +
+> > > +.PHONY: publish-test
+> > > +publish-test: pre-publish
+> > > +     python3 -m twine upload --verbose -r testpypi dist/*
 > >
-> >   hw/virtio/virtio-crypto.c:245:24: error: 'g_memdup' is deprecated: Use 'g_memdup2' instead [-Werror,-Wdeprecated-declarations]
-> >   ...
+> > It doesn't feel very pythonic to have a makefile in the project.
 > >
-> > g_memdup() has been updated by g_memdup2() to fix eventual security
-> > issues (size argument is 32-bit and could be truncated / wrapping).
-> > GLib recommends to copy their static inline version of g_memdup2():
-> > https://discourse.gnome.org/t/port-your-module-from-g-memdup-to-g-memdup2-now/5538
+> > If we want some helpers for publishing releases, I would have
+> > expected to see a python script  eg scripts/publish.py
 > >
-> > Our glib-compat.h provides a comment explaining how to deal with
-> > these deprecated declarations (see commit e71e8cc0355
-> > "glib: enforce the minimum required version and warn about old APIs").
 > >
-> > Following this comment suggestion, implement the g_memdup2_qemu()
-> > wrapper to g_memdup2(), and use the safer equivalent inlined when
-> > we are using pre-2.68 GLib.
-> >
-> > Reported-by: Eric Blake <eblake@redhat.com>
-> > Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> > ---
-> >  include/glib-compat.h | 37 +++++++++++++++++++++++++++++++++++++
-> >  1 file changed, 37 insertions(+)
-> >
-> > diff --git a/include/glib-compat.h b/include/glib-compat.h
-> > index 9e95c888f54..8d01a8c01fb 100644
-> > --- a/include/glib-compat.h
-> > +++ b/include/glib-compat.h
-> > @@ -68,6 +68,43 @@
-> >   * without generating warnings.
-> >   */
-> >  
-> > +/*
-> > + * g_memdup2_qemu:
-> > + * @mem: (nullable): the memory to copy.
-> > + * @byte_size: the number of bytes to copy.
-> > + *
-> > + * Allocates @byte_size bytes of memory, and copies @byte_size bytes into it
-> > + * from @mem. If @mem is %NULL it returns %NULL.
-> > + *
-> > + * This replaces g_memdup(), which was prone to integer overflows when
-> > + * converting the argument from a #gsize to a #guint.
-> > + *
-> > + * This static inline version is a backport of the new public API from
-> > + * GLib 2.68, kept internal to GLib for backport to older stable releases.
-> > + * See https://gitlab.gnome.org/GNOME/glib/-/issues/2319.
-> > + *
-> > + * Returns: (nullable): a pointer to the newly-allocated copy of the memory,
-> > + *          or %NULL if @mem is %NULL.
-> > + */
-> > +static inline gpointer g_memdup2_qemu(gconstpointer mem, gsize byte_size)
-> > +{
-> > +#if GLIB_CHECK_VERSION(2, 68, 0)
-> > +    return g_memdup2(mem, byte_size);
-> > +#else
-> > +    gpointer new_mem;
-> > +
-> > +    if (mem && byte_size != 0) {
-> > +        new_mem = g_malloc(byte_size);
-> > +        memcpy(new_mem, mem, byte_size);
-> > +    } else {
-> > +        new_mem = NULL;
-> > +    }
-> > +
-> > +    return new_mem;
-> > +#endif
-> > +}
-> > +#define g_memdup2(m, s) g_memdup2_qemu(m, s)
-> > +
-> 
-> As per our style wouldn't it make sense to just call it qemu_memdup(m,
-> s)?
+> Eh, Python folks use Makefiles too. I've been using these little Makefile
+> targets for hobby things for a while and I had them laying around and ready
+> to go. I have no strong need to "upgrade" to python scripts for these right
+> now, unless there's some extra features you want to see.
 
-Not in this case. We use suffix as we don't want people calling this
-directly with the suffix.
-
-In the glibcompat.h header we're attempting to transparently/secretly
-replace/wrap standard glib APIs.  All the callers should remain using
-the plain glib API name, never call the method with the suffix at
-all. This lets us delete the wrapper later and not have to update
-any callers. The suffix is basically just a hack of the impl we use
-for transparent replacement. 
-
-A method with a 'qemu_' prefix by constrast is something that callers
-are explicitly expected to call directly.
-
+Using make means you have to worry about portability across different
+impls of make and different impls of shell. Using python means your
+python project is portable to anywhere that python runs.
 
 Regards,
 Daniel
