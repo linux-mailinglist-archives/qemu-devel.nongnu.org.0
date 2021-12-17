@@ -2,71 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F34834784D9
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Dec 2021 07:17:36 +0100 (CET)
-Received: from localhost ([::1]:43738 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09583478549
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Dec 2021 07:52:27 +0100 (CET)
+Received: from localhost ([::1]:56276 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1my6Yi-00041P-3Q
-	for lists+qemu-devel@lfdr.de; Fri, 17 Dec 2021 01:17:36 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55004)
+	id 1my76P-0005yD-5a
+	for lists+qemu-devel@lfdr.de; Fri, 17 Dec 2021 01:52:25 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36030)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1my6Vd-0002pY-0s; Fri, 17 Dec 2021 01:14:25 -0500
-Received: from [2607:f8b0:4864:20::d2f] (port=45003
- helo=mail-io1-xd2f.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1my6VV-0002u2-Jo; Fri, 17 Dec 2021 01:14:20 -0500
-Received: by mail-io1-xd2f.google.com with SMTP id b187so1513545iof.11;
- Thu, 16 Dec 2021 22:14:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=dsQlIPbfs63bgVZMq0eatUFJtXb7PqaqeZ12GSkL7a8=;
- b=UL8Vpy+zut8jXorjTLjqv0Z0oUy4ZoS8mzMgWJTN1dFAaJ+mJPZvz654g/x9gL5Pnm
- vR4MXdyyfskVn12k+aNGZr4QnyJoGnbU10U/wc3mxIRPaH6kKqEjD+6kYQee/obNuenn
- vqOBjWI5/otbi0R2xOFsYd2VVDer6oiBhy/ItWcCc0HPCOwVwQ1JIzAzxAXrYVFR9gsF
- x7GayBpPPDkGiTi2yDOaEs7M80tVEyqyQgDUEoV33u0jHp8z6FBCqkqTZ7OTYD+zJV7v
- itBeGes2/LsfFVV9pqTIl07SNmfjsNlnp5m7atEnrrIVL/y5850WYpakpK9Db+mZWL6W
- MFTA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=dsQlIPbfs63bgVZMq0eatUFJtXb7PqaqeZ12GSkL7a8=;
- b=RXB5qIpSnbKSqICY+TjtBz/17hdghhANGIqAEgfRA8oWwRfCL3HFKhDFTQJsMn874Y
- 07bXQu8DtkOq2FSEWQhNhHS75lmVBljYErfz7kyStKFnAhO0XEPTVUV/qmNU4oqA93tm
- EUkfLbZR23b2paeL+Z52I0fQkBt2vE6clX4DMj50OaCycs7whZuTFKYoudHM/vqW6nVz
- MQlFizuNY20GtdwIzsQF760DNl++aMTHhDe6yRrZmkZdQBiC20sjmJbyGv5lWYW6G+UE
- LMaW0XcaGY2sPExzmSBkIXoHAhgHXBC6f+bySEe3a9WpDqUrbNvIlmz5XQyDlRGh3bM0
- LYwg==
-X-Gm-Message-State: AOAM533GReWdfaYKpuZQgmVhgbitYCIrBuRlXn5xcmEOrKDs7MEHxNUF
- 7E+hBxk51i8nqNqcN3XcDqjXcYsE3qWkNEkKKvSIx+MAxychukGG
-X-Google-Smtp-Source: ABdhPJyS+ILVSV2r6dHC+fB0Re3ZPtQ3JUs+P4dAMNHtpyolD7i9rjlQQS9zdnhxjwPBbpg9hiZaITSbiCbdi+PT8Ws=
-X-Received: by 2002:a6b:ea0a:: with SMTP id m10mr854808ioc.91.1639721652768;
- Thu, 16 Dec 2021 22:14:12 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1my71k-0004ZM-29
+ for qemu-devel@nongnu.org; Fri, 17 Dec 2021 01:47:36 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:41851)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1my71g-0001fu-RV
+ for qemu-devel@nongnu.org; Fri, 17 Dec 2021 01:47:34 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1639723651;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=x+8FkHRwLos3aQ8qw/NMmHbA+fYjbngDqslEr970JfM=;
+ b=Ei0fJKFxS/cM0TQrAoJFo+60n6t/fYpnXgsvl6vTm4jsf5XP5De9/sAdCJ5orS/e2t3Hil
+ rQSAMGmg3SVQCnYCPmqWIlAyGPgYa3hEpe6xn0WkdsaeUedrWHimdAxaHVtkH1tZAhQZjc
+ rLAp2X8WmW8Rw22uo24HQ84rbU1KPrA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-341-_vJf4O39NMiBXzsO3AbeYw-1; Fri, 17 Dec 2021 01:47:29 -0500
+X-MC-Unique: _vJf4O39NMiBXzsO3AbeYw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 098098042E0;
+ Fri, 17 Dec 2021 06:47:28 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.39.192.14])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C38B41042AAC;
+ Fri, 17 Dec 2021 06:47:27 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 08E671800097; Fri, 17 Dec 2021 07:47:26 +0100 (CET)
+Date: Fri, 17 Dec 2021 07:47:26 +0100
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: "Annie.li" <annie.li@oracle.com>
+Subject: Re: [PATCH 1/1] pcie: Do not set power state for some hot-plugged
+ devices
+Message-ID: <20211217064726.j2vygixj4yv3rrpn@sirius.home.kraxel.org>
+References: <20211214215312.944-1-annie.li@oracle.com>
+ <20211215060513.kugy3y32nj2te7ui@sirius.home.kraxel.org>
+ <1f85fe9e-0753-c35a-668d-3b6779bc703b@oracle.com>
+ <20211216061128.vtap3lunpuye36il@sirius.home.kraxel.org>
+ <22554a74-3ac4-cce5-e082-d961ee922a1e@oracle.com>
 MIME-Version: 1.0
-References: <20211214032456.70203-1-jrtc27@jrtc27.com>
-In-Reply-To: <20211214032456.70203-1-jrtc27@jrtc27.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 17 Dec 2021 16:13:46 +1000
-Message-ID: <CAKmqyKNyatQmXx6Q4_4yYenYRwMB8oSWk1ze2fhaoxLEmRHDQw@mail.gmail.com>
-Subject: Re: [PATCH] hw/riscv: Use load address rather than entry point for
- fw_dynamic next_addr
-To: Jessica Clarke <jrtc27@jrtc27.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d2f
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d2f;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd2f.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <22554a74-3ac4-cce5-e082-d961ee922a1e@oracle.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.718,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,86 +85,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bin.meng@windriver.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- "open list:All patches CC here" <qemu-devel@nongnu.org>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Dec 14, 2021 at 1:25 PM Jessica Clarke <jrtc27@jrtc27.com> wrote:
->
-> The original BBL boot method had the kernel embedded as an opaque blob
-> that was blindly jumped to, which OpenSBI implemented as fw_payload.
-> OpenSBI then implemented fw_jump, which allows the payload to be loaded
-> elsewhere, but still blindly jumps to a fixed address at which the
-> kernel is to be loaded. Finally, OpenSBI introduced fw_dynamic, which
-> allows the previous stage to inform it where to jump to, rather than
-> having to blindly guess like fw_jump, or embed the payload as part of
-> the build like fw_payload. When used with an opaque binary (i.e. the
-> output of objcopy -O binary), it matches the behaviour of the previous
-> methods. However, when used with an ELF, QEMU currently passes on the
-> ELF's entry point address, which causes a discrepancy compared with all
-> the other boot methods if that entry point is not the first instruction
-> in the binary.
->
-> This difference specific to fw_dynamic with an ELF is not apparent when
-> booting Linux, since its entry point is the first instruction in the
-> binary. However, FreeBSD has a separate ELF entry point, following the
-> calling convention used by its bootloader, that differs from the first
-> instruction in the binary, used for the legacy SBI entry point, and so
-> the specific combination of QEMU's default fw_dynamic firmware with
-> booting FreeBSD as an ELF rather than a raw binary does not work.
->
-> Thus, align the behaviour when loading an ELF with the behaviour when
-> loading a raw binary; namely, use the base address of the loaded kernel
-> in place of the entry point.
->
-> The uImage code is left as-is in using the U-Boot header's entry point,
-> since the calling convention for that entry point is the same as the SBI
-> one and it mirrors what U-Boot will do.
->
-> Signed-off-by: Jessica Clarke <jrtc27@jrtc27.com>
+On Thu, Dec 16, 2021 at 06:10:40PM -0500, Annie.li wrote:
+> Hello Gerd,
+> 
+> On 12/16/2021 1:11 AM, Gerd Hoffmann wrote:
+> > 
+> > Looking again, the difference is probably the reset handling.
+> > pcie_cap_slot_reset() will turn on power (via PCI_EXP_SLTCTL_PCC) in
+> > case some device is plugged into the slot.
+> If the VM is booting from the system disk in the qemu command line(no
+> hot-plug),
+> pcie_cap_slot_reset turns on the power for this device. And this happens
+> before
+> the VM runs into VM_STATE_PRELAUNCH state.(I add '-S' option in this case
+> for comparison)
+> > 
+> > So I suspect when plugging devices during VM_STATE_PRELAUNCH they are
+> > resetted individually (specifically before the device is plugged),
+> When the device is hot-plugged in VM_STATE_PRELAUNCH state, there is no
+> reset for the device during this state. Before entering this state,
+> pcie_cap_slot_reset  does get called for the device(like general VM
+> booting).
+> However, it doesn't turn on the power. I think this is due to that the
+> device isn't
+> hot-plugged yet, and "populated" value is false.
 
-Thanks!
+Ok, so maybe we just need to move the device reset from "before
+prelaunch" to "after prelaunch" ?
 
-Applied to riscv-to-apply.next
+> > whereas otherwise they are resetted when all devices are plugged in.
+> > 
+> > Does resetting devices when leaving RUN_STATE_PRELAUNCH fix this?
+> I suppose only calling pcie_cap_slot_reset  isn't sufficient? maybe
+> rp_reset?
 
-Alistair
+Well, the underlying problem I see here is that the setup workflow for
+devices is different depending how they got added (cmd line vs.
+prelauch).  This should not be the case.
 
-> ---
->  hw/riscv/boot.c | 13 ++++++++++---
->  1 file changed, 10 insertions(+), 3 deletions(-)
->
-> diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
-> index 519fa455a1..f67264374e 100644
-> --- a/hw/riscv/boot.c
-> +++ b/hw/riscv/boot.c
-> @@ -151,12 +151,19 @@ target_ulong riscv_load_kernel(const char *kernel_filename,
->                                 target_ulong kernel_start_addr,
->                                 symbol_fn_t sym_cb)
->  {
-> -    uint64_t kernel_entry;
-> +    uint64_t kernel_load_base, kernel_entry;
->
-> +    /*
-> +     * NB: Use low address not ELF entry point to ensure that the fw_dynamic
-> +     * behaviour when loading an ELF matches the fw_payload, fw_jump and BBL
-> +     * behaviour, as well as fw_dynamic with a raw binary, all of which jump to
-> +     * the (expected) load address load address. This allows kernels to have
-> +     * separate SBI and ELF entry points (used by FreeBSD, for example).
-> +     */
->      if (load_elf_ram_sym(kernel_filename, NULL, NULL, NULL,
-> -                         &kernel_entry, NULL, NULL, NULL, 0,
-> +                         NULL, &kernel_load_base, NULL, NULL, 0,
->                           EM_RISCV, 1, 0, NULL, true, sym_cb) > 0) {
-> -        return kernel_entry;
-> +        return kernel_load_base;
->      }
->
->      if (load_uimage_as(kernel_filename, &kernel_entry, NULL, NULL,
-> --
-> 2.33.1
->
->
+I wouldn't be surprised if we find this causing similar issues in other
+devices.
+
+> Just thinking of the implementation, if the patch is deployed in this way,
+> isn't the change is more complicated than the current one? :) Maybe I've
+> missed something here.
+
+I want the root cause be found and fixed, not band aid being applied ...
+
+take care,
+  Gerd
+
 
