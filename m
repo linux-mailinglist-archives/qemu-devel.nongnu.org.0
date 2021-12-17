@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BAE1478E69
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Dec 2021 15:49:47 +0100 (CET)
-Received: from localhost ([::1]:45900 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99E5F478E98
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Dec 2021 15:54:53 +0100 (CET)
+Received: from localhost ([::1]:33232 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1myEYF-0003nX-MP
-	for lists+qemu-devel@lfdr.de; Fri, 17 Dec 2021 09:49:42 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40506)
+	id 1myEdH-00065b-5F
+	for lists+qemu-devel@lfdr.de; Fri, 17 Dec 2021 09:54:52 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40612)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1myEPA-00084u-Cr
- for qemu-devel@nongnu.org; Fri, 17 Dec 2021 09:40:16 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:46385)
+ id 1myEPY-0008VK-8S
+ for qemu-devel@nongnu.org; Fri, 17 Dec 2021 09:40:40 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:53595)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1myEP8-0007He-QG
- for qemu-devel@nongnu.org; Fri, 17 Dec 2021 09:40:16 -0500
+ id 1myEPW-0007UV-Dl
+ for qemu-devel@nongnu.org; Fri, 17 Dec 2021 09:40:39 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639752014;
+ s=mimecast20190719; t=1639752037;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5T1rWyDX3wH+c9zfbdZrfj9a0NfwEv2ASTEHlbqLIDc=;
- b=AwwUN+Qm3/aeFTFS/FwOmHBFfazRE4BSHuAbEooxCi8tR8aygk8fke44MoWfTMJeM7tkVT
- Y7/c8BuqkaXSYgGj0xbQCr3B5L+/qeCWWrQrIoOWSWIIwd/SzUIDKbFBlsfnfcZZj+szh8
- WeCuZ9BbKHDAxdfsdG0C4eqqXEhOARg=
+ bh=q9vO88ZW2AEYbXXUo7HL/OWPVvarkDG8o39hFfkrAmk=;
+ b=QNCM9jjLKoUtXMqTjqROM4f9D+Y2AlEF+WslQM4jcWl2I2VarqEfloeVR1gKT8wQ32iACP
+ TejjMKfT8f1g6KwB5hfoZhrsmr68b2Y3CZOmMXoemk+E/9qp9YvVtiRWX6SpOuQm4zJrR3
+ ADW6uNxJMjMgN2HF/Ga0yx0VRwBtUV0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-601-L4oPANRoOSaLRh2zncWvqw-1; Fri, 17 Dec 2021 09:40:08 -0500
-X-MC-Unique: L4oPANRoOSaLRh2zncWvqw-1
+ us-mta-543-d7Pf9wnDP1Sjo4y5VVARbA-1; Fri, 17 Dec 2021 09:40:34 -0500
+X-MC-Unique: d7Pf9wnDP1Sjo4y5VVARbA-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A837C85EE61;
- Fri, 17 Dec 2021 14:40:07 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 79B8A64148;
+ Fri, 17 Dec 2021 14:40:33 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.10])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 172325BE37;
- Fri, 17 Dec 2021 14:39:45 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 550175BE2C;
+ Fri, 17 Dec 2021 14:40:10 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PULL 08/36] virtio-gpu: use VIRTIO_GPU_RESOURCE_FLAG_Y_0_TOP
-Date: Fri, 17 Dec 2021 18:37:28 +0400
-Message-Id: <20211217143756.1831099-9-marcandre.lureau@redhat.com>
+Subject: [PULL 09/36] ui: do not delay further remote resize
+Date: Fri, 17 Dec 2021 18:37:29 +0400
+Message-Id: <20211217143756.1831099-10-marcandre.lureau@redhat.com>
 In-Reply-To: <20211217143756.1831099-1-marcandre.lureau@redhat.com>
 References: <20211217143756.1831099-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
@@ -87,28 +87,108 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-It's part of Linux headers for a while now.
+A remote client, such as Spice, will already avoid flooding the stream
+by delaying the resize requests.
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Acked-by: Gerd Hoffmann <kraxel@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- hw/display/virtio-gpu-virgl.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ include/ui/console.h | 2 +-
+ ui/console.c         | 5 +++--
+ ui/gtk.c             | 2 +-
+ ui/sdl2.c            | 2 +-
+ ui/spice-display.c   | 2 +-
+ ui/vnc.c             | 2 +-
+ 6 files changed, 8 insertions(+), 7 deletions(-)
 
-diff --git a/hw/display/virtio-gpu-virgl.c b/hw/display/virtio-gpu-virgl.c
-index 0d87de65d79a..73cb92c8d5c6 100644
---- a/hw/display/virtio-gpu-virgl.c
-+++ b/hw/display/virtio-gpu-virgl.c
-@@ -175,7 +175,7 @@ static void virgl_cmd_set_scanout(VirtIOGPU *g,
-         virgl_renderer_force_ctx_0();
-         dpy_gl_scanout_texture(
-             g->parent_obj.scanout[ss.scanout_id].con, info.tex_id,
--            info.flags & 1 /* FIXME: Y_0_TOP */,
-+            info.flags & VIRTIO_GPU_RESOURCE_FLAG_Y_0_TOP,
-             info.width, info.height,
-             ss.r.x, ss.r.y, ss.r.width, ss.r.height);
-     } else {
+diff --git a/include/ui/console.h b/include/ui/console.h
+index 6d678924f6fd..65e6bbcab8ae 100644
+--- a/include/ui/console.h
++++ b/include/ui/console.h
+@@ -292,7 +292,7 @@ void unregister_displaychangelistener(DisplayChangeListener *dcl);
+ 
+ bool dpy_ui_info_supported(QemuConsole *con);
+ const QemuUIInfo *dpy_get_ui_info(const QemuConsole *con);
+-int dpy_set_ui_info(QemuConsole *con, QemuUIInfo *info);
++int dpy_set_ui_info(QemuConsole *con, QemuUIInfo *info, bool delay);
+ 
+ void dpy_gfx_update(QemuConsole *con, int x, int y, int w, int h);
+ void dpy_gfx_update_full(QemuConsole *con);
+diff --git a/ui/console.c b/ui/console.c
+index 29a3e3f0f51c..dcc21eb5b244 100644
+--- a/ui/console.c
++++ b/ui/console.c
+@@ -1538,7 +1538,7 @@ const QemuUIInfo *dpy_get_ui_info(const QemuConsole *con)
+     return &con->ui_info;
+ }
+ 
+-int dpy_set_ui_info(QemuConsole *con, QemuUIInfo *info)
++int dpy_set_ui_info(QemuConsole *con, QemuUIInfo *info, bool delay)
+ {
+     if (con == NULL) {
+         con = active_console;
+@@ -1558,7 +1558,8 @@ int dpy_set_ui_info(QemuConsole *con, QemuUIInfo *info)
+      * go notify the guest.
+      */
+     con->ui_info = *info;
+-    timer_mod(con->ui_timer, qemu_clock_get_ms(QEMU_CLOCK_REALTIME) + 1000);
++    timer_mod(con->ui_timer,
++              qemu_clock_get_ms(QEMU_CLOCK_REALTIME) + (delay ? 1000 : 0));
+     return 0;
+ }
+ 
+diff --git a/ui/gtk.c b/ui/gtk.c
+index 428f02f2dfe1..c0d8a9f061ee 100644
+--- a/ui/gtk.c
++++ b/ui/gtk.c
+@@ -698,7 +698,7 @@ static void gd_set_ui_info(VirtualConsole *vc, gint width, gint height)
+     memset(&info, 0, sizeof(info));
+     info.width = width;
+     info.height = height;
+-    dpy_set_ui_info(vc->gfx.dcl.con, &info);
++    dpy_set_ui_info(vc->gfx.dcl.con, &info, true);
+ }
+ 
+ #if defined(CONFIG_OPENGL)
+diff --git a/ui/sdl2.c b/ui/sdl2.c
+index 17c0ec30ebff..9ba3bc49e798 100644
+--- a/ui/sdl2.c
++++ b/ui/sdl2.c
+@@ -561,7 +561,7 @@ static void handle_windowevent(SDL_Event *ev)
+             memset(&info, 0, sizeof(info));
+             info.width = ev->window.data1;
+             info.height = ev->window.data2;
+-            dpy_set_ui_info(scon->dcl.con, &info);
++            dpy_set_ui_info(scon->dcl.con, &info, true);
+         }
+         sdl2_redraw(scon);
+         break;
+diff --git a/ui/spice-display.c b/ui/spice-display.c
+index f59c69882d91..52d9f3260aab 100644
+--- a/ui/spice-display.c
++++ b/ui/spice-display.c
+@@ -692,7 +692,7 @@ static int interface_client_monitors_config(QXLInstance *sin,
+     }
+ 
+     trace_qemu_spice_ui_info(ssd->qxl.id, info.width, info.height);
+-    dpy_set_ui_info(ssd->dcl.con, &info);
++    dpy_set_ui_info(ssd->dcl.con, &info, false);
+     return 1;
+ }
+ 
+diff --git a/ui/vnc.c b/ui/vnc.c
+index 9b603382e75e..1ed1c7efc688 100644
+--- a/ui/vnc.c
++++ b/ui/vnc.c
+@@ -2596,7 +2596,7 @@ static int protocol_client_msg(VncState *vs, uint8_t *data, size_t len)
+             memset(&info, 0, sizeof(info));
+             info.width = w;
+             info.height = h;
+-            dpy_set_ui_info(vs->vd->dcl.con, &info);
++            dpy_set_ui_info(vs->vd->dcl.con, &info, false);
+             vnc_desktop_resize_ext(vs, 4 /* Request forwarded */);
+         } else {
+             vnc_desktop_resize_ext(vs, 3 /* Invalid screen layout */);
 -- 
 2.34.1.8.g35151cf07204
 
