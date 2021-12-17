@@ -2,77 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E6594787F9
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Dec 2021 10:42:46 +0100 (CET)
-Received: from localhost ([::1]:45862 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26E234787F4
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Dec 2021 10:41:39 +0100 (CET)
+Received: from localhost ([::1]:43110 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1my9lE-00027r-QC
-	for lists+qemu-devel@lfdr.de; Fri, 17 Dec 2021 04:42:44 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54766)
+	id 1my9kA-0000C5-9d
+	for lists+qemu-devel@lfdr.de; Fri, 17 Dec 2021 04:41:38 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54858)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1my9iR-00074D-Gd
- for qemu-devel@nongnu.org; Fri, 17 Dec 2021 04:39:51 -0500
-Received: from smtp-out2.suse.de ([195.135.220.29]:54296)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1my9iP-0006Ld-Tr
- for qemu-devel@nongnu.org; Fri, 17 Dec 2021 04:39:51 -0500
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 4ED251F38A;
- Fri, 17 Dec 2021 09:39:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1639733986; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=GH/RAHbUiQj9QRgnB9jWI3WQIqE7HqzQSS6PDwZG+20=;
- b=shIKkUDaiNmeylXiAsOHwuwNp/tixgTG7scIjeFCqiluWgJQ46ay0eynx6iWEBOmLbQJ+0
- 2BGyDkC3RAts9NdDocKkATJy5TfLuTh1bDorzVaUjuvIkiooCaFeyaX3/zSOK8E/nBwUrC
- w2PrYO4Il79Y50wCMQVDcChDInH7Big=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1639733986;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=GH/RAHbUiQj9QRgnB9jWI3WQIqE7HqzQSS6PDwZG+20=;
- b=WHZ5nD3qRDJqiw/2eVJeDLuqFGFMSZyjfgaymF1iun6vK17V2yoh+cqCJbdf5GHESokl/y
- EezA1V6dFl0Rr5Cg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1538313DC1;
- Fri, 17 Dec 2021 09:39:46 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id G7dCA+JavGEuFgAAMHmgww
- (envelope-from <cfontana@suse.de>); Fri, 17 Dec 2021 09:39:46 +0000
-Subject: Re: [PATCH 1/1] multifd: Remove some redundant code
-To: Li Zhang <lizhang@suse.de>, quintela@redhat.com, dgilbert@redhat.com,
- qemu-devel@nongnu.org
-References: <20211217093318.6260-1-lizhang@suse.de>
-From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <5ff179bb-cea8-35d9-f062-9cbfd3f7cb9e@suse.de>
-Date: Fri, 17 Dec 2021 10:39:45 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1my9ir-0007H5-Lo; Fri, 17 Dec 2021 04:40:18 -0500
+Received: from mout.kundenserver.de ([217.72.192.75]:34725)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1my9iq-0006PP-1T; Fri, 17 Dec 2021 04:40:17 -0500
+Received: from [192.168.100.1] ([82.142.30.186]) by mrelayeu.kundenserver.de
+ (mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MfqGN-1mIkIA10Ez-00gDiL; Fri, 17 Dec 2021 10:40:07 +0100
+Message-ID: <401fd0d0-0091-f37d-8288-64c48499235a@vivier.eu>
+Date: Fri, 17 Dec 2021 10:40:05 +0100
 MIME-Version: 1.0
-In-Reply-To: <20211217093318.6260-1-lizhang@suse.de>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=195.135.220.29; envelope-from=cfontana@suse.de;
- helo=smtp-out2.suse.de
-X-Spam_score_int: -60
-X-Spam_score: -6.1
-X-Spam_bar: ------
-X-Spam_report: (-6.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.716,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH] configure: Symlink binaries using .exe suffix with MinGW
+Content-Language: fr
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20211109144504.1541206-1-philmd@redhat.com>
+From: Laurent Vivier <laurent@vivier.eu>
+In-Reply-To: <20211109144504.1541206-1-philmd@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:/ZdMo3W+Dlx7R4VfhU24xoNcnwNF+sR1zo/jd81BKUDSksr7+ob
+ rVgteDnLisJpSebAM03KZgWCfGp1eKperQxH1HhEKMxJESs5E8VfnTmHo3s0TSgx23UpaXr
+ ANfmMjf9x+judhTdJ0wSwJBn35CGvwR7hKN9+2xawQ+mm362Gy+Q8XNa79kfv3GsZXZFg8r
+ rbMo079E6hPD9owQdU2/w==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:DD3hk/PYVGo=:fhLTVh1XCvLmA7Tap6oTZE
+ 7r774sFJ4NtiTLHJZDmSc1I2QvTf4pAOPaeukYLRgOo6C5xCrKQ0grd4IX0C1DwRV20icmJde
+ W7+zZXs2mMOYHuK/azl952+gTZJef4EpCNNhBtmTUVV4+E+w9ahY0pJC2KOoqQCga46EgNGpc
+ u6l6tfpbUpRf88ReRpmcRy4qr6zoc01SZtZJ0iFzzBMmXrBwW7rDj7qdnXbNOZzMHf0AK/h05
+ DQsD87SMG2E06s6TPRoEsRK8ofQEIegyAtaqtIsC36i5pWkIJN1UiQsvJMtRhbVXsggpeLKub
+ qXkfUncoQN34GD0qMhTs8v78eL42aRGqzTTVgJg6/CAl1SJOpQo751yQk519mOOrHLaf4HSsI
+ G5NzvlekwNzc1Y2+Y7BmrGuknbWaenSvLgUcEtSECk99hBsGr5W4xLkfhTCZyOWONewa4BSlE
+ ncen7HSn1Tj7CNOz25EScYoJBxTPhonL0EsMCQGqZt2EgX247w4DO9HT/SzdwPORAC1Gu2Sra
+ LiPFzi3hnvgOS1YWtza7FyiuEjeM+T7pIoLI6Q5YQZd5lP1dzWxbLSBmUMPK58eHDEzKtBYvG
+ UGJY9q1ohEJ0ifnSIHQXlAikv6dMikgh1FeLestA+kFgtwywiuelVTGVqYiTkvMjRzHRX3rP9
+ LurREEnGJWMJ4L7NAgPq2f+K4geh8lRIWQuYGXJjL0xCTFjju96DFr3R1Daa7VsObtmU=
+Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.716,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,82 +70,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-trivial@nongnu.org, Stefan Weil <sw@weilnetz.de>,
+ Yonggang Luo <luoyonggang@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Li,
-
-the full function for context:
-
-static void multifd_new_send_channel_async(QIOTask *task, gpointer opaque)
-{
-    MultiFDSendParams *p = opaque;
-    QIOChannel *sioc = QIO_CHANNEL(qio_task_get_source(task));
-    Error *local_err = NULL;
-
-    trace_multifd_new_send_channel_async(p->id);
-    if (qio_task_propagate_error(task, &local_err)) {
-        goto cleanup;
-    } else {
-        p->c = QIO_CHANNEL(sioc);
-        qio_channel_set_delay(p->c, false);
-        p->running = true;
-        if (!multifd_channel_connect(p, sioc, local_err)) {
-            goto cleanup;
-        }
-        return;
-    }
-
-cleanup:
-    multifd_new_send_channel_cleanup(p, sioc, local_err);
-}
-
-
-
-On 12/17/21 10:33 AM, Li Zhang wrote:
-> Clean up some unnecessary code
+Le 09/11/2021 à 15:45, Philippe Mathieu-Daudé a écrit :
+> When using the MinGW toolchain, we use the .exe suffix for the
+> executable name. We also need to use it for the symlinks in the
+> build directory.
 > 
-> Signed-off-by: Li Zhang <lizhang@suse.de>
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 > ---
->  migration/multifd.c | 9 ++-------
->  1 file changed, 2 insertions(+), 7 deletions(-)
+>   configure | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/migration/multifd.c b/migration/multifd.c
-> index 3242f688e5..1405cf95b8 100644
-> --- a/migration/multifd.c
-> +++ b/migration/multifd.c
-> @@ -854,9 +854,7 @@ static void multifd_new_send_channel_async(QIOTask *task, gpointer opaque)
->      Error *local_err = NULL;
->  
->      trace_multifd_new_send_channel_async(p->id);
-> -    if (qio_task_propagate_error(task, &local_err)) {
-> -        goto cleanup;
-
-I see you are removing this goto, but keeping there the other one.. is this a bit inconsistent?
-
-Should the second check be inverted too, to remove the other goto as well?
-
-Ciao,
-
-Claudio
-
-> -    } else {
-> +    if (!qio_task_propagate_error(task, &local_err)) {
->          p->c = QIO_CHANNEL(sioc);
->          qio_channel_set_delay(p->c, false);
->          p->running = true;
-> @@ -1078,10 +1076,7 @@ static void *multifd_recv_thread(void *opaque)
->  
->          ret = qio_channel_read_all_eof(p->c, (void *)p->packet,
->                                         p->packet_len, &local_err);
-> -        if (ret == 0) {   /* EOF */
-> -            break;
-> -        }
-> -        if (ret == -1) {   /* Error */
-> +        if (ret == 0 || ret == -1) {   /* 0: EOF  -1: Error */
->              break;
->          }
->  
+> diff --git a/configure b/configure
+> index 48c21775f3a..31e8f586dc7 100755
+> --- a/configure
+> +++ b/configure
+> @@ -3786,7 +3786,7 @@ fi
+>   
+>   for target in $target_list; do
+>       target_dir="$target"
+> -    target_name=$(echo $target | cut -d '-' -f 1)
+> +    target_name=$(echo $target | cut -d '-' -f 1)$EXESUF
+>       mkdir -p $target_dir
+>       case $target in
+>           *-user) symlink "../qemu-$target_name" "$target_dir/qemu-$target_name" ;;
 > 
 
+Applied to my trivial-patches branch.
+
+Thanks,
+Laurent
 
