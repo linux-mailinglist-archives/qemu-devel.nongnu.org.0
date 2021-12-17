@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3BF747978A
-	for <lists+qemu-devel@lfdr.de>; Sat, 18 Dec 2021 00:33:15 +0100 (CET)
-Received: from localhost ([::1]:39488 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA4F047978F
+	for <lists+qemu-devel@lfdr.de>; Sat, 18 Dec 2021 00:35:31 +0100 (CET)
+Received: from localhost ([::1]:44868 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1myMiw-00047o-IR
-	for lists+qemu-devel@lfdr.de; Fri, 17 Dec 2021 18:33:14 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51396)
+	id 1myMl8-00088M-Uf
+	for lists+qemu-devel@lfdr.de; Fri, 17 Dec 2021 18:35:30 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51424)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1myMg3-0001lc-0v; Fri, 17 Dec 2021 18:30:15 -0500
-Received: from [2a00:1450:4864:20::431] (port=35690
- helo=mail-wr1-x431.google.com)
+ id 1myMg7-0001ov-2s; Fri, 17 Dec 2021 18:30:19 -0500
+Received: from [2a00:1450:4864:20::435] (port=34554
+ helo=mail-wr1-x435.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1myMg1-0000dm-H0; Fri, 17 Dec 2021 18:30:14 -0500
-Received: by mail-wr1-x431.google.com with SMTP id j18so6884065wrd.2;
- Fri, 17 Dec 2021 15:30:12 -0800 (PST)
+ id 1myMg5-0000em-Le; Fri, 17 Dec 2021 18:30:18 -0500
+Received: by mail-wr1-x435.google.com with SMTP id s1so6871821wrg.1;
+ Fri, 17 Dec 2021 15:30:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=ZWh94a2WR9TR/m4jLsj5NcXBuLuKIaQMWt5ljQ5CZKA=;
- b=gsWrkAwG7JQ3ro2uXXlPsj8gYZmtDryKTIdklmZu4t2cUqc7EdRp58So1wPuOZyfhD
- 0B4Mete5qBQYg3vHk/myqkj96HXwpDNzEVD3XUO3sxQsBlL8gy7+i/vX4zQD8BnL5f6G
- 6wAJtSz3MhUJsDOpFaomxBJYhp7MTcmXaMQknTR7c6YXALA+XSme1Vg9yvEHcungClGk
- thoXPd195gYpxDGP1b+UB4Tbwl5PPm0SoZMmn9eXPLKt3y5hCWz8jdImFSzx+RHmwhAf
- +U7IfC0Ki6894c5p1W6L8/A3Jt1+Pe42LkrPQQyeV7WfltaV+Gh8rQ6JqAr3dRYU7Jej
- bkVg==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=WJe8RjsoLjMomrT57K8fG8USP01ZAKlrT79WsOA/JOw=;
+ b=Fb9MN1BMQFKmoLYEqANq06HR2tAF4NE0E5j+aQcjBY5cR6w2auQG7cM17CbYmlqm7Y
+ sEcTT2VGwU/5Kz+YddYj0OdKN4X6qS0wnYYV46UXNGnrDp0XHC6TVpaet2CR1hpS+FFl
+ TGsXF89fY+TkC1qtBzHi6DTsRZ6arhZPbCnOYnfL2OM3OrdBGRDMChrnwvX6einofXlA
+ JQL4BSBh/LycgbFgpy/ID4Jn/52IOHdEoihaajXS7VXR66XI7xB/IDB0IKDTkJWK1WDE
+ ftrN16/Zsqb4drHGO05iDimrP1WRSd+rT6shkG/QwyWTaCUMX1V+X0ik8kSl4Tbh144T
+ clQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=ZWh94a2WR9TR/m4jLsj5NcXBuLuKIaQMWt5ljQ5CZKA=;
- b=pzScdKHKh7K+PxlcC6z33wZyJxmmsHoSqwouRXZlNu2PnZWllUDHD3WfsavzEN4Z12
- wNbhedfQaZo3hC2AbpQR0XtfKj44Sq09yt2Kw2dt5ONA13sQ6b3KNrArn3n/fz/G3oT/
- QZ7Pad0fwemem8wrQetbd3otfAR7HdWXIG0O3jf3M+9aaxcqosL72yT+E6RCIUQiYOSZ
- Dv0N1sStzoiDFkwqtOJowRKBS00y36HLoa4Yir+1/brDEryRe4sEl04l4X7uNA/jljpt
- JXRtCJ6Joz9GnykihefngNDfKpVG3OWjPGWquZnfrHqPs75EezWAlHRpyTQ77TMC4o89
- zlcQ==
-X-Gm-Message-State: AOAM530FaG7Z7jnk1KDNc6vcWqmsvPMMOhIcMU1lyS6P/3+BI9Sr1XjV
- pVOVzBjRXT3fjT2uU+45AosgxotqWuM=
-X-Google-Smtp-Source: ABdhPJy85x2ns3RCH5691GUmAbT8yf3KqNkRXfKCASLdyMKiJbMLZX9zPnaD/FzJWgw31zL/7jPBaw==
-X-Received: by 2002:a5d:6c6a:: with SMTP id r10mr2354781wrz.60.1639783809603; 
- Fri, 17 Dec 2021 15:30:09 -0800 (PST)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=WJe8RjsoLjMomrT57K8fG8USP01ZAKlrT79WsOA/JOw=;
+ b=l/kVrLW8MGI5yQz6izLlvO4ZIaS6+kYIBrltlJUMGDAV6gpFlSiIEcIU4wKyEaMaIe
+ 5TGjqqBy2SBtETOdsKlrgyujFR6Cej4vKxhktSaTvCUC1TqmP3GkFKSn3pKtGB8P8kgH
+ CwCVIAL/EBnZXfKxipHaX8oQLgWv0RDFvjfUWpGdfV+YiT5Vo+2TSYGFUOKiQetoRkUL
+ 7+UketP2rJFth61WetHzT279AUPS/YUGs96OiWN0IR3RCuAcmzaabprPDWBpMkjInaRT
+ 4FE3dcQpoXWM2NdlxxWJs/P99neh5E3RtWzNdu5Sgfzlh9saRhbLb/pEabTtCpusWsjt
+ aJeQ==
+X-Gm-Message-State: AOAM533kfQZdvmYRYd1/kVweFHbCUWnMNBafNnRYR2hqxMAbnZw4cph6
+ mFLxQtiPvf28eUw3DGJSHB5YBlwMUVA=
+X-Google-Smtp-Source: ABdhPJwh1dQxOgxD7yAsrCTwxCNj4SwBbh7uZ4q/YjihOmjOqbJvtkDkGyOTx8vJfuK/Vwhi0Puflg==
+X-Received: by 2002:adf:ee45:: with SMTP id w5mr4120448wro.0.1639783814514;
+ Fri, 17 Dec 2021 15:30:14 -0800 (PST)
 Received: from x1w.redhat.com (174.red-83-50-185.dynamicip.rima-tde.net.
  [83.50.185.174])
- by smtp.gmail.com with ESMTPSA id i1sm5155281wml.26.2021.12.17.15.30.08
+ by smtp.gmail.com with ESMTPSA id n1sm10530570wrc.54.2021.12.17.15.30.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 17 Dec 2021 15:30:08 -0800 (PST)
+ Fri, 17 Dec 2021 15:30:14 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 0/3] hw/net: Move MV88W8618 network device out of hw/arm/
- directory
-Date: Sat, 18 Dec 2021 00:30:03 +0100
-Message-Id: <20211217233006.1466747-1-f4bug@amsat.org>
+Subject: [PATCH v3 1/3] hw: Move MARVELL_88W8618 Kconfig from audio/ to arm/
+Date: Sat, 18 Dec 2021 00:30:04 +0100
+Message-Id: <20211217233006.1466747-2-f4bug@amsat.org>
 X-Mailer: git-send-email 2.33.1
+In-Reply-To: <20211217233006.1466747-1-f4bug@amsat.org>
+References: <20211217233006.1466747-1-f4bug@amsat.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::431
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::435
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x431.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x435.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -93,33 +94,44 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This series simply extract the MV88W8618 device from the ARM=0D
-machine in hw/arm/ and move it to hw/net/.=0D
-=0D
-Since v2:=0D
-- declare MARVELL_88W8618 in hw/arm/Kconfig=0D
-- use MARVELL_88W8618 Kconfig (rth)=0D
-=0D
-Since v1:=0D
-- update (c) notice=0D
-=0D
-Philippe Mathieu-Daud=C3=A9 (3):=0D
-  hw: Move MARVELL_88W8618 Kconfig from audio/ to arm/=0D
-  hw/arm/musicpal: Fix coding style of code related to MV88W8618 device=0D
-  hw/net: Move MV88W8618 network device out of hw/arm/ directory=0D
-=0D
- include/hw/net/mv88w8618_eth.h |  12 +=0D
- hw/arm/musicpal.c              | 380 +------------------------------=0D
- hw/net/mv88w8618_eth.c         | 402 +++++++++++++++++++++++++++++++++=0D
- MAINTAINERS                    |   2 +=0D
- hw/arm/Kconfig                 |   3 +=0D
- hw/audio/Kconfig               |   3 -=0D
- hw/net/meson.build             |   1 +=0D
- 7 files changed, 421 insertions(+), 382 deletions(-)=0D
- create mode 100644 include/hw/net/mv88w8618_eth.h=0D
- create mode 100644 hw/net/mv88w8618_eth.c=0D
-=0D
--- =0D
-2.33.1=0D
-=0D
+The Marvell 88W8618 is a system-on-chip with an ARM core.
+We implement its audio codecs and network interface.
+Homogeneous SoC Kconfig are usually defined in the hw/$ARCH
+directory. Move it there.
+
+Suggested-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ hw/arm/Kconfig   | 3 +++
+ hw/audio/Kconfig | 3 ---
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
+index e6525909438..c459c897cc7 100644
+--- a/hw/arm/Kconfig
++++ b/hw/arm/Kconfig
+@@ -94,6 +94,9 @@ config MUSCA
+     select SPLIT_IRQ
+     select UNIMP
+ 
++config MARVELL_88W8618
++    bool
++
+ config MUSICPAL
+     bool
+     select OR_IRQ
+diff --git a/hw/audio/Kconfig b/hw/audio/Kconfig
+index e9c6fed8261..e76c69ca7e7 100644
+--- a/hw/audio/Kconfig
++++ b/hw/audio/Kconfig
+@@ -47,6 +47,3 @@ config PL041
+ 
+ config CS4231
+     bool
+-
+-config MARVELL_88W8618
+-    bool
+-- 
+2.33.1
+
 
