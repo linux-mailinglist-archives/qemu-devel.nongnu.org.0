@@ -2,84 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1885D478704
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Dec 2021 10:25:49 +0100 (CET)
-Received: from localhost ([::1]:59428 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 018374787C9
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Dec 2021 10:35:38 +0100 (CET)
+Received: from localhost ([::1]:39048 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1my9Uq-0008NF-1C
-	for lists+qemu-devel@lfdr.de; Fri, 17 Dec 2021 04:25:48 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52052)
+	id 1my9eK-0005hk-KM
+	for lists+qemu-devel@lfdr.de; Fri, 17 Dec 2021 04:35:36 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53806)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1my9S4-0006j5-S8
- for qemu-devel@nongnu.org; Fri, 17 Dec 2021 04:22:56 -0500
-Received: from [2a00:1450:4864:20::436] (port=40717
- helo=mail-wr1-x436.google.com)
+ (Exim 4.90_1) (envelope-from <lizhang@suse.de>) id 1my9co-0004iE-H7
+ for qemu-devel@nongnu.org; Fri, 17 Dec 2021 04:34:02 -0500
+Received: from smtp-out1.suse.de ([195.135.220.28]:41474)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1my9S2-0004KU-SJ
- for qemu-devel@nongnu.org; Fri, 17 Dec 2021 04:22:56 -0500
-Received: by mail-wr1-x436.google.com with SMTP id q16so2797763wrg.7
- for <qemu-devel@nongnu.org>; Fri, 17 Dec 2021 01:22:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=HZP1Ic0fT27CJVY7zqhHFD7SZSfH3jGxxCPxSlaSD2k=;
- b=MGQnsBwjiwJo/VhCJh+32ytXa4BnN+axM/+sr4zy+EwlbV0XQ5j2kEQRF7lZzvrmei
- C8WgwSJQmpxYYBu6OlHQwla7U6RBo+TY7PZrTq6EK2qcxy79AJtab52DJfhwY5iupZqy
- 135aCRYhv+jDH1dCQDaJlQ5sHOvONDyaGPglKH9r1ba9CUi/KVNjNqsn4tbGg+UFuSJC
- ZkA3B/IWgRDe9G8NPhpJRskzDm/AHMw/GMygp18R5t+4rbUW2JYqcilt3rsdKiSTmkvF
- 84m9AjM8V82k7WDyEQuC9gDre6oChyzb2OTJ5xY2Cz0409LofFh/ZvDaUSIBP3vzRa7L
- hXIA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=HZP1Ic0fT27CJVY7zqhHFD7SZSfH3jGxxCPxSlaSD2k=;
- b=rEzrzi7pMMh1FShJ1GEXS2IjhQLxzgC8aftKzX5J7A5RuzKZDz3A9Np9N/+ae6LM1F
- 97PSYK5XOGdeBhPBGuf8j1P9BfI2nVHASeFBaGJri/lDz4EtONovFxDZU/kk9snxWNRe
- /pMEz5ep2u8zPAeLXgcUTfAYN5Hvqk31L73OTOL7pedHuhY9n4nUOfFjGOcEFjdYdsXk
- mb1c3qVUx+0jCe8IkAQLHPSq3ahmATxv2edDH8MoLNHDVSbUq+hjz09SFYmsKLpG6q2j
- kLiNHkpjTQ7+wV+LbqhvbsdK8s/moh9z2wQ4WDB1EWNHygrqh2OqzhrIFgtU+Sfm91D5
- 8LCw==
-X-Gm-Message-State: AOAM533MtA1vfOnBEjt7KDn3Dl0Lir6DirarumE/qxozlKon7CF7o8Qi
- 794I0HI52a+ty/62jryCxFk=
-X-Google-Smtp-Source: ABdhPJzNNjkqZJw3he5azBzVvzrfv7bVS8U3n4fy2pLH2dSznQ4jjz/dDe7kyPipuFb+YUrq2LKkUA==
-X-Received: by 2002:a5d:66d2:: with SMTP id k18mr551289wrw.430.1639732973461; 
- Fri, 17 Dec 2021 01:22:53 -0800 (PST)
-Received: from ?IPV6:2001:b07:add:ec09:c399:bc87:7b6c:fb2a?
- ([2001:b07:add:ec09:c399:bc87:7b6c:fb2a])
- by smtp.googlemail.com with ESMTPSA id j3sm870046wrt.14.2021.12.17.01.22.50
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 17 Dec 2021 01:22:53 -0800 (PST)
-Message-ID: <97dad0a8-4c99-fcfb-41a8-34cf36d96432@redhat.com>
-Date: Fri, 17 Dec 2021 10:22:49 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH] hw/i386/vmmouse: Require 'i8042' property to be set
-Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ (Exim 4.90_1) (envelope-from <lizhang@suse.de>) id 1my9cn-0005gc-1q
+ for qemu-devel@nongnu.org; Fri, 17 Dec 2021 04:34:02 -0500
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id E256A2170E;
+ Fri, 17 Dec 2021 09:33:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1639733637; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=Ko2eFSQ24SdPiUYKtGzne/n3vQG/kqNS/4N81TtcNsk=;
+ b=fJnJFw8pkuAGhyuJHGM0cUz98PbbrKyU43F5JHo/8sGZYdZ2EL0Tz9ykTGU+GQ4T0nbEug
+ ZbNUbTa3lWQk6M6HRZoL7nM2w4bneWYPlBXtl2GuM4lQSelJXpBktnm9bW0i7uvGVfaayW
+ IajkXczd6SR8DKaQ/3pksCifi1QwDfI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1639733637;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=Ko2eFSQ24SdPiUYKtGzne/n3vQG/kqNS/4N81TtcNsk=;
+ b=n2RyF8PPQOE5alzZDV4+XTuh+3BTtZhziNA/QWGz2W+CG2sleEHH4u+fXidjiFrYYEVGWz
+ VTPXI4WAb4Be6FDg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A99B613DC1;
+ Fri, 17 Dec 2021 09:33:57 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id GMavJ4VZvGHIEwAAMHmgww
+ (envelope-from <lizhang@suse.de>); Fri, 17 Dec 2021 09:33:57 +0000
+From: Li Zhang <lizhang@suse.de>
+To: quintela@redhat.com, dgilbert@redhat.com, cfontana@suse.de,
  qemu-devel@nongnu.org
-References: <20211201223253.36080-1-f4bug@amsat.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <20211201223253.36080-1-f4bug@amsat.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Subject: [PATCH 1/1] multifd: Remove some redundant code
+Date: Fri, 17 Dec 2021 10:33:18 +0100
+Message-Id: <20211217093318.6260-1-lizhang@suse.de>
+X-Mailer: git-send-email 2.31.1
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::436
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x436.google.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
-X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-1.716,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=195.135.220.28; envelope-from=lizhang@suse.de;
+ helo=smtp-out1.suse.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,50 +76,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>, Calvin Buckley <calvin@cmpct.info>,
- Richard Henderson <richard.henderson@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Li Zhang <lizhang@suse.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/1/21 23:32, Philippe Mathieu-Daudé wrote:
-> If the 'i8042' property is not set, mouse events handled by
-> vmmouse_mouse_event() end calling i8042_isa_mouse_fake_event()
-> with a NULL argument, resulting in ps2_mouse_fake_event() being
-> called with invalid PS2MouseState pointer. Fix by requiring
-> the 'i8042' property to be always set:
-> 
->    $ qemu-system-x86_64 -device vmmouse
->    qemu-system-x86_64: -device vmmouse: 'i8042' link is not set
-> 
-> Fixes: 91c9e09147b ("vmmouse: convert to qdev")
-> Reported-by: Calvin Buckley <calvin@cmpct.info>
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/752
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
-> Amusingly 'qemu-system-x86_64 -device vmmouse,i8042=i8042' now works.
-> ---
->   hw/i386/vmmouse.c | 4 ++++
->   1 file changed, 4 insertions(+)
-> 
-> diff --git a/hw/i386/vmmouse.c b/hw/i386/vmmouse.c
-> index 3d663682863..a56c185f159 100644
-> --- a/hw/i386/vmmouse.c
-> +++ b/hw/i386/vmmouse.c
-> @@ -286,6 +286,10 @@ static void vmmouse_realizefn(DeviceState *dev, Error **errp)
->   
->       DPRINTF("vmmouse_init\n");
->   
-> +    if (!s->i8042) {
-> +        error_setg(errp, "'i8042' link is not set");
-> +        return;
-> +    }
->       if (!object_resolve_path_type("", TYPE_VMPORT, NULL)) {
->           error_setg(errp, "vmmouse needs a machine with vmport");
->           return;
-> 
+Clean up some unnecessary code
 
-Queued, thanks.
+Signed-off-by: Li Zhang <lizhang@suse.de>
+---
+ migration/multifd.c | 9 ++-------
+ 1 file changed, 2 insertions(+), 7 deletions(-)
 
-Paolo
+diff --git a/migration/multifd.c b/migration/multifd.c
+index 3242f688e5..1405cf95b8 100644
+--- a/migration/multifd.c
++++ b/migration/multifd.c
+@@ -854,9 +854,7 @@ static void multifd_new_send_channel_async(QIOTask *task, gpointer opaque)
+     Error *local_err = NULL;
+ 
+     trace_multifd_new_send_channel_async(p->id);
+-    if (qio_task_propagate_error(task, &local_err)) {
+-        goto cleanup;
+-    } else {
++    if (!qio_task_propagate_error(task, &local_err)) {
+         p->c = QIO_CHANNEL(sioc);
+         qio_channel_set_delay(p->c, false);
+         p->running = true;
+@@ -1078,10 +1076,7 @@ static void *multifd_recv_thread(void *opaque)
+ 
+         ret = qio_channel_read_all_eof(p->c, (void *)p->packet,
+                                        p->packet_len, &local_err);
+-        if (ret == 0) {   /* EOF */
+-            break;
+-        }
+-        if (ret == -1) {   /* Error */
++        if (ret == 0 || ret == -1) {   /* 0: EOF  -1: Error */
+             break;
+         }
+ 
+-- 
+2.31.1
+
 
