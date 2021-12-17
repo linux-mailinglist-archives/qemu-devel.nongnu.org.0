@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AA9B478F4D
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Dec 2021 16:14:48 +0100 (CET)
-Received: from localhost ([::1]:50026 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 048C4478F59
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Dec 2021 16:18:47 +0100 (CET)
+Received: from localhost ([::1]:60948 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1myEwZ-0003yp-7O
-	for lists+qemu-devel@lfdr.de; Fri, 17 Dec 2021 10:14:47 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41888)
+	id 1myF0N-0002vw-TS
+	for lists+qemu-devel@lfdr.de; Fri, 17 Dec 2021 10:18:43 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41960)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1myETX-0006GN-J9
- for qemu-devel@nongnu.org; Fri, 17 Dec 2021 09:44:49 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32984)
+ id 1myEUH-0006hn-TU
+ for qemu-devel@nongnu.org; Fri, 17 Dec 2021 09:45:33 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35838)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1myETV-0002h8-UP
- for qemu-devel@nongnu.org; Fri, 17 Dec 2021 09:44:47 -0500
+ id 1myEUE-0002mQ-KN
+ for qemu-devel@nongnu.org; Fri, 17 Dec 2021 09:45:33 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639752283;
+ s=mimecast20190719; t=1639752314;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=HfIbodvuKLf+0Hux9L/KexjKL4WEUJTO8nSSAZV7rLg=;
- b=Qwx0iH2maFFgXJk5pabM8WEYnDQpr8XLsbUkx5ngyOWvzRTlGB2afWiE+3bG7W1ZptN8oz
- PGLtOx8dlmw0cDAWNO5ZaK/ZAk8zo2voq8hA+y6xRTkwE7cf9coZ/16JRiJVwcMV8sUnZo
- IsgHOvAsTTSU2X4QySfZa8E3xqD4uCs=
+ bh=qr5ILjH99kKFQ/qRzqdeP9jr2ruQp616Sw5hEDEk8rg=;
+ b=EmDsGChvUuCbBMzcLuryqvs9zlcST3Q6QU8g5Xgejp7Q8I7Z7VLcL9jpwt3wOW+O0La1hd
+ vVmIQBx40aMssb1ILS3C/ZEV0fDdZNCoXhjoXJ+uUp9+K1BQRCC+pJ95wBfYgNZCkknbuQ
+ 4OyKbZkFxz7bZSaGrVrnsJN8fenScx8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-214-x_0BXuIpP2ml4vdqbJF5Xg-1; Fri, 17 Dec 2021 09:44:39 -0500
-X-MC-Unique: x_0BXuIpP2ml4vdqbJF5Xg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-624-nnS4q3i-N4WtFOdQZc5yYA-1; Fri, 17 Dec 2021 09:45:05 -0500
+X-MC-Unique: nnS4q3i-N4WtFOdQZc5yYA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4CDF3100CCC4;
- Fri, 17 Dec 2021 14:44:38 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EC17D801AAB;
+ Fri, 17 Dec 2021 14:45:04 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.10])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 076B45BE2C;
- Fri, 17 Dec 2021 14:44:36 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DC0FAE2D3;
+ Fri, 17 Dec 2021 14:44:41 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PULL 32/36] chardev: make socket derivable
-Date: Fri, 17 Dec 2021 18:37:52 +0400
-Message-Id: <20211217143756.1831099-33-marcandre.lureau@redhat.com>
+Subject: [PULL 33/36] option: add g_auto for QemuOpts
+Date: Fri, 17 Dec 2021 18:37:53 +0400
+Message-Id: <20211217143756.1831099-34-marcandre.lureau@redhat.com>
 In-Reply-To: <20211217143756.1831099-1-marcandre.lureau@redhat.com>
 References: <20211217143756.1831099-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -87,182 +87,25 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
+Used in the next commit.
+
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Acked-by: Gerd Hoffmann <kraxel@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- include/chardev/char-socket.h | 84 +++++++++++++++++++++++++++++++++++
- chardev/char-socket.c         | 58 +-----------------------
- 2 files changed, 85 insertions(+), 57 deletions(-)
- create mode 100644 include/chardev/char-socket.h
+ include/qemu/option.h | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/include/chardev/char-socket.h b/include/chardev/char-socket.h
-new file mode 100644
-index 000000000000..1a9274f2e3ac
---- /dev/null
-+++ b/include/chardev/char-socket.h
-@@ -0,0 +1,84 @@
-+/*
-+ * QEMU System Emulator
-+ *
-+ * Copyright (c) 2003-2008 Fabrice Bellard
-+ *
-+ * Permission is hereby granted, free of charge, to any person obtaining a copy
-+ * of this software and associated documentation files (the "Software"), to deal
-+ * in the Software without restriction, including without limitation the rights
-+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-+ * copies of the Software, and to permit persons to whom the Software is
-+ * furnished to do so, subject to the following conditions:
-+ *
-+ * The above copyright notice and this permission notice shall be included in
-+ * all copies or substantial portions of the Software.
-+ *
-+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-+ * THE SOFTWARE.
-+ */
-+#ifndef CHAR_SOCKET_H_
-+#define CHAR_SOCKET_H_
-+
-+#include "io/channel-socket.h"
-+#include "io/channel-tls.h"
-+#include "io/net-listener.h"
-+#include "chardev/char.h"
-+#include "qom/object.h"
-+
-+#define TCP_MAX_FDS 16
-+
-+typedef struct {
-+    char buf[21];
-+    size_t buflen;
-+} TCPChardevTelnetInit;
-+
-+typedef enum {
-+    TCP_CHARDEV_STATE_DISCONNECTED,
-+    TCP_CHARDEV_STATE_CONNECTING,
-+    TCP_CHARDEV_STATE_CONNECTED,
-+} TCPChardevState;
-+
-+struct SocketChardev {
-+    Chardev parent;
-+    QIOChannel *ioc; /* Client I/O channel */
-+    QIOChannelSocket *sioc; /* Client master channel */
-+    QIONetListener *listener;
-+    GSource *hup_source;
-+    QCryptoTLSCreds *tls_creds;
-+    char *tls_authz;
-+    TCPChardevState state;
-+    int max_size;
-+    int do_telnetopt;
-+    int do_nodelay;
-+    int *read_msgfds;
-+    size_t read_msgfds_num;
-+    int *write_msgfds;
-+    size_t write_msgfds_num;
-+    bool registered_yank;
-+
-+    SocketAddress *addr;
-+    bool is_listen;
-+    bool is_telnet;
-+    bool is_tn3270;
-+    GSource *telnet_source;
-+    TCPChardevTelnetInit *telnet_init;
-+
-+    bool is_websock;
-+
-+    GSource *reconnect_timer;
-+    int64_t reconnect_time;
-+    bool connect_err_reported;
-+
-+    QIOTask *connect_task;
-+};
-+typedef struct SocketChardev SocketChardev;
-+
-+DECLARE_INSTANCE_CHECKER(SocketChardev, SOCKET_CHARDEV,
-+                         TYPE_CHARDEV_SOCKET)
-+
-+#endif /* CHAR_SOCKET_H_ */
-diff --git a/chardev/char-socket.c b/chardev/char-socket.c
-index a2b02e021d6b..d619088232d3 100644
---- a/chardev/char-socket.c
-+++ b/chardev/char-socket.c
-@@ -25,9 +25,7 @@
- #include "qemu/osdep.h"
- #include "chardev/char.h"
- #include "io/channel-socket.h"
--#include "io/channel-tls.h"
- #include "io/channel-websock.h"
--#include "io/net-listener.h"
- #include "qemu/error-report.h"
- #include "qemu/module.h"
- #include "qemu/option.h"
-@@ -37,61 +35,7 @@
- #include "qemu/yank.h"
+diff --git a/include/qemu/option.h b/include/qemu/option.h
+index 306bf0757509..bbd86e1c4eab 100644
+--- a/include/qemu/option.h
++++ b/include/qemu/option.h
+@@ -150,4 +150,6 @@ QDict *keyval_parse(const char *params, const char *implied_key,
+                     bool *help, Error **errp);
+ void keyval_merge(QDict *old, const QDict *new, Error **errp);
  
- #include "chardev/char-io.h"
--#include "qom/object.h"
--
--/***********************************************************/
--/* TCP Net console */
--
--#define TCP_MAX_FDS 16
--
--typedef struct {
--    char buf[21];
--    size_t buflen;
--} TCPChardevTelnetInit;
--
--typedef enum {
--    TCP_CHARDEV_STATE_DISCONNECTED,
--    TCP_CHARDEV_STATE_CONNECTING,
--    TCP_CHARDEV_STATE_CONNECTED,
--} TCPChardevState;
--
--struct SocketChardev {
--    Chardev parent;
--    QIOChannel *ioc; /* Client I/O channel */
--    QIOChannelSocket *sioc; /* Client master channel */
--    QIONetListener *listener;
--    GSource *hup_source;
--    QCryptoTLSCreds *tls_creds;
--    char *tls_authz;
--    TCPChardevState state;
--    int max_size;
--    int do_telnetopt;
--    int do_nodelay;
--    int *read_msgfds;
--    size_t read_msgfds_num;
--    int *write_msgfds;
--    size_t write_msgfds_num;
--    bool registered_yank;
--
--    SocketAddress *addr;
--    bool is_listen;
--    bool is_telnet;
--    bool is_tn3270;
--    GSource *telnet_source;
--    TCPChardevTelnetInit *telnet_init;
--
--    bool is_websock;
--
--    GSource *reconnect_timer;
--    int64_t reconnect_time;
--    bool connect_err_reported;
--
--    QIOTask *connect_task;
--};
--typedef struct SocketChardev SocketChardev;
--
--DECLARE_INSTANCE_CHECKER(SocketChardev, SOCKET_CHARDEV,
--                         TYPE_CHARDEV_SOCKET)
-+#include "chardev/char-socket.h"
- 
- static gboolean socket_reconnect_timeout(gpointer opaque);
- static void tcp_chr_telnet_init(Chardev *chr);
++G_DEFINE_AUTOPTR_CLEANUP_FUNC(QemuOpts, qemu_opts_del)
++
+ #endif
 -- 
 2.34.1.8.g35151cf07204
 
