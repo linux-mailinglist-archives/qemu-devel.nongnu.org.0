@@ -2,63 +2,131 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA24B4791D6
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Dec 2021 17:48:49 +0100 (CET)
-Received: from localhost ([::1]:46714 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B8134791DF
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Dec 2021 17:51:08 +0100 (CET)
+Received: from localhost ([::1]:52138 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1myGPY-0003Pt-CT
-	for lists+qemu-devel@lfdr.de; Fri, 17 Dec 2021 11:48:48 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48048)
+	id 1myGRn-00073Y-Ba
+	for lists+qemu-devel@lfdr.de; Fri, 17 Dec 2021 11:51:07 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48140)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1myGNb-00029B-Kl
- for qemu-devel@nongnu.org; Fri, 17 Dec 2021 11:46:47 -0500
-Received: from 2.mo548.mail-out.ovh.net ([178.33.255.19]:43129)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1myGNy-0002ce-7r; Fri, 17 Dec 2021 11:47:10 -0500
+Received: from [2a01:111:f400:7d00::707] (port=6433
+ helo=EUR05-VI1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1myGNY-0007Da-MM
- for qemu-devel@nongnu.org; Fri, 17 Dec 2021 11:46:47 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.108.16.246])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id C72961FD18;
- Fri, 17 Dec 2021 16:46:41 +0000 (UTC)
-Received: from kaod.org (37.59.142.105) by DAG4EX1.mxp5.local (172.16.2.31)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1myGNw-0008DM-2P; Fri, 17 Dec 2021 11:47:09 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=l8m8wMyXV6TkjKAiY3zXMvI1OluERPhnp5XPkl+uA7XZo8BSnIEg8a6s2Ai7n/ZQCzL6kAMhNEq+bMiIm7g4vaDypwRMl85xm/4FJ5A1JjZqHRJrZ+BZbi8AfqRuZWPUyII08D+qaUfggxxpemuXwR6eaIZPlsNpReHdGN1LW6tzv2wWbAEXW8LXC5asFoPSHOKEcxaboWv25nsWy1vR17++UkD12jmwZ3bz5q+MZi4/eajLTDCfUd0jXCkAbyh881lDcYmeexXFd0ee++ql29xpXs7Ub4SeI2rvljkSMnBr46jCzh4n30i4b3ICPw65BQnkjpGkGrReBpXcOSNfUg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=GC3ujR8CaRD5QcL5ttPpoGR4aJGQ0OQcbrAIH2dMimY=;
+ b=HaD3/TGrTDkk1nC8gQKzEb5ITh5yrEmwFN2Ag6IaR799z7XPa9bsyc5er+bEPjWbejfZZqalxtZ45cd1zRRX+fEHG0o9aooH5eC8BtWWyolsupshAvj7N43zu51SfJEAJA/T+NIO2QN+/Prz0cEafKRaP8cvv5WB6xuMvzb3h5EPDTEdgiTnY5LOew4oNGdaQ+5Db/wL5ZVkd9KIFIukC2+wkAmOZ+7LDUg8FsxzFKn1Md3JeI8pIMNQrOEBqKQzEeLroUjhetZmwZ+3QDQ65JzEP6RfeIbp6yzXZKNz6qMHZU3AYEUHwZTNLa+7f0tTgSM/kmgqgFo/F6x3pqbP5Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=GC3ujR8CaRD5QcL5ttPpoGR4aJGQ0OQcbrAIH2dMimY=;
+ b=iZs9iJ3E8yPSxwKGit1hM7411S8uuAGHpcM0veio5McR6FNVEbgYWsggwkLsZGqhwurGGZ9LHAjJ1920Hk2Mp97j2rgAj/uJATXxHWG7syX+fv/Vp4EaOwROeEvGUGuNAXQxslxaSYmxOFzPneODU1Sq4hTRlepEkRWrnS31Awk=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM9PR08MB6737.eurprd08.prod.outlook.com (2603:10a6:20b:304::18)
+ by AM0PR08MB3362.eurprd08.prod.outlook.com (2603:10a6:208:dc::10)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.17; Fri, 17 Dec
- 2021 17:46:41 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-105G0062630e05f-6b2c-4c6f-a74f-287997c38866,
- 277755725B32849AD4052F723BD6C67625B53A02) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <655a7bc0-2063-55ed-9b68-9704db2af3cd@kaod.org>
-Date: Fri, 17 Dec 2021 17:46:40 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PULL v2 000/101] ppc queue
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, <qemu-ppc@nongnu.org>,
- <qemu-devel@nongnu.org>
-References: <20211216202614.414266-1-clg@kaod.org>
- <cf2bd3a9-007a-5881-efb8-9e6195958030@linaro.org>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <cf2bd3a9-007a-5881-efb8-9e6195958030@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4801.15; Fri, 17 Dec
+ 2021 16:47:03 +0000
+Received: from AM9PR08MB6737.eurprd08.prod.outlook.com
+ ([fe80::2078:5a2:1898:d83a]) by AM9PR08MB6737.eurprd08.prod.outlook.com
+ ([fe80::2078:5a2:1898:d83a%7]) with mapi id 15.20.4669.024; Fri, 17 Dec 2021
+ 16:47:03 +0000
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, hreitz@redhat.com, kwolf@redhat.com,
+ vsementsov@virtuozzo.com, pl@kamp.de
+Subject: [PATCH v2 0/2] qemu-img convert: Fix sparseness detection
+Date: Fri, 17 Dec 2021 17:46:52 +0100
+Message-Id: <20211217164654.1184218-1-vsementsov@virtuozzo.com>
+X-Mailer: git-send-email 2.31.1
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.105]
-X-ClientProxiedBy: DAG3EX1.mxp5.local (172.16.2.21) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 473dbf98-0560-4a4b-983a-c4b10a74f370
-X-Ovh-Tracer-Id: 13758778336952093664
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrleeigdelfecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpefhffefleethefgudfhteeigefffeduudeitdfhhfevheeitedvgeejkeetuefhveenucffohhmrghinhepghhithhlrggsrdgtohhmpdhgihhthhhusgdrtghomhdprhhsthdrlhhinhhknecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdehnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepphgvthgvrhdrmhgrhiguvghllheslhhinhgrrhhordhorhhg
-Received-SPF: pass client-ip=178.33.255.19; envelope-from=clg@kaod.org;
- helo=2.mo548.mail-out.ovh.net
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.716,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain
+X-ClientProxiedBy: AS8PR04CA0192.eurprd04.prod.outlook.com
+ (2603:10a6:20b:2f3::17) To AM9PR08MB6737.eurprd08.prod.outlook.com
+ (2603:10a6:20b:304::18)
+MIME-Version: 1.0
+Received: from kvm.ch-qa.sw.ru (130.117.225.5) by
+ AS8PR04CA0192.eurprd04.prod.outlook.com (2603:10a6:20b:2f3::17) with
+ Microsoft SMTP Server (version=TLS1_2, cipher=) via Frontend Transport;
+ Fri, 17 Dec 2021 16:47:02 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 4e901fdd-2de3-4fa9-c483-08d9c17cda24
+X-MS-TrafficTypeDiagnostic: AM0PR08MB3362:EE_
+X-Microsoft-Antispam-PRVS: <AM0PR08MB3362004AC234C4EAC24D26F9C1789@AM0PR08MB3362.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2201;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: bDI9KnQCJHXhSkDuG+1tYK2WZ0zXWjAEdahavfYg/hTRphsfRKfYvkAuFMhe50QUrqQQxsHXFHzVaoJqBhe8BHWV3c74JsVxuNFSCgzt4GqJ5iGQXEd7ZwpV5z7GPpij6QtxkJwlm0qJ9ZWSMLUH+WM+EwyxI/AblAF3GP8F7+viH5I824lt4PeTLrWfiIenLOTFKmTZhz97d1XFKg0Jd9wXnCmru5E6XXTY/3i9oZg4ylnfYhLGvXaBQ2K0ROFQtzfMtYKpKZx9a6psTFF6hUIHtk8iDbnb3H3yuGaUbhbkweoFdCoaYAXXKP57Bps0v9oQLu/3YXwhAfKKZNd16qgULyeuYGH2usgXl5vUoFjXnRhv/UpWzeAlE0X/sCQZF10SenALtF8xqRBFdvwLJn54nZatZIHPmMxTtYGVbJJcICiHJOLYeEhmpmiE5kuLD4gqYD2e2K9B9erEJEIukmNxG125+MtNmGld0lq/jgk4cjUQeFE6eWC0xy5YIMkwQsXISFsVKiRBcdWlX4X9+NY93W0cd1J0rLjvlsA0fbwS5QeM48PC13GsYSAhagsu0aC0j0HtJOVO78cSu10iTiCmPv1xmPPUbxWafS7ezEO7NRYxUltNSPN2bLu+unQG4Tdq7WRkPkLNMD8db7Trpm6Do9h4sUvusON+6VsRe6Rh46zHuJOLWCpuGgLYqqnrg/pI1paDtZb6HDgPofrQhw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM9PR08MB6737.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(86362001)(38100700002)(956004)(38350700002)(508600001)(2616005)(6486002)(6666004)(36756003)(8676002)(26005)(5660300002)(6506007)(186003)(8936002)(4326008)(52116002)(6916009)(1076003)(6512007)(2906002)(316002)(66556008)(4744005)(83380400001)(66476007)(66946007);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?5eVZ5skqKZIGyVo5A1A+mw0Z2tyiQYs9uE5nJh9fvfgbwqe6dQWl08nidk1P?=
+ =?us-ascii?Q?5hyrxxDDuO9OZYcSSHpcBxgwBRrq9qPjbdkYMOReY491pya/z665qpXwMAui?=
+ =?us-ascii?Q?HAcYudT5Zm89cRNzpy4GbeWpF25WQq5mSI3XrUipNIt4bOGm5ROxJ/0KJQgz?=
+ =?us-ascii?Q?Kghv1Idpo76WtNeyKPv5npxav1lNnrrnKICroG2id4GgKiDH+RckoTLm9ygN?=
+ =?us-ascii?Q?5r8qjKotQrSW9biZfEtrxRt7gcTCvS19FEv2sOvn/fIaluSMFoW9QUEcCnMi?=
+ =?us-ascii?Q?ewaYO350YscahEOS5kMKVSAwtt5KT4iyY0x0gx281cQcT4LHLbmRKCxXF8H4?=
+ =?us-ascii?Q?5rVE8hCn5GVfLrjX7xRq4BMvQSc1yPCP0JarnI7ZrNAg6l+y0DMFiWORlKnS?=
+ =?us-ascii?Q?IsPnnJzEWHYSmo9Lw1SCL2ydArGfHYFlh/p40PeHX2Tf/rmMNC4XUEIVJUzx?=
+ =?us-ascii?Q?tZ/vbSoa78pTwkPg6C4EoduAxlgYtOUTDFprSz3gD6N4rtsmqAB1+UiYT8x1?=
+ =?us-ascii?Q?0vTys6SFjkAvqLBwMgwoYCQJFj7Z58Cl5rxB6m18+B3SZlo1p5JwOZTD5v0a?=
+ =?us-ascii?Q?erEAdddOeBjA7hiyPzWcz9junKkrKPcNewgAX7Xc7hAhul53lvDXhLP2l3K5?=
+ =?us-ascii?Q?DmF2Dj5hqxJEWtYjvwbEkJMgwu2AfVgtpni+Z3RSndK2oLjkoF61khkanbBR?=
+ =?us-ascii?Q?kaUBnUCvYnYAAveJ0AjqKIdzD5xsrxdK2IomiedTP8hk+I7XhysJgWfMyUyQ?=
+ =?us-ascii?Q?OKuxLVHtggIt30xsO620SxDusWzdoLTHOZ2k8MSPSJbdCge+j9GZ9pqrfm61?=
+ =?us-ascii?Q?2wxahZIAsbB/cXqRh9BaaJH3tymQF89suyJSboqZVi8EGJzY48CutZoYFY9K?=
+ =?us-ascii?Q?/j0TVIHOzDT60xIZvkfbZQs3qEHHP6Bd0EELG5r95WNsKnpnDYynaZG0orlP?=
+ =?us-ascii?Q?FdZBKzK8yfyH88t8SUc4Qa/45FeaR4KZJyz/C3FhORApOn7mVP3lxSe5k9KB?=
+ =?us-ascii?Q?b+DSs6v0Gb1BI2grT2lrWZ4aLCI1m19X1seG+7ZTf3hBIEeS3KoK7ySCUji6?=
+ =?us-ascii?Q?AYbliLfDvK2ghiBTeNO6hz0ckp/lWpjm+WiUjr4eg634jm0OYkWzNUl1CRs+?=
+ =?us-ascii?Q?+bl3QrOYI98VFoPiwfIcdCa24GT+WJdaK6jNHmqy19Tf0vYVQneKK4UOiXkT?=
+ =?us-ascii?Q?RwERlG9cD3TtEdsJ7VFVkkYhLJgkTYokZpmKl55vyrACmeRdAlverj/Or7CG?=
+ =?us-ascii?Q?pZklKTD/T5EuyRMgw/3GBVCm3yJzXe3Ml5eDSZ4BqwB9depe3rZ5Alka/KzI?=
+ =?us-ascii?Q?IW/s3O9RIwGxU/kAlIw6LA/RjilmNVV+a4RanZL3F+lDruV+Qft9p3R7Dt4D?=
+ =?us-ascii?Q?Xbw7oBUldE1177gBRafq6Li5kI/h4XeGxmcZRowf6I/brIBYVNHvstNa2oyG?=
+ =?us-ascii?Q?BuR7eSjFo0zYJJisanf113xWwtwnbxiwtXalPxpNKcZn5DDXUx/xrkR5y7Bo?=
+ =?us-ascii?Q?hptJyxglA+Lyv0sq/X/HDk5XnT3GikflZLJWO5X5m6a3HvMQbCtHCV+Fmg3i?=
+ =?us-ascii?Q?vJlPAPXdHMsWOyi2Y8ra03r/yE+Gp1+nqh8Z0kRBzCIa3fUKT2Sb1GgZZXCZ?=
+ =?us-ascii?Q?8cVwGW7zBO2RIvuqoDmhWF1tPHWrXItTG+3zgBusn6RUIkRk9P1yo+ySfZiC?=
+ =?us-ascii?Q?FdfcIw=3D=3D?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4e901fdd-2de3-4fa9-c483-08d9c17cda24
+X-MS-Exchange-CrossTenant-AuthSource: AM9PR08MB6737.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Dec 2021 16:47:03.1206 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: PGy/ae1GNeYbBWryb8TF7emy9vagqRgrVUCak+qG32pdnqlDBhqzZQRdR+ApM1YGGnrj6e74BFqsArwTW5gKnimiIIKMHhdoQPg+pc/aKMs=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR08MB3362
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a01:111:f400:7d00::707
+ (failed)
+Received-SPF: pass client-ip=2a01:111:f400:7d00::707;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR05-VI1-obe.outbound.protection.outlook.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -71,259 +139,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/17/21 17:33, Richard Henderson wrote:
-> On 12/16/21 12:24 PM, Cédric Le Goater wrote:
->> The following changes since commit 76b56fdfc9fa43ec6e5986aee33f108c6c6a511e:
->>
->>    Merge tag 'block-pull-request' of https://gitlab.com/stefanha/qemu into staging (2021-12-14 12:46:18 -0800)
->>
->> are available in the Git repository at:
->>
->>    https://github.com/legoater/qemu/ tags/pull-ppc-20211216
->>
->> for you to fetch changes up to 292c21ede9b6618ab0f51cbfa0efeb1464232506:
->>
->>    ppc/pnv: Use QOM hierarchy to scan PEC PHB4 devices (2021-12-16 20:11:56 +0100)
->>
->> Changes in v2:
->>
->>   - Fixed patch "docs: rSTify ppc-spapr-hcalls.txt" with a newline
->>   - dropped patch "target/ppc: do not silence SNaN in xscvspdpn" which
->>     still add some comments pending.
->>
->> ----------------------------------------------------------------
->> ppc 7.0 queue:
->>
->> * General cleanup for Mac machines (Peter)
->> * Fixes for FPU exceptions (Lucas)
->> * Support for new ISA31 instructions (Matheus)
->> * Fixes for ivshmem (Daniel)
->> * Cleanups for PowerNV PHB (Christophe and Cedric)
->> * Updates of PowerNV and pSeries documentation (Leonardo and Daniel)
->> * Fixes for PowerNV (Daniel)
->> * Large cleanup of FPU implementation (Richard)
->> * Removal of SoftTLBs support for PPC74x CPUs (Fabiano)
->> * Fixes for exception models in MPCx and 60x CPUs (Fabiano)
->> * Removal of 401/403 CPUs (Cedric)
->> * Deprecation of taihu machine (Thomas)
->> * Large rework of PPC405 machine (Cedric)
->> * Fixes for VSX instructions (Victor and Matheus)
->> * Fix for e6500 CPU (Fabiano)
->> * Initial support for PMU (Daniel)
->>
->> ----------------------------------------------------------------
->> Alexey Kardashevskiy (1):
->>        pseries: Update SLOF firmware image
->>
->> Christophe Lombard (1):
->>        pci-host: Allow extended config space access for PowerNV PHB4 model
->>
->> Cédric Le Goater (28):
->>        Merge tag 'qemu-slof-20211112' of github.com:aik/qemu into ppc-next
->>        target/ppc: remove 401/403 CPUs
->>        ppc/ppc405: Change kernel load address
->>        ppc: Add trace-events for DCR accesses
->>        ppc/ppc405: Convert printfs to trace-events
->>        ppc/ppc405: Drop flag parameter in ppc405_set_bootinfo()
->>        ppc/ppc405: Change ppc405ep_init() return value
->>        ppc/ppc405: Add some address space definitions
->>        ppc/ppc405: Remove flash support
->>        ppc/ppc405: Rework FW load
->>        ppc/ppc405: Introduce ppc405_set_default_bootinfo()
->>        ppc/ppc405: Fix boot from kernel
->>        ppc/ppc405: Change default PLL values at reset
->>        ppc/ppc405: Fix bi_pci_enetaddr2 field in U-Boot board information
->>        ppc/ppc405: Add update of bi_procfreq field
->>        ppc/pnv: Introduce a "chip" property under PHB3
->>        ppc/pnv: Use the chip class to check the index of PHB3 devices
->>        ppc/pnv: Drop the "num-phbs" property
->>        ppc/pnv: Move mapping of the PHB3 CQ regions under pnv_pbcq_realize()
->>        ppc/pnv: Use QOM hierarchy to scan PHB3 devices
->>        ppc/pnv: Introduce a num_pecs class attribute for PHB4 PEC devices
->>        ppc/pnv: Introduce version and device_id class atributes for PHB4 devices
->>        ppc/pnv: Introduce a "chip" property under the PHB4 model
->>        ppc/pnv: Introduce a num_stack class attribute
->>        ppc/pnv: Compute the PHB index from the PHB4 PEC model
->>        ppc/pnv: Remove "system-memory" property from PHB4 PEC
->>        ppc/pnv: Move realize of PEC stacks under the PEC model
->>        ppc/pnv: Use QOM hierarchy to scan PEC PHB4 devices
->>
->> Daniel Henrique Barboza (13):
->>        ivshmem.c: change endianness to LITTLE_ENDIAN
->>        ivshmem-test.c: enable test_ivshmem_server for ppc64 arch
->>        ppc/pnv.c: add a friendly warning when accel=kvm is used
->>        docs/system/ppc/powernv.rst: document KVM support status
->>        ppc/pnv.c: fix "system-id" FDT when -uuid is set
->>        target/ppc: introduce PMUEventType and PMU overflow timers
->>        target/ppc: PMU basic cycle count for pseries TCG
->>        target/ppc: PMU: update counters on PMCs r/w
->>        target/ppc: PMU: update counters on MMCR1 write
->>        target/ppc: enable PMU counter overflow with cycle events
->>        target/ppc: enable PMU instruction count
->>        target/ppc/power8-pmu.c: add PM_RUN_INST_CMPL (0xFA) event
->>        PPC64/TCG: Implement 'rfebb' instruction
->>
->> Fabiano Rosas (8):
->>        target/ppc: Disable software TLB for the 7450 family
->>        target/ppc: Disable unused facilities in the e600 CPU
->>        target/ppc: Remove the software TLB model of 7450 CPUs
->>        target/ppc: Fix MPCxxx FPU interrupt address
->>        target/ppc: Remove 603e exception model
->>        target/ppc: Set 601v exception model id
->>        target/ppc: Fix e6500 boot
->>        Revert "target/ppc: Move SPR_DSISR setting to powerpc_excp"
->>
->> Leonardo Garcia (5):
->>        docs: Minor updates on the powernv documentation.
->>        docs: Introducing pseries documentation.
->>        docs: rSTify ppc-spapr-hcalls.txt
->>        docs: Rename ppc-spapr-hcalls.txt to ppc-spapr-hcalls.rst.
->>        Link new ppc-spapr-hcalls.rst file to pseries.rst.
->>
->> Lucas Mateus Castro (alqotel) (3):
->>        target/ppc: Fixed call to deferred exception
->>        test/tcg/ppc64le: test mtfsf
->>        target/ppc: ppc_store_fpscr doesn't update bits 0 to 28 and 52
->>
->> Matheus Ferst (5):
->>        target/ppc: Implement Vector Expand Mask
->>        target/ppc: Implement Vector Extract Mask
->>        target/ppc: Implement Vector Mask Move insns
->>        target/ppc: fix xscvqpdp register access
->>        target/ppc: move xscvqpdp to decodetree
->>
->> Peter Maydell (1):
->>        hw/ppc/mac.h: Remove MAX_CPUS macro
->>
->> Richard Henderson (34):
->>        softfloat: Extend float_exception_flags to 16 bits
->>        softfloat: Add flag specific to Inf - Inf
->>        softfloat: Add flag specific to Inf * 0
->>        softfloat: Add flags specific to Inf / Inf and 0 / 0
->>        softfloat: Add flag specific to sqrt(-x)
->>        softfloat: Add flag specific to convert non-nan to int
->>        softfloat: Add flag specific to signaling nans
->>        target/ppc: Update float_invalid_op_addsub for new flags
->>        target/ppc: Update float_invalid_op_mul for new flags
->>        target/ppc: Update float_invalid_op_div for new flags
->>        target/ppc: Move float_check_status from FPU_FCTI to translate
->>        target/ppc: Update float_invalid_cvt for new flags
->>        target/ppc: Fix VXCVI return value
->>        target/ppc: Remove inline from do_fri
->>        target/ppc: Use FloatRoundMode in do_fri
->>        target/ppc: Tidy inexact handling in do_fri
->>        target/ppc: Clean up do_fri
->>        target/ppc: Update fmadd for new flags
->>        target/ppc: Split out do_fmadd
->>        target/ppc: Do not call do_float_check_status from do_fmadd
->>        target/ppc: Split out do_frsp
->>        target/ppc: Update do_frsp for new flags
->>        target/ppc: Use helper_todouble in do_frsp
->>        target/ppc: Update sqrt for new flags
->>        target/ppc: Update xsrqpi and xsrqpxp to new flags
->>        target/ppc: Update fre to new flags
->>        softfloat: Add float64r32 arithmetic routines
->>        target/ppc: Add helpers for fmadds et al
->>        target/ppc: Add helper for fsqrts
->>        target/ppc: Add helpers for fadds, fsubs, fdivs
->>        target/ppc: Add helper for fmuls
->>        target/ppc: Add helper for frsqrtes
->>        target/ppc: Update fres to new flags and float64r32
->>        target/ppc: Use helper_todouble/tosingle in helper_xststdcsp
->>
->> Thomas Huth (1):
->>        ppc: Mark the 'taihu' machine as deprecated
->>
->> Victor Colombo (2):
->>        target/ppc: Fix xs{max, min}[cj]dp to use VSX registers
->>        target/ppc: Move xs{max,min}[cj]dp to decodetree
->>
->>   docs/about/deprecated.rst              |   9 +
->>   docs/specs/ppc-spapr-hcalls.rst        | 100 +++++
->>   docs/specs/ppc-spapr-hcalls.txt        |  78 ----
->>   docs/system/ppc/powernv.rst            |  68 ++--
->>   docs/system/ppc/pseries.rst            | 226 +++++++++++
->>   hw/ppc/mac.h                           |   3 -
->>   hw/ppc/ppc405.h                        |  14 +-
->>   include/fpu/softfloat-types.h          |  23 +-
->>   include/fpu/softfloat.h                |  14 +-
->>   include/hw/pci-host/pnv_phb3.h         |   3 +
->>   include/hw/pci-host/pnv_phb4.h         |   5 +
->>   include/hw/ppc/pnv.h                   |   2 +
->>   target/ppc/cpu-models.h                |  19 -
->>   target/ppc/cpu-qom.h                   |  12 +-
->>   target/ppc/cpu.h                       |  63 +++-
->>   target/ppc/helper.h                    |  29 +-
->>   target/ppc/power8-pmu.h                |  26 ++
->>   target/ppc/spr_tcg.h                   |   5 +
->>   target/ppc/insn32.decode               |  54 ++-
->>   fpu/softfloat.c                        | 114 +++++-
->>   hw/misc/ivshmem.c                      |   2 +-
->>   hw/pci-host/pnv_phb3.c                 |   3 +-
->>   hw/pci-host/pnv_phb3_pbcq.c            |  11 +
->>   hw/pci-host/pnv_phb4.c                 |   1 +
->>   hw/pci-host/pnv_phb4_pec.c             |  75 +++-
->>   hw/ppc/mac_newworld.c                  |   3 +-
->>   hw/ppc/mac_oldworld.c                  |   3 +-
->>   hw/ppc/pnv.c                           | 177 +++++----
->>   hw/ppc/ppc.c                           |   2 +
->>   hw/ppc/ppc405_boards.c                 | 245 ++++++------
->>   hw/ppc/ppc405_uc.c                     | 225 ++++++-----
->>   hw/ppc/spapr_cpu_core.c                |   1 +
->>   target/ppc/cpu-models.c                |  34 --
->>   target/ppc/cpu.c                       |   2 +-
->>   target/ppc/cpu_init.c                  | 658 +++------------------------------
->>   target/ppc/excp_helper.c               |  95 +++--
->>   target/ppc/fpu_helper.c                | 593 +++++++++++++++--------------
->>   target/ppc/helper_regs.c               |   7 +
->>   target/ppc/mmu_common.c                |  60 +--
->>   target/ppc/mmu_helper.c                |  32 --
->>   target/ppc/power8-pmu.c                | 350 ++++++++++++++++++
->>   target/ppc/translate.c                 | 104 ++++--
->>   tests/qtest/ivshmem-test.c             |   5 +-
->>   tests/tcg/ppc64le/mtfsf.c              |  61 +++
->>   fpu/softfloat-parts.c.inc              |  57 +--
->>   fpu/softfloat-specialize.c.inc         |  12 +-
->>   target/ppc/power8-pmu-regs.c.inc       |  69 +++-
->>   target/ppc/translate/branch-impl.c.inc |  33 ++
->>   target/ppc/translate/fp-impl.c.inc     |  53 +--
->>   target/ppc/translate/vmx-impl.c.inc    | 231 ++++++++++++
->>   target/ppc/translate/vsx-impl.c.inc    |  55 ++-
->>   target/ppc/translate/vsx-ops.c.inc     |   5 -
->>   hw/ppc/trace-events                    |  23 ++
->>   pc-bios/README                         |   2 +-
->>   pc-bios/slof.bin                       | Bin 991744 -> 991920 bytes
->>   roms/SLOF                              |   2 +-
->>   target/ppc/meson.build                 |   1 +
->>   tests/tcg/ppc64/Makefile.target        |   1 +
->>   tests/tcg/ppc64le/Makefile.target      |   1 +
->>   59 files changed, 2514 insertions(+), 1647 deletions(-)
->>   create mode 100644 docs/specs/ppc-spapr-hcalls.rst
->>   delete mode 100644 docs/specs/ppc-spapr-hcalls.txt
->>   create mode 100644 target/ppc/power8-pmu.h
->>   create mode 100644 target/ppc/power8-pmu.c
->>   create mode 100644 tests/tcg/ppc64le/mtfsf.c
->>   create mode 100644 target/ppc/translate/branch-impl.c.inc
-> 
-> Different docs failure:
-> 
-> Warning, treated as error:
-> /tmp/qemu-test/src/docs/system/ppc/pseries.rst:241:Unexpected indentation.
-> 
-> You can test this yourself with
-> 
-> make docker-test-build@ubuntu1804 TARGET_LIST=i386-softmmu
+Hi all!
 
-hmm, I will be more careful with documentation patches in the future.
+01: only update test output rebasing on master
+02: replaced with my proposed solution.
 
-How should I send a v3 without resending all patches ?
+Kevin Wolf (1):
+  iotests: Test qemu-img convert of zeroed data cluster
 
-Thanks,
+Vladimir Sementsov-Ogievskiy (1):
+  qemu-img: make is_allocated_sectors() more efficient
 
-C.
+ qemu-img.c                 | 23 +++++++++++++++++++----
+ tests/qemu-iotests/122     |  1 +
+ tests/qemu-iotests/122.out |  2 ++
+ 3 files changed, 22 insertions(+), 4 deletions(-)
+
+-- 
+2.31.1
 
 
