@@ -2,87 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B5AB4792EC
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Dec 2021 18:35:40 +0100 (CET)
-Received: from localhost ([::1]:44626 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F0284792F3
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Dec 2021 18:39:52 +0100 (CET)
+Received: from localhost ([::1]:47746 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1myH8t-0003AL-6k
-	for lists+qemu-devel@lfdr.de; Fri, 17 Dec 2021 12:35:39 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58796)
+	id 1myHCx-0005Kv-HC
+	for lists+qemu-devel@lfdr.de; Fri, 17 Dec 2021 12:39:51 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59830)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1myH7k-0001mQ-7o
- for qemu-devel@nongnu.org; Fri, 17 Dec 2021 12:34:28 -0500
-Received: from [2607:f8b0:4864:20::634] (port=43562
- helo=mail-pl1-x634.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1myH7i-0006AV-Qj
- for qemu-devel@nongnu.org; Fri, 17 Dec 2021 12:34:27 -0500
-Received: by mail-pl1-x634.google.com with SMTP id m24so2433422pls.10
- for <qemu-devel@nongnu.org>; Fri, 17 Dec 2021 09:34:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=8CFYMmeRPmDS0ohE/aaPj4dWGyHTtLiLLfn1bCoeYlQ=;
- b=bXpsfMsDyJ50BC0yp7FBce0UKTmc5TUlLYl+S/WU2vHzMmTCIu4alPrgBUF+iC5YfY
- uPsm1ItXcgsI3wPA4btEcN43cIrPPCGr5s/aTg6HDPqomPdB7WePlCnWEIhIYpaE7S5v
- srZ0GI3M0zkrDa4vX0tdvVeB9yZD9NuwK0MAIZl/rR66xbU8CgyqZuvCbzd+Ml2mPELJ
- 4WQGzG7+/hGXmtPr/j6pzK20bCtQdWc+olvIzzwS6PxMQ0GSnZk4lAuAoPLS/HSDqSQ/
- gfVyvAWrTCmDvcFzhUPMfJIRzTwAuKjLhxMKtGBjzIvnv3sRHYBwFs7SH8T4gXAjxw3r
- 6Deg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=8CFYMmeRPmDS0ohE/aaPj4dWGyHTtLiLLfn1bCoeYlQ=;
- b=SR7EuBuXl1wJvz22ChItKpQKdsX80SyXuUSthk/UBXCdsvZATuubHzTSdUGVJTSEcl
- 2C7qjC9a5zgl5iaSpeVei3Qos6pBBQKLJ4O2zjmP1ulIeB9z3v+b+fdb6JHnGvoBfWPu
- ZQMGnpvErH+LTDzTfk1sCQTbg/FANYE3KIxEq1/Q+kC8YwnIju8+xzHaPYffJKt8mNkB
- tPnTOQ+GzcCNnYR8DjqOnwdR1y0hJcMu2t0QXaeU+6q0NCIEwILBbWGVQAth105eHQKA
- tFKBGRamBHef0X28AV5+PSwImLBjdMW419EC1aqPF+WpW6Ii2DSkH1wqFad6sWpvgXPv
- DaoA==
-X-Gm-Message-State: AOAM530WdQqHsQagDsrqJYj0+cfLQBddCSElD6Z3KQEHWy7UQLC44e/B
- owh7KAP4LEUIcHbKDoCnLvT0AA==
-X-Google-Smtp-Source: ABdhPJyYEImocqo6tKRM4ru4gyoCQci4sFKXoTJZynyrIE97LtEq9wh6SoNfYlyLF3bTDbPDkNjciQ==
-X-Received: by 2002:a17:902:9a8a:b0:148:d8aa:16ae with SMTP id
- w10-20020a1709029a8a00b00148d8aa16aemr3980224plp.139.1639762465299; 
- Fri, 17 Dec 2021 09:34:25 -0800 (PST)
-Received: from [192.168.1.13] (174-21-75-75.tukw.qwest.net. [174.21.75.75])
- by smtp.gmail.com with ESMTPSA id k2sm8559240pgh.11.2021.12.17.09.34.24
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 17 Dec 2021 09:34:24 -0800 (PST)
-Subject: Re: [PULL v2 000/101] ppc queue
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org
-References: <20211216202614.414266-1-clg@kaod.org>
- <cf2bd3a9-007a-5881-efb8-9e6195958030@linaro.org>
- <655a7bc0-2063-55ed-9b68-9704db2af3cd@kaod.org>
- <7fb240a9-194d-7e13-a806-f1847c7220f3@linaro.org>
- <3087991f-eade-b170-9183-23d8541eeae8@kaod.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <c5f22493-e9b7-700d-3d8f-9e6f45168a98@linaro.org>
-Date: Fri, 17 Dec 2021 09:34:23 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1myHB4-0004Kt-Ec; Fri, 17 Dec 2021 12:37:54 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:17898)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1myHB2-0006gx-1Z; Fri, 17 Dec 2021 12:37:54 -0500
+Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1BHFCAOr028065; 
+ Fri, 17 Dec 2021 17:37:41 GMT
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.102])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3d0j1vrt21-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 17 Dec 2021 17:37:40 +0000
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+ by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1BHGxwll020051;
+ Fri, 17 Dec 2021 17:37:38 GMT
+Received: from b06avi18626390.portsmouth.uk.ibm.com
+ (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
+ by ppma06ams.nl.ibm.com with ESMTP id 3cy78eusvh-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 17 Dec 2021 17:37:38 +0000
+Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com
+ [9.149.105.60])
+ by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 1BHHTVPJ42926360
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 17 Dec 2021 17:29:31 GMT
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id D381442041;
+ Fri, 17 Dec 2021 17:37:35 +0000 (GMT)
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 978404204B;
+ Fri, 17 Dec 2021 17:37:35 +0000 (GMT)
+Received: from smtp.tlslab.ibm.com (unknown [9.101.4.1])
+ by d06av24.portsmouth.uk.ibm.com (Postfix) with SMTP;
+ Fri, 17 Dec 2021 17:37:35 +0000 (GMT)
+Received: from yukon.ibmuc.com (unknown [9.171.48.122])
+ by smtp.tlslab.ibm.com (Postfix) with ESMTP id AED13220121;
+ Fri, 17 Dec 2021 18:37:34 +0100 (CET)
+From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+To: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Subject: [PULL v3 000/101] ppc queue
+Date: Fri, 17 Dec 2021 18:37:33 +0100
+Message-Id: <20211217173733.727398-1-clg@kaod.org>
+X-Mailer: git-send-email 2.31.1
+Content-Type: text/plain; charset=UTF-8
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: hU-_SLApLn8gQ15tvMtYQ9awOoiiNEXM
+X-Proofpoint-ORIG-GUID: hU-_SLApLn8gQ15tvMtYQ9awOoiiNEXM
+Content-Transfer-Encoding: quoted-printable
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-In-Reply-To: <3087991f-eade-b170-9183-23d8541eeae8@kaod.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::634
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x634.google.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.716,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2021-12-17_07,2021-12-16_01,2021-12-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 mlxlogscore=999
+ clxscore=1034 suspectscore=0 spamscore=0 malwarescore=0 bulkscore=0
+ priorityscore=1501 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2110150000 definitions=main-2112170100
+Received-SPF: softfail client-ip=148.163.156.1; envelope-from=clg@kaod.org;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -11
+X-Spam_score: -1.2
+X-Spam_bar: -
+X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,18 +92,252 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/17/21 9:31 AM, Cédric Le Goater wrote:
->> Maybe you can generate the email text with --inspect-emails, and then send only the 
->> cover letter manually with git send-email.
-> 
-> That's what I wanted to do: only send the cover letter. Is that ok ?
+The following changes since commit 76b56fdfc9fa43ec6e5986aee33f108c6c6a511e:
 
-Yes, please.
+  Merge tag 'block-pull-request' of https://gitlab.com/stefanha/qemu into s=
+taging (2021-12-14 12:46:18 -0800)
 
+are available in the Git repository at:
 
-r~
+  https://github.com/legoater/qemu/ tags/pull-ppc-20211217
+
+for you to fetch changes up to 0e6232bc3cb96bdf6fac1b5d7659aa9887afe657:
+
+  ppc/pnv: Use QOM hierarchy to scan PEC PHB4 devices (2021-12-17 17:57:19 =
++0100)
+
+Changes in v3:
+
+ - Fixed patch "docs: Introducing pseries documentation" with a newline
+   and checked documentation generation with :
+
+      make docker-test-build@ubuntu1804 TARGET_LIST=3Di386-softmmu
+
+Changes in v2:
+
+ - Fixed patch "docs: rSTify ppc-spapr-hcalls.txt" with a newline
+ - dropped patch "target/ppc: do not silence SNaN in xscvspdpn" which
+   still had some comments pending.
+
+----------------------------------------------------------------
+ppc 7.0 queue:
+
+* General cleanup for Mac machines (Peter)
+* Fixes for FPU exceptions (Lucas)
+* Support for new ISA31 instructions (Matheus)
+* Fixes for ivshmem (Daniel)
+* Cleanups for PowerNV PHB (Christophe and Cedric)
+* Updates of PowerNV and pSeries documentation (Leonardo and Daniel)
+* Fixes for PowerNV (Daniel)
+* Large cleanup of FPU implementation (Richard)
+* Removal of SoftTLBs support for PPC74x CPUs (Fabiano)
+* Fixes for exception models in MPCx and 60x CPUs (Fabiano)
+* Removal of 401/403 CPUs (Cedric)
+* Deprecation of taihu machine (Thomas)
+* Large rework of PPC405 machine (Cedric)
+* Fixes for VSX instructions (Victor and Matheus)
+* Fix for e6500 CPU (Fabiano)
+* Initial support for PMU (Daniel)
+
+----------------------------------------------------------------
+Alexey Kardashevskiy (1):
+      pseries: Update SLOF firmware image
+
+Christophe Lombard (1):
+      pci-host: Allow extended config space access for PowerNV PHB4 model
+
+C=C3=A9dric Le Goater (28):
+      Merge tag 'qemu-slof-20211112' of github.com:aik/qemu into ppc-next
+      target/ppc: remove 401/403 CPUs
+      ppc/ppc405: Change kernel load address
+      ppc: Add trace-events for DCR accesses
+      ppc/ppc405: Convert printfs to trace-events
+      ppc/ppc405: Drop flag parameter in ppc405_set_bootinfo()
+      ppc/ppc405: Change ppc405ep_init() return value
+      ppc/ppc405: Add some address space definitions
+      ppc/ppc405: Remove flash support
+      ppc/ppc405: Rework FW load
+      ppc/ppc405: Introduce ppc405_set_default_bootinfo()
+      ppc/ppc405: Fix boot from kernel
+      ppc/ppc405: Change default PLL values at reset
+      ppc/ppc405: Fix bi_pci_enetaddr2 field in U-Boot board information
+      ppc/ppc405: Add update of bi_procfreq field
+      ppc/pnv: Introduce a "chip" property under PHB3
+      ppc/pnv: Use the chip class to check the index of PHB3 devices
+      ppc/pnv: Drop the "num-phbs" property
+      ppc/pnv: Move mapping of the PHB3 CQ regions under pnv_pbcq_realize()
+      ppc/pnv: Use QOM hierarchy to scan PHB3 devices
+      ppc/pnv: Introduce a num_pecs class attribute for PHB4 PEC devices
+      ppc/pnv: Introduce version and device_id class atributes for PHB4 dev=
+ices
+      ppc/pnv: Introduce a "chip" property under the PHB4 model
+      ppc/pnv: Introduce a num_stack class attribute
+      ppc/pnv: Compute the PHB index from the PHB4 PEC model
+      ppc/pnv: Remove "system-memory" property from PHB4 PEC
+      ppc/pnv: Move realize of PEC stacks under the PEC model
+      ppc/pnv: Use QOM hierarchy to scan PEC PHB4 devices
+
+Daniel Henrique Barboza (13):
+      ivshmem.c: change endianness to LITTLE_ENDIAN
+      ivshmem-test.c: enable test_ivshmem_server for ppc64 arch
+      ppc/pnv.c: add a friendly warning when accel=3Dkvm is used
+      docs/system/ppc/powernv.rst: document KVM support status
+      ppc/pnv.c: fix "system-id" FDT when -uuid is set
+      target/ppc: introduce PMUEventType and PMU overflow timers
+      target/ppc: PMU basic cycle count for pseries TCG
+      target/ppc: PMU: update counters on PMCs r/w
+      target/ppc: PMU: update counters on MMCR1 write
+      target/ppc: enable PMU counter overflow with cycle events
+      target/ppc: enable PMU instruction count
+      target/ppc/power8-pmu.c: add PM_RUN_INST_CMPL (0xFA) event
+      PPC64/TCG: Implement 'rfebb' instruction
+
+Fabiano Rosas (8):
+      target/ppc: Disable software TLB for the 7450 family
+      target/ppc: Disable unused facilities in the e600 CPU
+      target/ppc: Remove the software TLB model of 7450 CPUs
+      target/ppc: Fix MPCxxx FPU interrupt address
+      target/ppc: Remove 603e exception model
+      target/ppc: Set 601v exception model id
+      target/ppc: Fix e6500 boot
+      Revert "target/ppc: Move SPR_DSISR setting to powerpc_excp"
+
+Leonardo Garcia (5):
+      docs: Minor updates on the powernv documentation.
+      docs: Introducing pseries documentation.
+      docs: rSTify ppc-spapr-hcalls.txt
+      docs: Rename ppc-spapr-hcalls.txt to ppc-spapr-hcalls.rst.
+      Link new ppc-spapr-hcalls.rst file to pseries.rst.
+
+Lucas Mateus Castro (alqotel) (3):
+      target/ppc: Fixed call to deferred exception
+      test/tcg/ppc64le: test mtfsf
+      target/ppc: ppc_store_fpscr doesn't update bits 0 to 28 and 52
+
+Matheus Ferst (5):
+      target/ppc: Implement Vector Expand Mask
+      target/ppc: Implement Vector Extract Mask
+      target/ppc: Implement Vector Mask Move insns
+      target/ppc: fix xscvqpdp register access
+      target/ppc: move xscvqpdp to decodetree
+
+Peter Maydell (1):
+      hw/ppc/mac.h: Remove MAX_CPUS macro
+
+Richard Henderson (34):
+      softfloat: Extend float_exception_flags to 16 bits
+      softfloat: Add flag specific to Inf - Inf
+      softfloat: Add flag specific to Inf * 0
+      softfloat: Add flags specific to Inf / Inf and 0 / 0
+      softfloat: Add flag specific to sqrt(-x)
+      softfloat: Add flag specific to convert non-nan to int
+      softfloat: Add flag specific to signaling nans
+      target/ppc: Update float_invalid_op_addsub for new flags
+      target/ppc: Update float_invalid_op_mul for new flags
+      target/ppc: Update float_invalid_op_div for new flags
+      target/ppc: Move float_check_status from FPU_FCTI to translate
+      target/ppc: Update float_invalid_cvt for new flags
+      target/ppc: Fix VXCVI return value
+      target/ppc: Remove inline from do_fri
+      target/ppc: Use FloatRoundMode in do_fri
+      target/ppc: Tidy inexact handling in do_fri
+      target/ppc: Clean up do_fri
+      target/ppc: Update fmadd for new flags
+      target/ppc: Split out do_fmadd
+      target/ppc: Do not call do_float_check_status from do_fmadd
+      target/ppc: Split out do_frsp
+      target/ppc: Update do_frsp for new flags
+      target/ppc: Use helper_todouble in do_frsp
+      target/ppc: Update sqrt for new flags
+      target/ppc: Update xsrqpi and xsrqpxp to new flags
+      target/ppc: Update fre to new flags
+      softfloat: Add float64r32 arithmetic routines
+      target/ppc: Add helpers for fmadds et al
+      target/ppc: Add helper for fsqrts
+      target/ppc: Add helpers for fadds, fsubs, fdivs
+      target/ppc: Add helper for fmuls
+      target/ppc: Add helper for frsqrtes
+      target/ppc: Update fres to new flags and float64r32
+      target/ppc: Use helper_todouble/tosingle in helper_xststdcsp
+
+Thomas Huth (1):
+      ppc: Mark the 'taihu' machine as deprecated
+
+Victor Colombo (2):
+      target/ppc: Fix xs{max, min}[cj]dp to use VSX registers
+      target/ppc: Move xs{max,min}[cj]dp to decodetree
+
+ docs/about/deprecated.rst              |   9 +
+ docs/specs/ppc-spapr-hcalls.rst        | 100 +++++
+ docs/specs/ppc-spapr-hcalls.txt        |  78 ----
+ docs/system/ppc/powernv.rst            |  68 ++--
+ docs/system/ppc/pseries.rst            | 226 +++++++++++
+ hw/ppc/mac.h                           |   3 -
+ hw/ppc/ppc405.h                        |  14 +-
+ include/fpu/softfloat-types.h          |  23 +-
+ include/fpu/softfloat.h                |  14 +-
+ include/hw/pci-host/pnv_phb3.h         |   3 +
+ include/hw/pci-host/pnv_phb4.h         |   5 +
+ include/hw/ppc/pnv.h                   |   2 +
+ target/ppc/cpu-models.h                |  19 -
+ target/ppc/cpu-qom.h                   |  12 +-
+ target/ppc/cpu.h                       |  63 +++-
+ target/ppc/helper.h                    |  29 +-
+ target/ppc/power8-pmu.h                |  26 ++
+ target/ppc/spr_tcg.h                   |   5 +
+ target/ppc/insn32.decode               |  54 ++-
+ fpu/softfloat.c                        | 114 +++++-
+ hw/misc/ivshmem.c                      |   2 +-
+ hw/pci-host/pnv_phb3.c                 |   3 +-
+ hw/pci-host/pnv_phb3_pbcq.c            |  11 +
+ hw/pci-host/pnv_phb4.c                 |   1 +
+ hw/pci-host/pnv_phb4_pec.c             |  75 +++-
+ hw/ppc/mac_newworld.c                  |   3 +-
+ hw/ppc/mac_oldworld.c                  |   3 +-
+ hw/ppc/pnv.c                           | 177 +++++----
+ hw/ppc/ppc.c                           |   2 +
+ hw/ppc/ppc405_boards.c                 | 245 ++++++------
+ hw/ppc/ppc405_uc.c                     | 225 ++++++-----
+ hw/ppc/spapr_cpu_core.c                |   1 +
+ target/ppc/cpu-models.c                |  34 --
+ target/ppc/cpu.c                       |   2 +-
+ target/ppc/cpu_init.c                  | 658 +++--------------------------=
+----
+ target/ppc/excp_helper.c               |  95 +++--
+ target/ppc/fpu_helper.c                | 593 +++++++++++++++--------------
+ target/ppc/helper_regs.c               |   7 +
+ target/ppc/mmu_common.c                |  60 +--
+ target/ppc/mmu_helper.c                |  32 --
+ target/ppc/power8-pmu.c                | 350 ++++++++++++++++++
+ target/ppc/translate.c                 | 104 ++++--
+ tests/qtest/ivshmem-test.c             |   5 +-
+ tests/tcg/ppc64le/mtfsf.c              |  61 +++
+ fpu/softfloat-parts.c.inc              |  57 +--
+ fpu/softfloat-specialize.c.inc         |  12 +-
+ target/ppc/power8-pmu-regs.c.inc       |  69 +++-
+ target/ppc/translate/branch-impl.c.inc |  33 ++
+ target/ppc/translate/fp-impl.c.inc     |  53 +--
+ target/ppc/translate/vmx-impl.c.inc    | 231 ++++++++++++
+ target/ppc/translate/vsx-impl.c.inc    |  55 ++-
+ target/ppc/translate/vsx-ops.c.inc     |   5 -
+ hw/ppc/trace-events                    |  23 ++
+ pc-bios/README                         |   2 +-
+ pc-bios/slof.bin                       | Bin 991744 -> 991920 bytes
+ roms/SLOF                              |   2 +-
+ target/ppc/meson.build                 |   1 +
+ tests/tcg/ppc64/Makefile.target        |   1 +
+ tests/tcg/ppc64le/Makefile.target      |   1 +
+ 59 files changed, 2514 insertions(+), 1647 deletions(-)
+ create mode 100644 docs/specs/ppc-spapr-hcalls.rst
+ delete mode 100644 docs/specs/ppc-spapr-hcalls.txt
+ create mode 100644 target/ppc/power8-pmu.h
+ create mode 100644 target/ppc/power8-pmu.c
+ create mode 100644 tests/tcg/ppc64le/mtfsf.c
+ create mode 100644 target/ppc/translate/branch-impl.c.inc
 
