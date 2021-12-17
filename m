@@ -2,58 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD5794797AF
-	for <lists+qemu-devel@lfdr.de>; Sat, 18 Dec 2021 00:57:32 +0100 (CET)
-Received: from localhost ([::1]:38962 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA6214797AE
+	for <lists+qemu-devel@lfdr.de>; Sat, 18 Dec 2021 00:55:45 +0100 (CET)
+Received: from localhost ([::1]:36796 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1myN6R-0007DR-VX
-	for lists+qemu-devel@lfdr.de; Fri, 17 Dec 2021 18:57:31 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55524)
+	id 1myN4i-0005ft-Sm
+	for lists+qemu-devel@lfdr.de; Fri, 17 Dec 2021 18:55:44 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55502)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1myN3h-0004wv-AK
- for qemu-devel@nongnu.org; Fri, 17 Dec 2021 18:54:41 -0500
-Received: from [2001:41c9:1:41f::167] (port=48966
- helo=mail.default.ilande.bv.iomart.io)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1myN3f-0002B5-LL
- for qemu-devel@nongnu.org; Fri, 17 Dec 2021 18:54:41 -0500
-Received: from [2a00:23c4:8b9f:c400:72e2:646b:9043:c91d]
- by mail.default.ilande.bv.iomart.io with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1myN3E-00078k-KW; Fri, 17 Dec 2021 23:54:16 +0000
-To: Xiaojuan Yang <yangxiaojuan@loongson.cn>, qemu-devel@nongnu.org
-References: <1638619645-11283-1-git-send-email-yangxiaojuan@loongson.cn>
- <1638619645-11283-17-git-send-email-yangxiaojuan@loongson.cn>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Message-ID: <5ac28dd9-ce5a-e68e-fbf4-e3cdf44f4b35@ilande.co.uk>
-Date: Fri, 17 Dec 2021 23:54:23 +0000
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1myN3c-0004rJ-FC
+ for qemu-devel@nongnu.org; Fri, 17 Dec 2021 18:54:36 -0500
+Received: from [2607:f8b0:4864:20::532] (port=45052
+ helo=mail-pg1-x532.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1myN3a-0002AU-PF
+ for qemu-devel@nongnu.org; Fri, 17 Dec 2021 18:54:35 -0500
+Received: by mail-pg1-x532.google.com with SMTP id m15so3555201pgu.11
+ for <qemu-devel@nongnu.org>; Fri, 17 Dec 2021 15:54:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=StZJtqDZK1CqKUr/UqXk0i1arKJrNohC5+wOoK+gS/A=;
+ b=WzfEfBFEHhprOVadqLMnXez+Weta1fwbNJSs6Fw39g1vi0ZUm0BsP99A69Avdcjf7l
+ ZmmKTDAuv2wbsT4wpxn5RlNMANuQMbpSnWH1XQBpguuLYXqRj+Q2URmY9WdCl0poul/y
+ 0rWiPTesphy98s7xyz2nUxF5xpP5dNOBS3V6RqqeBv4cuhIHY3tcUiKE0PsVnR7knhR1
+ R2OYc7Z/G3fP8vBVxzpKYHTD6K36Z8GvJN8tCLRO9FYB+x7i3+3P1mOecrh1bd+YAbQh
+ nR58aZ++4Vcgo0IiQM+5AVz6IrLuWImjCsThZlP4oV03aZYwY8MI9YAcSwO7VD6dktmm
+ aYzg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=StZJtqDZK1CqKUr/UqXk0i1arKJrNohC5+wOoK+gS/A=;
+ b=VA7IW/+nPghGGbuIK0AMI+YmZnNwCsyyN38CL0Tah+bXv0OybNeHUokZ20eM8rknJc
+ V0wg4o+EQvg1lq1X1C6MlC6f78vYrhpgcLyq5i7WpCjdW1rMnsoqavWaRAm9hD1QkDWt
+ LVhhiVOjc1NurFVn9eKwsHgHuz9hwQbnn7Zs959HgiT/N+s1NKY7+nU/xXAl7Kvq9VVF
+ vo7G6XBZB8cDjZmTDAzSa+zwqdfNWQeoDJO6ouoNbdTluqsbyPqQpcVC+hLmKrwXetXZ
+ TmRFM6Acwl1aOp7pDKq2LoTdGkXjpMfBXidEldQ7PR1WFzb9xCMtR0OYVGN0qvrlcqtt
+ PlFQ==
+X-Gm-Message-State: AOAM533gjyTb8xU8x3H1ekT7AQ/yVgM+CPKjpELFw0Wc67z9CzYne2Qv
+ jtw2301pgHDUS64IwpmoYrayTg==
+X-Google-Smtp-Source: ABdhPJzj/bvPg1f7JqTwMIKG5C43ewMI2GOe20fqVL2PpMwRsxsn3ML5raaK0bqHrTiBwgrxlYns6g==
+X-Received: by 2002:a63:1006:: with SMTP id f6mr4875531pgl.609.1639785273282; 
+ Fri, 17 Dec 2021 15:54:33 -0800 (PST)
+Received: from [192.168.1.13] (174-21-75-75.tukw.qwest.net. [174.21.75.75])
+ by smtp.gmail.com with ESMTPSA id p12sm11686308pfo.125.2021.12.17.15.54.32
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 17 Dec 2021 15:54:32 -0800 (PST)
+Subject: Re: [PATCH] tests/tcg/ppc64le: remove INT128 requirement to run
+ non_signalling_xscv
+To: matheus.ferst@eldorado.org.br, qemu-devel@nongnu.org, qemu-ppc@nongnu.org
+References: <20211216140951.1183987-1-matheus.ferst@eldorado.org.br>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <2e386a1a-17cd-1c04-4eab-480ecbae059f@linaro.org>
+Date: Fri, 17 Dec 2021 15:54:31 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <1638619645-11283-17-git-send-email-yangxiaojuan@loongson.cn>
+In-Reply-To: <20211216140951.1183987-1-matheus.ferst@eldorado.org.br>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a00:23c4:8b9f:c400:72e2:646b:9043:c91d
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [RFC PATCH v3 16/27] hw/loongarch: Add LoongArch cpu interrupt
- support(CPUINTC)
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:41c9:1:41f::167
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::532
  (failed)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk;
- helo=mail.default.ilande.bv.iomart.io
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.716,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::532;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x532.google.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.716,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -67,108 +90,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, thuth@redhat.com, philmd@redhat.com,
- i.qemu@xen0n.name, richard.henderson@linaro.org, laurent@vivier.eu,
- peterx@redhat.com, f4bug@amsat.org, alistair.francis@wdc.com,
- maobibo@loongson.cn, pbonzini@redhat.com, chenhuacai@loongson.cn,
- alex.bennee@linaro.org, gaosong@loongson.cn
+Cc: peter.maydell@linaro.org, danielhb413@gmail.com, groug@kaod.org,
+ f4bug@amsat.org, clg@kaod.org, alex.bennee@linaro.org, aurelien@aurel32.net,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 04/12/2021 12:07, Xiaojuan Yang wrote:
+On 12/16/21 6:09 AM, matheus.ferst@eldorado.org.br wrote:
+> +        asm("mtvsrd 0, %3\n\t"                                          \
+> +            "xxswapd 0, 0\n\t"                                          \
+> +            "mtvsrd 0, %2\n\t"                                          \
 
-> Loongson-3A5000 support 14 interrupts from 64 - 77(Timer->75 IPI->76)
-> Loongson-3A5000 and ls7a form a legacy model and extended model irq
-> hierarchy.Tcg mode emulate a simplified extended model which
-> has no Legacy I/O Interrupt Controller(LIOINTC) and LPC.
-> e.g:
-> 
->   |    +-----+    +---------+     +-------+             |
->   |    | IPI |--> | CPUINTC | <-- | Timer |             |
->   |    +-----+    +---------+     +-------+             |
->   |                    ^                                |
->   |                    |                                |
->   |               +---------+
->   |               | EIOINTC |
->   |               +---------+
->   |                ^       ^                            |
->   |                |       |                            |
->   |         +---------+ +---------+                     |
->   |         | PCH-PIC | | PCH-MSI |                     |
->   |         +---------+ +---------+                     |
->   |           ^     ^           ^                       |
->   |           |     |           |                       |
->   |   +---------+ +---------+ +---------+               |
->   |   | UARTs | | Devices | | Devices |                 |
->   |   +---------+ +---------+ +---------+               |
->   |        ^                                            |
-> 
-> The following series patch will realize the interrupt
-> controller in this model.
-> 
-> More detailed info can be found at the kernel doc or manual
-> 1.https://git.kernel.org/pub/scm/linux/kernel/git/chenhuacai/
-> linux-loongson.git/tree/Documentation/loongarch?h=loongarch-next
-> 2.https://github.com/loongson/LoongArch-Documentation
-> 
-> Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
-> Signed-off-by: Song Gao <gaosong@loongson.cn>
-> ---
->   target/loongarch/cpu.c | 28 ++++++++++++++++++++++++++++
->   1 file changed, 28 insertions(+)
-> 
-> diff --git a/target/loongarch/cpu.c b/target/loongarch/cpu.c
-> index 62c2a4d813..afa550c950 100644
-> --- a/target/loongarch/cpu.c
-> +++ b/target/loongarch/cpu.c
-> @@ -504,11 +504,39 @@ static void loongarch_cpu_realizefn(DeviceState *dev, Error **errp)
->       lacc->parent_realize(dev, errp);
->   }
->   
-> +#ifndef CONFIG_USER_ONLY
-> +static void loongarch_cpu_set_irq(void *opaque, int irq, int level)
-> +{
-> +    LoongArchCPU *cpu = opaque;
-> +    CPULoongArchState *env = &cpu->env;
-> +    CPUState *cs = CPU(cpu);
-> +
-> +    if (irq < 0 || irq > N_IRQS) {
-> +        return;
-> +    }
-> +
-> +    if (level) {
-> +        env->CSR_ESTAT |= 1 << irq;
-> +    } else {
-> +        env->CSR_ESTAT &= ~(1 << irq);
-> +    }
-> +
-> +    if (FIELD_EX64(env->CSR_ESTAT, CSR_ESTAT, IS)) {
-> +        cpu_interrupt(cs, CPU_INTERRUPT_HARD);
-> +    } else {
-> +        cpu_reset_interrupt(cs, CPU_INTERRUPT_HARD);
-> +    }
-> +}
-> +#endif
-> +
->   static void loongarch_cpu_initfn(Object *obj)
->   {
->       LoongArchCPU *cpu = LOONGARCH_CPU(obj);
->   
->       cpu_set_cpustate_pointers(cpu);
-> +#ifndef CONFIG_USER_ONLY
-> +    qdev_init_gpio_in(DEVICE(cpu), loongarch_cpu_set_irq, N_IRQS);
-> +#endif
->   }
->   
->   static ObjectClass *loongarch_cpu_class_by_name(const char *cpu_model)
+This doesn't work.  The lower half of vs0 is undefined after mtvsrd.
+You actually want mtvsrdd 0, %2, %3, with "b" as the constraint for bh.
 
-Rather than use defines to split out user mode, I would suggest using a separate 
-function in a similar way to sparc64_cpu_devinit() in hw/sparc64/sparc64.c to set up 
-the parts of the CPU that are only required in system mode. This function can then be 
-called as part of the board setup.
+> +            "mfvsrd %0, 0\n\t"                                          \
+> +            "xxswapd 0, 0\n\t"                                          \
+> +            "mfvsrd %1, 0\n\t"                                          \
+
+Drop the xxswapd and use mfvsrld.
+
+Otherwise it looks ok.
 
 
-ATB,
-
-Mark.
+r~
 
