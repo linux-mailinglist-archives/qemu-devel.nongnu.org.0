@@ -2,48 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D950478DDD
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Dec 2021 15:34:20 +0100 (CET)
-Received: from localhost ([::1]:46568 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EDA8478DDE
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Dec 2021 15:34:52 +0100 (CET)
+Received: from localhost ([::1]:47128 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1myEJP-0001HU-99
-	for lists+qemu-devel@lfdr.de; Fri, 17 Dec 2021 09:34:19 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38250)
+	id 1myEJv-0001fa-3h
+	for lists+qemu-devel@lfdr.de; Fri, 17 Dec 2021 09:34:51 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38646)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1myEGs-0006lp-JO
- for qemu-devel@nongnu.org; Fri, 17 Dec 2021 09:31:42 -0500
-Received: from relay68.bu.edu ([128.197.228.73]:60682)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1myEHu-0008Kt-JK
+ for qemu-devel@nongnu.org; Fri, 17 Dec 2021 09:32:46 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:55173)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1myEGq-0005zh-65
- for qemu-devel@nongnu.org; Fri, 17 Dec 2021 09:31:41 -0500
-X-Envelope-From: alxndr@bu.edu
-X-BU-AUTH: mozz.bu.edu [128.197.127.33]
-Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
- bits=0)
- by relay68.bu.edu (8.14.3/8.14.3) with ESMTP id 1BHEUw7m011469
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
- Fri, 17 Dec 2021 09:31:01 -0500
-Date: Fri, 17 Dec 2021 09:30:58 -0500
-From: Alexander Bulekov <alxndr@bu.edu>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [RFC PATCH] memory: Fix dma-reentrancy issues at the MMIO level
-Message-ID: <20211217143045.x6ct3dwhc7vmery6@mozz.bu.edu>
-References: <20211217030858.834822-1-alxndr@bu.edu>
- <380ea0e5-a006-c570-4ec8-d67e837547ee@redhat.com>
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1myEHs-00067Q-T4
+ for qemu-devel@nongnu.org; Fri, 17 Dec 2021 09:32:46 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1639751564;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ZvY+xjLSsNk6Eozn4R1VWyY6qMRRGATNTSo67akN+6Y=;
+ b=TFj8h0JHLlNhtY+NCrnmjmC42Z4/VAA7AivdUMWAm096p+7TFCzTmYrH1Sgcuzl0+rSPKi
+ nfyR8keRjAsyq8NO7Bf4rjZPGLxuK/p+DvQiRfQ8Mq7XE/8zhgKN1GbinJUz8Hwo52avOe
+ ZNufOPqrfy7CIYhL0kx3iGva5cUWeR0=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-615-QUYlyc8QOcC02uLliEoGBQ-1; Fri, 17 Dec 2021 09:32:43 -0500
+X-MC-Unique: QUYlyc8QOcC02uLliEoGBQ-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ f13-20020adfe90d000000b001a15c110077so676163wrm.8
+ for <qemu-devel@nongnu.org>; Fri, 17 Dec 2021 06:32:42 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:from:to:cc:references:in-reply-to
+ :content-transfer-encoding;
+ bh=ZvY+xjLSsNk6Eozn4R1VWyY6qMRRGATNTSo67akN+6Y=;
+ b=vizjS7vi8O8n0pbv5YUdoqJVCIKxJDgs1mDOY/q1XfVBFBio+UFxwZwODIMixDOmrH
+ gBgptlh5PRQK0LQC+ySfVOjTKzl+EqPOyJRBTkpB7S5kRiSxXpugymG3+Xrk5d0NCg4W
+ drjzM+JvfvVqm9K2DoD1q7+gI4mVoJP1LudshqrMZZFElR1VNNnMVrBxqPbcsKO6zEq8
+ VPcCbpvX/lR44hfLCcZZh+Z6jZNTTRjcMU3C6yrVz+FK4u67hRHLysUj7ySQItt9NSbx
+ T+rfjlqdtERWesISP8Kjjvo/eu0tuTxlLdaDYMB0kd1gdf7236sivHroTYaYyDY6tcQx
+ ramw==
+X-Gm-Message-State: AOAM532QBB5EhrH+KKrXKWgcG6hELA5ZzrE45HUKNSdENvI/HfmRbkBn
+ avwgK/kMCtnyOqh2ht+LuQt/L97wmUPeEMCH1lPKptVknemUOfk+BTOmkghyWpsu7WmLLt6u5gg
+ PefKoeVhgDMCzIoc=
+X-Received: by 2002:a05:600c:2902:: with SMTP id
+ i2mr2901203wmd.168.1639751560999; 
+ Fri, 17 Dec 2021 06:32:40 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxdroCT/YBWYAlucalqND8VFixERDxMSvpJnd5nSy9Fae/7Gjt32d03SBroF0FAOZpTGgs6hA==
+X-Received: by 2002:a05:600c:2902:: with SMTP id
+ i2mr2901170wmd.168.1639751560638; 
+ Fri, 17 Dec 2021 06:32:40 -0800 (PST)
+Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
+ ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
+ by smtp.gmail.com with ESMTPSA id e12sm9575102wrq.20.2021.12.17.06.32.39
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 17 Dec 2021 06:32:40 -0800 (PST)
+Message-ID: <100a3b3c-b4fe-d989-2052-117cb261afa6@redhat.com>
+Date: Fri, 17 Dec 2021 15:32:39 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH v5 30/31] crypto: delegate permission functions to
+ JobDriver .pre_run
+From: Hanna Reitz <hreitz@redhat.com>
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
+References: <20211124064418.3120601-1-eesposit@redhat.com>
+ <20211124064418.3120601-31-eesposit@redhat.com>
+ <ab01f9e1-447f-6c84-b409-2737548679d4@redhat.com>
+In-Reply-To: <ab01f9e1-447f-6c84-b409-2737548679d4@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <380ea0e5-a006-c570-4ec8-d67e837547ee@redhat.com>
-Received-SPF: pass client-ip=128.197.228.73; envelope-from=alxndr@bu.edu;
- helo=relay68.bu.edu
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.998,
- HK_RANDOM_FROM=0.998, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -51
+X-Spam_score: -5.2
+X-Spam_bar: -----
+X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.718,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-1.716, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -56,161 +104,130 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Mauro Matteo Cascella <mcascell@redhat.com>,
- Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
- David Hildenbrand <david@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Bin Meng <bin.meng@windriver.com>, Li Qiang <liq3ea@gmail.com>,
- qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>,
- Qiuhao Li <Qiuhao.Li@outlook.com>, Darren Kenny <darren.kenny@oracle.com>,
- Bandan Das <bsd@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- "Edgar E . Iglesias" <edgar.iglesias@gmail.com>,
- Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Eduardo Habkost <eduardo@habkost.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ qemu-devel@nongnu.org, John Snow <jsnow@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 211217 1458, Philippe Mathieu-Daudé wrote:
-> On 12/17/21 04:08, Alexander Bulekov wrote:
-> > Here's my shot at fixing dma-reentracy issues. This patch adds a flag to
-> > the DeviceState, which is set/checked when we call an accessor
-> > associated with the device's IO MRs.
-> 
-> Your approach is exactly what Gerd suggested:
-> https://www.mail-archive.com/qemu-devel@nongnu.org/msg831437.html
+On 17.12.21 13:29, Hanna Reitz wrote:
+> On 24.11.21 07:44, Emanuele Giuseppe Esposito wrote:
+>> block_crypto_amend_options_generic_luks uses the block layer
+>> permission API, therefore it should be called with the BQL held.
+>>
+>> However, the same function is being called ib two BlockDriver
+>
+> s/ ib / by /
+>
+>> callbacks: bdrv_amend_options (under BQL) and bdrv_co_amend (I/O).
+>>
+>> The latter is I/O because it is invoked by block/amend.c's
+>> blockdev_amend_run(), a .run callback of the amend JobDriver
+>>
+>> Therefore we want to 1) change block_crypto_amend_options_generic_luks
+>> to use the permission API only when the BQL is held, and
+>> 2) use the .pre_run JobDriver callback to check for
+>> permissions before switching to the job aiocontext. This has also
+>> the benefit of applying the same permission operation to all
+>> amend implementations, not only luks.
+>>
+>> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+>> ---
+>>   block/amend.c  | 20 ++++++++++++++++++++
+>>   block/crypto.c | 18 ++++++++++++------
+>>   2 files changed, 32 insertions(+), 6 deletions(-)
+>>
+>> diff --git a/block/amend.c b/block/amend.c
+>> index 392df9ef83..fba6add51a 100644
+>> --- a/block/amend.c
+>> +++ b/block/amend.c
+>> @@ -53,10 +53,30 @@ static int coroutine_fn blockdev_amend_run(Job 
+>> *job, Error **errp)
+>>       return ret;
+>>   }
+>>   +static int blockdev_amend_refresh_perms(Job *job, Error **errp)
+>> +{
+>> +    BlockdevAmendJob *s = container_of(job, BlockdevAmendJob, common);
+>> +
+>> +    return bdrv_child_refresh_perms(s->bs, s->bs->file, errp);
+>> +}
+>
+> I miss some documentation for this function, why we do it and how it 
+> works together with the bdrv_co_amend implementation.
+>
+> I was trying to come up with an example text, but then I wondered – 
+> how does it actually work?  bdrv_child_refresh_perms() eventually ends 
+> up in block_crypto_child_perms().  However, that will only return 
+> exceptional permissions if crypto->updating_keys is true. But that’s 
+> set only in block_crypto_amend_options_generic_luks() – i.e. when the 
+> job runs.  That’s exactly why that function calls 
+> bdrv_child_refresh_perms() only after it has modified 
+> crypto->updating_keys.
+>
+> Reproducer (amend on a LUKS image with read-only=true, so it doesn’t 
+> have the WRITE permission continuously, but needs to take it as an 
+> exception in block_crypto_child_perms()):
+>
+> $ qemu-img create \
+>     -f luks \
+>     --object secret,id=sec0,data=123456 \
+>     -o key-secret=sec0 \
+>     test.luks \
+>     64M
+> Formatting 'test.luks', fmt=luks size=67108864 key-secret=sec0
+>
+> $ ./qemu-system-x86_64 \
+>     -object secret,id=sec0,data=123456 \
+>     -object iothread,id=iothr0 \
+>     -blockdev file,node-name=node0,filename=test.luks \
+>     -blockdev 
+> luks,node-name=node1,key-secret=sec0,file=node0,read-only=true \
+>     -device virtio-blk,drive=node1,iothread=iothr0 -qmp stdio \
+>     <<EOF
+> {"execute": "qmp_capabilities"}
+> {
+>     "execute": "x-blockdev-amend",
+>     "arguments": {
+>         "job-id": "amend0",
+>         "node-name": "node1",
+>         "options": {
+>             "driver": "luks",
+>             "state": "active",
+>             "new-secret": "sec0"
+>         }
+>     }
+> }
+> EOF
+>
+> {"QMP": {"version": {"qemu": {"micro": 93, "minor": 1, "major": 6}, 
+> "package": "v6.2.0-rc3-50-gdb635fc4e7"}, "capabilities": ["oob"]}}
+> {"return": {}}
+> {"timestamp": {"seconds": 1639742600, "microseconds": 574641}, 
+> "event": "JOB_STATUS_CHANGE", "data": {"status": "created", "id": 
+> "amend0"}}
+> {"timestamp": {"seconds": 1639742600, "microseconds": 574919}, 
+> "event": "JOB_STATUS_CHANGE", "data": {"status": "running", "id": 
+> "amend0"}}
+> {"return": {}}
+> qemu-system-x86_64: ../block/io.c:2041: bdrv_co_write_req_prepare: 
+> Assertion `child->perm & BLK_PERM_WRITE' failed.
+> [1]    55880 IOT instruction (core dumped)  ./qemu-system-x86_64 
+> -object secret,id=sec0,data=123456 -object  -blockdev
 
-Yes - my bad for not searching my mail more carefully.
+Addendum: Running the iotests, I realized that (because 295 and 296 fail 
+for luks) of course it doesn’t matter whether the job runs in the main 
+loop or not in order to reproduce this assertion failure, so the 
+`-object iothread,id=iothr0` and `-device 
+virtio-blk,drive=node1,iothread=iothr0` can be dropped from the qemu 
+command line.
 
-> 
-> > The problem, in short, as I understand it: For the vast majority of
-> > cases, we want to prevent a device from accessing it's own PIO/MMIO
-> > regions over DMA.
-> > 
-> > This patch/solution is based on some assumptions:
-> > 1. DMA accesses that hit mmio regions are only dangerous if they end up
-> > interacting with memory-regions belonging to the device initiating the
-> > DMA.
-> > Not dangerous:  sdhci_pio->dma_write->e1000_mmio
-> > Dangerous:      sdhci_pio->dma_write->sdhci_mmio
-> 
-> It doesn't have to be dangerous, see Paolo's example which
-> invalidated my previous attempt and forced me to write 24
-> patches in multiples series to keep the "niche" cases working:
-> https://www.mail-archive.com/qemu-block@nongnu.org/msg72939.html
+Hanna
 
-I don't understand what IO accesses this decodes to. This is loading a
-picture into VRAM?
-
--Alex
-
-> 
-> > 
-> > 2. Most devices do not interact with their own PIO/MMIO memory-regions
-> > using DMA.
-> > 
-> > 3. There is no way for there to be multiple simultaneous accesses to a
-> > device's PIO/MMIO memory-regions.
-> > 
-> > 4. All devices are QOMified :-)
-> > 
-> > With this patch, I wasn't able to reproduce the issues being tracked
-> > here, with QTest reproducers:
-> > https://gitlab.com/qemu-project/qemu/-/issues/556
-> > 
-> > This passes the i386 qos/qtests for me and I was able to boot some linux/windows
-> > VMs with basic devices configured, without any apparent problems.
-> > 
-> > Cc: Philippe Mathieu-Daudé <philmd@redhat.com>
-> > Cc: Mauro Matteo Cascella <mcascell@redhat.com>
-> > Cc: Qiuhao Li <Qiuhao.Li@outlook.com>
-> > Cc: Peter Xu <peterx@redhat.com>
-> > Cc: Jason Wang <jasowang@redhat.com>
-> > Cc: David Hildenbrand <david@redhat.com>
-> > Cc: Gerd Hoffmann <kraxel@redhat.com>
-> > Cc: Peter Maydell <peter.maydell@linaro.org>
-> > Cc: Li Qiang <liq3ea@gmail.com>
-> > Cc: Thomas Huth <thuth@redhat.com>
-> > Cc: Laurent Vivier <lvivier@redhat.com>
-> > Cc: Bandan Das <bsd@redhat.com>
-> > Cc: Edgar E. Iglesias <edgar.iglesias@gmail.com>
-> > Cc: Darren Kenny <darren.kenny@oracle.com>
-> > Cc: Bin Meng <bin.meng@windriver.com>
-> > Cc: Paolo Bonzini <pbonzini@redhat.com>
-> > Cc: Stefan Hajnoczi <stefanha@redhat.com>
-> > 
-> > Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
-> > ---
-> >  include/hw/qdev-core.h |  1 +
-> >  softmmu/memory.c       | 15 +++++++++++++++
-> >  softmmu/trace-events   |  1 +
-> >  3 files changed, 17 insertions(+)
-> > 
-> > diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
-> > index 20d3066595..32f7c779ab 100644
-> > --- a/include/hw/qdev-core.h
-> > +++ b/include/hw/qdev-core.h
-> > @@ -193,6 +193,7 @@ struct DeviceState {
-> >      int instance_id_alias;
-> >      int alias_required_for_version;
-> >      ResettableState reset;
-> > +    int engaged_in_direct_io;
-> >  };
-> >  
-> >  struct DeviceListener {
-> > diff --git a/softmmu/memory.c b/softmmu/memory.c
-> > index 7340e19ff5..255c3c602f 100644
-> > --- a/softmmu/memory.c
-> > +++ b/softmmu/memory.c
-> > @@ -532,6 +532,7 @@ static MemTxResult access_with_adjusted_size(hwaddr addr,
-> >      uint64_t access_mask;
-> >      unsigned access_size;
-> >      unsigned i;
-> > +    DeviceState *dev = NULL;
-> >      MemTxResult r = MEMTX_OK;
-> >  
-> >      if (!access_size_min) {
-> > @@ -541,6 +542,17 @@ static MemTxResult access_with_adjusted_size(hwaddr addr,
-> >          access_size_max = 4;
-> >      }
-> >  
-> > +    /* Do not allow more than one simultanous access to a device's IO Regions */
-> > +    if (mr->owner &&
-> > +        !mr->ram_device && !mr->ram && !mr->rom_device && !mr->readonly) {
-> > +        dev = (DeviceState *) object_dynamic_cast(mr->owner, TYPE_DEVICE);
-> > +        if (dev->engaged_in_direct_io) {
-> > +            trace_memory_region_reentrant_io(get_cpu_index(), mr, addr, size);
-> > +            return MEMTX_ERROR;
-> > +        }
-> > +        dev->engaged_in_direct_io = true;
-> > +    }
-> > +
-> >      /* FIXME: support unaligned access? */
-> >      access_size = MAX(MIN(size, access_size_max), access_size_min);
-> >      access_mask = MAKE_64BIT_MASK(0, access_size * 8);
-> > @@ -555,6 +567,9 @@ static MemTxResult access_with_adjusted_size(hwaddr addr,
-> >                          access_mask, attrs);
-> >          }
-> >      }
-> > +    if (dev) {
-> > +        dev->engaged_in_direct_io = false;
-> > +    }
-> >      return r;
-> >  }
-> >  
-> > diff --git a/softmmu/trace-events b/softmmu/trace-events
-> > index 9c88887b3c..d7228316db 100644
-> > --- a/softmmu/trace-events
-> > +++ b/softmmu/trace-events
-> > @@ -13,6 +13,7 @@ memory_region_ops_read(int cpu_index, void *mr, uint64_t addr, uint64_t value, u
-> >  memory_region_ops_write(int cpu_index, void *mr, uint64_t addr, uint64_t value, unsigned size, const char *name) "cpu %d mr %p addr 0x%"PRIx64" value 0x%"PRIx64" size %u name '%s'"
-> >  memory_region_subpage_read(int cpu_index, void *mr, uint64_t offset, uint64_t value, unsigned size) "cpu %d mr %p offset 0x%"PRIx64" value 0x%"PRIx64" size %u"
-> >  memory_region_subpage_write(int cpu_index, void *mr, uint64_t offset, uint64_t value, unsigned size) "cpu %d mr %p offset 0x%"PRIx64" value 0x%"PRIx64" size %u"
-> > +memory_region_reentrant_io(int cpu_index, void *mr, uint64_t offset, unsigned size) "cpu %d mr %p offset 0x%"PRIx64" size %u"
-> >  memory_region_ram_device_read(int cpu_index, void *mr, uint64_t addr, uint64_t value, unsigned size) "cpu %d mr %p addr 0x%"PRIx64" value 0x%"PRIx64" size %u"
-> >  memory_region_ram_device_write(int cpu_index, void *mr, uint64_t addr, uint64_t value, unsigned size) "cpu %d mr %p addr 0x%"PRIx64" value 0x%"PRIx64" size %u"
-> >  memory_region_sync_dirty(const char *mr, const char *listener, int global) "mr '%s' listener '%s' synced (global=%d)"
-> > 
-> 
 
