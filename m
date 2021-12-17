@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39029478F46
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Dec 2021 16:13:03 +0100 (CET)
-Received: from localhost ([::1]:43570 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25A5F478F42
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Dec 2021 16:11:57 +0100 (CET)
+Received: from localhost ([::1]:40450 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1myEus-0007z8-43
-	for lists+qemu-devel@lfdr.de; Fri, 17 Dec 2021 10:13:02 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41706)
+	id 1myEto-0005nR-8a
+	for lists+qemu-devel@lfdr.de; Fri, 17 Dec 2021 10:11:56 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41744)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1myESq-0005S7-U5
- for qemu-devel@nongnu.org; Fri, 17 Dec 2021 09:44:05 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50166)
+ id 1myET5-0005bq-Vt
+ for qemu-devel@nongnu.org; Fri, 17 Dec 2021 09:44:20 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:56659)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1myESo-0002E3-RF
- for qemu-devel@nongnu.org; Fri, 17 Dec 2021 09:44:04 -0500
+ id 1myET4-0002eF-1H
+ for qemu-devel@nongnu.org; Fri, 17 Dec 2021 09:44:19 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639752241;
+ s=mimecast20190719; t=1639752256;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rfp9+UqiAP0EZ917IhNkGUo0n5NEeCrIQK7EF5hcVeQ=;
- b=iaqP0TIkouur3kPCsXmdLCKC5C959gaQTLJuQ8cD0GeoofOJ4vr38rfVWRDw8p84Ox37qE
- V6aOX7NB+WXH0Klt8fCVegibwnJVhk3j3lxCWjYUKx0lJ8k6o3gC3yMM2/aXR9To0sL/4q
- zSwgENqAWgHXM/A60mn//8ucXhPFBzA=
+ bh=Od6lCCUOGkAPzq9jfcCfkBnwxs1xDBQI7592Jvxm+Co=;
+ b=ShxJPTcAo1FwYWLQdcv3ryR+YelnLi9wcN/rtj0zQtPFtyL/s23D0hEB/u1D+nBLd3g4x5
+ lUVxAbpU0ov1Cxs6xU6lbf+j+HW9qBlvElSnrq+Ygu6v9W8c9hfL3deVm/4268FDXtknsR
+ vB7gieKA10daP7qmcW4rXHC+da+29EU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-56-sPdj_X2xMRSrQmRqp252YQ-1; Fri, 17 Dec 2021 09:43:58 -0500
-X-MC-Unique: sPdj_X2xMRSrQmRqp252YQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-391-g6WZHyUUN-SybEXJ3UUMHg-1; Fri, 17 Dec 2021 09:44:09 -0500
+X-MC-Unique: g6WZHyUUN-SybEXJ3UUMHg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 89AC710151E3;
- Fri, 17 Dec 2021 14:43:57 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9DDF494EEA;
+ Fri, 17 Dec 2021 14:44:08 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.10])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9B19278C3E;
- Fri, 17 Dec 2021 14:43:44 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 39A9C45D8D;
+ Fri, 17 Dec 2021 14:44:00 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PULL 27/36] tests/qtests: add qtest_qmp_add_client()
-Date: Fri, 17 Dec 2021 18:37:47 +0400
-Message-Id: <20211217143756.1831099-28-marcandre.lureau@redhat.com>
+Subject: [PULL 28/36] tests: start dbus-display-test
+Date: Fri, 17 Dec 2021 18:37:48 +0400
+Message-Id: <20211217143756.1831099-29-marcandre.lureau@redhat.com>
 In-Reply-To: <20211217143756.1831099-1-marcandre.lureau@redhat.com>
 References: <20211217143756.1831099-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124;
+Received-SPF: pass client-ip=170.10.129.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
@@ -87,64 +87,310 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
+Cover basic display interface usage. More cases to be added to cover
+disconnections, multiple connections, corner cases. At this point, they
+would be better written in Rust or Python though.
+
+The proxy also covers reading the properties, since they are
+automatically loaded at creation.
+
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Acked-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- tests/qtest/libqos/libqtest.h | 10 ++++++++++
- tests/qtest/libqtest.c        | 19 +++++++++++++++++++
- 2 files changed, 29 insertions(+)
+ tests/qtest/dbus-display-test.c | 257 ++++++++++++++++++++++++++++++++
+ tests/qtest/meson.build         |   8 +
+ 2 files changed, 265 insertions(+)
+ create mode 100644 tests/qtest/dbus-display-test.c
 
-diff --git a/tests/qtest/libqos/libqtest.h b/tests/qtest/libqos/libqtest.h
-index dff6b31cf0ec..a6d38d7ef7fb 100644
---- a/tests/qtest/libqos/libqtest.h
-+++ b/tests/qtest/libqos/libqtest.h
-@@ -744,6 +744,16 @@ void qtest_qmp_device_add_qdict(QTestState *qts, const char *drv,
- void qtest_qmp_device_add(QTestState *qts, const char *driver, const char *id,
-                           const char *fmt, ...) GCC_FMT_ATTR(4, 5);
- 
-+/**
-+ * qtest_qmp_add_client:
-+ * @qts: QTestState instance to operate on
-+ * @protocol: the protocol to add to
-+ * @fd: the client file-descriptor
-+ *
-+ * Call QMP ``getfd`` followed by ``add_client`` with the given @fd.
-+ */
-+void qtest_qmp_add_client(QTestState *qts, const char *protocol, int fd);
+diff --git a/tests/qtest/dbus-display-test.c b/tests/qtest/dbus-display-test.c
+new file mode 100644
+index 000000000000..43c77aff045c
+--- /dev/null
++++ b/tests/qtest/dbus-display-test.c
+@@ -0,0 +1,257 @@
++#include "qemu/osdep.h"
++#include "qemu/dbus.h"
++#include <gio/gio.h>
++#include <gio/gunixfdlist.h>
++#include "libqos/libqtest.h"
++#include "qemu-common.h"
++#include "dbus-display1.h"
 +
- /**
-  * qtest_qmp_device_del:
-  * @qts: QTestState instance to operate on
-diff --git a/tests/qtest/libqtest.c b/tests/qtest/libqtest.c
-index 65ed9496850f..a68326caae98 100644
---- a/tests/qtest/libqtest.c
-+++ b/tests/qtest/libqtest.c
-@@ -1453,6 +1453,25 @@ void qtest_qmp_device_add(QTestState *qts, const char *driver, const char *id,
-     qobject_unref(args);
++static GDBusConnection*
++test_dbus_p2p_from_fd(int fd)
++{
++    g_autoptr(GError) err = NULL;
++    g_autoptr(GSocket) socket = NULL;
++    g_autoptr(GSocketConnection) socketc = NULL;
++    GDBusConnection *conn;
++
++    socket = g_socket_new_from_fd(fd, &err);
++    g_assert_no_error(err);
++
++    socketc = g_socket_connection_factory_create_connection(socket);
++    g_assert(socketc != NULL);
++
++    conn = g_dbus_connection_new_sync(
++        G_IO_STREAM(socketc), NULL,
++        G_DBUS_CONNECTION_FLAGS_AUTHENTICATION_CLIENT |
++        G_DBUS_CONNECTION_FLAGS_DELAY_MESSAGE_PROCESSING,
++        NULL, NULL, &err);
++    g_assert_no_error(err);
++
++    return conn;
++}
++
++static void
++test_setup(QTestState **qts, GDBusConnection **conn)
++{
++    int pair[2];
++
++    *qts = qtest_init("-display dbus,p2p=yes -name dbus-test");
++
++    g_assert_cmpint(socketpair(AF_UNIX, SOCK_STREAM, 0, pair), ==, 0);
++
++    qtest_qmp_add_client(*qts, "@dbus-display", pair[1]);
++
++    *conn = test_dbus_p2p_from_fd(pair[0]);
++    g_dbus_connection_start_message_processing(*conn);
++}
++
++static void
++test_dbus_display_vm(void)
++{
++    g_autoptr(GError) err = NULL;
++    g_autoptr(GDBusConnection) conn = NULL;
++    g_autoptr(QemuDBusDisplay1VMProxy) vm = NULL;
++    QTestState *qts = NULL;
++
++    test_setup(&qts, &conn);
++
++    vm = QEMU_DBUS_DISPLAY1_VM_PROXY(
++        qemu_dbus_display1_vm_proxy_new_sync(
++            conn,
++            G_DBUS_PROXY_FLAGS_NONE,
++            NULL,
++            DBUS_DISPLAY1_ROOT "/VM",
++            NULL,
++            &err));
++    g_assert_no_error(err);
++
++    g_assert_cmpstr(
++        qemu_dbus_display1_vm_get_name(QEMU_DBUS_DISPLAY1_VM(vm)),
++        ==,
++        "dbus-test");
++    qtest_quit(qts);
++}
++
++typedef struct TestDBusConsoleRegister {
++    GMainLoop *loop;
++    GThread *thread;
++    GDBusConnection *listener_conn;
++    GDBusObjectManagerServer *server;
++} TestDBusConsoleRegister;
++
++static gboolean listener_handle_scanout(
++    QemuDBusDisplay1Listener *object,
++    GDBusMethodInvocation *invocation,
++    guint arg_width,
++    guint arg_height,
++    guint arg_stride,
++    guint arg_pixman_format,
++    GVariant *arg_data,
++    TestDBusConsoleRegister *test)
++{
++    g_main_loop_quit(test->loop);
++
++    return DBUS_METHOD_INVOCATION_HANDLED;
++}
++
++static void
++test_dbus_console_setup_listener(TestDBusConsoleRegister *test)
++{
++    g_autoptr(GDBusObjectSkeleton) listener = NULL;
++    g_autoptr(QemuDBusDisplay1ListenerSkeleton) iface = NULL;
++
++    test->server = g_dbus_object_manager_server_new(DBUS_DISPLAY1_ROOT);
++    listener = g_dbus_object_skeleton_new(DBUS_DISPLAY1_ROOT "/Listener");
++    iface = QEMU_DBUS_DISPLAY1_LISTENER_SKELETON(
++        qemu_dbus_display1_listener_skeleton_new());
++    g_object_connect(iface,
++                     "signal::handle-scanout", listener_handle_scanout, test,
++                     NULL);
++    g_dbus_object_skeleton_add_interface(listener,
++                                         G_DBUS_INTERFACE_SKELETON(iface));
++    g_dbus_object_manager_server_export(test->server, listener);
++    g_dbus_object_manager_server_set_connection(test->server,
++                                                test->listener_conn);
++
++    g_dbus_connection_start_message_processing(test->listener_conn);
++}
++
++static void
++test_dbus_console_registered(GObject *source_object,
++                             GAsyncResult *res,
++                             gpointer user_data)
++{
++    TestDBusConsoleRegister *test = user_data;
++    g_autoptr(GError) err = NULL;
++
++    qemu_dbus_display1_console_call_register_listener_finish(
++        QEMU_DBUS_DISPLAY1_CONSOLE(source_object),
++        NULL, res, &err);
++    g_assert_no_error(err);
++
++    test->listener_conn = g_thread_join(test->thread);
++    test_dbus_console_setup_listener(test);
++}
++
++static gpointer
++test_dbus_p2p_server_setup_thread(gpointer data)
++{
++    return test_dbus_p2p_from_fd(GPOINTER_TO_INT(data));
++}
++
++static void
++test_dbus_display_console(void)
++{
++    g_autoptr(GError) err = NULL;
++    g_autoptr(GDBusConnection) conn = NULL;
++    g_autoptr(QemuDBusDisplay1ConsoleProxy) console = NULL;
++    g_autoptr(GUnixFDList) fd_list = NULL;
++    g_autoptr(GMainLoop) loop = NULL;
++    QTestState *qts = NULL;
++    int pair[2], idx;
++    TestDBusConsoleRegister test;
++
++    test_setup(&qts, &conn);
++
++    g_assert_cmpint(socketpair(AF_UNIX, SOCK_STREAM, 0, pair), ==, 0);
++    fd_list = g_unix_fd_list_new();
++    idx = g_unix_fd_list_append(fd_list, pair[1], NULL);
++
++    console = QEMU_DBUS_DISPLAY1_CONSOLE_PROXY(
++        qemu_dbus_display1_console_proxy_new_sync(
++            conn,
++            G_DBUS_PROXY_FLAGS_NONE,
++            NULL,
++            "/org/qemu/Display1/Console_0",
++            NULL,
++            &err));
++    g_assert_no_error(err);
++
++    test.loop = loop = g_main_loop_new(NULL, FALSE);
++    test.thread = g_thread_new(NULL, test_dbus_p2p_server_setup_thread,
++                               GINT_TO_POINTER(pair[0]));
++
++    qemu_dbus_display1_console_call_register_listener(
++        QEMU_DBUS_DISPLAY1_CONSOLE(console),
++        g_variant_new_handle(idx),
++        G_DBUS_CALL_FLAGS_NONE,
++        -1,
++        fd_list,
++        NULL,
++        test_dbus_console_registered,
++        &test);
++
++    g_main_loop_run(loop);
++
++    g_clear_object(&test.server);
++    g_clear_object(&test.listener_conn);
++    qtest_quit(qts);
++}
++
++static void
++test_dbus_display_keyboard(void)
++{
++    g_autoptr(GError) err = NULL;
++    g_autoptr(GDBusConnection) conn = NULL;
++    g_autoptr(QemuDBusDisplay1KeyboardProxy) keyboard = NULL;
++    QTestState *qts = NULL;
++
++    test_setup(&qts, &conn);
++
++    keyboard = QEMU_DBUS_DISPLAY1_KEYBOARD_PROXY(
++        qemu_dbus_display1_keyboard_proxy_new_sync(
++            conn,
++            G_DBUS_PROXY_FLAGS_NONE,
++            NULL,
++            "/org/qemu/Display1/Console_0",
++            NULL,
++            &err));
++    g_assert_no_error(err);
++
++
++    g_assert_cmpint(qtest_inb(qts, 0x64) & 0x1, ==, 0);
++    g_assert_cmpint(qtest_inb(qts, 0x60), ==, 0);
++
++    qemu_dbus_display1_keyboard_call_press_sync(
++        QEMU_DBUS_DISPLAY1_KEYBOARD(keyboard),
++        0x1C, /* qnum enter */
++        G_DBUS_CALL_FLAGS_NONE,
++        -1,
++        NULL,
++        &err);
++    g_assert_no_error(err);
++
++    /* may be should wait for interrupt? */
++    g_assert_cmpint(qtest_inb(qts, 0x64) & 0x1, ==, 1);
++    g_assert_cmpint(qtest_inb(qts, 0x60), ==, 0x5A); /* scan code 2 enter */
++
++    qemu_dbus_display1_keyboard_call_release_sync(
++        QEMU_DBUS_DISPLAY1_KEYBOARD(keyboard),
++        0x1C, /* qnum enter */
++        G_DBUS_CALL_FLAGS_NONE,
++        -1,
++        NULL,
++        &err);
++    g_assert_no_error(err);
++
++    g_assert_cmpint(qtest_inb(qts, 0x64) & 0x1, ==, 1);
++    g_assert_cmpint(qtest_inb(qts, 0x60), ==, 0xF0); /* scan code 2 release */
++    g_assert_cmpint(qtest_inb(qts, 0x60), ==, 0x5A); /* scan code 2 enter */
++
++    g_assert_cmpint(qemu_dbus_display1_keyboard_get_modifiers(
++                        QEMU_DBUS_DISPLAY1_KEYBOARD(keyboard)), ==, 0);
++
++    qtest_quit(qts);
++}
++
++int
++main(int argc, char **argv)
++{
++    g_test_init(&argc, &argv, NULL);
++
++    qtest_add_func("/dbus-display/vm", test_dbus_display_vm);
++    qtest_add_func("/dbus-display/console", test_dbus_display_console);
++    qtest_add_func("/dbus-display/keyboard", test_dbus_display_keyboard);
++
++    return g_test_run();
++}
+diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
+index 913e987409d5..1b2bde666037 100644
+--- a/tests/qtest/meson.build
++++ b/tests/qtest/meson.build
+@@ -92,6 +92,10 @@ qtests_i386 = \
+    'test-x86-cpuid-compat',
+    'numa-test']
+ 
++if dbus_display
++  qtests_i386 += ['dbus-display-test']
++endif
++
+ dbus_daemon = find_program('dbus-daemon', required: false)
+ if dbus_daemon.found() and config_host.has_key('GDBUS_CODEGEN')
+   # Temporarily disabled due to Patchew failures:
+@@ -265,6 +269,10 @@ qtests = {
+   'vmgenid-test': files('boot-sector.c', 'acpi-utils.c'),
  }
  
-+void qtest_qmp_add_client(QTestState *qts, const char *protocol, int fd)
-+{
-+    QDict *resp;
++if dbus_display
++qtests += {'dbus-display-test': [dbus_display1, gio]}
++endif
 +
-+    resp = qtest_qmp_fds(qts, &fd, 1, "{'execute': 'getfd',"
-+                         "'arguments': {'fdname': 'fdname'}}");
-+    g_assert(resp);
-+    g_assert(!qdict_haskey(resp, "event")); /* We don't expect any events */
-+    g_assert(!qdict_haskey(resp, "error"));
-+    qobject_unref(resp);
-+
-+    resp = qtest_qmp(
-+        qts, "{'execute': 'add_client',"
-+        "'arguments': {'protocol': %s, 'fdname': 'fdname'}}", protocol);
-+    g_assert(resp);
-+    g_assert(!qdict_haskey(resp, "event")); /* We don't expect any events */
-+    g_assert(!qdict_haskey(resp, "error"));
-+    qobject_unref(resp);
-+}
- 
- /*
-  * Generic hot-unplugging test via the device_del QMP command.
+ qtest_executables = {}
+ foreach dir : target_dirs
+   if not dir.endswith('-softmmu')
 -- 
 2.34.1.8.g35151cf07204
 
