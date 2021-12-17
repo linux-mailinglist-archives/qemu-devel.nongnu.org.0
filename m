@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6711F478E66
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Dec 2021 15:49:07 +0100 (CET)
-Received: from localhost ([::1]:44500 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD29B478E80
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Dec 2021 15:53:02 +0100 (CET)
+Received: from localhost ([::1]:55214 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1myEXh-0002sl-Sg
-	for lists+qemu-devel@lfdr.de; Fri, 17 Dec 2021 09:49:05 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40972)
+	id 1myEbV-0001ud-Rj
+	for lists+qemu-devel@lfdr.de; Fri, 17 Dec 2021 09:53:01 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41184)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1myEQS-0001c1-5h
- for qemu-devel@nongnu.org; Fri, 17 Dec 2021 09:41:36 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31385)
+ id 1myER3-0002Sg-EP
+ for qemu-devel@nongnu.org; Fri, 17 Dec 2021 09:42:13 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33595)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1myEQQ-0000jR-PA
- for qemu-devel@nongnu.org; Fri, 17 Dec 2021 09:41:35 -0500
+ id 1myER1-0001iw-VZ
+ for qemu-devel@nongnu.org; Fri, 17 Dec 2021 09:42:13 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639752094;
+ s=mimecast20190719; t=1639752131;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=oNXmFK4YyLv1sjoSdTZFSAPfzmwLAVcRBp73aEfewwg=;
- b=VKhI/bfbW1Au0KOrOZ5zZRh8HLbXH8hEV0TEQv8pogE9b+MoVlyVJwcBwqr3XjEd1xfTQX
- w3MlSDYekkKIzWHe5lwGPcsZy8rcisoVD2c+26zcjoYinSAmY4CxiA7D3QVPhTJh1PuIhp
- aI9eVlW05zuC5X1dgtyzaNoLKsBN1uI=
+ bh=zVIEwc4U/GyNxdlw3OLMiafyh68EowCHnLZunJbM8js=;
+ b=UAaZyJ5S61t7X7datofCUr0E7OYBntF8xLr/Cj85pNskDUiiSBi/y15HEeaoytjIqlbABC
+ C9eY5Lh4xokw0vhiMA/AZGs08HCLmkm5Mpmpqg3VxCHXU9+in4BNC4xK/S3ZChBDz/rEdc
+ TfJoRkIfHkxsEPLQuH9svKUfAq22r64=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-374-B7L3H6XXMz2OXFZ6pjsEtQ-1; Fri, 17 Dec 2021 09:41:32 -0500
-X-MC-Unique: B7L3H6XXMz2OXFZ6pjsEtQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-620-AZBl5F21N6G-GG1SGY_Ujg-1; Fri, 17 Dec 2021 09:42:10 -0500
+X-MC-Unique: AZBl5F21N6G-GG1SGY_Ujg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EF4CF1006AA2;
- Fri, 17 Dec 2021 14:41:31 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ECA448015CD;
+ Fri, 17 Dec 2021 14:42:08 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.10])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3985CE2D3;
- Fri, 17 Dec 2021 14:41:09 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B4C9D78DD2;
+ Fri, 17 Dec 2021 14:41:35 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PULL 12/36] ui: make gl_block use a counter
-Date: Fri, 17 Dec 2021 18:37:32 +0400
-Message-Id: <20211217143756.1831099-13-marcandre.lureau@redhat.com>
+Subject: [PULL 13/36] ui: add a gl-unblock warning timer
+Date: Fri, 17 Dec 2021 18:37:33 +0400
+Message-Id: <20211217143756.1831099-14-marcandre.lureau@redhat.com>
 In-Reply-To: <20211217143756.1831099-1-marcandre.lureau@redhat.com>
 References: <20211217143756.1831099-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -87,50 +87,66 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Track multiple callers blocking requests.
+Similar to the one that exists for Spice, so we can investigate if
+something is locked.
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Acked-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- ui/console.c | 17 +++++++++++++----
- 1 file changed, 13 insertions(+), 4 deletions(-)
+ ui/console.c | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
 
 diff --git a/ui/console.c b/ui/console.c
-index 87f897e46dc4..39f7b66baf54 100644
+index 39f7b66baf54..fcc4fe6a0aa0 100644
 --- a/ui/console.c
 +++ b/ui/console.c
-@@ -79,7 +79,7 @@ struct QemuConsole {
-     DisplaySurface *surface;
+@@ -80,6 +80,7 @@ struct QemuConsole {
      int dcls;
      DisplayChangeListener *gl;
--    bool gl_block;
-+    int gl_block;
+     int gl_block;
++    QEMUTimer *gl_unblock_timer;
      int window_id;
  
      /* Graphic console state.  */
-@@ -237,10 +237,19 @@ void graphic_hw_gl_block(QemuConsole *con, bool block)
+@@ -233,8 +234,14 @@ void graphic_hw_update(QemuConsole *con)
+     }
+ }
+ 
++static void graphic_hw_gl_unblock_timer(void *opaque)
++{
++    warn_report("console: no gl-unblock within one second");
++}
++
+ void graphic_hw_gl_block(QemuConsole *con, bool block)
  {
++    uint64_t timeout;
      assert(con != NULL);
  
--    con->gl_block = block;
--    if (con->hw_ops->gl_block) {
--        con->hw_ops->gl_block(con->hw, block);
-+    if (block) {
-+        con->gl_block++;
-+    } else {
-+        con->gl_block--;
-+    }
-+    assert(con->gl_block >= 0);
-+    if (!con->hw_ops->gl_block) {
-+        return;
-+    }
-+    if ((block && con->gl_block != 1) || (!block && con->gl_block != 0)) {
-+        return;
+     if (block) {
+@@ -250,6 +257,14 @@ void graphic_hw_gl_block(QemuConsole *con, bool block)
+         return;
      }
-+    con->hw_ops->gl_block(con->hw, block);
+     con->hw_ops->gl_block(con->hw, block);
++
++    if (block) {
++        timeout = qemu_clock_get_ms(QEMU_CLOCK_REALTIME);
++        timeout += 1000; /* one sec */
++        timer_mod(con->gl_unblock_timer, timeout);
++    } else {
++        timer_del(con->gl_unblock_timer);
++    }
  }
  
  void graphic_hw_gl_flushed(QemuConsole *con)
+@@ -1966,6 +1981,8 @@ QemuConsole *graphic_console_init(DeviceState *dev, uint32_t head,
+ 
+     surface = qemu_create_placeholder_surface(width, height, noinit);
+     dpy_gfx_replace_surface(s, surface);
++    s->gl_unblock_timer = timer_new_ms(QEMU_CLOCK_REALTIME,
++                                       graphic_hw_gl_unblock_timer, s);
+     return s;
+ }
+ 
 -- 
 2.34.1.8.g35151cf07204
 
