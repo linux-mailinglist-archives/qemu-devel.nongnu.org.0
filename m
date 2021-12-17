@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5012478334
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Dec 2021 03:35:18 +0100 (CET)
-Received: from localhost ([::1]:53856 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CA7E47833A
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Dec 2021 03:37:18 +0100 (CET)
+Received: from localhost ([::1]:57298 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1my35Y-0000aq-W1
-	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 21:35:17 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:32944)
+	id 1my37V-0002yE-LF
+	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 21:37:17 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33062)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1my30H-00013W-RT
- for qemu-devel@nongnu.org; Thu, 16 Dec 2021 21:29:51 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:59256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1my30O-00015N-8f
+ for qemu-devel@nongnu.org; Thu, 16 Dec 2021 21:29:57 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:44083)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1my30G-0000Ya-EH
- for qemu-devel@nongnu.org; Thu, 16 Dec 2021 21:29:49 -0500
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1my30M-0000aA-D5
+ for qemu-devel@nongnu.org; Thu, 16 Dec 2021 21:29:55 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639708187;
+ s=mimecast20190719; t=1639708193;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=uu8B7YgaHFVadAvGu4D3uYK62+a+ydOyNVact2iXPMM=;
- b=DC1Mu/D6tvu7qWMY8l2fEm8Utp2wvM8Fci/K7/auWLkkeEi8MxhX29j+rw9uytraC/bwtb
- VISrUxwLXhNWP16S2KT+1cyiO6GIdsDKukHtPMriBrpev8wlKnjQeK+glFY6zUXU2LvTj8
- IJgdHkzBBO2pTdbk7LNXSePH4KjFs5k=
+ bh=wnsxWxxsm8g50z6xf9ZVC3a3HJd7fXJYBrbq4puQtfg=;
+ b=SaLKC1tVsYfncjS+xQH3GydAcXHR5B8O/DPRFB9Ora/xv3zD+qxvCwjaodrfKVJ0EbxljS
+ /Sxoqiz0MLKqNkoSzZqxHv9eJzyKHmEgi1McRJ16ZQ+2+NGIbQ4QfmqyHkYnZKat6thuLf
+ BDXPWQJ2mEpAQnb6goFsJUuNFX5RNrg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-641-q7qWL3-ROIWf9O_z_0-uEg-1; Thu, 16 Dec 2021 21:29:44 -0500
-X-MC-Unique: q7qWL3-ROIWf9O_z_0-uEg-1
+ us-mta-401-gjxzUAt5M9uaSXNWixk20g-1; Thu, 16 Dec 2021 21:29:46 -0500
+X-MC-Unique: gjxzUAt5M9uaSXNWixk20g-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A3B9A5F9C5;
- Fri, 17 Dec 2021 02:29:43 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CE98E1808324;
+ Fri, 17 Dec 2021 02:29:44 +0000 (UTC)
 Received: from scv.redhat.com (unknown [10.22.19.57])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5DF8C22DF6;
- Fri, 17 Dec 2021 02:29:42 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CDBB722DF5;
+ Fri, 17 Dec 2021 02:29:43 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 2/9] Python: update isort dependency
-Date: Thu, 16 Dec 2021 21:29:32 -0500
-Message-Id: <20211217022939.279559-3-jsnow@redhat.com>
+Subject: [RFC PATCH 3/9] scripts/qmp: Update 'qmp-shell' forwarder stub
+Date: Thu, 16 Dec 2021 21:29:33 -0500
+Message-Id: <20211217022939.279559-4-jsnow@redhat.com>
 In-Reply-To: <20211217022939.279559-1-jsnow@redhat.com>
 References: <20211217022939.279559-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -84,58 +84,65 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-A forthcoming commit that deletes python/qemu/qmp and begins using the
-dependency from PyPI instead changes the way older versions of isort
-process import priorities. Sticking to isort versions newer than 5.6.0
-keep us consistent with the bleeding edge of isort releases.
+The text here is slightly different than the text in other forwarder
+stubs in this directory, because the only dependency needed here is
+outside of the QEMU source tree entirely.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- python/Pipfile.lock | 8 ++++----
- python/setup.cfg    | 2 +-
- 2 files changed, 5 insertions(+), 5 deletions(-)
+ scripts/qmp/qmp-shell | 39 ++++++++++++++++++++++++++++++++++-----
+ 1 file changed, 34 insertions(+), 5 deletions(-)
 
-diff --git a/python/Pipfile.lock b/python/Pipfile.lock
-index b60f3fa508..2ca8a5c316 100644
---- a/python/Pipfile.lock
-+++ b/python/Pipfile.lock
-@@ -1,7 +1,7 @@
- {
-     "_meta": {
-         "hash": {
--            "sha256": "b6cdebf9bfa760e4f8148949936aeeeed681ca910900e89be07e13424228f9a0"
-+            "sha256": "2c01f0652bb57febf4590e9dd1344ddc4c3d2530b5df2ef909620876cfb9ab6d"
-         },
-         "pipfile-spec": 6,
-         "requires": {
-@@ -101,11 +101,11 @@
-         },
-         "isort": {
-             "hashes": [
--                "sha256:408e4d75d84f51b64d0824894afee44469eba34a4caee621dc53799f80d71ccc",
--                "sha256:64022dea6a06badfa09b300b4dfe8ba968114a737919e8ed50aea1c288f078aa"
-+                "sha256:20544581447ccb6a80940c5cace8cbc32c0f58d82d67d34a182950fe7b93321b",
-+                "sha256:ef200cc0ebd896c5bb0d7da9fd390392648c56c2099c2d2ff940ac94739f62aa"
-             ],
-             "index": "pypi",
--            "version": "==5.1.2"
-+            "version": "==5.6.0"
-         },
-         "lazy-object-proxy": {
-             "hashes": [
-diff --git a/python/setup.cfg b/python/setup.cfg
-index 16f3236485..7907994c5a 100644
---- a/python/setup.cfg
-+++ b/python/setup.cfg
-@@ -39,7 +39,7 @@ devel =
-     avocado-framework >= 90.0
-     flake8 >= 3.6.0
-     fusepy >= 2.0.4
--    isort >= 5.1.2
-+    isort >= 5.6.0
-     mypy >= 0.780
-     pylint >= 2.8.0
-     tox >= 3.18.0
+diff --git a/scripts/qmp/qmp-shell b/scripts/qmp/qmp-shell
+index 4a20f97db7..1d30425547 100755
+--- a/scripts/qmp/qmp-shell
++++ b/scripts/qmp/qmp-shell
+@@ -1,11 +1,40 @@
+ #!/usr/bin/env python3
+ 
+-import os
+ import sys
+ 
+-sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'python'))
+-from qemu.qmp import qmp_shell
++try:
++    from qemu.qmp import qmp_shell
++    _HAVE_QMP = True
++except ModuleNotFoundError:
++    _HAVE_QMP = False
+ 
++bold = "\033[1m"
++end = "\033[0m"
++cmd = 'qmp-shell'
+ 
+-if __name__ == '__main__':
+-    qmp_shell.main()
++EMSG = f"""
++{bold}'{sys.argv[0]}' is just a forwarder, and is not necessary.{end}
++
++However, the 'qemu.qmp' package is not installed.
++
++To use the '{cmd}' command directly from the installed package,
++install the python package and then add (for a --user install)
++~/.local/bin/ to $PATH if it isn't already. Then, you should have access
++to the '{cmd}' command.
++
++For more information, please see ../../python/README.rst.
++
++maybe:
++ > pip3 install --user qemu.qmp
++ > export PATH=$PATH:~/.local/bin/
++ > {cmd} --help
++
++Alternatively, after installing the qemu.qmp package, this forwarder
++will work again. However, it will eventually be removed. I apologize for
++the inconvenience!"""
++
++if not _HAVE_QMP:
++    print(EMSG, file=sys.stderr)
++    sys.exit(1)
++
++qmp_shell.main()
 -- 
 2.31.1
 
