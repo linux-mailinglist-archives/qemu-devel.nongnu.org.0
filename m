@@ -2,97 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C0CA479195
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Dec 2021 17:40:16 +0100 (CET)
-Received: from localhost ([::1]:42920 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA24B4791D6
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Dec 2021 17:48:49 +0100 (CET)
+Received: from localhost ([::1]:46714 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1myGHH-0000eT-E9
-	for lists+qemu-devel@lfdr.de; Fri, 17 Dec 2021 11:40:15 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46236)
+	id 1myGPY-0003Pt-CT
+	for lists+qemu-devel@lfdr.de; Fri, 17 Dec 2021 11:48:48 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48048)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1myGFn-0007xw-TJ
- for qemu-devel@nongnu.org; Fri, 17 Dec 2021 11:38:43 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27302)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1myGNb-00029B-Kl
+ for qemu-devel@nongnu.org; Fri, 17 Dec 2021 11:46:47 -0500
+Received: from 2.mo548.mail-out.ovh.net ([178.33.255.19]:43129)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1myGFk-0002Pk-GZ
- for qemu-devel@nongnu.org; Fri, 17 Dec 2021 11:38:42 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639759117;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=/50TkzrKoNLlD8CvniiZUESG8PIY7LzrilN3LPBjoVI=;
- b=MFZENIBi5HsDbZS9rgD0zbgm1iWVvcCZIKSfuEzRdluInK9/dNIBa4psMUlIvefSguSceN
- LSQz79N+pSn969iuxd6Dl9hzrW0dJfeyWVgpnXYVNmvKrt2Vj9UwPxpnsapfmouqBA03YR
- I7s8APYZOq7eYEtoDC6AMuL2oHdZfn4=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-614-bAzyqc-CMo6OHXridNI5tw-1; Fri, 17 Dec 2021 11:38:35 -0500
-X-MC-Unique: bAzyqc-CMo6OHXridNI5tw-1
-Received: by mail-ed1-f72.google.com with SMTP id
- l11-20020a056402254b00b003f6a9bd7e81so2371021edb.13
- for <qemu-devel@nongnu.org>; Fri, 17 Dec 2021 08:38:35 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=/50TkzrKoNLlD8CvniiZUESG8PIY7LzrilN3LPBjoVI=;
- b=5nF9tJuOe/wrf5R4jHLzHhdnMwFDwMlRO2P51CIZfGbBchLYzSqnz2fxNF7V0H3jfZ
- vEf4vpKF7K1xUAnMfVinoiQOuaj8frnqay3dQoY7to+SlKfAaJFsICyk2eNFA2xka6py
- LLVwLxRrD3X+HyNL3OZ2CEHlJ9jwo3qwvF5zCsRFxWnDf9YGh/SncpmH1j0GuJrrRoiV
- vx+cOHlYIwOzNr4+suJZl0kpUi6EEvgD4n6SCqyeZrYxss5pKX12ieHz++BixXsxOWbA
- R/2o6p2wJFXb8t6JegwmlXkXfu5LZN8iglUaBjw+N2LN/pPPcpHFfv23VBJ3uIG4Wnrm
- Jgfw==
-X-Gm-Message-State: AOAM532aI9CYYu0mUtEaBHjkJd9QNQEkwiLf+9rr9sZOPioeFaEcZP0H
- m009AJEf1BF+bywkTgX/OpFbe4uz9RytdUzbA2ArdbsXQF8SVFe8xaWxSe3bhmZymFsMfH8Hqw0
- mw12lh0uA+aDTUbU=
-X-Received: by 2002:a17:907:8a04:: with SMTP id
- sc4mr3188999ejc.508.1639759114191; 
- Fri, 17 Dec 2021 08:38:34 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzMzuOtZEUBfjZMFb3KR46mLM5zaoupLr1MRLAOovbsNoIX+iOqaUlomCDDiBUB/DARqhgNOA==
-X-Received: by 2002:a17:907:8a04:: with SMTP id
- sc4mr3188968ejc.508.1639759113838; 
- Fri, 17 Dec 2021 08:38:33 -0800 (PST)
-Received: from ?IPV6:2a04:ee41:4:31cb:e591:1e1e:abde:a8f1?
- ([2a04:ee41:4:31cb:e591:1e1e:abde:a8f1])
- by smtp.gmail.com with ESMTPSA id hr17sm2933083ejc.57.2021.12.17.08.38.32
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 17 Dec 2021 08:38:33 -0800 (PST)
-Message-ID: <9ca5c434-ddf6-2ed3-08ae-92da5fc98013@redhat.com>
-Date: Fri, 17 Dec 2021 17:38:32 +0100
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1myGNY-0007Da-MM
+ for qemu-devel@nongnu.org; Fri, 17 Dec 2021 11:46:47 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.108.16.246])
+ by mo548.mail-out.ovh.net (Postfix) with ESMTPS id C72961FD18;
+ Fri, 17 Dec 2021 16:46:41 +0000 (UTC)
+Received: from kaod.org (37.59.142.105) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.17; Fri, 17 Dec
+ 2021 17:46:41 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-105G0062630e05f-6b2c-4c6f-a74f-287997c38866,
+ 277755725B32849AD4052F723BD6C67625B53A02) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <655a7bc0-2063-55ed-9b68-9704db2af3cd@kaod.org>
+Date: Fri, 17 Dec 2021 17:46:40 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH v5 28/31] block.c: assert BQL lock held in
- bdrv_co_invalidate_cache
-To: Hanna Reitz <hreitz@redhat.com>, qemu-block@nongnu.org
-References: <20211124064418.3120601-1-eesposit@redhat.com>
- <20211124064418.3120601-29-eesposit@redhat.com>
- <56deaef1-6a4e-c544-9916-42a20cc20c7a@redhat.com>
-From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-In-Reply-To: <56deaef1-6a4e-c544-9916-42a20cc20c7a@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eesposit@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+ Thunderbird/91.3.0
+Subject: Re: [PULL v2 000/101] ppc queue
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: Richard Henderson <richard.henderson@linaro.org>, <qemu-ppc@nongnu.org>,
+ <qemu-devel@nongnu.org>
+References: <20211216202614.414266-1-clg@kaod.org>
+ <cf2bd3a9-007a-5881-efb8-9e6195958030@linaro.org>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <cf2bd3a9-007a-5881-efb8-9e6195958030@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -51
-X-Spam_score: -5.2
-X-Spam_bar: -----
-X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.718,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.716, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Originating-IP: [37.59.142.105]
+X-ClientProxiedBy: DAG3EX1.mxp5.local (172.16.2.21) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 473dbf98-0560-4a4b-983a-c4b10a74f370
+X-Ovh-Tracer-Id: 13758778336952093664
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrleeigdelfecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpefhffefleethefgudfhteeigefffeduudeitdfhhfevheeitedvgeejkeetuefhveenucffohhmrghinhepghhithhlrggsrdgtohhmpdhgihhthhhusgdrtghomhdprhhsthdrlhhinhhknecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdehnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepphgvthgvrhdrmhgrhiguvghllheslhhinhgrrhhordhorhhg
+Received-SPF: pass client-ip=178.33.255.19; envelope-from=clg@kaod.org;
+ helo=2.mo548.mail-out.ovh.net
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.716,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -106,156 +71,259 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
- qemu-devel@nongnu.org, John Snow <jsnow@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Markus Armbruster <armbru@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Eric Blake <eblake@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On 17/12/2021 12:04, Hanna Reitz wrote:
-> On 24.11.21 07:44, Emanuele Giuseppe Esposito wrote:
->> bdrv_co_invalidate_cache is special: it is an I/O function,
-> 
-> I still don’t believe it is, but well.
-> 
-> (Yes, it is called by a test in an iothread, but I believe we’ve seen 
-> that the tests simply sometimes test things that shouldn’t be allowed.)
-> 
->> but uses the block layer permission API, which is GS.
+On 12/17/21 17:33, Richard Henderson wrote:
+> On 12/16/21 12:24 PM, Cédric Le Goater wrote:
+>> The following changes since commit 76b56fdfc9fa43ec6e5986aee33f108c6c6a511e:
 >>
->> Because of this, we can assert that either the function is
->> being called with BQL held, and thus can use the permission API,
->> or make sure that the permission API is not used, by ensuring that
->> bs (and parents) .open_flags does not contain BDRV_O_INACTIVE.
+>>    Merge tag 'block-pull-request' of https://gitlab.com/stefanha/qemu into staging (2021-12-14 12:46:18 -0800)
 >>
->> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
->> ---
->>   block.c | 26 ++++++++++++++++++++++++++
->>   1 file changed, 26 insertions(+)
+>> are available in the Git repository at:
 >>
->> diff --git a/block.c b/block.c
->> index a0309f827d..805974676b 100644
->> --- a/block.c
->> +++ b/block.c
->> @@ -6574,6 +6574,26 @@ void bdrv_init_with_whitelist(void)
->>       bdrv_init();
->>   }
->> +static bool bdrv_is_active(BlockDriverState *bs)
->> +{
->> +    BdrvChild *parent;
->> +
->> +    if (bs->open_flags & BDRV_O_INACTIVE) {
->> +        return false;
->> +    }
->> +
->> +    QLIST_FOREACH(parent, &bs->parents, next_parent) {
->> +        if (parent->klass->parent_is_bds) {
->> +            BlockDriverState *parent_bs = parent->opaque;
+>>    https://github.com/legoater/qemu/ tags/pull-ppc-20211216
+>>
+>> for you to fetch changes up to 292c21ede9b6618ab0f51cbfa0efeb1464232506:
+>>
+>>    ppc/pnv: Use QOM hierarchy to scan PEC PHB4 devices (2021-12-16 20:11:56 +0100)
+>>
+>> Changes in v2:
+>>
+>>   - Fixed patch "docs: rSTify ppc-spapr-hcalls.txt" with a newline
+>>   - dropped patch "target/ppc: do not silence SNaN in xscvspdpn" which
+>>     still add some comments pending.
+>>
+>> ----------------------------------------------------------------
+>> ppc 7.0 queue:
+>>
+>> * General cleanup for Mac machines (Peter)
+>> * Fixes for FPU exceptions (Lucas)
+>> * Support for new ISA31 instructions (Matheus)
+>> * Fixes for ivshmem (Daniel)
+>> * Cleanups for PowerNV PHB (Christophe and Cedric)
+>> * Updates of PowerNV and pSeries documentation (Leonardo and Daniel)
+>> * Fixes for PowerNV (Daniel)
+>> * Large cleanup of FPU implementation (Richard)
+>> * Removal of SoftTLBs support for PPC74x CPUs (Fabiano)
+>> * Fixes for exception models in MPCx and 60x CPUs (Fabiano)
+>> * Removal of 401/403 CPUs (Cedric)
+>> * Deprecation of taihu machine (Thomas)
+>> * Large rework of PPC405 machine (Cedric)
+>> * Fixes for VSX instructions (Victor and Matheus)
+>> * Fix for e6500 CPU (Fabiano)
+>> * Initial support for PMU (Daniel)
+>>
+>> ----------------------------------------------------------------
+>> Alexey Kardashevskiy (1):
+>>        pseries: Update SLOF firmware image
+>>
+>> Christophe Lombard (1):
+>>        pci-host: Allow extended config space access for PowerNV PHB4 model
+>>
+>> Cédric Le Goater (28):
+>>        Merge tag 'qemu-slof-20211112' of github.com:aik/qemu into ppc-next
+>>        target/ppc: remove 401/403 CPUs
+>>        ppc/ppc405: Change kernel load address
+>>        ppc: Add trace-events for DCR accesses
+>>        ppc/ppc405: Convert printfs to trace-events
+>>        ppc/ppc405: Drop flag parameter in ppc405_set_bootinfo()
+>>        ppc/ppc405: Change ppc405ep_init() return value
+>>        ppc/ppc405: Add some address space definitions
+>>        ppc/ppc405: Remove flash support
+>>        ppc/ppc405: Rework FW load
+>>        ppc/ppc405: Introduce ppc405_set_default_bootinfo()
+>>        ppc/ppc405: Fix boot from kernel
+>>        ppc/ppc405: Change default PLL values at reset
+>>        ppc/ppc405: Fix bi_pci_enetaddr2 field in U-Boot board information
+>>        ppc/ppc405: Add update of bi_procfreq field
+>>        ppc/pnv: Introduce a "chip" property under PHB3
+>>        ppc/pnv: Use the chip class to check the index of PHB3 devices
+>>        ppc/pnv: Drop the "num-phbs" property
+>>        ppc/pnv: Move mapping of the PHB3 CQ regions under pnv_pbcq_realize()
+>>        ppc/pnv: Use QOM hierarchy to scan PHB3 devices
+>>        ppc/pnv: Introduce a num_pecs class attribute for PHB4 PEC devices
+>>        ppc/pnv: Introduce version and device_id class atributes for PHB4 devices
+>>        ppc/pnv: Introduce a "chip" property under the PHB4 model
+>>        ppc/pnv: Introduce a num_stack class attribute
+>>        ppc/pnv: Compute the PHB index from the PHB4 PEC model
+>>        ppc/pnv: Remove "system-memory" property from PHB4 PEC
+>>        ppc/pnv: Move realize of PEC stacks under the PEC model
+>>        ppc/pnv: Use QOM hierarchy to scan PEC PHB4 devices
+>>
+>> Daniel Henrique Barboza (13):
+>>        ivshmem.c: change endianness to LITTLE_ENDIAN
+>>        ivshmem-test.c: enable test_ivshmem_server for ppc64 arch
+>>        ppc/pnv.c: add a friendly warning when accel=kvm is used
+>>        docs/system/ppc/powernv.rst: document KVM support status
+>>        ppc/pnv.c: fix "system-id" FDT when -uuid is set
+>>        target/ppc: introduce PMUEventType and PMU overflow timers
+>>        target/ppc: PMU basic cycle count for pseries TCG
+>>        target/ppc: PMU: update counters on PMCs r/w
+>>        target/ppc: PMU: update counters on MMCR1 write
+>>        target/ppc: enable PMU counter overflow with cycle events
+>>        target/ppc: enable PMU instruction count
+>>        target/ppc/power8-pmu.c: add PM_RUN_INST_CMPL (0xFA) event
+>>        PPC64/TCG: Implement 'rfebb' instruction
+>>
+>> Fabiano Rosas (8):
+>>        target/ppc: Disable software TLB for the 7450 family
+>>        target/ppc: Disable unused facilities in the e600 CPU
+>>        target/ppc: Remove the software TLB model of 7450 CPUs
+>>        target/ppc: Fix MPCxxx FPU interrupt address
+>>        target/ppc: Remove 603e exception model
+>>        target/ppc: Set 601v exception model id
+>>        target/ppc: Fix e6500 boot
+>>        Revert "target/ppc: Move SPR_DSISR setting to powerpc_excp"
+>>
+>> Leonardo Garcia (5):
+>>        docs: Minor updates on the powernv documentation.
+>>        docs: Introducing pseries documentation.
+>>        docs: rSTify ppc-spapr-hcalls.txt
+>>        docs: Rename ppc-spapr-hcalls.txt to ppc-spapr-hcalls.rst.
+>>        Link new ppc-spapr-hcalls.rst file to pseries.rst.
+>>
+>> Lucas Mateus Castro (alqotel) (3):
+>>        target/ppc: Fixed call to deferred exception
+>>        test/tcg/ppc64le: test mtfsf
+>>        target/ppc: ppc_store_fpscr doesn't update bits 0 to 28 and 52
+>>
+>> Matheus Ferst (5):
+>>        target/ppc: Implement Vector Expand Mask
+>>        target/ppc: Implement Vector Extract Mask
+>>        target/ppc: Implement Vector Mask Move insns
+>>        target/ppc: fix xscvqpdp register access
+>>        target/ppc: move xscvqpdp to decodetree
+>>
+>> Peter Maydell (1):
+>>        hw/ppc/mac.h: Remove MAX_CPUS macro
+>>
+>> Richard Henderson (34):
+>>        softfloat: Extend float_exception_flags to 16 bits
+>>        softfloat: Add flag specific to Inf - Inf
+>>        softfloat: Add flag specific to Inf * 0
+>>        softfloat: Add flags specific to Inf / Inf and 0 / 0
+>>        softfloat: Add flag specific to sqrt(-x)
+>>        softfloat: Add flag specific to convert non-nan to int
+>>        softfloat: Add flag specific to signaling nans
+>>        target/ppc: Update float_invalid_op_addsub for new flags
+>>        target/ppc: Update float_invalid_op_mul for new flags
+>>        target/ppc: Update float_invalid_op_div for new flags
+>>        target/ppc: Move float_check_status from FPU_FCTI to translate
+>>        target/ppc: Update float_invalid_cvt for new flags
+>>        target/ppc: Fix VXCVI return value
+>>        target/ppc: Remove inline from do_fri
+>>        target/ppc: Use FloatRoundMode in do_fri
+>>        target/ppc: Tidy inexact handling in do_fri
+>>        target/ppc: Clean up do_fri
+>>        target/ppc: Update fmadd for new flags
+>>        target/ppc: Split out do_fmadd
+>>        target/ppc: Do not call do_float_check_status from do_fmadd
+>>        target/ppc: Split out do_frsp
+>>        target/ppc: Update do_frsp for new flags
+>>        target/ppc: Use helper_todouble in do_frsp
+>>        target/ppc: Update sqrt for new flags
+>>        target/ppc: Update xsrqpi and xsrqpxp to new flags
+>>        target/ppc: Update fre to new flags
+>>        softfloat: Add float64r32 arithmetic routines
+>>        target/ppc: Add helpers for fmadds et al
+>>        target/ppc: Add helper for fsqrts
+>>        target/ppc: Add helpers for fadds, fsubs, fdivs
+>>        target/ppc: Add helper for fmuls
+>>        target/ppc: Add helper for frsqrtes
+>>        target/ppc: Update fres to new flags and float64r32
+>>        target/ppc: Use helper_todouble/tosingle in helper_xststdcsp
+>>
+>> Thomas Huth (1):
+>>        ppc: Mark the 'taihu' machine as deprecated
+>>
+>> Victor Colombo (2):
+>>        target/ppc: Fix xs{max, min}[cj]dp to use VSX registers
+>>        target/ppc: Move xs{max,min}[cj]dp to decodetree
+>>
+>>   docs/about/deprecated.rst              |   9 +
+>>   docs/specs/ppc-spapr-hcalls.rst        | 100 +++++
+>>   docs/specs/ppc-spapr-hcalls.txt        |  78 ----
+>>   docs/system/ppc/powernv.rst            |  68 ++--
+>>   docs/system/ppc/pseries.rst            | 226 +++++++++++
+>>   hw/ppc/mac.h                           |   3 -
+>>   hw/ppc/ppc405.h                        |  14 +-
+>>   include/fpu/softfloat-types.h          |  23 +-
+>>   include/fpu/softfloat.h                |  14 +-
+>>   include/hw/pci-host/pnv_phb3.h         |   3 +
+>>   include/hw/pci-host/pnv_phb4.h         |   5 +
+>>   include/hw/ppc/pnv.h                   |   2 +
+>>   target/ppc/cpu-models.h                |  19 -
+>>   target/ppc/cpu-qom.h                   |  12 +-
+>>   target/ppc/cpu.h                       |  63 +++-
+>>   target/ppc/helper.h                    |  29 +-
+>>   target/ppc/power8-pmu.h                |  26 ++
+>>   target/ppc/spr_tcg.h                   |   5 +
+>>   target/ppc/insn32.decode               |  54 ++-
+>>   fpu/softfloat.c                        | 114 +++++-
+>>   hw/misc/ivshmem.c                      |   2 +-
+>>   hw/pci-host/pnv_phb3.c                 |   3 +-
+>>   hw/pci-host/pnv_phb3_pbcq.c            |  11 +
+>>   hw/pci-host/pnv_phb4.c                 |   1 +
+>>   hw/pci-host/pnv_phb4_pec.c             |  75 +++-
+>>   hw/ppc/mac_newworld.c                  |   3 +-
+>>   hw/ppc/mac_oldworld.c                  |   3 +-
+>>   hw/ppc/pnv.c                           | 177 +++++----
+>>   hw/ppc/ppc.c                           |   2 +
+>>   hw/ppc/ppc405_boards.c                 | 245 ++++++------
+>>   hw/ppc/ppc405_uc.c                     | 225 ++++++-----
+>>   hw/ppc/spapr_cpu_core.c                |   1 +
+>>   target/ppc/cpu-models.c                |  34 --
+>>   target/ppc/cpu.c                       |   2 +-
+>>   target/ppc/cpu_init.c                  | 658 +++------------------------------
+>>   target/ppc/excp_helper.c               |  95 +++--
+>>   target/ppc/fpu_helper.c                | 593 +++++++++++++++--------------
+>>   target/ppc/helper_regs.c               |   7 +
+>>   target/ppc/mmu_common.c                |  60 +--
+>>   target/ppc/mmu_helper.c                |  32 --
+>>   target/ppc/power8-pmu.c                | 350 ++++++++++++++++++
+>>   target/ppc/translate.c                 | 104 ++++--
+>>   tests/qtest/ivshmem-test.c             |   5 +-
+>>   tests/tcg/ppc64le/mtfsf.c              |  61 +++
+>>   fpu/softfloat-parts.c.inc              |  57 +--
+>>   fpu/softfloat-specialize.c.inc         |  12 +-
+>>   target/ppc/power8-pmu-regs.c.inc       |  69 +++-
+>>   target/ppc/translate/branch-impl.c.inc |  33 ++
+>>   target/ppc/translate/fp-impl.c.inc     |  53 +--
+>>   target/ppc/translate/vmx-impl.c.inc    | 231 ++++++++++++
+>>   target/ppc/translate/vsx-impl.c.inc    |  55 ++-
+>>   target/ppc/translate/vsx-ops.c.inc     |   5 -
+>>   hw/ppc/trace-events                    |  23 ++
+>>   pc-bios/README                         |   2 +-
+>>   pc-bios/slof.bin                       | Bin 991744 -> 991920 bytes
+>>   roms/SLOF                              |   2 +-
+>>   target/ppc/meson.build                 |   1 +
+>>   tests/tcg/ppc64/Makefile.target        |   1 +
+>>   tests/tcg/ppc64le/Makefile.target      |   1 +
+>>   59 files changed, 2514 insertions(+), 1647 deletions(-)
+>>   create mode 100644 docs/specs/ppc-spapr-hcalls.rst
+>>   delete mode 100644 docs/specs/ppc-spapr-hcalls.txt
+>>   create mode 100644 target/ppc/power8-pmu.h
+>>   create mode 100644 target/ppc/power8-pmu.c
+>>   create mode 100644 tests/tcg/ppc64le/mtfsf.c
+>>   create mode 100644 target/ppc/translate/branch-impl.c.inc
 > 
-> This looks like a really bad hack to me.  We purposefully have made the 
-> parent link opaque so that a BDS cannot easily reach its parents.  All 
-> accesses should go through BdrvChildClass methods.
+> Different docs failure:
 > 
-> I also don’t understand why we need to query parents at all.  The only 
-> fact that determines whether the current BDS will have its permissions 
-> changed is whether the BDS itself is active or inactive.  Sure, we’ll 
-> invoke bdrv_co_invalidate_cache() on the parents, too, but then we could 
-> simply let the assertion fail there.
+> Warning, treated as error:
+> /tmp/qemu-test/src/docs/system/ppc/pseries.rst:241:Unexpected indentation.
 > 
->> +            if (!bdrv_is_active(parent_bs)) {
->> +                return false;
->> +            }
->> +        }
->> +    }
->> +
->> +   return true;
->> +}
->> +
->>   int coroutine_fn bdrv_co_invalidate_cache(BlockDriverState *bs, 
->> Error **errp)
->>   {
->>       BdrvChild *child, *parent;
->> @@ -6585,6 +6605,12 @@ int coroutine_fn 
->> bdrv_co_invalidate_cache(BlockDriverState *bs, Error **errp)
->>           return -ENOMEDIUM;
->>       }
->> +    /*
->> +     * No need to muck with permissions if bs is active.
->> +     * TODO: should activation be a separate function?
->> +     */
->> +    assert(qemu_in_main_thread() || bdrv_is_active(bs));
->> +
+> You can test this yourself with
 > 
-> I don’t understand this, really.  It looks to me like “if you don’t call 
-> this in the main thread, this better be a no-op”, i.e., you must never 
-> call this function in an I/O thread if you really want to use it.  I.e. 
-> what I’d classify as a GS function.
-> 
-> It sounds like this is just a special case for said test, and 
-> special-casing code for tests sounds like a bad idea.
+> make docker-test-build@ubuntu1804 TARGET_LIST=i386-softmmu
 
-Ok, but trying to leave just the qemu_in_main_thread() assertion makes 
-test 307 (./check 307) fail.
-I am actually not sure on why it fails, but I am sure it is because of 
-the assertion, since without it it passes.
+hmm, I will be more careful with documentation patches in the future.
 
-I tried with gdb (./check -gdb 307 on one terminal and
-gdb -iex "target remote localhost:12345"
-in another) but it points me to this below, which I think is the ndb 
-server getting the socket closed (because on the other side it crashed), 
-and not the actual error.
+How should I send a v3 without resending all patches ?
 
+Thanks,
 
-Thread 1 "qemu-system-x86" received signal SIGPIPE, Broken pipe.
-0x00007ffff68af54d in sendmsg () from target:/lib64/libc.so.6
-(gdb) bt
-#0  0x00007ffff68af54d in sendmsg () from target:/lib64/libc.so.6
-#1  0x0000555555c13cc9 in qio_channel_socket_writev (ioc=<optimized 
-out>, iov=0x5555569a4870, niov=1, fds=0x0, nfds=<optimized out>, errp=0x0)
-     at ../io/channel-socket.c:561
-#2  0x0000555555c19b18 in qio_channel_writev_full_all 
-(ioc=0x55555763b800, iov=iov@entry=0x7fffe8dffd80, niov=niov@entry=1, 
-fds=fds@entry=0x0,
-     nfds=nfds@entry=0, errp=errp@entry=0x0) at ../io/channel.c:240
-#3  0x0000555555c19bd2 in qio_channel_writev_all (errp=0x0, niov=1, 
-iov=0x7fffe8dffd80, ioc=<optimized out>) at ../io/channel.c:220
-#4  qio_channel_write_all (ioc=<optimized out>, 
-buf=buf@entry=0x7fffe8dffdd0 "", buflen=buflen@entry=20, 
-errp=errp@entry=0x0) at ../io/channel.c:330
-#5  0x0000555555c27e75 in nbd_write (errp=0x0, size=20, 
-buffer=0x7fffe8dffdd0, ioc=<optimized out>) at ../nbd/nbd-internal.h:71
-#6  nbd_negotiate_send_rep_len (client=client@entry=0x555556f60930, 
-type=type@entry=1, len=len@entry=0, errp=errp@entry=0x0) at 
-../nbd/server.c:203
-#7  0x0000555555c29db1 in nbd_negotiate_send_rep (errp=0x0, type=1, 
-client=0x555556f60930) at ../nbd/server.c:211
---Type <RET> for more, q to quit, c to continue without paging--
-#8  nbd_negotiate_options (errp=0x7fffe8dffe88, client=<optimized out>) 
-at ../nbd/server.c:1224
-#9  nbd_negotiate (errp=0x7fffe8dffe88, client=<optimized out>) at 
-../nbd/server.c:1340
-#10 nbd_co_client_start (opaque=<optimized out>) at ../nbd/server.c:2715
-#11 0x0000555555d70423 in coroutine_trampoline (i0=<optimized out>, 
-i1=<optimized out>) at ../util/coroutine-ucontext.c:173
-#12 0x00007ffff67f3820 in ?? () from target:/lib64/libc.so.6
-#13 0x00007fffffffca80 in ?? ()
-
-Emanuele
-> 
-> Hanna
-> 
->>       QLIST_FOREACH(child, &bs->children, next) {
->>           bdrv_co_invalidate_cache(child->bs, &local_err);
->>           if (local_err) {
-> 
+C.
 
 
