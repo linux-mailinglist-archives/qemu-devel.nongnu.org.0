@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B57FA479558
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Dec 2021 21:17:40 +0100 (CET)
-Received: from localhost ([::1]:39288 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32AC6479543
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Dec 2021 21:12:41 +0100 (CET)
+Received: from localhost ([::1]:52946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1myJff-0002D5-RF
-	for lists+qemu-devel@lfdr.de; Fri, 17 Dec 2021 15:17:39 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40088)
+	id 1myJao-0000Xi-W8
+	for lists+qemu-devel@lfdr.de; Fri, 17 Dec 2021 15:12:40 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40086)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1myJYm-00061D-Ls; Fri, 17 Dec 2021 15:10:32 -0500
-Received: from mout.kundenserver.de ([212.227.126.131]:55089)
+ id 1myJYm-00060m-JC; Fri, 17 Dec 2021 15:10:32 -0500
+Received: from mout.kundenserver.de ([212.227.126.131]:55467)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1myJYl-0001Kn-2F; Fri, 17 Dec 2021 15:10:32 -0500
+ id 1myJYk-0001Kg-TG; Fri, 17 Dec 2021 15:10:32 -0500
 Received: from quad ([82.142.30.186]) by mrelayeu.kundenserver.de (mreue011
- [212.227.15.167]) with ESMTPSA (Nemesis) id 1MXXdn-1n08iO3gnH-00Z2lC; Fri, 17
+ [212.227.15.167]) with ESMTPSA (Nemesis) id 1MPXxi-1nC0gc3A9K-00MeAN; Fri, 17
  Dec 2021 21:10:24 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 5/9] hw/virtio/vhost: Fix typo in comment.
-Date: Fri, 17 Dec 2021 21:10:15 +0100
-Message-Id: <20211217201019.1652798-6-laurent@vivier.eu>
+Subject: [PULL 6/9] docs/block-replication.txt: Fix replication top-id command
+ demo
+Date: Fri, 17 Dec 2021 21:10:16 +0100
+Message-Id: <20211217201019.1652798-7-laurent@vivier.eu>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211217201019.1652798-1-laurent@vivier.eu>
 References: <20211217201019.1652798-1-laurent@vivier.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:Yp9InfhxjS+IS2Gv4DyCN+O6FlSuobETECztAK1zs9ZGMMRGR4e
- HM9r7EmKV4P6b3YStylpv2MaZKPEbSJD1IaQ3yQbN2upQqHoTr9Cyjr9beDqZhlWmGtygIb
- n5+HYoE6NtxK/D3a9fcb6RsJq09k/bWVGWMGYlg3In1cNvuIKAdX0yCCCV2Q2DILfJguHDh
- 6Pqsm+pGbCxxp7S3+tiaw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:qf6sSX9QtPU=:lwHID7xH7Fyi/hx1KD1hbf
- rArFthZ+p0MAfwnxqu2LxKHkEiydh95CDuh2rOQUxnKKADilgsYSabr5FAd1Qz7zcGazHMagO
- klzqupSH6Imj6J/Vs0lglbZo28ccAzL2VpZsP9d3onh9t4PJyUighM4M40izkJSB8L/5mH7aB
- 73RFlvM08xsfDW/wJrcqYamDAvRQIFvob1C6PbxtPmBlhhcwAfHyaBzIzw3M6lDSp8rWSe+o3
- d0pJesQs8DNbf1amUTaLkUu/BH5EltaJF5P/+LuQELqbChu3GVebvlygh+13aTACqLMIHwoDp
- wqKyTe1QeYbayaLZk46UDBOfldj5NpvZ475v+WFEwovopTet/GNsZc8P0x4LDsO2ADKSjhv5y
- 5P2U9GvG/6UQTyQ3Jc6Ts51Bpsh129CI6DTfVcKKsZEdolV8nryvKuhKzJT/2OCwOIk8Vtzp9
- HGBO0hdliG6vpDOqkpoVsG6GqpMLPWThikGKJv4yUoyYbDakg9THIePD88VVDYZkzzlrrK4nY
- CMSYuXpY9ongJgKuS4WDtPam0yax2ttp+Q+Jv3mCYUqwHQnccHSOrds50afk/PLQmJznuvNGO
- KwAuMoXj7YEIbuQ7jTk0juFyKXMCDaLUGFQ4HtWduQ3SloNI4WsbwHO5qnaVE0+Pnr9PAgwm7
- nBAyuC3Dx5x9QdOECWR2h8ilOMgfewmIfDx+j+pGt/91X4wX6WNBOy1DJhSlrtcDLmSo=
+X-Provags-ID: V03:K1:ssDFRdxDU16rVQvfzMzWFZ47dYx4Nv9mVinYp71rDC1gBkVny77
+ 0Tm9NPLR5qWRURP9TlhOms110cyPsAPLbVrePzJCTYd2Uu7wF6/ioOU1MDqyWlxlqWi47f8
+ Qnoq8u58hviyW5OETWCvAXS+kk1dpWji5nJf4nbReTywOmdmp790Pb/w26GWJ/wHAIR8QRQ
+ mAQzNlTXHkPt4E2nYkBVw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:ekthWI3McGs=:ke8MFEY93nnxy6QVecBJAA
+ 181Iecl6D8J6vchjkB+9NLWTaGkR2QKf+Xcqj7SlQ0j2p9hDmXlj98xtwj2lFkLDEvqnZ/GBA
+ s6YbwILa0KiX93oe46xDSgLMankYPN+grdnKCvS1/9FdOFhggssXNJmn6Hq26g8v1I/vvFBLW
+ ijbU83Xn+dckWdUCMeEb+5i04jclA+Zv49lGsRVPG7I7FtlRX9+ZStuEhDpd8ICXcn+VuyX4s
+ +uLZ7T7KheBxW3bGAZZbf9CXqihCjA/pFzxkr27C0eSHXZqQFioUdmUcMA2anLszRMel1a85h
+ eFrM8fb+eTryNXegWRLW1XAJa3mJDoadRDzp6PhI3yxCsPOgNWZPK74BaQu4rujDrJofLyEfc
+ NL0FRrjwW+VHd/RA8w0Qn0YHhdPYYRqQKkhHy4Te6Qlo6/3cYRNJRhOy6rovXNbrsVwVxGDBZ
+ VKO/1psXrGxJVfLKd2oIOMpCoX38ce7xvE4916HUSSRPXO4ZHR22pPq6CCUS8q15I1JBq+Frt
+ f/0qpgPw/D1x5BGvM9cafL/Y1yrXUVIWJQAOZ3xMRLKnoPf8O9kK7VaCVkydKb4DJahOhHK+a
+ NGOmu0vbCp/fHVk1j8csztyUpV0gBeAYLF4nbInP7vuvBVkMY4+2Jdcz0VdfWtDZhG0Z5q+rW
+ 2c7yVcCfB70vwHyVmRQNginMaZv/fis9Ie4PpD6wapppC/tEJ89Kl2EEC3Ritq55Hk30=
 Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
@@ -66,36 +66,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Leonardo Garcia <lagarcia@br.ibm.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+Cc: qemu-trivial@nongnu.org, Zhang Chen <chen.zhang@intel.com>,
  Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Leonardo Garcia <lagarcia@br.ibm.com>
+From: Zhang Chen <chen.zhang@intel.com>
 
-Signed-off-by: Leonardo Garcia <lagarcia@br.ibm.com>
+This demo not correct, the original childs1 can't pass the
+the bdrv_is_root_node check in replcation_start().
+Keep consistent with docs/COLO-FT.txt
+
+Signed-off-by: Zhang Chen <chen.zhang@intel.com>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <a10a0ddab65b474ebea1e1141abe0f4aa463909b.1637668012.git.lagarcia@br.ibm.com>
+Message-Id: <20211018085044.2788276-1-chen.zhang@intel.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/virtio/vhost.c | 2 +-
+ docs/block-replication.txt | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
-index 437347ad01c9..20913cf8fb4b 100644
---- a/hw/virtio/vhost.c
-+++ b/hw/virtio/vhost.c
-@@ -313,7 +313,7 @@ static int vhost_dev_has_iommu(struct vhost_dev *dev)
-      * For vhost, VIRTIO_F_IOMMU_PLATFORM means the backend support
-      * incremental memory mapping API via IOTLB API. For platform that
-      * does not have IOMMU, there's no need to enable this feature
--     * which may cause unnecessary IOTLB miss/update trnasactions.
-+     * which may cause unnecessary IOTLB miss/update transactions.
-      */
-     return virtio_bus_device_iommu_enabled(vdev) &&
-            virtio_host_has_feature(vdev, VIRTIO_F_IOMMU_PLATFORM);
+diff --git a/docs/block-replication.txt b/docs/block-replication.txt
+index b0f23761c6e7..e1b28a6cc117 100644
+--- a/docs/block-replication.txt
++++ b/docs/block-replication.txt
+@@ -179,7 +179,7 @@ Primary:
+ 
+ Secondary:
+   -drive if=none,driver=raw,file.filename=1.raw,id=colo1 \
+-  -drive if=none,id=childs1,driver=replication,mode=secondary,top-id=childs1
++  -drive if=none,id=childs1,driver=replication,mode=secondary,top-id=top-disk1
+          file.file.filename=active_disk.qcow2,\
+          file.driver=qcow2,\
+          file.backing.file.filename=hidden_disk.qcow2,\
 -- 
 2.33.1
 
