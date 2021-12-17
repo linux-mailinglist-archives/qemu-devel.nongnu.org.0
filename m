@@ -2,84 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D74E84793A6
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Dec 2021 19:14:57 +0100 (CET)
-Received: from localhost ([::1]:39634 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 110EF47943A
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Dec 2021 19:47:49 +0100 (CET)
+Received: from localhost ([::1]:57748 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1myHku-00049n-Fd
-	for lists+qemu-devel@lfdr.de; Fri, 17 Dec 2021 13:14:56 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40204)
+	id 1myIGh-0000vj-Gt
+	for lists+qemu-devel@lfdr.de; Fri, 17 Dec 2021 13:47:47 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47758)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1myHjd-0003Hb-Uw
- for qemu-devel@nongnu.org; Fri, 17 Dec 2021 13:13:37 -0500
-Received: from [2a00:1450:4864:20::436] (port=45838
- helo=mail-wr1-x436.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1myHjZ-0000Bg-57
- for qemu-devel@nongnu.org; Fri, 17 Dec 2021 13:13:37 -0500
-Received: by mail-wr1-x436.google.com with SMTP id o13so5575781wrs.12
- for <qemu-devel@nongnu.org>; Fri, 17 Dec 2021 10:13:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=Bm+aSZYgso3t8XB9VmT13ulejIPNPIsHpJl3VT7kIHM=;
- b=FtWLY0+ebAm4SffSW0J+ZeH8ENL/H3tfMoBWqzgOEuM5fh8xKBTFozfDdjRxUvy/8K
- spjJcjZhb1BvrlSbkkUMVzRLPzzwK6Jp2bAFUdXd+aghGoKZJUkcDPNUGR9TU4sgweVk
- U08RQSdxXFquIDSYhFJtATb4kGuQ1/oLkQ2/JYCcqetV9fO/FPReg9QlX3qsDMJ4m27i
- CoPlcjQnPIq9m53bmDmtcEGx6+Fl17UtF/o4BG/sGeynQDc8wHdUf4vlUrd7iA4A+QAu
- Y+nRlckkjdr8YGebvFru/ekiUddDEBM0IhkWz6Y3I76T6yWwkwyo1DTHns/ETZ80Daq3
- mu3g==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1myIE9-0008Qo-4o
+ for qemu-devel@nongnu.org; Fri, 17 Dec 2021 13:45:09 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:54008)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1myIE5-0005on-7B
+ for qemu-devel@nongnu.org; Fri, 17 Dec 2021 13:45:06 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1639766703;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=50PU/FBCKiU3HR+4LlW7hXhBGraocr9E9phEc1AiUCY=;
+ b=gPbf6D2sETirYMrZaHs1HYglkEGBAFKpsArgqOrFOS1v1m2oM0V2VZZGv3xPrnY3MwUuze
+ j+ZjsTOzRDbPjHtUx7nErMN5synOSYFkIJab7hGOzbBTPQ/CYG9Mq4gVC2MIB66fzJfwl4
+ CzFCIkQqUgsDpIh4mtBY3v0OAV65j5Q=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-21-ALV00n9FPheBo6pUIuw_9Q-1; Fri, 17 Dec 2021 13:45:01 -0500
+X-MC-Unique: ALV00n9FPheBo6pUIuw_9Q-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ v190-20020a1cacc7000000b003456d598510so3318561wme.6
+ for <qemu-devel@nongnu.org>; Fri, 17 Dec 2021 10:45:01 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=Bm+aSZYgso3t8XB9VmT13ulejIPNPIsHpJl3VT7kIHM=;
- b=tr/1pQe4igROEvfZEtkhNoHEsm29yZM9ah4+W24/wHbZUixaAb8/tko45r6y9wTZK7
- 6GVJeuT0SdHaqew0m5OMia50lTLNsiCCL7yzz0ZJqf0Vu4AUPdMbLuKxyuMggtlGGYTf
- agVhDMV5Fcl45qduCWEz8JZoTHzEJqPrzUFu63hnvjWvOj6+e/T6MTnUReBkpGIhLdTB
- S7yqQYVamni5SE0PAD3NrlsmyGHfWqg3KctmgFWjc/joTX7lyDRMvoVeUP1M4nL4ahz3
- MSDxCOBJJw1CfZykppB3OiLLXHdFwRjRA9Lk9w3yV2qLPe04WdMmX90gSBgeBz08zrzG
- I08Q==
-X-Gm-Message-State: AOAM530TpG664ylLFexrSglnTg5C7OZQ9rYUUNHdbSOODg58MXfWxzZc
- AO0+ZXlgOFrPI6td+Tt8b5xcjw==
-X-Google-Smtp-Source: ABdhPJxsFcxMn9DyYpu8Gg/hAVw2tP/PAmHpLtwGjRX/EEbyBQ3QGgIQGyfKkgJC0hQa6zOuK/QHwQ==
-X-Received: by 2002:a05:6000:1787:: with SMTP id
- e7mr3422906wrg.433.1639764810838; 
- Fri, 17 Dec 2021 10:13:30 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id d9sm7649315wre.52.2021.12.17.10.13.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 17 Dec 2021 10:13:29 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 4A98F1FF96;
- Fri, 17 Dec 2021 18:13:29 +0000 (GMT)
-References: <20211213182449.7068-1-bslathi19@gmail.com>
- <87wnk8i4x7.fsf@linaro.org>
- <d0f649f7-4d5d-9b15-829c-d5cef2137797@linaro.org>
-User-agent: mu4e 1.7.5; emacs 28.0.90
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH] Target/arm: Implement Cortex-A5
-Date: Fri, 17 Dec 2021 18:12:12 +0000
-In-reply-to: <d0f649f7-4d5d-9b15-829c-d5cef2137797@linaro.org>
-Message-ID: <8735mrdrqu.fsf@linaro.org>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=50PU/FBCKiU3HR+4LlW7hXhBGraocr9E9phEc1AiUCY=;
+ b=z9G95tnGigSBfpAArUmQD7HmlnoHHJsos4hTyZKP8pdcFHPkEVjFNE7A0TgQa8fx78
+ wGYjwyDFFeEgMDpG9LKFgKoPY6KentjfuJhl6m7WYOvSxOLsczhaZqvgVVCWLDn9q/Bc
+ ITRlntFrfIk9ImTWmjQkyK0uNquaWttnKVi+y/G1hAEwUFr86DDcKxDFagLG8MzRCswg
+ ulCTKfMxjMhJJqNns10cWW+P3sVTj799N2W/n88GHVjJ8RfAQRvw9v1x7/OnqAIB2aYr
+ 8cFUKP1+ZSkqbYjQjApAhDDpYn/4l5OEQaJGZglhURRzBq/Cm2q+6oCOMnEmq7wPjrVB
+ /iPg==
+X-Gm-Message-State: AOAM531uBRa0CD6F5ZV4WHZ1pXITbVZjEjycsW1//KCnebKlBih2h1O7
+ 1lpqXpkRM/Uu/xaT108Zl+KHusGzDGJDhrqT4BLLfIMQEMnp3vLBc9IO2yMiSNRBRxHk0tdRhsw
+ Wfzn1nWBSVkvonzI=
+X-Received: by 2002:a5d:4dc2:: with SMTP id f2mr3486009wru.156.1639766700259; 
+ Fri, 17 Dec 2021 10:45:00 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJy5ZMDGmKhAfx84ot6BIGcTCQZIyfL7ZTbql4XQbHShc30mFD3h3nSgS4a8cjRouRpqqE0FuQ==
+X-Received: by 2002:a5d:4dc2:: with SMTP id f2mr3486002wru.156.1639766700050; 
+ Fri, 17 Dec 2021 10:45:00 -0800 (PST)
+Received: from [192.168.1.36] (174.red-83-50-185.dynamicip.rima-tde.net.
+ [83.50.185.174])
+ by smtp.gmail.com with ESMTPSA id e1sm6058480wrc.74.2021.12.17.10.44.59
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 17 Dec 2021 10:44:59 -0800 (PST)
+Message-ID: <6324e754-7c03-0648-a284-906f0d85aa67@redhat.com>
+Date: Fri, 17 Dec 2021 19:44:58 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::436
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x436.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [RFC PATCH] docs/devel: more documentation on the use of suffixes
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20211217171902.2668674-1-alex.bennee@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+In-Reply-To: <20211217171902.2668674-1-alex.bennee@linaro.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -51
+X-Spam_score: -5.2
+X-Spam_bar: -----
+X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.718,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-1.716, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,46 +100,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, qemu-devel@nongnu.org,
- Byron Lathi <bslathi19@gmail.com>
+Cc: berrange@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 12/17/21 18:19, Alex Bennée wrote:
+> Using _qemu is a little confusing. Let's use _compat for these sorts
+> of things. We should also mention _impl which is another common suffix
+> in the code base.
+> 
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> ---
+>  docs/devel/style.rst  | 7 +++++++
+>  include/glib-compat.h | 6 +++---
+>  2 files changed, 10 insertions(+), 3 deletions(-)
 
-Richard Henderson <richard.henderson@linaro.org> writes:
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-> On 12/13/21 1:02 PM, Alex Benn=C3=A9e wrote:
->>> +    cpu->midr =3D 0x410fc0f1;
->> hmm wikipedia lists the part number as 0xc05 (and the a15 as 0xc0f)
->> but
->> I can't find the actual value in the TRM.
->
-> https://developer.arm.com/documentation/ddi0434/c
->
-> has exactly this value at the top of table 4-9.
-
-Ahh good find - 0x410FC051 it is.
-
->
->>> +    cpu->reset_fpsid =3D 0x41023051;
->> I think for the a5 the FPU is optional so maybe we need a cpu option
->> here? Or maybe just assume it's enabled on QEMUs version?
->
-> Yeah, there's no entry for fpsid in the above manual.
->
->>> +    cpu->isar.id_mmfr0 =3D 0x00100103;
->> the TRM says [11:8] Outermost shareability 0x0 L1 cache coherency
->> not supported.
->
-> Again, this does match table 4-9.
-
-0x00100003
-
->
->
-> r~
-
-
---=20
-Alex Benn=C3=A9e
 
