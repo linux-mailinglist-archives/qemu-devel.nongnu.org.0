@@ -2,65 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77DEB478462
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Dec 2021 06:13:54 +0100 (CET)
-Received: from localhost ([::1]:57694 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE8B24784A7
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Dec 2021 06:47:47 +0100 (CET)
+Received: from localhost ([::1]:35610 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1my5Z3-0008CH-1a
-	for lists+qemu-devel@lfdr.de; Fri, 17 Dec 2021 00:13:53 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39556)
+	id 1my65p-0005cw-VT
+	for lists+qemu-devel@lfdr.de; Fri, 17 Dec 2021 00:47:45 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47296)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1my5XH-0007V0-5C
- for qemu-devel@nongnu.org; Fri, 17 Dec 2021 00:12:03 -0500
-Received: from [2607:f8b0:4864:20::d34] (port=43843
- helo=mail-io1-xd34.google.com)
+ id 1my62F-0004NA-Uo; Fri, 17 Dec 2021 00:44:05 -0500
+Received: from [2607:f8b0:4864:20::130] (port=46903
+ helo=mail-il1-x130.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1my5XF-00049k-Ik
- for qemu-devel@nongnu.org; Fri, 17 Dec 2021 00:12:02 -0500
-Received: by mail-io1-xd34.google.com with SMTP id z26so1361681iod.10
- for <qemu-devel@nongnu.org>; Thu, 16 Dec 2021 21:12:01 -0800 (PST)
+ id 1my62E-0007Kv-8x; Fri, 17 Dec 2021 00:44:03 -0500
+Received: by mail-il1-x130.google.com with SMTP id s11so783845ilt.13;
+ Thu, 16 Dec 2021 21:44:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=4dJfbTUFvL5LZFs58Q8PBmIrBSoc1uKFbuIN+j4jTNA=;
- b=Jc5eNSKv82ZgZwFVjguyGdt48w3ni5+jYtjuN5xAKieYfJBJW5l7Lpr2r42CqOyjlg
- W85VpatGC13N3tuBhtG5kLiVFgFwES94MowCdehH5uAHBo0LqXstGOtutuJ+rVLyzBcM
- BzHK7kVBzQhQZRJl+EO3Jhvz7BXFk5WD/iMBY+uobYvKcDlJ0GLG5D07MdHO2K8ULiyK
- Dufm1l3AZioVRr1QaMx7+742m5X+WCRfuMqhspFY7qtfaRmz+e30paaNAmLxub8OY0+d
- Z7QrCYQ4udh8smekuUKt5U2sEsG25gVjxPy2MnhXFvq7+CSjW/LDQpfET/n3MFbl0HR0
- caZA==
+ :cc; bh=5LTPXOS1W8BVbmDHaufae9dxVyQwLN9iyolUriwjOfQ=;
+ b=FlMlQcLgEZ+2dulIWDuUN2d3tB2eGGNm8aL63A6YVS2a3c0OBwWsvIV7hp/zuvVeRv
+ wdFwBRNoeMJiUX2QK62UuvCM0wY+/++8JP/a7C/lcEoyxR9a7Wbo9mUdl5jH8poPS0Mv
+ FQG92iYDTRfVcbP+ARDQRlpZ0TnoW0mX2lDSlhZM74ZGmIUxDezTj9P83i7NPYjn+N0X
+ 9n4zJHoK/CYohNh/8dGUDe47Fcpk3S7r0Ti3DPIlDP8j6FuP51sNUMoZj17QwdAfIZtw
+ 3dYZTbOI4QsOEWmWMPhMjEhiqVBAdKnrdKImN6wJaRuelJdldK1TnBLM+/5ycKTEtGK2
+ LtXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=4dJfbTUFvL5LZFs58Q8PBmIrBSoc1uKFbuIN+j4jTNA=;
- b=L+GeIvbDibVyancBodk7l/AOcRGffjT4fZtxcqj/qcCjH8FDC/J1yUsVtyV17VTTN/
- 22zaY6gIavPjJbmcpbXKD4QyWcLQEpKY9xkNOr4Z9vdmXIOZJAg+xWJXybLLjof4kabO
- kHwjs4kH9KT4bt8xubgxUhYoBNcivfaNXNckId02C80d061g7EyQ9Pnbw2/CSU6vzJhP
- pyF/2/NqYHxFqDGDjrGPMNnIZJDzag5cw2jPfrXZEefAiAUZUvm+EzU8w1AH4Eci9rwi
- hNfXUalsVMp1N/QCcwmYMWVpa0wiY/Dqaxl64P/QHj4tCw9oWe8GY7BjdZDrP4Q+/ed2
- l0RA==
-X-Gm-Message-State: AOAM530p2ST0KF9yza4QLk8RT9Nngguk9T6vqFxPqxLORIZL8f++gclm
- rb5OV73aVpwOnxFIsfkx1UcOy7SRMk8IU8wd3tE=
-X-Google-Smtp-Source: ABdhPJzx68tum6Z0zT8RkdPQkeGaX478AkeltsfB6aliLuol4Gm3hmW688Ztfh+4Zqww/AEeaZqAWOwBeaydo1X1ptc=
-X-Received: by 2002:a05:6638:2603:: with SMTP id
- m3mr835568jat.206.1639717920669; 
- Thu, 16 Dec 2021 21:12:00 -0800 (PST)
+ bh=5LTPXOS1W8BVbmDHaufae9dxVyQwLN9iyolUriwjOfQ=;
+ b=ZIF20awS7+D4ZkhvWVm8si9tM70lneL74oKDN++j6xQXg9WUYLxx0HoCelZ2WZrqiY
+ BBj5FRpjvxVr4C+ZHpWfqsfj8BUzX+AiRaCnikVT9tgK6J1F+IvR0lOnHrQPfyhDSOls
+ iCTMnwKtpQUIeseGjRMNsXhm02UVFqjouXAKMqhs+Mgz8KHchDr8g/tYEN6ZKd0pS1Q3
+ lZjEISI6rrCOliujWVcawcAW6w0VWhMLeeUD4y5vFIbz+zJTY2ieETaiFzQDO/I3VD/A
+ 8TQ14V1ow/2Q73fniviAUm7H6I9ftMs2x6F1zb1ruzW0oaSBNvADsWsuQw/KFbIy4VD3
+ aDlw==
+X-Gm-Message-State: AOAM533AQUKQJmdDVaHnQpxtoGFPEnXbkMX4PgFuHqkY/Z6tuwsj1F/N
+ opaZlAuNAkCHM6+ktqJBftCLF7kIfWdayGu+G7I=
+X-Google-Smtp-Source: ABdhPJzyiRI6gikVpTWmdwNkuPaiYw8cJ1rhgy7KYJaT+Fn3tnyfsahhLKELTRxND4VvRpccX0eBHd7YzmN/saJf7Ng=
+X-Received: by 2002:a92:c802:: with SMTP id v2mr755391iln.208.1639719840756;
+ Thu, 16 Dec 2021 21:44:00 -0800 (PST)
 MIME-Version: 1.0
-References: <20211216073111.2890607-1-raj.khem@gmail.com>
-In-Reply-To: <20211216073111.2890607-1-raj.khem@gmail.com>
+References: <20211216051844.3921088-1-vineetg@rivosinc.com>
+In-Reply-To: <20211216051844.3921088-1-vineetg@rivosinc.com>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 17 Dec 2021 15:11:34 +1000
-Message-ID: <CAKmqyKN8kcZtTEJSVJ56PRayQKHyjOTOSMRRK4F25v242rnwRg@mail.gmail.com>
-Subject: Re: [PATCH] riscv: Set 5.4 as minimum kernel version for riscv32
-To: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 17 Dec 2021 15:43:34 +1000
+Message-ID: <CAKmqyKNtQj0vsjo5qf=Nk2RtRHn3xCqdmTjn4kHeeSP=E5JtXg@mail.gmail.com>
+Subject: Re: [PATCH] target/riscv: Enable bitmanip Zb[abcs] instructions
+To: Vineet Gupta <vineetg@rivosinc.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d34
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::130
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d34;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd34.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::130;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x130.google.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
@@ -81,22 +78,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bin.meng@windriver.com>,
- Alistair Francis <alistair.francis@wdc.com>,
+Cc: Alistair Francis <alistair.francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
  "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Dec 16, 2021 at 5:33 PM Khem Raj <raj.khem@gmail.com> wrote:
+On Thu, Dec 16, 2021 at 3:21 PM Vineet Gupta <vineetg@rivosinc.com> wrote:
 >
-> 5.4 is first stable API as far as rv32 is concerned see [1]
+> The bitmanip extension has now been ratified [1] and upstream tooling
+> (gcc/binutils) support it too, so move them out of experimental and also
+> enable by default (for better test exposure/coverage)
 >
-> [1] https://sourceware.org/git/?p=glibc.git;a=commit;h=7a55dd3fb6d2c307a002a16776be84310b9c8989
+> [1] https://wiki.riscv.org/display/TECH/Recently+Ratified+Extensions
 >
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> Cc: Palmer Dabbelt <palmer@dabbelt.com>
-> Cc: Alistair Francis <alistair.francis@wdc.com>
-> Cc: Bin Meng <bin.meng@windriver.com>
+> Signed-off-by: Vineet Gupta <vineetg@rivosinc.com>
 
 Thanks!
 
@@ -105,28 +102,30 @@ Applied to riscv-to-apply.next
 Alistair
 
 > ---
->  linux-user/riscv/target_syscall.h | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+>  target/riscv/cpu.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
 >
-> diff --git a/linux-user/riscv/target_syscall.h b/linux-user/riscv/target_syscall.h
-> index dc597c8972..9b13161324 100644
-> --- a/linux-user/riscv/target_syscall.h
-> +++ b/linux-user/riscv/target_syscall.h
-> @@ -45,10 +45,11 @@ struct target_pt_regs {
+> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> index f81299812350..c00d59cd04b5 100644
+> --- a/target/riscv/cpu.c
+> +++ b/target/riscv/cpu.c
+> @@ -635,10 +635,10 @@ static Property riscv_cpu_properties[] = {
+>      DEFINE_PROP_STRING("priv_spec", RISCVCPU, cfg.priv_spec),
 >
->  #ifdef TARGET_RISCV32
->  #define UNAME_MACHINE "riscv32"
-> +#define UNAME_MINIMUM_RELEASE "5.4.0"
->  #else
->  #define UNAME_MACHINE "riscv64"
-> -#endif
->  #define UNAME_MINIMUM_RELEASE "4.15.0"
-> +#endif
->
->  #define TARGET_MINSIGSTKSZ 2048
->  #define TARGET_MCL_CURRENT 1
+>      /* These are experimental so mark with 'x-' */
+> -    DEFINE_PROP_BOOL("x-zba", RISCVCPU, cfg.ext_zba, false),
+> -    DEFINE_PROP_BOOL("x-zbb", RISCVCPU, cfg.ext_zbb, false),
+> -    DEFINE_PROP_BOOL("x-zbc", RISCVCPU, cfg.ext_zbc, false),
+> -    DEFINE_PROP_BOOL("x-zbs", RISCVCPU, cfg.ext_zbs, false),
+> +    DEFINE_PROP_BOOL("zba", RISCVCPU, cfg.ext_zba, true),
+> +    DEFINE_PROP_BOOL("zbb", RISCVCPU, cfg.ext_zbb, true),
+> +    DEFINE_PROP_BOOL("zbc", RISCVCPU, cfg.ext_zbc, true),
+> +    DEFINE_PROP_BOOL("zbs", RISCVCPU, cfg.ext_zbs, true),
+>      DEFINE_PROP_BOOL("x-h", RISCVCPU, cfg.ext_h, false),
+>      DEFINE_PROP_BOOL("x-j", RISCVCPU, cfg.ext_j, false),
+>      DEFINE_PROP_BOOL("x-v", RISCVCPU, cfg.ext_v, false),
 > --
-> 2.34.1
+> 2.30.2
 >
 >
 
