@@ -2,123 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 330D7478E36
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Dec 2021 15:46:11 +0100 (CET)
-Received: from localhost ([::1]:35836 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F040F478E89
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Dec 2021 15:53:21 +0100 (CET)
+Received: from localhost ([::1]:56998 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1myEUk-0005HE-Rd
-	for lists+qemu-devel@lfdr.de; Fri, 17 Dec 2021 09:46:02 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40176)
+	id 1myEbo-000354-VI
+	for lists+qemu-devel@lfdr.de; Fri, 17 Dec 2021 09:53:20 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40634)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1myENF-00057i-0E
- for qemu-devel@nongnu.org; Fri, 17 Dec 2021 09:38:17 -0500
-Received: from mail-bn8nam12on2102.outbound.protection.outlook.com
- ([40.107.237.102]:4416 helo=NAM12-BN8-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1myEPZ-0000Ak-KS
+ for qemu-devel@nongnu.org; Fri, 17 Dec 2021 09:40:41 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:31269)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1myEND-00070Q-IS
- for qemu-devel@nongnu.org; Fri, 17 Dec 2021 09:38:16 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=KBA3cYJgSUaPMjmo1dExpr/iWQ+kh3yvkHTqOBw950/CBByegh1/9uaqZ79herdPVtCIeTNTmSt2aegWX9uH9KKFNeTDt+jDcT9a/l48DtTw4yH08FdoSdMpnyl2aUDxDVkqIemNr3N8AHT5Qu/H5du3+iI919E53zfwxq+QOorXvFWt0Tgwh7VxJEaQxG4ShbypULAKOhsyyNIPmGzL4sntN8fiTNWxK4J66xpMjPfxIIG13Z3ZulGFXH43KPu3KWX8nSbgNdKuYX4hXUmv0Klks/dgfVF8y1/l8FPJQHWc2iP6q/v6naYdIL+q8Fm7RMAIiLmQA+5xdmv4ijfKdg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=7gGQtTwKRs0Pk/eQkuN6jZAyWmVTI28ZodPNXuRkuRs=;
- b=LKTU3E0RFcqqc4x3xk4TNrKhuwN7nWXBDsZ5LpHGWjA4KVmK+JHs5SYwNk+59XVxZbUR02Oxc4J/HnwE/NKykf31oYog+on+bp77QafX2Rz7xDt6DDXX7KjIkJR4bZ0h+wZxYiqOtHZA3wuKzwtkF8S6R/1hdX4VKmI0e+IidtQxCGFxQ0a0inVQGRoCQWbSiVCXr9RTCsODPuOHLt0oor9kG0By8FsAvi9o+lSiJsFo4iBUhL/U60CCdnANGdTWw6QZFoRJjIgxftu1aQGP2G92I1dYpt/tTZ9cs9sjdmbPvBiecPb1aNoHvaonrHrP1+eboG3py0jKlCvw8wCc+w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bu.edu; dmarc=pass action=none header.from=bu.edu; dkim=pass
- header.d=bu.edu; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bu.edu; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7gGQtTwKRs0Pk/eQkuN6jZAyWmVTI28ZodPNXuRkuRs=;
- b=bdrIghfpvAXadk9XYtud0YvfsbQpH3o3UHA4otR54fMxRaAWvz+0kGf0NeuUApYFTl/86fwN8V3K6HXjgSRNZ+rVvgyVK5T5qSBjfdtiR+nZngQSm5OJc3sDW8ORzA3Y7GKtb+iNveEl6YfXD3990WRdV8s7+VtPF4wZSw5HzQ9lEv+gUx6PXaw9pexDluufh7MpsP6Oz4KqwiZbdTCUce8FtSJWCfJHjuCQ7bshsUUaz46Nf7jbn/nRRAdUsl3Y7k/29pNO18jnc4ZPp16F0Va2eJUJd1GnT5qAj1/Zt7H/9Jzr0Zjx03c0x495hyigCLuPt2X+Jr+HQReO4qSdgA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bu.edu;
-Received: from SN6PR03MB3871.namprd03.prod.outlook.com (2603:10b6:805:6d::32)
- by SA2PR03MB5724.namprd03.prod.outlook.com (2603:10b6:806:113::21)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4801.17; Fri, 17 Dec
- 2021 14:38:06 +0000
-Received: from SN6PR03MB3871.namprd03.prod.outlook.com
- ([fe80::6cf1:fa6a:fb65:131]) by SN6PR03MB3871.namprd03.prod.outlook.com
- ([fe80::6cf1:fa6a:fb65:131%3]) with mapi id 15.20.4778.019; Fri, 17 Dec 2021
- 14:38:06 +0000
-From: Alexander Bulekov <alxndr@bu.edu>
-To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v2 2/2] memory: set engaged_in_io when a device calls DMA
- APIs
-Date: Fri, 17 Dec 2021 09:37:50 -0500
-Message-Id: <20211217143750.50641-3-alxndr@bu.edu>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20211217143750.50641-1-alxndr@bu.edu>
-References: <20211217143750.50641-1-alxndr@bu.edu>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: BL1PR13CA0305.namprd13.prod.outlook.com
- (2603:10b6:208:2c1::10) To SN6PR03MB3871.namprd03.prod.outlook.com
- (2603:10b6:805:6d::32)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1myEPX-0007Ug-MW
+ for qemu-devel@nongnu.org; Fri, 17 Dec 2021 09:40:41 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1639752039;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=fHVDWZoo4pRHdaCHF16vFuYNqEuH43fdPtZ8enxI19Q=;
+ b=L0X2yKtWaLCcSTMq6HBnmRmuxJUM7AYmJ/OHzQBi2RqCLSRFZ72RH5bkqQtDxzHjO0oG8U
+ /5roxuM0It3n2wz8Z8hSMwcLecTLkOscGplcUCjeW9Ys6GQ8vg45LmtaBT8/lcv97oqsZR
+ c7n9lt6HuW/qyQetNfOt52YTozrHXJI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-543-TSRKscSUMTWm9qcipvP7Dw-1; Fri, 17 Dec 2021 09:40:35 -0500
+X-MC-Unique: TSRKscSUMTWm9qcipvP7Dw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 75B1464146;
+ Fri, 17 Dec 2021 14:40:33 +0000 (UTC)
+Received: from gondolin.fritz.box (unknown [10.39.193.55])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BD95C5E487;
+ Fri, 17 Dec 2021 14:39:52 +0000 (UTC)
+From: Cornelia Huck <cohuck@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>,
+ David Hildenbrand <david@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>
+Subject: [PATCH v2] hw: Add compat machines for 7.0
+Date: Fri, 17 Dec 2021 15:39:48 +0100
+Message-Id: <20211217143948.289995-1-cohuck@redhat.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 393a62ed-84cf-4f67-2790-08d9c16ad652
-X-MS-TrafficTypeDiagnostic: SA2PR03MB5724:EE_
-X-Microsoft-Antispam-PRVS: <SA2PR03MB57241FF08ACC166B42892C83BA789@SA2PR03MB5724.namprd03.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4941;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: g2RWmLHh+XBzWjeivZlk4Eh4XUKkPNAG5IzlaryOekn4LMjYROB2Kv+IPX1hBbC1w/CmaJoVMZNoYjoFICS5cR6lI24XHbF+AwwZr1OMeFfZf+HgYnH+9vt1Wgq6n8tEa7z26kEi3iYJs1fNdFbfibUGQnQYXjkcmp04hMyNO8uk4nWIm3qtUgVZs1q2Y+170UlE1YzTDz+1rkdMTpldH1QVCJHklYXFxzLV9nk0B9XOQV7kPjN4is1Syq2IVexkqt9GnFPZ5AMCGHHQ4aQ9ae6rolVTb1FwV5B3j3RiJktpkNsegWkLNdmxdkXNRrrBbwhw8KRxPXmoOMdnPgFJEmPmyw6QfFqd9A0fLdc1mm8Xlafqj+9kkjnRjtxgV03eQvRYXvK9tQV8snmvBD/hvxLf5Qe/kP0a3HQvbBqxbn1eyoVCpCmFyf/+cGkCv8pvSNJ+AeqWy4CENhcbESRhMrtTdsSSRacC0S8GuwGpfuSXqUZtwFXGeP7SOeFnyxtyo33TGYELVkYBhsiZAenYo7qj5abt4DBd7rSPw5zve/X9zr8+Bq5kWZqhYIluYrL+Fi9WodCByOYTflurf/pkgm7UPZnzWwU5XCDq61QS0ismpx0fsP13hT8lXZxfPZMtij8lJPNXdVqaT5IGCPl+LCsmG5/WDGyTJvgTHVFwt2/4k+rTetaSE9klFogqgjyx7AzLPleDD9MqFF7/fs9WNQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN6PR03MB3871.namprd03.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(6666004)(66476007)(1076003)(4326008)(316002)(6512007)(36756003)(786003)(54906003)(66556008)(26005)(5660300002)(66946007)(75432002)(83380400001)(8936002)(508600001)(38350700002)(38100700002)(86362001)(52116002)(186003)(6916009)(6486002)(2616005)(6506007)(8676002)(2906002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Yfh42bGEz3zeRG95v+FroagNDLxAOQ2A15y5+TBq38k/x5e4LCtEt760Jmwm?=
- =?us-ascii?Q?Mkt8gfWlZ/VzrYuTAGRE49RKKa3aCGWpq3VvTZb2n6RZHXrgUY+tKdU7hCLZ?=
- =?us-ascii?Q?geWD9+eTa1lq9Y1cU1im4vi7FOgpwUb7pPvTfwXXLbV7dmA5C0inqe7BZJ+b?=
- =?us-ascii?Q?+vNCt726bFl/DyM3AXjeXnpZpCzJGVoVeii4CZKbPLFE4RpqXospoH998fuv?=
- =?us-ascii?Q?u06FuHa3UaDDWG3XGDaj2ACAiqIBRhkEpJ1Lljp9+3jrw7QbpfQAmsWhgbos?=
- =?us-ascii?Q?bCE8o0fNcRuaVeZSXafbqN+ZpcxghsjmPhGIq8musfxvERuYRarUGqY40AwA?=
- =?us-ascii?Q?luFgT1+fQ4e6DucKBmIX0BSZqsqQhj678QkEajQS7UMnGNv1ZkVhuIbB1YYN?=
- =?us-ascii?Q?AS2JwHwmpUWGs6PMZLBTH0Ev/cqGJWA+des1zKcg4815El7YivWcst6FCyCA?=
- =?us-ascii?Q?V5rdm2+TxW9Pvsj7Iqckt7YdBcP4YYyxyqmHJQBygHb3htzRdry4llyNlEEB?=
- =?us-ascii?Q?0nlDqFY/io/bX5BL5fr1hIU5MFLpJN6Ug21YuK3+P/+eOxFvWgOEn46J2/zC?=
- =?us-ascii?Q?B7YxCxNZmOl8vZ0CCC0fbXOmpriMcK7/jpK4fJkt4ZvLMBwPFk1kDH7tHQ81?=
- =?us-ascii?Q?UWDcxVRuFPSg3AqH1vBk07FBRMOkkGlbk3m+WTXq+8CRatzQl9dYMal/ELsb?=
- =?us-ascii?Q?jYzo7RfnMchCzuwjmouPWh4CPvtbRcJfOaCLGoGnUjznI3qVmeNa6iob/fpE?=
- =?us-ascii?Q?T9nnID56CkdTYTXZS8WuLPcTT7R6zDFaCiOixOuZjzABMFWHmPiXQzEYWTuo?=
- =?us-ascii?Q?9yr9aoNKPSs02ZC6KX5IBn4LgWAU5swjMKtWDLuwS5qnioY8JYKc2iI+KQpk?=
- =?us-ascii?Q?tYNXhgi779UxfPb9Q7PxvMOj5Fa57Lgn6qNfOwNyuTiq4frlByeChdZY6qqJ?=
- =?us-ascii?Q?GiOIKU+Fb/b/SWZJhoK8h692vz9IZ/RouC2z858xpnn5kpLzl9HaFScbuivI?=
- =?us-ascii?Q?I+Wv1JirgKjyb2vtEwkj1qJgXrMHDRTa+gMPLINaA45dQ5k0edxTFMyYhqQY?=
- =?us-ascii?Q?aQkKs7kDWOs6obZ3KZ3yJghU8mpdKS9bRmQVUnXFcKEIw/cjpKxvY2BO/pse?=
- =?us-ascii?Q?ti6297y7DrKKVp2W60ddbpbRLyf4WuXZ9o0TdfYJlywxZN+w+nFdmuo/KhkJ?=
- =?us-ascii?Q?tNVOI3KqQmn9zY87h2jPf6201hYQfFyyouJXeg9z5SscR+5kP6p/SUol8zPa?=
- =?us-ascii?Q?PUsJWDI6rmYy80LlYvxDOEWtgmEXUD4VHKzW5RkGNXuAleIQDaUlggnLENKt?=
- =?us-ascii?Q?skovdmq24k1U0S2HaID62VaDRlFkyBIdU06O78MY8Kn2D4sNleqOXIF4UmIH?=
- =?us-ascii?Q?CPxPWfuQIwvO4XfJM97C8967xVro7Kl611mNq5i2rbJuLqsf8kVNKo3xUqmp?=
- =?us-ascii?Q?enHUdmiGhgfH4djwmeDiEcR1c6OBkbEcbVcrYamNC6qvwGV/ZzNRKODBpo1d?=
- =?us-ascii?Q?vB1ltuZyUS8o8N/F3ME+T4ImEVaiwm7gKEeTf/5e2UYQVGiUX8Vi21NZOm43?=
- =?us-ascii?Q?smYYW7kpkPaWAJjQwA0=3D?=
-X-OriginatorOrg: bu.edu
-X-MS-Exchange-CrossTenant-Network-Message-Id: 393a62ed-84cf-4f67-2790-08d9c16ad652
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR03MB3871.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Dec 2021 14:38:05.9166 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: d57d32cc-c121-488f-b07b-dfe705680c71
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: PyWz/op4zUgL9Zcp+iOB/kiC+8zL2qcEm2sNtVp+07K/DfyQfKMdD2mhWBb7mx9x
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR03MB5724
-Received-SPF: pass client-ip=40.107.237.102; envelope-from=alxndr@bu.edu;
- helo=NAM12-BN8-obe.outbound.protection.outlook.com
-X-Spam_score_int: 0
-X-Spam_score: -0.1
-X-Spam_bar: /
-X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HK_RANDOM_ENVFROM=0.998, HK_RANDOM_FROM=0.998, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.718,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -131,64 +86,241 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: David Hildenbrand <david@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Peter Xu <peterx@redhat.com>, Alexander Bulekov <alxndr@bu.edu>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Juan Quintela <quintela@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ qemu-devel@nongnu.org, qemu-s390x@nongnu.org, qemu-arm@nongnu.org,
+ qemu-ppc@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-DMA reentrancy problems can occur in BHs:
-dev_mmio->schedule_bh
-dev_bh->dma_write->dev_mmio
+Add 7.0 machine types for arm/i440fx/q35/s390x/spapr.
 
-This patch attempts to address this scenario by marking the device as
-engaged_in_io, when it calls into PCI and SGList DMA APIs.
-
-Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
+Acked-by: Cédric Le Goater <clg@kaod.org>
+Reviewed-by: Juan Quintela <quintela@redhat.com>
+Signed-off-by: Cornelia Huck <cohuck@redhat.com>
 ---
- include/hw/pci/pci.h  | 6 +++++-
- softmmu/dma-helpers.c | 2 ++
- 2 files changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
-index e7cdf2d5ec..8420984b23 100644
---- a/include/hw/pci/pci.h
-+++ b/include/hw/pci/pci.h
-@@ -808,7 +808,11 @@ static inline MemTxResult pci_dma_rw(PCIDevice *dev, dma_addr_t addr,
-                                      void *buf, dma_addr_t len,
-                                      DMADirection dir)
+v1->v2: fix typo in i386 function chaining (thanks danpb!)
+
+---
+ hw/arm/virt.c              |  9 ++++++++-
+ hw/core/machine.c          |  3 +++
+ hw/i386/pc.c               |  3 +++
+ hw/i386/pc_piix.c          | 14 +++++++++++++-
+ hw/i386/pc_q35.c           | 13 ++++++++++++-
+ hw/ppc/spapr.c             | 15 +++++++++++++--
+ hw/s390x/s390-virtio-ccw.c | 14 +++++++++++++-
+ include/hw/boards.h        |  3 +++
+ include/hw/i386/pc.h       |  3 +++
+ 9 files changed, 71 insertions(+), 6 deletions(-)
+
+diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+index 6bce595aba20..4593fea1ce8a 100644
+--- a/hw/arm/virt.c
++++ b/hw/arm/virt.c
+@@ -2856,10 +2856,17 @@ static void machvirt_machine_init(void)
+ }
+ type_init(machvirt_machine_init);
+ 
++static void virt_machine_7_0_options(MachineClass *mc)
++{
++}
++DEFINE_VIRT_MACHINE_AS_LATEST(7, 0)
++
+ static void virt_machine_6_2_options(MachineClass *mc)
  {
--    return dma_memory_rw(pci_get_address_space(dev), addr, buf, len, dir);
-+    MemTxResult result;
-+    dev->qdev.engaged_in_io = true;
-+    result = dma_memory_rw(pci_get_address_space(dev), addr, buf, len, dir);
-+    dev->qdev.engaged_in_io = false;
-+    return result;
++    virt_machine_7_0_options(mc);
++    compat_props_add(mc->compat_props, hw_compat_6_2, hw_compat_6_2_len);
+ }
+-DEFINE_VIRT_MACHINE_AS_LATEST(6, 2)
++DEFINE_VIRT_MACHINE(6, 2)
+ 
+ static void virt_machine_6_1_options(MachineClass *mc)
+ {
+diff --git a/hw/core/machine.c b/hw/core/machine.c
+index 53a99abc5605..a9c15479fe1d 100644
+--- a/hw/core/machine.c
++++ b/hw/core/machine.c
+@@ -37,6 +37,9 @@
+ #include "hw/virtio/virtio.h"
+ #include "hw/virtio/virtio-pci.h"
+ 
++GlobalProperty hw_compat_6_2[] = {};
++const size_t hw_compat_6_2_len = G_N_ELEMENTS(hw_compat_6_2);
++
+ GlobalProperty hw_compat_6_1[] = {
+     { "vhost-user-vsock-device", "seqpacket", "off" },
+     { "nvme-ns", "shared", "off" },
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index a2ef40ecbc24..fccde2ef39f6 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -94,6 +94,9 @@
+ #include "trace.h"
+ #include CONFIG_DEVICES
+ 
++GlobalProperty pc_compat_6_2[] = {};
++const size_t pc_compat_6_2_len = G_N_ELEMENTS(pc_compat_6_2);
++
+ GlobalProperty pc_compat_6_1[] = {
+     { TYPE_X86_CPU, "hv-version-id-build", "0x1bbc" },
+     { TYPE_X86_CPU, "hv-version-id-major", "0x0006" },
+diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
+index 223dd3e05d15..19991902761e 100644
+--- a/hw/i386/pc_piix.c
++++ b/hw/i386/pc_piix.c
+@@ -413,7 +413,7 @@ static void pc_i440fx_machine_options(MachineClass *m)
+     machine_class_allow_dynamic_sysbus_dev(m, TYPE_VMBUS_BRIDGE);
  }
  
- /**
-diff --git a/softmmu/dma-helpers.c b/softmmu/dma-helpers.c
-index 7d766a5e89..dd27ba4def 100644
---- a/softmmu/dma-helpers.c
-+++ b/softmmu/dma-helpers.c
-@@ -303,6 +303,7 @@ static uint64_t dma_buf_rw(uint8_t *ptr, int32_t len, QEMUSGList *sg,
-     resid = sg->size;
-     sg_cur_index = 0;
-     len = MIN(len, resid);
-+    sg->dev->engaged_in_io = true;
-     while (len > 0) {
-         ScatterGatherEntry entry = sg->sg[sg_cur_index++];
-         int32_t xfer = MIN(len, entry.len);
-@@ -311,6 +312,7 @@ static uint64_t dma_buf_rw(uint8_t *ptr, int32_t len, QEMUSGList *sg,
-         len -= xfer;
-         resid -= xfer;
-     }
-+    sg->dev->engaged_in_io = true;
- 
-     return resid;
+-static void pc_i440fx_6_2_machine_options(MachineClass *m)
++static void pc_i440fx_7_0_machine_options(MachineClass *m)
+ {
+     PCMachineClass *pcmc = PC_MACHINE_CLASS(m);
+     pc_i440fx_machine_options(m);
+@@ -422,6 +422,18 @@ static void pc_i440fx_6_2_machine_options(MachineClass *m)
+     pcmc->default_cpu_version = 1;
  }
+ 
++DEFINE_I440FX_MACHINE(v7_0, "pc-i440fx-7.0", NULL,
++                      pc_i440fx_7_0_machine_options);
++
++static void pc_i440fx_6_2_machine_options(MachineClass *m)
++{
++    pc_i440fx_7_0_machine_options(m);
++    m->alias = NULL;
++    m->is_default = false;
++    compat_props_add(m->compat_props, hw_compat_6_2, hw_compat_6_2_len);
++    compat_props_add(m->compat_props, pc_compat_6_2, pc_compat_6_2_len);
++}
++
+ DEFINE_I440FX_MACHINE(v6_2, "pc-i440fx-6.2", NULL,
+                       pc_i440fx_6_2_machine_options);
+ 
+diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
+index e1e100316d93..2e981f436ce5 100644
+--- a/hw/i386/pc_q35.c
++++ b/hw/i386/pc_q35.c
+@@ -360,7 +360,7 @@ static void pc_q35_machine_options(MachineClass *m)
+     m->max_cpus = 288;
+ }
+ 
+-static void pc_q35_6_2_machine_options(MachineClass *m)
++static void pc_q35_7_0_machine_options(MachineClass *m)
+ {
+     PCMachineClass *pcmc = PC_MACHINE_CLASS(m);
+     pc_q35_machine_options(m);
+@@ -368,6 +368,17 @@ static void pc_q35_6_2_machine_options(MachineClass *m)
+     pcmc->default_cpu_version = 1;
+ }
+ 
++DEFINE_Q35_MACHINE(v7_0, "pc-q35-7.0", NULL,
++                   pc_q35_7_0_machine_options);
++
++static void pc_q35_6_2_machine_options(MachineClass *m)
++{
++    pc_q35_7_0_machine_options(m);
++    m->alias = NULL;
++    compat_props_add(m->compat_props, hw_compat_6_2, hw_compat_6_2_len);
++    compat_props_add(m->compat_props, pc_compat_6_2, pc_compat_6_2_len);
++}
++
+ DEFINE_Q35_MACHINE(v6_2, "pc-q35-6.2", NULL,
+                    pc_q35_6_2_machine_options);
+ 
+diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+index 3b5fd749be89..837342932586 100644
+--- a/hw/ppc/spapr.c
++++ b/hw/ppc/spapr.c
+@@ -4665,15 +4665,26 @@ static void spapr_machine_latest_class_options(MachineClass *mc)
+     }                                                                \
+     type_init(spapr_machine_register_##suffix)
+ 
++/*
++ * pseries-7.0
++ */
++static void spapr_machine_7_0_class_options(MachineClass *mc)
++{
++    /* Defaults for the latest behaviour inherited from the base class */
++}
++
++DEFINE_SPAPR_MACHINE(7_0, "7.0", true);
++
+ /*
+  * pseries-6.2
+  */
+ static void spapr_machine_6_2_class_options(MachineClass *mc)
+ {
+-    /* Defaults for the latest behaviour inherited from the base class */
++    spapr_machine_7_0_class_options(mc);
++    compat_props_add(mc->compat_props, hw_compat_6_2, hw_compat_6_2_len);
+ }
+ 
+-DEFINE_SPAPR_MACHINE(6_2, "6.2", true);
++DEFINE_SPAPR_MACHINE(6_2, "6.2", false);
+ 
+ /*
+  * pseries-6.1
+diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
+index 653587ea62f4..84e3e63c430d 100644
+--- a/hw/s390x/s390-virtio-ccw.c
++++ b/hw/s390x/s390-virtio-ccw.c
+@@ -791,14 +791,26 @@ bool css_migration_enabled(void)
+     }                                                                         \
+     type_init(ccw_machine_register_##suffix)
+ 
++static void ccw_machine_7_0_instance_options(MachineState *machine)
++{
++}
++
++static void ccw_machine_7_0_class_options(MachineClass *mc)
++{
++}
++DEFINE_CCW_MACHINE(7_0, "7.0", true);
++
+ static void ccw_machine_6_2_instance_options(MachineState *machine)
+ {
++    ccw_machine_7_0_instance_options(machine);
+ }
+ 
+ static void ccw_machine_6_2_class_options(MachineClass *mc)
+ {
++    ccw_machine_7_0_class_options(mc);
++    compat_props_add(mc->compat_props, hw_compat_6_2, hw_compat_6_2_len);
+ }
+-DEFINE_CCW_MACHINE(6_2, "6.2", true);
++DEFINE_CCW_MACHINE(6_2, "6.2", false);
+ 
+ static void ccw_machine_6_1_instance_options(MachineState *machine)
+ {
+diff --git a/include/hw/boards.h b/include/hw/boards.h
+index 9c1c1901046c..b7b68471ffc1 100644
+--- a/include/hw/boards.h
++++ b/include/hw/boards.h
+@@ -375,6 +375,9 @@ struct MachineState {
+     } \
+     type_init(machine_initfn##_register_types)
+ 
++extern GlobalProperty hw_compat_6_2[];
++extern const size_t hw_compat_6_2_len;
++
+ extern GlobalProperty hw_compat_6_1[];
+ extern const size_t hw_compat_6_1_len;
+ 
+diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
+index 9ab39e428f80..b38947c224cd 100644
+--- a/include/hw/i386/pc.h
++++ b/include/hw/i386/pc.h
+@@ -196,6 +196,9 @@ void pc_madt_cpu_entry(AcpiDeviceIf *adev, int uid,
+ /* sgx.c */
+ void pc_machine_init_sgx_epc(PCMachineState *pcms);
+ 
++extern GlobalProperty pc_compat_6_2[];
++extern const size_t pc_compat_6_2_len;
++
+ extern GlobalProperty pc_compat_6_1[];
+ extern const size_t pc_compat_6_1_len;
+ 
 -- 
-2.33.0
+2.31.1
 
 
