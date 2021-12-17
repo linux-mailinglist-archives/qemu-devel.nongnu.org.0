@@ -2,80 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB02A478646
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Dec 2021 09:37:43 +0100 (CET)
-Received: from localhost ([::1]:47516 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA6A7478671
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Dec 2021 09:46:21 +0100 (CET)
+Received: from localhost ([::1]:53474 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1my8kI-0002UE-G6
-	for lists+qemu-devel@lfdr.de; Fri, 17 Dec 2021 03:37:42 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58696)
+	id 1my8se-0006fx-6c
+	for lists+qemu-devel@lfdr.de; Fri, 17 Dec 2021 03:46:20 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59038)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1my8iZ-0001SZ-OM
- for qemu-devel@nongnu.org; Fri, 17 Dec 2021 03:35:55 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36601)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>) id 1my8kO-0003Gi-6L
+ for qemu-devel@nongnu.org; Fri, 17 Dec 2021 03:37:48 -0500
+Received: from new3-smtp.messagingengine.com ([66.111.4.229]:48693)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1my8iW-0004r4-C3
- for qemu-devel@nongnu.org; Fri, 17 Dec 2021 03:35:54 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639730151;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=FBnsFZuM3zzlOh/iMV9LV9ZF5x6lyfU6EvVbTg7v8PA=;
- b=WL328VCv5D3bboQXMrU+mc3zPJ5b7X7JhG5PzI1chbdDiTAHnErZnfdfihUDxJvkbyPJO8
- DQ0pPfumyKG4pEDcPuz5TlqpfIYu6Yxq5I4JiXssywq1jIjM0BMQ8BROHW/3I2uDZVGNYW
- +9lNq+nHemWELhXA7pk+P88A5NLiVXo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-361-dgTGUDqjPhiXaBLQqHVAww-1; Fri, 17 Dec 2021 03:35:48 -0500
-X-MC-Unique: dgTGUDqjPhiXaBLQqHVAww-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2E9DC36393;
- Fri, 17 Dec 2021 08:35:47 +0000 (UTC)
-Received: from localhost (unknown [10.39.192.96])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 25F1C78A1A;
- Fri, 17 Dec 2021 08:35:45 +0000 (UTC)
-Date: Fri, 17 Dec 2021 08:35:45 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Jason Wang <jasowang@redhat.com>
-Subject: Re: [RFC] vhost-vdpa-net: add vhost-vdpa-net host device support
-Message-ID: <YbxL4avaEZBSFz3B@stefanha-x1.localdomain>
-References: <20211212042818-mutt-send-email-mst@kernel.org>
- <CACGkMEs_99AsAfxCJurJtBOQELD7pnc6RAqJDoO9yseVJDy9tA@mail.gmail.com>
- <YbdjRRcfrNjHjfko@stefanha-x1.localdomain>
- <CACGkMEt9UF2eVB6692aGoKBD2v0zPwopZG1jaG_O=mg3-cwwSA@mail.gmail.com>
- <YbiYAKIkLAgosXEH@stefanha-x1.localdomain>
- <CACGkMEsZfgDriSx1e=JOU4E8QyB5KoU+i2M2F8N12BrMbu5suQ@mail.gmail.com>
- <Ybm+YVQS1l73nnuU@stefanha-x1.localdomain>
- <CACGkMEtqujKwU=3P1VQ-PgAQPvzrpAf_huVzVZHAi11vyn8xPA@mail.gmail.com>
- <YbsClFXLq3kz7tJS@stefanha-x1.localdomain>
- <CACGkMEtwHj-y9nVvtszOYKYd1ohd-cdNe8xry-rYkD1Jk9U4Ow@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>) id 1my8kG-0005Ca-6S
+ for qemu-devel@nongnu.org; Fri, 17 Dec 2021 03:37:47 -0500
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 32F6D5801DE;
+ Fri, 17 Dec 2021 03:37:36 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute6.internal (MEProxy); Fri, 17 Dec 2021 03:37:36 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm1; bh=dSMvx1+nkKzSmU1shpGDyQNX8gC
+ Goy/vSQLnaY0ahsE=; b=nzxGCpyc/xIP4rI9pLkjSXH7jz8QGEiIdJYTWf7ajon
+ R5whPSQI6pWoDdlzagbCGBS20t/9TT7RgPircTG6x51wwcK3+f4mM4N1IuDCm9aI
+ KL9sVm7F6//U5oBf4lu28WgjRkB32sY7opo2mSRSrDvUi1Tb8yT/pfqbRHmNGjqd
+ 90PX0HqQyiTkuge+97mGvXB9l6L6gcRVEqmai70jZTaY90JJxgUecbg88zTGIxml
+ t5zMxO+vy2XpDsjGOBgeP91N1eUy4STMeWSoGy8oRaiF8z7Y77MggDPYmuodYhFf
+ 3gm1JZEloJFwkXQZnoinl2RwL+jelKg9w6k2fSgr8WA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=dSMvx1
+ +nkKzSmU1shpGDyQNX8gCGoy/vSQLnaY0ahsE=; b=XX8x3AIiLuRaOcQQeTe3P8
+ ZODDHGRBWzpy1zlSsnVGTS2d9TAMqh1cRkb/VN87l9G51OBJbURjIy+IMyeKeyc0
+ hxxUoosQKGmiUeT4/PeBln3iqnmuFAxYz05PRwEOISodtebgt6QdSKeqwJxDdB9M
+ t4211/FfGkyaqIMjj35BiMAoKCCHp761XjHjXK/43ugjbmtpgceS4qmMGH5ueqPp
+ Rp8kcTKKWzwJcd67h3jyTVi/lTTzZP+t46WAUmSbdbRpKshtfAR5ix1R7cZbkw/j
+ buYSxk6B1RAHk6CfCMxh+efe24uIZdkCsKAWgU/K1wOv5ySLbY4CliRiksghRxKA
+ ==
+X-ME-Sender: <xms:T0y8YcGe3BH95kBH5qo3-sNf9J6gawj_NGazOhlO0BgHMrr5r1owAQ>
+ <xme:T0y8YVUac9FGNWXSSQhCQheKBpKOkwN7RVWZpZ9Rfc5XTqwdjSdsDS1dg3bzHcfsX
+ SSwcB2VU8WR0o2XAFc>
+X-ME-Received: <xmr:T0y8YWLsZouljDGFPfHUHVmUy3IL0v0IMgX-E76Q-Qq4htPbN3rdFBil8mrlFh8UxcmDghiX6tOb_yRQNTSTTfFhXv--BKwqdA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrleehgdduvdduucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
+ ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
+ gvrhhnpeetudehfeefhffgieefhefgteffffegteevffegudetteeuvdejveetleejgfef
+ udenucffohhmrghinhepghhithhlrggsrdgtohhmnecuvehluhhsthgvrhfuihiivgeptd
+ enucfrrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:T0y8YeEdbv59Yn78aoNwDI7IugqHjyXdIYLzoWhTAQdkK9Hw_r7lqQ>
+ <xmx:T0y8YSWjaikNtMcoSwwpvC4APtfqzN-vOX2p8XtoZ6IM6U9wi3vpsQ>
+ <xmx:T0y8YRNR_W3BTk0vwKj24NBiEx639rre-6wvRjAhlFKjXH1ksrb9RQ>
+ <xmx:UEy8YX0Ji2_F6iuJ3P8ct_z-zq3kB-8I0hb_cW2izktGPfoS-bBsXg>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 17 Dec 2021 03:37:32 -0500 (EST)
+Date: Fri, 17 Dec 2021 09:37:30 +0100
+From: Klaus Jensen <its@irrelevant.dk>
+To: Qiuhao Li <Qiuhao.Li@outlook.com>
+Subject: Re: [RFC PATCH] memory: Fix dma-reentrancy issues at the MMIO level
+Message-ID: <YbxMSpb7Eaiw0azn@apples>
+References: <20211217030858.834822-1-alxndr@bu.edu>
+ <PN0PR01MB6352C2E496E5723275EB1878FC789@PN0PR01MB6352.INDPRD01.PROD.OUTLOOK.COM>
 MIME-Version: 1.0
-In-Reply-To: <CACGkMEtwHj-y9nVvtszOYKYd1ohd-cdNe8xry-rYkD1Jk9U4Ow@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="Xq763hyFTkiZeKct"
+ protocol="application/pgp-signature"; boundary="VCSXtF6QcfFGFlJa"
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.718,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <PN0PR01MB6352C2E496E5723275EB1878FC789@PN0PR01MB6352.INDPRD01.PROD.OUTLOOK.COM>
+Received-SPF: pass client-ip=66.111.4.229; envelope-from=its@irrelevant.dk;
+ helo=new3-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_PASS=-0.001,
+ T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,364 +93,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, Yechuan <yechuan@huawei.com>,
- "xieyongji@bytedance.com" <xieyongji@bytedance.com>,
- "Gonglei \(Arei\)" <arei.gonglei@huawei.com>,
- "parav@nvidia.com" <parav@nvidia.com>, "Longpeng \(Mike,
- Cloud Infrastructure Service Product Dept.\)" <longpeng2@huawei.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- "sgarzare@redhat.com" <sgarzare@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Mauro Matteo Cascella <mcascell@redhat.com>,
+ Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
+ Darren Kenny <darren.kenny@oracle.com>, David Hildenbrand <david@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, Bin Meng <bin.meng@windriver.com>,
+ Li Qiang <liq3ea@gmail.com>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Peter Xu <peterx@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
+ Alexander Bulekov <alxndr@bu.edu>, Bandan Das <bsd@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ "Edgar E . Iglesias" <edgar.iglesias@gmail.com>,
+ Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Xq763hyFTkiZeKct
-Content-Type: text/plain; charset=us-ascii
+
+--VCSXtF6QcfFGFlJa
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Dec 17, 2021 at 12:26:53PM +0800, Jason Wang wrote:
-
-Dave: You created the VIRTIO vmstate infrastructure in QEMU. Please see
-the bottom of this email about moving to a standard VIRTIO device
-save/load format defined by the VIRTIO spec in the future.
-
-> On Thu, Dec 16, 2021 at 5:10 PM Stefan Hajnoczi <stefanha@redhat.com> wro=
-te:
-> >
-> > On Thu, Dec 16, 2021 at 11:01:40AM +0800, Jason Wang wrote:
-> > > On Wed, Dec 15, 2021 at 6:07 PM Stefan Hajnoczi <stefanha@redhat.com>=
- wrote:
-> > > >
-> > > > On Wed, Dec 15, 2021 at 11:18:05AM +0800, Jason Wang wrote:
-> > > > > On Tue, Dec 14, 2021 at 9:11 PM Stefan Hajnoczi <stefanha@redhat.=
-com> wrote:
-> > > > > >
-> > > > > > On Tue, Dec 14, 2021 at 10:22:53AM +0800, Jason Wang wrote:
-> > > > > > > On Mon, Dec 13, 2021 at 11:14 PM Stefan Hajnoczi <stefanha@re=
-dhat.com> wrote:
-> > > > > > > >
-> > > > > > > > On Mon, Dec 13, 2021 at 10:47:00AM +0800, Jason Wang wrote:
-> > > > > > > > > On Sun, Dec 12, 2021 at 5:30 PM Michael S. Tsirkin <mst@r=
-edhat.com> wrote:
-> > > > > > > > > >
-> > > > > > > > > > On Sat, Dec 11, 2021 at 03:00:27AM +0000, Longpeng (Mik=
-e, Cloud Infrastructure Service Product Dept.) wrote:
-> > > > > > > > > > >
-> > > > > > > > > > >
-> > > > > > > > > > > > -----Original Message-----
-> > > > > > > > > > > > From: Stefan Hajnoczi [mailto:stefanha@redhat.com]
-> > > > > > > > > > > > Sent: Thursday, December 9, 2021 5:17 PM
-> > > > > > > > > > > > To: Longpeng (Mike, Cloud Infrastructure Service Pr=
-oduct Dept.)
-> > > > > > > > > > > > <longpeng2@huawei.com>
-> > > > > > > > > > > > Cc: jasowang@redhat.com; mst@redhat.com; parav@nvid=
-ia.com;
-> > > > > > > > > > > > xieyongji@bytedance.com; sgarzare@redhat.com; Yechu=
-an <yechuan@huawei.com>;
-> > > > > > > > > > > > Gonglei (Arei) <arei.gonglei@huawei.com>; qemu-deve=
-l@nongnu.org
-> > > > > > > > > > > > Subject: Re: [RFC] vhost-vdpa-net: add vhost-vdpa-n=
-et host device support
-> > > > > > > > > > > >
-> > > > > > > > > > > > On Wed, Dec 08, 2021 at 01:20:10PM +0800, Longpeng(=
-Mike) wrote:
-> > > > > > > > > > > > > From: Longpeng <longpeng2@huawei.com>
-> > > > > > > > > > > > >
-> > > > > > > > > > > > > Hi guys,
-> > > > > > > > > > > > >
-> > > > > > > > > > > > > This patch introduces vhost-vdpa-net device, whic=
-h is inspired
-> > > > > > > > > > > > > by vhost-user-blk and the proposal of vhost-vdpa-=
-blk device [1].
-> > > > > > > > > > > > >
-> > > > > > > > > > > > > I've tested this patch on Huawei's offload card:
-> > > > > > > > > > > > > ./x86_64-softmmu/qemu-system-x86_64 \
-> > > > > > > > > > > > >     -device vhost-vdpa-net-pci,vdpa-dev=3D/dev/vh=
-ost-vdpa-0
-> > > > > > > > > > > > >
-> > > > > > > > > > > > > For virtio hardware offloading, the most importan=
-t requirement for us
-> > > > > > > > > > > > > is to support live migration between offloading c=
-ards from different
-> > > > > > > > > > > > > vendors, the combination of netdev and virtio-net=
- seems too heavy, we
-> > > > > > > > > > > > > prefer a lightweight way.
-> > > > > > > > > > > > >
-> > > > > > > > > > > > > Maybe we could support both in the future ? Such =
-as:
-> > > > > > > > > > > > >
-> > > > > > > > > > > > > * Lightweight
-> > > > > > > > > > > > >  Net: vhost-vdpa-net
-> > > > > > > > > > > > >  Storage: vhost-vdpa-blk
-> > > > > > > > > > > > >
-> > > > > > > > > > > > > * Heavy but more powerful
-> > > > > > > > > > > > >  Net: netdev + virtio-net + vhost-vdpa
-> > > > > > > > > > > > >  Storage: bdrv + virtio-blk + vhost-vdpa
-> > > > > > > > > > > > >
-> > > > > > > > > > > > > [1] https://www.mail-archive.com/qemu-devel@nongn=
-u.org/msg797569.html
-> > > > > > > > > > > >
-> > > > > > > > > > > > Stefano presented a plan for vdpa-blk at KVM Forum =
-2021:
-> > > > > > > > > > > > https://kvmforum2021.sched.com/event/ke3a/vdpa-blk-=
-unified-hardware-and-sof
-> > > > > > > > > > > > tware-offload-for-virtio-blk-stefano-garzarella-red=
--hat
-> > > > > > > > > > > >
-> > > > > > > > > > > > It's closer to today's virtio-net + vhost-net appro=
-ach than the
-> > > > > > > > > > > > vhost-vdpa-blk device you have mentioned. The idea =
-is to treat vDPA as
-> > > > > > > > > > > > an offload feature rather than a completely separat=
-e code path that
-> > > > > > > > > > > > needs to be maintained and tested. That way QEMU's =
-block layer features
-> > > > > > > > > > > > and live migration work with vDPA devices and re-us=
-e the virtio-blk
-> > > > > > > > > > > > code. The key functionality that has not been imple=
-mented yet is a "fast
-> > > > > > > > > > > > path" mechanism that allows the QEMU virtio-blk dev=
-ice's virtqueue to be
-> > > > > > > > > > > > offloaded to vDPA.
-> > > > > > > > > > > >
-> > > > > > > > > > > > The unified vdpa-blk architecture should deliver th=
-e same performance
-> > > > > > > > > > > > as the vhost-vdpa-blk device you mentioned but with=
- more features, so I
-> > > > > > > > > > > > wonder what aspects of the vhost-vdpa-blk idea are =
-important to you?
-> > > > > > > > > > > >
-> > > > > > > > > > > > QEMU already has vhost-user-blk, which takes a simi=
-lar approach as the
-> > > > > > > > > > > > vhost-vdpa-blk device you are proposing. I'm not ag=
-ainst the
-> > > > > > > > > > > > vhost-vdpa-blk approach in priciple, but would like=
- to understand your
-> > > > > > > > > > > > requirements and see if there is a way to collabora=
-te on one vdpa-blk
-> > > > > > > > > > > > implementation instead of dividing our efforts betw=
-een two.
-> > > > > > > > > > > >
-> > > > > > > > > > >
-> > > > > > > > > > > We prefer a simple way in the virtio hardware offload=
-ing case, it could reduce
-> > > > > > > > > > > our maintenance workload, we no need to maintain the =
-virtio-net, netdev,
-> > > > > > > > > > > virtio-blk, bdrv and ... any more. If we need to supp=
-ort other vdpa devices
-> > > > > > > > > > > (such as virtio-crypto, virtio-fs) in the future, the=
-n we also need to maintain
-> > > > > > > > > > > the corresponding device emulation code?
-> > > > > > > > > > >
-> > > > > > > > > > > For the virtio hardware offloading case, we usually u=
-se the vfio-pci framework,
-> > > > > > > > > > > it saves a lot of our maintenance work in QEMU, we do=
-n't need to touch the device
-> > > > > > > > > > > types. Inspired by Jason, what we really prefer is "v=
-host-vdpa-pci/mmio", use it to
-> > > > > > > > > > > instead of the vfio-pci, it could provide the same pe=
-rformance as vfio-pci, but it's
-> > > > > > > > > > > *possible* to support live migrate between offloading=
- cards from different vendors.
-> > > > > > > > > >
-> > > > > > > > > > OK, so the features you are dropping would be migration=
- between
-> > > > > > > > > > a vdpa, vhost and virtio backends. I think given vhost-=
-vdpa-blk is seems
-> > > > > > > > > > fair enough... What do others think?
-> > > > > > > > >
-> > > > > > > > > I think it should be fine, and it would be even better to=
- make it not
-> > > > > > > > > specific to device type.
-> > > > > > > >
-> > > > > > > > That's an interesting idea. A generic vDPA VirtIODevice cou=
-ld exposed as
-> > > > > > > >
-> > > > > > > >   --device vhost-vdpa-pci,
-> > > > > > > >            [vhostfd=3DFD,|
-> > > > > > > >             vhostpath=3D/dev/vhost-vdpa-N]
-> > > > > > > >
-> > > > > > > > (and for virtio-mmio and virtio-ccw too).
-> > > > > > > >
-> > > > > > > > I don't think this is possible yet because the vhost_vdpa i=
-octls are
-> > > > > > > > missing some introspection functionality. Here is what I fo=
-und:
-> > > > > > > > - Device ID: ok, use VHOST_VDPA_GET_DEVICE_ID
-> > > > > > > > - Device feature bits: ok, use VHOST_GET_BACKEND_FEATURES
-> > > > > > > > - Configuration space size: missing, need ioctl for ops->ge=
-t_config_size()
-> > > > > > >
-> > > > > > > Any specific reason that we need this considering we've alrea=
-dy had
-> > > > > > > VHOST_VDPA_GET_CONFIG and we do the size validation there?
-> > > > > >
-> > > > > > QEMU's virtio_init() takes a size_t config_size argument. We ne=
-ed to
-> > > > > > determine the size of the vhost_vdpa's configuration space in o=
-rder to
-> > > > > > create the VirtIODevice in QEMU.
-> > > > > >
-> > > > > > Do you mean probing by checking for the VHOST_VDPA_GET_CONFIG -=
-E2BIG
-> > > > > > return value? It's hacky but I guess it's possible to do a bina=
-ry search
-> > > > > > that calls VHOST_VDPA_GET_CONFIG each iteration and reduces the=
- size if
-> > > > > > -E2BIG is returned or increases the size otherwise.
-> > > > > >
-> > > > > > Or do you mean re-writing QEMU's hw/virtio/virtio.c to allow th=
-e
-> > > > > > VirtIODevice to override the size and we pass accesses through =
-to
-> > > > > > vhost_vdpa. That way it might be possible to avoid fetching the
-> > > > > > configuration space size at startup, but I'm not sure this will=
- work
-> > > > > > because QEMU might depend on knowing the exact size (e.g. live
-> > > > > > migration).
-> > > > >
-> > > > > Good point, so looking at virtio-blk it has:
-> > > > >
-> > > > >     virtio_blk_set_config_size(s, s->host_features);
-> > > > >     virtio_init(vdev, "virtio-blk", VIRTIO_ID_BLOCK, s->config_si=
-ze);
-> > > > >
-> > > > > I think here virtio-blk/net should check the vhost-vdpa features =
-here
-> > > > > and fail if they are not the same?
-> > > >
-> > > > The vhost feature bit code in QEMU is complicated and I can't respo=
-nd
-> > > > without investing too much time studying it :).
-> > > >
-> > > > > This looks better than overriding the config_size with what vhost=
--vdpa
-> > > > > provides since it can override the features that the cli tries to
-> > > > > enable.
-> > > >
-> > > > I'm thinking about the generic --device vhost-vdpa idea. QEMU shoul=
-d not
-> > > > require knowledge of the device feature bits in that case, so it ca=
-nnot
-> > > > calculate the configuration space size.
-> > >
-> > > In this case, it looks to me the config size could be deduced from
-> > > VHOST_VDPA_GET_FEATURES?
-> >
-> > I think we're talking about different things, see below...
-> >
-> > > >
-> > > > > >
-> > > > > > > > - Max virtqueue size: ok, VHOST_VDPA_GET_VRING_NUM
-> > > > > > > > - Number of virtqueues: probe using VHOST_GET_VRING_BASE?
-> > > > > > >
-> > > > > > > I'm not sure whether or not we need this and it seems not nec=
-essary
-> > > > > > > since it can be deduced from the config space and features.
-> > > > > >
-> > > > > > It can only be deduced in a device-specific way (net, blk, etc)=
-. I can't
-> > > > > > think of a way to detect the number of virtqueues for an arbitr=
-ary
-> > > > > > VIRTIO device from the features bits and configuration space co=
-ntents.
-> > > > >
-> > > > > Yes, I'm not against this idea but it looks to me it works even w=
-ithout this.
-> > > > >
-> > > > > Modern PCI has num_queues but we don't have things like this in M=
-MIO
-> > > > > and legacy PCI.
-> > > >
-> > > > Even if the VIRTIO hardware interface doesn't expose this informati=
-on to
-> > > > the guest, QEMU's VirtIODevice API needs it. Device emulation code =
-must
-> > > > call virtio_add_queue() to expose virtqueues to the guest.
-> > >
-> > > We don't need this for current multiqueue virtio-net with vhost-vdpa
-> > > since the queue num were deduced from the VHOST_VDPA_GET_CONFIG durin=
-g
-> > > the initialization of vhost-vdpa backend.
-> > >
-> > > If we are talking about generic vhost-vdpa-pci, we don't need
-> > > virtio_add_queue() in this case.
-> >
-> > When I say --device vhost-vdpa I mean a VirtIODevice in QEMU that takes
-> > any /dev/vhost-vdpa-N and exposes the device to the guest (over
-> > virtio-pci, virtio-mmio, or virtio-ccw). It's generic because it has no
-> > knowledge of specific device types. This means new device types can be
-> > added without modifying QEMU.
-> >
-> > I think the model you are describing is not generic because it relies o=
-n
-> > knowledge of specific device types (net, blk, scsi, etc) so it can
-> > interpret feature bits and configuration space fields.
+On Dec 17 06:27, Qiuhao Li wrote:
+> Thanks Alex. It seems this patch sets and checks if the destination devic=
+e is busy. But how about the data transfers not triggered directly by PMIO/=
+MMIO handlers? For example:
 >=20
-> Yes, but what I meant is that in this case qemu can simply relay the
-> set/get config to vhost-vdpa. And the guest driver can enumerate the
-> number of queues correctly depending on his own knowledge.
-
-That requires changes to how virtqueues are managed by
-hw/virtio/virtio.c because today the code assumes QEMU knows the number
-of virtqueues. virtio_add_queue() must be called by device emulation
-before the guest driver can configure a virtqueue.
-
-> >
-> > When you originally said "it would be even better to make it not
-> > specific to device type" I thought you meant a generic --device
-> > vhost-vdpa and that's what I've been describing, but in your recent
-> > replies I guess you have a different model in mind.
-> >
-> > Are there reasons why the generic model won't work?
+> 1. Device A Timer's callback -> Device A MMIO handler
+> 2. Device A BH's callback -> Device A MMIO handler
 >=20
-> I think not.
+> In these situations, when A launches a DMA to itself, the dev->engaged_in=
+_direct_io is not set, so the operation is allowed. Maybe we should log the=
+ source and check the destination when we launch data transfers. Is there a=
+ way to do that?
 >=20
-> One thing comes to my mind is that since we provide num_queues via
-> modern virtio-pci, this is probably another call for having the API
-> you described.
+> Below is a reproducer in NVMe which triggers DMA in a timer's callback (n=
+vme_process_sq). I can still trigger use-after-free exception with this pat=
+ch on qemu-6.1.0:
 >=20
-> For the general vhost-vdpa backend, the only thing that may block us
-> is the migration. If we want to make vhost-vdpa type independent, we
-> need first investigate the independent migration facility in virtio
-> spec which is still suspicious.
+> cat << EOF | ./qemu-system-x86_64 -display none -machine accel=3Dqtest \
+> -machine q35 -nodefaults -drive file=3Dnull-co://,if=3Dnone,format=3Draw,=
+id=3Ddisk0 \
+> -device nvme,drive=3Ddisk0,serial=3D1 -qtest stdio \
+>=20
+> outl 0xcf8 0x80000810               /* MLBAR (BAR0) =E2=80=93 Memory Regi=
+ster Base Address, lower 32-bits */
+> outl 0xcfc 0xe0000000               /* MMIO Base Address =3D 0xe0000000 */
+> outl 0xcf8 0x80000804               /* CMD - Command */
+> outw 0xcfc 0x06                     /* Bus Master Enable, Memory Space En=
+able */
+> write 0xe0000024 0x4 0x02000200     /* [3] 3.1.8, Admin Queue Attributes =
+*/
+> write 0xe0000028 0x4 0x00100000     /* asq =3D 0x1000 */
+> write 0xe0000030 0x4 0x00200000     /* acq =3D 0x2000 */
+> write 0xe0000014 0x4 0x01004600     /* [3] 3.1.5, Controller Configuratio=
+n, start ctrl */
+> write 0xe0001000 0x1 0x01           /* [3] 3.1.24, SQyTDBL =E2=80=93 Subm=
+ission Queue y Tail Doorbell */
+> write 0x1000 0x1 0x02               /* cmd->opcode, NVME_ADM_CMD_GET_LOG_=
+PAGE, nvme_get_log() */
+> write 0x1018 0x4 0x140000e0         /* prp1 =3D 0xe0000014, NVME_REG_CC, =
+nvme_ctrl_reset() */
+> write 0x1028 0x4 0x03000004         /* cmd->cdw10, lid =3D 3 NVME_LOG_FW_=
+SLOT_INFO, nvme_fw_log_info, buf_len =3D 4 */
+> write 0x1030 0x4 0xfc010000         /* cmd->cdw12 =3D 0x1fc, Log Page Off=
+set, trans_len =3D sizeof(fw_log) - 0x1fc =3D 4 */
+> clock_step
+> EOF
+>=20
+> CC: Mauro Matteo Cascella and Philippe Mathieu-Daud=C3=A9. Should we put =
+the reproducer above to https://gitlab.com/qemu-project/qemu/-/issues/556?
+>=20
 
-Yes, definitely.
+This is a good reproducer. Does it still work if you do the `write
+0xe0001000 0x1 0x01` at the end instead? It looks weird that you ring
+the doorbell prior to writing the command in the queue.
 
-Another challenge with migration is that the generic vhost-vdpa vmstate
-probably won't be compatible with QEMU's virtio-net/blk/scsi/etc
-vmstates. It would be nice if it was possible to migrate between QEMU
-and vDPA device models since they both implement the same device types.
-
-Maybe the solution is for QEMU's virtio device models to switch to the
-new VIRTIO save/load data format once that has been defined in the spec.
-Then the QEMU VirtIODevice vmstate would be:
-1. QEMU-specific VirtIODevice state (virtqueue state, etc)
-2. VIRTIO standard device save/load data (virtio-net mac table, etc)
-
-It's still not clear to me how much of the VIRTIO device save/load data
-is implementation-specific. I think the next step forward is to review
-the QEMU vmstates for virtio-net, virtio-gpu, etc to figure out whether
-we can really standardize the save/load data.
-
-Stefan
-
---Xq763hyFTkiZeKct
+--VCSXtF6QcfFGFlJa
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmG8S+EACgkQnKSrs4Gr
-c8jenQgAhMurfhXLjnirci216Xdpjr3jIKP4UgdCe8+duo4ZzOXGJ5BzYOfRaqiV
-HU0+DmaZkocMA0zRyWdfw51+1VIAutokjsYjK6VyYqiVOkbMolC8P2Z6M1f7wyLr
-ZlG23YnGGprVDE3wzrwwfCkJDGSjK4kTYiEcYaxpKaNCZhcnm9jo1K8oABsWn87c
-qC9cQ4sCvmYf+BtGIMiqhU9DphhZYNVjby/PrBWrPbTl0OBQVU9RlsrxZzXiQMHP
-D8C0duya1VR+wwe9HiwTVLGet8CeiSCwSpnuah64HeBNk+z/UkmWSbeTkBMI73TQ
-LzBzv7taWbxicHk3uynlqflgS6+G0Q==
-=nIfV
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmG8TEgACgkQTeGvMW1P
+DekPrwf9GwiRcu3GSlp4nEjIXKTEMheQttizXNHkLYQO0p3qZawDzOKkRTyUZGh9
+W1hISN9H/7QJuTlGZzqXj+fn4rMycP86Va4zSlBPrXjIgfMrep1Ekivt1kGiCnlA
+k5GHb1d7DwzOy5zH4vtDFbdLskQq8c4fEFusyVCRXqFUEcxHCKpHhPzfGMeThLTK
+srRHtoVOVkV5lfcx2Ka8cHFquDizDWm6QVYiGSL5BjUmzM4IkyBAuMstb+Ak7hgz
+tW4x7FY05Yfhxft9ELG8j4la7IUKt4Dp1MywiWyyWEooUihC4LmtZLbR6BKL5tPU
+AZsbKfxvHp1/BMLZnz4IfzhaDAT3jA==
+=cgVU
 -----END PGP SIGNATURE-----
 
---Xq763hyFTkiZeKct--
-
+--VCSXtF6QcfFGFlJa--
 
