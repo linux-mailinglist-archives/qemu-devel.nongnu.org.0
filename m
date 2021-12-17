@@ -2,104 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC2F7479296
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Dec 2021 18:14:45 +0100 (CET)
-Received: from localhost ([::1]:50498 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E29E4792B9
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Dec 2021 18:20:26 +0100 (CET)
+Received: from localhost ([::1]:54632 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1myGod-0005tV-M4
-	for lists+qemu-devel@lfdr.de; Fri, 17 Dec 2021 12:14:44 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53454)
+	id 1myGu9-00087X-6w
+	for lists+qemu-devel@lfdr.de; Fri, 17 Dec 2021 12:20:25 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54832)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1myGmv-0005Aj-LV; Fri, 17 Dec 2021 12:12:57 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:1546)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1myGry-0007Ct-Qr
+ for qemu-devel@nongnu.org; Fri, 17 Dec 2021 12:18:10 -0500
+Received: from 8.mo548.mail-out.ovh.net ([46.105.45.231]:59859)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1myGmp-0005Ag-3i; Fri, 17 Dec 2021 12:12:57 -0500
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1BHEqgUf025209; 
- Fri, 17 Dec 2021 17:12:48 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=SdGCRocUc7LYVuGZXW+rcUnZUCp9dY5PzU9eRkbT/7Q=;
- b=IHSPjjQj8FVOlMPd3trqHrCtqUGboWnVXferK2bSNkl7GzqlIPkDFCAH2ZKMv8kvBUlz
- Ye2iOpCsxvs0O0JD5jTmXH+/CivTkFR16R3YIBv1GP784xqNJouwptTeUy9wQwBwPAwZ
- pyGOTnWB5lq9KxWd2ZJzFGqXYqgE0FI590eT1gQlYGobq2BHTmdPKV9ENtkxkE6xsL0/
- nt6Xtuy0/LqEXSMYRCYcr2ZajOC1UNWoV04cVXJSLtReZgEpIjkO6D4kyACdTLYskmd8
- QpX/4BR7ym0Qk/OZzWrRJXqesOZ7UcSJopSrZBzfTp1TysFAZIxFzOtP8D5pmaeH1Yek /Q== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3cypc7trvc-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 17 Dec 2021 17:12:48 +0000
-Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1BHGpw93000712;
- Fri, 17 Dec 2021 17:12:47 GMT
-Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.70])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3cypc7trur-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 17 Dec 2021 17:12:47 +0000
-Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
- by ppma01fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1BHGf3uE023185;
- Fri, 17 Dec 2021 17:12:45 GMT
-Received: from b06avi18878370.portsmouth.uk.ibm.com
- (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
- by ppma01fra.de.ibm.com with ESMTP id 3cy7k3td8j-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 17 Dec 2021 17:12:45 +0000
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
- [9.149.105.61])
- by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 1BHHCgF646924046
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 17 Dec 2021 17:12:42 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 5D15A11C04A;
- Fri, 17 Dec 2021 17:12:42 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id C534511C04C;
- Fri, 17 Dec 2021 17:12:41 +0000 (GMT)
-Received: from [9.171.25.249] (unknown [9.171.25.249])
- by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Fri, 17 Dec 2021 17:12:41 +0000 (GMT)
-Message-ID: <7143886b-ffa2-e5f7-e7fe-b06212522824@linux.ibm.com>
-Date: Fri, 17 Dec 2021 18:13:47 +0100
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1myGrw-00078d-Nm
+ for qemu-devel@nongnu.org; Fri, 17 Dec 2021 12:18:10 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.108.4.51])
+ by mo548.mail-out.ovh.net (Postfix) with ESMTPS id D41FA1FE10;
+ Fri, 17 Dec 2021 17:18:05 +0000 (UTC)
+Received: from kaod.org (37.59.142.97) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.17; Fri, 17 Dec
+ 2021 18:18:05 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-97G002fad74080-7f44-4cba-89e8-1cbca4d74928,
+ 277755725B32849AD4052F723BD6C67625B53A02) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <25f46261-6dd4-e1e5-cc68-c5a56243858c@kaod.org>
+Date: Fri, 17 Dec 2021 18:18:03 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH qemu] s390x/css: fix PMCW invalid mask
+ Thunderbird/91.3.0
+Subject: Re: [PATCH 00/15] ppc/ppc405: decade cleanup
 Content-Language: en-US
-To: Halil Pasic <pasic@linux.ibm.com>, Nico Boehr <nrb@linux.ibm.com>
-References: <20211216131657.1057978-1-nrb@linux.ibm.com>
- <20211217145811.71dd0a70.pasic@linux.ibm.com>
-From: Pierre Morel <pmorel@linux.ibm.com>
-In-Reply-To: <20211217145811.71dd0a70.pasic@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: oJainPnTDSpz5LUcq847V4ZjGRnyHWbd
-X-Proofpoint-GUID: r3DQAOCR23dqnomp9bc8Z-E1OOiHlbZJ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2021-12-17_06,2021-12-16_01,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- mlxlogscore=999 spamscore=0 mlxscore=0 adultscore=0 lowpriorityscore=0
- phishscore=0 impostorscore=0 bulkscore=0 suspectscore=0 clxscore=1015
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2110150000 definitions=main-2112170095
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=pmorel@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -36
-X-Spam_score: -3.7
+To: Christophe Leroy <christophe.leroy@csgroup.eu>, "qemu-ppc@nongnu.org"
+ <qemu-ppc@nongnu.org>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+References: <20211206103712.1866296-1-clg@kaod.org>
+ <880aa46a-97cb-ad79-b72e-f8276692d750@kaod.org>
+ <b3345770-21e2-39f2-8fe2-e9963886e680@csgroup.eu>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <b3345770-21e2-39f2-8fe2-e9963886e680@csgroup.eu>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.97]
+X-ClientProxiedBy: DAG9EX2.mxp5.local (172.16.2.82) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: db92f7f2-1a97-49b8-8f15-5f4fc66d7b0a
+X-Ovh-Tracer-Id: 14289077193929886569
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrleeigdellecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeejkeekfeehfedvfeehgfejleevkeehieelheduveekfedvhfelteeivdfftddukeenucffohhmrghinhepghhithhlrggsrdgtohhmnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdeljeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehgrhhouhhgsehkrghougdrohhrgh
+Received-SPF: pass client-ip=46.105.45.231; envelope-from=clg@kaod.org;
+ helo=8.mo548.mail-out.ovh.net
+X-Spam_score_int: -35
+X-Spam_score: -3.6
 X-Spam_bar: ---
-X-Spam_report: (-3.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.716,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.716,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -112,59 +72,127 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, frankja@linux.ibm.com, cohuck@redhat.com,
- qemu-devel@nongnu.org, borntraeger@de.ibm.com, qemu-s390x@nongnu.org
+Cc: Thomas Huth <thuth@redhat.com>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>, Greg Kurz <groug@kaod.org>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On 12/17/21 14:58, Halil Pasic wrote:
-> On Thu, 16 Dec 2021 14:16:57 +0100
-> Nico Boehr <nrb@linux.ibm.com> wrote:
-> 
->> Previously, we required bits 5, 6 and 7 to be zero (0x07 == 0b111). But,
->> as per the principles of operation, bit 5 is ignored in MSCH and bits 0,
->> 1, 6 and 7 need to be zero.
-> 
-> On a second thought, don't we have to make sure then that bit 5 is
-> ignored?
-> 
-> static void copy_pmcw_from_guest(PMCW *dest, const PMCW *src)
-> {
->      int i;
-> 
->      dest->intparm = be32_to_cpu(src->intparm);
->      dest->flags = be16_to_cpu(src->flags);
->      dest->devno = be16_to_cpu(src->devno);
-> 
-> Here we seem to grab flags as a whole, but actually we would have to
-> mask of bit 5.
-
-Why?
-If this bit is ignored by the machine shouldn't we just ignore it?
-Forcing it to 0 or to 1 is purely arbitrary no?
-
-> 
-> I can spin a patch myself, provided we agree on that this needs to be
-> fixed, but, it would probably be better to have the two changes in one
-> patch.
-> 
-> Regards,
-> Halil
+On 12/17/21 17:36, Christophe Leroy wrote:
 > 
 > 
+> Le 15/12/2021 à 17:49, Cédric Le Goater a écrit :
+>> On 12/6/21 11:36, Cédric Le Goater wrote:
+>>> Hello,
+>>>
+>>> The goal of these changes is to refresh the QEMU ref405ep machine and
+>>> enable boot from a Linux kernel without relying on a U-Boot firmware.
+>>> The reason for doing so is that we are unable to find a "ppc405_rom.bin"
+>>> firmware image or a flash image for the 405EP machines.
+>>>
+>>> Thomas fought is way through on a v2015.10 U-Boot and taihu defconfig
+>>> and provided a compatible image available here :
+>>>
+>>>    https://gitlab.com/huth/u-boot/-/tree/taihu/
+>>>
+>>> With this image, QEMU reaches the U-Boot prompt (with a simple
+>>> workaround in the SDRAM).
+>>>
+>>> On the Linux side, the only available 405EP CPU board is the one for
+>>> the ESTeem 195E (PPC405EP) SBC (hotfoot). It was added in 2009. The
+>>> board information structure in Linux, in U-Boot and in QEMU are not in
+>>> sync and the hotfoot board also adds its own flavor because the FW was
+>>> an ancient U-Boot without dual ethernet support [1].
+>>>
+>>> For this kernel to be loaded by the U-Boot image provided by Thomas,
+>>> we either need to modify U-Boot or Linux. The same question arise for
+>>> QEMU, see the last patch of this series which is controversial. Please
+>>> advise !
 >>
->> As both PMCW_FLAGS_MASK_INVALID and ioinst_schib_valid() are only used
->> by ioinst_handle_msch(), adjust the mask accordingly.
+>> Applied patch 1-14 to ppc-next.
 >>
->> Fixes: db1c8f53bfb1 ("s390: Channel I/O basic definitions.")
->> Signed-off-by: Nico Boehr <nrb@linux.ibm.com>
->> Reviewed-by: Pierre Morel <pmorel@linux.ibm.com>
->> Reviewed-by: Halil Pasic <pasic@linux.ibm.com>
->> Reviewed-by: Janosch Frank <frankja@linux.ibm.com>
+>> I kept the hotfoot hack for later. We need to fix user space first.
+>>
+> 
+> 
+> Don't know if this is the reason of our problems but I think there is
+> something to investigate around timer interrupts:
+> 
+> 
+> / # cat /proc/interrupts
+>              CPU0
+>    16:         68       UIC   1 Level     serial
+> LOC:          0   Local timer interrupts for timer event device
+> LOC:          0   Local timer interrupts for others
+> SPU:          0   Spurious interrupts
+> PMI:          0   Performance monitoring interrupts
+> MCE:          0   Machine check exceptions
+> 
+> Any idea what the problem can be ? How does QEMU generates timer
+> interrupts ?
 
--- 
-Pierre Morel
-IBM Lab Boeblingen
+Indeed.
+
+With some extra QEMU traces (-trace ppc4* -trace ppc_decr*), we can see :
+
+ppc40x_timers_init frequency 33333333
+ppc405_gpio_init offet 0xef600700
+ppc4xx_gpt_init offet 0xef600000
+ppc405ep_clocks_compute FBMUL 0xa 10
+ppc405ep_clocks_compute FWDA 0x5 3
+ppc405ep_clocks_compute CCDV 0x0 1
+ppc405ep_clocks_compute CBDV 0x2 3
+ppc405ep_clocks_compute OPDV 0x1 2
+ppc405ep_clocks_compute EPDV 0x0 2
+ppc405ep_clocks_compute MPDV 0x0 1
+ppc405ep_clocks_compute PPDV 0x2 3
+ppc405ep_clocks_compute U0DIV 0x46 70
+ppc405ep_clocks_compute U1DIV 0x46 70
+ppc405ep_clocks_setup Setup PPC405EP clocks - sysclk 33333333 VCO 999999990 PLL out 333333330 Hz
+CPU 333333330 PLB 111111110 OPB 55555555 EBC 55555555 MAL 111111110 PCI 37037036 UART0 4761904 UART1 4761904
+
+ppc40x_set_tb_clk new frequency 333333330
+
+   ...
+
+   clocksource: timebase mult[7800000] shift[24] registered
+ppc40x_store_pit val 0x7fffffff
+ppc4xx_pit_stop
+ppc40x_store_pit val 0x82355
+ppc4xx_pit_stop
+   pid_max: default: 32768 minimum: 301
+
+
+decrementer timer seems stop and so no decrementer exception. I suppose
+this routine is in cause :
+
+
+static void start_stop_pit (CPUPPCState *env, ppc_tb_t *tb_env, int is_excp)
+{
+     ppc40x_timer_t *ppc40x_timer;
+     uint64_t now, next;
+
+     ppc40x_timer = tb_env->opaque;
+     if (ppc40x_timer->pit_reload <= 1 ||
+         !((env->spr[SPR_40x_TCR] >> 26) & 0x1) ||
+         (is_excp && !((env->spr[SPR_40x_TCR] >> 22) & 0x1))) {
+         /* Stop PIT */
+         trace_ppc4xx_pit_stop();
+         timer_del(tb_env->decr_timer);
+     } else {
+         trace_ppc4xx_pit_start(ppc40x_timer->pit_reload);
+         now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
+         next = now + muldiv64(ppc40x_timer->pit_reload,
+                               NANOSECONDS_PER_SECOND, tb_env->decr_freq);
+         if (is_excp)
+             next += tb_env->decr_next - now;
+         if (next == now)
+             next++;
+         timer_mod(tb_env->decr_timer, next);
+         tb_env->decr_next = next;
+     }
+}
+
+
+C.
 
