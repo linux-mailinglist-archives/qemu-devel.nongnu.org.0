@@ -2,128 +2,164 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96D4A4783AB
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Dec 2021 04:33:55 +0100 (CET)
-Received: from localhost ([::1]:40482 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9530478393
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Dec 2021 04:14:42 +0100 (CET)
+Received: from localhost ([::1]:54860 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1my40I-0006zl-Oj
-	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 22:33:54 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46552)
+	id 1my3hh-0005KU-EK
+	for lists+qemu-devel@lfdr.de; Thu, 16 Dec 2021 22:14:41 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42646)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1my3wr-0005ac-ER
- for qemu-devel@nongnu.org; Thu, 16 Dec 2021 22:30:21 -0500
-Received: from mail-dm6nam10on2104.outbound.protection.outlook.com
- ([40.107.93.104]:47968 helo=NAM10-DM6-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
+ id 1my3fh-0004cM-2n
+ for qemu-devel@nongnu.org; Thu, 16 Dec 2021 22:12:38 -0500
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:21966)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1my3wo-00040n-RK
- for qemu-devel@nongnu.org; Thu, 16 Dec 2021 22:30:21 -0500
+ (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
+ id 1my3fe-0003zb-AE
+ for qemu-devel@nongnu.org; Thu, 16 Dec 2021 22:12:36 -0500
+Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1BH2EEIs014963; 
+ Fri, 17 Dec 2021 03:12:30 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : to : cc :
+ subject : date : message-id : references : in-reply-to : content-type :
+ content-id : content-transfer-encoding : mime-version; s=corp-2021-07-09;
+ bh=+H8FcDtCA5F7uae1ngAjvoubFVTbn3LY94mKr4XRQ5Y=;
+ b=eVdagkhzX8Cy37CLuWUDLUSmwJJb/Me9p6k8w0thWYjJ1gny0vfevFnCmtjoHDzFiq2C
+ EEXK0OjWDTonrGmG2V0ffOUvTrAHSbwmx1PzGmIAOMEVLKdyeAqZdgDCcUqjty8cnaZK
+ SyjfzBANTx6a5mxfaadxYEObrTVzWlMlCgSCGTEJIQN9UlixKAr3628NWZp8QAB16XQ/
+ y19/1EVkNlijrS7hLuoB9mr31J/omvvbAquRPs5LxZqZ5oxZqo7HEjmN9Zy+8I5e84zT
+ 3CEZcq45fpMXF3ts7uOrJIpGEOMiiDApK+qLpa/vt8fKu/rvkOXbN3WxV4jI6b+C22Hy /A== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+ by mx0b-00069f02.pphosted.com with ESMTP id 3cykm5cqkt-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 17 Dec 2021 03:12:29 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+ by userp3030.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 1BH3Ahnr032191;
+ Fri, 17 Dec 2021 03:12:28 GMT
+Received: from nam10-bn7-obe.outbound.protection.outlook.com
+ (mail-bn7nam10lp2102.outbound.protection.outlook.com [104.47.70.102])
+ by userp3030.oracle.com with ESMTP id 3cvh434tfb-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 17 Dec 2021 03:12:28 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ZZBD7xxbAFQ/+XueDxkaf1vlD94da2vo0fmJPbbYFw4u8Um7XgVwHXtzSkdWvKFt7du1b/51UEsdLaitaAKf/5T+gWW57cqNPudqoN6Vyvt5TEj+zE39Coa2uaIcwxi3e3gv2+ttY0yqj8XkvvCwk4GmOtkbUBoNCIDJgGMKuRUKVY+sBlu9JS7bHf75Xklb4/mTHDloB1O+6T9hcyF7Yaybwoyp2q8QoNlGAzTRZiZYvbd0NiP+SfVT4ODoDnolX/dy1uhyaXD4JmGcVYgEy2trEdsprMzPAhrfpr9daCadvi6PCiTUhJmJNmE0eYWVHjeyiUdkH986pDv6wP743w==
+ b=jFkIviCrIkJekmR6pmUCOV74xP00dcX68MDVTRoCDS1/9QDHh42FxIIKV+eiE1p0F0Pbi0/MnsVBkyn1Q+SZ2KAmax/q8T1YsPvtpCozRChpVkcBWpbFlIgji8lE2N3p28DxTY7yeZFQ3tbzyntwvqOurCV7SMa+zekACK8iNyaGGLjEFS1LJRyGc3qLyL+W5H9zuwuyevLrs0KOOvA7HnVlKPEN+bIfEIUV7aLlrYJhGnPUbB1vJd171cLE2ZuUmiWikkoNvYUrOxrCfxvvBgjIJ3EY2E/lbm393LA5G2lceWRWBeo8HMFDxGs80sxxTy/gwyCztVsUwlQAtN6vVg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=RKpOc3H+1FYLhHGKC3eCKcd+cP0Yw/7T/oOe9PJG0aU=;
- b=XCMRIJ3cuQQVwcpuau/bRpR95oP5Ls5CKvl3UuP/OSFPdFfTXxCGqNtT/o3LaO4AqwgBp44tcKrXWWgoML7o+WHQpzgPEZRjeH83sX57aTOhyOGIQCbVQhW79LxeJOwyJ1/ZCzsIR8JXbZfJHmV6aPh8cqeC8x+2bEV/lXV+r2U08fAy4dH6mYJWuyyLa05I6gU3SH25hzKUS/1P2JrOVTWoL4LOExPPSOBkQBZjZpPavR3og9GsZKyr5EvtTaXNL9aBe87R5htTGbTubIPy5sqL0YFJIfUK2XIjjSILFEerEUuYOlmDAMU6ZqSSmUIyDr/URClavEQ8yyUVdCeMTA==
+ bh=+H8FcDtCA5F7uae1ngAjvoubFVTbn3LY94mKr4XRQ5Y=;
+ b=FCHR8ZbkiL+58CdH7G5SGDsgeytqlcxJgQ/mbin2fdFnPtVixQnLRgUm0kZmw3EVa8vrgLcdA+qRwLYtwkGdwh5/NMc1X/OE8OVsKVxuSeH1Mzb92RQbGw0+TwBO1iZbzAh5RI9Ks9+hR9lV9CBgxSmXEZZ2U5ZJ6EZ4P71DgxAsxMimWtT7El4jO3ZUda/ZXY2wXdJzO0n91m8gT42dfX1jvEPRTq9eykyJipSrGTuTUdCEU7g4qZwZlas1TfLn6dIbxxpjcLb/Ys4TU9oVT8o8ba9WkFXNZxANF43vN4Z4tsPAGsWccqdNThVpK8pBfML6SOjg3wRkNYrTXviyVg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bu.edu; dmarc=pass action=none header.from=bu.edu; dkim=pass
- header.d=bu.edu; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bu.edu; s=selector2;
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RKpOc3H+1FYLhHGKC3eCKcd+cP0Yw/7T/oOe9PJG0aU=;
- b=II6E0weYrpGxF2HKcAkFXVKEODDnPhbZ1z9cHM0+A/DVgTaYmXFWxsbKA4Ccn4ju4U/ZnR/QVbwNqvUACfaOKQ3ruYLD87jyq/aouA0rL27pbpt0VRckCAuHgxFe/Dn73RaGlPXkljPYvForSl0XzfKOAp2qngKRVAtqJWiOpBI0P0RVpN9zyywqpXzufn0UA9Z1GxRoSQK/dG0L52KIkK3E9OAzdl4EK9ByhDSWcoqFqnWzEbP0mFgBaBeI5EM3UQHmm4BqYtkNSNysku7WHpxfmnVE8guv/7qqKBXUQGym1FnKSZTYWacPA+kCw6E3On34YCfZWzY2yD1/FxWXIA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bu.edu;
-Received: from SN6PR03MB3871.namprd03.prod.outlook.com (2603:10b6:805:6d::32)
- by SA0PR03MB5594.namprd03.prod.outlook.com (2603:10b6:806:b2::13)
+ bh=+H8FcDtCA5F7uae1ngAjvoubFVTbn3LY94mKr4XRQ5Y=;
+ b=oUPqUYDOiCSFlzoVS+hvIOYIE323bk0ILX/++x2bObooTY/nc4qx5qfWEr4nyydbffyO6YpDs3kjYvmsySj8uBQstA/1PSEqwkbPRLOCAlyYT3A0gTQVyc+CyZZDo/PF+deREFb+yasFPbQbtxUlgxvo7Zelu8XVko0kJW89HOU=
+Received: from MN2PR10MB4013.namprd10.prod.outlook.com (2603:10b6:208:185::25)
+ by BLAPR10MB5041.namprd10.prod.outlook.com (2603:10b6:208:30e::6)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4801.14; Fri, 17 Dec
- 2021 03:09:29 +0000
-Received: from SN6PR03MB3871.namprd03.prod.outlook.com
- ([fe80::6cf1:fa6a:fb65:131]) by SN6PR03MB3871.namprd03.prod.outlook.com
- ([fe80::6cf1:fa6a:fb65:131%3]) with mapi id 15.20.4778.019; Fri, 17 Dec 2021
- 03:09:29 +0000
-From: Alexander Bulekov <alxndr@bu.edu>
-To: qemu-devel@nongnu.org
-Subject: [RFC PATCH] memory: Fix dma-reentrancy issues at the MMIO level
-Date: Thu, 16 Dec 2021 22:08:58 -0500
-Message-Id: <20211217030858.834822-1-alxndr@bu.edu>
-X-Mailer: git-send-email 2.33.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: MN2PR12CA0020.namprd12.prod.outlook.com
- (2603:10b6:208:a8::33) To SN6PR03MB3871.namprd03.prod.outlook.com
- (2603:10b6:805:6d::32)
+ 2021 03:12:26 +0000
+Received: from MN2PR10MB4013.namprd10.prod.outlook.com
+ ([fe80::b911:b919:6383:970d]) by MN2PR10MB4013.namprd10.prod.outlook.com
+ ([fe80::b911:b919:6383:970d%5]) with mapi id 15.20.4778.018; Fri, 17 Dec 2021
+ 03:12:25 +0000
+From: Jag Raman <jag.raman@oracle.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: [PATCH v4 06/14] vfio-user: find and init PCI device
+Thread-Topic: [PATCH v4 06/14] vfio-user: find and init PCI device
+Thread-Index: AQHX8YApTrHk+7wDC0Sg1iU1Milq96w0734AgAEVU4A=
+Date: Fri, 17 Dec 2021 03:12:25 +0000
+Message-ID: <190FFFA9-EED0-4FD2-BA41-29B13FCEC719@oracle.com>
+References: <cover.1639549843.git.jag.raman@oracle.com>
+ <06d8cd0be786fb6786d42c9251b37094bff813a0.1639549843.git.jag.raman@oracle.com>
+ <YbsXdCYdXSm1UuHX@stefanha-x1.localdomain>
+In-Reply-To: <YbsXdCYdXSm1UuHX@stefanha-x1.localdomain>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3654.120.0.1.13)
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 4053d98b-e173-46c0-9574-08d9c10b0d1b
+x-ms-traffictypediagnostic: BLAPR10MB5041:EE_
+x-microsoft-antispam-prvs: <BLAPR10MB50419401107B518AEE2E8D7E90789@BLAPR10MB5041.namprd10.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:10000;
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: o12pyfCR5R9iA6ZXOkS9lbQfW3jmxefxXv9d2RH7+argDBbRUxOjlKiFxF95ghug0EktzCLXd+9ilzbONhx1JIGGXMQLWzC6qRXCeBIhUzaePe+YhqikgJzYfFsEQG7hpxX/3Gg/93YZ8O9Ik8D7pDJf5x/svV/zwXpKOmiAmq7VDfyDRfJ7rgWQIiYCPXtmd7w7sJYiOtzGyz7NPTyTeMLEX9jV/5mq39YkRdBrEin+m6PSZCMkdLFlHfJsTDguVGJ9mRyWQtnSgCBRrumBm4YQEywh8OdJK8fTWvHqOz4XD6iibKjrg9IzXwNlE7c3w6sXDYsIJXBs5BQZhuImSZ0QJUOpUHk4WjzeIcVAtFYcTRNeA4expYP4MZlv3JB8UdYywk/Tuikkm6pzK9f+aVvcPdEUyVGzaDSVGW8BSU2X40AKpvt3FkOk/Ky/1MdIGhgmK5y3O4Pm5HGYBGvGjLtP53df8ehPifRI2vghUrOLzzB4Tnr1jgrlGrgOynTQ4BcqTJnHOOumZTDVR/lSU2/YnmQk/4tU67iYh6iWIg+qf3/WlLwmp+qF4LwdmtClz7rSLvKaat7UeBh2GOMFgnua/Ny26LpolfPQ4ScRSZeUblZPlUL6xWiIs288GNqZFD5DqZASfslWkLlKACvTOvPOdq7bXksud4ZY/mV3VRJeqWD8GgdUEC1eV4E0XyyHR8+oFYkiAJfPpjLBaBIMFfa7HX436g3FV0bgaxe1dYlIPmJEwpYE+ikzb+V47VBf
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR10MB4013.namprd10.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(366004)(6486002)(33656002)(38070700005)(53546011)(2906002)(2616005)(316002)(86362001)(54906003)(44832011)(83380400001)(6512007)(64756008)(186003)(66446008)(66556008)(6506007)(8676002)(4326008)(38100700002)(7416002)(122000001)(71200400001)(36756003)(508600001)(5660300002)(66946007)(91956017)(8936002)(66476007)(6916009)(76116006)(45980500001);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?VBy7Ft0VlTH0+k2I1PKfGOkM0JuI8euXQd7ZSVkq5+D0Ra37umsw9n/oo7?=
+ =?iso-8859-1?Q?rQ3zZqsBjJ3jXuxEokT+7R6Gw8eqhsMzRFb0kBZCGw3mwfiiJfQSn9eh1s?=
+ =?iso-8859-1?Q?Z+Z13/BFq3PRYqMcqzYpFroxNwv47sZPN0YokWXzadAmvnqNJHSaU1xjTB?=
+ =?iso-8859-1?Q?a1iKZePC8i2ZEWpnqPkVruRVjS3R8k35h3Gr6cZI9NrIQpuSZqraw6RA+l?=
+ =?iso-8859-1?Q?8yGnQOSZNH8h4+S8pLLrU+215rSeniL0qnUa+CuST4vaG+SOAsJfpjZxZj?=
+ =?iso-8859-1?Q?9+AZx0YR6z/Tf7LfXxL7lmwDxh2ZA6Cxz3z227ifKnX0oztzCCjvGehgin?=
+ =?iso-8859-1?Q?bm+gdDLJBfBYeDWVoKL77Q9DDdfSoyD5I/hS0zADvUoNSbOKJ5ybflMQBc?=
+ =?iso-8859-1?Q?/2K1o+GGkpCytXoUmtvNGWlUnsry3Tu0Bl5Faq2qUjnQGOzys1pGmMLSbK?=
+ =?iso-8859-1?Q?2Vw87gv9VBcahPRsje9eqyx+m6GcLywLB4ERMWFGb2JxdkMRtvh7OGvd/7?=
+ =?iso-8859-1?Q?a+cn2OjdTQU77bZWw1YqT54GTO4RCFJTm5pyQo1DRomU61srdp8cSwSoMU?=
+ =?iso-8859-1?Q?BstJsEtDavoJ7aZbLamUVDUv5QzlcYnCnbtL0g3vHZ3N8nRPeqstHNBOix?=
+ =?iso-8859-1?Q?fmosu5Ug9uoXw9Wegglq3BKj18H4XhYUA0y7ORh2CdnMo2CguVeniuwAEV?=
+ =?iso-8859-1?Q?dTp6J3K8qQNmzsMnjITMchNsYRBN25sw6ZIRGFez53/BBBn65hVKjU3/P/?=
+ =?iso-8859-1?Q?ngsc/gKZQQ7NYOaHsXlph7KuNv+8u9XcFsM2s8UXnXN/bcrMgCrDfEZw6f?=
+ =?iso-8859-1?Q?5Zll4+MiylDMBCFbuxEoEofP+T9G9yhjcxO9Cpks8uzdmHGg8rC5Fv65Ff?=
+ =?iso-8859-1?Q?hsD4C9RTG+nbksW/z5gB5Gcd9YBre0sb+ZX1KBglEjUgs1ng0Jq5wadbDj?=
+ =?iso-8859-1?Q?sw22JIkMsjmb4A3zscLh86csi9ZrfSl20z9sD2YPvYvjbd2tmY7Onet0kJ?=
+ =?iso-8859-1?Q?0AfBMEpb6G1msPRJfTzcuP2uci47eNQKZ5j9zDBnNhcawnfL22SkYUfiRf?=
+ =?iso-8859-1?Q?OkOvzF8Nxn1t0RoHv0366Mkthr1zRjEVj9miyK9owW09TvmlyypDo3rQww?=
+ =?iso-8859-1?Q?y4L03nCLw2J20PHEYllmvjcFN0LRPw/bjEaRR83YsnTDEvjS74DKv4zWwg?=
+ =?iso-8859-1?Q?Ny4yBM1eXFT1jqGNes0U8xxwr/Ox0KFF7vv2XjjkslmPJE1iy42tf3qYHu?=
+ =?iso-8859-1?Q?+EOg1r5bJMR02gYHYIyRmq9ovuoYL6n3ev9e2LDCqGPiBToc9cKqdgPnNQ?=
+ =?iso-8859-1?Q?eUNsIW0NLVPcSShhQiW3dyT1TQoRRrYmV7apyNVHAQ1MqaOjlFkdgpIP/D?=
+ =?iso-8859-1?Q?WsxR3U/C2FbcQr8lIc2tJ+TM2lpD7GDLLzxgz2sYAI1DAtAyMMUZhZFwHt?=
+ =?iso-8859-1?Q?MzqN8DffSrPsloWkK3/TErRMGJpZBAEqvH67V+p730L+aPt+uzg4gYNrqe?=
+ =?iso-8859-1?Q?rBkUtLr5L2kHgPrXEeGX0HZbzu/rtu6UE+40W/y0mtl60pjxtqD8iieZx2?=
+ =?iso-8859-1?Q?9JbtXEsQkoohGlRluD3SJQkpg8YUjf6dL0/MNSVIJoVpGqhx3FtnTQB7oW?=
+ =?iso-8859-1?Q?Bb9netmPM2T6Uv/dzPbNDMO7tR5I+Pn632AM96VGB32+j+xb5fAKLVzlkE?=
+ =?iso-8859-1?Q?3dwr1D07rU6Lq3aAjU3jQ4qb/4cd7CLJkqddTruxvaRA5JwaPD+THYVG8c?=
+ =?iso-8859-1?Q?TLOA=3D=3D?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <8E27A15577229D47801BE984E592645C@namprd10.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 4432c79d-66d6-4246-fdf9-08d9c10aa393
-X-MS-TrafficTypeDiagnostic: SA0PR03MB5594:EE_
-X-Microsoft-Antispam-PRVS: <SA0PR03MB55949CCC87FCB671CDFFF5ECBA789@SA0PR03MB5594.namprd03.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2276;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: VCCk1XStVixvZLXWP0djIwOe1nprEvOa/27SlYWXtHAPiwlwS7btNn5pEjFuj0BqZQGo+eGLKBWzJu9xBcWwx4t7xpQ+Z/2Z2HOv+NgXhY2XXnbfUxZtEUJ906blJ0ldupuJAXETmyoj0y8NneVu3ZiSWxMKjJK4t10s5kVwzeZoORdeWtrH+2z6vEPUcDnskhoOX5IWea3e5iFteBgoAE+uKOaDzJxXeNAdzXJ37McG9qbw9mDcYbCRNb+DXEAGSnRTBWGOEeLVE+tZNzwFFyvL63mho75XHYYYB93iQNXIV64+lbm5UNU4UilI1q3kdsfJaYCPXZXvYz85/AaHfzLpHSI6tVI7XPLaZqgqwRnOKYI2ynm205YkR04075Q93Lh1YX5ku6SjWQ/G2Zg40zt0AkuZVv45Dj5Q4vG/aWrSY4VDdCPK127OjJ7UMGcQaQ8xhWUZ4KjIWkXgkOlOOwNDUYieQIhOhMZEIyF3MTKalJcE55tNq2hSSGGWaBTnYAbrlcCErgZ1dxzMcO6x9gVaRNDudxMIQET3hdhGybiZ8XiS376muTyz1NaXmClKQe6yaz1V/7xZKDc8g7fiE7ystV/GJZmO2gMRyDimAk/EZKEE9q8Ptq4Q7DEfSTSQo1aANMFxoNAPQkKpU1tnDoCu2PATe0f08nb5ymnbz/XpSlS5BoR3ucVA7+/+uLMwGUEiiQtPYdkfJAPpo8iFA4ZyJ/pe2y0ZPSMQYTFmhjeIZl3I7jsnnTb96MaTKM1vSeyuttlLwQMJSLYTKtPupA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN6PR03MB3871.namprd03.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(966005)(54906003)(7416002)(8676002)(2616005)(4326008)(52116002)(316002)(8936002)(36756003)(5660300002)(6666004)(786003)(6486002)(6916009)(66556008)(66946007)(38350700002)(66476007)(6512007)(26005)(38100700002)(6506007)(83380400001)(2906002)(86362001)(75432002)(508600001)(186003)(1076003)(45080400002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RG5jLzJlR3VDLzNGU1J4QmFjWXM3RXZ4Y1hrYnViRjdheVBvNHRaNUN1YkE5?=
- =?utf-8?B?R29kZHdnZkVxN0VtMmtkRGt5cVlQQllJaGIzejdKVGl2MnVIMGZ4QVprN0dv?=
- =?utf-8?B?TVo0eW91YmY0NkF0YzZKaWJ4RG5LenV1TUplMjk2bHVJYWVOUHJ0bDR6dmU1?=
- =?utf-8?B?V0Q3eWNTVFNXRXU2YlorTm1IVmhiMkErMllpNzlkWlZZcGc0OGZrTXNtSE5l?=
- =?utf-8?B?amd5blRCbEVxUVNjWWdsbFFhMm45TmpieitLcFdidGkwOGNRVTZlSkF1YThl?=
- =?utf-8?B?RjJjenU2RnlFcURGeWdxOEFQMDRTaHBzemNiU3MrUE14VmFaUCs0NklwNTJM?=
- =?utf-8?B?Tm1oc0RUaTkzQXJhUnpzbWRtbE1rTW05VFBBRE9WbVJmQ1NPZEthWHRCczRv?=
- =?utf-8?B?NHkraGpvdnp6alFCZkxwNWtaMFExYklNV01PalNhaGVOdm1GUE84eVREcWtP?=
- =?utf-8?B?WDlldWlpVXRGdnFUWjh3cG90OWdoUk9SYWI2d1J2dGdUa3N5MnlzSVc1RGpy?=
- =?utf-8?B?ejhkTzg2bG9jSk1WSVd0UzlzL3JzSU9naEZ5SEZOVmJZV1pnQ0lNczdKWUIz?=
- =?utf-8?B?RmRSVWMwNjdFa1hBWENwZloxdDNhalVJZm1hd0owU3VRTDFBNm5PbUwyNlJ1?=
- =?utf-8?B?K2o1NEh5eEhOWnBqTXorMXdCclhsenlBMFVvZ0kwZUQ5RzNWaSs0eXZyQ3Qz?=
- =?utf-8?B?UUt4NjE3WG1Pck01TmJGMWhNMTJqTkxwUVBMT1p0cjZMNHAyQTZZb3JkKzJJ?=
- =?utf-8?B?cHAvQzg1Zk1XZlROM3VBRXRhSlZhWnZJYWJYMTRmVHo0dkhRR3V0TTMyMVFS?=
- =?utf-8?B?TElQay9Pd3hpZWNkcGxEMitBN2NHeWtCOTV0V1NGZFdDT3ZUVHlxS0ZYZWhB?=
- =?utf-8?B?Nzh0MEc3M2VOL1I5SUhrZzZWZzAvalB0c05zcWE1NlhtTVVTLzVIN3pja2ZV?=
- =?utf-8?B?T0xxeUFZUVc4b055eWR0c3ljanpHNmpJZ3Q1ZTIxRldhc3lGbUhrYU9xMDNH?=
- =?utf-8?B?T1pvbkRJWDZGUmFKa0pGbG15TXBTOUl3bHhGV2pIK3FPVTRSNzUwajBMei9n?=
- =?utf-8?B?NG1mbTVHUHdibGJlNzJlazFhdFJuVXdWN3hyMFJyOTFNQjBRRG1ET0NtbDRu?=
- =?utf-8?B?TEtRNk5MQzd3T0tKUHpXSzYyTUlpeFZYUGNVUDhaN1B0ZVczalBtaHBUVWNq?=
- =?utf-8?B?STd1UWhWY2xIdVUwWk1OMGpCbG9TeTlHZFdlTzhEVmFoNGw0akM4TVdoQTE4?=
- =?utf-8?B?SVBHb3VTVjVhdXJKTDZoeU1qUmNTZG0yR3AwOHkxRHJaV29hdDhvNEwxdk1F?=
- =?utf-8?B?dzk0L3g0NWR0TU1aaERER1ZMMFdpKzRWTDh4VGxLaGFMRkxyNFc3VXRjVzJw?=
- =?utf-8?B?ZWVKcDlyWnRYZW0yVDZ2SE55TDRKckw0eXpXSktjT3IycnV2VWRNbVozR0Fk?=
- =?utf-8?B?SFp5dlY1Y050WTdOSGFZLzFZU2tGY2RoTDFCY0RhdFBOdnFSRVVxc1hBMWNa?=
- =?utf-8?B?MUIrTEJpNGRUUnhqbEc3ZkJ3TVA1UEloYkdUSmtKanQ5UlZnWklQMzIrVllT?=
- =?utf-8?B?ZDFPaGVueDZSejByUGlWSTlQTmc5NmZIQitTRzJxQ2VwclA2clZUbTBVbjRr?=
- =?utf-8?B?Z2FIMUFSdmtweTVHTTlaNDd4bVE4Qk85RGo2WXZhaG9sZnpwRnlCREV3b21o?=
- =?utf-8?B?b0czdVE2TTVEVld4blV5djUyM1huSHgwUTRndVFENnhlNE9VQ3kwR29iVW94?=
- =?utf-8?B?TjkwYXVxWU5YWVMvdjlCK09oVDd5UjQ4eG4zZTNwcS93MUJTSnJQZEw3QWJs?=
- =?utf-8?B?eUdhcjZPUVFmeFJDdE02RDVWNDlXNEJvalFoSnhJSEtRaDFkQXI1a2lYT3F5?=
- =?utf-8?B?dy82dkwrQ1V5cEFJb2hhOVhuMnJyMTRXZTRmU3hGZXVxKzFUbVdpQlJNa0ky?=
- =?utf-8?B?RXV3bGQyNTRnQmpDYkh4d2Vrc3ZsTlZ2TE4rdHRRZ2FvT1NJUHljSnRVVG9u?=
- =?utf-8?B?bVpIOFY5cWVPdHVxQklrQzhzMjVhc3BmcFJieGdxRGJjSXMxaTIxUEZYSk9h?=
- =?utf-8?B?c0phMHIvYzZTUE1kcTV3ditLQTNsVXR6YmZWdz09?=
-X-OriginatorOrg: bu.edu
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4432c79d-66d6-4246-fdf9-08d9c10aa393
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR03MB3871.namprd03.prod.outlook.com
+X-OriginatorOrg: oracle.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Dec 2021 03:09:28.9363 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: d57d32cc-c121-488f-b07b-dfe705680c71
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: TIcdFQtkOLjqk5qbP9HMwWBSEAOsk7hqBPHAJNtmLi4bqxU5pV5ZlOK5p8FtSxdt
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR03MB5594
-Received-SPF: pass client-ip=40.107.93.104; envelope-from=alxndr@bu.edu;
- helo=NAM10-DM6-obe.outbound.protection.outlook.com
-X-Spam_score_int: 0
-X-Spam_score: -0.1
-X-Spam_bar: /
-X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR10MB4013.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4053d98b-e173-46c0-9574-08d9c10b0d1b
+X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Dec 2021 03:12:25.7098 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: GDcpaE+kNhU6dhc10M3IGf7/qet/XIQqS63A4vsDFwOP7/PKbZKkK3P/W5fEC+lXTJ5pdQowefNHxFf5gMNmmQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BLAPR10MB5041
+X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10200
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
+ spamscore=0 suspectscore=0
+ malwarescore=0 mlxlogscore=999 bulkscore=0 mlxscore=0 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2110150000
+ definitions=main-2112170015
+X-Proofpoint-GUID: KC3fVD8yOh6uVX0IShoU7FwculbuOzTJ
+X-Proofpoint-ORIG-GUID: KC3fVD8yOh6uVX0IShoU7FwculbuOzTJ
+Received-SPF: pass client-ip=205.220.165.32; envelope-from=jag.raman@oracle.com;
+ helo=mx0a-00069f02.pphosted.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HK_RANDOM_ENVFROM=0.999, HK_RANDOM_FROM=1, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -136,142 +172,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Mauro Matteo Cascella <mcascell@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Darren Kenny <darren.kenny@oracle.com>, David Hildenbrand <david@redhat.com>,
- Jason Wang <jasowang@redhat.com>, Bin Meng <bin.meng@windriver.com>,
- Li Qiang <liq3ea@gmail.com>, Qiuhao Li <Qiuhao.Li@outlook.com>,
- Peter Xu <peterx@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
- Alexander Bulekov <alxndr@bu.edu>, Bandan Das <bsd@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
- "Edgar E . Iglesias" <edgar.iglesias@gmail.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ John Johnson <john.g.johnson@oracle.com>,
+ "thuth@redhat.com" <thuth@redhat.com>, "bleal@redhat.com" <bleal@redhat.com>,
+ "swapnil.ingle@nutanix.com" <swapnil.ingle@nutanix.com>,
+ "john.levon@nutanix.com" <john.levon@nutanix.com>,
+ =?iso-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>,
+ "wainersm@redhat.com" <wainersm@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ "thanos.makatos@nutanix.com" <thanos.makatos@nutanix.com>,
+ =?iso-8859-1?Q?Marc-Andr=E9_Lureau?= <marcandre.lureau@gmail.com>,
+ "crosa@redhat.com" <crosa@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ "alex.bennee@linaro.org" <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Here's my shot at fixing dma-reentracy issues. This patch adds a flag to
-the DeviceState, which is set/checked when we call an accessor
-associated with the device's IO MRs.
 
-The problem, in short, as I understand it: For the vast majority of
-cases, we want to prevent a device from accessing it's own PIO/MMIO
-regions over DMA.
 
-This patch/solution is based on some assumptions:
-1. DMA accesses that hit mmio regions are only dangerous if they end up
-interacting with memory-regions belonging to the device initiating the
-DMA.
-Not dangerous:  sdhci_pio->dma_write->e1000_mmio
-Dangerous:      sdhci_pio->dma_write->sdhci_mmio
+> On Dec 16, 2021, at 5:39 AM, Stefan Hajnoczi <stefanha@redhat.com> wrote:
+>=20
+> On Wed, Dec 15, 2021 at 10:35:30AM -0500, Jagannathan Raman wrote:
+>> @@ -150,6 +157,38 @@ static void vfu_object_init_ctx(VfuObject *o, Error=
+ **errp)
+>> +    o->pci_dev =3D PCI_DEVICE(dev);
+> ...
+>> @@ -190,6 +229,8 @@ static void vfu_object_finalize(Object *obj)
+>>=20
+>>     o->device =3D NULL;
+>>=20
+>> +    o->pci_dev =3D NULL;
+>=20
+> We need to consider how this interacts with device_del hot unplug.
+> o->pci_dev is a pointer and we don't hold a refcount, so I think
+> o->pci_dev could disappear at any moment.
+>=20
+> A pair of object_ref/unref(OBJECT(o->pci_dev)) calls would not be enough
+> because device_del will still unrealize the device that's in use by the
+> vfio-user server.
+>=20
+> I suggest adding a check to qdev_unplug() that prevents unplug when the
+> device is in use by the vfio-user server. That's similar to the code in
+> that function for preventing unplug during migration.
+>=20
+> One way to do that is by adding a new API:
+>=20
+>  /*
+>   * Register an Error that is raised when unplug is attempted on a
+>   * device. If another blocker has already been registered then that
+>   * Error may be raised during unplug instead.
+>   *
+>   * qdev_del_unplug_blocker() must be called to remove this blocker.
+>   */
+>  void qdev_add_unplug_blocker(DeviceState *dev, Error *blocker);
+>=20
+>  /*
+>   * Deregister an Error that was previously registered with
+>   * qdev_add_unplug_blocker().
+>   */
+>  void qdev_del_unplug_blocker(DeviceState *dev, Error *blocker);
+>=20
+> The vfio-user server then needs to add an Error *unplug_blocker field to
+> VfuObject and call qdev_add/del_unplug_blocker() on the PCI device.
+>=20
+> From a user perspective this means that device_del fails with "Device
+> currently in use by vfio-user server '%s'".
 
-2. Most devices do not interact with their own PIO/MMIO memory-regions
-using DMA.
+OK sounds good, will add the above unplug blocker API for PCI devices.
 
-3. There is no way for there to be multiple simultaneous accesses to a
-device's PIO/MMIO memory-regions.
+Thank you!
+--
+Jag
 
-4. All devices are QOMified :-)
-
-With this patch, I wasn't able to reproduce the issues being tracked
-here, with QTest reproducers:
-https://gitlab.com/qemu-project/qemu/-/issues/556
-
-This passes the i386 qos/qtests for me and I was able to boot some linux/windows
-VMs with basic devices configured, without any apparent problems.
-
-Cc: Philippe Mathieu-Daudé <philmd@redhat.com>
-Cc: Mauro Matteo Cascella <mcascell@redhat.com>
-Cc: Qiuhao Li <Qiuhao.Li@outlook.com>
-Cc: Peter Xu <peterx@redhat.com>
-Cc: Jason Wang <jasowang@redhat.com>
-Cc: David Hildenbrand <david@redhat.com>
-Cc: Gerd Hoffmann <kraxel@redhat.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>
-Cc: Li Qiang <liq3ea@gmail.com>
-Cc: Thomas Huth <thuth@redhat.com>
-Cc: Laurent Vivier <lvivier@redhat.com>
-Cc: Bandan Das <bsd@redhat.com>
-Cc: Edgar E. Iglesias <edgar.iglesias@gmail.com>
-Cc: Darren Kenny <darren.kenny@oracle.com>
-Cc: Bin Meng <bin.meng@windriver.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Stefan Hajnoczi <stefanha@redhat.com>
-
-Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
----
- include/hw/qdev-core.h |  1 +
- softmmu/memory.c       | 15 +++++++++++++++
- softmmu/trace-events   |  1 +
- 3 files changed, 17 insertions(+)
-
-diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
-index 20d3066595..32f7c779ab 100644
---- a/include/hw/qdev-core.h
-+++ b/include/hw/qdev-core.h
-@@ -193,6 +193,7 @@ struct DeviceState {
-     int instance_id_alias;
-     int alias_required_for_version;
-     ResettableState reset;
-+    int engaged_in_direct_io;
- };
- 
- struct DeviceListener {
-diff --git a/softmmu/memory.c b/softmmu/memory.c
-index 7340e19ff5..255c3c602f 100644
---- a/softmmu/memory.c
-+++ b/softmmu/memory.c
-@@ -532,6 +532,7 @@ static MemTxResult access_with_adjusted_size(hwaddr addr,
-     uint64_t access_mask;
-     unsigned access_size;
-     unsigned i;
-+    DeviceState *dev = NULL;
-     MemTxResult r = MEMTX_OK;
- 
-     if (!access_size_min) {
-@@ -541,6 +542,17 @@ static MemTxResult access_with_adjusted_size(hwaddr addr,
-         access_size_max = 4;
-     }
- 
-+    /* Do not allow more than one simultanous access to a device's IO Regions */
-+    if (mr->owner &&
-+        !mr->ram_device && !mr->ram && !mr->rom_device && !mr->readonly) {
-+        dev = (DeviceState *) object_dynamic_cast(mr->owner, TYPE_DEVICE);
-+        if (dev->engaged_in_direct_io) {
-+            trace_memory_region_reentrant_io(get_cpu_index(), mr, addr, size);
-+            return MEMTX_ERROR;
-+        }
-+        dev->engaged_in_direct_io = true;
-+    }
-+
-     /* FIXME: support unaligned access? */
-     access_size = MAX(MIN(size, access_size_max), access_size_min);
-     access_mask = MAKE_64BIT_MASK(0, access_size * 8);
-@@ -555,6 +567,9 @@ static MemTxResult access_with_adjusted_size(hwaddr addr,
-                         access_mask, attrs);
-         }
-     }
-+    if (dev) {
-+        dev->engaged_in_direct_io = false;
-+    }
-     return r;
- }
- 
-diff --git a/softmmu/trace-events b/softmmu/trace-events
-index 9c88887b3c..d7228316db 100644
---- a/softmmu/trace-events
-+++ b/softmmu/trace-events
-@@ -13,6 +13,7 @@ memory_region_ops_read(int cpu_index, void *mr, uint64_t addr, uint64_t value, u
- memory_region_ops_write(int cpu_index, void *mr, uint64_t addr, uint64_t value, unsigned size, const char *name) "cpu %d mr %p addr 0x%"PRIx64" value 0x%"PRIx64" size %u name '%s'"
- memory_region_subpage_read(int cpu_index, void *mr, uint64_t offset, uint64_t value, unsigned size) "cpu %d mr %p offset 0x%"PRIx64" value 0x%"PRIx64" size %u"
- memory_region_subpage_write(int cpu_index, void *mr, uint64_t offset, uint64_t value, unsigned size) "cpu %d mr %p offset 0x%"PRIx64" value 0x%"PRIx64" size %u"
-+memory_region_reentrant_io(int cpu_index, void *mr, uint64_t offset, unsigned size) "cpu %d mr %p offset 0x%"PRIx64" size %u"
- memory_region_ram_device_read(int cpu_index, void *mr, uint64_t addr, uint64_t value, unsigned size) "cpu %d mr %p addr 0x%"PRIx64" value 0x%"PRIx64" size %u"
- memory_region_ram_device_write(int cpu_index, void *mr, uint64_t addr, uint64_t value, unsigned size) "cpu %d mr %p addr 0x%"PRIx64" value 0x%"PRIx64" size %u"
- memory_region_sync_dirty(const char *mr, const char *listener, int global) "mr '%s' listener '%s' synced (global=%d)"
--- 
-2.33.0
+>=20
+> Stefan
 
 
