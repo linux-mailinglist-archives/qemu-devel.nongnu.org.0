@@ -2,101 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6E5E478D0C
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Dec 2021 15:09:59 +0100 (CET)
-Received: from localhost ([::1]:54292 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60CF3478CFD
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Dec 2021 15:02:28 +0100 (CET)
+Received: from localhost ([::1]:38706 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1myDvq-0002oZ-QK
-	for lists+qemu-devel@lfdr.de; Fri, 17 Dec 2021 09:09:58 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56638)
+	id 1myDoY-0000ST-Fo
+	for lists+qemu-devel@lfdr.de; Fri, 17 Dec 2021 09:02:26 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56722)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
- id 1myDkg-00060w-8g; Fri, 17 Dec 2021 08:58:28 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:5928)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1myDks-00063y-Kg
+ for qemu-devel@nongnu.org; Fri, 17 Dec 2021 08:58:38 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22912)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
- id 1myDke-00022q-Df; Fri, 17 Dec 2021 08:58:25 -0500
-Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1BHDl6nq001490; 
- Fri, 17 Dec 2021 13:58:20 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=date : from : to : cc :
- subject : message-id : in-reply-to : references : mime-version :
- content-type : content-transfer-encoding; s=pp1;
- bh=/ZVsOXU08DXL7kixcc8XhBjKUALBL3BSBeVVTDwRy+o=;
- b=o1UMP0f/17+ZaKb8Qw/CBy4PtKwITAOIieKTYsVjFdT1kCRGUCLX+Xhlb5sh6swf5xg+
- VleHHKS4D3jfdGIoxCI4FP49jxZOtU5ZfVtoB5vaPxaOIisfrRaK3BRcMVmSQOREU3BL
- PmKPlHym/Oolbgh27st1KIiKN8cb7duZz9fCyegYlG3qjHRQFluLblHC/aUnZVu0uxaa
- TFpFt1wVgLZWUl1Jk2gebSPa/VtmvlzI4Vm9FWc5X/7OsHEJIce9CVunOeuGeBWp5wfa
- 9egfM+wPnIjH+MDcDcOPQiw/3NGSlkT3S6QGoyU5rnG60SkpLfPB2DVV9PTQWp225gcg dA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3d0j1vku4m-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 17 Dec 2021 13:58:20 +0000
-Received: from m0098393.ppops.net (m0098393.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1BHDi2qm001385;
- Fri, 17 Dec 2021 13:58:19 GMT
-Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.98])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3d0j1vku3y-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 17 Dec 2021 13:58:19 +0000
-Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
- by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1BHDRVbK010792;
- Fri, 17 Dec 2021 13:58:17 GMT
-Received: from b06avi18626390.portsmouth.uk.ibm.com
- (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
- by ppma03ams.nl.ibm.com with ESMTP id 3cy7jrj01p-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 17 Dec 2021 13:58:17 +0000
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
- [9.149.105.61])
- by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 1BHDoAQx41025846
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 17 Dec 2021 13:50:10 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 56C8B11C04C;
- Fri, 17 Dec 2021 13:58:14 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D607A11C054;
- Fri, 17 Dec 2021 13:58:13 +0000 (GMT)
-Received: from li-e979b1cc-23ba-11b2-a85c-dfd230f6cf82 (unknown [9.171.63.32])
- by d06av25.portsmouth.uk.ibm.com (Postfix) with SMTP;
- Fri, 17 Dec 2021 13:58:13 +0000 (GMT)
-Date: Fri, 17 Dec 2021 14:58:11 +0100
-From: Halil Pasic <pasic@linux.ibm.com>
-To: Nico Boehr <nrb@linux.ibm.com>
-Subject: Re: [PATCH qemu] s390x/css: fix PMCW invalid mask
-Message-ID: <20211217145811.71dd0a70.pasic@linux.ibm.com>
-In-Reply-To: <20211216131657.1057978-1-nrb@linux.ibm.com>
-References: <20211216131657.1057978-1-nrb@linux.ibm.com>
-Organization: IBM
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1myDko-00024O-JT
+ for qemu-devel@nongnu.org; Fri, 17 Dec 2021 08:58:36 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1639749513;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=HWa153A1Sh2M4GTKtf7tfGjwOaoq3uilZzw6GI+LKD0=;
+ b=CnCd4NOG91XVQ991XpOraO/fWjnV1wPKhz63FjYHDCObg+gV393ydMju+1d8v6seolzjkK
+ 6TYtUbmAHcY/j0lVV4VZmsUACOsrUfssH6EtTfNxcgeztSb6z4plL8zjPCDgJ//9EdTVzf
+ ilZh/+Zdpix+yhs2FccuYT58IrIqmNk=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-86-uIl8YnXPPWm3-yW4dA3lqQ-1; Fri, 17 Dec 2021 08:58:30 -0500
+X-MC-Unique: uIl8YnXPPWm3-yW4dA3lqQ-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ k25-20020a05600c1c9900b00332f798ba1dso2982093wms.4
+ for <qemu-devel@nongnu.org>; Fri, 17 Dec 2021 05:58:30 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=HWa153A1Sh2M4GTKtf7tfGjwOaoq3uilZzw6GI+LKD0=;
+ b=tw2yeR1/iNapp6BWv7cN62ct9hv87q3jAhiPi2hr/drxpRjlQuOp+eQmv+8zQ2MUVL
+ 9ZN3Ig4WgRDla0V97yHfNc8DVtW3B5JvhMVwJAHgRC27wzATgImDWykcor/ZxJe1tlZl
+ RCQgnzdjd/lV5imJfriQpB3KIMO7DCdit6FcmYpsuCf2fcTnEJrSB9ITO6BEqG8v5yGB
+ I+Qh3Soj9NcAcuYT5/TKQSb8ENKvEwFFN4niHFhBufG+gJFnY97KzXCoUfkyz9FZT+MU
+ ntOAG8bFd/lVwpZG+T7aKUC8JgrrcXRPYBXC8BMcmEvkbpjxCG0pFYAQyBEkCznNMg8O
+ xFww==
+X-Gm-Message-State: AOAM532CY9meNdMyfZfIoDiMuxjDWhf/pt9iUR336efbrk7xELTgHMQo
+ 25ALCCUO+CGPhk8AydimRax/onjq3170B5Oda7AQYpiAT0bqXdzLM25AWiTdOaOHfXOzSA/Adt9
+ Ec74JIxN8Q2iF1hU=
+X-Received: by 2002:adf:9e49:: with SMTP id v9mr2618439wre.469.1639749509077; 
+ Fri, 17 Dec 2021 05:58:29 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzsuVOlKfjmx62XdIt8efGhUsdyvPxYlOJ/PuY6nkF26mmp+cmoflLvUlS5CszsBURVjYkUrQ==
+X-Received: by 2002:adf:9e49:: with SMTP id v9mr2618406wre.469.1639749508856; 
+ Fri, 17 Dec 2021 05:58:28 -0800 (PST)
+Received: from [192.168.1.36] (174.red-83-50-185.dynamicip.rima-tde.net.
+ [83.50.185.174])
+ by smtp.gmail.com with ESMTPSA id w25sm7609509wmk.20.2021.12.17.05.58.27
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 17 Dec 2021 05:58:28 -0800 (PST)
+Message-ID: <380ea0e5-a006-c570-4ec8-d67e837547ee@redhat.com>
+Date: Fri, 17 Dec 2021 14:58:26 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [RFC PATCH] memory: Fix dma-reentrancy issues at the MMIO level
+To: Alexander Bulekov <alxndr@bu.edu>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ "Edgar E . Iglesias" <edgar.iglesias@gmail.com>
+References: <20211217030858.834822-1-alxndr@bu.edu>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+In-Reply-To: <20211217030858.834822-1-alxndr@bu.edu>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: gDZKRYKXDD4W5HaCGcafpI-0bFQhOFo4
-X-Proofpoint-ORIG-GUID: B7S-jEZbzTWLHVVT9VBZIVGMob--nVIg
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2021-12-17_05,2021-12-16_01,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 mlxlogscore=999
- clxscore=1011 suspectscore=0 spamscore=0 malwarescore=0 bulkscore=0
- priorityscore=1501 lowpriorityscore=0 mlxscore=0 impostorscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2110150000 definitions=main-2112170076
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=pasic@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -51
+X-Spam_score: -5.2
+X-Spam_bar: -----
+X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.718,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-1.716, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -109,48 +101,148 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, frankja@linux.ibm.com, pmorel@linux.ibm.com,
- cohuck@redhat.com, qemu-devel@nongnu.org, Halil Pasic <pasic@linux.ibm.com>,
- borntraeger@de.ibm.com, qemu-s390x@nongnu.org
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Mauro Matteo Cascella <mcascell@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ David Hildenbrand <david@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Bin Meng <bin.meng@windriver.com>, Li Qiang <liq3ea@gmail.com>,
+ Qiuhao Li <Qiuhao.Li@outlook.com>, Peter Xu <peterx@redhat.com>,
+ Eduardo Habkost <eduardo@habkost.net>, Darren Kenny <darren.kenny@oracle.com>,
+ Bandan Das <bsd@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Thomas Huth <thuth@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 16 Dec 2021 14:16:57 +0100
-Nico Boehr <nrb@linux.ibm.com> wrote:
+On 12/17/21 04:08, Alexander Bulekov wrote:
+> Here's my shot at fixing dma-reentracy issues. This patch adds a flag to
+> the DeviceState, which is set/checked when we call an accessor
+> associated with the device's IO MRs.
 
-> Previously, we required bits 5, 6 and 7 to be zero (0x07 == 0b111). But,
-> as per the principles of operation, bit 5 is ignored in MSCH and bits 0,
-> 1, 6 and 7 need to be zero.
+Your approach is exactly what Gerd suggested:
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg831437.html
 
-On a second thought, don't we have to make sure then that bit 5 is
-ignored?
+> The problem, in short, as I understand it: For the vast majority of
+> cases, we want to prevent a device from accessing it's own PIO/MMIO
+> regions over DMA.
+> 
+> This patch/solution is based on some assumptions:
+> 1. DMA accesses that hit mmio regions are only dangerous if they end up
+> interacting with memory-regions belonging to the device initiating the
+> DMA.
+> Not dangerous:  sdhci_pio->dma_write->e1000_mmio
+> Dangerous:      sdhci_pio->dma_write->sdhci_mmio
 
-static void copy_pmcw_from_guest(PMCW *dest, const PMCW *src)
-{
-    int i;
-
-    dest->intparm = be32_to_cpu(src->intparm);
-    dest->flags = be16_to_cpu(src->flags);
-    dest->devno = be16_to_cpu(src->devno);
-
-Here we seem to grab flags as a whole, but actually we would have to
-mask of bit 5.
-
-I can spin a patch myself, provided we agree on that this needs to be
-fixed, but, it would probably be better to have the two changes in one
-patch.
-
-Regards,
-Halil
-
+It doesn't have to be dangerous, see Paolo's example which
+invalidated my previous attempt and forced me to write 24
+patches in multiples series to keep the "niche" cases working:
+https://www.mail-archive.com/qemu-block@nongnu.org/msg72939.html
 
 > 
-> As both PMCW_FLAGS_MASK_INVALID and ioinst_schib_valid() are only used
-> by ioinst_handle_msch(), adjust the mask accordingly.
+> 2. Most devices do not interact with their own PIO/MMIO memory-regions
+> using DMA.
 > 
-> Fixes: db1c8f53bfb1 ("s390: Channel I/O basic definitions.")
-> Signed-off-by: Nico Boehr <nrb@linux.ibm.com>
-> Reviewed-by: Pierre Morel <pmorel@linux.ibm.com>
-> Reviewed-by: Halil Pasic <pasic@linux.ibm.com>
-> Reviewed-by: Janosch Frank <frankja@linux.ibm.com>
+> 3. There is no way for there to be multiple simultaneous accesses to a
+> device's PIO/MMIO memory-regions.
+> 
+> 4. All devices are QOMified :-)
+> 
+> With this patch, I wasn't able to reproduce the issues being tracked
+> here, with QTest reproducers:
+> https://gitlab.com/qemu-project/qemu/-/issues/556
+> 
+> This passes the i386 qos/qtests for me and I was able to boot some linux/windows
+> VMs with basic devices configured, without any apparent problems.
+> 
+> Cc: Philippe Mathieu-Daudé <philmd@redhat.com>
+> Cc: Mauro Matteo Cascella <mcascell@redhat.com>
+> Cc: Qiuhao Li <Qiuhao.Li@outlook.com>
+> Cc: Peter Xu <peterx@redhat.com>
+> Cc: Jason Wang <jasowang@redhat.com>
+> Cc: David Hildenbrand <david@redhat.com>
+> Cc: Gerd Hoffmann <kraxel@redhat.com>
+> Cc: Peter Maydell <peter.maydell@linaro.org>
+> Cc: Li Qiang <liq3ea@gmail.com>
+> Cc: Thomas Huth <thuth@redhat.com>
+> Cc: Laurent Vivier <lvivier@redhat.com>
+> Cc: Bandan Das <bsd@redhat.com>
+> Cc: Edgar E. Iglesias <edgar.iglesias@gmail.com>
+> Cc: Darren Kenny <darren.kenny@oracle.com>
+> Cc: Bin Meng <bin.meng@windriver.com>
+> Cc: Paolo Bonzini <pbonzini@redhat.com>
+> Cc: Stefan Hajnoczi <stefanha@redhat.com>
+> 
+> Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
+> ---
+>  include/hw/qdev-core.h |  1 +
+>  softmmu/memory.c       | 15 +++++++++++++++
+>  softmmu/trace-events   |  1 +
+>  3 files changed, 17 insertions(+)
+> 
+> diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
+> index 20d3066595..32f7c779ab 100644
+> --- a/include/hw/qdev-core.h
+> +++ b/include/hw/qdev-core.h
+> @@ -193,6 +193,7 @@ struct DeviceState {
+>      int instance_id_alias;
+>      int alias_required_for_version;
+>      ResettableState reset;
+> +    int engaged_in_direct_io;
+>  };
+>  
+>  struct DeviceListener {
+> diff --git a/softmmu/memory.c b/softmmu/memory.c
+> index 7340e19ff5..255c3c602f 100644
+> --- a/softmmu/memory.c
+> +++ b/softmmu/memory.c
+> @@ -532,6 +532,7 @@ static MemTxResult access_with_adjusted_size(hwaddr addr,
+>      uint64_t access_mask;
+>      unsigned access_size;
+>      unsigned i;
+> +    DeviceState *dev = NULL;
+>      MemTxResult r = MEMTX_OK;
+>  
+>      if (!access_size_min) {
+> @@ -541,6 +542,17 @@ static MemTxResult access_with_adjusted_size(hwaddr addr,
+>          access_size_max = 4;
+>      }
+>  
+> +    /* Do not allow more than one simultanous access to a device's IO Regions */
+> +    if (mr->owner &&
+> +        !mr->ram_device && !mr->ram && !mr->rom_device && !mr->readonly) {
+> +        dev = (DeviceState *) object_dynamic_cast(mr->owner, TYPE_DEVICE);
+> +        if (dev->engaged_in_direct_io) {
+> +            trace_memory_region_reentrant_io(get_cpu_index(), mr, addr, size);
+> +            return MEMTX_ERROR;
+> +        }
+> +        dev->engaged_in_direct_io = true;
+> +    }
+> +
+>      /* FIXME: support unaligned access? */
+>      access_size = MAX(MIN(size, access_size_max), access_size_min);
+>      access_mask = MAKE_64BIT_MASK(0, access_size * 8);
+> @@ -555,6 +567,9 @@ static MemTxResult access_with_adjusted_size(hwaddr addr,
+>                          access_mask, attrs);
+>          }
+>      }
+> +    if (dev) {
+> +        dev->engaged_in_direct_io = false;
+> +    }
+>      return r;
+>  }
+>  
+> diff --git a/softmmu/trace-events b/softmmu/trace-events
+> index 9c88887b3c..d7228316db 100644
+> --- a/softmmu/trace-events
+> +++ b/softmmu/trace-events
+> @@ -13,6 +13,7 @@ memory_region_ops_read(int cpu_index, void *mr, uint64_t addr, uint64_t value, u
+>  memory_region_ops_write(int cpu_index, void *mr, uint64_t addr, uint64_t value, unsigned size, const char *name) "cpu %d mr %p addr 0x%"PRIx64" value 0x%"PRIx64" size %u name '%s'"
+>  memory_region_subpage_read(int cpu_index, void *mr, uint64_t offset, uint64_t value, unsigned size) "cpu %d mr %p offset 0x%"PRIx64" value 0x%"PRIx64" size %u"
+>  memory_region_subpage_write(int cpu_index, void *mr, uint64_t offset, uint64_t value, unsigned size) "cpu %d mr %p offset 0x%"PRIx64" value 0x%"PRIx64" size %u"
+> +memory_region_reentrant_io(int cpu_index, void *mr, uint64_t offset, unsigned size) "cpu %d mr %p offset 0x%"PRIx64" size %u"
+>  memory_region_ram_device_read(int cpu_index, void *mr, uint64_t addr, uint64_t value, unsigned size) "cpu %d mr %p addr 0x%"PRIx64" value 0x%"PRIx64" size %u"
+>  memory_region_ram_device_write(int cpu_index, void *mr, uint64_t addr, uint64_t value, unsigned size) "cpu %d mr %p addr 0x%"PRIx64" value 0x%"PRIx64" size %u"
+>  memory_region_sync_dirty(const char *mr, const char *listener, int global) "mr '%s' listener '%s' synced (global=%d)"
+> 
+
 
