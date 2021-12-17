@@ -2,68 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D301C478895
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Dec 2021 11:15:14 +0100 (CET)
-Received: from localhost ([::1]:43322 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A2234788C3
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Dec 2021 11:27:51 +0100 (CET)
+Received: from localhost ([::1]:46864 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1myAGg-0003id-0B
-	for lists+qemu-devel@lfdr.de; Fri, 17 Dec 2021 05:15:14 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60920)
+	id 1myASs-0006mY-5t
+	for lists+qemu-devel@lfdr.de; Fri, 17 Dec 2021 05:27:50 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35736)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lizhang@suse.de>) id 1myAEP-0002N2-Mm
- for qemu-devel@nongnu.org; Fri, 17 Dec 2021 05:12:53 -0500
-Received: from smtp-out2.suse.de ([195.135.220.29]:57756)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <lizhang@suse.de>) id 1myAEO-00034l-0q
- for qemu-devel@nongnu.org; Fri, 17 Dec 2021 05:12:53 -0500
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 6451E1F38A;
- Fri, 17 Dec 2021 10:12:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1639735970; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=RusMWCU56GcqfkE4ifCtyqPOYAzbaY9kacNl6qzzxEo=;
- b=rfelxWaJajOhzDoC2NFj9m8j/1aAjCuvitGE92Az8usSdgTo+UhWckHiGCwUYsFwAdWVSm
- PNMLHxWCG2wupPC74vhYMIDFM/oP5hIH0Uiw5BHplxppDQIMYQTEkgOOG1BR9v++L0t1xq
- 2jKGdUUkA5oRpkUSZZ8L+k8cXrUfY7g=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1639735970;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
- bh=RusMWCU56GcqfkE4ifCtyqPOYAzbaY9kacNl6qzzxEo=;
- b=FogaT4FbLwAvQi87NLZ2KrA06QBdd3HJ2FBJt9KXd/3IVEhQ1ryDPyPxfSVVbaZa3EXdPm
- l2e6Q2Kc/GJgagBg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 2970E13DD4;
- Fri, 17 Dec 2021 10:12:50 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id C5maCKJivGH0JAAAMHmgww
- (envelope-from <lizhang@suse.de>); Fri, 17 Dec 2021 10:12:50 +0000
-From: Li Zhang <lizhang@suse.de>
-To: quintela@redhat.com, dgilbert@redhat.com, cfontana@suse.de,
- qemu-devel@nongnu.org
-Subject: [PATCH v2 1/1] multifd: Remove some redundant code
-Date: Fri, 17 Dec 2021 11:12:28 +0100
-Message-Id: <20211217101228.9512-1-lizhang@suse.de>
-X-Mailer: git-send-email 2.31.1
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1myAQr-0005s1-S5; Fri, 17 Dec 2021 05:25:46 -0500
+Received: from mout.kundenserver.de ([212.227.17.10]:48177)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1myAQp-00028e-5Q; Fri, 17 Dec 2021 05:25:45 -0500
+Received: from [192.168.100.1] ([82.142.30.186]) by mrelayeu.kundenserver.de
+ (mreue109 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1Mbj3Y-1mMMYz0nWA-00dDxb; Fri, 17 Dec 2021 11:25:19 +0100
+Message-ID: <86d06356-7ce8-ec33-29bc-df3e10ffc416@vivier.eu>
+Date: Fri, 17 Dec 2021 11:25:17 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH] docs/block-replication.txt: Fix replication top-id
+ command demo
+Content-Language: fr
+To: Zhang Chen <chen.zhang@intel.com>,
+ Xie Changlong <xiechanglong.d@gmail.com>,
+ Wen Congyang <wencongyang2@huawei.com>, qemu-trivial@nongnu.org
+References: <20211018085044.2788276-1-chen.zhang@intel.com>
+From: Laurent Vivier <laurent@vivier.eu>
+In-Reply-To: <20211018085044.2788276-1-chen.zhang@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.29; envelope-from=lizhang@suse.de;
- helo=smtp-out2.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Provags-ID: V03:K1:KgkpI1BpFfipOUtpi8bLvGxPrwib3ckmXJ+4MaeaWHAQeneetRB
+ K7rGbcAvuKVQmxCYzNxyR3wb0GQQRwjPsbo/JZZMXqWH7Osxy0gTH8uWH/sH0FflNF+W5LA
+ h0EH+Ki1rMKTCFGokhWc6xPuxUo5vKe15r62MY8ZvjTyulBgZsteVpTj19Ue1bgJwDJDFqc
+ c/m4UW836JaQKxh5Su9BA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:68LRt2cmTyY=:JVid4p59RxYyShoZvO4Kne
+ aQZvQPpmYJ1pn/uC8mkQDpZXbavhBamx7eKYIGpBJKBfe8n8cEMWs6Rmn1hDTovRFLOtoYcVO
+ pq7LrbyaTKg8FzIYer1+YVm8A8tUvYHeZlnv/anvVWugVvQKzxqX131pJydmtVOaDt5JlOBNk
+ OXbz946pDL1c6gmLf9gEazc1V76lLiRH8EN95BYEZkquHs1fGWFWXWDpXahFuRwoJ+iuBB9Ai
+ nLVWtcZMeCcl5dX4YOyNzkrZm4ZuEhpipPUTSy5C3EngmFXpsoZ2iDj4Lnr7MYffdfM9n4EPI
+ jeluuTOepN9kJ/23D3XGVXsEZyKnVEfoNOVRhiYNQB9SBqNo1PDte1XowZBanjHcayJSZxoSt
+ VRFIPN+uoeXctMAZAc1yG73EJe2t8JoqtVu5+Dxkga6LcA8wuwArWDmFIoqMM+l3e4RxmLbeq
+ 70tq/Mgf3l7gOwLuPaCS6463LGfpbqBOO0wxC5s7lwIxnw3PXfteZDfr90RJsSNKI6GGGwtmM
+ /hpJ80cNztrSbHIjvXIYDXAATuO/UkwNNrS4tO+klKtpTKMaW03hKrENPqVGZ4LYV62U7GyWx
+ PG1N8GSxnkxF2kf68WfqQgSmKcsyWgMcABAul3CvvlvVkoQIp76f1adLL+vK5DwONpeu+1SFA
+ Bd+b1KbT9xMZ2vlSSfD+BFjmEAXybUkLtXl3KGlM76FG2gWKWQHFPV3/gcOvA+InvG7w=
+Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.716,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,56 +71,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Li Zhang <lizhang@suse.de>
+Cc: Lukas Straub <lukasstraub2@web.de>, qemu-dev <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Clean up some unnecessary code
+Le 18/10/2021 à 10:50, Zhang Chen a écrit :
+> This demo not correct, the original childs1 can't pass the
+> the bdrv_is_root_node check in replcation_start().
+> Keep consistent with docs/COLO-FT.txt
+> 
+> Signed-off-by: Zhang Chen <chen.zhang@intel.com>
+> ---
+>   docs/block-replication.txt | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/docs/block-replication.txt b/docs/block-replication.txt
+> index 108e9166a8..66ad540676 100644
+> --- a/docs/block-replication.txt
+> +++ b/docs/block-replication.txt
+> @@ -179,7 +179,7 @@ Primary:
+>   
+>   Secondary:
+>     -drive if=none,driver=raw,file.filename=1.raw,id=colo1 \
+> -  -drive if=none,id=childs1,driver=replication,mode=secondary,top-id=childs1
+> +  -drive if=none,id=childs1,driver=replication,mode=secondary,top-id=top-disk1
+>            file.file.filename=active_disk.qcow2,\
+>            file.driver=qcow2,\
+>            file.backing.file.filename=hidden_disk.qcow2,\
+> 
 
-Signed-off-by: Li Zhang <lizhang@suse.de>
----
- migration/multifd.c | 12 +++---------
- 1 file changed, 3 insertions(+), 9 deletions(-)
-
-diff --git a/migration/multifd.c b/migration/multifd.c
-index 3242f688e5..212be1ed04 100644
---- a/migration/multifd.c
-+++ b/migration/multifd.c
-@@ -854,19 +854,16 @@ static void multifd_new_send_channel_async(QIOTask *task, gpointer opaque)
-     Error *local_err = NULL;
- 
-     trace_multifd_new_send_channel_async(p->id);
--    if (qio_task_propagate_error(task, &local_err)) {
--        goto cleanup;
--    } else {
-+    if (!qio_task_propagate_error(task, &local_err)) {
-         p->c = QIO_CHANNEL(sioc);
-         qio_channel_set_delay(p->c, false);
-         p->running = true;
-         if (!multifd_channel_connect(p, sioc, local_err)) {
--            goto cleanup;
-+            multifd_new_send_channel_cleanup(p, sioc, local_err);
-         }
-         return;
-     }
- 
--cleanup:
-     multifd_new_send_channel_cleanup(p, sioc, local_err);
- }
- 
-@@ -1078,10 +1075,7 @@ static void *multifd_recv_thread(void *opaque)
- 
-         ret = qio_channel_read_all_eof(p->c, (void *)p->packet,
-                                        p->packet_len, &local_err);
--        if (ret == 0) {   /* EOF */
--            break;
--        }
--        if (ret == -1) {   /* Error */
-+        if (ret == 0 || ret == -1) {   /* 0: EOF  -1: Error */
-             break;
-         }
- 
--- 
-2.31.1
-
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 
