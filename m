@@ -2,101 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0B10479394
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Dec 2021 19:09:37 +0100 (CET)
-Received: from localhost ([::1]:36294 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D74E84793A6
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Dec 2021 19:14:57 +0100 (CET)
+Received: from localhost ([::1]:39634 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1myHfk-0001dG-9r
-	for lists+qemu-devel@lfdr.de; Fri, 17 Dec 2021 13:09:36 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38646)
+	id 1myHku-00049n-Fd
+	for lists+qemu-devel@lfdr.de; Fri, 17 Dec 2021 13:14:56 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40204)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1myHeO-0000nn-0T; Fri, 17 Dec 2021 13:08:12 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:8514)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1myHeM-0006pn-7x; Fri, 17 Dec 2021 13:08:11 -0500
-Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1BHFa4I8038675; 
- Fri, 17 Dec 2021 18:08:01 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : in-reply-to : references : date : message-id : mime-version :
- content-type : content-transfer-encoding; s=pp1;
- bh=Gmqxw+NdFBQ427pC1kFefQzFk0sdP98HfIWVkVJ0lV0=;
- b=cgMbwV8DuacEKIoe5WK1qTavgIulXOAPy5QohaivpxV2yq8lD8CgvdoV5UyOierjaa+H
- bo4ORc5iB0R+bsTK373tewPyJPLaUYGD/eHGwoUN6A3rt9++7cpzDClIrPD2NlN9aXa9
- MYBkLMjgOiAP9oZ6vJ53bB/HOZYovbQOMNjr5r2iv5+1X9L2s6v9OogBy0wYu+lGWbL9
- NdBDUQ6EjPp7uQo12+rW0vde86UQo2GZ2k9RXuKDXQc394c4/pxaH9HoYiQRHBT7riP9
- w6xJVWZKXDhyUX/PFgoRcvg00DwFw9YHnZDgohktpQVysmK+fdU6394RzfgnHQbvqnxj SQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3cymkx7cr0-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 17 Dec 2021 18:08:00 +0000
-Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1BHHemJq024723;
- Fri, 17 Dec 2021 18:08:00 GMT
-Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
- [169.63.214.131])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3cymkx7cqc-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 17 Dec 2021 18:08:00 +0000
-Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
- by ppma01dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1BHHxai7012873;
- Fri, 17 Dec 2021 18:07:58 GMT
-Received: from b03cxnp07028.gho.boulder.ibm.com
- (b03cxnp07028.gho.boulder.ibm.com [9.17.130.15])
- by ppma01dal.us.ibm.com with ESMTP id 3cy7e56e4p-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 17 Dec 2021 18:07:58 +0000
-Received: from b03ledav004.gho.boulder.ibm.com
- (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
- by b03cxnp07028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 1BHI7vPV9699634
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 17 Dec 2021 18:07:57 GMT
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id E4C8E780C2;
- Fri, 17 Dec 2021 18:07:56 +0000 (GMT)
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 7329F78080;
- Fri, 17 Dec 2021 18:07:37 +0000 (GMT)
-Received: from localhost (unknown [9.211.58.206])
- by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTPS;
- Fri, 17 Dec 2021 18:07:37 +0000 (GMT)
-From: Fabiano Rosas <farosas@linux.ibm.com>
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Subject: Re: [PATCH v2] Revert "target/ppc: Move SPR_DSISR setting to
- powerpc_excp"
-In-Reply-To: <3d5b6237-de28-8285-b0a4-080f18ba5acd@linaro.org>
-References: <20211209173323.2166642-1-farosas@linux.ibm.com>
- <3d5b6237-de28-8285-b0a4-080f18ba5acd@linaro.org>
-Date: Fri, 17 Dec 2021 15:07:35 -0300
-Message-ID: <8735mr85qw.fsf@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1myHjd-0003Hb-Uw
+ for qemu-devel@nongnu.org; Fri, 17 Dec 2021 13:13:37 -0500
+Received: from [2a00:1450:4864:20::436] (port=45838
+ helo=mail-wr1-x436.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1myHjZ-0000Bg-57
+ for qemu-devel@nongnu.org; Fri, 17 Dec 2021 13:13:37 -0500
+Received: by mail-wr1-x436.google.com with SMTP id o13so5575781wrs.12
+ for <qemu-devel@nongnu.org>; Fri, 17 Dec 2021 10:13:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=Bm+aSZYgso3t8XB9VmT13ulejIPNPIsHpJl3VT7kIHM=;
+ b=FtWLY0+ebAm4SffSW0J+ZeH8ENL/H3tfMoBWqzgOEuM5fh8xKBTFozfDdjRxUvy/8K
+ spjJcjZhb1BvrlSbkkUMVzRLPzzwK6Jp2bAFUdXd+aghGoKZJUkcDPNUGR9TU4sgweVk
+ U08RQSdxXFquIDSYhFJtATb4kGuQ1/oLkQ2/JYCcqetV9fO/FPReg9QlX3qsDMJ4m27i
+ CoPlcjQnPIq9m53bmDmtcEGx6+Fl17UtF/o4BG/sGeynQDc8wHdUf4vlUrd7iA4A+QAu
+ Y+nRlckkjdr8YGebvFru/ekiUddDEBM0IhkWz6Y3I76T6yWwkwyo1DTHns/ETZ80Daq3
+ mu3g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=Bm+aSZYgso3t8XB9VmT13ulejIPNPIsHpJl3VT7kIHM=;
+ b=tr/1pQe4igROEvfZEtkhNoHEsm29yZM9ah4+W24/wHbZUixaAb8/tko45r6y9wTZK7
+ 6GVJeuT0SdHaqew0m5OMia50lTLNsiCCL7yzz0ZJqf0Vu4AUPdMbLuKxyuMggtlGGYTf
+ agVhDMV5Fcl45qduCWEz8JZoTHzEJqPrzUFu63hnvjWvOj6+e/T6MTnUReBkpGIhLdTB
+ S7yqQYVamni5SE0PAD3NrlsmyGHfWqg3KctmgFWjc/joTX7lyDRMvoVeUP1M4nL4ahz3
+ MSDxCOBJJw1CfZykppB3OiLLXHdFwRjRA9Lk9w3yV2qLPe04WdMmX90gSBgeBz08zrzG
+ I08Q==
+X-Gm-Message-State: AOAM530TpG664ylLFexrSglnTg5C7OZQ9rYUUNHdbSOODg58MXfWxzZc
+ AO0+ZXlgOFrPI6td+Tt8b5xcjw==
+X-Google-Smtp-Source: ABdhPJxsFcxMn9DyYpu8Gg/hAVw2tP/PAmHpLtwGjRX/EEbyBQ3QGgIQGyfKkgJC0hQa6zOuK/QHwQ==
+X-Received: by 2002:a05:6000:1787:: with SMTP id
+ e7mr3422906wrg.433.1639764810838; 
+ Fri, 17 Dec 2021 10:13:30 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id d9sm7649315wre.52.2021.12.17.10.13.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 17 Dec 2021 10:13:29 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 4A98F1FF96;
+ Fri, 17 Dec 2021 18:13:29 +0000 (GMT)
+References: <20211213182449.7068-1-bslathi19@gmail.com>
+ <87wnk8i4x7.fsf@linaro.org>
+ <d0f649f7-4d5d-9b15-829c-d5cef2137797@linaro.org>
+User-agent: mu4e 1.7.5; emacs 28.0.90
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH] Target/arm: Implement Cortex-A5
+Date: Fri, 17 Dec 2021 18:12:12 +0000
+In-reply-to: <d0f649f7-4d5d-9b15-829c-d5cef2137797@linaro.org>
+Message-ID: <8735mrdrqu.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: MegSYe5N2slfj9WPQ35__8wB32sbdbga
-X-Proofpoint-ORIG-GUID: laDtvOAB_uZ0zvGsD7TqFfaj1ndzIf8u
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2021-12-17_07,2021-12-16_01,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 suspectscore=0
- clxscore=1015 lowpriorityscore=0 malwarescore=0 spamscore=0
- priorityscore=1501 phishscore=0 mlxscore=0 mlxlogscore=858 impostorscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2110150000 definitions=main-2112170102
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=farosas@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::436
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x436.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -109,70 +92,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, danielhb413@gmail.com, philmd@redhat.com, clg@kaod.org,
- david@gibson.dropbear.id.au
+Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, qemu-devel@nongnu.org,
+ Byron Lathi <bslathi19@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+
 Richard Henderson <richard.henderson@linaro.org> writes:
 
-> On 12/9/21 9:33 AM, Fabiano Rosas wrote:
->> This reverts commit 336e91f85332dda0ede4c1d15b87a19a0fb898a2.
->>=20
->> It breaks the --disable-tcg build:
->>=20
->>   ../target/ppc/excp_helper.c:463:29: error: implicit declaration of
->>   function =E2=80=98cpu_ldl_code=E2=80=99 [-Werror=3Dimplicit-function-d=
-eclaration]
->>=20
->> We should not have TCG code in powerpc_excp because some kvm-only
->> routines use it indirectly to dispatch interrupts. See
->> kvm_handle_debug, spapr_mce_req_event and
->> spapr_do_system_reset_on_cpu.
->>=20
->> We can re-introduce the change once we have split the interrupt
->> injection code between KVM and TCG.
->>=20
->> Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
->> ---
->>   target/ppc/excp_helper.c | 21 ++++++++++++---------
->>   1 file changed, 12 insertions(+), 9 deletions(-)
+> On 12/13/21 1:02 PM, Alex Benn=C3=A9e wrote:
+>>> +    cpu->midr =3D 0x410fc0f1;
+>> hmm wikipedia lists the part number as 0xc05 (and the a15 as 0xc0f)
+>> but
+>> I can't find the actual value in the TRM.
 >
-> This is fine.  I had thought it would turn out to be helpful in conjuncti=
-on with my=20
-> user-only unaligned patch set, but in the end I went a different way and =
-have a separate=20
-> hook for user-only.
+> https://developer.arm.com/documentation/ddi0434/c
 >
-> It is correct to simply revert the patch first.
->
-> I have ideas for further cleanup, if you have time:
->
-> (1) The assignment to DSISR does not need to wait until powerpc_excp.  I =
-believe we can=20
-> assign to it directly in do_unaligned_access, and avoid using env->error_=
-code as an=20
-> intermediary.
+> has exactly this value at the top of table 4-9.
 
-Makes sense. I see that not all processors use DSISR during the
-Alignment interrupt. I'll check the manuals and fix that as well.
-
-I'm writing some tests to check each individual Alignment case and DAR
-is not being set for ALIGN_LE. There might be others missing. I'll
-probably end up moving the DAR code from ppc_cpu_do_unaligned_access
-into powerpc_excp after all.
+Ahh good find - 0x410FC051 it is.
 
 >
-> (2) The note about opcode fields being set incorrectly could be fixed dur=
-ing translation.=20
->   You'd use TARGET_INSN_START_EXTRA_WORDS to record the necessary informa=
-tion during=20
-> translation, is provided to restore_state_to_opc during unwinding, and th=
-en moved into=20
-> DSISR in do_unaligned_access.  Similar to target/arm and how env->excepti=
-on.syndrome is=20
-> managed, especially disas_set_insn_syndrome.
+>>> +    cpu->reset_fpsid =3D 0x41023051;
+>> I think for the a5 the FPU is optional so maybe we need a cpu option
+>> here? Or maybe just assume it's enabled on QEMUs version?
 >
+> Yeah, there's no entry for fpsid in the above manual.
+>
+>>> +    cpu->isar.id_mmfr0 =3D 0x00100103;
+>> the TRM says [11:8] Outermost shareability 0x0 L1 cache coherency
+>> not supported.
+>
+> Again, this does match table 4-9.
 
-Ok, I'll give it a shot. Thanks for the detailed pointers.
+0x00100003
+
+>
+>
+> r~
+
+
+--=20
+Alex Benn=C3=A9e
 
