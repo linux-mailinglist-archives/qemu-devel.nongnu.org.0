@@ -2,105 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 696054786EA
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Dec 2021 10:19:56 +0100 (CET)
-Received: from localhost ([::1]:52112 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3447F4786FC
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Dec 2021 10:22:25 +0100 (CET)
+Received: from localhost ([::1]:55192 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1my9P9-0003HR-IT
-	for lists+qemu-devel@lfdr.de; Fri, 17 Dec 2021 04:19:55 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50838)
+	id 1my9RY-0005U3-B7
+	for lists+qemu-devel@lfdr.de; Fri, 17 Dec 2021 04:22:24 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51570)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@linux.ibm.com>)
- id 1my9NS-0001sX-5L; Fri, 17 Dec 2021 04:18:10 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:50174)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@linux.ibm.com>)
- id 1my9NQ-0000jJ-CL; Fri, 17 Dec 2021 04:18:09 -0500
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1BH71erF017663; 
- Fri, 17 Dec 2021 09:18:03 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=fsgDETjS/+KdERY05SY1CvdLmE3+2/3B0+czWa/5t/w=;
- b=JLnE5N+mBfZB+ad14JitJdPSPAnoERpA/vBBkFPK5RLIEM+8fJLfnfrj6j1cP78xftP9
- TkP8qccUnt4W7OO7NFVKydEGyE1WwXCMRYUc3T75qiaNV6bb1ECLeRjI7rkidCad4a5f
- om4pULcs7oNllaiCr73/X0aV3qhFBvOwyDXhN42eIjaJriJRfQDOnZrgUeZyQ1Z7ttMP
- jmIkb5C4vUun79A4/p3P8RraKBEcCqlR/XPs8Ub2oJ2GuD3ILim5V8XJ7w5pkGMy0cwF
- vvi5IdZv1FyfD45Hs+Mt/RzO9yQV92sJsjm1tq6IzYNwyyTT3dC5326u2zTszFiQ/DAq 6g== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3cynfx2x7s-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 17 Dec 2021 09:18:03 +0000
-Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1BH9Gtlo019150;
- Fri, 17 Dec 2021 09:18:03 GMT
-Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.108])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3cynfx2x6g-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 17 Dec 2021 09:18:02 +0000
-Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
- by ppma05fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1BH96qlf015988;
- Fri, 17 Dec 2021 09:18:00 GMT
-Received: from b06avi18626390.portsmouth.uk.ibm.com
- (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
- by ppma05fra.de.ibm.com with ESMTP id 3cy78hpprd-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 17 Dec 2021 09:18:00 +0000
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com
- (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
- by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 1BH99r9T44171764
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 17 Dec 2021 09:09:53 GMT
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D9CDCA4060;
- Fri, 17 Dec 2021 09:17:56 +0000 (GMT)
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 2BCDDA4054;
- Fri, 17 Dec 2021 09:17:56 +0000 (GMT)
-Received: from [9.171.60.51] (unknown [9.171.60.51])
- by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Fri, 17 Dec 2021 09:17:56 +0000 (GMT)
-Message-ID: <9170c198-d5da-1d41-c1d1-81a0e3a8e634@linux.ibm.com>
-Date: Fri, 17 Dec 2021 10:17:55 +0100
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1my9Q8-0004bq-CU; Fri, 17 Dec 2021 04:20:56 -0500
+Received: from [2a00:1450:4864:20::32e] (port=35450
+ helo=mail-wm1-x32e.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1my9Px-00040l-Nw; Fri, 17 Dec 2021 04:20:47 -0500
+Received: by mail-wm1-x32e.google.com with SMTP id
+ bg2-20020a05600c3c8200b0034565c2be15so3612127wmb.0; 
+ Fri, 17 Dec 2021 01:20:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=5HfZjIoZUfFgeSRI7dQ3PlPOnvGyuQGMl2VXD7j//6c=;
+ b=HHvCVEW21I/s6S98hXB73ec9UCo1LLPe6Vhd8j4NVtqJk/0lqjwSp4z4zaMF74VLi2
+ ytOtb47lVyWoXK4xVXRGKzWAU8GhcCbgGtHBIQhar9RfKH84vXdRbLYK5+HjAgNTv2Sh
+ 1eBIJep1mOHAMt3L8BkzSy/p4nc8AZAaaxpgJe1KlIy0u3Ldy6R1D2dU8JrVlkJoFWDP
+ b0YzNxqNntMyntMsq/wZyIo/jctpoFOWppaTwxA5i/ds9Fw7r5xkJXOhc5vsKsNwqbtT
+ OznmUeBaJeT1HYtmzXI5d72BEbuMEqRCm/YnkoghtjXnS/RG9jzwG6doTCt7e0WrhHxK
+ JkCw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=5HfZjIoZUfFgeSRI7dQ3PlPOnvGyuQGMl2VXD7j//6c=;
+ b=hUdpCwWCs5sgBFQFh6c+gEhGCb8pbkxqmk8osMjq7A1/PxRE5IdfnMCwPG9PzHU0iU
+ dwN+Uj3WGsH5LNRBAHr82wNU/wVCi9XdhbsAjZT0GavPUG2kBCKm7qczccEbLhSqrjSP
+ zEBoSBJQa77ZgwrlXWRG3X4cPXqeK1o6rAwUlCdyaTqDzuAHijY7GsO3A4M7GskawaSc
+ 7ivAxFISMu9Oh/yKSm6IhlZsWBqFE5KpGh68dU1nU5Fq2CvEoOGjIJQ73KXDzn1BJjce
+ 2j0ROBv9eDHhr2jcABQzzygPXjY4kXQE0Poh7pR+ym9Xe3y03MYGpVjOB6unPFz4oKZb
+ Rn+Q==
+X-Gm-Message-State: AOAM533IuZJ1DLsDACY+ZOWhTVwg89aGPpPPuY/o2qgrT92soVUowUd7
+ RcRdL70sp6VySTyKsdF3qtY=
+X-Google-Smtp-Source: ABdhPJyg4rq5YuBwG7HDsXc9+Xj1CY2MXx0Xn4wEPefZloZ6zlMJxX9qEg4tEAtYQCRaxl5KJZvbZQ==
+X-Received: by 2002:a05:600c:296:: with SMTP id
+ 22mr8866063wmk.11.1639732843044; 
+ Fri, 17 Dec 2021 01:20:43 -0800 (PST)
+Received: from ?IPV6:2001:b07:add:ec09:c399:bc87:7b6c:fb2a?
+ ([2001:b07:add:ec09:c399:bc87:7b6c:fb2a])
+ by smtp.googlemail.com with ESMTPSA id s8sm7960585wra.9.2021.12.17.01.20.39
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 17 Dec 2021 01:20:42 -0800 (PST)
+Message-ID: <12dc17b7-7e79-39a8-2f96-a94d8a8b6f9d@redhat.com>
+Date: Fri, 17 Dec 2021 10:20:38 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH 00/12] s390x/pci: zPCI interpretation support
+ Thunderbird/91.2.0
+Subject: Re: [PATCH] hw/scsi: Fix scsi_bus_init_named() docstring
 Content-Language: en-US
-To: Matthew Rosato <mjrosato@linux.ibm.com>,
- Pierre Morel <pmorel@linux.ibm.com>, qemu-s390x@nongnu.org
-References: <20211207210425.150923-1-mjrosato@linux.ibm.com>
- <e1ba4cce-d6b9-bc86-9999-dc135046129d@linux.ibm.com>
- <6103b709-f29d-16f2-7fe6-f9a25dd85b89@linux.ibm.com>
-From: Christian Borntraeger <borntraeger@linux.ibm.com>
-In-Reply-To: <6103b709-f29d-16f2-7fe6-f9a25dd85b89@linux.ibm.com>
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20211122104744.1051554-1-f4bug@amsat.org>
+ <c411d129-cbb8-42e1-08fc-c10b081aae03@amsat.org>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <c411d129-cbb8-42e1-08fc-c10b081aae03@amsat.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: KtpZLSHHFDzVR5vn_e1ooCdKyH-QEW2y
-X-Proofpoint-ORIG-GUID: wuj4l0OYeTFV_gAr13E-x2bVQEvvEFPc
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2021-12-17_03,2021-12-16_01,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 mlxscore=0
- lowpriorityscore=0 phishscore=0 adultscore=0 spamscore=0
- priorityscore=1501 bulkscore=0 mlxlogscore=999 malwarescore=0
- suspectscore=0 impostorscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2110150000 definitions=main-2112170051
-Received-SPF: pass client-ip=148.163.156.1;
- envelope-from=borntraeger@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -36
-X-Spam_score: -3.7
-X-Spam_bar: ---
-X-Spam_report: (-3.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.716,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32e
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x32e.google.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
+X-Spam_bar: --
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-1.716,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -114,41 +94,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: farman@linux.ibm.com, kvm@vger.kernel.org, schnelle@linux.ibm.com,
- cohuck@redhat.com, richard.henderson@linaro.org, thuth@redhat.com,
- qemu-devel@nongnu.org, pasic@linux.ibm.com, alex.williamson@redhat.com,
- mst@redhat.com, pbonzini@redhat.com, david@redhat.com
+Cc: qemu-trivial@nongnu.org, Fam Zheng <fam@euphon.net>,
+ Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 12/15/21 11:29, Philippe Mathieu-Daudé wrote:
+> Hi Laurent,
+> 
+> This patch is reviewed, can it go via your trivial tree?
 
+Queued, thanks.
 
-Am 15.12.21 um 16:53 schrieb Matthew Rosato:
-> On 12/15/21 2:35 AM, Pierre Morel wrote:
+Paolo
+
+> On 11/22/21 11:47, Philippe Mathieu-Daudé wrote:
+>> Commit 739e95f5741 ("scsi: Replace scsi_bus_new() with
+>> scsi_bus_init(), scsi_bus_init_named()") forgot to rename
+>> scsi_bus_init() in the function documentation string.
 >>
+>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>> ---
+>>   include/hw/scsi/scsi.h | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
 >>
->> On 12/7/21 22:04, Matthew Rosato wrote:
->>> Note:  The first 3 patches of this series are included as pre-reqs, but
->>> should be pulled via a separate series.  Also, patch 5 is needed to
->>> support 5.16+ linux header-sync and was already done by Paolo but not
->>> merged yet so is thus included here as well.
->>>
->>> For QEMU, the majority of the work in enabling instruction interpretation
->>> is handled via new VFIO ioctls to SET the appropriate interpretation and
->>> interrupt forwarding modes, and to GET the function handle to use for
->>> interpretive execution.
->>>
->>> This series implements these new ioctls, as well as adding a new, optional
->>> 'intercept' parameter to zpci to request interpretation support not be used
->>> as well as an 'intassist' parameter to determine whether or not the
->>> firmware assist will be used for interrupt delivery or whether the host
->>> will be responsible for delivering all interrupts.
->>
->> In which circumstances do we have an added value by not using interrupt delivered by firmware?
+>> diff --git a/include/hw/scsi/scsi.h b/include/hw/scsi/scsi.h
+>> index a567a5ed86b..2ef80af6dca 100644
+>> --- a/include/hw/scsi/scsi.h
+>> +++ b/include/hw/scsi/scsi.h
+>> @@ -158,7 +158,7 @@ struct SCSIBus {
+>>    * provided by the caller. It is the caller's responsibility to make
+>>    * sure that name does not clash with the name of any other bus in the
+>>    * system. Unless you need the new bus to have a specific name, you
+>> - * should use scsi_bus_new() instead.
+>> + * should use scsi_bus_init() instead.
+>>    */
+>>   void scsi_bus_init_named(SCSIBus *bus, size_t bus_size, DeviceState *host,
+>>                            const SCSIBusInfo *info, const char *bus_name);
 >>
 > 
-> Disabling it can be a tool to debug and assist in problem determination, but that's about the only scenario I can think of where you would intentionally want to disable intassist.  Perhaps then it's not worth leaving in place.
-
-I would leave it in in case we run into problems. Things like the nomio parameter for the kernel have proven to be useful.
 
 
