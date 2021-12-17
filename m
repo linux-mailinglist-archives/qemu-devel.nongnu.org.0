@@ -2,69 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8982478CE8
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 Dec 2021 14:56:41 +0100 (CET)
-Received: from localhost ([::1]:56266 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AC54478CFA
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 Dec 2021 15:01:13 +0100 (CET)
+Received: from localhost ([::1]:36288 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1myDiy-0001al-Tm
-	for lists+qemu-devel@lfdr.de; Fri, 17 Dec 2021 08:56:40 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53938)
+	id 1myDnL-0007Et-04
+	for lists+qemu-devel@lfdr.de; Fri, 17 Dec 2021 09:01:11 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53964)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1myDYo-0005S7-CQ
- for qemu-devel@nongnu.org; Fri, 17 Dec 2021 08:46:16 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:38733)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1myDZ1-0005Xf-Ft
+ for qemu-devel@nongnu.org; Fri, 17 Dec 2021 08:46:29 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:34614)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1myDYm-00089G-Jl
- for qemu-devel@nongnu.org; Fri, 17 Dec 2021 08:46:10 -0500
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1myDYy-0008DV-8t
+ for qemu-devel@nongnu.org; Fri, 17 Dec 2021 08:46:23 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639748768;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=T2ftCLmTMpd2r2fk1Wt5K2/OoyY4a3QBDuQA8gpF9fQ=;
- b=Haj2IzkOuDh0DMKI9F1famKogvk841NSgypWozsVnvG136Qe1m9Z1JB8MbiYyjz6G64OLA
- /9zOzXHY3/hB+/d47qQEdp2bhpFGNoedUmsfvuaMR9j2D3yGrH4dMdIt/1144XXuQMxRHT
- sRiLp2LciMVOLsijB2KEKj0OD9IgdGo=
+ s=mimecast20190719; t=1639748779;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=Q4DhipH+tvhGTuTz2zHGGAmhkd/90Qz6w8UY4vmhcK4=;
+ b=WpxVp0Ygt+DEHleCp3LIN750+lQEyI/S5J1vvHgq16vS6K3EPRByyiqJOt6V042DF6fq9o
+ sc4xOCB0ubWU7YariiS55dO8FeVw37BhTMcv+a51CgLygme4fX6r6ax6rrm6RT2efoTTzK
+ hgCoOqYjYZY1emZyLrOZqkEq5AA6mKY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-517-jQ6zo_E7P-Gl4R6B0NqnXw-1; Fri, 17 Dec 2021 08:46:05 -0500
-X-MC-Unique: jQ6zo_E7P-Gl4R6B0NqnXw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-433-5Qzu9GBdNzWhTumoNgV4vQ-1; Fri, 17 Dec 2021 08:46:16 -0500
+X-MC-Unique: 5Qzu9GBdNzWhTumoNgV4vQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D0A728DD876;
- Fri, 17 Dec 2021 13:46:04 +0000 (UTC)
-Received: from redhat.com (unknown [10.22.32.60])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DCBFE610A7;
- Fri, 17 Dec 2021 13:46:01 +0000 (UTC)
-Date: Fri, 17 Dec 2021 13:45:58 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: [RFC qemu.qmp PATCH 17/24] Makefile: add build and publish targets
-Message-ID: <YbyUlrmexR77cbip@redhat.com>
-References: <20211215210634.3779791-1-jsnow@redhat.com>
- <20211215210634.3779791-18-jsnow@redhat.com>
- <YbsZe9A/Lf2g1Xk8@redhat.com>
- <CAFn=p-bPUsw19uW=gfzGBwT5zDm3t4QHCvzf0nJjbcwcOKkA=g@mail.gmail.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 944708042CC;
+ Fri, 17 Dec 2021 13:46:15 +0000 (UTC)
+Received: from t480s.redhat.com (unknown [10.39.193.204])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C4C8F4E2CB;
+ Fri, 17 Dec 2021 13:46:12 +0000 (UTC)
+From: David Hildenbrand <david@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 0/8] virtio-mem: Support "prealloc=on"
+Date: Fri, 17 Dec 2021 14:46:03 +0100
+Message-Id: <20211217134611.31172-1-david@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CAFn=p-bPUsw19uW=gfzGBwT5zDm3t4QHCvzf0nJjbcwcOKkA=g@mail.gmail.com>
-User-Agent: Mutt/2.1.3 (2021-09-10)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -85,87 +74,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Eduardo Habkost <eduardo@habkost.net>, Beraldo Leal <bleal@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Cleber Rosa <crosa@redhat.com>
+Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>, Gavin Shan <gshan@redhat.com>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ =?UTF-8?q?Michal=20Pr=C3=ADvozn=C3=ADk?= <mprivozn@redhat.com>,
+ David Hildenbrand <david@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Sebastien Boeuf <sebastien.boeuf@intel.com>,
+ Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Hui Zhu <teawater@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Dec 16, 2021 at 06:35:23PM -0500, John Snow wrote:
-> On Thu, Dec 16, 2021 at 5:48 AM Daniel P. Berrangé <berrange@redhat.com>
-> wrote:
-> 
-> > On Wed, Dec 15, 2021 at 04:06:27PM -0500, John Snow wrote:
-> > > Signed-off-by: John Snow <jsnow@redhat.com>
-> > > ---
-> > >  Makefile | 32 ++++++++++++++++++++++++++++++++
-> > >  1 file changed, 32 insertions(+)
-> > >
-> > > diff --git a/Makefile b/Makefile
-> > > index 97d737a..81bfca8 100644
-> > > --- a/Makefile
-> > > +++ b/Makefile
-> > > @@ -110,3 +110,35 @@ distclean: clean
-> > >       rm -f .coverage .coverage.*
-> > >       rm -rf htmlcov/
-> > >       rm -rf test-results/
-> > > +
-> > > +.PHONY: pristine
-> > > +pristine:
-> > > +     @git diff-files --quiet --ignore-submodules -- || \
-> > > +             (echo "You have unstaged changes."; exit 1)
-> > > +     @git diff-index --cached --quiet HEAD --ignore-submodules -- || \
-> > > +             (echo "Your index contains uncommitted changes."; exit 1)
-> > > +     @[ -z "$(shell git ls-files -o)" ] || \
-> > > +             (echo "You have untracked files: $(shell git ls-files
-> > -o)"; exit 1)
-> > > +
-> > > +dist: setup.cfg setup.py Makefile README.rst
-> > > +     python3 -m build
-> > > +     @touch dist
-> > > +
-> > > +.PHONY: pre-publish
-> > > +pre-publish: pristine dist
-> > > +     @git describe --exact-match 2>/dev/null || \
-> > > +             (echo -e "\033[0;31mThere is no annotated tag for this
-> > commit.\033[0m"; exit 1)
-> > > +     python3 -m twine check --strict dist/*
-> > > +     git push -v --atomic --follow-tags --dry-run
-> > > +
-> > > +.PHONY: publish
-> > > +publish: pre-publish
-> > > +     # Set the username via TWINE_USERNAME.
-> > > +     # Set the password via TWINE_PASSWORD.
-> > > +     # Set the pkg repository via TWINE_REPOSITORY.
-> > > +     python3 -m twine upload --verbose dist/*
-> > > +     git push -v --atomic --follow-tags
-> > > +
-> > > +.PHONY: publish-test
-> > > +publish-test: pre-publish
-> > > +     python3 -m twine upload --verbose -r testpypi dist/*
-> >
-> > It doesn't feel very pythonic to have a makefile in the project.
-> >
-> > If we want some helpers for publishing releases, I would have
-> > expected to see a python script  eg scripts/publish.py
-> >
-> >
-> Eh, Python folks use Makefiles too. I've been using these little Makefile
-> targets for hobby things for a while and I had them laying around and ready
-> to go. I have no strong need to "upgrade" to python scripts for these right
-> now, unless there's some extra features you want to see.
+Based-on: <20211217134039.29670-1-david@redhat.com>
 
-Using make means you have to worry about portability across different
-impls of make and different impls of shell. Using python means your
-python project is portable to anywhere that python runs.
+Support preallocation of memory to make virtio-mem safe to use with
+scarce memory resources such as hugetlb. Before acknowledging a plug
+request from the guest, we'll try preallcoating memory. If that fails,
+we'll fail the request gracefully and warn the usr once.
 
-Regards,
-Daniel
+To fully support huge pages for shared memory, we'll have to adjust shared
+memory users, such as virtiofsd, to map guest memory via MAP_NORESERVE as
+well, because otherwise, they'll end up overwriting the "reserve=off"
+decision made by QEMU and try reserving huge pages for the sparse memory
+region.
+
+In the future, we might want to process guest requests, including
+preallocating memory, asynchronously via a dedicated iothread.
+
+[1] https://lkml.kernel.org/r/20211004120208.7409-1-david@redhat.com
+
+v1 -> v2:
+- Rebased
+- Added RBs
+
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Igor Mammedov <imammedo@redhat.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>
+Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Cc: Daniel P. Berrangé <berrange@redhat.com>
+Cc: Gavin Shan <gshan@redhat.com>
+Cc: Hui Zhu <teawater@gmail.com>
+Cc: Sebastien Boeuf <sebastien.boeuf@intel.com>
+Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
+Cc: Michal Prívozník <mprivozn@redhat.com>
+
+David Hildenbrand (8):
+  util/oslib-posix: Let touch_all_pages() return an error
+  util/oslib-posix: Support MADV_POPULATE_WRITE for os_mem_prealloc()
+  util/oslib-posix: Introduce and use MemsetContext for
+    touch_all_pages()
+  util/oslib-posix: Don't create too many threads with small memory or
+    little pages
+  util/oslib-posix: Avoid creating a single thread with
+    MADV_POPULATE_WRITE
+  util/oslib-posix: Support concurrent os_mem_prealloc() invocation
+  util/oslib-posix: Forward SIGBUS to MCE handler under Linux
+  virtio-mem: Support "prealloc=on" option
+
+ hw/virtio/virtio-mem.c         |  39 +++++-
+ include/hw/virtio/virtio-mem.h |   4 +
+ include/qemu/osdep.h           |   7 +
+ softmmu/cpus.c                 |   4 +
+ util/oslib-posix.c             | 231 +++++++++++++++++++++++++--------
+ 5 files changed, 226 insertions(+), 59 deletions(-)
+
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+2.31.1
 
 
