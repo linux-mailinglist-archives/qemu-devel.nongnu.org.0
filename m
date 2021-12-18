@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF11D479C73
-	for <lists+qemu-devel@lfdr.de>; Sat, 18 Dec 2021 20:55:48 +0100 (CET)
-Received: from localhost ([::1]:43582 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48458479C7C
+	for <lists+qemu-devel@lfdr.de>; Sat, 18 Dec 2021 21:02:29 +0100 (CET)
+Received: from localhost ([::1]:58530 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1myfo4-0004oC-2f
-	for lists+qemu-devel@lfdr.de; Sat, 18 Dec 2021 14:55:48 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38780)
+	id 1myfuW-0006fN-Ds
+	for lists+qemu-devel@lfdr.de; Sat, 18 Dec 2021 15:02:28 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38794)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1myfbm-0000y2-Ho
- for qemu-devel@nongnu.org; Sat, 18 Dec 2021 14:43:06 -0500
-Received: from [2607:f8b0:4864:20::636] (port=34491
- helo=mail-pl1-x636.google.com)
+ id 1myfbn-00011P-8Q
+ for qemu-devel@nongnu.org; Sat, 18 Dec 2021 14:43:07 -0500
+Received: from [2607:f8b0:4864:20::42e] (port=40827
+ helo=mail-pf1-x42e.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1myfbk-0003Ur-Th
+ id 1myfbl-0003V0-H0
  for qemu-devel@nongnu.org; Sat, 18 Dec 2021 14:43:06 -0500
-Received: by mail-pl1-x636.google.com with SMTP id x15so4371842plg.1
- for <qemu-devel@nongnu.org>; Sat, 18 Dec 2021 11:43:04 -0800 (PST)
+Received: by mail-pf1-x42e.google.com with SMTP id z6so5122913pfe.7
+ for <qemu-devel@nongnu.org>; Sat, 18 Dec 2021 11:43:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=My4hA1ygdO+oZr4YTamroxkNdNl0FZ1DhEZu3fZGnqk=;
- b=OlCUk6IP03wUu89B15+vnUdj1EFBI2grEqbhFyDCjfHBY73m3UE04MTU01D44BCz+/
- 4rQzw7m09grg3m6FJRudt0CyN7waaXdy6vB7ms+mjAOGo/Uurmcxc6N4Rn9DqS10YUUM
- a8fvCItWYGVb2QBS/x+fvb2v/6lKTHaeQcXmSWWjrWG81l0Jb2pdkQBXbC4Kx4g0P3Jb
- r8yFQ2tuBsK8vdV7Cc5XK9L9lW9s3QG9QFWWi9SfsedtXV00rYAkiNZlGvrZoicSKXZw
- mwHLfOoWbIoYEXX0vWxQhn4sk2IKCWojgEAng3SdQrcMg3UPuFa00qLQ7J4OFe4ULyTD
- GVNA==
+ bh=sZ9K7tJZ0dbIFsAXLmbrvSrGl7nkW2G5YKXIJR+v6Hk=;
+ b=pM/U19VnWDw/owYGiw2IPyhljV9HK25YkuKQ048x+MUlzX9bw4wgm8B+re/ezV/iMj
+ toLdD1jiMomj8I5+iNAVi9OopqkpmfD1Z0ICno3il8JaNCZH2WPBnUcrTtTn4VuSlc2Q
+ /jYygIWkbo86gWzW7ljDdg+o6+GdUH8DDSauqv3beJ0hqrIDJC3I9IrKa/EYw2AuVPlH
+ KLEcADgssCCJqHndPD+i3AcMjQyK5m+mqJzNOB5W7B+WUg2/3xGQQHC1NwauwHuxa0YJ
+ ZW/2rLlBTBTQF9yPHL8X+CozwGdL/PCXVlkzE0e02qeE30p5AcSCNHnmhONg5lLy7nhw
+ djJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=My4hA1ygdO+oZr4YTamroxkNdNl0FZ1DhEZu3fZGnqk=;
- b=slXsW1SPZABx8WlxS+inF7IaAB3Jl/VOvJ6JWOqeGgBmQ1XbX93wTvOuXE1e/FHqxq
- ZtWgEESBRZ3uWZssA6tPH3/xlGQPOqV6o+rAEFKXNN0vzKyiEHFF4sVzAdILjvEE0RPh
- 4Sx04FaT7kBK3VbRACHESorbteKkynZkbH0xC0F988qHdsaEH5tzbyab6gQSHLXEf0XY
- c+eQ13JBAKAKGJ+ycYw0Yknkqm6E0HGU9gfYL6Gk4j1iVoOhmvetIlwR5NuVeVkCph1A
- ka7uhfM7yf2hblGnGA7E/94F1tg5SB7Z1KTZ/qOw+bpPwoXoGRb/Uqtf/zFZWrTzarHK
- YGzA==
-X-Gm-Message-State: AOAM533nEvPExJthM229JDBqEBV2g9ogA0lkNmNSvTTcT7elIs5fM5SV
- Hk6zgcxEtXlpYAWbuiu9ZcMvVb2cdO0Kyg==
-X-Google-Smtp-Source: ABdhPJzG5HpefEevMBWcYUMfXW1nW9nrKA/dfYkjIJa+jiuOmL1ZLvczZ1UjdXmjaEvMZ2eLgC06tw==
-X-Received: by 2002:a17:90a:4dcc:: with SMTP id
- r12mr18977877pjl.13.1639856583698; 
- Sat, 18 Dec 2021 11:43:03 -0800 (PST)
+ bh=sZ9K7tJZ0dbIFsAXLmbrvSrGl7nkW2G5YKXIJR+v6Hk=;
+ b=eOquJAyKTpXvS6CPI8rSvzYih82Lymm8xPOxOYldNTAwxeatGbU5XB1qISZAzxBEdu
+ 3zG0eMp+WihBlpRQXzi+/pGAJ2iEKrvnfFS5rsMcgFpaUE5NRNk986k4YIi91swx0lo1
+ 14ix0J2ICZko/IlVXgywdyMftPXH1z+5rWgkbTMoWY1S43MIWQylbFHK8tI8X6oF425G
+ RUi2YFp+LAvo5LunlC6yEdqXVI425T7tjiPsFzW7ritmYqJ/96qR2WTXc+ir2wIC0czD
+ 2gpMx5HBi1HJLamti06vS+dcSAdXOA0yNSFyOA/beLHprOeBW/BRdFXoEzO39zojBfYQ
+ h1hw==
+X-Gm-Message-State: AOAM532OK2XxwXJuQQ8gYSvtpP8KD5uzhwW8SpTU4YkOP9kH9EPSocCy
+ vaa9kuhWfuLuIgT7kS+ZWuq/9CQBQajSnQ==
+X-Google-Smtp-Source: ABdhPJxk4sXq2VQwKY2i7J+1J3OsH3vAr5Bz+k6biWtFwtD2GnhRl9s2j5VL72oMf9ECbfKQu3pGtA==
+X-Received: by 2002:a05:6a00:ac6:b029:374:a33b:a74 with SMTP id
+ c6-20020a056a000ac6b0290374a33b0a74mr8682285pfl.51.1639856584251; 
+ Sat, 18 Dec 2021 11:43:04 -0800 (PST)
 Received: from localhost.localdomain (174-21-75-75.tukw.qwest.net.
  [174.21.75.75])
  by smtp.gmail.com with ESMTPSA id g19sm10645919pfc.145.2021.12.18.11.43.03
@@ -57,18 +57,18 @@ Received: from localhost.localdomain (174-21-75-75.tukw.qwest.net.
  Sat, 18 Dec 2021 11:43:03 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 19/20] tcg/i386: Implement more logical operations for avx512
-Date: Sat, 18 Dec 2021 11:42:49 -0800
-Message-Id: <20211218194250.247633-20-richard.henderson@linaro.org>
+Subject: [PATCH 20/20] tcg/i386: Implement bitsel for avx512
+Date: Sat, 18 Dec 2021 11:42:50 -0800
+Message-Id: <20211218194250.247633-21-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211218194250.247633-1-richard.henderson@linaro.org>
 References: <20211218194250.247633-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::636
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42e
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x636.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42e.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -91,106 +91,78 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The general ternary logic operation can implement
-NOT, ORC, NAND, NOR, EQV.
+The general ternary logic operation can implement BITSEL.
+Funnel the 4-operand operation into three variants of the
+3-operand instruction, depending on input operand overlap.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/i386/tcg-target.h     | 10 +++++-----
- tcg/i386/tcg-target.c.inc | 34 ++++++++++++++++++++++++++++++++++
- 2 files changed, 39 insertions(+), 5 deletions(-)
+ tcg/i386/tcg-target.h     |  2 +-
+ tcg/i386/tcg-target.c.inc | 20 +++++++++++++++++++-
+ 2 files changed, 20 insertions(+), 2 deletions(-)
 
 diff --git a/tcg/i386/tcg-target.h b/tcg/i386/tcg-target.h
-index 841b1febab..433a632d6a 100644
+index 433a632d6a..ae3612d745 100644
 --- a/tcg/i386/tcg-target.h
 +++ b/tcg/i386/tcg-target.h
-@@ -188,11 +188,11 @@ extern bool have_movbe;
- #define TCG_TARGET_HAS_v256             have_avx2
+@@ -204,7 +204,7 @@ extern bool have_movbe;
+ #define TCG_TARGET_HAS_mul_vec          1
+ #define TCG_TARGET_HAS_sat_vec          1
+ #define TCG_TARGET_HAS_minmax_vec       1
+-#define TCG_TARGET_HAS_bitsel_vec       0
++#define TCG_TARGET_HAS_bitsel_vec       have_avx512vl
+ #define TCG_TARGET_HAS_cmpsel_vec       -1
  
- #define TCG_TARGET_HAS_andc_vec         1
--#define TCG_TARGET_HAS_orc_vec          0
--#define TCG_TARGET_HAS_nand_vec         0
--#define TCG_TARGET_HAS_nor_vec          0
--#define TCG_TARGET_HAS_eqv_vec          0
--#define TCG_TARGET_HAS_not_vec          0
-+#define TCG_TARGET_HAS_orc_vec          have_avx512vl
-+#define TCG_TARGET_HAS_nand_vec         have_avx512vl
-+#define TCG_TARGET_HAS_nor_vec          have_avx512vl
-+#define TCG_TARGET_HAS_eqv_vec          have_avx512vl
-+#define TCG_TARGET_HAS_not_vec          have_avx512vl
- #define TCG_TARGET_HAS_neg_vec          0
- #define TCG_TARGET_HAS_abs_vec          1
- #define TCG_TARGET_HAS_roti_vec         have_avx512vl
+ #define TCG_TARGET_deposit_i32_valid(ofs, len) \
 diff --git a/tcg/i386/tcg-target.c.inc b/tcg/i386/tcg-target.c.inc
-index f982b6e615..86c66f9522 100644
+index 86c66f9522..be88ccae4d 100644
 --- a/tcg/i386/tcg-target.c.inc
 +++ b/tcg/i386/tcg-target.c.inc
-@@ -447,6 +447,7 @@ static bool tcg_target_const_match(int64_t val, TCGType type, int ct)
- #define OPC_VPSRLVW     (0x10 | P_EXT38 | P_DATA16 | P_VEXW | P_EVEX)
- #define OPC_VPSRLVD     (0x45 | P_EXT38 | P_DATA16)
- #define OPC_VPSRLVQ     (0x45 | P_EXT38 | P_DATA16 | P_VEXW)
-+#define OPC_VPTERNLOGQ  (0x25 | P_EXT3A | P_DATA16 | P_VEXW | P_EVEX)
- #define OPC_VZEROUPPER  (0x77 | P_EXT)
- #define OPC_XCHG_ax_r32	(0x90)
+@@ -2805,7 +2805,7 @@ static void tcg_out_vec_op(TCGContext *s, TCGOpcode opc,
  
-@@ -3004,6 +3005,29 @@ static void tcg_out_vec_op(TCGContext *s, TCGOpcode opc,
-         insn = vpshldi_insn[vece];
-         sub = args[3];
+     TCGType type = vecl + TCG_TYPE_V64;
+     int insn, sub;
+-    TCGArg a0, a1, a2;
++    TCGArg a0, a1, a2, a3;
+ 
+     a0 = args[0];
+     a1 = args[1];
+@@ -3028,6 +3028,22 @@ static void tcg_out_vec_op(TCGContext *s, TCGOpcode opc,
+         sub = 0xdd; /* orB!C */
          goto gen_simd_imm8;
-+
-+    case INDEX_op_not_vec:
+ 
++    case INDEX_op_bitsel_vec:
 +        insn = OPC_VPTERNLOGQ;
-+        a2 = a1;
-+        sub = 0x33; /* !B */
-+        goto gen_simd_imm8;
-+    case INDEX_op_nor_vec:
-+        insn = OPC_VPTERNLOGQ;
-+        sub = 0x11; /* norCB */
-+        goto gen_simd_imm8;
-+    case INDEX_op_nand_vec:
-+        insn = OPC_VPTERNLOGQ;
-+        sub = 0x77; /* nandCB */
-+        goto gen_simd_imm8;
-+    case INDEX_op_eqv_vec:
-+        insn = OPC_VPTERNLOGQ;
-+        sub = 0x99; /* xnorCB */
-+        goto gen_simd_imm8;
-+    case INDEX_op_orc_vec:
-+        insn = OPC_VPTERNLOGQ;
-+        sub = 0xdd; /* orB!C */
++        a3 = args[3];
++        if (a0 == a1) {
++            a1 = a2;
++            a2 = a3;
++            sub = 0xca; /* A?B:C */
++        } else if (a0 == a2) {
++            a2 = a3;
++            sub = 0xe2; /* B?A:C */
++        } else {
++            tcg_out_mov(s, type, a0, a3);
++            sub = 0xb8; /* B?C:A */
++        }
 +        goto gen_simd_imm8;
 +
      gen_simd_imm8:
          tcg_debug_assert(insn != OPC_UD2);
          if (type == TCG_TYPE_V256) {
-@@ -3224,6 +3248,10 @@ static TCGConstraintSetIndex tcg_target_op_def(TCGOpcode op)
-     case INDEX_op_or_vec:
-     case INDEX_op_xor_vec:
-     case INDEX_op_andc_vec:
-+    case INDEX_op_orc_vec:
-+    case INDEX_op_nand_vec:
-+    case INDEX_op_nor_vec:
-+    case INDEX_op_eqv_vec:
-     case INDEX_op_ssadd_vec:
-     case INDEX_op_usadd_vec:
-     case INDEX_op_sssub_vec:
-@@ -3256,6 +3284,7 @@ static TCGConstraintSetIndex tcg_target_op_def(TCGOpcode op)
+@@ -3296,6 +3312,7 @@ static TCGConstraintSetIndex tcg_target_op_def(TCGOpcode op)
+     case INDEX_op_x86_vpshrdv_vec:
+         return C_O1_I3(x, 0, x, x);
  
-     case INDEX_op_abs_vec:
-     case INDEX_op_dup_vec:
-+    case INDEX_op_not_vec:
-     case INDEX_op_shli_vec:
-     case INDEX_op_shri_vec:
-     case INDEX_op_sari_vec:
-@@ -3284,6 +3313,11 @@ int tcg_can_emit_vec_op(TCGOpcode opc, TCGType type, unsigned vece)
-     case INDEX_op_or_vec:
-     case INDEX_op_xor_vec:
-     case INDEX_op_andc_vec:
-+    case INDEX_op_orc_vec:
-+    case INDEX_op_nand_vec:
-+    case INDEX_op_nor_vec:
-+    case INDEX_op_eqv_vec:
-+    case INDEX_op_not_vec:
++    case INDEX_op_bitsel_vec:
+     case INDEX_op_x86_vpblendvb_vec:
+         return C_O1_I3(x, x, x, x);
+ 
+@@ -3318,6 +3335,7 @@ int tcg_can_emit_vec_op(TCGOpcode opc, TCGType type, unsigned vece)
+     case INDEX_op_nor_vec:
+     case INDEX_op_eqv_vec:
+     case INDEX_op_not_vec:
++    case INDEX_op_bitsel_vec:
          return 1;
      case INDEX_op_cmp_vec:
      case INDEX_op_cmpsel_vec:
