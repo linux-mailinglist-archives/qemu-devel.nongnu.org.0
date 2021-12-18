@@ -2,79 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAA71479AF8
-	for <lists+qemu-devel@lfdr.de>; Sat, 18 Dec 2021 14:15:19 +0100 (CET)
-Received: from localhost ([::1]:49944 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56923479B6F
+	for <lists+qemu-devel@lfdr.de>; Sat, 18 Dec 2021 15:41:05 +0100 (CET)
+Received: from localhost ([::1]:37996 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1myZYU-0001oV-MT
-	for lists+qemu-devel@lfdr.de; Sat, 18 Dec 2021 08:15:18 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52090)
+	id 1myatS-0005DU-TI
+	for lists+qemu-devel@lfdr.de; Sat, 18 Dec 2021 09:41:03 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39986)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1myZOg-0005UK-Qj; Sat, 18 Dec 2021 08:05:10 -0500
-Received: from [2a00:1450:4864:20::430] (port=46995
- helo=mail-wr1-x430.google.com)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1myarL-0002vM-A8
+ for qemu-devel@nongnu.org; Sat, 18 Dec 2021 09:38:51 -0500
+Received: from [2607:f8b0:4864:20::102d] (port=37662
+ helo=mail-pj1-x102d.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1myZOe-0003E3-Oa; Sat, 18 Dec 2021 08:05:10 -0500
-Received: by mail-wr1-x430.google.com with SMTP id i22so9312299wrb.13;
- Sat, 18 Dec 2021 05:05:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=8/1cFQTZGSmutFWyDr1r0PKcIlyY0ksRKQJO1ZCewVA=;
- b=HI1A2NgnIVCuzXwDavJARF8J3mH+LCFBBl1keRinrAJSUQuEagYX5kVJ/+hQGxWZqI
- S/jgykCdIUYD8hm5pKIFXmHXQjSz7Wflx4rtPK8acRNsXfTW66uO49rnTT1BYOpMYJ91
- wK+G3BDaUfXSZGocRDvK7qlf9D5tK/tsKLaYiHoISPkOC4NppAqojRpW24NrjbOMMhUr
- DfzYY9L5lEyhQLUJmVfrcAMYO8xfiA68hCNU1a0dTdveeZqgX5W1VDF5GTXoGYx2vaPk
- +x6VFlH8c/0XYvHBsEcc/0G3RZp/pTERQk31Y/HmnQn3yCGKtaE6GKzgZchI1CVJZUP6
- F2QA==
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1myarJ-0003pO-Dv
+ for qemu-devel@nongnu.org; Sat, 18 Dec 2021 09:38:51 -0500
+Received: by mail-pj1-x102d.google.com with SMTP id
+ y16-20020a17090a6c9000b001b13ffaa625so5959695pjj.2
+ for <qemu-devel@nongnu.org>; Sat, 18 Dec 2021 06:38:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
+ h=from:date:to:subject:message-id:user-agent:mime-version;
+ bh=YxlxodGazJvVjyxqdWA4wd2eD96P5f9YNQu2ivcAkdk=;
+ b=qN+GKjNFDPDEp5Ef3+1rJwKRWfUwShhMmOCxnNPHjpEI3Ekp9vIaQrO7DBmteXyf/3
+ goA/rQgNuLuT3SQmMBOegwxTd9QOzy0Vj7uCDd4erANPlLMjEprGO1I2Pn+GOf0bQ6jK
+ Ybp3M1lIYUvHGCuPUf6yRSI4JpZMWBFLuwTLupAHY+CYlG8R4L11kUoUh4zNFmujp3jV
+ Z5JOUjT+y7rBQVsuQQphBRW/FKpI5zG/k36cSLgGmKb+CVOQdSV5i6IkGTEiKi8HWWNR
+ eerxO1+bk2gu3gJwJmYgFbDt7vXzrhfKp8sNkxi49uAc2LntEsKp5nWYjUZKgalrFMH+
+ vMDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=8/1cFQTZGSmutFWyDr1r0PKcIlyY0ksRKQJO1ZCewVA=;
- b=W9DDOcYOQ6CnKvoalwWhvlAwhQ9oEOgX0I48FCh/WOMGn+LKtyo41klJLeEP0Sf9hH
- OqLOJ2atmONPawofOEkoCcWHmemmoKgzgCZd5BkuGPXWu/7A01N50BIF7yqgDUaU+4/y
- AWhW6tZeAgR7/nw4lM+ZqxORmbD0ZaUAQs7YH0EHsE27mFS83v3YGSksR+F6I2gRsLkf
- rmyzjHYeEcMR4udMNgNTwpeUNsRUyPiEOtRrexVaqRDnEr5V1t/qwJ+h5ySC0UKRUMLJ
- lRan1xR+DG5n+0d8TjhTbwhNyVRpSz710+//N7QL4j7BCyQDcXtfz1zo1UuBluck2Pmi
- DzeA==
-X-Gm-Message-State: AOAM533xpZ29sArHpHqlnxbEhbgoGouqZdUuJ+oHRF7dJ1I0BfQWXVca
- TdrQ5aJoRh5K1X7dThga4ndULR/IOoU=
-X-Google-Smtp-Source: ABdhPJzinvdzh16oEvDcoKPyGLRL4VlpZWXSHHQeFx8690Y3ZRi0z4BitHYtQ/sL/2YBJelq3ljFvw==
-X-Received: by 2002:adf:d843:: with SMTP id k3mr466019wrl.303.1639832703030;
- Sat, 18 Dec 2021 05:05:03 -0800 (PST)
-Received: from x1w.. (174.red-83-50-185.dynamicip.rima-tde.net.
- [83.50.185.174])
- by smtp.gmail.com with ESMTPSA id m17sm9929469wrw.11.2021.12.18.05.05.02
+ h=x-gm-message-state:from:date:to:subject:message-id:user-agent
+ :mime-version;
+ bh=YxlxodGazJvVjyxqdWA4wd2eD96P5f9YNQu2ivcAkdk=;
+ b=akkceV2TYqWxXg6Y7Ml4fA0RHIb03b0lfHZD5Bij7L06/f1hyYK97USyQUgnAeSe+v
+ wD606/n29G5aTrU4o/Qdjm51lPD2yxwFHS9uEGjUbNelj8WsogkoZMW/+Ex/wckCJGZ0
+ MI09OHnIOB/6WSlmlUFk9mg15ZypsGHckqx4cPNwA00NLy+iRCkr8k07mm17i7VzlzaH
+ 7yZisZflZAVmBmIrDRDECpBJWP6TkdaqsjYDahGjRPwl+PRKngO0Yxn18mswyCa3JQ7w
+ kegCTdN9SMA5S58MSjqGo0NAn7RJ9Bf4OO9tzV5VatxfbtGvlgjqMEzuERhfGuKbq77+
+ nG6w==
+X-Gm-Message-State: AOAM5335E04El7GrRqI/vPGPH8H9W7VQUqUkX7VTcdrHY0ASiVAq5y2Z
+ mceoA/PDd1n1t6U0OA1zyfdyC4ASegS9hA==
+X-Google-Smtp-Source: ABdhPJwchhyZ5QorG8SpZLZ7UeGCPrpa1ifoxrHKkFX8BHJFLMo/a4yIprU+RqIfN3EsajTFPplCGA==
+X-Received: by 2002:a17:902:e891:b0:148:a4e1:4fb2 with SMTP id
+ w17-20020a170902e89100b00148a4e14fb2mr8171139plg.131.1639838327003; 
+ Sat, 18 Dec 2021 06:38:47 -0800 (PST)
+Received: from anisinha-lenovo ([115.96.121.67])
+ by smtp.googlemail.com with ESMTPSA id lb4sm16283025pjb.18.2021.12.18.06.38.45
+ for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 18 Dec 2021 05:05:02 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+ Sat, 18 Dec 2021 06:38:46 -0800 (PST)
+From: Ani Sinha <ani@anisinha.ca>
+X-Google-Original-From: Ani Sinha <anisinha@anisinha.ca>
+Date: Sat, 18 Dec 2021 20:08:42 +0530 (IST)
+X-X-Sender: anisinha@anisinha-lenovo
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 5/5] hw/input/pckbd: Open-code i8042_setup_a20_line()
- wrapper
-Date: Sat, 18 Dec 2021 14:04:37 +0100
-Message-Id: <20211218130437.1516929-6-f4bug@amsat.org>
-X-Mailer: git-send-email 2.33.1
-In-Reply-To: <20211218130437.1516929-1-f4bug@amsat.org>
-References: <20211218130437.1516929-1-f4bug@amsat.org>
+Subject: build qemu on Monterey?
+Message-ID: <alpine.DEB.2.22.394.2112182006430.46303@anisinha-lenovo>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::430
+Content-Type: text/plain; charset=US-ASCII
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102d
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x430.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: none client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=ani@anisinha.ca; helo=mail-pj1-x102d.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,68 +85,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>,
- Peter Maydell <peter.maydell@linaro.org>, qemu-trivial@nongnu.org,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Yanan Wang <wangyanan55@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since the named GPIO lines are a "public" interface to the device,
-we can directly call qdev_connect_gpio_out_named(), making it
-consistent with how the other A20 input source (port92) is wired.
+Hi :
+Has anyone tried this? Yes, I know about
+https://wiki.qemu.org/Hosts/Mac
 
-Suggested-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- include/hw/input/i8042.h | 1 -
- hw/i386/pc.c             | 3 ++-
- hw/input/pckbd.c         | 5 -----
- 3 files changed, 2 insertions(+), 7 deletions(-)
+but I am getting
 
-diff --git a/include/hw/input/i8042.h b/include/hw/input/i8042.h
-index 1d90432daef..1cd53b8d221 100644
---- a/include/hw/input/i8042.h
-+++ b/include/hw/input/i8042.h
-@@ -21,6 +21,5 @@ void i8042_mm_init(qemu_irq kbd_irq, qemu_irq mouse_irq,
-                    MemoryRegion *region, ram_addr_t size,
-                    hwaddr mask);
- void i8042_isa_mouse_fake_event(ISAKBDState *isa);
--void i8042_setup_a20_line(ISADevice *dev, qemu_irq a20_out);
- 
- #endif /* HW_INPUT_I8042_H */
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index a2ef40ecbc2..e2f7cd4aec6 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -1045,7 +1045,8 @@ static void pc_superio_init(ISABus *isa_bus, bool create_fdctrl, bool no_vmport)
-     port92 = isa_create_simple(isa_bus, TYPE_PORT92);
- 
-     a20_line = qemu_allocate_irqs(handle_a20_line_change, first_cpu, 2);
--    i8042_setup_a20_line(i8042, a20_line[0]);
-+    qdev_connect_gpio_out_named(DEVICE(i8042),
-+                                I8042_A20_LINE, 0, a20_line[0]);
-     qdev_connect_gpio_out_named(DEVICE(port92),
-                                 PORT92_A20_LINE, 0, a20_line[1]);
-     g_free(a20_line);
-diff --git a/hw/input/pckbd.c b/hw/input/pckbd.c
-index baba62f357a..7fd4477d742 100644
---- a/hw/input/pckbd.c
-+++ b/hw/input/pckbd.c
-@@ -680,11 +680,6 @@ void i8042_isa_mouse_fake_event(ISAKBDState *isa)
-     ps2_mouse_fake_event(s->mouse);
- }
- 
--void i8042_setup_a20_line(ISADevice *dev, qemu_irq a20_out)
--{
--    qdev_connect_gpio_out_named(DEVICE(dev), I8042_A20_LINE, 0, a20_out);
--}
--
- static const VMStateDescription vmstate_kbd_isa = {
-     .name = "pckbd",
-     .version_id = 3,
--- 
-2.33.1
+$ ./configure --target-list=x86_64-softmmu
+Using './build' as the directory for build output
+Disabling PIE due to missing toolchain support
 
+ERROR: glib-2.56 gthread-2.0 is required to compile QEMU
+
+when glib is already installed using brew.
+
+Any ideas?
+
+thanks,
 
