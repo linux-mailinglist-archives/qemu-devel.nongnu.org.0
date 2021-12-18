@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5967479C70
-	for <lists+qemu-devel@lfdr.de>; Sat, 18 Dec 2021 20:53:19 +0100 (CET)
-Received: from localhost ([::1]:37114 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57C50479C60
+	for <lists+qemu-devel@lfdr.de>; Sat, 18 Dec 2021 20:45:53 +0100 (CET)
+Received: from localhost ([::1]:44892 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1myfld-0000VC-HF
-	for lists+qemu-devel@lfdr.de; Sat, 18 Dec 2021 14:53:18 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38544)
+	id 1myfeS-0003Qi-Es
+	for lists+qemu-devel@lfdr.de; Sat, 18 Dec 2021 14:45:52 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38562)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1myfbd-0000SH-4t
+ id 1myfbd-0000U1-OE
  for qemu-devel@nongnu.org; Sat, 18 Dec 2021 14:42:57 -0500
-Received: from [2607:f8b0:4864:20::635] (port=46837
- helo=mail-pl1-x635.google.com)
+Received: from [2607:f8b0:4864:20::633] (port=37441
+ helo=mail-pl1-x633.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1myfbb-0003Rt-NA
- for qemu-devel@nongnu.org; Sat, 18 Dec 2021 14:42:56 -0500
-Received: by mail-pl1-x635.google.com with SMTP id p18so4740603pld.13
+ id 1myfbc-0003SI-6v
+ for qemu-devel@nongnu.org; Sat, 18 Dec 2021 14:42:57 -0500
+Received: by mail-pl1-x633.google.com with SMTP id n8so4775159plf.4
  for <qemu-devel@nongnu.org>; Sat, 18 Dec 2021 11:42:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=S0JZ9ByDKVmFQ12ne9IM9idva919FSGMdL7rWL2jTDQ=;
- b=a3FSJF4b6TDSpmegrKdIj7mtTDwhnEXg9pFYZB8qffelpxW3vpkE6UeQYLsM5uVggN
- 44/833DnlhZPwS7a/LZsSDUiROZr676ZgPSVbwDBRtCPrHa9ZOS+XpoJA9kaRb2Z5lUR
- GKjsgfza08bvkL7FZua8ngbA+5kBQUlRHJnpV+fQgQ3fmPdGomjhTmIWbA0HUVEms5Gu
- 9xpymel1vttoX72ysB2ODB6pXrS4I94NDLFJsAhLdz7Ow6TdZcoT+PeL4GrZJKK5atki
- SzciohLmq2zsILnSGoEwspsNerigzWVaNkL1pCB7W2nwby4K7/kTZctQwSaRl2JufEnt
- d+Sg==
+ bh=5nbr21I+MTpD5QHgKHZh+UJGGRu3TEX+Zp9LU/tNFEk=;
+ b=gZ9SMoPM/J2tnNp+jOVseWDsZQBe5wrvOG7wLIWn7JZzff1u0y6/l9rakad2DoLsRN
+ 2GYcpGmHuW2M3ByfZT2/R9LCw3xNCG6IFv42Re768Qfnufv3gel4Lpnr/yKNrUMwO0MC
+ zrB2vg8cub8w0vKneBV7/uWk9oqLJYSZQBsKeVfeCVI6xvNrfdHkEehn/v3DPpXOa0/X
+ 9rVcc3Jiq63/90c5rywibrnEKzquKHWfWWG+gLSmKcqj7J35Mz/inYZuDXxey0z1Pwgt
+ 8ABMB44UT4jRrGe1BGhWvwK2SeKdaPhrZZvbo+OZHDG6ggoXWq7fxsc+LAQIPYySOMAs
+ MlMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=S0JZ9ByDKVmFQ12ne9IM9idva919FSGMdL7rWL2jTDQ=;
- b=vGOd54vK5yLK+dWQScMm3Tqxs5wEk3/QbptjkrgP3WDn3DhpfQYXczr3ip9TkRsope
- EEUH1Vhn3yIqe25CA786fjav8y+OTwlGusXbeTqlraeJIVFPOu7+Qoxjcmnk9sjVpj+l
- f5JMB/G7vhyD7/QoguKVFvS5F3TWIGBKJCb1qNJu+KaucOMZFM1UH7x9N6Hlx2eEZTDX
- yPXfNbZB5jN714+qvEdSkusQ17e4qitmlFl4eDGk10HGbr1BslvdIOybiUiEO8pRtQJ5
- rJ0PC0sE+XgHarVr8mFOc3BZCNFq1Xxt4OE9BELLBuCbMuHcI7eL3wp5uj8u1rcKjJRp
- qABg==
-X-Gm-Message-State: AOAM53068yz6G+yN9nBZHfGfT865f+IaJvm0blnQ6U72ZjJIjlkY6nIz
- 7cKs7loVvpM8YRk1xYxyRuoDOsQ+/15TOQ==
-X-Google-Smtp-Source: ABdhPJy9D6fjJS+CnRV62tp8h/VMoTviwBdhmoM7oApErrnSNaYPahbL+rVjDBodc1NPWbKMRIqgeA==
-X-Received: by 2002:a17:902:ed85:b0:148:adf6:cbe1 with SMTP id
- e5-20020a170902ed8500b00148adf6cbe1mr8995341plj.170.1639856574439; 
- Sat, 18 Dec 2021 11:42:54 -0800 (PST)
+ bh=5nbr21I+MTpD5QHgKHZh+UJGGRu3TEX+Zp9LU/tNFEk=;
+ b=ZVn7SOvVyIpcQOGt9C6/PdPOd9fSM1+kKhblnKYez3LgZlZDdw3Un6+/tIlcqJad/1
+ i4HVblrTtoAeLTrFkJrCbtdhh04omS7z2S1p+xuk4qyzsL1HiEqFFNhBlpCyyzykKO8L
+ N3/FhqmXrFKYC43rBU55Cm46Q6oHc5fbLFNaAHTeM1SWRQrin9W4PFXGfl03gAMXH3OG
+ k45gF+m5U5tpMpLuIPIM3ijy+PQEtE4GZbBO8za87ke4FbY9UwCNUv36wgI8sx0GwJcG
+ mIVmX0MZFGCL4JFiw7YVcmzW/BH+fluPp130g/fXhagrzfd7sZ/iqWiPxaGj28dkNoAj
+ NNZw==
+X-Gm-Message-State: AOAM5318apiQS8+ArwhoLvvdBH8VzcgRblDtOZfr5uZY+GeOEy9xbTcv
+ FnyBAsnXIQWzU51TLyQm7+p26Sic2dyr5g==
+X-Google-Smtp-Source: ABdhPJytuq77fdC/BDu7MpdnyvsxdFg2EBMZKkq/8CuvBC2ZYigExC1aMCOiZhHYnSkG0ICh0b6tIQ==
+X-Received: by 2002:a17:90b:4f4e:: with SMTP id
+ pj14mr18819688pjb.61.1639856575016; 
+ Sat, 18 Dec 2021 11:42:55 -0800 (PST)
 Received: from localhost.localdomain (174-21-75-75.tukw.qwest.net.
  [174.21.75.75])
  by smtp.gmail.com with ESMTPSA id g19sm10645919pfc.145.2021.12.18.11.42.54
@@ -57,18 +57,18 @@ Received: from localhost.localdomain (174-21-75-75.tukw.qwest.net.
  Sat, 18 Dec 2021 11:42:54 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 04/20] tcg/s390x: Implement vector NAND, NOR, EQV
-Date: Sat, 18 Dec 2021 11:42:34 -0800
-Message-Id: <20211218194250.247633-5-richard.henderson@linaro.org>
+Subject: [PATCH 05/20] tcg/i386: Detect AVX512
+Date: Sat, 18 Dec 2021 11:42:35 -0800
+Message-Id: <20211218194250.247633-6-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211218194250.247633-1-richard.henderson@linaro.org>
 References: <20211218194250.247633-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::635
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::633
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x635.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x633.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -91,80 +91,118 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+There are some operation sizes in some subsets of AVX512 that
+are missing from previous iterations of AVX.  Detect them.
+
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/s390x/tcg-target.h     |  6 +++---
- tcg/s390x/tcg-target.c.inc | 17 +++++++++++++++++
- 2 files changed, 20 insertions(+), 3 deletions(-)
+ include/qemu/cpuid.h      | 20 +++++++++++++++++---
+ tcg/i386/tcg-target.h     |  4 ++++
+ tcg/i386/tcg-target.c.inc | 24 ++++++++++++++++++++++--
+ 3 files changed, 43 insertions(+), 5 deletions(-)
 
-diff --git a/tcg/s390x/tcg-target.h b/tcg/s390x/tcg-target.h
-index ad29e62b16..fef227b0fe 100644
---- a/tcg/s390x/tcg-target.h
-+++ b/tcg/s390x/tcg-target.h
-@@ -145,9 +145,9 @@ extern uint64_t s390_facilities[3];
+diff --git a/include/qemu/cpuid.h b/include/qemu/cpuid.h
+index 09fc245b91..7adb12d320 100644
+--- a/include/qemu/cpuid.h
++++ b/include/qemu/cpuid.h
+@@ -45,12 +45,26 @@
+ #ifndef bit_AVX2
+ #define bit_AVX2        (1 << 5)
+ #endif
+-#ifndef bit_AVX512F
+-#define bit_AVX512F        (1 << 16)
+-#endif
+ #ifndef bit_BMI2
+ #define bit_BMI2        (1 << 8)
+ #endif
++#ifndef bit_AVX512F
++#define bit_AVX512F     (1 << 16)
++#endif
++#ifndef bit_AVX512DQ
++#define bit_AVX512DQ    (1 << 17)
++#endif
++#ifndef bit_AVX512BW
++#define bit_AVX512BW    (1 << 30)
++#endif
++#ifndef bit_AVX512VL
++#define bit_AVX512VL    (1u << 31)
++#endif
++
++/* Leaf 7, %ecx */
++#ifndef bit_AVX512VBMI2
++#define bit_AVX512VBMI2 (1 << 6)
++#endif
  
- #define TCG_TARGET_HAS_andc_vec       1
- #define TCG_TARGET_HAS_orc_vec        HAVE_FACILITY(VECTOR_ENH1)
--#define TCG_TARGET_HAS_nand_vec       0
--#define TCG_TARGET_HAS_nor_vec        0
--#define TCG_TARGET_HAS_eqv_vec        0
-+#define TCG_TARGET_HAS_nand_vec       HAVE_FACILITY(VECTOR_ENH1)
-+#define TCG_TARGET_HAS_nor_vec        1
-+#define TCG_TARGET_HAS_eqv_vec        HAVE_FACILITY(VECTOR_ENH1)
- #define TCG_TARGET_HAS_not_vec        1
- #define TCG_TARGET_HAS_neg_vec        1
- #define TCG_TARGET_HAS_abs_vec        1
-diff --git a/tcg/s390x/tcg-target.c.inc b/tcg/s390x/tcg-target.c.inc
-index 57e803e339..5a90b892cb 100644
---- a/tcg/s390x/tcg-target.c.inc
-+++ b/tcg/s390x/tcg-target.c.inc
-@@ -288,7 +288,9 @@ typedef enum S390Opcode {
-     VRRc_VMXL   = 0xe7fd,
-     VRRc_VN     = 0xe768,
-     VRRc_VNC    = 0xe769,
-+    VRRc_VNN    = 0xe76e,
-     VRRc_VNO    = 0xe76b,
-+    VRRc_VNX    = 0xe76c,
-     VRRc_VO     = 0xe76a,
-     VRRc_VOC    = 0xe76f,
-     VRRc_VPKS   = 0xe797,   /* we leave the m5 cs field 0 */
-@@ -2750,6 +2752,15 @@ static void tcg_out_vec_op(TCGContext *s, TCGOpcode opc,
-     case INDEX_op_xor_vec:
-         tcg_out_insn(s, VRRc, VX, a0, a1, a2, 0);
-         break;
-+    case INDEX_op_nand_vec:
-+        tcg_out_insn(s, VRRc, VNN, a0, a1, a2, 0);
-+        break;
-+    case INDEX_op_nor_vec:
-+        tcg_out_insn(s, VRRc, VNO, a0, a1, a2, 0);
-+        break;
-+    case INDEX_op_eqv_vec:
-+        tcg_out_insn(s, VRRc, VNX, a0, a1, a2, 0);
-+        break;
+ /* Leaf 0x80000001, %ecx */
+ #ifndef bit_LZCNT
+diff --git a/tcg/i386/tcg-target.h b/tcg/i386/tcg-target.h
+index 64c1013182..12d098ad6c 100644
+--- a/tcg/i386/tcg-target.h
++++ b/tcg/i386/tcg-target.h
+@@ -103,6 +103,10 @@ extern bool have_bmi1;
+ extern bool have_popcnt;
+ extern bool have_avx1;
+ extern bool have_avx2;
++extern bool have_avx512bw;
++extern bool have_avx512dq;
++extern bool have_avx512vbmi2;
++extern bool have_avx512vl;
+ extern bool have_movbe;
  
-     case INDEX_op_shli_vec:
-         tcg_out_insn(s, VRSa, VESL, a0, a2, TCG_REG_NONE, a1, vece);
-@@ -2846,7 +2857,10 @@ int tcg_can_emit_vec_op(TCGOpcode opc, TCGType type, unsigned vece)
-     case INDEX_op_and_vec:
-     case INDEX_op_andc_vec:
-     case INDEX_op_bitsel_vec:
-+    case INDEX_op_eqv_vec:
-+    case INDEX_op_nand_vec:
-     case INDEX_op_neg_vec:
-+    case INDEX_op_nor_vec:
-     case INDEX_op_not_vec:
-     case INDEX_op_or_vec:
-     case INDEX_op_orc_vec:
-@@ -3191,6 +3205,9 @@ static TCGConstraintSetIndex tcg_target_op_def(TCGOpcode op)
-     case INDEX_op_or_vec:
-     case INDEX_op_orc_vec:
-     case INDEX_op_xor_vec:
-+    case INDEX_op_nand_vec:
-+    case INDEX_op_nor_vec:
-+    case INDEX_op_eqv_vec:
-     case INDEX_op_cmp_vec:
-     case INDEX_op_mul_vec:
-     case INDEX_op_rotlv_vec:
+ /* optional instructions */
+diff --git a/tcg/i386/tcg-target.c.inc b/tcg/i386/tcg-target.c.inc
+index 84b109bb84..e266f937d6 100644
+--- a/tcg/i386/tcg-target.c.inc
++++ b/tcg/i386/tcg-target.c.inc
+@@ -170,6 +170,10 @@ bool have_bmi1;
+ bool have_popcnt;
+ bool have_avx1;
+ bool have_avx2;
++bool have_avx512bw;
++bool have_avx512dq;
++bool have_avx512vbmi2;
++bool have_avx512vl;
+ bool have_movbe;
+ 
+ #ifdef CONFIG_CPUID_H
+@@ -3746,12 +3750,12 @@ static void tcg_out_nop_fill(tcg_insn_unit *p, int count)
+ static void tcg_target_init(TCGContext *s)
+ {
+ #ifdef CONFIG_CPUID_H
+-    unsigned a, b, c, d, b7 = 0;
++    unsigned a, b, c, d, b7 = 0, c7 = 0;
+     int max = __get_cpuid_max(0, 0);
+ 
+     if (max >= 7) {
+         /* BMI1 is available on AMD Piledriver and Intel Haswell CPUs.  */
+-        __cpuid_count(7, 0, a, b7, c, d);
++        __cpuid_count(7, 0, a, b7, c7, d);
+         have_bmi1 = (b7 & bit_BMI) != 0;
+         have_bmi2 = (b7 & bit_BMI2) != 0;
+     }
+@@ -3781,6 +3785,22 @@ static void tcg_target_init(TCGContext *s)
+             if ((xcrl & 6) == 6) {
+                 have_avx1 = (c & bit_AVX) != 0;
+                 have_avx2 = (b7 & bit_AVX2) != 0;
++
++                /*
++                 * There are interesting instructions in AVX512, so long
++                 * as we have AVX512VL, which indicates support for EVEX
++                 * on sizes smaller than 512 bits.  We are required to
++                 * check that OPMASK and all extended ZMM state are enabled
++                 * even if we're not using them -- the insns will fault.
++                 */
++                if ((xcrl & 0xe0) == 0xe0
++                    && (b7 & bit_AVX512F)
++                    && (b7 & bit_AVX512VL)) {
++                    have_avx512vl = true;
++                    have_avx512bw = (b7 & bit_AVX512BW) != 0;
++                    have_avx512dq = (b7 & bit_AVX512DQ) != 0;
++                    have_avx512vbmi2 = (c7 & bit_AVX512VBMI2) != 0;
++                }
+             }
+         }
+     }
 -- 
 2.25.1
 
