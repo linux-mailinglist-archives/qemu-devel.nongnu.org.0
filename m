@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B735D4797CC
-	for <lists+qemu-devel@lfdr.de>; Sat, 18 Dec 2021 01:27:04 +0100 (CET)
-Received: from localhost ([::1]:52496 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 177C84797D3
+	for <lists+qemu-devel@lfdr.de>; Sat, 18 Dec 2021 01:29:22 +0100 (CET)
+Received: from localhost ([::1]:54810 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1myNZ0-0001DZ-VX
-	for lists+qemu-devel@lfdr.de; Fri, 17 Dec 2021 19:27:02 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60440)
+	id 1myNbF-0002nt-7l
+	for lists+qemu-devel@lfdr.de; Fri, 17 Dec 2021 19:29:21 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60564)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1myNY5-0008HN-7b
- for qemu-devel@nongnu.org; Fri, 17 Dec 2021 19:26:05 -0500
-Received: from [2607:f8b0:4864:20::1034] (port=51879
- helo=mail-pj1-x1034.google.com)
+ id 1myNZr-00022i-0O
+ for qemu-devel@nongnu.org; Fri, 17 Dec 2021 19:27:55 -0500
+Received: from [2607:f8b0:4864:20::1036] (port=35757
+ helo=mail-pj1-x1036.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1myNY2-0001sF-Fd
- for qemu-devel@nongnu.org; Fri, 17 Dec 2021 19:26:04 -0500
-Received: by mail-pj1-x1034.google.com with SMTP id v16so3656079pjn.1
- for <qemu-devel@nongnu.org>; Fri, 17 Dec 2021 16:26:02 -0800 (PST)
+ id 1myNZp-0002zQ-Cj
+ for qemu-devel@nongnu.org; Fri, 17 Dec 2021 19:27:54 -0500
+Received: by mail-pj1-x1036.google.com with SMTP id
+ j6-20020a17090a588600b001a78a5ce46aso7179968pji.0
+ for <qemu-devel@nongnu.org>; Fri, 17 Dec 2021 16:27:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=9XaoY57Bakazh3mpFDlmbbKBlyth54Ta68NudjCioSA=;
- b=Cxful1nfSPkvs4xoidQ5CynvOyDx/Ri8ZjsJRhAhWDkkr+fsTao1/PTzR1+BhnyuS8
- lruHMitLzDGHD41QRfE7yPSVdVx4jWEYlBuF4ErApBg2E7CFOmKEHCN2lWzNS2tqoIVt
- r0bfZRTHA0fv4kYhy78zTAKJbuGtHYAWLEScUO4j2vgV62ToH4O4ZOy+ty3847eEztXX
- HWn8W5+ASSymDcEXfzWM27YLfooQPI1BI0yNVujJkJ0VygEHwv/YehH5W+FHvSiox5+V
- fcEHwgDpY3KkfdCAfnWGyHqaHkgSaw+g08JzzlUBGBi+sZEmu+VztY/MiIHVN5uKgRfa
- khIQ==
+ h=subject:to:references:from:message-id:date:user-agent:mime-version
+ :in-reply-to:content-language:content-transfer-encoding;
+ bh=H9fS1GirEK+BY++QUxzfQ98RMwlhnbqztpwZcN51LyI=;
+ b=IfLOabXI8Pm7sZ/yNQIzePwh+JG09TGDOlYPOHaASym2g3HxUj/eulE0EJCJYGwdT8
+ RgAEu0SEfQiO7jw5weCX0HWJEUBY9MR+5fXf7X+typPhDZQYODPICxpCr3jprpek2nRG
+ EK6uGr4v+bNpV37WMvvlUExkxeBXL09OTe92AyiqWp3ynM3OeUHq0yVdTY7xyzaPltZ9
+ NtY5wR9/HkVY+979iO4nqXqszPwGMnjCrbZrL2S8GbNJJ7nAQ+gkhpwJNfTrw0IasbJE
+ sDZTyCh/Bxwwu31d9Ohpa+ogMK2DXrjPh0RoU2Io4YeHkAyYvkxY0RkxcVZX8/VAyxnD
+ u8Ig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ h=x-gm-message-state:subject:to:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=9XaoY57Bakazh3mpFDlmbbKBlyth54Ta68NudjCioSA=;
- b=Rliq02e3Dkse+0k/jA3VvmGXpYfBbFsvg7mLt9is3v9bRQm2V/AhY4h7R5YvFgRzS5
- 0idjWAuhVw4okfUxYJnPCB2jaDoRhBo1jvuAj5uQx1BaG1JZVuQnO7dFvKJYnG6BSO02
- Dg/+qfhO5+0yjM0pHDH+8amwnVj+a1T9rMgx+Vy3c95bsuJNbk5OIUva8GVUbc7TZKSq
- NkM+422ByCrXQhAshmdmHJ5tvzDCua0JHGLH7yLoByW+OD8D3/9tHv35oL/yzvUltXgr
- J83qVzSy0f5pNi5aanXSZ3zkH2McpcTrIegRNMaQJT1sIOa3/RnRILgMxS2cb5y7yUOE
- ZwPQ==
-X-Gm-Message-State: AOAM532Nf/RZsGD7OD0w+Joz32xRsYwXYPNzVThyiToD0nRCRsPMcIYc
- iShxhilHVSQsvd/WGQbSKKMqZA==
-X-Google-Smtp-Source: ABdhPJwU9RtrXJElV7oiTkHT1fzpXO0sa9I3PYtdtF2eLmaKjKMmaKioKQ+/BRn3NdukiM+OFstRJA==
-X-Received: by 2002:a17:903:2445:b0:148:a2f7:9d54 with SMTP id
- l5-20020a170903244500b00148a2f79d54mr5770489pls.115.1639787160953; 
- Fri, 17 Dec 2021 16:26:00 -0800 (PST)
+ bh=H9fS1GirEK+BY++QUxzfQ98RMwlhnbqztpwZcN51LyI=;
+ b=uj5mHt6OlIwqMcgSH9eElFwqzbY3LGM3mx6tj/TklSSqskqaVQb1wo4uI9Btb9sViM
+ N+z8u9EOo+9PAS1UBipC1Z4qZgCSeFS2d9m0lbMfbAZmwbY4/vOvFixrWqditM73sBKS
+ GM9iTMRwk4l9GDZxlJMO96dJA7QQCCg9QoAyc7nt01Bt6Xskk1r1Hx7PndQfnBEd3iFV
+ rw/ib6hzmIvpd9UEtbRpfWJM+cWdGQI99IxH7cU2BJqCcpVRNp3LFkBQSCmFoEC7bZBD
+ vqjvoLNonio0wBLKPbVqfNGbr5MCDcNUl5ZUOxGHxGbwlZlEZMjpiXHAVRXWwxw5IneA
+ CjGA==
+X-Gm-Message-State: AOAM533NypQAebcFyv302kxTVNGBFeO2E8LDCKFORegGjWE2v2U8dK6n
+ NiS5iRtACXXZUPEUI6qKtplpteVCWphmUA==
+X-Google-Smtp-Source: ABdhPJxam27LgI66tcwleXLlooeZpJrbdN0XN71W7LHWp8rfW9Z12RaqJCnDNqImrww4tSleakmg2w==
+X-Received: by 2002:a17:902:8208:b0:148:df0a:b1da with SMTP id
+ x8-20020a170902820800b00148df0ab1damr4610656pln.161.1639787271718; 
+ Fri, 17 Dec 2021 16:27:51 -0800 (PST)
 Received: from [192.168.1.13] (174-21-75-75.tukw.qwest.net. [174.21.75.75])
- by smtp.gmail.com with ESMTPSA id l13sm3982210pfc.1.2021.12.17.16.26.00
+ by smtp.gmail.com with ESMTPSA id ls14sm14322672pjb.49.2021.12.17.16.27.51
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 17 Dec 2021 16:26:00 -0800 (PST)
-Subject: Re: [PATCH-for-7.0] hw/net/rocker: Remove unused definitions
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-References: <20211116193915.2792721-1-philmd@redhat.com>
+ Fri, 17 Dec 2021 16:27:51 -0800 (PST)
+Subject: Re: [PATCH] cpu: remove unnecessary #ifdef CONFIG_TCG
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+References: <20211217104941.179823-1-pbonzini@redhat.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <751a7c63-e942-76bd-8213-ee44bebfa2f9@linaro.org>
-Date: Fri, 17 Dec 2021 16:25:58 -0800
+Message-ID: <3c007b0f-ffa9-cfd4-52ac-6fc4800c75fc@linaro.org>
+Date: Fri, 17 Dec 2021 16:27:49 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <20211116193915.2792721-1-philmd@redhat.com>
+In-Reply-To: <20211217104941.179823-1-pbonzini@redhat.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1034
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1036
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1036.google.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
@@ -91,35 +91,17 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Jason Wang <jasowang@redhat.com>,
- Jiri Pirko <jiri@resnulli.us>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/16/21 11:39 AM, Philippe Mathieu-Daudé wrote:
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> ---
->   hw/net/rocker/rocker.h | 5 -----
->   1 file changed, 5 deletions(-)
+On 12/17/21 2:49 AM, Paolo Bonzini wrote:
+> "if (tcg_enabled())" allows elision of the code inside it; we only need
+> the prototype to exist, so that the code compile even for the --disable-tcg
+> case.
 > 
-> diff --git a/hw/net/rocker/rocker.h b/hw/net/rocker/rocker.h
-> index 412fa44d017..d22bbd2bf80 100644
-> --- a/hw/net/rocker/rocker.h
-> +++ b/hw/net/rocker/rocker.h
-> @@ -36,13 +36,8 @@ static inline GCC_FMT_ATTR(1, 2) int DPRINTF(const char *fmt, ...)
->   }
->   #endif
->   
-> -#define __le16 uint16_t
-> -#define __le32 uint32_t
-> -#define __le64 uint64_t
-> -
->   #define __be16 uint16_t
->   #define __be32 uint32_t
-> -#define __be64 uint64_t
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 
-Surely the __beN defines should go away as well.
-If they're still used, that seems like a bug itself.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 
 r~
