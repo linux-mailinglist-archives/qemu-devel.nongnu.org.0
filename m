@@ -2,79 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB1B2479A1D
-	for <lists+qemu-devel@lfdr.de>; Sat, 18 Dec 2021 11:02:40 +0100 (CET)
-Received: from localhost ([::1]:57440 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15697479A1E
+	for <lists+qemu-devel@lfdr.de>; Sat, 18 Dec 2021 11:03:26 +0100 (CET)
+Received: from localhost ([::1]:59596 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1myWY3-0003ua-AJ
-	for lists+qemu-devel@lfdr.de; Sat, 18 Dec 2021 05:02:39 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50966)
+	id 1myWYn-0005MK-7b
+	for lists+qemu-devel@lfdr.de; Sat, 18 Dec 2021 05:03:25 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51118)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1myWW9-00034X-Q7
- for qemu-devel@nongnu.org; Sat, 18 Dec 2021 05:00:41 -0500
-Received: from [2a00:1450:4864:20::332] (port=37757
- helo=mail-wm1-x332.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1myWW7-0004Gy-S0
- for qemu-devel@nongnu.org; Sat, 18 Dec 2021 05:00:41 -0500
-Received: by mail-wm1-x332.google.com with SMTP id
- a203-20020a1c7fd4000000b003457874263aso3444012wmd.2
- for <qemu-devel@nongnu.org>; Sat, 18 Dec 2021 02:00:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=b9FN074V72lRLnoJcg0mz2937yjw6qjV4nrIEYRa1hU=;
- b=RLcHlYW+Ktk+dRxhWDwRLf92+ZjVqc8uNXroopKUvKeZIgbnau90aQh0HZmBmf2fA0
- ZOmxK1xFcltHBGXnQs8PYwbTZ5Te2YDl+7OVATWm5rMoxu827FifMxB70pNhc7XDasze
- cYdN1JAp1Pg9rzjWnwExUkhwVggsUHcqe1njYQPoZm/ApcJlsuXtYQoxkEu/CrswWjDD
- 5xhs7wfgeH1ul2vAOvxAe7WZ/etYHCkPAoC2KELDg1jUdjEYyfYtVuiAD/F95Zj0Xx/t
- niVjxDbJy4jOlAbxPctiTYZ2dSAeRaVc99IL3SrJVDvPA9i9lzOwrw6Tc0YhmZegnzXo
- V6pw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:from:to:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=b9FN074V72lRLnoJcg0mz2937yjw6qjV4nrIEYRa1hU=;
- b=RJM2mfBAh0wycKAH/sAmzce1VriV8z8uJMIMtYUdlwXtjpTAYg2GPWWUquWvrvYf9b
- s0CnSypUrd6y44Un9w1WzTFFbWuAVwGAr2nPe7Cl9kkv0bUUYZN8YBBoS7p7DWyWMm3H
- u3gp5r11CDotnbwQUXv6xptMvKd3RgsGBsks4t/n/UCstI423z3+UuVNuSXslyCIa71S
- bgRbYKuLbAyYYYu2nI5PJaK/8Gm5DUPqQ8dWihG0MYv7F5agufSBic6OStv35Dng6lLS
- qx/tMauszTmnLcCh1zRyoddZNc1lfC31G1W+ENSsL97q5+3YlWI+A7FaMj+KfNomNTTZ
- HyJg==
-X-Gm-Message-State: AOAM531oBC3fHJpleX+oe4Dzv46c83mkSMgFSIdCM5jQ9I90oVx+GgZW
- 560Dz0ndCjcERlBxFq9s+o3z/Yqb63WPSw==
-X-Google-Smtp-Source: ABdhPJydm/K7UYQQ4QtVn4lUg58w5MUBYnLtB85lwdve8A+GwTVDsowNSPa0pJW0A/X+2MR5L+/TfA==
-X-Received: by 2002:a1c:1f06:: with SMTP id f6mr6128198wmf.161.1639821637887; 
- Sat, 18 Dec 2021 02:00:37 -0800 (PST)
-Received: from avogadro.lan ([2001:b07:6468:f312:48f9:bea:a04c:3dfe])
- by smtp.gmail.com with ESMTPSA id r11sm9688866wrw.5.2021.12.18.02.00.36
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 18 Dec 2021 02:00:37 -0800 (PST)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] qemu-options: warn for short form booleans in all parsing
- functions
-Date: Sat, 18 Dec 2021 11:00:34 +0100
-Message-Id: <20211218100034.223305-1-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.33.1
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1myWXz-0004LR-84
+ for qemu-devel@nongnu.org; Sat, 18 Dec 2021 05:02:35 -0500
+Received: from [2001:41c9:1:41f::167] (port=49320
+ helo=mail.default.ilande.bv.iomart.io)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1myWXw-0004aX-V9
+ for qemu-devel@nongnu.org; Sat, 18 Dec 2021 05:02:34 -0500
+Received: from [2a00:23c4:8b9f:c400:72e2:646b:9043:c91d]
+ by mail.default.ilande.bv.iomart.io with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1myWXV-000BZN-NJ; Sat, 18 Dec 2021 10:02:07 +0000
+To: Xiaojuan Yang <yangxiaojuan@loongson.cn>, qemu-devel@nongnu.org
+References: <1638619645-11283-1-git-send-email-yangxiaojuan@loongson.cn>
+ <1638619645-11283-23-git-send-email-yangxiaojuan@loongson.cn>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Message-ID: <1984f2fa-1ccd-af3a-7fb8-6770e0b27596@ilande.co.uk>
+Date: Sat, 18 Dec 2021 10:02:12 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
+In-Reply-To: <1638619645-11283-23-git-send-email-yangxiaojuan@loongson.cn>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::332
+X-SA-Exim-Connect-IP: 2a00:23c4:8b9f:c400:72e2:646b:9043:c91d
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [RFC PATCH v3 22/27] hw/loongarch: Add some devices support for
+ 3A5000.
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:41c9:1:41f::167
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x332.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk;
+ helo=mail.default.ilande.bv.iomart.io
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.716,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,88 +67,308 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: peter.maydell@linaro.org, thuth@redhat.com, philmd@redhat.com,
+ richard.henderson@linaro.org, laurent@vivier.eu, peterx@redhat.com,
+ f4bug@amsat.org, alex.bennee@linaro.org, alistair.francis@wdc.com,
+ maobibo@loongson.cn, gaosong@loongson.cn, pbonzini@redhat.com,
+ i.qemu@xen0n.name, chenhuacai@loongson.cn
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-qemu_opts_parse and qemu_opts_do_parse were not warning for short form booleans.
+On 04/12/2021 12:07, Xiaojuan Yang wrote:
 
-qemu_opts_parse is used internally and short form boolean options are never
-passed to it.  qemu_opts_do_parse is mostly used by the block layer, and
-also for character device creation with options other than -chardev.  Since
-version 6.0 of QEMU has removed all uses of the short form boolean options
-from the documentation, we can warn there too for consistency.
+> 1.Add uart,virtio-net,vga and usb for 3A5000.
+> 2.Add irq set and map for the pci host. Non pci device
+> use irq 0-16, pci device use 16-64.
+> 3.Add some unimplented device to emulate guest unused
+> memory space.
+> 
+> Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
+> Signed-off-by: Song Gao <gaosong@loongson.cn>
+> ---
+>   hw/loongarch/Kconfig            |  8 +++++
+>   hw/loongarch/loongson3.c        | 63 +++++++++++++++++++++++++++++++--
+>   hw/pci-host/ls7a.c              | 42 +++++++++++++++++++++-
+>   include/hw/intc/loongarch_ipi.h |  2 ++
+>   include/hw/pci-host/ls7a.h      |  4 +++
+>   softmmu/qdev-monitor.c          |  3 +-
+>   6 files changed, 117 insertions(+), 5 deletions(-)
+> 
+> diff --git a/hw/loongarch/Kconfig b/hw/loongarch/Kconfig
+> index 468e3acc74..9ea3b92708 100644
+> --- a/hw/loongarch/Kconfig
+> +++ b/hw/loongarch/Kconfig
+> @@ -1,5 +1,13 @@
+>   config LOONGSON3_LS7A
+>       bool
+> +    imply VGA_PCI
+> +    imply VIRTIO_VGA
+> +    imply PARALLEL
+> +    imply PCI_DEVICES
+> +    select ISA_BUS
+> +    select SERIAL
+> +    select SERIAL_ISA
+> +    select VIRTIO_PCI
+>       select PCI_EXPRESS_7A
+>       select LOONGARCH_IPI
+>       select LOONGARCH_PCH_PIC
+> diff --git a/hw/loongarch/loongson3.c b/hw/loongarch/loongson3.c
+> index c42f830208..e4a02e7c18 100644
+> --- a/hw/loongarch/loongson3.c
+> +++ b/hw/loongarch/loongson3.c
+> @@ -10,8 +10,11 @@
+>   #include "qemu/datadir.h"
+>   #include "qapi/error.h"
+>   #include "hw/boards.h"
+> +#include "hw/char/serial.h"
+>   #include "sysemu/sysemu.h"
+>   #include "sysemu/qtest.h"
+> +#include "hw/irq.h"
+> +#include "net/net.h"
+>   #include "sysemu/runstate.h"
+>   #include "sysemu/reset.h"
+>   #include "hw/loongarch/loongarch.h"
+> @@ -20,6 +23,7 @@
+>   #include "hw/intc/loongarch_pch_pic.h"
+>   #include "hw/intc/loongarch_pch_msi.h"
+>   #include "hw/pci-host/ls7a.h"
+> +#include "hw/misc/unimp.h"
+>   
+>   
+>   static void loongarch_cpu_reset(void *opaque)
+> @@ -91,11 +95,12 @@ static void sysbus_mmio_map_loongarch(SysBusDevice *dev, int n,
+>       memory_region_add_subregion(iocsr, addr, dev->mmio[n].memory);
+>   }
+>   
+> -static void loongson3_irq_init(MachineState *machine)
+> +static PCIBus *loongson3_irq_init(MachineState *machine)
+>   {
+>       LoongArchMachineState *lams = LOONGARCH_MACHINE(machine);
+> -    DeviceState *ipi, *extioi, *pch_pic, *pch_msi, *cpudev;
+> +    DeviceState *ipi, *extioi, *pch_pic, *pch_msi, *cpudev, *pciehost;
+>       SysBusDevice *d;
+> +    PCIBus *pci_bus;
+>       int cpu, pin, i;
+>       unsigned long ipi_addr;
+>   
+> @@ -135,6 +140,10 @@ static void loongson3_irq_init(MachineState *machine)
+>       sysbus_realize_and_unref(d, &error_fatal);
+>       sysbus_mmio_map(d, 0, LS7A_IOAPIC_REG_BASE);
+>   
+> +    serial_mm_init(get_system_memory(), LS7A_UART_BASE, 0,
+> +                   qdev_get_gpio_in(pch_pic, LS7A_UART_IRQ - PCH_PIC_IRQ_OFFSET),
+> +                   115200, serial_hd(0), DEVICE_LITTLE_ENDIAN);
+> +
+>       /* Connect 64 pch_pic irqs to extioi */
+>       for (int i = 0; i < PCH_PIC_IRQ_NUM; i++) {
+>           sysbus_connect_irq(d, i, qdev_get_gpio_in(extioi, i));
+> @@ -149,6 +158,35 @@ static void loongson3_irq_init(MachineState *machine)
+>           sysbus_connect_irq(d, i,
+>                              qdev_get_gpio_in(extioi, i + PCH_MSI_IRQ_START));
+>       }
+> +
+> +    pciehost = qdev_new(TYPE_LS7A_HOST_DEVICE);
+> +    d = SYS_BUS_DEVICE(pciehost);
+> +    sysbus_realize_and_unref(d, &error_fatal);
+> +    pci_bus = PCI_HOST_BRIDGE(pciehost)->bus;
+> +
+> +    /* Connect 48 pci irq to pch_pic */
+> +    for (i = 0; i < LS7A_PCI_IRQS; i++) {
+> +        qdev_connect_gpio_out(pciehost, i,
+> +                              qdev_get_gpio_in(pch_pic, i + LS7A_DEVICE_IRQS));
+> +    }
+> +
+> +    return pci_bus;
+> +}
+> +
+> +/* Network support */
+> +static void network_init(PCIBus *pci_bus)
+> +{
+> +    int i;
+> +
+> +    for (i = 0; i < nb_nics; i++) {
+> +        NICInfo *nd = &nd_table[i];
+> +
+> +        if (!nd->model) {
+> +            nd->model = g_strdup("virtio");
+> +        }
+> +
+> +        pci_nic_init_nofail(nd, pci_bus, nd->model, NULL);
+> +    }
+>   }
+>   
+>   static void loongson3_init(MachineState *machine)
+> @@ -161,6 +199,7 @@ static void loongson3_init(MachineState *machine)
+>       MemoryRegion *address_space_mem = get_system_memory();
+>       LoongArchMachineState *lams = LOONGARCH_MACHINE(machine);
+>       int i;
+> +    PCIBus *pci_bus = NULL;
+>   
+>       if (!cpu_model) {
+>           cpu_model = LOONGARCH_CPU_TYPE_NAME("Loongson-3A5000");
+> @@ -207,8 +246,26 @@ static void loongson3_init(MachineState *machine)
+>       memory_region_add_subregion(address_space_mem, 0x90000000, &lams->highmem);
+>       offset += highram_size;
+>   
+> +    /*
+> +     * There are some invalid guest memory access.
+> +     * Create some unimplemented devices to emulate this.
+> +     */
+> +    create_unimplemented_device("ls7a-lpc", 0x10002000, 0x14);
+> +    create_unimplemented_device("pci-dma-cfg", 0x1001041c, 0x4);
+> +    create_unimplemented_device("node-bridge", 0xEFDFB000274, 0x4);
+> +    create_unimplemented_device("ls7a-lionlpc", 0x1fe01400, 0x38);
+> +    create_unimplemented_device("ls7a-node0", 0x0EFDFB000274, 0x4);
+> +
+>       /* Initialize the IO interrupt subsystem */
+> -    loongson3_irq_init(machine);
+> +    pci_bus = loongson3_irq_init(machine);
+> +
+> +    /* Network card */
+> +    network_init(pci_bus);
+> +
+> +    /* VGA setup. Don't bother loading the bios. */
+> +    pci_vga_init(pci_bus);
+> +
+> +    pci_create_simple(pci_bus, -1, "pci-ohci");
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- util/qemu-option.c | 17 +++++++----------
- 1 file changed, 7 insertions(+), 10 deletions(-)
+By passing in -1 then you're allowing the PCI code to choose a suitable 
+device/function which feels odd for an in-built device. Is this not fixed in real 
+hardware?
 
-diff --git a/util/qemu-option.c b/util/qemu-option.c
-index eedd08929b..a833c5a4eb 100644
---- a/util/qemu-option.c
-+++ b/util/qemu-option.c
-@@ -797,15 +797,14 @@ static const char *get_opt_name_value(const char *params,
- }
- 
- static bool opts_do_parse(QemuOpts *opts, const char *params,
--                          const char *firstname,
--                          bool warn_on_flag, bool *help_wanted, Error **errp)
-+                          const char *firstname, bool *help_wanted, Error **errp)
- {
-     char *option, *value;
-     const char *p;
-     QemuOpt *opt;
- 
-     for (p = params; *p;) {
--        p = get_opt_name_value(p, firstname, warn_on_flag, help_wanted, &option, &value);
-+        p = get_opt_name_value(p, firstname, help_wanted, &option, &value);
-         if (help_wanted && *help_wanted) {
-             g_free(option);
-             g_free(value);
-@@ -875,12 +874,11 @@ bool has_help_option(const char *params)
- bool qemu_opts_do_parse(QemuOpts *opts, const char *params,
-                        const char *firstname, Error **errp)
- {
--    return opts_do_parse(opts, params, firstname, false, NULL, errp);
-+    return opts_do_parse(opts, params, firstname, NULL, errp);
- }
- 
- static QemuOpts *opts_parse(QemuOptsList *list, const char *params,
--                            bool permit_abbrev,
--                            bool warn_on_flag, bool *help_wanted, Error **errp)
-+                            bool permit_abbrev, bool *help_wanted, Error **errp)
- {
-     const char *firstname;
-     char *id = opts_parse_id(params);
-@@ -895,8 +893,7 @@ static QemuOpts *opts_parse(QemuOptsList *list, const char *params,
-         return NULL;
-     }
- 
--    if (!opts_do_parse(opts, params, firstname,
--                       warn_on_flag, help_wanted, errp)) {
-+    if (!opts_do_parse(opts, params, firstname, help_wanted, errp)) {
-         qemu_opts_del(opts);
-         return NULL;
-     }
-@@ -914,7 +911,7 @@ static QemuOpts *opts_parse(QemuOptsList *list, const char *params,
- QemuOpts *qemu_opts_parse(QemuOptsList *list, const char *params,
-                           bool permit_abbrev, Error **errp)
- {
--    return opts_parse(list, params, permit_abbrev, false, NULL, errp);
-+    return opts_parse(list, params, permit_abbrev, NULL, errp);
- }
- 
- /**
-@@ -932,7 +929,7 @@ QemuOpts *qemu_opts_parse_noisily(QemuOptsList *list, const char *params,
-     QemuOpts *opts;
-     bool help_wanted = false;
- 
--    opts = opts_parse(list, params, permit_abbrev, true,
-+    opts = opts_parse(list, params, permit_abbrev,
-                       opts_accepts_any(list) ? NULL : &help_wanted,
-                       &err);
-     if (!opts) {
--- 
-2.33.1
+Same with pci_nic_init_nofail() and pci_vga_init() which are intended for machines 
+that don't have these devices in-built.
+
+>       LOONGARCH_SIMPLE_MMIO_OPS(FEATURE_REG, "loongarch_feature", 0x8);
+>       LOONGARCH_SIMPLE_MMIO_OPS(VENDOR_REG, "loongarch_vendor", 0x8);
+> diff --git a/hw/pci-host/ls7a.c b/hw/pci-host/ls7a.c
+> index a783fb2eda..06cd641573 100644
+> --- a/hw/pci-host/ls7a.c
+> +++ b/hw/pci-host/ls7a.c
+> @@ -28,6 +28,41 @@ static const VMStateDescription vmstate_ls7a_pcie = {
+>       }
+>   };
+>   
+> +static PCIINTxRoute ls7a_route_intx_pin_to_irq(void *opaque, int pin)
+> +{
+> +    PCIINTxRoute route;
+> +
+> +    route.irq = pin;
+> +    route.mode = PCI_INTX_ENABLED;
+> +    return route;
+> +}
+> +
+> +static int pci_ls7a_map_irq(PCIDevice *d, int irq_num)
+> +{
+> +    PCIBus *bus;
+> +    int offset, irq;
+> +
+> +    bus = pci_get_bus(d);
+> +    if (bus->parent_dev) {
+> +        irq = pci_swizzle_map_irq_fn(d, irq_num);
+> +        return irq;
+> +    }
+
+Isn't this part already handled by the code in hw/pci/pci.c when the IRQ is asserted, 
+for example pci_change_irq_level()?
+
+> +    /* pci device start from irq 80 */
+> +    offset = PCH_PIC_IRQ_OFFSET + LS7A_DEVICE_IRQS;
+> +    irq = offset + ((PCI_SLOT(d->devfn) * 4 + irq_num)) % LS7A_PCI_IRQS;
+> +
+> +    return irq;
+> +}
+> +
+> +static void pci_ls7a_set_irq(void *opaque, int irq_num, int level)
+> +{
+> +    LS7APCIEHost *pciehost = opaque;
+> +    int offset = PCH_PIC_IRQ_OFFSET + LS7A_DEVICE_IRQS;
+> +
+> +    qemu_set_irq(pciehost->irqs[irq_num - offset], level);
+> +}
+> +
+>   static void pci_ls7a_config_write(void *opaque, hwaddr addr,
+>                                     uint64_t val, unsigned size)
+>   {
+> @@ -64,10 +99,13 @@ static void ls7a_pciehost_realize(DeviceState *dev, Error **errp)
+>       LS7APCIEHost *s = LS7A_HOST_DEVICE(dev);
+>       PCIExpressHost *pex = PCIE_HOST_BRIDGE(dev);
+>   
+> -    pci->bus = pci_register_root_bus(dev, "pcie.0", NULL, NULL, s,
+> +    pci->bus = pci_register_root_bus(dev, "pcie.0", pci_ls7a_set_irq,
+> +                                     pci_ls7a_map_irq, s,
+>                                        get_system_memory(), get_system_io(),
+>                                        PCI_DEVFN(1, 0), 128, TYPE_PCIE_BUS);
+>   
+> +    pci_bus_set_route_irq_fn(pci->bus, ls7a_route_intx_pin_to_irq);
+> +
+>       memory_region_init_io(&s->pci_conf, OBJECT(dev),
+>                             &pci_ls7a_config_ops, pci->bus,
+>                             "ls7a_pci_conf", HT1LO_PCICFG_SIZE);
+> @@ -137,6 +175,8 @@ static void ls7a_pciehost_initfn(Object *obj)
+>       object_initialize_child(obj, "ls7a_pci", ls7a_pci, TYPE_LS7A_PCIE);
+>       qdev_prop_set_int32(DEVICE(ls7a_pci), "addr", PCI_DEVFN(0, 0));
+>       qdev_prop_set_bit(DEVICE(ls7a_pci), "multifunction", false);
+> +
+> +    qdev_init_gpio_out(DEVICE(obj), s->irqs, LS7A_PCI_IRQS);
+>   }
+>   
+>   static const char *ls7a_pciehost_root_bus_path(PCIHostState *host_bridge,
+> diff --git a/include/hw/intc/loongarch_ipi.h b/include/hw/intc/loongarch_ipi.h
+> index d2397e53e7..1113c3b1a8 100644
+> --- a/include/hw/intc/loongarch_ipi.h
+> +++ b/include/hw/intc/loongarch_ipi.h
+> @@ -8,6 +8,8 @@
+>   #ifndef HW_LOONGARCH_IPI_H
+>   #define HW_LOONGARCH_IPI_H
+>   
+> +#include "hw/sysbus.h"
+> +
+>   /* Mainy used by iocsr read and write */
+>   #define SMP_IPI_MAILBOX      0x1000ULL
+>   #define CORE_STATUS_OFF       0x0
+> diff --git a/include/hw/pci-host/ls7a.h b/include/hw/pci-host/ls7a.h
+> index ac938d6d5f..3b9ad1e175 100644
+> --- a/include/hw/pci-host/ls7a.h
+> +++ b/include/hw/pci-host/ls7a.h
+> @@ -37,6 +37,9 @@
+>   #define LS7A_DEVICE_IRQS        16
+>   #define LS7A_PCI_IRQS           48
+>   
+> +#define LS7A_UART_IRQ           (PCH_PIC_IRQ_OFFSET + 2)
+> +#define LS7A_UART_BASE          0x1fe001e0
+> +
+>   struct LS7APCIState {
+>       /*< private >*/
+>       PCIDevice parent_obj;
+> @@ -51,6 +54,7 @@ typedef struct LS7APCIEHost {
+>   
+>       LS7APCIState pci_dev;
+>   
+> +    qemu_irq irqs[LS7A_PCI_IRQS];
+>       MemoryRegion pci_conf;
+>       MemoryRegion pci_io;
+>   } LS7APCIEHost;
+> diff --git a/softmmu/qdev-monitor.c b/softmmu/qdev-monitor.c
+> index 01f3834db5..49491d74a1 100644
+> --- a/softmmu/qdev-monitor.c
+> +++ b/softmmu/qdev-monitor.c
+> @@ -60,7 +60,8 @@ typedef struct QDevAlias
+>                                 QEMU_ARCH_HPPA | QEMU_ARCH_I386 | \
+>                                 QEMU_ARCH_MIPS | QEMU_ARCH_PPC |  \
+>                                 QEMU_ARCH_RISCV | QEMU_ARCH_SH4 | \
+> -                              QEMU_ARCH_SPARC | QEMU_ARCH_XTENSA)
+> +                              QEMU_ARCH_SPARC | QEMU_ARCH_XTENSA | \
+> +                              QEMU_ARCH_LOONGARCH)
+
+This part looks like it belongs to another patch?
+
+>   #define QEMU_ARCH_VIRTIO_CCW (QEMU_ARCH_S390X)
+>   #define QEMU_ARCH_VIRTIO_MMIO (QEMU_ARCH_M68K)
+
+
+ATB,
+
+Mark.
 
 
