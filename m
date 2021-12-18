@@ -2,53 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09147479C74
-	for <lists+qemu-devel@lfdr.de>; Sat, 18 Dec 2021 20:55:49 +0100 (CET)
-Received: from localhost ([::1]:43554 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB58A479C66
+	for <lists+qemu-devel@lfdr.de>; Sat, 18 Dec 2021 20:48:23 +0100 (CET)
+Received: from localhost ([::1]:52454 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1myfo4-0004nF-4y
-	for lists+qemu-devel@lfdr.de; Sat, 18 Dec 2021 14:55:48 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38578)
+	id 1myfgs-0000BN-SG
+	for lists+qemu-devel@lfdr.de; Sat, 18 Dec 2021 14:48:22 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38592)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1myfbe-0000VE-5D
+ id 1myfbe-0000Wx-O3
  for qemu-devel@nongnu.org; Sat, 18 Dec 2021 14:42:58 -0500
-Received: from [2607:f8b0:4864:20::632] (port=41646
- helo=mail-pl1-x632.google.com)
+Received: from [2607:f8b0:4864:20::102a] (port=38894
+ helo=mail-pj1-x102a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1myfbc-0003SQ-NA
- for qemu-devel@nongnu.org; Sat, 18 Dec 2021 14:42:57 -0500
-Received: by mail-pl1-x632.google.com with SMTP id z3so21874plg.8
+ id 1myfbd-0003Sf-82
+ for qemu-devel@nongnu.org; Sat, 18 Dec 2021 14:42:58 -0500
+Received: by mail-pj1-x102a.google.com with SMTP id
+ n15-20020a17090a394f00b001b0f6d6468eso8908454pjf.3
  for <qemu-devel@nongnu.org>; Sat, 18 Dec 2021 11:42:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=95rHiwhaXG6c/+FSCnwWFdNxtgk++vyIoqlU46EymI8=;
- b=Aoh1iZbd90S8tGpUtdcZFXmGt38Md2F4P0ouG05loyuB48Na9tvg5LWdwYVWEnkZyk
- mevnz4OLH7Qi9D3D53W8T+iYhXroFi/8mNKdNOueHTc4cxqUNrLQSJj7ev6Q5MWov8QU
- 6uToNTmze6V3YGrGjleHVuPRxeme/CfCQ/z9umQXJoxKhKt7AF0KR709lj7ZVCD18mmz
- lUzD6H/CymIz+CCFEv8SHzsmjv+ei6xGuN1ilzs6sp4H07GFF2NS23LwGNxpKXTyxyZH
- rEN/VoBnNrvVPyJxG9vch9ODrqsFjzbYM9JE4xLpO/bQTBMylER1r6uiHTVYWerdg0+t
- 7Fkw==
+ bh=5X3wtuEA7K0MfXipdGCYFMj200wnivNx0M8eb7nyK+s=;
+ b=abBVFizTRMK3F8e3Clm6vjdhLeIOKLdySdYCogbhkRhQITvIwGWApCzkBEjyxuERMp
+ xjOoUGENro+bEdsHykpiSRQfTqcABEe4jecpt3i48vyuudfS56wY9CUqVxGTCfmhAfZD
+ KO6U6Hj1l3ncHgH4PC6RMXA5STKeqi0TP6/nfRwKe9d4fEWUff0Ec2A2rhpT0QL6cnbZ
+ F+lyRIDO3lpDk/Hj7EwfK4tlWCRtw9h8NM+vOIf/3u7T/uIjhdlS+WLqnL0JrJuhgX/7
+ zY8PxwWYlKZJ+NPVpxtkwmfRCmRJuHCMyDsR2ZVUng2nCguu7RxPOz4AIDyv34FdE7Kn
+ lxkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=95rHiwhaXG6c/+FSCnwWFdNxtgk++vyIoqlU46EymI8=;
- b=IOHRD2Hbv9PLpMbvvaQQmG6FryHFXy9gN/2Ax7qyKgEEaeBNjcLQHzHFiW3xdY1mJ3
- E1ZikVgFUJhnHvUo5XatO66GMcSWIhNXvUeolz7bWf4SWscfMRWzI5U90fH6oZpZUDuZ
- 8xZEd2ocaRWpc1oL+f9TW5L3ifTOWINvJ2wF4oz3u1XsvNrEgTiLgNCltNpIizAJFvru
- 22CwZy0rULzs+l9ES31//da27eo525E0alYYU65GH/bu5YE/IctXXdgqT4ZcEbYHbrWh
- uCeqFheAoILU8RRWYxCeSOR7oAXINTxNgnJPMqA7rXQojLcMe1rmzlu/AjWp7acELfBl
- en7Q==
-X-Gm-Message-State: AOAM532cu6c3RajbEabtCPNhyGBPJfTQoqSZDUkEEXDFYQYHtrgJmRdH
- 9wQOJrZ8J/ffoWhchskVManBdGh3WegYSg==
-X-Google-Smtp-Source: ABdhPJy/KLgLs0aQzOxSyPPMcCJaWXsL9mVo6Qgkf6aOHZUMWfO0fOgUn2Shig8mMPUqWlZHBPD47w==
-X-Received: by 2002:a17:902:aa89:b0:148:a2e7:fb69 with SMTP id
- d9-20020a170902aa8900b00148a2e7fb69mr9152558plr.170.1639856575525; 
- Sat, 18 Dec 2021 11:42:55 -0800 (PST)
+ bh=5X3wtuEA7K0MfXipdGCYFMj200wnivNx0M8eb7nyK+s=;
+ b=1uAIOTQbmP8jmkYKNY9kPwKotYVDShZgkdw5MvNfoIYs/BID/Hq9V3h4KZmL+Ouirh
+ SIJ7jE+IwTrf1Tf2i+8yL+lAZmyE8TaYNHudSVHzyz9er/36sTOxQlogQCQqIfpeTusP
+ LviBaX93uPrEj19mZ3V+omwJA4aqs8Nr1SpYogGwTt/9Uw6+6bQwL5Gu1FXq0g8Kt9Sr
+ JhtglFuFFdfFaYfMUcHt92PEwEpZtBiKFostqzqQCwVZzqRSSgSRIt9nYgW4lMSseX0f
+ Nc0vS5Z3rO3NuGrMerTHkP9nfgKT73PhFiQowiqUfoZ4DEqPmAzqF5mOMFKpuFx2Bf4S
+ oXhg==
+X-Gm-Message-State: AOAM533cYqtOb+Jt1vX6Nmlvhlywy318MXtfA8oVhpr4oXeCf2HtbiRU
+ Nc5QCVzHT9JN9WA4LhW7V7s8+K/x6mqJGQ==
+X-Google-Smtp-Source: ABdhPJzae7w/8CFIC/6LIKMlkJy14r61G1zNfJPDhIU/OIcyOuTWIrkk73kzxjTTlgMyIZrOugFQzQ==
+X-Received: by 2002:a17:90a:f283:: with SMTP id
+ fs3mr8089500pjb.103.1639856576085; 
+ Sat, 18 Dec 2021 11:42:56 -0800 (PST)
 Received: from localhost.localdomain (174-21-75-75.tukw.qwest.net.
  [174.21.75.75])
  by smtp.gmail.com with ESMTPSA id g19sm10645919pfc.145.2021.12.18.11.42.55
@@ -57,18 +58,19 @@ Received: from localhost.localdomain (174-21-75-75.tukw.qwest.net.
  Sat, 18 Dec 2021 11:42:55 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 06/20] tcg/i386: Add tcg_out_evex_opc
-Date: Sat, 18 Dec 2021 11:42:36 -0800
-Message-Id: <20211218194250.247633-7-richard.henderson@linaro.org>
+Subject: [PATCH 07/20] tcg/i386: Use tcg_can_emit_vec_op in
+ expand_vec_cmp_noinv
+Date: Sat, 18 Dec 2021 11:42:37 -0800
+Message-Id: <20211218194250.247633-8-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211218194250.247633-1-richard.henderson@linaro.org>
 References: <20211218194250.247633-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::632
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102a
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x632.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102a.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -91,84 +93,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The evex encoding is added here, for use in a subsequent patch.
+The condition for UMIN/UMAX availability is about to change;
+use the canonical version.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/i386/tcg-target.c.inc | 51 ++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 50 insertions(+), 1 deletion(-)
+ tcg/i386/tcg-target.c.inc | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/tcg/i386/tcg-target.c.inc b/tcg/i386/tcg-target.c.inc
-index e266f937d6..44d2919047 100644
+index 44d2919047..316e550b38 100644
 --- a/tcg/i386/tcg-target.c.inc
 +++ b/tcg/i386/tcg-target.c.inc
-@@ -261,6 +261,7 @@ static bool tcg_target_const_match(int64_t val, TCGType type, int ct)
- #define P_SIMDF3        0x20000         /* 0xf3 opcode prefix */
- #define P_SIMDF2        0x40000         /* 0xf2 opcode prefix */
- #define P_VEXL          0x80000         /* Set VEX.L = 1 */
-+#define P_EVEX          0x100000        /* Requires EVEX encoding */
- 
- #define OPC_ARITH_EvIz	(0x81)
- #define OPC_ARITH_EvIb	(0x83)
-@@ -623,9 +624,57 @@ static void tcg_out_vex_opc(TCGContext *s, int opc, int r, int v,
-     tcg_out8(s, opc);
- }
- 
-+static void tcg_out_evex_opc(TCGContext *s, int opc, int r, int v,
-+                             int rm, int index)
-+{
-+    /* The entire 4-byte evex prefix; with R' and V' set. */
-+    uint32_t p = 0x08041062;
-+    int mm, pp;
-+
-+    tcg_debug_assert(have_avx512vl);
-+
-+    /* EVEX.mm */
-+    if (opc & P_EXT3A) {
-+        mm = 3;
-+    } else if (opc & P_EXT38) {
-+        mm = 2;
-+    } else if (opc & P_EXT) {
-+        mm = 1;
-+    } else {
-+        g_assert_not_reached();
-+    }
-+
-+    /* EVEX.pp */
-+    if (opc & P_DATA16) {
-+        pp = 1;                          /* 0x66 */
-+    } else if (opc & P_SIMDF3) {
-+        pp = 2;                          /* 0xf3 */
-+    } else if (opc & P_SIMDF2) {
-+        pp = 3;                          /* 0xf2 */
-+    } else {
-+        pp = 0;
-+    }
-+
-+    p = deposit32(p, 8, 2, mm);
-+    p = deposit32(p, 13, 1, (rm & 8) == 0);             /* EVEX.RXB.B */
-+    p = deposit32(p, 14, 1, (index & 8) == 0);          /* EVEX.RXB.X */
-+    p = deposit32(p, 15, 1, (r & 8) == 0);              /* EVEX.RXB.R */
-+    p = deposit32(p, 16, 2, pp);
-+    p = deposit32(p, 19, 4, ~v);
-+    p = deposit32(p, 23, 1, (opc & P_VEXW) != 0);
-+    p = deposit32(p, 29, 2, (opc & P_VEXL) != 0);
-+
-+    tcg_out32(s, p);
-+    tcg_out8(s, opc);
-+}
-+
- static void tcg_out_vex_modrm(TCGContext *s, int opc, int r, int v, int rm)
- {
--    tcg_out_vex_opc(s, opc, r, v, rm, 0);
-+    if (opc & P_EVEX) {
-+        tcg_out_evex_opc(s, opc, r, v, rm, 0);
-+    } else {
-+        tcg_out_vex_opc(s, opc, r, v, rm, 0);
-+    }
-     tcg_out8(s, 0xc0 | (LOWREGMASK(r) << 3) | LOWREGMASK(rm));
- }
- 
+@@ -3527,28 +3527,28 @@ static bool expand_vec_cmp_noinv(TCGType type, unsigned vece, TCGv_vec v0,
+         fixup = NEED_SWAP | NEED_INV;
+         break;
+     case TCG_COND_LEU:
+-        if (vece <= MO_32) {
++        if (tcg_can_emit_vec_op(INDEX_op_umin_vec, type, vece)) {
+             fixup = NEED_UMIN;
+         } else {
+             fixup = NEED_BIAS | NEED_INV;
+         }
+         break;
+     case TCG_COND_GTU:
+-        if (vece <= MO_32) {
++        if (tcg_can_emit_vec_op(INDEX_op_umin_vec, type, vece)) {
+             fixup = NEED_UMIN | NEED_INV;
+         } else {
+             fixup = NEED_BIAS;
+         }
+         break;
+     case TCG_COND_GEU:
+-        if (vece <= MO_32) {
++        if (tcg_can_emit_vec_op(INDEX_op_umax_vec, type, vece)) {
+             fixup = NEED_UMAX;
+         } else {
+             fixup = NEED_BIAS | NEED_SWAP | NEED_INV;
+         }
+         break;
+     case TCG_COND_LTU:
+-        if (vece <= MO_32) {
++        if (tcg_can_emit_vec_op(INDEX_op_umax_vec, type, vece)) {
+             fixup = NEED_UMAX | NEED_INV;
+         } else {
+             fixup = NEED_BIAS | NEED_SWAP;
 -- 
 2.25.1
 
