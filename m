@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71B67479AF5
-	for <lists+qemu-devel@lfdr.de>; Sat, 18 Dec 2021 14:11:48 +0100 (CET)
-Received: from localhost ([::1]:41444 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 515C1479AF7
+	for <lists+qemu-devel@lfdr.de>; Sat, 18 Dec 2021 14:13:22 +0100 (CET)
+Received: from localhost ([::1]:46934 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1myZV5-0004IH-IB
-	for lists+qemu-devel@lfdr.de; Sat, 18 Dec 2021 08:11:47 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51846)
+	id 1myZWb-0008Bw-FJ
+	for lists+qemu-devel@lfdr.de; Sat, 18 Dec 2021 08:13:21 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51928)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1myZOS-0005LL-6E; Sat, 18 Dec 2021 08:05:00 -0500
-Received: from [2a00:1450:4864:20::432] (port=42844
- helo=mail-wr1-x432.google.com)
+ id 1myZOV-0005LS-D1; Sat, 18 Dec 2021 08:05:00 -0500
+Received: from [2a00:1450:4864:20::434] (port=37600
+ helo=mail-wr1-x434.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1myZOM-00039F-7s; Sat, 18 Dec 2021 08:04:52 -0500
-Received: by mail-wr1-x432.google.com with SMTP id c4so9355194wrd.9;
- Sat, 18 Dec 2021 05:04:45 -0800 (PST)
+ id 1myZOS-0003A0-3V; Sat, 18 Dec 2021 08:04:58 -0500
+Received: by mail-wr1-x434.google.com with SMTP id t26so9397281wrb.4;
+ Sat, 18 Dec 2021 05:04:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=nYRF7Ay5OmCxJuygY/6kEra6OgWNJoLw6b9JAs3k8BU=;
- b=Shd/zgl3ELASaHx9wYSpKSpYkTvs9+mfYx8Zs1hReJVHtAkLgsaC4VCZX/62bHNpYx
- bcj1eIlZynEEPlR44NHnZirUCNq5Snpm9GcNG2Ac0UE3KD/uwy5Kwg+SGrsgVtlMNyZC
- qyOE1WCt7ZGA5kXjvfo+0xsDIezMmvoZmJPJ+/ioRq511m2WEAJZca+Cw+5cDaUiTeoC
- L8yN1ZstmBSRzOeGR35qPvZmLjATm1e2pyG6eyqXBJLQmy2QJJ9dNI5iB/lps6nGa91o
- nkaoz8hkvs15im8aFY1tc0vDR1Dv+epQAOMzMNXe1/M9F81bVNBdp5GYbBDSPpBewp5d
- u+3w==
+ bh=JR83GSnIQSf/gotcsojhbGa6MQnVjlAzL2fPx52q0GE=;
+ b=XCRRY13YbQg7C7Jfke5MOtxJbewc82LW1pEWww3XqG9HgHyD9jQL+YG0psdUNHHIqO
+ 0fOWlllFRWQLefRdli8QPet+y2VSYcxJQWv9WIgesIleWdwgQTeAEQGa+m4RnZ4uZvcT
+ SxX5h59doT3u77naosGpKbu2TnywB0W6Qo2pRWj5TTZ/+1I00YXCZt2OYgR/4jK2QxS9
+ GMYmokIL8i4rIokNnximxChKMpZf/UHmkVbEzBB07K7/YYxWThYE49R4S3Fu9I1+qo4o
+ VPAc5VHRpyBVQOYFT9lrfcLM/f8hgBo8iz1Pkt5TkQiEHkuf4h1f9Z5aGxC+VKG/fbgS
+ uyNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=nYRF7Ay5OmCxJuygY/6kEra6OgWNJoLw6b9JAs3k8BU=;
- b=7Z6WXG/22D9XHg9u1vM1EPri5IPJvNaP20ELkqymUZCe6UpVU7MM38RFFUqt/cS1yb
- kdm0NdqMEPJmqBCMUdYBN/LvyrI1qZzztgDeMX+ehS9VFJk0g78qxsWJJInXhAKYk0Ri
- u+Wm7OaEYRH6O8+WVMkfVkQe7tophE9YEbqxlupgLWHjXiT9q8kHsbGz0EoVFrGZRjRt
- 0FaWfDjr94t8yCDZAzaAn+JBYQF49Q78x5MD+BBNokoYRDEWpZ81O4uExWv4uHhpZefi
- iMxMIugV1UVJjwjgO4uIau5eN1CrhzQb4LaRCOx+oKiWHJt7YYt/RRzDBOcx1jnkV0Vj
- phtg==
-X-Gm-Message-State: AOAM533g/tJQeaapqVbkF2ZXnnHnSOB4jylvoj2x1ohzpG1+mVlpMiXu
- gmt2KdZStT8FHjzTDyxZgDGKNNC/j8Q=
-X-Google-Smtp-Source: ABdhPJze2AoGxcaNhhLfnqvIHl4vgbhOWKltiE50QHLnG110Iwfpjyxn5rdDtpz2b5jJZbN0nRWfnw==
-X-Received: by 2002:a05:6000:1aca:: with SMTP id
- i10mr6427715wry.407.1639832684399; 
- Sat, 18 Dec 2021 05:04:44 -0800 (PST)
+ bh=JR83GSnIQSf/gotcsojhbGa6MQnVjlAzL2fPx52q0GE=;
+ b=WJIjMyRA6Lczn4gENx/DhIG1H1eL0tQYk/GM2bIiqyrkE9kON3ceMPqpJdxAfMwe79
+ 3BaUqzLQXDtK8xoc1xmt4mUg7KtzIWOdnHwEYcI4zDmwsQC07LpvfwL1J3eizc4SPrUh
+ +VqctUo7GEYT2/268BDvM1fmrSkI750Jha9Qc5Ft5G7B0QhPJ9sagoAtB2B06B4SvB/n
+ p2wwdELKKVVTVTbmycZBqMb8FgrH/a0x7IvBGGC9lR8upRCRM88+OiZ9lhtdN5UJfXmi
+ xeN4OQw2Is3jNcuAkNTV1hBiLHDG/8JRmwXE6dFi7d0FXbgt5WmM4NXnI25VYeqHzGjQ
+ quHQ==
+X-Gm-Message-State: AOAM533UqEy6JmjgzmYyjo77aEugUQTOkj/RyqjG8KU2Zx5WRpSW6gNQ
+ gaL1DhGuYsas5rmJQ5VWqFpmeLs1qhE=
+X-Google-Smtp-Source: ABdhPJwqVcjYRet+XNFh+OWmWl9Xh/+qfKR/gI2eAXg628WJxfVrFxDET7oVLvBWHjjelDa28cu4jw==
+X-Received: by 2002:adf:eb05:: with SMTP id s5mr5956723wrn.448.1639832689087; 
+ Sat, 18 Dec 2021 05:04:49 -0800 (PST)
 Received: from x1w.. (174.red-83-50-185.dynamicip.rima-tde.net.
  [83.50.185.174])
- by smtp.gmail.com with ESMTPSA id n1sm12456386wrc.54.2021.12.18.05.04.43
+ by smtp.gmail.com with ESMTPSA id h1sm10276981wrf.33.2021.12.18.05.04.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 18 Dec 2021 05:04:44 -0800 (PST)
+ Sat, 18 Dec 2021 05:04:48 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 1/5] hw/qdev: Cosmetic around documentation
-Date: Sat, 18 Dec 2021 14:04:33 +0100
-Message-Id: <20211218130437.1516929-2-f4bug@amsat.org>
+Subject: [PATCH v2 2/5] hw/qdev: Correct qdev_init_gpio_out_named()
+ documentation
+Date: Sat, 18 Dec 2021 14:04:34 +0100
+Message-Id: <20211218130437.1516929-3-f4bug@amsat.org>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211218130437.1516929-1-f4bug@amsat.org>
 References: <20211218130437.1516929-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::432
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::434
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x432.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -95,106 +95,28 @@ Cc: Eduardo Habkost <eduardo@habkost.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add empty lines to have a clearer distinction between different
-functions declarations.
+qdev_init_gpio_out_named() is described as qdev_init_gpio_out(),
+and referring to itself in an endless loop, which is confusing. Fix.
 
+Reported-by: Yanan Wang <wangyanan55@huawei.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- include/hw/qdev-core.h | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ include/hw/qdev-core.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
-index 20d3066595e..59a822ffceb 100644
+index 59a822ffceb..dcf20c69b89 100644
 --- a/include/hw/qdev-core.h
 +++ b/include/hw/qdev-core.h
-@@ -321,6 +321,7 @@ compat_props_add(GPtrArray *arr,
-  * The returned object has a reference count of 1.
-  */
- DeviceState *qdev_new(const char *name);
-+
- /**
-  * qdev_try_new: Try to create a device on the heap
-  * @name: device type to create
-@@ -329,6 +330,7 @@ DeviceState *qdev_new(const char *name);
-  * does not exist, rather than asserting.
-  */
- DeviceState *qdev_try_new(const char *name);
-+
- /**
-  * qdev_realize: Realize @dev.
-  * @dev: device to realize
-@@ -347,6 +349,7 @@ DeviceState *qdev_try_new(const char *name);
-  * qdev_realize_and_unref() instead.
-  */
- bool qdev_realize(DeviceState *dev, BusState *bus, Error **errp);
-+
- /**
-  * qdev_realize_and_unref: Realize @dev and drop a reference
-  * @dev: device to realize
-@@ -372,6 +375,7 @@ bool qdev_realize(DeviceState *dev, BusState *bus, Error **errp);
-  * would be incorrect. For that use case you want qdev_realize().
-  */
- bool qdev_realize_and_unref(DeviceState *dev, BusState *bus, Error **errp);
-+
- /**
-  * qdev_unrealize: Unrealize a device
-  * @dev: device to unrealize
-@@ -450,6 +454,7 @@ typedef enum {
-  * For named input GPIO lines, use qdev_get_gpio_in_named().
-  */
- qemu_irq qdev_get_gpio_in(DeviceState *dev, int n);
-+
- /**
-  * qdev_get_gpio_in_named: Get one of a device's named input GPIO lines
-  * @dev: Device whose GPIO we want
-@@ -497,6 +502,7 @@ qemu_irq qdev_get_gpio_in_named(DeviceState *dev, const char *name, int n);
-  * For named output GPIO lines, use qdev_connect_gpio_out_named().
-  */
- void qdev_connect_gpio_out(DeviceState *dev, int n, qemu_irq pin);
-+
- /**
-  * qdev_connect_gpio_out: Connect one of a device's anonymous output GPIO lines
-  * @dev: Device whose GPIO to connect
-@@ -524,6 +530,7 @@ void qdev_connect_gpio_out(DeviceState *dev, int n, qemu_irq pin);
-  */
- void qdev_connect_gpio_out_named(DeviceState *dev, const char *name, int n,
-                                  qemu_irq pin);
-+
- /**
-  * qdev_get_gpio_out_connector: Get the qemu_irq connected to an output GPIO
-  * @dev: Device whose output GPIO we are interested in
-@@ -541,6 +548,7 @@ void qdev_connect_gpio_out_named(DeviceState *dev, const char *name, int n,
-  * by the platform-bus subsystem.
-  */
- qemu_irq qdev_get_gpio_out_connector(DeviceState *dev, const char *name, int n);
-+
- /**
-  * qdev_intercept_gpio_out: Intercept an existing GPIO connection
-  * @dev: Device to intercept the outbound GPIO line from
-@@ -582,6 +590,7 @@ BusState *qdev_get_child_bus(DeviceState *dev, const char *name);
-  * hold of an input GPIO line to manipulate it.
-  */
- void qdev_init_gpio_in(DeviceState *dev, qemu_irq_handler handler, int n);
-+
- /**
-  * qdev_init_gpio_out: create an array of anonymous output GPIO lines
-  * @dev: Device to create output GPIOs for
-@@ -610,6 +619,7 @@ void qdev_init_gpio_in(DeviceState *dev, qemu_irq_handler handler, int n);
-  * handler.
-  */
+@@ -621,7 +621,7 @@ void qdev_init_gpio_in(DeviceState *dev, qemu_irq_handler handler, int n);
  void qdev_init_gpio_out(DeviceState *dev, qemu_irq *pins, int n);
-+
+ 
  /**
-  * qdev_init_gpio_out: create an array of named output GPIO lines
+- * qdev_init_gpio_out: create an array of named output GPIO lines
++ * qdev_init_gpio_out_named: create an array of named output GPIO lines
   * @dev: Device to create output GPIOs for
-@@ -623,6 +633,7 @@ void qdev_init_gpio_out(DeviceState *dev, qemu_irq *pins, int n);
-  */
- void qdev_init_gpio_out_named(DeviceState *dev, qemu_irq *pins,
-                               const char *name, int n);
-+
- /**
-  * qdev_init_gpio_in_named_with_opaque: create an array of input GPIO lines
-  *   for the specified device
+  * @pins: Pointer to qemu_irq or qemu_irq array for the GPIO lines
+  * @name: Name to give this array of GPIO lines
 -- 
 2.33.1
 
