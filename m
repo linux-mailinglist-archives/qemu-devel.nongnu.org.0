@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E4F2479B8C
-	for <lists+qemu-devel@lfdr.de>; Sat, 18 Dec 2021 16:15:23 +0100 (CET)
-Received: from localhost ([::1]:48966 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6299479B89
+	for <lists+qemu-devel@lfdr.de>; Sat, 18 Dec 2021 16:13:42 +0100 (CET)
+Received: from localhost ([::1]:43200 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mybQg-0008AE-KB
-	for lists+qemu-devel@lfdr.de; Sat, 18 Dec 2021 10:15:22 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44774)
+	id 1mybP3-0004JN-Sr
+	for lists+qemu-devel@lfdr.de; Sat, 18 Dec 2021 10:13:41 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44802)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mybMd-00027F-Ah
- for qemu-devel@nongnu.org; Sat, 18 Dec 2021 10:11:11 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20350)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mybMi-0002Bx-Od
+ for qemu-devel@nongnu.org; Sat, 18 Dec 2021 10:11:17 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56799)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mybMa-0003W5-IR
- for qemu-devel@nongnu.org; Sat, 18 Dec 2021 10:11:10 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mybMe-0003gw-Qd
+ for qemu-devel@nongnu.org; Sat, 18 Dec 2021 10:11:16 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639840267;
+ s=mimecast20190719; t=1639840272;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=AGAlxPyEcsvzR3DZ2hxvZ+MjXjPRcaMiHyCHLICfCkI=;
- b=KpPcaZmPNiXjbQigtHQJ5+c921FBXGqZRyzEAu2cuxhXcHxC/rMISqEUcoWwOryAc4HaBQ
- TaoJduB7Rd0ENMmov+aNAEuUPq0f/oQzbOehAiUXtozLnXrHe/805DC4aVpW/zO7EcFTTv
- vY6lFH07XF71hzbqmq3pG3C90b5Xb74=
+ bh=dyGasbUZIFPw7fvwhyTaoJCMYzza07uwayvggRa8jm0=;
+ b=RMSOKrd0vXFDUrg3A2sU7OoFa3ZXWWYocQWq05MGjKV/r3l3rEdWLhcqhCOC33GMLOw8U8
+ jO/iWCpIakSVrMcLlQ1FsaupuAvYeb8cDTBI7UMGCGzm4YVD5zX9o++zKtCOhJ4TLqg6Or
+ 3rszdEJDIlcOW0+1lp6aotLqxxwHyaM=
 Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
  [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-364-sOyZzJ56OhKg25nNQ2qk7g-1; Sat, 18 Dec 2021 10:11:06 -0500
-X-MC-Unique: sOyZzJ56OhKg25nNQ2qk7g-1
+ us-mta-204-pAetNd_3PUO6jfGyc2nQKA-1; Sat, 18 Dec 2021 10:11:11 -0500
+X-MC-Unique: pAetNd_3PUO6jfGyc2nQKA-1
 Received: by mail-wr1-f72.google.com with SMTP id
- d6-20020adfa346000000b001a262748c6fso610304wrb.12
- for <qemu-devel@nongnu.org>; Sat, 18 Dec 2021 07:11:06 -0800 (PST)
+ p1-20020adfba81000000b001a25b07ff53so1200346wrg.22
+ for <qemu-devel@nongnu.org>; Sat, 18 Dec 2021 07:11:10 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=AGAlxPyEcsvzR3DZ2hxvZ+MjXjPRcaMiHyCHLICfCkI=;
- b=mXViUhChG9l+IgNqVCEgKJezyu5md7TnwWMh6gEbi4t0rgoWPx6nlC6DLiVV8xzJJP
- A/0Zg7fU2UF6LuTDt3VjlND2TUfHCbMpQmgojLbW0UyAPJO4i5e1fnKkHwsgIr7XGdNg
- q2zvC1llTcOlmC1onxIhQYd95c1QAHXr/5f8KhTzkgy4FrzcWFC0na6u3NletI0fFu6X
- Cjn7PTN41qRafTkZQ5gJKilZRokV/fzX+vcRH/jAXCpM8UZWPmi/gjlezQAG33VVzcN0
- itIMkLL1uyYUjXY3yRrzOByFzcjVNek1OsD5oYpXe1I18fEzFj/oSdMmCw/XZnNwkl3F
- hnrA==
-X-Gm-Message-State: AOAM532oNMX8bGcCxYWQoT7VcBGZ/eX8erH0LxcJ+Vz5dOw9YypIY2pa
- ZQRfiX0B1HWn4s4+kyg8HnnboW1ZWsml5BljLIos+3Rlb02kQhsDFMpHiucl7Y5MLLIDZUHIVW4
- ye0Y/VIy9ZW6NoiNY8Bre/NaTgbIqPOOkZFBCp7lT1jlSHK7zgRKIgeGJJ/0H8lrO
-X-Received: by 2002:a5d:42c8:: with SMTP id t8mr2553680wrr.369.1639840264769; 
- Sat, 18 Dec 2021 07:11:04 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyVcbonj/g9x8/hXip0ziuZ5aoWdu2h5eM68JELiBXzA0r8rmWZVZNhbp3pFj24ZyM2UY5XZw==
-X-Received: by 2002:a5d:42c8:: with SMTP id t8mr2553646wrr.369.1639840264467; 
- Sat, 18 Dec 2021 07:11:04 -0800 (PST)
+ bh=dyGasbUZIFPw7fvwhyTaoJCMYzza07uwayvggRa8jm0=;
+ b=Ok29dAOWHtuGlCB+pleEnJ4MBsbbT6p04lBtXYZ8ZVZwxlpzaLLj46Lu1jxXdsa0p5
+ +vvrtADoeOu3OzxfOzfcZGmWxZIETX5wy3PLAaKoA9G2MYFii7gyIG81iib5j0U0Du6I
+ JqbFaVnLFXOUqaAeYq+Qi0XPlSe2JoZXm09DVhESTg1Z2jS+GTwQZp8+oN0/uV794NxS
+ /G7ZrARQg7gjlGqhxe8uSZeFs0MtAggTAo11/VtZH/YtI3MzKDcmcn1LliAp0QqdKA7o
+ ykGWxhoJeTQcmIST5EDHU966XaJhRxQtLpRbGXnQaJh2XMBPrmreVMWBOlEMqJ3T52VD
+ bybQ==
+X-Gm-Message-State: AOAM530mqjpK7d4kU5K6uw4f7m2maNimwXZE63Mni1R3DuCVHa3uJWP2
+ 0hZ6/Hodgniq4VgkKZ0p7I82TTB/vN1/TF9quSWnygPDc6+KPxfwMswxj/aCkOvbshx4BCVQaid
+ mvAsUziH9mdlBmsR3msAMuOad9PY/8EyNOGNR/Yltd6EUfqTqqQoAFYhLmg89Tx4b
+X-Received: by 2002:adf:f8cb:: with SMTP id f11mr6464746wrq.700.1639840269652; 
+ Sat, 18 Dec 2021 07:11:09 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwctQ0B7QLQ6XiLThzG4ssPryhsg7iV9BJ8glDYihq0/sPdMknGC1Qf2cY75x7CvRyxloKRlA==
+X-Received: by 2002:adf:f8cb:: with SMTP id f11mr6464714wrq.700.1639840269365; 
+ Sat, 18 Dec 2021 07:11:09 -0800 (PST)
 Received: from x1w.. (174.red-83-50-185.dynamicip.rima-tde.net.
  [83.50.185.174])
- by smtp.gmail.com with ESMTPSA id h19sm10834055wmq.0.2021.12.18.07.11.03
+ by smtp.gmail.com with ESMTPSA id az15sm5948661wmb.47.2021.12.18.07.11.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 18 Dec 2021 07:11:04 -0800 (PST)
+ Sat, 18 Dec 2021 07:11:08 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/5] dma: Let st*_pci_dma() take MemTxAttrs argument
-Date: Sat, 18 Dec 2021 16:10:50 +0100
-Message-Id: <20211218151053.1545962-3-philmd@redhat.com>
+Subject: [PATCH 3/5] dma: Let ld*_pci_dma() take MemTxAttrs argument
+Date: Sat, 18 Dec 2021 16:10:51 +0100
+Message-Id: <20211218151053.1545962-4-philmd@redhat.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211218151053.1545962-1-philmd@redhat.com>
 References: <20211218151053.1545962-1-philmd@redhat.com>
@@ -107,292 +107,260 @@ Cc: Fam Zheng <fam@euphon.net>, Hannes Reinecke <hare@suse.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Let devices specify transaction attributes when calling st*_pci_dma().
+Let devices specify transaction attributes when calling ld*_pci_dma().
 
 Keep the default MEMTXATTRS_UNSPECIFIED in the few callers.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- include/hw/pci/pci.h | 11 ++++++-----
- hw/audio/intel-hda.c | 10 ++++++----
- hw/net/eepro100.c    | 29 ++++++++++++++++++-----------
+ include/hw/pci/pci.h |  6 +++---
+ hw/audio/intel-hda.c |  2 +-
+ hw/net/eepro100.c    | 19 +++++++++++++------
  hw/net/tulip.c       | 18 ++++++++++--------
- hw/scsi/megasas.c    | 15 ++++++++++-----
+ hw/scsi/megasas.c    | 16 ++++++++++------
+ hw/scsi/mptsas.c     | 10 ++++++----
  hw/scsi/vmw_pvscsi.c |  3 ++-
- 6 files changed, 52 insertions(+), 34 deletions(-)
+ hw/usb/hcd-xhci.c    |  1 +
+ 8 files changed, 46 insertions(+), 29 deletions(-)
 
 diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
-index 8c5f2ed5054..9f51ef2c3c2 100644
+index 9f51ef2c3c2..7a46c1fa226 100644
 --- a/include/hw/pci/pci.h
 +++ b/include/hw/pci/pci.h
-@@ -859,11 +859,12 @@ static inline MemTxResult pci_dma_write(PCIDevice *dev, dma_addr_t addr,
-                      MEMTXATTRS_UNSPECIFIED); \
+@@ -852,11 +852,11 @@ static inline MemTxResult pci_dma_write(PCIDevice *dev, dma_addr_t addr,
+ 
+ #define PCI_DMA_DEFINE_LDST(_l, _s, _bits)                              \
+     static inline uint##_bits##_t ld##_l##_pci_dma(PCIDevice *dev,      \
+-                                                   dma_addr_t addr)     \
++                                                   dma_addr_t addr, \
++                                                   MemTxAttrs attrs) \
+     {                                                                   \
+         uint##_bits##_t val; \
+-        ld##_l##_dma(pci_get_address_space(dev), addr, &val, \
+-                     MEMTXATTRS_UNSPECIFIED); \
++        ld##_l##_dma(pci_get_address_space(dev), addr, &val, attrs); \
          return val; \
      }                                                                   \
--    static inline void st##_s##_pci_dma(PCIDevice *dev,                 \
--                                        dma_addr_t addr, uint##_bits##_t val) \
--    {                                                                   \
--        st##_s##_dma(pci_get_address_space(dev), addr, val, \
--                     MEMTXATTRS_UNSPECIFIED); \
-+    static inline void st##_s##_pci_dma(PCIDevice *dev, \
-+                                        dma_addr_t addr, \
-+                                        uint##_bits##_t val, \
-+                                        MemTxAttrs attrs) \
-+    { \
-+        st##_s##_dma(pci_get_address_space(dev), addr, val, attrs); \
-     }
- 
- PCI_DMA_DEFINE_LDST(ub, b, 8);
+     static inline void st##_s##_pci_dma(PCIDevice *dev, \
 diff --git a/hw/audio/intel-hda.c b/hw/audio/intel-hda.c
-index fb3d34a4a0c..3309ae0ea18 100644
+index 3309ae0ea18..e34b7ab0e92 100644
 --- a/hw/audio/intel-hda.c
 +++ b/hw/audio/intel-hda.c
-@@ -345,6 +345,7 @@ static void intel_hda_corb_run(IntelHDAState *d)
+@@ -335,7 +335,7 @@ static void intel_hda_corb_run(IntelHDAState *d)
  
- static void intel_hda_response(HDACodecDevice *dev, bool solicited, uint32_t response)
- {
-+    const MemTxAttrs attrs = MEMTXATTRS_UNSPECIFIED;
-     HDACodecBus *bus = HDA_BUS(dev->qdev.parent_bus);
-     IntelHDAState *d = container_of(bus, IntelHDAState, codecs);
-     hwaddr addr;
-@@ -367,8 +368,8 @@ static void intel_hda_response(HDACodecDevice *dev, bool solicited, uint32_t res
-     ex = (solicited ? 0 : (1 << 4)) | dev->cad;
-     wp = (d->rirb_wp + 1) & 0xff;
-     addr = intel_hda_addr(d->rirb_lbase, d->rirb_ubase);
--    stl_le_pci_dma(&d->pci, addr + 8*wp, response);
--    stl_le_pci_dma(&d->pci, addr + 8*wp + 4, ex);
-+    stl_le_pci_dma(&d->pci, addr + 8 * wp, response, attrs);
-+    stl_le_pci_dma(&d->pci, addr + 8 * wp + 4, ex, attrs);
-     d->rirb_wp = wp;
+         rp = (d->corb_rp + 1) & 0xff;
+         addr = intel_hda_addr(d->corb_lbase, d->corb_ubase);
+-        verb = ldl_le_pci_dma(&d->pci, addr + 4*rp);
++        verb = ldl_le_pci_dma(&d->pci, addr + 4 * rp, MEMTXATTRS_UNSPECIFIED);
+         d->corb_rp = rp;
  
-     dprint(d, 2, "%s: [wp 0x%x] response 0x%x, extra 0x%x\n",
-@@ -394,6 +395,7 @@ static void intel_hda_response(HDACodecDevice *dev, bool solicited, uint32_t res
- static bool intel_hda_xfer(HDACodecDevice *dev, uint32_t stnr, bool output,
-                            uint8_t *buf, uint32_t len)
- {
-+    const MemTxAttrs attrs = MEMTXATTRS_UNSPECIFIED;
-     HDACodecBus *bus = HDA_BUS(dev->qdev.parent_bus);
-     IntelHDAState *d = container_of(bus, IntelHDAState, codecs);
-     hwaddr addr;
-@@ -428,7 +430,7 @@ static bool intel_hda_xfer(HDACodecDevice *dev, uint32_t stnr, bool output,
-                st->be, st->bp, st->bpl[st->be].len, copy);
- 
-         pci_dma_rw(&d->pci, st->bpl[st->be].addr + st->bp, buf, copy, !output,
--                   MEMTXATTRS_UNSPECIFIED);
-+                   attrs);
-         st->lpib += copy;
-         st->bp += copy;
-         buf += copy;
-@@ -451,7 +453,7 @@ static bool intel_hda_xfer(HDACodecDevice *dev, uint32_t stnr, bool output,
-     if (d->dp_lbase & 0x01) {
-         s = st - d->st;
-         addr = intel_hda_addr(d->dp_lbase & ~0x01, d->dp_ubase);
--        stl_le_pci_dma(&d->pci, addr + 8*s, st->lpib);
-+        stl_le_pci_dma(&d->pci, addr + 8 * s, st->lpib, attrs);
-     }
-     dprint(d, 3, "dma: --\n");
- 
+         dprint(d, 2, "%s: [rp 0x%x] verb 0x%08x\n", __func__, rp, verb);
 diff --git a/hw/net/eepro100.c b/hw/net/eepro100.c
-index 16e95ef9cc9..83c4431b1ad 100644
+index 83c4431b1ad..eb82e9cb118 100644
 --- a/hw/net/eepro100.c
 +++ b/hw/net/eepro100.c
-@@ -700,6 +700,8 @@ static void set_ru_state(EEPRO100State * s, ru_state_t state)
+@@ -737,6 +737,7 @@ static void read_cb(EEPRO100State *s)
  
- static void dump_statistics(EEPRO100State * s)
+ static void tx_command(EEPRO100State *s)
  {
 +    const MemTxAttrs attrs = MEMTXATTRS_UNSPECIFIED;
-+
-     /* Dump statistical data. Most data is never changed by the emulation
-      * and always 0, so we first just copy the whole block and then those
-      * values which really matter.
-@@ -707,16 +709,18 @@ static void dump_statistics(EEPRO100State * s)
-      */
-     pci_dma_write(&s->dev, s->statsaddr, &s->statistics, s->stats_size);
-     stl_le_pci_dma(&s->dev, s->statsaddr + 0,
--                   s->statistics.tx_good_frames);
-+                   s->statistics.tx_good_frames, attrs);
-     stl_le_pci_dma(&s->dev, s->statsaddr + 36,
--                   s->statistics.rx_good_frames);
-+                   s->statistics.rx_good_frames, attrs);
-     stl_le_pci_dma(&s->dev, s->statsaddr + 48,
--                   s->statistics.rx_resource_errors);
-+                   s->statistics.rx_resource_errors, attrs);
-     stl_le_pci_dma(&s->dev, s->statsaddr + 60,
--                   s->statistics.rx_short_frame_errors);
-+                   s->statistics.rx_short_frame_errors, attrs);
- #if 0
--    stw_le_pci_dma(&s->dev, s->statsaddr + 76, s->statistics.xmt_tco_frames);
--    stw_le_pci_dma(&s->dev, s->statsaddr + 78, s->statistics.rcv_tco_frames);
-+    stw_le_pci_dma(&s->dev, s->statsaddr + 76,
-+                   s->statistics.xmt_tco_frames, attrs);
-+    stw_le_pci_dma(&s->dev, s->statsaddr + 78,
-+                   s->statistics.rcv_tco_frames, attrs);
-     missing("CU dump statistical counters");
- #endif
- }
-@@ -833,6 +837,7 @@ static void set_multicast_list(EEPRO100State *s)
- 
- static void action_command(EEPRO100State *s)
- {
-+    const MemTxAttrs attrs = MEMTXATTRS_UNSPECIFIED;
-     /* The loop below won't stop if it gets special handcrafted data.
-        Therefore we limit the number of iterations. */
-     unsigned max_loop_count = 16;
-@@ -911,7 +916,7 @@ static void action_command(EEPRO100State *s)
+     uint32_t tbd_array = s->tx.tbd_array_addr;
+     uint16_t tcb_bytes = s->tx.tcb_bytes & 0x3fff;
+     /* Sends larger than MAX_ETH_FRAME_SIZE are allowed, up to 2600 bytes. */
+@@ -772,11 +773,14 @@ static void tx_command(EEPRO100State *s)
+             /* Extended Flexible TCB. */
+             for (; tbd_count < 2; tbd_count++) {
+                 uint32_t tx_buffer_address = ldl_le_pci_dma(&s->dev,
+-                                                            tbd_address);
++                                                            tbd_address,
++                                                            attrs);
+                 uint16_t tx_buffer_size = lduw_le_pci_dma(&s->dev,
+-                                                          tbd_address + 4);
++                                                          tbd_address + 4,
++                                                          attrs);
+                 uint16_t tx_buffer_el = lduw_le_pci_dma(&s->dev,
+-                                                        tbd_address + 6);
++                                                        tbd_address + 6,
++                                                        attrs);
+                 tbd_address += 8;
+                 TRACE(RXTX, logout
+                     ("TBD (extended flexible mode): buffer address 0x%08x, size 0x%04x\n",
+@@ -792,9 +796,12 @@ static void tx_command(EEPRO100State *s)
          }
-         /* Write new status. */
-         stw_le_pci_dma(&s->dev, s->cb_address,
--                       s->tx.status | ok_status | STATUS_C);
-+                       s->tx.status | ok_status | STATUS_C, attrs);
-         if (bit_i) {
-             /* CU completed action. */
-             eepro100_cx_interrupt(s);
-@@ -937,6 +942,7 @@ static void action_command(EEPRO100State *s)
- 
- static void eepro100_cu_command(EEPRO100State * s, uint8_t val)
- {
-+    const MemTxAttrs attrs = MEMTXATTRS_UNSPECIFIED;
-     cu_state_t cu_state;
-     switch (val) {
-     case CU_NOP:
-@@ -986,7 +992,7 @@ static void eepro100_cu_command(EEPRO100State * s, uint8_t val)
-         /* Dump statistical counters. */
-         TRACE(OTHER, logout("val=0x%02x (dump stats)\n", val));
-         dump_statistics(s);
--        stl_le_pci_dma(&s->dev, s->statsaddr + s->stats_size, 0xa005);
-+        stl_le_pci_dma(&s->dev, s->statsaddr + s->stats_size, 0xa005, attrs);
-         break;
-     case CU_CMD_BASE:
-         /* Load CU base. */
-@@ -997,7 +1003,7 @@ static void eepro100_cu_command(EEPRO100State * s, uint8_t val)
-         /* Dump and reset statistical counters. */
-         TRACE(OTHER, logout("val=0x%02x (dump stats and reset)\n", val));
-         dump_statistics(s);
--        stl_le_pci_dma(&s->dev, s->statsaddr + s->stats_size, 0xa007);
-+        stl_le_pci_dma(&s->dev, s->statsaddr + s->stats_size, 0xa007, attrs);
-         memset(&s->statistics, 0, sizeof(s->statistics));
-         break;
-     case CU_SRESUME:
-@@ -1612,6 +1618,7 @@ static ssize_t nic_receive(NetClientState *nc, const uint8_t * buf, size_t size)
-      * - Magic packets should set bit 30 in power management driver register.
-      * - Interesting packets should set bit 29 in power management driver register.
-      */
-+    const MemTxAttrs attrs = MEMTXATTRS_UNSPECIFIED;
-     EEPRO100State *s = qemu_get_nic_opaque(nc);
-     uint16_t rfd_status = 0xa000;
- #if defined(CONFIG_PAD_RECEIVED_FRAMES)
-@@ -1726,9 +1733,9 @@ static ssize_t nic_receive(NetClientState *nc, const uint8_t * buf, size_t size)
-     TRACE(OTHER, logout("command 0x%04x, link 0x%08x, addr 0x%08x, size %u\n",
-           rfd_command, rx.link, rx.rx_buf_addr, rfd_size));
-     stw_le_pci_dma(&s->dev, s->ru_base + s->ru_offset +
--                offsetof(eepro100_rx_t, status), rfd_status);
-+                offsetof(eepro100_rx_t, status), rfd_status, attrs);
-     stw_le_pci_dma(&s->dev, s->ru_base + s->ru_offset +
--                offsetof(eepro100_rx_t, count), size);
-+                offsetof(eepro100_rx_t, count), size, attrs);
-     /* Early receive interrupt not supported. */
- #if 0
-     eepro100_er_interrupt(s);
+         tbd_address = tbd_array;
+         for (; tbd_count < s->tx.tbd_count; tbd_count++) {
+-            uint32_t tx_buffer_address = ldl_le_pci_dma(&s->dev, tbd_address);
+-            uint16_t tx_buffer_size = lduw_le_pci_dma(&s->dev, tbd_address + 4);
+-            uint16_t tx_buffer_el = lduw_le_pci_dma(&s->dev, tbd_address + 6);
++            uint32_t tx_buffer_address = ldl_le_pci_dma(&s->dev, tbd_address,
++                                                        attrs);
++            uint16_t tx_buffer_size = lduw_le_pci_dma(&s->dev, tbd_address + 4,
++                                                      attrs);
++            uint16_t tx_buffer_el = lduw_le_pci_dma(&s->dev, tbd_address + 6,
++                                                    attrs);
+             tbd_address += 8;
+             TRACE(RXTX, logout
+                 ("TBD (flexible mode): buffer address 0x%08x, size 0x%04x\n",
 diff --git a/hw/net/tulip.c b/hw/net/tulip.c
-index ca69f7ea5e1..1f2c79dd58b 100644
+index 1f2c79dd58b..c76e4868f73 100644
 --- a/hw/net/tulip.c
 +++ b/hw/net/tulip.c
-@@ -86,16 +86,18 @@ static void tulip_desc_read(TULIPState *s, hwaddr p,
- static void tulip_desc_write(TULIPState *s, hwaddr p,
+@@ -70,16 +70,18 @@ static const VMStateDescription vmstate_pci_tulip = {
+ static void tulip_desc_read(TULIPState *s, hwaddr p,
          struct tulip_descriptor *desc)
  {
 +    const MemTxAttrs attrs = MEMTXATTRS_UNSPECIFIED;
 +
      if (s->csr[0] & CSR0_DBO) {
--        stl_be_pci_dma(&s->dev, p, desc->status);
--        stl_be_pci_dma(&s->dev, p + 4, desc->control);
--        stl_be_pci_dma(&s->dev, p + 8, desc->buf_addr1);
--        stl_be_pci_dma(&s->dev, p + 12, desc->buf_addr2);
-+        stl_be_pci_dma(&s->dev, p, desc->status, attrs);
-+        stl_be_pci_dma(&s->dev, p + 4, desc->control, attrs);
-+        stl_be_pci_dma(&s->dev, p + 8, desc->buf_addr1, attrs);
-+        stl_be_pci_dma(&s->dev, p + 12, desc->buf_addr2, attrs);
+-        desc->status = ldl_be_pci_dma(&s->dev, p);
+-        desc->control = ldl_be_pci_dma(&s->dev, p + 4);
+-        desc->buf_addr1 = ldl_be_pci_dma(&s->dev, p + 8);
+-        desc->buf_addr2 = ldl_be_pci_dma(&s->dev, p + 12);
++        desc->status = ldl_be_pci_dma(&s->dev, p, attrs);
++        desc->control = ldl_be_pci_dma(&s->dev, p + 4, attrs);
++        desc->buf_addr1 = ldl_be_pci_dma(&s->dev, p + 8, attrs);
++        desc->buf_addr2 = ldl_be_pci_dma(&s->dev, p + 12, attrs);
      } else {
--        stl_le_pci_dma(&s->dev, p, desc->status);
--        stl_le_pci_dma(&s->dev, p + 4, desc->control);
--        stl_le_pci_dma(&s->dev, p + 8, desc->buf_addr1);
--        stl_le_pci_dma(&s->dev, p + 12, desc->buf_addr2);
-+        stl_le_pci_dma(&s->dev, p, desc->status, attrs);
-+        stl_le_pci_dma(&s->dev, p + 4, desc->control, attrs);
-+        stl_le_pci_dma(&s->dev, p + 8, desc->buf_addr1, attrs);
-+        stl_le_pci_dma(&s->dev, p + 12, desc->buf_addr2, attrs);
+-        desc->status = ldl_le_pci_dma(&s->dev, p);
+-        desc->control = ldl_le_pci_dma(&s->dev, p + 4);
+-        desc->buf_addr1 = ldl_le_pci_dma(&s->dev, p + 8);
+-        desc->buf_addr2 = ldl_le_pci_dma(&s->dev, p + 12);
++        desc->status = ldl_le_pci_dma(&s->dev, p, attrs);
++        desc->control = ldl_le_pci_dma(&s->dev, p + 4, attrs);
++        desc->buf_addr1 = ldl_le_pci_dma(&s->dev, p + 8, attrs);
++        desc->buf_addr2 = ldl_le_pci_dma(&s->dev, p + 12, attrs);
      }
  }
  
 diff --git a/hw/scsi/megasas.c b/hw/scsi/megasas.c
-index cf8adf39ca1..bcf8de9aa19 100644
+index bcf8de9aa19..d6b452f07ce 100644
 --- a/hw/scsi/megasas.c
 +++ b/hw/scsi/megasas.c
-@@ -168,14 +168,16 @@ static void megasas_frame_set_cmd_status(MegasasState *s,
-                                          unsigned long frame, uint8_t v)
+@@ -202,7 +202,9 @@ static uint64_t megasas_frame_get_context(MegasasState *s,
+                                           unsigned long frame)
  {
      PCIDevice *pci = &s->parent_obj;
--    stb_pci_dma(pci, frame + offsetof(struct mfi_frame_header, cmd_status), v);
-+    stb_pci_dma(pci, frame + offsetof(struct mfi_frame_header, cmd_status),
-+                v, MEMTXATTRS_UNSPECIFIED);
+-    return ldq_le_pci_dma(pci, frame + offsetof(struct mfi_frame_header, context));
++    return ldq_le_pci_dma(pci,
++                          frame + offsetof(struct mfi_frame_header, context),
++                          MEMTXATTRS_UNSPECIFIED);
  }
  
- static void megasas_frame_set_scsi_status(MegasasState *s,
-                                           unsigned long frame, uint8_t v)
- {
-     PCIDevice *pci = &s->parent_obj;
--    stb_pci_dma(pci, frame + offsetof(struct mfi_frame_header, scsi_status), v);
-+    stb_pci_dma(pci, frame + offsetof(struct mfi_frame_header, scsi_status),
-+                v, MEMTXATTRS_UNSPECIFIED);
- }
+ static bool megasas_frame_is_ieee_sgl(MegasasCmd *cmd)
+@@ -522,7 +524,8 @@ static MegasasCmd *megasas_enqueue_frame(MegasasState *s,
+     s->busy++;
  
- static inline const char *mfi_frame_desc(unsigned int cmd)
-@@ -530,6 +532,7 @@ static MegasasCmd *megasas_enqueue_frame(MegasasState *s,
- 
- static void megasas_complete_frame(MegasasState *s, uint64_t context)
- {
-+    const MemTxAttrs attrs = MEMTXATTRS_UNSPECIFIED;
-     PCIDevice *pci_dev = PCI_DEVICE(s);
-     int tail, queue_offset;
- 
-@@ -543,10 +546,12 @@ static void megasas_complete_frame(MegasasState *s, uint64_t context)
-          */
-         if (megasas_use_queue64(s)) {
-             queue_offset = s->reply_queue_head * sizeof(uint64_t);
--            stq_le_pci_dma(pci_dev, s->reply_queue_pa + queue_offset, context);
-+            stq_le_pci_dma(pci_dev, s->reply_queue_pa + queue_offset,
-+                           context, attrs);
-         } else {
-             queue_offset = s->reply_queue_head * sizeof(uint32_t);
--            stl_le_pci_dma(pci_dev, s->reply_queue_pa + queue_offset, context);
-+            stl_le_pci_dma(pci_dev, s->reply_queue_pa + queue_offset,
-+                           context, attrs);
+     if (s->consumer_pa) {
+-        s->reply_queue_tail = ldl_le_pci_dma(pcid, s->consumer_pa);
++        s->reply_queue_tail = ldl_le_pci_dma(pcid, s->consumer_pa,
++                                             MEMTXATTRS_UNSPECIFIED);
+     }
+     trace_megasas_qf_enqueue(cmd->index, cmd->count, cmd->context,
+                              s->reply_queue_head, s->reply_queue_tail, s->busy);
+@@ -553,14 +556,14 @@ static void megasas_complete_frame(MegasasState *s, uint64_t context)
+             stl_le_pci_dma(pci_dev, s->reply_queue_pa + queue_offset,
+                            context, attrs);
          }
-         s->reply_queue_tail = ldl_le_pci_dma(pci_dev, s->consumer_pa);
+-        s->reply_queue_tail = ldl_le_pci_dma(pci_dev, s->consumer_pa);
++        s->reply_queue_tail = ldl_le_pci_dma(pci_dev, s->consumer_pa, attrs);
          trace_megasas_qf_complete(context, s->reply_queue_head,
-@@ -560,7 +565,7 @@ static void megasas_complete_frame(MegasasState *s, uint64_t context)
+                                   s->reply_queue_tail, s->busy);
+     }
+ 
+     if (megasas_intr_enabled(s)) {
+         /* Update reply queue pointer */
+-        s->reply_queue_tail = ldl_le_pci_dma(pci_dev, s->consumer_pa);
++        s->reply_queue_tail = ldl_le_pci_dma(pci_dev, s->consumer_pa, attrs);
+         tail = s->reply_queue_head;
          s->reply_queue_head = megasas_next_index(s, tail, s->fw_cmds);
          trace_megasas_qf_update(s->reply_queue_head, s->reply_queue_tail,
-                                 s->busy);
--        stl_le_pci_dma(pci_dev, s->producer_pa, s->reply_queue_head);
-+        stl_le_pci_dma(pci_dev, s->producer_pa, s->reply_queue_head, attrs);
-         /* Notify HBA */
-         if (msix_enabled(pci_dev)) {
-             trace_megasas_msix_raise(0);
+@@ -625,6 +628,7 @@ static void megasas_abort_command(MegasasCmd *cmd)
+ 
+ static int megasas_init_firmware(MegasasState *s, MegasasCmd *cmd)
+ {
++    const MemTxAttrs attrs = MEMTXATTRS_UNSPECIFIED;
+     PCIDevice *pcid = PCI_DEVICE(s);
+     uint32_t pa_hi, pa_lo;
+     hwaddr iq_pa, initq_size = sizeof(struct mfi_init_qinfo);
+@@ -663,9 +667,9 @@ static int megasas_init_firmware(MegasasState *s, MegasasCmd *cmd)
+     pa_lo = le32_to_cpu(initq->pi_addr_lo);
+     pa_hi = le32_to_cpu(initq->pi_addr_hi);
+     s->producer_pa = ((uint64_t) pa_hi << 32) | pa_lo;
+-    s->reply_queue_head = ldl_le_pci_dma(pcid, s->producer_pa);
++    s->reply_queue_head = ldl_le_pci_dma(pcid, s->producer_pa, attrs);
+     s->reply_queue_head %= MEGASAS_MAX_FRAMES;
+-    s->reply_queue_tail = ldl_le_pci_dma(pcid, s->consumer_pa);
++    s->reply_queue_tail = ldl_le_pci_dma(pcid, s->consumer_pa, attrs);
+     s->reply_queue_tail %= MEGASAS_MAX_FRAMES;
+     flags = le32_to_cpu(initq->flags);
+     if (flags & MFI_QUEUE_FLAG_CONTEXT64) {
+diff --git a/hw/scsi/mptsas.c b/hw/scsi/mptsas.c
+index f6c77655443..ac9f4dfcd2a 100644
+--- a/hw/scsi/mptsas.c
++++ b/hw/scsi/mptsas.c
+@@ -172,14 +172,15 @@ static const int mpi_request_sizes[] = {
+ static dma_addr_t mptsas_ld_sg_base(MPTSASState *s, uint32_t flags_and_length,
+                                     dma_addr_t *sgaddr)
+ {
++    const MemTxAttrs attrs = MEMTXATTRS_UNSPECIFIED;
+     PCIDevice *pci = (PCIDevice *) s;
+     dma_addr_t addr;
+ 
+     if (flags_and_length & MPI_SGE_FLAGS_64_BIT_ADDRESSING) {
+-        addr = ldq_le_pci_dma(pci, *sgaddr + 4);
++        addr = ldq_le_pci_dma(pci, *sgaddr + 4, attrs);
+         *sgaddr += 12;
+     } else {
+-        addr = ldl_le_pci_dma(pci, *sgaddr + 4);
++        addr = ldl_le_pci_dma(pci, *sgaddr + 4, attrs);
+         *sgaddr += 8;
+     }
+     return addr;
+@@ -203,7 +204,7 @@ static int mptsas_build_sgl(MPTSASState *s, MPTSASRequest *req, hwaddr addr)
+         dma_addr_t addr, len;
+         uint32_t flags_and_length;
+ 
+-        flags_and_length = ldl_le_pci_dma(pci, sgaddr);
++        flags_and_length = ldl_le_pci_dma(pci, sgaddr, MEMTXATTRS_UNSPECIFIED);
+         len = flags_and_length & MPI_SGE_LENGTH_MASK;
+         if ((flags_and_length & MPI_SGE_FLAGS_ELEMENT_TYPE_MASK)
+             != MPI_SGE_FLAGS_SIMPLE_ELEMENT ||
+@@ -234,7 +235,8 @@ static int mptsas_build_sgl(MPTSASState *s, MPTSASRequest *req, hwaddr addr)
+                 break;
+             }
+ 
+-            flags_and_length = ldl_le_pci_dma(pci, next_chain_addr);
++            flags_and_length = ldl_le_pci_dma(pci, next_chain_addr,
++                                              MEMTXATTRS_UNSPECIFIED);
+             if ((flags_and_length & MPI_SGE_FLAGS_ELEMENT_TYPE_MASK)
+                 != MPI_SGE_FLAGS_CHAIN_ELEMENT) {
+                 return MPI_IOCSTATUS_INVALID_SGL;
 diff --git a/hw/scsi/vmw_pvscsi.c b/hw/scsi/vmw_pvscsi.c
-index cd76bd67ab7..59c3e8ba048 100644
+index 59c3e8ba048..33e16f91116 100644
 --- a/hw/scsi/vmw_pvscsi.c
 +++ b/hw/scsi/vmw_pvscsi.c
-@@ -55,7 +55,8 @@
-                  (m)->rs_pa + offsetof(struct PVSCSIRingsState, field)))
+@@ -52,7 +52,8 @@
+ 
+ #define RS_GET_FIELD(m, field) \
+     (ldl_le_pci_dma(&container_of(m, PVSCSIState, rings)->parent_obj, \
+-                 (m)->rs_pa + offsetof(struct PVSCSIRingsState, field)))
++                 (m)->rs_pa + offsetof(struct PVSCSIRingsState, field), \
++                 MEMTXATTRS_UNSPECIFIED))
  #define RS_SET_FIELD(m, field, val) \
      (stl_le_pci_dma(&container_of(m, PVSCSIState, rings)->parent_obj, \
--                 (m)->rs_pa + offsetof(struct PVSCSIRingsState, field), val))
-+                 (m)->rs_pa + offsetof(struct PVSCSIRingsState, field), val, \
-+                 MEMTXATTRS_UNSPECIFIED))
- 
- struct PVSCSIClass {
-     PCIDeviceClass parent_class;
+                  (m)->rs_pa + offsetof(struct PVSCSIRingsState, field), val, \
+diff --git a/hw/usb/hcd-xhci.c b/hw/usb/hcd-xhci.c
+index da5a4072107..14bdb896768 100644
+--- a/hw/usb/hcd-xhci.c
++++ b/hw/usb/hcd-xhci.c
+@@ -3440,6 +3440,7 @@ static int usb_xhci_post_load(void *opaque, int version_id)
+         }
+         ldq_le_dma(xhci->as, dcbaap + 8 * slotid, &addr, MEMTXATTRS_UNSPECIFIED);
+         slot->ctx = xhci_mask64(addr);
++
+         xhci_dma_read_u32s(xhci, slot->ctx, slot_ctx, sizeof(slot_ctx));
+         slot->uport = xhci_lookup_uport(xhci, slot_ctx);
+         if (!slot->uport) {
 -- 
 2.33.1
 
