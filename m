@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCB82479C71
-	for <lists+qemu-devel@lfdr.de>; Sat, 18 Dec 2021 20:53:19 +0100 (CET)
-Received: from localhost ([::1]:37104 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B93E8479C79
+	for <lists+qemu-devel@lfdr.de>; Sat, 18 Dec 2021 21:00:08 +0100 (CET)
+Received: from localhost ([::1]:55890 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1myfle-0000Uz-Uk
-	for lists+qemu-devel@lfdr.de; Sat, 18 Dec 2021 14:53:18 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38718)
+	id 1myfsF-0004qN-BF
+	for lists+qemu-devel@lfdr.de; Sat, 18 Dec 2021 15:00:07 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38710)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1myfbk-0000pp-CI
- for qemu-devel@nongnu.org; Sat, 18 Dec 2021 14:43:04 -0500
-Received: from [2607:f8b0:4864:20::52c] (port=46863
- helo=mail-pg1-x52c.google.com)
+ id 1myfbj-0000pM-Vp
+ for qemu-devel@nongnu.org; Sat, 18 Dec 2021 14:43:03 -0500
+Received: from [2607:f8b0:4864:20::42f] (port=34803
+ helo=mail-pf1-x42f.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1myfbh-0003U4-RG
- for qemu-devel@nongnu.org; Sat, 18 Dec 2021 14:43:04 -0500
-Received: by mail-pg1-x52c.google.com with SMTP id r138so5440123pgr.13
+ id 1myfbi-0003UD-Fk
+ for qemu-devel@nongnu.org; Sat, 18 Dec 2021 14:43:03 -0500
+Received: by mail-pf1-x42f.google.com with SMTP id c2so5109252pfc.1
  for <qemu-devel@nongnu.org>; Sat, 18 Dec 2021 11:43:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=nf0so4qrr+/bxDxj+Sw0o2TYL+Hd96M6E8AXnkGVi40=;
- b=IKEKm8ZVV8a6JXaL1nB5ed/v6aXecSEyTisgvUoUbHHLw4Ab/xVo2bvaY547HeJSVp
- gBIiXJ/xzI0ANGRAa2Sz4mkHvesGGCBPnP+g+1yqrMjxWj4JuKdBNrCjhdLkhP5+F2Xn
- 4cvQYud6fWu03W2kEUmwyZDtmhqNfckzp+8AVt5ZxL3KpqM4EzP6Cw7AX1WmFYCR/YdT
- wZJJrK2xTel7xNm0ZwiqRNpVpQ4UbVp2lpYS4AOu54Lf7jDHDrkIkoHrlVPoUCMVgoyZ
- kc6QZfJUn+9n26C2awZYlgyN5/JFQYs6CHdhqEhLtqU8Casz5HgWUdlUuajqNCDczAI3
- rOAA==
+ bh=g3Nq0ia1EnuIjxs/Mhwgb8DdNQHpgozpO7mrb3WB+O4=;
+ b=b6enAHiNYOIHoJTVwXndvBJaZu447EHBRpN7OrROyPrsWbm8RHcgS1WSdM2bKlWeZ0
+ XlfRw2ulZArLZfjWnobYD3mAb3tqDejskC+ReM/sDzLFljM+mL4MBDHb06sXutNMEuK3
+ GmwENJpzf3Pu+HiKXGb0hTW725mw+QFrtu96jyWl4EDlbqYcVv+WYDCVokzswCjmLCyK
+ TSSZ7B+MfD5Wcj1FC2g1rF+JV15TxZmu6UmKNN2VDi5S4ofuawX5uGSDsf/vrpudGJqM
+ xI4VQjBKcYkj0GpYWm5rMkhMDkCDer6FttAPOahAPNYlGcss3EbIvBHxBXjfDfVQTgy4
+ SPyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=nf0so4qrr+/bxDxj+Sw0o2TYL+Hd96M6E8AXnkGVi40=;
- b=690MANBOShF4LjRhYdhGCTEOjpCvxRBXT55F7c4I81zBPCEwy0/5cl7lzedjqFsHpY
- Rsr6/BZDK9g5LNiSROQjoFYw5bw618fYTOrESNlGfQTCSI297EnX0TNUvF7S06AUzTTR
- JZsTdJ4zazPjuiX6UPJIlEfPc5TKoNo7u4HUksOFnLJ7MoYJNxBHgfrA71AX1DjTvU5E
- uo69YiAAFJkWW4ugkun6haI2f0uV5PejUtA/UdSj/7NBSSu0HNNW4Jw0M2P3e3WjzHuX
- J04KRdRKFKexA8BzRfq1UZmp8Ew5yTnk1z4j+P5SmrchqBgssMCzLwR0PR2l2C9wSkOH
- tzrQ==
-X-Gm-Message-State: AOAM531gPn0in01CLsiUjH/ISMpkYeqVg0YijYG5Blxb2oBpxeg7Nz5Y
- d9cScy/UDlOvbrRqmAc7i7aXSkUIZrHvjA==
-X-Google-Smtp-Source: ABdhPJxrtwVtyHbDGbcSrfI6YWt0s8dKsP1Y0g4SpUUX/6DJZTgjzLvmLxUshGLKXTv/uajyMtiatw==
-X-Received: by 2002:a63:701b:: with SMTP id l27mr8112639pgc.241.1639856580516; 
- Sat, 18 Dec 2021 11:43:00 -0800 (PST)
+ bh=g3Nq0ia1EnuIjxs/Mhwgb8DdNQHpgozpO7mrb3WB+O4=;
+ b=BeeRTr3E0aGB4/ZnmPKSs7iACPNWnxD2p4OJXH4inIR3xDeUFn9x+YK4t7S9vVbUEf
+ 5Z92/N0KvjE7fXE8BC4KBC/d8Wi/ZJgbHmVoof25+waBOIj79mEOIN6GFIkWyP7dxXiu
+ 3LKMz5/xzPQJ8g6j8W75ENK5BtBZeG1fbb6/vGvBhUQu6ydCbdeBbFxIpZGDq3eZikp+
+ kKsnIdLhl85WNfcr/1lwhVkqpO7bFm98SWT6DxsRuEAy458z4M6TFE/x+SPP4gvfNOJh
+ JfJp3XBvJUl+HKY365OBJupytJF2E03EjSDY6fvXP6KbnsHedOTEvoFxiCWP2JfrbSDc
+ tOUg==
+X-Gm-Message-State: AOAM533HzJUO4DUHToBaftrfHlU8IVYFSfjIGqX2W4gOZFdTA85h5/fP
+ P5TZqstr5ACyQIxsQOygNRRUMKqnv/ZdzA==
+X-Google-Smtp-Source: ABdhPJyoszJPIq0MWDQoDZzgIDJ+FJBVpcQSND2FDA8AKse1xDpmgHVTBFxleiShzXv8tixqDDXvKw==
+X-Received: by 2002:a05:6a00:811:b0:4af:d1c9:fa3f with SMTP id
+ m17-20020a056a00081100b004afd1c9fa3fmr8976265pfk.21.1639856581079; 
+ Sat, 18 Dec 2021 11:43:01 -0800 (PST)
 Received: from localhost.localdomain (174-21-75-75.tukw.qwest.net.
  [174.21.75.75])
  by smtp.gmail.com with ESMTPSA id g19sm10645919pfc.145.2021.12.18.11.43.00
@@ -56,19 +57,18 @@ Received: from localhost.localdomain (174-21-75-75.tukw.qwest.net.
  Sat, 18 Dec 2021 11:43:00 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 14/20] tcg/i386: Expand vector word rotate as avx512vbmi2
- shift-double
-Date: Sat, 18 Dec 2021 11:42:44 -0800
-Message-Id: <20211218194250.247633-15-richard.henderson@linaro.org>
+Subject: [PATCH 15/20] tcg/i386: Remove rotls_vec from tcg_target_op_def
+Date: Sat, 18 Dec 2021 11:42:45 -0800
+Message-Id: <20211218194250.247633-16-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211218194250.247633-1-richard.henderson@linaro.org>
 References: <20211218194250.247633-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::52c
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42f
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42f.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -91,58 +91,26 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-While there are no specific 16-bit rotate instructions, there
-are double-word shifts, which can perform the same operation.
+There is no such instruction on x86, so we should
+not be pretending it has arguments.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/i386/tcg-target.c.inc | 18 +++++++++++++++++-
- 1 file changed, 17 insertions(+), 1 deletion(-)
+ tcg/i386/tcg-target.c.inc | 1 -
+ 1 file changed, 1 deletion(-)
 
 diff --git a/tcg/i386/tcg-target.c.inc b/tcg/i386/tcg-target.c.inc
-index 30b9afc1d3..54fb8321a9 100644
+index 54fb8321a9..99ec31977a 100644
 --- a/tcg/i386/tcg-target.c.inc
 +++ b/tcg/i386/tcg-target.c.inc
-@@ -3350,6 +3350,8 @@ int tcg_can_emit_vec_op(TCGOpcode opc, TCGType type, unsigned vece)
-     case INDEX_op_rotlv_vec:
-     case INDEX_op_rotrv_vec:
-         switch (vece) {
-+        case MO_16:
-+            return have_avx512vbmi2 ? -1 : 0;
-         case MO_32:
-         case MO_64:
-             return have_avx512vl ? 1 : have_avx2 ? -1 : 0;
-@@ -3494,6 +3496,12 @@ static void expand_vec_rotli(TCGType type, unsigned vece,
-         return;
-     }
- 
-+    if (have_avx512vbmi2) {
-+        vec_gen_4(INDEX_op_x86_vpshldi_vec, type, vece,
-+                  tcgv_vec_arg(v0), tcgv_vec_arg(v1), tcgv_vec_arg(v1), imm);
-+        return;
-+    }
-+
-     t = tcg_temp_new_vec(type);
-     tcg_gen_shli_vec(vece, t, v1, imm);
-     tcg_gen_shri_vec(vece, v0, v1, (8 << vece) - imm);
-@@ -3524,8 +3532,16 @@ static void expand_vec_rotls(TCGType type, unsigned vece,
- static void expand_vec_rotv(TCGType type, unsigned vece, TCGv_vec v0,
-                             TCGv_vec v1, TCGv_vec sh, bool right)
- {
--    TCGv_vec t = tcg_temp_new_vec(type);
-+    TCGv_vec t;
- 
-+    if (have_avx512vbmi2) {
-+        vec_gen_4(right ? INDEX_op_x86_vpshrdv_vec : INDEX_op_x86_vpshldv_vec,
-+                  type, vece, tcgv_vec_arg(v0), tcgv_vec_arg(v1),
-+                  tcgv_vec_arg(v1), tcgv_vec_arg(sh));
-+        return;
-+    }
-+
-+    t = tcg_temp_new_vec(type);
-     tcg_gen_dupi_vec(vece, t, 8 << vece);
-     tcg_gen_sub_vec(vece, t, t, sh);
-     if (right) {
+@@ -3235,7 +3235,6 @@ static TCGConstraintSetIndex tcg_target_op_def(TCGOpcode op)
+     case INDEX_op_shls_vec:
+     case INDEX_op_shrs_vec:
+     case INDEX_op_sars_vec:
+-    case INDEX_op_rotls_vec:
+     case INDEX_op_cmp_vec:
+     case INDEX_op_x86_shufps_vec:
+     case INDEX_op_x86_blend_vec:
 -- 
 2.25.1
 
