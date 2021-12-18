@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DAE1479AB4
-	for <lists+qemu-devel@lfdr.de>; Sat, 18 Dec 2021 13:25:05 +0100 (CET)
-Received: from localhost ([::1]:56576 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7667479AB5
+	for <lists+qemu-devel@lfdr.de>; Sat, 18 Dec 2021 13:25:22 +0100 (CET)
+Received: from localhost ([::1]:57604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1myYlr-000811-JT
-	for lists+qemu-devel@lfdr.de; Sat, 18 Dec 2021 07:25:03 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44716)
+	id 1myYm9-0000Fr-Q8
+	for lists+qemu-devel@lfdr.de; Sat, 18 Dec 2021 07:25:21 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44898)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1myYjF-0005Ox-Jl; Sat, 18 Dec 2021 07:22:24 -0500
-Received: from [2a01:111:f400:fe07::702] (port=63337
+ id 1myYl6-0007D0-M8; Sat, 18 Dec 2021 07:24:16 -0500
+Received: from [2a01:111:f400:fe07::71a] (port=52317
  helo=EUR02-AM5-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1myYjC-0007f0-Fv; Sat, 18 Dec 2021 07:22:21 -0500
+ id 1myYl4-0007p7-AM; Sat, 18 Dec 2021 07:24:15 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=YtDgsEvwGQ4YWoMtro82u2diNo6WosJwx1d/TDFhGnaXyrlYuSxA9gdcvQmCDyTg4cosp9NYlo5KvLwE2RacytvTI/eyUgCMX5Q0aaD4bLOQw+lZ7QusYkWR3gE46E/MasRLaQrdtqjgX3bY0Vl3O4OXW2BctW74nUFmzzOMc465/dKS0vwjVGed+wAcpZKHVCyGvhFOKDBhNCO8XEitbkaIEGYemNr9cgHprHcrUkuCaBDhfKmPVMzajDTxEEs/FKqcYzVRx43E+AYfEUAwZCZkiB8egbj06Szm4CO0SilDpT+ymLD0IoF+q9Ztxrw7/8oUnuoEynGbkpNJ1j6sNQ==
+ b=Fk1rkWWDu//msz+6FxKkLxIdCOBlteCYdhCZuTCcUBefY57o6bfArijqLy0ZyBt73Wx4qQLlWAzACjykDxR8zm8wt+gk2McPoDGL6LT/f8+6zlVXu8bQLUY/gjkyS3dBpI7d6UXkVJMblDVOg83ekkMEbd/HRCpBqaTRFWsBPY8zOi39xQ3qKwnRwPTxSdA2IL/yiM223/molBR2zZOTWjtzzhBox/H3yrFCGBWNoUUWcp0+yvum6USWVkYNyd5A2LVLYkshFwNulmgO1a8EJN0AoYEFUljWtnvQMFSzPDJfb7MIuhXKTJvXdoAkriwleR7Q+Xu/u6IVUJ5/NVjPGg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=W6J+bXuQfPpGv7/UJeV753g9CYRV5AgADU9mkJckJak=;
- b=bHi+OTED8D7DVaJPVc4H1MCnRHCSMW9OzxiIBeb57FpUNYWbzw6y3UYYoneAN/s7/zcpOJ2R6KFTwkdsuyxsLipGQ3pBTO3/a6LN5IEKtd4/CH6R+g+KUtGo8DPCiF7DfSYsmlpmzlruCd8rfNbGlqRxzdr/pNPBiclWRZNF3GZc2PKW38VgEAWuVeWdDqLG6xhRumXuAkt/QBud3bLq5w1HmzizIEPH6jvQmZ8qRtGHWUBLI23GXvsfgbqFA0zG4VXsHeT7z3G1/A8aULdaizO9tqKB18p4RIUPdL9dTT+K2jRNsFVXirp+PjhmLd7rFdYPeoddnmk1nJwMUvSiDQ==
+ bh=AfAxIKTZt1X8xUIwY6USsCxDgtwFupjwKrkbRUeij3c=;
+ b=j2gJXgGSDQiBLom8WhSoeKnrT0v4e/vkp4b0nky068lCuKFgJS4PWVVT/scqOlh0CPLIqxe/WRaKoRfwWtmb4qHa9aJDPu68BxWqck/AMlYW/8Q3aP7uJcotQ0OqrP5I5s9RZKjZQzqkQxsff1aI0lO/2zMV7z/oS7bqdZhF7KyFaaJsKHBz1RG78fDlt2IVkLHDEquNBhmmr4IHlMuqRigd+KiRLNLIABq7W67ottQEV1qhFun1Ym0nUejy/xvN1yrTdVZyOAUm6OC/DcLESvzvPCkiZnkiOoN05K+05gGf8YHRHCu3oVHhDVThqf+U+s9qSBKsbbgu4S+XuxgDeA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=W6J+bXuQfPpGv7/UJeV753g9CYRV5AgADU9mkJckJak=;
- b=okmglWsmxGoQn1EGn72euhnV+m7m1JdrmobLO6RB05ejhJmrOLGglAmpqKwByoRP6dxoUn9PtaISimLZws71zJVwNBsKZvwzRvgWRCukGa+mqOsNpuCTC3wwJMziGeIuF4brfDkrmKHd7VmoquzAIYO+5Aosxr8UbASLHVWiog0=
+ bh=AfAxIKTZt1X8xUIwY6USsCxDgtwFupjwKrkbRUeij3c=;
+ b=eSg/94KFuf+3kqKZB0/i9ep2owz6eBAwnJVQUltukw2h3K5Ml/LY3xcUjlYEdEuTuNkWQbCdnMiiwDLoRPk2J83n/5bQDCYsEiGl1f3pyLhUhtqnjQVGLl23eHOGdvEbrXK37DKLTLcpl0mrh8GdKVl+EACLSgIYiOCEWD/TGIg=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM9PR08MB6737.eurprd08.prod.outlook.com (2603:10a6:20b:304::18)
  by AM0PR08MB4435.eurprd08.prod.outlook.com (2603:10a6:208:144::19)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4778.18; Sat, 18 Dec
- 2021 12:22:14 +0000
+ 2021 12:24:11 +0000
 Received: from AM9PR08MB6737.eurprd08.prod.outlook.com
  ([fe80::2078:5a2:1898:d83a]) by AM9PR08MB6737.eurprd08.prod.outlook.com
  ([fe80::2078:5a2:1898:d83a%7]) with mapi id 15.20.4669.024; Sat, 18 Dec 2021
- 12:22:14 +0000
-Message-ID: <7e2e1bfb-e093-3854-eca0-0f63d1daeeb8@virtuozzo.com>
-Date: Sat, 18 Dec 2021 15:22:11 +0300
+ 12:24:11 +0000
+Message-ID: <6a0523e4-58d2-ba43-f6d9-f5ff9b616549@virtuozzo.com>
+Date: Sat, 18 Dec 2021 15:24:08 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.2.0
-Subject: Re: [RFC PATCH v2 13/14] jobs: add job lock in find_* functions
+Subject: Re: [RFC PATCH v2 14/14] job.c: enable job lock/unlock and remove
+ Aiocontext locks
 Content-Language: en-US
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
 Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
  John Snow <jsnow@redhat.com>, Wen Congyang <wencongyang2@huawei.com>,
@@ -59,84 +59,84 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
  Stefan Hajnoczi <stefanha@redhat.com>, Fam Zheng <fam@euphon.net>,
  qemu-devel@nongnu.org
 References: <20211104145334.1346363-1-eesposit@redhat.com>
- <20211104145334.1346363-14-eesposit@redhat.com>
- <c1919268-88bd-6fae-0bbc-4ebe7830e7b4@virtuozzo.com>
-In-Reply-To: <c1919268-88bd-6fae-0bbc-4ebe7830e7b4@virtuozzo.com>
+ <20211104145334.1346363-15-eesposit@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+In-Reply-To: <20211104145334.1346363-15-eesposit@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR0P281CA0063.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:49::11) To AM9PR08MB6737.eurprd08.prod.outlook.com
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR0P281CA0066.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:49::12) To AM9PR08MB6737.eurprd08.prod.outlook.com
  (2603:10a6:20b:304::18)
 MIME-Version: 1.0
 Received: from [192.168.100.10] (185.215.60.230) by
- FR0P281CA0063.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:49::11) with Microsoft
+ FR0P281CA0066.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:49::12) with Microsoft
  SMTP Server (version=TLS1_2, cipher=) via Frontend Transport;
- Sat, 18 Dec 2021 12:22:13 +0000
+ Sat, 18 Dec 2021 12:24:10 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: ad7d7bda-59c1-4854-c565-08d9c2210637
+X-MS-Office365-Filtering-Correlation-Id: 1f40b092-3c41-46cb-822f-08d9c2214c03
 X-MS-TrafficTypeDiagnostic: AM0PR08MB4435:EE_
-X-Microsoft-Antispam-PRVS: <AM0PR08MB443532A709A80C422AB5BFB5C1799@AM0PR08MB4435.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-Microsoft-Antispam-PRVS: <AM0PR08MB4435DB85438F2B4282159CEBC1799@AM0PR08MB4435.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:287;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 7Rg57jzXEa8MNJvgU5W+G//IzzpuI/9cxkhbFZjq5msM2IMG3yUiq3K9VkjZvYGdN2Yr5AAMIpzEmQL8qLbbgxgyLZpOvG5q7m7i8Zhl7cosZDgU90TG2gCNsG8Cb22LPSDm8ERbXI7LxfUS93CWn+E3m7BFiywbW+Jf4cfryuJ6XXjNSxvQwY7tsI6WjtbTcwF1+c1IVc3WIUJr7GKr7g9YQBgL/03w3I6Bo1NjrwO0L1vEFWx1NgJH7P9idpFI+Ednu/lQLfDIWPUClW/7CGAnCa7TJoAbIwcio+gLoSJPwpEchiNbajoEEbyUfaDGW7093xuQkr0rsa+ptmInukoVH8QQc6xa2GeJgri/1zk9AtSaMAcSCRU2REDXFM8xlxJXCs4azEGPpkIjSarukb1xD/uF1pDC1OEPfJDMTZHAeuU7lWmeh3wlaO+r+N91ik2Z+mAlTt+dEa6hQ+WwZRb80+21XpF7KkB14iP5XT9UP5aaPmuQlerl6Dss7l9UpMQRea0s/zw5CsBtW0Mj7s9iECXMqp3nM/hFFnIm66MGEKwiinKMYBSluOeh/uMj6d6msXslZZNj4Jm91uFu427JSf+Tmwm+BCuoG1JuB5x+RH0b2JRNaMoUBVQrzGVHgad8HRZlPi1IhkioreWZnouJV/LDLnD7EnMijSBQhhsud0dqthme2STfb14Hi4bH6aWkjSLP1QSGgqMlV4Rh1K318JpViYz93ZbHWHbL+T3+sFVymWH3/uCXU+CIpdhRznHxJmPHbb1UnwpTNJa7sQ==
+X-Microsoft-Antispam-Message-Info: 8s7ngYbPtcA+usIV2TRbXX+WcJhr1xDkLMNXkYa2WbErJsM7r72GwWprWBF6Wy0Eg2i934xnveavnaqJ7eKI+UqoTK/poelb5xUzVNNykz9vBCaXE7TAL9s3TX+PH6IxeTPdPAn5GxtUnDC3VUtAvgiLsqw22k0VYCWd+qBiFF2j4ROFyaMCSxBKlW6TjjLARGQedxTWbcKHKGSx0ioYDQfbwRAfUXZdSuhm3oMDsFiNIqDNTup+Y+bU/OVdsZkTaharo63dY981Rv1OwODSCJpX4rUAbeDuEFtHqEK5Tuh9W1nQQntghV844aAcOGDIgwbDDHYqmqq2MRucoHF0jwbhmJLtckpDHXgEc/4Prhjvm0ghw1375UBe/jTYGe3ZfIklzkgJ4AEY9k9+zk3xUSxZ6W92eN/JfrO0KUAGXMLkO99KQPL9RYQ2s0BnjGye7c1kq44P14Et3RbytImqxReubv4WtAgn9MCXQ7eZ2AZYx0jtAGk9j55aR/LVf6mCbiwDGIKGDSXtQTJV6qReOK6qCYClss2V/iR8A3CeKl3gJ9I7FSEhSkNwopuPADaYN13rfjwE6e41n1f24jQscxjmAL6FzSLnSWeF9/kP18DaQYlBFcfpuXoWk9hVHIgipg87vjwCymh1snETwBEZI3ftpz5bYBjH2/n2vANM675j8dczvS1N3zJaEh2qBaIQtHZhEN6+G2fM43rjzFjxfZfaEX28SytSaO8klvV1/mY4cshfk3hRBb7fcffvOrLQMFoeKJJu9ofKdQPW1KHYKA==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM9PR08MB6737.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(38350700002)(36756003)(2906002)(2616005)(26005)(8676002)(38100700002)(956004)(8936002)(316002)(54906003)(186003)(16576012)(5660300002)(83380400001)(66946007)(508600001)(31686004)(86362001)(66476007)(66556008)(7416002)(52116002)(4326008)(6486002)(31696002)(45980500001)(43740500002);
+ SFS:(4636009)(366004)(38350700002)(36756003)(2906002)(2616005)(26005)(8676002)(38100700002)(4744005)(956004)(8936002)(316002)(54906003)(186003)(16576012)(5660300002)(83380400001)(66946007)(508600001)(31686004)(86362001)(66476007)(66556008)(7416002)(52116002)(4326008)(6486002)(31696002)(45980500001)(43740500002);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dmNkTFV6TE1CTGtySWpXRFJFeE53dzZlcTB4anVxRnZQaUQ0aGpKb2dCTlIx?=
- =?utf-8?B?Q0FvcU1vZm1VcVZndktacTVQMXdQSXNEejZrbm5RWEc4ay9qdHZieGQyTEdw?=
- =?utf-8?B?ZlNCNWFNbFhVSjMrRWVib3RNMitxQXVyOEVRbVBxaEp0VDRtOGlRTGdNbVRE?=
- =?utf-8?B?bWR4QU0xTUdNT2tHVFFWU3FYUklZOHcxMWUwaGM4L2JwcnFVMWFGeVdzWHFu?=
- =?utf-8?B?NmhLMnR5OUlNeUgyd3FiQzc1K1cwVzFOcEJQOG1hVUNlUXd4YWVKZm5NR3Qx?=
- =?utf-8?B?YkZWVFpDRkIxaE04bWJTc281NW9JL2RDUjZqNHJibEE0STMyenVuTE5sVUQ3?=
- =?utf-8?B?eVdNQVZVeWtJYlg0K2p2dnJnTlROelkveEVsbmdFQ0dKcWNqTmV2eUJ6YzBE?=
- =?utf-8?B?cy9va0tta1dEMlNlQUFzUnFxUEFSdko1Vkx0aHVsaHU3UXRjSWFENG5aZUFv?=
- =?utf-8?B?dk5tNU95RWc5WHRJcTU3UldWbFMyOFRvOUsrbTEzYjRSRWRPcUp3Qm1Fc05Z?=
- =?utf-8?B?MWswdW1uUkIzRi8wMGJsb2NnM0RiY25lN1FHUkdmYTQyTmMwZUk1M0hsUGFm?=
- =?utf-8?B?YXZtZEpVSEx6RFhocXFFMFBWaVpCM3NlTTRJbWZnNjhiT05HOHdhaGdZSXdX?=
- =?utf-8?B?a3UweVE1TExHSDBhQWZSRThlY3BsSGRLSWNRcVhWVU9PRFBxcEZ4RUFlZENa?=
- =?utf-8?B?TlJoWUR1bVYxM2tBMnZKNVZmejczQUVUWHlIbm5mSG5JTVE3MC9yWTcrZlly?=
- =?utf-8?B?NEpqOVNmUVhJWStRSW12N3l1SVFwRXFDbko0bDN4MnFlOEc5NTFUeENON2No?=
- =?utf-8?B?ZWxIRUZGUVNnVlN3TWRabVMzdlhUeUpaUmx1Z2c4V014SWlFS0hXQzZiZ2JL?=
- =?utf-8?B?elVaODF2T3ZwamY1d2ptUyswWkY0bnJUWkZvdVlkSlQvWTlPbHB6R1IxSS9u?=
- =?utf-8?B?eGIzUzFJQ2xLanJINlFtSm9nSHlrR3g5enF4NTFjclBsSkU2Zi90ZHMrVkpB?=
- =?utf-8?B?RlVnbVUyZ3htUFhUenp3MndSbml0MmluczFiM1UvZElqSE90Z1VUOWw5TFNB?=
- =?utf-8?B?TDRkUjJ5WStXUnpPZjhjeVFZMWZUZzExSHh6anpuaU1yMUdNWktUUms3djUv?=
- =?utf-8?B?OC9oWVJvWlV1ak5iNnFIeUhSRTRCYjFJSUhvcnpGcHZoQTIySW1qek13TW9h?=
- =?utf-8?B?N1N1Yy9mUXB0TzFRbXVkT0RVNTlpQXIvUHRLZmRndkNJbjFkVXJHWEJmalo5?=
- =?utf-8?B?eFZXWkpid2dJYXNYejBUd2ZGOXcwR2xPQmo3THFFTTZTUGlMTE02WGFscEtl?=
- =?utf-8?B?clRQd2lXOTV3VnR3a2paeW1BeUNPYUxQREMzMWk1WUNQZzZZeUxQcDlMdkJO?=
- =?utf-8?B?R0d1OXpmU25DTDArb0NydG9UMXZ3b2RYRTR0MEVmUC9JMU0zbXREUUpCTXM2?=
- =?utf-8?B?L1pJUjJrSTdESzNpRmNuQmtUaWVtQXYwcjJFOUpqY05QazhVbkRyWlJObmNq?=
- =?utf-8?B?MjlxU1lXNlR6MVdPK3N1dGI0QVN6ZkFKcndnb0xsSTMxenBTcXd6WUxHb2Y1?=
- =?utf-8?B?c0cxdmYxWkoyRlBuYTNrdy9zaGh2UEpkemJoS2VBZlN5Y1B2UW9PeXZQZEhJ?=
- =?utf-8?B?SEo1V1hTQi83aFNsQmh5azU5Vm50TUlhS3hRQXp5RXlBVU14QjZIdDBDZlRj?=
- =?utf-8?B?RW10T0I1d2RVd2lReDdDNW1pK2NWeHRtYkU5VnkzZnRNRFkxNkZVODdwRmUw?=
- =?utf-8?B?dU9KbzBuRlBQRVNpZVdWelAyMGVBNFpnaDZNcndtaXN1ZEh6SVFiYVFpM0dw?=
- =?utf-8?B?b2Fwd0VWU1FEamNVbjBsMFU0VTZxMHF0Vk1OTDcza1Z6MDhMTzRsV095aktv?=
- =?utf-8?B?blFaNDE0TlFod08yRjVHbjZwSk02Z3k3VU90Q1VrNDVELzZaS1U2V3lEU2Zz?=
- =?utf-8?B?RWcwTjg1QmozQVZ4ci9JU1ozMy9uK1JQR09FTnJuR3RmWkpRcmhoYVF4ZUtP?=
- =?utf-8?B?NzRoT3pHRTBWWnVEc3VNejZvVHRSakc5d0pUOGx5dHRFdGVjeXNWZExIWmM3?=
- =?utf-8?B?WXVXQnYrZXJUM1VpeS9QSUpxUjUvdzlDcXVHZGwxK3lyVHRITkJocEUzd3A5?=
- =?utf-8?B?VHlXQjhtUURuOFpSaVlYL0JIbkdzQ3BzdVU1UFdqclJzVmk4dEJyTW5nNEhP?=
- =?utf-8?B?b0h1NmpzVUtQbmlpYmtRR1hYclJlakRoc3JQeUdKdUREbFhZbmtKbUpMVit1?=
- =?utf-8?Q?txJ6nXvCOWOvqt49klkhe/rdSBcIVMa9LdUfGdx+Z0=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?M1huVHh6amR1a25pTFJwS3U1ZThOcjVuTjQ4TG5WZmw2UjhFNTVSZjYwZHFJ?=
+ =?utf-8?B?NUlKY2pBMjA5V1NjNTdnZjJYOUNVRk9NRTV2SEllTU1TN3ZpZDRXKzhjM0pQ?=
+ =?utf-8?B?dUc1Z0g3NEtpVGxxNzJ4RytERHZXai9ZOUVtNWJZdkx5UDVMZW9OYUVYTU5t?=
+ =?utf-8?B?RFhjanEvV3BaelZjTHVVMktqTnlzVXRmVU1MQUpXUm4vUXlqVkg5S1pWOTFh?=
+ =?utf-8?B?dXllTmZLT0dFRlozQ2VlOCtOMGU1QndQSk5sRTl1ZzV2Vm82NjZ2T1pMSDBl?=
+ =?utf-8?B?UVhiSXFzRjRkeXRkNG1hNm56YjVjODNLcG9Ma1pOU09IOEhLeWxlekpWbVdT?=
+ =?utf-8?B?NTVXRlJuYVZBSGplTmZEWURpUW1WNFVqaFQyRFRYY290MzMzaFF4RUZMdG1I?=
+ =?utf-8?B?dktSSm93ZUdJQXdMRFFaN1hTcko4TVMrb0JrWEpXb2ZpRm5FR3FjQjhjREM2?=
+ =?utf-8?B?dEJyY3p0Ynl4YlJiU3Y0bG1KNmZwb2RDc1puZlk3RDFrRExod3FvZk9aRGc4?=
+ =?utf-8?B?UENsemFiUkZqeGd6ZFZDb3htajZONmR6MzNSN3YrVG1LSmp3eVdHcnVvUHZQ?=
+ =?utf-8?B?eFJvK251V09iM1NGTjIvc0RvYjdnaWZuZitheGpDUjkwUS9OTlcrcHkrMUdk?=
+ =?utf-8?B?RURYdi82Wm9RNVRJS3pBOHNSTnZxUXA2L1lRZ2FuL3JJWmZ4NWhPTzVBd3hk?=
+ =?utf-8?B?eERlN043cUlaTzdlMERPRnlZV2FENS80OWRPaTFvTmZTMWZFcHprVFhsRTZk?=
+ =?utf-8?B?Vk1LN0thNzZoVHM3aU14NnNRRjJRNENoTngyeFptakpaQmpMaldqbW1qY1FR?=
+ =?utf-8?B?RWw0ekZJOE9VQy9JMlNyUUxhUlhuZlQxZ0NaWmVUQk0wNWFuOXhnd0VUVi9i?=
+ =?utf-8?B?VFBFMldaUFVCTXAraFBHV3g3SXpSeDhpaTN1NkdTSm91Y0NBMVZUYTgvOWNT?=
+ =?utf-8?B?TnVRdDRyTTJmVHB5VlZucHMxcnlwcFVIQzBCSUlnMi8rRURab1JNcVVKWXpx?=
+ =?utf-8?B?a1lJakxoSlp2blRaaWRtRnBtamdDMjBwK3BkblJWNkE0Wlg3NXcxYlprUU9O?=
+ =?utf-8?B?NFdBdDRxNERhaEUrbFdYQ1FzejNFemlBU0R1NnEzWUEzT0hYb0ZFandBaHEr?=
+ =?utf-8?B?TTR0cm9lcGRhS0tTVFBHY0s5VFdBQ1A3OHZML0t0ZHhycGw3NitRcS9BeWdh?=
+ =?utf-8?B?Rno4RTBBaENCOVdxcUlJbXVwVUM2U3k3TXh2VTZjN0k0dnBPNVRIVG5qaGov?=
+ =?utf-8?B?S3FQYm9VdHpJTVdlZ3Y2VEhOaVVUK1o2TGltb3M5eHdkdy95eWFOc1diTnZG?=
+ =?utf-8?B?dzVybWxtZGZ0NWhtVUdSZ0RFV09weHJnZFd4Z0Z6RVpCQS9Wczd6MytFUlkw?=
+ =?utf-8?B?bDA3VFduZ0c0VTNHZ1U2QzR2aGM3Rkxtd3RHUjh5eWNwejdqNy9YNExxMm9Y?=
+ =?utf-8?B?bmhvbTJSWVYwRzltRGxpeEsrTVdVOVNLNm5KdHE1U1AvZzJNUWlFSHFPektr?=
+ =?utf-8?B?WjQ1dXUzYW9SVHd1a21PUUVMRFFubzNuUEZ3OXRxaERPbnZ6NmdZQ0RkbEhJ?=
+ =?utf-8?B?VjBPTjY1RitRdXdPaTNnY1I2bHNERzhhUlpxM2MxaW1HVElaK2pORUFTM0gx?=
+ =?utf-8?B?YnExQXExUEt3Z3lER092YXRRcjNlR2lkSzAzVkMxbEZxT3E1Y0N6RGNMS0tu?=
+ =?utf-8?B?Q2s2aU1XazExOVhaQjMxYnNrVUZzL0U5Q0hLc2IwMzZhUDRNWks2Y1AvcjZN?=
+ =?utf-8?B?blYwUTk5WXBaWmFNOVZrMWxyZG5qeWdTUHNmTjd3enc5Q0ZnTW5VTXFNMUFD?=
+ =?utf-8?B?VmwyTXBYYWtHRGFsZFd2UWVENGVrbFVhK2hQZ2RQTFpkR1JQZk1WODNVQ29z?=
+ =?utf-8?B?NVFvZkJqL0JwRXlIaFU1WXVFVHk1S0ZmMHdibDM5bGVYdjhHR1g5SXhiUzV4?=
+ =?utf-8?B?UnJlV3FQcmxWWFlmay9qNEFDbGN5b25TYjFxT3RvVmdIUjN4N2Y0WWtvY2FX?=
+ =?utf-8?B?b21CVXJMdE9SaHBsSEhIRzZYamcrUTNvVDNBQVBsc2RFMC9jbWxydE9rUEwy?=
+ =?utf-8?B?YjZyaWhnS3k0bURXM0VwenptL3R1WmhybGZPenRuSnd3dWp6OFV0dkg1Slhy?=
+ =?utf-8?B?UzMvODFZRTN5bUNJRWxaVmhUTmV5VDlyY2JBQWI2YUdydy9BZG9PcW5iRVhU?=
+ =?utf-8?B?Njg5TmVMTlVza002MzhQSzFHVlhlbVFIQkRaN0tmeUxabXVXQWtxci9MZ0lU?=
+ =?utf-8?Q?JOpEBr9RQzgw5NL6v83az8/XYXi3RxA5qZV0OxAB6E=3D?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ad7d7bda-59c1-4854-c565-08d9c2210637
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1f40b092-3c41-46cb-822f-08d9c2214c03
 X-MS-Exchange-CrossTenant-AuthSource: AM9PR08MB6737.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Dec 2021 12:22:14.4430 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Dec 2021 12:24:11.6087 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 6GB4nrgtaTFgsyLL3lpm2huSzvPmen5C+5kJRW19qbjfmde+CzjF6dRGv8gAiuhsxLbKP0sC759wHNkEiTW1HjIwJadKXXzV9V6wnnSOCpc=
+X-MS-Exchange-CrossTenant-UserPrincipalName: n1MP8DGfc7bZj/4bBukyorEHQY+wvaxnF45W+CwH57PNXGy4bp/R0IrH4xJRvw+oNudO5PCrOqUwwxFJfgeazPQ33nwNj6SOAdeRBS9AH8s=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR08MB4435
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a01:111:f400:fe07::702
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a01:111:f400:fe07::71a
  (failed)
-Received-SPF: pass client-ip=2a01:111:f400:fe07::702;
+Received-SPF: pass client-ip=2a01:111:f400:fe07::71a;
  envelope-from=vsementsov@virtuozzo.com;
  helo=EUR02-AM5-obe.outbound.protection.outlook.com
 X-Spam_score_int: -29
@@ -162,48 +162,21 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-18.12.2021 15:11, Vladimir Sementsov-Ogievskiy wrote:
-> 04.11.2021 17:53, Emanuele Giuseppe Esposito wrote:
->> Both blockdev.c and job-qmp.c have TOC/TOU conditions, because
->> they first search for the job and then perform an action on it.
->> Therefore, we need to do the search + action under the same
->> job mutex critical section.
->>
->> Note: at this stage, job_{lock/unlock} and job lock guard macros
->> are *nop*.
->>
->> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
->> ---
->>   blockdev.c | 9 +++++++++
->>   job-qmp.c  | 8 ++++++++
->>   2 files changed, 17 insertions(+)
->>
->> diff --git a/blockdev.c b/blockdev.c
->> index c5a835d9ed..0bd79757fc 100644
->> --- a/blockdev.c
->> +++ b/blockdev.c
->> @@ -3327,12 +3327,14 @@ static BlockJob *find_block_job(const char *id, AioContext **aio_context,
->>       assert(id != NULL);
->>       *aio_context = NULL;
->> +    job_lock();
-> 
-> JOB_LOCK_GUARD() will look better in this case
-> 
->>       job = block_job_get(id);
->>       if (!job) {
->>           error_set(errp, ERROR_CLASS_DEVICE_NOT_ACTIVE,
->>                     "Block job '%s' not found", id);
->> +        job_unlock();
->>           return NULL;
->>       }
->> @@ -3353,6 +3355,7 @@ void qmp_block_job_set_speed(const char *device, int64_t speed, Error **errp)
->>       block_job_set_speed(job, speed, errp);
->>       aio_context_release(aio_context);
->> +    job_unlock();
-> 
-> You add job_unlock(), but not job_lock() ? Something is wrong. And anyway, I thin JOB_LOCK_GUARD / WITH_JOB_LOCK_GUARD are generally safer
+04.11.2021 17:53, Emanuele Giuseppe Esposito wrote:
+> --- a/block/replication.c
+> +++ b/block/replication.c
+> @@ -728,9 +728,11 @@ static void replication_stop(ReplicationState *rs, bool failover, Error **errp)
+>            * disk, secondary disk in backup_job_completed().
+>            */
+>           if (s->backup_job) {
+> +            aio_context_release(aio_context);
+>               job_lock();
+>               job_cancel_sync(&s->backup_job->job, true);
+>               job_unlock();
+> +            aio_context_acquire(aio_context);
 
-Ah, I understand now what's going on. If comment "Returns with job_lock held on success" appear in this patch, it would be more obvious.
+
+Why we need it? If we never acquire aio context under job_lock, it should be safe to make a job-mutex critical section inside aio-context critical section.
 
 -- 
 Best regards,
