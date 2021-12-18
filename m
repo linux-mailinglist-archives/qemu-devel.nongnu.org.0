@@ -2,76 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C72E47981B
-	for <lists+qemu-devel@lfdr.de>; Sat, 18 Dec 2021 03:06:15 +0100 (CET)
-Received: from localhost ([::1]:51678 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD04247981C
+	for <lists+qemu-devel@lfdr.de>; Sat, 18 Dec 2021 03:09:02 +0100 (CET)
+Received: from localhost ([::1]:54158 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1myP6z-0007vZ-N5
-	for lists+qemu-devel@lfdr.de; Fri, 17 Dec 2021 21:06:13 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46808)
+	id 1myP9h-0001Br-Gt
+	for lists+qemu-devel@lfdr.de; Fri, 17 Dec 2021 21:09:01 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47132)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1myP5l-0006zj-Ur
- for qemu-devel@nongnu.org; Fri, 17 Dec 2021 21:04:57 -0500
-Received: from [2607:f8b0:4864:20::102a] (port=43000
- helo=mail-pj1-x102a.google.com)
+ id 1myP8g-0000JH-Dt
+ for qemu-devel@nongnu.org; Fri, 17 Dec 2021 21:07:58 -0500
+Received: from [2607:f8b0:4864:20::429] (port=34706
+ helo=mail-pf1-x429.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1myP5k-0006Ko-6t
- for qemu-devel@nongnu.org; Fri, 17 Dec 2021 21:04:57 -0500
-Received: by mail-pj1-x102a.google.com with SMTP id
- fv9-20020a17090b0e8900b001a6a5ab1392so4498982pjb.1
- for <qemu-devel@nongnu.org>; Fri, 17 Dec 2021 18:04:55 -0800 (PST)
+ id 1myP8e-0006i3-W1
+ for qemu-devel@nongnu.org; Fri, 17 Dec 2021 21:07:58 -0500
+Received: by mail-pf1-x429.google.com with SMTP id c2so3653939pfc.1
+ for <qemu-devel@nongnu.org>; Fri, 17 Dec 2021 18:07:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=8BImtmORCeyBvU3qIkh1U/H6HH3pznp4F+8gXavgocE=;
- b=nAiZ1pBsL4iM6NlmFF7XuiX3TX7DfRQsQtJJR8O6P4SIB1EJ2cdU3XUK1XweQ4EZwq
- UO0PjZ9JONMdOaGSx6sUf0qq69dtOG0/k3JHN3Fx4Qp8diNC5zxX2I/Anp2xcdjHUuZF
- z7UwX6x469b2WDGOvTITepyexFNGl03mt69mU1qn094U7zbuRP2ctd/r+fBZNgS6Na1c
- WKUGB3IE1azz0bQcJy+lEs3LUAv5hDxjCl+V+sVYZKwdZZEAVoiZUXZNzFOAjjHgI2/n
- YPHsdpv7M5N1BKOCcuRFrlbeityveWWftJsgLrq3947GflbqThXyiAmBhh8bXMT1kS1y
- CrLA==
+ bh=gZQj35JrnBLu2nfN6mp1WdU+TyPCDpgpwwepktWrsWI=;
+ b=FaT69HZrh714Hx85vcqYPq/PEzfg5GL9rWtOuUytNm5r9H9sbL+/9ZNjZCeHL2Bmdp
+ jU6q9q9JdJVVAYxe+pWBLUUvzjK2N5PQDHMFfXpyNScnR1CUkIFJrmBwgBq5KO8U1zgq
+ /sN0SMsnQCujijC9WFOJbAL23K/QnvCYqRDO+y5dVjdfyMUf4MViRxpaxdDobVjeMujh
+ CaOnvoRt9MPt3CosQL+UYIuXo391XC/C9rtvoDoys7r4YPRQdSGbn5mKs9V5qPl0Z5LV
+ 92AEfUsMO3vMkjBIUPdQTIRNXehjhPQec02zv8ozcWFSJq2c4b039BiWRe8vwrvJyp9C
+ hwYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=8BImtmORCeyBvU3qIkh1U/H6HH3pznp4F+8gXavgocE=;
- b=oKarhzXfdnEOl31c4A0UGi4lxZyidkxvg9rzyPbzJu0ssxGvH5IsklookpblgxGiSz
- FmQhKIlCdI0ESabvorNY+RcXWK2uztQ0mbKteZsyheBdSGUUGXW+knvEYTcGnJ9ZSRHj
- DWJzUFvvXXwfjvWic0mmDnh3yCAbSX70MPO7wrrB6FdpryDYzeCy6vsLpHwSsEAcOwta
- XSejElrey4SpBud88tnhvCLWTgCzZz/yAjKIQyMLNasBDzAF6PJnq2zqqqJu/k4Eybg0
- eeUDEwU2ZpDKcmxDWwRif/8SWv6GW/TBEsDNi4M8ozlRwrH+KCPIeS72QLKfxfruRelL
- 41dA==
-X-Gm-Message-State: AOAM531756gIXLcZoc4Y3ici2eySU34B8mdnZbTdpChjLJLLTVPPk3Zl
- TO8HTCpEZljEcWnm9pKAg6fH8A==
-X-Google-Smtp-Source: ABdhPJyQJnne1U/9o/Kc50y84MXAK9GopjeGMBcTxpWk/pG3UtGRBLiUZkuP4qhw0OpAiPmSWFqqEw==
-X-Received: by 2002:a17:90a:c253:: with SMTP id
- d19mr518222pjx.157.1639793094639; 
- Fri, 17 Dec 2021 18:04:54 -0800 (PST)
+ bh=gZQj35JrnBLu2nfN6mp1WdU+TyPCDpgpwwepktWrsWI=;
+ b=OO1As0rrMDR4h7QZezpdKnI4TmNM3dob4Vt8qnzVG3dxTl0shjh8bFX1WiwYQg+Yus
+ RBkcDSSCUM3h9t4mxq5Vf4SB2VHOdWBe5ivpb5rq4xHyH4Ge+2AcTQXxX4MflnpFWAsk
+ /s5Vzn7UCNJDtCxhMe0eNO3XfTlLGDGZHY+uNlU84Nk6WIvHT9Ur9DV6zAkFpTJ5IyQp
+ epGlGOGoU4qL1T8kCXI5KiP31Tnf+cXjq56SK47G+gWX4REmlYTJvnPSttIrPncwemjZ
+ 16HapelXWEpDlEY1eFi5ihsJ/uFBtF/OnB+hA+khHnvjbgmZmU3vjW40eANQuKbEYK9t
+ 6hyA==
+X-Gm-Message-State: AOAM532vqZM6QdgjjpSvbc4Tnh8/0AEGaf8IWTcQvDF58HsZp6+vukKT
+ wQZVTtWf31P11dw++AQs3W9DrQ==
+X-Google-Smtp-Source: ABdhPJxTigFsCrqkOXx7oP/NEOJkbUTDTiXv3aSYavMHMLCOQqR781aczU6LswmRNloMt0T0PIEI+A==
+X-Received: by 2002:a63:4720:: with SMTP id u32mr5383831pga.539.1639793275699; 
+ Fri, 17 Dec 2021 18:07:55 -0800 (PST)
 Received: from [192.168.1.13] (174-21-75-75.tukw.qwest.net. [174.21.75.75])
- by smtp.gmail.com with ESMTPSA id y16sm9979040pfl.69.2021.12.17.18.04.52
+ by smtp.gmail.com with ESMTPSA id d15sm10957584pfl.126.2021.12.17.18.07.54
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 17 Dec 2021 18:04:54 -0800 (PST)
-Subject: Re: [PULL 0/9] Trivial branch for 7.0 patches
-To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
-References: <20211217201019.1652798-1-laurent@vivier.eu>
+ Fri, 17 Dec 2021 18:07:55 -0800 (PST)
+Subject: Re: [RFC PATCH v3 3/3] softmmu/physmem: Introduce MemTxAttrs::memory
+ field and MEMTX_BUS_ERROR
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>
+References: <20211215182421.418374-1-philmd@redhat.com>
+ <20211215182421.418374-4-philmd@redhat.com>
+ <CAFEAcA_UKFHT=PbwNtyqV4G2Vdw7LVUjUj_X_DZ5Kk6=yF+EBg@mail.gmail.com>
+ <f07f6b9c-ac81-62a1-be71-6c82267bdaf7@redhat.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <ad2ad40d-e908-4d67-12ea-2c956603e501@linaro.org>
-Date: Fri, 17 Dec 2021 18:04:51 -0800
+Message-ID: <65d60871-31dc-1e59-3cb4-34a27e7af339@linaro.org>
+Date: Fri, 17 Dec 2021 18:07:53 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <20211217201019.1652798-1-laurent@vivier.eu>
+In-Reply-To: <f07f6b9c-ac81-62a1-be71-6c82267bdaf7@redhat.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102a
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::429
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x429.google.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
@@ -91,57 +94,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org
+Cc: David Hildenbrand <david@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Li Qiang <liq3ea@gmail.com>, qemu-devel@nongnu.org,
+ Peter Xu <peterx@redhat.com>, Qiuhao Li <Qiuhao.Li@outlook.com>,
+ Alexander Bulekov <alxndr@bu.edu>, qemu-arm@nongnu.org,
+ Gerd Hoffmann <kraxel@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ "Edgar E . Iglesias" <edgar.iglesias@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/17/21 12:10 PM, Laurent Vivier wrote:
-> The following changes since commit 29eb5c2c86f935b0e9700fad2ecfe8a32b011d57:
+On 12/17/21 3:18 PM, Philippe Mathieu-Daudé wrote:
+>>>   #define MEMTX_OK 0
+>>>   #define MEMTX_ERROR             (1U << 0) /* device returned an error */
+>>>   #define MEMTX_DECODE_ERROR      (1U << 1) /* nothing at that address */
+>>> +#define MEMTX_BUS_ERROR         (1U << 2) /* bus returned an error */
+>>
+>> This is kind of odd naming, because MEMTX_DECODE_ERROR already means
+>> "bus/interconnect returned an error" and it generally translates
+>> into what at the OS level gets called a "bus error"...
 > 
->    Merge tag 'for-upstream' of https://gitlab.com/bonzini/qemu into staging (2021-12-16 08:39:20 -0800)
-> 
-> are available in the Git repository at:
-> 
->    https://gitlab.com/laurent_vivier/qemu.git tags/trivial-branch-for-7.0-pull-request
-> 
-> for you to fetch changes up to ce2ff9cccf0c5f123f9d1e3d5e4fc07d1c2c159d:
-> 
->    checkpatch: Do not allow deprecated g_memdup() (2021-12-17 11:57:35 +0100)
-> 
-> ----------------------------------------------------------------
-> Trivial patches pull request 20211217
-> 
-> ----------------------------------------------------------------
-> 
-> Leonardo Garcia (1):
->    hw/virtio/vhost: Fix typo in comment.
-> 
-> Philippe Mathieu-Daudé (7):
->    configure: Symlink binaries using .exe suffix with MinGW
->    target/i386/kvm: Replace use of __u32 type
->    qemu-keymap: Add license in generated files
->    hw/avr: Realize AVRCPU qdev object using qdev_realize()
->    glib-compat: Introduce g_memdup2() wrapper
->    tests/qtest: Replace g_memdup() by g_memdup2()
->    checkpatch: Do not allow deprecated g_memdup()
-> 
-> Zhang Chen (1):
->    docs/block-replication.txt: Fix replication top-id command demo
-> 
->   configure                   |  2 +-
->   docs/block-replication.txt  |  2 +-
->   hw/avr/atmega.c             |  2 +-
->   hw/virtio/vhost.c           |  2 +-
->   include/glib-compat.h       | 37 +++++++++++++++++++++++++++++++++++++
->   qemu-keymap.c               |  1 +
->   scripts/checkpatch.pl       |  5 +++++
->   target/i386/kvm/kvm.c       |  2 +-
->   tests/qtest/libqos/ahci.c   |  6 +++---
->   tests/qtest/libqos/qgraph.c |  2 +-
->   10 files changed, 52 insertions(+), 9 deletions(-)
+> MEMTX_DECODE_ERROR is "nothing at that address". We want a name
+> for "there is something, but you don't have access to it".
+> Maybe MEMTX_ILLEGAL_ERROR?
 
-Applied, thanks.
-
+ILLEGAL doesn't convey much.  MEMTX_ACCESS_ERROR?
 
 r~
 
