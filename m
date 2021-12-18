@@ -2,83 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B38B64797DD
-	for <lists+qemu-devel@lfdr.de>; Sat, 18 Dec 2021 01:41:51 +0100 (CET)
-Received: from localhost ([::1]:38088 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FFFB4797DE
+	for <lists+qemu-devel@lfdr.de>; Sat, 18 Dec 2021 01:43:13 +0100 (CET)
+Received: from localhost ([::1]:39622 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1myNnK-0002Of-AY
-	for lists+qemu-devel@lfdr.de; Fri, 17 Dec 2021 19:41:50 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33614)
+	id 1myNod-0003Ud-2G
+	for lists+qemu-devel@lfdr.de; Fri, 17 Dec 2021 19:43:11 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33714)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1myNiK-0008QB-Oq
- for qemu-devel@nongnu.org; Fri, 17 Dec 2021 19:36:40 -0500
-Received: from [2607:f8b0:4864:20::1035] (port=40899
- helo=mail-pj1-x1035.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1myNiJ-0004cP-9K
- for qemu-devel@nongnu.org; Fri, 17 Dec 2021 19:36:40 -0500
-Received: by mail-pj1-x1035.google.com with SMTP id
- c22-20020a17090a109600b001b101f02dd1so7133321pja.5
- for <qemu-devel@nongnu.org>; Fri, 17 Dec 2021 16:36:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=CvGqB2dTCs7VwI6A/VizJVg6tNTWYar7/7SM5W10z/E=;
- b=DHDXy4dyTqfPAYGWddMwA3voE5VLbdXSZAxOJkwNGcwXEyhYOZkYbI/lKv/FxfDg0E
- 1s6LeaggN6L9m0PADILkCMP0hDOahGYZpAK5Yt4F1389Mnj1wwmMdpDbKQvM4EENxwkS
- NWeTioTgtBcC2nf5GJ3g/JdQ8AH9bNmz533H3fn1NDkH/INvnBYwycPYsMfbJ0TPtkEN
- Jk2VTKjIQjLXuopGFnTwg3obYvjmJA5DQ6OVyIkdoKsc+2ICM3s6zpHm3qlUXeku8JGg
- 5FXiwDcZvPg1HJiKIDtPDfNYAW7MoyLYa6um3OP3LZXiWsJaeqk6o95Am2kKQXVipPNQ
- m/6w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=CvGqB2dTCs7VwI6A/VizJVg6tNTWYar7/7SM5W10z/E=;
- b=pJf5UW/Il3uNW285QgymXLAU9R+TX/KcLDFKzyGdmxaXcSAS+TZjLBloTmXQRz2DMQ
- bSJ+ihkpyv3OBqRSt4X4lminPOCfO3LfYrxxDbAeANuxFEUPTcU0mIu9VkHgQb/1PCEQ
- +81rx16+iXAe4/+WVAV6fiuXso7IL68RtbYS3tbzVJJUfIDd0+uDxGb7E2m7uh6vjZXq
- lfTaiUKyZvWiQ1SuJAgglz6XzKFF5IrA2OUFp6VXAhjXMEvNnNZCDv0D1Vvny7d5wzmJ
- 3yFauNN64SzLHYFZ/olFNN30yMcXvZHkqI7Swwt3cxA/lFgPuzH9tkMUVupqmWsdNSN/
- LIMw==
-X-Gm-Message-State: AOAM532DVV7Mt9elVIM4LWRYsI4xpIfk2+Kzmyn3W/BJHOcbnl4Dn3JR
- pFivBbV5ibqScYDbourbMSGKvg==
-X-Google-Smtp-Source: ABdhPJyDYKvXh9WaGHnoHOk2o1sREu1ecEVvxGKWHTS/0PZyu4P7wVFtlkqzecnaZ0SosCoXxdosBA==
-X-Received: by 2002:a17:90b:4a4d:: with SMTP id
- lb13mr14813845pjb.97.1639787797879; 
- Fri, 17 Dec 2021 16:36:37 -0800 (PST)
-Received: from [192.168.1.13] (174-21-75-75.tukw.qwest.net. [174.21.75.75])
- by smtp.gmail.com with ESMTPSA id rm1sm13062065pjb.3.2021.12.17.16.36.37
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 17 Dec 2021 16:36:37 -0800 (PST)
-Subject: Re: [PATCH] hw/scsi/megasas: Simplify using the ldst API
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-References: <20211217231542.1461286-1-philmd@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <32549938-46c1-94d0-dc3a-3a722d4fc31d@linaro.org>
-Date: Fri, 17 Dec 2021 16:36:35 -0800
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1myNik-0000ph-H7
+ for qemu-devel@nongnu.org; Fri, 17 Dec 2021 19:37:06 -0500
+Received: from [2001:41c9:1:41f::167] (port=49046
+ helo=mail.default.ilande.bv.iomart.io)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1myNii-0004hW-JD
+ for qemu-devel@nongnu.org; Fri, 17 Dec 2021 19:37:06 -0500
+Received: from [2a00:23c4:8b9f:c400:72e2:646b:9043:c91d]
+ by mail.default.ilande.bv.iomart.io with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1myNiD-0007ZE-KA; Sat, 18 Dec 2021 00:36:37 +0000
+To: Xiaojuan Yang <yangxiaojuan@loongson.cn>, qemu-devel@nongnu.org
+References: <1638619645-11283-1-git-send-email-yangxiaojuan@loongson.cn>
+ <1638619645-11283-20-git-send-email-yangxiaojuan@loongson.cn>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Message-ID: <ff414511-02ce-f884-917e-f5ab138543c7@ilande.co.uk>
+Date: Sat, 18 Dec 2021 00:36:43 +0000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <20211217231542.1461286-1-philmd@redhat.com>
+In-Reply-To: <1638619645-11283-20-git-send-email-yangxiaojuan@loongson.cn>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1035
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2a00:23c4:8b9f:c400:72e2:646b:9043:c91d
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [RFC PATCH v3 19/27] hw/intc: Add LoongArch ls7a msi interrupt
+ controller support(PCH-MSI)
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:41c9:1:41f::167
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.716,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk;
+ helo=mail.default.ilande.bv.iomart.io
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.716,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,20 +67,178 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, qemu-trivial@nongnu.org,
- Hannes Reinecke <hare@suse.com>, qemu-block@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: peter.maydell@linaro.org, thuth@redhat.com, philmd@redhat.com,
+ richard.henderson@linaro.org, laurent@vivier.eu, peterx@redhat.com,
+ f4bug@amsat.org, alex.bennee@linaro.org, alistair.francis@wdc.com,
+ maobibo@loongson.cn, gaosong@loongson.cn, pbonzini@redhat.com,
+ i.qemu@xen0n.name, chenhuacai@loongson.cn
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/17/21 3:15 PM, Philippe Mathieu-Daudé wrote:
-> -    cdb[3] = (len >> 8) & 0xff;
-> -    cdb[4] = (len & 0xff);
-> +    stw_be_p(&cdb[2], len);
+On 04/12/2021 12:07, Xiaojuan Yang wrote:
 
-Wrong offset.  Otherwise,
+> This patch realize PCH-MSI interrupt controller.
+> 
+> Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
+> Signed-off-by: Song Gao <gaosong@loongson.cn>
+> ---
+>   hw/intc/Kconfig                     |  5 +++
+>   hw/intc/loongarch_pch_msi.c         | 67 +++++++++++++++++++++++++++++
+>   hw/intc/meson.build                 |  1 +
+>   hw/intc/trace-events                |  3 ++
+>   hw/loongarch/Kconfig                |  1 +
+>   include/hw/intc/loongarch_pch_msi.h | 21 +++++++++
+>   6 files changed, 98 insertions(+)
+>   create mode 100644 hw/intc/loongarch_pch_msi.c
+>   create mode 100644 include/hw/intc/loongarch_pch_msi.h
+> 
+> diff --git a/hw/intc/Kconfig b/hw/intc/Kconfig
+> index 96da13ad1d..dc5f41f5f5 100644
+> --- a/hw/intc/Kconfig
+> +++ b/hw/intc/Kconfig
+> @@ -80,3 +80,8 @@ config LOONGARCH_IPI
+>   config LOONGARCH_PCH_PIC
+>       bool
+>       select UNIMP
+> +
+> +config LOONGARCH_PCH_MSI
+> +    select MSI_NONBROKEN
+> +    bool
+> +    select UNIMP
+> diff --git a/hw/intc/loongarch_pch_msi.c b/hw/intc/loongarch_pch_msi.c
+> new file mode 100644
+> index 0000000000..c7777f763b
+> --- /dev/null
+> +++ b/hw/intc/loongarch_pch_msi.c
+> @@ -0,0 +1,67 @@
+> +/* SPDX-License-Identifier: GPL-2.0-or-later */
+> +/*
+> + * QEMU Loongson 7A1000 msi interrupt controller.
+> + *
+> + * Copyright (C) 2021 Loongson Technology Corporation Limited
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +#include "hw/sysbus.h"
+> +#include "hw/irq.h"
+> +#include "hw/intc/loongarch_pch_msi.h"
+> +#include "hw/intc/loongarch_pch_pic.h"
+> +#include "hw/pci/msi.h"
+> +#include "hw/misc/unimp.h"
+> +#include "migration/vmstate.h"
+> +#include "trace.h"
+> +
+> +static uint64_t loongarch_msi_mem_read(void *opaque, hwaddr addr, unsigned size)
+> +{
+> +    return 0;
+> +}
+> +
+> +static void loongarch_msi_mem_write(void *opaque, hwaddr addr,
+> +                                    uint64_t val, unsigned size)
+> +{
+> +    loongarch_pch_msi *s = LOONGARCH_PCH_MSI(opaque);
+> +    int irq_num = val & 0xff;
+> +
+> +    trace_loongarch_msi_set_irq(irq_num);
+> +    qemu_set_irq(s->pch_msi_irq[irq_num - PCH_PIC_IRQ_NUM], 1);
+> +}
+> +
+> +static const MemoryRegionOps loongarch_pch_msi_ops = {
+> +    .read  = loongarch_msi_mem_read,
+> +    .write = loongarch_msi_mem_write,
+> +    .endianness = DEVICE_LITTLE_ENDIAN,
+> +};
+> +
+> +static void loongarch_pch_msi_init(Object *obj)
+> +{
+> +    loongarch_pch_msi *s = LOONGARCH_PCH_MSI(obj);
+> +    SysBusDevice *sbd = SYS_BUS_DEVICE(obj);
+> +    int i;
+> +
+> +    memory_region_init_io(&s->msi_mmio, obj, &loongarch_pch_msi_ops,
+> +                          s, TYPE_LOONGARCH_PCH_MSI, 0x8);
+> +    sysbus_init_mmio(sbd, &s->msi_mmio);
+> +    msi_nonbroken = true;
+> +
+> +    for (i = 0; i < PCH_MSI_IRQ_NUM; i++) {
+> +        sysbus_init_irq(sbd, &s->pch_msi_irq[i]);
+> +    }
+> +}
+> +
+> +static const TypeInfo loongarch_pch_msi_info = {
+> +    .name          = TYPE_LOONGARCH_PCH_MSI,
+> +    .parent        = TYPE_SYS_BUS_DEVICE,
+> +    .instance_size = sizeof(loongarch_pch_msi),
+> +    .instance_init = loongarch_pch_msi_init,
+> +};
+> +
+> +static void loongarch_pch_msi_register_types(void)
+> +{
+> +    type_register_static(&loongarch_pch_msi_info);
+> +}
+> +
+> +type_init(loongarch_pch_msi_register_types)
+> diff --git a/hw/intc/meson.build b/hw/intc/meson.build
+> index 33ba63266e..acefe0c5aa 100644
+> --- a/hw/intc/meson.build
+> +++ b/hw/intc/meson.build
+> @@ -59,3 +59,4 @@ specific_ss.add(when: 'CONFIG_GOLDFISH_PIC', if_true: files('goldfish_pic.c'))
+>   specific_ss.add(when: 'CONFIG_M68K_IRQC', if_true: files('m68k_irqc.c'))
+>   specific_ss.add(when: 'CONFIG_LOONGARCH_IPI', if_true: files('loongarch_ipi.c'))
+>   specific_ss.add(when: 'CONFIG_LOONGARCH_PCH_PIC', if_true: files('loongarch_pch_pic.c'))
+> +specific_ss.add(when: 'CONFIG_LOONGARCH_PCH_MSI', if_true: files('loongarch_pch_msi.c'))
+> diff --git a/hw/intc/trace-events b/hw/intc/trace-events
+> index 52fedf82be..20da343cfe 100644
+> --- a/hw/intc/trace-events
+> +++ b/hw/intc/trace-events
+> @@ -255,3 +255,6 @@ loongarch_ipi_write(unsigned size, uint32_t addr, unsigned long val) "size: %u a
+>   pch_pic_irq_handler(uint32_t edge, int irq, int level) "edge 0x%02x irq %d level %d"
+>   loongarch_pch_pic_read(unsigned size, uint32_t addr, unsigned long val) "size: %u addr: 0x%"PRIx32 "val: 0x%" PRIx64
+>   loongarch_pch_pic_write(unsigned size, uint32_t addr, unsigned long val) "size: %u addr: 0x%"PRIx32 "val: 0x%" PRIx64
+> +
+> +# loongarch_pch_msi.c
+> +loongarch_msi_set_irq(int irq_num) "set msi irq %d"
+> diff --git a/hw/loongarch/Kconfig b/hw/loongarch/Kconfig
+> index c2b8046b94..cd38d03a19 100644
+> --- a/hw/loongarch/Kconfig
+> +++ b/hw/loongarch/Kconfig
+> @@ -3,3 +3,4 @@ config LOONGSON3_LS7A
+>       select PCI_EXPRESS_7A
+>       select LOONGARCH_IPI
+>       select LOONGARCH_PCH_PIC
+> +    select LOONGARCH_PCH_MSI
+> diff --git a/include/hw/intc/loongarch_pch_msi.h b/include/hw/intc/loongarch_pch_msi.h
+> new file mode 100644
+> index 0000000000..35297d51d8
+> --- /dev/null
+> +++ b/include/hw/intc/loongarch_pch_msi.h
+> @@ -0,0 +1,21 @@
+> +/* SPDX-License-Identifier: GPL-2.0-or-later */
+> +/*
+> + * LoongArch 7A1000 I/O interrupt controller definitions
+> + *
+> + * Copyright (C) 2021 Loongson Technology Corporation Limited
+> + */
+> +
+> +#define TYPE_LOONGARCH_PCH_MSI "loongarch_pch_msi"
+> +DECLARE_INSTANCE_CHECKER(struct loongarch_pch_msi, LOONGARCH_PCH_MSI,
+> +                         TYPE_LOONGARCH_PCH_MSI)
+> +
+> +/* Msi irq start start from 64 to 255 */
+> +#define PCH_MSI_IRQ_START   64
+> +#define PCH_MSI_IRQ_END     255
+> +#define PCH_MSI_IRQ_NUM     192
+> +
+> +typedef struct loongarch_pch_msi {
+> +    SysBusDevice parent_obj;
+> +    qemu_irq pch_msi_irq[PCH_MSI_IRQ_NUM];
+> +    MemoryRegion msi_mmio;
+> +} loongarch_pch_msi;
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+LoongArchPCHMSI in camel-case?
 
-r~
+
+ATB,
+
+Mark.
 
