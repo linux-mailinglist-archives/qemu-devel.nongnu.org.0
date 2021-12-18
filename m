@@ -2,84 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6464047981F
-	for <lists+qemu-devel@lfdr.de>; Sat, 18 Dec 2021 03:10:37 +0100 (CET)
-Received: from localhost ([::1]:56320 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 679DE47982D
+	for <lists+qemu-devel@lfdr.de>; Sat, 18 Dec 2021 03:29:17 +0100 (CET)
+Received: from localhost ([::1]:60840 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1myPBE-0002dR-7y
-	for lists+qemu-devel@lfdr.de; Fri, 17 Dec 2021 21:10:36 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47364)
+	id 1myPTI-0006cb-0Q
+	for lists+qemu-devel@lfdr.de; Fri, 17 Dec 2021 21:29:16 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49444)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1myP9t-0001xW-5t
- for qemu-devel@nongnu.org; Fri, 17 Dec 2021 21:09:13 -0500
-Received: from [2607:f8b0:4864:20::1033] (port=35577
- helo=mail-pj1-x1033.google.com)
+ id 1myPSJ-0005tl-Ht
+ for qemu-devel@nongnu.org; Fri, 17 Dec 2021 21:28:15 -0500
+Received: from [2607:f8b0:4864:20::1030] (port=51755
+ helo=mail-pj1-x1030.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1myP9r-0006ny-Pl
- for qemu-devel@nongnu.org; Fri, 17 Dec 2021 21:09:12 -0500
-Received: by mail-pj1-x1033.google.com with SMTP id
- j6-20020a17090a588600b001a78a5ce46aso7324595pji.0
- for <qemu-devel@nongnu.org>; Fri, 17 Dec 2021 18:09:11 -0800 (PST)
+ id 1myPSH-0005oN-NG
+ for qemu-devel@nongnu.org; Fri, 17 Dec 2021 21:28:15 -0500
+Received: by mail-pj1-x1030.google.com with SMTP id v16so3827187pjn.1
+ for <qemu-devel@nongnu.org>; Fri, 17 Dec 2021 18:28:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=yuWngpuhpAfpHw84TuHDgHuS2aQh9LCsMxc7ryGAm4M=;
- b=xKJa9gJHdMODhb5uSMvKQ5+SD/Kfj3PxdH0PMfUvVbeCGZktbIIAFq66x0FL9ZUg60
- 1ajzbhTKy5B04qFfHdxJYkKLYuIAdBEY1MtSz6dnXJZcP9zdTikLAKY3FOpa08TA49Hi
- ar1mzj1fhEgIRXX254lSpAvSm0YozKsiX98gp2dDRJni1UmYvheKt3eBENXw6gy5GRrU
- p+0EIOWqo42k5t0yGPqBHLAhuDZxM7Y8xYik4kSyU/3x4sWuTrig/o+5O0ZwIG4+9s5l
- 8b55xXo3vzRBRybXukEvVjKC1KFvgM++KTuZDW4GteeMMqwKY0c+++GAnIRFl0OzNZQa
- mIBA==
+ bh=N0QOipPP7DsYNeWn9pbEZ2skR01k5Yp1HkOfR7OV6cs=;
+ b=b44xbkJibl9cXvB18hOWr4we+XTnj5ZsYmKikLQRR4l3/crmzLjWRz0oKrHhLQsWFw
+ Hees2Xl4Y7+dOvrsDCGdWt7Z5fVmH05NU3oYbOW4kFDDwIAiRD1XjhRD7hDThTze5az/
+ rcsAvK0u4Ib6kwTY3j04r2pAvHxnw0ASmhPZJbEieB+cVdNVUsnBDWTCY6ELf1RNXtWM
+ 1pqNQeBGO+He78TFSFiPtccsdHA1BKhNRBt5AGA6YCryGY5BrFb3JnCEq4leZt1bYveh
+ vfglcruzuQ5p8dZITZxDUCwcVsMfRIgT19SqsQfJaCzhxP9ezyW+tma4noKI9tRkpdbS
+ SKtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=yuWngpuhpAfpHw84TuHDgHuS2aQh9LCsMxc7ryGAm4M=;
- b=pRR62f8hURNUrka6OXMnTOgPKkzVWXxJtSgmcpiiniL3WvzjkUhfWO6YwJ7tRoATBd
- sLwzeEU2OC7GJ1cwblGmttDGLp3UiNxbi3LmOMoxwu1Trsn6t9FkZCy5MIddVCdANwO5
- R+XSv+pVN+46gQ1EzKWXhf8+Ta3u8o0nOYoNtZ4Q7APjeSBXntTs+VbhZKX5jxefV93D
- u6daO/ua0/MvH2AZjNzQ+zncIC+A/ZvCoD24Hfv589+7xoqRo096dDWbYrgqpAVBz55z
- +B/qiCeZyIuxS7RfIO/NrNRur4WMJz3H9glNl/zhh4z/HvNa1gMj0M+Fq7pcwSKm1yb8
- 1ggA==
-X-Gm-Message-State: AOAM533NW3Fs1fKCs7rSaKKuOIPkXr1p5v1WxSXR9mp0y5yspwnxbI74
- PkwZBsnLGMTDi4D3qDZFERNsxRqM+zUGrw==
-X-Google-Smtp-Source: ABdhPJwyrxEdFKeI/3T9eK7H7whFF4zTEw2sjZekEHwtpMdMAWQceVIkIr9T65levZCM9mFQHAs8yw==
-X-Received: by 2002:a17:902:e282:b0:148:ef58:10d8 with SMTP id
- o2-20020a170902e28200b00148ef5810d8mr1793172plc.116.1639793350492; 
- Fri, 17 Dec 2021 18:09:10 -0800 (PST)
+ bh=N0QOipPP7DsYNeWn9pbEZ2skR01k5Yp1HkOfR7OV6cs=;
+ b=egECdaUCy36CEfWPJHoJ+PPhFB93aHP0HsL5sugRQX165zTJf/c6sSx+a+QqLVgSO/
+ HXaznK69SzoqgsfLxwZ1IHca2nND16zCBHxc7CL4JTbaEYRshKv5Yyc7sDcJrk0v/8Qq
+ Od/LT9HdSTcIshBSQF0NxVrzh78XHLyacKcwK+kywyKUs86iEAIykIBQPaBoGZNfpexs
+ eoqRVTo5rHGDDYoCC/5fjeAXzBYU9l3EAJd2VSFIjB75uzo+a+Xs2PtAuqATc/IzoRhN
+ q9relwIa7FSvlCW1IczRhSAWcMUQBFC3Vuip7C+ARBy/Lwcp1Cmlkbl87rtJEmLpIQYx
+ V5Nw==
+X-Gm-Message-State: AOAM533YFITbP9mHDijaDOulSWiripesYWpdejol9Zbak6cSZ6k8eqXF
+ C63TUjgATfpqpvtXDVm7sg8HDA==
+X-Google-Smtp-Source: ABdhPJwoch+dDEL4KLakp2wlAEWD7FQYl2xT4lATGa+RRJ1MhJmhj8ChZXBIwDSFy35of5e1hgfRmw==
+X-Received: by 2002:a17:90b:4b41:: with SMTP id
+ mi1mr15267036pjb.2.1639794492239; 
+ Fri, 17 Dec 2021 18:28:12 -0800 (PST)
 Received: from [192.168.1.13] (174-21-75-75.tukw.qwest.net. [174.21.75.75])
- by smtp.gmail.com with ESMTPSA id h22sm483314pfv.184.2021.12.17.18.09.09
+ by smtp.gmail.com with ESMTPSA id s25sm1263270pfg.208.2021.12.17.18.28.11
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 17 Dec 2021 18:09:10 -0800 (PST)
-Subject: Re: [PATCH] target/mips: Align vector registers to 16 bytes
+ Fri, 17 Dec 2021 18:28:11 -0800 (PST)
+Subject: Re: [PATCH] hw/timer/etraxfs_timer: Add vmstate for ETRAX timers
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org
-References: <20211217233456.1475527-1-f4bug@amsat.org>
+References: <20211106105623.510868-1-f4bug@amsat.org>
+ <8f417138-a3bb-7d07-bda9-db4740550f2f@amsat.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <1e736337-f1f3-29bb-67af-ddf31dc90538@linaro.org>
-Date: Fri, 17 Dec 2021 18:09:08 -0800
+Message-ID: <5cad7d04-1699-35d2-8d96-b236d451101d@linaro.org>
+Date: Fri, 17 Dec 2021 18:28:10 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <20211217233456.1475527-1-f4bug@amsat.org>
+In-Reply-To: <8f417138-a3bb-7d07-bda9-db4740550f2f@amsat.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1033
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1030
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1033.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1030.google.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.716,
  RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,25 +92,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: qemu-trivial@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/17/21 3:34 PM, Philippe Mathieu-Daudé wrote:
-> Align fpr_t to 16 bytes to be able to use the TCG "Generic"
-> vector operation expansion API from "tcg/tcg-op-gvec.h",
-> otherwise we trigger assertions in check_size_align().
+On 12/17/21 3:37 PM, Philippe Mathieu-Daudé wrote:
+> ping?
 > 
-> See commits ec8e23e37f8 (s390x) and 11e2bfef799 (i386)
-> for similar justifications.
-> 
-> Signed-off-by: Philippe Mathieu-Daudé<f4bug@amsat.org>
-> ---
->   target/mips/cpu.h | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+> On 11/6/21 11:56, Philippe Mathieu-Daudé wrote:
+>> Add the vmstate for the ETRAX timers.
+>> This is in theory a migration compatibility break
+>> for the 'AXIS devboard 88' CRIS machine.
+>>
+>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>> ---
+>>   hw/timer/etraxfs_timer.c | 34 +++++++++++++++++++++++++++++++++-
+>>   1 file changed, 33 insertions(+), 1 deletion(-)
 
+
+In that it matches another similar timer device:
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
+
+>> +static const VMStateDescription vmstate_etraxfs = {
+>> +    .name = "etraxfs",
+>> +    .version_id = 0,
+>> +    .minimum_version_id = 0,
+>> +    .fields = (VMStateField[]) {
+>> +        VMSTATE_PTIMER(ptimer_t0, ETRAXTimerState),
+>> +        VMSTATE_PTIMER(ptimer_t1, ETRAXTimerState),
+>> +        VMSTATE_PTIMER(ptimer_wd, ETRAXTimerState),
+>> +
+>> +        VMSTATE_UINT32(wd_hits, ETRAXTimerState),
+>> +
+>> +        VMSTATE_UINT32(rw_tmr0_div, ETRAXTimerState),
+>> +        VMSTATE_UINT32(r_tmr0_data, ETRAXTimerState),
+>> +        VMSTATE_UINT32(rw_tmr0_ctrl, ETRAXTimerState),
+>> +
+>> +        VMSTATE_UINT32(rw_tmr1_div, ETRAXTimerState),
+>> +        VMSTATE_UINT32(r_tmr1_data, ETRAXTimerState),
+>> +        VMSTATE_UINT32(rw_tmr1_ctrl, ETRAXTimerState),
+>> +
+>> +        VMSTATE_UINT32(rw_wd_ctrl, ETRAXTimerState),
+>> +
+>> +        VMSTATE_UINT32(rw_intr_mask, ETRAXTimerState),
+>> +        VMSTATE_UINT32(rw_ack_intr, ETRAXTimerState),
+>> +        VMSTATE_UINT32(r_intr, ETRAXTimerState),
+>> +        VMSTATE_UINT32(r_masked_intr, ETRAXTimerState),
+>> +
+>> +        VMSTATE_END_OF_LIST()
+>> +    }
+>> +};
+
+What I don't understand is how these controls get applied to qemu_irq after vmload, here 
+or in any other device.  It seems like we should have some post_load hook that calls 
+timer_update_irq, etc.
+
 
 r~
 
