@@ -2,83 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAF2C47A06C
-	for <lists+qemu-devel@lfdr.de>; Sun, 19 Dec 2021 12:39:01 +0100 (CET)
-Received: from localhost ([::1]:58572 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 881C347A0DD
+	for <lists+qemu-devel@lfdr.de>; Sun, 19 Dec 2021 15:19:52 +0100 (CET)
+Received: from localhost ([::1]:40328 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1myuWq-0000Vs-7e
-	for lists+qemu-devel@lfdr.de; Sun, 19 Dec 2021 06:39:00 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51294)
+	id 1myx2V-0000Ev-8u
+	for lists+qemu-devel@lfdr.de; Sun, 19 Dec 2021 09:19:51 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58662)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1myuVr-0008Fg-07
- for qemu-devel@nongnu.org; Sun, 19 Dec 2021 06:37:59 -0500
-Received: from [2a00:1450:4864:20::430] (port=41680
- helo=mail-wr1-x430.google.com)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1myx02-00063o-Ll
+ for qemu-devel@nongnu.org; Sun, 19 Dec 2021 09:17:18 -0500
+Received: from [2a00:1450:4864:20::535] (port=33311
+ helo=mail-ed1-x535.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1myuVp-0001Fm-FH
- for qemu-devel@nongnu.org; Sun, 19 Dec 2021 06:37:58 -0500
-Received: by mail-wr1-x430.google.com with SMTP id a9so13955092wrr.8
- for <qemu-devel@nongnu.org>; Sun, 19 Dec 2021 03:37:57 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1myx00-0005wa-Rg
+ for qemu-devel@nongnu.org; Sun, 19 Dec 2021 09:17:18 -0500
+Received: by mail-ed1-x535.google.com with SMTP id m21so608007edc.0
+ for <qemu-devel@nongnu.org>; Sun, 19 Dec 2021 06:17:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
+ h=sender:from:to:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=LijIURDpM7lsspSGGav7ctkSnuaBDEV2vikDcxetug0=;
- b=MAcCY0RqFem/boHA0rwe8QkpdE1Euj0JwUZG5xRFfFZHBwlWcDfw4VCPV/2HZ83iZc
- 9nvXMfl5FOHgqhxXqIZggVLLfzS4WiGLUysAzM4kJFqFFtYRx2Sn5s1CesOm8tVBFfpW
- ZurFWRxcM7zROa/rxo4P6ayf0bD6goWuoqeXfO7ixt7HraSRLngge5qsu21T9NXxpvVo
- w+mX08yzduYHW2g5rbBSIB3cbMh9Z1iqKSYvPs8jpKwnbAzi0D7TNFmG33zarEdOr1rq
- i/meJMPPEC6E7gXk2DoXM5nN4vlXAkEw9g+Rr5a0JPuZvkY8r9lT9sTJC5+mOttiQM5J
- nGLw==
+ bh=QEuEsXUdLQxXJxDPtJ0/zpqTwFRrrO1nM+RCi1MJTuI=;
+ b=kS4t5X2lu68DdOjp2jWR3M3pfjSukBafgs4/KBxT5mf9QmlXxNl1Sl9iW4lIGhDISz
+ qpA53WU6oR25CblHEYuIspVe53Tg5RD03WWFGgUUI1vZg3u6Q6jA/8WTg2Bm++zdrW6X
+ pt5Q4F8s99ZGMXu45nhTEAoNhngXirzXyN4eBDk2MfLUWbzoFkUUZGAVsVdnpV7iOs2C
+ 24J/yoRlU5GDoiZe+2PZxRRjgaN44FFyMHB4fxjsmd3bJkQNei3NzEzDwG8icHOusleD
+ DT02Qy0rqBBldbFmznuC4kUOUx5EzmHEK2vmL7aDXY5Cu2wzeu26cy8xWUuYLwS9qZVH
+ 9YsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:references:from:in-reply-to
- :content-transfer-encoding;
- bh=LijIURDpM7lsspSGGav7ctkSnuaBDEV2vikDcxetug0=;
- b=Tl2/nRFxiiKuiZYeYuOBTup6Gtbsax9g5JASZQViHFSdrJrdKDnvpes22Si4WJvnDU
- BJRF/HMy2eo6/WKn2iqx3xT6LtyyK6GDFOBuKXgzpvOlYBJipJ8cjxA8n1LFKRuHpfUp
- DqLzACZZKhA2jafkSTDUle1Uli5HGdYMBiEc7cE0No859DEtrc5moB4EwJAvqS+yFGLB
- X/mFDKJzBlaeh+eGUUXKxH8wU5goZltDiA0sGzpZ+ci6dgg5tm4IGxVqpeowaXlwPwMp
- Yhg0hHCJ5Am1MESfhafnuS0/dsxRCsknrzJ55bVOiIu5qdXwky5TfYS0AbVEUBi1HhoS
- uZSA==
-X-Gm-Message-State: AOAM531tpXGnmtHM+7bO2icQoefTEJMsGmUlD5WM8IaLNiJ4M21uHr1S
- NgeSc5yPm5pP2MHJSqB5vlw=
-X-Google-Smtp-Source: ABdhPJz2mbKrsnkiYxM6AWTzrkBRMioXCs4yK5t+NZMo4RF3Ct4ZIXsaKCyocRKfn+I0rT2lYCPKbA==
-X-Received: by 2002:a5d:52c3:: with SMTP id r3mr9582146wrv.115.1639913876320; 
- Sun, 19 Dec 2021 03:37:56 -0800 (PST)
-Received: from [192.168.1.36] (174.red-83-50-185.dynamicip.rima-tde.net.
- [83.50.185.174])
- by smtp.gmail.com with ESMTPSA id j16sm4008157wms.12.2021.12.19.03.37.55
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 19 Dec 2021 03:37:55 -0800 (PST)
-Message-ID: <37175802-c8ae-01a4-1550-7bb15aab37a0@amsat.org>
-Date: Sun, 19 Dec 2021 12:37:55 +0100
+ h=x-gm-message-state:sender:from:to:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=QEuEsXUdLQxXJxDPtJ0/zpqTwFRrrO1nM+RCi1MJTuI=;
+ b=gZeZt/8zwhXLNYdf662RwZTm+BSisiiO7evcLbmXhaO/UKJJ9Te9WmyOphjvhsqvnE
+ j8JYvVmsA86RSrmrFn9wokIaEqFi5Rvvw/GtLKQdfnZIrGgDaG6+l93Vw+MplZUFPrfv
+ XEa23X7lBteQACFT8XS8o0a7je7UM2WP5Npm6u92cSDy+phXZzqwaoNSuUBYdgf1DHY4
+ gzbnzhs6wI9DMAIbkGuPSqcpmIYCY5D4dTb+HeAxsTm74fWM6lPVieHS97oaQUNsl/Um
+ m0hMheuLFKAuBAqta5RMi7lO0rMClel8JsJobHiTur6sABvpBTmBKvsoS+aPJZoVH4be
+ C69Q==
+X-Gm-Message-State: AOAM531bApkE5ptZYEipqFi+fwF+BHAtIerCI9X+yRxviUFndR4tOtgY
+ 4sQpDiqq5KFtoyqdv5B9l7oa/x8nC90=
+X-Google-Smtp-Source: ABdhPJwxpiDeS8CQOM6Kr74ymwBHRMDKrjV9BmCp5Nom1goxRoZkNlVcmhAj/WmZ3dV4C7D9XuWejQ==
+X-Received: by 2002:a17:906:e2c5:: with SMTP id
+ gr5mr10000884ejb.282.1639923433957; 
+ Sun, 19 Dec 2021 06:17:13 -0800 (PST)
+Received: from avogadro.redhat.com ([2001:b07:6468:f312:48f9:bea:a04c:3dfe])
+ by smtp.gmail.com with ESMTPSA id hq9sm4570665ejc.119.2021.12.19.06.17.13
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 19 Dec 2021 06:17:13 -0800 (PST)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/16] Misc patches for 2021-12-20
+Date: Sun, 19 Dec 2021 15:16:55 +0100
+Message-Id: <20211219141711.248066-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.33.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH 01/20] tcg/optimize: Fix folding of vector ops
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20211218194250.247633-1-richard.henderson@linaro.org>
- <20211218194250.247633-2-richard.henderson@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <20211218194250.247633-2-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::430
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::535
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x430.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Received-SPF: pass client-ip=2a00:1450:4864:20::535;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x535.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.563,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
  RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
@@ -96,19 +90,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/18/21 20:42, Richard Henderson wrote:
-> Bitwise operations are easy to fold, because the operation is
-> identical regardess of element size.  But add and sub need
+The following changes since commit 90978e15bc9a23c208b25bf7ea697a5d0925562b:
 
-Typo "regardless".
+  Merge tag 'trivial-branch-for-7.0-pull-request' of https://gitlab.com/laurent_vivier/qemu into staging (2021-12-17 13:15:38 -0800)
 
-> extra element size info that is not currently propagated.
-> 
-> Fixes: 2f9f08ba43d
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  tcg/optimize.c | 49 ++++++++++++++++++++++++++++++++++++++-----------
->  1 file changed, 38 insertions(+), 11 deletions(-)
+are available in the Git repository at:
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+  https://gitlab.com/bonzini/qemu.git tags/for-upstream
+
+for you to fetch changes up to 5a3a2eb3b1096a52580c1b8c3eb0739714e7d941:
+
+  hw/i386/vmmouse: Require 'i8042' property to be set (2021-12-18 10:57:37 +0100)
+
+----------------------------------------------------------------
+* configure and meson cleanups and fixes
+* remove unnecessary #ifdef
+* SCSI and i386 fixes
+
+----------------------------------------------------------------
+Paolo Bonzini (12):
+      configure: make $targetos lowercase, use windows instead of MINGW32
+      configure: move target detection before CPU detection
+      configure: unify two case statements on $cpu
+      configure: unify ppc64 and ppc64le
+      configure: unify x86_64 and x32
+      meson: rename "arch" variable
+      configure, meson: move ARCH to meson.build
+      configure: remove unnecessary symlinks
+      configure: remove DIRS
+      meson: reenable test-fdmon-epoll
+      cpu: remove unnecessary #ifdef CONFIG_TCG
+      meson: add "check" argument to run_command
+
+Philippe Mathieu-Daudé (4):
+      hw/scsi: Fix scsi_bus_init_named() docstring
+      hw/scsi/megasas: Fails command if SGL buffer overflows
+      tests/qtest/fuzz-megasas-test: Add test for GitLab issue #521
+      hw/i386/vmmouse: Require 'i8042' property to be set
+
+ configure                       | 253 +++++++++++++++++-----------------------
+ cpu.c                           |   5 -
+ docs/meson.build                |   6 +-
+ hw/i386/vmmouse.c               |   4 +
+ hw/scsi/megasas.c               |   1 +
+ include/exec/cpu-all.h          |   2 -
+ include/hw/scsi/scsi.h          |   2 +-
+ meson.build                     |  39 ++++---
+ pc-bios/meson.build             |   2 +-
+ tests/qtest/fuzz-megasas-test.c |  30 +++++
+ tests/tcg/configure.sh          |   4 +-
+ tests/unit/meson.build          |   2 +-
+ 12 files changed, 173 insertions(+), 177 deletions(-)
+-- 
+2.33.1
+
 
