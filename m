@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 121AE47A0DF
+	by mail.lfdr.de (Postfix) with ESMTPS id 514DC47A0E0
 	for <lists+qemu-devel@lfdr.de>; Sun, 19 Dec 2021 15:19:53 +0100 (CET)
-Received: from localhost ([::1]:40508 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:40630 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1myx2W-0000Me-5D
+	id 1myx2W-0000R2-Do
 	for lists+qemu-devel@lfdr.de; Sun, 19 Dec 2021 09:19:52 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58664)
+Received: from eggs.gnu.org ([209.51.188.92]:58698)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1myx02-00063w-UJ
- for qemu-devel@nongnu.org; Sun, 19 Dec 2021 09:17:18 -0500
-Received: from [2a00:1450:4864:20::534] (port=42674
- helo=mail-ed1-x534.google.com)
+ id 1myx03-000647-VX
+ for qemu-devel@nongnu.org; Sun, 19 Dec 2021 09:17:19 -0500
+Received: from [2a00:1450:4864:20::52c] (port=44974
+ helo=mail-ed1-x52c.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1myx01-0005wb-3S
- for qemu-devel@nongnu.org; Sun, 19 Dec 2021 09:17:18 -0500
-Received: by mail-ed1-x534.google.com with SMTP id j21so23398479edt.9
- for <qemu-devel@nongnu.org>; Sun, 19 Dec 2021 06:17:16 -0800 (PST)
+ id 1myx01-0005wi-I7
+ for qemu-devel@nongnu.org; Sun, 19 Dec 2021 09:17:19 -0500
+Received: by mail-ed1-x52c.google.com with SMTP id z7so27711736edc.11
+ for <qemu-devel@nongnu.org>; Sun, 19 Dec 2021 06:17:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ h=sender:from:to:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=EqOLSg8zg8I8UXoyrrO7ni1K5iZyGc8eZFN159xRpqY=;
- b=cuOxYg4/wWP/1CYN3KB1EADAqmbifPXlirCkuWocq46C3PPUzBUECsHY0v0+PzusqE
- V2lIU8k8bYh7uT+iIWgSppIweurRExqMpV/LlxpeYxumC4H9rcqZ2GeijjngmWUDDnyE
- L3sRS/O+TaqbHGG1GoAONUTIoEQZE5XAjXwKD985fTdOGBuMzG14WBsBLW4x74oZHGBg
- x5pkflKvI9ocmna0qU1z8yBIAmRDAdd8J5BnULEtwKrpKCfqbvyCiU6pckEVZvXpEfCT
- Vmj6l2F/qXwkk7mlp2UIIElmgjhjFLhMhV3JjYUx7MddLSrZSy654BdXsx+9sENtxho6
- /eHQ==
+ bh=zEwHid1Zv0oXAk8+2KsA2jpvfbATiHDd8P3ZPEfNrVo=;
+ b=bwxajoZBHFP2yk2838ahQJIdOZjohYIhwS8qlLFJSzi6Q0IpCKhzaCwVEAc9x8arS4
+ k0NnmW1RLj4S12j8d1W8x2a72Jj74W3wYrrVzHEgTLi842kcidlAyqCbb2DmO11pWwVB
+ 2KnHURb0MUFDty2ZtnFazdfT2V6wvwJic2buC+oaecLhPYI8s8YVfY878pI/9beiuCkq
+ KsmKxfneXBLOrRLAtiV9C2xbN0VW+PeBzUMb+PdD/ROWbN2In9U9Y9jwk2ZnTNUiPUWV
+ J/o/Pzx6D4HpyPnhVQR8+pF6sfgvEgFYD71oeaR2uAcXTqP+xZXcYOYKZB5ETI1x4iCc
+ E4DQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=EqOLSg8zg8I8UXoyrrO7ni1K5iZyGc8eZFN159xRpqY=;
- b=taUXFh+e6Toy3R3xv6iN9ZGan+OJA/IcNusjPIIDWQQaiBsY7Hc0BxcIdjfoDfK4bj
- vucv/Lm1HhvOX1vZzLZx+lRBsv27W7cvjLuz0kNb0E9JqqgkmHqjbdCSeZOW63G4ha98
- xlXXJsMDnuqVwc3qaRv7bJsU79sUl+qn9T5R2wOXLST4HiUY1njjL85SBnGEKRNUVHyy
- svLJm5nki4joge6V/j78wClcfayaBdgAcMBWrMwykjUAL4BHagirOaLckf0lOqVrL2Vs
- z4217UPbHJti90d5npxbDwUVzUzGl9uRVITFMou2czvnaUXFfLd1RDwuvj5sQGTVHPpu
- z62g==
-X-Gm-Message-State: AOAM5335GbQNLJdlfWwCbp/tTYAr/UxW62n3soW7mVPYwB9WWbqaHWlD
- ZwvYCKOMGPqDYgAqzthp3xh4SZJFWEw=
-X-Google-Smtp-Source: ABdhPJxcqswJKs9QfPePmBhG1XhLd7enqCh/ytFSkQRwHomsrzMAFEMtICQ9YlG2Zlqeq2bZcDP3BQ==
-X-Received: by 2002:a17:907:7b9b:: with SMTP id
- ne27mr9571869ejc.79.1639923434649; 
- Sun, 19 Dec 2021 06:17:14 -0800 (PST)
+ bh=zEwHid1Zv0oXAk8+2KsA2jpvfbATiHDd8P3ZPEfNrVo=;
+ b=rJT8b198vPrUnYzBuBGlTtc0Oay+O51I57SEJKgIxgIOVe8HVQTcJQF39ilL4FR0Ti
+ zElJ0odBastNIvk03m0bT3sgFetvzsTC/vu8MWqlLUCrKVMhmwkZ5ok+mdqXjPfshMqn
+ zV8hTbAUvCXGN8qMyEf1fcHTphv8wAkMPByT0WG7r3dQyvDixV2PUhnQRjbGFMA0aRll
+ yiV18Qf5dGPKA1UHoUPcrpmnZvCDjy0RSbuErT7NS6AMOhmvZ9GsG223bHLwVuPDzcNY
+ 87wx1v7AnS/BsGCfXoNQpi/nnU6Is3xZkJiAA4DG0JsPMfhrtRp6Rv5+WnXElLFRo6NA
+ b8+A==
+X-Gm-Message-State: AOAM533Wz7ryd/xNVSdptrVAXH2ufRKwr40+LXCGpH2ALpDvuwQlEURd
+ PD+IttT1J0h04CwTjBnwek9PdefN/HM=
+X-Google-Smtp-Source: ABdhPJxuThFJrCk7dK5K7aDR+m4c9+rzbOcdlxygjL20x5idCIWHLnLOFwZBDkJ2KiA1AsskP1aC1w==
+X-Received: by 2002:a17:907:7fa2:: with SMTP id
+ qk34mr9722010ejc.691.1639923436146; 
+ Sun, 19 Dec 2021 06:17:16 -0800 (PST)
 Received: from avogadro.redhat.com ([2001:b07:6468:f312:48f9:bea:a04c:3dfe])
- by smtp.gmail.com with ESMTPSA id hq9sm4570665ejc.119.2021.12.19.06.17.14
+ by smtp.gmail.com with ESMTPSA id hq9sm4570665ejc.119.2021.12.19.06.17.15
+ for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 19 Dec 2021 06:17:14 -0800 (PST)
+ Sun, 19 Dec 2021 06:17:15 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 01/16] configure: make $targetos lowercase,
- use windows instead of MINGW32
-Date: Sun, 19 Dec 2021 15:16:56 +0100
-Message-Id: <20211219141711.248066-2-pbonzini@redhat.com>
+Subject: [PULL 02/16] configure: move target detection before CPU detection
+Date: Sun, 19 Dec 2021 15:16:57 +0100
+Message-Id: <20211219141711.248066-3-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211219141711.248066-1-pbonzini@redhat.com>
 References: <20211219141711.248066-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::534
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52c
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::534;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x534.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52c.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -88,166 +88,156 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-targetos is already mostly the same as Meson host_machine.system(),
-just in CamelCase.  Adjust Windows, which is different, and switch to
-lowercase to match Meson.
+This makes more sense, since target detection can affect CPU detection
+on Solaris.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure | 58 ++++++++++++++++++++++++-------------------------------
- 1 file changed, 25 insertions(+), 33 deletions(-)
+ configure | 115 ++++++++++++++++++++++++++----------------------------
+ 1 file changed, 55 insertions(+), 60 deletions(-)
 
 diff --git a/configure b/configure
-index 28e1cf6291..e72e34b684 100755
+index e72e34b684..f0a82dd8f5 100755
 --- a/configure
 +++ b/configure
-@@ -501,30 +501,30 @@ EOF
- }
- 
- if check_define __linux__ ; then
--  targetos="Linux"
-+  targetos=linux
- elif check_define _WIN32 ; then
--  targetos='MINGW32'
-+  targetos=windows
- elif check_define __OpenBSD__ ; then
--  targetos='OpenBSD'
-+  targetos=openbsd
- elif check_define __sun__ ; then
--  targetos='SunOS'
-+  targetos=sunos
- elif check_define __HAIKU__ ; then
--  targetos='Haiku'
-+  targetos=haiku
- elif check_define __FreeBSD__ ; then
--  targetos='FreeBSD'
-+  targetos=freebsd
- elif check_define __FreeBSD_kernel__ && check_define __GLIBC__; then
--  targetos='GNU/kFreeBSD'
-+  targetos=gnu/kfreebsd
- elif check_define __DragonFly__ ; then
--  targetos='DragonFly'
-+  targetos=dragonfly
- elif check_define __NetBSD__; then
--  targetos='NetBSD'
-+  targetos=netbsd
- elif check_define __APPLE__; then
--  targetos='Darwin'
-+  targetos=darwin
- else
-   # This is a fatal error, but don't report it yet, because we
-   # might be going to just print the --help text, or it might
-   # be the result of a missing compiler.
--  targetos='bogus'
-+  targetos=bogus
+@@ -527,16 +527,67 @@ else
+   targetos=bogus
  fi
  
- # Some host OSes need non-standard checks for which CPU to use.
-@@ -532,7 +532,7 @@ fi
- # cross-compiling to one of these OSes then you'll need to specify
- # the correct CPU with the --cpu option.
+-# Some host OSes need non-standard checks for which CPU to use.
+-# Note that these checks are broken for cross-compilation: if you're
+-# cross-compiling to one of these OSes then you'll need to specify
+-# the correct CPU with the --cpu option.
++# OS specific
++
  case $targetos in
--SunOS)
-+sunos)
++windows)
++  mingw32="yes"
++  plugins="no"
++  pie="no"
++;;
++gnu/kfreebsd)
++  bsd="yes"
++;;
++freebsd)
++  bsd="yes"
++  bsd_user="yes"
++  make="${MAKE-gmake}"
++  # needed for kinfo_getvmmap(3) in libutil.h
++;;
++dragonfly)
++  bsd="yes"
++  make="${MAKE-gmake}"
++;;
++netbsd)
++  bsd="yes"
++  make="${MAKE-gmake}"
++;;
++openbsd)
++  bsd="yes"
++  make="${MAKE-gmake}"
++;;
++darwin)
++  bsd="yes"
++  darwin="yes"
++  # Disable attempts to use ObjectiveC features in os/object.h since they
++  # won't work when we're compiling with gcc as a C compiler.
++  QEMU_CFLAGS="-DOS_OBJECT_USE_OBJC=0 $QEMU_CFLAGS"
++;;
+ sunos)
++  solaris="yes"
++  make="${MAKE-gmake}"
++  smbd="${SMBD-/usr/sfw/sbin/smbd}"
++# needed for CMSG_ macros in sys/socket.h
++  QEMU_CFLAGS="-D_XOPEN_SOURCE=600 $QEMU_CFLAGS"
++# needed for TIOCWIN* defines in termios.h
++  QEMU_CFLAGS="-D__EXTENSIONS__ $QEMU_CFLAGS"
    # $(uname -m) returns i86pc even on an x86_64 box, so default based on isainfo
++  # Note that this check is broken for cross-compilation: if you're
++  # cross-compiling to one of these OSes then you'll need to specify
++  # the correct CPU with the --cpu option.
    if test -z "$cpu" && test "$(isainfo -k)" = "amd64"; then
      cpu="x86_64"
-@@ -623,40 +623,40 @@ fi
- # OS specific
- 
- case $targetos in
--MINGW32*)
-+windows)
-   mingw32="yes"
-   plugins="no"
-   pie="no"
- ;;
--GNU/kFreeBSD)
-+gnu/kfreebsd)
-   bsd="yes"
- ;;
--FreeBSD)
-+freebsd)
-   bsd="yes"
-   bsd_user="yes"
-   make="${MAKE-gmake}"
-   # needed for kinfo_getvmmap(3) in libutil.h
- ;;
--DragonFly)
-+dragonfly)
-   bsd="yes"
-   make="${MAKE-gmake}"
- ;;
--NetBSD)
-+netbsd)
-   bsd="yes"
-   make="${MAKE-gmake}"
- ;;
--OpenBSD)
-+openbsd)
-   bsd="yes"
-   make="${MAKE-gmake}"
- ;;
--Darwin)
-+darwin)
-   bsd="yes"
-   darwin="yes"
-   # Disable attempts to use ObjectiveC features in os/object.h since they
-   # won't work when we're compiling with gcc as a C compiler.
-   QEMU_CFLAGS="-DOS_OBJECT_USE_OBJC=0 $QEMU_CFLAGS"
- ;;
--SunOS)
-+sunos)
-   solaris="yes"
-   make="${MAKE-gmake}"
-   smbd="${SMBD-/usr/sfw/sbin/smbd}"
-@@ -665,11 +665,11 @@ SunOS)
- # needed for TIOCWIN* defines in termios.h
-   QEMU_CFLAGS="-D__EXTENSIONS__ $QEMU_CFLAGS"
- ;;
--Haiku)
+   fi
++;;
 +haiku)
-   pie="no"
-   QEMU_CFLAGS="-DB_USE_POSITIVE_POSIX_ERRORS -D_BSD_SOURCE -fPIC $QEMU_CFLAGS"
- ;;
--Linux)
++  pie="no"
++  QEMU_CFLAGS="-DB_USE_POSITIVE_POSIX_ERRORS -D_BSD_SOURCE -fPIC $QEMU_CFLAGS"
++;;
 +linux)
-   linux="yes"
-   linux_user="yes"
-   vhost_user=${default_feature:-yes}
-@@ -3334,8 +3334,8 @@ QEMU_GA_MSI_MINGW_DLL_PATH="$($pkg_config --variable=prefix glib-2.0)/bin"
- # Mac OS X ships with a broken assembler
- roms=
- if { test "$cpu" = "i386" || test "$cpu" = "x86_64"; } && \
--        test "$targetos" != "Darwin" && test "$targetos" != "SunOS" && \
--        test "$targetos" != "Haiku" && test "$softmmu" = yes ; then
-+        test "$targetos" != "darwin" && test "$targetos" != "sunos" && \
-+        test "$targetos" != "haiku" && test "$softmmu" = yes ; then
-     # Different host OS linkers have different ideas about the name of the ELF
-     # emulation. Linux and OpenBSD/amd64 use 'elf_i386'; FreeBSD uses the _fbsd
-     # variant; OpenBSD/i386 uses the _obsd variant; and Windows uses i386pe.
-@@ -3903,15 +3903,7 @@ if test "$skip_meson" = no; then
-   if test "$cross_compile" = "yes"; then
-     cross_arg="--cross-file config-meson.cross"
-     echo "[host_machine]" >> $cross
--    if test "$mingw32" = "yes" ; then
--        echo "system = 'windows'" >> $cross
--    fi
--    if test "$linux" = "yes" ; then
--        echo "system = 'linux'" >> $cross
--    fi
--    if test "$darwin" = "yes" ; then
--        echo "system = 'darwin'" >> $cross
--    fi
-+    echo "system = '$targetos'" >> $cross
-     case "$ARCH" in
-         i386)
-             echo "cpu_family = 'x86'" >> $cross
++  linux="yes"
++  linux_user="yes"
++  vhost_user=${default_feature:-yes}
++;;
+ esac
+ 
+ if test ! -z "$cpu" ; then
+@@ -620,62 +671,6 @@ if test -z "$ARCH"; then
+   ARCH="$cpu"
+ fi
+ 
+-# OS specific
+-
+-case $targetos in
+-windows)
+-  mingw32="yes"
+-  plugins="no"
+-  pie="no"
+-;;
+-gnu/kfreebsd)
+-  bsd="yes"
+-;;
+-freebsd)
+-  bsd="yes"
+-  bsd_user="yes"
+-  make="${MAKE-gmake}"
+-  # needed for kinfo_getvmmap(3) in libutil.h
+-;;
+-dragonfly)
+-  bsd="yes"
+-  make="${MAKE-gmake}"
+-;;
+-netbsd)
+-  bsd="yes"
+-  make="${MAKE-gmake}"
+-;;
+-openbsd)
+-  bsd="yes"
+-  make="${MAKE-gmake}"
+-;;
+-darwin)
+-  bsd="yes"
+-  darwin="yes"
+-  # Disable attempts to use ObjectiveC features in os/object.h since they
+-  # won't work when we're compiling with gcc as a C compiler.
+-  QEMU_CFLAGS="-DOS_OBJECT_USE_OBJC=0 $QEMU_CFLAGS"
+-;;
+-sunos)
+-  solaris="yes"
+-  make="${MAKE-gmake}"
+-  smbd="${SMBD-/usr/sfw/sbin/smbd}"
+-# needed for CMSG_ macros in sys/socket.h
+-  QEMU_CFLAGS="-D_XOPEN_SOURCE=600 $QEMU_CFLAGS"
+-# needed for TIOCWIN* defines in termios.h
+-  QEMU_CFLAGS="-D__EXTENSIONS__ $QEMU_CFLAGS"
+-;;
+-haiku)
+-  pie="no"
+-  QEMU_CFLAGS="-DB_USE_POSITIVE_POSIX_ERRORS -D_BSD_SOURCE -fPIC $QEMU_CFLAGS"
+-;;
+-linux)
+-  linux="yes"
+-  linux_user="yes"
+-  vhost_user=${default_feature:-yes}
+-;;
+-esac
+-
+ : ${make=${MAKE-make}}
+ 
+ # We prefer python 3.x. A bare 'python' is traditionally
 -- 
 2.33.1
 
