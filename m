@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 514DC47A0E0
-	for <lists+qemu-devel@lfdr.de>; Sun, 19 Dec 2021 15:19:53 +0100 (CET)
-Received: from localhost ([::1]:40630 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBCF447A0DE
+	for <lists+qemu-devel@lfdr.de>; Sun, 19 Dec 2021 15:19:52 +0100 (CET)
+Received: from localhost ([::1]:40534 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1myx2W-0000R2-Do
-	for lists+qemu-devel@lfdr.de; Sun, 19 Dec 2021 09:19:52 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58698)
+	id 1myx2V-0000Nj-D2
+	for lists+qemu-devel@lfdr.de; Sun, 19 Dec 2021 09:19:51 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58696)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1myx03-000647-VX
+ id 1myx03-000646-Vc
  for qemu-devel@nongnu.org; Sun, 19 Dec 2021 09:17:19 -0500
-Received: from [2a00:1450:4864:20::52c] (port=44974
- helo=mail-ed1-x52c.google.com)
+Received: from [2a00:1450:4864:20::531] (port=33308
+ helo=mail-ed1-x531.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1myx01-0005wi-I7
+ id 1myx02-0005wk-2s
  for qemu-devel@nongnu.org; Sun, 19 Dec 2021 09:17:19 -0500
-Received: by mail-ed1-x52c.google.com with SMTP id z7so27711736edc.11
+Received: by mail-ed1-x531.google.com with SMTP id m21so608483edc.0
  for <qemu-devel@nongnu.org>; Sun, 19 Dec 2021 06:17:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:subject:date:message-id:in-reply-to:references
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=zEwHid1Zv0oXAk8+2KsA2jpvfbATiHDd8P3ZPEfNrVo=;
- b=bwxajoZBHFP2yk2838ahQJIdOZjohYIhwS8qlLFJSzi6Q0IpCKhzaCwVEAc9x8arS4
- k0NnmW1RLj4S12j8d1W8x2a72Jj74W3wYrrVzHEgTLi842kcidlAyqCbb2DmO11pWwVB
- 2KnHURb0MUFDty2ZtnFazdfT2V6wvwJic2buC+oaecLhPYI8s8YVfY878pI/9beiuCkq
- KsmKxfneXBLOrRLAtiV9C2xbN0VW+PeBzUMb+PdD/ROWbN2In9U9Y9jwk2ZnTNUiPUWV
- J/o/Pzx6D4HpyPnhVQR8+pF6sfgvEgFYD71oeaR2uAcXTqP+xZXcYOYKZB5ETI1x4iCc
- E4DQ==
+ bh=EXZ+RfndWTu7M8bnJezJV53DoYNGcawg43uOsLoxFZ0=;
+ b=cuceh0TbfRqEgevzaWz/VlBzU5cdT7qMI0+3HXSj2SvYMMX9fcxaZBGjt3qD7pNWJ9
+ 30p2NbTFYDO+8U84mAMCRidQ554Df2w/DNE9E7AGuVL8JSjBZ8YjwB/FjQDE1WTJlsy1
+ 2ADknikDqbhuku6ombUSjQeGQ7Z6xX7UnlU6GJUITVbVOCm2lXGHb0WNW2TjHR5Pxlut
+ seplbyx3ccl2ZrCC1tVbgRQJoto65Z/1DCQAywu4AL/AbVf6b7bHRj1rxWCzS7b8tdI9
+ ECTS5PoG0ynALaEeg71YSWAe/Y66dOaAg2pSwuaVSHqi5aiHWm0XiVT1ZMNGCPQv8g0x
+ cSIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:from:to:subject:date:message-id
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=zEwHid1Zv0oXAk8+2KsA2jpvfbATiHDd8P3ZPEfNrVo=;
- b=rJT8b198vPrUnYzBuBGlTtc0Oay+O51I57SEJKgIxgIOVe8HVQTcJQF39ilL4FR0Ti
- zElJ0odBastNIvk03m0bT3sgFetvzsTC/vu8MWqlLUCrKVMhmwkZ5ok+mdqXjPfshMqn
- zV8hTbAUvCXGN8qMyEf1fcHTphv8wAkMPByT0WG7r3dQyvDixV2PUhnQRjbGFMA0aRll
- yiV18Qf5dGPKA1UHoUPcrpmnZvCDjy0RSbuErT7NS6AMOhmvZ9GsG223bHLwVuPDzcNY
- 87wx1v7AnS/BsGCfXoNQpi/nnU6Is3xZkJiAA4DG0JsPMfhrtRp6Rv5+WnXElLFRo6NA
- b8+A==
-X-Gm-Message-State: AOAM533Wz7ryd/xNVSdptrVAXH2ufRKwr40+LXCGpH2ALpDvuwQlEURd
- PD+IttT1J0h04CwTjBnwek9PdefN/HM=
-X-Google-Smtp-Source: ABdhPJxuThFJrCk7dK5K7aDR+m4c9+rzbOcdlxygjL20x5idCIWHLnLOFwZBDkJ2KiA1AsskP1aC1w==
-X-Received: by 2002:a17:907:7fa2:: with SMTP id
- qk34mr9722010ejc.691.1639923436146; 
+ bh=EXZ+RfndWTu7M8bnJezJV53DoYNGcawg43uOsLoxFZ0=;
+ b=PSC7rv/5XzAC6/y7RMscgewwH86fCc03jP6QxBKY90uO4Cqzi2qY0GQ+h5mkbRZFs9
+ 7xo6LEpVBu6AyQlRTigVCEoIFb2L4TbzATEyhjCfOEYkxWE/7k7DJIkg4dJBjUhlUHIY
+ xDud38R82jbsNJZ0T6pFbddKlnXX0d/BizD2GD5b0Z51Z3wnnU75IsMpaFubXSoUCKJ0
+ LQluwoWwfz0B7s3SZl666HFmMvg5/eyuA37x2d8Q4Ygi84S3imYmiLsGciAZoMJlIg/7
+ V1n59NUe6ceezMIM6uhgLkbJbRMX++PVjC/yuFKMn6CEpa9EGyQZ4Gy4+dee7X5YJ9N3
+ VDLA==
+X-Gm-Message-State: AOAM533cI/QHynCEwVhxmxPFJjcJotXKXNVbtWXnm7NImGMJ3S4n3/c0
+ wK8RT9QoZMJWzyUuPFpZ+qn2qEgVVbQ=
+X-Google-Smtp-Source: ABdhPJxYSJi7pzebSymuFWza/rbAQs+t/Oi5O3w/XNd15PL995VYeWVmYcNK8gKuwvVN1RCXXmzQRg==
+X-Received: by 2002:a17:906:7e07:: with SMTP id
+ e7mr4384852ejr.461.1639923436797; 
  Sun, 19 Dec 2021 06:17:16 -0800 (PST)
 Received: from avogadro.redhat.com ([2001:b07:6468:f312:48f9:bea:a04c:3dfe])
- by smtp.gmail.com with ESMTPSA id hq9sm4570665ejc.119.2021.12.19.06.17.15
- for <qemu-devel@nongnu.org>
+ by smtp.gmail.com with ESMTPSA id hq9sm4570665ejc.119.2021.12.19.06.17.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 19 Dec 2021 06:17:15 -0800 (PST)
+ Sun, 19 Dec 2021 06:17:16 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 02/16] configure: move target detection before CPU detection
-Date: Sun, 19 Dec 2021 15:16:57 +0100
-Message-Id: <20211219141711.248066-3-pbonzini@redhat.com>
+Subject: [PULL 03/16] configure: unify two case statements on $cpu
+Date: Sun, 19 Dec 2021 15:16:58 +0100
+Message-Id: <20211219141711.248066-4-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211219141711.248066-1-pbonzini@redhat.com>
 References: <20211219141711.248066-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52c
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::531
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::531;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x531.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -88,156 +87,110 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This makes more sense, since target detection can affect CPU detection
-on Solaris.
-
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure | 115 ++++++++++++++++++++++++++----------------------------
- 1 file changed, 55 insertions(+), 60 deletions(-)
+ configure | 67 ++++++++++++++++++++++++++-----------------------------
+ 1 file changed, 32 insertions(+), 35 deletions(-)
 
 diff --git a/configure b/configure
-index e72e34b684..f0a82dd8f5 100755
+index f0a82dd8f5..77ccc15b73 100755
 --- a/configure
 +++ b/configure
-@@ -527,16 +527,67 @@ else
-   targetos=bogus
+@@ -636,32 +636,47 @@ else
  fi
  
--# Some host OSes need non-standard checks for which CPU to use.
--# Note that these checks are broken for cross-compilation: if you're
--# cross-compiling to one of these OSes then you'll need to specify
--# the correct CPU with the --cpu option.
-+# OS specific
+ ARCH=
+-# Normalise host CPU name and set ARCH.
++# Normalise host CPU name, set ARCH and multilib cflags
+ # Note that this case should only have supported host CPUs, not guests.
+ case "$cpu" in
+-  ppc|ppc64|s390x|sparc64|x32|riscv)
+-  ;;
+-  ppc64le)
+-    ARCH="ppc64"
+-  ;;
++  aarch64|riscv) ;;
++  armv*b|armv*l|arm)
++    cpu="arm" ;;
 +
- case $targetos in
-+windows)
-+  mingw32="yes"
-+  plugins="no"
-+  pie="no"
-+;;
-+gnu/kfreebsd)
-+  bsd="yes"
-+;;
-+freebsd)
-+  bsd="yes"
-+  bsd_user="yes"
-+  make="${MAKE-gmake}"
-+  # needed for kinfo_getvmmap(3) in libutil.h
-+;;
-+dragonfly)
-+  bsd="yes"
-+  make="${MAKE-gmake}"
-+;;
-+netbsd)
-+  bsd="yes"
-+  make="${MAKE-gmake}"
-+;;
-+openbsd)
-+  bsd="yes"
-+  make="${MAKE-gmake}"
-+;;
-+darwin)
-+  bsd="yes"
-+  darwin="yes"
-+  # Disable attempts to use ObjectiveC features in os/object.h since they
-+  # won't work when we're compiling with gcc as a C compiler.
-+  QEMU_CFLAGS="-DOS_OBJECT_USE_OBJC=0 $QEMU_CFLAGS"
-+;;
- sunos)
-+  solaris="yes"
-+  make="${MAKE-gmake}"
-+  smbd="${SMBD-/usr/sfw/sbin/smbd}"
-+# needed for CMSG_ macros in sys/socket.h
-+  QEMU_CFLAGS="-D_XOPEN_SOURCE=600 $QEMU_CFLAGS"
-+# needed for TIOCWIN* defines in termios.h
-+  QEMU_CFLAGS="-D__EXTENSIONS__ $QEMU_CFLAGS"
-   # $(uname -m) returns i86pc even on an x86_64 box, so default based on isainfo
-+  # Note that this check is broken for cross-compilation: if you're
-+  # cross-compiling to one of these OSes then you'll need to specify
-+  # the correct CPU with the --cpu option.
-   if test -z "$cpu" && test "$(isainfo -k)" = "amd64"; then
+   i386|i486|i586|i686|i86pc|BePC)
+     cpu="i386"
+-  ;;
++    CPU_CFLAGS="-m32" ;;
++  x32)
++    CPU_CFLAGS="-mx32" ;;
+   x86_64|amd64)
      cpu="x86_64"
-   fi
-+;;
-+haiku)
-+  pie="no"
-+  QEMU_CFLAGS="-DB_USE_POSITIVE_POSIX_ERRORS -D_BSD_SOURCE -fPIC $QEMU_CFLAGS"
-+;;
-+linux)
-+  linux="yes"
-+  linux_user="yes"
-+  vhost_user=${default_feature:-yes}
-+;;
- esac
+-  ;;
+-  armv*b|armv*l|arm)
+-    cpu="arm"
+-  ;;
+-  aarch64)
+-    cpu="aarch64"
+-  ;;
++    # ??? Only extremely old AMD cpus do not have cmpxchg16b.
++    # If we truly care, we should simply detect this case at
++    # runtime and generate the fallback to serial emulation.
++    CPU_CFLAGS="-m64 -mcx16" ;;
++
+   mips*)
+-    cpu="mips"
+-  ;;
++    cpu="mips" ;;
++
++  ppc)
++    CPU_CFLAGS="-m32" ;;
++  ppc64)
++    CPU_CFLAGS="-m64" ;;
++  ppc64le)
++    ARCH="ppc64" ;;
++
++  s390)
++    CPU_CFLAGS="-m31"
++    ARCH=unknown ;;
++  s390x)
++    CPU_CFLAGS="-m64" ;;
++
+   sparc|sun4[cdmuv])
+     cpu="sparc"
+-  ;;
++    CPU_CFLAGS="-m32 -mv8plus -mcpu=ultrasparc" ;;
++  sparc64)
++    CPU_CFLAGS="-m64 -mcpu=ultrasparc" ;;
++
+   *)
+     # This will result in either an error or falling back to TCI later
+     ARCH=unknown
+@@ -1252,24 +1267,6 @@ local_statedir="${local_statedir:-$prefix/var}"
+ firmwarepath="${firmwarepath:-$datadir/qemu-firmware}"
+ localedir="${localedir:-$datadir/locale}"
  
- if test ! -z "$cpu" ; then
-@@ -620,62 +671,6 @@ if test -z "$ARCH"; then
-   ARCH="$cpu"
- fi
- 
--# OS specific
+-case "$cpu" in
+-    ppc) CPU_CFLAGS="-m32" ;;
+-    ppc64) CPU_CFLAGS="-m64" ;;
+-    sparc) CPU_CFLAGS="-m32 -mv8plus -mcpu=ultrasparc" ;;
+-    sparc64) CPU_CFLAGS="-m64 -mcpu=ultrasparc" ;;
+-    s390) CPU_CFLAGS="-m31" ;;
+-    s390x) CPU_CFLAGS="-m64" ;;
+-    i386) CPU_CFLAGS="-m32" ;;
+-    x32) CPU_CFLAGS="-mx32" ;;
 -
--case $targetos in
--windows)
--  mingw32="yes"
--  plugins="no"
--  pie="no"
--;;
--gnu/kfreebsd)
--  bsd="yes"
--;;
--freebsd)
--  bsd="yes"
--  bsd_user="yes"
--  make="${MAKE-gmake}"
--  # needed for kinfo_getvmmap(3) in libutil.h
--;;
--dragonfly)
--  bsd="yes"
--  make="${MAKE-gmake}"
--;;
--netbsd)
--  bsd="yes"
--  make="${MAKE-gmake}"
--;;
--openbsd)
--  bsd="yes"
--  make="${MAKE-gmake}"
--;;
--darwin)
--  bsd="yes"
--  darwin="yes"
--  # Disable attempts to use ObjectiveC features in os/object.h since they
--  # won't work when we're compiling with gcc as a C compiler.
--  QEMU_CFLAGS="-DOS_OBJECT_USE_OBJC=0 $QEMU_CFLAGS"
--;;
--sunos)
--  solaris="yes"
--  make="${MAKE-gmake}"
--  smbd="${SMBD-/usr/sfw/sbin/smbd}"
--# needed for CMSG_ macros in sys/socket.h
--  QEMU_CFLAGS="-D_XOPEN_SOURCE=600 $QEMU_CFLAGS"
--# needed for TIOCWIN* defines in termios.h
--  QEMU_CFLAGS="-D__EXTENSIONS__ $QEMU_CFLAGS"
--;;
--haiku)
--  pie="no"
--  QEMU_CFLAGS="-DB_USE_POSITIVE_POSIX_ERRORS -D_BSD_SOURCE -fPIC $QEMU_CFLAGS"
--;;
--linux)
--  linux="yes"
--  linux_user="yes"
--  vhost_user=${default_feature:-yes}
--;;
+-    # ??? Only extremely old AMD cpus do not have cmpxchg16b.
+-    # If we truly care, we should simply detect this case at
+-    # runtime and generate the fallback to serial emulation.
+-    x86_64) CPU_CFLAGS="-m64 -mcx16" ;;
+-
+-    # No special flags required for other host CPUs
 -esac
 -
- : ${make=${MAKE-make}}
- 
- # We prefer python 3.x. A bare 'python' is traditionally
+ if eval test -z "\${cross_cc_$cpu}"; then
+     eval "cross_cc_${cpu}=\$cc"
+     cross_cc_vars="$cross_cc_vars cross_cc_${cpu}"
 -- 
 2.33.1
 
