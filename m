@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D141C47A0EA
-	for <lists+qemu-devel@lfdr.de>; Sun, 19 Dec 2021 15:25:19 +0100 (CET)
-Received: from localhost ([::1]:57928 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3A3E47A0E8
+	for <lists+qemu-devel@lfdr.de>; Sun, 19 Dec 2021 15:24:59 +0100 (CET)
+Received: from localhost ([::1]:57668 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1myx7m-0003mx-Um
-	for lists+qemu-devel@lfdr.de; Sun, 19 Dec 2021 09:25:18 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58762)
+	id 1myx7S-0003c0-PY
+	for lists+qemu-devel@lfdr.de; Sun, 19 Dec 2021 09:24:58 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58776)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1myx0A-0006KD-9w
- for qemu-devel@nongnu.org; Sun, 19 Dec 2021 09:17:26 -0500
-Received: from [2a00:1450:4864:20::533] (port=39703
- helo=mail-ed1-x533.google.com)
+ id 1myx0C-0006Nx-2r
+ for qemu-devel@nongnu.org; Sun, 19 Dec 2021 09:17:28 -0500
+Received: from [2a00:1450:4864:20::52d] (port=42670
+ helo=mail-ed1-x52d.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1myx08-0005xi-NJ
+ id 1myx09-0005xq-L4
  for qemu-devel@nongnu.org; Sun, 19 Dec 2021 09:17:26 -0500
-Received: by mail-ed1-x533.google.com with SMTP id f5so4729542edq.6
- for <qemu-devel@nongnu.org>; Sun, 19 Dec 2021 06:17:24 -0800 (PST)
+Received: by mail-ed1-x52d.google.com with SMTP id j21so23399812edt.9
+ for <qemu-devel@nongnu.org>; Sun, 19 Dec 2021 06:17:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=TaFNVMQksgh8w5mOL9Z9nfCWfIMJtZ2x95nso2BUz2k=;
- b=J7uQ9vXeyBMry2BYZJCgyf5jol/5qIJNA2YWAmJVZIVMfOsOSK3ka1JixuVO6wPMLE
- FcD9pFR+M60BlkdDVW6voVe6aDyUyCqfi/KtAu+UZPc2S/1mzhxi79YzmKwSvJhHf4Ax
- RI7KIDEEUbe95MIeV3Qpn7xRqbIKpIdnvuWmPyLAykCvKUyXLau2tRhpigeQM2Sub5Sm
- +0pjSuHtYi0lERILSrTXMv6jPVgfo/o/Hq+qUXfmidUKAB9qnNTmXzr7irp3dlr5pNxs
- JRRL8trhYw07jZ0DRwxfFLf2+hFHVm4U0v74dwIPCFiom/AE3Hg3uk1+70b+gpCtOZsv
- tAUQ==
+ bh=ZNUy718tEhPS2oilWcWnoZQhmSMv1tita41t/eNJPdw=;
+ b=VVuhyGmn3EIjCXZiuvOF8O9UC9bz335AizvwJ0+g7ww86RcZV4usnSv5JttUMtegyX
+ lHzZCF397pvIn0k2Jaeq3VA3x5fg5mLU36ca4i+WH3tekNzeK0LE7oaGOydCN6KdWNT4
+ 4u2ev7u9EChc8K0tJKJC2WOzp7Qfyo40aVE1SrS4G0420K1mIiiUpr7vyjV97PB1Z9ZR
+ ScLjxxjypdHm4pw2H0mh0Dd1o0xgxG/6HgoFJY0JMBO2p6ua5ZOPwm0B6JngY6BpIaPS
+ 7ghuieZRXRA2a48JF12e6QeaqpNrSYFRNFy+FR/oiSBlu4XHQzIiDwSihKLB/AKAxc71
+ 4kzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=TaFNVMQksgh8w5mOL9Z9nfCWfIMJtZ2x95nso2BUz2k=;
- b=J1zyvxjDze0Up3+f+q8tXLkpNzcY2OyaDp+yEBm8fN7aJArFr83OftSIPuzP2+ov+7
- zRC7e1tuJtGp3KrJ/mcTqIylOZ0/exc+lkl/wnaAO+81tWHk0X8xFDGbm0AsVEJNKGD5
- 9X3uvwxM7kwDbXBBmd8Gi7/ol06Hlmw6xwRyOpZpaljLLfOKjFlUemw2ZEMch9IbFgDE
- rEv1o9l6Rhx3HbgQ4GhDdsRZMnUtBKMVmcdqPOeS/ozGqx8Rb18E4X9t9Na2sriq2KsN
- 48Oocv0z08loMhmb4H7OhpGN5gVjxFLiGhDzfLIwfgVzi/5MpHv4qaRGy91n1g55pKG8
- I8VQ==
-X-Gm-Message-State: AOAM531ZWd2PZRdMXjb1vl80iIssrJD/GZVnUSFRg+diqYCntAu20BlW
- bcw+aHHkua3tM172nFV9Qeva3n3fEtI=
-X-Google-Smtp-Source: ABdhPJx3UnSmeAVE2Q4Dh3K8g9Ba70+p3KtwdbkLZfaSy7bPrzJP+2oZnj/bx2kU7DvQ8QxB0NCMLg==
-X-Received: by 2002:a17:907:3d88:: with SMTP id
- he8mr1613715ejc.239.1639923443382; 
- Sun, 19 Dec 2021 06:17:23 -0800 (PST)
+ bh=ZNUy718tEhPS2oilWcWnoZQhmSMv1tita41t/eNJPdw=;
+ b=GFC3hfGB8ipMjJHcXi22QevQDsKhzifkj/+n2I1GoqFZbbO8bUXIZFwX9DbCJzffY2
+ lfYVvOWTy1/M/ylgWzynWq8RMschR+NynMxlusD4SxPSy8lBHazjwPLlpVw5XXsMplb/
+ wiaqgkUbdD39C2A5oSun+7cRyQE6Ya67FcC6YrEiAEf9bC9fVBrz0xKJmOfoshII+b1f
+ k6BADgINDr6MDNyxpw3110TALHCI2JIsUhx+kwQ8qMDycqT1ts8/SkKoj5XTI9Gb3AS/
+ g082kudHU0WIkeRUQXhFMRsrk0c5p6p63+ik5WxuSIuumN9xzEzrjhsVIGmFU0JnQ1tn
+ ih7w==
+X-Gm-Message-State: AOAM530g7zt1agqI3rYBF0oD8AT0lFXI9fqhW5o8DLFyhCgdROqadsrw
+ hLzIUhlvAdccqmrBx1voMbGhtozRK1o=
+X-Google-Smtp-Source: ABdhPJzFuN3hMv05WyA66JgZ+U2pXtj95Q2zHB4Z4M0nkoHqS9fc4iqD7QINzkxHXIFtHOB4IxBM3w==
+X-Received: by 2002:a17:907:16a8:: with SMTP id
+ hc40mr7378501ejc.210.1639923444417; 
+ Sun, 19 Dec 2021 06:17:24 -0800 (PST)
 Received: from avogadro.redhat.com ([2001:b07:6468:f312:48f9:bea:a04c:3dfe])
- by smtp.gmail.com with ESMTPSA id hq9sm4570665ejc.119.2021.12.19.06.17.22
+ by smtp.gmail.com with ESMTPSA id hq9sm4570665ejc.119.2021.12.19.06.17.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 19 Dec 2021 06:17:23 -0800 (PST)
+ Sun, 19 Dec 2021 06:17:24 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 07/16] configure, meson: move ARCH to meson.build
-Date: Sun, 19 Dec 2021 15:17:02 +0100
-Message-Id: <20211219141711.248066-8-pbonzini@redhat.com>
+Subject: [PULL 08/16] configure: remove unnecessary symlinks
+Date: Sun, 19 Dec 2021 15:17:03 +0100
+Message-Id: <20211219141711.248066-9-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211219141711.248066-1-pbonzini@redhat.com>
 References: <20211219141711.248066-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::533
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52d
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::533;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x533.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52d.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -91,165 +91,41 @@ Cc: Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-$ARCH and the HOST_* symbols are only used by the QEMU build; configure
-uses $cpu instead.  Remove it from config-host.mak.
+Make pc-bios/meson.build use the files in the source tree as inputs
+to bzip2.
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure   | 21 ++++-----------------
- meson.build | 26 +++++++++++++++++---------
- 2 files changed, 21 insertions(+), 26 deletions(-)
+ configure           | 1 -
+ pc-bios/meson.build | 2 +-
+ 2 files changed, 1 insertion(+), 2 deletions(-)
 
 diff --git a/configure b/configure
-index 108b7621e2..6e06ac6161 100755
+index 6e06ac6161..ba85bbb54b 100755
 --- a/configure
 +++ b/configure
-@@ -635,11 +635,9 @@ else
-   cpu=$(uname -m)
- fi
+@@ -3801,7 +3801,6 @@ for bios_file in \
+     $source_path/pc-bios/*.img \
+     $source_path/pc-bios/openbios-* \
+     $source_path/pc-bios/u-boot.* \
+-    $source_path/pc-bios/edk2-*.fd.bz2 \
+     $source_path/pc-bios/palcode-* \
+     $source_path/pc-bios/qemu_vga.ndrv
  
--ARCH=
--# Normalise host CPU name, set ARCH and multilib cflags
-+# Normalise host CPU name, set multilib cflags
- # Note that this case should only have supported host CPUs, not guests.
- case "$cpu" in
--  aarch64|riscv) ;;
-   armv*b|armv*l|arm)
-     cpu="arm" ;;
- 
-@@ -668,8 +666,7 @@ case "$cpu" in
-     CPU_CFLAGS="-m64 -mlittle" ;;
- 
-   s390)
--    CPU_CFLAGS="-m31"
--    ARCH=unknown ;;
-+    CPU_CFLAGS="-m31" ;;
-   s390x)
-     CPU_CFLAGS="-m64" ;;
- 
-@@ -678,15 +675,7 @@ case "$cpu" in
-     CPU_CFLAGS="-m32 -mv8plus -mcpu=ultrasparc" ;;
-   sparc64)
-     CPU_CFLAGS="-m64 -mcpu=ultrasparc" ;;
--
--  *)
--    # This will result in either an error or falling back to TCI later
--    ARCH=unknown
--  ;;
- esac
--if test -z "$ARCH"; then
--  ARCH="$cpu"
--fi
- 
- : ${make=${MAKE-make}}
- 
-@@ -3406,8 +3395,6 @@ echo "GIT=$git" >> $config_host_mak
- echo "GIT_SUBMODULES=$git_submodules" >> $config_host_mak
- echo "GIT_SUBMODULES_ACTION=$git_submodules_action" >> $config_host_mak
- 
--echo "ARCH=$ARCH" >> $config_host_mak
--
- if test "$debug_tcg" = "yes" ; then
-   echo "CONFIG_DEBUG_TCG=y" >> $config_host_mak
- fi
-@@ -3898,12 +3885,12 @@ if test "$skip_meson" = no; then
-     cross_arg="--cross-file config-meson.cross"
-     echo "[host_machine]" >> $cross
-     echo "system = '$targetos'" >> $cross
--    case "$ARCH" in
-+    case "$cpu" in
-         i386)
-             echo "cpu_family = 'x86'" >> $cross
-             ;;
-         *)
--            echo "cpu_family = '$ARCH'" >> $cross
-+            echo "cpu_family = '$cpu'" >> $cross
-             ;;
-     esac
-     echo "cpu = '$cpu'" >> $cross
-diff --git a/meson.build b/meson.build
-index 4fdaa65b05..2495360fd0 100644
---- a/meson.build
-+++ b/meson.build
-@@ -67,6 +67,14 @@ endif
- 
- targetos = host_machine.system()
- 
-+if cpu not in supported_cpus
-+  host_arch = 'unknown'
-+elif cpu == 'x86'
-+  host_arch = 'i386'
-+else
-+  host_arch = cpu
-+endif
-+
- if cpu in ['x86', 'x86_64']
-   kvm_targets = ['i386-softmmu', 'x86_64-softmmu']
- elif cpu == 'aarch64'
-@@ -335,9 +343,9 @@ if targetos == 'netbsd'
-   endif
- endif
- 
--tcg_arch = config_host['ARCH']
-+tcg_arch = host_arch
- if not get_option('tcg').disabled()
--  if cpu not in supported_cpus
-+  if host_arch == 'unknown'
-     if get_option('tcg_interpreter')
-       warning('Unsupported CPU @0@, will use TCG with TCI (slow)'.format(cpu))
-     else
-@@ -353,11 +361,11 @@ if not get_option('tcg').disabled()
-   endif
-   if get_option('tcg_interpreter')
-     tcg_arch = 'tci'
--  elif config_host['ARCH'] == 'sparc64'
-+  elif host_arch == 'sparc64'
-     tcg_arch = 'sparc'
--  elif config_host['ARCH'] == 'x86_64'
-+  elif host_arch == 'x86_64'
-     tcg_arch = 'i386'
--  elif config_host['ARCH'] == 'ppc64'
-+  elif host_arch == 'ppc64'
-     tcg_arch = 'ppc'
-   endif
-   add_project_arguments('-iquote', meson.current_source_dir() / 'tcg' / tcg_arch,
-@@ -1426,6 +1434,8 @@ config_host_data.set_quoted('CONFIG_QEMU_LOCALSTATEDIR', get_option('prefix') /
- config_host_data.set_quoted('CONFIG_QEMU_MODDIR', get_option('prefix') / qemu_moddir)
- config_host_data.set_quoted('CONFIG_SYSCONFDIR', get_option('prefix') / get_option('sysconfdir'))
- 
-+config_host_data.set('HOST_' + host_arch.to_upper(), 1)
-+
- config_host_data.set('CONFIG_ATTR', libattr.found())
- config_host_data.set('CONFIG_BRLAPI', brlapi.found())
- config_host_data.set('CONFIG_COCOA', cocoa.found())
-@@ -1775,8 +1785,6 @@ foreach k, v: config_host
-       v = '"' + '", "'.join(v.split()) + '", '
-     endif
-     config_host_data.set(k, v)
--  elif k == 'ARCH'
--    config_host_data.set('HOST_' + v.to_upper(), 1)
-   elif strings.contains(k)
-     config_host_data.set_quoted(k, v)
-   elif k.startswith('CONFIG_')
-@@ -1919,7 +1927,7 @@ foreach target : target_dirs
-   endif
- 
-   foreach k, v: disassemblers
--    if config_host['ARCH'].startswith(k) or config_target['TARGET_BASE_ARCH'].startswith(k)
-+    if host_arch.startswith(k) or config_target['TARGET_BASE_ARCH'].startswith(k)
-       foreach sym: v
-         config_target += { sym: 'y' }
-         config_all_disas += { sym: 'y' }
-@@ -2888,7 +2896,7 @@ foreach target : target_dirs
-     endif
-     if 'CONFIG_LINUX_USER' in config_target
-       base_dir = 'linux-user'
--      target_inc += include_directories('linux-user/host/' / config_host['ARCH'])
-+      target_inc += include_directories('linux-user/host/' / host_arch)
-     endif
-     if 'CONFIG_BSD_USER' in config_target
-       base_dir = 'bsd-user'
+diff --git a/pc-bios/meson.build b/pc-bios/meson.build
+index b40ff3f2bd..1812a4084f 100644
+--- a/pc-bios/meson.build
++++ b/pc-bios/meson.build
+@@ -15,7 +15,7 @@ if unpack_edk2_blobs
+     roms += custom_target(f,
+                   build_by_default: have_system,
+                   output: f,
+-                  input: '@0@.bz2'.format(f),
++                  input: files('@0@.bz2'.format(f)),
+                   capture: true,
+                   install: get_option('install_blobs'),
+                   install_dir: qemu_datadir,
 -- 
 2.33.1
 
