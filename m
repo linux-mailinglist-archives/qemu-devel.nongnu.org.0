@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62D1C479EDC
-	for <lists+qemu-devel@lfdr.de>; Sun, 19 Dec 2021 03:35:16 +0100 (CET)
-Received: from localhost ([::1]:42242 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 550E3479ED8
+	for <lists+qemu-devel@lfdr.de>; Sun, 19 Dec 2021 03:33:05 +0100 (CET)
+Received: from localhost ([::1]:35986 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mym2d-0007wS-HS
-	for lists+qemu-devel@lfdr.de; Sat, 18 Dec 2021 21:35:15 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41662)
+	id 1mym0V-0003hw-Ue
+	for lists+qemu-devel@lfdr.de; Sat, 18 Dec 2021 21:33:03 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41654)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <orzechowski.alexander@gmail.com>)
- id 1mylyu-0001UD-Ba; Sat, 18 Dec 2021 21:31:24 -0500
-Received: from [2607:f8b0:4864:20::f2d] (port=37465
- helo=mail-qv1-xf2d.google.com)
+ id 1mylyu-0001UA-9b; Sat, 18 Dec 2021 21:31:24 -0500
+Received: from [2607:f8b0:4864:20::82a] (port=46077
+ helo=mail-qt1-x82a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <orzechowski.alexander@gmail.com>)
- id 1mylyr-0003eQ-Qg; Sat, 18 Dec 2021 21:31:24 -0500
-Received: by mail-qv1-xf2d.google.com with SMTP id fo11so6146972qvb.4;
- Sat, 18 Dec 2021 18:31:18 -0800 (PST)
+ id 1mylyr-0003eU-RQ; Sat, 18 Dec 2021 21:31:23 -0500
+Received: by mail-qt1-x82a.google.com with SMTP id p19so6540844qtw.12;
+ Sat, 18 Dec 2021 18:31:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=bnM9Ijsl4/xGd5v5bwrnrhdVO7/6XTQYZpdcZDC50KM=;
- b=E5uZRApA2yxy6fePTlIMOpFAGT3u+sBrDXQMb747Z/bVkN3vJsfsGKKdEcxn5J20D0
- hxtGU3cRXIvdXf3WWi1yZwA2Hzy7JDmQC4XE4mVS3X8Yne60Aoo5FVef+G5Jhun/Jdp5
- jHlapeq62ruVS9pLwLRBsklE4OIDQN0Q0pksjUr5l+vMsPaAQR54bIMT15EP6/fkdgis
- vB8yI9pYD+S9ezh/NEa+mkW3WxelLzhfXfQZ/fggZuPM7qq+uURLvOfEeK5e7YsBQrMD
- UW+CCITsWrhUa51POefYkkYMLI5UF7HmAwwtiCEiAv1/oEugHhzuQx3x27r7Nm+upaQy
- YVeQ==
+ bh=GwUOFDoEI+IyYYH4XmhJ8f9bYsbreAJjhvE82GXnRgA=;
+ b=YsQ1nrI99LyPMaiVdkyvIykQ7tUvgPtQUzHgTI0AdexCuE2/DT0Wx9MEDKzMMoPEyf
+ PsODc4U9vBO2pp5cujUe8c3tcuwLAbdL4JZmPyOwBKwVg1iZg6mHDOS8dVDueeYw8HTD
+ I9aRMX6UehKea4VK1uj35brzyjAbeaL8YZdCbq++/Qej2KFBTP8LajJqr7XoZbexxVOj
+ wTyVL5kF9Fgku+2fBt5ggXTGkyZ88rbzLlIHDW/xLsBq4S1CIMlvHUEamjhd2GbP6JVA
+ Na1cPAMK+I2pChWMv9kfvC0veIJPgXOQrhyPhJs4Qx9xQixvTCwDcFjtU67bucOq3g+q
+ FViw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=bnM9Ijsl4/xGd5v5bwrnrhdVO7/6XTQYZpdcZDC50KM=;
- b=UAZ5GYJ7L2QT4uo8nAq2nrd/mEQmsfGjQ5ma04R3ORX+SLtRryNY10p4YCgQa7IkZW
- B3A3TttvsF6MEm0i+14PZVFbaIjIpGepANEY4dlYzEY3UlgCBmGiEtl7zX41zbijC7m2
- Y3CZelOarTzwl8Yn8QSP7gULBJp2OlXhcyFaKCWwe7rjiKkunXFb9M0eCVrnbBN6RcDm
- WLON5+QV2QNMOONbBVe2y5gjtOYBZs5MRAhG0RNYPdRZHj9akPQMxDnGGQkM+F4S7wXk
- gtQuaV99vL4C+EUURMZMiuy5vVb3j1k2463J2zY7c5xI1N1OMMJez4b8P3mDJBqzxZOp
- 0JeQ==
-X-Gm-Message-State: AOAM532Mp5NNiqnM6T3LtDmvHuZQvRoluUq9i4cXL1C0Crj2OaooYyNR
- oMVdygZaNvPM2Zvfi2CQwAXrjMfUaOj2csQwnqU=
-X-Google-Smtp-Source: ABdhPJwfimZe4b5k58l+EecS+dzaJhI4Nox2nbOJG9ZnlSH+9DqsPqISjWeVn8H0mq2rqHe9dI5ITA==
-X-Received: by 2002:a0c:edca:: with SMTP id i10mr8390733qvr.62.1639881078420; 
- Sat, 18 Dec 2021 18:31:18 -0800 (PST)
+ bh=GwUOFDoEI+IyYYH4XmhJ8f9bYsbreAJjhvE82GXnRgA=;
+ b=FJE0LUd1cCT3N32w14I9+/juOL2Mp6CMRuDqoPG2+99lEN24OqNnKpaq9LOo1rWLco
+ gPYpSKqvRmjQAwWfGGVJHjojkcNcUUS+XD/Zxxu8amx9yT70SHmn8m56okBvl8W8tpzP
+ PmtTn3CMqOU8iFb7na5kaManngRbj9kZndgz9WYybt+E9HOhwJDYearDdDWGp2ZobCGN
+ cYrqGLoJR50Sk60+lX/XW/yqYnf7FMHpa+hntOavf5MKgIPykAE4gONazOtUi3btAgAR
+ yiATJVLZWqS3KYxV77UsuLi4lb268AIBzEnD9XYEyPNrLn4T6urTDhjOFK44TyMd8PSq
+ KLkQ==
+X-Gm-Message-State: AOAM533PHW65T0MRzZTUcouM7lmmLg6szze27EaijbUEpHMOVf2RzuY1
+ /EVMHKTv2QMsJrdqhg2CS5XQbLmPrHcuCawnM8o=
+X-Google-Smtp-Source: ABdhPJxoZT2qhopDcWWIAP0tTkfrQwg+wb9UITFcx+tySl96b6Vs+UcF00ltHeV9F7yYwfxCjn80pg==
+X-Received: by 2002:ac8:590a:: with SMTP id 10mr5189403qty.186.1639881079027; 
+ Sat, 18 Dec 2021 18:31:19 -0800 (PST)
 Received: from alexdesktop.localdomain
  (cpebc4dfb42ca53-cmbc4dfb42ca50.cpe.net.cable.rogers.com. [99.251.122.96])
- by smtp.gmail.com with ESMTPSA id m4sm10174293qtu.87.2021.12.18.18.31.17
+ by smtp.gmail.com with ESMTPSA id m4sm10174293qtu.87.2021.12.18.18.31.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Sat, 18 Dec 2021 18:31:18 -0800 (PST)
 From: Alexander Orzechowski <orzechowski.alexander@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/4] ui: Use allocated size instead of window size
-Date: Sat, 18 Dec 2021 21:30:03 -0500
-Message-Id: <20211219023006.124530-2-orzechowski.alexander@gmail.com>
+Subject: [PATCH 2/4] ui: Remove unnecessary checks
+Date: Sat, 18 Dec 2021 21:30:04 -0500
+Message-Id: <20211219023006.124530-3-orzechowski.alexander@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20211219023006.124530-1-orzechowski.alexander@gmail.com>
 References: <20211219023006.124530-1-orzechowski.alexander@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::f2d
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::82a
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f2d;
- envelope-from=orzechowski.alexander@gmail.com; helo=mail-qv1-xf2d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::82a;
+ envelope-from=orzechowski.alexander@gmail.com; helo=mail-qt1-x82a.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -89,88 +89,67 @@ Cc: qemu-trivial@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In these cases, we only care about the size of the virtual console
-itself. Previously, these calculations were made using the size of
-the entire window, which would include the size of the virtual console
-plus all the ui elements around it.
+These conditionals should never be false as scale_x and scale_y should
+scale the fbw and fbh variables such that the ww and wh variables always
+have a greater magnitude.
 
 Signed-off-by: Alexander Orzechowski <orzechowski.alexander@gmail.com>
 ---
- ui/gtk.c | 26 ++++++++++----------------
- 1 file changed, 10 insertions(+), 16 deletions(-)
+ ui/gtk.c | 27 ++++++---------------------
+ 1 file changed, 6 insertions(+), 21 deletions(-)
 
 diff --git a/ui/gtk.c b/ui/gtk.c
-index 428f02f2df..824334ff3d 100644
+index 824334ff3d..f2d74b253d 100644
 --- a/ui/gtk.c
 +++ b/ui/gtk.c
-@@ -340,8 +340,8 @@ static void gd_update_full_redraw(VirtualConsole *vc)
- {
-     GtkWidget *area = vc->gfx.drawing_area;
-     int ww, wh;
--    ww = gdk_window_get_width(gtk_widget_get_window(area));
--    wh = gdk_window_get_height(gtk_widget_get_window(area));
-+    ww = gtk_widget_get_allocated_width(vc->gfx.drawing_area);
-+    wh = gtk_widget_get_allocated_height(vc->gfx.drawing_area);
- #if defined(CONFIG_OPENGL)
-     if (vc->gfx.gls && gtk_use_gl_area) {
-         gtk_gl_area_queue_render(GTK_GL_AREA(vc->gfx.drawing_area));
-@@ -387,7 +387,6 @@ static void gd_update(DisplayChangeListener *dcl,
-                       int x, int y, int w, int h)
- {
-     VirtualConsole *vc = container_of(dcl, VirtualConsole, gfx.dcl);
--    GdkWindow *win;
-     int x1, x2, y1, y2;
-     int mx, my;
-     int fbw, fbh;
-@@ -414,12 +413,8 @@ static void gd_update(DisplayChangeListener *dcl,
-     fbw = surface_width(vc->gfx.ds) * vc->gfx.scale_x;
-     fbh = surface_height(vc->gfx.ds) * vc->gfx.scale_y;
+@@ -416,13 +416,8 @@ static void gd_update(DisplayChangeListener *dcl,
+     ww = gtk_widget_get_allocated_width(vc->gfx.drawing_area);
+     wh = gtk_widget_get_allocated_height(vc->gfx.drawing_area);
  
--    win = gtk_widget_get_window(vc->gfx.drawing_area);
--    if (!win) {
--        return;
+-    mx = my = 0;
+-    if (ww > fbw) {
+-        mx = (ww - fbw) / 2;
 -    }
--    ww = gdk_window_get_width(win);
--    wh = gdk_window_get_height(win);
-+    ww = gtk_widget_get_allocated_width(vc->gfx.drawing_area);
-+    wh = gtk_widget_get_allocated_height(vc->gfx.drawing_area);
+-    if (wh > fbh) {
+-        my = (wh - fbh) / 2;
+-    }
++    mx = (ww - fbw) / 2;
++    my = (wh - fbh) / 2;
  
-     mx = my = 0;
-     if (ww > fbw) {
-@@ -788,8 +783,8 @@ static gboolean gd_draw_event(GtkWidget *widget, cairo_t *cr, void *opaque)
-     fbw = surface_width(vc->gfx.ds);
-     fbh = surface_height(vc->gfx.ds);
+     gtk_widget_queue_draw_area(vc->gfx.drawing_area,
+                                mx + x1, my + y1, (x2 - x1), (y2 - y1));
+@@ -801,13 +796,8 @@ static gboolean gd_draw_event(GtkWidget *widget, cairo_t *cr, void *opaque)
+     fbw *= vc->gfx.scale_x;
+     fbh *= vc->gfx.scale_y;
  
--    ww = gdk_window_get_width(gtk_widget_get_window(widget));
--    wh = gdk_window_get_height(gtk_widget_get_window(widget));
-+    ww = gtk_widget_get_allocated_width(vc->gfx.drawing_area);
-+    wh = gtk_widget_get_allocated_height(vc->gfx.drawing_area); 
+-    mx = my = 0;
+-    if (ww > fbw) {
+-        mx = (ww - fbw) / 2;
+-    }
+-    if (wh > fbh) {
+-        my = (wh - fbh) / 2;
+-    }
++    mx = (ww - fbw) / 2;
++    my = (wh - fbh) / 2;
  
-     if (s->full_screen) {
-         vc->gfx.scale_x = (double)ww / fbw;
-@@ -838,7 +833,6 @@ static gboolean gd_motion_event(GtkWidget *widget, GdkEventMotion *motion,
- {
-     VirtualConsole *vc = opaque;
-     GtkDisplayState *s = vc->s;
--    GdkWindow *window;
-     int x, y;
-     int mx, my;
-     int fbh, fbw;
-@@ -851,10 +845,10 @@ static gboolean gd_motion_event(GtkWidget *widget, GdkEventMotion *motion,
-     fbw = surface_width(vc->gfx.ds) * vc->gfx.scale_x;
-     fbh = surface_height(vc->gfx.ds) * vc->gfx.scale_y;
+     cairo_rectangle(cr, 0, 0, ww, wh);
  
--    window = gtk_widget_get_window(vc->gfx.drawing_area);
--    ww = gdk_window_get_width(window);
--    wh = gdk_window_get_height(window);
--    ws = gdk_window_get_scale_factor(window);
-+    ww = gtk_widget_get_allocated_width(vc->gfx.drawing_area);
-+    wh = gtk_widget_get_allocated_height(vc->gfx.drawing_area);
-+    ws = gdk_window_get_scale_factor(
-+            gtk_widget_get_window(vc->gfx.drawing_area));
+@@ -850,13 +840,8 @@ static gboolean gd_motion_event(GtkWidget *widget, GdkEventMotion *motion,
+     ws = gdk_window_get_scale_factor(
+             gtk_widget_get_window(vc->gfx.drawing_area));
  
-     mx = my = 0;
-     if (ww > fbw) {
+-    mx = my = 0;
+-    if (ww > fbw) {
+-        mx = (ww - fbw) / 2;
+-    }
+-    if (wh > fbh) {
+-        my = (wh - fbh) / 2;
+-    }
++    mx = (ww - fbw) / 2;
++    my = (wh - fbh) / 2;
+ 
+     x = (motion->x - mx) / vc->gfx.scale_x * ws;
+     y = (motion->y - my) / vc->gfx.scale_y * ws;
 -- 
 2.34.1
 
