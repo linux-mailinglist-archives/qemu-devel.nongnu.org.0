@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 679E047A0E2
-	for <lists+qemu-devel@lfdr.de>; Sun, 19 Dec 2021 15:22:46 +0100 (CET)
-Received: from localhost ([::1]:49210 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E198447A0E1
+	for <lists+qemu-devel@lfdr.de>; Sun, 19 Dec 2021 15:22:44 +0100 (CET)
+Received: from localhost ([::1]:49088 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1myx5J-0006IF-HB
-	for lists+qemu-devel@lfdr.de; Sun, 19 Dec 2021 09:22:45 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58710)
+	id 1myx5H-0006DN-Vs
+	for lists+qemu-devel@lfdr.de; Sun, 19 Dec 2021 09:22:44 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58720)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1myx04-00064R-FY
- for qemu-devel@nongnu.org; Sun, 19 Dec 2021 09:17:20 -0500
-Received: from [2a00:1450:4864:20::531] (port=43870
- helo=mail-ed1-x531.google.com)
+ id 1myx05-00067U-JV
+ for qemu-devel@nongnu.org; Sun, 19 Dec 2021 09:17:21 -0500
+Received: from [2a00:1450:4864:20::52e] (port=38626
+ helo=mail-ed1-x52e.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1myx03-0005ws-33
- for qemu-devel@nongnu.org; Sun, 19 Dec 2021 09:17:20 -0500
-Received: by mail-ed1-x531.google.com with SMTP id o20so27710090eds.10
- for <qemu-devel@nongnu.org>; Sun, 19 Dec 2021 06:17:18 -0800 (PST)
+ id 1myx04-0005xA-6S
+ for qemu-devel@nongnu.org; Sun, 19 Dec 2021 09:17:21 -0500
+Received: by mail-ed1-x52e.google.com with SMTP id bm14so14942499edb.5
+ for <qemu-devel@nongnu.org>; Sun, 19 Dec 2021 06:17:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=0oYhIfTN9v9TVeQFHzicUForqk+cp6n+gOJjLlJ5g6A=;
- b=Xq8Gp1KUgUiNAYICZ+gDPVJu1hbtyaHTXuoJRQnnbgiLKl3DXAKkRlHJtyzipXEP24
- tc0+NSAGNuAa996JHiJFtPTcPmUiYMCWGLz0L0Qpsb0cGdReo/WIklp1nmEIVtsH2sKj
- 3awdG0GlFmZZTPXnC3VMCzMqrylA4r1Hgj8I3TwoVCug7/qlifkYax80WWQgm/JdY1Gu
- +pmQa21rrar7gmEE7XRZA+pl0motGn0A/bRLIVWcpZIV3wXRMb2fetf9meDUTWaYdjQj
- n+VXeMyYm2odeiAzE+PcuX1hzjIUdEmq4cF0x3bArDK1LwBd/MZI3EdkIAK/w9v6OWkp
- 3CZg==
+ bh=BIxwQuAPeVNqTRU5r1xi3JNwh0IzfkblBxaFtKzuKjA=;
+ b=pPXuD2rf9gCJgPVaAjZg1b9CSnSC2RmCG4uYbd7AvtWP/KQTQX6Zo6kbVM4UttsyBW
+ WaG3FJ3Tl+iYpY4FZ0lCv/l8HrMg2C6DWVnnEa01/NaZ7ApMrzRMLeIhrSkDl9+Wm3a2
+ fiZnC2BLAXAV4NHdn2H4VuoiJkKaGAKhGchVWGbSfZMfakZcRcJtEaWnpCqWgoS5Vcnc
+ Mpg40/8HcHGrf9qkSFzb52hd/0lyjskzap9j2mBuehuYQ1FgSZF4rpDRt6wh8HoGsRg9
+ 9WfyQS51woy3GXWMzsfj+kUrKqgWBkF8uL6MWOlApg1v2s7oEjaxtL5mtG/tVvV+ZEwl
+ eWnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=0oYhIfTN9v9TVeQFHzicUForqk+cp6n+gOJjLlJ5g6A=;
- b=2JAlunA7kyVbXUY8n7TltWYNS9+0yrZ0KwhR0X2Ybi/43apeFqhRWPhnhKbIrnLpUp
- DEmYjIWr7TvGspm+uYqfti2muP0URl2aT8pPmOr1uCxAeTrUsn/5CP+kqNy4qmzIii8S
- JlAzAM7Sno+/JGjfpEfmgGzz3NlK6Ksc+hW5yuC6LTTdxuJdu/iSLUm/n70TTdM8Azzg
- Qn1BWqldFYNZxxKjLGSWKaX04iuvDVs7zqy5lZ1ofQd6+yJxlrbnsmml3e6bWnBgGkKP
- U9KkUD0YaEfHbTBboOcx01OfgpAdQzvqsRvCLTEHfZD5fFNJH6nAhttXuqLg+Y+gOaWj
- 61Jg==
-X-Gm-Message-State: AOAM531Ghz903fkZZCn1ExNpVf2VizJPRHc3norM2xDkKJsXM7s0m/yk
- tIj7fmCNFYDkuPywM81tV8Pv2wG2hB4=
-X-Google-Smtp-Source: ABdhPJynH5/9DCNdd+uZe6Ns7Se8q25NSVN6Zb3Dj3M0WtVNaOSLJf2gboSJUTkdN91sNzoq9PQ1uw==
-X-Received: by 2002:a17:907:8a1b:: with SMTP id
- sc27mr2428378ejc.699.1639923437929; 
- Sun, 19 Dec 2021 06:17:17 -0800 (PST)
+ bh=BIxwQuAPeVNqTRU5r1xi3JNwh0IzfkblBxaFtKzuKjA=;
+ b=WG4FOoql5vapSTvRoONcFQ2tkcl1KlfTEULY3Al9VwxrzG7jXjVTmEEKIjjdLrPURz
+ T+nbbh54K0Y6kUFp2DgeiovT0/Bd5LmatdBNe4JIR/aU5vEGTifxGzxTm1FtV9nHV7qu
+ 3HqOlkhIc7gv5S+vCDzHgrb4eZ1GRaEvTNlUwujW5C1Q6MG31Z7VATdvpLLch7W7itDH
+ 2nNSqXvENQITtxP8NexPkqswWIWJZDVfvyHhaC5iTnmSHqUqnreQXj6LuCuH24Ds+cHI
+ 5Vlld/o0bLOqcKMLjRX8LBVfVDdCgIcPMwsCdw4X0lW0H+7xXjqDgN2oUTVsJAbTy80C
+ gXYA==
+X-Gm-Message-State: AOAM533DvUiEBQj/KcUCe3UOdI+tLE+ibpq6jj49KEVOd306Ps8y9snJ
+ zU/ZlcNVTuO788KHRrHtdfkP/F3pU5s=
+X-Google-Smtp-Source: ABdhPJxHIqqfgKrvzYqHvkd73quP84vKu9Ay7lXh5wmk9iWwciq/xxx2EV9/8q7WDgZ2hEhjRBeM2g==
+X-Received: by 2002:a17:906:9b8e:: with SMTP id
+ dd14mr9897343ejc.337.1639923438999; 
+ Sun, 19 Dec 2021 06:17:18 -0800 (PST)
 Received: from avogadro.redhat.com ([2001:b07:6468:f312:48f9:bea:a04c:3dfe])
- by smtp.gmail.com with ESMTPSA id hq9sm4570665ejc.119.2021.12.19.06.17.16
+ by smtp.gmail.com with ESMTPSA id hq9sm4570665ejc.119.2021.12.19.06.17.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 19 Dec 2021 06:17:17 -0800 (PST)
+ Sun, 19 Dec 2021 06:17:18 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 04/16] configure: unify ppc64 and ppc64le
-Date: Sun, 19 Dec 2021 15:16:59 +0100
-Message-Id: <20211219141711.248066-5-pbonzini@redhat.com>
+Subject: [PULL 05/16] configure: unify x86_64 and x32
+Date: Sun, 19 Dec 2021 15:17:00 +0100
+Message-Id: <20211219141711.248066-6-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211219141711.248066-1-pbonzini@redhat.com>
 References: <20211219141711.248066-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::531
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52e
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::531;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x531.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52e.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -88,79 +87,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 The only difference between the two, as far as either configure or
-Meson are concerned, is the default endianness of the compiler.
+Meson are concerned, is in the multilib flags passed to the compiler.
 
-For tests/tcg, specify the endianness explicitly on the command line;
-for configure, do the same so that it is possible to have --cpu=ppc64le
-on a bigendian system or vice versa.  Apart from this, cpu=ppc64le can
-be normalized to ppc64 also in configure and not just in the meson
-cross file.
+For QEMU, this fixes the handling of TYPE_OLDDEVT in
+include/exec/user/thunk.h and enables testing of dirty ring buffer,
+because both are using HOST_X86_64.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+For tests/tcg, this means that on a hypothetical x32 host the
+cross compiler will not be used to build the tests.
+
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure              | 10 ++++------
- tests/tcg/configure.sh |  4 +++-
- 2 files changed, 7 insertions(+), 7 deletions(-)
+ configure   | 6 ++----
+ meson.build | 3 +--
+ 2 files changed, 3 insertions(+), 6 deletions(-)
 
 diff --git a/configure b/configure
-index 77ccc15b73..85caf2e9ef 100755
+index 85caf2e9ef..108b7621e2 100755
 --- a/configure
 +++ b/configure
-@@ -661,9 +661,10 @@ case "$cpu" in
-   ppc)
+@@ -647,6 +647,7 @@ case "$cpu" in
+     cpu="i386"
      CPU_CFLAGS="-m32" ;;
-   ppc64)
--    CPU_CFLAGS="-m64" ;;
-+    CPU_CFLAGS="-m64 -mbig" ;;
-   ppc64le)
--    ARCH="ppc64" ;;
-+    cpu="ppc64"
-+    CPU_CFLAGS="-m64 -mlittle" ;;
- 
-   s390)
-     CPU_CFLAGS="-m31"
-@@ -3721,7 +3722,7 @@ if test "$linux" = "yes" ; then
-   i386|x86_64|x32)
+   x32)
++    cpu="x86_64"
+     CPU_CFLAGS="-mx32" ;;
+   x86_64|amd64)
+     cpu="x86_64"
+@@ -3719,7 +3720,7 @@ fi
+ if test "$linux" = "yes" ; then
+   mkdir -p linux-headers
+   case "$cpu" in
+-  i386|x86_64|x32)
++  i386|x86_64)
      linux_arch=x86
      ;;
--  ppc|ppc64|ppc64le)
-+  ppc|ppc64)
-     linux_arch=powerpc
-     ;;
-   s390x)
-@@ -3903,9 +3904,6 @@ if test "$skip_meson" = no; then
-         x86_64|x32)
-             echo "cpu_family = 'x86_64'" >> $cross
+   ppc|ppc64)
+@@ -3901,9 +3902,6 @@ if test "$skip_meson" = no; then
+         i386)
+             echo "cpu_family = 'x86'" >> $cross
              ;;
--        ppc64le)
--            echo "cpu_family = 'ppc64'" >> $cross
+-        x86_64|x32)
+-            echo "cpu_family = 'x86_64'" >> $cross
 -            ;;
          *)
              echo "cpu_family = '$ARCH'" >> $cross
              ;;
-diff --git a/tests/tcg/configure.sh b/tests/tcg/configure.sh
-index 9b76f58258..9ef913df5b 100755
---- a/tests/tcg/configure.sh
-+++ b/tests/tcg/configure.sh
-@@ -64,7 +64,9 @@ fi
- : ${cross_cc_ppc="powerpc-linux-gnu-gcc"}
- : ${cross_cc_cflags_ppc="-m32"}
- : ${cross_cc_ppc64="powerpc64-linux-gnu-gcc"}
--: ${cross_cc_ppc64le="powerpc64le-linux-gnu-gcc"}
-+: ${cross_cc_cflags_ppc64="-m64 -mbig"}
-+: ${cross_cc_ppc64le="$cross_cc_ppc64"}
-+: ${cross_cc_cflags_ppc64le="-m64 -mlittle"}
- : ${cross_cc_riscv64="riscv64-linux-gnu-gcc"}
- : ${cross_cc_s390x="s390x-linux-gnu-gcc"}
- : ${cross_cc_sh4="sh4-linux-gnu-gcc"}
+diff --git a/meson.build b/meson.build
+index ae67ca28ab..69cca2aa9f 100644
+--- a/meson.build
++++ b/meson.build
+@@ -355,7 +355,7 @@ if not get_option('tcg').disabled()
+     tcg_arch = 'tci'
+   elif config_host['ARCH'] == 'sparc64'
+     tcg_arch = 'sparc'
+-  elif config_host['ARCH'] in ['x86_64', 'x32']
++  elif config_host['ARCH'] == 'x86_64'
+     tcg_arch = 'i386'
+   elif config_host['ARCH'] == 'ppc64'
+     tcg_arch = 'ppc'
+@@ -1806,7 +1806,6 @@ disassemblers = {
+   'hppa' : ['CONFIG_HPPA_DIS'],
+   'i386' : ['CONFIG_I386_DIS'],
+   'x86_64' : ['CONFIG_I386_DIS'],
+-  'x32' : ['CONFIG_I386_DIS'],
+   'm68k' : ['CONFIG_M68K_DIS'],
+   'microblaze' : ['CONFIG_MICROBLAZE_DIS'],
+   'mips' : ['CONFIG_MIPS_DIS'],
 -- 
 2.33.1
 
