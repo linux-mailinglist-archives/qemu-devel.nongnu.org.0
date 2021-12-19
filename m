@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 677A547A0EB
-	for <lists+qemu-devel@lfdr.de>; Sun, 19 Dec 2021 15:26:12 +0100 (CET)
-Received: from localhost ([::1]:60428 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28A0B47A0F9
+	for <lists+qemu-devel@lfdr.de>; Sun, 19 Dec 2021 15:33:45 +0100 (CET)
+Received: from localhost ([::1]:46688 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1myx8d-0005SW-H9
-	for lists+qemu-devel@lfdr.de; Sun, 19 Dec 2021 09:26:11 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59378)
+	id 1myxFw-0007KI-9K
+	for lists+qemu-devel@lfdr.de; Sun, 19 Dec 2021 09:33:44 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59406)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1myx2s-0003ex-6z
- for qemu-devel@nongnu.org; Sun, 19 Dec 2021 09:20:14 -0500
-Received: from [2a00:1450:4864:20::52b] (port=40623
- helo=mail-ed1-x52b.google.com)
+ id 1myx2t-0003iK-9B
+ for qemu-devel@nongnu.org; Sun, 19 Dec 2021 09:20:16 -0500
+Received: from [2a00:1450:4864:20::534] (port=47017
+ helo=mail-ed1-x534.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1myx2q-0006Mi-JC
- for qemu-devel@nongnu.org; Sun, 19 Dec 2021 09:20:13 -0500
-Received: by mail-ed1-x52b.google.com with SMTP id z29so27732721edl.7
- for <qemu-devel@nongnu.org>; Sun, 19 Dec 2021 06:20:12 -0800 (PST)
+ id 1myx2r-0006Mw-Gr
+ for qemu-devel@nongnu.org; Sun, 19 Dec 2021 09:20:14 -0500
+Received: by mail-ed1-x534.google.com with SMTP id y13so27698489edd.13
+ for <qemu-devel@nongnu.org>; Sun, 19 Dec 2021 06:20:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=bxjewu8xAoe2o5vKu5a0q8tM8PGVblCdED+dQbhjA90=;
- b=KpwyBeBzUjf6VcMUH36iBZCSbeJBSrIVMbbDe1a2/nfMhakVjvFjFqMKFk44Kb3fki
- NhNJKEiU9VQkj/4tLijtUlGJKItlo6wFynLfKb7ChokTs6Roh4elUio4lqscA0IQ9sGB
- EXhETZEExE5FpuisExNHJWzg/BMUC5a2VyWHIF7WC336jaKDnL+6SQxpP8cONBrv7z/M
- FF0cgbExII9Ec9ndJDp3T8zoHqvBY583P2pf0fWceRL10jRgK0HBI1OGUi1Jis4431B+
- Cf1YD0NMqsrXOHrATC//jR8UPY9eCdwWTyr9ikcWH7aL9sB4SFxrhz8/klYcBz4ddQRZ
- vwCQ==
+ bh=eUgIGypOvlxmVLkE+IKIHLkcbtFMyPVsMQpyrCGpfZw=;
+ b=N7wftzlwpOUUbKAf/xWcsJN+o/gLPqfwz2a51G3TTh7xAOclNwRGvZLnyzLNyKsO8H
+ ru1GJkVP3sNDF/cOR7dVsDziDGbEh543JLGTvE83REx2UlNk6KauMvN301eLz1dWPM1q
+ cmfMC4zjcZF3++h1zuMVWPL/stbMQ3jEOcpzXwEN8+p89tUSAvzW8VWVR4/zj961P6kR
+ Xo0laXjz87NjE7q11ZqizTpahLgFDSwaWbyGGbk1Thl/yTrsnNygZoX5WxIyltVAtnKv
+ y5+ich2tSpWcJqWi74m9sEy1yko5Dt+sNUmxdNsRGjqtnBXOmAnpviN9tDlyE6S64wAP
+ WAVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=bxjewu8xAoe2o5vKu5a0q8tM8PGVblCdED+dQbhjA90=;
- b=6fKxDobW/qvG4HjJhYo9WxiMkK45OZZ+1lHbtBQMPhH/3HbbB/V9+5wpNKrQoAJrQb
- T5sZzId+FocqDa2j3zRfieO52fUSUIYWFcZl8d7swZSpPxhoLjoOKyl/zKfB8Hy1I3bN
- UZ4O2bvVtR1IcJWU92xF745yQHZCfsD3aOXpWvOMipah5ljNeW5jgTAlGbe/3vTLeKFn
- oLQZU/9hGkTmrNtw03voc5nDitbemATmvUS/FIpDmgOkJ8SaqM9WDw4hDY7mR7qZ14PJ
- B46yQQRT90/9mraZABQSmtDHoJFFvkWy5gLUSvRG+SnBYQFTbL8L9An9M0hvtNrU9Tmi
- lROA==
-X-Gm-Message-State: AOAM532VeyNnQXwW/hmGgk8q/fihlHrF26eblVz8GNmRQhgVObGGVRmY
- +85j1DmZ1Mw4iTdAsfPn19wocKy6QZc=
-X-Google-Smtp-Source: ABdhPJwV+8bwsHIf8xjJdrECGs0ER+lhfIveEYul0Qcuj+SMZ4an9ot1k4eirFYDS7vrhjJlXVe97A==
-X-Received: by 2002:a17:907:1b11:: with SMTP id
- mp17mr9535148ejc.374.1639923611429; 
- Sun, 19 Dec 2021 06:20:11 -0800 (PST)
+ bh=eUgIGypOvlxmVLkE+IKIHLkcbtFMyPVsMQpyrCGpfZw=;
+ b=EyYjtFGbhe5S6WA14mJgMP9TxRswwjDILPCiPBzpFsm1qHW39YvqLVqjTWzmcqtlI9
+ dY6yaNKiaK4zVofP7AufSRzStg8epqoUyxuX+U0apDFr3+M3Wicik0W8SU0dvbItIjhr
+ X2BbbR2F4uumWT+mrsML1Cz8Bken/FGh8vTwS95EC5ORYi59ekdXaJkbsRAwUuYuK74H
+ 3cA98ryb163/1kMKyPNqfb5CKZ+lDLECzcprWBcG5ey3E75d5Xsjaxsj/9vlck44Pbru
+ O/7W/1boAFUsZMLAlTHaSzhlFN1OMYqCqsnnqjTlK1PO/XzpPY59GxN5/PCc3+MFWDjV
+ 4A/g==
+X-Gm-Message-State: AOAM533Y84OvF4scTpxF41AP1bbEmzP3XG/EcXvrWsgFlXeRAWpMj2hw
+ k+YdHk22XYPmlHJSpTIhB5/ZOMal2Jw=
+X-Google-Smtp-Source: ABdhPJxo+cCHS3ioU5D4z12sa+TajbOrouRynnork6E5HT2ZelrQQRXOGIwpHdDsYfgGnphaFcCOqw==
+X-Received: by 2002:a05:6402:4413:: with SMTP id
+ y19mr11482931eda.26.1639923612048; 
+ Sun, 19 Dec 2021 06:20:12 -0800 (PST)
 Received: from avogadro.lan ([2001:b07:6468:f312:63a7:c72e:ea0e:6045])
- by smtp.gmail.com with ESMTPSA id y19sm5791584edc.17.2021.12.19.06.20.10
+ by smtp.gmail.com with ESMTPSA id y19sm5791584edc.17.2021.12.19.06.20.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Sun, 19 Dec 2021 06:20:11 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 14/16] hw/scsi/megasas: Fails command if SGL buffer overflows
-Date: Sun, 19 Dec 2021 15:20:06 +0100
-Message-Id: <20211219142008.248807-3-pbonzini@redhat.com>
+Subject: [PULL 15/16] tests/qtest/fuzz-megasas-test: Add test for GitLab issue
+ #521
+Date: Sun, 19 Dec 2021 15:20:07 +0100
+Message-Id: <20211219142008.248807-4-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211219141711.248066-1-pbonzini@redhat.com>
 References: <20211219141711.248066-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52b
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::534
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::534;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x534.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -96,32 +97,72 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-If we detect an overflow on the SGL buffer, do not
-keep processing the command: discard it. TARGET_FAILURE
-sense code will be returned (MFI_STAT_SCSI_DONE_WITH_ERROR).
+Without the previous commit, this test triggers:
 
-Reported-by: Alexander Bulekov <alxndr@bu.edu>
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/521
+  $ make check-qtest-x86_64
+  [...]
+  Running test qtest-x86_64/fuzz-megasas-test
+  qemu-system-x86_64: softmmu/physmem.c:3229: address_space_unmap: Assertion `mr != NULL' failed.
+  Broken pipe
+  ERROR qtest-x86_64/fuzz-megasas-test - too few tests run (expected 2, got 1)
+
+Suggested-by: Alexander Bulekov <alxndr@bu.edu>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
-Message-Id: <20211119201141.532377-2-philmd@redhat.com>
+Message-Id: <20211119201141.532377-3-philmd@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/scsi/megasas.c | 1 +
- 1 file changed, 1 insertion(+)
+ tests/qtest/fuzz-megasas-test.c | 30 ++++++++++++++++++++++++++++++
+ 1 file changed, 30 insertions(+)
 
-diff --git a/hw/scsi/megasas.c b/hw/scsi/megasas.c
-index 4ff51221d4..8f35784100 100644
---- a/hw/scsi/megasas.c
-+++ b/hw/scsi/megasas.c
-@@ -303,6 +303,7 @@ static int megasas_map_sgl(MegasasState *s, MegasasCmd *cmd, union mfi_sgl *sgl)
+diff --git a/tests/qtest/fuzz-megasas-test.c b/tests/qtest/fuzz-megasas-test.c
+index 940a76bf25..e1141c58a4 100644
+--- a/tests/qtest/fuzz-megasas-test.c
++++ b/tests/qtest/fuzz-megasas-test.c
+@@ -34,6 +34,34 @@ static void test_lp1878263_megasas_zero_iov_cnt(void)
+     qtest_quit(s);
+ }
+ 
++/*
++ * Overflow SGL buffer.
++ * https://gitlab.com/qemu-project/qemu/-/issues/521
++ */
++static void test_gitlab_issue521_megasas_sgl_ovf(void)
++{
++    QTestState *s = qtest_init("-display none -m 32M -machine q35 "
++                               "-nodefaults -device megasas "
++                               "-device scsi-cd,drive=null0 "
++                               "-blockdev "
++                               "driver=null-co,read-zeroes=on,node-name=null0");
++    qtest_outl(s, 0xcf8, 0x80000818);
++    qtest_outl(s, 0xcfc, 0xc000);
++    qtest_outl(s, 0xcf8, 0x80000804);
++    qtest_outw(s, 0xcfc, 0x05);
++    qtest_bufwrite(s, 0x0, "\x01", 0x1);
++    qtest_bufwrite(s, 0x7, "\x01", 0x1);
++    qtest_bufwrite(s, 0x10, "\x02", 0x1);
++    qtest_bufwrite(s, 0x16, "\x01", 0x1);
++    qtest_bufwrite(s, 0x28, "\x01", 0x1);
++    qtest_bufwrite(s, 0x33, "\x01", 0x1);
++    qtest_outb(s, 0xc040, 0x0);
++    qtest_outb(s, 0xc040, 0x20);
++    qtest_outl(s, 0xc040, 0x20000000);
++    qtest_outb(s, 0xc040, 0x20);
++    qtest_quit(s);
++}
++
+ int main(int argc, char **argv)
+ {
+     const char *arch = qtest_get_arch();
+@@ -43,6 +71,8 @@ int main(int argc, char **argv)
+     if (strcmp(arch, "i386") == 0 || strcmp(arch, "x86_64") == 0) {
+         qtest_add_func("fuzz/test_lp1878263_megasas_zero_iov_cnt",
+                        test_lp1878263_megasas_zero_iov_cnt);
++        qtest_add_func("fuzz/gitlab_issue521_megasas_sgl_ovf",
++                       test_gitlab_issue521_megasas_sgl_ovf);
      }
-     if (cmd->iov_size > iov_size) {
-         trace_megasas_iovec_overflow(cmd->index, iov_size, cmd->iov_size);
-+        goto unmap;
-     } else if (cmd->iov_size < iov_size) {
-         trace_megasas_iovec_underflow(cmd->index, iov_size, cmd->iov_size);
-     }
+ 
+     return g_test_run();
 -- 
 2.33.1
 
