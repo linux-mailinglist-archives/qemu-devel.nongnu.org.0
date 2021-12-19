@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9C7747A0F5
-	for <lists+qemu-devel@lfdr.de>; Sun, 19 Dec 2021 15:30:56 +0100 (CET)
-Received: from localhost ([::1]:42388 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 677A547A0EB
+	for <lists+qemu-devel@lfdr.de>; Sun, 19 Dec 2021 15:26:12 +0100 (CET)
+Received: from localhost ([::1]:60428 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1myxDE-00047R-3F
-	for lists+qemu-devel@lfdr.de; Sun, 19 Dec 2021 09:30:56 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59366)
+	id 1myx8d-0005SW-H9
+	for lists+qemu-devel@lfdr.de; Sun, 19 Dec 2021 09:26:11 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59378)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1myx2r-0003bl-HC
- for qemu-devel@nongnu.org; Sun, 19 Dec 2021 09:20:13 -0500
-Received: from [2a00:1450:4864:20::52f] (port=37581
- helo=mail-ed1-x52f.google.com)
+ id 1myx2s-0003ex-6z
+ for qemu-devel@nongnu.org; Sun, 19 Dec 2021 09:20:14 -0500
+Received: from [2a00:1450:4864:20::52b] (port=40623
+ helo=mail-ed1-x52b.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1myx2p-0006MO-3t
+ id 1myx2q-0006Mi-JC
  for qemu-devel@nongnu.org; Sun, 19 Dec 2021 09:20:13 -0500
-Received: by mail-ed1-x52f.google.com with SMTP id e3so27848384edu.4
- for <qemu-devel@nongnu.org>; Sun, 19 Dec 2021 06:20:10 -0800 (PST)
+Received: by mail-ed1-x52b.google.com with SMTP id z29so27732721edl.7
+ for <qemu-devel@nongnu.org>; Sun, 19 Dec 2021 06:20:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=xDwweGBWt7zYTH3DzYQOaKZ+/j+vUNSBNMZBpH7Nrkc=;
- b=pOr3IKagJSkLL6LIMkWQtYsORJIyrfDT/E84Vv7Ag/hYOqKvztGXPUXU7pMTlXziix
- NVKS1xl5Ld5XGIRQ7p9Xl/FzkyTmOeKajolb0jFlOBvDr5Kk5aacdap+2d6HOw0EDamG
- 0u0aGkXI8THoBmmMXM1jwMjudzv3i4B3BfZ+ss4TemrDsFYtgOjzPU5Vrqct7/6aGwQS
- 4ruAxWXOMKGHKUuUkTX/qmRbs2O3KcxYSihlcIbKejPq84SMDJZwO5Y0cXzmP+2bMbFh
- /KFthBUIiq9QjT8RFyZnRscf3ouGkICdQsUS3IpbwDwLcp+vffAiq8mUnr5TUpJU4D7W
- mghA==
+ bh=bxjewu8xAoe2o5vKu5a0q8tM8PGVblCdED+dQbhjA90=;
+ b=KpwyBeBzUjf6VcMUH36iBZCSbeJBSrIVMbbDe1a2/nfMhakVjvFjFqMKFk44Kb3fki
+ NhNJKEiU9VQkj/4tLijtUlGJKItlo6wFynLfKb7ChokTs6Roh4elUio4lqscA0IQ9sGB
+ EXhETZEExE5FpuisExNHJWzg/BMUC5a2VyWHIF7WC336jaKDnL+6SQxpP8cONBrv7z/M
+ FF0cgbExII9Ec9ndJDp3T8zoHqvBY583P2pf0fWceRL10jRgK0HBI1OGUi1Jis4431B+
+ Cf1YD0NMqsrXOHrATC//jR8UPY9eCdwWTyr9ikcWH7aL9sB4SFxrhz8/klYcBz4ddQRZ
+ vwCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=xDwweGBWt7zYTH3DzYQOaKZ+/j+vUNSBNMZBpH7Nrkc=;
- b=CXvvbTBmvAbqjHTmcl/4LFat+uC1lRFsxDUZbo/jrsNW+MGxwrb68tRlYW4qDjSHEc
- hDLErnLivvEokP60el5DWKOQl6V1FoAGysJROd3oj8dgAeAhdZ46kKg+Q135U7gkVvLg
- GLi07MXgTXw+DZvvxUUKtKAhgzjmXlejBLUO6vRKjfDl4auz8wrtcqC993CdmQfraOtX
- 17ECIoUACpsYkDCn6v4z2N6pT7ijrWogIlquWctpwA2cpgbDo/71hi974vTCRo6oBtAv
- q6vrVte9G6v3OfHzS0GyWZr+ePPuR12bteCBNIgDAF4zuyKTqQ9DDHtObUSUiHhBicIy
- xQaQ==
-X-Gm-Message-State: AOAM530+yIaAY093OcsXglr6odBIMF7iTGnNDKs0xKH4AEWGKlaN2Md6
- ZGiX2WATluH9VB4Wihvb96cWST4CuiI=
-X-Google-Smtp-Source: ABdhPJw3l+Qvutr6gEx9jY15WCrR4p4sI+x0pSVoYw5UD5xlqJdQcjF2fxdAzdBBaXp5mQIm69X2EA==
-X-Received: by 2002:a05:6402:2ce:: with SMTP id
- b14mr11353066edx.122.1639923609887; 
- Sun, 19 Dec 2021 06:20:09 -0800 (PST)
+ bh=bxjewu8xAoe2o5vKu5a0q8tM8PGVblCdED+dQbhjA90=;
+ b=6fKxDobW/qvG4HjJhYo9WxiMkK45OZZ+1lHbtBQMPhH/3HbbB/V9+5wpNKrQoAJrQb
+ T5sZzId+FocqDa2j3zRfieO52fUSUIYWFcZl8d7swZSpPxhoLjoOKyl/zKfB8Hy1I3bN
+ UZ4O2bvVtR1IcJWU92xF745yQHZCfsD3aOXpWvOMipah5ljNeW5jgTAlGbe/3vTLeKFn
+ oLQZU/9hGkTmrNtw03voc5nDitbemATmvUS/FIpDmgOkJ8SaqM9WDw4hDY7mR7qZ14PJ
+ B46yQQRT90/9mraZABQSmtDHoJFFvkWy5gLUSvRG+SnBYQFTbL8L9An9M0hvtNrU9Tmi
+ lROA==
+X-Gm-Message-State: AOAM532VeyNnQXwW/hmGgk8q/fihlHrF26eblVz8GNmRQhgVObGGVRmY
+ +85j1DmZ1Mw4iTdAsfPn19wocKy6QZc=
+X-Google-Smtp-Source: ABdhPJwV+8bwsHIf8xjJdrECGs0ER+lhfIveEYul0Qcuj+SMZ4an9ot1k4eirFYDS7vrhjJlXVe97A==
+X-Received: by 2002:a17:907:1b11:: with SMTP id
+ mp17mr9535148ejc.374.1639923611429; 
+ Sun, 19 Dec 2021 06:20:11 -0800 (PST)
 Received: from avogadro.lan ([2001:b07:6468:f312:63a7:c72e:ea0e:6045])
- by smtp.gmail.com with ESMTPSA id y19sm5791584edc.17.2021.12.19.06.20.09
+ by smtp.gmail.com with ESMTPSA id y19sm5791584edc.17.2021.12.19.06.20.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 19 Dec 2021 06:20:09 -0800 (PST)
+ Sun, 19 Dec 2021 06:20:11 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 13/16] hw/scsi: Fix scsi_bus_init_named() docstring
-Date: Sun, 19 Dec 2021 15:20:05 +0100
-Message-Id: <20211219142008.248807-2-pbonzini@redhat.com>
+Subject: [PULL 14/16] hw/scsi/megasas: Fails command if SGL buffer overflows
+Date: Sun, 19 Dec 2021 15:20:06 +0100
+Message-Id: <20211219142008.248807-3-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211219141711.248066-1-pbonzini@redhat.com>
 References: <20211219141711.248066-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52f
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52b
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52b.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -88,38 +88,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Alexander Bulekov <alxndr@bu.edu>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Darren Kenny <darren.kenny@oracle.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Commit 739e95f5741 ("scsi: Replace scsi_bus_new() with
-scsi_bus_init(), scsi_bus_init_named()") forgot to rename
-scsi_bus_init() in the function documentation string.
+If we detect an overflow on the SGL buffer, do not
+keep processing the command: discard it. TARGET_FAILURE
+sense code will be returned (MFI_STAT_SCSI_DONE_WITH_ERROR).
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20211122104744.1051554-1-f4bug@amsat.org>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Reported-by: Alexander Bulekov <alxndr@bu.edu>
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/521
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
+Message-Id: <20211119201141.532377-2-philmd@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- include/hw/scsi/scsi.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/scsi/megasas.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/include/hw/scsi/scsi.h b/include/hw/scsi/scsi.h
-index a567a5ed86..2ef80af6dc 100644
---- a/include/hw/scsi/scsi.h
-+++ b/include/hw/scsi/scsi.h
-@@ -158,7 +158,7 @@ struct SCSIBus {
-  * provided by the caller. It is the caller's responsibility to make
-  * sure that name does not clash with the name of any other bus in the
-  * system. Unless you need the new bus to have a specific name, you
-- * should use scsi_bus_new() instead.
-+ * should use scsi_bus_init() instead.
-  */
- void scsi_bus_init_named(SCSIBus *bus, size_t bus_size, DeviceState *host,
-                          const SCSIBusInfo *info, const char *bus_name);
+diff --git a/hw/scsi/megasas.c b/hw/scsi/megasas.c
+index 4ff51221d4..8f35784100 100644
+--- a/hw/scsi/megasas.c
++++ b/hw/scsi/megasas.c
+@@ -303,6 +303,7 @@ static int megasas_map_sgl(MegasasState *s, MegasasCmd *cmd, union mfi_sgl *sgl)
+     }
+     if (cmd->iov_size > iov_size) {
+         trace_megasas_iovec_overflow(cmd->index, iov_size, cmd->iov_size);
++        goto unmap;
+     } else if (cmd->iov_size < iov_size) {
+         trace_megasas_iovec_underflow(cmd->index, iov_size, cmd->iov_size);
+     }
 -- 
 2.33.1
 
