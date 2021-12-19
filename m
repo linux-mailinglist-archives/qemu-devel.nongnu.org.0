@@ -2,78 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9BE347A182
-	for <lists+qemu-devel@lfdr.de>; Sun, 19 Dec 2021 18:24:51 +0100 (CET)
-Received: from localhost ([::1]:44958 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F12E347A1DD
+	for <lists+qemu-devel@lfdr.de>; Sun, 19 Dec 2021 19:50:06 +0100 (CET)
+Received: from localhost ([::1]:52584 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1myzvW-0006oh-Qu
-	for lists+qemu-devel@lfdr.de; Sun, 19 Dec 2021 12:24:50 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37396)
+	id 1mz1G1-0002hg-Je
+	for lists+qemu-devel@lfdr.de; Sun, 19 Dec 2021 13:50:05 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50380)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <makovick@gmail.com>)
- id 1myztG-0003i5-3G
- for qemu-devel@nongnu.org; Sun, 19 Dec 2021 12:22:30 -0500
-Received: from [2a00:1450:4864:20::535] (port=47016
- helo=mail-ed1-x535.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <makovick@gmail.com>)
- id 1myztE-0007YM-MX
- for qemu-devel@nongnu.org; Sun, 19 Dec 2021 12:22:29 -0500
-Received: by mail-ed1-x535.google.com with SMTP id y13so28986818edd.13
- for <qemu-devel@nongnu.org>; Sun, 19 Dec 2021 09:22:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Fzwpp890KbfKmJBYFwiswX+sQjyHcST1ldbkqZREDdo=;
- b=Av4bIu2oyToCE9PXEsqRDQZhb8fvPVe80bB904Ci5UJlazhHknjTJqM58Tt5sXk7YE
- UObT4CZ2w2IXfpozuv7qY0OY7Jv0S+fAn7hSmPYr5qnCShRHkOiTfV9O2dsmLdlzLF26
- iAcn3cWeEyFE4Nt2dpSnKQSsrmDnXwj9QnuKa2colywBPCH8c8dz0hNhsKO+85vxUdxF
- eVZKDe9gOMvC89/QIUINW2v15yEGwH1AE2QsSTY+sZ4Y0l7XHi2Z5p5lY/gyLXa4RhM5
- b2k4E71Pxt9/mjPtzdfGlREPwpNpOdffiVzs7G6UavFGOgeiIvKx0YDeNi8OAaHjmUbb
- 5gAw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Fzwpp890KbfKmJBYFwiswX+sQjyHcST1ldbkqZREDdo=;
- b=UiQ1Asz+sOx0epbdlEMcaS+pibPhH0RmALu8mQtEaoGZNp2b6dFDzYk36InkY6ZH6Y
- SOZsy1iDUwZ2av1IjrbGO2x0NAiLNS264wL35l1zYfmesfnGHawTC6k/hVYIfe1hZzZf
- jX1X5q8coh0Z0uKk3XE1sD1lwdjxhY5bHf3jrqzOwcFsE3YVUHqEqG+EU5IoA1JGvVdh
- LxXpCq0tPq4FqV2DozRk7ESugj/78aBr+7axSSwKYLVtG/lzLG0xCzZZ3SouM2dsXEqZ
- IRvjHmmQ9vWJ6B3+7QtP5l8ebOg4A9xekvtF0FyWrchVYI+OJuCMYBAXH2qQx3LXgz/3
- 86NA==
-X-Gm-Message-State: AOAM532O8Qy+Ez/Jq/pyHWfHajXQL+947q4v/0QaoTZwzO8ZEAWO7Q8C
- 9i85ykAVyEq0hkCXJCurUdujwrV/1EE=
-X-Google-Smtp-Source: ABdhPJwdC2xZtdpW5+BQq9TN7TeyQbl0H109THsviPqG6dY10+MyeRThiB9aqIGwg6aKZiP5YSk/YQ==
-X-Received: by 2002:a17:907:7fa2:: with SMTP id
- qk34mr10195825ejc.691.1639934546041; 
- Sun, 19 Dec 2021 09:22:26 -0800 (PST)
-Received: from localhost.localdomain (ip-89-177-245-102.net.upcbroadband.cz.
- [89.177.245.102])
- by smtp.gmail.com with ESMTPSA id eg12sm286666edb.25.2021.12.19.09.22.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 19 Dec 2021 09:22:25 -0800 (PST)
-From: =?UTF-8?q?Jind=C5=99ich=20Makovi=C4=8Dka?= <makovick@gmail.com>
+ (Exim 4.90_1) (envelope-from <dilfridge@gentoo.org>)
+ id 1mz1DP-000203-CU
+ for qemu-devel@nongnu.org; Sun, 19 Dec 2021 13:47:23 -0500
+Received: from woodpecker.gentoo.org ([140.211.166.183]:58706
+ helo=smtp.gentoo.org)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_CHACHA20_POLY1305:256)
+ (Exim 4.90_1) (envelope-from <dilfridge@gentoo.org>)
+ id 1mz1DM-0000nx-V4
+ for qemu-devel@nongnu.org; Sun, 19 Dec 2021 13:47:22 -0500
+From: "Andreas K. Huettel" <dilfridge@gentoo.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH] ui/gtk: Fix resolution change in fullscreen
-Date: Sun, 19 Dec 2021 18:21:51 +0100
-Message-Id: <20211219172151.86922-1-makovick@gmail.com>
-X-Mailer: git-send-email 2.34.1
+Subject: Re: [PATCH] linux-user/signal: Map exit signals in SIGCHLD siginfo_t
+Date: Sun, 19 Dec 2021 19:47:09 +0100
+Message-ID: <5523284.DvuYhMxLoT@pinacolada>
+Organization: Gentoo Linux
+In-Reply-To: <87c9f71f-ed9d-03e4-9a0e-594b649525b5@vivier.eu>
+References: <81534fde7cdfc6acea4889d886fbefdd606630fb.1635019124.git.mschiffer@universe-factory.net>
+ <87c9f71f-ed9d-03e4-9a0e-594b649525b5@vivier.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::535
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::535;
- envelope-from=makovick@gmail.com; helo=mail-ed1-x535.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: multipart/signed; boundary="nextPart5776037.lOV4Wx5bFT";
+ micalg="pgp-sha512"; protocol="application/pgp-signature"
+Received-SPF: pass client-ip=140.211.166.183;
+ envelope-from=dilfridge@gentoo.org; helo=smtp.gentoo.org
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,36 +52,163 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Jind=C5=99ich=20Makovi=C4=8Dka?= <makovick@gmail.com>
+Cc: Matthias Schiffer <mschiffer@universe-factory.net>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When the guest resolution changes and the UI is in full screen,
-do not update the size hints. The gfx.scale_x and gfx.scale_y
-variables are still wrong as they will be only recomputed on
-gd_draw_event.
+--nextPart5776037.lOV4Wx5bFT
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"; protected-headers="v1"
+From: "Andreas K. Huettel" <dilfridge@gentoo.org>
+To: qemu-devel@nongnu.org
+Cc: Alistair Francis <alistair.francis@wdc.com>, Matthias Schiffer <mschiffer@universe-factory.net>, Laurent Vivier <laurent@vivier.eu>
+Subject: Re: [PATCH] linux-user/signal: Map exit signals in SIGCHLD siginfo_t
+Date: Sun, 19 Dec 2021 19:47:09 +0100
+Message-ID: <5523284.DvuYhMxLoT@pinacolada>
+Organization: Gentoo Linux
+In-Reply-To: <87c9f71f-ed9d-03e4-9a0e-594b649525b5@vivier.eu>
+References: <81534fde7cdfc6acea4889d886fbefdd606630fb.1635019124.git.mschiffer@universe-factory.net> <87c9f71f-ed9d-03e4-9a0e-594b649525b5@vivier.eu>
 
-Just keep the window in fullscreen mode instead.
+Well, the original fix 1c3dfb506ea3 did clearly improve things for me, but =
+it wasn't
+complete yet. At some point I gave up on finding a minimal reproducer for m=
+y remaining=20
+problems (futex-related hangs in a complex python+bash app).
 
-Signed-off-by: Jindřich Makovička <makovick@gmail.com>
----
- ui/gtk.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+So, this *may* be the missing piece.
 
-diff --git a/ui/gtk.c b/ui/gtk.c
-index 428f02f2df..12621596e3 100644
---- a/ui/gtk.c
-+++ b/ui/gtk.c
-@@ -266,7 +266,7 @@ static void gd_update_geometry_hints(VirtualConsole *vc)
-     GtkWindow *geo_window;
- 
-     if (vc->type == GD_VC_GFX) {
--        if (!vc->gfx.ds) {
-+        if (!vc->gfx.ds || s->full_screen) {
-             return;
-         }
-         if (s->free_scale) {
--- 
-2.34.1
+Will test, but that takes a few days.
+
+Andreas
+
+Am Sonntag, 19. Dezember 2021, 16:55:16 CET schrieb Laurent Vivier:
+> CC'ing Alistair and Andreas that were involved in original fix 1c3dfb506e=
+a3 ("linux-user/signal:=20
+> Decode waitid si_code")
+>=20
+> Thanks,
+> Laurent
+>=20
+> Le 23/10/2021 =E0 21:59, Matthias Schiffer a =E9crit :
+> > When converting a siginfo_t from waitid(), the interpretation of si_sta=
+tus
+> > depends on the value of si_code: For CLD_EXITED, it is an exit code and
+> > should be copied verbatim. For other codes, it is a signal number
+> > (possibly with additional high bits from ptrace) that should be mapped.
+> >=20
+> > This code was previously changed in commit 1c3dfb506ea3
+> > ("linux-user/signal: Decode waitid si_code"), but the fix was
+> > incomplete.
+> >=20
+> > Tested with the following test program:
+> >=20
+> >      #include <stdio.h>
+> >      #include <stdlib.h>
+> >      #include <unistd.h>
+> >      #include <sys/wait.h>
+> >=20
+> >      int main() {
+> >      	pid_t pid =3D fork();
+> >      	if (pid =3D=3D 0) {
+> >      		exit(12);
+> >      	} else {
+> >      		siginfo_t siginfo =3D {};
+> >      		waitid(P_PID, pid, &siginfo, WEXITED);
+> >      		printf("Code: %d, status: %d\n", (int)siginfo.si_code, (int)sigi=
+nfo.si_status);
+> >      	}
+> >=20
+> >      	pid =3D fork();
+> >      	if (pid =3D=3D 0) {
+> >      		raise(SIGUSR2);
+> >      	} else {
+> >      		siginfo_t siginfo =3D {};
+> >      		waitid(P_PID, pid, &siginfo, WEXITED);
+> >      		printf("Code: %d, status: %d\n", (int)siginfo.si_code, (int)sigi=
+nfo.si_status);
+> >      	}
+> >      }
+> >=20
+> > Output with an x86_64 host and mips64el target before 1c3dfb506ea3
+> > (incorrect: exit code 12 is translated like a signal):
+> >=20
+> >      Code: 1, status: 17
+> >      Code: 2, status: 17
+> >=20
+> > After 1c3dfb506ea3 (incorrect: signal number is not translated):
+> >=20
+> >      Code: 1, status: 12
+> >      Code: 2, status: 12
+> >=20
+> > With this patch:
+> >=20
+> >      Code: 1, status: 12
+> >      Code: 2, status: 17
+> >=20
+> > Signed-off-by: Matthias Schiffer <mschiffer@universe-factory.net>
+> > ---
+> >   linux-user/signal.c | 7 ++++++-
+> >   1 file changed, 6 insertions(+), 1 deletion(-)
+> >=20
+> > diff --git a/linux-user/signal.c b/linux-user/signal.c
+> > index 14d8fdfde152..8e3af98ec0a7 100644
+> > --- a/linux-user/signal.c
+> > +++ b/linux-user/signal.c
+> > @@ -403,7 +403,12 @@ static inline void host_to_target_siginfo_noswap(t=
+arget_siginfo_t *tinfo,
+> >           case TARGET_SIGCHLD:
+> >               tinfo->_sifields._sigchld._pid =3D info->si_pid;
+> >               tinfo->_sifields._sigchld._uid =3D info->si_uid;
+> > -            tinfo->_sifields._sigchld._status =3D info->si_status;
+> > +            if (si_code =3D=3D CLD_EXITED)
+> > +                tinfo->_sifields._sigchld._status =3D info->si_status;
+> > +            else
+> > +                tinfo->_sifields._sigchld._status
+> > +                    =3D host_to_target_signal(info->si_status & 0x7f)
+> > +                        | (info->si_status & ~0x7f);
+> >               tinfo->_sifields._sigchld._utime =3D info->si_utime;
+> >               tinfo->_sifields._sigchld._stime =3D info->si_stime;
+> >               si_type =3D QEMU_SI_CHLD;
+> >=20
+>=20
+>=20
+>=20
+
+
+=2D-=20
+Andreas K. H=FCttel
+dilfridge@gentoo.org
+Gentoo Linux developer
+(council, toolchain, base-system, perl, libreoffice)
+--nextPart5776037.lOV4Wx5bFT
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part.
+Content-Transfer-Encoding: 7Bit
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iQKTBAABCgB9FiEE6W4INB9YeKX6Qpi1TEn3nlTQogYFAmG/fi1fFIAAAAAALgAo
+aXNzdWVyLWZwckBub3RhdGlvbnMub3BlbnBncC5maWZ0aGhvcnNlbWFuLm5ldEU5
+NkUwODM0MUY1ODc4QTVGQTQyOThCNTRDNDlGNzlFNTREMEEyMDYACgkQTEn3nlTQ
+ogbKZxAAlAoqrsO6kijjvZJnU+EHR4nDuy3vb7DHAaoQGR54s7ErIe9vPCB3vXvY
+RTWaNf+U/W43A2xPLJNzcmq1/FcaLmac+7xBoIP2tublsgjUIX2eT8qDlLBCUHp/
+dUjOAfiQ5dP0TpKCG0O1mWz5vgjs5C7AqoFjvLUO9Em16QrF5aPJjWnClpWLtq70
+7ZWQNm+WNETsgamZ5k+XwjxRyzByhUqZiINxmt7ZP/B9jp/y9f/YhOAc1GgeE2c4
+7NQDO083BwE7ByKK8DZKEaRakTDN4B4vxul+ciBfqR9vkjQgxHUewtcSECcJcckR
+wzSXxpje5iDvkEcySmm2B7iXt276s3NFiiNxIMdWb9Ajoh0oO9zUzaXT8FnSCuWu
+gJtKIT1anDNgLHCPzzXUPyTshyFpnXlPLWpm5BD378VTZD4sj4wdXbM9M0RPrQcV
+RZwuPZ6DZEONwLy5pOV9ONarMlFNS/9DmHO6RY9hexmf8SzLHeqUDXWuBpu30KaY
+kW9Q/1ACuEeNei5BY1HdXfo6NTjktwrJ0OmvpPnRLz7HacD1//9cdiWRzmr6P1Bn
+xjfnUgdR5hEmnv+54Aqgv+UtzzyePsTffQJ1XwegQSCtFU5iGhLYZaS3BIJ8N+Au
+8iaoAgWgsgyzYfjLIr6bx2bJJ0ZQ9FKDIwjfSr6OAN5pwmfRgk8=
+=rMbV
+-----END PGP SIGNATURE-----
+
+--nextPart5776037.lOV4Wx5bFT--
+
+
 
 
