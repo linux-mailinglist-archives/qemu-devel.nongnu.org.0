@@ -2,61 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A6F947B11C
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Dec 2021 17:31:37 +0100 (CET)
-Received: from localhost ([::1]:54808 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93C9E47B11B
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Dec 2021 17:31:34 +0100 (CET)
+Received: from localhost ([::1]:54426 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mzLZY-0001AG-2v
-	for lists+qemu-devel@lfdr.de; Mon, 20 Dec 2021 11:31:36 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52870)
+	id 1mzLZV-0000qv-K2
+	for lists+qemu-devel@lfdr.de; Mon, 20 Dec 2021 11:31:33 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54490)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <victortoso@redhat.com>)
- id 1mzKba-0006HI-M8
- for qemu-devel@nongnu.org; Mon, 20 Dec 2021 10:29:40 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:33769)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mzKIQ-0006Ut-60
+ for qemu-devel@nongnu.org; Mon, 20 Dec 2021 10:10:00 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:54823)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <victortoso@redhat.com>)
- id 1mzKbX-0003I9-NS
- for qemu-devel@nongnu.org; Mon, 20 Dec 2021 10:29:36 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mzKIE-0000v4-Ly
+ for qemu-devel@nongnu.org; Mon, 20 Dec 2021 10:09:47 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1640014173;
+ s=mimecast20190719; t=1640012968;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=aKNxBepNzmtkgKDMePqjloKPUY74B789Lsc9IYZw+Yo=;
- b=DuqWyE/k8fnuhPcUaOiqOkFgwagaOIBdsYDrOMNRhVqVWXsMSEt4ql6t8oPcsfQm0wSOMd
- otwIx/pXgEOEANGw/NAHFQcy5yWBVk0U69OSd+EClKM7fXDR0ayUjBfcNj6Z9DDRcEvTZG
- gLXDJ3D5GUHsf7efw8F+gzOV0eBFbKI=
+ in-reply-to:in-reply-to:references:references;
+ bh=t8cXS8in7l+NL+71C2m+vcGEO3yhecrymX5Z8qrlTEY=;
+ b=ghPpbgr9ZociTdTmWI3n5fRIIPTpcD5CXCpOhgdyj68d1CfTupEVWdVZDBClLBpXDU2qpR
+ cB4RopSCWKh0VvORKisK+Dd/x2j1TM/rDapT5d/BemncDeoJIi7ZOIlR0Og5zN94NqVIkA
+ KYlNVxKZGT2KWzGQuc1oFaNmr8xtjFQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-461-RPu_Q77hOFW4azZHwK6p6w-1; Mon, 20 Dec 2021 09:56:31 -0500
-X-MC-Unique: RPu_Q77hOFW4azZHwK6p6w-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-331-Peo-MKNZP_qINrMKUsMNqw-1; Mon, 20 Dec 2021 10:09:22 -0500
+X-MC-Unique: Peo-MKNZP_qINrMKUsMNqw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8FFE0801B0B
- for <qemu-devel@nongnu.org>; Mon, 20 Dec 2021 14:56:30 +0000 (UTC)
-Received: from tapioca.home (unknown [10.40.193.56])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 94E3572FA6;
- Mon, 20 Dec 2021 14:56:25 +0000 (UTC)
-From: Victor Toso <victortoso@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] schemas: add missing vim modeline
-Date: Mon, 20 Dec 2021 15:56:24 +0100
-Message-Id: <20211220145624.52801-1-victortoso@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9112B81EE60
+ for <qemu-devel@nongnu.org>; Mon, 20 Dec 2021 15:09:21 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-2.ams2.redhat.com [10.36.112.2])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5F79947378;
+ Mon, 20 Dec 2021 15:09:21 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id CF8D9113865F; Mon, 20 Dec 2021 16:09:19 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Victor Toso <victortoso@redhat.com>
+Subject: Re: [PATCH] schemas: add missing vim modeline
+References: <20211220145624.52801-1-victortoso@redhat.com>
+Date: Mon, 20 Dec 2021 16:09:19 +0100
+In-Reply-To: <20211220145624.52801-1-victortoso@redhat.com> (Victor Toso's
+ message of "Mon, 20 Dec 2021 15:56:24 +0100")
+Message-ID: <877dbznwio.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=victortoso@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124;
- envelope-from=victortoso@redhat.com; helo=us-smtp-delivery-124.mimecast.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
@@ -76,61 +79,16 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>
+Cc: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Similar to f7160f3218 "schemas: Add vim modeline"
+Victor Toso <victortoso@redhat.com> writes:
 
-Signed-off-by: Victor Toso <victortoso@redhat.com>
----
- qapi/audio.json  | 1 +
- qapi/compat.json | 1 +
- qapi/replay.json | 1 +
- qapi/trace.json  | 1 +
- 4 files changed, 4 insertions(+)
+> Similar to f7160f3218 "schemas: Add vim modeline"
+>
+> Signed-off-by: Victor Toso <victortoso@redhat.com>
 
-diff --git a/qapi/audio.json b/qapi/audio.json
-index 9cba0df8a4..fe3b506ec3 100644
---- a/qapi/audio.json
-+++ b/qapi/audio.json
-@@ -1,4 +1,5 @@
- # -*- mode: python -*-
-+# vim: filetype=python
- #
- # Copyright (C) 2015-2019 Zoltán Kővágó <DirtY.iCE.hu@gmail.com>
- #
-diff --git a/qapi/compat.json b/qapi/compat.json
-index dd7261ae2a..c53b69fe3f 100644
---- a/qapi/compat.json
-+++ b/qapi/compat.json
-@@ -1,4 +1,5 @@
- # -*- Mode: Python -*-
-+# vim: filetype=python
- 
- ##
- # = Compatibility policy
-diff --git a/qapi/replay.json b/qapi/replay.json
-index bfd83d7591..b4d1ba253b 100644
---- a/qapi/replay.json
-+++ b/qapi/replay.json
-@@ -1,4 +1,5 @@
- # -*- Mode: Python -*-
-+# vim: filetype=python
- #
- 
- ##
-diff --git a/qapi/trace.json b/qapi/trace.json
-index eedfded512..119509f565 100644
---- a/qapi/trace.json
-+++ b/qapi/trace.json
-@@ -1,4 +1,5 @@
- # -*- mode: python -*-
-+# vim: filetype=python
- #
- # Copyright (C) 2011-2016 Lluís Vilanova <vilanova@ac.upc.edu>
- #
--- 
-2.33.1
+Acked-by: Markus Armbruster <armbru@redhat.com>
 
 
