@@ -2,68 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCDDD47B126
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Dec 2021 17:34:36 +0100 (CET)
-Received: from localhost ([::1]:34908 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53C4C47B171
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Dec 2021 17:42:59 +0100 (CET)
+Received: from localhost ([::1]:50808 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mzLcR-0007fz-Tk
-	for lists+qemu-devel@lfdr.de; Mon, 20 Dec 2021 11:34:35 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55296)
+	id 1mzLkY-0001uZ-BN
+	for lists+qemu-devel@lfdr.de; Mon, 20 Dec 2021 11:42:58 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60872)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jiangyifei@huawei.com>)
- id 1mzKdR-0007HQ-Jw; Mon, 20 Dec 2021 10:31:35 -0500
-Received: from szxga08-in.huawei.com ([45.249.212.255]:3252)
+ id 1mzKhX-0002b0-4e; Mon, 20 Dec 2021 10:35:47 -0500
+Received: from szxga03-in.huawei.com ([45.249.212.189]:4161)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jiangyifei@huawei.com>)
- id 1mzKdI-00045M-TO; Mon, 20 Dec 2021 10:31:32 -0500
-Received: from canpemm100007.china.huawei.com (unknown [172.30.72.56])
- by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4JHfnH37hxz1DK9N;
- Mon, 20 Dec 2021 20:59:47 +0800 (CST)
+ id 1mzKhS-0005sY-RB; Mon, 20 Dec 2021 10:35:46 -0500
+Received: from kwepemi100002.china.huawei.com (unknown [172.30.72.56])
+ by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4JHfy42fWVz8vyl;
+ Mon, 20 Dec 2021 21:07:24 +0800 (CST)
 Received: from kwepemm600017.china.huawei.com (7.193.23.234) by
- canpemm100007.china.huawei.com (7.192.105.181) with Microsoft SMTP Server
+ kwepemi100002.china.huawei.com (7.221.188.188) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Mon, 20 Dec 2021 21:02:53 +0800
-Received: from kwepemm600017.china.huawei.com ([7.193.23.234]) by
- kwepemm600017.china.huawei.com ([7.193.23.234]) with mapi id 15.01.2308.020;
- Mon, 20 Dec 2021 21:02:53 +0800
-To: Richard Henderson <richard.henderson@linaro.org>, "qemu-devel@nongnu.org"
- <qemu-devel@nongnu.org>, "qemu-riscv@nongnu.org" <qemu-riscv@nongnu.org>
-CC: "kvm-riscv@lists.infradead.org" <kvm-riscv@lists.infradead.org>,
- "kvm@vger.kernel.org" <kvm@vger.kernel.org>, "libvir-list@redhat.com"
- <libvir-list@redhat.com>, "anup.patel@wdc.com" <anup.patel@wdc.com>,
- "palmer@dabbelt.com" <palmer@dabbelt.com>, "Alistair.Francis@wdc.com"
- <Alistair.Francis@wdc.com>, "bin.meng@windriver.com"
- <bin.meng@windriver.com>, "Fanliang (EulerOS)" <fanliang@huawei.com>, "Wubin
- (H)" <wu.wubin@huawei.com>, "Wanghaibin (D)" <wanghaibin.wang@huawei.com>,
- "wanbo (G)" <wanbo13@huawei.com>, "limingwang (A)" <limingwang@huawei.com>
-Subject: RE: [PATCH v2 12/12] target/riscv: Support virtual time context
- synchronization
-Thread-Topic: [PATCH v2 12/12] target/riscv: Support virtual time context
- synchronization
-Thread-Index: AQHX7a3Q8Bse7NrOd02XaMfvJUw+zqwwCNIAgAtfe4A=
-Date: Mon, 20 Dec 2021 13:02:53 +0000
-Message-ID: <93bc5000c51042e5bb45053707109947@huawei.com>
-References: <20211210100732.1080-1-jiangyifei@huawei.com>
- <20211210100732.1080-13-jiangyifei@huawei.com>
- <10d2d911-e975-64b3-8ab6-e950c5064b9e@linaro.org>
-In-Reply-To: <10d2d911-e975-64b3-8ab6-e950c5064b9e@linaro.org>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.174.186.236]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ 15.1.2308.20; Mon, 20 Dec 2021 21:09:42 +0800
+Received: from huawei.com (10.174.186.236) by kwepemm600017.china.huawei.com
+ (7.193.23.234) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.20; Mon, 20 Dec
+ 2021 21:09:41 +0800
+To: <qemu-devel@nongnu.org>, <qemu-riscv@nongnu.org>
+CC: <kvm-riscv@lists.infradead.org>, <kvm@vger.kernel.org>,
+ <libvir-list@redhat.com>, <anup.patel@wdc.com>, <palmer@dabbelt.com>,
+ <Alistair.Francis@wdc.com>, <bin.meng@windriver.com>, <fanliang@huawei.com>,
+ <wu.wubin@huawei.com>, <wanghaibin.wang@huawei.com>, <wanbo13@huawei.com>,
+ Yifei Jiang <jiangyifei@huawei.com>, Mingwang Li <limingwang@huawei.com>,
+ Alistair Francis <alistair.francis@wdc.com>
+Subject: [PATCH v3 09/12] target/riscv: Add host cpu type
+Date: Mon, 20 Dec 2021 21:09:16 +0800
+Message-ID: <20211220130919.413-10-jiangyifei@huawei.com>
+X-Mailer: git-send-email 2.26.2.windows.1
+In-Reply-To: <20211220130919.413-1-jiangyifei@huawei.com>
+References: <20211220130919.413-1-jiangyifei@huawei.com>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-Originating-IP: [10.174.186.236]
+X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
+ kwepemm600017.china.huawei.com (7.193.23.234)
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.255;
- envelope-from=jiangyifei@huawei.com; helo=szxga08-in.huawei.com
+Received-SPF: pass client-ip=45.249.212.189;
+ envelope-from=jiangyifei@huawei.com; helo=szxga03-in.huawei.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
 X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,44 +70,67 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Jiangyifei <jiangyifei@huawei.com>
-From:  Jiangyifei via <qemu-devel@nongnu.org>
+Reply-to:  Yifei Jiang <jiangyifei@huawei.com>
+From:  Yifei Jiang via <qemu-devel@nongnu.org>
 
-DQo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+IEZyb206IFJpY2hhcmQgSGVuZGVyc29u
-IFttYWlsdG86cmljaGFyZC5oZW5kZXJzb25AbGluYXJvLm9yZ10NCj4gU2VudDogTW9uZGF5LCBE
-ZWNlbWJlciAxMywgMjAyMSAxMToyMiBQTQ0KPiBUbzogSmlhbmd5aWZlaSA8amlhbmd5aWZlaUBo
-dWF3ZWkuY29tPjsgcWVtdS1kZXZlbEBub25nbnUub3JnOw0KPiBxZW11LXJpc2N2QG5vbmdudS5v
-cmcNCj4gQ2M6IGt2bS1yaXNjdkBsaXN0cy5pbmZyYWRlYWQub3JnOyBrdm1Admdlci5rZXJuZWwu
-b3JnOw0KPiBsaWJ2aXItbGlzdEByZWRoYXQuY29tOyBhbnVwLnBhdGVsQHdkYy5jb207IHBhbG1l
-ckBkYWJiZWx0LmNvbTsNCj4gQWxpc3RhaXIuRnJhbmNpc0B3ZGMuY29tOyBiaW4ubWVuZ0B3aW5k
-cml2ZXIuY29tOyBGYW5saWFuZyAoRXVsZXJPUykNCj4gPGZhbmxpYW5nQGh1YXdlaS5jb20+OyBX
-dWJpbiAoSCkgPHd1Lnd1YmluQGh1YXdlaS5jb20+OyBXYW5naGFpYmluIChEKQ0KPiA8d2FuZ2hh
-aWJpbi53YW5nQGh1YXdlaS5jb20+OyB3YW5ibyAoRykgPHdhbmJvMTNAaHVhd2VpLmNvbT47DQo+
-IGxpbWluZ3dhbmcgKEEpIDxsaW1pbmd3YW5nQGh1YXdlaS5jb20+DQo+IFN1YmplY3Q6IFJlOiBb
-UEFUQ0ggdjIgMTIvMTJdIHRhcmdldC9yaXNjdjogU3VwcG9ydCB2aXJ0dWFsIHRpbWUgY29udGV4
-dA0KPiBzeW5jaHJvbml6YXRpb24NCj4gDQo+IE9uIDEyLzEwLzIxIDI6MDcgQU0sIFlpZmVpIEpp
-YW5nIHZpYSB3cm90ZToNCj4gPiArc3RhdGljIGJvb2wga3ZtdGltZXJfbmVlZGVkKHZvaWQgKm9w
-YXF1ZSkgew0KPiA+ICsgICAgcmV0dXJuIGt2bV9lbmFibGVkKCk7DQo+ID4gK30NCj4gPiArDQo+
-ID4gKw0KPiA+ICtzdGF0aWMgY29uc3QgVk1TdGF0ZURlc2NyaXB0aW9uIHZtc3RhdGVfa3ZtdGlt
-ZXIgPSB7DQo+ID4gKyAgICAubmFtZSA9ICJjcHUva3ZtdGltZXIiLA0KPiA+ICsgICAgLnZlcnNp
-b25faWQgPSAxLA0KPiA+ICsgICAgLm1pbmltdW1fdmVyc2lvbl9pZCA9IDEsDQo+ID4gKyAgICAu
-bmVlZGVkID0ga3ZtdGltZXJfbmVlZGVkLA0KPiA+ICsgICAgLmZpZWxkcyA9IChWTVN0YXRlRmll
-bGRbXSkgew0KPiA+ICsgICAgICAgIFZNU1RBVEVfVUlOVDY0KGVudi5rdm1fdGltZXJfdGltZSwg
-UklTQ1ZDUFUpLA0KPiA+ICsgICAgICAgIFZNU1RBVEVfVUlOVDY0KGVudi5rdm1fdGltZXJfY29t
-cGFyZSwgUklTQ1ZDUFUpLA0KPiA+ICsgICAgICAgIFZNU1RBVEVfVUlOVDY0KGVudi5rdm1fdGlt
-ZXJfc3RhdGUsIFJJU0NWQ1BVKSwNCj4gPiArDQo+ID4gKyAgICAgICAgVk1TVEFURV9FTkRfT0Zf
-TElTVCgpDQo+ID4gKyAgICB9DQo+ID4gK307DQo+ID4gKw0KPiA+ICtzdGF0aWMgaW50IGNwdV9w
-b3N0X2xvYWQodm9pZCAqb3BhcXVlLCBpbnQgdmVyc2lvbl9pZCkgew0KPiA+ICsgICAgUklTQ1ZD
-UFUgKmNwdSA9IG9wYXF1ZTsNCj4gPiArICAgIENQVVJJU0NWU3RhdGUgKmVudiA9ICZjcHUtPmVu
-djsNCj4gPiArDQo+ID4gKyAgICBpZiAoa3ZtX2VuYWJsZWQoKSkgew0KPiA+ICsgICAgICAgIGVu
-di0+a3ZtX3RpbWVyX2RpcnR5ID0gdHJ1ZTsNCj4gPiArICAgIH0NCj4gPiArICAgIHJldHVybiAw
-Ow0KPiA+ICt9DQo+IA0KPiBUaGlzIHBvc3QtbG9hZCBiZWxvbmdzIG9uIHRoZSB2bXN0YXRlX2t2
-bXRpbWVyIHN0cnVjdCwgc28gdGhhdCB5b3UgbmVlZCBub3QNCj4gcmUtY2hlY2sga3ZtX2VuYWJs
-ZWQoKS4NCj4gDQo+ID4gICBjb25zdCBWTVN0YXRlRGVzY3JpcHRpb24gdm1zdGF0ZV9yaXNjdl9j
-cHUgPSB7DQo+ID4gICAgICAgLm5hbWUgPSAiY3B1IiwNCj4gPiAtICAgIC52ZXJzaW9uX2lkID0g
-MywNCj4gPiAtICAgIC5taW5pbXVtX3ZlcnNpb25faWQgPSAzLA0KPiA+ICsgICAgLnZlcnNpb25f
-aWQgPSA0LA0KPiA+ICsgICAgLm1pbmltdW1fdmVyc2lvbl9pZCA9IDQsDQo+ID4gKyAgICAucG9z
-dF9sb2FkID0gY3B1X3Bvc3RfbG9hZCwNCj4gDQo+IE5vIG5lZWQgZm9yIHZlcnNpb24gY2hhbmdl
-Lg0KPiANCj4gDQo+IHJ+DQoNCk9rLCBpdCB3aWxsIGJlIG1vZGlmaWVkIGluIHRoZSBuZXh0IHNl
-cmllcy4NCg0KWWlmZWkNCg==
+'host' type cpu is set isa to RV32 or RV64 simply, more isa info
+will obtain from KVM in kvm_arch_init_vcpu()
+
+Signed-off-by: Yifei Jiang <jiangyifei@huawei.com>
+Signed-off-by: Mingwang Li <limingwang@huawei.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Anup Patel <anup.patel@wdc.com>
+---
+ target/riscv/cpu.c | 15 +++++++++++++++
+ target/riscv/cpu.h |  1 +
+ 2 files changed, 16 insertions(+)
+
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index 3fc3a9c45b..c6d979594b 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -213,6 +213,18 @@ static void rv32_imafcu_nommu_cpu_init(Object *obj)
+ }
+ #endif
+ 
++#if defined(CONFIG_KVM)
++static void riscv_host_cpu_init(Object *obj)
++{
++    CPURISCVState *env = &RISCV_CPU(obj)->env;
++#if defined(TARGET_RISCV32)
++    set_misa(env, MXL_RV32, 0);
++#elif defined(TARGET_RISCV64)
++    set_misa(env, MXL_RV64, 0);
++#endif
++}
++#endif
++
+ static ObjectClass *riscv_cpu_class_by_name(const char *cpu_model)
+ {
+     ObjectClass *oc;
+@@ -814,6 +826,9 @@ static const TypeInfo riscv_cpu_type_infos[] = {
+         .class_init = riscv_cpu_class_init,
+     },
+     DEFINE_CPU(TYPE_RISCV_CPU_ANY,              riscv_any_cpu_init),
++#if defined(CONFIG_KVM)
++    DEFINE_CPU(TYPE_RISCV_CPU_HOST,             riscv_host_cpu_init),
++#endif
+ #if defined(TARGET_RISCV32)
+     DEFINE_CPU(TYPE_RISCV_CPU_BASE32,           rv32_base_cpu_init),
+     DEFINE_CPU(TYPE_RISCV_CPU_IBEX,             rv32_ibex_cpu_init),
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index 2807eb1bcb..e7dba35acb 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -45,6 +45,7 @@
+ #define TYPE_RISCV_CPU_SIFIVE_E51       RISCV_CPU_TYPE_NAME("sifive-e51")
+ #define TYPE_RISCV_CPU_SIFIVE_U34       RISCV_CPU_TYPE_NAME("sifive-u34")
+ #define TYPE_RISCV_CPU_SIFIVE_U54       RISCV_CPU_TYPE_NAME("sifive-u54")
++#define TYPE_RISCV_CPU_HOST             RISCV_CPU_TYPE_NAME("host")
+ 
+ #if defined(TARGET_RISCV32)
+ # define TYPE_RISCV_CPU_BASE            TYPE_RISCV_CPU_BASE32
+-- 
+2.19.1
+
 
