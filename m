@@ -2,82 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CAC447A436
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Dec 2021 06:11:52 +0100 (CET)
-Received: from localhost ([::1]:47272 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3141947A431
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Dec 2021 06:08:28 +0100 (CET)
+Received: from localhost ([::1]:40936 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mzAxj-0004Yj-4u
-	for lists+qemu-devel@lfdr.de; Mon, 20 Dec 2021 00:11:51 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49056)
+	id 1mzAuR-0000HO-7h
+	for lists+qemu-devel@lfdr.de; Mon, 20 Dec 2021 00:08:27 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49082)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=9816edf2f=alistair.francis@opensource.wdc.com>)
- id 1mzAjw-00082K-QD
- for qemu-devel@nongnu.org; Sun, 19 Dec 2021 23:57:36 -0500
+ id 1mzAjz-00089E-PJ
+ for qemu-devel@nongnu.org; Sun, 19 Dec 2021 23:57:41 -0500
 Received: from esa2.hgst.iphmx.com ([68.232.143.124]:51312)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=9816edf2f=alistair.francis@opensource.wdc.com>)
- id 1mzAju-00081R-5H
- for qemu-devel@nongnu.org; Sun, 19 Dec 2021 23:57:36 -0500
+ id 1mzAjx-00081R-Ms
+ for qemu-devel@nongnu.org; Sun, 19 Dec 2021 23:57:39 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1639976254; x=1671512254;
+ t=1639976257; x=1671512257;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=C5DzQIhbYWBRS4M8bZAC+im4rOI5vt/7zMr3Jb02aCA=;
- b=RjF856iDjnyBfwaAc6zeKB3tJGhCdjZ3vFTqejvEqPBmBVTIHyV5WZfh
- ReuX3qcHQGrOvvoDq2BFRbuhn5lsOLdr+OEi6LaYlQuQ9jZJqRw3nPmAR
- ikIJU638ZbyVOJYXx7Q3JlKuPRGN909dwS2PmE9AdEeC5BeYp+iLDMqtl
- V5bJJbRn2Duk+jHM56+YN6P2pBJcl8oH8QgzUFFuSddyiqeNVYEEczPxF
- J/BmS5phrCnryRcU9voePxtbea51glIK7ljIyRGwpue4HpU0zN3r9FM9d
- qe5Vv86iFsYCBQltP3HQ+3vge/v3rOIij0UyaVrp5jqMUFQflOmAQ+RuO g==;
-X-IronPort-AV: E=Sophos;i="5.88,219,1635177600"; d="scan'208";a="292661867"
+ bh=jqqgCjrIUkO15aehtYBi6sJcZSzabw13ECX8KiCAKhg=;
+ b=FRv3spf3bZeefE6W3MFbsV10ppLfvsJd+aPXN4GvPO88C0JpzES95Spo
+ cGhzKtmg08HavveKb72Kk6oaamXUW2KAOMaWusmo2aQqinLHwlbQAsvYm
+ QkWxr1dr9WdtfzFGwabzdD+bhTPksCAu23LA3srBZsi6QxP1kn+orC1Lj
+ 3RPuwyVqRCJHY5WaQ+b/zbaIli0qi84cZwvQkLLzL2fYoCkbxn3ueIHQL
+ 2nYrX8kd+4aO3YfkLRN8l1+feKUBl2Vi975ackLuoOsW8UAPkKMr8QVyx
+ lqffnw1JmJ8M6Md0TEhcqgkuXJmxVY9ApK/HgGZFYg4OMlsXbWEfxmvwr Q==;
+X-IronPort-AV: E=Sophos;i="5.88,219,1635177600"; d="scan'208";a="292661873"
 Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 20 Dec 2021 12:57:32 +0800
-IronPort-SDR: B88ESCLLU/9b3xuUkcK/JidOB8buUKLA3wXoIcJ0ktzVMCntWLhbF6pZfsYhho9BTO+08udHZS
- EMzRb3UHV1vfPFZ9UFLH8MHLPMzCpLOnb8u6C+Qsl5fkQL1gL4gPmYBTTODW+eI4GtA7CDdR/0
- CLqkuYVvhLW9CYBnLLasANE04Jcdxurfx267xJINOT7KEdKK2QFhsT+cvUYqagiuKKrQFoVuJ6
- vTeVWNZR2+E3wGuZTkyTaEKx89pgo+UIMWznf1C+bUZqWjOGnDLZPA8tL5CVG8pc1rKginS5Ky
- KdWqfdVUVcpMJF6MIeKEL3L7
+ by ob1.hgst.iphmx.com with ESMTP; 20 Dec 2021 12:57:36 +0800
+IronPort-SDR: jf5IHaOFHtVqOQwugTv2AqjWqME5zsePakz6rtq+Z024126ZjPz0cLhoyoFihiYVdNq2mRhIyH
+ GhYieqm61In+o6/E2S2pozCzacROIwxk++niR5+yWOLXuJJEyLX5m+FrX6LRhJ2dt+8Y49VzKL
+ Y1sRmt7P5rR0WHn6dnK0slVXTI3Ng9rTsfRWP1kEAidTqKt13QkdbTEKGhBkc7ynmHhlI+wjd0
+ dm5ZE/j+eL83x3NV5UthKX1JcYErnF/helsaA+gz9AWlZ7bRzspq4GB50nralKk/Dzd4oqMk9g
+ y0bYrYN13gSdN83Zxv0w2TLb
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Dec 2021 20:30:22 -0800
-IronPort-SDR: +tS+WO3rtFAuJZOCNsWMUNG7UocSlWFyafcjZHtfz8spVRe3accGKzJKvXkGw94cbP3wrA83Ls
- DqlNBQjbS/NljZitSF9rsWQl/VhiWinx60DSB1j9gM9o149+HI04pVLnWDh6St33LOFtzQLSOv
- debEw9Y+4jSml/p2f81eD1W7QAgn5wuDeDu45QSZuQIsFL5wZA1C77zvmRiqr2+yOZ0jhcN0Ge
- SMPYoRO+3FxXhogbsF+OdtQJVSvgo5BE78aDwHDr2OlQfdF9dvEZ9s8h3GDIzpMuLLN3eZ0uSN
- 9JQ=
+ 19 Dec 2021 20:30:26 -0800
+IronPort-SDR: I2I7L4FmP/qT8eKXGhwVarsvLoYitnm4MMNhVcBItoap2tV7qhzH4ImAUvON03sa/mOkh8tbib
+ m8hwI67m+lTJnftd+HfAYCOcRCfpbHEHcEAC3ZM7QIy7KHYfRav7x1FfBNvHpdBBM/mZLrvc8P
+ HZ7g1K8xtLJWADt5BHqN0UJGibJxMKQdZp39GUvU6GFsNpy42UwFo4jTuHscJf0eTmT0JTdOOa
+ Z10+8ZJrA5Dtp5rKGJ1bPPjDxNSCnYW6VzvDjJpAQO3t55q75dlMdXt4L2tjG3bMeH96wFyduF
+ ry0=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Dec 2021 20:57:33 -0800
+ 19 Dec 2021 20:57:38 -0800
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4JHS4r2VvQz1Rvlf
- for <qemu-devel@nongnu.org>; Sun, 19 Dec 2021 20:57:32 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4JHS4w54V6z1RvTg
+ for <qemu-devel@nongnu.org>; Sun, 19 Dec 2021 20:57:36 -0800 (PST)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
  opensource.wdc.com; h=content-transfer-encoding:mime-version
  :references:in-reply-to:x-mailer:message-id:date:subject:to
- :from; s=dkim; t=1639976251; x=1642568252; bh=C5DzQIhbYWBRS4M8bZ
- AC+im4rOI5vt/7zMr3Jb02aCA=; b=cxzCpEJx7fangcDj9TzyJ5W/UFefT2nNTL
- 8OHpDPsrrQVmhi3xZ6Udp/jmCS/N2Y8knimkxqVOrhU7emt4HLrpikl7mtXG5T6l
- emuhzwxwQoh3y2RT6toqvkBr/pxRqk3ag5QAJq+nv7DWTWCtlbM9ddV4nXFO1zdt
- Jib0rFj1RtXtQorenx23/na+cyo2dAA3Kf5jbil5NAfUrmVmoe4rjLmteHsKgcbt
- /zxFR6cPbB4vg1V7oG6Dw+yssRn5dnwTSzqdPywOv89Zf8luFygi2R6vROskmu/o
- gKF5Jrru7lui6gEZl3UrTQy+X7fohyLwzIjQCwolOukcHVrj2QWw==
+ :from; s=dkim; t=1639976256; x=1642568257; bh=jqqgCjrIUkO15aehtY
+ Bi6sJcZSzabw13ECX8KiCAKhg=; b=dOuhegGvwXl2CxGgtKVUPEkrHR/reGQKLy
+ bqkXquE4oluY82yXdJZPDwojyp4fvS13DqcWI1LG5+D/kTMS67vpqioCd13iSioh
+ UeaurQ6DwyH0UBctcbnjAmxr7+s/Ov+9HtP3qQLaO9jODmmk9c4z4wNMbxP+kU70
+ +Rp02gO72S9VBSzr6ENDkY5Vz0iKTKdlIE4drU0ExEFZR1JPQ8EwyM42Oqq1gFSy
+ zGBdCaQhLcnDqI5Cg7ilFz9ou75tigNde+SOZACmOer49u5Ut5VQd5SZ5IYtOHIw
+ TZzl6Lsnpx8fBteoySjsFUiwiPdyidIfeRe0boFSM8oK2VxxX/+g==
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id tED7JCxFGV2e for <qemu-devel@nongnu.org>;
- Sun, 19 Dec 2021 20:57:31 -0800 (PST)
+ port 10026) with ESMTP id KFA4z5TKzQfP for <qemu-devel@nongnu.org>;
+ Sun, 19 Dec 2021 20:57:36 -0800 (PST)
 Received: from toolbox.alistair23.me (unknown [10.225.165.68])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4JHS4k32Pqz1RvTg;
- Sun, 19 Dec 2021 20:57:26 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4JHS4r1Mz0z1RtVG;
+ Sun, 19 Dec 2021 20:57:31 -0800 (PST)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org
 Cc: alistair23@gmail.com, Kito Cheng <kito.cheng@sifive.com>,
@@ -85,9 +85,9 @@ Cc: alistair23@gmail.com, Kito Cheng <kito.cheng@sifive.com>,
  Frank Chang <frank.chang@sifive.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  Alistair Francis <alistair.francis@wdc.com>
-Subject: [PULL 03/88] target/riscv: zfh: half-precision convert and move
-Date: Mon, 20 Dec 2021 14:55:40 +1000
-Message-Id: <20211220045705.62174-4-alistair.francis@opensource.wdc.com>
+Subject: [PULL 04/88] target/riscv: zfh: half-precision floating-point compare
+Date: Mon, 20 Dec 2021 14:55:41 +1000
+Message-Id: <20211220045705.62174-5-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211220045705.62174-1-alistair.francis@opensource.wdc.com>
 References: <20211220045705.62174-1-alistair.francis@opensource.wdc.com>
@@ -124,474 +124,132 @@ Signed-off-by: Kito Cheng <kito.cheng@sifive.com>
 Signed-off-by: Chih-Min Chao <chihmin.chao@sifive.com>
 Signed-off-by: Frank Chang <frank.chang@sifive.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Acked-by: Alistair Francis <alistair.francis@wdc.com>
-Message-id: 20211210074329.5775-4-frank.chang@sifive.com
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Message-id: 20211210074329.5775-5-frank.chang@sifive.com
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/helper.h                     |  12 +
- target/riscv/insn32.decode                |  19 ++
- target/riscv/fpu_helper.c                 |  67 +++++
- target/riscv/translate.c                  |  10 +
- target/riscv/insn_trans/trans_rvzfh.c.inc | 288 ++++++++++++++++++++++
- 5 files changed, 396 insertions(+)
+ target/riscv/helper.h                     |  3 ++
+ target/riscv/insn32.decode                |  3 ++
+ target/riscv/fpu_helper.c                 | 21 +++++++++++++
+ target/riscv/insn_trans/trans_rvzfh.c.inc | 37 +++++++++++++++++++++++
+ 4 files changed, 64 insertions(+)
 
 diff --git a/target/riscv/helper.h b/target/riscv/helper.h
-index c6c0323faf..b50672d168 100644
+index b50672d168..9c89521d4a 100644
 --- a/target/riscv/helper.h
 +++ b/target/riscv/helper.h
-@@ -74,6 +74,18 @@ DEF_HELPER_FLAGS_3(fdiv_h, TCG_CALL_NO_RWG, i64, env, =
-i64, i64)
+@@ -74,6 +74,9 @@ DEF_HELPER_FLAGS_3(fdiv_h, TCG_CALL_NO_RWG, i64, env, i=
+64, i64)
  DEF_HELPER_FLAGS_3(fmin_h, TCG_CALL_NO_RWG, i64, env, i64, i64)
  DEF_HELPER_FLAGS_3(fmax_h, TCG_CALL_NO_RWG, i64, env, i64, i64)
  DEF_HELPER_FLAGS_2(fsqrt_h, TCG_CALL_NO_RWG, i64, env, i64)
-+DEF_HELPER_FLAGS_2(fcvt_s_h, TCG_CALL_NO_RWG, i64, env, i64)
-+DEF_HELPER_FLAGS_2(fcvt_h_s, TCG_CALL_NO_RWG, i64, env, i64)
-+DEF_HELPER_FLAGS_2(fcvt_d_h, TCG_CALL_NO_RWG, i64, env, i64)
-+DEF_HELPER_FLAGS_2(fcvt_h_d, TCG_CALL_NO_RWG, i64, env, i64)
-+DEF_HELPER_FLAGS_2(fcvt_w_h, TCG_CALL_NO_RWG, tl, env, i64)
-+DEF_HELPER_FLAGS_2(fcvt_wu_h, TCG_CALL_NO_RWG, tl, env, i64)
-+DEF_HELPER_FLAGS_2(fcvt_l_h, TCG_CALL_NO_RWG, tl, env, i64)
-+DEF_HELPER_FLAGS_2(fcvt_lu_h, TCG_CALL_NO_RWG, tl, env, i64)
-+DEF_HELPER_FLAGS_2(fcvt_h_w, TCG_CALL_NO_RWG, i64, env, tl)
-+DEF_HELPER_FLAGS_2(fcvt_h_wu, TCG_CALL_NO_RWG, i64, env, tl)
-+DEF_HELPER_FLAGS_2(fcvt_h_l, TCG_CALL_NO_RWG, i64, env, tl)
-+DEF_HELPER_FLAGS_2(fcvt_h_lu, TCG_CALL_NO_RWG, i64, env, tl)
-=20
- /* Special functions */
- DEF_HELPER_2(csrr, tl, env, int)
++DEF_HELPER_FLAGS_3(fle_h, TCG_CALL_NO_RWG, tl, env, i64, i64)
++DEF_HELPER_FLAGS_3(flt_h, TCG_CALL_NO_RWG, tl, env, i64, i64)
++DEF_HELPER_FLAGS_3(feq_h, TCG_CALL_NO_RWG, tl, env, i64, i64)
+ DEF_HELPER_FLAGS_2(fcvt_s_h, TCG_CALL_NO_RWG, i64, env, i64)
+ DEF_HELPER_FLAGS_2(fcvt_h_s, TCG_CALL_NO_RWG, i64, env, i64)
+ DEF_HELPER_FLAGS_2(fcvt_d_h, TCG_CALL_NO_RWG, i64, env, i64)
 diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-index 66c231a301..ba40f3e7f8 100644
+index ba40f3e7f8..3906c9fb20 100644
 --- a/target/riscv/insn32.decode
 +++ b/target/riscv/insn32.decode
-@@ -739,5 +739,24 @@ fsub_h     0000110  ..... ..... ... ..... 1010011 @r=
+@@ -751,6 +751,9 @@ fcvt_d_h   0100001  00010 ..... ... ..... 1010011 @r2=
 _rm
- fmul_h     0001010  ..... ..... ... ..... 1010011 @r_rm
- fdiv_h     0001110  ..... ..... ... ..... 1010011 @r_rm
- fsqrt_h    0101110  00000 ..... ... ..... 1010011 @r2_rm
-+fsgnj_h    0010010  ..... ..... 000 ..... 1010011 @r
-+fsgnjn_h   0010010  ..... ..... 001 ..... 1010011 @r
-+fsgnjx_h   0010010  ..... ..... 010 ..... 1010011 @r
- fmin_h     0010110  ..... ..... 000 ..... 1010011 @r
- fmax_h     0010110  ..... ..... 001 ..... 1010011 @r
-+fcvt_h_s   0100010  00000 ..... ... ..... 1010011 @r2_rm
-+fcvt_s_h   0100000  00010 ..... ... ..... 1010011 @r2_rm
-+fcvt_h_d   0100010  00001 ..... ... ..... 1010011 @r2_rm
-+fcvt_d_h   0100001  00010 ..... ... ..... 1010011 @r2_rm
-+fcvt_w_h   1100010  00000 ..... ... ..... 1010011 @r2_rm
-+fcvt_wu_h  1100010  00001 ..... ... ..... 1010011 @r2_rm
-+fmv_x_h    1110010  00000 ..... 000 ..... 1010011 @r2
-+fcvt_h_w   1101010  00000 ..... ... ..... 1010011 @r2_rm
-+fcvt_h_wu  1101010  00001 ..... ... ..... 1010011 @r2_rm
-+fmv_h_x    1111010  00000 ..... 000 ..... 1010011 @r2
-+
-+# *** RV64 Zfh Extension (in addition to RV32 Zfh) ***
-+fcvt_l_h   1100010  00010 ..... ... ..... 1010011 @r2_rm
-+fcvt_lu_h  1100010  00011 ..... ... ..... 1010011 @r2_rm
-+fcvt_h_l   1101010  00010 ..... ... ..... 1010011 @r2_rm
-+fcvt_h_lu  1101010  00011 ..... ... ..... 1010011 @r2_rm
+ fcvt_w_h   1100010  00000 ..... ... ..... 1010011 @r2_rm
+ fcvt_wu_h  1100010  00001 ..... ... ..... 1010011 @r2_rm
+ fmv_x_h    1110010  00000 ..... 000 ..... 1010011 @r2
++feq_h      1010010  ..... ..... 010 ..... 1010011 @r
++flt_h      1010010  ..... ..... 001 ..... 1010011 @r
++fle_h      1010010  ..... ..... 000 ..... 1010011 @r
+ fcvt_h_w   1101010  00000 ..... ... ..... 1010011 @r2_rm
+ fcvt_h_wu  1101010  00001 ..... ... ..... 1010011 @r2_rm
+ fmv_h_x    1111010  00000 ..... 000 ..... 1010011 @r2
 diff --git a/target/riscv/fpu_helper.c b/target/riscv/fpu_helper.c
-index 20bb89ad14..2ed9b03193 100644
+index 2ed9b03193..ec2009ee65 100644
 --- a/target/riscv/fpu_helper.c
 +++ b/target/riscv/fpu_helper.c
-@@ -460,3 +460,70 @@ uint64_t helper_fsqrt_h(CPURISCVState *env, uint64_t=
+@@ -461,6 +461,27 @@ uint64_t helper_fsqrt_h(CPURISCVState *env, uint64_t=
  rs1)
-     float16 frs1 =3D check_nanbox_h(rs1);
      return nanbox_h(float16_sqrt(frs1, &env->fp_status));
  }
-+
-+target_ulong helper_fcvt_w_h(CPURISCVState *env, uint64_t rs1)
+=20
++target_ulong helper_fle_h(CPURISCVState *env, uint64_t rs1, uint64_t rs2=
+)
 +{
 +    float16 frs1 =3D check_nanbox_h(rs1);
-+    return float16_to_int32(frs1, &env->fp_status);
++    float16 frs2 =3D check_nanbox_h(rs2);
++    return float16_le(frs1, frs2, &env->fp_status);
 +}
 +
-+target_ulong helper_fcvt_wu_h(CPURISCVState *env, uint64_t rs1)
++target_ulong helper_flt_h(CPURISCVState *env, uint64_t rs1, uint64_t rs2=
+)
 +{
 +    float16 frs1 =3D check_nanbox_h(rs1);
-+    return (int32_t)float16_to_uint32(frs1, &env->fp_status);
++    float16 frs2 =3D check_nanbox_h(rs2);
++    return float16_lt(frs1, frs2, &env->fp_status);
 +}
 +
-+target_ulong helper_fcvt_l_h(CPURISCVState *env, uint64_t rs1)
++target_ulong helper_feq_h(CPURISCVState *env, uint64_t rs1, uint64_t rs2=
+)
 +{
 +    float16 frs1 =3D check_nanbox_h(rs1);
-+    return float16_to_int64(frs1, &env->fp_status);
++    float16 frs2 =3D check_nanbox_h(rs2);
++    return float16_eq_quiet(frs1, frs2, &env->fp_status);
 +}
 +
-+target_ulong helper_fcvt_lu_h(CPURISCVState *env, uint64_t rs1)
-+{
-+    float16 frs1 =3D check_nanbox_h(rs1);
-+    return float16_to_uint64(frs1, &env->fp_status);
-+}
-+
-+uint64_t helper_fcvt_h_w(CPURISCVState *env, target_ulong rs1)
-+{
-+    return nanbox_h(int32_to_float16((int32_t)rs1, &env->fp_status));
-+}
-+
-+uint64_t helper_fcvt_h_wu(CPURISCVState *env, target_ulong rs1)
-+{
-+    return nanbox_h(uint32_to_float16((uint32_t)rs1, &env->fp_status));
-+}
-+
-+uint64_t helper_fcvt_h_l(CPURISCVState *env, target_ulong rs1)
-+{
-+    return nanbox_h(int64_to_float16(rs1, &env->fp_status));
-+}
-+
-+uint64_t helper_fcvt_h_lu(CPURISCVState *env, target_ulong rs1)
-+{
-+    return nanbox_h(uint64_to_float16(rs1, &env->fp_status));
-+}
-+
-+uint64_t helper_fcvt_h_s(CPURISCVState *env, uint64_t rs1)
-+{
-+    float32 frs1 =3D check_nanbox_s(rs1);
-+    return nanbox_h(float32_to_float16(frs1, true, &env->fp_status));
-+}
-+
-+uint64_t helper_fcvt_s_h(CPURISCVState *env, uint64_t rs1)
-+{
-+    float16 frs1 =3D check_nanbox_h(rs1);
-+    return nanbox_s(float16_to_float32(frs1, true, &env->fp_status));
-+}
-+
-+uint64_t helper_fcvt_h_d(CPURISCVState *env, uint64_t rs1)
-+{
-+    return nanbox_h(float64_to_float16(rs1, true, &env->fp_status));
-+}
-+
-+uint64_t helper_fcvt_d_h(CPURISCVState *env, uint64_t rs1)
-+{
-+    float16 frs1 =3D check_nanbox_h(rs1);
-+    return float16_to_float64(frs1, true, &env->fp_status);
-+}
-diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-index bea87b31b5..93f9ec0c8b 100644
---- a/target/riscv/translate.c
-+++ b/target/riscv/translate.c
-@@ -148,6 +148,16 @@ static void gen_nanbox_h(TCGv_i64 out, TCGv_i64 in)
-  *
-  * Here, the result is always nan-boxed, even the canonical nan.
-  */
-+static void gen_check_nanbox_h(TCGv_i64 out, TCGv_i64 in)
-+{
-+    TCGv_i64 t_max =3D tcg_const_i64(0xffffffffffff0000ull);
-+    TCGv_i64 t_nan =3D tcg_const_i64(0xffffffffffff7e00ull);
-+
-+    tcg_gen_movcond_i64(TCG_COND_GEU, out, in, t_max, in, t_nan);
-+    tcg_temp_free_i64(t_max);
-+    tcg_temp_free_i64(t_nan);
-+}
-+
- static void gen_check_nanbox_s(TCGv_i64 out, TCGv_i64 in)
+ target_ulong helper_fcvt_w_h(CPURISCVState *env, uint64_t rs1)
  {
-     TCGv_i64 t_max =3D tcg_constant_i64(0xffffffff00000000ull);
+     float16 frs1 =3D check_nanbox_h(rs1);
 diff --git a/target/riscv/insn_trans/trans_rvzfh.c.inc b/target/riscv/ins=
 n_trans/trans_rvzfh.c.inc
-index 9764d76f8b..d125025766 100644
+index d125025766..8d0959a667 100644
 --- a/target/riscv/insn_trans/trans_rvzfh.c.inc
 +++ b/target/riscv/insn_trans/trans_rvzfh.c.inc
-@@ -171,6 +171,93 @@ static bool trans_fsqrt_h(DisasContext *ctx, arg_fsq=
-rt_h *a)
+@@ -335,6 +335,43 @@ static bool trans_fcvt_h_d(DisasContext *ctx, arg_fc=
+vt_h_d *a)
      return true;
  }
 =20
-+static bool trans_fsgnj_h(DisasContext *ctx, arg_fsgnj_h *a)
++static bool trans_feq_h(DisasContext *ctx, arg_feq_h *a)
 +{
 +    REQUIRE_FPU;
 +    REQUIRE_ZFH(ctx);
 +
-+    if (a->rs1 =3D=3D a->rs2) { /* FMOV */
-+        gen_check_nanbox_h(cpu_fpr[a->rd], cpu_fpr[a->rs1]);
-+    } else {
-+        TCGv_i64 rs1 =3D tcg_temp_new_i64();
-+        TCGv_i64 rs2 =3D tcg_temp_new_i64();
++    TCGv dest =3D dest_gpr(ctx, a->rd);
 +
-+        gen_check_nanbox_h(rs1, cpu_fpr[a->rs1]);
-+        gen_check_nanbox_h(rs2, cpu_fpr[a->rs2]);
-+
-+        /* This formulation retains the nanboxing of rs2. */
-+        tcg_gen_deposit_i64(cpu_fpr[a->rd], rs2, rs1, 0, 15);
-+        tcg_temp_free_i64(rs1);
-+        tcg_temp_free_i64(rs2);
-+    }
-+
-+    mark_fs_dirty(ctx);
++    gen_helper_feq_h(dest, cpu_env, cpu_fpr[a->rs1], cpu_fpr[a->rs2]);
++    gen_set_gpr(ctx, a->rd, dest);
 +    return true;
 +}
 +
-+static bool trans_fsgnjn_h(DisasContext *ctx, arg_fsgnjn_h *a)
++static bool trans_flt_h(DisasContext *ctx, arg_flt_h *a)
 +{
-+    TCGv_i64 rs1, rs2, mask;
-+
 +    REQUIRE_FPU;
 +    REQUIRE_ZFH(ctx);
 +
-+    rs1 =3D tcg_temp_new_i64();
-+    gen_check_nanbox_h(rs1, cpu_fpr[a->rs1]);
++    TCGv dest =3D dest_gpr(ctx, a->rd);
 +
-+    if (a->rs1 =3D=3D a->rs2) { /* FNEG */
-+        tcg_gen_xori_i64(cpu_fpr[a->rd], rs1, MAKE_64BIT_MASK(15, 1));
-+    } else {
-+        rs2 =3D tcg_temp_new_i64();
-+        gen_check_nanbox_h(rs2, cpu_fpr[a->rs2]);
++    gen_helper_flt_h(dest, cpu_env, cpu_fpr[a->rs1], cpu_fpr[a->rs2]);
++    gen_set_gpr(ctx, a->rd, dest);
 +
-+        /*
-+         * Replace bit 15 in rs1 with inverse in rs2.
-+         * This formulation retains the nanboxing of rs1.
-+         */
-+        mask =3D tcg_const_i64(~MAKE_64BIT_MASK(15, 1));
-+        tcg_gen_not_i64(rs2, rs2);
-+        tcg_gen_andc_i64(rs2, rs2, mask);
-+        tcg_gen_and_i64(rs1, mask, rs1);
-+        tcg_gen_or_i64(cpu_fpr[a->rd], rs1, rs2);
-+
-+        tcg_temp_free_i64(mask);
-+        tcg_temp_free_i64(rs2);
-+    }
-+    mark_fs_dirty(ctx);
 +    return true;
 +}
 +
-+static bool trans_fsgnjx_h(DisasContext *ctx, arg_fsgnjx_h *a)
++static bool trans_fle_h(DisasContext *ctx, arg_fle_h *a)
 +{
-+    TCGv_i64 rs1, rs2;
-+
 +    REQUIRE_FPU;
 +    REQUIRE_ZFH(ctx);
 +
-+    rs1 =3D tcg_temp_new_i64();
-+    gen_check_nanbox_s(rs1, cpu_fpr[a->rs1]);
++    TCGv dest =3D dest_gpr(ctx, a->rd);
 +
-+    if (a->rs1 =3D=3D a->rs2) { /* FABS */
-+        tcg_gen_andi_i64(cpu_fpr[a->rd], rs1, ~MAKE_64BIT_MASK(15, 1));
-+    } else {
-+        rs2 =3D tcg_temp_new_i64();
-+        gen_check_nanbox_s(rs2, cpu_fpr[a->rs2]);
-+
-+        /*
-+         * Xor bit 15 in rs1 with that in rs2.
-+         * This formulation retains the nanboxing of rs1.
-+         */
-+        tcg_gen_andi_i64(rs2, rs2, MAKE_64BIT_MASK(15, 1));
-+        tcg_gen_xor_i64(cpu_fpr[a->rd], rs1, rs2);
-+
-+        tcg_temp_free_i64(rs2);
-+    }
-+
-+    mark_fs_dirty(ctx);
++    gen_helper_fle_h(dest, cpu_env, cpu_fpr[a->rs1], cpu_fpr[a->rs2]);
++    gen_set_gpr(ctx, a->rd, dest);
 +    return true;
 +}
 +
- static bool trans_fmin_h(DisasContext *ctx, arg_fmin_h *a)
+ static bool trans_fcvt_w_h(DisasContext *ctx, arg_fcvt_w_h *a)
  {
      REQUIRE_FPU;
-@@ -192,3 +279,204 @@ static bool trans_fmax_h(DisasContext *ctx, arg_fma=
-x_h *a)
-     mark_fs_dirty(ctx);
-     return true;
- }
-+
-+static bool trans_fcvt_s_h(DisasContext *ctx, arg_fcvt_s_h *a)
-+{
-+    REQUIRE_FPU;
-+    REQUIRE_ZFH(ctx);
-+
-+    gen_set_rm(ctx, a->rm);
-+    gen_helper_fcvt_s_h(cpu_fpr[a->rd], cpu_env, cpu_fpr[a->rs1]);
-+
-+    mark_fs_dirty(ctx);
-+
-+    return true;
-+}
-+
-+static bool trans_fcvt_d_h(DisasContext *ctx, arg_fcvt_d_h *a)
-+{
-+    REQUIRE_FPU;
-+    REQUIRE_ZFH(ctx);
-+    REQUIRE_EXT(ctx, RVD);
-+
-+    gen_set_rm(ctx, a->rm);
-+    gen_helper_fcvt_d_h(cpu_fpr[a->rd], cpu_env, cpu_fpr[a->rs1]);
-+
-+    mark_fs_dirty(ctx);
-+
-+
-+    return true;
-+}
-+
-+static bool trans_fcvt_h_s(DisasContext *ctx, arg_fcvt_h_s *a)
-+{
-+    REQUIRE_FPU;
-+    REQUIRE_ZFH(ctx);
-+
-+    gen_set_rm(ctx, a->rm);
-+    gen_helper_fcvt_h_s(cpu_fpr[a->rd], cpu_env, cpu_fpr[a->rs1]);
-+
-+    mark_fs_dirty(ctx);
-+
-+    return true;
-+}
-+
-+static bool trans_fcvt_h_d(DisasContext *ctx, arg_fcvt_h_d *a)
-+{
-+    REQUIRE_FPU;
-+    REQUIRE_ZFH(ctx);
-+    REQUIRE_EXT(ctx, RVD);
-+
-+    gen_set_rm(ctx, a->rm);
-+    gen_helper_fcvt_h_d(cpu_fpr[a->rd], cpu_env, cpu_fpr[a->rs1]);
-+
-+    mark_fs_dirty(ctx);
-+
-+    return true;
-+}
-+
-+static bool trans_fcvt_w_h(DisasContext *ctx, arg_fcvt_w_h *a)
-+{
-+    REQUIRE_FPU;
-+    REQUIRE_ZFH(ctx);
-+
-+    TCGv dest =3D dest_gpr(ctx, a->rd);
-+
-+    gen_set_rm(ctx, a->rm);
-+    gen_helper_fcvt_w_h(dest, cpu_env, cpu_fpr[a->rs1]);
-+    gen_set_gpr(ctx, a->rd, dest);
-+    return true;
-+}
-+
-+static bool trans_fcvt_wu_h(DisasContext *ctx, arg_fcvt_wu_h *a)
-+{
-+    REQUIRE_FPU;
-+    REQUIRE_ZFH(ctx);
-+
-+    TCGv dest =3D dest_gpr(ctx, a->rd);
-+
-+    gen_set_rm(ctx, a->rm);
-+    gen_helper_fcvt_wu_h(dest, cpu_env, cpu_fpr[a->rs1]);
-+    gen_set_gpr(ctx, a->rd, dest);
-+    return true;
-+}
-+
-+static bool trans_fcvt_h_w(DisasContext *ctx, arg_fcvt_h_w *a)
-+{
-+    REQUIRE_FPU;
-+    REQUIRE_ZFH(ctx);
-+
-+    TCGv t0 =3D get_gpr(ctx, a->rs1, EXT_SIGN);
-+
-+    gen_set_rm(ctx, a->rm);
-+    gen_helper_fcvt_h_w(cpu_fpr[a->rd], cpu_env, t0);
-+
-+    mark_fs_dirty(ctx);
-+    return true;
-+}
-+
-+static bool trans_fcvt_h_wu(DisasContext *ctx, arg_fcvt_h_wu *a)
-+{
-+    REQUIRE_FPU;
-+    REQUIRE_ZFH(ctx);
-+
-+    TCGv t0 =3D get_gpr(ctx, a->rs1, EXT_SIGN);
-+
-+    gen_set_rm(ctx, a->rm);
-+    gen_helper_fcvt_h_wu(cpu_fpr[a->rd], cpu_env, t0);
-+
-+    mark_fs_dirty(ctx);
-+    return true;
-+}
-+
-+static bool trans_fmv_x_h(DisasContext *ctx, arg_fmv_x_h *a)
-+{
-+    REQUIRE_FPU;
-+    REQUIRE_ZFH(ctx);
-+
-+    TCGv dest =3D dest_gpr(ctx, a->rd);
-+
-+#if defined(TARGET_RISCV64)
-+    /* 16 bits -> 64 bits */
-+    tcg_gen_ext16s_tl(dest, cpu_fpr[a->rs1]);
-+#else
-+    /* 16 bits -> 32 bits */
-+    tcg_gen_extrl_i64_i32(dest, cpu_fpr[a->rs1]);
-+    tcg_gen_ext16s_tl(dest, dest);
-+#endif
-+
-+    gen_set_gpr(ctx, a->rd, dest);
-+    return true;
-+}
-+
-+static bool trans_fmv_h_x(DisasContext *ctx, arg_fmv_h_x *a)
-+{
-+    REQUIRE_FPU;
-+    REQUIRE_ZFH(ctx);
-+
-+    TCGv t0 =3D get_gpr(ctx, a->rs1, EXT_ZERO);
-+
-+    tcg_gen_extu_tl_i64(cpu_fpr[a->rd], t0);
-+    gen_nanbox_h(cpu_fpr[a->rd], cpu_fpr[a->rd]);
-+
-+    mark_fs_dirty(ctx);
-+    return true;
-+}
-+
-+static bool trans_fcvt_l_h(DisasContext *ctx, arg_fcvt_l_h *a)
-+{
-+    REQUIRE_64BIT(ctx);
-+    REQUIRE_FPU;
-+    REQUIRE_ZFH(ctx);
-+
-+    TCGv dest =3D dest_gpr(ctx, a->rd);
-+
-+    gen_set_rm(ctx, a->rm);
-+    gen_helper_fcvt_l_h(dest, cpu_env, cpu_fpr[a->rs1]);
-+    gen_set_gpr(ctx, a->rd, dest);
-+    return true;
-+}
-+
-+static bool trans_fcvt_lu_h(DisasContext *ctx, arg_fcvt_lu_h *a)
-+{
-+    REQUIRE_64BIT(ctx);
-+    REQUIRE_FPU;
-+    REQUIRE_ZFH(ctx);
-+
-+    TCGv dest =3D dest_gpr(ctx, a->rd);
-+
-+    gen_set_rm(ctx, a->rm);
-+    gen_helper_fcvt_lu_h(dest, cpu_env, cpu_fpr[a->rs1]);
-+    gen_set_gpr(ctx, a->rd, dest);
-+    return true;
-+}
-+
-+static bool trans_fcvt_h_l(DisasContext *ctx, arg_fcvt_h_l *a)
-+{
-+    REQUIRE_64BIT(ctx);
-+    REQUIRE_FPU;
-+    REQUIRE_ZFH(ctx);
-+
-+    TCGv t0 =3D get_gpr(ctx, a->rs1, EXT_SIGN);
-+
-+    gen_set_rm(ctx, a->rm);
-+    gen_helper_fcvt_h_l(cpu_fpr[a->rd], cpu_env, t0);
-+
-+    mark_fs_dirty(ctx);
-+    return true;
-+}
-+
-+static bool trans_fcvt_h_lu(DisasContext *ctx, arg_fcvt_h_lu *a)
-+{
-+    REQUIRE_64BIT(ctx);
-+    REQUIRE_FPU;
-+    REQUIRE_ZFH(ctx);
-+
-+    TCGv t0 =3D get_gpr(ctx, a->rs1, EXT_SIGN);
-+
-+    gen_set_rm(ctx, a->rm);
-+    gen_helper_fcvt_h_lu(cpu_fpr[a->rd], cpu_env, t0);
-+
-+    mark_fs_dirty(ctx);
-+    return true;
-+}
 --=20
 2.31.1
 
