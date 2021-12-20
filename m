@@ -2,71 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC8ED47B451
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Dec 2021 21:27:57 +0100 (CET)
-Received: from localhost ([::1]:40348 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8519B47B45C
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Dec 2021 21:29:38 +0100 (CET)
+Received: from localhost ([::1]:46772 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mzPGG-0004K3-9x
-	for lists+qemu-devel@lfdr.de; Mon, 20 Dec 2021 15:27:56 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44406)
+	id 1mzPHt-0000D6-LI
+	for lists+qemu-devel@lfdr.de; Mon, 20 Dec 2021 15:29:37 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44440)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mzPDi-0001hg-B1
- for qemu-devel@nongnu.org; Mon, 20 Dec 2021 15:25:18 -0500
-Received: from [2607:f8b0:4864:20::429] (port=41917
- helo=mail-pf1-x429.google.com)
+ id 1mzPDj-0001jI-8E
+ for qemu-devel@nongnu.org; Mon, 20 Dec 2021 15:25:19 -0500
+Received: from [2607:f8b0:4864:20::62e] (port=45968
+ helo=mail-pl1-x62e.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mzPDe-00070E-E0
- for qemu-devel@nongnu.org; Mon, 20 Dec 2021 15:25:17 -0500
-Received: by mail-pf1-x429.google.com with SMTP id m1so8641239pfk.8
- for <qemu-devel@nongnu.org>; Mon, 20 Dec 2021 12:25:09 -0800 (PST)
+ id 1mzPDe-00070K-IC
+ for qemu-devel@nongnu.org; Mon, 20 Dec 2021 15:25:18 -0500
+Received: by mail-pl1-x62e.google.com with SMTP id w24so8944941ply.12
+ for <qemu-devel@nongnu.org>; Mon, 20 Dec 2021 12:25:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=TFNb/strBQB9hLaOeOMEOLWgIeKVijWjHGUQ12nJnAw=;
- b=igydWZSOj9B2sZrf0+9GvzkY2Hpwfh8INrFRQfg93CcbFptOI4KAQ5+5ZDi6J7B1Ix
- Zp+A0uL0xQtK/Exhw/dK2+tBDbh2tgu4QSumdSJb1gIplIDf39PZdNBaTW96WMk/TfIg
- SGE+mO4KrsnXpqqw55r0hu4m7BjsvYU6gDCJ8he92rUHwWs+CLrUvigD2cV2jKohbtNL
- aKCxM+jYPD5AmqJB8ryI5htcj0FIhza75kO5FFDSPt7RjlQVfCyKaiSoXdErGPV4iLu9
- eKmJvZQWtQP4oXbcXDWRF00xfURZIuYoVOdjJungkNXzk0VTibJ4dKzYg4Q+5niyJf9g
- QZAw==
+ bh=+YjBMy7w0Bg0xbuI4bMShGvNBN/9ZCuSS/NSb7/ve74=;
+ b=Q7zZsdCeu6p6EqxVM+yvp+sWPIWP5zYE5QCNdJuenXJUlswOlkAugoedtG9eYHzBbp
+ jwtrD6sHVQjVRYgk7EaGD7/QiRLDa5lVWElmYLnv1TKvSJEND/np6Jfz9shqWRv+9nEY
+ IEcsR8iE0cD2sswyUgJ5KJ14d1s/ndyVFgsgzJGaA+UcC21wwNMb2D3LJpSyEBkcqwFr
+ Irfgfk3M2vyCGWyIU0mcjESKqGtAKlLFkw/7g46PACoMBYRLgL4CRkWQ3miMAeaCOAuO
+ Qx6EM9S2iLZ2SMFjbHCwtgsNgVZY1pR/mhC7piooE7TVxh5JUsCKbnlTwSLApeXNaoeQ
+ vfGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=TFNb/strBQB9hLaOeOMEOLWgIeKVijWjHGUQ12nJnAw=;
- b=slnISpKEtLaNGrbLEFb7dCRQojy8G/MFwSRwaEics1F81xox/Y7tDsduDT/qycmUDs
- SD+M05m7KNXkGcYzjAkUykLoNSZm3PnsZazGPU2n5djdGOzrYHOWGk5zu7crprXJYlsQ
- 8zfboCTreT4GWn1WUNsHCQCYVaGLkf93ZmRgqiiISrlmgHWu6wKqZ2ZUzzyjVdY5xA5E
- RKivMB2b7h/DW9tdzPBm4j+bBHE4ElHiZJ7s92Ffvg6kN4SGuMuNgWEVbLqiXrejiHAB
- dkCg9PgdQMsaIH/UiyTwQaJrMUU8Fi06mDNmkiikucRzaVMrGT7LVIB4Qhs8cR5wrllU
- fHfQ==
-X-Gm-Message-State: AOAM531AAORZC1WCWYU3Ynxels41180rOizw9IH2iUZ4iTRzepYKcSpA
- tAIoD84BXwhtlYo60kS58JQ1e+Qs+lLG2g==
-X-Google-Smtp-Source: ABdhPJyXjuMIlIHlPwrhs8TlWmO87KNWR3KxjGIPSFK7/YscEqbVmj4jer3kveWQiQE7JoyZBN+ZoQ==
-X-Received: by 2002:a63:40c5:: with SMTP id n188mr2082025pga.118.1640031908620; 
- Mon, 20 Dec 2021 12:25:08 -0800 (PST)
+ bh=+YjBMy7w0Bg0xbuI4bMShGvNBN/9ZCuSS/NSb7/ve74=;
+ b=r1chQSqoe0f8+9ED9UTTbFHJSjkwmkAfo1Ys0IwdIP9KRIm0HtLwTVTV/rCTNomFLa
+ 3eCKDia81LK5ZIt8FM9Zi0FAkqcRcaHjo3qnJVfCVKRJD479xC4Bgxn+PXKvR7bP7dMN
+ G3egfRneeH95a0blv8kWD/xgeqRaZZXV9NhTPQjBCLKvzQ5Gy2GZbEiHTxTC502wdtab
+ PVYuTKNwzJbHvHBDlpTpXjlJkLTSuoOfS87wnt61AHFh0PGK0KU+5178C5mwDEKBWGAv
+ 1PxGYJIeBSeaPCFrUWvWOXECzFgNUcOMuMKKH1OkZGt1lKb/e9aDYJhc1nEqThu0oX46
+ On1Q==
+X-Gm-Message-State: AOAM530hOYmR31bbVyXfjd24ybswps8N9qQ4E9TzuB8EoCrHGJZ7HNQh
+ nRH8gz7QAyNoJOakGUKnp24q2ziG8iJUxg==
+X-Google-Smtp-Source: ABdhPJwN12KLhON8Mbpw6qOoJR37vWNV9iCyib8iE+1Sd2B/x/9MCjkqP7FSh9gYBSFfvXp/qnyPoA==
+X-Received: by 2002:a17:90b:3145:: with SMTP id
+ ip5mr824739pjb.94.1640031909481; 
+ Mon, 20 Dec 2021 12:25:09 -0800 (PST)
 Received: from localhost.localdomain ([156.19.246.20])
- by smtp.gmail.com with ESMTPSA id q19sm233118pjd.21.2021.12.20.12.25.07
+ by smtp.gmail.com with ESMTPSA id q19sm233118pjd.21.2021.12.20.12.25.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Dec 2021 12:25:08 -0800 (PST)
+ Mon, 20 Dec 2021 12:25:09 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 07/15] bsd-user: Rename TARGET_ERESTARTSYS to QEMU_ERESTARTSYS
-Date: Mon, 20 Dec 2021 12:24:52 -0800
-Message-Id: <20211220202500.111897-8-richard.henderson@linaro.org>
+Subject: [PULL 08/15] linux-user: Rename TARGET_QEMU_ESIGRETURN to
+ QEMU_ESIGRETURN
+Date: Mon, 20 Dec 2021 12:24:53 -0800
+Message-Id: <20211220202500.111897-9-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211220202500.111897-1-richard.henderson@linaro.org>
 References: <20211220202500.111897-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::429
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62e
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x429.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62e.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -92,27 +94,747 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This value is fully internal to qemu, and so is not a TARGET define.
-We use this as an extra marker for both host and target errno.
 
 Reviewed-by: Warner Losh <imp@bsdimp.com>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- bsd-user/errno_defs.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ linux-user/generic/target_errno_defs.h |  2 +-
+ linux-user/aarch64/cpu_loop.c          |  2 +-
+ linux-user/aarch64/signal.c            |  4 ++--
+ linux-user/alpha/cpu_loop.c            |  2 +-
+ linux-user/alpha/signal.c              |  8 ++++----
+ linux-user/arm/cpu_loop.c              |  2 +-
+ linux-user/arm/signal.c                |  8 ++++----
+ linux-user/cris/cpu_loop.c             |  2 +-
+ linux-user/cris/signal.c               |  4 ++--
+ linux-user/hexagon/cpu_loop.c          |  2 +-
+ linux-user/hexagon/signal.c            |  2 +-
+ linux-user/hppa/cpu_loop.c             |  2 +-
+ linux-user/hppa/signal.c               |  4 ++--
+ linux-user/i386/cpu_loop.c             |  6 +++---
+ linux-user/i386/signal.c               |  8 ++++----
+ linux-user/m68k/cpu_loop.c             |  2 +-
+ linux-user/m68k/signal.c               |  8 ++++----
+ linux-user/microblaze/cpu_loop.c       |  2 +-
+ linux-user/microblaze/signal.c         |  4 ++--
+ linux-user/mips/cpu_loop.c             |  2 +-
+ linux-user/mips/signal.c               |  8 ++++----
+ linux-user/openrisc/cpu_loop.c         |  2 +-
+ linux-user/ppc/cpu_loop.c              |  2 +-
+ linux-user/ppc/signal.c                | 10 +++++-----
+ linux-user/riscv/cpu_loop.c            |  2 +-
+ linux-user/riscv/signal.c              |  2 +-
+ linux-user/s390x/cpu_loop.c            |  2 +-
+ linux-user/s390x/signal.c              |  8 ++++----
+ linux-user/sh4/cpu_loop.c              |  2 +-
+ linux-user/sh4/signal.c                |  8 ++++----
+ linux-user/sparc/cpu_loop.c            |  2 +-
+ linux-user/sparc/signal.c              |  8 ++++----
+ linux-user/syscall.c                   |  2 +-
+ linux-user/xtensa/cpu_loop.c           |  2 +-
+ linux-user/xtensa/signal.c             |  4 ++--
+ 35 files changed, 70 insertions(+), 70 deletions(-)
 
-diff --git a/bsd-user/errno_defs.h b/bsd-user/errno_defs.h
-index 832671354f..141e08456c 100644
---- a/bsd-user/errno_defs.h
-+++ b/bsd-user/errno_defs.h
-@@ -151,6 +151,6 @@
- /* Internal errors: */
- #define TARGET_EJUSTRETURN      254             /* Just return without modifing regs */
- #define TARGET_ERESTART         255             /* Restart syscall */
--#define TARGET_ERESTARTSYS      TARGET_ERESTART /* Linux compat */
-+#define QEMU_ERESTARTSYS        TARGET_ERESTART
+diff --git a/linux-user/generic/target_errno_defs.h b/linux-user/generic/target_errno_defs.h
+index 58a06a10d6..bb37d88be9 100644
+--- a/linux-user/generic/target_errno_defs.h
++++ b/linux-user/generic/target_errno_defs.h
+@@ -162,6 +162,6 @@
+  * ERESTART_NOINTR (which is kernel internal) to guarantee that we won't
+  * clash with a valid guest errno now or in the future.
+  */
+-#define TARGET_QEMU_ESIGRETURN 513     /* Return from signal */
++#define QEMU_ESIGRETURN 513     /* Return from signal */
  
- #endif /* !  _ERRNO_DEFS_H_ */
+ #endif
+diff --git a/linux-user/aarch64/cpu_loop.c b/linux-user/aarch64/cpu_loop.c
+index ad9a8fdc25..1737e2ea65 100644
+--- a/linux-user/aarch64/cpu_loop.c
++++ b/linux-user/aarch64/cpu_loop.c
+@@ -101,7 +101,7 @@ void cpu_loop(CPUARMState *env)
+                              0, 0);
+             if (ret == -QEMU_ERESTARTSYS) {
+                 env->pc -= 4;
+-            } else if (ret != -TARGET_QEMU_ESIGRETURN) {
++            } else if (ret != -QEMU_ESIGRETURN) {
+                 env->xregs[0] = ret;
+             }
+             break;
+diff --git a/linux-user/aarch64/signal.c b/linux-user/aarch64/signal.c
+index 29c52db3f1..df9e39a4ba 100644
+--- a/linux-user/aarch64/signal.c
++++ b/linux-user/aarch64/signal.c
+@@ -556,12 +556,12 @@ long do_rt_sigreturn(CPUARMState *env)
+     target_restore_altstack(&frame->uc.tuc_stack, env);
+ 
+     unlock_user_struct(frame, frame_addr, 0);
+-    return -TARGET_QEMU_ESIGRETURN;
++    return -QEMU_ESIGRETURN;
+ 
+  badframe:
+     unlock_user_struct(frame, frame_addr, 0);
+     force_sig(TARGET_SIGSEGV);
+-    return -TARGET_QEMU_ESIGRETURN;
++    return -QEMU_ESIGRETURN;
+ }
+ 
+ long do_sigreturn(CPUARMState *env)
+diff --git a/linux-user/alpha/cpu_loop.c b/linux-user/alpha/cpu_loop.c
+index ce9b251ce3..37c33f0ccd 100644
+--- a/linux-user/alpha/cpu_loop.c
++++ b/linux-user/alpha/cpu_loop.c
+@@ -102,7 +102,7 @@ void cpu_loop(CPUAlphaState *env)
+                     env->pc -= 4;
+                     break;
+                 }
+-                if (sysret == -TARGET_QEMU_ESIGRETURN) {
++                if (sysret == -QEMU_ESIGRETURN) {
+                     break;
+                 }
+                 /* Syscall writes 0 to V0 to bypass error check, similar
+diff --git a/linux-user/alpha/signal.c b/linux-user/alpha/signal.c
+index bbe3dd175a..4ec42994d4 100644
+--- a/linux-user/alpha/signal.c
++++ b/linux-user/alpha/signal.c
+@@ -225,11 +225,11 @@ long do_sigreturn(CPUAlphaState *env)
+ 
+     restore_sigcontext(env, sc);
+     unlock_user_struct(sc, sc_addr, 0);
+-    return -TARGET_QEMU_ESIGRETURN;
++    return -QEMU_ESIGRETURN;
+ 
+ badframe:
+     force_sig(TARGET_SIGSEGV);
+-    return -TARGET_QEMU_ESIGRETURN;
++    return -QEMU_ESIGRETURN;
+ }
+ 
+ long do_rt_sigreturn(CPUAlphaState *env)
+@@ -249,13 +249,13 @@ long do_rt_sigreturn(CPUAlphaState *env)
+     target_restore_altstack(&frame->uc.tuc_stack, env);
+ 
+     unlock_user_struct(frame, frame_addr, 0);
+-    return -TARGET_QEMU_ESIGRETURN;
++    return -QEMU_ESIGRETURN;
+ 
+ 
+ badframe:
+     unlock_user_struct(frame, frame_addr, 0);
+     force_sig(TARGET_SIGSEGV);
+-    return -TARGET_QEMU_ESIGRETURN;
++    return -QEMU_ESIGRETURN;
+ }
+ 
+ void setup_sigtramp(abi_ulong sigtramp_page)
+diff --git a/linux-user/arm/cpu_loop.c b/linux-user/arm/cpu_loop.c
+index 1fcf19750e..f153ab503a 100644
+--- a/linux-user/arm/cpu_loop.c
++++ b/linux-user/arm/cpu_loop.c
+@@ -409,7 +409,7 @@ void cpu_loop(CPUARMState *env)
+                                      0, 0);
+                     if (ret == -QEMU_ERESTARTSYS) {
+                         env->regs[15] -= env->thumb ? 2 : 4;
+-                    } else if (ret != -TARGET_QEMU_ESIGRETURN) {
++                    } else if (ret != -QEMU_ESIGRETURN) {
+                         env->regs[0] = ret;
+                     }
+                 }
+diff --git a/linux-user/arm/signal.c b/linux-user/arm/signal.c
+index df9f8e8eb2..cf99fd7b8a 100644
+--- a/linux-user/arm/signal.c
++++ b/linux-user/arm/signal.c
+@@ -511,12 +511,12 @@ long do_sigreturn(CPUARMState *env)
+     }
+ 
+     unlock_user_struct(frame, frame_addr, 0);
+-    return -TARGET_QEMU_ESIGRETURN;
++    return -QEMU_ESIGRETURN;
+ 
+ badframe:
+     unlock_user_struct(frame, frame_addr, 0);
+     force_sig(TARGET_SIGSEGV);
+-    return -TARGET_QEMU_ESIGRETURN;
++    return -QEMU_ESIGRETURN;
+ }
+ 
+ long do_rt_sigreturn(CPUARMState *env)
+@@ -546,12 +546,12 @@ long do_rt_sigreturn(CPUARMState *env)
+     }
+ 
+     unlock_user_struct(frame, frame_addr, 0);
+-    return -TARGET_QEMU_ESIGRETURN;
++    return -QEMU_ESIGRETURN;
+ 
+ badframe:
+     unlock_user_struct(frame, frame_addr, 0);
+     force_sig(TARGET_SIGSEGV);
+-    return -TARGET_QEMU_ESIGRETURN;
++    return -QEMU_ESIGRETURN;
+ }
+ 
+ /*
+diff --git a/linux-user/cris/cpu_loop.c b/linux-user/cris/cpu_loop.c
+index f3e5b13f89..5213aebf55 100644
+--- a/linux-user/cris/cpu_loop.c
++++ b/linux-user/cris/cpu_loop.c
+@@ -52,7 +52,7 @@ void cpu_loop(CPUCRISState *env)
+                              0, 0);
+             if (ret == -QEMU_ERESTARTSYS) {
+                 env->pc -= 2;
+-            } else if (ret != -TARGET_QEMU_ESIGRETURN) {
++            } else if (ret != -QEMU_ESIGRETURN) {
+                 env->regs[10] = ret;
+             }
+             break;
+diff --git a/linux-user/cris/signal.c b/linux-user/cris/signal.c
+index 7f6aca934e..4f532b2903 100644
+--- a/linux-user/cris/signal.c
++++ b/linux-user/cris/signal.c
+@@ -177,10 +177,10 @@ long do_sigreturn(CPUCRISState *env)
+ 
+     restore_sigcontext(&frame->sc, env);
+     unlock_user_struct(frame, frame_addr, 0);
+-    return -TARGET_QEMU_ESIGRETURN;
++    return -QEMU_ESIGRETURN;
+ badframe:
+     force_sig(TARGET_SIGSEGV);
+-    return -TARGET_QEMU_ESIGRETURN;
++    return -QEMU_ESIGRETURN;
+ }
+ 
+ long do_rt_sigreturn(CPUCRISState *env)
+diff --git a/linux-user/hexagon/cpu_loop.c b/linux-user/hexagon/cpu_loop.c
+index 108d755ce0..0d73934d31 100644
+--- a/linux-user/hexagon/cpu_loop.c
++++ b/linux-user/hexagon/cpu_loop.c
+@@ -57,7 +57,7 @@ void cpu_loop(CPUHexagonState *env)
+                              0, 0);
+             if (ret == -QEMU_ERESTARTSYS) {
+                 env->gpr[HEX_REG_PC] -= 4;
+-            } else if (ret != -TARGET_QEMU_ESIGRETURN) {
++            } else if (ret != -QEMU_ESIGRETURN) {
+                 env->gpr[0] = ret;
+             }
+             break;
+diff --git a/linux-user/hexagon/signal.c b/linux-user/hexagon/signal.c
+index 74e61739a0..ad4e3822d5 100644
+--- a/linux-user/hexagon/signal.c
++++ b/linux-user/hexagon/signal.c
+@@ -268,7 +268,7 @@ long do_rt_sigreturn(CPUHexagonState *env)
+     target_restore_altstack(&frame->uc.uc_stack, env);
+ 
+     unlock_user_struct(frame, frame_addr, 0);
+-    return -TARGET_QEMU_ESIGRETURN;
++    return -QEMU_ESIGRETURN;
+ 
+ badframe:
+     unlock_user_struct(frame, frame_addr, 0);
+diff --git a/linux-user/hppa/cpu_loop.c b/linux-user/hppa/cpu_loop.c
+index 5315224d12..a47a63176b 100644
+--- a/linux-user/hppa/cpu_loop.c
++++ b/linux-user/hppa/cpu_loop.c
+@@ -134,7 +134,7 @@ void cpu_loop(CPUHPPAState *env)
+                 env->iaoq_b = env->gr[31] + 4;
+                 break;
+             case -QEMU_ERESTARTSYS:
+-            case -TARGET_QEMU_ESIGRETURN:
++            case -QEMU_ESIGRETURN:
+                 break;
+             }
+             break;
+diff --git a/linux-user/hppa/signal.c b/linux-user/hppa/signal.c
+index c2fbc26ebb..962f551c04 100644
+--- a/linux-user/hppa/signal.c
++++ b/linux-user/hppa/signal.c
+@@ -191,9 +191,9 @@ long do_rt_sigreturn(CPUArchState *env)
+     target_restore_altstack(&frame->uc.tuc_stack, env);
+ 
+     unlock_user_struct(frame, frame_addr, 0);
+-    return -TARGET_QEMU_ESIGRETURN;
++    return -QEMU_ESIGRETURN;
+ 
+  badframe:
+     force_sig(TARGET_SIGSEGV);
+-    return -TARGET_QEMU_ESIGRETURN;
++    return -QEMU_ESIGRETURN;
+ }
+diff --git a/linux-user/i386/cpu_loop.c b/linux-user/i386/cpu_loop.c
+index fbd9a353e5..9aaae93e2f 100644
+--- a/linux-user/i386/cpu_loop.c
++++ b/linux-user/i386/cpu_loop.c
+@@ -181,7 +181,7 @@ static void emulate_vsyscall(CPUX86State *env)
+                      env->regs[R_EDX], env->regs[10], env->regs[8],
+                      env->regs[9], 0, 0);
+     g_assert(ret != -QEMU_ERESTARTSYS);
+-    g_assert(ret != -TARGET_QEMU_ESIGRETURN);
++    g_assert(ret != -QEMU_ESIGRETURN);
+     if (ret == -TARGET_EFAULT) {
+         goto sigsegv;
+     }
+@@ -225,7 +225,7 @@ void cpu_loop(CPUX86State *env)
+                              0, 0);
+             if (ret == -QEMU_ERESTARTSYS) {
+                 env->eip -= 2;
+-            } else if (ret != -TARGET_QEMU_ESIGRETURN) {
++            } else if (ret != -QEMU_ESIGRETURN) {
+                 env->regs[R_EAX] = ret;
+             }
+             break;
+@@ -243,7 +243,7 @@ void cpu_loop(CPUX86State *env)
+                              0, 0);
+             if (ret == -QEMU_ERESTARTSYS) {
+                 env->eip -= 2;
+-            } else if (ret != -TARGET_QEMU_ESIGRETURN) {
++            } else if (ret != -QEMU_ESIGRETURN) {
+                 env->regs[R_EAX] = ret;
+             }
+             break;
+diff --git a/linux-user/i386/signal.c b/linux-user/i386/signal.c
+index 433efa3d69..4372621a4d 100644
+--- a/linux-user/i386/signal.c
++++ b/linux-user/i386/signal.c
+@@ -559,12 +559,12 @@ long do_sigreturn(CPUX86State *env)
+     if (restore_sigcontext(env, &frame->sc))
+         goto badframe;
+     unlock_user_struct(frame, frame_addr, 0);
+-    return -TARGET_QEMU_ESIGRETURN;
++    return -QEMU_ESIGRETURN;
+ 
+ badframe:
+     unlock_user_struct(frame, frame_addr, 0);
+     force_sig(TARGET_SIGSEGV);
+-    return -TARGET_QEMU_ESIGRETURN;
++    return -QEMU_ESIGRETURN;
+ }
+ #endif
+ 
+@@ -588,12 +588,12 @@ long do_rt_sigreturn(CPUX86State *env)
+     target_restore_altstack(&frame->uc.tuc_stack, env);
+ 
+     unlock_user_struct(frame, frame_addr, 0);
+-    return -TARGET_QEMU_ESIGRETURN;
++    return -QEMU_ESIGRETURN;
+ 
+ badframe:
+     unlock_user_struct(frame, frame_addr, 0);
+     force_sig(TARGET_SIGSEGV);
+-    return -TARGET_QEMU_ESIGRETURN;
++    return -QEMU_ESIGRETURN;
+ }
+ 
+ #ifndef TARGET_X86_64
+diff --git a/linux-user/m68k/cpu_loop.c b/linux-user/m68k/cpu_loop.c
+index b03c21a3dc..3181594414 100644
+--- a/linux-user/m68k/cpu_loop.c
++++ b/linux-user/m68k/cpu_loop.c
+@@ -82,7 +82,7 @@ void cpu_loop(CPUM68KState *env)
+                                  0, 0);
+                 if (ret == -QEMU_ERESTARTSYS) {
+                     env->pc -= 2;
+-                } else if (ret != -TARGET_QEMU_ESIGRETURN) {
++                } else if (ret != -QEMU_ESIGRETURN) {
+                     env->dregs[0] = ret;
+                 }
+             }
+diff --git a/linux-user/m68k/signal.c b/linux-user/m68k/signal.c
+index ec33482e14..5f35354487 100644
+--- a/linux-user/m68k/signal.c
++++ b/linux-user/m68k/signal.c
+@@ -353,11 +353,11 @@ long do_sigreturn(CPUM68KState *env)
+     restore_sigcontext(env, &frame->sc);
+ 
+     unlock_user_struct(frame, frame_addr, 0);
+-    return -TARGET_QEMU_ESIGRETURN;
++    return -QEMU_ESIGRETURN;
+ 
+ badframe:
+     force_sig(TARGET_SIGSEGV);
+-    return -TARGET_QEMU_ESIGRETURN;
++    return -QEMU_ESIGRETURN;
+ }
+ 
+ long do_rt_sigreturn(CPUM68KState *env)
+@@ -381,12 +381,12 @@ long do_rt_sigreturn(CPUM68KState *env)
+     target_restore_altstack(&frame->uc.tuc_stack, env);
+ 
+     unlock_user_struct(frame, frame_addr, 0);
+-    return -TARGET_QEMU_ESIGRETURN;
++    return -QEMU_ESIGRETURN;
+ 
+ badframe:
+     unlock_user_struct(frame, frame_addr, 0);
+     force_sig(TARGET_SIGSEGV);
+-    return -TARGET_QEMU_ESIGRETURN;
++    return -QEMU_ESIGRETURN;
+ }
+ 
+ void setup_sigtramp(abi_ulong sigtramp_page)
+diff --git a/linux-user/microblaze/cpu_loop.c b/linux-user/microblaze/cpu_loop.c
+index 6e368f986e..ff1fb26c8b 100644
+--- a/linux-user/microblaze/cpu_loop.c
++++ b/linux-user/microblaze/cpu_loop.c
+@@ -56,7 +56,7 @@ void cpu_loop(CPUMBState *env)
+             if (ret == -QEMU_ERESTARTSYS) {
+                 /* Wind back to before the syscall. */
+                 env->pc -= 4;
+-            } else if (ret != -TARGET_QEMU_ESIGRETURN) {
++            } else if (ret != -QEMU_ESIGRETURN) {
+                 env->regs[3] = ret;
+             }
+             /* All syscall exits result in guest r14 being equal to the
+diff --git a/linux-user/microblaze/signal.c b/linux-user/microblaze/signal.c
+index 8ebb6a1b7d..5188d74025 100644
+--- a/linux-user/microblaze/signal.c
++++ b/linux-user/microblaze/signal.c
+@@ -207,12 +207,12 @@ long do_rt_sigreturn(CPUMBState *env)
+     target_restore_altstack(&frame->uc.tuc_stack, env);
+ 
+     unlock_user_struct(frame, frame_addr, 0);
+-    return -TARGET_QEMU_ESIGRETURN;
++    return -QEMU_ESIGRETURN;
+ 
+  badframe:
+     unlock_user_struct(frame, frame_addr, 0);
+     force_sig(TARGET_SIGSEGV);
+-    return -TARGET_QEMU_ESIGRETURN;
++    return -QEMU_ESIGRETURN;
+ }
+ 
+ void setup_sigtramp(abi_ulong sigtramp_page)
+diff --git a/linux-user/mips/cpu_loop.c b/linux-user/mips/cpu_loop.c
+index 64f308c6ad..32f9fc1c1c 100644
+--- a/linux-user/mips/cpu_loop.c
++++ b/linux-user/mips/cpu_loop.c
+@@ -145,7 +145,7 @@ done_syscall:
+                 env->active_tc.PC -= 4;
+                 break;
+             }
+-            if (ret == -TARGET_QEMU_ESIGRETURN) {
++            if (ret == -QEMU_ESIGRETURN) {
+                 /* Returning from a successful sigreturn syscall.
+                    Avoid clobbering register state.  */
+                 break;
+diff --git a/linux-user/mips/signal.c b/linux-user/mips/signal.c
+index 8f79e405ec..58a9d7a8a3 100644
+--- a/linux-user/mips/signal.c
++++ b/linux-user/mips/signal.c
+@@ -281,11 +281,11 @@ long do_sigreturn(CPUMIPSState *regs)
+     /* I am not sure this is right, but it seems to work
+     * maybe a problem with nested signals ? */
+     regs->CP0_EPC = 0;
+-    return -TARGET_QEMU_ESIGRETURN;
++    return -QEMU_ESIGRETURN;
+ 
+ badframe:
+     force_sig(TARGET_SIGSEGV);
+-    return -TARGET_QEMU_ESIGRETURN;
++    return -QEMU_ESIGRETURN;
+ }
+ # endif /* O32 */
+ 
+@@ -371,11 +371,11 @@ long do_rt_sigreturn(CPUMIPSState *env)
+     /* I am not sure this is right, but it seems to work
+     * maybe a problem with nested signals ? */
+     env->CP0_EPC = 0;
+-    return -TARGET_QEMU_ESIGRETURN;
++    return -QEMU_ESIGRETURN;
+ 
+ badframe:
+     force_sig(TARGET_SIGSEGV);
+-    return -TARGET_QEMU_ESIGRETURN;
++    return -QEMU_ESIGRETURN;
+ }
+ 
+ void setup_sigtramp(abi_ulong sigtramp_page)
+diff --git a/linux-user/openrisc/cpu_loop.c b/linux-user/openrisc/cpu_loop.c
+index 3147ab2b62..592901a68b 100644
+--- a/linux-user/openrisc/cpu_loop.c
++++ b/linux-user/openrisc/cpu_loop.c
+@@ -50,7 +50,7 @@ void cpu_loop(CPUOpenRISCState *env)
+                              cpu_get_gpr(env, 8), 0, 0);
+             if (ret == -QEMU_ERESTARTSYS) {
+                 env->pc -= 4;
+-            } else if (ret != -TARGET_QEMU_ESIGRETURN) {
++            } else if (ret != -QEMU_ESIGRETURN) {
+                 cpu_set_gpr(env, 11, ret);
+             }
+             break;
+diff --git a/linux-user/ppc/cpu_loop.c b/linux-user/ppc/cpu_loop.c
+index 5348641e9e..30c82f2354 100644
+--- a/linux-user/ppc/cpu_loop.c
++++ b/linux-user/ppc/cpu_loop.c
+@@ -432,7 +432,7 @@ void cpu_loop(CPUPPCState *env)
+                 env->nip -= 4;
+                 break;
+             }
+-            if (ret == (target_ulong)(-TARGET_QEMU_ESIGRETURN)) {
++            if (ret == (target_ulong)(-QEMU_ESIGRETURN)) {
+                 /* Returning from a successful sigreturn syscall.
+                    Avoid corrupting register state.  */
+                 break;
+diff --git a/linux-user/ppc/signal.c b/linux-user/ppc/signal.c
+index 90a0369632..176c9d8503 100644
+--- a/linux-user/ppc/signal.c
++++ b/linux-user/ppc/signal.c
+@@ -591,13 +591,13 @@ long do_sigreturn(CPUPPCState *env)
+ 
+     unlock_user_struct(sr, sr_addr, 1);
+     unlock_user_struct(sc, sc_addr, 1);
+-    return -TARGET_QEMU_ESIGRETURN;
++    return -QEMU_ESIGRETURN;
+ 
+ sigsegv:
+     unlock_user_struct(sr, sr_addr, 1);
+     unlock_user_struct(sc, sc_addr, 1);
+     force_sig(TARGET_SIGSEGV);
+-    return -TARGET_QEMU_ESIGRETURN;
++    return -QEMU_ESIGRETURN;
+ }
+ #endif /* !defined(TARGET_PPC64) */
+ 
+@@ -646,12 +646,12 @@ long do_rt_sigreturn(CPUPPCState *env)
+     target_restore_altstack(&rt_sf->uc.tuc_stack, env);
+ 
+     unlock_user_struct(rt_sf, rt_sf_addr, 1);
+-    return -TARGET_QEMU_ESIGRETURN;
++    return -QEMU_ESIGRETURN;
+ 
+ sigsegv:
+     unlock_user_struct(rt_sf, rt_sf_addr, 1);
+     force_sig(TARGET_SIGSEGV);
+-    return -TARGET_QEMU_ESIGRETURN;
++    return -QEMU_ESIGRETURN;
+ }
+ 
+ /* This syscall implements {get,set,swap}context for userland.  */
+@@ -704,7 +704,7 @@ abi_long do_swapcontext(CPUArchState *env, abi_ulong uold_ctx,
+             /* We cannot return to a partially updated context.  */
+             force_sig(TARGET_SIGSEGV);
+         }
+-        return -TARGET_QEMU_ESIGRETURN;
++        return -QEMU_ESIGRETURN;
+     }
+ 
+     return 0;
+diff --git a/linux-user/riscv/cpu_loop.c b/linux-user/riscv/cpu_loop.c
+index 20f8c48b1d..0cd8985cb8 100644
+--- a/linux-user/riscv/cpu_loop.c
++++ b/linux-user/riscv/cpu_loop.c
+@@ -71,7 +71,7 @@ void cpu_loop(CPURISCVState *env)
+             }
+             if (ret == -QEMU_ERESTARTSYS) {
+                 env->pc -= 4;
+-            } else if (ret != -TARGET_QEMU_ESIGRETURN) {
++            } else if (ret != -QEMU_ESIGRETURN) {
+                 env->gpr[xA0] = ret;
+             }
+             if (cs->singlestep_enabled) {
+diff --git a/linux-user/riscv/signal.c b/linux-user/riscv/signal.c
+index a0f9542ce3..296e39fbf0 100644
+--- a/linux-user/riscv/signal.c
++++ b/linux-user/riscv/signal.c
+@@ -188,7 +188,7 @@ long do_rt_sigreturn(CPURISCVState *env)
+     target_restore_altstack(&frame->uc.uc_stack, env);
+ 
+     unlock_user_struct(frame, frame_addr, 0);
+-    return -TARGET_QEMU_ESIGRETURN;
++    return -QEMU_ESIGRETURN;
+ 
+ badframe:
+     unlock_user_struct(frame, frame_addr, 0);
+diff --git a/linux-user/s390x/cpu_loop.c b/linux-user/s390x/cpu_loop.c
+index 043582ca7c..ad0c3cd263 100644
+--- a/linux-user/s390x/cpu_loop.c
++++ b/linux-user/s390x/cpu_loop.c
+@@ -85,7 +85,7 @@ void cpu_loop(CPUS390XState *env)
+                              env->regs[6], env->regs[7], 0, 0);
+             if (ret == -QEMU_ERESTARTSYS) {
+                 env->psw.addr -= env->int_svc_ilen;
+-            } else if (ret != -TARGET_QEMU_ESIGRETURN) {
++            } else if (ret != -QEMU_ESIGRETURN) {
+                 env->regs[2] = ret;
+             }
+             break;
+diff --git a/linux-user/s390x/signal.c b/linux-user/s390x/signal.c
+index 676b948147..f47713e04a 100644
+--- a/linux-user/s390x/signal.c
++++ b/linux-user/s390x/signal.c
+@@ -359,7 +359,7 @@ long do_sigreturn(CPUS390XState *env)
+     trace_user_do_sigreturn(env, frame_addr);
+     if (!lock_user_struct(VERIFY_READ, frame, frame_addr, 1)) {
+         force_sig(TARGET_SIGSEGV);
+-        return -TARGET_QEMU_ESIGRETURN;
++        return -QEMU_ESIGRETURN;
+     }
+ 
+     /* Make sure that we're initializing all of target_set. */
+@@ -373,7 +373,7 @@ long do_sigreturn(CPUS390XState *env)
+     restore_sigregs_ext(env, &frame->sregs_ext);
+ 
+     unlock_user_struct(frame, frame_addr, 0);
+-    return -TARGET_QEMU_ESIGRETURN;
++    return -QEMU_ESIGRETURN;
+ }
+ 
+ long do_rt_sigreturn(CPUS390XState *env)
+@@ -385,7 +385,7 @@ long do_rt_sigreturn(CPUS390XState *env)
+     trace_user_do_rt_sigreturn(env, frame_addr);
+     if (!lock_user_struct(VERIFY_READ, frame, frame_addr, 1)) {
+         force_sig(TARGET_SIGSEGV);
+-        return -TARGET_QEMU_ESIGRETURN;
++        return -QEMU_ESIGRETURN;
+     }
+     target_to_host_sigset(&set, &frame->uc.tuc_sigmask);
+ 
+@@ -397,7 +397,7 @@ long do_rt_sigreturn(CPUS390XState *env)
+     target_restore_altstack(&frame->uc.tuc_stack, env);
+ 
+     unlock_user_struct(frame, frame_addr, 0);
+-    return -TARGET_QEMU_ESIGRETURN;
++    return -QEMU_ESIGRETURN;
+ }
+ 
+ void setup_sigtramp(abi_ulong sigtramp_page)
+diff --git a/linux-user/sh4/cpu_loop.c b/linux-user/sh4/cpu_loop.c
+index 6c4ebfa969..3290f6445c 100644
+--- a/linux-user/sh4/cpu_loop.c
++++ b/linux-user/sh4/cpu_loop.c
+@@ -52,7 +52,7 @@ void cpu_loop(CPUSH4State *env)
+                              0, 0);
+             if (ret == -QEMU_ERESTARTSYS) {
+                 env->pc -= 2;
+-            } else if (ret != -TARGET_QEMU_ESIGRETURN) {
++            } else if (ret != -QEMU_ESIGRETURN) {
+                 env->gregs[0] = ret;
+             }
+             break;
+diff --git a/linux-user/sh4/signal.c b/linux-user/sh4/signal.c
+index faa869fb19..f6a18bc6b5 100644
+--- a/linux-user/sh4/signal.c
++++ b/linux-user/sh4/signal.c
+@@ -286,12 +286,12 @@ long do_sigreturn(CPUSH4State *regs)
+     restore_sigcontext(regs, &frame->sc);
+ 
+     unlock_user_struct(frame, frame_addr, 0);
+-    return -TARGET_QEMU_ESIGRETURN;
++    return -QEMU_ESIGRETURN;
+ 
+ badframe:
+     unlock_user_struct(frame, frame_addr, 0);
+     force_sig(TARGET_SIGSEGV);
+-    return -TARGET_QEMU_ESIGRETURN;
++    return -QEMU_ESIGRETURN;
+ }
+ 
+ long do_rt_sigreturn(CPUSH4State *regs)
+@@ -313,12 +313,12 @@ long do_rt_sigreturn(CPUSH4State *regs)
+     target_restore_altstack(&frame->uc.tuc_stack, regs);
+ 
+     unlock_user_struct(frame, frame_addr, 0);
+-    return -TARGET_QEMU_ESIGRETURN;
++    return -QEMU_ESIGRETURN;
+ 
+ badframe:
+     unlock_user_struct(frame, frame_addr, 0);
+     force_sig(TARGET_SIGSEGV);
+-    return -TARGET_QEMU_ESIGRETURN;
++    return -QEMU_ESIGRETURN;
+ }
+ 
+ void setup_sigtramp(abi_ulong sigtramp_page)
+diff --git a/linux-user/sparc/cpu_loop.c b/linux-user/sparc/cpu_loop.c
+index 529337c5e0..8765ab6020 100644
+--- a/linux-user/sparc/cpu_loop.c
++++ b/linux-user/sparc/cpu_loop.c
+@@ -181,7 +181,7 @@ void cpu_loop (CPUSPARCState *env)
+                               env->regwptr[2], env->regwptr[3],
+                               env->regwptr[4], env->regwptr[5],
+                               0, 0);
+-            if (ret == -QEMU_ERESTARTSYS || ret == -TARGET_QEMU_ESIGRETURN) {
++            if (ret == -QEMU_ERESTARTSYS || ret == -QEMU_ESIGRETURN) {
+                 break;
+             }
+             if ((abi_ulong)ret >= (abi_ulong)(-515)) {
+diff --git a/linux-user/sparc/signal.c b/linux-user/sparc/signal.c
+index 23e1e761de..b501750fe0 100644
+--- a/linux-user/sparc/signal.c
++++ b/linux-user/sparc/signal.c
+@@ -431,12 +431,12 @@ long do_sigreturn(CPUSPARCState *env)
+     set_sigmask(&host_set);
+ 
+     unlock_user_struct(sf, sf_addr, 0);
+-    return -TARGET_QEMU_ESIGRETURN;
++    return -QEMU_ESIGRETURN;
+ 
+  segv_and_exit:
+     unlock_user_struct(sf, sf_addr, 0);
+     force_sig(TARGET_SIGSEGV);
+-    return -TARGET_QEMU_ESIGRETURN;
++    return -QEMU_ESIGRETURN;
+ #else
+     return -TARGET_ENOSYS;
+ #endif
+@@ -495,12 +495,12 @@ long do_rt_sigreturn(CPUSPARCState *env)
+     env->npc = tnpc;
+ 
+     unlock_user_struct(sf, sf_addr, 0);
+-    return -TARGET_QEMU_ESIGRETURN;
++    return -QEMU_ESIGRETURN;
+ 
+  segv_and_exit:
+     unlock_user_struct(sf, sf_addr, 0);
+     force_sig(TARGET_SIGSEGV);
+-    return -TARGET_QEMU_ESIGRETURN;
++    return -QEMU_ESIGRETURN;
+ }
+ 
+ #if defined(TARGET_SPARC64) && !defined(TARGET_ABI32)
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index 23fb45e0f1..2867be4cd3 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -550,7 +550,7 @@ const char *target_strerror(int err)
+     if (err == QEMU_ERESTARTSYS) {
+         return "To be restarted";
+     }
+-    if (err == TARGET_QEMU_ESIGRETURN) {
++    if (err == QEMU_ESIGRETURN) {
+         return "Successful exit from sigreturn";
+     }
+ 
+diff --git a/linux-user/xtensa/cpu_loop.c b/linux-user/xtensa/cpu_loop.c
+index 29cc6f3830..6bc6d6dee6 100644
+--- a/linux-user/xtensa/cpu_loop.c
++++ b/linux-user/xtensa/cpu_loop.c
+@@ -188,7 +188,7 @@ void cpu_loop(CPUXtensaState *env)
+                     env->pc -= 3;
+                     break;
+ 
+-                case -TARGET_QEMU_ESIGRETURN:
++                case -QEMU_ESIGRETURN:
+                     break;
+                 }
+                 break;
+diff --git a/linux-user/xtensa/signal.c b/linux-user/xtensa/signal.c
+index 81572a5fc7..06d91a37ec 100644
+--- a/linux-user/xtensa/signal.c
++++ b/linux-user/xtensa/signal.c
+@@ -263,12 +263,12 @@ long do_rt_sigreturn(CPUXtensaState *env)
+     target_restore_altstack(&frame->uc.tuc_stack, env);
+ 
+     unlock_user_struct(frame, frame_addr, 0);
+-    return -TARGET_QEMU_ESIGRETURN;
++    return -QEMU_ESIGRETURN;
+ 
+ badframe:
+     unlock_user_struct(frame, frame_addr, 0);
+     force_sig(TARGET_SIGSEGV);
+-    return -TARGET_QEMU_ESIGRETURN;
++    return -QEMU_ESIGRETURN;
+ }
+ 
+ void setup_sigtramp(abi_ulong sigtramp_page)
 -- 
 2.25.1
 
