@@ -2,79 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5634447B265
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Dec 2021 18:54:35 +0100 (CET)
-Received: from localhost ([::1]:44048 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C90347B218
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Dec 2021 18:28:48 +0100 (CET)
+Received: from localhost ([::1]:37174 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mzMrq-0004bo-Ek
-	for lists+qemu-devel@lfdr.de; Mon, 20 Dec 2021 12:54:34 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34258)
+	id 1mzMSt-0002kL-9N
+	for lists+qemu-devel@lfdr.de; Mon, 20 Dec 2021 12:28:47 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50914)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mzKj0-0003VC-AO
- for qemu-devel@nongnu.org; Mon, 20 Dec 2021 10:37:18 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:42768)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mzKvQ-0008H3-Ok
+ for qemu-devel@nongnu.org; Mon, 20 Dec 2021 10:50:08 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40168)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mzKiy-0006V8-JV
- for qemu-devel@nongnu.org; Mon, 20 Dec 2021 10:37:18 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mzKvN-000475-8x
+ for qemu-devel@nongnu.org; Mon, 20 Dec 2021 10:50:08 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1640014621;
+ s=mimecast20190719; t=1640015404;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding;
- bh=YNxGmtvgQ+CMFTebfzWGdlnqOaFP5HjHfla9hqGVlG4=;
- b=SAu0YdRsRovKKI/gleJoGKlkOI4uMKBAhNTxD/iIvohL/jVyq9L1vHQn9T8mEmBWhN0BQ9
- B5oxP23WHSdQ7ZXLykPwjGw3AqA46G6V3yC3Ad1XuCYcze+m6QfGN+AAuggrQ+8vMBgJHz
- 3cDyizy9m8GDTrHWcYrO2x+rZea4OUU=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=3AwsPpgUuSNdDlOl1kFET+xP37V/yny9GnpG+Bw2PTE=;
+ b=P7s9MFg5LWz6HntvObIPLbeReLiONWlKRpC+OESVFwC8aY/eqcZlh9KfXuBXk2gRg+hIpP
+ Ug0JllVxEvzRZ/+SaEe22V3ctkHKW/OVkGd/38X8a0yl1caOhqXJmf4kguddSz+yLRMAfr
+ 9lYBdc3X0V3xNoDkOyjEMBrjCA31qAk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-592-ks-Od_1kOl6sbD5tC9C_Eg-1; Mon, 20 Dec 2021 05:16:23 -0500
-X-MC-Unique: ks-Od_1kOl6sbD5tC9C_Eg-1
-Received: by mail-wm1-f72.google.com with SMTP id
- bi14-20020a05600c3d8e00b00345787d3177so3150125wmb.0
- for <qemu-devel@nongnu.org>; Mon, 20 Dec 2021 02:16:23 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent
- :content-language:to:cc:from:subject:content-transfer-encoding;
- bh=YNxGmtvgQ+CMFTebfzWGdlnqOaFP5HjHfla9hqGVlG4=;
- b=ybkm6wxvyU/9jw/xwSs+4B+wgO6v81cgyGoISEcVnEIgE+yOYKtVQKddLFOoE4c4yz
- gsm0CXk4AwMMjLHQOmzW1Cfxwyc1Z6wRE5y3t3R0oGKpMZo4a1+sUNAUlgB1CGVRkClh
- RVLu3tP2LyxfPTYQipYwa52q+Btx/1FsPHS0nWviCNunaKxaxH+4PhXp0GiW8q8LeW2g
- aiXeeoEode56oFQ48jOap3N1e4XPoWDWQHABHbcumdrEWvR7caI4x1SFnRsoZw9mi6kx
- 1jpcEtFLae2k557sjhdO4n/97D27Uo50yZILSvyc5nETlH2jHITzGxdqQN9J/TFp3Prz
- MiWQ==
-X-Gm-Message-State: AOAM530Mo1iuGLnNUJZc9a+6IHmlIpQaHA7RYH7CY6qXzIibwGTpWmWO
- SfYDS66oYffSF7rRSWFwWuFjjqCUarMk3xUr5yPKL2w/2UQdcBTVH9t3M6PPNxsn5nGABKoGFSu
- wM7VorpM537KWlDc=
-X-Received: by 2002:a05:600c:4f8f:: with SMTP id
- n15mr13345689wmq.64.1639995382447; 
- Mon, 20 Dec 2021 02:16:22 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJw3s0kvcMi//ty7N7hoqT5nZW+CJZqawbkausm7jHh0cHtACkysv0t9cxd/BshtgEYcUcSi/w==
-X-Received: by 2002:a05:600c:4f8f:: with SMTP id
- n15mr13345670wmq.64.1639995382187; 
- Mon, 20 Dec 2021 02:16:22 -0800 (PST)
-Received: from [10.33.192.183] (nat-pool-str-t.redhat.com. [149.14.88.106])
- by smtp.gmail.com with ESMTPSA id p21sm2673960wmq.20.2021.12.20.02.16.21
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 20 Dec 2021 02:16:21 -0800 (PST)
-Message-ID: <fcbae7f4-ff58-bb5d-fd5d-8b0145a6ee21@redhat.com>
-Date: Mon, 20 Dec 2021 11:16:21 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-To: Laurent Vivier <lvivier@redhat.com>
+ us-mta-169-s-BxXuQDMXywehvCAfRYJg-1; Mon, 20 Dec 2021 05:28:03 -0500
+X-MC-Unique: s-BxXuQDMXywehvCAfRYJg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3D4811800D50
+ for <qemu-devel@nongnu.org>; Mon, 20 Dec 2021 10:28:02 +0000 (UTC)
+Received: from thuth.com (dhcp-192-183.str.redhat.com [10.33.192.183])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 48E614ABAD;
+ Mon, 20 Dec 2021 10:28:00 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
-Subject: Warnings during the virtio-net-failover test
+To: qemu-devel@nongnu.org,
+	Laurent Vivier <lvivier@redhat.com>
+Subject: [PATCH] tests/qtest/virtio-net-failover: Use g_random_int() instead
+ of g_test_rand_int()
+Date: Mon, 20 Dec 2021 11:27:59 +0100
+Message-Id: <20211220102759.311224-1-thuth@redhat.com>
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -95,52 +76,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+g_test_rand_int() must not be called before g_test_init(), otherwise
+the glib will show a "g_rand_int: assertion 'rand != NULL' failed"
+message in the log. So we could change the order here, but actually,
+g_test_rand_int() seems also the wrong choice here, since we're using
+it to create a temporary file name, which certainly should not depend
+on the "--seed" CLI option of the g_test suite. Thus let's use the
+g_random_int() function instead.
 
-  Hi Laurent,
+Reported-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ tests/qtest/virtio-net-failover.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-today I noticed that there are quite a bunch of warnings during the 
-virtio-net-failover test:
-
-$ QTEST_QEMU_BINARY=./qemu-system-x86_64 tests/qtest/virtio-net-failover
-/x86_64/failover-virtio-net/hotplug_1: qemu-system-x86_64: warning: Primary 
-device not found
-Virtio-net failover will not work. Make sure primary device has parameter 
-failover_pair_id=standby0
-OK
-/x86_64/failover-virtio-net/hotplug_1_reverse: OK
-/x86_64/failover-virtio-net/hotplug_2: qemu-system-x86_64: warning: Primary 
-device not found
-Virtio-net failover will not work. Make sure primary device has parameter 
-failover_pair_id=standby0
-OK
-[...]
-/x86_64/failover-virtio-net/migrate/out: qemu-system-x86_64: warning: 
-Primary device not found
-Virtio-net failover will not work. Make sure primary device has parameter 
-failover_pair_id=standby0
-OK
-/x86_64/failover-virtio-net/migrate/in: OK
-/x86_64/failover-virtio-net/migrate/abort/wait-unplug: qemu-system-x86_64: 
-warning: Primary device not found
-Virtio-net failover will not work. Make sure primary device has parameter 
-failover_pair_id=standby0
-OK
-/x86_64/failover-virtio-net/migrate/abort/active: qemu-system-x86_64: 
-warning: Primary device not found
-Virtio-net failover will not work. Make sure primary device has parameter 
-failover_pair_id=standby0
-OK
-/x86_64/failover-virtio-net/multi/out: OK
-/x86_64/failover-virtio-net/multi/in: OK
-
-I assume they are false positives? If so, could you please come up with a 
-patch to silence them, since they are quite confusing...?
-
-  Thanks,
-   Thomas
+diff --git a/tests/qtest/virtio-net-failover.c b/tests/qtest/virtio-net-failover.c
+index 4b2ba8a106..70b94bf18f 100644
+--- a/tests/qtest/virtio-net-failover.c
++++ b/tests/qtest/virtio-net-failover.c
+@@ -1308,7 +1308,7 @@ int main(int argc, char **argv)
+ {
+     const gchar *tmpdir = g_get_tmp_dir();
+     gchar *tmpfile = g_strdup_printf("%s/failover_test_migrate-%u-%u",
+-                                     tmpdir, getpid(), g_test_rand_int());
++                                     tmpdir, getpid(), g_random_int());
+     int ret;
+ 
+     g_test_init(&argc, &argv, NULL);
+-- 
+2.27.0
 
 
