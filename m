@@ -2,89 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C57847AF78
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Dec 2021 16:13:16 +0100 (CET)
-Received: from localhost ([::1]:43916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB77F47B057
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Dec 2021 16:31:46 +0100 (CET)
+Received: from localhost ([::1]:53278 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mzKLj-0000SX-3u
-	for lists+qemu-devel@lfdr.de; Mon, 20 Dec 2021 10:13:15 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34238)
+	id 1mzKdd-0005Kw-Rt
+	for lists+qemu-devel@lfdr.de; Mon, 20 Dec 2021 10:31:45 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34568)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mzCQM-0005Lt-HA
- for qemu-devel@nongnu.org; Mon, 20 Dec 2021 01:45:35 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:25535)
+ (Exim 4.90_1)
+ (envelope-from <prvs=9816edf2f=alistair.francis@opensource.wdc.com>)
+ id 1mzCUF-0006rs-VN
+ for qemu-devel@nongnu.org; Mon, 20 Dec 2021 01:49:34 -0500
+Received: from esa4.hgst.iphmx.com ([216.71.154.42]:46848)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mzCQI-0001wL-7g
- for qemu-devel@nongnu.org; Mon, 20 Dec 2021 01:45:29 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1639982724;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ewW7ofMxNk81jxj2j8XOJ6qF4KCJe88M4Yu6gr0LiEA=;
- b=gMVMgpc/X+oxTSyoumjLd0VcJGIk85Qzsuh2k4IhaSzek6XPCa+IPVrUHVhe0eJpPkGTm0
- sVc07NLWlyfyC6hhlwqhMDpdoERG/ZBd055/Yn3FER1mmE/QrHYZ9S+cWQKd+RangWn+zT
- uhT/lEGgYTi4peU7irD13d68JuBzppE=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-7-e5H_yACqOj2-P7yPRXYKNw-1; Mon, 20 Dec 2021 01:45:22 -0500
-X-MC-Unique: e5H_yACqOj2-P7yPRXYKNw-1
-Received: by mail-wm1-f70.google.com with SMTP id
- b83-20020a1c1b56000000b0033283ea5facso2869965wmb.1
- for <qemu-devel@nongnu.org>; Sun, 19 Dec 2021 22:45:22 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=ewW7ofMxNk81jxj2j8XOJ6qF4KCJe88M4Yu6gr0LiEA=;
- b=Gk8c3XJABTTqM6trhkVIQdnKr5RoVn1gMsYzF6JURShks6rHFByD34H0os7TyVnoQ9
- bmuISrnTG9rOBNztu/dVBJb98h2OSf3rLORmOzFJNLwqXDaJW2plUKTz0Y7qcex+iRjd
- boUqswG9umlbBFaviE2SFXbDL6fGpHkwUJf16OpY3SLaZ56ODh5mwauMO5uUsg40ZDO/
- /dvsyecT9YiKKP2+wS8Deq+D1NdL5TU8R5DB+gy3OPyfizeW/kC9ND02td9f7AwjEhVC
- uxwazxvCb58NPjbHXUNEPbnS5PBgCCVBB2L9TMzzcEpahZ3IGS5I/bkspaoCRde1HsaK
- Juig==
-X-Gm-Message-State: AOAM531hBDpRUoN2QduCyDKQNueZgTzH3Z6cxAp7ORhT8QrSqUCkuJy8
- vGSLLRuOFgxJ9IhKO8MhrYxMDQKuetOVOiX+pjIE7wsP7Er1/dUP51cg5tdzwZwq8gEF1Ntien9
- U2dUN7pgHq9qmhzg=
-X-Received: by 2002:a5d:5744:: with SMTP id q4mr11523061wrw.698.1639982721333; 
- Sun, 19 Dec 2021 22:45:21 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxXck3o8QZ6+or0xDWEu5RBdXhvCbf6f/fQN+YX09lvKG3GMbAGdZTFgz7tcYbpyfm0TdVqYw==
-X-Received: by 2002:a5d:5744:: with SMTP id q4mr11523052wrw.698.1639982721102; 
- Sun, 19 Dec 2021 22:45:21 -0800 (PST)
-Received: from [10.33.192.183] (nat-pool-str-t.redhat.com. [149.14.88.106])
- by smtp.gmail.com with ESMTPSA id l22sm14627121wmq.2.2021.12.19.22.45.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 19 Dec 2021 22:45:20 -0800 (PST)
-Message-ID: <29292a83-b411-c24a-1378-0c30cf71af29@redhat.com>
-Date: Mon, 20 Dec 2021 07:45:19 +0100
+ (Exim 4.90_1)
+ (envelope-from <prvs=9816edf2f=alistair.francis@opensource.wdc.com>)
+ id 1mzCUE-0002O1-5l
+ for qemu-devel@nongnu.org; Mon, 20 Dec 2021 01:49:31 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1639982970; x=1671518970;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=W6JKwS5ppCb6tYc4q1z6gITxAoMMDoHNGnK3uVsKI14=;
+ b=HH86SysCMekJRn0Ie0HbayYreeZAiXR00xVJmmhwzhMjUYwZIk50L9yT
+ OmuP1a25mh1NsIdCJYZzN5YxIkulSzz/kqco3B51gTUVGA50v0YZpange
+ 9NwYhfsM7ABceSkQ6KWjrpmKRbWm8vaeDyKA58GoSdz+OVXDxpsBtGTX9
+ Y4D2yN+lz7IbvYCICW613/eeOCYXzcZtNQ04DQv/tYFIPSAY7rU8cn53f
+ zhijm4imn8XaHkZoDHG8oJmkyxvvwnFrBsG5lrx0ik8+OG/cL8cuapHrU
+ C8E5n2WWF8dXkJOETAoTAEXsWYU2EI3iqoh+QK64tQxi8mL2woCC8kAig g==;
+X-IronPort-AV: E=Sophos;i="5.88,219,1635177600"; d="scan'208";a="187632716"
+Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
+ ([199.255.45.14])
+ by ob1.hgst.iphmx.com with ESMTP; 20 Dec 2021 14:49:28 +0800
+IronPort-SDR: gwjzK6LTosNDGG38LBlMZCa41YDuf9ou1dEix74m60bS4cbiBdk7vhx8kJwbE78bqMq0AhuZUG
+ pRrN+A2oOs+G+WN2M39t/YPSGcBjLBSHWDpkl1COeBh/3bgMFrdUbmpuPMep+Tf6UNPbnWQxBQ
+ dRoow49tMtmPDWOA5HS7RZsUhWTcRBmE4C5zBN9X6kDLcARclURaviWmNEAzlXp0WHlKVuIntM
+ fKk0aaEgW/cHJC4E9OIZs3WgSiBHP5QBxRN02Okbj0YhkJbwPvm7usmvCpQ2OhgU5VIMCsj9H7
+ nymthPW9P7E6xHsGxzEOLSfr
+Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
+ by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Dec 2021 22:23:45 -0800
+IronPort-SDR: STNQvxXOF5Dsh/8BhK42JdMtzL6yxWnWhTPdEz7D1HVNyOv2hDzOAhUQoh2iqkWlYV5s8lmBk0
+ TjDefRbm485RqX5msZxPlbXPXegn/avMcT3khMsm3ug7FGerSR9ZnJ1aZJ3fHz2nUZXYYHqLmM
+ m1fO0khKc4qgeJ4qY2zYpOzM4ys/VS8IYJz31UB6apw1qSi1ZmqNtLdmhuuLJhVPIpPkNxjhi/
+ nZXvCLfsV+4k3LQddiCVQzzP5CWLVGHNp8YqCRV2vxnF8+74FQ+wCSBhtZ4ZRlhHkQLg8XK9+t
+ sAk=
+WDCIronportException: Internal
+Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
+ by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Dec 2021 22:49:29 -0800
+Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4JHVYz4HFdz1Rwnv
+ for <qemu-devel@nongnu.org>; Sun, 19 Dec 2021 22:49:27 -0800 (PST)
+Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
+ reason="pass (just generated, assumed good)"
+ header.d=opensource.wdc.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
+ opensource.wdc.com; h=content-transfer-encoding:mime-version
+ :content-type:x-mailer:message-id:date:subject:to:from; s=dkim;
+ t=1639982966; x=1642574967; bh=W6JKwS5ppCb6tYc4q1z6gITxAoMMDoHN
+ GnK3uVsKI14=; b=Bu6dc+/OqR8NhvLEj2BLZojiCvMsgBDQkeZRTITLbq+ZXwLq
+ DJzkjk0uPmxrzlhtfNu3FndkdrQ038nYnyWC7+5JAAAic4w8uTUu3jaWeFYIwsaw
+ u9dKR7uV6MBlo1FQDnMVs7pdKUWVjxUvAMr9jQ5uXY+vv/303726PI9M7kbDUlT2
+ rppyosSBvp5vxbMB3lWEhQSj0drjoTDFV+Vudf9U2/BLve7IRaiZq7R+c85u+Cu6
+ EcPOC7gJQa4sqGKR1Xt0yePFmEviXzCyXQco4n3vKtJGWjcMIa29V2GCuWYEkhU4
+ 0r9vWr68ST8xE+kSdSY0VrRdfOuZ/ClX1B2f6w==
+X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
+Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
+ by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
+ port 10026) with ESMTP id Jg6x5TGH8vSc for <qemu-devel@nongnu.org>;
+ Sun, 19 Dec 2021 22:49:26 -0800 (PST)
+Received: from toolbox.alistair23.me (unknown [10.225.165.68])
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4JHVYt52mdz1RtVG;
+ Sun, 19 Dec 2021 22:49:22 -0800 (PST)
+From: Alistair Francis <alistair.francis@opensource.wdc.com>
+To: qemu-riscv@nongnu.org,
+	qemu-devel@nongnu.org
+Cc: Alistair Francis <alistair.francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, bmeng.cn@gmail.com,
+ alistair23@gmail.com, Bin Meng <bin.meng@windriver.com>
+Subject: [PATCH v4 0/3] RISC-V: Populate mtval and stval
+Date: Mon, 20 Dec 2021 16:49:13 +1000
+Message-Id: <20211220064916.107241-1-alistair.francis@opensource.wdc.com>
+X-Mailer: git-send-email 2.31.1
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH] hw: m68k: Add virt compat machine type for 7.0
-To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
-References: <20211218114340.1856757-1-laurent@vivier.eu>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20211218114340.1856757-1-laurent@vivier.eu>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.209,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-3.608, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.71.154.42;
+ envelope-from=prvs=9816edf2f=alistair.francis@opensource.wdc.com;
+ helo=esa4.hgst.iphmx.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,43 +113,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Cornelia Huck <cohuck@redhat.com>, Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 18/12/2021 12.43, Laurent Vivier wrote:
-> Signed-off-by: Laurent Vivier <laurent@vivier.eu>
-> ---
-> Based-On: <20211217143948.289995-1-cohuck@redhat.com>
-> 
->   hw/m68k/virt.c | 9 ++++++++-
->   1 file changed, 8 insertions(+), 1 deletion(-)
-> 
-> diff --git a/hw/m68k/virt.c b/hw/m68k/virt.c
-> index 0efa4a45c7f4..78e926a55457 100644
-> --- a/hw/m68k/virt.c
-> +++ b/hw/m68k/virt.c
-> @@ -304,10 +304,17 @@ type_init(virt_machine_register_types)
->       } \
->       type_init(machvirt_machine_##major##_##minor##_init);
->   
-> +static void virt_machine_7_0_options(MachineClass *mc)
-> +{
-> +}
-> +DEFINE_VIRT_MACHINE(7, 0, true)
-> +
->   static void virt_machine_6_2_options(MachineClass *mc)
->   {
-> +    virt_machine_7_0_options(mc);
-> +    compat_props_add(mc->compat_props, hw_compat_6_2, hw_compat_6_2_len);
->   }
-> -DEFINE_VIRT_MACHINE(6, 2, true)
-> +DEFINE_VIRT_MACHINE(6, 2, false)
->   
->   static void virt_machine_6_1_options(MachineClass *mc)
->   {
-> 
+From: Alistair Francis <alistair.francis@wdc.com>=0D
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-
+Populate mtval and stval when taking an illegal instruction exception.=0D
+=0D
+The RISC-V spec states that "The stval register can optionally also be=0D
+used to return the faulting instruction bits on an illegal instruction=0D
+exception...". In this case we are always writing the value on an=0D
+illegal instruction.=0D
+=0D
+This doesn't match all CPUs (some CPUs won't write the data), but in=0D
+QEMU let's just populate the value on illegal instructions. This won't=0D
+break any guest software, but will provide more information to guests.=0D
+=0D
+Alistair Francis (3):=0D
+  target/riscv: Set the opcode in DisasContext=0D
+  target/riscv: Fixup setting GVA=0D
+  target/riscv: Implement the stval/mtval illegal instruction=0D
+=0D
+ target/riscv/cpu.h        |  2 ++=0D
+ target/riscv/cpu_helper.c | 24 +++++++++---------------=0D
+ target/riscv/translate.c  |  5 +++++=0D
+ 3 files changed, 16 insertions(+), 15 deletions(-)=0D
+=0D
+-- =0D
+2.31.1=0D
+=0D
 
