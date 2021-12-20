@@ -2,98 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09A7E47B1AE
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Dec 2021 17:55:57 +0100 (CET)
-Received: from localhost ([::1]:49812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2766D47B112
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Dec 2021 17:28:46 +0100 (CET)
+Received: from localhost ([::1]:50120 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mzLx6-0003rP-3B
-	for lists+qemu-devel@lfdr.de; Mon, 20 Dec 2021 11:55:56 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33830)
+	id 1mzLWm-0005w9-44
+	for lists+qemu-devel@lfdr.de; Mon, 20 Dec 2021 11:28:44 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44298)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1mzKiO-0003Qz-Kd
- for qemu-devel@nongnu.org; Mon, 20 Dec 2021 10:36:47 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36012)
+ (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
+ id 1mzK2v-0003ro-B4
+ for qemu-devel@nongnu.org; Mon, 20 Dec 2021 09:53:52 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:48368)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1mzKiL-0006OM-Q8
- for qemu-devel@nongnu.org; Mon, 20 Dec 2021 10:36:40 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1640014596;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=K1SILxtgX+HiL6og1gyjd7sx/4qrXaqBVzGZASruGNU=;
- b=AxzbxGpcDdeulPL5f1iCZV6UffXWgFpH17Avd2F7V6WmjyE0BjFhM7WYaSl5BarFbSd22S
- 5Wb7ZM67b/fcZRlCzl1O819HsFLLOvu8QGVRPsDJSo7HtzPnXx74JeIhTDPcMl/iFumeYz
- 9JRpZZna1YejnI21YiuKkjiU/RwECqc=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-662-feUNE-xEOKKt8ZUSCUmaQw-1; Mon, 20 Dec 2021 05:15:49 -0500
-X-MC-Unique: feUNE-xEOKKt8ZUSCUmaQw-1
-Received: by mail-ed1-f69.google.com with SMTP id
- i5-20020a05640242c500b003f84839a8c3so2529481edc.6
- for <qemu-devel@nongnu.org>; Mon, 20 Dec 2021 02:15:49 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=K1SILxtgX+HiL6og1gyjd7sx/4qrXaqBVzGZASruGNU=;
- b=YbA7zVeOhWuHazTwh/UPLmzcnFz1SvQEIw80x367Ra+m6lJktpL/6FV1cs/dzDl0rl
- m5XT4yyi3A+7sO0UmxFHv7pozP3FwhDx+xHwPkeNIoq06v9vxUujcB1CDhyItFanVVyL
- +OC+GLBzftZpBqdD1qMwqD9S0wXRoW5orbD6Kzd4Y4weTy+emyWYT8K+MrGYBfCdcuMC
- zb6ijTpeRPnEJBoj61ovVMDEPceAmvHnu8C2mVbKS4HglD/g9ePzk04AIQNCgrhN5nY2
- ngmSBH+XwhK28qYWEv0jV7Zq831ZlyHDEdXh884bEICvECaRkXiCnZQJ5lER0NJuEs2S
- tSjA==
-X-Gm-Message-State: AOAM530bjfjpn91evPWxs1an6cwoeUEOIWqp8S1HgnC4zTSkv69+4FXr
- j25qELAcM/xzD852xCExPBQaIHUa4OVfwMWHFDCf28rAPlxiyuNuvK/7EMq4cEn734eqN2Zq+61
- 4N0HM3K0Tsvupztk=
-X-Received: by 2002:a17:907:98d2:: with SMTP id
- kd18mr12234148ejc.252.1639995348624; 
- Mon, 20 Dec 2021 02:15:48 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwtCGcCHUJZNOXSl+2vOfFrdR3OZOCcSBqfgoiprtym3qxsnsgdliKSo2YisZ+vVo3fiEg6XA==
-X-Received: by 2002:a17:907:98d2:: with SMTP id
- kd18mr12234061ejc.252.1639995347127; 
- Mon, 20 Dec 2021 02:15:47 -0800 (PST)
-Received: from ?IPV6:2a04:ee41:4:31cb:e591:1e1e:abde:a8f1?
- ([2a04:ee41:4:31cb:e591:1e1e:abde:a8f1])
- by smtp.gmail.com with ESMTPSA id u14sm5846025edv.92.2021.12.20.02.15.45
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 20 Dec 2021 02:15:46 -0800 (PST)
-Message-ID: <6d87edaf-c937-2240-e5b5-c95444e07ad3@redhat.com>
-Date: Mon, 20 Dec 2021 11:15:45 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [RFC PATCH v2 03/14] job.h: define locked functions
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Stefan Hajnoczi <stefanha@redhat.com>
-References: <20211104145334.1346363-1-eesposit@redhat.com>
- <20211104145334.1346363-4-eesposit@redhat.com>
- <Ybtt591Fe+PgDCFm@stefanha-x1.localdomain>
- <d218179d-26fc-04c3-1009-747106faf116@virtuozzo.com>
-From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-In-Reply-To: <d218179d-26fc-04c3-1009-747106faf116@virtuozzo.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eesposit@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
+ id 1mzK28-0005qS-F2
+ for qemu-devel@nongnu.org; Mon, 20 Dec 2021 09:53:42 -0500
+Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1BK7wVVs002977; 
+ Mon, 20 Dec 2021 10:42:42 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : content-type : content-transfer-encoding :
+ mime-version; s=pp1; bh=SCxUb+J3F8OAoweYXMcojIRm9Xmeg0cmsT0T2lIJnjw=;
+ b=iFMsjDZkQK0cpYDOHKETBUzXdWdUJuzNDFtyWaCHSmYkqjI1AhZVuqnstc/gzPtfOtAY
+ KfQSN46LsTObMyKErksFXAyWsWEbVtFAvmzUnNiBXFLyFSP9i6aUGT75quR2uBnHco/E
+ LZws/yKMj7goY+CYCjuMCT+RuEuCk5b39vgWxEo9lOToBlrJflMvRy67fJ/dpiYSxBwO
+ mNbUju++ExsDIJ6zpA/dkMp20AxOEUK3HQS7lrRmChsoB7UkCQwg17eFkRYXuZiJSyBm
+ U1wW6g6Q2gGkgSvDSxWEs/wwPkMydr0/4h6szo7tPMOUoKrTMe+AuqV59iZOL/g0HSJq aw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3d1s7q163t-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 20 Dec 2021 10:42:42 +0000
+Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1BKAggQ5013124;
+ Mon, 20 Dec 2021 10:42:42 GMT
+Received: from ppma01wdc.us.ibm.com (fd.55.37a9.ip4.static.sl-reverse.com
+ [169.55.85.253])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3d1s7q1638-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 20 Dec 2021 10:42:42 +0000
+Received: from pps.filterd (ppma01wdc.us.ibm.com [127.0.0.1])
+ by ppma01wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1BKA5KRq023255;
+ Mon, 20 Dec 2021 10:42:40 GMT
+Received: from b03cxnp08025.gho.boulder.ibm.com
+ (b03cxnp08025.gho.boulder.ibm.com [9.17.130.17])
+ by ppma01wdc.us.ibm.com with ESMTP id 3d1799j929-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 20 Dec 2021 10:42:40 +0000
+Received: from b03ledav005.gho.boulder.ibm.com
+ (b03ledav005.gho.boulder.ibm.com [9.17.130.236])
+ by b03cxnp08025.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 1BKAgT9I31981924
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 20 Dec 2021 10:42:29 GMT
+Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 9D8B2BE051;
+ Mon, 20 Dec 2021 10:42:29 +0000 (GMT)
+Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id E222ABE054;
+ Mon, 20 Dec 2021 10:42:28 +0000 (GMT)
+Received: from amdrome3.watson.ibm.com (unknown [9.2.130.16])
+ by b03ledav005.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Mon, 20 Dec 2021 10:42:28 +0000 (GMT)
+From: Dov Murik <dovmurik@linux.ibm.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2] docs: Add measurement calculation details to
+ amd-memory-encryption.txt
+Date: Mon, 20 Dec 2021 10:42:24 +0000
+Message-Id: <20211220104224.143961-1-dovmurik@linux.ibm.com>
+X-Mailer: git-send-email 2.25.1
+Content-Type: text/plain; charset=UTF-8
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: dNa96YByUnGZxDfS_ZaZip4FlDeet92E
+X-Proofpoint-ORIG-GUID: si2VcDXeOLMqXyzJB7DhdLa9QVl7NN7t
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eesposit@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.209,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-3.608, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2021-12-20_05,2021-12-16_01,2021-12-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 bulkscore=0
+ malwarescore=0 mlxlogscore=999 priorityscore=1501 adultscore=0
+ suspectscore=0 mlxscore=0 spamscore=0 lowpriorityscore=0 impostorscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2110150000 definitions=main-2112200059
+Received-SPF: pass client-ip=148.163.156.1;
+ envelope-from=dovmurik@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: 0
+X-Spam_score: -0.1
+X-Spam_bar: /
+X-Spam_report: (-0.1 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -107,99 +109,120 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- qemu-block@nongnu.org, Wen Congyang <wencongyang2@huawei.com>,
- Xie Changlong <xiechanglong.d@gmail.com>,
- Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- Hanna Reitz <hreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- John Snow <jsnow@redhat.com>
+Cc: Tom Lendacky <thomas.lendacky@amd.com>, Ashish Kalra <ashish.kalra@amd.com>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ James Bottomley <jejb@linux.ibm.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Dov Murik <dovmurik@linux.ibm.com>,
+ Tobin Feldman-Fitzthum <tobin@linux.ibm.com>,
+ Brijesh Singh <brijesh.singh@amd.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Add a section explaining how the Guest Owner should calculate the
+expected guest launch measurement for SEV and SEV-ES.
 
+Also update the name and link to the SEV API Spec document.
 
-On 16/12/2021 18:11, Vladimir Sementsov-Ogievskiy wrote:
-> 16.12.2021 19:48, Stefan Hajnoczi wrote:
->> On Thu, Nov 04, 2021 at 10:53:23AM -0400, Emanuele Giuseppe Esposito 
->> wrote:
->>>   /** Returns whether the job is ready to be completed. */
->>>   bool job_is_ready(Job *job);
->>> +/** Same as job_is_ready(), but assumes job_lock is held. */
->>> +bool job_is_ready_locked(Job *job);
->>
->> What I see here is that some functions assume job_lock is held but don't
->> have _locked in their name (job_ref()), some assume job_lock is held and
->> have _locked in their name (job_is_ready_locked()), and some assume
->> job_lock is not held (job_is_ready()).
->>
->> That means when _locked is not in the name I don't know whether this
->> function requires job_lock or will deadlock if called under job_lock.
->>
->> Two ways to it obvious:
->>
->> 1. Always have _locked in the name if the function requires job_lock.
->>     Functions without _locked must not be called under job_lock.
->>
->> 2. Don't change the name but use the type system instead:
->>
->>     /*
->>      * Define a unique type so the compiler warns us. It's just a pointer
->>      * so it can be efficiently passed by value.
->>      */
->>     typedef struct { Job *job; } LockedJob;
->>
->>     LockedJob job_lock(Job *job);
->>     Job *job_unlock(LockedJob job);
->>
->>     Now the compiler catches mistakes:
->>
->>     bool job_is_completed(LockedJob job);
->>     bool job_is_ready(Job *job);
->>
->>     Job *j;
->>     LockedJob l;
->>     job_is_completed(j) -> compiler error
->>     job_is_completed(l) -> ok
->>     job_is_ready(j) -> ok
->>     job_is_ready(l) -> compiler error
->>
->>     This approach assumes per-Job locks but a similar API is possible
->>     with a global job_mutex too. There just needs to be a function to
->>     turn Job * into LockedJob and LockedJob back into Job*.
->>
->>     This is slightly exotic. It's not an approach I've seen used in C, so
->>     it's not idiomatic and people might find it unfamiliar.
-> 
-> Oh yes. If we need something, I'd prefer function renaming.
+Signed-off-by: Dov Murik <dovmurik@linux.ibm.com>
+Suggested-by: Daniel P. Berrangé <berrange@redhat.com>
 
-Ok, I will go with option 1.
+---
 
-> 
->>
->> These are just ideas. If you want to keep it the way it is, that's okay
->> too (although a little confusing).
->>
->>> diff --git a/job.c b/job.c
->>> index 0e4dacf028..e393c1222f 100644
->>> --- a/job.c
->>> +++ b/job.c
->>> @@ -242,7 +242,8 @@ bool job_cancel_requested(Job *job)
->>>       return job->cancelled;
->>>   }
->>> -bool job_is_ready(Job *job)
->>> +/* Called with job_mutex held. */
->>
->> This information should go with the doc comments (and it's already there
->> in job.h!). There is no rule on where to put doc comments but in this
->> case you already added them to job.h, so they are not needed here in
->> job.c. Leaving them could confuse other people into adding doc comments
->> into job.c instead of job.h.
->>
+v2:
+- Explain that firmware must be built without NVRAM store.
+---
+ docs/amd-memory-encryption.txt | 52 +++++++++++++++++++++++++++++++---
+ 1 file changed, 48 insertions(+), 4 deletions(-)
 
-Yes, in general I will leave the comment for static functions in job.c 
-and make sure the public ones are only documented in job.h.
+diff --git a/docs/amd-memory-encryption.txt b/docs/amd-memory-encryption.txt
+index ffca382b5f..fcb712ee90 100644
+--- a/docs/amd-memory-encryption.txt
++++ b/docs/amd-memory-encryption.txt
+@@ -43,7 +43,7 @@ The guest policy is passed as plaintext. A hypervisor may choose to read it,
+ but should not modify it (any modification of the policy bits will result
+ in bad measurement). The guest policy is a 4-byte data structure containing
+ several flags that restricts what can be done on a running SEV guest.
+-See KM Spec section 3 and 6.2 for more details.
++See SEV API Spec [1] section 3 and 6.2 for more details.
+ 
+ The guest policy can be provided via the 'policy' property (see below)
+ 
+@@ -88,7 +88,7 @@ expects.
+ LAUNCH_FINISH finalizes the guest launch and destroys the cryptographic
+ context.
+ 
+-See SEV KM API Spec [1] 'Launching a guest' usage flow (Appendix A) for the
++See SEV API Spec [1] 'Launching a guest' usage flow (Appendix A) for the
+ complete flow chart.
+ 
+ To launch a SEV guest
+@@ -113,6 +113,47 @@ a SEV-ES guest:
+  - Requires in-kernel irqchip - the burden is placed on the hypervisor to
+    manage booting APs.
+ 
++Calculating expected guest launch measurement
++---------------------------------------------
++In order to verify the guest launch measurement, The Guest Owner must compute
++it in the exact same way as it is calculated by the AMD-SP.  SEV API Spec [1]
++section 6.5.1 describes the AMD-SP operations:
++
++    GCTX.LD is finalized, producing the hash digest of all plaintext data
++    imported into the guest.
++
++    The launch measurement is calculated as:
++
++    HMAC(0x04 || API_MAJOR || API_MINOR || BUILD || GCTX.POLICY || GCTX.LD || MNONCE; GCTX.TIK)
++
++    where "||" represents concatenation.
++
++The values of API_MAJOR, API_MINOR, BUILD, and GCTX.POLICY can be obtained
++from the 'query-sev' qmp command.
++
++The value of MNONCE is part of the response of 'query-sev-launch-measure': it
++is the last 16 bytes of the base64-decoded data field (see SEV API Spec [1]
++section 6.5.2 Table 52: LAUNCH_MEASURE Measurement Buffer).
++
++The value of GCTX.LD is SHA256(firmware_blob || kernel_hashes_blob || vmsas_blob),
++where:
++
++* firmware_blob is the content of the entire firmware flash file (for example,
++  OVMF.fd).  Note that you must build a stateless firmware file which doesn't
++  use an NVRAM store, because the NVRAM area is not measured, and therefore it
++  is not secure to use a firmware which uses state from an NVRAM store.
++* if kernel is used, and kernel-hashes=on, then kernel_hashes_blob is the
++  content of PaddedSevHashTable (including the zero padding), which itself
++  includes the hashes of kernel, initrd, and cmdline that are passed to the
++  guest.  The PaddedSevHashTable struct is defined in target/i386/sev.c .
++* if SEV-ES is enabled (policy & 0x4 != 0), vmsas_blob is the concatenation of
++  all VMSAs of the guest vcpus.  Each VMSA is 4096 bytes long; its content is
++  defined inside Linux kernel code as struct vmcb_save_area, or in AMD APM
++  Volume 2 [2] Table B-2: VMCB Layout, State Save Area.
++
++If kernel hashes are not used, or SEV-ES is disabled, use empty blobs for
++kernel_hashes_blob and vmsas_blob as needed.
++
+ Debugging
+ -----------
+ Since the memory contents of a SEV guest are encrypted, hypervisor access to
+@@ -134,8 +175,11 @@ References
+ AMD Memory Encryption whitepaper:
+ https://developer.amd.com/wordpress/media/2013/12/AMD_Memory_Encryption_Whitepaper_v7-Public.pdf
+ 
+-Secure Encrypted Virtualization Key Management:
+-[1] http://developer.amd.com/wordpress/media/2017/11/55766_SEV-KM-API_Specification.pdf
++Secure Encrypted Virtualization API:
++[1] https://www.amd.com/system/files/TechDocs/55766_SEV-KM_API_Specification.pdf
++
++AMD64 Architecture Programmer's Manual Volume 2: System Programming
++[2] https://www.amd.com/system/files/TechDocs/24593.pdf
+ 
+ KVM Forum slides:
+ http://www.linux-kvm.org/images/7/74/02x08A-Thomas_Lendacky-AMDs_Virtualizatoin_Memory_Encryption_Technology.pdf
 
-Thank you,
-Emanuele
+base-commit: 212a33d3b0c65ae2583bb1d06cb140cd0890894c
+-- 
+2.25.1
 
 
