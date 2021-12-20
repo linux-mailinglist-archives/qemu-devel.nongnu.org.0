@@ -2,89 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4E5F47A4B9
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Dec 2021 06:51:42 +0100 (CET)
-Received: from localhost ([::1]:55856 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B286E47A4FA
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Dec 2021 07:24:39 +0100 (CET)
+Received: from localhost ([::1]:36182 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mzBaH-0008Bb-JR
-	for lists+qemu-devel@lfdr.de; Mon, 20 Dec 2021 00:51:41 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50362)
+	id 1mzC6A-0002hi-Pg
+	for lists+qemu-devel@lfdr.de; Mon, 20 Dec 2021 01:24:38 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50484)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=9816edf2f=alistair.francis@opensource.wdc.com>)
- id 1mzAn2-0004H5-8P
- for qemu-devel@nongnu.org; Mon, 20 Dec 2021 00:00:50 -0500
-Received: from esa6.hgst.iphmx.com ([216.71.154.45]:13399)
+ id 1mzAnV-0004Mv-AP
+ for qemu-devel@nongnu.org; Mon, 20 Dec 2021 00:01:18 -0500
+Received: from esa6.hgst.iphmx.com ([216.71.154.45]:13394)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=9816edf2f=alistair.francis@opensource.wdc.com>)
- id 1mzAmy-0008MN-SG
- for qemu-devel@nongnu.org; Mon, 20 Dec 2021 00:00:46 -0500
+ id 1mzAnB-0008Lj-3G
+ for qemu-devel@nongnu.org; Mon, 20 Dec 2021 00:01:04 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1639976445; x=1671512445;
+ t=1639976458; x=1671512458;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=F3gRQu81GWMU0aB9KuDEYcvhtof5XpUEDpokRRJWn/A=;
- b=Mdf6ccLfiy0qDPD3b9hl9srl52xomDmYvQ44RnFSiiuRshPijQD/LB95
- W7TLnOC3gYs9qFWoV0NouwEyytuOeJ6Wj7AvZ94VRyzCg1Kaf2b6jS6nl
- 73WRGz/FJmjUDP2KP7Cf2vhXqQH8VZaIr7+g3Yr1/vKmkJXa99fA/DP0B
- 0rWSbxiLH5VJ8KsYiPiRzMx7tD7qGiUDdmmqMHLGR8mbceG5mZSkpomrg
- oS7yN/PqEkX39fWWR35gRImCbq7UQZcta4/l4l7GjIsQQCaCbKz4PcUhL
- fwqQo3yDVDyklkorW33y/sFDwxaQ5LScBhgbam12YkipmiDD+7jlYMz8t A==;
-X-IronPort-AV: E=Sophos;i="5.88,219,1635177600"; d="scan'208";a="189680113"
+ bh=zZAxSxREizNj6oG4uH28xDm2L1l2NBsnTFniT5HJ9w0=;
+ b=ZnrE3HAmO5ohEtGJ/owCgHYdj2XObqa6S4jpeNaCWN1bee3O1DND8GlZ
+ NVjCY2FBlPdoserW0xjZHAxmt6Cft2FlMfPAIbWwxlzS55grH1hr/oQwd
+ NjhUtGpsUqGJwt+gnDEzPFVtlKCQ6IWXgZQfY/ACf2fMHlNJafKrfzit3
+ GO99C32sW8OJB4jCjMH8R7Xz2esqlu18Kqd/nJVSENLuSZYmATjREocHe
+ AXbOQbfZ5x4dTl6Y5csoONxqVpnrMdKOVmQP9WqKUepsUhqr85Gk1QY7h
+ DvRkDjapPoZCJl6+UTeEVQAI73Qx6ZlNfybAHTud9U63hH7YGfiOCHf87 w==;
+X-IronPort-AV: E=Sophos;i="5.88,219,1635177600"; d="scan'208";a="189680123"
 Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 20 Dec 2021 13:00:31 +0800
-IronPort-SDR: MhV3FAOK+agCw9uf+aRcsrVbj2nQBMzN15iUfYBvaVqbiLfiWMStoxc5bnbsfnwkA7PeVfbiBb
- uBT0CN+vDLl/A90JviUEhnzQ/GTrPHOWOwHqvnGDYCqL8wZRFWuSm6D+tL353xiVC4y8fpUFh0
- faL86QZVzas4d2kd6XCGPhF/Kj5siAfTpI+El8Z7sQHRHgadb6mQlSsQ7GbjrpXYAtaMheD2or
- x6hZHXS12ULCyp6yNnSB4mlBFPvWG8dXC2DgWGoe7EuA/NCAsw3Eg+JGUZ8yRkg6A7m2XVfqRK
- Jg7lwMEyVVRt/eKwD9E9QUy9
+ by ob1.hgst.iphmx.com with ESMTP; 20 Dec 2021 13:00:35 +0800
+IronPort-SDR: oad89uW2S9c63ABZGdsUuPcB1m5CJIxqoxiOogc7aIBpyZg/Asp6x1XR5v/IFU2+5veBRDpZyJ
+ rU6WSCTrc0i4xepPOydc/KzmhAWLdiWgFjW+q7VRmS626X4ZZi1dkfondWBaHKUFpJsn1CCyeY
+ 3QEkeOeOvkYziuWEJsEh7JfVcbzyzJPZ3CUaSip/aHz0aU6kv7Kaj1QhVFzBDDrnk/69EJd0re
+ w79z5aQRwJZ+yuFhclRhvXPXNX/zmySVo81AsB2ro5YX1vZuQ7ICbEsPcpZ3l07cS/AUUqAV7b
+ nUVbc1TUmGYCevXx8jIzaEbt
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Dec 2021 20:33:19 -0800
-IronPort-SDR: f/xC0oeT8XK5SxaU/OvkhRg0LgI+ymZJtmfPZHsDWgDX1aNi2qTp1OpMuMC4RMRsJqLVUd2k4U
- bp7XhWYufTEGSNLzE5jnEEuhObsMKXV8Wv2+D9po04EO3DHWGqY5GLep9gyp5fYuKAbtltk/GE
- mjTqy7OohQPtP6DMhtJ2NoKb2j9HgpaKkMKAu1yOSmGv43eVKh1fqPDr9qa/HeacC0W8HEEyoi
- m+yOt4d1ySZOk/OPkGaMiAYTs7XURuNy90/I/6YSJBXisYyVUERsq7GjrqIMJPHGmHxfvTssRB
- nQ4=
+ 19 Dec 2021 20:33:23 -0800
+IronPort-SDR: SBryWRt1LoOTpO63CRC/FfHmm6voVNyKhQKblwLwufPvjtnL1Lxi6XudMzYU9z4z5vLOCZU3yz
+ 0USuD64TDWLMBRfkrqPVjmWx/a0nm/awEm+HjY3HRuYZN6VaUmzbHgB0w40IN4U3e9ItykF8nL
+ /PeTYRJTBPnDnWtbrT4UbaiZUxDWG/BneSpwcSPv7SqEEnmMbo8eQEBmt2Oi4CVmlDgL/Ka32Y
+ PwPEXhWXFugy9/dm40NIcRvGqhnKuq/Ajy3O5uFNJpyby+ru2GNY9hFysoQAqnDptAaB4TZV9C
+ p/8=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Dec 2021 21:00:31 -0800
+ 19 Dec 2021 21:00:35 -0800
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4JHS8F5pQPz1RvTh
- for <qemu-devel@nongnu.org>; Sun, 19 Dec 2021 21:00:29 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4JHS8K6dwyz1RvTg
+ for <qemu-devel@nongnu.org>; Sun, 19 Dec 2021 21:00:33 -0800 (PST)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
  opensource.wdc.com; h=content-transfer-encoding:mime-version
  :references:in-reply-to:x-mailer:message-id:date:subject:to
- :from; s=dkim; t=1639976429; x=1642568430; bh=F3gRQu81GWMU0aB9Ku
- DEYcvhtof5XpUEDpokRRJWn/A=; b=Shgh7nEEoL4bd+o9YPBvCgngeHfAh/eY5H
- 1in4Y6pbpVE0Nkcc/f9MChVnonlacAzWvsB0YAZzlP+EmxM7ckqJVdfCbGxujGuo
- +qk5QFqfzLu/jPtIwcc0ua/VJBaAUThlVp2h4BnUmnb5UVhEm8zTNNI3GUyaSCMz
- wB7AY6eTuq4VqtMn7nn1wpvf3LUS2Fgd8bgCkBeGa35N7NRcmF6YoueRMP1w1s5g
- RwUfftXopsUjUrW5KyMemc7U7yUn3ywhNZnXNPiurQ7QwFaoTPZlLR/iuIwuFkKl
- gmgjEF1W64mZ+5wzaoUmIlGu2Df7jTBuBY25W3w+0E5816uWEDqA==
+ :from; s=dkim; t=1639976433; x=1642568434; bh=zZAxSxREizNj6oG4uH
+ 28xDm2L1l2NBsnTFniT5HJ9w0=; b=fVs2IxQZjC5OFVXj7zHAqV0LxXqaOc6D8P
+ wxYzI/UlPeWmnAzaSdonbrNddk2oJd4AIpu4KNxdG+9Y0v50Jy0jPvrHOYn41LDe
+ 5niMMMknlrwc/TcwtNQlmuVPi1WwSGFpmQeqPxs17hd3hSzi0cffhzoOZR83hNNO
+ +1eKPfUl1KvoZjGHQSgTet4XkP1XKDzjQ8khYsGvmblGGbd8QNQerTaIPXpgQc6/
+ Mv5RjS6FlP2doabpPOXdyxyaJXwh6SpWO3Ppuu3CiovNelQuhxYsyhCYtsG+LRIM
+ IOlBxGSB/UJRpyHvrnO4L+fGRQC1R5mE4P59EXQdKQ8HAs07sgVw==
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id TS9IUOvy8s5b for <qemu-devel@nongnu.org>;
- Sun, 19 Dec 2021 21:00:29 -0800 (PST)
+ port 10026) with ESMTP id 12pARonuJ3a5 for <qemu-devel@nongnu.org>;
+ Sun, 19 Dec 2021 21:00:33 -0800 (PST)
 Received: from toolbox.alistair23.me (unknown [10.225.165.68])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4JHS8B5Dwdz1RtVG;
- Sun, 19 Dec 2021 21:00:26 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4JHS8G2PVFz1RtVG;
+ Sun, 19 Dec 2021 21:00:29 -0800 (PST)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org
 Cc: alistair23@gmail.com, Frank Chang <frank.chang@sifive.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
  Alistair Francis <alistair.francis@wdc.com>
-Subject: [PULL 47/88] target/riscv: rvv-1.0: whole register move instructions
-Date: Mon, 20 Dec 2021 14:56:24 +1000
-Message-Id: <20211220045705.62174-48-alistair.francis@opensource.wdc.com>
+Subject: [PULL 48/88] target/riscv: rvv-1.0: integer extension instructions
+Date: Mon, 20 Dec 2021 14:56:25 +1000
+Message-Id: <20211220045705.62174-49-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211220045705.62174-1-alistair.francis@opensource.wdc.com>
 References: <20211220045705.62174-1-alistair.francis@opensource.wdc.com>
@@ -119,71 +120,196 @@ From: Frank Chang <frank.chang@sifive.com>
 
 Add the following instructions:
 
-* vmv1r.v
-* vmv2r.v
-* vmv4r.v
-* vmv8r.v
+* vzext.vf2
+* vzext.vf4
+* vzext.vf8
+* vsext.vf2
+* vsext.vf4
+* vsext.vf8
 
 Signed-off-by: Frank Chang <frank.chang@sifive.com>
-Acked-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <20211210075704.23951-40-frank.chang@sifive.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20211210075704.23951-41-frank.chang@sifive.com>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/insn32.decode              |  4 ++++
- target/riscv/insn_trans/trans_rvv.c.inc | 25 +++++++++++++++++++++++++
- 2 files changed, 29 insertions(+)
+ target/riscv/helper.h                   | 14 +++++
+ target/riscv/insn32.decode              |  8 +++
+ target/riscv/vector_helper.c            | 31 ++++++++++
+ target/riscv/insn_trans/trans_rvv.c.inc | 80 +++++++++++++++++++++++++
+ 4 files changed, 133 insertions(+)
 
+diff --git a/target/riscv/helper.h b/target/riscv/helper.h
+index bd0768d048..878d82caf6 100644
+--- a/target/riscv/helper.h
++++ b/target/riscv/helper.h
+@@ -1072,3 +1072,17 @@ DEF_HELPER_6(vcompress_vm_b, void, ptr, ptr, ptr, =
+ptr, env, i32)
+ DEF_HELPER_6(vcompress_vm_h, void, ptr, ptr, ptr, ptr, env, i32)
+ DEF_HELPER_6(vcompress_vm_w, void, ptr, ptr, ptr, ptr, env, i32)
+ DEF_HELPER_6(vcompress_vm_d, void, ptr, ptr, ptr, ptr, env, i32)
++
++DEF_HELPER_5(vzext_vf2_h, void, ptr, ptr, ptr, env, i32)
++DEF_HELPER_5(vzext_vf2_w, void, ptr, ptr, ptr, env, i32)
++DEF_HELPER_5(vzext_vf2_d, void, ptr, ptr, ptr, env, i32)
++DEF_HELPER_5(vzext_vf4_w, void, ptr, ptr, ptr, env, i32)
++DEF_HELPER_5(vzext_vf4_d, void, ptr, ptr, ptr, env, i32)
++DEF_HELPER_5(vzext_vf8_d, void, ptr, ptr, ptr, env, i32)
++
++DEF_HELPER_5(vsext_vf2_h, void, ptr, ptr, ptr, env, i32)
++DEF_HELPER_5(vsext_vf2_w, void, ptr, ptr, ptr, env, i32)
++DEF_HELPER_5(vsext_vf2_d, void, ptr, ptr, ptr, env, i32)
++DEF_HELPER_5(vsext_vf4_w, void, ptr, ptr, ptr, env, i32)
++DEF_HELPER_5(vsext_vf4_d, void, ptr, ptr, ptr, env, i32)
++DEF_HELPER_5(vsext_vf8_d, void, ptr, ptr, ptr, env, i32)
 diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-index ab5fdbf9be..06a8076311 100644
+index 06a8076311..a6f9e5dcc6 100644
 --- a/target/riscv/insn32.decode
 +++ b/target/riscv/insn32.decode
-@@ -650,6 +650,10 @@ vrgatherei16_vv 001110 . ..... ..... 000 ..... 10101=
-11 @r_vm
- vrgather_vx     001100 . ..... ..... 100 ..... 1010111 @r_vm
- vrgather_vi     001100 . ..... ..... 011 ..... 1010111 @r_vm
- vcompress_vm    010111 - ..... ..... 010 ..... 1010111 @r
-+vmv1r_v         100111 1 ..... 00000 011 ..... 1010111 @r2rd
-+vmv2r_v         100111 1 ..... 00001 011 ..... 1010111 @r2rd
-+vmv4r_v         100111 1 ..... 00011 011 ..... 1010111 @r2rd
-+vmv8r_v         100111 1 ..... 00111 011 ..... 1010111 @r2rd
+@@ -655,6 +655,14 @@ vmv2r_v         100111 1 ..... 00001 011 ..... 10101=
+11 @r2rd
+ vmv4r_v         100111 1 ..... 00011 011 ..... 1010111 @r2rd
+ vmv8r_v         100111 1 ..... 00111 011 ..... 1010111 @r2rd
 =20
++# Vector Integer Extension
++vzext_vf2       010010 . ..... 00110 010 ..... 1010111 @r2_vm
++vzext_vf4       010010 . ..... 00100 010 ..... 1010111 @r2_vm
++vzext_vf8       010010 . ..... 00010 010 ..... 1010111 @r2_vm
++vsext_vf2       010010 . ..... 00111 010 ..... 1010111 @r2_vm
++vsext_vf4       010010 . ..... 00101 010 ..... 1010111 @r2_vm
++vsext_vf8       010010 . ..... 00011 010 ..... 1010111 @r2_vm
++
  vsetvli         0 ........... ..... 111 ..... 1010111  @r2_zimm
  vsetvl          1000000 ..... ..... 111 ..... 1010111  @r
-diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_=
-trans/trans_rvv.c.inc
-index 89f88a0ea7..91e7c14ec4 100644
---- a/target/riscv/insn_trans/trans_rvv.c.inc
-+++ b/target/riscv/insn_trans/trans_rvv.c.inc
-@@ -3259,3 +3259,28 @@ static bool trans_vcompress_vm(DisasContext *s, ar=
-g_r *a)
-     }
-     return false;
- }
+=20
+diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
+index 86d03d8e39..58ba2a7d99 100644
+--- a/target/riscv/vector_helper.c
++++ b/target/riscv/vector_helper.c
+@@ -4544,3 +4544,34 @@ GEN_VEXT_VCOMPRESS_VM(vcompress_vm_b, uint8_t,  H1=
+)
+ GEN_VEXT_VCOMPRESS_VM(vcompress_vm_h, uint16_t, H2)
+ GEN_VEXT_VCOMPRESS_VM(vcompress_vm_w, uint32_t, H4)
+ GEN_VEXT_VCOMPRESS_VM(vcompress_vm_d, uint64_t, H8)
 +
-+/*
-+ * Whole Vector Register Move Instructions ignore vtype and vl setting.
-+ * Thus, we don't need to check vill bit. (Section 16.6)
-+ */
-+#define GEN_VMV_WHOLE_TRANS(NAME, LEN)                          \
-+static bool trans_##NAME(DisasContext *s, arg_##NAME * a)       \
-+{                                                               \
-+    if (require_rvv(s) &&                                       \
-+        QEMU_IS_ALIGNED(a->rd, LEN) &&                          \
-+        QEMU_IS_ALIGNED(a->rs2, LEN)) {                         \
-+        /* EEW =3D 8 */                                           \
-+        tcg_gen_gvec_mov(MO_8, vreg_ofs(s, a->rd),              \
-+                         vreg_ofs(s, a->rs2),                   \
-+                         s->vlen / 8 * LEN, s->vlen / 8 * LEN); \
-+        mark_vs_dirty(s);                                       \
-+        return true;                                            \
-+    }                                                           \
-+    return false;                                               \
++/* Vector Integer Extension */
++#define GEN_VEXT_INT_EXT(NAME, ETYPE, DTYPE, HD, HS1)            \
++void HELPER(NAME)(void *vd, void *v0, void *vs2,                 \
++                  CPURISCVState *env, uint32_t desc)             \
++{                                                                \
++    uint32_t vl =3D env->vl;                                       \
++    uint32_t vm =3D vext_vm(desc);                                 \
++    uint32_t i;                                                  \
++                                                                 \
++    for (i =3D 0; i < vl; i++) {                                   \
++        if (!vm && !vext_elem_mask(v0, i)) {                     \
++            continue;                                            \
++        }                                                        \
++        *((ETYPE *)vd + HD(i)) =3D *((DTYPE *)vs2 + HS1(i));       \
++    }                                                            \
 +}
 +
-+GEN_VMV_WHOLE_TRANS(vmv1r_v, 1)
-+GEN_VMV_WHOLE_TRANS(vmv2r_v, 2)
-+GEN_VMV_WHOLE_TRANS(vmv4r_v, 4)
-+GEN_VMV_WHOLE_TRANS(vmv8r_v, 8)
++GEN_VEXT_INT_EXT(vzext_vf2_h, uint16_t, uint8_t,  H2, H1)
++GEN_VEXT_INT_EXT(vzext_vf2_w, uint32_t, uint16_t, H4, H2)
++GEN_VEXT_INT_EXT(vzext_vf2_d, uint64_t, uint32_t, H8, H4)
++GEN_VEXT_INT_EXT(vzext_vf4_w, uint32_t, uint8_t,  H4, H1)
++GEN_VEXT_INT_EXT(vzext_vf4_d, uint64_t, uint16_t, H8, H2)
++GEN_VEXT_INT_EXT(vzext_vf8_d, uint64_t, uint8_t,  H8, H1)
++
++GEN_VEXT_INT_EXT(vsext_vf2_h, int16_t, int8_t,  H2, H1)
++GEN_VEXT_INT_EXT(vsext_vf2_w, int32_t, int16_t, H4, H2)
++GEN_VEXT_INT_EXT(vsext_vf2_d, int64_t, int32_t, H8, H4)
++GEN_VEXT_INT_EXT(vsext_vf4_w, int32_t, int8_t,  H4, H1)
++GEN_VEXT_INT_EXT(vsext_vf4_d, int64_t, int16_t, H8, H2)
++GEN_VEXT_INT_EXT(vsext_vf8_d, int64_t, int8_t,  H8, H1)
+diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_=
+trans/trans_rvv.c.inc
+index 91e7c14ec4..5285e21cc0 100644
+--- a/target/riscv/insn_trans/trans_rvv.c.inc
++++ b/target/riscv/insn_trans/trans_rvv.c.inc
+@@ -3284,3 +3284,83 @@ GEN_VMV_WHOLE_TRANS(vmv1r_v, 1)
+ GEN_VMV_WHOLE_TRANS(vmv2r_v, 2)
+ GEN_VMV_WHOLE_TRANS(vmv4r_v, 4)
+ GEN_VMV_WHOLE_TRANS(vmv8r_v, 8)
++
++static bool int_ext_check(DisasContext *s, arg_rmr *a, uint8_t div)
++{
++    uint8_t from =3D (s->sew + 3) - div;
++    bool ret =3D require_rvv(s) &&
++        (from >=3D 3 && from <=3D 8) &&
++        (a->rd !=3D a->rs2) &&
++        require_align(a->rd, s->lmul) &&
++        require_align(a->rs2, s->lmul - div) &&
++        require_vm(a->vm, a->rd) &&
++        require_noover(a->rd, s->lmul, a->rs2, s->lmul - div);
++    return ret;
++}
++
++static bool int_ext_op(DisasContext *s, arg_rmr *a, uint8_t seq)
++{
++    uint32_t data =3D 0;
++    gen_helper_gvec_3_ptr *fn;
++    TCGLabel *over =3D gen_new_label();
++    tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);
++
++    static gen_helper_gvec_3_ptr * const fns[6][4] =3D {
++        {
++            NULL, gen_helper_vzext_vf2_h,
++            gen_helper_vzext_vf2_w, gen_helper_vzext_vf2_d
++        },
++        {
++            NULL, NULL,
++            gen_helper_vzext_vf4_w, gen_helper_vzext_vf4_d,
++        },
++        {
++            NULL, NULL,
++            NULL, gen_helper_vzext_vf8_d
++        },
++        {
++            NULL, gen_helper_vsext_vf2_h,
++            gen_helper_vsext_vf2_w, gen_helper_vsext_vf2_d
++        },
++        {
++            NULL, NULL,
++            gen_helper_vsext_vf4_w, gen_helper_vsext_vf4_d,
++        },
++        {
++            NULL, NULL,
++            NULL, gen_helper_vsext_vf8_d
++        }
++    };
++
++    fn =3D fns[seq][s->sew];
++    if (fn =3D=3D NULL) {
++        return false;
++    }
++
++    data =3D FIELD_DP32(data, VDATA, VM, a->vm);
++
++    tcg_gen_gvec_3_ptr(vreg_ofs(s, a->rd), vreg_ofs(s, 0),
++                       vreg_ofs(s, a->rs2), cpu_env,
++                       s->vlen / 8, s->vlen / 8, data, fn);
++
++    mark_vs_dirty(s);
++    gen_set_label(over);
++    return true;
++}
++
++/* Vector Integer Extension */
++#define GEN_INT_EXT_TRANS(NAME, DIV, SEQ)             \
++static bool trans_##NAME(DisasContext *s, arg_rmr *a) \
++{                                                     \
++    if (int_ext_check(s, a, DIV)) {                   \
++        return int_ext_op(s, a, SEQ);                 \
++    }                                                 \
++    return false;                                     \
++}
++
++GEN_INT_EXT_TRANS(vzext_vf2, 1, 0)
++GEN_INT_EXT_TRANS(vzext_vf4, 2, 1)
++GEN_INT_EXT_TRANS(vzext_vf8, 3, 2)
++GEN_INT_EXT_TRANS(vsext_vf2, 1, 3)
++GEN_INT_EXT_TRANS(vsext_vf4, 2, 4)
++GEN_INT_EXT_TRANS(vsext_vf8, 3, 5)
 --=20
 2.31.1
 
