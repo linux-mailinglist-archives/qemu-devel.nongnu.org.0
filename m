@@ -2,86 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 085D947B08C
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Dec 2021 16:46:12 +0100 (CET)
-Received: from localhost ([::1]:36234 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C57847AF78
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Dec 2021 16:13:16 +0100 (CET)
+Received: from localhost ([::1]:43916 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mzKra-0005rS-To
-	for lists+qemu-devel@lfdr.de; Mon, 20 Dec 2021 10:46:11 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33846)
+	id 1mzKLj-0000SX-3u
+	for lists+qemu-devel@lfdr.de; Mon, 20 Dec 2021 10:13:15 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34238)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1mzCLt-000452-1j; Mon, 20 Dec 2021 01:40:53 -0500
-Received: from new1-smtp.messagingengine.com ([66.111.4.221]:39375)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mzCQM-0005Lt-HA
+ for qemu-devel@nongnu.org; Mon, 20 Dec 2021 01:45:35 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:25535)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1mzCLq-0001XE-Hu; Mon, 20 Dec 2021 01:40:52 -0500
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailnew.nyi.internal (Postfix) with ESMTP id 444A75804A7;
- Mon, 20 Dec 2021 01:40:47 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute3.internal (MEProxy); Mon, 20 Dec 2021 01:40:47 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm1; bh=0HV1SN7k3AEo6ateLFkeXa1p6gu
- 1kHxcDSkpAt81dBc=; b=kD/k/aer8CmFz3pfCZtcIp7uheK8Q2XcgARKxGYNPrZ
- TPfi4CzI5Z797+YrXqkdpSuII5fqsrDdANAeW+99PE9sKCdDdFb6dLKRj3bkSgTH
- x2xAJh+T2xM5UoyycbTAcjLTXZ/K0DvgD8/NEnmDLOIGEGopb/pQ8q/2V1+OArmc
- sGkqcmlsNvxb4CiyuhICAmo2RiVnVEcmFsiYivNwRnCpJytVt/c565+h1yHNbBJG
- 81E6XIYVKHSRZRwepFa2jPJDqyYQUk61X8yQGS9dqRIfabfIV1aBBkqya6+8pXKe
- h4aBElVzLMlcmuJSeJVWhSWQnHJVNSfrnG+UTZ4lAkw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=0HV1SN
- 7k3AEo6ateLFkeXa1p6gu1kHxcDSkpAt81dBc=; b=joIgsrpCeKHF7/u1zqVP41
- NP71bTv8wOotLW3wVIlLVPi4RVnqMKfGmhcYjZ+2HSKLrxwU/9aRHFsIPxKMCTvu
- I2KL51+6XYDwl5x51pjgznj2uHLC49kQRFnQT2IQkrOotccEQCiPasMNn8aX03+e
- gcE/d/BUVUdhdid5SfNGaASncxaotleHVfgmcM/GlaCelKvY8mK+lKjBibTJ75Cb
- eZMaK09jvfe2K1Nlp9RqHMcAN7AHnZSKyJCZa7mcc0LYG0CHbx2a+QY8s5j626hd
- tv+Iak4/kgYpDKBRIhRqc0NCnj8o+zWhlpV7TdjQBikFsxbJESoI6K+43r2hheLQ
- ==
-X-ME-Sender: <xms:biXAYfX5iE93cotw4FACGii-6SfSrzfKBvh_x-r_2HcACGfj3MhlzQ>
- <xme:biXAYXmnthnue93OE8lapU-B4sOARqPdomyewM7DJN4LgAnjRzi3-TsiBrf_YqjR6
- k7rwGQYNLOt71mLBjs>
-X-ME-Received: <xmr:biXAYbZcKFaidn_FKOG_WU4h0Jrg-Su_cDLHIi4CO3QR7iyYQSn2O-UqduucOIP--mdPIKJuVGAd54GIBsb-mRnEj2QcPXqhLA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddruddtuddguddttdcutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpeffhffvuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghu
- shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
- htvghrnhepudegfeevgeefudfhueeludfgueefteehuefhueffjeeglefggfdtfeefuddv
- tdevnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpe
- dtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:biXAYaVpJoM298g90W3qJMNXnTF7hmt6aF2b_vVz2U5Wa9qYxDnuyQ>
- <xmx:biXAYZn9pBCHxgCD-iW3TG4nMekOT3_AXARGEmC5kXPcgw3aLDAogQ>
- <xmx:biXAYXcMCkqKE8SYSmTVyYVT-wDzMemmmEPxVz1GRAPpdWQHM3d0_g>
- <xmx:byXAYZl3CxfyuaCi7Ve6i1m8nNaegD970iXvt02tyg1YNJBxENHB4A>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 20 Dec 2021 01:40:42 -0500 (EST)
-Date: Mon, 20 Dec 2021 07:40:39 +0100
-From: Klaus Jensen <its@irrelevant.dk>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH 0/2] hw/nvme: Fix CVE-2021-3929 (DMA re-entrancy
- exploitation)
-Message-ID: <YcAlZ6VkqAnLjJlF@apples>
-References: <20211216175510.884749-1-philmd@redhat.com>
- <YbuP4/rLTlCVBRi7@apples> <YbuZw3vTaNuqAISS@apples>
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mzCQI-0001wL-7g
+ for qemu-devel@nongnu.org; Mon, 20 Dec 2021 01:45:29 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1639982724;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ewW7ofMxNk81jxj2j8XOJ6qF4KCJe88M4Yu6gr0LiEA=;
+ b=gMVMgpc/X+oxTSyoumjLd0VcJGIk85Qzsuh2k4IhaSzek6XPCa+IPVrUHVhe0eJpPkGTm0
+ sVc07NLWlyfyC6hhlwqhMDpdoERG/ZBd055/Yn3FER1mmE/QrHYZ9S+cWQKd+RangWn+zT
+ uhT/lEGgYTi4peU7irD13d68JuBzppE=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-7-e5H_yACqOj2-P7yPRXYKNw-1; Mon, 20 Dec 2021 01:45:22 -0500
+X-MC-Unique: e5H_yACqOj2-P7yPRXYKNw-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ b83-20020a1c1b56000000b0033283ea5facso2869965wmb.1
+ for <qemu-devel@nongnu.org>; Sun, 19 Dec 2021 22:45:22 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=ewW7ofMxNk81jxj2j8XOJ6qF4KCJe88M4Yu6gr0LiEA=;
+ b=Gk8c3XJABTTqM6trhkVIQdnKr5RoVn1gMsYzF6JURShks6rHFByD34H0os7TyVnoQ9
+ bmuISrnTG9rOBNztu/dVBJb98h2OSf3rLORmOzFJNLwqXDaJW2plUKTz0Y7qcex+iRjd
+ boUqswG9umlbBFaviE2SFXbDL6fGpHkwUJf16OpY3SLaZ56ODh5mwauMO5uUsg40ZDO/
+ /dvsyecT9YiKKP2+wS8Deq+D1NdL5TU8R5DB+gy3OPyfizeW/kC9ND02td9f7AwjEhVC
+ uxwazxvCb58NPjbHXUNEPbnS5PBgCCVBB2L9TMzzcEpahZ3IGS5I/bkspaoCRde1HsaK
+ Juig==
+X-Gm-Message-State: AOAM531hBDpRUoN2QduCyDKQNueZgTzH3Z6cxAp7ORhT8QrSqUCkuJy8
+ vGSLLRuOFgxJ9IhKO8MhrYxMDQKuetOVOiX+pjIE7wsP7Er1/dUP51cg5tdzwZwq8gEF1Ntien9
+ U2dUN7pgHq9qmhzg=
+X-Received: by 2002:a5d:5744:: with SMTP id q4mr11523061wrw.698.1639982721333; 
+ Sun, 19 Dec 2021 22:45:21 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxXck3o8QZ6+or0xDWEu5RBdXhvCbf6f/fQN+YX09lvKG3GMbAGdZTFgz7tcYbpyfm0TdVqYw==
+X-Received: by 2002:a5d:5744:: with SMTP id q4mr11523052wrw.698.1639982721102; 
+ Sun, 19 Dec 2021 22:45:21 -0800 (PST)
+Received: from [10.33.192.183] (nat-pool-str-t.redhat.com. [149.14.88.106])
+ by smtp.gmail.com with ESMTPSA id l22sm14627121wmq.2.2021.12.19.22.45.20
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 19 Dec 2021 22:45:20 -0800 (PST)
+Message-ID: <29292a83-b411-c24a-1378-0c30cf71af29@redhat.com>
+Date: Mon, 20 Dec 2021 07:45:19 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="glBrsymOtS8hVSif"
-Content-Disposition: inline
-In-Reply-To: <YbuZw3vTaNuqAISS@apples>
-Received-SPF: pass client-ip=66.111.4.221; envelope-from=its@irrelevant.dk;
- helo=new1-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH] hw: m68k: Add virt compat machine type for 7.0
+To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
+References: <20211218114340.1856757-1-laurent@vivier.eu>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20211218114340.1856757-1-laurent@vivier.eu>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.209,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-3.608, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,120 +98,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Mauro Matteo Cascella <mcascell@redhat.com>, qemu-block@nongnu.org,
- David Hildenbrand <david@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Li Qiang <liq3ea@gmail.com>, qemu-devel@nongnu.org,
- Peter Xu <peterx@redhat.com>, Qiuhao Li <Qiuhao.Li@outlook.com>,
- Alexander Bulekov <alxndr@bu.edu>, Bandan Das <bsd@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Keith Busch <kbusch@kernel.org>,
- "Edgar E . Iglesias" <edgar.iglesias@gmail.com>,
- Darren Kenny <darren.kenny@oracle.com>
+Cc: Cornelia Huck <cohuck@redhat.com>, Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 18/12/2021 12.43, Laurent Vivier wrote:
+> Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+> ---
+> Based-On: <20211217143948.289995-1-cohuck@redhat.com>
+> 
+>   hw/m68k/virt.c | 9 ++++++++-
+>   1 file changed, 8 insertions(+), 1 deletion(-)
+> 
+> diff --git a/hw/m68k/virt.c b/hw/m68k/virt.c
+> index 0efa4a45c7f4..78e926a55457 100644
+> --- a/hw/m68k/virt.c
+> +++ b/hw/m68k/virt.c
+> @@ -304,10 +304,17 @@ type_init(virt_machine_register_types)
+>       } \
+>       type_init(machvirt_machine_##major##_##minor##_init);
+>   
+> +static void virt_machine_7_0_options(MachineClass *mc)
+> +{
+> +}
+> +DEFINE_VIRT_MACHINE(7, 0, true)
+> +
+>   static void virt_machine_6_2_options(MachineClass *mc)
+>   {
+> +    virt_machine_7_0_options(mc);
+> +    compat_props_add(mc->compat_props, hw_compat_6_2, hw_compat_6_2_len);
+>   }
+> -DEFINE_VIRT_MACHINE(6, 2, true)
+> +DEFINE_VIRT_MACHINE(6, 2, false)
+>   
+>   static void virt_machine_6_1_options(MachineClass *mc)
+>   {
+> 
 
---glBrsymOtS8hVSif
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
-On Dec 16 20:55, Klaus Jensen wrote:
-> On Dec 16 20:13, Klaus Jensen wrote:
-> > On Dec 16 18:55, Philippe Mathieu-Daud=C3=A9 wrote:
-> > > Now that the DMA API allow passing MemTxAttrs argument and
-> > > returning MemTxResult (with MEMTX_BUS_ERROR in particular),
-> > > we can restrict the NVMe controller to memories (prohibitting
-> > > accesses by the DMA engine to devices) and block yet another
-> > > DMA re-entrancy attack.
-> > >=20
-> > > I'll will try to get a reproducer (and authorization to commit
-> > > it as qtest) from the reporter.
-> > >=20
-> > > Based-on: <20211216123558.799425-1-philmd@redhat.com>
-> > > "hw: Have DMA API take MemTxAttrs arg & propagate MemTxResult (part 2=
-)"
-> > > https://lore.kernel.org/qemu-devel/20211216123558.799425-1-philmd@red=
-hat.com/
-> > >=20
-> > > Philippe Mathieu-Daud=C3=A9 (2):
-> > >   hw/nvme/ctrl: Do not ignore DMA access errors
-> > >   hw/nvme/ctrl: Prohibit DMA accesses to devices (CVE-2021-3929)
-> > >=20
-> > >  hw/nvme/ctrl.c | 9 +++++----
-> > >  1 file changed, 5 insertions(+), 4 deletions(-)
-> > >=20
-> >=20
-> > LGTM.
-> >=20
-> > Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
->=20
-> Ugh. Jumped the gun here.
->=20
-> This all looked fine, but since this prohibits DMA to other devices it
-> breaks DMA'ing to a controller memory buffer on another device, which is
-> a used feature of some setups.
->=20
-> I think we need to fix this like e1000 did?
-
-Something like this maybe?
-
-This fixes CVE-2021-3929 "locally" by denying DMA to the iomem of the
-device itself. This still allows DMA to MMIO regions of other devices
-(e.g. doing P2P DMA to the controller memory buffer of another NVMe
-device).
-
-
-diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-index 5f573c417b3d..9a79f6728867 100644
---- a/hw/nvme/ctrl.c
-+++ b/hw/nvme/ctrl.c
-@@ -357,6 +357,16 @@ static inline void *nvme_addr_to_pmr(NvmeCtrl *n, hwad=
-dr addr)
-     return memory_region_get_ram_ptr(&n->pmr.dev->mr) + (addr - n->pmr.cba=
-);
- }
-
-+static inline bool nvme_addr_is_iomem(NvmeCtrl *n, hwaddr addr)
-+{
-+    hwaddr hi, lo;
-+
-+    lo =3D n->bar0.addr;
-+    hi =3D lo + int128_get64(n->bar0.size);
-+
-+    return addr >=3D lo && addr < hi;
-+}
-+
- static int nvme_addr_read(NvmeCtrl *n, hwaddr addr, void *buf, int size)
- {
-     hwaddr hi =3D addr + size - 1;
-@@ -614,6 +624,10 @@ static uint16_t nvme_map_addr(NvmeCtrl *n, NvmeSg *sg,=
- hwaddr addr, size_t len)
-
-     trace_pci_nvme_map_addr(addr, len);
-
-+    if (nvme_addr_is_iomem(n, addr)) {
-+        return NVME_DATA_TRAS_ERROR;
-+    }
-+
-     if (nvme_addr_is_cmb(n, addr)) {
-         cmb =3D true;
-     } else if (nvme_addr_is_pmr(n, addr)) {
-
---glBrsymOtS8hVSif
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmHAJWMACgkQTeGvMW1P
-DekrSAf/aw2PWQo/dSgGPWFfMIWJALMoP2BCeZ5Kq2b59tTwAMHYnYFShblNKF8q
-Fnp1bUPsKA2PjbrOXAIK16ND+yfVngnBvc8shNCOU8lTKVyrxSdF/jiifbpbE9Td
-yVuXYxtrT+gOmXH84PZBkRciXTBDExYg8cwoIgt5v3tWXS4hKlOBz3AN0CzvbnUQ
-n+XnepX8AN65Iz1rN8VTFwa9chSgkH8yxi+IK/Fpjt03upmsSGtH+E6FCynZZKvr
-JikGpVzYJAmLR44F5NVS5GEgLXdUwQGMVOA1y51YqJKijakTld4l8PmPK1SlI18y
-UcQPaUFmdrEc7sJlde+gPuwBd6jUTQ==
-=5nl+
------END PGP SIGNATURE-----
-
---glBrsymOtS8hVSif--
 
