@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55F7B47B5E9
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Dec 2021 23:32:44 +0100 (CET)
-Received: from localhost ([::1]:36738 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B046A47B5EC
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Dec 2021 23:37:35 +0100 (CET)
+Received: from localhost ([::1]:39840 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mzRD1-0006gy-0X
-	for lists+qemu-devel@lfdr.de; Mon, 20 Dec 2021 17:32:43 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40594)
+	id 1mzRHi-0000Yb-HY
+	for lists+qemu-devel@lfdr.de; Mon, 20 Dec 2021 17:37:34 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41152)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mzRBq-0005ef-E1
- for qemu-devel@nongnu.org; Mon, 20 Dec 2021 17:31:30 -0500
-Received: from [2a00:1450:4864:20::52b] (port=45729
+ id 1mzRFt-0007Yj-ST
+ for qemu-devel@nongnu.org; Mon, 20 Dec 2021 17:35:41 -0500
+Received: from [2a00:1450:4864:20::52b] (port=44647
  helo=mail-ed1-x52b.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mzRBn-00035E-J0
- for qemu-devel@nongnu.org; Mon, 20 Dec 2021 17:31:28 -0500
-Received: by mail-ed1-x52b.google.com with SMTP id j6so23519373edw.12
- for <qemu-devel@nongnu.org>; Mon, 20 Dec 2021 14:31:27 -0800 (PST)
+ id 1mzRFs-0003UH-4K
+ for qemu-devel@nongnu.org; Mon, 20 Dec 2021 17:35:41 -0500
+Received: by mail-ed1-x52b.google.com with SMTP id w16so15907868edc.11
+ for <qemu-devel@nongnu.org>; Mon, 20 Dec 2021 14:35:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=CN3Yct0/l4poS8vUFSxOrzcWSAJc0P8gDUbiOyJ/hQg=;
- b=L8jRP5wtIcSo28habdUIfl/IWCiNCh+UNt4zzwnDoaeCmAJBFnLH/F1hXmPsYtZ9Qc
- KJruGm0DPzc+J9DL5n8r0pGZkahSINHM9MlkzAK93w5p/mm3A/ziQjiMCzDlCpp7DKi9
- CDM1Z2Cq5wG/VOL64P3x7G84wJFZSkmH4BBNETWB1eFcFrub5qUI9VGpsl+c3HPVTzXA
- EUy7hznK0VBOFkdX2dSr8OK5dOHzVOEgimOoNC3E2Q09yDLHY3LzSqqSXT6qoQO7nQXj
- Jw4srHPUT5hvJIQbh9TNDBHmicYe5sIpAj1M8SwOR48E059cls9TO5t3OJOcbTB6iCMD
- pnvw==
+ bh=gBIDRJFOwrm3uQ7X2jx0y7dBqJMOt1JuIOJ5h2J9Wak=;
+ b=F1mJNnV9RpAn2iTtiazPw/fLd8IUGZG9+MsE2JOmnwXjOZ2uh6HSKm92RNiTmW3jFS
+ 6aTUNpeEapVfFAhaMUne8QK4msSX6hErcFeFcdXAIPkRRAx2ya2tRYZr36J6FUEbV32O
+ p5ArKTsWx+bFGGxu4cDKN4tGVHuYhU2AkL2RSmEgeO8PWBT3ayEMpEPYPA5zX5jvJIjF
+ e7xiRtaVTlqiTkuvOzAA5EGzvluS2WBh/WNMqB+Da6sw0TABJ2C7IZZqIqJc1Q6cIrQ/
+ m3d4ZAlJIQnBQaatA7AzeneNeRuf62nsUlV0ZuRuZ0jnmTTMJRsFP2WUXFkOae+cJjgY
+ lu9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=CN3Yct0/l4poS8vUFSxOrzcWSAJc0P8gDUbiOyJ/hQg=;
- b=k35lxZ/KVKjkvLH4DY7GeKDo1/N1fbN2SeYQf1aWSU/C3dNIPP6YsnS4qguGgiCq6Z
- tj7IcFYoHqAjbq1djqp3YRz5IYVXF4om4PKJ7da/X4b6x5mAqYKwt4e349lden+QjkvV
- cGnucbHQhaXcTbZ3Xft8WUfOjtFqUah4tRJvxWrkfUwXRBTjRlJi6TWI8oq0uo7k15Bj
- mCVSUsgMIUOIFzJhAwLtbtmpJEMOQnYiwHnyYEcMFVXFN42oP7GxyJa6DfL+otX1+g8B
- K6trhylUk1MHPdDccfosHv3Jh2oso9iua61v2KFmnW5hxSNfsKDlK46M5z5g1DeW/hix
- b9Pw==
-X-Gm-Message-State: AOAM530C0jQULX4TT6bTazj3ky06fb7bTX4zYeYooHsw+0zYyGPKjjb7
- 7y1URAdnkTnivwsEu579cmc=
-X-Google-Smtp-Source: ABdhPJyliw2U/Vzzu7GmTFK3w8cj3S7vQcW2oz5cot0u7wQ+7dyO1BHCI1EkzCALiwDMkOaHuhO6Rg==
-X-Received: by 2002:a05:6402:16cd:: with SMTP id
- r13mr247469edx.264.1640039486081; 
- Mon, 20 Dec 2021 14:31:26 -0800 (PST)
+ bh=gBIDRJFOwrm3uQ7X2jx0y7dBqJMOt1JuIOJ5h2J9Wak=;
+ b=lmMNn4RpqeDSBsMop46q45sTDh+yKU5Ik4Ih/ztEWrFvne6rM3b9y/RDjRCex7Zdof
+ dDJGjvyqy/aZofgrZoJx2bxC3zaU/IOqwHSSc067mEGe+dM1drh2KydBDd3QYTHT2cdD
+ ro1cfPG2AZmEo2BibG1na1qwv/OAweoVn3qCw0WvcGlaIzQ1DwsAleCW4p8LNY/s0gCu
+ d30A+0N4NoalUZ918sg/iGhzyQsmV2zWvBAdNEwodLCfE6AfeqbRvLuzjp9cLQ2xOmjm
+ x55AIxIbrBDf45TW1uEV5d1RKnBWcbjlQc/zV8m8cj266C8cRbo0Jn7PVaUXAlNt2AaU
+ Bx8w==
+X-Gm-Message-State: AOAM5312Lx6SXcdnlWEE9hQ1FbDmovVl2vDaSQ4MmtLXWk/DDPh7kq3m
+ QhLvJQ1swfnNMKs+elRkY24znFr/6sU=
+X-Google-Smtp-Source: ABdhPJwHHQeKiguv3oHgwOL3twS/WcKNYT6zVqm+m1Wi8eXu+LoWI3aWnhutBKr3IvhfxYm4+20Hwg==
+X-Received: by 2002:a17:907:e8c:: with SMTP id
+ ho12mr213051ejc.689.1640039738081; 
+ Mon, 20 Dec 2021 14:35:38 -0800 (PST)
 Received: from [192.168.1.36] (174.red-83-50-185.dynamicip.rima-tde.net.
  [83.50.185.174])
- by smtp.gmail.com with ESMTPSA id mc3sm5680103ejb.24.2021.12.20.14.31.24
+ by smtp.gmail.com with ESMTPSA id c10sm4467352ejm.118.2021.12.20.14.35.36
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 20 Dec 2021 14:31:25 -0800 (PST)
-Message-ID: <8e28ad1d-33be-e938-01c8-17b48458cc97@amsat.org>
-Date: Mon, 20 Dec 2021 23:31:24 +0100
+ Mon, 20 Dec 2021 14:35:37 -0800 (PST)
+Message-ID: <46ba0b53-f857-6565-8f02-ea8bee16cb9e@amsat.org>
+Date: Mon, 20 Dec 2021 23:35:36 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.4.0
-Subject: Re: [PATCH 3/6] linux-user: Add code for PR_GET/SET_UNALIGN
+Subject: Re: [PATCH 1/6] linux-user: Split out do_prctl and subroutines
 Content-Language: en-US
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20211220214135.189157-1-richard.henderson@linaro.org>
- <20211220214135.189157-4-richard.henderson@linaro.org>
+ <20211220214135.189157-2-richard.henderson@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <20211220214135.189157-4-richard.henderson@linaro.org>
+In-Reply-To: <20211220214135.189157-2-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52b
@@ -94,45 +94,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: laurent@vivier.eu, Warner Losh <imp@bsdimp.com>
+Cc: laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 12/20/21 22:41, Richard Henderson wrote:
-> This requires extra work for each target, but adds the
-> common syscall code, and the necessary flag in CPUState.
+> Since the prctl constants are supposed to be generic, supply
+> any that are not provided by the host.
 > 
-> Reviewed-by: Warner Losh <imp@bsdimp.com>
+> Split out subroutines for PR_GET_FP_MODE, PR_SET_FP_MODE,
+> PR_GET_VL, PR_SET_VL, PR_RESET_KEYS, PR_SET_TAGGED_ADDR_CTRL,
+> PR_GET_TAGGED_ADDR_CTRL.  Return EINVAL for guests that do
+> not support these options rather than pass them on to the host.
+> 
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  include/hw/core/cpu.h                     |  3 +++
->  linux-user/generic/target_prctl_unalign.h | 27 +++++++++++++++++++++++
->  cpu.c                                     | 20 ++++++++++++-----
->  linux-user/syscall.c                      | 13 +++++++++--
->  4 files changed, 56 insertions(+), 7 deletions(-)
->  create mode 100644 linux-user/generic/target_prctl_unalign.h
-> 
-> diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
-> index e948e81f1a..76ab3b851c 100644
-> --- a/include/hw/core/cpu.h
-> +++ b/include/hw/core/cpu.h
-> @@ -413,6 +413,9 @@ struct CPUState {
->  
->      bool ignore_memory_transaction_failures;
->  
-> +    /* Used for user-only emulation of prctl(PR_SET_UNALIGN). */
-> +    bool prctl_unalign_sigbus;
+>  linux-user/aarch64/target_prctl.h    | 160 ++++++++++
+>  linux-user/aarch64/target_syscall.h  |  23 --
+>  linux-user/alpha/target_prctl.h      |   1 +
+>  linux-user/arm/target_prctl.h        |   1 +
+>  linux-user/cris/target_prctl.h       |   1 +
+>  linux-user/hexagon/target_prctl.h    |   1 +
+>  linux-user/hppa/target_prctl.h       |   1 +
+>  linux-user/i386/target_prctl.h       |   1 +
+>  linux-user/m68k/target_prctl.h       |   1 +
+>  linux-user/microblaze/target_prctl.h |   1 +
+>  linux-user/mips/target_prctl.h       |  88 ++++++
+>  linux-user/mips/target_syscall.h     |   6 -
+>  linux-user/mips64/target_prctl.h     |   1 +
+>  linux-user/mips64/target_syscall.h   |   6 -
+>  linux-user/nios2/target_prctl.h      |   1 +
+>  linux-user/openrisc/target_prctl.h   |   1 +
+>  linux-user/ppc/target_prctl.h        |   1 +
+>  linux-user/riscv/target_prctl.h      |   1 +
+>  linux-user/s390x/target_prctl.h      |   1 +
+>  linux-user/sh4/target_prctl.h        |   1 +
+>  linux-user/sparc/target_prctl.h      |   1 +
+>  linux-user/x86_64/target_prctl.h     |   1 +
+>  linux-user/xtensa/target_prctl.h     |   1 +
+>  linux-user/syscall.c                 | 433 +++++++++------------------
+>  24 files changed, 414 insertions(+), 320 deletions(-)
+>  create mode 100644 linux-user/aarch64/target_prctl.h
+>  create mode 100644 linux-user/alpha/target_prctl.h
+>  create mode 100644 linux-user/arm/target_prctl.h
+>  create mode 100644 linux-user/cris/target_prctl.h
+>  create mode 100644 linux-user/hexagon/target_prctl.h
+>  create mode 100644 linux-user/hppa/target_prctl.h
+>  create mode 100644 linux-user/i386/target_prctl.h
+>  create mode 100644 linux-user/m68k/target_prctl.h
+>  create mode 100644 linux-user/microblaze/target_prctl.h
+>  create mode 100644 linux-user/mips/target_prctl.h
+>  create mode 100644 linux-user/mips64/target_prctl.h
+>  create mode 100644 linux-user/nios2/target_prctl.h
+>  create mode 100644 linux-user/openrisc/target_prctl.h
+>  create mode 100644 linux-user/ppc/target_prctl.h
+>  create mode 100644 linux-user/riscv/target_prctl.h
+>  create mode 100644 linux-user/s390x/target_prctl.h
+>  create mode 100644 linux-user/sh4/target_prctl.h
+>  create mode 100644 linux-user/sparc/target_prctl.h
+>  create mode 100644 linux-user/x86_64/target_prctl.h
+>  create mode 100644 linux-user/xtensa/target_prctl.h
 
-Could we forward-declare a UserEmuCPUState structure in this file,
-use it here:
+> +#include "target_prctl.h"
+> +
+> +static abi_long do_prctl_inval0(CPUArchState *env)
+> +{
+> +    return -TARGET_EINVAL;
+> +}
+> +
+> +static abi_long do_prctl_inval1(CPUArchState *env, abi_long arg2)
+> +{
+> +    return -TARGET_EINVAL;
+> +}
+> +
+> +#ifndef do_prctl_get_fp_mode
+> +#define do_prctl_get_fp_mode do_prctl_inval0
+> +#endif
+> +#ifndef do_prctl_set_fp_mode
+> +#define do_prctl_set_fp_mode do_prctl_inval1
+> +#endif
+> +#ifndef do_prctl_get_vl
+> +#define do_prctl_get_vl do_prctl_inval0
+> +#endif
+> +#ifndef do_prctl_set_vl
+> +#define do_prctl_set_vl do_prctl_inval1
+> +#endif
+> +#ifndef do_prctl_reset_keys
+> +#define do_prctl_reset_keys do_prctl_inval1
+> +#endif
+> +#ifndef do_prctl_set_tagged_addr_ctrl
+> +#define do_prctl_set_tagged_addr_ctrl do_prctl_inval1
+> +#endif
+> +#ifndef do_prctl_get_tagged_addr_ctrl
+> +#define do_prctl_get_tagged_addr_ctrl do_prctl_inval0
+> +#endif
 
-       struct UserEmuCPUState *user_cpu;
-
-and declare it in include/hw/core/useremu-cpu.h (or better name)
-restricted to user emulation?
-
-I'd rather not mix sys/user emu specific fields in CPUState.
-
-Can be done later of course, so:
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
