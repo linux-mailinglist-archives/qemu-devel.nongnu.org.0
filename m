@@ -2,128 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 379BC47B2C3
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Dec 2021 19:25:04 +0100 (CET)
-Received: from localhost ([::1]:56372 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2A0147B1F7
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Dec 2021 18:16:50 +0100 (CET)
+Received: from localhost ([::1]:40084 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mzNLK-0001c9-O7
-	for lists+qemu-devel@lfdr.de; Mon, 20 Dec 2021 13:25:02 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43814)
+	id 1mzMHJ-0002HC-TI
+	for lists+qemu-devel@lfdr.de; Mon, 20 Dec 2021 12:16:49 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48614)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1mzKqD-0001H0-EF
- for qemu-devel@nongnu.org; Mon, 20 Dec 2021 10:44:45 -0500
-Received: from mail-vi1eur05on2121.outbound.protection.outlook.com
- ([40.107.21.121]:27986 helo=EUR05-VI1-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1mzKtW-0005QD-8q
+ for qemu-devel@nongnu.org; Mon, 20 Dec 2021 10:48:10 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52321)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1mzKq9-0001WG-ME
- for qemu-devel@nongnu.org; Mon, 20 Dec 2021 10:44:43 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Ixxfj9pw9WSo7jJCYNJe749AjB/IPXSdygTlvVFlnAoa9RkCRwI7O8cKdvqQXuCIKzMf18yW9AIT6JQ8SpHpc8G3si94se0ybpY2Kc+0mePylyQgyerOGj5SSVOaKA9QzoCMZqJ9WF+8y1apmBjGmynKHs1Ae9lCLAomm9dVpKoaJJtm8R8vGLSgKKGYzpt4WjLhQm2J8FEjtaQ08afWtJF/pFI/DDExVLdPfxhH1DbDjCAHDKAt1lbPiFvJhuP1OsdmbpkapdlIdJ9mDkSyrZmUz5/AKDi5cxiEya00THkbqkG3ztrUWHRx2MMqNVll1/gvoWBcJnxz3WyWOccQ3g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=wXZIMgf5ZaWJrBQHxaCTQWydZL/B81ToI3lISfFL6V0=;
- b=RVyNhWgvmUX9oXDvNUaBFxUJTkoXQJasop7FvRw3ktddVxA7znq0Ck95ctmGWH/hMe0nKfxM3UjN6eTjnpF6KrwjMnKG7tnlT7I1a9iTdOrULo5NPnVn3gavR0C/D9rj1ORf57KInNSN0TbgFUUKH6PLQ5BbuYRYUnrE1Pu6wY7RAF3bGwwWvwh410ka1IPe7uwkuRO8imTVMW0lRC4ApC96tR37AQl1ecCR5jgFOItyRzZLjkDvSn969Oj1lzSQz13+FuSrR4lq5Hs6VpzPsSghmiiZGgL/knMs4CIiVsFcqz7AjCQHAwVDa9lIUMiJTB80BwDXvSk8gziZb4KjSg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wXZIMgf5ZaWJrBQHxaCTQWydZL/B81ToI3lISfFL6V0=;
- b=hWea0h9hNb1iPXvg4Y4pSw5OdrEbjyns8I/omjcveFeMQwMmTpwTHryxzgsIrru/0ofSquoqdJ3FR1z0nRyvj/02YU53DGYX4Idw7JyubCm3lj+PIKj4VKt3WAb5GpLHFx+JZki+cxhO3K/+q/pPBCxaawaAt4WLTDfp/35Dg7w=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=virtuozzo.com;
-Received: from DB9PR08MB6748.eurprd08.prod.outlook.com (2603:10a6:10:2a7::16)
- by DB9PR08MB6667.eurprd08.prod.outlook.com (2603:10a6:10:2af::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4801.15; Mon, 20 Dec
- 2021 15:44:29 +0000
-Received: from DB9PR08MB6748.eurprd08.prod.outlook.com
- ([fe80::c1f8:2b2d:9298:7550]) by DB9PR08MB6748.eurprd08.prod.outlook.com
- ([fe80::c1f8:2b2d:9298:7550%4]) with mapi id 15.20.4801.020; Mon, 20 Dec 2021
- 15:44:29 +0000
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: qemu-devel@nongnu.org
-Cc: kraxel@redhat.com, armbru@redhat.com, eblake@redhat.com,
- pbonzini@redhat.com, marcandre.lureau@redhat.com, vsementsov@virtuozzo.com
-Subject: [PATCH 2/2] qapi/ui: introduce change-vnc-listen
-Date: Mon, 20 Dec 2021 16:44:18 +0100
-Message-Id: <20211220154418.1554279-3-vsementsov@virtuozzo.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20211220154418.1554279-1-vsementsov@virtuozzo.com>
-References: <20211220154418.1554279-1-vsementsov@virtuozzo.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: AM6PR0202CA0055.eurprd02.prod.outlook.com
- (2603:10a6:20b:3a::32) To DB9PR08MB6748.eurprd08.prod.outlook.com
- (2603:10a6:10:2a7::16)
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1mzKtR-0003SJ-KB
+ for qemu-devel@nongnu.org; Mon, 20 Dec 2021 10:48:08 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1640015284;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=jo5vs2AN45xdIoNqWvmMHJKiTjZSDjnr+XaYItRmGxs=;
+ b=hWSdbDoLFec5wsIDsm65i97EqODTsVkec8mRTiXh4Hc32Np4lxoRrHae/P+UYyqTcAcd3M
+ 5Ehq8HaZ/jnQSQ42aty+nEaONPSutQTNDFMvyrLc8xy0rKn8rLKHWlp1ZDMVVwSsYZ8gCd
+ QHFZsaR0NSWjNTuWlcZUUCb1MXbelR0=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-90-SXYpSTDbPtap73o8wkf0pA-1; Mon, 20 Dec 2021 10:48:03 -0500
+X-MC-Unique: SXYpSTDbPtap73o8wkf0pA-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ y14-20020a056402440e00b003f81d896346so7005997eda.2
+ for <qemu-devel@nongnu.org>; Mon, 20 Dec 2021 07:48:03 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=jo5vs2AN45xdIoNqWvmMHJKiTjZSDjnr+XaYItRmGxs=;
+ b=UbIL138kC6vBqR4HVMry1nGLwmMlGLQ2hOSUtjVlxjA5MBqNDNDevBJ0YQH1gMYG/k
+ +QnQI/zSurrP2uUwXqB530lz9f8HbMFVvIlmVCefW8cZOMCnCs898eJBnWZoFog5eCd2
+ FF/ED46BHjZOW+Oe0jqZNoyUByvQ2Tsh3ZrfF/8UnPXCOkrmIMAW9ftdLf4lHJFMdsyV
+ xJDHMSUPSf1/jnltahuioxw4VPbEo83y43uS/eD0UyRj9dcxuJ4m5cvVCk8hmM0uiRp/
+ lka1iiR1bAiIa2yJLD2G2ajQU35mwQodgP2Ov9mvRmsTwHIZFy0dpOD9zA4/v2TLcJZ8
+ qjfQ==
+X-Gm-Message-State: AOAM532cqfBPnGo45eA/CB5645FMqVa91qrntByFtre7rH6koql065Dp
+ alVPq6AiejrwUrimvalxBe68kOYOEyI2V7KnvcFMtKivprFomYqYfc7qiyWygv0r1WTxZ2QZJGe
+ oWtqo76+RjNls0wM=
+X-Received: by 2002:a05:6402:2888:: with SMTP id
+ eg8mr16073790edb.383.1640015281019; 
+ Mon, 20 Dec 2021 07:48:01 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJx0cHdoMO+kYDljzdX1AxaDHtVEyJWRH15EVtP9io0RfPC0B2/axOKIgqWKYbOClid1ySf/kg==
+X-Received: by 2002:a05:6402:2888:: with SMTP id
+ eg8mr16073754edb.383.1640015280714; 
+ Mon, 20 Dec 2021 07:48:00 -0800 (PST)
+Received: from ?IPV6:2a04:ee41:4:31cb:e591:1e1e:abde:a8f1?
+ ([2a04:ee41:4:31cb:e591:1e1e:abde:a8f1])
+ by smtp.gmail.com with ESMTPSA id 12sm5347293eja.182.2021.12.20.07.47.59
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 20 Dec 2021 07:48:00 -0800 (PST)
+Message-ID: <f0c3d869-c669-3f1b-34cd-8f2254074a3e@redhat.com>
+Date: Mon, 20 Dec 2021 16:47:59 +0100
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 0f309cb9-bb1c-42d0-31d7-08d9c3cf9bef
-X-MS-TrafficTypeDiagnostic: DB9PR08MB6667:EE_
-X-Microsoft-Antispam-PRVS: <DB9PR08MB6667AFAE93F2D574A583B369C17B9@DB9PR08MB6667.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6790;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: I4fUHhn3O/m1mOvHsmPc8TstpAZYY/fMixnAntpCUrM5aZW9P1B5innoUvetkwJybGFK3QxBdB1SyqI57ijLumc5yfUCePk09VIl3j7V0vMed6WEj1RxFQ2ZCjDKAUWfFqmFw6re03hw/9ORBuHMVELan7g2u09CBe5jmfkZc7R+1nP3Uqz1GQjO75Vx9BfGegFJo2090SSIwdZxEvNF8BRnuG+HExkMis5NayG7JLoQ3+wuPBeKOKYhCM9ica//pIx3OPeOWyM9K++uLBMYE1YWfvCSsZbdkBR7Py9Vt5XR6tOF/yh4JxL+MtyxMDyGVJLYFaBxzVUuiZSJ8T4ouyZcBGHyAvWD4fsr7P6nyGKrrve11r2QPl/kx53rVCVl8G10BhnsCj0FQYePyHZ/YTuSwjnstCAW99qiq+t2vzGE7/xVK4vqNYFchzOXkY38UbmF7dDRHAZvMwpzoYvqbwZN5ClICC4aJRijxcsIAeE+EjnHfyCryA9A5xdAszAxUIYwRbNJkI7qeEB/9jJFt7a3vQOgIDuuPsWtuzUyffmyUXWvuW5qjVHwLnJzZKhNeppU+UFiqJYnL9XehkEgrLzKwTaUvJN6NvPVnmO+BRJT7Xgs/s8jZCUxPnyxmI1kedNZnIwRj/62hH+UnoJ+dNFXEKQHHz6bBq+Jt9eYF3grXjeAngqxifjLxafmcAu+AVgEpFgMQReA8aIk461RpA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DB9PR08MB6748.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(66556008)(66476007)(6512007)(316002)(6486002)(4326008)(8936002)(2906002)(8676002)(66946007)(26005)(38100700002)(38350700002)(508600001)(52116002)(2616005)(5660300002)(6916009)(86362001)(1076003)(6506007)(83380400001)(107886003)(6666004)(36756003)(186003);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?LjXto/lJ/EuqRpUBGMe0yiSUXwVq/UZFog/IekTujeiG8zjzj5VBmj+t/yvs?=
- =?us-ascii?Q?f5sCPKe2QklIkb4lj1on4sg3OHkBZgtx8cMLSDifZs4fIffHlx5OiRME5IFm?=
- =?us-ascii?Q?SZish9auJBUylGGcgZH8S/3eCNF1OC2AhphKjxRH4EMyROmlvz/vmWCbuNt7?=
- =?us-ascii?Q?mKKWYqNNQGkpcJ33VYK5ZSeWpHEgBeF4GWUrtdC2bUvs3a5dG1xh+zxxPv3y?=
- =?us-ascii?Q?I2i/qzedU1f3VJvCS/0Q7t/YQrwxvOadvJUS9dPwMNmAcMsn/X+cQQVfBFub?=
- =?us-ascii?Q?4z8n1GSeUAwb5dqh73FrSdQrDfBP854DmdEWVhGQ6xDI/9jdiSvqYoKYz/FP?=
- =?us-ascii?Q?N+9qpyo8QujyNZUPDlFUoPvYltfGJcEGnu4dyJTBk5esUe7JAJ8ufH1lN/dw?=
- =?us-ascii?Q?L8BTgPBTyq0SrAXUpm27/Dq/0Dt4a8FAn2NmVnpDl8S/atxMT30+TD/wmC+f?=
- =?us-ascii?Q?zeUuI248jTS34r5r79HlPVmwdVZd+ZVeXoF4bkdChZ7kDAaA4C06ykLALbfH?=
- =?us-ascii?Q?U93cpz7rF6LkUw0tjCD8aiHSzcrrXRR+/BmQq4d7IFSagBXoOQFiNrvUmULX?=
- =?us-ascii?Q?qESIWxX/E4DT6qCcQzEXzbPkGJ584sN0qfYwHAtppw7St0Z7RguyORJhJxNm?=
- =?us-ascii?Q?GPDvXmA1luP8GGDWpNBRHWtzwD6ptKqVJkRixKGsIVziK0wqXNlxxGGndeAn?=
- =?us-ascii?Q?WNJGbECTiJ3e1gGpS0bMjTKWSzIuilS6HVt4pr6CqoefUSxJbEejHbRKWQwu?=
- =?us-ascii?Q?5eygMoJIkeghJ7Bu3lFWThvLSMc3/h/22HCm1hWwDF8ZGjJXK7McUTg5XXzB?=
- =?us-ascii?Q?qLdy7qHK2OFDhT4Vk5E5HNAGC20I/C+3M0iO2p1g5CG7HQLk8iNXcbKkfbhf?=
- =?us-ascii?Q?LiINZgZ81Vb0M0LO8+waTSmA7UtBvBspLItgX2t+2Cqgv+aGqPuWNF4r5Am4?=
- =?us-ascii?Q?x+puNxtXUjKWOipMMUX/kZR2E3dQ9l4pRlaNW8n7mlp/xqBAu7EEfhEIDxmk?=
- =?us-ascii?Q?uMqp47xXdoYrvXdn9NieNOTuFBCQslCBi+MGDB/sjE8krqnRCuCYeMwPA9Lh?=
- =?us-ascii?Q?rbtFHHSO5Cr4ERjl++uGdp5UcSGSPPdDz+ul2BwIq/qEqG77WN9p9RIzOJSW?=
- =?us-ascii?Q?ii+zlUGQ6gv7JbhiUqb1obR/sJIfA8zxZnD0Lq8JbtKVbxnxvdrI89pokv92?=
- =?us-ascii?Q?8D+RdOuI70yDhqR4QJ2JUcA0dV/4wYCId4LZhc+xsVhq/QiQLekpn9e0C90z?=
- =?us-ascii?Q?c31GIp0EVkILd2z7VXlaIDMVKj9Y4tTCzWkeIgft8I/zoG4CNOfETuGsHLYU?=
- =?us-ascii?Q?zQrwDWrazXyDFPxyQ7PoOTrPG3vmVe6DMow/AiSNI6egNrmQDQgb/uIOT0ke?=
- =?us-ascii?Q?fRFgmZxRPc55O41ktoGVMBed//cK+IGLTrRP90/gMSpFFq5PLA52d235LUeA?=
- =?us-ascii?Q?ZgEX27u2c9ugtqASFsdsK3InkLF0ZXAnPj9VRTzhizVgZr9MzGSa5NamFHQ0?=
- =?us-ascii?Q?wouVfrZkkTxEFvB+jNZO/NKv6HfThlBsxDjj8xbiGqGUi9w5yFVWhV1E+5u0?=
- =?us-ascii?Q?DHXlNtps4iZ5XEDudDTXZPMZ1SOC9AbFcOoDMFQ23ukAqWeSscgIe+FfDWu6?=
- =?us-ascii?Q?+BtAP/M3rk7kGVkwnl7792oR295FIHo0QycDtOyQ6BmtUfSzBzR2auXdiERw?=
- =?us-ascii?Q?CnhgeQ5cG03urfjAdbMPDaP2spA=3D?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0f309cb9-bb1c-42d0-31d7-08d9c3cf9bef
-X-MS-Exchange-CrossTenant-AuthSource: DB9PR08MB6748.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Dec 2021 15:44:29.2377 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: tmyTukw5LD0zzFz+n5J8uBhz81ZT/EQkoDTXmQrAEHzotCli/g6HyQohaWgg+YXCjJLjT8AztHkIvfhzsXmBna/Oo7i79CWlgzQK8TWGUOc=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR08MB6667
-Received-SPF: pass client-ip=40.107.21.121;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR05-VI1-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH v5 30/31] crypto: delegate permission functions to
+ JobDriver .pre_run
+To: Hanna Reitz <hreitz@redhat.com>, qemu-block@nongnu.org
+References: <20211124064418.3120601-1-eesposit@redhat.com>
+ <20211124064418.3120601-31-eesposit@redhat.com>
+ <ab01f9e1-447f-6c84-b409-2737548679d4@redhat.com>
+From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+In-Reply-To: <ab01f9e1-447f-6c84-b409-2737548679d4@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eesposit@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.209,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-3.608, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -137,92 +106,311 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ qemu-devel@nongnu.org, John Snow <jsnow@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add command that can change addresses where VNC server listens for new
-connections. Prior to 6.0 this functionality was available through
-'change' qmp command which was deleted.
 
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
----
- docs/about/removed-features.rst |  3 ++-
- qapi/ui.json                    | 12 ++++++++++++
- ui/vnc.c                        | 26 ++++++++++++++++++++++++++
- 3 files changed, 40 insertions(+), 1 deletion(-)
 
-diff --git a/docs/about/removed-features.rst b/docs/about/removed-features.rst
-index d42c3341de..20e6901a82 100644
---- a/docs/about/removed-features.rst
-+++ b/docs/about/removed-features.rst
-@@ -348,7 +348,8 @@ documentation of ``query-hotpluggable-cpus`` for additional details.
- ``change`` (removed in 6.0)
- '''''''''''''''''''''''''''
- 
--Use ``blockdev-change-medium`` or ``change-vnc-password`` instead.
-+Use ``blockdev-change-medium`` or ``change-vnc-password`` or
-+``change-vnc-listen`` instead.
- 
- ``query-events`` (removed in 6.0)
- '''''''''''''''''''''''''''''''''
-diff --git a/qapi/ui.json b/qapi/ui.json
-index d7567ac866..14e6fe0b4c 100644
---- a/qapi/ui.json
-+++ b/qapi/ui.json
-@@ -1304,3 +1304,15 @@
- { 'command': 'display-reload',
-   'data': 'DisplayReloadOptions',
-   'boxed' : true }
-+
-+##
-+# @change-vnc-listen:
-+#
-+# Change set of addresses to listen for connections.
-+#
-+# Since: 7.0
-+#
-+##
-+{ 'command': 'change-vnc-listen',
-+  'data': { 'id': 'str', 'addresses': ['SocketAddress'],
-+            '*websockets': ['SocketAddress'] } }
-diff --git a/ui/vnc.c b/ui/vnc.c
-index c9e26c70df..69bbf3b6f6 100644
---- a/ui/vnc.c
-+++ b/ui/vnc.c
-@@ -4212,6 +4212,32 @@ fail:
-     vnc_display_close(vd);
- }
- 
-+void qmp_change_vnc_listen(const char *id, SocketAddressList *addresses,
-+                           bool has_websockets, SocketAddressList *websockets,
-+                           Error **errp)
-+{
-+    VncDisplay *vd = vnc_display_find(id);
-+
-+    if (!vd) {
-+        error_setg(errp, "VNC display '%s' not active", id);
-+        return;
-+    }
-+
-+    if (vd->listener) {
-+        qio_net_listener_disconnect(vd->listener);
-+        object_unref(OBJECT(vd->listener));
-+    }
-+    vd->listener = NULL;
-+
-+    if (vd->wslistener) {
-+        qio_net_listener_disconnect(vd->wslistener);
-+        object_unref(OBJECT(vd->wslistener));
-+    }
-+    vd->wslistener = NULL;
-+
-+    vnc_display_listen(vd, addresses, websockets, errp);
-+}
-+
- void vnc_display_add_client(const char *id, int csock, bool skipauth)
- {
-     VncDisplay *vd = vnc_display_find(id);
--- 
-2.31.1
+On 17/12/2021 13:29, Hanna Reitz wrote:
+> On 24.11.21 07:44, Emanuele Giuseppe Esposito wrote:
+>> block_crypto_amend_options_generic_luks uses the block layer
+>> permission API, therefore it should be called with the BQL held.
+>>
+>> However, the same function is being called ib two BlockDriver
+> 
+> s/ ib / by /
+> 
+>> callbacks: bdrv_amend_options (under BQL) and bdrv_co_amend (I/O).
+>>
+>> The latter is I/O because it is invoked by block/amend.c's
+>> blockdev_amend_run(), a .run callback of the amend JobDriver
+>>
+>> Therefore we want to 1) change block_crypto_amend_options_generic_luks
+>> to use the permission API only when the BQL is held, and
+>> 2) use the .pre_run JobDriver callback to check for
+>> permissions before switching to the job aiocontext. This has also
+>> the benefit of applying the same permission operation to all
+>> amend implementations, not only luks.
+>>
+>> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+>> ---
+>>   block/amend.c  | 20 ++++++++++++++++++++
+>>   block/crypto.c | 18 ++++++++++++------
+>>   2 files changed, 32 insertions(+), 6 deletions(-)
+>>
+>> diff --git a/block/amend.c b/block/amend.c
+>> index 392df9ef83..fba6add51a 100644
+>> --- a/block/amend.c
+>> +++ b/block/amend.c
+>> @@ -53,10 +53,30 @@ static int coroutine_fn blockdev_amend_run(Job 
+>> *job, Error **errp)
+>>       return ret;
+>>   }
+>> +static int blockdev_amend_refresh_perms(Job *job, Error **errp)
+>> +{
+>> +    BlockdevAmendJob *s = container_of(job, BlockdevAmendJob, common);
+>> +
+>> +    return bdrv_child_refresh_perms(s->bs, s->bs->file, errp);
+>> +}
+> 
+> I miss some documentation for this function, why we do it and how it 
+> works together with the bdrv_co_amend implementation.
+
+> 
+> I was trying to come up with an example text, but then I wondered – how 
+> does it actually work?  bdrv_child_refresh_perms() eventually ends up in 
+> block_crypto_child_perms().  However, that will only return exceptional 
+> permissions if crypto->updating_keys is true. But that’s set only in 
+> block_crypto_amend_options_generic_luks() – i.e. when the job runs. 
+> That’s exactly why that function calls bdrv_child_refresh_perms() only 
+> after it has modified crypto->updating_keys.
+> 
+> Reproducer (amend on a LUKS image with read-only=true, so it doesn’t 
+> have the WRITE permission continuously, but needs to take it as an 
+> exception in block_crypto_child_perms()):
+> 
+> $ qemu-img create \
+>      -f luks \
+>      --object secret,id=sec0,data=123456 \
+>      -o key-secret=sec0 \
+>      test.luks \
+>      64M
+> Formatting 'test.luks', fmt=luks size=67108864 key-secret=sec0
+> 
+> $ ./qemu-system-x86_64 \
+>      -object secret,id=sec0,data=123456 \
+>      -object iothread,id=iothr0 \
+>      -blockdev file,node-name=node0,filename=test.luks \
+>      -blockdev 
+> luks,node-name=node1,key-secret=sec0,file=node0,read-only=true \
+>      -device virtio-blk,drive=node1,iothread=iothr0 -qmp stdio \
+>      <<EOF
+> {"execute": "qmp_capabilities"}
+> {
+>      "execute": "x-blockdev-amend",
+>      "arguments": {
+>          "job-id": "amend0",
+>          "node-name": "node1",
+>          "options": {
+>              "driver": "luks",
+>              "state": "active",
+>              "new-secret": "sec0"
+>          }
+>      }
+> }
+> EOF
+> 
+> {"QMP": {"version": {"qemu": {"micro": 93, "minor": 1, "major": 6}, 
+> "package": "v6.2.0-rc3-50-gdb635fc4e7"}, "capabilities": ["oob"]}}
+> {"return": {}}
+> {"timestamp": {"seconds": 1639742600, "microseconds": 574641}, "event": 
+> "JOB_STATUS_CHANGE", "data": {"status": "created", "id": "amend0"}}
+> {"timestamp": {"seconds": 1639742600, "microseconds": 574919}, "event": 
+> "JOB_STATUS_CHANGE", "data": {"status": "running", "id": "amend0"}}
+> {"return": {}}
+> qemu-system-x86_64: ../block/io.c:2041: bdrv_co_write_req_prepare: 
+> Assertion `child->perm & BLK_PERM_WRITE' failed.
+> [1]    55880 IOT instruction (core dumped)  ./qemu-system-x86_64 -object 
+> secret,id=sec0,data=123456 -object  -blockdev
+> 
+> 
+> I believe this means we need some new block driver function to prepare 
+> for an amendment operation.  If so, another question comes up, which is 
+> whether this preparatory function should then also call 
+> bdrv_child_refresh_perms(), and then whether we should have a clean-up 
+> function for symmetry.
+> 
+
+Yes, unfortunately it means that (see at the end of the mail for more).
+
+I think it does not work because of crypto->updating_keys missing in 
+blockdev_amend_pre_run(). That is why the permission is not correctly 
+set and the example fails.
+
+
+>> +
+>> +static int blockdev_amend_pre_run(Job *job, Error **errp)
+>> +{
+>> +    return blockdev_amend_refresh_perms(job, errp);
+>> +}
+>> +
+>> +static void blockdev_amend_clean(Job *job)
+>> +{
+>> +    Error *errp;
+>> +    blockdev_amend_refresh_perms(job, &errp);
+> 
+> Do we really want to ignore this error?  If so, we shouldn’t pass a 
+> pointer to an unused local variable, but NULL.
+> 
+> If we don’t want to ignore it, we have the option of doing what you do 
+> here and then at least reporting a potential error with 
+> error_report_err(), and then freeing it, and we also must initialize 
+> errp to NULL in this case.
+
+Going with this one above, thanks.
+> 
+> If we expect no error to happen (e.g. because we require the amend 
+> implementation to only release/share permissions and not acquire/unshare 
+> them), then I’d expect passing &error_abort here.
+> 
+>> +}
+>> +
+>>   static const JobDriver blockdev_amend_job_driver = {
+>>       .instance_size = sizeof(BlockdevAmendJob),
+>>       .job_type      = JOB_TYPE_AMEND,
+>>       .run           = blockdev_amend_run,
+>> +    .pre_run       = blockdev_amend_pre_run,
+>> +    .clean         = blockdev_amend_clean,
+>>   };
+>>   void qmp_x_blockdev_amend(const char *job_id,
+>> diff --git a/block/crypto.c b/block/crypto.c
+>> index c8ba4681e2..82f154516c 100644
+>> --- a/block/crypto.c
+>> +++ b/block/crypto.c
+>> @@ -780,6 +780,7 @@ 
+>> block_crypto_get_specific_info_luks(BlockDriverState *bs, Error **errp)
+>>   static int
+>>   block_crypto_amend_options_generic_luks(BlockDriverState *bs,
+>>                                           QCryptoBlockAmendOptions 
+>> *amend_options,
+>> +                                        bool under_bql,
+> 
+> This name makes sense in the context of this series, but not so much 
+> outside of it.
+> 
+> I’d rename it to e.g. “in_amend_job” (and invert its value), and then 
+> explain that we don’t need to refresh the child permissions when running 
+> in an amend job, because that job has already taken care of that.
+> 
+> OTOH, given that I believe we need some separate preparatory function 
+> anyway, perhaps we should just pull out the bdrv_child_refresh_perms() 
+> from this function altogether, so that we have:
+> 
+> block_crypto_amend_options_luks():
+> 
+> /* sets updating_keys to true, and invokes bdrv_child_refresh_perms() */
+> block_crypto_amend_options_prepare();
+> block_crypto_amend_options_generic_luks();
+> /* sets updating_keys to false, and invokes bdrv_child_refresh_perms() */
+> block_crypto_amend_options_clean();
+> 
+> 
+> block_crypto_co_amend_luks():
+> 
+> /* No need to prepare or clean up, that is taken care of by the amend 
+> job */
+> block_crypto_amend_options_generic_luks();
+> 
+> 
+> (If we decide not to put bdrv_child_refresh_perms() into 
+> prepare()/clean(), then it would need to be called by 
+> block_crypto_amend_options_luks(); and if we decide not to have a 
+> block_crypto_amend_options_clean(), then we’d need to inline it fully.)
+
+So a couple of things I will change (according with your feedbacks):
+
+- Remove the assertion job->aio_context == qemu_in_main_thread() done in 
+job_co_entry, as it is wrong. I don't know why I added that, but we 
+cannot assume that job->run() always run in the main context, because 
+the job aiocontext can be different. I don't think there is a test doing 
+that now, but it is possible. If run() was in the main context, then 
+bdrv_co_amend (called only in blockdev_amend_run) would be GS too, but 
+it isn't, also according with your comment in v4:
+
+"[...] .bdrv_co_amend very much strikes me like a GS function, but
+it isn’t.  I’m afraid it must work on nodes that are not in the main
+context, and it launches a job, so AFAIU we absolutely cannot run it
+under the BQL."
+
+- Introduce block_crypto_amend_options_prepare and 
+block_crypto_amend_options_clean, as you suggested above. These fix the 
+GS call stack of block_crypto_amend_options_generic_luks()
+
+- Introduce .bdrv_pre_run() and .bdrv_cleanup(), respectively called by 
+.job_pre_run() and .job_cleanup(). The reason is that we need to set 
+crypto->updating_keys, otherwise the job amend won't temporary give the 
+write permission so the example above would fail.
+
+So for the I/O callstack of block_crypto_amend_options_generic_luks() we 
+will have:
+job->pre_run():
+	.bdrv_pre_run();
+		crypto->update_keys = true;
+	blockdev_amend_refresh_perms()
+
+job->run():
+	block_crypto_amend_options_generic_luks()
+
+job->cleanup():
+	.bdrv_cleanup();
+		crypto->update_keys = false;
+	blockdev_amend_refresh_perms()
+
+Thank you,
+Emanuele
+
+> 
+> Hanna
+> 
+>>                                           bool force,
+>>                                           Error **errp)
+>>   {
+>> @@ -791,9 +792,12 @@ 
+>> block_crypto_amend_options_generic_luks(BlockDriverState *bs,
+>>       /* apply for exclusive read/write permissions to the underlying 
+>> file*/
+>>       crypto->updating_keys = true;
+>> -    ret = bdrv_child_refresh_perms(bs, bs->file, errp);
+>> -    if (ret) {
+>> -        goto cleanup;
+>> +
+>> +    if (under_bql) {
+>> +        ret = bdrv_child_refresh_perms(bs, bs->file, errp);
+>> +        if (ret) {
+>> +            goto cleanup;
+>> +        }
+>>       }
+>>       ret = qcrypto_block_amend_options(crypto->block,
+>> @@ -806,7 +810,9 @@ 
+>> block_crypto_amend_options_generic_luks(BlockDriverState *bs,
+>>   cleanup:
+>>       /* release exclusive read/write permissions to the underlying 
+>> file*/
+>>       crypto->updating_keys = false;
+>> -    bdrv_child_refresh_perms(bs, bs->file, errp);
+>> +    if (under_bql) {
+>> +        bdrv_child_refresh_perms(bs, bs->file, errp);
+>> +    }
+>>       return ret;
+>>   }
+>> @@ -834,7 +840,7 @@ block_crypto_amend_options_luks(BlockDriverState *bs,
+>>           goto cleanup;
+>>       }
+>>       ret = block_crypto_amend_options_generic_luks(bs, amend_options,
+>> -                                                  force, errp);
+>> +                                                  true, force, errp);
+>>   cleanup:
+>>       qapi_free_QCryptoBlockAmendOptions(amend_options);
+>>       return ret;
+>> @@ -853,7 +859,7 @@ coroutine_fn 
+>> block_crypto_co_amend_luks(BlockDriverState *bs,
+>>           .u.luks = *qapi_BlockdevAmendOptionsLUKS_base(&opts->u.luks),
+>>       };
+>>       return block_crypto_amend_options_generic_luks(bs, &amend_opts,
+>> -                                                   force, errp);
+>> +                                                   false, force, errp);
+>>   }
+>>   static void
+> 
 
 
