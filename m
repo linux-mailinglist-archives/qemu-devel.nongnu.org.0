@@ -2,68 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEB8A47B38B
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Dec 2021 20:14:18 +0100 (CET)
-Received: from localhost ([::1]:49282 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E68FF47B3BD
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Dec 2021 20:32:07 +0100 (CET)
+Received: from localhost ([::1]:45010 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mzO6z-0005pz-Vq
-	for lists+qemu-devel@lfdr.de; Mon, 20 Dec 2021 14:14:18 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34582)
+	id 1mzOOE-00068l-10
+	for lists+qemu-devel@lfdr.de; Mon, 20 Dec 2021 14:32:06 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50432)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mzLie-00016B-6c
- for qemu-devel@nongnu.org; Mon, 20 Dec 2021 11:41:00 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33638)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mzMVr-0008NR-A0
+ for qemu-devel@nongnu.org; Mon, 20 Dec 2021 12:31:51 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:50318)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mzLib-0007Fa-1X
- for qemu-devel@nongnu.org; Mon, 20 Dec 2021 11:40:59 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mzMVk-00041U-Tk
+ for qemu-devel@nongnu.org; Mon, 20 Dec 2021 12:31:51 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1640018456;
+ s=mimecast20190719; t=1640021500;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=DYfIhBF3Tbqlm/G1grPOH67XYFiuU3OUy7iar3hd2R0=;
- b=VABVSnJg1sz5p46qN6iOHe87SnU/QFCKrB8yKT0TsRId7udcFdBvPqLhIxaPr2CWT9MmcB
- R2apyDtsb7IVhvT4DxtkCoDoLk75b36YCDEtls6Mh8QvzJLY4rsn8o6A8yp1fmF4MosW0P
- IlqNcI72cuqhgUGRfKPnoI9UVZSwS1M=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=HtughHq2ZhD5Bv6iiwCH05mp84Mo4y1Q3DIdbj6f07M=;
+ b=Di1BnEP9wB0uNmc+Ldpg1DZeiaLbf5p9bLsXvxhEUe/x4pKGxvwobEzUu3svAyVxjIqoHF
+ M7bBO85q3PScbSNBW6UAoshESv76R2kSU+oKiy7PmcPA126ZxxKfURQrEEq2T1kgO7C1AB
+ bR4UVRtnK0QwykDr72xo5d0HGH2SwbM=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-496-XGwc8EvAPymKrDQZkVyX8A-1; Mon, 20 Dec 2021 11:40:54 -0500
-X-MC-Unique: XGwc8EvAPymKrDQZkVyX8A-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 272B2801AAB
- for <qemu-devel@nongnu.org>; Mon, 20 Dec 2021 16:40:54 +0000 (UTC)
-Received: from thuth.com (unknown [10.39.192.103])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 481945DF4B;
- Mon, 20 Dec 2021 16:40:45 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: Laurent Vivier <lvivier@redhat.com>,
-	qemu-devel@nongnu.org
-Subject: [PATCH] tests/qtest/boot-serial-test: Silence the warning about
- deprecated sga device
-Date: Mon, 20 Dec 2021 17:40:42 +0100
-Message-Id: <20211220164042.397028-1-thuth@redhat.com>
+ us-mta-245-9so3voNgOgmwO1BPnT4H9A-1; Mon, 20 Dec 2021 12:31:39 -0500
+X-MC-Unique: 9so3voNgOgmwO1BPnT4H9A-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ y17-20020a056402271100b003f7ef5ca612so8133956edd.17
+ for <qemu-devel@nongnu.org>; Mon, 20 Dec 2021 09:31:38 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=HtughHq2ZhD5Bv6iiwCH05mp84Mo4y1Q3DIdbj6f07M=;
+ b=5xFP8gQAQ1+m+7DQPOdOuzoIcdl2ik4ePlOz1N60W1SBNxJPwhuOdW52vtfLFdnDc4
+ KPxhccAR6r72VfbE2un8eCOds7e/ma7cBkvubRIfivdOnqN3mXVHJrvBnYuNziEaHF9u
+ Detra5JSPWAmWx/uSVWzSJ2ehCaKu/Ve/F9feClbkP7ZM4XM6JcEMs3L6oPR3Kgx3JAk
+ jaxr/sxSSN4YSTVqbc0TNZA/keGOeQNWR7CkaOexnJyISwvKmWCpaHsN7lu3PETHeMIY
+ yV+mi2WXt4eJ2sypb3raNGxJL4c55uqEUWbwtqaHNOz3pfHI6o4DgD3cYhj/3fCwSxUS
+ EIgQ==
+X-Gm-Message-State: AOAM530lj+l28HS2gRM6xQTHTmsttvsStlLc8C9EEQCwISsvsyQZ47vf
+ NnOID7MHbX5VGM5mNr4Hdmb/H9Rn0XTr8QscEIpXeW3ysK9tXBOSX2AEDYMbBDRSaiW/fUW2ShF
+ /lkfk1MaSf6ZFMSc=
+X-Received: by 2002:aa7:c78f:: with SMTP id n15mr16858991eds.344.1640021498009; 
+ Mon, 20 Dec 2021 09:31:38 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxZRZr1sQ7fqLMHK/+z0Winnp81l9R7l5sl0j/0SkNokO90HXiEynYZcBGNpidQYm9uuc58ag==
+X-Received: by 2002:aa7:c78f:: with SMTP id n15mr16858966eds.344.1640021497738; 
+ Mon, 20 Dec 2021 09:31:37 -0800 (PST)
+Received: from [192.168.1.36] (174.red-83-50-185.dynamicip.rima-tde.net.
+ [83.50.185.174])
+ by smtp.gmail.com with ESMTPSA id h7sm7217811edb.89.2021.12.20.09.31.36
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 20 Dec 2021 09:31:37 -0800 (PST)
+Message-ID: <0a830f15-bdca-02b2-d36d-2063e31c5e75@redhat.com>
+Date: Mon, 20 Dec 2021 18:31:34 +0100
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH RFC] MAINTAINERS: split out s390x sections
+To: Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
+ qemu-s390x@nongnu.org
+References: <20211220115419.308463-1-cohuck@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+In-Reply-To: <20211220115419.308463-1-cohuck@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.209,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -59
+X-Spam_score: -6.0
+X-Spam_bar: ------
+X-Spam_report: (-6.0 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
+ DKIM_SIGNED=0.1, NICE_REPLY_A=-3.608, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,41 +99,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kraxel@redhat.com
+Cc: Thomas Huth <thuth@redhat.com>, David Hildenbrand <david@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eric Farman <farman@linux.ibm.com>, Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When running the qtests, there are currently a bunch of warnings about
-the deprecated sga device during the boot-serial-test. Switch to
-"-M graphics=off" to silence these warnings.
+On 12/20/21 12:54, Cornelia Huck wrote:
+> Split out some more specialized devices etc., so that we can build
+> smarter lists of people to be put on cc: in the future.
+> 
+> Signed-off-by: Cornelia Huck <cohuck@redhat.com>
+> ---
+> 
+> As discussed offlist. Some notes:
+> - The new sections have inherited the maintainers of the sections
+>   they have been split out of (except where people had already
+>   volunteered). That's easy to change, obviously, and I hope that
+>   the cc: list already contains people who might have interest in
+>   volunteering for some sections.
+> - I may not have gotten the F: patterns correct, please double check.
+> - I'm also not sure about where in the MAINTAINERS file the new
+>   sections should go; if you have a better idea, please speak up.
+> - Also, if you have better ideas regarding the sections, please
+>   speak up as well :)
+> - Pull requests will probably continue the same way as now (i.e.
+>   patches picked up at the top level and then sent, except for some
+>   things like tcg which may go separately.) Not sure if it would
+>   make sense to try out the submaintainer pull request model again,
+>   I don't think it made life easier in the past, and now we have
+>   the b4 tool to pick patches easily anyway. It might be a good
+>   idea to check which of the tree locations should stay, or if we
+>   want to have new ones.
+> 
+> ---
+>  MAINTAINERS | 86 ++++++++++++++++++++++++++++++++++++++++++++++-------
+>  1 file changed, 75 insertions(+), 11 deletions(-)
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- tests/qtest/boot-serial-test.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
-
-diff --git a/tests/qtest/boot-serial-test.c b/tests/qtest/boot-serial-test.c
-index 4d8e1343bd..d72a82d629 100644
---- a/tests/qtest/boot-serial-test.c
-+++ b/tests/qtest/boot-serial-test.c
-@@ -157,11 +157,11 @@ static testdef_t tests[] = {
-     { "ppc64", "powernv8", "", "OPAL" },
-     { "ppc64", "powernv9", "", "OPAL" },
-     { "ppc64", "sam460ex", "-device e1000", "8086  100e" },
--    { "i386", "isapc", "-cpu qemu32 -device sga", "SGABIOS" },
--    { "i386", "pc", "-device sga", "SGABIOS" },
--    { "i386", "q35", "-device sga", "SGABIOS" },
--    { "x86_64", "isapc", "-cpu qemu32 -device sga", "SGABIOS" },
--    { "x86_64", "q35", "-device sga", "SGABIOS" },
-+    { "i386", "isapc", "-cpu qemu32 -M graphics=off", "SeaBIOS" },
-+    { "i386", "pc", "-M graphics=off", "SeaBIOS" },
-+    { "i386", "q35", "-M graphics=off", "SeaBIOS" },
-+    { "x86_64", "isapc", "-cpu qemu32 -M graphics=off", "SeaBIOS" },
-+    { "x86_64", "q35", "-M graphics=off", "SeaBIOS" },
-     { "sparc", "LX", "", "TMS390S10" },
-     { "sparc", "SS-4", "", "MB86904" },
-     { "sparc", "SS-600MP", "", "TMS390Z55" },
--- 
-2.27.0
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
 
