@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6F1A47B4E7
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Dec 2021 22:16:19 +0100 (CET)
-Received: from localhost ([::1]:54724 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E337747B4CD
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Dec 2021 22:10:36 +0100 (CET)
+Received: from localhost ([::1]:37300 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mzQ15-0003j2-0T
-	for lists+qemu-devel@lfdr.de; Mon, 20 Dec 2021 16:16:19 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52686)
+	id 1mzPvY-0000UY-0y
+	for lists+qemu-devel@lfdr.de; Mon, 20 Dec 2021 16:10:36 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52718)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mzPqn-0000Pk-I8
- for qemu-devel@nongnu.org; Mon, 20 Dec 2021 16:05:41 -0500
-Received: from [2607:f8b0:4864:20::436] (port=40715
+ id 1mzPqp-0000Tt-74
+ for qemu-devel@nongnu.org; Mon, 20 Dec 2021 16:05:43 -0500
+Received: from [2607:f8b0:4864:20::436] (port=33584
  helo=mail-pf1-x436.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mzPql-0005uO-UB
- for qemu-devel@nongnu.org; Mon, 20 Dec 2021 16:05:41 -0500
-Received: by mail-pf1-x436.google.com with SMTP id z6so9792091pfe.7
- for <qemu-devel@nongnu.org>; Mon, 20 Dec 2021 13:05:39 -0800 (PST)
+ id 1mzPqm-0005ua-Lz
+ for qemu-devel@nongnu.org; Mon, 20 Dec 2021 16:05:42 -0500
+Received: by mail-pf1-x436.google.com with SMTP id 205so5608599pfu.0
+ for <qemu-devel@nongnu.org>; Mon, 20 Dec 2021 13:05:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=oryq+LuMrMDBeDTMJmIY7vqQWuye0TU114y1grFNoXo=;
- b=nP5Z9l9VHulFIBNRYSElE9KBVIGj+lJk4C+aZNcPfrw+B8VRYoFZodYOgNog0bC3PP
- yxyvMyeo/502IDZY+BTzvSnfJCD0OJK5WUqWfBLsMDGraa+lh8VStgD/5VJa70VyqFvg
- s/LP0crL67waByxk8uoUzmnUzPnfxzIGv0bZMfsULMeJHZzsOI3gC9k6m/ThbcTUgood
- lquriqqcbXDpWYiuq5TGwdAIhNf6LcJqKedc+A45FOg5AgJX52VQTrE+FTDuVMAt1djN
- SSc9UxiJL5x/jUKwvEpgVmiBjw3G8gFKERpjAUTYw+E1Vda6fHNlSIdKezxH5wwVWfN7
- dHOQ==
+ bh=QjcTOyfouWebLv6OWxrEWdluQ6cixLMqNIiFZ1J5dvA=;
+ b=c1U4eSTw+mV2Ce0rQDWfiyKEXY6vSAJco4vuqyM30mRdJ74JkatyH1iSRpx9LL35TS
+ nuwldtnT0Y1D5kX2EiwZxk134FR/pvknrwzKjopTjAt7DRbwTzY4fVvz4jD87Hw48ZTK
+ 3D1wFFC2w4fHJyTzVMW7WMCBQSvdj8BG1LD2iBWWfecrzwCNebtmACCaJXZDMTq2aArm
+ BGMCGZmrp94TsCtO/k3pqt0RgejBuBaD77R/zG64qkDgKlyeSNztd5j/JILxKHz8qLk+
+ 1yWltpj9c/fFafOHRpJjsKkYEIL9Qft8altjV+9GNbSmbp18bjebo3+KfC/bTwjtZ3NX
+ VhkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=oryq+LuMrMDBeDTMJmIY7vqQWuye0TU114y1grFNoXo=;
- b=DJxYcCAMknpvPH3NgtpyFgUYvKyfc+LoT4d5o283awKjwazYQBp3Lm/VQu8W4RGbmr
- aiV/LDtTRj7hfE1xWVjrJbPI3eHGGugD2PgGbew9X8AMp5ITG5NDOQq8LscJpHKu9ub3
- nvEdccd6rp78JhFTIwSh4nMeoyvb0FcG46luGgjX8Re3u0IgBYv/MlEnKun2RcSM7EWO
- TBZrgoSnvKbT0yhVMpOrig909RZrTQpZnOK+z6d8hHtPExFqHtx7KfVrLyQ8QgOsgw8A
- yc9zLg/01IAemUqaYTdQE0lCQP2UwKfW6+7A4L13/HqkjZ9fNpux5FrvwXd3fvmQzucl
- 6akQ==
-X-Gm-Message-State: AOAM531ABSHprhnjxOy4LjyXFmSF06JYIcXXhXbe6xe41gaUj6XYVULw
- pcRb8dpO1eSeCwlkOuQNLXliohikNYyqGw==
-X-Google-Smtp-Source: ABdhPJxXCOEZF9BQg1/4RvG+5hgVIn06CMDNbAxslce3nBb75ZyfSxm4+ii59VtBdEJ3pKWh1WCs5A==
-X-Received: by 2002:a05:6a00:10cf:b0:4a3:124d:bb81 with SMTP id
- d15-20020a056a0010cf00b004a3124dbb81mr18145444pfu.75.1640034338654; 
- Mon, 20 Dec 2021 13:05:38 -0800 (PST)
+ bh=QjcTOyfouWebLv6OWxrEWdluQ6cixLMqNIiFZ1J5dvA=;
+ b=K2GW9QbcddNGscjsa2St97y614ho/kKzfAS2vQsKrfavLE4jmoRC+KqPlbAurz5FZJ
+ rv7L9lVKxqR23xY8CxcJqYiJxdFRu85brNMSqtSXyZ68W5p4b3Ep06ENAb1rU9+nNlcw
+ CSvfY1NREwQs8E0FfyRp9fLN0yc/jDkqqqbi8WYQVUjC/czDlG/bsx/CLliWF9FN+Ln3
+ UJr7AIZ782hE7+/uwnhUrZo7JEnzK5DeomYepBPUwyv1SBugNegZ7HVYWC2tki/0w3Uk
+ O76OMZmw2rTsJPYWT3AbrV/vwOXlLZOGsJubZyox0EedhEoARa2djuSAX3+OFvaPzoym
+ ReKQ==
+X-Gm-Message-State: AOAM532wLHZ+djPIFihn9ZHEX98188LzJfz0wOoQPtAKFKoYF4QfzXQt
+ yzMYDPMXx2VLoxnPldFGR/+x88CAjFfhbQ==
+X-Google-Smtp-Source: ABdhPJxwld0SHOM581uyxIsSrYlBBGdUr4mLu9SCaYQwSRQOlnObMg6sq7LpbqiIbPJPdFIc21Os0Q==
+X-Received: by 2002:a05:6a00:2405:b0:4a8:3294:743e with SMTP id
+ z5-20020a056a00240500b004a83294743emr18004289pfh.61.1640034339535; 
+ Mon, 20 Dec 2021 13:05:39 -0800 (PST)
 Received: from localhost.localdomain ([156.19.246.20])
- by smtp.gmail.com with ESMTPSA id d13sm20091021pfu.213.2021.12.20.13.05.37
+ by smtp.gmail.com with ESMTPSA id d13sm20091021pfu.213.2021.12.20.13.05.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Dec 2021 13:05:38 -0800 (PST)
+ Mon, 20 Dec 2021 13:05:39 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 10/24] linux-user/i386: Use force_sig, force_sig_fault
-Date: Mon, 20 Dec 2021 13:05:14 -0800
-Message-Id: <20211220210529.150423-11-richard.henderson@linaro.org>
+Subject: [PATCH v4 11/24] linux-user/m68k: Use force_sig_fault
+Date: Mon, 20 Dec 2021 13:05:15 -0800
+Message-Id: <20211220210529.150423-12-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211220210529.150423-1-richard.henderson@linaro.org>
 References: <20211220210529.150423-1-richard.henderson@linaro.org>
@@ -90,123 +90,65 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Replace the local gen_signal with the generic functions that match
-how the kernel raises signals. Fill in the missing PC for SIGTRAP.
+Use the new function instead of setting up a target_siginfo_t
+and calling queue_signal. Fill in the missing PC for SIGTRAP.
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/i386/cpu_loop.c | 47 +++++++++++++++-----------------------
- 1 file changed, 18 insertions(+), 29 deletions(-)
+ linux-user/m68k/cpu_loop.c | 24 ++++--------------------
+ 1 file changed, 4 insertions(+), 20 deletions(-)
 
-diff --git a/linux-user/i386/cpu_loop.c b/linux-user/i386/cpu_loop.c
-index a372cfe1b2..879d44b490 100644
---- a/linux-user/i386/cpu_loop.c
-+++ b/linux-user/i386/cpu_loop.c
-@@ -84,17 +84,6 @@ static void set_idt(int n, unsigned int dpl)
- }
- #endif
+diff --git a/linux-user/m68k/cpu_loop.c b/linux-user/m68k/cpu_loop.c
+index 790bd558c3..f6ea3b97ec 100644
+--- a/linux-user/m68k/cpu_loop.c
++++ b/linux-user/m68k/cpu_loop.c
+@@ -29,7 +29,6 @@ void cpu_loop(CPUM68KState *env)
+     CPUState *cs = env_cpu(env);
+     int trapnr;
+     unsigned int n;
+-    target_siginfo_t info;
  
--static void gen_signal(CPUX86State *env, int sig, int code, abi_ptr addr)
--{
--    target_siginfo_t info = {
--        .si_signo = sig,
--        .si_code = code,
--        ._sifields._sigfault._addr = addr
--    };
--
--    queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
--}
--
- #ifdef TARGET_X86_64
- static bool write_ok_or_segv(CPUX86State *env, abi_ptr addr, size_t len)
- {
-@@ -107,7 +96,7 @@ static bool write_ok_or_segv(CPUX86State *env, abi_ptr addr, size_t len)
-     }
- 
-     env->error_code = PG_ERROR_W_MASK | PG_ERROR_U_MASK;
--    gen_signal(env, TARGET_SIGSEGV, TARGET_SEGV_MAPERR, addr);
-+    force_sig_fault(TARGET_SIGSEGV, TARGET_SEGV_MAPERR, addr);
-     return false;
- }
- 
-@@ -193,8 +182,7 @@ static void emulate_vsyscall(CPUX86State *env)
-     return;
- 
-  sigsegv:
--    /* Like force_sig(SIGSEGV).  */
--    gen_signal(env, TARGET_SIGSEGV, TARGET_SI_KERNEL, 0);
-+    force_sig(TARGET_SIGSEGV);
- }
- #endif
- 
-@@ -266,53 +254,54 @@ void cpu_loop(CPUX86State *env)
- #endif
-         case EXCP0B_NOSEG:
-         case EXCP0C_STACK:
--            gen_signal(env, TARGET_SIGBUS, TARGET_SI_KERNEL, 0);
-+            force_sig(TARGET_SIGBUS);
+     for(;;) {
+         cpu_exec_start(cs);
+@@ -46,25 +45,13 @@ void cpu_loop(CPUM68KState *env)
+         case EXCP_ILLEGAL:
+         case EXCP_LINEA:
+         case EXCP_LINEF:
+-            info.si_signo = TARGET_SIGILL;
+-            info.si_errno = 0;
+-            info.si_code = TARGET_ILL_ILLOPN;
+-            info._sifields._sigfault._addr = env->pc;
+-            queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
++            force_sig_fault(TARGET_SIGILL, TARGET_ILL_ILLOPN, env->pc);
              break;
-         case EXCP0D_GPF:
-             /* XXX: potential problem if ABI32 */
-             if (maybe_handle_vm86_trap(env, trapnr)) {
-                 break;
-             }
--            gen_signal(env, TARGET_SIGSEGV, TARGET_SI_KERNEL, 0);
-+            force_sig(TARGET_SIGSEGV);
+         case EXCP_CHK:
+-            info.si_signo = TARGET_SIGFPE;
+-            info.si_errno = 0;
+-            info.si_code = TARGET_FPE_INTOVF;
+-            info._sifields._sigfault._addr = env->pc;
+-            queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
++            force_sig_fault(TARGET_SIGFPE, TARGET_FPE_INTOVF, env->pc);
              break;
-         case EXCP0E_PAGE:
--            gen_signal(env, TARGET_SIGSEGV,
--                       (env->error_code & 1 ?
--                        TARGET_SEGV_ACCERR : TARGET_SEGV_MAPERR),
--                       env->cr[2]);
-+            force_sig_fault(TARGET_SIGSEGV,
-+                            (env->error_code & PG_ERROR_P_MASK ?
-+                             TARGET_SEGV_ACCERR : TARGET_SEGV_MAPERR),
-+                            env->cr[2]);
+         case EXCP_DIV0:
+-            info.si_signo = TARGET_SIGFPE;
+-            info.si_errno = 0;
+-            info.si_code = TARGET_FPE_INTDIV;
+-            info._sifields._sigfault._addr = env->pc;
+-            queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
++            force_sig_fault(TARGET_SIGFPE, TARGET_FPE_INTDIV, env->pc);
              break;
-         case EXCP00_DIVZ:
-             if (maybe_handle_vm86_trap(env, trapnr)) {
-                 break;
-             }
--            gen_signal(env, TARGET_SIGFPE, TARGET_FPE_INTDIV, env->eip);
-+            force_sig_fault(TARGET_SIGFPE, TARGET_FPE_INTDIV, env->eip);
-             break;
-         case EXCP01_DB:
-+            if (maybe_handle_vm86_trap(env, trapnr)) {
-+                break;
-+            }
-+            force_sig_fault(TARGET_SIGTRAP, TARGET_TRAP_BRKPT, env->eip);
-+            break;
-         case EXCP03_INT3:
-             if (maybe_handle_vm86_trap(env, trapnr)) {
-                 break;
-             }
--            if (trapnr == EXCP01_DB) {
--                gen_signal(env, TARGET_SIGTRAP, TARGET_TRAP_BRKPT, env->eip);
--            } else {
--                gen_signal(env, TARGET_SIGTRAP, TARGET_SI_KERNEL, 0);
--            }
-+            force_sig(TARGET_SIGTRAP);
-             break;
-         case EXCP04_INTO:
-         case EXCP05_BOUND:
-             if (maybe_handle_vm86_trap(env, trapnr)) {
-                 break;
-             }
--            gen_signal(env, TARGET_SIGSEGV, TARGET_SI_KERNEL, 0);
-+            force_sig(TARGET_SIGSEGV);
-             break;
-         case EXCP06_ILLOP:
--            gen_signal(env, TARGET_SIGILL, TARGET_ILL_ILLOPN, env->eip);
-+            force_sig_fault(TARGET_SIGILL, TARGET_ILL_ILLOPN, env->eip);
-             break;
-         case EXCP_INTERRUPT:
+         case EXCP_TRAP0:
+             {
+@@ -91,10 +78,7 @@ void cpu_loop(CPUM68KState *env)
              /* just indicate that signals should be handled asap */
              break;
          case EXCP_DEBUG:
--            gen_signal(env, TARGET_SIGTRAP, TARGET_TRAP_BRKPT, 0);
-+            force_sig_fault(TARGET_SIGTRAP, TARGET_TRAP_BRKPT, env->eip);
+-            info.si_signo = TARGET_SIGTRAP;
+-            info.si_errno = 0;
+-            info.si_code = TARGET_TRAP_BRKPT;
+-            queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
++            force_sig_fault(TARGET_SIGTRAP, TARGET_TRAP_BRKPT, env->pc);
              break;
          case EXCP_ATOMIC:
              cpu_exec_step_atomic(cs);
