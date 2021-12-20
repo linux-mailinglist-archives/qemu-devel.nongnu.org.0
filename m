@@ -2,78 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0ED4B47B5F1
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Dec 2021 23:44:23 +0100 (CET)
-Received: from localhost ([::1]:49506 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1831147B5F3
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Dec 2021 23:46:10 +0100 (CET)
+Received: from localhost ([::1]:54546 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mzROH-0007Bc-Nh
-	for lists+qemu-devel@lfdr.de; Mon, 20 Dec 2021 17:44:21 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42154)
+	id 1mzRQ1-0002DN-6i
+	for lists+qemu-devel@lfdr.de; Mon, 20 Dec 2021 17:46:09 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42356)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mzRLS-0005ds-HZ
- for qemu-devel@nongnu.org; Mon, 20 Dec 2021 17:41:27 -0500
-Received: from [2a00:1450:4864:20::52f] (port=35395
- helo=mail-ed1-x52f.google.com)
+ id 1mzRMt-0006uO-9z
+ for qemu-devel@nongnu.org; Mon, 20 Dec 2021 17:43:00 -0500
+Received: from [2a00:1450:4864:20::536] (port=45910
+ helo=mail-ed1-x536.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mzRLQ-00047T-SR
- for qemu-devel@nongnu.org; Mon, 20 Dec 2021 17:41:26 -0500
-Received: by mail-ed1-x52f.google.com with SMTP id y22so44467479edq.2
- for <qemu-devel@nongnu.org>; Mon, 20 Dec 2021 14:41:24 -0800 (PST)
+ id 1mzRMr-0004IJ-TP
+ for qemu-devel@nongnu.org; Mon, 20 Dec 2021 17:42:55 -0500
+Received: by mail-ed1-x536.google.com with SMTP id j6so23609254edw.12
+ for <qemu-devel@nongnu.org>; Mon, 20 Dec 2021 14:42:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=F4qKCOQGK4oVTxEkRtVro6vjR8T9DiT/Wm6q2KWPShU=;
- b=FhpW3yaJbJRHLvKbjFLXq8Ij2B6pCXd4UvvV9m3b7M1YcHyqtKTzv0alDySp3uiTDX
- 29OfHU6nA9DkuZPBpLizhtnpFndP9POeB5+3SxYE85eTLho6peE+kyn1uPD3ESI+KoO4
- gP0SG18zQ2GstWF7JhjNCR2GEiPpnxBi08qp4WzJnpI9rw1NCjwJRMTQfBlnIiWHU6S3
- tyDqxLojm4p2WqP6fBG+OBv82qxvFUX0m4zOQEK7zPYlw06dPB4XnpoBtdG7rmIleQ7i
- lZQGQzuR3bPxDacxq+JYAEgkBxUvwm5vcV+xDVXJ2UbP9mwm+Y9kOdX83SKllHyNvWvn
- qx4g==
+ bh=smcXF2g4VW9uOr8/Dsy9Whzq7L15Q/c7osSy8snQp1o=;
+ b=VcZn7vaaAzvj1JoeyWRNrK8/5F4miMZVJzIjQjrkClBHGF8XBzn7hAuWoFE9WYZRKB
+ kZYf9x0DI0XAlHwG2r0c1QxLvsM1B18MICaiJuv0EPediupmaTk+40hWjwczZLocnhLp
+ i74dAHdU2rLahW+jtkCrjAgukR25XGhMdHlKyIRd+u1vEnJCAZlc5kwtKDRVmXT7UKr4
+ yrzZVYzgSVCPQfONlEIbjLc4kPhZk4l7SfYIR71KU5/jfj/q2GK4Ru3vnCMHamW+q8cr
+ ROJxk7+u7PJGrStmxe6l9uxrLF0jsyiKP3oOJYHvMInyztEgfeVXWxpJp1+YmiPNB9bC
+ We9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=F4qKCOQGK4oVTxEkRtVro6vjR8T9DiT/Wm6q2KWPShU=;
- b=SsIPfbrf5nkvrGTHAJlF33uE6GkQBDxrcaQMbCEVXdgb7n+kuveRws6uOaT9cldwqn
- vJhlMJtijJMH5tUs4yvGUnU6uAJ/+vDxi6y5/vCRmmYbsf6xIntaU8Pt35pKE1PCPMQI
- YsVdihcL8Co1dvpNkdx8UIXokHCE28NciaIRcYWVyx6Xj4+sjMf09+IN+HmOnDgoSzVb
- LQuTthmNqu7lVNAhuwE98r4WVqi1XvIdslazHv4K6mqIpEH1nN9vV3jRE/VZ4KMs8PjH
- R/zpBsv0jUo59OgAUy0KKbLL5KB1AIVDiFsmjb36BC5C4hRCKMDDSZl+bAv659jXctyO
- UNPA==
-X-Gm-Message-State: AOAM533T7yKyI66c6nXSKIWamJ1UHOQ2IZvlfhdg+WW+vQEVl1K3cMA1
- fpOOZkoSZ/zQOP+2Tx6va7o=
-X-Google-Smtp-Source: ABdhPJxzzyhA1QqnRvPOSxiZh4iw0fZgbdiqfHHcAoqisnCh2vjs6UnwdjesjC0uMeH4KA51eEjfNA==
-X-Received: by 2002:a17:907:6da1:: with SMTP id
- sb33mr263565ejc.692.1640040083144; 
- Mon, 20 Dec 2021 14:41:23 -0800 (PST)
+ bh=smcXF2g4VW9uOr8/Dsy9Whzq7L15Q/c7osSy8snQp1o=;
+ b=8Re3kpOp4ptm6E4g+Cnzon7O1UNVWA88FE/t+kVfZISP656tRxXQdyOiShaKv4VFQB
+ iAOwz8imhyWaFBP3WXzKQ5YGTfOyP6lKc5rLTusOictCC2FcYDpPWq1LLFWotNk1j+oK
+ In1hnZNLcEdWARbcRJc12Z3C0XrPKc4IvEnF+6VuWDt/PUsG5iRb4X9DBHF9eKvjgwLG
+ PNJ2zu/V30SIdlKdcHcYoFUFNnglAQCJDsnwOFYT9nnaLIM/Ze6rGRS3peTmbxegy+0P
+ hg15TArP8OYnTcBeLkkDJ3NI2VDF19GEHpemG0E3fiIEDYwxmnwjF9HZdEMyFqVw5tIf
+ zWqg==
+X-Gm-Message-State: AOAM533d5iyllQn96fxMn/Bc70q9vbElpHF1qy1ZVhaWpkHbMvsZiTd8
+ z6QYSH2sqCcx616T5vOrwxa37S577zI=
+X-Google-Smtp-Source: ABdhPJysVtbj7xrZ1a6bH/HrjBqYn42z6VagJaFeaRQDyv+SIumSwbdYf2e7EABnWzXYHYCxXJoilg==
+X-Received: by 2002:a17:906:1be2:: with SMTP id
+ t2mr242839ejg.399.1640040172502; 
+ Mon, 20 Dec 2021 14:42:52 -0800 (PST)
 Received: from [192.168.1.36] (174.red-83-50-185.dynamicip.rima-tde.net.
  [83.50.185.174])
- by smtp.gmail.com with ESMTPSA id qf14sm2765615ejc.18.2021.12.20.14.41.22
+ by smtp.gmail.com with ESMTPSA id b5sm3129378edz.14.2021.12.20.14.42.51
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 20 Dec 2021 14:41:22 -0800 (PST)
-Message-ID: <f490a5a8-e6c2-664c-e497-da6cca4174da@amsat.org>
-Date: Mon, 20 Dec 2021 23:41:21 +0100
+ Mon, 20 Dec 2021 14:42:52 -0800 (PST)
+Message-ID: <98f8d99c-3395-57f3-70d4-f05499cfa6f0@amsat.org>
+Date: Mon, 20 Dec 2021 23:42:50 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.4.0
-Subject: Re: [PATCH 2/6] linux-user: Disable more prctl subcodes
+Subject: Re: [PATCH v4 07/24] linux-user: Remove TARGET_NSIGFPE
 Content-Language: en-US
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20211220214135.189157-1-richard.henderson@linaro.org>
- <20211220214135.189157-3-richard.henderson@linaro.org>
+References: <20211220210529.150423-1-richard.henderson@linaro.org>
+ <20211220210529.150423-8-richard.henderson@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <20211220214135.189157-3-richard.henderson@linaro.org>
+In-Reply-To: <20211220210529.150423-8-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52f
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::536
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x52f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::536;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x536.google.com
 X-Spam_score_int: -42
 X-Spam_score: -4.3
 X-Spam_bar: ----
@@ -98,41 +98,15 @@ Cc: laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/20/21 22:41, Richard Henderson wrote:
-> Create a list of subcodes that we want to pass on, a list of
-> subcodes that should not be passed on because they would affect
-> the running qemu itself, and a list that probably could be
-> implemented but require extra work. Do not pass on unknown subcodes.
+On 12/20/21 22:05, Richard Henderson wrote:
+> This define is unused, and we have no similar define for
+> the other signal sub-codes.
 > 
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  linux-user/syscall.c | 56 ++++++++++++++++++++++++++++++++++++++++----
->  1 file changed, 52 insertions(+), 4 deletions(-)
+>  linux-user/syscall_defs.h | 1 -
+>  1 file changed, 1 deletion(-)
 
-> +    case PR_SET_SYSCALL_USER_DISPATCH:
-> +    case PR_GET_THP_DISABLE:
-> +    case PR_SET_THP_DISABLE:
-> +    case PR_GET_TSC:
-> +    case PR_SET_TSC:
-> +    case PR_GET_UNALIGN:
-> +    case PR_SET_UNALIGN:
->      default:
-
-Unfortunately prctl values are not enumerated, so we can't remove
-the default case to catch new values at build time.
-
-Maybe a qemu_log_mask(LOG_UNIMP) call would help here? (only
-for default?)
-
-Regardless:
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-
-> -        /* Most prctl options have no pointer arguments */
-> -        return get_errno(prctl(option, arg2, arg3, arg4, arg5));
-> +        /* Disable to prevent the target disabling stuff we need. */
-> +        return -TARGET_EINVAL;
->      }
->  }
->  
 
 
