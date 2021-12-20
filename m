@@ -2,90 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CFF447A52F
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Dec 2021 07:55:19 +0100 (CET)
-Received: from localhost ([::1]:42972 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CF8147A4ED
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Dec 2021 07:20:21 +0100 (CET)
+Received: from localhost ([::1]:57264 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mzCZq-0001tI-40
-	for lists+qemu-devel@lfdr.de; Mon, 20 Dec 2021 01:55:18 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51192)
+	id 1mzC20-0006Ey-2L
+	for lists+qemu-devel@lfdr.de; Mon, 20 Dec 2021 01:20:20 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51190)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=9816edf2f=alistair.francis@opensource.wdc.com>)
- id 1mzAp0-0004du-3H
+ id 1mzAp0-0004dt-2Z
  for qemu-devel@nongnu.org; Mon, 20 Dec 2021 00:02:50 -0500
-Received: from esa6.hgst.iphmx.com ([216.71.154.45]:13399)
+Received: from esa6.hgst.iphmx.com ([216.71.154.45]:13359)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=9816edf2f=alistair.francis@opensource.wdc.com>)
- id 1mzAot-0008MN-BJ
+ id 1mzAot-0008G0-Bu
  for qemu-devel@nongnu.org; Mon, 20 Dec 2021 00:02:49 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
  t=1639976564; x=1671512564;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=Es6frg4kQsRdhrwwEh2OsnvjogKfzVvkHNHnsn/RrBI=;
- b=JfniKSkkHEp5M0kpwLFl6BDcCL3RVpq5l7h0LquDzcRCVU/pI2wLHE2d
- 3HoeWX7FPJp8qo+oZR2AjjAfBbeqJKdshuZJW7itVhq/UlvLSdL4PoHiG
- le55TTWOv/0K6Kwju7CAiUqFigG8apVYckBItp3oC+BQPkt291U95CVa9
- JFSnuJLdPGgSwDOif7DpPrx/h3sFJeIbGSRVt5SmrZK2fyj4z7KVEGw9j
- YW1Pg4hSsOZ1TADs33P/+iS6xfKJBWQ2Qxc91rApZMPhad74L39/yPwFN
- 3oG0Jjc23iZyrKP2EeW5YpbzHQVjqsGF2G10FPZ6JnjyXnTwKvF2SqN8d w==;
-X-IronPort-AV: E=Sophos;i="5.88,219,1635177600"; d="scan'208";a="189680258"
+ bh=wEMlST9zy0WnmLl2ti7IzJlznAmrUDdgEMySSHxu1VI=;
+ b=mJWmWl85w124yJ/tFDKvLEbezdyheuWpK+fRl8N2xwteQc09IW3+ndJd
+ 7dcYJI17XFpLmjoDwoohLWxA5tpDl1X5hnzML5Vwu/p6AoF7YxuQF36uP
+ 8JgbX6k8PPzUusUqRYnMOBy7pEt+kT6DVZTHO+0ZwI1/Jq3OUHtSw+KoY
+ wXzFrac9xAdpRfnjLyxhhWWuwuU4E851JPOfha8c8DDD4/T/qAJSIgjA2
+ DwC7dx+ETes5P3sxae+zZZAGfARYEhMgZZwVH8MweHMyNrfSkc5HlGZYe
+ Oewyh6kgPB/GtJw7exiE0cf+gK/3MoUSJDUOsrj7cEPJygDbuKXdAV7Pm g==;
+X-IronPort-AV: E=Sophos;i="5.88,219,1635177600"; d="scan'208";a="189680267"
 Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 20 Dec 2021 13:01:40 +0800
-IronPort-SDR: gunxI92ybXSCWB61kpZxPpGrmZKJI+HDniBf1IWFLkOeghYJWswc+xFqssBD06/e9MFI95WBrb
- aX8CUUzg7tR3TeswYXKmPFiQHiNXCRfECQF21mdLJTbuYNCVqPmFgFy0iuzPbIwRtiSGY4Z2jJ
- xMLu5Gw+5A3kWQQTd0tZHkj3zySSf45hrRe0rJ9korrqaa3Hdu2hsc+h0xRKG5ReTbTG3tI2kw
- 2Iea0y87CU1GaKTt/w3JnzLjHehmB7V07J8ODtF6zW51PxLy+5anLNyQQIFhipOVTRoKXwPF2f
- UYn3A7NAvT5DOEuqf1jIv0WU
+ by ob1.hgst.iphmx.com with ESMTP; 20 Dec 2021 13:01:45 +0800
+IronPort-SDR: tM2RiiDhBoZEpZsTGDFSaRE/yRZJjc0kPcc+dU0qZsSfDasSVZcBQTf6fU1LQRnHBqRZj9qzU9
+ 4v3C1QEB2aA8VQeOsPUM9HviXo0CVlWRUQR76BnbZYZI2BqcIPUHF4YMjF+z4XtU1006jxMJTH
+ wXMMZGdnTUA1PDdG1Ctb5MtZ7xPSyI9gfIaF0XevHLh9PQE6nrzvNaKfA1q9gdB25wHxazqc1w
+ Rk6AWV6fxPy8wVbOZ7jdj/g3n1tv5LtSfynG0ysXMgNMYS1u1hvHDeBNFK997/T1Ohit9xGI7l
+ cB/JZvayMi5sf+ZJeXLrwALj
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Dec 2021 20:34:29 -0800
-IronPort-SDR: nz32X0JxgCRca+qg/3Hd2npavtCBY0Y5F33ti/IyHsgVVnB+Fth3b6+8ZldcDuDg3SYXgrWvQA
- AYQ4IZjEOu2gX3DvKc+v0ZUx7iq0BugeaPC62uztB0UGSUwexaBooDCXh9r8Qgk/DdrcCw4Tbu
- sbi50FT/TPsH+Z4gasrzwq4XfUmblUqdiysbVQHLsCrPrGJEFZ6BoYd61gcGX6klvNLHPpwcLz
- 5eT3sRMCi7ymKYcIynHPzStcPMX/X+DSmnTbtHp4a+1InQDy3fzNkzCxLDJsWhF6Devrfz6Y4h
- +pU=
+ 19 Dec 2021 20:34:34 -0800
+IronPort-SDR: Z0YOY/5Gbopv9xorLCqtlxt8p28F1iwopBReZz6YMJub4sEzVSwV/VamL6io10sHPQ8+8x9o+x
+ 5B3wqb6cjF8toVbe9F6Qysq/IM4AwJ7evG90sDSb+H/ZnXkaygPMyxKNSPaLUYFBnHgUXTMuf6
+ WWDvy8J/Xi9yQs2avVntbo+xgWxox2Maz8sjrI/jcJAZuKByZPSamQz+5zIodGKqGhRz/c2yD5
+ WjMCCT6S1bslYdOb/vbE/g1vjzqD5EWy/MyJuxc/+yTo47eHqMD++Ifr6pNBgBS9HJn8GlD2FF
+ YOo=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Dec 2021 21:01:40 -0800
+ 19 Dec 2021 21:01:44 -0800
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4JHS9b6Nkzz1RtVG
- for <qemu-devel@nongnu.org>; Sun, 19 Dec 2021 21:01:39 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4JHS9h0CDJz1RvTg
+ for <qemu-devel@nongnu.org>; Sun, 19 Dec 2021 21:01:44 -0800 (PST)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
  opensource.wdc.com; h=content-transfer-encoding:mime-version
  :references:in-reply-to:x-mailer:message-id:date:subject:to
- :from; s=dkim; t=1639976499; x=1642568500; bh=Es6frg4kQsRdhrwwEh
- 2OsnvjogKfzVvkHNHnsn/RrBI=; b=klzjalIGnnCYz+dsYhjPCf//zUJEG2r12A
- NM9E1/4U6QDayo2ySF8pSDVZ1idQKiXVx8k64T2z+NtVIpmDRa2U+9PvpaZ6GEW5
- AmNk74ySTg0iJNZ0o82d5aTq4rS7Hg772xfre290305JoV3RHzWw9dr3tR3o8H7r
- UIC8BapZI+KVx4dxkrZBr9IOB3pqOS3XRyWEtynnqQHwle1JkQUBLt/P/ZP9Ro33
- DL+Txso/NOK8PJEEYYgvqBjsIhXKYdL6hXOlNKCwrxm2uSZU2woHoh8NL9cw4eSU
- 0CXenCTQ/JV1cgEacyJnqoAfwqlyT1dgQcCOBhhz218OVLXAPXbQ==
+ :from; s=dkim; t=1639976503; x=1642568504; bh=wEMlST9zy0WnmLl2ti
+ 7IzJlznAmrUDdgEMySSHxu1VI=; b=sPmduT38QfL3MOViCKnaHobbqeweTp+yKm
+ a6mCwwnOK2gou2VzRy8KtoqdNprl0RqM3j4EMur9U6la6iApyENCSC3kisn5ZWm2
+ YSMY02XfAOitDSQ8xvmx76wTwnIxef+zHAOyRIcEymiuMiYv6f8MNxJbQGWX93O3
+ PCNwbnF83Oagzykknyu/hbgamz+tdeud942+4E99iTtU0864pKFitkzEUlYkkWN5
+ hS9VzXOsKzMo6Ya4EiY6b14pvqVgSLdlc9HsKY50nzMmQIOfF9BhwcVHzkjfra74
+ 1rkUU0ljUWUG4BBdK2HtujqL65EViTXf5rm6qhwC4A8SSRQlSCcQ==
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id DOPiQ8gf418I for <qemu-devel@nongnu.org>;
- Sun, 19 Dec 2021 21:01:39 -0800 (PST)
+ port 10026) with ESMTP id AjvuPqrkCm9L for <qemu-devel@nongnu.org>;
+ Sun, 19 Dec 2021 21:01:43 -0800 (PST)
 Received: from toolbox.alistair23.me (unknown [10.225.165.68])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4JHS9X2FVVz1Rvlf;
- Sun, 19 Dec 2021 21:01:35 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4JHS9c21hwz1RtVG;
+ Sun, 19 Dec 2021 21:01:39 -0800 (PST)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org
 Cc: alistair23@gmail.com, Frank Chang <frank.chang@sifive.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  Alistair Francis <alistair.francis@wdc.com>
-Subject: [PULL 65/88] target/riscv: rvv-1.0: remove vmford.vv and vmford.vf
-Date: Mon, 20 Dec 2021 14:56:42 +1000
-Message-Id: <20211220045705.62174-66-alistair.francis@opensource.wdc.com>
+Subject: [PULL 66/88] target/riscv: rvv-1.0: remove integer extract instruction
+Date: Mon, 20 Dec 2021 14:56:43 +1000
+Message-Id: <20211220045705.62174-67-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211220045705.62174-1-alistair.francis@opensource.wdc.com>
 References: <20211220045705.62174-1-alistair.francis@opensource.wdc.com>
@@ -120,86 +120,70 @@ From: Frank Chang <frank.chang@sifive.com>
 
 Signed-off-by: Frank Chang <frank.chang@sifive.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20211210075704.23951-58-frank.chang@sifive.com>
+Message-Id: <20211210075704.23951-59-frank.chang@sifive.com>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/helper.h                   | 6 ------
- target/riscv/insn32.decode              | 2 --
- target/riscv/vector_helper.c            | 7 -------
- target/riscv/insn_trans/trans_rvv.c.inc | 2 --
- 4 files changed, 17 deletions(-)
+ target/riscv/insn32.decode              |  1 -
+ target/riscv/insn_trans/trans_rvv.c.inc | 23 -----------------------
+ 2 files changed, 24 deletions(-)
 
-diff --git a/target/riscv/helper.h b/target/riscv/helper.h
-index af79570da8..1727075dce 100644
---- a/target/riscv/helper.h
-+++ b/target/riscv/helper.h
-@@ -902,12 +902,6 @@ DEF_HELPER_6(vmfgt_vf_d, void, ptr, ptr, i64, ptr, e=
-nv, i32)
- DEF_HELPER_6(vmfge_vf_h, void, ptr, ptr, i64, ptr, env, i32)
- DEF_HELPER_6(vmfge_vf_w, void, ptr, ptr, i64, ptr, env, i32)
- DEF_HELPER_6(vmfge_vf_d, void, ptr, ptr, i64, ptr, env, i32)
--DEF_HELPER_6(vmford_vv_h, void, ptr, ptr, ptr, ptr, env, i32)
--DEF_HELPER_6(vmford_vv_w, void, ptr, ptr, ptr, ptr, env, i32)
--DEF_HELPER_6(vmford_vv_d, void, ptr, ptr, ptr, ptr, env, i32)
--DEF_HELPER_6(vmford_vf_h, void, ptr, ptr, i64, ptr, env, i32)
--DEF_HELPER_6(vmford_vf_w, void, ptr, ptr, i64, ptr, env, i32)
--DEF_HELPER_6(vmford_vf_d, void, ptr, ptr, i64, ptr, env, i32)
-=20
- DEF_HELPER_5(vfclass_v_h, void, ptr, ptr, ptr, env, i32)
- DEF_HELPER_5(vfclass_v_w, void, ptr, ptr, ptr, env, i32)
 diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-index aee3a6cd01..82484fda75 100644
+index 82484fda75..20b3095f56 100644
 --- a/target/riscv/insn32.decode
 +++ b/target/riscv/insn32.decode
-@@ -582,8 +582,6 @@ vmfle_vv        011001 . ..... ..... 001 ..... 101011=
-1 @r_vm
- vmfle_vf        011001 . ..... ..... 101 ..... 1010111 @r_vm
- vmfgt_vf        011101 . ..... ..... 101 ..... 1010111 @r_vm
- vmfge_vf        011111 . ..... ..... 101 ..... 1010111 @r_vm
--vmford_vv       011010 . ..... ..... 001 ..... 1010111 @r_vm
--vmford_vf       011010 . ..... ..... 101 ..... 1010111 @r_vm
- vfclass_v       010011 . ..... 10000 001 ..... 1010111 @r2_vm
- vfmerge_vfm     010111 0 ..... ..... 101 ..... 1010111 @r_vm_0
- vfmv_v_f        010111 1 00000 ..... 101 ..... 1010111 @r2
-diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
-index 128406aa78..aed230e1ad 100644
---- a/target/riscv/vector_helper.c
-+++ b/target/riscv/vector_helper.c
-@@ -3630,13 +3630,6 @@ GEN_VEXT_CMP_VF(vmfge_vf_h, uint16_t, H2, vmfge16)
- GEN_VEXT_CMP_VF(vmfge_vf_w, uint32_t, H4, vmfge32)
- GEN_VEXT_CMP_VF(vmfge_vf_d, uint64_t, H8, vmfge64)
-=20
--GEN_VEXT_CMP_VV_ENV(vmford_vv_h, uint16_t, H2, !float16_unordered_quiet)
--GEN_VEXT_CMP_VV_ENV(vmford_vv_w, uint32_t, H4, !float32_unordered_quiet)
--GEN_VEXT_CMP_VV_ENV(vmford_vv_d, uint64_t, H8, !float64_unordered_quiet)
--GEN_VEXT_CMP_VF(vmford_vf_h, uint16_t, H2, !float16_unordered_quiet)
--GEN_VEXT_CMP_VF(vmford_vf_w, uint32_t, H4, !float32_unordered_quiet)
--GEN_VEXT_CMP_VF(vmford_vf_d, uint64_t, H8, !float64_unordered_quiet)
--
- /* Vector Floating-Point Classify Instruction */
- #define OPIVV1(NAME, TD, T2, TX2, HD, HS2, OP)         \
- static void do_##NAME(void *vd, void *vs2, int i)      \
+@@ -632,7 +632,6 @@ viota_m         010100 . ..... 10000 010 ..... 101011=
+1 @r2_vm
+ vid_v           010100 . 00000 10001 010 ..... 1010111 @r1_vm
+ vmv_x_s         010000 1 ..... 00000 010 ..... 1010111 @r2rd
+ vmv_s_x         010000 1 00000 ..... 110 ..... 1010111 @r2
+-vext_x_v        001100 1 ..... ..... 010 ..... 1010111 @r
+ vfmv_f_s        010000 1 ..... 00000 001 ..... 1010111 @r2rd
+ vfmv_s_f        010000 1 00000 ..... 101 ..... 1010111 @r2
+ vslideup_vx     001110 . ..... ..... 100 ..... 1010111 @r_vm
 diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_=
 trans/trans_rvv.c.inc
-index 119c82ca47..4c5f813ccf 100644
+index 4c5f813ccf..1ce5a10b6a 100644
 --- a/target/riscv/insn_trans/trans_rvv.c.inc
 +++ b/target/riscv/insn_trans/trans_rvv.c.inc
-@@ -2425,7 +2425,6 @@ GEN_OPFVV_TRANS(vmfeq_vv, opfvv_cmp_check)
- GEN_OPFVV_TRANS(vmfne_vv, opfvv_cmp_check)
- GEN_OPFVV_TRANS(vmflt_vv, opfvv_cmp_check)
- GEN_OPFVV_TRANS(vmfle_vv, opfvv_cmp_check)
--GEN_OPFVV_TRANS(vmford_vv, opfvv_cmp_check)
+@@ -2840,8 +2840,6 @@ static bool trans_vid_v(DisasContext *s, arg_vid_v =
+*a)
+  *** Vector Permutation Instructions
+  */
 =20
- static bool opfvf_cmp_check(DisasContext *s, arg_rmrr *a)
+-/* Integer Extract Instruction */
+-
+ static void load_element(TCGv_i64 dest, TCGv_ptr base,
+                          int ofs, int sew, bool sign)
  {
-@@ -2441,7 +2440,6 @@ GEN_OPFVF_TRANS(vmflt_vf, opfvf_cmp_check)
- GEN_OPFVF_TRANS(vmfle_vf, opfvf_cmp_check)
- GEN_OPFVF_TRANS(vmfgt_vf, opfvf_cmp_check)
- GEN_OPFVF_TRANS(vmfge_vf, opfvf_cmp_check)
--GEN_OPFVF_TRANS(vmford_vf, opfvf_cmp_check)
+@@ -2941,27 +2939,6 @@ static void vec_element_loadi(DisasContext *s, TCG=
+v_i64 dest,
+     load_element(dest, cpu_env, endian_ofs(s, vreg, idx), s->sew, sign);
+ }
 =20
- /* Vector Floating-Point Classify Instruction */
- GEN_OPFV_TRANS(vfclass_v, opfv_check)
+-static bool trans_vext_x_v(DisasContext *s, arg_r *a)
+-{
+-    TCGv_i64 tmp =3D tcg_temp_new_i64();
+-    TCGv dest =3D dest_gpr(s, a->rd);
+-
+-    if (a->rs1 =3D=3D 0) {
+-        /* Special case vmv.x.s rd, vs2. */
+-        vec_element_loadi(s, tmp, a->rs2, 0, false);
+-    } else {
+-        /* This instruction ignores LMUL and vector register groups */
+-        int vlmax =3D s->vlen >> (3 + s->sew);
+-        vec_element_loadx(s, tmp, a->rs2, cpu_gpr[a->rs1], vlmax);
+-    }
+-
+-    tcg_gen_trunc_i64_tl(dest, tmp);
+-    gen_set_gpr(s, a->rd, dest);
+-
+-    tcg_temp_free_i64(tmp);
+-    return true;
+-}
+-
+ /* Integer Scalar Move Instruction */
+=20
+ static void store_element(TCGv_i64 val, TCGv_ptr base,
 --=20
 2.31.1
 
