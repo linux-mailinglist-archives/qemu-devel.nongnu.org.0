@@ -2,104 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED46B47A4F3
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Dec 2021 07:22:23 +0100 (CET)
-Received: from localhost ([::1]:59814 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CCAD47A52E
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Dec 2021 07:54:21 +0100 (CET)
+Received: from localhost ([::1]:40908 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mzC3z-0007xe-1t
-	for lists+qemu-devel@lfdr.de; Mon, 20 Dec 2021 01:22:23 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51436)
+	id 1mzCYt-0000VJ-NX
+	for lists+qemu-devel@lfdr.de; Mon, 20 Dec 2021 01:54:19 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56332)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=9816edf2f=alistair.francis@opensource.wdc.com>)
- id 1mzApG-0004hK-AY
- for qemu-devel@nongnu.org; Mon, 20 Dec 2021 00:03:06 -0500
-Received: from esa2.hgst.iphmx.com ([68.232.143.124]:51799)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=9816edf2f=alistair.francis@opensource.wdc.com>)
- id 1mzApE-0000Me-C3
- for qemu-devel@nongnu.org; Mon, 20 Dec 2021 00:03:05 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1639976584; x=1671512584;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=MlOc7gzzEoH+mrkpfuwF80CqkYllueLnrvRzSKegruQ=;
- b=Y8AdrPV2rlBjseXGeaCekNKihA/PZMEBj34BOb4BYt+zulvh4GYMpg2v
- NfOX7vppxp26qjnEix72L1bwHfXQU/JGaOneX0V9STehOgQ3Tj72Ao9Ex
- Xou6SZcYmLFyZ2E1JNz+K8S73fKclRxN2WC7fmDIL8K0dgmEyrj1Rvvn6
- +DpvwoDATdCF2D+wZ68XrJWmeEIs3P2h7STV7LpqTSmxLg28vITGp9aUH
- RM4bwE6QphgZl5zNdBIm65KquMwEAUDCC1Uv5qJnTI1ravAESSDJfO0+W
- r0zWkPyfroG+EGDX5uudYQdN29BrqshoBwJsbiaY80cky3dWMkX2kU4s+ A==;
-X-IronPort-AV: E=Sophos;i="5.88,219,1635177600"; d="scan'208";a="292662380"
-Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
- ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 20 Dec 2021 13:03:03 +0800
-IronPort-SDR: vxoxcl5gjPHd1de/aRgvzNcilI2LjTOtdSwZFmMwFnJv/kZdOePb8ShgnmMZRbNfBbJD20FUXZ
- b0y4hYvGxf1oBVwrs46Z0c3Ivpu9gq4wlevi02agkmfsU7zXB/8ZnQ5rLVHL8oHhDGmwymAj/3
- vzRXnM6XrFCkjx/P+K9psC3NYM1Xvt26MAvM8U77Y0OqOwGq+osuduQDUCPk6NFYAhzXIZXviY
- 5Yw6IZvwOFTyrAZyfZ225KhbMHGaiLi55JMt0jjI8hb/H/PzrdHh9MqFpUw9smW1Uux/easeYn
- 7+7p7vrQyhWmKSG0cPdyIkqE
-Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
- by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Dec 2021 20:35:53 -0800
-IronPort-SDR: r3XLU32mvU/F4sCEOjnGKTt60UxV5c7uy88wH9Riz2BZtO4BKn8DYTZ6psCeIWKjlU3R9Ddjj1
- kf9LBP4UHYJVoL/jYfvr6Gzg9AYtmhZp+WNU5McR4Y0jKmx9Fy83VGVZBzXHoq/o7q6PKnjTNo
- QBjutWaskJIOGflikxSLj18PVIupUdMCzgmmUiqpZ4idAEIsU8JFZgCFt3y2DvvhHBySVM6Eog
- 7QWX8woh7g8JZfLZ3LDOiAwytnGIm43FzF1E5drSI3gZ35AVg2MFiHH73Y3jGYjluGY4wAJOPB
- Ios=
-WDCIronportException: Internal
-Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
- by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Dec 2021 21:03:03 -0800
-Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4JHSCC1g18z1Rvlf
- for <qemu-devel@nongnu.org>; Sun, 19 Dec 2021 21:03:03 -0800 (PST)
-Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
- reason="pass (just generated, assumed good)"
- header.d=opensource.wdc.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
- opensource.wdc.com; h=content-transfer-encoding:mime-version
- :references:in-reply-to:x-mailer:message-id:date:subject:to
- :from; s=dkim; t=1639976582; x=1642568583; bh=MlOc7gzzEoH+mrkpfu
- wF80CqkYllueLnrvRzSKegruQ=; b=K5m1aC0doFMqbZmr/pgGxzs9R+axjUvqDn
- 0WFZzsuOlNtn0q1F4iZi3+DiTFt+G23kUPioH8spwBHv2YWCEnS5uBTbrXhUnyfp
- 9847DJcOdQpbPvuBAItDm7k/hWF7lYfvDPVSxoTPgGmkNJxxkG/igzw4BkTH4KE2
- wu39P8dqm9kVe6Ur78UqHggprzjyVZkL6V7hwLUv13dVp55E01UukqrgoQlpy3LI
- m0Y7Gqc0MsFgMi4q83xyz7NcuavtkJKuyR6IQKUU02By8O03Gd0jEu1abif5iV3H
- F91JdMCGE8bYHsytoFXAZYsh7H8Iilh97fEJarncUqKnlUt9PvMg==
-X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
-Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
- by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id qq6K_02U5LlQ for <qemu-devel@nongnu.org>;
- Sun, 19 Dec 2021 21:03:02 -0800 (PST)
-Received: from toolbox.alistair23.me (unknown [10.225.165.68])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4JHSC76WDWz1RtVG;
- Sun, 19 Dec 2021 21:02:59 -0800 (PST)
-From: Alistair Francis <alistair.francis@opensource.wdc.com>
-To: qemu-devel@nongnu.org
-Cc: alistair23@gmail.com, Vineet Gupta <vineetg@rivosinc.com>,
- Alistair Francis <alistair.francis@wdc.com>
-Subject: [PULL 87/88] target/riscv: Enable bitmanip Zb[abcs] instructions
-Date: Mon, 20 Dec 2021 14:57:04 +1000
-Message-Id: <20211220045705.62174-88-alistair.francis@opensource.wdc.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20211220045705.62174-1-alistair.francis@opensource.wdc.com>
-References: <20211220045705.62174-1-alistair.francis@opensource.wdc.com>
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1mzBR2-0007lG-Q1; Mon, 20 Dec 2021 00:42:09 -0500
+Received: from [2607:f8b0:4864:20::d32] (port=44815
+ helo=mail-io1-xd32.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1mzBR0-0004Q9-AM; Mon, 20 Dec 2021 00:42:07 -0500
+Received: by mail-io1-xd32.google.com with SMTP id b187so11721338iof.11;
+ Sun, 19 Dec 2021 21:42:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=2CuLSanqv4LFwTntbzogmoSLhYAu/WUbV8sfCZuZE4Q=;
+ b=o1v/n2wIvFEHJ/Hrh8JQ2r4h1S2ynY4HFvUYSHsB/wsIHTnHQcPTL6qbLoSKTFNmX5
+ TTHsKI6BsbK2C3HgNnzoxWRnxFzkKowKiKTMZGAKf2bEEtxw4In6RfnSSbnFf3uICQDa
+ +8hok04h447+RdOfv8zXb/5k/29DnxvBtknVpIgWKqYCImL/te/nN6t3sXHThiGVhn4F
+ EERlbxZtEX7HvysLU8uNOegKm12N3uizB4ywAKMms/SOFDfbs8Yq2kjJFLP1b5asJYkO
+ 7xrDxYyVxP/6smaEoc2Gke3YXCWQG9czfBxmLJVLXBk8akNXIXP/zjmfMaLIjImWKpzN
+ qPDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=2CuLSanqv4LFwTntbzogmoSLhYAu/WUbV8sfCZuZE4Q=;
+ b=sZs/zf9mvPlg9C2ohaIqw0McSooTM9znz39CcHrlh2WMrpiSKw78gKhtpHKjmJHDcy
+ 2rTSSFPunICBb4Mc8YdQUqKLFT8iQKl6yXgPqDXvtZlaerFIrWa/zXoSxpdgMmmtZn9F
+ p3JbRoKZMJqoZqIq+wWz/u2Wu7a7b/lFOt18f64WTJWTBUu//uWeSywt0bBZIdHviVNy
+ 6QnrfgPsLjTG7mDuXvMw+95HyssoOvu3Ko5SmeAMnnygHla2KyBeKJ2ZttI6ye7/TOda
+ sXZV8+NvGu3c24wG+4Qey2CSfEzErSHEyYXFDHoPHtggMPF618oi5DxyXKROFRq04s4G
+ BCPA==
+X-Gm-Message-State: AOAM530UZ5j1m7ktbtYzobRNEbjqhDMquUl7S+HMRntIP7xJKdNLN3PE
+ /W2nzLA+MF/SmLQ06qEoNkbnTSkx7cha7F1b65Y=
+X-Google-Smtp-Source: ABdhPJy6cf9HOcCEZJQ+TEb+YfctzACsijHVGr2fk0uHXYRGqwR7TBMFt4I12zgGcgm/MOgIjms9xdkhtM2i/FJVDII=
+X-Received: by 2002:a05:6602:140c:: with SMTP id
+ t12mr7291906iov.187.1639978924179; 
+ Sun, 19 Dec 2021 21:42:04 -0800 (PST)
 MIME-Version: 1.0
+References: <20211216045427.757779-1-alistair.francis@opensource.wdc.com>
+ <20211216045427.757779-9-alistair.francis@opensource.wdc.com>
+ <CAAhSdy0ruRoGvxby2Y44NwSmtPWyGqO03es-W4fegmcWa0mxJw@mail.gmail.com>
+ <90fb8940-f684-f546-fd18-288af467df8d@amsat.org>
+In-Reply-To: <90fb8940-f684-f546-fd18-288af467df8d@amsat.org>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Mon, 20 Dec 2021 15:41:38 +1000
+Message-ID: <CAKmqyKNSUQGAUL16Qks9c-aY61K5wAFYqU+a8MV8Y=m_+T-Daw@mail.gmail.com>
+Subject: Re: [PATCH v2 8/9] hw/riscv: virt: Allow support for 32 cores
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=68.232.143.124;
- envelope-from=prvs=9816edf2f=alistair.francis@opensource.wdc.com;
- helo=esa2.hgst.iphmx.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d32
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d32;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd32.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -112,45 +84,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Anup Patel <anup@brainfault.org>, Bin Meng <bin.meng@windriver.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Alistair Francis <alistair.francis@opensource.wdc.com>,
+ Bin Meng <bmeng.cn@gmail.com>, Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Vineet Gupta <vineetg@rivosinc.com>
+On Thu, Dec 16, 2021 at 6:18 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
+g> wrote:
+>
+> On 12/16/21 06:58, Anup Patel wrote:
+> > On Thu, Dec 16, 2021 at 10:27 AM Alistair Francis
+> > <alistair.francis@opensource.wdc.com> wrote:
+> >>
+> >> From: Alistair Francis <alistair.francis@wdc.com>
+> >>
+> >> Linux supports up to 32 cores for both 32-bit and 64-bit RISC-V, so
+> >> let's set that as the maximum for the virt board.
+> >>
+> >> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/435
+> >> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+>
+> > IMO, we should keep QEMU VIRT_CPUS_MAX as high as
+> > possible to allow any kind of software Linux, OpenSBI, FreeBSD,
+> > Xvisor, Xen, etc. Let the guest software decide it's own limit (such
+> > as NR_CPUS of Linux).
+>
+> Agreed.
 
-The bitmanip extension has now been ratified [1] and upstream tooling
-(gcc/binutils) support it too, so move them out of experimental and also
-enable by default (for better test exposure/coverage)
+I agree as well. I'm happy to increase this in the future, the problem
+is that I am only able to test it with 32 cores on Linux.
 
-[1] https://wiki.riscv.org/display/TECH/Recently+Ratified+Extensions
-
-Signed-off-by: Vineet Gupta <vineetg@rivosinc.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <20211216051844.3921088-1-vineetg@rivosinc.com>
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
----
- target/riscv/cpu.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
-
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 9776297c79..6ef3314bce 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -641,10 +641,10 @@ static Property riscv_cpu_properties[] =3D {
-     DEFINE_PROP_UINT16("elen", RISCVCPU, cfg.elen, 64),
-=20
-     /* These are experimental so mark with 'x-' */
--    DEFINE_PROP_BOOL("x-zba", RISCVCPU, cfg.ext_zba, false),
--    DEFINE_PROP_BOOL("x-zbb", RISCVCPU, cfg.ext_zbb, false),
--    DEFINE_PROP_BOOL("x-zbc", RISCVCPU, cfg.ext_zbc, false),
--    DEFINE_PROP_BOOL("x-zbs", RISCVCPU, cfg.ext_zbs, false),
-+    DEFINE_PROP_BOOL("zba", RISCVCPU, cfg.ext_zba, true),
-+    DEFINE_PROP_BOOL("zbb", RISCVCPU, cfg.ext_zbb, true),
-+    DEFINE_PROP_BOOL("zbc", RISCVCPU, cfg.ext_zbc, true),
-+    DEFINE_PROP_BOOL("zbs", RISCVCPU, cfg.ext_zbs, true),
-     DEFINE_PROP_BOOL("x-h", RISCVCPU, cfg.ext_h, false),
-     DEFINE_PROP_BOOL("x-j", RISCVCPU, cfg.ext_j, false),
-     /* ePMP 0.9.3 */
---=20
-2.31.1
-
+Alistair
 
