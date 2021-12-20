@@ -2,78 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B046A47B5EC
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Dec 2021 23:37:35 +0100 (CET)
-Received: from localhost ([::1]:39840 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0ED4B47B5F1
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Dec 2021 23:44:23 +0100 (CET)
+Received: from localhost ([::1]:49506 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mzRHi-0000Yb-HY
-	for lists+qemu-devel@lfdr.de; Mon, 20 Dec 2021 17:37:34 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41152)
+	id 1mzROH-0007Bc-Nh
+	for lists+qemu-devel@lfdr.de; Mon, 20 Dec 2021 17:44:21 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42154)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mzRFt-0007Yj-ST
- for qemu-devel@nongnu.org; Mon, 20 Dec 2021 17:35:41 -0500
-Received: from [2a00:1450:4864:20::52b] (port=44647
- helo=mail-ed1-x52b.google.com)
+ id 1mzRLS-0005ds-HZ
+ for qemu-devel@nongnu.org; Mon, 20 Dec 2021 17:41:27 -0500
+Received: from [2a00:1450:4864:20::52f] (port=35395
+ helo=mail-ed1-x52f.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mzRFs-0003UH-4K
- for qemu-devel@nongnu.org; Mon, 20 Dec 2021 17:35:41 -0500
-Received: by mail-ed1-x52b.google.com with SMTP id w16so15907868edc.11
- for <qemu-devel@nongnu.org>; Mon, 20 Dec 2021 14:35:39 -0800 (PST)
+ id 1mzRLQ-00047T-SR
+ for qemu-devel@nongnu.org; Mon, 20 Dec 2021 17:41:26 -0500
+Received: by mail-ed1-x52f.google.com with SMTP id y22so44467479edq.2
+ for <qemu-devel@nongnu.org>; Mon, 20 Dec 2021 14:41:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=gBIDRJFOwrm3uQ7X2jx0y7dBqJMOt1JuIOJ5h2J9Wak=;
- b=F1mJNnV9RpAn2iTtiazPw/fLd8IUGZG9+MsE2JOmnwXjOZ2uh6HSKm92RNiTmW3jFS
- 6aTUNpeEapVfFAhaMUne8QK4msSX6hErcFeFcdXAIPkRRAx2ya2tRYZr36J6FUEbV32O
- p5ArKTsWx+bFGGxu4cDKN4tGVHuYhU2AkL2RSmEgeO8PWBT3ayEMpEPYPA5zX5jvJIjF
- e7xiRtaVTlqiTkuvOzAA5EGzvluS2WBh/WNMqB+Da6sw0TABJ2C7IZZqIqJc1Q6cIrQ/
- m3d4ZAlJIQnBQaatA7AzeneNeRuf62nsUlV0ZuRuZ0jnmTTMJRsFP2WUXFkOae+cJjgY
- lu9w==
+ bh=F4qKCOQGK4oVTxEkRtVro6vjR8T9DiT/Wm6q2KWPShU=;
+ b=FhpW3yaJbJRHLvKbjFLXq8Ij2B6pCXd4UvvV9m3b7M1YcHyqtKTzv0alDySp3uiTDX
+ 29OfHU6nA9DkuZPBpLizhtnpFndP9POeB5+3SxYE85eTLho6peE+kyn1uPD3ESI+KoO4
+ gP0SG18zQ2GstWF7JhjNCR2GEiPpnxBi08qp4WzJnpI9rw1NCjwJRMTQfBlnIiWHU6S3
+ tyDqxLojm4p2WqP6fBG+OBv82qxvFUX0m4zOQEK7zPYlw06dPB4XnpoBtdG7rmIleQ7i
+ lZQGQzuR3bPxDacxq+JYAEgkBxUvwm5vcV+xDVXJ2UbP9mwm+Y9kOdX83SKllHyNvWvn
+ qx4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=gBIDRJFOwrm3uQ7X2jx0y7dBqJMOt1JuIOJ5h2J9Wak=;
- b=lmMNn4RpqeDSBsMop46q45sTDh+yKU5Ik4Ih/ztEWrFvne6rM3b9y/RDjRCex7Zdof
- dDJGjvyqy/aZofgrZoJx2bxC3zaU/IOqwHSSc067mEGe+dM1drh2KydBDd3QYTHT2cdD
- ro1cfPG2AZmEo2BibG1na1qwv/OAweoVn3qCw0WvcGlaIzQ1DwsAleCW4p8LNY/s0gCu
- d30A+0N4NoalUZ918sg/iGhzyQsmV2zWvBAdNEwodLCfE6AfeqbRvLuzjp9cLQ2xOmjm
- x55AIxIbrBDf45TW1uEV5d1RKnBWcbjlQc/zV8m8cj266C8cRbo0Jn7PVaUXAlNt2AaU
- Bx8w==
-X-Gm-Message-State: AOAM5312Lx6SXcdnlWEE9hQ1FbDmovVl2vDaSQ4MmtLXWk/DDPh7kq3m
- QhLvJQ1swfnNMKs+elRkY24znFr/6sU=
-X-Google-Smtp-Source: ABdhPJwHHQeKiguv3oHgwOL3twS/WcKNYT6zVqm+m1Wi8eXu+LoWI3aWnhutBKr3IvhfxYm4+20Hwg==
-X-Received: by 2002:a17:907:e8c:: with SMTP id
- ho12mr213051ejc.689.1640039738081; 
- Mon, 20 Dec 2021 14:35:38 -0800 (PST)
+ bh=F4qKCOQGK4oVTxEkRtVro6vjR8T9DiT/Wm6q2KWPShU=;
+ b=SsIPfbrf5nkvrGTHAJlF33uE6GkQBDxrcaQMbCEVXdgb7n+kuveRws6uOaT9cldwqn
+ vJhlMJtijJMH5tUs4yvGUnU6uAJ/+vDxi6y5/vCRmmYbsf6xIntaU8Pt35pKE1PCPMQI
+ YsVdihcL8Co1dvpNkdx8UIXokHCE28NciaIRcYWVyx6Xj4+sjMf09+IN+HmOnDgoSzVb
+ LQuTthmNqu7lVNAhuwE98r4WVqi1XvIdslazHv4K6mqIpEH1nN9vV3jRE/VZ4KMs8PjH
+ R/zpBsv0jUo59OgAUy0KKbLL5KB1AIVDiFsmjb36BC5C4hRCKMDDSZl+bAv659jXctyO
+ UNPA==
+X-Gm-Message-State: AOAM533T7yKyI66c6nXSKIWamJ1UHOQ2IZvlfhdg+WW+vQEVl1K3cMA1
+ fpOOZkoSZ/zQOP+2Tx6va7o=
+X-Google-Smtp-Source: ABdhPJxzzyhA1QqnRvPOSxiZh4iw0fZgbdiqfHHcAoqisnCh2vjs6UnwdjesjC0uMeH4KA51eEjfNA==
+X-Received: by 2002:a17:907:6da1:: with SMTP id
+ sb33mr263565ejc.692.1640040083144; 
+ Mon, 20 Dec 2021 14:41:23 -0800 (PST)
 Received: from [192.168.1.36] (174.red-83-50-185.dynamicip.rima-tde.net.
  [83.50.185.174])
- by smtp.gmail.com with ESMTPSA id c10sm4467352ejm.118.2021.12.20.14.35.36
+ by smtp.gmail.com with ESMTPSA id qf14sm2765615ejc.18.2021.12.20.14.41.22
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 20 Dec 2021 14:35:37 -0800 (PST)
-Message-ID: <46ba0b53-f857-6565-8f02-ea8bee16cb9e@amsat.org>
-Date: Mon, 20 Dec 2021 23:35:36 +0100
+ Mon, 20 Dec 2021 14:41:22 -0800 (PST)
+Message-ID: <f490a5a8-e6c2-664c-e497-da6cca4174da@amsat.org>
+Date: Mon, 20 Dec 2021 23:41:21 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.4.0
-Subject: Re: [PATCH 1/6] linux-user: Split out do_prctl and subroutines
+Subject: Re: [PATCH 2/6] linux-user: Disable more prctl subcodes
 Content-Language: en-US
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20211220214135.189157-1-richard.henderson@linaro.org>
- <20211220214135.189157-2-richard.henderson@linaro.org>
+ <20211220214135.189157-3-richard.henderson@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <20211220214135.189157-2-richard.henderson@linaro.org>
+In-Reply-To: <20211220214135.189157-3-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52b
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52f
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x52b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x52f.google.com
 X-Spam_score_int: -42
 X-Spam_score: -4.3
 X-Spam_bar: ----
@@ -99,95 +99,40 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 12/20/21 22:41, Richard Henderson wrote:
-> Since the prctl constants are supposed to be generic, supply
-> any that are not provided by the host.
-> 
-> Split out subroutines for PR_GET_FP_MODE, PR_SET_FP_MODE,
-> PR_GET_VL, PR_SET_VL, PR_RESET_KEYS, PR_SET_TAGGED_ADDR_CTRL,
-> PR_GET_TAGGED_ADDR_CTRL.  Return EINVAL for guests that do
-> not support these options rather than pass them on to the host.
+> Create a list of subcodes that we want to pass on, a list of
+> subcodes that should not be passed on because they would affect
+> the running qemu itself, and a list that probably could be
+> implemented but require extra work. Do not pass on unknown subcodes.
 > 
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  linux-user/aarch64/target_prctl.h    | 160 ++++++++++
->  linux-user/aarch64/target_syscall.h  |  23 --
->  linux-user/alpha/target_prctl.h      |   1 +
->  linux-user/arm/target_prctl.h        |   1 +
->  linux-user/cris/target_prctl.h       |   1 +
->  linux-user/hexagon/target_prctl.h    |   1 +
->  linux-user/hppa/target_prctl.h       |   1 +
->  linux-user/i386/target_prctl.h       |   1 +
->  linux-user/m68k/target_prctl.h       |   1 +
->  linux-user/microblaze/target_prctl.h |   1 +
->  linux-user/mips/target_prctl.h       |  88 ++++++
->  linux-user/mips/target_syscall.h     |   6 -
->  linux-user/mips64/target_prctl.h     |   1 +
->  linux-user/mips64/target_syscall.h   |   6 -
->  linux-user/nios2/target_prctl.h      |   1 +
->  linux-user/openrisc/target_prctl.h   |   1 +
->  linux-user/ppc/target_prctl.h        |   1 +
->  linux-user/riscv/target_prctl.h      |   1 +
->  linux-user/s390x/target_prctl.h      |   1 +
->  linux-user/sh4/target_prctl.h        |   1 +
->  linux-user/sparc/target_prctl.h      |   1 +
->  linux-user/x86_64/target_prctl.h     |   1 +
->  linux-user/xtensa/target_prctl.h     |   1 +
->  linux-user/syscall.c                 | 433 +++++++++------------------
->  24 files changed, 414 insertions(+), 320 deletions(-)
->  create mode 100644 linux-user/aarch64/target_prctl.h
->  create mode 100644 linux-user/alpha/target_prctl.h
->  create mode 100644 linux-user/arm/target_prctl.h
->  create mode 100644 linux-user/cris/target_prctl.h
->  create mode 100644 linux-user/hexagon/target_prctl.h
->  create mode 100644 linux-user/hppa/target_prctl.h
->  create mode 100644 linux-user/i386/target_prctl.h
->  create mode 100644 linux-user/m68k/target_prctl.h
->  create mode 100644 linux-user/microblaze/target_prctl.h
->  create mode 100644 linux-user/mips/target_prctl.h
->  create mode 100644 linux-user/mips64/target_prctl.h
->  create mode 100644 linux-user/nios2/target_prctl.h
->  create mode 100644 linux-user/openrisc/target_prctl.h
->  create mode 100644 linux-user/ppc/target_prctl.h
->  create mode 100644 linux-user/riscv/target_prctl.h
->  create mode 100644 linux-user/s390x/target_prctl.h
->  create mode 100644 linux-user/sh4/target_prctl.h
->  create mode 100644 linux-user/sparc/target_prctl.h
->  create mode 100644 linux-user/x86_64/target_prctl.h
->  create mode 100644 linux-user/xtensa/target_prctl.h
+>  linux-user/syscall.c | 56 ++++++++++++++++++++++++++++++++++++++++----
+>  1 file changed, 52 insertions(+), 4 deletions(-)
 
-> +#include "target_prctl.h"
-> +
-> +static abi_long do_prctl_inval0(CPUArchState *env)
-> +{
-> +    return -TARGET_EINVAL;
-> +}
-> +
-> +static abi_long do_prctl_inval1(CPUArchState *env, abi_long arg2)
-> +{
-> +    return -TARGET_EINVAL;
-> +}
-> +
-> +#ifndef do_prctl_get_fp_mode
-> +#define do_prctl_get_fp_mode do_prctl_inval0
-> +#endif
-> +#ifndef do_prctl_set_fp_mode
-> +#define do_prctl_set_fp_mode do_prctl_inval1
-> +#endif
-> +#ifndef do_prctl_get_vl
-> +#define do_prctl_get_vl do_prctl_inval0
-> +#endif
-> +#ifndef do_prctl_set_vl
-> +#define do_prctl_set_vl do_prctl_inval1
-> +#endif
-> +#ifndef do_prctl_reset_keys
-> +#define do_prctl_reset_keys do_prctl_inval1
-> +#endif
-> +#ifndef do_prctl_set_tagged_addr_ctrl
-> +#define do_prctl_set_tagged_addr_ctrl do_prctl_inval1
-> +#endif
-> +#ifndef do_prctl_get_tagged_addr_ctrl
-> +#define do_prctl_get_tagged_addr_ctrl do_prctl_inval0
-> +#endif
+> +    case PR_SET_SYSCALL_USER_DISPATCH:
+> +    case PR_GET_THP_DISABLE:
+> +    case PR_SET_THP_DISABLE:
+> +    case PR_GET_TSC:
+> +    case PR_SET_TSC:
+> +    case PR_GET_UNALIGN:
+> +    case PR_SET_UNALIGN:
+>      default:
 
+Unfortunately prctl values are not enumerated, so we can't remove
+the default case to catch new values at build time.
+
+Maybe a qemu_log_mask(LOG_UNIMP) call would help here? (only
+for default?)
+
+Regardless:
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+
+> -        /* Most prctl options have no pointer arguments */
+> -        return get_errno(prctl(option, arg2, arg3, arg4, arg5));
+> +        /* Disable to prevent the target disabling stuff we need. */
+> +        return -TARGET_EINVAL;
+>      }
+>  }
+>  
+
 
