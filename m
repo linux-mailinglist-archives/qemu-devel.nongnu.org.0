@@ -2,79 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBEED47B3A7
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Dec 2021 20:24:06 +0100 (CET)
-Received: from localhost ([::1]:33124 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 967CF47B3BB
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Dec 2021 20:30:35 +0100 (CET)
+Received: from localhost ([::1]:42556 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mzOGT-0005vi-CH
-	for lists+qemu-devel@lfdr.de; Mon, 20 Dec 2021 14:24:05 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53816)
+	id 1mzOMk-000490-8B
+	for lists+qemu-devel@lfdr.de; Mon, 20 Dec 2021 14:30:34 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56924)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mzOAl-0002xd-LB
- for qemu-devel@nongnu.org; Mon, 20 Dec 2021 14:18:11 -0500
-Received: from [2607:f8b0:4864:20::434] (port=36376
- helo=mail-pf1-x434.google.com)
+ id 1mzOJL-00027b-3a
+ for qemu-devel@nongnu.org; Mon, 20 Dec 2021 14:27:03 -0500
+Received: from [2607:f8b0:4864:20::62f] (port=37500
+ helo=mail-pl1-x62f.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mzOAk-0000nM-2D
- for qemu-devel@nongnu.org; Mon, 20 Dec 2021 14:18:11 -0500
-Received: by mail-pf1-x434.google.com with SMTP id v13so9587779pfi.3
- for <qemu-devel@nongnu.org>; Mon, 20 Dec 2021 11:18:07 -0800 (PST)
+ id 1mzOJH-0002ag-Fl
+ for qemu-devel@nongnu.org; Mon, 20 Dec 2021 14:27:02 -0500
+Received: by mail-pl1-x62f.google.com with SMTP id n8so8874265plf.4
+ for <qemu-devel@nongnu.org>; Mon, 20 Dec 2021 11:26:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=9ZOnYaaaJn3eTuIXiBiZ94cEcaTpqLUYq9W/J3rXctk=;
- b=iCip90Fr0hpKPKojLsef57CvGoOmXahOptnaRUaIv0BbuyHm4KfY0r76Zpvv4zK5fd
- Fmh+JdGDHsIBgXE0L7femyx7jCNU+CZzsttUNkGes/+ljSd2lf8YsHKpqbIttZyYQpSV
- lYndypoF0rJDMAxa8vEb/Es3CwihsFHzvrq+tjxtsMbUp2ZqdyMA/5ioRN2yaWG4LQWU
- BzyjNjDxCSbkePcTfMVkWP2aYLVVzKN5DZ+CyIzJp3NxvFgyf9SoDa51+fIhy1sbDmht
- v/FVrHA8Vcr7B5d0gaA6D8+U4RZxQTF/xC/8shWbihzPzU2uKpl/LHbLTfKaOlWbqWVR
- MuEA==
+ bh=Cei72ciGbZCpn3DFF0ldlH1k+AFrMS09pv1BH70L5E8=;
+ b=nOamrPB/d0CsncWObSqwzKQbXfI7zUzFyQkSLlrZiKOknwmUoIPr+O7bpnGRyKTCPf
+ biC1qYzFftfykNNDTp1XOvR1YU9FrxArulTmKwxq0yUSmy2JBhTLPCqNVmlsys/ykwxT
+ CcIq9Po3WRm1bA9T5To3HJGsfyQ6MJEN6vQLUKIzR2m6rodZZvcRftOlw3cHx0RgIhTg
+ cLdT5+L2joE3s+EOH49BmMXdyO9PmoGJjHjnF4aYkXaftZrFyFfCv0CqIIqIsTXVXI9U
+ cM3Ls0i7FBMFwMXyYDWK0bsLizeax9otKI/X+3bp0jMjbyXoPthDSzPShegg7xSxVOes
+ HFoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=9ZOnYaaaJn3eTuIXiBiZ94cEcaTpqLUYq9W/J3rXctk=;
- b=yFO1zszwJOnd+GKAk10xr2uzGroOUSnYYhQDrwJzsfU3STucmU5v+YnMyxdCRVOdoI
- 5jiBkSWyfzgjU4rWHcERNubNRyVfeKHR71G1QdBQ4cdaSxJ+vYUVqX7rofop+awGlhmt
- O2Jt0FLG5Lfg35gFFsaQVD5n9FJq03hMZc8dU15Qf31AS0a8bfCSIJwOoKGGuSh5Uhl4
- dJnoKZl3C01QL+tycE8kMKGzWqM2g2GHrXxyQXtOHl1vL3pjjcIY5oAc8xqn4/xTI+aE
- DS2l7OujZxKSMqDgvi5ygOH3d/9vr1CwhLe3cpCYS0GTPgp3aMVGap4NkUg8x6aHZxQu
- 1Rpg==
-X-Gm-Message-State: AOAM5317lWEGcpDtZJK4khLo9s8H7lXbwsQFUVomGWNMRJWazxO2n1+l
- bOWMukYPeiojPd3kfpcFPCsgTQ==
-X-Google-Smtp-Source: ABdhPJzQ4Xk18wC/pUpf2MmfgO1+g+Dqo25RSvS9V3Y6mQPj76dKxGfgVxjq3rHWJ0ppZdSz3z2omA==
-X-Received: by 2002:a62:8f51:0:b0:4bb:9d8:86cf with SMTP id
- n78-20020a628f51000000b004bb09d886cfmr1238004pfd.55.1640027886249; 
- Mon, 20 Dec 2021 11:18:06 -0800 (PST)
+ bh=Cei72ciGbZCpn3DFF0ldlH1k+AFrMS09pv1BH70L5E8=;
+ b=eLqcO5v4I7YBMs8ng78a435elTyG6FhC6g0K05EQZG5C9bO9h1ASZH6XeYrZ1sXf3B
+ F0ubeAM4/oMivPhoiaPqZHFmFyk6xw7W8NMUEtdxgRssCbUX52jVrXnj1dNFaDMOTNBM
+ oFXl8zACwuWvIAVF9uQwYRYuzDC/TkSFOZADbbucm5/QOausg8igtoYqhJHH5np8O45W
+ IOFIxOFBa3Vbd2nhaHZMeUPb+YAyQz0H65v2L9ybKoqpx4GHBruT9gKy9hKRgBQaycWD
+ tZToeZRoedQUly/n4EW1VGbFL/3UAj54ylZ4rFiAwH3Z1bJ4WGgGR+JsF9dhLO/I/WpC
+ EN9g==
+X-Gm-Message-State: AOAM5321/eetVLyE7IUaxwTqxgfV5KlU7HfrmhcVWUi0cT/2HdQbCYxv
+ jZbflvfnXYRKW4dK69++3Mt13w==
+X-Google-Smtp-Source: ABdhPJyQW5aVDDwhRVSef+x0LklBw/djjSn3JZLVZo3OhammdjcYdrbTCEo4JNLOsoo7758e83dakw==
+X-Received: by 2002:a17:902:ed85:b0:148:9d8d:2aa2 with SMTP id
+ e5-20020a170902ed8500b001489d8d2aa2mr17917272plj.81.1640028417121; 
+ Mon, 20 Dec 2021 11:26:57 -0800 (PST)
 Received: from [192.168.4.112] ([156.19.246.20])
- by smtp.gmail.com with ESMTPSA id w15sm148906pjq.24.2021.12.20.11.18.04
+ by smtp.gmail.com with ESMTPSA id r11sm18954434pff.81.2021.12.20.11.26.56
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 20 Dec 2021 11:18:05 -0800 (PST)
-Subject: Re: [PATCH] tests/tcg/ppc64le: remove INT128 requirement to run
- non_signalling_xscv
-To: "Matheus K. Ferst" <matheus.ferst@eldorado.org.br>,
- qemu-devel@nongnu.org, qemu-ppc@nongnu.org
-References: <20211216140951.1183987-1-matheus.ferst@eldorado.org.br>
- <2e386a1a-17cd-1c04-4eab-480ecbae059f@linaro.org>
- <493cf62e-2a80-08b4-1d0b-72b222a0bbd8@eldorado.org.br>
+ Mon, 20 Dec 2021 11:26:56 -0800 (PST)
+Subject: Re: [PATCH] tests/qtest/virtio-net-failover: Use g_random_int()
+ instead of g_test_rand_int()
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
+ Laurent Vivier <lvivier@redhat.com>
+References: <20211220102759.311224-1-thuth@redhat.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <d220766e-9022-8a59-79d5-33a889c49c02@linaro.org>
-Date: Mon, 20 Dec 2021 11:18:02 -0800
+Message-ID: <a752f53a-f563-4d54-affa-40925f39b62f@linaro.org>
+Date: Mon, 20 Dec 2021 11:26:54 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <493cf62e-2a80-08b4-1d0b-72b222a0bbd8@eldorado.org.br>
+In-Reply-To: <20211220102759.311224-1-thuth@redhat.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::434
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62f
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::434;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x434.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62f.google.com
 X-Spam_score_int: -48
 X-Spam_score: -4.9
 X-Spam_bar: ----
@@ -94,34 +92,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, danielhb413@gmail.com, groug@kaod.org,
- f4bug@amsat.org, clg@kaod.org, alex.bennee@linaro.org, aurelien@aurel32.net,
- david@gibson.dropbear.id.au
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/20/21 4:18 AM, Matheus K. Ferst wrote:
-> I'd like to avoid mtvsrdd/mfvsrld because they were introduced in PowerISA v3.0, and 
-> xscvspdpn/xscvdpspn are from v2.07.
+On 12/20/21 2:27 AM, Thomas Huth wrote:
+>       const gchar *tmpdir = g_get_tmp_dir();
+>       gchar *tmpfile = g_strdup_printf("%s/failover_test_migrate-%u-%u",
+> -                                     tmpdir, getpid(), g_test_rand_int());
+> +                                     tmpdir, getpid(), g_random_int());
 
-Fair enough, I suppose.
+Random numbers plus pid are irrelevant, because you still don't have guaranteed uniqueness 
+-- think stale files in /tmp.
 
-> How about
-> 
-> asm("mtvsrd 0, %2\n\t"
->      "mtvsrd 1, %3\n\t"
->      "xxmrghd 0, 0, 1\n\t"
->      INSN " 0, 0\n\t"
->      "mfvsrd %0, 0\n\t"
->      "xxswapd 0, 0\n\t"
->      "mfvsrd %1, 0\n\t"
->      : "=r" (th), "=r" (tl)
->      : "r" (bh), "r" (bl)
->      : "vs0", "vs1");
-> 
-> ?
-
-Looks good.
+Use g_file_open_tmp.
 
 
 r~
