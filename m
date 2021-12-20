@@ -2,75 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C843C47B54C
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Dec 2021 22:38:19 +0100 (CET)
-Received: from localhost ([::1]:50176 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9012B47B550
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Dec 2021 22:44:48 +0100 (CET)
+Received: from localhost ([::1]:58358 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mzQMM-0005jK-VA
-	for lists+qemu-devel@lfdr.de; Mon, 20 Dec 2021 16:38:18 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58966)
+	id 1mzQSd-00032h-34
+	for lists+qemu-devel@lfdr.de; Mon, 20 Dec 2021 16:44:47 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59766)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mzQK2-0004vz-4E
- for qemu-devel@nongnu.org; Mon, 20 Dec 2021 16:35:54 -0500
-Received: from [2607:f8b0:4864:20::1033] (port=36744
- helo=mail-pj1-x1033.google.com)
+ id 1mzQPd-0000A7-2h
+ for qemu-devel@nongnu.org; Mon, 20 Dec 2021 16:41:41 -0500
+Received: from [2607:f8b0:4864:20::435] (port=41780
+ helo=mail-pf1-x435.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mzQK0-0002NV-H8
- for qemu-devel@nongnu.org; Mon, 20 Dec 2021 16:35:53 -0500
-Received: by mail-pj1-x1033.google.com with SMTP id
- n15-20020a17090a160f00b001a75089daa3so468539pja.1
- for <qemu-devel@nongnu.org>; Mon, 20 Dec 2021 13:35:52 -0800 (PST)
+ id 1mzQPb-0002vG-9o
+ for qemu-devel@nongnu.org; Mon, 20 Dec 2021 16:41:40 -0500
+Received: by mail-pf1-x435.google.com with SMTP id m1so8787305pfk.8
+ for <qemu-devel@nongnu.org>; Mon, 20 Dec 2021 13:41:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=to:from:subject:message-id:date:user-agent:mime-version
- :content-language:content-transfer-encoding;
- bh=o2hfFaIb/BeH6G0NVmLZDJKlxEIGSRdSrhR9kZ6yFZM=;
- b=svxXNG7K0N02bgi42++8bahfa/dEpwLOcu2yto0NTBkbqmrRqzdvK8aiGbwkwZ2W/o
- 4rTPocAofZ0KkdOIYtVz35tZDnQACDhkbVO8JHTWnAPE0VNeBGhGCoEByCOGQ47AuzT1
- vQsV1+ujQYAeRPkuDmFR3i+NGzjxm+wH0B2VQU57nsGKLH5DgVthnam6a9xIy1d1X0tF
- 1ruaGtAYowNZVEWIlSk9aKetedCRhIUyBNjST0RKIjbmD2HAyzhjjWIdi8fLoFt+xugR
- bKMvtJrSuYhKt+WIpvZC1MZPRdGfudpQRkaP/sWqhZvNv0eC80wP4d/HGtV0p3cbzHuL
- R/Uw==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=pZgZQlrp1MduzEECmFq0MQfhMjHjbg/2DZlWoJmR1pc=;
+ b=AMHN3IsrGZiAG0o/9zILPve+xFXgyzdjl0a6ZVqvxF15WbB+LQu0dPJa/yzXPxYIUc
+ +4o/XKkcAvtQJ3L4s7gXTxHkdLOscle9brYEZ+obsrS8oSu3vqkiNW7vMVRnumsd/CRX
+ lA3+FK8OSGbXVgEyAC0kg8eTn8OB4UU1xDg0mGe+AaPn+uo/OyesXP5TvAuk1MOA+zUX
+ 4/WZ7jhyzM/Xlcv2cdBAS26wYRRtSW2xuQ53Dm9t5fL3qXDzHJwr1Pro7j7YCaX0coCr
+ HYyA28rLlNCGZuZr8kigei/6UhiChrJh/bg38AAD71OS5sdOw25o6FVhRzOWOuVvGflE
+ JKgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:to:from:subject:message-id:date:user-agent
- :mime-version:content-language:content-transfer-encoding;
- bh=o2hfFaIb/BeH6G0NVmLZDJKlxEIGSRdSrhR9kZ6yFZM=;
- b=PZ1tM613vfhvZfcZZbXqRgCPVVZ/FPW5lauw9WxTBxPMSewfm5wDs9yQoJHf6HRl0W
- Fy17UutZTDaYyGC5MVoAtCi4IEwmEA72v/9S0mjYRLy6TYLeT/ecn65X//MDsYazIEvS
- Tt4wj0tzhCgfjt38aQ6OjrPMhRkLmG39MO0rc3J5yHS6pOUZa+JlzQeXFtms+j8UUnh1
- sgChdYneo1Sak/KRMiO9wjY4+wDkn/Ewh4hIr0KXc3r8PCbU2LH6VNUIyTvyHegV2Eqv
- dX3eO0Uf6NL/f75AgOC9b2malcdve9ax+oVgHX238JeXwXRpFgwwh5CiuvzLzBbnL1Bo
- 9f+w==
-X-Gm-Message-State: AOAM530M/gTL6Y7PlkqYXMVRec6CueDUVuU6dI73Dm/hZiZeGVWf0+66
- LAd/Ryj2FYcYIgt4k+ah8GvKPw==
-X-Google-Smtp-Source: ABdhPJz/B/EembSE7EH4LOB9qhH6nntRLB9PCU49ThSsvYM5kPvUMkf/+HbGeWFQnv6rppRlmGo2eQ==
-X-Received: by 2002:a17:903:32c3:b0:148:fb8d:c44d with SMTP id
- i3-20020a17090332c300b00148fb8dc44dmr11452461plr.0.1640036151010; 
- Mon, 20 Dec 2021 13:35:51 -0800 (PST)
-Received: from [192.168.4.112] ([156.19.246.20])
- by smtp.gmail.com with ESMTPSA id q5sm8183712pfu.96.2021.12.20.13.35.49
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 20 Dec 2021 13:35:50 -0800 (PST)
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- qemu-devel <qemu-devel@nongnu.org>, clombard@linux.vnet.ibm.com,
- Daniel Henrique Barboza <danielhb413@gmail.com>
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=pZgZQlrp1MduzEECmFq0MQfhMjHjbg/2DZlWoJmR1pc=;
+ b=vjYN+V94/s945IH6KO9FYGY/mezUmB+j5QCOVxQNPSJ4Jahfq7xhXcyZLYxjoYxSkk
+ wM8mZ6f8vRXICX1UhPUEO5+CDsXSfq3tfmiq65In8wNqwa5ffCrjcOa35lcx7S2OER1K
+ s4ywMm+/mj5Jol2cZ6O2IiU954rn9x5+E5x4pXL/zZMtmP/E1XQFACiZDGsF2zWNr3AC
+ yneFrhnBJlNFDP/ajiI8Qo2DQBGz4h9oro21OQUhB3xVrMEJn/L6zi2t4vgy1AJ8VvP+
+ RZKNhbbLa7OjWHCZJ6DHQkEbGxP8HfxFp3H78l9I+5hEgoDJ3AR0IyXJZR6qYqBVOp6M
+ Pp3w==
+X-Gm-Message-State: AOAM533i3L0NrXHcS0sm/gvNC+D6jX7sb5pKTMMvlOrZZTdz7EuKPkXI
+ rgyBADJJQW1NLCalP1sIl2mk8fS3pX8Alg==
+X-Google-Smtp-Source: ABdhPJxyYbQCLox8CozISdrK8rG4Ph4z5/fbiFwwPhiix0WlRq5gpowteKJRb1kijw5rnYKUQR/OfQ==
+X-Received: by 2002:a63:6603:: with SMTP id a3mr52582pgc.578.1640036497645;
+ Mon, 20 Dec 2021 13:41:37 -0800 (PST)
+Received: from localhost.localdomain ([156.19.246.20])
+ by smtp.gmail.com with ESMTPSA id u10sm12508748pfm.58.2021.12.20.13.41.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 20 Dec 2021 13:41:37 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
-Subject: powernv gitlab ci regression
-Message-ID: <461a77d6-a5d2-0ba1-de95-bc8cfa5fb83b@linaro.org>
-Date: Mon, 20 Dec 2021 13:35:46 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/6] linux-user: prctl improvements
+Date: Mon, 20 Dec 2021 13:41:29 -0800
+Message-Id: <20211220214135.189157-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1033
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::435
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1033.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::435;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x435.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -90,48 +83,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi guys,
-
-Somewhere within
-
-> Merge tag 'pull-ppc-20211217' of https://github.com/legoater/qemu into staging
-> ppc 7.0 queue:
-> 
-> * General cleanup for Mac machines (Peter)
-> * Fixes for FPU exceptions (Lucas)
-> * Support for new ISA31 instructions (Matheus)
-> * Fixes for ivshmem (Daniel)
-> * Cleanups for PowerNV PHB (Christophe and Cedric)
-> * Updates of PowerNV and pSeries documentation (Leonardo and Daniel)
-> * Fixes for PowerNV (Daniel)
-> * Large cleanup of FPU implementation (Richard)
-> * Removal of SoftTLBs support for PPC74x CPUs (Fabiano)
-> * Fixes for exception models in MPCx and 60x CPUs (Fabiano)
-> * Removal of 401/403 CPUs (Cedric)
-> * Deprecation of taihu machine (Thomas)
-> * Large rework of PPC405 machine (Cedric)
-> * Fixes for VSX instructions (Victor and Matheus)
-> * Fix for e6500 CPU (Fabiano)
-> * Initial support for PMU (Daniel)
-
-is something that has caused a timeout regression in avocado-system-centos:
-
->  (047/171) tests/avocado/boot_linux_console.py:BootLinuxConsole.test_ppc_powernv8:  INTERRUPTED: Test interrupted by SIGTERM\nRunner error occurred: Timeout reached\nOriginal status: ERROR\n{'name': '047-tests/avocado/boot_linux_console.py:BootLinuxConsole.test_ppc_powernv8', 'logdir': '/builds/qemu-project/qemu/build/tests/results/job-2021-12-17T19.23-... (90.46 s)
->  (048/171) tests/avocado/boot_linux_console.py:BootLinuxConsole.test_ppc_powernv9:  INTERRUPTED: Test interrupted by SIGTERM\nRunner error occurred: Timeout reached\nOriginal status: ERROR\n{'name': '048-tests/avocado/boot_linux_console.py:BootLinuxConsole.test_ppc_powernv9', 'logdir': '/builds/qemu-project/qemu/build/tests/results/job-2021-12-17T19.23-... (90.55 s)
-
-See e.g. https://gitlab.com/qemu-project/qemu/-/jobs/1898304074
-
-Timeouts are especially tedious with gitlab, because they're not usually consistent, and 
-often go away with a retry.  If I don't see the same failure on my local machine, I often 
-let it go.
-
-But in this case, the gitlab ci regression has been consistent, not passing a single time 
-since.  Which makes me think this is not just a ci artifact, but that there's a real 
-slowdown.  Could you please have a look?
+This is split out from a larger patch set for unaligned accesses.
+The changes in target/ have no effect without the changes in tcg/,
+but this allows the syscall to be handled separately.
 
 
 r~
+
+
+Richard Henderson (6):
+  linux-user: Split out do_prctl and subroutines
+  linux-user: Disable more prctl subcodes
+  linux-user: Add code for PR_GET/SET_UNALIGN
+  target/alpha: Implement prctl_unalign_sigbus
+  target/hppa: Implement prctl_unalign_sigbus
+  target/sh4: Implement prctl_unalign_sigbus
+
+ include/hw/core/cpu.h                     |   3 +
+ linux-user/aarch64/target_prctl.h         | 160 +++++++
+ linux-user/aarch64/target_syscall.h       |  23 -
+ linux-user/alpha/target_prctl.h           |   1 +
+ linux-user/arm/target_prctl.h             |   1 +
+ linux-user/cris/target_prctl.h            |   1 +
+ linux-user/generic/target_prctl_unalign.h |  27 ++
+ linux-user/hexagon/target_prctl.h         |   1 +
+ linux-user/hppa/target_prctl.h            |   1 +
+ linux-user/i386/target_prctl.h            |   1 +
+ linux-user/m68k/target_prctl.h            |   1 +
+ linux-user/microblaze/target_prctl.h      |   1 +
+ linux-user/mips/target_prctl.h            |  88 ++++
+ linux-user/mips/target_syscall.h          |   6 -
+ linux-user/mips64/target_prctl.h          |   1 +
+ linux-user/mips64/target_syscall.h        |   6 -
+ linux-user/nios2/target_prctl.h           |   1 +
+ linux-user/openrisc/target_prctl.h        |   1 +
+ linux-user/ppc/target_prctl.h             |   1 +
+ linux-user/riscv/target_prctl.h           |   1 +
+ linux-user/s390x/target_prctl.h           |   1 +
+ linux-user/sh4/target_prctl.h             |   1 +
+ linux-user/sparc/target_prctl.h           |   1 +
+ linux-user/x86_64/target_prctl.h          |   1 +
+ linux-user/xtensa/target_prctl.h          |   1 +
+ target/alpha/cpu.h                        |   5 +
+ target/hppa/cpu.h                         |   5 +-
+ target/sh4/cpu.h                          |   4 +
+ cpu.c                                     |  20 +-
+ linux-user/syscall.c                      | 490 +++++++++-------------
+ target/alpha/translate.c                  |  31 +-
+ target/hppa/translate.c                   |  19 +-
+ target/sh4/translate.c                    |  50 ++-
+ 33 files changed, 600 insertions(+), 355 deletions(-)
+ create mode 100644 linux-user/aarch64/target_prctl.h
+ create mode 100644 linux-user/alpha/target_prctl.h
+ create mode 100644 linux-user/arm/target_prctl.h
+ create mode 100644 linux-user/cris/target_prctl.h
+ create mode 100644 linux-user/generic/target_prctl_unalign.h
+ create mode 100644 linux-user/hexagon/target_prctl.h
+ create mode 100644 linux-user/hppa/target_prctl.h
+ create mode 100644 linux-user/i386/target_prctl.h
+ create mode 100644 linux-user/m68k/target_prctl.h
+ create mode 100644 linux-user/microblaze/target_prctl.h
+ create mode 100644 linux-user/mips/target_prctl.h
+ create mode 100644 linux-user/mips64/target_prctl.h
+ create mode 100644 linux-user/nios2/target_prctl.h
+ create mode 100644 linux-user/openrisc/target_prctl.h
+ create mode 100644 linux-user/ppc/target_prctl.h
+ create mode 100644 linux-user/riscv/target_prctl.h
+ create mode 100644 linux-user/s390x/target_prctl.h
+ create mode 100644 linux-user/sh4/target_prctl.h
+ create mode 100644 linux-user/sparc/target_prctl.h
+ create mode 100644 linux-user/x86_64/target_prctl.h
+ create mode 100644 linux-user/xtensa/target_prctl.h
+
+-- 
+2.25.1
+
 
