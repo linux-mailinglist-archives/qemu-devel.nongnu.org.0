@@ -2,53 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBBD947B2D6
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Dec 2021 19:28:53 +0100 (CET)
-Received: from localhost ([::1]:36806 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5927647B234
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Dec 2021 18:33:13 +0100 (CET)
+Received: from localhost ([::1]:45908 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mzNP2-0007hI-CG
-	for lists+qemu-devel@lfdr.de; Mon, 20 Dec 2021 13:28:52 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45008)
+	id 1mzMXA-0000LQ-EA
+	for lists+qemu-devel@lfdr.de; Mon, 20 Dec 2021 12:33:12 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52232)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mzKql-00020q-IE
- for qemu-devel@nongnu.org; Mon, 20 Dec 2021 10:45:20 -0500
-Received: from mout.kundenserver.de ([212.227.126.134]:59673)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mzKxD-0002MB-Nj
+ for qemu-devel@nongnu.org; Mon, 20 Dec 2021 10:52:01 -0500
+Received: from mout.kundenserver.de ([212.227.126.134]:60247)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mzKqV-000215-3g
- for qemu-devel@nongnu.org; Mon, 20 Dec 2021 10:45:12 -0500
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mzKx6-0004ji-Td
+ for qemu-devel@nongnu.org; Mon, 20 Dec 2021 10:51:56 -0500
 Received: from [192.168.100.1] ([82.142.30.186]) by mrelayeu.kundenserver.de
- (mreue011 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MWRi7-1mxnv504tP-00Xwv6; Mon, 20 Dec 2021 12:28:36 +0100
-Message-ID: <9ea0a231-3175-2dec-4f5a-9d5dbe418f7d@vivier.eu>
-Date: Mon, 20 Dec 2021 12:28:32 +0100
+ (mreue010 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MEmMt-1nFTBP3yDz-00GLj4; Mon, 20 Dec 2021 12:35:49 +0100
+Message-ID: <e1480965-6a34-211d-45ec-d4c8632ddcb9@vivier.eu>
+Date: Mon, 20 Dec 2021 12:35:48 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.4.0
+Subject: Re: [PATCH v2 2/2] linux-user: call set/getscheduler set/getparam
+ directly
 Content-Language: fr
 To: Tonis Tiigi <tonistiigi@gmail.com>, qemu-devel@nongnu.org
 References: <20211220072105.48860-1-tonistiigi@gmail.com>
- <20211220072105.48860-2-tonistiigi@gmail.com>
+ <20211220072105.48860-3-tonistiigi@gmail.com>
 From: Laurent Vivier <laurent@vivier.eu>
-Subject: Re: [PATCH v2 1/2] linux-user: add sched_getattr support
-In-Reply-To: <20211220072105.48860-2-tonistiigi@gmail.com>
+In-Reply-To: <20211220072105.48860-3-tonistiigi@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:0TDFYbNgNw8EP4rsfc1yaIkSlzsx8QvRHKmE8A+HbwEY/nc0hEZ
- LhH3wp4R0LxryNEhWTfUDiFR4pqy+Kzh8/FgqZX1zWgmDPUg/+gnBFndvStJ1ba8dZi85gg
- FWI5/Uz1IK0HP7EeljmwcmVvO+8Iptx77KdYUB551F1oJ8qk9jpRIO9XTIYghLfQYmn9APa
- heAaOiHDsgL4s1DWi4QOg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:4yg6UZUHIg8=:f6uB2gMJtuZoO+BWf2Fq8H
- RoESzcK0AxJgeENxmHbrFuDIAGc6GYSs4H14U6esszx8XmbgGFn7nCcScNaauENJEEVW9aMuF
- UTH6EHvau89m3xm6MG0zsltU5QxWczzWOSp1oJErQC4+heBAfq0yY24phbK6AQCXrzW9GLsk+
- fppOjiFC7Z00fwj8XwaKPU31AK90u9aGEQRUpyH39o4CFez0f1OOcZJmWEUecVEhsB8k7X5lm
- xFakkHVwk/td+8Hfi85UzAR7aTQdQHIVDCBv4ADHE4PQxhc3bFiIetcCP8sVsIqpnolY87WXr
- Q/Gk4tLpnALmRcSykbBTAZ193+TaU0wEm2gSi+ml7dXm3Um0+53wgplIGsPrO9z8ro7+fML3n
- MQK//PCqf1v3ZafrKOP+cARtUsOT1Apdd+ksJ0Exgdob8/A+aTwf+Ak9iAY8qhuG65T6Xa9LQ
- 4wPl+jhbaQAOlx5tE8GWOrkvChhkfOoqQb+KYvgdX7reBQWIcXzFyJjUsw6glJZ27pmIyFdii
- DOYrc26JkRfaFwunPShJCmvekANPT4kRfPNLlFPhyHL59dQMuNH0SJVdHrmUu2z0n1FMkai8f
- 3nuDevvIws96HzLczp3/8ziToPSXNzDWXfQ18TBBjZxCHBRXJ76jjhUJY+u5Xv6NPAvD6jzyb
- wtKdrASL/d0ZTZjHeDylBFh1etS5CzQHe6+oYqKG8nSrLJNrebNAMQDWoQoNS9ZG1Yqc=
+X-Provags-ID: V03:K1:2b8Aq59Pn413sBoDve4Zg15DWgP/mVF3xKPOWHRYBO2aYBR3J0/
+ scU31LQM8SMh4YzwM0wY71vkqH/W3Kg/gUQ9lt20PPJftwi1xg3U+23NzxmS41tv0lorlmy
+ vNp2fk5SeBAiwzMhiKHX7cK9V5HBU3NG9agKTMv53cy9K4JvpQWJAXaQZ06HfD1DtemhPvA
+ Ly/IsFUdU2feSnfrhx79w==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:LUZ0WKe99j8=:4+1tkuyWkNv6Zl17cWnTlE
+ 5ghsp511RVP16KlWNc5Roim8RBujuukHWIsg7IJP3Jo5Q45kCKLRwi8bs63unBVZfeoT2g1/R
+ Uzx+MY0CBgUKhCAgJhow5s+Yzib9L60F9J8nbMq9eHNW19/xaguDzcT6V4Y0UhSRo0xxb/u0I
+ Xh3E82wXQJneS5czc3hwJj7EoLi2WVhETGe/y22xzfF+DmT9v7A8z8fSXfkYQMgQCFbtu0TfA
+ /TTSO0IGOJ+6JIStMod1ZlnVDRggbIaN+u2Be/0qqGIWZv1m0+dsmkPKQRO80wnBxitQiifBt
+ NvtckLSe/iCtNqZv01GIr87I1nd3nCY2knmFY4bH8h127rQoXNQoRj/Fnz2RGTCEr3KLgZtxX
+ /UfWBiG3jO3KbOlYkxh5HCW3YPRav8uHRySCcGWqof9ZBJ6zdA8LtD5FNhbsUw417YWGJV5vH
+ qO7pBLvTG6Woh+22yNKXK+sGAuQdQDzs72QvA7oMZL48EvnzXrbuPyODYGhQnQbEBO8UoU2uS
+ NkYsYdSi0/8ODEBQEehdjxllVeHQ40BuAoEvk3DBCnAGazdC+WgQ8Nzuv2EqLD9TnsGjoHs4V
+ E6DNCxXhwNEu7RSPnRGdhPa9nBo96tVl1A47ZzOzslQ4mXVD5RRVoyZTDi/KrOkJZR5XUwX4g
+ p5p2vCjUOiGogHE0lAYasiexxwzLBIlWZ4wzx+Ucwoqi9lQm4hPKLViVU6sil/nbT5eo=
 Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -54
@@ -73,96 +74,18 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Le 20/12/2021 à 08:21, Tonis Tiigi a écrit :
+> There seems to be difference in syscall and libc definition of these
+> methods and therefore musl does not implement them (1e21e78bf7). Call
+> syscall directly to ensure the behavior of the libc of user application,
+> not the libc that was used to build QEMU.
+> 
 > Signed-off-by: Tonis Tiigi <tonistiigi@gmail.com>
 > ---
->   linux-user/syscall.c      | 72 +++++++++++++++++++++++++++++++++++++++
->   linux-user/syscall_defs.h | 14 ++++++++
->   2 files changed, 86 insertions(+)
+>   linux-user/syscall.c      | 40 ++++++++++++++++++++++++++-------------
+>   linux-user/syscall_defs.h |  4 ++++
+>   2 files changed, 31 insertions(+), 13 deletions(-)
 > 
-> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-> index f1cfcc8104..a447ce1f92 100644
-> --- a/linux-user/syscall.c
-> +++ b/linux-user/syscall.c
-> @@ -339,6 +339,12 @@ _syscall3(int, sys_sched_getaffinity, pid_t, pid, unsigned int, len,
->   #define __NR_sys_sched_setaffinity __NR_sched_setaffinity
->   _syscall3(int, sys_sched_setaffinity, pid_t, pid, unsigned int, len,
->             unsigned long *, user_mask_ptr);
-> +#define __NR_sys_sched_getattr __NR_sched_getattr
-> +_syscall4(int, sys_sched_getattr, pid_t, pid, struct target_sched_attr *, attr,
-> +          unsigned int, size, unsigned int, flags);
-> +#define __NR_sys_sched_setattr __NR_sched_setattr
-> +_syscall3(int, sys_sched_setattr, pid_t, pid, struct target_sched_attr *, attr,
-> +          unsigned int, flags);
->   #define __NR_sys_getcpu __NR_getcpu
->   _syscall3(int, sys_getcpu, unsigned *, cpu, unsigned *, node, void *, tcache);
->   _syscall4(int, reboot, int, magic1, int, magic2, unsigned int, cmd,
-> @@ -10593,6 +10599,72 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
->           }
->       case TARGET_NR_sched_getscheduler:
->           return get_errno(sched_getscheduler(arg1));
-> +    case TARGET_NR_sched_getattr:
-> +        {
-> +            struct target_sched_attr *target_scha;
-> +            struct target_sched_attr scha;
-> +            if (arg2 == 0) {
-> +                return -TARGET_EINVAL;
-> +            }
-> +            if (arg3 > sizeof(scha)) {
-> +                arg3 = sizeof(scha);
-> +            }
-> +            ret = get_errno(sys_sched_getattr(arg1, &scha, arg3, arg4));
-> +            if (!is_error(ret)) {
-> +                target_scha = lock_user(VERIFY_WRITE, arg2, arg3, 0);
-> +                if (!target_scha) {
-> +                    return -TARGET_EFAULT;
-> +                }
-> +                target_scha->size = tswap32(scha.size);
-> +                target_scha->sched_policy = tswap32(scha.sched_policy);
-> +                target_scha->sched_flags = tswap64(scha.sched_policy);
-
-wrong cut@paste: it's not sched_policy here.
-
-> +                target_scha->sched_nice = tswap32(scha.sched_nice);
-> +                target_scha->sched_priority = tswap32(scha.sched_priority);
-> +                target_scha->sched_runtime = tswap64(scha.sched_runtime);
-> +                target_scha->sched_deadline = tswap64(scha.sched_deadline);
-> +                target_scha->sched_period = tswap64(scha.sched_period);
-> +                if (scha.size > offsetof(struct target_sched_attr, sched_util_min)) {
-> +                    target_scha->sched_util_min = tswap32(scha.sched_util_min);
-> +                    target_scha->sched_util_max = tswap32(scha.sched_util_max);
-> +                }
-> +                unlock_user(target_scha, arg2, arg3);
-> +            }
-> +            return ret;
-> +        }
-> +    case TARGET_NR_sched_setattr:
-> +        {
-> +            struct target_sched_attr *target_scha;
-> +            struct target_sched_attr scha;
-> +            uint32_t *size;
-> +            if (arg2 == 0) {
-> +                return -TARGET_EINVAL;
-> +            }
-> +
-> +            if (!lock_user_struct(VERIFY_READ, size, arg2, 1)) {
-> +                return -TARGET_EFAULT;
-> +            }
-> +            unlock_user_struct(size, arg2, 0);
-> +            *size = tswap32(*size);
-
-You should use get_user_u32() to do that.
-
-But you should also check it's not 0 like in the kernel function sched_copy_attr():
-
-         /* ABI compatibility quirk: */
-         if (!size)
-                 size = SCHED_ATTR_SIZE_VER0;
-         if (size < SCHED_ATTR_SIZE_VER0 || size > PAGE_SIZE)
-                 goto err_size;
-
-(Note: I don't think we need to check for the PAGE_SIZE).
 
 
-Thanks,
-Laurent
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 
