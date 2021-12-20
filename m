@@ -2,142 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06C4F47B0FA
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Dec 2021 17:19:44 +0100 (CET)
-Received: from localhost ([::1]:35188 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EC5247B13A
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Dec 2021 17:38:32 +0100 (CET)
+Received: from localhost ([::1]:42518 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mzLO2-0003ao-IL
-	for lists+qemu-devel@lfdr.de; Mon, 20 Dec 2021 11:19:42 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43062)
+	id 1mzLgF-0004Zy-FS
+	for lists+qemu-devel@lfdr.de; Mon, 20 Dec 2021 11:38:31 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56014)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nikita.lapshin@virtuozzo.com>)
- id 1mzK27-0003Rl-SI; Mon, 20 Dec 2021 09:53:00 -0500
-Received: from [2a01:111:f400:7e1b::71f] (port=52289
- helo=EUR05-AM6-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1mzKJO-0006aY-UE
+ for qemu-devel@nongnu.org; Mon, 20 Dec 2021 10:10:54 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:57365)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nikita.lapshin@virtuozzo.com>)
- id 1mzK1m-0005FX-FV; Mon, 20 Dec 2021 09:52:56 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gqDWXKrHfLtTHA8SclpEMfhY7j7Tpz0/aE2DvjiGp9Ozz5om+9Myx4yHExUeiluVPG1NTNCMe37A/uhUPbGXvqKWN7zAr7rs5mHeCVygSt+XjmOlwRKcfYlzK8n9CRIfbD20Au8+Bky1wSnCgUKhlGuOM6/76DYuz3nmO9kZ9htvJMTzm+bYe00zTFkhjBIGaSviMHyf5KKyrgZvP50iBCYL/Yhj3y17uLdwQy7+J/3LWZ+LovkV+iWnYen8LgL0cRAeCqclw6WT2vz219Lsw6juga/LevBe+bla//fm5A0BwdLiYgs6LPfuzBR7OmaKi3JrrR8oM5d2YGEF2XDuTw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=tmClK1Kny45yHo4Lpb8HDWWDg0J3D3u+u+BbU277TQc=;
- b=Ls61So9q1ksqxoqeSCvVF+rYmDwJi+f140a3/yGSqZctbGccNJONcGUhMfefRhLsa1ACeteD8ViMpmab+Kc+aLMG5XpBUZP/8b7rTjNToUo9TRrMR1wFACBjBQ/ZaWvNS0zJPJPOgyZdbaCAnWTv73xOdjaaliRf7KujBX1n3gtoXyCRB5pMLU+THCSjiAl97y3oft5FP/2gkAy4YmEMkRCuRMkN8wghSMmeV4K1h7RltMhTHssvVNIUOZbi5k9mtRmJ5p5G+9A44uIVuaOfpwclBXJUFdMWJZJxlHe5sPHiS8q4fs7nHAxATBBWD0f0A+KLyvKvsqkS2TqcFakqPQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tmClK1Kny45yHo4Lpb8HDWWDg0J3D3u+u+BbU277TQc=;
- b=BLPNIMjkOq9kYqSyrtS9SEUb7V2eVhaIWz9bljxcHtkl/HwBT7u2WVaXCDTtDpa+jLFzzO6qqbPwF9yE8qETbQIRO5YlONE9f7mzgV70oy12xF6S5hkwv7fj2p8Lc8yZS/3EDm1QwNJk6vqZRJfCl0kFvjuZlKrzND/3L1CWzPI=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=virtuozzo.com;
-Received: from DB7PR08MB3484.eurprd08.prod.outlook.com (2603:10a6:10:45::25)
- by DB9PR08MB6524.eurprd08.prod.outlook.com (2603:10a6:10:251::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4801.14; Mon, 20 Dec
- 2021 11:48:34 +0000
-Received: from DB7PR08MB3484.eurprd08.prod.outlook.com
- ([fe80::55e1:e502:c66f:7461]) by DB7PR08MB3484.eurprd08.prod.outlook.com
- ([fe80::55e1:e502:c66f:7461%5]) with mapi id 15.20.4801.020; Mon, 20 Dec 2021
- 11:48:34 +0000
-Content-Type: multipart/alternative;
- boundary="------------luTZlpxMAzdqzTs0TKYvmclp"
-Message-ID: <f2537739-08c8-5d0d-9194-65d002857873@virtuozzo.com>
-Date: Mon, 20 Dec 2021 14:48:31 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH v4 7/7] iotests: add nbd-reconnect-on-open test
-Content-Language: en-US
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, armbru@redhat.com, hreitz@redhat.com,
- kwolf@redhat.com, eblake@redhat.com
-References: <20211213153240.480103-1-vsementsov@virtuozzo.com>
- <20211213153240.480103-8-vsementsov@virtuozzo.com>
-From: Nikta Lapshin <nikita.lapshin@virtuozzo.com>
-In-Reply-To: <20211213153240.480103-8-vsementsov@virtuozzo.com>
-X-ClientProxiedBy: AS9PR06CA0220.eurprd06.prod.outlook.com
- (2603:10a6:20b:45e::23) To DB7PR08MB3484.eurprd08.prod.outlook.com
- (2603:10a6:10:45::25)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1mzKJG-0001Oq-Q2
+ for qemu-devel@nongnu.org; Mon, 20 Dec 2021 10:10:46 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1640013027;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=0fducR5lGfdMJP4hrQX7kgIpccuxV62Axn/IDTFrvmA=;
+ b=BzLKy/Yee2x05BCFB+efQJVLhm0czf5zrppMT7AzGNRi16oxqeIF+1lx/g1HFbGHzjukLs
+ nGxF/n13IpWb26001ForfhW3QLzV/ZG9lAcaZjYsWzAfG9TajYG0eFK0wTOfkW5j7TMWod
+ sa7z2PFerpyPmPpBr02xv7vB7VUGeGg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-263-FHS-_G7nNDCofk47Xgbnhw-1; Mon, 20 Dec 2021 06:54:27 -0500
+X-MC-Unique: FHS-_G7nNDCofk47Xgbnhw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 06FCF81CCB5;
+ Mon, 20 Dec 2021 11:54:26 +0000 (UTC)
+Received: from gondolin.fritz.box (unknown [10.39.193.132])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1F5D45ED2F;
+ Mon, 20 Dec 2021 11:54:21 +0000 (UTC)
+From: Cornelia Huck <cohuck@redhat.com>
+To: qemu-devel@nongnu.org,
+	qemu-s390x@nongnu.org
+Subject: [PATCH RFC] MAINTAINERS: split out s390x sections
+Date: Mon, 20 Dec 2021 12:54:19 +0100
+Message-Id: <20211220115419.308463-1-cohuck@redhat.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: d17d7ff8-5434-45c7-76bd-08d9c3aea735
-X-MS-TrafficTypeDiagnostic: DB9PR08MB6524:EE_
-X-Microsoft-Antispam-PRVS: <DB9PR08MB652432428CB81F738FE8EED0867B9@DB9PR08MB6524.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:400;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: bAYsA1hV2mBdeEtY3b+H8nGTe0d/cvil1ATtXTddL4t2yhVP0fFRAIVMBkF0eK+DOe34TKLAxrKpPF6AJZogdY+EJROTxBFYjOcoWYG3hn9TJ0n0G0wWRmVW/351PwEdDSm0m64/bkG/tHLnQgyAeng+DPsQc86R7ud5YjLYcpNeW7+GaIxDFeRT1B4q6qs0WhZK/MZOG01fNHUY/BkjqyWCm7U7IZIPyCfGGGwf4ZCCoU8pDb8C3MbbSGFOVjpTrXQn5AL4q3xYi1aVvsnQB23uQP7tWvobF5ixx8fOrZENbC5O1OlrwqAnq18gBMm/rv3VoENGHQc+0t1rgTHspxr5pKmuXZNfPcs2ut2J+H7gIp6ISPHhCjPwRgXlds53mZdk5DUKsqVwad5xkNjbeKebY+hpQ1uLVMcWnZhjPwfYE2I6Oq3wLCz0K9T1ji3BRawjWM2JEWtDjKFnYZO8Hp3RBm8h7WuAqu73ge+/xhLSb7Bp2eL+Xphh4CTlqneiASKt8tmBDcpnMnpE06rX90ud2ijuQTOvvo+1gB4+f9fkvSB2KD5dZqKiTTtj++cNJ9OSNDCkf/a18fbbVbM96zOL+Yxg/7sq28J3UuY1ltlBo/W8FxNdyFWS00T6sm0aEYDTjNx+6f41twYiSGtbqwSfFiPnPHPtBqxVknTYCUOutbD8KdFPadQjFZcT2GVbtMgj1Orf7poCdnoPoXdrqbMBn/T+7G9L/n4uHF2FTETxTuvnx+a6q4tAwk27UCt9nsFvfMSflPEnIfj1BkvDOQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DB7PR08MB3484.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(6506007)(2616005)(8676002)(53546011)(33964004)(5660300002)(86362001)(316002)(31686004)(6666004)(8936002)(52116002)(4326008)(36756003)(6512007)(66476007)(186003)(508600001)(6486002)(66946007)(31696002)(26005)(2906002)(38100700002)(38350700002)(66556008)(43740500002)(45980500001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WFFaZ1lKVjhDYjdGc0tobkpaQkVxUmlUT1kzL2VMajl2cWp0L1FkUkdTa2Ev?=
- =?utf-8?B?Ym5uVzBzRm9sNnZ4WTY3RzdpZGhMSXRiSkIzNzBpLzg0QWxyVjRGZjJXc1RH?=
- =?utf-8?B?WDcveGRmazd3dCtJTkZERkFwcUxsQVlTVnZOSkhYQjR1N1grR3o2c0NvRDUv?=
- =?utf-8?B?QllyeGJjRTl5Q1BhR0gzQWdYRkQzTWZSQnJwM2FGL2VacUJDMFdCa3IreEsw?=
- =?utf-8?B?ODR3NmVaL2NmamdUNC9RelF4bzNJRkRCeFBKMGhUN3hsOGdLdXI0YTM0QVZV?=
- =?utf-8?B?RWIraWUvalplMytDcmVQQ0ZlWXpHZFZzTUo2Mk5ESnZ1Rmg4OGkwT0xvL2hn?=
- =?utf-8?B?ZVNrWGpwdUtPcWRCWVNNQWFBQzEyYXBYb2J5aG1lMWF4V3MrQ1crZHhmMzh5?=
- =?utf-8?B?SE1lZmFkcTRaajFIY3FzRjk5cGxQdEdtQzZMVUZSMXFYUDNoS2E2MGxUTHJF?=
- =?utf-8?B?NTgrVmFZaW1MUG40cGJsWnhTT1BQSVJkek0xOFI2WVluMDZRUjY5QkY5emNF?=
- =?utf-8?B?TU05K01kVEV1aUt2SVUwWUN0K1RaZjFZU1BOYk9tZHpIeU1uR3g4alJ4eTJi?=
- =?utf-8?B?eUcvQ2h6QXVmSlZ4NzRLZ2FjRTVkQjdqcEV2MWF2UmZoVEc3QmhUQlVRNkFs?=
- =?utf-8?B?TitzT1Mrb0lqN3l1MWg3SWFSOUU0SUNYdCtVYjdqcGsxM3d6UGNyS2QwYU5U?=
- =?utf-8?B?eFNCZ0pUMEtWMnZYWXNrVzh4Wm8xcTNjWXpvQUgvY2svdGY4RVNvL0MrYTRt?=
- =?utf-8?B?cXlGWGdDVThNa0c2WDV4aDVaUFU3dXM1NVJWVWM0SjdBZVZWZWsxaW1WZHlY?=
- =?utf-8?B?ZEpZazhHMnBUNWxzL05RdndqMnlydExOcXFRK1krMk9LYVVza1g1dmJFNjR2?=
- =?utf-8?B?ZjlMODV3N0lNRnl5cHB1cmwzaVpsYWFyWmRXYmNKZHpSYTFjbkUra2duSG9E?=
- =?utf-8?B?SjFKemY5eVUxaEtzY0wwL2pMQVQ1OEJTbTc2UVgvYjVib0VDbGZENTNTZHBB?=
- =?utf-8?B?a0hmanpFY1lsZTNmNllqSHVpTkU2NkR6SzJVb3daSXhLRVh0WnM1aTBicUdI?=
- =?utf-8?B?T0RXRzhTUFArTXJlK01OYzBNSHBUSXdLOFBvM0MzbEtWTTRvSVJSd1FXakt2?=
- =?utf-8?B?bS9QR3FDeEJWbHV3djRFclNuRTFROUh2NHNob1Z6ZnhLMWROU2lmOUM1OXM3?=
- =?utf-8?B?aWQ5S2VsRElhaVYwYnJqRmg5Y1A3TXRxZi9SNDRQbmRaR0hJc1F4MWROZEtW?=
- =?utf-8?B?THpQQzduWHQzMGM4Wmx0U1psYi92WjRveTF6a0Q3UDk2RmJvNnNBc2dqcHli?=
- =?utf-8?B?S0laZERua0l6T3FmRGlOY0g0MngzWVF3Q2REallReFk3djlYY0xRU0RIdEkz?=
- =?utf-8?B?eHdMd2pVTDVLamYzQ2JQK095VkJmK05ZdEZPYkJxbGVnd2pGSGZzYnQxQzIy?=
- =?utf-8?B?SXcrRm9PRDB2aW9YQU9DdXNOOVQvUUN2WGxpN3REYVpuTmNtTEJkRW0rbUxK?=
- =?utf-8?B?Q1R6MzQ5T0V0TjNjYkZ4a0NrUUxGSEpMSy90bEtMbGlPbVN2VUovZ2dIQ2JR?=
- =?utf-8?B?ek8wc0JScWJnR0s4WXZRMlBwTUxwRXI2ME4xTkRYTkJUOVlOZG5uTU1XaUpG?=
- =?utf-8?B?bmxYUk5CTjhxbmNJSFJ5RGtrN21leHdVeE9Kak5kb054T2RMRTlEb1ZFekUz?=
- =?utf-8?B?K1RxZElGS09saDNmbUZ6SGc4Rzh2ZS82cWRQNXhYTGlEYWVHcTRGemVLejJy?=
- =?utf-8?B?VFpXdHNBb2Rzalhhei92NlQ2L2dTZnJ2ejNmVE5rUDgwRU9OUkhUOUpMdGFP?=
- =?utf-8?B?WFlOUkJFRDUwWWx6SzR0ZDJwYnlFaGpES3VrOXozWWJ2RDY0NEdVbXhrK1g4?=
- =?utf-8?B?YnRDOCtxSDdyWGFMZldmR2dnR3NURUI1aWhHWXZEYlhsOHpUdGdveUZsVERU?=
- =?utf-8?B?VDVwb25ndDYxK0JnUCswbnEzeTMzdll0aE1HR0lGM3hxMS9Hays4Q2hkYmlH?=
- =?utf-8?B?OFdvTWgzTWFJdlFGUzM3Q3Q1Y2t0NnIwRDUvcW1aSnFzMVd5akxFMk5UUzZE?=
- =?utf-8?B?SzJHZXdCdndjdmZJRjRTM09yOWlGclNGWEtuSGQzNDB3WnZydnNVbWp5d2Vt?=
- =?utf-8?B?VFRlSml1YndJcEpYL3k2NnlmalliZkNwUmJVNTFkYmd1R0pMVCtrVlVTUzFu?=
- =?utf-8?B?c016dzBFeWx5aHB0bWhTd2xTQjdEc3ovY3daRWpjcWY1Y3BScGlyd1JodWVQ?=
- =?utf-8?B?cENYb24xd3VidVRHTVVZTFcvUlBnPT0=?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d17d7ff8-5434-45c7-76bd-08d9c3aea735
-X-MS-Exchange-CrossTenant-AuthSource: DB7PR08MB3484.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Dec 2021 11:48:34.7909 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: mVIoaH1s6dAEnKza3LiidaFahNVnjEzJ0GoOLqNHd5a/1c6mCKeCpqrhaqmtc62TZMgh+ln1hsNtnoGMvrXPb6Ulxv8QXkKCrHPJVZP8PtU=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR08MB6524
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a01:111:f400:7e1b::71f
- (failed)
-Received-SPF: pass client-ip=2a01:111:f400:7e1b::71f;
- envelope-from=nikita.lapshin@virtuozzo.com;
- helo=EUR05-AM6-obe.outbound.protection.outlook.com
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
- NICE_REPLY_A=-3.608, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.209,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -150,40 +75,176 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Thomas Huth <thuth@redhat.com>, David Hildenbrand <david@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eric Farman <farman@linux.ibm.com>, Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---------------luTZlpxMAzdqzTs0TKYvmclp
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Split out some more specialized devices etc., so that we can build
+smarter lists of people to be put on cc: in the future.
 
+Signed-off-by: Cornelia Huck <cohuck@redhat.com>
+---
 
-On 12/13/21 18:32, Vladimir Sementsov-Ogievskiy wrote:
+As discussed offlist. Some notes:
+- The new sections have inherited the maintainers of the sections
+  they have been split out of (except where people had already
+  volunteered). That's easy to change, obviously, and I hope that
+  the cc: list already contains people who might have interest in
+  volunteering for some sections.
+- I may not have gotten the F: patterns correct, please double check.
+- I'm also not sure about where in the MAINTAINERS file the new
+  sections should go; if you have a better idea, please speak up.
+- Also, if you have better ideas regarding the sections, please
+  speak up as well :)
+- Pull requests will probably continue the same way as now (i.e.
+  patches picked up at the top level and then sent, except for some
+  things like tcg which may go separately.) Not sure if it would
+  make sense to try out the submaintainer pull request model again,
+  I don't think it made life easier in the past, and now we have
+  the b4 tool to pick patches easily anyway. It might be a good
+  idea to check which of the tree locations should stay, or if we
+  want to have new ones.
 
-> Signed-off-by: Vladimir Sementsov-Ogievskiy<vsementsov@virtuozzo.com>
+---
+ MAINTAINERS | 86 ++++++++++++++++++++++++++++++++++++++++++++++-------
+ 1 file changed, 75 insertions(+), 11 deletions(-)
 
-Reviewed-by: Nikita Lapshin<nikita.lapshin@virtuozzo.com>
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 9a8d1bdf727d..d1916f075386 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -297,7 +297,6 @@ M: David Hildenbrand <david@redhat.com>
+ S: Maintained
+ F: target/s390x/
+ F: target/s390x/tcg
+-F: target/s390x/cpu_models_*.[ch]
+ F: hw/s390x/
+ F: disas/s390.c
+ F: tests/tcg/s390x/
+@@ -396,16 +395,10 @@ M: Halil Pasic <pasic@linux.ibm.com>
+ M: Christian Borntraeger <borntraeger@linux.ibm.com>
+ S: Supported
+ F: target/s390x/kvm/
+-F: target/s390x/ioinst.[ch]
+ F: target/s390x/machine.c
+ F: target/s390x/sigp.c
+-F: target/s390x/cpu_features*.[ch]
+-F: target/s390x/cpu_models.[ch]
+ F: hw/s390x/pv.c
+ F: include/hw/s390x/pv.h
+-F: hw/intc/s390_flic.c
+-F: hw/intc/s390_flic_kvm.c
+-F: include/hw/s390x/s390_flic.h
+ F: gdb-xml/s390*.xml
+ T: git https://github.com/borntraeger/qemu.git s390-next
+ L: qemu-s390x@nongnu.org
+@@ -1529,12 +1522,8 @@ S390 Virtio-ccw
+ M: Halil Pasic <pasic@linux.ibm.com>
+ M: Christian Borntraeger <borntraeger@linux.ibm.com>
+ S: Supported
+-F: hw/char/sclp*.[hc]
+-F: hw/char/terminal3270.c
+ F: hw/s390x/
+ F: include/hw/s390x/
+-F: hw/watchdog/wdt_diag288.c
+-F: include/hw/watchdog/wdt_diag288.h
+ F: configs/devices/s390x-softmmu/default.mak
+ F: tests/avocado/machine_s390_ccw_virtio.py
+ T: git https://github.com/borntraeger/qemu.git s390-next
+@@ -1559,6 +1548,80 @@ F: hw/s390x/s390-pci*
+ F: include/hw/s390x/s390-pci*
+ L: qemu-s390x@nongnu.org
+ 
++S390 channel subsystem
++M: Halil Pasic <pasic@linux.ibm.com>
++M: Christian Borntraeger <borntraeger@linux.ibm.com>
++S: Supported
++F: hw/s390x/ccw-device.[ch]
++F: hw/s390x/css.c
++F: hw/s390x/css-bridge.c
++F: include/hw/s390x/css.h
++F: include/hw/s390x/css-bridge.h
++F: include/hw/s390x/ioinst.h
++F: target/s390x/ioinst.c
++L: qemu-s390x@nongnu.org
++
++3270 device
++M: Halil Pasic <pasic@linux.ibm.com>
++M: Christian Borntraeger <borntraeger@linux.ibm.com>
++S: Odd fixes
++F: include/hw/s390x/3270-ccw.h
++F: hw/char/terminal3270.c
++F: hw/s390x/3270-ccw.c
++L: qemu-s390x@nongnu.org
++
++diag 288 watchdog
++M: Halil Pasic <pasic@linux.ibm.com>
++M: Christian Borntraeger <borntraeger@linux.ibm.com>
++S: Supported
++F: hw/watchdog/wdt_diag288.c
++F: include/hw/watchdog/wdt_diag288.h
++L: qemu-s390x@nongnu.org
++
++S390 CPU models
++M: David Hildenbrand <david@redhat.com>
++S: Maintained
++F: target/s390x/cpu_features*.[ch]
++F: target/s390x/cpu_models.[ch]
++L: qemu-s390x@nongnu.org
++
++S390 storage key device
++M: Halil Pasic <pasic@linux.ibm.com>
++M: Christian Borntraeger <borntraeger@linux.ibm.com>
++S: Supported
++F: hw/s390x/storage-keys.h
++F: hw/390x/s390-skeys*.c
++L: qemu-s390x@nongnu.org
++
++S390 storage attribute device
++M: Halil Pasic <pasic@linux.ibm.com>
++M: Christian Borntraeger <borntraeger@linux.ibm.com>
++S: Supported
++F: hw/s390x/storage-attributes.h
++F: hw/s390/s390-stattrib*.c
++L: qemu-s390x@nongnu.org
++
++S390 SCLP-backed devices
++M: Halil Pasic <pasic@linux.ibm.com>
++M: Christian Borntraeger <borntraeger@linux.ibm.com>
++S: Supported
++F: include/hw/s390x/event-facility.h
++F: include/hw/s390x/sclp.h
++F: hw/char/sclp*.[hc]
++F: hw/s390x/event-facility.c
++F: hw/s390x/sclp*.c
++L: qemu-s390x@nongnu.org
++
++S390 floating interrupt controller
++M: Halil Pasic <pasic@linux.ibm.com>
++M: Christian Borntraeger <borntraeger@linux.ibm.com>
++M: David Hildenbrand <david@redhat.com>
++S: Supported
++F: hw/intc/s390_flic.c
++F: hw/intc/s390_flic_kvm.c
++F: include/hw/s390x/s390_flic.h
++L: qemu-s390x@nongnu.org
++
+ X86 Machines
+ ------------
+ PC
+@@ -1957,6 +2020,7 @@ M: Halil Pasic <pasic@linux.ibm.com>
+ S: Supported
+ F: hw/s390x/virtio-ccw*.[hc]
+ F: hw/s390x/vhost-vsock-ccw.c
++F: hw/s390x/vhost-user-fs-ccw.c
+ T: git https://gitlab.com/cohuck/qemu.git s390-next
+ T: git https://github.com/borntraeger/qemu.git s390-next
+ L: qemu-s390x@nongnu.org
+-- 
+2.31.1
 
---------------luTZlpxMAzdqzTs0TKYvmclp
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-
-<html><head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  </head>
-  <body>
-    <p><br>
-    </p>
-    <div class="moz-cite-prefix">
-      <pre>On 12/13/21 18:32, Vladimir Sementsov-Ogievskiy wrote:</pre>
-    </div>
-    <blockquote type="cite" cite="mid:20211213153240.480103-8-vsementsov@virtuozzo.com">
-      <pre class="moz-quote-pre" wrap="">Signed-off-by: Vladimir Sementsov-Ogievskiy <a class="moz-txt-link-rfc2396E" href="mailto:vsementsov@virtuozzo.com">&lt;vsementsov@virtuozzo.com&gt;</a>
-</pre>
-    </blockquote>
-    <br>
-    <pre class="moz-quote-pre" wrap="">Reviewed-by: Nikita Lapshin <a class="moz-txt-link-rfc2396E" href="mailto:nikita.lapshin@virtuozzo.com">&lt;nikita.lapshin@virtuozzo.com&gt;</a></pre>
-  </body>
-</html>
---------------luTZlpxMAzdqzTs0TKYvmclp--
 
