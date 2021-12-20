@@ -2,90 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF8A447A4E0
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Dec 2021 07:12:14 +0100 (CET)
-Received: from localhost ([::1]:39946 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 946A547A4CC
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Dec 2021 07:00:08 +0100 (CET)
+Received: from localhost ([::1]:44830 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mzBu9-0002tR-Q9
-	for lists+qemu-devel@lfdr.de; Mon, 20 Dec 2021 01:12:13 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50746)
+	id 1mzBiR-0003ks-CR
+	for lists+qemu-devel@lfdr.de; Mon, 20 Dec 2021 01:00:07 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50774)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=9816edf2f=alistair.francis@opensource.wdc.com>)
- id 1mzAo9-0004Ss-NF
- for qemu-devel@nongnu.org; Mon, 20 Dec 2021 00:02:01 -0500
-Received: from esa6.hgst.iphmx.com ([216.71.154.45]:13359)
+ id 1mzAoE-0004TQ-6t
+ for qemu-devel@nongnu.org; Mon, 20 Dec 2021 00:02:05 -0500
+Received: from esa6.hgst.iphmx.com ([216.71.154.45]:13399)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=9816edf2f=alistair.francis@opensource.wdc.com>)
- id 1mzAo3-0008G0-No
- for qemu-devel@nongnu.org; Mon, 20 Dec 2021 00:01:56 -0500
+ id 1mzAo8-0008MN-8h
+ for qemu-devel@nongnu.org; Mon, 20 Dec 2021 00:01:58 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1639976512; x=1671512512;
+ t=1639976517; x=1671512517;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=uT3q6EsfxZqXUvfBLX/9OWfNa9mAxYBSpwYZzSPEzUM=;
- b=p/X1qwS5ak/BgFLvZEz7a8HvPe79QmpHHXijoRprKnZhtxz1z05iKavb
- GaSFDfUDgvKpiVr16uD3x1T/kHWZQg9fechP5Uje83TLQv3F/75aBuImJ
- tcjHKNNPHfkOZ3XyCovZ8MKYsdvJ9u4sFP0LiSEpWyWm365SsDLvgOpYV
- 90qhJ+BXLqhSmWmvtumVTlrPDgUZsHDFBQpqxqGXbBNIx7AoR4+95aGo2
- oVoh9Faxb86vsIzJZWQTiOdlpyzNaiT/i9wYap4xwvYFjYUQxwbe0Hisd
- e9RNobrb63Z71B+3BbjUEk9LgKpAeVPRfk9Ifd9FjY0Tw0PR6PS3shG2+ w==;
-X-IronPort-AV: E=Sophos;i="5.88,219,1635177600"; d="scan'208";a="189680188"
+ bh=WHdFinUR27MQBQOzOw44Il7tp9jqmK0h54ogqW3ZMe4=;
+ b=gWKkL8+Dx4Cz8mAKs7ggW95hZjZxIByhLiHVKAYStmW2uwcjBuFkmpsx
+ jdIa8cjCU5P8i/8wXUz6kGbPGX21rkwZfvhJdmkV5CyRRakh4hqL4VZHl
+ Bxyj43meJJHjqgRd5h+mhziYbL55HJAUN2ux53JOKsQ54e4WmzYLuhD4O
+ Va7+j309mCImDnmopV0v3szzl7WG+o5FQ6G20otRgEy15kzspDY3FcCa8
+ i1xEsakAsKkxa5pOmYZ4xre7bBm1r67pGR01FXgq0XabQrKnx6149odib
+ 6BvQchw0qCCtNF3Vhuur5P6AlF1u2twzxmWqEi5JV1gz5NL6lgcGNF0e0 g==;
+X-IronPort-AV: E=Sophos;i="5.88,219,1635177600"; d="scan'208";a="189680190"
 Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 20 Dec 2021 13:01:09 +0800
-IronPort-SDR: yL5ZwU9S4q8L0jFHYzbYSa4d2AraDEinyfr5oiD/dDN/yfLHPcJoAUNYqpj1Qz4auan9BGdg75
- JXVQtSLEuT+9y8nARr+hef2HdYnh/9nsP1OB/i1wyV0cf0cf+s9MQQn0a0khZHo4gtuSHCSeV6
- YHTSsIhLnFTwaZy2U//52vaD+fMgXMhi7N3GWoBUuYUEEgI+F6bY2gaceG3A33LL1DtDlYD/u+
- QNF4Yg0vqh/HSyMVoSvWyfYeMfgHYpmsa29rQseM4fMIIx2KdtBnzd3v5Xm5RNJpmVLst0kcOz
- bQRGu0eIvvuUa6h+0TuL/uls
+ by ob1.hgst.iphmx.com with ESMTP; 20 Dec 2021 13:01:13 +0800
+IronPort-SDR: TZrI9HTk9p7OOttog9qVuvZRSNI3AoKEqVraaX71OoQnlTg4d8dK6Bd3ektM8NrHmT3QYHHrhu
+ JLpr/KVxkzkS5YQFyC+aXlfmoMZnpSCHd7EtDtHadO0gqLqvdqY/jFUU+QwSpLCcHQe3mxQxyC
+ 8jfWD7mNIspdmU39vcE9wAObCtKMMhWfwzxkETfEtjDdc+Rdb+JEURn5HvfVbFwvFDfCpX6xmw
+ CjMxnIO9G5Xa75qdGzdbC6OKy4XdHhcbT5BcJaDznMxypI5BOP4vK3urpHjt1vOBlOPKQDuGBI
+ YT+BfeSYMeTeKbRJuuDkiFV8
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Dec 2021 20:33:58 -0800
-IronPort-SDR: lNyPAYbq1VNQYO1Q2OSEZOOTCivlsO/PgCEInUNvOH0KWxeYsRiLInW8pFK6HcrwYhZ2LUkGfS
- QZR3Zy9NvUDP3Q9ql9adxljl9CbhLyE1U0MsRe9Mhcjc/s/bHCDehkWs7VSe2o67l0bp1b46zC
- Eyjz/QvoC10j4jf8iEzMhZjiSqaBqGvucB/od18FWY2R8rqPSEDytNEN7CXrRJBUYbqu9swhEO
- 4mI4aUu+4QhI0Tlk6iXL/Pv8dO0Yet8d/fL82UoLZVZCzhNrpILQrLmZweCmWDW8qthzHi5EAG
- ZN4=
+ 19 Dec 2021 20:34:02 -0800
+IronPort-SDR: 5NTgk+QsCe0JT+BDmyG+co9PwzF+duCpsjHuUpLDPEtYEGimz60rNoCqwYn3eOYCELMyalIJ+g
+ CzNP1WpBlwMzgVzcYyYtu4Ega6OeOVAgAlXSslnD7Vrx7L5M7yB30aZs4g2day3CZnJmaqbmtg
+ Jj5esTp5+eSG9siVOcFXwb0zre0UBtkg0dEu61ZPg7VOSA639fuI+EHwjcPJk6y/b42R2OnfP4
+ djv6wPdRu4xxXLVpDfbB6nfXM8/Sfd7HSdmgT0UCg0uWad4a4zfCLLwSUNC/EjjjGeFBT/U3Eb
+ fx4=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Dec 2021 21:01:08 -0800
+ 19 Dec 2021 21:01:12 -0800
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4JHS9051mTz1RvTh
- for <qemu-devel@nongnu.org>; Sun, 19 Dec 2021 21:01:08 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4JHS944gS5z1Rwns
+ for <qemu-devel@nongnu.org>; Sun, 19 Dec 2021 21:01:12 -0800 (PST)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
  opensource.wdc.com; h=content-transfer-encoding:mime-version
  :references:in-reply-to:x-mailer:message-id:date:subject:to
- :from; s=dkim; t=1639976468; x=1642568469; bh=uT3q6EsfxZqXUvfBLX
- /9OWfNa9mAxYBSpwYZzSPEzUM=; b=Qla8Rp/2OnX8896xgxsRfDBweyMhaQgAI4
- dXYT/CdUryWmW5PGWpO9v1dHq8viPuMFIr9CXOP6lA6HyDnvsGP5lGxZGmoygog+
- 99xncO+uLxlNzSzMKUD5tOSTXffrU3sCldZDviYVkXa3H4WZi3QQIqvgEAdxo/ow
- XUQOgdw/vfOkxpU/uVt9VzFCES/t5Vkox12c8ELTBXBN9Rl/zMC8zkXmbQCv5yNo
- mP+nHuiADuJGMhsSa2/luA+IuvribL2s5klWjMkHCGSWx5p1sDe7loX9k2XVqUvc
- 76SnRUwO6iPLPE8n5TgvBb7rNLCl/4DD1DAC7L+X3cWokuyoa1ag==
+ :from; s=dkim; t=1639976472; x=1642568473; bh=WHdFinUR27MQBQOzOw
+ 44Il7tp9jqmK0h54ogqW3ZMe4=; b=P7sf/rUx6i8gpXMrCCSPwr0cD/Svb7U4Bl
+ gXHhAxqWY/HyrZcSZjk6CBg34N4FX03Gbs1AAPGfStBsbViSaF2jHvRYfEUqiobh
+ eaqZ5Ao93I/Qecwaoimw5tujKGquPUqhiuwFKC/VzvFwtN+IAc6pET/wv8t6VGGL
+ STd6iHG+h27d+vwZTe/GCp9MbeiKfIpx7qoPyy+sq6eFhcdN22OLWgIUwDsfqZGx
+ A+fnzY3NMXYQvZx2n+gSo/9VYlcBTvvLXpTO0EmX5wmpxccnlu4Og/VvsaUM+Hit
+ TA9UPVhBjfSpAVOuMb83lJJasBMA1Sl6TkKu8SnCsEowV8+XqzDA==
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id HVAkXk0sqJhD for <qemu-devel@nongnu.org>;
- Sun, 19 Dec 2021 21:01:08 -0800 (PST)
+ port 10026) with ESMTP id qdGnZWcjsppo for <qemu-devel@nongnu.org>;
+ Sun, 19 Dec 2021 21:01:12 -0800 (PST)
 Received: from toolbox.alistair23.me (unknown [10.225.165.68])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4JHS8x3KBmz1RtVG;
- Sun, 19 Dec 2021 21:01:04 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4JHS911FwJz1RtVG;
+ Sun, 19 Dec 2021 21:01:08 -0800 (PST)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org
 Cc: alistair23@gmail.com, Frank Chang <frank.chang@sifive.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  Alistair Francis <alistair.francis@wdc.com>
-Subject: [PULL 57/88] target/riscv: rvv-1.0: mask-register logical instructions
-Date: Mon, 20 Dec 2021 14:56:34 +1000
-Message-Id: <20211220045705.62174-58-alistair.francis@opensource.wdc.com>
+Subject: [PULL 58/88] target/riscv: rvv-1.0: slide instructions
+Date: Mon, 20 Dec 2021 14:56:35 +1000
+Message-Id: <20211220045705.62174-59-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211220045705.62174-1-alistair.francis@opensource.wdc.com>
 References: <20211220045705.62174-1-alistair.francis@opensource.wdc.com>
@@ -118,55 +118,78 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Frank Chang <frank.chang@sifive.com>
 
+* Remove clear function from helper functions as the tail elements
+  are unchanged in RVV 1.0.
+
 Signed-off-by: Frank Chang <frank.chang@sifive.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20211210075704.23951-50-frank.chang@sifive.com>
+Message-Id: <20211210075704.23951-51-frank.chang@sifive.com>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/vector_helper.c            | 4 ----
- target/riscv/insn_trans/trans_rvv.c.inc | 3 ++-
- 2 files changed, 2 insertions(+), 5 deletions(-)
+ target/riscv/vector_helper.c | 19 ++++++++++++-------
+ 1 file changed, 12 insertions(+), 7 deletions(-)
 
 diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
-index 71d7b1e879..f883fdf474 100644
+index f883fdf474..d79f59e443 100644
 --- a/target/riscv/vector_helper.c
 +++ b/target/riscv/vector_helper.c
-@@ -4231,7 +4231,6 @@ void HELPER(NAME)(void *vd, void *v0, void *vs1,   =
-       \
-                   void *vs2, CPURISCVState *env,          \
-                   uint32_t desc)                          \
- {                                                         \
--    uint32_t vlmax =3D env_archcpu(env)->cfg.vlen;          \
-     uint32_t vl =3D env->vl;                                \
-     uint32_t i;                                           \
-     int a, b;                                             \
-@@ -4241,9 +4240,6 @@ void HELPER(NAME)(void *vd, void *v0, void *vs1,   =
-       \
-         b =3D vext_elem_mask(vs2, i);                       \
-         vext_set_elem_mask(vd, i, OP(b, a));              \
-     }                                                     \
--    for (; i < vlmax; i++) {                              \
--        vext_set_elem_mask(vd, i, 0);                     \
--    }                                                     \
+@@ -4430,17 +4430,22 @@ GEN_VEXT_VSLIDEUP_VX(vslideup_vx_d, uint64_t, H8)
+ void HELPER(NAME)(void *vd, void *v0, target_ulong s1, void *vs2,       =
+  \
+                   CPURISCVState *env, uint32_t desc)                    =
+  \
+ {                                                                       =
+  \
+-    uint32_t vlmax =3D env_archcpu(env)->cfg.vlen;                      =
+    \
++    uint32_t vlmax =3D vext_max_elems(desc, ctzl(sizeof(ETYPE)));       =
+    \
+     uint32_t vm =3D vext_vm(desc);                                      =
+    \
+     uint32_t vl =3D env->vl;                                            =
+    \
+-    target_ulong offset =3D s1, i;                                      =
+    \
++    target_ulong i_max, i;                                              =
+  \
+                                                                         =
+  \
+-    for (i =3D 0; i < vl; ++i) {                                        =
+    \
+-        target_ulong j =3D i + offset;                                  =
+    \
+-        if (!vm && !vext_elem_mask(v0, i)) {                            =
+  \
+-            continue;                                                   =
+  \
++    i_max =3D MIN(s1 < vlmax ? vlmax - s1 : 0, vl);                     =
+    \
++    for (i =3D 0; i < i_max; ++i) {                                     =
+    \
++        if (vm || vext_elem_mask(v0, i)) {                              =
+  \
++            *((ETYPE *)vd + H(i)) =3D *((ETYPE *)vs2 + H(i + s1));      =
+    \
++        }                                                               =
+  \
++    }                                                                   =
+  \
++                                                                        =
+  \
++    for (i =3D i_max; i < vl; ++i) {                                    =
+    \
++        if (vm || vext_elem_mask(v0, i)) {                              =
+  \
++            *((ETYPE *)vd + H(i)) =3D 0;                                =
+    \
+         }                                                               =
+  \
+-        *((ETYPE *)vd + H(i)) =3D j >=3D vlmax ? 0 : *((ETYPE *)vs2 + H(=
+j));  \
+     }                                                                   =
+  \
  }
 =20
- #define DO_NAND(N, M)  (!(N & M))
-diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_=
-trans/trans_rvv.c.inc
-index 804f423d5b..5c0c3d2547 100644
---- a/target/riscv/insn_trans/trans_rvv.c.inc
-+++ b/target/riscv/insn_trans/trans_rvv.c.inc
-@@ -2652,7 +2652,8 @@ GEN_OPFVV_WIDEN_TRANS(vfwredsum_vs, reduction_check=
-)
- #define GEN_MM_TRANS(NAME)                                         \
- static bool trans_##NAME(DisasContext *s, arg_r *a)                \
- {                                                                  \
--    if (vext_check_isa_ill(s)) {                                   \
-+    if (require_rvv(s) &&                                          \
-+        vext_check_isa_ill(s)) {                                   \
-         uint32_t data =3D 0;                                         \
-         gen_helper_gvec_4_ptr *fn =3D gen_helper_##NAME;             \
-         TCGLabel *over =3D gen_new_label();                          \
 --=20
 2.31.1
 
