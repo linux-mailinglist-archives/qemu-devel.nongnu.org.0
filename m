@@ -2,53 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C677147B239
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Dec 2021 18:36:39 +0100 (CET)
-Received: from localhost ([::1]:54408 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25EFB47B24D
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Dec 2021 18:43:51 +0100 (CET)
+Received: from localhost ([::1]:44952 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mzMaU-00062l-Jh
-	for lists+qemu-devel@lfdr.de; Mon, 20 Dec 2021 12:36:38 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55768)
+	id 1mzMhS-0002HF-9H
+	for lists+qemu-devel@lfdr.de; Mon, 20 Dec 2021 12:43:50 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60102)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mzL2A-00006u-B4
- for qemu-devel@nongnu.org; Mon, 20 Dec 2021 10:57:07 -0500
-Received: from mout.kundenserver.de ([217.72.192.75]:34439)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1mzL6J-0005vu-SD; Mon, 20 Dec 2021 11:01:25 -0500
+Received: from mout.kundenserver.de ([217.72.192.75]:60285)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1mzL27-0006ej-Dd
- for qemu-devel@nongnu.org; Mon, 20 Dec 2021 10:57:06 -0500
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1mzL6I-0008Uy-6K; Mon, 20 Dec 2021 11:01:23 -0500
 Received: from [192.168.100.1] ([82.142.30.186]) by mrelayeu.kundenserver.de
- (mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1N2mS2-1mKXco24rM-013AOz; Mon, 20 Dec 2021 16:56:54 +0100
-Message-ID: <fec03d2e-61d1-a20d-8aea-9538e1eaf690@vivier.eu>
-Date: Mon, 20 Dec 2021 16:56:52 +0100
+ (mreue109 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MlwBh-1mZb4N3Jh5-00iyWc; Mon, 20 Dec 2021 17:01:12 +0100
+Message-ID: <88fff234-b5c1-16e5-58ab-c3b9bc19e3b9@vivier.eu>
+Date: Mon, 20 Dec 2021 17:01:09 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.4.0
-Subject: Re: [PATCH v2 3/3] linux-user: Remove TARGET_SIGSTKSZ
+Subject: Re: [PATCH] linux-user: Remove the deprecated ppc64abi32 target
 Content-Language: fr
-To: Song Gao <gaosong@loongson.cn>, qemu-devel@nongnu.org
-References: <1637893388-10282-1-git-send-email-gaosong@loongson.cn>
- <1637893388-10282-4-git-send-email-gaosong@loongson.cn>
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+References: <20211215084958.185214-1-thuth@redhat.com>
 From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <1637893388-10282-4-git-send-email-gaosong@loongson.cn>
+In-Reply-To: <20211215084958.185214-1-thuth@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:qgCyDsuoYRK0ssGxasHTgrKmjry+cjZH7grrXB4v9VhQ8NWTOUH
- u26EOOVGqDnHAbzYFMPZ/ozR5EdvLSN5PVKTiCClVhQNfYWt+7yGFKItGYxXsL3DnTqI3sh
- vJ6GzpRs3Z0fdwz5nWtig0kUQLBF2xDBJOKtTZUKk1vC5R1zAr2eynKlTrB3UA5EKH4VNJN
- 1cwbqoJz16XPIBU7tWV8Q==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:eb95tMiOLLI=:kEl/vM9N7iQqSNp6RQ4SMk
- aK7QOGcZLyh/krE03h2jc41dHcWuJXoUAaffc3jusy+rZVy6Voh1wNbufGDpGXqcmv+m9qjdY
- Yfjomydb4dcxgUxFSJqdTgvazKTbqzmp2pa+QFtpcsgp4iJ0nqtL6QWxF2sszqFF8Apto8f+T
- ulLssVIZwXe4PC+pKiIZ+fHxMglMuOp7NQSVUzkAZ4DBGdwh8EAJ5nllMkGPo+OyRHSvKAVku
- Y8I8rpooZDDbTIbJqqvV/DcLfdwT+nUfKvd7c8SrzxsW6ms21az2AKamcA9Bl6fXxWttZbcy3
- 6y65KKgCta6VsSciqFcDk0/cpdeKkLbuRxRVIERe/MftWqvmqXRI9AMKlESCYFl8j1MIfn/+z
- XVpf4ZJoH3ASphhukE0HecUdFp7rOCe8Vu5Qvo1IYQABUxm+y+S9SvtVLKdfxHb+qUP+zRuSQ
- jzvIKQ+mBN8UI42xipi7f16DIDSjU+R/W99tPddWLnZOnBTPdL7Dc9esRKE9rWCE4vM2RQqfi
- rOP5vETXib5j9ZZiFjjPu2EDegFC6wrs1T64m+By9sWJCNfCxIY69jEOKJl/cbLf4WsBqedxY
- /YXudKtwUfRgFy1uwTHcCDJboE3CtA56pP/YmIBUibXsD+J8D/sb8Nq0SKfF+qLYVZZ4GnUWU
- +qh8/ei5AjicOa99UDCs0yNqUmwiQ26abNxUP/3WFM+9k0/ddPw1csZ/m96rM+4/jlBU=
+X-Provags-ID: V03:K1:PDB8UfQwYaYxU5SGX4Hes0eLj0zdpSAq+OBqhSvZOb9dFhpyYJm
+ Lt0EjO4a72oDLJqP0ZLIMJT8J8WfGBAbzw8Mtgo02Pwum8mjGuCU+NuhFFfuBV6de9n7OQP
+ C0OUVD9pdLBY/Lqvoo226pU/OP4L9/wE6wmXhpcnMeCNdPt5pikrbYI3LRymw8QjxauwWSH
+ 6mvqvWbinYRe4NRjvWCgQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:7n007gJBtxk=:uBl4KWHUrCc1x9HGrQW2ra
+ v74DCw+LSlr5BAgAy15Z/8DozvdMKBPCNIeZ/ykgwK5drfC5EctSmDjTYwFOwOnQ01EvCwn8D
+ IIveylaTUPSuwf3BLSiqph5+DJW31r3yb32BEPAlLjKD+7MQoPE7W2tReWSaO77XHCEAsP0Bq
+ TH1yti68uD7JZTQzL756V89dsP+hqluaBHTBAb/Exh/uA1DewiAIASPqJVGhNyFfA3QO9xQej
+ qu84T0Da0HoLuMKFdlNsu/IBY8K84DLZgu9pXsGbMSEApT+71LaMJxvWk91ZCdWsUu4k1ubxE
+ k+cgW4gtBYGOvreriIn7PJNkR47MdxahUl7aDtEIJfa2ygz38lKV4Sh1GS88cwcxVHRceAOZ0
+ oHdhN1lHq5X4EO7QOW7phNIxVg3hCZ4DWsurgWEjz6znQNVdyEKCJqcJyPaiV1a7g3psPRlDF
+ oTLYMU+tfzvLlISqVOXdPHEpRUJrpkm2vC9ric7XLYwiIdHYdygcSQaVN4HxGCpYTD4AAvViv
+ jVeBpSgXddnbvS8kH73xUkqQnRv2QmtImSu39udmEG+Sb82YB/tmCCYc8mcLay9zIER+06HPL
+ nPTvhFiykHkQ1gamShXlWQcMjKAw722Fwxb6nQ3YcNX3UkYqHxH/6mPHq+RnzOD841rmaek2v
+ d0mhqXYPB8O0sdavKkM/Ng7BnL3c6ldAosnRLRcKd09exieBI464pGcNiTHOXcxTaGpI=
 Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -54
@@ -70,99 +69,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: richard.henderson@linaro.org, alex.bennee@linaro.org, f4bug@amsat.org
+Cc: Daniel Henrique Barboza <danielhb413@gmail.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Greg Kurz <groug@kaod.org>, qemu-ppc@nongnu.org,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 26/11/2021 à 03:23, Song Gao a écrit :
-> TARGET_SIGSTKSZ is not used, we should remove it.
+Le 15/12/2021 à 09:49, Thomas Huth a écrit :
+> It's likely broken, and nobody cared for picking it up again
+> during the deprecation phase, so let's remove this now.
 > 
-> Signed-off-by: Song Gao <gaosong@loongson.cn>
+> Since this is the last entry in deprecated_targets_list, remove
+> the related code in the configure script, too.
+> 
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
 > ---
->   linux-user/alpha/target_signal.h  | 1 -
->   linux-user/generic/signal.h       | 1 -
->   linux-user/hppa/target_signal.h   | 1 -
->   linux-user/mips/target_signal.h   | 1 -
->   linux-user/mips64/target_signal.h | 1 -
->   linux-user/sparc/target_signal.h  | 1 -
->   6 files changed, 6 deletions(-)
+>   .gitlab-ci.d/buildtest.yml                    | 27 -----------------
+>   configs/targets/ppc64abi32-linux-user.mak     |  8 -----
+>   configure                                     | 29 +------------------
+>   docs/about/deprecated.rst                     |  7 -----
+>   docs/about/removed-features.rst               |  8 +++++
+>   docs/user/main.rst                            |  1 -
+>   linux-user/elfload.c                          |  4 +--
+>   linux-user/ppc/signal.c                       | 11 ++-----
+>   linux-user/ppc/target_syscall.h               |  4 +--
+>   linux-user/syscall_defs.h                     |  6 ++--
+>   .../dockerfiles/debian-ppc64el-cross.docker   |  2 +-
+>   tests/tcg/configure.sh                        |  2 +-
+>   12 files changed, 21 insertions(+), 88 deletions(-)
+>   delete mode 100644 configs/targets/ppc64abi32-linux-user.mak
 > 
-> diff --git a/linux-user/alpha/target_signal.h b/linux-user/alpha/target_signal.h
-> index 0b6a39d..bbb06e5 100644
-> --- a/linux-user/alpha/target_signal.h
-> +++ b/linux-user/alpha/target_signal.h
-> @@ -62,7 +62,6 @@ typedef struct target_sigaltstack {
->   #define TARGET_SA_SIGINFO       0x00000040
->   
->   #define TARGET_MINSIGSTKSZ	4096
-> -#define TARGET_SIGSTKSZ		16384
->   
->   /* From <asm/gentrap.h>.  */
->   #define TARGET_GEN_INTOVF      -1      /* integer overflow */
-> diff --git a/linux-user/generic/signal.h b/linux-user/generic/signal.h
-> index ceaf8a8..6fd05b7 100644
-> --- a/linux-user/generic/signal.h
-> +++ b/linux-user/generic/signal.h
-> @@ -69,7 +69,6 @@ typedef struct target_sigaltstack {
->   #define TARGET_SS_DISABLE 2
->   
->   #define TARGET_MINSIGSTKSZ     2048
-> -#define TARGET_SIGSTKSZ        8192
->   
->   /* bit-flags */
->   #define TARGET_SS_AUTODISARM (1U << 31) /* disable sas during sighandling */
-> diff --git a/linux-user/hppa/target_signal.h b/linux-user/hppa/target_signal.h
-> index d558119..af6c2fc 100644
-> --- a/linux-user/hppa/target_signal.h
-> +++ b/linux-user/hppa/target_signal.h
-> @@ -64,7 +64,6 @@ typedef struct target_sigaltstack {
->   #define TARGET_SA_NOCLDWAIT     0x00000080
->   
->   #define TARGET_MINSIGSTKSZ	2048
-> -#define TARGET_SIGSTKSZ		8192
->   
->   /* bit-flags */
->   #define TARGET_SS_AUTODISARM (1U << 31) /* disable sas during sighandling */
-> diff --git a/linux-user/mips/target_signal.h b/linux-user/mips/target_signal.h
-> index 780a4dd..fa542c1 100644
-> --- a/linux-user/mips/target_signal.h
-> +++ b/linux-user/mips/target_signal.h
-> @@ -67,7 +67,6 @@ typedef struct target_sigaltstack {
->   #define TARGET_SA_RESTORER      0x04000000      /* Only for O32 */
->   
->   #define TARGET_MINSIGSTKSZ    2048
-> -#define TARGET_SIGSTKSZ       8192
->   
->   #if defined(TARGET_ABI_MIPSO32)
->   /* compare linux/arch/mips/kernel/signal.c:setup_frame() */
-> diff --git a/linux-user/mips64/target_signal.h b/linux-user/mips64/target_signal.h
-> index 275e9b7..b05098f 100644
-> --- a/linux-user/mips64/target_signal.h
-> +++ b/linux-user/mips64/target_signal.h
-> @@ -65,7 +65,6 @@ typedef struct target_sigaltstack {
->   #define TARGET_SA_RESETHAND     0x80000000
->   
->   #define TARGET_MINSIGSTKSZ    2048
-> -#define TARGET_SIGSTKSZ       8192
->   
->   /* bit-flags */
->   #define TARGET_SS_AUTODISARM (1U << 31) /* disable sas during sighandling */
-> diff --git a/linux-user/sparc/target_signal.h b/linux-user/sparc/target_signal.h
-> index e661ddd..87757f0 100644
-> --- a/linux-user/sparc/target_signal.h
-> +++ b/linux-user/sparc/target_signal.h
-> @@ -65,7 +65,6 @@ typedef struct target_sigaltstack {
->   #define TARGET_ARCH_HAS_KA_RESTORER 1
->   
->   #define TARGET_MINSIGSTKSZ	4096
-> -#define TARGET_SIGSTKSZ		16384
->   
->   #ifdef TARGET_ABI32
->   #define TARGET_ARCH_HAS_SETUP_FRAME
 
 Applied to my linux-user-for-7.0 branch.
 
 Thanks,
 Laurent
+
 
 
