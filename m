@@ -2,64 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 716E247B24C
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Dec 2021 18:43:47 +0100 (CET)
-Received: from localhost ([::1]:44628 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 974B947B1C8
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Dec 2021 18:03:12 +0100 (CET)
+Received: from localhost ([::1]:36434 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mzMhO-00023U-I2
-	for lists+qemu-devel@lfdr.de; Mon, 20 Dec 2021 12:43:46 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43286)
+	id 1mzM47-0005k8-KH
+	for lists+qemu-devel@lfdr.de; Mon, 20 Dec 2021 12:03:11 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37028)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1mzLHF-0007h4-2T; Mon, 20 Dec 2021 11:12:46 -0500
-Received: from 5.mo548.mail-out.ovh.net ([188.165.49.213]:33903)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mzKPr-0001jI-Dt
+ for qemu-devel@nongnu.org; Mon, 20 Dec 2021 10:17:31 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:54908)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1mzLH9-0004j8-TS; Mon, 20 Dec 2021 11:12:38 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.109.143.174])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id BD805201AD;
- Mon, 20 Dec 2021 08:33:33 +0000 (UTC)
-Received: from kaod.org (37.59.142.100) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.17; Mon, 20 Dec
- 2021 09:33:32 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-100R003899868c2-1d6f-48a8-bb35-f497dd67823d,
- B7813907D459CA292B6C6623195014302564F6C9) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 90.11.79.163
-Message-ID: <c2eeced6-9cfa-2ea6-88be-a4dfb3d7aca2@kaod.org>
-Date: Mon, 20 Dec 2021 09:33:32 +0100
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mzKPM-0004ui-N5
+ for qemu-devel@nongnu.org; Mon, 20 Dec 2021 10:17:30 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1640013414;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=rrllebeXjhwn2QrPCOBd7fyW3DoTWKpL8HkzryqB5PE=;
+ b=gMZZr/Oy9Nu0pCv6BeUuxUJ9qGwP4Z237fJVTQvlRNkavAmz57KuyLlWMTb5eAkNCnVPve
+ fnx9hDz3+ypvmPuVZlsnDOnKpDo1u0eUvXyIWs3FOcTB8FbOQj3Q3ZHAEuYLeiHrpGUU/5
+ 6ZtJo+erchcLFLjhmcXXpcGR/tF5jkI=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-498-rzeIZf81OUaZrPE-vcXvNQ-1; Mon, 20 Dec 2021 03:54:19 -0500
+X-MC-Unique: rzeIZf81OUaZrPE-vcXvNQ-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ 205-20020a1c00d6000000b003335d1384f1so6171077wma.3
+ for <qemu-devel@nongnu.org>; Mon, 20 Dec 2021 00:54:19 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=rrllebeXjhwn2QrPCOBd7fyW3DoTWKpL8HkzryqB5PE=;
+ b=fIwVqAvTAinE6iKutG0pNeIxHTu+zJuHzNCWoFYryO+cM8xOsIc3wfNRRWNI0Ez/m1
+ 1pNxqbc3PYBVvrflTGt7qoOFH0nhk0E55tRet1TlnCgOTEqWBYTLxNoyfPVKWkYM0hog
+ K7aCwlPEw6xO5WPMjJOt1+ltZ+a7F2LDjlmLNTlPgj5of3OszPVR8uIE8MWDqqWUGuMF
+ nALt3P6WSL1XxORpGsb9dR8iV5PRXv8LzYyYXf2Noomo3T74WRRinSvLP+Ce+s1yKjEo
+ XppxZYzrAQ9RUnJZk/xWq8au31pfGeBK3QuN4lkTB9zYT9rweiq+ZYPbDVPd1D/ByM5F
+ rg6w==
+X-Gm-Message-State: AOAM531oCikeVc+nbRyV3NgccXaU8QVnqU5rtLNyKtffFk4NJEX+/SOY
+ ipwh9zWqhdHB7/Udb78MH44+WJ4vV81SpHUdiRMbTijI/iUptUzjwGbzbPQsclmxq/h78xVgvBF
+ eNQudGOOYo9i5MKuGmxHrqv9yNT+mzIj21hw/0OY+nbQyYcX0W1RJBBTCxyjON17E
+X-Received: by 2002:a1c:9851:: with SMTP id a78mr4382704wme.181.1639990457782; 
+ Mon, 20 Dec 2021 00:54:17 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxjghb4H4Dp9iY9wlG6Denvub5R2zsUIRBSgY6SFvlxptPOWE1JVoPA2AYi6TNIN8C5IjXl5A==
+X-Received: by 2002:a1c:9851:: with SMTP id a78mr4382692wme.181.1639990457562; 
+ Mon, 20 Dec 2021 00:54:17 -0800 (PST)
+Received: from localhost.localdomain ([85.203.46.164])
+ by smtp.gmail.com with ESMTPSA id h2sm14439713wrz.23.2021.12.20.00.54.14
+ (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+ Mon, 20 Dec 2021 00:54:17 -0800 (PST)
+From: Peter Xu <peterx@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 3/8] migration: Drop postcopy_chunk_hostpages()
+Date: Mon, 20 Dec 2021 16:53:50 +0800
+Message-Id: <20211220085355.2284-4-peterx@redhat.com>
+X-Mailer: git-send-email 2.32.0
+In-Reply-To: <20211220085355.2284-1-peterx@redhat.com>
+References: <20211220085355.2284-1-peterx@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH 00/15] ppc/ppc405: decade cleanup
-Content-Language: en-US
-To: Christophe Leroy <christophe.leroy@csgroup.eu>, "qemu-ppc@nongnu.org"
- <qemu-ppc@nongnu.org>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-References: <20211206103712.1866296-1-clg@kaod.org>
- <880aa46a-97cb-ad79-b72e-f8276692d750@kaod.org>
- <b3345770-21e2-39f2-8fe2-e9963886e680@csgroup.eu>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <b3345770-21e2-39f2-8fe2-e9963886e680@csgroup.eu>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.100]
-X-ClientProxiedBy: DAG5EX1.mxp5.local (172.16.2.41) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 91ea0fa0-b637-40de-9965-002d7fcf644b
-X-Ovh-Tracer-Id: 4601834394483198825
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddruddtuddguddvvdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthejredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeekfeeiudekhfeujeetffevtdfhhfekheehhfdtjeekfeehieefjedvgfffgfeifeenucffohhmrghinhepghhithhhuhgsrdgtohhmnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutddtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepghhrohhugheskhgrohgurdhorhhg
-Received-SPF: pass client-ip=188.165.49.213; envelope-from=clg@kaod.org;
- helo=5.mo548.mail-out.ovh.net
-X-Spam_score_int: -54
-X-Spam_score: -5.5
-X-Spam_bar: -----
-X-Spam_report: (-5.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-3.608,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) DKIMWL_WL_HIGH=-0.209, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -72,43 +94,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- Daniel Henrique Barboza <danielhb413@gmail.com>, Greg Kurz <groug@kaod.org>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Juan Quintela <quintela@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>, peterx@redhat.com,
+ Leonardo Bras Soares Passos <lsoaresp@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> 
-> Don't know if this is the reason of our problems but I think there is
-> something to investigate around timer interrupts:
-> 
-> 
-> / # cat /proc/interrupts
->              CPU0
->    16:         68       UIC   1 Level     serial
-> LOC:          0   Local timer interrupts for timer event device
-> LOC:          0   Local timer interrupts for others
-> SPU:          0   Spurious interrupts
-> PMI:          0   Performance monitoring interrupts
-> MCE:          0   Machine check exceptions
-> 
-> Any idea what the problem can be ? How does QEMU generates timer
-> interrupts ?
+This function calls three functions:
 
-I did some archeology and fixed the 405 timer (PIT). Please see commits in :
+  - postcopy_discard_send_init(ms, block->idstr);
+  - postcopy_chunk_hostpages_pass(ms, block);
+  - postcopy_discard_send_finish(ms);
 
-   https://github.com/legoater/qemu/commits/ppc405
+However only the 2nd function call is meaningful.  It's major role is to make
+sure dirty bits are applied in host-page-size granule, so there will be no
+partial dirty bits set for a whole host page if huge pages are used.
 
-but we are still getting segfaults. At some point /init tries to load from
-fffffe04 which is obviously wrong.
+The 1st/3rd call are for latter when we want to send the disgard ranges.
+They're mostly no-op here besides some tracepoints (which are misleading!).
 
-Add -d int,mmu to have more info from QEMU internals.
+Drop them, then we can directly drop postcopy_chunk_hostpages() as a whole
+because we can call postcopy_chunk_hostpages_pass() directly.
 
-I have gathered some info on this page :
+There're still some nice comments above postcopy_chunk_hostpages() that explain
+what it does.  Copy it over to the caller's site.
 
-   https://github.com/legoater/qemu/wiki/ref405ep
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Signed-off-by: Peter Xu <peterx@redhat.com>
+---
+ migration/ram.c | 33 +++++++--------------------------
+ 1 file changed, 7 insertions(+), 26 deletions(-)
 
-Thanks,
+diff --git a/migration/ram.c b/migration/ram.c
+index 0ed0f51a09..b22c9e7432 100644
+--- a/migration/ram.c
++++ b/migration/ram.c
+@@ -2571,30 +2571,6 @@ static void postcopy_chunk_hostpages_pass(MigrationState *ms, RAMBlock *block)
+     }
+ }
+ 
+-/**
+- * postcopy_chunk_hostpages: discard any partially sent host page
+- *
+- * Utility for the outgoing postcopy code.
+- *
+- * Discard any partially sent host-page size chunks, mark any partially
+- * dirty host-page size chunks as all dirty.  In this case the host-page
+- * is the host-page for the particular RAMBlock, i.e. it might be a huge page
+- *
+- * @ms: current migration state
+- * @block: block we want to work with
+- */
+-static void postcopy_chunk_hostpages(MigrationState *ms, RAMBlock *block)
+-{
+-    postcopy_discard_send_init(ms, block->idstr);
+-
+-    /*
+-     * Ensure that all partially dirty host pages are made fully dirty.
+-     */
+-    postcopy_chunk_hostpages_pass(ms, block);
+-
+-    postcopy_discard_send_finish(ms);
+-}
+-
+ /**
+  * ram_postcopy_send_discard_bitmap: transmit the discard bitmap
+  *
+@@ -2626,8 +2602,13 @@ int ram_postcopy_send_discard_bitmap(MigrationState *ms)
+     rs->last_page = 0;
+ 
+     RAMBLOCK_FOREACH_NOT_IGNORED(block) {
+-        /* Deal with TPS != HPS and huge pages */
+-        postcopy_chunk_hostpages(ms, block);
++        /*
++         * Deal with TPS != HPS and huge pages.  It discard any partially sent
++         * host-page size chunks, mark any partially dirty host-page size
++         * chunks as all dirty.  In this case the host-page is the host-page
++         * for the particular RAMBlock, i.e. it might be a huge page.
++         */
++        postcopy_chunk_hostpages_pass(ms, block);
+     }
+     trace_ram_postcopy_send_discard_bitmap();
+ 
+-- 
+2.32.0
 
-C.
 
