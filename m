@@ -2,109 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4789247B644
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Dec 2021 00:45:43 +0100 (CET)
-Received: from localhost ([::1]:33124 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E084F47B655
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Dec 2021 00:56:06 +0100 (CET)
+Received: from localhost ([::1]:41092 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mzSLd-0004Z9-So
-	for lists+qemu-devel@lfdr.de; Mon, 20 Dec 2021 18:45:41 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53696)
+	id 1mzSVg-00026y-Ld
+	for lists+qemu-devel@lfdr.de; Mon, 20 Dec 2021 18:56:04 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55004)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
- id 1mzSJV-0003fT-MP; Mon, 20 Dec 2021 18:43:29 -0500
-Received: from mail-dm6nam12on2058.outbound.protection.outlook.com
- ([40.107.243.58]:45633 helo=NAM12-DM6-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
- id 1mzSJI-00069z-8q; Mon, 20 Dec 2021 18:43:29 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=dT5F9Sx2supwoWDlg25ZbaWT3kUKxkWYsQFww9EXigVKHtdbCQtQLuTqfgW7H45p1YZHHLjdQEGgIjmB0M4YEGn27mCQVcPIP2HZPHd6FP0vzUduEKg/AQ8mzpvhCCBpXfYKC2jNcKzGHGM1ihwjrSUuHPzHfEy48xYA54U/iuFn7sH4dynFxeEcy9cqEUOSEUgNIEGAxu6EA7FxmmVAWHA0rwzZG/9sgXIQaY9kOXvMk74Xuj/XDMJRLPM3CMgWsjAQUmcZcrrgTpp0gC7nX513J9YX1di62gcice8pANlfB/lHr9/ym+Cf+k/bvjgnbKyjDCGL25+9ORXeI6sAHA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Khl40WP/KoJKY6EdGwLk/D0rkek//7vF2yv7C+hhvQw=;
- b=BYzHT6XqFrmovSuoPCmzAu+D/XeEkZ8CrDUT79Ii702vyi70YEWKkfjJfZVhWaN/m0dXDqfN4HjUb9hZXoip1eHIE7wu4Hjx1so1JcgsDQlv1U+KLP4CsbdM1e2XDRautZ87ql6xxbVjLNqiRtDlhN0uYCY4dQ5R/eQOovdfZs9FWjicv8xwZrK0hZAkz5Vkf7Wf292tDPp1znuNOfZe2JFLFP0EgbQjEvd7+p5uEgbHwJwq93HuRVYi9iNn27JwAaSB3lu8r1iAn45IZOoX7G7zNJ/+h2cjagRISPC/1Kd1bG14cdQWh7YmYGt2yinN/nX5RxIGKFdwwi/E6fqWcA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=nongnu.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Khl40WP/KoJKY6EdGwLk/D0rkek//7vF2yv7C+hhvQw=;
- b=bf7Su6VanGj0BJF+cYiE4wtPO4nCTlSLOAURVkUQA6CsMz+9jhBZpuSFXyTqvZy9qNdPArnECqUXWBSys5vJarnxoXl1kMoS5CS1Wb525CGp3o1WIWGoNAZG+CXIpG65V2DbnuZ7wBsZNtxjg61OyKVxFtlPnufKEwUqm7M2K5M=
-Received: from BN6PR16CA0035.namprd16.prod.outlook.com (2603:10b6:405:14::21)
- by BN6PR12MB1873.namprd12.prod.outlook.com (2603:10b6:404:102::22)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4801.14; Mon, 20 Dec
- 2021 23:43:11 +0000
-Received: from BN8NAM11FT024.eop-nam11.prod.protection.outlook.com
- (2603:10b6:405:14:cafe::56) by BN6PR16CA0035.outlook.office365.com
- (2603:10b6:405:14::21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4801.15 via Frontend
- Transport; Mon, 20 Dec 2021 23:43:11 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB03.amd.com;
-Received: from SATLEXMB03.amd.com (165.204.84.17) by
- BN8NAM11FT024.mail.protection.outlook.com (10.13.177.38) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.4801.14 via Frontend Transport; Mon, 20 Dec 2021 23:43:11 +0000
-Received: from localhost (10.180.168.240) by SATLEXMB03.amd.com
- (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.17; Mon, 20 Dec
- 2021 17:43:10 -0600
-Date: Mon, 20 Dec 2021 17:41:46 -0600
-To: <qemu-devel@nongnu.org>
-CC: <qemu-stable@nongnu.org>
-Subject: Re: [PATCH 00/47] Patch Round-up for stable 6.1.1, freeze on
- 2021-12-21
-Message-ID: <20211220234146.s7pq5gu6yxhtub3r@amd.com>
-References: <20211215000125.378126-1-michael.roth@amd.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mzSUI-0001Pr-BS
+ for qemu-devel@nongnu.org; Mon, 20 Dec 2021 18:54:38 -0500
+Received: from [2607:f8b0:4864:20::434] (port=33768
+ helo=mail-pf1-x434.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mzSUG-0000GI-CG
+ for qemu-devel@nongnu.org; Mon, 20 Dec 2021 18:54:38 -0500
+Received: by mail-pf1-x434.google.com with SMTP id 205so5903901pfu.0
+ for <qemu-devel@nongnu.org>; Mon, 20 Dec 2021 15:54:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:from:to:references:message-id:date:user-agent:mime-version
+ :in-reply-to:content-language:content-transfer-encoding;
+ bh=5Jg9MMpmm/byfdMZsKjjNHpgHJDAOY0WahXPJDxaVpI=;
+ b=mfUyZJMuDU5lGBN6iLZBik0lZCxK9hXiG2dEjioX72OL6M9fQIrX3yPWyqnx8R9PAE
+ 5UeSgfKTn6/FLC697W8uVggqoEVOuQZHaYnT5h087jwiqCJr7fpLcmf6WbXPaaDgZ6oB
+ xjFdk7OOncnlLlVLCs9VWLoUjTcNRhgXGnFcjyaQ1a0O5R5tywK+Xg1vxfVNmpxFfBJV
+ HU5GHDgzkcDt39rSsNntfw1FZjxy0P4nfpc+JcoQI3oKVE3FcObX1OUkYkt0+OvQNmWW
+ +ZZE1i1cTRCfLhHxXSeWTxs6P1Fk4fSvw0urPoklQ0VPL1KoIsnCuyXAOo0gYEuEXM8S
+ X/GQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:from:to:references:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=5Jg9MMpmm/byfdMZsKjjNHpgHJDAOY0WahXPJDxaVpI=;
+ b=00UHJDRliNIFeDI5xo8FZzOVA3mhUSRhMDURpgaVe788QT5F020eCPFN4l782jEJ2k
+ E7wYWzuE6EyjXHe4AU0j2fUJFLst7T7KM1TgSkmNK/pMnirrLG0pEWEkkQzHIVFp0BBB
+ HoD9EBrIatghsU4l1RqNb4qW8x8j++xtRjVPGkFPuLpBLdoZDr4bWl7gZgSDza/YcQi4
+ cdpNuFVmr5UUCZ21RyUas0K5h6SKW5P/psF+uKvDSu8H2jNZYAHImEUW7nS5NioDxrS2
+ ac67xw5GtY0fhO/g1wBm9n5ROeGhB2t0+H77i1txFnaZw5E5yzENV+odYTdMkbiwECwj
+ h9YQ==
+X-Gm-Message-State: AOAM530EEOhQrBRMIc0E8IMrx41w+aUd7Js8kNDSoZ30UxeGVyyGHcTx
+ aF21qgmFH9WAz4wxpoYoBDaf7TspxIE5KA==
+X-Google-Smtp-Source: ABdhPJzkHwK31niw0PQzvDVc+X+mRyXshfbrc6Q7oBe+BQQHu9yd8c00vdZrGn7Wt1pDAXhy1mjcjA==
+X-Received: by 2002:a05:6a00:72c:b0:4ba:9a9e:b82b with SMTP id
+ 12-20020a056a00072c00b004ba9a9eb82bmr422649pfm.13.1640044474394; 
+ Mon, 20 Dec 2021 15:54:34 -0800 (PST)
+Received: from [192.168.4.112] ([156.19.246.20])
+ by smtp.gmail.com with ESMTPSA id m14sm19410815pfh.11.2021.12.20.15.54.33
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 20 Dec 2021 15:54:33 -0800 (PST)
+Subject: Re: [PULL 00/15] *-user: simplify safe signal handling
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+References: <20211220202500.111897-1-richard.henderson@linaro.org>
+Message-ID: <01dcc3fb-4ffd-0889-b6cb-944b1022c19b@linaro.org>
+Date: Mon, 20 Dec 2021 15:54:32 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20211215000125.378126-1-michael.roth@amd.com>
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB03.amd.com
- (10.181.40.144)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 0f2d9c54-8ab5-4aaa-308b-08d9c4127b90
-X-MS-TrafficTypeDiagnostic: BN6PR12MB1873:EE_
-X-Microsoft-Antispam-PRVS: <BN6PR12MB18730A811E935F5C3D578D72957B9@BN6PR12MB1873.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: BhzabBn5kI9pfIkq+dE/i5n47MOzwf+KqqbXyt+QrU+h9f62G+F0tItzntQhO1C+BE5dCI4FwiuL73SfR3+9wN+s4QacPEJQitCTObidsx/L+2FTjyYDTCQPTfWLn9oyUP1f3bCJZQU3a2gqhPBpIBC+xO442XyFagucEAarPntf93lDw+1FOv04LSXUmvPWV70HGpex9j1xBqWyxy83vKX/v6IVThcXrQ9OTiM04SP8praEGcc89/ypDrSSG28e8mFz4vFYU97xzpLPGqakoUlLnY0IzOQG2bqv3ZH+Wn6OsCNoBiPXY1rTUaJ7hklD0UFslUx+2vkTxPhAeu7zob57+2JBmUg8sHMSQnQiHQfcHzqKVMIEh/SeIt+y30q0PMbrh/doIJQbFIg+28p/Zcae2EyHQ5ybZo74GQcQDcgai96kwxuXhgMmGQW6Nputoakr5frXoclG1k23TWIbmZZ9UulmH4lr69uaNrqFGfkWVMaDl3uYK6mcAHiWE23qiYNB4jx3bSt1/5M335AHByzpl1NzoKzBNQ+nBIqqlfxEwbuYjGlq1/qpkLVE7cBfOWti8EBai8aAFQ/yQt/qUuo9Ym1133nrLUW2tSNIQlfIBnXeP+R+rzsleLufllKJYNGr7lldQLA5o/y/fDcAs2HWko84xBnrPKIlIx8EtwpwcaVtw0VHPOJ/PJxFx9qxgmCpElrr2pr+1A/BCYPLfu63UXAKwRg5oiwONlWvMV8hmEMZo6XXdkfKDFTPexDvVqdx15A+gqJU/EpTBslUGMZXIay8/wGNQxNY+wjLNfYU66KjXqtWWuq5k5ljW1XXpf8jXH3GJ9ZzYCrWVLqmuZb+MrKa9GRXpd3hbRWZwhTi72Vyi3UBx/KX7ITXElK73EWD8qMH2D/d+BCbFFoxHMxLXLsHQd76cCAAfihzFkM=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB03.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(4636009)(36840700001)(40470700002)(46966006)(36756003)(81166007)(2616005)(186003)(40460700001)(82310400004)(70206006)(26005)(16526019)(70586007)(6666004)(44832011)(426003)(83380400001)(47076005)(6916009)(336012)(4326008)(356005)(36860700001)(1076003)(86362001)(966005)(4001150100001)(2906002)(508600001)(316002)(8936002)(8676002)(5660300002)(450100002)(36900700001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Dec 2021 23:43:11.0669 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0f2d9c54-8ab5-4aaa-308b-08d9c4127b90
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB03.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT024.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR12MB1873
-Received-SPF: softfail client-ip=40.107.243.58;
- envelope-from=Michael.Roth@amd.com;
- helo=NAM12-DM6-obe.outbound.protection.outlook.com
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
- DKIM_SIGNED=0.1, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <20211220202500.111897-1-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::434
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::434;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x434.google.com
+X-Spam_score_int: -48
+X-Spam_score: -4.9
+X-Spam_bar: ----
+X-Spam_report: (-4.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.608,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -119,215 +93,164 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Michael Roth <michael.roth@amd.com>
-From:  Michael Roth via <qemu-devel@nongnu.org>
 
-On Tue, Dec 14, 2021 at 06:00:38PM -0600, Michael Roth wrote:
-> Hi everyone,
+On 12/20/21 12:24 PM, Richard Henderson wrote:
+> The following changes since commit 212a33d3b0c65ae2583bb1d06cb140cd0890894c:
 > 
-> The following new patches are queued for QEMU stable v6.1.1:
+>    Merge tag 'for-upstream' of https://gitlab.com/bonzini/qemu into staging (2021-12-19 16:36:10 -0800)
 > 
->   https://gitlab.com/qemu-project/qemu/-/commits/stable-6.1-staging/
+> are available in the Git repository at:
 > 
-> Patch freeze is 2021-12-21, and the release is planned for 2021-12-23:
+>    https://gitlab.com/rth7680/qemu.git tags/pull-user-20211220
 > 
->   https://wiki.qemu.org/Planning/6.1
+> for you to fetch changes up to 3363615a65af8a09d8adbd19ed3ae6b52f26ca7a:
 > 
-> Please respond here or CC qemu-stable@nongnu.org on any additional patches
-> you think should (or shouldn't) be included in the release.
-
-Thank you for the suggestions so far. The following additional patches have
-been pushed to the staging tree:
-
-  fddd169de5 tests: tcg: Fix PVH test with binutils 2.36+
-  711bd602cc tcg/arm: Reduce vector alignment requirement for NEON
-  e88636b4d4 target/i386: add missing bits to CR4_RESERVED_MASK
-  34833f361b qxl: fix pre-save logic
-
-  https://gitlab.com/mdroth/qemu/-/commits/stable-6.1-staging/
-
-Patch freeze is 2021-21-21 EOD.
-
--Mike
-
-> 
-> Thanks!
+>    meson: Move bsd_user_ss to bsd-user/ (2021-12-20 10:13:43 -0800)
 > 
 > ----------------------------------------------------------------
-> Ani Sinha (6):
->       bios-tables-test: allow changes in DSDT ACPI tables for q35
->       hw/i386/acpi: fix conflicting IO address range for acpi pci hotplug in q35
->       bios-tables-test: Update ACPI DSDT table golden blobs for q35
->       tests/acpi/bios-tables-test: add and allow changes to a new q35 DSDT table blob
->       tests/acpi/pcihp: add unit tests for hotplug on multifunction bridges for q35
->       tests/acpi/bios-tables-test: update DSDT blob for multifunction bridge test
+> Move errno processing from safe_syscall() to safe_syscall_base().
+> Move safe_syscall() from linux-user to common-user.
+> Add FreeBSD support to safe_syscall_base().
+> Tidy top-level meson.build wrt {bsd,linux}-user.
 > 
-> Ari Sundholm (1):
->       block/file-posix: Fix return value translation for AIO discards
+> ----------------------------------------------------------------
+> Richard Henderson (15):
+>        linux-user: Untabify all safe-syscall.inc.S
+>        linux-user: Move syscall error detection into safe_syscall_base
+>        linux-user/host/mips: Add safe-syscall.inc.S
+>        linux-user/host/sparc64: Add safe-syscall.inc.S
+>        linux-user: Remove HAVE_SAFE_SYSCALL and hostdep.h
+>        linux-user: Rename TARGET_ERESTARTSYS to QEMU_ERESTARTSYS
+>        bsd-user: Rename TARGET_ERESTARTSYS to QEMU_ERESTARTSYS
+>        linux-user: Rename TARGET_QEMU_ESIGRETURN to QEMU_ESIGRETURN
+>        linux-user: Create special-errno.h
+>        bsd-user: Create special-errno.h
+>        common-user: Move safe-syscall.* from linux-user
+>        common-user: Adjust system call return on FreeBSD
+>        linux-user: Move thunk.c from top-level
+>        meson: Move linux_user_ss to linux-user/
+>        meson: Move bsd_user_ss to bsd-user/
 > 
-> Christian Schoenebeck (1):
->       9pfs: fix crash in v9fs_walk()
-> 
-> Daniil Tatianin (1):
->       chardev/wctable: don't free the instance in wctablet_chr_finalize
-> 
-> David Hildenbrand (3):
->       virtio-balloon: don't start free page hinting if postcopy is possible
->       virtio-mem-pci: Fix memory leak when creating MEMORY_DEVICE_SIZE_CHANGE event
->       libvhost-user: fix VHOST_USER_REM_MEM_REG skipping mmap_addr
-> 
-> Eric Blake (1):
->       nbd/server: Don't complain on certain client disconnects
-> 
-> Gerd Hoffmann (1):
->       uas: add stream number sanity checks.
-> 
-> Greg Kurz (2):
->       rcu: Introduce force_rcu notifier
->       accel/tcg: Register a force_rcu notifier
-> 
-> Helge Deller (1):
->       hw/display/artist: Fix bug in coordinate extraction in artist_vram_read() and artist_vram_write()
-> 
-> Igor Mammedov (1):
->       pcie: rename 'native-hotplug' to 'x-native-hotplug'
-> 
-> Jason Wang (3):
->       virtio-net: fix use after unmap/free for sg
->       virtio: use virtio accessor to access packed descriptor flags
->       virtio: use virtio accessor to access packed event
-> 
-> Jean-Philippe Brucker (2):
->       hw/arm/virt: Rename default_bus_bypass_iommu
->       hw/i386: Rename default_bus_bypass_iommu
-> 
-> Jessica Clarke (1):
->       Partially revert "build: -no-pie is no functional linker flag"
-> 
-> Jon Maloy (1):
->       e1000: fix tx re-entrancy problem
-> 
-> Klaus Jensen (1):
->       hw/nvme: fix buffer overrun in nvme_changed_nslist (CVE-2021-3947)
-> 
-> Laurent Vivier (1):
->       hw: m68k: virt: Add compat machine for 6.1
-> 
-> Mahmoud Mandour (1):
->       plugins/execlog: removed unintended "s" at the end of log lines.
-> 
-> Mark Mielke (1):
->       virtio-blk: Fix clean up of host notifiers for single MR transaction.
-> 
-> Markus Armbruster (1):
->       hmp: Unbreak "change vnc"
-> 
-> Mauro Matteo Cascella (1):
->       hw/scsi/scsi-disk: MODE_PAGE_ALLS not allowed in MODE SELECT commands
-> 
-> Michael S. Tsirkin (1):
->       pci: fix PCI resource reserve capability on BE
-> 
-> Michael Tokarev (1):
->       qemu-sockets: fix unix socket path copy (again)
-> 
-> Nir Soffer (1):
->       qemu-nbd: Change default cache mode to writeback
-> 
-> Paolo Bonzini (4):
->       plugins: do not limit exported symbols if modules are active
->       block: introduce max_hw_iov for use in scsi-generic
->       target-i386: mmu: use pg_mode instead of HF_LMA_MASK
->       target-i386: mmu: fix handling of noncanonical virtual addresses
-> 
-> Peng Liang (1):
->       vfio: Fix memory leak of hostwin
-> 
-> Peter Maydell (1):
->       target/arm: Don't skip M-profile reset entirely in user mode
-> 
-> Philippe Mathieu-Daudé (3):
->       hw/block/fdc: Extract blk_create_empty_drive()
->       hw/block/fdc: Kludge missing floppy drive to fix CVE-2021-20196
->       tests/qtest/fdc-test: Add a regression test for CVE-2021-20196
-> 
-> Prasad J Pandit (1):
->       net: vmxnet3: validate configuration values during activate (CVE-2021-20203)
-> 
-> Stefano Garzarella (1):
->       vhost-vsock: fix migration issue when seqpacket is supported
-> 
-> Xueming Li (1):
->       vhost-user: fix duplicated notifier MR init
-> 
-> Yang Zhong (1):
->       i386/cpu: Remove AVX_VNNI feature from Cooperlake cpu model
-> 
->  accel/tcg/tcg-accel-ops-mttcg.c           |  26 ++++++++++++++++++++
->  accel/tcg/tcg-accel-ops-rr.c              |  10 ++++++++
->  block/block-backend.c                     |   6 +++++
->  block/file-posix.c                        |   6 ++---
->  block/io.c                                |   1 +
->  chardev/wctablet.c                        |   1 -
->  configure                                 |  10 +++++---
->  contrib/plugins/execlog.c                 |   2 +-
->  docs/tools/qemu-nbd.rst                   |   6 +++--
->  hw/9pfs/coth.h                            |   4 ++-
->  hw/arm/virt.c                             |   4 +--
->  hw/block/dataplane/virtio-blk.c           |   2 +-
->  hw/block/fdc.c                            |  23 +++++++++++++++---
->  hw/core/machine.c                         |   1 +
->  hw/display/artist.c                       |   8 +++---
->  hw/i386/pc.c                              |   2 +-
->  hw/i386/pc_q35.c                          |   2 +-
->  hw/m68k/virt.c                            |   9 ++++++-
->  hw/net/e1000.c                            |   7 ++++++
->  hw/net/virtio-net.c                       |  39 ++++++++++++++++++++++++------
->  hw/net/vmxnet3.c                          |  13 ++++++++++
->  hw/nvme/ctrl.c                            |   5 ++++
->  hw/pci/pci_bridge.c                       |  10 ++++----
->  hw/pci/pcie_port.c                        |   2 +-
->  hw/scsi/scsi-disk.c                       |   6 +++++
->  hw/scsi/scsi-generic.c                    |   2 +-
->  hw/usb/dev-uas.c                          |  11 +++++++++
->  hw/vfio/common.c                          |   8 ++++++
->  hw/virtio/vhost-user.c                    |   5 ++--
->  hw/virtio/vhost-vsock.c                   |  19 ++++++++++++---
->  hw/virtio/virtio-balloon.c                |  13 ++++++++++
->  hw/virtio/virtio-mem-pci.c                |   7 +-----
->  hw/virtio/virtio.c                        |  24 ++++++------------
->  include/block/block_int.h                 |   7 ++++++
->  include/hw/acpi/ich9.h                    |   2 +-
->  include/hw/virtio/vhost-vsock.h           |   3 +++
->  include/qemu/rcu.h                        |  15 ++++++++++++
->  include/sysemu/block-backend.h            |   1 +
->  monitor/hmp-cmds.c                        |   2 +-
->  nbd/server.c                              |   3 +++
->  plugins/meson.build                       |  14 ++++++-----
->  qemu-nbd.c                                |   6 +++--
->  subprojects/libvhost-user/libvhost-user.c |   1 +
->  target/arm/cpu.c                          |  19 +++++++++++++++
->  target/i386/cpu.c                         |   2 +-
->  target/i386/tcg/sysemu/excp_helper.c      |  25 ++++++++++---------
->  tests/data/acpi/q35/DSDT                  | Bin 8289 -> 8289 bytes
->  tests/data/acpi/q35/DSDT.acpihmat         | Bin 9614 -> 9614 bytes
->  tests/data/acpi/q35/DSDT.bridge           | Bin 11003 -> 11003 bytes
->  tests/data/acpi/q35/DSDT.cphp             | Bin 8753 -> 8753 bytes
->  tests/data/acpi/q35/DSDT.dimmpxm          | Bin 9943 -> 9943 bytes
->  tests/data/acpi/q35/DSDT.ipmibt           | Bin 8364 -> 8364 bytes
->  tests/data/acpi/q35/DSDT.memhp            | Bin 9648 -> 9648 bytes
->  tests/data/acpi/q35/DSDT.mmio64           | Bin 9419 -> 9419 bytes
->  tests/data/acpi/q35/DSDT.multi-bridge     | Bin 0 -> 8583 bytes
->  tests/data/acpi/q35/DSDT.nohpet           | Bin 8147 -> 8147 bytes
->  tests/data/acpi/q35/DSDT.numamem          | Bin 8295 -> 8295 bytes
->  tests/data/acpi/q35/DSDT.tis              | Bin 8894 -> 8894 bytes
->  tests/qtest/bios-tables-test.c            |  18 ++++++++++++++
->  tests/qtest/fdc-test.c                    |  38 +++++++++++++++++++++++++++++
->  util/qemu-sockets.c                       |  13 ++++------
->  util/rcu.c                                |  19 +++++++++++++++
->  62 files changed, 386 insertions(+), 96 deletions(-)
->  create mode 100644 tests/data/acpi/q35/DSDT.multi-bridge
-> 
-> 
-> 
+>   meson.build                                        |  23 +++-
+>   bsd-user/errno_defs.h                              |   6 +-
+>   bsd-user/special-errno.h                           |  24 ++++
+>   {linux-user => include/user}/safe-syscall.h        |  37 ++----
+>   linux-user/cpu_loop-common.h                       |   1 +
+>   linux-user/generic/target_errno_defs.h             |  17 ---
+>   linux-user/host/aarch64/hostdep.h                  |  18 ---
+>   linux-user/host/arm/hostdep.h                      |  18 ---
+>   linux-user/host/i386/hostdep.h                     |  18 ---
+>   linux-user/host/ia64/hostdep.h                     |  15 ---
+>   linux-user/host/mips/hostdep.h                     |  15 ---
+>   linux-user/host/ppc/hostdep.h                      |  15 ---
+>   linux-user/host/ppc64/hostdep.h                    |  18 ---
+>   linux-user/host/riscv/hostdep.h                    |  14 --
+>   linux-user/host/s390/hostdep.h                     |  15 ---
+>   linux-user/host/s390x/hostdep.h                    |  18 ---
+>   linux-user/host/sparc/hostdep.h                    |  15 ---
+>   linux-user/host/sparc64/hostdep.h                  |  15 ---
+>   linux-user/host/x32/hostdep.h                      |  15 ---
+>   linux-user/host/x86_64/hostdep.h                   |  18 ---
+>   linux-user/signal-common.h                         |   4 +-
+>   linux-user/special-errno.h                         |  32 +++++
+>   linux-user/user-internals.h                        |   1 -
+>   common-user/safe-syscall-error.c                   |  25 ++++
+>   linux-user/aarch64/cpu_loop.c                      |   4 +-
+>   linux-user/aarch64/signal.c                        |   4 +-
+>   linux-user/alpha/cpu_loop.c                        |   4 +-
+>   linux-user/alpha/signal.c                          |   8 +-
+>   linux-user/arm/cpu_loop.c                          |   4 +-
+>   linux-user/arm/signal.c                            |   8 +-
+>   linux-user/cris/cpu_loop.c                         |   4 +-
+>   linux-user/cris/signal.c                           |   4 +-
+>   linux-user/hexagon/cpu_loop.c                      |   4 +-
+>   linux-user/hexagon/signal.c                        |   2 +-
+>   linux-user/hppa/cpu_loop.c                         |   4 +-
+>   linux-user/hppa/signal.c                           |   4 +-
+>   linux-user/i386/cpu_loop.c                         |  12 +-
+>   linux-user/i386/signal.c                           |   8 +-
+>   linux-user/m68k/cpu_loop.c                         |   4 +-
+>   linux-user/m68k/signal.c                           |   8 +-
+>   linux-user/microblaze/cpu_loop.c                   |   4 +-
+>   linux-user/microblaze/signal.c                     |   4 +-
+>   linux-user/mips/cpu_loop.c                         |   4 +-
+>   linux-user/mips/signal.c                           |   8 +-
+>   linux-user/openrisc/cpu_loop.c                     |   4 +-
+>   linux-user/ppc/cpu_loop.c                          |   4 +-
+>   linux-user/ppc/signal.c                            |  10 +-
+>   linux-user/riscv/cpu_loop.c                        |   4 +-
+>   linux-user/riscv/signal.c                          |   2 +-
+>   linux-user/s390x/cpu_loop.c                        |   4 +-
+>   linux-user/s390x/signal.c                          |   8 +-
+>   linux-user/sh4/cpu_loop.c                          |   4 +-
+>   linux-user/sh4/signal.c                            |   8 +-
+>   linux-user/signal.c                                |  10 +-
+>   linux-user/sparc/cpu_loop.c                        |   2 +-
+>   linux-user/sparc/signal.c                          |   8 +-
+>   linux-user/syscall.c                               |  21 +--
+>   thunk.c => linux-user/thunk.c                      |   0
+>   linux-user/xtensa/cpu_loop.c                       |   4 +-
+>   linux-user/xtensa/signal.c                         |   4 +-
+>   MAINTAINERS                                        |   3 +-
+>   bsd-user/meson.build                               |   6 +
+>   common-user/host/aarch64/safe-syscall.inc.S        |  88 ++++++++++++
+>   common-user/host/arm/safe-syscall.inc.S            | 108 +++++++++++++++
+>   common-user/host/i386/safe-syscall.inc.S           | 126 ++++++++++++++++++
+>   common-user/host/mips/safe-syscall.inc.S           | 148 +++++++++++++++++++++
+>   common-user/host/ppc64/safe-syscall.inc.S          |  94 +++++++++++++
+>   common-user/host/riscv/safe-syscall.inc.S          |  79 +++++++++++
+>   common-user/host/s390x/safe-syscall.inc.S          |  98 ++++++++++++++
+>   common-user/host/sparc64/safe-syscall.inc.S        |  89 +++++++++++++
+>   .../host/x86_64/safe-syscall.inc.S                 |  44 +++---
+>   common-user/meson.build                            |   6 +
+>   {linux-user => common-user}/safe-syscall.S         |   5 +-
+>   linux-user/host/aarch64/safe-syscall.inc.S         |  75 -----------
+>   linux-user/host/arm/safe-syscall.inc.S             |  90 -------------
+>   linux-user/host/i386/safe-syscall.inc.S            | 100 --------------
+>   linux-user/host/ppc64/safe-syscall.inc.S           |  96 -------------
+>   linux-user/host/riscv/safe-syscall.inc.S           |  77 -----------
+>   linux-user/host/s390x/safe-syscall.inc.S           |  90 -------------
+>   linux-user/meson.build                             |   9 +-
+>   80 files changed, 1099 insertions(+), 932 deletions(-)
+>   create mode 100644 bsd-user/special-errno.h
+>   rename {linux-user => include/user}/safe-syscall.h (83%)
+>   delete mode 100644 linux-user/host/aarch64/hostdep.h
+>   delete mode 100644 linux-user/host/arm/hostdep.h
+>   delete mode 100644 linux-user/host/i386/hostdep.h
+>   delete mode 100644 linux-user/host/ia64/hostdep.h
+>   delete mode 100644 linux-user/host/mips/hostdep.h
+>   delete mode 100644 linux-user/host/ppc/hostdep.h
+>   delete mode 100644 linux-user/host/ppc64/hostdep.h
+>   delete mode 100644 linux-user/host/riscv/hostdep.h
+>   delete mode 100644 linux-user/host/s390/hostdep.h
+>   delete mode 100644 linux-user/host/s390x/hostdep.h
+>   delete mode 100644 linux-user/host/sparc/hostdep.h
+>   delete mode 100644 linux-user/host/sparc64/hostdep.h
+>   delete mode 100644 linux-user/host/x32/hostdep.h
+>   delete mode 100644 linux-user/host/x86_64/hostdep.h
+>   create mode 100644 linux-user/special-errno.h
+>   create mode 100644 common-user/safe-syscall-error.c
+>   rename thunk.c => linux-user/thunk.c (100%)
+>   create mode 100644 common-user/host/aarch64/safe-syscall.inc.S
+>   create mode 100644 common-user/host/arm/safe-syscall.inc.S
+>   create mode 100644 common-user/host/i386/safe-syscall.inc.S
+>   create mode 100644 common-user/host/mips/safe-syscall.inc.S
+>   create mode 100644 common-user/host/ppc64/safe-syscall.inc.S
+>   create mode 100644 common-user/host/riscv/safe-syscall.inc.S
+>   create mode 100644 common-user/host/s390x/safe-syscall.inc.S
+>   create mode 100644 common-user/host/sparc64/safe-syscall.inc.S
+>   rename {linux-user => common-user}/host/x86_64/safe-syscall.inc.S (81%)
+>   create mode 100644 common-user/meson.build
+>   rename {linux-user => common-user}/safe-syscall.S (91%)
+>   delete mode 100644 linux-user/host/aarch64/safe-syscall.inc.S
+>   delete mode 100644 linux-user/host/arm/safe-syscall.inc.S
+>   delete mode 100644 linux-user/host/i386/safe-syscall.inc.S
+>   delete mode 100644 linux-user/host/ppc64/safe-syscall.inc.S
+>   delete mode 100644 linux-user/host/riscv/safe-syscall.inc.S
+>   delete mode 100644 linux-user/host/s390x/safe-syscall.inc.S
+
+Applied.
+
+
+r~
 
