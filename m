@@ -2,67 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EC5247B13A
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Dec 2021 17:38:32 +0100 (CET)
-Received: from localhost ([::1]:42518 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1629047B127
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Dec 2021 17:34:42 +0100 (CET)
+Received: from localhost ([::1]:35014 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mzLgF-0004Zy-FS
-	for lists+qemu-devel@lfdr.de; Mon, 20 Dec 2021 11:38:31 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56014)
+	id 1mzLcX-0007kk-5t
+	for lists+qemu-devel@lfdr.de; Mon, 20 Dec 2021 11:34:41 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55664)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1mzKJO-0006aY-UE
- for qemu-devel@nongnu.org; Mon, 20 Dec 2021 10:10:54 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:57365)
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1mzKJA-0006Yi-GX
+ for qemu-devel@nongnu.org; Mon, 20 Dec 2021 10:10:42 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:24396)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1mzKJG-0001Oq-Q2
- for qemu-devel@nongnu.org; Mon, 20 Dec 2021 10:10:46 -0500
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1mzKIc-000198-BQ
+ for qemu-devel@nongnu.org; Mon, 20 Dec 2021 10:10:19 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1640013027;
+ s=mimecast20190719; t=1640013001;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=0fducR5lGfdMJP4hrQX7kgIpccuxV62Axn/IDTFrvmA=;
- b=BzLKy/Yee2x05BCFB+efQJVLhm0czf5zrppMT7AzGNRi16oxqeIF+1lx/g1HFbGHzjukLs
- nGxF/n13IpWb26001ForfhW3QLzV/ZG9lAcaZjYsWzAfG9TajYG0eFK0wTOfkW5j7TMWod
- sa7z2PFerpyPmPpBr02xv7vB7VUGeGg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=xrXrwa17cjPIKHX24KhjcAJqs4W+e/1opAqxcNitgYY=;
+ b=aJ5aoA/BPt1Ksz4jPjWINGKpy69HwtdWrgi63BYv0v1bEXImphpjB6IF9y0cIS22kkOng7
+ 5kMtGbyfAAtY69ZX4qVKg7TVlno6BSoHeOxL4TsQtqQStW8jCXy1qnlb2pcNJqD1fL0bLZ
+ zectWoOSxZNHhOK+3ThXLwn3MFevIR4=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-263-FHS-_G7nNDCofk47Xgbnhw-1; Mon, 20 Dec 2021 06:54:27 -0500
-X-MC-Unique: FHS-_G7nNDCofk47Xgbnhw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 06FCF81CCB5;
- Mon, 20 Dec 2021 11:54:26 +0000 (UTC)
-Received: from gondolin.fritz.box (unknown [10.39.193.132])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1F5D45ED2F;
- Mon, 20 Dec 2021 11:54:21 +0000 (UTC)
-From: Cornelia Huck <cohuck@redhat.com>
-To: qemu-devel@nongnu.org,
-	qemu-s390x@nongnu.org
-Subject: [PATCH RFC] MAINTAINERS: split out s390x sections
-Date: Mon, 20 Dec 2021 12:54:19 +0100
-Message-Id: <20211220115419.308463-1-cohuck@redhat.com>
+ us-mta-575-sr7_Mg89Pp-fMyxoJu7OKQ-1; Mon, 20 Dec 2021 06:54:36 -0500
+X-MC-Unique: sr7_Mg89Pp-fMyxoJu7OKQ-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ w25-20020adf8bd9000000b001a255212b7cso3582330wra.18
+ for <qemu-devel@nongnu.org>; Mon, 20 Dec 2021 03:54:35 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=xrXrwa17cjPIKHX24KhjcAJqs4W+e/1opAqxcNitgYY=;
+ b=XdLDTjYUPNrkdd/LiW2nLgcjRENPREAO2jUPP8vxJtlf6OJ/RUdBPkdxaTRuY7HrF0
+ N7uT+Ubmha7Wej5Nf9RlnxqVvd5Q7VX7PD/fRM0ZzjkKyGJzMmXy3rn+puhTG6NofvRc
+ cYTD/G/dEq5ycPHy4uGJ3ZGdPJlht/KPXLGrszQegwY/16Akod4n/PX4EZpG2PxXnOT5
+ fy0RAuYKJVMfGxqv3GCz4DPkZmbUOB22wdZjpLsoaiB9jWqT6O8wnDjXSuJY4n90nueg
+ QnffEPlHHLo1EYqhhovzy8SU2usicBWeoijJ6B8lDJjzFtY9uh2E9OI7n+Ttb8lWIKMF
+ PkNw==
+X-Gm-Message-State: AOAM531fs0tbI2e+Bc6SyJn+bEU4yjev1N0UOzfld6nIuAxrc4PBZtc6
+ QNpMfUWB5yPe4sLIu9bvY8LKmrTMNWD0CrQhXbmfmFOJpi/QrwNMMVPmAgkJHi//mvN80dlVpi+
+ Ljv7tcADKlWNZTMQ=
+X-Received: by 2002:a5d:6da9:: with SMTP id u9mr2515355wrs.425.1640001274830; 
+ Mon, 20 Dec 2021 03:54:34 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxZN2dYbEnw/nqRHC1oXa3sfhgzfTz0GgM1l2vTdF59kvc1iAJAgHZvNDe0xTmecGerbu8pSw==
+X-Received: by 2002:a5d:6da9:: with SMTP id u9mr2515337wrs.425.1640001274579; 
+ Mon, 20 Dec 2021 03:54:34 -0800 (PST)
+Received: from [192.168.100.42] (82-64-211-94.subs.proxad.net. [82.64.211.94])
+ by smtp.gmail.com with ESMTPSA id
+ y3sm13050718wrq.12.2021.12.20.03.54.33
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 20 Dec 2021 03:54:34 -0800 (PST)
+Message-ID: <c55a1d26-705a-473a-a85f-35d7b6458a26@redhat.com>
+Date: Mon, 20 Dec 2021 12:54:32 +0100
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH] tests/qtest/virtio-net-failover: Use g_random_int()
+ instead of g_test_rand_int()
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+References: <20211220102759.311224-1-thuth@redhat.com>
+From: Laurent Vivier <lvivier@redhat.com>
+In-Reply-To: <20211220102759.311224-1-thuth@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lvivier@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=cohuck@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=lvivier@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.209,
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.209,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-3.608, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -75,176 +102,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, David Hildenbrand <david@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eric Farman <farman@linux.ibm.com>, Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Split out some more specialized devices etc., so that we can build
-smarter lists of people to be put on cc: in the future.
+On 20/12/2021 11:27, Thomas Huth wrote:
+> g_test_rand_int() must not be called before g_test_init(), otherwise
+> the glib will show a "g_rand_int: assertion 'rand != NULL' failed"
+> message in the log. So we could change the order here, but actually,
+> g_test_rand_int() seems also the wrong choice here, since we're using
+> it to create a temporary file name, which certainly should not depend
+> on the "--seed" CLI option of the g_test suite. Thus let's use the
+> g_random_int() function instead.
+>
+> Reported-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>   tests/qtest/virtio-net-failover.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/tests/qtest/virtio-net-failover.c b/tests/qtest/virtio-net-failover.c
+> index 4b2ba8a106..70b94bf18f 100644
+> --- a/tests/qtest/virtio-net-failover.c
+> +++ b/tests/qtest/virtio-net-failover.c
+> @@ -1308,7 +1308,7 @@ int main(int argc, char **argv)
+>   {
+>       const gchar *tmpdir = g_get_tmp_dir();
+>       gchar *tmpfile = g_strdup_printf("%s/failover_test_migrate-%u-%u",
+> -                                     tmpdir, getpid(), g_test_rand_int());
+> +                                     tmpdir, getpid(), g_random_int());
+>       int ret;
+>   
+>       g_test_init(&argc, &argv, NULL);
 
-Signed-off-by: Cornelia Huck <cohuck@redhat.com>
----
-
-As discussed offlist. Some notes:
-- The new sections have inherited the maintainers of the sections
-  they have been split out of (except where people had already
-  volunteered). That's easy to change, obviously, and I hope that
-  the cc: list already contains people who might have interest in
-  volunteering for some sections.
-- I may not have gotten the F: patterns correct, please double check.
-- I'm also not sure about where in the MAINTAINERS file the new
-  sections should go; if you have a better idea, please speak up.
-- Also, if you have better ideas regarding the sections, please
-  speak up as well :)
-- Pull requests will probably continue the same way as now (i.e.
-  patches picked up at the top level and then sent, except for some
-  things like tcg which may go separately.) Not sure if it would
-  make sense to try out the submaintainer pull request model again,
-  I don't think it made life easier in the past, and now we have
-  the b4 tool to pick patches easily anyway. It might be a good
-  idea to check which of the tree locations should stay, or if we
-  want to have new ones.
-
----
- MAINTAINERS | 86 ++++++++++++++++++++++++++++++++++++++++++++++-------
- 1 file changed, 75 insertions(+), 11 deletions(-)
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 9a8d1bdf727d..d1916f075386 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -297,7 +297,6 @@ M: David Hildenbrand <david@redhat.com>
- S: Maintained
- F: target/s390x/
- F: target/s390x/tcg
--F: target/s390x/cpu_models_*.[ch]
- F: hw/s390x/
- F: disas/s390.c
- F: tests/tcg/s390x/
-@@ -396,16 +395,10 @@ M: Halil Pasic <pasic@linux.ibm.com>
- M: Christian Borntraeger <borntraeger@linux.ibm.com>
- S: Supported
- F: target/s390x/kvm/
--F: target/s390x/ioinst.[ch]
- F: target/s390x/machine.c
- F: target/s390x/sigp.c
--F: target/s390x/cpu_features*.[ch]
--F: target/s390x/cpu_models.[ch]
- F: hw/s390x/pv.c
- F: include/hw/s390x/pv.h
--F: hw/intc/s390_flic.c
--F: hw/intc/s390_flic_kvm.c
--F: include/hw/s390x/s390_flic.h
- F: gdb-xml/s390*.xml
- T: git https://github.com/borntraeger/qemu.git s390-next
- L: qemu-s390x@nongnu.org
-@@ -1529,12 +1522,8 @@ S390 Virtio-ccw
- M: Halil Pasic <pasic@linux.ibm.com>
- M: Christian Borntraeger <borntraeger@linux.ibm.com>
- S: Supported
--F: hw/char/sclp*.[hc]
--F: hw/char/terminal3270.c
- F: hw/s390x/
- F: include/hw/s390x/
--F: hw/watchdog/wdt_diag288.c
--F: include/hw/watchdog/wdt_diag288.h
- F: configs/devices/s390x-softmmu/default.mak
- F: tests/avocado/machine_s390_ccw_virtio.py
- T: git https://github.com/borntraeger/qemu.git s390-next
-@@ -1559,6 +1548,80 @@ F: hw/s390x/s390-pci*
- F: include/hw/s390x/s390-pci*
- L: qemu-s390x@nongnu.org
- 
-+S390 channel subsystem
-+M: Halil Pasic <pasic@linux.ibm.com>
-+M: Christian Borntraeger <borntraeger@linux.ibm.com>
-+S: Supported
-+F: hw/s390x/ccw-device.[ch]
-+F: hw/s390x/css.c
-+F: hw/s390x/css-bridge.c
-+F: include/hw/s390x/css.h
-+F: include/hw/s390x/css-bridge.h
-+F: include/hw/s390x/ioinst.h
-+F: target/s390x/ioinst.c
-+L: qemu-s390x@nongnu.org
-+
-+3270 device
-+M: Halil Pasic <pasic@linux.ibm.com>
-+M: Christian Borntraeger <borntraeger@linux.ibm.com>
-+S: Odd fixes
-+F: include/hw/s390x/3270-ccw.h
-+F: hw/char/terminal3270.c
-+F: hw/s390x/3270-ccw.c
-+L: qemu-s390x@nongnu.org
-+
-+diag 288 watchdog
-+M: Halil Pasic <pasic@linux.ibm.com>
-+M: Christian Borntraeger <borntraeger@linux.ibm.com>
-+S: Supported
-+F: hw/watchdog/wdt_diag288.c
-+F: include/hw/watchdog/wdt_diag288.h
-+L: qemu-s390x@nongnu.org
-+
-+S390 CPU models
-+M: David Hildenbrand <david@redhat.com>
-+S: Maintained
-+F: target/s390x/cpu_features*.[ch]
-+F: target/s390x/cpu_models.[ch]
-+L: qemu-s390x@nongnu.org
-+
-+S390 storage key device
-+M: Halil Pasic <pasic@linux.ibm.com>
-+M: Christian Borntraeger <borntraeger@linux.ibm.com>
-+S: Supported
-+F: hw/s390x/storage-keys.h
-+F: hw/390x/s390-skeys*.c
-+L: qemu-s390x@nongnu.org
-+
-+S390 storage attribute device
-+M: Halil Pasic <pasic@linux.ibm.com>
-+M: Christian Borntraeger <borntraeger@linux.ibm.com>
-+S: Supported
-+F: hw/s390x/storage-attributes.h
-+F: hw/s390/s390-stattrib*.c
-+L: qemu-s390x@nongnu.org
-+
-+S390 SCLP-backed devices
-+M: Halil Pasic <pasic@linux.ibm.com>
-+M: Christian Borntraeger <borntraeger@linux.ibm.com>
-+S: Supported
-+F: include/hw/s390x/event-facility.h
-+F: include/hw/s390x/sclp.h
-+F: hw/char/sclp*.[hc]
-+F: hw/s390x/event-facility.c
-+F: hw/s390x/sclp*.c
-+L: qemu-s390x@nongnu.org
-+
-+S390 floating interrupt controller
-+M: Halil Pasic <pasic@linux.ibm.com>
-+M: Christian Borntraeger <borntraeger@linux.ibm.com>
-+M: David Hildenbrand <david@redhat.com>
-+S: Supported
-+F: hw/intc/s390_flic.c
-+F: hw/intc/s390_flic_kvm.c
-+F: include/hw/s390x/s390_flic.h
-+L: qemu-s390x@nongnu.org
-+
- X86 Machines
- ------------
- PC
-@@ -1957,6 +2020,7 @@ M: Halil Pasic <pasic@linux.ibm.com>
- S: Supported
- F: hw/s390x/virtio-ccw*.[hc]
- F: hw/s390x/vhost-vsock-ccw.c
-+F: hw/s390x/vhost-user-fs-ccw.c
- T: git https://gitlab.com/cohuck/qemu.git s390-next
- T: git https://github.com/borntraeger/qemu.git s390-next
- L: qemu-s390x@nongnu.org
--- 
-2.31.1
+Reviewed-by: Laurent Vivier <lvivier@redhat.com>
 
 
