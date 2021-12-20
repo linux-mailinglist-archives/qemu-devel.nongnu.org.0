@@ -2,91 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA09947A515
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Dec 2021 07:47:47 +0100 (CET)
-Received: from localhost ([::1]:34114 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CFF447A52F
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Dec 2021 07:55:19 +0100 (CET)
+Received: from localhost ([::1]:42972 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mzCSY-0003i2-5N
-	for lists+qemu-devel@lfdr.de; Mon, 20 Dec 2021 01:47:46 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51094)
+	id 1mzCZq-0001tI-40
+	for lists+qemu-devel@lfdr.de; Mon, 20 Dec 2021 01:55:18 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51192)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=9816edf2f=alistair.francis@opensource.wdc.com>)
- id 1mzAox-0004dQ-8J
- for qemu-devel@nongnu.org; Mon, 20 Dec 2021 00:02:47 -0500
-Received: from esa6.hgst.iphmx.com ([216.71.154.45]:13394)
+ id 1mzAp0-0004du-3H
+ for qemu-devel@nongnu.org; Mon, 20 Dec 2021 00:02:50 -0500
+Received: from esa6.hgst.iphmx.com ([216.71.154.45]:13399)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=9816edf2f=alistair.francis@opensource.wdc.com>)
- id 1mzAoj-0008Lj-A1
- for qemu-devel@nongnu.org; Mon, 20 Dec 2021 00:02:46 -0500
+ id 1mzAot-0008MN-BJ
+ for qemu-devel@nongnu.org; Mon, 20 Dec 2021 00:02:49 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1639976554; x=1671512554;
+ t=1639976564; x=1671512564;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=LJAAzjH8y18TdI7jsDS2EEKijN0Hc/5YpcbYi+95Fok=;
- b=oI4SnX/G8dMlWNuQ2/3CB5Mwhwoz8OaWITwNpgKMTFWHyK7LAuXU0aqg
- s1iThzbcyWPML/SSTXj61sVjfwjqLHgeJv4/+Ggc7zrrOKlvtq5NddrK8
- D6WDTUSKn7qJGvT2IWuHMO1frvedgMCaXL6XHMmMdk+i3omDm/7SKQQJ7
- MOxfbaQgempENIUCPLCc+T5m3i0sP4nF2aL6pRsEzt/+gfCxWlC2XBCnm
- U3rUMqVkUqLfXF88En1/oXoG6rDB7SIRBLP0RYML/SI9lkYXj+RVGKTNq
- aKJDges6x1eDhSmH/9E+gtIbDNmDUpPHi/kAuSxBaAjRSI7Iaf89uCVRL Q==;
-X-IronPort-AV: E=Sophos;i="5.88,219,1635177600"; d="scan'208";a="189680252"
+ bh=Es6frg4kQsRdhrwwEh2OsnvjogKfzVvkHNHnsn/RrBI=;
+ b=JfniKSkkHEp5M0kpwLFl6BDcCL3RVpq5l7h0LquDzcRCVU/pI2wLHE2d
+ 3HoeWX7FPJp8qo+oZR2AjjAfBbeqJKdshuZJW7itVhq/UlvLSdL4PoHiG
+ le55TTWOv/0K6Kwju7CAiUqFigG8apVYckBItp3oC+BQPkt291U95CVa9
+ JFSnuJLdPGgSwDOif7DpPrx/h3sFJeIbGSRVt5SmrZK2fyj4z7KVEGw9j
+ YW1Pg4hSsOZ1TADs33P/+iS6xfKJBWQ2Qxc91rApZMPhad74L39/yPwFN
+ 3oG0Jjc23iZyrKP2EeW5YpbzHQVjqsGF2G10FPZ6JnjyXnTwKvF2SqN8d w==;
+X-IronPort-AV: E=Sophos;i="5.88,219,1635177600"; d="scan'208";a="189680258"
 Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 20 Dec 2021 13:01:37 +0800
-IronPort-SDR: xOnMN7udIGFvKSsdakaJ5eZXX6CDoTd5K/Km6QVXIQ+4ouBIfEb8WoQtCEyjocn2IFXkiOrbPE
- tqhC8xK4mG4Jc56eXZKYHlDWResO0KViD1SSLkQvpa6delL1QGTARMHWtd2QQQvVbDRHBO4EHY
- uGQ1mU60UC5ZLbfjxM+2+Io0ROLtVi01R0wJO2U262IJA0BJNVrH4Ysfn70MCw+oqFLcT2JM2a
- WOtv0JgIHxqFJ4u3PyKkg1Ud0AWEmJA91mdd6nuXK2in8YhIc+yfivmyw+pWpZfU0Q1VQRIS7J
- DOWnwjL86/rcG/A5BTKnZCHl
+ by ob1.hgst.iphmx.com with ESMTP; 20 Dec 2021 13:01:40 +0800
+IronPort-SDR: gunxI92ybXSCWB61kpZxPpGrmZKJI+HDniBf1IWFLkOeghYJWswc+xFqssBD06/e9MFI95WBrb
+ aX8CUUzg7tR3TeswYXKmPFiQHiNXCRfECQF21mdLJTbuYNCVqPmFgFy0iuzPbIwRtiSGY4Z2jJ
+ xMLu5Gw+5A3kWQQTd0tZHkj3zySSf45hrRe0rJ9korrqaa3Hdu2hsc+h0xRKG5ReTbTG3tI2kw
+ 2Iea0y87CU1GaKTt/w3JnzLjHehmB7V07J8ODtF6zW51PxLy+5anLNyQQIFhipOVTRoKXwPF2f
+ UYn3A7NAvT5DOEuqf1jIv0WU
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Dec 2021 20:34:26 -0800
-IronPort-SDR: bnpgkCTf25EMW+OSneaGpR2Uofei10u8yj0bwImKOnp1ylR/PieaZDnbYZbYtKBhCnONKpddMx
- +psHe3mWppTeXhgK8KcZ0kT3w3IMpZNhfajdzyF+J2Eh7Q1/q74kobl4+aqoei3TTHpWapIcV3
- Ly5sOcVdezdpTWVhkBZOMjhdhNxjf9pX4QL7BrwVbTuOC4li0SGeNgXLj+p65089tnTxPOhn8c
- 4E1i4n0VJCAYGdZ180pNFEDgdaq38F4t1uxsQmfBlVzTggO6JD4K8UUiZ4h3cM5GcvzMz/8xhz
- qjU=
+ 19 Dec 2021 20:34:29 -0800
+IronPort-SDR: nz32X0JxgCRca+qg/3Hd2npavtCBY0Y5F33ti/IyHsgVVnB+Fth3b6+8ZldcDuDg3SYXgrWvQA
+ AYQ4IZjEOu2gX3DvKc+v0ZUx7iq0BugeaPC62uztB0UGSUwexaBooDCXh9r8Qgk/DdrcCw4Tbu
+ sbi50FT/TPsH+Z4gasrzwq4XfUmblUqdiysbVQHLsCrPrGJEFZ6BoYd61gcGX6klvNLHPpwcLz
+ 5eT3sRMCi7ymKYcIynHPzStcPMX/X+DSmnTbtHp4a+1InQDy3fzNkzCxLDJsWhF6Devrfz6Y4h
+ +pU=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Dec 2021 21:01:36 -0800
+ 19 Dec 2021 21:01:40 -0800
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4JHS9X2k2hz1Rwnv
- for <qemu-devel@nongnu.org>; Sun, 19 Dec 2021 21:01:36 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4JHS9b6Nkzz1RtVG
+ for <qemu-devel@nongnu.org>; Sun, 19 Dec 2021 21:01:39 -0800 (PST)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
  opensource.wdc.com; h=content-transfer-encoding:mime-version
  :references:in-reply-to:x-mailer:message-id:date:subject:to
- :from; s=dkim; t=1639976495; x=1642568496; bh=LJAAzjH8y18TdI7jsD
- S2EEKijN0Hc/5YpcbYi+95Fok=; b=QNWUViYrNHbtXDraD1wbbFgTw9WnU28xcR
- oF4GL82X+Ov+SloY1Euek3yx35ajqG0KqeFOtEqrLHV7fF2TQhQYPm+Ghsw03pbK
- aVIlrh0h6IYCT44B5gAYTWbtKLsMx6OnGTqg9w03yYrgT4ZTw4c99eg/i/eqg25d
- 5JWOVraZGdOXUk092/2xsNgpvot+228dufWBnF0e4JP+M3iUKLrZudXH63b6p40I
- iLhKUXWCF/AG4T/g5kCFX+fnAChy9T2zyB8EK3FbgHfiJr69qQdl5fC/gNf5s7o2
- L3dCI/t0AmpbOiR5jD44uHUCEnjbnpEcxZdund1zl6zyzZS+jygw==
+ :from; s=dkim; t=1639976499; x=1642568500; bh=Es6frg4kQsRdhrwwEh
+ 2OsnvjogKfzVvkHNHnsn/RrBI=; b=klzjalIGnnCYz+dsYhjPCf//zUJEG2r12A
+ NM9E1/4U6QDayo2ySF8pSDVZ1idQKiXVx8k64T2z+NtVIpmDRa2U+9PvpaZ6GEW5
+ AmNk74ySTg0iJNZ0o82d5aTq4rS7Hg772xfre290305JoV3RHzWw9dr3tR3o8H7r
+ UIC8BapZI+KVx4dxkrZBr9IOB3pqOS3XRyWEtynnqQHwle1JkQUBLt/P/ZP9Ro33
+ DL+Txso/NOK8PJEEYYgvqBjsIhXKYdL6hXOlNKCwrxm2uSZU2woHoh8NL9cw4eSU
+ 0CXenCTQ/JV1cgEacyJnqoAfwqlyT1dgQcCOBhhz218OVLXAPXbQ==
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id wu7xdJT6Awwr for <qemu-devel@nongnu.org>;
- Sun, 19 Dec 2021 21:01:35 -0800 (PST)
+ port 10026) with ESMTP id DOPiQ8gf418I for <qemu-devel@nongnu.org>;
+ Sun, 19 Dec 2021 21:01:39 -0800 (PST)
 Received: from toolbox.alistair23.me (unknown [10.225.165.68])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4JHS9S3kRCz1RtVG;
- Sun, 19 Dec 2021 21:01:32 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4JHS9X2FVVz1Rvlf;
+ Sun, 19 Dec 2021 21:01:35 -0800 (PST)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org
 Cc: alistair23@gmail.com, Frank Chang <frank.chang@sifive.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  Alistair Francis <alistair.francis@wdc.com>
-Subject: [PULL 64/88] target/riscv: rvv-1.0: remove widening saturating scaled
- multiply-add
-Date: Mon, 20 Dec 2021 14:56:41 +1000
-Message-Id: <20211220045705.62174-65-alistair.francis@opensource.wdc.com>
+Subject: [PULL 65/88] target/riscv: rvv-1.0: remove vmford.vv and vmford.vf
+Date: Mon, 20 Dec 2021 14:56:42 +1000
+Message-Id: <20211220045705.62174-66-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211220045705.62174-1-alistair.francis@opensource.wdc.com>
 References: <20211220045705.62174-1-alistair.francis@opensource.wdc.com>
@@ -121,309 +120,86 @@ From: Frank Chang <frank.chang@sifive.com>
 
 Signed-off-by: Frank Chang <frank.chang@sifive.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20211210075704.23951-57-frank.chang@sifive.com>
+Message-Id: <20211210075704.23951-58-frank.chang@sifive.com>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/helper.h                   |  22 ---
- target/riscv/insn32.decode              |   7 -
- target/riscv/vector_helper.c            | 205 ------------------------
- target/riscv/insn_trans/trans_rvv.c.inc |   9 --
- 4 files changed, 243 deletions(-)
+ target/riscv/helper.h                   | 6 ------
+ target/riscv/insn32.decode              | 2 --
+ target/riscv/vector_helper.c            | 7 -------
+ target/riscv/insn_trans/trans_rvv.c.inc | 2 --
+ 4 files changed, 17 deletions(-)
 
 diff --git a/target/riscv/helper.h b/target/riscv/helper.h
-index 3ea21b4a57..af79570da8 100644
+index af79570da8..1727075dce 100644
 --- a/target/riscv/helper.h
 +++ b/target/riscv/helper.h
-@@ -686,28 +686,6 @@ DEF_HELPER_6(vsmul_vx_h, void, ptr, ptr, tl, ptr, en=
-v, i32)
- DEF_HELPER_6(vsmul_vx_w, void, ptr, ptr, tl, ptr, env, i32)
- DEF_HELPER_6(vsmul_vx_d, void, ptr, ptr, tl, ptr, env, i32)
+@@ -902,12 +902,6 @@ DEF_HELPER_6(vmfgt_vf_d, void, ptr, ptr, i64, ptr, e=
+nv, i32)
+ DEF_HELPER_6(vmfge_vf_h, void, ptr, ptr, i64, ptr, env, i32)
+ DEF_HELPER_6(vmfge_vf_w, void, ptr, ptr, i64, ptr, env, i32)
+ DEF_HELPER_6(vmfge_vf_d, void, ptr, ptr, i64, ptr, env, i32)
+-DEF_HELPER_6(vmford_vv_h, void, ptr, ptr, ptr, ptr, env, i32)
+-DEF_HELPER_6(vmford_vv_w, void, ptr, ptr, ptr, ptr, env, i32)
+-DEF_HELPER_6(vmford_vv_d, void, ptr, ptr, ptr, ptr, env, i32)
+-DEF_HELPER_6(vmford_vf_h, void, ptr, ptr, i64, ptr, env, i32)
+-DEF_HELPER_6(vmford_vf_w, void, ptr, ptr, i64, ptr, env, i32)
+-DEF_HELPER_6(vmford_vf_d, void, ptr, ptr, i64, ptr, env, i32)
 =20
--DEF_HELPER_6(vwsmaccu_vv_b, void, ptr, ptr, ptr, ptr, env, i32)
--DEF_HELPER_6(vwsmaccu_vv_h, void, ptr, ptr, ptr, ptr, env, i32)
--DEF_HELPER_6(vwsmaccu_vv_w, void, ptr, ptr, ptr, ptr, env, i32)
--DEF_HELPER_6(vwsmacc_vv_b, void, ptr, ptr, ptr, ptr, env, i32)
--DEF_HELPER_6(vwsmacc_vv_h, void, ptr, ptr, ptr, ptr, env, i32)
--DEF_HELPER_6(vwsmacc_vv_w, void, ptr, ptr, ptr, ptr, env, i32)
--DEF_HELPER_6(vwsmaccsu_vv_b, void, ptr, ptr, ptr, ptr, env, i32)
--DEF_HELPER_6(vwsmaccsu_vv_h, void, ptr, ptr, ptr, ptr, env, i32)
--DEF_HELPER_6(vwsmaccsu_vv_w, void, ptr, ptr, ptr, ptr, env, i32)
--DEF_HELPER_6(vwsmaccu_vx_b, void, ptr, ptr, tl, ptr, env, i32)
--DEF_HELPER_6(vwsmaccu_vx_h, void, ptr, ptr, tl, ptr, env, i32)
--DEF_HELPER_6(vwsmaccu_vx_w, void, ptr, ptr, tl, ptr, env, i32)
--DEF_HELPER_6(vwsmacc_vx_b, void, ptr, ptr, tl, ptr, env, i32)
--DEF_HELPER_6(vwsmacc_vx_h, void, ptr, ptr, tl, ptr, env, i32)
--DEF_HELPER_6(vwsmacc_vx_w, void, ptr, ptr, tl, ptr, env, i32)
--DEF_HELPER_6(vwsmaccsu_vx_b, void, ptr, ptr, tl, ptr, env, i32)
--DEF_HELPER_6(vwsmaccsu_vx_h, void, ptr, ptr, tl, ptr, env, i32)
--DEF_HELPER_6(vwsmaccsu_vx_w, void, ptr, ptr, tl, ptr, env, i32)
--DEF_HELPER_6(vwsmaccus_vx_b, void, ptr, ptr, tl, ptr, env, i32)
--DEF_HELPER_6(vwsmaccus_vx_h, void, ptr, ptr, tl, ptr, env, i32)
--DEF_HELPER_6(vwsmaccus_vx_w, void, ptr, ptr, tl, ptr, env, i32)
--
- DEF_HELPER_6(vssrl_vv_b, void, ptr, ptr, ptr, ptr, env, i32)
- DEF_HELPER_6(vssrl_vv_h, void, ptr, ptr, ptr, ptr, env, i32)
- DEF_HELPER_6(vssrl_vv_w, void, ptr, ptr, ptr, ptr, env, i32)
+ DEF_HELPER_5(vfclass_v_h, void, ptr, ptr, ptr, env, i32)
+ DEF_HELPER_5(vfclass_v_w, void, ptr, ptr, ptr, env, i32)
 diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-index eeab6b00a1..aee3a6cd01 100644
+index aee3a6cd01..82484fda75 100644
 --- a/target/riscv/insn32.decode
 +++ b/target/riscv/insn32.decode
-@@ -503,13 +503,6 @@ vasubu_vv       001010 . ..... ..... 010 ..... 10101=
-11 @r_vm
- vasubu_vx       001010 . ..... ..... 110 ..... 1010111 @r_vm
- vsmul_vv        100111 . ..... ..... 000 ..... 1010111 @r_vm
- vsmul_vx        100111 . ..... ..... 100 ..... 1010111 @r_vm
--vwsmaccu_vv     111100 . ..... ..... 000 ..... 1010111 @r_vm
--vwsmaccu_vx     111100 . ..... ..... 100 ..... 1010111 @r_vm
--vwsmacc_vv      111101 . ..... ..... 000 ..... 1010111 @r_vm
--vwsmacc_vx      111101 . ..... ..... 100 ..... 1010111 @r_vm
--vwsmaccsu_vv    111110 . ..... ..... 000 ..... 1010111 @r_vm
--vwsmaccsu_vx    111110 . ..... ..... 100 ..... 1010111 @r_vm
--vwsmaccus_vx    111111 . ..... ..... 100 ..... 1010111 @r_vm
- vssrl_vv        101010 . ..... ..... 000 ..... 1010111 @r_vm
- vssrl_vx        101010 . ..... ..... 100 ..... 1010111 @r_vm
- vssrl_vi        101010 . ..... ..... 011 ..... 1010111 @r_vm
+@@ -582,8 +582,6 @@ vmfle_vv        011001 . ..... ..... 001 ..... 101011=
+1 @r_vm
+ vmfle_vf        011001 . ..... ..... 101 ..... 1010111 @r_vm
+ vmfgt_vf        011101 . ..... ..... 101 ..... 1010111 @r_vm
+ vmfge_vf        011111 . ..... ..... 101 ..... 1010111 @r_vm
+-vmford_vv       011010 . ..... ..... 001 ..... 1010111 @r_vm
+-vmford_vf       011010 . ..... ..... 101 ..... 1010111 @r_vm
+ vfclass_v       010011 . ..... 10000 001 ..... 1010111 @r2_vm
+ vfmerge_vfm     010111 0 ..... ..... 101 ..... 1010111 @r_vm_0
+ vfmv_v_f        010111 1 00000 ..... 101 ..... 1010111 @r2
 diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
-index 79a2c3ff3a..128406aa78 100644
+index 128406aa78..aed230e1ad 100644
 --- a/target/riscv/vector_helper.c
 +++ b/target/riscv/vector_helper.c
-@@ -2494,211 +2494,6 @@ GEN_VEXT_VX_RM(vsmul_vx_h, 2, 2)
- GEN_VEXT_VX_RM(vsmul_vx_w, 4, 4)
- GEN_VEXT_VX_RM(vsmul_vx_d, 8, 8)
+@@ -3630,13 +3630,6 @@ GEN_VEXT_CMP_VF(vmfge_vf_h, uint16_t, H2, vmfge16)
+ GEN_VEXT_CMP_VF(vmfge_vf_w, uint32_t, H4, vmfge32)
+ GEN_VEXT_CMP_VF(vmfge_vf_d, uint64_t, H8, vmfge64)
 =20
--/* Vector Widening Saturating Scaled Multiply-Add */
--static inline uint16_t
--vwsmaccu8(CPURISCVState *env, int vxrm, uint8_t a, uint8_t b,
--          uint16_t c)
--{
--    uint8_t round;
--    uint16_t res =3D (uint16_t)a * b;
+-GEN_VEXT_CMP_VV_ENV(vmford_vv_h, uint16_t, H2, !float16_unordered_quiet)
+-GEN_VEXT_CMP_VV_ENV(vmford_vv_w, uint32_t, H4, !float32_unordered_quiet)
+-GEN_VEXT_CMP_VV_ENV(vmford_vv_d, uint64_t, H8, !float64_unordered_quiet)
+-GEN_VEXT_CMP_VF(vmford_vf_h, uint16_t, H2, !float16_unordered_quiet)
+-GEN_VEXT_CMP_VF(vmford_vf_w, uint32_t, H4, !float32_unordered_quiet)
+-GEN_VEXT_CMP_VF(vmford_vf_d, uint64_t, H8, !float64_unordered_quiet)
 -
--    round =3D get_round(vxrm, res, 4);
--    res   =3D (res >> 4) + round;
--    return saddu16(env, vxrm, c, res);
--}
--
--static inline uint32_t
--vwsmaccu16(CPURISCVState *env, int vxrm, uint16_t a, uint16_t b,
--           uint32_t c)
--{
--    uint8_t round;
--    uint32_t res =3D (uint32_t)a * b;
--
--    round =3D get_round(vxrm, res, 8);
--    res   =3D (res >> 8) + round;
--    return saddu32(env, vxrm, c, res);
--}
--
--static inline uint64_t
--vwsmaccu32(CPURISCVState *env, int vxrm, uint32_t a, uint32_t b,
--           uint64_t c)
--{
--    uint8_t round;
--    uint64_t res =3D (uint64_t)a * b;
--
--    round =3D get_round(vxrm, res, 16);
--    res   =3D (res >> 16) + round;
--    return saddu64(env, vxrm, c, res);
--}
--
--#define OPIVV3_RM(NAME, TD, T1, T2, TX1, TX2, HD, HS1, HS2, OP)    \
--static inline void                                                 \
--do_##NAME(void *vd, void *vs1, void *vs2, int i,                   \
--          CPURISCVState *env, int vxrm)                            \
--{                                                                  \
--    TX1 s1 =3D *((T1 *)vs1 + HS1(i));                                \
--    TX2 s2 =3D *((T2 *)vs2 + HS2(i));                                \
--    TD d =3D *((TD *)vd + HD(i));                                    \
--    *((TD *)vd + HD(i)) =3D OP(env, vxrm, s2, s1, d);                \
--}
--
--RVVCALL(OPIVV3_RM, vwsmaccu_vv_b, WOP_UUU_B, H2, H1, H1, vwsmaccu8)
--RVVCALL(OPIVV3_RM, vwsmaccu_vv_h, WOP_UUU_H, H4, H2, H2, vwsmaccu16)
--RVVCALL(OPIVV3_RM, vwsmaccu_vv_w, WOP_UUU_W, H8, H4, H4, vwsmaccu32)
--GEN_VEXT_VV_RM(vwsmaccu_vv_b, 1, 2)
--GEN_VEXT_VV_RM(vwsmaccu_vv_h, 2, 4)
--GEN_VEXT_VV_RM(vwsmaccu_vv_w, 4, 8)
--
--#define OPIVX3_RM(NAME, TD, T1, T2, TX1, TX2, HD, HS2, OP)         \
--static inline void                                                 \
--do_##NAME(void *vd, target_long s1, void *vs2, int i,              \
--          CPURISCVState *env, int vxrm)                            \
--{                                                                  \
--    TX2 s2 =3D *((T2 *)vs2 + HS2(i));                                \
--    TD d =3D *((TD *)vd + HD(i));                                    \
--    *((TD *)vd + HD(i)) =3D OP(env, vxrm, s2, (TX1)(T1)s1, d);       \
--}
--
--RVVCALL(OPIVX3_RM, vwsmaccu_vx_b, WOP_UUU_B, H2, H1, vwsmaccu8)
--RVVCALL(OPIVX3_RM, vwsmaccu_vx_h, WOP_UUU_H, H4, H2, vwsmaccu16)
--RVVCALL(OPIVX3_RM, vwsmaccu_vx_w, WOP_UUU_W, H8, H4, vwsmaccu32)
--GEN_VEXT_VX_RM(vwsmaccu_vx_b, 1, 2)
--GEN_VEXT_VX_RM(vwsmaccu_vx_h, 2, 4)
--GEN_VEXT_VX_RM(vwsmaccu_vx_w, 4, 8)
--
--static inline int16_t
--vwsmacc8(CPURISCVState *env, int vxrm, int8_t a, int8_t b, int16_t c)
--{
--    uint8_t round;
--    int16_t res =3D (int16_t)a * b;
--
--    round =3D get_round(vxrm, res, 4);
--    res   =3D (res >> 4) + round;
--    return sadd16(env, vxrm, c, res);
--}
--
--static inline int32_t
--vwsmacc16(CPURISCVState *env, int vxrm, int16_t a, int16_t b, int32_t c)
--{
--    uint8_t round;
--    int32_t res =3D (int32_t)a * b;
--
--    round =3D get_round(vxrm, res, 8);
--    res   =3D (res >> 8) + round;
--    return sadd32(env, vxrm, c, res);
--
--}
--
--static inline int64_t
--vwsmacc32(CPURISCVState *env, int vxrm, int32_t a, int32_t b, int64_t c)
--{
--    uint8_t round;
--    int64_t res =3D (int64_t)a * b;
--
--    round =3D get_round(vxrm, res, 16);
--    res   =3D (res >> 16) + round;
--    return sadd64(env, vxrm, c, res);
--}
--
--RVVCALL(OPIVV3_RM, vwsmacc_vv_b, WOP_SSS_B, H2, H1, H1, vwsmacc8)
--RVVCALL(OPIVV3_RM, vwsmacc_vv_h, WOP_SSS_H, H4, H2, H2, vwsmacc16)
--RVVCALL(OPIVV3_RM, vwsmacc_vv_w, WOP_SSS_W, H8, H4, H4, vwsmacc32)
--GEN_VEXT_VV_RM(vwsmacc_vv_b, 1, 2)
--GEN_VEXT_VV_RM(vwsmacc_vv_h, 2, 4)
--GEN_VEXT_VV_RM(vwsmacc_vv_w, 4, 8)
--RVVCALL(OPIVX3_RM, vwsmacc_vx_b, WOP_SSS_B, H2, H1, vwsmacc8)
--RVVCALL(OPIVX3_RM, vwsmacc_vx_h, WOP_SSS_H, H4, H2, vwsmacc16)
--RVVCALL(OPIVX3_RM, vwsmacc_vx_w, WOP_SSS_W, H8, H4, vwsmacc32)
--GEN_VEXT_VX_RM(vwsmacc_vx_b, 1, 2)
--GEN_VEXT_VX_RM(vwsmacc_vx_h, 2, 4)
--GEN_VEXT_VX_RM(vwsmacc_vx_w, 4, 8)
--
--static inline int16_t
--vwsmaccsu8(CPURISCVState *env, int vxrm, uint8_t a, int8_t b, int16_t c)
--{
--    uint8_t round;
--    int16_t res =3D a * (int16_t)b;
--
--    round =3D get_round(vxrm, res, 4);
--    res   =3D (res >> 4) + round;
--    return ssub16(env, vxrm, c, res);
--}
--
--static inline int32_t
--vwsmaccsu16(CPURISCVState *env, int vxrm, uint16_t a, int16_t b, uint32_=
-t c)
--{
--    uint8_t round;
--    int32_t res =3D a * (int32_t)b;
--
--    round =3D get_round(vxrm, res, 8);
--    res   =3D (res >> 8) + round;
--    return ssub32(env, vxrm, c, res);
--}
--
--static inline int64_t
--vwsmaccsu32(CPURISCVState *env, int vxrm, uint32_t a, int32_t b, int64_t=
- c)
--{
--    uint8_t round;
--    int64_t res =3D a * (int64_t)b;
--
--    round =3D get_round(vxrm, res, 16);
--    res   =3D (res >> 16) + round;
--    return ssub64(env, vxrm, c, res);
--}
--
--RVVCALL(OPIVV3_RM, vwsmaccsu_vv_b, WOP_SSU_B, H2, H1, H1, vwsmaccsu8)
--RVVCALL(OPIVV3_RM, vwsmaccsu_vv_h, WOP_SSU_H, H4, H2, H2, vwsmaccsu16)
--RVVCALL(OPIVV3_RM, vwsmaccsu_vv_w, WOP_SSU_W, H8, H4, H4, vwsmaccsu32)
--GEN_VEXT_VV_RM(vwsmaccsu_vv_b, 1, 2)
--GEN_VEXT_VV_RM(vwsmaccsu_vv_h, 2, 4)
--GEN_VEXT_VV_RM(vwsmaccsu_vv_w, 4, 8)
--RVVCALL(OPIVX3_RM, vwsmaccsu_vx_b, WOP_SSU_B, H2, H1, vwsmaccsu8)
--RVVCALL(OPIVX3_RM, vwsmaccsu_vx_h, WOP_SSU_H, H4, H2, vwsmaccsu16)
--RVVCALL(OPIVX3_RM, vwsmaccsu_vx_w, WOP_SSU_W, H8, H4, vwsmaccsu32)
--GEN_VEXT_VX_RM(vwsmaccsu_vx_b, 1, 2)
--GEN_VEXT_VX_RM(vwsmaccsu_vx_h, 2, 4)
--GEN_VEXT_VX_RM(vwsmaccsu_vx_w, 4, 8)
--
--static inline int16_t
--vwsmaccus8(CPURISCVState *env, int vxrm, int8_t a, uint8_t b, int16_t c)
--{
--    uint8_t round;
--    int16_t res =3D (int16_t)a * b;
--
--    round =3D get_round(vxrm, res, 4);
--    res   =3D (res >> 4) + round;
--    return ssub16(env, vxrm, c, res);
--}
--
--static inline int32_t
--vwsmaccus16(CPURISCVState *env, int vxrm, int16_t a, uint16_t b, int32_t=
- c)
--{
--    uint8_t round;
--    int32_t res =3D (int32_t)a * b;
--
--    round =3D get_round(vxrm, res, 8);
--    res   =3D (res >> 8) + round;
--    return ssub32(env, vxrm, c, res);
--}
--
--static inline int64_t
--vwsmaccus32(CPURISCVState *env, int vxrm, int32_t a, uint32_t b, int64_t=
- c)
--{
--    uint8_t round;
--    int64_t res =3D (int64_t)a * b;
--
--    round =3D get_round(vxrm, res, 16);
--    res   =3D (res >> 16) + round;
--    return ssub64(env, vxrm, c, res);
--}
--
--RVVCALL(OPIVX3_RM, vwsmaccus_vx_b, WOP_SUS_B, H2, H1, vwsmaccus8)
--RVVCALL(OPIVX3_RM, vwsmaccus_vx_h, WOP_SUS_H, H4, H2, vwsmaccus16)
--RVVCALL(OPIVX3_RM, vwsmaccus_vx_w, WOP_SUS_W, H8, H4, vwsmaccus32)
--GEN_VEXT_VX_RM(vwsmaccus_vx_b, 1, 2)
--GEN_VEXT_VX_RM(vwsmaccus_vx_h, 2, 4)
--GEN_VEXT_VX_RM(vwsmaccus_vx_w, 4, 8)
--
- /* Vector Single-Width Scaling Shift Instructions */
- static inline uint8_t
- vssrl8(CPURISCVState *env, int vxrm, uint8_t a, uint8_t b)
+ /* Vector Floating-Point Classify Instruction */
+ #define OPIVV1(NAME, TD, T2, TX2, HD, HS2, OP)         \
+ static void do_##NAME(void *vd, void *vs2, int i)      \
 diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_=
 trans/trans_rvv.c.inc
-index 03716ad706..119c82ca47 100644
+index 119c82ca47..4c5f813ccf 100644
 --- a/target/riscv/insn_trans/trans_rvv.c.inc
 +++ b/target/riscv/insn_trans/trans_rvv.c.inc
-@@ -2016,15 +2016,6 @@ GEN_OPIVX_TRANS(vasubu_vx,  opivx_check)
- GEN_OPIVV_TRANS(vsmul_vv, opivv_check)
- GEN_OPIVX_TRANS(vsmul_vx,  opivx_check)
+@@ -2425,7 +2425,6 @@ GEN_OPFVV_TRANS(vmfeq_vv, opfvv_cmp_check)
+ GEN_OPFVV_TRANS(vmfne_vv, opfvv_cmp_check)
+ GEN_OPFVV_TRANS(vmflt_vv, opfvv_cmp_check)
+ GEN_OPFVV_TRANS(vmfle_vv, opfvv_cmp_check)
+-GEN_OPFVV_TRANS(vmford_vv, opfvv_cmp_check)
 =20
--/* Vector Widening Saturating Scaled Multiply-Add */
--GEN_OPIVV_WIDEN_TRANS(vwsmaccu_vv, opivv_widen_check)
--GEN_OPIVV_WIDEN_TRANS(vwsmacc_vv, opivv_widen_check)
--GEN_OPIVV_WIDEN_TRANS(vwsmaccsu_vv, opivv_widen_check)
--GEN_OPIVX_WIDEN_TRANS(vwsmaccu_vx)
--GEN_OPIVX_WIDEN_TRANS(vwsmacc_vx)
--GEN_OPIVX_WIDEN_TRANS(vwsmaccsu_vx)
--GEN_OPIVX_WIDEN_TRANS(vwsmaccus_vx)
--
- /* Vector Single-Width Scaling Shift Instructions */
- GEN_OPIVV_TRANS(vssrl_vv, opivv_check)
- GEN_OPIVV_TRANS(vssra_vv, opivv_check)
+ static bool opfvf_cmp_check(DisasContext *s, arg_rmrr *a)
+ {
+@@ -2441,7 +2440,6 @@ GEN_OPFVF_TRANS(vmflt_vf, opfvf_cmp_check)
+ GEN_OPFVF_TRANS(vmfle_vf, opfvf_cmp_check)
+ GEN_OPFVF_TRANS(vmfgt_vf, opfvf_cmp_check)
+ GEN_OPFVF_TRANS(vmfge_vf, opfvf_cmp_check)
+-GEN_OPFVF_TRANS(vmford_vf, opfvf_cmp_check)
+=20
+ /* Vector Floating-Point Classify Instruction */
+ GEN_OPFV_TRANS(vfclass_v, opfv_check)
 --=20
 2.31.1
 
