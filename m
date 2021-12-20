@@ -2,95 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C10F47B2B4
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Dec 2021 19:15:36 +0100 (CET)
-Received: from localhost ([::1]:33278 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7249E47B327
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Dec 2021 19:48:15 +0100 (CET)
+Received: from localhost ([::1]:33910 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mzNCB-0002bH-3k
-	for lists+qemu-devel@lfdr.de; Mon, 20 Dec 2021 13:15:35 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35894)
+	id 1mzNhl-0000Kk-CQ
+	for lists+qemu-devel@lfdr.de; Mon, 20 Dec 2021 13:48:14 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46346)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mzLko-0003qg-SM
- for qemu-devel@nongnu.org; Mon, 20 Dec 2021 11:43:14 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26528)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mzLkk-0008Ab-K4
- for qemu-devel@nongnu.org; Mon, 20 Dec 2021 11:43:12 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1640018589;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=WCP7S0pNbddq/VK5eHQiqPqfJZVzPc6jp5UvO1GrSMk=;
- b=EFt9u4I2flucriO7/fkPUAt/S7NZGcLzJuBKHUT4tiOhyNxJ51C6K0TS1mx5KuvE5QJTVn
- 4HKTgh2uoMxvm8VjJ8kW1fH1ykfnjhiIUXAo4yL5uILy8+J57BMSvrxcVjEdLP8L25RG4f
- BZsSXRKk//lBv0nFPeu0OfxIFAIDPoE=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-14-X2tIHOEEMKyZs7fQCsz-fA-1; Mon, 20 Dec 2021 11:43:08 -0500
-X-MC-Unique: X2tIHOEEMKyZs7fQCsz-fA-1
-Received: by mail-wm1-f69.google.com with SMTP id
- e19-20020a05600c4e5300b003458be97976so177164wmq.7
- for <qemu-devel@nongnu.org>; Mon, 20 Dec 2021 08:43:08 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <pratikp@vayavyalabs.com>)
+ id 1mzMEy-0001gT-SE
+ for qemu-devel@nongnu.org; Mon, 20 Dec 2021 12:14:25 -0500
+Received: from [2a00:1450:4864:20::229] (port=35814
+ helo=mail-lj1-x229.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <pratikp@vayavyalabs.com>)
+ id 1mzMEx-00012F-Cx
+ for qemu-devel@nongnu.org; Mon, 20 Dec 2021 12:14:24 -0500
+Received: by mail-lj1-x229.google.com with SMTP id l7so17101131lja.2
+ for <qemu-devel@nongnu.org>; Mon, 20 Dec 2021 09:14:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=vayavyalabs.com; s=vayavyalabs;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=BkmPnCUBaIgUC3TeQ1Vy00VCb92GnvIJl3Oy+Qbc3L4=;
+ b=ZGiweod4/ulV4o8jtKLXOAmrDC6vgNEYuzKnw2qQNAeU8SoJuPY0sRem94zoZk1xDT
+ /gShpEqK1nfczCEQ//Al0EIHhA+GtHI5If+sH9pJ+yMInZC1Bl/+woe+nRARVUuclH/d
+ Ss7Cxm7S8aOTOPz2GzWJJRYtBBeXdv2W1FVr4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=WCP7S0pNbddq/VK5eHQiqPqfJZVzPc6jp5UvO1GrSMk=;
- b=aS5NN/KmjTAcUigrRjZykeY7qqinXDDwa3XqefXYJaTUPJHti2a3DalhmoyE4s77fB
- MEMPQzDPbMXq9EcCaExt79ASzgjk3TGUHwMSMjfLkNj/hfBK+XT7WKSbUioltt0tiOaY
- nM+oYmM7MVIFJVeE6La8Ur0BjmMLxJIXTl/9oMcb5HV/K5fLPZFB01qjztZUalGtPBRj
- rRi2j5bomms0/kdZw2e11/1oEZlM9JPc4hrCk4zqFtOO/vwGdWaFaUiwoO0S7EzjJ2kq
- Ls5gwTdETIqtA/xUBRZWMTz3SsqGwREZcwfK5PbSiMmvML7d5LGG1wV3d6IXw97PY+i3
- qzKA==
-X-Gm-Message-State: AOAM5310VBGo+w/q/VpqYEhTfCsT1dDmSi5Zfg3BsenVeDEes9qjb+cZ
- sfRSwGszK8BA93E8kaBXrjFx4ZAJtpnBgrewvY9R0sL2v2e3r+xOc+LkgVjS8Z3rVCl+fo/cDVc
- 25Oq68yQa2sjzHyM=
-X-Received: by 2002:a05:600c:1e05:: with SMTP id
- ay5mr1173966wmb.131.1640018587205; 
- Mon, 20 Dec 2021 08:43:07 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyDcWLc4q0zx9tLYxCBOMpugd/aZMiJllTs50pAs5UMTNK8wXSj72lrqfoWWI62WaCosH2VrQ==
-X-Received: by 2002:a05:600c:1e05:: with SMTP id
- ay5mr1173949wmb.131.1640018587042; 
- Mon, 20 Dec 2021 08:43:07 -0800 (PST)
-Received: from [192.168.1.36] (174.red-83-50-185.dynamicip.rima-tde.net.
- [83.50.185.174])
- by smtp.gmail.com with ESMTPSA id a22sm15513711wme.19.2021.12.20.08.43.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 20 Dec 2021 08:43:06 -0800 (PST)
-Message-ID: <88d3bbf0-97d0-492c-84f2-bd4e695086d3@redhat.com>
-Date: Mon, 20 Dec 2021 17:43:05 +0100
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=BkmPnCUBaIgUC3TeQ1Vy00VCb92GnvIJl3Oy+Qbc3L4=;
+ b=cnlA67JWwqGMTsA6hr0FaD1P3dftMKVeGWYk/78brRv/pULE/4/xYyjximh2vz6Pt9
+ c98NiTSpyW/HA/NQ0MN0MUp3JVTjFKNigXli8dCqfuHAuHp04v07WKWfCz6bttynl5+2
+ o9G4yXemUkoFX1NgIrxJSl97yKUdh5NQc6auKAdEsVfDSK7bEWvY8QwEWD9WzzAE28hi
+ jTdKEofoUDyd6EteNpUeVMTcU+hTsR210+SBLeZNNrJFM09uhR2cOZY6Bhv88dGNRHPM
+ I2BsKpWjEQos5Xqgqg+N3/jaU0v2GPVLqMWVX7USW2zTEbUY0a/Jze8LJvGjiVpb3dlF
+ RRzA==
+X-Gm-Message-State: AOAM530QSRFbjYmG1ng/Vq6nF+xGd2Q3oCHhmvkXhnL7PWiuUaQ9rxI+
+ ED3zzMxJTUZh4H7VT0IGLrIejqJ7LYA/KUKUEog49w==
+X-Google-Smtp-Source: ABdhPJwZ6zXVOoN4L8Y+SB+CZED/GDTk9VTQr8pCh6M9AQ6tAMVZWg1LwzxEsEOjPuwPl0777ywDiHDPWO1bNR8JqmQ=
+X-Received: by 2002:a2e:5d7:: with SMTP id 206mr15876974ljf.133.1640020460834; 
+ Mon, 20 Dec 2021 09:14:20 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH] hw/nvram: at24 return 0xff if 1 byte address
-To: Patrick Venture <venture@google.com>
-References: <20211220003240.1081986-1-venture@google.com>
- <498f2e14-607a-afc3-d73a-58e7f6dad8e2@redhat.com>
- <CAO=notwf2X4e3BH_xnC_7GkGz1STe=jrkosmBiFXqGV6FT0U3A@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <CAO=notwf2X4e3BH_xnC_7GkGz1STe=jrkosmBiFXqGV6FT0U3A@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.209,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-3.608, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <CA+aXn+EZQ=S+P=8fyfCxYikEMLLdqAEeQgi580Tqtsuot-r2dw@mail.gmail.com>
+ <aedfa17d-6d31-6d5d-b367-cf84e77d27ed@redhat.com>
+ <20211220103548.lpgtad57woenpshi@sirius.home.kraxel.org>
+ <CA+aXn+F1tPYMahODkE1qi_OM65zJ4ubHqcOi1drJWvC+PopiZQ@mail.gmail.com>
+ <20211220121814.rkg7z7rki22qpzhj@sirius.home.kraxel.org>
+In-Reply-To: <20211220121814.rkg7z7rki22qpzhj@sirius.home.kraxel.org>
+From: Pratik Parvati <pratikp@vayavyalabs.com>
+Date: Mon, 20 Dec 2021 22:44:06 +0530
+Message-ID: <CA+aXn+HPOK-N9smZsjas6EXaTD6hQjXbgrJcKK9E3u5VrSYCeg@mail.gmail.com>
+Subject: Re: Virtio-GPU Xres and Yres seettings
+To: Gerd Hoffmann <kraxel@redhat.com>
+Content-Type: multipart/alternative; boundary="000000000000fe259b05d39704be"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::229
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::229;
+ envelope-from=pratikp@vayavyalabs.com; helo=mail-lj1-x229.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,93 +81,106 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: cminyard@mvista.com, qemu-devel@nongnu.org
+Cc: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/20/21 16:32, Patrick Venture wrote:
-> On Mon, Dec 20, 2021 at 1:12 AM Philippe Mathieu-Daudé
-> <philmd@redhat.com <mailto:philmd@redhat.com>> wrote:
-> 
->     Hi Patrick,
-> 
->     On 12/20/21 01:32, Patrick Venture wrote:
->     > The at24 eeproms are 2 byte devices that return 0xff when they are
->     read
->     > from with a partial (1-byte) address written.  This distinction was
->     > found comparing model behavior to real hardware testing.
->     >
->     > Tested: `i2ctransfer -f -y 45 w1@85 0 r1` returns 0xff instead of next
->     > byte
->     >
->     > Signed-off-by: Patrick Venture <venture@google.com
->     <mailto:venture@google.com>>
->     > ---
->     >  hw/nvram/eeprom_at24c.c | 8 +++++++-
->     >  1 file changed, 7 insertions(+), 1 deletion(-)
->     >
->     > diff --git a/hw/nvram/eeprom_at24c.c b/hw/nvram/eeprom_at24c.c
->     > index a9e3702b00..184fac9702 100644
->     > --- a/hw/nvram/eeprom_at24c.c
->     > +++ b/hw/nvram/eeprom_at24c.c
->     > @@ -62,7 +62,9 @@ int at24c_eeprom_event(I2CSlave *s, enum
->     i2c_event event)
->     >      case I2C_START_SEND:
->     >      case I2C_START_RECV:
->     >      case I2C_FINISH:
->     > -        ee->haveaddr = 0;
->     > +        if (event != I2C_START_RECV) {
->     > +            ee->haveaddr = 0;
->     > +        }
-> 
->     Alternatively (matter of taste, I find it easier to read):
-> 
->            case I2C_START_SEND:
->            case I2C_FINISH:
->                ee->haveaddr = 0;
->                /* fallthrough */
->            case I2C_START_RECV:
-> 
-> 
-> That may be easier to read :) I'm not sure, but I'm willing to bend and
-> change my patch to behave this way.  Sometimes the fallthrough things
-> leads to compiler annoyances in my experience.  We might  need
-> __attribute__(fallthrough) or the like to convince the system that's
-> what we really want. 
+--000000000000fe259b05d39704be
+Content-Type: text/plain; charset="UTF-8"
 
-OK then.
+> EDID is optional, so you can try disable the EDID feature bit and see
+> what happens.
 
-> 
-> 
->     >          DPRINTK("clear\n");
->     >          if (ee->blk && ee->changed) {
->     >              int len = blk_pwrite(ee->blk, 0, ee->mem, ee->rsize, 0);
->     > @@ -86,6 +88,10 @@ uint8_t at24c_eeprom_recv(I2CSlave *s)
->     >      EEPROMState *ee = AT24C_EE(s);
->     >      uint8_t ret;
->     > 
->     > +    if (ee->haveaddr == 1) {
->     > +        return 0xff;
-> 
->     Don't we need to increase ee->haveaddr?
-> 
-> 
-> We don't because the call to recv doesn't set any addr bytes.  This
-> patch is primarily a behavioral fix to handle the device being treated
-> as 8-bit addressable.  This is typically tested by writing a 1 byte
-> address and then trying to read.  The chip itself will not have enough
-> address bytes and reject this read by returning 0xff.  The
-> haveaddr variable is strictly updated when they've written another byte
-> to the address, or they've changed states in such a way that should
-> clear any previously written address.  You can read from an eeprom by
-> just reading or by setting an address and then reading.
+Thanks Gerd, after disabling the EDID, I was able to get the required
+resolution (basically width and height) from the driver.
 
-Yes. And your approach is simple enough.
+Another strange observation - When the device receives the
+command VIRTIO_GPU_CMD_RESOURCE_ATTACH_BACKING with the number of
+entries having a pixel data in scatter gather format, the device is trying
+to store these bytes in contiguous memory. When I read those sg memory, the
+device receives all zeros from the driver (for a 1024x768 display,
+the device receives 3MB of data from the driver). Is this an expected
+behaviour? - If not, what is the driver trying to display on the screen?
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+This is happening during linux boot on the guest machine.
 
-Thanks,
+Thanks & Regards,
+Pratik
 
-Phil.
 
+On Mon, 20 Dec 2021 at 17:48, Gerd Hoffmann <kraxel@redhat.com> wrote:
+
+>   Hi,
+>
+> > Is it possible that EDID bytes are sent wrong to the driver (as a
+> response
+> > to VIRTIO_GPU_CMD_GET_EDID command)?? - I am configuring these bytes the
+> > same way Qemu does.
+>
+> EDID is optional, so you can try disable the EDID feature bit and see
+> what happens.
+>
+> You can also check /sys/class/drm/card0-${output}/edid inside the
+> guest.
+>
+> take care,
+>   Gerd
+>
+>
+
+--000000000000fe259b05d39704be
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_default" style=3D"font-family:verdana,=
+sans-serif;color:#000000"><span style=3D"color:rgb(34,34,34);font-family:Ar=
+ial,Helvetica,sans-serif">&gt; EDID is optional, so you can try disable the=
+ EDID feature bit and see</span><br style=3D"color:rgb(34,34,34);font-famil=
+y:Arial,Helvetica,sans-serif"><span style=3D"color:rgb(34,34,34);font-famil=
+y:Arial,Helvetica,sans-serif">&gt; what happens.</span><br style=3D"color:r=
+gb(34,34,34);font-family:Arial,Helvetica,sans-serif"><br clear=3D"all"></di=
+v><div class=3D"gmail_default" style=3D"">Thanks Gerd, after disabling=C2=
+=A0the EDID, I was able to get the required resolution (basically width and=
+ height) from the driver.</div><div class=3D"gmail_default" style=3D""><br>=
+</div><div class=3D"gmail_default" style=3D"">Another strange observation -=
+ When the device receives the command=C2=A0VIRTIO_GPU_CMD_RESOURCE_ATTACH_B=
+ACKING with the number of entries=C2=A0having a pixel data in scatter gathe=
+r format, the device is trying to store these bytes in contiguous memory. W=
+hen I read those sg memory, the device receives all zeros from the driver (=
+for a 1024x768 display, the=C2=A0device receives 3MB of data from the drive=
+r). Is this an expected behaviour? - If not, what is the driver trying to d=
+isplay on the screen?</div><div class=3D"gmail_default" style=3D""><br></di=
+v><div class=3D"gmail_default" style=3D"">This is happening during linux bo=
+ot on the guest machine.</div><div class=3D"gmail_default" style=3D""><br><=
+/div><div><div dir=3D"ltr" class=3D"gmail_signature" data-smartmail=3D"gmai=
+l_signature"><div dir=3D"ltr"><div><font face=3D"verdana, sans-serif"><span=
+ class=3D"gmail_default" style=3D"font-family:verdana,sans-serif;color:rgb(=
+0,0,0)">Thanks &amp; </span>Regards,<br></font></div><div><font face=3D"ver=
+dana, sans-serif">Pratik</font></div></div></div></div><br></div><br><div c=
+lass=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, 20 Dec 2=
+021 at 17:48, Gerd Hoffmann &lt;<a href=3D"mailto:kraxel@redhat.com">kraxel=
+@redhat.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=
+=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
+-left:1ex">=C2=A0 Hi,<br>
+<br>
+&gt; Is it possible that EDID bytes are sent wrong to the driver (as a resp=
+onse<br>
+&gt; to VIRTIO_GPU_CMD_GET_EDID command)?? - I am configuring these bytes t=
+he<br>
+&gt; same way Qemu does.<br>
+<br>
+EDID is optional, so you can try disable the EDID feature bit and see<br>
+what happens.<br>
+<br>
+You can also check /sys/class/drm/card0-${output}/edid inside the<br>
+guest.<br>
+<br>
+take care,<br>
+=C2=A0 Gerd<br>
+<br>
+</blockquote></div>
+
+--000000000000fe259b05d39704be--
 
