@@ -2,95 +2,155 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF74B47B338
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Dec 2021 19:50:56 +0100 (CET)
-Received: from localhost ([::1]:35980 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7791247B275
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Dec 2021 19:00:19 +0100 (CET)
+Received: from localhost ([::1]:58044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mzNkN-0001qX-29
-	for lists+qemu-devel@lfdr.de; Mon, 20 Dec 2021 13:50:56 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50516)
+	id 1mzMxO-0005u5-Jc
+	for lists+qemu-devel@lfdr.de; Mon, 20 Dec 2021 13:00:18 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33622)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mzKvB-0007wr-3q
- for qemu-devel@nongnu.org; Mon, 20 Dec 2021 10:49:53 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35145)
+ (Exim 4.90_1) (envelope-from <david.edmondson@oracle.com>)
+ id 1mzKiI-0003Jd-Fr
+ for qemu-devel@nongnu.org; Mon, 20 Dec 2021 10:36:34 -0500
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:9154)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mzKv8-00040b-5Z
- for qemu-devel@nongnu.org; Mon, 20 Dec 2021 10:49:52 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1640015379;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=V3pJBqRb3ipIsDRYES8vr3ytOdhdp3J7wYP9wLcIyLE=;
- b=i2N+YY6ES2TgDMatTXtmWntIpCaSVe/z4s8i3JBcxcgaPR4GdqjYCAkdype429C+HgXV0i
- myVRgeGfveQ2itdA22Il5KRQQl5X3oyuA7TUmFy3mqJ/LJPXD2eHeR0kXqsNAui1K93++l
- f2jWHw2uRSvYKl9VjBTy753Jg3wV/Mk=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-437-_jOcCmhKPpW96h6tTrrwEQ-1; Mon, 20 Dec 2021 04:24:55 -0500
-X-MC-Unique: _jOcCmhKPpW96h6tTrrwEQ-1
-Received: by mail-wm1-f72.google.com with SMTP id
- b75-20020a1c804e000000b0034569bde713so6181917wmd.9
- for <qemu-devel@nongnu.org>; Mon, 20 Dec 2021 01:24:54 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=V3pJBqRb3ipIsDRYES8vr3ytOdhdp3J7wYP9wLcIyLE=;
- b=zcAkirj5U6+6AaC8XqnVYbAFZTqCa74w7N59JEGPLyHZxG0AP90KCmDjJYRCqwOIKI
- tdsuB76llnV45tJXOHUSDEWLfTgiDaIdTXSPiop1U2EgAaAW5ANtADDSIoyckCyJfevo
- ulIjdZIzFM4VSGy+4/Q7nRXl/MQY8HjuwkNj+WBnIOvZo4TSa5fHyMwuGXPbiN7G4Xz1
- liTHZH+FFhivEDJ3FXFKyKkjK2oh3jOx5TDvCvvVp3gVNGIG5bg+t/3wdHEMX/9heQZa
- 6UQi/BKaJg5oV2K+Y7HU7Tky79fCMgVzV7K6ydyh209l9hWN7ZOCswAV9+DNrWrDyfDk
- ayeg==
-X-Gm-Message-State: AOAM530HJU5yMdXxrVPvg+bzpzmG2jpqfs0Wx2ads9gdCPBVpu7p5jXK
- HBQfnt5DO5sv3Rtb+IXLxP/JNs14cTz4weipbp5c7ltICcIpGlMqEFOYZtG3BONFsgjyB7RXO9b
- OgBeZl0ptJbYfx5A=
-X-Received: by 2002:a05:600c:1549:: with SMTP id
- f9mr13070294wmg.118.1639992293791; 
- Mon, 20 Dec 2021 01:24:53 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJziEcvBombtooEfssSxlXlhFXfANWdwC+pURvGW9VCcpwNQMjW9v65McJjZf3I3vvZIkvtO9Q==
-X-Received: by 2002:a05:600c:1549:: with SMTP id
- f9mr13070212wmg.118.1639992292465; 
- Mon, 20 Dec 2021 01:24:52 -0800 (PST)
-Received: from [192.168.50.34] (static-180-27-86-188.ipcom.comunitel.net.
- [188.86.27.180])
- by smtp.gmail.com with ESMTPSA id l25sm12480524wmh.18.2021.12.20.01.24.51
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 20 Dec 2021 01:24:52 -0800 (PST)
-Message-ID: <c7b79c7b-e8b6-855a-8e7e-dee8f4bb2d34@redhat.com>
-Date: Mon, 20 Dec 2021 10:24:50 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PULL 00/16] qtest and gitlab-CI improvements
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- Laurent Vivier <lvivier@redhat.com>
-References: <20211215073402.144286-1-thuth@redhat.com>
- <ed66cc5f-cc71-fcf8-3026-6fe775a1c5f8@redhat.com>
- <bc315dd4-d43d-092a-30b2-f609266715a2@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <bc315dd4-d43d-092a-30b2-f609266715a2@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
+ (Exim 4.90_1) (envelope-from <david.edmondson@oracle.com>)
+ id 1mzKiE-0006Ei-Qy
+ for qemu-devel@nongnu.org; Mon, 20 Dec 2021 10:36:34 -0500
+Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1BK9PFJu023545; 
+ Mon, 20 Dec 2021 09:34:23 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : to : cc :
+ subject : date : message-id : content-transfer-encoding : content-type :
+ mime-version; s=corp-2021-07-09;
+ bh=wlXJpbV1Zyw8VJoTlPhKfxJeRhRuDNEMmk+m10nN+FU=;
+ b=vW0KGOmBj8WHf6x7asNs0mTQSSaLytiRvPTqfxEydxacwKKGOWkT3xkg+ltn33xyQlWC
+ 74Va6M+iVFsow5UXYD0FP5Xl89DIn6RJUpXLWF6bPSh0OEg7IJaRh70aOefxbz01CX01
+ OmBED0KwUiHmXyCkwGdrOJ+QWwibvoJvJI06ptBxA09jqh1YjoxLDs4CNWtunQCSXtwp
+ TQkf30OhAa6Kz/PyNNvuIdAPIuTu6EPrmLUX56MCk9PwRoNwizoVjMTZlDb6Ti3l2bKQ
+ S7t+HaYpkEtCSc7M+Tk8WjRcp4Y5ezZrfpwyWC7OHJQ656GiDOYRLHZD0C3QKNguQ0ZF vQ== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+ by mx0b-00069f02.pphosted.com with ESMTP id 3d2q6eg0u9-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 20 Dec 2021 09:34:23 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+ by userp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 1BK9UIPX055954;
+ Mon, 20 Dec 2021 09:34:22 GMT
+Received: from nam12-bn8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12lp2176.outbound.protection.outlook.com [104.47.55.176])
+ by userp3020.oracle.com with ESMTP id 3d193kdpws-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 20 Dec 2021 09:34:22 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=oL8TTIQeh27kDIzKm/KdFvtqbOp7js/7qcPFTvaH+IqER36ZQTpZ3CyKShkHCkMkMHPEcHMcNySGgrfJLYT0bw4QnnE3a4kXkV1tFac+raDiii031a/nHzpupeKxwKJzqRj+qJ3yFTrqZl+KzC/8SGGDEl9+9WmXKmPMBlpoWoHfz72KTdtFdn9E5Y/sdfozYZFDWJ2kgnEImzaGyCHoV9sWfFazVdQg7hLyHftXGhkOW2yybnDMKZGPhBr5AFwL+OXsls1x0w/ukuvu2w7DEhFEH92evdEheaBkBUcWTtGz+eh0FA4IPea4XI5f2gPdNG1vR6+LjiL67TleBatjOQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=wlXJpbV1Zyw8VJoTlPhKfxJeRhRuDNEMmk+m10nN+FU=;
+ b=PMo3Q+R7yOXYcguQTJCWylCLfh8Hp/H6sNEmr3JTlnILt10xTEZ9RlRt50rUvc1+jy4vF2wp7UNdmGRAj2XRqGUaFXInWLRO9G4Pvpcns2EDdvrXZhRtjNPtRBsj1XfY44dp5SQYEJ6wwFqoPkvi/6ULle6qdgT5mJpckJetZA7hkKP2MWD5Pto8U0Dhj52RWnPgS3ZSeS2o/SOyr0nzfznjyhm6VMJMuw2biB9UFAEvDwoS8zwXBKzrtzypC0nQrJnw3yqxGM7WRgbdvv8NSvomqvwHN6qxhmQR3FkwLwTbtpWmajb4PHhZafeI8PEj+s8csm0NyVJ13/IMapAXOg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=wlXJpbV1Zyw8VJoTlPhKfxJeRhRuDNEMmk+m10nN+FU=;
+ b=EbqAJfdtkrdiwW53D3fJKWR8FV6bymyzZBEVHWQzwUiSET4WS8U9DZJbUHHJZafk0DyCLFSlMQ4STI2CKV5hTprVLpOapDtsi0xY86FRpDlMyOOZgTZAs9qOZjs/aFCvGew+xGoEpTR7iFOE+qUtG1xzZ2plPLWy1dQCw69lGp4=
+Received: from DM6PR10MB3148.namprd10.prod.outlook.com (2603:10b6:5:1a4::21)
+ by DS7PR10MB5184.namprd10.prod.outlook.com (2603:10b6:5:38e::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4801.14; Mon, 20 Dec
+ 2021 09:34:20 +0000
+Received: from DM6PR10MB3148.namprd10.prod.outlook.com
+ ([fe80::c517:d737:a012:1a0e]) by DM6PR10MB3148.namprd10.prod.outlook.com
+ ([fe80::c517:d737:a012:1a0e%6]) with mapi id 15.20.4801.020; Mon, 20 Dec 2021
+ 09:34:20 +0000
+From: David Edmondson <david.edmondson@oracle.com>
+To: qemu-devel@nongnu.org
+Subject: [RFC v2 0/2] migration: Tally pre-copy,
+ downtime and post-copy bytes independently
+Date: Mon, 20 Dec 2021 09:34:11 +0000
+Message-Id: <20211220093413.1383190-1-david.edmondson@oracle.com>
+X-Mailer: git-send-email 2.33.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.209,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-3.608, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain
+X-ClientProxiedBy: LO4P123CA0063.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:153::14) To DM6PR10MB3148.namprd10.prod.outlook.com
+ (2603:10b6:5:1a4::21)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 0add7b49-6c0e-4cc1-6c9f-08d9c39be639
+X-MS-TrafficTypeDiagnostic: DS7PR10MB5184:EE_
+X-Microsoft-Antispam-PRVS: <DS7PR10MB518448ABF157AD6363960B5D887B9@DS7PR10MB5184.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: i1QUtO3w1aTVex16GjU7f9ESxlHrew4WgOkx0zzZRH3VpZdk1z7hJuFA8/NxbxgwdzasoAa7GBLYiAK90sndprw5g15vifLhcORtPrQ+kfFX8M/ZeRnNuWzB9AQ08k0Mw98ftub39gfvyicMk2bmVhWkJ+kmq0CxOVxZPf6NzNedv9XV4WwqJk2N8j+y3g8Fde6fY1xFYqsQj1V5qa2Kos14ihtf61HVkgT651TINRXFIKXqz+vX0+bm63mig6n4coOp3lYrt1JCEB2zXZyeMf4PDU4HB7j9fCbfsdzCrO3FrB4Q2yqR12SdBI3NEz8diPWzYt1LEm7Zvw+1gJ4ymLAjXSDZL3wZGhAUsoWdJBkqeC/3GpTlKL6SK4tAgAtYV8+m5ry/fqJo7vblGQPViV0/WWLO9GkaHazkfe6JAtIOzXKxZFQKI91oek+zQF1VaN2g5ZMUJlJxvL/1ZROXhx1ZmnppLHWuYsms0EsYDxPXRHf+04zuIHGdEVAWaFvhdA4d4xPBGwn3q7FUAObZ57SLqUvuGK2DhO3x0xx1lhV7VtbHDM8mSgf3byb6nfdSnaqTuHucMJGKE28M4ZVj60SIhcJLRbDQVT0LCFHf4CJrrfkvOJBwtfMJvQc09UuuVgXdIboNT+EJDwyzChFN2A==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM6PR10MB3148.namprd10.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(366004)(6486002)(36756003)(1076003)(66476007)(66946007)(6512007)(66556008)(38100700002)(6916009)(52116002)(508600001)(5660300002)(54906003)(4326008)(4744005)(186003)(107886003)(316002)(86362001)(6506007)(8676002)(2616005)(44832011)(6666004)(8936002)(83380400001)(2906002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?jDkdVodunuYDkSsla17mGq9iiGLhlarCNG7s4KagfQaFBmYttfO6BiuNjmCZ?=
+ =?us-ascii?Q?BmzqM7Om0PdjtpmfYVApk6x68gEHvAkwuKFLhv+4hpoTeenDIuKWzEaqUyva?=
+ =?us-ascii?Q?E4d2cfX0R5QemJcIcxCKFJOqszVpDGQ5CxEjgvkTK3p3swQnPhFwntw7FrWV?=
+ =?us-ascii?Q?/NZYJvO7I9hS17w0MpRW+qBXfJjB7UJani8r+NTryAUs7IbfxtFs4kZBZcqw?=
+ =?us-ascii?Q?Uje29I444u7E3jMXw2mKBBTmForigpUs2jboWkrzRE/xW3ogib+xOgFFHNzB?=
+ =?us-ascii?Q?ETzyg/YIgKyhcWHnxk3LZAFGxVHX5fhNdd2IQ1mdlfvXmL77VrCiaM+B6VP5?=
+ =?us-ascii?Q?LnyCl+8S2+2yEsTDvSXNMILajVDiygiVC5NcrtlovclvS66XSqtDjw2rMe5t?=
+ =?us-ascii?Q?hDEajWx4h3D3r4druiJg690UZHMh67bBfYTcIFjcNiavQlr0/E2L/FxfUolR?=
+ =?us-ascii?Q?2KrCkTmiwsyIxSsSh6iuhLfsSKj71D8MnyvuKhw5pZ6nIyE5ItEKIEZ8CxtZ?=
+ =?us-ascii?Q?yTt9UbH1o+okCRpsfbByEHL9O4YhG2tkHQvyKj9zlyjUFkAKtsVwshF6ErUf?=
+ =?us-ascii?Q?PWT6HRUVwhBfxyj7mc+noNNJbxhYMRMPCp8qg1S231aTW5UirGmwc/9gZhq7?=
+ =?us-ascii?Q?pp9Qr1CKsolvw8ISUp2Xh5GNdSDSgbuWY/3tT5w8PrGGrEKnP5hU6jhhTCaa?=
+ =?us-ascii?Q?7btYl9RqSX+hmt3FPQHVI9XJ4sM/Tck4E13auudonO62OW3XgxYyvyRqT28+?=
+ =?us-ascii?Q?Eyqtp+Gw+2SJ0iUFLM6pDsxiV9a9+rTHQZsoxC2Xvdpcxb/+XJPkmLsSRYwj?=
+ =?us-ascii?Q?DMgLywxgq5CA+4sz8gs1vZpk7ksPg4hRAoZqPE/aOaxLyfLF8cF6hbeLTCtm?=
+ =?us-ascii?Q?+jpWGJ42Rp9Y7lXRwc49PTDkiZ9aQG/PudAidhwNVfOA8NfCJTqyMsPfKLCG?=
+ =?us-ascii?Q?g4RJ4YkrgJj8qSW3M9H7L0ae+uXLJH2i+WUqpLM3DzF898k/9OEzOyN2iEwp?=
+ =?us-ascii?Q?GoLksttYARO8cXfqoRjrXvxXFbtx0wDwPcIRthsIStJH/mDUNqXpfI8gaDrB?=
+ =?us-ascii?Q?F509owx+IJIcQQ8vxng8csQRRofPuGyPTbO1ESHXv2J75f17JM2hoFg30otb?=
+ =?us-ascii?Q?RFF2j9yVzvT9/OKI4GlZN2cI6oF8AwLdm/5SK0rWvHEoqZ+D8QA6L44k5VKS?=
+ =?us-ascii?Q?eDRish6SrYxJq0ioE0xGvBK6WJ5qXReys1hSayRENpkP4bXzu+gA1ktAjJIw?=
+ =?us-ascii?Q?GG0joA9291rGf8L+6y/9ma3Yxf8zS/94eKjhB/CUDkb1bqQQnBErkLJ/LSDb?=
+ =?us-ascii?Q?wu7iXVpII7mQOvzubIvPMAnH2dBRvoSQhAyuViJZGHaKNeNgWT2b6Uyv4V2S?=
+ =?us-ascii?Q?9ljP6p6FJkqGwgB2+Cr9VwIEpmrG+vGoiCyFjxPREKqUK3d7N+xUnqk625Id?=
+ =?us-ascii?Q?F6FyNn7YWO7s9/aQht/o2WGKKOn+yhiksd0hMDMyR3jqxNGfXgg35X+TCoF9?=
+ =?us-ascii?Q?WQs56PxzGAvBK2Nm/alDsl/OlHIo7kMRLe4KtBhWMH0jkWtHBH1aCbPMBSoD?=
+ =?us-ascii?Q?SUuqaX9UKyerm+nxkQnD+yl9hzH80dILAlHV2GleybDDE6ue8dtJWGegTRGf?=
+ =?us-ascii?Q?OxQ52NEFEyGHuifh0IrByFyK9afI6dZSJSM2fiqGgG4sadvSsQb/sa6P3O/2?=
+ =?us-ascii?Q?xGcDQ72dNs/W+7jTBwA6qBBZmyTu90VNgUNyhLz4O7Hjb9d6?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0add7b49-6c0e-4cc1-6c9f-08d9c39be639
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR10MB3148.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Dec 2021 09:34:20.1694 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: hWTtDb4VokT1tkbIDKLdwCdysMZ4SDHlyMF8hkE2tLBZ0RV5uECupu4i1GAdQwFTiB+4I39XngCob9UiAnE6PVIh1xObxwLMe22FawalZqo=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR10MB5184
+X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10203
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=690
+ spamscore=0
+ suspectscore=0 phishscore=0 bulkscore=0 adultscore=0 mlxscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2110150000 definitions=main-2112200055
+X-Proofpoint-GUID: ArSU1EnPP-CMJYn1wT11aoXzldSHvqan
+X-Proofpoint-ORIG-GUID: ArSU1EnPP-CMJYn1wT11aoXzldSHvqan
+Received-SPF: pass client-ip=205.220.177.32;
+ envelope-from=david.edmondson@oracle.com; helo=mx0b-00069f02.pphosted.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -104,55 +164,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexander Bulekov <alxndr@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: David Edmondson <david.edmondson@oracle.com>,
+ Juan Quintela <quintela@redhat.com>, Eric Blake <eblake@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-+Alex & Paolo
+When examining a report of poor migration behaviour, it would often be
+useful to understand how much data was transferred in different phases
+of the migration process.
 
-On 12/20/21 07:52, Thomas Huth wrote:
-> On 18/12/2021 17.33, Philippe Mathieu-Daudé wrote:
->> Hi,
->>
->> On 12/15/21 08:33, Thomas Huth wrote:
->>
->>> ----------------------------------------------------------------
->>> * Add virtio-net failover test
->>> * Make qtests a little bit more flexible with regards to reduced configs
->>> * Move libssh setup from configure to meson.build
->>> * Run device-crash-test in CI
->>> * Add jobs for NetBSD and OpenBSD to the CI
->>> * Test compilation with MSYS2 in the gitlab-ci, too
->>> * Add new virtio-iommu test
->>>
->>> ----------------------------------------------------------------
->>
->>> Laurent Vivier (4):
->>>        qtest/libqos: add a function to initialize secondary PCI buses
->>>        tests/qtest: add some tests for virtio-net failover
->>>        tests/libqtest: add some virtio-net failover migration
->>> cancelling tests
->>>        tests/libqtest: add a migration test with two couples of
->>> failover devices
->>
->> On my ASan build directory I'm sometime getting:
->>
->> Running test qtest-i386/virtio-net-failover
->> (process:1558675): GLib-CRITICAL **: 16:19:12.556: g_rand_int: assertion
->> 'rand != NULL' failed
-> 
-> Weird, since the test is not using that function?
+For example, if the downtime limit is exceeded, to know how much data
+was transferred during the downtime.
 
-Well it calls g_test_rand_int(), which calls it:
-https://github.com/GNOME/glib/blob/main/glib/gtestutils.c#L1800
+RFC because the name "ram_transferred_add" doesn't seem great, and I'm
+unsure whether the tests to determine the phase in the second patch
+are the most appropriate.
 
-> Could you get a
-> backtrace?
+v2:
+- ram_transferred_add() should be static (Philippe)
+- Document the new MigrationStats fields (dme)
 
-I'd like to, but for some reason when using ASan I don't get much
-(and it only happens with ASan) so I suppose it is something specific
-to ASan + rand.
+David Edmondson (2):
+  migration: Introduce ram_transferred_add()
+  migration: Tally pre-copy, downtime and post-copy bytes independently
+
+ migration/migration.c |  3 +++
+ migration/ram.c       | 30 +++++++++++++++++++++---------
+ monitor/hmp-cmds.c    | 12 ++++++++++++
+ qapi/migration.json   | 13 ++++++++++++-
+ 4 files changed, 48 insertions(+), 10 deletions(-)
+
+-- 
+2.33.0
 
 
