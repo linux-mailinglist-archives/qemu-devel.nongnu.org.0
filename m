@@ -2,93 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77D9447B1E5
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Dec 2021 18:11:17 +0100 (CET)
-Received: from localhost ([::1]:59198 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4252247B2F1
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Dec 2021 19:36:21 +0100 (CET)
+Received: from localhost ([::1]:51402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mzMBw-0004Mh-If
-	for lists+qemu-devel@lfdr.de; Mon, 20 Dec 2021 12:11:16 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53786)
+	id 1mzNWF-0000sa-Pq
+	for lists+qemu-devel@lfdr.de; Mon, 20 Dec 2021 13:36:19 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49498)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mzKcY-0006qo-5F
- for qemu-devel@nongnu.org; Mon, 20 Dec 2021 10:30:38 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:21557)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mzKc7-0003Xz-3V
- for qemu-devel@nongnu.org; Mon, 20 Dec 2021 10:30:23 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1640014210;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=FSlWxrFxgbIzs46smg+Cq7H1vZZIRbhBfGs0BBgLd6s=;
- b=Bhtrn1s+ZYIk6Wlo5JgqUVzFdDlygKCoZgZKVBvrtscF3ix10a5Lg0fQdeNvy9ueI3uJPU
- bBRtuElT14kcZXI5HRj3uxzQf7OdZ8jpwWcRlpQf8Kdy2VwO5UlXPxFOdnPfZvwCyxtdpB
- AbBmlyzzJdnaQlrNRYClzCjRCUSVwQo=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-263-ULIgTI9rMLiE05xPf9PwUA-1; Mon, 20 Dec 2021 08:16:47 -0500
-X-MC-Unique: ULIgTI9rMLiE05xPf9PwUA-1
-Received: by mail-wm1-f70.google.com with SMTP id
- b75-20020a1c804e000000b0034569bde713so6440272wmd.9
- for <qemu-devel@nongnu.org>; Mon, 20 Dec 2021 05:16:47 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mzKu7-0006Uj-S4
+ for qemu-devel@nongnu.org; Mon, 20 Dec 2021 10:48:47 -0500
+Received: from [2607:f8b0:4864:20::d32] (port=37875
+ helo=mail-io1-xd32.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mzKu5-0003hV-9p
+ for qemu-devel@nongnu.org; Mon, 20 Dec 2021 10:48:46 -0500
+Received: by mail-io1-xd32.google.com with SMTP id k21so13866048ioh.4
+ for <qemu-devel@nongnu.org>; Mon, 20 Dec 2021 07:48:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
+ h=date:from:to:cc:subject:in-reply-to:message-id:references
+ :user-agent:mime-version;
+ bh=XJr9ohjSbY2mtqEGDUiSRXtOeTpWdTfoJN+NgFRGTw4=;
+ b=y/3sqiALMDYsr42Ls7geAa1ShUBCm549GMgJMEKjYF5v+Dbm12HrBpimyTl7xqc73O
+ 2GLMFchjyepIOxolov5zo0w0M2tyeJDd9gWgqOjtrg0oiNmZNYBF0sjr0kzmthmCnru6
+ v+62K0/4ky4ON5D5X5pIZq3X1bOhaO8I0Qb1oO0GGdTogkGXxwK9TAUcGLSkxx6COoEA
+ oc+/IVAENKVLKZ5hTMuLdH2vYdxVCo9Qt7zbAEf0wypWiQ82sD9kSbOsE5fF0nAi6Rhk
+ Y/hZjFcYpCL3/VIhUFDk5OMqKEtKsy2reJYJ2Mjr9AGHh3kVZoI8GBOt43KsNTVw+Yhf
+ L9/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=FSlWxrFxgbIzs46smg+Cq7H1vZZIRbhBfGs0BBgLd6s=;
- b=WeytDPZAwM2xXAAEXo6eOhiB7LXSja3OPkMHdueEmHhOIR4Ed10qm8JGc+r31RYv+Z
- obeHuUtPdJIfSAO4F+XZZgsWLfvRHkvchbKTlXfFe84KLzfxT+oHPr3gz0IKRBFTYDxC
- 1En5moG9XWwnAutOW08wi1QAkNy1nC4NK1OUTqgV1cmGiQje+KQCX2v1UyvRl5oUiydl
- Ze78h1Ko7N8HFsW+QSUSEzExFgrUqoKkEgxRgbbXLpZdJowosI96Db3jwMI6Fu7q4E5x
- HPrv/IwbQ+NB70HlWYf27zh01Ao2yQSd3sbA8ETYZ5tZ6ZOFn67krnswip/phcLgb0s2
- 6pew==
-X-Gm-Message-State: AOAM532katUQndE+kDPMCmgPzzpkNLFrqi+yZfluyNzeRVxHNWQ4ymnV
- R1I49gM1nWGc/QKQxr0qhzhL5qEIUP+mWnvtxwQJXAQ9NjbPsIZHQR1PBmDNvKVlz6IUOnNJa6U
- P12EdSJAijLxM9JM=
-X-Received: by 2002:a5d:5849:: with SMTP id i9mr7194748wrf.446.1640006206466; 
- Mon, 20 Dec 2021 05:16:46 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzNNtsVSRnBuHV5HAo4lOhKbApuRi68h9ndkAv4FmLZwfWeWf3yG1dyX8Y0VnXgoCM9cB0KmQ==
-X-Received: by 2002:a5d:5849:: with SMTP id i9mr7194612wrf.446.1640006204006; 
- Mon, 20 Dec 2021 05:16:44 -0800 (PST)
-Received: from [192.168.1.36] (174.red-83-50-185.dynamicip.rima-tde.net.
- [83.50.185.174])
- by smtp.gmail.com with ESMTPSA id t12sm1380950wrs.72.2021.12.20.05.16.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 20 Dec 2021 05:16:43 -0800 (PST)
-Message-ID: <8327996f-8ed8-22dc-24d5-92b15f6d8b3f@redhat.com>
-Date: Mon, 20 Dec 2021 14:16:42 +0100
+ h=x-gm-message-state:date:from:to:cc:subject:in-reply-to:message-id
+ :references:user-agent:mime-version;
+ bh=XJr9ohjSbY2mtqEGDUiSRXtOeTpWdTfoJN+NgFRGTw4=;
+ b=GhVCoPh2mnpeqku5gCK/bagwnnIkp9y21IWCEaT0vdf/LyRoaSkWnB1KJpcebuJbNH
+ 3GaV7jQb0MHHQyoiGD6kcT2mDRJQz2q/ltM0yvECQcSMGPg6HWWgYh1IYECUB4r9sVkK
+ xq9xDlyd5n4XbP9UAOHPosOC7muIqvLoea5P9BoMDlkdvvTe3F7kCOah7NYsA1hIHHJF
+ iIrPw9y8+UTNpCcfaKHDTHx6tBrZrbPdx6GDOLBMeBaL40QOwx4p8DJWy7bmdCZsRbhS
+ Ok3hnN8+HDBi1KBWHhqL6RnwoNZiE7mSYv0eNvxQvzggLq7uK+qoodRXr2wAXGl9bolq
+ uqQg==
+X-Gm-Message-State: AOAM530du+qc24pbbKSYgREgQkekDQybmOn/FMk+I8bCM2v8QwnC8jQH
+ YDybkMEF+2PAlOWWWXpQ5twnX8qz+yCypQ==
+X-Google-Smtp-Source: ABdhPJwJaIj70oXcHEFJNVpppfzsnxVXCCCyKC3ce5JL8ZQxCZyOs7egxl2sBnEeD92LwXGoKPuPKQ==
+X-Received: by 2002:a63:1a46:: with SMTP id a6mr7067642pgm.373.1640008549226; 
+ Mon, 20 Dec 2021 05:55:49 -0800 (PST)
+Received: from [192.168.1.5] ([203.212.246.92])
+ by smtp.googlemail.com with ESMTPSA id 59sm17373907pjz.34.2021.12.20.05.55.47
+ (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+ Mon, 20 Dec 2021 05:55:48 -0800 (PST)
+Date: Mon, 20 Dec 2021 19:20:24 +0530 (IST)
+From: Ani Sinha <ani@anisinha.ca>
+X-X-Sender: ani@athabasca.local
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: build qemu on Monterey?
+In-Reply-To: <4dfc91ff-1835-e796-772c-0774e089b57b@redhat.com>
+Message-ID: <alpine.OSX.2.20.2112201919570.23921@athabasca.local>
+References: <alpine.DEB.2.22.394.2112182006430.46303@anisinha-lenovo>
+ <4dfc91ff-1835-e796-772c-0774e089b57b@redhat.com>
+User-Agent: Alpine 2.20 (OSX 67 2015-01-07)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH] tests/qtest/virtio-net-failover: Use g_random_int()
- instead of g_test_rand_int()
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- Laurent Vivier <lvivier@redhat.com>
-References: <20211220102759.311224-1-thuth@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <20211220102759.311224-1-thuth@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.209,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-3.608, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=US-ASCII
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d32
+ (failed)
+Received-SPF: none client-ip=2607:f8b0:4864:20::d32;
+ envelope-from=ani@anisinha.ca; helo=mail-io1-xd32.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,25 +85,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-arm <qemu-arm@nongnu.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/20/21 11:27, Thomas Huth wrote:
-> g_test_rand_int() must not be called before g_test_init(), otherwise
-> the glib will show a "g_rand_int: assertion 'rand != NULL' failed"
-> message in the log. So we could change the order here, but actually,
-> g_test_rand_int() seems also the wrong choice here, since we're using
-> it to create a temporary file name, which certainly should not depend
-> on the "--seed" CLI option of the g_test suite. Thus let's use the
-> g_random_int() function instead.
-> 
-> Reported-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->  tests/qtest/virtio-net-failover.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
+On Mon, 20 Dec 2021, Thomas Huth wrote:
+
+> On 18/12/2021 15.38, Ani Sinha wrote:
+> > Hi :
+> > Has anyone tried this? Yes, I know about
+> > https://wiki.qemu.org/Hosts/Mac
+> >
+> > but I am getting
+> >
+> > $ ./configure --target-list=x86_64-softmmu
+> > Using './build' as the directory for build output
+> > Disabling PIE due to missing toolchain support
+> >
+> > ERROR: glib-2.56 gthread-2.0 is required to compile QEMU
+> >
+> > when glib is already installed using brew.
+> >
+> > Any ideas?
+>
+> 1) Check "config.log" to see the exact reason for the failure
+>
+> 2) Check .gitlab-ci.d/cirrus/macos-11.vars to install the same packages on
+> your system, maybe that helps...?
+
+I ended up using a ubuntu docker to build qemu on my mac.
+
+>
+>  HTH,
+>   Thomas
+>
+>
 
