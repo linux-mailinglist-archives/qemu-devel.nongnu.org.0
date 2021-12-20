@@ -2,65 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 909F147B258
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Dec 2021 18:51:06 +0100 (CET)
-Received: from localhost ([::1]:34998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C89A847B238
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Dec 2021 18:36:01 +0100 (CET)
+Received: from localhost ([::1]:53116 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mzMoT-0006oS-M6
-	for lists+qemu-devel@lfdr.de; Mon, 20 Dec 2021 12:51:05 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59220)
+	id 1mzMZs-0005Au-Ug
+	for lists+qemu-devel@lfdr.de; Mon, 20 Dec 2021 12:36:00 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60000)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1mzLbY-0007lO-Is; Mon, 20 Dec 2021 11:33:43 -0500
-Received: from [2607:f8b0:4864:20::b2b] (port=45735
- helo=mail-yb1-xb2b.google.com)
+ id 1mzKgp-00022c-7Y; Mon, 20 Dec 2021 10:35:22 -0500
+Received: from [2607:f8b0:4864:20::b32] (port=38456
+ helo=mail-yb1-xb32.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1mzLbQ-0005KS-1n; Mon, 20 Dec 2021 11:33:33 -0500
-Received: by mail-yb1-xb2b.google.com with SMTP id x32so30388923ybi.12;
- Mon, 20 Dec 2021 08:33:30 -0800 (PST)
+ id 1mzKgn-0005dK-76; Mon, 20 Dec 2021 10:35:02 -0500
+Received: by mail-yb1-xb32.google.com with SMTP id v64so29936652ybi.5;
+ Mon, 20 Dec 2021 07:35:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=oo8YARp/DN6toFCr0pSd09y+S8arKbsdWcxCLxa4sEU=;
- b=YpqY0jEaZLhLGJidhtd4n+PVzRW727FFzHT6ym+rwy/OqGb+V7eZg6SLg+1hlmn/Ru
- qxVDkO4k3iB9WLLnaYRp+wE7E+QOVGDNW3BNvm4A6y4Rh4Cfr8SVAc1ZOxAHqwUikzAO
- HhCrVf0P7gKSPkgb6FE5U5+JbrKbms8ySAK174W5CFHgT7o+WqW7bHTckX36LJC1BQ8f
- w904++IJo0cO/7rehjoogp/pOA4j8C33CYcu5N28c6xau7+VfywT26zFK9NfB3+mh7Bs
- NReMs9Z0yOOLsGhhVsD4rDtcweYQfGi8JGXACJ9zVS3n/QAOUaX/0xTBUdru2bHnla40
- w+yg==
+ :cc; bh=nAeoiPJvlQI2MudQ6Cu1Ik/hFKunVLHmRpMet7ck/pI=;
+ b=RWh9aySlWazYyxxu2V+F9pMam6cuMIRQNfxGqiDlMA5ZesBHFUM5cKvx+lX032T5Lt
+ YdmRln7+xPlS2Q5EcGU9D0z/a7682qh1JdSQf/P33Q1YvjiVsHc+FUrCRIqshSrP/N7A
+ 10UorQrDCcLv+BLwT3f5cbXWaVVuuCx2BzvNDyaKUUGZ2M0/KfX4N63qzcDqhYx8GWbu
+ yhpIvvTaZJIXXlKwB0NKVHFUi1KTxzGgzY8TdDr+gbjH0Cl2M6Rqpcy7fGjMirm2XJ00
+ FUvjjMKx6lmVZwqB3Bhgw5PYnrIwH7rpPrLZCl5Fr5r8GC8ywi0qpWd0r/WT6hEueMsP
+ /+Og==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=oo8YARp/DN6toFCr0pSd09y+S8arKbsdWcxCLxa4sEU=;
- b=4rmC2nECgHeMQaskokly7rN5Q39fczN6/A+GseNJ8JzOVLa+Wrn7V2BfCPEbtwIpa+
- XRI95gDe156JupMZrCseGSK1QMnZEw4z0EDTXBlQpyM7JJDj62vlBYQd2MqkxGSwWKwD
- jWZN6gwHAErUrL2snHKarnBgzL9E1Xecrkx8O1Q6NVZuaZ70W2BLWEaNkQ5CHr5tbtrk
- +2kiQLvTqioVBP7gwkhFmvMSnzHX4BYRmUiXep/aclaaaCYtmiR1dX7b/OW2AQZ9rrft
- +WXbseykJ9i/8bHZGDqbz4wSD/IHlS1nZy1kYfxoKBAJFXf0HHoJ0swhxZuO9+Wp7/5g
- lDjA==
-X-Gm-Message-State: AOAM5326JjHn6BeJDKypeOelq/m9WpXi1NzblCyKDuRR0oiKnfQKL2Fn
- 8Hxl96H2s38eVD8ORzEZtelk5tSuFnZeB9mhlg9w3NcYBU0=
-X-Google-Smtp-Source: ABdhPJyRd3ERKY25H++U/bKxLq0AGYmmtHkdTm5w0ekMI3e/hc+zbyTkSM5bcePsXEJbSBW1YueRuP+DLs8eActUExQ=
-X-Received: by 2002:a25:3787:: with SMTP id e129mr22207784yba.91.1639985904965; 
- Sun, 19 Dec 2021 23:38:24 -0800 (PST)
+ :message-id:subject:to:cc;
+ bh=nAeoiPJvlQI2MudQ6Cu1Ik/hFKunVLHmRpMet7ck/pI=;
+ b=P8bxA5T6MX52UABFg8/QDDwtbN/gTqeICJGAsy+kuXSls7RfC2kaBFLSjMm7KmO1P/
+ GmzRlnEjU52oh26vKUvFTkbd8cF4G6ekxtbUMKfEfVvrjEaxYJ5D70qNSIhN1AvlJ+p4
+ dAx5U5I5ogRoBbyLmS/6I+sFfA8O1yXm0M/Un9qwM1kn22/2h37oaS7c5Zkg62Acnt9/
+ aUPfs0rJpb3/VDvof7SHvwKsdgbcTA/1zhhAMMT2PidgeXVJnsYqmsWigmx4heZ/r16T
+ R+9I058GzD5EDUZTRew5AIi6rQuMiCpFMLGzcm1vH8lOkEpNA+Yap10i2WMdUj2u3Qhp
+ iWJA==
+X-Gm-Message-State: AOAM533TyGwUayY8K3kcGUN4E3GFd6Y59RILOdVw8zV0diAEdTROFaRe
+ s+qjLoSJ/askmysFom3CLDvhWsZUbNIXM6Z1ZBjs9DhMtLk=
+X-Google-Smtp-Source: ABdhPJw2p+E5lGVX0o2u0/d4PRr/ZxFgBvxksNm/+9nKoxmiyhXbJBH676mUapZwqM2sczSBPZoRhPcHJFuB66Cg660=
+X-Received: by 2002:a25:b47:: with SMTP id 68mr21781636ybl.378.1639985983201; 
+ Sun, 19 Dec 2021 23:39:43 -0800 (PST)
 MIME-Version: 1.0
 References: <20211216045427.757779-1-alistair.francis@opensource.wdc.com>
- <20211216045427.757779-8-alistair.francis@opensource.wdc.com>
-In-Reply-To: <20211216045427.757779-8-alistair.francis@opensource.wdc.com>
+ <20211216045427.757779-9-alistair.francis@opensource.wdc.com>
+In-Reply-To: <20211216045427.757779-9-alistair.francis@opensource.wdc.com>
 From: Bin Meng <bmeng.cn@gmail.com>
-Date: Mon, 20 Dec 2021 15:38:13 +0800
-Message-ID: <CAEUhbmVrK3W4zRKnhkpq2e3vdSiNu2qaJe5y6nA+X_8ex3KLmg@mail.gmail.com>
-Subject: Re: [PATCH v2 7/9] hw/riscv: Use error_fatal for SoC realisation
+Date: Mon, 20 Dec 2021 15:39:32 +0800
+Message-ID: <CAEUhbmV3PDFEQqjOVpLVg2w5650QYW+Ss8fcesV8xdkv5K4uQw@mail.gmail.com>
+Subject: Re: [PATCH v2 8/9] hw/riscv: virt: Allow support for 32 cores
 To: Alistair Francis <alistair.francis@opensource.wdc.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b2b
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b32
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2b;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb2b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b32;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb32.google.com
 X-Spam_score_int: 2
 X-Spam_score: 0.2
 X-Spam_bar: /
@@ -83,10 +81,8 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
  Bin Meng <bin.meng@windriver.com>,
  "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Markus Armbruster <armbru@redhat.com>,
  Alistair Francis <Alistair.Francis@wdc.com>,
- Alistair Francis <alistair23@gmail.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+ Alistair Francis <alistair23@gmail.com>, Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -95,33 +91,15 @@ On Thu, Dec 16, 2021 at 12:55 PM Alistair Francis
 >
 > From: Alistair Francis <alistair.francis@wdc.com>
 >
-> When realising the SoC use error_fatal instead of error_abort as the
-> process can fail and report useful information to the user.
+> Linux supports up to 32 cores for both 32-bit and 64-bit RISC-V, so
+> let's set that as the maximum for the virt board.
 >
-> Currently a user can see this:
->
->    $ ../qemu/bld/qemu-system-riscv64 -M sifive_u -S -monitor stdio -displ=
-ay none -drive if=3Dpflash
->     QEMU 6.1.93 monitor - type 'help' for more information
->     (qemu) Unexpected error in sifive_u_otp_realize() at ../hw/misc/sifiv=
-e_u_otp.c:229:
->     qemu-system-riscv64: OTP drive size < 16K
->     Aborted (core dumped)
->
-> Which this patch addresses
->
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/435
 > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> Reported-by: Markus Armbruster <armbru@redhat.com>
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> Reviewed-by: Markus Armbruster <armbru@redhat.com>
 > ---
->  hw/riscv/microchip_pfsoc.c | 2 +-
->  hw/riscv/opentitan.c       | 2 +-
->  hw/riscv/sifive_e.c        | 2 +-
->  hw/riscv/sifive_u.c        | 2 +-
->  4 files changed, 4 insertions(+), 4 deletions(-)
+>  include/hw/riscv/virt.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
 
 Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
-Tested-by: Bin Meng <bmeng.cn@gmail.com>
 
