@@ -2,85 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27AD647B1A1
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Dec 2021 17:50:54 +0100 (CET)
-Received: from localhost ([::1]:34334 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0B5047B0C2
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Dec 2021 16:56:53 +0100 (CET)
+Received: from localhost ([::1]:60056 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mzLsC-0001sY-T8
-	for lists+qemu-devel@lfdr.de; Mon, 20 Dec 2021 11:50:52 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37530)
+	id 1mzL1w-0006Bo-IR
+	for lists+qemu-devel@lfdr.de; Mon, 20 Dec 2021 10:56:52 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37944)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mzKQJ-0001wn-R5
- for qemu-devel@nongnu.org; Mon, 20 Dec 2021 10:18:03 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:31551)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mzKQQ-0001xc-Kn
+ for qemu-devel@nongnu.org; Mon, 20 Dec 2021 10:18:17 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:23703)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mzKPm-0005xS-3I
- for qemu-devel@nongnu.org; Mon, 20 Dec 2021 10:17:40 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mzKQG-0006IG-8N
+ for qemu-devel@nongnu.org; Mon, 20 Dec 2021 10:18:05 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1640013441;
+ s=mimecast20190719; t=1640013456;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Vvt65GNMhXWNnjoGzsAV1uOCUvMNn6K3raOIWgUMeGU=;
- b=Pz850oS7Edr/yF5ER+u3m/i1aVQNmjKlVaz0/2/koS2IFxhXyeKEV4dIS5sN0A+IhEnO/n
- k7XK5W/RWHXPfiY0w9uADZoyUwMRLfqJduVHzps3BFNSVjDJ2SbVUyykPHi854acLFaA0B
- rPOfoNV6tSp4iFS4MIqszIikFHYyDs8=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=3hRTbhNzufD8eQhb3S/Nd5pLOJ4QdfFTYE+XFXD6xZQ=;
+ b=i3KOlEvNzDXEBtnEYBBULU40oPAyZAkRXj2ZIygwaW4YDIpfTtjVXfvA+KwH68vlIRioK9
+ D4MFxm+xurBRXPFuLJ0hAor243Id3BnXX1K0K0ZDMdINmbe6u8HpljEi+fpQyKC1meX+TL
+ PUa/RcCMc3llaSQOwkWkvLVfKoGrrc0=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-582-DK7jrdjXO8eLeZ1AITsk1g-1; Mon, 20 Dec 2021 03:54:45 -0500
-X-MC-Unique: DK7jrdjXO8eLeZ1AITsk1g-1
-Received: by mail-wm1-f69.google.com with SMTP id
- j71-20020a1c234a000000b00342f418ae7cso6173680wmj.1
- for <qemu-devel@nongnu.org>; Mon, 20 Dec 2021 00:54:45 -0800 (PST)
+ us-mta-302-2qF1ZOfnNZmci496muV2EQ-1; Mon, 20 Dec 2021 03:55:07 -0500
+X-MC-Unique: 2qF1ZOfnNZmci496muV2EQ-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ 69-20020a1c0148000000b0033214e5b021so1691480wmb.3
+ for <qemu-devel@nongnu.org>; Mon, 20 Dec 2021 00:55:07 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=Vvt65GNMhXWNnjoGzsAV1uOCUvMNn6K3raOIWgUMeGU=;
- b=XXd1AG+VeHZEt5ghRztlQSvfP8tmICZjNw8mPnGfuIw+FiHGO/ZL8d+k7DelnOpYaj
- o7wSr0NRgSlOrGMcfO1ojy9dyWEAz6OwLPtVDx9j/TZIA5QdyGWuMSUFiMDxr+XFUMJ8
- unpPBlupWxM9ED/yoPfpl/U3nBCGgH67yVGTJwugEeJyTcWbfEALOCkboZ76g3ZYX2EG
- 6HyERcwYk4guBKXsjtC8XX575oKWJxecSyMww+ZsO6h2IyKjFS97M/uswivNgkYWTrxB
- rF330E5AHgYfHGi8VBtVAwJsYnDPfMdwP0x5kAMY8rGT/d+kNMyIlDDHfmYGTDatBk0B
- PRkA==
-X-Gm-Message-State: AOAM532gjUSePpuzJIwUGiRshTDIMuZNmSwCXDFKhUV4bNUbXrtpVgQT
- l86cu6slzaiaGtK+xbkF2VRMCfQRbmr33wtntbY+TmmL4jLhCvOY7uP82Pb3AsGlGgUTjG1mpgG
- y+sI4bWTJJ+ADMjMX43Gyrygfm3I+GR+6huXfBoiJ8PJ+pP1K+r5UP4sD0s6T/TVW
-X-Received: by 2002:adf:804f:: with SMTP id 73mr11919546wrk.476.1639990484010; 
- Mon, 20 Dec 2021 00:54:44 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzxmcmnHxpwHoX6aw6Yp3xNKhlU2xhFj1r50ALe+GqoJAOUXLIFJ2qw3EVcgWw9eCegXIdzrA==
-X-Received: by 2002:adf:804f:: with SMTP id 73mr11919525wrk.476.1639990483713; 
- Mon, 20 Dec 2021 00:54:43 -0800 (PST)
-Received: from localhost.localdomain ([85.203.46.164])
- by smtp.gmail.com with ESMTPSA id h2sm14439713wrz.23.2021.12.20.00.54.39
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Mon, 20 Dec 2021 00:54:43 -0800 (PST)
-From: Peter Xu <peterx@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 8/8] migration: Tracepoint change in postcopy-run bottom
- half
-Date: Mon, 20 Dec 2021 16:53:55 +0800
-Message-Id: <20211220085355.2284-9-peterx@redhat.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20211220085355.2284-1-peterx@redhat.com>
-References: <20211220085355.2284-1-peterx@redhat.com>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:references:cc:from:in-reply-to
+ :content-transfer-encoding;
+ bh=3hRTbhNzufD8eQhb3S/Nd5pLOJ4QdfFTYE+XFXD6xZQ=;
+ b=AgYqNtPq1VtMQRiLQeYzkSe18zpVHKxTOKygt55ztisbrC47ou7WGsdyZ1O+/x8yqD
+ /b4hepUvBLlY5kQypVTnng/QtVIswUNdrznAGZtnZcIpuBHX9gez7OiDf3memYCkpcgn
+ 4yKbS4wHdcZw6mHdPlRLsoNvRT31/poIwrdIK0gudWO1QAUq1jFFKt2U6NOk4tqekrRT
+ UxiTFZKvZFgVZa48ULc1AX887ThSi0SIOPDZE58pcoyDc5J93nmfLiuhciI2fMLPWbQI
+ Bw4pUH2caNdFc/DNwnN46L6/3tw9cP+xh8k2aF6bBYc5XT7ziJTxChCvqRAbA1aNvu10
+ GedA==
+X-Gm-Message-State: AOAM5331POQHssVU9Ek59Vqb9gurUF/Z9JRPTew46SvZJplwdxe87+OC
+ xQmOi/pubereL5rE2KZD8h9NML+fZ3q7cX1NMWANtbMTe161OUShZt6zewMVQsw58WGX/fAiFbX
+ eDGxDY9xkM3U5OpI=
+X-Received: by 2002:a5d:61cf:: with SMTP id q15mr11709174wrv.623.1639990506343; 
+ Mon, 20 Dec 2021 00:55:06 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxMMQq5WeBYpnRvU3oGALXzATNJM1gnKtpE5TG5d5XlrFoDgyF+0qFR4WCF5pNjJSTtn9vEmw==
+X-Received: by 2002:a5d:61cf:: with SMTP id q15mr11709168wrv.623.1639990506190; 
+ Mon, 20 Dec 2021 00:55:06 -0800 (PST)
+Received: from [192.168.50.34] (static-180-27-86-188.ipcom.comunitel.net.
+ [188.86.27.180])
+ by smtp.gmail.com with ESMTPSA id k6sm13913992wmj.16.2021.12.20.00.55.04
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 20 Dec 2021 00:55:05 -0800 (PST)
+Message-ID: <aedfa17d-6d31-6d5d-b367-cf84e77d27ed@redhat.com>
+Date: Mon, 20 Dec 2021 09:55:00 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: Virtio-GPU Xres and Yres seettings
+To: Pratik Parvati <pratikp@vayavyalabs.com>, qemu-devel@nongnu.org
+References: <CA+aXn+EZQ=S+P=8fyfCxYikEMLLdqAEeQgi580Tqtsuot-r2dw@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+In-Reply-To: <CA+aXn+EZQ=S+P=8fyfCxYikEMLLdqAEeQgi580Tqtsuot-r2dw@mail.gmail.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) DKIMWL_WL_HIGH=-0.209, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_score_int: -46
+X-Spam_score: -4.7
+X-Spam_bar: ----
+X-Spam_report: (-4.7 / 5.0 requ) DKIMWL_WL_HIGH=-0.209, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.608,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
@@ -95,84 +98,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Juan Quintela <quintela@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>, peterx@redhat.com,
- Leonardo Bras Soares Passos <lsoaresp@redhat.com>
+Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Remove the old two tracepoints and they're even near each other:
+Cc'ing Gerd & Marc-André.
 
-    trace_loadvm_postcopy_handle_run_cpu_sync()
-    trace_loadvm_postcopy_handle_run_vmstart()
-
-Add trace_loadvm_postcopy_handle_run_bh() with a finer granule trace.
-
-Signed-off-by: Peter Xu <peterx@redhat.com>
----
- migration/savevm.c     | 12 +++++++++---
- migration/trace-events |  3 +--
- 2 files changed, 10 insertions(+), 5 deletions(-)
-
-diff --git a/migration/savevm.c b/migration/savevm.c
-index 25face6de0..de2577c251 100644
---- a/migration/savevm.c
-+++ b/migration/savevm.c
-@@ -2005,13 +2005,19 @@ static void loadvm_postcopy_handle_run_bh(void *opaque)
-     Error *local_err = NULL;
-     MigrationIncomingState *mis = opaque;
- 
-+    trace_loadvm_postcopy_handle_run_bh("enter");
-+
-     /* TODO we should move all of this lot into postcopy_ram.c or a shared code
-      * in migration.c
-      */
-     cpu_synchronize_all_post_init();
- 
-+    trace_loadvm_postcopy_handle_run_bh("after cpu sync");
-+
-     qemu_announce_self(&mis->announce_timer, migrate_announce_params());
- 
-+    trace_loadvm_postcopy_handle_run_bh("after announce");
-+
-     /* Make sure all file formats flush their mutable metadata.
-      * If we get an error here, just don't restart the VM yet. */
-     bdrv_invalidate_cache_all(&local_err);
-@@ -2021,9 +2027,7 @@ static void loadvm_postcopy_handle_run_bh(void *opaque)
-         autostart = false;
-     }
- 
--    trace_loadvm_postcopy_handle_run_cpu_sync();
--
--    trace_loadvm_postcopy_handle_run_vmstart();
-+    trace_loadvm_postcopy_handle_run_bh("after invalidate cache");
- 
-     dirty_bitmap_mig_before_vm_start();
- 
-@@ -2036,6 +2040,8 @@ static void loadvm_postcopy_handle_run_bh(void *opaque)
-     }
- 
-     qemu_bh_delete(mis->bh);
-+
-+    trace_loadvm_postcopy_handle_run_bh("exit");
- }
- 
- /* After all discards we can start running and asking for pages */
-diff --git a/migration/trace-events b/migration/trace-events
-index 77d1237d89..e165687af2 100644
---- a/migration/trace-events
-+++ b/migration/trace-events
-@@ -16,8 +16,7 @@ loadvm_handle_recv_bitmap(char *s) "%s"
- loadvm_postcopy_handle_advise(void) ""
- loadvm_postcopy_handle_listen(const char *str) "%s"
- loadvm_postcopy_handle_run(void) ""
--loadvm_postcopy_handle_run_cpu_sync(void) ""
--loadvm_postcopy_handle_run_vmstart(void) ""
-+loadvm_postcopy_handle_run_bh(const char *str) "%s"
- loadvm_postcopy_handle_resume(void) ""
- loadvm_postcopy_ram_handle_discard(void) ""
- loadvm_postcopy_ram_handle_discard_end(void) ""
--- 
-2.32.0
+On 12/20/21 05:26, Pratik Parvati wrote:
+> Hi Team,
+> 
+> I am working on a Virtio-GPU device (backend) for one of our customer
+> projects - we are using the Virtio-GPU driver (frontend) to drive our
+> device. Our device code has been written using Qemu virtio-gpu device
+> code as a reference. Our device is setting the resolution to 1024x768 as
+> a response to the command received from the driver (i.e,
+> VIRTIO_GPU_CMD_GET_DISPLAY_INFO) - I also verified that driver is
+> receiving the response bytes properly, but the next
+> command (i.e, VIRTIO_GPU_CMD_RESOURCE_CREATE_2D) that device receive has
+> a width and height as 4096 and 2160 respectively. The driver is assuming
+> a 4k display for some reason and I need your help to understand why this
+> is happening.
+> 
+> Our display is corrupted for the same Xres and Yres misunderstanding
+> between the device and the driver - Please guide me to understand the
+> problem. Let me know if you have any questions or need more information.
+> 
+> Thanks & Regards,
+> Pratik
 
 
