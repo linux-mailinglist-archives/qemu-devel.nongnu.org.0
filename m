@@ -2,68 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFE4A47B30D
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Dec 2021 19:43:36 +0100 (CET)
-Received: from localhost ([::1]:58482 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96FE147B341
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Dec 2021 19:53:52 +0100 (CET)
+Received: from localhost ([::1]:42596 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mzNdH-0005pj-BG
-	for lists+qemu-devel@lfdr.de; Mon, 20 Dec 2021 13:43:35 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49730)
+	id 1mzNnD-0006T3-5s
+	for lists+qemu-devel@lfdr.de; Mon, 20 Dec 2021 13:53:51 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52856)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mzKuE-0006sH-Qq
- for qemu-devel@nongnu.org; Mon, 20 Dec 2021 10:48:54 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36162)
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1mzKyW-0003D3-AL
+ for qemu-devel@nongnu.org; Mon, 20 Dec 2021 10:53:20 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29114)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mzKuC-0003mi-8b
- for qemu-devel@nongnu.org; Mon, 20 Dec 2021 10:48:54 -0500
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1mzKyP-00056D-7x
+ for qemu-devel@nongnu.org; Mon, 20 Dec 2021 10:53:15 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1640015331;
+ s=mimecast20190719; t=1640015592;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=Q+Xk3O/LjRDf2Wp1rmglgGgwqt2XrHHw2r6jvJus/Uw=;
- b=NBWigA0ikdgBYJqXfXJCFtfRddz4YCLDzHhFpHS4gyGhBVHySnpsyzBY4NoOFB6XB/3j9E
- TZ0yb4AxXQdr/kKIiDvmrVSMXuXV6AL7vmehdWyN4LBM1H3xKJOvfqsnUqRKHebqoeWb6U
- HAp33nqVByqdWOxHTcOclRG9uCbymwM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=J46pX5p+fBaacwdYaV3FKT5veqrDjRq27lv7dsS9yPo=;
+ b=ZAunc5r8lpZ0hPINKZuEwfLfnQOb9ZrMaNnyMQd5y/QCvMn36jrjcIDvMuDlSDQwB+6d96
+ Ck3iN40HITEI7KOHapa15S2mKmYfUBzfuRNk4nvdib/Vs+cXsaoo2ReLhTyKbOU1UXik/t
+ 3eGPvbMk3i/D9m+uCeZrLWRtX4VSRqc=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-466-d1DylhiQM9CQUOP7GVw0ow-1; Mon, 20 Dec 2021 05:30:43 -0500
-X-MC-Unique: d1DylhiQM9CQUOP7GVw0ow-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 17920640A0;
- Mon, 20 Dec 2021 10:30:42 +0000 (UTC)
-Received: from thuth.com (dhcp-192-183.str.redhat.com [10.33.192.183])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2E29D6ABBA;
- Mon, 20 Dec 2021 10:30:27 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org,
-	Laurent Vivier <lvivier@redhat.com>
-Subject: [PATCH] tests/qtest: Make the filter tests independent from a
- specific NIC
-Date: Mon, 20 Dec 2021 11:30:25 +0100
-Message-Id: <20211220103025.311759-1-thuth@redhat.com>
+ us-mta-58-NnpA0gVRNHaZGjU1OW1yHg-1; Mon, 20 Dec 2021 05:34:38 -0500
+X-MC-Unique: NnpA0gVRNHaZGjU1OW1yHg-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ z3-20020a05640235c300b003f829cc299cso4318035edc.0
+ for <qemu-devel@nongnu.org>; Mon, 20 Dec 2021 02:34:38 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=J46pX5p+fBaacwdYaV3FKT5veqrDjRq27lv7dsS9yPo=;
+ b=mC7Je4UIefIGmSefKdUtHL8AGL8iylC4bfJq7ohqoF2DEmLFT0HbbHVi8r8Zso7YN9
+ e1RM5vqVBikNYrcAVxBqO0ttwcv+EWvzQokMIe9VPIWossRap+POg522nScVs1etApcq
+ 5e5p/ZBQawA/9F3XLRJ64PdrsLqnO1u/OjwVoZktrS2+GvxTji0UrcXYpmY2L5moi97s
+ P0gnCo+dlV4quSyZXUB0LShS3vXmB3ZeOBoJ72dWV9HYMqouq08l4pHIP9WFZtNDpdqC
+ Q1duxgpRX7Gao+6TGi3crb4f7Im2Q1/eTPyJ9twv0Goc5y1RDgCJyPGdDYPHoZFXBmoI
+ WBBA==
+X-Gm-Message-State: AOAM531b+XaOQpfl+qgut5DbhcYyqK/ZxeR1WlE9iuZ575DUsDUAYWUs
+ VGCVjRjm7ojEuG0h1/NBRSlRvZXrAeFs2YRb1k8GtgFUc/uBXQuz7y64KEV2BdwH5EE1tAB9wtM
+ 74Na7vYEmu3N+BSA=
+X-Received: by 2002:a17:906:ae14:: with SMTP id
+ le20mr12139884ejb.64.1639996477641; 
+ Mon, 20 Dec 2021 02:34:37 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyXLyqbiYBmVtTLhRpuxuWg5LxfGgcxqw/s3rZKPuU2CT3WOeEr5UeXyqxskhKrtN7khnd4vw==
+X-Received: by 2002:a17:906:ae14:: with SMTP id
+ le20mr12139855ejb.64.1639996477332; 
+ Mon, 20 Dec 2021 02:34:37 -0800 (PST)
+Received: from ?IPV6:2a04:ee41:4:31cb:e591:1e1e:abde:a8f1?
+ ([2a04:ee41:4:31cb:e591:1e1e:abde:a8f1])
+ by smtp.gmail.com with ESMTPSA id qa41sm1776707ejc.0.2021.12.20.02.34.36
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 20 Dec 2021 02:34:36 -0800 (PST)
+Message-ID: <67f2e473-b621-a57d-6c76-3235633649c5@redhat.com>
+Date: Mon, 20 Dec 2021 11:34:35 +0100
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [RFC PATCH v2 05/14] block/mirror.c: use of job helpers in
+ drivers to avoid TOC/TOU
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20211104145334.1346363-1-eesposit@redhat.com>
+ <20211104145334.1346363-6-eesposit@redhat.com>
+ <e3d234fc-6937-61e0-c4d6-988196f16a09@virtuozzo.com>
+From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+In-Reply-To: <e3d234fc-6937-61e0-c4d6-988196f16a09@virtuozzo.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eesposit@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.209,
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.209,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-3.608, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,249 +107,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Yang Hongyang <yanghy@cn.fujitsu.com>,
- Zhang Chen <zhangchen.fnst@cn.fujitsu.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Wen Congyang <wencongyang2@huawei.com>,
+ Xie Changlong <xiechanglong.d@gmail.com>,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+ Hanna Reitz <hreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These filter tests need a NIC, no matter which one, so they use a common
-NIC by default. However, these common NIC models might not always have
-been compiled into the QEMU target binary, so assuming that a certain NIC
-is available is a bad idea. Since the exact type of NIC does not really
-matter for these tests, let's switch to "-nic" instead of "-netdev" so
-that QEMU can simply pick a default NIC for us.
-This way we can now run the tests on other targets that have a default
-machine with an on-board/default NIC, too.
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- tests/qtest/meson.build              | 40 +++++++++++++++++++++-------
- tests/qtest/test-filter-mirror.c     | 10 ++-----
- tests/qtest/test-filter-redirector.c | 20 +++-----------
- tests/qtest/test-netfilter.c         |  8 +-----
- 4 files changed, 38 insertions(+), 40 deletions(-)
 
-diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
-index ebeac59b3f..7811177f03 100644
---- a/tests/qtest/meson.build
-+++ b/tests/qtest/meson.build
-@@ -47,7 +47,6 @@ qtests_i386 = \
-   (have_tools ? ['ahci-test'] : []) +                                                       \
-   (config_all_devices.has_key('CONFIG_ISA_TESTDEV') ? ['endianness-test'] : []) +           \
-   (config_all_devices.has_key('CONFIG_SGA') ? ['boot-serial-test'] : []) +                  \
--  (config_all_devices.has_key('CONFIG_RTL8139_PCI') ? ['test-filter-redirector'] : []) +    \
-   (config_all_devices.has_key('CONFIG_ISA_IPMI_KCS') ? ['ipmi-kcs-test'] : []) +            \
-   (config_host.has_key('CONFIG_LINUX') and                                                  \
-    config_all_devices.has_key('CONFIG_ISA_IPMI_BT') ? ['ipmi-bt-test'] : []) +              \
-@@ -90,7 +89,9 @@ qtests_i386 = \
-    'vmgenid-test',
-    'migration-test',
-    'test-x86-cpuid-compat',
--   'numa-test']
-+   'numa-test',
-+   'test-filter-redirector'
-+  ]
- 
- dbus_daemon = find_program('dbus-daemon', required: false)
- if dbus_daemon.found() and config_host.has_key('GDBUS_CODEGEN')
-@@ -109,31 +110,49 @@ endif
- 
- qtests_x86_64 = qtests_i386
- 
--qtests_alpha = [ 'boot-serial-test' ] +                                                      \
-+qtests_alpha = ['boot-serial-test'] + \
-+  ['test-filter-mirror', 'test-filter-redirector'] + \
-+  (slirp.found() ? ['test-netfilter'] : []) + \
-   (config_all_devices.has_key('CONFIG_VGA') ? ['display-vga-test'] : [])
- 
- qtests_avr = [ 'boot-serial-test' ]
- 
--qtests_hppa = [ 'boot-serial-test' ] +                                                       \
-+qtests_hppa = ['boot-serial-test'] + \
-+  ['test-filter-mirror', 'test-filter-redirector'] + \
-+  (slirp.found() ? ['test-netfilter'] : []) + \
-   (config_all_devices.has_key('CONFIG_VGA') ? ['display-vga-test'] : [])
- 
--qtests_m68k = [ 'boot-serial-test' ]
--qtests_microblaze = [ 'boot-serial-test' ]
-+qtests_m68k = ['boot-serial-test'] + \
-+  ['test-filter-mirror', 'test-filter-redirector'] + \
-+  (slirp.found() ? ['test-netfilter'] : [])
-+
-+qtests_microblaze = ['boot-serial-test'] + \
-+  ['test-filter-mirror', 'test-filter-redirector'] + \
-+  (slirp.found() ? ['test-netfilter'] : [])
-+
- qtests_microblazeel = qtests_microblaze
- 
- qtests_mips = \
-+  ['test-filter-mirror', 'test-filter-redirector'] + \
-+  (slirp.found() ? ['test-netfilter'] : []) + \
-   (config_all_devices.has_key('CONFIG_ISA_TESTDEV') ? ['endianness-test'] : []) +            \
-   (config_all_devices.has_key('CONFIG_VGA') ? ['display-vga-test'] : [])
- 
- qtests_mips64 = \
-+  ['test-filter-mirror', 'test-filter-redirector'] + \
-+  (slirp.found() ? ['test-netfilter'] : []) + \
-   (config_all_devices.has_key('CONFIG_ISA_TESTDEV') ? ['endianness-test'] : []) +            \
-   (config_all_devices.has_key('CONFIG_VGA') ? ['display-vga-test'] : [])
- 
- qtests_mips64el = \
-+  ['test-filter-mirror', 'test-filter-redirector'] + \
-+  (slirp.found() ? ['test-netfilter'] : []) + \
-   (config_all_devices.has_key('CONFIG_ISA_TESTDEV') ? ['endianness-test'] : []) +            \
-   (config_all_devices.has_key('CONFIG_VGA') ? ['display-vga-test'] : [])
- 
- qtests_ppc = \
-+  ['test-filter-mirror', 'test-filter-redirector'] + \
-+  (slirp.found() ? ['test-netfilter'] : []) + \
-   (config_all_devices.has_key('CONFIG_ISA_TESTDEV') ? ['endianness-test'] : []) +            \
-   (config_all_devices.has_key('CONFIG_M48T59') ? ['m48t59-test'] : []) +                     \
-   ['boot-order-test', 'prom-env-test', 'boot-serial-test']                 \
-@@ -143,19 +162,22 @@ qtests_ppc64 = \
-   (config_all_devices.has_key('CONFIG_PSERIES') ? ['device-plug-test'] : []) +               \
-   (config_all_devices.has_key('CONFIG_POWERNV') ? ['pnv-xscom-test'] : []) +                 \
-   (config_all_devices.has_key('CONFIG_PSERIES') ? ['rtas-test'] : []) +                      \
--  (slirp.found() ? ['pxe-test', 'test-netfilter'] : []) +              \
-+  (slirp.found() ? ['pxe-test'] : []) +              \
-   (config_all_devices.has_key('CONFIG_USB_UHCI') ? ['usb-hcd-uhci-test'] : []) +             \
-   (config_all_devices.has_key('CONFIG_USB_XHCI_NEC') ? ['usb-hcd-xhci-test'] : []) +         \
--  (config_host.has_key('CONFIG_POSIX') ? ['test-filter-mirror'] : []) +                      \
-   qtests_pci + ['migration-test', 'numa-test', 'cpu-plug-test', 'drive_del-test']
- 
- qtests_sh4 = (config_all_devices.has_key('CONFIG_ISA_TESTDEV') ? ['endianness-test'] : [])
- qtests_sh4eb = (config_all_devices.has_key('CONFIG_ISA_TESTDEV') ? ['endianness-test'] : [])
- 
--qtests_sparc = ['prom-env-test', 'm48t59-test', 'boot-serial-test']
-+qtests_sparc = ['prom-env-test', 'm48t59-test', 'boot-serial-test'] + \
-+  ['test-filter-mirror', 'test-filter-redirector'] + \
-+  (slirp.found() ? ['test-netfilter'] : [])
- 
- qtests_sparc64 = \
-   (config_all_devices.has_key('CONFIG_ISA_TESTDEV') ? ['endianness-test'] : []) +            \
-+  (slirp.found() ? ['test-netfilter'] : []) + \
-+  ['test-filter-mirror', 'test-filter-redirector'] + \
-   ['prom-env-test', 'boot-serial-test']
- 
- qtests_npcm7xx = \
-diff --git a/tests/qtest/test-filter-mirror.c b/tests/qtest/test-filter-mirror.c
-index bc0dee64dd..95367d14d3 100644
---- a/tests/qtest/test-filter-mirror.c
-+++ b/tests/qtest/test-filter-mirror.c
-@@ -28,13 +28,8 @@ static void test_mirror(void)
-     char *recv_buf;
-     uint32_t size = sizeof(send_buf);
-     size = htonl(size);
--    const char *devstr = "e1000";
-     QTestState *qts;
- 
--    if (g_str_equal(qtest_get_arch(), "s390x")) {
--        devstr = "virtio-net-ccw";
--    }
--
-     ret = socketpair(PF_UNIX, SOCK_STREAM, 0, send_sock);
-     g_assert_cmpint(ret, !=, -1);
- 
-@@ -42,11 +37,10 @@ static void test_mirror(void)
-     g_assert_cmpint(ret, !=, -1);
- 
-     qts = qtest_initf(
--        "-netdev socket,id=qtest-bn0,fd=%d "
--        "-device %s,netdev=qtest-bn0,id=qtest-e0 "
-+        "-nic socket,id=qtest-bn0,fd=%d "
-         "-chardev socket,id=mirror0,fd=%d "
-         "-object filter-mirror,id=qtest-f0,netdev=qtest-bn0,queue=tx,outdev=mirror0 "
--        , send_sock[1], devstr, recv_sock[1]);
-+        , send_sock[1], recv_sock[1]);
- 
-     struct iovec iov[] = {
-         {
-diff --git a/tests/qtest/test-filter-redirector.c b/tests/qtest/test-filter-redirector.c
-index 4269b2cdd9..4f3f59cba8 100644
---- a/tests/qtest/test-filter-redirector.c
-+++ b/tests/qtest/test-filter-redirector.c
-@@ -62,16 +62,6 @@
- /* TODO actually test the results and get rid of this */
- #define qmp_discard_response(qs, ...) qobject_unref(qtest_qmp(qs, __VA_ARGS__))
- 
--static const char *get_devstr(void)
--{
--    if (g_str_equal(qtest_get_arch(), "s390x")) {
--        return "virtio-net-ccw";
--    }
--
--    return "rtl8139";
--}
--
--
- static void test_redirector_tx(void)
- {
-     int backend_sock[2], recv_sock;
-@@ -93,8 +83,7 @@ static void test_redirector_tx(void)
-     g_assert_cmpint(ret, !=, -1);
- 
-     qts = qtest_initf(
--        "-netdev socket,id=qtest-bn0,fd=%d "
--        "-device %s,netdev=qtest-bn0,id=qtest-e0 "
-+        "-nic socket,id=qtest-bn0,fd=%d "
-         "-chardev socket,id=redirector0,path=%s,server=on,wait=off "
-         "-chardev socket,id=redirector1,path=%s,server=on,wait=off "
-         "-chardev socket,id=redirector2,path=%s "
-@@ -103,7 +92,7 @@ static void test_redirector_tx(void)
-         "-object filter-redirector,id=qtest-f1,netdev=qtest-bn0,"
-         "queue=tx,indev=redirector2 "
-         "-object filter-redirector,id=qtest-f2,netdev=qtest-bn0,"
--        "queue=tx,outdev=redirector1 ", backend_sock[1], get_devstr(),
-+        "queue=tx,outdev=redirector1 ", backend_sock[1],
-         sock_path0, sock_path1, sock_path0);
- 
-     recv_sock = unix_connect(sock_path1, NULL);
-@@ -163,8 +152,7 @@ static void test_redirector_rx(void)
-     g_assert_cmpint(ret, !=, -1);
- 
-     qts = qtest_initf(
--        "-netdev socket,id=qtest-bn0,fd=%d "
--        "-device %s,netdev=qtest-bn0,id=qtest-e0 "
-+        "-nic socket,id=qtest-bn0,fd=%d "
-         "-chardev socket,id=redirector0,path=%s,server=on,wait=off "
-         "-chardev socket,id=redirector1,path=%s,server=on,wait=off "
-         "-chardev socket,id=redirector2,path=%s "
-@@ -173,7 +161,7 @@ static void test_redirector_rx(void)
-         "-object filter-redirector,id=qtest-f1,netdev=qtest-bn0,"
-         "queue=rx,outdev=redirector2 "
-         "-object filter-redirector,id=qtest-f2,netdev=qtest-bn0,"
--        "queue=rx,indev=redirector1 ", backend_sock[1], get_devstr(),
-+        "queue=rx,indev=redirector1 ", backend_sock[1],
-         sock_path0, sock_path1, sock_path0);
- 
-     struct iovec iov[] = {
-diff --git a/tests/qtest/test-netfilter.c b/tests/qtest/test-netfilter.c
-index 785b6f3226..b09ef7fae9 100644
---- a/tests/qtest/test-netfilter.c
-+++ b/tests/qtest/test-netfilter.c
-@@ -178,11 +178,6 @@ int main(int argc, char **argv)
- {
-     int ret;
-     char *args;
--    const char *devstr = "e1000";
--
--    if (g_str_equal(qtest_get_arch(), "s390x")) {
--        devstr = "virtio-net-ccw";
--    }
- 
-     g_test_init(&argc, &argv, NULL);
-     qtest_add_func("/netfilter/addremove_one", add_one_netfilter);
-@@ -192,8 +187,7 @@ int main(int argc, char **argv)
-     qtest_add_func("/netfilter/remove_netdev_multi",
-                    remove_netdev_with_multi_netfilter);
- 
--    args = g_strdup_printf("-netdev user,id=qtest-bn0 "
--                           "-device %s,netdev=qtest-bn0", devstr);
-+    args = g_strdup_printf("-nic user,id=qtest-bn0");
-     qtest_start(args);
-     ret = g_test_run();
- 
--- 
-2.27.0
+On 18/12/2021 12:53, Vladimir Sementsov-Ogievskiy wrote:
+> 04.11.2021 17:53, Emanuele Giuseppe Esposito wrote:
+>> Once job lock is used and aiocontext is removed, mirror has
+>> to perform job operations under the same critical section,
+>> using the helpers prepared in previous commit.
+>>
+>> Note: at this stage, job_{lock/unlock} and job lock guard macros
+>> are *nop*.
+>>
+>> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+>> ---
+>>   block/mirror.c | 8 +++-----
+>>   1 file changed, 3 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/block/mirror.c b/block/mirror.c
+>> index 00089e519b..f22fa7da6e 100644
+>> --- a/block/mirror.c
+>> +++ b/block/mirror.c
+>> @@ -653,7 +653,7 @@ static int mirror_exit_common(Job *job)
+>>       BlockDriverState *target_bs;
+>>       BlockDriverState *mirror_top_bs;
+>>       Error *local_err = NULL;
+>> -    bool abort = job->ret < 0;
+>> +    bool abort = job_has_failed(job);
+>>       int ret = 0;
+>>       if (s->prepared) {
+>> @@ -1161,9 +1161,7 @@ static void mirror_complete(Job *job, Error **errp)
+>>       s->should_complete = true;
+>>       /* If the job is paused, it will be re-entered when it is 
+>> resumed */
+>> -    if (!job->paused) {
+>> -        job_enter(job);
+>> -    }
+>> +    job_enter_not_paused(job);
+>>   }
+>>   static void coroutine_fn mirror_pause(Job *job)
+>> @@ -1182,7 +1180,7 @@ static bool mirror_drained_poll(BlockJob *job)
+>>        * from one of our own drain sections, to avoid a deadlock 
+>> waiting for
+>>        * ourselves.
+>>        */
+>> -    if (!s->common.job.paused && !job_is_cancelled(&job->job) && 
+>> !s->in_drain) {
+>> +    if (job_not_paused_nor_cancelled(&s->common.job) && !s->in_drain) {
+>>           return true;
+>>       }
+>>
+> 
+> Why to introduce a separate API function for every use case?
+> 
+> Could we instead just use WITH_JOB_LOCK_GUARD() ?
+> 
+
+This implies making the struct job_mutex public. Is that ok for you?
+
+Thank you,
+Emanuele
 
 
