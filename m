@@ -2,20 +2,20 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52F9447B2BA
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Dec 2021 19:18:14 +0100 (CET)
-Received: from localhost ([::1]:38924 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A36847B1CF
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Dec 2021 18:05:37 +0100 (CET)
+Received: from localhost ([::1]:42412 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mzNEi-0006Z3-VO
-	for lists+qemu-devel@lfdr.de; Mon, 20 Dec 2021 13:18:12 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39074)
+	id 1mzM6S-0001My-An
+	for lists+qemu-devel@lfdr.de; Mon, 20 Dec 2021 12:05:36 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39034)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mzKmk-0006C2-Tf
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mzKmj-0006Bv-Qo
  for qemu-devel@nongnu.org; Mon, 20 Dec 2021 10:41:11 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37171)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42557)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mzKmg-0008Fr-Sc
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mzKmh-0008Ft-99
  for qemu-devel@nongnu.org; Mon, 20 Dec 2021 10:41:09 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1640014856;
@@ -23,31 +23,31 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=eGOiI6DWDn2n29JHORgKBF09JJJxcDoMUuEs2RnEKy0=;
- b=W///LkfBDIG8Y4F+3nr+um7qzAZRlLCrD8p4Xi0l/yUrykMjnUrop9nFcqb1N68SXWidOC
- QXV7hemsUH8dPh7d0pbxiqG8LjeLD9IN8ikRsl6SQugPq5Nn7ZZO9A+T9/IDKxwBfsMekn
- skto52Pv8I4nyu1P3bby3Kff/Sd9k4k=
+ bh=t32KfCF+wi1IzTphtrfGSqsqGYn4Es56oWVqjcN36ug=;
+ b=A6gHYjQ8sdFF+zN/ur8tIXyLW1cwThi//c9Y6N1UPh7uiTQ0t6b6buDrhi7uuxuPSUl0Gv
+ 008IEmvnkbXJZ7yuEmWjxN8E8tW7GDO6Sia+tfv0X8No0aFFCtdtyRyQoYbNsb6+eGmXBB
+ h7B+lXs8u0Kz44j0dBR9byPL1qOE2bY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-147-MbykiSgiNZSzAxm6Snnl5Q-1; Mon, 20 Dec 2021 03:11:06 -0500
-X-MC-Unique: MbykiSgiNZSzAxm6Snnl5Q-1
+ us-mta-360-sbDZOE9sOQ22iAE8VS-7lw-1; Mon, 20 Dec 2021 03:11:07 -0500
+X-MC-Unique: sbDZOE9sOQ22iAE8VS-7lw-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 73B261006AA2
- for <qemu-devel@nongnu.org>; Mon, 20 Dec 2021 08:11:05 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2FA506408E
+ for <qemu-devel@nongnu.org>; Mon, 20 Dec 2021 08:11:07 +0000 (UTC)
 Received: from thuth.com (dhcp-192-183.str.redhat.com [10.33.192.183])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5B7785BD0B;
- Mon, 20 Dec 2021 08:11:04 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 156265BD0B;
+ Mon, 20 Dec 2021 08:11:05 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
 	Laurent Vivier <lvivier@redhat.com>
-Subject: [PATCH 1/4] tests/qtest: Add a function that checks whether a device
- is available
-Date: Mon, 20 Dec 2021 09:10:51 +0100
-Message-Id: <20211220081054.151515-2-thuth@redhat.com>
+Subject: [PATCH 2/4] tests/qtest: Improve endianness-test to work with missing
+ machines and devices
+Date: Mon, 20 Dec 2021 09:10:52 +0100
+Message-Id: <20211220081054.151515-3-thuth@redhat.com>
 In-Reply-To: <20211220081054.151515-1-thuth@redhat.com>
 References: <20211220081054.151515-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -84,92 +84,31 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Devices might not always be compiled into the QEMU target binaries.
-We already have the libqos framework that is good for handling such
-situations, but some of the qtests are not a real good fit for the
-libqos framework. Let's add a qtest_has_device() function for such
-tests instead.
+The users might have built QEMU with less machines or without the
+i82378 superio device. Add some checks to the endianess-test so that
+it is able to deal with such stripped down QEMU versions, too.
 
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/qtest/libqos/libqtest.h |  8 +++++++
- tests/qtest/libqtest.c        | 44 +++++++++++++++++++++++++++++++++++
- 2 files changed, 52 insertions(+)
+ tests/qtest/endianness-test.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/tests/qtest/libqos/libqtest.h b/tests/qtest/libqos/libqtest.h
-index dff6b31cf0..2df9397519 100644
---- a/tests/qtest/libqos/libqtest.h
-+++ b/tests/qtest/libqos/libqtest.h
-@@ -718,6 +718,14 @@ void qtest_cb_for_every_machine(void (*cb)(const char *machine),
-  */
- bool qtest_has_machine(const char *machine);
+diff --git a/tests/qtest/endianness-test.c b/tests/qtest/endianness-test.c
+index 09ecb531f1..9c03b72dc9 100644
+--- a/tests/qtest/endianness-test.c
++++ b/tests/qtest/endianness-test.c
+@@ -281,7 +281,10 @@ int main(int argc, char **argv)
  
-+/**
-+ * qtest_has_device:
-+ * @device: The device to look for
-+ *
-+ * Returns: true if the device is available in the target binary.
-+ */
-+bool qtest_has_device(const char *device);
+     for (i = 0; test_cases[i].arch; i++) {
+         gchar *path;
+-        if (strcmp(test_cases[i].arch, arch) != 0) {
 +
- /**
-  * qtest_qmp_device_add_qdict:
-  * @qts: QTestState instance to operate on
-diff --git a/tests/qtest/libqtest.c b/tests/qtest/libqtest.c
-index 65ed949685..9e845002a1 100644
---- a/tests/qtest/libqtest.c
-+++ b/tests/qtest/libqtest.c
-@@ -1418,6 +1418,50 @@ bool qtest_has_machine(const char *machine)
-     return false;
- }
- 
-+bool qtest_has_device(const char *device)
-+{
-+    static QList *list;
-+    const QListEntry *p;
-+    QObject *qobj;
-+    QString *qstr;
-+    QDict *devinfo;
-+    int idx;
-+
-+    if (!list) {
-+        QDict *resp;
-+        QDict *args;
-+        QTestState *qts = qtest_init("-machine none");
-+
-+        args = qdict_new();
-+        qdict_put_bool(args, "abstract", false);
-+        qdict_put_str(args, "implements", "device");
-+
-+        resp = qtest_qmp(qts, "{'execute': 'qom-list-types', 'arguments': %p }",
-+                         args);
-+        g_assert(qdict_haskey(resp, "return"));
-+        list = qdict_get_qlist(resp, "return");
-+        qobject_ref(list);
-+        qobject_unref(resp);
-+
-+        qtest_quit(qts);
-+    }
-+
-+    for (p = qlist_first(list), idx = 0; p; p = qlist_next(p), idx++) {
-+        devinfo = qobject_to(QDict, qlist_entry_obj(p));
-+        g_assert(devinfo);
-+
-+        qobj = qdict_get(devinfo, "name");
-+        g_assert(qobj);
-+        qstr = qobject_to(QString, qobj);
-+        g_assert(qstr);
-+        if (g_str_equal(qstring_get_str(qstr), device)) {
-+            return true;
-+        }
-+    }
-+
-+    return false;
-+}
-+
- /*
-  * Generic hot-plugging test via the device_add QMP commands.
-  */
++        if (!g_str_equal(test_cases[i].arch, arch) ||
++            !qtest_has_machine(test_cases[i].machine) ||
++            (test_cases[i].superio && !qtest_has_device(test_cases[i].superio))) {
+             continue;
+         }
+         path = g_strdup_printf("endianness/%s",
 -- 
 2.27.0
 
