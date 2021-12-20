@@ -2,89 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7C4D47A4E6
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Dec 2021 07:16:33 +0100 (CET)
-Received: from localhost ([::1]:51302 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE6B847A53F
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Dec 2021 08:00:39 +0100 (CET)
+Received: from localhost ([::1]:53936 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mzByK-00027L-PU
-	for lists+qemu-devel@lfdr.de; Mon, 20 Dec 2021 01:16:32 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51194)
+	id 1mzCf0-00019M-HV
+	for lists+qemu-devel@lfdr.de; Mon, 20 Dec 2021 02:00:38 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51260)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=9816edf2f=alistair.francis@opensource.wdc.com>)
- id 1mzAp0-0004dw-8b
- for qemu-devel@nongnu.org; Mon, 20 Dec 2021 00:02:50 -0500
-Received: from esa2.hgst.iphmx.com ([68.232.143.124]:51752)
+ id 1mzAp3-0004eh-5A
+ for qemu-devel@nongnu.org; Mon, 20 Dec 2021 00:03:20 -0500
+Received: from esa2.hgst.iphmx.com ([68.232.143.124]:51767)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=9816edf2f=alistair.francis@opensource.wdc.com>)
- id 1mzAox-0000FH-Dq
- for qemu-devel@nongnu.org; Mon, 20 Dec 2021 00:02:49 -0500
+ id 1mzAoy-0000Ga-7v
+ for qemu-devel@nongnu.org; Mon, 20 Dec 2021 00:02:51 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1639976567; x=1671512567;
+ t=1639976568; x=1671512568;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=L1lSYilsoOlB6KrKbkUU9FSVyrNPSDjxMYcpdA4KhwA=;
- b=f26qHMdZ9gtwwfOCmIt4/dF97RQaj1Ehd/RVmh4VDUBuPrHEpKVRCZMr
- bYFi/4jsMKDw2CVoFF8VR3M8YcIpKzcAvFoCu9FAfa8PHutPqZppSiTf4
- FQQicG82DgqzJW7Ub08Ib3/1u9y521948+/0jrEnYeqaPbwaU6C5Uat4H
- p3ZsQADJxMs3PkWux5oeax3Dr+3L6sGG+ikTQ+I+S2CfNwMOY0okkERKO
- wjOygje7F5Jo+o1/Aqss9Tt5LxZgMYjMkldpMuoMHlgpaB32yK0At+3pK
- +NaQLI8MUzWfqJw6LQGJJ2Iv1e+P/eTwwo4wDtc0SK8vImoqA1kyzGU4r w==;
-X-IronPort-AV: E=Sophos;i="5.88,219,1635177600"; d="scan'208";a="292662340"
+ bh=yPcUy72ZBr8FIdTehqjz37h3GQhhf3ed2cXTH5LOR8I=;
+ b=UW4zpXOn/nMzVWctSNoT5PTTn7RSRmF0Vu8tE5KUqOoz7Is0DK+4BtlW
+ UrV/lSZLGMNc2Ud0TpbZsU5h39E1CVyI0UbBtTl83/5xMrm44VsXKop+L
+ b+TrY75ohhpGDx2IA+X1KJIY8ylKLfo6T154Y3kigr6uhZnuxXldAPUGf
+ 0VNBan4dltvnVmTEsOHScO7+KsbHUViTM7+ijiXf4QHk/jXPvEzT4CUq4
+ xVn8w8Xvesfue16TESmpnZKd79/menO+Yj5JfreKuBOy1dLOUUFTu5c1N
+ 7d2Ee0qfkDBQqK/ZLFNAv0quUuxfxmM8VhBctjd4ittdos1YzNgtHDX7J Q==;
+X-IronPort-AV: E=Sophos;i="5.88,219,1635177600"; d="scan'208";a="292662344"
 Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 20 Dec 2021 13:02:36 +0800
-IronPort-SDR: 64W+99kL8ChJyYRiX93Li1ECaFYPtbspRb9sZ2byzJNjVcDuG1KGw4OA9gIhQasnLozsurKU7E
- u0cgeAgI6W9L5FhnqqtkbQCgQsZ297+kWbTP/zq5ozx7xHXGn2+e6mh+7OvF5QhpOjS6GEL24J
- AbJjIYETyGizyeEAyxQynjH8NZi8tvcVg/jHOb3100r3knR9KRbffhLHLvJCVnputrPZtEF9uP
- Ur4Dk1eoyUDTd4RByVdDlK3KiUhHhun+HdfJHCNqRG+b5WQgmoEID3buChCm5GspVz6h0J3qsZ
- NsyeodiUXhO4CGtbk1U3e2eC
+ by ob1.hgst.iphmx.com with ESMTP; 20 Dec 2021 13:02:40 +0800
+IronPort-SDR: nualIkc9e+485X5G5hi6yodIPASnoVrnVC248qMgbIdvLlqb/n1GGO3q80r1vGAJiLfQtIEZuF
+ PqhjHxLabNKZBcJN/xyvSu+9sDwJm16AxSj9SICkz3el5A0OEVRWM/8ltuTcU5RModFDLt0+n7
+ QFOuTfyKEbZsmp47svQFkznn8L+RRWBirWfyUP6AlBftn9Dd+tXjOLk3csbff/ptEVBBd6wbNP
+ nrBXy+R98xoZUUCTxYiQRAwtQg+y33HKrobwMhaccWwW1ru3J3s8M+nMVEqC1sH1JfmBAcwBw0
+ LEQf5+lRZZY7w4TMA1pRu0F9
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Dec 2021 20:35:26 -0800
-IronPort-SDR: PFTRcda/4IJAJ4AIjDzpmbFsbQlGihiVWbGXYaykQJGI1mDbwYF9UDh9zu0EqerpPUDqgc3CPI
- oLtlsZ/fv7wTWXPSXbb4KQNrExSlt102kUgI+flRxa/gdEV/57Ram/OMn3whDdLo5b6ZqAFYWf
- rLrmcfjlH7sE/H4wp/PiM9KNeHzw3PcWUOzJHV5czxO1TWAlE9YnLaWiUlMfHj7XsUNTY+g8J8
- rrYiBgCLAXjSFF3//bQe8ci7DPmP3S/q3OlAQknUrfo8PIZ3UB0hKT7PTyBTu0IQQvJI0zKofh
- yww=
+ 19 Dec 2021 20:35:30 -0800
+IronPort-SDR: rgEDySE51yh/SZPzjfN1PE7ZGil3pwn2u6b3Z218ZlpyQxvgC3iEpuycqe6TAkZDU6epihsawV
+ /LbKsuhwvV5Qpg8dd4NhiUb4db6y67kpGLyyWD3udY+V+q2vlcZ9kOB81hXnyg6mXtP28JzYGt
+ wlV9x1f6UCdVM6PBuPHgad2zgZamDJn/+jXELxMUFIZPY3D1fXQgvlQrw4GJR+vvo+gL+Kwa6T
+ TX8LjVHqCJj8z7kp+sbFLpTF8h5iAKC+kdQumRhpg044yBka8Q5PesuHTncmtjWG5WnGCEqqs/
+ HNw=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Dec 2021 21:02:36 -0800
+ 19 Dec 2021 21:02:40 -0800
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4JHSBh3yPHz1RwFN
- for <qemu-devel@nongnu.org>; Sun, 19 Dec 2021 21:02:36 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4JHSBm5kxfz1RvTh
+ for <qemu-devel@nongnu.org>; Sun, 19 Dec 2021 21:02:40 -0800 (PST)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
  opensource.wdc.com; h=content-transfer-encoding:mime-version
  :references:in-reply-to:x-mailer:message-id:date:subject:to
- :from; s=dkim; t=1639976556; x=1642568557; bh=L1lSYilsoOlB6KrKbk
- UU9FSVyrNPSDjxMYcpdA4KhwA=; b=MRoi3XSRJ417HYbdTRVVsaqfJf3spURaX8
- CNsOw6GBCa1/zjbOGtxNZmWgT2Fl0T/mpEcjywITGnqjzb3PjP+T6ugzOvmSTpeL
- H77LMGTlkemPmsvu4QXalQhSFR/oBTYqeIa1yA8b3bmhft7tRzPBkGtm/lyykBOQ
- SXxgah0PkFuPhTwFIvy9plAFG9HYHvije5bmoEzt9UR/SiV8aobTa+b5Vdblx6+R
- CrP/v5X24dsMICzeS9fQjoQmQiRNyTcyPz86cQAz/LJsMaPuKUIgzo86xzAyVLi4
- UX3vUYPvK2YlrzMpVDF4bE1zdoDCwpeI7zf3LNCdzmUnodYojuTA==
+ :from; s=dkim; t=1639976560; x=1642568561; bh=yPcUy72ZBr8FIdTehq
+ jz37h3GQhhf3ed2cXTH5LOR8I=; b=ALzgdmThsmqxzuy+hEwfLDs+nfbpAyQQQG
+ mNnKYq3ka4iYmKRcGXwhZxYY2P6RFj+9gTQ8KvOi//gCQbN8O3QGnmSaaIlbzYXy
+ Sx0hn4XMl9ARiKwQigeMksadd6FFO9dOaIeG7Ibymx572/UIphQa720T69AhAehf
+ IAumA/UWOSJV9lSVMPv8HvipXwjBmAaOYc0W8SLQBgPTh4dvGPx3dgsP2nUDUhGh
+ rJDJA0Mnx2Gbqs3p+IjDKyoAi3O7fdGIg+8uKsxoda8bOZeS2CALvB1IqW8wjnGL
+ obEHElagza+JCdoasIv+iQjRewh13hcQrp42pLAdmhJyUVV67TEQ==
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id cwhSkZzvPDx4 for <qemu-devel@nongnu.org>;
- Sun, 19 Dec 2021 21:02:36 -0800 (PST)
+ port 10026) with ESMTP id lO88mbWHrmLq for <qemu-devel@nongnu.org>;
+ Sun, 19 Dec 2021 21:02:40 -0800 (PST)
 Received: from toolbox.alistair23.me (unknown [10.225.165.68])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4JHSBd4WPZz1RtVG;
- Sun, 19 Dec 2021 21:02:33 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4JHSBj0sR5z1RtVG;
+ Sun, 19 Dec 2021 21:02:36 -0800 (PST)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org
 Cc: alistair23@gmail.com, Frank Chang <frank.chang@sifive.com>,
  Alistair Francis <alistair.francis@wdc.com>
-Subject: [PULL 80/88] target/riscv: rvv-1.0: add vsetivli instruction
-Date: Mon, 20 Dec 2021 14:56:57 +1000
-Message-Id: <20211220045705.62174-81-alistair.francis@opensource.wdc.com>
+Subject: [PULL 81/88] target/riscv: rvv-1.0: add evl parameter to
+ vext_ldst_us()
+Date: Mon, 20 Dec 2021 14:56:58 +1000
+Message-Id: <20211220045705.62174-82-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211220045705.62174-1-alistair.francis@opensource.wdc.com>
 References: <20211220045705.62174-1-alistair.francis@opensource.wdc.com>
@@ -117,86 +118,123 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Frank Chang <frank.chang@sifive.com>
 
+Add supports of Vector unit-stride mask load/store instructions
+(vlm.v, vsm.v), which has:
+    evl (effective vector length) =3D ceil(env->vl / 8).
+
+The new instructions operate the same as unmasked byte loads and stores.
+Add evl parameter to reuse vext_ldst_us().
+
 Signed-off-by: Frank Chang <frank.chang@sifive.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <20211210075704.23951-73-frank.chang@sifive.com>
+Message-Id: <20211210075704.23951-74-frank.chang@sifive.com>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/insn32.decode              |  2 ++
- target/riscv/insn_trans/trans_rvv.c.inc | 27 +++++++++++++++++++++++++
- 2 files changed, 29 insertions(+)
+ target/riscv/vector_helper.c | 36 ++++++++++++++++++------------------
+ 1 file changed, 18 insertions(+), 18 deletions(-)
 
-diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-index d7c6bc9af2..3b6524bad9 100644
---- a/target/riscv/insn32.decode
-+++ b/target/riscv/insn32.decode
-@@ -79,6 +79,7 @@
- @r_vm_1  ...... . ..... ..... ... ..... .......    &rmrr vm=3D1 %rs2 %rs=
-1 %rd
- @r_vm_0  ...... . ..... ..... ... ..... .......    &rmrr vm=3D0 %rs2 %rs=
-1 %rd
- @r2_zimm11 . zimm:11  ..... ... ..... ....... %rs1 %rd
-+@r2_zimm10 .. zimm:10  ..... ... ..... ....... %rs1 %rd
- @r2_s    .......   ..... ..... ... ..... ....... %rs2 %rs1
+diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
+index 946dca53ff..83373ca6fc 100644
+--- a/target/riscv/vector_helper.c
++++ b/target/riscv/vector_helper.c
+@@ -279,15 +279,15 @@ GEN_VEXT_ST_STRIDE(vsse64_v, int64_t, ste_d)
+ /* unmasked unit-stride load and store operation*/
+ static void
+ vext_ldst_us(void *vd, target_ulong base, CPURISCVState *env, uint32_t d=
+esc,
+-             vext_ldst_elem_fn *ldst_elem,
+-             uint32_t esz, uintptr_t ra, MMUAccessType access_type)
++             vext_ldst_elem_fn *ldst_elem, uint32_t esz, uint32_t evl,
++             uintptr_t ra, MMUAccessType access_type)
+ {
+     uint32_t i, k;
+     uint32_t nf =3D vext_nf(desc);
+     uint32_t max_elems =3D vext_max_elems(desc, esz);
 =20
- @hfence_gvma ....... ..... .....   ... ..... ....... %rs2 %rs1
-@@ -672,6 +673,7 @@ vsext_vf4       010010 . ..... 00101 010 ..... 101011=
-1 @r2_vm
- vsext_vf8       010010 . ..... 00011 010 ..... 1010111 @r2_vm
-=20
- vsetvli         0 ........... ..... 111 ..... 1010111  @r2_zimm11
-+vsetivli        11 .......... ..... 111 ..... 1010111  @r2_zimm10
- vsetvl          1000000 ..... ..... 111 ..... 1010111  @r
-=20
- # *** RV32 Zba Standard Extension ***
-diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_=
-trans/trans_rvv.c.inc
-index ff8f6df8f7..e540b5d33c 100644
---- a/target/riscv/insn_trans/trans_rvv.c.inc
-+++ b/target/riscv/insn_trans/trans_rvv.c.inc
-@@ -160,6 +160,26 @@ static bool do_vsetvl(DisasContext *s, int rd, int r=
-s1, TCGv s2)
-     return true;
+     /* load bytes from guest memory */
+-    for (i =3D env->vstart; i < env->vl; i++, env->vstart++) {
++    for (i =3D env->vstart; i < evl; i++, env->vstart++) {
+         k =3D 0;
+         while (k < nf) {
+             target_ulong addr =3D base + ((i * nf + k) << esz);
+@@ -316,7 +316,7 @@ void HELPER(NAME)(void *vd, void *v0, target_ulong ba=
+se,                \
+                   CPURISCVState *env, uint32_t desc)                    =
+\
+ {                                                                       =
+\
+     vext_ldst_us(vd, base, env, desc, LOAD_FN,                          =
+\
+-                 ctzl(sizeof(ETYPE)), GETPC(), MMU_DATA_LOAD);          =
+\
++                 ctzl(sizeof(ETYPE)), env->vl, GETPC(), MMU_DATA_LOAD); =
+\
  }
 =20
-+static bool do_vsetivli(DisasContext *s, int rd, TCGv s1, TCGv s2)
-+{
-+    TCGv dst;
-+
-+    if (!require_rvv(s) || !has_ext(s, RVV)) {
-+        return false;
-+    }
-+
-+    dst =3D dest_gpr(s, rd);
-+
-+    gen_helper_vsetvl(dst, cpu_env, s1, s2);
-+    gen_set_gpr(s, rd, dst);
-+    mark_vs_dirty(s);
-+    tcg_gen_movi_tl(cpu_pc, s->pc_succ_insn);
-+    tcg_gen_lookup_and_goto_ptr();
-+    s->base.is_jmp =3D DISAS_NORETURN;
-+
-+    return true;
-+}
-+
- static bool trans_vsetvl(DisasContext *s, arg_vsetvl *a)
- {
-     TCGv s2 =3D get_gpr(s, a->rs2, EXT_ZERO);
-@@ -172,6 +192,13 @@ static bool trans_vsetvli(DisasContext *s, arg_vsetv=
-li *a)
-     return do_vsetvl(s, a->rd, a->rs1, s2);
+ GEN_VEXT_LD_US(vle8_v,  int8_t,  lde_b)
+@@ -324,20 +324,20 @@ GEN_VEXT_LD_US(vle16_v, int16_t, lde_h)
+ GEN_VEXT_LD_US(vle32_v, int32_t, lde_w)
+ GEN_VEXT_LD_US(vle64_v, int64_t, lde_d)
+=20
+-#define GEN_VEXT_ST_US(NAME, ETYPE, STORE_FN)                           =
+\
+-void HELPER(NAME##_mask)(void *vd, void *v0, target_ulong base,         =
+\
+-                         CPURISCVState *env, uint32_t desc)             =
+\
+-{                                                                       =
+\
+-    uint32_t stride =3D vext_nf(desc) << ctzl(sizeof(ETYPE));           =
+  \
+-    vext_ldst_stride(vd, v0, base, stride, env, desc, false, STORE_FN,  =
+\
+-                     ctzl(sizeof(ETYPE)), GETPC(), MMU_DATA_STORE);     =
+\
+-}                                                                       =
+\
+-                                                                        =
+\
+-void HELPER(NAME)(void *vd, void *v0, target_ulong base,                =
+\
+-                  CPURISCVState *env, uint32_t desc)                    =
+\
+-{                                                                       =
+\
+-    vext_ldst_us(vd, base, env, desc, STORE_FN,                         =
+\
+-                 ctzl(sizeof(ETYPE)), GETPC(), MMU_DATA_STORE);         =
+\
++#define GEN_VEXT_ST_US(NAME, ETYPE, STORE_FN)                           =
+ \
++void HELPER(NAME##_mask)(void *vd, void *v0, target_ulong base,         =
+ \
++                         CPURISCVState *env, uint32_t desc)             =
+ \
++{                                                                       =
+ \
++    uint32_t stride =3D vext_nf(desc) << ctzl(sizeof(ETYPE));           =
+   \
++    vext_ldst_stride(vd, v0, base, stride, env, desc, false, STORE_FN,  =
+ \
++                     ctzl(sizeof(ETYPE)), GETPC(), MMU_DATA_STORE);     =
+ \
++}                                                                       =
+ \
++                                                                        =
+ \
++void HELPER(NAME)(void *vd, void *v0, target_ulong base,                =
+ \
++                  CPURISCVState *env, uint32_t desc)                    =
+ \
++{                                                                       =
+ \
++    vext_ldst_us(vd, base, env, desc, STORE_FN,                         =
+ \
++                 ctzl(sizeof(ETYPE)), env->vl, GETPC(), MMU_DATA_STORE);=
+ \
  }
 =20
-+static bool trans_vsetivli(DisasContext *s, arg_vsetivli *a)
-+{
-+    TCGv s1 =3D tcg_const_tl(a->rs1);
-+    TCGv s2 =3D tcg_const_tl(a->zimm);
-+    return do_vsetivli(s, a->rd, s1, s2);
-+}
-+
- /* vector register offset from env */
- static uint32_t vreg_ofs(DisasContext *s, int reg)
- {
+ GEN_VEXT_ST_US(vse8_v,  int8_t,  ste_b)
 --=20
 2.31.1
 
