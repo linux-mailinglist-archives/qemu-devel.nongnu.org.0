@@ -2,91 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C11E247A490
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Dec 2021 06:29:28 +0100 (CET)
-Received: from localhost ([::1]:47006 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92E6847A49B
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Dec 2021 06:34:37 +0100 (CET)
+Received: from localhost ([::1]:55654 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mzBEl-0007B6-Nr
-	for lists+qemu-devel@lfdr.de; Mon, 20 Dec 2021 00:29:27 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49438)
+	id 1mzBJk-0004xT-Kq
+	for lists+qemu-devel@lfdr.de; Mon, 20 Dec 2021 00:34:36 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49468)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=9816edf2f=alistair.francis@opensource.wdc.com>)
- id 1mzAkw-0000NX-DM
- for qemu-devel@nongnu.org; Sun, 19 Dec 2021 23:58:38 -0500
-Received: from esa2.hgst.iphmx.com ([68.232.143.124]:51385)
+ id 1mzAl0-0000WW-7x
+ for qemu-devel@nongnu.org; Sun, 19 Dec 2021 23:58:42 -0500
+Received: from esa2.hgst.iphmx.com ([68.232.143.124]:51416)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=9816edf2f=alistair.francis@opensource.wdc.com>)
- id 1mzAku-00086v-Hr
- for qemu-devel@nongnu.org; Sun, 19 Dec 2021 23:58:38 -0500
+ id 1mzAky-00087o-KH
+ for qemu-devel@nongnu.org; Sun, 19 Dec 2021 23:58:41 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1639976316; x=1671512316;
+ t=1639976320; x=1671512320;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=z9omsRc3kQ/f3l32qfSbwNIAjwccD6RsIuv0w3YZF3U=;
- b=a7brOqXiLDXOEvLrvaW+b1Y2LivTmahguR+FrbAfLaBpCEWKkuFD77mM
- D800PMFAf+WNJwQ8OzWkB/HqMRRktj/QBnFrIWbXxzfTKjlQfyhST/PAq
- wp5DI8Tr9AE8WOGAavkokqeepj9CZ77/XvmPl5SGWKuMEwOXgl2KAZ91l
- uhcE7Iz5uq3CAgpVer6CZ925/SJwGqKsm9+eY7MMvgsujuoDIOn5cwZzf
- 6xgujH8QbpgSyF72YvhmNapAARVuEnrUPVFvCqv/rv0oXa1M6smHviK4r
- qlCQnFW2F3Foi5uVK8TlwkruY2yFZFHf+SUK7vah3Metc1UccvX4gC2bx g==;
-X-IronPort-AV: E=Sophos;i="5.88,219,1635177600"; d="scan'208";a="292661930"
+ bh=jJsyyRnHS7CDdpNitSp7ueruhaYZDYhNxaupNN026vg=;
+ b=C8oiJjzMrhSjVPLBR424oK3Frb14EyGYzDqlwXxpVwz+a8W6q/aONWss
+ EC5dZC/FL3sClEdi/BCRWgnrUyy14A+1252JRADbbJF0wQyJFXSi0MU/Z
+ wDzrJDmXl7c93nqWjg/5esW0yA6Km5rBOCoYvE2NlwZ/0uIhH0CFZrhPf
+ Zhk67F+6+BhMBzUV4WJXquevxunsGnN5HjB/NhCbZTn9QQ2ZKAzChMq73
+ 2ffFcTxFQpTlNjiVpnn8d04mfsin1vXpiNuUgvFLoTViz3/dkI5BqRunQ
+ I5PkoI3tD+rScln6c8rMmiVf1mhjI4YVOmtCe/hxMfS5IKE3z/0vI4Yxs A==;
+X-IronPort-AV: E=Sophos;i="5.88,219,1635177600"; d="scan'208";a="292661932"
 Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 20 Dec 2021 12:58:35 +0800
-IronPort-SDR: 1ECs2IPiAgg5bzWO9TIfD689F1dtuJGe4Jifd/h4TvZiorN3yIltZkR3Leh4zDuSI9GlGsFg/Q
- Wlm/hnoB85Rd/eN6HUhHKpVCG3LnGZU6tjy6abt75jq358B7Yrj4NurAvEjqauiT95hWHcvnYb
- Z/7bcg+6BT2wbQI3DzqB2UGSSCAt4anPwMoVhR9MMt0DM9MEHx8amAhS0bqFCto6uh4mjsddUy
- Pv364gLOBDxMz/wChEFhq6alSQ/STxTn+BeDPXo1wQDJgUvyaGvd05aUE9cwXawdnlsXaQd8Wp
- yyWPiW7LKIHZwxyfb6YCk1VB
+ by ob1.hgst.iphmx.com with ESMTP; 20 Dec 2021 12:58:39 +0800
+IronPort-SDR: 7zzo9/ionu9ccmjyjR5kxC67U5R7ziCtyyAkWsOKkRlDhSnriG8o6jIXxVVgDrt+0jyqf0RcJi
+ riCd3u+DR5kERKatnlT9QBerwAyB6Eo+HIttC4CUO6z1PajQkwhDVIpL9nAWZ55ojnhdV2ZMFE
+ TPCQR0e4RWWAikSKTvJsfqR0aKE0rtPaQIL+tPyZRy0PCcTlIObtNDeW4bAfCF8MNoRSUdCHLN
+ BLtPryq30R6PDbZA7lZ1Dk4TElfBe8Rf7LR2ER78HiF9WiII+Dl+SliL0eUtJDr53C2UJUxy4y
+ gc3tmobadmwLEf0ZiJYC5eLk
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Dec 2021 20:31:24 -0800
-IronPort-SDR: 1/tZpehRsGoB5bewmR4pdkRRFiV9ORhStuyJwmqohxnyLlJoKTOfhG6OhueIalDFrR3c2mKNkb
- E8qp7HBZFqTIVs/EvEiEufZcy4PnLfPPvR9cHTGU0wPCFTPysVnNr54EM69n1e8DUDMOg7DNWJ
- Ze/WFV/NARUhPZo/OtpfxcvPsvttd4aQbqOhEhpG/9hU4btchkm6D49KM+phD9vCwDw9c3iJt4
- u/Q7kIESROPfyh6pMW/E+UIJdaCwFZtufSJm+Z0O81I3960/NmTHMkhmjkvQmDcOTtsm6N8gmk
- emo=
+ 19 Dec 2021 20:31:28 -0800
+IronPort-SDR: 9DIBFmGEtk110deX1gGbvHR6tatbamvwbU7zMn+ynYCHB+pI8z52N8qs111UTzGw/NWtesqbqE
+ fwZm/LGUQeNHjQnmlQTDBc1vHg020H35NDGSbIi1H3swWvPXeK9pc8FdFsn0wpVYQOfflpB21H
+ m3MI05Dj420/TT7eb6py14OygrvCHCGM7z6Hll4MRYZ3Q8yxwFqbBvr7HfY64FsDWZNuwL8mwM
+ MwatT1OlR5en1SI3HMInvTuw8VToOPJ2UgOOHNVobernbyxE3oFF4/NcJpyasbXs7mA/9c0eky
+ kV4=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Dec 2021 20:58:36 -0800
+ 19 Dec 2021 20:58:40 -0800
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4JHS630ZBBz1Rwns
- for <qemu-devel@nongnu.org>; Sun, 19 Dec 2021 20:58:35 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4JHS671RLbz1RvTg
+ for <qemu-devel@nongnu.org>; Sun, 19 Dec 2021 20:58:39 -0800 (PST)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
  opensource.wdc.com; h=content-transfer-encoding:mime-version
  :references:in-reply-to:x-mailer:message-id:date:subject:to
- :from; s=dkim; t=1639976314; x=1642568315; bh=z9omsRc3kQ/f3l32qf
- SbwNIAjwccD6RsIuv0w3YZF3U=; b=jsshxU7jQ0STE9F9IbJjZHpCTuH/tEPTN3
- K+yAVXXwK21VeqxaRioPjATQLV2bupxUmjcmJyb7DsHb+XKqAkcmdV0p9oQJiWmx
- AF3ls3E5+cfvgM0IJTUqobbnpW5E2ohxCYqXUNVKyuriNVBAeL0dJBkOR3xJDla3
- HI+QH3aaVjRffL6VArIjhf32hh/H3tkiXt30LYmPgWcp1BUqvJP8QaZFAuNjN8iy
- u/ulEVgpASNP7Q/HQpMLJGRFxtA8KAi4yaNk82GNOnDuto8NXh50NAhtZJPmCx63
- 3RhmymWBzeLNYFiuAtYvfhXZUnJuc6FVGf7DeiFT4tWKkvc7auOw==
+ :from; s=dkim; t=1639976318; x=1642568319; bh=jJsyyRnHS7CDdpNitS
+ p7ueruhaYZDYhNxaupNN026vg=; b=b9lToop0HTQu8bDDVW1wqZrQV1czVqsuFo
+ K0p0JcN3lQG+179p5hK7PuTUlJeGnWUUZPbRQyoJr0F0INSQK+QbajPU24FU3LX7
+ AqHZjsRGPwP7anCCgoanSt/7UrDNv8/mBWNdrmRVK8anq6+wZTSX5kJw61hTlcQd
+ dsHwKIvTzTcNJ8l3RHYqQYGLLrWP03NynM/uYyLA290p5aznCbA3d1ovC7HL+DKs
+ J80qLCTJFnS7OTkQ6A7M4B+qzZC5ibd4WU6dGBBZ8ZX3cp6YfT6eHJfbrbm6KsgQ
+ scyMIbnriQZ2JP+I3hK2DnoRuUztEQHlzBF0+RF0voHJC6dfScYg==
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id g9OvKnQRT5yw for <qemu-devel@nongnu.org>;
- Sun, 19 Dec 2021 20:58:34 -0800 (PST)
+ port 10026) with ESMTP id iDU6_Do8g6BP for <qemu-devel@nongnu.org>;
+ Sun, 19 Dec 2021 20:58:38 -0800 (PST)
 Received: from toolbox.alistair23.me (unknown [10.225.165.68])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4JHS5y6qLQz1RvTg;
- Sun, 19 Dec 2021 20:58:30 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4JHS6369mNz1RtVG;
+ Sun, 19 Dec 2021 20:58:35 -0800 (PST)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org
-Cc: alistair23@gmail.com, Greentime Hu <greentime.hu@sifive.com>,
- Frank Chang <frank.chang@sifive.com>,
+Cc: alistair23@gmail.com, Frank Chang <frank.chang@sifive.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  Alistair Francis <alistair.francis@wdc.com>
-Subject: [PULL 18/88] target/riscv: rvv-1.0: add vlenb register
-Date: Mon, 20 Dec 2021 14:55:55 +1000
-Message-Id: <20211220045705.62174-19-alistair.francis@opensource.wdc.com>
+Subject: [PULL 19/88] target/riscv: rvv-1.0: check MSTATUS_VS when accessing
+ vector csr registers
+Date: Mon, 20 Dec 2021 14:55:56 +1000
+Message-Id: <20211220045705.62174-20-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211220045705.62174-1-alistair.francis@opensource.wdc.com>
 References: <20211220045705.62174-1-alistair.francis@opensource.wdc.com>
@@ -117,61 +117,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Greentime Hu <greentime.hu@sifive.com>
+From: Frank Chang <frank.chang@sifive.com>
 
-Signed-off-by: Greentime Hu <greentime.hu@sifive.com>
+If VS field is off, accessing vector csr registers should raise an
+illegal-instruction exception.
+
 Signed-off-by: Frank Chang <frank.chang@sifive.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <20211210075704.23951-11-frank.chang@sifive.com>
+Message-Id: <20211210075704.23951-12-frank.chang@sifive.com>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/cpu_bits.h | 1 +
- target/riscv/csr.c      | 7 +++++++
- 2 files changed, 8 insertions(+)
+ target/riscv/csr.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
-index 8dc6aa62c6..1e31f4d35f 100644
---- a/target/riscv/cpu_bits.h
-+++ b/target/riscv/cpu_bits.h
-@@ -63,6 +63,7 @@
- #define CSR_VCSR            0x00f
- #define CSR_VL              0xc20
- #define CSR_VTYPE           0xc21
-+#define CSR_VLENB           0xc22
-=20
- /* VCSR fields */
- #define VCSR_VXSAT_SHIFT    0
 diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index 832ccdcf33..5d1eec1ea0 100644
+index 5d1eec1ea0..3dfbc17738 100644
 --- a/target/riscv/csr.c
 +++ b/target/riscv/csr.c
-@@ -285,6 +285,12 @@ static RISCVException read_vl(CPURISCVState *env, in=
-t csrno,
-     return RISCV_EXCP_NONE;
- }
-=20
-+static int read_vlenb(CPURISCVState *env, int csrno, target_ulong *val)
-+{
-+    *val =3D env_archcpu(env)->cfg.vlen >> 3;
-+    return RISCV_EXCP_NONE;
-+}
-+
- static RISCVException read_vxrm(CPURISCVState *env, int csrno,
-                                 target_ulong *val)
+@@ -48,6 +48,11 @@ static RISCVException fs(CPURISCVState *env, int csrno=
+)
+ static RISCVException vs(CPURISCVState *env, int csrno)
  {
-@@ -1835,6 +1841,7 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] =3D {
-     [CSR_VCSR]     =3D { "vcsr",     vs,     read_vcsr,    write_vcsr   =
-},
-     [CSR_VL]       =3D { "vl",       vs,     read_vl                    =
-},
-     [CSR_VTYPE]    =3D { "vtype",    vs,     read_vtype                 =
-},
-+    [CSR_VLENB]    =3D { "vlenb",    vs,     read_vlenb                 =
-},
-     /* User Timers and Counters */
-     [CSR_CYCLE]    =3D { "cycle",    ctr,    read_instret  },
-     [CSR_INSTRET]  =3D { "instret",  ctr,    read_instret  },
+     if (env->misa_ext & RVV) {
++#if !defined(CONFIG_USER_ONLY)
++        if (!env->debugger && !riscv_cpu_vector_enabled(env)) {
++            return RISCV_EXCP_ILLEGAL_INST;
++        }
++#endif
+         return RISCV_EXCP_NONE;
+     }
+     return RISCV_EXCP_ILLEGAL_INST;
 --=20
 2.31.1
 
