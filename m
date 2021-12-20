@@ -2,73 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7249E47B327
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Dec 2021 19:48:15 +0100 (CET)
-Received: from localhost ([::1]:33910 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 211ED47B2BD
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Dec 2021 19:22:09 +0100 (CET)
+Received: from localhost ([::1]:49352 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mzNhl-0000Kk-CQ
-	for lists+qemu-devel@lfdr.de; Mon, 20 Dec 2021 13:48:14 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46346)
+	id 1mzNIW-0005Gy-81
+	for lists+qemu-devel@lfdr.de; Mon, 20 Dec 2021 13:22:08 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35630)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pratikp@vayavyalabs.com>)
- id 1mzMEy-0001gT-SE
- for qemu-devel@nongnu.org; Mon, 20 Dec 2021 12:14:25 -0500
-Received: from [2a00:1450:4864:20::229] (port=35814
- helo=mail-lj1-x229.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <pratikp@vayavyalabs.com>)
- id 1mzMEx-00012F-Cx
- for qemu-devel@nongnu.org; Mon, 20 Dec 2021 12:14:24 -0500
-Received: by mail-lj1-x229.google.com with SMTP id l7so17101131lja.2
- for <qemu-devel@nongnu.org>; Mon, 20 Dec 2021 09:14:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=vayavyalabs.com; s=vayavyalabs;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=BkmPnCUBaIgUC3TeQ1Vy00VCb92GnvIJl3Oy+Qbc3L4=;
- b=ZGiweod4/ulV4o8jtKLXOAmrDC6vgNEYuzKnw2qQNAeU8SoJuPY0sRem94zoZk1xDT
- /gShpEqK1nfczCEQ//Al0EIHhA+GtHI5If+sH9pJ+yMInZC1Bl/+woe+nRARVUuclH/d
- Ss7Cxm7S8aOTOPz2GzWJJRYtBBeXdv2W1FVr4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=BkmPnCUBaIgUC3TeQ1Vy00VCb92GnvIJl3Oy+Qbc3L4=;
- b=cnlA67JWwqGMTsA6hr0FaD1P3dftMKVeGWYk/78brRv/pULE/4/xYyjximh2vz6Pt9
- c98NiTSpyW/HA/NQ0MN0MUp3JVTjFKNigXli8dCqfuHAuHp04v07WKWfCz6bttynl5+2
- o9G4yXemUkoFX1NgIrxJSl97yKUdh5NQc6auKAdEsVfDSK7bEWvY8QwEWD9WzzAE28hi
- jTdKEofoUDyd6EteNpUeVMTcU+hTsR210+SBLeZNNrJFM09uhR2cOZY6Bhv88dGNRHPM
- I2BsKpWjEQos5Xqgqg+N3/jaU0v2GPVLqMWVX7USW2zTEbUY0a/Jze8LJvGjiVpb3dlF
- RRzA==
-X-Gm-Message-State: AOAM530QSRFbjYmG1ng/Vq6nF+xGd2Q3oCHhmvkXhnL7PWiuUaQ9rxI+
- ED3zzMxJTUZh4H7VT0IGLrIejqJ7LYA/KUKUEog49w==
-X-Google-Smtp-Source: ABdhPJwZ6zXVOoN4L8Y+SB+CZED/GDTk9VTQr8pCh6M9AQ6tAMVZWg1LwzxEsEOjPuwPl0777ywDiHDPWO1bNR8JqmQ=
-X-Received: by 2002:a2e:5d7:: with SMTP id 206mr15876974ljf.133.1640020460834; 
- Mon, 20 Dec 2021 09:14:20 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
+ id 1mzNFv-0002Gv-9Y; Mon, 20 Dec 2021 13:19:27 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:8980
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
+ id 1mzNFt-0006hG-6y; Mon, 20 Dec 2021 13:19:26 -0500
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1BKHYocr005877; 
+ Mon, 20 Dec 2021 18:19:17 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : content-transfer-encoding : mime-version; s=pp1;
+ bh=RezLp08UB7yQQPwIgJoG3qhc5JJMXU2S9dDSaWabimI=;
+ b=LmBdmuIs69nJWVtGj42iGrQvSk9r+jPp1IddwA7utK6QgFD3hbHPVMAtd8RRtuEtUMl/
+ cL2OLlICsgLZdr2ZLjgO7B1Zx/pmVZmi40hpzBZiIJl17RTd+KIzeVnxmDN6BhldZesO
+ 3Uf5f+UOPYw++aIuQCnONBbHzm5cmKmzv3N57jQutGaidWJJ5IgcjjZK8V0KHVtyuyv/
+ /bfwfsIZ8duDp9TWXsLM6G/tpDqWSIC6JyGOf3hkj6nt7BVtODgPVTJJxqrPgWMbd1H/
+ reCpeol6m+Ra3epG8SV+P/DpHb4+Dwr5Hj9L0OqOW4Zbe7c6fAVewAPeQIQhnmkoE45A Lg== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3d1s0pans9-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 20 Dec 2021 18:19:17 +0000
+Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1BKIJHFS024288;
+ Mon, 20 Dec 2021 18:19:17 GMT
+Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com
+ [169.47.144.27])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3d1s0panqg-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 20 Dec 2021 18:19:17 +0000
+Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
+ by ppma05wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1BKIDdBj017620;
+ Mon, 20 Dec 2021 18:19:13 GMT
+Received: from b03cxnp08028.gho.boulder.ibm.com
+ (b03cxnp08028.gho.boulder.ibm.com [9.17.130.20])
+ by ppma05wdc.us.ibm.com with ESMTP id 3d179ahw2s-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 20 Dec 2021 18:19:12 +0000
+Received: from b03ledav006.gho.boulder.ibm.com
+ (b03ledav006.gho.boulder.ibm.com [9.17.130.237])
+ by b03cxnp08028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 1BKIJCoU25756098
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 20 Dec 2021 18:19:12 GMT
+Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 247D2C6055;
+ Mon, 20 Dec 2021 18:19:12 +0000 (GMT)
+Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id AA4FFC6062;
+ Mon, 20 Dec 2021 18:19:10 +0000 (GMT)
+Received: from farosas.linux.ibm.com.com (unknown [9.211.60.53])
+ by b03ledav006.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Mon, 20 Dec 2021 18:19:10 +0000 (GMT)
+From: Fabiano Rosas <farosas@linux.ibm.com>
+To: qemu-devel@nongnu.org
+Subject: [RFC v2 00/12] target/ppc: powerpc_excp improvements
+Date: Mon, 20 Dec 2021 15:18:51 -0300
+Message-Id: <20211220181903.3456898-1-farosas@linux.ibm.com>
+X-Mailer: git-send-email 2.33.1
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: cUVBANxfyZ4UTOyTHCTw6UIldPQ6O4Om
+X-Proofpoint-ORIG-GUID: UPKcQ7sYcpzP-_GCZOgrJVICaHpSTjRG
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-References: <CA+aXn+EZQ=S+P=8fyfCxYikEMLLdqAEeQgi580Tqtsuot-r2dw@mail.gmail.com>
- <aedfa17d-6d31-6d5d-b367-cf84e77d27ed@redhat.com>
- <20211220103548.lpgtad57woenpshi@sirius.home.kraxel.org>
- <CA+aXn+F1tPYMahODkE1qi_OM65zJ4ubHqcOi1drJWvC+PopiZQ@mail.gmail.com>
- <20211220121814.rkg7z7rki22qpzhj@sirius.home.kraxel.org>
-In-Reply-To: <20211220121814.rkg7z7rki22qpzhj@sirius.home.kraxel.org>
-From: Pratik Parvati <pratikp@vayavyalabs.com>
-Date: Mon, 20 Dec 2021 22:44:06 +0530
-Message-ID: <CA+aXn+HPOK-N9smZsjas6EXaTD6hQjXbgrJcKK9E3u5VrSYCeg@mail.gmail.com>
-Subject: Re: Virtio-GPU Xres and Yres seettings
-To: Gerd Hoffmann <kraxel@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000fe259b05d39704be"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::229
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::229;
- envelope-from=pratikp@vayavyalabs.com; helo=mail-lj1-x229.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2021-12-20_08,2021-12-20_01,2021-12-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 mlxscore=0
+ malwarescore=0 spamscore=0 suspectscore=0 bulkscore=0 clxscore=1015
+ impostorscore=0 mlxlogscore=493 lowpriorityscore=0 priorityscore=1501
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2110150000 definitions=main-2112200101
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=farosas@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,106 +106,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
+Cc: danielhb413@gmail.com, qemu-ppc@nongnu.org, clg@kaod.org,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000fe259b05d39704be
-Content-Type: text/plain; charset="UTF-8"
+This changed a lot since v1, basically what remains is the idea that
+we want to have some sort of array of interrupts and some sort of
+separation between processors.
 
-> EDID is optional, so you can try disable the EDID feature bit and see
-> what happens.
+At the end of this series we'll have:
 
-Thanks Gerd, after disabling the EDID, I was able to get the required
-resolution (basically width and height) from the driver.
+- One file with all interrupt implementations (interrupts.c);
 
-Another strange observation - When the device receives the
-command VIRTIO_GPU_CMD_RESOURCE_ATTACH_BACKING with the number of
-entries having a pixel data in scatter gather format, the device is trying
-to store these bytes in contiguous memory. When I read those sg memory, the
-device receives all zeros from the driver (for a 1024x768 display,
-the device receives 3MB of data from the driver). Is this an expected
-behaviour? - If not, what is the driver trying to display on the screen?
+- Separate files for each major group of CPUs (book3s, booke,
+  32bits). Only interrupt code for now, but we could bring pieces of
+  cpu_init into them;
 
-This is happening during linux boot on the guest machine.
+- Four separate interrupt arrays, one for each of the above groups
+  plus KVM.
 
-Thanks & Regards,
-Pratik
+- powerpc_excp calls into the individual files and from there we
+  dispatch according to what is available in the interrupts array.
 
+Please comment,
 
-On Mon, 20 Dec 2021 at 17:48, Gerd Hoffmann <kraxel@redhat.com> wrote:
+Thanks.
 
->   Hi,
->
-> > Is it possible that EDID bytes are sent wrong to the driver (as a
-> response
-> > to VIRTIO_GPU_CMD_GET_EDID command)?? - I am configuring these bytes the
-> > same way Qemu does.
->
-> EDID is optional, so you can try disable the EDID feature bit and see
-> what happens.
->
-> You can also check /sys/class/drm/card0-${output}/edid inside the
-> guest.
->
-> take care,
->   Gerd
->
->
+v1:
+https://lists.nongnu.org/archive/html/qemu-ppc/2021-06/msg00026.html
 
---000000000000fe259b05d39704be
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Fabiano Rosas (12):
+  target/ppc: powerpc_excp: Set alternate SRRs directly
+  target/ppc: powerpc_excp: Set vector earlier
+  target/ppc: powerpc_excp: Move system call vectored code together
+  target/ppc: powerpc_excp: Stop passing excp_model around
+  target/ppc: powerpc_excp: Standardize arguments to interrupt code
+  target/ppc: Extract interrupt routines into a new file
+  target/ppc: Introduce PPCInterrupt
+  target/ppc: Remove unimplemented interrupt code
+  target/ppc: Use common code for Hypervisor interrupts
+  target/ppc: Split powerpc_excp into book3s, booke and 32 bit
+  target/ppc: Create new files for book3s, booke and ppc32 exception
+    code
+  target/ppc: Do not enable all interrupts when running KVM
 
-<div dir=3D"ltr"><div class=3D"gmail_default" style=3D"font-family:verdana,=
-sans-serif;color:#000000"><span style=3D"color:rgb(34,34,34);font-family:Ar=
-ial,Helvetica,sans-serif">&gt; EDID is optional, so you can try disable the=
- EDID feature bit and see</span><br style=3D"color:rgb(34,34,34);font-famil=
-y:Arial,Helvetica,sans-serif"><span style=3D"color:rgb(34,34,34);font-famil=
-y:Arial,Helvetica,sans-serif">&gt; what happens.</span><br style=3D"color:r=
-gb(34,34,34);font-family:Arial,Helvetica,sans-serif"><br clear=3D"all"></di=
-v><div class=3D"gmail_default" style=3D"">Thanks Gerd, after disabling=C2=
-=A0the EDID, I was able to get the required resolution (basically width and=
- height) from the driver.</div><div class=3D"gmail_default" style=3D""><br>=
-</div><div class=3D"gmail_default" style=3D"">Another strange observation -=
- When the device receives the command=C2=A0VIRTIO_GPU_CMD_RESOURCE_ATTACH_B=
-ACKING with the number of entries=C2=A0having a pixel data in scatter gathe=
-r format, the device is trying to store these bytes in contiguous memory. W=
-hen I read those sg memory, the device receives all zeros from the driver (=
-for a 1024x768 display, the=C2=A0device receives 3MB of data from the drive=
-r). Is this an expected behaviour? - If not, what is the driver trying to d=
-isplay on the screen?</div><div class=3D"gmail_default" style=3D""><br></di=
-v><div class=3D"gmail_default" style=3D"">This is happening during linux bo=
-ot on the guest machine.</div><div class=3D"gmail_default" style=3D""><br><=
-/div><div><div dir=3D"ltr" class=3D"gmail_signature" data-smartmail=3D"gmai=
-l_signature"><div dir=3D"ltr"><div><font face=3D"verdana, sans-serif"><span=
- class=3D"gmail_default" style=3D"font-family:verdana,sans-serif;color:rgb(=
-0,0,0)">Thanks &amp; </span>Regards,<br></font></div><div><font face=3D"ver=
-dana, sans-serif">Pratik</font></div></div></div></div><br></div><br><div c=
-lass=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, 20 Dec 2=
-021 at 17:48, Gerd Hoffmann &lt;<a href=3D"mailto:kraxel@redhat.com">kraxel=
-@redhat.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
--left:1ex">=C2=A0 Hi,<br>
-<br>
-&gt; Is it possible that EDID bytes are sent wrong to the driver (as a resp=
-onse<br>
-&gt; to VIRTIO_GPU_CMD_GET_EDID command)?? - I am configuring these bytes t=
-he<br>
-&gt; same way Qemu does.<br>
-<br>
-EDID is optional, so you can try disable the EDID feature bit and see<br>
-what happens.<br>
-<br>
-You can also check /sys/class/drm/card0-${output}/edid inside the<br>
-guest.<br>
-<br>
-take care,<br>
-=C2=A0 Gerd<br>
-<br>
-</blockquote></div>
+ target/ppc/cpu.h         |   2 +
+ target/ppc/excp_helper.c | 862 ++-------------------------------------
+ target/ppc/interrupts.c  | 521 +++++++++++++++++++++++
+ target/ppc/intr-book3s.c | 383 +++++++++++++++++
+ target/ppc/intr-booke.c  | 152 +++++++
+ target/ppc/intr-ppc32.c  | 159 ++++++++
+ target/ppc/meson.build   |   4 +
+ target/ppc/ppc_intr.h    |  62 +++
+ target/ppc/tcg-stub.c    |   6 +
+ 9 files changed, 1323 insertions(+), 828 deletions(-)
+ create mode 100644 target/ppc/interrupts.c
+ create mode 100644 target/ppc/intr-book3s.c
+ create mode 100644 target/ppc/intr-booke.c
+ create mode 100644 target/ppc/intr-ppc32.c
+ create mode 100644 target/ppc/ppc_intr.h
 
---000000000000fe259b05d39704be--
+-- 
+2.33.1
+
 
