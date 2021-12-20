@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 215B247B515
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Dec 2021 22:21:36 +0100 (CET)
-Received: from localhost ([::1]:45778 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F18C47B4FC
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Dec 2021 22:18:14 +0100 (CET)
+Received: from localhost ([::1]:34882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mzQ6B-0008P0-8O
-	for lists+qemu-devel@lfdr.de; Mon, 20 Dec 2021 16:21:35 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52750)
+	id 1mzQ2v-00011W-5B
+	for lists+qemu-devel@lfdr.de; Mon, 20 Dec 2021 16:18:13 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52770)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mzPqq-0000Vy-9K
- for qemu-devel@nongnu.org; Mon, 20 Dec 2021 16:05:44 -0500
-Received: from [2607:f8b0:4864:20::42b] (port=42569
- helo=mail-pf1-x42b.google.com)
+ id 1mzPqr-0000X7-2U
+ for qemu-devel@nongnu.org; Mon, 20 Dec 2021 16:05:45 -0500
+Received: from [2607:f8b0:4864:20::531] (port=37679
+ helo=mail-pg1-x531.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mzPqo-0005uu-Ak
- for qemu-devel@nongnu.org; Mon, 20 Dec 2021 16:05:43 -0500
-Received: by mail-pf1-x42b.google.com with SMTP id t19so3476582pfg.9
- for <qemu-devel@nongnu.org>; Mon, 20 Dec 2021 13:05:41 -0800 (PST)
+ id 1mzPqp-0005uz-7E
+ for qemu-devel@nongnu.org; Mon, 20 Dec 2021 16:05:44 -0500
+Received: by mail-pg1-x531.google.com with SMTP id a23so10430930pgm.4
+ for <qemu-devel@nongnu.org>; Mon, 20 Dec 2021 13:05:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ta3Ko9zxfZ4eRR7LoDI2ksYw0ZQI5fINkcgZmVZuQY0=;
- b=hX+OtUffJanhryZ6O07gJcsVdcxnpXg287moCDvDwGTkMuASRT2n4OaC/WkxyuGU5t
- sKlzy9wTfyWdVPaKKXRt49SqJ4wKZZycHx0depkXrWjCQdW9+iWlhgFuiX0z+pWCTHQB
- 5goDqPj2+tRaTDQVYoaBZ79Xt3Nd/woTN3bEMh4hZjQWMaG1+kM/uN5w/4/SDXSFihRe
- D6Rp1XdC30s5f0E1cDa1StJVmH6+HcJHddmmP9rLI5sD9drdhzGus7L7zKMuUpe0Q9fg
- wKfvCiFzzCK6VkHYCFqkIkvScuDWNOX5XlbW++qBPGDNtPjiBUP53+fsta8wbn0SdTiq
- qyYA==
+ bh=JNhSgXJTgMGZWBsS+vqzx7SqW7s/rfAY63sPF+SkLf0=;
+ b=b3IobSoulVxdx8q8motxIs1S/KgIVN7CoVFQXrsydHbsm7hq+yZ+WueIRNFY6Aqi5Y
+ ZK5OHA4vAxedHMoEgv5ZqRrVu8G0z6Y7mlvOJJ+E5KrvA3NCXavmkyfRdFkgl0QJOOXU
+ KkOH+MMjhHNG8P11WnL4degAzD6Y3Tp3sS8Uv9XtHtjCkrVmGWnR4idEvHeul+BvT+LS
+ HhALkopZRrMnZqi7mJeaRplgG9Rr6/X7YkE9QJ+O13zJqKXll4mfpTitVQlHvKBdXVGb
+ jIzBlgk1h7Zq0sQ25QXkBtk/PAG0l3zynXJftRfRYvE8fth9ov6Xbr32KuXwQc9GTgHF
+ HFMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ta3Ko9zxfZ4eRR7LoDI2ksYw0ZQI5fINkcgZmVZuQY0=;
- b=vllbr6+cncxCvY1p6DifCo0nE+iGVt2+h4/BPiajusSuhPRO6kTI3BcbNQT+YsW8Uu
- qf7jBnU0+wkUByVDNh1xRhtobpNA/tfkb9OTEcnwZmv0ofygt78N7OcOb29/ZviWiIH9
- jOX+Aw1GAjPCptvCzEH2S75ivxdSJvKdhrMNcigyt4Vdtx+UtveijzCIukeFmIYGk7vL
- DPtMAlJNg4d4pcVrXkuny7qb+SPx2O2KAKeMqACUEP66L9nct5bDGiRWYygm0EalSWTF
- RFECYzINdAmZRhcrz1lnP3C3CcgW3pJ+pfAedDk0SYJEM4TksdBPAEKPJCvISKW/aQMi
- edMQ==
-X-Gm-Message-State: AOAM531ODuDyRvxlgCl0QhNtgGUUowqqbRvt6tBLWBve6e3Vxz0wQ61Q
- Hcx2dRlUhipUslXDTgohCEGbAZsG3AvecQ==
-X-Google-Smtp-Source: ABdhPJwFuRZ4q47+uz7terCdI6hq7WtPrRkb+WNAu01CJfgKQ0Cd8Ez2G3B0SyRX6T7c/J0+HZNkYw==
-X-Received: by 2002:aa7:9481:0:b0:4ba:82e3:1964 with SMTP id
- z1-20020aa79481000000b004ba82e31964mr16300884pfk.4.1640034341144; 
+ bh=JNhSgXJTgMGZWBsS+vqzx7SqW7s/rfAY63sPF+SkLf0=;
+ b=i3Oae6Z1BuapFaV6Pz90DptRLPaZz/AEUmvueJoqxC4YbkDJZzWfuS1HcgDEL7MBj8
+ cbymsjfyiEERZtKoOSSlkF3fqJeTgmJJN1rxsruaTcLe60qS2Axtgvg9uFUVzmnGLYPE
+ Q3e3y2sy+599vUm7kDo8ObcSyTLMkYX0Ctr1a2IFRsfCTapRA9Sd2rAMSKR/dPoiIqbE
+ aKqSs/gkPP9PB6xFB679R1tYTXp8bSj6W7gFRyZGV6CtKmApn1zv0rVjdXYZo8HVHzGW
+ nG6A5CouVmt405ExsEthoxwqwQXzVxvXKe1jysIXEswyw4tUxqTBfuPNOG9olxHblSra
+ sgfA==
+X-Gm-Message-State: AOAM531lMPIf5KDDCs/N2f4H4y2d6mP32kpFZBJxyG+nycDlV8pR7zUg
+ lRletPGRxA80+KYXXAIdS9fJ7xn789ynsw==
+X-Google-Smtp-Source: ABdhPJxhaUxOtx2cd37/1N6u1BNGsiP0oDc2tkNgU9rU4mE8HFzUSdcQMlmcxTTM0LOTaysU0LMrqw==
+X-Received: by 2002:a05:6a00:ad0:b0:4a3:1056:e2ae with SMTP id
+ c16-20020a056a000ad000b004a31056e2aemr18226957pfl.2.1640034341881; 
  Mon, 20 Dec 2021 13:05:41 -0800 (PST)
 Received: from localhost.localdomain ([156.19.246.20])
- by smtp.gmail.com with ESMTPSA id d13sm20091021pfu.213.2021.12.20.13.05.40
+ by smtp.gmail.com with ESMTPSA id d13sm20091021pfu.213.2021.12.20.13.05.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Dec 2021 13:05:40 -0800 (PST)
+ Mon, 20 Dec 2021 13:05:41 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 13/24] linux-user/microblaze: Fix SIGFPE si_codes
-Date: Mon, 20 Dec 2021 13:05:17 -0800
-Message-Id: <20211220210529.150423-14-richard.henderson@linaro.org>
+Subject: [PATCH v4 14/24] linux-user/mips: Improve do_break
+Date: Mon, 20 Dec 2021 13:05:18 -0800
+Message-Id: <20211220210529.150423-15-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211220210529.150423-1-richard.henderson@linaro.org>
 References: <20211220210529.150423-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42b
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::531
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::531;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x531.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -86,54 +87,116 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, laurent@vivier.eu
+Cc: laurent@vivier.eu,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fix a typo for ESR_EC_DIVZERO, which is integral not floating-point.
-Fix the if ladder for decoding floating-point exceptions.
+Rename to do_tr_or_bp, as per the kernel function.
+Add a 'trap' argument, akin to the kernel's si_code, but clearer.
+The return value is always 0, so change the return value to void.
+Use force_sig and force_sig_fault.
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/microblaze/cpu_loop.c | 20 +++++++++++++++-----
- 1 file changed, 15 insertions(+), 5 deletions(-)
+ linux-user/mips/cpu_loop.c | 46 +++++++++++++++++++++-----------------
+ 1 file changed, 26 insertions(+), 20 deletions(-)
 
-diff --git a/linux-user/microblaze/cpu_loop.c b/linux-user/microblaze/cpu_loop.c
-index 263b68aea1..cf1668a45f 100644
---- a/linux-user/microblaze/cpu_loop.c
-+++ b/linux-user/microblaze/cpu_loop.c
-@@ -77,15 +77,25 @@ void cpu_loop(CPUMBState *env)
-             env->iflags &= ~(IMM_FLAG | D_FLAG);
-             switch (env->esr & 31) {
-             case ESR_EC_DIVZERO:
--                si_code = TARGET_FPE_FLTDIV;
-+                si_code = TARGET_FPE_INTDIV;
-                 break;
-             case ESR_EC_FPU:
--                si_code = 0;
--                if (env->fsr & FSR_IO) {
+diff --git a/linux-user/mips/cpu_loop.c b/linux-user/mips/cpu_loop.c
+index b735c99a24..7317194cc3 100644
+--- a/linux-user/mips/cpu_loop.c
++++ b/linux-user/mips/cpu_loop.c
+@@ -40,29 +40,25 @@ enum {
+     BRK_DIVZERO = 7
+ };
+ 
+-static int do_break(CPUMIPSState *env, target_siginfo_t *info,
+-                    unsigned int code)
++static void do_tr_or_bp(CPUMIPSState *env, unsigned int code, bool trap)
+ {
+-    int ret = -1;
++    target_ulong pc = env->active_tc.PC;
+ 
+     switch (code) {
+     case BRK_OVERFLOW:
++        force_sig_fault(TARGET_SIGFPE, TARGET_FPE_INTOVF, pc);
++        break;
+     case BRK_DIVZERO:
+-        info->si_signo = TARGET_SIGFPE;
+-        info->si_errno = 0;
+-        info->si_code = (code == BRK_OVERFLOW) ? FPE_INTOVF : FPE_INTDIV;
+-        queue_signal(env, info->si_signo, QEMU_SI_FAULT, &*info);
+-        ret = 0;
++        force_sig_fault(TARGET_SIGFPE, TARGET_FPE_INTDIV, pc);
+         break;
+     default:
+-        info->si_signo = TARGET_SIGTRAP;
+-        info->si_errno = 0;
+-        queue_signal(env, info->si_signo, QEMU_SI_FAULT, &*info);
+-        ret = 0;
++        if (trap) {
++            force_sig(TARGET_SIGTRAP);
++        } else {
++            force_sig_fault(TARGET_SIGTRAP, TARGET_TRAP_BRKPT, pc);
++        }
+         break;
+     }
+-
+-    return ret;
+ }
+ 
+ void cpu_loop(CPUMIPSState *env)
+@@ -205,6 +201,13 @@ done_syscall:
+                 abi_ulong trap_instr;
+                 unsigned int code;
+ 
 +                /*
-+                 * Note that the kernel passes along fsr as si_code
-+                 * if there's no recognized bit set.  Possibly this
-+                 * implies that si_code is 0, but follow the structure.
++                 * FIXME: It would be better to decode the trap number
++                 * during translate, and store it in error_code while
++                 * raising the exception.  We should not be re-reading
++                 * the opcode here.
 +                 */
-+                si_code = env->fsr;
-+                if (si_code & FSR_IO) {
-                     si_code = TARGET_FPE_FLTINV;
--                }
--                if (env->fsr & FSR_DZ) {
-+                } else if (si_code & FSR_OF) {
-+                    si_code = TARGET_FPE_FLTOVF;
-+                } else if (si_code & FSR_UF) {
-+                    si_code = TARGET_FPE_FLTUND;
-+                } else if (si_code & FSR_DZ) {
-                     si_code = TARGET_FPE_FLTDIV;
-+                } else if (si_code & FSR_DO) {
-+                    si_code = TARGET_FPE_FLTRES;
++
+                 if (env->hflags & MIPS_HFLAG_M16) {
+                     if (env->insn_flags & ASE_MICROMIPS) {
+                         /* microMIPS mode */
+@@ -257,9 +260,7 @@ done_syscall:
+                     }
                  }
-                 break;
-             default:
+ 
+-                if (do_break(env, &info, code) != 0) {
+-                    goto error;
+-                }
++                do_tr_or_bp(env, code, false);
+             }
+             break;
+         case EXCP_TRAP:
+@@ -267,6 +268,13 @@ done_syscall:
+                 abi_ulong trap_instr;
+                 unsigned int code = 0;
+ 
++                /*
++                 * FIXME: It would be better to decode the trap number
++                 * during translate, and store it in error_code while
++                 * raising the exception.  We should not be re-reading
++                 * the opcode here.
++                 */
++
+                 if (env->hflags & MIPS_HFLAG_M16) {
+                     /* microMIPS mode */
+                     abi_ulong instr[2];
+@@ -293,9 +301,7 @@ done_syscall:
+                     }
+                 }
+ 
+-                if (do_break(env, &info, code) != 0) {
+-                    goto error;
+-                }
++                do_tr_or_bp(env, code, true);
+             }
+             break;
+         case EXCP_ATOMIC:
 -- 
 2.25.1
 
