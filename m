@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88FF647B4FD
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Dec 2021 22:18:16 +0100 (CET)
-Received: from localhost ([::1]:35216 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 517B147B532
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Dec 2021 22:28:22 +0100 (CET)
+Received: from localhost ([::1]:36718 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mzQ2x-0001FZ-L0
-	for lists+qemu-devel@lfdr.de; Mon, 20 Dec 2021 16:18:15 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52942)
+	id 1mzQCj-0004ha-EJ
+	for lists+qemu-devel@lfdr.de; Mon, 20 Dec 2021 16:28:21 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52936)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mzPr2-0000ow-DM
+ id 1mzPr2-0000or-5f
  for qemu-devel@nongnu.org; Mon, 20 Dec 2021 16:05:57 -0500
-Received: from [2607:f8b0:4864:20::632] (port=39782
- helo=mail-pl1-x632.google.com)
+Received: from [2607:f8b0:4864:20::62f] (port=33358
+ helo=mail-pl1-x62f.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mzPr0-0005wn-LP
- for qemu-devel@nongnu.org; Mon, 20 Dec 2021 16:05:56 -0500
-Received: by mail-pl1-x632.google.com with SMTP id z6so9030138plk.6
- for <qemu-devel@nongnu.org>; Mon, 20 Dec 2021 13:05:50 -0800 (PST)
+ id 1mzPqz-0005ws-3c
+ for qemu-devel@nongnu.org; Mon, 20 Dec 2021 16:05:55 -0500
+Received: by mail-pl1-x62f.google.com with SMTP id y7so9074124plp.0
+ for <qemu-devel@nongnu.org>; Mon, 20 Dec 2021 13:05:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=aSGoNpLJmGSYi5bNrETBfs3C1lY0kiG6L8JLO5qLPZk=;
- b=n7wLEY/73s568cM9RrtDPQwjHMyuIZZptCK0zOFXh/gPxMoUkYArncRg6HEfOsuqIa
- QxJITT1TIAzMwIFNR9cXZ7IHycLoDlTzyvSAinn7XmCj7ObXDTobCQrzooKZrRffa7Sn
- d8hdH6uqg/XaUbqr3/OFBvFND/WLuqbvKtC/P7iHWRkKtJtz72dLGVgekIqqn8QG5G8j
- YKHRXqxoVEAIDNdpfSGtQ1fRifBgVHxV5fb4/O2qLUf8kg04IPqKZ0va5zldP29PpfcE
- vbInF+4YsVx0UmfBUDR4btGWZMM5CSeI/qVgA3Cgj2+s/bxIYaG+xaVHw1e/NHygZL8t
- F4aA==
+ bh=5xSDql4+/4hjZ41MoR3OqxD/rR+Fa1of3CAUT/0rGzk=;
+ b=RDza8hKH2rUkLktsOcgLyCz0wKAiiyLMsdlbWnbAQjXUx+R0JrpJNK7C2F+fqU5/g5
+ +/OAucW17UGxL3SeEfXVz8smAclF0Cv5ls3LY8Bg8odiHPjIV68/c8W5QU+d341kK8LE
+ hVd05sQ5GcwQqs9IP0JYXdiwHsUk3XXcexBijFMlADYR8PtAzDqRZaqTln0j+1Daw24t
+ dwFXQRYfqjxZv25f53Xn+vaiueANGLKn6TxxjIP7BzR7VVJS7JqLuQxDbRIYwAexPH5O
+ toygY74h+QH/pe2BfiiTZJSIgYEeqCZHnvN5Q7wrFLtZpZjXbvuPYgDHAsaCP0xmf0V9
+ /5Gw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=aSGoNpLJmGSYi5bNrETBfs3C1lY0kiG6L8JLO5qLPZk=;
- b=4TFryICj5xQxvuCbMx1PkQo6kXjdKdZaGJSO1jVfpSCZPZcY4GYORBZbtTdUfsH7iT
- a27izFX3wwFUa86OWCmzse/9LhTkKeCSnSva+Iu7xbHgYfWFqtIqfWTc8c/vnxf9AinB
- 5KoxTytYnHj0AwzMs00so/u22UwgACRZRhIC4f66PHo2SJSxc51dbUHCPk6JUuaR9Y2T
- d59T9jpDGOODzet8ePlZ6aiJYQhc6IlP6odzmD+jLH2ZXKgoE8v/5Kh5wxrCQp+LfgJ4
- XvZN91Qc9154WHjK6G3M/JrtSUVk/LM7L3xfdWNZJyZVf1GU7Ak6R+Xbx2oMTbO+gCz/
- hboA==
-X-Gm-Message-State: AOAM533q+wq86J9ciDxK86LtGDDqRITOUVIxqREkthvbeNRLGh3b5E/r
- kOsF/cKJ6W1UKsQFd0tmAOVnTnWEvcocHQ==
-X-Google-Smtp-Source: ABdhPJzfsvPYDialBe/t/kCk/wIZC7HV/JLYk+tltPACbHrihSduAW9le5Hz/5kROnTSrPeobaHY4Q==
-X-Received: by 2002:a17:90b:4a81:: with SMTP id lp1mr7161pjb.19.1640034349826; 
- Mon, 20 Dec 2021 13:05:49 -0800 (PST)
+ bh=5xSDql4+/4hjZ41MoR3OqxD/rR+Fa1of3CAUT/0rGzk=;
+ b=NMDawuFn+Qt7Ydm+16g6msAJXyuPy2tiFbMqjK94Xb2Wc9E0/mMO1u99zyMz20Xyrv
+ EKXkTG4+yalXr3vloP3V1Jgo5NOBhj+4Aii+N1kYyNaUREAkJTnUkIQfRJK/Ps95/2Ye
+ s3O9a8giiISiEkxPQ9pFTgZtCZuWrrZn8kSx9qqXFd20XJA+CSiLiTNL5lZhzA/aAJFS
+ DJJR3WKbFz7et+Wlk/2FEUj86gI0wkucYCWIXB8isl75r1iYRTglu3RwXzUoF4+4jFNU
+ ggTw/w/DJGmfSsOVJg2z4IkmGvImeiLvmbTMX5ayA6qKCZbYLNomneCl+A5FOFFtqA4w
+ EfoQ==
+X-Gm-Message-State: AOAM533ypsJ9xQQx4yiYv5FcsQszc88LNJK/Y3bu+sUku/tA2+kjcA59
+ eL1UNbTsa0peqgeJ21MYCKY0Yee/d9z8nQ==
+X-Google-Smtp-Source: ABdhPJwbxNLt10X6IC5WMPvrvBXFh8v0QL6daKLkC3Hs9eyl0UOtr25wZnJX58DF35IGRW5ostEO8w==
+X-Received: by 2002:a17:902:b716:b0:141:d36c:78fc with SMTP id
+ d22-20020a170902b71600b00141d36c78fcmr18392948pls.59.1640034350629; 
+ Mon, 20 Dec 2021 13:05:50 -0800 (PST)
 Received: from localhost.localdomain ([156.19.246.20])
- by smtp.gmail.com with ESMTPSA id d13sm20091021pfu.213.2021.12.20.13.05.49
+ by smtp.gmail.com with ESMTPSA id d13sm20091021pfu.213.2021.12.20.13.05.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Dec 2021 13:05:49 -0800 (PST)
+ Mon, 20 Dec 2021 13:05:50 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 23/24] linux-user/sparc: Use force_sig_fault
-Date: Mon, 20 Dec 2021 13:05:27 -0800
-Message-Id: <20211220210529.150423-24-richard.henderson@linaro.org>
+Subject: [PATCH v4 24/24] linux-user/xtensa: Use force_sig_fault
+Date: Mon, 20 Dec 2021 13:05:28 -0800
+Message-Id: <20211220210529.150423-25-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211220210529.150423-1-richard.henderson@linaro.org>
 References: <20211220210529.150423-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::632
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62f
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x632.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62f.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -95,43 +96,68 @@ and calling queue_signal. Fill in the missing PC for SIGTRAP.
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/sparc/cpu_loop.c | 14 ++------------
- 1 file changed, 2 insertions(+), 12 deletions(-)
+ linux-user/xtensa/cpu_loop.c | 26 +++++++++-----------------
+ 1 file changed, 9 insertions(+), 17 deletions(-)
 
-diff --git a/linux-user/sparc/cpu_loop.c b/linux-user/sparc/cpu_loop.c
-index 0ba65e431c..b3e44bc1aa 100644
---- a/linux-user/sparc/cpu_loop.c
-+++ b/linux-user/sparc/cpu_loop.c
-@@ -155,7 +155,6 @@ void cpu_loop (CPUSPARCState *env)
+diff --git a/linux-user/xtensa/cpu_loop.c b/linux-user/xtensa/cpu_loop.c
+index a83490ab35..34775feb7c 100644
+--- a/linux-user/xtensa/cpu_loop.c
++++ b/linux-user/xtensa/cpu_loop.c
+@@ -126,7 +126,6 @@ static void xtensa_underflow12(CPUXtensaState *env)
+ void cpu_loop(CPUXtensaState *env)
+ {
      CPUState *cs = env_cpu(env);
-     int trapnr;
-     abi_long ret;
 -    target_siginfo_t info;
+     abi_ulong ret;
+     int trapnr;
  
-     while (1) {
-         cpu_exec_start(cs);
-@@ -241,19 +240,10 @@ void cpu_loop (CPUSPARCState *env)
-             /* just indicate that signals should be handled asap */
-             break;
-         case TT_ILL_INSN:
--            {
+@@ -163,14 +162,12 @@ void cpu_loop(CPUXtensaState *env)
+         case EXC_USER:
+             switch (env->sregs[EXCCAUSE]) {
+             case ILLEGAL_INSTRUCTION_CAUSE:
++                force_sig_fault(TARGET_SIGILL, TARGET_ILL_ILLOPC,
++                                env->sregs[EPC1]);
++                break;
+             case PRIVILEGED_CAUSE:
 -                info.si_signo = TARGET_SIGILL;
 -                info.si_errno = 0;
--                info.si_code = TARGET_ILL_ILLOPC;
--                info._sifields._sigfault._addr = env->pc;
+-                info.si_code =
+-                    env->sregs[EXCCAUSE] == ILLEGAL_INSTRUCTION_CAUSE ?
+-                    TARGET_ILL_ILLOPC : TARGET_ILL_PRVOPC;
+-                info._sifields._sigfault._addr = env->sregs[EPC1];
 -                queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
--            }
-+            force_sig_fault(TARGET_SIGILL, TARGET_ILL_ILLOPC, env->pc);
++                force_sig_fault(TARGET_SIGILL, TARGET_ILL_PRVOPC,
++                                env->sregs[EPC1]);
+                 break;
+ 
+             case SYSCALL_CAUSE:
+@@ -219,11 +216,8 @@ void cpu_loop(CPUXtensaState *env)
+                 break;
+ 
+             case INTEGER_DIVIDE_BY_ZERO_CAUSE:
+-                info.si_signo = TARGET_SIGFPE;
+-                info.si_errno = 0;
+-                info.si_code = TARGET_FPE_INTDIV;
+-                info._sifields._sigfault._addr = env->sregs[EPC1];
+-                queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
++                force_sig_fault(TARGET_SIGFPE, TARGET_FPE_INTDIV,
++                                env->sregs[EPC1]);
+                 break;
+ 
+             default:
+@@ -232,10 +226,8 @@ void cpu_loop(CPUXtensaState *env)
+             }
              break;
          case EXCP_DEBUG:
 -            info.si_signo = TARGET_SIGTRAP;
 -            info.si_errno = 0;
 -            info.si_code = TARGET_TRAP_BRKPT;
 -            queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
-+            force_sig_fault(TARGET_SIGTRAP, TARGET_TRAP_BRKPT, env->pc);
++            force_sig_fault(TARGET_SIGTRAP, TARGET_TRAP_BRKPT,
++                            env->sregs[EPC1]);
              break;
-         case EXCP_ATOMIC:
-             cpu_exec_step_atomic(cs);
+         case EXC_DEBUG:
+         default:
 -- 
 2.25.1
 
