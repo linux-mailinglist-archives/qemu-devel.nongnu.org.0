@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCBD447B46A
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Dec 2021 21:36:05 +0100 (CET)
-Received: from localhost ([::1]:35000 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5090C47B464
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Dec 2021 21:32:31 +0100 (CET)
+Received: from localhost ([::1]:53174 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mzPO8-0003at-TP
-	for lists+qemu-devel@lfdr.de; Mon, 20 Dec 2021 15:36:04 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44446)
+	id 1mzPKg-0004bN-EV
+	for lists+qemu-devel@lfdr.de; Mon, 20 Dec 2021 15:32:30 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44452)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mzPDj-0001jT-C7
+ id 1mzPDj-0001ji-F6
  for qemu-devel@nongnu.org; Mon, 20 Dec 2021 15:25:20 -0500
-Received: from [2607:f8b0:4864:20::102b] (port=53228
- helo=mail-pj1-x102b.google.com)
+Received: from [2607:f8b0:4864:20::535] (port=42689
+ helo=mail-pg1-x535.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mzPDe-00070x-S2
+ id 1mzPDg-000722-1d
  for qemu-devel@nongnu.org; Mon, 20 Dec 2021 15:25:19 -0500
-Received: by mail-pj1-x102b.google.com with SMTP id co15so10443330pjb.2
- for <qemu-devel@nongnu.org>; Mon, 20 Dec 2021 12:25:14 -0800 (PST)
+Received: by mail-pg1-x535.google.com with SMTP id g2so7773061pgo.9
+ for <qemu-devel@nongnu.org>; Mon, 20 Dec 2021 12:25:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=s/pA8V+yNrBMZnuZyz1KWKoRUi8x+EMLOwcwdtIndmA=;
- b=rzNwS6j4lpysmyIaAFcsaQzVY4vbOsbolvBTijrKAOXllyMIsL6x4UhQtN4+lEzjOu
- mMecqXu1Ncv7dvHmiMchJVRgK0GJT7xhOjIlcVcA/AQ+H04K++YyakvQkYhNGu3fyYIn
- b3dDJsD0V/pzIfWEPSPeMtQFPAhxJEiWg4Kf6WunQv4w+bl4UsZww1jQIDuw8PuDJ40z
- UgtuNI67ooYxi9YPclfQWPgg/1aCp+Ru9OQchwB478uSPpRqD6k2FrjLGaX3XHU3os5I
- pPBhfhwXa4OYTF3WiDj0k/3jM7/NLggzzLbICwSa3I+soxVEQsHKppG9ujwJNPa7FU8w
- DOOA==
+ bh=fyndVhlQb13TDZ3esc1S9oqyuqQXnQYXlc770BtW8OY=;
+ b=cPTQvpMJJHcmhTTuf8m2m0W0gg6pweDn1YFCy8kwDo7yLFhX9peQS1RBDosUWQQBDC
+ YfwUebS25aRnjYkoYF4hKRuJTIX+HuqzktQtfaq/p8BYF+mMq2R3tkeIwpKJ45HZZ3n1
+ KII8NtlwQ5r+V/J30wQzf5Te3CptMt2WdLyKhyOpfwOnesk7sL17FFL6HZ+nQ3Kgm93K
+ 1Jx7wrFWxumfYPjF8Pfo9k9I1MV+3k/CkXjmFgXDagh12vbLfUUACuJFYMZuM1eggyjW
+ 1jqOcJ8Z1wEUkEPQRhZxat4GLJ7sicQmrHP0cefN3uU8UTA3N7r4W90Ej7JVa+jjWnEK
+ Dd4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=s/pA8V+yNrBMZnuZyz1KWKoRUi8x+EMLOwcwdtIndmA=;
- b=ZHu1nM98n/Xb1Y/KW2dVpzICnRIQ49kEAClIbFSh+J4FnU7myaFUsm/TZfAGRVnETg
- ICAvx80KJ7py5JS4PhH+ic8YtPQGUCT+wq6Img4SzvQJ9elNmoaWrZiYpWvpQPlzKibx
- jtLLL4KPHTH9A4arQ3XLDjhzscRg9Eo+IcRF4798z7lD8Xu4KUZiECSd/qCpl8T7i5Vi
- UFmxotTRZHqQJUl7RLUlxNsHwt7fITTikNchSyNhVYdCeHJBFXL71tK2aBJwPxKVSLhR
- NZKPKz+TAESSYqX8fot9rDJwieUm3tfmCTG2RtEAqf6aGqvIRbbGbeMtDizs3y2IPlmv
- +MVw==
-X-Gm-Message-State: AOAM532+pTwrQHRIdant8uoRqWwtZC+Ebe02uWjpE36aD0YQw/lkoiKf
- Hy2N0wvPeK7Dr6PqIhdLHsC3RUvHMwFExQ==
-X-Google-Smtp-Source: ABdhPJzKrepErEK1V2QmNwh+Ba/G/+etGpIXnA0IDMJeG30KnfJaibJy8MjffPRoBNJMEufMGuePOg==
-X-Received: by 2002:a17:90b:1b43:: with SMTP id
- nv3mr785498pjb.93.1640031913471; 
- Mon, 20 Dec 2021 12:25:13 -0800 (PST)
+ bh=fyndVhlQb13TDZ3esc1S9oqyuqQXnQYXlc770BtW8OY=;
+ b=qz2EbWJ78mlTlEtYoaKLQKMhr9q9LFLSWgw4vaA/v1d1FtNWM5AIRsA35+Mjxp4Nmr
+ baTp7WaEZj35bcq2k9mZROXAiOnOQjo+rJpVpWoIrqx52p2LmcmbwXrRHrwHz+qt+4i4
+ YbguGlDgCGAHG9BCm18xqp2LAoeo9D1gAwYDWg3oplxE2gcEnQpmMuwZG9ByiK+nKEvv
+ w+YcX4F+kdd8MU7zFHkwqkoEQp0LuFEYa8tLYfA7M6cASHxbV0nfer3fqqyssKVogbEZ
+ jTFst4bb0D8LL4fbW68H+LXOQrBcNjiSymXDnhPakpavnUunLYXr5VO8lHYO0F4yzkqj
+ keFQ==
+X-Gm-Message-State: AOAM530erLhD9vz88CFZZ/4GBwfkdmmC5CbNHlDgU82UP5N4OOy8UnHb
+ V2sARrv8CBPALZy9l3ftfz/+zAFjzQvHgw==
+X-Google-Smtp-Source: ABdhPJxkJlrWnAuKMMzqJ4OZ6UcTwrP17uxDUwhvB/GksEsjPFMYfswHiTPxOcEeQQhTMvJyULEeTw==
+X-Received: by 2002:a63:2b05:: with SMTP id r5mr16412301pgr.0.1640031914332;
+ Mon, 20 Dec 2021 12:25:14 -0800 (PST)
 Received: from localhost.localdomain ([156.19.246.20])
- by smtp.gmail.com with ESMTPSA id q19sm233118pjd.21.2021.12.20.12.25.12
+ by smtp.gmail.com with ESMTPSA id q19sm233118pjd.21.2021.12.20.12.25.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Dec 2021 12:25:13 -0800 (PST)
+ Mon, 20 Dec 2021 12:25:14 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 13/15] linux-user: Move thunk.c from top-level
-Date: Mon, 20 Dec 2021 12:24:58 -0800
-Message-Id: <20211220202500.111897-14-richard.henderson@linaro.org>
+Subject: [PULL 14/15] meson: Move linux_user_ss to linux-user/
+Date: Mon, 20 Dec 2021 12:24:59 -0800
+Message-Id: <20211220202500.111897-15-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211220202500.111897-1-richard.henderson@linaro.org>
 References: <20211220202500.111897-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102b
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::535
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::535;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x535.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -92,60 +91,57 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-So far, linux-user is the only user of these functions.
-Clean up the build machinery by restricting it to linux-user.
+We have no need to reference linux_user_ss outside of linux-user.
+Go ahead and merge it directly into specific_ss.
 
 Reviewed-by: Warner Losh <imp@bsdimp.com>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- meson.build                   | 1 -
- thunk.c => linux-user/thunk.c | 0
- MAINTAINERS                   | 1 -
- linux-user/meson.build        | 1 +
- 4 files changed, 1 insertion(+), 2 deletions(-)
- rename thunk.c => linux-user/thunk.c (100%)
+ meson.build            | 3 ---
+ linux-user/meson.build | 4 ++++
+ 2 files changed, 4 insertions(+), 3 deletions(-)
 
 diff --git a/meson.build b/meson.build
-index 4e0a8033f7..eebeaab9ce 100644
+index eebeaab9ce..cc4df68b20 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -2633,7 +2633,6 @@ subdir('linux-user')
+@@ -2382,7 +2382,6 @@ common_user_ss = ss.source_set()
+ crypto_ss = ss.source_set()
+ hwcore_ss = ss.source_set()
+ io_ss = ss.source_set()
+-linux_user_ss = ss.source_set()
+ qmp_ss = ss.source_set()
+ qom_ss = ss.source_set()
+ softmmu_ss = ss.source_set()
+@@ -2633,8 +2632,6 @@ subdir('linux-user')
  
  specific_ss.add_all(when: 'CONFIG_BSD_USER', if_true: bsd_user_ss)
  
--linux_user_ss.add(files('thunk.c'))
- specific_ss.add_all(when: 'CONFIG_LINUX_USER', if_true: linux_user_ss)
- 
+-specific_ss.add_all(when: 'CONFIG_LINUX_USER', if_true: linux_user_ss)
+-
  common_user_ss = common_user_ss.apply(config_all, strict: false)
-diff --git a/thunk.c b/linux-user/thunk.c
-similarity index 100%
-rename from thunk.c
-rename to linux-user/thunk.c
-diff --git a/MAINTAINERS b/MAINTAINERS
-index be8fc57538..1de6ce6e44 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -3077,7 +3077,6 @@ Usermode Emulation
- Overall usermode emulation
- M: Riku Voipio <riku.voipio@iki.fi>
- S: Maintained
--F: thunk.c
- F: accel/tcg/user-exec*.c
- F: include/user/
- F: common-user/
+ common_user = static_library('common-user',
+                              sources: common_user_ss.sources(),
 diff --git a/linux-user/meson.build b/linux-user/meson.build
-index eef1dd68bd..ca8b86f209 100644
+index ca8b86f209..b2f4afd5e7 100644
 --- a/linux-user/meson.build
 +++ b/linux-user/meson.build
-@@ -15,6 +15,7 @@ linux_user_ss.add(files(
-   'signal.c',
-   'strace.c',
-   'syscall.c',
-+  'thunk.c',
-   'uaccess.c',
-   'uname.c',
- ))
+@@ -2,6 +2,8 @@ if not have_linux_user
+    subdir_done()
+ endif
+ 
++linux_user_ss = ss.source_set()
++
+ common_user_inc += include_directories('host/' / host_arch)
+ common_user_inc += include_directories('.')
+ 
+@@ -42,3 +44,5 @@ subdir('sh4')
+ subdir('sparc')
+ subdir('x86_64')
+ subdir('xtensa')
++
++specific_ss.add_all(when: 'CONFIG_LINUX_USER', if_true: linux_user_ss)
 -- 
 2.25.1
 
