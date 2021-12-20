@@ -2,90 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0B5047B0C2
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Dec 2021 16:56:53 +0100 (CET)
-Received: from localhost ([::1]:60056 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 032A947B144
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Dec 2021 17:38:36 +0100 (CET)
+Received: from localhost ([::1]:42436 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mzL1w-0006Bo-IR
-	for lists+qemu-devel@lfdr.de; Mon, 20 Dec 2021 10:56:52 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37944)
+	id 1mzLgF-0004UW-Vq
+	for lists+qemu-devel@lfdr.de; Mon, 20 Dec 2021 11:38:33 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60110)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mzKQQ-0001xc-Kn
- for qemu-devel@nongnu.org; Mon, 20 Dec 2021 10:18:17 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:23703)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mzKgy-00022x-Vr
+ for qemu-devel@nongnu.org; Mon, 20 Dec 2021 10:35:22 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38218)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mzKQG-0006IG-8N
- for qemu-devel@nongnu.org; Mon, 20 Dec 2021 10:18:05 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mzKgw-0005fR-Hb
+ for qemu-devel@nongnu.org; Mon, 20 Dec 2021 10:35:11 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1640013456;
+ s=mimecast20190719; t=1640014509;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3hRTbhNzufD8eQhb3S/Nd5pLOJ4QdfFTYE+XFXD6xZQ=;
- b=i3KOlEvNzDXEBtnEYBBULU40oPAyZAkRXj2ZIygwaW4YDIpfTtjVXfvA+KwH68vlIRioK9
- D4MFxm+xurBRXPFuLJ0hAor243Id3BnXX1K0K0ZDMdINmbe6u8HpljEi+fpQyKC1meX+TL
- PUa/RcCMc3llaSQOwkWkvLVfKoGrrc0=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=hzbSRRX48lRGIHb4RSUYlFl+jLPR26DdeyrMP/zi3sg=;
+ b=RcIM6H5Zl4Mo8I41ABy8bSFUpO5T/JGev4/1Ag9rQQfdQ9CcU/JlxeTNR2wW/4L5AvHmkR
+ R93BkL1CwQDDQO/m5jSm0pTvrt8CXp/ubrWx5I5m9XXen709e6yFsk3Av7e2YmOZnDe8WM
+ jfCDVdPdaAzCKBwNtB425MnABY0SaRw=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-302-2qF1ZOfnNZmci496muV2EQ-1; Mon, 20 Dec 2021 03:55:07 -0500
-X-MC-Unique: 2qF1ZOfnNZmci496muV2EQ-1
-Received: by mail-wm1-f71.google.com with SMTP id
- 69-20020a1c0148000000b0033214e5b021so1691480wmb.3
- for <qemu-devel@nongnu.org>; Mon, 20 Dec 2021 00:55:07 -0800 (PST)
+ us-mta-354-UWmFQppdMWij7FUXjEYdKQ-1; Mon, 20 Dec 2021 04:12:38 -0500
+X-MC-Unique: UWmFQppdMWij7FUXjEYdKQ-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ bg20-20020a05600c3c9400b0033a9300b44bso3072626wmb.2
+ for <qemu-devel@nongnu.org>; Mon, 20 Dec 2021 01:12:38 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:cc:from:in-reply-to
+ :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=3hRTbhNzufD8eQhb3S/Nd5pLOJ4QdfFTYE+XFXD6xZQ=;
- b=AgYqNtPq1VtMQRiLQeYzkSe18zpVHKxTOKygt55ztisbrC47ou7WGsdyZ1O+/x8yqD
- /b4hepUvBLlY5kQypVTnng/QtVIswUNdrznAGZtnZcIpuBHX9gez7OiDf3memYCkpcgn
- 4yKbS4wHdcZw6mHdPlRLsoNvRT31/poIwrdIK0gudWO1QAUq1jFFKt2U6NOk4tqekrRT
- UxiTFZKvZFgVZa48ULc1AX887ThSi0SIOPDZE58pcoyDc5J93nmfLiuhciI2fMLPWbQI
- Bw4pUH2caNdFc/DNwnN46L6/3tw9cP+xh8k2aF6bBYc5XT7ziJTxChCvqRAbA1aNvu10
- GedA==
-X-Gm-Message-State: AOAM5331POQHssVU9Ek59Vqb9gurUF/Z9JRPTew46SvZJplwdxe87+OC
- xQmOi/pubereL5rE2KZD8h9NML+fZ3q7cX1NMWANtbMTe161OUShZt6zewMVQsw58WGX/fAiFbX
- eDGxDY9xkM3U5OpI=
-X-Received: by 2002:a5d:61cf:: with SMTP id q15mr11709174wrv.623.1639990506343; 
- Mon, 20 Dec 2021 00:55:06 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxMMQq5WeBYpnRvU3oGALXzATNJM1gnKtpE5TG5d5XlrFoDgyF+0qFR4WCF5pNjJSTtn9vEmw==
-X-Received: by 2002:a5d:61cf:: with SMTP id q15mr11709168wrv.623.1639990506190; 
- Mon, 20 Dec 2021 00:55:06 -0800 (PST)
+ bh=hzbSRRX48lRGIHb4RSUYlFl+jLPR26DdeyrMP/zi3sg=;
+ b=dJyEElbDAxllrdjmXI9R+G7fJGlCNvf2+qhVyI8bsZbmMC9I34BHSgZhusY4Qy1W5t
+ uhqlRyvtesbhkpCDcnlDPUrS/n7Bwpjgn0sGwf48bOzMQ17jrlFYIaimGV0T6HuuhJjZ
+ mlStA2yitfcvSBVAEk7eg7yzy4uJUtm9jj4rOXJ8/tQQnhmRiRT7VzzPv4sE4I97na7P
+ pUm6UQBjq0oHtGgox/VLQ34GOiTwzU5JPD+P5nycjDI7f9yW5vu1WjbeF+q4mF6ZqmDC
+ IlFErAcBGUQGtCcgiKmKnI7NzJ8TZnLmD3y7hzkyT+kt3kH4BiCAzxAV2F4tnbCb06SZ
+ YweQ==
+X-Gm-Message-State: AOAM531ZR44D1P4HkgHfzfFF7UnY5QDLCZqj3vPic2A/pte905tzlC0r
+ p+zthmzyHRkAV5vKy6QSQaOUs2jfq2sGbBeNk3ikiWShnBux5AF0BgKNC3eJ/CuIxVDuR01cten
+ aMGb5S1kk45np4NQ=
+X-Received: by 2002:adf:ce84:: with SMTP id r4mr12341221wrn.131.1639991557237; 
+ Mon, 20 Dec 2021 01:12:37 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwU+ZWqz0DEzbpzBuBOB17o2FvNvdrnxoPiP6IF6mADN/8vADjeBwQsiYKu6zQrMKd6RUajTg==
+X-Received: by 2002:adf:ce84:: with SMTP id r4mr12341151wrn.131.1639991555984; 
+ Mon, 20 Dec 2021 01:12:35 -0800 (PST)
 Received: from [192.168.50.34] (static-180-27-86-188.ipcom.comunitel.net.
  [188.86.27.180])
- by smtp.gmail.com with ESMTPSA id k6sm13913992wmj.16.2021.12.20.00.55.04
+ by smtp.gmail.com with ESMTPSA id a10sm20456247wmq.27.2021.12.20.01.12.35
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 20 Dec 2021 00:55:05 -0800 (PST)
-Message-ID: <aedfa17d-6d31-6d5d-b367-cf84e77d27ed@redhat.com>
-Date: Mon, 20 Dec 2021 09:55:00 +0100
+ Mon, 20 Dec 2021 01:12:35 -0800 (PST)
+Message-ID: <498f2e14-607a-afc3-d73a-58e7f6dad8e2@redhat.com>
+Date: Mon, 20 Dec 2021 10:12:32 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.4.0
-Subject: Re: Virtio-GPU Xres and Yres seettings
-To: Pratik Parvati <pratikp@vayavyalabs.com>, qemu-devel@nongnu.org
-References: <CA+aXn+EZQ=S+P=8fyfCxYikEMLLdqAEeQgi580Tqtsuot-r2dw@mail.gmail.com>
+Subject: Re: [PATCH] hw/nvram: at24 return 0xff if 1 byte address
+To: Patrick Venture <venture@google.com>, cminyard@mvista.com
+References: <20211220003240.1081986-1-venture@google.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <CA+aXn+EZQ=S+P=8fyfCxYikEMLLdqAEeQgi580Tqtsuot-r2dw@mail.gmail.com>
+In-Reply-To: <20211220003240.1081986-1-venture@google.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=philmd@redhat.com;
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -46
-X-Spam_score: -4.7
-X-Spam_bar: ----
-X-Spam_report: (-4.7 / 5.0 requ) DKIMWL_WL_HIGH=-0.209, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.608,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.209,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-3.608, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,33 +99,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Cc'ing Gerd & Marc-André.
+Hi Patrick,
 
-On 12/20/21 05:26, Pratik Parvati wrote:
-> Hi Team,
+On 12/20/21 01:32, Patrick Venture wrote:
+> The at24 eeproms are 2 byte devices that return 0xff when they are read
+> from with a partial (1-byte) address written.  This distinction was
+> found comparing model behavior to real hardware testing.
 > 
-> I am working on a Virtio-GPU device (backend) for one of our customer
-> projects - we are using the Virtio-GPU driver (frontend) to drive our
-> device. Our device code has been written using Qemu virtio-gpu device
-> code as a reference. Our device is setting the resolution to 1024x768 as
-> a response to the command received from the driver (i.e,
-> VIRTIO_GPU_CMD_GET_DISPLAY_INFO) - I also verified that driver is
-> receiving the response bytes properly, but the next
-> command (i.e, VIRTIO_GPU_CMD_RESOURCE_CREATE_2D) that device receive has
-> a width and height as 4096 and 2160 respectively. The driver is assuming
-> a 4k display for some reason and I need your help to understand why this
-> is happening.
+> Tested: `i2ctransfer -f -y 45 w1@85 0 r1` returns 0xff instead of next
+> byte
 > 
-> Our display is corrupted for the same Xres and Yres misunderstanding
-> between the device and the driver - Please guide me to understand the
-> problem. Let me know if you have any questions or need more information.
+> Signed-off-by: Patrick Venture <venture@google.com>
+> ---
+>  hw/nvram/eeprom_at24c.c | 8 +++++++-
+>  1 file changed, 7 insertions(+), 1 deletion(-)
 > 
-> Thanks & Regards,
-> Pratik
+> diff --git a/hw/nvram/eeprom_at24c.c b/hw/nvram/eeprom_at24c.c
+> index a9e3702b00..184fac9702 100644
+> --- a/hw/nvram/eeprom_at24c.c
+> +++ b/hw/nvram/eeprom_at24c.c
+> @@ -62,7 +62,9 @@ int at24c_eeprom_event(I2CSlave *s, enum i2c_event event)
+>      case I2C_START_SEND:
+>      case I2C_START_RECV:
+>      case I2C_FINISH:
+> -        ee->haveaddr = 0;
+> +        if (event != I2C_START_RECV) {
+> +            ee->haveaddr = 0;
+> +        }
+
+Alternatively (matter of taste, I find it easier to read):
+
+       case I2C_START_SEND:
+       case I2C_FINISH:
+           ee->haveaddr = 0;
+           /* fallthrough */
+       case I2C_START_RECV:
+
+>          DPRINTK("clear\n");
+>          if (ee->blk && ee->changed) {
+>              int len = blk_pwrite(ee->blk, 0, ee->mem, ee->rsize, 0);
+> @@ -86,6 +88,10 @@ uint8_t at24c_eeprom_recv(I2CSlave *s)
+>      EEPROMState *ee = AT24C_EE(s);
+>      uint8_t ret;
+>  
+> +    if (ee->haveaddr == 1) {
+> +        return 0xff;
+
+Don't we need to increase ee->haveaddr?
+
+> +    }
+> +
+>      ret = ee->mem[ee->cur];
+>  
+>      ee->cur = (ee->cur + 1u) % ee->rsize;
+
+Here for parity with send, what about:
+
+    if (ee->haveaddr < 2) {
+        ret = 0xff;
+        ee->haveaddr++;
+    } else {
+        ret = ee->mem[ee->cur];
+        ee->cur = (ee->cur + 1u) % ee->rsize;
+    }
+
+?
 
 
