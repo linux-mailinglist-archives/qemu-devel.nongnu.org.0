@@ -2,91 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E68FF47B3BD
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Dec 2021 20:32:07 +0100 (CET)
-Received: from localhost ([::1]:45010 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BA3D47B3CE
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Dec 2021 20:38:08 +0100 (CET)
+Received: from localhost ([::1]:52606 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mzOOE-00068l-10
-	for lists+qemu-devel@lfdr.de; Mon, 20 Dec 2021 14:32:06 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50432)
+	id 1mzOU3-0003MJ-7l
+	for lists+qemu-devel@lfdr.de; Mon, 20 Dec 2021 14:38:07 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60258)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mzMVr-0008NR-A0
- for qemu-devel@nongnu.org; Mon, 20 Dec 2021 12:31:51 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:50318)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mzMVk-00041U-Tk
- for qemu-devel@nongnu.org; Mon, 20 Dec 2021 12:31:51 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1640021500;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=HtughHq2ZhD5Bv6iiwCH05mp84Mo4y1Q3DIdbj6f07M=;
- b=Di1BnEP9wB0uNmc+Ldpg1DZeiaLbf5p9bLsXvxhEUe/x4pKGxvwobEzUu3svAyVxjIqoHF
- M7bBO85q3PScbSNBW6UAoshESv76R2kSU+oKiy7PmcPA126ZxxKfURQrEEq2T1kgO7C1AB
- bR4UVRtnK0QwykDr72xo5d0HGH2SwbM=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-245-9so3voNgOgmwO1BPnT4H9A-1; Mon, 20 Dec 2021 12:31:39 -0500
-X-MC-Unique: 9so3voNgOgmwO1BPnT4H9A-1
-Received: by mail-ed1-f72.google.com with SMTP id
- y17-20020a056402271100b003f7ef5ca612so8133956edd.17
- for <qemu-devel@nongnu.org>; Mon, 20 Dec 2021 09:31:38 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mzN4D-0001BS-JV; Mon, 20 Dec 2021 13:07:22 -0500
+Received: from [2a00:1450:4864:20::52c] (port=40790
+ helo=mail-ed1-x52c.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mzN46-0001Rp-60; Mon, 20 Dec 2021 13:07:15 -0500
+Received: by mail-ed1-x52c.google.com with SMTP id z29so41729035edl.7;
+ Mon, 20 Dec 2021 10:07:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=HtughHq2ZhD5Bv6iiwCH05mp84Mo4y1Q3DIdbj6f07M=;
- b=5xFP8gQAQ1+m+7DQPOdOuzoIcdl2ik4ePlOz1N60W1SBNxJPwhuOdW52vtfLFdnDc4
- KPxhccAR6r72VfbE2un8eCOds7e/ma7cBkvubRIfivdOnqN3mXVHJrvBnYuNziEaHF9u
- Detra5JSPWAmWx/uSVWzSJ2ehCaKu/Ve/F9feClbkP7ZM4XM6JcEMs3L6oPR3Kgx3JAk
- jaxr/sxSSN4YSTVqbc0TNZA/keGOeQNWR7CkaOexnJyISwvKmWCpaHsN7lu3PETHeMIY
- yV+mi2WXt4eJ2sypb3raNGxJL4c55uqEUWbwtqaHNOz3pfHI6o4DgD3cYhj/3fCwSxUS
- EIgQ==
-X-Gm-Message-State: AOAM530lj+l28HS2gRM6xQTHTmsttvsStlLc8C9EEQCwISsvsyQZ47vf
- NnOID7MHbX5VGM5mNr4Hdmb/H9Rn0XTr8QscEIpXeW3ysK9tXBOSX2AEDYMbBDRSaiW/fUW2ShF
- /lkfk1MaSf6ZFMSc=
-X-Received: by 2002:aa7:c78f:: with SMTP id n15mr16858991eds.344.1640021498009; 
- Mon, 20 Dec 2021 09:31:38 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxZRZr1sQ7fqLMHK/+z0Winnp81l9R7l5sl0j/0SkNokO90HXiEynYZcBGNpidQYm9uuc58ag==
-X-Received: by 2002:aa7:c78f:: with SMTP id n15mr16858966eds.344.1640021497738; 
- Mon, 20 Dec 2021 09:31:37 -0800 (PST)
+ bh=ZgcjBuDXdNm2DppLhQp4fVGJCYjMKJ+7UYX9MIJjTwc=;
+ b=itNKfKqF3IjESzjl/8HToFWSgVJ6mwwfz6jM4d3ObjecY/zUJ+oxTyRNmsy9uTK0yP
+ qhxfDBOlOF5JS2isi/LfE8wGTkmba/iG17p+y6TTcYvYMP4Wo6Pw3Z91z08a7853kfjv
+ DAbPSgIFL3jz/8BAbhuI1lQSRGslUWm1vOQsx2NUDwTPFEsXHhhxPmX8GbK/btH13e9v
+ mUcwdL4S/R4SjoDclG3ijECvfbxFckMUNIBcxZPt9wVmg2b9eloK3FtoQ+lMGIWGxJ7v
+ 1Ex4+fCYJGzoHXR6U3yZJklBHYApVpqNmkje91cjCt8rzUuRbGdIEd9mIiDN2J8IHAFH
+ 9A4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=ZgcjBuDXdNm2DppLhQp4fVGJCYjMKJ+7UYX9MIJjTwc=;
+ b=KY9WaJ5to4sCQ8iSnKUttY7GS4on/mxzfXDCGD1wXp7nU8t7zeRVu/ga6KBefBXPV4
+ 0SKaGfvdxMqPPUXm076s9GnSTYxUKRYWDVA8cahTOKW6YZ90VVyroxyUa0Ni/Niivzd6
+ NjHX4wxi9LZzTM7iebfx+WpoLVbGKDjIHLw2LubD4io1jwNbUsbKJ/a7bSfEkmI77o/R
+ 3pHu15P7Qe+j2o/2PFqn9M5QGpc7a3FOHFRgiot9H7+dEhlGp/nbe2TQy7pEtcSB+BM0
+ gdQlL/Clgg9aZ7QOR4JJ5Gv98YsiYIVAYXHOmk+vAPamIsRfMCmTjjHWkLrvPv7VbEMr
+ 13lw==
+X-Gm-Message-State: AOAM533QcolL0W+F30EZ/B6BAUpH/72iBLMdlcRZq8xcExDDUWu6v+5z
+ xNP5/OUXayqSzaHSEk0TjIk=
+X-Google-Smtp-Source: ABdhPJyzGgH6+GPUnufHVrHj7oE4YZHkCif6YFZhZvwS9cBnSniUaIpAxmCTEfsvDBTkBTwd8+rFYw==
+X-Received: by 2002:a05:6402:2ce:: with SMTP id
+ b14mr16656432edx.122.1640023630818; 
+ Mon, 20 Dec 2021 10:07:10 -0800 (PST)
 Received: from [192.168.1.36] (174.red-83-50-185.dynamicip.rima-tde.net.
  [83.50.185.174])
- by smtp.gmail.com with ESMTPSA id h7sm7217811edb.89.2021.12.20.09.31.36
+ by smtp.gmail.com with ESMTPSA id l8sm3195639ejo.197.2021.12.20.10.07.09
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 20 Dec 2021 09:31:37 -0800 (PST)
-Message-ID: <0a830f15-bdca-02b2-d36d-2063e31c5e75@redhat.com>
-Date: Mon, 20 Dec 2021 18:31:34 +0100
+ Mon, 20 Dec 2021 10:07:09 -0800 (PST)
+Message-ID: <b4d0eb8f-a349-51df-3b4c-6081d55f5a04@amsat.org>
+Date: Mon, 20 Dec 2021 19:07:08 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.4.0
-Subject: Re: [PATCH RFC] MAINTAINERS: split out s390x sections
-To: Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
- qemu-s390x@nongnu.org
-References: <20211220115419.308463-1-cohuck@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <20211220115419.308463-1-cohuck@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Subject: Re: [PATCH 00/15] ppc/ppc405: decade cleanup
 Content-Language: en-US
+To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Christophe Leroy <christophe.leroy@csgroup.eu>,
+ "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+References: <20211206103712.1866296-1-clg@kaod.org>
+ <880aa46a-97cb-ad79-b72e-f8276692d750@kaod.org>
+ <b3345770-21e2-39f2-8fe2-e9963886e680@csgroup.eu>
+ <c2eeced6-9cfa-2ea6-88be-a4dfb3d7aca2@kaod.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+In-Reply-To: <c2eeced6-9cfa-2ea6-88be-a4dfb3d7aca2@kaod.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -59
-X-Spam_score: -6.0
-X-Spam_bar: ------
-X-Spam_report: (-6.0 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
- DKIM_SIGNED=0.1, NICE_REPLY_A=-3.608, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52c
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x52c.google.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-3.608,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,44 +97,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, David Hildenbrand <david@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eric Farman <farman@linux.ibm.com>, Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>
+Cc: Thomas Huth <thuth@redhat.com>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>, Greg Kurz <groug@kaod.org>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/20/21 12:54, Cornelia Huck wrote:
-> Split out some more specialized devices etc., so that we can build
-> smarter lists of people to be put on cc: in the future.
+On 12/20/21 09:33, Cédric Le Goater wrote:
+>>
+>> Don't know if this is the reason of our problems but I think there is
+>> something to investigate around timer interrupts:
+>>
+>>
+>> / # cat /proc/interrupts
+>>              CPU0
+>>    16:         68       UIC   1 Level     serial
+>> LOC:          0   Local timer interrupts for timer event device
+>> LOC:          0   Local timer interrupts for others
+>> SPU:          0   Spurious interrupts
+>> PMI:          0   Performance monitoring interrupts
+>> MCE:          0   Machine check exceptions
+>>
+>> Any idea what the problem can be ? How does QEMU generates timer
+>> interrupts ?
 > 
-> Signed-off-by: Cornelia Huck <cohuck@redhat.com>
-> ---
+> I did some archeology and fixed the 405 timer (PIT). Please see commits
+> in :
 > 
-> As discussed offlist. Some notes:
-> - The new sections have inherited the maintainers of the sections
->   they have been split out of (except where people had already
->   volunteered). That's easy to change, obviously, and I hope that
->   the cc: list already contains people who might have interest in
->   volunteering for some sections.
-> - I may not have gotten the F: patterns correct, please double check.
-> - I'm also not sure about where in the MAINTAINERS file the new
->   sections should go; if you have a better idea, please speak up.
-> - Also, if you have better ideas regarding the sections, please
->   speak up as well :)
-> - Pull requests will probably continue the same way as now (i.e.
->   patches picked up at the top level and then sent, except for some
->   things like tcg which may go separately.) Not sure if it would
->   make sense to try out the submaintainer pull request model again,
->   I don't think it made life easier in the past, and now we have
->   the b4 tool to pick patches easily anyway. It might be a good
->   idea to check which of the tree locations should stay, or if we
->   want to have new ones.
+>   https://github.com/legoater/qemu/commits/ppc405
 > 
-> ---
->  MAINTAINERS | 86 ++++++++++++++++++++++++++++++++++++++++++++++-------
->  1 file changed, 75 insertions(+), 11 deletions(-)
+> but we are still getting segfaults. At some point /init tries to load from
+> fffffe04 which is obviously wrong.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Fetching an u32 value from a missing ROM?
+
+> 
+> Add -d int,mmu to have more info from QEMU internals.
+> 
+> I have gathered some info on this page :
+> 
+>   https://github.com/legoater/qemu/wiki/ref405ep
+> 
+> Thanks,
+> 
+> C.
+> 
 
 
