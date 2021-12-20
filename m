@@ -2,90 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDEDC47A4B6
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Dec 2021 06:50:35 +0100 (CET)
-Received: from localhost ([::1]:53608 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF4B047A4DC
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Dec 2021 07:11:13 +0100 (CET)
+Received: from localhost ([::1]:38486 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mzBZC-0006fu-Tp
-	for lists+qemu-devel@lfdr.de; Mon, 20 Dec 2021 00:50:34 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50068)
+	id 1mzBtA-0001s6-RH
+	for lists+qemu-devel@lfdr.de; Mon, 20 Dec 2021 01:11:12 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50092)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=9816edf2f=alistair.francis@opensource.wdc.com>)
- id 1mzAmO-0004B2-J3
- for qemu-devel@nongnu.org; Mon, 20 Dec 2021 00:00:09 -0500
-Received: from esa6.hgst.iphmx.com ([216.71.154.45]:13367)
+ id 1mzAmQ-0004BO-3T
+ for qemu-devel@nongnu.org; Mon, 20 Dec 2021 00:00:12 -0500
+Received: from esa6.hgst.iphmx.com ([216.71.154.45]:13362)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=9816edf2f=alistair.francis@opensource.wdc.com>)
- id 1mzAmI-0008I4-Fw
- for qemu-devel@nongnu.org; Mon, 20 Dec 2021 00:00:07 -0500
+ id 1mzAmM-0008HP-3m
+ for qemu-devel@nongnu.org; Mon, 20 Dec 2021 00:00:09 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1639976403; x=1671512403;
+ t=1639976407; x=1671512407;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=gJ2/DTBUXJvC5jtBwUgJJDw6WrLEJZCaCuHvQtVCVAQ=;
- b=CTrLBw5oVPXPICfhfZ+KDF7IPQ9fxchfRXAoIW1eGMtdipcCpe/atn4a
- ttgedy0GRtImjB3nStMnPMB5iUfOOQErKGBSkn0HaRyvKu1Cp+Bb7jStM
- vwsg45Ao1ZDvDjlwQkzVaWWS/r4CNrEqZzdSwHr6iqHzZ0ncVVf9t41Ns
- pQVeUCagYj9F5O2YIGDJP1YICju/hYsbsl19cC56dX49GXdmQ5CNFahyd
- 6ONalMW68cCcE9AWFquBQ3VkZ9dCh/ao4UCgLOKF3nTpmhgJwZKqTOm0l
- UiGh5aTJx/0+9IErF9vXKsEtWvP4Q1cxQg7vT26Vprrq/MN6ET63N10DJ w==;
-X-IronPort-AV: E=Sophos;i="5.88,219,1635177600"; d="scan'208";a="189680073"
+ bh=qnHwE4G6zuykByKbANfOIfZS8yFjOwpYtiya7Q+ljuo=;
+ b=jre1/QW/7CLfnKCwhKSqjPVpP2A6RRuxtQthVCHzvpEG8wxxfdU5vlcu
+ JVDj64B5XDb5vfJfowpgRS3A0KA6VDY50RqTGnZqYd5mB5gIXOnkqDaKQ
+ MYdyScv7E/tj4NL2Z69Yj5Cp/L4Z7kqbH3G3YDo8ZwCl++FUasRaD82+N
+ 1g2lCYW8atBuGzNqwaDGMwMNLOXkkzJ5nr4ctHUkizfUOglNkfcGlgdey
+ UdEjTK4w5RDe8z9DLq5XcmDVM69EkauA2KYKkMVLT9fTHBDij/FR8COqj
+ dsyY1nQm9ZMPUPcigFY5wElYyvgG+41rHjCbxS6GIp4sBr3S/7XV7ThFQ g==;
+X-IronPort-AV: E=Sophos;i="5.88,219,1635177600"; d="scan'208";a="189680078"
 Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 20 Dec 2021 13:00:01 +0800
-IronPort-SDR: lwl60ZHY40JtNMPW9gKkaS6Y5l0u4CRfVfzVQCgeME48VmfN0sHV0IDHqzCkoTUR6gvLLz+vPk
- hCU0+ZtmFHkIFV6hH3UOJJFszLJIJZSF6jP3wPpfmdx3oKoRIbM3MdxcL8HreRLngMbAmfdmHs
- yJIdfIxBn7KaSnVswg9607693ExcNC3h2cg/f3cUxhTujTSHNE4rTjQNiZKL7vSZOPJL4RrVI4
- aS8ec1nc1JJDNdRt+l2UfEgbydkl7reHjKUgdLgSq484G6eBaIBo6XMr1ZObb5zINX4Y70omyQ
- +Scf2wAmiW7kDWL9w52LSOcf
+ by ob1.hgst.iphmx.com with ESMTP; 20 Dec 2021 13:00:05 +0800
+IronPort-SDR: bzF/yF2wnffNuHOCmkWIrKglsUWXKedjs5ZsvzipI2qMP3i+eZJ2naq6xxcUxJ+TVv4tYktESd
+ RUlKzbiqqbXqmnOP6WOJ1UktOHsdUbcgURjf+EEqQ/CSGXRkd+rrHSWQ3Hq0Kkj38hdLpSe0Fg
+ BWshutB1gKerGpM0MQyU/tboRdoPceS2z7qwW/QbLRxnwJb8r2+dJRz4rQh29iGInSKnaQhs4R
+ GfaGYap9xXD2RuxZ2EDsLu0uEsE++1OgIrPYvE3fZxnJIyirGNWMPqbuOXzEwLVu3b0dO1micM
+ W1pwK1BpmYcrz6yM/gu6FcRY
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Dec 2021 20:32:49 -0800
-IronPort-SDR: /xKUaRnCmb3UgDmqcFqRAl6Qi0Aacdbyn5rfFu8/e+BdLe0mItf6N0p343uJhoOW6Vf9br0Tc/
- UKpJh7nIDdUrZ7Nk8EipuT19ALIabeYUe+2t7YU/kClsAKk0cCsI606QKfgYZ+EH9qimOxCFZ7
- qJL+FYiiF9m0s+CIgw4Jll+bnobPt/OtUPEYc7deVXznRPRG3RqxQUDoOY79k1BWYj36edf/5n
- zMtUi1Z6+uRoD1HbUwx2SL1IP0fhlMjWJUCA6TxsnJTBHkwuaYPFJEspeKxvAO8eWn7a0DBACH
- 3lY=
+ 19 Dec 2021 20:32:53 -0800
+IronPort-SDR: y3Pg8bSNwL8TErhmzUuktvCHfDRpOKNwjOd8Q+XBCBZ+pC8ChLlhi/kuVOmu5sf+xk2Ul4PlVz
+ 1CWN48RHl4ZnX/uN1oHbsx4yAjXF87cv8fHWpxV6JND8rJrtWh1OQ1EAKmeH3Bi3BMoA/4rjnr
+ TGhA8d+bojSblFE/Waw9rv09Gn5g0TOyqZT6cYAoL7nj/frbzOchM/SYfM2EieADiqi5AQbtSG
+ V+DizHrbTPC851WXUCic0GK4S0Zo2JvZ/CD/hCdmRMuqyh1+1xi957t4iUFQutfH4uSl/uzQBk
+ K/Q=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Dec 2021 21:00:01 -0800
+ 19 Dec 2021 21:00:05 -0800
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4JHS7h1FqTz1Rvlf
- for <qemu-devel@nongnu.org>; Sun, 19 Dec 2021 21:00:00 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4JHS7l6dMVz1Rvlf
+ for <qemu-devel@nongnu.org>; Sun, 19 Dec 2021 21:00:03 -0800 (PST)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
  opensource.wdc.com; h=content-transfer-encoding:mime-version
  :references:in-reply-to:x-mailer:message-id:date:subject:to
- :from; s=dkim; t=1639976399; x=1642568400; bh=gJ2/DTBUXJvC5jtBwU
- gJJDw6WrLEJZCaCuHvQtVCVAQ=; b=CzA103SqrsyRe2yXCeCgvBfh3ZXAD57hFX
- wWgzzPmMiyvzQxhkrwFQKvP2+eGJA/KECRx9OhXELXtL5qT4t8SktK9BbdL6Xh2d
- YPvUJLhRe00zdW72ogtIkefjxLibjpT/ugdtxSbIRC/adXUAhUimemxLZRLZSvSe
- UOiKAD+eina1Jue0ENUgtP/oBVC+bgAzTIy+A1hu/rEp7B2Vg49+8I7Ir0W19V/D
- IL9PnreLxb9RjRZhMOKYO47N64btG1UsrKXqSl2M7rXsWzqqPEfnT05L8Vif8SDF
- GwzRcX2T/k1GtUJjrY/4XRe1D0sI9+jzRnZrtY73PqdMZLCDHQRQ==
+ :from; s=dkim; t=1639976403; x=1642568404; bh=qnHwE4G6zuykByKbAN
+ fOIfZS8yFjOwpYtiya7Q+ljuo=; b=uEC4ZH4YXPHSjbaLnN/FujRJuwofdUfmuS
+ Xd/hDCfNHzh/QuEvAbDtI0VIMOQoqasztlJeRZcduswro+JFWKxRn2s6jEr6JOIr
+ NR7U6D8kiw6Qw3HOy6bNY0DTsA3Olc6Pe8AXxe+cYcLNRz4GpqUcEFi0z0nZJb5N
+ I9PEAmTVP4H1qikSzyzrd0FuEb4LjManiVvdhXwUToGd4FNPY49cfO3qR/sh1Hcn
+ mQvN9/HdWC6gzsRJ/GVikNIh01VvkalH+wNuOoCPT3JHuzOeoyQLVA8XuDW3n9MV
+ 0pL3Xf9nfiHigC8qXzJKuZ5u6RMWldHj3k9wYlNzTHcJCVeU7TtQ==
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id kS5Dzsg8ucby for <qemu-devel@nongnu.org>;
- Sun, 19 Dec 2021 20:59:59 -0800 (PST)
+ port 10026) with ESMTP id 3lnuzFWyeUs6 for <qemu-devel@nongnu.org>;
+ Sun, 19 Dec 2021 21:00:03 -0800 (PST)
 Received: from toolbox.alistair23.me (unknown [10.225.165.68])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4JHS7c3vR0z1RtVG;
- Sun, 19 Dec 2021 20:59:56 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4JHS7h3rqRz1RtVG;
+ Sun, 19 Dec 2021 21:00:00 -0800 (PST)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org
 Cc: alistair23@gmail.com, Frank Chang <frank.chang@sifive.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  Alistair Francis <alistair.francis@wdc.com>
-Subject: [PULL 39/88] target/riscv: rvv-1.0: set-X-first mask bit instructions
-Date: Mon, 20 Dec 2021 14:56:16 +1000
-Message-Id: <20211220045705.62174-40-alistair.francis@opensource.wdc.com>
+Subject: [PULL 40/88] target/riscv: rvv-1.0: iota instruction
+Date: Mon, 20 Dec 2021 14:56:17 +1000
+Message-Id: <20211220045705.62174-41-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211220045705.62174-1-alistair.francis@opensource.wdc.com>
 References: <20211220045705.62174-1-alistair.francis@opensource.wdc.com>
@@ -121,73 +121,53 @@ From: Frank Chang <frank.chang@sifive.com>
 Signed-off-by: Frank Chang <frank.chang@sifive.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <20211210075704.23951-32-frank.chang@sifive.com>
+Message-Id: <20211210075704.23951-33-frank.chang@sifive.com>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/insn32.decode              | 6 +++---
- target/riscv/vector_helper.c            | 4 ----
- target/riscv/insn_trans/trans_rvv.c.inc | 5 ++++-
- 3 files changed, 7 insertions(+), 8 deletions(-)
+ target/riscv/insn32.decode              |  2 +-
+ target/riscv/insn_trans/trans_rvv.c.inc | 10 ++++++++--
+ 2 files changed, 9 insertions(+), 3 deletions(-)
 
 diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-index 4df2aa9cdd..d139c0aade 100644
+index d139c0aade..3ac5162aeb 100644
 --- a/target/riscv/insn32.decode
 +++ b/target/riscv/insn32.decode
-@@ -629,9 +629,9 @@ vmornot_mm      011100 - ..... ..... 010 ..... 101011=
-1 @r
- vmxnor_mm       011111 - ..... ..... 010 ..... 1010111 @r
- vcpop_m         010000 . ..... 10000 010 ..... 1010111 @r2_vm
- vfirst_m        010000 . ..... 10001 010 ..... 1010111 @r2_vm
--vmsbf_m         010110 . ..... 00001 010 ..... 1010111 @r2_vm
--vmsif_m         010110 . ..... 00011 010 ..... 1010111 @r2_vm
--vmsof_m         010110 . ..... 00010 010 ..... 1010111 @r2_vm
-+vmsbf_m         010100 . ..... 00001 010 ..... 1010111 @r2_vm
-+vmsif_m         010100 . ..... 00011 010 ..... 1010111 @r2_vm
-+vmsof_m         010100 . ..... 00010 010 ..... 1010111 @r2_vm
- viota_m         010110 . ..... 10000 010 ..... 1010111 @r2_vm
+@@ -632,7 +632,7 @@ vfirst_m        010000 . ..... 10001 010 ..... 101011=
+1 @r2_vm
+ vmsbf_m         010100 . ..... 00001 010 ..... 1010111 @r2_vm
+ vmsif_m         010100 . ..... 00011 010 ..... 1010111 @r2_vm
+ vmsof_m         010100 . ..... 00010 010 ..... 1010111 @r2_vm
+-viota_m         010110 . ..... 10000 010 ..... 1010111 @r2_vm
++viota_m         010100 . ..... 10000 010 ..... 1010111 @r2_vm
  vid_v           010110 . 00000 10001 010 ..... 1010111 @r1_vm
  vext_x_v        001100 1 ..... ..... 010 ..... 1010111 @r
-diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
-index f97783acf0..b0dc971a86 100644
---- a/target/riscv/vector_helper.c
-+++ b/target/riscv/vector_helper.c
-@@ -4260,7 +4260,6 @@ enum set_mask_type {
- static void vmsetm(void *vd, void *v0, void *vs2, CPURISCVState *env,
-                    uint32_t desc, enum set_mask_type type)
- {
--    uint32_t vlmax =3D env_archcpu(env)->cfg.vlen;
-     uint32_t vm =3D vext_vm(desc);
-     uint32_t vl =3D env->vl;
-     int i;
-@@ -4290,9 +4289,6 @@ static void vmsetm(void *vd, void *v0, void *vs2, C=
-PURISCVState *env,
-             }
-         }
-     }
--    for (; i < vlmax; i++) {
--        vext_set_elem_mask(vd, i, 0);
--    }
- }
-=20
- void HELPER(vmsbf_m)(void *vd, void *v0, void *vs2, CPURISCVState *env,
+ vmv_s_x         001101 1 00000 ..... 110 ..... 1010111 @r2
 diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_=
 trans/trans_rvv.c.inc
-index 3645bb9635..9206e6f06c 100644
+index 9206e6f06c..80cbf0cadb 100644
 --- a/target/riscv/insn_trans/trans_rvv.c.inc
 +++ b/target/riscv/insn_trans/trans_rvv.c.inc
-@@ -2731,7 +2731,10 @@ static bool trans_vfirst_m(DisasContext *s, arg_rm=
-r *a)
- #define GEN_M_TRANS(NAME)                                          \
- static bool trans_##NAME(DisasContext *s, arg_rmr *a)              \
- {                                                                  \
--    if (vext_check_isa_ill(s)) {                                   \
-+    if (require_rvv(s) &&                                          \
-+        vext_check_isa_ill(s) &&                                   \
-+        require_vm(a->vm, a->rd) &&                                \
-+        (a->rd !=3D a->rs2)) {                                       \
-         uint32_t data =3D 0;                                         \
-         gen_helper_gvec_3_ptr *fn =3D gen_helper_##NAME;             \
-         TCGLabel *over =3D gen_new_label();                          \
+@@ -2757,12 +2757,18 @@ GEN_M_TRANS(vmsbf_m)
+ GEN_M_TRANS(vmsif_m)
+ GEN_M_TRANS(vmsof_m)
+=20
+-/* Vector Iota Instruction */
++/*
++ * Vector Iota Instruction
++ *
++ * 1. The destination register cannot overlap the source register.
++ * 2. If masked, cannot overlap the mask register ('v0').
++ * 3. An illegal instruction exception is raised if vstart is non-zero.
++ */
+ static bool trans_viota_m(DisasContext *s, arg_viota_m *a)
+ {
+     if (require_rvv(s) &&
+         vext_check_isa_ill(s) &&
+-        require_noover(a->rd, s->lmul, a->rs2, 0) &&
++        !is_overlapped(a->rd, 1 << MAX(s->lmul, 0), a->rs2, 1) &&
+         require_vm(a->vm, a->rd) &&
+         require_align(a->rd, s->lmul)) {
+         uint32_t data =3D 0;
 --=20
 2.31.1
 
