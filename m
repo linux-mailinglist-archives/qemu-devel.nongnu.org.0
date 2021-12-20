@@ -2,90 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3EB147A4D7
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Dec 2021 07:06:07 +0100 (CET)
-Received: from localhost ([::1]:57554 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4E5F47A4B9
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Dec 2021 06:51:42 +0100 (CET)
+Received: from localhost ([::1]:55856 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mzBoE-00041l-ND
-	for lists+qemu-devel@lfdr.de; Mon, 20 Dec 2021 01:06:06 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50360)
+	id 1mzBaH-0008Bb-JR
+	for lists+qemu-devel@lfdr.de; Mon, 20 Dec 2021 00:51:41 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50362)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=9816edf2f=alistair.francis@opensource.wdc.com>)
- id 1mzAn1-0004H1-5M
- for qemu-devel@nongnu.org; Mon, 20 Dec 2021 00:00:49 -0500
-Received: from esa6.hgst.iphmx.com ([216.71.154.45]:13359)
+ id 1mzAn2-0004H5-8P
+ for qemu-devel@nongnu.org; Mon, 20 Dec 2021 00:00:50 -0500
+Received: from esa6.hgst.iphmx.com ([216.71.154.45]:13399)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=9816edf2f=alistair.francis@opensource.wdc.com>)
- id 1mzAmx-0008G0-Uu
- for qemu-devel@nongnu.org; Mon, 20 Dec 2021 00:00:45 -0500
+ id 1mzAmy-0008MN-SG
+ for qemu-devel@nongnu.org; Mon, 20 Dec 2021 00:00:46 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1639976444; x=1671512444;
+ t=1639976445; x=1671512445;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=GS3D63LwLrcGMDNMyaUMG2Lno9DBrbusnIA97F5PEdk=;
- b=Md3b5leBlwnplQsZQJhwzXctUDVZ86TjqvNv7Gml+edvbX5RHiI7kkk3
- 2mdZaZHVfB/OsWG06DpcxnhFd5CG+URJPHiS95iJjG16d13xXNkB2f+7j
- yTwTGEqZRfYZQAckvnXbaO5y41KV08eBCZY284vo0L8PdBhpfF3ALSsGj
- Efx7vTArmjXjA/LVQflMJ3fKwdDV2y0oDPWAi5GrDCe/ch/MiJl61/iyx
- m0J7jeBp8hoG2PvOR6Wadk2JraOBydpFFHBtLyfSIATmVcvshA8zI5/X2
- WGGwvIFznImKF2zMnO6d4AFHe5gjayIk+hY9GBZRacQLiJRvKS69p3PT7 w==;
-X-IronPort-AV: E=Sophos;i="5.88,219,1635177600"; d="scan'208";a="189680109"
+ bh=F3gRQu81GWMU0aB9KuDEYcvhtof5XpUEDpokRRJWn/A=;
+ b=Mdf6ccLfiy0qDPD3b9hl9srl52xomDmYvQ44RnFSiiuRshPijQD/LB95
+ W7TLnOC3gYs9qFWoV0NouwEyytuOeJ6Wj7AvZ94VRyzCg1Kaf2b6jS6nl
+ 73WRGz/FJmjUDP2KP7Cf2vhXqQH8VZaIr7+g3Yr1/vKmkJXa99fA/DP0B
+ 0rWSbxiLH5VJ8KsYiPiRzMx7tD7qGiUDdmmqMHLGR8mbceG5mZSkpomrg
+ oS7yN/PqEkX39fWWR35gRImCbq7UQZcta4/l4l7GjIsQQCaCbKz4PcUhL
+ fwqQo3yDVDyklkorW33y/sFDwxaQ5LScBhgbam12YkipmiDD+7jlYMz8t A==;
+X-IronPort-AV: E=Sophos;i="5.88,219,1635177600"; d="scan'208";a="189680113"
 Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 20 Dec 2021 13:00:27 +0800
-IronPort-SDR: cNx1ZhmFHSA+W5i1RYA42xLxGfkM51JXmIHj7Fg3wCTb1TRmOZOkpAwg41VnZgewh4tytJDEvv
- ti/LVCpi6XlshhW5A7wvemFCK/On5jHNn7AaBrCexADe4xZKlmUmrokwjsUsiYH0vF9P1d8FUG
- bIRjeCYqbKI1rL/jw3yH3G38AKgglYyH6Qbsuk8aJgkjxX27x1vANNGzOFtAykClXaK5wjiDNK
- wpB81y6R4iqAm8o9pbqfGyNsh5bkCXDqBYq34VdvVVOk/xJoZGJFHxJLx+Ckqzj1+92x0CKpEX
- hbgN6ZoKMZqV3O/LTEaegPo4
+ by ob1.hgst.iphmx.com with ESMTP; 20 Dec 2021 13:00:31 +0800
+IronPort-SDR: MhV3FAOK+agCw9uf+aRcsrVbj2nQBMzN15iUfYBvaVqbiLfiWMStoxc5bnbsfnwkA7PeVfbiBb
+ uBT0CN+vDLl/A90JviUEhnzQ/GTrPHOWOwHqvnGDYCqL8wZRFWuSm6D+tL353xiVC4y8fpUFh0
+ faL86QZVzas4d2kd6XCGPhF/Kj5siAfTpI+El8Z7sQHRHgadb6mQlSsQ7GbjrpXYAtaMheD2or
+ x6hZHXS12ULCyp6yNnSB4mlBFPvWG8dXC2DgWGoe7EuA/NCAsw3Eg+JGUZ8yRkg6A7m2XVfqRK
+ Jg7lwMEyVVRt/eKwD9E9QUy9
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Dec 2021 20:33:16 -0800
-IronPort-SDR: XUTn977Je7onc1rHbLyTo15XWicd/I1NIWgKi3oyPk7xfYC5U2Hq0fy7U56Flr7Uedq6ZNC4jX
- Mmt092aJnkvli2AwvfcIrl+zYv8i84hbCUit66h96VtcJtFs3nqNMeRIuKa0aID8ObxfppMaeV
- JiQU28JqlfBkTTzGjNAqcPvsKayBW9NaquH0JIEgaxRe+KGzbaJq+J2tX6PwowvRX2mN6vV6p/
- F+DLRJrInkBT+aiE6/M6cbhAtjTxfkoczl7pFy3EMQVpJSGSzyTSQjV5Oh9hwqgXIgo34R+i0g
- t40=
+ 19 Dec 2021 20:33:19 -0800
+IronPort-SDR: f/xC0oeT8XK5SxaU/OvkhRg0LgI+ymZJtmfPZHsDWgDX1aNi2qTp1OpMuMC4RMRsJqLVUd2k4U
+ bp7XhWYufTEGSNLzE5jnEEuhObsMKXV8Wv2+D9po04EO3DHWGqY5GLep9gyp5fYuKAbtltk/GE
+ mjTqy7OohQPtP6DMhtJ2NoKb2j9HgpaKkMKAu1yOSmGv43eVKh1fqPDr9qa/HeacC0W8HEEyoi
+ m+yOt4d1ySZOk/OPkGaMiAYTs7XURuNy90/I/6YSJBXisYyVUERsq7GjrqIMJPHGmHxfvTssRB
+ nQ4=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Dec 2021 21:00:27 -0800
+ 19 Dec 2021 21:00:31 -0800
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4JHS8B2jqZz1RvTg
- for <qemu-devel@nongnu.org>; Sun, 19 Dec 2021 21:00:26 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4JHS8F5pQPz1RvTh
+ for <qemu-devel@nongnu.org>; Sun, 19 Dec 2021 21:00:29 -0800 (PST)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
  opensource.wdc.com; h=content-transfer-encoding:mime-version
  :references:in-reply-to:x-mailer:message-id:date:subject:to
- :from; s=dkim; t=1639976425; x=1642568426; bh=GS3D63LwLrcGMDNMya
- UMG2Lno9DBrbusnIA97F5PEdk=; b=Qh29z/NBQuSuLp9jjhNV52PX+MomxNzwUA
- Sl5nunAMUoNWm7zevuAk3VazR0fG9otOKFkn+rRHGyilEchif6YVib5DmMFLN7y3
- R54+SzkSOzB1EHbNzDF/SqBvzh6R6hUsxLngJM5vU+17V2fYKvKZ1HSGcs5uoFv3
- fns5JSkeAEw/QFrYWsrQVM5yiw/vZH1OXrOO3702f0Xx0gCvVKk41ukpq6lpDNu6
- oAD7E06MeHGn/Z26j7cWclgkXALoR1Anqvhk0tV2aKBTYUCn+KVKnU0jrzotGZgd
- s3sKAIO5OjrcYq4QJTa1U45uSw/9EP2HH6WNqIuqAp0dVnHaerZg==
+ :from; s=dkim; t=1639976429; x=1642568430; bh=F3gRQu81GWMU0aB9Ku
+ DEYcvhtof5XpUEDpokRRJWn/A=; b=Shgh7nEEoL4bd+o9YPBvCgngeHfAh/eY5H
+ 1in4Y6pbpVE0Nkcc/f9MChVnonlacAzWvsB0YAZzlP+EmxM7ckqJVdfCbGxujGuo
+ +qk5QFqfzLu/jPtIwcc0ua/VJBaAUThlVp2h4BnUmnb5UVhEm8zTNNI3GUyaSCMz
+ wB7AY6eTuq4VqtMn7nn1wpvf3LUS2Fgd8bgCkBeGa35N7NRcmF6YoueRMP1w1s5g
+ RwUfftXopsUjUrW5KyMemc7U7yUn3ywhNZnXNPiurQ7QwFaoTPZlLR/iuIwuFkKl
+ gmgjEF1W64mZ+5wzaoUmIlGu2Df7jTBuBY25W3w+0E5816uWEDqA==
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id 9eFXhQWmoBp4 for <qemu-devel@nongnu.org>;
- Sun, 19 Dec 2021 21:00:25 -0800 (PST)
+ port 10026) with ESMTP id TS9IUOvy8s5b for <qemu-devel@nongnu.org>;
+ Sun, 19 Dec 2021 21:00:29 -0800 (PST)
 Received: from toolbox.alistair23.me (unknown [10.225.165.68])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4JHS8722m6z1RtVG;
- Sun, 19 Dec 2021 21:00:22 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4JHS8B5Dwdz1RtVG;
+ Sun, 19 Dec 2021 21:00:26 -0800 (PST)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org
 Cc: alistair23@gmail.com, Frank Chang <frank.chang@sifive.com>,
  Alistair Francis <alistair.francis@wdc.com>
-Subject: [PULL 46/88] target/riscv: rvv-1.0: floating-point scalar move
- instructions
-Date: Mon, 20 Dec 2021 14:56:23 +1000
-Message-Id: <20211220045705.62174-47-alistair.francis@opensource.wdc.com>
+Subject: [PULL 47/88] target/riscv: rvv-1.0: whole register move instructions
+Date: Mon, 20 Dec 2021 14:56:24 +1000
+Message-Id: <20211220045705.62174-48-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211220045705.62174-1-alistair.francis@opensource.wdc.com>
 References: <20211220045705.62174-1-alistair.francis@opensource.wdc.com>
@@ -118,119 +117,73 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Frank Chang <frank.chang@sifive.com>
 
-NaN-boxed the scalar floating-point register based on RVV 1.0's rules.
+Add the following instructions:
+
+* vmv1r.v
+* vmv2r.v
+* vmv4r.v
+* vmv8r.v
 
 Signed-off-by: Frank Chang <frank.chang@sifive.com>
 Acked-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <20211210075704.23951-39-frank.chang@sifive.com>
+Message-Id: <20211210075704.23951-40-frank.chang@sifive.com>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/internals.h                |  5 ----
- target/riscv/insn32.decode              |  4 +--
- target/riscv/insn_trans/trans_rvv.c.inc | 38 ++++++++++++-------------
- 3 files changed, 21 insertions(+), 26 deletions(-)
+ target/riscv/insn32.decode              |  4 ++++
+ target/riscv/insn_trans/trans_rvv.c.inc | 25 +++++++++++++++++++++++++
+ 2 files changed, 29 insertions(+)
 
-diff --git a/target/riscv/internals.h b/target/riscv/internals.h
-index 81f5dfa477..ac062dc0b4 100644
---- a/target/riscv/internals.h
-+++ b/target/riscv/internals.h
-@@ -32,11 +32,6 @@ target_ulong fclass_h(uint64_t frs1);
- target_ulong fclass_s(uint64_t frs1);
- target_ulong fclass_d(uint64_t frs1);
-=20
--#define SEW8  0
--#define SEW16 1
--#define SEW32 2
--#define SEW64 3
--
- #ifndef CONFIG_USER_ONLY
- extern const VMStateDescription vmstate_riscv_cpu;
- #endif
 diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-index e33ec82fdf..ab5fdbf9be 100644
+index ab5fdbf9be..06a8076311 100644
 --- a/target/riscv/insn32.decode
 +++ b/target/riscv/insn32.decode
-@@ -637,8 +637,8 @@ vid_v           010100 . 00000 10001 010 ..... 101011=
-1 @r1_vm
- vmv_x_s         010000 1 ..... 00000 010 ..... 1010111 @r2rd
- vmv_s_x         010000 1 00000 ..... 110 ..... 1010111 @r2
- vext_x_v        001100 1 ..... ..... 010 ..... 1010111 @r
--vfmv_f_s        001100 1 ..... 00000 001 ..... 1010111 @r2rd
--vfmv_s_f        001101 1 00000 ..... 101 ..... 1010111 @r2
-+vfmv_f_s        010000 1 ..... 00000 001 ..... 1010111 @r2rd
-+vfmv_s_f        010000 1 00000 ..... 101 ..... 1010111 @r2
- vslideup_vx     001110 . ..... ..... 100 ..... 1010111 @r_vm
- vslideup_vi     001110 . ..... ..... 011 ..... 1010111 @r_vm
- vslide1up_vx    001110 . ..... ..... 110 ..... 1010111 @r_vm
+@@ -650,6 +650,10 @@ vrgatherei16_vv 001110 . ..... ..... 000 ..... 10101=
+11 @r_vm
+ vrgather_vx     001100 . ..... ..... 100 ..... 1010111 @r_vm
+ vrgather_vi     001100 . ..... ..... 011 ..... 1010111 @r_vm
+ vcompress_vm    010111 - ..... ..... 010 ..... 1010111 @r
++vmv1r_v         100111 1 ..... 00000 011 ..... 1010111 @r2rd
++vmv2r_v         100111 1 ..... 00001 011 ..... 1010111 @r2rd
++vmv4r_v         100111 1 ..... 00011 011 ..... 1010111 @r2rd
++vmv8r_v         100111 1 ..... 00111 011 ..... 1010111 @r2rd
+=20
+ vsetvli         0 ........... ..... 111 ..... 1010111  @r2_zimm
+ vsetvl          1000000 ..... ..... 111 ..... 1010111  @r
 diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_=
 trans/trans_rvv.c.inc
-index 2c8002af54..89f88a0ea7 100644
+index 89f88a0ea7..91e7c14ec4 100644
 --- a/target/riscv/insn_trans/trans_rvv.c.inc
 +++ b/target/riscv/insn_trans/trans_rvv.c.inc
-@@ -3047,14 +3047,19 @@ static bool trans_vmv_s_x(DisasContext *s, arg_vm=
-v_s_x *a)
- /* Floating-Point Scalar Move Instructions */
- static bool trans_vfmv_f_s(DisasContext *s, arg_vfmv_f_s *a)
- {
--    if (!s->vill && has_ext(s, RVF) &&
--        (s->mstatus_fs !=3D 0) && (s->sew !=3D 0)) {
--        unsigned int len =3D 8 << s->sew;
-+    if (require_rvv(s) &&
-+        require_rvf(s) &&
-+        vext_check_isa_ill(s)) {
-+        unsigned int ofs =3D (8 << s->sew);
-+        unsigned int len =3D 64 - ofs;
-+        TCGv_i64 t_nan;
-=20
-         vec_element_loadi(s, cpu_fpr[a->rd], a->rs2, 0, false);
--        if (len < 64) {
--            tcg_gen_ori_i64(cpu_fpr[a->rd], cpu_fpr[a->rd],
--                            MAKE_64BIT_MASK(len, 64 - len));
-+        /* NaN-box f[rd] as necessary for SEW */
-+        if (len) {
-+            t_nan =3D tcg_constant_i64(UINT64_MAX);
-+            tcg_gen_deposit_i64(cpu_fpr[a->rd], cpu_fpr[a->rd],
-+                                t_nan, ofs, len);
-         }
-=20
-         mark_fs_dirty(s);
-@@ -3066,25 +3071,20 @@ static bool trans_vfmv_f_s(DisasContext *s, arg_v=
-fmv_f_s *a)
- /* vfmv.s.f vd, rs1 # vd[0] =3D rs1 (vs2=3D0) */
- static bool trans_vfmv_s_f(DisasContext *s, arg_vfmv_s_f *a)
- {
--    if (!s->vill && has_ext(s, RVF) && (s->sew !=3D 0)) {
--        TCGv_i64 t1;
-+    if (require_rvv(s) &&
-+        require_rvf(s) &&
-+        vext_check_isa_ill(s)) {
-         /* The instructions ignore LMUL and vector register group. */
--        uint32_t vlmax =3D s->vlen >> 3;
-+        TCGv_i64 t1;
-+        TCGLabel *over =3D gen_new_label();
-=20
-         /* if vl =3D=3D 0, skip vector register write back */
--        TCGLabel *over =3D gen_new_label();
-         tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);
-=20
--        /* zeroed all elements */
--        tcg_gen_gvec_dup_imm(SEW64, vreg_ofs(s, a->rd), vlmax, vlmax, 0)=
-;
--
--        /* NaN-box f[rs1] as necessary for SEW */
-+        /* NaN-box f[rs1] */
-         t1 =3D tcg_temp_new_i64();
--        if (s->sew =3D=3D MO_64 && !has_ext(s, RVD)) {
--            tcg_gen_ori_i64(t1, cpu_fpr[a->rs1], MAKE_64BIT_MASK(32, 32)=
-);
--        } else {
--            tcg_gen_mov_i64(t1, cpu_fpr[a->rs1]);
--        }
-+        do_nanbox(s, t1, cpu_fpr[a->rs1]);
+@@ -3259,3 +3259,28 @@ static bool trans_vcompress_vm(DisasContext *s, ar=
+g_r *a)
+     }
+     return false;
+ }
 +
-         vec_element_storei(s, a->rd, 0, t1);
-         tcg_temp_free_i64(t1);
-         mark_vs_dirty(s);
++/*
++ * Whole Vector Register Move Instructions ignore vtype and vl setting.
++ * Thus, we don't need to check vill bit. (Section 16.6)
++ */
++#define GEN_VMV_WHOLE_TRANS(NAME, LEN)                          \
++static bool trans_##NAME(DisasContext *s, arg_##NAME * a)       \
++{                                                               \
++    if (require_rvv(s) &&                                       \
++        QEMU_IS_ALIGNED(a->rd, LEN) &&                          \
++        QEMU_IS_ALIGNED(a->rs2, LEN)) {                         \
++        /* EEW =3D 8 */                                           \
++        tcg_gen_gvec_mov(MO_8, vreg_ofs(s, a->rd),              \
++                         vreg_ofs(s, a->rs2),                   \
++                         s->vlen / 8 * LEN, s->vlen / 8 * LEN); \
++        mark_vs_dirty(s);                                       \
++        return true;                                            \
++    }                                                           \
++    return false;                                               \
++}
++
++GEN_VMV_WHOLE_TRANS(vmv1r_v, 1)
++GEN_VMV_WHOLE_TRANS(vmv2r_v, 2)
++GEN_VMV_WHOLE_TRANS(vmv4r_v, 4)
++GEN_VMV_WHOLE_TRANS(vmv8r_v, 8)
 --=20
 2.31.1
 
