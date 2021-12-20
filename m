@@ -2,89 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E11C47A4EF
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 Dec 2021 07:20:45 +0100 (CET)
-Received: from localhost ([::1]:57778 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7C4D47A4E6
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 Dec 2021 07:16:33 +0100 (CET)
+Received: from localhost ([::1]:51302 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mzC2M-0006aw-Iz
-	for lists+qemu-devel@lfdr.de; Mon, 20 Dec 2021 01:20:43 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51186)
+	id 1mzByK-00027L-PU
+	for lists+qemu-devel@lfdr.de; Mon, 20 Dec 2021 01:16:32 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51194)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=9816edf2f=alistair.francis@opensource.wdc.com>)
- id 1mzAp0-0004dr-2G
+ id 1mzAp0-0004dw-8b
  for qemu-devel@nongnu.org; Mon, 20 Dec 2021 00:02:50 -0500
-Received: from esa2.hgst.iphmx.com ([68.232.143.124]:51758)
+Received: from esa2.hgst.iphmx.com ([68.232.143.124]:51752)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=9816edf2f=alistair.francis@opensource.wdc.com>)
- id 1mzAom-0000GG-Ss
+ id 1mzAox-0000FH-Dq
  for qemu-devel@nongnu.org; Mon, 20 Dec 2021 00:02:49 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1639976556; x=1671512556;
+ t=1639976567; x=1671512567;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=Mz1dt0NAEoNSSiRkFNIxh89mgk0i2xFnR8/ZgKs2wzU=;
- b=rAjQNhC70BVg7r2s+GEItug+SymzGBnhJVwlN9XhJsSiFSnM7UUh5DPd
- pWecZY5emZIsQ30NnFRr/L/1tkyct0cskAIcqpdtYIxGMkSBhYc1Pd3Sz
- wp4ZCS/5/ki0Q409Hv7EABxEBMPUwf7zcz+MQ+qsqiTedKCczf4RUZ/8v
- 1jFwxTJoeFsY6s1IzC2/0F+Cr3yUCUzD+o1OU7dmxV8SajutNlK+Vx9JH
- 7aaK0+kxDHe8efHWABL/nV7ox/bVYrRr/jZh+rWjr0m9ycEQQDu8tG7Lt
- AA/cSy7GmwDSEQUXnlYiSQHlLKzoTCnHS2cTacLdP8c7dxVMkpaCkZMr1 g==;
-X-IronPort-AV: E=Sophos;i="5.88,219,1635177600"; d="scan'208";a="292662334"
+ bh=L1lSYilsoOlB6KrKbkUU9FSVyrNPSDjxMYcpdA4KhwA=;
+ b=f26qHMdZ9gtwwfOCmIt4/dF97RQaj1Ehd/RVmh4VDUBuPrHEpKVRCZMr
+ bYFi/4jsMKDw2CVoFF8VR3M8YcIpKzcAvFoCu9FAfa8PHutPqZppSiTf4
+ FQQicG82DgqzJW7Ub08Ib3/1u9y521948+/0jrEnYeqaPbwaU6C5Uat4H
+ p3ZsQADJxMs3PkWux5oeax3Dr+3L6sGG+ikTQ+I+S2CfNwMOY0okkERKO
+ wjOygje7F5Jo+o1/Aqss9Tt5LxZgMYjMkldpMuoMHlgpaB32yK0At+3pK
+ +NaQLI8MUzWfqJw6LQGJJ2Iv1e+P/eTwwo4wDtc0SK8vImoqA1kyzGU4r w==;
+X-IronPort-AV: E=Sophos;i="5.88,219,1635177600"; d="scan'208";a="292662340"
 Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 20 Dec 2021 13:02:33 +0800
-IronPort-SDR: jjVJRjBvrEU1eStVMx0qrTv3s+LJFWB29HMsVy4lvmnG2z5eILnhPFznrqjXzX7AqHS/B0EOv8
- jTIt2KZySIDIZe2jAkpI7ORo/nGLsFlmMDWaU01eTvM8Asan40W/vvPfYeR6ZAcQ3VKVOBFNh/
- QSLk5RWD+je/smZ8l4u5g4tZOUs4MozjA6X+XwICU/jbGYORDfG7gop0ZPEEfN0hIfU2SuNtKY
- RNVZnfWxZ24QaYvqj4Tf7ljgDXc1Q8FJEpy21tKgMWDvY2ftZQ6T69LfDDhkfQiszM6o9g8hzS
- Andh34e7QwoZDhHRkIx8175T
+ by ob1.hgst.iphmx.com with ESMTP; 20 Dec 2021 13:02:36 +0800
+IronPort-SDR: 64W+99kL8ChJyYRiX93Li1ECaFYPtbspRb9sZ2byzJNjVcDuG1KGw4OA9gIhQasnLozsurKU7E
+ u0cgeAgI6W9L5FhnqqtkbQCgQsZ297+kWbTP/zq5ozx7xHXGn2+e6mh+7OvF5QhpOjS6GEL24J
+ AbJjIYETyGizyeEAyxQynjH8NZi8tvcVg/jHOb3100r3knR9KRbffhLHLvJCVnputrPZtEF9uP
+ Ur4Dk1eoyUDTd4RByVdDlK3KiUhHhun+HdfJHCNqRG+b5WQgmoEID3buChCm5GspVz6h0J3qsZ
+ NsyeodiUXhO4CGtbk1U3e2eC
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Dec 2021 20:35:23 -0800
-IronPort-SDR: 7dZp8PIVwmf6c7Ips8/z/tqxOeepU/lr8kPOVpfTFXpzY3vsDx7qY+Qb33yKq6VRQOMg/ZbsTs
- 0JilkH7GsdryIxAy6EqilDwDjEUyBROD6JUL4vIVlwaLtqQtinidWKCkkrBLMiqWwCVIr/EoMm
- prrkeaHvaMoxeYtDfbTKy+E1LL/79Qw/uP2puZpKBOuz9a1hTB/nMYkBmAHruQjNxjVP5GdB8G
- 9u1QQ8WGD0iwhyftbjqmgWCF/7jEK7ba0hzVIL2YeT/GtY6yrgH27e9i/HKrIG0iHe0NJIyCb1
- pN4=
+ 19 Dec 2021 20:35:26 -0800
+IronPort-SDR: PFTRcda/4IJAJ4AIjDzpmbFsbQlGihiVWbGXYaykQJGI1mDbwYF9UDh9zu0EqerpPUDqgc3CPI
+ oLtlsZ/fv7wTWXPSXbb4KQNrExSlt102kUgI+flRxa/gdEV/57Ram/OMn3whDdLo5b6ZqAFYWf
+ rLrmcfjlH7sE/H4wp/PiM9KNeHzw3PcWUOzJHV5czxO1TWAlE9YnLaWiUlMfHj7XsUNTY+g8J8
+ rrYiBgCLAXjSFF3//bQe8ci7DPmP3S/q3OlAQknUrfo8PIZ3UB0hKT7PTyBTu0IQQvJI0zKofh
+ yww=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Dec 2021 21:02:33 -0800
+ 19 Dec 2021 21:02:36 -0800
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4JHSBd0yQRz1RvTh
- for <qemu-devel@nongnu.org>; Sun, 19 Dec 2021 21:02:33 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4JHSBh3yPHz1RwFN
+ for <qemu-devel@nongnu.org>; Sun, 19 Dec 2021 21:02:36 -0800 (PST)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
  opensource.wdc.com; h=content-transfer-encoding:mime-version
  :references:in-reply-to:x-mailer:message-id:date:subject:to
- :from; s=dkim; t=1639976552; x=1642568553; bh=Mz1dt0NAEoNSSiRkFN
- Ixh89mgk0i2xFnR8/ZgKs2wzU=; b=li0939W/nt4L14mMGIvg5VwreAz/O3Lfxm
- m5jMuscJ+6nH17N+Ycx+GxZlSd6fLdSzEYoUbRp8moJLCa7QnELW8ocozuBcjyuG
- 2T6TJ7gnZ4C7+yem4qjqe+ciQN788tJjupZPxZiD4zsN96Llm57mJzUAMGy80A8U
- Vu6V6otC3OPzb24bisU4yYvIM4EeemxUtNDnDGPBlk0bfsBT1AXlkNMJxnlHzIuy
- McWLgUzk1Yl8av8KbOvuuu9/Aq04I4ZU13bo0sTVMNRmY6M89JVpeL1ODmLF08F8
- 2tdBgaUpiELiigiAs9/rc7UFbmPNlzT3SeJxYeTGO/GL1uM/HDWg==
+ :from; s=dkim; t=1639976556; x=1642568557; bh=L1lSYilsoOlB6KrKbk
+ UU9FSVyrNPSDjxMYcpdA4KhwA=; b=MRoi3XSRJ417HYbdTRVVsaqfJf3spURaX8
+ CNsOw6GBCa1/zjbOGtxNZmWgT2Fl0T/mpEcjywITGnqjzb3PjP+T6ugzOvmSTpeL
+ H77LMGTlkemPmsvu4QXalQhSFR/oBTYqeIa1yA8b3bmhft7tRzPBkGtm/lyykBOQ
+ SXxgah0PkFuPhTwFIvy9plAFG9HYHvije5bmoEzt9UR/SiV8aobTa+b5Vdblx6+R
+ CrP/v5X24dsMICzeS9fQjoQmQiRNyTcyPz86cQAz/LJsMaPuKUIgzo86xzAyVLi4
+ UX3vUYPvK2YlrzMpVDF4bE1zdoDCwpeI7zf3LNCdzmUnodYojuTA==
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id YWB-Sv7CvtCN for <qemu-devel@nongnu.org>;
- Sun, 19 Dec 2021 21:02:32 -0800 (PST)
+ port 10026) with ESMTP id cwhSkZzvPDx4 for <qemu-devel@nongnu.org>;
+ Sun, 19 Dec 2021 21:02:36 -0800 (PST)
 Received: from toolbox.alistair23.me (unknown [10.225.165.68])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4JHSBY6kH8z1RvTg;
- Sun, 19 Dec 2021 21:02:29 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4JHSBd4WPZz1RtVG;
+ Sun, 19 Dec 2021 21:02:33 -0800 (PST)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org
 Cc: alistair23@gmail.com, Frank Chang <frank.chang@sifive.com>,
  Alistair Francis <alistair.francis@wdc.com>
-Subject: [PULL 79/88] target/riscv: rvv-1.0: rename r2_zimm to r2_zimm11
-Date: Mon, 20 Dec 2021 14:56:56 +1000
-Message-Id: <20211220045705.62174-80-alistair.francis@opensource.wdc.com>
+Subject: [PULL 80/88] target/riscv: rvv-1.0: add vsetivli instruction
+Date: Mon, 20 Dec 2021 14:56:57 +1000
+Message-Id: <20211220045705.62174-81-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211220045705.62174-1-alistair.francis@opensource.wdc.com>
 References: <20211220045705.62174-1-alistair.francis@opensource.wdc.com>
@@ -117,42 +117,86 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Frank Chang <frank.chang@sifive.com>
 
-Rename r2_zimm to r2_zimm11 for the upcoming vsetivli instruction.
-vsetivli has 10-bits of zimm but vsetvli has 11-bits of zimm.
-
 Signed-off-by: Frank Chang <frank.chang@sifive.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <20211210075704.23951-72-frank.chang@sifive.com>
+Message-Id: <20211210075704.23951-73-frank.chang@sifive.com>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/insn32.decode | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ target/riscv/insn32.decode              |  2 ++
+ target/riscv/insn_trans/trans_rvv.c.inc | 27 +++++++++++++++++++++++++
+ 2 files changed, 29 insertions(+)
 
 diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-index 952768f8de..d7c6bc9af2 100644
+index d7c6bc9af2..3b6524bad9 100644
 --- a/target/riscv/insn32.decode
 +++ b/target/riscv/insn32.decode
-@@ -78,7 +78,7 @@
- @r_vm    ...... vm:1 ..... ..... ... ..... ....... &rmrr %rs2 %rs1 %rd
+@@ -79,6 +79,7 @@
  @r_vm_1  ...... . ..... ..... ... ..... .......    &rmrr vm=3D1 %rs2 %rs=
 1 %rd
  @r_vm_0  ...... . ..... ..... ... ..... .......    &rmrr vm=3D0 %rs2 %rs=
 1 %rd
--@r2_zimm . zimm:11  ..... ... ..... ....... %rs1 %rd
-+@r2_zimm11 . zimm:11  ..... ... ..... ....... %rs1 %rd
+ @r2_zimm11 . zimm:11  ..... ... ..... ....... %rs1 %rd
++@r2_zimm10 .. zimm:10  ..... ... ..... ....... %rs1 %rd
  @r2_s    .......   ..... ..... ... ..... ....... %rs2 %rs1
 =20
  @hfence_gvma ....... ..... .....   ... ..... ....... %rs2 %rs1
-@@ -671,7 +671,7 @@ vsext_vf2       010010 . ..... 00111 010 ..... 101011=
+@@ -672,6 +673,7 @@ vsext_vf4       010010 . ..... 00101 010 ..... 101011=
 1 @r2_vm
- vsext_vf4       010010 . ..... 00101 010 ..... 1010111 @r2_vm
  vsext_vf8       010010 . ..... 00011 010 ..... 1010111 @r2_vm
 =20
--vsetvli         0 ........... ..... 111 ..... 1010111  @r2_zimm
-+vsetvli         0 ........... ..... 111 ..... 1010111  @r2_zimm11
+ vsetvli         0 ........... ..... 111 ..... 1010111  @r2_zimm11
++vsetivli        11 .......... ..... 111 ..... 1010111  @r2_zimm10
  vsetvl          1000000 ..... ..... 111 ..... 1010111  @r
 =20
  # *** RV32 Zba Standard Extension ***
+diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_=
+trans/trans_rvv.c.inc
+index ff8f6df8f7..e540b5d33c 100644
+--- a/target/riscv/insn_trans/trans_rvv.c.inc
++++ b/target/riscv/insn_trans/trans_rvv.c.inc
+@@ -160,6 +160,26 @@ static bool do_vsetvl(DisasContext *s, int rd, int r=
+s1, TCGv s2)
+     return true;
+ }
+=20
++static bool do_vsetivli(DisasContext *s, int rd, TCGv s1, TCGv s2)
++{
++    TCGv dst;
++
++    if (!require_rvv(s) || !has_ext(s, RVV)) {
++        return false;
++    }
++
++    dst =3D dest_gpr(s, rd);
++
++    gen_helper_vsetvl(dst, cpu_env, s1, s2);
++    gen_set_gpr(s, rd, dst);
++    mark_vs_dirty(s);
++    tcg_gen_movi_tl(cpu_pc, s->pc_succ_insn);
++    tcg_gen_lookup_and_goto_ptr();
++    s->base.is_jmp =3D DISAS_NORETURN;
++
++    return true;
++}
++
+ static bool trans_vsetvl(DisasContext *s, arg_vsetvl *a)
+ {
+     TCGv s2 =3D get_gpr(s, a->rs2, EXT_ZERO);
+@@ -172,6 +192,13 @@ static bool trans_vsetvli(DisasContext *s, arg_vsetv=
+li *a)
+     return do_vsetvl(s, a->rd, a->rs1, s2);
+ }
+=20
++static bool trans_vsetivli(DisasContext *s, arg_vsetivli *a)
++{
++    TCGv s1 =3D tcg_const_tl(a->rs1);
++    TCGv s2 =3D tcg_const_tl(a->zimm);
++    return do_vsetivli(s, a->rd, s1, s2);
++}
++
+ /* vector register offset from env */
+ static uint32_t vreg_ofs(DisasContext *s, int reg)
+ {
 --=20
 2.31.1
 
