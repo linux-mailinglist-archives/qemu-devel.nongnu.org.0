@@ -2,74 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 097F847C4DA
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Dec 2021 18:19:25 +0100 (CET)
-Received: from localhost ([::1]:58714 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 395E047C4C7
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Dec 2021 18:14:32 +0100 (CET)
+Received: from localhost ([::1]:47890 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mzinL-0002Pe-Mr
-	for lists+qemu-devel@lfdr.de; Tue, 21 Dec 2021 12:19:23 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56132)
+	id 1mziid-0003UP-BN
+	for lists+qemu-devel@lfdr.de; Tue, 21 Dec 2021 12:14:31 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56128)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mziJC-00014s-4V
+ id 1mziJC-00014a-2h
  for qemu-devel@nongnu.org; Tue, 21 Dec 2021 11:48:14 -0500
-Received: from [2607:f8b0:4864:20::1029] (port=42940
- helo=mail-pj1-x1029.google.com)
+Received: from [2607:f8b0:4864:20::529] (port=34560
+ helo=mail-pg1-x529.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mziJ4-0007fe-Hu
+ id 1mziJ5-0007fn-BX
  for qemu-devel@nongnu.org; Tue, 21 Dec 2021 11:48:13 -0500
-Received: by mail-pj1-x1029.google.com with SMTP id
- lr15-20020a17090b4b8f00b001b19671cbebso3741717pjb.1
+Received: by mail-pg1-x529.google.com with SMTP id g22so1065902pgn.1
  for <qemu-devel@nongnu.org>; Tue, 21 Dec 2021 08:48:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=jwD0nklpaMv6uE7sTv0yiM3eKKOOZulK+Q3tBkY247E=;
- b=uJFJstexeq5GyyAea3BtYp+1ddbSGHn+35lI0dlRzqJ1TcDB83TWGD17+2MgLabllP
- t2CrsfztYjjN1U7Vc/hWVnPmcodaU0pN+8rdDOemcVE/uqmfbZWE1gW1FwNZMO32KK9S
- JUn4Pgb+jsM5iKtydfHHVb+ufM71iefuQ63apI+1jn95XcZ8YxJYp4z3+Qs3wGm8SdNQ
- DbMi3MCNQ43FJWAHDoT3HZB4skCrDWWRzeZAXiWsOuj7Wxvtakt0cf6UuPZXiZuI+R0g
- 0qJ6NbbO/Lj9AzvtL9EahepjU0z+V5dlLyHkpgM6XH/qokyxf353Ua0Y/z/0uPKpGzFS
- mAwg==
+ bh=bsfEKlYqYyVVIZAQxrO42ZoY7uXuqNeBFTeiKhl2LqI=;
+ b=bFwnFJsi7hGliIJK+j4FHZsusrSxSBIavzzPuUiC+wp8dw7KnWAKuDHRaSOfi4kJ+u
+ HfQKvKQY//R6V8LAGpTfr7dnsqk/2Uw3FQTYUmR175Riby7XZdzbTOxPoa2Qh79ZAxvl
+ bofZqTNR489OtFYteMUrFcLPm7xBqtUIeP8Ej+YMoButWARIL5TcJ9fANRYKbb+CkKwb
+ SHVLevjeLMOa/qpoVa9sbsv2mQXUrNMtDovr2Eh+K186xEPO1kYA76I1S/ORiOliKoQz
+ lxYlSKY/PcmfxlXOd9rVlh59/6zZULU6PCQk3FWC7221bCUc1w26TFKh3VetF9ndyL7d
+ oohQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=jwD0nklpaMv6uE7sTv0yiM3eKKOOZulK+Q3tBkY247E=;
- b=4AU+LRmBZMKDbF6AsE8b+iqQ2z+tpU5C0RB45J2Q9V86be8SqSfeyOGPNpbDd6KLMq
- uLiRCbScC3pTxrcvn2XMD/X71KaNNsMB9yzvA7wNrEpU94GtfiPsbNggFmhTU7ecMsku
- XxtCRmq3rwylQDUzdDefYRGdCJXxTc1/c9V2jzosqOlE0p0eCH2hHxFTHlp1VQoIwTjU
- v3SZ1MH3m/pHIqhkboMK8lOznvlzl1lXT7Ia/Vfn1BDZnBU53QCcuxWL3giEzToDMqKl
- 6MFcDpr9qIKI/I1BjNLpSSp6KjMuN0Gb0VQUi+LcHNDEZTjuHWbl3qo8if7OZNoccpf5
- NEdg==
-X-Gm-Message-State: AOAM532aeOLFgFhYjt9NMSZCPbhrenzsbMsPUQ6CV7JMZsc3hnGpJmn5
- VHzYdtEitRaRgCr78ZxeOvB2J80tfnKNVg==
-X-Google-Smtp-Source: ABdhPJxQuvPGkw55n4WhYmZGmauo3v3lf2mvksmAox1hrWuQ1O/l+9ZrM8qFWb1aBDPeVHAlWw7lMw==
-X-Received: by 2002:a17:90a:c68a:: with SMTP id
- n10mr4911607pjt.119.1640105285294; 
- Tue, 21 Dec 2021 08:48:05 -0800 (PST)
+ bh=bsfEKlYqYyVVIZAQxrO42ZoY7uXuqNeBFTeiKhl2LqI=;
+ b=n7FUtbeSc3FunRJDv4AQVllYobRTh8bQdVxqbfmVuZAnQBgQXlCr+CuKu08JYXBCGv
+ ZJpBjd+lb3r3rzfEqlDAjzYFHXOmUYtm3FU4L9TRXNqFWBvTZ8fo2aXvLUt+r6u/ZbxQ
+ 3qo/lSMyjb+lJzOIrc80osDOBQENDsumcDRdm4aucaZOaLElU4+V3JMzWtvt7CVWkNIv
+ MHcP+5D4hX46OjFZfrMMA4P9YFXbyiqBzqL+VFUa1KcnJBGeJfvXDm70klaix2oLHJY+
+ UvsKN2GKLstDiTXiWLhaaQLc1C7wZ7xRi5RrKb3tslMAkYCs0wV8HtUHKCS8VZXP/G9B
+ k7fw==
+X-Gm-Message-State: AOAM531j9/1jWTW36fmn15IK7le+r/vfplkUbYztMof6ergSvmltVyZx
+ qZ+blUTHHxbyRaR31SWuEJ6kQpNrZ4Wipg==
+X-Google-Smtp-Source: ABdhPJxUQyMVRPLww6Wk1qEAWyPd3Tq6EXdboRcGqQPtGvFWfuPRibnXO6MSlD6pcNiEL7n76T3//Q==
+X-Received: by 2002:a65:6488:: with SMTP id e8mr3662440pgv.416.1640105286148; 
+ Tue, 21 Dec 2021 08:48:06 -0800 (PST)
 Received: from localhost.localdomain ([156.19.246.20])
- by smtp.gmail.com with ESMTPSA id b192sm2256818pga.35.2021.12.21.08.48.04
+ by smtp.gmail.com with ESMTPSA id b192sm2256818pga.35.2021.12.21.08.48.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Dec 2021 08:48:04 -0800 (PST)
+ Tue, 21 Dec 2021 08:48:05 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 29/31] linux-user: Implement CPU-specific signal handler for
- loongarch64 hosts
-Date: Tue, 21 Dec 2021 08:47:35 -0800
-Message-Id: <20211221164737.1076007-30-richard.henderson@linaro.org>
+Subject: [PULL 30/31] configure,
+ meson.build: Mark support for loongarch64 hosts
+Date: Tue, 21 Dec 2021 08:47:36 -0800
+Message-Id: <20211221164737.1076007-31-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211221164737.1076007-1-richard.henderson@linaro.org>
 References: <20211221164737.1076007-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1029
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::529
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1029.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::529;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x529.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -96,109 +94,65 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: WANG Xuerui <git@xen0n.name>
 
+Example output of `uname -a` on an initial Gentoo LA64 port, running
+the upstream submission version of Linux (with some very minor patches
+not influencing output here):
+
+> Linux <hostname> 5.14.0-10342-g37a00851b145 #5 SMP PREEMPT Tue Aug 10 12:56:24 PM CST 2021 loongarch64 GNU/Linux
+
+And the same on the vendor-supplied Loongnix 20 system, with an early
+in-house port of Linux, and using the old-world ABI:
+
+> Linux <hostname> 4.19.167-rc5.lnd.1-loongson-3 #1 SMP Sat Apr 17 07:32:32 UTC 2021 loongarch64 loongarch64 loongarch64 GNU/Linux
+
+So a name of "loongarch64" matches both, fortunately.
+
 Signed-off-by: WANG Xuerui <git@xen0n.name>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20211221054105.178795-30-git@xen0n.name>
+Message-Id: <20211221054105.178795-31-git@xen0n.name>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/host/loongarch64/host-signal.h | 87 +++++++++++++++++++++++
- 1 file changed, 87 insertions(+)
- create mode 100644 linux-user/host/loongarch64/host-signal.h
+ configure   | 5 +++++
+ meson.build | 2 +-
+ 2 files changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/linux-user/host/loongarch64/host-signal.h b/linux-user/host/loongarch64/host-signal.h
-new file mode 100644
-index 0000000000..05e2c82371
---- /dev/null
-+++ b/linux-user/host/loongarch64/host-signal.h
-@@ -0,0 +1,87 @@
-+/*
-+ * host-signal.h: signal info dependent on the host architecture
-+ *
-+ * Copyright (c) 2003-2005 Fabrice Bellard
-+ * Copyright (c) 2021 WANG Xuerui <git@xen0n.name>
-+ *
-+ * This work is licensed under the terms of the GNU LGPL, version 2.1 or later.
-+ * See the COPYING file in the top-level directory.
-+ */
-+
-+#ifndef LOONGARCH64_HOST_SIGNAL_H
-+#define LOONGARCH64_HOST_SIGNAL_H
-+
-+static inline uintptr_t host_signal_pc(ucontext_t *uc)
-+{
-+    return uc->uc_mcontext.__pc;
-+}
-+
-+static inline void host_signal_set_pc(ucontext_t *uc, uintptr_t pc)
-+{
-+    uc->uc_mcontext.__pc = pc;
-+}
-+
-+static inline bool host_signal_write(siginfo_t *info, ucontext_t *uc)
-+{
-+    const uint32_t *pinsn = (const uint32_t *)host_signal_pc(uc);
-+    uint32_t insn = pinsn[0];
-+
-+    /* Detect store by reading the instruction at the program counter.  */
-+    switch ((insn >> 26) & 0b111111) {
-+    case 0b001000: /* {ll,sc}.[wd] */
-+        switch ((insn >> 24) & 0b11) {
-+        case 0b01: /* sc.w */
-+        case 0b11: /* sc.d */
-+            return true;
-+        }
-+        break;
-+    case 0b001001: /* {ld,st}ox4.[wd] ({ld,st}ptr.[wd]) */
-+        switch ((insn >> 24) & 0b11) {
-+        case 0b01: /* stox4.w (stptr.w) */
-+        case 0b11: /* stox4.d (stptr.d) */
-+            return true;
-+        }
-+        break;
-+    case 0b001010: /* {ld,st}.* family */
-+        switch ((insn >> 22) & 0b1111) {
-+        case 0b0100: /* st.b */
-+        case 0b0101: /* st.h */
-+        case 0b0110: /* st.w */
-+        case 0b0111: /* st.d */
-+        case 0b1101: /* fst.s */
-+        case 0b1111: /* fst.d */
-+            return true;
-+        }
-+        break;
-+    case 0b001110: /* indexed, atomic, bounds-checking memory operations */
-+        uint32_t sel = (insn >> 15) & 0b11111111111;
-+
-+        switch (sel) {
-+        case 0b00000100000: /* stx.b */
-+        case 0b00000101000: /* stx.h */
-+        case 0b00000110000: /* stx.w */
-+        case 0b00000111000: /* stx.d */
-+        case 0b00001110000: /* fstx.s */
-+        case 0b00001111000: /* fstx.d */
-+        case 0b00011101100: /* fstgt.s */
-+        case 0b00011101101: /* fstgt.d */
-+        case 0b00011101110: /* fstle.s */
-+        case 0b00011101111: /* fstle.d */
-+        case 0b00011111000: /* stgt.b */
-+        case 0b00011111001: /* stgt.h */
-+        case 0b00011111010: /* stgt.w */
-+        case 0b00011111011: /* stgt.d */
-+        case 0b00011111100: /* stle.b */
-+        case 0b00011111101: /* stle.h */
-+        case 0b00011111110: /* stle.w */
-+        case 0b00011111111: /* stle.d */
-+        case 0b00011000000 ... 0b00011100011: /* am* insns */
-+            return true;
-+        }
-+        break;
-+    }
-+
-+    return false;
-+}
-+
-+#endif
+diff --git a/configure b/configure
+index 8ccfe51673..9724631609 100755
+--- a/configure
++++ b/configure
+@@ -631,6 +631,8 @@ elif check_define __arm__ ; then
+   cpu="arm"
+ elif check_define __aarch64__ ; then
+   cpu="aarch64"
++elif check_define __loongarch64 ; then
++  cpu="loongarch64"
+ else
+   cpu=$(uname -m)
+ fi
+@@ -3719,6 +3721,9 @@ if test "$linux" = "yes" ; then
+   aarch64)
+     linux_arch=arm64
+     ;;
++  loongarch*)
++    linux_arch=loongarch
++    ;;
+   mips64)
+     linux_arch=mips
+     ;;
+diff --git a/meson.build b/meson.build
+index f45ecf31bd..6d7c02bad7 100644
+--- a/meson.build
++++ b/meson.build
+@@ -56,7 +56,7 @@ python = import('python').find_installation()
+ 
+ supported_oses = ['windows', 'freebsd', 'netbsd', 'openbsd', 'darwin', 'sunos', 'linux']
+ supported_cpus = ['ppc', 'ppc64', 's390x', 'riscv', 'x86', 'x86_64',
+-  'arm', 'aarch64', 'mips', 'mips64', 'sparc', 'sparc64']
++  'arm', 'aarch64', 'loongarch64', 'mips', 'mips64', 'sparc', 'sparc64']
+ 
+ cpu = host_machine.cpu_family()
+ 
 -- 
 2.25.1
 
