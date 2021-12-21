@@ -2,95 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A73847C171
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Dec 2021 15:25:56 +0100 (CET)
-Received: from localhost ([::1]:47806 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 889B047C193
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Dec 2021 15:36:11 +0100 (CET)
+Received: from localhost ([::1]:56736 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mzg5T-0003s4-3V
-	for lists+qemu-devel@lfdr.de; Tue, 21 Dec 2021 09:25:55 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59476)
+	id 1mzgFO-0002Te-BA
+	for lists+qemu-devel@lfdr.de; Tue, 21 Dec 2021 09:36:10 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34464)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1mzg3D-0002jC-JX
- for qemu-devel@nongnu.org; Tue, 21 Dec 2021 09:23:35 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:51927)
+ (Exim 4.90_1) (envelope-from <lukasz.maniak@linux.intel.com>)
+ id 1mzgDn-0008Dg-Pg; Tue, 21 Dec 2021 09:34:31 -0500
+Received: from mga11.intel.com ([192.55.52.93]:38484)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1mzg3B-0000YD-0s
- for qemu-devel@nongnu.org; Tue, 21 Dec 2021 09:23:34 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1640096611;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=hSKAMYh1vIvzBQHKt2EC0pCnwtnTDdg+y4hOj82V9GE=;
- b=cMhnCqKZiTiKh5c/U2diMfsRM1MSVtpg4tjKY0xRGxaY6nmJPPsESsK00NamwUGXZVZKmD
- 7bZZS+tZl2vEgpwXtu47r6WA4E1CR41qdiqzsc0vUptRlHkhq0rrhHKkPTrUC0YRXZKNLf
- WXIcyoK8DhBgajSd4uFk5wtjsIL0BTM=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-169-Hkh77vPHObC0Eg1rRB_RLA-1; Tue, 21 Dec 2021 09:23:30 -0500
-X-MC-Unique: Hkh77vPHObC0Eg1rRB_RLA-1
-Received: by mail-ed1-f69.google.com with SMTP id
- y14-20020a056402440e00b003f81d896346so9650524eda.2
- for <qemu-devel@nongnu.org>; Tue, 21 Dec 2021 06:23:30 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=hSKAMYh1vIvzBQHKt2EC0pCnwtnTDdg+y4hOj82V9GE=;
- b=GZA6GdLaVMREoeBl6ckmrYmihNpP0gU2eXvH58/h5sinNYyQxoRA7iOUUnH9oODdqp
- WC2ZFceDKSeBrXh39fYk+eXiefabVoh3rQnKYMBFJ+yzogGUuNehi7SXuYYm2RZXhX+6
- c/YZayPKcpDLndL6lovuEfsM0e98BSkCuFYlW1jzJMMqXKO1Nv1ctnDk8eq4LFiLmbKQ
- GkYY/v3we+ZLyExuHfaXOY1T9FUwjhB9LjW7SLJJ70KiniQtsV1fZUx/QOQbC4/Ba+nG
- v+TOy8dUHuYr6fEEtmW6n5Cpoz77JjVhwdDDeW/jLrmhpdzM59mIsoISjFjomjhIW/x/
- fpYQ==
-X-Gm-Message-State: AOAM5321fQL3Fi2mSwiPxx17VhBjtwoLk3tL7VzwfWCDTsbhPEreUyjx
- 41tA2AY6pLKLECYTBcWV40gimUOHy+ahhDmTVW84kQh7g21iZwGuvDqqa2uv/RkYmWAQ6vHzkNh
- P9nXRPY/eJVHO4eg=
-X-Received: by 2002:aa7:dd56:: with SMTP id o22mr3516297edw.73.1640096609548; 
- Tue, 21 Dec 2021 06:23:29 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwJs2Ry8oDvMOgtIAILYo8V7sGoLTFxHnj+mmjPR8K7uqXlRqD/S48S9Ch9YlZQ4D9M613LFQ==
-X-Received: by 2002:aa7:dd56:: with SMTP id o22mr3516267edw.73.1640096609219; 
- Tue, 21 Dec 2021 06:23:29 -0800 (PST)
-Received: from ?IPV6:2a04:ee41:4:31cb:e591:1e1e:abde:a8f1?
- ([2a04:ee41:4:31cb:e591:1e1e:abde:a8f1])
- by smtp.gmail.com with ESMTPSA id b73sm6188014edf.37.2021.12.21.06.23.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 21 Dec 2021 06:23:28 -0800 (PST)
-Message-ID: <3d760568-080c-1aa5-9657-3b454d2b56a2@redhat.com>
-Date: Tue, 21 Dec 2021 15:23:27 +0100
+ (Exim 4.90_1) (envelope-from <lukasz.maniak@linux.intel.com>)
+ id 1mzgDk-0002OO-MF; Tue, 21 Dec 2021 09:34:31 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1640097268; x=1671633268;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=nIzcf8Lg3G3f/E+YIG5vr8VUGxEmW2oQJJOZG36VYzg=;
+ b=aXjOFT9n9Py5mJAFACTmP919HNZGRyhhxOFZUIza+TP94tuq2i1Z/fh0
+ EVeBpq4UMSiU5+77W9Ma80bYxW3vdfvJH1HZtvKF1Cwf7E9Bll21qnZ9G
+ ERv6iYE5TJsEe6yIG9LqozrMLpNJ4KHuBPwa/Jk/xAilkCHcprOXjz9A0
+ SkF8AXyJ3Y685QVcE+G7fNg12D1p/u4gyWpjL1WfLywSxkNCh96FVdxOI
+ BlUGOveSGMscs4JtJadO1nVNgJv29tsDFrswC3TB5g0cEZQs+rxGyqhpG
+ y/OG1N/6roIpdfEFOnV8g2wVBO4c3NOElT9NNTZ/fueA9P5wcaTu6d1ia g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10204"; a="237940132"
+X-IronPort-AV: E=Sophos;i="5.88,223,1635231600"; d="scan'208";a="237940132"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Dec 2021 06:34:24 -0800
+X-IronPort-AV: E=Sophos;i="5.88,223,1635231600"; d="scan'208";a="484429141"
+Received: from lmaniak-dev.igk.intel.com ([10.55.249.72])
+ by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Dec 2021 06:34:19 -0800
+From: Lukasz Maniak <lukasz.maniak@linux.intel.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 00/15] hw/nvme: SR-IOV with Virtualization Enhancements
+Date: Tue, 21 Dec 2021 15:32:31 +0100
+Message-Id: <20211221143246.2052050-1-lukasz.maniak@linux.intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [RFC PATCH v2 02/14] job.h: categorize fields in struct Job
-To: Stefan Hajnoczi <stefanha@redhat.com>
-References: <20211104145334.1346363-1-eesposit@redhat.com>
- <20211104145334.1346363-3-eesposit@redhat.com>
- <YbtnmL/3+NAzP85e@stefanha-x1.localdomain>
-From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-In-Reply-To: <YbtnmL/3+NAzP85e@stefanha-x1.localdomain>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eesposit@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eesposit@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -49
-X-Spam_score: -5.0
-X-Spam_bar: -----
-X-Spam_report: (-5.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.203,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.012, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: none client-ip=192.55.52.93;
+ envelope-from=lukasz.maniak@linux.intel.com; helo=mga11.intel.com
+X-Spam_score_int: -71
+X-Spam_score: -7.2
+X-Spam_bar: -------
+X-Spam_report: (-7.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.203,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,67 +68,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
- Wen Congyang <wencongyang2@huawei.com>,
- Xie Changlong <xiechanglong.d@gmail.com>,
- Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- Hanna Reitz <hreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- John Snow <jsnow@redhat.com>
+Cc: Klaus Jensen <its@irrelevant.dk>, Keith Busch <kbusch@kernel.org>,
+ Lukasz Maniak <lukasz.maniak@linux.intel.com>, qemu-block@nongnu.org,
+ =?UTF-8?q?=C5=81ukasz=20Gieryk?= <lukasz.gieryk@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This is the version of the patch series that we consider ready for
+staging. We do not intend to work on the v4 unless there are major
+issues.
 
+Changes since v2:
+- The documentation mentions that SR-IOV support is still an
+  experimental feature.
+- The default value activates properly when sriov_max_v{i,q}_per_vf == 0.
+- Secondary Controller List (CNS 15h) handles the CDW10.CNTID field.
+- Virtual Function Number ("VFN") in Secondary Controller Entry is not
+  cleared to zero as the controller goes offline.
+- Removed no longer used helper pcie_sriov_vf_number_total.
+- Reset other than Controller Reset is necessary to activate (or
+  deactivate) flexible resources.
+- The v{i,q}rfap fields in Primary Controller Capabilities store the
+  currently active number of bound resources, not the number active
+  after reset.
+- Secondary controller cannot be set online unless the corresponding VF
+  is enabled (sriov_numvfs set to at least the secondary controller's VF
+  number)
 
-On 16/12/2021 17:21, Stefan Hajnoczi wrote:
-> On Thu, Nov 04, 2021 at 10:53:22AM -0400, Emanuele Giuseppe Esposito wrote:
->> Categorize the fields in struct Job to understand which ones
->> need to be protected by the job mutex and which don't.
->>
->> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
->> ---
->>   include/qemu/job.h | 57 +++++++++++++++++++++++++++-------------------
->>   1 file changed, 34 insertions(+), 23 deletions(-)
->>
->> diff --git a/include/qemu/job.h b/include/qemu/job.h
->> index ccf7826426..f7036ac6b3 100644
->> --- a/include/qemu/job.h
->> +++ b/include/qemu/job.h
->> @@ -40,27 +40,52 @@ typedef struct JobTxn JobTxn;
->>    * Long-running operation.
->>    */
->>   typedef struct Job {
->> +
->> +    /* Fields set at initialization (job_create), and never modified */
->> +
->>       /** The ID of the job. May be NULL for internal jobs. */
->>       char *id;
->>   
->> -    /** The type of this job. */
->> +    /**
->> +     * The type of this job.
->> +     * All callbacks are called with job_mutex *not* held.
->> +     */
->>       const JobDriver *driver;
->>   
->> -    /** Reference count of the block job */
->> -    int refcnt;
->> -
->> -    /** Current state; See @JobStatus for details. */
->> -    JobStatus status;
->> -
->>       /** AioContext to run the job coroutine in */
->>       AioContext *aio_context;
-> 
-> "Fields set at initialization (job_create), and never modified" does not
-> apply here. blockjob.c:child_job_set_aio_ctx() changes it at runtime.
-> 
+The list of opens and known gaps remains the same as for v2:
+https://lists.gnu.org/archive/html/qemu-block/2021-11/msg00423.html
 
-Right. aio_context can theoretically avoid also the job_mutex, if we 
-make sure that all klass->set_aio_ctx() are under BQL (they are) and 
-under drains (work in progress). For now I will protect it with job_lock().
+Knut Omang (2):
+  pcie: Add support for Single Root I/O Virtualization (SR/IOV)
+  pcie: Add some SR/IOV API documentation in docs/pcie_sriov.txt
 
-Thank you,
-Emanuele
+Lukasz Maniak (4):
+  hw/nvme: Add support for SR-IOV
+  hw/nvme: Add support for Primary Controller Capabilities
+  hw/nvme: Add support for Secondary Controller List
+  docs: Add documentation for SR-IOV and Virtualization Enhancements
+
+Łukasz Gieryk (9):
+  pcie: Add a helper to the SR/IOV API
+  pcie: Add 1.2 version token for the Power Management Capability
+  hw/nvme: Implement the Function Level Reset
+  hw/nvme: Make max_ioqpairs and msix_qsize configurable in runtime
+  hw/nvme: Remove reg_size variable and update BAR0 size calculation
+  hw/nvme: Calculate BAR attributes in a function
+  hw/nvme: Initialize capability structures for primary/secondary
+    controllers
+  hw/nvme: Add support for the Virtualization Management command
+  hw/nvme: Update the initalization place for the AER queue
+
+ docs/pcie_sriov.txt          | 115 ++++++
+ docs/system/devices/nvme.rst |  36 ++
+ hw/nvme/ctrl.c               | 665 ++++++++++++++++++++++++++++++++---
+ hw/nvme/ns.c                 |   2 +-
+ hw/nvme/nvme.h               |  55 ++-
+ hw/nvme/subsys.c             |  75 +++-
+ hw/nvme/trace-events         |   6 +
+ hw/pci/meson.build           |   1 +
+ hw/pci/pci.c                 |  97 +++--
+ hw/pci/pcie.c                |   5 +
+ hw/pci/pcie_sriov.c          | 295 ++++++++++++++++
+ hw/pci/trace-events          |   5 +
+ include/block/nvme.h         |  65 ++++
+ include/hw/pci/pci.h         |  12 +-
+ include/hw/pci/pci_ids.h     |   1 +
+ include/hw/pci/pci_regs.h    |   1 +
+ include/hw/pci/pcie.h        |   6 +
+ include/hw/pci/pcie_sriov.h  |  72 ++++
+ include/qemu/typedefs.h      |   2 +
+ 19 files changed, 1435 insertions(+), 81 deletions(-)
+ create mode 100644 docs/pcie_sriov.txt
+ create mode 100644 hw/pci/pcie_sriov.c
+ create mode 100644 include/hw/pci/pcie_sriov.h
+
+-- 
+2.25.1
 
 
