@@ -2,84 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4E8F47C86F
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Dec 2021 21:52:07 +0100 (CET)
-Received: from localhost ([::1]:48166 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3B5E47C878
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Dec 2021 21:57:36 +0100 (CET)
+Received: from localhost ([::1]:54996 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mzm79-0000Jw-Na
-	for lists+qemu-devel@lfdr.de; Tue, 21 Dec 2021 15:52:03 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49570)
+	id 1mzmCV-000544-L2
+	for lists+qemu-devel@lfdr.de; Tue, 21 Dec 2021 15:57:35 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50508)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mzm64-0007KN-Oi
- for qemu-devel@nongnu.org; Tue, 21 Dec 2021 15:50:56 -0500
-Received: from [2607:f8b0:4864:20::102b] (port=47089
- helo=mail-pj1-x102b.google.com)
+ id 1mzmAh-0004M9-4c
+ for qemu-devel@nongnu.org; Tue, 21 Dec 2021 15:55:45 -0500
+Received: from [2607:f8b0:4864:20::630] (port=42550
+ helo=mail-pl1-x630.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mzm63-0005Gn-7U
- for qemu-devel@nongnu.org; Tue, 21 Dec 2021 15:50:56 -0500
-Received: by mail-pj1-x102b.google.com with SMTP id
- rj2-20020a17090b3e8200b001b1944bad25so382673pjb.5
- for <qemu-devel@nongnu.org>; Tue, 21 Dec 2021 12:50:54 -0800 (PST)
+ id 1mzmAV-0005qX-Qe
+ for qemu-devel@nongnu.org; Tue, 21 Dec 2021 15:55:41 -0500
+Received: by mail-pl1-x630.google.com with SMTP id u16so179402plg.9
+ for <qemu-devel@nongnu.org>; Tue, 21 Dec 2021 12:55:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:references:from:message-id:date:user-agent:mime-version
  :in-reply-to:content-language:content-transfer-encoding;
- bh=U+MJN4X3NhLKlMd8+n9mJpFpcD8SVmF+c+u53Ezfm0w=;
- b=N9WJ9V/YmSA49yNHDsXZbpoFqVOWX86LFcJkmRnD2+ejdkb9mp9pETdCY2qMXcFBba
- NyTG29rCXH5GUqOoN7XfHWbzD64iZkXrkK4BjeUtUa6QWI5vsMxwPgc6N/3mV0lDenSz
- wEd2pkvCslisvY1d5o7KFl/Qpk7MCWa5LXUFk5sIMqbPg2Ckf/JJ6dqYKjf2FFWTi0Mi
- rqLLgv2uNpT9HtFUoXbMlIDmWMweYD4pTJLRrsduZGFAVPEQQCj0eDFtgVszxn7tSmqj
- Y0JfSOXcRNl+XeM/VQkbIZcg069vhgI8eOeuysmAuGS/RXB2iPZkazUKmWNhbNhs6nMi
- MY/Q==
+ bh=1AAuRGhTyhXdEpQ7sbMmfQLdvMYbK/pDw2vVBh27wJA=;
+ b=ZolNxtN9DUDlqwDeN4ZdiAMNNlN0F1FVMPdFMPFTIYOsKVUPwe2yqanhjjEhUU11fZ
+ 6jmazBdVRTUrCUYgN2IO7cMKWU9pbJm8p7/o6itxhuDqDjHyvqCaRg0qmOeLtJtiJMAF
+ /Jq6Ium9E+JJChGhXXOqAFwDNVMREccX2kY+wtY+P/MLGYpCpwS7OoguLohMd+ml9a+d
+ HA+UGC1V5mib9PVGx/mNUs8eVZjxezc7WiEGwwRvcjtRzWcePUnuuYSqZnyU1tlVxeE9
+ /hnL3xIYki0Sl1nd4odxkBP+B7T8pB4YrQe2vvR4vLhLx4MgI70BjixSHx00I0fWfHoM
+ jlSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=U+MJN4X3NhLKlMd8+n9mJpFpcD8SVmF+c+u53Ezfm0w=;
- b=H1HxtVhSuf7osgqEhHwaArZ+zbY1Aq5770mYZnZ7VVMW+xaz2jLVvXy/M2W+e/Spe8
- 4oE7iVHeWMkES4HlnZ7V+eUSOB8k7GlcYlx117P+wbNtxDPztqUG0KeUt3Nl9+mTDAFS
- 98wRv+vhs5Rgx2+/MISC2/udfBO2cWkuvv15Wr9rjmxucAT6L31wkmuZmzJtLjpP2Acs
- 64+OWAHf5U6eUc2d+8d6tjbi3ZmoKtICmEEj1r4tksoJjip6HNKjLF/vumDzqSsiNHsl
- anY/soJv2WQdG2Twfzmgh3g+JFDleHp70GEc+ozT3+kQDJK+yPVOzLtFCemA5ZFLZUSw
- O8mA==
-X-Gm-Message-State: AOAM5323FPNt8QcX1CBPRd+wKMYNezNjfVZoLYSBcxK7eG+Ov2CHVrbI
- uYCO/p5J7SK4BogENfvJrTj58ShuO8V0NQ==
-X-Google-Smtp-Source: ABdhPJyvzYxC2YjPKqbhqgh15b2f3uSY7VNwhc5ZNCeyvWMVXAnyXfiDFT5LshSJ6C+LaoY09xm+eg==
-X-Received: by 2002:a17:902:8645:b0:142:8c0d:3f4a with SMTP id
- y5-20020a170902864500b001428c0d3f4amr4897381plt.3.1640119853653; 
- Tue, 21 Dec 2021 12:50:53 -0800 (PST)
+ bh=1AAuRGhTyhXdEpQ7sbMmfQLdvMYbK/pDw2vVBh27wJA=;
+ b=ZlocQ9gWkpW07IV+RUBaaKSKu9FmllWNnLqrv7mDs//BipJGoe19PthOdCmXoQgQFv
+ gyCp7MwhyYZvx8OTdo5cbkx78JHVbGnzDzKeObjJe6rKNaTEe97gvGpj1BMCYVuDl+2t
+ XGJWAnFz9VuViQ6FvZ36ZE/D2HEsJfNddbLb8SR/1cUnM4ErRaSYpTCbcbk/mSkOr7gQ
+ orD+4dIDGF/T/HE1V+LQnPjBuJa1pwY8UkaqbC2XUS+sdI+AyG84Je7+4+qGovpJvs8z
+ gl7g3bIWMBn4cZRK/3x48jo3N/0e0I/N75QAvqtJMj0vRxU/Z6HJu+1vKbJj8UDw28Zx
+ VRlQ==
+X-Gm-Message-State: AOAM531pxUnH5eCR4vBgjVHVU6ajDlWcSHMx359+Bt3mXjva/gz/MAsz
+ +qaQnEbSlMrA9/+tjiFPBKGNmjNeS5dmGw==
+X-Google-Smtp-Source: ABdhPJzN2ftMkBxT+FB7e6mAKvQL1fObN1XTufRll+HQilQRHAjX7Y3+GPwsKD4kZqG3hre+qJ0Suw==
+X-Received: by 2002:a17:90b:3810:: with SMTP id
+ mq16mr270402pjb.128.1640120129377; 
+ Tue, 21 Dec 2021 12:55:29 -0800 (PST)
 Received: from [192.168.4.112] ([156.19.246.20])
- by smtp.gmail.com with ESMTPSA id q22sm7968pfk.27.2021.12.21.12.50.52
+ by smtp.gmail.com with ESMTPSA id y126sm13253pfy.40.2021.12.21.12.55.28
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 21 Dec 2021 12:50:53 -0800 (PST)
-Subject: Re: [PATCH 1/8] configure: simplify creation of plugin symbol list
+ Tue, 21 Dec 2021 12:55:29 -0800 (PST)
+Subject: Re: [PATCH 2/8] configure: do not set bsd_user/linux_user early
 To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
 References: <20211221110526.351709-1-pbonzini@redhat.com>
- <20211221110526.351709-2-pbonzini@redhat.com>
+ <20211221110526.351709-3-pbonzini@redhat.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <60b52f21-5c91-543f-4e4f-f47178302bb3@linaro.org>
-Date: Tue, 21 Dec 2021 12:50:50 -0800
+Message-ID: <bab0de5d-a0cb-d7d2-9950-d285306b677e@linaro.org>
+Date: Tue, 21 Dec 2021 12:55:26 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <20211221110526.351709-2-pbonzini@redhat.com>
+In-Reply-To: <20211221110526.351709-3-pbonzini@redhat.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102b
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::630
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x630.google.com
 X-Spam_score_int: -32
 X-Spam_score: -3.3
 X-Spam_bar: ---
 X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.012,
  RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,21 +95,18 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 12/21/21 3:05 AM, Paolo Bonzini wrote:
-> --dynamic-list is present on all supported ELF (not Windows or Darwin)
-> platforms, since it dates back to 2006; -exported_symbols_list is
-> likewise present on all supported versions of macOS.  Do not bother
-> doing a functional test in configure.
+> Similar to other optional features, leave the variables empty and compute
+> the actual value later.  Use the existence of include or source directories
+> to detect whether an OS or CPU supports respectively bsd-user and linux-user.
 > 
-> Remove the file creation from configure as well: for Darwin, move the
-> the creation of the Darwin-formatted symbols to meson; for ELF, use the
-> file in the source path directly and switch from -Wl, to -Xlinker to
-> not break weird paths that include a comma.
+> For now, BSD user-mode emulation is buildable even on TCI-only
+> architectures.  This probably will change once safe signals are
+> brought over from linux-user.
 > 
 > Signed-off-by: Paolo Bonzini<pbonzini@redhat.com>
 > ---
->   configure           | 80 ---------------------------------------------
->   plugins/meson.build | 11 +++++--
->   2 files changed, 8 insertions(+), 83 deletions(-)
+>   configure | 28 +++++++++++++++++-----------
+>   1 file changed, 17 insertions(+), 11 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
