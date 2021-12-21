@@ -2,73 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6810F47BFA0
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Dec 2021 13:24:15 +0100 (CET)
-Received: from localhost ([::1]:32898 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32DB547BFBE
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Dec 2021 13:32:50 +0100 (CET)
+Received: from localhost ([::1]:37362 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mzeBi-0005KO-7z
-	for lists+qemu-devel@lfdr.de; Tue, 21 Dec 2021 07:24:14 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60382)
+	id 1mzeK0-0000Zk-Ob
+	for lists+qemu-devel@lfdr.de; Tue, 21 Dec 2021 07:32:48 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33796)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <abhijeetinamdar3005@gmail.com>)
- id 1mzeA0-0003HX-DX; Tue, 21 Dec 2021 07:22:33 -0500
-Received: from [2607:f8b0:4864:20::72b] (port=36718
- helo=mail-qk1-x72b.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <abhijeetinamdar3005@gmail.com>)
- id 1mze9y-0007tH-Hw; Tue, 21 Dec 2021 07:22:28 -0500
-Received: by mail-qk1-x72b.google.com with SMTP id d21so12313197qkl.3;
- Tue, 21 Dec 2021 04:22:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=daZ8kCLE3GK//vTn9Nvv8NG/2EQkH9tYBqubHQjuTks=;
- b=LUXBleZu786KMbKRq6a4PCKFjfps+pci7dTf5QL/5CjdzGXpzrtOz+MQTvpDRWWqcx
- wgZMoTfyAs1sseahIU2RdolbFK3orG96V+NLEqlWcCRovTkuP7rG9kolMG33yW50bZwH
- /N/QK2y0lgZctyYan6FWezipr3wUWfV3ag4FgOysFJyPHaZT1t0JWlYOxhokyPXVixDB
- OYG4DFiUu0eCPWNrXNfPEOgM3oIpeRogaozelFGyC/RcfWpxpZaTDeGZQLP8bI5nCxjW
- ApRHVcruA2v/ZVsIyc6PIMNKT/FK2P+02gW1ZOHKEQqaopGVepyZxfz6iJJfd7CEYdcs
- 1XwQ==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mzeHj-00089R-0J
+ for qemu-devel@nongnu.org; Tue, 21 Dec 2021 07:30:27 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42389)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mzeHb-0000Z1-Lj
+ for qemu-devel@nongnu.org; Tue, 21 Dec 2021 07:30:25 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1640089818;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Fa2Q/gJSoQP0iWesfM1DchLowBdt3ByBqWaE/3MJa58=;
+ b=OB9eOLw+ryP1TwNJHYAabjp5ncb1f+QgGTocBxgI4dtNRW5BfOsuxK2mVrniKWOl8eIdkX
+ EnT5EZJgagmahoWCDkvUOWXxfnaQNZhxRmdg0wCas7o4avl82lfzsDaPeNOElt/ZdaklTF
+ zLUqsLfB8+SqU7SZihB+zrcoTB7/4j0=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-124-wG7-CxQsPXiNxWhajqUn3w-1; Tue, 21 Dec 2021 07:30:17 -0500
+X-MC-Unique: wG7-CxQsPXiNxWhajqUn3w-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ v62-20020a1cac41000000b0033719a1a714so2797108wme.6
+ for <qemu-devel@nongnu.org>; Tue, 21 Dec 2021 04:30:16 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=daZ8kCLE3GK//vTn9Nvv8NG/2EQkH9tYBqubHQjuTks=;
- b=tHjdQFMtwhm9LjoRKlrdDRVxHuNUVlHH5EFah6AgIkhHj6EEz3X/uvVv+19Z7eYSvx
- Hcf57Qnfc0Y3fisO5YYy4vxGXy1KwjjoERqEFPhP5lAcERtdmbyaGYMibFxIMSNLd87V
- G9lXVVArbuA8dAIJKt6QFtNVXdNPlgJ6oz4Bib5ByqD/6OhK6Ig9ZUEgRXDLMr7SXdXx
- lMmLn/8Bf+aEVFimfBf02Qn6k0cO39sG161J2/dBXrU2MpCBbd77M10Qh99uzggm0yFz
- wIG4z2hXo88FCwASH4ZY2/2uSaNgqcIvRp86WeJQvW3q8lyaOd9fd4Ps2XCG/plzALWJ
- vX9A==
-X-Gm-Message-State: AOAM530KVoAIdfc66RRou+/3WZqvjr1jTG0eK5bl9DSqWKhUAikw+69H
- bCB3YDCpIMoinYm6K0okLkIfXMzURX7wXRSEk6g=
-X-Google-Smtp-Source: ABdhPJw+vHVGC+Pi4bBjmj4lQQMo1+OGYmZXT9QpP561YKHR2lBasXXTS2xQnKP6K+PyojVzjs9z9KqcjR/QBCMdTcI=
-X-Received: by 2002:a05:620a:2912:: with SMTP id
- m18mr1693678qkp.692.1640089345334; 
- Tue, 21 Dec 2021 04:22:25 -0800 (PST)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=Fa2Q/gJSoQP0iWesfM1DchLowBdt3ByBqWaE/3MJa58=;
+ b=wz8yJ+Rfi1uvipoWFim+CmRtzwNMY3ESF4t5A9AAa1qc2+rDzdk/3NeqVeDUhErSkt
+ wo51ZVSRGbljwbjCEKo4KlN9yhrFbeTHyR9O3LkYkdcTRIioK4cXBXQZcWEXFRDV8Nvv
+ 1Y27LFRK+6raKof0tmVler6Kvmy72724yqJQt1RthzE9nRw8wN9e0xs+xWV/47thdPQ/
+ ODIm5nVDD3OrK1VEuAk+BXg9NO0Gj5eWp8WfaqkFyIRXvu2Wdy8YlaXlXFUqwF6su6oR
+ jINI/zm42IVSyYuwWp8cotSwDwN3NMyvK5nPAXdu+IVU5Bz8vb7N6/pUbbvf9B/3xS4N
+ 6LqA==
+X-Gm-Message-State: AOAM533t7e2SZt0hW5cWiDRpUio+QzMAWuJHPKu9lGCju9nbFPnIkUmV
+ wPvbeNwY22MUWZz8xfQLGeRDZt+VvykomIgTBctGLICunygxkJ78FzeGpI2I1gEizyywaSIg6Tk
+ 3WmEAvK/lrGdaNug=
+X-Received: by 2002:a05:600c:1e01:: with SMTP id
+ ay1mr2562093wmb.152.1640089815909; 
+ Tue, 21 Dec 2021 04:30:15 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJy9ht6IjYcE+bRwbXKHIH7lecQjiCNp1kpFlJG7PljaZQEiEGB1RF3FpPt7DBRvfuCxfNhViQ==
+X-Received: by 2002:a05:600c:1e01:: with SMTP id
+ ay1mr2562071wmb.152.1640089815701; 
+ Tue, 21 Dec 2021 04:30:15 -0800 (PST)
+Received: from [10.33.192.183] (nat-pool-str-t.redhat.com. [149.14.88.106])
+ by smtp.gmail.com with ESMTPSA id j17sm10810364wrp.68.2021.12.21.04.30.14
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 21 Dec 2021 04:30:15 -0800 (PST)
+Message-ID: <bac44c19-7e63-919e-6491-9c50f1933abc@redhat.com>
+Date: Tue, 21 Dec 2021 13:30:14 +0100
 MIME-Version: 1.0
-References: <CAP4GjT2fC_bTkoNd=21MrdoC1hKk_jejDBdc8KiNvr86aOyAwA@mail.gmail.com>
- <0f468714-96bd-1e5a-0e40-b7fd5f920964@redhat.com>
- <CAP4GjT0a+eROFs6w1X=WTLsGkVsaTO2QC6f4wq96X386xpNW0g@mail.gmail.com>
-In-Reply-To: <CAP4GjT0a+eROFs6w1X=WTLsGkVsaTO2QC6f4wq96X386xpNW0g@mail.gmail.com>
-From: abhijeet inamdar <abhijeetinamdar3005@gmail.com>
-Date: Tue, 21 Dec 2021 13:22:13 +0100
-Message-ID: <CAP4GjT2LryD0fUSwCygxwGK3Z5u_yvacm5kKqRWtDGbZEmLbCg@mail.gmail.com>
-Subject: Re: QOM
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000d4219405d3a70e4c"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::72b
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::72b;
- envelope-from=abhijeetinamdar3005@gmail.com; helo=mail-qk1-x72b.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH] failover: Silence warning messages during qtest
+To: Laurent Vivier <lvivier@redhat.com>, qemu-devel@nongnu.org
+References: <20211220145314.390697-1-lvivier@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20211220145314.390697-1-lvivier@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -49
+X-Spam_score: -5.0
+X-Spam_bar: -----
+X-Spam_report: (-5.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.203,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-2.012, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,145 +100,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>, qemu-discuss <qemu-discuss@nongnu.org>
+Cc: Jason Wang <jasowang@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000d4219405d3a70e4c
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 20/12/2021 15.53, Laurent Vivier wrote:
+> virtio-net-failover test tries several device combinations that produces
+> some expected warnings.
+> These warning can be confusing, so we disable them during the qtest
+> sequence.
+> 
+> Reported-by: Thomas Huth <thuth@redhat.com>
+> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+> ---
+>   hw/net/virtio-net.c   | 3 ++-
+>   migration/migration.c | 4 +++-
+>   2 files changed, 5 insertions(+), 2 deletions(-)
+> 
+> diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+> index f2014d5ea0b3..c64a6b9d1745 100644
+> --- a/hw/net/virtio-net.c
+> +++ b/hw/net/virtio-net.c
+> @@ -44,6 +44,7 @@
+>   #include "hw/pci/pci.h"
+>   #include "net_rx_pkt.h"
+>   #include "hw/virtio/vhost.h"
+> +#include "sysemu/qtest.h"
+>   
+>   #define VIRTIO_NET_VM_VERSION    11
+>   
+> @@ -925,7 +926,7 @@ static void virtio_net_set_features(VirtIODevice *vdev, uint64_t features)
+>           qapi_event_send_failover_negotiated(n->netclient_name);
+>           qatomic_set(&n->failover_primary_hidden, false);
+>           failover_add_primary(n, &err);
+> -        if (err) {
+> +        if (err && !qtest_enabled()) {
+>               warn_report_err(err);
+>           }
 
-As we have almost 80 irq lines and 40-45 NVIC_irq's.
+This trips the sanitizer build now:
 
-Where can I define them?
+  https://gitlab.com/thuth/qemu/-/jobs/1907374419
 
-BR.
-Abhijeet.
+I think you have to error_free(err) in case qtest_enabled() ?
 
-On Tue, 21 Dec, 2021, 13:18 abhijeet inamdar, <abhijeetinamdar3005@gmail.co=
-m>
-wrote:
+  Thomas
 
-> Oh,
->
-> In that case I have to define my irq set for a machine to handle the
-> exception and interrupts.
->
-> BR.
-> Abhijeet.
->
-> On Tue, 21 Dec, 2021, 12:59 Philippe Mathieu-Daud=C3=A9, <philmd@redhat.c=
-om>
-> wrote:
->
->> Hi Abhijeet,
->>
->> On 12/21/21 12:27, abhijeet inamdar wrote:
->> > Hi,
->> >
->> > 1)What does QOM stand for?
->>
->> QOM: "QEMU Object Model"
->>
->> See https://qemu-project.gitlab.io/qemu/devel/qom.html
->>
->> > 2)Can anyone tell what this error means?
->> >
->> > (qemu) Unexpected error in object_property_find() at
->> > /home/ocp/vcpu-playground/vcpu_on_qemu/qemu-4.2.0/qom/object.c:1177:
->> > qemu-system-arm: Property '.sysbus-irq[0]' not found
->> > Aborted (core dumped).
->>
->> I suppose you are trying to connect a device gpio/irq output line
->> to another device input, likely using sysbus_connect_irq().
->>
->> The API is "connect the N-th output line from the SysBus device
->> to this qemu_irq handler", where qemu_irq is the input line.
->>
->> Apparently your SysBus device doesn't have any output line
->> registered. These are registered using sysbus_init_irq().
->> The first call register the first output IRQ, and so on.
->>
->> Some objects have their QOM interface documented, for
->> example to use the ARM GIC see:
->>
->> https://gitlab.com/qemu-project/qemu/-/blob/master/include/hw/intc/arm_g=
-ic.h#L22
->>
->> Hope that helps.
->>
->> Regards,
->>
->> Phil.
->>
->>
-
---000000000000d4219405d3a70e4c
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto">As we have almost 80 irq lines and 40-45 NVIC_irq&#39;s.=
-=C2=A0<div dir=3D"auto"><br></div><div dir=3D"auto">Where can I define them=
-?</div><div dir=3D"auto"><br></div><div dir=3D"auto">BR.</div><div dir=3D"a=
-uto">Abhijeet.</div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" c=
-lass=3D"gmail_attr">On Tue, 21 Dec, 2021, 13:18 abhijeet inamdar, &lt;<a hr=
-ef=3D"mailto:abhijeetinamdar3005@gmail.com">abhijeetinamdar3005@gmail.com</=
-a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 =
-0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div dir=3D"auto">Oh,=
-=C2=A0<div dir=3D"auto"><br></div><div dir=3D"auto">In=C2=A0that case I hav=
-e to define my irq set for a machine to handle the exception and interrupts=
-.=C2=A0</div><div dir=3D"auto"><br></div><div dir=3D"auto">BR.</div><div di=
-r=3D"auto">Abhijeet.</div></div><br><div class=3D"gmail_quote"><div dir=3D"=
-ltr" class=3D"gmail_attr">On Tue, 21 Dec, 2021, 12:59 Philippe Mathieu-Daud=
-=C3=A9, &lt;<a href=3D"mailto:philmd@redhat.com" target=3D"_blank" rel=3D"n=
-oreferrer">philmd@redhat.com</a>&gt; wrote:<br></div><blockquote class=3D"g=
-mail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-l=
-eft:1ex">Hi Abhijeet,<br>
-<br>
-On 12/21/21 12:27, abhijeet inamdar wrote:<br>
-&gt; Hi,<br>
-&gt; <br>
-&gt; 1)What does QOM stand for?<br>
-<br>
-QOM: &quot;QEMU Object Model&quot;<br>
-<br>
-See <a href=3D"https://qemu-project.gitlab.io/qemu/devel/qom.html" rel=3D"n=
-oreferrer noreferrer noreferrer" target=3D"_blank">https://qemu-project.git=
-lab.io/qemu/devel/qom.html</a><br>
-<br>
-&gt; 2)Can anyone tell what this error means?=C2=A0<br>
-&gt; <br>
-&gt; (qemu) Unexpected error in object_property_find() at<br>
-&gt; /home/ocp/vcpu-playground/vcpu_on_qemu/qemu-4.2.0/qom/object.c:1177:<b=
-r>
-&gt; qemu-system-arm: Property &#39;.sysbus-irq[0]&#39; not found<br>
-&gt; Aborted (core dumped).<br>
-<br>
-I suppose you are trying to connect a device gpio/irq output line<br>
-to another device input, likely using sysbus_connect_irq().<br>
-<br>
-The API is &quot;connect the N-th output line from the SysBus device<br>
-to this qemu_irq handler&quot;, where qemu_irq is the input line.<br>
-<br>
-Apparently your SysBus device doesn&#39;t have any output line<br>
-registered. These are registered using sysbus_init_irq().<br>
-The first call register the first output IRQ, and so on.<br>
-<br>
-Some objects have their QOM interface documented, for<br>
-example to use the ARM GIC see:<br>
-<a href=3D"https://gitlab.com/qemu-project/qemu/-/blob/master/include/hw/in=
-tc/arm_gic.h#L22" rel=3D"noreferrer noreferrer noreferrer" target=3D"_blank=
-">https://gitlab.com/qemu-project/qemu/-/blob/master/include/hw/intc/arm_gi=
-c.h#L22</a><br>
-<br>
-Hope that helps.<br>
-<br>
-Regards,<br>
-<br>
-Phil.<br>
-<br>
-</blockquote></div>
-</blockquote></div>
-
---000000000000d4219405d3a70e4c--
 
