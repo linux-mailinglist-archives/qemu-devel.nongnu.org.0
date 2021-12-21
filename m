@@ -2,91 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87B2B47C21B
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Dec 2021 16:01:55 +0100 (CET)
-Received: from localhost ([::1]:58472 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B80B147C2B3
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Dec 2021 16:21:53 +0100 (CET)
+Received: from localhost ([::1]:57274 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mzgeI-0000DH-3v
-	for lists+qemu-devel@lfdr.de; Tue, 21 Dec 2021 10:01:54 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41046)
+	id 1mzgxc-0002TJ-QT
+	for lists+qemu-devel@lfdr.de; Tue, 21 Dec 2021 10:21:52 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45762)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mzgbH-0007qg-0n
- for qemu-devel@nongnu.org; Tue, 21 Dec 2021 09:58:48 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53793)
+ (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
+ id 1mzgoL-0006Mw-M6
+ for qemu-devel@nongnu.org; Tue, 21 Dec 2021 10:12:17 -0500
+Received: from mga01.intel.com ([192.55.52.88]:50879)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mzgbD-000688-4c
- for qemu-devel@nongnu.org; Tue, 21 Dec 2021 09:58:44 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1640098720;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=BnzFCEq+H3gesVWRk+r0JCtJ545gRzrw2KAB1Ua+ipg=;
- b=BeLZqdYy9TxueVjCbJwxKt8YvC+HURfq+Ekb2pGKA/HlcSoQAxSC9mcA3X+hsr3lOzqwoM
- UYpRu9B6hubtkH4ErwQzckEd/RfeTo/AY8lylg0dIYfSUMr3lqR5T1jXQoQ6TeknVvP2KR
- OLfhy/DLAIgI0OkKPUprIp2Zdq0Yp2w=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-554-CI6dZ4hfMxe-0Bxd859D2Q-1; Tue, 21 Dec 2021 09:58:38 -0500
-X-MC-Unique: CI6dZ4hfMxe-0Bxd859D2Q-1
-Received: by mail-ed1-f69.google.com with SMTP id
- ay24-20020a056402203800b003f8491e499eso5932364edb.21
- for <qemu-devel@nongnu.org>; Tue, 21 Dec 2021 06:58:38 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=BnzFCEq+H3gesVWRk+r0JCtJ545gRzrw2KAB1Ua+ipg=;
- b=bLonS/We86ThCBZdlnoAQ1zJeha5aoioN9OFkFKaaS4+COyHWRsFI6SUG/+kHS1y+Q
- T1HUV3Sk+kdS2h9CBiyBwk6OVGdPKQvWjcnBE1jcIQLf3Gf4F086MW8KOxzSobhOi/UC
- JYiU12wLHXsktWw1ilVclQR2QsDCpqq/CYeHQ9me2m4MJxxkuQxZ5v+tVc4kylauMFkx
- 32XNBV+x3QX9o+SZ23XjFvJ6lQoQ47zWvRBQFaAF6TNu98jQPx3m+hp9lpxeki41lSK1
- jWneA8E2afEVsBZ8jpKC7mLB0AvpPM5qvIGD4qW8EVAz9qm7dIzoFv3ymzCV/jRQRPZ3
- VdpA==
-X-Gm-Message-State: AOAM532ttzoNszj+aB4JRcVWK0o3BEIEqUWWzEt0yRxW2fP8ckXTNMsW
- nULJXqtqM5hW8mliPiflxN0H3/KhbAW2kXELchFHW+zAv27hwtX+tSTP+45fqYZRQm96X1yAMQT
- YGDIPuIyXr6tknmI=
-X-Received: by 2002:aa7:d546:: with SMTP id u6mr3572224edr.311.1640098717879; 
- Tue, 21 Dec 2021 06:58:37 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxZLtM/+Fvl7D1BP0isoB7wVCd/9mMzzqz0h9wFQVlWEFVeX4/rRh87am9vvHCqjfm9uhrO4A==
-X-Received: by 2002:aa7:d546:: with SMTP id u6mr3572212edr.311.1640098717720; 
- Tue, 21 Dec 2021 06:58:37 -0800 (PST)
-Received: from [192.168.1.36] (174.red-83-50-185.dynamicip.rima-tde.net.
- [83.50.185.174])
- by smtp.gmail.com with ESMTPSA id ds1sm8523098edb.91.2021.12.21.06.58.37
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 21 Dec 2021 06:58:37 -0800 (PST)
-Message-ID: <6ff66f81-061e-ae32-b580-e98abd5c3dda@redhat.com>
-Date: Tue, 21 Dec 2021 15:58:36 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH] acpi: validate hotplug selector on access
-To: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org
-References: <20211221144852.589983-1-mst@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <20211221144852.589983-1-mst@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -49
-X-Spam_score: -5.0
-X-Spam_bar: -----
-X-Spam_report: (-5.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.203,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.012, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
+ id 1mzgoI-00084y-W3
+ for qemu-devel@nongnu.org; Tue, 21 Dec 2021 10:12:17 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1640099534; x=1671635534;
+ h=from:to:cc:subject:date:message-id;
+ bh=bhiBZIBPUvq8tNjFZYJrVCRkahxll9ZU4gU5+TYg0gQ=;
+ b=ZqRl0YJZb+eGd3d+Tb+qPul/aoYujWzZz4fBAu0DmVQGnzCD/xecn1gR
+ NTP8OGPKtUlp9QcwRjWx3t1umzZSSUgvbgSpb6Q6R/60pyxoEsrL97Yh/
+ Zjs7WcFep5pFVRbOlnaj97xMdhLjbN16vUgJF3R/xG2cLKHHMR2Y5tIdb
+ XT4+51U5NEisPQHpMhoErbJAb/ZdB1qIKmhJCYEqPcVTO94Rnag3tvNrJ
+ yu7bCEKDjXEeFtxj8Z0aQoon9D/ZzzvtELNcpxtSCDrLz8x9pGyRlCK30
+ 0Pnzt94IUAqf/0Nqk3GrHb1Y19nCFwqp/VEmu0rLE26SVI9wairciRtf/ A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10204"; a="264601270"
+X-IronPort-AV: E=Sophos;i="5.88,223,1635231600"; d="scan'208";a="264601270"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Dec 2021 07:12:11 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,223,1635231600"; d="scan'208";a="684688254"
+Received: from chaop.bj.intel.com ([10.240.192.101])
+ by orsmga005.jf.intel.com with ESMTP; 21 Dec 2021 07:12:03 -0800
+From: Chao Peng <chao.p.peng@linux.intel.com>
+To: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, qemu-devel@nongnu.org
+Subject: [PATCH v3 00/15] KVM: mm: fd-based approach for supporting KVM guest
+ private memory 
+Date: Tue, 21 Dec 2021 23:11:10 +0800
+Message-Id: <20211221151125.19446-1-chao.p.peng@linux.intel.com>
+X-Mailer: git-send-email 2.17.1
+Received-SPF: none client-ip=192.55.52.88;
+ envelope-from=chao.p.peng@linux.intel.com; helo=mga01.intel.com
+X-Spam_score_int: -71
+X-Spam_score: -7.2
+X-Spam_bar: -------
+X-Spam_report: (-7.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.203,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,24 +68,154 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Ani Sinha <ani@anisinha.ca>, Igor Mammedov <imammedo@redhat.com>
+Cc: Wanpeng Li <wanpengli@tencent.com>, jun.nakajima@intel.com,
+ david@redhat.com, "J . Bruce Fields" <bfields@fieldses.org>,
+ dave.hansen@intel.com, "H . Peter Anvin" <hpa@zytor.com>,
+ Chao Peng <chao.p.peng@linux.intel.com>, ak@linux.intel.com,
+ Jonathan Corbet <corbet@lwn.net>, Joerg Roedel <joro@8bytes.org>,
+ x86@kernel.org, Hugh Dickins <hughd@google.com>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ luto@kernel.org, Thomas Gleixner <tglx@linutronix.de>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>, Jim Mattson <jmattson@google.com>,
+ Sean Christopherson <seanjc@google.com>, susie.li@intel.com,
+ Jeff Layton <jlayton@kernel.org>, john.ji@intel.com,
+ Yu Zhang <yu.c.zhang@linux.intel.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/21/21 15:48, Michael S. Tsirkin wrote:
-> When bus is looked up on a pci write, we didn't
-> validate that the lookup succeeded.
-> Fuzzers thus can trigger QEMU crash by dereferencing the NULL
-> bus pointer.
-> 
-> Fixes: b32bd763a1 ("pci: introduce acpi-index property for PCI device")
-> Cc: "Igor Mammedov" <imammedo@redhat.com>
-> Fixes: https://gitlab.com/qemu-project/qemu/-/issues/770
-> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-> ---
->  hw/acpi/pcihp.c | 3 +++
->  1 file changed, 3 insertions(+)
+This is the third version of this series which try to implement the
+fd-based KVM guest private memory.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+In general this patch series introduce fd-based memslot which provide
+guest memory through a memfd file descriptor fd[offset,size] instead of
+hva/size. The fd then can be created from a supported memory filesystem
+like tmpfs/hugetlbfs etc which we refer as memory backend. KVM and the
+memory backend exchange some callbacks when such memslot gets created.
+At runtime KVM will call into callbacks provided by backend to get the
+pfn with the fd+offset. Memory backend will also call into KVM callbacks
+when userspace fallocate/punch hole on the fd to notify KVM to map/unmap
+secondary MMU page tables.
+
+Comparing to existing hva-based memslot, this new type of memslot allow
+guest memory unmapped from host userspace like QEMU and even the kernel
+itself, therefore reduce attack surface and prevent userspace bugs.
+
+Based on this fd-based memslot, we can build guest private memory that
+is going to be used in confidential computing environments such as Intel
+TDX and AMD SEV. When supported, the memory backend can provide more
+enforcement on the fd and KVM can use a single memslot to hold both the
+private and shared part of the guest memory. 
+
+Memfd/shmem extension
+---------------------
+Introduces new MFD_INACCESSIBLE flag for memfd_create(), the file
+created with this flag cannot read(), write() or mmap() etc.
+
+In addition, two sets of callbacks are introduced as new MEMFD_OPS:
+  - memfd_falloc_notifier: memfd -> KVM notifier when memory gets
+    allocated/invalidated through fallocate().
+  - memfd_pfn_ops: kvm -> memfd to get a pfn with the fd+offset.
+
+Memslot extension
+-----------------
+Add the private fd and the offset into the fd to existing 'shared' memslot
+so that both private/shared guest memory can live in one single memslot.
+A page in the memslot is either private or shared. A page is private only
+when it's already allocated in the backend fd, all the other cases it's
+treated as shared, this includes those already mapped as shared as well as
+those having not been mapped. This means the memory backend is the place
+which tells the truth of which page is private.
+
+Private memory map/unmap and conversion
+---------------------------------------
+Userspace's map/unmap operations are done by fallocate() ioctl on the
+backend fd.
+  - map: default fallocate() with mode=0.
+  - unmap: fallocate() with FALLOC_FL_PUNCH_HOLE.
+The map/unmap will trigger above memfd_falloc_notifier to let KVM
+map/unmap second MMU page tables.
+
+Test
+----
+This code has been tested with latest TDX code patches hosted at
+(https://github.com/intel/tdx/tree/kvm-upstream) with minimal TDX
+adaption and QEMU support.
+
+Example QEMU command line:
+-object tdx-guest,id=tdx \
+-object memory-backend-memfd-private,id=ram1,size=2G \
+-machine q35,kvm-type=tdx,pic=no,kernel_irqchip=split,memory-encryption=tdx,memory-backend=ram1
+
+Changelog
+----------
+v3:
+  - Added locking protection when calling
+    invalidate_page_range/fallocate callbacks.
+  - Changed memslot structure to keep use useraddr for shared memory.
+  - Re-organized F_SEAL_INACCESSIBLE and MEMFD_OPS.
+  - Added MFD_INACCESSIBLE flag to force F_SEAL_INACCESSIBLE.
+  - Commit message improvement.
+  - Many small fixes for comments from the last version.
+
+Links of previous discussions
+-----------------------------
+[1]
+https://lkml.kernel.org/kvm/51a6f74f-6c05-74b9-3fd7-b7cd900fb8cc@redhat.com/
+[2]
+https://lkml.kernel.org/linux-fsdevel/20211111141352.26311-1-chao.p.peng@linux.intel.com/
+
+
+Chao Peng (13):
+  mm/memfd: Introduce MFD_INACCESSIBLE flag
+  KVM: Extend the memslot to support fd-based private memory
+  KVM: Implement fd-based memory using MEMFD_OPS interfaces
+  KVM: Refactor hva based memory invalidation code
+  KVM: Special handling for fd-based memory invalidation
+  KVM: Split out common memory invalidation code
+  KVM: Implement fd-based memory invalidation
+  KVM: Add kvm_map_gfn_range
+  KVM: Implement fd-based memory fallocation
+  KVM: Add KVM_EXIT_MEMORY_ERROR exit
+  KVM: Handle page fault for private memory
+  KVM: Use kvm_userspace_memory_region_ext
+  KVM: Register/unregister private memory slot to memfd
+
+Kirill A. Shutemov (2):
+  mm/shmem: Introduce F_SEAL_INACCESSIBLE
+  mm/memfd: Introduce MEMFD_OPS
+
+ arch/arm64/kvm/mmu.c               |  14 +-
+ arch/mips/kvm/mips.c               |  14 +-
+ arch/powerpc/include/asm/kvm_ppc.h |  28 ++--
+ arch/powerpc/kvm/book3s.c          |  14 +-
+ arch/powerpc/kvm/book3s_hv.c       |  14 +-
+ arch/powerpc/kvm/book3s_pr.c       |  14 +-
+ arch/powerpc/kvm/booke.c           |  14 +-
+ arch/powerpc/kvm/powerpc.c         |  14 +-
+ arch/riscv/kvm/mmu.c               |  14 +-
+ arch/s390/kvm/kvm-s390.c           |  14 +-
+ arch/x86/kvm/Kconfig               |   1 +
+ arch/x86/kvm/Makefile              |   3 +-
+ arch/x86/kvm/mmu/mmu.c             | 112 +++++++++++++-
+ arch/x86/kvm/mmu/paging_tmpl.h     |  11 +-
+ arch/x86/kvm/x86.c                 |  16 +-
+ include/linux/kvm_host.h           |  57 +++++--
+ include/linux/memfd.h              |  22 +++
+ include/linux/shmem_fs.h           |  16 ++
+ include/uapi/linux/fcntl.h         |   1 +
+ include/uapi/linux/kvm.h           |  27 ++++
+ include/uapi/linux/memfd.h         |   1 +
+ mm/Kconfig                         |   4 +
+ mm/memfd.c                         |  33 +++-
+ mm/shmem.c                         | 195 ++++++++++++++++++++++-
+ virt/kvm/kvm_main.c                | 239 +++++++++++++++++++++--------
+ virt/kvm/memfd.c                   | 100 ++++++++++++
+ 26 files changed, 822 insertions(+), 170 deletions(-)
+ create mode 100644 virt/kvm/memfd.c
+
+-- 
+2.17.1
 
 
