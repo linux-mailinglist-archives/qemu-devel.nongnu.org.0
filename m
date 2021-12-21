@@ -2,57 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEADC47BA70
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Dec 2021 08:08:44 +0100 (CET)
-Received: from localhost ([::1]:36292 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2F4E47BA96
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Dec 2021 08:17:47 +0100 (CET)
+Received: from localhost ([::1]:44890 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mzZGN-0000va-Oj
-	for lists+qemu-devel@lfdr.de; Tue, 21 Dec 2021 02:08:43 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58428)
+	id 1mzZP8-0007NV-IF
+	for lists+qemu-devel@lfdr.de; Tue, 21 Dec 2021 02:17:46 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58444)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1mzZ9b-0003LL-0f
- for qemu-devel@nongnu.org; Tue, 21 Dec 2021 02:01:43 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:23518)
+ id 1mzZ9n-0003ZX-3p
+ for qemu-devel@nongnu.org; Tue, 21 Dec 2021 02:01:55 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35631)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1mzZ9Z-0001ww-F0
- for qemu-devel@nongnu.org; Tue, 21 Dec 2021 02:01:42 -0500
+ id 1mzZ9l-000215-Ch
+ for qemu-devel@nongnu.org; Tue, 21 Dec 2021 02:01:54 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1640070100;
+ s=mimecast20190719; t=1640070112;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5pLW6Cme3VcZrYC4e2lTvFeR9Mk26lpto9yy3Q7+WTY=;
- b=E/VdqlsdGqlyLSccspM8R1jK36fIBYS2Sp329rq4zZllYEjyCCe3trbdlNItwdaE936xNP
- KcVcSjojDfr2IVKsg9JHEn1m/1o45+coVox08lWLWYhh6klT3ETkcDhI/K1fSqN3E7yC2m
- 9pj9nqYeHBkKJCVJS7r3vWq5kM3DEa0=
+ bh=5T1rWyDX3wH+c9zfbdZrfj9a0NfwEv2ASTEHlbqLIDc=;
+ b=dxswKkSN60pXfzozgFOD3VKVD9huPOHcvaNEcwzKu3yhl08+MQpxkTOGbBEMrA95I0PBXH
+ DZIPKevZNfi2DzJfmrEd/92YcH0AaUrlMSFWTrED9FQD55SsBDQP1iZ+Jyixun0C4C5hIs
+ +6KWPwW79D4kwIXq/ZxZOk7Rq3+Xi+0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-189-0lJf-JthPN6cUSglB9pH0w-1; Tue, 21 Dec 2021 02:01:37 -0500
-X-MC-Unique: 0lJf-JthPN6cUSglB9pH0w-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-103-9vfH_rknPI6mMco9Sq2jlQ-1; Tue, 21 Dec 2021 02:01:51 -0500
+X-MC-Unique: 9vfH_rknPI6mMco9Sq2jlQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A949C801B25;
- Tue, 21 Dec 2021 07:01:36 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ACBF4814316;
+ Tue, 21 Dec 2021 07:01:50 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.37])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 66B117A410;
- Tue, 21 Dec 2021 07:01:25 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E753B77444;
+ Tue, 21 Dec 2021 07:01:40 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 07/36] hw/display: report an error if virgl initialization
- failed
-Date: Tue, 21 Dec 2021 10:58:26 +0400
-Message-Id: <20211221065855.142578-8-marcandre.lureau@redhat.com>
+Subject: [PULL v2 08/36] virtio-gpu: use VIRTIO_GPU_RESOURCE_FLAG_Y_0_TOP
+Date: Tue, 21 Dec 2021 10:58:27 +0400
+Message-Id: <20211221065855.142578-9-marcandre.lureau@redhat.com>
 In-Reply-To: <20211221065855.142578-1-marcandre.lureau@redhat.com>
 References: <20211221065855.142578-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -88,30 +87,28 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Currently, virgl initialization error is silent. Make it verbose instead.
-
-(this is likely going to bug later on, as the device isn't fully
-initialized)
+It's part of Linux headers for a while now.
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Acked-by: Gerd Hoffmann <kraxel@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- hw/display/virtio-gpu-virgl.c | 1 +
- 1 file changed, 1 insertion(+)
+ hw/display/virtio-gpu-virgl.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/hw/display/virtio-gpu-virgl.c b/hw/display/virtio-gpu-virgl.c
-index 18d054922fea..0d87de65d79a 100644
+index 0d87de65d79a..73cb92c8d5c6 100644
 --- a/hw/display/virtio-gpu-virgl.c
 +++ b/hw/display/virtio-gpu-virgl.c
-@@ -609,6 +609,7 @@ int virtio_gpu_virgl_init(VirtIOGPU *g)
- 
-     ret = virgl_renderer_init(g, 0, &virtio_gpu_3d_cbs);
-     if (ret != 0) {
-+        error_report("virgl could not be initialized: %d", ret);
-         return ret;
-     }
- 
+@@ -175,7 +175,7 @@ static void virgl_cmd_set_scanout(VirtIOGPU *g,
+         virgl_renderer_force_ctx_0();
+         dpy_gl_scanout_texture(
+             g->parent_obj.scanout[ss.scanout_id].con, info.tex_id,
+-            info.flags & 1 /* FIXME: Y_0_TOP */,
++            info.flags & VIRTIO_GPU_RESOURCE_FLAG_Y_0_TOP,
+             info.width, info.height,
+             ss.r.x, ss.r.y, ss.r.width, ss.r.height);
+     } else {
 -- 
 2.34.1.8.g35151cf07204
 
