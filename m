@@ -2,57 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B752A47BB23
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Dec 2021 08:33:11 +0100 (CET)
-Received: from localhost ([::1]:34782 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EC0C47BA98
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Dec 2021 08:20:00 +0100 (CET)
+Received: from localhost ([::1]:47824 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mzZe2-0003IL-Qq
-	for lists+qemu-devel@lfdr.de; Tue, 21 Dec 2021 02:33:10 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58532)
+	id 1mzZRH-00015t-Gd
+	for lists+qemu-devel@lfdr.de; Tue, 21 Dec 2021 02:19:59 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58568)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1mzZAB-0004C5-9O
- for qemu-devel@nongnu.org; Tue, 21 Dec 2021 02:02:19 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:39818)
+ id 1mzZAL-0004Vc-Um
+ for qemu-devel@nongnu.org; Tue, 21 Dec 2021 02:02:29 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:52665)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1mzZA9-00022S-Hn
- for qemu-devel@nongnu.org; Tue, 21 Dec 2021 02:02:18 -0500
+ id 1mzZAJ-00022p-J2
+ for qemu-devel@nongnu.org; Tue, 21 Dec 2021 02:02:28 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1640070136;
+ s=mimecast20190719; t=1640070147;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2gixnKrZkqUGvGNbm+vktxqOAHCbEyotYV6HIRvHvAc=;
- b=ONH9ztYOFi++8rsM3Oqmbb3w317GN8yJbXMT2dugsVg3itqJy/3x0Js1rek8WwJ17keXUI
- LOgugGAsvXc3GjeIyseKk9WSU13CVHEQba5VLk+SHcB3VuV0FqS2tUR/xMoJazYKz5ahUS
- z9tcvtvKmSl4qe7gwh6lhlksGQwy+N0=
+ bh=oNXmFK4YyLv1sjoSdTZFSAPfzmwLAVcRBp73aEfewwg=;
+ b=E3kX8V9uujVFq5NAuvdEJHGiyhyeHdLQhBix5e3vlnP4bi8q/KJHEVBhpjvhwgiC2jWJq8
+ nE6sXfp5oxA6XOEKADdoA5c4oEKejbdSaI0Moqfcy/i4A3DYG3akco29a6LMgPl7unjpVm
+ 8tinHUt2+FRnIfUB1wWDOYL4Z3XFxwE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-661-WLjTTdToNpS81pa9vnG5Zg-1; Tue, 21 Dec 2021 02:02:11 -0500
-X-MC-Unique: WLjTTdToNpS81pa9vnG5Zg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-391-tTTaU49kOn2IH4foMbLXtQ-1; Tue, 21 Dec 2021 02:02:25 -0500
+X-MC-Unique: tTTaU49kOn2IH4foMbLXtQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A6F181006AA9;
- Tue, 21 Dec 2021 07:02:10 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C55AA8042DB;
+ Tue, 21 Dec 2021 07:02:24 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.37])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CF6277EA2E;
- Tue, 21 Dec 2021 07:02:09 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2B92077444;
+ Tue, 21 Dec 2021 07:02:13 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 11/36] ui: associate GL context outside of display listener
- registration
-Date: Tue, 21 Dec 2021 10:58:30 +0400
-Message-Id: <20211221065855.142578-12-marcandre.lureau@redhat.com>
+Subject: [PULL v2 12/36] ui: make gl_block use a counter
+Date: Tue, 21 Dec 2021 10:58:31 +0400
+Message-Id: <20211221065855.142578-13-marcandre.lureau@redhat.com>
 In-Reply-To: <20211221065855.142578-1-marcandre.lureau@redhat.com>
 References: <20211221065855.142578-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -88,91 +87,50 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Consoles can have an associated GL context, without listeners (they may
-be added or removed later on).
+Track multiple callers blocking requests.
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Acked-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- ui/console.c       | 7 +++++--
- ui/egl-headless.c  | 1 +
- ui/gtk.c           | 3 +++
- ui/sdl2.c          | 3 +++
- ui/spice-display.c | 3 +++
- 5 files changed, 15 insertions(+), 2 deletions(-)
+ ui/console.c | 17 +++++++++++++----
+ 1 file changed, 13 insertions(+), 4 deletions(-)
 
 diff --git a/ui/console.c b/ui/console.c
-index 7b83e6cdea77..87f897e46dc4 100644
+index 87f897e46dc4..39f7b66baf54 100644
 --- a/ui/console.c
 +++ b/ui/console.c
-@@ -1465,8 +1465,11 @@ void register_displaychangelistener(DisplayChangeListener *dcl)
+@@ -79,7 +79,7 @@ struct QemuConsole {
+     DisplaySurface *surface;
+     int dcls;
+     DisplayChangeListener *gl;
+-    bool gl_block;
++    int gl_block;
+     int window_id;
  
-     assert(!dcl->ds);
+     /* Graphic console state.  */
+@@ -237,10 +237,19 @@ void graphic_hw_gl_block(QemuConsole *con, bool block)
+ {
+     assert(con != NULL);
  
--    if (dcl->ops->dpy_gl_ctx_create) {
--        qemu_console_set_display_gl_ctx(dcl->con, dcl);
-+    if (dcl->con && dcl->con->gl &&
-+        dcl->con->gl != dcl) {
-+        error_report("Display %s is incompatible with the GL context",
-+                     dcl->ops->dpy_name);
-+        exit(1);
-     }
- 
-     if (dcl->con) {
-diff --git a/ui/egl-headless.c b/ui/egl-headless.c
-index a26a2520c496..08327c40c6ee 100644
---- a/ui/egl-headless.c
-+++ b/ui/egl-headless.c
-@@ -197,6 +197,7 @@ static void egl_headless_init(DisplayState *ds, DisplayOptions *opts)
-         edpy->dcl.con = con;
-         edpy->dcl.ops = &egl_ops;
-         edpy->gls = qemu_gl_init_shader();
-+        qemu_console_set_display_gl_ctx(con, &edpy->dcl);
-         register_displaychangelistener(&edpy->dcl);
-     }
- }
-diff --git a/ui/gtk.c b/ui/gtk.c
-index c0d8a9f061ee..25896023ffe7 100644
---- a/ui/gtk.c
-+++ b/ui/gtk.c
-@@ -2083,6 +2083,9 @@ static GSList *gd_vc_gfx_init(GtkDisplayState *s, VirtualConsole *vc,
-     vc->gfx.kbd = qkbd_state_init(con);
-     vc->gfx.dcl.con = con;
- 
-+    if (display_opengl) {
-+        qemu_console_set_display_gl_ctx(con, &vc->gfx.dcl);
+-    con->gl_block = block;
+-    if (con->hw_ops->gl_block) {
+-        con->hw_ops->gl_block(con->hw, block);
++    if (block) {
++        con->gl_block++;
++    } else {
++        con->gl_block--;
 +    }
-     register_displaychangelistener(&vc->gfx.dcl);
- 
-     gd_connect_vc_gfx_signals(vc);
-diff --git a/ui/sdl2.c b/ui/sdl2.c
-index 9ba3bc49e798..bb186a381acd 100644
---- a/ui/sdl2.c
-+++ b/ui/sdl2.c
-@@ -866,6 +866,9 @@ static void sdl2_display_init(DisplayState *ds, DisplayOptions *o)
- #endif
-         sdl2_console[i].dcl.con = con;
-         sdl2_console[i].kbd = qkbd_state_init(con);
-+        if (display_opengl) {
-+            qemu_console_set_display_gl_ctx(con, &sdl2_console[i].dcl);
-+        }
-         register_displaychangelistener(&sdl2_console[i].dcl);
- 
- #if defined(SDL_VIDEO_DRIVER_WINDOWS) || defined(SDL_VIDEO_DRIVER_X11)
-diff --git a/ui/spice-display.c b/ui/spice-display.c
-index 52d9f3260aab..2c204bceee27 100644
---- a/ui/spice-display.c
-+++ b/ui/spice-display.c
-@@ -1156,6 +1156,9 @@ static void qemu_spice_display_init_one(QemuConsole *con)
- 
-     qemu_spice_create_host_memslot(ssd);
- 
-+    if (spice_opengl) {
-+        qemu_console_set_display_gl_ctx(con, &ssd->dcl);
++    assert(con->gl_block >= 0);
++    if (!con->hw_ops->gl_block) {
++        return;
 +    }
-     register_displaychangelistener(&ssd->dcl);
++    if ((block && con->gl_block != 1) || (!block && con->gl_block != 0)) {
++        return;
+     }
++    con->hw_ops->gl_block(con->hw, block);
  }
  
+ void graphic_hw_gl_flushed(QemuConsole *con)
 -- 
 2.34.1.8.g35151cf07204
 
