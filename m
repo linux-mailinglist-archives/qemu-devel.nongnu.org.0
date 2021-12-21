@@ -2,70 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8C1147BB74
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Dec 2021 09:06:10 +0100 (CET)
-Received: from localhost ([::1]:42842 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4F2B47BB9B
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Dec 2021 09:18:07 +0100 (CET)
+Received: from localhost ([::1]:36948 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mza9y-00073P-1f
-	for lists+qemu-devel@lfdr.de; Tue, 21 Dec 2021 03:06:10 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40074)
+	id 1mzaLX-0005tn-0s
+	for lists+qemu-devel@lfdr.de; Tue, 21 Dec 2021 03:18:07 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43214)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1mza4c-0002Jj-GQ; Tue, 21 Dec 2021 03:00:38 -0500
-Received: from [2607:f8b0:4864:20::b2f] (port=41509
- helo=mail-yb1-xb2f.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1mza4Z-0008S4-Sk; Tue, 21 Dec 2021 03:00:37 -0500
-Received: by mail-yb1-xb2f.google.com with SMTP id v138so36371457ybb.8;
- Tue, 21 Dec 2021 00:00:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=sKHf3YD5zficj/X2p/jqI25KW8/2GuZEbeZWfWrOMZc=;
- b=hcmHEkYtQ3+8s2sTsZ+XmN8UKe8Qnmij17piJoWJ97AtcimagPBiIfp+2vOomfZVMu
- Uybn5T0dmjKKtA35ts8buaIPGdc9biq+36bxcHfbfkVgOXLPhPhNZAN79/RsG1FEFMG7
- 6LEFNnOVc/11+lydQgATY3MOd+hTBqVt0/C0LIjOqrf03osO3uzxbYmWhczT+Nd83Swo
- fkhp1s4vUrrfHEpCPGm8CZZTA27+C/k0BYlqXH48Ib2sWnDykKfhHbilgBfv9t0LCHVf
- 8wZuXteqDt6enA3PTiyP5nE0oZUPS13+v360eRDwc3SHzOhE5CpozbOPlY3wE6KBnlNU
- gXxg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=sKHf3YD5zficj/X2p/jqI25KW8/2GuZEbeZWfWrOMZc=;
- b=j/jOI8qGAJjIF7rZFw9gfDMFKmnM7V/MANzyhFItnPI6vGmoZZ6OEHetffZKFMhz2N
- l3Oc5eArPxjiwvBlIs6poijx508u5bpEoMH+VqcTqyHpDFCieAl6TRUbbEcHsV3K+gme
- 0Zgm1Ai/vbeYLNczWIih5FMmyn7+OOM1J27buwfQQ7+OK2U3zwExVriRhtFWl7Clix7v
- ZR6Fo/qX5PIbaJM0VPodrxQ4iv9tpOmM4fvenM700XGB7V6YJOe2l1GfiifKrhal11x6
- p+XeQA+JwiACELVInPB8YNvXzNlYWmBPYNJ3uNBFNhGlLP5es1C9Y8uQalexFXu/Bfe4
- pWNQ==
-X-Gm-Message-State: AOAM5314UCHaVWNvwVJXV62m7yt3r+sT6W6oSgG6ipFmHQmLfPmXW4uX
- lY3UCK4om8AtYg7RADLc313bN0FdS1yW6gRPwBU=
-X-Google-Smtp-Source: ABdhPJz3y7gYoGIwiuwy52XDs2eDTMixhmES7lhG4P/peBUwowFUAZCE5dcYUTqkxyH1g7huEe9jPxPVDvL9ESLgh/o=
-X-Received: by 2002:a25:ed0f:: with SMTP id k15mr2235953ybh.148.1640073633567; 
- Tue, 21 Dec 2021 00:00:33 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
+ id 1mzaIQ-00025H-W3
+ for qemu-devel@nongnu.org; Tue, 21 Dec 2021 03:14:55 -0500
+Received: from mga01.intel.com ([192.55.52.88]:26357)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
+ id 1mzaIO-0001qo-KV
+ for qemu-devel@nongnu.org; Tue, 21 Dec 2021 03:14:54 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1640074492; x=1671610492;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=V+tPcmHHd0bjVnF6xwwBrWjngmBXrdwa04+GBmdskyc=;
+ b=gFOD1jNayO/xi6cUV4tyiwWiCFL0032JmcQQlFzJ0aVMjq3m2+isNEgd
+ 7nrIMtB5zyg7suvq14bHCFY7Z9MXGTywNx6tbE8qI5KYsieBHOC79h9vL
+ 5B5KSX9ehH6JeqFDdg/TTpZrwvX5LxVUH0EjOZCzRwkcuQ7m05fg3AUUb
+ xfmuNlD/kbnTsiU1FeE/GvQ38z5dB+WJlgMyzP+mAK+j4FbQIj3uApO8t
+ nf/wveNLgQwwBrS++XZ6Y+J6miqp4ds0FmJBvNfRTidnmfBQfw3HKabYN
+ 4RDgvI5Q3EeJJ6O4JfySRJBibFG43OQ4N2BlxTD1zR2J4q/iSHWJ5bNCN w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10204"; a="264538655"
+X-IronPort-AV: E=Sophos;i="5.88,222,1635231600"; d="scan'208";a="264538655"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Dec 2021 00:14:50 -0800
+X-IronPort-AV: E=Sophos;i="5.88,222,1635231600"; d="scan'208";a="684583562"
+Received: from unknown (HELO localhost.localdomain) ([10.239.13.19])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Dec 2021 00:14:48 -0800
+From: Zhang Chen <chen.zhang@intel.com>
+To: Thomas Huth <thuth@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ qemu-dev <qemu-devel@nongnu.org>
+Subject: [PATCH] MAINTAINERS: Update COLO Proxy section
+Date: Tue, 21 Dec 2021 16:04:00 +0800
+Message-Id: <20211221080400.1492980-1-chen.zhang@intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20211216045427.757779-1-alistair.francis@opensource.wdc.com>
- <20211216045427.757779-2-alistair.francis@opensource.wdc.com>
-In-Reply-To: <20211216045427.757779-2-alistair.francis@opensource.wdc.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Tue, 21 Dec 2021 16:00:22 +0800
-Message-ID: <CAEUhbmW6x2=FpTMizvKW21-QUNK7VcXgDeHaTzCV1+_ps9DRuA@mail.gmail.com>
-Subject: Re: [PATCH v2 1/9] hw/intc: sifive_plic: Add a reset function
-To: Alistair Francis <alistair.francis@opensource.wdc.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b2f
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2f;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb2f.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=192.55.52.88; envelope-from=chen.zhang@intel.com;
+ helo=mga01.intel.com
+X-Spam_score_int: -72
+X-Spam_score: -7.3
+X-Spam_bar: -------
+X-Spam_report: (-7.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.203,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,24 +71,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Bin Meng <bin.meng@windriver.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Alistair Francis <alistair23@gmail.com>, Palmer Dabbelt <palmer@dabbelt.com>
+Cc: Zhang Chen <chen.zhang@intel.com>, Li Zhijian <lizhijian@cn.fujitsu.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Dec 16, 2021 at 12:54 PM Alistair Francis
-<alistair.francis@opensource.wdc.com> wrote:
->
-> From: Alistair Francis <alistair.francis@wdc.com>
->
-> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> ---
->  hw/intc/sifive_plic.c | 18 ++++++++++++++++++
->  1 file changed, 18 insertions(+)
->
+Signed-off-by: Zhang Chen <chen.zhang@intel.com>
+---
+ MAINTAINERS | 1 +
+ 1 file changed, 1 insertion(+)
 
-Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 1de6ce6e44..5479b9376e 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2983,6 +2983,7 @@ F: docs/colo-proxy.txt
+ F: net/colo*
+ F: net/filter-rewriter.c
+ F: net/filter-mirror.c
++F: tests/qtest/test-filter*
+ 
+ Record/replay
+ M: Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>
+-- 
+2.25.1
+
 
