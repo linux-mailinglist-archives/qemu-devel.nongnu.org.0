@@ -2,73 +2,175 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C5B047BB94
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Dec 2021 09:16:48 +0100 (CET)
-Received: from localhost ([::1]:33282 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CABD47BBBF
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Dec 2021 09:22:33 +0100 (CET)
+Received: from localhost ([::1]:41164 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mzaKF-0003S8-9Y
-	for lists+qemu-devel@lfdr.de; Tue, 21 Dec 2021 03:16:47 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43058)
+	id 1mzaPo-0000TW-Ae
+	for lists+qemu-devel@lfdr.de; Tue, 21 Dec 2021 03:22:32 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44484)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1mzaHi-0000oD-B5
- for qemu-devel@nongnu.org; Tue, 21 Dec 2021 03:14:10 -0500
-Received: from [2a00:1450:4864:20::332] (port=37414
- helo=mail-wm1-x332.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1mzaHg-0001ka-Hk
- for qemu-devel@nongnu.org; Tue, 21 Dec 2021 03:14:10 -0500
-Received: by mail-wm1-x332.google.com with SMTP id
- a203-20020a1c7fd4000000b003457874263aso1074992wmd.2
- for <qemu-devel@nongnu.org>; Tue, 21 Dec 2021 00:14:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=RdqcNU5g7w6vQqw9mtgYGUyphlRO0CwRuPjh3zvKjJY=;
- b=auVyWrZPVCEnBH1wZbPSSeu4kiFYzP6IG4Sl9rJrhDLPWGCqHCOG2WgfCaDOnrQYMd
- XpC0VIQVPMtMj7CLhQTMDM+jjxe9RQIP6CW/L6jMG0HKW+2Hk32KubYBxOu4I22Zu0/N
- na+2hpTawbtPOp7QS0aQWcjy2jH7aqQOxYdEPgYK705ZXQjnem+9m11kQSSQfA/bOr+X
- NXKSeBbxf/MLxo+PDGba+eeEGY4hFmAbWqdZE+vEDsT4WJ8KTuFEICNuHva2TG8xZcfN
- /srlQMXrHZlK6r91AHV7IdqKtgznpFH0biJWTe14AYXKf0EMcMzGJ2nuvjLv/a5j/E0x
- GymA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=RdqcNU5g7w6vQqw9mtgYGUyphlRO0CwRuPjh3zvKjJY=;
- b=0q8HmbARXKPRdDoM71Ik6ISb5MIzsy9TRCfiO7IsjJ/wcqcMIILSikFeZuhqB7KDO0
- FoOmLUz5nl2H4mfLyQBEWb6cZ5GrjiMxnLF34lXkLcPd/QLb8J62tJSXRhu/+iZnL5SB
- HqVcp+156/s75iPWF77rJSg9Uvk7blyeYwk3W4Dbk4kUF8/Mz7dutlOad1ujuZ4N2E6x
- ucO6v1GBSPlXVBO3+z4MqCO4HFQJ2lxV8ogpQPI/2O62plleSkly7qIeVa5SFXpMDOS4
- gHxGkFm5v11voJT80jETyAoDDzW8chOJCYdnumUamI7s3R7APrni/4zC6LmsEV0qxLmA
- eShw==
-X-Gm-Message-State: AOAM531+B4OXA7ZD/Y3pM9t4CNSsnH6sWl9fgZ0GiV9UMVolrnd/poWI
- smlVivAAk3xJ4Pda4/Amw/IfZmoOUplfUuKg2zc=
-X-Google-Smtp-Source: ABdhPJyVNQ4rQv9HGrHVeRl3MiICfxPlqorlcDaNDe8soTulf52QFTNgVyrGFCfUptUASWC0OnqVONaSah/lLTcWUXc=
-X-Received: by 2002:a1c:740c:: with SMTP id p12mr1587864wmc.140.1640074446912; 
- Tue, 21 Dec 2021 00:14:06 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
+ id 1mzaNV-0007UD-3o
+ for qemu-devel@nongnu.org; Tue, 21 Dec 2021 03:20:09 -0500
+Received: from mga04.intel.com ([192.55.52.120]:36928)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
+ id 1mzaNT-0002fc-7c
+ for qemu-devel@nongnu.org; Tue, 21 Dec 2021 03:20:08 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1640074807; x=1671610807;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=s/uGiH0dygccNDdYy/n2FnegNyjq7cjzSDrDAaHbrFg=;
+ b=imczDe40u7c7Scm3bvDlyy4YCAknCZQEz4kdXs3k4/3F6F8JwSrghWDD
+ u8er13guDY7FSuKfLtQ+BGrwNi1vIMk6mXFIo8lyaiAaP5wm6NXe/2gaD
+ VB/1NpZiliI2IwI4jZa8bNwy2IHQTkAWyIUZXWsK/0/Rrs9fDleCP6pZr
+ jXvFkv0udqiMCgxRPTDkVRxPOEZSm7qu2Ds2L+05Dhs9HN2+orsHX4OrB
+ McOg7b+vPAIW7ttKlllOQp+mRB/hTpm3wqYedTxYN+XVzi6qSMFyxDRzV
+ xcGy/fsl+GnUa+fNZJkGZXZ+E4umjF+iYL0vPA6Wp8lOfDSdAFVQNiEXX w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10204"; a="239097330"
+X-IronPort-AV: E=Sophos;i="5.88,222,1635231600"; d="scan'208";a="239097330"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Dec 2021 00:20:05 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,222,1635231600"; d="scan'208";a="466223587"
+Received: from fmsmsx606.amr.corp.intel.com ([10.18.126.86])
+ by orsmga003.jf.intel.com with ESMTP; 21 Dec 2021 00:20:05 -0800
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx606.amr.corp.intel.com (10.18.126.86) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20; Tue, 21 Dec 2021 00:20:04 -0800
+Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20; Tue, 21 Dec 2021 00:20:04 -0800
+Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
+ fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20 via Frontend Transport; Tue, 21 Dec 2021 00:20:04 -0800
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.172)
+ by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2308.20; Tue, 21 Dec 2021 00:20:04 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=aqCf3hpzBeUKiWZHgRufij8LsdNt888ZqvI4Oe/Trl5Krigy8iMabrpojBsx6lUcPefWmNTMJmPBEFa5dpLzqRiFd4OtphYEt/pL9bXUC2crCxU2PhMz3kNJeeWbnM5wAxES+f/0bulU2WWC9uGe5co7Qkqnb+lY4h4NT7VZiVveUXhACoZCfGOQmuBMT6Jiwwek1upTYPYvp/ZOmG9yqMQmkUtO+VmuTMBfQ7j9hTZXxDa0g/qHpfFpKPiN4usXjBuIDSJwF7GM8XaYXNQ7KPJtIBmhkdDvh4dN11ufkIyjFqAHd/+FdvONQS1cyP1dusUVuGSh8XUxSjM+WACzUQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=s/uGiH0dygccNDdYy/n2FnegNyjq7cjzSDrDAaHbrFg=;
+ b=oA9dHE6kq35R/FJ4SkNHE7Jnht9sRmpGCRMpmMRJ2b0D7sZ7FyECs7uuWXpOkGOh7Nafuu71Fx3CL0OxJLm/LnxzRxudyowZd6DjpBxhggWN8tnKLiCoJ1UVe8lx87JZ+gFHaaBr/Db6o/QuCPKSPUzp0UEvkTEl54F6Y04dodYjklHfaKI7ocR3u/v4JEgP5m5F1E4+o7wnde5gzQS6lh3uNfds63vCxSFkuefM2HFIFTZaR67Y6jzDIjq3IBrD18lZe1XKnKFsKtSkk1T35cUmxByEdKM2r68/KXMIFVTfCmKea/loR3q9U8hmZjUoEBIWKk4v6cgrJ5dOPFzYCQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from MWHPR11MB0031.namprd11.prod.outlook.com (2603:10b6:301:69::37)
+ by MW5PR11MB5859.namprd11.prod.outlook.com (2603:10b6:303:19e::9)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4801.20; Tue, 21 Dec
+ 2021 08:20:01 +0000
+Received: from MWHPR11MB0031.namprd11.prod.outlook.com
+ ([fe80::3827:2f36:f344:e814]) by MWHPR11MB0031.namprd11.prod.outlook.com
+ ([fe80::3827:2f36:f344:e814%3]) with mapi id 15.20.4801.020; Tue, 21 Dec 2021
+ 08:20:01 +0000
+From: "Zhang, Chen" <chen.zhang@intel.com>
+To: Thomas Huth <thuth@redhat.com>, "qemu-devel@nongnu.org"
+ <qemu-devel@nongnu.org>, Laurent Vivier <lvivier@redhat.com>
+Subject: RE: [PATCH] tests/qtest: Make the filter tests independent from a
+ specific NIC
+Thread-Topic: [PATCH] tests/qtest: Make the filter tests independent from a
+ specific NIC
+Thread-Index: AQHX9dFWXTEURWNtpE6u8KD0qLg6hKw8fAowgAAS7ICAAAxIkA==
+Date: Tue, 21 Dec 2021 08:20:01 +0000
+Message-ID: <MWHPR11MB00318A9FFC4D4B498FFDAA889B7C9@MWHPR11MB0031.namprd11.prod.outlook.com>
+References: <20211220103025.311759-1-thuth@redhat.com>
+ <MWHPR11MB0031244B90C10F7E048744B29B7C9@MWHPR11MB0031.namprd11.prod.outlook.com>
+ <6f1f9403-04a7-e149-2eb7-6cbd32a57902@redhat.com>
+In-Reply-To: <6f1f9403-04a7-e149-2eb7-6cbd32a57902@redhat.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-version: 11.6.200.16
+dlp-reaction: no-action
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: ecf0a689-1ca3-484e-368f-08d9c45aaf3a
+x-ms-traffictypediagnostic: MW5PR11MB5859:EE_
+x-microsoft-antispam-prvs: <MW5PR11MB5859015DE73291B5B7AB34359B7C9@MW5PR11MB5859.namprd11.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:9508;
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: ALNUdV93hry5Q3gZZnlGI2wOCoKZdxM0Eu4TBe0jWy2JZLGf5GCu+VVzwCHTQmEzffmnBUkz93uyLSQK8x4Ti5mffIE+IYS3x3LXQqA64r+6rQAk/CuKtoOM0ZFzVkDPYJEhA04LoD1S8zsvKTVqHRHqOhLLGsvJlOKDHBtA3VDr17npBCILRejFAEsZEQQfWQi8+Qmd7q8Wmw5k2vkrc+25a3s6e1/efrIH8h91GPcmN7JDUGYBOLOcoCYHyFlSNx3Y41NH02LsmGbvodR8gxiqSz0Yj9sRBtc7MltzON7LJ70BA1SeyvB2AZWYLjoMMokLD7Wk9DSGVd6cKG0K1a4aqD6iPM1YX1Q2Xtva71rQ/LcK3TjImrL/yD/JF21nqElXoMj9Km+ra5RlDrPRYPl3UD1qpYupXyaYBpB7FWrqG668TyiiaGfAMp/tAsllamgLalTs4KhAQGfXOt/Zc7Kzj04QGm71FePZiHd9acr5kmK26vlwAQLAmnbNE680pan+8ceiqURkr/QjdbI5nUyFnPSbCHH8eVHGSh23VcPQ6gSPF8MvLrcCu4YZaPOhMYYhbMxa87pPX0DRa3sWmdQoH6UKpFxPKY0ZViyrqW2wJ3WOSXLlL4sy6EXw3mBhr1R22I8C4EUhaeP70fVBm4ozAQHCCI/WLu2ce6wCc1fencTKLB2JVCLlOLnlVwu3uye4KbUlOukilh8p7UtkCQ==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MWHPR11MB0031.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(366004)(186003)(5660300002)(53546011)(83380400001)(6506007)(82960400001)(76116006)(66946007)(86362001)(33656002)(66476007)(4326008)(66556008)(66446008)(316002)(71200400001)(38070700005)(8936002)(508600001)(2906002)(26005)(38100700002)(64756008)(9686003)(8676002)(7696005)(110136005)(52536014)(55016003)(122000001);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?UVdrZ0c2UDdYTnBuYkJhYXJUWm5PeXdpWUYxYlg5NUJoZktZR29WVWJvdXMx?=
+ =?utf-8?B?ZWQvTjlrMnM5TlAzQktuczZxOFBNUW5NdkoyNTBlTnRBaEU2dnBKUGZQeVlo?=
+ =?utf-8?B?VjBCV1F2cUh1S0RBT0h1c012c3QweXhXRnd1aE1zT1NNR1dkN2dUbU5yNFdB?=
+ =?utf-8?B?eW10aitUVVBmdy9MRGpwUTlKWWF1YU9qNUNjZjZmMzFvbUtac3VnU2l2R0hC?=
+ =?utf-8?B?R2NaTzlPYXlWZjcrTmVPRGJyblFPZGdKQ1JHYjJyMkc2dy9UYm1ZTkYraWwz?=
+ =?utf-8?B?cXJuTVQ4YWRja3J2Rkk1cFhLTFpqTEdpT2xkR1k0ck1RbmhrSlZvMTlNWGtQ?=
+ =?utf-8?B?eFQvaVhmalJCWjFrOHJUSURrV2dKSmwvc0JoUkpBZ1A0MjJCUlJVYnNQUitj?=
+ =?utf-8?B?SysrclpJYkRvUStvdjNwdU5aOUhvUWJzbmtka1NQR09qdStvcmt0cVNSWlNE?=
+ =?utf-8?B?MXFQVTFEbWJlUTc0UEZud3BrZTd5TzRvOFI4Wklzdmw0Qkd3Y1hCQWlwQ0hm?=
+ =?utf-8?B?ZTdJTnQ1MUFBVEFmTHc5MTZ4ZGUzcGlVVzFEcXJrdllUZ0NETXJGQXhES0dE?=
+ =?utf-8?B?SFNBUnJXZDlQdGNBWXk4cEt0MmZtOUd1eHMxdWJsajNsSTVMRnNQUmxUVDAy?=
+ =?utf-8?B?SEdIYkNBWDFPOWVFVXFtUnRjM21zKy90YWtTOTBmZUVpbWRTZ1JQNHlHcFNV?=
+ =?utf-8?B?enNqVTFoUG14cUpEeEZ5bDEyQUhBWW81WWh2eHZZTzRIeWxKeWxWMGtyQjlv?=
+ =?utf-8?B?Y0d6anJVODM0OEU5UjJQd3M3WmNWY09XNjJUQ2lSUlU0TWNLZzdMTnp4bU9W?=
+ =?utf-8?B?YnVreEdmRmVzck5QWTBLdVlOMVJ3ZTVnRjBkVklLUlRwemd6dEszMDg1bUlB?=
+ =?utf-8?B?VjhiemRFR2R4Z2VTc09DSjk1VTVMbEQ3ZVdXRmxyMHJFLzVZeXBveHljbC9x?=
+ =?utf-8?B?d1JoVUpaejBNRytFUmpiaHhwQU13MStaQ1cvK0FkVzEvRWYrQlJ5TldqK3pI?=
+ =?utf-8?B?QTNmT2hTTWtDZ0kzVW5GbDkxQlFiUTJGRkRQZm1iUmtpTGRNVHBlN1BUeFM2?=
+ =?utf-8?B?a0lKVU5mdEtqaWVLYWpWS3g1SXgveTNKNnVHSnhkR1ZkZEVNL3kwS2ZjZENB?=
+ =?utf-8?B?Q2FPNE5HZDR3ak5jOFVDMTY2bGpoMG1WRmpBM3dxZi9Mc01IdXR2ckt6N2N4?=
+ =?utf-8?B?cmJmUGVndTNFYTg2S254R1BFTEpmc0g3c3gwNVo4b0JFWk51Y1FYejdpTWEv?=
+ =?utf-8?B?VCt6TW8zcGJEVHptS09Id3RPUVZCOHliRUZxNUNKMXBpTHRlVmhaNkgrVlQw?=
+ =?utf-8?B?UEhYaVlHKyt3MUdWRmRmWTVVSEc2d1YwZ1ZHU2pIeWN4SmNkdUFVeS9ZUE5U?=
+ =?utf-8?B?M3BIRUs3a0gySjVHNE80S3V1T1V4czZNckl1TEl3aGROOHhObEdtYTltRWgy?=
+ =?utf-8?B?ZUNMMzFvaU9yWXFOMm5lV1YzbTdyTjR5MTNVbXlTZFpzRnBEZ1JENjYzblFi?=
+ =?utf-8?B?encvaHIwa01OZG8zRzRFU1hWTkxjdG5SOGZTRU9sdUh0K2djRDZxOWdvQ0hB?=
+ =?utf-8?B?R0JJOUo3UlJxZERSRWJEaE9VREdsZ09iSXdzQlUyUytYRWgrSWhaYmxhUEhw?=
+ =?utf-8?B?dmFUZDIyR3Q1eWREOFJuYzh2NVZzbC9EcGJFYTltOGx3bUJBRG9reVlkbjc5?=
+ =?utf-8?B?Q2cwZjF3VUJMR1FyZ1ovYnpoSWhLWm1DWkthckgvOXBYdFNMOWluNENxM05x?=
+ =?utf-8?B?UXUweVZFWHNTUE1XZWtYbFFMNDZtWUhXTC9GQzBmdFZHYThtQ3FnR2NiU3R2?=
+ =?utf-8?B?VVRRZkx5YnJJSm5PN0RFYlgwbUdRVElCRzhSY1VhNEdaaXBoOEkyUU9TWWw0?=
+ =?utf-8?B?S3hJWk5BdHc5RGZkTnh4RkVCUFZJSkxHbkd3em1IN0pTTFZNbGFSWFA4QmQ2?=
+ =?utf-8?B?Z2s1M0ZNTitkSUorMTRQREtyajZ2Wm4xZEtFNXJwd3NGSE9kd29pN2xwNi9u?=
+ =?utf-8?B?VjM1Y2NoVWFLcWhtcnFrTjNEQTdVOFZsMjltdE9waXV2ckVsWXJSeGlkSGlY?=
+ =?utf-8?B?Ujh2Z04weWtFUGJ1Vm4yaWRxb3V0cjRWWlJXaUhtWCtHSUN0QWJvelFlNlJi?=
+ =?utf-8?B?TW04aFVUTTZOVnlqYkIxVVk0RmF5RHpBb3I4cDZ3bVBkdmlDejZkSTZibTh3?=
+ =?utf-8?Q?tam+rpHr7d5sCyuP/AnSoGw=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <20211220154418.1554279-1-vsementsov@virtuozzo.com>
- <20211220154418.1554279-3-vsementsov@virtuozzo.com>
-In-Reply-To: <20211220154418.1554279-3-vsementsov@virtuozzo.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Tue, 21 Dec 2021 12:13:54 +0400
-Message-ID: <CAJ+F1C+v1d49KT9+4n3RiDXfjj+82k7wz3rO_5=LVJ_T5Kn3vg@mail.gmail.com>
-Subject: Re: [PATCH 2/2] qapi/ui: introduce change-vnc-listen
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Content-Type: multipart/alternative; boundary="000000000000d042ca05d3a39604"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::332
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-wm1-x332.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR11MB0031.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ecf0a689-1ca3-484e-368f-08d9c45aaf3a
+X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Dec 2021 08:20:01.4215 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: NUwNRJEAl76XcT1NXLD6QQhg8tLXHIcKgLgyvyFlkmnu+XaP+9LA9NQb4fdFE3JHSIQS9gYQ47NvBm+/QOiWww==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW5PR11MB5859
+X-OriginatorOrg: intel.com
+Received-SPF: pass client-ip=192.55.52.120; envelope-from=chen.zhang@intel.com;
+ helo=mga04.intel.com
+X-Spam_score_int: -45
+X-Spam_score: -4.6
+X-Spam_bar: ----
+X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.203,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,244 +183,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Eric Blake <eblake@redhat.com>, QEMU <qemu-devel@nongnu.org>,
- Gerd Hoffmann <kraxel@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000d042ca05d3a39604
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Hi
-
-On Mon, Dec 20, 2021 at 10:24 PM Vladimir Sementsov-Ogievskiy <
-vsementsov@virtuozzo.com> wrote:
-
-> Add command that can change addresses where VNC server listens for new
-> connections. Prior to 6.0 this functionality was available through
-> 'change' qmp command which was deleted.
->
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
->
-
-Looks good to me,
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-
-Could you write an avocado test for it? (tests/avocado/vnc.py)
-
----
->  docs/about/removed-features.rst |  3 ++-
->  qapi/ui.json                    | 12 ++++++++++++
->  ui/vnc.c                        | 26 ++++++++++++++++++++++++++
->  3 files changed, 40 insertions(+), 1 deletion(-)
->
-> diff --git a/docs/about/removed-features.rst
-> b/docs/about/removed-features.rst
-> index d42c3341de..20e6901a82 100644
-> --- a/docs/about/removed-features.rst
-> +++ b/docs/about/removed-features.rst
-> @@ -348,7 +348,8 @@ documentation of ``query-hotpluggable-cpus`` for
-> additional details.
->  ``change`` (removed in 6.0)
->  '''''''''''''''''''''''''''
->
-> -Use ``blockdev-change-medium`` or ``change-vnc-password`` instead.
-> +Use ``blockdev-change-medium`` or ``change-vnc-password`` or
-> +``change-vnc-listen`` instead.
->
->  ``query-events`` (removed in 6.0)
->  '''''''''''''''''''''''''''''''''
-> diff --git a/qapi/ui.json b/qapi/ui.json
-> index d7567ac866..14e6fe0b4c 100644
-> --- a/qapi/ui.json
-> +++ b/qapi/ui.json
-> @@ -1304,3 +1304,15 @@
->  { 'command': 'display-reload',
->    'data': 'DisplayReloadOptions',
->    'boxed' : true }
-> +
-> +##
-> +# @change-vnc-listen:
-> +#
-> +# Change set of addresses to listen for connections.
-> +#
-> +# Since: 7.0
-> +#
-> +##
-> +{ 'command': 'change-vnc-listen',
-> +  'data': { 'id': 'str', 'addresses': ['SocketAddress'],
-> +            '*websockets': ['SocketAddress'] } }
-> diff --git a/ui/vnc.c b/ui/vnc.c
-> index c9e26c70df..69bbf3b6f6 100644
-> --- a/ui/vnc.c
-> +++ b/ui/vnc.c
-> @@ -4212,6 +4212,32 @@ fail:
->      vnc_display_close(vd);
->  }
->
-> +void qmp_change_vnc_listen(const char *id, SocketAddressList *addresses,
-> +                           bool has_websockets, SocketAddressList
-> *websockets,
-> +                           Error **errp)
-> +{
-> +    VncDisplay *vd =3D vnc_display_find(id);
-> +
-> +    if (!vd) {
-> +        error_setg(errp, "VNC display '%s' not active", id);
-> +        return;
-> +    }
-> +
-> +    if (vd->listener) {
-> +        qio_net_listener_disconnect(vd->listener);
-> +        object_unref(OBJECT(vd->listener));
-> +    }
-> +    vd->listener =3D NULL;
-> +
-> +    if (vd->wslistener) {
-> +        qio_net_listener_disconnect(vd->wslistener);
-> +        object_unref(OBJECT(vd->wslistener));
-> +    }
-> +    vd->wslistener =3D NULL;
-> +
-> +    vnc_display_listen(vd, addresses, websockets, errp);
-> +}
-> +
->  void vnc_display_add_client(const char *id, int csock, bool skipauth)
->  {
->      VncDisplay *vd =3D vnc_display_find(id);
-> --
-> 2.31.1
->
->
->
-
---=20
-Marc-Andr=C3=A9 Lureau
-
---000000000000d042ca05d3a39604
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Hi<br></div><br><div class=3D"gmail_quote"><div dir=
-=3D"ltr" class=3D"gmail_attr">On Mon, Dec 20, 2021 at 10:24 PM Vladimir Sem=
-entsov-Ogievskiy &lt;<a href=3D"mailto:vsementsov@virtuozzo.com">vsementsov=
-@virtuozzo.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" st=
-yle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padd=
-ing-left:1ex">Add command that can change addresses where VNC server listen=
-s for new<br>
-connections. Prior to 6.0 this functionality was available through<br>
-&#39;change&#39; qmp command which was deleted.<br>
-<br>
-Signed-off-by: Vladimir Sementsov-Ogievskiy &lt;<a href=3D"mailto:vsementso=
-v@virtuozzo.com" target=3D"_blank">vsementsov@virtuozzo.com</a>&gt;<br></bl=
-ockquote><div><br></div><div>Looks good to me,</div><div>Reviewed-by: Marc-=
-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@redhat.com">marcan=
-dre.lureau@redhat.com</a>&gt;</div><div><br></div><div>Could you write an a=
-vocado test for it? (tests/avocado/vnc.py)</div><div><br></div><blockquote =
-class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px sol=
-id rgb(204,204,204);padding-left:1ex">
----<br>
-=C2=A0docs/about/removed-features.rst |=C2=A0 3 ++-<br>
-=C2=A0qapi/ui.json=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 | 12 ++++++++++++<br>
-=C2=A0ui/vnc.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 | 26 ++++++++++++++++++++++++++<br>
-=C2=A03 files changed, 40 insertions(+), 1 deletion(-)<br>
-<br>
-diff --git a/docs/about/removed-features.rst b/docs/about/removed-features.=
-rst<br>
-index d42c3341de..20e6901a82 100644<br>
---- a/docs/about/removed-features.rst<br>
-+++ b/docs/about/removed-features.rst<br>
-@@ -348,7 +348,8 @@ documentation of ``query-hotpluggable-cpus`` for additi=
-onal details.<br>
-=C2=A0``change`` (removed in 6.0)<br>
-=C2=A0&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39=
-;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;<br>
-<br>
--Use ``blockdev-change-medium`` or ``change-vnc-password`` instead.<br>
-+Use ``blockdev-change-medium`` or ``change-vnc-password`` or<br>
-+``change-vnc-listen`` instead.<br>
-<br>
-=C2=A0``query-events`` (removed in 6.0)<br>
-=C2=A0&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39=
-;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39=
-;&#39;&#39;&#39;&#39;<br>
-diff --git a/qapi/ui.json b/qapi/ui.json<br>
-index d7567ac866..14e6fe0b4c 100644<br>
---- a/qapi/ui.json<br>
-+++ b/qapi/ui.json<br>
-@@ -1304,3 +1304,15 @@<br>
-=C2=A0{ &#39;command&#39;: &#39;display-reload&#39;,<br>
-=C2=A0 =C2=A0&#39;data&#39;: &#39;DisplayReloadOptions&#39;,<br>
-=C2=A0 =C2=A0&#39;boxed&#39; : true }<br>
-+<br>
-+##<br>
-+# @change-vnc-listen:<br>
-+#<br>
-+# Change set of addresses to listen for connections.<br>
-+#<br>
-+# Since: 7.0<br>
-+#<br>
-+##<br>
-+{ &#39;command&#39;: &#39;change-vnc-listen&#39;,<br>
-+=C2=A0 &#39;data&#39;: { &#39;id&#39;: &#39;str&#39;, &#39;addresses&#39;:=
- [&#39;SocketAddress&#39;],<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;*websockets&#39;: [&#39;Soc=
-ketAddress&#39;] } }<br>
-diff --git a/ui/vnc.c b/ui/vnc.c<br>
-index c9e26c70df..69bbf3b6f6 100644<br>
---- a/ui/vnc.c<br>
-+++ b/ui/vnc.c<br>
-@@ -4212,6 +4212,32 @@ fail:<br>
-=C2=A0 =C2=A0 =C2=A0vnc_display_close(vd);<br>
-=C2=A0}<br>
-<br>
-+void qmp_change_vnc_listen(const char *id, SocketAddressList *addresses,<b=
-r>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0bool has_websockets, SocketAddressList *websockets,=
-<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0Error **errp)<br>
-+{<br>
-+=C2=A0 =C2=A0 VncDisplay *vd =3D vnc_display_find(id);<br>
-+<br>
-+=C2=A0 =C2=A0 if (!vd) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg(errp, &quot;VNC display &#39;%s&#39=
-; not active&quot;, id);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
-+=C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 if (vd-&gt;listener) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 qio_net_listener_disconnect(vd-&gt;listener);<=
-br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 object_unref(OBJECT(vd-&gt;listener));<br>
-+=C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 vd-&gt;listener =3D NULL;<br>
-+<br>
-+=C2=A0 =C2=A0 if (vd-&gt;wslistener) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 qio_net_listener_disconnect(vd-&gt;wslistener)=
-;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 object_unref(OBJECT(vd-&gt;wslistener));<br>
-+=C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 vd-&gt;wslistener =3D NULL;<br>
-+<br>
-+=C2=A0 =C2=A0 vnc_display_listen(vd, addresses, websockets, errp);<br>
-+}<br>
-+<br>
-=C2=A0void vnc_display_add_client(const char *id, int csock, bool skipauth)=
-<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0VncDisplay *vd =3D vnc_display_find(id);<br>
--- <br>
-2.31.1<br>
-<br>
-<br>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
-mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
-
---000000000000d042ca05d3a39604--
+DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogVGhvbWFzIEh1dGggPHRo
+dXRoQHJlZGhhdC5jb20+DQo+IFNlbnQ6IFR1ZXNkYXksIERlY2VtYmVyIDIxLCAyMDIxIDM6MzUg
+UE0NCj4gVG86IFpoYW5nLCBDaGVuIDxjaGVuLnpoYW5nQGludGVsLmNvbT47IHFlbXUtZGV2ZWxA
+bm9uZ251Lm9yZzsNCj4gTGF1cmVudCBWaXZpZXIgPGx2aXZpZXJAcmVkaGF0LmNvbT4NCj4gQ2M6
+IFBhb2xvIEJvbnppbmkgPHBib256aW5pQHJlZGhhdC5jb20+DQo+IFN1YmplY3Q6IFJlOiBbUEFU
+Q0hdIHRlc3RzL3F0ZXN0OiBNYWtlIHRoZSBmaWx0ZXIgdGVzdHMgaW5kZXBlbmRlbnQgZnJvbSBh
+DQo+IHNwZWNpZmljIE5JQw0KPiANCj4gT24gMjEvMTIvMjAyMSAwNy4zOCwgWmhhbmcsIENoZW4g
+d3JvdGU6DQo+ID4NCj4gPg0KPiA+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiA+PiBG
+cm9tOiBRZW11LWRldmVsIDxxZW11LWRldmVsLQ0KPiA+PiBib3VuY2VzK2NoZW4uemhhbmc9aW50
+ZWwuY29tQG5vbmdudS5vcmc+IE9uIEJlaGFsZiBPZiBUaG9tYXMNCj4gSHV0aA0KPiA+PiBTZW50
+OiBNb25kYXksIERlY2VtYmVyIDIwLCAyMDIxIDY6MzAgUE0NCj4gPj4gVG86IHFlbXUtZGV2ZWxA
+bm9uZ251Lm9yZzsgTGF1cmVudCBWaXZpZXIgPGx2aXZpZXJAcmVkaGF0LmNvbT4NCj4gPj4gQ2M6
+IFBhb2xvIEJvbnppbmkgPHBib256aW5pQHJlZGhhdC5jb20+OyBZYW5nIEhvbmd5YW5nDQo+ID4+
+IDx5YW5naHlAY24uZnVqaXRzdS5jb20+OyBaaGFuZyBDaGVuIDx6aGFuZ2NoZW4uZm5zdEBjbi5m
+dWppdHN1LmNvbT4NCj4gPj4gU3ViamVjdDogW1BBVENIXSB0ZXN0cy9xdGVzdDogTWFrZSB0aGUg
+ZmlsdGVyIHRlc3RzIGluZGVwZW5kZW50IGZyb20NCj4gPj4gYSBzcGVjaWZpYyBOSUMNCj4gPj4N
+Cj4gPj4gVGhlc2UgZmlsdGVyIHRlc3RzIG5lZWQgYSBOSUMsIG5vIG1hdHRlciB3aGljaCBvbmUs
+IHNvIHRoZXkgdXNlIGENCj4gPj4gY29tbW9uIE5JQyBieSBkZWZhdWx0LiBIb3dldmVyLCB0aGVz
+ZSBjb21tb24gTklDIG1vZGVscyBtaWdodCBub3QNCj4gPj4gYWx3YXlzIGhhdmUgYmVlbiBjb21w
+aWxlZCBpbnRvIHRoZSBRRU1VIHRhcmdldCBiaW5hcnksIHNvIGFzc3VtaW5nDQo+ID4+IHRoYXQg
+YSBjZXJ0YWluIE5JQyBpcyBhdmFpbGFibGUgaXMgYSBiYWQgaWRlYS4gU2luY2UgdGhlIGV4YWN0
+IHR5cGUNCj4gPj4gb2YgTklDIGRvZXMgbm90IHJlYWxseSBtYXR0ZXIgZm9yIHRoZXNlIHRlc3Rz
+LCBsZXQncyBzd2l0Y2ggdG8gIi1uaWMiDQo+ID4+IGluc3RlYWQgb2YgIi1uZXRkZXYiIHNvIHRo
+YXQgUUVNVSBjYW4gc2ltcGx5IHBpY2sgYSBkZWZhdWx0IE5JQyBmb3IgdXMuDQo+ID4+IFRoaXMg
+d2F5IHdlIGNhbiBub3cgcnVuIHRoZSB0ZXN0cyBvbiBvdGhlciB0YXJnZXRzIHRoYXQgaGF2ZSBh
+DQo+ID4+IGRlZmF1bHQgbWFjaGluZSB3aXRoIGFuIG9uLWJvYXJkL2RlZmF1bHQgTklDLCB0b28u
+DQo+ID4+DQo+ID4NCj4gPiBPaCwgSXQncyBteSBhbmQgSG9uZ3lhbmcncyBhYmFuZG9uZWQgbWFp
+bGJveC4NCj4gDQo+IFNvcnJ5LCBJIG9ubHkgbG9va2VkIGF0IHRoZSB0b3Agb2YgdGhlICouYyBm
+aWxlcyBhbmQgY29waWVkIHRoZSBlLW1haWwgYWRkcmVzcw0KPiBmcm9tIHRoZXJlLg0KPiANCj4g
+PiBMb29rcyBnb29kIHRvIG1lLg0KPiANCj4gVGhhbmtzIGZvciB0aGUgcmV2aWV3IQ0KPiANCj4g
+PiBCeSB0aGUgd2F5LCBzaG91bGQgSSBhZGQgdGhlIHRlc3QvcXRlc3QvdGVzdC1maWx0ZXIqIHRv
+IHRoZSBNQUlOVEFJTkVSIGZpbGU/DQo+IA0KPiBUaGF0IG1pZ2h0IGJlIGhlbHBmdWwgaW5kZWVk
+IHRvIGdldCB5b3UgQ0M6LWVkIGNvcnJlY3RseSBuZXh0IHRpbWUuDQoNCkFscmVhZHkgc2VuZCBh
+IHBhdGNoIHRvIHVwZGF0ZSBpdC4NCg0KVGhhbmtzDQpDaGVuDQoNCj4gDQo+ICAgVGhvbWFzDQoN
+Cg==
 
