@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4BC247BE8E
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Dec 2021 12:07:35 +0100 (CET)
-Received: from localhost ([::1]:56562 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD88F47BE98
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Dec 2021 12:09:46 +0100 (CET)
+Received: from localhost ([::1]:36170 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mzczW-00084d-Tq
-	for lists+qemu-devel@lfdr.de; Tue, 21 Dec 2021 06:07:34 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44464)
+	id 1mzd1d-0004y3-R8
+	for lists+qemu-devel@lfdr.de; Tue, 21 Dec 2021 06:09:45 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44488)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mzcxb-0005Jz-AX
- for qemu-devel@nongnu.org; Tue, 21 Dec 2021 06:05:35 -0500
-Received: from [2a00:1450:4864:20::32e] (port=40578
- helo=mail-wm1-x32e.google.com)
+ id 1mzcxb-0005K8-RF
+ for qemu-devel@nongnu.org; Tue, 21 Dec 2021 06:05:36 -0500
+Received: from [2a00:1450:4864:20::42e] (port=37785
+ helo=mail-wr1-x42e.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mzcxY-0004yn-SB
+ id 1mzcxZ-0004yr-6d
  for qemu-devel@nongnu.org; Tue, 21 Dec 2021 06:05:35 -0500
-Received: by mail-wm1-x32e.google.com with SMTP id
- j140-20020a1c2392000000b003399ae48f58so1388937wmj.5
+Received: by mail-wr1-x42e.google.com with SMTP id t26so26133904wrb.4
  for <qemu-devel@nongnu.org>; Tue, 21 Dec 2021 03:05:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=SwquXMcRtP+JeTEQ8y9DI2JPbN/svif4Xsndrbgrh6A=;
- b=XNuzDPZurRWN7rnH6gOdhPuTDtXkfmT/LqY8JLOWHPeK1Bsh0pFcPs5SLqN9Hx9KNJ
- FGJuwICRAZ+K+ZFEy4y/U/hxjv7o4CQcrqnlMl/Ci2xxguylfR8qXV17QTiQK9rFVd/Q
- C6nHa/lnA+IBWT4q0JfXVS/C7p9unSY8COykf8cfTtLzxN19BJKAywW3K8aM0XDPMyut
- v0sMCphlRgrSm0FG9I4ryREJhl91gYFcn0ERuzYYP+dpS5/6ed6luRbMj4C6GVEvDtqY
- CLHH9wIYfmpRrKv+SM1Qd0Ez7IYpTCD0FfaGSz4r77Gs5oD4NfqsBzGw8j7DxG7JqG3q
- Bh2w==
+ bh=NBRmli3hhL/7GvJj9LProoyaec9zZHPpYyiOBrHlW/I=;
+ b=JgAoRSkmgDSR5Ppw5D/LzRihZGFhRm3Gyak3dnPZtZuYXZbuXTF3eL/ExUq9mVrtIG
+ I3jwhTkN8H/AbJn61qV53z86kpORKE8owGG7QlF8dvveziQml9jyWoRtNvmo5hwcMhsd
+ EQf78UYntS+7AJgMusUI22Wam4x8YO3PX3v3ItXVoBGwUOv2JclFDxEsq5yI8DujxEYn
+ ICifnj87l4mqqlgkfkeNPmCwOA++A8hqcaly2sRhbsUu82VNX6URuhBUyGuObJ3RCtV6
+ zUwcbd4mZ1GOvtuQfVLwbfxcE39CS0GzjsAOGHGS4V5mf1Ltjb4VdBZHso31koAAK+fx
+ cr8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=SwquXMcRtP+JeTEQ8y9DI2JPbN/svif4Xsndrbgrh6A=;
- b=w+yFT+EeQetbI7UjaIXqXxjLMaO1w3HASMuTFliKeWGZWRDw6tYyaCNljJHUzH6sew
- 7VEfTn+xBL5JHhqigpXZOnnd1OJh/jgICqPGWdlrg/85K0bdiuUIhAhSOAiRaf9Pe/Tb
- 3f7JTkdoTfESLzxsGjp5HSOAyXDVexoyXI1/zEikMJ+wHlf70wpLQr+R5Cduo8ZYsWCm
- TdYTFzlW2Ywr29PfV5Vzy5b2cT+Qs5qItLOsCxDvYav3fd/gHOEe8uood9HH6weICfIK
- vq/iQ/sAVvMsdjBiCTM+7Qs2UWoLBfTMJKQqIdyddPZlXiX8Oc0wo6/cX6Ebksy0K7d8
- 1FXw==
-X-Gm-Message-State: AOAM531YQ2tQ3z/WJ4KEjpE5TDJsvVRzRg5TVDwG84x+HylU2AhCwCO5
- TuCbOgI9dfplGrcNKbRDfqO/PdtzfNg=
-X-Google-Smtp-Source: ABdhPJyMWBFwMifGMV6EczmF8ZBGfpot72ApJ9el6tIpIDCQRRNt8Tqe1fn461IsLcPSFM7onoMBVg==
-X-Received: by 2002:a1c:f005:: with SMTP id a5mr2346016wmb.19.1640084731335;
+ bh=NBRmli3hhL/7GvJj9LProoyaec9zZHPpYyiOBrHlW/I=;
+ b=ZS8dxmZHpH0B2sA/m0cbnryC+Pp/Yb48IX4ZjtNfc3lhjizfSG3bnI3IciuEGLil1V
+ p8CnpZZI7HsCGaJz/7EXmo2vnZMS4vpeAnoOR7fhIUSOokcXP9phJoCXOp/uqF6DVXLJ
+ 8xTDZ/RAGWYwYBzGUMah96n8jO7X/NJhjeEui8KV6ZiAZJivYL2vYNfV3bjJO+oojc/Z
+ aZVvZz15UIk5j73gLeNUyDFHKfiWlz5bvye5DgQWDRBOrj1zUgKufi3U21HYuNTnp/iG
+ Ste/ou9aGbbdo1pzZRgpGvokvH72fn2vKfeIgJukHAuHM/6bc0LknPuUGBdt/kJL75Zd
+ Ndew==
+X-Gm-Message-State: AOAM530SS9vY+DYXBP3OeidpJPpXOBZZY8oI37NocuzrQTSqTVnvsrUp
+ RMaBoRVgv/wwu2mZxKpdxaqFbsUiuXE=
+X-Google-Smtp-Source: ABdhPJzcoZRcFqrF4ddIyE6fXh8zXwnucE9GwogF0hJbvYyjJ/qMuawIneAGYMlIuV89HMQMKMIXiA==
+X-Received: by 2002:a5d:6349:: with SMTP id b9mr2135878wrw.152.1640084731871; 
  Tue, 21 Dec 2021 03:05:31 -0800 (PST)
 Received: from avogadro.lan ([2001:b07:6468:f312:63a7:c72e:ea0e:6045])
- by smtp.gmail.com with ESMTPSA id az11sm1949444wmb.30.2021.12.21.03.05.30
+ by smtp.gmail.com with ESMTPSA id az11sm1949444wmb.30.2021.12.21.03.05.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 21 Dec 2021 03:05:31 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/8] configure: do not set bsd_user/linux_user early
-Date: Tue, 21 Dec 2021 12:05:20 +0100
-Message-Id: <20211221110526.351709-3-pbonzini@redhat.com>
+Subject: [PATCH 3/8] configure, makefile: remove traces of really old files
+Date: Tue, 21 Dec 2021 12:05:21 +0100
+Message-Id: <20211221110526.351709-4-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211221110526.351709-1-pbonzini@redhat.com>
 References: <20211221110526.351709-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32e
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42e
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x32e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x42e.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -91,84 +90,84 @@ Cc: richard.henderson@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Similar to other optional features, leave the variables empty and compute
-the actual value later.  Use the existence of include or source directories
-to detect whether an OS or CPU supports respectively bsd-user and linux-user.
-
-For now, BSD user-mode emulation is buildable even on TCI-only
-architectures.  This probably will change once safe signals are
-brought over from linux-user.
+These files have been removed for more than year in the best
+case, or for more than ten years for some really old TCG files.
+Remove any traces of it.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure | 28 +++++++++++++++++-----------
- 1 file changed, 17 insertions(+), 11 deletions(-)
+ Makefile  | 11 ++++-------
+ configure |  9 ---------
+ 2 files changed, 4 insertions(+), 16 deletions(-)
 
+diff --git a/Makefile b/Makefile
+index 74c5b46d38..06ad8a61e1 100644
+--- a/Makefile
++++ b/Makefile
+@@ -205,14 +205,11 @@ recurse-clean: $(addsuffix /clean, $(ROM_DIRS))
+ clean: recurse-clean
+ 	-$(quiet-@)test -f build.ninja && $(NINJA) $(NINJAFLAGS) -t clean || :
+ 	-$(quiet-@)test -f build.ninja && $(NINJA) $(NINJAFLAGS) clean-ctlist || :
+-# avoid old build problems by removing potentially incorrect old files
+-	rm -f config.mak op-i386.h opc-i386.h gen-op-i386.h op-arm.h opc-arm.h gen-op-arm.h
+ 	find . \( -name '*.so' -o -name '*.dll' -o -name '*.[oda]' \) -type f \
+ 		! -path ./roms/edk2/ArmPkg/Library/GccLto/liblto-aarch64.a \
+ 		! -path ./roms/edk2/ArmPkg/Library/GccLto/liblto-arm.a \
+ 		-exec rm {} +
+-	rm -f TAGS cscope.* *.pod *~ */*~
+-	rm -f fsdev/*.pod scsi/*.pod
++	rm -f TAGS cscope.* *~ */*~
+ 
+ VERSION = $(shell cat $(SRC_PATH)/VERSION)
+ 
+@@ -223,10 +220,10 @@ qemu-%.tar.bz2:
+ 
+ distclean: clean
+ 	-$(quiet-@)test -f build.ninja && $(NINJA) $(NINJAFLAGS) -t clean -g || :
+-	rm -f config-host.mak config-host.h* config-poison.h
++	rm -f config-host.mak config-poison.h
+ 	rm -f tests/tcg/config-*.mak
+-	rm -f config-all-disas.mak config.status
+-	rm -f roms/seabios/config.mak roms/vgabios/config.mak
++	rm -f config.status
++	rm -f roms/seabios/config.mak
+ 	rm -f qemu-plugins-ld.symbols qemu-plugins-ld64.symbols
+ 	rm -f *-config-target.h *-config-devices.mak *-config-devices.h
+ 	rm -rf meson-private meson-logs meson-info compile_commands.json
 diff --git a/configure b/configure
-index 1bce9635d9..6dafbcd362 100755
+index 6dafbcd362..e09e5bb58f 100755
 --- a/configure
 +++ b/configure
-@@ -321,8 +321,8 @@ linux="no"
- solaris="no"
- profiler="no"
- softmmu="yes"
--linux_user="no"
--bsd_user="no"
-+linux_user=""
-+bsd_user=""
- pkgversion=""
- pie=""
- qom_cast_debug="yes"
-@@ -539,7 +539,6 @@ gnu/kfreebsd)
- ;;
- freebsd)
-   bsd="yes"
--  bsd_user="yes"
-   make="${MAKE-gmake}"
-   # needed for kinfo_getvmmap(3) in libutil.h
- ;;
-@@ -584,7 +583,6 @@ haiku)
- ;;
- linux)
-   linux="yes"
--  linux_user="yes"
-   vhost_user=${default_feature:-yes}
- ;;
- esac
-@@ -1262,18 +1260,26 @@ if eval test -z "\${cross_cc_$cpu}"; then
-     cross_cc_vars="$cross_cc_vars cross_cc_${cpu}"
- fi
+@@ -3696,9 +3696,6 @@ fi
+ # so the build tree will be missing the link back to the new file, and
+ # tests might fail. Prefer to keep the relevant files in their own
+ # directory and symlink the directory instead.
+-# UNLINK is used to remove symlinks from older development versions
+-# that might get into the way when doing "git update" without doing
+-# a "make distclean" in between.
+ LINKS="Makefile"
+ LINKS="$LINKS tests/tcg/Makefile.target"
+ LINKS="$LINKS pc-bios/optionrom/Makefile"
+@@ -3710,7 +3707,6 @@ LINKS="$LINKS tests/avocado tests/data"
+ LINKS="$LINKS tests/qemu-iotests/check"
+ LINKS="$LINKS python"
+ LINKS="$LINKS contrib/plugins/Makefile "
+-UNLINK="pc-bios/keymaps"
+ for bios_file in \
+     $source_path/pc-bios/*.bin \
+     $source_path/pc-bios/*.elf \
+@@ -3732,11 +3728,6 @@ for f in $LINKS ; do
+         symlink "$source_path/$f" "$f"
+     fi
+ done
+-for f in $UNLINK ; do
+-    if [ -L "$f" ]; then
+-        rm -f "$f"
+-    fi
+-done
  
--# For user-mode emulation the host arch has to be one we explicitly
--# support, even if we're using TCI.
--if [ "$ARCH" = "unknown" ]; then
--  bsd_user="no"
--  linux_user="no"
--fi
--
- default_target_list=""
- deprecated_targets_list=ppc64abi32-linux-user
- deprecated_features=""
- mak_wilds=""
- 
-+if [ "$linux_user" != no ]; then
-+    if [ "$targetos" = linux ] && [ -d $source_path/linux-user/host/$cpu ]; then
-+        linux_user=yes
-+    elif [ "$linux_user" = yes ]; then
-+        error_exit "linux-user not supported on this architecture"
-+    fi
-+fi
-+if [ "$bsd_user" != no ]; then
-+    if [ "$bsd_user" = "" ]; then
-+        test $targetos = freebsd && bsd_user=yes
-+    fi
-+    if [ "$bsd_user" = yes ] && ! [ -d $source_path/bsd-user/$targetos ]; then
-+        error_exit "bsd-user not supported on this host OS"
-+    fi
-+fi
- if [ "$softmmu" = "yes" ]; then
-     mak_wilds="${mak_wilds} $source_path/configs/targets/*-softmmu.mak"
- fi
+ (for i in $cross_cc_vars; do
+   export $i
 -- 
 2.33.1
 
