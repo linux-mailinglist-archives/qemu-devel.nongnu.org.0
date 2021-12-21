@@ -2,96 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 527A447BB93
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Dec 2021 09:15:45 +0100 (CET)
-Received: from localhost ([::1]:58456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C96047BB5F
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Dec 2021 08:58:27 +0100 (CET)
+Received: from localhost ([::1]:58496 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mzaJE-0001GI-Dh
-	for lists+qemu-devel@lfdr.de; Tue, 21 Dec 2021 03:15:44 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34238)
+	id 1mza2U-0006Hd-H1
+	for lists+qemu-devel@lfdr.de; Tue, 21 Dec 2021 02:58:26 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34772)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mzZgD-0007mB-BJ
- for qemu-devel@nongnu.org; Tue, 21 Dec 2021 02:35:25 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59159)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mzZgA-0005DA-DV
- for qemu-devel@nongnu.org; Tue, 21 Dec 2021 02:35:23 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1640072120;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=PWfD0n2dcpX+P7D4SnTum1Qoz921rza0Sq9CXZEDN0Q=;
- b=O3Lp1bL0yg3ck6/O5QqhOxl6Dc7uO8fo3a64dtJqS+Wp+ljiDaKfE3lqGMaZdF97VZRXWr
- WTOnVAX3VGxRSXesD+X17cqdyLIVOIdIJmmTPwt3KlDs7sDjKfpYSO0LQQF0rbt0a8nwzR
- 8wRcdlHjUG5YODRvzqC4sRtjSqYdino=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-628-V-7zvm6ON7KcgciH4ZnsVg-1; Tue, 21 Dec 2021 02:35:19 -0500
-X-MC-Unique: V-7zvm6ON7KcgciH4ZnsVg-1
-Received: by mail-wr1-f72.google.com with SMTP id
- x20-20020adfbb54000000b001a0d044e20fso4392316wrg.11
- for <qemu-devel@nongnu.org>; Mon, 20 Dec 2021 23:35:19 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1mzZlo-0007rm-Hg; Tue, 21 Dec 2021 02:41:12 -0500
+Received: from [2a00:1450:4864:20::330] (port=36548
+ helo=mail-wm1-x330.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1mzZlm-0005e7-S7; Tue, 21 Dec 2021 02:41:12 -0500
+Received: by mail-wm1-x330.google.com with SMTP id
+ y83-20020a1c7d56000000b003456dfe7c5cso1027438wmc.1; 
+ Mon, 20 Dec 2021 23:41:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=g/c1b4obIllR0gqmWGWzWXcHt8kFY0yCzsAFRSWQDO4=;
+ b=JqohAYxf+5qhMfoyKQNnJJVScGefuF7Lu4l6ybPBjhVdJO0SA8pXAdhbXYZK9HlPoj
+ fRCw7orU7TI6lLSJRH4ygGkyZLo60lj7ZDg/kg1IZhqLLxYGDEafE2M57j0VstvAFqZJ
+ bmBiZOclj1rXAEiEgqoca0mQhJna6BkhH9UM8u4ox9EjqPk6kvdfrZvi/+f0EIhxnshI
+ /C4Q0VJGULaNcQ5XVicozu+cTowjLzLjO2J0F6OrAOLJOJFpwJje/T6I85dj7OSKIOSW
+ uj5N0pcLsOlICVJT8NreI93fbP4pPw9sDbBUTaa46h4locKjRifP3q11pRAKTj8gMA4K
+ xomQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=PWfD0n2dcpX+P7D4SnTum1Qoz921rza0Sq9CXZEDN0Q=;
- b=klz6cTnKmEluSIIZ3Lh+CaSgBbf4DIzU/X089dvZ0Dr/qWpVxpA5txMpO1ii/EtFXy
- ciG9zz2TXQk2XwxmreT9c7OIHtJY7eZZro/TSEUJK6Ls187X1DaSMBSFMzusilCy0DFx
- AUOPZ5hY+Ukz8wlKi/EY8K1vInm0qbZ5adh9oovw42wPmbX5XfMUY9u65gRgkj0cBBiQ
- ZsDI/8utcsCJ5UikFvdu+zSujmzHPDmHFMRgRq2lFXK8qe14Gwp8G8bqfxq0JskafMwi
- yC2VUuTmD8H/HyQ/ORgYexSNc9bnwRVl7YflAh2izWHKRSZGQ2c3KBRLGXe/EB+SAkNS
- 4Q+w==
-X-Gm-Message-State: AOAM532zgWuZ9snP7jJa+NLkshYFoqTk1NKnPXj/ollRogEw4N/+XMcO
- qRF+iaiDuPs/pdHcCcQVNQEtRluNd0nDMssFC6vhZ85AK/gPndMjeclb3v3f87MwdaloRkDPhvD
- qbL5tg7x4ipX3znY=
-X-Received: by 2002:a05:600c:34ca:: with SMTP id
- d10mr1506325wmq.133.1640072118700; 
- Mon, 20 Dec 2021 23:35:18 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxtKQxTP7X/ujzw2zdz7IGSkt4AItmUD8RAut77/HEw2d0v23ljwZZ5Fqo+ADN9aFuyVP9L5g==
-X-Received: by 2002:a05:600c:34ca:: with SMTP id
- d10mr1506309wmq.133.1640072118537; 
- Mon, 20 Dec 2021 23:35:18 -0800 (PST)
-Received: from [10.33.192.183] (nat-pool-str-t.redhat.com. [149.14.88.106])
- by smtp.gmail.com with ESMTPSA id b2sm9753615wrd.35.2021.12.20.23.35.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 20 Dec 2021 23:35:18 -0800 (PST)
-Message-ID: <6f1f9403-04a7-e149-2eb7-6cbd32a57902@redhat.com>
-Date: Tue, 21 Dec 2021 08:35:17 +0100
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=g/c1b4obIllR0gqmWGWzWXcHt8kFY0yCzsAFRSWQDO4=;
+ b=bO5BOXODJSbTHGeVtLDHJhZI69nxTrEo8qA8DvPnwDMt8JK+GAlb+X77YNKXYWCyNg
+ /aDUOI/cGjUsDk6Xz9gZQgd99p1pw2P3da3j/Kq7xCt+JXKdwYk6FSS7Yibr/tCwaEQC
+ 5tididTApX9vpJTXGbG8bdrN40DhD+sc6XfedwNynL2F6v46XWA8aeMbg9rKF8CAaM5D
+ S47Eok5RCG4bn+LpFRnBH3n/EVGJHP7AsYcYIdzOj5gDWbiuzhuCuoFPTTG6tve9TvXI
+ OUangWKTM2FFapIkkJQzFvoJdE2SbdfLtFMOLedY5HoFAh+fluUA+42FaHxDrlMGhaxk
+ uNpQ==
+X-Gm-Message-State: AOAM533iJvBtkE04dolK0EqefI4gAQG0x4DX7CXVCvaks8plBg9K5j0B
+ o1bSaZ4D7Br5gXPC5M0xPJgzp9e94f6jACfpgRE=
+X-Google-Smtp-Source: ABdhPJw3vp58xOFPyr8LaqrfcdlgU3M/tsl8g/ivvfCl2IHfL0ChTevo1cjWD04Ki9tNlDmkXZpRQ4IaZdylMzp4FH0=
+X-Received: by 2002:a1c:4406:: with SMTP id r6mr1525274wma.42.1640072469242;
+ Mon, 20 Dec 2021 23:41:09 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH] tests/qtest: Make the filter tests independent from a
- specific NIC
-To: "Zhang, Chen" <chen.zhang@intel.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Laurent Vivier <lvivier@redhat.com>
-References: <20211220103025.311759-1-thuth@redhat.com>
- <MWHPR11MB0031244B90C10F7E048744B29B7C9@MWHPR11MB0031.namprd11.prod.outlook.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <MWHPR11MB0031244B90C10F7E048744B29B7C9@MWHPR11MB0031.namprd11.prod.outlook.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -49
-X-Spam_score: -5.0
-X-Spam_bar: -----
-X-Spam_report: (-5.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.203,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.012, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20211219023006.124530-1-orzechowski.alexander@gmail.com>
+ <20211219023006.124530-3-orzechowski.alexander@gmail.com>
+In-Reply-To: <20211219023006.124530-3-orzechowski.alexander@gmail.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Tue, 21 Dec 2021 11:40:57 +0400
+Message-ID: <CAJ+F1CL4LxdbCOzt+uFTw_ggxQ+forzd7chDQRw8DMsc9EMamA@mail.gmail.com>
+Subject: Re: [PATCH 2/4] ui: Remove unnecessary checks
+To: Alexander Orzechowski <orzechowski.alexander@gmail.com>
+Content-Type: multipart/alternative; boundary="000000000000ef67fe05d3a320f9"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::330
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-wm1-x330.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,46 +79,196 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu trival <qemu-trivial@nongnu.org>, QEMU <qemu-devel@nongnu.org>,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 21/12/2021 07.38, Zhang, Chen wrote:
-> 
-> 
->> -----Original Message-----
->> From: Qemu-devel <qemu-devel-
->> bounces+chen.zhang=intel.com@nongnu.org> On Behalf Of Thomas Huth
->> Sent: Monday, December 20, 2021 6:30 PM
->> To: qemu-devel@nongnu.org; Laurent Vivier <lvivier@redhat.com>
->> Cc: Paolo Bonzini <pbonzini@redhat.com>; Yang Hongyang
->> <yanghy@cn.fujitsu.com>; Zhang Chen <zhangchen.fnst@cn.fujitsu.com>
->> Subject: [PATCH] tests/qtest: Make the filter tests independent from a
->> specific NIC
->>
->> These filter tests need a NIC, no matter which one, so they use a common
->> NIC by default. However, these common NIC models might not always have
->> been compiled into the QEMU target binary, so assuming that a certain NIC is
->> available is a bad idea. Since the exact type of NIC does not really matter for
->> these tests, let's switch to "-nic" instead of "-netdev" so that QEMU can
->> simply pick a default NIC for us.
->> This way we can now run the tests on other targets that have a default
->> machine with an on-board/default NIC, too.
->>
-> 
-> Oh, It's my and Hongyang's abandoned mailbox.
+--000000000000ef67fe05d3a320f9
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Sorry, I only looked at the top of the *.c files and copied the e-mail 
-address from there.
+Hi
 
-> Looks good to me.
+On Sun, Dec 19, 2021 at 6:32 AM Alexander Orzechowski <
+orzechowski.alexander@gmail.com> wrote:
 
-Thanks for the review!
+> These conditionals should never be false as scale_x and scale_y should
+> scale the fbw and fbh variables such that the ww and wh variables always
+> have a greater magnitude.
+>
+> Signed-off-by: Alexander Orzechowski <orzechowski.alexander@gmail.com>
+>
 
-> By the way, should I add the test/qtest/test-filter* to the MAINTAINER file?
+I don't understand how you reached that conclusion.
 
-That might be helpful indeed to get you CC:-ed correctly next time.
+scale_x/scale_y can have various values, from 0.25 manually, or pretty much
+anything in freescale.
 
-  Thomas
+Just adding a breakpoint/debug there and you can see they can be false.
 
+---
+>  ui/gtk.c | 27 ++++++---------------------
+>  1 file changed, 6 insertions(+), 21 deletions(-)
+>
+> diff --git a/ui/gtk.c b/ui/gtk.c
+> index 824334ff3d..f2d74b253d 100644
+> --- a/ui/gtk.c
+> +++ b/ui/gtk.c
+> @@ -416,13 +416,8 @@ static void gd_update(DisplayChangeListener *dcl,
+>      ww =3D gtk_widget_get_allocated_width(vc->gfx.drawing_area);
+>      wh =3D gtk_widget_get_allocated_height(vc->gfx.drawing_area);
+>
+> -    mx =3D my =3D 0;
+> -    if (ww > fbw) {
+> -        mx =3D (ww - fbw) / 2;
+> -    }
+> -    if (wh > fbh) {
+> -        my =3D (wh - fbh) / 2;
+> -    }
+> +    mx =3D (ww - fbw) / 2;
+> +    my =3D (wh - fbh) / 2;
+>
+>      gtk_widget_queue_draw_area(vc->gfx.drawing_area,
+>                                 mx + x1, my + y1, (x2 - x1), (y2 - y1));
+> @@ -801,13 +796,8 @@ static gboolean gd_draw_event(GtkWidget *widget,
+> cairo_t *cr, void *opaque)
+>      fbw *=3D vc->gfx.scale_x;
+>      fbh *=3D vc->gfx.scale_y;
+>
+> -    mx =3D my =3D 0;
+> -    if (ww > fbw) {
+> -        mx =3D (ww - fbw) / 2;
+> -    }
+> -    if (wh > fbh) {
+> -        my =3D (wh - fbh) / 2;
+> -    }
+> +    mx =3D (ww - fbw) / 2;
+> +    my =3D (wh - fbh) / 2;
+>
+>      cairo_rectangle(cr, 0, 0, ww, wh);
+>
+> @@ -850,13 +840,8 @@ static gboolean gd_motion_event(GtkWidget *widget,
+> GdkEventMotion *motion,
+>      ws =3D gdk_window_get_scale_factor(
+>              gtk_widget_get_window(vc->gfx.drawing_area));
+>
+> -    mx =3D my =3D 0;
+> -    if (ww > fbw) {
+> -        mx =3D (ww - fbw) / 2;
+> -    }
+> -    if (wh > fbh) {
+> -        my =3D (wh - fbh) / 2;
+> -    }
+> +    mx =3D (ww - fbw) / 2;
+> +    my =3D (wh - fbh) / 2;
+>
+>      x =3D (motion->x - mx) / vc->gfx.scale_x * ws;
+>      y =3D (motion->y - my) / vc->gfx.scale_y * ws;
+> --
+> 2.34.1
+>
+>
+>
+
+--=20
+Marc-Andr=C3=A9 Lureau
+
+--000000000000ef67fe05d3a320f9
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
+"><div dir=3D"ltr" class=3D"gmail_attr">On Sun, Dec 19, 2021 at 6:32 AM Ale=
+xander Orzechowski &lt;<a href=3D"mailto:orzechowski.alexander@gmail.com">o=
+rzechowski.alexander@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D=
+"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(2=
+04,204,204);padding-left:1ex">These conditionals should never be false as s=
+cale_x and scale_y should<br>
+scale the fbw and fbh variables such that the ww and wh variables always<br=
+>
+have a greater magnitude.<br>
+<br>
+Signed-off-by: Alexander Orzechowski &lt;<a href=3D"mailto:orzechowski.alex=
+ander@gmail.com" target=3D"_blank">orzechowski.alexander@gmail.com</a>&gt;<=
+br></blockquote><div><br></div><div>I don&#39;t understand how you reached =
+that conclusion.</div><div><br></div><div>scale_x/scale_y can have various =
+values, from 0.25 manually, or pretty much anything in freescale.</div><div=
+><br></div><div>Just adding a breakpoint/debug there and you can see they c=
+an be false.</div><div><br></div><blockquote class=3D"gmail_quote" style=3D=
+"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-le=
+ft:1ex">
+---<br>
+=C2=A0ui/gtk.c | 27 ++++++---------------------<br>
+=C2=A01 file changed, 6 insertions(+), 21 deletions(-)<br>
+<br>
+diff --git a/ui/gtk.c b/ui/gtk.c<br>
+index 824334ff3d..f2d74b253d 100644<br>
+--- a/ui/gtk.c<br>
++++ b/ui/gtk.c<br>
+@@ -416,13 +416,8 @@ static void gd_update(DisplayChangeListener *dcl,<br>
+=C2=A0 =C2=A0 =C2=A0ww =3D gtk_widget_get_allocated_width(vc-&gt;gfx.drawin=
+g_area);<br>
+=C2=A0 =C2=A0 =C2=A0wh =3D gtk_widget_get_allocated_height(vc-&gt;gfx.drawi=
+ng_area);<br>
+<br>
+-=C2=A0 =C2=A0 mx =3D my =3D 0;<br>
+-=C2=A0 =C2=A0 if (ww &gt; fbw) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 mx =3D (ww - fbw) / 2;<br>
+-=C2=A0 =C2=A0 }<br>
+-=C2=A0 =C2=A0 if (wh &gt; fbh) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 my =3D (wh - fbh) / 2;<br>
+-=C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 mx =3D (ww - fbw) / 2;<br>
++=C2=A0 =C2=A0 my =3D (wh - fbh) / 2;<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0gtk_widget_queue_draw_area(vc-&gt;gfx.drawing_area,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 mx + x1, my + y1, (x2 - x1), (y2 - y=
+1));<br>
+@@ -801,13 +796,8 @@ static gboolean gd_draw_event(GtkWidget *widget, cairo=
+_t *cr, void *opaque)<br>
+=C2=A0 =C2=A0 =C2=A0fbw *=3D vc-&gt;gfx.scale_x;<br>
+=C2=A0 =C2=A0 =C2=A0fbh *=3D vc-&gt;gfx.scale_y;<br>
+<br>
+-=C2=A0 =C2=A0 mx =3D my =3D 0;<br>
+-=C2=A0 =C2=A0 if (ww &gt; fbw) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 mx =3D (ww - fbw) / 2;<br>
+-=C2=A0 =C2=A0 }<br>
+-=C2=A0 =C2=A0 if (wh &gt; fbh) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 my =3D (wh - fbh) / 2;<br>
+-=C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 mx =3D (ww - fbw) / 2;<br>
++=C2=A0 =C2=A0 my =3D (wh - fbh) / 2;<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0cairo_rectangle(cr, 0, 0, ww, wh);<br>
+<br>
+@@ -850,13 +840,8 @@ static gboolean gd_motion_event(GtkWidget *widget, Gdk=
+EventMotion *motion,<br>
+=C2=A0 =C2=A0 =C2=A0ws =3D gdk_window_get_scale_factor(<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0gtk_widget_get_window(vc-&g=
+t;gfx.drawing_area));<br>
+<br>
+-=C2=A0 =C2=A0 mx =3D my =3D 0;<br>
+-=C2=A0 =C2=A0 if (ww &gt; fbw) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 mx =3D (ww - fbw) / 2;<br>
+-=C2=A0 =C2=A0 }<br>
+-=C2=A0 =C2=A0 if (wh &gt; fbh) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 my =3D (wh - fbh) / 2;<br>
+-=C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 mx =3D (ww - fbw) / 2;<br>
++=C2=A0 =C2=A0 my =3D (wh - fbh) / 2;<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0x =3D (motion-&gt;x - mx) / vc-&gt;gfx.scale_x * ws;<br=
+>
+=C2=A0 =C2=A0 =C2=A0y =3D (motion-&gt;y - my) / vc-&gt;gfx.scale_y * ws;<br=
+>
+-- <br>
+2.34.1<br>
+<br>
+<br>
+</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
+mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
+
+--000000000000ef67fe05d3a320f9--
 
