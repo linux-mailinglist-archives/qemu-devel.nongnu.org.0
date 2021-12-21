@@ -2,77 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9358247BDB5
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Dec 2021 10:50:08 +0100 (CET)
-Received: from localhost ([::1]:42610 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4CFE47BDEF
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Dec 2021 11:12:22 +0100 (CET)
+Received: from localhost ([::1]:51410 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mzbmZ-0001Js-Cv
-	for lists+qemu-devel@lfdr.de; Tue, 21 Dec 2021 04:50:07 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59520)
+	id 1mzc85-0008Cy-Id
+	for lists+qemu-devel@lfdr.de; Tue, 21 Dec 2021 05:12:21 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34574)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1mzblG-0000cs-Db
- for qemu-devel@nongnu.org; Tue, 21 Dec 2021 04:48:46 -0500
-Received: from smtp-out2.suse.de ([195.135.220.29]:33090)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1mzblE-0004Jj-Kz
- for qemu-devel@nongnu.org; Tue, 21 Dec 2021 04:48:46 -0500
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id B54F41F3A6;
- Tue, 21 Dec 2021 09:48:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1640080121; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=AVwuqnDtkJzQ0w1pl+9OwwW2fyKRFrI+gJf1ZVsVA84=;
- b=qpHLErM1AhGJ6WC35BnDk5nqUkLYG7QG7fHvfzq9aD9rM2yuSePE6KgtD1g9Vm54k7QDgP
- hEO4dxybi79S9vR+G7z1MC3jvRtmkwStM2I+EmEqZuiAxMu5UGOfk3iRECFxMm3/d4BOPo
- iRW9fcGKKfcuhDI04StsUxD2xD277qk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1640080121;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=AVwuqnDtkJzQ0w1pl+9OwwW2fyKRFrI+gJf1ZVsVA84=;
- b=DvNdqSA96aIRnXOcYrf6t5kdgRoqMO/rx/zR6pynyiajZDhqZf0FFIFNp0Ir9yWYJ5Aw0F
- hRxBzI3b7w5xRLBQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 7A9F513A5F;
- Tue, 21 Dec 2021 09:48:41 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id oyIDHPmiwWFHTAAAMHmgww
- (envelope-from <cfontana@suse.de>); Tue, 21 Dec 2021 09:48:41 +0000
-Subject: Re: [PATCH] scsi-generic: replace logical block count of response of
- READ CAPACITY
-To: pbonzini@redhat.com, fam@euphon.net
-References: <20211120101512.7770-1-lma@suse.com>
-From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <8ac2bf20-1dc4-7153-4287-ca01bd84d213@suse.de>
-Date: Tue, 21 Dec 2021 10:48:41 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
-MIME-Version: 1.0
-In-Reply-To: <20211120101512.7770-1-lma@suse.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.29; envelope-from=cfontana@suse.de;
- helo=smtp-out2.suse.de
-X-Spam_score_int: -63
-X-Spam_score: -6.4
-X-Spam_bar: ------
-X-Spam_report: (-6.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.012,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <gceq-qemu-devel2@m.gmane-mx.org>)
+ id 1mzc5x-0006U0-F4
+ for qemu-devel@nongnu.org; Tue, 21 Dec 2021 05:10:11 -0500
+Received: from ciao.gmane.io ([116.202.254.214]:49712)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <gceq-qemu-devel2@m.gmane-mx.org>)
+ id 1mzc5v-0006ca-Tm
+ for qemu-devel@nongnu.org; Tue, 21 Dec 2021 05:10:09 -0500
+Received: from list by ciao.gmane.io with local (Exim 4.92)
+ (envelope-from <gceq-qemu-devel2@m.gmane-mx.org>) id 1mzc5q-0001Tm-18
+ for qemu-devel@nongnu.org; Tue, 21 Dec 2021 11:10:02 +0100
+X-Injected-Via-Gmane: http://gmane.org/
+To: qemu-devel@nongnu.org
+From: David Edmondson <david.edmondson@oracle.com>
+Subject: Re: [PATCH v2 6/8] migration: Dump sub-cmd name in
+ loadvm_process_command tp
+Date: Tue, 21 Dec 2021 10:08:24 +0000
+Message-ID: <cun35mmmfs7.fsf@oracle.com>
+References: <20211220085355.2284-1-peterx@redhat.com>
+ <20211220085355.2284-7-peterx@redhat.com>
+Mime-Version: 1.0
+Content-Type: text/plain
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/29.0.50 (gnu/linux)
+Cancel-Lock: sha1:nxBA33mjU86jPMYGNlgde08sw9M=
+Received-SPF: pass client-ip=116.202.254.214;
+ envelope-from=gceq-qemu-devel2@m.gmane-mx.org; helo=ciao.gmane.io
+X-Spam_score_int: -15
+X-Spam_score: -1.6
+X-Spam_bar: -
+X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,143 +55,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Hannes Reinecke <hare@suse.com>, qemu-devel@nongnu.org,
- Lin Ma <lma@suse.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Paolo, Hannes,
+On Monday, 2021-12-20 at 16:53:53 +08, Peter Xu wrote:
 
-any thoughts on the following issue?
-
-Introduction:
-
-When using SAN storage for providing block devices to guests, configured as SCSI-passthrough devices, increasing the space available in the VM is a use case.
-
-To do it, it is currently necessary to:
-
-1) expand storage on the actual SAN,
-2) run a "virsh blockresize" or equivalent command to make QEMU aware of the new size, and finally
-3) do a "rescan-scsi-bus.sh" or equivalent operation in the guest to make the running guest aware of the increased disk size.
-
-The problem:
-
-As of now, the administrator needs to make sure that step 3 won't be done before step 2 has been executed, or the resulting state will be inconsistent.
-In practice this creates organizational issues to try to sync up host/storage admins and guest OS admin, and is therefore error prone (due to these human factors).
-
-The proposal:
-
-The patch I replied to here from Ma Lin tries to avoid the inconsistent state, by having "rescan-scsi-bus.sh" still report the old size in the guest until QEMU itself is aware of the new disk size.
-
-The patch:
-
-Before the patch, the SCSI READ_CAPACITY command in the guest os directly receives the unmodified response from the storage backend.
-
-After the patch, QEMU intercepts the READ_CAPACITY response and replaces the maximum LBA with the information which is saved in QEMU.
-
-This means: after resizing the storage on the SAN backend, the host administrator must explicitly notify about CAPACITY HAS CHANGED by issuing a block resize command through QMP or libvirt,
-even for SCSI passthrough disks.
-
-Any ideas on this patch or on possible alternatives?
-
-Thanks,
-
-Claudio
-
-
-On 11/20/21 11:15 AM, Lin Ma wrote:
-> While using SCSI passthrough, Following scenario makes qemu doesn't
-> realized the capacity change of remote scsi target:
-> 1. online resize the scsi target.
-> 2. issue 'rescan-scsi-bus.sh -s ...' in host.
-> 3. issue 'rescan-scsi-bus.sh -s ...' in vm.
-> 
-> In above scenario I used to experienced errors while accessing the
-> additional disk space in vm. I think the reasonable operations should
-> be:
-> 1. online resize the scsi target.
-> 2. issue 'rescan-scsi-bus.sh -s ...' in host.
-> 3. issue 'block_resize' via qmp to notify qemu.
-> 4. issue 'rescan-scsi-bus.sh -s ...' in vm.
-> 
-> The errors disappear once I notify qemu by block_resize via qmp.
-> 
-> So this patch replaces the number of logical blocks of READ CAPACITY
-> response from scsi target by qemu's bs->total_sectors. If the user in
-> vm wants to access the additional disk space, The administrator of
-> host must notify qemu once resizeing the scsi target.
-> 
-> Bonus is that domblkinfo of libvirt can reflect the consistent capacity
-> information between host and vm in case of missing block_resize in qemu.
-> E.g:
-> ...
->     <disk type='block' device='lun'>
->       <driver name='qemu' type='raw'/>
->       <source dev='/dev/sdc' index='1'/>
->       <backingStore/>
->       <target dev='sda' bus='scsi'/>
->       <alias name='scsi0-0-0-0'/>
->       <address type='drive' controller='0' bus='0' target='0' unit='0'/>
->     </disk>
-> ...
-> 
-> Before:
-> 1. online resize the scsi target.
-> 2. host:~  # rescan-scsi-bus.sh -s /dev/sdc
-> 3. guest:~ # rescan-scsi-bus.sh -s /dev/sda
-> 4  host:~  # virsh domblkinfo --domain $DOMAIN --human --device sda
-> Capacity:       4.000 GiB
-> Allocation:     0.000 B
-> Physical:       8.000 GiB
-> 
-> 5. guest:~ # lsblk /dev/sda
-> NAME   MAJ:MIN RM SIZE RO TYPE MOUNTPOINT
-> sda      8:0    0   8G  0 disk
-> └─sda1   8:1    0   2G  0 part
-> 
-> After:
-> 1. online resize the scsi target.
-> 2. host:~  # rescan-scsi-bus.sh -s /dev/sdc
-> 3. guest:~ # rescan-scsi-bus.sh -s /dev/sda
-> 4  host:~  # virsh domblkinfo --domain $DOMAIN --human --device sda
-> Capacity:       4.000 GiB
-> Allocation:     0.000 B
-> Physical:       8.000 GiB
-> 
-> 5. guest:~ # lsblk /dev/sda
-> NAME   MAJ:MIN RM SIZE RO TYPE MOUNTPOINT
-> sda      8:0    0   4G  0 disk
-> └─sda1   8:1    0   2G  0 part
-> 
-> Signed-off-by: Lin Ma <lma@suse.com>
+> It'll be easier to read the name rather than index of sub-cmd when debugging.
+>
+> Signed-off-by: Peter Xu <peterx@redhat.com>
 > ---
->  hw/scsi/scsi-generic.c | 10 ++++++++--
->  1 file changed, 8 insertions(+), 2 deletions(-)
-> 
-> diff --git a/hw/scsi/scsi-generic.c b/hw/scsi/scsi-generic.c
-> index 0306ccc7b1..343b51c2c0 100644
-> --- a/hw/scsi/scsi-generic.c
-> +++ b/hw/scsi/scsi-generic.c
-> @@ -315,11 +315,17 @@ static void scsi_read_complete(void * opaque, int ret)
->      if (r->req.cmd.buf[0] == READ_CAPACITY_10 &&
->          (ldl_be_p(&r->buf[0]) != 0xffffffffU || s->max_lba == 0)) {
->          s->blocksize = ldl_be_p(&r->buf[4]);
-> -        s->max_lba = ldl_be_p(&r->buf[0]) & 0xffffffffULL;
-> +        BlockBackend *blk = s->conf.blk;
-> +        BlockDriverState *bs = blk_bs(blk);
-> +        s->max_lba = bs->total_sectors - 1;
-> +        stl_be_p(&r->buf[0], s->max_lba);
->      } else if (r->req.cmd.buf[0] == SERVICE_ACTION_IN_16 &&
->                 (r->req.cmd.buf[1] & 31) == SAI_READ_CAPACITY_16) {
->          s->blocksize = ldl_be_p(&r->buf[8]);
-> -        s->max_lba = ldq_be_p(&r->buf[0]);
-> +        BlockBackend *blk = s->conf.blk;
-> +        BlockDriverState *bs = blk_bs(blk);
-> +        s->max_lba = bs->total_sectors - 1;
-> +        stq_be_p(&r->buf[0], s->max_lba);
+>  migration/savevm.c     | 3 ++-
+>  migration/trace-events | 2 +-
+>  2 files changed, 3 insertions(+), 2 deletions(-)
+>
+> diff --git a/migration/savevm.c b/migration/savevm.c
+> index 0bef031acb..7f7af6f750 100644
+> --- a/migration/savevm.c
+> +++ b/migration/savevm.c
+> @@ -2272,12 +2272,13 @@ static int loadvm_process_command(QEMUFile *f)
+>          return qemu_file_get_error(f);
 >      }
->      blk_set_guest_block_size(s->conf.blk, s->blocksize);
->  
-> 
+>
+> -    trace_loadvm_process_command(cmd, len);
+>      if (cmd >= MIG_CMD_MAX || cmd == MIG_CMD_INVALID) {
+>          error_report("MIG_CMD 0x%x unknown (len 0x%x)", cmd, len);
+>          return -EINVAL;
+>      }
+>
+> +    trace_loadvm_process_command(mig_cmd_args[cmd].name, len);
+> +
+>      if (mig_cmd_args[cmd].len != -1 && mig_cmd_args[cmd].len != len) {
+>          error_report("%s received with bad length - expecting %zu, got %d",
+>                       mig_cmd_args[cmd].name,
+> diff --git a/migration/trace-events b/migration/trace-events
+> index b48d873b8a..d63a5915f5 100644
+> --- a/migration/trace-events
+> +++ b/migration/trace-events
+> @@ -22,7 +22,7 @@ loadvm_postcopy_handle_resume(void) ""
+>  loadvm_postcopy_ram_handle_discard(void) ""
+>  loadvm_postcopy_ram_handle_discard_end(void) ""
+>  loadvm_postcopy_ram_handle_discard_header(const char *ramid, uint16_t len) "%s: %ud"
+> -loadvm_process_command(uint16_t com, uint16_t len) "com=0x%x len=%d"
+> +loadvm_process_command(const char *s, uint16_t len) "com=%s len=%d"
+
+"cmd" rather than "com", to match the code.
+
+>  loadvm_process_command_ping(uint32_t val) "0x%x"
+>  postcopy_ram_listen_thread_exit(void) ""
+>  postcopy_ram_listen_thread_start(void) ""
+
+dme.
+-- 
+I went starin' out of my window, been caught doin' it once or twice.
 
 
