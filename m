@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 560D647C430
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Dec 2021 17:51:08 +0100 (CET)
-Received: from localhost ([::1]:41788 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00F9147C448
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Dec 2021 17:58:05 +0100 (CET)
+Received: from localhost ([::1]:58534 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mziLz-0002uq-GD
-	for lists+qemu-devel@lfdr.de; Tue, 21 Dec 2021 11:51:07 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55774)
+	id 1mziSi-0005rx-1d
+	for lists+qemu-devel@lfdr.de; Tue, 21 Dec 2021 11:58:04 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55728)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mziIs-00005Y-Pt
- for qemu-devel@nongnu.org; Tue, 21 Dec 2021 11:47:54 -0500
-Received: from [2607:f8b0:4864:20::102d] (port=52974
- helo=mail-pj1-x102d.google.com)
+ id 1mziIr-0008Rl-LI
+ for qemu-devel@nongnu.org; Tue, 21 Dec 2021 11:47:53 -0500
+Received: from [2607:f8b0:4864:20::630] (port=34685
+ helo=mail-pl1-x630.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mziIo-0007bA-Oa
- for qemu-devel@nongnu.org; Tue, 21 Dec 2021 11:47:54 -0500
-Received: by mail-pj1-x102d.google.com with SMTP id co15so13019696pjb.2
- for <qemu-devel@nongnu.org>; Tue, 21 Dec 2021 08:47:46 -0800 (PST)
+ id 1mziIo-0007cP-Of
+ for qemu-devel@nongnu.org; Tue, 21 Dec 2021 11:47:53 -0500
+Received: by mail-pl1-x630.google.com with SMTP id x15so10792581plg.1
+ for <qemu-devel@nongnu.org>; Tue, 21 Dec 2021 08:47:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=zUDP7FmcR1rHD0pS6HJ64HKaD5yQmCsg2nMq4yKO5cY=;
- b=VvxR0yI78aINeYBYI8Fwm3IgvypmRxbbe4JcW/IuYtTKRQvmJTxCYoE4vKePPcmBJS
- hZ3/feiJWiWg+MRjhRE18tF8sId+dJIamtL4Vb+n9tQDbjj4JVT3eySfb4eBwMlWmny+
- 6JgzFAADuEGVtpkF94ztTTXtF6qIMJyGQoWz98w2iHXdmmhhhMEXBqBzV8rPwx/GmxSe
- 5+I8iVcRHIt7bwWUPWBIx5BGMoZ1NkhTvyvVoUr1XB1rbZwaO8DUB6VPfL4Q7QNBWJ9b
- iF45sm/qvn7C2zdkvj6olL6eiyJZBwHEvdMMhj8kkhTSnt9tikOQTgvWWp7xfLPi86Mb
- t2BA==
+ bh=/xVyuuUpWpjZuLGW0kevSwG/8cAXGRFDzbVxjAUHy5Q=;
+ b=yx9SWpXrU71kdtl4gOausxcn/zMLK0ZX4VO7pLYXC5BZXwsb1FN/IGrzZaLNtBwgVO
+ jcNURXcAvB+BukvlxPa5TbbvyQuoOKaCWf10PX5uP89HPv6ZzFsP9Q7Kd70zV4yBGXw5
+ c44kIh2k2tOrFkQ79Z49l6noxvEiHjtiMQs5MCGmOX5YWHSYvG8t2RmvvhyTfJ7jfcIl
+ ILgLjUOEed00JSyCZeIvpF7T2ZuyhDXeU4p00IwISBoqna7k1uUqKLUs1lP0QINwQrHW
+ lJVajyKO8kZxQbccE1EH/6bthz2f1T5WR3J8ZrzqLV0QRxSV4qGDw53CcefOd5+j0Cfe
+ LdeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=zUDP7FmcR1rHD0pS6HJ64HKaD5yQmCsg2nMq4yKO5cY=;
- b=aVNfh+TzLwf5oqWKnvR1Z4K+N/ViSBBsdVEjZeXjh1GZk6nBDjxe1GhLsjVy6p3+mP
- dyeHDNwp0InvkGjIa39VHy5I/CxKwHPCTiMxRaGszEp6CK88ymIBU/Pk8Fi7eRt8sktj
- 8SBhvnmP9LiswZ2iyhabgz/s/sL7vgnyTzKCJg6Ce39qlgBhuAmuoNbiAJM5zB8UFrTQ
- si5IHozMT7Wzq9BpeSWAEb4pMU+XuHUJSd8fOZdH4U3K4ask6v76oWC0mUZuS3ZaAhya
- rU+dQjzMYRtQX4UCNfVm4pb5SeOQK9UNdMP1dgjiNeY8G6ArgiVVimwaqlqkCK0Crvfm
- UI8w==
-X-Gm-Message-State: AOAM532iucpHOFX8Ubui66xL3AwBeaDPbrzPTPDcd8KDSWnn6CXNLJjW
- r0/HHHJHVqLM80BtlZYwM4NW6bAuv9D2uA==
-X-Google-Smtp-Source: ABdhPJylWwXuwRvrRC7PTr8dZG0ZsdEjtu4UflJ6S3f1vuXwJgHaK9CANvDs6UhVaSK4j+OneqXkTw==
-X-Received: by 2002:a17:902:c193:b0:149:b6f:4e65 with SMTP id
- d19-20020a170902c19300b001490b6f4e65mr3871039pld.81.1640105265693; 
- Tue, 21 Dec 2021 08:47:45 -0800 (PST)
+ bh=/xVyuuUpWpjZuLGW0kevSwG/8cAXGRFDzbVxjAUHy5Q=;
+ b=VJoENWopqiCbKhwK8YxBZD6c0VVPeUr2jt2BP5m9BV0za4lZU7XYH4RuhStmEwWP5Q
+ NPoGX/UkupDEmp5SYy0JmGAX1sYsdEMI6vAz25qMe9Zc8fTwSD39VNsUCNGGXYmAySOf
+ Wx8b+KpPiLLLe1JS61TiFkECSJ7Pn5Z8BB3rWu0jyU+VgSNCx048SeWsneOw8Wxgf+wf
+ tzXh/kIzCvrgK/UJznqY9+O6ClfNJa6p2T2Ns1cM+w7tT11+vtXs21D6aAB5x+I+UV1/
+ LmOTDgDbK0hF1bhRK8suKXl52cvsStexmM9VczoDGMcIGfhLGoqbFrGj/+K9WnngoELP
+ sIGQ==
+X-Gm-Message-State: AOAM5320M3CCTGIym4orbE4M7+xyZ0MP/50MYg3HX8u+H+6RKNUKGGZM
+ vp6ZQgi/FbChLbjnyZc5I1EDbuXUG51QmQ==
+X-Google-Smtp-Source: ABdhPJzXJT4OsYkVJL5zwdswxi1wjE3Cski4jry0aDmbmjUR3RcvebqVrMEOlxlS6LcruM5UGP3pHg==
+X-Received: by 2002:a17:902:8544:b0:148:fef0:5736 with SMTP id
+ d4-20020a170902854400b00148fef05736mr4175790plo.154.1640105267487; 
+ Tue, 21 Dec 2021 08:47:47 -0800 (PST)
 Received: from localhost.localdomain ([156.19.246.20])
- by smtp.gmail.com with ESMTPSA id b192sm2256818pga.35.2021.12.21.08.47.45
+ by smtp.gmail.com with ESMTPSA id b192sm2256818pga.35.2021.12.21.08.47.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Dec 2021 08:47:45 -0800 (PST)
+ Tue, 21 Dec 2021 08:47:47 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 07/31] tcg/loongarch64: Implement necessary relocation
- operations
-Date: Tue, 21 Dec 2021 08:47:13 -0800
-Message-Id: <20211221164737.1076007-8-richard.henderson@linaro.org>
+Subject: [PULL 09/31] tcg/loongarch64: Implement tcg_out_mov and tcg_out_movi
+Date: Tue, 21 Dec 2021 08:47:15 -0800
+Message-Id: <20211221164737.1076007-10-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211221164737.1076007-1-richard.henderson@linaro.org>
 References: <20211221164737.1076007-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102d
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::630
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x630.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -98,86 +97,167 @@ From: WANG Xuerui <git@xen0n.name>
 Signed-off-by: WANG Xuerui <git@xen0n.name>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20211221054105.178795-8-git@xen0n.name>
+Message-Id: <20211221054105.178795-10-git@xen0n.name>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/loongarch64/tcg-target.c.inc | 66 ++++++++++++++++++++++++++++++++
- 1 file changed, 66 insertions(+)
+ tcg/loongarch64/tcg-target.c.inc | 137 +++++++++++++++++++++++++++++++
+ 1 file changed, 137 insertions(+)
 
 diff --git a/tcg/loongarch64/tcg-target.c.inc b/tcg/loongarch64/tcg-target.c.inc
-index 1c1b798c06..a88ba9a253 100644
+index 615bed9096..bb45ea0fcf 100644
 --- a/tcg/loongarch64/tcg-target.c.inc
 +++ b/tcg/loongarch64/tcg-target.c.inc
-@@ -168,3 +168,69 @@ static bool tcg_target_const_match(int64_t val, TCGType type, int ct)
-     }
-     return false;
+@@ -247,6 +247,141 @@ static void tcg_out_mb(TCGContext *s, TCGArg a0)
+     tcg_out_opc_dbar(s, 0);
  }
-+
-+/*
-+ * Relocations
-+ */
-+
-+/*
-+ * Relocation records defined in LoongArch ELF psABI v1.00 is way too
-+ * complicated; a whopping stack machine is needed to stuff the fields, at
-+ * the very least one SOP_PUSH and one SOP_POP (of the correct format) are
-+ * needed.
-+ *
-+ * Hence, define our own simpler relocation types. Numbers are chosen as to
-+ * not collide with potential future additions to the true ELF relocation
-+ * type enum.
-+ */
-+
-+/* Field Sk16, shifted right by 2; suitable for conditional jumps */
-+#define R_LOONGARCH_BR_SK16     256
-+/* Field Sd10k16, shifted right by 2; suitable for B and BL */
-+#define R_LOONGARCH_BR_SD10K16  257
-+
-+static bool reloc_br_sk16(tcg_insn_unit *src_rw, const tcg_insn_unit *target)
+ 
++static bool tcg_out_mov(TCGContext *s, TCGType type, TCGReg ret, TCGReg arg)
 +{
-+    const tcg_insn_unit *src_rx = tcg_splitwx_to_rx(src_rw);
-+    intptr_t offset = (intptr_t)target - (intptr_t)src_rx;
-+
-+    tcg_debug_assert((offset & 3) == 0);
-+    offset >>= 2;
-+    if (offset == sextreg(offset, 0, 16)) {
-+        *src_rw = deposit64(*src_rw, 10, 16, offset);
++    if (ret == arg) {
 +        return true;
 +    }
-+
-+    return false;
-+}
-+
-+static bool reloc_br_sd10k16(tcg_insn_unit *src_rw,
-+                             const tcg_insn_unit *target)
-+{
-+    const tcg_insn_unit *src_rx = tcg_splitwx_to_rx(src_rw);
-+    intptr_t offset = (intptr_t)target - (intptr_t)src_rx;
-+
-+    tcg_debug_assert((offset & 3) == 0);
-+    offset >>= 2;
-+    if (offset == sextreg(offset, 0, 26)) {
-+        *src_rw = deposit64(*src_rw, 0, 10, offset >> 16); /* slot d10 */
-+        *src_rw = deposit64(*src_rw, 10, 16, offset); /* slot k16 */
-+        return true;
-+    }
-+
-+    return false;
-+}
-+
-+static bool patch_reloc(tcg_insn_unit *code_ptr, int type,
-+                        intptr_t value, intptr_t addend)
-+{
-+    tcg_debug_assert(addend == 0);
 +    switch (type) {
-+    case R_LOONGARCH_BR_SK16:
-+        return reloc_br_sk16(code_ptr, (tcg_insn_unit *)value);
-+    case R_LOONGARCH_BR_SD10K16:
-+        return reloc_br_sd10k16(code_ptr, (tcg_insn_unit *)value);
++    case TCG_TYPE_I32:
++    case TCG_TYPE_I64:
++        /*
++         * Conventional register-register move used in LoongArch is
++         * `or dst, src, zero`.
++         */
++        tcg_out_opc_or(s, ret, arg, TCG_REG_ZERO);
++        break;
 +    default:
 +        g_assert_not_reached();
 +    }
++    return true;
 +}
++
++static bool imm_part_needs_loading(bool high_bits_are_ones,
++                                   tcg_target_long part)
++{
++    if (high_bits_are_ones) {
++        return part != -1;
++    } else {
++        return part != 0;
++    }
++}
++
++/* Loads a 32-bit immediate into rd, sign-extended.  */
++static void tcg_out_movi_i32(TCGContext *s, TCGReg rd, int32_t val)
++{
++    tcg_target_long lo = sextreg(val, 0, 12);
++    tcg_target_long hi12 = sextreg(val, 12, 20);
++
++    /* Single-instruction cases.  */
++    if (lo == val) {
++        /* val fits in simm12: addi.w rd, zero, val */
++        tcg_out_opc_addi_w(s, rd, TCG_REG_ZERO, val);
++        return;
++    }
++    if (0x800 <= val && val <= 0xfff) {
++        /* val fits in uimm12: ori rd, zero, val */
++        tcg_out_opc_ori(s, rd, TCG_REG_ZERO, val);
++        return;
++    }
++
++    /* High bits must be set; load with lu12i.w + optional ori.  */
++    tcg_out_opc_lu12i_w(s, rd, hi12);
++    if (lo != 0) {
++        tcg_out_opc_ori(s, rd, rd, lo & 0xfff);
++    }
++}
++
++static void tcg_out_movi(TCGContext *s, TCGType type, TCGReg rd,
++                         tcg_target_long val)
++{
++    /*
++     * LoongArch conventionally loads 64-bit immediates in at most 4 steps,
++     * with dedicated instructions for filling the respective bitfields
++     * below:
++     *
++     *        6                   5                   4               3
++     *  3 2 1 0 9 8 7 6 5 4 3 2 1 0 9 8 7 6 5 4 3 2 1 0 9 8 7 6 5 4 3 2
++     * +-----------------------+---------------------------------------+...
++     * |          hi52         |                  hi32                 |
++     * +-----------------------+---------------------------------------+...
++     *       3                   2                   1
++     *     1 0 9 8 7 6 5 4 3 2 1 0 9 8 7 6 5 4 3 2 1 0 9 8 7 6 5 4 3 2 1 0
++     * ...+-------------------------------------+-------------------------+
++     *    |                 hi12                |            lo           |
++     * ...+-------------------------------------+-------------------------+
++     *
++     * Check if val belong to one of the several fast cases, before falling
++     * back to the slow path.
++     */
++
++    intptr_t pc_offset;
++    tcg_target_long val_lo, val_hi, pc_hi, offset_hi;
++    tcg_target_long hi32, hi52;
++    bool rd_high_bits_are_ones;
++
++    /* Value fits in signed i32.  */
++    if (type == TCG_TYPE_I32 || val == (int32_t)val) {
++        tcg_out_movi_i32(s, rd, val);
++        return;
++    }
++
++    /* PC-relative cases.  */
++    pc_offset = tcg_pcrel_diff(s, (void *)val);
++    if (pc_offset == sextreg(pc_offset, 0, 22) && (pc_offset & 3) == 0) {
++        /* Single pcaddu2i.  */
++        tcg_out_opc_pcaddu2i(s, rd, pc_offset >> 2);
++        return;
++    }
++
++    if (pc_offset == (int32_t)pc_offset) {
++        /* Offset within 32 bits; load with pcalau12i + ori.  */
++        val_lo = sextreg(val, 0, 12);
++        val_hi = val >> 12;
++        pc_hi = (val - pc_offset) >> 12;
++        offset_hi = val_hi - pc_hi;
++
++        tcg_debug_assert(offset_hi == sextreg(offset_hi, 0, 20));
++        tcg_out_opc_pcalau12i(s, rd, offset_hi);
++        if (val_lo != 0) {
++            tcg_out_opc_ori(s, rd, rd, val_lo & 0xfff);
++        }
++        return;
++    }
++
++    hi32 = sextreg(val, 32, 20);
++    hi52 = sextreg(val, 52, 12);
++
++    /* Single cu52i.d case.  */
++    if (ctz64(val) >= 52) {
++        tcg_out_opc_cu52i_d(s, rd, TCG_REG_ZERO, hi52);
++        return;
++    }
++
++    /* Slow path.  Initialize the low 32 bits, then concat high bits.  */
++    tcg_out_movi_i32(s, rd, val);
++    rd_high_bits_are_ones = (int32_t)val < 0;
++
++    if (imm_part_needs_loading(rd_high_bits_are_ones, hi32)) {
++        tcg_out_opc_cu32i_d(s, rd, hi32);
++        rd_high_bits_are_ones = hi32 < 0;
++    }
++
++    if (imm_part_needs_loading(rd_high_bits_are_ones, hi52)) {
++        tcg_out_opc_cu52i_d(s, rd, rd, hi52);
++    }
++}
++
+ /*
+  * Entry-points
+  */
+@@ -262,6 +397,8 @@ static void tcg_out_op(TCGContext *s, TCGOpcode opc,
+         tcg_out_mb(s, a0);
+         break;
+ 
++    case INDEX_op_mov_i32:  /* Always emitted via tcg_out_mov.  */
++    case INDEX_op_mov_i64:
+     default:
+         g_assert_not_reached();
+     }
 -- 
 2.25.1
 
