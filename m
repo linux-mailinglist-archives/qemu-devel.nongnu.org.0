@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B92D47BB17
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Dec 2021 08:32:30 +0100 (CET)
-Received: from localhost ([::1]:34080 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74B5947BB3A
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Dec 2021 08:39:56 +0100 (CET)
+Received: from localhost ([::1]:45836 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mzZdM-0002nE-VN
-	for lists+qemu-devel@lfdr.de; Tue, 21 Dec 2021 02:32:29 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58788)
+	id 1mzZkZ-0002zE-6F
+	for lists+qemu-devel@lfdr.de; Tue, 21 Dec 2021 02:39:55 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58870)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1mzZCU-00074z-0O
- for qemu-devel@nongnu.org; Tue, 21 Dec 2021 02:04:42 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52059)
+ id 1mzZD1-00088D-RF
+ for qemu-devel@nongnu.org; Tue, 21 Dec 2021 02:05:17 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:41928)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1mzZCS-0002B0-Cj
- for qemu-devel@nongnu.org; Tue, 21 Dec 2021 02:04:41 -0500
+ id 1mzZCx-0002DB-Je
+ for qemu-devel@nongnu.org; Tue, 21 Dec 2021 02:05:13 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1640070279;
+ s=mimecast20190719; t=1640070310;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=W83hJczpdfh86fBAKy4JOQvlGl9mojfK61ERS47j030=;
- b=i1Ggu14Uq3i2935PZkAVMg9kprCHDTS73h+ewrewdfL/8zYNp/H+M1Zf2DtxZuQPStTvLm
- CBG8p9GhtjqRMdd8w5VYuPepxf2bMugosHGzidkkkn6sKCi9W0Abn7dvOGd3Bn8yJ9Iug8
- mKE0reV9iPjsd59T4y/OgBKoeIZyD+w=
+ bh=vSG78TuWGCC1NmuFibw5NVJmoaUqphOLxLa+Ev+PXQA=;
+ b=TjseVMBNXa8w+1Zf+adaednx1Gai4CziPCPUvr3FALA4f+bzJcwVH/Tj2M14lcFxWZNlAD
+ c13/uXMCnWYpKK1VyJOAMdGbpMuUgj64IQFg663yEwJa0zz8zzSuyVoH5MxpPfCKPwR3VK
+ qcqOC8A1oOPERr9Ttm64x7ot0/qlML8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-410-mGgpbS_RNyyxq4UCJfAczQ-1; Tue, 21 Dec 2021 02:04:36 -0500
-X-MC-Unique: mGgpbS_RNyyxq4UCJfAczQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-593-lb2ShXgCP_yPfWc4vUucdA-1; Tue, 21 Dec 2021 02:05:07 -0500
+X-MC-Unique: lb2ShXgCP_yPfWc4vUucdA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C8CB61006AA6;
- Tue, 21 Dec 2021 07:04:35 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BC0C61F2DA;
+ Tue, 21 Dec 2021 07:04:56 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.37])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 35B307EFD4;
- Tue, 21 Dec 2021 07:04:10 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 861C877456;
+ Tue, 21 Dec 2021 07:04:39 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 21/36] backends: move dbus-vmstate1.xml to backends/
-Date: Tue, 21 Dec 2021 10:58:40 +0400
-Message-Id: <20211221065855.142578-22-marcandre.lureau@redhat.com>
+Subject: [PULL v2 22/36] docs: move D-Bus VMState documentation to source XML
+Date: Tue, 21 Dec 2021 10:58:41 +0400
+Message-Id: <20211221065855.142578-23-marcandre.lureau@redhat.com>
 In-Reply-To: <20211221065855.142578-1-marcandre.lureau@redhat.com>
 References: <20211221065855.142578-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124;
+Received-SPF: pass client-ip=170.10.129.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
@@ -87,34 +87,144 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Although not used by the backend itself, use a common location for
-documentation and sharing purposes.
+Use the source XML document as single reference, importing its
+documentation via the dbus-doc directive.
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Acked-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- {tests/qtest => backends}/dbus-vmstate1.xml | 0
- tests/qtest/meson.build                     | 2 +-
- 2 files changed, 1 insertion(+), 1 deletion(-)
- rename {tests/qtest => backends}/dbus-vmstate1.xml (100%)
+ docs/interop/dbus-vmstate.rst | 52 ++++++-----------------------------
+ backends/dbus-vmstate1.xml    | 42 +++++++++++++++++++++++++++-
+ 2 files changed, 49 insertions(+), 45 deletions(-)
 
-diff --git a/tests/qtest/dbus-vmstate1.xml b/backends/dbus-vmstate1.xml
-similarity index 100%
-rename from tests/qtest/dbus-vmstate1.xml
-rename to backends/dbus-vmstate1.xml
-diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
-index ebeac59b3f95..913e987409d5 100644
---- a/tests/qtest/meson.build
-+++ b/tests/qtest/meson.build
-@@ -98,7 +98,7 @@ if dbus_daemon.found() and config_host.has_key('GDBUS_CODEGEN')
-   #qtests_i386 += ['dbus-vmstate-test']
-   dbus_vmstate1 = custom_target('dbus-vmstate description',
-                                 output: ['dbus-vmstate1.h', 'dbus-vmstate1.c'],
--                                input: files('dbus-vmstate1.xml'),
-+                                input: meson.source_root() / 'backends/dbus-vmstate1.xml',
-                                 command: [config_host['GDBUS_CODEGEN'],
-                                           '@INPUT@',
-                                           '--interface-prefix', 'org.qemu',
+diff --git a/docs/interop/dbus-vmstate.rst b/docs/interop/dbus-vmstate.rst
+index 1d719c1c604f..5fb3f279e280 100644
+--- a/docs/interop/dbus-vmstate.rst
++++ b/docs/interop/dbus-vmstate.rst
+@@ -2,9 +2,6 @@
+ D-Bus VMState
+ =============
+ 
+-Introduction
+-============
+-
+ The QEMU dbus-vmstate object's aim is to migrate helpers' data running
+ on a QEMU D-Bus bus. (refer to the :doc:`dbus` document for
+ some recommendations on D-Bus usage)
+@@ -26,49 +23,16 @@ dbus-vmstate object can be configured with the expected list of
+ helpers by setting its ``id-list`` property, with a comma-separated
+ ``Id`` list.
+ 
+-Interface
+-=========
+-
+-On object path ``/org/qemu/VMState1``, the following
+-``org.qemu.VMState1`` interface should be implemented:
+-
+-.. code:: xml
+-
+-  <interface name="org.qemu.VMState1">
+-    <property name="Id" type="s" access="read"/>
+-    <method name="Load">
+-      <arg type="ay" name="data" direction="in"/>
+-    </method>
+-    <method name="Save">
+-      <arg type="ay" name="data" direction="out"/>
+-    </method>
+-  </interface>
+-
+-"Id" property
+--------------
+-
+-A string that identifies the helper uniquely. (maximum 256 bytes
+-including terminating NUL byte)
+-
+-.. note::
+-
+-   The helper ID namespace is a separate namespace. In particular, it is not
+-   related to QEMU "id" used in -object/-device objects.
+-
+-Load(in u8[] bytes) method
+---------------------------
+-
+-The method called on destination with the state to restore.
++.. only:: sphinx4
+ 
+-The helper may be initially started in a waiting state (with
+-an --incoming argument for example), and it may resume on success.
++   .. dbus-doc:: backends/dbus-vmstate1.xml
+ 
+-An error may be returned to the caller.
++.. only:: not sphinx4
+ 
+-Save(out u8[] bytes) method
+----------------------------
++   .. warning::
++      Sphinx 4 is required to build D-Bus documentation.
+ 
+-The method called on the source to get the current state to be
+-migrated. The helper should continue to run normally.
++      This is the content of ``backends/dbus-vmstate1.xml``:
+ 
+-An error may be returned to the caller.
++   .. literalinclude:: ../../backends/dbus-vmstate1.xml
++      :language: xml
+diff --git a/backends/dbus-vmstate1.xml b/backends/dbus-vmstate1.xml
+index cc8563be4c92..601ee8dc7e4d 100644
+--- a/backends/dbus-vmstate1.xml
++++ b/backends/dbus-vmstate1.xml
+@@ -1,10 +1,50 @@
+-<?xml version="1.0"?>
++<?xml version="1.0" encoding="utf-8"?>
+ <node name="/" xmlns:doc="http://www.freedesktop.org/dbus/1.0/doc.dtd">
++  <!--
++      org.qemu.VMState1:
++
++      This interface must be implemented at the object path
++      ``/org/qemu/VMState1`` to support helper migration.
++  -->
+   <interface name="org.qemu.VMState1">
++
++    <!--
++        Id:
++
++        A string that identifies the helper uniquely. (maximum 256 bytes
++        including terminating NUL byte)
++
++        .. note::
++
++           The VMState helper ID namespace is its own namespace. In particular,
++           it is not related to QEMU "id" used in -object/-device objects.
++    -->
+     <property name="Id" type="s" access="read"/>
++
++    <!--
++        Load:
++        @data: data to restore the state.
++
++        The method called on destination with the state to restore.
++
++        The helper may be initially started in a waiting state (with an
++        ``-incoming`` argument for example), and it may resume on success.
++
++        An error may be returned to the caller.
++    -->
+     <method name="Load">
+       <arg type="ay" name="data" direction="in"/>
+     </method>
++
++    <!--
++        Save:
++        @data: state data to save for later resume.
++
++        The method called on the source to get the current state to be
++        migrated. The helper should continue to run normally.
++
++        An error may be returned to the caller.
++    -->
+     <method name="Save">
+       <arg type="ay" name="data" direction="out"/>
+     </method>
 -- 
 2.34.1.8.g35151cf07204
 
