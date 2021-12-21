@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7272147C44A
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Dec 2021 17:58:22 +0100 (CET)
-Received: from localhost ([::1]:58916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 518B547C469
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Dec 2021 18:01:31 +0100 (CET)
+Received: from localhost ([::1]:39388 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mziSz-00069d-HG
-	for lists+qemu-devel@lfdr.de; Tue, 21 Dec 2021 11:58:21 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55812)
+	id 1mziW0-0003aQ-U9
+	for lists+qemu-devel@lfdr.de; Tue, 21 Dec 2021 12:01:30 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55856)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mziIu-0000EP-Uu
- for qemu-devel@nongnu.org; Tue, 21 Dec 2021 11:47:56 -0500
-Received: from [2607:f8b0:4864:20::52e] (port=38654
- helo=mail-pg1-x52e.google.com)
+ id 1mziIx-0000PI-QB
+ for qemu-devel@nongnu.org; Tue, 21 Dec 2021 11:47:59 -0500
+Received: from [2607:f8b0:4864:20::1029] (port=46644
+ helo=mail-pj1-x1029.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mziIr-0007ct-17
- for qemu-devel@nongnu.org; Tue, 21 Dec 2021 11:47:56 -0500
-Received: by mail-pg1-x52e.google.com with SMTP id y9so12829083pgj.5
- for <qemu-devel@nongnu.org>; Tue, 21 Dec 2021 08:47:52 -0800 (PST)
+ id 1mziIs-0007d5-0e
+ for qemu-devel@nongnu.org; Tue, 21 Dec 2021 11:47:59 -0500
+Received: by mail-pj1-x1029.google.com with SMTP id
+ rj2-20020a17090b3e8200b001b1944bad25so3726414pjb.5
+ for <qemu-devel@nongnu.org>; Tue, 21 Dec 2021 08:47:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=cHpfaLVydfnDFFFHb5r43nae1+7GWHTxLwo4cKt6VDc=;
- b=pXKNKqfZjsDQ+6yOh6nvQ0YaCZMGFCD3yJMRbDKJtfogwvOYeB4j0YgzL1ofrOc++5
- AZIW7LDUZJfIzDyGgQ8Mhtm+ZfMSXriiWJySrlFcNKelkvidcWTU3VJSqVauWzLhLZZp
- f1CBL8gWMloQ8nY0GVmE2SqYJz0io1oo8kOicnj627B/33cBGog/lsAEQ65GbHBwO6UN
- JUaxN784UfykO5eojhI31JlCFn8S/9Naw0j7uDyFS6mop7tEIUbWlip5LN5jl/6q8i+3
- w4VGi31MadTkcLemLxLx362j+Vv/WTxluSNaZiMGII7MY0YUGGoLkzGFe5mOMD2SRZD3
- ESFQ==
+ bh=g/ZansEwFOaBtkGLkicA0MHIWwkeqDn07upI3aEefAs=;
+ b=dMl0d/dz9/sxfp6AhfKjZhMsortJICn0e9ROPeEgFNKVpMQ+zbqBSLZPhFi6X4P6Nm
+ +lV09KeCR8UGM2em6LqY2CIXi0a5zHaqbCmEE7I3Y54VabM1/OQCY2xBc1p4Gx2Jc4+L
+ 3636yFLtBPSR1JUF8/+Zn/ZrwG1N7OgUF+5suArV7m5KRXPRjoh8ITOFkrWD2/6PzHnj
+ zcsSV03U7xabTL6gs5ZIJpcIRuAOIuiNR//5mT6HWAUU7D9LNlNekSUwQfjMtQRcwGhk
+ 1kjPsFdWVkvdRMVzBCEChUFM54FhPmQfMleBVJNQ76Re6xmX0A0jhfwzyL6H7v0T1DHO
+ uaxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=cHpfaLVydfnDFFFHb5r43nae1+7GWHTxLwo4cKt6VDc=;
- b=jSGB9QW1seWRo7SOzXkj7ysdxCoResEKjeKouAhCmIU+SKI0hrf3txziP341dXrV/p
- HhhcL99Oetx21X+5phwMO1NB+77Yc+qHlCXy3xbQ09n5LZFjsvNU8IJZir7dEJJNQwB/
- 10evDIFkTO13T501HJ+eSYlr6UdiCoFBr402PW3wvuNoKPKmIsqc8W+duZwQ3FYvajvK
- 3UyQDadd96d2YBe7Q1KoXMe0FIeAJ00mNVgjgFisUDik9vSF7czE4OJi/xuCwgase9k8
- BdYZ05b+6byKi4hDF5GyepInYdt7/09npb6oxc8b/oEHJX+kYSNuuqyjTaHsQambhcvg
- CSdQ==
-X-Gm-Message-State: AOAM533s0Bb4TtN4eZ2uB2jT7GtCZjsNx7KeFEv1Adfl241JVbV3/ssb
- CV4ROclAuMF4+r9ye7x4Nm4Hn/104EhaAg==
-X-Google-Smtp-Source: ABdhPJzP9MlS5xEtu8PdCLulaHR1/CJgmrtyo4g7ivk8xUPLIz3LNkkvDuyRU5FrjbFpgqci0zpiMg==
-X-Received: by 2002:a63:5250:: with SMTP id s16mr3741012pgl.202.1640105271789; 
- Tue, 21 Dec 2021 08:47:51 -0800 (PST)
+ bh=g/ZansEwFOaBtkGLkicA0MHIWwkeqDn07upI3aEefAs=;
+ b=zHsNj8B3CvtbYcqQ67Dn/kADd3paXDwYbfhLtCl0FEYZLWeggOtjKQrQfTK7Fq2x/a
+ 7VQTirXPxrPAPLFHIcBycIxPmzVacuORZK4aCADTcCSXutxUZAW8HDNA2JP2QmpBWd38
+ 4KJpQclUY699oX2sX2yFTIIX2ShfT9Tl3mUzeBFf6+Ph4xQp0aXqFnkDizL4rL66wtBG
+ L/EtMXLeXQOl5MYA9yNsEzIh7ARtSAnuPfpev5DUH2o2yxUdQJsVjbRt4vvQt8nZyGMw
+ bOdYB+GRc1N9d3xSC7BbI57xN7pKX/IQsf7GD5fYaTkZoo8E/Owk1TmPCPLWUhTBOC8h
+ brOQ==
+X-Gm-Message-State: AOAM533CHxZAZ4QOdiGtvz0omb5J+TI0Y0Keyr62la6pk9H7ld32cmSc
+ PamMHLrArCxpQmkKsKhh4cpfg+vE9fF5gQ==
+X-Google-Smtp-Source: ABdhPJxrTdrXwb2Pxk0fpwiKDw8HFDhTa33KKYhB1X/nSvYyiAmlM0YfepqiWyrGofVHzY54MQ8eZQ==
+X-Received: by 2002:a17:90a:578b:: with SMTP id
+ g11mr4908051pji.76.1640105272684; 
+ Tue, 21 Dec 2021 08:47:52 -0800 (PST)
 Received: from localhost.localdomain ([156.19.246.20])
- by smtp.gmail.com with ESMTPSA id b192sm2256818pga.35.2021.12.21.08.47.51
+ by smtp.gmail.com with ESMTPSA id b192sm2256818pga.35.2021.12.21.08.47.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Dec 2021 08:47:51 -0800 (PST)
+ Tue, 21 Dec 2021 08:47:52 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 14/31] tcg/loongarch64: Implement bswap{16,32,64} ops
-Date: Tue, 21 Dec 2021 08:47:20 -0800
-Message-Id: <20211221164737.1076007-15-richard.henderson@linaro.org>
+Subject: [PULL 15/31] tcg/loongarch64: Implement clz/ctz ops
+Date: Tue, 21 Dec 2021 08:47:21 -0800
+Message-Id: <20211221164737.1076007-16-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211221164737.1076007-1-richard.henderson@linaro.org>
 References: <20211221164737.1076007-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::52e
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1029
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1029.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -86,8 +87,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: WANG Xuerui <git@xen0n.name>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: WANG Xuerui <git@xen0n.name>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -95,92 +95,117 @@ From: WANG Xuerui <git@xen0n.name>
 
 Signed-off-by: WANG Xuerui <git@xen0n.name>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20211221054105.178795-15-git@xen0n.name>
+Message-Id: <20211221054105.178795-16-git@xen0n.name>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/loongarch64/tcg-target.h     | 10 +++++-----
- tcg/loongarch64/tcg-target.c.inc | 32 ++++++++++++++++++++++++++++++++
- 2 files changed, 37 insertions(+), 5 deletions(-)
+ tcg/loongarch64/tcg-target-con-set.h |  1 +
+ tcg/loongarch64/tcg-target.h         |  8 +++---
+ tcg/loongarch64/tcg-target.c.inc     | 42 ++++++++++++++++++++++++++++
+ 3 files changed, 47 insertions(+), 4 deletions(-)
 
+diff --git a/tcg/loongarch64/tcg-target-con-set.h b/tcg/loongarch64/tcg-target-con-set.h
+index d958183020..2975e03127 100644
+--- a/tcg/loongarch64/tcg-target-con-set.h
++++ b/tcg/loongarch64/tcg-target-con-set.h
+@@ -18,4 +18,5 @@ C_O0_I1(r)
+ C_O1_I1(r, r)
+ C_O1_I2(r, r, rC)
+ C_O1_I2(r, r, rU)
++C_O1_I2(r, r, rW)
+ C_O1_I2(r, 0, rZ)
 diff --git a/tcg/loongarch64/tcg-target.h b/tcg/loongarch64/tcg-target.h
-index 1c9d0a9988..5303001653 100644
+index 5303001653..2fd2745b63 100644
 --- a/tcg/loongarch64/tcg-target.h
 +++ b/tcg/loongarch64/tcg-target.h
-@@ -111,8 +111,8 @@ typedef enum {
- #define TCG_TARGET_HAS_ext16s_i32       1
- #define TCG_TARGET_HAS_ext8u_i32        1
- #define TCG_TARGET_HAS_ext16u_i32       1
--#define TCG_TARGET_HAS_bswap16_i32      0
--#define TCG_TARGET_HAS_bswap32_i32      0
-+#define TCG_TARGET_HAS_bswap16_i32      1
-+#define TCG_TARGET_HAS_bswap32_i32      1
- #define TCG_TARGET_HAS_not_i32          1
- #define TCG_TARGET_HAS_neg_i32          0
- #define TCG_TARGET_HAS_andc_i32         1
-@@ -146,9 +146,9 @@ typedef enum {
- #define TCG_TARGET_HAS_ext8u_i64        1
- #define TCG_TARGET_HAS_ext16u_i64       1
- #define TCG_TARGET_HAS_ext32u_i64       1
--#define TCG_TARGET_HAS_bswap16_i64      0
--#define TCG_TARGET_HAS_bswap32_i64      0
--#define TCG_TARGET_HAS_bswap64_i64      0
-+#define TCG_TARGET_HAS_bswap16_i64      1
-+#define TCG_TARGET_HAS_bswap32_i64      1
-+#define TCG_TARGET_HAS_bswap64_i64      1
- #define TCG_TARGET_HAS_not_i64          1
- #define TCG_TARGET_HAS_neg_i64          0
- #define TCG_TARGET_HAS_andc_i64         1
+@@ -120,8 +120,8 @@ typedef enum {
+ #define TCG_TARGET_HAS_eqv_i32          0
+ #define TCG_TARGET_HAS_nand_i32         0
+ #define TCG_TARGET_HAS_nor_i32          1
+-#define TCG_TARGET_HAS_clz_i32          0
+-#define TCG_TARGET_HAS_ctz_i32          0
++#define TCG_TARGET_HAS_clz_i32          1
++#define TCG_TARGET_HAS_ctz_i32          1
+ #define TCG_TARGET_HAS_ctpop_i32        0
+ #define TCG_TARGET_HAS_direct_jump      0
+ #define TCG_TARGET_HAS_brcond2          0
+@@ -156,8 +156,8 @@ typedef enum {
+ #define TCG_TARGET_HAS_eqv_i64          0
+ #define TCG_TARGET_HAS_nand_i64         0
+ #define TCG_TARGET_HAS_nor_i64          1
+-#define TCG_TARGET_HAS_clz_i64          0
+-#define TCG_TARGET_HAS_ctz_i64          0
++#define TCG_TARGET_HAS_clz_i64          1
++#define TCG_TARGET_HAS_ctz_i64          1
+ #define TCG_TARGET_HAS_ctpop_i64        0
+ #define TCG_TARGET_HAS_add2_i64         0
+ #define TCG_TARGET_HAS_sub2_i64         0
 diff --git a/tcg/loongarch64/tcg-target.c.inc b/tcg/loongarch64/tcg-target.c.inc
-index 9eba8f8146..3b056dd358 100644
+index 3b056dd358..39df2885b5 100644
 --- a/tcg/loongarch64/tcg-target.c.inc
 +++ b/tcg/loongarch64/tcg-target.c.inc
-@@ -545,6 +545,33 @@ static void tcg_out_op(TCGContext *s, TCGOpcode opc,
-         tcg_out_opc_bstrins_d(s, a0, a2, args[3], args[3] + args[4] - 1);
+@@ -412,6 +412,28 @@ static void tcg_out_ext32s(TCGContext *s, TCGReg ret, TCGReg arg)
+     tcg_out_opc_addi_w(s, ret, arg, 0);
+ }
+ 
++static void tcg_out_clzctz(TCGContext *s, LoongArchInsn opc,
++                           TCGReg a0, TCGReg a1, TCGReg a2,
++                           bool c2, bool is_32bit)
++{
++    if (c2) {
++        /*
++         * Fast path: semantics already satisfied due to constraint and
++         * insn behavior, single instruction is enough.
++         */
++        tcg_debug_assert(a2 == (is_32bit ? 32 : 64));
++        /* all clz/ctz insns belong to DJ-format */
++        tcg_out32(s, encode_dj_insn(opc, a0, a1));
++        return;
++    }
++
++    tcg_out32(s, encode_dj_insn(opc, TCG_REG_TMP0, a1));
++    /* a0 = a1 ? REG_TMP0 : a2 */
++    tcg_out_opc_maskeqz(s, TCG_REG_TMP0, TCG_REG_TMP0, a1);
++    tcg_out_opc_masknez(s, a0, a2, a1);
++    tcg_out_opc_or(s, a0, TCG_REG_TMP0, a0);
++}
++
+ /*
+  * Entry-points
+  */
+@@ -572,6 +594,20 @@ static void tcg_out_op(TCGContext *s, TCGOpcode opc,
+         tcg_out_opc_revb_d(s, a0, a1);
          break;
  
-+    case INDEX_op_bswap16_i32:
-+    case INDEX_op_bswap16_i64:
-+        tcg_out_opc_revb_2h(s, a0, a1);
-+        if (a2 & TCG_BSWAP_OS) {
-+            tcg_out_ext16s(s, a0, a0);
-+        } else if ((a2 & (TCG_BSWAP_IZ | TCG_BSWAP_OZ)) == TCG_BSWAP_OZ) {
-+            tcg_out_ext16u(s, a0, a0);
-+        }
++    case INDEX_op_clz_i32:
++        tcg_out_clzctz(s, OPC_CLZ_W, a0, a1, a2, c2, true);
++        break;
++    case INDEX_op_clz_i64:
++        tcg_out_clzctz(s, OPC_CLZ_D, a0, a1, a2, c2, false);
 +        break;
 +
-+    case INDEX_op_bswap32_i32:
-+        /* All 32-bit values are computed sign-extended in the register.  */
-+        a2 = TCG_BSWAP_OS;
-+        /* fallthrough */
-+    case INDEX_op_bswap32_i64:
-+        tcg_out_opc_revb_2w(s, a0, a1);
-+        if (a2 & TCG_BSWAP_OS) {
-+            tcg_out_ext32s(s, a0, a0);
-+        } else if ((a2 & (TCG_BSWAP_IZ | TCG_BSWAP_OZ)) == TCG_BSWAP_OZ) {
-+            tcg_out_ext32u(s, a0, a0);
-+        }
++    case INDEX_op_ctz_i32:
++        tcg_out_clzctz(s, OPC_CTZ_W, a0, a1, a2, c2, true);
 +        break;
-+
-+    case INDEX_op_bswap64_i64:
-+        tcg_out_opc_revb_d(s, a0, a1);
++    case INDEX_op_ctz_i64:
++        tcg_out_clzctz(s, OPC_CTZ_D, a0, a1, a2, c2, false);
 +        break;
 +
      case INDEX_op_mov_i32:  /* Always emitted via tcg_out_mov.  */
      case INDEX_op_mov_i64:
      default:
-@@ -576,6 +603,11 @@ static TCGConstraintSetIndex tcg_target_op_def(TCGOpcode op)
-     case INDEX_op_not_i64:
-     case INDEX_op_extract_i32:
-     case INDEX_op_extract_i64:
-+    case INDEX_op_bswap16_i32:
-+    case INDEX_op_bswap16_i64:
-+    case INDEX_op_bswap32_i32:
-+    case INDEX_op_bswap32_i64:
-+    case INDEX_op_bswap64_i64:
-         return C_O1_I1(r, r);
+@@ -632,6 +668,12 @@ static TCGConstraintSetIndex tcg_target_op_def(TCGOpcode op)
+         /* LoongArch reg-imm bitops have their imms ZERO-extended */
+         return C_O1_I2(r, r, rU);
  
-     case INDEX_op_andc_i32:
++    case INDEX_op_clz_i32:
++    case INDEX_op_clz_i64:
++    case INDEX_op_ctz_i32:
++    case INDEX_op_ctz_i64:
++        return C_O1_I2(r, r, rW);
++
+     case INDEX_op_deposit_i32:
+     case INDEX_op_deposit_i64:
+         /* Must deposit into the same register as input */
 -- 
 2.25.1
 
