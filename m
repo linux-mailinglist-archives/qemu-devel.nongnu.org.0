@@ -2,73 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E19E047C4C0
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Dec 2021 18:10:39 +0100 (CET)
-Received: from localhost ([::1]:36934 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF92047C4A5
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Dec 2021 18:05:43 +0100 (CET)
+Received: from localhost ([::1]:50424 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mzies-0004W6-Lt
-	for lists+qemu-devel@lfdr.de; Tue, 21 Dec 2021 12:10:38 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55954)
+	id 1mzia6-0002sS-Rw
+	for lists+qemu-devel@lfdr.de; Tue, 21 Dec 2021 12:05:42 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55994)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mziJ5-0000gO-Ja
- for qemu-devel@nongnu.org; Tue, 21 Dec 2021 11:48:07 -0500
-Received: from [2607:f8b0:4864:20::1035] (port=38875
- helo=mail-pj1-x1035.google.com)
+ id 1mziJ6-0000n9-GY
+ for qemu-devel@nongnu.org; Tue, 21 Dec 2021 11:48:08 -0500
+Received: from [2607:f8b0:4864:20::536] (port=42676
+ helo=mail-pg1-x536.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mziIo-0007bE-Ob
- for qemu-devel@nongnu.org; Tue, 21 Dec 2021 11:48:06 -0500
-Received: by mail-pj1-x1035.google.com with SMTP id
- n15-20020a17090a394f00b001b0f6d6468eso3113900pjf.3
- for <qemu-devel@nongnu.org>; Tue, 21 Dec 2021 08:47:47 -0800 (PST)
+ id 1mziIo-0007cT-Oj
+ for qemu-devel@nongnu.org; Tue, 21 Dec 2021 11:48:08 -0500
+Received: by mail-pg1-x536.google.com with SMTP id g2so10253043pgo.9
+ for <qemu-devel@nongnu.org>; Tue, 21 Dec 2021 08:47:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=An2Fj85dq9l2EupXbwm7D8t73GeHD7BVJ48kGEVh0Z4=;
- b=C5J67Kv83CFhlGbbr8r5T0CqFIkvwAvFJ9FQ1Pb2vL2homGOHnlccVltMf8w9givBa
- IEb1mDTNADgl9zDngXUDDhBTdzdGF2OYmUChytE9LuBlQTN5QrHMOYNHQ8duNhE2OyH/
- 8WmvvgZfBGGJeiJL4iGq8BAGKqZJa59E2lZVAJNsJwrvJp8d0NtQv6dZgjfe3nVkIoxl
- RWTR34aOutGTTdxUQKp2hrGtav7J+MdGSbJhAXCEoGpxGC7gzGN6joFHOiEw5xpP4rpZ
- 1LoroZU2xguZjKabAxTyLPI7fr+IVtKghhY19CF4eW/eVuD8WTJs5SLGKjeLZVKzFf1L
- xVgg==
+ bh=aRDFGEdRx4gKiMYB6nK14fb+uw0O+ZvZTgYpZPI8a7w=;
+ b=MGaSxePdYAS/uXlXuM0qZlv8vJBVxV1z90+Sv7DOmk6i37ypInUejUYZgytpU71qG+
+ cM8GFtAb4cebn7tu4mbX7oFhCtN+dh0skr863kd9jnO7Wl5U4po8eo4B6L0CFT2oCmZb
+ 55KdzeBqwjHqUaPTXKeRHuihvprlLYhPfwTI+DFmpNI6lDRTZKLXwJlm+D7cQcgPC9M+
+ pvQbq69rMZOuSDl7172AbOO1qh2hLfxZZfnpIeSVAZ/yMdIUC9rVzQ/Hlw0eO/Fbko0o
+ NhiO1nDheLkOnk4yS10NFvv5D3aaLgaScxkcFPKfbd4zTPb5pUuT6RiZVemh+KCvArSi
+ StjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=An2Fj85dq9l2EupXbwm7D8t73GeHD7BVJ48kGEVh0Z4=;
- b=QXBv/Je7xcHORnVRzI8+etQfejCVop6YovNQEI3olHSCCwAyJ0PmOOmBEhxmP6671f
- 0oCvjGUZEYhKp/znhw61VLZUB2tpkjCdpOIK1fGiUEhS5sANmunoatCSEVp1lG6MY+tY
- gShwp8vEpbfrvTEeMjV0pIFM0OJsc1H8b1Em0xEhsjrl8tsK5ei8PfbxT6QWu49qEW+x
- 1NZX7PBPYvd76UT5I9NGnOatHcMDLRngYmfRgyrGW1niJwEcMNIudGqzwaMoiNwHPkI6
- wUJLBVHpBNxIaNI94DAYwQOnfQ3L2H9QBoKyLme5bQHmS4InsOCRjyCX7+7vKEAyf4m6
- zqbw==
-X-Gm-Message-State: AOAM532Kpu1ZzE2oy3iiM6Dnn06dgCDeFGcjx8xt4rOHgXUQNUZUXO4h
- keu7EvXKJQWXOMX69o9HOE1S3c1TCs4HeQ==
-X-Google-Smtp-Source: ABdhPJwuky73eBocrRapPqOQeYnqi+TJJ9avsJR4Hj4Auq5BuYyIXWcOH8naJA7JghqdmdUt4RVMMQ==
-X-Received: by 2002:a17:902:8505:b0:142:892d:918 with SMTP id
- bj5-20020a170902850500b00142892d0918mr4024049plb.39.1640105266608; 
- Tue, 21 Dec 2021 08:47:46 -0800 (PST)
+ bh=aRDFGEdRx4gKiMYB6nK14fb+uw0O+ZvZTgYpZPI8a7w=;
+ b=KtD3s0e1a0KloODmNyAhkooI1gopnoXVacX6DmQgoCWHEHVAoROTRfhEDQuHYuHg1p
+ x0HnG05WhVHWhJgClsAsWZiUiqWvL0brySzqdZ1FQlN9JeW3oInsmFtv+dI2ViKG+5iP
+ 29Sd43P6sVmPTJEByh3P9+Gq/uHzlkl1FwF1U0IbiY4c5XRfJkxNJMR7myYD0WAaDIW0
+ dqTx4wYcQC2rQKmVx87ZKeWbLZkpnAm4rszugTDK9RDiJfiF0zcxvXS/IBGuD0gE86w2
+ bbThd0/s6T0q+WOihBwukheou7YFyy2bNd4OWUZjmm6jfRt+rkwGWfXxSoE9BLOXFEpT
+ 3vvg==
+X-Gm-Message-State: AOAM530ckuZZGuS/oCmmZ+CIFO7nMoUF0gNX3SIFePSuDFaqHgvpjIMK
+ x44FnJPuIsXLKisWCU2IlXnhe0EQMLNdVQ==
+X-Google-Smtp-Source: ABdhPJyfY4WhwW9EXHFQOJlBZ+mXo03yQH4RtG76CH7AzHN5Nd3gKk18Rfa2PyLdLs+As1dZlMvzvg==
+X-Received: by 2002:a63:f30b:: with SMTP id l11mr1453872pgh.272.1640105268253; 
+ Tue, 21 Dec 2021 08:47:48 -0800 (PST)
 Received: from localhost.localdomain ([156.19.246.20])
- by smtp.gmail.com with ESMTPSA id b192sm2256818pga.35.2021.12.21.08.47.45
+ by smtp.gmail.com with ESMTPSA id b192sm2256818pga.35.2021.12.21.08.47.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Dec 2021 08:47:46 -0800 (PST)
+ Tue, 21 Dec 2021 08:47:47 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 08/31] tcg/loongarch64: Implement the memory barrier op
-Date: Tue, 21 Dec 2021 08:47:14 -0800
-Message-Id: <20211221164737.1076007-9-richard.henderson@linaro.org>
+Subject: [PULL 10/31] tcg/loongarch64: Implement goto_ptr
+Date: Tue, 21 Dec 2021 08:47:16 -0800
+Message-Id: <20211221164737.1076007-11-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211221164737.1076007-1-richard.henderson@linaro.org>
 References: <20211221164737.1076007-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1035
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::536
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::536;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x536.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -97,47 +95,61 @@ From: WANG Xuerui <git@xen0n.name>
 Signed-off-by: WANG Xuerui <git@xen0n.name>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20211221054105.178795-9-git@xen0n.name>
+Message-Id: <20211221054105.178795-11-git@xen0n.name>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/loongarch64/tcg-target.c.inc | 32 ++++++++++++++++++++++++++++++++
- 1 file changed, 32 insertions(+)
+ tcg/loongarch64/tcg-target-con-set.h | 17 +++++++++++++++++
+ tcg/loongarch64/tcg-target.c.inc     | 15 +++++++++++++++
+ 2 files changed, 32 insertions(+)
+ create mode 100644 tcg/loongarch64/tcg-target-con-set.h
 
+diff --git a/tcg/loongarch64/tcg-target-con-set.h b/tcg/loongarch64/tcg-target-con-set.h
+new file mode 100644
+index 0000000000..5cc4407367
+--- /dev/null
++++ b/tcg/loongarch64/tcg-target-con-set.h
+@@ -0,0 +1,17 @@
++/* SPDX-License-Identifier: MIT */
++/*
++ * Define LoongArch target-specific constraint sets.
++ *
++ * Copyright (c) 2021 WANG Xuerui <git@xen0n.name>
++ *
++ * Based on tcg/riscv/tcg-target-con-set.h
++ *
++ * Copyright (c) 2021 Linaro
++ */
++
++/*
++ * C_On_Im(...) defines a constraint set with <n> outputs and <m> inputs.
++ * Each operand should be a sequence of constraint letters as defined by
++ * tcg-target-con-str.h; the constraint combination is inclusive or.
++ */
++C_O0_I1(r)
 diff --git a/tcg/loongarch64/tcg-target.c.inc b/tcg/loongarch64/tcg-target.c.inc
-index a88ba9a253..615bed9096 100644
+index bb45ea0fcf..3a8c52465b 100644
 --- a/tcg/loongarch64/tcg-target.c.inc
 +++ b/tcg/loongarch64/tcg-target.c.inc
-@@ -234,3 +234,35 @@ static bool patch_reloc(tcg_insn_unit *code_ptr, int type,
+@@ -397,9 +397,24 @@ static void tcg_out_op(TCGContext *s, TCGOpcode opc,
+         tcg_out_mb(s, a0);
+         break;
+ 
++    case INDEX_op_goto_ptr:
++        tcg_out_opc_jirl(s, TCG_REG_ZERO, a0, 0);
++        break;
++
+     case INDEX_op_mov_i32:  /* Always emitted via tcg_out_mov.  */
+     case INDEX_op_mov_i64:
+     default:
          g_assert_not_reached();
      }
  }
 +
-+#include "tcg-insn-defs.c.inc"
-+
-+/*
-+ * TCG intrinsics
-+ */
-+
-+static void tcg_out_mb(TCGContext *s, TCGArg a0)
++static TCGConstraintSetIndex tcg_target_op_def(TCGOpcode op)
 +{
-+    /* Baseline LoongArch only has the full barrier, unfortunately.  */
-+    tcg_out_opc_dbar(s, 0);
-+}
-+
-+/*
-+ * Entry-points
-+ */
-+
-+static void tcg_out_op(TCGContext *s, TCGOpcode opc,
-+                       const TCGArg args[TCG_MAX_OP_ARGS],
-+                       const int const_args[TCG_MAX_OP_ARGS])
-+{
-+    TCGArg a0 = args[0];
-+
-+    switch (opc) {
-+    case INDEX_op_mb:
-+        tcg_out_mb(s, a0);
-+        break;
++    switch (op) {
++    case INDEX_op_goto_ptr:
++        return C_O0_I1(r);
 +
 +    default:
 +        g_assert_not_reached();
