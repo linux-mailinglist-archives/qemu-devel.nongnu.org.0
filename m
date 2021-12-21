@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E94647BF9A
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Dec 2021 13:21:35 +0100 (CET)
-Received: from localhost ([::1]:54484 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6810F47BFA0
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Dec 2021 13:24:15 +0100 (CET)
+Received: from localhost ([::1]:32898 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mze97-0000oI-S2
-	for lists+qemu-devel@lfdr.de; Tue, 21 Dec 2021 07:21:33 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59598)
+	id 1mzeBi-0005KO-7z
+	for lists+qemu-devel@lfdr.de; Tue, 21 Dec 2021 07:24:14 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60382)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <abhijeetinamdar3005@gmail.com>)
- id 1mze6K-0006Fp-1u; Tue, 21 Dec 2021 07:18:40 -0500
-Received: from [2607:f8b0:4864:20::735] (port=38455
- helo=mail-qk1-x735.google.com)
+ id 1mzeA0-0003HX-DX; Tue, 21 Dec 2021 07:22:33 -0500
+Received: from [2607:f8b0:4864:20::72b] (port=36718
+ helo=mail-qk1-x72b.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <abhijeetinamdar3005@gmail.com>)
- id 1mze6I-0007M5-5Q; Tue, 21 Dec 2021 07:18:39 -0500
-Received: by mail-qk1-x735.google.com with SMTP id l25so12299407qkl.5;
- Tue, 21 Dec 2021 04:18:37 -0800 (PST)
+ id 1mze9y-0007tH-Hw; Tue, 21 Dec 2021 07:22:28 -0500
+Received: by mail-qk1-x72b.google.com with SMTP id d21so12313197qkl.3;
+ Tue, 21 Dec 2021 04:22:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ALv5Yszcb5jO+SnOx4Ob1l/NuY4J0kVeKu2swnuyrCw=;
- b=GDwSR9j31KuyR08izwaLYvxM6oBOVNRHG4JIodtykLrzcyh9sS+4Cqh3xCz6Vfk1rf
- h4rPPp//F9HtYbCT9gyqjC01XV8PQ2/GHQlfDbpP/MU45wwjpIC7ZlZpW5z/DrT8y4XF
- XVP9kmgITe2Z8LSgcN8HyBTGe/NM6zwx+GqtYzaLDHIRn413kdCYVYoB0x/Wq0rYzNwq
- 5iXHHCt6vBB+f8uFQpIty0t0LbnEgw+BYL4UVN22Y+YVmScSPQLPSPvsK8Y+/TSAGpbv
- 5KJaZqmoavK5m9RYVA4GA51ezfJNrxC9izWQRPjB7AArpW0Osbwexwt0SBvrYKe+5VZb
- I6vQ==
+ :cc; bh=daZ8kCLE3GK//vTn9Nvv8NG/2EQkH9tYBqubHQjuTks=;
+ b=LUXBleZu786KMbKRq6a4PCKFjfps+pci7dTf5QL/5CjdzGXpzrtOz+MQTvpDRWWqcx
+ wgZMoTfyAs1sseahIU2RdolbFK3orG96V+NLEqlWcCRovTkuP7rG9kolMG33yW50bZwH
+ /N/QK2y0lgZctyYan6FWezipr3wUWfV3ag4FgOysFJyPHaZT1t0JWlYOxhokyPXVixDB
+ OYG4DFiUu0eCPWNrXNfPEOgM3oIpeRogaozelFGyC/RcfWpxpZaTDeGZQLP8bI5nCxjW
+ ApRHVcruA2v/ZVsIyc6PIMNKT/FK2P+02gW1ZOHKEQqaopGVepyZxfz6iJJfd7CEYdcs
+ 1XwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=ALv5Yszcb5jO+SnOx4Ob1l/NuY4J0kVeKu2swnuyrCw=;
- b=us8HDqEFKSZClYTXky6I7amugTwHaDw3TT4khGmwrx0CJRF6uRx63W8ts+FV/cEh7l
- 3vVQvf9v5ZqyjZdUZkmuoVqhyHn2s+HF6JtlHFtgp8Lmh2YdMJXXfi1OwDj/ud7Oa/P0
- dV6OxGYYeAr50umF5Lpf8UXHAJzbmaUDFbt1N1idVYCXDMRrGT9dA0IcZOiaeknetF1q
- lMmzuBl2LnziDhQKc4MULOkkHjU9mMysZTTkQMwtGoRzzFpCJmuVzbJ8mwjr1rox3m3I
- /vGzHUScwT9lMQl1f947XXbeh35HYTeHHXAnO6MBPduMCeJnZIQkWFEnKEprY/Ak1aPt
- 8o0Q==
-X-Gm-Message-State: AOAM530WKXG9Ye08gjnWMWuG4M2UkGvkS6s5C3UhlWcxQJ4weNM6YUgD
- wAtiBpEFdLAlJtMIjMzL9wU/dt10BUL+URqwk04=
-X-Google-Smtp-Source: ABdhPJxcSApnpxggVUAYqiTliPO3gWoIEfBga7ytGMLbKmHpJBtYC8HYhUvHDGGj29sGLp6bimHVcJf5mBnCI1sdKcA=
-X-Received: by 2002:a05:620a:24cf:: with SMTP id
- m15mr1714421qkn.623.1640089116666; 
- Tue, 21 Dec 2021 04:18:36 -0800 (PST)
+ bh=daZ8kCLE3GK//vTn9Nvv8NG/2EQkH9tYBqubHQjuTks=;
+ b=tHjdQFMtwhm9LjoRKlrdDRVxHuNUVlHH5EFah6AgIkhHj6EEz3X/uvVv+19Z7eYSvx
+ Hcf57Qnfc0Y3fisO5YYy4vxGXy1KwjjoERqEFPhP5lAcERtdmbyaGYMibFxIMSNLd87V
+ G9lXVVArbuA8dAIJKt6QFtNVXdNPlgJ6oz4Bib5ByqD/6OhK6Ig9ZUEgRXDLMr7SXdXx
+ lMmLn/8Bf+aEVFimfBf02Qn6k0cO39sG161J2/dBXrU2MpCBbd77M10Qh99uzggm0yFz
+ wIG4z2hXo88FCwASH4ZY2/2uSaNgqcIvRp86WeJQvW3q8lyaOd9fd4Ps2XCG/plzALWJ
+ vX9A==
+X-Gm-Message-State: AOAM530KVoAIdfc66RRou+/3WZqvjr1jTG0eK5bl9DSqWKhUAikw+69H
+ bCB3YDCpIMoinYm6K0okLkIfXMzURX7wXRSEk6g=
+X-Google-Smtp-Source: ABdhPJw+vHVGC+Pi4bBjmj4lQQMo1+OGYmZXT9QpP561YKHR2lBasXXTS2xQnKP6K+PyojVzjs9z9KqcjR/QBCMdTcI=
+X-Received: by 2002:a05:620a:2912:: with SMTP id
+ m18mr1693678qkp.692.1640089345334; 
+ Tue, 21 Dec 2021 04:22:25 -0800 (PST)
 MIME-Version: 1.0
 References: <CAP4GjT2fC_bTkoNd=21MrdoC1hKk_jejDBdc8KiNvr86aOyAwA@mail.gmail.com>
  <0f468714-96bd-1e5a-0e40-b7fd5f920964@redhat.com>
-In-Reply-To: <0f468714-96bd-1e5a-0e40-b7fd5f920964@redhat.com>
+ <CAP4GjT0a+eROFs6w1X=WTLsGkVsaTO2QC6f4wq96X386xpNW0g@mail.gmail.com>
+In-Reply-To: <CAP4GjT0a+eROFs6w1X=WTLsGkVsaTO2QC6f4wq96X386xpNW0g@mail.gmail.com>
 From: abhijeet inamdar <abhijeetinamdar3005@gmail.com>
-Date: Tue, 21 Dec 2021 13:18:25 +0100
-Message-ID: <CAP4GjT0a+eROFs6w1X=WTLsGkVsaTO2QC6f4wq96X386xpNW0g@mail.gmail.com>
+Date: Tue, 21 Dec 2021 13:22:13 +0100
+Message-ID: <CAP4GjT2LryD0fUSwCygxwGK3Z5u_yvacm5kKqRWtDGbZEmLbCg@mail.gmail.com>
 Subject: Re: QOM
 To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Content-Type: multipart/alternative; boundary="00000000000032ee5605d3a70198"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::735
+Content-Type: multipart/alternative; boundary="000000000000d4219405d3a70e4c"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::72b
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::735;
- envelope-from=abhijeetinamdar3005@gmail.com; helo=mail-qk1-x735.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::72b;
+ envelope-from=abhijeetinamdar3005@gmail.com; helo=mail-qk1-x72b.google.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
@@ -84,77 +85,96 @@ Cc: qemu-devel <qemu-devel@nongnu.org>, qemu-discuss <qemu-discuss@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000032ee5605d3a70198
+--000000000000d4219405d3a70e4c
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Oh,
+As we have almost 80 irq lines and 40-45 NVIC_irq's.
 
-In that case I have to define my irq set for a machine to handle the
-exception and interrupts.
+Where can I define them?
 
 BR.
 Abhijeet.
 
-On Tue, 21 Dec, 2021, 12:59 Philippe Mathieu-Daud=C3=A9, <philmd@redhat.com=
->
+On Tue, 21 Dec, 2021, 13:18 abhijeet inamdar, <abhijeetinamdar3005@gmail.co=
+m>
 wrote:
 
-> Hi Abhijeet,
+> Oh,
 >
-> On 12/21/21 12:27, abhijeet inamdar wrote:
-> > Hi,
-> >
-> > 1)What does QOM stand for?
+> In that case I have to define my irq set for a machine to handle the
+> exception and interrupts.
 >
-> QOM: "QEMU Object Model"
+> BR.
+> Abhijeet.
 >
-> See https://qemu-project.gitlab.io/qemu/devel/qom.html
+> On Tue, 21 Dec, 2021, 12:59 Philippe Mathieu-Daud=C3=A9, <philmd@redhat.c=
+om>
+> wrote:
 >
-> > 2)Can anyone tell what this error means?
-> >
-> > (qemu) Unexpected error in object_property_find() at
-> > /home/ocp/vcpu-playground/vcpu_on_qemu/qemu-4.2.0/qom/object.c:1177:
-> > qemu-system-arm: Property '.sysbus-irq[0]' not found
-> > Aborted (core dumped).
->
-> I suppose you are trying to connect a device gpio/irq output line
-> to another device input, likely using sysbus_connect_irq().
->
-> The API is "connect the N-th output line from the SysBus device
-> to this qemu_irq handler", where qemu_irq is the input line.
->
-> Apparently your SysBus device doesn't have any output line
-> registered. These are registered using sysbus_init_irq().
-> The first call register the first output IRQ, and so on.
->
-> Some objects have their QOM interface documented, for
-> example to use the ARM GIC see:
->
-> https://gitlab.com/qemu-project/qemu/-/blob/master/include/hw/intc/arm_gi=
-c.h#L22
->
-> Hope that helps.
->
-> Regards,
->
-> Phil.
->
->
+>> Hi Abhijeet,
+>>
+>> On 12/21/21 12:27, abhijeet inamdar wrote:
+>> > Hi,
+>> >
+>> > 1)What does QOM stand for?
+>>
+>> QOM: "QEMU Object Model"
+>>
+>> See https://qemu-project.gitlab.io/qemu/devel/qom.html
+>>
+>> > 2)Can anyone tell what this error means?
+>> >
+>> > (qemu) Unexpected error in object_property_find() at
+>> > /home/ocp/vcpu-playground/vcpu_on_qemu/qemu-4.2.0/qom/object.c:1177:
+>> > qemu-system-arm: Property '.sysbus-irq[0]' not found
+>> > Aborted (core dumped).
+>>
+>> I suppose you are trying to connect a device gpio/irq output line
+>> to another device input, likely using sysbus_connect_irq().
+>>
+>> The API is "connect the N-th output line from the SysBus device
+>> to this qemu_irq handler", where qemu_irq is the input line.
+>>
+>> Apparently your SysBus device doesn't have any output line
+>> registered. These are registered using sysbus_init_irq().
+>> The first call register the first output IRQ, and so on.
+>>
+>> Some objects have their QOM interface documented, for
+>> example to use the ARM GIC see:
+>>
+>> https://gitlab.com/qemu-project/qemu/-/blob/master/include/hw/intc/arm_g=
+ic.h#L22
+>>
+>> Hope that helps.
+>>
+>> Regards,
+>>
+>> Phil.
+>>
+>>
 
---00000000000032ee5605d3a70198
+--000000000000d4219405d3a70e4c
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"auto">Oh,=C2=A0<div dir=3D"auto"><br></div><div dir=3D"auto">In=
-=C2=A0that case I have to define my irq set for a machine to handle the exc=
-eption and interrupts.=C2=A0</div><div dir=3D"auto"><br></div><div dir=3D"a=
-uto">BR.</div><div dir=3D"auto">Abhijeet.</div></div><br><div class=3D"gmai=
-l_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, 21 Dec, 2021, 12:59 =
-Philippe Mathieu-Daud=C3=A9, &lt;<a href=3D"mailto:philmd@redhat.com">philm=
-d@redhat.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" styl=
-e=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">Hi Abhi=
-jeet,<br>
+<div dir=3D"auto">As we have almost 80 irq lines and 40-45 NVIC_irq&#39;s.=
+=C2=A0<div dir=3D"auto"><br></div><div dir=3D"auto">Where can I define them=
+?</div><div dir=3D"auto"><br></div><div dir=3D"auto">BR.</div><div dir=3D"a=
+uto">Abhijeet.</div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" c=
+lass=3D"gmail_attr">On Tue, 21 Dec, 2021, 13:18 abhijeet inamdar, &lt;<a hr=
+ef=3D"mailto:abhijeetinamdar3005@gmail.com">abhijeetinamdar3005@gmail.com</=
+a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 =
+0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div dir=3D"auto">Oh,=
+=C2=A0<div dir=3D"auto"><br></div><div dir=3D"auto">In=C2=A0that case I hav=
+e to define my irq set for a machine to handle the exception and interrupts=
+.=C2=A0</div><div dir=3D"auto"><br></div><div dir=3D"auto">BR.</div><div di=
+r=3D"auto">Abhijeet.</div></div><br><div class=3D"gmail_quote"><div dir=3D"=
+ltr" class=3D"gmail_attr">On Tue, 21 Dec, 2021, 12:59 Philippe Mathieu-Daud=
+=C3=A9, &lt;<a href=3D"mailto:philmd@redhat.com" target=3D"_blank" rel=3D"n=
+oreferrer">philmd@redhat.com</a>&gt; wrote:<br></div><blockquote class=3D"g=
+mail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-l=
+eft:1ex">Hi Abhijeet,<br>
 <br>
 On 12/21/21 12:27, abhijeet inamdar wrote:<br>
 &gt; Hi,<br>
@@ -164,8 +184,8 @@ On 12/21/21 12:27, abhijeet inamdar wrote:<br>
 QOM: &quot;QEMU Object Model&quot;<br>
 <br>
 See <a href=3D"https://qemu-project.gitlab.io/qemu/devel/qom.html" rel=3D"n=
-oreferrer noreferrer" target=3D"_blank">https://qemu-project.gitlab.io/qemu=
-/devel/qom.html</a><br>
+oreferrer noreferrer noreferrer" target=3D"_blank">https://qemu-project.git=
+lab.io/qemu/devel/qom.html</a><br>
 <br>
 &gt; 2)Can anyone tell what this error means?=C2=A0<br>
 &gt; <br>
@@ -188,9 +208,9 @@ The first call register the first output IRQ, and so on.<br>
 Some objects have their QOM interface documented, for<br>
 example to use the ARM GIC see:<br>
 <a href=3D"https://gitlab.com/qemu-project/qemu/-/blob/master/include/hw/in=
-tc/arm_gic.h#L22" rel=3D"noreferrer noreferrer" target=3D"_blank">https://g=
-itlab.com/qemu-project/qemu/-/blob/master/include/hw/intc/arm_gic.h#L22</a>=
-<br>
+tc/arm_gic.h#L22" rel=3D"noreferrer noreferrer noreferrer" target=3D"_blank=
+">https://gitlab.com/qemu-project/qemu/-/blob/master/include/hw/intc/arm_gi=
+c.h#L22</a><br>
 <br>
 Hope that helps.<br>
 <br>
@@ -199,6 +219,7 @@ Regards,<br>
 Phil.<br>
 <br>
 </blockquote></div>
+</blockquote></div>
 
---00000000000032ee5605d3a70198--
+--000000000000d4219405d3a70e4c--
 
