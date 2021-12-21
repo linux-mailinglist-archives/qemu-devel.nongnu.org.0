@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 518B547C469
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Dec 2021 18:01:31 +0100 (CET)
-Received: from localhost ([::1]:39388 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C705E47C44B
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Dec 2021 17:58:23 +0100 (CET)
+Received: from localhost ([::1]:59146 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mziW0-0003aQ-U9
-	for lists+qemu-devel@lfdr.de; Tue, 21 Dec 2021 12:01:30 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55856)
+	id 1mziT0-0006If-UA
+	for lists+qemu-devel@lfdr.de; Tue, 21 Dec 2021 11:58:22 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55888)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mziIx-0000PI-QB
- for qemu-devel@nongnu.org; Tue, 21 Dec 2021 11:47:59 -0500
-Received: from [2607:f8b0:4864:20::1029] (port=46644
- helo=mail-pj1-x1029.google.com)
+ id 1mziIz-0000TM-6V
+ for qemu-devel@nongnu.org; Tue, 21 Dec 2021 11:48:01 -0500
+Received: from [2607:f8b0:4864:20::52d] (port=35552
+ helo=mail-pg1-x52d.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mziIs-0007d5-0e
- for qemu-devel@nongnu.org; Tue, 21 Dec 2021 11:47:59 -0500
-Received: by mail-pj1-x1029.google.com with SMTP id
- rj2-20020a17090b3e8200b001b1944bad25so3726414pjb.5
- for <qemu-devel@nongnu.org>; Tue, 21 Dec 2021 08:47:53 -0800 (PST)
+ id 1mziIt-0007dY-T7
+ for qemu-devel@nongnu.org; Tue, 21 Dec 2021 11:48:00 -0500
+Received: by mail-pg1-x52d.google.com with SMTP id v25so7744027pge.2
+ for <qemu-devel@nongnu.org>; Tue, 21 Dec 2021 08:47:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=g/ZansEwFOaBtkGLkicA0MHIWwkeqDn07upI3aEefAs=;
- b=dMl0d/dz9/sxfp6AhfKjZhMsortJICn0e9ROPeEgFNKVpMQ+zbqBSLZPhFi6X4P6Nm
- +lV09KeCR8UGM2em6LqY2CIXi0a5zHaqbCmEE7I3Y54VabM1/OQCY2xBc1p4Gx2Jc4+L
- 3636yFLtBPSR1JUF8/+Zn/ZrwG1N7OgUF+5suArV7m5KRXPRjoh8ITOFkrWD2/6PzHnj
- zcsSV03U7xabTL6gs5ZIJpcIRuAOIuiNR//5mT6HWAUU7D9LNlNekSUwQfjMtQRcwGhk
- 1kjPsFdWVkvdRMVzBCEChUFM54FhPmQfMleBVJNQ76Re6xmX0A0jhfwzyL6H7v0T1DHO
- uaxA==
+ bh=PjAarXq7rmQslFajUb9OO37bFQay55ayArd0DDEEb8g=;
+ b=I43/09yTbP0FNRJVfxLrJ+OSagGrlqFPoiQugjy1YQQSHDKocx7ejSoxwCICzD/9wE
+ ECVa24nHUeQcsoNU1lJwrLDd8yLoyBiTHPoRR14G2tf0V9wnLEc8d6t675C916FVNepu
+ eXJWyOPs/36BzdVVgyjo23wFUVJiIBSKZhgiH9bDg6E+AGnpdNdaqlHVCCZNkPDnpOOy
+ lqq5LcFBgUwgiJLLuOUE5+nHOpN8WzPTzUcxMhVwmgsZojgN0FTrBwXDXkrpOPqqxIcJ
+ DTIg3x7bsLTcxFkh+GIgL8EZQJyrExT8qxj5f+zGnITBQbUP8AcBd/ulTyHHjmPQPWfP
+ Rqqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=g/ZansEwFOaBtkGLkicA0MHIWwkeqDn07upI3aEefAs=;
- b=zHsNj8B3CvtbYcqQ67Dn/kADd3paXDwYbfhLtCl0FEYZLWeggOtjKQrQfTK7Fq2x/a
- 7VQTirXPxrPAPLFHIcBycIxPmzVacuORZK4aCADTcCSXutxUZAW8HDNA2JP2QmpBWd38
- 4KJpQclUY699oX2sX2yFTIIX2ShfT9Tl3mUzeBFf6+Ph4xQp0aXqFnkDizL4rL66wtBG
- L/EtMXLeXQOl5MYA9yNsEzIh7ARtSAnuPfpev5DUH2o2yxUdQJsVjbRt4vvQt8nZyGMw
- bOdYB+GRc1N9d3xSC7BbI57xN7pKX/IQsf7GD5fYaTkZoo8E/Owk1TmPCPLWUhTBOC8h
- brOQ==
-X-Gm-Message-State: AOAM533CHxZAZ4QOdiGtvz0omb5J+TI0Y0Keyr62la6pk9H7ld32cmSc
- PamMHLrArCxpQmkKsKhh4cpfg+vE9fF5gQ==
-X-Google-Smtp-Source: ABdhPJxrTdrXwb2Pxk0fpwiKDw8HFDhTa33KKYhB1X/nSvYyiAmlM0YfepqiWyrGofVHzY54MQ8eZQ==
-X-Received: by 2002:a17:90a:578b:: with SMTP id
- g11mr4908051pji.76.1640105272684; 
- Tue, 21 Dec 2021 08:47:52 -0800 (PST)
+ bh=PjAarXq7rmQslFajUb9OO37bFQay55ayArd0DDEEb8g=;
+ b=gnJdqp1pFrup6Nm5mWpm73L7bq5A7ClT4A3SNzKaroDQOKD2h5Z3iiYWp+SEWmiVx3
+ hzm8RjqxDo+HVfN7/IzU22JxYTRhn68hRgMg3yJlJH9RGm4dNNLU+PcXJU7j/7IWNbmq
+ YYXCadez0OUiIXMW3p3K01wPiMDi7nc4bCpp8YeekEAItvcvj9co8ei2LTutLlaMQBSf
+ V4diVPBjsC7SdqXfLCsu7MpvtYmDJ/qedfCkHUPNhnoDxqRCrLKdds4Db95j4UqCBHzu
+ GheXSJZu1YBmHHheXjY0X4waz0xx06U3xaLNo98CcV6rVaEzOLmuz8aVjL5z79wZuLEv
+ vimg==
+X-Gm-Message-State: AOAM533BztHWXq/G5AaveOy1L1fklnDtRoYyvfk6L4y0PGxW3hSBwBcz
+ yn7iNuw9WcP+kjNslbTiuGXLKMpnbjOxhQ==
+X-Google-Smtp-Source: ABdhPJwuZtcYCfgbtCARKpKaEKj8Q2XTqlFRvJ/LFBx+nf5HiQipwQarDp9YdgM4HL+yRz7VIi82sA==
+X-Received: by 2002:a05:6a00:1516:b0:4a0:2c42:7f17 with SMTP id
+ q22-20020a056a00151600b004a02c427f17mr3852784pfu.74.1640105274688; 
+ Tue, 21 Dec 2021 08:47:54 -0800 (PST)
 Received: from localhost.localdomain ([156.19.246.20])
- by smtp.gmail.com with ESMTPSA id b192sm2256818pga.35.2021.12.21.08.47.52
+ by smtp.gmail.com with ESMTPSA id b192sm2256818pga.35.2021.12.21.08.47.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Dec 2021 08:47:52 -0800 (PST)
+ Tue, 21 Dec 2021 08:47:54 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 15/31] tcg/loongarch64: Implement clz/ctz ops
-Date: Tue, 21 Dec 2021 08:47:21 -0800
-Message-Id: <20211221164737.1076007-16-richard.henderson@linaro.org>
+Subject: [PULL 17/31] tcg/loongarch64: Implement add/sub ops
+Date: Tue, 21 Dec 2021 08:47:23 -0800
+Message-Id: <20211221164737.1076007-18-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211221164737.1076007-1-richard.henderson@linaro.org>
 References: <20211221164737.1076007-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1029
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::52d
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1029.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52d.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -87,125 +87,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: WANG Xuerui <git@xen0n.name>
+Cc: WANG Xuerui <git@xen0n.name>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: WANG Xuerui <git@xen0n.name>
 
+The neg_i{32,64} ops is fully expressible with sub, so omitted for
+simplicity.
+
 Signed-off-by: WANG Xuerui <git@xen0n.name>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20211221054105.178795-16-git@xen0n.name>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <20211221054105.178795-18-git@xen0n.name>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/loongarch64/tcg-target-con-set.h |  1 +
- tcg/loongarch64/tcg-target.h         |  8 +++---
- tcg/loongarch64/tcg-target.c.inc     | 42 ++++++++++++++++++++++++++++
- 3 files changed, 47 insertions(+), 4 deletions(-)
+ tcg/loongarch64/tcg-target-con-set.h |  2 ++
+ tcg/loongarch64/tcg-target.c.inc     | 38 ++++++++++++++++++++++++++++
+ 2 files changed, 40 insertions(+)
 
 diff --git a/tcg/loongarch64/tcg-target-con-set.h b/tcg/loongarch64/tcg-target-con-set.h
-index d958183020..2975e03127 100644
+index 42f8e28741..4b8ce85897 100644
 --- a/tcg/loongarch64/tcg-target-con-set.h
 +++ b/tcg/loongarch64/tcg-target-con-set.h
-@@ -18,4 +18,5 @@ C_O0_I1(r)
+@@ -18,6 +18,8 @@ C_O0_I1(r)
  C_O1_I1(r, r)
  C_O1_I2(r, r, rC)
+ C_O1_I2(r, r, ri)
++C_O1_I2(r, r, rI)
  C_O1_I2(r, r, rU)
-+C_O1_I2(r, r, rW)
+ C_O1_I2(r, r, rW)
  C_O1_I2(r, 0, rZ)
-diff --git a/tcg/loongarch64/tcg-target.h b/tcg/loongarch64/tcg-target.h
-index 5303001653..2fd2745b63 100644
---- a/tcg/loongarch64/tcg-target.h
-+++ b/tcg/loongarch64/tcg-target.h
-@@ -120,8 +120,8 @@ typedef enum {
- #define TCG_TARGET_HAS_eqv_i32          0
- #define TCG_TARGET_HAS_nand_i32         0
- #define TCG_TARGET_HAS_nor_i32          1
--#define TCG_TARGET_HAS_clz_i32          0
--#define TCG_TARGET_HAS_ctz_i32          0
-+#define TCG_TARGET_HAS_clz_i32          1
-+#define TCG_TARGET_HAS_ctz_i32          1
- #define TCG_TARGET_HAS_ctpop_i32        0
- #define TCG_TARGET_HAS_direct_jump      0
- #define TCG_TARGET_HAS_brcond2          0
-@@ -156,8 +156,8 @@ typedef enum {
- #define TCG_TARGET_HAS_eqv_i64          0
- #define TCG_TARGET_HAS_nand_i64         0
- #define TCG_TARGET_HAS_nor_i64          1
--#define TCG_TARGET_HAS_clz_i64          0
--#define TCG_TARGET_HAS_ctz_i64          0
-+#define TCG_TARGET_HAS_clz_i64          1
-+#define TCG_TARGET_HAS_ctz_i64          1
- #define TCG_TARGET_HAS_ctpop_i64        0
- #define TCG_TARGET_HAS_add2_i64         0
- #define TCG_TARGET_HAS_sub2_i64         0
++C_O1_I2(r, rZ, rN)
 diff --git a/tcg/loongarch64/tcg-target.c.inc b/tcg/loongarch64/tcg-target.c.inc
-index 3b056dd358..39df2885b5 100644
+index 2895769e68..c71d25d3fe 100644
 --- a/tcg/loongarch64/tcg-target.c.inc
 +++ b/tcg/loongarch64/tcg-target.c.inc
-@@ -412,6 +412,28 @@ static void tcg_out_ext32s(TCGContext *s, TCGReg ret, TCGReg arg)
-     tcg_out_opc_addi_w(s, ret, arg, 0);
- }
- 
-+static void tcg_out_clzctz(TCGContext *s, LoongArchInsn opc,
-+                           TCGReg a0, TCGReg a1, TCGReg a2,
-+                           bool c2, bool is_32bit)
-+{
-+    if (c2) {
-+        /*
-+         * Fast path: semantics already satisfied due to constraint and
-+         * insn behavior, single instruction is enough.
-+         */
-+        tcg_debug_assert(a2 == (is_32bit ? 32 : 64));
-+        /* all clz/ctz insns belong to DJ-format */
-+        tcg_out32(s, encode_dj_insn(opc, a0, a1));
-+        return;
-+    }
-+
-+    tcg_out32(s, encode_dj_insn(opc, TCG_REG_TMP0, a1));
-+    /* a0 = a1 ? REG_TMP0 : a2 */
-+    tcg_out_opc_maskeqz(s, TCG_REG_TMP0, TCG_REG_TMP0, a1);
-+    tcg_out_opc_masknez(s, a0, a2, a1);
-+    tcg_out_opc_or(s, a0, TCG_REG_TMP0, a0);
-+}
-+
- /*
-  * Entry-points
-  */
-@@ -572,6 +594,20 @@ static void tcg_out_op(TCGContext *s, TCGOpcode opc,
-         tcg_out_opc_revb_d(s, a0, a1);
+@@ -687,6 +687,36 @@ static void tcg_out_op(TCGContext *s, TCGOpcode opc,
+         }
          break;
  
-+    case INDEX_op_clz_i32:
-+        tcg_out_clzctz(s, OPC_CLZ_W, a0, a1, a2, c2, true);
++    case INDEX_op_add_i32:
++        if (c2) {
++            tcg_out_opc_addi_w(s, a0, a1, a2);
++        } else {
++            tcg_out_opc_add_w(s, a0, a1, a2);
++        }
 +        break;
-+    case INDEX_op_clz_i64:
-+        tcg_out_clzctz(s, OPC_CLZ_D, a0, a1, a2, c2, false);
++    case INDEX_op_add_i64:
++        if (c2) {
++            tcg_out_opc_addi_d(s, a0, a1, a2);
++        } else {
++            tcg_out_opc_add_d(s, a0, a1, a2);
++        }
 +        break;
 +
-+    case INDEX_op_ctz_i32:
-+        tcg_out_clzctz(s, OPC_CTZ_W, a0, a1, a2, c2, true);
++    case INDEX_op_sub_i32:
++        if (c2) {
++            tcg_out_opc_addi_w(s, a0, a1, -a2);
++        } else {
++            tcg_out_opc_sub_w(s, a0, a1, a2);
++        }
 +        break;
-+    case INDEX_op_ctz_i64:
-+        tcg_out_clzctz(s, OPC_CTZ_D, a0, a1, a2, c2, false);
++    case INDEX_op_sub_i64:
++        if (c2) {
++            tcg_out_opc_addi_d(s, a0, a1, -a2);
++        } else {
++            tcg_out_opc_sub_d(s, a0, a1, a2);
++        }
 +        break;
 +
      case INDEX_op_mov_i32:  /* Always emitted via tcg_out_mov.  */
      case INDEX_op_mov_i64:
      default:
-@@ -632,6 +668,12 @@ static TCGConstraintSetIndex tcg_target_op_def(TCGOpcode op)
-         /* LoongArch reg-imm bitops have their imms ZERO-extended */
-         return C_O1_I2(r, r, rU);
+@@ -748,6 +778,10 @@ static TCGConstraintSetIndex tcg_target_op_def(TCGOpcode op)
+     case INDEX_op_rotr_i64:
+         return C_O1_I2(r, r, ri);
  
-+    case INDEX_op_clz_i32:
-+    case INDEX_op_clz_i64:
-+    case INDEX_op_ctz_i32:
-+    case INDEX_op_ctz_i64:
-+        return C_O1_I2(r, r, rW);
++    case INDEX_op_add_i32:
++    case INDEX_op_add_i64:
++        return C_O1_I2(r, r, rI);
 +
-     case INDEX_op_deposit_i32:
-     case INDEX_op_deposit_i64:
+     case INDEX_op_and_i32:
+     case INDEX_op_and_i64:
+     case INDEX_op_nor_i32:
+@@ -770,6 +804,10 @@ static TCGConstraintSetIndex tcg_target_op_def(TCGOpcode op)
          /* Must deposit into the same register as input */
+         return C_O1_I2(r, 0, rZ);
+ 
++    case INDEX_op_sub_i32:
++    case INDEX_op_sub_i64:
++        return C_O1_I2(r, rZ, rN);
++
+     default:
+         g_assert_not_reached();
+     }
 -- 
 2.25.1
 
