@@ -2,43 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEE4C47B9CF
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Dec 2021 07:01:43 +0100 (CET)
-Received: from localhost ([::1]:49396 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26E4147B9D2
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Dec 2021 07:03:25 +0100 (CET)
+Received: from localhost ([::1]:53096 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mzYDW-0007la-Qe
-	for lists+qemu-devel@lfdr.de; Tue, 21 Dec 2021 01:01:42 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48666)
+	id 1mzYFA-0002Ey-0e
+	for lists+qemu-devel@lfdr.de; Tue, 21 Dec 2021 01:03:24 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48742)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <git@xen0n.name>) id 1mzXvA-0001pG-Gd
- for qemu-devel@nongnu.org; Tue, 21 Dec 2021 00:42:44 -0500
-Received: from mail.xen0n.name ([115.28.160.31]:56484
+ (Exim 4.90_1) (envelope-from <git@xen0n.name>) id 1mzXvC-0001wR-Qu
+ for qemu-devel@nongnu.org; Tue, 21 Dec 2021 00:42:46 -0500
+Received: from mail.xen0n.name ([115.28.160.31]:56570
  helo=mailbox.box.xen0n.name)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <git@xen0n.name>) id 1mzXv7-00023g-Cu
- for qemu-devel@nongnu.org; Tue, 21 Dec 2021 00:42:44 -0500
+ (Exim 4.90_1) (envelope-from <git@xen0n.name>) id 1mzXvA-00024E-Ah
+ for qemu-devel@nongnu.org; Tue, 21 Dec 2021 00:42:46 -0500
 Received: from ld50.lan (unknown [101.88.31.179])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
- by mailbox.box.xen0n.name (Postfix) with ESMTPSA id AABF66055C;
+ by mailbox.box.xen0n.name (Postfix) with ESMTPSA id F1F2460610;
  Tue, 21 Dec 2021 13:42:26 +0800 (CST)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=xen0n.name; s=mail;
- t=1640065346; bh=sz9Kl9Hle5baj4w7R7n2WjgdJG4GzvZgykcvD/Rou/I=;
+ t=1640065347; bh=tMZQaVyWGCszoC0NjTu8kKPmCxo6YMex0PxpRnRsuBk=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=J+uQgp74GR+Okqd1YZE/h5+TRLPbWGUQyFOU/2qndsww16E8DXgtiU6JAc2apWRPg
- rh5iSDOM7jhEqjNYfef1MXHcrV+qfympOtlt0CtLe7mDBmmBPxZXhpRLCgndE3vRu7
- JZTb1TY6RoHOd5D76aCcnAM3WQgEF2NH2PcctyKc=
+ b=iS+dFHe9sdSD0pXYrIhiKKDDgnZtVL2DLOzk6QSZY9m1Haobr0vpTX2Na3zS+Rds3
+ usJBwhvdLpR6z5JQCCipiCEAanM3GjpCHJC9kUWar98a40tn2HK5pJpS9jGneZFqIN
+ JMaMkujirH+XKl4K0eJ8KWd43goH4OnLhgQ9ilAM=
 From: WANG Xuerui <git@xen0n.name>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v11 14/31] tcg/loongarch64: Implement bswap{16,32,64} ops
-Date: Tue, 21 Dec 2021 13:40:48 +0800
-Message-Id: <20211221054105.178795-15-git@xen0n.name>
+Subject: [PATCH v11 15/31] tcg/loongarch64: Implement clz/ctz ops
+Date: Tue, 21 Dec 2021 13:40:49 +0800
+Message-Id: <20211221054105.178795-16-git@xen0n.name>
 X-Mailer: git-send-email 2.34.0
 In-Reply-To: <20211221054105.178795-1-git@xen0n.name>
 References: <20211221054105.178795-1-git@xen0n.name>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=115.28.160.31; envelope-from=git@xen0n.name;
  helo=mailbox.box.xen0n.name
@@ -72,90 +71,115 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: WANG Xuerui <git@xen0n.name>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- tcg/loongarch64/tcg-target.c.inc | 32 ++++++++++++++++++++++++++++++++
- tcg/loongarch64/tcg-target.h     | 10 +++++-----
- 2 files changed, 37 insertions(+), 5 deletions(-)
+ tcg/loongarch64/tcg-target-con-set.h |  1 +
+ tcg/loongarch64/tcg-target.c.inc     | 42 ++++++++++++++++++++++++++++
+ tcg/loongarch64/tcg-target.h         |  8 +++---
+ 3 files changed, 47 insertions(+), 4 deletions(-)
 
+diff --git a/tcg/loongarch64/tcg-target-con-set.h b/tcg/loongarch64/tcg-target-con-set.h
+index d958183020..2975e03127 100644
+--- a/tcg/loongarch64/tcg-target-con-set.h
++++ b/tcg/loongarch64/tcg-target-con-set.h
+@@ -18,4 +18,5 @@ C_O0_I1(r)
+ C_O1_I1(r, r)
+ C_O1_I2(r, r, rC)
+ C_O1_I2(r, r, rU)
++C_O1_I2(r, r, rW)
+ C_O1_I2(r, 0, rZ)
 diff --git a/tcg/loongarch64/tcg-target.c.inc b/tcg/loongarch64/tcg-target.c.inc
-index 9eba8f8146..3b056dd358 100644
+index 3b056dd358..39df2885b5 100644
 --- a/tcg/loongarch64/tcg-target.c.inc
 +++ b/tcg/loongarch64/tcg-target.c.inc
-@@ -545,6 +545,33 @@ static void tcg_out_op(TCGContext *s, TCGOpcode opc,
-         tcg_out_opc_bstrins_d(s, a0, a2, args[3], args[3] + args[4] - 1);
+@@ -412,6 +412,28 @@ static void tcg_out_ext32s(TCGContext *s, TCGReg ret, TCGReg arg)
+     tcg_out_opc_addi_w(s, ret, arg, 0);
+ }
+ 
++static void tcg_out_clzctz(TCGContext *s, LoongArchInsn opc,
++                           TCGReg a0, TCGReg a1, TCGReg a2,
++                           bool c2, bool is_32bit)
++{
++    if (c2) {
++        /*
++         * Fast path: semantics already satisfied due to constraint and
++         * insn behavior, single instruction is enough.
++         */
++        tcg_debug_assert(a2 == (is_32bit ? 32 : 64));
++        /* all clz/ctz insns belong to DJ-format */
++        tcg_out32(s, encode_dj_insn(opc, a0, a1));
++        return;
++    }
++
++    tcg_out32(s, encode_dj_insn(opc, TCG_REG_TMP0, a1));
++    /* a0 = a1 ? REG_TMP0 : a2 */
++    tcg_out_opc_maskeqz(s, TCG_REG_TMP0, TCG_REG_TMP0, a1);
++    tcg_out_opc_masknez(s, a0, a2, a1);
++    tcg_out_opc_or(s, a0, TCG_REG_TMP0, a0);
++}
++
+ /*
+  * Entry-points
+  */
+@@ -572,6 +594,20 @@ static void tcg_out_op(TCGContext *s, TCGOpcode opc,
+         tcg_out_opc_revb_d(s, a0, a1);
          break;
  
-+    case INDEX_op_bswap16_i32:
-+    case INDEX_op_bswap16_i64:
-+        tcg_out_opc_revb_2h(s, a0, a1);
-+        if (a2 & TCG_BSWAP_OS) {
-+            tcg_out_ext16s(s, a0, a0);
-+        } else if ((a2 & (TCG_BSWAP_IZ | TCG_BSWAP_OZ)) == TCG_BSWAP_OZ) {
-+            tcg_out_ext16u(s, a0, a0);
-+        }
++    case INDEX_op_clz_i32:
++        tcg_out_clzctz(s, OPC_CLZ_W, a0, a1, a2, c2, true);
++        break;
++    case INDEX_op_clz_i64:
++        tcg_out_clzctz(s, OPC_CLZ_D, a0, a1, a2, c2, false);
 +        break;
 +
-+    case INDEX_op_bswap32_i32:
-+        /* All 32-bit values are computed sign-extended in the register.  */
-+        a2 = TCG_BSWAP_OS;
-+        /* fallthrough */
-+    case INDEX_op_bswap32_i64:
-+        tcg_out_opc_revb_2w(s, a0, a1);
-+        if (a2 & TCG_BSWAP_OS) {
-+            tcg_out_ext32s(s, a0, a0);
-+        } else if ((a2 & (TCG_BSWAP_IZ | TCG_BSWAP_OZ)) == TCG_BSWAP_OZ) {
-+            tcg_out_ext32u(s, a0, a0);
-+        }
++    case INDEX_op_ctz_i32:
++        tcg_out_clzctz(s, OPC_CTZ_W, a0, a1, a2, c2, true);
 +        break;
-+
-+    case INDEX_op_bswap64_i64:
-+        tcg_out_opc_revb_d(s, a0, a1);
++    case INDEX_op_ctz_i64:
++        tcg_out_clzctz(s, OPC_CTZ_D, a0, a1, a2, c2, false);
 +        break;
 +
      case INDEX_op_mov_i32:  /* Always emitted via tcg_out_mov.  */
      case INDEX_op_mov_i64:
      default:
-@@ -576,6 +603,11 @@ static TCGConstraintSetIndex tcg_target_op_def(TCGOpcode op)
-     case INDEX_op_not_i64:
-     case INDEX_op_extract_i32:
-     case INDEX_op_extract_i64:
-+    case INDEX_op_bswap16_i32:
-+    case INDEX_op_bswap16_i64:
-+    case INDEX_op_bswap32_i32:
-+    case INDEX_op_bswap32_i64:
-+    case INDEX_op_bswap64_i64:
-         return C_O1_I1(r, r);
+@@ -632,6 +668,12 @@ static TCGConstraintSetIndex tcg_target_op_def(TCGOpcode op)
+         /* LoongArch reg-imm bitops have their imms ZERO-extended */
+         return C_O1_I2(r, r, rU);
  
-     case INDEX_op_andc_i32:
++    case INDEX_op_clz_i32:
++    case INDEX_op_clz_i64:
++    case INDEX_op_ctz_i32:
++    case INDEX_op_ctz_i64:
++        return C_O1_I2(r, r, rW);
++
+     case INDEX_op_deposit_i32:
+     case INDEX_op_deposit_i64:
+         /* Must deposit into the same register as input */
 diff --git a/tcg/loongarch64/tcg-target.h b/tcg/loongarch64/tcg-target.h
-index 1c9d0a9988..5303001653 100644
+index 5303001653..2fd2745b63 100644
 --- a/tcg/loongarch64/tcg-target.h
 +++ b/tcg/loongarch64/tcg-target.h
-@@ -111,8 +111,8 @@ typedef enum {
- #define TCG_TARGET_HAS_ext16s_i32       1
- #define TCG_TARGET_HAS_ext8u_i32        1
- #define TCG_TARGET_HAS_ext16u_i32       1
--#define TCG_TARGET_HAS_bswap16_i32      0
--#define TCG_TARGET_HAS_bswap32_i32      0
-+#define TCG_TARGET_HAS_bswap16_i32      1
-+#define TCG_TARGET_HAS_bswap32_i32      1
- #define TCG_TARGET_HAS_not_i32          1
- #define TCG_TARGET_HAS_neg_i32          0
- #define TCG_TARGET_HAS_andc_i32         1
-@@ -146,9 +146,9 @@ typedef enum {
- #define TCG_TARGET_HAS_ext8u_i64        1
- #define TCG_TARGET_HAS_ext16u_i64       1
- #define TCG_TARGET_HAS_ext32u_i64       1
--#define TCG_TARGET_HAS_bswap16_i64      0
--#define TCG_TARGET_HAS_bswap32_i64      0
--#define TCG_TARGET_HAS_bswap64_i64      0
-+#define TCG_TARGET_HAS_bswap16_i64      1
-+#define TCG_TARGET_HAS_bswap32_i64      1
-+#define TCG_TARGET_HAS_bswap64_i64      1
- #define TCG_TARGET_HAS_not_i64          1
- #define TCG_TARGET_HAS_neg_i64          0
- #define TCG_TARGET_HAS_andc_i64         1
+@@ -120,8 +120,8 @@ typedef enum {
+ #define TCG_TARGET_HAS_eqv_i32          0
+ #define TCG_TARGET_HAS_nand_i32         0
+ #define TCG_TARGET_HAS_nor_i32          1
+-#define TCG_TARGET_HAS_clz_i32          0
+-#define TCG_TARGET_HAS_ctz_i32          0
++#define TCG_TARGET_HAS_clz_i32          1
++#define TCG_TARGET_HAS_ctz_i32          1
+ #define TCG_TARGET_HAS_ctpop_i32        0
+ #define TCG_TARGET_HAS_direct_jump      0
+ #define TCG_TARGET_HAS_brcond2          0
+@@ -156,8 +156,8 @@ typedef enum {
+ #define TCG_TARGET_HAS_eqv_i64          0
+ #define TCG_TARGET_HAS_nand_i64         0
+ #define TCG_TARGET_HAS_nor_i64          1
+-#define TCG_TARGET_HAS_clz_i64          0
+-#define TCG_TARGET_HAS_ctz_i64          0
++#define TCG_TARGET_HAS_clz_i64          1
++#define TCG_TARGET_HAS_ctz_i64          1
+ #define TCG_TARGET_HAS_ctpop_i64        0
+ #define TCG_TARGET_HAS_add2_i64         0
+ #define TCG_TARGET_HAS_sub2_i64         0
 -- 
 2.34.0
 
