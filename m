@@ -2,94 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50B9947BF3C
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Dec 2021 13:01:21 +0100 (CET)
-Received: from localhost ([::1]:33250 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9423247BF4C
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Dec 2021 13:04:51 +0100 (CET)
+Received: from localhost ([::1]:36080 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mzdpX-0001hG-Rp
-	for lists+qemu-devel@lfdr.de; Tue, 21 Dec 2021 07:01:19 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56022)
+	id 1mzdsw-0003sk-Bm
+	for lists+qemu-devel@lfdr.de; Tue, 21 Dec 2021 07:04:50 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56370)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mzdnZ-0000ZO-Rc
- for qemu-devel@nongnu.org; Tue, 21 Dec 2021 06:59:17 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:48881)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mzdnW-0003t5-PQ
- for qemu-devel@nongnu.org; Tue, 21 Dec 2021 06:59:16 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1640087951;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=DFSQ125wrOqCH5qFqS/ylAI+rpS/b8ljEQg4CHyzYps=;
- b=Db1N+J/KrDPY4xVw5ZHYzswYuC8USLlTBy/6qs/Lb3PCRJoc4irs4v3BPJfBWCOCz2TZAa
- zmkxg7GfJ/tAkel2szszCKWLQidAp4Xe4pVhHeNdWf8TkHILxKwcqH5efGW0bTPYzJ0C+v
- DuTo9veND3mVGMFKgaeepEqNDxUqR6I=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-159-Z6KDM_-fNOyItL53EzCpjg-1; Tue, 21 Dec 2021 06:59:08 -0500
-X-MC-Unique: Z6KDM_-fNOyItL53EzCpjg-1
-Received: by mail-wm1-f69.google.com with SMTP id
- 205-20020a1c00d6000000b003335d1384f1so1181064wma.3
- for <qemu-devel@nongnu.org>; Tue, 21 Dec 2021 03:59:08 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mzdox-0002CX-Gf
+ for qemu-devel@nongnu.org; Tue, 21 Dec 2021 07:00:46 -0500
+Received: from [2a00:1450:4864:20::42b] (port=33506
+ helo=mail-wr1-x42b.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mzdot-00048s-EZ
+ for qemu-devel@nongnu.org; Tue, 21 Dec 2021 07:00:41 -0500
+Received: by mail-wr1-x42b.google.com with SMTP id d9so6934153wrb.0
+ for <qemu-devel@nongnu.org>; Tue, 21 Dec 2021 04:00:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=1VLiEiGiBwYNekqQukV9FMsWAMwjKlJmTrON40lIhDc=;
+ b=p3kodbZCYZBc3+HXHuTluaqwUBjdq2OdJWKNRmbxVti7UE0maAncXF1GM94ZI+dzl6
+ fGLFSy1N6zcl9eDYbBQTwvGQmTbbKqi7S3omOnDomIccS6Vb0zhW7Hq5Rg2OK1WQszdE
+ 5XsSo5So5CU85T+XLOGCK4ANnpv8NCe4Bgw81qq3WqeZl1Tm87sJHyyzK8XXmreATr0r
+ 315Ba31Nlot9pUOGs0ThgIx5QroaWrmWh5ydfIaTHCe2MfupCqT2cHGvQbFuowkuSqrD
+ SumQto7UNsGweiYZYuyLuVBsxPPcekVfsLE7sqJx75mgu3QDB5zoqsKeWXSX0g2PbI8H
+ LFog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=DFSQ125wrOqCH5qFqS/ylAI+rpS/b8ljEQg4CHyzYps=;
- b=SF2FME859byN9gkcK8R8oQPLQtm3ItIn/I52ZqkgH33lrrnjmPBEqP/fETbydJfyR0
- toFuQnVpJG7GhiUfoqT281F/zZ799qWgMNXZm0SubdPUyvHTLPST0esq65wU+3O4qDWW
- 2owYKmGv8mSo05PhgdluQj7aaC0T1dy8HPC9y++NHiKOtogza8Icyq4AkkrnLKX3f/Vi
- 2LsvFR850bf+52wJsy9N8LwkJFDmAoYzySo+/50URIrTMuyPTbXO07Sd8oF+wSyC3g2T
- 7cCm5vDJY+h8euZCsXLv+P6HKhi723Eckho36vqtq2ufLdBDMa5Ly9NDyuyII29pNm4b
- dqsQ==
-X-Gm-Message-State: AOAM533I3fv8/D+TlacXbNlp7vXWIuWJRe22yQH0RAtgmmPgjr6SfypY
- RQK0vs1f1th841tYO5uZaUOynvRQkmeSvIiULx81aY0y46ceB97vqaDUOPcuiBOerBWcHtL89vq
- nJNtxARG9ZW3QNMg=
-X-Received: by 2002:a05:600c:4e15:: with SMTP id
- b21mr2449404wmq.91.1640087947116; 
- Tue, 21 Dec 2021 03:59:07 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwbXFCOfBt1H4vvJsUbqZ755Mzg8Eu3hliargeYatf7PfmVhfumoQtUYovYrHBGKKhBR8pv/g==
-X-Received: by 2002:a05:600c:4e15:: with SMTP id
- b21mr2449391wmq.91.1640087946881; 
- Tue, 21 Dec 2021 03:59:06 -0800 (PST)
+ bh=1VLiEiGiBwYNekqQukV9FMsWAMwjKlJmTrON40lIhDc=;
+ b=Zpk+2xr0GK9icECNuDXph7UVQCnXBCBnpcV1r8XDydLQfs3gI2ZXHvOSM4jzJXgQgy
+ Du9KrWolwh/zUO3fNmbFCeNqG3X3GDRy0nM/hPWpE2INqKtHrAc95Ez7o/Aedb1sc3Ap
+ nD7FvseZEElGx0MnliKnmG9r07aqD3MgQDnt/vIV5Lr2HoICNl1jRF3jgGX2TL2ipM/A
+ 7yJe2Ka5ytO/4XYzozFj5+pCxzKLnG3oAYB8eHmvIZX6GvGCN7ECUHhwwo7/dpHJsnHl
+ /1yfFG3asZ3z6N12hdOESUIRBvXU6epO6p2U+to37HON8h/lTqk6Q6+iY5TSjpsv2Rum
+ 4+KA==
+X-Gm-Message-State: AOAM532rtEzOEnnMYDkCPzmbe4cxCRPjgzbnnsXwrR5nki7PHUY1oT8I
+ GmMpXZnfY60Vh2MD5BQlILk=
+X-Google-Smtp-Source: ABdhPJy95G++ci7YZbfoqtArJ4y1bCt2kw5tYc3MIOc9dceI9UbKprBoItmh4Zw07HisI2r5TN15VQ==
+X-Received: by 2002:adf:bbd2:: with SMTP id z18mr2468780wrg.118.1640088036925; 
+ Tue, 21 Dec 2021 04:00:36 -0800 (PST)
 Received: from [192.168.1.36] (174.red-83-50-185.dynamicip.rima-tde.net.
  [83.50.185.174])
- by smtp.gmail.com with ESMTPSA id d13sm13394283wru.41.2021.12.21.03.59.06
+ by smtp.gmail.com with ESMTPSA id m35sm5815152wms.1.2021.12.21.04.00.35
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 21 Dec 2021 03:59:06 -0800 (PST)
-Message-ID: <0f468714-96bd-1e5a-0e40-b7fd5f920964@redhat.com>
-Date: Tue, 21 Dec 2021 12:59:05 +0100
+ Tue, 21 Dec 2021 04:00:36 -0800 (PST)
+Message-ID: <3a0b0b3c-7fa5-6324-3e74-d7cadd8e89f5@amsat.org>
+Date: Tue, 21 Dec 2021 13:00:35 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.4.0
-Subject: Re: QOM
-To: abhijeet inamdar <abhijeetinamdar3005@gmail.com>,
- qemu-discuss <qemu-discuss@nongnu.org>, qemu-devel <qemu-devel@nongnu.org>
-References: <CAP4GjT2fC_bTkoNd=21MrdoC1hKk_jejDBdc8KiNvr86aOyAwA@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <CAP4GjT2fC_bTkoNd=21MrdoC1hKk_jejDBdc8KiNvr86aOyAwA@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Subject: Re: [PATCH v11 00/31] LoongArch64 port of QEMU TCG
 Content-Language: en-US
+To: gaosong <gaosong@loongson.cn>
+References: <20211221054105.178795-1-git@xen0n.name>
+ <e0e4f331-6c40-bce4-fa7d-898fbe74f962@amsat.org>
+ <31af4f0f-5e2c-b1c1-70dc-8b207f57aad5@loongson.cn>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+In-Reply-To: <31af4f0f-5e2c-b1c1-70dc-8b207f57aad5@loongson.cn>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -49
-X-Spam_score: -5.0
-X-Spam_bar: -----
-X-Spam_report: (-5.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.203,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.012, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42b
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42b.google.com
+X-Spam_score_int: -26
+X-Spam_score: -2.7
+X-Spam_bar: --
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-2.012,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,45 +94,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ XiaoJuan Yang <yangxiaojuan@loongson.cn>, Huacai Chen <chenhuacai@kernel.org>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Laurent Vivier <laurent@vivier.eu>, WANG Xuerui <git@xen0n.name>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Abhijeet,
-
-On 12/21/21 12:27, abhijeet inamdar wrote:
+On 12/21/21 10:36, gaosong wrote:
 > Hi,
 > 
-> 1)What does QOM stand for?
-
-QOM: "QEMU Object Model"
-
-See https://qemu-project.gitlab.io/qemu/devel/qom.html
-
-> 2)Can anyone tell what this error means? 
+> On 2021/12/21 下午4:44, Philippe Mathieu-Daudé wrote:
+>> I took few hours to translate and read all Taobao contracts before
+>> registering, then got blacklisted at my first login... Maybe others
+>> will get more luck.
+>>
+>> Having someone at Loongson helping with hardware is certainly easier
+>> for the community.
 > 
-> (qemu) Unexpected error in object_property_find() at
-> /home/ocp/vcpu-playground/vcpu_on_qemu/qemu-4.2.0/qom/object.c:1177:
-> qemu-system-arm: Property '.sysbus-irq[0]' not found
-> Aborted (core dumped).
+> Loongson company can donate 3a5000 computers or provide an IP access to 3a5000 hardware environment. 
 
-I suppose you are trying to connect a device gpio/irq output line
-to another device input, likely using sysbus_connect_irq().
+Wow, this is awesome!
 
-The API is "connect the N-th output line from the SysBus device
-to this qemu_irq handler", where qemu_irq is the input line.
+> Which way is better?
 
-Apparently your SysBus device doesn't have any output line
-registered. These are registered using sysbus_init_irq().
-The first call register the first output IRQ, and so on.
-
-Some objects have their QOM interface documented, for
-example to use the ARM GIC see:
-https://gitlab.com/qemu-project/qemu/-/blob/master/include/hw/intc/arm_gic.h#L22
-
-Hope that helps.
-
-Regards,
-
-Phil.
-
+Access to 3a5000 hardware environment is certainly better for us,
+as this remove the maintenance burden.
 
