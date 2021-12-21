@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 568ED47BE8D
+	by mail.lfdr.de (Postfix) with ESMTPS id C4BC247BE8E
 	for <lists+qemu-devel@lfdr.de>; Tue, 21 Dec 2021 12:07:35 +0100 (CET)
-Received: from localhost ([::1]:56458 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:56562 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mzczV-0007yr-CL
-	for lists+qemu-devel@lfdr.de; Tue, 21 Dec 2021 06:07:33 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44432)
+	id 1mzczW-00084d-Tq
+	for lists+qemu-devel@lfdr.de; Tue, 21 Dec 2021 06:07:34 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44464)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mzcxa-0005Ji-K2
- for qemu-devel@nongnu.org; Tue, 21 Dec 2021 06:05:34 -0500
-Received: from [2a00:1450:4864:20::42a] (port=43849
- helo=mail-wr1-x42a.google.com)
+ id 1mzcxb-0005Jz-AX
+ for qemu-devel@nongnu.org; Tue, 21 Dec 2021 06:05:35 -0500
+Received: from [2a00:1450:4864:20::32e] (port=40578
+ helo=mail-wm1-x32e.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mzcxY-0004yW-2M
- for qemu-devel@nongnu.org; Tue, 21 Dec 2021 06:05:34 -0500
-Received: by mail-wr1-x42a.google.com with SMTP id v11so26094173wrw.10
- for <qemu-devel@nongnu.org>; Tue, 21 Dec 2021 03:05:31 -0800 (PST)
+ id 1mzcxY-0004yn-SB
+ for qemu-devel@nongnu.org; Tue, 21 Dec 2021 06:05:35 -0500
+Received: by mail-wm1-x32e.google.com with SMTP id
+ j140-20020a1c2392000000b003399ae48f58so1388937wmj.5
+ for <qemu-devel@nongnu.org>; Tue, 21 Dec 2021 03:05:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=scKI0XUojemkNwM+Uk5vdVFq+/YXr2F98gMRbX8fEAY=;
- b=bgaJaMzJjszJKEE2TiXpcPxZjCoAtjKzfKUbHIcWq/NwqTH59TzQSubLj5GQz6pWBk
- q0Yzp7BxWQvJd8Ivg2tHROeg4VGUaNmEUaXjCGX2jFXIjDlaoc8ztXeK1ziUhvYaqOxd
- Rj5N4oCwHfKnAYp9GmhKaCp2l7b42HH+2S/ECSh67ysfQPnZivV3dcYw9xBExLIjLj+U
- q/xB4q8vcKVgAZWXQoQMlDdLba/HS2q3Y0cCgSQod2yyc6b+1jCpasoyeyvoRbDFLmpC
- GS4V6wd7ypzQxZqFCttcR3+4KB2dbZMol7ijuzThN6AKNp/nEZzf3mWmVnCeT+ocCUjJ
- XgqQ==
+ bh=SwquXMcRtP+JeTEQ8y9DI2JPbN/svif4Xsndrbgrh6A=;
+ b=XNuzDPZurRWN7rnH6gOdhPuTDtXkfmT/LqY8JLOWHPeK1Bsh0pFcPs5SLqN9Hx9KNJ
+ FGJuwICRAZ+K+ZFEy4y/U/hxjv7o4CQcrqnlMl/Ci2xxguylfR8qXV17QTiQK9rFVd/Q
+ C6nHa/lnA+IBWT4q0JfXVS/C7p9unSY8COykf8cfTtLzxN19BJKAywW3K8aM0XDPMyut
+ v0sMCphlRgrSm0FG9I4ryREJhl91gYFcn0ERuzYYP+dpS5/6ed6luRbMj4C6GVEvDtqY
+ CLHH9wIYfmpRrKv+SM1Qd0Ez7IYpTCD0FfaGSz4r77Gs5oD4NfqsBzGw8j7DxG7JqG3q
+ Bh2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=scKI0XUojemkNwM+Uk5vdVFq+/YXr2F98gMRbX8fEAY=;
- b=r90d8bFJCbOe6kp4+RyeuX5nXzv52B5F/Ktddctuy1yIMpHJ33pgVNlQZWqfC6DJoq
- sPbKxv4EuJVHxu37FbPM8NjkQ2xjWp11NL8xW53Cb1Cijjil3WMmuQYY4wAPz9J0Qxvi
- SVPARYNuwqcpEBSlb7g8IofwN00uB76i+pSRvCP9dCGdszBopx0/hUyxpeL7sqSL/NBX
- R7hhD0y0HyPeP1/l0QDUUjS8aUbPzF5zS4lghZwCFeoPd3zMWWXCdzEQ+ns/ogremtiz
- a7jaHnunUErA1T3zMFVqK9DRHtP4XIWT+XGbSEFlD1H/5dYOM6BozSxjfkuBU+VQf8yw
- aBbw==
-X-Gm-Message-State: AOAM530KAu2p6VqChPvQwkfpNYbNEQxHa1jkDFMhdoUkrQ2JcMcgRqEg
- Ba529yFNOhmmY59nBVnSg1A5HaojqYg=
-X-Google-Smtp-Source: ABdhPJw2vsg2e4zH6tJMzu3rFpvWnyFntEI5e43vRn4W7w6f1j84v3jq2weOpYeeWFH7XxoCQu9r7g==
-X-Received: by 2002:a05:6000:1885:: with SMTP id
- a5mr1417838wri.301.1640084730756; 
- Tue, 21 Dec 2021 03:05:30 -0800 (PST)
+ bh=SwquXMcRtP+JeTEQ8y9DI2JPbN/svif4Xsndrbgrh6A=;
+ b=w+yFT+EeQetbI7UjaIXqXxjLMaO1w3HASMuTFliKeWGZWRDw6tYyaCNljJHUzH6sew
+ 7VEfTn+xBL5JHhqigpXZOnnd1OJh/jgICqPGWdlrg/85K0bdiuUIhAhSOAiRaf9Pe/Tb
+ 3f7JTkdoTfESLzxsGjp5HSOAyXDVexoyXI1/zEikMJ+wHlf70wpLQr+R5Cduo8ZYsWCm
+ TdYTFzlW2Ywr29PfV5Vzy5b2cT+Qs5qItLOsCxDvYav3fd/gHOEe8uood9HH6weICfIK
+ vq/iQ/sAVvMsdjBiCTM+7Qs2UWoLBfTMJKQqIdyddPZlXiX8Oc0wo6/cX6Ebksy0K7d8
+ 1FXw==
+X-Gm-Message-State: AOAM531YQ2tQ3z/WJ4KEjpE5TDJsvVRzRg5TVDwG84x+HylU2AhCwCO5
+ TuCbOgI9dfplGrcNKbRDfqO/PdtzfNg=
+X-Google-Smtp-Source: ABdhPJyMWBFwMifGMV6EczmF8ZBGfpot72ApJ9el6tIpIDCQRRNt8Tqe1fn461IsLcPSFM7onoMBVg==
+X-Received: by 2002:a1c:f005:: with SMTP id a5mr2346016wmb.19.1640084731335;
+ Tue, 21 Dec 2021 03:05:31 -0800 (PST)
 Received: from avogadro.lan ([2001:b07:6468:f312:63a7:c72e:ea0e:6045])
  by smtp.gmail.com with ESMTPSA id az11sm1949444wmb.30.2021.12.21.03.05.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Dec 2021 03:05:30 -0800 (PST)
+ Tue, 21 Dec 2021 03:05:31 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/8] configure: simplify creation of plugin symbol list
-Date: Tue, 21 Dec 2021 12:05:19 +0100
-Message-Id: <20211221110526.351709-2-pbonzini@redhat.com>
+Subject: [PATCH 2/8] configure: do not set bsd_user/linux_user early
+Date: Tue, 21 Dec 2021 12:05:20 +0100
+Message-Id: <20211221110526.351709-3-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211221110526.351709-1-pbonzini@redhat.com>
 References: <20211221110526.351709-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42a
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32e
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x42a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x32e.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -91,150 +91,84 @@ Cc: richard.henderson@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---dynamic-list is present on all supported ELF (not Windows or Darwin)
-platforms, since it dates back to 2006; -exported_symbols_list is
-likewise present on all supported versions of macOS.  Do not bother
-doing a functional test in configure.
+Similar to other optional features, leave the variables empty and compute
+the actual value later.  Use the existence of include or source directories
+to detect whether an OS or CPU supports respectively bsd-user and linux-user.
 
-Remove the file creation from configure as well: for Darwin, move the
-the creation of the Darwin-formatted symbols to meson; for ELF, use the
-file in the source path directly and switch from -Wl, to -Xlinker to
-not break weird paths that include a comma.
+For now, BSD user-mode emulation is buildable even on TCI-only
+architectures.  This probably will change once safe signals are
+brought over from linux-user.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure           | 80 ---------------------------------------------
- plugins/meson.build | 11 +++++--
- 2 files changed, 8 insertions(+), 83 deletions(-)
+ configure | 28 +++++++++++++++++-----------
+ 1 file changed, 17 insertions(+), 11 deletions(-)
 
 diff --git a/configure b/configure
-index 8ccfe51673..1bce9635d9 100755
+index 1bce9635d9..6dafbcd362 100755
 --- a/configure
 +++ b/configure
-@@ -78,7 +78,6 @@ TMPC="${TMPDIR1}/${TMPB}.c"
- TMPO="${TMPDIR1}/${TMPB}.o"
- TMPCXX="${TMPDIR1}/${TMPB}.cxx"
- TMPE="${TMPDIR1}/${TMPB}.exe"
--TMPTXT="${TMPDIR1}/${TMPB}.txt"
- 
- rm -f config.log
- 
-@@ -2343,69 +2342,6 @@ EOF
-   fi
+@@ -321,8 +321,8 @@ linux="no"
+ solaris="no"
+ profiler="no"
+ softmmu="yes"
+-linux_user="no"
+-bsd_user="no"
++linux_user=""
++bsd_user=""
+ pkgversion=""
+ pie=""
+ qom_cast_debug="yes"
+@@ -539,7 +539,6 @@ gnu/kfreebsd)
+ ;;
+ freebsd)
+   bsd="yes"
+-  bsd_user="yes"
+   make="${MAKE-gmake}"
+   # needed for kinfo_getvmmap(3) in libutil.h
+ ;;
+@@ -584,7 +583,6 @@ haiku)
+ ;;
+ linux)
+   linux="yes"
+-  linux_user="yes"
+   vhost_user=${default_feature:-yes}
+ ;;
+ esac
+@@ -1262,18 +1260,26 @@ if eval test -z "\${cross_cc_$cpu}"; then
+     cross_cc_vars="$cross_cc_vars cross_cc_${cpu}"
  fi
  
--##########################################
--# plugin linker support probe
--
--if test "$plugins" != "no"; then
--
--    #########################################
--    # See if --dynamic-list is supported by the linker
--
--    ld_dynamic_list="no"
--    cat > $TMPTXT <<EOF
--{
--  foo;
--};
--EOF
--
--        cat > $TMPC <<EOF
--#include <stdio.h>
--void foo(void);
--
--void foo(void)
--{
--  printf("foo\n");
--}
--
--int main(void)
--{
--  foo();
--  return 0;
--}
--EOF
--
--    if compile_prog "" "-Wl,--dynamic-list=$TMPTXT" ; then
--        ld_dynamic_list="yes"
--    fi
--
--    #########################################
--    # See if -exported_symbols_list is supported by the linker
--
--    ld_exported_symbols_list="no"
--    cat > $TMPTXT <<EOF
--  _foo
--EOF
--
--    if compile_prog "" "-Wl,-exported_symbols_list,$TMPTXT" ; then
--        ld_exported_symbols_list="yes"
--    fi
--
--    if test "$ld_dynamic_list" = "no" &&
--       test "$ld_exported_symbols_list" = "no" ; then
--        if test "$plugins" = "yes"; then
--            error_exit \
--                "Plugin support requires dynamic linking and specifying a set of symbols " \
--                "that are exported to plugins. Unfortunately your linker doesn't " \
--                "support the flag (--dynamic-list or -exported_symbols_list) used " \
--                "for this purpose."
--        else
--            plugins="no"
--        fi
--    else
--        plugins="yes"
--    fi
+-# For user-mode emulation the host arch has to be one we explicitly
+-# support, even if we're using TCI.
+-if [ "$ARCH" = "unknown" ]; then
+-  bsd_user="no"
+-  linux_user="no"
 -fi
 -
- ##########################################
- # glib support probe
+ default_target_list=""
+ deprecated_targets_list=ppc64abi32-linux-user
+ deprecated_features=""
+ mak_wilds=""
  
-@@ -3643,22 +3579,6 @@ fi
- 
- if test "$plugins" = "yes" ; then
-     echo "CONFIG_PLUGIN=y" >> $config_host_mak
--    # Copy the export object list to the build dir
--    if test "$ld_dynamic_list" = "yes" ; then
--	echo "CONFIG_HAS_LD_DYNAMIC_LIST=yes" >> $config_host_mak
--	ld_symbols=qemu-plugins-ld.symbols
--	cp "$source_path/plugins/qemu-plugins.symbols" $ld_symbols
--    elif test "$ld_exported_symbols_list" = "yes" ; then
--	echo "CONFIG_HAS_LD_EXPORTED_SYMBOLS_LIST=yes" >> $config_host_mak
--	ld64_symbols=qemu-plugins-ld64.symbols
--	echo "# Automatically generated by configure - do not modify" > $ld64_symbols
--	grep 'qemu_' "$source_path/plugins/qemu-plugins.symbols" | sed 's/;//g' | \
--	    sed -E 's/^[[:space:]]*(.*)/_\1/' >> $ld64_symbols
--    else
--	error_exit \
--	    "If \$plugins=yes, either \$ld_dynamic_list or " \
--	    "\$ld_exported_symbols_list should have been set to 'yes'."
--    fi
++if [ "$linux_user" != no ]; then
++    if [ "$targetos" = linux ] && [ -d $source_path/linux-user/host/$cpu ]; then
++        linux_user=yes
++    elif [ "$linux_user" = yes ]; then
++        error_exit "linux-user not supported on this architecture"
++    fi
++fi
++if [ "$bsd_user" != no ]; then
++    if [ "$bsd_user" = "" ]; then
++        test $targetos = freebsd && bsd_user=yes
++    fi
++    if [ "$bsd_user" = yes ] && ! [ -d $source_path/bsd-user/$targetos ]; then
++        error_exit "bsd-user not supported on this host OS"
++    fi
++fi
+ if [ "$softmmu" = "yes" ]; then
+     mak_wilds="${mak_wilds} $source_path/configs/targets/*-softmmu.mak"
  fi
- 
- if test -n "$gdb_bin"; then
-diff --git a/plugins/meson.build b/plugins/meson.build
-index b3de57853b..d0a2ee94cf 100644
---- a/plugins/meson.build
-+++ b/plugins/meson.build
-@@ -1,10 +1,15 @@
- plugin_ldflags = []
- # Modules need more symbols than just those in plugins/qemu-plugins.symbols
- if not enable_modules
--  if 'CONFIG_HAS_LD_DYNAMIC_LIST' in config_host
--    plugin_ldflags = ['-Wl,--dynamic-list=qemu-plugins-ld.symbols']
--  elif 'CONFIG_HAS_LD_EXPORTED_SYMBOLS_LIST' in config_host
-+  if targetos == 'darwin'
-+    qemu_plugins_symbols_list = configure_file(
-+      input: files('qemu-plugins.symbols'),
-+      output: 'qemu-plugins-ld64.symbols',
-+      capture: true,
-+      command: ['sed', '-ne', 's/^[[:space:]]*\\(qemu_.*\\);/_\\1/p', '@INPUT@'])
-     plugin_ldflags = ['-Wl,-exported_symbols_list,qemu-plugins-ld64.symbols']
-+  else
-+    plugin_ldflags = ['-Xlinker', '--dynamic-list=' + (meson.project_source_root() / 'plugins/qemu-plugins.symbols')]
-   endif
- endif
- 
 -- 
 2.33.1
 
