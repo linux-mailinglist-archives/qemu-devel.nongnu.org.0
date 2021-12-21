@@ -2,93 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4554147BC34
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Dec 2021 09:52:30 +0100 (CET)
-Received: from localhost ([::1]:36168 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1260147BC5A
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Dec 2021 10:02:29 +0100 (CET)
+Received: from localhost ([::1]:40044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mzasn-00013G-Cv
-	for lists+qemu-devel@lfdr.de; Tue, 21 Dec 2021 03:52:29 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48942)
+	id 1mzb2R-00046O-LW
+	for lists+qemu-devel@lfdr.de; Tue, 21 Dec 2021 04:02:27 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50158)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mzaqz-0000Mp-G1
- for qemu-devel@nongnu.org; Tue, 21 Dec 2021 03:50:37 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:58098)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mzaqw-000628-R2
- for qemu-devel@nongnu.org; Tue, 21 Dec 2021 03:50:36 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1640076633;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=OErse009dk8DCQ17SGvMQpVTjauki1Wih5CDTwbYQqg=;
- b=KW11SSSa87HyVcd/LQxOx8phvqWskublzLxDwIaZ/pgYzTySKo8JuWrYpVKL4S2zYrDqO6
- EbHg7JjZaU/tRusKxugRVUV//S6eFqLn2tX0DO66mmtG1YemFqjuLp8SbdhFb9D4y74Cj4
- SRSQ/ldvhyTpHhJIW845UleBq+GmTVo=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-529-xI2u3fpuOM6rl7CPvogpcw-1; Tue, 21 Dec 2021 03:50:32 -0500
-X-MC-Unique: xI2u3fpuOM6rl7CPvogpcw-1
-Received: by mail-wm1-f72.google.com with SMTP id
- v62-20020a1cac41000000b0033719a1a714so2619306wme.6
- for <qemu-devel@nongnu.org>; Tue, 21 Dec 2021 00:50:31 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1mzazu-0002h2-R1
+ for qemu-devel@nongnu.org; Tue, 21 Dec 2021 03:59:50 -0500
+Received: from [2a00:1450:4864:20::435] (port=44735
+ helo=mail-wr1-x435.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1mzazr-0006se-Tn
+ for qemu-devel@nongnu.org; Tue, 21 Dec 2021 03:59:50 -0500
+Received: by mail-wr1-x435.google.com with SMTP id t18so25368739wrg.11
+ for <qemu-devel@nongnu.org>; Tue, 21 Dec 2021 00:59:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=2a8xYyslGpBhqtgkmMw9AZg6mE5UWscxt9h84np07Xw=;
+ b=JVyZCRu7agd00WjX7wycLLk76rkvK9q6z9m3uwswSq9fLUMVdSU4h6PG680l/VxRBz
+ xfNES6caQfzySl/dS+UXn2W7PK2DQqvEYYoEIzbvM+JHStCgzg3hUj4zqUDu9aOaiI/s
+ L+ZpgQ5BS6fp28JNMrC38y1Un5rV5FJqUZinbXVpIW7Djm8gPnDWBYncHnKvRdRkAkjX
+ 2njrWg+berRqfPqS+FON5aC1UprUN7XPG7GgAJX/+jGdNr6xElw24tyWaQatZbrLKRYn
+ gh+/azeGdP81lViOcQnEmvw6qu2TjrjEEV62lwOKaVGD92A8at8lG+NefutKwAQ28Zc+
+ hL1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=OErse009dk8DCQ17SGvMQpVTjauki1Wih5CDTwbYQqg=;
- b=3DjePTSt2b2yrjIzx0zFsVy8UH1Fs0zL07ECZgITPp/Nd5s7e+IaDfn11UPE8LFWcq
- /GMzxvMbPfUK/Y1+b2q8STEw1VTtrvkgYvE6pABGZzk3ZeojWeJnGUlK5SI/wx/WGz6S
- QkusGzUJ9ZGLPfCg8qOqJxoTBiYWfJ72yib+j3OAZd0ZhsBCUiHqf3rQJFELKjYQoJJz
- +VVNwiYWsHmToE2J2bicLm4hc6Z8C2ibZjdFB97UK16JlAoSA9T1fKXivex3efdX7WBC
- oQvY6Gk/c4RkkRYy0wGqJx3tc3UGWpwNhe5l6ypw+MMWO7Di/Oe5cMH6MjbXwWKFtoDm
- NH/Q==
-X-Gm-Message-State: AOAM533pmREuP5JHlbGp+Ae9tv4GpkvWZLmOwz+vy/d2OnJ+STuWNQfo
- vAs6SjHS4VrGgPYims+BwDeYHlJB/X0HTrFwCNHpDQETMyEXsDiIrHLKSdR+Ea8YsKNsjKNWxcj
- uusiEVKVKvQpn4yE=
-X-Received: by 2002:a5d:6546:: with SMTP id z6mr1776695wrv.516.1640076631007; 
- Tue, 21 Dec 2021 00:50:31 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwwnYe/dT4QUI64vjCcuf9V9egBUlqdSzY6ILChx6S4nJLkla4plG/oqoNvdnuDrYmal6x69g==
-X-Received: by 2002:a5d:6546:: with SMTP id z6mr1776682wrv.516.1640076630764; 
- Tue, 21 Dec 2021 00:50:30 -0800 (PST)
-Received: from [10.33.192.183] (nat-pool-str-t.redhat.com. [149.14.88.106])
- by smtp.gmail.com with ESMTPSA id b19sm1811839wmb.38.2021.12.21.00.50.30
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 21 Dec 2021 00:50:30 -0800 (PST)
-Message-ID: <ca4a7621-5c42-1b4c-1361-f61afffd5f4d@redhat.com>
-Date: Tue, 21 Dec 2021 09:50:29 +0100
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=2a8xYyslGpBhqtgkmMw9AZg6mE5UWscxt9h84np07Xw=;
+ b=iF0Y38+JOrzqQmOyBnJSXQdul5C1I00W9HEOKm0cnTdBkvSV1kmg8f859HEhORuLWg
+ /qgfpH40OEe8jKK70bIQZ2zh/5iXpMIZQWeGGiHsFjBssNmHSzmJTpVNycSBB16xCVym
+ zxiuqFHvd/OHPHaZJf87ZsiDxM8+05cLBdyw2gyBXCwsmJOw+gz30Q0vlahgKFiCKkBO
+ SHdiZjUKfPiRd/bB0MgzVB89xuqZmf6HBk4ic0gaiyRgB7eOpRHLzNKZawt81y5TYatG
+ 54k1vtG18Oqi4o9BYN1Grz5AkW0o3QS1K1RY8M1oRXPZY6y94Ceq0hEP5V8wtyB94oaK
+ 396A==
+X-Gm-Message-State: AOAM530yPzdy7+AbQQq5mAg72Gx/Y4YG7MUboAwT7tc9jE/i5X6ux3w1
+ jaZ9rgQvDWq1Gb4UuaRBIpSYOgK2pRIP2ZkIlU8=
+X-Google-Smtp-Source: ABdhPJxnim7049Gpsq+MHItsd+qDNbLVzntIGX84BkS42RbU3PSQ8BZLvmxXc7rK4yltHLnExogKpn3Ddj4rnUSV3K0=
+X-Received: by 2002:a5d:47a1:: with SMTP id 1mr1776113wrb.436.1640077185432;
+ Tue, 21 Dec 2021 00:59:45 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH] MAINTAINERS: Update COLO Proxy section
-To: Zhang Chen <chen.zhang@intel.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-dev <qemu-devel@nongnu.org>
-References: <20211221080400.1492980-1-chen.zhang@intel.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20211221080400.1492980-1-chen.zhang@intel.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -49
-X-Spam_score: -5.0
-X-Spam_bar: -----
-X-Spam_report: (-5.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.203,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.012, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20211220233722.1262821-1-dpetroff@gmail.com>
+In-Reply-To: <20211220233722.1262821-1-dpetroff@gmail.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Tue, 21 Dec 2021 12:59:33 +0400
+Message-ID: <CAJ+F1CKAJkFPeSP7-HHMy1aY8kSesSEqEK11iCzg6d27Epbefg@mail.gmail.com>
+Subject: Re: [PATCH] ps2: Initial horizontal scroll support
+To: Dmitry Petrov <dpetroff@gmail.com>
+Content-Type: multipart/alternative; boundary="0000000000000ac0aa05d3a43a32"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::435
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-wr1-x435.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,30 +79,889 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Li Zhijian <lizhijian@cn.fujitsu.com>
+Cc: QEMU <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 21/12/2021 09.04, Zhang Chen wrote:
-> Signed-off-by: Zhang Chen <chen.zhang@intel.com>
+--0000000000000ac0aa05d3a43a32
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Hi
+
+On Tue, Dec 21, 2021 at 4:10 AM Dmitry Petrov <dpetroff@gmail.com> wrote:
+
+> This patch introduces horizontal scroll support for the ps/2 mouse.
+> It includes changes in the ps/2 device driver as well as support
+> for three display options - cocoa, gtk and sdl, tested and working
+> on all of them against guest ubuntu system.
+>
+> The patch is based on the previous work by Brad Jorsch done in 2010
+> but never merge, see
+> https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=3D579968
+
+
+You should split the patch for the different subsystems/ui etc
+
+Looks good to me, although I didn't test it yet. Some comments below
+
+
+>
+> Signed-off-by: Dmitry Petrov <dpetroff@gmail.com>
 > ---
->   MAINTAINERS | 1 +
->   1 file changed, 1 insertion(+)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 1de6ce6e44..5479b9376e 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -2983,6 +2983,7 @@ F: docs/colo-proxy.txt
->   F: net/colo*
->   F: net/filter-rewriter.c
->   F: net/filter-mirror.c
-> +F: tests/qtest/test-filter*
->   
->   Record/replay
->   M: Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>
-> 
+>  hw/input/ps2.c    | 54 ++++++++++++++++++++++++++++++++++++++++-------
+>  qapi/ui.json      |  2 +-
+>  ui/cocoa.m        | 18 ++++++++++------
+>  ui/gtk.c          | 54 ++++++++++++++++++++++++++++++++++++-----------
+>  ui/input-legacy.c | 16 ++++++++++++++
+>  ui/sdl2.c         |  5 +++++
+>  6 files changed, 122 insertions(+), 27 deletions(-)
+>
+> diff --git a/hw/input/ps2.c b/hw/input/ps2.c
+> index 9376a8f4ce..9e42284cd9 100644
+> --- a/hw/input/ps2.c
+> +++ b/hw/input/ps2.c
+> @@ -123,6 +123,7 @@ typedef struct {
+>      int mouse_dx; /* current values, needed for 'poll' mode */
+>      int mouse_dy;
+>      int mouse_dz;
+> +    int mouse_dw;
+>      uint8_t mouse_buttons;
+>  } PS2MouseState;
+>
+> @@ -715,7 +716,7 @@ static int ps2_mouse_send_packet(PS2MouseState *s)
+>      /* IMPS/2 and IMEX send 4 bytes, PS2 sends 3 bytes */
+>      const int needed =3D s->mouse_type ? 4 : 3;
+>      unsigned int b;
+> -    int dx1, dy1, dz1;
+> +    int dx1, dy1, dz1, dw1;
+>
+>      if (PS2_QUEUE_SIZE - s->common.queue.count < needed) {
+>          return 0;
+> @@ -724,6 +725,7 @@ static int ps2_mouse_send_packet(PS2MouseState *s)
+>      dx1 =3D s->mouse_dx;
+>      dy1 =3D s->mouse_dy;
+>      dz1 =3D s->mouse_dz;
+> +    dw1 =3D s->mouse_dw;
+>      /* XXX: increase range to 8 bits ? */
+>      if (dx1 > 127)
+>          dx1 =3D 127;
+> @@ -740,6 +742,9 @@ static int ps2_mouse_send_packet(PS2MouseState *s)
+>      /* extra byte for IMPS/2 or IMEX */
+>      switch(s->mouse_type) {
+>      default:
+> +        /* Just ignore the wheels if not supported */
+> +        s->mouse_dz =3D 0;
+> +        s->mouse_dw =3D 0;
+>          break;
+>      case 3:
+>          if (dz1 > 127)
+> @@ -747,13 +752,38 @@ static int ps2_mouse_send_packet(PS2MouseState *s)
+>          else if (dz1 < -127)
+>                  dz1 =3D -127;
+>          ps2_queue_noirq(&s->common, dz1 & 0xff);
+> +        s->mouse_dz -=3D dz1;
+> +        s->mouse_dw =3D 0;
+>          break;
+>      case 4:
+> -        if (dz1 > 7)
+> -            dz1 =3D 7;
+> -        else if (dz1 < -7)
+> -            dz1 =3D -7;
+> -        b =3D (dz1 & 0x0f) | ((s->mouse_buttons & 0x18) << 1);
+> +        /*
+> +         * This matches what the Linux kernel expects for exps/2 in
+> +         * drivers/input/mouse/psmouse-base.c. Note, if you happen to
+> +         * press/release the 4th or 5th buttons at the same moment as a
+> +         * horizontal wheel scroll, those button presses will get lost.
+> I'm not
+> +         * sure what to do about that, since by this point we don't know
+> +         * whether those buttons actually changed state.
+> +         */
+>
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+Reading the kernel code helped me guess what is going on, but it would be
+nice to have more doc or link to specifications instead.
 
+
+> +        if (dw1 !=3D 0) {
+> +            if (dw1 > 15) {
+> +                dw1 =3D 15;
+> +            } else if (dw1 < -15) {
+> +                dw1 =3D -15;
+> +            }
+> +
+> +            /* 0x3f was found by trial and error vs ubuntu instance */
+> +            b =3D (dw1 & 0x3f) | 0x40;
+>
+
+Ok, clamp at 15 (I think you could go at 31 actually, since 5 bits seem to
+be used) and go to the kernel:
+case 0x40: /* horizontal scroll on IntelliMouse Explorer 4.0 */
+
+This case doesn't handle buttons simultaneously indeed.
+
+I think 0x3f comes from 5 bits + 1 sign bit.
+
++            s->mouse_dw -=3D dw1;
+> +        } else {
+> +            if (dz1 > 7) {
+> +                dz1 =3D 7;
+> +            } else if (dz1 < -7) {
+> +                dz1 =3D -7;
+> +            }
+> +
+> +            b =3D (dz1 & 0x0f) | ((s->mouse_buttons & 0x18) << 1);
+> +            s->mouse_dz -=3D dz1;
+>
+
+Here clamp at 7, since we should fall in the kernel
+case 0x00:
+
+and only 3 bits seem to be used (thus & 0x0f for 3+1 sign).
+
+This case handles buttons simultaneously, but only vertical scroll (unless
+a4tech_workaround is set and triggered)
+
+
+
+
+
+> +        }
+>          ps2_queue_noirq(&s->common, b);
+>          break;
+>      }
+> @@ -764,7 +794,6 @@ static int ps2_mouse_send_packet(PS2MouseState *s)
+>      /* update deltas */
+>      s->mouse_dx -=3D dx1;
+>      s->mouse_dy -=3D dy1;
+> -    s->mouse_dz -=3D dz1;
+>
+>      return 1;
+>  }
+> @@ -806,6 +835,12 @@ static void ps2_mouse_event(DeviceState *dev,
+> QemuConsole *src,
+>              } else if (btn->button =3D=3D INPUT_BUTTON_WHEEL_DOWN) {
+>                  s->mouse_dz++;
+>              }
+> +
+> +            if (btn->button =3D=3D INPUT_BUTTON_WHEEL_RIGHT) {
+> +                s->mouse_dw--;
+> +            } else if (btn->button =3D=3D INPUT_BUTTON_WHEEL_LEFT) {
+> +                s->mouse_dw++;
+> +            }
+>          } else {
+>              s->mouse_buttons &=3D ~bmap[btn->button];
+>          }
+> @@ -833,8 +868,10 @@ static void ps2_mouse_sync(DeviceState *dev)
+>          /* if not remote, send event. Multiple events are sent if
+>             too big deltas */
+>          while (ps2_mouse_send_packet(s)) {
+> -            if (s->mouse_dx =3D=3D 0 && s->mouse_dy =3D=3D 0 && s->mouse=
+_dz =3D=3D 0)
+> +            if (s->mouse_dx =3D=3D 0 && s->mouse_dy =3D=3D 0
+> +                    && s->mouse_dz =3D=3D 0 && s->mouse_dw =3D=3D 0) {
+>                  break;
+> +            }
+>          }
+>      }
+>  }
+> @@ -1036,6 +1073,7 @@ static void ps2_mouse_reset(void *opaque)
+>      s->mouse_dx =3D 0;
+>      s->mouse_dy =3D 0;
+>      s->mouse_dz =3D 0;
+> +    s->mouse_dw =3D 0;
+>      s->mouse_buttons =3D 0;
+>  }
+>
+> diff --git a/qapi/ui.json b/qapi/ui.json
+> index d7567ac866..9dac1bf548 100644
+> --- a/qapi/ui.json
+> +++ b/qapi/ui.json
+> @@ -905,7 +905,7 @@
+>  ##
+>  { 'enum'  : 'InputButton',
+>    'data'  : [ 'left', 'middle', 'right', 'wheel-up', 'wheel-down', 'side=
+',
+> -  'extra' ] }
+> +  'extra', 'wheel-left', 'wheel-right' ] }
+>
+>  ##
+>  # @InputAxis:
+> diff --git a/ui/cocoa.m b/ui/cocoa.m
+> index 68a6302184..c898a8aeaa 100644
+> --- a/ui/cocoa.m
+> +++ b/ui/cocoa.m
+> @@ -970,21 +970,27 @@ QemuCocoaView *cocoaView;
+>               */
+>
+>              /*
+> -             * When deltaY is zero, it means that this scrolling event w=
+as
+> -             * either horizontal, or so fine that it only appears in
+> -             * scrollingDeltaY. So we drop the event.
+> +             * We shouldn't have got a scroll event when deltaY and delt=
+a
+> Y
+> +             * are zero, hence no harm in dropping the event
+>               */
+> -            if ([event deltaY] !=3D 0) {
+> +            if ([event deltaY] !=3D 0 || [event deltaX] !=3D 0) {
+>              /* Determine if this is a scroll up or scroll down event */
+> -                buttons =3D ([event deltaY] > 0) ?
+> +                if ([event deltaY] !=3D 0) {
+> +                  buttons =3D ([event deltaY] > 0) ?
+>                      INPUT_BUTTON_WHEEL_UP : INPUT_BUTTON_WHEEL_DOWN;
+> +                } else if ([event deltaX] !=3D 0) {
+> +                  buttons =3D ([event deltaX] > 0) ?
+> +                    INPUT_BUTTON_WHEEL_LEFT : INPUT_BUTTON_WHEEL_RIGHT;
+> +                }
+> +
+>                  qemu_input_queue_btn(dcl.con, buttons, true);
+>                  qemu_input_event_sync();
+>                  qemu_input_queue_btn(dcl.con, buttons, false);
+>                  qemu_input_event_sync();
+>              }
+> +
+>              /*
+> -             * Since deltaY also reports scroll wheel events we prevent
+> mouse
+> +             * Since deltaY/deltaY also report scroll wheel events we
+> prevent mouse
+>               * movement code from executing.
+>               */
+>              mouse_event =3D false;
+> diff --git a/ui/gtk.c b/ui/gtk.c
+> index 428f02f2df..b52eec6fe9 100644
+> --- a/ui/gtk.c
+> +++ b/ui/gtk.c
+> @@ -963,33 +963,63 @@ static gboolean gd_scroll_event(GtkWidget *widget,
+> GdkEventScroll *scroll,
+>                                  void *opaque)
+>  {
+>      VirtualConsole *vc =3D opaque;
+> -    InputButton btn;
+> +    InputButton btn_vertical;
+> +    InputButton btn_horizontal;
+> +    bool has_vertical =3D false;
+> +    bool has_horizontal =3D false;
+>
+>      if (scroll->direction =3D=3D GDK_SCROLL_UP) {
+> -        btn =3D INPUT_BUTTON_WHEEL_UP;
+> +        btn_vertical =3D INPUT_BUTTON_WHEEL_UP;
+> +        has_vertical =3D true;
+>      } else if (scroll->direction =3D=3D GDK_SCROLL_DOWN) {
+> -        btn =3D INPUT_BUTTON_WHEEL_DOWN;
+> +        btn_vertical =3D INPUT_BUTTON_WHEEL_DOWN;
+> +        has_vertical =3D true;
+> +    } else if (scroll->direction =3D=3D GDK_SCROLL_LEFT) {
+> +        btn_horizontal =3D INPUT_BUTTON_WHEEL_LEFT;
+> +        has_horizontal =3D true;
+> +    } else if (scroll->direction =3D=3D GDK_SCROLL_RIGHT) {
+> +        btn_horizontal =3D INPUT_BUTTON_WHEEL_RIGHT;
+> +        has_horizontal =3D true;
+>      } else if (scroll->direction =3D=3D GDK_SCROLL_SMOOTH) {
+>          gdouble delta_x, delta_y;
+>          if (!gdk_event_get_scroll_deltas((GdkEvent *)scroll,
+>                                           &delta_x, &delta_y)) {
+>              return TRUE;
+>          }
+> -        if (delta_y =3D=3D 0) {
+> -            return TRUE;
+> -        } else if (delta_y > 0) {
+> -            btn =3D INPUT_BUTTON_WHEEL_DOWN;
+> +
+> +        if (delta_y > 0) {
+> +            btn_vertical =3D INPUT_BUTTON_WHEEL_DOWN;
+> +            has_vertical =3D true;
+> +        } else if (delta_y < 0) {
+> +            btn_vertical =3D INPUT_BUTTON_WHEEL_UP;
+> +            has_vertical =3D true;
+> +        } else if (delta_x > 0) {
+> +            btn_horizontal =3D INPUT_BUTTON_WHEEL_RIGHT;
+> +            has_horizontal =3D true;
+> +        } else if (delta_x < 0) {
+> +            btn_horizontal =3D INPUT_BUTTON_WHEEL_LEFT;
+> +            has_horizontal =3D true;
+>          } else {
+> -            btn =3D INPUT_BUTTON_WHEEL_UP;
+> +            return TRUE;
+>          }
+>      } else {
+>          return TRUE;
+>      }
+>
+> -    qemu_input_queue_btn(vc->gfx.dcl.con, btn, true);
+> -    qemu_input_event_sync();
+> -    qemu_input_queue_btn(vc->gfx.dcl.con, btn, false);
+> -    qemu_input_event_sync();
+> +    if (has_vertical) {
+> +        qemu_input_queue_btn(vc->gfx.dcl.con, btn_vertical, true);
+> +        qemu_input_event_sync();
+> +        qemu_input_queue_btn(vc->gfx.dcl.con, btn_vertical, false);
+> +        qemu_input_event_sync();
+> +    }
+> +
+> +    if (has_horizontal) {
+> +        qemu_input_queue_btn(vc->gfx.dcl.con, btn_horizontal, true);
+> +        qemu_input_event_sync();
+> +        qemu_input_queue_btn(vc->gfx.dcl.con, btn_horizontal, false);
+> +        qemu_input_event_sync();
+> +    }
+> +
+>      return TRUE;
+>  }
+>
+> diff --git a/ui/input-legacy.c b/ui/input-legacy.c
+> index 9fc78a639b..2c9a215d7f 100644
+> --- a/ui/input-legacy.c
+> +++ b/ui/input-legacy.c
+> @@ -23,6 +23,7 @@
+>   */
+>
+>  #include "qemu/osdep.h"
+> +#include "qemu/log.h"
+>  #include "qapi/qapi-commands-ui.h"
+>  #include "ui/console.h"
+>  #include "keymaps.h"
+> @@ -179,6 +180,20 @@ static void legacy_mouse_event(DeviceState *dev,
+> QemuConsole *src,
+>                                      1,
+>                                      s->buttons);
+>          }
+> +        if (btn->down && btn->button =3D=3D INPUT_BUTTON_WHEEL_RIGHT) {
+> +            s->qemu_put_mouse_event(s->qemu_put_mouse_event_opaque,
+> +                                    s->axis[INPUT_AXIS_X],
+> +                                    s->axis[INPUT_AXIS_Y],
+> +                                    -2,
+> +                                    s->buttons);
+> +        }
+> +        if (btn->down && btn->button =3D=3D INPUT_BUTTON_WHEEL_LEFT) {
+> +            s->qemu_put_mouse_event(s->qemu_put_mouse_event_opaque,
+> +                                    s->axis[INPUT_AXIS_X],
+> +                                    s->axis[INPUT_AXIS_Y],
+> +                                    2,
+> +                                    s->buttons);
+> +        }
+>          break;
+>      case INPUT_EVENT_KIND_ABS:
+>          move =3D evt->u.abs.data;
+> @@ -216,6 +231,7 @@ QEMUPutMouseEntry
+> *qemu_add_mouse_event_handler(QEMUPutMouseEvent *func,
+>      QEMUPutMouseEntry *s;
+>
+>      s =3D g_new0(QEMUPutMouseEntry, 1);
+> +    qemu_log("qemu_add_mouse_event_handler %s", name);
+>
+>      s->qemu_put_mouse_event =3D func;
+>      s->qemu_put_mouse_event_opaque =3D opaque;
+> diff --git a/ui/sdl2.c b/ui/sdl2.c
+> index 17c0ec30eb..19bbc1fdd4 100644
+> --- a/ui/sdl2.c
+> +++ b/ui/sdl2.c
+> @@ -33,6 +33,7 @@
+>  #include "sysemu/runstate-action.h"
+>  #include "sysemu/sysemu.h"
+>  #include "ui/win32-kbd-hook.h"
+> +#include "qemu/log.h"
+>
+>  static int sdl2_num_outputs;
+>  static struct sdl2_console *sdl2_console;
+> @@ -535,6 +536,10 @@ static void handle_mousewheel(SDL_Event *ev)
+>          btn =3D INPUT_BUTTON_WHEEL_UP;
+>      } else if (wev->y < 0) {
+>          btn =3D INPUT_BUTTON_WHEEL_DOWN;
+> +    } else if (wev->x < 0) {
+> +        btn =3D INPUT_BUTTON_WHEEL_RIGHT;
+> +    } else if (wev->x > 0) {
+> +        btn =3D INPUT_BUTTON_WHEEL_LEFT;
+>      } else {
+>          return;
+>      }
+> --
+> 2.32.0
+>
+>
+>
+
+--=20
+Marc-Andr=C3=A9 Lureau
+
+--0000000000000ac0aa05d3a43a32
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
+"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Dec 21, 2021 at 4:10 AM Dmi=
+try Petrov &lt;<a href=3D"mailto:dpetroff@gmail.com">dpetroff@gmail.com</a>=
+&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px =
+0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">This=
+ patch introduces horizontal scroll support for the ps/2 mouse.<br>
+It includes changes in the ps/2 device driver as well as support<br>
+for three display options - cocoa, gtk and sdl, tested and working<br>
+on all of them against guest ubuntu system.<br>
+<br>
+The patch is based on the previous work by Brad Jorsch done in 2010<br>
+but never merge, see<br>
+<a href=3D"https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=3D579968" rel=
+=3D"noreferrer" target=3D"_blank">https://bugs.debian.org/cgi-bin/bugreport=
+.cgi?bug=3D579968</a></blockquote><div><br></div><div>You should split the =
+patch for the different subsystems/ui etc</div><div><br></div><div>Looks go=
+od to me, although I didn&#39;t test it yet. Some comments below<br></div><=
+div> <br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0p=
+x 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><br>
+<br>
+Signed-off-by: Dmitry Petrov &lt;<a href=3D"mailto:dpetroff@gmail.com" targ=
+et=3D"_blank">dpetroff@gmail.com</a>&gt;<br>
+---<br>
+=C2=A0hw/input/ps2.c=C2=A0 =C2=A0 | 54 ++++++++++++++++++++++++++++++++++++=
+++++-------<br>
+=C2=A0qapi/ui.json=C2=A0 =C2=A0 =C2=A0 |=C2=A0 2 +-<br>
+=C2=A0ui/cocoa.m=C2=A0 =C2=A0 =C2=A0 =C2=A0 | 18 ++++++++++------<br>
+=C2=A0ui/gtk.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 54 +++++++++++++++++++++=
++++++++++++++++-----------<br>
+=C2=A0ui/input-legacy.c | 16 ++++++++++++++<br>
+=C2=A0ui/sdl2.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 5 +++++<br>
+=C2=A06 files changed, 122 insertions(+), 27 deletions(-)<br>
+<br>
+diff --git a/hw/input/ps2.c b/hw/input/ps2.c<br>
+index 9376a8f4ce..9e42284cd9 100644<br>
+--- a/hw/input/ps2.c<br>
++++ b/hw/input/ps2.c<br>
+@@ -123,6 +123,7 @@ typedef struct {<br>
+=C2=A0 =C2=A0 =C2=A0int mouse_dx; /* current values, needed for &#39;poll&#=
+39; mode */<br>
+=C2=A0 =C2=A0 =C2=A0int mouse_dy;<br>
+=C2=A0 =C2=A0 =C2=A0int mouse_dz;<br>
++=C2=A0 =C2=A0 int mouse_dw;<br>
+=C2=A0 =C2=A0 =C2=A0uint8_t mouse_buttons;<br>
+=C2=A0} PS2MouseState;<br>
+<br>
+@@ -715,7 +716,7 @@ static int ps2_mouse_send_packet(PS2MouseState *s)<br>
+=C2=A0 =C2=A0 =C2=A0/* IMPS/2 and IMEX send 4 bytes, PS2 sends 3 bytes */<b=
+r>
+=C2=A0 =C2=A0 =C2=A0const int needed =3D s-&gt;mouse_type ? 4 : 3;<br>
+=C2=A0 =C2=A0 =C2=A0unsigned int b;<br>
+-=C2=A0 =C2=A0 int dx1, dy1, dz1;<br>
++=C2=A0 =C2=A0 int dx1, dy1, dz1, dw1;<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0if (PS2_QUEUE_SIZE - s-&gt;common.queue.count &lt; need=
+ed) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return 0;<br>
+@@ -724,6 +725,7 @@ static int ps2_mouse_send_packet(PS2MouseState *s)<br>
+=C2=A0 =C2=A0 =C2=A0dx1 =3D s-&gt;mouse_dx;<br>
+=C2=A0 =C2=A0 =C2=A0dy1 =3D s-&gt;mouse_dy;<br>
+=C2=A0 =C2=A0 =C2=A0dz1 =3D s-&gt;mouse_dz;<br>
++=C2=A0 =C2=A0 dw1 =3D s-&gt;mouse_dw;<br>
+=C2=A0 =C2=A0 =C2=A0/* XXX: increase range to 8 bits ? */<br>
+=C2=A0 =C2=A0 =C2=A0if (dx1 &gt; 127)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dx1 =3D 127;<br>
+@@ -740,6 +742,9 @@ static int ps2_mouse_send_packet(PS2MouseState *s)<br>
+=C2=A0 =C2=A0 =C2=A0/* extra byte for IMPS/2 or IMEX */<br>
+=C2=A0 =C2=A0 =C2=A0switch(s-&gt;mouse_type) {<br>
+=C2=A0 =C2=A0 =C2=A0default:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* Just ignore the wheels if not supported */<=
+br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 s-&gt;mouse_dz =3D 0;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 s-&gt;mouse_dw =3D 0;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
+=C2=A0 =C2=A0 =C2=A0case 3:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (dz1 &gt; 127)<br>
+@@ -747,13 +752,38 @@ static int ps2_mouse_send_packet(PS2MouseState *s)<br=
+>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0else if (dz1 &lt; -127)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dz1 =3D -127;=
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ps2_queue_noirq(&amp;s-&gt;common, dz1 &a=
+mp; 0xff);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 s-&gt;mouse_dz -=3D dz1;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 s-&gt;mouse_dw =3D 0;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
+=C2=A0 =C2=A0 =C2=A0case 4:<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (dz1 &gt; 7)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 dz1 =3D 7;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 else if (dz1 &lt; -7)<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 dz1 =3D -7;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 b =3D (dz1 &amp; 0x0f) | ((s-&gt;mouse_buttons=
+ &amp; 0x18) &lt;&lt; 1);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 /*<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* This matches what the Linux kernel exp=
+ects for exps/2 in<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* drivers/input/mouse/psmouse-base.c. No=
+te, if you happen to<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* press/release the 4th or 5th buttons a=
+t the same moment as a<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* horizontal wheel scroll, those button =
+presses will get lost. I&#39;m not<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* sure what to do about that, since by t=
+his point we don&#39;t know<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* whether those buttons actually changed=
+ state.<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*/<br>
+</blockquote><div><br></div><div>Reading the kernel code helped me guess wh=
+at is going on, but it would be nice to have more doc or link to specificat=
+ions instead.<br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" s=
+tyle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pad=
+ding-left:1ex">+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (dw1 !=3D 0) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (dw1 &gt; 15) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 dw1 =3D 15;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 } else if (dw1 &lt; -15) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 dw1 =3D -15;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* 0x3f was found by trial and e=
+rror vs ubuntu instance */<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 b =3D (dw1 &amp; 0x3f) | 0x40;<b=
+r></blockquote><div><br></div><div>Ok, clamp at 15 (I think you could go at=
+ 31 actually, since 5 bits seem to be used) and go to the kernel:</div><div=
+>case 0x40: /* horizontal scroll on IntelliMouse Explorer 4.0 */</div><div>=
+<br></div><div>This case doesn&#39;t handle buttons simultaneously indeed.<=
+/div><div><br></div><div>I think 0x3f comes from 5 bits + 1 sign bit.<br> <=
+/div><div><br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
+px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 s-&gt;mouse_dw -=3D dw1;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 } else {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (dz1 &gt; 7) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 dz1 =3D 7;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 } else if (dz1 &lt; -7) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 dz1 =3D -7;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 b =3D (dz1 &amp; 0x0f) | ((s-&gt=
+;mouse_buttons &amp; 0x18) &lt;&lt; 1);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 s-&gt;mouse_dz -=3D dz1;<br>
+</blockquote><div><br></div><div>Here clamp at 7, since we should fall in t=
+he kernel<br></div><div>case 0x00:<br></div><div><br></div><div>and only 3 =
+bits seem to be used (thus &amp; 0x0f for 3+1 sign).</div><div><br></div><d=
+iv>This case handles buttons simultaneously, but only vertical scroll (unle=
+ss a4tech_workaround is set and triggered)<br></div><div><br></div><div><br=
+></div><div><br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" st=
+yle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padd=
+ing-left:1ex">+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ps2_queue_noirq(&amp;s-&gt;common, b);<br=
+>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
+@@ -764,7 +794,6 @@ static int ps2_mouse_send_packet(PS2MouseState *s)<br>
+=C2=A0 =C2=A0 =C2=A0/* update deltas */<br>
+=C2=A0 =C2=A0 =C2=A0s-&gt;mouse_dx -=3D dx1;<br>
+=C2=A0 =C2=A0 =C2=A0s-&gt;mouse_dy -=3D dy1;<br>
+-=C2=A0 =C2=A0 s-&gt;mouse_dz -=3D dz1;<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0return 1;<br>
+=C2=A0}<br>
+@@ -806,6 +835,12 @@ static void ps2_mouse_event(DeviceState *dev, QemuCons=
+ole *src,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0} else if (btn-&gt;button =
+=3D=3D INPUT_BUTTON_WHEEL_DOWN) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0s-&gt;mouse_d=
+z++;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (btn-&gt;button =3D=3D INPUT_=
+BUTTON_WHEEL_RIGHT) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 s-&gt;mouse_dw--;<=
+br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 } else if (btn-&gt;button =3D=3D=
+ INPUT_BUTTON_WHEEL_LEFT) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 s-&gt;mouse_dw++;<=
+br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0} else {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0s-&gt;mouse_buttons &amp;=
+=3D ~bmap[btn-&gt;button];<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+@@ -833,8 +868,10 @@ static void ps2_mouse_sync(DeviceState *dev)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* if not remote, send event. Multiple ev=
+ents are sent if<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 too big deltas */<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0while (ps2_mouse_send_packet(s)) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (s-&gt;mouse_dx =3D=3D 0 &amp=
+;&amp; s-&gt;mouse_dy =3D=3D 0 &amp;&amp; s-&gt;mouse_dz =3D=3D 0)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (s-&gt;mouse_dx =3D=3D 0 &amp=
+;&amp; s-&gt;mouse_dy =3D=3D 0<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &amp=
+;&amp; s-&gt;mouse_dz =3D=3D 0 &amp;&amp; s-&gt;mouse_dw =3D=3D 0) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
+=C2=A0}<br>
+@@ -1036,6 +1073,7 @@ static void ps2_mouse_reset(void *opaque)<br>
+=C2=A0 =C2=A0 =C2=A0s-&gt;mouse_dx =3D 0;<br>
+=C2=A0 =C2=A0 =C2=A0s-&gt;mouse_dy =3D 0;<br>
+=C2=A0 =C2=A0 =C2=A0s-&gt;mouse_dz =3D 0;<br>
++=C2=A0 =C2=A0 s-&gt;mouse_dw =3D 0;<br>
+=C2=A0 =C2=A0 =C2=A0s-&gt;mouse_buttons =3D 0;<br>
+=C2=A0}<br>
+<br>
+diff --git a/qapi/ui.json b/qapi/ui.json<br>
+index d7567ac866..9dac1bf548 100644<br>
+--- a/qapi/ui.json<br>
++++ b/qapi/ui.json<br>
+@@ -905,7 +905,7 @@<br>
+=C2=A0##<br>
+=C2=A0{ &#39;enum&#39;=C2=A0 : &#39;InputButton&#39;,<br>
+=C2=A0 =C2=A0&#39;data&#39;=C2=A0 : [ &#39;left&#39;, &#39;middle&#39;, &#3=
+9;right&#39;, &#39;wheel-up&#39;, &#39;wheel-down&#39;, &#39;side&#39;,<br>
+-=C2=A0 &#39;extra&#39; ] }<br>
++=C2=A0 &#39;extra&#39;, &#39;wheel-left&#39;, &#39;wheel-right&#39; ] }<br=
+>
+<br>
+=C2=A0##<br>
+=C2=A0# @InputAxis:<br>
+diff --git a/ui/cocoa.m b/ui/cocoa.m<br>
+index 68a6302184..c898a8aeaa 100644<br>
+--- a/ui/cocoa.m<br>
++++ b/ui/cocoa.m<br>
+@@ -970,21 +970,27 @@ QemuCocoaView *cocoaView;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/*<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* When deltaY is zero, it =
+means that this scrolling event was<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* either horizontal, or so=
+ fine that it only appears in<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* scrollingDeltaY. So we d=
+rop the event.<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* We shouldn&#39;t have go=
+t a scroll event when deltaY and delta Y<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* are zero, hence no harm =
+in dropping the event<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if ([event deltaY] !=3D 0) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if ([event deltaY] !=3D 0 || [ev=
+ent deltaX] !=3D 0) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* Determine if this is a s=
+croll up or scroll down event */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 buttons =3D ([even=
+t deltaY] &gt; 0) ?<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if ([event deltaY]=
+ !=3D 0) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 buttons =3D=
+ ([event deltaY] &gt; 0) ?<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0INPUT_BUTTON_WHEEL_UP : INPUT_BUTTON_WHEEL_DOWN;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 } else if ([event =
+deltaX] !=3D 0) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 buttons =3D=
+ ([event deltaX] &gt; 0) ?<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 INPU=
+T_BUTTON_WHEEL_LEFT : INPUT_BUTTON_WHEEL_RIGHT;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0qemu_input_qu=
+eue_btn(dcl.con, buttons, true);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0qemu_input_ev=
+ent_sync();<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0qemu_input_qu=
+eue_btn(dcl.con, buttons, false);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0qemu_input_ev=
+ent_sync();<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
++<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/*<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* Since deltaY also report=
+s scroll wheel events we prevent mouse<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* Since deltaY/deltaY also=
+ report scroll wheel events we prevent mouse<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * movement code from execu=
+ting.<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0mouse_event =3D false;<br>
+diff --git a/ui/gtk.c b/ui/gtk.c<br>
+index 428f02f2df..b52eec6fe9 100644<br>
+--- a/ui/gtk.c<br>
++++ b/ui/gtk.c<br>
+@@ -963,33 +963,63 @@ static gboolean gd_scroll_event(GtkWidget *widget, Gd=
+kEventScroll *scroll,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0void *opaque)<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0VirtualConsole *vc =3D opaque;<br>
+-=C2=A0 =C2=A0 InputButton btn;<br>
++=C2=A0 =C2=A0 InputButton btn_vertical;<br>
++=C2=A0 =C2=A0 InputButton btn_horizontal;<br>
++=C2=A0 =C2=A0 bool has_vertical =3D false;<br>
++=C2=A0 =C2=A0 bool has_horizontal =3D false;<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0if (scroll-&gt;direction =3D=3D GDK_SCROLL_UP) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 btn =3D INPUT_BUTTON_WHEEL_UP;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 btn_vertical =3D INPUT_BUTTON_WHEEL_UP;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 has_vertical =3D true;<br>
+=C2=A0 =C2=A0 =C2=A0} else if (scroll-&gt;direction =3D=3D GDK_SCROLL_DOWN)=
+ {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 btn =3D INPUT_BUTTON_WHEEL_DOWN;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 btn_vertical =3D INPUT_BUTTON_WHEEL_DOWN;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 has_vertical =3D true;<br>
++=C2=A0 =C2=A0 } else if (scroll-&gt;direction =3D=3D GDK_SCROLL_LEFT) {<br=
+>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 btn_horizontal =3D INPUT_BUTTON_WHEEL_LEFT;<br=
+>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 has_horizontal =3D true;<br>
++=C2=A0 =C2=A0 } else if (scroll-&gt;direction =3D=3D GDK_SCROLL_RIGHT) {<b=
+r>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 btn_horizontal =3D INPUT_BUTTON_WHEEL_RIGHT;<b=
+r>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 has_horizontal =3D true;<br>
+=C2=A0 =C2=A0 =C2=A0} else if (scroll-&gt;direction =3D=3D GDK_SCROLL_SMOOT=
+H) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0gdouble delta_x, delta_y;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (!gdk_event_get_scroll_deltas((GdkEven=
+t *)scroll,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &=
+amp;delta_x, &amp;delta_y)) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return TRUE;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (delta_y =3D=3D 0) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return TRUE;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 } else if (delta_y &gt; 0) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 btn =3D INPUT_BUTTON_WHEEL_DOWN;=
+<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (delta_y &gt; 0) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 btn_vertical =3D INPUT_BUTTON_WH=
+EEL_DOWN;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 has_vertical =3D true;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 } else if (delta_y &lt; 0) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 btn_vertical =3D INPUT_BUTTON_WH=
+EEL_UP;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 has_vertical =3D true;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 } else if (delta_x &gt; 0) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 btn_horizontal =3D INPUT_BUTTON_=
+WHEEL_RIGHT;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 has_horizontal =3D true;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 } else if (delta_x &lt; 0) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 btn_horizontal =3D INPUT_BUTTON_=
+WHEEL_LEFT;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 has_horizontal =3D true;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0} else {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 btn =3D INPUT_BUTTON_WHEEL_UP;<b=
+r>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return TRUE;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+=C2=A0 =C2=A0 =C2=A0} else {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return TRUE;<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
+<br>
+-=C2=A0 =C2=A0 qemu_input_queue_btn(vc-&gt;gfx.dcl.con, btn, true);<br>
+-=C2=A0 =C2=A0 qemu_input_event_sync();<br>
+-=C2=A0 =C2=A0 qemu_input_queue_btn(vc-&gt;gfx.dcl.con, btn, false);<br>
+-=C2=A0 =C2=A0 qemu_input_event_sync();<br>
++=C2=A0 =C2=A0 if (has_vertical) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_input_queue_btn(vc-&gt;gfx.dcl.con, btn_v=
+ertical, true);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_input_event_sync();<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_input_queue_btn(vc-&gt;gfx.dcl.con, btn_v=
+ertical, false);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_input_event_sync();<br>
++=C2=A0 =C2=A0 }<br>
++<br>
++=C2=A0 =C2=A0 if (has_horizontal) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_input_queue_btn(vc-&gt;gfx.dcl.con, btn_h=
+orizontal, true);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_input_event_sync();<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_input_queue_btn(vc-&gt;gfx.dcl.con, btn_h=
+orizontal, false);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_input_event_sync();<br>
++=C2=A0 =C2=A0 }<br>
++<br>
+=C2=A0 =C2=A0 =C2=A0return TRUE;<br>
+=C2=A0}<br>
+<br>
+diff --git a/ui/input-legacy.c b/ui/input-legacy.c<br>
+index 9fc78a639b..2c9a215d7f 100644<br>
+--- a/ui/input-legacy.c<br>
++++ b/ui/input-legacy.c<br>
+@@ -23,6 +23,7 @@<br>
+=C2=A0 */<br>
+<br>
+=C2=A0#include &quot;qemu/osdep.h&quot;<br>
++#include &quot;qemu/log.h&quot;<br>
+=C2=A0#include &quot;qapi/qapi-commands-ui.h&quot;<br>
+=C2=A0#include &quot;ui/console.h&quot;<br>
+=C2=A0#include &quot;keymaps.h&quot;<br>
+@@ -179,6 +180,20 @@ static void legacy_mouse_event(DeviceState *dev, QemuC=
+onsole *src,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A01,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0s-&gt;buttons);<=
+br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (btn-&gt;down &amp;&amp; btn-&gt;button =3D=
+=3D INPUT_BUTTON_WHEEL_RIGHT) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 s-&gt;qemu_put_mouse_event(s-&gt=
+;qemu_put_mouse_event_opaque,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 s-&gt;axis[INPUT_AXIS_=
+X],<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 s-&gt;axis[INPUT_AXIS_=
+Y],<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 -2,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 s-&gt;buttons);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (btn-&gt;down &amp;&amp; btn-&gt;button =3D=
+=3D INPUT_BUTTON_WHEEL_LEFT) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 s-&gt;qemu_put_mouse_event(s-&gt=
+;qemu_put_mouse_event_opaque,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 s-&gt;axis[INPUT_AXIS_=
+X],<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 s-&gt;axis[INPUT_AXIS_=
+Y],<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 2,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 s-&gt;buttons);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
+=C2=A0 =C2=A0 =C2=A0case INPUT_EVENT_KIND_ABS:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0move =3D evt-&gt;u.abs.data;<br>
+@@ -216,6 +231,7 @@ QEMUPutMouseEntry *qemu_add_mouse_event_handler(QEMUPut=
+MouseEvent *func,<br>
+=C2=A0 =C2=A0 =C2=A0QEMUPutMouseEntry *s;<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0s =3D g_new0(QEMUPutMouseEntry, 1);<br>
++=C2=A0 =C2=A0 qemu_log(&quot;qemu_add_mouse_event_handler %s&quot;, name);=
+<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0s-&gt;qemu_put_mouse_event =3D func;<br>
+=C2=A0 =C2=A0 =C2=A0s-&gt;qemu_put_mouse_event_opaque =3D opaque;<br>
+diff --git a/ui/sdl2.c b/ui/sdl2.c<br>
+index 17c0ec30eb..19bbc1fdd4 100644<br>
+--- a/ui/sdl2.c<br>
++++ b/ui/sdl2.c<br>
+@@ -33,6 +33,7 @@<br>
+=C2=A0#include &quot;sysemu/runstate-action.h&quot;<br>
+=C2=A0#include &quot;sysemu/sysemu.h&quot;<br>
+=C2=A0#include &quot;ui/win32-kbd-hook.h&quot;<br>
++#include &quot;qemu/log.h&quot;<br>
+<br>
+=C2=A0static int sdl2_num_outputs;<br>
+=C2=A0static struct sdl2_console *sdl2_console;<br>
+@@ -535,6 +536,10 @@ static void handle_mousewheel(SDL_Event *ev)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0btn =3D INPUT_BUTTON_WHEEL_UP;<br>
+=C2=A0 =C2=A0 =C2=A0} else if (wev-&gt;y &lt; 0) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0btn =3D INPUT_BUTTON_WHEEL_DOWN;<br>
++=C2=A0 =C2=A0 } else if (wev-&gt;x &lt; 0) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 btn =3D INPUT_BUTTON_WHEEL_RIGHT;<br>
++=C2=A0 =C2=A0 } else if (wev-&gt;x &gt; 0) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 btn =3D INPUT_BUTTON_WHEEL_LEFT;<br>
+=C2=A0 =C2=A0 =C2=A0} else {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return;<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
+-- <br>
+2.32.0<br>
+<br>
+<br>
+</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
+mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
+
+--0000000000000ac0aa05d3a43a32--
 
