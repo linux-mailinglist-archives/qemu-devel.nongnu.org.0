@@ -2,51 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EC8947C3D2
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Dec 2021 17:35:44 +0100 (CET)
-Received: from localhost ([::1]:48904 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3E1F47C3D1
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Dec 2021 17:35:43 +0100 (CET)
+Received: from localhost ([::1]:48792 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mzi75-00051R-1G
-	for lists+qemu-devel@lfdr.de; Tue, 21 Dec 2021 11:35:43 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48716)
+	id 1mzi74-0004xJ-H2
+	for lists+qemu-devel@lfdr.de; Tue, 21 Dec 2021 11:35:42 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48706)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1mzi4k-0003Ug-Ag
+ id 1mzi4k-0003Ue-DK
  for qemu-devel@nongnu.org; Tue, 21 Dec 2021 11:33:18 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24780)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:43737)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1mzi4g-0004r5-9l
+ id 1mzi4g-0004r6-7A
  for qemu-devel@nongnu.org; Tue, 21 Dec 2021 11:33:17 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1640104388;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=+XjAzEqO+UNZhkokgFx9LXnnSqmYFMDG8XWia/Gzr4Y=;
- b=FxWgkLXtag1X/go7XjfqIXBEG16ADkdDc8c/Jm/g/TwjD+PmZWZZ5k/xoAGrv7g2FiHmzl
- V8l9xNCFzAudCCOvREkH9I8Ov2jE6jmD1ifxB0ZxvG+Q/qqXzB1SYyVPXYmz2lKWKNY58Z
- AuXVDABMkHD+Hr0QFym/nWiZdDLEfp0=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=3y5oX9qzG39mxZevA0tFyDwIjiq2HrlVXDbm0BWWuoI=;
+ b=ZNXkh3fqLFCsrs31DUMRLcUgpkhWymNc4u5nVCb3o1ChTG3DNV128yKSksvS8dMQe8OCI6
+ 32vQGx5arsMDJWDbNQ64r16rfxRohIsgCFedsEtuHgPM4sIBFlwMu6WA9N6Aa/SlpzyOax
+ QKYMXo36nFl772eDPOuc4FIUzYPZih0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-104-aZqMG2AVMPOmLAcNHQdsUQ-1; Tue, 21 Dec 2021 11:33:03 -0500
-X-MC-Unique: aZqMG2AVMPOmLAcNHQdsUQ-1
+ us-mta-609-uA8x1IWFOBa79ypL7uhf0Q-1; Tue, 21 Dec 2021 11:33:05 -0500
+X-MC-Unique: uA8x1IWFOBa79ypL7uhf0Q-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 93B4D1800D50;
- Tue, 21 Dec 2021 16:33:02 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EA3C5101F003;
+ Tue, 21 Dec 2021 16:33:03 +0000 (UTC)
 Received: from avogadro.lan (unknown [10.39.193.83])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 954E610911A5;
- Tue, 21 Dec 2021 16:33:01 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id ECC1210911A5;
+ Tue, 21 Dec 2021 16:33:02 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/3] build: some cleanups for common-user/ infrastructure
-Date: Tue, 21 Dec 2021 17:32:57 +0100
-Message-Id: <20211221163300.453146-1-pbonzini@redhat.com>
+Subject: [PATCH 1/3] meson: reuse common_user_inc when building files specific
+ to user-mode emulators
+Date: Tue, 21 Dec 2021 17:32:58 +0100
+Message-Id: <20211221163300.453146-2-pbonzini@redhat.com>
+In-Reply-To: <20211221163300.453146-1-pbonzini@redhat.com>
+References: <20211221163300.453146-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
@@ -55,7 +59,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -80,56 +84,33 @@ Cc: lvivier@redhat.com, richard.henderson@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-A belated review of the patches that introduced common-user/.
-Limiting the interface that it expects from bsd-user/ and linux-user/
-to an include/ subdirectory, and simplifying the mesonry that builds
-the new directory.
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ meson.build | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Paolo Bonzini (3):
-  meson: reuse common_user_inc when building files specific to user-mode
-    emulators
-  user: move common-user includes to a subdirectory of {bsd,linux}-user/
-  meson: cleanup common-user/ build
-
- bsd-user/{ => include}/special-errno.h            |  0
- bsd-user/meson.build                              |  2 +-
- common-user/meson.build                           |  2 +-
- .../{ => include}/host/aarch64/host-signal.h      |  0
- linux-user/{ => include}/host/alpha/host-signal.h |  0
- linux-user/{ => include}/host/arm/host-signal.h   |  0
- linux-user/{ => include}/host/i386/host-signal.h  |  0
- linux-user/{ => include}/host/mips/host-signal.h  |  0
- linux-user/{ => include}/host/ppc/host-signal.h   |  0
- linux-user/{ => include}/host/ppc64/host-signal.h |  0
- linux-user/{ => include}/host/riscv/host-signal.h |  0
- linux-user/{ => include}/host/s390/host-signal.h  |  0
- linux-user/{ => include}/host/s390x/host-signal.h |  0
- linux-user/{ => include}/host/sparc/host-signal.h |  0
- .../{ => include}/host/sparc64/host-signal.h      |  0
- linux-user/{ => include}/host/x32/host-signal.h   |  0
- .../{ => include}/host/x86_64/host-signal.h       |  0
- linux-user/{ => include}/special-errno.h          |  0
- linux-user/meson.build                            |  4 ++--
- meson.build                                       | 15 ++-------------
- 20 files changed, 6 insertions(+), 17 deletions(-)
- rename bsd-user/{ => include}/special-errno.h (100%)
- rename linux-user/{ => include}/host/aarch64/host-signal.h (100%)
- rename linux-user/{ => include}/host/alpha/host-signal.h (100%)
- rename linux-user/{ => include}/host/arm/host-signal.h (100%)
- rename linux-user/{ => include}/host/i386/host-signal.h (100%)
- rename linux-user/{ => include}/host/mips/host-signal.h (100%)
- rename linux-user/{ => include}/host/ppc/host-signal.h (100%)
- rename linux-user/{ => include}/host/ppc64/host-signal.h (100%)
- rename linux-user/{ => include}/host/riscv/host-signal.h (100%)
- rename linux-user/{ => include}/host/s390/host-signal.h (100%)
- rename linux-user/{ => include}/host/s390x/host-signal.h (100%)
- rename linux-user/{ => include}/host/sparc/host-signal.h (100%)
- rename linux-user/{ => include}/host/sparc64/host-signal.h (100%)
- rename linux-user/{ => include}/host/x32/host-signal.h (100%)
- rename linux-user/{ => include}/host/x86_64/host-signal.h (100%)
- rename linux-user/{ => include}/special-errno.h (100%)
-
+diff --git a/meson.build b/meson.build
+index f45ecf31bd..b0af02b805 100644
+--- a/meson.build
++++ b/meson.build
+@@ -2897,6 +2897,7 @@ foreach target : target_dirs
+   else
+     abi = config_target['TARGET_ABI_DIR']
+     target_type='user'
++    target_inc += common_user_inc
+     qemu_target_name = 'qemu-' + target_name
+     if target_base_arch in target_user_arch
+       t = target_user_arch[target_base_arch].apply(config_target, strict: false)
+@@ -2905,7 +2906,6 @@ foreach target : target_dirs
+     endif
+     if 'CONFIG_LINUX_USER' in config_target
+       base_dir = 'linux-user'
+-      target_inc += include_directories('linux-user/host/' / host_arch)
+     endif
+     if 'CONFIG_BSD_USER' in config_target
+       base_dir = 'bsd-user'
 -- 
 2.33.1
+
 
 
