@@ -2,66 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1AF847C939
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Dec 2021 23:32:20 +0100 (CET)
-Received: from localhost ([::1]:58356 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC16247C96D
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Dec 2021 23:55:39 +0100 (CET)
+Received: from localhost ([::1]:44644 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mzngB-00039z-Cf
-	for lists+qemu-devel@lfdr.de; Tue, 21 Dec 2021 17:32:19 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37056)
+	id 1mzo2k-0005XI-C6
+	for lists+qemu-devel@lfdr.de; Tue, 21 Dec 2021 17:55:38 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40818)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mznen-0002Nz-BG
- for qemu-devel@nongnu.org; Tue, 21 Dec 2021 17:30:53 -0500
-Received: from 9.mo548.mail-out.ovh.net ([46.105.48.137]:55211)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mzned-0008GH-L0
- for qemu-devel@nongnu.org; Tue, 21 Dec 2021 17:30:50 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.108.4.141])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id DA325202E2;
- Tue, 21 Dec 2021 22:30:30 +0000 (UTC)
-Received: from kaod.org (37.59.142.104) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.17; Tue, 21 Dec
- 2021 23:30:30 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-104R005cdce0feb-a4c2-4793-98d6-a21997dced3e,
- 742E9276A26BC2B4C6C283707E5EBA255AB8FB31) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <b7c50c1b-16f2-3fdd-dbd7-944ddf150947@kaod.org>
-Date: Tue, 21 Dec 2021 23:30:28 +0100
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mzo17-0004lC-KN
+ for qemu-devel@nongnu.org; Tue, 21 Dec 2021 17:53:57 -0500
+Received: from [2607:f8b0:4864:20::1034] (port=37755
+ helo=mail-pj1-x1034.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mzo15-0002xw-Ri
+ for qemu-devel@nongnu.org; Tue, 21 Dec 2021 17:53:57 -0500
+Received: by mail-pj1-x1034.google.com with SMTP id
+ y16-20020a17090a6c9000b001b13ffaa625so3941355pjj.2
+ for <qemu-devel@nongnu.org>; Tue, 21 Dec 2021 14:53:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:from:to:cc:references:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=aJR6j6nVrlZcdyukjk0pIlICfCJL03lg2j43ut/f2xg=;
+ b=f0RSls8cxGkPA4jBNPFF+1sifRTV8H7UIZaGPhzV49J/21KHhb0NruCdfD9UxcyVzK
+ aD49HmdyDXzpALKQoOnlFm9XVh800YY31RExFSXQO0NM/BzCTV6Us/sqTP/8zSpgC3On
+ /vvOobGITm/Sy//F+8lRAdZmgEApZ0uUppa4z0yKJN9+r2DmYvmA77G7bg19kukfulYk
+ 69F9HxZHmpqDBT+zNKtlGOtuTLQbzWUnJ0eMuIgJ3RsNEaBd9Ff6KxGZSA7TH/P80ORV
+ MABsO7j22gGcry6pzHbMZCHemiwBqtZ/iHAkMmKCres1Eadb0QkXjlVAtxMOmXBX9MIC
+ 0ung==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=aJR6j6nVrlZcdyukjk0pIlICfCJL03lg2j43ut/f2xg=;
+ b=a0GoE7Sj37524O1IR3I/CUVQUJCxh7zaloIR2W7+jAkXTKrzmy13gjJXOduX28mdX9
+ VGu8EULFUi5gvi2U5B6fN/6aNrle/HYoivJqBEw+9djF6+S7TgoXQIQy4qDEkiGOekBl
+ K56BQyrch/Rx96cAqnnMNW21ZUlJKQhiXZW9wNXqvrX3AKlgvEt96vhMNw83YwcOsw6N
+ M+yy51LTZXtqauDJBzVslHwAopiOvJvOWrx1+TFtNVwmKHNEcztAlf+Gyur9G+HQatEc
+ uh4vk/VQTIvjrtcA32ifkDp1ZQ6ZpqLkk4Knw+XCwFlbP5MZb7+hzL5WqVp3SyfoK4zA
+ kdtw==
+X-Gm-Message-State: AOAM530uGnS6EEcA/A3RergHGNIkowh5H/azbt9VGM4kIVJaH6eTSNEs
+ X7Uu7ZzGuf91PgiQvNVLbo4Jqw==
+X-Google-Smtp-Source: ABdhPJyO3dO7oyIhxMADMFsglW8xKNAHE0bGqjCMexnQXeOZSvjFBTpMuR4kt6QULmSBI/MgpEZAKw==
+X-Received: by 2002:a17:90a:ff17:: with SMTP id
+ ce23mr426615pjb.164.1640127234294; 
+ Tue, 21 Dec 2021 14:53:54 -0800 (PST)
+Received: from [192.168.4.112] ([156.19.246.20])
+ by smtp.gmail.com with ESMTPSA id z18sm130111pfe.146.2021.12.21.14.53.53
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 21 Dec 2021 14:53:53 -0800 (PST)
+Subject: Re: [PATCH v2 00/30] tcg/loongarch64: New tcg backend
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+References: <20211221212558.1835038-1-richard.henderson@linaro.org>
+Message-ID: <27762bf6-2757-537b-4d98-a73c28d99d74@linaro.org>
+Date: Tue, 21 Dec 2021 14:53:51 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: powernv gitlab ci regression
+In-Reply-To: <20211221212558.1835038-1-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-To: Daniel Henrique Barboza <danielhb413@gmail.com>, Richard Henderson
- <richard.henderson@linaro.org>, qemu-devel <qemu-devel@nongnu.org>,
- <clombard@linux.vnet.ibm.com>
-References: <461a77d6-a5d2-0ba1-de95-bc8cfa5fb83b@linaro.org>
- <9f1947e0-86d8-60e4-87bf-f4a5ec0d6ea8@gmail.com>
- <a9031035-5623-d0ec-1e68-7f1371a4ee87@kaod.org>
- <b454cba4-7254-fbe6-0235-8a0778f2938d@gmail.com>
- <8ab3b465-dfec-8579-2b96-e0383f9bcc6f@gmail.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <8ab3b465-dfec-8579-2b96-e0383f9bcc6f@gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.104]
-X-ClientProxiedBy: DAG5EX2.mxp5.local (172.16.2.42) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: c694cdab-6866-499b-892c-12ea8bdfca6e
-X-Ovh-Tracer-Id: 6162613144280665056
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddruddtgedgudeifecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeigedvffekgeeftedutddttdevudeihfegudffkeeitdekkeetkefhffelveelleenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtgeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopegtlhhomhgsrghrugeslhhinhhugidrvhhnvghtrdhisghmrdgtohhm
-Received-SPF: pass client-ip=46.105.48.137; envelope-from=clg@kaod.org;
- helo=9.mo548.mail-out.ovh.net
-X-Spam_score_int: -38
-X-Spam_score: -3.9
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1034
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
+X-Spam_score_int: -32
+X-Spam_score: -3.3
 X-Spam_bar: ---
-X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.012,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.012,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -75,47 +91,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: git@xen0n.name
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> Just rewrote the fore-mentioned patch using TCG ops. Here's some numbers running the tests on
-> my local machine:
+On 12/21/21 1:25 PM, Richard Henderson wrote:
+> Version 2: Dropped patch 31, the gitlab-ci change:
 > 
-> - using current master:
-> 
->   (1/1) tests/avocado/boot_linux_console.py:BootLinuxConsole.test_ppc_powernv8: PASS (71.00 s)
->   (1/1) tests/avocado/boot_linux_console.py:BootLinuxConsole.test_ppc_powernv8: PASS (69.57 s)
->   (1/1) tests/avocado/boot_linux_console.py:BootLinuxConsole.test_ppc_powernv8: PASS (76.04 s)
-> 
-> 
->   (1/1) tests/avocado/boot_linux_console.py:BootLinuxConsole.test_ppc_powernv9: PASS (72.62 s)
->   (1/1) tests/avocado/boot_linux_console.py:BootLinuxConsole.test_ppc_powernv9: PASS (76.50 s)
->   (1/1) tests/avocado/boot_linux_console.py:BootLinuxConsole.test_ppc_powernv9: PASS (73.58 s)
+> Found errors in your .gitlab-ci.yml:
+> 'cross-loongarch64-system' job needs 'loongarch64-cross-container' job
+> but 'loongarch64-cross-container' is not in any previous stage
+> 'cross-loongarch64-user' job needs 'loongarch64-cross-container' job
+> but 'loongarch64-cross-container' is not in any previous stage
 > 
 > 
-> - after my TCG Ops rewrite to count instructions:
+> r~
 > 
 > 
->   (1/1) tests/avocado/boot_linux_console.py:BootLinuxConsole.test_ppc_powernv8: PASS (39.97 s)
->   (1/1) tests/avocado/boot_linux_console.py:BootLinuxConsole.test_ppc_powernv8: PASS (40.19 s)
->   (1/1) tests/avocado/boot_linux_console.py:BootLinuxConsole.test_ppc_powernv8: PASS (41.76 s)
+> The following changes since commit 5316e12bb2b4408a1597b283ef4bb4794dd7b4f7:
 > 
->   (1/1) tests/avocado/boot_linux_console.py:BootLinuxConsole.test_ppc_powernv9: PASS (40.88 s)
->   (1/1) tests/avocado/boot_linux_console.py:BootLinuxConsole.test_ppc_powernv9: PASS (41.49 s)
->   (1/1) tests/avocado/boot_linux_console.py:BootLinuxConsole.test_ppc_powernv9: PASS (42.04 s)
+>    Merge tag 'dbus-pull-request' of https://gitlab.com/marcandre.lureau/qemu into staging (2021-12-21 08:00:26 -0800)
 > 
+> are available in the Git repository at:
 > 
-> Also, there's a high possibility that the code I wrote is not optimized since I'm not well
-> versed with TCG ops/code. I expect that after a couple of reviews from Richard we might be able
-> to bring down those numbers even further.
+>    https://gitlab.com/rth7680/qemu.git tags/pull-loong-20211221-2
+> 
+> for you to fetch changes up to dfcf900ba67040ea9aa839aa38b33b4c091721d8:
+> 
+>    configure, meson.build: Mark support for loongarch64 hosts (2021-12-21 13:17:06 -0800)
+> 
+> ----------------------------------------------------------------
+> Initial commit of tcg/loongarch64
+> 
+> ----------------------------------------------------------------
+> WANG Xuerui (30):
+>        elf: Add machine type value for LoongArch
+>        MAINTAINERS: Add tcg/loongarch64 entry with myself as maintainer
+>        tcg/loongarch64: Add the tcg-target.h file
+>        tcg/loongarch64: Add generated instruction opcodes and encoding helpers
+>        tcg/loongarch64: Add register names, allocation order and input/output sets
+>        tcg/loongarch64: Define the operand constraints
+>        tcg/loongarch64: Implement necessary relocation operations
+>        tcg/loongarch64: Implement the memory barrier op
+>        tcg/loongarch64: Implement tcg_out_mov and tcg_out_movi
+>        tcg/loongarch64: Implement goto_ptr
+>        tcg/loongarch64: Implement sign-/zero-extension ops
+>        tcg/loongarch64: Implement not/and/or/xor/nor/andc/orc ops
+>        tcg/loongarch64: Implement deposit/extract ops
+>        tcg/loongarch64: Implement bswap{16,32,64} ops
+>        tcg/loongarch64: Implement clz/ctz ops
+>        tcg/loongarch64: Implement shl/shr/sar/rotl/rotr ops
+>        tcg/loongarch64: Implement add/sub ops
+>        tcg/loongarch64: Implement mul/mulsh/muluh/div/divu/rem/remu ops
+>        tcg/loongarch64: Implement br/brcond ops
+>        tcg/loongarch64: Implement setcond ops
+>        tcg/loongarch64: Implement tcg_out_call
+>        tcg/loongarch64: Implement simple load/store ops
+>        tcg/loongarch64: Add softmmu load/store helpers, implement qemu_ld/qemu_st ops
+>        tcg/loongarch64: Implement tcg_target_qemu_prologue
+>        tcg/loongarch64: Implement exit_tb/goto_tb
+>        tcg/loongarch64: Implement tcg_target_init
+>        tcg/loongarch64: Register the JIT
+>        common-user: Add safe syscall handling for loongarch64 hosts
+>        linux-user: Implement CPU-specific signal handler for loongarch64 hosts
+>        configure, meson.build: Mark support for loongarch64 hosts
+> 
+>   configure                                       |    5 +
+>   meson.build                                     |    2 +-
+>   include/elf.h                                   |    2 +
+>   linux-user/host/loongarch64/host-signal.h       |   87 ++
+>   tcg/loongarch64/tcg-target-con-set.h            |   31 +
+>   tcg/loongarch64/tcg-target-con-str.h            |   28 +
+>   tcg/loongarch64/tcg-target.h                    |  180 +++
+>   tcg/loongarch64/tcg-insn-defs.c.inc             |  979 +++++++++++++
+>   tcg/loongarch64/tcg-target.c.inc                | 1677 +++++++++++++++++++++++
+>   MAINTAINERS                                     |    5 +
+>   common-user/host/loongarch64/safe-syscall.inc.S |   90 ++
+>   11 files changed, 3085 insertions(+), 1 deletion(-)
+>   create mode 100644 linux-user/host/loongarch64/host-signal.h
+>   create mode 100644 tcg/loongarch64/tcg-target-con-set.h
+>   create mode 100644 tcg/loongarch64/tcg-target-con-str.h
+>   create mode 100644 tcg/loongarch64/tcg-target.h
+>   create mode 100644 tcg/loongarch64/tcg-insn-defs.c.inc
+>   create mode 100644 tcg/loongarch64/tcg-target.c.inc
+>   create mode 100644 common-user/host/loongarch64/safe-syscall.inc.S
 
-This is behaving like 6.2. We should be fine (until we add more counters :)
-   
-> I'll clean this up and send for review.
-ok. We might have a last ppc PR in 2021.
+Applied, thanks.
 
-Thanks a lot,
 
-C.
+r~
 
 
