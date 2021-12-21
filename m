@@ -2,75 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D03347BEF5
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Dec 2021 12:32:10 +0100 (CET)
-Received: from localhost ([::1]:42418 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D01F547BEFE
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Dec 2021 12:33:07 +0100 (CET)
+Received: from localhost ([::1]:44270 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mzdNJ-000450-4e
-	for lists+qemu-devel@lfdr.de; Tue, 21 Dec 2021 06:32:09 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49922)
+	id 1mzdOE-0005PK-UZ
+	for lists+qemu-devel@lfdr.de; Tue, 21 Dec 2021 06:33:06 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50700)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pratikp@vayavyalabs.com>)
- id 1mzdIm-0008Ky-8Z
- for qemu-devel@nongnu.org; Tue, 21 Dec 2021 06:27:28 -0500
-Received: from [2a00:1450:4864:20::22a] (port=34493
- helo=mail-lj1-x22a.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <pratikp@vayavyalabs.com>)
- id 1mzdIk-0008GP-I0
- for qemu-devel@nongnu.org; Tue, 21 Dec 2021 06:27:27 -0500
-Received: by mail-lj1-x22a.google.com with SMTP id k23so20903806lje.1
- for <qemu-devel@nongnu.org>; Tue, 21 Dec 2021 03:27:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=vayavyalabs.com; s=vayavyalabs;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=iKqzzADrk88Almd/oO4mNwZbvhSK3rpjUOnfI7pnOyg=;
- b=Iz84e0iox/yXtmzoH/MBWhvOV1TxRrwi2cRlzw9WdWnlgkwfVU7b2hQN+/ozcIE4VY
- CkbRm6dSbPUqICyhk9DLt6T3FAmMcOAy9aZy3xa6rIu++ABezpMvOfQFi6tKEiknIMQe
- b1kvzlzl7aO4zSdFMEXN/HARo5V4amzrqxHrA=
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mzdM2-0003tT-4n
+ for qemu-devel@nongnu.org; Tue, 21 Dec 2021 06:30:51 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44284)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mzdLz-0000IM-TD
+ for qemu-devel@nongnu.org; Tue, 21 Dec 2021 06:30:49 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1640086246;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=rKAjn8bEqgRpgeer+vFbaZ1g+Yv+w6uVK1j6QgN6npQ=;
+ b=D/ckncHsprUEJ4pOFA5HYG91yWAQeAH7rIXChuh+E5FsllICtAxyrc9Fi3vICrlPpycFIn
+ 5LA1BiP4Jd4qep9AGaBrpgeVRzB6OBMuAKkviPKGgkXBGSNggBXxQ9OeVNce1jN0554iZe
+ BYMIzYMQI0ScRkRbZM44y8R2JA2hclI=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-634-N4FAYWSZM3yxaqdOvHKErA-1; Tue, 21 Dec 2021 06:30:45 -0500
+X-MC-Unique: N4FAYWSZM3yxaqdOvHKErA-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ f20-20020a056402355400b003f81df0975bso9121395edd.9
+ for <qemu-devel@nongnu.org>; Tue, 21 Dec 2021 03:30:45 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=iKqzzADrk88Almd/oO4mNwZbvhSK3rpjUOnfI7pnOyg=;
- b=cUy4rrw0meakG4FJ8NnlRdTS+6OtcVfW8y2SVBDalQBN8LKD8gwOQYN4DuAD/xMxHR
- 9aqhflcJHIiuN4MzkL9SsahJAjeSqJs8fdRvHPWxmcYaDvnowKefU1JB+EdDGe6du4W6
- kuXLZqjCbRYXgA38J2fdDX2qydy7/YJ+Lli7IulGLMFeCDjApD0QHYd7TqDHxqQqdAiz
- DvKN+DDZ8MezQapIqsGBp3RtDFKnjsi1LhQs+CjVmgxPcNX6szh5E2uwmttucw8hYVvv
- 3F5xFcGVSryaTkzGpiC+xxCxAT2wHprDoQFDXQif3Dy10oVQHg3KL+2XjnGQcHPsDi1V
- AbQA==
-X-Gm-Message-State: AOAM532dwJg8m4gRqryi4SVoP5luQy/Evrh7f7sO46l/HFZ47DKcLndz
- Q+xWYHGSG1q/fVATbnzLTAR7g9XIkMaUPVGsSyr8Ag==
-X-Google-Smtp-Source: ABdhPJy9eruCEYeFPgj+jFCmNGiOkC2AWJukjFbw3JiBGrgczNEUXm1gCSM5uaPopcSGC5ETJR3YH3p7a0RHwDQrJrM=
-X-Received: by 2002:a2e:95d2:: with SMTP id y18mr2144312ljh.93.1640086044279; 
- Tue, 21 Dec 2021 03:27:24 -0800 (PST)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=rKAjn8bEqgRpgeer+vFbaZ1g+Yv+w6uVK1j6QgN6npQ=;
+ b=2Mr/CXnPvwQXQI60I1URZf9kgL1NqVHLp3NGMgm+jeMFE/QC0DKXp9UMHoJ/M0oq4X
+ s54d+ISSZ3UM2Q86fuCOxgYlkOdJIhWKKzgVaeKkB7MfDYuqyzXVm0qCJK/pWpJSYry+
+ ynwHuOkxab54RHRLS4Jlvoc9AtxFK9Gbw70zbp5aa+v/cVDUPMP4xW2GTJFxRUztvF80
+ o4PlJ/+qgPXZVnN2ZBeuaqTscMAznQkDqfbqnpVMbU2ytu2JKTG/CSaaH35o9Zr7J5kI
+ j7friIy5Dv7NbtN3t0aFZbwrmKS6TtdNUs219ecG9Dzv+4NwAWYC+narWwb/5jEStly/
+ sKxw==
+X-Gm-Message-State: AOAM530qd+dDXc6xufAE36XtwAwKGhJP50mVXANlehuGG6XpeQFcfcfh
+ bJFt38xZl1rfXwWDTkRHUDb7ormmSIG7yoJTKn9Cv1itOaGDea0rlYg5ZS26r3XelvsrEU4dpbk
+ ZJ1n6tKbwq9Bw/G8=
+X-Received: by 2002:a50:c3c8:: with SMTP id i8mr2674036edf.350.1640086244415; 
+ Tue, 21 Dec 2021 03:30:44 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJz0g4m5+e7o9hlSJgqs6lO90tWLpegudIJ43zfU0eUDxjHnRfdWSdrH37xgGpClweYHBOsf8g==
+X-Received: by 2002:a50:c3c8:: with SMTP id i8mr2674025edf.350.1640086244194; 
+ Tue, 21 Dec 2021 03:30:44 -0800 (PST)
+Received: from [192.168.1.36] (174.red-83-50-185.dynamicip.rima-tde.net.
+ [83.50.185.174])
+ by smtp.gmail.com with ESMTPSA id a3sm6472930ejd.16.2021.12.21.03.30.43
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 21 Dec 2021 03:30:43 -0800 (PST)
+Message-ID: <b3d31418-5492-4dd0-3b3c-89bc0605a9bc@redhat.com>
+Date: Tue, 21 Dec 2021 12:30:42 +0100
 MIME-Version: 1.0
-References: <CA+aXn+EZQ=S+P=8fyfCxYikEMLLdqAEeQgi580Tqtsuot-r2dw@mail.gmail.com>
- <aedfa17d-6d31-6d5d-b367-cf84e77d27ed@redhat.com>
- <20211220103548.lpgtad57woenpshi@sirius.home.kraxel.org>
- <CA+aXn+F1tPYMahODkE1qi_OM65zJ4ubHqcOi1drJWvC+PopiZQ@mail.gmail.com>
- <20211220121814.rkg7z7rki22qpzhj@sirius.home.kraxel.org>
- <CA+aXn+HPOK-N9smZsjas6EXaTD6hQjXbgrJcKK9E3u5VrSYCeg@mail.gmail.com>
- <20211221111125.lbx6or2wg2d762a7@sirius.home.kraxel.org>
-In-Reply-To: <20211221111125.lbx6or2wg2d762a7@sirius.home.kraxel.org>
-From: Pratik Parvati <pratikp@vayavyalabs.com>
-Date: Tue, 21 Dec 2021 16:57:09 +0530
-Message-ID: <CA+aXn+HzLjZVykfsQJHGK6N_K1qLywsES6kJT-RQEEYrKfZ6fA@mail.gmail.com>
-Subject: Re: Virtio-GPU Xres and Yres seettings
-To: Gerd Hoffmann <kraxel@redhat.com>
-Content-Type: multipart/alternative; boundary="00000000000012209d05d3a64a19"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::22a
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::22a;
- envelope-from=pratikp@vayavyalabs.com; helo=mail-lj1-x22a.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH 5/8] configure: move non-command-line variables away from
+ command-line parsing section
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+References: <20211221110526.351709-1-pbonzini@redhat.com>
+ <20211221110526.351709-6-pbonzini@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+In-Reply-To: <20211221110526.351709-6-pbonzini@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -49
+X-Spam_score: -5.0
+X-Spam_bar: -----
+X-Spam_report: (-5.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.203,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-2.012, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,101 +101,18 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
+Cc: richard.henderson@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000012209d05d3a64a19
-Content-Type: text/plain; charset="UTF-8"
+On 12/21/21 12:05, Paolo Bonzini wrote:
+> This makes it easier to identify candidates for moving to Meson.
+> 
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>  configure | 13 ++++++-------
+>  1 file changed, 6 insertions(+), 7 deletions(-)
 
-I apologise for not putting the question properly. I am referring virtio
-spec to understand the driver and device operation - I had a few questions
-on pixel data, as it was not working as expected.
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-My display is working fine now; thanks for your help.
-
-Regards,
-Pratik
-
-
-On Tue, 21 Dec 2021 at 16:41, Gerd Hoffmann <kraxel@redhat.com> wrote:
-
-> On Mon, Dec 20, 2021 at 10:44:06PM +0530, Pratik Parvati wrote:
-> > > EDID is optional, so you can try disable the EDID feature bit and see
-> > > what happens.
-> >
-> > Thanks Gerd, after disabling the EDID, I was able to get the required
-> > resolution (basically width and height) from the driver.
-> >
-> > Another strange observation - When the device receives the
-> > command VIRTIO_GPU_CMD_RESOURCE_ATTACH_BACKING with the number of
-> > entries having a pixel data in scatter gather format, the device is
-> trying
-> > to store these bytes in contiguous memory. When I read those sg memory,
-> the
-> > device receives all zeros from the driver (for a 1024x768 display,
-> > the device receives 3MB of data from the driver). Is this an expected
-> > behaviour? - If not, what is the driver trying to display on the screen?
->
-> How about reading the virtio spec?
-> display updates are handled with transfer and flush commands.
->
-> take care,
->   Gerd
->
->
-
---00000000000012209d05d3a64a19
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_default" style=3D"font-family:verdana,=
-sans-serif;color:#000000">I apologise=C2=A0for not putting the question pro=
-perly. I am referring=C2=A0virtio spec to understand the driver and device =
-operation - I had a few questions on pixel data, as it was not working as e=
-xpected.</div><div class=3D"gmail_default" style=3D"font-family:verdana,san=
-s-serif;color:#000000"><br></div><div class=3D"gmail_default" style=3D"font=
--family:verdana,sans-serif;color:#000000">My display is working fine now; t=
-hanks=C2=A0for your=C2=A0help.</div><div class=3D"gmail_default" style=3D"f=
-ont-family:verdana,sans-serif;color:#000000"><br></div><div><div dir=3D"ltr=
-" class=3D"gmail_signature" data-smartmail=3D"gmail_signature"><div dir=3D"=
-ltr"><div><font face=3D"verdana, sans-serif">Regards,<br></font></div><div>=
-<font face=3D"verdana, sans-serif">Pratik</font></div></div></div></div><br=
-></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr"=
->On Tue, 21 Dec 2021 at 16:41, Gerd Hoffmann &lt;<a href=3D"mailto:kraxel@r=
-edhat.com">kraxel@redhat.com</a>&gt; wrote:<br></div><blockquote class=3D"g=
-mail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204=
-,204,204);padding-left:1ex">On Mon, Dec 20, 2021 at 10:44:06PM +0530, Prati=
-k Parvati wrote:<br>
-&gt; &gt; EDID is optional, so you can try disable the EDID feature bit and=
- see<br>
-&gt; &gt; what happens.<br>
-&gt; <br>
-&gt; Thanks Gerd, after disabling the EDID, I was able to get the required<=
-br>
-&gt; resolution (basically width and height) from the driver.<br>
-&gt; <br>
-&gt; Another strange observation - When the device receives the<br>
-&gt; command VIRTIO_GPU_CMD_RESOURCE_ATTACH_BACKING with the number of<br>
-&gt; entries having a pixel data in scatter gather format, the device is tr=
-ying<br>
-&gt; to store these bytes in contiguous memory. When I read those sg memory=
-, the<br>
-&gt; device receives all zeros from the driver (for a 1024x768 display,<br>
-&gt; the device receives 3MB of data from the driver). Is this an expected<=
-br>
-&gt; behaviour? - If not, what is the driver trying to display on the scree=
-n?<br>
-<br>
-How about reading the virtio spec?<br>
-display updates are handled with transfer and flush commands.<br>
-<br>
-take care,<br>
-=C2=A0 Gerd<br>
-<br>
-</blockquote></div>
-
---00000000000012209d05d3a64a19--
 
