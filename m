@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7625747B89D
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Dec 2021 03:54:32 +0100 (CET)
-Received: from localhost ([::1]:54730 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 925DF47B89E
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Dec 2021 03:54:35 +0100 (CET)
+Received: from localhost ([::1]:54932 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mzVIN-0001Pj-KZ
-	for lists+qemu-devel@lfdr.de; Mon, 20 Dec 2021 21:54:31 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54222)
+	id 1mzVIQ-0001Xx-O5
+	for lists+qemu-devel@lfdr.de; Mon, 20 Dec 2021 21:54:34 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54234)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mzVEJ-0003bU-D7
- for qemu-devel@nongnu.org; Mon, 20 Dec 2021 21:50:19 -0500
-Received: from [2607:f8b0:4864:20::533] (port=33724
- helo=mail-pg1-x533.google.com)
+ id 1mzVEK-0003ck-5t
+ for qemu-devel@nongnu.org; Mon, 20 Dec 2021 21:50:20 -0500
+Received: from [2607:f8b0:4864:20::62c] (port=38787
+ helo=mail-pl1-x62c.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mzVEH-0000AC-Jz
- for qemu-devel@nongnu.org; Mon, 20 Dec 2021 21:50:18 -0500
-Received: by mail-pg1-x533.google.com with SMTP id f125so11082179pgc.0
- for <qemu-devel@nongnu.org>; Mon, 20 Dec 2021 18:50:17 -0800 (PST)
+ id 1mzVEI-0000AT-Gn
+ for qemu-devel@nongnu.org; Mon, 20 Dec 2021 21:50:19 -0500
+Received: by mail-pl1-x62c.google.com with SMTP id c7so801932plg.5
+ for <qemu-devel@nongnu.org>; Mon, 20 Dec 2021 18:50:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=HbNBQfasK4f+xfMQiEwPjjsKiwcmSRl4Jt7JCBlYZlo=;
- b=NfUfLCNIjMo8KMEKTAiv2uAEDlt0axISwbzsiOaD+OSocglWRo4Tx7kAlBR4tQfmml
- pvFCLm446w9QXbadzxKNpt034iCGmw+oX1New3O2pexBhh4ef9Qdylr3wtRN6alY6VXQ
- byyMj6mklHJp/LBIOz6J8Sw5vFb2B5PtYga/F0eyk2Rg24BPpRHr8DqMnO0x8162ovnd
- xv5lljWuTZ+9fZCZPq1O2Dd03SSNMICnoM4z/4RYHY2MufJ9Usf9oRJBORhXuQkWb+Y0
- zp9YkyNdD3N5x8iCoXyJeOk9PQkvpxGe0UbvVRCXx8b8DKB/Ac1gS7uL0w216MIVwsYc
- 60/Q==
+ bh=Zi74zX03AzlDYSTcNyOeKzOi2PA59RfE+ydGeg7N9HY=;
+ b=Fw7zeAnKqY9GgyMFP5//31pAZL4+H5ZEBINP2esOAQPdAaSQgYCkH/sALJz8g7B1lL
+ EOiO2ylgEalGv50W52V2gnWJSkrqmHaMAidDpGOUlbOaVzLXLq3pbzX3sia5yDXGoQ7b
+ OW+fEVcsGzl+dwA3rfuWIwHxendwJlfquk30LCfxW8v6QjNb+FqFDVxdrjoIbQQ5CK/W
+ 58GEIBCHrehIywX98O0LQioKcxaxRCP4T6D+J1BCcI9vkYtKdhdKve9Y7EkduUsne9VJ
+ lJ5Dp0zAFwpNsm08QRGxtESNx/wDo0bOUXOtoTlUDCcP121XSKuNW4xzBNv5Rue0/MPE
+ zmkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=HbNBQfasK4f+xfMQiEwPjjsKiwcmSRl4Jt7JCBlYZlo=;
- b=12AaVBMhuHzR7N59lDJsgCotA+ZM/ezuWPN/VjENZIfvtIJq6K49MCMWD0z6HdXd/j
- hFx9DOzQTt0Iyrt90YqGQ+Ihqpanciocg6l6Ufv3Khi9isbkhexb9YMU2P/9ZzTH27Iw
- pwNEt0UDvs/MeUsbsdGr3dntFb/UkIORWnPQLOolPT9S8V6/+fxYZRl7fnzHp1iCKuTu
- IHWgcN36xoo4aQEcZcs8y3cxhQalJooFxTzeBVnMoQtNH4qfLsRycRqIZxaul5ceZX7s
- MFs5zxA6EGkttLnwrK2uoVmcpExvvfxTTvQPIyWATWZuAXxD9IaNlR406Ej3q1PPehRG
- o7Ug==
-X-Gm-Message-State: AOAM532cWvBmcEC0hILwS6kF/qxaCVn4W2aSZFILlz4QnK5nGK3r1NzK
- S/GiMd7Dys1/oOCnK2TaRO+P6lZ93oCTiA==
-X-Google-Smtp-Source: ABdhPJyYbtXJWtdWGGPIbY3YXaSyCLEszXqfC3O0a3YnpC4CNhlbLR6B4taKqDbYJO1oiPgoS54D8g==
-X-Received: by 2002:a63:4c45:: with SMTP id m5mr1013980pgl.105.1640055016375; 
- Mon, 20 Dec 2021 18:50:16 -0800 (PST)
+ bh=Zi74zX03AzlDYSTcNyOeKzOi2PA59RfE+ydGeg7N9HY=;
+ b=0mzZYDIX9bbc+wru2hsXMmHUtyebq07Ha3Bzfwj1W/Wra+OwoVBK0ewJvMi5n4MtyM
+ z9e3jI8+8Z3fdn6csj5w8LcQs834syqOABE2JGa0Rk7N0V4SF0Y/auviPcEzr3pgKMnX
+ 9W5I10ukIhe1wixMe1jVuBmmFW9OWuDvg+HnZx8w/s2qRSY5xAT8brtYH3FXhMM2oWJ8
+ yrmXcz4fNN4NVXNDNTaUMkokVJ8MPHlAv8B7uj0aYyOh/On4PPyqynu5ezsKGm5K35UJ
+ u9XuZvuUa4Zj9QYly+d3P99GlRoOHb97FsXqrB1pcGb/iey0kvmYco3GwwdOBeNJnigv
+ 3uLw==
+X-Gm-Message-State: AOAM532V5FWt8lNWOrgoaZCsOhghs1HMS91ataEN6e4tG6/8U3c6d+ZX
+ cZHU5XnT4XkBnVkgL8vQydkpQ31Vaj8pfw==
+X-Google-Smtp-Source: ABdhPJzTGRRYENAjGviqAThKSPWIknmULUMW7fu50tGSWotahxlXJHS3MJ+v/GV+qTuxlCe8qzckxA==
+X-Received: by 2002:a17:90a:6b44:: with SMTP id
+ x4mr1303915pjl.27.1640055017198; 
+ Mon, 20 Dec 2021 18:50:17 -0800 (PST)
 Received: from localhost.localdomain ([156.19.246.20])
- by smtp.gmail.com with ESMTPSA id bg23sm694025pjb.24.2021.12.20.18.50.15
+ by smtp.gmail.com with ESMTPSA id bg23sm694025pjb.24.2021.12.20.18.50.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 20 Dec 2021 18:50:16 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 2/7] linux-user/nios2: Fixes for signal frame setup
-Date: Mon, 20 Dec 2021 18:50:07 -0800
-Message-Id: <20211221025012.1057923-3-richard.henderson@linaro.org>
+Subject: [PATCH v2 3/7] linux-user/elfload: Rename ARM_COMMPAGE to HI_COMMPAGE
+Date: Mon, 20 Dec 2021 18:50:08 -0800
+Message-Id: <20211221025012.1057923-4-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211221025012.1057923-1-richard.henderson@linaro.org>
 References: <20211221025012.1057923-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::533
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62c
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::533;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x533.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62c.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -86,132 +86,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, laurent@vivier.eu
+Cc: laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Do not confuse host and guest addresses.  Lock and unlock
-the target_rt_sigframe structure in setup_rt_sigframe.
+Arm will no longer be the only target requiring a commpage,
+but it will continue to be the only target placing the page
+at the high end of the address space.
 
-Since rt_setup_ucontext always returns 0, drop the return
-value entirely.  This eliminates the only write to the err
-variable in setup_rt_sigframe.
-
-Always copy the siginfo structure.
-
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/nios2/signal.c | 49 ++++++++++++++++-----------------------
- 1 file changed, 20 insertions(+), 29 deletions(-)
+ linux-user/elfload.c | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
 
-diff --git a/linux-user/nios2/signal.c b/linux-user/nios2/signal.c
-index a77e8a40f4..adbffe32e3 100644
---- a/linux-user/nios2/signal.c
-+++ b/linux-user/nios2/signal.c
-@@ -42,7 +42,7 @@ struct target_rt_sigframe {
-     struct target_ucontext uc;
- };
+diff --git a/linux-user/elfload.c b/linux-user/elfload.c
+index 767f54c76d..d34cd4fe43 100644
+--- a/linux-user/elfload.c
++++ b/linux-user/elfload.c
+@@ -390,11 +390,11 @@ enum {
  
--static int rt_setup_ucontext(struct target_ucontext *uc, CPUNios2State *env)
-+static void rt_setup_ucontext(struct target_ucontext *uc, CPUNios2State *env)
+ /* The commpage only exists for 32 bit kernels */
+ 
+-#define ARM_COMMPAGE (intptr_t)0xffff0f00u
++#define HI_COMMPAGE (intptr_t)0xffff0f00u
+ 
+ static bool init_guest_commpage(void)
  {
-     unsigned long *gregs = uc->tuc_mcontext.gregs;
+-    void *want = g2h_untagged(ARM_COMMPAGE & -qemu_host_page_size);
++    void *want = g2h_untagged(HI_COMMPAGE & -qemu_host_page_size);
+     void *addr = mmap(want, qemu_host_page_size, PROT_READ | PROT_WRITE,
+                       MAP_ANONYMOUS | MAP_PRIVATE | MAP_FIXED, -1, 0);
  
-@@ -75,8 +75,6 @@ static int rt_setup_ucontext(struct target_ucontext *uc, CPUNios2State *env)
-     __put_user(env->regs[R_GP], &gregs[25]);
-     __put_user(env->regs[R_EA], &gregs[27]);
-     __put_user(env->regs[R_SP], &gregs[28]);
--
--    return 0;
+@@ -2160,8 +2160,8 @@ static abi_ulong create_elf_tables(abi_ulong p, int argc, int envc,
+     return sp;
  }
  
- static int rt_restore_ucontext(CPUNios2State *env, struct target_ucontext *uc,
-@@ -135,8 +133,8 @@ static int rt_restore_ucontext(CPUNios2State *env, struct target_ucontext *uc,
-     return 0;
- }
+-#ifndef ARM_COMMPAGE
+-#define ARM_COMMPAGE 0
++#ifndef HI_COMMPAGE
++#define HI_COMMPAGE 0
+ #define init_guest_commpage() true
+ #endif
  
--static void *get_sigframe(struct target_sigaction *ka, CPUNios2State *env,
--                          size_t frame_size)
-+static abi_ptr get_sigframe(struct target_sigaction *ka, CPUNios2State *env,
-+                            size_t frame_size)
- {
-     unsigned long usp;
- 
-@@ -144,7 +142,7 @@ static void *get_sigframe(struct target_sigaction *ka, CPUNios2State *env,
-     usp = target_sigsp(get_sp_from_cpustate(env), ka);
- 
-     /* Verify, is it 32 or 64 bit aligned */
--    return (void *)((usp - frame_size) & -8UL);
-+    return (usp - frame_size) & -8;
- }
- 
- void setup_rt_frame(int sig, struct target_sigaction *ka,
-@@ -153,26 +151,25 @@ void setup_rt_frame(int sig, struct target_sigaction *ka,
-                     CPUNios2State *env)
- {
-     struct target_rt_sigframe *frame;
--    int i, err = 0;
-+    abi_ptr frame_addr;
-+    int i;
- 
--    frame = get_sigframe(ka, env, sizeof(*frame));
--
--    if (ka->sa_flags & SA_SIGINFO) {
--        tswap_siginfo(&frame->info, info);
-+    frame_addr = get_sigframe(ka, env, sizeof(*frame));
-+    if (!lock_user_struct(VERIFY_WRITE, frame, frame_addr, 0)) {
-+        force_sigsegv(sig);
-+        return;
+@@ -2361,7 +2361,7 @@ static void pgb_static(const char *image_name, abi_ulong orig_loaddr,
      }
  
-+    tswap_siginfo(&frame->info, info);
-+
-     /* Create the ucontext.  */
-     __put_user(0, &frame->uc.tuc_flags);
-     __put_user(0, &frame->uc.tuc_link);
-     target_save_altstack(&frame->uc.tuc_stack, env);
--    err |= rt_setup_ucontext(&frame->uc, env);
-+    rt_setup_ucontext(&frame->uc, env);
-     for (i = 0; i < TARGET_NSIG_WORDS; i++) {
-         __put_user((abi_ulong)set->sig[i],
--            (abi_ulong *)&frame->uc.tuc_sigmask.sig[i]);
--    }
--
--    if (err) {
--        goto give_sigsegv;
-+                   (abi_ulong *)&frame->uc.tuc_sigmask.sig[i]);
+     loaddr &= -align;
+-    if (ARM_COMMPAGE) {
++    if (HI_COMMPAGE) {
+         /*
+          * Extend the allocation to include the commpage.
+          * For a 64-bit host, this is just 4GiB; for a 32-bit host we
+@@ -2372,14 +2372,14 @@ static void pgb_static(const char *image_name, abi_ulong orig_loaddr,
+         if (sizeof(uintptr_t) == 8 || loaddr >= 0x80000000u) {
+             hiaddr = (uintptr_t) 4 << 30;
+         } else {
+-            offset = -(ARM_COMMPAGE & -align);
++            offset = -(HI_COMMPAGE & -align);
+         }
      }
  
-     /* Set up to return from userspace; jump to fixed address sigreturn
-@@ -180,19 +177,13 @@ void setup_rt_frame(int sig, struct target_sigaction *ka,
-     env->regs[R_RA] = (unsigned long) (0x1044);
+     addr = pgb_find_hole(loaddr, hiaddr - loaddr, align, offset);
+     if (addr == -1) {
+         /*
+-         * If ARM_COMMPAGE, there *might* be a non-consecutive allocation
++         * If HI_COMMPAGE, there *might* be a non-consecutive allocation
+          * that can satisfy both.  But as the normal arm32 link base address
+          * is ~32k, and we extend down to include the commpage, making the
+          * overhead only ~96k, this is unlikely.
+@@ -2400,7 +2400,7 @@ static void pgb_dynamic(const char *image_name, long align)
+      * All we need is a commpage that satisfies align.
+      * If we do not need a commpage, leave guest_base == 0.
+      */
+-    if (ARM_COMMPAGE) {
++    if (HI_COMMPAGE) {
+         uintptr_t addr, commpage;
  
-     /* Set up registers for signal handler */
--    env->regs[R_SP] = (unsigned long) frame;
--    env->regs[4] = (unsigned long) sig;
--    env->regs[5] = (unsigned long) &frame->info;
--    env->regs[6] = (unsigned long) &frame->uc;
--    env->regs[R_EA] = (unsigned long) ka->_sa_handler;
--    return;
-+    env->regs[R_SP] = frame_addr;
-+    env->regs[4] = sig;
-+    env->regs[5] = frame_addr + offsetof(struct target_rt_sigframe, info);
-+    env->regs[6] = frame_addr + offsetof(struct target_rt_sigframe, uc);
-+    env->regs[R_EA] = ka->_sa_handler;
- 
--give_sigsegv:
--    if (sig == TARGET_SIGSEGV) {
--        ka->_sa_handler = TARGET_SIG_DFL;
--    }
--    force_sigsegv(sig);
--    return;
-+    unlock_user_struct(frame, frame_addr, 1);
- }
- 
- long do_sigreturn(CPUNios2State *env)
+         /* 64-bit hosts should have used reserved_va. */
+@@ -2410,7 +2410,7 @@ static void pgb_dynamic(const char *image_name, long align)
+          * By putting the commpage at the first hole, that puts guest_base
+          * just above that, and maximises the positive guest addresses.
+          */
+-        commpage = ARM_COMMPAGE & -align;
++        commpage = HI_COMMPAGE & -align;
+         addr = pgb_find_hole(commpage, -commpage, align, 0);
+         assert(addr != -1);
+         guest_base = addr;
 -- 
 2.25.1
 
