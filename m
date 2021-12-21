@@ -2,87 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B84C647BD1D
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Dec 2021 10:46:36 +0100 (CET)
-Received: from localhost ([::1]:38162 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F94D47BD31
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Dec 2021 10:47:49 +0100 (CET)
+Received: from localhost ([::1]:40366 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mzbj9-0006bL-BF
-	for lists+qemu-devel@lfdr.de; Tue, 21 Dec 2021 04:46:35 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58546)
+	id 1mzbkK-0008BY-BJ
+	for lists+qemu-devel@lfdr.de; Tue, 21 Dec 2021 04:47:48 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58656)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1mzbgs-0005qY-O3
- for qemu-devel@nongnu.org; Tue, 21 Dec 2021 04:44:14 -0500
-Received: from [2607:f8b0:4864:20::72a] (port=41852
- helo=mail-qk1-x72a.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1mzbgq-0003gV-4F
- for qemu-devel@nongnu.org; Tue, 21 Dec 2021 04:44:14 -0500
-Received: by mail-qk1-x72a.google.com with SMTP id t83so11972664qke.8
- for <qemu-devel@nongnu.org>; Tue, 21 Dec 2021 01:44:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :references:from:in-reply-to:content-transfer-encoding;
- bh=DJParA+hO/SqYRuI1tth918SrqUL6V++KKxer9ayXgc=;
- b=S1avjZepniGw8wLYzy3ClKWa3U6QjQCi1M7P9zgesJlBGxoyhyAzIwekVEPmXgyU1S
- qrjWwHlZfKjJuDJpwBSuy1EIteyknn74DY1wAX0c+vAthnGoiDUSqfq5Tm1umJmE/ivG
- aRjxfdqlUPCNal3A6vvAF6kKVmIif0kUlKLuWuiBzreOsEhwymKg9FbgjcF0HGSHjSav
- 4WsiLbuZ2dPpWoiG6JwMK8ysxNZV5XhAfAfps5KETUXeUfpBlIySDUuBLEBeA2mxSeqp
- V/u75bS7UWFvE59XnoAd7RCZj5VWBrs1ghtQsDFpM2z4A7g5Jg+jbuRfl5AktexVYZM4
- wCuw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
- :content-transfer-encoding;
- bh=DJParA+hO/SqYRuI1tth918SrqUL6V++KKxer9ayXgc=;
- b=wme+BDaX0N5fKpOGODtiYD3769TQlfaTfB3hVyNBw/81DyZsGKVaMxli6SJ6Q6e0kl
- gfwpDkwrisksmPVtF+rbLSdPmFSJyEg7cD7ZgvW2sVwBqcwA14mtxGJCobFuEJr7pMcs
- z+V3QxXStip6/a+/058vfeyRORw/Xeiwo1XVRos6++TnCUslVUzrFV42ujSKNTZyVA6s
- s8JzLmjGAaySXCIY2t0MAgLeYvLJwiw3C4nW5IEGAQNpNEGPO7pRwFHWnlCI7bkADHyO
- JGxyyMs4HeT4Ltn3dbLA2w+N3SLYgtK5ELrFX0dqoincQZV0TjUkh4itF80cxsQsPMmM
- qckQ==
-X-Gm-Message-State: AOAM532DZVHxfjq5wDuD0nZhctD/5tUgEK4qDS9wwgnvQNgwwDPbTwac
- Bb/5u6bEvM0pi+JfY/47gWA=
-X-Google-Smtp-Source: ABdhPJy0LcRdH82JM4w0MPIQGe7GlVEoi/LWPBaA7mWdVA6+8aPJsKIU2+ChNkQ+BB80G+IkJXZ1LA==
-X-Received: by 2002:a05:620a:12ac:: with SMTP id
- x12mr1365188qki.144.1640079850981; 
- Tue, 21 Dec 2021 01:44:10 -0800 (PST)
-Received: from ?IPV6:2804:431:c7c7:e707:b911:92d:ccb8:4968?
- ([2804:431:c7c7:e707:b911:92d:ccb8:4968])
- by smtp.gmail.com with ESMTPSA id r16sm13824389qkp.42.2021.12.21.01.44.09
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 21 Dec 2021 01:44:10 -0800 (PST)
-Message-ID: <b454cba4-7254-fbe6-0235-8a0778f2938d@gmail.com>
-Date: Tue, 21 Dec 2021 06:44:08 -0300
-MIME-Version: 1.0
+ (Exim 4.90_1) (envelope-from <borntraeger@linux.ibm.com>)
+ id 1mzbhP-0006DO-6y; Tue, 21 Dec 2021 04:44:47 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:19866
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <borntraeger@linux.ibm.com>)
+ id 1mzbhM-0003np-VK; Tue, 21 Dec 2021 04:44:46 -0500
+Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1BL9SWKL023108; 
+ Tue, 21 Dec 2021 09:44:42 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ subject : to : cc : references : from : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=5ujk2FARiXupktfxy9OINCtysksyilF2r0L8u7wtK0w=;
+ b=h0pry/3g6zgPvYT6mMwPF5WPMiEE51x33dypuCy1aczoXYfkdo+gQnQ0XrTABqwF119R
+ XZ2eb5XBFdz+QpS4Ivoc2d3tPs/c+UmGEoTaN0Bb2pZjy9cEJmh5W7ePeH1V2hqXkE/+
+ Bst2HdGvII81btBwaCHrOKxUIps7orBe3++V/ezKogeeQsEdoK+w0PHXZPTVDWFYWFeL
+ +vFOM2RwQmxNNYD7171FHbCN+pAaxpY1UXU+vdfiwkP3VqzNhDRyKLVND9XEUJxXO8Oe
+ ukL5Qx8A04I6KRnqAfcAZPiALSkTUkK8/jH4COXWj8a8qT2feXduDHR9KXpkzFLlLhdR wQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3d1s2jscha-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 21 Dec 2021 09:44:41 +0000
+Received: from m0098416.ppops.net (m0098416.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1BL9epUP031588;
+ Tue, 21 Dec 2021 09:44:41 GMT
+Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.72])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3d1s2jscgq-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 21 Dec 2021 09:44:41 +0000
+Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
+ by ppma06fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1BL9grXe017061;
+ Tue, 21 Dec 2021 09:44:39 GMT
+Received: from b06avi18878370.portsmouth.uk.ibm.com
+ (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
+ by ppma06fra.de.ibm.com with ESMTP id 3d16wjty98-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 21 Dec 2021 09:44:39 +0000
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
+ [9.149.105.59])
+ by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 1BL9iaNl46858608
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 21 Dec 2021 09:44:36 GMT
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 279D0A4040;
+ Tue, 21 Dec 2021 09:44:36 +0000 (GMT)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id B1A6EA404D;
+ Tue, 21 Dec 2021 09:44:35 +0000 (GMT)
+Received: from [9.171.0.148] (unknown [9.171.0.148])
+ by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Tue, 21 Dec 2021 09:44:35 +0000 (GMT)
+Message-ID: <0ee8f9c0-9ebd-0fcd-3c5a-502d6ac41c32@linux.ibm.com>
+Date: Tue, 21 Dec 2021 10:44:35 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.3.0
-Subject: Re: powernv gitlab ci regression
+Subject: Re: [PATCH RFC] MAINTAINERS: split out s390x sections
 Content-Language: en-US
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>, clombard@linux.vnet.ibm.com
-References: <461a77d6-a5d2-0ba1-de95-bc8cfa5fb83b@linaro.org>
- <9f1947e0-86d8-60e4-87bf-f4a5ec0d6ea8@gmail.com>
- <a9031035-5623-d0ec-1e68-7f1371a4ee87@kaod.org>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <a9031035-5623-d0ec-1e68-7f1371a4ee87@kaod.org>
+To: Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
+ qemu-s390x@nongnu.org
+References: <20211220115419.308463-1-cohuck@redhat.com>
+From: Christian Borntraeger <borntraeger@linux.ibm.com>
+In-Reply-To: <20211220115419.308463-1-cohuck@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::72a
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::72a;
- envelope-from=danielhb413@gmail.com; helo=mail-qk1-x72a.google.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-2.012,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: dfabY11NseWtExeUjgnMqpsVhOgnShiQ
+X-Proofpoint-ORIG-GUID: Tc5eYCpVp3qS8FJiezbK6NUTPQUcZf0f
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2021-12-21_03,2021-12-21_01,2021-12-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 mlxscore=0
+ suspectscore=0 mlxlogscore=999 adultscore=0 malwarescore=0 spamscore=0
+ impostorscore=0 phishscore=0 priorityscore=1501 clxscore=1011
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2110150000 definitions=main-2112210042
+Received-SPF: pass client-ip=148.163.158.5;
+ envelope-from=borntraeger@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -39
+X-Spam_score: -4.0
+X-Spam_bar: ----
+X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.012,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,281 +114,180 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Halil Pasic <pasic@linux.ibm.com>, Thomas Huth <thuth@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eric Farman <farman@linux.ibm.com>, David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 
-On 12/21/21 05:20, Cédric Le Goater wrote:
-> On 12/21/21 03:37, Daniel Henrique Barboza wrote:
->> Hey,
->>
->> On 12/20/21 18:35, Richard Henderson wrote:
->>> Hi guys,
->>>
->>> Somewhere within
->>>
->>>> Merge tag 'pull-ppc-20211217' of https://github.com/legoater/qemu into staging
->>>> ppc 7.0 queue:
->>>>
->>>> * General cleanup for Mac machines (Peter)
->>>> * Fixes for FPU exceptions (Lucas)
->>>> * Support for new ISA31 instructions (Matheus)
->>>> * Fixes for ivshmem (Daniel)
->>>> * Cleanups for PowerNV PHB (Christophe and Cedric)
->>>> * Updates of PowerNV and pSeries documentation (Leonardo and Daniel)
->>>> * Fixes for PowerNV (Daniel)
->>>> * Large cleanup of FPU implementation (Richard)
->>>> * Removal of SoftTLBs support for PPC74x CPUs (Fabiano)
->>>> * Fixes for exception models in MPCx and 60x CPUs (Fabiano)
->>>> * Removal of 401/403 CPUs (Cedric)
->>>> * Deprecation of taihu machine (Thomas)
->>>> * Large rework of PPC405 machine (Cedric)
->>>> * Fixes for VSX instructions (Victor and Matheus)
->>>> * Fix for e6500 CPU (Fabiano)
->>>> * Initial support for PMU (Daniel)
->>>
->>> is something that has caused a timeout regression in avocado-system-centos:
->>>
->>>>  (047/171) tests/avocado/boot_linux_console.py:BootLinuxConsole.test_ppc_powernv8:  INTERRUPTED: Test interrupted by SIGTERM\nRunner error occurred: Timeout reached\nOriginal status: ERROR\n{'name': '047-tests/avocado/boot_linux_console.py:BootLinuxConsole.test_ppc_powernv8', 'logdir': '/builds/qemu-project/qemu/build/tests/results/job-2021-12-17T19.23-... (90.46 s)
->>>>  (048/171) tests/avocado/boot_linux_console.py:BootLinuxConsole.test_ppc_powernv9:  INTERRUPTED: Test interrupted by SIGTERM\nRunner error occurred: Timeout reached\nOriginal status: ERROR\n{'name': '048-tests/avocado/boot_linux_console.py:BootLinuxConsole.test_ppc_powernv9', 'logdir': '/builds/qemu-project/qemu/build/tests/results/job-2021-12-17T19.23-... (90.55 s)
->>>
->>> See e.g. https://gitlab.com/qemu-project/qemu/-/jobs/1898304074
->>
->> Thanks for letting us know. I bisected it and the culprit is this patch:
->>
->>
->> commit 4db3907a40a087e2cc1839d19a3642539d36610b
->> Author: Daniel Henrique Barboza <danielhb413@gmail.com>
->> Date:   Fri Dec 17 17:57:18 2021 +0100
->>
->>      target/ppc: enable PMU instruction count
->>
->>
->> This is a patch where I added instruction count in the ppc64 PMU. After this patch the
->> performance of these 2 tests are degraded to the point where we're hitting timeouts in
->> gitlab (didn't hit timeouts in my machine but the performance is noticeable worse).
->>
->> I'll need to see the serial console of the VM booting up to evaluate if there's some kernel
->> module during boot time that is using the PMU and causing the delay. I'll also take a look
->> into improving the performance as well (e.g. using more TCG code and avoid calling helpers).
+Am 20.12.21 um 12:54 schrieb Cornelia Huck:
+> Split out some more specialized devices etc., so that we can build
+> smarter lists of people to be put on cc: in the future.
 > 
-> Run with :
-> 
->    build/tests/venv/bin/avocado --show=app,console run -t machine:powernv9  build/tests/avocado/boot_linux_console.py
-> 
-> * 6.2
-> 
-> ...
-> console: [    1.559904] PCI: CLS 0 bytes, default 128
-> /console: [    8.830245] Initialise system trusted keyrings
-> console: [    8.832347] Key type blacklist registered
-> console: [    8.834558] workingset: timestamp_bits=54 max_order=14 bucket_order=0
-> console: [    9.073051] integrity: Platform Keyring initialized
-> console: [    9.073586] Key type asymmetric registered
-> console: [    9.074025] Asymmetric key parser 'x509' registered
-> console: [    9.075359] Block layer SCSI generic (bsg) driver version 0.4 loaded (major 251)
-> console: [    9.095115] IPMI message handler: version 39.2
-> console: [    9.096161] ipmi device interface
-> console: [    9.514308] ipmi-powernv ibm,opal:ipmi: IPMI message handler: Found new BMC (man_id: 0x000000, prod_id: 0x0000, dev_id: 0x20)
-> -console: [   10.171273] IPMI Watchdog: driver initialized
-> \console: [   10.974462] hvc0: raw protocol on /ibm,opal/consoles/serial@0 (boot console)
-> console: [   10.975059] hvc0: No interrupts property, using OPAL event
-> console: [   10.989699] Serial: 8250/16550 driver, 4 ports, IRQ sharing disabled
-> console: [   11.156033] brd: module loaded
-> console: [   11.235965] loop: module loaded
-> console: [   11.249922] libphy: Fixed MDIO Bus: probed
-> console: [   11.254128] i2c /dev entries driver
-> console: [   11.255782] powernv-cpufreq: ibm,pstate-min node not found
-> console: [   11.256134] powernv-cpufreq: Platform driver disabled. System does not support PState control
-> console: [   11.273326] ipip: IPv4 and MPLS over IPv4 tunneling driver
-> console: [   11.303989] NET: Registered protocol family 10
-> console: [   11.323651] Segment Routing with IPv6
-> console: [   11.325267] sit: IPv6, IPv4 and MPLS over IPv4 tunneling driver
-> console: [   11.335866] NET: Registered protocol family 17
-> console: [   11.336900] Key type dns_resolver registered
-> console: [   11.337358] secvar-sysfs: secvar: failed to retrieve secvar operations.
-> console: [   11.337877] drmem: No dynamic reconfiguration memory found
-> console: [   11.341767] Loading compiled-in X.509 certificates
-> console: [   11.362272] Loaded X.509 cert 'Build time autogenerated kernel key: 987b64c96d830fe42d02bbf502e028ebe85c2b4e'
-> console: [   11.667162] Key type encrypted registered
-> console: [   11.674616] ima: No TPM chip found, activating TPM-bypass!
-> console: [   11.676949] ima: Allocated hash algorithm: sha256
-> console: [   11.682967] Secure boot mode disabled
-> console: [   11.683726] Trusted boot mode disabled
-> console: [   11.684075] ima: No architecture policies found
-> console: [   11.748319] Freeing unused kernel memory: 13696K
-> console: [   11.748717] This architecture does not have kernel memory protection.
-> console: [   11.750290] Run /init as init process
-> /console: [   13.712943] udevd[74]: starting version 3.2.9
-> console: [   13.731186] random: udevd: uninitialized urandom read (16 bytes read)
-> console: [   13.735595] random: udevd: uninitialized urandom read (16 bytes read)
-> console: [   13.737907] random: udevd: uninitialized urandom read (16 bytes read)
-> -console: [   13.832821] udevd[75]: starting eudev-3.2.9
-> |console: [   16.333618] PTP clock support registered
-> console: [   16.601330] e1000e: Intel(R) PRO/1000 Network Driver
-> console: [   16.601791] e1000e: Copyright(c) 1999 - 2015 Intel Corporation.
-> console: [   16.607410] e1000e 0001:02:03.0: enabling device (0100 -> 0102)
-> console: [   16.617706] e1000e 0001:02:03.0: Interrupt Throttling Rate (ints/sec) set to dynamic conservative mode
-> console: [   16.697120] usbcore: registered new interface driver usbfs
-> console: [   16.699742] usbcore: registered new interface driver hub
-> console: [   16.702753] usbcore: registered new device driver usb
-> console: [   16.762288] nvme nvme0: pci function 0002:01:00.0
-> console: [   16.763998] nvme 0002:01:00.0: enabling device (0100 -> 0102)
-> /console: [   16.881654] rtc-opal opal-rtc: registered as rtc0
-> console: [   17.032286] rtc-opal opal-rtc: setting system clock to 2021-12-21T03:38:58 UTC (1640057938)
-> console: [   17.052213] nvme nvme0: 1/0/0 default/read/poll queues
-> console: [   17.055242] e1000e 0001:02:03.0 0001:02:03.0 (uninitialized): registered PHC clock
-> console: [   17.213376] e1000e 0001:02:03.0 eth0: (PCI Express:2.5GT/s:Width x1) 52:54:00:12:34:57
-> console: [   17.213982] e1000e 0001:02:03.0 eth0: Intel(R) PRO/1000 Network Connection
-> console: [   17.214655] e1000e 0001:02:03.0 eth0: MAC: 3, PHY: 8, PBA No: 000000-000
-> console: [   17.399217] xhci_hcd 0001:02:02.0: xHCI Host Controller
-> console: [   17.400904] xhci_hcd 0001:02:02.0: new USB bus registered, assigned bus number 1
-> console: [   17.408566] xhci_hcd 0001:02:02.0: hcc params 0x00080001 hci version 0x100 quirks 0x0000000000000014
-> -console: [   17.855122] hub 1-0:1.0: USB hub found
-> console: [   17.901064] hub 1-0:1.0: 4 ports detected
-> console: [   17.997599] xhci_hcd 0001:02:02.0: xHCI Host Controller
-> console: [   17.998280] xhci_hcd 0001:02:02.0: new USB bus registered, assigned bus number 2
-> console: [   17.999035] xhci_hcd 0001:02:02.0: Host supports USB 3.0 SuperSpeed
-> console: [   18.104390] usb usb2: We don't know the algorithms for LPM for this host, disabling LPM.
-> console: [   18.311117] hub 2-0:1.0: USB hub found
-> console: [   18.481076] hub 2-0:1.0: 4 ports detected
-> console: [   18.676328] 1 fixed-partitions partitions found on MTD device flash@0
-> console: [   18.676887] Creating 1 MTD partitions on "flash@0":
-> PASS (42.00 s)
-> RESULTS    : PASS 1 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 0 | CANCEL 0
-> JOB TIME   : 42.60 s
-> 
-> 
-> * 7.0
-> 
-> ....
-> console: [    3.669714] PCI: CLS 0 bytes, default 128
-> \console: [   38.778763] Initialise system trusted keyrings
-> console: [   38.781487] Key type blacklist registered
-> console: [   38.786515] workingset: timestamp_bits=54 max_order=14 bucket_order=0
-> |console: [   39.406270] integrity: Platform Keyring initialized
-> console: [   39.407161] Key type asymmetric registered
-> console: [   39.407879] Asymmetric key parser 'x509' registered
-> console: [   39.411112] Block layer SCSI generic (bsg) driver version 0.4 loaded (major 251)
-> console: [   39.458660] IPMI message handler: version 39.2
-> console: [   39.461141] ipmi device interface
-> console: [   39.864578] ipmi-powernv ibm,opal:ipmi: IPMI message handler: Found new BMC (man_id: 0x000000, prod_id: 0x0000, dev_id: 0x20)
-> /console: [   40.518598] IPMI Watchdog: driver initialized
-> \console: [   42.679606] hvc0: raw protocol on /ibm,opal/consoles/serial@0 (boot console)
-> console: [   42.680490] hvc0: No interrupts property, using OPAL event
-> console: [   42.718661] Serial: 8250/16550 driver, 4 ports, IRQ sharing disabled
-> console: [   43.131333] brd: module loaded
-> |console: [   43.331465] loop: module loaded
-> console: [   43.366052] libphy: Fixed MDIO Bus: probed
-> console: [   43.375750] i2c /dev entries driver
-> console: [   43.380135] powernv-cpufreq: ibm,pstate-min node not found
-> console: [   43.380691] powernv-cpufreq: Platform driver disabled. System does not support PState control
-> console: [   43.423981] ipip: IPv4 and MPLS over IPv4 tunneling driver
-> console: [   43.497912] NET: Registered protocol family 10
-> console: [   43.540218] Segment Routing with IPv6
-> console: [   43.542407] sit: IPv6, IPv4 and MPLS over IPv4 tunneling driver
-> console: [   43.568856] NET: Registered protocol family 17
-> console: [   43.570360] Key type dns_resolver registered
-> console: [   43.571289] secvar-sysfs: secvar: failed to retrieve secvar operations.
-> console: [   43.572075] drmem: No dynamic reconfiguration memory found
-> console: [   43.579066] Loading compiled-in X.509 certificates
-> console: [   43.621261] Loaded X.509 cert 'Build time autogenerated kernel key: 987b64c96d830fe42d02bbf502e028ebe85c2b4e'
-> console: [   44.052308] Key type encrypted registered
-> console: [   44.061477] ima: No TPM chip found, activating TPM-bypass!
-> console: [   44.064700] ima: Allocated hash algorithm: sha256
-> console: [   44.072905] Secure boot mode disabled
-> console: [   44.074908] Trusted boot mode disabled
-> console: [   44.075445] ima: No architecture policies found
-> /console: [   44.157077] Freeing unused kernel memory: 13696K
-> console: [   44.157843] This architecture does not have kernel memory protection.
-> console: [   44.160154] Run /init as init process
-> |console: [   47.520497] udevd[74]: starting version 3.2.9
-> console: [   47.555948] random: udevd: uninitialized urandom read (16 bytes read)
-> console: [   47.563916] random: udevd: uninitialized urandom read (16 bytes read)
-> console: [   47.567528] random: udevd: uninitialized urandom read (16 bytes read)
-> console: [   47.729266] udevd[75]: starting eudev-3.2.9
-> /console: [   49.004222] urandom_read: 5 callbacks suppressed
-> console: [   49.004347] random: udevd: uninitialized urandom read (16 bytes read)
-> |console: [   59.758967] PTP clock support registered
-> /console: [   60.749571] e1000e: Intel(R) PRO/1000 Network Driver
-> console: [   60.750176] e1000e: Copyright(c) 1999 - 2015 Intel Corporation.
-> console: [   60.763411] e1000e 0001:02:03.0: enabling device (0100 -> 0102)
-> console: [   60.775134] e1000e 0001:02:03.0: Interrupt Throttling Rate (ints/sec) set to dynamic conservative mode
-> console: [   60.840369] nvme nvme0: pci function 0002:01:00.0
-> console: [   60.842333] nvme 0002:01:00.0: enabling device (0100 -> 0102)
-> console: [   61.001290] usbcore: registered new interface driver usbfs
-> console: [   61.008092] usbcore: registered new interface driver hub
-> console: [   61.013320] usbcore: registered new device driver usb
-> -console: [   61.260003] e1000e 0001:02:03.0 0001:02:03.0 (uninitialized): registered PHC clock
-> console: [   61.439568] e1000e 0001:02:03.0 eth0: (PCI Express:2.5GT/s:Width x1) 52:54:00:12:34:57
-> console: [   61.440440] e1000e 0001:02:03.0 eth0: Intel(R) PRO/1000 Network Connection
-> console: [   61.441473] e1000e 0001:02:03.0 eth0: MAC: 3, PHY: 8, PBA No: 000000-000
-> console: [   61.453243] nvme nvme0: 1/0/0 default/read/poll queues
-> console: [   61.852525] rtc-opal opal-rtc: registered as rtc0
-> console: [   62.041247] rtc-opal opal-rtc: setting system clock to 2021-12-21T03:39:09 UTC (1640057949)
-> console: [   62.175046] xhci_hcd 0001:02:02.0: xHCI Host Controller
-> console: [   62.176904] xhci_hcd 0001:02:02.0: new USB bus registered, assigned bus number 1
-> console: [   62.188065] xhci_hcd 0001:02:02.0: hcc params 0x00080001 hci version 0x100 quirks 0x0000000000000014
-> \console: [   62.849997] hub 1-0:1.0: USB hub found
-> console: [   62.998795] hub 1-0:1.0: 4 ports detected
-> |console: [   63.232067] xhci_hcd 0001:02:02.0: xHCI Host Controller
-> console: [   63.233192] xhci_hcd 0001:02:02.0: new USB bus registered, assigned bus number 2
-> console: [   63.234507] xhci_hcd 0001:02:02.0: Host supports USB 3.0 SuperSpeed
-> console: [   63.468360] usb usb2: We don't know the algorithms for LPM for this host, disabling LPM.
-> console: [   63.786654] hub 2-0:1.0: USB hub found
-> console: [   63.908912] hub 2-0:1.0: 4 ports detected
-> /console: [   65.069424] 1 fixed-partitions partitions found on MTD device flash@0
-> console: [   65.070221] Creating 1 MTD partitions on "flash@0":
-> PASS (89.13 s)
-> RESULTS    : PASS 1 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 0 | CANCEL 0
-> JOB TIME   : 89.77 s
-> 
-> 
-> Emulation is twice as slow.  That's not good.
-> 
-> 
->> It might be the case that the performance gain is enough to make these tests happy again,
->> although my initial guess is that there's something during boot that is starting the PMU and
->> leaving it running.
-> 
-> MMCR0 is set to 0 when kernel is started. I guess the modeling is wrong in
-> pmc_is_inactive() or pmc_get_event().
+> Signed-off-by: Cornelia Huck <cohuck@redhat.com>
 
+Acked-by: Christian Borntraeger <borntraeger@de.ibm.com>
 
-Well that's not great. As far as the ISA goes, MMCR0 fully cleared indicates that the
-PMU is counting instruction and cycles in PMCs 5 and 6. In fact, the initial MMCR0
-value is explicitly set to 0x80000000 (frozen bit set) in cpu_init.c because of that.
-The programming note of section 10.2 of PowerISA 3.1 also mentions it:
-
-----
-The Performance Monitor can be effectively disabled (i.e., put
-into a state in which Performance Monitor SPRs are not altered
-and Performance Monitor exceptions do not occur) by setting
-MMCR0 to 0x0000_0000_8000_0000.
---
-
-Anyway, I just tested a new assumption where if all the PMU control registers (MMCR0,
-MMCR1, MMCR2 and MMCRA) are all cleared at the same time the PMU is not running. The idea
-is that this condition matches what we might see in an early boot. This fixed the problem
-with the avocado tests. I need to test this new condition with the pseries PMU and EBB test
-suits, but I have a guess that it'll be fine there as well - the Perf driver is always
-writing something in these registers when using the PMU.
-
-
-Meanwhile I'll see if I can get in touch with the Perf kernel folks. Setting MMCR0 to
-zero at kernel start, if you follow ISA 3.1 to the letter, will start event counting
-because all the frozen bits are cleared.
-
-
-Thanks,
-
-
-Daniel
-
-
+That should help to get additional maintainers (in add-on patches) added.
+Letsa go with this split - we can fix and improve things anytime.
+> ---
 > 
-> Thanks,
+> As discussed offlist. Some notes:
+> - The new sections have inherited the maintainers of the sections
+>    they have been split out of (except where people had already
+>    volunteered). That's easy to change, obviously, and I hope that
+>    the cc: list already contains people who might have interest in
+>    volunteering for some sections.
+> - I may not have gotten the F: patterns correct, please double check.
+> - I'm also not sure about where in the MAINTAINERS file the new
+>    sections should go; if you have a better idea, please speak up.
+> - Also, if you have better ideas regarding the sections, please
+>    speak up as well :)
+> - Pull requests will probably continue the same way as now (i.e.
+>    patches picked up at the top level and then sent, except for some
+>    things like tcg which may go separately.) Not sure if it would
+>    make sense to try out the submaintainer pull request model again,
+>    I don't think it made life easier in the past, and now we have
+>    the b4 tool to pick patches easily anyway. It might be a good
+>    idea to check which of the tree locations should stay, or if we
+>    want to have new ones.
 > 
-> C.
+> ---
+>   MAINTAINERS | 86 ++++++++++++++++++++++++++++++++++++++++++++++-------
+>   1 file changed, 75 insertions(+), 11 deletions(-)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 9a8d1bdf727d..d1916f075386 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -297,7 +297,6 @@ M: David Hildenbrand <david@redhat.com>
+>   S: Maintained
+>   F: target/s390x/
+>   F: target/s390x/tcg
+> -F: target/s390x/cpu_models_*.[ch]
+>   F: hw/s390x/
+>   F: disas/s390.c
+>   F: tests/tcg/s390x/
+> @@ -396,16 +395,10 @@ M: Halil Pasic <pasic@linux.ibm.com>
+>   M: Christian Borntraeger <borntraeger@linux.ibm.com>
+>   S: Supported
+>   F: target/s390x/kvm/
+> -F: target/s390x/ioinst.[ch]
+>   F: target/s390x/machine.c
+>   F: target/s390x/sigp.c
+> -F: target/s390x/cpu_features*.[ch]
+> -F: target/s390x/cpu_models.[ch]
+>   F: hw/s390x/pv.c
+>   F: include/hw/s390x/pv.h
+> -F: hw/intc/s390_flic.c
+> -F: hw/intc/s390_flic_kvm.c
+> -F: include/hw/s390x/s390_flic.h
+>   F: gdb-xml/s390*.xml
+>   T: git https://github.com/borntraeger/qemu.git s390-next
+>   L: qemu-s390x@nongnu.org
+> @@ -1529,12 +1522,8 @@ S390 Virtio-ccw
+>   M: Halil Pasic <pasic@linux.ibm.com>
+>   M: Christian Borntraeger <borntraeger@linux.ibm.com>
+>   S: Supported
+> -F: hw/char/sclp*.[hc]
+> -F: hw/char/terminal3270.c
+>   F: hw/s390x/
+>   F: include/hw/s390x/
+> -F: hw/watchdog/wdt_diag288.c
+> -F: include/hw/watchdog/wdt_diag288.h
+>   F: configs/devices/s390x-softmmu/default.mak
+>   F: tests/avocado/machine_s390_ccw_virtio.py
+>   T: git https://github.com/borntraeger/qemu.git s390-next
+> @@ -1559,6 +1548,80 @@ F: hw/s390x/s390-pci*
+>   F: include/hw/s390x/s390-pci*
+>   L: qemu-s390x@nongnu.org
+>   
+> +S390 channel subsystem
+> +M: Halil Pasic <pasic@linux.ibm.com>
+> +M: Christian Borntraeger <borntraeger@linux.ibm.com>
+> +S: Supported
+> +F: hw/s390x/ccw-device.[ch]
+> +F: hw/s390x/css.c
+> +F: hw/s390x/css-bridge.c
+> +F: include/hw/s390x/css.h
+> +F: include/hw/s390x/css-bridge.h
+> +F: include/hw/s390x/ioinst.h
+> +F: target/s390x/ioinst.c
+> +L: qemu-s390x@nongnu.org
+> +
+> +3270 device
+> +M: Halil Pasic <pasic@linux.ibm.com>
+> +M: Christian Borntraeger <borntraeger@linux.ibm.com>
+> +S: Odd fixes
+> +F: include/hw/s390x/3270-ccw.h
+> +F: hw/char/terminal3270.c
+> +F: hw/s390x/3270-ccw.c
+> +L: qemu-s390x@nongnu.org
+> +
+> +diag 288 watchdog
+> +M: Halil Pasic <pasic@linux.ibm.com>
+> +M: Christian Borntraeger <borntraeger@linux.ibm.com>
+> +S: Supported
+> +F: hw/watchdog/wdt_diag288.c
+> +F: include/hw/watchdog/wdt_diag288.h
+> +L: qemu-s390x@nongnu.org
+> +
+> +S390 CPU models
+> +M: David Hildenbrand <david@redhat.com>
+> +S: Maintained
+> +F: target/s390x/cpu_features*.[ch]
+> +F: target/s390x/cpu_models.[ch]
+> +L: qemu-s390x@nongnu.org
+> +
+> +S390 storage key device
+> +M: Halil Pasic <pasic@linux.ibm.com>
+> +M: Christian Borntraeger <borntraeger@linux.ibm.com>
+> +S: Supported
+> +F: hw/s390x/storage-keys.h
+> +F: hw/390x/s390-skeys*.c
+> +L: qemu-s390x@nongnu.org
+> +
+> +S390 storage attribute device
+> +M: Halil Pasic <pasic@linux.ibm.com>
+> +M: Christian Borntraeger <borntraeger@linux.ibm.com>
+> +S: Supported
+> +F: hw/s390x/storage-attributes.h
+> +F: hw/s390/s390-stattrib*.c
+> +L: qemu-s390x@nongnu.org
+> +
+> +S390 SCLP-backed devices
+> +M: Halil Pasic <pasic@linux.ibm.com>
+> +M: Christian Borntraeger <borntraeger@linux.ibm.com>
+> +S: Supported
+> +F: include/hw/s390x/event-facility.h
+> +F: include/hw/s390x/sclp.h
+> +F: hw/char/sclp*.[hc]
+> +F: hw/s390x/event-facility.c
+> +F: hw/s390x/sclp*.c
+> +L: qemu-s390x@nongnu.org
+> +
+> +S390 floating interrupt controller
+> +M: Halil Pasic <pasic@linux.ibm.com>
+> +M: Christian Borntraeger <borntraeger@linux.ibm.com>
+> +M: David Hildenbrand <david@redhat.com>
+> +S: Supported
+> +F: hw/intc/s390_flic.c
+> +F: hw/intc/s390_flic_kvm.c
+> +F: include/hw/s390x/s390_flic.h
+> +L: qemu-s390x@nongnu.org
+> +
+>   X86 Machines
+>   ------------
+>   PC
+> @@ -1957,6 +2020,7 @@ M: Halil Pasic <pasic@linux.ibm.com>
+>   S: Supported
+>   F: hw/s390x/virtio-ccw*.[hc]
+>   F: hw/s390x/vhost-vsock-ccw.c
+> +F: hw/s390x/vhost-user-fs-ccw.c
+>   T: git https://gitlab.com/cohuck/qemu.git s390-next
+>   T: git https://github.com/borntraeger/qemu.git s390-next
+>   L: qemu-s390x@nongnu.org
+> 
 
