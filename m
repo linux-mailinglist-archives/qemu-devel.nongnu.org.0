@@ -2,43 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51E6347B9EF
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Dec 2021 07:18:37 +0100 (CET)
-Received: from localhost ([::1]:47740 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 788A547BA01
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Dec 2021 07:23:01 +0100 (CET)
+Received: from localhost ([::1]:54338 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mzYTs-0001J0-Cc
-	for lists+qemu-devel@lfdr.de; Tue, 21 Dec 2021 01:18:36 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48880)
+	id 1mzYY8-000613-IJ
+	for lists+qemu-devel@lfdr.de; Tue, 21 Dec 2021 01:23:00 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48888)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <git@xen0n.name>) id 1mzXvP-0002FE-SJ
- for qemu-devel@nongnu.org; Tue, 21 Dec 2021 00:42:59 -0500
-Received: from mail.xen0n.name ([115.28.160.31]:56672
+ (Exim 4.90_1) (envelope-from <git@xen0n.name>) id 1mzXvQ-0002HC-Dl
+ for qemu-devel@nongnu.org; Tue, 21 Dec 2021 00:43:00 -0500
+Received: from mail.xen0n.name ([115.28.160.31]:56676
  helo=mailbox.box.xen0n.name)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <git@xen0n.name>) id 1mzXvN-000275-C8
- for qemu-devel@nongnu.org; Tue, 21 Dec 2021 00:42:59 -0500
+ (Exim 4.90_1) (envelope-from <git@xen0n.name>) id 1mzXvN-00027B-Fj
+ for qemu-devel@nongnu.org; Tue, 21 Dec 2021 00:43:00 -0500
 Received: from ld50.lan (unknown [101.88.31.179])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
- by mailbox.box.xen0n.name (Postfix) with ESMTPSA id B51BA607BF;
- Tue, 21 Dec 2021 13:42:30 +0800 (CST)
+ by mailbox.box.xen0n.name (Postfix) with ESMTPSA id 071C260184;
+ Tue, 21 Dec 2021 13:42:31 +0800 (CST)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=xen0n.name; s=mail;
- t=1640065350; bh=PtmpMmrgZWxIEKaSgkAprPf5hbRfUdPmwG5P1/2Utsw=;
+ t=1640065351; bh=/783yYOHmRfWNoNL/gGH2F0LYZ9v7h7HgCt+aKpg8vQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=vSVf5LjR7nHOAhPsd7WKOiiZdYYDJJWg6GY8QdVm15mJxeh5JBk1HCBd/LHQZtYwB
- zzDia8iz1jJU6Dyjc9Z6jicp0m2SmiIF8MJ+iZ5ZHbCYFNenIKU/caXQJ8Y70cxIyb
- LbMOLtEH1RXU1SXhTxKFbOXDwx+5F1gCq/San6pg=
+ b=nahdjTxYZdkCy4qLEWL6GZWZCTUUu/PTxGUoXZOFElNDXgvDd93qMaNSZ33RZxS+F
+ 2VTQxArMVa4rI42Es0U6xHVKRX7SwdVk0sgsD2Fzf9M+ugTflOMcz9F8IxOm9o9QAv
+ ZgqQke233zzMPIBUGuMwPkBzeoo6mTISp7mRO/oc=
 From: WANG Xuerui <git@xen0n.name>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v11 28/31] common-user: Add safe syscall handling for
- loongarch64 hosts
-Date: Tue, 21 Dec 2021 13:41:02 +0800
-Message-Id: <20211221054105.178795-29-git@xen0n.name>
+Subject: [PATCH v11 29/31] linux-user: Implement CPU-specific signal handler
+ for loongarch64 hosts
+Date: Tue, 21 Dec 2021 13:41:03 +0800
+Message-Id: <20211221054105.178795-30-git@xen0n.name>
 X-Mailer: git-send-email 2.34.0
 In-Reply-To: <20211221054105.178795-1-git@xen0n.name>
 References: <20211221054105.178795-1-git@xen0n.name>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=115.28.160.31; envelope-from=git@xen0n.name;
  helo=mailbox.box.xen0n.name
@@ -72,107 +73,105 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: WANG Xuerui <git@xen0n.name>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- .../host/loongarch64/safe-syscall.inc.S       | 90 +++++++++++++++++++
- 1 file changed, 90 insertions(+)
- create mode 100644 common-user/host/loongarch64/safe-syscall.inc.S
+ linux-user/host/loongarch64/host-signal.h | 87 +++++++++++++++++++++++
+ 1 file changed, 87 insertions(+)
+ create mode 100644 linux-user/host/loongarch64/host-signal.h
 
-diff --git a/common-user/host/loongarch64/safe-syscall.inc.S b/common-user/host/loongarch64/safe-syscall.inc.S
+diff --git a/linux-user/host/loongarch64/host-signal.h b/linux-user/host/loongarch64/host-signal.h
 new file mode 100644
-index 0000000000..b88a069c45
+index 0000000000..05e2c82371
 --- /dev/null
-+++ b/common-user/host/loongarch64/safe-syscall.inc.S
-@@ -0,0 +1,90 @@
++++ b/linux-user/host/loongarch64/host-signal.h
+@@ -0,0 +1,87 @@
 +/*
-+ * safe-syscall.inc.S : host-specific assembly fragment
-+ * to handle signals occurring at the same time as system calls.
-+ * This is intended to be included by common-user/safe-syscall.S
++ * host-signal.h: signal info dependent on the host architecture
 + *
-+ * Ported to LoongArch by WANG Xuerui <git@xen0n.name>
++ * Copyright (c) 2003-2005 Fabrice Bellard
++ * Copyright (c) 2021 WANG Xuerui <git@xen0n.name>
 + *
-+ * Based on safe-syscall.inc.S code for RISC-V,
-+ * originally written by Richard Henderson <rth@twiddle.net>
-+ * Copyright (C) 2018 Linaro, Inc.
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * This work is licensed under the terms of the GNU LGPL, version 2.1 or later.
 + * See the COPYING file in the top-level directory.
 + */
 +
-+        .global safe_syscall_base
-+        .global safe_syscall_start
-+        .global safe_syscall_end
-+        .type   safe_syscall_base, @function
-+        .type   safe_syscall_start, @function
-+        .type   safe_syscall_end, @function
++#ifndef LOONGARCH64_HOST_SIGNAL_H
++#define LOONGARCH64_HOST_SIGNAL_H
 +
-+        /*
-+         * This is the entry point for making a system call. The calling
-+         * convention here is that of a C varargs function with the
-+         * first argument an 'int *' to the signal_pending flag, the
-+         * second one the system call number (as a 'long'), and all further
-+         * arguments being syscall arguments (also 'long').
-+         */
-+safe_syscall_base:
-+        .cfi_startproc
-+        /*
-+         * The syscall calling convention is nearly the same as C:
-+         * we enter with a0 == &signal_pending
-+         *               a1 == syscall number
-+         *               a2 ... a7 == syscall arguments
-+         *               and return the result in a0
-+         * and the syscall instruction needs
-+         *               a7 == syscall number
-+         *               a0 ... a5 == syscall arguments
-+         *               and returns the result in a0
-+         * Shuffle everything around appropriately.
-+         */
-+        move    $t0, $a0        /* signal_pending pointer */
-+        move    $t1, $a1        /* syscall number */
-+        move    $a0, $a2        /* syscall arguments */
-+        move    $a1, $a3
-+        move    $a2, $a4
-+        move    $a3, $a5
-+        move    $a4, $a6
-+        move    $a5, $a7
-+        move    $a7, $t1
++static inline uintptr_t host_signal_pc(ucontext_t *uc)
++{
++    return uc->uc_mcontext.__pc;
++}
 +
-+        /*
-+         * We need to preserve the signal_pending pointer but t0 is
-+         * clobbered by syscalls on LoongArch, so we need to move it
-+         * somewhere else, ideally both preserved across syscalls and
-+         * clobbered by procedure calls so we don't have to allocate a
-+         * stack frame; a6 is just the register we want here.
-+         */
-+        move    $a6, $t0
++static inline void host_signal_set_pc(ucontext_t *uc, uintptr_t pc)
++{
++    uc->uc_mcontext.__pc = pc;
++}
 +
-+        /*
-+         * This next sequence of code works in conjunction with the
-+         * rewind_if_safe_syscall_function(). If a signal is taken
-+         * and the interrupted PC is anywhere between 'safe_syscall_start'
-+         * and 'safe_syscall_end' then we rewind it to 'safe_syscall_start'.
-+         * The code sequence must therefore be able to cope with this, and
-+         * the syscall instruction must be the final one in the sequence.
-+         */
-+safe_syscall_start:
-+        /* If signal_pending is non-zero, don't do the call */
-+        ld.w    $t1, $a6, 0
-+        bnez    $t1, 2f
-+        syscall 0
-+safe_syscall_end:
-+        /* code path for having successfully executed the syscall */
-+        li.w    $t2, -4096
-+        bgtu    $a0, $t2, 0f
-+        jr      $ra
++static inline bool host_signal_write(siginfo_t *info, ucontext_t *uc)
++{
++    const uint32_t *pinsn = (const uint32_t *)host_signal_pc(uc);
++    uint32_t insn = pinsn[0];
 +
-+        /* code path setting errno */
-+0:      sub.d   $a0, $zero, $a0
-+        b       safe_syscall_set_errno_tail
++    /* Detect store by reading the instruction at the program counter.  */
++    switch ((insn >> 26) & 0b111111) {
++    case 0b001000: /* {ll,sc}.[wd] */
++        switch ((insn >> 24) & 0b11) {
++        case 0b01: /* sc.w */
++        case 0b11: /* sc.d */
++            return true;
++        }
++        break;
++    case 0b001001: /* {ld,st}ox4.[wd] ({ld,st}ptr.[wd]) */
++        switch ((insn >> 24) & 0b11) {
++        case 0b01: /* stox4.w (stptr.w) */
++        case 0b11: /* stox4.d (stptr.d) */
++            return true;
++        }
++        break;
++    case 0b001010: /* {ld,st}.* family */
++        switch ((insn >> 22) & 0b1111) {
++        case 0b0100: /* st.b */
++        case 0b0101: /* st.h */
++        case 0b0110: /* st.w */
++        case 0b0111: /* st.d */
++        case 0b1101: /* fst.s */
++        case 0b1111: /* fst.d */
++            return true;
++        }
++        break;
++    case 0b001110: /* indexed, atomic, bounds-checking memory operations */
++        uint32_t sel = (insn >> 15) & 0b11111111111;
 +
-+        /* code path when we didn't execute the syscall */
-+2:      li.w    $a0, QEMU_ERESTARTSYS
-+        b       safe_syscall_set_errno_tail
-+        .cfi_endproc
-+        .size   safe_syscall_base, .-safe_syscall_base
++        switch (sel) {
++        case 0b00000100000: /* stx.b */
++        case 0b00000101000: /* stx.h */
++        case 0b00000110000: /* stx.w */
++        case 0b00000111000: /* stx.d */
++        case 0b00001110000: /* fstx.s */
++        case 0b00001111000: /* fstx.d */
++        case 0b00011101100: /* fstgt.s */
++        case 0b00011101101: /* fstgt.d */
++        case 0b00011101110: /* fstle.s */
++        case 0b00011101111: /* fstle.d */
++        case 0b00011111000: /* stgt.b */
++        case 0b00011111001: /* stgt.h */
++        case 0b00011111010: /* stgt.w */
++        case 0b00011111011: /* stgt.d */
++        case 0b00011111100: /* stle.b */
++        case 0b00011111101: /* stle.h */
++        case 0b00011111110: /* stle.w */
++        case 0b00011111111: /* stle.d */
++        case 0b00011000000 ... 0b00011100011: /* am* insns */
++            return true;
++        }
++        break;
++    }
++
++    return false;
++}
++
++#endif
 -- 
 2.34.0
 
