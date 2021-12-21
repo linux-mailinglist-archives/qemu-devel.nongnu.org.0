@@ -2,82 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E084F47B655
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Dec 2021 00:56:06 +0100 (CET)
-Received: from localhost ([::1]:41092 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FDBA47B86B
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Dec 2021 03:39:52 +0100 (CET)
+Received: from localhost ([::1]:41916 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mzSVg-00026y-Ld
-	for lists+qemu-devel@lfdr.de; Mon, 20 Dec 2021 18:56:04 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55004)
+	id 1mzV4A-0000eh-FZ
+	for lists+qemu-devel@lfdr.de; Mon, 20 Dec 2021 21:39:50 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52856)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mzSUI-0001Pr-BS
- for qemu-devel@nongnu.org; Mon, 20 Dec 2021 18:54:38 -0500
-Received: from [2607:f8b0:4864:20::434] (port=33768
- helo=mail-pf1-x434.google.com)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1mzV2N-0008PV-Vk
+ for qemu-devel@nongnu.org; Mon, 20 Dec 2021 21:37:59 -0500
+Received: from [2607:f8b0:4864:20::f30] (port=43922
+ helo=mail-qv1-xf30.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mzSUG-0000GI-CG
- for qemu-devel@nongnu.org; Mon, 20 Dec 2021 18:54:38 -0500
-Received: by mail-pf1-x434.google.com with SMTP id 205so5903901pfu.0
- for <qemu-devel@nongnu.org>; Mon, 20 Dec 2021 15:54:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:from:to:references:message-id:date:user-agent:mime-version
- :in-reply-to:content-language:content-transfer-encoding;
- bh=5Jg9MMpmm/byfdMZsKjjNHpgHJDAOY0WahXPJDxaVpI=;
- b=mfUyZJMuDU5lGBN6iLZBik0lZCxK9hXiG2dEjioX72OL6M9fQIrX3yPWyqnx8R9PAE
- 5UeSgfKTn6/FLC697W8uVggqoEVOuQZHaYnT5h087jwiqCJr7fpLcmf6WbXPaaDgZ6oB
- xjFdk7OOncnlLlVLCs9VWLoUjTcNRhgXGnFcjyaQ1a0O5R5tywK+Xg1vxfVNmpxFfBJV
- HU5GHDgzkcDt39rSsNntfw1FZjxy0P4nfpc+JcoQI3oKVE3FcObX1OUkYkt0+OvQNmWW
- +ZZE1i1cTRCfLhHxXSeWTxs6P1Fk4fSvw0urPoklQ0VPL1KoIsnCuyXAOo0gYEuEXM8S
- X/GQ==
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1mzV2C-0007Rn-Pa
+ for qemu-devel@nongnu.org; Mon, 20 Dec 2021 21:37:59 -0500
+Received: by mail-qv1-xf30.google.com with SMTP id fq10so2653888qvb.10
+ for <qemu-devel@nongnu.org>; Mon, 20 Dec 2021 18:37:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :references:from:in-reply-to:content-transfer-encoding;
+ bh=EPmBpF7mc5/4GJo5a+0FocHBt8lYIXWR1a4oN3Tyew0=;
+ b=GBu14DlvnMLC0X6lxDDwWsGTQtcQO5L2OgNIFFwaJZUSMrQ6Mjt3gl/z8VdlcZ/ZU0
+ oNgxeVzMXuLUg7IGlKrtfQPA2XdjV23QoIaEmWkb3SzUuPF+m94i0lpG4agm+29EdKYp
+ GSttEZn0JoagPKQs/D66svp5pDDGhmVIxep+WekyWORKIC2hUfot3reNFnXoSR4OYyEh
+ mTthpcmF3bG3QH1Dt3G/yzykqgt06xZ36xTDXarV6TYnPHNyQf3O7cxEjujEGKIA8OWY
+ lbk7/CIMs9tr5v7vpSJag4rtvkxtxst+R5snkvk/ylNg/mvRQvM8HTJKeYsY5Dv94Apt
+ 6hew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:from:to:references:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:references:from:in-reply-to
  :content-transfer-encoding;
- bh=5Jg9MMpmm/byfdMZsKjjNHpgHJDAOY0WahXPJDxaVpI=;
- b=00UHJDRliNIFeDI5xo8FZzOVA3mhUSRhMDURpgaVe788QT5F020eCPFN4l782jEJ2k
- E7wYWzuE6EyjXHe4AU0j2fUJFLst7T7KM1TgSkmNK/pMnirrLG0pEWEkkQzHIVFp0BBB
- HoD9EBrIatghsU4l1RqNb4qW8x8j++xtRjVPGkFPuLpBLdoZDr4bWl7gZgSDza/YcQi4
- cdpNuFVmr5UUCZ21RyUas0K5h6SKW5P/psF+uKvDSu8H2jNZYAHImEUW7nS5NioDxrS2
- ac67xw5GtY0fhO/g1wBm9n5ROeGhB2t0+H77i1txFnaZw5E5yzENV+odYTdMkbiwECwj
- h9YQ==
-X-Gm-Message-State: AOAM530EEOhQrBRMIc0E8IMrx41w+aUd7Js8kNDSoZ30UxeGVyyGHcTx
- aF21qgmFH9WAz4wxpoYoBDaf7TspxIE5KA==
-X-Google-Smtp-Source: ABdhPJzkHwK31niw0PQzvDVc+X+mRyXshfbrc6Q7oBe+BQQHu9yd8c00vdZrGn7Wt1pDAXhy1mjcjA==
-X-Received: by 2002:a05:6a00:72c:b0:4ba:9a9e:b82b with SMTP id
- 12-20020a056a00072c00b004ba9a9eb82bmr422649pfm.13.1640044474394; 
- Mon, 20 Dec 2021 15:54:34 -0800 (PST)
-Received: from [192.168.4.112] ([156.19.246.20])
- by smtp.gmail.com with ESMTPSA id m14sm19410815pfh.11.2021.12.20.15.54.33
- for <qemu-devel@nongnu.org>
+ bh=EPmBpF7mc5/4GJo5a+0FocHBt8lYIXWR1a4oN3Tyew0=;
+ b=vfbE/ISa6Sq2/5QJ+ZR9o9yt+GK2p3X9M4QFgxuBpVq43oMMvei9SRFVTyhXMoqLP5
+ UEEPnU55MXlEU2yctt3+WwSZFwIYeef6lQLMUSlaYGt1Bk0Tm05VROS2bzU1mglSXzXr
+ By6Lby5GQpn2C+5J38o/S/dBj7nQqfOKvDiY7vDueDNnDsvoHon0yGpkA21OpHNh0iL3
+ LmpyVeO71XLnEYmNuEWpv5E6GQvGEu67VkU538GbMtkoE7Gs0qDetzP//wPEWi9zhuRv
+ ubxD88Mtg8QvL5Sv23m4fMb5e27rdfxolTjDswfu4JwJ3aDh6wc/icaJGPpgvHiSiIvm
+ veig==
+X-Gm-Message-State: AOAM533/dT70qBEqlxMIWx3cYKFp5zfxYV/NJCFtEwCLwEoNdgEktQx0
+ IgxoXcsIW4MqLqBoWuRHZOw=
+X-Google-Smtp-Source: ABdhPJwYUPSDq+vXKzsVDMjkZIcjNdVeDvjyqXU94rj5qFp5Of1JmNTy8LtbN9OOyoJE6lsFmHzXvw==
+X-Received: by 2002:a05:6214:2429:: with SMTP id
+ gy9mr702581qvb.36.1640054267573; 
+ Mon, 20 Dec 2021 18:37:47 -0800 (PST)
+Received: from ?IPV6:2804:431:c7c7:e707:b911:92d:ccb8:4968?
+ ([2804:431:c7c7:e707:b911:92d:ccb8:4968])
+ by smtp.gmail.com with ESMTPSA id v12sm16359199qtx.80.2021.12.20.18.37.45
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 20 Dec 2021 15:54:33 -0800 (PST)
-Subject: Re: [PULL 00/15] *-user: simplify safe signal handling
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-References: <20211220202500.111897-1-richard.henderson@linaro.org>
-Message-ID: <01dcc3fb-4ffd-0889-b6cb-944b1022c19b@linaro.org>
-Date: Mon, 20 Dec 2021 15:54:32 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ Mon, 20 Dec 2021 18:37:47 -0800 (PST)
+Message-ID: <9f1947e0-86d8-60e4-87bf-f4a5ec0d6ea8@gmail.com>
+Date: Mon, 20 Dec 2021 23:37:44 -0300
 MIME-Version: 1.0
-In-Reply-To: <20211220202500.111897-1-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: powernv gitlab ci regression
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::434
+To: Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ qemu-devel <qemu-devel@nongnu.org>, clombard@linux.vnet.ibm.com
+References: <461a77d6-a5d2-0ba1-de95-bc8cfa5fb83b@linaro.org>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+In-Reply-To: <461a77d6-a5d2-0ba1-de95-bc8cfa5fb83b@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::f30
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::434;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x434.google.com
-X-Spam_score_int: -48
-X-Spam_score: -4.9
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f30;
+ envelope-from=danielhb413@gmail.com; helo=mail-qv1-xf30.google.com
+X-Spam_score_int: -46
+X-Spam_score: -4.7
 X-Spam_bar: ----
-X-Spam_report: (-4.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.608,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+X-Spam_report: (-4.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-3.608,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,163 +97,81 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/20/21 12:24 PM, Richard Henderson wrote:
-> The following changes since commit 212a33d3b0c65ae2583bb1d06cb140cd0890894c:
-> 
->    Merge tag 'for-upstream' of https://gitlab.com/bonzini/qemu into staging (2021-12-19 16:36:10 -0800)
-> 
-> are available in the Git repository at:
-> 
->    https://gitlab.com/rth7680/qemu.git tags/pull-user-20211220
-> 
-> for you to fetch changes up to 3363615a65af8a09d8adbd19ed3ae6b52f26ca7a:
-> 
->    meson: Move bsd_user_ss to bsd-user/ (2021-12-20 10:13:43 -0800)
-> 
-> ----------------------------------------------------------------
-> Move errno processing from safe_syscall() to safe_syscall_base().
-> Move safe_syscall() from linux-user to common-user.
-> Add FreeBSD support to safe_syscall_base().
-> Tidy top-level meson.build wrt {bsd,linux}-user.
-> 
-> ----------------------------------------------------------------
-> Richard Henderson (15):
->        linux-user: Untabify all safe-syscall.inc.S
->        linux-user: Move syscall error detection into safe_syscall_base
->        linux-user/host/mips: Add safe-syscall.inc.S
->        linux-user/host/sparc64: Add safe-syscall.inc.S
->        linux-user: Remove HAVE_SAFE_SYSCALL and hostdep.h
->        linux-user: Rename TARGET_ERESTARTSYS to QEMU_ERESTARTSYS
->        bsd-user: Rename TARGET_ERESTARTSYS to QEMU_ERESTARTSYS
->        linux-user: Rename TARGET_QEMU_ESIGRETURN to QEMU_ESIGRETURN
->        linux-user: Create special-errno.h
->        bsd-user: Create special-errno.h
->        common-user: Move safe-syscall.* from linux-user
->        common-user: Adjust system call return on FreeBSD
->        linux-user: Move thunk.c from top-level
->        meson: Move linux_user_ss to linux-user/
->        meson: Move bsd_user_ss to bsd-user/
-> 
->   meson.build                                        |  23 +++-
->   bsd-user/errno_defs.h                              |   6 +-
->   bsd-user/special-errno.h                           |  24 ++++
->   {linux-user => include/user}/safe-syscall.h        |  37 ++----
->   linux-user/cpu_loop-common.h                       |   1 +
->   linux-user/generic/target_errno_defs.h             |  17 ---
->   linux-user/host/aarch64/hostdep.h                  |  18 ---
->   linux-user/host/arm/hostdep.h                      |  18 ---
->   linux-user/host/i386/hostdep.h                     |  18 ---
->   linux-user/host/ia64/hostdep.h                     |  15 ---
->   linux-user/host/mips/hostdep.h                     |  15 ---
->   linux-user/host/ppc/hostdep.h                      |  15 ---
->   linux-user/host/ppc64/hostdep.h                    |  18 ---
->   linux-user/host/riscv/hostdep.h                    |  14 --
->   linux-user/host/s390/hostdep.h                     |  15 ---
->   linux-user/host/s390x/hostdep.h                    |  18 ---
->   linux-user/host/sparc/hostdep.h                    |  15 ---
->   linux-user/host/sparc64/hostdep.h                  |  15 ---
->   linux-user/host/x32/hostdep.h                      |  15 ---
->   linux-user/host/x86_64/hostdep.h                   |  18 ---
->   linux-user/signal-common.h                         |   4 +-
->   linux-user/special-errno.h                         |  32 +++++
->   linux-user/user-internals.h                        |   1 -
->   common-user/safe-syscall-error.c                   |  25 ++++
->   linux-user/aarch64/cpu_loop.c                      |   4 +-
->   linux-user/aarch64/signal.c                        |   4 +-
->   linux-user/alpha/cpu_loop.c                        |   4 +-
->   linux-user/alpha/signal.c                          |   8 +-
->   linux-user/arm/cpu_loop.c                          |   4 +-
->   linux-user/arm/signal.c                            |   8 +-
->   linux-user/cris/cpu_loop.c                         |   4 +-
->   linux-user/cris/signal.c                           |   4 +-
->   linux-user/hexagon/cpu_loop.c                      |   4 +-
->   linux-user/hexagon/signal.c                        |   2 +-
->   linux-user/hppa/cpu_loop.c                         |   4 +-
->   linux-user/hppa/signal.c                           |   4 +-
->   linux-user/i386/cpu_loop.c                         |  12 +-
->   linux-user/i386/signal.c                           |   8 +-
->   linux-user/m68k/cpu_loop.c                         |   4 +-
->   linux-user/m68k/signal.c                           |   8 +-
->   linux-user/microblaze/cpu_loop.c                   |   4 +-
->   linux-user/microblaze/signal.c                     |   4 +-
->   linux-user/mips/cpu_loop.c                         |   4 +-
->   linux-user/mips/signal.c                           |   8 +-
->   linux-user/openrisc/cpu_loop.c                     |   4 +-
->   linux-user/ppc/cpu_loop.c                          |   4 +-
->   linux-user/ppc/signal.c                            |  10 +-
->   linux-user/riscv/cpu_loop.c                        |   4 +-
->   linux-user/riscv/signal.c                          |   2 +-
->   linux-user/s390x/cpu_loop.c                        |   4 +-
->   linux-user/s390x/signal.c                          |   8 +-
->   linux-user/sh4/cpu_loop.c                          |   4 +-
->   linux-user/sh4/signal.c                            |   8 +-
->   linux-user/signal.c                                |  10 +-
->   linux-user/sparc/cpu_loop.c                        |   2 +-
->   linux-user/sparc/signal.c                          |   8 +-
->   linux-user/syscall.c                               |  21 +--
->   thunk.c => linux-user/thunk.c                      |   0
->   linux-user/xtensa/cpu_loop.c                       |   4 +-
->   linux-user/xtensa/signal.c                         |   4 +-
->   MAINTAINERS                                        |   3 +-
->   bsd-user/meson.build                               |   6 +
->   common-user/host/aarch64/safe-syscall.inc.S        |  88 ++++++++++++
->   common-user/host/arm/safe-syscall.inc.S            | 108 +++++++++++++++
->   common-user/host/i386/safe-syscall.inc.S           | 126 ++++++++++++++++++
->   common-user/host/mips/safe-syscall.inc.S           | 148 +++++++++++++++++++++
->   common-user/host/ppc64/safe-syscall.inc.S          |  94 +++++++++++++
->   common-user/host/riscv/safe-syscall.inc.S          |  79 +++++++++++
->   common-user/host/s390x/safe-syscall.inc.S          |  98 ++++++++++++++
->   common-user/host/sparc64/safe-syscall.inc.S        |  89 +++++++++++++
->   .../host/x86_64/safe-syscall.inc.S                 |  44 +++---
->   common-user/meson.build                            |   6 +
->   {linux-user => common-user}/safe-syscall.S         |   5 +-
->   linux-user/host/aarch64/safe-syscall.inc.S         |  75 -----------
->   linux-user/host/arm/safe-syscall.inc.S             |  90 -------------
->   linux-user/host/i386/safe-syscall.inc.S            | 100 --------------
->   linux-user/host/ppc64/safe-syscall.inc.S           |  96 -------------
->   linux-user/host/riscv/safe-syscall.inc.S           |  77 -----------
->   linux-user/host/s390x/safe-syscall.inc.S           |  90 -------------
->   linux-user/meson.build                             |   9 +-
->   80 files changed, 1099 insertions(+), 932 deletions(-)
->   create mode 100644 bsd-user/special-errno.h
->   rename {linux-user => include/user}/safe-syscall.h (83%)
->   delete mode 100644 linux-user/host/aarch64/hostdep.h
->   delete mode 100644 linux-user/host/arm/hostdep.h
->   delete mode 100644 linux-user/host/i386/hostdep.h
->   delete mode 100644 linux-user/host/ia64/hostdep.h
->   delete mode 100644 linux-user/host/mips/hostdep.h
->   delete mode 100644 linux-user/host/ppc/hostdep.h
->   delete mode 100644 linux-user/host/ppc64/hostdep.h
->   delete mode 100644 linux-user/host/riscv/hostdep.h
->   delete mode 100644 linux-user/host/s390/hostdep.h
->   delete mode 100644 linux-user/host/s390x/hostdep.h
->   delete mode 100644 linux-user/host/sparc/hostdep.h
->   delete mode 100644 linux-user/host/sparc64/hostdep.h
->   delete mode 100644 linux-user/host/x32/hostdep.h
->   delete mode 100644 linux-user/host/x86_64/hostdep.h
->   create mode 100644 linux-user/special-errno.h
->   create mode 100644 common-user/safe-syscall-error.c
->   rename thunk.c => linux-user/thunk.c (100%)
->   create mode 100644 common-user/host/aarch64/safe-syscall.inc.S
->   create mode 100644 common-user/host/arm/safe-syscall.inc.S
->   create mode 100644 common-user/host/i386/safe-syscall.inc.S
->   create mode 100644 common-user/host/mips/safe-syscall.inc.S
->   create mode 100644 common-user/host/ppc64/safe-syscall.inc.S
->   create mode 100644 common-user/host/riscv/safe-syscall.inc.S
->   create mode 100644 common-user/host/s390x/safe-syscall.inc.S
->   create mode 100644 common-user/host/sparc64/safe-syscall.inc.S
->   rename {linux-user => common-user}/host/x86_64/safe-syscall.inc.S (81%)
->   create mode 100644 common-user/meson.build
->   rename {linux-user => common-user}/safe-syscall.S (91%)
->   delete mode 100644 linux-user/host/aarch64/safe-syscall.inc.S
->   delete mode 100644 linux-user/host/arm/safe-syscall.inc.S
->   delete mode 100644 linux-user/host/i386/safe-syscall.inc.S
->   delete mode 100644 linux-user/host/ppc64/safe-syscall.inc.S
->   delete mode 100644 linux-user/host/riscv/safe-syscall.inc.S
->   delete mode 100644 linux-user/host/s390x/safe-syscall.inc.S
+Hey,
 
-Applied.
+On 12/20/21 18:35, Richard Henderson wrote:
+> Hi guys,
+> 
+> Somewhere within
+> 
+>> Merge tag 'pull-ppc-20211217' of https://github.com/legoater/qemu into staging
+>> ppc 7.0 queue:
+>>
+>> * General cleanup for Mac machines (Peter)
+>> * Fixes for FPU exceptions (Lucas)
+>> * Support for new ISA31 instructions (Matheus)
+>> * Fixes for ivshmem (Daniel)
+>> * Cleanups for PowerNV PHB (Christophe and Cedric)
+>> * Updates of PowerNV and pSeries documentation (Leonardo and Daniel)
+>> * Fixes for PowerNV (Daniel)
+>> * Large cleanup of FPU implementation (Richard)
+>> * Removal of SoftTLBs support for PPC74x CPUs (Fabiano)
+>> * Fixes for exception models in MPCx and 60x CPUs (Fabiano)
+>> * Removal of 401/403 CPUs (Cedric)
+>> * Deprecation of taihu machine (Thomas)
+>> * Large rework of PPC405 machine (Cedric)
+>> * Fixes for VSX instructions (Victor and Matheus)
+>> * Fix for e6500 CPU (Fabiano)
+>> * Initial support for PMU (Daniel)
+> 
+> is something that has caused a timeout regression in avocado-system-centos:
+> 
+>>  (047/171) tests/avocado/boot_linux_console.py:BootLinuxConsole.test_ppc_powernv8:  INTERRUPTED: Test interrupted by SIGTERM\nRunner error occurred: Timeout reached\nOriginal status: ERROR\n{'name': '047-tests/avocado/boot_linux_console.py:BootLinuxConsole.test_ppc_powernv8', 'logdir': '/builds/qemu-project/qemu/build/tests/results/job-2021-12-17T19.23-... (90.46 s)
+>>  (048/171) tests/avocado/boot_linux_console.py:BootLinuxConsole.test_ppc_powernv9:  INTERRUPTED: Test interrupted by SIGTERM\nRunner error occurred: Timeout reached\nOriginal status: ERROR\n{'name': '048-tests/avocado/boot_linux_console.py:BootLinuxConsole.test_ppc_powernv9', 'logdir': '/builds/qemu-project/qemu/build/tests/results/job-2021-12-17T19.23-... (90.55 s)
+> 
+> See e.g. https://gitlab.com/qemu-project/qemu/-/jobs/1898304074
+
+Thanks for letting us know. I bisected it and the culprit is this patch:
 
 
-r~
+commit 4db3907a40a087e2cc1839d19a3642539d36610b
+Author: Daniel Henrique Barboza <danielhb413@gmail.com>
+Date:   Fri Dec 17 17:57:18 2021 +0100
+
+     target/ppc: enable PMU instruction count
+
+
+This is a patch where I added instruction count in the ppc64 PMU. After this patch the
+performance of these 2 tests are degraded to the point where we're hitting timeouts in
+gitlab (didn't hit timeouts in my machine but the performance is noticeable worse).
+
+I'll need to see the serial console of the VM booting up to evaluate if there's some kernel
+module during boot time that is using the PMU and causing the delay. I'll also take a look
+into improving the performance as well (e.g. using more TCG code and avoid calling helpers).
+
+It might be the case that the performance gain is enough to make these tests happy again,
+although my initial guess is that there's something during boot that is starting the PMU and
+leaving it running.
+
+
+Thanks,
+
+
+Daniel
+
+
+
+
+
+
+
+
+
+> 
+> Timeouts are especially tedious with gitlab, because they're not usually consistent, and often go away with a retry.  If I don't see the same failure on my local machine, I often let it go.
+> 
+> But in this case, the gitlab ci regression has been consistent, not passing a single time since.  Which makes me think this is not just a ci artifact, but that there's a real slowdown.  Could you please have a look?
+> 
+> 
+> r~
 
