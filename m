@@ -2,70 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7256947BBC4
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Dec 2021 09:24:36 +0100 (CET)
-Received: from localhost ([::1]:46004 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DF9247BBC8
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Dec 2021 09:26:15 +0100 (CET)
+Received: from localhost ([::1]:49454 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mzaRn-0003kI-Hf
-	for lists+qemu-devel@lfdr.de; Tue, 21 Dec 2021 03:24:35 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45002)
+	id 1mzaTO-000652-GI
+	for lists+qemu-devel@lfdr.de; Tue, 21 Dec 2021 03:26:14 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45486)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1mzaQ4-00028H-1p; Tue, 21 Dec 2021 03:22:48 -0500
-Received: from [2607:f8b0:4864:20::b32] (port=40584
- helo=mail-yb1-xb32.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1mzaQ1-00032M-85; Tue, 21 Dec 2021 03:22:46 -0500
-Received: by mail-yb1-xb32.google.com with SMTP id 131so36462600ybc.7;
- Tue, 21 Dec 2021 00:22:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=SuZti6/PTCbJBsoedGEEdZM7bLs6cFAFs9T5DZ1nT4Y=;
- b=i3blVLT06Yx6ox6CB/HDamsvmRb4/St9cG8d15hNttzJJV6028ZXuZNKHig8oTI0P3
- u+KveGA+1clNmEm7FUeLnlTsV33PyLIXp9dhGOK5CQ8YhI18lTgYFKZPKNCZ8Ils3E15
- wjoxLM5auPEVSew2sK034xmoMBpTkrv8ub69wP39Ttp26/LPt6tkvxRP7BEdr7KRgS9c
- s7Si/Chon755s1gq4qMdLpg68rXLZRBXRoVPMT6QY8yKUHWLKMlw2Evl4GEQSS2GcBQm
- AwREIB5CgpTYHK6AurOkY/p1LAwPMZsGsJtBeeCUsthgjwXOqc4K7+8BzDt2dg7Iu77o
- fAlQ==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mzaSL-0005Ou-D3
+ for qemu-devel@nongnu.org; Tue, 21 Dec 2021 03:25:09 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42454)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mzaSI-0003E1-Eq
+ for qemu-devel@nongnu.org; Tue, 21 Dec 2021 03:25:07 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1640075105;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=dg4BIkjbnqL8SxJq2EOaNr/SLMbQZMXu4d5HqA9E2Z0=;
+ b=PxsF26d9Lywecew94/oE0FQ5FBB3HovD//h/QXXB2eQVLwIH6pGBMLATeAC0LNkh317Qzb
+ HdmHr1lok54Lgh+1oM/Af9CmRsmouULTriHy8AG1zACWSILWEBkm1UGLswVXpQiwQ7OWRc
+ msYLvRNAgtHCv6rBAXsK/jNtWo0wO5I=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-652-aWt66SHSM_ClxjnpUeXANw-1; Tue, 21 Dec 2021 03:25:02 -0500
+X-MC-Unique: aWt66SHSM_ClxjnpUeXANw-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ 205-20020a1c00d6000000b003335d1384f1so925325wma.3
+ for <qemu-devel@nongnu.org>; Tue, 21 Dec 2021 00:25:02 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=SuZti6/PTCbJBsoedGEEdZM7bLs6cFAFs9T5DZ1nT4Y=;
- b=j6mFt3Cw7G6jdBOJz3Pk8Ud6dZwwEHXLqWuviApDeGA2KXVr4rX+aedDdwK+hc23Gs
- h6Cqsb+d8XnQzUtnSufLqY683sJDFWQ1RlU3HWOUOVSZn0w78eUZrDhNJQriN14yurk9
- HnpeHS7xOhmlx1JkjUWf1c5xCZIPitkuQqmkDxDqO6KPOZBV0ZlYwSdozh9dLJ8XWMsx
- ZScTeRr9R3atBdbJMAGzD9rHcrYRlgJzXyy9VTsafXYO1FTnVrWTrMvYjMcxGGagPcSC
- ymn2Mk6jEsKofi29kbEvSxlTsW9Ibz7maYcDKvpDOfKfaK3i5fxxUjiD5U2zKWrRZulr
- mw4Q==
-X-Gm-Message-State: AOAM532Za2yEOOX9REmdnJJNHffDJ5mnDO14lxUUFi5OK9YVJtTfSp2d
- A30YcHhMT9RoC7DGOmKj5Th9wC3MqXuF/ISzShY=
-X-Google-Smtp-Source: ABdhPJxL+MWiM/ZdULqkWmI8DITBci/GFh7UghQCQLFkNKDews+b5ayoB/KqLFeNcnIvKehQQzjS9FTsxbs/g4s89OE=
-X-Received: by 2002:a25:324d:: with SMTP id y74mr2990799yby.526.1640074964115; 
- Tue, 21 Dec 2021 00:22:44 -0800 (PST)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=dg4BIkjbnqL8SxJq2EOaNr/SLMbQZMXu4d5HqA9E2Z0=;
+ b=1WHvAiVclJ36Ra8zIdZtJ2am1/6vZ/50vmW1Cu2/gZjwyDUnv51fGuDLN9gF3xAbwD
+ kk++keBbqjV1ToB9ohpVztLIyP5YTaA2vJRCAN1zA77ANXPhV/Z1zUCQa8M97hL1FGNX
+ zovG7+NK93kM82NVqyU+xzkelCzTRDi+ugFlBUBiMbnRk5WLmlOF2z71bEmrQkDMbqHy
+ EfxZg7VkEx0puV1WhoHgkaSO4adsnMnlnPBwh2hs8CPYXq506XHidqoPVHzVr9P15NZl
+ gGprKEzKQRi3Ib6F0+dlwY2QiztPdRlMwqljqKWe/48+XRBNZdsKuyqK+KT0QuwqixwS
+ gaVg==
+X-Gm-Message-State: AOAM531in/CFHbawXK4Q2iYfE53gHIPLXpwMvcp+IFvSMWQXGrGd+zGZ
+ STxlIHh2NAkaCVqWHEiXgHR9Fvh6Y+ton0cMCsK2gGl24eP9gHKEnBcajwRArtJloTwGEAWvJKn
+ 49khAVHW+Y+DJVvQ=
+X-Received: by 2002:a1c:4b0e:: with SMTP id y14mr1647246wma.170.1640075101563; 
+ Tue, 21 Dec 2021 00:25:01 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJywPrEbEd2anVRmNxnAxIr5Yc9YiL6NZGtA6FeR6ztCFg6XB4lnfAzk2B9YaKQ/c2j4nPY8SQ==
+X-Received: by 2002:a1c:4b0e:: with SMTP id y14mr1647234wma.170.1640075101386; 
+ Tue, 21 Dec 2021 00:25:01 -0800 (PST)
+Received: from [192.168.1.36] (174.red-83-50-185.dynamicip.rima-tde.net.
+ [83.50.185.174])
+ by smtp.gmail.com with ESMTPSA id m15sm17323973wrw.27.2021.12.21.00.25.00
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 21 Dec 2021 00:25:01 -0800 (PST)
+Message-ID: <d6a7cb7c-5813-158a-a86b-71cfab90402f@redhat.com>
+Date: Tue, 21 Dec 2021 09:25:00 +0100
 MIME-Version: 1.0
-References: <20211216045427.757779-1-alistair.francis@opensource.wdc.com>
- <20211216045427.757779-5-alistair.francis@opensource.wdc.com>
-In-Reply-To: <20211216045427.757779-5-alistair.francis@opensource.wdc.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Tue, 21 Dec 2021 16:22:33 +0800
-Message-ID: <CAEUhbmV4FE=hhRAi70joe5wJ=gGjm_JTAhH-GZSf9_-RMi2Fhg@mail.gmail.com>
-Subject: Re: [PATCH v2 4/9] hw/intc: sifive_plic: Cleanup remaining functions
-To: Alistair Francis <alistair.francis@opensource.wdc.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b32
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b32;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb32.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH] vl: Add opts to device opts list when using JSON syntax
+ for -device
+To: MkfsSion <mkfssion@mkfssion.com>, qemu-devel@nongnu.org
+References: <20211220084544.54902-1-mkfssion@mkfssion.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+In-Reply-To: <20211220084544.54902-1-mkfssion@mkfssion.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -49
+X-Spam_score: -5.0
+X-Spam_bar: -----
+X-Spam_report: (-5.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.203,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-2.012, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,34 +100,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Bin Meng <bin.meng@windriver.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Alistair Francis <alistair23@gmail.com>, Palmer Dabbelt <palmer@dabbelt.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Dec 16, 2021 at 12:55 PM Alistair Francis
-<alistair.francis@opensource.wdc.com> wrote:
->
-> From: Alistair Francis <alistair.francis@wdc.com>
->
-> We can remove the original sifive_plic_irqs_pending() function and
-> instead just use the sifive_plic_claim() function (renamed to
-> sifive_plic_claimed()) to determine if any interrupts are pending.
->
-> This requires move the side effects outside of sifive_plic_claimed(),
-> but as they are only invoked once that isn't a problem.
->
-> We have also removed all of the old #ifdef debugging logs, so let's
-> cleanup the last remaining debug function while we are here.
->
-> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> ---
->  hw/intc/sifive_plic.c | 109 +++++++++---------------------------------
->  1 file changed, 22 insertions(+), 87 deletions(-)
->
+Cc'ing Markus.
 
-Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+On 12/20/21 09:45, MkfsSion wrote:
+> When using JSON syntax for -device, -set option can not find device
+> specified in JSON by id field. The following commandline is an example:
+> 
+> $ qemu-system-x86_64 -device '{"id":"foo"}' -set device.foo.bar=1
+> qemu-system-x86_64: -set device.foo.bar=1: there is no device "foo" defined
+> 
+> The patch adds device opts to device opts list when a device opts get
+> parsed.
+> 
+> Signed-off-by: MkfsSion <mkfssion@mkfssion.com>
+
+BTW per:
+https://www.qemu.org/docs/master/devel/submitting-a-patch.html#patch-emails-must-include-a-signed-off-by-line
+"Please use your real name to sign a patch (not an alias or acronym)."
+
+> ---
+>  softmmu/vl.c | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/softmmu/vl.c b/softmmu/vl.c
+> index 620a1f1367..0dd5acbc1a 100644
+> --- a/softmmu/vl.c
+> +++ b/softmmu/vl.c
+> @@ -3400,6 +3400,8 @@ void qemu_init(int argc, char **argv, char **envp)
+>                      loc_save(&opt->loc);
+>                      assert(opt->opts != NULL);
+>                      QTAILQ_INSERT_TAIL(&device_opts, opt, next);
+> +                    qemu_opts_from_qdict(qemu_find_opts_err("device", &error_fatal),
+> +                                         opt->opts, &error_fatal);
+>                  } else {
+>                      if (!qemu_opts_parse_noisily(qemu_find_opts("device"),
+>                                                   optarg, true)) {
+
 
