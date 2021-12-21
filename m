@@ -2,71 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7097547C392
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Dec 2021 17:14:17 +0100 (CET)
-Received: from localhost ([::1]:57542 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B568747C3B6
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Dec 2021 17:24:20 +0100 (CET)
+Received: from localhost ([::1]:43018 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mzhmK-0007mK-FA
-	for lists+qemu-devel@lfdr.de; Tue, 21 Dec 2021 11:14:16 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44048)
+	id 1mzhw3-0000RN-6Y
+	for lists+qemu-devel@lfdr.de; Tue, 21 Dec 2021 11:24:19 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46182)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1mzhkQ-000721-2K
- for qemu-devel@nongnu.org; Tue, 21 Dec 2021 11:12:18 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:28680)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1mzhkM-0002Fm-Ow
- for qemu-devel@nongnu.org; Tue, 21 Dec 2021 11:12:16 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1640103132;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=KvVTVwi4MGaKrj4NRFiy6KinNnUKH0lETN77TcdQVc8=;
- b=V/q3DzvgufjxDa58+2tb/9346oMVQJ5o+JVaiRT9v+93hoIrA9dA9dPupkf5JTGEdhby2p
- TByRw+hwjqHJGosv4YFdgPscBpZvHfwjH8ulifoeVkIMijv9jU0bs0LNo0I11h2MhTQ0WE
- ySVLxzhl6oDGQ6Lb6CF3ch2N5i72b7Q=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-61-RAkrEywtN_-NiguQmprqGw-1; Tue, 21 Dec 2021 11:12:08 -0500
-X-MC-Unique: RAkrEywtN_-NiguQmprqGw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A5E5D1006AAA;
- Tue, 21 Dec 2021 16:12:04 +0000 (UTC)
-Received: from localhost (unknown [10.39.193.154])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 474AF5BE0A;
- Tue, 21 Dec 2021 16:12:00 +0000 (UTC)
-From: Cornelia Huck <cohuck@redhat.com>
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- qemu-s390x@nongnu.org
-Subject: Re: [PATCH RFC] MAINTAINERS: split out s390x sections
-In-Reply-To: <894b455c-6366-8cce-e11a-637d5f3d80e8@redhat.com>
-Organization: Red Hat GmbH
-References: <20211220115419.308463-1-cohuck@redhat.com>
- <894b455c-6366-8cce-e11a-637d5f3d80e8@redhat.com>
-User-Agent: Notmuch/0.34 (https://notmuchmail.org)
-Date: Tue, 21 Dec 2021 17:11:58 +0100
-Message-ID: <87k0fy2b01.fsf@redhat.com>
+ (Exim 4.90_1) (envelope-from <abhijeetinamdar3005@gmail.com>)
+ id 1mzhty-0006gr-Kw; Tue, 21 Dec 2021 11:22:10 -0500
+Received: from [2607:f8b0:4864:20::731] (port=46011
+ helo=mail-qk1-x731.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <abhijeetinamdar3005@gmail.com>)
+ id 1mzhtw-0003YE-RY; Tue, 21 Dec 2021 11:22:10 -0500
+Received: by mail-qk1-x731.google.com with SMTP id e16so2219096qkl.12;
+ Tue, 21 Dec 2021 08:22:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=BBgPa9+S2cIQi3UZ6+n8PdSrBkEHDMAAaJsU2zyY/KA=;
+ b=mS3yfS8EYGy00ufgd16CnE8IPgOY6jYhXt27sSCRXAIHv1dr05OwzaN3f/EKHprVij
+ YccUdb6yyAZpBr1xFoS8PFUL1j354Uhc2MoU769UC5kH6yjaP/GVgHlh3B8oYswx3MF8
+ l1LRNYnK1MhJtBeD7xGB2C+kEih3luMTJ3mCAViZ4xGhxEw0kdomHp35v0H4dWvViUys
+ GFJpMTsShEKjJhRVagJJZZn5KHD+4lKa+ldAgaC3VmxrnuX2v2CuZrgDBaY9a+6YIRWI
+ sCviAxqybOsXez0KGteVQHcEChDZ1tV2ue25gtkLvEBhkJpWRx3FzMxsaMJ8Z2x0DQMi
+ 22iQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=BBgPa9+S2cIQi3UZ6+n8PdSrBkEHDMAAaJsU2zyY/KA=;
+ b=Yn67n48mcIoUlBibJCGs5z5O7PkoW00quUIDiRipFRTjO8u9RU2w38S1bk10jcaqcS
+ Rn9h8uWbLG4eIMocEVi//m+O38D8XHAFar3EiPl6AZGHXxtfrc1sPJz1C5YdWHVAKQCz
+ G45bHVNWR2nRgAwR8pB2aLxa+1KrMQumqP0ra7ZejDiDyDY3NrwoGH8n+xdgtPV1bfl9
+ LBxjJNlE9zdV+POVKfUVlSdwn4rx6ywLoMqUzHK0XIA1ApL8XKPhue2yjvUoxE/6oFbH
+ g6fweJQfnoV3u/XCGrd8+x59UB3wuom9BPqB7UtCR99sQCWGUJCpj6els6gsLurSpNv3
+ BuOA==
+X-Gm-Message-State: AOAM531Ktp7Rbe/FHeNnsxb6rHqTTKLZHEEM2CxZGbLFa28yJW9vtYb4
+ wcxzl663tvbDejAZ4q5xclYy4aBN7SiWjQ0OTgsdOG0EUs4=
+X-Google-Smtp-Source: ABdhPJxq0lhn2GpV4uDh3W6Mz1CgGker/HkOwba2DMk+GlY/ATJoO7qVgOA120IKyRgy0Loai8KIs3C8290KwNypEO0=
+X-Received: by 2002:a05:620a:454b:: with SMTP id
+ u11mr2515430qkp.599.1640103727563; 
+ Tue, 21 Dec 2021 08:22:07 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=cohuck@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.203,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <CAP4GjT2fC_bTkoNd=21MrdoC1hKk_jejDBdc8KiNvr86aOyAwA@mail.gmail.com>
+ <0f468714-96bd-1e5a-0e40-b7fd5f920964@redhat.com>
+ <CAP4GjT0a+eROFs6w1X=WTLsGkVsaTO2QC6f4wq96X386xpNW0g@mail.gmail.com>
+ <CAP4GjT2LryD0fUSwCygxwGK3Z5u_yvacm5kKqRWtDGbZEmLbCg@mail.gmail.com>
+In-Reply-To: <CAP4GjT2LryD0fUSwCygxwGK3Z5u_yvacm5kKqRWtDGbZEmLbCg@mail.gmail.com>
+From: abhijeet inamdar <abhijeetinamdar3005@gmail.com>
+Date: Tue, 21 Dec 2021 17:21:56 +0100
+Message-ID: <CAP4GjT2ZK0Yc3did19XOr+V89poyemNV-bKh2g=8e4cCJ0qbHA@mail.gmail.com>
+Subject: Re: QOM
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Content-Type: multipart/alternative; boundary="0000000000001385c905d3aa68ec"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::731
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::731;
+ envelope-from=abhijeetinamdar3005@gmail.com; helo=mail-qk1-x731.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,225 +82,169 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Halil Pasic <pasic@linux.ibm.com>, Eric Farman <farman@linux.ibm.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- David Hildenbrand <david@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>, qemu-discuss <qemu-discuss@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Dec 21 2021, Thomas Huth <thuth@redhat.com> wrote:
+--0000000000001385c905d3aa68ec
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> On 20/12/2021 12.54, Cornelia Huck wrote:
->> Split out some more specialized devices etc., so that we can build
->> smarter lists of people to be put on cc: in the future.
->> 
->> Signed-off-by: Cornelia Huck <cohuck@redhat.com>
->> ---
->> 
->> As discussed offlist. Some notes:
->> - The new sections have inherited the maintainers of the sections
->>    they have been split out of (except where people had already
->>    volunteered). That's easy to change, obviously, and I hope that
->>    the cc: list already contains people who might have interest in
->>    volunteering for some sections.
->> - I may not have gotten the F: patterns correct, please double check.
->> - I'm also not sure about where in the MAINTAINERS file the new
->>    sections should go; if you have a better idea, please speak up.
->> - Also, if you have better ideas regarding the sections, please
->>    speak up as well :)
->> - Pull requests will probably continue the same way as now (i.e.
->>    patches picked up at the top level and then sent, except for some
->>    things like tcg which may go separately.) Not sure if it would
->>    make sense to try out the submaintainer pull request model again,
->>    I don't think it made life easier in the past, and now we have
->>    the b4 tool to pick patches easily anyway. It might be a good
->>    idea to check which of the tree locations should stay, or if we
->>    want to have new ones.
->> 
->> ---
->>   MAINTAINERS | 86 ++++++++++++++++++++++++++++++++++++++++++++++-------
->>   1 file changed, 75 insertions(+), 11 deletions(-)
->> 
->> diff --git a/MAINTAINERS b/MAINTAINERS
->> index 9a8d1bdf727d..d1916f075386 100644
->> --- a/MAINTAINERS
->> +++ b/MAINTAINERS
->> @@ -297,7 +297,6 @@ M: David Hildenbrand <david@redhat.com>
->>   S: Maintained
->>   F: target/s390x/
->>   F: target/s390x/tcg
->> -F: target/s390x/cpu_models_*.[ch]
->>   F: hw/s390x/
->>   F: disas/s390.c
->>   F: tests/tcg/s390x/
->> @@ -396,16 +395,10 @@ M: Halil Pasic <pasic@linux.ibm.com>
->>   M: Christian Borntraeger <borntraeger@linux.ibm.com>
->>   S: Supported
->>   F: target/s390x/kvm/
->> -F: target/s390x/ioinst.[ch]
->>   F: target/s390x/machine.c
->>   F: target/s390x/sigp.c
->> -F: target/s390x/cpu_features*.[ch]
->> -F: target/s390x/cpu_models.[ch]
->>   F: hw/s390x/pv.c
->>   F: include/hw/s390x/pv.h
->> -F: hw/intc/s390_flic.c
->> -F: hw/intc/s390_flic_kvm.c
->> -F: include/hw/s390x/s390_flic.h
->>   F: gdb-xml/s390*.xml
->>   T: git https://github.com/borntraeger/qemu.git s390-next
->>   L: qemu-s390x@nongnu.org
->> @@ -1529,12 +1522,8 @@ S390 Virtio-ccw
->>   M: Halil Pasic <pasic@linux.ibm.com>
->>   M: Christian Borntraeger <borntraeger@linux.ibm.com>
->>   S: Supported
->> -F: hw/char/sclp*.[hc]
->> -F: hw/char/terminal3270.c
->>   F: hw/s390x/
->>   F: include/hw/s390x/
->> -F: hw/watchdog/wdt_diag288.c
->> -F: include/hw/watchdog/wdt_diag288.h
->>   F: configs/devices/s390x-softmmu/default.mak
->>   F: tests/avocado/machine_s390_ccw_virtio.py
->>   T: git https://github.com/borntraeger/qemu.git s390-next
->> @@ -1559,6 +1548,80 @@ F: hw/s390x/s390-pci*
->>   F: include/hw/s390x/s390-pci*
->>   L: qemu-s390x@nongnu.org
->>   
->> +S390 channel subsystem
->> +M: Halil Pasic <pasic@linux.ibm.com>
->> +M: Christian Borntraeger <borntraeger@linux.ibm.com>
->> +S: Supported
->> +F: hw/s390x/ccw-device.[ch]
->> +F: hw/s390x/css.c
->> +F: hw/s390x/css-bridge.c
->> +F: include/hw/s390x/css.h
->> +F: include/hw/s390x/css-bridge.h
->> +F: include/hw/s390x/ioinst.h
->> +F: target/s390x/ioinst.c
->> +L: qemu-s390x@nongnu.org
->> +
->> +3270 device
->> +M: Halil Pasic <pasic@linux.ibm.com>
->> +M: Christian Borntraeger <borntraeger@linux.ibm.com>
->> +S: Odd fixes
->> +F: include/hw/s390x/3270-ccw.h
->> +F: hw/char/terminal3270.c
->> +F: hw/s390x/3270-ccw.c
->> +L: qemu-s390x@nongnu.org
+Hi,
+
+How did we decide the NUM_IRQ_LINES 64 for stellaris?
+
+
+BR.
+Abhijeet.
+
+
+
+
+On Tue, 21 Dec, 2021, 13:22 abhijeet inamdar, <abhijeetinamdar3005@gmail.co=
+m>
+wrote:
+
+> As we have almost 80 irq lines and 40-45 NVIC_irq's.
 >
-> I'm a little bit torn between putting the s390x-related devices here in the 
-> "Machine" section (which should rather be used for machines and not for 
-> devices), or in the more generic "Devices" section later in the MAINTAINERS 
-> file. We already have vfio-ccw and vfio-ap in the "Devices" section, so 
-> maybe we should put the other s390x-related devices there as well? (maybe 
-> with a "s390x" prefix so that they show up in the same spot if we sort them 
-> alphabetically?)
-
-We also have virtio-ccw there already. (I'm not sure whether the
-"Devices" section is actually supposed to be ordered alphabetically; if
-it is, I think it would need some reordering effort.)
-
-For clarity, we could still add an S390 prefix here...
-
+> Where can I define them?
 >
->> +diag 288 watchdog
->> +M: Halil Pasic <pasic@linux.ibm.com>
->> +M: Christian Borntraeger <borntraeger@linux.ibm.com>
->> +S: Supported
->> +F: hw/watchdog/wdt_diag288.c
->> +F: include/hw/watchdog/wdt_diag288.h
->> +L: qemu-s390x@nongnu.org
-
-...and here.
-
->> +
->> +S390 CPU models
->> +M: David Hildenbrand <david@redhat.com>
->> +S: Maintained
->> +F: target/s390x/cpu_features*.[ch]
->> +F: target/s390x/cpu_models.[ch]
->> +L: qemu-s390x@nongnu.org
-
-This one was hard to fit, because it spans tcg and kvm, so we should
-probably keep it here.
-
->> +
->> +S390 storage key device
->> +M: Halil Pasic <pasic@linux.ibm.com>
->> +M: Christian Borntraeger <borntraeger@linux.ibm.com>
->> +S: Supported
->> +F: hw/s390x/storage-keys.h
->> +F: hw/390x/s390-skeys*.c
->> +L: qemu-s390x@nongnu.org
->> +
->> +S390 storage attribute device
->> +M: Halil Pasic <pasic@linux.ibm.com>
->> +M: Christian Borntraeger <borntraeger@linux.ibm.com>
->> +S: Supported
->> +F: hw/s390x/storage-attributes.h
->> +F: hw/s390/s390-stattrib*.c
->> +L: qemu-s390x@nongnu.org
-
-These two could go to the devices section.
-
->> +
->> +S390 SCLP-backed devices
->> +M: Halil Pasic <pasic@linux.ibm.com>
->> +M: Christian Borntraeger <borntraeger@linux.ibm.com>
->> +S: Supported
->> +F: include/hw/s390x/event-facility.h
->> +F: include/hw/s390x/sclp.h
->> +F: hw/char/sclp*.[hc]
->> +F: hw/s390x/event-facility.c
->> +F: hw/s390x/sclp*.c
->> +L: qemu-s390x@nongnu.org
-
-I'd rather keep this one here, as it contains not only the console
-devices, but also the whole infrastructure. (Hmm, maybe call this
-"devices and infrastructure"? </bikeshed>)
-
->> +
->> +S390 floating interrupt controller
->> +M: Halil Pasic <pasic@linux.ibm.com>
->> +M: Christian Borntraeger <borntraeger@linux.ibm.com>
->> +M: David Hildenbrand <david@redhat.com>
->> +S: Supported
->> +F: hw/intc/s390_flic.c
->> +F: hw/intc/s390_flic_kvm.c
+> BR.
+> Abhijeet.
 >
-> The above two lines could be shortened to:
+> On Tue, 21 Dec, 2021, 13:18 abhijeet inamdar, <
+> abhijeetinamdar3005@gmail.com> wrote:
 >
-> F: hw/intc/s390_flic*.c
+>> Oh,
+>>
+>> In that case I have to define my irq set for a machine to handle the
+>> exception and interrupts.
+>>
+>> BR.
+>> Abhijeet.
+>>
+>> On Tue, 21 Dec, 2021, 12:59 Philippe Mathieu-Daud=C3=A9, <philmd@redhat.=
+com>
+>> wrote:
+>>
+>>> Hi Abhijeet,
+>>>
+>>> On 12/21/21 12:27, abhijeet inamdar wrote:
+>>> > Hi,
+>>> >
+>>> > 1)What does QOM stand for?
+>>>
+>>> QOM: "QEMU Object Model"
+>>>
+>>> See https://qemu-project.gitlab.io/qemu/devel/qom.html
+>>>
+>>> > 2)Can anyone tell what this error means?
+>>> >
+>>> > (qemu) Unexpected error in object_property_find() at
+>>> > /home/ocp/vcpu-playground/vcpu_on_qemu/qemu-4.2.0/qom/object.c:1177:
+>>> > qemu-system-arm: Property '.sysbus-irq[0]' not found
+>>> > Aborted (core dumped).
+>>>
+>>> I suppose you are trying to connect a device gpio/irq output line
+>>> to another device input, likely using sysbus_connect_irq().
+>>>
+>>> The API is "connect the N-th output line from the SysBus device
+>>> to this qemu_irq handler", where qemu_irq is the input line.
+>>>
+>>> Apparently your SysBus device doesn't have any output line
+>>> registered. These are registered using sysbus_init_irq().
+>>> The first call register the first output IRQ, and so on.
+>>>
+>>> Some objects have their QOM interface documented, for
+>>> example to use the ARM GIC see:
+>>>
+>>> https://gitlab.com/qemu-project/qemu/-/blob/master/include/hw/intc/arm_=
+gic.h#L22
+>>>
+>>> Hope that helps.
+>>>
+>>> Regards,
+>>>
+>>> Phil.
+>>>
+>>>
 
-Yeah, this was simple cut-and-paste :)
+--0000000000001385c905d3aa68ec
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-(This section could also move.)
+<div dir=3D"auto">Hi,<div dir=3D"auto"><br></div><div dir=3D"auto">How did =
+we decide the NUM_IRQ_LINES 64 for stellaris?=C2=A0</div><div dir=3D"auto">=
+<br></div><div dir=3D"auto"><br></div><div dir=3D"auto">BR.</div><div dir=
+=3D"auto">Abhijeet.</div><div dir=3D"auto"><br></div><div dir=3D"auto"><br>=
+</div><div dir=3D"auto"><br></div></div><br><div class=3D"gmail_quote"><div=
+ dir=3D"ltr" class=3D"gmail_attr">On Tue, 21 Dec, 2021, 13:22 abhijeet inam=
+dar, &lt;<a href=3D"mailto:abhijeetinamdar3005@gmail.com">abhijeetinamdar30=
+05@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" styl=
+e=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div di=
+r=3D"auto">As we have almost 80 irq lines and 40-45 NVIC_irq&#39;s.=C2=A0<d=
+iv dir=3D"auto"><br></div><div dir=3D"auto">Where can I define them?</div><=
+div dir=3D"auto"><br></div><div dir=3D"auto">BR.</div><div dir=3D"auto">Abh=
+ijeet.</div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"=
+gmail_attr">On Tue, 21 Dec, 2021, 13:18 abhijeet inamdar, &lt;<a href=3D"ma=
+ilto:abhijeetinamdar3005@gmail.com" target=3D"_blank" rel=3D"noreferrer">ab=
+hijeetinamdar3005@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gm=
+ail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-le=
+ft:1ex"><div dir=3D"auto">Oh,=C2=A0<div dir=3D"auto"><br></div><div dir=3D"=
+auto">In=C2=A0that case I have to define my irq set for a machine to handle=
+ the exception and interrupts.=C2=A0</div><div dir=3D"auto"><br></div><div =
+dir=3D"auto">BR.</div><div dir=3D"auto">Abhijeet.</div></div><br><div class=
+=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, 21 Dec, 2021=
+, 12:59 Philippe Mathieu-Daud=C3=A9, &lt;<a href=3D"mailto:philmd@redhat.co=
+m" rel=3D"noreferrer noreferrer" target=3D"_blank">philmd@redhat.com</a>&gt=
+; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .=
+8ex;border-left:1px #ccc solid;padding-left:1ex">Hi Abhijeet,<br>
+<br>
+On 12/21/21 12:27, abhijeet inamdar wrote:<br>
+&gt; Hi,<br>
+&gt; <br>
+&gt; 1)What does QOM stand for?<br>
+<br>
+QOM: &quot;QEMU Object Model&quot;<br>
+<br>
+See <a href=3D"https://qemu-project.gitlab.io/qemu/devel/qom.html" rel=3D"n=
+oreferrer noreferrer noreferrer noreferrer" target=3D"_blank">https://qemu-=
+project.gitlab.io/qemu/devel/qom.html</a><br>
+<br>
+&gt; 2)Can anyone tell what this error means?=C2=A0<br>
+&gt; <br>
+&gt; (qemu) Unexpected error in object_property_find() at<br>
+&gt; /home/ocp/vcpu-playground/vcpu_on_qemu/qemu-4.2.0/qom/object.c:1177:<b=
+r>
+&gt; qemu-system-arm: Property &#39;.sysbus-irq[0]&#39; not found<br>
+&gt; Aborted (core dumped).<br>
+<br>
+I suppose you are trying to connect a device gpio/irq output line<br>
+to another device input, likely using sysbus_connect_irq().<br>
+<br>
+The API is &quot;connect the N-th output line from the SysBus device<br>
+to this qemu_irq handler&quot;, where qemu_irq is the input line.<br>
+<br>
+Apparently your SysBus device doesn&#39;t have any output line<br>
+registered. These are registered using sysbus_init_irq().<br>
+The first call register the first output IRQ, and so on.<br>
+<br>
+Some objects have their QOM interface documented, for<br>
+example to use the ARM GIC see:<br>
+<a href=3D"https://gitlab.com/qemu-project/qemu/-/blob/master/include/hw/in=
+tc/arm_gic.h#L22" rel=3D"noreferrer noreferrer noreferrer noreferrer" targe=
+t=3D"_blank">https://gitlab.com/qemu-project/qemu/-/blob/master/include/hw/=
+intc/arm_gic.h#L22</a><br>
+<br>
+Hope that helps.<br>
+<br>
+Regards,<br>
+<br>
+Phil.<br>
+<br>
+</blockquote></div>
+</blockquote></div>
+</blockquote></div>
 
->
->> +F: include/hw/s390x/s390_flic.h
->> +L: qemu-s390x@nongnu.org
->> +
->>   X86 Machines
->>   ------------
->>   PC
->> @@ -1957,6 +2020,7 @@ M: Halil Pasic <pasic@linux.ibm.com>
->>   S: Supported
->>   F: hw/s390x/virtio-ccw*.[hc]
->>   F: hw/s390x/vhost-vsock-ccw.c
->> +F: hw/s390x/vhost-user-fs-ccw.c
->>   T: git https://gitlab.com/cohuck/qemu.git s390-next
->>   T: git https://github.com/borntraeger/qemu.git s390-next
->>   L: qemu-s390x@nongnu.org
->
-> I'm also fine with this patch without further modifications, so:
->
-> Acked-by: Thomas Huth <thuth@redhat.com>
-
-Thanks!
-
-Any objections if I move the sections as outlined above and keep the
-acks I already have?
-
+--0000000000001385c905d3aa68ec--
 
