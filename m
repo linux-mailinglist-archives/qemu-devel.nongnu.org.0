@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8A9C47BB0E
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Dec 2021 08:31:50 +0100 (CET)
-Received: from localhost ([::1]:33456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A62147BB30
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Dec 2021 08:37:57 +0100 (CET)
+Received: from localhost ([::1]:41954 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mzZcj-0002Nn-TO
-	for lists+qemu-devel@lfdr.de; Tue, 21 Dec 2021 02:31:49 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58884)
+	id 1mzZie-00007g-JJ
+	for lists+qemu-devel@lfdr.de; Tue, 21 Dec 2021 02:37:56 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59020)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1mzZD8-0008Ck-Fp
- for qemu-devel@nongnu.org; Tue, 21 Dec 2021 02:05:22 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:57018)
+ id 1mzZE2-00014Z-V3
+ for qemu-devel@nongnu.org; Tue, 21 Dec 2021 02:06:18 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:57893)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1mzZD6-0002Dx-Sn
- for qemu-devel@nongnu.org; Tue, 21 Dec 2021 02:05:22 -0500
+ id 1mzZE1-0002Lm-5k
+ for qemu-devel@nongnu.org; Tue, 21 Dec 2021 02:06:18 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1640070320;
+ s=mimecast20190719; t=1640070376;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=4i695WYQfKfo7JWS1MpuRVcRVmXZfC3kjxOk40FWxpY=;
- b=Sccd9dCETL+aiMsPKALch4wlNFUzITpzLVTowbWFizT2xLKKF1Z4PHuVayyGdjVNcp+tqH
- lFucOt/gWsXr2vYP71LDiN2tvS5S/6s6ayavf7TguxW8Zj50Ebx4Cp0TOyWlk+oJVNaifE
- XE9vemmpKCCleDicenoEsQQLqqv91hA=
+ bh=UmhL4B1sw7EWYu23BvjQMASdSiQuAUqhG9SLwD6Mls0=;
+ b=AAqWDDzsnYXbMg1H4LPCGslZNJ7DfCDDcO9w/Py8BnchAORbZOdeCyLTTpe67jj/LjboQK
+ alK7NDIRuwzR601gytLnrKYy96S8qN4knc7K2rLW/0YKFVcrmmXih5hYrGVws3ouqeCePJ
+ l58PyUclQzRsknWDpe1syF9GlJNU41A=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-445-_dBvqSn0POaZiGLkLStm_A-1; Tue, 21 Dec 2021 02:05:16 -0500
-X-MC-Unique: _dBvqSn0POaZiGLkLStm_A-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-49-F1ljuaf5OBObJygweWYwCw-1; Tue, 21 Dec 2021 02:06:13 -0500
+X-MC-Unique: F1ljuaf5OBObJygweWYwCw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0EB061853020;
- Tue, 21 Dec 2021 07:05:15 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 57637344B0;
+ Tue, 21 Dec 2021 07:06:12 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.37])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C8C5E7A426;
- Tue, 21 Dec 2021 07:05:00 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8F8A0838E9;
+ Tue, 21 Dec 2021 07:05:19 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 23/36] docs: add dbus-display documentation
-Date: Tue, 21 Dec 2021 10:58:42 +0400
-Message-Id: <20211221065855.142578-24-marcandre.lureau@redhat.com>
+Subject: [PULL v2 24/36] build-sys: set glib dependency version
+Date: Tue, 21 Dec 2021 10:58:43 +0400
+Message-Id: <20211221065855.142578-25-marcandre.lureau@redhat.com>
 In-Reply-To: <20211221065855.142578-1-marcandre.lureau@redhat.com>
 References: <20211221065855.142578-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -87,82 +87,52 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Wire up the dbus-display documentation. The interface and feature is
-implemented next.
+Further meson configuration tests are to be added based on the glib
+version. Also correct the version reporting in the config log.
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Acked-by: Gerd Hoffmann <kraxel@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- docs/interop/dbus-display.rst | 31 +++++++++++++++++++++++++++++++
- docs/interop/dbus.rst         |  2 ++
- docs/interop/index.rst        |  1 +
- ui/dbus-display1.xml          |  0
- 4 files changed, 34 insertions(+)
- create mode 100644 docs/interop/dbus-display.rst
- create mode 100644 ui/dbus-display1.xml
+ configure   | 1 +
+ meson.build | 6 ++++--
+ 2 files changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/docs/interop/dbus-display.rst b/docs/interop/dbus-display.rst
-new file mode 100644
-index 000000000000..8c6e8e0f5a82
---- /dev/null
-+++ b/docs/interop/dbus-display.rst
-@@ -0,0 +1,31 @@
-+D-Bus display
-+=============
-+
-+QEMU can export the VM display through D-Bus (when started with ``-display
-+dbus``), to allow out-of-process UIs, remote protocol servers or other
-+interactive display usages.
-+
-+Various specialized D-Bus interfaces are available on different object paths
-+under ``/org/qemu/Display1/``, depending on the VM configuration.
-+
-+QEMU also implements the standard interfaces, such as
-+`org.freedesktop.DBus.Introspectable
-+<https://dbus.freedesktop.org/doc/dbus-specification.html#standard-interfaces>`_.
-+
-+.. contents::
-+   :local:
-+   :depth: 1
-+
-+.. only:: sphinx4
-+
-+   .. dbus-doc:: ui/dbus-display1.xml
-+
-+.. only:: not sphinx4
-+
-+   .. warning::
-+      Sphinx 4 is required to build D-Bus documentation.
-+
-+      This is the content of ``ui/dbus-display1.xml``:
-+
-+   .. literalinclude:: ../../ui/dbus-display1.xml
-+      :language: xml
-diff --git a/docs/interop/dbus.rst b/docs/interop/dbus.rst
-index be596d3f418c..427debc9c504 100644
---- a/docs/interop/dbus.rst
-+++ b/docs/interop/dbus.rst
-@@ -108,3 +108,5 @@ QEMU Interfaces
- ===============
+diff --git a/configure b/configure
+index 8ccfe51673eb..51eae49daf7d 100755
+--- a/configure
++++ b/configure
+@@ -3694,6 +3694,7 @@ echo "QEMU_CFLAGS=$QEMU_CFLAGS" >> $config_host_mak
+ echo "QEMU_CXXFLAGS=$QEMU_CXXFLAGS" >> $config_host_mak
+ echo "GLIB_CFLAGS=$glib_cflags" >> $config_host_mak
+ echo "GLIB_LIBS=$glib_libs" >> $config_host_mak
++echo "GLIB_VERSION=$(pkg-config --modversion glib-2.0)" >> $config_host_mak
+ echo "QEMU_LDFLAGS=$QEMU_LDFLAGS" >> $config_host_mak
+ echo "LD_I386_EMULATION=$ld_i386_emulation" >> $config_host_mak
+ echo "EXESUF=$EXESUF" >> $config_host_mak
+diff --git a/meson.build b/meson.build
+index 1c70839bbf17..c37eb92ebeaa 100644
+--- a/meson.build
++++ b/meson.build
+@@ -404,14 +404,16 @@ endif
+ add_project_arguments(config_host['GLIB_CFLAGS'].split(),
+                       native: false, language: ['c', 'cpp', 'objc'])
+ glib = declare_dependency(compile_args: config_host['GLIB_CFLAGS'].split(),
+-                          link_args: config_host['GLIB_LIBS'].split())
++                          link_args: config_host['GLIB_LIBS'].split(),
++                          version: config_host['GLIB_VERSION'])
+ # override glib dep with the configure results (for subprojects)
+ meson.override_dependency('glib-2.0', glib)
  
- :doc:`dbus-vmstate`
-+
-+:doc:`dbus-display`
-diff --git a/docs/interop/index.rst b/docs/interop/index.rst
-index 47b9ed82bbc0..c59bac983407 100644
---- a/docs/interop/index.rst
-+++ b/docs/interop/index.rst
-@@ -12,6 +12,7 @@ are useful for making QEMU interoperate with other software.
-    bitmaps
-    dbus
-    dbus-vmstate
-+   dbus-display
-    live-block-operations
-    pr-helper
-    qemu-ga
-diff --git a/ui/dbus-display1.xml b/ui/dbus-display1.xml
-new file mode 100644
-index 000000000000..e69de29bb2d1
+ gio = not_found
+ if 'CONFIG_GIO' in config_host
+   gio = declare_dependency(compile_args: config_host['GIO_CFLAGS'].split(),
+-                           link_args: config_host['GIO_LIBS'].split())
++                           link_args: config_host['GIO_LIBS'].split(),
++                           version: config_host['GLIB_VERSION'])
+ endif
+ lttng = not_found
+ if 'ust' in get_option('trace_backends')
 -- 
 2.34.1.8.g35151cf07204
 
