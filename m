@@ -2,82 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6798D47C88A
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Dec 2021 22:02:14 +0100 (CET)
-Received: from localhost ([::1]:33604 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BA9E47C8CA
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Dec 2021 22:27:07 +0100 (CET)
+Received: from localhost ([::1]:49038 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mzmGx-0001Oa-Of
-	for lists+qemu-devel@lfdr.de; Tue, 21 Dec 2021 16:02:11 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51120)
+	id 1mzmf3-0002TE-Bn
+	for lists+qemu-devel@lfdr.de; Tue, 21 Dec 2021 16:27:05 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55278)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mzmE8-0006Y9-S5
- for qemu-devel@nongnu.org; Tue, 21 Dec 2021 15:59:16 -0500
-Received: from [2607:f8b0:4864:20::433] (port=44812
- helo=mail-pf1-x433.google.com)
+ id 1mzme6-0001MQ-TX
+ for qemu-devel@nongnu.org; Tue, 21 Dec 2021 16:26:07 -0500
+Received: from [2607:f8b0:4864:20::52d] (port=38638
+ helo=mail-pg1-x52d.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mzmE7-0006Cm-Hb
- for qemu-devel@nongnu.org; Tue, 21 Dec 2021 15:59:16 -0500
-Received: by mail-pf1-x433.google.com with SMTP id k64so342054pfd.11
- for <qemu-devel@nongnu.org>; Tue, 21 Dec 2021 12:59:14 -0800 (PST)
+ id 1mzme2-0000eE-TB
+ for qemu-devel@nongnu.org; Tue, 21 Dec 2021 16:26:06 -0500
+Received: by mail-pg1-x52d.google.com with SMTP id y9so183103pgj.5
+ for <qemu-devel@nongnu.org>; Tue, 21 Dec 2021 13:26:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:references:from:message-id:date:user-agent:mime-version
- :in-reply-to:content-language:content-transfer-encoding;
- bh=m7y1LdL4pTFQqx5oArycbLlm4zWoCC22sOLI9BZuwJ4=;
- b=BNNr5WejRdett5voM1ycJrWIbsLkmC+mEWsuaLdL9y4IJKm5hOwlVIHrDNoHvpinDD
- IohMkV9e3zezmojezpNCRCroAEPmnrNMVDHoBnF0BF2dn4IyshHUOt+/tR3y9giEMzv6
- iCpOOOgwABPHyBuud3oA+vLokZlee9Hpj5CrhwQDg0AHfQ8Y4bxcwM1xfZH7GmnsZq/N
- 5/4nVqcUEeFD8cTnRb5MjlUGggd09w9ciRpuZEBHs9JyjJXUC7qovzk0PtpSwgeTnuAb
- ejsDnQeBrWG5r9O+ZhYtbM+EdeDcN2I2IF/aBILkNr7HLYSHwtL6L7nHDw2UJMQ4cuHY
- iyUg==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=4CnuJEAhPOJ2tRPMTqrKIFD0TxNhxkGVNj3b5ysbi6M=;
+ b=LZ+fbQuBENnZ/vipxZR5T8t2UZgDg/s9EvhZ2n8/EnEVw++W0yc6VDSjS7v1y85ulf
+ 5Mt4oP7svZ44nGT0uaTV6J15iWmO5+brVeZxZAnxjFVy7uK7hyfCDFuFqqiod7CMjey6
+ J1zaRkxw8PeCV7HATOSFAuRbiKgLdJAcRQyP/sRMSxKIHEG91v2O3ffLL2YBmvXwjiMN
+ 2MRrBRK7YtGHnVYQTANAMNWQiJ4YMVHeDhRVSu9yjngbXWr0WZwb3r1+OnU/IISaeyR/
+ IgCQaV71gSpVLB9fFwc1wXj1A+vufMetnYg4hathT31g6eWyjOEU94MpTSYhXuXNDJGj
+ lvJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=m7y1LdL4pTFQqx5oArycbLlm4zWoCC22sOLI9BZuwJ4=;
- b=MAGPZvYvRtNPPY8gn1bC6aX59qPhkMHCaIlzS4UR9RQFEUc5nlNA7QyPIOFRhgX8fc
- T07epKi2c/cQkJ6jmASZZDoBVTtlLtLUgS85EKF2dEnerPNQlRIAofGArvfXhEhhZJSo
- 7Tsaksy+frLe2bbag6Y4LGKCcYlfHOktJC91c2VEr2Lm0kTGIXawQ2EOKXChMcihyizs
- jV1OCtZADF8PyTJIJxT9Q49uczYckhumL+vdSUZyKEY2D/qmR7rEbsH+nN0GGVsyYbuj
- EoyLujwxtKjHfgkEV0pflBAOQgYHiqSHytKMmIk2rDNVJwiqcVeTJ6b/LyFb6/CHF0c5
- GRBQ==
-X-Gm-Message-State: AOAM530gz19Z6ETVCJl4bvo61qXMzoPkc5ucb8c9zms4wD1eI0UQpuBv
- pJ15R5H9mxc1UPuy/l+G4kTOhG0YwACoUQ==
-X-Google-Smtp-Source: ABdhPJxwdXVTZGafK1Z78fqoyesTbXsU8W2ilcCzPqf8VAIdW4azKbrwvEZ6S1WXb+u7hTvc+GjiAg==
-X-Received: by 2002:a63:780e:: with SMTP id t14mr99687pgc.605.1640120353003;
- Tue, 21 Dec 2021 12:59:13 -0800 (PST)
-Received: from [192.168.4.112] ([156.19.246.20])
- by smtp.gmail.com with ESMTPSA id n16sm2499pja.46.2021.12.21.12.59.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 21 Dec 2021 12:59:12 -0800 (PST)
-Subject: Re: [PATCH 3/8] configure, makefile: remove traces of really old files
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-References: <20211221110526.351709-1-pbonzini@redhat.com>
- <20211221110526.351709-4-pbonzini@redhat.com>
+ bh=4CnuJEAhPOJ2tRPMTqrKIFD0TxNhxkGVNj3b5ysbi6M=;
+ b=d1QEremYE+hdiUgs1xEtwZu4ZcTy/zz36p2OMlic9z3KPv4JOQiptV+s8mpY57DFxp
+ TeaaZYP4p4/2cqTLfeGSQVlCTq2F6tuhAPvroKjxNK/bOob8OsZ/nuBUvJhP/pblfMgn
+ /L/H9KzgneBvM6CE8Rtp3QTKfnY+cdF2zvQyM6zaHLnPdc9RBFSQL0R5akCaHFOfE2vM
+ tx5Qy5qUagfxdNIIeo27GqULRstBtVKhS2S9rldt3omCmubHyBO4cc6ra0MzqfPPlNwY
+ dUYXohzPCDVDmQwEkjbrcFXRyOZTQbYNEc7/LEqmq3cOqJhBNQbRQJCAZyzOVsbJDSDY
+ dXFA==
+X-Gm-Message-State: AOAM531qMD0GIkbY/iYQ6j6oae9RoBB5Z1816bbeTWc7TshRLyVfrqkT
+ F7IvIJDbt8sKcTmXpYze5SoVJmuX0yl0rQ==
+X-Google-Smtp-Source: ABdhPJzp28Tnc0V2q1kDY6KLJpGYltkoqZ1d6mHxS/Wbv0RndaSW4qkhXjwf8EdM8jNQG+Jf3QfdRQ==
+X-Received: by 2002:a63:2b05:: with SMTP id r5mr227474pgr.0.1640121961103;
+ Tue, 21 Dec 2021 13:26:01 -0800 (PST)
+Received: from localhost.localdomain ([156.19.246.20])
+ by smtp.gmail.com with ESMTPSA id w184sm28391pfw.218.2021.12.21.13.25.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 21 Dec 2021 13:26:00 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <f79af7b2-1615-3425-44e1-ca35db54f70d@linaro.org>
-Date: Tue, 21 Dec 2021 12:59:10 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 00/30] tcg/loongarch64: New tcg backend
+Date: Tue, 21 Dec 2021 13:25:58 -0800
+Message-Id: <20211221212558.1835038-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20211221110526.351709-4-pbonzini@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::433
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::52d
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::433;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x433.google.com
-X-Spam_score_int: -32
-X-Spam_score: -3.3
-X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.012,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52d.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,21 +84,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: git@xen0n.name
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/21/21 3:05 AM, Paolo Bonzini wrote:
-> These files have been removed for more than year in the best
-> case, or for more than ten years for some really old TCG files.
-> Remove any traces of it.
-> 
-> Signed-off-by: Paolo Bonzini<pbonzini@redhat.com>
-> ---
->   Makefile  | 11 ++++-------
->   configure |  9 ---------
->   2 files changed, 4 insertions(+), 16 deletions(-)
+Version 2: Dropped patch 31, the gitlab-ci change:
 
-Acked-by: Richard Henderson <richard.henderson@linaro.org>
+Found errors in your .gitlab-ci.yml:
+'cross-loongarch64-system' job needs 'loongarch64-cross-container' job
+but 'loongarch64-cross-container' is not in any previous stage
+'cross-loongarch64-user' job needs 'loongarch64-cross-container' job
+but 'loongarch64-cross-container' is not in any previous stage
+
 
 r~
+
+
+The following changes since commit 5316e12bb2b4408a1597b283ef4bb4794dd7b4f7:
+
+  Merge tag 'dbus-pull-request' of https://gitlab.com/marcandre.lureau/qemu into staging (2021-12-21 08:00:26 -0800)
+
+are available in the Git repository at:
+
+  https://gitlab.com/rth7680/qemu.git tags/pull-loong-20211221-2
+
+for you to fetch changes up to dfcf900ba67040ea9aa839aa38b33b4c091721d8:
+
+  configure, meson.build: Mark support for loongarch64 hosts (2021-12-21 13:17:06 -0800)
+
+----------------------------------------------------------------
+Initial commit of tcg/loongarch64
+
+----------------------------------------------------------------
+WANG Xuerui (30):
+      elf: Add machine type value for LoongArch
+      MAINTAINERS: Add tcg/loongarch64 entry with myself as maintainer
+      tcg/loongarch64: Add the tcg-target.h file
+      tcg/loongarch64: Add generated instruction opcodes and encoding helpers
+      tcg/loongarch64: Add register names, allocation order and input/output sets
+      tcg/loongarch64: Define the operand constraints
+      tcg/loongarch64: Implement necessary relocation operations
+      tcg/loongarch64: Implement the memory barrier op
+      tcg/loongarch64: Implement tcg_out_mov and tcg_out_movi
+      tcg/loongarch64: Implement goto_ptr
+      tcg/loongarch64: Implement sign-/zero-extension ops
+      tcg/loongarch64: Implement not/and/or/xor/nor/andc/orc ops
+      tcg/loongarch64: Implement deposit/extract ops
+      tcg/loongarch64: Implement bswap{16,32,64} ops
+      tcg/loongarch64: Implement clz/ctz ops
+      tcg/loongarch64: Implement shl/shr/sar/rotl/rotr ops
+      tcg/loongarch64: Implement add/sub ops
+      tcg/loongarch64: Implement mul/mulsh/muluh/div/divu/rem/remu ops
+      tcg/loongarch64: Implement br/brcond ops
+      tcg/loongarch64: Implement setcond ops
+      tcg/loongarch64: Implement tcg_out_call
+      tcg/loongarch64: Implement simple load/store ops
+      tcg/loongarch64: Add softmmu load/store helpers, implement qemu_ld/qemu_st ops
+      tcg/loongarch64: Implement tcg_target_qemu_prologue
+      tcg/loongarch64: Implement exit_tb/goto_tb
+      tcg/loongarch64: Implement tcg_target_init
+      tcg/loongarch64: Register the JIT
+      common-user: Add safe syscall handling for loongarch64 hosts
+      linux-user: Implement CPU-specific signal handler for loongarch64 hosts
+      configure, meson.build: Mark support for loongarch64 hosts
+
+ configure                                       |    5 +
+ meson.build                                     |    2 +-
+ include/elf.h                                   |    2 +
+ linux-user/host/loongarch64/host-signal.h       |   87 ++
+ tcg/loongarch64/tcg-target-con-set.h            |   31 +
+ tcg/loongarch64/tcg-target-con-str.h            |   28 +
+ tcg/loongarch64/tcg-target.h                    |  180 +++
+ tcg/loongarch64/tcg-insn-defs.c.inc             |  979 +++++++++++++
+ tcg/loongarch64/tcg-target.c.inc                | 1677 +++++++++++++++++++++++
+ MAINTAINERS                                     |    5 +
+ common-user/host/loongarch64/safe-syscall.inc.S |   90 ++
+ 11 files changed, 3085 insertions(+), 1 deletion(-)
+ create mode 100644 linux-user/host/loongarch64/host-signal.h
+ create mode 100644 tcg/loongarch64/tcg-target-con-set.h
+ create mode 100644 tcg/loongarch64/tcg-target-con-str.h
+ create mode 100644 tcg/loongarch64/tcg-target.h
+ create mode 100644 tcg/loongarch64/tcg-insn-defs.c.inc
+ create mode 100644 tcg/loongarch64/tcg-target.c.inc
+ create mode 100644 common-user/host/loongarch64/safe-syscall.inc.S
 
