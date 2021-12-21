@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA3BB47C9AE
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Dec 2021 00:26:17 +0100 (CET)
-Received: from localhost ([::1]:38092 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85EA347C9AF
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Dec 2021 00:27:37 +0100 (CET)
+Received: from localhost ([::1]:39946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mzoWP-0006dI-1h
-	for lists+qemu-devel@lfdr.de; Tue, 21 Dec 2021 18:26:17 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47812)
+	id 1mzoXg-0007tG-Kt
+	for lists+qemu-devel@lfdr.de; Tue, 21 Dec 2021 18:27:36 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48094)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mzoUr-0005nu-Lw
- for qemu-devel@nongnu.org; Tue, 21 Dec 2021 18:24:41 -0500
-Received: from [2607:f8b0:4864:20::431] (port=36810
- helo=mail-pf1-x431.google.com)
+ id 1mzoVi-0006TI-4L
+ for qemu-devel@nongnu.org; Tue, 21 Dec 2021 18:25:34 -0500
+Received: from [2607:f8b0:4864:20::102a] (port=55929
+ helo=mail-pj1-x102a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mzoUq-00080e-8k
- for qemu-devel@nongnu.org; Tue, 21 Dec 2021 18:24:41 -0500
-Received: by mail-pf1-x431.google.com with SMTP id v13so641484pfi.3
- for <qemu-devel@nongnu.org>; Tue, 21 Dec 2021 15:24:39 -0800 (PST)
+ id 1mzoVg-0008AS-Nl
+ for qemu-devel@nongnu.org; Tue, 21 Dec 2021 18:25:33 -0500
+Received: by mail-pj1-x102a.google.com with SMTP id iy13so604199pjb.5
+ for <qemu-devel@nongnu.org>; Tue, 21 Dec 2021 15:25:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:references:from:message-id:date:user-agent:mime-version
  :in-reply-to:content-language:content-transfer-encoding;
- bh=yzQ2PWq4mq66UxC+C0JhNT6tAR8LScN/CSc1FUCfHwI=;
- b=QGw2vDJuMDwODJvTA+JlvjlvUdHiUVaahbZbGOIOE5mWMwzcgrb55AF3k3MmAw9/vY
- UDA+KwnpLpB8XN8WYldYgrH3igWWnIOr7BuadmLyvYAQTg7BZxwucppew0U0GoJ3/lHo
- 1T3vv5zJ/0ElEb0yMosihRqgMkmTVBUj9mJtzFQYLKmW1ZdFf9Wf/QWmN0Wjo53WpukS
- sBXgHG8RrWIVhfyOsj6eOGwAgQcfiZ8f5RBW69FAHVrQ3BgcZRUcuQ4KMQ22WihUJ2gE
- I5l9c7/MFyviTsbCgJ02zSOll4igDTvV5OZKWbDDBRzNfOipavfrGBHkPZNspqMtvo5B
- vlvw==
+ bh=UI+dLO69O3AcEUSE0Wj3Ks/LpBJiaciz2mz+SRp0bb8=;
+ b=KkP2XPPvdO8mMXCiOL7bdCK3dvvR8UV59nZ/7v4ddKO6nTRCVehDpxo2bPC1zN3T1I
+ KeQu40ZKWLdZ2FchfqGFS8fa+iO6pzNw53zRTlHPjjITutZfpmBpGbvn5zJlIvj1m3As
+ OY2MoHcWELQcwDyU8Pgp4mSz3uTfsa7OOew2e3V86rHRRkygLBN3xMpCjW+QM4WKXDbP
+ y+0YWfRcAbzofBUmtwYdr6Y5NtBaBsGl4nebnZo5vjWt2/4sTsB2497G/SeMgA8FAYH3
+ GInBepp0rUR7L1XNxB+oe8fO6lok2XzHRyxByLg1iCpP3vmArm4fGMGLrxTnABUpAv6o
+ uaDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=yzQ2PWq4mq66UxC+C0JhNT6tAR8LScN/CSc1FUCfHwI=;
- b=A55jSsrWCnHO0eFIdzKvfiuv4bBLow3+lC9FNfC1i15XQ2F7gPjkTrBdX6K+gm9hpA
- XJyUKw2wd133uQYBrImJH8+UVEsyt34V98wZJj219C4rZXDU+6jLRSSBW3KX7SJHtv9i
- bmAqCODaEMXEOsgLj/ewdfCdx2YG+f7K4yY6dMw/pVYAFyeayQYqJdwv0qTbHII35Gw0
- vQXY/to1kwR2CskIfXUi+ygsaQyNB3BWmRw9yL57h0wmZ4Db3gL2El10ZSNkATDupg8I
- vpHQycPHx/fp65Ct4fVlMv+DKCzThBsOMEhI/w+w7XFbWmT/j7SAs9WXQaVPtEP0PJGu
- vU2A==
-X-Gm-Message-State: AOAM530+ugN3wn6aEyxvG+IxLPnF9FNd9+ifkzrFNRDP8UBofB3smGJS
- ScAaCK9o0tYe08Vu4L8C77xBizKbu24N6w==
-X-Google-Smtp-Source: ABdhPJzLTmsNCjV24O8F7U5aEqHkntgwHxweSlZxUSHsTU5Yh2kgtzhUs/Q6xUtAcjuk0nZicNwKJg==
-X-Received: by 2002:a63:d49:: with SMTP id 9mr530450pgn.290.1640129078838;
- Tue, 21 Dec 2021 15:24:38 -0800 (PST)
+ bh=UI+dLO69O3AcEUSE0Wj3Ks/LpBJiaciz2mz+SRp0bb8=;
+ b=UKSp8hoWqyJvD2ChmXUfnjyUs+VG4jnaMaPTlOsJlrxOLtlc/5Jnjaz2dJs41+QY58
+ 2hZAb6Ciky3wfiWjBUv8fql6Hsaeln+3vDxUc5YLH/ftnA04FyLA93TqG/AfOvSOPRuq
+ aHwvFDHpc2hjFsrnRUU4OOe3fLYJhr9/Hpi793Zg9JzPZJ46+kNGT8QDI/yW8VvrwZIP
+ Fak4/r6u6r0bHQfqM330zP3UPgGgqTD7xnvfiBxE9bs5U5vDZjahJmVY4xRj+PBV8d1S
+ f7LwazXMPBa45b/8Wm/HIMX2If+QR5XuYNxnNkJU+xaI11Ji6Xg3hH6OWwEFp9PbBuVT
+ 9OpA==
+X-Gm-Message-State: AOAM531mLJyeI5R7YImSRdgs41wCt11iZHvrROXrzaD6kaV8z8hYR4yM
+ ySbLOnMI3uIp23oX8PpebtbrIiSJn9QWFg==
+X-Google-Smtp-Source: ABdhPJyHEpfi393y5OZZCShMrxyJaOW8mHqpcymjWBosQb7suq7+zqGyw4dbP8YalGY6ovrUsMhAZQ==
+X-Received: by 2002:a17:902:76c6:b0:142:644e:e9a with SMTP id
+ j6-20020a17090276c600b00142644e0e9amr465061plt.6.1640129131421; 
+ Tue, 21 Dec 2021 15:25:31 -0800 (PST)
 Received: from [192.168.4.112] ([156.19.246.20])
- by smtp.gmail.com with ESMTPSA id d3sm159306pfv.192.2021.12.21.15.24.37
+ by smtp.gmail.com with ESMTPSA id p10sm162938pfw.87.2021.12.21.15.25.30
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 21 Dec 2021 15:24:38 -0800 (PST)
-Subject: Re: [PATCH 2/3] linux-user: netlink: Add IFLA_VFINFO_LIST
+ Tue, 21 Dec 2021 15:25:31 -0800 (PST)
+Subject: Re: [PATCH 3/3] linux-user: netlink: update IFLA_BRPORT entries
 To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
 References: <20211219154514.2165728-1-laurent@vivier.eu>
- <20211219154514.2165728-2-laurent@vivier.eu>
+ <20211219154514.2165728-3-laurent@vivier.eu>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <bed94eb8-20e7-92fe-8ff9-a87c8513693b@linaro.org>
-Date: Tue, 21 Dec 2021 15:24:35 -0800
+Message-ID: <cfaa7495-5f70-1233-1b26-060518401588@linaro.org>
+Date: Tue, 21 Dec 2021 15:25:29 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <20211219154514.2165728-2-laurent@vivier.eu>
+In-Reply-To: <20211219154514.2165728-3-laurent@vivier.eu>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::431
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102a
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::431;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x431.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102a.google.com
 X-Spam_score_int: -32
 X-Spam_score: -3.3
 X-Spam_bar: ---
@@ -94,13 +95,16 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 12/19/21 7:45 AM, Laurent Vivier wrote:
+> add IFLA_BRPORT_MCAST_EHT_HOSTS_LIMIT and IFLA_BRPORT_MCAST_EHT_HOSTS_CNT
+> 
 >    # QEMU_LOG=unimp ip a
->    Unknown host QEMU_IFLA type: 22
+>    Unknown QEMU_IFLA_BRPORT type 37
+>    Unknown QEMU_IFLA_BRPORT type 38
 > 
 > Signed-off-by: Laurent Vivier<laurent@vivier.eu>
 > ---
->   linux-user/fd-trans.c | 174 ++++++++++++++++++++++++++++++++++++++++++
->   1 file changed, 174 insertions(+)
+>   linux-user/fd-trans.c | 4 ++++
+>   1 file changed, 4 insertions(+)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
