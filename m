@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B61C147C30B
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Dec 2021 16:36:42 +0100 (CET)
-Received: from localhost ([::1]:59450 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 675E047C2D2
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Dec 2021 16:32:29 +0100 (CET)
+Received: from localhost ([::1]:50510 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mzhBx-0006lY-Rx
-	for lists+qemu-devel@lfdr.de; Tue, 21 Dec 2021 10:36:41 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46428)
+	id 1mzh7s-0000c1-HD
+	for lists+qemu-devel@lfdr.de; Tue, 21 Dec 2021 10:32:28 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46298)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1mzgq2-0001Ft-VA
- for qemu-devel@nongnu.org; Tue, 21 Dec 2021 10:14:03 -0500
-Received: from mga17.intel.com ([192.55.52.151]:9892)
+ id 1mzgpm-0000df-Pu
+ for qemu-devel@nongnu.org; Tue, 21 Dec 2021 10:13:46 -0500
+Received: from mga05.intel.com ([192.55.52.43]:21424)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1mzgq1-0008MP-AI
- for qemu-devel@nongnu.org; Tue, 21 Dec 2021 10:14:02 -0500
+ id 1mzgpj-0008M0-6x
+ for qemu-devel@nongnu.org; Tue, 21 Dec 2021 10:13:46 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1640099641; x=1671635641;
+ t=1640099623; x=1671635623;
  h=from:to:cc:subject:date:message-id:in-reply-to: references;
- bh=lwc3ZTobl3LT/VFyxod/1mSSsZKwyN5jd9bV9BUSQp0=;
- b=ZZ8De19cQz9oQ56cK9QAyLEi0quQcXOndo04jOQNHQ2CeF1agYCyvrUi
- bGQgi/f6BWZnN+AnBQkJxd38iiUJshlU81cLijbXzLW0vFwU26aJuTnoW
- 4B7dekrGledNM0zoQfmxm2QKDwKAmF1wJ05u3L15UyLTz2cYae8E48Rwt
- U65wzB7sPiXV3udAMmN8s4wQpubcGtyo8q5y5LWyVZ5LhsnrnbMe8IwY8
- wh0BDK54N8Vtu5UI9BPrTNFU3nhFFyhujgAbFKMPhA1ZqOhQzJVnUDQqt
- 6iNQwEiXBXR9iDhBHfByhZLSL4RYmvS6E974ZsNp647eSKGa3vTQ+wB1H A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10204"; a="221086031"
-X-IronPort-AV: E=Sophos;i="5.88,223,1635231600"; d="scan'208";a="221086031"
+ bh=GpzaY/v5Xy0pX72fyoYUfRrCzZUdqzkwMBDdLOr36fk=;
+ b=JhtuZDxUhFLym4pFmWPk6pRnTzqO4azkJez8h0DjXBNJBh7VgShXHADR
+ e73j9RnLrvfSBsmrpd+2saNrNJcN6eOECZsNdAj+ioORBgz/Z/LijYGHg
+ CpmE8zODe+R6gciNsBlnQCT6Ub+5ds/+lLXh8gWiEi153W75Tk1OAw9vM
+ V+b9Qm7TlTSywPxduQrTd1wkpYx9veCCEVjcLb4nG0elP4mJ+93SgOiiD
+ fFlx9B+aOYbOtMi2XGqNgSQ97EaMPsebN5CVoZB/kanmU4hXp/7V8tJ24
+ MgLwlM/ELTRWN3Gl2aBOZ92Uh7tGhf0nkptUvzj93Blk/ZRDK53XtCLj1 w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10204"; a="326709936"
+X-IronPort-AV: E=Sophos;i="5.88,223,1635231600"; d="scan'208";a="326709936"
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Dec 2021 07:13:33 -0800
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Dec 2021 07:13:40 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,223,1635231600"; d="scan'208";a="684688572"
+X-IronPort-AV: E=Sophos;i="5.88,223,1635231600"; d="scan'208";a="684688608"
 Received: from chaop.bj.intel.com ([10.240.192.101])
- by orsmga005.jf.intel.com with ESMTP; 21 Dec 2021 07:13:26 -0800
+ by orsmga005.jf.intel.com with ESMTP; 21 Dec 2021 07:13:33 -0800
 From: Chao Peng <chao.p.peng@linux.intel.com>
 To: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
  linux-fsdevel@vger.kernel.org, qemu-devel@nongnu.org
-Subject: [PATCH v3 11/15] KVM: Implement fd-based memory fallocation
-Date: Tue, 21 Dec 2021 23:11:21 +0800
-Message-Id: <20211221151125.19446-12-chao.p.peng@linux.intel.com>
+Subject: [PATCH v3 12/15] KVM: Add KVM_EXIT_MEMORY_ERROR exit
+Date: Tue, 21 Dec 2021 23:11:22 +0800
+Message-Id: <20211221151125.19446-13-chao.p.peng@linux.intel.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20211221151125.19446-1-chao.p.peng@linux.intel.com>
 References: <20211221151125.19446-1-chao.p.peng@linux.intel.com>
-Received-SPF: none client-ip=192.55.52.151;
- envelope-from=chao.p.peng@linux.intel.com; helo=mga17.intel.com
+Received-SPF: none client-ip=192.55.52.43;
+ envelope-from=chao.p.peng@linux.intel.com; helo=mga05.intel.com
 X-Spam_score_int: -44
 X-Spam_score: -4.5
 X-Spam_bar: ----
@@ -86,99 +86,70 @@ Cc: Wanpeng Li <wanpengli@tencent.com>, jun.nakajima@intel.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-KVM gets notified through memfd_notifier when user space allocate space
-via fallocate() on the fd which is used for guest memory. KVM can set up
-the mapping in the secondary MMU page tables at this time. This patch
-adds function in KVM to map pfn to gfn when the page is allocated in the
-memory backend.
+This new exit allows user space to handle memory-related errors.
+Currently it supports two types (KVM_EXIT_MEM_MAP_SHARED/PRIVATE) of
+errors which are used for shared memory <-> private memory conversion
+in memory encryption usage.
 
-While it's possible to postpone the mapping of the secondary MMU to KVM
-page fault handler but we can reduce some VMExits by also mapping the
-secondary page tables when a page is mapped in the primary MMU.
-
-It reuses the same code for kvm_memfd_invalidate_range, except using
-kvm_map_gfn_range as its handler.
+After private memory is enabled, there are two places in KVM that can
+exit to userspace to trigger private <-> shared conversion:
+  - explicit conversion: happens when guest explicitly calls into KVM to
+    map a range (as private or shared), KVM then exits to userspace to
+    do the map/unmap operations.
+  - implicit conversion: happens in KVM page fault handler.
+    * if the fault is due to a private memory access then causes a
+      userspace exit for a shared->private conversion request when the
+      page has not been allocated in the private memory backend.
+    * If the fault is due to a shared memory access then causes a
+      userspace exit for a private->shared conversion request when the
+      page has already been allocated in the private memory backend.
 
 Signed-off-by: Yu Zhang <yu.c.zhang@linux.intel.com>
 Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
 ---
- include/linux/kvm_host.h |  2 ++
- virt/kvm/kvm_main.c      | 22 +++++++++++++++++++---
- virt/kvm/memfd.c         |  2 ++
- 3 files changed, 23 insertions(+), 3 deletions(-)
+ include/uapi/linux/kvm.h | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
-index 9c02fb53b8ab..1f69d76983a2 100644
---- a/include/linux/kvm_host.h
-+++ b/include/linux/kvm_host.h
-@@ -1879,6 +1879,8 @@ static inline void kvm_handle_signal_exit(struct kvm_vcpu *vcpu)
- #ifdef CONFIG_MEMFD_OPS
- int kvm_memfd_invalidate_range(struct kvm *kvm, struct inode *inode,
- 			       unsigned long start, unsigned long end);
-+int kvm_memfd_fallocate_range(struct kvm *kvm, struct inode *inode,
-+			      unsigned long start, unsigned long end);
- #endif /* CONFIG_MEMFD_OPS */
+diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
+index a2c1fb8c9843..d0c2af431cd9 100644
+--- a/include/uapi/linux/kvm.h
++++ b/include/uapi/linux/kvm.h
+@@ -297,6 +297,18 @@ struct kvm_tdx_exit {
+ 	} u;
+ };
  
- 
-diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
-index b9855b2fdaae..1b7cf05759c7 100644
---- a/virt/kvm/kvm_main.c
-+++ b/virt/kvm/kvm_main.c
-@@ -860,15 +860,17 @@ static int kvm_init_mmu_notifier(struct kvm *kvm)
- #endif /* CONFIG_MMU_NOTIFIER && KVM_ARCH_WANT_MMU_NOTIFIER */
- 
- #ifdef CONFIG_MEMFD_OPS
--int kvm_memfd_invalidate_range(struct kvm *kvm, struct inode *inode,
--			       unsigned long start, unsigned long end)
-+int kvm_memfd_handle_range(struct kvm *kvm, struct inode *inode,
-+			   unsigned long start, unsigned long end,
-+			   gfn_handler_t handler)
++struct kvm_memory_exit {
++#define KVM_EXIT_MEM_MAP_SHARED         1
++#define KVM_EXIT_MEM_MAP_PRIVATE        2
++	__u32 type;
++	union {
++		struct {
++			__u64 gpa;
++			__u64 size;
++		} map;
++	} u;
++};
 +
- {
- 	int ret;
- 	const struct kvm_useraddr_range useraddr_range = {
- 		.start		= start,
- 		.end		= end,
- 		.pte		= __pte(0),
--		.handler	= kvm_unmap_gfn_range,
-+		.handler	= handler,
- 		.on_lock	= (void *)kvm_null_fn,
- 		.flush_on_ret	= true,
- 		.may_block	= false,
-@@ -883,6 +885,20 @@ int kvm_memfd_invalidate_range(struct kvm *kvm, struct inode *inode,
+ #define KVM_S390_GET_SKEYS_NONE   1
+ #define KVM_S390_SKEYS_MAX        1048576
  
- 	return ret;
- }
-+
-+int kvm_memfd_invalidate_range(struct kvm *kvm, struct inode *inode,
-+			       unsigned long start, unsigned long end)
-+{
-+	return kvm_memfd_handle_range(kvm, inode, start, end,
-+				      kvm_unmap_gfn_range);
-+}
-+
-+int kvm_memfd_fallocate_range(struct kvm *kvm, struct inode *inode,
-+			      unsigned long start, unsigned long end)
-+{
-+	return kvm_memfd_handle_range(kvm, inode, start, end,
-+				      kvm_map_gfn_range);
-+}
- #endif /* CONFIG_MEMFD_OPS */
+@@ -336,6 +348,7 @@ struct kvm_tdx_exit {
+ #define KVM_EXIT_X86_BUS_LOCK     33
+ #define KVM_EXIT_XEN              34
+ #define KVM_EXIT_RISCV_SBI        35
++#define KVM_EXIT_MEMORY_ERROR     36
+ #define KVM_EXIT_TDX              50	/* dump number to avoid conflict. */
  
- #ifdef CONFIG_HAVE_KVM_PM_NOTIFIER
-diff --git a/virt/kvm/memfd.c b/virt/kvm/memfd.c
-index d092a9b6f496..e7a2ab790cc6 100644
---- a/virt/kvm/memfd.c
-+++ b/virt/kvm/memfd.c
-@@ -23,6 +23,8 @@ static void memfd_invalidate_page_range(struct inode *inode, void *owner,
- static void memfd_fallocate(struct inode *inode, void *owner,
- 			    pgoff_t start, pgoff_t end)
- {
-+	kvm_memfd_fallocate_range(owner, inode, start >> PAGE_SHIFT,
-+						end >> PAGE_SHIFT);
- }
- 
- static bool memfd_get_owner(void *owner)
+ /* For KVM_EXIT_INTERNAL_ERROR */
+@@ -554,6 +567,8 @@ struct kvm_run {
+ 			unsigned long args[6];
+ 			unsigned long ret[2];
+ 		} riscv_sbi;
++		/* KVM_EXIT_MEMORY_ERROR */
++		struct kvm_memory_exit mem;
+ 		/* KVM_EXIT_TDX_VMCALL */
+ 		struct kvm_tdx_exit tdx;
+ 		/* Fix the size of the union. */
 -- 
 2.17.1
 
