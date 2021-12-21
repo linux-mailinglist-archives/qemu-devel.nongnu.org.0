@@ -2,78 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C2E247BF09
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Dec 2021 12:36:54 +0100 (CET)
-Received: from localhost ([::1]:50864 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E1A247BF0A
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Dec 2021 12:37:09 +0100 (CET)
+Received: from localhost ([::1]:51244 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mzdRt-0001QB-FR
-	for lists+qemu-devel@lfdr.de; Tue, 21 Dec 2021 06:36:53 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50996)
+	id 1mzdS8-0001fB-6d
+	for lists+qemu-devel@lfdr.de; Tue, 21 Dec 2021 06:37:08 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51484)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mzdOA-0006aX-Tw
- for qemu-devel@nongnu.org; Tue, 21 Dec 2021 06:33:02 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28207)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mzdPX-0000GJ-0I
+ for qemu-devel@nongnu.org; Tue, 21 Dec 2021 06:34:27 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28074)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mzdO9-0000XU-Dp
- for qemu-devel@nongnu.org; Tue, 21 Dec 2021 06:33:02 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mzdPV-0000iU-AX
+ for qemu-devel@nongnu.org; Tue, 21 Dec 2021 06:34:26 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1640086380;
+ s=mimecast20190719; t=1640086464;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mk0wEJ1Qb1e+vvnfQCDJKaEUvlJWeZuNi9hTqvtOhZY=;
- b=CudU4Mj+GBxEXiLco6/OYyFygWyFmIEOmeWFr/MkumQ4UFbV0tgVD4lC6HmYF/SeFpM3Bz
- JGW3I7W3J8xXusKYf6KHuS31E2t29Ik4zdSqx9SFWPwguiJfl6HBrs42tQNg5ALd5XPEF2
- EMwS62g11ZL+2sQPgn6zQFTiJgNQQQw=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=RS+K/awkt6W+6YOvrTQH+e3r+chq1ALFbXh3NIRgShA=;
+ b=ArMrnIRrtSr3JRtDPTaOK6qn8ENVtTPEfVx9Nlvm/6uFyXsJ4cQlXfrpSyo0DpA9PFIruV
+ OGWLARbCswl0LQE83rpx10i42uC243i508xo6IsKg73RuDlFkb4du9ef6aNOxNn5BceSR2
+ Tq1HpecFqhmMtGTeTn7xZlOiix10PdI=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-318-cRNt5LWNMXCFKeJf3kY6WQ-1; Tue, 21 Dec 2021 06:32:59 -0500
-X-MC-Unique: cRNt5LWNMXCFKeJf3kY6WQ-1
-Received: by mail-ed1-f70.google.com with SMTP id
- w10-20020a50d78a000000b003f82342a95aso8091589edi.22
- for <qemu-devel@nongnu.org>; Tue, 21 Dec 2021 03:32:59 -0800 (PST)
+ us-mta-18-UsQJx_OLN1uMjZmRvhZtSw-1; Tue, 21 Dec 2021 06:34:23 -0500
+X-MC-Unique: UsQJx_OLN1uMjZmRvhZtSw-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ ay24-20020a056402203800b003f8491e499eso5503177edb.21
+ for <qemu-devel@nongnu.org>; Tue, 21 Dec 2021 03:34:23 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=mk0wEJ1Qb1e+vvnfQCDJKaEUvlJWeZuNi9hTqvtOhZY=;
- b=0IEyiIDTYOPWJQoe9hWX+iG5czhzWobyQWiNF8MBG+dIkKsKPns9Pui5hpxx1KsRSl
- fHIip6G40oqIwik6xRO5WA1Rq1rhpr3u3B3wjBn45fGi6ztTKEO86+f9/B/Z5qcn6P8X
- XadIWC1j4QPgmLjHpIalV8Hm5agROwxVqxzpZMTHkD+WoX0q+ub9o1+DGttKClurY6nO
- 4UhTRuPZuE6xcMHjpMy8xOaszL6qnmI8f1z0Xtqa9wsp0CkprTNG2mRKi3SbLeNtMsux
- ewIbEtoZu8CMUtit9ejOrloHUkmHI39JJZYRUUuee51BS+HMmjmdOe+n4dSp7ZLU8Hdl
- 9DQA==
-X-Gm-Message-State: AOAM532S9AhgHN6hUn2QXKoa88KCUlVI8dofabdtP4SXSUuKAKe8sRmb
- iK3L17R4dznPOsU3xoZXYrlgXumAPNP4pbtbXLs5uc864aK9G5ntZzVV/Bv5fZDgrMDXU7Bgolc
- u0Rb2B8kn/yDH+G0=
-X-Received: by 2002:a17:906:d552:: with SMTP id
- cr18mr2264790ejc.260.1640086378130; 
- Tue, 21 Dec 2021 03:32:58 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzWeW8J17trsiOrRd2byxnNn0yjR1Sz8YfOcdyGeeNI7P7o72WfvIahNgLo79mN/d4Ooyv09A==
-X-Received: by 2002:a17:906:d552:: with SMTP id
- cr18mr2264778ejc.260.1640086377975; 
- Tue, 21 Dec 2021 03:32:57 -0800 (PST)
+ bh=RS+K/awkt6W+6YOvrTQH+e3r+chq1ALFbXh3NIRgShA=;
+ b=ZsunsSk1CrwGOfwH22fi5GbNRaQ8PIAQ/jvUDmX0RL+0+ufr7SDF82z/HBwaCViCOd
+ cut31kQI8ZIHtAYpDvxumX0XsbMkZtFl825NgwZe3LYVdUQkmfRgAQtFVyr18pUkqZOr
+ PnRvq0+yYeG9qTwiarCwDdbhqTOj7RbFdV2EFm/SpALK4MQoELpA7iwnQORpsjYnWebC
+ z/5YWRqZ10Cu/tPyG81axw4GheVCykQof3zQ7BVz8jQg52kSbVRTaZw2ZVb+IyV6etyl
+ 3EEkIiKHm1Gb9vtOrWkiJgfz9Q1vud46flf6Rth81Js+Ug5x4/KmnC7jUup893VKBx4r
+ fJKw==
+X-Gm-Message-State: AOAM533I2AlxYl+MZspFvIXxPgMukJ8pU1TsnLY+G3xQMgk2Kyzgv4PK
+ +oXPoHDYsYrPEkVYIM+ZzWJioSlvjqDetsex8u8XH7V2TlfFp9ptAQiDpGQA8Lgcl8mKjbiVRz4
+ RlbPXvjroURhIi1s=
+X-Received: by 2002:a17:906:341a:: with SMTP id
+ c26mr2327925ejb.302.1640086462317; 
+ Tue, 21 Dec 2021 03:34:22 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzptf8CQ8TK4l4nbsQXcq/c4Clt6T5k8aLRm+P6XKnUvxWYtX2YAGmaLnIvGd5V7EQgb22aJA==
+X-Received: by 2002:a17:906:341a:: with SMTP id
+ c26mr2327917ejb.302.1640086462114; 
+ Tue, 21 Dec 2021 03:34:22 -0800 (PST)
 Received: from [192.168.1.36] (174.red-83-50-185.dynamicip.rima-tde.net.
  [83.50.185.174])
- by smtp.gmail.com with ESMTPSA id dt13sm5153391ejc.157.2021.12.21.03.32.57
+ by smtp.gmail.com with ESMTPSA id i22sm3691807ejw.75.2021.12.21.03.34.21
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 21 Dec 2021 03:32:57 -0800 (PST)
-Message-ID: <8901ca47-b169-6a79-1f40-1b96a9f8a292@redhat.com>
-Date: Tue, 21 Dec 2021 12:32:56 +0100
+ Tue, 21 Dec 2021 03:34:21 -0800 (PST)
+Message-ID: <4cba400e-bd9a-69cb-385b-96eccf0ab306@redhat.com>
+Date: Tue, 21 Dec 2021 12:34:20 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.4.0
-Subject: Re: [PATCH 6/8] meson: build contrib/ executables after generated
- headers
+Subject: Re: [PATCH] docker: include bison in debian-tricore-cross
 To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-References: <20211221110526.351709-1-pbonzini@redhat.com>
- <20211221110526.351709-7-pbonzini@redhat.com>
+References: <20211221111624.352804-1-pbonzini@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <20211221110526.351709-7-pbonzini@redhat.com>
+In-Reply-To: <20211221111624.352804-1-pbonzini@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -103,22 +101,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: richard.henderson@linaro.org
+Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/21/21 12:05, Paolo Bonzini wrote:
-> This will be needed as soon as config-poison.h moves from configure to
-> a meson custom_target (which is built at "ninja" time).
+On 12/21/21 12:16, Paolo Bonzini wrote:
+> Binutils sometimes fail to build if bison is not installed:
 > 
+>   /bin/sh ./ylwrap `test -f arparse.y || echo ./`arparse.y y.tab.c arparse.c y.tab.h arparse.h y.output arparse.output --  -d
+>   ./ylwrap: 109: ./ylwrap: -d: not found
+> 
+> (the correct invocation of ylwrap would have "bison -d" after the double
+> dash).  Work around by installing it in the container.
+> 
+> Cc: Alex Bennée <alex.bennee@linaro.org>
+
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/596
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+
 > Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 > ---
->  contrib/elf2dmp/meson.build        | 2 +-
->  contrib/ivshmem-client/meson.build | 2 +-
->  contrib/ivshmem-server/meson.build | 2 +-
->  contrib/rdmacm-mux/meson.build     | 2 +-
->  4 files changed, 4 insertions(+), 4 deletions(-)
-
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>  tests/docker/dockerfiles/debian-tricore-cross.docker | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/tests/docker/dockerfiles/debian-tricore-cross.docker b/tests/docker/dockerfiles/debian-tricore-cross.docker
+> index d8df2c6117..3f6b55562c 100644
+> --- a/tests/docker/dockerfiles/debian-tricore-cross.docker
+> +++ b/tests/docker/dockerfiles/debian-tricore-cross.docker
+> @@ -16,6 +16,7 @@ MAINTAINER Philippe Mathieu-Daudé <f4bug@amsat.org>
+>  RUN apt update && \
+>      DEBIAN_FRONTEND=noninteractive apt install -yy eatmydata && \
+>      DEBIAN_FRONTEND=noninteractive eatmydata apt install -yy \
+> +       bison \
+>         bzip2 \
+>         ca-certificates \
+>         ccache \
 
 
