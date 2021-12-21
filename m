@@ -2,72 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AF6447BEED
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Dec 2021 12:29:35 +0100 (CET)
-Received: from localhost ([::1]:37634 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D03347BEF5
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Dec 2021 12:32:10 +0100 (CET)
+Received: from localhost ([::1]:42418 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mzdKo-0000n0-1f
-	for lists+qemu-devel@lfdr.de; Tue, 21 Dec 2021 06:29:34 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49722)
+	id 1mzdNJ-000450-4e
+	for lists+qemu-devel@lfdr.de; Tue, 21 Dec 2021 06:32:09 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49922)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mzdIB-0006zR-VA
- for qemu-devel@nongnu.org; Tue, 21 Dec 2021 06:26:52 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:27485)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mzdI7-0008Br-G1
- for qemu-devel@nongnu.org; Tue, 21 Dec 2021 06:26:50 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1640086006;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=cyLOX2VyJt8mTvQ5oZI7R0eUNEWIvVndzUU5VvNAtG8=;
- b=BNMFA5hh3QoYN1WzXH4hgwc+XFF52VdSMnZ0/SiNzB3V/uyVN7EqWCiKt1U3fa5BMW+9CM
- gy+hCIRmzd2dEAtFGIZxY4G/zQ46hV9uI9c6ihlb5XN5l9bXtP6xEzrt2Nj+rGB3DDsbJF
- Fm4R9BLMrXywvcdFbQ6ulR5TsBMo5Mc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-673-C_u9nIbDMYGlvU3YvoKDmQ-1; Tue, 21 Dec 2021 06:26:45 -0500
-X-MC-Unique: C_u9nIbDMYGlvU3YvoKDmQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EE17A81CCB4;
- Tue, 21 Dec 2021 11:26:43 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-2.ams2.redhat.com [10.36.112.2])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 832A65E49F;
- Tue, 21 Dec 2021 11:26:43 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 0D670113865F; Tue, 21 Dec 2021 12:26:42 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: MkfsSion <mkfssion@mkfssion.com>
-Subject: Re: [PATCH] vl: Add -set options to device opts dict when using
- JSON syntax for -device
-References: <20211221071818.34731-1-mkfssion@mkfssion.com>
-Date: Tue, 21 Dec 2021 12:26:42 +0100
-In-Reply-To: <20211221071818.34731-1-mkfssion@mkfssion.com>
- (mkfssion@mkfssion.com's message of "Tue, 21 Dec 2021 15:18:18 +0800")
-Message-ID: <877dbyjj0t.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <pratikp@vayavyalabs.com>)
+ id 1mzdIm-0008Ky-8Z
+ for qemu-devel@nongnu.org; Tue, 21 Dec 2021 06:27:28 -0500
+Received: from [2a00:1450:4864:20::22a] (port=34493
+ helo=mail-lj1-x22a.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <pratikp@vayavyalabs.com>)
+ id 1mzdIk-0008GP-I0
+ for qemu-devel@nongnu.org; Tue, 21 Dec 2021 06:27:27 -0500
+Received: by mail-lj1-x22a.google.com with SMTP id k23so20903806lje.1
+ for <qemu-devel@nongnu.org>; Tue, 21 Dec 2021 03:27:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=vayavyalabs.com; s=vayavyalabs;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=iKqzzADrk88Almd/oO4mNwZbvhSK3rpjUOnfI7pnOyg=;
+ b=Iz84e0iox/yXtmzoH/MBWhvOV1TxRrwi2cRlzw9WdWnlgkwfVU7b2hQN+/ozcIE4VY
+ CkbRm6dSbPUqICyhk9DLt6T3FAmMcOAy9aZy3xa6rIu++ABezpMvOfQFi6tKEiknIMQe
+ b1kvzlzl7aO4zSdFMEXN/HARo5V4amzrqxHrA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=iKqzzADrk88Almd/oO4mNwZbvhSK3rpjUOnfI7pnOyg=;
+ b=cUy4rrw0meakG4FJ8NnlRdTS+6OtcVfW8y2SVBDalQBN8LKD8gwOQYN4DuAD/xMxHR
+ 9aqhflcJHIiuN4MzkL9SsahJAjeSqJs8fdRvHPWxmcYaDvnowKefU1JB+EdDGe6du4W6
+ kuXLZqjCbRYXgA38J2fdDX2qydy7/YJ+Lli7IulGLMFeCDjApD0QHYd7TqDHxqQqdAiz
+ DvKN+DDZ8MezQapIqsGBp3RtDFKnjsi1LhQs+CjVmgxPcNX6szh5E2uwmttucw8hYVvv
+ 3F5xFcGVSryaTkzGpiC+xxCxAT2wHprDoQFDXQif3Dy10oVQHg3KL+2XjnGQcHPsDi1V
+ AbQA==
+X-Gm-Message-State: AOAM532dwJg8m4gRqryi4SVoP5luQy/Evrh7f7sO46l/HFZ47DKcLndz
+ Q+xWYHGSG1q/fVATbnzLTAR7g9XIkMaUPVGsSyr8Ag==
+X-Google-Smtp-Source: ABdhPJy9eruCEYeFPgj+jFCmNGiOkC2AWJukjFbw3JiBGrgczNEUXm1gCSM5uaPopcSGC5ETJR3YH3p7a0RHwDQrJrM=
+X-Received: by 2002:a2e:95d2:: with SMTP id y18mr2144312ljh.93.1640086044279; 
+ Tue, 21 Dec 2021 03:27:24 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.203,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <CA+aXn+EZQ=S+P=8fyfCxYikEMLLdqAEeQgi580Tqtsuot-r2dw@mail.gmail.com>
+ <aedfa17d-6d31-6d5d-b367-cf84e77d27ed@redhat.com>
+ <20211220103548.lpgtad57woenpshi@sirius.home.kraxel.org>
+ <CA+aXn+F1tPYMahODkE1qi_OM65zJ4ubHqcOi1drJWvC+PopiZQ@mail.gmail.com>
+ <20211220121814.rkg7z7rki22qpzhj@sirius.home.kraxel.org>
+ <CA+aXn+HPOK-N9smZsjas6EXaTD6hQjXbgrJcKK9E3u5VrSYCeg@mail.gmail.com>
+ <20211221111125.lbx6or2wg2d762a7@sirius.home.kraxel.org>
+In-Reply-To: <20211221111125.lbx6or2wg2d762a7@sirius.home.kraxel.org>
+From: Pratik Parvati <pratikp@vayavyalabs.com>
+Date: Tue, 21 Dec 2021 16:57:09 +0530
+Message-ID: <CA+aXn+HzLjZVykfsQJHGK6N_K1qLywsES6kJT-RQEEYrKfZ6fA@mail.gmail.com>
+Subject: Re: Virtio-GPU Xres and Yres seettings
+To: Gerd Hoffmann <kraxel@redhat.com>
+Content-Type: multipart/alternative; boundary="00000000000012209d05d3a64a19"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::22a
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::22a;
+ envelope-from=pratikp@vayavyalabs.com; helo=mail-lj1-x22a.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,199 +83,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+Cc: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
  qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-MkfsSion <mkfssion@mkfssion.com> writes:
+--00000000000012209d05d3a64a19
+Content-Type: text/plain; charset="UTF-8"
 
-> When using JSON syntax for -device, -set option can not find device
-> specified in JSON by id field. The following commandline is an example:
+I apologise for not putting the question properly. I am referring virtio
+spec to understand the driver and device operation - I had a few questions
+on pixel data, as it was not working as expected.
+
+My display is working fine now; thanks for your help.
+
+Regards,
+Pratik
+
+
+On Tue, 21 Dec 2021 at 16:41, Gerd Hoffmann <kraxel@redhat.com> wrote:
+
+> On Mon, Dec 20, 2021 at 10:44:06PM +0530, Pratik Parvati wrote:
+> > > EDID is optional, so you can try disable the EDID feature bit and see
+> > > what happens.
+> >
+> > Thanks Gerd, after disabling the EDID, I was able to get the required
+> > resolution (basically width and height) from the driver.
+> >
+> > Another strange observation - When the device receives the
+> > command VIRTIO_GPU_CMD_RESOURCE_ATTACH_BACKING with the number of
+> > entries having a pixel data in scatter gather format, the device is
+> trying
+> > to store these bytes in contiguous memory. When I read those sg memory,
+> the
+> > device receives all zeros from the driver (for a 1024x768 display,
+> > the device receives 3MB of data from the driver). Is this an expected
+> > behaviour? - If not, what is the driver trying to display on the screen?
 >
-> $ qemu-system-x86_64 -device '{"id":"foo"}' -set device.foo.bar=1
-> qemu-system-x86_64: -set device.foo.bar=1: there is no device "foo" defined
-
-Is this a regression?  I suspect commit 5dacda5167 "vl: Enable JSON
-syntax for -device" (v6.2.0).
-
-I believe any conversion away from QemuOpts loses -set.
-
-> The patch adds -set options to JSON device opts dict for adding
-> options to device by latter object_set_properties_from_keyval call.
+> How about reading the virtio spec?
+> display updates are handled with transfer and flush commands.
 >
-> Signed-off-by: YuanYang Meng <mkfssion@mkfssion.com>
-> ---
->  include/qemu/option.h |  4 ++++
->  softmmu/vl.c          | 28 ++++++++++++++++++++++++++++
->  util/qemu-option.c    |  2 +-
->  3 files changed, 33 insertions(+), 1 deletion(-)
+> take care,
+>   Gerd
 >
-> diff --git a/include/qemu/option.h b/include/qemu/option.h
-> index 306bf07575..31fa9fdc25 100644
-> --- a/include/qemu/option.h
-> +++ b/include/qemu/option.h
-> @@ -45,6 +45,10 @@ const char *get_opt_value(const char *p, char **value);
->  
->  bool parse_option_size(const char *name, const char *value,
->                         uint64_t *ret, Error **errp);
-> +
-> +bool parse_option_number(const char *name, const char *value,
-> +                         uint64_t *ret, Error **errp);
-> +
->  bool has_help_option(const char *param);
->  
->  enum QemuOptType {
-> diff --git a/softmmu/vl.c b/softmmu/vl.c
-> index 620a1f1367..feb3c49a65 100644
-> --- a/softmmu/vl.c
-> +++ b/softmmu/vl.c
-> @@ -30,7 +30,9 @@
->  #include "hw/qdev-properties.h"
->  #include "qapi/compat-policy.h"
->  #include "qapi/error.h"
-> +#include "qapi/qmp/qbool.h"
->  #include "qapi/qmp/qdict.h"
-> +#include "qapi/qmp/qnum.h"
->  #include "qapi/qmp/qstring.h"
->  #include "qapi/qmp/qjson.h"
->  #include "qemu-version.h"
-> @@ -2279,6 +2281,7 @@ static void qemu_set_option(const char *str, Error **errp)
->      char group[64], id[64], arg[64];
->      QemuOptsList *list;
->      QemuOpts *opts;
-> +    DeviceOption *opt;
->      int rc, offset;
->  
->      rc = sscanf(str, "%63[^.].%63[^.].%63[^=]%n", group, id, arg, &offset);
-> @@ -2294,6 +2297,31 @@ static void qemu_set_option(const char *str, Error **errp)
->          if (list) {
->              opts = qemu_opts_find(list, id);
->              if (!opts) {
-> +                QTAILQ_FOREACH(opt, &device_opts, next) {
-> +                    const char *device_id = qdict_get_try_str(opt->opts, "id");
-> +                    if (device_id && (strcmp(device_id, id) == 0)) {
-> +                        if (qdict_get(opt->opts, arg)) {
-> +                            qdict_del(opt->opts, arg);
-> +                        }
-> +                        const char *value = str + offset + 1;
-> +                        QObject *obj = NULL;
-> +                        bool boolean;
-> +                        uint64_t num;
-> +                        if (qapi_bool_parse(arg, value, &boolean, NULL)) {
-> +                            obj = QOBJECT(qbool_from_bool(boolean));
-> +                        } else if (parse_option_number(arg, value, &num, NULL)) {
-> +                            obj = QOBJECT(qnum_from_uint(num));
-> +                        } else if (parse_option_size(arg, value, &num, NULL)) {
-> +                            obj = QOBJECT(qnum_from_uint(num));
-> +                        } else {
-> +                            obj = QOBJECT(qstring_from_str(value));
-> +                        }
-> +                        if (obj) {
-> +                            qdict_put_obj(opt->opts, arg, obj);
-> +                            return;
-> +                        }
-> +                    }
-> +                }
->                  error_setg(errp, "there is no %s \"%s\" defined", group, id);
->                  return;
->              }
-               qemu_opt_set(opts, arg, str + offset + 1, errp);
-           }
-       }
-   }
+>
 
-Two issues, and only looks fixable.
+--00000000000012209d05d3a64a19
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
--device accepts either a QemuOpts or a JSON argument.
+<div dir=3D"ltr"><div class=3D"gmail_default" style=3D"font-family:verdana,=
+sans-serif;color:#000000">I apologise=C2=A0for not putting the question pro=
+perly. I am referring=C2=A0virtio spec to understand the driver and device =
+operation - I had a few questions on pixel data, as it was not working as e=
+xpected.</div><div class=3D"gmail_default" style=3D"font-family:verdana,san=
+s-serif;color:#000000"><br></div><div class=3D"gmail_default" style=3D"font=
+-family:verdana,sans-serif;color:#000000">My display is working fine now; t=
+hanks=C2=A0for your=C2=A0help.</div><div class=3D"gmail_default" style=3D"f=
+ont-family:verdana,sans-serif;color:#000000"><br></div><div><div dir=3D"ltr=
+" class=3D"gmail_signature" data-smartmail=3D"gmail_signature"><div dir=3D"=
+ltr"><div><font face=3D"verdana, sans-serif">Regards,<br></font></div><div>=
+<font face=3D"verdana, sans-serif">Pratik</font></div></div></div></div><br=
+></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr"=
+>On Tue, 21 Dec 2021 at 16:41, Gerd Hoffmann &lt;<a href=3D"mailto:kraxel@r=
+edhat.com">kraxel@redhat.com</a>&gt; wrote:<br></div><blockquote class=3D"g=
+mail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204=
+,204,204);padding-left:1ex">On Mon, Dec 20, 2021 at 10:44:06PM +0530, Prati=
+k Parvati wrote:<br>
+&gt; &gt; EDID is optional, so you can try disable the EDID feature bit and=
+ see<br>
+&gt; &gt; what happens.<br>
+&gt; <br>
+&gt; Thanks Gerd, after disabling the EDID, I was able to get the required<=
+br>
+&gt; resolution (basically width and height) from the driver.<br>
+&gt; <br>
+&gt; Another strange observation - When the device receives the<br>
+&gt; command VIRTIO_GPU_CMD_RESOURCE_ATTACH_BACKING with the number of<br>
+&gt; entries having a pixel data in scatter gather format, the device is tr=
+ying<br>
+&gt; to store these bytes in contiguous memory. When I read those sg memory=
+, the<br>
+&gt; device receives all zeros from the driver (for a 1024x768 display,<br>
+&gt; the device receives 3MB of data from the driver). Is this an expected<=
+br>
+&gt; behaviour? - If not, what is the driver trying to display on the scree=
+n?<br>
+<br>
+How about reading the virtio spec?<br>
+display updates are handled with transfer and flush commands.<br>
+<br>
+take care,<br>
+=C2=A0 Gerd<br>
+<br>
+</blockquote></div>
 
-It parses the former with qemu_opts_parse_noisily() into a QemuOpt
-stored in @qemu_device_opts.
-
-It parses the latter with qobject_from_json() into a QObject stored in
-@device_opts.  Yes, the names are confusing.
-
--set parses its argument into @group, @id, and @arg (the value).
-
-Before the patch, it uses @group and @id to look up the QemuOpt in
-@qemu_device_opts.  If found, it updates it with qemu_opt_set().
-
-By design, -set operates on the QemuOpts store.
-
-Options stored in @device_opts are not found.  Your patch tries to fix
-that.  Before I can explain what's wrong with it, I need more
-background.
-
-QemuOpts arguments are parsed as a set of (key, value) pairs, where the
-values are all strings (because qemu_device_opts.desc[] is empty).  We
-access them with a qobject_input_visitor_new_keyval() visitor.  This
-parses the strings according to the types being visited.
-
-Example: key=42 gets stored as {"key": "42"}.  If we visit it with
-visit_type_str(), we use string value "42".  If we visit it with
-visit_type_int() or similar, we use integer value 42.  If we visit it
-with visit_type_number(), we use double value 42.0.  If we visit it with
-something else, we error out.
-
-JSON arguments are parsed as arbitrary JSON object.  We access them with
-a qobject_input_visitor_new() visitor.  This expects the values to have
-JSON types appropriate for the types being visited.
-
-Example: {"key": "42"} gets stored as is.  Now everything but
-visit_type_str() errors out.
-
-Back to your patch.  It adds code to look up a QObject in @device_opts.
-If found, it updates it.
-
-Issue#1: it does so regardless of @group.
-
-Example:
-
-    $ qemu-system-x86_64 -nodefaults -S -display none -M q35,usb=on -device '{"driver": "usb-mouse", "id": "ms0"}' -set chardev.ms0.serial=456
-
-Here, -set chardev... gets misinterpreted as -set device...
-
-Issue#2 is the value to store in @device_opts.  Always storing a string,
-like in the QemuOpts case, would be wrong, because it works only when
-its accessed with visit_type_str(), i.e. the property is actually of
-string type.
-
-Example:
-
-    $ qemu-system-x86_64 -nodefaults -S -display none -M q35,usb=on -device '{"driver": "usb-mouse", "id": "ms0"}' -set device.ms0.serial=123
-
-    $ qemu-system-x86_64 -nodefaults -S -display none -M q35,usb=on -device '{"driver": "usb-mouse", "id": "ms0"}' -set device.ms0.msos-desc=off
-    qemu-system-x86_64: -device {"driver": "usb-mouse", "id": "ms0"}: Invalid parameter type for 'msos-desc', expected: boolean
-
-Your patch stores a boolean if possible, else a number if possible, else
-a string.  This is differently wrong.
-
-Example:
-
-    $ qemu-system-x86_64 -nodefaults -S -display none -M q35,usb=on -device '{"driver": "usb-mouse", "id": "ms0"}'
-
-Example:
-
-    $ qemu-system-x86_64 -nodefaults -S -display none -M q35,usb=on -device '{"driver": "usb-mouse", "id": "ms0"}' -set device.ms0.serial=123
-    qemu-system-x86_64: -device {"driver": "usb-mouse", "id": "ms0", "serial": "123"}: Invalid parameter type for 'serial', expected: string
-
-I can't see how -set can store the right thing.
-
-Aside: the error messages refer to -device instead of -set.  Known bug
-in -set, hard to fix.
-
-> diff --git a/util/qemu-option.c b/util/qemu-option.c
-> index eedd08929b..b2427cba9f 100644
-> --- a/util/qemu-option.c
-> +++ b/util/qemu-option.c
-> @@ -88,7 +88,7 @@ const char *get_opt_value(const char *p, char **value)
->      return offset;
->  }
->  
-> -static bool parse_option_number(const char *name, const char *value,
-> +bool parse_option_number(const char *name, const char *value,
->                                  uint64_t *ret, Error **errp)
->  {
->      uint64_t number;
-
+--00000000000012209d05d3a64a19--
 
