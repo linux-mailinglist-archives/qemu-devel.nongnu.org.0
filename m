@@ -2,70 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FFF247B898
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Dec 2021 03:53:14 +0100 (CET)
-Received: from localhost ([::1]:50744 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC6C847B8C5
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Dec 2021 03:59:28 +0100 (CET)
+Received: from localhost ([::1]:34240 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mzVH7-000782-NR
-	for lists+qemu-devel@lfdr.de; Mon, 20 Dec 2021 21:53:13 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54282)
+	id 1mzVNA-0006pk-3s
+	for lists+qemu-devel@lfdr.de; Mon, 20 Dec 2021 21:59:28 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54292)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mzVEM-0003hK-5o
+ id 1mzVEM-0003j6-Mf
  for qemu-devel@nongnu.org; Mon, 20 Dec 2021 21:50:22 -0500
-Received: from [2607:f8b0:4864:20::52d] (port=44924
- helo=mail-pg1-x52d.google.com)
+Received: from [2607:f8b0:4864:20::1029] (port=43565
+ helo=mail-pj1-x1029.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mzVEK-0000C3-6z
- for qemu-devel@nongnu.org; Mon, 20 Dec 2021 21:50:21 -0500
-Received: by mail-pg1-x52d.google.com with SMTP id m15so11016644pgu.11
- for <qemu-devel@nongnu.org>; Mon, 20 Dec 2021 18:50:19 -0800 (PST)
+ id 1mzVEL-0000Cd-0z
+ for qemu-devel@nongnu.org; Mon, 20 Dec 2021 21:50:22 -0500
+Received: by mail-pj1-x1029.google.com with SMTP id
+ a11-20020a17090a854b00b001b11aae38d6so1817611pjw.2
+ for <qemu-devel@nongnu.org>; Mon, 20 Dec 2021 18:50:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=F9yEwPrmR9xpxjbUMZcvWlIm4BrVKkXnEjUbM9qs6VM=;
- b=D8TZnIfLabC0AmpSuzjzLdtK0EWfT+HTror9COebxvSfFoRHkl1YGeEJyI0Wcpfxoe
- IjuOb7QEmLSp11PIsk2KsMdkFDSfGPVhPXzinYzwQ9nj9kdliJM877tGBU4w1hWmdlzZ
- QeVL4YaKjXkFb4YSMLWUMq8Pjwf8DaXbasXAJFu+jy6PzL47peoKYbrfqeZ96KHZrl40
- qz/WnFLdnLd91tD4vn9cbOjKyswNDyKmZu55rpooIwdXXAelgnG+lsUWceOF8ft9vXEB
- SlCbkAn37tnMHG5PN+UAU51JThg43Ncg9iOLetSiURpF0e0DD7ZcjLh5zAlw2ySM9NUe
- wNtg==
+ bh=iHsxRB8KyaG7WhuzCtkZtRVF4Ccf8PekyBx+hSykVAQ=;
+ b=rqalFPFkC7D6+9XeYByvlxdC413CYAZRlevg4Jbw3i3urdreKeqZwN4TWMEcQyTZfa
+ ulvpXxBwyi2aJHbZsK1kE5f3VNrVVac2x6tVI6kCBA85drwa7aRxI8M4kWwbSQZ8KRHZ
+ a2aKvrOZbzG7mhwLeWdhv1bK6khOydQJYuX8CWg9oUGUWAmwErt6ytQTRDmDeYRRJH7V
+ Qx14bXB+q/YPVw7uZsEeHTxKGNyLfaQ9Q7tSZ+QLVb2O1NYqwG8p5HaI7cw9/HeN+/fr
+ DgVLi5/WXMW519wM0cSl2dFX9GAmfNw3DzCr3ueehTcZ04y/pf/Qk4EF5ih2nFatTz7k
+ UZjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=F9yEwPrmR9xpxjbUMZcvWlIm4BrVKkXnEjUbM9qs6VM=;
- b=HP4xgqSYHhllqXq6UHMdsyAFqPSEtNhWDzFb0FK8Xlrh8CByrPiclAz2saZZFw+EsF
- Z2q81Ye5FFDkXXEXcRi/+R3ly23l1D9J3SAocIAVfCBfhcTT00sPpQf7enoJDg0cDDjL
- vFOs84UOuPQ9vU8Y/07IfL5Uh4Op9C3dBy7t3ZhRw3p4MRJamj/ey2hKxbN2GzX53t7M
- 3mLTpKW/9qh+mb4S6iBKiRdyZlQB/16jFagJvQ73Q2XfzwYS6d6Eiu+P125fYMk2yaia
- KPIvmQhCbHvNAJLZsdnh30LKdCnMSRRvC++izXsuqZ5ljieoERWvtx8Njjj/87Io6o3G
- mexA==
-X-Gm-Message-State: AOAM530mPv2zzbIvAsxw3B5fWS/I7t0ok8JdEF6JLbVN1R6/CV31I+Fa
- ajkJAV7pZfpRIfp1FxQql/zaNEEU+5tY0g==
-X-Google-Smtp-Source: ABdhPJxsqRoyVh2syVTmaMp7paIxU5zmdXoD8JSvBoX9syj+vknf0TQmf2A0KKK9Gd/DaDHNAlfVPg==
-X-Received: by 2002:a65:6411:: with SMTP id a17mr1043081pgv.203.1640055018869; 
- Mon, 20 Dec 2021 18:50:18 -0800 (PST)
+ bh=iHsxRB8KyaG7WhuzCtkZtRVF4Ccf8PekyBx+hSykVAQ=;
+ b=N5aij3X96hWGrWCjZmK3BpEJhFuQ6w4F8zUl7TLGBSZNA7UsCYODyh3orPlLTYwYNI
+ BAuLuEqBuAKBPgzBXsdE1fr85LutBYJhyLG/kb8BbjbIEqY1iDGulUOmexXW9k7Fyw74
+ 0sjvgI9wm6MlP2yf4JK3IJeK3TpCbST7WipKPNnz8bOrYQcn2Tcj/acI0TMoZj2IuyJ6
+ 8Y+Pv3IZofRs9+UsIRvd/dV3pl/XeLm1j5oInsfQ+5HFqMH1unEZHcr8VuHQSs03BTW9
+ o+54NcecHY8kNwZyUcx2nswLxN6yq0raocALAZL+GmySA/7lQ3Lxs2eC/IXD+zpRy90t
+ PHTw==
+X-Gm-Message-State: AOAM5323iALJNlRYgpYqbICia4i7ytnmQPvuo0+fx3qr7z85Xaf04Az/
+ CPNGy+/aqBoKLjc+Q4zOv8XH8IhppmUJ0Q==
+X-Google-Smtp-Source: ABdhPJxZtgqBmmYvOMYz1Wsw/TIITg0lHsVAMufXwQV9so6ac6cvqK0zQZEEI8/hk0Vphw/Q6+ge0A==
+X-Received: by 2002:a17:90b:1c0b:: with SMTP id
+ oc11mr1349168pjb.174.1640055019680; 
+ Mon, 20 Dec 2021 18:50:19 -0800 (PST)
 Received: from localhost.localdomain ([156.19.246.20])
- by smtp.gmail.com with ESMTPSA id bg23sm694025pjb.24.2021.12.20.18.50.18
+ by smtp.gmail.com with ESMTPSA id bg23sm694025pjb.24.2021.12.20.18.50.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Dec 2021 18:50:18 -0800 (PST)
+ Mon, 20 Dec 2021 18:50:19 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 5/7] linux-user/nios2: Fix EA vs PC confusion
-Date: Mon, 20 Dec 2021 18:50:10 -0800
-Message-Id: <20211221025012.1057923-6-richard.henderson@linaro.org>
+Subject: [PATCH v2 6/7] linux-user/nios2: Fix sigmask in setup_rt_frame
+Date: Mon, 20 Dec 2021 18:50:11 -0800
+Message-Id: <20211221025012.1057923-7-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211221025012.1057923-1-richard.henderson@linaro.org>
 References: <20211221025012.1057923-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::52d
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1029
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1029.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -89,67 +91,28 @@ Cc: laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The real kernel will talk about the user PC as EA,
-because that's where the hardware will have copied it,
-and where it expects to put it to then use ERET.
-But qemu does not emulate all of the exception stuff
-while emulating user-only.  Manipulate PC directly.
+Do not cast the signal mask elements; trust __put_user.
 
-This fixes signal entry and return, and eliminates
-some slight confusion from target_cpu_copy_regs.
-
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/nios2/cpu_loop.c | 5 +----
- linux-user/nios2/signal.c   | 6 +++---
- 2 files changed, 4 insertions(+), 7 deletions(-)
+ linux-user/nios2/signal.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/linux-user/nios2/cpu_loop.c b/linux-user/nios2/cpu_loop.c
-index de0fc63e21..1e93ef34e6 100644
---- a/linux-user/nios2/cpu_loop.c
-+++ b/linux-user/nios2/cpu_loop.c
-@@ -155,9 +155,6 @@ void target_cpu_copy_regs(CPUArchState *env, struct target_pt_regs *regs)
-     env->regs[R_SP] = regs->sp;
-     env->regs[R_GP] = regs->gp;
-     env->regs[CR_ESTATUS] = regs->estatus;
--    env->regs[R_EA] = regs->ea;
--    /* TODO: unsigned long  orig_r7; */
--
--    /* Emulate eret when starting thread. */
-     env->regs[R_PC] = regs->ea;
-+    /* TODO: unsigned long  orig_r7; */
- }
 diff --git a/linux-user/nios2/signal.c b/linux-user/nios2/signal.c
-index adbffe32e3..20b65aa06e 100644
+index 20b65aa06e..80e3d42fc9 100644
 --- a/linux-user/nios2/signal.c
 +++ b/linux-user/nios2/signal.c
-@@ -73,7 +73,7 @@ static void rt_setup_ucontext(struct target_ucontext *uc, CPUNios2State *env)
-     __put_user(env->regs[R_RA], &gregs[23]);
-     __put_user(env->regs[R_FP], &gregs[24]);
-     __put_user(env->regs[R_GP], &gregs[25]);
--    __put_user(env->regs[R_EA], &gregs[27]);
-+    __put_user(env->regs[R_PC], &gregs[27]);
-     __put_user(env->regs[R_SP], &gregs[28]);
- }
+@@ -168,8 +168,7 @@ void setup_rt_frame(int sig, struct target_sigaction *ka,
+     target_save_altstack(&frame->uc.tuc_stack, env);
+     rt_setup_ucontext(&frame->uc, env);
+     for (i = 0; i < TARGET_NSIG_WORDS; i++) {
+-        __put_user((abi_ulong)set->sig[i],
+-                   (abi_ulong *)&frame->uc.tuc_sigmask.sig[i]);
++        __put_user(set->sig[i], &frame->uc.tuc_sigmask.sig[i]);
+     }
  
-@@ -122,7 +122,7 @@ static int rt_restore_ucontext(CPUNios2State *env, struct target_ucontext *uc,
-     __get_user(env->regs[R_GP], &gregs[25]);
-     /* Not really necessary no user settable bits */
-     __get_user(temp, &gregs[26]);
--    __get_user(env->regs[R_EA], &gregs[27]);
-+    __get_user(env->regs[R_PC], &gregs[27]);
- 
-     __get_user(env->regs[R_RA], &gregs[23]);
-     __get_user(env->regs[R_SP], &gregs[28]);
-@@ -181,7 +181,7 @@ void setup_rt_frame(int sig, struct target_sigaction *ka,
-     env->regs[4] = sig;
-     env->regs[5] = frame_addr + offsetof(struct target_rt_sigframe, info);
-     env->regs[6] = frame_addr + offsetof(struct target_rt_sigframe, uc);
--    env->regs[R_EA] = ka->_sa_handler;
-+    env->regs[R_PC] = ka->_sa_handler;
- 
-     unlock_user_struct(frame, frame_addr, 1);
- }
+     /* Set up to return from userspace; jump to fixed address sigreturn
 -- 
 2.25.1
 
