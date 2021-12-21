@@ -2,91 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 344F847BBF7
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Dec 2021 09:38:21 +0100 (CET)
-Received: from localhost ([::1]:58052 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3B8147BC08
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Dec 2021 09:45:22 +0100 (CET)
+Received: from localhost ([::1]:33444 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mzaf6-0004ar-1g
-	for lists+qemu-devel@lfdr.de; Tue, 21 Dec 2021 03:38:20 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46896)
+	id 1mzalt-0007KM-Ku
+	for lists+qemu-devel@lfdr.de; Tue, 21 Dec 2021 03:45:21 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48096)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mzady-0003vt-7J
- for qemu-devel@nongnu.org; Tue, 21 Dec 2021 03:37:10 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51896)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mzadw-0004TU-Po
- for qemu-devel@nongnu.org; Tue, 21 Dec 2021 03:37:09 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1640075828;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=k6HGe2iHzKLJq0WSa6S9ZAjcDctXFSBqUyHHxuZkkhM=;
- b=K3Wn4zi5qf4On1p913S7LsPsfsd7wAs/Y5NKRSc0DouBOvsgWuYxr74iUDaYjxsujTT5Bi
- q/PIPpfhuJonqk9tXfOGBKi1XlUU4lfo427xg4Qky2H7fv/2hWVs3vfMFf1/rBzeODpNDh
- fu2hzJxFbSjz8F/DG2E8dgfyKfIvsxs=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-328-sgjN0HONN6G1pKljSWZI9w-1; Tue, 21 Dec 2021 03:37:05 -0500
-X-MC-Unique: sgjN0HONN6G1pKljSWZI9w-1
-Received: by mail-wm1-f69.google.com with SMTP id
- b75-20020a1c804e000000b0034569bde713so921289wmd.9
- for <qemu-devel@nongnu.org>; Tue, 21 Dec 2021 00:37:05 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mzaki-0006dH-4Y
+ for qemu-devel@nongnu.org; Tue, 21 Dec 2021 03:44:08 -0500
+Received: from [2a00:1450:4864:20::52a] (port=33476
+ helo=mail-ed1-x52a.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mzakg-0005ER-HK
+ for qemu-devel@nongnu.org; Tue, 21 Dec 2021 03:44:07 -0500
+Received: by mail-ed1-x52a.google.com with SMTP id m21so21889628edc.0
+ for <qemu-devel@nongnu.org>; Tue, 21 Dec 2021 00:44:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=k6HGe2iHzKLJq0WSa6S9ZAjcDctXFSBqUyHHxuZkkhM=;
- b=ZPota2duMvHSA7z6sORvKvbyLTE0TTBMkX/umxNnROQTSEhrTQxxrqxxwomzYYIEvp
- EMM/YyBe+1hjqcd1q7g5wTmdaLvtEDUUckkSVtWGjSmeOSFXLV7gY+WpFrhf3WZpUNet
- CEiOW0OlYSYX3dEjZRGxk/7wjXrHZ3eg6FvQ2Ooy5J2dG7ySJNMijBEKC2wXv7QiT4ek
- VnlhVnh7kYSq9ZOM16vWDCJuoLB9eVbMbs88IdUvqHtcNeXnhMy0uyvmnFCm83ud3Pia
- Vct4EYXAuiasSYi9vrUNihFmP9bmgdmBclbU+Ez2KiSh6BidzJdsWI/a5NZbaznSvIWV
- BCuQ==
-X-Gm-Message-State: AOAM532vGzdigzPBgNqWM91VBOIeFDShJCY+nHOnNVt1qvxngFbUSOml
- 5B4sjtvqpySUO58hwYAdIHWGoaj/7BkUZ08JySaltGzb3ah2KiRfx2CuomOH7aTOFBfpkLmJxGr
- gx7/ogHAUW+W0khs=
-X-Received: by 2002:a5d:548a:: with SMTP id h10mr1708332wrv.221.1640075823157; 
- Tue, 21 Dec 2021 00:37:03 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxeYrcEtRmaYzvtvuJiWwjlsyyfRvgmm6e04G/KvBp6cVESBUQFLDn6+TVPF/2d+3It0yOcMQ==
-X-Received: by 2002:a5d:548a:: with SMTP id h10mr1708315wrv.221.1640075822939; 
- Tue, 21 Dec 2021 00:37:02 -0800 (PST)
+ bh=VK/KxQIp0sjIXfuTWf26EdWXni+5pVFfFQ4nftbLMf8=;
+ b=FA+U6uGsW5jIzhUTYi9geGD2gNBBp1gICmJZtpZgHRRCufauqcfrLJen7XAxBKS/R8
+ bANKJtQl2NChMITK96Veqzjfo61/OiKv5RCUyMOBTObhqMxFXEtHoGcLb18ZkGPHHkAq
+ j/01KXqCg4ZHJJ+3y1cYJ3viEm6IBXRFw2tucP+NrE4DOwl3UhjHpGlXDSZJiDlIm0v6
+ yivskjxY7NYYp3AZ7MDEItqsoF4kU1zI4nE+to+XWrqJ9qd8qgHsHUDnUQGypYct4hXY
+ h9Jou4JXTcZECABteGJLC5FR/dyGEavjX1ery0f/kmVl6RxFwG7Dmwsk3j3zhNAN7PtA
+ eWnQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=VK/KxQIp0sjIXfuTWf26EdWXni+5pVFfFQ4nftbLMf8=;
+ b=tlNG6UvhybX9wfLkTGuhY2idokEEkATG1zfho3tnUvhhXUfcD1ZNs8AX0/gIR6NJgf
+ pGv4rK4B79qU+ExoBpUWuXLT0OnDZYrRcU5M73HdUoHT/M43GvZRBlKwTVrqxrSaAfdH
+ IX1BzkgYrGojR0ynaUXVNWBMz26WEd3Od4MBZRBiwZD7fEV4tHBv4vQjjKDICiwf4Spj
+ k2nn7QifsgCeTeH/M8U6d499cmVHOI9RxLkz6MoJo1AbHoZ0ogQAYSe1y+yO7ObjH/yD
+ lGOCM4IFZE3Q79R8g27KDYnby0prBEJC/OCVItMMNcPpFh3b0GwcEyC/uPwWSTNCstvl
+ c15w==
+X-Gm-Message-State: AOAM531Vjk9Ye7pHlEG3TN0LgPhPBMICUVR+rtYb/sKcaWioWkd5OPRu
+ SSUhz+Rah4f8shpFjUUWl28=
+X-Google-Smtp-Source: ABdhPJyn/y3kK1Zb6t3r2NimLmCb8iy9KRDSv8AfQ+62wAxrI31YEshShXYNrcA/6Lje/aCwjmYHdw==
+X-Received: by 2002:a05:6402:8d9:: with SMTP id
+ d25mr2193382edz.283.1640076244106; 
+ Tue, 21 Dec 2021 00:44:04 -0800 (PST)
 Received: from [192.168.1.36] (174.red-83-50-185.dynamicip.rima-tde.net.
  [83.50.185.174])
- by smtp.gmail.com with ESMTPSA id e4sm17091592wrh.56.2021.12.21.00.37.02
+ by smtp.gmail.com with ESMTPSA id d14sm7820791edu.57.2021.12.21.00.44.02
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 21 Dec 2021 00:37:02 -0800 (PST)
-Message-ID: <3a5ead42-0dbb-2dd0-7a71-9daa9e1aaa80@redhat.com>
-Date: Tue, 21 Dec 2021 09:37:01 +0100
+ Tue, 21 Dec 2021 00:44:03 -0800 (PST)
+Message-ID: <e0e4f331-6c40-bce4-fa7d-898fbe74f962@amsat.org>
+Date: Tue, 21 Dec 2021 09:44:02 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.4.0
-Subject: Re: [RFC v2 1/2] migration: Introduce ram_transferred_add()
-To: David Edmondson <david.edmondson@oracle.com>, qemu-devel@nongnu.org
-References: <20211220093413.1383190-1-david.edmondson@oracle.com>
- <20211220093413.1383190-2-david.edmondson@oracle.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <20211220093413.1383190-2-david.edmondson@oracle.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Subject: Re: [PATCH v11 00/31] LoongArch64 port of QEMU TCG
 Content-Language: en-US
+To: WANG Xuerui <git@xen0n.name>, qemu-devel@nongnu.org
+References: <20211221054105.178795-1-git@xen0n.name>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+In-Reply-To: <20211221054105.178795-1-git@xen0n.name>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -49
-X-Spam_score: -5.0
-X-Spam_bar: -----
-X-Spam_report: (-5.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.203,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.012, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52a
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x52a.google.com
+X-Spam_score_int: -26
+X-Spam_score: -2.7
+X-Spam_bar: --
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-2.012,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,36 +93,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ XiaoJuan Yang <yangxiaojuan@loongson.cn>, Huacai Chen <chenhuacai@kernel.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>, Song Gao <gaosong@loongson.cn>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/20/21 10:34, David Edmondson wrote:
-> ...and use it.
-
-FYI Not all mails readers / git tools display subject along
-with content, so it is more helpful to rewrite the subject.
-
-> Signed-off-by: David Edmondson <david.edmondson@oracle.com>
-> ---
->  migration/ram.c | 23 ++++++++++++++---------
->  1 file changed, 14 insertions(+), 9 deletions(-)
+On 12/21/21 06:40, WANG Xuerui wrote:
+> Hi all,
 > 
-> diff --git a/migration/ram.c b/migration/ram.c
-> index 57efa67f20..bd53e50a7f 100644
-> --- a/migration/ram.c
-> +++ b/migration/ram.c
-> @@ -386,6 +386,11 @@ uint64_t ram_bytes_remaining(void)
->  
->  MigrationStats ram_counters;
->  
-> +static void ram_transferred_add(uint64_t bytes)
-> +{
-> +    ram_counters.transferred += bytes;
-> +}
+> This is a port of QEMU TCG to the brand-new CPU architecture LoongArch,
+> introduced by Loongson with their 3A5000 chips.
+> 
+> Everything is tested on real 3A5000 board (system emulation, linux-user,
+> make check) and GitLab (CI jobs), and rebased to latest master branch.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> ## How to build and test this
 
+> As for the hardware availability, the boards can already be bought in
+> China on Taobao, and I think some people at Loongson might be able to
+> arrange for testing environments, if testing on real hardware other than
+> mine is required before merging; they have their in-house Debian spin-off
+> from the early days of this architecture. Their kernel is
+> ABI-incompatible with the version being upstreamed and used by me, but
+> QEMU should work there regardless.
+
+I took few hours to translate and read all Taobao contracts before
+registering, then got blacklisted at my first login... Maybe others
+will get more luck.
+
+Having someone at Loongson helping with hardware is certainly easier
+for the community.
+
+> Lastly, I'm new to QEMU development and this is my first patch series
+> here; apologizes if I get anything wrong, and any help or suggestion is
+> certainly appreciated!
+
+For a first patch series, this is an impressive one...
+
+Regards,
+
+Phil.
 
