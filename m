@@ -2,76 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D01F547BEFE
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Dec 2021 12:33:07 +0100 (CET)
-Received: from localhost ([::1]:44270 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEE6747BF02
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Dec 2021 12:34:12 +0100 (CET)
+Received: from localhost ([::1]:47600 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mzdOE-0005PK-UZ
-	for lists+qemu-devel@lfdr.de; Tue, 21 Dec 2021 06:33:06 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50700)
+	id 1mzdPG-0007cP-3r
+	for lists+qemu-devel@lfdr.de; Tue, 21 Dec 2021 06:34:10 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50920)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mzdM2-0003tT-4n
- for qemu-devel@nongnu.org; Tue, 21 Dec 2021 06:30:51 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44284)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mzdNi-0005a6-AU
+ for qemu-devel@nongnu.org; Tue, 21 Dec 2021 06:32:34 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:45426)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mzdLz-0000IM-TD
- for qemu-devel@nongnu.org; Tue, 21 Dec 2021 06:30:49 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mzdNf-0000Uz-SU
+ for qemu-devel@nongnu.org; Tue, 21 Dec 2021 06:32:33 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1640086246;
+ s=mimecast20190719; t=1640086351;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rKAjn8bEqgRpgeer+vFbaZ1g+Yv+w6uVK1j6QgN6npQ=;
- b=D/ckncHsprUEJ4pOFA5HYG91yWAQeAH7rIXChuh+E5FsllICtAxyrc9Fi3vICrlPpycFIn
- 5LA1BiP4Jd4qep9AGaBrpgeVRzB6OBMuAKkviPKGgkXBGSNggBXxQ9OeVNce1jN0554iZe
- BYMIzYMQI0ScRkRbZM44y8R2JA2hclI=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=fbLB254ObcjDasYwQ/U5UBROfP1oxslzH3mFClRR+L0=;
+ b=NNg/znFcXqHclcop4eqF/qjMZgWvibK9pz0i8RXNx1CvfNril/gyOZ7oFzBKnPMUQDL4+c
+ ZO5FjgBmHNn0eygaUQXwVilVyDR7zzc5OrN/koF8w1bPNYcwS1ApI+PiBcMu4QjeoAbq4s
+ mK5D8CQCR5UpD3PUxrtVBn1ddGRe7ug=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-634-N4FAYWSZM3yxaqdOvHKErA-1; Tue, 21 Dec 2021 06:30:45 -0500
-X-MC-Unique: N4FAYWSZM3yxaqdOvHKErA-1
-Received: by mail-ed1-f71.google.com with SMTP id
- f20-20020a056402355400b003f81df0975bso9121395edd.9
- for <qemu-devel@nongnu.org>; Tue, 21 Dec 2021 03:30:45 -0800 (PST)
+ us-mta-561-tPsgEF6DNQeW0U3qJcgEJA-1; Tue, 21 Dec 2021 06:32:26 -0500
+X-MC-Unique: tPsgEF6DNQeW0U3qJcgEJA-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ eg23-20020a056402289700b003f80a27ca2bso10191561edb.14
+ for <qemu-devel@nongnu.org>; Tue, 21 Dec 2021 03:32:25 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=rKAjn8bEqgRpgeer+vFbaZ1g+Yv+w6uVK1j6QgN6npQ=;
- b=2Mr/CXnPvwQXQI60I1URZf9kgL1NqVHLp3NGMgm+jeMFE/QC0DKXp9UMHoJ/M0oq4X
- s54d+ISSZ3UM2Q86fuCOxgYlkOdJIhWKKzgVaeKkB7MfDYuqyzXVm0qCJK/pWpJSYry+
- ynwHuOkxab54RHRLS4Jlvoc9AtxFK9Gbw70zbp5aa+v/cVDUPMP4xW2GTJFxRUztvF80
- o4PlJ/+qgPXZVnN2ZBeuaqTscMAznQkDqfbqnpVMbU2ytu2JKTG/CSaaH35o9Zr7J5kI
- j7friIy5Dv7NbtN3t0aFZbwrmKS6TtdNUs219ecG9Dzv+4NwAWYC+narWwb/5jEStly/
- sKxw==
-X-Gm-Message-State: AOAM530qd+dDXc6xufAE36XtwAwKGhJP50mVXANlehuGG6XpeQFcfcfh
- bJFt38xZl1rfXwWDTkRHUDb7ormmSIG7yoJTKn9Cv1itOaGDea0rlYg5ZS26r3XelvsrEU4dpbk
- ZJ1n6tKbwq9Bw/G8=
-X-Received: by 2002:a50:c3c8:: with SMTP id i8mr2674036edf.350.1640086244415; 
- Tue, 21 Dec 2021 03:30:44 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJz0g4m5+e7o9hlSJgqs6lO90tWLpegudIJ43zfU0eUDxjHnRfdWSdrH37xgGpClweYHBOsf8g==
-X-Received: by 2002:a50:c3c8:: with SMTP id i8mr2674025edf.350.1640086244194; 
- Tue, 21 Dec 2021 03:30:44 -0800 (PST)
+ bh=fbLB254ObcjDasYwQ/U5UBROfP1oxslzH3mFClRR+L0=;
+ b=6xG10tZv3gQauH8t5kMNTtNRLFLOmsbmQD2xgTU8A+mVNT6sw1qRVFxyYr0cF+BTpK
+ AUp8N4v0S4Mo3X3DBDMiWDcF6stc1Q8RbayZYIlmjsNWcQoads2FinbNT1S5z9TISijs
+ ntsScDYEJ3JAywTRBecbg8QR0mUGn441/J25RfWi6xjXvDixAH+ulFWQSyDWPFIBFK/1
+ ljLuxlAUhzNwH2Y4nObIYvuoN/2Iu0un59DMv1DB+HsAelLJoUfS4ChQS9Et2sVstJs/
+ Tc2mHG7T3JRqUmDT6eef4jD6Dc+y0dGljibL2W+82LLMO8AjxmUZF5MtFohybqLI7rVT
+ SDlw==
+X-Gm-Message-State: AOAM531SkEN9HNGoFJCe4AH1M97q+jI6VEJ5bl1mahH33LgyD8MnwBj5
+ N8ShUf09l1JHRdPRDKjj4JcnWT9ECbzeSARIFSiN+bnHT4n13ki0SMiXcagN2/Gz4gRq0GPluD0
+ rqiq9KPxW8PkI848=
+X-Received: by 2002:a17:906:c156:: with SMTP id
+ dp22mr2413887ejc.36.1640086343396; 
+ Tue, 21 Dec 2021 03:32:23 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwqQdGM3NDuwXhK+izHRe++GAVzYS8v8oAICL9ttIh89nVS0CjvtK9VHw4SWyF2U3mF9KhxXg==
+X-Received: by 2002:a17:906:c156:: with SMTP id
+ dp22mr2413870ejc.36.1640086343149; 
+ Tue, 21 Dec 2021 03:32:23 -0800 (PST)
 Received: from [192.168.1.36] (174.red-83-50-185.dynamicip.rima-tde.net.
  [83.50.185.174])
- by smtp.gmail.com with ESMTPSA id a3sm6472930ejd.16.2021.12.21.03.30.43
+ by smtp.gmail.com with ESMTPSA id qk40sm6443376ejc.2.2021.12.21.03.32.22
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 21 Dec 2021 03:30:43 -0800 (PST)
-Message-ID: <b3d31418-5492-4dd0-3b3c-89bc0605a9bc@redhat.com>
-Date: Tue, 21 Dec 2021 12:30:42 +0100
+ Tue, 21 Dec 2021 03:32:22 -0800 (PST)
+Message-ID: <eeac2c24-eed9-0764-1ff3-6b5291014edb@redhat.com>
+Date: Tue, 21 Dec 2021 12:32:22 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.4.0
-Subject: Re: [PATCH 5/8] configure: move non-command-line variables away from
- command-line parsing section
+Subject: Re: [PATCH 8/8] meson: add comments in the target-specific flags
+ section
 To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
 References: <20211221110526.351709-1-pbonzini@redhat.com>
- <20211221110526.351709-6-pbonzini@redhat.com>
+ <20211221110526.351709-9-pbonzini@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <20211221110526.351709-6-pbonzini@redhat.com>
+In-Reply-To: <20211221110526.351709-9-pbonzini@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -79,7 +81,7 @@ X-Mimecast-Originator: redhat.com
 Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -49
 X-Spam_score: -5.0
@@ -106,12 +108,10 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 12/21/21 12:05, Paolo Bonzini wrote:
-> This makes it easier to identify candidates for moving to Meson.
-> 
 > Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 > ---
->  configure | 13 ++++++-------
->  1 file changed, 6 insertions(+), 7 deletions(-)
+>  meson.build | 5 +++++
+>  1 file changed, 5 insertions(+)
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
