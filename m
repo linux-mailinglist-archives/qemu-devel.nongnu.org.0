@@ -2,85 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7160647C1EC
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Dec 2021 15:52:56 +0100 (CET)
-Received: from localhost ([::1]:42684 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB0CD47C1EF
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Dec 2021 15:54:07 +0100 (CET)
+Received: from localhost ([::1]:46736 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mzgVb-0006Gq-I0
-	for lists+qemu-devel@lfdr.de; Tue, 21 Dec 2021 09:52:55 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38270)
+	id 1mzgWk-0000Yc-MY
+	for lists+qemu-devel@lfdr.de; Tue, 21 Dec 2021 09:54:06 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37938)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mzgSg-0002uw-B2
- for qemu-devel@nongnu.org; Tue, 21 Dec 2021 09:49:54 -0500
-Received: from [2a00:1450:4864:20::32c] (port=56240
- helo=mail-wm1-x32c.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mzgSe-0004Zu-Rh
- for qemu-devel@nongnu.org; Tue, 21 Dec 2021 09:49:54 -0500
-Received: by mail-wm1-x32c.google.com with SMTP id c66so5519759wma.5
- for <qemu-devel@nongnu.org>; Tue, 21 Dec 2021 06:49:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=hfYdyu2Elm4lUPXVaLMD/yFNwrvrJlqP0PZwH8+TGIg=;
- b=DhNejIu0Ofdd4QTpvE9/4BAGeTWcUL+G69TudHiQ2zfOy/y3CNEEweHjgkZIh22Ztd
- rqclAXDBgFMWLAxo2BMP7jjuwpGrlSm3qwq9SVR42qraIP6wxmoeV6Cw/pjMVK0TARCp
- QgoqlD0iPUHkPTnuDw97ViYJsKiRFt+hUlN+0Wow2ASfX1/MdXEkPFTtcyx1s9HTo1M/
- VPvZGwdm28hFCr/nTcQdGQzzpOENW9ilocPLOzf/UvZYn5S0daGyJh5D+WoVpOV1S4Ai
- eTLUGXO+5MXZTWDQ62cyi42lLO4WBX0vebLj8XvObXGiahHaT/EDmRKQWZj9W9yjr4MU
- /wWw==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mzgRu-0001o1-LR
+ for qemu-devel@nongnu.org; Tue, 21 Dec 2021 09:49:06 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:37623)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mzgRp-0004SA-NQ
+ for qemu-devel@nongnu.org; Tue, 21 Dec 2021 09:49:03 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1640098141;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+ bh=rwUflEIkdrtBW9gN6vAvUmklzOlP8P84Kn3du2hxPdQ=;
+ b=Gs/u5MouKkOk9w+/TaHmnziF2r943T+t9PjslpblnJkMje5RhZiR5Aro4B+mrOxVHprDUS
+ 2muKFRAP/l2mL+GnEetllE6KS4yBUhfJeS/krjFNLdahmsHVCcP0PLzgBoKfSLQUxONwO2
+ TrYa2ng6pvdlZ/7sk+ta6MJwMI0Hdcg=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-671-7fDhAvq_MsiQMzL1oTXFHQ-1; Tue, 21 Dec 2021 09:49:00 -0500
+X-MC-Unique: 7fDhAvq_MsiQMzL1oTXFHQ-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ d7-20020aa7ce07000000b003f84e9b9c2fso5681145edv.3
+ for <qemu-devel@nongnu.org>; Tue, 21 Dec 2021 06:48:59 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=hfYdyu2Elm4lUPXVaLMD/yFNwrvrJlqP0PZwH8+TGIg=;
- b=m/ZSIPSqT8Agvru7MvqND0HM45aA09VVJ025r+NtXp9ieJe62W7KVWPLQO1h7IX9RN
- l/ugxqSr4n45MDdSb/hXsy1SPsd71wVRZvgzPSM6VG5DXfQQJbBXMV3eOYOIkBuiNECR
- 92tTb6l+dWtQ4HgEHdGykH/B68JRxszMkuDmFSlRXwS5GWAzc8TWypsE/f3VblJ+/XVO
- ZVd+iC1Vnk65vigCcMKW5ehSDBEJvmNDsnWikUZNWg95WdU7KXe8Q2/i3CA1N3ypshMO
- q3AvftLcpc790wJ7g2+60pT3XGUzHrKenr35JUfuSLWH0E/D+iFlIJUVH0RyXYzFSMyz
- 0tEQ==
-X-Gm-Message-State: AOAM531OfeqToQ7xsGFRJsRy76D7B/BEtV2rF2eMRstgXbUZckitVcA8
- nzjsV6zB1o09pPTE692LWBU=
-X-Google-Smtp-Source: ABdhPJwLd3T8JyGP1Sno8hxjoOzIE3lQTG4T1HndQqFkRiJD1OowyPMVHd3PTviA+2SL3iqxIvLVoA==
-X-Received: by 2002:a1c:f316:: with SMTP id q22mr3066555wmq.33.1640098191228; 
- Tue, 21 Dec 2021 06:49:51 -0800 (PST)
-Received: from [192.168.10.117] ([93.56.169.52])
- by smtp.googlemail.com with ESMTPSA id b10sm18952414wrg.19.2021.12.21.06.49.50
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 21 Dec 2021 06:49:50 -0800 (PST)
-Message-ID: <1b8249e6-ffe1-86e4-a2e8-c85c794438e0@redhat.com>
-Date: Tue, 21 Dec 2021 15:47:41 +0100
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+ :content-disposition;
+ bh=rwUflEIkdrtBW9gN6vAvUmklzOlP8P84Kn3du2hxPdQ=;
+ b=1JLurGJ9xd75qVL3J7ucLbRUrfJqBKujhCYsycqz1RO/DCwFe8YbZRvfW7ojEaxsaN
+ 1pNUayONMCNZ1pb2lZyehJ7o6ExjWrC2WZWw2m17BPCHfketWGDxIGApzXZCLkxpwN4w
+ t0BK2xrpXzq4ZBh3w3oeJkIj7YOFJmymw8n0bTgswC8cEiLL03CiTz8ZxgTfHtS3Fl/V
+ Hpa+rJHImFNDAI/b575R71yImNoWtuZnazggHE1yRyrcsjvC2C135I1PO9zA+5MBLBdV
+ TfVN0kKjGhthjIlepFUJykO6ZbUX2wTJuxEWgAg5lJf66YNZUbCD7cGS0hMkpTYgQwB3
+ 5ysQ==
+X-Gm-Message-State: AOAM530sUctSv4XzKlaYgP8Bhg8tTWIbO3MLc5iGLTw4zeS0GTovPRwV
+ hprfGjMu5OIgDfMm4BHLmwESnR+Rh/wVX0UqW7i+wrislXryCG/Ozyt4ekt0gfA0Se2v1Z6Nl6q
+ Ij30fK8JTCrXeBDlIk0b4/rJV0KVOm3jlzv7wcgWUw34IFAEVwNKkfMtJD2zW
+X-Received: by 2002:a17:906:4407:: with SMTP id
+ x7mr2894596ejo.51.1640098138465; 
+ Tue, 21 Dec 2021 06:48:58 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwkYo7mzoldbVpdbh9m9rE8EOYcMoaOUmIGZid7jIAdylYgxq/fI6ew+rmGdQdHv02jQUl70A==
+X-Received: by 2002:a17:906:4407:: with SMTP id
+ x7mr2894580ejo.51.1640098138217; 
+ Tue, 21 Dec 2021 06:48:58 -0800 (PST)
+Received: from redhat.com ([2a0e:1c80:7::36])
+ by smtp.gmail.com with ESMTPSA id lv19sm2467692ejb.102.2021.12.21.06.48.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 21 Dec 2021 06:48:57 -0800 (PST)
+Date: Tue, 21 Dec 2021 09:48:54 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] acpi: validate hotplug selector on access
+Message-ID: <20211221144852.589983-1-mst@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH] vl: Add -set options to device opts dict when using JSON
- syntax for -device
-Content-Language: en-US
-To: Markus Armbruster <armbru@redhat.com>, MkfsSion <mkfssion@mkfssion.com>
-References: <20211221071818.34731-1-mkfssion@mkfssion.com>
- <877dbyjj0t.fsf@dusky.pond.sub.org> <87h7b2i07h.fsf@dusky.pond.sub.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <87h7b2i07h.fsf@dusky.pond.sub.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32c
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x32c.google.com
-X-Spam_score_int: -26
-X-Spam_score: -2.7
-X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-2.012,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
+X-Mutt-Fcc: =sent
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.203,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,20 +93,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org
+Cc: Ani Sinha <ani@anisinha.ca>, Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/21/21 13:58, Markus Armbruster wrote:
->> Is this a regression?  I suspect commit 5dacda5167 "vl: Enable JSON
->> syntax for -device" (v6.2.0).
-> Obviously not a regression: everything that used to work still works.
-> 
+When bus is looked up on a pci write, we didn't
+validate that the lookup succeeded.
+Fuzzers thus can trigger QEMU crash by dereferencing the NULL
+bus pointer.
 
-FWIW I think -set should be deprecated.  I'm not aware of any 
-particularly useful use of it.  There are a couple in the QEMU tests (in 
-vhost-user-test and in qemu-iotests 068), but in both cases the code 
-would be easier to follow without; patches can be dusted off if desired.
+Fixes: b32bd763a1 ("pci: introduce acpi-index property for PCI device")
+Cc: "Igor Mammedov" <imammedo@redhat.com>
+Fixes: https://gitlab.com/qemu-project/qemu/-/issues/770
+Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+---
+ hw/acpi/pcihp.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-Paolo
+diff --git a/hw/acpi/pcihp.c b/hw/acpi/pcihp.c
+index 30405b5113..a5e182dd3a 100644
+--- a/hw/acpi/pcihp.c
++++ b/hw/acpi/pcihp.c
+@@ -491,6 +491,9 @@ static void pci_write(void *opaque, hwaddr addr, uint64_t data,
+         }
+ 
+         bus = acpi_pcihp_find_hotplug_bus(s, s->hotplug_select);
++        if (!bus) {
++            break;
++        }
+         QTAILQ_FOREACH_SAFE(kid, &bus->qbus.children, sibling, next) {
+             Object *o = OBJECT(kid->child);
+             PCIDevice *dev = PCI_DEVICE(o);
+-- 
+MST
+
 
