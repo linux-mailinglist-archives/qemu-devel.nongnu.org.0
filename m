@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 402F247C03A
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Dec 2021 13:58:29 +0100 (CET)
-Received: from localhost ([::1]:59208 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41E5047C03C
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Dec 2021 13:59:44 +0100 (CET)
+Received: from localhost ([::1]:35494 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mzeiq-0007rm-C2
-	for lists+qemu-devel@lfdr.de; Tue, 21 Dec 2021 07:58:28 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38250)
+	id 1mzek3-0002RC-10
+	for lists+qemu-devel@lfdr.de; Tue, 21 Dec 2021 07:59:43 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38262)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1mzef7-0003O6-JL
- for qemu-devel@nongnu.org; Tue, 21 Dec 2021 07:54:37 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:45696)
+ id 1mzefD-0003Wj-NZ
+ for qemu-devel@nongnu.org; Tue, 21 Dec 2021 07:54:43 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:43492)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1mzef5-0003db-SL
- for qemu-devel@nongnu.org; Tue, 21 Dec 2021 07:54:37 -0500
+ id 1mzef7-0003do-AD
+ for qemu-devel@nongnu.org; Tue, 21 Dec 2021 07:54:38 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1640091275;
+ s=mimecast20190719; t=1640091276;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=wrhIkUkbd+7X+4ZEC8FMz+PrnV5k9WrZeRD2yGvGCe8=;
- b=ONJTp5RP7zymrMtmpzrY9KJWFDuTuzs7MiW4lLWOr+IJU4MkXQ6//s7jEYTfK2f8ACzX8U
- ZxKTq964IzYsR0FIkKeDIc7m3z/ficCbfK5mhc6VY2E9jCoLWnB+u9pP6ukfItjiEe7qni
- FsW757pmL1e7PBfdtE6Ae9HAbXU29Y4=
+ bh=2oA7NNvAmRNk2PBAwEVoe0kKRsv4CI8kP1tvBxDOK9o=;
+ b=HZfsjk4rtf8w3UHNpyWZogz4Ftd5iiCd3lioILTJ2OodgktatpN8VHS8UcJyS0Wyv+aOc9
+ joA9KMcCShcVqiFNwgK9n1QvMeRzSFVEjmrekFVW5v5vCMJzvWONTLS+cyghGk/xT/rVMJ
+ UbYWvhO1Iyr6hpnYmJsbN2XfzZ6MZDA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-195-Hsc-4h27NDeP7kV4OZD4wA-1; Tue, 21 Dec 2021 07:54:34 -0500
-X-MC-Unique: Hsc-4h27NDeP7kV4OZD4wA-1
+ us-mta-507-aoYKudFNPZScBkFOdC66SA-1; Tue, 21 Dec 2021 07:54:35 -0500
+X-MC-Unique: aoYKudFNPZScBkFOdC66SA-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 250531006AA0
- for <qemu-devel@nongnu.org>; Tue, 21 Dec 2021 12:54:33 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AA9F21014BE4
+ for <qemu-devel@nongnu.org>; Tue, 21 Dec 2021 12:54:34 +0000 (UTC)
 Received: from secure.mitica (unknown [10.39.192.37])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B5AA55C1A1;
- Tue, 21 Dec 2021 12:54:29 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7E2955C23A;
+ Tue, 21 Dec 2021 12:54:33 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 5/6] migration: simplify do_compress_ram_page
-Date: Tue, 21 Dec 2021 13:52:34 +0100
-Message-Id: <20211221125235.67414-6-quintela@redhat.com>
+Subject: [PATCH v2 6/6] migration: Move ram_release_pages() call to
+ save_zero_page_to_file()
+Date: Tue, 21 Dec 2021 13:52:35 +0100
+Message-Id: <20211221125235.67414-7-quintela@redhat.com>
 In-Reply-To: <20211221125235.67414-1-quintela@redhat.com>
 References: <20211221125235.67414-1-quintela@redhat.com>
 MIME-Version: 1.0
@@ -85,46 +86,74 @@ Cc: Leonardo Bras <leobras@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The goto is not needed at all.
+We always need to call it when we find a zero page, so put it in a
+single place.
 
 Signed-off-by: Juan Quintela <quintela@redhat.com>
 ---
- migration/ram.c | 11 +++--------
- 1 file changed, 3 insertions(+), 8 deletions(-)
+ migration/ram.c | 21 ++++++++++-----------
+ 1 file changed, 10 insertions(+), 11 deletions(-)
 
 diff --git a/migration/ram.c b/migration/ram.c
-index 4ee0369d6f..eddc85ffb0 100644
+index eddc85ffb0..3cd98e19d5 100644
 --- a/migration/ram.c
 +++ b/migration/ram.c
-@@ -1341,12 +1341,11 @@ static bool do_compress_ram_page(QEMUFile *f, z_stream *stream, RAMBlock *block,
- {
-     RAMState *rs = ram_state;
-     uint8_t *p = block->host + (offset & TARGET_PAGE_MASK);
--    bool zero_page = false;
+@@ -1158,6 +1158,15 @@ static void migration_bitmap_sync_precopy(RAMState *rs)
+     }
+ }
+ 
++static void ram_release_page(const char *rbname, uint64_t offset)
++{
++    if (!migrate_release_ram() || !migration_in_postcopy()) {
++        return;
++    }
++
++    ram_discard_range(rbname, offset, 1ULL << TARGET_PAGE_BITS);
++}
++
+ /**
+  * save_zero_page_to_file: send the zero page to the file
+  *
+@@ -1179,6 +1188,7 @@ static int save_zero_page_to_file(RAMState *rs, QEMUFile *file,
+         len += save_page_header(rs, file, block, offset | RAM_SAVE_FLAG_ZERO);
+         qemu_put_byte(file, 0);
+         len += 1;
++        ram_release_page(block->idstr, offset);
+     }
+     return len;
+ }
+@@ -1204,15 +1214,6 @@ static int save_zero_page(RAMState *rs, RAMBlock *block, ram_addr_t offset)
+     return -1;
+ }
+ 
+-static void ram_release_page(const char *rbname, uint64_t offset)
+-{
+-    if (!migrate_release_ram() || !migration_in_postcopy()) {
+-        return;
+-    }
+-
+-    ram_discard_range(rbname, offset, 1ULL << TARGET_PAGE_BITS);
+-}
+-
+ /*
+  * @pages: the number of pages written by the control path,
+  *        < 0 - error
+@@ -1344,7 +1345,6 @@ static bool do_compress_ram_page(QEMUFile *f, z_stream *stream, RAMBlock *block,
      int ret;
  
      if (save_zero_page_to_file(rs, f, block, offset)) {
--        zero_page = true;
--        goto exit;
-+        ram_release_page(block->idstr, offset & TARGET_PAGE_MASK);
-+        return true;
+-        ram_release_page(block->idstr, offset & TARGET_PAGE_MASK);
+         return true;
      }
  
-     save_page_header(rs, f, block, offset | RAM_SAVE_FLAG_COMPRESS_PAGE);
-@@ -1361,12 +1360,8 @@ static bool do_compress_ram_page(QEMUFile *f, z_stream *stream, RAMBlock *block,
-     if (ret < 0) {
-         qemu_file_set_error(migrate_get_current()->to_dst_file, ret);
-         error_report("compressed data failed!");
--        return false;
+@@ -2148,7 +2148,6 @@ static int ram_save_target_page(RAMState *rs, PageSearchStatus *pss)
+             xbzrle_cache_zero_page(rs, block->offset + offset);
+             XBZRLE_cache_unlock();
+         }
+-        ram_release_page(block->idstr, offset);
+         return res;
      }
--
--exit:
--    ram_release_page(block->idstr, offset);
--    return zero_page;
-+    return false;
- }
  
- static void
 -- 
 2.33.1
 
