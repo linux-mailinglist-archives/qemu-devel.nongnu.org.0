@@ -2,79 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3ECA247BEA4
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Dec 2021 12:12:02 +0100 (CET)
-Received: from localhost ([::1]:43754 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17E3847BEAD
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Dec 2021 12:14:27 +0100 (CET)
+Received: from localhost ([::1]:48826 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mzd3p-0001ap-C8
-	for lists+qemu-devel@lfdr.de; Tue, 21 Dec 2021 06:12:01 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44544)
+	id 1mzd6A-000524-5n
+	for lists+qemu-devel@lfdr.de; Tue, 21 Dec 2021 06:14:26 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45736)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mzcxe-0005Mp-AE
- for qemu-devel@nongnu.org; Tue, 21 Dec 2021 06:05:38 -0500
-Received: from [2a00:1450:4864:20::42e] (port=33338
- helo=mail-wr1-x42e.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mzcxc-000512-Oy
- for qemu-devel@nongnu.org; Tue, 21 Dec 2021 06:05:38 -0500
-Received: by mail-wr1-x42e.google.com with SMTP id d9so6625331wrb.0
- for <qemu-devel@nongnu.org>; Tue, 21 Dec 2021 03:05:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=TpUJWRG7fXUtP+zjxXrVkC9l5NszEY9xXzN0gYS9P2c=;
- b=kym6TcHrc1s0H1oVinoDy4tET02pqKuBILVL4iJN5C7RpAqKEhy9vyax6WU0Hari4H
- BN9dty6gI1yK05hj/ogJGDF1SxPykzPmxTRnAG0vm7bntr5UibpUlfUkqt+yVUNV48qf
- KHlIy8UOlrQTKfQdzJdvMXTkUkIga7Yixq/xTOFG5Ok1Rw3dGsaiHeqfOcKY51CS9xBy
- +xKQpeNDUOyvj6SDIeQ+v83mBJYpTLJZaGU6KmTaF7SsJ1jKNUI7wfPN/BrBMWSFerzb
- w/X2uj/IOz2JDG0ovf2+ouNjuPZOm+5107f7Bm96qKcPVcaEsdCv4LqbDVg57YTbZhHH
- OHPA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=TpUJWRG7fXUtP+zjxXrVkC9l5NszEY9xXzN0gYS9P2c=;
- b=IibJMwAOOdN7wrwAcWPw62nLx9SLWZiCHI+Y09zYBe1VB9vt0h6DPetc1grqjLXiG3
- Gt1DpwUS0/oBJolxP0LD5fqUNsDraBD0UPEs4TiIbEX3Hm7Unv64O07iMN3ccWIcNlKt
- WCH5wt3cG0bUfGQrShC8tSNaJObGAr/LU544XmOTdoAzHZrQ3akoKQQmQcj2H+6KW0s/
- dnpbuzpEenVkx6NORqFlinXM3ZlVGUsYKoCURqqKuO10PBSVv9cZromb9izSfZM0nuHh
- zJPo/SAQcRCNp5LxGh0fSaPhvkHlTbS8NSMtnoA2ZBVxtJL2ll9rWFi8YUk3gXb2tq4R
- oMoQ==
-X-Gm-Message-State: AOAM533pd/0B8xWqXOmQayt7g+6BtyYMNImr+gq//WpKKeJNBXEM4Iy6
- hj+sbrbI3I2QYO4SC/e+m0hKaJDc3f0=
-X-Google-Smtp-Source: ABdhPJy9YiVCLcHpKG8TjKWK780CniYrxwuLkf8ely8HsUgJAS3AXE2kPQrb4DVZ1+PYPTtJhEyP8g==
-X-Received: by 2002:a05:6000:168f:: with SMTP id
- y15mr2215926wrd.61.1640084735644; 
- Tue, 21 Dec 2021 03:05:35 -0800 (PST)
-Received: from avogadro.lan ([2001:b07:6468:f312:63a7:c72e:ea0e:6045])
- by smtp.gmail.com with ESMTPSA id az11sm1949444wmb.30.2021.12.21.03.05.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Dec 2021 03:05:35 -0800 (PST)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 8/8] meson: add comments in the target-specific flags section
-Date: Tue, 21 Dec 2021 12:05:26 +0100
-Message-Id: <20211221110526.351709-9-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.33.1
-In-Reply-To: <20211221110526.351709-1-pbonzini@redhat.com>
-References: <20211221110526.351709-1-pbonzini@redhat.com>
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mzd3a-0002PL-A2
+ for qemu-devel@nongnu.org; Tue, 21 Dec 2021 06:11:46 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:43903)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mzd3W-0005mi-HC
+ for qemu-devel@nongnu.org; Tue, 21 Dec 2021 06:11:45 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1640085101;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=0uoquT+5vtLI6J1Rtu8+QBkIni9oXmR70VMB9gXxDQo=;
+ b=KMx1UwqfL+HHR8up8LkNh5szluIk/YXIZsl9R13DXYdFwdFqmjCJ1YF9oCn7yRkTiQI0Hv
+ F16NRflPcLqT8HfAjdUoXCS1wDxMzsIbBo9ZQOqJL/zN+dpRRl7KbozMXDyzlYtfHGhoTS
+ V1eCdzQswrPBYA/V+AvhEMxkYWpE0AM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-171-iNw6fTlQOMyoOeQgRPioRQ-1; Tue, 21 Dec 2021 06:11:38 -0500
+X-MC-Unique: iNw6fTlQOMyoOeQgRPioRQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A14AF1023F4E;
+ Tue, 21 Dec 2021 11:11:36 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.39.193.24])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E04F16AB89;
+ Tue, 21 Dec 2021 11:11:26 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 368511800091; Tue, 21 Dec 2021 12:11:25 +0100 (CET)
+Date: Tue, 21 Dec 2021 12:11:25 +0100
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Pratik Parvati <pratikp@vayavyalabs.com>
+Subject: Re: Virtio-GPU Xres and Yres seettings
+Message-ID: <20211221111125.lbx6or2wg2d762a7@sirius.home.kraxel.org>
+References: <CA+aXn+EZQ=S+P=8fyfCxYikEMLLdqAEeQgi580Tqtsuot-r2dw@mail.gmail.com>
+ <aedfa17d-6d31-6d5d-b367-cf84e77d27ed@redhat.com>
+ <20211220103548.lpgtad57woenpshi@sirius.home.kraxel.org>
+ <CA+aXn+F1tPYMahODkE1qi_OM65zJ4ubHqcOi1drJWvC+PopiZQ@mail.gmail.com>
+ <20211220121814.rkg7z7rki22qpzhj@sirius.home.kraxel.org>
+ <CA+aXn+HPOK-N9smZsjas6EXaTD6hQjXbgrJcKK9E3u5VrSYCeg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42e
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x42e.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <CA+aXn+HPOK-N9smZsjas6EXaTD6hQjXbgrJcKK9E3u5VrSYCeg@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.203,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,60 +83,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: richard.henderson@linaro.org
+Cc: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- meson.build | 5 +++++
- 1 file changed, 5 insertions(+)
+On Mon, Dec 20, 2021 at 10:44:06PM +0530, Pratik Parvati wrote:
+> > EDID is optional, so you can try disable the EDID feature bit and see
+> > what happens.
+> 
+> Thanks Gerd, after disabling the EDID, I was able to get the required
+> resolution (basically width and height) from the driver.
+> 
+> Another strange observation - When the device receives the
+> command VIRTIO_GPU_CMD_RESOURCE_ATTACH_BACKING with the number of
+> entries having a pixel data in scatter gather format, the device is trying
+> to store these bytes in contiguous memory. When I read those sg memory, the
+> device receives all zeros from the driver (for a 1024x768 display,
+> the device receives 3MB of data from the driver). Is this an expected
+> behaviour? - If not, what is the driver trying to display on the screen?
 
-diff --git a/meson.build b/meson.build
-index 09ee427ca4..0a6d57125f 100644
---- a/meson.build
-+++ b/meson.build
-@@ -233,6 +233,7 @@ endif
- # Target-specific checks and dependencies #
- ###########################################
- 
-+# Fuzzing
- if get_option('fuzzing') and get_option('fuzzing_engine') == '' and \
-     not cc.links('''
-           #include <stdint.h>
-@@ -244,6 +245,7 @@ if get_option('fuzzing') and get_option('fuzzing_engine') == '' and \
-   error('Your compiler does not support -fsanitize=fuzzer')
- endif
- 
-+# Tracing backends
- if 'ftrace' in get_option('trace_backends') and targetos != 'linux'
-   error('ftrace is supported only on Linux')
- endif
-@@ -257,6 +259,7 @@ if 'syslog' in get_option('trace_backends') and not cc.compiles('''
-   error('syslog is not supported on this system')
- endif
- 
-+# Miscellaneous Linux-only features
- if targetos != 'linux' and get_option('mpath').enabled()
-   error('Multipath is supported only on Linux')
- endif
-@@ -266,6 +269,7 @@ if targetos != 'linux' and get_option('multiprocess').enabled()
- endif
- multiprocess_allowed = targetos == 'linux' and not get_option('multiprocess').disabled()
- 
-+# Target-specific libraries and flags
- libm = cc.find_library('m', required: false)
- threads = dependency('threads')
- util = cc.find_library('util', required: false)
-@@ -306,6 +310,7 @@ elif targetos == 'openbsd'
-   endif
- endif
- 
-+# Target-specific configuration of accelerators
- accelerators = []
- if not get_option('kvm').disabled() and targetos == 'linux'
-   accelerators += 'CONFIG_KVM'
--- 
-2.33.1
+How about reading the virtio spec?
+display updates are handled with transfer and flush commands.
+
+take care,
+  Gerd
 
 
