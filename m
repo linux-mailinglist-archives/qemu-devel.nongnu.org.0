@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D7E347BB42
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 Dec 2021 08:44:37 +0100 (CET)
-Received: from localhost ([::1]:59284 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1065347BB3E
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 Dec 2021 08:42:21 +0100 (CET)
+Received: from localhost ([::1]:51140 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mzZp6-0003r3-6A
-	for lists+qemu-devel@lfdr.de; Tue, 21 Dec 2021 02:44:36 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59150)
+	id 1mzZmu-0006io-4t
+	for lists+qemu-devel@lfdr.de; Tue, 21 Dec 2021 02:42:20 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59222)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1mzZFI-0002S0-O4
- for qemu-devel@nongnu.org; Tue, 21 Dec 2021 02:07:37 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:25983)
+ id 1mzZFg-0002oO-JP
+ for qemu-devel@nongnu.org; Tue, 21 Dec 2021 02:08:04 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:43278)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1mzZFF-0002Ub-9q
- for qemu-devel@nongnu.org; Tue, 21 Dec 2021 02:07:36 -0500
+ id 1mzZFc-0002Wd-SR
+ for qemu-devel@nongnu.org; Tue, 21 Dec 2021 02:07:59 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1640070452;
+ s=mimecast20190719; t=1640070469;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=uZmHqPJwF3GSSjNUX5ebugjGeisqMy1vI7MNbYpokPw=;
- b=b08Jk3+Ex3GJoMbuunpT9BCZkLyJitK6i9DaWi4E0BgErtF3aFxOGQizVDW0/5okWdvWSm
- D9RkQ74L1b7Gxhe9ujEt9uCjj4x663C5nHxsaBm+Vi9MSM6eIzUrlo8CuAVqQNIxqcnViQ
- o1oKbtJwxlhngvBnaDdyHdOxEQIMH1w=
+ bh=5hiUfx+gBCUbUp8y/68Tfn2aLA/jeDrE7SScd4mmGms=;
+ b=ZtTR68bRcGlB5PJQmp7ntVsPHA0F+05/VHv0wmC9TkH3ABCt2eYYOkVCQ482NL5WObIKe0
+ XsAirbo3h+rlZs7S3/IZVx88f4wvO6FZ/24uBzo/KiUTaN7+5YDiypuFf8rkLq/xFV9FwI
+ sSn4e/Zo3WRptG4qu9JlaB2+eaejxjE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-65-Ybsm6vWLPCyKzOr4D5FHIQ-1; Tue, 21 Dec 2021 02:07:30 -0500
-X-MC-Unique: Ybsm6vWLPCyKzOr4D5FHIQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-135-UyBT3bfuOX-P4wl-Xm3bWg-1; Tue, 21 Dec 2021 02:07:42 -0500
+X-MC-Unique: UyBT3bfuOX-P4wl-Xm3bWg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 71EC48042E2;
- Tue, 21 Dec 2021 07:07:29 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A00681006AA6;
+ Tue, 21 Dec 2021 07:07:41 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.37])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 69A79105B20B;
- Tue, 21 Dec 2021 07:07:02 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8143E87945;
+ Tue, 21 Dec 2021 07:07:32 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 29/36] audio: add "dbus" audio backend
-Date: Tue, 21 Dec 2021 10:58:48 +0400
-Message-Id: <20211221065855.142578-30-marcandre.lureau@redhat.com>
+Subject: [PULL v2 30/36] ui/dbus: add clipboard interface
+Date: Tue, 21 Dec 2021 10:58:49 +0400
+Message-Id: <20211221065855.142578-31-marcandre.lureau@redhat.com>
 In-Reply-To: <20211221065855.142578-1-marcandre.lureau@redhat.com>
 References: <20211221065855.142578-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -87,146 +87,71 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Add a new -audio backend that accepts D-Bus clients/listeners to handle
-playback & recording, to be exported via the -display dbus.
-
-Example usage:
--audiodev dbus,in.mixing-engine=off,out.mixing-engine=off,id=dbus
--display dbus,audiodev=dbus
+Expose the clipboard API over D-Bus. See the interface documentation for
+further details.
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Acked-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- qapi/audio.json        |   3 +-
- qapi/ui.json           |   5 +-
- audio/audio_int.h      |   7 +
- audio/audio_template.h |   2 +
- ui/dbus.h              |   1 +
- audio/audio.c          |   1 +
- audio/dbusaudio.c      | 654 +++++++++++++++++++++++++++++++++++++++++
- ui/dbus.c              |  35 +++
- audio/meson.build      |   6 +
- audio/trace-events     |   5 +
- qemu-options.hx        |   3 +
- ui/dbus-display1.xml   | 211 +++++++++++++
- 12 files changed, 931 insertions(+), 2 deletions(-)
- create mode 100644 audio/dbusaudio.c
+ ui/dbus.h            |  14 ++
+ ui/dbus-clipboard.c  | 457 +++++++++++++++++++++++++++++++++++++++++++
+ ui/dbus.c            |   7 +
+ ui/dbus-display1.xml |  97 +++++++++
+ ui/meson.build       |   1 +
+ ui/trace-events      |   3 +
+ 6 files changed, 579 insertions(+)
+ create mode 100644 ui/dbus-clipboard.c
 
-diff --git a/qapi/audio.json b/qapi/audio.json
-index 9cba0df8a4e9..693e327c6b6a 100644
---- a/qapi/audio.json
-+++ b/qapi/audio.json
-@@ -386,7 +386,7 @@
- # Since: 4.0
- ##
- { 'enum': 'AudiodevDriver',
--  'data': [ 'none', 'alsa', 'coreaudio', 'dsound', 'jack', 'oss', 'pa',
-+  'data': [ 'none', 'alsa', 'coreaudio', 'dbus', 'dsound', 'jack', 'oss', 'pa',
-             'sdl', 'spice', 'wav' ] }
- 
- ##
-@@ -412,6 +412,7 @@
-     'none':      'AudiodevGenericOptions',
-     'alsa':      'AudiodevAlsaOptions',
-     'coreaudio': 'AudiodevCoreaudioOptions',
-+    'dbus':      'AudiodevGenericOptions',
-     'dsound':    'AudiodevDsoundOptions',
-     'jack':      'AudiodevJackOptions',
-     'oss':       'AudiodevOssOptions',
-diff --git a/qapi/ui.json b/qapi/ui.json
-index d435e9472264..2b4371da3777 100644
---- a/qapi/ui.json
-+++ b/qapi/ui.json
-@@ -1134,13 +1134,16 @@
- # @p2p: Whether to use peer-to-peer connections (accepted through
- #       ``add_client``).
- #
-+# @audiodev: Use the specified DBus audiodev to export audio.
-+#
- # Since: 7.0
- #
- ##
- { 'struct'  : 'DisplayDBus',
-   'data'    : { '*rendernode' : 'str',
-                 '*addr': 'str',
--                '*p2p': 'bool' } }
-+                '*p2p': 'bool',
-+                '*audiodev': 'str' } }
- 
-  ##
-  # @DisplayGLMode:
-diff --git a/audio/audio_int.h b/audio/audio_int.h
-index 6d685e24a388..428a091d05e5 100644
---- a/audio/audio_int.h
-+++ b/audio/audio_int.h
-@@ -31,6 +31,10 @@
- #endif
- #include "mixeng.h"
- 
-+#ifdef CONFIG_GIO
-+#include <gio/gio.h>
-+#endif
-+
- struct audio_pcm_ops;
- 
- struct audio_callback {
-@@ -140,6 +144,9 @@ struct audio_driver {
-     const char *descr;
-     void *(*init) (Audiodev *);
-     void (*fini) (void *);
-+#ifdef CONFIG_GIO
-+    void (*set_dbus_server) (AudioState *s, GDBusObjectManagerServer *manager);
-+#endif
-     struct audio_pcm_ops *pcm_ops;
-     int can_be_default;
-     int max_voices_out;
-diff --git a/audio/audio_template.h b/audio/audio_template.h
-index c6714946aaed..d2d348638b8c 100644
---- a/audio/audio_template.h
-+++ b/audio/audio_template.h
-@@ -327,6 +327,8 @@ AudiodevPerDirectionOptions *glue(audio_get_pdo_, TYPE)(Audiodev *dev)
-     case AUDIODEV_DRIVER_COREAUDIO:
-         return qapi_AudiodevCoreaudioPerDirectionOptions_base(
-             dev->u.coreaudio.TYPE);
-+    case AUDIODEV_DRIVER_DBUS:
-+        return dev->u.dbus.TYPE;
-     case AUDIODEV_DRIVER_DSOUND:
-         return dev->u.dsound.TYPE;
-     case AUDIODEV_DRIVER_JACK:
 diff --git a/ui/dbus.h b/ui/dbus.h
-index 4698d324632e..ca1f0f4ab94f 100644
+index ca1f0f4ab94f..3e89eafcab6e 100644
 --- a/ui/dbus.h
 +++ b/ui/dbus.h
-@@ -36,6 +36,7 @@ struct DBusDisplay {
-     DisplayGLMode gl_mode;
-     bool p2p;
-     char *dbus_addr;
-+    char *audiodev;
-     DisplayGLCtx glctx;
+@@ -27,9 +27,16 @@
+ #include "qemu/dbus.h"
+ #include "qom/object.h"
+ #include "ui/console.h"
++#include "ui/clipboard.h"
  
-     GDBusConnection *bus;
-diff --git a/audio/audio.c b/audio/audio.c
-index 54a153c0ef07..dc28685d226d 100644
---- a/audio/audio.c
-+++ b/audio/audio.c
-@@ -2000,6 +2000,7 @@ void audio_create_pdos(Audiodev *dev)
-         CASE(NONE, none, );
-         CASE(ALSA, alsa, Alsa);
-         CASE(COREAUDIO, coreaudio, Coreaudio);
-+        CASE(DBUS, dbus, );
-         CASE(DSOUND, dsound, );
-         CASE(JACK, jack, Jack);
-         CASE(OSS, oss, Oss);
-diff --git a/audio/dbusaudio.c b/audio/dbusaudio.c
+ #include "dbus-display1.h"
+ 
++typedef struct DBusClipboardRequest {
++    GDBusMethodInvocation *invocation;
++    QemuClipboardType type;
++    guint timeout_id;
++} DBusClipboardRequest;
++
+ struct DBusDisplay {
+     Object parent;
+ 
+@@ -44,6 +51,11 @@ struct DBusDisplay {
+     QemuDBusDisplay1VM *iface;
+     GPtrArray *consoles;
+     GCancellable *add_client_cancellable;
++
++    QemuClipboardPeer clipboard_peer;
++    QemuDBusDisplay1Clipboard *clipboard;
++    QemuDBusDisplay1Clipboard *clipboard_proxy;
++    DBusClipboardRequest clipboard_request[QEMU_CLIPBOARD_SELECTION__COUNT];
+ };
+ 
+ #define TYPE_DBUS_DISPLAY "dbus-display"
+@@ -83,4 +95,6 @@ dbus_display_listener_get_bus_name(DBusDisplayListener *ddl);
+ extern const DisplayChangeListenerOps dbus_gl_dcl_ops;
+ extern const DisplayChangeListenerOps dbus_dcl_ops;
+ 
++void dbus_clipboard_init(DBusDisplay *dpy);
++
+ #endif /* UI_DBUS_H_ */
+diff --git a/ui/dbus-clipboard.c b/ui/dbus-clipboard.c
 new file mode 100644
-index 000000000000..f178b47deec1
+index 000000000000..5843d26cd2cb
 --- /dev/null
-+++ b/audio/dbusaudio.c
-@@ -0,0 +1,654 @@
++++ b/ui/dbus-clipboard.c
+@@ -0,0 +1,457 @@
 +/*
-+ * QEMU DBus audio
++ * QEMU DBus display
 + *
-+ * Copyright (c) 2021 Red Hat, Inc.
++ * Copyright (c) 2021 Marc-André Lureau <marcandre.lureau@redhat.com>
 + *
 + * Permission is hereby granted, free of charge, to any person obtaining a copy
 + * of this software and associated documentation files (the "Software"), to deal
@@ -246,983 +171,610 @@ index 000000000000..f178b47deec1
 + * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 + * THE SOFTWARE.
 + */
-+
 +#include "qemu/osdep.h"
-+#include "qemu/error-report.h"
-+#include "qemu/host-utils.h"
-+#include "qemu/module.h"
-+#include "qemu/timer.h"
 +#include "qemu/dbus.h"
-+
-+#include <gio/gunixfdlist.h>
-+#include "ui/dbus-display1.h"
-+
-+#define AUDIO_CAP "dbus"
-+#include "audio.h"
-+#include "audio_int.h"
++#include "qemu/main-loop.h"
++#include "qom/object_interfaces.h"
++#include "sysemu/sysemu.h"
++#include "qapi/error.h"
 +#include "trace.h"
 +
-+#define DBUS_DISPLAY1_AUDIO_PATH DBUS_DISPLAY1_ROOT "/Audio"
++#include "dbus.h"
 +
-+#define DBUS_AUDIO_NSAMPLES 1024 /* could be configured? */
-+
-+typedef struct DBusAudio {
-+    GDBusObjectManagerServer *server;
-+    GDBusObjectSkeleton *audio;
-+    QemuDBusDisplay1Audio *iface;
-+    GHashTable *out_listeners;
-+    GHashTable *in_listeners;
-+} DBusAudio;
-+
-+typedef struct DBusVoiceOut {
-+    HWVoiceOut hw;
-+    bool enabled;
-+    RateCtl rate;
-+
-+    void *buf;
-+    size_t buf_pos;
-+    size_t buf_size;
-+
-+    bool has_volume;
-+    Volume volume;
-+} DBusVoiceOut;
-+
-+typedef struct DBusVoiceIn {
-+    HWVoiceIn hw;
-+    bool enabled;
-+    RateCtl rate;
-+
-+    bool has_volume;
-+    Volume volume;
-+} DBusVoiceIn;
-+
-+static void *dbus_get_buffer_out(HWVoiceOut *hw, size_t *size)
-+{
-+    DBusVoiceOut *vo = container_of(hw, DBusVoiceOut, hw);
-+
-+    if (!vo->buf) {
-+        vo->buf_size = hw->samples * hw->info.bytes_per_frame;
-+        vo->buf = g_malloc(vo->buf_size);
-+        vo->buf_pos = 0;
-+    }
-+
-+    *size = MIN(vo->buf_size - vo->buf_pos, *size);
-+    *size = audio_rate_get_bytes(&hw->info, &vo->rate, *size);
-+
-+    return vo->buf + vo->buf_pos;
-+
-+}
-+
-+static size_t dbus_put_buffer_out(HWVoiceOut *hw, void *buf, size_t size)
-+{
-+    DBusAudio *da = (DBusAudio *)hw->s->drv_opaque;
-+    DBusVoiceOut *vo = container_of(hw, DBusVoiceOut, hw);
-+    GHashTableIter iter;
-+    QemuDBusDisplay1AudioOutListener *listener = NULL;
-+    g_autoptr(GBytes) bytes = NULL;
-+    g_autoptr(GVariant) v_data = NULL;
-+
-+    assert(buf == vo->buf + vo->buf_pos && vo->buf_pos + size <= vo->buf_size);
-+    vo->buf_pos += size;
-+
-+    trace_dbus_audio_put_buffer_out(size);
-+
-+    if (vo->buf_pos < vo->buf_size) {
-+        return size;
-+    }
-+
-+    bytes = g_bytes_new_take(g_steal_pointer(&vo->buf), vo->buf_size);
-+    v_data = g_variant_new_from_bytes(G_VARIANT_TYPE("ay"), bytes, TRUE);
-+    g_variant_ref_sink(v_data);
-+
-+    g_hash_table_iter_init(&iter, da->out_listeners);
-+    while (g_hash_table_iter_next(&iter, NULL, (void **)&listener)) {
-+        qemu_dbus_display1_audio_out_listener_call_write(
-+            listener,
-+            (uintptr_t)hw,
-+            v_data,
-+            G_DBUS_CALL_FLAGS_NONE, -1, NULL, NULL, NULL);
-+    }
-+
-+    return size;
-+}
-+
-+#ifdef HOST_WORDS_BIGENDIAN
-+#define AUDIO_HOST_BE TRUE
-+#else
-+#define AUDIO_HOST_BE FALSE
-+#endif
++#define MIME_TEXT_PLAIN_UTF8 "text/plain;charset=utf-8"
 +
 +static void
-+dbus_init_out_listener(QemuDBusDisplay1AudioOutListener *listener,
-+                       HWVoiceOut *hw)
++dbus_clipboard_complete_request(
++    DBusDisplay *dpy,
++    GDBusMethodInvocation *invocation,
++    QemuClipboardInfo *info,
++    QemuClipboardType type)
 +{
-+    qemu_dbus_display1_audio_out_listener_call_init(
-+        listener,
-+        (uintptr_t)hw,
-+        hw->info.bits,
-+        hw->info.is_signed,
-+        hw->info.is_float,
-+        hw->info.freq,
-+        hw->info.nchannels,
-+        hw->info.bytes_per_frame,
-+        hw->info.bytes_per_second,
-+        hw->info.swap_endianness ? !AUDIO_HOST_BE : AUDIO_HOST_BE,
-+        G_DBUS_CALL_FLAGS_NONE, -1, NULL, NULL, NULL);
-+}
++    GVariant *v_data = g_variant_new_from_data(
++        G_VARIANT_TYPE("ay"),
++        info->types[type].data,
++        info->types[type].size,
++        TRUE,
++        (GDestroyNotify)qemu_clipboard_info_unref,
++        qemu_clipboard_info_ref(info));
 +
-+static int
-+dbus_init_out(HWVoiceOut *hw, struct audsettings *as, void *drv_opaque)
-+{
-+    DBusAudio *da = (DBusAudio *)hw->s->drv_opaque;
-+    DBusVoiceOut *vo = container_of(hw, DBusVoiceOut, hw);
-+    GHashTableIter iter;
-+    QemuDBusDisplay1AudioOutListener *listener = NULL;
-+
-+    audio_pcm_init_info(&hw->info, as);
-+    hw->samples = DBUS_AUDIO_NSAMPLES;
-+    audio_rate_start(&vo->rate);
-+
-+    g_hash_table_iter_init(&iter, da->out_listeners);
-+    while (g_hash_table_iter_next(&iter, NULL, (void **)&listener)) {
-+        dbus_init_out_listener(listener, hw);
-+    }
-+    return 0;
++    qemu_dbus_display1_clipboard_complete_request(
++        dpy->clipboard, invocation,
++        MIME_TEXT_PLAIN_UTF8, v_data);
 +}
 +
 +static void
-+dbus_fini_out(HWVoiceOut *hw)
++dbus_clipboard_update_info(DBusDisplay *dpy, QemuClipboardInfo *info)
 +{
-+    DBusAudio *da = (DBusAudio *)hw->s->drv_opaque;
-+    DBusVoiceOut *vo = container_of(hw, DBusVoiceOut, hw);
-+    GHashTableIter iter;
-+    QemuDBusDisplay1AudioOutListener *listener = NULL;
++    bool self_update = info->owner == &dpy->clipboard_peer;
++    const char *mime[QEMU_CLIPBOARD_TYPE__COUNT + 1] = { 0, };
++    DBusClipboardRequest *req;
++    int i = 0;
 +
-+    g_hash_table_iter_init(&iter, da->out_listeners);
-+    while (g_hash_table_iter_next(&iter, NULL, (void **)&listener)) {
-+        qemu_dbus_display1_audio_out_listener_call_fini(
-+            listener,
-+            (uintptr_t)hw,
-+            G_DBUS_CALL_FLAGS_NONE, -1, NULL, NULL, NULL);
-+    }
-+
-+    g_clear_pointer(&vo->buf, g_free);
-+}
-+
-+static void
-+dbus_enable_out(HWVoiceOut *hw, bool enable)
-+{
-+    DBusAudio *da = (DBusAudio *)hw->s->drv_opaque;
-+    DBusVoiceOut *vo = container_of(hw, DBusVoiceOut, hw);
-+    GHashTableIter iter;
-+    QemuDBusDisplay1AudioOutListener *listener = NULL;
-+
-+    vo->enabled = enable;
-+    if (enable) {
-+        audio_rate_start(&vo->rate);
-+    }
-+
-+    g_hash_table_iter_init(&iter, da->out_listeners);
-+    while (g_hash_table_iter_next(&iter, NULL, (void **)&listener)) {
-+        qemu_dbus_display1_audio_out_listener_call_set_enabled(
-+            listener, (uintptr_t)hw, enable,
-+            G_DBUS_CALL_FLAGS_NONE, -1, NULL, NULL, NULL);
-+    }
-+}
-+
-+static void
-+dbus_volume_out_listener(HWVoiceOut *hw,
-+                         QemuDBusDisplay1AudioOutListener *listener)
-+{
-+    DBusVoiceOut *vo = container_of(hw, DBusVoiceOut, hw);
-+    Volume *vol = &vo->volume;
-+    g_autoptr(GBytes) bytes = NULL;
-+    GVariant *v_vol = NULL;
-+
-+    if (!vo->has_volume) {
++    if (info->owner == NULL) {
++        if (dpy->clipboard_proxy) {
++            qemu_dbus_display1_clipboard_call_release(
++                dpy->clipboard_proxy,
++                info->selection,
++                G_DBUS_CALL_FLAGS_NONE, -1, NULL, NULL, NULL);
++        }
 +        return;
 +    }
 +
-+    assert(vol->channels < sizeof(vol->vol));
-+    bytes = g_bytes_new(vol->vol, vol->channels);
-+    v_vol = g_variant_new_from_bytes(G_VARIANT_TYPE("ay"), bytes, TRUE);
-+    qemu_dbus_display1_audio_out_listener_call_set_volume(
-+        listener, (uintptr_t)hw, vol->mute, v_vol,
-+        G_DBUS_CALL_FLAGS_NONE, -1, NULL, NULL, NULL);
-+}
-+
-+static void
-+dbus_volume_out(HWVoiceOut *hw, Volume *vol)
-+{
-+    DBusAudio *da = (DBusAudio *)hw->s->drv_opaque;
-+    DBusVoiceOut *vo = container_of(hw, DBusVoiceOut, hw);
-+    GHashTableIter iter;
-+    QemuDBusDisplay1AudioOutListener *listener = NULL;
-+
-+    vo->has_volume = true;
-+    vo->volume = *vol;
-+
-+    g_hash_table_iter_init(&iter, da->out_listeners);
-+    while (g_hash_table_iter_next(&iter, NULL, (void **)&listener)) {
-+        dbus_volume_out_listener(hw, listener);
-+    }
-+}
-+
-+static void
-+dbus_init_in_listener(QemuDBusDisplay1AudioInListener *listener, HWVoiceIn *hw)
-+{
-+    qemu_dbus_display1_audio_in_listener_call_init(
-+        listener,
-+        (uintptr_t)hw,
-+        hw->info.bits,
-+        hw->info.is_signed,
-+        hw->info.is_float,
-+        hw->info.freq,
-+        hw->info.nchannels,
-+        hw->info.bytes_per_frame,
-+        hw->info.bytes_per_second,
-+        hw->info.swap_endianness ? !AUDIO_HOST_BE : AUDIO_HOST_BE,
-+        G_DBUS_CALL_FLAGS_NONE, -1, NULL, NULL, NULL);
-+}
-+
-+static int
-+dbus_init_in(HWVoiceIn *hw, struct audsettings *as, void *drv_opaque)
-+{
-+    DBusAudio *da = (DBusAudio *)hw->s->drv_opaque;
-+    DBusVoiceIn *vo = container_of(hw, DBusVoiceIn, hw);
-+    GHashTableIter iter;
-+    QemuDBusDisplay1AudioInListener *listener = NULL;
-+
-+    audio_pcm_init_info(&hw->info, as);
-+    hw->samples = DBUS_AUDIO_NSAMPLES;
-+    audio_rate_start(&vo->rate);
-+
-+    g_hash_table_iter_init(&iter, da->in_listeners);
-+    while (g_hash_table_iter_next(&iter, NULL, (void **)&listener)) {
-+        dbus_init_in_listener(listener, hw);
-+    }
-+    return 0;
-+}
-+
-+static void
-+dbus_fini_in(HWVoiceIn *hw)
-+{
-+    DBusAudio *da = (DBusAudio *)hw->s->drv_opaque;
-+    GHashTableIter iter;
-+    QemuDBusDisplay1AudioInListener *listener = NULL;
-+
-+    g_hash_table_iter_init(&iter, da->in_listeners);
-+    while (g_hash_table_iter_next(&iter, NULL, (void **)&listener)) {
-+        qemu_dbus_display1_audio_in_listener_call_fini(
-+            listener,
-+            (uintptr_t)hw,
-+            G_DBUS_CALL_FLAGS_NONE, -1, NULL, NULL, NULL);
-+    }
-+}
-+
-+static void
-+dbus_volume_in_listener(HWVoiceIn *hw,
-+                         QemuDBusDisplay1AudioInListener *listener)
-+{
-+    DBusVoiceIn *vo = container_of(hw, DBusVoiceIn, hw);
-+    Volume *vol = &vo->volume;
-+    g_autoptr(GBytes) bytes = NULL;
-+    GVariant *v_vol = NULL;
-+
-+    if (!vo->has_volume) {
++    if (self_update || !info->has_serial) {
 +        return;
 +    }
 +
-+    assert(vol->channels < sizeof(vol->vol));
-+    bytes = g_bytes_new(vol->vol, vol->channels);
-+    v_vol = g_variant_new_from_bytes(G_VARIANT_TYPE("ay"), bytes, TRUE);
-+    qemu_dbus_display1_audio_in_listener_call_set_volume(
-+        listener, (uintptr_t)hw, vol->mute, v_vol,
-+        G_DBUS_CALL_FLAGS_NONE, -1, NULL, NULL, NULL);
-+}
-+
-+static void
-+dbus_volume_in(HWVoiceIn *hw, Volume *vol)
-+{
-+    DBusAudio *da = (DBusAudio *)hw->s->drv_opaque;
-+    DBusVoiceIn *vo = container_of(hw, DBusVoiceIn, hw);
-+    GHashTableIter iter;
-+    QemuDBusDisplay1AudioInListener *listener = NULL;
-+
-+    vo->has_volume = true;
-+    vo->volume = *vol;
-+
-+    g_hash_table_iter_init(&iter, da->in_listeners);
-+    while (g_hash_table_iter_next(&iter, NULL, (void **)&listener)) {
-+        dbus_volume_in_listener(hw, listener);
++    req = &dpy->clipboard_request[info->selection];
++    if (req->invocation && info->types[req->type].data) {
++        dbus_clipboard_complete_request(dpy, req->invocation, info, req->type);
++        g_clear_object(&req->invocation);
++        g_source_remove(req->timeout_id);
++        req->timeout_id = 0;
++        return;
 +    }
-+}
 +
-+static size_t
-+dbus_read(HWVoiceIn *hw, void *buf, size_t size)
-+{
-+    DBusAudio *da = (DBusAudio *)hw->s->drv_opaque;
-+    /* DBusVoiceIn *vo = container_of(hw, DBusVoiceIn, hw); */
-+    GHashTableIter iter;
-+    QemuDBusDisplay1AudioInListener *listener = NULL;
++    if (info->types[QEMU_CLIPBOARD_TYPE_TEXT].available) {
++        mime[i++] = MIME_TEXT_PLAIN_UTF8;
++    }
 +
-+    trace_dbus_audio_read(size);
-+
-+    /* size = audio_rate_get_bytes(&hw->info, &vo->rate, size); */
-+
-+    g_hash_table_iter_init(&iter, da->in_listeners);
-+    while (g_hash_table_iter_next(&iter, NULL, (void **)&listener)) {
-+        g_autoptr(GVariant) v_data = NULL;
-+        const char *data;
-+        gsize n = 0;
-+
-+        if (qemu_dbus_display1_audio_in_listener_call_read_sync(
-+                listener,
-+                (uintptr_t)hw,
-+                size,
-+                G_DBUS_CALL_FLAGS_NONE, -1,
-+                &v_data, NULL, NULL)) {
-+            data = g_variant_get_fixed_array(v_data, &n, 1);
-+            g_warn_if_fail(n <= size);
-+            size = MIN(n, size);
-+            memcpy(buf, data, size);
-+            break;
++    if (i > 0) {
++        if (dpy->clipboard_proxy) {
++            qemu_dbus_display1_clipboard_call_grab(
++                dpy->clipboard_proxy,
++                info->selection,
++                info->serial,
++                mime,
++                G_DBUS_CALL_FLAGS_NONE, -1, NULL, NULL, NULL);
 +        }
 +    }
-+
-+    return size;
 +}
 +
 +static void
-+dbus_enable_in(HWVoiceIn *hw, bool enable)
++dbus_clipboard_reset_serial(DBusDisplay *dpy)
 +{
-+    DBusAudio *da = (DBusAudio *)hw->s->drv_opaque;
-+    DBusVoiceIn *vo = container_of(hw, DBusVoiceIn, hw);
-+    GHashTableIter iter;
-+    QemuDBusDisplay1AudioInListener *listener = NULL;
-+
-+    vo->enabled = enable;
-+    if (enable) {
-+        audio_rate_start(&vo->rate);
-+    }
-+
-+    g_hash_table_iter_init(&iter, da->in_listeners);
-+    while (g_hash_table_iter_next(&iter, NULL, (void **)&listener)) {
-+        qemu_dbus_display1_audio_in_listener_call_set_enabled(
-+            listener, (uintptr_t)hw, enable,
-+            G_DBUS_CALL_FLAGS_NONE, -1, NULL, NULL, NULL);
++    if (dpy->clipboard_proxy) {
++        qemu_dbus_display1_clipboard_call_register(
++            dpy->clipboard_proxy,
++            G_DBUS_CALL_FLAGS_NONE,
++            -1, NULL, NULL, NULL);
 +    }
 +}
 +
-+static void *
-+dbus_audio_init(Audiodev *dev)
-+{
-+    DBusAudio *da = g_new0(DBusAudio, 1);
-+
-+    da->out_listeners = g_hash_table_new_full(g_str_hash, g_str_equal,
-+                                                g_free, g_object_unref);
-+    da->in_listeners = g_hash_table_new_full(g_str_hash, g_str_equal,
-+                                               g_free, g_object_unref);
-+    return da;
-+}
-+
 +static void
-+dbus_audio_fini(void *opaque)
++dbus_clipboard_notify(Notifier *notifier, void *data)
 +{
-+    DBusAudio *da = opaque;
++    DBusDisplay *dpy =
++        container_of(notifier, DBusDisplay, clipboard_peer.notifier);
++    QemuClipboardNotify *notify = data;
 +
-+    if (da->server) {
-+        g_dbus_object_manager_server_unexport(da->server,
-+                                              DBUS_DISPLAY1_AUDIO_PATH);
++    switch (notify->type) {
++    case QEMU_CLIPBOARD_UPDATE_INFO:
++        dbus_clipboard_update_info(dpy, notify->info);
++        return;
++    case QEMU_CLIPBOARD_RESET_SERIAL:
++        dbus_clipboard_reset_serial(dpy);
++        return;
 +    }
-+    g_clear_object(&da->audio);
-+    g_clear_object(&da->iface);
-+    g_clear_pointer(&da->in_listeners, g_hash_table_unref);
-+    g_clear_pointer(&da->out_listeners, g_hash_table_unref);
-+    g_clear_object(&da->server);
-+    g_free(da);
 +}
 +
 +static void
-+listener_out_vanished_cb(GDBusConnection *connection,
-+                         gboolean remote_peer_vanished,
-+                         GError *error,
-+                         DBusAudio *da)
++dbus_clipboard_qemu_request(QemuClipboardInfo *info,
++                            QemuClipboardType type)
 +{
-+    char *name = g_object_get_data(G_OBJECT(connection), "name");
++    DBusDisplay *dpy = container_of(info->owner, DBusDisplay, clipboard_peer);
++    g_autofree char *mime = NULL;
++    g_autoptr(GVariant) v_data = NULL;
++    g_autoptr(GError) err = NULL;
++    const char *data = NULL;
++    const char *mimes[] = { MIME_TEXT_PLAIN_UTF8, NULL };
++    size_t n;
 +
-+    g_hash_table_remove(da->out_listeners, name);
++    if (type != QEMU_CLIPBOARD_TYPE_TEXT) {
++        /* unsupported atm */
++        return;
++    }
++
++    if (dpy->clipboard_proxy) {
++        if (!qemu_dbus_display1_clipboard_call_request_sync(
++                dpy->clipboard_proxy,
++                info->selection,
++                mimes,
++                G_DBUS_CALL_FLAGS_NONE, -1, &mime, &v_data, NULL, &err)) {
++            error_report("Failed to request clipboard: %s", err->message);
++            return;
++        }
++
++        if (g_strcmp0(mime, MIME_TEXT_PLAIN_UTF8)) {
++            error_report("Unsupported returned MIME: %s", mime);
++            return;
++        }
++
++        data = g_variant_get_fixed_array(v_data, &n, 1);
++        qemu_clipboard_set_data(&dpy->clipboard_peer, info, type,
++                                n, data, true);
++    }
 +}
 +
 +static void
-+listener_in_vanished_cb(GDBusConnection *connection,
-+                        gboolean remote_peer_vanished,
-+                        GError *error,
-+                        DBusAudio *da)
++dbus_clipboard_request_cancelled(DBusClipboardRequest *req)
 +{
-+    char *name = g_object_get_data(G_OBJECT(connection), "name");
++    if (!req->invocation) {
++        return;
++    }
 +
-+    g_hash_table_remove(da->in_listeners, name);
++    g_dbus_method_invocation_return_error(
++        req->invocation,
++        DBUS_DISPLAY_ERROR,
++        DBUS_DISPLAY_ERROR_FAILED,
++        "Cancelled clipboard request");
++
++    g_clear_object(&req->invocation);
++    g_source_remove(req->timeout_id);
++    req->timeout_id = 0;
++}
++
++static void
++dbus_clipboard_unregister_proxy(DBusDisplay *dpy)
++{
++    const char *name = NULL;
++    int i;
++
++    for (i = 0; i < G_N_ELEMENTS(dpy->clipboard_request); ++i) {
++        dbus_clipboard_request_cancelled(&dpy->clipboard_request[i]);
++    }
++
++    if (!dpy->clipboard_proxy) {
++        return;
++    }
++
++    name = g_dbus_proxy_get_name(G_DBUS_PROXY(dpy->clipboard_proxy));
++    trace_dbus_clipboard_unregister(name);
++    g_clear_object(&dpy->clipboard_proxy);
++}
++
++static void
++dbus_on_clipboard_proxy_name_owner_changed(
++    DBusDisplay *dpy,
++    GObject *object,
++    GParamSpec *pspec)
++{
++    dbus_clipboard_unregister_proxy(dpy);
 +}
 +
 +static gboolean
-+dbus_audio_register_listener(AudioState *s,
-+                             GDBusMethodInvocation *invocation,
-+                             GUnixFDList *fd_list,
-+                             GVariant *arg_listener,
-+                             bool out)
++dbus_clipboard_register(
++    DBusDisplay *dpy,
++    GDBusMethodInvocation *invocation)
 +{
-+    DBusAudio *da = s->drv_opaque;
-+    const char *sender = g_dbus_method_invocation_get_sender(invocation);
-+    g_autoptr(GDBusConnection) listener_conn = NULL;
 +    g_autoptr(GError) err = NULL;
-+    g_autoptr(GSocket) socket = NULL;
-+    g_autoptr(GSocketConnection) socket_conn = NULL;
-+    g_autofree char *guid = g_dbus_generate_guid();
-+    GHashTable *listeners = out ? da->out_listeners : da->in_listeners;
-+    GObject *listener;
-+    int fd;
++    const char *name = NULL;
 +
-+    trace_dbus_audio_register(sender, out ? "out" : "in");
-+
-+    if (g_hash_table_contains(listeners, sender)) {
-+        g_dbus_method_invocation_return_error(invocation,
-+                                              DBUS_DISPLAY_ERROR,
-+                                              DBUS_DISPLAY_ERROR_INVALID,
-+                                              "`%s` is already registered!",
-+                                              sender);
++    if (dpy->clipboard_proxy) {
++        g_dbus_method_invocation_return_error(
++            invocation,
++            DBUS_DISPLAY_ERROR,
++            DBUS_DISPLAY_ERROR_FAILED,
++            "Clipboard peer already registered!");
 +        return DBUS_METHOD_INVOCATION_HANDLED;
 +    }
 +
-+    fd = g_unix_fd_list_get(fd_list, g_variant_get_handle(arg_listener), &err);
-+    if (err) {
-+        g_dbus_method_invocation_return_error(invocation,
-+                                              DBUS_DISPLAY_ERROR,
-+                                              DBUS_DISPLAY_ERROR_FAILED,
-+                                              "Couldn't get peer fd: %s",
-+                                              err->message);
-+        return DBUS_METHOD_INVOCATION_HANDLED;
-+    }
-+
-+    socket = g_socket_new_from_fd(fd, &err);
-+    if (err) {
-+        g_dbus_method_invocation_return_error(invocation,
-+                                              DBUS_DISPLAY_ERROR,
-+                                              DBUS_DISPLAY_ERROR_FAILED,
-+                                              "Couldn't make a socket: %s",
-+                                              err->message);
-+        return DBUS_METHOD_INVOCATION_HANDLED;
-+    }
-+    socket_conn = g_socket_connection_factory_create_connection(socket);
-+    if (out) {
-+        qemu_dbus_display1_audio_complete_register_out_listener(
-+            da->iface, invocation, NULL);
-+    } else {
-+        qemu_dbus_display1_audio_complete_register_in_listener(
-+            da->iface, invocation, NULL);
-+    }
-+
-+    listener_conn =
-+        g_dbus_connection_new_sync(
-+            G_IO_STREAM(socket_conn),
-+            guid,
-+            G_DBUS_CONNECTION_FLAGS_AUTHENTICATION_SERVER,
-+            NULL, NULL, &err);
-+    if (err) {
-+        error_report("Failed to setup peer connection: %s", err->message);
-+        return DBUS_METHOD_INVOCATION_HANDLED;
-+    }
-+
-+    listener = out ?
-+        G_OBJECT(qemu_dbus_display1_audio_out_listener_proxy_new_sync(
-+            listener_conn,
++    dpy->clipboard_proxy =
++        qemu_dbus_display1_clipboard_proxy_new_sync(
++            g_dbus_method_invocation_get_connection(invocation),
 +            G_DBUS_PROXY_FLAGS_DO_NOT_AUTO_START,
++            g_dbus_method_invocation_get_sender(invocation),
++            "/org/qemu/Display1/Clipboard",
 +            NULL,
-+            "/org/qemu/Display1/AudioOutListener",
-+            NULL,
-+            &err)) :
-+        G_OBJECT(qemu_dbus_display1_audio_in_listener_proxy_new_sync(
-+            listener_conn,
-+            G_DBUS_PROXY_FLAGS_DO_NOT_AUTO_START,
-+            NULL,
-+            "/org/qemu/Display1/AudioInListener",
-+            NULL,
-+            &err));
-+    if (!listener) {
-+        error_report("Failed to setup proxy: %s", err->message);
++            &err);
++    if (!dpy->clipboard_proxy) {
++        g_dbus_method_invocation_return_error(
++            invocation,
++            DBUS_DISPLAY_ERROR,
++            DBUS_DISPLAY_ERROR_FAILED,
++            "Failed to setup proxy: %s", err->message);
 +        return DBUS_METHOD_INVOCATION_HANDLED;
 +    }
 +
-+    if (out) {
-+        HWVoiceOut *hw;
++    name = g_dbus_proxy_get_name(G_DBUS_PROXY(dpy->clipboard_proxy));
++    trace_dbus_clipboard_register(name);
 +
-+        QLIST_FOREACH(hw, &s->hw_head_out, entries) {
-+            DBusVoiceOut *vo = container_of(hw, DBusVoiceOut, hw);
-+            QemuDBusDisplay1AudioOutListener *l =
-+                QEMU_DBUS_DISPLAY1_AUDIO_OUT_LISTENER(listener);
-+
-+            dbus_init_out_listener(l, hw);
-+            qemu_dbus_display1_audio_out_listener_call_set_enabled(
-+                l, (uintptr_t)hw, vo->enabled,
-+                G_DBUS_CALL_FLAGS_NONE, -1, NULL, NULL, NULL);
-+        }
-+    } else {
-+        HWVoiceIn *hw;
-+
-+        QLIST_FOREACH(hw, &s->hw_head_in, entries) {
-+            DBusVoiceIn *vo = container_of(hw, DBusVoiceIn, hw);
-+            QemuDBusDisplay1AudioInListener *l =
-+                QEMU_DBUS_DISPLAY1_AUDIO_IN_LISTENER(listener);
-+
-+            dbus_init_in_listener(
-+                QEMU_DBUS_DISPLAY1_AUDIO_IN_LISTENER(listener), hw);
-+            qemu_dbus_display1_audio_in_listener_call_set_enabled(
-+                l, (uintptr_t)hw, vo->enabled,
-+                G_DBUS_CALL_FLAGS_NONE, -1, NULL, NULL, NULL);
-+        }
-+    }
-+
-+    g_object_set_data_full(G_OBJECT(listener_conn), "name",
-+                           g_strdup(sender), g_free);
-+    g_hash_table_insert(listeners, g_strdup(sender), listener);
-+    g_object_connect(listener_conn,
-+                     "signal::closed",
-+                     out ? listener_out_vanished_cb : listener_in_vanished_cb,
-+                     da,
++    g_object_connect(dpy->clipboard_proxy,
++                     "swapped-signal::notify::g-name-owner",
++                     dbus_on_clipboard_proxy_name_owner_changed, dpy,
 +                     NULL);
++    qemu_clipboard_reset_serial();
++
++    qemu_dbus_display1_clipboard_complete_register(dpy->clipboard, invocation);
++    return DBUS_METHOD_INVOCATION_HANDLED;
++}
++
++static gboolean
++dbus_clipboard_check_caller(DBusDisplay *dpy, GDBusMethodInvocation *invocation)
++{
++    if (!dpy->clipboard_proxy ||
++        g_strcmp0(g_dbus_proxy_get_name(G_DBUS_PROXY(dpy->clipboard_proxy)),
++                  g_dbus_method_invocation_get_sender(invocation))) {
++        g_dbus_method_invocation_return_error(
++            invocation,
++            DBUS_DISPLAY_ERROR,
++            DBUS_DISPLAY_ERROR_FAILED,
++            "Unregistered caller");
++        return FALSE;
++    }
++
++    return TRUE;
++}
++
++static gboolean
++dbus_clipboard_unregister(
++    DBusDisplay *dpy,
++    GDBusMethodInvocation *invocation)
++{
++    if (!dbus_clipboard_check_caller(dpy, invocation)) {
++        return DBUS_METHOD_INVOCATION_HANDLED;
++    }
++
++    dbus_clipboard_unregister_proxy(dpy);
++
++    qemu_dbus_display1_clipboard_complete_unregister(
++        dpy->clipboard, invocation);
 +
 +    return DBUS_METHOD_INVOCATION_HANDLED;
 +}
 +
 +static gboolean
-+dbus_audio_register_out_listener(AudioState *s,
-+                                 GDBusMethodInvocation *invocation,
-+                                 GUnixFDList *fd_list,
-+                                 GVariant *arg_listener)
++dbus_clipboard_grab(
++    DBusDisplay *dpy,
++    GDBusMethodInvocation *invocation,
++    gint arg_selection,
++    guint arg_serial,
++    const gchar *const *arg_mimes)
 +{
-+    return dbus_audio_register_listener(s, invocation,
-+                                        fd_list, arg_listener, true);
++    QemuClipboardSelection s = arg_selection;
++    g_autoptr(QemuClipboardInfo) info = NULL;
 +
++    if (!dbus_clipboard_check_caller(dpy, invocation)) {
++        return DBUS_METHOD_INVOCATION_HANDLED;
++    }
++
++    if (s >= QEMU_CLIPBOARD_SELECTION__COUNT) {
++        g_dbus_method_invocation_return_error(
++            invocation,
++            DBUS_DISPLAY_ERROR,
++            DBUS_DISPLAY_ERROR_FAILED,
++            "Invalid clipboard selection: %d", arg_selection);
++        return DBUS_METHOD_INVOCATION_HANDLED;
++    }
++
++    info = qemu_clipboard_info_new(&dpy->clipboard_peer, s);
++    if (g_strv_contains(arg_mimes, MIME_TEXT_PLAIN_UTF8)) {
++        info->types[QEMU_CLIPBOARD_TYPE_TEXT].available = true;
++    }
++    info->serial = arg_serial;
++    info->has_serial = true;
++    if (qemu_clipboard_check_serial(info, true)) {
++        qemu_clipboard_update(info);
++    } else {
++        trace_dbus_clipboard_grab_failed();
++    }
++
++    qemu_dbus_display1_clipboard_complete_grab(dpy->clipboard, invocation);
++    return DBUS_METHOD_INVOCATION_HANDLED;
 +}
 +
 +static gboolean
-+dbus_audio_register_in_listener(AudioState *s,
-+                                GDBusMethodInvocation *invocation,
-+                                GUnixFDList *fd_list,
-+                                GVariant *arg_listener)
++dbus_clipboard_release(
++    DBusDisplay *dpy,
++    GDBusMethodInvocation *invocation,
++    gint arg_selection)
 +{
-+    return dbus_audio_register_listener(s, invocation,
-+                                        fd_list, arg_listener, false);
++    if (!dbus_clipboard_check_caller(dpy, invocation)) {
++        return DBUS_METHOD_INVOCATION_HANDLED;
++    }
++
++    qemu_clipboard_peer_release(&dpy->clipboard_peer, arg_selection);
++
++    qemu_dbus_display1_clipboard_complete_release(dpy->clipboard, invocation);
++    return DBUS_METHOD_INVOCATION_HANDLED;
 +}
 +
-+static void
-+dbus_audio_set_server(AudioState *s, GDBusObjectManagerServer *server)
++static gboolean
++dbus_clipboard_request_timeout(gpointer user_data)
 +{
-+    DBusAudio *da = s->drv_opaque;
++    dbus_clipboard_request_cancelled(user_data);
++    return G_SOURCE_REMOVE;
++}
 +
-+    g_assert(da);
-+    g_assert(!da->server);
++static gboolean
++dbus_clipboard_request(
++    DBusDisplay *dpy,
++    GDBusMethodInvocation *invocation,
++    gint arg_selection,
++    const gchar *const *arg_mimes)
++{
++    QemuClipboardSelection s = arg_selection;
++    QemuClipboardType type = QEMU_CLIPBOARD_TYPE_TEXT;
++    QemuClipboardInfo *info = NULL;
 +
-+    da->server = g_object_ref(server);
++    if (!dbus_clipboard_check_caller(dpy, invocation)) {
++        return DBUS_METHOD_INVOCATION_HANDLED;
++    }
 +
-+    da->audio = g_dbus_object_skeleton_new(DBUS_DISPLAY1_AUDIO_PATH);
-+    da->iface = qemu_dbus_display1_audio_skeleton_new();
-+    g_object_connect(da->iface,
-+                     "swapped-signal::handle-register-in-listener",
-+                     dbus_audio_register_in_listener, s,
-+                     "swapped-signal::handle-register-out-listener",
-+                     dbus_audio_register_out_listener, s,
++    if (s >= QEMU_CLIPBOARD_SELECTION__COUNT) {
++        g_dbus_method_invocation_return_error(
++            invocation,
++            DBUS_DISPLAY_ERROR,
++            DBUS_DISPLAY_ERROR_FAILED,
++            "Invalid clipboard selection: %d", arg_selection);
++        return DBUS_METHOD_INVOCATION_HANDLED;
++    }
++
++    if (dpy->clipboard_request[s].invocation) {
++        g_dbus_method_invocation_return_error(
++            invocation,
++            DBUS_DISPLAY_ERROR,
++            DBUS_DISPLAY_ERROR_FAILED,
++            "Pending request");
++        return DBUS_METHOD_INVOCATION_HANDLED;
++    }
++
++    info = qemu_clipboard_info(s);
++    if (!info || !info->owner || info->owner == &dpy->clipboard_peer) {
++        g_dbus_method_invocation_return_error(
++            invocation,
++            DBUS_DISPLAY_ERROR,
++            DBUS_DISPLAY_ERROR_FAILED,
++            "Empty clipboard");
++        return DBUS_METHOD_INVOCATION_HANDLED;
++    }
++
++    if (!g_strv_contains(arg_mimes, MIME_TEXT_PLAIN_UTF8) ||
++        !info->types[type].available) {
++        g_dbus_method_invocation_return_error(
++            invocation,
++            DBUS_DISPLAY_ERROR,
++            DBUS_DISPLAY_ERROR_FAILED,
++            "Unhandled MIME types requested");
++        return DBUS_METHOD_INVOCATION_HANDLED;
++    }
++
++    if (info->types[type].data) {
++        dbus_clipboard_complete_request(dpy, invocation, info, type);
++    } else {
++        qemu_clipboard_request(info, type);
++
++        dpy->clipboard_request[s].invocation = g_object_ref(invocation);
++        dpy->clipboard_request[s].type = type;
++        dpy->clipboard_request[s].timeout_id =
++            g_timeout_add_seconds(5, dbus_clipboard_request_timeout,
++                                  &dpy->clipboard_request[s]);
++    }
++
++    return DBUS_METHOD_INVOCATION_HANDLED;
++}
++
++void
++dbus_clipboard_init(DBusDisplay *dpy)
++{
++    g_autoptr(GDBusObjectSkeleton) clipboard = NULL;
++
++    assert(!dpy->clipboard);
++
++    clipboard = g_dbus_object_skeleton_new(DBUS_DISPLAY1_ROOT "/Clipboard");
++    dpy->clipboard = qemu_dbus_display1_clipboard_skeleton_new();
++    g_object_connect(dpy->clipboard,
++                     "swapped-signal::handle-register",
++                     dbus_clipboard_register, dpy,
++                     "swapped-signal::handle-unregister",
++                     dbus_clipboard_unregister, dpy,
++                     "swapped-signal::handle-grab",
++                     dbus_clipboard_grab, dpy,
++                     "swapped-signal::handle-release",
++                     dbus_clipboard_release, dpy,
++                     "swapped-signal::handle-request",
++                     dbus_clipboard_request, dpy,
 +                     NULL);
 +
-+    g_dbus_object_skeleton_add_interface(G_DBUS_OBJECT_SKELETON(da->audio),
-+                                         G_DBUS_INTERFACE_SKELETON(da->iface));
-+    g_dbus_object_manager_server_export(da->server, da->audio);
++    g_dbus_object_skeleton_add_interface(
++        G_DBUS_OBJECT_SKELETON(clipboard),
++        G_DBUS_INTERFACE_SKELETON(dpy->clipboard));
++    g_dbus_object_manager_server_export(dpy->server, clipboard);
++    dpy->clipboard_peer.name = "dbus";
++    dpy->clipboard_peer.notifier.notify = dbus_clipboard_notify;
++    dpy->clipboard_peer.request = dbus_clipboard_qemu_request;
++    qemu_clipboard_peer_register(&dpy->clipboard_peer);
 +}
-+
-+static struct audio_pcm_ops dbus_pcm_ops = {
-+    .init_out = dbus_init_out,
-+    .fini_out = dbus_fini_out,
-+    .write    = audio_generic_write,
-+    .get_buffer_out = dbus_get_buffer_out,
-+    .put_buffer_out = dbus_put_buffer_out,
-+    .enable_out = dbus_enable_out,
-+    .volume_out = dbus_volume_out,
-+
-+    .init_in  = dbus_init_in,
-+    .fini_in  = dbus_fini_in,
-+    .read     = dbus_read,
-+    .run_buffer_in = audio_generic_run_buffer_in,
-+    .enable_in = dbus_enable_in,
-+    .volume_in = dbus_volume_in,
-+};
-+
-+static struct audio_driver dbus_audio_driver = {
-+    .name            = "dbus",
-+    .descr           = "Timer based audio exposed with DBus interface",
-+    .init            = dbus_audio_init,
-+    .fini            = dbus_audio_fini,
-+    .set_dbus_server = dbus_audio_set_server,
-+    .pcm_ops         = &dbus_pcm_ops,
-+    .can_be_default  = 1,
-+    .max_voices_out  = INT_MAX,
-+    .max_voices_in   = INT_MAX,
-+    .voice_size_out  = sizeof(DBusVoiceOut),
-+    .voice_size_in   = sizeof(DBusVoiceIn)
-+};
-+
-+static void register_audio_dbus(void)
-+{
-+    audio_driver_register(&dbus_audio_driver);
-+}
-+type_init(register_audio_dbus);
-+
-+module_dep("ui-dbus")
 diff --git a/ui/dbus.c b/ui/dbus.c
-index 847a66782116..d24f704d4662 100644
+index d24f704d4662..4f0bc293aaa0 100644
 --- a/ui/dbus.c
 +++ b/ui/dbus.c
-@@ -30,6 +30,8 @@
- #include "ui/dbus-module.h"
- #include "ui/egl-helpers.h"
- #include "ui/egl-context.h"
-+#include "audio/audio.h"
-+#include "audio/audio_int.h"
- #include "qapi/error.h"
- #include "trace.h"
- 
-@@ -84,6 +86,7 @@ dbus_display_finalize(Object *o)
-     g_clear_object(&dd->bus);
-     g_clear_object(&dd->iface);
-     g_free(dd->dbus_addr);
-+    g_free(dd->audiodev);
-     dbus_display = NULL;
+@@ -24,6 +24,7 @@
+ #include "qemu/osdep.h"
+ #include "qemu/cutils.h"
+ #include "qemu/dbus.h"
++#include "qemu/main-loop.h"
+ #include "qemu/option.h"
+ #include "qom/object_interfaces.h"
+ #include "sysemu/sysemu.h"
+@@ -70,6 +71,8 @@ dbus_display_init(Object *o)
+     g_dbus_object_skeleton_add_interface(
+         vm, G_DBUS_INTERFACE_SKELETON(dd->iface));
+     g_dbus_object_manager_server_export(dd->server, vm);
++
++    dbus_clipboard_init(dd);
  }
  
-@@ -140,6 +143,19 @@ dbus_display_complete(UserCreatable *uc, Error **errp)
-         return;
-     }
+ static void
+@@ -77,6 +80,9 @@ dbus_display_finalize(Object *o)
+ {
+     DBusDisplay *dd = DBUS_DISPLAY(o);
  
-+    if (dd->audiodev && *dd->audiodev) {
-+        AudioState *audio_state = audio_state_by_name(dd->audiodev);
-+        if (!audio_state) {
-+            error_setg(errp, "Audiodev '%s' not found", dd->audiodev);
-+            return;
-+        }
-+        if (!g_str_equal(audio_state->drv->name, "dbus")) {
-+            error_setg(errp, "Audiodev '%s' is not compatible with DBus",
-+                       dd->audiodev);
-+            return;
-+        }
-+        audio_state->drv->set_dbus_server(audio_state, dd->server);
-+    }
- 
-     consoles = g_array_new(FALSE, FALSE, sizeof(guint32));
-     for (idx = 0;; idx++) {
-@@ -261,6 +277,23 @@ set_dbus_addr(Object *o, const char *str, Error **errp)
-     dd->dbus_addr = g_strdup(str);
++    qemu_clipboard_peer_unregister(&dd->clipboard_peer);
++    g_clear_object(&dd->clipboard);
++
+     g_clear_object(&dd->server);
+     g_clear_pointer(&dd->consoles, g_ptr_array_unref);
+     if (dd->add_client_cancellable) {
+@@ -294,6 +300,7 @@ set_audiodev(Object *o, const char *str, Error **errp)
+     dd->audiodev = g_strdup(str);
  }
  
-+static char *
-+get_audiodev(Object *o, Error **errp)
-+{
-+    DBusDisplay *dd = DBUS_DISPLAY(o);
-+
-+    return g_strdup(dd->audiodev);
-+}
-+
-+static void
-+set_audiodev(Object *o, const char *str, Error **errp)
-+{
-+    DBusDisplay *dd = DBUS_DISPLAY(o);
-+
-+    g_free(dd->audiodev);
-+    dd->audiodev = g_strdup(str);
-+}
 +
  static int
  get_gl_mode(Object *o, Error **errp)
  {
-@@ -285,6 +318,7 @@ dbus_display_class_init(ObjectClass *oc, void *data)
-     ucc->complete = dbus_display_complete;
-     object_class_property_add_bool(oc, "p2p", get_dbus_p2p, set_dbus_p2p);
-     object_class_property_add_str(oc, "addr", get_dbus_addr, set_dbus_addr);
-+    object_class_property_add_str(oc, "audiodev", get_audiodev, set_audiodev);
-     object_class_property_add_enum(oc, "gl-mode",
-                                    "DisplayGLMode", &DisplayGLMode_lookup,
-                                    get_gl_mode, set_gl_mode);
-@@ -321,6 +355,7 @@ dbus_init(DisplayState *ds, DisplayOptions *opts)
-                           object_get_objects_root(),
-                           "dbus-display", &error_fatal,
-                           "addr", opts->u.dbus.addr ?: "",
-+                          "audiodev", opts->u.dbus.audiodev ?: "",
-                           "gl-mode", DisplayGLMode_str(mode),
-                           "p2p", yes_no(opts->u.dbus.p2p),
-                           NULL);
-diff --git a/audio/meson.build b/audio/meson.build
-index 462533bb8c22..0ac3791d0bd1 100644
---- a/audio/meson.build
-+++ b/audio/meson.build
-@@ -26,4 +26,10 @@ foreach m : [
-   endif
- endforeach
- 
-+if dbus_display
-+    module_ss = ss.source_set()
-+    module_ss.add(when: gio, if_true: files('dbusaudio.c'))
-+    audio_modules += {'dbus': module_ss}
-+endif
-+
- modules += {'audio': audio_modules}
-diff --git a/audio/trace-events b/audio/trace-events
-index 957c92337bee..e1ab643add39 100644
---- a/audio/trace-events
-+++ b/audio/trace-events
-@@ -13,6 +13,11 @@ alsa_resume_out(void) "Resuming suspended output stream"
- # ossaudio.c
- oss_version(int version) "OSS version = 0x%x"
- 
-+# dbusaudio.c
-+dbus_audio_register(const char *s, const char *dir) "sender = %s, dir = %s"
-+dbus_audio_put_buffer_out(size_t len) "len = %zu"
-+dbus_audio_read(size_t len) "len = %zu"
-+
- # audio.c
- audio_timer_start(int interval) "interval %d ms"
- audio_timer_stop(void) ""
-diff --git a/qemu-options.hx b/qemu-options.hx
-index 977e0873a12c..7d4751094783 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -659,6 +659,9 @@ DEF("audiodev", HAS_ARG, QEMU_OPTION_audiodev,
- #endif
- #ifdef CONFIG_SPICE
-     "-audiodev spice,id=id[,prop[=value][,...]]\n"
-+#endif
-+#ifdef CONFIG_DBUS_DISPLAY
-+    "-audiodev dbus,id=id[,prop[=value][,...]]\n"
- #endif
-     "-audiodev wav,id=id[,prop[=value][,...]]\n"
-     "                path= path of wav file to record\n",
 diff --git a/ui/dbus-display1.xml b/ui/dbus-display1.xml
-index 0f0ae92e4d57..aff645220c88 100644
+index aff645220c88..767562ad1ea3 100644
 --- a/ui/dbus-display1.xml
 +++ b/ui/dbus-display1.xml
-@@ -375,4 +375,215 @@
-       </arg>
+@@ -376,6 +376,103 @@
      </method>
    </interface>
-+
+ 
 +  <!--
-+      org.qemu.Display1.Audio:
++      org.qemu.Display1.Clipboard:
 +
-+      Audio backend may be available on ``/org/qemu/Display1/Audio``.
++      This interface must be implemented by both the client and the server on
++      ``/org/qemu/Display1/Clipboard`` to support clipboard sharing between
++      the client and the guest.
++
++      Once :dbus:meth:`Register`'ed, method calls may be sent and received in both
++      directions. Unregistered callers will get error replies.
++
++      .. _dbus-clipboard-selection:
++
++      **Selection values**::
++
++        Clipboard   = 0
++        Primary     = 1
++        Secondary   = 2
++
++      .. _dbus-clipboard-serial:
++
++      **Serial counter**
++
++      To solve potential clipboard races, clipboard grabs have an associated
++      serial counter. It is set to 0 on registration, and incremented by 1 for
++      each grab. The peer with the highest serial is the clipboard grab owner.
++
++      When a grab with a lower serial is received, it should be discarded.
++
++      When a grab is attempted with the same serial number as the current grab,
++      the one coming from the client should have higher priority, and the client
++      should gain clipboard grab ownership.
 +  -->
-+  <interface name="org.qemu.Display1.Audio">
++  <interface name="org.qemu.Display1.Clipboard">
 +    <!--
-+        RegisterOutListener:
-+        @listener: a Unix socket FD, for peer-to-peer D-Bus communication.
++        Register:
 +
-+        Register an audio backend playback handler.
++        Register a clipboard session and reinitialize the serial counter.
 +
-+        Multiple listeners may be registered simultaneously.
++        The client must register itself, and is granted an exclusive
++        access for handling the clipboard.
 +
-+        The listener is expected to implement the
-+        :dbus:iface:`org.qemu.Display1.AudioOutListener` interface.
++        The server can reinitialize the session as well (to reset the counter).
 +    -->
-+    <method name="RegisterOutListener">
-+      <arg type="h" name="listener" direction="in"/>
++    <method name="Register"/>
++
++    <!--
++        Unregister:
++
++        Unregister the clipboard session.
++    -->
++    <method name="Unregister"/>
++    <!--
++        Grab:
++        @selection: a :ref:`selection value<dbus-clipboard-selection>`.
++        @serial: the current grab :ref:`serial<dbus-clipboard-serial>`.
++        @mimes: the list of available content MIME types.
++
++        Grab the clipboard, claiming current clipboard content.
++    -->
++    <method name="Grab">
++      <arg type="u" name="selection"/>
++      <arg type="u" name="serial"/>
++      <arg type="as" name="mimes"/>
 +    </method>
 +
 +    <!--
-+        RegisterInListener:
-+        @listener: a Unix socket FD, for peer-to-peer D-Bus communication.
++        Release:
++        @selection: a :ref:`selection value<dbus-clipboard-selection>`.
 +
-+        Register an audio backend record handler.
-+
-+        Multiple listeners may be registered simultaneously.
-+
-+        The listener is expected to implement the
-+        :dbus:iface:`org.qemu.Display1.AudioInListener` interface.
++        Release the clipboard (does nothing if not the current owner).
 +    -->
-+    <method name="RegisterInListener">
-+      <arg type="h" name="listener" direction="in"/>
-+    </method>
-+  </interface>
-+
-+  <!--
-+      org.qemu.Display1.AudioOutListener:
-+
-+      This client-side interface must be available on
-+      ``/org/qemu/Display1/AudioOutListener`` when registering the peer-to-peer
-+      connection with :dbus:meth:`~org.qemu.Display1.Audio.RegisterOutListener`.
-+  -->
-+  <interface name="org.qemu.Display1.AudioOutListener">
-+    <!--
-+        Init:
-+        @id: the stream ID.
-+        @bits: PCM bits per sample.
-+        @is_signed: whether the PCM data is signed.
-+        @is_float: PCM floating point format.
-+        @freq: the PCM frequency in Hz.
-+        @nchannels: the number of channels.
-+        @bytes_per_frame: the bytes per frame.
-+        @bytes_per_second: the bytes per second.
-+        @be: whether using big-endian format.
-+
-+        Initializes a PCM playback stream.
-+    -->
-+    <method name="Init">
-+      <arg name="id" type="t" direction="in"/>
-+      <arg name="bits" type="y" direction="in"/>
-+      <arg name="is_signed" type="b" direction="in"/>
-+      <arg name="is_float" type="b" direction="in"/>
-+      <arg name="freq" type="u" direction="in"/>
-+      <arg name="nchannels" type="y" direction="in"/>
-+      <arg name="bytes_per_frame" type="u" direction="in"/>
-+      <arg name="bytes_per_second" type="u" direction="in"/>
-+      <arg name="be" type="b" direction="in"/>
++    <method name="Release">
++      <arg type="u" name="selection"/>
 +    </method>
 +
 +    <!--
-+        Fini:
-+        @id: the stream ID.
++        Request:
++        @selection: a :ref:`selection value<dbus-clipboard-selection>`
++        @mimes: requested MIME types (by order of preference).
++        @reply_mime: the returned data MIME type.
++        @data: the clipboard data.
 +
-+        Finish & close a playback stream.
++        Request the clipboard content.
++
++        Return an error if the clipboard is empty, or the requested MIME types
++        are unavailable.
 +    -->
-+    <method name="Fini">
-+      <arg name="id" type="t" direction="in"/>
-+    </method>
-+
-+    <!--
-+        SetEnabled:
-+        @id: the stream ID.
-+
-+        Resume or suspend the playback stream.
-+    -->
-+    <method name="SetEnabled">
-+      <arg name="id" type="t" direction="in"/>
-+      <arg name="enabled" type="b" direction="in"/>
-+    </method>
-+
-+    <!--
-+        SetVolume:
-+        @id: the stream ID.
-+        @mute: whether the stream is muted.
-+        @volume: the volume per-channel.
-+
-+        Set the stream volume and mute state (volume without unit, 0-255).
-+    -->
-+    <method name="SetVolume">
-+      <arg name="id" type="t" direction="in"/>
-+      <arg name="mute" type="b" direction="in"/>
-+      <arg name="volume" type="ay" direction="in">
-+        <annotation name="org.gtk.GDBus.C.ForceGVariant" value="true"/>
-+      </arg>
-+    </method>
-+
-+    <!--
-+        Write:
-+        @id: the stream ID.
-+        @data: the PCM data.
-+
-+        PCM stream to play.
-+    -->
-+    <method name="Write">
-+      <arg name="id" type="t" direction="in"/>
-+      <arg type="ay" name="data" direction="in">
-+        <annotation name="org.gtk.GDBus.C.ForceGVariant" value="true"/>
-+      </arg>
-+    </method>
-+  </interface>
-+
-+  <!--
-+      org.qemu.Display1.AudioInListener:
-+
-+      This client-side interface must be available on
-+      ``/org/qemu/Display1/AudioInListener`` when registering the peer-to-peer
-+      connection with :dbus:meth:`~org.qemu.Display1.Audio.RegisterInListener`.
-+  -->
-+  <interface name="org.qemu.Display1.AudioInListener">
-+    <!--
-+        Init:
-+        @id: the stream ID.
-+        @bits: PCM bits per sample.
-+        @is_signed: whether the PCM data is signed.
-+        @is_float: PCM floating point format.
-+        @freq: the PCM frequency in Hz.
-+        @nchannels: the number of channels.
-+        @bytes_per_frame: the bytes per frame.
-+        @bytes_per_second: the bytes per second.
-+        @be: whether using big-endian format.
-+
-+        Initializes a PCM record stream.
-+    -->
-+    <method name="Init">
-+      <arg name="id" type="t" direction="in"/>
-+      <arg name="bits" type="y" direction="in"/>
-+      <arg name="is_signed" type="b" direction="in"/>
-+      <arg name="is_float" type="b" direction="in"/>
-+      <arg name="freq" type="u" direction="in"/>
-+      <arg name="nchannels" type="y" direction="in"/>
-+      <arg name="bytes_per_frame" type="u" direction="in"/>
-+      <arg name="bytes_per_second" type="u" direction="in"/>
-+      <arg name="be" type="b" direction="in"/>
-+    </method>
-+
-+    <!--
-+        Fini:
-+        @id: the stream ID.
-+
-+        Finish & close a record stream.
-+    -->
-+    <method name="Fini">
-+      <arg name="id" type="t" direction="in"/>
-+    </method>
-+
-+    <!--
-+        SetEnabled:
-+        @id: the stream ID.
-+
-+        Resume or suspend the record stream.
-+    -->
-+    <method name="SetEnabled">
-+      <arg name="id" type="t" direction="in"/>
-+      <arg name="enabled" type="b" direction="in"/>
-+    </method>
-+
-+    <!--
-+        SetVolume:
-+        @id: the stream ID.
-+        @mute: whether the stream is muted.
-+        @volume: the volume per-channel.
-+
-+        Set the stream volume and mute state (volume without unit, 0-255).
-+    -->
-+    <method name="SetVolume">
-+      <arg name="id" type="t" direction="in"/>
-+      <arg name="mute" type="b" direction="in"/>
-+      <arg name="volume" type="ay" direction="in">
-+        <annotation name="org.gtk.GDBus.C.ForceGVariant" value="true"/>
-+      </arg>
-+    </method>
-+
-+    <!--
-+        Read:
-+        @id: the stream ID.
-+        @size: the amount to read, in bytes.
-+        @data: the recorded data (which may be less than requested).
-+
-+        Read "size" bytes from the record stream.
-+    -->
-+    <method name="Read">
-+      <arg name="id" type="t" direction="in"/>
-+      <arg name="size" type="t" direction="in"/>
++    <method name="Request">
++      <arg type="u" name="selection"/>
++      <arg type="as" name="mimes"/>
++      <arg type="s" name="reply_mime" direction="out"/>
 +      <arg type="ay" name="data" direction="out">
 +        <annotation name="org.gtk.GDBus.C.ForceGVariant" value="true"/>
 +      </arg>
 +    </method>
 +  </interface>
- </node>
++
+   <!--
+       org.qemu.Display1.Audio:
+ 
+diff --git a/ui/meson.build b/ui/meson.build
+index 80f21704ada6..8982ab63c4df 100644
+--- a/ui/meson.build
++++ b/ui/meson.build
+@@ -82,6 +82,7 @@ if dbus_display
+                                           '--generate-c-code', '@BASENAME@'])
+   dbus_ss.add(when: [gio, pixman, opengl, 'CONFIG_GIO'],
+               if_true: [files(
++                'dbus-clipboard.c',
+                 'dbus-console.c',
+                 'dbus-error.c',
+                 'dbus-listener.c',
+diff --git a/ui/trace-events b/ui/trace-events
+index b1ae30159a53..f78b5e66061f 100644
+--- a/ui/trace-events
++++ b/ui/trace-events
+@@ -147,3 +147,6 @@ dbus_mouse_release(unsigned int button) "button %u"
+ dbus_mouse_set_pos(unsigned int x, unsigned int y) "x=%u, y=%u"
+ dbus_mouse_rel_motion(int dx, int dy) "dx=%d, dy=%d"
+ dbus_update(int x, int y, int w, int h) "x=%d, y=%d, w=%d, h=%d"
++dbus_clipboard_grab_failed(void) ""
++dbus_clipboard_register(const char *bus_name) "peer %s"
++dbus_clipboard_unregister(const char *bus_name) "peer %s"
 -- 
 2.34.1.8.g35151cf07204
 
