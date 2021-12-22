@@ -2,66 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCA3E47D32D
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Dec 2021 14:49:33 +0100 (CET)
-Received: from localhost ([::1]:40900 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6ADF47D336
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Dec 2021 14:54:18 +0100 (CET)
+Received: from localhost ([::1]:49680 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n01zo-0002sZ-Cm
-	for lists+qemu-devel@lfdr.de; Wed, 22 Dec 2021 08:49:32 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39704)
+	id 1n024P-0000Z3-Md
+	for lists+qemu-devel@lfdr.de; Wed, 22 Dec 2021 08:54:17 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39710)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1n01wB-0008JQ-Kn; Wed, 22 Dec 2021 08:45:47 -0500
-Received: from [2607:f8b0:4864:20::f33] (port=34454
- helo=mail-qv1-xf33.google.com)
+ id 1n01wB-0008Jw-RK; Wed, 22 Dec 2021 08:45:47 -0500
+Received: from [2607:f8b0:4864:20::733] (port=45916
+ helo=mail-qk1-x733.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1n01w7-0004ZV-7X; Wed, 22 Dec 2021 08:45:47 -0500
-Received: by mail-qv1-xf33.google.com with SMTP id ke6so2360070qvb.1;
- Wed, 22 Dec 2021 05:45:42 -0800 (PST)
+ id 1n01w9-0004Zz-8T; Wed, 22 Dec 2021 08:45:47 -0500
+Received: by mail-qk1-x733.google.com with SMTP id e16so2270176qkl.12;
+ Wed, 22 Dec 2021 05:45:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=/0g9s8OIvW2H4zuUtWZ1YgJgVS6lgCrt9UibX5UBJFs=;
- b=OkRWoMOlBkOAQ3KLfcWcBcZk68G7XU8MXpA4hmIgXP2B8ygeEmtxjAQMzKxZP++M8A
- Xt4YNYAYFnSMjA+uZP+UAFYiE9Wbh72YEwywok01nqkXeIuLOlqKbFxIXBkapqo7An52
- /ttscboLquCw7/BopFW9fonEbn2Ef2HHSrVPL4vHIU/Oq+I69kuTlxZWJxRIOoh9Oc5R
- suisUdPFAl4qy50myWG/ROURjxdfhi7N1QvjPfQUBhl2qsWllwYrA9nK2FMwRlR42MRb
- YNIq/UTPI3vLUoEidzVCpG53Zu3nPxX/amzMMznpfwBZm4WOM0rWZjxZPwymg7BBes8M
- /0IQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=0tPWroKf8+zwMZ81fuDdcOR55HvCkDzSknyMhykBjvk=;
+ b=XS2uP2iBEdBvT64xBshNOvgwVVkmzSMw5IC+XAvWwALvALbOzpFPyEogIG67u/EfnG
+ Sh8ATA3dXS2x8EjurYsbXXyJi3oFydeZzhs9M8iljBmrKPw5b8LOERsOXKkIU86dpHZb
+ hNdxV84Zp2GEx67qrfnwEKsO/UfLYqE4na7SHU6/AaCAFHTiUHiBj4aNIx2FkCq96xJ1
+ 6TS4GLPEfz6nPyiujAZYgvTN2/+fgyEZgzkF+sRFcHBRji2HQfIlon9BJN5GGs2HE7eY
+ ww9/k+b7aNPpQV13dVq+iKl4pkuBn2Knplv3Pf5bFrDY3U0X0lxYWJBgwHqvjgZqGpQL
+ Di8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=/0g9s8OIvW2H4zuUtWZ1YgJgVS6lgCrt9UibX5UBJFs=;
- b=INizTBdWX5zYFBg1HzJAP49T0SPr/eJwhXv03AVM/7+KYxs4Cs+o1YoLm6KTTLJ1W3
- 55GGNwQ4M5hfepfLT2cvqhB+upfGn/G1mD2mOTfuABIA52x8vb6K3puWc2Vp0D59Mq6Z
- Q3xmAvadFjgTwzR/SkxmIv192kLk23kq1Ell/zQOvWb3I5t4J5axR8YFJ3IuyTPvZToZ
- i2K6qWLpcTV5fSPrKV/NPyI439JMVdXkMKsQ7f3yI71APa0qpVcSqa+5w58uob55+yIq
- iUH5VKnkf8vYsXkmDn9pZsRsnAMHOWdDTC+xMGQrQnWNa8/ftif+V7rKb2RAAmW8fdY7
- 6XYw==
-X-Gm-Message-State: AOAM532AnFzQzXJ8EW3QBy5/jAGC68TtuBo1s8/rgcCVddkkcueqQNMI
- vKdoepPgeEkbn/lYAtDYHRjWRgfTGW0=
-X-Google-Smtp-Source: ABdhPJyu+snMkGKyFA4dR9l0kAAMrcclNYca13Wfn8AIvSXulGrFsarPgGgEDPF56EE0Bsu0fra1oA==
-X-Received: by 2002:a05:6214:e43:: with SMTP id o3mr2420621qvc.1.1640180741508; 
- Wed, 22 Dec 2021 05:45:41 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=0tPWroKf8+zwMZ81fuDdcOR55HvCkDzSknyMhykBjvk=;
+ b=14jinDBWozVojtFM9HnqImbmPfg8853PbZRO4/t6HyhWnlICZygVJe5iLSe+T/pfvf
+ VfrfuEIZBHVYEUUyoNXJ4jsRlXVArdHsKrL3ZPXSvEutCbtSuJCnFJMagDt4LCAG4qn3
+ Lu9uyHrABggMHTQKmF0auAbmHUeSVvzGZxRjpVA7k1loOKFYIXA++E8ni+37yeeMOXGQ
+ NZ0xRS/8gdmvTwljOFCUlVNDaGdem29wbaSrUVsnkPPc5dfIV+IcPDJmIJHvW/Psigrv
+ McA/KaGrlVkiD3tECbWmPbCHtZ+eYQJjXHZ7PBiFb1KLupgRgvSiBR+FMYS8uBLWJEm7
+ AFPg==
+X-Gm-Message-State: AOAM532zn28NYGAHm5/TdIL7uFYtMB/9mjjiE9KgPq4lSOZ44cxtNPO6
+ SDNS7kE1d5Ml0nyUVubqRnSLfnTt6hg=
+X-Google-Smtp-Source: ABdhPJzN0G/LM5/TfAlzFWwWTcbfExMZxBT7k8ESARyyAeKe668hVWWpNDRO6re2gt2Zb+HgWFBTuQ==
+X-Received: by 2002:a05:620a:e13:: with SMTP id
+ y19mr1924102qkm.112.1640180743782; 
+ Wed, 22 Dec 2021 05:45:43 -0800 (PST)
 Received: from rekt.ibmuc.com ([170.239.133.233])
- by smtp.gmail.com with ESMTPSA id j16sm1757054qtx.92.2021.12.22.05.45.39
+ by smtp.gmail.com with ESMTPSA id j16sm1757054qtx.92.2021.12.22.05.45.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Dec 2021 05:45:41 -0800 (PST)
+ Wed, 22 Dec 2021 05:45:43 -0800 (PST)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/8] Re-write PPC64 PMU instruction count using TCG Ops
-Date: Wed, 22 Dec 2021 10:45:12 -0300
-Message-Id: <20211222134520.587877-1-danielhb413@gmail.com>
+Subject: [PATCH 1/8] target/ppc: introduce power8-pmu-insn-cnt.c.inc
+Date: Wed, 22 Dec 2021 10:45:13 -0300
+Message-Id: <20211222134520.587877-2-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.33.1
+In-Reply-To: <20211222134520.587877-1-danielhb413@gmail.com>
+References: <20211222134520.587877-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::f33
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::733
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f33;
- envelope-from=danielhb413@gmail.com; helo=mail-qv1-xf33.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::733;
+ envelope-from=danielhb413@gmail.com; helo=mail-qk1-x733.google.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
@@ -88,81 +91,135 @@ Cc: richard.henderson@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+We're going to add a significant amount of TCG ops code for
+instruction counting, eventually getting rid of the 'helper_insn_inc'
+helper entirely.
 
-Two days ago Richard Henderson reported test failures with Avocado and
-powernv8/9 due to timeouts [1]. The culprit ended up to be commit , a
-commit where I introduced PMU instruction counting for TCG PPC64.
+Create a new file to avoid putting even more stuff on the already
+crowded target/ppc/translate.c.
 
-For a reason that is still unclear to me these Avocado powernv tests are
-suffering a huge performance impact after that patch, something that I
-didn't verify in any other scenario I've tested. So one alternative to
-fix the situation is to understand this difference and try to solve it,
-which can take some time. 
- 
-Another alternative is to optimize the code introduced by that commit.
-Today the instruction count is done by a TCG helper that is called after
-each TB exit. I was aware that calling a helper frequently isn't
-optimal, but that got the job done and didn't  hindered the use of
-pSeries and powernv machines.  Well, until [1] at least.
-
-This series rewrites the PMU instruction counting using TCG Ops instead
-of a TCG helper. To do that we needed to write in TCG Ops not only the
-logic for increment the counters but also the logic to detect counter
-overflows.
-
-A lot of code was added but the performance improvement is noticeable.
-Using my local machine I did some test runs with the 2 Avocado powernv
-tests that are timing out at this moment:
-
-- failing Avocado powernv tests with current master:
-
- (1/1) tests/avocado/boot_linux_console.py:BootLinuxConsole.test_ppc_powernv8: PASS (70.17 s)
- (1/1) tests/avocado/boot_linux_console.py:BootLinuxConsole.test_ppc_powernv8: PASS (70.90 s)
- (1/1) tests/avocado/boot_linux_console.py:BootLinuxConsole.test_ppc_powernv8: PASS (70.81 s)
- 
- (1/1) tests/avocado/boot_linux_console.py:BootLinuxConsole.test_ppc_powernv9: PASS (75.62 s)
- (1/1) tests/avocado/boot_linux_console.py:BootLinuxConsole.test_ppc_powernv9: PASS (69.79 s)
- (1/1) tests/avocado/boot_linux_console.py:BootLinuxConsole.test_ppc_powernv9: PASS (72.33 s)
-
-- after this series:
-
- (1/1) tests/avocado/boot_linux_console.py:BootLinuxConsole.test_ppc_powernv8: PASS (39.90 s)
- (1/1) tests/avocado/boot_linux_console.py:BootLinuxConsole.test_ppc_powernv8: PASS (38.25 s)
- (1/1) tests/avocado/boot_linux_console.py:BootLinuxConsole.test_ppc_powernv8: PASS (37.99 s)
-
- (1/1) tests/avocado/boot_linux_console.py:BootLinuxConsole.test_ppc_powernv9: PASS (43.17 s)
- (1/1) tests/avocado/boot_linux_console.py:BootLinuxConsole.test_ppc_powernv9: PASS (43.64 s)
- (1/1) tests/avocado/boot_linux_console.py:BootLinuxConsole.test_ppc_powernv9: PASS (44.21 s)
-
-
-I've also tested this code with the EBB exception patch that is pending
-re-send [2]. The EBB kernel selftests are working as expected. This
-means that we improved the performance and didn't lost any PMU
-capability we already have.
-
-
-[1] https://lists.gnu.org/archive/html/qemu-devel/2021-12/msg03486.html
-[2] https://lists.gnu.org/archive/html/qemu-devel/2021-12/msg00082.html
-
-
-Daniel Henrique Barboza (8):
-  target/ppc: introduce power8-pmu-insn-cnt.c.inc
-  target/ppc/power8-pmu-insn-cnt: add pmu_inc_pmc5()
-  target/ppc/power8-pmu-insn-cnt: add pmu_inc_pmc1()
-  target/ppc/power8-pmu-insn-cnt: add pmu_inc_pmc2()
-  target/ppc/power8-pmu-insn-cnt: add pmu_inc_pmc3()
-  target/ppc/power8-pmu-insn-cnt.c: add pmu_inc_pmc4()
-  target/ppc/power8-pmu-insn-cnt: add pmu_check_overflow()
-  target/ppc/power8-pmu.c: remove helper_insns_inc()
-
- target/ppc/helper.h                  |   2 +-
- target/ppc/power8-pmu-insn-cnt.c.inc | 365 +++++++++++++++++++++++++++
- target/ppc/power8-pmu.c              |  60 +----
- target/ppc/translate.c               |  44 +---
- 4 files changed, 372 insertions(+), 99 deletions(-)
+Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+---
+ target/ppc/power8-pmu-insn-cnt.c.inc | 54 ++++++++++++++++++++++++++++
+ target/ppc/translate.c               | 44 ++---------------------
+ 2 files changed, 56 insertions(+), 42 deletions(-)
  create mode 100644 target/ppc/power8-pmu-insn-cnt.c.inc
 
+diff --git a/target/ppc/power8-pmu-insn-cnt.c.inc b/target/ppc/power8-pmu-insn-cnt.c.inc
+new file mode 100644
+index 0000000000..2febbcc27e
+--- /dev/null
++++ b/target/ppc/power8-pmu-insn-cnt.c.inc
+@@ -0,0 +1,54 @@
++/*
++ * PMU instruction counting for TCG IBM POWER chips
++ *
++ * Copyright IBM Corp. 2021
++ *
++ * Authors:
++ *  Daniel Henrique Barboza      <danielhb413@gmail.com>
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
++ */
++
++#if defined(TARGET_PPC64)
++static void pmu_count_insns(DisasContext *ctx)
++{
++    /*
++     * Do not bother calling the helper if the PMU isn't counting
++     * instructions.
++     */
++    if (!ctx->pmu_insn_cnt) {
++        return;
++    }
++
++ #if !defined(CONFIG_USER_ONLY)
++    /*
++     * The PMU insns_inc() helper stops the internal PMU timer if a
++     * counter overflows happens. In that case, if the guest is
++     * running with icount and we do not handle it beforehand,
++     * the helper can trigger a 'bad icount read'.
++     */
++    gen_icount_io_start(ctx);
++
++    gen_helper_insns_inc(cpu_env, tcg_constant_i32(ctx->base.num_insns));
++#else
++    /*
++     * User mode can read (but not write) PMC5 and start/stop
++     * the PMU via MMCR0_FC. In this case just increment
++     * PMC5 with base.num_insns.
++     */
++    TCGv t0 = tcg_temp_new();
++
++    gen_load_spr(t0, SPR_POWER_PMC5);
++    tcg_gen_addi_tl(t0, t0, ctx->base.num_insns);
++    gen_store_spr(SPR_POWER_PMC5, t0);
++
++    tcg_temp_free(t0);
++#endif /* #if !defined(CONFIG_USER_ONLY) */
++}
++#else
++static void pmu_count_insns(DisasContext *ctx)
++{
++    return;
++}
++#endif /* #if defined(TARGET_PPC64) */
+diff --git a/target/ppc/translate.c b/target/ppc/translate.c
+index 114456148c..44773bc6cd 100644
+--- a/target/ppc/translate.c
++++ b/target/ppc/translate.c
+@@ -4183,48 +4183,8 @@ static inline void gen_update_cfar(DisasContext *ctx, target_ulong nip)
+ #endif
+ }
+ 
+-#if defined(TARGET_PPC64)
+-static void pmu_count_insns(DisasContext *ctx)
+-{
+-    /*
+-     * Do not bother calling the helper if the PMU isn't counting
+-     * instructions.
+-     */
+-    if (!ctx->pmu_insn_cnt) {
+-        return;
+-    }
+-
+- #if !defined(CONFIG_USER_ONLY)
+-    /*
+-     * The PMU insns_inc() helper stops the internal PMU timer if a
+-     * counter overflows happens. In that case, if the guest is
+-     * running with icount and we do not handle it beforehand,
+-     * the helper can trigger a 'bad icount read'.
+-     */
+-    gen_icount_io_start(ctx);
+-
+-    gen_helper_insns_inc(cpu_env, tcg_constant_i32(ctx->base.num_insns));
+-#else
+-    /*
+-     * User mode can read (but not write) PMC5 and start/stop
+-     * the PMU via MMCR0_FC. In this case just increment
+-     * PMC5 with base.num_insns.
+-     */
+-    TCGv t0 = tcg_temp_new();
+-
+-    gen_load_spr(t0, SPR_POWER_PMC5);
+-    tcg_gen_addi_tl(t0, t0, ctx->base.num_insns);
+-    gen_store_spr(SPR_POWER_PMC5, t0);
+-
+-    tcg_temp_free(t0);
+-#endif /* #if !defined(CONFIG_USER_ONLY) */
+-}
+-#else
+-static void pmu_count_insns(DisasContext *ctx)
+-{
+-    return;
+-}
+-#endif /* #if defined(TARGET_PPC64) */
++/* For pmu_count_insns */
++#include "target/ppc/power8-pmu-insn-cnt.c.inc"
+ 
+ static inline bool use_goto_tb(DisasContext *ctx, target_ulong dest)
+ {
 -- 
 2.33.1
 
