@@ -2,20 +2,20 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70F9C47D146
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Dec 2021 12:50:02 +0100 (CET)
-Received: from localhost ([::1]:59240 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA55E47D151
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Dec 2021 12:52:44 +0100 (CET)
+Received: from localhost ([::1]:35686 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n0089-00067Y-HV
-	for lists+qemu-devel@lfdr.de; Wed, 22 Dec 2021 06:50:01 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52976)
+	id 1n00Al-0000y6-Sq
+	for lists+qemu-devel@lfdr.de; Wed, 22 Dec 2021 06:52:43 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52984)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1n000W-0004HR-AO
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1n000W-0004IY-NP
  for qemu-devel@nongnu.org; Wed, 22 Dec 2021 06:42:08 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36779)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34309)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1n000U-00085K-Co
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1n000U-00085N-G0
  for qemu-devel@nongnu.org; Wed, 22 Dec 2021 06:42:08 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1640173325;
@@ -23,40 +23,40 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=25ClTElQGIw4e8rtUX0wQOp5VN41Kck8og/x/WwCBmg=;
- b=Ip0hQvYZbuNmCAJojYohjPa8HwIC3cfk+lC9bxEd3LuY8oiirszNmahwmmkJoLs4ae196f
- XAgMgMtNWXADKCBHX26yXS5smoWfbPDyG+eTHk/X10fzd8oWZl40GuXQW6R6qUP/31PN92
- P3/hFrcoX+W0AhF3vKp1YKlw1zrMDMs=
+ bh=9RmymRulc9pH203Gj/j21Kt5Cc46uTBP82yKJPGkMaY=;
+ b=GD00mM7QK6GAD+/r1KHLIQl/fgVf554e6xDZ53fa/Hbp0iW4lazMyy/zhK6Lk8GtaAXTb5
+ hE49kXiWECW6WP275OFNzXOjypxB6wDB1KR7RNRJAqFQMEH+2objOCSbUyNoscKeTbQShb
+ KyqW0EhAnpwyqrTVlk0Zqr6uXTyklEw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-403-S_nSwqgrMduRdw867PTqlw-1; Wed, 22 Dec 2021 06:42:02 -0500
-X-MC-Unique: S_nSwqgrMduRdw867PTqlw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-520-1CpK-c2qORWunc71Y72Ghw-1; Wed, 22 Dec 2021 06:42:04 -0500
+X-MC-Unique: 1CpK-c2qORWunc71Y72Ghw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 81A848042A2;
- Wed, 22 Dec 2021 11:42:01 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CCCC71006AA4;
+ Wed, 22 Dec 2021 11:42:03 +0000 (UTC)
 Received: from localhost (unknown [10.39.194.22])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D86D57B017;
- Wed, 22 Dec 2021 11:41:59 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 43E876A023;
+ Wed, 22 Dec 2021 11:42:03 +0000 (UTC)
 From: Hanna Reitz <hreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH 2/3] qsd: Add --daemonize
-Date: Wed, 22 Dec 2021 12:41:52 +0100
-Message-Id: <20211222114153.67721-3-hreitz@redhat.com>
+Subject: [PATCH 3/3] iotests/185: Add post-READY quit tests
+Date: Wed, 22 Dec 2021 12:41:53 +0100
+Message-Id: <20211222114153.67721-4-hreitz@redhat.com>
 In-Reply-To: <20211222114153.67721-1-hreitz@redhat.com>
 References: <20211222114153.67721-1-hreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -64,7 +64,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.203,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,263 +82,293 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This option does basically the same as --fork does for qemu-nbd:
-- We fork off a child process
-- The child process is daemonized (closing its stdin and stdout)
-- stderr of the child is routed through the parent, so the parent can
-  see errors and adjust its exit code accordingly
-- Once the child closes its end of this stderr pipe (done right after
-  creating the PID file), the parent exits
+185 tests quitting qemu while a block job is active.  It does not
+specifically test quitting qemu while a mirror or active commit job is
+in its READY phase.
 
-It is not named --fork, because --fork was probably a name that few
-programs but qemu-nbd ever used.  qemu (the system emulator) itself uses
--daemonize, too.  (Besides, QSD's interface is not compatible to
-qemu-nbd anyway; compare --pidfile vs. --pid-file.)
+Add two test cases for this, where we respectively mirror or commit to
+an external QSD instance, which provides a throttled block device.  qemu
+is supposed to cancel the job so that it can quit as soon as possible
+instead of waiting for the job to complete (which it did before 6.2).
 
 Signed-off-by: Hanna Reitz <hreitz@redhat.com>
 ---
- docs/tools/qemu-storage-daemon.rst   |   7 ++
- storage-daemon/qemu-storage-daemon.c | 151 +++++++++++++++++++++++++++
- 2 files changed, 158 insertions(+)
+ tests/qemu-iotests/185     | 190 ++++++++++++++++++++++++++++++++++++-
+ tests/qemu-iotests/185.out |  48 ++++++++++
+ 2 files changed, 237 insertions(+), 1 deletion(-)
 
-diff --git a/docs/tools/qemu-storage-daemon.rst b/docs/tools/qemu-storage-daemon.rst
-index 3e5a9dc032..83905ad526 100644
---- a/docs/tools/qemu-storage-daemon.rst
-+++ b/docs/tools/qemu-storage-daemon.rst
-@@ -149,6 +149,13 @@ Standard options:
-   created but before accepting connections. The daemon has started successfully
-   when the pid file is written and clients may begin connecting.
- 
-+.. option:: --daemonize
+diff --git a/tests/qemu-iotests/185 b/tests/qemu-iotests/185
+index f2ec5c5ceb..8b1143dc16 100755
+--- a/tests/qemu-iotests/185
++++ b/tests/qemu-iotests/185
+@@ -33,6 +33,12 @@ _cleanup()
+     _rm_test_img "${TEST_IMG}.copy"
+     _cleanup_test_img
+     _cleanup_qemu
 +
-+  Daemonize the process. The parent process will exit once startup is complete
-+  (i.e., after the pid file has been or would have been written) or failure
-+  occurs. Its exit code reflects whether the child has started up successfully
-+  or failed to do so.
-+
- Examples
- --------
- Launch the daemon with QMP monitor socket ``qmp.sock`` so clients can execute
-diff --git a/storage-daemon/qemu-storage-daemon.c b/storage-daemon/qemu-storage-daemon.c
-index 42a52d3b1c..cc94240545 100644
---- a/storage-daemon/qemu-storage-daemon.c
-+++ b/storage-daemon/qemu-storage-daemon.c
-@@ -60,6 +60,7 @@
- #include "trace/control.h"
- 
- static const char *pid_file;
-+static bool daemonize_opt;
- static volatile bool exit_requested = false;
- 
- void qemu_system_killed(int signal, pid_t pid)
-@@ -124,6 +125,9 @@ static void help(void)
- "\n"
- "  --pidfile <path>       write process ID to a file after startup\n"
- "\n"
-+"  --daemonize            daemonize the process, and have the parent exit\n"
-+"                         once startup is complete\n"
-+"\n"
- QEMU_HELP_BOTTOM "\n",
-     error_get_progname());
++    if [ -f "$TEST_DIR/qsd.pid" ]; then
++        kill -SIGKILL "$(cat "$TEST_DIR/qsd.pid")"
++        rm -f "$TEST_DIR/qsd.pid"
++    fi
++    rm -f "$SOCK_DIR/qsd.sock"
  }
-@@ -131,6 +135,7 @@ QEMU_HELP_BOTTOM "\n",
- enum {
-     OPTION_BLOCKDEV = 256,
-     OPTION_CHARDEV,
-+    OPTION_DAEMONIZE,
-     OPTION_EXPORT,
-     OPTION_MONITOR,
-     OPTION_NBD_SERVER,
-@@ -187,6 +192,7 @@ static void process_options(int argc, char *argv[], bool pre_init_pass)
-     static const struct option long_options[] = {
-         {"blockdev", required_argument, NULL, OPTION_BLOCKDEV},
-         {"chardev", required_argument, NULL, OPTION_CHARDEV},
-+        {"daemonize", no_argument, NULL, OPTION_DAEMONIZE},
-         {"export", required_argument, NULL, OPTION_EXPORT},
-         {"help", no_argument, NULL, 'h'},
-         {"monitor", required_argument, NULL, OPTION_MONITOR},
-@@ -212,6 +218,7 @@ static void process_options(int argc, char *argv[], bool pre_init_pass)
-             c == '?' ||
-             c == 'h' ||
-             c == 'V' ||
-+            c == OPTION_DAEMONIZE ||
-             c == OPTION_PIDFILE;
+ trap "_cleanup; exit \$status" 0 1 2 3 15
  
-         /* Process every option only in its respective pass */
-@@ -264,6 +271,9 @@ static void process_options(int argc, char *argv[], bool pre_init_pass)
-                 qemu_opts_del(opts);
-                 break;
-             }
-+        case OPTION_DAEMONIZE:
-+            daemonize_opt = true;
-+            break;
-         case OPTION_EXPORT:
-             {
-                 Visitor *v;
-@@ -342,8 +352,137 @@ static void pid_file_init(void)
-     atexit(pid_file_cleanup);
- }
+@@ -45,7 +51,7 @@ _supported_fmt qcow2
+ _supported_proto file
+ _supported_os Linux
  
-+/**
-+ * Handle daemonizing.
-+ *
-+ * Return false on error, and true if and only if daemonizing was
-+ * successful and we are in the child process.  (The parent process will
-+ * never return true, but instead rather exit() if there was no error.)
-+ *
-+ * When returning true, *old_stderr is set to an FD representing the
-+ * original stderr.  Once the child is set up (after creating the PID
-+ * file, and before entering the main loop), it should invoke
-+ * `daemon_detach(old_stderr)` to have the parent process exit and
-+ * restore the original stderr.
-+ */
-+static bool daemonize(int *old_stderr, Error **errp)
-+{
-+    int stderr_fd[2];
-+    pid_t pid;
-+    int ret;
+-size=64M
++size=$((64 * 1048576))
+ TEST_IMG="${TEST_IMG}.base" _make_test_img $size
+ 
+ echo
+@@ -216,6 +222,188 @@ wait=1 _cleanup_qemu | grep -v 'JOB_STATUS_CHANGE'
+ 
+ _check_test_img
+ 
++echo
++echo === Start mirror to throttled QSD and exit qemu ===
++echo
 +
-+    if (qemu_pipe(stderr_fd) < 0) {
-+        error_setg_errno(errp, errno, "Error setting up communication pipe");
-+        return false;
-+    }
++# Mirror to a throttled QSD instance (so that qemu cannot drain the
++# throttling), wait for READY, then write some data to the device,
++# and then quit qemu.
++# (qemu should force-cancel the job and not wait for the data to be
++# written to the target.)
 +
-+    pid = fork();
-+    if (pid < 0) {
-+        error_setg_errno(errp, errno, "Failed to fork");
-+        return false;
-+    }
++_make_test_img $size
 +
-+    if (pid == 0) { /* Child process */
-+        close(stderr_fd[0]); /* Close pipe's read end */
-+
-+        /* Keep the old stderr so we can reuse it after the parent has quit */
-+        *old_stderr = dup(STDERR_FILENO);
-+        if (*old_stderr < 0) {
-+            /*
-+             * Cannot return an error without having our stderr point to the
-+             * pipe: Otherwise, the parent process would not see the error
-+             * message and so not exit with EXIT_FAILURE.
-+             */
-+            error_setg_errno(errp, errno, "Failed to duplicate stderr FD");
-+            dup2(stderr_fd[1], STDERR_FILENO);
-+            close(stderr_fd[1]);
-+            return false;
-+        }
-+
-+        /*
-+         * Daemonize, redirecting all std streams to /dev/null; then
-+         * (even on error) redirect stderr to the pipe's write end
-+         */
-+        ret = qemu_daemon(1, 0);
-+
-+        /*
-+         * Unconditionally redirect stderr to the pipe's write end (and
-+         * close the then-unused write end FD, because now stderr points
-+         * to it)
-+         */
-+        dup2(stderr_fd[1], STDERR_FILENO);
-+        close(stderr_fd[1]);
-+
-+        if (ret < 0) {
-+            error_setg_errno(errp, errno, "Failed to daemonize");
-+            close(*old_stderr);
-+            *old_stderr = -1;
-+            return false;
-+        }
-+
-+        return true;
-+    } else { /* Parent process */
-+        bool errors = false;
-+        g_autofree char *buf = g_malloc(1024);
-+
-+        close(stderr_fd[1]); /* Close pipe's write end */
-+
-+        /* Print error messages from the child until it closes the pipe */
-+        while ((ret = read(stderr_fd[0], buf, 1024)) > 0) {
-+            errors = true;
-+            ret = qemu_write_full(STDERR_FILENO, buf, ret);
-+            if (ret < 0) {
-+                error_setg_errno(errp, -ret,
-+                                 "Failed to print error received from the "
-+                                 "daemonized child to stderr");
-+                close(stderr_fd[0]);
-+                return false;
-+            }
-+        }
-+
-+        close(stderr_fd[0]); /* Close read end, it is unused now */
-+
-+        if (ret < 0) {
-+            error_setg_errno(errp, -ret, "Cannot read from daemon");
-+            return false;
-+        }
-+
-+        /*
-+         * Child is either detached and running (in which case it should
-+         * not have printed any errors, and @errors should be false), or
-+         * has encountered an error (which it should have printed, so
-+         * @errors should be true) and has exited.
-+         *
-+         * Exit with the appropriate exit code.
-+         */
-+        exit(errors ? EXIT_FAILURE : EXIT_SUCCESS);
-+    }
++# Will be used by this and the next case
++set_up_throttled_qsd() {
++    $QSD \
++        --object throttle-group,id=thrgr,limits.bps-total=1048576 \
++        --blockdev null-co,node-name=null,size=$size \
++        --blockdev throttle,node-name=throttled,throttle-group=thrgr,file=null \
++        --nbd-server addr.type=unix,addr.path="$SOCK_DIR/qsd.sock" \
++        --export nbd,id=exp,node-name=throttled,name=target,writable=true \
++        --pidfile "$TEST_DIR/qsd.pid" \
++        --daemonize
 +}
 +
-+/**
-+ * After daemonize(): Let the parent process exit by closing the pipe
-+ * connected to it.  The original stderr is restored from *old_stderr.
-+ *
-+ * This function should be called after creating the PID file and before
-+ * entering the main loop.
-+ */
-+static void daemon_detach(int *old_stderr)
-+{
-+    /*
-+     * Ignore errors; closing the old stderr should not fail, and if
-+     * dup-ing fails, then we cannot print anything to stderr anyway
-+     */
-+    dup2(*old_stderr, STDERR_FILENO);
++set_up_throttled_qsd
 +
-+    close(*old_stderr);
-+    *old_stderr = -1;
++# Need a virtio-blk device so that qemu-io writes will not block the monitor
++_launch_qemu \
++    --blockdev file,node-name=source-proto,filename="$TEST_IMG" \
++    --blockdev qcow2,node-name=source-fmt,file=source-proto \
++    --device virtio-blk,id=vblk,drive=source-fmt \
++    --blockdev "{\"driver\": \"nbd\",
++                 \"node-name\": \"target\",
++                 \"server\": {
++                     \"type\": \"unix\",
++                     \"path\": \"$SOCK_DIR/qsd.sock\"
++                 },
++                 \"export\": \"target\"}"
++
++h=$QEMU_HANDLE
++_send_qemu_cmd $h '{"execute": "qmp_capabilities"}' 'return'
++
++# Use sync=top, so the first pass will not copy the whole image
++_send_qemu_cmd $h \
++    '{"execute": "blockdev-mirror",
++      "arguments": {
++          "job-id": "mirror",
++          "device": "source-fmt",
++          "target": "target",
++          "sync": "top"
++      }}' \
++    'return' \
++    | grep -v JOB_STATUS_CHANGE # Ignore these events during creation
++
++# This too will be used by this and the next case
++# $1: QEMU handle
++# $2: Image size
++wait_for_job_and_quit() {
++    h=$1
++    size=$2
++
++    # List of expected events
++    capture_events='BLOCK_JOB_READY JOB_STATUS_CHANGE'
++    _wait_event $h 'BLOCK_JOB_READY'
++    QEMU_EVENTS= # Ignore all JOB_STATUS_CHANGE events that came before READY
++
++    # Write something to the device for post-READY mirroring.  Write it in
++    # blocks matching the cluster size, each spaced one block apart, so
++    # that the mirror job will have to spawn one request per cluster.
++    # Because the number of concurrent requests is limited (to 16), this
++    # limits the number of bytes concurrently in flight, which speeds up
++    # cancelling the job (in-flight requests still are waited for).
++    # To limit the number of bytes in flight, we could alternatively pass
++    # something for blockdev-mirror's @buf-size parameter, but
++    # block-commit does not have such a parameter, so we need to figure
++    # something out that works for both.
++
++    cluster_size=65536
++    step=$((cluster_size * 2))
++
++    echo '--- Writing data to the virtio-blk device ---'
++
++    for ofs in $(seq 0 $step $((size - step))); do
++        qemu_io_cmd="qemu-io -d vblk/virtio-backend "
++        qemu_io_cmd+="\\\"aio_write $ofs $cluster_size\\\""
++
++        # Do not include these requests in the reference output
++        # (it's just too much)
++        silent=yes _send_qemu_cmd $h \
++            "{\"execute\": \"human-monitor-command\",
++              \"arguments\": {
++                  \"command-line\": \"$qemu_io_cmd\"
++              }}" \
++            'return'
++    done
++
++    # Wait until the job's length is updated to reflect the write requests
++
++    # We have written to half of the device, so this is the expected job length
++    final_len=$((size / 2))
++    timeout=100 # unit: 0.1 seconds
++    while true; do
++        len=$(
++            _send_qemu_cmd $h \
++                '{"execute": "query-block-jobs"}' \
++                'return.*"len": [0-9]\+' \
++                | grep 'return.*"len": [0-9]\+' \
++                | sed -e 's/.*"len": \([0-9]\+\).*/\1/'
++        )
++        if [ "$len" -eq "$final_len" ]; then
++            break
++        fi
++        timeout=$((timeout - 1))
++        if [ "$timeout" -eq 0 ]; then
++            echo "ERROR: Timeout waiting for job to reach len=$final_len"
++            break
++        fi
++        sleep 0.1
++    done
++
++    sleep 1
++
++    _send_qemu_cmd $h \
++        '{"execute": "quit"}' \
++        'return'
++
++    # List of expected events
++    capture_events='BLOCK_JOB_CANCELLED JOB_STATUS_CHANGE SHUTDOWN'
++    _wait_event $h 'SHUTDOWN'
++    QEMU_EVENTS= # Ignore all JOB_STATUS_CHANGE events that came before SHUTDOWN
++    _wait_event $h 'JOB_STATUS_CHANGE' # standby
++    _wait_event $h 'JOB_STATUS_CHANGE' # ready
++    _wait_event $h 'JOB_STATUS_CHANGE' # aborting
++    # Filter the offset (depends on when exactly `quit` was issued)
++    _wait_event $h 'BLOCK_JOB_CANCELLED' \
++        | sed -e 's/"offset": [0-9]\+/"offset": (filtered)/'
++    _wait_event $h 'JOB_STATUS_CHANGE' # concluded
++    _wait_event $h 'JOB_STATUS_CHANGE' # null
++
++    wait=yes _cleanup_qemu
++
++    kill -SIGTERM "$(cat "$TEST_DIR/qsd.pid")"
 +}
 +
- int main(int argc, char *argv[])
- {
-+    Error *local_err = NULL;
-+    int old_stderr = -1;
++wait_for_job_and_quit $h $size
 +
- #ifdef CONFIG_POSIX
-     signal(SIGPIPE, SIG_IGN);
- #endif
-@@ -354,6 +493,14 @@ int main(int argc, char *argv[])
- 
-     process_options(argc, argv, true);
- 
-+    if (daemonize_opt) {
-+        if (!daemonize(&old_stderr, &local_err)) {
-+            error_report_err(local_err);
-+            return EXIT_FAILURE;
-+        }
-+        assert(old_stderr >= 0);
-+    }
++echo
++echo === Start active commit to throttled QSD and exit qemu ===
++echo
 +
-     module_call_init(MODULE_INIT_QOM);
-     module_call_init(MODULE_INIT_TRACE);
-     qemu_add_opts(&qemu_trace_opts);
-@@ -377,6 +524,10 @@ int main(int argc, char *argv[])
-      */
-     pid_file_init();
- 
-+    if (daemonize_opt) {
-+        daemon_detach(&old_stderr);
-+    }
++# Same as the above, but instead of mirroring, do an active commit
 +
-     while (!exit_requested) {
-         main_loop_wait(false);
-     }
++_make_test_img $size
++
++set_up_throttled_qsd
++
++_launch_qemu \
++    --blockdev "{\"driver\": \"nbd\",
++                 \"node-name\": \"target\",
++                 \"server\": {
++                     \"type\": \"unix\",
++                     \"path\": \"$SOCK_DIR/qsd.sock\"
++                 },
++                 \"export\": \"target\"}" \
++    --blockdev file,node-name=source-proto,filename="$TEST_IMG" \
++    --blockdev qcow2,node-name=source-fmt,file=source-proto,backing=target \
++    --device virtio-blk,id=vblk,drive=source-fmt
++
++h=$QEMU_HANDLE
++_send_qemu_cmd $h '{"execute": "qmp_capabilities"}' 'return'
++
++_send_qemu_cmd $h \
++    '{"execute": "block-commit",
++      "arguments": {
++          "job-id": "commit",
++          "device": "source-fmt"
++      }}' \
++    'return' \
++    | grep -v JOB_STATUS_CHANGE # Ignore these events during creation
++
++wait_for_job_and_quit $h $size
++
+ # success, all done
+ echo "*** done"
+ rm -f $seq.full
+diff --git a/tests/qemu-iotests/185.out b/tests/qemu-iotests/185.out
+index 754a641258..70e8dd6c87 100644
+--- a/tests/qemu-iotests/185.out
++++ b/tests/qemu-iotests/185.out
+@@ -116,4 +116,52 @@ Formatting 'TEST_DIR/t.qcow2.copy', fmt=qcow2 cluster_size=65536 extended_l2=off
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "SHUTDOWN", "data": {"guest": false, "reason": "host-qmp-quit"}}
+ {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "BLOCK_JOB_CANCELLED", "data": {"device": "disk", "len": 67108864, "offset": 524288, "speed": 65536, "type": "stream"}}
+ No errors were found on the image.
++
++=== Start mirror to throttled QSD and exit qemu ===
++
++Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
++{"execute": "qmp_capabilities"}
++{"return": {}}
++{"execute": "blockdev-mirror",
++      "arguments": {
++          "job-id": "mirror",
++          "device": "source-fmt",
++          "target": "target",
++          "sync": "top"
++      }}
++{"return": {}}
++{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "BLOCK_JOB_READY", "data": {"device": "mirror", "len": 0, "offset": 0, "speed": 0, "type": "mirror"}}
++--- Writing data to the virtio-blk device ---
++{"execute": "quit"}
++{"return": {}}
++{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "SHUTDOWN", "data": {"guest": false, "reason": "host-qmp-quit"}}
++{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "standby", "id": "mirror"}}
++{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "ready", "id": "mirror"}}
++{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "aborting", "id": "mirror"}}
++{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "BLOCK_JOB_CANCELLED", "data": {"device": "mirror", "len": 33554432, "offset": (filtered), "speed": 0, "type": "mirror"}}
++{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "concluded", "id": "mirror"}}
++{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "null", "id": "mirror"}}
++
++=== Start active commit to throttled QSD and exit qemu ===
++
++Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
++{"execute": "qmp_capabilities"}
++{"return": {}}
++{"execute": "block-commit",
++      "arguments": {
++          "job-id": "commit",
++          "device": "source-fmt"
++      }}
++{"return": {}}
++{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "BLOCK_JOB_READY", "data": {"device": "commit", "len": 0, "offset": 0, "speed": 0, "type": "commit"}}
++--- Writing data to the virtio-blk device ---
++{"execute": "quit"}
++{"return": {}}
++{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "SHUTDOWN", "data": {"guest": false, "reason": "host-qmp-quit"}}
++{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "standby", "id": "commit"}}
++{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "ready", "id": "commit"}}
++{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "aborting", "id": "commit"}}
++{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "BLOCK_JOB_CANCELLED", "data": {"device": "commit", "len": 33554432, "offset": (filtered), "speed": 0, "type": "commit"}}
++{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "concluded", "id": "commit"}}
++{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "null", "id": "commit"}}
+ *** done
 -- 
 2.33.1
 
