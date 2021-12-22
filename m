@@ -2,85 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5F8347D932
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Dec 2021 23:13:51 +0100 (CET)
-Received: from localhost ([::1]:36760 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF22247D942
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Dec 2021 23:17:41 +0100 (CET)
+Received: from localhost ([::1]:42064 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n09rq-0002kw-Ig
-	for lists+qemu-devel@lfdr.de; Wed, 22 Dec 2021 17:13:50 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58438)
+	id 1n09vW-0006Xu-Qy
+	for lists+qemu-devel@lfdr.de; Wed, 22 Dec 2021 17:17:38 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59268)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1n09px-0000eG-2r
- for qemu-devel@nongnu.org; Wed, 22 Dec 2021 17:11:53 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:40863)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1n09pu-0003le-6b
- for qemu-devel@nongnu.org; Wed, 22 Dec 2021 17:11:52 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1640211109;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=S6qPSAtpOAImAvRiidbOon+xm6zVl14NT0GIWuhRcEk=;
- b=EqYSuRg6KnF9JDah5mQYb1K9Wwlfdr/sETtb61IONj1sGReGiLGhe4V734yCbIsrsVYA/H
- UH59TpGBEcjQuW2cQiLgQxS0clp/vp4WhH+GTqGkp6SgimClwsbn4b4vmRQRJt9HKwtySP
- lpiDGcRuDdNQjWIqjBIPK8RLq1YGqvI=
-Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com
- [209.85.210.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-397-6RIPuEX9NdenwmNmo7UnGA-1; Wed, 22 Dec 2021 17:11:47 -0500
-X-MC-Unique: 6RIPuEX9NdenwmNmo7UnGA-1
-Received: by mail-pf1-f198.google.com with SMTP id
- c6-20020aa781c6000000b004a4fcdf1d6dso2259522pfn.4
- for <qemu-devel@nongnu.org>; Wed, 22 Dec 2021 14:11:47 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1n09u0-0005V5-DX; Wed, 22 Dec 2021 17:16:06 -0500
+Received: from [2607:f8b0:4864:20::d29] (port=39842
+ helo=mail-io1-xd29.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1n09ty-0005GT-QG; Wed, 22 Dec 2021 17:16:04 -0500
+Received: by mail-io1-xd29.google.com with SMTP id c3so4734627iob.6;
+ Wed, 22 Dec 2021 14:16:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=aGtpWuMgp/6YVcQREcl/iH3N5qo1+Jb/iQByQLqv9M4=;
+ b=GpfcyDXL/9h5auu+GC2FlCtcrAgVlgabmr5FzgyHuAnO6EBYrpOOUJl1Gfq3kzWbMP
+ lN0yWkTiTWInUP6W6YcUhY+uAQ9kSM9ldFNg97iafOoMvqi+wP5A5eHwK3Bi1Juu6Hrr
+ SPcb+JBqJ2ajLJ55K0QHVaQuEq0x6P6NozYiYBaTv7Ihod8LihsY0vtJxfxCjQOvMpOG
+ SRc1CCUZNrhRO83l7Q9uzQlcLg4hYqwTdJekE5YlDrRrj1qRxUur+A1S1Aat2vtwNrGI
+ Ni+tNzHql/RI1NkykQ1g7Sq+absy3EWuxOyzofWDnLv9BagF1VVYxh0ZeKFlcwt261CY
+ gC3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=S6qPSAtpOAImAvRiidbOon+xm6zVl14NT0GIWuhRcEk=;
- b=NQrzIvJsl5nYYwtoaRQOa5ah9f6KqwY4lqc285emkRhPknwCnINanYqfvytHpAV5Vj
- iWqL4x/QSjrgmoCyq4EH4PKkes6hNtui4JrzahA3BlW4OAr9yI1B+G2fYFx59Xchrc7P
- T0xWiX8LRYeRzdV8TlbMp8GTU09flUnUWnKmJtyDo34ofcY0LXXdbSJfXb03e/Fdsev5
- dRp+53/4QIxc3yQDi+wiOHHqoTCbtfJkjyuQ2oamdCwP500UFrb1vLyOnxNXV0O0QKRs
- wBHyNFcP6cNisx8FdB1uPWEG5hZwgY2Gmie4CRjAXbEryM86i14Ohv4uedHEpuT3j/yB
- K7Yg==
-X-Gm-Message-State: AOAM5312eqGXZo3bmecbahAZWA5D3P0FLlDJwNkxKDpspHHP0e6xKY2X
- IoGeUAjCeE0WzuMWiKzR2s3JWNtWSYXrtuG53lm+aD+E8fOLHfb3jKA9rabySv2DPsEu1P1m1A7
- 8ZUZaIBTV/kuCesyoZJuKYP7IhgeKRxU=
-X-Received: by 2002:a17:903:41ca:b0:149:2afe:48aa with SMTP id
- u10-20020a17090341ca00b001492afe48aamr4325539ple.100.1640211106457; 
- Wed, 22 Dec 2021 14:11:46 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwJvdU0COeuLvjXjbMTqkWoSBzX407jiXNTDBw6kXGS0KfFeSu626I8vBzpayb+yoXzo6zWKYyVz8+fqQ4IpBo=
-X-Received: by 2002:a17:903:41ca:b0:149:2afe:48aa with SMTP id
- u10-20020a17090341ca00b001492afe48aamr4325518ple.100.1640211106164; Wed, 22
- Dec 2021 14:11:46 -0800 (PST)
+ bh=aGtpWuMgp/6YVcQREcl/iH3N5qo1+Jb/iQByQLqv9M4=;
+ b=1U3cfe1Jf4Ysmhm4SxPvrZVkLAMmu0DcJLKRqbitVdb2vaQNyb9FlwmiQQktXz40TO
+ oUdE+D39aCmGiItzZq+Q/ukb85tnGZRrXJMlkb6sY6tJqebaCCdXOMLIkZGP3IOMOo3m
+ jIgVRk4kFIfLzpX1yPZ8p3tCkTHYmFebQOlq0LaxNO4DyqgTWuT+YjvxtR1qXzW23I1N
+ bcIcLD2SU33HRpcMNbiHr77gbW+X2IcKr8y6am8AbuUqioQw+H22mnI2fVpmVeOu5/ce
+ NM9zHOVyXJicTdpgd0of6j53ouoSsihB8SPzYCoXjPLJD5eNCfDpKkh0Yg/X1Q01ZSFA
+ mirA==
+X-Gm-Message-State: AOAM531zeOpHlHSO6UqgMM1yunw+w8TSYNsrHOh4FSas0lb4fIFEotbX
+ ep9Tef/VDTNntwB16DObeYb7y/+4RdOI3HYSb4I=
+X-Google-Smtp-Source: ABdhPJz88tO2Xn9o79DquInlsqTQuzrgqKdoMndkKeJqkva9jojRT68xwIFebHIjLCQfpH7Moee+JUqe1YhHbUdRnDM=
+X-Received: by 2002:a05:6638:1395:: with SMTP id
+ w21mr2878187jad.125.1640211359474; 
+ Wed, 22 Dec 2021 14:15:59 -0800 (PST)
 MIME-Version: 1.0
-References: <20211221193502.114296-1-vsementsov@virtuozzo.com>
- <20211221193502.114296-4-vsementsov@virtuozzo.com>
-In-Reply-To: <20211221193502.114296-4-vsementsov@virtuozzo.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Date: Wed, 22 Dec 2021 23:11:34 +0100
-Message-ID: <CABgObfYqiLwfNf4_p2_HYQPvAHKAQ=4DNr1y2OMecoO6kpovzg@mail.gmail.com>
-Subject: Re: [PATCH 3/3] meson: generate trace points for qmp commands
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="000000000000570a7705d3c368c3"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.203,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <CAKmqyKOmKHjBYhBJP7EwDvKiV+H=y4jVheaJe8Wp46aBQWKgOA@mail.gmail.com>
+ <20211221071324.6213-1-nikita.shubin@maquefel.me>
+In-Reply-To: <20211221071324.6213-1-nikita.shubin@maquefel.me>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Thu, 23 Dec 2021 08:15:33 +1000
+Message-ID: <CAKmqyKO3XfUb6R4QAckVFy_XXQ1GMqU-keamtPObTpSXF0W=+A@mail.gmail.com>
+Subject: Re: [PATCH] target/riscv/pmp: fix no pmp illegal intrs
+To: Nikita Shubin <nikita.shubin@maquefel.me>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d29
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d29;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd29.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,72 +80,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Michael Roth <michael.roth@amd.com>, qemu-devel <qemu-devel@nongnu.org>,
- "Hajnoczi, Stefan" <stefanha@redhat.com>, "Armbruster,
- Markus" <armbru@redhat.com>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Nikita Shubin <n.shubin@yadro.com>, Bin Meng <bin.meng@windriver.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000570a7705d3c368c3
-Content-Type: text/plain; charset="UTF-8"
+On Tue, Dec 21, 2021 at 6:08 PM Nikita Shubin <nikita.shubin@maquefel.me> wrote:
+>
+> From: Nikita Shubin <n.shubin@yadro.com>
+>
+> As per the privilege specification, any access from S/U mode should fail
+> if no pmp region is configured and pmp is present, othwerwise access
+> should succeed.
+>
+> Fixes: d102f19a208 (target/riscv/pmp: Raise exception if no PMP entry is configured)
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/585
+> Signed-off-by: Nikita Shubin <n.shubin@yadro.com>
+> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-Il mar 21 dic 2021, 20:35 Vladimir Sementsov-Ogievskiy <
-vsementsov@virtuozzo.com> ha scritto:
+Thanks!
 
---- a/trace/meson.build
-+++ b/trace/meson.build
-@@ -2,10 +2,14 @@
- specific_ss.add(files('control-target.c'))
+Applied to riscv-to-apply.next
 
- trace_events_files = []
--foreach dir : [ '.' ] + trace_events_subdirs
--  trace_events_file = meson.project_source_root() / dir / 'trace-events'
-+foreach path : [ '.' ] + trace_events_subdirs + qapi_trace_events
-+  if path.contains('trace-events')
-+    trace_events_file = meson.project_build_root() / 'qapi' / path
+Alistair
 
-
-
-Just using "trace_events_file = 'qapi' / path" might work, since the build
-is nonrecursive.
-
-If it doesn't, use the custom target object, possibly indexing it as
-ct[index]. You can use a dictionary to store the custom targets and find
-them from the "path" variable.
-
-Paolo
-
-
+> ---
+>  target/riscv/op_helper.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/target/riscv/op_helper.c b/target/riscv/op_helper.c
+> index ee7c24efe7..58d992e98a 100644
+> --- a/target/riscv/op_helper.c
+> +++ b/target/riscv/op_helper.c
+> @@ -146,7 +146,8 @@ target_ulong helper_mret(CPURISCVState *env, target_ulong cpu_pc_deb)
+>      uint64_t mstatus = env->mstatus;
+>      target_ulong prev_priv = get_field(mstatus, MSTATUS_MPP);
+>
+> -    if (!pmp_get_num_rules(env) && (prev_priv != PRV_M)) {
+> +    if (riscv_feature(env, RISCV_FEATURE_PMP) &&
+> +        !pmp_get_num_rules(env) && (prev_priv != PRV_M)) {
+>          riscv_raise_exception(env, RISCV_EXCP_ILLEGAL_INST, GETPC());
+>      }
+>
+> --
+> 2.31.1
 >
 >
-
---000000000000570a7705d3c368c3
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto"><div dir=3D"ltr">Il mar 21 dic 2021, 20:35 Vladimir Semen=
-tsov-Ogievskiy &lt;<a href=3D"mailto:vsementsov@virtuozzo.com">vsementsov@v=
-irtuozzo.com</a>&gt; ha scritto:</div><blockquote style=3D"margin:0px 0px 0=
-px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">--- a/tra=
-ce/meson.build<br>+++ b/trace/meson.build<br>@@ -2,10 +2,14 @@<br>=C2=A0spe=
-cific_ss.add(files(&#39;control-target.c&#39;))<br><br>=C2=A0trace_events_f=
-iles =3D []<br>-foreach dir : [ &#39;.&#39; ] + trace_events_subdirs<br>-=
-=C2=A0 trace_events_file =3D meson.project_source_root() / dir / &#39;trace=
--events&#39;<br>+foreach path : [ &#39;.&#39; ] + trace_events_subdirs + qa=
-pi_trace_events<br>+=C2=A0 if path.contains(&#39;trace-events&#39;)<br>+=C2=
-=A0 =C2=A0 trace_events_file =3D meson.project_build_root() / &#39;qapi&#39=
-; / path</blockquote><blockquote style=3D"margin:0px 0px 0px 0.8ex;border-l=
-eft:1px solid rgb(204,204,204);padding-left:1ex"><br></blockquote><div dir=
-=3D"auto"><br></div>Just using &quot;trace_events_file =3D &#39;qapi&#39; /=
- path&quot; might work, since the build is nonrecursive.<div dir=3D"auto"><=
-br></div><div dir=3D"auto">If it doesn&#39;t, use the custom target object,=
- possibly indexing it as ct[index]. You can use a dictionary to store the c=
-ustom targets and find them from the &quot;path&quot; variable.</div><div d=
-ir=3D"auto"><br></div><div dir=3D"auto">Paolo<br><div dir=3D"auto"><br><div=
- class=3D"gmail_quote" dir=3D"auto"><blockquote class=3D"gmail_quote" style=
-=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><br><br>=
-</blockquote></div></div></div></div>
-
---000000000000570a7705d3c368c3--
-
 
