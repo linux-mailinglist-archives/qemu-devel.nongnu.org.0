@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD66D47D603
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Dec 2021 18:49:57 +0100 (CET)
-Received: from localhost ([::1]:43330 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02E3C47D626
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Dec 2021 18:55:59 +0100 (CET)
+Received: from localhost ([::1]:58594 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n05kS-0005BK-L7
-	for lists+qemu-devel@lfdr.de; Wed, 22 Dec 2021 12:49:57 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52732)
+	id 1n05qI-000783-2h
+	for lists+qemu-devel@lfdr.de; Wed, 22 Dec 2021 12:55:58 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52752)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1n05bv-0001fA-2P; Wed, 22 Dec 2021 12:41:07 -0500
-Received: from mail-eopbgr60133.outbound.protection.outlook.com
- ([40.107.6.133]:36163 helo=EUR04-DB3-obe.outbound.protection.outlook.com)
+ id 1n05bx-0001jC-37; Wed, 22 Dec 2021 12:41:09 -0500
+Received: from mail-vi1eur05on2133.outbound.protection.outlook.com
+ ([40.107.21.133]:46561 helo=EUR05-VI1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1n05bt-0002Zq-HZ; Wed, 22 Dec 2021 12:41:06 -0500
+ id 1n05bt-0002Xs-Ta; Wed, 22 Dec 2021 12:41:07 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nmSoEp9J7FqFl24uWtyjK+mDFpp8Hn6YES4rUzOFNKpN1vYn7GVB7bOBr71RDWWCLmvMCAFR3szLAyFF1MLv2IsVHb/7YdpMKBOqfdzZQ1Yn3oqCUrB4Y7iB6QPIw7hgLu9Lysi5FGM+1R1D26n6YrgPwFBPHBnwucJrttZsekkuCLDfwsyK07KN2OCbkV/r6BH4uEyYDudnGRqXJmNyiOg//syh1u7mmAVg+Bsfpaozisun3cq9pjo6k9hlhYbM3bZCNbcvnkDeKUhON1jnAlba4hH2yFfGTdz6vAD5cQjbJcuoqG0H2oP1q6LmZPHtV1V3lr8C9AuBuOcfD3T9ng==
+ b=kCO4pmJyRMxdB/WwR1slbk0+kRkjEzFAu3UL6qBc7Qqs3vzBAFaJN9f5D5yoY7xk/42FGxgJR9aqNW3zhfa+OnorhyIuSo8btGhkhIHah0ZAby9p1byTP9Brvpvp5vvMrIjPpNwzicLj53RvNrtmXlCv1HgL9RFRJLIpwSXg/UX/NqVv29bhHy4JyTfRTfOa5CffI98C79OU1y8i6FGA89npMq14D3RLY+rP7DP4PDZ6PSfxzUvC7ktH8EwwN6QpEqMQCabrI4rxHzbxxNCJYm9DQ2Mxbwz3VXmwWTHkq77C446o4gWBW62lai91GHvTIYmJlgsxTANnYLl9BgdpGA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=CYPK7ncijaZryIqD+4Q2YvASdig5B1EuqVTP0NbiT9E=;
- b=YyKshYg1wVXYufv01BX51ft9zmiQQU9cR2Tt7pARycbPIU5UPZpKx6SjVavIb7Bo1raW4OdzwAK+xn2IW5+HvSmLWsxiVqCM7nFJNCOyxCemiLKWCvMc/9PEVrLgHx+prXwKjzP1ykNhi7xHn8x+Hvxb/hPHGZFTc1XuwI1GVGwE6hfQXsKcDnj7yQQMfZk1jnX5KiZlz2ZgZ3JxWd3r6fgwAkUueU7c23a9P8E2eTwD0WSID9fBihe3U3iVPLSfNLt5HnzbFyPzXokTh/RCrWO05sY2hdBhrwWKO7X2UNZUAAWVidWfYYLotB7NAOnQ2B0QZNeddRxBgn3ssDEuRA==
+ bh=eTSzb7KD7j5SDUVI7rtElgBrilXEn34+nzaSC5E+1SE=;
+ b=izgpMYSb6SSdHGK32LhIoqkSvCnN0NoNxnEu4mFRUn93xQK1GVJsrMR1r+OedufR5zCQsYbBEFoVBW4wfeVY6uxwLL+BJ7/7WP0sOEEDAVVXQ1cjpGf8v7Ydn7hHKxfMowbA27rLzHBVxFHhvfzxrPvcphEkr7nQHVV1QtR5c46mdxGObmmNJrF8y3ijlTVZh11oLMHzLPBvXjxbjgqS3gSxu1Hd8HJHEkMzeaeHM02KEn1sm2cHdH+efF6TN7wt6svWgpPMglHxL7tIkfCjZqMC/nHpHaQ0lTsRCA1Khe8UVpx+/6lecPaqQ2srYSe20wv2TxUgNxO0Ce1b8FUjnw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CYPK7ncijaZryIqD+4Q2YvASdig5B1EuqVTP0NbiT9E=;
- b=HM8XwnDc/y8SW1X9E48D1JPgMdys5uuo1CcnWCD0bdRpXaqCtwiystwSdXdEMeaGfm6WI62FfBMhT8XkcpFovJLSyjsoy7GOkqKceUt4pOB//ei4MvQgjIej+sdYjgfScwJlOgkjtx6McLXdFP8gLnr7TjpJtne7ZRnu9pkxzm4=
+ bh=eTSzb7KD7j5SDUVI7rtElgBrilXEn34+nzaSC5E+1SE=;
+ b=bAZFBD7cFGyXWtaUDfAkZtLeG7xUJ0wxcVFJUPHabmGDGEPXvfqEIU2EOnDQ0QsxbuwUKx8i909YPnWC23kj6MMzk7M/W8HPQOgnNNqu0EagrtZKGMhZUJXYf2e/3KAaC442O8oVBsvmC6mTi1SsZTsSgSQUho4yklvl3USMg28=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=virtuozzo.com;
 Received: from DB9PR08MB6748.eurprd08.prod.outlook.com (2603:10a6:10:2a7::16)
  by DB8PR08MB3964.eurprd08.prod.outlook.com (2603:10a6:10:a4::25) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4801.17; Wed, 22 Dec
- 2021 17:40:46 +0000
+ 2021 17:40:47 +0000
 Received: from DB9PR08MB6748.eurprd08.prod.outlook.com
  ([fe80::a89f:c7bc:b9f8:fc3e]) by DB9PR08MB6748.eurprd08.prod.outlook.com
  ([fe80::a89f:c7bc:b9f8:fc3e%6]) with mapi id 15.20.4823.019; Wed, 22 Dec 2021
- 17:40:46 +0000
+ 17:40:47 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, armbru@redhat.com, xiechanglong.d@gmail.com,
  wencongyang2@huawei.com, eblake@redhat.com, hreitz@redhat.com,
  kwolf@redhat.com, vsementsov@virtuozzo.com, jsnow@redhat.com,
  nikita.lapshin@virtuozzo.com
-Subject: [PATCH v3 17/19] block: blk_root(): return non-const pointer
-Date: Wed, 22 Dec 2021 18:40:16 +0100
-Message-Id: <20211222174018.257550-18-vsementsov@virtuozzo.com>
+Subject: [PATCH v3 18/19] qapi: backup: add immutable-source parameter
+Date: Wed, 22 Dec 2021 18:40:17 +0100
+Message-Id: <20211222174018.257550-19-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211222174018.257550-1-vsementsov@virtuozzo.com>
 References: <20211222174018.257550-1-vsementsov@virtuozzo.com>
@@ -63,61 +63,61 @@ X-ClientProxiedBy: AS8P250CA0017.EURP250.PROD.OUTLOOK.COM
  (2603:10a6:10:2a7::16)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 82f94930-93a7-4193-f2ae-08d9c5722f3a
+X-MS-Office365-Filtering-Correlation-Id: c7168303-b35c-4161-f08e-08d9c5722fce
 X-MS-TrafficTypeDiagnostic: DB8PR08MB3964:EE_
-X-Microsoft-Antispam-PRVS: <DB8PR08MB3964236BAADEC92429F62478C17D9@DB8PR08MB3964.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4125;
+X-Microsoft-Antispam-PRVS: <DB8PR08MB3964E0FEEEAB157760DD0352C17D9@DB8PR08MB3964.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:4714;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: zI2XJtx0n5lK6NdKmXUwit+NvGM4JEcimo0orUYZHOLzliXbWZAvQYQR+F68DT2xq4TWpECVRpwtqvFs1sN2fUmT2tzlkk6cKsNTg8+zqZ9LZo4nxy7ZQh8fKPTqy6Q6gswDi1vaPvBp/ZgqJzVq4po7ErqvSxwylwqOzjzeyt30ilyzW205w9j9TeeHVwS3/k07H0qGlcKwgOmHJg+MSohxGpqvjCyAiQKgoDV9NfcTi/g1mqYfDDbnb/TUIk+OL7iP2uxijbgBEy0FWqupfgl37WZp7A2PuGBhaTomMrIwjbK7n8P7vVwR75EKunLv4t4LkLJIVlPvcx49aojA1+VcwLcknNwoFx7g/OKQ4KiZo//9xjD1sS+Ck614OOP6NOtpqCTT3IHSYNC7A6L0qR5Iqu3woPH8zZ1oUECdl4M+fvCs7UtFBS0pY63TfwZYtho2I/h106KOQnT3UzjDdEu8smtnYUbQ99VVafFJGITQ3RzvyQbVjGo+PpbMh0XFNlJ/dHjh83nL3FiEH2cJOPNv4Fs4nycQY8nfaHoK/ppcVtZggoI4pEVqtbIuhQFk4Soef4IZz76T3B1s4FXtEXNUj9C1NheOlYzZd4CBzAY3bvJSA3DSAsdBjvnyBANMR5YcosfUoYslIuBu2+SaRry1MaHPNLLY9BAKvAqEqRsxdFpBcedQ6Tawkj6u8qpuSsfkFzguBuccTVWYGIJ/wg==
+X-Microsoft-Antispam-Message-Info: KaEXaioI1MfXmLIn5Qy4OIM+IkfUisBxCOAo9O6UXQnEAR8v+mFeK9ujyBlZE8N2qH/VB8jNCneplMNEqWivHy+jKvTWSeapyrAL8IXUTUH90xXYZAebhBr5bwbKgPN8UFLcUWWErrjDOXGibyIRM9GysFlNLwtx7AJP0sN8l/tvMUaEoj2PfSDb59XY2YLl4K5SIPbbmdBiRvoYHQ9gbk9sfBCNULo+Nk6KXhgZ4r2Z9mEsXDTxGrksfpyLyYqOz9CwlrndbvrgrghVZEzVqdz0DjGaREOvExS7iXC1v5tAKtkCB0jKayEeJhW1WLDPqUrI6UTXisMrDWr69OrUgh3lpi9lkRE76nS6qxOngrPnlX502TVsEkYCelcREG1mYjxl1CqHBPuJ2iQ8UtE8VPtyDig23UygfSOYlqgTbvwJ7Xwz6O1fVR86J62zaNX+pukHle4t5CQz1FkmDr6HH4t+G7olHnKqa5RW+v9KSLu4I1dA9bawQ7sa3QDioWECenxEkK1ckvHnqt6RkZ+rhzeuFoXiuGnRylS6ElJg5yszr5nFpdag5KU4JDSr0xi8atq28H2qgUhCIq6LyjIezWi1tJCaLdHV4vlKYB5KQIJn4D4uC0VL+HIy7pMFCraLXuoyumoH3L6Dj59xBIv59ly74hcTypmFJ5TDIKrbbx3qc43soiEo4EgHIJUNPtDYwGy0WdNTQ/FyfohruBytoQ==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:DB9PR08MB6748.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(4636009)(366004)(107886003)(6512007)(6506007)(26005)(316002)(52116002)(2906002)(186003)(508600001)(6486002)(6916009)(4326008)(2616005)(8936002)(5660300002)(6666004)(8676002)(1076003)(38100700002)(38350700002)(86362001)(83380400001)(66946007)(66476007)(66556008)(36756003);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?5fMJlK6g9Snyr87pEUZ8dDy6RtRHwc/90d0lntHQI7unXtPziw0w48MCfcnB?=
- =?us-ascii?Q?gFL4jS7IJjTz0j3nCeA40/bMeEyYa1suzfnDrQ4uaDJTUGv5jmsi6gxsNKPs?=
- =?us-ascii?Q?8bAMcJ14xOxiizGb+EZe4m8fTZFsv1UnE23WLny3FvKXADTEf/vWjCEIzhYu?=
- =?us-ascii?Q?1PNcVezNrs5xD+P/fsUEWBylp3vuY2hz6m46lCB+84HnTECEIQfsIjXDYG8+?=
- =?us-ascii?Q?EpiymhnZ3y8gPv7yRUzTZSBEvRSk7Qrq24NaFqFEmURWwI1WFx2YsYiJ1liB?=
- =?us-ascii?Q?lXuFIQ60LrrvBZuh6wvW9OXtc4Y84V7tNhclZSax1u8cMMnmF5s240BShvOU?=
- =?us-ascii?Q?xGW76Z4lFN6qFTyu2TPXnzDYmDkkHD2b6QRDZKexIG26JqeGHNzEIYPudebs?=
- =?us-ascii?Q?Ol9G+cwPurGCnt10agjX3wuwLJYevkzqVXHJb9VxLQMVJsuQwuB6OaQoCo9T?=
- =?us-ascii?Q?olVOciXhXNvFc31D3Dqxjtfddc7BBh0qd5Fp48GVPS5U+PlRFDem53hJJJDF?=
- =?us-ascii?Q?RiFP6qym5UMY9ouPpFQYjK2odZTzIpa+lfkxn0BAsMqql9pP/EG7lNZy3kf8?=
- =?us-ascii?Q?R6lmQFvMEJO1JF0FJiSuxHGNA0wJDGCh7WWOECAnWjGGLNLI1snTVY6ZUEDb?=
- =?us-ascii?Q?hOKPXc5nRnsgXmzvcnwUIwmhmdca5dQTtyrcHU6XEXrph/fG8r3BuX2fgUdw?=
- =?us-ascii?Q?zTRehW5CLfnBEw4iOKwF53JAlywjWy7XDRELW8dI5j84hcsEb92odR79lKt6?=
- =?us-ascii?Q?Ft/EEbdujw0ox9DG0vf6k1UXDpJCM9bDbPirB/WPY0x1l+MGtObyOgDtgTgO?=
- =?us-ascii?Q?CXqIGwImF7u49El2AvzHecs05LJD6bAk3dHF1FUmb0tJZ99I2VV2mLKIIpW5?=
- =?us-ascii?Q?wiZcdUSf3hJ7RiIcoShRnACYXx9xQ6i43U9dANy3PbbXc9i9phiwXjL6ONUw?=
- =?us-ascii?Q?8vMQI3XQBEd3JQhSKVmsk8HAjKymU6oX4qi28zf6nHkuDCgSLmcDYC8vNQkU?=
- =?us-ascii?Q?M9hg9j6q+CW0zyJmcJVKm1LKSneJ5076RqrqCZTnrZboOC95U0S/KX+Vt3cr?=
- =?us-ascii?Q?ml0i8osee+pOlxdshLq6DbCPGdYSe2ap2ASIwoEtSBnpkNuED/mbk6HUxM2X?=
- =?us-ascii?Q?Y1/q4Cc+v+AHSFbEusIRcmNB4w/h9CpGNZpZyoPNKW749kH+5+kSuEjq7fKj?=
- =?us-ascii?Q?RIvn3SjxPAJeAf33x6ePpUuuVBwnBLWIIq2SHEa87pf8tFga/spc/1a+3xGu?=
- =?us-ascii?Q?6fs1Gp03DDhm7nWf6TNBsd4IS3DeT3univEUPw2zBGZn1rmydKKDfwLdwPlZ?=
- =?us-ascii?Q?hKy03geaTKBJYZhvypjlV16UvW+VrhcLaqhAWBJklLaJ9X/DeaK5MZ/jgXe4?=
- =?us-ascii?Q?844U5lAAkVUMD5tfjguh7WsW6GAX5HEcY4FtAjvhnFlWjttxTW9IMGgHM5Wg?=
- =?us-ascii?Q?iUI3sbEeyLS3wEYBoAiQUyulg0mZPvFFTJsodprmk05mThAJ7bDteSx6e0LI?=
- =?us-ascii?Q?ZfmGPfZrunQoo0MW4iEKcIpZKbVSLzCWgcmHpKfv4EEKrEzYhhj80grdYYw9?=
- =?us-ascii?Q?cpPGQ+Ez5NPXQfl5FfyforXGemOqj8HvsOE++TLBAxcRix8k2/pLgqWRB9jx?=
- =?us-ascii?Q?/36EmJx7zgak8+NC5UCEVbypx8XGjrbIax3rm6F6svoW8jPELF2Q+6M7cBTi?=
- =?us-ascii?Q?9AiZAg=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?4sjROHG9e8JtfAVyikDGBei12Axins/j1lEF16Dobm/AwCkxEYC4F5wzZXac?=
+ =?us-ascii?Q?GxktcFelH2mc7EFIdALLmOqxygo72y8mfo5/FKMsM84G/Zk8VZtkt4Ddq5oY?=
+ =?us-ascii?Q?FC0E7XRje36xENzeuwNkjGj15KsFO0fmHoWW8e9Nx/SzvAkct8gyoRxN6CVu?=
+ =?us-ascii?Q?VRJ7jDETJVwwGb4D/V4CdgVbBoyznZHnaPtZUfJjqVF+EFk/UqP3PJs3rwVU?=
+ =?us-ascii?Q?NaeD04cWB0762F2QfBICH4gAYudyDHuPKO7ot9BE/YPwTp6B3/dcw1lDkscC?=
+ =?us-ascii?Q?Y1oaAn3ZmoSIxJLUNMrKDpEgLZd6bdyg8g6ncvSMW2+PmEIt9j7yP9hNpnob?=
+ =?us-ascii?Q?T2eFQcYkV9S/j0i9hfUwJemhPqad5gd2SFriyeYwoRuS1jRpbXYDCiIAFeUS?=
+ =?us-ascii?Q?1Jm1YMPRggyTY119HMiY18dqCo1RjyLShUcl3EOiXdJpkWzXmFh9fZm78hks?=
+ =?us-ascii?Q?xBoX0blFKowSOrO41tBfFmheVDbFarsIc0bymh4Q0RKueAbLKmtzEhjY9ZoG?=
+ =?us-ascii?Q?fiwy05WPsVt/qjATOd31j94mDFDfbNiioqwNMMlA3YQglSb+p+4Xtks4qXb7?=
+ =?us-ascii?Q?k5yNdh6W/S8mkCRCEE3XmQVyP16iCdFmqKjnx3KTfMiQ8NXoDaq13bhOqxDk?=
+ =?us-ascii?Q?/1S0PcxW/Z4cw6gqs4KD9lhK9jdIoLkthOjKW3LDGG5HPcf4nlVkuwBbNNwq?=
+ =?us-ascii?Q?HYjMCLUm2bS7drE99cU6cg2swylNq0swBTFGMTgd/aMATg70zEDso3L6rrvp?=
+ =?us-ascii?Q?a3SRj8U381K7q4o8/7Dn4DCL0+JUl3Oz0v+zVZqP/5ZrhH6mA6DZW8AiRUrY?=
+ =?us-ascii?Q?91XPQ6WaweYY5FfVGMbV7k+5oh77cOFbHDbmUIfN/u2+m6hzcEri5XOXp/WR?=
+ =?us-ascii?Q?hnr1KHtJSDYcot0W1p3pWcbKc2Qxa6+703v9cdX/HICmHgGgq33qtw1iI20a?=
+ =?us-ascii?Q?3st+dRxjiRY+O4SlfTQcrVb2cQmxYZouvRHNHr/P6DqsPixUisSD6CiiBNqo?=
+ =?us-ascii?Q?+hN24Qb/X37Yi1bRWToOltMJbf9kIzIJAZAluxJCnVFyL5L0lKvI5q9RaGNc?=
+ =?us-ascii?Q?37koBpG4Nh942I9p3WuG5RdJwsvnk3bYoK683Z67PNj1QzjFtmRZ7uU8zSrz?=
+ =?us-ascii?Q?sas8QCxN5PdZ3BNNUTudUb2J2MCFF7Q+ucy1Roe2GL35O+zrjA+N0Z0u8CaJ?=
+ =?us-ascii?Q?Q4hRZFyJCfmB9EMom2aNSEbKbIDIQjRg26yWxsmtmLBADN/5p9WI+56gBmma?=
+ =?us-ascii?Q?Sfe16dclwtzSjMb56FwAJTkquQ3TsCbSpNb3E008IssGtTJtb7MyrU7ANTed?=
+ =?us-ascii?Q?svz3KDjXT5Ho8slX0/+dBwizdeOw5O1xEycLBtqwfsX4CzPRAOeRhda45caB?=
+ =?us-ascii?Q?KDMDuVmsjZv7wRJuoT9YbDB2mnKF6rcU2A5ywwk8LCx2YRvP8f5Te3EoUckm?=
+ =?us-ascii?Q?8KpEe+fg7f6TFeH3QybsqL24ZXQn2BW+KJlw2QLWdFaPDWLe561whlakQvAf?=
+ =?us-ascii?Q?yaGQd6yQM5HwcPp6oa7YDZUd1ielQGtbly8cVSKAs7sodftmvoDl346PIJxP?=
+ =?us-ascii?Q?9iUPB+a5zZqN1pCY/uXsdtvjG0PLWnqB8fdXnXHWT4gWx4m4NgPpT2YR7l9S?=
+ =?us-ascii?Q?KDDuphtvctMT7h7Kolc8V5CqvHI2ZulVXMzYqTSbCMIrp6bahwenowWyMV7Q?=
+ =?us-ascii?Q?adVo0w=3D=3D?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 82f94930-93a7-4193-f2ae-08d9c5722f3a
+X-MS-Exchange-CrossTenant-Network-Message-Id: c7168303-b35c-4161-f08e-08d9c5722fce
 X-MS-Exchange-CrossTenant-AuthSource: DB9PR08MB6748.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Dec 2021 17:40:46.0065 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Dec 2021 17:40:47.1170 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 1Dai5iFvMh7GUxH9ouuDF80rOLJMTysbHrKp3tptzgZFSwgXDvxtykay6Ht3r3+7k+X2Ly9BKV5/aQ5dIsqV/qteK/K6ah2RDmajPYV7CUM=
+X-MS-Exchange-CrossTenant-UserPrincipalName: /fLZ0ssYIIuEDh9U/GXqoJPsobKyzLXeWB1uoZm5fBBDTadC9OZnxy+8Fr3HYRZs0mb60fjeDYjZHaY+5eGkC5MbM7ZUaqzmSNrDDfoc14s=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR08MB3964
-Received-SPF: pass client-ip=40.107.6.133;
+Received-SPF: pass client-ip=40.107.21.133;
  envelope-from=vsementsov@virtuozzo.com;
- helo=EUR04-DB3-obe.outbound.protection.outlook.com
+ helo=EUR05-VI1-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -140,42 +140,219 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In the following patch we'll want to pass blk children to block-copy.
-Const pointers are not enough. So, return non const pointer from
-blk_root().
+We are on the way to implement internal-backup with fleecing scheme,
+which includes backup job copying from fleecing block driver node
+(which is target of copy-before-write filter) to final target of
+backup. This job doesn't need own filter, as fleecing block driver node
+is a kind of snapshot, it's immutable from reader point of view.
+
+Let's add a parameter for backup to not insert filter but instead
+unshare writes on source. This way backup job becomes a simple copying
+process.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- include/sysemu/block-backend.h | 2 +-
- block/block-backend.c          | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ qapi/block-core.json      | 11 ++++++-
+ include/block/block_int.h |  1 +
+ block/backup.c            | 61 +++++++++++++++++++++++++++++++++++----
+ block/replication.c       |  2 +-
+ blockdev.c                |  1 +
+ 5 files changed, 69 insertions(+), 7 deletions(-)
 
-diff --git a/include/sysemu/block-backend.h b/include/sysemu/block-backend.h
-index e5e1524f06..904d70f49c 100644
---- a/include/sysemu/block-backend.h
-+++ b/include/sysemu/block-backend.h
-@@ -277,7 +277,7 @@ int coroutine_fn blk_co_copy_range(BlockBackend *blk_in, int64_t off_in,
-                                    int64_t bytes, BdrvRequestFlags read_flags,
-                                    BdrvRequestFlags write_flags);
+diff --git a/qapi/block-core.json b/qapi/block-core.json
+index b47351dbac..6bac3b53fb 100644
+--- a/qapi/block-core.json
++++ b/qapi/block-core.json
+@@ -1436,6 +1436,15 @@
+ #                    above node specified by @drive. If this option is not given,
+ #                    a node name is autogenerated. (Since: 4.2)
+ #
++# @immutable-source: If true, assume source is immutable, and don't insert filter
++#                    as no copy-before-write operations are needed. It will
++#                    fail if there are existing writers on source node.
++#                    Any attempt to add writer to source node during backup will
++#                    also fail. @filter-node-name must not be set.
++#                    If false, insert copy-before-write filter above source node
++#                    (see also @filter-node-name parameter).
++#                    Default is false. (Since 6.2)
++#
+ # @x-perf: Performance options. (Since 6.0)
+ #
+ # Features:
+@@ -1455,7 +1464,7 @@
+             '*on-source-error': 'BlockdevOnError',
+             '*on-target-error': 'BlockdevOnError',
+             '*auto-finalize': 'bool', '*auto-dismiss': 'bool',
+-            '*filter-node-name': 'str',
++            '*filter-node-name': 'str', '*immutable-source': 'bool',
+             '*x-perf': { 'type': 'BackupPerf',
+                          'features': [ 'unstable' ] } } }
  
--const BdrvChild *blk_root(BlockBackend *blk);
-+BdrvChild *blk_root(BlockBackend *blk);
+diff --git a/include/block/block_int.h b/include/block/block_int.h
+index f4c75e8ba9..efb85c41de 100644
+--- a/include/block/block_int.h
++++ b/include/block/block_int.h
+@@ -1324,6 +1324,7 @@ BlockJob *backup_job_create(const char *job_id, BlockDriverState *bs,
+                             BitmapSyncMode bitmap_mode,
+                             bool compress,
+                             const char *filter_node_name,
++                            bool immutable_source,
+                             BackupPerf *perf,
+                             BlockdevOnError on_source_error,
+                             BlockdevOnError on_target_error,
+diff --git a/block/backup.c b/block/backup.c
+index 21d5983779..9b4b35b21b 100644
+--- a/block/backup.c
++++ b/block/backup.c
+@@ -34,6 +34,14 @@ typedef struct BackupBlockJob {
+     BlockDriverState *cbw;
+     BlockDriverState *source_bs;
+     BlockDriverState *target_bs;
++    BlockBackend *source_blk;
++    BlockBackend *target_blk;
++    /*
++     * Note that if backup runs with filter (immutable-source parameter is
++     * false), @cbw is set but @source_blk and @target_blk are NULL.
++     * Otherwise if backup runs without filter (immutable-source paramter is
++     * true), @cbw is NULL but @source_blk and @target_blk are set.
++     */
  
- int blk_make_empty(BlockBackend *blk, Error **errp);
+     BdrvDirtyBitmap *sync_bitmap;
  
-diff --git a/block/block-backend.c b/block/block-backend.c
-index 12ef80ea17..d994a0f096 100644
---- a/block/block-backend.c
-+++ b/block/block-backend.c
-@@ -2438,7 +2438,7 @@ int coroutine_fn blk_co_copy_range(BlockBackend *blk_in, int64_t off_in,
-                               bytes, read_flags, write_flags);
- }
- 
--const BdrvChild *blk_root(BlockBackend *blk)
-+BdrvChild *blk_root(BlockBackend *blk)
+@@ -102,7 +110,17 @@ static void backup_clean(Job *job)
  {
-     return blk->root;
+     BackupBlockJob *s = container_of(job, BackupBlockJob, common.job);
+     block_job_remove_all_bdrv(&s->common);
+-    bdrv_cbw_drop(s->cbw);
++    if (s->cbw) {
++        assert(!s->source_blk && !s->target_blk);
++        bdrv_cbw_drop(s->cbw);
++    } else {
++        block_copy_state_free(s->bcs);
++        s->bcs = NULL;
++        blk_unref(s->source_blk);
++        s->source_blk = NULL;
++        blk_unref(s->target_blk);
++        s->target_blk = NULL;
++    }
  }
+ 
+ void backup_do_checkpoint(BlockJob *job, Error **errp)
+@@ -357,6 +375,7 @@ BlockJob *backup_job_create(const char *job_id, BlockDriverState *bs,
+                   BitmapSyncMode bitmap_mode,
+                   bool compress,
+                   const char *filter_node_name,
++                  bool immutable_source,
+                   BackupPerf *perf,
+                   BlockdevOnError on_source_error,
+                   BlockdevOnError on_target_error,
+@@ -369,6 +388,7 @@ BlockJob *backup_job_create(const char *job_id, BlockDriverState *bs,
+     int64_t cluster_size;
+     BlockDriverState *cbw = NULL;
+     BlockCopyState *bcs = NULL;
++    BlockBackend *source_blk = NULL, *target_blk = NULL;
+ 
+     assert(bs);
+     assert(target);
+@@ -377,6 +397,12 @@ BlockJob *backup_job_create(const char *job_id, BlockDriverState *bs,
+     assert(sync_mode != MIRROR_SYNC_MODE_INCREMENTAL);
+     assert(sync_bitmap || sync_mode != MIRROR_SYNC_MODE_BITMAP);
+ 
++    if (immutable_source && filter_node_name) {
++        error_setg(errp, "immutable-source and filter-node-name should not "
++                   "be set simultaneously");
++        return NULL;
++    }
++
+     if (bs == target) {
+         error_setg(errp, "Source and target cannot be the same");
+         return NULL;
+@@ -451,9 +477,30 @@ BlockJob *backup_job_create(const char *job_id, BlockDriverState *bs,
+         goto error;
+     }
+ 
+-    cbw = bdrv_cbw_append(bs, target, filter_node_name, &bcs, errp);
+-    if (!cbw) {
+-        goto error;
++    if (immutable_source) {
++        source_blk = blk_new_with_bs(bs, BLK_PERM_CONSISTENT_READ,
++                                        BLK_PERM_WRITE_UNCHANGED |
++                                        BLK_PERM_CONSISTENT_READ, errp);
++        if (!source_blk) {
++            goto error;
++        }
++
++        target_blk  = blk_new_with_bs(target, BLK_PERM_WRITE,
++                                      BLK_PERM_CONSISTENT_READ, errp);
++        if (!target_blk) {
++            goto error;
++        }
++
++        bcs = block_copy_state_new(blk_root(source_blk), blk_root(target_blk),
++                                   NULL, false, errp);
++        if (!bcs) {
++            goto error;
++        }
++    } else {
++        cbw = bdrv_cbw_append(bs, target, filter_node_name, &bcs, errp);
++        if (!cbw) {
++            goto error;
++        }
+     }
+ 
+     cluster_size = block_copy_cluster_size(bcs);
+@@ -465,7 +512,7 @@ BlockJob *backup_job_create(const char *job_id, BlockDriverState *bs,
+     }
+ 
+     /* job->len is fixed, so we can't allow resize */
+-    job = block_job_create(job_id, &backup_job_driver, txn, cbw,
++    job = block_job_create(job_id, &backup_job_driver, txn, cbw ?: bs,
+                            0, BLK_PERM_ALL,
+                            speed, creation_flags, cb, opaque, errp);
+     if (!job) {
+@@ -475,6 +522,8 @@ BlockJob *backup_job_create(const char *job_id, BlockDriverState *bs,
+     job->cbw = cbw;
+     job->source_bs = bs;
+     job->target_bs = target;
++    job->source_blk = source_blk;
++    job->target_blk = target_blk;
+     job->on_source_error = on_source_error;
+     job->on_target_error = on_target_error;
+     job->sync_mode = sync_mode;
+@@ -502,6 +551,8 @@ BlockJob *backup_job_create(const char *job_id, BlockDriverState *bs,
+     if (cbw) {
+         bdrv_cbw_drop(cbw);
+     }
++    blk_unref(source_blk);
++    blk_unref(target_blk);
+ 
+     return NULL;
+ }
+diff --git a/block/replication.c b/block/replication.c
+index 55c8f894aa..c6c4d3af85 100644
+--- a/block/replication.c
++++ b/block/replication.c
+@@ -590,7 +590,7 @@ static void replication_start(ReplicationState *rs, ReplicationMode mode,
+         s->backup_job = backup_job_create(
+                                 NULL, s->secondary_disk->bs, s->hidden_disk->bs,
+                                 0, MIRROR_SYNC_MODE_NONE, NULL, 0, false, NULL,
+-                                &perf,
++                                false, &perf,
+                                 BLOCKDEV_ON_ERROR_REPORT,
+                                 BLOCKDEV_ON_ERROR_REPORT, JOB_INTERNAL,
+                                 backup_job_completed, bs, NULL, &local_err);
+diff --git a/blockdev.c b/blockdev.c
+index 0eb2823b1b..b6effd481d 100644
+--- a/blockdev.c
++++ b/blockdev.c
+@@ -2900,6 +2900,7 @@ static BlockJob *do_backup_common(BackupCommon *backup,
+                             backup->sync, bmap, backup->bitmap_mode,
+                             backup->compress,
+                             backup->filter_node_name,
++                            backup->immutable_source,
+                             &perf,
+                             backup->on_source_error,
+                             backup->on_target_error,
 -- 
 2.31.1
 
