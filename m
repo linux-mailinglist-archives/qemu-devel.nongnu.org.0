@@ -2,83 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E37F847D6A9
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Dec 2021 19:26:00 +0100 (CET)
-Received: from localhost ([::1]:48796 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBC2F47D6DE
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Dec 2021 19:30:58 +0100 (CET)
+Received: from localhost ([::1]:58530 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n06JM-0008Tq-1x
-	for lists+qemu-devel@lfdr.de; Wed, 22 Dec 2021 13:26:00 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35010)
+	id 1n06O8-0006gP-D8
+	for lists+qemu-devel@lfdr.de; Wed, 22 Dec 2021 13:30:56 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38584)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1n06A2-0002rh-UE; Wed, 22 Dec 2021 13:16:22 -0500
-Received: from [2607:f8b0:4864:20::731] (port=41816
- helo=mail-qk1-x731.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1n06A0-0006FD-9E; Wed, 22 Dec 2021 13:16:22 -0500
-Received: by mail-qk1-x731.google.com with SMTP id m2so1504878qkd.8;
- Wed, 22 Dec 2021 10:16:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :references:from:in-reply-to:content-transfer-encoding;
- bh=9wdBPnl9DFLdHTwbwQMML7A4CS4yYwwhSCUVz4sFaT4=;
- b=AAg0MVrDX5OpgJ2UE731aVXWKj5Z1TMsjBHzVQ3PMNAkU8OrSI/OlCFMgtFgupfzZL
- 2KH1MUBSC85zKVdq50LRcX3l8M8In4dLp27p03fQjDEkmjBRlSHFCXunbcvVMtZGd563
- Tlt5j3Xzmq+EZyGsFyYrpyE/NnH6N7/n7SVVlebxG5MnBVRMBy0Uq9wJnRZqx5nmKV8i
- OXtGemoQQU1bOY3DPwq1d6coxYureAuPPNmjjup+Mwes1ljizLbzXFxo+cKlUz9BdZZl
- 9MyaXHrb+Q7QeYoqrryu/phNsP9x+VQ4CUxa0rXH0p0/7cvyZ7lkQeRkxGH0oENiVPFf
- XlJA==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1n06L4-000537-Up
+ for qemu-devel@nongnu.org; Wed, 22 Dec 2021 13:27:47 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:42824)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1n06Ky-000466-24
+ for qemu-devel@nongnu.org; Wed, 22 Dec 2021 13:27:41 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1640197658;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=GyO+Zr4NVuwS/T8HoAsB2Q4l5mCIjKCx6IDBujTp3qA=;
+ b=ezy6o/ZUAzrjWrX3rAvhJEL0aM/NGRF+QhsRG80SMIKgZdSEzsdrvkevVAtk+f2231OlM/
+ h8olvgRIRYL74O09UhdyQrgnQ0k2KvZE0wx3HDB+S63ikgNiUkBj/KXQEck+RZaz/iyO5+
+ H++6GGvt4OHFniedC8fbEOXUBjXIhWs=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-643-3hQM6RPpM6GuOU9AcbAShg-1; Wed, 22 Dec 2021 13:27:37 -0500
+X-MC-Unique: 3hQM6RPpM6GuOU9AcbAShg-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ h7-20020a05640250c700b003f800db4193so2527212edb.1
+ for <qemu-devel@nongnu.org>; Wed, 22 Dec 2021 10:27:37 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
+ :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=9wdBPnl9DFLdHTwbwQMML7A4CS4yYwwhSCUVz4sFaT4=;
- b=HfUIWKHAjFX6Q815mxPujRrrE632d8wfrwPfphIuXlQBsTmKus80k6UhIUAgNsPZSk
- RzWKyCSlwqvHJXnSgMrI/BNDKvx6EJPWBDMlOA7A5M10IxdUaXQY7+klc5xqWoCsqnou
- XT9QOBKTcT17E9yow6CxWMw6C5LMrKD04Abzk4oieTeb5s+ox6fzzQgnhukONDIsjQha
- OS5+BSnTOl3et2qmdZXvh4qny8BHeDnB3A2qi2+xI+eUgsovW9Bvfx8nQaXsjb6AHyT0
- 9YdcGfsT/MHeqjVqxKErb5LjtyWma6f83v+kVlopOVSK96M6sl31WBN3vAKrwBVauUIj
- wxmQ==
-X-Gm-Message-State: AOAM532xDs6wkk4HSjjTwSB/u+LQBOcPj4+H2xT8k/UgmcmnZNhjjOkX
- 3Vp69cMR2gKJT5baXpum9DZULQjmUlQ=
-X-Google-Smtp-Source: ABdhPJxE4Xt/NW05SFQmCYByjKm36eJUPDg6q5IyBRbW0r3XvqI8XM8qmJ9bBNrNWAJXFEv3rwAUdA==
-X-Received: by 2002:a05:620a:40d5:: with SMTP id
- g21mr2880208qko.478.1640196979143; 
- Wed, 22 Dec 2021 10:16:19 -0800 (PST)
-Received: from ?IPV6:2804:431:c7c6:7ce4:b718:2cc0:32df:97ee?
- ([2804:431:c7c6:7ce4:b718:2cc0:32df:97ee])
- by smtp.gmail.com with ESMTPSA id w63sm2203115qkd.88.2021.12.22.10.16.17
+ bh=GyO+Zr4NVuwS/T8HoAsB2Q4l5mCIjKCx6IDBujTp3qA=;
+ b=UOwOPNZUGBbZj5gX2AOunVppdetxMtomhSwmLWAy5vRBhZbyQ956HjQmH0tgVs5nW6
+ 7IoDuOKeiv8oO0iJ8nAmKxCGMfr96eW2TgPhvXIHxuNyEvZ9g9kw4kktB5NlpC36X8NW
+ wkwLEjRY+ofus04Ry+8tctMsedPUGkeoNeCo6GvN7/NTYbutXjESo9ispHVs3WAszPkQ
+ pKsq/Hieo+S12ezuiz8kcwXzkbcltraxQXqrPDdjtUSZDbQiZway024mpE2bwEqUsUsc
+ uA7UArJkTQg2/WhLhGIOxFaIgHpoR1AiZu9sQ5TFWyZw21vxCzeMKfz66OshCO+DdaBZ
+ Uk3Q==
+X-Gm-Message-State: AOAM530ZfcVjltgRA+DiUOzxoS64uZLFAirRTXR+Epz2kDoH8EAs0/w5
+ cHUu9moIle/ouJHWNo5dF52h40iAfp7U0k73s/7Tx/MPusj0mfzadpgniCGAHMJkS9CjlgpFUIp
+ IH7YBOXrnmJocxhc=
+X-Received: by 2002:a17:907:7f13:: with SMTP id
+ qf19mr3293718ejc.103.1640197656471; 
+ Wed, 22 Dec 2021 10:27:36 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzfskuzQi8B3I2+mlJDy42sBRqDNDfVx6MlKoLTTKd4uXMRJOTjHVI5WUPM8Ml/QIb8hbS3Pg==
+X-Received: by 2002:a17:907:7f13:: with SMTP id
+ qf19mr3293704ejc.103.1640197656274; 
+ Wed, 22 Dec 2021 10:27:36 -0800 (PST)
+Received: from [192.168.1.36] (174.red-83-50-185.dynamicip.rima-tde.net.
+ [83.50.185.174])
+ by smtp.gmail.com with ESMTPSA id ne39sm983059ejc.142.2021.12.22.10.27.34
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 22 Dec 2021 10:16:18 -0800 (PST)
-Message-ID: <815ee012-7b46-c907-b734-7250c50bbf6b@gmail.com>
-Date: Wed, 22 Dec 2021 15:16:16 -0300
+ Wed, 22 Dec 2021 10:27:35 -0800 (PST)
+Message-ID: <55fec69e-5a1f-e4c6-594e-067dd5bf6f07@redhat.com>
+Date: Wed, 22 Dec 2021 19:27:34 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH 0/5] ppc/pnv: Preliminary cleanups before user created PHBs
+ Thunderbird/91.4.0
+Subject: Re: [PATCH 2/2] qapi/block: Restrict vhost-user-blk to
+ CONFIG_VHOST_USER_BLK_SERVER
+To: Markus Armbruster <armbru@redhat.com>
+References: <20211220200034.2233987-1-philmd@redhat.com>
+ <20211220200034.2233987-3-philmd@redhat.com>
+ <87h7b1dsqz.fsf@dusky.pond.sub.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+In-Reply-To: <87h7b1dsqz.fsf@dusky.pond.sub.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Language: en-US
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org
-References: <20211222063817.1541058-1-clg@kaod.org>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <20211222063817.1541058-1-clg@kaod.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::731
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::731;
- envelope-from=danielhb413@gmail.com; helo=mail-qk1-x731.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.694,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -36
+X-Spam_score: -3.7
+X-Spam_bar: ---
+X-Spam_report: (-3.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.203,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.694, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,48 +104,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kevin Wolf <kwolf@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On 12/22/21 03:38, Cédric Le Goater wrote:
-> Hello,
+On 12/22/21 08:05, Markus Armbruster wrote:
+> Philippe Mathieu-Daudé <philmd@redhat.com> writes:
 > 
-> There are the last cleanups preparing ground for PHBs created on the
-> command line and possibly libvirt support.
-
-
-As a note to whoever wants to give this series a go: I'm working in more fixes and
-cleanups on top of these patches. I'm planning to post what I have in the next few
-days.
-
-
-Thanks,
-
-
-Daniel
-
-
-
+>> Do not list vhost-user-blk in BlockExportType
+>> when CONFIG_VHOST_USER_BLK_SERVER is disabled.
+>>
+>> Fixes: 90fc91d50b7 ("convert vhost-user-blk server to block export API")
 > 
-> Thanks,
+> My immediate reaction was "what exactly is broken before this patch?"
 > 
-> C.
+> I think it's introspection: query-qmp-schema has vhost-user-blk even
+> though it's not actually available.  Let's spell that out.
+
+Yes, OK.
+
+>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>> ---
+>>  qapi/block-export.json | 3 ++-
+>>  1 file changed, 2 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/qapi/block-export.json b/qapi/block-export.json
+>> index c1b92ce1c1c..6bc29a75dc0 100644
+>> --- a/qapi/block-export.json
+>> +++ b/qapi/block-export.json
+>> @@ -277,7 +277,8 @@
+>>  # Since: 4.2
+>>  ##
+>>  { 'enum': 'BlockExportType',
+>> -  'data': [ 'nbd', 'vhost-user-blk',
+>> +  'data': [ 'nbd',
+>> +            { 'name': 'vhost-user-blk', 'if': 'CONFIG_VHOST_USER_BLK_SERVER' },
+>>              { 'name': 'fuse', 'if': 'CONFIG_FUSE' } ] }
+>>  
+>>  ##
 > 
-> Cédric Le Goater (5):
->    ppc/pnv: Change the maximum of PHB3 devices for Power8NVL
->    ppc/pnv: Remove PHB4 reset handler
->    ppc/pnv: Remove the PHB4 "device-id" property
->    ppc/pnv: Attach PHB3 root port device when defaults are enabled
->    ppc/pnv: Attach PHB4 root port device when defaults are enabled
+> Doesn't compile when I configure --disable-vhost-user.  Fix:
 > 
->   include/hw/pci-host/pnv_phb3.h |  2 --
->   include/hw/pci-host/pnv_phb4.h |  4 ----
->   hw/pci-host/pnv_phb3.c         |  8 --------
->   hw/pci-host/pnv_phb4.c         | 25 -------------------------
->   hw/pci-host/pnv_phb4_pec.c     |  3 ---
->   hw/ppc/pnv.c                   | 25 +++++++++++++++++++++++--
->   6 files changed, 23 insertions(+), 44 deletions(-)
-> 
+> diff --git a/qapi/block-export.json b/qapi/block-export.json
+> index 6bc29a75dc..f9ce79a974 100644
+> --- a/qapi/block-export.json
+> +++ b/qapi/block-export.json
+> @@ -320,7 +320,8 @@
+>    'discriminator': 'type',
+>    'data': {
+>        'nbd': 'BlockExportOptionsNbd',
+> -      'vhost-user-blk': 'BlockExportOptionsVhostUserBlk',
+> +      'vhost-user-blk': { 'type': 'BlockExportOptionsVhostUserBlk',
+> +                          'if': 'CONFIG_VHOST_USER_BLK_SERVER' },
+>        'fuse': { 'type': 'BlockExportOptionsFuse',
+>                  'if': 'CONFIG_FUSE' }
+>     } }
+
+Oh, thank you very much for fixing this part!
+
 
