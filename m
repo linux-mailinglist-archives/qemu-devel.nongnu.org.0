@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F9D947D129
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Dec 2021 12:42:04 +0100 (CET)
-Received: from localhost ([::1]:40542 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A92C347D141
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Dec 2021 12:46:58 +0100 (CET)
+Received: from localhost ([::1]:51650 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n000R-0001nm-Cy
-	for lists+qemu-devel@lfdr.de; Wed, 22 Dec 2021 06:42:03 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51158)
+	id 1n005B-0000xg-PI
+	for lists+qemu-devel@lfdr.de; Wed, 22 Dec 2021 06:46:57 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51154)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mzzsw-0001JS-RL
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mzzsw-0001JB-P9
  for qemu-devel@nongnu.org; Wed, 22 Dec 2021 06:34:18 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45253)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:22774)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mzzso-00072c-BS
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mzzsi-00072W-MH
  for qemu-devel@nongnu.org; Wed, 22 Dec 2021 06:34:15 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1640172845;
+ s=mimecast20190719; t=1640172842;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=6nLHH+PavWlXtin13BQXlBnd2GGMZZrZTTES7htzRf0=;
- b=KtZVRa7kQVFamzL+8v4TwZuTFvu0lEroqK1Vr+JaEYuK6zzsUq2g2l/cqpLbI4hfMNCGE6
- zaW1lpJNmjRNOl+lylQNmoMOam+CQfXQpQkqq++V98puy6Vg4euKEydO64KklN/Vg2s4m2
- 2hYil8/R/wQndDJh8tINenyuuhmO/ig=
+ bh=udEztULZ4lqPUg1czD/LOzeZJLmpXbIItISvorfhQIk=;
+ b=PelFmp8Yyk7yI7q74DeLl4u0yna2wZ5tJ+eBfRbv9/tW8c4VE6M/7Lls0yojO3Zv8sUuvh
+ B8S+5bmkjpUuo+5f+W77QJ1SL+AMN/E6xzD30/PSK+6H8IfKpbxzsbzcbw97pinCT1gnvh
+ D1iO33T4ODYodlfJZ3bngyuDDzOhiWA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-440-wYAOb5NjNdOk_m6FvjLXwA-1; Wed, 22 Dec 2021 06:33:59 -0500
-X-MC-Unique: wYAOb5NjNdOk_m6FvjLXwA-1
+ us-mta-449-ZetR0qGLNdGcwK0UPKirwQ-1; Wed, 22 Dec 2021 06:34:00 -0500
+X-MC-Unique: ZetR0qGLNdGcwK0UPKirwQ-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8EEC11006AA4;
- Wed, 22 Dec 2021 11:33:58 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DC691801ADB;
+ Wed, 22 Dec 2021 11:33:59 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.192.135])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 84C8C78DFB;
- Wed, 22 Dec 2021 11:33:57 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id ED34378DFB;
+ Wed, 22 Dec 2021 11:33:58 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 7/9] tests/qtest/cdrom-test: Check whether devices are
- available before using them
-Date: Wed, 22 Dec 2021 12:32:57 +0100
-Message-Id: <20211222113259.823203-8-thuth@redhat.com>
+Subject: [PULL 8/9] tests/qtest/boot-order-test: Check whether machines are
+ available
+Date: Wed, 22 Dec 2021 12:32:58 +0100
+Message-Id: <20211222113259.823203-9-thuth@redhat.com>
 In-Reply-To: <20211222113259.823203-1-thuth@redhat.com>
 References: <20211222113259.823203-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -57,7 +57,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -82,94 +82,31 @@ Cc: Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Downstream users might want to disable legacy devices in their binaries,
-so we should not blindly assume that they are available. Add some proper
-checks before using them.
+Machines might not always be compiled into the QEMU binary, so
+we should skip the test instead of failing if it is not available.
 
-Message-Id: <20211220081054.151515-4-thuth@redhat.com>
+Message-Id: <20211220081054.151515-5-thuth@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/qtest/cdrom-test.c | 60 ++++++++++++++++++++++++++--------------
- 1 file changed, 39 insertions(+), 21 deletions(-)
+ tests/qtest/boot-order-test.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/tests/qtest/cdrom-test.c b/tests/qtest/cdrom-test.c
-index c1fcac5c45..cfca24fa94 100644
---- a/tests/qtest/cdrom-test.c
-+++ b/tests/qtest/cdrom-test.c
-@@ -142,21 +142,36 @@ static void add_x86_tests(void)
-         qtest_add_data_func("cdrom/boot/isapc", "-M isapc "
-                             "-drive if=ide,media=cdrom,file=", test_cdboot);
-     }
--    qtest_add_data_func("cdrom/boot/am53c974",
--                        "-device am53c974 -device scsi-cd,drive=cd1 "
--                        "-drive if=none,id=cd1,format=raw,file=", test_cdboot);
--    qtest_add_data_func("cdrom/boot/dc390",
--                        "-device dc390 -device scsi-cd,drive=cd1 "
--                        "-blockdev file,node-name=cd1,filename=", test_cdboot);
--    qtest_add_data_func("cdrom/boot/lsi53c895a",
--                        "-device lsi53c895a -device scsi-cd,drive=cd1 "
--                        "-blockdev file,node-name=cd1,filename=", test_cdboot);
--    qtest_add_data_func("cdrom/boot/megasas", "-M q35 "
--                        "-device megasas -device scsi-cd,drive=cd1 "
--                        "-blockdev file,node-name=cd1,filename=", test_cdboot);
--    qtest_add_data_func("cdrom/boot/megasas-gen2", "-M q35 "
--                        "-device megasas-gen2 -device scsi-cd,drive=cd1 "
--                        "-blockdev file,node-name=cd1,filename=", test_cdboot);
-+    if (qtest_has_device("am53c974")) {
-+        qtest_add_data_func("cdrom/boot/am53c974",
-+                            "-device am53c974 -device scsi-cd,drive=cd1 "
-+                            "-drive if=none,id=cd1,format=raw,file=",
-+                            test_cdboot);
-+    }
-+    if (qtest_has_device("dc390")) {
-+        qtest_add_data_func("cdrom/boot/dc390",
-+                            "-device dc390 -device scsi-cd,drive=cd1 "
-+                            "-blockdev file,node-name=cd1,filename=",
-+                            test_cdboot);
-+    }
-+    if (qtest_has_device("lsi53c895a")) {
-+        qtest_add_data_func("cdrom/boot/lsi53c895a",
-+                            "-device lsi53c895a -device scsi-cd,drive=cd1 "
-+                            "-blockdev file,node-name=cd1,filename=",
-+                            test_cdboot);
-+    }
-+    if (qtest_has_device("megasas")) {
-+        qtest_add_data_func("cdrom/boot/megasas", "-M q35 "
-+                            "-device megasas -device scsi-cd,drive=cd1 "
-+                            "-blockdev file,node-name=cd1,filename=",
-+                            test_cdboot);
-+    }
-+    if (qtest_has_device("megasas-gen2")) {
-+        qtest_add_data_func("cdrom/boot/megasas-gen2", "-M q35 "
-+                            "-device megasas-gen2 -device scsi-cd,drive=cd1 "
-+                            "-blockdev file,node-name=cd1,filename=",
-+                            test_cdboot);
-+    }
- }
+diff --git a/tests/qtest/boot-order-test.c b/tests/qtest/boot-order-test.c
+index fac580d6c4..f1f59b1261 100644
+--- a/tests/qtest/boot-order-test.c
++++ b/tests/qtest/boot-order-test.c
+@@ -34,6 +34,11 @@ static void test_a_boot_order(const char *machine,
+     uint64_t actual;
+     QTestState *qts;
  
- static void add_s390x_tests(void)
-@@ -171,12 +186,15 @@ static void add_s390x_tests(void)
-                         "-drive driver=null-co,read-zeroes=on,if=none,id=d1 "
-                         "-device virtio-blk,drive=d2,bootindex=1 "
-                         "-drive if=none,id=d2,media=cdrom,file=", test_cdboot);
--    qtest_add_data_func("cdrom/boot/without-bootindex",
--                        "-device virtio-scsi -device virtio-serial "
--                        "-device x-terminal3270 -device virtio-blk,drive=d1 "
--                        "-drive driver=null-co,read-zeroes=on,if=none,id=d1 "
--                        "-device virtio-blk,drive=d2 "
--                        "-drive if=none,id=d2,media=cdrom,file=", test_cdboot);
-+    if (qtest_has_device("x-terminal3270")) {
-+        qtest_add_data_func("cdrom/boot/without-bootindex",
-+                            "-device virtio-scsi -device virtio-serial "
-+                            "-device x-terminal3270 -device virtio-blk,drive=d1 "
-+                            "-drive driver=null-co,read-zeroes=on,if=none,id=d1 "
-+                            "-device virtio-blk,drive=d2 "
-+                            "-drive if=none,id=d2,media=cdrom,file=",
-+                            test_cdboot);
++    if (machine && !qtest_has_machine(machine)) {
++        g_test_skip("Machine is not available");
++        return;
 +    }
- }
- 
- int main(int argc, char **argv)
++
+     qts = qtest_initf("-nodefaults%s%s %s", machine ? " -M " : "",
+                       machine ?: "", test_args);
+     actual = read_boot_order(qts);
 -- 
 2.27.0
 
