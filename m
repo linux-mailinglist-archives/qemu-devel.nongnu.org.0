@@ -2,90 +2,136 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 773C347D784
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Dec 2021 20:14:08 +0100 (CET)
-Received: from localhost ([::1]:46546 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8A2E47D793
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Dec 2021 20:22:11 +0100 (CET)
+Received: from localhost ([::1]:52928 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n073v-0004tA-Kj
-	for lists+qemu-devel@lfdr.de; Wed, 22 Dec 2021 14:14:07 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49740)
+	id 1n07Bf-0001Em-M1
+	for lists+qemu-devel@lfdr.de; Wed, 22 Dec 2021 14:22:07 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51012)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1n071Q-0003o7-T0
- for qemu-devel@nongnu.org; Wed, 22 Dec 2021 14:11:32 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:20524)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1n077Z-0007YT-MR
+ for qemu-devel@nongnu.org; Wed, 22 Dec 2021 14:17:54 -0500
+Received: from mail-eopbgr140119.outbound.protection.outlook.com
+ ([40.107.14.119]:46656 helo=EUR01-VE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1n071N-0007IW-TF
- for qemu-devel@nongnu.org; Wed, 22 Dec 2021 14:11:31 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1640200287;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=c+cH3tlUsQ+1SvzdH5//07C05cu4iO9h/sJEQdsX2Vk=;
- b=XyEPF8pMTEMRB2ctllluDpGLBr9ODPqoJe4EuwJNDRf/sc6v/QZguARIoH1iXaGQfV6PP8
- NzUQvXpb1bU83zk4oF8i3cUwmZd1bkDJsTriGNKOOztdthvoo8tV1dGXtplkicj+KE03kk
- A0S3fJQPzYUw1Of9J7KXzIiW5HNBnDw=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-433-fIO-jUvoO-2gEiShHDH1Fw-1; Wed, 22 Dec 2021 14:11:26 -0500
-X-MC-Unique: fIO-jUvoO-2gEiShHDH1Fw-1
-Received: by mail-wm1-f69.google.com with SMTP id
- r10-20020a1c440a000000b003456b2594e0so1024492wma.8
- for <qemu-devel@nongnu.org>; Wed, 22 Dec 2021 11:11:26 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=c+cH3tlUsQ+1SvzdH5//07C05cu4iO9h/sJEQdsX2Vk=;
- b=V843Jk0IDlWXE38+WA6nbhi98iRqJz/fuMfxaNJgs3VP6yu8n8XPstNRp32K1BHd5E
- g6G02MOIiO7jY8/nbmiA4RNrbJ/yT3KFa1gJA9kBcIevbaqvqBpy8pUX68GaVkc+b7GX
- 6V0/m/d1gYq9x2+BbLuJ4/PcOlMDHjdOtBnOEnYMJLtxv+SL1KLl9DmIVny30BTjyIeY
- HcsxMhogWKHIvmZRsK6xLYSNA8axSpx4Ry3XjafBSDZSyC8A5RISnm71qCE3ojtJ/AZ5
- H41Q1wM2pPkV1vwbR3yK7O/gIKtqA8LcWLKAO/QrBKlHfekDcrXTlhRzvZAAGyozGcvM
- eNog==
-X-Gm-Message-State: AOAM533w+igeWYbEyjbtcoH88Ae9CgDfMN0kH3e4i8B0GB4+ajUCHWYJ
- 38r8qUpPBkSfKRNq/PLfNI8LwSE1m9zQeo1cT7aDomPM+D0FuH+f8Zh0m9gxc2Tv78S8Ko3UiTZ
- JS7JfUOdpnM/hlL8=
-X-Received: by 2002:a5d:5352:: with SMTP id t18mr2926427wrv.472.1640200285587; 
- Wed, 22 Dec 2021 11:11:25 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyt2mZ07UbTJ4ONedk78sGv0Jfr/8pI8yDjWRDpQY9noIULsFHuFBvBT2NwJ20eogVDU0cH/g==
-X-Received: by 2002:a5d:5352:: with SMTP id t18mr2926416wrv.472.1640200285375; 
- Wed, 22 Dec 2021 11:11:25 -0800 (PST)
-Received: from [192.168.1.36] (174.red-83-50-185.dynamicip.rima-tde.net.
- [83.50.185.174])
- by smtp.gmail.com with ESMTPSA id e5sm3155555wrq.116.2021.12.22.11.11.24
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 22 Dec 2021 11:11:24 -0800 (PST)
-Message-ID: <f2e46e6d-8878-e970-86a0-3572f11eb398@redhat.com>
-Date: Wed, 22 Dec 2021 20:11:23 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH] ui/dbus: fix buffer-overflow detected by ASAN
-To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
-References: <20211222144032.443424-1-marcandre.lureau@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <20211222144032.443424-1-marcandre.lureau@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1n077W-0001Jb-WD
+ for qemu-devel@nongnu.org; Wed, 22 Dec 2021 14:17:52 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=bgE2uBUABDgEx6qE+0G2lvLAwQw1sMnOcGJBe7a4mBiRft7Nwkda8Dko8fKZ7+0qD0j0P7oV2wVfmqo4hBpZanvUB7UQDBckCe7+DxflBPT4R+Pu/v7AOVUbb3EZEmT5Y3YpRwm7r/qphJa45gZiilNyqTFAlIPEcE3+Uoh6B+PG8+5ytCqGY59tpfvseUPsOkWcqfemMRSW5OETy8ExGbZ66P1TIs+Z7LkCrGPrVFyQmEIf8clroYrx93cE8Hi11cTuRYVXbSSiw+bekol1lr3aBFV5DUXlwDwDXhQsbVIyaB/0sxDcOEXhMTFOX94f+ZZTIz2LQWdUr0VGou/h7A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ECGDfiZFe7GybHSlZNVQZk+rbebvUFGrLrFBLs6UzGY=;
+ b=QnzZ5B1Nv7wzCDebIGwGvSqwN3+vzGBHFltktFqnKy0e5swY6t+aBORI/4ssuPg4vJh2FQ1Ai3GP0uGGy6yvcD0qkCf9TttgiS2toid53IQkdlI/ElSxPiLRhyb1czeoxScmrzlQzF73aEKqS4bxG9S0kD9LrwRFkyN2uUMJUOtdKoWlzd0KculsIR1RR8gU59OXNHKgN6fboR2tPloW0QofHb5RydFuZf5a0rJWez20q65qC60uwBNUAY7x8cwZM3407g+J1HyKWBNfNKtX0yt7+Srm9dav3Wf0QUDm6s7KduoCN0Yyj7SNrUyY5nkty285bZMWMSRUi5gBjDZ7cg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ECGDfiZFe7GybHSlZNVQZk+rbebvUFGrLrFBLs6UzGY=;
+ b=GsijmmGJAcdnBYld9DoFv0SMrasUay58p7gRSSyS+yfHFEZUC7/5caDm6HZxjck0i9kPsgTxVa2PsXB05EYXqWaxtuHdQKfcHDZxb42iLtqCOMZQgWEPReqDtvdqW2rm8mup9nMRw6YaMx2Xzw8lnF074MBjwty12d/E3wJLf2g=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM9PR08MB6737.eurprd08.prod.outlook.com (2603:10a6:20b:304::18)
+ by AM9PR08MB6290.eurprd08.prod.outlook.com (2603:10a6:20b:2d5::21)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4823.14; Wed, 22 Dec
+ 2021 19:17:45 +0000
+Received: from AM9PR08MB6737.eurprd08.prod.outlook.com
+ ([fe80::b118:483a:d003:3112]) by AM9PR08MB6737.eurprd08.prod.outlook.com
+ ([fe80::b118:483a:d003:3112%5]) with mapi id 15.20.4823.019; Wed, 22 Dec 2021
+ 19:17:44 +0000
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: qemu-devel@nongnu.org
+Cc: bleal@redhat.com, wainersm@redhat.com, philmd@redhat.com, crosa@redhat.com,
+ armbru@redhat.com, eblake@redhat.com, kraxel@redhat.com,
+ marcandre.lureau@gmail.com, vsementsov@virtuozzo.com
+Subject: [PATCH v2 0/3] qapi/ui: add change-vnc-listen
+Date: Wed, 22 Dec 2021 20:17:28 +0100
+Message-Id: <20211222191731.467706-1-vsementsov@virtuozzo.com>
+X-Mailer: git-send-email 2.31.1
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -36
-X-Spam_score: -3.7
-X-Spam_bar: ---
-X-Spam_report: (-3.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.203,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.694, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-ClientProxiedBy: FR2P281CA0035.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:14::22) To AM9PR08MB6737.eurprd08.prod.outlook.com
+ (2603:10a6:20b:304::18)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: bfc053d4-5588-45b8-43c7-08d9c57fbb75
+X-MS-TrafficTypeDiagnostic: AM9PR08MB6290:EE_
+X-Microsoft-Antispam-PRVS: <AM9PR08MB62908094522B37736CD4B40FC17D9@AM9PR08MB6290.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6108;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: mkH4FMrUQBR0p45V339TMGFA9aYCdqNTniYrz9IY167FLQdDyXuTQhyIrIxqKdpyesC9fGww6S35H2qixP5+lwg5cjMNv9hD6Bcte1AVhN2DPNrOFhgUmeSOB1K856xDW+lVi/N6your4wzMKjFmSedYTsjUr716NdY1wiUbAmv+Q0TzVO8iNqHO0B/S3h3VWLLVu+/VNEbyNb3utCZfcmKcasaml7lp6Lnh6yntqFKz/UXvRALAAMBLa4GydVyzhnljCmfWrKKvtGgsTDG81jm0n//qLWJjpXTgkuFNjOYqRWHYS4Qv4sLwyh/xWsVdGfST47R7/O6f3m4Eca86yS/wKLko9pYE4Nek/ecESwssIOxUYLaeXB1+ZyOV6ju67rjFlZMMGmITwKvSuPNWrF0LMeqWmYB9YkbdcXWsToJpbidDlVfy4thI85fOmGS9bsHk+37RWmD+M5neNiOlFqSK6gDGSeq9V3x8QkH4cE4stk1upoea0lht9kyujSWln+ehpitd7RiIBhkBQ2m9QAgNd2d7iAmDi6ntmEWtXP5Fg77q+LDZXecIM0ENooKukwS3pFnXOFIcYg0N0NihkzOJqd0mPfSb5IE5DISgnIa3YTI22pDMbX2n3cnz/YN2TaM9Br1X13J4pcBqsvW3PvaSflLyR2J4dNiUhoHVQKAeYU/xcjw2zHCL05DwBYmlkd8QkYb1hs7+olADCk4moQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM9PR08MB6737.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(316002)(52116002)(38350700002)(38100700002)(6506007)(66476007)(66556008)(2906002)(66946007)(6486002)(8676002)(4326008)(36756003)(2616005)(6916009)(5660300002)(86362001)(107886003)(8936002)(186003)(26005)(1076003)(508600001)(6666004)(83380400001)(6512007);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TnlEVWNuVHFRa2Zma1ZBWndKbmVPb1k1N0ozdjVGVVFPM3RKaFU4WkI0NUNK?=
+ =?utf-8?B?WjJ3SE0yNSt0V2Rjb0VUeHdDVTdxKzI2WWxnOVllQVk4QUZuUlgyVjROV3Ux?=
+ =?utf-8?B?TFlPdWNKS1QycGlhcHhZdFI1bVQ2REZLWjczSlRhQVpMeTZKSExXZW9NbFFF?=
+ =?utf-8?B?QmFzTzFFaGRCbUpDMWMrQjhSZnFoam5rMXdDd1NHWmczVEFkTkFudFc4ZXR5?=
+ =?utf-8?B?ckRFcjU5R1dQNlRtTGVwYkt2TW1nc3VVb0Z3NWJyTW5aL242YkVxd0pGNjQ2?=
+ =?utf-8?B?S09kdWVyVjZIT2ZyMU1wc2hiN0RCV2lMVi9LT3lPOU9BWDR3aVM1ZXNyN0ky?=
+ =?utf-8?B?NHhDcG10MzJudmdjSHd4c1h4V3o2ZWNkMGMydlJrOXlYcm5ZM0c4MUVJWHpW?=
+ =?utf-8?B?UCtCMWtpcEx0cjlXSmwvbUYydlp3WEFaemR6S0pKT0hxdEo2eVhNNDJtYVdI?=
+ =?utf-8?B?K0ZlVHhFc05MQTdLU2krRDY0bXYvR0gxeGtVUFQrNHlsa0loTm5WOE8rd09p?=
+ =?utf-8?B?bGdNOUdjdHUyTHdNZHFvbEZBNFdDa29QeW5STXNPRkRaeDI5azROeUV5MlNP?=
+ =?utf-8?B?OEtNTW9GNWVVV2k3YnZYSXBZZFZsMnFwcWIwWTUvWHNjSWkrbFhXQnJXOW43?=
+ =?utf-8?B?ZU1YRUFYd3JjM0Q5OVU2QW1neFhBK0VYckxkSVB5d2w4cTFFNTRnaGRYTTVN?=
+ =?utf-8?B?alI5N1UrV3VkWWZKNDlKSC9xV1kxRHhLOHp6Q1BhanZHd3FMa3IwVFhRTDFt?=
+ =?utf-8?B?VVJCNVdUSmtIUHAwaUR1dHJSa1lhaW5jUjhicHZSL0E1RmxZaVFvZlhLQWM3?=
+ =?utf-8?B?QmhyTFR4QzQ4ZFNzTEdOQ3Zwc1VsSkl6M3JUNnFadU5IcW1RbllGaE1zZy9I?=
+ =?utf-8?B?S2V6WHB5cnFqQlN2dzhTYkRoQmRWTFhvTFBQQVgzSjdXNk1ZZG90WDhMdjJa?=
+ =?utf-8?B?K3hscmpyU0VSM3RtZjlveUlPUXdIUnY2MWNvQ3hZRmFPMEJQMFJHS1YzWUJH?=
+ =?utf-8?B?VG5Henh5alZ5empDVHhuZFRHVmJ6eEhMTmtYQnJuMldHRWh4UWY3b1ByN1Qw?=
+ =?utf-8?B?WXJCUzVZUThQc0tnOEZsRnc4YW1ldElhZU1QMDZtOEtvdmh4T0RuT1FZM0VJ?=
+ =?utf-8?B?WGhqNkNVMW5lNFpUcXc4VGNlbi92YTRicktuUXAxckp6YXIyWlVQRE0vaWl3?=
+ =?utf-8?B?ZGhOMjNWRjhRWnVvL3pLcGk1NFNjaTBhYjdFbUJHYmJVdzVjTUg2M2F1RnpS?=
+ =?utf-8?B?VGx2QkVEeEkzbFJJMTEyMVpNWENoKzhPTk9RMWZhN3A2WUMzVXJWOUlITGdo?=
+ =?utf-8?B?VytyZFdZUHUrTnZ5d09EVmpIdGQzeitPaFNvbEkxc0dsUkxpOGM2VlFZRDc0?=
+ =?utf-8?B?c1dxVHFDTGhNK285bjlxZWJXTFlTMU04OGlFWkFMVk9mS2t2TTA2OEVWL0dY?=
+ =?utf-8?B?WGxyZXZlUGRDbllMeXF1UVMzam1HWVB5ZVY2Y2FGZEFwemx4TU5QNnRnRmFz?=
+ =?utf-8?B?NENLNHZkQWpvWENDNnZCdjc3bnVsQ3hFWDlzUEJSMWdxb3hlUW44TDNURWhX?=
+ =?utf-8?B?RHJ1eXZidUxHbUxhQ0RxeVM3TDRwMHRHb29RTmtMeE1LOEEvSXFLL3YvT3pr?=
+ =?utf-8?B?eDluYlhWY3NJY3RDdEhUN0NrRFp6REtHbTQzUUVpeVhQSyszVEI4bkxGcGhC?=
+ =?utf-8?B?KzlSc3FaOFRzakYxRklLVml5b2ZIU2JJNHFHMkRLQUNwc2xVdDNOZnJLbkl5?=
+ =?utf-8?B?NTNIN1FYQnduRVZ6ekpmNWFvY3h6Z2FTc2hKbkVFRFNXWnJ5SjlEYmhpVld0?=
+ =?utf-8?B?Z3NjejFCc0k0RmtSZUVOcGYveGQxb1dtbUxZcStmSHk5S1gxcFFTQUFjSS9J?=
+ =?utf-8?B?MUpXV09lQ2pYbUs0WHZZZldMcnNXUS85WmlSejJUQXFFK0xWOTJSdEMyakUz?=
+ =?utf-8?B?VmpTMUIwcGljdWh4RFluMVR2ZjZCMjdqY21PaTlBRVE5R2ZlWW1WL1VBTkJr?=
+ =?utf-8?B?NzcyMEtUc2wrelJrZTZTL0lramU1NGpVUzdDT0RlSktDUnQva0pBZEluR05V?=
+ =?utf-8?B?TDU2a25pcitZdithV3dxSzBobkRRRnBpSk1tUmhkWm00UHRQOGdkcUNvU3Ax?=
+ =?utf-8?B?bTZ0RWR4K1BXd0o4d3FDVVhEcDZNOWsraGV6MDM0dlhRd285aXFuMElsRjBm?=
+ =?utf-8?B?YVUvTEFGb0M3OStJS3VpeURJdXRrSWc1VjJSN2FSL0k4V3J1WlplblBLUGlq?=
+ =?utf-8?B?ZVFMNFJKbmtZV3BFc0FVaGRJUDZ3PT0=?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: bfc053d4-5588-45b8-43c7-08d9c57fbb75
+X-MS-Exchange-CrossTenant-AuthSource: AM9PR08MB6737.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Dec 2021 19:17:44.8365 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: RSPz2Kce8cC3b1ZbBoUmHCXB7llhLH+SK/oOSKTFOpIAnfc3fxkXleD63lzWKA2LLhBTGf8vg81yAYlQc2+SHS66CeVZlLAfQEWWh/2KU7I=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR08MB6290
+Received-SPF: pass client-ip=40.107.14.119;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR01-VE1-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,41 +145,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>, kraxel@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/22/21 15:40, marcandre.lureau@redhat.com wrote:
-> From: Marc-André Lureau <marcandre.lureau@redhat.com>
-> 
-> On the last added dbus patch, I left a tiny BO:
-> 
-> ==441487==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x611000025a70 at pc 0x7f0817bb764c bp 0x7ffde672ae60 sp 0x7ffde672ae58
-> WRITE of size 8 at 0x611000025a70 thread T0
->     #0 0x7f0817bb764b in dbus_vc_class_init ../ui/dbus.c:401
-> 
-> A cookie for ASAN! not you C :)
-> 
+Hi all!
 
-Fixes: 7f767ca35e5 ("ui/dbus: register D-Bus VC handler")
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+v2:
+01, 03: add Mark-Andre's r-bs
+02: add a bit of documentation and "'if': 'CONFIG_VNC'", still, keep
+    Mark-Adnre's r-b here too
 
-> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-> ---
->  ui/dbus.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/ui/dbus.c b/ui/dbus.c
-> index b2c1c9fb522c..0074424c1fed 100644
-> --- a/ui/dbus.c
-> +++ b/ui/dbus.c
-> @@ -405,6 +405,7 @@ dbus_vc_class_init(ObjectClass *oc, void *data)
->  static const TypeInfo dbus_vc_type_info = {
->      .name = TYPE_CHARDEV_VC,
->      .parent = TYPE_CHARDEV_DBUS,
-> +    .class_size = sizeof(DBusVCClass),
->      .class_init = dbus_vc_class_init,
->  };
->  
+Recently our customer requested a possibility to change VNC listen port
+dynamically.
+
+Happily in Rhel7-based Qemu we already have this possibility: through
+deprecated "change" qmp command.
+
+But since 6.0 "change" qmp command was removed, with recommendation to
+use change-vnc-password or blockdev-change-medium instead. Of course,
+neither of them allow change VNC listen port.
+
+So, let's reimplement the possibility.
+
+Note: now, reconnecting may trigger existing deadlock, as I described
+in my message "Re: [PULL 09/11] ui/vnc: clipboard support":
+ <973ddebe-14a9-4ba7-c389-7a97d6017237@virtuozzo.com>
+
+Simple hack helps, but I'm not sure it's safe itself:
+
+    diff --git a/ui/vnc.c b/ui/vnc.c
+    index 69bbf3b6f6..8c6b378e2e 100644
+    --- a/ui/vnc.c
+    +++ b/ui/vnc.c
+    @@ -1354,12 +1354,12 @@ void vnc_disconnect_finish(VncState *vs)
+             /* last client gone */
+             vnc_update_server_surface(vs->vd);
+         }
+    +    vnc_unlock_output(vs);
+    +
+         if (vs->cbpeer.update.notify) {
+             qemu_clipboard_peer_unregister(&vs->cbpeer);
+         }
+     
+    -    vnc_unlock_output(vs);
+    -
+         qemu_mutex_destroy(&vs->output_mutex);
+         if (vs->bh != NULL) {
+             qemu_bh_delete(vs->bh);
+
+
+Vladimir Sementsov-Ogievskiy (3):
+  ui/vnc: refactor arrays of addresses to SocketAddressList
+  qapi/ui: introduce change-vnc-listen
+  avocado/vnc: add test_change_listen
+
+ docs/about/removed-features.rst |   3 +-
+ qapi/ui.json                    |  19 ++++
+ ui/vnc.c                        | 155 ++++++++++++++++----------------
+ tests/avocado/vnc.py            |  10 +++
+ 4 files changed, 108 insertions(+), 79 deletions(-)
+
+-- 
+2.31.1
 
 
