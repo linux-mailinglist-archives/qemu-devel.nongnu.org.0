@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42A4C47D065
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Dec 2021 11:58:58 +0100 (CET)
-Received: from localhost ([::1]:34728 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3982047D10A
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Dec 2021 12:33:50 +0100 (CET)
+Received: from localhost ([::1]:52404 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mzzKi-0003uV-VJ
-	for lists+qemu-devel@lfdr.de; Wed, 22 Dec 2021 05:58:56 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36338)
+	id 1mzzsT-0007cO-24
+	for lists+qemu-devel@lfdr.de; Wed, 22 Dec 2021 06:33:49 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50216)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1mzzI1-000368-7s
- for qemu-devel@nongnu.org; Wed, 22 Dec 2021 05:56:09 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35368)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1mzzHu-0004Vi-VR
- for qemu-devel@nongnu.org; Wed, 22 Dec 2021 05:56:07 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1640170561;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=SK6VYuaqg6WHah2t+rtk3Y0ESpOHB8Votjz481M0Lyk=;
- b=Rxqj2EcGUQpvMcym5nWf/iIGPWs8kAlyOU3Vt97pmASz2cuBIKFHkVN8hEWUlGbgVZqnm6
- LaVIDL+Qc/GTnqAvyaJaij4ugp+kOoAi1HQ3iLSbMyn+Yez1/g4vg8ts/tRlJjTkphACqw
- XfwphWHBmqzfD3gfW7eUzMs0kaJ3PGY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-619-aixtbHaRN1CVVpJdjQlDAQ-1; Wed, 22 Dec 2021 05:55:58 -0500
-X-MC-Unique: aixtbHaRN1CVVpJdjQlDAQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.90_1) (envelope-from <lizhang@suse.de>) id 1mzzqE-0005WQ-V2
+ for qemu-devel@nongnu.org; Wed, 22 Dec 2021 06:31:30 -0500
+Received: from smtp-out1.suse.de ([195.135.220.28]:57232)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <lizhang@suse.de>) id 1mzzqD-0006hc-6f
+ for qemu-devel@nongnu.org; Wed, 22 Dec 2021 06:31:30 -0500
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AEE961898290;
- Wed, 22 Dec 2021 10:55:56 +0000 (UTC)
-Received: from gondolin.redhat.com (unknown [10.39.193.66])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6A0EA73143;
- Wed, 22 Dec 2021 10:55:54 +0000 (UTC)
-From: Cornelia Huck <cohuck@redhat.com>
-To: qemu-devel@nongnu.org,
-	qemu-s390x@nongnu.org
-Subject: [PATCH RFC v2] MAINTAINERS: split out s390x sections
-Date: Wed, 22 Dec 2021 11:55:48 +0100
-Message-Id: <20211222105548.356852-1-cohuck@redhat.com>
+ by smtp-out1.suse.de (Postfix) with ESMTPS id F19D8212BA;
+ Wed, 22 Dec 2021 11:31:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1640172686; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=1SCNs+eDU+1iH3rFIWpqaTA1xmxkr8lx/KFY7xwKM5Q=;
+ b=mancpHrhyr7jO4L+xgiH1kVsOI2wnswBi1M3THmR2SEgg6QjbSizWJrRAkHWLCPJL0DiZk
+ PMfF+i35NBZmosI0AtabiNOlVZCZ6QHN5B2RMrA6bq/BAZvynKppHAyO7Ptz9vv5d3F7hf
+ yluoIEquIosqkhg4lZFM3wSsPBe3oB0=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1640172686;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version: content-transfer-encoding:content-transfer-encoding;
+ bh=1SCNs+eDU+1iH3rFIWpqaTA1xmxkr8lx/KFY7xwKM5Q=;
+ b=1NwsZsH2QqhQT2dlxFAGPgSTsNqFf4J2qlfFBaC2iRGjdAZj4UcBDipqFHCxPhYreR6Hmv
+ WHPRdDZale6pt9Aw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id B658913D10;
+ Wed, 22 Dec 2021 11:31:25 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id pQwMK40Mw2HBFQAAMHmgww
+ (envelope-from <lizhang@suse.de>); Wed, 22 Dec 2021 11:31:25 +0000
+From: Li Zhang <lizhang@suse.de>
+To: quintela@redhat.com, dgilbert@redhat.com, cfontana@suse.de,
+ qemu-devel@nongnu.org
+Subject: [PATCH 0/2] multifd: cleanup some source code
+Date: Wed, 22 Dec 2021 12:30:47 +0100
+Message-Id: <20211222113049.9326-1-lizhang@suse.de>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=cohuck@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Received-SPF: pass client-ip=195.135.220.28; envelope-from=lizhang@suse.de;
+ helo=smtp-out1.suse.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -75,172 +76,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, David Hildenbrand <david@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eric Farman <farman@linux.ibm.com>, Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Li Zhang <lizhang@suse.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Split out some more specialized devices etc., so that we can build
-smarter lists of people to be put on cc: in the future.
+When looking into the multifd source code, some of them 
+can be improved. This patchset is to cleanup the functions 
+multifd_channel_connect and multfd_send_thead. 
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Acked-by: David Hildenbrand <david@redhat.com>
-Acked-by: Christian Borntraeger <borntraeger@de.ibm.com>
-Acked-by: Thomas Huth <thuth@redhat.com>
-Acked-by: Halil Pasic <pasic@linux.ibm.com>
-Signed-off-by: Cornelia Huck <cohuck@redhat.com>
----
+The functions are tested without any errors.
 
-v1->v2: move some sections to "Devices", some minor tweaks
+Li Zhang (2):
+  multifd: cleanup the function multifd_channel_connect
+  multifd: cleanup the function multifd_send_thread
 
-I guess that can go with the next set of s390x patches.
+ migration/multifd.c | 131 ++++++++++++++++++++++----------------------
+ 1 file changed, 65 insertions(+), 66 deletions(-)
 
----
- MAINTAINERS | 85 ++++++++++++++++++++++++++++++++++++++++++++++-------
- 1 file changed, 74 insertions(+), 11 deletions(-)
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 5dcefc0d012a..e4d88f7eb2ba 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -297,7 +297,6 @@ M: David Hildenbrand <david@redhat.com>
- S: Maintained
- F: target/s390x/
- F: target/s390x/tcg
--F: target/s390x/cpu_models_*.[ch]
- F: hw/s390x/
- F: disas/s390.c
- F: tests/tcg/s390x/
-@@ -396,16 +395,10 @@ M: Halil Pasic <pasic@linux.ibm.com>
- M: Christian Borntraeger <borntraeger@linux.ibm.com>
- S: Supported
- F: target/s390x/kvm/
--F: target/s390x/ioinst.[ch]
- F: target/s390x/machine.c
- F: target/s390x/sigp.c
--F: target/s390x/cpu_features*.[ch]
--F: target/s390x/cpu_models.[ch]
- F: hw/s390x/pv.c
- F: include/hw/s390x/pv.h
--F: hw/intc/s390_flic.c
--F: hw/intc/s390_flic_kvm.c
--F: include/hw/s390x/s390_flic.h
- F: gdb-xml/s390*.xml
- T: git https://github.com/borntraeger/qemu.git s390-next
- L: qemu-s390x@nongnu.org
-@@ -1529,12 +1522,8 @@ S390 Virtio-ccw
- M: Halil Pasic <pasic@linux.ibm.com>
- M: Christian Borntraeger <borntraeger@linux.ibm.com>
- S: Supported
--F: hw/char/sclp*.[hc]
--F: hw/char/terminal3270.c
- F: hw/s390x/
- F: include/hw/s390x/
--F: hw/watchdog/wdt_diag288.c
--F: include/hw/watchdog/wdt_diag288.h
- F: configs/devices/s390x-softmmu/default.mak
- F: tests/avocado/machine_s390_ccw_virtio.py
- T: git https://github.com/borntraeger/qemu.git s390-next
-@@ -1559,6 +1548,37 @@ F: hw/s390x/s390-pci*
- F: include/hw/s390x/s390-pci*
- L: qemu-s390x@nongnu.org
- 
-+S390 channel subsystem
-+M: Halil Pasic <pasic@linux.ibm.com>
-+M: Christian Borntraeger <borntraeger@linux.ibm.com>
-+S: Supported
-+F: hw/s390x/ccw-device.[ch]
-+F: hw/s390x/css.c
-+F: hw/s390x/css-bridge.c
-+F: include/hw/s390x/css.h
-+F: include/hw/s390x/css-bridge.h
-+F: include/hw/s390x/ioinst.h
-+F: target/s390x/ioinst.c
-+L: qemu-s390x@nongnu.org
-+
-+S390 CPU models
-+M: David Hildenbrand <david@redhat.com>
-+S: Maintained
-+F: target/s390x/cpu_features*.[ch]
-+F: target/s390x/cpu_models.[ch]
-+L: qemu-s390x@nongnu.org
-+
-+S390 SCLP-backed devices
-+M: Halil Pasic <pasic@linux.ibm.com>
-+M: Christian Borntraeger <borntraeger@linux.ibm.com>
-+S: Supported
-+F: include/hw/s390x/event-facility.h
-+F: include/hw/s390x/sclp.h
-+F: hw/char/sclp*.[hc]
-+F: hw/s390x/event-facility.c
-+F: hw/s390x/sclp*.c
-+L: qemu-s390x@nongnu.org
-+
- X86 Machines
- ------------
- PC
-@@ -1957,6 +1977,7 @@ M: Halil Pasic <pasic@linux.ibm.com>
- S: Supported
- F: hw/s390x/virtio-ccw*.[hc]
- F: hw/s390x/vhost-vsock-ccw.c
-+F: hw/s390x/vhost-user-fs-ccw.c
- T: git https://gitlab.com/cohuck/qemu.git s390-next
- T: git https://github.com/borntraeger/qemu.git s390-next
- L: qemu-s390x@nongnu.org
-@@ -2295,6 +2316,48 @@ F: hw/timer/mips_gictimer.c
- F: include/hw/intc/mips_gic.h
- F: include/hw/timer/mips_gictimer.h
- 
-+S390 3270 device
-+M: Halil Pasic <pasic@linux.ibm.com>
-+M: Christian Borntraeger <borntraeger@linux.ibm.com>
-+S: Odd fixes
-+F: include/hw/s390x/3270-ccw.h
-+F: hw/char/terminal3270.c
-+F: hw/s390x/3270-ccw.c
-+L: qemu-s390x@nongnu.org
-+
-+S390 diag 288 watchdog
-+M: Halil Pasic <pasic@linux.ibm.com>
-+M: Christian Borntraeger <borntraeger@linux.ibm.com>
-+S: Supported
-+F: hw/watchdog/wdt_diag288.c
-+F: include/hw/watchdog/wdt_diag288.h
-+L: qemu-s390x@nongnu.org
-+
-+S390 storage key device
-+M: Halil Pasic <pasic@linux.ibm.com>
-+M: Christian Borntraeger <borntraeger@linux.ibm.com>
-+S: Supported
-+F: hw/s390x/storage-keys.h
-+F: hw/390x/s390-skeys*.c
-+L: qemu-s390x@nongnu.org
-+
-+S390 storage attribute device
-+M: Halil Pasic <pasic@linux.ibm.com>
-+M: Christian Borntraeger <borntraeger@linux.ibm.com>
-+S: Supported
-+F: hw/s390x/storage-attributes.h
-+F: hw/s390/s390-stattrib*.c
-+L: qemu-s390x@nongnu.org
-+
-+S390 floating interrupt controller
-+M: Halil Pasic <pasic@linux.ibm.com>
-+M: Christian Borntraeger <borntraeger@linux.ibm.com>
-+M: David Hildenbrand <david@redhat.com>
-+S: Supported
-+F: hw/intc/s390_flic*.c
-+F: include/hw/s390x/s390_flic.h
-+L: qemu-s390x@nongnu.org
-+
- Subsystems
- ----------
- Overall Audio backends
 -- 
 2.31.1
 
