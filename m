@@ -2,61 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B61747D562
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Dec 2021 17:48:19 +0100 (CET)
-Received: from localhost ([::1]:42762 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA01A47D56A
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Dec 2021 17:53:49 +0100 (CET)
+Received: from localhost ([::1]:47068 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n04mo-00053U-7D
-	for lists+qemu-devel@lfdr.de; Wed, 22 Dec 2021 11:48:18 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38320)
+	id 1n04s8-0008Dy-Px
+	for lists+qemu-devel@lfdr.de; Wed, 22 Dec 2021 11:53:48 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39578)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1n04ku-0003KK-9x
- for qemu-devel@nongnu.org; Wed, 22 Dec 2021 11:46:20 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44899)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1n04qi-0006BR-AC
+ for qemu-devel@nongnu.org; Wed, 22 Dec 2021 11:52:20 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54397)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1n04ks-0001m0-LR
- for qemu-devel@nongnu.org; Wed, 22 Dec 2021 11:46:19 -0500
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1n04qg-00069t-Nk
+ for qemu-devel@nongnu.org; Wed, 22 Dec 2021 11:52:20 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1640191578;
+ s=mimecast20190719; t=1640191938;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=BFvs/A/vbgbdJX+dNVaV/6nUjS/GH1ktnrcf2TIh49s=;
- b=P88TrKEQf4lduyBeylzYsWTWEmEalw0RAsQf07RQ8FF0YuFiWWhufFOB5CI6sj/xInPux/
- xte3xBYzjWLzf2mhxCK69dgay4GAyTjLgBMyTF+VTPBXXqSZ4khcJUF9XHD54ne7DpdkWR
- BoK+sHi7lbmqbzRrzOuxFv/DYMYM6YY=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=7kpVMt4g0mgC1wokoDEYgjoBYgyyKNvMzldsKKZxGvo=;
+ b=eB8SfgLMVLEvQbjiUnD4urXeoSgFsGT+E+WUzLt4k5JdQ9iq12tEbKBRl08Ipy590x1yMs
+ BWmj/uVelxQW8NIRyeG4Wta/9ao8GWf4agMaN+loWlf5qU7Se0Gb0O2oBDZXt50jJy0gJ1
+ GBtVuK7Tnoa5qfFCgQvmAET7X90nNPQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-412-PJD_AwE2MLiNkgcOBtRLxw-1; Wed, 22 Dec 2021 11:46:15 -0500
-X-MC-Unique: PJD_AwE2MLiNkgcOBtRLxw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-300--F_xATOnPYiJU5k0LEETsA-1; Wed, 22 Dec 2021 11:52:14 -0500
+X-MC-Unique: -F_xATOnPYiJU5k0LEETsA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D001764140;
- Wed, 22 Dec 2021 16:46:13 +0000 (UTC)
-Received: from localhost (unknown [10.39.193.66])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 55D357AD1D;
- Wed, 22 Dec 2021 16:46:13 +0000 (UTC)
-From: Cornelia Huck <cohuck@redhat.com>
-To: Nico Boehr <nrb@linux.ibm.com>, qemu-s390x@nongnu.org
-Subject: Re: [PATCH qemu] s390x/css: fix PMCW invalid mask
-In-Reply-To: <20211216131657.1057978-1-nrb@linux.ibm.com>
-Organization: Red Hat GmbH
-References: <20211216131657.1057978-1-nrb@linux.ibm.com>
-User-Agent: Notmuch/0.34 (https://notmuchmail.org)
-Date: Wed, 22 Dec 2021 17:46:11 +0100
-Message-ID: <87h7b037vw.fsf@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 07F14801B2A;
+ Wed, 22 Dec 2021 16:52:14 +0000 (UTC)
+Received: from localhost (unknown [10.39.194.22])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3C98084A2B;
+ Wed, 22 Dec 2021 16:52:09 +0000 (UTC)
+From: Hanna Reitz <hreitz@redhat.com>
+To: qemu-block@nongnu.org
+Subject: [PULL 0/3] Block patches
+Date: Wed, 22 Dec 2021 17:52:05 +0100
+Message-Id: <20211222165208.693159-1-hreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=cohuck@redhat.com;
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -77,63 +74,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, Nico Boehr <nrb@linux.ibm.com>, frankja@linux.ibm.com,
- pmorel@linux.ibm.com, qemu-devel@nongnu.org, pasic@linux.ibm.com,
- borntraeger@de.ibm.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Dec 16 2021, Nico Boehr <nrb@linux.ibm.com> wrote:
+The following changes since commit 8c5f94cd4182753959c8be8de415120dc879d8f0:
 
-> Previously, we required bits 5, 6 and 7 to be zero (0x07 == 0b111). But,
-> as per the principles of operation, bit 5 is ignored in MSCH and bits 0,
-> 1, 6 and 7 need to be zero.
->
-> As both PMCW_FLAGS_MASK_INVALID and ioinst_schib_valid() are only used
-> by ioinst_handle_msch(), adjust the mask accordingly.
->
-> Fixes: db1c8f53bfb1 ("s390: Channel I/O basic definitions.")
-> Signed-off-by: Nico Boehr <nrb@linux.ibm.com>
-> Reviewed-by: Pierre Morel <pmorel@linux.ibm.com>
-> Reviewed-by: Halil Pasic <pasic@linux.ibm.com>
-> Reviewed-by: Janosch Frank <frankja@linux.ibm.com>
-> ---
->  include/hw/s390x/ioinst.h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/include/hw/s390x/ioinst.h b/include/hw/s390x/ioinst.h
-> index 3771fff9d44d..ea8d0f244492 100644
-> --- a/include/hw/s390x/ioinst.h
-> +++ b/include/hw/s390x/ioinst.h
-> @@ -107,7 +107,7 @@ QEMU_BUILD_BUG_MSG(sizeof(PMCW) != 28, "size of PMCW is wrong");
->  #define PMCW_FLAGS_MASK_MP 0x0004
->  #define PMCW_FLAGS_MASK_TF 0x0002
->  #define PMCW_FLAGS_MASK_DNV 0x0001
-> -#define PMCW_FLAGS_MASK_INVALID 0x0700
-> +#define PMCW_FLAGS_MASK_INVALID 0xc300
+  Merge tag 'pull-loong-20211221-2' of https://gitlab.com/rth7680/qemu into staging (2021-12-21 13:30:35 -0800)
 
-Removing bit 5 from this mask makes sense, at it is simply ignored.
+are available in the Git repository at:
 
-I'm a bit confused about bits 0 and 1, however. They are _QF and _W,
-respectively (just out of the context here), which are in the same class
-as _DNV (i.e. characteristics of the subchannel that cannot be modified
-via msch). Looking at the PoP, I don't see what is supposed to happen if
-the program tries to modify the dnv bit (maybe I'm simply overlooking
-it.) I would naively assume that the w bit should behave in the same way
-(as it does for message subchannels what dnv does for I/O subchannels,
-and the rest of the values are not meaningful if it is not set), and
-probably also the qf bit (as it doesn't make sense for the program to
-turn QDIO capabilities on and off.) The main question is whether trying
-to modify these bits causes an error or is ignored. The PoP suggests an
-error (no idea if the internal architecture agrees, it hopefully does);
-what happens for dnv?
+  https://gitlab.com/hreitz/qemu.git tags/pull-block-2021-12-22
 
-We support neither message subchannels nor QDIO in QEMU, so it's
-probably not relevant right now; but it would still be good if we could
-clarify the expected behaviour here :)
+for you to fetch changes up to 722f87df2545b308aec49b459b028f0802b4fd9e:
 
->  
->  #define PMCW_CHARS_MASK_ST 0x00e00000
->  #define PMCW_CHARS_MASK_MBFC 0x00000004
+  iotests: check: multiprocessing support (2021-12-22 16:29:48 +0100)
+
+----------------------------------------------------------------
+Block patches:
+- Added support to the iotests for running tests in several parallel
+  jobs (using the new -j parameter)
+
+----------------------------------------------------------------
+Vladimir Sementsov-Ogievskiy (3):
+  iotests/testrunner.py: add doc string for run_test()
+  iotests/testrunner.py: move updating last_elapsed to run_tests
+  iotests: check: multiprocessing support
+
+ tests/qemu-iotests/check         |  4 +-
+ tests/qemu-iotests/testrunner.py | 86 ++++++++++++++++++++++++++++----
+ 2 files changed, 80 insertions(+), 10 deletions(-)
+
+-- 
+2.33.1
 
 
