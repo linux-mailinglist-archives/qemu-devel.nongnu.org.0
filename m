@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AA0047D62A
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Dec 2021 18:57:51 +0100 (CET)
-Received: from localhost ([::1]:37130 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09B5C47D610
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Dec 2021 18:51:56 +0100 (CET)
+Received: from localhost ([::1]:49138 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n05s6-0003H0-Gd
-	for lists+qemu-devel@lfdr.de; Wed, 22 Dec 2021 12:57:50 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52634)
+	id 1n05mM-0000gy-Up
+	for lists+qemu-devel@lfdr.de; Wed, 22 Dec 2021 12:51:55 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52662)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1n05bl-0001Bi-Ah; Wed, 22 Dec 2021 12:40:57 -0500
+ id 1n05bn-0001Ln-Sf; Wed, 22 Dec 2021 12:40:59 -0500
 Received: from mail-vi1eur05on2133.outbound.protection.outlook.com
  ([40.107.21.133]:46561 helo=EUR05-VI1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1n05bj-0002Xs-Kn; Wed, 22 Dec 2021 12:40:56 -0500
+ id 1n05bl-0002Xs-TV; Wed, 22 Dec 2021 12:40:59 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MHR+jE21Y/5xsM/zdFrXK/DOQ+fK1Hldz2NLXNB/uLdffC0LocQ1C797HFjMahyASi7mjCBREO04VKiaS00NTjySCMBi4MvEvI8pi3As/ovyjc95s/rYaiJpwrQcAGz5jlQVPGopEMHMW1arx4feInEbqnHDIzk4+w8o2sptfYCeUR1N/E5H9nDAhdMl/nBQ0Ln6jxWYDyDJLPhLyRMJsgaWXa7lqjmUB0tptQSeQ5xvldy/nRfiXkNV8xiLnQst23nnivatj2QE6VkfrnSHLdsxl8/KcFADLjlHd1ZE7Pk3ROPW0BHQDcQKfB2UaxijssGdirLssLJIhlvBTG83iw==
+ b=nPxcJTeGuJX4S5bEPhHiGmpypG+OvJ6BW3/M58S7T7OAFonCyNOEqh3YgEEIwK9RIGQ8NIMi9FnB+MLGYg97T8wzQEzTxvwmA/sDW58R6QNrF83V82LAVT7kWyh9wy/Bu0erLSxpevTLORtUKPkvTVGh/MYULk9xCoxmJZv2N5zHcdG1PO+lrBceePZXcXamZd4x6CkFwldx4Woq6CUu2L9lU2SwbcMwfFalkJkY92vNG9jOhQqgMJ//iZOMCfqhl0erj9Q7NljMNLBFxu7L5g/YJqHIvxWnMPSuTzYm0BqLWywLQHjL0J3fuPUZMeOKHD8QdsmXlRvT3o5jstHvuQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4CbIakG8Bpry9mIDvB9GIJfrqIDoKVb9JXqzYEcnay4=;
- b=h6hZ9q1cnY+UvRo4ku3uOiOPmCiERVerw9uiV0rNMBFrUtFpDSxoDyNDB82CCDkEgMkiozOmxDlzihlo2Vf8243xcDnhZgTJhaDFcbn/VEvTPn0lVzT/vXf40T39r8u6IRFEyG5hc0UtgC3qO7RyfNKUbtHUXd/6DY7eiNtmRXOML/p66qIG5k1f3H3oRoXWlo2v6X0Av/ZPlq++pPvYn4xFir3C3SXTIlXKLw6IcgZsFyVRyhy7VREK7BdhjTAbzIQnDLohpYfS8WFH77VDOfbOa9COEyQ5JPsb5jsiTW2TkolMCbfsh26qMd5IXqQkOUdPq464ODIGDVuS/Ra5RA==
+ bh=2JFv4Ywktgv9DuYVzG0rBqLdPov3WegBCIbYpmaTa28=;
+ b=mK3tNV9TbY1nFcLhFdyR1lM9DHRlaUpbV6RH98s24ruWAm6pr+UqlgYr+aOHd/FVF/uFUtMzbQJKo04BP1Dq9+NF3pWhdcWM5eaHtssDNRPKkOYcROZdfl+fnb0o71Wo7vR4NTb+xu4XFfYbRYt4WoApb3MkU6l7y9txxnehkiNLOmOTJLXL8Mq+3tOvxZcZiMa+wPadijvWGahPgCuEkCnXEfIutccmoDSYzUhYxfqZkuhKt5mlOC1KdPy6xrFkAZ38mu1drCdtUXbrv2Uxby1RlMraElnE7ZW8z0zZNk6plEhLZUP6Tfv9z995RRR0hAaEZQneN/MLMisO8+2FfA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4CbIakG8Bpry9mIDvB9GIJfrqIDoKVb9JXqzYEcnay4=;
- b=ickScpv7o4dyD61bgQCmt37mZx/UNL0kYXh9LGmmfAiGwu/RujTjy0GsNC8w+0sEY9vi2fBRkgIau9oUb/P1cp0gd4kPzAy18nri/RXR6kIuH7SClBRg4Xkw18ET4amKLjXOrsesL4MLVcZFy3V7ImUa+FK6o89gcJMYnyZkJx0=
+ bh=2JFv4Ywktgv9DuYVzG0rBqLdPov3WegBCIbYpmaTa28=;
+ b=i71sw6Ba2ly/48XuOwtIX8FlRosKmOUsiJkpfghY09Q6Fv4TZyIOBySE20m3QULbZOjia4TCwZxjAhOu7ZXAkBuZGkkdHM0sf3eJoMuca8Vu52Pw71lwsCAwkPMlfbWa8+y1mcp2Vnzxm5D7FUpgjK8iRjwZwkxNE7Fd0r6xDTo=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=virtuozzo.com;
 Received: from DB9PR08MB6748.eurprd08.prod.outlook.com (2603:10a6:10:2a7::16)
@@ -43,17 +43,17 @@ Received: from DB9PR08MB6748.eurprd08.prod.outlook.com (2603:10a6:10:2a7::16)
 Received: from DB9PR08MB6748.eurprd08.prod.outlook.com
  ([fe80::a89f:c7bc:b9f8:fc3e]) by DB9PR08MB6748.eurprd08.prod.outlook.com
  ([fe80::a89f:c7bc:b9f8:fc3e%6]) with mapi id 15.20.4823.019; Wed, 22 Dec 2021
- 17:40:42 +0000
+ 17:40:43 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, armbru@redhat.com, xiechanglong.d@gmail.com,
  wencongyang2@huawei.com, eblake@redhat.com, hreitz@redhat.com,
  kwolf@redhat.com, vsementsov@virtuozzo.com, jsnow@redhat.com,
  nikita.lapshin@virtuozzo.com
-Subject: [PATCH v3 13/19] block/copy-before-write: use write-unchanged in
- fleecing mode
-Date: Wed, 22 Dec 2021 18:40:12 +0100
-Message-Id: <20211222174018.257550-14-vsementsov@virtuozzo.com>
+Subject: [PATCH v3 14/19] iotests/image-fleecing: add test-case for fleecing
+ format node
+Date: Wed, 22 Dec 2021 18:40:13 +0100
+Message-Id: <20211222174018.257550-15-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211222174018.257550-1-vsementsov@virtuozzo.com>
 References: <20211222174018.257550-1-vsementsov@virtuozzo.com>
@@ -64,57 +64,57 @@ X-ClientProxiedBy: AS8P250CA0017.EURP250.PROD.OUTLOOK.COM
  (2603:10a6:10:2a7::16)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: cc1ff496-c2f6-4064-5f99-08d9c5722d59
+X-MS-Office365-Filtering-Correlation-Id: 7bfeef1d-2925-4da4-ddea-08d9c5722dbf
 X-MS-TrafficTypeDiagnostic: DB8PR08MB3964:EE_
-X-Microsoft-Antispam-PRVS: <DB8PR08MB3964F6E3974216126A0DF14AC17D9@DB8PR08MB3964.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:62;
+X-Microsoft-Antispam-PRVS: <DB8PR08MB39642FAA133255EAF90B6411C17D9@DB8PR08MB3964.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:459;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 5mqza9U4ef3qmx7GO0L6U172np1eKG9tpn+q74+r5UfU+0kyiArAu+dck6mcpwy3p5pM2i7yuGTHB9lYU84GXPZ/7IwD7jdkWocSF6/mUYgOJLbU9O+TMMdkT/2nklEQFZ0Qy/Ed6u/ZVJtV8PT27ZsFXNNa8LzpACVKd8YagDdVvK+WZ/r8hD5JROrMkExq5nE3blFdoVmhyJwHkMZ0hL5voYjYose1lytPVGHa0Hw4L3UftFbcaR0pHM/CtuqEaiO2vT+pKh3iP79bIx923Qnn8/VDeKXHadA9GE40HqZmivw/Vzut6GRi8fn2kmQmhQAjWlh8nyfufdHNbitTSn9Qy4oi20S/ms/DTgS9Yd+kZBBPr65MQEJc2COYVDvJp+HbWOSbfHh5uqIzUPJywQfMvKJC622kv/r0UZDPeAXSIbUnUKHtYQtDVIQYvosN+MclTWmKU7NocUdecoJ5EjF8jyNiPSZasDNwck0n5lMU7wcmL2V03+ywv/cNdiQiq0QmkMuvyauxUYbQezN62ZrwILo2EzEdUejSKzC2AeiXfITpCqUvwq9Dh5J6YQ9ci/HKyODUleOSj/dazWIm/TELenK4sdoMeQJRwaQy9o1TapUNQ5ZdumLs39nPNUhsb/3FWaNIdShoDBHKFvkJjA1uy6AGbjY0qzh1TOSje8GZnE/go/RQ+C9/ay8uAIqhmc1jD2lex/OCFVyU+0eK8w==
+X-Microsoft-Antispam-Message-Info: ESWF+6AXwgqAhX9kdyGtvqKnHXPQW4b3Xie1Hsb4avcMiF1wwvaLQ/HVR4PZqsViW3dajhkKP1aMZp+CAcWGj7d/Gp1v9+4+Tqno+SNtqIVIk2kXF5KFZwoOvXWtaTgDn/5tIS2omue13e0+G5KOUgRaQyFpe9uJzChQZLQqdWL1rWGXVIqQcUEY/NZfznMfOJGCgwN3F04qqPxHfJa+92u1a3Vk0Efk/T/IcJx9pDgRwlHvs4+QSeE2C0ZLtW4y3IRp9/vC9Q1FJ7PNfcUGbOPe43T2euk/d4HbK+qyFDPGFAcdjbM4z7U0aPzJw8c0hP4ckHLmmaJRAW0M1U648FTX5PYYst+ZRRcc8v5ZuA5Y8Uzot+Pg7c/fYwM5lNZmKKQgbk+Ew2diRNZqTluCLX79RHsJh9Ka82KEV94iNDXMGhKtauRsDJXWDKViXN/eVe7PpJsCCNRS7h6e0mD3FAIj0siBDUhnIazveWdMSVmKIZQ1mLTb8ylKGiC3AJjFFmKE+a52PUi0ncQr4Jvmbk5SRcTWgWzkhuhRbesY2s5RqB1fP07rtWJmNSzr80bOgFVKOAzG8hiCtU8zrbFHqVqE68aebd/FJTeuNFgAByFIb+0HrMXOKNUjZDbDo3e/gYlvmcGptn+LKPb8ZvibPB0CgIcDqEUaijhHZPLcxEImT6PhIePZk7d1it3BSBXAjof2MEoYvw94qTAGA91U2Q==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:DB9PR08MB6748.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(4636009)(366004)(107886003)(6512007)(6506007)(26005)(316002)(52116002)(2906002)(186003)(508600001)(6486002)(6916009)(4326008)(2616005)(8936002)(5660300002)(6666004)(8676002)(1076003)(38100700002)(38350700002)(86362001)(83380400001)(66946007)(66476007)(66556008)(36756003);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?UnBGbblkTKpStWwpo+ZWaTIaqq7+Z/JO6nT3WJowzIybyvkfJH3ngCD/6iKl?=
- =?us-ascii?Q?GqW8CPlvjLg08ma8wmcbkSk7s/m1tupN0jnlU7zNlB26fC2feTWzSpKL4r7g?=
- =?us-ascii?Q?BlB9SwOlgppXhHL3ISE7uGPc6MUQP+JKRXynVHkgWlLWoXlWXGySh3oRuicX?=
- =?us-ascii?Q?E908tXqVFS2qRk3r6twOtDvH6DyutZ+S6AP+wfLc5fXwhblIRYR5CkhlIxnK?=
- =?us-ascii?Q?6mmbg2CQQjfmvmK1LWdQPDZdsjezlFcNJTx9TVhi1uKTzY4rtmwjexIy/ycc?=
- =?us-ascii?Q?5IWxc9A7LOHuUiXrcFDlB6ZTYu1sGiEmOaCG8y4ohHRRmTZCVEBhnmf4xI5H?=
- =?us-ascii?Q?5GLsHCrmwszYy3DxJAQIniVDUdqhdtVMpJtpE/C3DrbjTYnWHBO/9ooU81nz?=
- =?us-ascii?Q?g6rJERvviFfreiBbfW5OQHpsj6PBv8ho0UVQZrtaZ54G+fHHohMxNvKEGi8j?=
- =?us-ascii?Q?6QNT0GFlBkz7vgLbJptYIt1mZduRiPTv8GqZYNZcnTr9rIOvrwDk1FNGXNbs?=
- =?us-ascii?Q?TR/CwijUreTTWfrT0Uq/3TuTe4wjoLTvUQ3/cEgy4O/bV1uNx1jhFF1qDHvU?=
- =?us-ascii?Q?MfKvrHEXM55Au5ik4aJjMSXoYTQyeCrTWGrnGcvHcz6qlboJ+Zd7JznTG5HB?=
- =?us-ascii?Q?Qkx93W87y/b8D56yVBMSKCkKoZa3WEgPTFmlhfNWWsZYN/ibXvzvzhuPMTtI?=
- =?us-ascii?Q?eAEiMNYLlsWKEka8kNiyJhwlyj1tL6yTgfUWpfcBFTZJq1XpqzI0PyfPIFJr?=
- =?us-ascii?Q?mDakajCatyNIhZdIOswtuMWMPJ10OyitmCZLNtXrnpGdnMEO0/sp8E+X3ZZV?=
- =?us-ascii?Q?+BjL+26QY4bxttaiPDixuJlH1HCvG7BYrgVP8cOaPUQRl6rdESeXFzFeq+Se?=
- =?us-ascii?Q?cxQaBWueGlrdPLzAATVnJvfggZOF2+PN3laYi5mA0RTIJWAswTJb+vUZDtXj?=
- =?us-ascii?Q?/M6ck2qSf6xWYJcoCzpHptZIK+CHlWTul44qPN3m9Xbrq3m7jieSpxuUJz4W?=
- =?us-ascii?Q?9pxKRJhmisjj2xhydA0m2Yb9DHLVGukPduy9XVntJuXbuSnBHUaLaRiwK0Tl?=
- =?us-ascii?Q?Ii4x9S2j6apyNls+ZiqfQOLrmfQ23y7lQlPlKWDim8N8/5gH/23sHNs5Jcst?=
- =?us-ascii?Q?MZaUvT1qSuyrXjrQu1Gyj2n+4xNMrOLT5OwVDsowqIEu1NJDIPAxrLsnyl0r?=
- =?us-ascii?Q?MjqpfIOR6nzal1LY95LxbY6+pXVqUfxbR8lgcOGZC/Z6+SXNNQHtmrZHKlBS?=
- =?us-ascii?Q?mjXRCuEiHkE3x89okG6ezKb2evkMOJExss06MzpfvfeO0aBKiIlx+jV8VQt2?=
- =?us-ascii?Q?/4rma3wVK13SFv5rUTWNvJOeHDIcrHjtrTlnxv1uh7NKqb0gULIcETNMT4P9?=
- =?us-ascii?Q?T7m/c4iTo4nc4ysLkOAWjcmg4od8lVtwYOKfMNILrE1JL6HMN8bIiCnV+yz5?=
- =?us-ascii?Q?SbqESrAmEJUruqW+84qGytUK/krx9vE4T2EuF18E5gRrqtXx57xetgtymPke?=
- =?us-ascii?Q?DECbWT2yDw67t4DP82T/yRwZ+b4rhpYAgF7ujNCrhi2AzvOePWoEH0tkJqA2?=
- =?us-ascii?Q?aGY/df+ybXGOiLlEwtY6BPpUoZ6Nc76WYK4KVciMhkC8bOo9FYr/YGjhtb7f?=
- =?us-ascii?Q?ADQYrLIYo+c/MO/JBYZO+B62WmUGEFm798FavfH8Mkuj+uk7H66BR9XG+BbX?=
- =?us-ascii?Q?UgXpudL8A7rEYofjlAFqhHAA+KU=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?uYQJ0i2kJl3saA8Q3mTKlGskfjIm0u4NYq1TV4D36sUpwBUFfxWJsym2WBfd?=
+ =?us-ascii?Q?rRlFMHa6/AS6KMImyo4Q9nhWLV9fuO6w7HBKQs5HWAdnoMaY2KlGYlNNAUrA?=
+ =?us-ascii?Q?iR7pYmBniQPsrUlve5CQPYUKEB4NCxRn0aFH76g49W8LEnYecuiT7KAfCRm+?=
+ =?us-ascii?Q?XXh+7hCrRgIaJbbq3eGqCXocN0S0EDU6yTHX9fRcU0gSQgGLsKMZboz/FmpL?=
+ =?us-ascii?Q?n2tvSBPTnve4mPRpCrw1ncoMmE24h/boUEWNx3f6tES22xkIlaPHQUHE5VH+?=
+ =?us-ascii?Q?fkfw5M1+dCtws1+U2N0ItTTHFZE0cizhMUJDodvuBRjStHwWOQ1yVh7fRSj/?=
+ =?us-ascii?Q?SS76hasBeyjP/ITOrl2WUQgBILzVnwQxgQCkjgGPdFF4ycfMND0PN9fVRcF9?=
+ =?us-ascii?Q?LNi5to//Sw/AEaSwKnyO69HHRAIcVyKB8sDpkbmPaSB0l7dkPCjkwA0wMsGv?=
+ =?us-ascii?Q?EGwg423TPgB/bURGAMzd3ys5uFLKAm2/0XUwRHAssgV+Ns+jofafdfk0iFQV?=
+ =?us-ascii?Q?LiZNaxt0quv/D3e4eh9p3yGPJLZkJGm31VF9xrXmzbdJ9b6RbBSqLxbkuxuJ?=
+ =?us-ascii?Q?z5CAFFNvN0RuaCwOnjRXZvVWitbaXkr22NiwcpPiLBGYKu1UXUUde6wV1hHT?=
+ =?us-ascii?Q?SeEx3eT2nSpwO4FEn3U171+YS6SsC9Dnhj1KyFSd6fKXsde76iR87QK5nRcR?=
+ =?us-ascii?Q?y/vsascnT3CMIS6hDybtnf0PKJn4KX+q27sQayJpBG67pKH9eLsUqMc2SibX?=
+ =?us-ascii?Q?vqo6209k6DrDKg21eCrcMtwv7QooMf2CTq0ie04Ivd6lvAVz5tmQwhC82zdB?=
+ =?us-ascii?Q?fhNCAnmgbI8qlcfxNQ3qqDSyYZkie/7fEdq08ffGikHWaBJ+liwPFRChgwpu?=
+ =?us-ascii?Q?v8x6tT1zfhKJWtwvsCqJ/4T1qag+usQNNuTWTDy+IzjSlFx0MZume7AeXG6F?=
+ =?us-ascii?Q?WlPKRXi0+8AEz+pdMXB8q9Zqw8OLH2/UHHGKPeTTYoE9GLO7quCVEX1/msZM?=
+ =?us-ascii?Q?fK1QfQhPQIIYN4Vt2Nj4RdtqKRTL4+Ya2e1qHN5KwjGNqm8yGrbTFCIYnrfg?=
+ =?us-ascii?Q?7gS2YHiOdiNm5eooizeb8NsNom3DbTcdaRF0qWyVENBAjHVpPsLWW18RRgvx?=
+ =?us-ascii?Q?r+IbnVAbs1IqueyMNMQP14F8cSmwZNRNIFpxsi8vfLRrNOaZHaY/bqcGYXaa?=
+ =?us-ascii?Q?6AvyY7qnv1639MgHaZmMHnoMX/opsiG5bVOMCels1nl0cVXGt1kMvLwoE09r?=
+ =?us-ascii?Q?74GpBhQDKatXU7AY0lHr4KnV7645/kEHuzdZwCBUf+x5w3lKAlBtwuDq8Gw9?=
+ =?us-ascii?Q?4vquSTPee8d0UlVWQeJ8HqH3QiJUQ6IKPcLwRcoXMqt16EMgLYPJ+gcDc/NT?=
+ =?us-ascii?Q?3futHfIYY+PVZLVWPfUtlZJDJsEDG4RxNP32LEne8EDN8pQQeCyn2nVg5zvi?=
+ =?us-ascii?Q?mTV+GlDLsb7pDEBmaBgv8t0/H5bDpTYgQgotSZvthBQa+MUG9q+0kwtV/5S8?=
+ =?us-ascii?Q?0BBb1JkWwp1ueWdqF9tVaFa1IgpEkIRGC1fNBpHEvJv8xeDvdSBotpDEEkcI?=
+ =?us-ascii?Q?OD8YfnsWx7PvwNLLekpDVpb2OEW519ZPSUm4wCbaLQHFpxxy2N9XfvMkfl6Q?=
+ =?us-ascii?Q?4fUwcrmedrVqVvU8sUZ4I75zWfZIBLRqmwdxwK69dnSmcoVvRXEHszjmO45N?=
+ =?us-ascii?Q?BEtAFivZ3Fud10Fc8RZPHeKFKXU=3D?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cc1ff496-c2f6-4064-5f99-08d9c5722d59
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7bfeef1d-2925-4da4-ddea-08d9c5722dbf
 X-MS-Exchange-CrossTenant-AuthSource: DB9PR08MB6748.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Dec 2021 17:40:42.8505 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Dec 2021 17:40:43.5690 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: iBW+WKzWd6tXp8YdcofO9qc6WX1poUUt1S32RYuMutrV4AOz/VJDp7h8JwDZkNSn9WT+Dhd0ZqLiUCO+cMnsxln2DgF1fhIQWfLHV8qt6YY=
+X-MS-Exchange-CrossTenant-UserPrincipalName: mXD1IjenCiOIyA6mDmucmSDnIRdvtwlNxCjY9UEW7BB1xH2KBIy1NDJ/9nkmoGNLXMp2uEmlEzU1tc2BVHsr2eCeEBAyRg05pdi7dfv7fgs=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR08MB3964
 Received-SPF: pass client-ip=40.107.21.133;
  envelope-from=vsementsov@virtuozzo.com;
@@ -141,52 +141,253 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As announced in previous commit, we need use write-unchanged operations
-for fleecing, so that fleecing client may unshare writes if needed.
-
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- block/copy-before-write.c | 13 +++++++++++--
- 1 file changed, 11 insertions(+), 2 deletions(-)
+ tests/qemu-iotests/tests/image-fleecing     | 67 ++++++++++++------
+ tests/qemu-iotests/tests/image-fleecing.out | 76 ++++++++++++++++++++-
+ 2 files changed, 122 insertions(+), 21 deletions(-)
 
-diff --git a/block/copy-before-write.c b/block/copy-before-write.c
-index f95c54dbdf..ca0d7fa5ff 100644
---- a/block/copy-before-write.c
-+++ b/block/copy-before-write.c
-@@ -133,6 +133,8 @@ static void cbw_child_perm(BlockDriverState *bs, BdrvChild *c,
-                            uint64_t perm, uint64_t shared,
-                            uint64_t *nperm, uint64_t *nshared)
- {
-+    BDRVCopyBeforeWriteState *s = bs->opaque;
-+
-     if (!(role & BDRV_CHILD_FILTERED)) {
-         /*
-          * Target child
-@@ -143,7 +145,7 @@ static void cbw_child_perm(BlockDriverState *bs, BdrvChild *c,
-          * only upfront.
-          */
-         *nshared = BLK_PERM_ALL & ~BLK_PERM_RESIZE;
--        *nperm = BLK_PERM_WRITE;
-+        *nperm = s->fleecing ? BLK_PERM_WRITE_UNCHANGED : BLK_PERM_WRITE;
-     } else {
-         /* Source child */
-         bdrv_default_perms(bs, c, role, reopen_queue,
-@@ -213,7 +215,14 @@ static int cbw_open(BlockDriverState *bs, QDict *options, int flags,
-             ((BDRV_REQ_FUA | BDRV_REQ_MAY_UNMAP | BDRV_REQ_NO_FALLBACK) &
-              bs->file->bs->supported_zero_flags);
+diff --git a/tests/qemu-iotests/tests/image-fleecing b/tests/qemu-iotests/tests/image-fleecing
+index a58b5a1781..2544782c28 100755
+--- a/tests/qemu-iotests/tests/image-fleecing
++++ b/tests/qemu-iotests/tests/image-fleecing
+@@ -49,12 +49,17 @@ remainder = [('0xd5', '0x108000',  '32k'), # Right-end of partial-left [1]
+              ('0xdc', '32M',       '32k'), # Left-end of partial-right [2]
+              ('0xcd', '0x3ff0000', '64k')] # patterns[3]
  
--    s->bcs = block_copy_state_new(bs->file, s->target, bitmap, false, errp);
-+    /*
-+     * For fleecing scheme set parameter write_unchanged=true, as our
-+     * copy-before-write operations will actually be write-unchanged. As well we
-+     * take write-unchanged permission instead of write, which is important for
-+     * backup with immutable_source=true to work as fleecing client.
-+     */
-+    s->bcs = block_copy_state_new(bs->file, s->target, bitmap,
-+                                  is_fleecing_drv(unfiltered_target), errp);
-     if (!s->bcs) {
-         error_prepend(errp, "Cannot create block-copy-state: ");
-         return -EINVAL;
+-def do_test(use_cbw, base_img_path, fleece_img_path, nbd_sock_path, vm):
++def do_test(use_cbw, use_fleecing_filter, base_img_path,
++            fleece_img_path, nbd_sock_path, vm):
+     log('--- Setting up images ---')
+     log('')
+ 
+     assert qemu_img('create', '-f', iotests.imgfmt, base_img_path, '64M') == 0
+-    assert qemu_img('create', '-f', 'qcow2', fleece_img_path, '64M') == 0
++    if use_fleecing_filter:
++        assert use_cbw
++        assert qemu_img('create', '-f', 'raw', fleece_img_path, '64M') == 0
++    else:
++        assert qemu_img('create', '-f', 'qcow2', fleece_img_path, '64M') == 0
+ 
+     for p in patterns:
+         qemu_io('-f', iotests.imgfmt,
+@@ -81,24 +86,39 @@ def do_test(use_cbw, base_img_path, fleece_img_path, nbd_sock_path, vm):
+     log('')
+ 
+ 
+-    # create tmp_node backed by src_node
+-    log(vm.qmp('blockdev-add', {
+-        'driver': 'qcow2',
+-        'node-name': tmp_node,
+-        'file': {
++    if use_fleecing_filter:
++        log(vm.qmp('blockdev-add', {
++            'node-name': tmp_node,
+             'driver': 'file',
+             'filename': fleece_img_path,
+-        },
+-        'backing': src_node,
+-    }))
++        }))
++    else:
++        # create tmp_node backed by src_node
++        log(vm.qmp('blockdev-add', {
++            'driver': 'qcow2',
++            'node-name': tmp_node,
++            'file': {
++                'driver': 'file',
++                'filename': fleece_img_path,
++            },
++            'backing': src_node,
++        }))
+ 
+     # Establish CBW from source to fleecing node
+     if use_cbw:
++        if use_fleecing_filter:
++            log(vm.qmp('blockdev-add', {
++                'driver': 'fleecing',
++                'node-name': 'fl-fleecing',
++                'file': tmp_node,
++                'source': src_node,
++            }))
++
+         log(vm.qmp('blockdev-add', {
+             'driver': 'copy-before-write',
+             'node-name': 'fl-cbw',
+             'file': src_node,
+-            'target': tmp_node
++            'target': 'fl-fleecing' if use_fleecing_filter else tmp_node
+         }))
+ 
+         log(vm.qmp('qom-set', path=qom_path, property='drive', value='fl-cbw'))
+@@ -109,16 +129,18 @@ def do_test(use_cbw, base_img_path, fleece_img_path, nbd_sock_path, vm):
+                    target=tmp_node,
+                    sync='none'))
+ 
++    export_node = 'fl-fleecing' if use_fleecing_filter else tmp_node
++
+     log('')
+     log('--- Setting up NBD Export ---')
+     log('')
+ 
+-    nbd_uri = 'nbd+unix:///%s?socket=%s' % (tmp_node, nbd_sock_path)
++    nbd_uri = 'nbd+unix:///%s?socket=%s' % (export_node, nbd_sock_path)
+     log(vm.qmp('nbd-server-start',
+                {'addr': {'type': 'unix',
+                          'data': {'path': nbd_sock_path}}}))
+ 
+-    log(vm.qmp('nbd-server-add', device=tmp_node))
++    log(vm.qmp('nbd-server-add', device=export_node))
+ 
+     log('')
+     log('--- Sanity Check ---')
+@@ -151,16 +173,19 @@ def do_test(use_cbw, base_img_path, fleece_img_path, nbd_sock_path, vm):
+     log('--- Cleanup ---')
+     log('')
+ 
++    log(vm.qmp('nbd-server-stop'))
++
+     if use_cbw:
+         log(vm.qmp('qom-set', path=qom_path, property='drive', value=src_node))
+         log(vm.qmp('blockdev-del', node_name='fl-cbw'))
++        if use_fleecing_filter:
++            log(vm.qmp('blockdev-del', node_name='fl-fleecing'))
+     else:
+         log(vm.qmp('block-job-cancel', device='fleecing'))
+         e = vm.event_wait('BLOCK_JOB_CANCELLED')
+         assert e is not None
+         log(e, filters=[iotests.filter_qmp_event])
+ 
+-    log(vm.qmp('nbd-server-stop'))
+     log(vm.qmp('blockdev-del', node_name=tmp_node))
+     vm.shutdown()
+ 
+@@ -177,17 +202,21 @@ def do_test(use_cbw, base_img_path, fleece_img_path, nbd_sock_path, vm):
+     log('Done')
+ 
+ 
+-def test(use_cbw):
++def test(use_cbw, use_fleecing_filter):
+     with iotests.FilePath('base.img') as base_img_path, \
+          iotests.FilePath('fleece.img') as fleece_img_path, \
+          iotests.FilePath('nbd.sock',
+                           base_dir=iotests.sock_dir) as nbd_sock_path, \
+          iotests.VM() as vm:
+-        do_test(use_cbw, base_img_path, fleece_img_path, nbd_sock_path, vm)
++        do_test(use_cbw, use_fleecing_filter, base_img_path,
++                fleece_img_path, nbd_sock_path, vm)
+ 
+ 
+ log('=== Test backup(sync=none) based fleecing ===\n')
+-test(False)
++test(False, False)
+ 
+-log('=== Test filter based fleecing ===\n')
+-test(True)
++log('=== Test cbw-filter based fleecing ===\n')
++test(True, False)
++
++log('=== Test fleecing-format based fleecing ===\n')
++test(True, True)
+diff --git a/tests/qemu-iotests/tests/image-fleecing.out b/tests/qemu-iotests/tests/image-fleecing.out
+index e96d122a8b..da0af93388 100644
+--- a/tests/qemu-iotests/tests/image-fleecing.out
++++ b/tests/qemu-iotests/tests/image-fleecing.out
+@@ -52,8 +52,8 @@ read -P0 0x3fe0000 64k
+ --- Cleanup ---
+ 
+ {"return": {}}
+-{"data": {"device": "fleecing", "len": 67108864, "offset": 393216, "speed": 0, "type": "backup"}, "event": "BLOCK_JOB_CANCELLED", "timestamp": {"microseconds": "USECS", "seconds": "SECS"}}
+ {"return": {}}
++{"data": {"device": "fleecing", "len": 67108864, "offset": 393216, "speed": 0, "type": "backup"}, "event": "BLOCK_JOB_CANCELLED", "timestamp": {"microseconds": "USECS", "seconds": "SECS"}}
+ {"return": {}}
+ 
+ --- Confirming writes ---
+@@ -67,7 +67,7 @@ read -P0xdc 32M 32k
+ read -P0xcd 0x3ff0000 64k
+ 
+ Done
+-=== Test filter based fleecing ===
++=== Test cbw-filter based fleecing ===
+ 
+ --- Setting up images ---
+ 
+@@ -137,3 +137,75 @@ read -P0xdc 32M 32k
+ read -P0xcd 0x3ff0000 64k
+ 
+ Done
++=== Test fleecing-format based fleecing ===
++
++--- Setting up images ---
++
++Done
++
++--- Launching VM ---
++
++Done
++
++--- Setting up Fleecing Graph ---
++
++{"return": {}}
++{"return": {}}
++{"return": {}}
++{"return": {}}
++
++--- Setting up NBD Export ---
++
++{"return": {}}
++{"return": {}}
++
++--- Sanity Check ---
++
++read -P0x5d 0 64k
++read -P0xd5 1M 64k
++read -P0xdc 32M 64k
++read -P0xcd 0x3ff0000 64k
++read -P0 0x00f8000 32k
++read -P0 0x2010000 32k
++read -P0 0x3fe0000 64k
++
++--- Testing COW ---
++
++write -P0xab 0 64k
++{"return": ""}
++write -P0xad 0x00f8000 64k
++{"return": ""}
++write -P0x1d 0x2008000 64k
++{"return": ""}
++write -P0xea 0x3fe0000 64k
++{"return": ""}
++
++--- Verifying Data ---
++
++read -P0x5d 0 64k
++read -P0xd5 1M 64k
++read -P0xdc 32M 64k
++read -P0xcd 0x3ff0000 64k
++read -P0 0x00f8000 32k
++read -P0 0x2010000 32k
++read -P0 0x3fe0000 64k
++
++--- Cleanup ---
++
++{"return": {}}
++{"return": {}}
++{"return": {}}
++{"return": {}}
++{"return": {}}
++
++--- Confirming writes ---
++
++read -P0xab 0 64k
++read -P0xad 0x00f8000 64k
++read -P0x1d 0x2008000 64k
++read -P0xea 0x3fe0000 64k
++read -P0xd5 0x108000 32k
++read -P0xdc 32M 32k
++read -P0xcd 0x3ff0000 64k
++
++Done
 -- 
 2.31.1
 
