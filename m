@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97FA147D635
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Dec 2021 19:05:35 +0100 (CET)
-Received: from localhost ([::1]:55996 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E4DD47D625
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Dec 2021 18:55:30 +0100 (CET)
+Received: from localhost ([::1]:56534 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n05za-0007mH-Gy
-	for lists+qemu-devel@lfdr.de; Wed, 22 Dec 2021 13:05:34 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52640)
+	id 1n05po-0005iu-N0
+	for lists+qemu-devel@lfdr.de; Wed, 22 Dec 2021 12:55:28 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52538)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1n05bm-0001GP-HF; Wed, 22 Dec 2021 12:40:58 -0500
-Received: from mail-eopbgr60133.outbound.protection.outlook.com
- ([40.107.6.133]:36163 helo=EUR04-DB3-obe.outbound.protection.outlook.com)
+ id 1n05bd-0000m9-Mg; Wed, 22 Dec 2021 12:40:49 -0500
+Received: from mail-vi1eur05on2133.outbound.protection.outlook.com
+ ([40.107.21.133]:46561 helo=EUR05-VI1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1n05bb-0002Zq-C1; Wed, 22 Dec 2021 12:40:58 -0500
+ id 1n05ba-0002Xs-SR; Wed, 22 Dec 2021 12:40:49 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Vsjbv0TxH/+CkiGr8W+295O8L5mGi3iBPtT8gvtsnJnnChkQAauiM/n6Jrm0Mma9J3e4Mt8om3D2WAxcIgPvOUvd9/0rPb8CEYSJ9Ik1rpr9LJ/QjjY8T/LPs+H5eL8ZibZ46azkb+kpiTSwThRBzeGNu+8yApxjEX73o4PwamPIPfRtUWQApAzT4kbdB+ZkRe7z0VpcdrZFJjww4OKkWTPNicNTxk3sFf5OtK5iRklBF8BYY8/mcgzMFm1rOrzU7BaEyB3V1Two7de0KOXtUXPuKsBs3L/y1ib11HyUx4PLleNKazFMZtHuUibOChtfkHhqkyUz9/8bk3axLjDAmg==
+ b=mJI/SljCmIDGhiPXKdOA8V+2wvT3Qoln0d4YjahpgU3kUZXS+fLPYPJymnH7rDEXOVDecHNby/Z0XyUqoF3auCj6evQDWhuODBfsD5JAaqGlo9gTkpOofQsvAlGedVHVLW+R6utfCJUxjWl3kyvZwlGKpjCh+eShnWGTCQ8Gs0je8Sil7m9OUbFuOSmdPnFX5n/KQWS3gYwdNUp+Z5WduGYtW5GFrVOtJBMvKpy4fhTbSgv6YKwkFsmzFK8lOHvqSJGr7ERk+Y20vI7nTtYuUE3dYa5FroV0/BlmrB7rTm2YBjuaXsJZsYJx1MSdZQPmr67ucXTjfNJpBHCA0NjPVA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=P5ATDaSVy6Q6GRqF8gPOf+PPgc/Mwjv3iBcH1wu9/0U=;
- b=A6PztfnAWjSZPUDoTjbb+bkxoofXSLu7P2AjKmatF038Rn7tZWUa8YTKMW6g2xo0Mj5OcHrsw3gNqKAusmQUmvGsWIFx0IGDRfaeVS0/at/RW0T+keTlgUJ52cY5CXt3hm9QKbztHcC5Vcvx7bLGAtXtOEZ9WD9WR7aFDepQYYkB2lNmdlsHz3vrpe0R7GMK1Z9JjjdT+/Riau0ShLXJn4C2Zhh+qrIpxBnDBPXCJgg90JtXmVrfMKf34i0d1exs6TuC9NdrRhbgdbgdxYIW3TXvDSuPSxLpdUvVGKe9MSAszUyWtH3e9sG6wszLd7ySKxIh0jrmvnNSzGCdA8HxMQ==
+ bh=UmflLzZBTAU1snzUjeZl36iVtlE9noG60L8d7L71WY8=;
+ b=U/wCNbKdvCJd9874k8tdu7uv+Y/0mZwK5bteg6ZzZIL9axVPEH3onZIA3yvuyF29zbB4eQuXEioZ5uC701lhNmczbCShAlEz+5dXrRNFIAhl8yC0klOsERdzVLx6p7ZGxBaTRr2O13gnMvpt6v8NeZ6sOL6YGPvmDkC1FGSAwJmx/KTIJ5rXkiCMZX/x7kqIQjQRrwGWQMssoEkaVw1UV6BFBBVHOfRI5wTKRaG2rNQpHu9H80Ph5XY8gdVRFiI9daiXktax3i1wmHmJe80yj8Hbv/V9Az8esGiHeKGgFM+2NKgYcE4fHbe09LgK10vNLvYGsuSt733y19loDMyL1A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=P5ATDaSVy6Q6GRqF8gPOf+PPgc/Mwjv3iBcH1wu9/0U=;
- b=gTBnDWVRZeHk49gLkXAy8f7gVmOTtpbM95DIeC0KVtWY6HwL3v0eLSS1nYlw+58KKW7ywvDhACwWmKAz7hr2hxTw+nuVvzrh11U++BhECsHJ3h37ZbzDeoYIg7nVETqOQnera1fxF6QPKU/2KdZOZL2e4cAB1Kt20A18EiJAGHY=
+ bh=UmflLzZBTAU1snzUjeZl36iVtlE9noG60L8d7L71WY8=;
+ b=BPqP2kFo+oZ1CIAHQXhrVwa4jqkBBJi3eFC+rvQnss1wjmf176hD86AzJyQnuftxyc0WhPdnjH+W6ZJd0B9orcQU5e7ktv85o5sPxL3jtv9gone72ATDTS8zVUdiBw2gGupTS8/FJ8W2MNv/sFBpsgdRH+tx4VjCQKwmybiXhVU=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=virtuozzo.com;
 Received: from DB9PR08MB6748.eurprd08.prod.outlook.com (2603:10a6:10:2a7::16)
  by DB8PR08MB3964.eurprd08.prod.outlook.com (2603:10a6:10:a4::25) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4801.17; Wed, 22 Dec
- 2021 17:40:39 +0000
+ 2021 17:40:40 +0000
 Received: from DB9PR08MB6748.eurprd08.prod.outlook.com
  ([fe80::a89f:c7bc:b9f8:fc3e]) by DB9PR08MB6748.eurprd08.prod.outlook.com
  ([fe80::a89f:c7bc:b9f8:fc3e%6]) with mapi id 15.20.4823.019; Wed, 22 Dec 2021
- 17:40:39 +0000
+ 17:40:40 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, armbru@redhat.com, xiechanglong.d@gmail.com,
  wencongyang2@huawei.com, eblake@redhat.com, hreitz@redhat.com,
  kwolf@redhat.com, vsementsov@virtuozzo.com, jsnow@redhat.com,
  nikita.lapshin@virtuozzo.com
-Subject: [PATCH v3 09/19] block: introduce FleecingState class
-Date: Wed, 22 Dec 2021 18:40:08 +0100
-Message-Id: <20211222174018.257550-10-vsementsov@virtuozzo.com>
+Subject: [PATCH v3 10/19] block: introduce fleecing block driver
+Date: Wed, 22 Dec 2021 18:40:09 +0100
+Message-Id: <20211222174018.257550-11-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211222174018.257550-1-vsementsov@virtuozzo.com>
 References: <20211222174018.257550-1-vsementsov@virtuozzo.com>
@@ -63,61 +63,61 @@ X-ClientProxiedBy: AS8P250CA0017.EURP250.PROD.OUTLOOK.COM
  (2603:10a6:10:2a7::16)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 7fd94107-49b5-48e3-e067-08d9c5722b55
+X-MS-Office365-Filtering-Correlation-Id: 2d59649a-9984-4901-3178-08d9c5722bd9
 X-MS-TrafficTypeDiagnostic: DB8PR08MB3964:EE_
-X-Microsoft-Antispam-PRVS: <DB8PR08MB3964224EC1CFB59D2FC1302BC17D9@DB8PR08MB3964.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2958;
+X-Microsoft-Antispam-PRVS: <DB8PR08MB39641F7169B64B7068454362C17D9@DB8PR08MB3964.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6790;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: SVLAEhLMofgQTq8ZnpxOy9rR73WsBn+aVPz6VRHaJ0+HmuEetzlrhrGBUZyapnEqSoFcrIt+80d5pv2dg9TW7doiAZC0egMZ7AJGE7WSBv05COgjFTq3sWiAk475Y96lzrom7a0e2xYhmFVVc1CF81szzDieSGRAVlw5SHXzjHsxsgzHuA+GVXA6NMZGuCTn3R5YKQllsfsD28ZQGVIoYZ9pl7OsEVMe9ji9fq+u1bLDoNxX4mcIzD9ninY67RVl2kTktuFN6QTLuYtcUd1cYO6AEJ5oiUtXhdWfuJQl5NYKW8PpLo2SYwD4KLwW3MgrHVldXIsU7PUm6mG3wIatYIVS8AdvlZYFMXvp2cFz4T86emt639eQk3+FV/OgnqEOmIdBYJaxYsX71IN5BI3pYfmvfWdWwvPZegvPstUQBwL0jFvXVEf9rz8bqDLexrbhr5+lzyB9pDlb1c+qckBdiKWlwAFDn4WsAoEci+xrY/QrDaYN3kAaemxu0Y076OUVXXhM1BI0e3q6mmkoyZau1nxUWaqdpK6GYW2N+9ke+JieSALHon20xatGKRAF70NMzH5pBrA/UPttgMxe5ULwnkh/SPPC7ro32yD7OrGrMfGupvAYtw4YPdPkX9bq7m4Msb+7hDbbL6mfHFD2PTwi/JmgGDWRjlmfkiX6x2tHomRGRfWBf3UEcPcXabqVaFzxeE3ls2F7UpRdSzdXpf/MiWl8/vcQ2QC+zPVsSK1+u2abXScUGFMA8ZTWpA/jEx+zqYWovNQZRZdD6F1QzR54CClEQSqU6B1sogx47LL+N8j/G+2sbP7Zx/ymuRRqmUEH
+X-Microsoft-Antispam-Message-Info: 3bqmxx47iIy75zsOgLmYJHz2es30F63ABAeIPuyI0gjKx6FHLyJRlxCtciQ376RirbBQuaSIT0hX8o4xvMTCNfw0K4GICk6jBryFjtfnBc8qG7B5XKcStwXeJXszj78WUBPeyfGGM+xFaQSdt2eh8jmZIaqINvkrmFyyy41PS3tD7azpXLrf6trOnnYK5RlkASNBRKsYjlp4GHgtWmsYh9h4fIMpP/S8AzX1LppzhVTyZT03iPeZtrBlLx6jSr8PvDMCAPlDTM0H+eMzUBuMKUcpma+MMYtAeaTqaD0Ma6LugRwHO1pyJzFChtLchnM24l9LYJYdMMtJl4pqzQ5TRElF5Lb5dRkvURrJzJEa2gNiT8mn9j8LSMcItqy6HOOG0e9Of9N7q3mesLtIZtsnLfNUvi0ZEr+xSLBw73dVeuG7sL6QnpNxslmwj3yGf1K6D40CIiFt94OOKuZ8eT1zY0+oEkLPZw9ceTrOQSGdX0yYdcnu5jbkgIT60P0+6KxkHvbYeqvTeBETCRiZ8gfhuPTlT8ZfLa8utczFuVMjKKmYDnQ+xqlqVNMAp4ufdRmz973aWdRF/tXE8mvpMJVvlAB5HAfpSZWQ5qxIwkNSmHFgzKKyYycsOIadaD+qafmpcsHnV3I7rrB2IXt1qmhb8U+bpkDUsLXsIpUcEfXBQRaPu97sjaGeVpMbJd+5GdGiMCC6+d9l8Bu1b+vAdM9FPqV6UO6J/YPQUs2L95xH68GX4p/JaH5EnY7H4mmSUg4KK77jyNrFjrJTgXpHWdRJ0itHGBAOQR4QwDkeEhGMBZ/Jv3bzzsHpv5Y1UOJLSoeS
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:DB9PR08MB6748.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(4636009)(366004)(107886003)(6512007)(6506007)(26005)(316002)(52116002)(2906002)(30864003)(186003)(508600001)(6486002)(6916009)(4326008)(2616005)(8936002)(5660300002)(6666004)(8676002)(1076003)(38100700002)(38350700002)(86362001)(83380400001)(66946007)(66476007)(66556008)(36756003)(2004002);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?ehx4iZylqaXxBAQ/D8dWC9Hwt3/A3pZNx6m71gpISPducUhDF3GfoPTGZlXp?=
- =?us-ascii?Q?1qjsh9sa5yNTefAOG6VwNb4VbL8Segnz9Q5PX6Ts9A91PJielL5AZfHYVZ33?=
- =?us-ascii?Q?U+N56f3i1o5u/yUB+44TMqFqwruwp1e+L7xFDmz8bbNe0ajMyBXlMvpN007V?=
- =?us-ascii?Q?lECOjcOp4fsxvao1s6ZTFBJIZS0AjEQo/GZP4jxf0McXL7jXbQnh/bW4ie/K?=
- =?us-ascii?Q?Q/VHpnewVJPda1r80cOrvCDwSvIQzmtbKcKbn+vEg+yc7gZDw7PTD8f4uVQR?=
- =?us-ascii?Q?Wtfa3K5pKDzeyjJxuOuyBSd0oh9qVl9sfb5wkFHfrYohv/Jo7dx9Q6IEHLQn?=
- =?us-ascii?Q?7AEwmcYFwBoWHsGWtER6HTkNWqpJfQQ89/99T4xMFr1gmFjLN5N4aM8pf+B3?=
- =?us-ascii?Q?mmQS3TN+4+uDpKOMr2rIcglmLTD7yc8VZ7NX/nwdbslGZFcr7OXgdCxfyJpe?=
- =?us-ascii?Q?zP5vymMgM+PwGLBws7VHckXQMvIf+9N24D6kHueCOZjegq7j6zph35F5G5pX?=
- =?us-ascii?Q?JSA5Bnleoy6nj1DR4Nv0Ayhzi56vB0qW/vw/ab1ka57viC6RSZguPpvqcdJ3?=
- =?us-ascii?Q?xhbuE8OpgpFfWgZoNonxz4dn/3T0Sg3nkHK4mRQpjztZHnfwc4pcm2mVBVus?=
- =?us-ascii?Q?UXOIQk40eHido0LyNx/+CJksZZsu0pCkf0BXyvgp1lpx8vJ9ZT0FLpdsfdrt?=
- =?us-ascii?Q?feB5J7T3K6f8DcLP2wqFtlPhzZ/7CldEsG6ROaKtpYqRAlUZ5chRm5ZlWR8h?=
- =?us-ascii?Q?cxxWP7wjJQcKuVmuaUTXI7AvallcwvB8651k1l8mEYqL+3doMvWdcnaaW957?=
- =?us-ascii?Q?e8rUpctUK9yl36sW8/K12hPARg63fpTvP+uSU26XKBP+43mv5d/CEq5MdUXI?=
- =?us-ascii?Q?HDdVgusIaWkvqHSWnpkYwvo8ygWSZ1XeaJK/8fHhh1M6zE7kZDX2VvOoug2w?=
- =?us-ascii?Q?Af5LLZhiw1zhhcEzxeZN/QgwUN/yG9iVTkAyWgq9zmXHZMaKmflm8dDZkv4x?=
- =?us-ascii?Q?McP97ddcP5f1IX3SJMrZxKp4NNBMlgikPZ43qmbXTMnThSKQuryVmbYcN9T2?=
- =?us-ascii?Q?Pj+4sSXVaBZ8c3kHDIXc5urYflqcliiNHFsAYstIKYfHl6I+il6++Io5nuoW?=
- =?us-ascii?Q?gQgtbOoeGGbK4TywNPPp43LYlEbLbpiGR7h3G2Ujr+gjJezaR2lUTuACH9lV?=
- =?us-ascii?Q?nRufO7Kf4WIRxga2jW9kTFaEaMPVtqwlf1u6PoKvOizvoz9j/3epgQsbl6bB?=
- =?us-ascii?Q?Ymn7rE5RCzbfJDxEBSsNeebMcVTOySDgbrRcUREdwu9VRpZ1Ko5Ii2Ughih0?=
- =?us-ascii?Q?ow+L5rWHDabgO9YDLlRlPp8tBsQ3PIW7REet7YnehxTmXNKcRRGMOpI7ToJ1?=
- =?us-ascii?Q?xJhrCwGNaX57XcKcizAqOnKfrEJIXwEZxblAuUf3QCL3uhT7B3rX/rk9tl16?=
- =?us-ascii?Q?FnPMNVwh2OQ5gB3NCG3L5970RwYw9j1oHyecfN6q97xemw/crPSc6wadqz3/?=
- =?us-ascii?Q?OiPgM+7SkgctOhUhQk+Gs6SpWo92x/FKxgdd1zTGKClU1NFzPAbbCLZ0hIus?=
- =?us-ascii?Q?ra5uy4+UOuph4RY92wkCXNKEcAkNgb6nyiACTZmDqJJmTooQiibEgWKDsgxg?=
- =?us-ascii?Q?SdhbaalYOXcvmWVWcj1bJbt0C8ukuwKxhD169cGass6WdCwp2lJHkyQSeLAi?=
- =?us-ascii?Q?nxHkQ8BJ6EF6YaEAVlCeA8274Ag=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?TtujZrd5dbmwuasaGTKmfnGLUIkQN9alAPt4psDpjUjjKgvqDNFB/z3pNB6k?=
+ =?us-ascii?Q?vooF/igz3tRgzeGO4gYqOqFQbtBGEfPvB4JiioAaNRPy28Y9za7T0sbdN/In?=
+ =?us-ascii?Q?TDFqN7/pqtNJaj2a9Z1n4G6XB4LGISoBTMliIqwgSpYxQ2gkh7nrEv6Wex12?=
+ =?us-ascii?Q?SejKzuIDtIPfF8ezz1flE/IIz4Vzen2cLmxUdbZlr+xHkn1+IGVXo4bOR/60?=
+ =?us-ascii?Q?oFfzOem7aRQnL0kiY/bK0y1JRvoiu4jgXShSR82KnqcWnpBdeC2vxHjEjnWv?=
+ =?us-ascii?Q?djHKmt6rR+hLe1jX5BSE90Ix3j+aT9yfFeMp0eUk+XmOSDrI7DYhl3U8Q+En?=
+ =?us-ascii?Q?92EU7ocv1OKz22IcJIY26ACdrI7IflOCKKpnBA1CA7Dl8d/1SrhefUMUS963?=
+ =?us-ascii?Q?79fE29uZwSayb5JXqkMX4w4bnDr7h9168S0N9IwSn96Irr2oYDtqTb70lrXI?=
+ =?us-ascii?Q?8qTRaeKGX+pQy/Psh/QTgg6pFcGEfloQeqXZ0E8ftW1syET7B12qlQl/CL7h?=
+ =?us-ascii?Q?mlwI9mmJiuxfmRK6coXUkP06tHWoKODwMz1hxVna9QXXsZc1PJGnKK3jaDRj?=
+ =?us-ascii?Q?Pr0CuNMpIm7bU+uA6OQueV7CLV9T0Igy52kQvN9xM4F5ggPp9+cW3RRCiWV/?=
+ =?us-ascii?Q?SOOnF9jB6OBnafJgm6toxa6GR9RRx34qcPj3t3S78v0Nwjn0PySMy57bfk6+?=
+ =?us-ascii?Q?NDzctHqhKhG82Ln3B3IbSso6SR8VPOYfJNJWOvYsWeas8EE42FAHg0r5qRTI?=
+ =?us-ascii?Q?FLejnv+YZB8s5WES4uzTU7nNMlYWB8XDr+CP1bEjM2iqqmV+vHraqqXp52mb?=
+ =?us-ascii?Q?0tAa/19KWzPfCxBnFJJm95mTnQeCz9Djx4vrN6hRTfBvW9MxLH7xnXAWdfco?=
+ =?us-ascii?Q?Psq2+Qd5Myh/nz5gMseIGA7eQK2iIVBSCXSzprB5avlxoMyZuPoL3WMj7HqL?=
+ =?us-ascii?Q?CfBeTIWPLezDkQluKt/RnjKPljiXXUQT5lEyinLl/wEO55prqaQ9DksoyFKO?=
+ =?us-ascii?Q?Aaqcw15SRpBmJRyv/7H6n/N7NPJCuicdRfW0ZC6QoslHdkdurHd4iIl7ubV9?=
+ =?us-ascii?Q?C5zDEXm2fv9NvcoBad5ZRGY3pPZ59Z1DAYlhLHL1KVkBoWnSm3zFCnoLP7m7?=
+ =?us-ascii?Q?UB9iS6N0wYO6SBbrXEF8ZQ/KryL4KqKs+7x+O2jm3xgD5NZk3Gzyd84fPpVS?=
+ =?us-ascii?Q?zGhHQgClpV4A1vbvKb1c7eUeXUzcROj0XZwmQikU1bWsVgplLoKG4KGHsbIA?=
+ =?us-ascii?Q?iAVqGmj9zvVI3mFW8fny+NQvq/JqL+tFMatzwbXu4iY8Ftw07no3UTxJKroO?=
+ =?us-ascii?Q?KKYr02UicDCHo0VfZ70B9Mb5S/ywFSBSABs57xmDJXajqVb2reS4kwtTpHVC?=
+ =?us-ascii?Q?EgTpaccVQP0DMh2iDVHFMqW1DFE1IGREQGna+zlzPOqFnseMjA7hLk6nWreM?=
+ =?us-ascii?Q?NGaS+Q3qz+x/PEtG5TGlqiudpDV9WYwi8sbcTufbCZs7mE68v+cs8URbo5Jf?=
+ =?us-ascii?Q?8suIxlU0aDT/+xSGUUVWC1mhYH7i730kmbKy9PP7cpfdUI8Xz8WJnYLXe6AY?=
+ =?us-ascii?Q?0dxEj4/tsGoik5vjUm7TV9JSpFkimQwiFGtzJWTGw/wYcA81ZBMLPMgjDhQR?=
+ =?us-ascii?Q?3xKkZNENC5gZB78QQrAHakGmhbpoBMPOlHUkFQ0SaBJI43WhjOUIdJ60P1+r?=
+ =?us-ascii?Q?xyzD3l3VUPcpxqPKINULCs942G8=3D?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7fd94107-49b5-48e3-e067-08d9c5722b55
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2d59649a-9984-4901-3178-08d9c5722bd9
 X-MS-Exchange-CrossTenant-AuthSource: DB9PR08MB6748.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Dec 2021 17:40:39.5985 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Dec 2021 17:40:40.4277 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 8QkxwS8b/aquiV63aNRC/4No37SChFr8b/eZNQs89FaD77hrsuUi2QQYBOicbiLeYtG/TKohKaMgq4usluMl/BpDtGM8jD0rAooGvvTSHIw=
+X-MS-Exchange-CrossTenant-UserPrincipalName: n3gEbVHXwzMiv8UZWYuhNp5xYJAC9heit2FkxVGBsmlNf7b3j4c0d1vPCv1TrInw7D34/IoL+EEFOVmRKZB0wl8l0K9fAmPROnSycUxWNLQ=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR08MB3964
-Received-SPF: pass client-ip=40.107.6.133;
+Received-SPF: pass client-ip=40.107.21.133;
  envelope-from=vsementsov@virtuozzo.com;
- helo=EUR04-DB3-obe.outbound.protection.outlook.com
+ helo=EUR05-VI1-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -140,171 +140,177 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-FleecingState represents state shared between copy-before-write filter
-and upcoming fleecing block driver.
+Introduce a new driver, that works in pair with copy-before-write to
+improve fleecing.
+
+Without fleecing driver, old fleecing scheme looks as follows:
+
+[guest]
+  |
+  |root
+  v
+[copy-before-write] -----> [temp.qcow2] <--- [nbd export]
+  |                 target  |
+  |file                     |backing
+  v                         |
+[active disk] <-------------+
+
+With fleecing driver, new scheme is:
+
+[guest]
+  |
+  |root
+  v
+[copy-before-write] -----> [fleecing] <--- [nbd export]
+  |                 target  |    |
+  |file                     |    |file
+  v                         |    v
+[active disk]<--source------+  [temp.img]
+
+Benefits of new scheme:
+
+1. Access control: if remote client try to read data that not covered
+   by original dirty bitmap used on copy-before-write open, client gets
+   -EACCES.
+
+2. Discard support: if remote client do DISCARD, this additionally to
+   discarding data in temp.img informs block-copy process to not copy
+   these clusters. Next read from discarded area will return -EACCES.
+   This is significant thing: when fleecing user reads data that was
+   not yet copied to temp.img, we can avoid copying it on further guest
+   write.
+
+3. Synchronisation between client reads and block-copy write is more
+   efficient: it doesn't block intersecting block-copy write during
+   client read.
+
+4. We don't rely on backing feature: active disk should not be backing
+   of temp image, so we avoid some permission-related difficulties and
+   temp image now is not required to support backing, it may be simple
+   raw image.
+
+Note that now nobody calls fleecing_drv_activate(), so new driver is
+actually unusable. It's a work for the following patch: support
+fleecing block driver in copy-before-write filter driver.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- block/fleecing.h  | 135 ++++++++++++++++++++++++++++++++++
- block/fleecing.c  | 182 ++++++++++++++++++++++++++++++++++++++++++++++
- MAINTAINERS       |   2 +
- block/meson.build |   1 +
- 4 files changed, 320 insertions(+)
- create mode 100644 block/fleecing.h
- create mode 100644 block/fleecing.c
+ qapi/block-core.json |  37 +++++-
+ block/fleecing.h     |  16 +++
+ block/fleecing-drv.c | 261 +++++++++++++++++++++++++++++++++++++++++++
+ MAINTAINERS          |   1 +
+ block/meson.build    |   1 +
+ 5 files changed, 315 insertions(+), 1 deletion(-)
+ create mode 100644 block/fleecing-drv.c
 
+diff --git a/qapi/block-core.json b/qapi/block-core.json
+index 6904daeacf..b47351dbac 100644
+--- a/qapi/block-core.json
++++ b/qapi/block-core.json
+@@ -2917,13 +2917,14 @@
+ # @blkreplay: Since 4.2
+ # @compress: Since 5.0
+ # @copy-before-write: Since 6.2
++# @fleecing: Since 7.0
+ #
+ # Since: 2.9
+ ##
+ { 'enum': 'BlockdevDriver',
+   'data': [ 'blkdebug', 'blklogwrites', 'blkreplay', 'blkverify', 'bochs',
+             'cloop', 'compress', 'copy-before-write', 'copy-on-read', 'dmg',
+-            'file', 'ftp', 'ftps', 'gluster',
++            'file', 'fleecing', 'ftp', 'ftps', 'gluster',
+             {'name': 'host_cdrom', 'if': 'HAVE_HOST_BLOCK_DEVICE' },
+             {'name': 'host_device', 'if': 'HAVE_HOST_BLOCK_DEVICE' },
+             'http', 'https', 'iscsi',
+@@ -4181,6 +4182,39 @@
+   'base': 'BlockdevOptionsGenericFormat',
+   'data': { 'target': 'BlockdevRef', '*bitmap': 'BlockDirtyBitmap' } }
+ 
++##
++# @BlockdevOptionsFleecing:
++#
++# Driver that works in pair with copy-before-write filter to make a fleecing
++# scheme like this:
++#
++#    [guest]
++#      |
++#      |root
++#      v
++#    [copy-before-write] -----> [fleecing] <--- [nbd export]
++#      |                 target  |    |
++#      |file                     |    |file
++#      v                         |    v
++#    [active disk]<--source------+  [temp.img]
++#
++# The scheme works like this: on write, fleecing driver saves data to its
++# ``file`` child and remember that this data is in ``file`` child. On read
++# fleecing reads from ``file`` child if data is already stored to it and
++# otherwise it reads from ``source`` child.
++# In the same time, before each guest write, ``copy-before-write`` copies
++# corresponding old data  from ``active disk`` to ``fleecing`` node.
++# This way, ``fleecing`` node looks like a kind of snapshot for extenal
++# reader like NBD export.
++#
++# @source: node name of source node of fleecing scheme
++#
++# Since: 7.0
++##
++{ 'struct': 'BlockdevOptionsFleecing',
++  'base': 'BlockdevOptionsGenericFormat',
++  'data': { 'source': 'str' } }
++
+ ##
+ # @BlockdevOptions:
+ #
+@@ -4237,6 +4271,7 @@
+       'copy-on-read':'BlockdevOptionsCor',
+       'dmg':        'BlockdevOptionsGenericFormat',
+       'file':       'BlockdevOptionsFile',
++      'fleecing':   'BlockdevOptionsFleecing',
+       'ftp':        'BlockdevOptionsCurlFtp',
+       'ftps':       'BlockdevOptionsCurlFtps',
+       'gluster':    'BlockdevOptionsGluster',
 diff --git a/block/fleecing.h b/block/fleecing.h
-new file mode 100644
-index 0000000000..fb7b2f86c4
---- /dev/null
+index fb7b2f86c4..75ad2f8b19 100644
+--- a/block/fleecing.h
 +++ b/block/fleecing.h
-@@ -0,0 +1,135 @@
-+/*
-+ * FleecingState
-+ *
-+ * The common state of image fleecing, shared between copy-before-write filter
-+ * and fleecing block driver.
-+ *
-+ * Copyright (c) 2021 Virtuozzo International GmbH.
-+ *
-+ * Author:
-+ *  Sementsov-Ogievskiy Vladimir <vsementsov@virtuozzo.com>
-+ *
-+ * This program is free software; you can redistribute it and/or modify
-+ * it under the terms of the GNU General Public License as published by
-+ * the Free Software Foundation; either version 2 of the License, or
-+ * (at your option) any later version.
-+ *
-+ * This program is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+ * GNU General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU General Public License
-+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
-+ *
-+ *
-+ * Fleecing scheme looks as follows:
-+ *
-+ * [guest blk]                   [nbd export]
-+ *    |                              |
-+ *    |root                          |
-+ *    v                              v
-+ * [copy-before-write]--target-->[fleecing drv]
-+ *    |                          /   |
-+ *    |file                     /    |file
-+ *    v                        /     v
-+ * [active disk]<--source-----/  [temp disk]
-+ *
-+ * Note that "active disk" is also called just "source" and "temp disk" is also
-+ * called "target".
-+ *
-+ * What happens here:
-+ *
-+ * copy-before-write filter performs copy-before-write operations: on guest
-+ * write we should copy old data to target child before rewriting. Note that we
-+ * write this data through fleecing driver: it saves a possibility to implement
-+ * a kind of cache in fleecing driver in future.
-+ *
-+ * Fleecing user is nbd export: it can read from fleecing node, which guarantees
-+ * a snapshot-view for fleecing user. Fleecing user may also do discard
-+ * operations.
-+ *
-+ * FleecingState is responsible for most of the fleecing logic:
-+ *
-+ * 1. Fleecing read. Handle reads of fleecing user: we should decide where from
-+ * to read, from source node or from copy-before-write target node. In former
-+ * case we need to synchronize with guest writes. See fleecing_read_lock() and
-+ * fleecing_read_unlock() functionality.
-+ *
-+ * 2. Guest write synchronization (part of [1] actually). See
-+ * fleecing_mark_done_and_wait_readers()
-+ *
-+ * 3. Fleecing discard. Used by fleecing user when corresponding area is already
-+ * copied. Fleecing user may discard the area which is not needed anymore, that
-+ * should result in:
-+ *   - discarding data to free disk space
-+ *   - clear bits in copy-bitmap of block-copy, to avoid extra copy-before-write
-+ *     operations
-+ *   - clear bits in access-bitmap of FleecingState, to avoid further wrong
-+ *     access
-+ *
-+ * Still, FleecingState doesn't own any block children, so all real io
-+ * operations (reads, writes and discards) are done by copy-before-write filter
-+ * and fleecing block driver.
-+ */
+@@ -80,6 +80,9 @@
+ #include "block/block-copy.h"
+ #include "block/reqlist.h"
+ 
 +
-+#ifndef FLEECING_H
-+#define FLEECING_H
++/* fleecing.c */
 +
-+#include "block/block_int.h"
-+#include "block/block-copy.h"
-+#include "block/reqlist.h"
+ typedef struct FleecingState FleecingState;
+ 
+ /*
+@@ -132,4 +135,17 @@ void fleecing_discard(FleecingState *f, int64_t offset, int64_t bytes);
+ void fleecing_mark_done_and_wait_readers(FleecingState *f, int64_t offset,
+                                          int64_t bytes);
+ 
 +
-+typedef struct FleecingState FleecingState;
++/* fleecing-drv.c */
++
++/* Returns true if @bs->drv is fleecing block driver */
++bool is_fleecing_drv(BlockDriverState *bs);
 +
 +/*
-+ * Create FleecingState.
-+ *
-+ * @bcs: link to block-copy owned by copy-before-write filter.
-+ *
-+ * @fleecing_node: should be fleecing block driver node. Used to create some
-+ * bitmaps in it.
++ * Normally FleecingState is created by copy-before-write filter. Then
++ * copy-before-write filter calls fleecing_drv_activate() to share FleecingState
++ * with fleecing block driver.
 + */
-+FleecingState *fleecing_new(BlockCopyState *bcs,
-+                            BlockDriverState *fleecing_node,
-+                            Error **errp);
++void fleecing_drv_activate(BlockDriverState *bs, FleecingState *fleecing);
 +
-+/* Free the state. Doesn't free block-copy state (@bcs) */
-+void fleecing_free(FleecingState *s);
-+
-+/*
-+ * Convenient function for thous who want to do fleecing read.
-+ *
-+ * If requested region starts in "done" area, i.e. data is already copied to
-+ * copy-before-write target node, req is set to NULL, pnum is set to available
-+ * bytes to read from target. User is free to read @pnum bytes from target.
-+ * Still, user is responsible for concurrent discards on target.
-+ *
-+ * If requests region starts in "not done" area, i.e. we have to read from
-+ * source node directly, than @pnum bytes of source node are frozen and
-+ * guaranteed not be rewritten until user calls cbw_snapshot_read_unlock().
-+ *
-+ * Returns 0 on success and -EACCES when try to read non-dirty area of
-+ * access_bitmap.
-+ */
-+int fleecing_read_lock(FleecingState *f, int64_t offset,
-+                       int64_t bytes, const BlockReq **req, int64_t *pnum);
-+/* Called as closing pair for fleecing_read_lock() */
-+void fleecing_read_unlock(FleecingState *f, const BlockReq *req);
-+
-+/*
-+ * Called when fleecing user doesn't need the region anymore (for example the
-+ * region is successfully read and backed up somewhere).
-+ * This prevents extra copy-before-write operations in this area in future.
-+ * Next fleecing read from this area will fail with -EACCES.
-+ */
-+void fleecing_discard(FleecingState *f, int64_t offset, int64_t bytes);
-+
-+/*
-+ * Called by copy-before-write filter after successful copy-before-write
-+ * operation to synchronize with parallel fleecing reads.
-+ */
-+void fleecing_mark_done_and_wait_readers(FleecingState *f, int64_t offset,
-+                                         int64_t bytes);
-+
-+#endif /* FLEECING_H */
-diff --git a/block/fleecing.c b/block/fleecing.c
+ #endif /* FLEECING_H */
+diff --git a/block/fleecing-drv.c b/block/fleecing-drv.c
 new file mode 100644
-index 0000000000..f75d11b892
+index 0000000000..202208bb03
 --- /dev/null
-+++ b/block/fleecing.c
-@@ -0,0 +1,182 @@
++++ b/block/fleecing-drv.c
+@@ -0,0 +1,261 @@
 +/*
-+ * FleecingState
-+ *
-+ * The common state of image fleecing, shared between copy-before-write filter
-+ * and fleecing block driver.
++ * fleecing block driver
 + *
 + * Copyright (c) 2021 Virtuozzo International GmbH.
 + *
@@ -336,174 +342,255 @@ index 0000000000..f75d11b892
 +#include "block/block-copy.h"
 +#include "block/reqlist.h"
 +
++#include "block/copy-before-write.h"
 +#include "block/fleecing.h"
 +
-+/*
-+ * @bcs: link to block-copy state owned by copy-before-write filter which
-+ * performs copy-before-write operations in context of fleecing scheme.
-+ * FleecingState doesn't own the block-copy state and don't free it on cleanup.
-+ *
-+ * @lock: protects access to @access_bitmap, @done_bitmap and @frozen_read_reqs
-+ *
-+ * @access_bitmap: represents areas allowed for reading by fleecing user.
-+ * Reading from non-dirty areas leads to -EACCES. Discard operation among other
-+ * things clears corresponding bits in this bitmaps.
-+ *
-+ * @done_bitmap: represents areas that was successfully copied by
-+ * copy-before-write operations. So, for dirty areas fleecing user should read
-+ * from target node and for clear areas - from source node.
-+ *
-+ * @frozen_read_reqs: current read requests for fleecing user in source node.
-+ * corresponding areas must not be rewritten by guest.
-+ */
-+typedef struct FleecingState {
-+    BlockCopyState *bcs;
++typedef struct BDRVFleecingState {
++    FleecingState *fleecing;
++    BdrvChild *source;
++} BDRVFleecingState;
 +
-+    CoMutex lock;
-+
-+    BdrvDirtyBitmap *access_bitmap;
-+    BdrvDirtyBitmap *done_bitmap;
-+
-+    BlockReqList frozen_read_reqs;
-+} FleecingState;
-+
-+FleecingState *fleecing_new(BlockCopyState *bcs,
-+                            BlockDriverState *fleecing_node,
-+                            Error **errp)
++static coroutine_fn int fleecing_co_preadv_part(
++        BlockDriverState *bs, int64_t offset, int64_t bytes,
++        QEMUIOVector *qiov, size_t qiov_offset, BdrvRequestFlags flags)
 +{
-+    BdrvDirtyBitmap *bcs_bitmap = block_copy_dirty_bitmap(bcs),
-+                    *done_bitmap, *access_bitmap;
-+    int64_t cluster_size = block_copy_cluster_size(bcs);
-+    FleecingState *s;
++    BDRVFleecingState *s = bs->opaque;
++    const BlockReq *req;
++    int ret;
 +
-+    /* done_bitmap starts empty */
-+    done_bitmap = bdrv_create_dirty_bitmap(fleecing_node, cluster_size, NULL,
-+                                           errp);
-+    if (!done_bitmap) {
-+        return NULL;
-+    }
-+    bdrv_disable_dirty_bitmap(done_bitmap);
-+
-+    /* access_bitmap starts equal to bcs_bitmap */
-+    access_bitmap = bdrv_create_dirty_bitmap(fleecing_node, cluster_size, NULL,
-+                                             errp);
-+    if (!access_bitmap) {
-+        return NULL;
-+    }
-+    bdrv_disable_dirty_bitmap(access_bitmap);
-+    if (!bdrv_dirty_bitmap_merge_internal(access_bitmap, bcs_bitmap,
-+                                          NULL, true))
-+    {
-+        return NULL;
++    if (!s->fleecing) {
++        /* fleecing_drv_activate() was not called */
++        return -EINVAL;
 +    }
 +
-+    s = g_new(FleecingState, 1);
-+    *s = (FleecingState) {
-+        .bcs = bcs,
-+        .done_bitmap = done_bitmap,
-+        .access_bitmap = access_bitmap,
-+    };
-+    qemu_co_mutex_init(&s->lock);
-+    QLIST_INIT(&s->frozen_read_reqs);
++    /* TODO: upgrade to async loop using AioTask */
++    while (bytes) {
++        int64_t cur_bytes;
 +
-+    return s;
-+}
++        ret = fleecing_read_lock(s->fleecing, offset, bytes, &req, &cur_bytes);
++        if (ret < 0) {
++            return ret;
++        }
 +
-+void fleecing_free(FleecingState *s)
-+{
-+    if (!s) {
-+        return;
-+    }
++        if (req) {
++            ret = bdrv_co_preadv_part(s->source, offset, cur_bytes,
++                                      qiov, qiov_offset, flags);
++            fleecing_read_unlock(s->fleecing, req);
++        } else {
++            ret = bdrv_co_preadv_part(bs->file, offset, cur_bytes,
++                                      qiov, qiov_offset, flags);
++        }
++        if (ret < 0) {
++            return ret;
++        }
 +
-+    bdrv_release_dirty_bitmap(s->access_bitmap);
-+    bdrv_release_dirty_bitmap(s->done_bitmap);
-+    g_free(s);
-+}
-+
-+static BlockReq *add_read_req(FleecingState *s, uint64_t offset, uint64_t bytes)
-+{
-+    BlockReq *req = g_new(BlockReq, 1);
-+
-+    reqlist_init_req(&s->frozen_read_reqs, req, offset, bytes);
-+
-+    return req;
-+}
-+
-+static void drop_read_req(BlockReq *req)
-+{
-+    reqlist_remove_req(req);
-+    g_free(req);
-+}
-+
-+int fleecing_read_lock(FleecingState *s, int64_t offset,
-+                       int64_t bytes, const BlockReq **req,
-+                       int64_t *pnum)
-+{
-+    bool done;
-+
-+    QEMU_LOCK_GUARD(&s->lock);
-+
-+    if (bdrv_dirty_bitmap_next_zero(s->access_bitmap, offset, bytes) != -1) {
-+        return -EACCES;
-+    }
-+
-+    bdrv_dirty_bitmap_status(s->done_bitmap, offset, bytes, &done, pnum);
-+    if (!done) {
-+        *req = add_read_req(s, offset, *pnum);
++        bytes -= cur_bytes;
++        offset += cur_bytes;
++        qiov_offset += cur_bytes;
 +    }
 +
 +    return 0;
 +}
 +
-+void fleecing_read_unlock(FleecingState *s, const BlockReq *req)
++static int coroutine_fn fleecing_co_block_status(BlockDriverState *bs,
++                                                 bool want_zero, int64_t offset,
++                                                 int64_t bytes, int64_t *pnum,
++                                                 int64_t *map,
++                                                 BlockDriverState **file)
 +{
-+    QEMU_LOCK_GUARD(&s->lock);
++    BDRVFleecingState *s = bs->opaque;
++    const BlockReq *req = NULL;
++    int ret;
++    int64_t cur_bytes;
 +
-+    drop_read_req((BlockReq *)req);
-+}
-+
-+void fleecing_discard(FleecingState *s, int64_t offset, int64_t bytes)
-+{
-+    WITH_QEMU_LOCK_GUARD(&s->lock) {
-+        bdrv_reset_dirty_bitmap(s->access_bitmap, offset, bytes);
++    if (!s->fleecing) {
++        /* fleecing_drv_activate() was not called */
++        return -EINVAL;
 +    }
 +
-+    block_copy_reset(s->bcs, offset, bytes);
++    ret = fleecing_read_lock(s->fleecing, offset, bytes, &req, &cur_bytes);
++    if (ret < 0) {
++        return ret;
++    }
++
++    *pnum = cur_bytes;
++    *map = offset;
++
++    if (req) {
++        *file = s->source->bs;
++        fleecing_read_unlock(s->fleecing, req);
++    } else {
++        *file = bs->file->bs;
++    }
++
++    return ret;
 +}
 +
-+void fleecing_mark_done_and_wait_readers(FleecingState *s, int64_t offset,
-+                                         int64_t bytes)
++static int coroutine_fn fleecing_co_pdiscard(BlockDriverState *bs,
++                                             int64_t offset, int64_t bytes)
 +{
-+    assert(QEMU_IS_ALIGNED(offset, block_copy_cluster_size(s->bcs)));
-+    assert(QEMU_IS_ALIGNED(bytes, block_copy_cluster_size(s->bcs)));
++    BDRVFleecingState *s = bs->opaque;
++    if (!s->fleecing) {
++        /* fleecing_drv_activate() was not called */
++        return -EINVAL;
++    }
 +
-+    WITH_QEMU_LOCK_GUARD(&s->lock) {
-+        bdrv_set_dirty_bitmap(s->done_bitmap, offset, bytes);
-+        reqlist_wait_all(&s->frozen_read_reqs, offset, bytes, &s->lock);
++    fleecing_discard(s->fleecing, offset, bytes);
++
++    bdrv_co_pdiscard(bs->file, offset, bytes);
++
++    /*
++     * Ignore bdrv_co_pdiscard() result: fleecing_discard() succeeded, that
++     * means that next read from this area will fail with -EACCES. More correct
++     * to report success now.
++     */
++    return 0;
++}
++
++static int coroutine_fn fleecing_co_pwrite_zeroes(BlockDriverState *bs,
++        int64_t offset, int64_t bytes, BdrvRequestFlags flags)
++{
++    BDRVFleecingState *s = bs->opaque;
++    if (!s->fleecing) {
++        /* fleecing_drv_activate() was not called */
++        return -EINVAL;
++    }
++
++    /*
++     * TODO: implement cache, to have a chance to fleecing user to read and
++     * discard this data before actual writing to temporary image.
++     */
++    return bdrv_co_pwrite_zeroes(bs->file, offset, bytes, flags);
++}
++
++static coroutine_fn int fleecing_co_pwritev(BlockDriverState *bs,
++                                            int64_t offset,
++                                            int64_t bytes,
++                                            QEMUIOVector *qiov,
++                                            BdrvRequestFlags flags)
++{
++    BDRVFleecingState *s = bs->opaque;
++    if (!s->fleecing) {
++        /* fleecing_drv_activate() was not called */
++        return -EINVAL;
++    }
++
++    /*
++     * TODO: implement cache, to have a chance to fleecing user to read and
++     * discard this data before actual writing to temporary image.
++     */
++    return bdrv_co_pwritev(bs->file, offset, bytes, qiov, flags);
++}
++
++
++static void fleecing_refresh_filename(BlockDriverState *bs)
++{
++    pstrcpy(bs->exact_filename, sizeof(bs->exact_filename),
++            bs->file->bs->filename);
++}
++
++static int fleecing_open(BlockDriverState *bs, QDict *options, int flags,
++                         Error **errp)
++{
++    BDRVFleecingState *s = bs->opaque;
++
++    bs->file = bdrv_open_child(NULL, options, "file", bs, &child_of_bds,
++                               BDRV_CHILD_DATA | BDRV_CHILD_PRIMARY,
++                               false, errp);
++    if (!bs->file) {
++        return -EINVAL;
++    }
++
++    s->source = bdrv_open_child(NULL, options, "source", bs, &child_of_bds,
++                               BDRV_CHILD_DATA, false, errp);
++    if (!s->source) {
++        return -EINVAL;
++    }
++
++    bs->total_sectors = bs->file->bs->total_sectors;
++
++    return 0;
++}
++
++static void fleecing_child_perm(BlockDriverState *bs, BdrvChild *c,
++                                BdrvChildRole role,
++                                BlockReopenQueue *reopen_queue,
++                                uint64_t perm, uint64_t shared,
++                                uint64_t *nperm, uint64_t *nshared)
++{
++    bdrv_default_perms(bs, c, role, reopen_queue, perm, shared, nperm, nshared);
++
++    if (role & BDRV_CHILD_PRIMARY) {
++        *nshared &= BLK_PERM_CONSISTENT_READ;
++    } else {
++        *nperm &= BLK_PERM_CONSISTENT_READ;
++
++        /*
++         * copy-before-write filter is responsible for source child and need
++         * write access to it.
++         */
++        *nshared |= BLK_PERM_WRITE;
 +    }
 +}
++
++BlockDriver bdrv_fleecing_drv = {
++    .format_name = "fleecing",
++    .instance_size = sizeof(BDRVFleecingState),
++
++    .bdrv_open                  = fleecing_open,
++
++    .bdrv_co_preadv_part        = fleecing_co_preadv_part,
++    .bdrv_co_pwritev            = fleecing_co_pwritev,
++    .bdrv_co_pwrite_zeroes      = fleecing_co_pwrite_zeroes,
++    .bdrv_co_pdiscard           = fleecing_co_pdiscard,
++    .bdrv_co_block_status       = fleecing_co_block_status,
++
++    .bdrv_refresh_filename      = fleecing_refresh_filename,
++
++    .bdrv_child_perm            = fleecing_child_perm,
++};
++
++bool is_fleecing_drv(BlockDriverState *bs)
++{
++    return bs && bs->drv == &bdrv_fleecing_drv;
++}
++
++void fleecing_drv_activate(BlockDriverState *bs, FleecingState *fleecing)
++{
++    BDRVFleecingState *s = bs->opaque;
++
++    assert(is_fleecing_drv(bs));
++
++    s->fleecing = fleecing;
++}
++
++static void fleecing_init(void)
++{
++    bdrv_register(&bdrv_fleecing_drv);
++}
++
++block_init(fleecing_init);
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 7f24ee4b92..78ea04e292 100644
+index 78ea04e292..42dc979052 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -2423,6 +2423,8 @@ F: block/reqlist.c
- F: include/block/reqlist.h
- F: block/copy-before-write.h
+@@ -2425,6 +2425,7 @@ F: block/copy-before-write.h
  F: block/copy-before-write.c
-+F: block/fleecing.h
-+F: block/fleecing.c
+ F: block/fleecing.h
+ F: block/fleecing.c
++F: block/fleecing-drv.c
  F: include/block/aio_task.h
  F: block/aio_task.c
  F: util/qemu-co-shared-resource.c
 diff --git a/block/meson.build b/block/meson.build
-index 5065cf33ba..d30da90a01 100644
+index d30da90a01..b493580fbe 100644
 --- a/block/meson.build
 +++ b/block/meson.build
-@@ -18,6 +18,7 @@ block_ss.add(files(
-   'crypto.c',
+@@ -19,6 +19,7 @@ block_ss.add(files(
    'dirty-bitmap.c',
    'filter-compress.c',
-+  'fleecing.c',
+   'fleecing.c',
++  'fleecing-drv.c',
    'io.c',
    'mirror.c',
    'nbd.c',
