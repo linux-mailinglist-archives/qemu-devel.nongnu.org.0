@@ -2,77 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A71A347D661
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Dec 2021 19:18:21 +0100 (CET)
-Received: from localhost ([::1]:60210 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26B4347D65D
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Dec 2021 19:16:21 +0100 (CET)
+Received: from localhost ([::1]:53606 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n06Bw-0005Hp-O6
-	for lists+qemu-devel@lfdr.de; Wed, 22 Dec 2021 13:18:20 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33330)
+	id 1n06A0-0000YU-8A
+	for lists+qemu-devel@lfdr.de; Wed, 22 Dec 2021 13:16:20 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33556)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1n065e-0001x9-DR; Wed, 22 Dec 2021 13:11:50 -0500
-Received: from [2607:f8b0:4864:20::834] (port=41586
- helo=mail-qt1-x834.google.com)
+ id 1n066H-00037S-7i; Wed, 22 Dec 2021 13:12:30 -0500
+Received: from [2607:f8b0:4864:20::829] (port=33773
+ helo=mail-qt1-x829.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1n065c-0004Xw-VL; Wed, 22 Dec 2021 13:11:50 -0500
-Received: by mail-qt1-x834.google.com with SMTP id v22so2686806qtx.8;
- Wed, 22 Dec 2021 10:11:48 -0800 (PST)
+ id 1n066F-0004e1-Fh; Wed, 22 Dec 2021 13:12:28 -0500
+Received: by mail-qt1-x829.google.com with SMTP id v4so74761qtk.0;
+ Wed, 22 Dec 2021 10:12:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :references:from:in-reply-to:content-transfer-encoding;
- bh=3PyySgRKuPefl2ROdXg3Mgen3okdIMVw8rNNiF8boi0=;
- b=TkUKFbMUw6aoXKMdUwmfohzLC+GVCZj8QaI61rXL1j4h8Y1O1vJ6F1ij5wniF+ZNmv
- v4hBsTd0JxOwRGhcM/jTUIurcT3A1c6jgerZR07/BxbTXASbqBYSmLOtRWAbTcvODx3r
- bO4VeG8fVq+URwJhSi9Y/absEpdMyphOTjoL06AVXDNUgKHd5/WUPTbQ5AIqtoP6Q9fZ
- 9vXVrOTIC223BAr6ZjGgbLPhDbLAbBT62RJ8y6GGlnCO9twBj9ZadKaDQw95duX26W1D
- 8CR07gDpT5JLgriIQN7VMa1DriIP67p4UXcJ+ZyTAYQZzpCAdiL+ZYVF9EcpUaSt7LSo
- izVg==
+ bh=KlytgUT1ZQS9se3PudE0vqJflH9eB02Wfbvh8gk3tUw=;
+ b=jTB51q+dWLyu7psTG3JasEYdhw4M90hjlMyZc7I+0qQYbjKc6rJiMDw+ev/VV5kYKC
+ k8/LhIskIAHzWrUU+96q6pjZRl55rC7BNloE9lNDv64OmrwMivIFYcmjXpr23LQ30PVX
+ yROfG0JoIgskW/4pfndOMyXFtwocuYsSQ6rsS0De31/bDC+XU3UtvRazkrcbuBzzSjr3
+ epraaW48iwz2qUgu3DgbEotWd8NrZBk4gBO/WHPkIy2v5BZ9rbRKwKnGajEDsmNpN1js
+ jwZKx8FghGCVOxU9OZRxPTs7j7ucQq0s5vxF2glN/aI59FJ3rroWbY26JKQrDGWGveEO
+ Y2rA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:references:from:in-reply-to
  :content-transfer-encoding;
- bh=3PyySgRKuPefl2ROdXg3Mgen3okdIMVw8rNNiF8boi0=;
- b=LKoptnmQ2b2UePD3qan2cTUBXFhaw133J+TTDEaDAaetw76z6XNFCEMoHp8YDAYbAR
- fUtXdRdTDgK6ci7cJV9mLjpx/YpFv0nAc3FSa8QfYlM3Hy4dRsIkH+SlNCmD3c3I7vVL
- SQxOo1yqM1be1GGFD/sOcHvifAgDXmLczctpfOOLSJgwZije3gl9qVfRf0qQW1RNYh1I
- E1gJ/C0R5PG2O+J7S55ePMQhzkujDpzQsXVvid3fCyA0QMzX2JyZY0ezMdWz9KHk2fEL
- fN3n0snKCFLu82xG06mkcfCO/uLG9mwwZj6i2/REIXy0iH1GACvDMZhKe8OGcuCiLQDZ
- VAKg==
-X-Gm-Message-State: AOAM531pO8Hbyomm95zFtHAyPKoYnY4Vf2/JinOo7kXblr1AMT/XwCER
- vJeHZyErfjv1gU8DuMjZWaM=
-X-Google-Smtp-Source: ABdhPJyztV/R0d48fryZXogiXhfJzY5ZY4s3FSBXtjTE2cp0RK1mgEaHnV1rnUneQ4Ot273q5mD6mg==
-X-Received: by 2002:a05:622a:1393:: with SMTP id
- o19mr3130542qtk.350.1640196707894; 
- Wed, 22 Dec 2021 10:11:47 -0800 (PST)
+ bh=KlytgUT1ZQS9se3PudE0vqJflH9eB02Wfbvh8gk3tUw=;
+ b=sZeloh4fCn2sg4gm+ljBby/yXglJQ9p/RXR25pj3Ytx57aTYBzWjyUZ6W7x06sLWQB
+ sF+NxFsFkJEspS5sV2bGwMtKP8ONu45NzQpq+RaYOweAYcHoNxzvGxBa+117/yq2NCow
+ pSrdHulvti7vr5noIruXRiKAzKgI/jgS6pdOZoTg1Y5XJAWO+kffntlLiDA8UgXy+Eho
+ 7DBMKSDa5fJ5rnkPH5eAEe+3+OqvkSoqIGm+/iksyHQNSI5OFdfKtTUJdS3JTR+li5oE
+ gThQpnMLFUhwRsCgM+KHHydn9tDJxdT942zlh1h8LfxyGFPXQRsX2tYyQ6tIWui/E6B5
+ vhRw==
+X-Gm-Message-State: AOAM5314eu7e/CGpWOzwllElfjduYQmMi0KyL7Yhf1Vwy0LVDDTBqh+0
+ 4ztfPhXbFcBnIpfnUBFHfsg=
+X-Google-Smtp-Source: ABdhPJyIiXHutvc9q7VqZ8mGwjaJv6ZerHOoexYRAxE1SCWUvSXDOqLiZXspLtMQP0cwOed/fuoezA==
+X-Received: by 2002:ac8:7c96:: with SMTP id y22mr3071293qtv.329.1640196746380; 
+ Wed, 22 Dec 2021 10:12:26 -0800 (PST)
 Received: from ?IPV6:2804:431:c7c6:7ce4:b718:2cc0:32df:97ee?
  ([2804:431:c7c6:7ce4:b718:2cc0:32df:97ee])
- by smtp.gmail.com with ESMTPSA id l9sm2119272qkj.37.2021.12.22.10.11.46
+ by smtp.gmail.com with ESMTPSA id s2sm2276011qtw.22.2021.12.22.10.12.24
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 22 Dec 2021 10:11:47 -0800 (PST)
-Message-ID: <fe6d1afb-4cf2-a066-6526-cc1e9d5013a7@gmail.com>
-Date: Wed, 22 Dec 2021 15:11:45 -0300
+ Wed, 22 Dec 2021 10:12:26 -0800 (PST)
+Message-ID: <5f81a641-20ed-0ff3-5845-71edc7908eb2@gmail.com>
+Date: Wed, 22 Dec 2021 15:12:23 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.3.0
-Subject: Re: [PATCH 1/5] ppc/pnv: Change the maximum of PHB3 devices for
- Power8NVL
+Subject: Re: [PATCH 2/5] ppc/pnv: Remove PHB4 reset handler
 Content-Language: en-US
 To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org,
  qemu-devel@nongnu.org
 References: <20211222063817.1541058-1-clg@kaod.org>
- <20211222063817.1541058-2-clg@kaod.org>
+ <20211222063817.1541058-3-clg@kaod.org>
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <20211222063817.1541058-2-clg@kaod.org>
+In-Reply-To: <20211222063817.1541058-3-clg@kaod.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::834
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::829
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::834;
- envelope-from=danielhb413@gmail.com; helo=mail-qt1-x834.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::829;
+ envelope-from=danielhb413@gmail.com; helo=mail-qt1-x829.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -99,29 +97,51 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 On 12/22/21 03:38, Cédric Le Goater wrote:
-> The POWER8 processors with a NVLink logic unit have 4 PHB3 devices per
-> chip.
+> The PHB4 reset handler was preparing ground for PHB5 to set
+> appropriately the device id. We don't need it for the PHB4 since the
+> device id is already set in the root port complex. PH5 will introduce
+> its own.
+> 
+> "device-id" property is now useless. It should be removed.
 > 
 > Signed-off-by: Cédric Le Goater <clg@kaod.org>
 > ---
 
 Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 
->   hw/ppc/pnv.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+>   hw/pci-host/pnv_phb4.c | 13 -------------
+>   1 file changed, 13 deletions(-)
 > 
-> diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-> index 29ee0d0f08b4..9de8b8353014 100644
-> --- a/hw/ppc/pnv.c
-> +++ b/hw/ppc/pnv.c
-> @@ -1314,7 +1314,7 @@ static void pnv_chip_power8nvl_class_init(ObjectClass *klass, void *data)
+> diff --git a/hw/pci-host/pnv_phb4.c b/hw/pci-host/pnv_phb4.c
+> index 40b793201a34..4caf03310fab 100644
+> --- a/hw/pci-host/pnv_phb4.c
+> +++ b/hw/pci-host/pnv_phb4.c
+> @@ -1229,18 +1229,6 @@ static void pnv_phb4_realize(DeviceState *dev, Error **errp)
+>       phb->qirqs = qemu_allocate_irqs(xive_source_set_irq, xsrc, xsrc->nr_irqs);
+>   }
 >   
->       k->chip_cfam_id = 0x120d304980000000ull;  /* P8 Naples DD1.0 */
->       k->cores_mask = POWER8_CORE_MASK;
-> -    k->num_phbs = 3;
-> +    k->num_phbs = 4;
->       k->core_pir = pnv_chip_core_pir_p8;
->       k->intc_create = pnv_chip_power8_intc_create;
->       k->intc_reset = pnv_chip_power8_intc_reset;
+> -static void pnv_phb4_reset(DeviceState *dev)
+> -{
+> -    PnvPHB4 *phb = PNV_PHB4(dev);
+> -    PCIDevice *root_dev = PCI_DEVICE(&phb->root);
+> -
+> -    /*
+> -     * Configure PCI device id at reset using a property.
+> -     */
+> -    pci_config_set_vendor_id(root_dev->config, PCI_VENDOR_ID_IBM);
+> -    pci_config_set_device_id(root_dev->config, phb->device_id);
+> -}
+> -
+>   static const char *pnv_phb4_root_bus_path(PCIHostState *host_bridge,
+>                                             PCIBus *rootbus)
+>   {
+> @@ -1290,7 +1278,6 @@ static void pnv_phb4_class_init(ObjectClass *klass, void *data)
+>       device_class_set_props(dc, pnv_phb4_properties);
+>       set_bit(DEVICE_CATEGORY_BRIDGE, dc->categories);
+>       dc->user_creatable  = false;
+> -    dc->reset           = pnv_phb4_reset;
+>   
+>       xfc->notify         = pnv_phb4_xive_notify;
+>   }
 > 
 
