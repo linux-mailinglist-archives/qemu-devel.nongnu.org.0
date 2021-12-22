@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B673147CACC
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Dec 2021 02:32:37 +0100 (CET)
-Received: from localhost ([::1]:56402 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9198047CAD1
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Dec 2021 02:34:37 +0100 (CET)
+Received: from localhost ([::1]:60266 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mzqUe-0003Yd-SE
-	for lists+qemu-devel@lfdr.de; Tue, 21 Dec 2021 20:32:36 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35742)
+	id 1mzqWa-0006I2-Dl
+	for lists+qemu-devel@lfdr.de; Tue, 21 Dec 2021 20:34:36 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35774)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dpetroff@gmail.com>)
- id 1mzq5l-0001vr-32
- for qemu-devel@nongnu.org; Tue, 21 Dec 2021 20:06:53 -0500
-Received: from [2a00:1450:4864:20::52d] (port=38448
- helo=mail-ed1-x52d.google.com)
+ id 1mzq5m-0001w9-89
+ for qemu-devel@nongnu.org; Tue, 21 Dec 2021 20:06:54 -0500
+Received: from [2a00:1450:4864:20::536] (port=37525
+ helo=mail-ed1-x536.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <dpetroff@gmail.com>)
- id 1mzq5j-0002ap-KZ
- for qemu-devel@nongnu.org; Tue, 21 Dec 2021 20:06:52 -0500
-Received: by mail-ed1-x52d.google.com with SMTP id bm14so2001031edb.5
+ id 1mzq5k-0002by-16
+ for qemu-devel@nongnu.org; Tue, 21 Dec 2021 20:06:53 -0500
+Received: by mail-ed1-x536.google.com with SMTP id o6so2018252edc.4
  for <qemu-devel@nongnu.org>; Tue, 21 Dec 2021 17:06:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=1nJjGqAUFoJfmNlJcGqfL4WFstPGoEPLfTmpfwCrVkQ=;
- b=A1MKzoaNR/FxoeeaFd4Kp0nEh22Lea0YUEfSuU9EZenRME5usrLmuZbiBHjigasz5i
- YiGuBM6nLdvJbqFu2M5wcsQ1UwQk9rEnDccVDO3OHapUeu/zXWh6c5+rRbyeQQSzJz6Q
- C5ectyfaGOp9s5EI0BkmOKGw1xGc4/fOU5inurWJY4SPb0qcT6v3s/USlefe/pckVzco
- /thwHuSPxakmjs8lDisrO3SBb6xhAyp8QPLb+nT5VWSIE1p13SM96adVRZUC+fPFHwnk
- EN/tVVJ5/xlRtOXY19wU8Aiehf3IZ6y3nsnpM48UIHYHbGMNLD0GuI/Yuj4+/1LLyzIX
- yW3A==
+ bh=aOJzM18TYmXN2Gc4wBrki55qbnNfkeRy0/+fIGV7xN0=;
+ b=KluBwu4KSId15Grp1sD0GrzRHYiJJ+3a3hEufWJsWAPPdg6Zu6sb4Jqaah3Aw96ZUS
+ LiyJtK+zwPpFN/adKLixoJUjfH1fvXZPLdfzA5ZGseW4xjIwhEFSLaSAmmi2FQPMqTYH
+ x2mlFu/7CF1V1JXL6ViaDPXpUt01It6ikKlSgSpXrc7yOez+32Yd8dc8kSNaNHARQHZ/
+ aCk+XlKfdeEmtmw/NXJj69aoISofdIKZu6Ab3D3C7zmQlnNgm/DYNMhKfGi8MhNqybJ8
+ YMpubRUzCHK4WnLSIXATyynE5I55KZ4l1WAFvBihxEQJzOFtq2S9Zh9JFopINBH/HSgt
+ aWGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=1nJjGqAUFoJfmNlJcGqfL4WFstPGoEPLfTmpfwCrVkQ=;
- b=eVJo2msLgO/ULiGc7PVX9B6ZZ4zDWqMftDnVhweT5MRkWvCkfqtSEoYownoBQHRbu9
- iSxMfHQab87ThwRpayo5YBftGN2F9vJU4tVCk5q+IPib/J/xvxHty7LdJL1Vx/KiZO/M
- QpzlH20YVare7a1Jf/HHF8Bs3ah+JOO3lKnykc+jxfzSf8J7EdBTkP9Lt8EPnLpVF9tk
- myAem9n/Rk+twJi1g3h43EZWBlcDxqPSpvOkhAPbYlhWBcXuUrK/Iclp00/uG5rhRZaI
- GL6Lb7NKvfKfVAapxfENxLsa2k2FkE6k6zXtWioqZVL71iZGQzkm+HILbw1hmfJ/RpTx
- TmkA==
-X-Gm-Message-State: AOAM531h8iQ6AMtjQP30lDCbyNmV46As26uFDvrsL65R749eFVc5G9hS
- SUr0lzjuWeyNdNd72Z07/H/hvvw1/mk=
-X-Google-Smtp-Source: ABdhPJz68b2C9MFTqZmmGb58LDyMwPdFR1IYZonh09laZ9ao6F2RHzNPjHaDL316BDb1l6qBDEK4cA==
-X-Received: by 2002:a05:6402:1e8a:: with SMTP id
- f10mr784546edf.52.1640135209833; 
- Tue, 21 Dec 2021 17:06:49 -0800 (PST)
+ bh=aOJzM18TYmXN2Gc4wBrki55qbnNfkeRy0/+fIGV7xN0=;
+ b=LgRXz6jgn6wll37vH+eOoZTltAj0rV7xoI1aZzXnI31oK+rQf33ynnkjEWbTlFtP66
+ UlnpdnAA+bekbDDCmTPN2IGphyno3NHhWLVqM2LuGIJt6n6Rn28GPmQXo053KbN6HaSf
+ M7Em7J4LIwMni18ZuDqQklWjmfpvIB2kDd0iJsL1HqcSZBhniulTDXMAd27Li4h+UQp/
+ SCt746GMArWywwviMdXPiAgki1lGIwzOb/vm42XqrJc+T7bkNXsPDeMgVyOKwq7AEkMU
+ L6LJLOM2SL1kXooUunLqi7x+dFbEE8JTnFL3azlJuY6NRTCiAF2KVy6pIx1ayyuqZd28
+ IkNQ==
+X-Gm-Message-State: AOAM5320/Mpe1wtWrfy/D65+gBQdKo6YYnUXHiSKS1cKQEi7U8SeX6rl
+ J5rGROvd5lrO0iTnx3WKO68MLL8KquQ=
+X-Google-Smtp-Source: ABdhPJwWnRrAKcKm5MqyH1j2QiF7JvJllCFtaxTw9k/ZmoX92ZNiFL7CCbqLE1jczodcIfSOZh+0og==
+X-Received: by 2002:a17:907:3fa0:: with SMTP id
+ hr32mr723776ejc.196.1640135210614; 
+ Tue, 21 Dec 2021 17:06:50 -0800 (PST)
 Received: from owl.kpn ([2a02:a467:f77d:1:e6fc:be30:e400:3c3])
  by smtp.gmail.com with ESMTPSA id nb20sm125199ejc.25.2021.12.21.17.06.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Dec 2021 17:06:49 -0800 (PST)
+ Tue, 21 Dec 2021 17:06:50 -0800 (PST)
 From: Dmitry Petrov <dpetroff@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 2/5] ui/cocoa: pass horizontal scroll information to the
+Subject: [PATCH v2 3/5] ui/gtk: pass horizontal scroll information to the
  device code
-Date: Wed, 22 Dec 2021 02:06:44 +0100
-Message-Id: <20211222010647.1332479-2-dpetroff@gmail.com>
+Date: Wed, 22 Dec 2021 02:06:45 +0100
+Message-Id: <20211222010647.1332479-3-dpetroff@gmail.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20211222010647.1332479-1-dpetroff@gmail.com>
 References: <20211222010647.1332479-1-dpetroff@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52d
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::536
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
- envelope-from=dpetroff@gmail.com; helo=mail-ed1-x52d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::536;
+ envelope-from=dpetroff@gmail.com; helo=mail-ed1-x536.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -76,7 +76,7 @@ X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Tue, 21 Dec 2021 20:24:47 -0500
+X-Mailman-Approved-At: Tue, 21 Dec 2021 20:24:49 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,47 +94,89 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Dmitry Petrov <dpetroff@gmail.com>
 ---
- ui/cocoa.m | 18 ++++++++++++------
- 1 file changed, 12 insertions(+), 6 deletions(-)
+ ui/gtk.c | 54 ++++++++++++++++++++++++++++++++++++++++++------------
+ 1 file changed, 42 insertions(+), 12 deletions(-)
 
-diff --git a/ui/cocoa.m b/ui/cocoa.m
-index 68a6302184..22a1f6776e 100644
---- a/ui/cocoa.m
-+++ b/ui/cocoa.m
-@@ -970,21 +970,27 @@ QemuCocoaView *cocoaView;
-              */
+diff --git a/ui/gtk.c b/ui/gtk.c
+index 428f02f2df..b52eec6fe9 100644
+--- a/ui/gtk.c
++++ b/ui/gtk.c
+@@ -963,33 +963,63 @@ static gboolean gd_scroll_event(GtkWidget *widget, GdkEventScroll *scroll,
+                                 void *opaque)
+ {
+     VirtualConsole *vc = opaque;
+-    InputButton btn;
++    InputButton btn_vertical;
++    InputButton btn_horizontal;
++    bool has_vertical = false;
++    bool has_horizontal = false;
  
-             /*
--             * When deltaY is zero, it means that this scrolling event was
--             * either horizontal, or so fine that it only appears in
--             * scrollingDeltaY. So we drop the event.
-+             * We shouldn't have got a scroll event when deltaY and delta Y
-+             * are zero, hence no harm in dropping the event
-              */
--            if ([event deltaY] != 0) {
-+            if ([event deltaY] != 0 || [event deltaX] != 0) {
-             /* Determine if this is a scroll up or scroll down event */
--                buttons = ([event deltaY] > 0) ?
-+                if ([event deltaY] != 0) {
-+                  buttons = ([event deltaY] > 0) ?
-                     INPUT_BUTTON_WHEEL_UP : INPUT_BUTTON_WHEEL_DOWN;
-+                } else if ([event deltaX] != 0) {
-+                  buttons = ([event deltaX] > 0) ?
-+                    INPUT_BUTTON_WHEEL_LEFT : INPUT_BUTTON_WHEEL_RIGHT;
-+                }
+     if (scroll->direction == GDK_SCROLL_UP) {
+-        btn = INPUT_BUTTON_WHEEL_UP;
++        btn_vertical = INPUT_BUTTON_WHEEL_UP;
++        has_vertical = true;
+     } else if (scroll->direction == GDK_SCROLL_DOWN) {
+-        btn = INPUT_BUTTON_WHEEL_DOWN;
++        btn_vertical = INPUT_BUTTON_WHEEL_DOWN;
++        has_vertical = true;
++    } else if (scroll->direction == GDK_SCROLL_LEFT) {
++        btn_horizontal = INPUT_BUTTON_WHEEL_LEFT;
++        has_horizontal = true;
++    } else if (scroll->direction == GDK_SCROLL_RIGHT) {
++        btn_horizontal = INPUT_BUTTON_WHEEL_RIGHT;
++        has_horizontal = true;
+     } else if (scroll->direction == GDK_SCROLL_SMOOTH) {
+         gdouble delta_x, delta_y;
+         if (!gdk_event_get_scroll_deltas((GdkEvent *)scroll,
+                                          &delta_x, &delta_y)) {
+             return TRUE;
+         }
+-        if (delta_y == 0) {
+-            return TRUE;
+-        } else if (delta_y > 0) {
+-            btn = INPUT_BUTTON_WHEEL_DOWN;
 +
-                 qemu_input_queue_btn(dcl.con, buttons, true);
-                 qemu_input_event_sync();
-                 qemu_input_queue_btn(dcl.con, buttons, false);
-                 qemu_input_event_sync();
-             }
++        if (delta_y > 0) {
++            btn_vertical = INPUT_BUTTON_WHEEL_DOWN;
++            has_vertical = true;
++        } else if (delta_y < 0) {
++            btn_vertical = INPUT_BUTTON_WHEEL_UP;
++            has_vertical = true;
++        } else if (delta_x > 0) {
++            btn_horizontal = INPUT_BUTTON_WHEEL_RIGHT;
++            has_horizontal = true;
++        } else if (delta_x < 0) {
++            btn_horizontal = INPUT_BUTTON_WHEEL_LEFT;
++            has_horizontal = true;
+         } else {
+-            btn = INPUT_BUTTON_WHEEL_UP;
++            return TRUE;
+         }
+     } else {
+         return TRUE;
+     }
+ 
+-    qemu_input_queue_btn(vc->gfx.dcl.con, btn, true);
+-    qemu_input_event_sync();
+-    qemu_input_queue_btn(vc->gfx.dcl.con, btn, false);
+-    qemu_input_event_sync();
++    if (has_vertical) {
++        qemu_input_queue_btn(vc->gfx.dcl.con, btn_vertical, true);
++        qemu_input_event_sync();
++        qemu_input_queue_btn(vc->gfx.dcl.con, btn_vertical, false);
++        qemu_input_event_sync();
++    }
 +
-             /*
--             * Since deltaY also reports scroll wheel events we prevent mouse
-+             * Since deltaX/deltaY also report scroll wheel events we prevent mouse
-              * movement code from executing.
-              */
-             mouse_event = false;
++    if (has_horizontal) {
++        qemu_input_queue_btn(vc->gfx.dcl.con, btn_horizontal, true);
++        qemu_input_event_sync();
++        qemu_input_queue_btn(vc->gfx.dcl.con, btn_horizontal, false);
++        qemu_input_event_sync();
++    }
++
+     return TRUE;
+ }
+ 
 -- 
 2.32.0
 
