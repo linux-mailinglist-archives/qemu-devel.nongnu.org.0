@@ -2,77 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88F8B47D925
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Dec 2021 23:06:53 +0100 (CET)
-Received: from localhost ([::1]:60030 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5F8347D932
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Dec 2021 23:13:51 +0100 (CET)
+Received: from localhost ([::1]:36760 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n09l6-0007WE-9H
-	for lists+qemu-devel@lfdr.de; Wed, 22 Dec 2021 17:06:52 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57326)
+	id 1n09rq-0002kw-Ig
+	for lists+qemu-devel@lfdr.de; Wed, 22 Dec 2021 17:13:50 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58438)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1n09jl-0006KN-5e
- for qemu-devel@nongnu.org; Wed, 22 Dec 2021 17:05:29 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49557)
+ id 1n09px-0000eG-2r
+ for qemu-devel@nongnu.org; Wed, 22 Dec 2021 17:11:53 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:40863)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1n09ji-0002ve-9e
- for qemu-devel@nongnu.org; Wed, 22 Dec 2021 17:05:28 -0500
+ id 1n09pu-0003le-6b
+ for qemu-devel@nongnu.org; Wed, 22 Dec 2021 17:11:52 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1640210724;
+ s=mimecast20190719; t=1640211109;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=UyKNPG8ufuEjp7fFr3OJArg/ninU3HaheNkD+AQzh/4=;
- b=FghgSfV1keEGEPPOSoFWSKrd6J4X4CzoCmFogPW8mOq5gezKs1ePbrflvNKpkcxqLStJcR
- 0e7986dOru3NhM9YL7VSacID3P2p/yBu+gh4IOWQgMLS/PMpq//jvfGoqhgXTSj1UzehOH
- yAXqxbI3CIXnRM0oNAUMarZHx3Tdykg=
-Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com
- [209.85.216.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=S6qPSAtpOAImAvRiidbOon+xm6zVl14NT0GIWuhRcEk=;
+ b=EqYSuRg6KnF9JDah5mQYb1K9Wwlfdr/sETtb61IONj1sGReGiLGhe4V734yCbIsrsVYA/H
+ UH59TpGBEcjQuW2cQiLgQxS0clp/vp4WhH+GTqGkp6SgimClwsbn4b4vmRQRJt9HKwtySP
+ lpiDGcRuDdNQjWIqjBIPK8RLq1YGqvI=
+Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com
+ [209.85.210.198]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-218-B_Z1bDUHMnWrbPYORkTRbA-1; Wed, 22 Dec 2021 17:05:23 -0500
-X-MC-Unique: B_Z1bDUHMnWrbPYORkTRbA-1
-Received: by mail-pj1-f70.google.com with SMTP id
- j1-20020a17090a694100b001b1044f134aso2304102pjm.6
- for <qemu-devel@nongnu.org>; Wed, 22 Dec 2021 14:05:23 -0800 (PST)
+ us-mta-397-6RIPuEX9NdenwmNmo7UnGA-1; Wed, 22 Dec 2021 17:11:47 -0500
+X-MC-Unique: 6RIPuEX9NdenwmNmo7UnGA-1
+Received: by mail-pf1-f198.google.com with SMTP id
+ c6-20020aa781c6000000b004a4fcdf1d6dso2259522pfn.4
+ for <qemu-devel@nongnu.org>; Wed, 22 Dec 2021 14:11:47 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=UyKNPG8ufuEjp7fFr3OJArg/ninU3HaheNkD+AQzh/4=;
- b=0BjZx+ggmIppLa39NNqj1CvOaltHgJYmGX2rAdG0PO4ejFzQgnzFbbLVMEioV6jrrb
- f41uNGatq4X0roW34PTVLiin7MPcM/TWgzaz5pZewBVUCROz9NH6uP26faagB2vT9vKm
- BK8/tuXrkHEBAVbHZCvAC+B/eq/yGa9KUmwN112QjKF4nFFG+70FEZ7VVXWdV7P9wTji
- OK8WPywkbVEabmQH2n2MRvf9uZlqYpcKuhntugv4z1WL58W+/3wJ4MBJ16BeWin79MyM
- PSlYpkZGva9VSmBwKe9RnICLWoBfTk+IFY1SGUwjRkXE0mwYxwMA5kp8Dz+0Dio9IFTy
- UfQg==
-X-Gm-Message-State: AOAM532RfP3Tp1YlmDqEJ7c+vv+BrQ2ylFnWSbkSMONW6x8Q/xz4e8J0
- SGDsWxJ10sFS/b+2rgUfFi5sUBxOEriN/TUdCQqi9fkZ7DJ3Vsa2tpqqyOpiEpJJiMYrC9V/ybB
- UyXIDGp0rJzrGxhtZZrFEeEDt1/puxq0=
-X-Received: by 2002:a17:903:1104:b0:148:a3f5:6492 with SMTP id
- n4-20020a170903110400b00148a3f56492mr4731323plh.156.1640210722092; 
- Wed, 22 Dec 2021 14:05:22 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJz8kZSs+RkynCt0OanbnvLgj4wTfWypsCMMWab+HJpcbX3M8pBKP+WDBDFBz7A704m9kpwTWIVS56yEp7srbDw=
-X-Received: by 2002:a17:903:1104:b0:148:a3f5:6492 with SMTP id
- n4-20020a170903110400b00148a3f56492mr4731300plh.156.1640210721795; Wed, 22
- Dec 2021 14:05:21 -0800 (PST)
+ bh=S6qPSAtpOAImAvRiidbOon+xm6zVl14NT0GIWuhRcEk=;
+ b=NQrzIvJsl5nYYwtoaRQOa5ah9f6KqwY4lqc285emkRhPknwCnINanYqfvytHpAV5Vj
+ iWqL4x/QSjrgmoCyq4EH4PKkes6hNtui4JrzahA3BlW4OAr9yI1B+G2fYFx59Xchrc7P
+ T0xWiX8LRYeRzdV8TlbMp8GTU09flUnUWnKmJtyDo34ofcY0LXXdbSJfXb03e/Fdsev5
+ dRp+53/4QIxc3yQDi+wiOHHqoTCbtfJkjyuQ2oamdCwP500UFrb1vLyOnxNXV0O0QKRs
+ wBHyNFcP6cNisx8FdB1uPWEG5hZwgY2Gmie4CRjAXbEryM86i14Ohv4uedHEpuT3j/yB
+ K7Yg==
+X-Gm-Message-State: AOAM5312eqGXZo3bmecbahAZWA5D3P0FLlDJwNkxKDpspHHP0e6xKY2X
+ IoGeUAjCeE0WzuMWiKzR2s3JWNtWSYXrtuG53lm+aD+E8fOLHfb3jKA9rabySv2DPsEu1P1m1A7
+ 8ZUZaIBTV/kuCesyoZJuKYP7IhgeKRxU=
+X-Received: by 2002:a17:903:41ca:b0:149:2afe:48aa with SMTP id
+ u10-20020a17090341ca00b001492afe48aamr4325539ple.100.1640211106457; 
+ Wed, 22 Dec 2021 14:11:46 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwJvdU0COeuLvjXjbMTqkWoSBzX407jiXNTDBw6kXGS0KfFeSu626I8vBzpayb+yoXzo6zWKYyVz8+fqQ4IpBo=
+X-Received: by 2002:a17:903:41ca:b0:149:2afe:48aa with SMTP id
+ u10-20020a17090341ca00b001492afe48aamr4325518ple.100.1640211106164; Wed, 22
+ Dec 2021 14:11:46 -0800 (PST)
 MIME-Version: 1.0
-References: <20211221163300.453146-1-pbonzini@redhat.com>
- <20211221163300.453146-4-pbonzini@redhat.com>
- <b94b5e23-6e34-d948-2f06-71c1da0ec120@linaro.org>
-In-Reply-To: <b94b5e23-6e34-d948-2f06-71c1da0ec120@linaro.org>
+References: <20211221193502.114296-1-vsementsov@virtuozzo.com>
+ <20211221193502.114296-4-vsementsov@virtuozzo.com>
+In-Reply-To: <20211221193502.114296-4-vsementsov@virtuozzo.com>
 From: Paolo Bonzini <pbonzini@redhat.com>
-Date: Wed, 22 Dec 2021 23:05:08 +0100
-Message-ID: <CABgObfa4xH55T+SUzN2uVCsvDNwcDOAsME13DA17scH63RebNQ@mail.gmail.com>
-Subject: Re: [PATCH 3/3] meson: cleanup common-user/ build
-To: Richard Henderson <richard.henderson@linaro.org>
+Date: Wed, 22 Dec 2021 23:11:34 +0100
+Message-ID: <CABgObfYqiLwfNf4_p2_HYQPvAHKAQ=4DNr1y2OMecoO6kpovzg@mail.gmail.com>
+Subject: Re: [PATCH 3/3] meson: generate trace points for qmp commands
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="0000000000006e08a005d3c3516d"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+Content-Type: multipart/alternative; boundary="000000000000570a7705d3c368c3"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -94,79 +93,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, qemu-devel <qemu-devel@nongnu.org>
+Cc: Michael Roth <michael.roth@amd.com>, qemu-devel <qemu-devel@nongnu.org>,
+ "Hajnoczi, Stefan" <stefanha@redhat.com>, "Armbruster,
+ Markus" <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000006e08a005d3c3516d
+--000000000000570a7705d3c368c3
 Content-Type: text/plain; charset="UTF-8"
 
-Il mar 21 dic 2021, 21:32 Richard Henderson <richard.henderson@linaro.org>
-ha scritto:
+Il mar 21 dic 2021, 20:35 Vladimir Sementsov-Ogievskiy <
+vsementsov@virtuozzo.com> ha scritto:
 
-> On 12/21/21 8:33 AM, Paolo Bonzini wrote:
-> > Do not go through a static_library, which is only necessary in order to
-> reuse
-> > some source files between emulators and tests.
->
-> That's not true, is it.  Anyway, you're moving the file to a different
-> static_library.  I
-> though I had tried this myself, but I don't remember the details now.
->
+--- a/trace/meson.build
++++ b/trace/meson.build
+@@ -2,10 +2,14 @@
+ specific_ss.add(files('control-target.c'))
 
-Right, I will change the commit message to "a static_library just for
-common_user files, since the one that covers all of common_ss is enough".
+ trace_events_files = []
+-foreach dir : [ '.' ] + trace_events_subdirs
+-  trace_events_file = meson.project_source_root() / dir / 'trace-events'
++foreach path : [ '.' ] + trace_events_subdirs + qapi_trace_events
++  if path.contains('trace-events')
++    trace_events_file = meson.project_build_root() / 'qapi' / path
+
+
+
+Just using "trace_events_file = 'qapi' / path" might work, since the build
+is nonrecursive.
+
+If it doesn't, use the custom target object, possibly indexing it as
+ct[index]. You can use a dictionary to store the custom targets and find
+them from the "path" variable.
 
 Paolo
 
 
 >
 >
-> Tested-by: Richard Henderson <richard.henderson@linaro.org>
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
->
->
-> r~
->
->
 
---0000000000006e08a005d3c3516d
+--000000000000570a7705d3c368c3
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">Il mar 21 dic 2021, 21:32 Richard Henderson &lt;<a hre=
-f=3D"mailto:richard.henderson@linaro.org">richard.henderson@linaro.org</a>&=
-gt; ha scritto:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:=
-0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">On 12/21/21 8:33 AM=
-, Paolo Bonzini wrote:<br>
-&gt; Do not go through a static_library, which is only necessary in order t=
-o reuse<br>
-&gt; some source files between emulators and tests.<br>
-<br>
-That&#39;s not true, is it.=C2=A0 Anyway, you&#39;re moving the file to a d=
-ifferent static_library.=C2=A0 I <br>
-though I had tried this myself, but I don&#39;t remember the details now.<b=
-r></blockquote></div></div><div dir=3D"auto"><br></div><div dir=3D"auto">Ri=
-ght, I will change the commit message to &quot;a static_library just for co=
-mmon_user files, since the one that covers all of common_ss is enough&quot;=
-.</div><div dir=3D"auto"><br></div><div dir=3D"auto">Paolo</div><div dir=3D=
-"auto"><br></div><div dir=3D"auto"><div class=3D"gmail_quote"><blockquote c=
-lass=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;=
-padding-left:1ex">
-<br><br><br>
-Tested-by: Richard Henderson &lt;<a href=3D"mailto:richard.henderson@linaro=
-.org" target=3D"_blank" rel=3D"noreferrer">richard.henderson@linaro.org</a>=
-&gt;<br>
-Reviewed-by: Richard Henderson &lt;<a href=3D"mailto:richard.henderson@lina=
-ro.org" target=3D"_blank" rel=3D"noreferrer">richard.henderson@linaro.org</=
-a>&gt;<br>
-<br>
-<br>
-r~<br>
-<br>
-</blockquote></div></div></div>
+<div dir=3D"auto"><div dir=3D"ltr">Il mar 21 dic 2021, 20:35 Vladimir Semen=
+tsov-Ogievskiy &lt;<a href=3D"mailto:vsementsov@virtuozzo.com">vsementsov@v=
+irtuozzo.com</a>&gt; ha scritto:</div><blockquote style=3D"margin:0px 0px 0=
+px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">--- a/tra=
+ce/meson.build<br>+++ b/trace/meson.build<br>@@ -2,10 +2,14 @@<br>=C2=A0spe=
+cific_ss.add(files(&#39;control-target.c&#39;))<br><br>=C2=A0trace_events_f=
+iles =3D []<br>-foreach dir : [ &#39;.&#39; ] + trace_events_subdirs<br>-=
+=C2=A0 trace_events_file =3D meson.project_source_root() / dir / &#39;trace=
+-events&#39;<br>+foreach path : [ &#39;.&#39; ] + trace_events_subdirs + qa=
+pi_trace_events<br>+=C2=A0 if path.contains(&#39;trace-events&#39;)<br>+=C2=
+=A0 =C2=A0 trace_events_file =3D meson.project_build_root() / &#39;qapi&#39=
+; / path</blockquote><blockquote style=3D"margin:0px 0px 0px 0.8ex;border-l=
+eft:1px solid rgb(204,204,204);padding-left:1ex"><br></blockquote><div dir=
+=3D"auto"><br></div>Just using &quot;trace_events_file =3D &#39;qapi&#39; /=
+ path&quot; might work, since the build is nonrecursive.<div dir=3D"auto"><=
+br></div><div dir=3D"auto">If it doesn&#39;t, use the custom target object,=
+ possibly indexing it as ct[index]. You can use a dictionary to store the c=
+ustom targets and find them from the &quot;path&quot; variable.</div><div d=
+ir=3D"auto"><br></div><div dir=3D"auto">Paolo<br><div dir=3D"auto"><br><div=
+ class=3D"gmail_quote" dir=3D"auto"><blockquote class=3D"gmail_quote" style=
+=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><br><br>=
+</blockquote></div></div></div></div>
 
---0000000000006e08a005d3c3516d--
+--000000000000570a7705d3c368c3--
 
 
