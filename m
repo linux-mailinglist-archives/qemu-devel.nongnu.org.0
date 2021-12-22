@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A46847D739
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Dec 2021 19:55:03 +0100 (CET)
-Received: from localhost ([::1]:47468 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F63447D73B
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Dec 2021 19:55:10 +0100 (CET)
+Received: from localhost ([::1]:48054 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n06lR-0002be-PY
-	for lists+qemu-devel@lfdr.de; Wed, 22 Dec 2021 13:55:01 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44702)
+	id 1n06lZ-0002ys-3g
+	for lists+qemu-devel@lfdr.de; Wed, 22 Dec 2021 13:55:09 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44738)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1n06jh-00088l-0M; Wed, 22 Dec 2021 13:53:13 -0500
-Received: from mail-vi1eur05on2137.outbound.protection.outlook.com
- ([40.107.21.137]:20601 helo=EUR05-VI1-obe.outbound.protection.outlook.com)
+ id 1n06jj-0008F9-7R; Wed, 22 Dec 2021 13:53:15 -0500
+Received: from mail-vi1eur05on2113.outbound.protection.outlook.com
+ ([40.107.21.113]:12544 helo=EUR05-VI1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1n06jf-0004am-Dh; Wed, 22 Dec 2021 13:53:12 -0500
+ id 1n06jh-0004aJ-IB; Wed, 22 Dec 2021 13:53:14 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nIknrcEJ+wZsujZHA8QhCvFpOyjwJ1L0d7n0Am0u6xKhw37QiFdNoZyA+6Xlz23nkko+cAIMAAX8trdM656DYcBVEvffb5bk5UtbG97ttn893V4n4LzHLi/pI6iP24bzOKld4N87bbhx0WtRoduojtEHl1TKHY6r4AcWhJoXwAgOJHTxZOFYGjKuo3nlIgNECnRLabN+eCngAOJ/Xg+l82LpdcJMjz7HmwHLQ270jbYEHdnRrjyN2ewBcFyKvSQ+1whorsNBOSgxst9mMPPyb+H9SPxj+noTdcAZ3U+DPJ36LRJYS7rpHfqQPij3MK1HoF2OVB0s9HKNOqmUiCGwEw==
+ b=nb/o5n0Qe068G2iS0ut7V7PlzAwQ4lpQ50T2KqzYQxp+DEZIpMHYdVOKIvZIMfbGrzRaA8qvsDw9E+JixrpKgymDeRg/v9/o9ew+0shnPh+gwkzqr0vPiwuZRbRl6mMobwS/fgoJi2f6cF1MDLJXLwjqnaL3LYCG8h+eKsSpOvgKt1qtM9ilLyN8hRYkKFKMRxINd6BX1MBM4nwDu3zaFq5m9t6NPimX7vT/tkxTuAGeCmO0YH1RebktoOnW7VsaSSSP7GuzSs4CQa32y2euALkhFSqkQQGZ/M71DSyeC6bMpnIqQJKYSYugiHhUxicG1xGcvkjgZFL0GZMv77Qg2Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=8/XQBzvuOj+2z0KHJakJs/0955lq43qqA+KruNrLMnk=;
- b=bTKK0/TtgIPTCqaQovcMRQwZZYR4t9DA0JboRrxjpeQlYGJkvp99WTVv8rmyHQME3k7zSlbe9smoL1UwUBQ8PjyM+M+Xb6BMxxUfszi1d2aSjoBUuqykOSsRKImLoyG9wzq9KTM/JMrpzA8WpZwMy2WLZqW/t1DtipKcSx2OXzd6siyW6TklIHjfOB90/O/jBHembwtPqFvWFm4dT7UPnAfAzn+A9pyTL6I0hkMCKDkAiG5EP/OiTtbHwTkY4eMTbUziZ/9UFhtvNpHrYKRyvWHksKHyop9m2/JeyafCj4QjxnvTShspZ+7G52k4FdfhmVfBPjs82omhOBzJOJOVJw==
+ bh=W7lErLU3850fVriRjv2MT7Ght4Xs/vqrXSLU61tmF+s=;
+ b=n5YhXIwhWCQw33rXe4XDFBA4g4CM8cfzl9YAv3JOCc35PrbOTLl6RUi89A338/LmYtuh1rN9rGi/HcaOOXhncnM3knO9nn1YoQBc+K9Sd/AFR20/rmSyk/zt0VYJhHw0K0VHYtvKdSI6nIp+Fnab7vChBLyHrDud/8hWWhSUIe60ucetg5Ry0R7ucK8GoAS/uRwKcX5jSItG6wBIhNGM85rnFoMMZL6BYAt58/eo6yYKpDwjE/1h9Ymbly1pyHbKdvN3GUwjwbpkcPiL+XmFKltJDm8nBwvuMRK4pWzTODA0EYrj/S7vOX1FhimyJ79j6N3EfNHQwdl2y+Sf79pSbw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8/XQBzvuOj+2z0KHJakJs/0955lq43qqA+KruNrLMnk=;
- b=VjwaUFC1cNwFGTxmDvGSIHDngYJOwOWdExE/ETK0iG0UbcENC15hhbjm1LVrMLiwgwcQR/dmAfenDAWWYtZzBBDibh/zCCz1COOuI4tA/KZ/wDDmyfiJc8F2F8JKrE4MEPY+FSviZq8qfV4GJnJh1INbW7ZOZ4mR9vdsns+l28c=
+ bh=W7lErLU3850fVriRjv2MT7Ght4Xs/vqrXSLU61tmF+s=;
+ b=DrThLZB11m+kCvgMSU/E73BREpccONkzreu0X/cCwki1wPj2DSTnl8OOU9Cv/63ikFDZLFWCeLG+v8SEYYYmd5YyOQCslrc+1iHVFXaLd11yDBvkpgw4ICqzDWiJZKqEEyxIoYdyrjDgX20PBG7d1rFAUcHakxHPkl3GhhBJOPs=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM9PR08MB6737.eurprd08.prod.outlook.com (2603:10a6:20b:304::18)
@@ -47,11 +47,11 @@ Received: from AM9PR08MB6737.eurprd08.prod.outlook.com
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
 Cc: richard.henderson@linaro.org, peter.maydell@linaro.org,
- vsementsov@virtuozzo.com, eblake@redhat.com, qemu-devel@nongnu.org
-Subject: [PULL 3/7] nbd/client-connection: improve error message of cancelled
- attempt
-Date: Wed, 22 Dec 2021 19:52:44 +0100
-Message-Id: <20211222185248.466010-4-vsementsov@virtuozzo.com>
+ vsementsov@virtuozzo.com, eblake@redhat.com, qemu-devel@nongnu.org,
+ Nikita Lapshin <nikita.lapshin@virtuozzo.com>
+Subject: [PULL 4/7] iotests.py: add qemu_tool_popen()
+Date: Wed, 22 Dec 2021 19:52:45 +0100
+Message-Id: <20211222185248.466010-5-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211222185248.466010-1-vsementsov@virtuozzo.com>
 References: <20211222185248.466010-1-vsementsov@virtuozzo.com>
@@ -62,59 +62,59 @@ X-ClientProxiedBy: AM7PR02CA0009.eurprd02.prod.outlook.com
  (2603:10a6:20b:304::18)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: e7b17355-6cf0-4b20-4f8b-08d9c57c47ce
+X-MS-Office365-Filtering-Correlation-Id: 0118895f-43a0-4e94-5607-08d9c57c4805
 X-MS-TrafficTypeDiagnostic: AM8PR08MB5857:EE_
-X-Microsoft-Antispam-PRVS: <AM8PR08MB58575CBE7E6112296B5E9855C17D9@AM8PR08MB5857.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
+X-Microsoft-Antispam-PRVS: <AM8PR08MB5857E6D1F46CDDE1D41AE532C17D9@AM8PR08MB5857.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2803;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: wNJVEaNG+MIOhDcBNiaiSucLsYTzQew2YeRwGnR/vxUDrSLw6hxMqsASKjYD5UQBjgF91/sOdHpxfyd2hAkQHnqFQlSNPSA5l0u8bI1jW22a6IDqU1MEofFUJecCPJiKk3lZqx8ouVCpJSz1888G8AyVrkN+g/D7Ln3l2ZYv8ACm0iFXxQ8g5mdxIUZlVwbq8sYguqpE3bmGXItyrmkgPwHykQP71oD+atjaGbAUj3QGOqe/0t+ARzc88xqB2/d0KhOpMoWprMufEuiwxb7drNN04pLWyMQkfbILIU6YY2PS1xTipAVvcNb6OPwXyWRmmDseM6VyfnKyJI66BL7E14gmh0o1HgSXG/0q7B0bUfOjAZUz4GvQl7sZ1CEEzzYirxkNPOToSX3bxoKlrpCXI4a0HYdXFmAEDq9uSa6ikNnjSu2SH2YD/h820wL0X9dGVnYHO/n81hQiYVxnxsc80eJxTxpZuJO7XBNqOo45X8Y55xS9t+qs/zN2bxoOSdT3n2MT8uZPwVmodpynALJkzTudtdrx7dCfBvC1zy8lH4Pw/Fuly79Tjqj+uPhqv/dwS2KLyh1Vx7rHa+Pcv3CE62IoJ+APPc/FqjL32qJTKghrUvsY8i/LpAkwE/7zr4Xj0P+FqzwsWr9wD/i9WquI+o0wlK1FgJudjC4+X34Qqs7MhlrxQ2iDAa4XkfacATotDJDIxv576dFQ5J2WjgpP+A==
+X-Microsoft-Antispam-Message-Info: 6CROpMkpraHWBwQD54g/hDoWF7P2X9nBitx0qVbrqJpEMhHP2nm5mtqd69RgANXNA7240FQvkMvlQxAKAW7TNIWHm26DNRkit7ygBtQZnQQx1PZ7IXonW72bwrp79PGaBDdYpIe3aVhBG2dn0iXBmDip512Txuj9dFObfePwUw5Z/315cRyyu6pztZ9TazGC7v6x2tYsZlJI4iPy6UXViz8V3WP2Dt4vi9kwMmU4zmIerlXFcPVxBBg+qDEykGHE+bBH6zkTrFF/60/eNqX8YxjMxBU/oTLJ3fhkByo9iJ6vd0hzgnq2V3gKTbjjmfj4oRtB5tawxKMLOg9OmpQU2DpwVUOteE2qNpMvELsZtANvyPpbYtB3YfUc0zUeFdqVs261wPI8Ud84G4VRP3SSGMy3pjXn9bStXn0kW9qrwtmFafVN0rI387DRFmrscrbO76bHw06R4aIcw15fJp4d29Hu4DFBPTqLeL8qf5ePj1+MmW6WCx8XvX7ZUxYLM6QBDzFk9S6BEvOiQkqO8cfdEmZuYNrB/dldxeU2HioWIRf0ZelmuiFCYOufkP1rYAM+CnAxQ7fwdppEka8ITthB/F1XeTrOKVU1+LL9qi/SVNvi7dDwa02LrevsySAS9U87iRBW++cFL33UvwSeue1szVcfQD0pupYL5vNcyosBRBbXY9uDXKJapNH/4K48mvrbhC3nQnofaZ8LKw6oLdbyiA==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM9PR08MB6737.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(2616005)(6512007)(4326008)(6486002)(38350700002)(38100700002)(6506007)(83380400001)(66556008)(66476007)(36756003)(26005)(66946007)(5660300002)(8676002)(8936002)(186003)(6666004)(6916009)(2906002)(52116002)(86362001)(508600001)(316002)(15650500001)(1076003);
+ SFS:(4636009)(366004)(107886003)(2616005)(6512007)(4326008)(6486002)(38350700002)(38100700002)(6506007)(83380400001)(66556008)(66476007)(36756003)(26005)(66946007)(5660300002)(8676002)(8936002)(186003)(6666004)(6916009)(2906002)(52116002)(86362001)(508600001)(316002)(1076003);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?s48zIjmtZi8vXmx5END0QR+TRnXiz1zOnhMwn0gt0xlB6n/B4h1fVaimbK5a?=
- =?us-ascii?Q?LaTXKPY1kY31ahfT7MfDDc1Er1OxLi1JlQTwLMlfSFMTeDDVz4BV0Ux3QKUF?=
- =?us-ascii?Q?eZF6HecXleb2Fy24XEdAdGAu9EXu3TV+sSJohQLl+7h550Wf8+EkLrzQDN0j?=
- =?us-ascii?Q?C1Oh35IlDX2oEw3J92dV7Gf7DR4WJvFb5COAMT69KIyspf3H2oAikdB6RtRy?=
- =?us-ascii?Q?oUHfcOprxg0Nd4Jj0Mtfd+QXZMPzOM1t2tjlhmTGneroqvdLnd40gQDf8x/z?=
- =?us-ascii?Q?Ap1jfVdBOaSPlq9jAjuzECj25aBIo3+jTDl8ZZCqUJO1/LiO6kU3dyN/TZOK?=
- =?us-ascii?Q?DQIeo3HLKlsrFSBzBSgHGQB1G10xZMxmZnfZEwJujrScU+GTrls9wSx3TvIz?=
- =?us-ascii?Q?aoH2mCQcVg0CnMJFqSPnBDo7ZYrURMp94eiMuVs/7TcaUS59LhiqgkJQ390A?=
- =?us-ascii?Q?/mcyOTgw351xfjYzx++hDqH4K/qgv2jhDatWd/X+v7JgzlcwJ2qr9QCtWc2U?=
- =?us-ascii?Q?Mn/duPLONqacVFRqxsd6movr9/IY3RfLioxW2o4d5yQoE3IyGYV0/yHGdGQF?=
- =?us-ascii?Q?CO9aEjDAFdfWziApeI1n+er6y0P07pSyqvxmqySpAMcZ+55RWazxylVVPiQg?=
- =?us-ascii?Q?i8rLIt1O3qu5UgRtgOs9jMK7e5RBUEj3EKLj7xQS9W9YXFeJtbyug1aDyxP9?=
- =?us-ascii?Q?NV2+YBwNxFC8pwGjlRqi2+b6hHxkMVdOxEQAr0VM5wvkZ8XmHqUVs28LpMbE?=
- =?us-ascii?Q?5rn7hY6XCo95+rnhWc2PKNpuvx8oUmTBfR/gspVfbjEODbfzp/xDzr5D81Hu?=
- =?us-ascii?Q?qP5x09bwljhaXstjiIxmfOdS0HsZm+507qTfdU3sP5azo9a8YswCTiWbvqMC?=
- =?us-ascii?Q?/LC2CesS7MROtFc1Hv6GCvZkyl/QQtB0bfRX9zXzosVoLNTLqHPvXiHN2hlc?=
- =?us-ascii?Q?Kl6YOIkA6yxsSKzEEE9QF+7baaolMeeaUt0+YLtN3euzYClJbQiZizNTMuoV?=
- =?us-ascii?Q?f/YKKXkPvR2AZxkkTjvnFoKyuxRq78QfqWpaOXts8VBuhTzUsSYcIlBL9trW?=
- =?us-ascii?Q?6wzEcYy3oWLiIaPVltKkRx05CH+MRiheL3+PdB2dVIyMH/WpJlF0QBFQMvhW?=
- =?us-ascii?Q?t3lBBooVW1bSQiOkpcVJERSXi5sLAHux6FNhnKBYi95cMCQfx1wlLl3sTPJz?=
- =?us-ascii?Q?YTZdKz7gq1TfzsPIzSUYAp3I/mBf2EQXXeJ3KXI3jAa+9FO8zGv+xt09b0C0?=
- =?us-ascii?Q?XKajLg0VCfm0eYh6Hle2w41H+amRFnSpbaTKUfO/rMfxw4mi01znVYlbL3W8?=
- =?us-ascii?Q?DmuxmQvtA70Lug6zfZ4IYYWkm16BSNaF2oBKEGO8A1hmgMllNbCChRBzM8MA?=
- =?us-ascii?Q?dMIBRp3Kmau0drWNEJg1razrEXaiwsWMUjyZesLPZFOinjbQTwwBmq2EJ69N?=
- =?us-ascii?Q?jE3exNvh0n2E+OiN0v0mmcwe/t41hIS6bI1hd6fe2TBGzvuOgk6kZbK7yUd4?=
- =?us-ascii?Q?jgiVYI1MlyV2sIPl0WoBjLKQYl828zHiyFdNB15DzcukYhQBjJ89I+CmtQH0?=
- =?us-ascii?Q?kiBi1elaEl43+hvVkeseEM2durglf3o//BABKAKyHINyuaMiiUvQfLlkHxf1?=
- =?us-ascii?Q?XnNnDLxTYcUIFnHQOOLceKZkByOXkCX5Ecp0dLyTXQOKXSE8XHp4Xj86JyOt?=
- =?us-ascii?Q?WNv+4CoppSLt2m8//biIJsPVddw=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?XCz4c3QuOQDOhznYjVp9GyCmsFpXj7ircutSsAusrsuAENt4oN0200cDRxKN?=
+ =?us-ascii?Q?NyrGGEKFpuSklyFdKrhJyEPt1D/iG8NlfN1Ypay48jOzqb/cIeqedSFNPmIV?=
+ =?us-ascii?Q?+HgWCgjbV3Q7/cRLNtHCGIkgCmFQqpmhXnOADfzL5/ibrAmD8iO7VWKr8uxH?=
+ =?us-ascii?Q?KGIITeJmFcBnRRJociwxIe/y2ERWAmDfDuh5fXordlGXU2yngVxpkLEYn60h?=
+ =?us-ascii?Q?QGWaeChVZh2UvWt28ukPDJdGGXRuT6IwWE3w4IKiA0wlFz0g5xvihDU5Hf7L?=
+ =?us-ascii?Q?HBBr62rfv+JzNp94P4tWXE4Uzj7QBCRqdkyg0QOIO+xr5noKD+gxIUzEwb2T?=
+ =?us-ascii?Q?IS0iqiAaOV3evAIp3mh0/mYwEClu8oBJzQCEaxJGNJm9M6tKZZNWtEAigRCw?=
+ =?us-ascii?Q?hUjulT5MlqhAC75YvtJOw/ImAFtdwX9k8AJlXay0BVB4AuDbOsMH/CYprgEy?=
+ =?us-ascii?Q?x6X6oeMCXB5UrTMZBl4lrRvec9DFM/KCGlOtaV3T1VWbLkzmpWoXIz9IaA/e?=
+ =?us-ascii?Q?HGeoklRCzelusS5vJN9ojWWt+FAZD74KuLwZjFpWGUAZZf/xX4nO+vE2KMKD?=
+ =?us-ascii?Q?bGrHOyzSBBZ4xu1K7ixu0CjWXfmfUc7Ms5Y54XquwcjbQAVhwP/welgPMTZf?=
+ =?us-ascii?Q?PoKWJpIiCG2JFusyfhYnO+JHT7K/vbuguvq5ttKFmzfiuIYkmOlRSHf4wDe8?=
+ =?us-ascii?Q?WWUded5tIu7xk9/Ta0hnnU5NAKWUJqPMyaAvEecqbMxGDp3qiUc8UoXVgWtI?=
+ =?us-ascii?Q?lUNdG+vbYmAtz7Up06v1K/rqRPJHRuzAqXQKImOIGvgOPiKo9cCDPwwcgikG?=
+ =?us-ascii?Q?I0lYAALTA4AOUOgoVvl22b9EnqRUMbjsa3Yja+jL7AOZ8PMrp/dEn/cWR9DD?=
+ =?us-ascii?Q?n7kVCEdQRzlAQsdzENwLQXmgXKF7iqhRu6y2IilAK1xokZ0SsdRVcqLTFb0X?=
+ =?us-ascii?Q?qvtpqFupzqqCHBStX0/l4Mn4lTww5+lyLD6h2iNOwNtiYiKOAvdMmB3MUXkX?=
+ =?us-ascii?Q?yIRp2XLFBVjAE1ajuze3zKLTyyDAaXnq6oJQTY7TV2Ly8mMx2N9rYE1NVkX/?=
+ =?us-ascii?Q?mm/NzubNjN3mRt1eQh29ubkUsz9Snsn7yJquNxBjBWY2JjlQGERQu8oXW7tX?=
+ =?us-ascii?Q?6oQqnzNXzpu4xzyCu+NxtLSjJD5GAvnN2xJ0QEhL+pS0w6oIepzotkHLtrHV?=
+ =?us-ascii?Q?OreSxDXcPlHNrq4nF+jVN3hiAmiH/Dd5iCKISM/4V66784piWY0rX+iqPyyW?=
+ =?us-ascii?Q?CyjsV//SrTwHJO1CGSvUr+lARolAT2WWMoog9eRd/duqHFcQNvnw5T8XGFtM?=
+ =?us-ascii?Q?YzuFfwb0IPxs/Sg3ca9zUdFwSfLr7ILzG5uU3EnSrAWlky8BxUvoh0pbpvnK?=
+ =?us-ascii?Q?f4S6k6Oe2rQQm8oe+fTYvX+p7tlK2lHsgjipSPMKraNCrJR62ar4Za27KfI0?=
+ =?us-ascii?Q?6iCC2jpxJXhFxN7nJxFLnFNDW6rGI4Sn6dz9uDF+ZpEqc6zwggeTOyV59zrq?=
+ =?us-ascii?Q?MKpiI0hzLmzPcbH8Ky2KdOdXWDDGwlM6HMVlgSNWp6NlKPByK5eLekXrQst1?=
+ =?us-ascii?Q?oOV8B4Furcdvn7VSzXV/fsUrS3L6M7ljQE+uSyBNzAFMYSfEGgq+edoc3HPG?=
+ =?us-ascii?Q?Q04WkPt1/d9kx3+TXJiCqFjLH2U209a5N1g434tQ/cR1KcN+VFb/a5nlgWwF?=
+ =?us-ascii?Q?5GRUjTsmlMITcEj2I0hqPprF6zk=3D?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e7b17355-6cf0-4b20-4f8b-08d9c57c47ce
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0118895f-43a0-4e94-5607-08d9c57c4805
 X-MS-Exchange-CrossTenant-AuthSource: AM9PR08MB6737.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Dec 2021 18:53:02.2049 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Dec 2021 18:53:02.6436 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: iDEx7VcswvsNX5Nkouc79OzfZHGi7lMfZmtXEAxTglcLoj748woODCsubK0GW50Ckq/QtqzG9qUG1Ats2+wwD9VHIcg+VvhJHl7dtzweU/w=
+X-MS-Exchange-CrossTenant-UserPrincipalName: AlO7Ry1/M6bqw4d+TcyKU+9yxm3XF0jUtpnx8SXfXYG3GMGnZW50eX4hN1WnF74tUWAOBhDPKnclM1QV27nD0wUBf65g/GyvpIKNfADSFH8=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM8PR08MB5857
-Received-SPF: pass client-ip=40.107.21.137;
+Received-SPF: pass client-ip=40.107.21.113;
  envelope-from=vsementsov@virtuozzo.com;
  helo=EUR05-VI1-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
@@ -139,34 +139,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
----
- nbd/client-connection.c | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
+Split qemu_tool_popen() from qemu_tool_pipe_and_status() to be used
+separately.
 
-diff --git a/nbd/client-connection.c b/nbd/client-connection.c
-index 722998c985..2bda42641d 100644
---- a/nbd/client-connection.c
-+++ b/nbd/client-connection.c
-@@ -351,8 +351,15 @@ nbd_co_establish_connection(NBDClientConnection *conn, NBDExportInfo *info,
-             if (conn->err) {
-                 error_propagate(errp, error_copy(conn->err));
-             } else {
--                error_setg(errp,
--                           "Connection attempt cancelled by other operation");
-+                /*
-+                 * The only possible case here is cancelling by open_timer
-+                 * during nbd_open(). So, the error message is for that case.
-+                 * If we have more use cases, we can refactor
-+                 * nbd_co_establish_connection_cancel() to take an additional
-+                 * parameter cancel_reason, that would be passed than to the
-+                 * caller of cancelled nbd_co_establish_connection().
-+                 */
-+                error_setg(errp, "Connection attempt cancelled by timeout");
-             }
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Reviewed-by: Nikita Lapshin <nikita.lapshin@virtuozzo.com>
+---
+ tests/qemu-iotests/iotests.py | 13 ++++++++++---
+ 1 file changed, 10 insertions(+), 3 deletions(-)
+
+diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
+index 83bfedb902..7f9a8bf012 100644
+--- a/tests/qemu-iotests/iotests.py
++++ b/tests/qemu-iotests/iotests.py
+@@ -138,14 +138,21 @@ def unarchive_sample_image(sample, fname):
+         shutil.copyfileobj(f_in, f_out)
  
-             return NULL;
+ 
++def qemu_tool_popen(args: Sequence[str],
++                    connect_stderr: bool = True) -> subprocess.Popen:
++    stderr = subprocess.STDOUT if connect_stderr else None
++    return subprocess.Popen(args,
++                            stdout=subprocess.PIPE,
++                            stderr=stderr,
++                            universal_newlines=True)
++
++
+ def qemu_tool_pipe_and_status(tool: str, args: Sequence[str],
+                               connect_stderr: bool = True) -> Tuple[str, int]:
+     """
+     Run a tool and return both its output and its exit code
+     """
+-    stderr = subprocess.STDOUT if connect_stderr else None
+-    with subprocess.Popen(args, stdout=subprocess.PIPE,
+-                          stderr=stderr, universal_newlines=True) as subp:
++    with qemu_tool_popen(args, connect_stderr) as subp:
+         output = subp.communicate()[0]
+         if subp.returncode < 0:
+             cmd = ' '.join(args)
 -- 
 2.31.1
 
