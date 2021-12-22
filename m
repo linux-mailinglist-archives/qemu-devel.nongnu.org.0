@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD35F47D827
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Dec 2021 21:08:39 +0100 (CET)
-Received: from localhost ([::1]:59356 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2785D47D7ED
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Dec 2021 20:45:03 +0100 (CET)
+Received: from localhost ([::1]:57562 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n07ug-0004eU-UW
-	for lists+qemu-devel@lfdr.de; Wed, 22 Dec 2021 15:08:38 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56088)
+	id 1n07Xp-0007I4-LP
+	for lists+qemu-devel@lfdr.de; Wed, 22 Dec 2021 14:45:01 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55494)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1n07WG-0006ZB-MD
- for qemu-devel@nongnu.org; Wed, 22 Dec 2021 14:43:24 -0500
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:48214)
+ id 1n07V6-0004YV-H5
+ for qemu-devel@nongnu.org; Wed, 22 Dec 2021 14:42:12 -0500
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:13482)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1n07WD-0000PV-76
- for qemu-devel@nongnu.org; Wed, 22 Dec 2021 14:43:24 -0500
-Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1BMJXslc013624; 
- Wed, 22 Dec 2021 19:42:05 GMT
+ id 1n07V3-0008Kd-Qv
+ for qemu-devel@nongnu.org; Wed, 22 Dec 2021 14:42:12 -0500
+Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1BMJXvQh014457; 
+ Wed, 22 Dec 2021 19:42:04 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : content-type :
  mime-version; s=corp-2021-07-09;
- bh=DtcGCfZGcdh94T21RGoDVpVtgd4LPNgTpomu0Wkj8rA=;
- b=mn/pcaFeBAnhTVkSwP+ocLIm26kYN9KJs9h01fKcvT9WBQOho4Y4+bc/BPxaBj9thk1f
- 089pteR/5zkmzWLB7EDYuW9IlI5yr8iwXFHPGuM6Lc6old+IPHw6+evDSSJY1V6WSXpU
- xqiJuAsVHCNvk8gavJoHcdHr4CdCk1c41q4sD3LHvoNeGtK0BkGmTt0RyuhgEIl9iVCZ
- JYJJDygsH3qQ29O0+B3jNsj1zwco7pSM9qOQr6SxJELM2CsBmCb7QqweipPXPN2g+QYV
- AIW5NFrrY4duTW3PIiDF7RAO6mE/gIGfFTZJrqwPfylkup8EOLnUyelOh6wyBLXM7Q2v AA== 
+ bh=ZAUYcjtQ4CZMVSRb56kgREKga11yEanCT69C5zHJOD0=;
+ b=sL6bd9q4eCwPGN6Eu4VkNcKxoc72H0p8R4dLfqCXOJUpMg0z70foA+zwCBcgx2b3jcPs
+ Nx2LLJqQjSV95r8ZNxlGslcOpJiwA8sjKmhPhXs24uBpPLm/Rg99RbF0AJKB8JbnHLzP
+ laetJ9bDPKUge1ZP3yuLEni4fE1W7DRcYIzcxg5fMGHyueZdH0sWenbHlUhpIfUF1Vdg
+ 7LbfGgdVYQDXNXDmsFHWJO4lTOg9fvBSLy8FTWHXCI+PqU5BAGvczMABkU282gnV6GBv
+ aKH54dWCdPQc5zEMuK7dBjALKr5+MI7MpK7NqlzlTCD3PdFehZBp9ZIt3CPbrknJcWuf 9w== 
 Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by mx0b-00069f02.pphosted.com with ESMTP id 3d46rm0tkg-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 22 Dec 2021 19:42:05 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 1BMJfCee049074;
- Wed, 22 Dec 2021 19:42:04 GMT
-Received: from nam11-dm6-obe.outbound.protection.outlook.com
- (mail-dm6nam11lp2169.outbound.protection.outlook.com [104.47.57.169])
- by aserp3020.oracle.com with ESMTP id 3d17f5rfmu-11
+ by mx0b-00069f02.pphosted.com with ESMTP id 3d46qn0t1v-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Wed, 22 Dec 2021 19:42:04 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+ by aserp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 1BMJfCEu049078;
+ Wed, 22 Dec 2021 19:42:03 GMT
+Received: from nam12-bn8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12lp2171.outbound.protection.outlook.com [104.47.55.171])
+ by aserp3020.oracle.com with ESMTP id 3d17f5rftb-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 22 Dec 2021 19:42:03 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=KlLe9MPHFYNrZRUVf/BiXjg3F1vavNZwrK9mI6Gm+7UtLCQ/12cA+25t7RkRWfL8ZCODe4zTU3jy5RB/MsMr3azBuHVB8BWLOraj4N1eUYm9Kpr4NPyqBGs4hckGBNgAWUClcsZT/OCoTynZrxbqrB3Kg+IInQXE5tAWsnLLmD6fHwAwibMV7/q5FF/x2Nw13iZVtGyu49cAXV8Ig464Ix1oLjGaHrsZvC+pDamsZb47VQ9B7t7zVZ/Py3a8IKdxXxfh9P0hqALdWmjd3CYFBhcKTzx19RYuOrtwQJ+kMa9c0t7RjZ11EwZLoCmXpGTgB0oMZ0BvH5XEDcWuQ+KGhQ==
+ b=VxspVxxqc+IyMLI2yhCi2dxOSY5ya+N+t3FuxQTbaFw7X9cV61qNuUSTRf6A/OvOn+f6IvAUNky3+zjHOGvt45ETnTCyEekzK0hGGAJQ+6aDwHJVaYQ2p+V/dx/wZdUI6+ZVSur2htVcDO4wPy9y4sZA0pThgiRVC4Qfd/VPJPeo4SYDtKdR7Iz7X4Fxfh1tirdsxvQ19pNUK5anhnKD9ybNcjawir+HjWS65J+FewrdCxA4wGdLaGsXFmfO8MFSKj7+Eblq0k6bbhaEi4/QUDVJalPChainxDxF+ekecX4jUcwe5C0ROG6OujUU0zgRt3C+IxFI413BYipyYwZ3yg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=DtcGCfZGcdh94T21RGoDVpVtgd4LPNgTpomu0Wkj8rA=;
- b=CDkqE0S5Rk80ivNMKhTZU+66A8gPWGATIJIqlhL3BBsu/FV4IGYbOZLgoIAzsP2k+nSouu5lNPiijc3lMBlXCsor5wrloN3e9vzFR1EKwKE82nwP+aKhoOgYWLbuBEIgDUm3sDPzWsjyzFzgB88OvUdxqMdW/Cou62zvO2zUz/S6bY8q/EpSAoFlt07v0nIvKvKyiT7wQHUBGpAC1CLVZm6kpDpDZe30xFfCnE1Ffy1lfEkY84NKHHEkLjraw+22nbV9i5/94I3U2yva69ZPeFyrqLGU0XdJAKaONf8RVxlidm6yYfNgarFnCMZZGde3fc/dBTe19WOZJ1VBOq504Q==
+ bh=ZAUYcjtQ4CZMVSRb56kgREKga11yEanCT69C5zHJOD0=;
+ b=F2GlSsNgPR+3iS57kiHVH7Evq1e/BMCYSlT1V44D1rW+/o4bBcH4nwbo9s9VYqwJ6EApRoCrmN8mPKE/sHYhGHROSEthoaYkSnDIJyIWskEMgdyi5Yl7ai4y++/Si20m0oyAzwC1Yo1g9ZUn6RNLyRvjjXFPnkhGP/T7V600HSZIMvxW2Qjy2yVdTgsCwIARLmOidq38yEiir9O7oyNqT048Pk5n4Y92Af2jDRE/pUc1jfue6bVH/4Tz9mfmAfkVGibHjKKDctJWlvek4Iqp+I+G73cp2X+yGCt4MVR7XGcm+ifRPw4+NJhC5fdr7hlfZpUPHa/If6xPwGMvW3q4tg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DtcGCfZGcdh94T21RGoDVpVtgd4LPNgTpomu0Wkj8rA=;
- b=VIXP6vo20VVDgYVUxGho4F60Os95FsYeT8oGCwj2BciNOCsQqQrwVOI/U24ONI/Nv6HeW0mgF4bUCcmcykiA9Zh8KD9uEjSAT+Zft+EPHinfWJbArWHnhYyHQdsmio+xBCuW+sGOssaqjSfc3vHRllOWN4TgbbHi0yLKT05L+ho=
+ bh=ZAUYcjtQ4CZMVSRb56kgREKga11yEanCT69C5zHJOD0=;
+ b=UCLkTfjnC+JErJsZM/PZPPosIhNfbbbvXHHCZyiKOby5EZgfiYTsi2pbEwAYnGsw+vUg5FmLac054Q04/XctHWExb9549lCI68SNryRWpg288dWp1rq21tY+CejWVL4czFdJmJgTRGKjrj7pGuQVUlaAAowExwfkEqaEWkbf5ns=
 Received: from BYAPR10MB3240.namprd10.prod.outlook.com (2603:10b6:a03:155::17)
- by BYAPR10MB2888.namprd10.prod.outlook.com (2603:10b6:a03:88::32)
+ by BY5PR10MB3746.namprd10.prod.outlook.com (2603:10b6:a03:1b5::23)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4801.17; Wed, 22 Dec
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4823.16; Wed, 22 Dec
  2021 19:42:00 +0000
 Received: from BYAPR10MB3240.namprd10.prod.outlook.com
  ([fe80::d91d:1a8b:56bd:6623]) by BYAPR10MB3240.namprd10.prod.outlook.com
@@ -70,9 +70,9 @@ Received: from BYAPR10MB3240.namprd10.prod.outlook.com
  19:42:00 +0000
 From: Steve Sistare <steven.sistare@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH V7 10/29] machine: memfd-alloc option
-Date: Wed, 22 Dec 2021 11:05:15 -0800
-Message-Id: <1640199934-455149-11-git-send-email-steven.sistare@oracle.com>
+Subject: [PATCH V7 11/29] qapi: list utility functions
+Date: Wed, 22 Dec 2021 11:05:16 -0800
+Message-Id: <1640199934-455149-12-git-send-email-steven.sistare@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1640199934-455149-1-git-send-email-steven.sistare@oracle.com>
 References: <1640199934-455149-1-git-send-email-steven.sistare@oracle.com>
@@ -82,58 +82,58 @@ X-ClientProxiedBy: SJ0PR13CA0196.namprd13.prod.outlook.com
  (2603:10b6:a03:155::17)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: d8be5efc-292e-4971-4701-08d9c5831ee5
-X-MS-TrafficTypeDiagnostic: BYAPR10MB2888:EE_
-X-Microsoft-Antispam-PRVS: <BYAPR10MB288895ACB64D6D479D6356D0F97D9@BYAPR10MB2888.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:93;
+X-MS-Office365-Filtering-Correlation-Id: b1496119-740f-45ca-cc72-08d9c5831f2c
+X-MS-TrafficTypeDiagnostic: BY5PR10MB3746:EE_
+X-Microsoft-Antispam-PRVS: <BY5PR10MB37463B63A9530966E1D24341F97D9@BY5PR10MB3746.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 4mCcY9XV1XDMrnDWsZojyqo1QEq+8LNut8Jq6ktIqfB5rAOnzwsIjua9o+AkS5a5DP6JmSvGbTI7+gmLU0ljr3t97aCqcsmFLsdeFw3u614zAoCWGNO0HceNUcRy80aYbuo3EvNfdzqCy2a5ObZwK00e3cOysW5jgG6sNRG6Lss3z5DSvRH7qhSJ660NBDutFMfgTgbE7Bixz8H8hxxN9DyUMGONPdr8cx3wSq5/cwgF0VehUcdN0SdaYS/sWsN4OEKzBENChfk3xsKb12dpQBeQyhcjUCdMGCucacMwAMC09s8FMwYwJ4yRzfwZrH/NatY+ZvggG0MPSzIKUR6R7K/cyicRpu6EBqHKMzWK5ulawfbcPOgjg0ubmP4drXjKAGx+81XJS1MWMKng6kmT47n2GOqU+55WyAK/nDxewjwCY3G6XLvkoFIKz9CMvb9A2iiGEi2zV/vGVZRWIsgFjNvP1mtkUpD7gAkyXMIFyhT6EaD2M2yfEWn73tK02pPUt/PL6xCxgct4YlvLHWga9sbjz/LFoh/mie/efdhGI6Z/anFTxJxTl8/Xbvem0pTH6Lg1QOESqDlGVbQjl01SN/fFr928OanuQu6uDkHS5LkV9IHDxaeDeQ/ntdegm48btw8Wg74jg1YTEodzhUf8QzqYKi26ZwjhPJEae5UcHUc3nEhl2mveO0qElvV6hfQ8
+X-Microsoft-Antispam-Message-Info: oLfWs1QImRjkYwtMVdUgKDg1TDXBTZtmv+BhBXeM6qcmp06N7Te5Gtn3YXsxY9vQ0Ltm7WwAkyzZgQEq42kmRwe6AST7mhqejjkm8spURxN/vNnX80P2tx3K3DAxbsQPg80J/l+Julxu/NeOXo971aeC9niBHPpYmsGfdJxUOHuBspGz3e7GDZYzloECdsNZtDQhLUSB1pwNjtmrEkc8u6wNzDoQ3xt1OGae1g3K6R4E1kJAJzbJ1j6R78voCj3MN4WTNSXUe86+gzPE7eKH+rr0HOC0XOgqFd4TArle0duK2SluaAeVz6ItgPA5+lP3QQ1nxG+hZFzuSPBeNi4HM1RX14D++xkNr5IBbZoRRYl8dm9EdzZWH0wCYqoyrcaeJCPL/eM3sCPhk/aa2/Wg7MJ0Z9gatN5J241+H4cuYDR8e+0J+WfIUY1oESdShcu+NGC/rMXXNtD55ZiJDBPSUaB2ViO6JfewfbSI7AAbb/Y9qKnT4/eL3aKGi7YW6ehriKg4YBu4FezlVPgAre68vmJ2UV3iqkel6aFQVzHlgGbJ0QjCnEXiujhSvunyKy0utWtw3jerLRw/VJwy6EQQAlflPDJ1Sx9+KTbUphWo+4is+v8pdLGF2fA7aHBf1wreYLXOi74Knycwy4HMn3waYZ7vdn+zwJchg+gSywABgiO35nUg8Iftz7Idv078c15Qa0TP03JfJ6DfWnJlaOKP4+XhePusRH7wXuq5EJeWTDU=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BYAPR10MB3240.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(366004)(66556008)(86362001)(66946007)(6486002)(6916009)(6666004)(36756003)(4326008)(316002)(52116002)(6506007)(186003)(26005)(7416002)(38100700002)(66476007)(8676002)(2906002)(8936002)(38350700002)(6512007)(5660300002)(54906003)(83380400001)(508600001)(2616005)(107886003);
+ SFS:(366004)(66556008)(66946007)(66476007)(508600001)(83380400001)(38350700002)(38100700002)(4326008)(2616005)(52116002)(107886003)(5660300002)(36756003)(186003)(2906002)(8936002)(7416002)(8676002)(6486002)(26005)(86362001)(54906003)(6666004)(6916009)(6512007)(316002)(6506007)(309714004);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?0W5u7m1K8sOL9KqTDkIidtOsn/PusIrDDGYNT5v/8AkILPEVKIGoBCZbxqTr?=
- =?us-ascii?Q?IeH7tZVo02cuXs3GgBZIzl+n/QMsf5kP16ZGPtP8oXh5iI/B72YacB8jMlgz?=
- =?us-ascii?Q?QZ4qIR4OqEwnyjZPJ7wRIegBvjQEvt7YT7ZOICOCaifC5eZUrQFKuOTLJphh?=
- =?us-ascii?Q?5TykE8b0jCIzI2TlPIyQ19FzAEe/xMunkZaUP3mgR62dkfih0MZAnMUxqhl9?=
- =?us-ascii?Q?6G9Fb7s3hENuk9l5OA9muHMX4a+Bd6nirTxitloU46KKXyWQsDi8u2YfzBY1?=
- =?us-ascii?Q?TAWofXGPewgVcnxN5heXJef9lZOMe8r8SL1BH7Ig48nHjtJ91I2MHTcpAhok?=
- =?us-ascii?Q?XqlRAOur9lIZmAKIeER00OCqhtomp4b/iRMj+7KmHjZNQg7dBTRpGpsSQS9Y?=
- =?us-ascii?Q?pEzhj9anc35fGSW2ay+dT5SS5C75lx1juYobXgxv0bb4M8wEmva2cnevTofB?=
- =?us-ascii?Q?v/+L3bIB5+tTerXxmKhk+pc7TO0u24wQ5U+Yt6NlKNmuqu5R+qLz0Ecg7UoF?=
- =?us-ascii?Q?S9024bGKtEvosNmkUo8zPsHADkYD7qDPvouZX0phm1a5tlDoj2Im4ry+ql21?=
- =?us-ascii?Q?KqeImBgPzLmH200DKzwUgpNQ5Dgng09whnlIwpF2unVemIOt5CPYQ48FAhhO?=
- =?us-ascii?Q?/YZLwFZLWUluJG0rSfZ1iV9YA4YbFo5KtrzZPLxPBGR9zf5cGCrsMMm7tFab?=
- =?us-ascii?Q?pXwziJgZyiBeRe/7locXPQz9qW3kW53KnS/oUwWt2zUil1Q9gmBuNMwo9ysb?=
- =?us-ascii?Q?3u0YKC6ArtC0Lvrfxc7wX4yQZCRWSTRAz0lC85YujjR6e9XL17wPoar4iTaS?=
- =?us-ascii?Q?RgYQ1cTAXg9j997VY8w8FfNrONSYyPu3ypZt3OQRDIoMx/xfWMneAeewUSwd?=
- =?us-ascii?Q?GRoaO+yECV4fvrunirQWAUV7DfdxqihJHb7dsGnj8K3D6dNuPWP2dY3KBnTr?=
- =?us-ascii?Q?EkeI3iiHD8CabjPYHM+dt/kCJOrxzEAeiuSkjg2cWgJBmCswrrA9VYx90xtX?=
- =?us-ascii?Q?pqfQ8CUtRKam/F7aRfBc2/SWc+p96vHVfxCM2MzjgkU4QotTlmgM59LRsP3i?=
- =?us-ascii?Q?6tJp4+VlrinYDp3CKryTd5DQ1fdEW7C1WbzviZTsWqmPS0JmrB6PJnLRUlii?=
- =?us-ascii?Q?JT+SSgpkF7MVoRyfqdUiFaU7mVnDhQSX5GPj3GOcoT8fpgjepdNclGvUyJje?=
- =?us-ascii?Q?ZViWRStLu2rDSjNDoszmbdrA+NsR4UviK9xn1nszbLrSEp2NpN92JTrNorY3?=
- =?us-ascii?Q?agISwXPE9O9nX84tp0euA61zrWPm5Xu716Gvc8TQRnFF1DjxpoKGhg6LV6bh?=
- =?us-ascii?Q?iZTBpXCL9mb405GQl2CCovqMzZ61uzt5kQif1EJTc/z3Pc3Td3wwxqNOzUVU?=
- =?us-ascii?Q?jQJSWoJwxsdtPv8nAv5h35DAJSf3mgerk1aGIeL+dbpWhbQYDLrd6hCXJ4li?=
- =?us-ascii?Q?toyisX3bfFZebAfX2nz86z5DYeK4js+YMMNdycEOrV47wQRHNWcn4dEQx5eT?=
- =?us-ascii?Q?s3kdujqd0ucWysSPXnWPIkZN4UYlSskUeDm6yeEAp382EuotZUsBC8ag8GSu?=
- =?us-ascii?Q?5+Vt6AOKrxyNR+XQqB0AUcCt3lT8M2X3xDltKBCOL6cm3xJJM8E8BkDfFHvp?=
- =?us-ascii?Q?08YoLARPLpsuhqK+D3uL2+TlZ5f98yIp9ZvT6zzxZOsUodpCxAS/gDFBlh4+?=
- =?us-ascii?Q?6d1+mg=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Xl0A66tE6ZW2NfcfmUHhUicrZYzwCpVcIMLynw+gDp2Dyrs2RlnfEjhjA3jV?=
+ =?us-ascii?Q?XVw9GjZZThmIVaG9fI0oipjoOkKTXpDg7TRh48qa3lDGCA6JgYJ2m3CCTvyo?=
+ =?us-ascii?Q?IkzviY0B95NQXEBYRmpEClzVc7WLZ437jj3du3UKOuTgqOFkC0Pjc/Sid5u1?=
+ =?us-ascii?Q?HNomYsx64FXbf/qBIdCkVY4kawosdd8c6Ak00SRdxzMrjmiv+zuDbxNKFsmH?=
+ =?us-ascii?Q?ZgQ4fmsrrXqhmONRHWbIqZraeS9OZMyKzFoehGKvgUbv+zz7ZC9hF8OToQjK?=
+ =?us-ascii?Q?Zf75jsmDKlksmFEm7VrZHDnk0rrFCTs5cpAJYZH1CBUJGk2JUQmeWYEXaz7E?=
+ =?us-ascii?Q?CFAII9qllsjjj6VG4ME7KynLvaqMaerOdK+tw7xLTmhIPXxna+h5IEYNtav+?=
+ =?us-ascii?Q?8PmFQhr7C8poYgKvWQZdlGWUhqzusCc4Q4fynzz9D/iWxUD8aedCXIsGlzHc?=
+ =?us-ascii?Q?K0XpuJ7iJ0of/wzRJ4gfwjNnSGcRJkFEktQJC0w2Bn8VBaShxmGbHzlNgKoe?=
+ =?us-ascii?Q?2OQAWeRowNxvakmSrCEe74UoPlY2EswARXQ0WLsejCz9xeZMikY9o2BAwN3S?=
+ =?us-ascii?Q?LA0dRXkm7Hf59Mo3XV4emZoO35j+2XIOFiu3Fer7wF8OjTB4+q6OB7m3ZknA?=
+ =?us-ascii?Q?wgcrGLSGqlfupKv5Or4Wow5rn1C0B8EK6kOQFll1fedrA0qpB12akqGFTm/c?=
+ =?us-ascii?Q?oJTF72dP9oH+nqt3l9gqUcGqjP2LHZBlIECPLfJpx/4+J/RIlKtQANepuNXu?=
+ =?us-ascii?Q?3w6IOBqMujrnFhH0+GnLpTB/5zJyheISRCM9Pj/M9FIoJyXET+IBryFSWEPe?=
+ =?us-ascii?Q?GGCOj7QKgf6EB05tDGOiVuFsdQBb6Rb7prnSqO2t/2Xl0iWgxworgI1UsF39?=
+ =?us-ascii?Q?xnmi2SGif5FDCkSnOYILix9XDWzjUrOZZ7znNAdA9i3KMfd/i9iwctz4Gj/h?=
+ =?us-ascii?Q?NcC8y55dnj9/UlEkApT2/55TXKpNtr6ZiweS9LjCTKPg3x/QJU34vvbfOOQk?=
+ =?us-ascii?Q?dbmX4I7QY8vYYGjaOw7PbAAW7HqMx1kTgTJlGrZEatgVXZvFs7OxIXJMt9z7?=
+ =?us-ascii?Q?+7bCS8ThMrYgxVQV3xvw6naZ1xIdprPz9u4f09YaEJSL9N1jm/M/L0Vkog1X?=
+ =?us-ascii?Q?eXAoOWc7k6yaEHo+rq6uxbWoE/Y51qanGkT+zEB0zREZmBS1lehAfZ4qviIw?=
+ =?us-ascii?Q?JN1Zb/TGwXzPD+NlfJWLNT67HyqD1mTJ5zFNuFkFN2hjlLVCH+MjoTnq/t7u?=
+ =?us-ascii?Q?JCi8NXjIjB2yupPLhB5Mb8yfKBnJC1K3K+BjP6MDcT1wuvsjbr06ExAENxu4?=
+ =?us-ascii?Q?BjbN34QTFEQOs10Pw1ufB1mTmqT/ni95sHEMZKn45BHq7l/ZdB4jJEOv2SoN?=
+ =?us-ascii?Q?Uodmqetey2S4SQdOGYoMDvEAYqZr64Ri6NGsZLZdu4TR0WFnWIyYLwjKSTSv?=
+ =?us-ascii?Q?L3UjYdElihZ7FLI/aFUIrklJhT9GQOBjrE2oR/6P7woDmiDtzV18Tg43dFOG?=
+ =?us-ascii?Q?cNVnZOXRJgb8Yto/whr1cP7f2GXSGO9v2gRaaC4qEwa/5oXmXTsDfJDTFQVi?=
+ =?us-ascii?Q?63Fb3f14qF19TVM5NO6vxu+X5nygUgL9QM9xnp3zsSvsc+pSLj3C2LOZOE2q?=
+ =?us-ascii?Q?zQzTIy7bx0zBKun5sH1ItR3qDTUKRShut0i2A+0ll424QJJkUkuFm+tsU+Q7?=
+ =?us-ascii?Q?dHSKHw=3D=3D?=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d8be5efc-292e-4971-4701-08d9c5831ee5
+X-MS-Exchange-CrossTenant-Network-Message-Id: b1496119-740f-45ca-cc72-08d9c5831f2c
 X-MS-Exchange-CrossTenant-AuthSource: BYAPR10MB3240.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Dec 2021 19:42:00.1240 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Dec 2021 19:42:00.6396 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 6D84QPuvwNhNlywlcJreckLLtqvT9h3Gtzu1uN87QAcx9Z3VxA8ivAHrrRmNSV/a+2XhSZ9uqL67AYJRp3RCjK5Z1LRdh3jfUlVeCBychm4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR10MB2888
+X-MS-Exchange-CrossTenant-UserPrincipalName: a+jhTppLnyQ6YMSgZ5cStOh6WviD4cfWk/fDpGKnuk6uyzYurNjcemUnIWITrZoxCeQBYB5G/wwjVPO+zSYJp5EboBK4GWsTqAzEF6c9zR4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR10MB3746
 X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10206
  signatures=668683
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
@@ -141,8 +141,8 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
  spamscore=0 phishscore=0 mlxscore=0 bulkscore=0 adultscore=0
  suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2110150000 definitions=main-2112220107
-X-Proofpoint-GUID: 2vkav69VJYNiDUygpRtaTtq7S7D7kNPr
-X-Proofpoint-ORIG-GUID: 2vkav69VJYNiDUygpRtaTtq7S7D7kNPr
+X-Proofpoint-ORIG-GUID: aT8TnoSu-q69IGVldk2EgRyALViWxXMl
+X-Proofpoint-GUID: aT8TnoSu-q69IGVldk2EgRyALViWxXMl
 Received-SPF: pass client-ip=205.220.177.32;
  envelope-from=steven.sistare@oracle.com; helo=mx0b-00069f02.pphosted.com
 X-Spam_score_int: -27
@@ -179,217 +179,176 @@ Cc: "Daniel P. Berrange" <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Allocate anonymous memory using memfd_create if the memfd-alloc machine
-option is set.
+Generalize strList_from_comma_list() to take any delimiter character, rename
+as strList_from_string(), and move it to qapi/util.c.  Also add
+strv_from_strList() and QAPI_LIST_LENGTH().
+
+No functional change.
 
 Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
 ---
- hw/core/machine.c   | 19 +++++++++++++++++++
- include/hw/boards.h |  1 +
- qemu-options.hx     |  6 ++++++
- softmmu/physmem.c   | 47 ++++++++++++++++++++++++++++++++++++++---------
- softmmu/vl.c        |  1 +
- trace-events        |  1 +
- util/qemu-config.c  |  4 ++++
- 7 files changed, 70 insertions(+), 9 deletions(-)
+ include/qapi/util.h | 28 ++++++++++++++++++++++++++++
+ monitor/hmp-cmds.c  | 29 ++---------------------------
+ qapi/qapi-util.c    | 37 +++++++++++++++++++++++++++++++++++++
+ 3 files changed, 67 insertions(+), 27 deletions(-)
 
-diff --git a/hw/core/machine.c b/hw/core/machine.c
-index 53a99ab..7739d88 100644
---- a/hw/core/machine.c
-+++ b/hw/core/machine.c
-@@ -392,6 +392,20 @@ static void machine_set_mem_merge(Object *obj, bool value, Error **errp)
-     ms->mem_merge = value;
+diff --git a/include/qapi/util.h b/include/qapi/util.h
+index 81a2b13..c249108 100644
+--- a/include/qapi/util.h
++++ b/include/qapi/util.h
+@@ -22,6 +22,8 @@ typedef struct QEnumLookup {
+     const int size;
+ } QEnumLookup;
+ 
++struct strList;
++
+ const char *qapi_enum_lookup(const QEnumLookup *lookup, int val);
+ int qapi_enum_parse(const QEnumLookup *lookup, const char *buf,
+                     int def, Error **errp);
+@@ -31,6 +33,19 @@ bool qapi_bool_parse(const char *name, const char *value, bool *obj,
+ int parse_qapi_name(const char *name, bool complete);
+ 
+ /*
++ * Produce and return a NULL-terminated array of strings from @args.
++ * All strings are g_strdup'd.
++ */
++char **strv_from_strList(const struct strList *args);
++
++/*
++ * Produce a strList from the character delimited string @in.
++ * All strings are g_strdup'd.
++ * A NULL or empty input string returns NULL.
++ */
++struct strList *strList_from_string(const char *in, char delim);
++
++/*
+  * For any GenericList @list, insert @element at the front.
+  *
+  * Note that this macro evaluates @element exactly once, so it is safe
+@@ -56,4 +71,17 @@ int parse_qapi_name(const char *name, bool complete);
+     (tail) = &(*(tail))->next; \
+ } while (0)
+ 
++/*
++ * For any GenericList @list, return its length.
++ */
++#define QAPI_LIST_LENGTH(list) \
++    ({ \
++        int len = 0; \
++        typeof(list) elem; \
++        for (elem = list; elem != NULL; elem = elem->next) { \
++            len++; \
++        } \
++        len; \
++    })
++
+ #endif
+diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
+index b8c22da..5ca8b4b 100644
+--- a/monitor/hmp-cmds.c
++++ b/monitor/hmp-cmds.c
+@@ -43,6 +43,7 @@
+ #include "qapi/qapi-commands-run-state.h"
+ #include "qapi/qapi-commands-tpm.h"
+ #include "qapi/qapi-commands-ui.h"
++#include "qapi/util.h"
+ #include "qapi/qapi-visit-net.h"
+ #include "qapi/qapi-visit-migration.h"
+ #include "qapi/qmp/qdict.h"
+@@ -70,32 +71,6 @@ bool hmp_handle_error(Monitor *mon, Error *err)
+     return false;
  }
  
-+static bool machine_get_memfd_alloc(Object *obj, Error **errp)
-+{
-+    MachineState *ms = MACHINE(obj);
-+
-+    return ms->memfd_alloc;
-+}
-+
-+static void machine_set_memfd_alloc(Object *obj, bool value, Error **errp)
-+{
-+    MachineState *ms = MACHINE(obj);
-+
-+    ms->memfd_alloc = value;
-+}
-+
- static bool machine_get_usb(Object *obj, Error **errp)
+-/*
+- * Produce a strList from a comma separated list.
+- * A NULL or empty input string return NULL.
+- */
+-static strList *strList_from_comma_list(const char *in)
+-{
+-    strList *res = NULL;
+-    strList **tail = &res;
+-
+-    while (in && in[0]) {
+-        char *comma = strchr(in, ',');
+-        char *value;
+-
+-        if (comma) {
+-            value = g_strndup(in, comma - in);
+-            in = comma + 1; /* skip the , */
+-        } else {
+-            value = g_strdup(in);
+-            in = NULL;
+-        }
+-        QAPI_LIST_APPEND(tail, value);
+-    }
+-
+-    return res;
+-}
+-
+ void hmp_info_name(Monitor *mon, const QDict *qdict)
  {
-     MachineState *ms = MACHINE(obj);
-@@ -829,6 +843,11 @@ static void machine_class_init(ObjectClass *oc, void *data)
-     object_class_property_set_description(oc, "mem-merge",
-         "Enable/disable memory merge support");
+     NameInfo *info;
+@@ -1103,7 +1078,7 @@ void hmp_announce_self(Monitor *mon, const QDict *qdict)
+                                             migrate_announce_params());
  
-+    object_class_property_add_bool(oc, "memfd-alloc",
-+        machine_get_memfd_alloc, machine_set_memfd_alloc);
-+    object_class_property_set_description(oc, "memfd-alloc",
-+        "Enable/disable allocating anonymous memory using memfd_create");
-+
-     object_class_property_add_bool(oc, "usb",
-         machine_get_usb, machine_set_usb);
-     object_class_property_set_description(oc, "usb",
-diff --git a/include/hw/boards.h b/include/hw/boards.h
-index 9c1c190..a57d7a0 100644
---- a/include/hw/boards.h
-+++ b/include/hw/boards.h
-@@ -327,6 +327,7 @@ struct MachineState {
-     char *dt_compatible;
-     bool dump_guest_core;
-     bool mem_merge;
-+    bool memfd_alloc;
-     bool usb;
-     bool usb_disabled;
-     char *firmware;
-diff --git a/qemu-options.hx b/qemu-options.hx
-index 7d47510..33c8173 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -30,6 +30,7 @@ DEF("machine", HAS_ARG, QEMU_OPTION_machine, \
-     "                vmport=on|off|auto controls emulation of vmport (default: auto)\n"
-     "                dump-guest-core=on|off include guest memory in a core dump (default=on)\n"
-     "                mem-merge=on|off controls memory merge support (default: on)\n"
-+    "                memfd-alloc=on|off controls allocating anonymous guest RAM using memfd_create (default: off)\n"
-     "                aes-key-wrap=on|off controls support for AES key wrapping (default=on)\n"
-     "                dea-key-wrap=on|off controls support for DEA key wrapping (default=on)\n"
-     "                suppress-vmdesc=on|off disables self-describing migration (default=off)\n"
-@@ -76,6 +77,11 @@ SRST
-         supported by the host, de-duplicates identical memory pages
-         among VMs instances (enabled by default).
+     qapi_free_strList(params->interfaces);
+-    params->interfaces = strList_from_comma_list(interfaces_str);
++    params->interfaces = strList_from_string(interfaces_str, ',');
+     params->has_interfaces = params->interfaces != NULL;
+     params->id = g_strdup(id);
+     params->has_id = !!params->id;
+diff --git a/qapi/qapi-util.c b/qapi/qapi-util.c
+index fda7044..edd51b3 100644
+--- a/qapi/qapi-util.c
++++ b/qapi/qapi-util.c
+@@ -15,6 +15,7 @@
+ #include "qapi/error.h"
+ #include "qemu/ctype.h"
+ #include "qapi/qmp/qerror.h"
++#include "qapi/qapi-builtin-types.h"
  
-+    ``memfd-alloc=on|off``
-+        Enables or disables allocation of anonymous guest RAM using
-+        memfd_create.  Any associated memory-backend objects are created with
-+        share=on.  The memfd-alloc default is off.
-+
-     ``aes-key-wrap=on|off``
-         Enables or disables AES key wrapping support on s390-ccw hosts.
-         This feature controls whether AES wrapping keys will be created
-diff --git a/softmmu/physmem.c b/softmmu/physmem.c
-index 3524c04..95e2b49 100644
---- a/softmmu/physmem.c
-+++ b/softmmu/physmem.c
-@@ -41,6 +41,7 @@
- #include "qemu/config-file.h"
- #include "qemu/error-report.h"
- #include "qemu/qemu-print.h"
-+#include "qemu/memfd.h"
- #include "exec/memory.h"
- #include "exec/ioport.h"
- #include "sysemu/dma.h"
-@@ -1964,35 +1965,63 @@ static void ram_block_add(RAMBlock *new_block, Error **errp)
-     const bool shared = qemu_ram_is_shared(new_block);
-     RAMBlock *block;
-     RAMBlock *last_block = NULL;
-+    struct MemoryRegion *mr = new_block->mr;
-     ram_addr_t old_ram_size, new_ram_size;
-     Error *err = NULL;
-+    const char *name;
-+    void *addr = 0;
-+    size_t maxlen;
-+    MachineState *ms = MACHINE(qdev_get_machine());
+ CompatPolicy compat_policy;
  
-     old_ram_size = last_ram_page();
- 
-     qemu_mutex_lock_ramlist();
--    new_block->offset = find_ram_offset(new_block->max_length);
-+    maxlen = new_block->max_length;
-+    new_block->offset = find_ram_offset(maxlen);
- 
-     if (!new_block->host) {
-         if (xen_enabled()) {
--            xen_ram_alloc(new_block->offset, new_block->max_length,
--                          new_block->mr, &err);
-+            xen_ram_alloc(new_block->offset, maxlen, new_block->mr, &err);
-             if (err) {
-                 error_propagate(errp, err);
-                 qemu_mutex_unlock_ramlist();
-                 return;
-             }
-         } else {
--            new_block->host = qemu_anon_ram_alloc(new_block->max_length,
--                                                  &new_block->mr->align,
--                                                  shared, noreserve);
--            if (!new_block->host) {
-+            name = memory_region_name(mr);
-+            if (ms->memfd_alloc) {
-+                Object *parent = &mr->parent_obj;
-+                int mfd = -1;          /* placeholder until next patch */
-+                mr->align = QEMU_VMALLOC_ALIGN;
-+                if (mfd < 0) {
-+                    mfd = qemu_memfd_create(name, maxlen + mr->align,
-+                                            0, 0, 0, &err);
-+                    if (mfd < 0) {
-+                        return;
-+                    }
-+                }
-+                qemu_set_cloexec(mfd);
-+                /* The memory backend already set its desired flags. */
-+                if (!object_dynamic_cast(parent, TYPE_MEMORY_BACKEND)) {
-+                    new_block->flags |= RAM_SHARED;
-+                }
-+                addr = file_ram_alloc(new_block, maxlen, mfd,
-+                                      false, false, 0, errp);
-+                trace_anon_memfd_alloc(name, maxlen, addr, mfd);
-+            } else {
-+                addr = qemu_anon_ram_alloc(maxlen, &mr->align,
-+                                           shared, noreserve);
-+            }
-+
-+            if (!addr) {
-                 error_setg_errno(errp, errno,
-                                  "cannot set up guest memory '%s'",
--                                 memory_region_name(new_block->mr));
-+                                 name);
-                 qemu_mutex_unlock_ramlist();
-                 return;
-             }
--            memory_try_enable_merging(new_block->host, new_block->max_length);
-+            memory_try_enable_merging(addr, maxlen);
-+            new_block->host = addr;
-         }
+@@ -152,3 +153,39 @@ int parse_qapi_name(const char *str, bool complete)
      }
- 
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index 620a1f1..ab3648a 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -2440,6 +2440,7 @@ static void create_default_memdev(MachineState *ms, const char *path)
-         object_property_set_str(obj, "mem-path", path, &error_fatal);
-     }
-     object_property_set_int(obj, "size", ms->ram_size, &error_fatal);
-+    object_property_set_bool(obj, "share", ms->memfd_alloc, &error_fatal);
-     object_property_add_child(object_get_objects_root(), mc->default_ram_id,
-                               obj);
-     /* Ensure backend's memory region name is equal to mc->default_ram_id */
-diff --git a/trace-events b/trace-events
-index a637a61..770a9ac 100644
---- a/trace-events
-+++ b/trace-events
-@@ -45,6 +45,7 @@ ram_block_discard_range(const char *rbname, void *hva, size_t length, bool need_
- # accel/tcg/cputlb.c
- memory_notdirty_write_access(uint64_t vaddr, uint64_t ram_addr, unsigned size) "0x%" PRIx64 " ram_addr 0x%" PRIx64 " size %u"
- memory_notdirty_set_dirty(uint64_t vaddr) "0x%" PRIx64
-+anon_memfd_alloc(const char *name, size_t size, void *ptr, int fd) "%s size %zu ptr %p fd %d"
- 
- # gdbstub.c
- gdbstub_op_start(const char *device) "Starting gdbstub using device %s"
-diff --git a/util/qemu-config.c b/util/qemu-config.c
-index 436ab63..3606e5c 100644
---- a/util/qemu-config.c
-+++ b/util/qemu-config.c
-@@ -207,6 +207,10 @@ static QemuOptsList machine_opts = {
-             .type = QEMU_OPT_BOOL,
-             .help = "enable/disable memory merge support",
-         },{
-+            .name = "memfd-alloc",
-+            .type = QEMU_OPT_BOOL,
-+            .help = "enable/disable memfd_create for anonymous memory",
-+        },{
-             .name = "usb",
-             .type = QEMU_OPT_BOOL,
-             .help = "Set on/off to enable/disable usb",
+     return p - str;
+ }
++
++char **strv_from_strList(const strList *args)
++{
++    const strList *arg;
++    int i = 0;
++    char **argv = g_malloc((QAPI_LIST_LENGTH(args) + 1) * sizeof(char *));
++
++    for (arg = args; arg != NULL; arg = arg->next) {
++        argv[i++] = g_strdup(arg->value);
++    }
++    argv[i] = NULL;
++
++    return argv;
++}
++
++strList *strList_from_string(const char *in, char delim)
++{
++    strList *res = NULL;
++    strList **tail = &res;
++
++    while (in && in[0]) {
++        char *next = strchr(in, delim);
++        char *value;
++
++        if (next) {
++            value = g_strndup(in, next - in);
++            in = next + 1; /* skip the delim */
++        } else {
++            value = g_strdup(in);
++            in = NULL;
++        }
++        QAPI_LIST_APPEND(tail, value);
++    }
++
++    return res;
++}
 -- 
 1.8.3.1
 
