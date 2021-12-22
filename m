@@ -2,156 +2,127 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC61647D470
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Dec 2021 16:56:34 +0100 (CET)
-Received: from localhost ([::1]:34488 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2FF147D4D8
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Dec 2021 17:07:57 +0100 (CET)
+Received: from localhost ([::1]:44962 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n03yj-0000mI-HW
-	for lists+qemu-devel@lfdr.de; Wed, 22 Dec 2021 10:56:33 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50140)
+	id 1n049l-0008Qu-3t
+	for lists+qemu-devel@lfdr.de; Wed, 22 Dec 2021 11:07:57 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52350)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <prvs=19906fbbc0=hkleynhans@fb.com>)
- id 1n03wZ-0008Gi-BZ
- for qemu-devel@nongnu.org; Wed, 22 Dec 2021 10:54:23 -0500
-Received: from mx0a-00082601.pphosted.com ([67.231.145.42]:59716)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1n045G-0004ye-VR; Wed, 22 Dec 2021 11:03:19 -0500
+Received: from mail-eopbgr70109.outbound.protection.outlook.com
+ ([40.107.7.109]:2823 helo=EUR04-HE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <prvs=19906fbbc0=hkleynhans@fb.com>)
- id 1n03wW-0007ii-Jg
- for qemu-devel@nongnu.org; Wed, 22 Dec 2021 10:54:18 -0500
-Received: from pps.filterd (m0148461.ppops.net [127.0.0.1])
- by mx0a-00082601.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id 1BMAq1bt028725;
- Wed, 22 Dec 2021 07:54:11 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com;
- h=from : to : cc : subject
- : date : message-id : references : in-reply-to : content-type :
- mime-version; s=facebook; bh=K6JCiKBlYbvIGrBkAPTuw8vCG3jeCftrWR04sSbu6CY=;
- b=f65tcHdDbLI/AK8G9PWflkN71pvEHSWP2cW3L34mBloTNyuFhUOtfSqU6yS4Ea6JDjC2
- IinH9r7OkQ0pCdO6g35y4T0wK4NP3cpYH2XyDPB8g2rfW2CuaO2WpNBMVryMWES0P8g1
- y5/DGV289bCz4iR6YA9mF9t2Fi8h0SzdjtI= 
-Received: from mail.thefacebook.com ([163.114.132.120])
- by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 3d42mxhuyy-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
- Wed, 22 Dec 2021 07:54:10 -0800
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (100.104.98.9) by
- o365-in.thefacebook.com (100.104.94.230) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Wed, 22 Dec 2021 07:54:09 -0800
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1n045B-00043n-MM; Wed, 22 Dec 2021 11:03:17 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=liD2VH/BeXD4Ck9HhiQuuNWmqUNW21biUBYrxXqa4V1CVhVtf5A9u6IlDA0UseaEB7RiPgRD9DyGHnX8npcDp4L2M6AiOJ1of0/2dT5lO7kMGmNQ2zsgl/94YtX4Hk/t6nOqdAPldbyT0cgAsUz4FwJLOUOLGAhbHqD3e8+obXe32QQfxcJvgp1tvBeP95b6M5ChtsWwrDEa2AWEFAgaPgQD1kCIkPzVCBqR6ZCHM7R1pj5eGFOS/5+FImocu4MJ+PIY4lpxmeKijbDGkZCNNJ1tgZjle2HZ5kzh5bkik/X3UfEEKSyznb0NSENv5CGxSnbr3UfSiLUyWR+tY5O/pw==
+ b=ekuWPtVsGjK19E1BCGqz4PGKvo0o4P93JZHO7qXZUDuZzwh8hnWSSYlag38odlXQjJqi9OzMcfX7+RGfTce4z+MjN2U40naLzDcQUYweTMct82uJ9TbB938Yde2TImRSIVJET935Ay5H4D80qs33+GZgsKteVkSsE0v6pt/UNFio4zlJO+Mhg1lGCJDObT2aQBcmwYbdyqzhiH1KyqkK7Uqut6JDMHh0Je+w1gXpICtCGRA23R10VIVjG77taYRhirULQu/7ZzxoyjN+1miSfVHLEvu+DIRIbmxM00dgPO+6liDaPMvsfpjQve5ud4H26bCeBcfyRmQ6LAYHD92vHQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=K6JCiKBlYbvIGrBkAPTuw8vCG3jeCftrWR04sSbu6CY=;
- b=Mpc3X4KchetdQb18ab5pYQf9poJSiHGIxh5fWIECmpqO9dzS101wFSSTUiAZmG06wnUXHpH82oEwJMGhd4ZP3x7NolNq8HgU49r6RVcvwFMjZ5iBKxD7u23BaDkhsilWJ9yVXCMoQoBYRd6gA2dPV0yFjusH6y5kRzZtSDNP7jQ7EyigecSnRurnIYUVghlLQd1a0ci8SS/2gSW67TME9NxXlOJuA4BLYOAOrjTYqwQRaGxnKuitDC4kHmToQNVXclwdMemcj9v6BkP3RLsfZ1I1Bis/lGuLS+uFFpazH1ERcoRcBWTL0Vg6//98pl3vqbHMhMo+Cn3IcUMmEtXIIA==
+ bh=Lm5H2DcPNbBfwWrzOBnUoIwBYaV4AXDadllbLshFpdE=;
+ b=cqdoNt2en63sq91HT59MBq0HsnYwsQU86tsjKMzywuOhpvFFdkEC4kpJF5dFlyxTTE9AIwRzPH6qZsGMxbttaWAuUNxDZBB1Sf78uUlXUA4TVfZsz8r6Vodi7YqxYV41kwCU46AfEi1ewfFSK3qUtYGZszyzYz1CmfuBCCk0tOoq/tiZUOGNu2UfvVeL+Mo5gjsURSHC9cZc/49ktU/0RbVJE/ic/P2bC+ZlPshaTSAJ70+yqKMzl9Fb1vfQBQFO/O0p/M6gi1YK9wfyglZRlw6UdzTVaGPMZTCjYRqhFbcxg3i6Bw7PrTlxvnbvCzRLIQplkHTOUAhMzQ6V2Xrl0w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=fb.com; dmarc=pass action=none header.from=fb.com; dkim=pass
- header.d=fb.com; arc=none
-Received: from BY5PR15MB3572.namprd15.prod.outlook.com (2603:10b6:a03:1b2::24)
- by BYAPR15MB3365.namprd15.prod.outlook.com (2603:10b6:a03:111::24)
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Lm5H2DcPNbBfwWrzOBnUoIwBYaV4AXDadllbLshFpdE=;
+ b=toOCuOL2Iuw74VKn4SlPc2ObmO+FK9qVcs6mTGklzoSfwsag8SuhJM9OT9yOXdisKhM5+CdplkbryIUIy2o2GjfUg41mYjVSpp67leauQu0snCxICY7k4Xopd+SZL9RqETcucaqwT6PmM8FIxztk2pBvNdF6XmFGr18U6dGlL8A=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM9PR08MB6737.eurprd08.prod.outlook.com (2603:10a6:20b:304::18)
+ by AM9PR08MB6148.eurprd08.prod.outlook.com (2603:10a6:20b:284::7)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4801.17; Wed, 22 Dec
- 2021 15:54:08 +0000
-Received: from BY5PR15MB3572.namprd15.prod.outlook.com
- ([fe80::84c5:3255:12c:bd58]) by BY5PR15MB3572.namprd15.prod.outlook.com
- ([fe80::84c5:3255:12c:bd58%6]) with mapi id 15.20.4801.020; Wed, 22 Dec 2021
- 15:54:08 +0000
-From: Henry Kleynhans <hkleynhans@fb.com>
-To: Henry Kleynhans <henry.kleynhans@gmail.com>, "qemu-devel@nongnu.org"
- <qemu-devel@nongnu.org>
-CC: "berrange@redhat.com" <berrange@redhat.com>, "henry.kleynhans@fb.com"
- <henry.kleynhans@fb.com>
-Subject: Re: [PATCH 2/2] [crypto] Only verify CA certs in chain of trust
-Thread-Topic: [PATCH 2/2] [crypto] Only verify CA certs in chain of trust
-Thread-Index: AQHX90V9z35174OBTEaBiwicj7+5waw+pwHE
-Date: Wed, 22 Dec 2021 15:54:08 +0000
-Message-ID: <BY5PR15MB3572B35B9EEFE823B9F1270FB87D9@BY5PR15MB3572.namprd15.prod.outlook.com>
-References: <20211222150600.37677-1-henry.kleynhans@gmail.com>
- <20211222150600.37677-2-henry.kleynhans@gmail.com>
-In-Reply-To: <20211222150600.37677-2-henry.kleynhans@gmail.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-GB
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 270cfbe2-34d2-4f36-2ce6-08d9c5634a27
-x-ms-traffictypediagnostic: BYAPR15MB3365:EE_
-x-microsoft-antispam-prvs: <BYAPR15MB3365BEA3A325C127B49A2823B87D9@BYAPR15MB3365.namprd15.prod.outlook.com>
-x-fb-source: Internal
-x-ms-oob-tlc-oobclassifiers: OLM:6430;
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: T+BwnNrDySLf0TzEs30XfIUuXv32GVsf1GJd8rw9yUS0Q1kUGjJFdYXD4BXzrOjfYmKk0HWsZKoZueLbqa3VNnMDY35r9Zu5qntoAiUmtLe8sp8N7jBbWIhvdOqRnc5nDAtd7hXB/Rfhh8k+9Eaj7m+TK+e5KmHAvR1yHq34TetGtNUoAsT3eQFheOf8XRGnGpPJt6xOWPM1d3jfoGq34WaS8sMSJC7ui4VZu5+FBtx48ioziIe0M98d3xSh5XbFtHEdC412FO08wRhh/PY3DJoM3JRHRS9OJV5iWH9lPLf/yUzQBcbLwtOWbyD9aI6QL/eaoJZljqA4BxqQJ8ZDky9HDL6lcZOPxcrowlVG6c+Kc90a6cvXsk61jPMuDa5OfqrirwRLH+vGX26iPV0QzniGxVcGdQzQht4szaTHO1nUzRB1DBPwu2sDSd3t4ScCLJ5MOCOvglE/tjZLB2Rnj28rTCHxWWSmQOP0vwIGmPrjWvoW8ivDz5aZvmPyL1QCgR5eCXWgpMh9HdPg3DFLZlhMfwqi0e7B19xrHnCNhfxl6TDT3A5XO/XuWaR3YMzSCh3P5srrUBr6kCXh721Vnc1RVeYBt0Y9gOKqNYHAeRkGA3yFCLhGAdo8Fa8OYZf3g5R3hvV7cCAnvPnaokhBLR6SbgGWPgQFybtoJpiYvBY+d2CUk6XdFjxNzhC2s70+2v5pY/9ccgNydlrMmp1vPg==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BY5PR15MB3572.namprd15.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(6506007)(53546011)(7696005)(8936002)(316002)(54906003)(110136005)(186003)(55016003)(9326002)(508600001)(122000001)(38070700005)(86362001)(5660300002)(38100700002)(33656002)(4326008)(9686003)(83380400001)(66446008)(64756008)(66556008)(66476007)(15650500001)(8676002)(52536014)(66946007)(91956017)(2906002)(76116006)(71200400001);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?te3MKHCWBSF7qdU87hp+6iT3c60WnEqEjOnBljHeVjADddD3FpN4liTEJ7Or?=
- =?us-ascii?Q?4q4JOESbVpnQStfANnOnovkHyJxkoV4oIHCLOBLdiQCZPerSFcw/c/g2rXfF?=
- =?us-ascii?Q?R01MC4zpRlJy01AF3cQxiQlQlMev3M64F8iY9hmr9nn0JossMgVsyruB3HVq?=
- =?us-ascii?Q?1lCoVP6kSxLmt3tpuJhkACEoyzGcTe1bevjrAQr9r4OkGFkpmFKyI9+w0/b3?=
- =?us-ascii?Q?DHbuz8XQ0NuOtQGHGfi/4PXHSkkr7LXfvOHDy/77CQHLCgwobBvCL75ulubj?=
- =?us-ascii?Q?citpg0ZfXDF0oRGjLHLxlBUtUs+4aCUYeXbKXauwmVdfIUoDMVtI/jadOIlq?=
- =?us-ascii?Q?NjKLscAKEi8iadozTU3FqIhGf1IkgpbaeUoYCmGNNdqK1ck1+5w4dpkXhZLo?=
- =?us-ascii?Q?uNkJz1+9DzugAiS/mridjGJX/gdd3Oo74ejzq+2dUIWbP6qbZoY4Fc2hidmz?=
- =?us-ascii?Q?t9Qr3qcSsuzmtqh4glxHUR+ysA3ACpSS6FmNjdDe4T4fhrTocmkMqGAMcDji?=
- =?us-ascii?Q?VhVuvnoJCOB/k1/3VW4qBHocDDMZiWIak+7NWDksHVnpLjEvvBDABpWWjUsT?=
- =?us-ascii?Q?uQ6ckQXAWjsM1YstS6OY91HrGqzTZLDm8rI1ulFeKln6zdYxiDY0sQxn0U0q?=
- =?us-ascii?Q?wk4jKCMeD/QrqkguFpNCrchpQ2vvTiiB7r5NJPHV9JX4LomJI4xubf90AajS?=
- =?us-ascii?Q?jJO9lirLTv0NRReaqFlnbI3dyx6Q6zBK1HHCjTywVnPSVN0tkgoQ9mb88vIj?=
- =?us-ascii?Q?ZuchZ3i3QnbImYccrQbjoXtPhs7taIXpWNYMRYLok8Azh+TrrhSQkyl8+Lhz?=
- =?us-ascii?Q?r0NtUqJo8bpO9uZYE/CXqcWvN+/jg9gchli93p9RkR9+fWSl1YE4XyawfVUc?=
- =?us-ascii?Q?hKQ0+O1GbrqFm3GTiBnUeFOpVjxUJchoq0G/38Sauub54AkXgEvHnbKLachR?=
- =?us-ascii?Q?LXanAdn86z2SvwKHqmGcGX0DYOqzh/Pix7SdiDal70EeZZQWrHgaTb5YVAw3?=
- =?us-ascii?Q?ocVTUB2cQpf5GSxP9IHwy9E0dTVgX36XNvHsIPz/PJWSJV7AKEanxHzNx/hM?=
- =?us-ascii?Q?Gzo77UwPLmL8jIkO2Qx6+O0xuDNHP+QYJPFJIT/olvJ2Wnf9N9TbOv1pHUQD?=
- =?us-ascii?Q?iK9MsTWRfU066SeI9T6jgOY/Ex0+8MJ66xEAo6pNms4FLtdZz3h2a+IibKdJ?=
- =?us-ascii?Q?ir5OLZxkbc8B/CbELOPUy6iJ8sIIvxTgWsxFDvAIRZiSwWvoA7AxoQ1JPoiH?=
- =?us-ascii?Q?mlob7lyNdoXU8v8EQ6VKpDRcwrCSgb2TLDB4k3TXxshI8LZfcwoK+oV51Jer?=
- =?us-ascii?Q?lsmDDPC5SgxJQDj/uxatyyj0nFv8Xd8f+PMZvG4ee5RHSup6coBpsjS6U7SA?=
- =?us-ascii?Q?WRpKszE8kMri1WUwJ6vEwm4qKPdBQ9CANyPLDLVCVoJ+oks0ocZcIpdsIREZ?=
- =?us-ascii?Q?w05P1LQ9QjD5COowTjm2roFG6u7EpohYdurOgqvd7nXMRP8rdhk/w4Ze43BY?=
- =?us-ascii?Q?5SXBSEDu7QRjF6tdCK4v062c1QC4mPtv8imTUcoOSy149QSkmiSmovThSDJ9?=
- =?us-ascii?Q?uVGlwKUB0O0WKwYC+3RUeJTu/Kj/ANTAJ62GmUyUZn6EO1a+CVj9j88lotWm?=
- =?us-ascii?Q?S080k0SS9ojHfYfUaic75B2j6Q1STS2cCR05M3dfz5ofYl8MAw/FIlajoFxz?=
- =?us-ascii?Q?R+N3ww=3D=3D?=
-Content-Type: multipart/alternative;
- boundary="_000_BY5PR15MB3572B35B9EEFE823B9F1270FB87D9BY5PR15MB3572namp_"
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4823.18; Wed, 22 Dec
+ 2021 16:03:10 +0000
+Received: from AM9PR08MB6737.eurprd08.prod.outlook.com
+ ([fe80::b118:483a:d003:3112]) by AM9PR08MB6737.eurprd08.prod.outlook.com
+ ([fe80::b118:483a:d003:3112%5]) with mapi id 15.20.4823.016; Wed, 22 Dec 2021
+ 16:03:09 +0000
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, eblake@redhat.com, armbru@redhat.com,
+ hreitz@redhat.com, kwolf@redhat.com, vsementsov@virtuozzo.com,
+ den@openvz.org, nshirokovskiy@virtuozzo.com, yur@virtuozzo.com,
+ dim@virtuozzo.com, igor@virtuozzo.com, pkrempa@redhat.com,
+ libvir-list@redhat.com, stefanha@redhat.com
+Subject: [PATCH RFC v2 0/4] blockdev-replace
+Date: Wed, 22 Dec 2021 17:02:50 +0100
+Message-Id: <20211222160254.226909-1-vsementsov@virtuozzo.com>
+X-Mailer: git-send-email 2.31.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: AM6P193CA0070.EURP193.PROD.OUTLOOK.COM
+ (2603:10a6:209:8e::47) To AM9PR08MB6737.eurprd08.prod.outlook.com
+ (2603:10a6:20b:304::18)
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 500d6826-6c95-4ebb-530c-08d9c5648c87
+X-MS-TrafficTypeDiagnostic: AM9PR08MB6148:EE_
+X-Microsoft-Antispam-PRVS: <AM9PR08MB6148E18F8036BFF701B94421C17D9@AM9PR08MB6148.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:1332;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 1J8QujB51f+hCoEwiDVAIDxhCJ19HHOPcW96GymrMctOIKk5IGT0P1AcH1A2rqLG52Sfj4TwFHcg/8A++MGOV/s9Rj4N7A5pl2O99cSQaxddsFwwwJh4+huyiMyd66/k9BJynX5s7wkBiGtST5kvm2PpxA6oamGNE8iqxUq0F+MpQJKYpbcW7I9vOQixN3VWFcolcBWms3i9cumV77SyHsyf6+w7zkbvMW/jvljcMNApuf4FR4Eq5YN7K9lbr4ewBK+yzFzrqtJ/ZRMYe+v7EsDIH9pm18ezHGWT2uW6WdKq/94PNa5uTnB1l2Ys3Y2UAO0gvRJim5Bf5rRqrVUCLtTFrb7O8xTjPFeyvW6ju+Sz/QSX1Og6wqZ/aaoFfJoOaIl2nlVKDy5R2tuHyEMN0HEkDAomRy9PQevFaa4GfgDt1au9FJAT16y5STvB26G15mFpQbaHUk8/o0KFtiFKsoMNjfpMu7nkb+xw5gizDBof/uW5jBde8kAmx0sy2gxKZksGW6S+n0FwxD/6LBDYvbGCDIlTA1Jn1w6akQbHHbD7iXZWJj5N6NRMJubeWLUas89Jx+EncZd3GiErj85JR8WgBHX2v8rDb5NsagG/Y4ONQCQKx1m4eTuju+/Yjfr6ca0QtpaIiKJeLd0tL9bNf6srFp4Y8reZdvKoRzkx6CHXzdx3l0WYxo9/YM80YF3VnUqspdlqSDc9XwDDAb4FQw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM9PR08MB6737.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(38350700002)(38100700002)(6506007)(316002)(2906002)(6916009)(2616005)(1076003)(5660300002)(83380400001)(6666004)(86362001)(8936002)(6512007)(66476007)(36756003)(6486002)(186003)(26005)(4326008)(8676002)(66556008)(508600001)(66946007)(52116002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?a6IXKWY5rWKevIvxfIzQOTuls7tnUTJWkC7gGFMrVjphJvcoKBvGvCnZCxV4?=
+ =?us-ascii?Q?zYeG58ibQxF4I/INue2QGFc/LEoDT2cQSqZCTdwbOclFGDKlgzILx69XZvNV?=
+ =?us-ascii?Q?pEpTsUPbPrGNOlzdh6SG4PGssz7Hh6ej1AZPtWosck8k1PYRf9X0sghsmh0y?=
+ =?us-ascii?Q?sgRbllFny2C0YMupQ9SIImPtIVVSXUj3jEkefRQfAR0ZYPjclREIguDI2pXm?=
+ =?us-ascii?Q?T4wXHknLXO32oa8HyXUK10jXichxgDsLNT8cs1APTRBDhoxaelLWEi8um/xI?=
+ =?us-ascii?Q?bIt8hdjsK2XTb2PbjcJfML+vWlIYrHXpX8U40Di8ToE7kJaapcvnbRje8+N6?=
+ =?us-ascii?Q?E3WFwpQ6vZvakdAhqHkwHGv+cf/srBbJZ+sms4uH1pdvv7HTEm7ShSReHPJM?=
+ =?us-ascii?Q?UVayp6+Dj6PRRDJRmfERGNnVlxztwO77MV+oy9vXCUxD3XicabzDBg3GNjQF?=
+ =?us-ascii?Q?MGimzZ8RfiXcKYQ6FLffULhXi9HrnBtk7RE+bNRtB3Ym4auYRSz+JuoUYBUT?=
+ =?us-ascii?Q?LFGlR+oGTUJwEJrtsiWCE1mopfCz9dBXvfLEH5zd2TZyaXJuW64wdvQ6yPLN?=
+ =?us-ascii?Q?MlHtqgVuXkCcpLHms4l7tfo9r9HuKy+XWp2Cg/8eqiP+Kb0s2XQWZZ31diHl?=
+ =?us-ascii?Q?PmNrOmeRp+WG4ZN+30j1k/Y/2u+WW6ygIwMjPgTVRivxF6mUm/chGu7yDo1n?=
+ =?us-ascii?Q?89fSnUlFi4FEmQ4OZSfQgElJNlHLXuzr0apFDWvFCRqI2UUFEjo6iT0bH7jq?=
+ =?us-ascii?Q?xRMOY0wLZYihuhFrzI9+3xwrj81wrYgdfkxjGBcPDxFwyBaw99U67WuDKbij?=
+ =?us-ascii?Q?ZQWK7IX5GtRVhZgJND0jsmbCEI1zqRKBMiSEeDVJc6Ble9cjzPgEIGMtQvSr?=
+ =?us-ascii?Q?+YhvLVSEqrnGDXFS1fGUK5kioSU6t09ZQztz48NFyYL2fcWXoq+u6sQknvFi?=
+ =?us-ascii?Q?kYbJzXOrmNbQEXVQPehhUhCnJ8lBTDFH5YisuaJbnuGbrcdhQ1MVoJLhU4nd?=
+ =?us-ascii?Q?/HZNOT9sfU/ZMsjHj+dAXKnHHWcEnoswi2uzc6FF9eVYxHjHe12Dmoj0uaux?=
+ =?us-ascii?Q?dkG5Vh0VdLgVSYX+LSa9up6ULkcgElZmilY2c0QXE2ysf8JZ76NbVSGqMRu7?=
+ =?us-ascii?Q?SniRu0oA7M+/demtT2v4OJ6+qdUNg078iKI18i8Lh4PEbzdymlKXvhcKNr2S?=
+ =?us-ascii?Q?oG9Fgt3tZGQ2d778Ve1AzrZbGflHNmI3Q7K4NlTJ6nhtJ/sNuFudm0M9ceEW?=
+ =?us-ascii?Q?LPbAqZWe3RpdtMUTpCxN2qy7S5PFBINp3GH+NbjoZPhv9d4Ws+Uxut5B9obk?=
+ =?us-ascii?Q?Sj2YJL6flR9jpx0NOmxu1dvw3+P5cKOytWLpquwmbGP4kC1u1YxiAHcgMHL8?=
+ =?us-ascii?Q?2eBMAl/OmHFzsCUOG0G1kEjtEZI5lWeRNUsJ/6XmT7TbBgV2bUz9KlUvGDHT?=
+ =?us-ascii?Q?bp3NP/VVODSU7j3u7pQNFSs4FgRRLQBhCf5ij2zmHSzKDUAh0917x+XVLzC7?=
+ =?us-ascii?Q?qRinGQezt4ffQdK2H6h5I+81AMQKtuSw6aJH6V6QYsyw28NphDua91CU9GGE?=
+ =?us-ascii?Q?7ffZYPz3CIXHx1RDHkG/9sPJeg+0TmKyELpLFTGFWf34ZhtCY7Fv/4EWCHz9?=
+ =?us-ascii?Q?lBMKZ0seBYqVzya1vF/Me/l/Q1zUVM1B3YXgL7XmgfhzR8vtDAZZdUew88sN?=
+ =?us-ascii?Q?ekpnaA=3D=3D?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 500d6826-6c95-4ebb-530c-08d9c5648c87
+X-MS-Exchange-CrossTenant-AuthSource: AM9PR08MB6737.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR15MB3572.namprd15.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 270cfbe2-34d2-4f36-2ce6-08d9c5634a27
-X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Dec 2021 15:54:08.5213 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 8ae927fe-1255-47a7-a2af-5f3a069daaa2
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: hFEllqbtFoBQZcv/4jTeXapGHizj8MX13nZjxJlcrW7kZLZmO8pHaI9oi8MALQVqosu8/iKax3uDM8ZvSaHa5Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR15MB3365
-X-OriginatorOrg: fb.com
-X-Proofpoint-ORIG-GUID: F7FFh83L4YyriGmYnhg1WQfPo23C4TwY
-X-Proofpoint-GUID: F7FFh83L4YyriGmYnhg1WQfPo23C4TwY
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2021-12-22_07,2021-12-22_01,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=fb_outbound_notspam policy=fb_outbound score=0
- adultscore=0
- clxscore=1015 mlxlogscore=999 lowpriorityscore=0 priorityscore=1501
- suspectscore=0 spamscore=0 impostorscore=0 malwarescore=0 mlxscore=0
- bulkscore=0 phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2110150000 definitions=main-2112220090
-X-FB-Internal: deliver
-Received-SPF: pass client-ip=67.231.145.42;
- envelope-from=prvs=19906fbbc0=hkleynhans@fb.com;
- helo=mx0a-00082601.pphosted.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.203,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Dec 2021 16:03:09.8621 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: OqBl96R3pFUmO7H6I+U/nXCOp2L9JLKWfsJJrBrXpPIZJ6z/YuR1pLZdIjHZ1XRR/d9qnZB9AfwzdYGBOc1ptfmYoU8oqgIiceXk1PZiPR4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR08MB6148
+Received-SPF: pass client-ip=40.107.7.109;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR04-HE1-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -168,532 +139,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---_000_BY5PR15MB3572B35B9EEFE823B9F1270FB87D9BY5PR15MB3572namp_
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Hi all!
 
-Hi Daniel,
+v2:
 
-This patch tightens the CA verification code to only check the issuer chain=
- of the client cert.  I think this will still not catch expired/invalid cer=
-ts if the client and server certs have different issuer chains; so maybe th=
-is too is not quite the correct fix.  Let me know what you think.
+1. Let's start with minimal functionality: replace only one specific
+child.
 
-Kind regards, Henry
+2. Explicit type of parent: qdev / export / driver
 
-From: Henry Kleynhans <henry.kleynhans@gmail.com>
-Date: Wednesday, 22 December 2021 at 15:06
-To: qemu-devel@nongnu.org <qemu-devel@nongnu.org>
-Cc: berrange@redhat.com <berrange@redhat.com>, henry.kleynhans@fb.com <henr=
-y.kleynhans@fb.com>, Henry Kleynhans <hkleynhans@fb.com>
-Subject: [PATCH 2/2] [crypto] Only verify CA certs in chain of trust
-From: Henry Kleynhans <hkleynhans@fb.com>
+Hmm, 'driver' is for BlockDriverState.. Any better idea? I don't want to
+call it "node" or even "block-node", as finally, devices and exports are
+kind of nodes too in the whole block graph..
 
-The CA file provided to qemu may contain CA certificates which do not
-form part of the chain of trust for the specific certificate we are
-sanity checking.
+3. I think it's better to start with x- prefix
 
-This patch changes the sanity checking from validating every CA
-certificate to only checking the CA certificates which are part of the
-chain of trust (issuer chain).  Other certificates are ignored.
+Plans for v3:
 
-Signed-off-by: Henry Kleynhans <hkleynhans@fb.com>
----
- crypto/tlscredsx509.c                 | 50 +++++++++++++++++++++++----
- tests/unit/test-crypto-tlscredsx509.c | 25 +++++++++++++-
- 2 files changed, 68 insertions(+), 7 deletions(-)
+- add tests of filter insertion and removing
+- add qmp transaction support
 
-diff --git a/crypto/tlscredsx509.c b/crypto/tlscredsx509.c
-index d061c68253..841f80aac6 100644
---- a/crypto/tlscredsx509.c
-+++ b/crypto/tlscredsx509.c
-@@ -315,6 +315,44 @@ qcrypto_tls_creds_check_cert(QCryptoTLSCredsX509 *cred=
-s,
-     return 0;
- }
+Vladimir Sementsov-Ogievskiy (4):
+  block-backend: blk_root(): drop const specifier on return type
+  block/export: add blk_by_export_id()
+  block: make bdrv_find_child() function public
+  qapi: add blockdev-replace command
 
-+static int
-+qcrypto_tls_creds_check_authority_chain(QCryptoTLSCredsX509 *creds,
-+                                        gnutls_x509_crt_t cert,
-+                                        gnutls_x509_crt_t *cacerts,
-+                                        unsigned int ncacerts,
-+                                        const char *cacertFile,
-+                                        bool isServer,
-+                                        bool isCA,
-+                                        Error **errp)
-+{
-+    gnutls_x509_crt_t *cert_to_check =3D &cert;
-+    int checking_issuer =3D 1;
-+    int retval =3D 0;
-+
-+    while (checking_issuer) {
-+        checking_issuer =3D 0;
-+
-+        if (gnutls_x509_crt_check_issuer(*cert_to_check, *cert_to_check)) =
-{
-+            /* The cert is self-signed indicating we have reached the root=
- of trust. */
-+            return qcrypto_tls_creds_check_cert(creds, *cert_to_check, cac=
-ertFile,
-+                                                isServer, isCA, errp);
-+        }
-+        for (int i =3D 0; i < ncacerts; i++) {
-+            if (gnutls_x509_crt_check_issuer(*cert_to_check, cacerts[i])) =
-{
-+                retval =3D qcrypto_tls_creds_check_cert(creds, cacerts[i],=
- cacertFile,
-+                                                      isServer, isCA, errp=
-);
-+                if (retval < 0) {
-+                    return retval;
-+                }
-+                cert_to_check =3D &cacerts[i];
-+                checking_issuer =3D 1;
-+                break;
-+            }
-+        }
-+    }
-+
-+    return -1;
-+}
+ qapi/block.json                | 61 ++++++++++++++++++++++++++++++++++
+ include/block/block_int.h      |  1 +
+ include/sysemu/block-backend.h |  3 +-
+ block.c                        | 13 ++++++++
+ block/block-backend.c          |  2 +-
+ block/export/export.c          | 18 ++++++++++
+ block/qapi-sysemu.c            | 56 +++++++++++++++++++++++++++++++
+ blockdev.c                     | 14 --------
+ 8 files changed, 152 insertions(+), 16 deletions(-)
 
- static int
- qcrypto_tls_creds_check_cert_pair(gnutls_x509_crt_t cert,
-@@ -500,12 +538,12 @@ qcrypto_tls_creds_x509_sanity_check(QCryptoTLSCredsX5=
-09 *creds,
-         goto cleanup;
-     }
+-- 
+2.31.1
 
--    for (i =3D 0; i < ncacerts; i++) {
--        if (qcrypto_tls_creds_check_cert(creds,
--                                         cacerts[i], cacertFile,
--                                         isServer, true, errp) < 0) {
--            goto cleanup;
--        }
-+    if (cert &&
-+        qcrypto_tls_creds_check_authority_chain(creds, cert,
-+                                                cacerts, ncacerts,
-+                                                cacertFile, isServer,
-+                                                true, errp) < 0) {
-+        goto cleanup;
-     }
-
-     if (cert && ncacerts &&
-diff --git a/tests/unit/test-crypto-tlscredsx509.c b/tests/unit/test-crypto=
--tlscredsx509.c
-index aab4149b56..e4d657ba61 100644
---- a/tests/unit/test-crypto-tlscredsx509.c
-+++ b/tests/unit/test-crypto-tlscredsx509.c
-@@ -589,6 +589,12 @@ int main(int argc, char **argv)
-                  true, true, GNUTLS_KEY_KEY_CERT_SIGN,
-                  false, false, NULL, NULL,
-                  0, 0);
-+    TLS_CERT_REQ(cacertlevel1creq_invalid, cacertrootreq,
-+                 "UK", "qemu level 1c invalid", NULL, NULL, NULL, NULL,
-+                 true, true, true,
-+                 true, true, GNUTLS_KEY_KEY_CERT_SIGN,
-+                 false, false, NULL, NULL,
-+                 360, 400);
-     TLS_CERT_REQ(cacertlevel2areq, cacertlevel1areq,
-                  "UK", "qemu level 2a", NULL, NULL, NULL, NULL,
-                  true, true, true,
-@@ -617,16 +623,32 @@ int main(int argc, char **argv)
-         cacertlevel2areq.crt,
-     };
-
-+
-     test_tls_write_cert_chain(WORKDIR "cacertchain-ctx.pem",
-                               certchain,
-                               G_N_ELEMENTS(certchain));
-
-+    gnutls_x509_crt_t certchain_with_invalid[] =3D {
-+        cacertrootreq.crt,
-+        cacertlevel1areq.crt,
-+        cacertlevel1breq.crt,
-+        cacertlevel1creq_invalid.crt,
-+        cacertlevel2areq.crt,
-+    };
-+
-+    test_tls_write_cert_chain(WORKDIR "cacertchain-with-invalid-ctx.pem",
-+                              certchain_with_invalid,
-+                              G_N_ELEMENTS(certchain_with_invalid));
-+
-     TLS_TEST_REG(chain1, true,
-                  WORKDIR "cacertchain-ctx.pem",
-                  servercertlevel3areq.filename, false);
-     TLS_TEST_REG(chain2, false,
-                  WORKDIR "cacertchain-ctx.pem",
-                  clientcertlevel2breq.filename, false);
-+    TLS_TEST_REG(certchainwithexpiredcert, false,
-+                 WORKDIR "cacertchain-with-invalid-ctx.pem",
-+                 clientcertlevel2breq.filename, false);
-
-     /* Some missing certs - first two are fatal, the last
-      * is ok
-@@ -640,7 +662,6 @@ int main(int argc, char **argv)
-     TLS_TEST_REG(missingclient, false,
-                  cacert1req.filename,
-                  "clientcertdoesnotexist.pem", false);
--
-     ret =3D g_test_run();
-
-     test_tls_discard_cert(&cacertreq);
-@@ -694,10 +715,12 @@ int main(int argc, char **argv)
-     test_tls_discard_cert(&cacertrootreq);
-     test_tls_discard_cert(&cacertlevel1areq);
-     test_tls_discard_cert(&cacertlevel1breq);
-+    test_tls_discard_cert(&cacertlevel1creq_invalid);
-     test_tls_discard_cert(&cacertlevel2areq);
-     test_tls_discard_cert(&servercertlevel3areq);
-     test_tls_discard_cert(&clientcertlevel2breq);
-     unlink(WORKDIR "cacertchain-ctx.pem");
-+    unlink(WORKDIR "cacertchain-with-invalid-ctx.pem");
-
-     test_tls_cleanup(KEYFILE);
-     rmdir(WORKDIR);
---
-2.34.1
-
---_000_BY5PR15MB3572B35B9EEFE823B9F1270FB87D9BY5PR15MB3572namp_
-Content-Type: text/html; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-<html xmlns:o=3D"urn:schemas-microsoft-com:office:office" xmlns:w=3D"urn:sc=
-hemas-microsoft-com:office:word" xmlns:m=3D"http://schemas.microsoft.com/of=
-fice/2004/12/omml" xmlns=3D"http://www.w3.org/TR/REC-html40">
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
->
-<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
-<style><!--
-/* Font Definitions */
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0cm;
-	font-size:10.0pt;
-	font-family:"Calibri",sans-serif;}
-span.EmailStyle19
-	{mso-style-type:personal-reply;
-	font-family:"Calibri",sans-serif;
-	color:windowtext;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-size:10.0pt;}
-@page WordSection1
-	{size:612.0pt 792.0pt;
-	margin:72.0pt 72.0pt 72.0pt 72.0pt;}
-div.WordSection1
-	{page:WordSection1;}
---></style>
-</head>
-<body lang=3D"EN-GB" link=3D"#0563C1" vlink=3D"#954F72" style=3D"word-wrap:=
-break-word">
-<div class=3D"WordSection1">
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;mso-fareast-language=
-:EN-US">Hi Daniel,
-<br>
-<br>
-This patch tightens the CA verification code to only check the issuer chain=
- of the client cert.&nbsp; I think this will still not catch expired/invali=
-d certs if the client and server certs have different issuer chains; so may=
-be this too is not quite the correct
- fix.&nbsp; Let me know what you think.<br>
-<br>
-Kind regards, Henry<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;mso-fareast-language=
-:EN-US"><o:p>&nbsp;</o:p></span></p>
-<div style=3D"border:none;border-top:solid #B5C4DF 1.0pt;padding:3.0pt 0cm =
-0cm 0cm">
-<p class=3D"MsoNormal" style=3D"margin-bottom:12.0pt"><b><span style=3D"fon=
-t-size:12.0pt;color:black">From:
-</span></b><span style=3D"font-size:12.0pt;color:black">Henry Kleynhans &lt=
-;henry.kleynhans@gmail.com&gt;<br>
-<b>Date: </b>Wednesday, 22 December 2021 at 15:06<br>
-<b>To: </b>qemu-devel@nongnu.org &lt;qemu-devel@nongnu.org&gt;<br>
-<b>Cc: </b>berrange@redhat.com &lt;berrange@redhat.com&gt;, henry.kleynhans=
-@fb.com &lt;henry.kleynhans@fb.com&gt;, Henry Kleynhans &lt;hkleynhans@fb.c=
-om&gt;<br>
-<b>Subject: </b>[PATCH 2/2] [crypto] Only verify CA certs in chain of trust=
-<o:p></o:p></span></p>
-</div>
-<div>
-<p class=3D"MsoNormal" style=3D"margin-bottom:12.0pt"><span style=3D"font-s=
-ize:11.0pt">From: Henry Kleynhans &lt;hkleynhans@fb.com&gt;<br>
-<br>
-The CA file provided to qemu may contain CA certificates which do not<br>
-form part of the chain of trust for the specific certificate we are<br>
-sanity checking.<br>
-<br>
-This patch changes the sanity checking from validating every CA<br>
-certificate to only checking the CA certificates which are part of the<br>
-chain of trust (issuer chain).&nbsp; Other certificates are ignored.<br>
-<br>
-Signed-off-by: Henry Kleynhans &lt;hkleynhans@fb.com&gt;<br>
----<br>
-&nbsp;crypto/tlscredsx509.c&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | 50 +++++++++++++++++++++=
-++----<br>
-&nbsp;tests/unit/test-crypto-tlscredsx509.c | 25 +++++++++++++-<br>
-&nbsp;2 files changed, 68 insertions(+), 7 deletions(-)<br>
-<br>
-diff --git a/crypto/tlscredsx509.c b/crypto/tlscredsx509.c<br>
-index d061c68253..841f80aac6 100644<br>
---- a/crypto/tlscredsx509.c<br>
-+++ b/crypto/tlscredsx509.c<br>
-@@ -315,6 +315,44 @@ qcrypto_tls_creds_check_cert(QCryptoTLSCredsX509 *cred=
-s,<br>
-&nbsp;&nbsp;&nbsp;&nbsp; return 0;<br>
-&nbsp;}<br>
-&nbsp;<br>
-+static int<br>
-+qcrypto_tls_creds_check_authority_chain(QCryptoTLSCredsX509 *creds,<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp; gnutls_x509_crt_t cert,<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp; gnutls_x509_crt_t *cacerts,<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp; unsigned int ncacerts,<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp; const char *cacertFile,<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp; bool isServer,<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp; bool isCA,<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp; Error **errp)<br>
-+{<br>
-+&nbsp;&nbsp;&nbsp; gnutls_x509_crt_t *cert_to_check =3D &amp;cert;<br>
-+&nbsp;&nbsp;&nbsp; int checking_issuer =3D 1;<br>
-+&nbsp;&nbsp;&nbsp; int retval =3D 0;<br>
-+<br>
-+&nbsp;&nbsp;&nbsp; while (checking_issuer) {<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; checking_issuer =3D 0;<br>
-+<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (gnutls_x509_crt_check_issue=
-r(*cert_to_check, *cert_to_check)) {<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /* The =
-cert is self-signed indicating we have reached the root of trust. */<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return =
-qcrypto_tls_creds_check_cert(creds, *cert_to_check, cacertFile,<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; isServer, isCA, =
-errp);<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; for (int i =3D 0; i &lt; ncacer=
-ts; i++) {<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (gnu=
-tls_x509_crt_check_issuer(*cert_to_check, cacerts[i])) {<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp; retval =3D qcrypto_tls_creds_check_cert(creds, cacerts[i],=
- cacertFile,<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp; isServer, isCA, errp);<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp; if (retval &lt; 0) {<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return retval;<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp; }<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp; cert_to_check =3D &amp;cacerts[i];<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp; checking_issuer =3D 1;<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp; break;<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
-+&nbsp;&nbsp;&nbsp; }<br>
-+<br>
-+&nbsp;&nbsp;&nbsp; return -1;<br>
-+}<br>
-&nbsp;<br>
-&nbsp;static int<br>
-&nbsp;qcrypto_tls_creds_check_cert_pair(gnutls_x509_crt_t cert,<br>
-@@ -500,12 +538,12 @@ qcrypto_tls_creds_x509_sanity_check(QCryptoTLSCredsX5=
-09 *creds,<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; goto cleanup;<br>
-&nbsp;&nbsp;&nbsp;&nbsp; }<br>
-&nbsp;<br>
--&nbsp;&nbsp;&nbsp; for (i =3D 0; i &lt; ncacerts; i++) {<br>
--&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (qcrypto_tls_creds_check_cer=
-t(creds,<br>
--&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp; cacerts[i], cacertFile,<br>
--&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp; isServer, true, errp) &lt; 0) {<br>
--&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; goto cl=
-eanup;<br>
--&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
-+&nbsp;&nbsp;&nbsp; if (cert &amp;&amp; <br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; qcrypto_tls_creds_check_authori=
-ty_chain(creds, cert, <br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cacerts, ncacert=
-s,<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cacertFile, isSe=
-rver,<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; true, errp) &lt;=
- 0) {<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; goto cleanup;<br>
-&nbsp;&nbsp;&nbsp;&nbsp; }<br>
-&nbsp;<br>
-&nbsp;&nbsp;&nbsp;&nbsp; if (cert &amp;&amp; ncacerts &amp;&amp;<br>
-diff --git a/tests/unit/test-crypto-tlscredsx509.c b/tests/unit/test-crypto=
--tlscredsx509.c<br>
-index aab4149b56..e4d657ba61 100644<br>
---- a/tests/unit/test-crypto-tlscredsx509.c<br>
-+++ b/tests/unit/test-crypto-tlscredsx509.c<br>
-@@ -589,6 +589,12 @@ int main(int argc, char **argv)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp; true, true, GNUTLS_KEY_KEY_CERT_SIGN,<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp; false, false, NULL, NULL,<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp; 0, 0);<br>
-+&nbsp;&nbsp;&nbsp; TLS_CERT_REQ(cacertlevel1creq_invalid, cacertrootreq,<b=
-r>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp; &quot;UK&quot;, &quot;qemu level 1c invalid&quot;, N=
-ULL, NULL, NULL, NULL,<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp; true, true, true,<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp; true, true, GNUTLS_KEY_KEY_CERT_SIGN,<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp; false, false, NULL, NULL,<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp; 360, 400);<br>
-&nbsp;&nbsp;&nbsp;&nbsp; TLS_CERT_REQ(cacertlevel2areq, cacertlevel1areq,<b=
-r>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp; &quot;UK&quot;, &quot;qemu level 2a&quot;, NULL=
-, NULL, NULL, NULL,<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp; true, true, true,<br>
-@@ -617,16 +623,32 @@ int main(int argc, char **argv)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cacertlevel2areq.crt,<br>
-&nbsp;&nbsp;&nbsp;&nbsp; };<br>
-&nbsp;<br>
-+<br>
-&nbsp;&nbsp;&nbsp;&nbsp; test_tls_write_cert_chain(WORKDIR &quot;cacertchai=
-n-ctx.pem&quot;,<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; certchain,<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; G_N_ELEMENTS(certchain));<br>
-&nbsp;<br>
-+&nbsp;&nbsp;&nbsp; gnutls_x509_crt_t certchain_with_invalid[] =3D {<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cacertrootreq.crt,<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cacertlevel1areq.crt,<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cacertlevel1breq.crt,<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cacertlevel1creq_invalid.crt,<b=
-r>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cacertlevel2areq.crt,<br>
-+&nbsp;&nbsp;&nbsp; };<br>
-+<br>
-+&nbsp;&nbsp;&nbsp; test_tls_write_cert_chain(WORKDIR &quot;cacertchain-wit=
-h-invalid-ctx.pem&quot;,<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp; certchain_with_invalid,<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp; G_N_ELEMENTS(certchain_with_invalid));<br>
-+<br>
-&nbsp;&nbsp;&nbsp;&nbsp; TLS_TEST_REG(chain1, true,<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp; WORKDIR &quot;cacertchain-ctx.pem&quot;,<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp; servercertlevel3areq.filename, false);<br>
-&nbsp;&nbsp;&nbsp;&nbsp; TLS_TEST_REG(chain2, false,<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp; WORKDIR &quot;cacertchain-ctx.pem&quot;,<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp; clientcertlevel2breq.filename, false);<br>
-+&nbsp;&nbsp;&nbsp; TLS_TEST_REG(certchainwithexpiredcert, false,<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp; WORKDIR &quot;cacertchain-with-invalid-ctx.pem&quot;=
-,<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp; clientcertlevel2breq.filename, false);<br>
-&nbsp;<br>
-&nbsp;&nbsp;&nbsp;&nbsp; /* Some missing certs - first two are fatal, the l=
-ast<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * is ok<br>
-@@ -640,7 +662,6 @@ int main(int argc, char **argv)<br>
-&nbsp;&nbsp;&nbsp;&nbsp; TLS_TEST_REG(missingclient, false,<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp; cacert1req.filename,<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp; &quot;clientcertdoesnotexist.pem&quot;, false);=
-<br>
--<br>
-&nbsp;&nbsp;&nbsp;&nbsp; ret =3D g_test_run();<br>
-&nbsp;<br>
-&nbsp;&nbsp;&nbsp;&nbsp; test_tls_discard_cert(&amp;cacertreq);<br>
-@@ -694,10 +715,12 @@ int main(int argc, char **argv)<br>
-&nbsp;&nbsp;&nbsp;&nbsp; test_tls_discard_cert(&amp;cacertrootreq);<br>
-&nbsp;&nbsp;&nbsp;&nbsp; test_tls_discard_cert(&amp;cacertlevel1areq);<br>
-&nbsp;&nbsp;&nbsp;&nbsp; test_tls_discard_cert(&amp;cacertlevel1breq);<br>
-+&nbsp;&nbsp;&nbsp; test_tls_discard_cert(&amp;cacertlevel1creq_invalid);<b=
-r>
-&nbsp;&nbsp;&nbsp;&nbsp; test_tls_discard_cert(&amp;cacertlevel2areq);<br>
-&nbsp;&nbsp;&nbsp;&nbsp; test_tls_discard_cert(&amp;servercertlevel3areq);<=
-br>
-&nbsp;&nbsp;&nbsp;&nbsp; test_tls_discard_cert(&amp;clientcertlevel2breq);<=
-br>
-&nbsp;&nbsp;&nbsp;&nbsp; unlink(WORKDIR &quot;cacertchain-ctx.pem&quot;);<b=
-r>
-+&nbsp;&nbsp;&nbsp; unlink(WORKDIR &quot;cacertchain-with-invalid-ctx.pem&q=
-uot;);<br>
-&nbsp;<br>
-&nbsp;&nbsp;&nbsp;&nbsp; test_tls_cleanup(KEYFILE);<br>
-&nbsp;&nbsp;&nbsp;&nbsp; rmdir(WORKDIR);<br>
--- <br>
-2.34.1<o:p></o:p></span></p>
-</div>
-</div>
-</body>
-</html>
-
---_000_BY5PR15MB3572B35B9EEFE823B9F1270FB87D9BY5PR15MB3572namp_--
 
