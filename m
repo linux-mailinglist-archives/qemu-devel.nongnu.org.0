@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4997247D742
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Dec 2021 19:59:16 +0100 (CET)
-Received: from localhost ([::1]:55380 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A46847D739
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Dec 2021 19:55:03 +0100 (CET)
+Received: from localhost ([::1]:47468 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n06pX-0007yh-DW
-	for lists+qemu-devel@lfdr.de; Wed, 22 Dec 2021 13:59:15 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44700)
+	id 1n06lR-0002be-PY
+	for lists+qemu-devel@lfdr.de; Wed, 22 Dec 2021 13:55:01 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44702)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1n06jg-00088Z-Ul; Wed, 22 Dec 2021 13:53:12 -0500
-Received: from mail-vi1eur05on2113.outbound.protection.outlook.com
- ([40.107.21.113]:12544 helo=EUR05-VI1-obe.outbound.protection.outlook.com)
+ id 1n06jh-00088l-0M; Wed, 22 Dec 2021 13:53:13 -0500
+Received: from mail-vi1eur05on2137.outbound.protection.outlook.com
+ ([40.107.21.137]:20601 helo=EUR05-VI1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1n06jb-0004aJ-EP; Wed, 22 Dec 2021 13:53:12 -0500
+ id 1n06jf-0004am-Dh; Wed, 22 Dec 2021 13:53:12 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=SmVJuAhic2R1SoPU9AIHOVaP4zrAeqefTpzJZ3UZQgacYNTEKG/Y2o+A31l9yNIJ1iVptQW9vSm5wK7Ygvlbt30G/rlShL0unTlJS0EfrjAI+COlQKhXWsgA61sEMktDIxIZkzmqU4wVf8oLkw5CCr8ZSwok5ZvfR+PCFsuO3DkDeUYAUMFt870bMX0T8stVADQQxP+YVseH8zpsiiErvgP/vpFpcPUVP7gqknE59oR/LQNxUmbFUxEeBAb3UcpHW00XJpCOcASDw5Ntt9dx8YJWLkIGkxMoZmKV0+uUjvvQ7rfchi77Ic4qQeG7SLSVufOTzoAlf46S4zZHdErv4A==
+ b=nIknrcEJ+wZsujZHA8QhCvFpOyjwJ1L0d7n0Am0u6xKhw37QiFdNoZyA+6Xlz23nkko+cAIMAAX8trdM656DYcBVEvffb5bk5UtbG97ttn893V4n4LzHLi/pI6iP24bzOKld4N87bbhx0WtRoduojtEHl1TKHY6r4AcWhJoXwAgOJHTxZOFYGjKuo3nlIgNECnRLabN+eCngAOJ/Xg+l82LpdcJMjz7HmwHLQ270jbYEHdnRrjyN2ewBcFyKvSQ+1whorsNBOSgxst9mMPPyb+H9SPxj+noTdcAZ3U+DPJ36LRJYS7rpHfqQPij3MK1HoF2OVB0s9HKNOqmUiCGwEw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=tc0+E9eGSwi101ON3B9m0vzebc/w4yXDSCrhG9Lhck8=;
- b=gyh8LpwBUTumRo1PoTQ2xAmkr2O4i7lIiln3etaRrqUdTD4HWKbeeX+x5PC4BxlSzTJWjqpSTzY/ec0siJoBtenROy9QCyoFdM8NX1wrJmCUcKf7JoaQNQJd6CVHAOUbLtJts7ooGSyYs7fOGDkFdwud+rVYX6vUxPNFk8vInHnxElMOjrXj91QgpZTDDNVfeFKH9TYbZHUEBgfnE/HWR3vUom7EAJ0nMKgORqRTz1vWFsBwQeNvVVcptvw3OYktCOcY9j7d+XR9wE1GlEvRwMTyG4RUVJ6AEeuBHd4zN+oTNK27bAbNn26mxBBhbCf57iF9R5+sY7ZUlRWYvPhKKA==
+ bh=8/XQBzvuOj+2z0KHJakJs/0955lq43qqA+KruNrLMnk=;
+ b=bTKK0/TtgIPTCqaQovcMRQwZZYR4t9DA0JboRrxjpeQlYGJkvp99WTVv8rmyHQME3k7zSlbe9smoL1UwUBQ8PjyM+M+Xb6BMxxUfszi1d2aSjoBUuqykOSsRKImLoyG9wzq9KTM/JMrpzA8WpZwMy2WLZqW/t1DtipKcSx2OXzd6siyW6TklIHjfOB90/O/jBHembwtPqFvWFm4dT7UPnAfAzn+A9pyTL6I0hkMCKDkAiG5EP/OiTtbHwTkY4eMTbUziZ/9UFhtvNpHrYKRyvWHksKHyop9m2/JeyafCj4QjxnvTShspZ+7G52k4FdfhmVfBPjs82omhOBzJOJOVJw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tc0+E9eGSwi101ON3B9m0vzebc/w4yXDSCrhG9Lhck8=;
- b=Bse0drhy153Hk1cLalabvVjKdI5uJYeGp9K2iEWOIPGag5Qp1klBds2kENfiAUa9JespZSFTY9M14UQb8SYL5E8zNqxy0dZOoYJPbe71rKJsjXBZRRZzQj2DIMY29IwEhfFFvhD39drRcj5AU57dnnxiljUnGu0sIKVSPMm8mKI=
+ bh=8/XQBzvuOj+2z0KHJakJs/0955lq43qqA+KruNrLMnk=;
+ b=VjwaUFC1cNwFGTxmDvGSIHDngYJOwOWdExE/ETK0iG0UbcENC15hhbjm1LVrMLiwgwcQR/dmAfenDAWWYtZzBBDibh/zCCz1COOuI4tA/KZ/wDDmyfiJc8F2F8JKrE4MEPY+FSviZq8qfV4GJnJh1INbW7ZOZ4mR9vdsns+l28c=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM9PR08MB6737.eurprd08.prod.outlook.com (2603:10a6:20b:304::18)
  by AM8PR08MB5857.eurprd08.prod.outlook.com (2603:10a6:20b:1d2::9)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4823.16; Wed, 22 Dec
- 2021 18:53:01 +0000
+ 2021 18:53:02 +0000
 Received: from AM9PR08MB6737.eurprd08.prod.outlook.com
  ([fe80::b118:483a:d003:3112]) by AM9PR08MB6737.eurprd08.prod.outlook.com
  ([fe80::b118:483a:d003:3112%5]) with mapi id 15.20.4823.019; Wed, 22 Dec 2021
- 18:53:01 +0000
+ 18:53:02 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
 Cc: richard.henderson@linaro.org, peter.maydell@linaro.org,
  vsementsov@virtuozzo.com, eblake@redhat.com, qemu-devel@nongnu.org
-Subject: [PULL 2/7] nbd/client-connection: nbd_co_establish_connection():
- return real error
-Date: Wed, 22 Dec 2021 19:52:43 +0100
-Message-Id: <20211222185248.466010-3-vsementsov@virtuozzo.com>
+Subject: [PULL 3/7] nbd/client-connection: improve error message of cancelled
+ attempt
+Date: Wed, 22 Dec 2021 19:52:44 +0100
+Message-Id: <20211222185248.466010-4-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211222185248.466010-1-vsementsov@virtuozzo.com>
 References: <20211222185248.466010-1-vsementsov@virtuozzo.com>
@@ -62,59 +62,59 @@ X-ClientProxiedBy: AM7PR02CA0009.eurprd02.prod.outlook.com
  (2603:10a6:20b:304::18)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: c4e39b85-d618-4f80-553c-08d9c57c4790
+X-MS-Office365-Filtering-Correlation-Id: e7b17355-6cf0-4b20-4f8b-08d9c57c47ce
 X-MS-TrafficTypeDiagnostic: AM8PR08MB5857:EE_
-X-Microsoft-Antispam-PRVS: <AM8PR08MB58575291F30CC619DAF3CF5DC17D9@AM8PR08MB5857.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-Microsoft-Antispam-PRVS: <AM8PR08MB58575CBE7E6112296B5E9855C17D9@AM8PR08MB5857.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: U4tUdnJ8kRcCGhaPUI33RTgcuvBVGUhQgl2g3qpfKysbwB5MBKMeH/7EMmVZQZqeGkJtBgaZQDXhZXEbdewQyoAm9WUfn8InpTn4Zzk4y9bkST46+yIRfUS051SaTc7IErXxPREo5FC24b805TD0zxNU+p0XeiPypnnfXwmJZYDryqw8dKj1J6nU+t9Km0VmgAUFnOOtmulC/C8q2rz0AP3fTz+GJL6y6dy6+CORKp1EJE1mF82z2SY3xUeZBYNVrZ2k2SqPLiZvxkVdHCLzRHK88AXaB/PapVdXut9MJV5pfPLu/1K4rLMrr7P/6DX9eJq6cHc/dbPfm9+bZVYymKdGciP+tc3bi1P4VJCUahv+iqau3FfgmGW8SIKpsR96WrKnLLKZMFy2F0b5iI5xJhXTsgerT7f1rSBFdaxVJCbTleaTB1l8fVlIpT/Qf9CcA+itu4OxX4CFCXO+/50zGTolcvv5tbxDtBn/ZaHkWBSVd5bI5g1CEUDoOpNVnmAK8JccC+5S9jXaggyPyDmOG9jrQh7Eqr8Eau5VSRHMiuxcRg4RLxpFkoOcDoOBZTu0fyUrDfJn2VT3P4RuybHTlim++fq9JjR0hY+F5DmIG1FviGAvm5DegC11N1LRxUbJcm3LVncTYi98dZmxuhi26FdOpIj4RkwjThipREByt8JOdR/z/SbZeFZplN7twOPGif4SDIHBMYCcelFsns0XOg==
+X-Microsoft-Antispam-Message-Info: wNJVEaNG+MIOhDcBNiaiSucLsYTzQew2YeRwGnR/vxUDrSLw6hxMqsASKjYD5UQBjgF91/sOdHpxfyd2hAkQHnqFQlSNPSA5l0u8bI1jW22a6IDqU1MEofFUJecCPJiKk3lZqx8ouVCpJSz1888G8AyVrkN+g/D7Ln3l2ZYv8ACm0iFXxQ8g5mdxIUZlVwbq8sYguqpE3bmGXItyrmkgPwHykQP71oD+atjaGbAUj3QGOqe/0t+ARzc88xqB2/d0KhOpMoWprMufEuiwxb7drNN04pLWyMQkfbILIU6YY2PS1xTipAVvcNb6OPwXyWRmmDseM6VyfnKyJI66BL7E14gmh0o1HgSXG/0q7B0bUfOjAZUz4GvQl7sZ1CEEzzYirxkNPOToSX3bxoKlrpCXI4a0HYdXFmAEDq9uSa6ikNnjSu2SH2YD/h820wL0X9dGVnYHO/n81hQiYVxnxsc80eJxTxpZuJO7XBNqOo45X8Y55xS9t+qs/zN2bxoOSdT3n2MT8uZPwVmodpynALJkzTudtdrx7dCfBvC1zy8lH4Pw/Fuly79Tjqj+uPhqv/dwS2KLyh1Vx7rHa+Pcv3CE62IoJ+APPc/FqjL32qJTKghrUvsY8i/LpAkwE/7zr4Xj0P+FqzwsWr9wD/i9WquI+o0wlK1FgJudjC4+X34Qqs7MhlrxQ2iDAa4XkfacATotDJDIxv576dFQ5J2WjgpP+A==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM9PR08MB6737.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(2616005)(6512007)(4326008)(6486002)(38350700002)(38100700002)(6506007)(83380400001)(66556008)(66476007)(36756003)(26005)(66946007)(5660300002)(8676002)(8936002)(186003)(6666004)(6916009)(2906002)(52116002)(86362001)(508600001)(316002)(1076003);
+ SFS:(4636009)(366004)(2616005)(6512007)(4326008)(6486002)(38350700002)(38100700002)(6506007)(83380400001)(66556008)(66476007)(36756003)(26005)(66946007)(5660300002)(8676002)(8936002)(186003)(6666004)(6916009)(2906002)(52116002)(86362001)(508600001)(316002)(15650500001)(1076003);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?WxoZxOq5FkhvxUnOiaK1jHPpPp/4S6zTATtvbCpMJwI9arTlw143zlKeIYuB?=
- =?us-ascii?Q?fb6MU7lI7bfNkNAgM7xSda185GE79I2djMR1cCAhsesaCMpdwRDIadGpdnmg?=
- =?us-ascii?Q?HccamLtqu1I9p5HVo36hmMF/CLPBRIr8hqe54SB4fMEhuPEXFqk2MM0Heqwz?=
- =?us-ascii?Q?aoKAdiSkwAovyLW2p+xbJwzFtXTbqSTZep+I/5N2q8ldvt+pivwJa7Brs9qW?=
- =?us-ascii?Q?rHWGbOnvZ9AJPAolEbAelrHmb6vQZuiTOBQJFW3BkrsG82OthIsSiMob0yK0?=
- =?us-ascii?Q?wAgJ4b9IjzR0zPtV/coW9RlCaDsvYha5/5Xu9Ch5/PuMQwMlPxp00a+WDKL1?=
- =?us-ascii?Q?QZXkc+zgZmya6l9pMPLxclnROfC2Qd7FW8q1COVA/u/h0yrUM7O0KUbLMeAp?=
- =?us-ascii?Q?7sSVkVaLU/tiGahWdKRyuiZu8ho21TNa6gXqHviMbz6hYreZCU7Zh8mThpvc?=
- =?us-ascii?Q?TCqtISIJ1zAU/Rks80PQ1aMS8djAO7uiUFxy2g23yqGMHyqMli1mRD1mgPG9?=
- =?us-ascii?Q?NTbFk8qQCVk/cRHlSlUJkGMnhm4CO2rubAHJJe+PMfLhWm9X9KNzL3URZkTr?=
- =?us-ascii?Q?rGwd8/VNz+HwbYU0oQnFLDZ7njrLhEO+yc4TxEp0uRsmxe1CSGfC8DXHy1BL?=
- =?us-ascii?Q?r5E3eHGbSBJpuNrBqQulOAtPgcLN4YU0O5Hsc9Hjv/Md1N4ZccbbXQeUqsft?=
- =?us-ascii?Q?2Aze6+Y0nzIegto/ZHwRuRkyXRdxtXCIcQagSat1VOQUywF0xOwLrgo8/kTy?=
- =?us-ascii?Q?bSyU85tf3kr/jjCfCViRsuqVUJSDcXXpoY+hWHuyEYYNqgfK36UokKOGHPn0?=
- =?us-ascii?Q?JJ9bRl606qgQ5gOrmu2X+tYJOfVA0mo7y3k4Gh+oXLgQD6s7+Z1raegoi8CF?=
- =?us-ascii?Q?ee5PyVJW7SAD50KAKfOLyyF5wLkVQuMh6hYn0/LfNJrnriNbApAAIPcGP+t0?=
- =?us-ascii?Q?UtlDHbRTdydnLMjBsxO9mETjQ8n2lCM9xXgUFM+/xQ5uNuA/gByeVnpzMFtn?=
- =?us-ascii?Q?KjdzkLhpsxoSZJ26n0Cm+Kao9/J44J5DiMcrgQNTuS1ACG4m/4oytmXbV5nS?=
- =?us-ascii?Q?KTVDTv/93lododoVbWUS0KbLeZ8ulDUyhQcE3MiBj2PEQv4gCy61tNQRbsHD?=
- =?us-ascii?Q?Sig/TCkYZCEJewiqFLTdPueRo0uDVeGUiTvlKCRqnzXjz4f1OzMOYTVld8iD?=
- =?us-ascii?Q?TDhuWo6HWZqV+AY5BZkskpeofSDcqTwneOidwH8hLUSIdYQ8s/5n6DyW2HpE?=
- =?us-ascii?Q?g/gZKrCaP+t2/zVPSGapeDjKl23znvg+dVo6WdLEQnDYKWnrkf1Lcg472JPk?=
- =?us-ascii?Q?PC9XaF+pLze8xZMo7RhZsUAT9U3/O7rmOzfzeX2NxdUdVQ5JNL3zG8uMmuuD?=
- =?us-ascii?Q?BZGPLRdW0IzsHvSaE+NMHbtZ6UmpXN26MMt9n/z0hlkbrXQg9ufgcBg16VBd?=
- =?us-ascii?Q?r40acfdnR675s14tkArrJq6zy/lRx2g6uI1kfLsHUmJ9JCI0TOvhRq8mdPEI?=
- =?us-ascii?Q?T/ALFN395nIoKPanktIoV4LkoKZOHgMsz8EgSvGizGQtG2AU3OXwOR7vYe7y?=
- =?us-ascii?Q?93A5zDeYtDoA5HseTAbH6Za9h8jVQlAjhv9UEBCFBIqybRve9n4OE98j2aYD?=
- =?us-ascii?Q?oYFSuaFJD5/XzArDRkggcit0W4HvyL9J1rDwQ156txToWXaPCYUiLwxQxURC?=
- =?us-ascii?Q?IXUbs2VTdWh3Q/SSNF26B+WHbRk=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?s48zIjmtZi8vXmx5END0QR+TRnXiz1zOnhMwn0gt0xlB6n/B4h1fVaimbK5a?=
+ =?us-ascii?Q?LaTXKPY1kY31ahfT7MfDDc1Er1OxLi1JlQTwLMlfSFMTeDDVz4BV0Ux3QKUF?=
+ =?us-ascii?Q?eZF6HecXleb2Fy24XEdAdGAu9EXu3TV+sSJohQLl+7h550Wf8+EkLrzQDN0j?=
+ =?us-ascii?Q?C1Oh35IlDX2oEw3J92dV7Gf7DR4WJvFb5COAMT69KIyspf3H2oAikdB6RtRy?=
+ =?us-ascii?Q?oUHfcOprxg0Nd4Jj0Mtfd+QXZMPzOM1t2tjlhmTGneroqvdLnd40gQDf8x/z?=
+ =?us-ascii?Q?Ap1jfVdBOaSPlq9jAjuzECj25aBIo3+jTDl8ZZCqUJO1/LiO6kU3dyN/TZOK?=
+ =?us-ascii?Q?DQIeo3HLKlsrFSBzBSgHGQB1G10xZMxmZnfZEwJujrScU+GTrls9wSx3TvIz?=
+ =?us-ascii?Q?aoH2mCQcVg0CnMJFqSPnBDo7ZYrURMp94eiMuVs/7TcaUS59LhiqgkJQ390A?=
+ =?us-ascii?Q?/mcyOTgw351xfjYzx++hDqH4K/qgv2jhDatWd/X+v7JgzlcwJ2qr9QCtWc2U?=
+ =?us-ascii?Q?Mn/duPLONqacVFRqxsd6movr9/IY3RfLioxW2o4d5yQoE3IyGYV0/yHGdGQF?=
+ =?us-ascii?Q?CO9aEjDAFdfWziApeI1n+er6y0P07pSyqvxmqySpAMcZ+55RWazxylVVPiQg?=
+ =?us-ascii?Q?i8rLIt1O3qu5UgRtgOs9jMK7e5RBUEj3EKLj7xQS9W9YXFeJtbyug1aDyxP9?=
+ =?us-ascii?Q?NV2+YBwNxFC8pwGjlRqi2+b6hHxkMVdOxEQAr0VM5wvkZ8XmHqUVs28LpMbE?=
+ =?us-ascii?Q?5rn7hY6XCo95+rnhWc2PKNpuvx8oUmTBfR/gspVfbjEODbfzp/xDzr5D81Hu?=
+ =?us-ascii?Q?qP5x09bwljhaXstjiIxmfOdS0HsZm+507qTfdU3sP5azo9a8YswCTiWbvqMC?=
+ =?us-ascii?Q?/LC2CesS7MROtFc1Hv6GCvZkyl/QQtB0bfRX9zXzosVoLNTLqHPvXiHN2hlc?=
+ =?us-ascii?Q?Kl6YOIkA6yxsSKzEEE9QF+7baaolMeeaUt0+YLtN3euzYClJbQiZizNTMuoV?=
+ =?us-ascii?Q?f/YKKXkPvR2AZxkkTjvnFoKyuxRq78QfqWpaOXts8VBuhTzUsSYcIlBL9trW?=
+ =?us-ascii?Q?6wzEcYy3oWLiIaPVltKkRx05CH+MRiheL3+PdB2dVIyMH/WpJlF0QBFQMvhW?=
+ =?us-ascii?Q?t3lBBooVW1bSQiOkpcVJERSXi5sLAHux6FNhnKBYi95cMCQfx1wlLl3sTPJz?=
+ =?us-ascii?Q?YTZdKz7gq1TfzsPIzSUYAp3I/mBf2EQXXeJ3KXI3jAa+9FO8zGv+xt09b0C0?=
+ =?us-ascii?Q?XKajLg0VCfm0eYh6Hle2w41H+amRFnSpbaTKUfO/rMfxw4mi01znVYlbL3W8?=
+ =?us-ascii?Q?DmuxmQvtA70Lug6zfZ4IYYWkm16BSNaF2oBKEGO8A1hmgMllNbCChRBzM8MA?=
+ =?us-ascii?Q?dMIBRp3Kmau0drWNEJg1razrEXaiwsWMUjyZesLPZFOinjbQTwwBmq2EJ69N?=
+ =?us-ascii?Q?jE3exNvh0n2E+OiN0v0mmcwe/t41hIS6bI1hd6fe2TBGzvuOgk6kZbK7yUd4?=
+ =?us-ascii?Q?jgiVYI1MlyV2sIPl0WoBjLKQYl828zHiyFdNB15DzcukYhQBjJ89I+CmtQH0?=
+ =?us-ascii?Q?kiBi1elaEl43+hvVkeseEM2durglf3o//BABKAKyHINyuaMiiUvQfLlkHxf1?=
+ =?us-ascii?Q?XnNnDLxTYcUIFnHQOOLceKZkByOXkCX5Ecp0dLyTXQOKXSE8XHp4Xj86JyOt?=
+ =?us-ascii?Q?WNv+4CoppSLt2m8//biIJsPVddw=3D?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c4e39b85-d618-4f80-553c-08d9c57c4790
+X-MS-Exchange-CrossTenant-Network-Message-Id: e7b17355-6cf0-4b20-4f8b-08d9c57c47ce
 X-MS-Exchange-CrossTenant-AuthSource: AM9PR08MB6737.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Dec 2021 18:53:01.7831 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Dec 2021 18:53:02.2049 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: +5Vl1Py+kAcIpz/plpIDQXHvTveSfXl+ZbM39JyP6AEsjWMqrboDj3wlJJF37wKr3GdZPeVIk1pX00lLd9rORy6Ti5nB1r0g1lr0BvEBiMA=
+X-MS-Exchange-CrossTenant-UserPrincipalName: iDEx7VcswvsNX5Nkouc79OzfZHGi7lMfZmtXEAxTglcLoj748woODCsubK0GW50Ckq/QtqzG9qUG1Ats2+wwD9VHIcg+VvhJHl7dtzweU/w=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM8PR08MB5857
-Received-SPF: pass client-ip=40.107.21.113;
+Received-SPF: pass client-ip=40.107.21.137;
  envelope-from=vsementsov@virtuozzo.com;
  helo=EUR05-VI1-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
@@ -139,136 +139,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The only caller of nbd_do_establish_connection() that uses errp is
-nbd_open(). The only way to cancel this call is through open_timer
-timeout. And for this case, user will be more interested in description
-of last failed connect rather than in
-"Connection attempt cancelled by other operation".
-
-So, let's change behavior on cancel to return previous failure error if
-available.
-
-Do the same for non-blocking failure case. In this case we still don't
-have a caller that is interested in errp. But let's be consistent.
-
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
 ---
- nbd/client-connection.c | 52 +++++++++++++++++++++++++++--------------
- 1 file changed, 35 insertions(+), 17 deletions(-)
+ nbd/client-connection.c | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
 
 diff --git a/nbd/client-connection.c b/nbd/client-connection.c
-index 695f855754..722998c985 100644
+index 722998c985..2bda42641d 100644
 --- a/nbd/client-connection.c
 +++ b/nbd/client-connection.c
-@@ -39,16 +39,18 @@ struct NBDClientConnection {
- 
-     QemuMutex mutex;
- 
--    /*
--     * @sioc and @err represent a connection attempt.  While running
--     * is true, they are only used by the connection thread, and mutex
--     * locking is not needed.  Once the thread finishes,
--     * nbd_co_establish_connection then steals these pointers while
--     * under the mutex.
--     */
-     NBDExportInfo updated_info;
-+    /*
-+     * @sioc represents a successful result. While thread is running, @sioc is
-+     * used only by thread and not protected by mutex. When thread is not
-+     * running, @sioc is stolen by nbd_co_establish_connection() under mutex.
-+     */
-     QIOChannelSocket *sioc;
-     QIOChannel *ioc;
-+    /*
-+     * @err represents previous attempt. It may be copied by
-+     * nbd_co_establish_connection() when it reports failure.
-+     */
-     Error *err;
- 
-     /* All further fields are accessed only under mutex */
-@@ -170,18 +172,18 @@ static void *connect_thread_func(void *opaque)
- 
-     qemu_mutex_lock(&conn->mutex);
-     while (!conn->detached) {
-+        Error *local_err = NULL;
-+
-         assert(!conn->sioc);
-         conn->sioc = qio_channel_socket_new();
- 
-         qemu_mutex_unlock(&conn->mutex);
- 
--        error_free(conn->err);
--        conn->err = NULL;
-         conn->updated_info = conn->initial_info;
- 
-         ret = nbd_connect(conn->sioc, conn->saddr,
-                           conn->do_negotiation ? &conn->updated_info : NULL,
--                          conn->tlscreds, &conn->ioc, &conn->err);
-+                          conn->tlscreds, &conn->ioc, &local_err);
- 
-         /*
-          * conn->updated_info will finally be returned to the user. Clear the
-@@ -194,6 +196,10 @@ static void *connect_thread_func(void *opaque)
- 
-         qemu_mutex_lock(&conn->mutex);
- 
-+        error_free(conn->err);
-+        conn->err = NULL;
-+        error_propagate(&conn->err, local_err);
-+
-         if (ret < 0) {
-             object_unref(OBJECT(conn->sioc));
-             conn->sioc = NULL;
-@@ -311,14 +317,17 @@ nbd_co_establish_connection(NBDClientConnection *conn, NBDExportInfo *info,
+@@ -351,8 +351,15 @@ nbd_co_establish_connection(NBDClientConnection *conn, NBDExportInfo *info,
+             if (conn->err) {
+                 error_propagate(errp, error_copy(conn->err));
+             } else {
+-                error_setg(errp,
+-                           "Connection attempt cancelled by other operation");
++                /*
++                 * The only possible case here is cancelling by open_timer
++                 * during nbd_open(). So, the error message is for that case.
++                 * If we have more use cases, we can refactor
++                 * nbd_co_establish_connection_cancel() to take an additional
++                 * parameter cancel_reason, that would be passed than to the
++                 * caller of cancelled nbd_co_establish_connection().
++                 */
++                error_setg(errp, "Connection attempt cancelled by timeout");
              }
  
-             conn->running = true;
--            error_free(conn->err);
--            conn->err = NULL;
-             qemu_thread_create(&thread, "nbd-connect",
-                                connect_thread_func, conn, QEMU_THREAD_DETACHED);
-         }
- 
-         if (!blocking) {
--            error_setg(errp, "No connection at the moment");
-+            if (conn->err) {
-+                error_propagate(errp, error_copy(conn->err));
-+            } else {
-+                error_setg(errp, "No connection at the moment");
-+            }
-+
              return NULL;
-         }
- 
-@@ -339,14 +348,23 @@ nbd_co_establish_connection(NBDClientConnection *conn, NBDExportInfo *info,
-              * attempt as failed, but leave the connection thread running,
-              * to reuse it for the next connection attempt.
-              */
--            error_setg(errp, "Connection attempt cancelled by other operation");
-+            if (conn->err) {
-+                error_propagate(errp, error_copy(conn->err));
-+            } else {
-+                error_setg(errp,
-+                           "Connection attempt cancelled by other operation");
-+            }
-+
-             return NULL;
-         } else {
--            error_propagate(errp, conn->err);
--            conn->err = NULL;
--            if (!conn->sioc) {
-+            /* Thread finished. There must be either error or sioc */
-+            assert(!conn->err != !conn->sioc);
-+
-+            if (conn->err) {
-+                error_propagate(errp, error_copy(conn->err));
-                 return NULL;
-             }
-+
-             if (conn->do_negotiation) {
-                 memcpy(info, &conn->updated_info, sizeof(*info));
-                 if (conn->ioc) {
 -- 
 2.31.1
 
