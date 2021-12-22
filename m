@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B946A47D819
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Dec 2021 21:02:32 +0100 (CET)
-Received: from localhost ([::1]:43518 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C832B47D833
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Dec 2021 21:14:41 +0100 (CET)
+Received: from localhost ([::1]:46824 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n07ol-0002BD-QX
-	for lists+qemu-devel@lfdr.de; Wed, 22 Dec 2021 15:02:31 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55870)
+	id 1n080W-0006cS-2R
+	for lists+qemu-devel@lfdr.de; Wed, 22 Dec 2021 15:14:40 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55872)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1n07VO-00052Q-M1
+ id 1n07VP-00053L-8h
  for qemu-devel@nongnu.org; Wed, 22 Dec 2021 14:42:31 -0500
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:27964)
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:29066)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1n07VM-0008O9-F8
+ id 1n07VN-0008OZ-3U
  for qemu-devel@nongnu.org; Wed, 22 Dec 2021 14:42:30 -0500
 Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1BMJXxKI028514; 
+ by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1BMJXwoM028486; 
  Wed, 22 Dec 2021 19:42:13 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : content-type :
  mime-version; s=corp-2021-07-09;
- bh=QFFQQ75FhmFktlCsGgHNOoVoT54FA8jKZtFqxdzItZg=;
- b=0SaQelE5SpGTkc1tNJquXvpT0yaJ51r8b02PWLPEr7BcBzPH+A+jTHZs5+vDZxcZUxUV
- fJnX2v+hG12vYbdvRsDN+sE0QXKt5VX+iXE84i3U7HtYd17QH3ziPtfbtngkpYe55hv9
- jkfq9K0eSk6KqqCCe5n9kuQHIlYiEx3w3DcUTZa3JysuqkHlwh4y8ts4DwrgYXahq9C6
- +WRu4PV2LjVUUjm7MC3dSHO1KPaXX38fh4C6KzIWfafDlVR6LzYslRUhNYro3G78O1EU
- P85Lj5ws0SH1eKWODoGrWqUagEMZ0Wyw84iDNy+mx0EZk9HwC46T5soMAgaTValuNuZ0 dg== 
+ bh=O1zvOkHtw2VovC7NTTfDUOwga8ADZKRv7dvwBwYKSjU=;
+ b=k5eLY2uLQbYNVKu8gKNNuRxXEEE3pC4NUM/LiLAYSuJ/GsvNE0yUmnAz09q3zLfNaRwR
+ hDCE3i7ktc4hsk0dSWGuQnl5+RNUTKc9t1Euj6OCFSXSU4w83kGV8RM5NolY7sg9QbxO
+ zVaKgIUdjzLQj90w6yU/HoHYj3M15hbYIW9kp+fBY57ZZDvTNOJLN/8yQM3nxOxWM7X1
+ GxFOKNdnAin2FHp2ZnFclsg4NDxfGTrx7k58DITubSk5FTwOYLjszN/ArG2h82CvmglA
+ 6hlPMjSNt4vuZTwm7zXf3ml0TjZtjMKX+jeafOTAHwzKxJkB1JJYl1YSv44QZgSnHbm0 rw== 
 Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
- by mx0b-00069f02.pphosted.com with ESMTP id 3d410397kf-1
+ by mx0b-00069f02.pphosted.com with ESMTP id 3d410397kh-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Wed, 22 Dec 2021 19:42:13 +0000
 Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
- by userp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 1BMJelqQ030437;
+ by userp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 1BMJelTj030497;
  Wed, 22 Dec 2021 19:42:12 GMT
 Received: from nam02-dm3-obe.outbound.protection.outlook.com
- (mail-dm3nam07lp2040.outbound.protection.outlook.com [104.47.56.40])
- by userp3020.oracle.com with ESMTP id 3d193qamtk-9
+ (mail-dm3nam07lp2049.outbound.protection.outlook.com [104.47.56.49])
+ by userp3020.oracle.com with ESMTP id 3d193qamws-2
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 22 Dec 2021 19:42:11 +0000
+ Wed, 22 Dec 2021 19:42:12 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ciLQIOP6cyc702+C3suIiWe9P5xtsNosmcXJnX3TbDFQjmwB26XkCCvOR33sfcQa5HMxUDW+sUP7cMusrZViH5Iqgu/5gugnprUQ158SmwnjaLoPkzDkNtVvv9+eZNTfC3g/7RB8PYB2brzeZvTeUENF9xwdR/p51kCHBe9NJKOlw8Y7tUJE71Xu4rnSCVblqNcKXGvX+00pgi9l2k4rNPG6y7GEifgyvC02ZGo3dqb0EYcFHPzHVSavUb24Xj9HuCOnL6J95BmaBEoSGCym3UW1nSKleKxATErQHleh4GjtxCLuMBw9TweGgfEgKPehIH4gsbXiX+dmuC+tE7uwFg==
+ b=WAMZVbg9fcmOVUYC2crODMPGbSrTIGZcTwKFwgxjsFsOBjGfxUOUuE6ndlrd+I/q6Q/vU/ZLWIHbbf2Qcj4hlvWXFFNRFM66LlKcjbxVzobaofh83S0MpCDUkA111BxG2WIgvQGs6lUZrCZSeRL57WAPjvAWSNYt3BVS2xdkNRHV4TWugItJydriKZVDldn5kMRc1JTycvsuuor8JdBAhr5a4sEY9hOe/VfrQ435jVr+LqTGamtnxZVZ403BX9esu80ehPsq7ZxO7uLuHH4DYt+w44GrB6z0bv1t7pMsz3lX/47La7SuLUQR4IGfNc2Qew3XiVJzFfgmcHzIzi2zRw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=QFFQQ75FhmFktlCsGgHNOoVoT54FA8jKZtFqxdzItZg=;
- b=Zf3BC4+scmRwyf49I/D9KTHy0AR+P9rtTBpK5v4lhSr+3QjFO+Q9mTETb1qk9dQMb31rB0R7Ueql1i1c3sKLHFACEzRgZ0LcUyXbMaNyB+AADislBBPnw6Q5UZP3JhoXCFcnuNgIzLzHzXtWsjFVTwBY1g+6G23YQTcfiWRJkSa0pBj2AkK2SFhq4SKMXnf25ScmCT58q5JQREL4wzVzZhWhb1MQncyrtkW/TdKZloDlxLwAUuULUXeQcv1jmioabmqnMfrh/FUy7Dp5lrF8Dam0rU73ysn+iHRBIxtPzUTYXx+nUmOic/8HVXyrwSCfml7Nm9Oulx6UdFGeCn4caQ==
+ bh=O1zvOkHtw2VovC7NTTfDUOwga8ADZKRv7dvwBwYKSjU=;
+ b=ZOcm5NOIeHpoPYxQVchIe5dZvHlJc7VHDDeL3iJbmfA8cD7PlPdzCr7IqK2Ot+WnWIIBP3jZogtK5FOpHUJbvba7J2NG560Oqfhz0cEy9whp2ZSR9pcZXLE22udVuowseeyZaX8VpvjqKHfxYrgx4+dUWrTe2d8HsXEPZYl7TDSPLI5ktko++g1L6uHEsRrjKgxPYc7X2QKMBHVVnaeiA3cL2QAh6iF7iQjC/YdvL/orV6649Bc3aTwEg90ZADGG/F0nfXLXFj/MRXzMmRUIryP5mTko+wd6XIrjgT0sFcm42MYnl09jpXYlrHIRclIHfAg6+SYclkTlVrztvb1qaw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QFFQQ75FhmFktlCsGgHNOoVoT54FA8jKZtFqxdzItZg=;
- b=XE4ii9CxcWjExNW2C9h1Egnov6I8DUDVQwsBzrN9mfzKDzp3dtH5tTMAVYO0YNdwDNxPnBsOV5k13iF/WtZa1nP3hmsE3mdyZQNsC7pEiAHulVPKgp1gLqE78+ES9TuQu3ygNjQt9/QVXGaw+GDkWzaG3lunUi2AatTuG3cQ3tc=
+ bh=O1zvOkHtw2VovC7NTTfDUOwga8ADZKRv7dvwBwYKSjU=;
+ b=zoLzQYMq968CNhhXNjhHvG+pBuTQsgvNRQe59NnMzj1WocmsqSBO55H8VYTA2mDpFS+yzW4uBnHAF2JPWDvTzffbVMEuSnCsEydmZvMoZErjh30V23EpVqbnpSCssxRoups4iQXjPy02Q+DKo44ge+u4DoVVOjdlmgKHQe/ksBg=
 Received: from BYAPR10MB3240.namprd10.prod.outlook.com (2603:10b6:a03:155::17)
  by BY5PR10MB4242.namprd10.prod.outlook.com (2603:10b6:a03:20d::9)
  with Microsoft SMTP Server (version=TLS1_2,
@@ -70,9 +70,9 @@ Received: from BYAPR10MB3240.namprd10.prod.outlook.com
  19:42:07 +0000
 From: Steve Sistare <steven.sistare@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH V7 25/29] chardev: cpr framework
-Date: Wed, 22 Dec 2021 11:05:30 -0800
-Message-Id: <1640199934-455149-26-git-send-email-steven.sistare@oracle.com>
+Subject: [PATCH V7 26/29] chardev: cpr for simple devices
+Date: Wed, 22 Dec 2021 11:05:31 -0800
+Message-Id: <1640199934-455149-27-git-send-email-steven.sistare@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1640199934-455149-1-git-send-email-steven.sistare@oracle.com>
 References: <1640199934-455149-1-git-send-email-steven.sistare@oracle.com>
@@ -82,57 +82,57 @@ X-ClientProxiedBy: SJ0PR13CA0196.namprd13.prod.outlook.com
  (2603:10b6:a03:155::17)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 80d8b977-81fa-4ac6-c85e-08d9c5832326
+X-MS-Office365-Filtering-Correlation-Id: 3d0d30a8-fa0b-4df6-9bb0-08d9c583237c
 X-MS-TrafficTypeDiagnostic: BY5PR10MB4242:EE_
-X-Microsoft-Antispam-PRVS: <BY5PR10MB424205B7E96AF09D4DEB8E01F97D9@BY5PR10MB4242.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:147;
+X-Microsoft-Antispam-PRVS: <BY5PR10MB424249EA6199CBAACBAAE987F97D9@BY5PR10MB4242.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:281;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 1/nyS83jwFPqwuEkv2x2eITwIpax1e3hYMAihfqKEOCqTmGekq0/7VbpuBdNjqhSoRBKAX1IAjgnQiVNNx5sfxoEU8aASBzjPBAAN9lLxDOWLYu8yb9h5nRwNfOTplP2mGgBa5w0Vc50wcWEgHjjaPG9SrxlRmj0dEUstt3XXHHeDLllcXuDnqipkAMOqF41MaJpu/KypyMq8gZTXfZlT4Wv+LTMuR2sETtYK5qQKlwoNnn5VIPHiwp6e7+PybRrXAC2qKCfkgM9B4EL3jKqe5UkhZ3c4imDKjEj42mWlQ7SnLD7+x+VuCKdUFWNb6B3dAtAMIuy0QNsi+bxGX6qZoWZRXXv5p0skf1zBzyRRlYszfrK0LC1Y93LI9isrj9DmJZ1jsi2jOqG3OyILryiArEIiA9eeMWQAFhTZjAdVn9kCXBSnzi+8+egH9RK3LJKXeNpEgoicB47GrRi0v8Gfc0TdjBOz54pomgb6HsYdyTk2jjYwN97L1D72BNrZw6XT4/9Vm3BlEi8hAJKeMaABjFzqzetRJvoWF0uBWpyil40BrL/5s/ateJqY/gCJpLvxuV2qNhkHbyWP+ROfmwtOswebNeqKbBF/NhwgX8+GQ9KQg5gsTiL1ZsagAliUBTjpCePQ833RPA+6Vhmd/Iqq7ycKXiDwB7xbPhfrJBUOeoBRbrE0Nu3uNs2sDfg601orO0fwh80Yr0Yf7unj2czKg==
+X-Microsoft-Antispam-Message-Info: BRYwsFwTLy+q+f4QXmW8k04SXxqX69+DsVLJmN/F5asDXND3+m1QQHUEprp783h98lMVcR9X/TBD6dLZKyuNqg2cPFoX0ZN6ig9D0kGNKICydOcoBZygiMj8on1npz8QpXgvqZ8KSJHABfKlNbhFTKCuNL0x2aeu7uwu9cre1MquWqf7YwJkxaX4Euc+Dv72anTp90ck5+BYk70Q/XgqeOl3mI89uzkHvIj5EQL77G/bB23EO54FuNxlJ6Lv9wYgDc2qNMwEiNHHIR5BdSZbjeuG7QOj0Zyt2sxVloLAez0b+9pAEi3hDcHW+wlxkm/S/J+3d32ZGUpGlEQGfrif4wD5RXPiOBtycEutyeBY8uykss7HHd11kPVx3i2GCooxT2OudI0jI+/U5dCi3mwp1Y7JAW9KI7WmOIxR7GQQg30PXPjZBCOLYBKAEcTG1wgoAUPEFoykXy4BUW3clKggMotclt3PqlFF2pMjOuH+ZuUdClhoDgMF7g593Q+klVjkigNZTbzdkDgLGEw2vNy3JqERfQMfHXFeghQmNDvkKn+r1RwDRAUaQ99bFeWTObf+kzWDiVxVlszh+pod+Q1q8c7MUgoOCBr9JZO4LcznrfWf3YWR/71YOByqJ+d9aaT1vpr1xyf7hSAv4bt0QxTKH99r2znl+DWw21Y6rl9Bc0684ou7xiIbElbSMCiUBM89TxyRxfAqJpKBCM9D819g4w==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BYAPR10MB3240.namprd10.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(366004)(186003)(83380400001)(316002)(6916009)(38350700002)(52116002)(54906003)(8676002)(7416002)(38100700002)(8936002)(508600001)(5660300002)(66556008)(6512007)(66476007)(6486002)(36756003)(4326008)(2616005)(6666004)(107886003)(66946007)(2906002)(26005)(86362001)(6506007);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?iv3hjP/3QZVaFzej19xi5rrjbbDJSDrjo1MswWgHWPFdaw5YXqDyj6itAtYq?=
- =?us-ascii?Q?7ETjfw41V6+0HXIXTJvvub12TWvN7ynXsDJLTDsXJENScpd79+dyYtsf4XuV?=
- =?us-ascii?Q?jG5JX/mHBBkKziy/vp2N5yIZz8th93VxL4UqtHN+nEH9niVI/UMXV7Yr5EHf?=
- =?us-ascii?Q?E5tYyH9/syY8dpyEE78JH2LZ67HQryINdxzzGKLlDvGMBe8b7V0gBHe6nA+x?=
- =?us-ascii?Q?/Lxag+4Oyt2NrpOzDEmBtXXS/HFgdQ+GYtgdWFvJyMSTaz3BlUNloDAhL1yQ?=
- =?us-ascii?Q?U3kZDMB2TbaqWSIbq7zhvu1lkyUlYVSeC58EcP+er2oS4lDL9Hy0rqkSxrGN?=
- =?us-ascii?Q?OJaA4p4ogFyQxUxj0Oq66x5dGYluHi+1Cv5EKH3Iyy4JwZnRWBI7XI3uMMxP?=
- =?us-ascii?Q?y0PEeMOeoJ4/dczvvN/RGIwnUhfl+W+YFLy4mGDKkztS95JeQyAgEK4e9yqy?=
- =?us-ascii?Q?V04OYGg1G5WniThWpb6ZtFpaTfYQ/+2xajAsf2FfgsoW9phasgSx8VK3tdWp?=
- =?us-ascii?Q?X3EvxP9AtOqF+N2YsFhfPWMuJ8iMRxRTdRtBPadnqDCog4B9xnRGFlb7eAiQ?=
- =?us-ascii?Q?rbSrgbKqumxvM9ZnM+mjb78EGi54CYMjKVu9n2MPcEQ1ciras308Xvdd22MC?=
- =?us-ascii?Q?y9LTpWXL1BcCQVqz7SFnguLZgPIZQfYOQ/SWFZIRs998+UIPJA8uCy8G0CkS?=
- =?us-ascii?Q?4hoZN2OCwEHvIgliNxeIcV6aUBtzYUxK1G4GM1+9QRffB8M8mSJ0hzm6TMJU?=
- =?us-ascii?Q?Z6o/4/G2+LsS9BPj+oWsCY2/hlBZb9STzdASbdQbfLbpRnZtLEHC1x482emC?=
- =?us-ascii?Q?jNweqWGU7UMhXcDg7yb6EcVd4t3CGkixL/+TKfwQoJKLTQjO5h51FIr1Zeap?=
- =?us-ascii?Q?weRSFLzsIkiqIBfcNtWgqvcsURcLEQwdtvABrbaOsBARSfLvuHBhW6EfjYrX?=
- =?us-ascii?Q?YgzlQwbfCIzENFFqV8Z2F0W773WSGZ8cbtYrU6EzGA7e59kUm4RBn19T2C28?=
- =?us-ascii?Q?xH01nniCtTnGfj76WV398FT5W4byuQdD8enqceUxu1FYvaF+zdunCqxn+MLD?=
- =?us-ascii?Q?Guk3gb/pIZG8xCst6yneQ/nxyZFSroDMcsDV9TBYZkR1/ii46QQB1Wj4jafG?=
- =?us-ascii?Q?uZSGHPVvqvz5qyEeF/AfD3RRTTLMuS1iEBSn3vWrer8tUdRWmkFWss1FOy45?=
- =?us-ascii?Q?I9aQm/XRvnYECHqq+OzjdnOx+Ja6IqT1zgKWfOrkOKJuVCX9V5rLDlYuRXDQ?=
- =?us-ascii?Q?y7AzWCRoRxjMVvvc24FKRA8iFj4gErcq3IEYQHcvtvBwfs49/LnwHYso7+xX?=
- =?us-ascii?Q?NLI2Ns0t1cLn21WuEF5YifHpLFcDaBSlSX/RnDNGpuitMRzsgmS97+zW5uKy?=
- =?us-ascii?Q?yfPjGkgvXQp5FtjYs4ufle6UTbWqypoPp11wOqo0RZ+WUq+md7a0ZMYJSiMB?=
- =?us-ascii?Q?w5CE8tvCWdzctl/4wbx4C/eKri6SnluTty+NL7+P/7ud2C2jRhVakjB2p0us?=
- =?us-ascii?Q?WfBTRKlE2+Usc+tBjaO3tsNhE5pXDcImo3XgWqJJSFW5REHGtdaCaGF0pwOG?=
- =?us-ascii?Q?C05Uo1T7j5xzRssc7sycBDOnscJIEZPS1r40o7LSB6ZXxGmXiljhmpd0nUL6?=
- =?us-ascii?Q?5jgWBT7badwJ6hC1M14qO1OnFNmwHdozgZ3LgIUFlQCQJ4C9I2WLWo8pNPXZ?=
- =?us-ascii?Q?gdR6uQ=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?O9tPM6IpW51i/EWypinjpQen89Ay4OxI8jPzKlJq8WUo4HnYLhQTP/AJGLf6?=
+ =?us-ascii?Q?JfBDBYW+uyr0UNvlRMTPaKXkqkVwkMUh7e8T28vGgyfbigtrCzmYsjjqo5GY?=
+ =?us-ascii?Q?MROEel6gQIxAPKNGXCrOxz35RSNi1M93SMfN2JifnraKdOf2zi8oztIlD3tH?=
+ =?us-ascii?Q?vsuGq3WCbIriZ8i/xZpL4DZCou3P+DIaaJR3RvMwqimQP8JiF/4HpBvN+Hfc?=
+ =?us-ascii?Q?Tgd7hQR9GV34ObdAKsUlT7H8gd40YcSwd3b/1iEAx04NYn6903sS41j3GqSu?=
+ =?us-ascii?Q?QvoqeqtepIvu/WdrHrfIxaQndntrQrU87BQQjCRklxM3BxasSKL9qX8m5EZz?=
+ =?us-ascii?Q?5hE2xS72jTNPqXNM+oF+iWMMrvVTMG11RbWCXX4jramto9FAu6+exHczRpy3?=
+ =?us-ascii?Q?Dtz4dUjK/zjLWrNlapLBY3X9Mz3v4pwB/UqG4zEOnkwPz1QlA7YR3e7Bz7ch?=
+ =?us-ascii?Q?n8WRXlraD6qjtiXjVhbyj2Z8fxXOPAQLqx4SXTzTlhaYWC2Y1hHcjcrK8Xe2?=
+ =?us-ascii?Q?wMmfjlwMCBHAthP54Cx3oJ2t7IzsptuK6/WuqkW7aIxdbS/lT+YFpRX84ELQ?=
+ =?us-ascii?Q?WLAxlJWoRc9TIZDgPzyGqA6Ssps+dzDAUCRWLu3nSk7ndYcV7tpUpUNUkJ13?=
+ =?us-ascii?Q?mADhTwMZ7UhBTMi+DuAaclZrQb0nSI3xrQhp0tKnF8JxvV2dV7iNRrag1CHs?=
+ =?us-ascii?Q?ZSPayyAMXVlZrZKCFE1itsU2nFa0zjABf83wQxTnZBbHtl091Slui+TbOjcQ?=
+ =?us-ascii?Q?2R/bAqhl8oaZGV3fXqxUHhkAYBYZJ+yE0Ym6IFFYV7AnlpxbaQBXxUOqM7kk?=
+ =?us-ascii?Q?XbEqokS0jadIrJ04VxUmQc47x+CrvsfP/bvnbjB/ko+ITyxD8BezTEVCTrME?=
+ =?us-ascii?Q?Ld1G2gRqyONa7dMO87Pnk6p/365PvQWA3Je7r6qBOmAx/AtywL/ZmjFVzm5R?=
+ =?us-ascii?Q?yR67XGERYviPqlbpH1FiLD9bvGSoh8aGhGsafL9DIOnc9VdQCjq0OfQQpgXt?=
+ =?us-ascii?Q?FYNsejSkaD6UOa3NfmKmpKpDSnCGoNaJigGL8Te0KsTqcX2taMipKcbkWAkc?=
+ =?us-ascii?Q?spy41qy6dZabBQvBQnsreqTTd5cLD2t+22GNBTb83XrY5ok1xYg5/ltyyxGf?=
+ =?us-ascii?Q?WnyNuZSw/bBUpakS/KoUSvy0rLiBc+tX2PLl/McRM3WqrhPXjmc4C3cygJ7O?=
+ =?us-ascii?Q?Vo1NQhVlg+W/IOWf/c0pyqE8XAHnRRti4OOpkCQIh5zHIPkWimQ3TvzfMeGQ?=
+ =?us-ascii?Q?052UgdHFtCi3tXLeidJO3ygj6684ry++SnjWQRJbdQANR0K+Gm+pMbTnKJa4?=
+ =?us-ascii?Q?KRr4AOuj+Z7WH1Q8dlVykZ9Rc9ZgEe4iGaEqZHAx/2WRIdRZp48SAJt07MF7?=
+ =?us-ascii?Q?DVvnGp9k9GEAyORP7Bo3JEPlNiuDqdSy62mI7kG9wgpVUS7m3pitJAj5h3TU?=
+ =?us-ascii?Q?rhXubHe2YZWBP6ufsOBdO3a0n5HRb0JMyy6V+Wn5X3PKggbSKeM0D+LQInx3?=
+ =?us-ascii?Q?eTp7lBJPbNCFtQDD2DKDPy9jf02V2vxoaEe5TqtBILeA6C38wu7pkrec5mlb?=
+ =?us-ascii?Q?HsYpcpNsI51a9apTOi5Xl12164n+75vyf3TimikrQ4/unjZMLAiLq+MDQNDS?=
+ =?us-ascii?Q?AW8zHRzH9xrI2OQ3xF08MlvOoWOHgdZo5xA0WjESKt6bynHMPCZVdoN0lD/f?=
+ =?us-ascii?Q?so204A=3D=3D?=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 80d8b977-81fa-4ac6-c85e-08d9c5832326
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3d0d30a8-fa0b-4df6-9bb0-08d9c583237c
 X-MS-Exchange-CrossTenant-AuthSource: BYAPR10MB3240.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Dec 2021 19:42:07.3580 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Dec 2021 19:42:07.8267 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: rEBgtUn7ejMJDA0Zhk2pvAfddLHb0rG6+qgHUbCjC/lZVyQNOKen7EgDYgsmBSeZvU2dVX4QnjtsWUEWWkj3/LP/04oOD0+52EqNH/CyhOA=
+X-MS-Exchange-CrossTenant-UserPrincipalName: A6PokcSBoMH8J4LQZp78FDv8pSQ6Vh900rfUUoW1fa5eQB2mTxKcC/1YUxkJA6knIEs84Y6StPbEeyukzuZ3Te8owI+HosqbyKyeoYKKNhc=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR10MB4242
 X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10206
  signatures=668683
@@ -141,8 +141,8 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
  suspectscore=0 phishscore=0 bulkscore=0 adultscore=0 mlxscore=0
  malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2110150000 definitions=main-2112220107
-X-Proofpoint-ORIG-GUID: iQrxIY69WiuBa8QHlkUHQhKALL5JEK1U
-X-Proofpoint-GUID: iQrxIY69WiuBa8QHlkUHQhKALL5JEK1U
+X-Proofpoint-ORIG-GUID: dXAfZyB25FjaYzW8xCnh0Iv6lP0iWEj1
+X-Proofpoint-GUID: dXAfZyB25FjaYzW8xCnh0Iv6lP0iWEj1
 Received-SPF: pass client-ip=205.220.177.32;
  envelope-from=steven.sistare@oracle.com; helo=mx0b-00069f02.pphosted.com
 X-Spam_score_int: -27
@@ -179,263 +179,114 @@ Cc: "Daniel P. Berrange" <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add QEMU_CHAR_FEATURE_CPR for devices that support cpr.
-Add the chardev reopen-on-cpr option for devices that can be closed on cpr
-and reopened after exec.
-cpr is allowed only if either QEMU_CHAR_FEATURE_CPR or reopen-on-cpr is set
-for all chardevs in the configuration.
+Set QEMU_CHAR_FEATURE_CPR for devices that trivially support cpr.
+char-stdio is slightly less trivial.  Allow the gdb server by
+closing it on exec.
 
 Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
 ---
- chardev/char.c         | 45 ++++++++++++++++++++++++++++++++++++++++++---
- include/chardev/char.h |  5 +++++
- migration/cpr.c        |  1 +
- qapi/char.json         |  7 ++++++-
- qemu-options.hx        | 26 ++++++++++++++++++++++----
- 5 files changed, 76 insertions(+), 8 deletions(-)
+ chardev/char-mux.c     | 1 +
+ chardev/char-null.c    | 1 +
+ chardev/char-serial.c  | 1 +
+ chardev/char-stdio.c   | 8 ++++++++
+ gdbstub.c              | 1 +
+ include/chardev/char.h | 1 +
+ migration/cpr.c        | 1 +
+ 7 files changed, 14 insertions(+)
 
-diff --git a/chardev/char.c b/chardev/char.c
-index 0169d8d..230bf16 100644
---- a/chardev/char.c
-+++ b/chardev/char.c
-@@ -36,6 +36,7 @@
- #include "qemu/help_option.h"
- #include "qemu/module.h"
- #include "qemu/option.h"
-+#include "migration/cpr.h"
- #include "qemu/id.h"
- #include "qemu/coroutine.h"
- #include "qemu/yank.h"
-@@ -240,15 +241,24 @@ static void qemu_char_open(Chardev *chr, ChardevBackend *backend,
-     /* Any ChardevCommon member would work */
-     ChardevCommon *common = backend ? backend->u.null.data : NULL;
- 
-+    chr->reopen_on_cpr = (common && common->reopen_on_cpr);
-+
-     if (common && common->has_logfile) {
-         int flags = O_WRONLY;
-+        g_autofree char *fdname = g_strdup_printf("%s_log", chr->label);
-         if (common->has_logappend &&
-             common->logappend) {
-             flags |= O_APPEND;
-         } else {
-             flags |= O_TRUNC;
-         }
--        chr->logfd = qemu_create(common->logfile, flags, 0666, errp);
-+        chr->logfd = cpr_find_fd(fdname, 0);
-+        if (chr->logfd < 0) {
-+            chr->logfd = qemu_create(common->logfile, flags, 0666, errp);
-+            if (!chr->reopen_on_cpr) {
-+                cpr_save_fd(fdname, 0, chr->logfd);
-+            }
-+        }
-         if (chr->logfd < 0) {
-             return;
-         }
-@@ -297,11 +307,15 @@ static void char_finalize(Object *obj)
-     if (chr->be) {
-         chr->be->chr = NULL;
-     }
--    g_free(chr->filename);
--    g_free(chr->label);
-     if (chr->logfd != -1) {
-+        g_autofree char *fdname = g_strdup_printf("%s_log", chr->label);
-+        if (!chr->reopen_on_cpr) {
-+            cpr_delete_fd(fdname, 0);
-+        }
-         close(chr->logfd);
-     }
-+    g_free(chr->filename);
-+    g_free(chr->label);
-     qemu_mutex_destroy(&chr->chr_write_lock);
+diff --git a/chardev/char-mux.c b/chardev/char-mux.c
+index ee2d47b..d47fa31 100644
+--- a/chardev/char-mux.c
++++ b/chardev/char-mux.c
+@@ -337,6 +337,7 @@ static void qemu_chr_open_mux(Chardev *chr,
+      */
+     *be_opened = muxes_opened;
+     qemu_chr_fe_init(&d->chr, drv, errp);
++    qemu_chr_set_feature(chr, QEMU_CHAR_FEATURE_CPR);
  }
  
-@@ -501,6 +515,8 @@ void qemu_chr_parse_common(QemuOpts *opts, ChardevCommon *backend)
- 
-     backend->has_logappend = true;
-     backend->logappend = qemu_opt_get_bool(opts, "logappend", false);
-+
-+    backend->reopen_on_cpr = qemu_opt_get_bool(opts, "reopen-on-cpr", false);
- }
- 
- static const ChardevClass *char_get_class(const char *driver, Error **errp)
-@@ -942,6 +958,9 @@ QemuOptsList qemu_chardev_opts = {
-         },{
-             .name = "abstract",
-             .type = QEMU_OPT_BOOL,
-+        },{
-+            .name = "reopen-on-cpr",
-+            .type = QEMU_OPT_BOOL,
- #endif
-         },
-         { /* end of list */ }
-@@ -1217,6 +1236,26 @@ GSource *qemu_chr_timeout_add_ms(Chardev *chr, guint ms,
-     return source;
- }
- 
-+static int chr_cpr_capable(Object *obj, void *opaque)
-+{
-+    Chardev *chr = (Chardev *)obj;
-+    Error **errp = opaque;
-+
-+    if (qemu_chr_has_feature(chr, QEMU_CHAR_FEATURE_CPR) ||
-+        chr->reopen_on_cpr) {
-+        return 0;
-+    }
-+    error_setg(errp,
-+               "chardev %s -> %s is not capable of cpr. See reopen-on-cpr",
-+               chr->label, chr->filename);
-+    return -1;
-+}
-+
-+bool qemu_chr_is_cpr_capable(Error **errp)
-+{
-+    return !object_child_foreach(get_chardevs_root(), chr_cpr_capable, errp);
-+}
-+
- void qemu_chr_cleanup(void)
+ static void qemu_chr_parse_mux(QemuOpts *opts, ChardevBackend *backend,
+diff --git a/chardev/char-null.c b/chardev/char-null.c
+index 1c6a290..02acaff 100644
+--- a/chardev/char-null.c
++++ b/chardev/char-null.c
+@@ -32,6 +32,7 @@ static void null_chr_open(Chardev *chr,
+                           Error **errp)
  {
-     object_unparent(get_chardevs_root());
+     *be_opened = false;
++    qemu_chr_set_feature(chr, QEMU_CHAR_FEATURE_CPR);
+ }
+ 
+ static void char_null_class_init(ObjectClass *oc, void *data)
+diff --git a/chardev/char-serial.c b/chardev/char-serial.c
+index 7c3d84a..b585085 100644
+--- a/chardev/char-serial.c
++++ b/chardev/char-serial.c
+@@ -274,6 +274,7 @@ static void qmp_chardev_open_serial(Chardev *chr,
+     qemu_set_nonblock(fd);
+     tty_serial_init(fd, 115200, 'N', 8, 1);
+ 
++    qemu_chr_set_feature(chr, QEMU_CHAR_FEATURE_CPR);
+     qemu_chr_open_fd(chr, fd, fd);
+ }
+ #endif /* __linux__ || __sun__ */
+diff --git a/chardev/char-stdio.c b/chardev/char-stdio.c
+index 403da30..9410c16 100644
+--- a/chardev/char-stdio.c
++++ b/chardev/char-stdio.c
+@@ -114,9 +114,17 @@ static void qemu_chr_open_stdio(Chardev *chr,
+ 
+     stdio_allow_signal = !opts->has_signal || opts->signal;
+     qemu_chr_set_echo_stdio(chr, false);
++    qemu_chr_set_feature(chr, QEMU_CHAR_FEATURE_CPR);
+ }
+ #endif
+ 
++void qemu_term_exit(void)
++{
++#ifndef _WIN32
++    term_exit();
++#endif
++}
++
+ static void qemu_chr_parse_stdio(QemuOpts *opts, ChardevBackend *backend,
+                                  Error **errp)
+ {
+diff --git a/gdbstub.c b/gdbstub.c
+index 3c14c6a..137deeb 100644
+--- a/gdbstub.c
++++ b/gdbstub.c
+@@ -3569,6 +3569,7 @@ int gdbserver_start(const char *device)
+         mon_chr = gdbserver_state.mon_chr;
+         reset_gdbserver_state();
+     }
++    mon_chr->reopen_on_cpr = true;
+ 
+     create_processes(&gdbserver_state);
+ 
 diff --git a/include/chardev/char.h b/include/chardev/char.h
-index a319b5f..299e129 100644
+index 299e129..fc24d28 100644
 --- a/include/chardev/char.h
 +++ b/include/chardev/char.h
-@@ -50,6 +50,8 @@ typedef enum {
-     /* Whether the gcontext can be changed after calling
-      * qemu_chr_be_update_read_handlers() */
-     QEMU_CHAR_FEATURE_GCONTEXT,
-+    /* Whether the device supports cpr */
-+    QEMU_CHAR_FEATURE_CPR,
- 
-     QEMU_CHAR_FEATURE_LAST,
- } ChardevFeature;
-@@ -67,6 +69,7 @@ struct Chardev {
-     int be_open;
-     /* used to coordinate the chardev-change special-case: */
-     bool handover_yank_instance;
-+    bool reopen_on_cpr;
-     GSource *gsource;
-     GMainContext *gcontext;
-     DECLARE_BITMAP(features, QEMU_CHAR_FEATURE_LAST);
-@@ -323,4 +326,6 @@ void resume_mux_open(void);
- /* console.c */
+@@ -327,5 +327,6 @@ void resume_mux_open(void);
  void qemu_chr_parse_vc(QemuOpts *opts, ChardevBackend *backend, Error **errp);
  
-+bool qemu_chr_is_cpr_capable(Error **errp);
-+
+ bool qemu_chr_is_cpr_capable(Error **errp);
++void qemu_term_exit(void);
+ 
  #endif
 diff --git a/migration/cpr.c b/migration/cpr.c
-index 4229c17..3bda83e 100644
+index 3bda83e..eb8ce2a 100644
 --- a/migration/cpr.c
 +++ b/migration/cpr.c
-@@ -6,6 +6,7 @@
-  */
+@@ -112,6 +112,7 @@ void qmp_cpr_exec(strList *args, Error **errp)
+         return;
+     }
+     vhost_dev_reset_all();
++    qemu_term_exit();
+     qemu_system_exec_request(args);
+ }
  
- #include "qemu/osdep.h"
-+#include "chardev/char.h"
- #include "exec/memory.h"
- #include "hw/vfio/vfio-common.h"
- #include "hw/virtio/vhost.h"
-diff --git a/qapi/char.json b/qapi/char.json
-index 7b42151..dfa6baf 100644
---- a/qapi/char.json
-+++ b/qapi/char.json
-@@ -204,12 +204,17 @@
- # @logfile: The name of a logfile to save output
- # @logappend: true to append instead of truncate
- #             (default to false to truncate)
-+# @reopen-on-cpr: if true, close device's fd on cpr-save and reopen it after
-+#                 cpr-exec. Set this to allow CPR on a device that does not
-+#                 support QEMU_CHAR_FEATURE_CPR. defaults to false.
-+#                 since 6.2.
- #
- # Since: 2.6
- ##
- { 'struct': 'ChardevCommon',
-   'data': { '*logfile': 'str',
--            '*logappend': 'bool' } }
-+            '*logappend': 'bool',
-+            '*reopen-on-cpr': 'bool' } }
- 
- ##
- # @ChardevFile:
-diff --git a/qemu-options.hx b/qemu-options.hx
-index 33c8173..1859b55 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -3227,43 +3227,57 @@ DEFHEADING(Character device options:)
- 
- DEF("chardev", HAS_ARG, QEMU_OPTION_chardev,
-     "-chardev help\n"
--    "-chardev null,id=id[,mux=on|off][,logfile=PATH][,logappend=on|off]\n"
-+    "-chardev null,id=id[,mux=on|off][,logfile=PATH][,logappend=on|off][,reopen-on-cpr=on|off]\n"
-     "-chardev socket,id=id[,host=host],port=port[,to=to][,ipv4=on|off][,ipv6=on|off][,nodelay=on|off]\n"
-     "         [,server=on|off][,wait=on|off][,telnet=on|off][,websocket=on|off][,reconnect=seconds][,mux=on|off]\n"
--    "         [,logfile=PATH][,logappend=on|off][,tls-creds=ID][,tls-authz=ID] (tcp)\n"
-+    "         [,logfile=PATH][,logappend=on|off][,tls-creds=ID][,tls-authz=ID][,reopen-on-cpr=on|off] (tcp)\n"
-     "-chardev socket,id=id,path=path[,server=on|off][,wait=on|off][,telnet=on|off][,websocket=on|off][,reconnect=seconds]\n"
--    "         [,mux=on|off][,logfile=PATH][,logappend=on|off][,abstract=on|off][,tight=on|off] (unix)\n"
-+    "         [,mux=on|off][,logfile=PATH][,logappend=on|off][,abstract=on|off][,tight=on|off][,reopen-on-cpr=on|off] (unix)\n"
-     "-chardev udp,id=id[,host=host],port=port[,localaddr=localaddr]\n"
-     "         [,localport=localport][,ipv4=on|off][,ipv6=on|off][,mux=on|off]\n"
--    "         [,logfile=PATH][,logappend=on|off]\n"
-+    "         [,logfile=PATH][,logappend=on|off][,reopen-on-cpr=on|off]\n"
-     "-chardev msmouse,id=id[,mux=on|off][,logfile=PATH][,logappend=on|off]\n"
-+    "         [,reopen-on-cpr=on|off]\n"
-     "-chardev vc,id=id[[,width=width][,height=height]][[,cols=cols][,rows=rows]]\n"
-     "         [,mux=on|off][,logfile=PATH][,logappend=on|off]\n"
-+    "         [,reopen-on-cpr=on|off]\n"
-     "-chardev ringbuf,id=id[,size=size][,logfile=PATH][,logappend=on|off]\n"
-+    "         [,reopen-on-cpr=on|off]\n"
-     "-chardev file,id=id,path=path[,mux=on|off][,logfile=PATH][,logappend=on|off]\n"
-+    "         [,reopen-on-cpr=on|off]\n"
-     "-chardev pipe,id=id,path=path[,mux=on|off][,logfile=PATH][,logappend=on|off]\n"
-+    "         [,reopen-on-cpr=on|off]\n"
- #ifdef _WIN32
-     "-chardev console,id=id[,mux=on|off][,logfile=PATH][,logappend=on|off]\n"
-     "-chardev serial,id=id,path=path[,mux=on|off][,logfile=PATH][,logappend=on|off]\n"
- #else
-     "-chardev pty,id=id[,mux=on|off][,logfile=PATH][,logappend=on|off]\n"
-+    "         [,reopen-on-cpr=on|off]\n"
-     "-chardev stdio,id=id[,mux=on|off][,signal=on|off][,logfile=PATH][,logappend=on|off]\n"
-+    "         [,reopen-on-cpr=on|off]\n"
- #endif
- #ifdef CONFIG_BRLAPI
-     "-chardev braille,id=id[,mux=on|off][,logfile=PATH][,logappend=on|off]\n"
-+    "         [,reopen-on-cpr=on|off]\n"
- #endif
- #if defined(__linux__) || defined(__sun__) || defined(__FreeBSD__) \
-         || defined(__NetBSD__) || defined(__OpenBSD__) || defined(__DragonFly__)
-     "-chardev serial,id=id,path=path[,mux=on|off][,logfile=PATH][,logappend=on|off]\n"
-+    "         [,reopen-on-cpr=on|off]\n"
-     "-chardev tty,id=id,path=path[,mux=on|off][,logfile=PATH][,logappend=on|off]\n"
-+    "         [,reopen-on-cpr=on|off]\n"
- #endif
- #if defined(__linux__) || defined(__FreeBSD__) || defined(__DragonFly__)
-     "-chardev parallel,id=id,path=path[,mux=on|off][,logfile=PATH][,logappend=on|off]\n"
-+    "         [,reopen-on-cpr=on|off]\n"
-     "-chardev parport,id=id,path=path[,mux=on|off][,logfile=PATH][,logappend=on|off]\n"
-+    "         [,reopen-on-cpr=on|off]\n"
- #endif
- #if defined(CONFIG_SPICE)
-     "-chardev spicevmc,id=id,name=name[,debug=debug][,logfile=PATH][,logappend=on|off]\n"
-+    "         [,reopen-on-cpr=on|off]\n"
-     "-chardev spiceport,id=id,name=name[,debug=debug][,logfile=PATH][,logappend=on|off]\n"
-+    "         [,reopen-on-cpr=on|off]\n"
- #endif
-     , QEMU_ARCH_ALL
- )
-@@ -3338,6 +3352,10 @@ The general form of a character device option is:
-     ``logappend`` option controls whether the log file will be truncated
-     or appended to when opened.
- 
-+    Every backend supports the ``reopen-on-cpr`` option.  If on, the
-+    devices's descriptor is closed during cpr-save, and reopened after exec.
-+    This is useful for devices that do not support cpr.
-+
- The available backends are:
- 
- ``-chardev null,id=id``
 -- 
 1.8.3.1
 
