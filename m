@@ -2,70 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2B6A47CD57
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Dec 2021 08:10:04 +0100 (CET)
-Received: from localhost ([::1]:58270 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECFDA47CD3C
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Dec 2021 08:02:50 +0100 (CET)
+Received: from localhost ([::1]:50054 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mzvlD-0004PN-MM
-	for lists+qemu-devel@lfdr.de; Wed, 22 Dec 2021 02:10:03 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57412)
+	id 1mzveE-000732-0v
+	for lists+qemu-devel@lfdr.de; Wed, 22 Dec 2021 02:02:50 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57486)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1mzvIh-0008Fc-RG
- for qemu-devel@nongnu.org; Wed, 22 Dec 2021 01:40:35 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:33217)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1mzvIr-0008Nd-4k; Wed, 22 Dec 2021 01:40:47 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:51530)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1mzvIa-0003B9-Eu
- for qemu-devel@nongnu.org; Wed, 22 Dec 2021 01:40:34 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1640155226;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=GCsShkGNTOHYe/jzI4mAbQV4tOhTyhlj3BBfbJymxV8=;
- b=Y/7wSTokkyu/EBvtGkfWy8/J9Kk15hoEgJlT8VIELGQoEvCill3/nGFvimIsB/0A6VqPB6
- n2ZbtNkswR5QvWVNIc2HuewA7LJqgfoVNFLVYtAGgXhn0YmnbJRy1bfHLqMoGW6G3DuhjV
- Xxwfqp7y7akWtCOlVMou0nGig834ICc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-517-mtSbW_AOOwiwQ5RHwqc7jQ-1; Wed, 22 Dec 2021 01:40:23 -0500
-X-MC-Unique: mtSbW_AOOwiwQ5RHwqc7jQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 306BF39381;
- Wed, 22 Dec 2021 06:40:22 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-13-219.pek2.redhat.com
- [10.72.13.219])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9D8BB838F1;
- Wed, 22 Dec 2021 06:39:59 +0000 (UTC)
-From: Jason Wang <jasowang@redhat.com>
-To: mst@redhat.com,
-	peterx@redhat.com
-Subject: [PATCH] intel-iommu: correctly check passthrough during translation
-Date: Wed, 22 Dec 2021 14:39:56 +0800
-Message-Id: <20211222063956.2871-1-jasowang@redhat.com>
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1mzvIp-0003CF-1G; Wed, 22 Dec 2021 01:40:44 -0500
+Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1BM2dpaf007620; 
+ Wed, 22 Dec 2021 06:40:33 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3d3f18hfv3-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 22 Dec 2021 06:40:33 +0000
+Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1BM6Zdj2026164;
+ Wed, 22 Dec 2021 06:40:32 GMT
+Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.70])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3d3f18hfuh-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 22 Dec 2021 06:40:32 +0000
+Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
+ by ppma01fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1BM6abT7023595;
+ Wed, 22 Dec 2021 06:40:30 GMT
+Received: from b06avi18626390.portsmouth.uk.ibm.com
+ (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
+ by ppma01fra.de.ibm.com with ESMTP id 3d1799suk3-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 22 Dec 2021 06:40:29 +0000
+Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
+ [9.149.105.61])
+ by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 1BM6WDf436569460
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 22 Dec 2021 06:32:13 GMT
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id A135F11C050;
+ Wed, 22 Dec 2021 06:40:27 +0000 (GMT)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 6086A11C04A;
+ Wed, 22 Dec 2021 06:40:27 +0000 (GMT)
+Received: from smtp.tlslab.ibm.com (unknown [9.101.4.1])
+ by d06av25.portsmouth.uk.ibm.com (Postfix) with SMTP;
+ Wed, 22 Dec 2021 06:40:27 +0000 (GMT)
+Received: from yukon.ibmuc.com (unknown [9.171.51.190])
+ by smtp.tlslab.ibm.com (Postfix) with ESMTP id 97A6422010B;
+ Wed, 22 Dec 2021 07:40:26 +0100 (CET)
+From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+To: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Subject: [PATCH 0/8] ppc/ppc405: Fixes 
+Date: Wed, 22 Dec 2021 07:40:17 +0100
+Message-Id: <20211222064025.1541490-1-clg@kaod.org>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
-X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
- DKIM_SIGNED=0.1, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: eJ5AimpiHExDZ2bkMbGCSGKCgaGmbDtL
+X-Proofpoint-GUID: dXwe5yBSCrhMvHk4LRC8sEHS9Jhu8kV-
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2021-12-22_02,2021-12-21_01,2021-12-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 phishscore=0
+ priorityscore=1501 suspectscore=0 mlxscore=0 mlxlogscore=733
+ malwarescore=0 adultscore=0 bulkscore=0 lowpriorityscore=0 impostorscore=0
+ clxscore=1034 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2110150000 definitions=main-2112220038
+Received-SPF: softfail client-ip=148.163.156.1; envelope-from=clg@kaod.org;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -11
+X-Spam_score: -1.2
+X-Spam_bar: -
+X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,95 +98,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, yi.l.liu@intel.com,
- yi.y.sun@linux.intel.com, qemu-devel@nongnu.org
+Cc: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>, Greg Kurz <groug@kaod.org>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When scsalable mode is enabled, the passthrough more is not determined
-by the context entry but PASID entry, so switch to use the logic of
-vtd_dev_pt_enabled() to determine the passthrough mode in
-vtd_do_iommu_translate().
+Hello,
 
-Signed-off-by: Jason Wang <jasowang@redhat.com>
----
- hw/i386/intel_iommu.c | 38 +++++++++++++++++++++++---------------
- 1 file changed, 23 insertions(+), 15 deletions(-)
+The series starts with a couple of cleanups helpping debug. It then
+adds back support for 405 timers which was broken 10 years ago.
 
-diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
-index f584449d8d..f346a82652 100644
---- a/hw/i386/intel_iommu.c
-+++ b/hw/i386/intel_iommu.c
-@@ -1512,11 +1512,29 @@ static int vtd_sync_shadow_page_table(VTDAddressSpace *vtd_as)
-  * 1st-level translation or 2nd-level translation, it depends
-  * on PGTT setting.
-  */
--static bool vtd_dev_pt_enabled(VTDAddressSpace *as)
-+static bool vtd_dev_pt_enabled(IntelIOMMUState *s, VTDContextEntry *ce)
-+{
-+    VTDPASIDEntry pe;
-+    int ret;
-+
-+    if (s->root_scalable) {
-+        ret = vtd_ce_get_rid2pasid_entry(s, ce, &pe);
-+        if (ret) {
-+            error_report_once("%s: vtd_ce_get_rid2pasid_entry error: %"PRId32,
-+                              __func__, ret);
-+            return false;
-+        }
-+        return (VTD_PE_GET_TYPE(&pe) == VTD_SM_PASID_ENTRY_PT);
-+    }
-+
-+    return (vtd_ce_get_type(ce) == VTD_CONTEXT_TT_PASS_THROUGH);
-+
-+}
-+
-+static bool vtd_as_pt_enabled(VTDAddressSpace *as)
- {
-     IntelIOMMUState *s;
-     VTDContextEntry ce;
--    VTDPASIDEntry pe;
-     int ret;
- 
-     assert(as);
-@@ -1534,17 +1552,7 @@ static bool vtd_dev_pt_enabled(VTDAddressSpace *as)
-         return false;
-     }
- 
--    if (s->root_scalable) {
--        ret = vtd_ce_get_rid2pasid_entry(s, &ce, &pe);
--        if (ret) {
--            error_report_once("%s: vtd_ce_get_rid2pasid_entry error: %"PRId32,
--                              __func__, ret);
--            return false;
--        }
--        return (VTD_PE_GET_TYPE(&pe) == VTD_SM_PASID_ENTRY_PT);
--    }
--
--    return (vtd_ce_get_type(&ce) == VTD_CONTEXT_TT_PASS_THROUGH);
-+    return vtd_dev_pt_enabled(s, &ce);
- }
- 
- /* Return whether the device is using IOMMU translation. */
-@@ -1556,7 +1564,7 @@ static bool vtd_switch_address_space(VTDAddressSpace *as)
- 
-     assert(as);
- 
--    use_iommu = as->iommu_state->dmar_enabled && !vtd_dev_pt_enabled(as);
-+    use_iommu = as->iommu_state->dmar_enabled && !vtd_as_pt_enabled(as);
- 
-     trace_vtd_switch_address_space(pci_bus_num(as->bus),
-                                    VTD_PCI_SLOT(as->devfn),
-@@ -1749,7 +1757,7 @@ static bool vtd_do_iommu_translate(VTDAddressSpace *vtd_as, PCIBus *bus,
-      * We don't need to translate for pass-through context entries.
-      * Also, let's ignore IOTLB caching as well for PT devices.
-      */
--    if (vtd_ce_get_type(&ce) == VTD_CONTEXT_TT_PASS_THROUGH) {
-+    if (vtd_dev_pt_enabled(s, &ce)) {
-         entry->iova = addr & VTD_PAGE_MASK_4K;
-         entry->translated_addr = entry->iova;
-         entry->addr_mask = ~VTD_PAGE_MASK_4K;
--- 
-2.25.1
+Thanks,
+
+C.=20
+
+C=C3=A9dric Le Goater (8):
+  target/ppc: Print out literal exception names in logs
+  ppc/ppc4xx: Convert printfs()
+  ppc/ppc405: Activate MMU logs
+  ppc/ppc405: Restore TCR and STR write handlers
+  ppc/ppc405: Rework ppc_40x_timers_init() to use a PowerPCCPU
+  ppc/ppc405: Fix timer initialization
+  ppc/ppc405: Introduce a store helper for SPR_40x_PID
+  ppc/ppc405: Dump specific registers
+
+ target/ppc/cpu.h             |  2 +
+ target/ppc/helper.h          |  2 +
+ target/ppc/spr_tcg.h         |  3 ++
+ hw/ppc/mpc8544_guts.c        |  9 +++--
+ hw/ppc/ppc.c                 | 67 +++++++++++++++++++++-----------
+ hw/ppc/ppc405_uc.c           |  2 -
+ hw/ppc/ppc4xx_devs.c         | 39 ++++++-------------
+ hw/ppc/ppc4xx_pci.c          | 11 ++++--
+ target/ppc/cpu_init.c        | 17 ++++++--
+ target/ppc/excp_helper.c     | 75 +++++++++++++++++++++++++++++++++++-
+ target/ppc/mmu_common.c      |  4 +-
+ target/ppc/mmu_helper.c      |  2 +-
+ target/ppc/timebase_helper.c | 10 +++++
+ target/ppc/translate.c       | 20 ++++++++++
+ hw/ppc/trace-events          |  7 ++++
+ 15 files changed, 203 insertions(+), 67 deletions(-)
+
+--=20
+2.31.1
 
 
