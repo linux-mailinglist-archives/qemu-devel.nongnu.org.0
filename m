@@ -2,72 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50B2747D2F5
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Dec 2021 14:16:52 +0100 (CET)
-Received: from localhost ([::1]:37472 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCA3E47D32D
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Dec 2021 14:49:33 +0100 (CET)
+Received: from localhost ([::1]:40900 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n01UA-0003rx-Sj
-	for lists+qemu-devel@lfdr.de; Wed, 22 Dec 2021 08:16:50 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58370)
+	id 1n01zo-0002sZ-Cm
+	for lists+qemu-devel@lfdr.de; Wed, 22 Dec 2021 08:49:32 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39704)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1n01OV-0002Es-Mr
- for qemu-devel@nongnu.org; Wed, 22 Dec 2021 08:11:00 -0500
-Received: from [2a00:1450:4864:20::431] (port=41496
- helo=mail-wr1-x431.google.com)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1n01wB-0008JQ-Kn; Wed, 22 Dec 2021 08:45:47 -0500
+Received: from [2607:f8b0:4864:20::f33] (port=34454
+ helo=mail-qv1-xf33.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1n01OU-0008Eh-3I
- for qemu-devel@nongnu.org; Wed, 22 Dec 2021 08:10:59 -0500
-Received: by mail-wr1-x431.google.com with SMTP id a9so4812738wrr.8
- for <qemu-devel@nongnu.org>; Wed, 22 Dec 2021 05:10:57 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1n01w7-0004ZV-7X; Wed, 22 Dec 2021 08:45:47 -0500
+Received: by mail-qv1-xf33.google.com with SMTP id ke6so2360070qvb.1;
+ Wed, 22 Dec 2021 05:45:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=uNcFgp0jFoXjtfQEAhTs7yl5BgxDg6d7beMniuugV1k=;
- b=XiFeKJCL34Z2P0kItCckbDLDw15f1iDhNMMPhsssPvSB6rX/iUZT/548KQzu6Ay8JY
- qIQEwH+Pm4E2QC1tmcvH1Y2t2QXJfxQmI4qK5tzcPfH60XMjEWfdouP3W48zLisfBVNA
- z4oCieShOWfW7lAcOBCPAI1z4e0irggJ2lPYQS/0Se3q59iDuweQLZ3OSljGNNL4p6LP
- aJOSG1UYIlVjM4uDOUTrJNTIi/pL9y4F2Jza11wTp9N3UzSYtaR9je3InteiWGmwVbKn
- xpNCPlCJa/gcdTzoSrgzn2YRdKAMCUVtmSJaH27rJNrLYvS2KdehVhBXhpAHoOlq0Z2d
- QvFw==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=/0g9s8OIvW2H4zuUtWZ1YgJgVS6lgCrt9UibX5UBJFs=;
+ b=OkRWoMOlBkOAQ3KLfcWcBcZk68G7XU8MXpA4hmIgXP2B8ygeEmtxjAQMzKxZP++M8A
+ Xt4YNYAYFnSMjA+uZP+UAFYiE9Wbh72YEwywok01nqkXeIuLOlqKbFxIXBkapqo7An52
+ /ttscboLquCw7/BopFW9fonEbn2Ef2HHSrVPL4vHIU/Oq+I69kuTlxZWJxRIOoh9Oc5R
+ suisUdPFAl4qy50myWG/ROURjxdfhi7N1QvjPfQUBhl2qsWllwYrA9nK2FMwRlR42MRb
+ YNIq/UTPI3vLUoEidzVCpG53Zu3nPxX/amzMMznpfwBZm4WOM0rWZjxZPwymg7BBes8M
+ /0IQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=uNcFgp0jFoXjtfQEAhTs7yl5BgxDg6d7beMniuugV1k=;
- b=UIBum/8d6ScHUgpBFZ6LPaHoOG5QPzTm8NiNE2RG0gnz2ORPukdfs2s1XDCBEbbtC5
- jel2UXMtrD96aWOV269fZiOOzlnRFKq+W4k9AX9incaVdbMiNN7Sr9y6OFm9sWvkqWFp
- ae30WWtPkJbFgocMPSPtOBn5gE6EIpufbRlI8wboemjl2IJCQqWqcbbLWoujLVRCgBxJ
- mbtMecX/zKHgTz/HrG6ajleK+0UzJmZIVnHZJefTnfA31xYAbryfBbI80w6nPRADK06L
- LaJJKEORua+BR4UT+kbE/s1bC0xJE/oCR97Hlw0XPpoIS2nHSehb0nT0ePvj+2vTK7WZ
- AHSw==
-X-Gm-Message-State: AOAM531cOMDnlmGscNMU6KFKtNNtpv78e3IAOR4uMlaydp0OdfBZ0TAD
- kHfEDpd/5ZR0q4rBF57GEo3jbF25obGU6VpNdkM=
-X-Google-Smtp-Source: ABdhPJxVD6Y7HlOKL5zmUPPo+WHH7WSX/GJYbzCSCkESKQDb3cpmTYc7WhMpThvVJ9iUZQdrf24J5lvRDFHRYafOq/o=
-X-Received: by 2002:a5d:5887:: with SMTP id n7mr2108076wrf.436.1640178656234; 
- Wed, 22 Dec 2021 05:10:56 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=/0g9s8OIvW2H4zuUtWZ1YgJgVS6lgCrt9UibX5UBJFs=;
+ b=INizTBdWX5zYFBg1HzJAP49T0SPr/eJwhXv03AVM/7+KYxs4Cs+o1YoLm6KTTLJ1W3
+ 55GGNwQ4M5hfepfLT2cvqhB+upfGn/G1mD2mOTfuABIA52x8vb6K3puWc2Vp0D59Mq6Z
+ Q3xmAvadFjgTwzR/SkxmIv192kLk23kq1Ell/zQOvWb3I5t4J5axR8YFJ3IuyTPvZToZ
+ i2K6qWLpcTV5fSPrKV/NPyI439JMVdXkMKsQ7f3yI71APa0qpVcSqa+5w58uob55+yIq
+ iUH5VKnkf8vYsXkmDn9pZsRsnAMHOWdDTC+xMGQrQnWNa8/ftif+V7rKb2RAAmW8fdY7
+ 6XYw==
+X-Gm-Message-State: AOAM532AnFzQzXJ8EW3QBy5/jAGC68TtuBo1s8/rgcCVddkkcueqQNMI
+ vKdoepPgeEkbn/lYAtDYHRjWRgfTGW0=
+X-Google-Smtp-Source: ABdhPJyu+snMkGKyFA4dR9l0kAAMrcclNYca13Wfn8AIvSXulGrFsarPgGgEDPF56EE0Bsu0fra1oA==
+X-Received: by 2002:a05:6214:e43:: with SMTP id o3mr2420621qvc.1.1640180741508; 
+ Wed, 22 Dec 2021 05:45:41 -0800 (PST)
+Received: from rekt.ibmuc.com ([170.239.133.233])
+ by smtp.gmail.com with ESMTPSA id j16sm1757054qtx.92.2021.12.22.05.45.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 22 Dec 2021 05:45:41 -0800 (PST)
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/8] Re-write PPC64 PMU instruction count using TCG Ops
+Date: Wed, 22 Dec 2021 10:45:12 -0300
+Message-Id: <20211222134520.587877-1-danielhb413@gmail.com>
+X-Mailer: git-send-email 2.33.1
 MIME-Version: 1.0
-References: <20211222010647.1332479-1-dpetroff@gmail.com>
- <20211222010647.1332479-5-dpetroff@gmail.com>
-In-Reply-To: <20211222010647.1332479-5-dpetroff@gmail.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Wed, 22 Dec 2021 17:10:43 +0400
-Message-ID: <CAJ+F1CKgN7G5f452c8b7T-nHJ24zx4CgtemdAqmh4utUPw_PkA@mail.gmail.com>
-Subject: Re: [PATCH v2 5/5] ui/input-legacy: pass horizontal scroll information
-To: Dmitry Petrov <dpetroff@gmail.com>
-Content-Type: multipart/alternative; boundary="0000000000002c4e8105d3bbda92"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::431
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::f33
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-wr1-x431.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f33;
+ envelope-from=danielhb413@gmail.com; helo=mail-qv1-xf33.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
 X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,194 +82,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU <qemu-devel@nongnu.org>
+Cc: richard.henderson@linaro.org,
+ Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
+ clg@kaod.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000002c4e8105d3bbda92
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Hi,
 
-Hi
+Two days ago Richard Henderson reported test failures with Avocado and
+powernv8/9 due to timeouts [1]. The culprit ended up to be commit , a
+commit where I introduced PMU instruction counting for TCG PPC64.
 
-On Wed, Dec 22, 2021 at 5:31 AM Dmitry Petrov <dpetroff@gmail.com> wrote:
+For a reason that is still unclear to me these Avocado powernv tests are
+suffering a huge performance impact after that patch, something that I
+didn't verify in any other scenario I've tested. So one alternative to
+fix the situation is to understand this difference and try to solve it,
+which can take some time. 
+ 
+Another alternative is to optimize the code introduced by that commit.
+Today the instruction count is done by a TCG helper that is called after
+each TB exit. I was aware that calling a helper frequently isn't
+optimal, but that got the job done and didn't  hindered the use of
+pSeries and powernv machines.  Well, until [1] at least.
 
-> This code seems to be used by vmport hack, passing these values allows
-> to implement horizontal scroll support even when using vmport.
-> In case it's not supported horizontal scroll will act as a vertical one.
->
-> Signed-off-by: Dmitry Petrov <dpetroff@gmail.com>
->
+This series rewrites the PMU instruction counting using TCG Ops instead
+of a TCG helper. To do that we needed to write in TCG Ops not only the
+logic for increment the counters but also the logic to detect counter
+overflows.
 
-Hmm, apparently Linux kernel handles PSMOUSE_VMMOUSE as a generic ps/2
-mouse without the extensions.
+A lot of code was added but the performance improvement is noticeable.
+Using my local machine I did some test runs with the 2 Avocado powernv
+tests that are timing out at this moment:
 
-And there is no horizontal scrolling in vmmouse protocol I can find.
+- failing Avocado powernv tests with current master:
 
----
->  ui/input-legacy.c | 16 ++++++++++++++++
->  1 file changed, 16 insertions(+)
->
-> diff --git a/ui/input-legacy.c b/ui/input-legacy.c
-> index 9fc78a639b..2c9a215d7f 100644
-> --- a/ui/input-legacy.c
-> +++ b/ui/input-legacy.c
-> @@ -23,6 +23,7 @@
->   */
->
->  #include "qemu/osdep.h"
-> +#include "qemu/log.h"
->  #include "qapi/qapi-commands-ui.h"
->  #include "ui/console.h"
->  #include "keymaps.h"
-> @@ -179,6 +180,20 @@ static void legacy_mouse_event(DeviceState *dev,
-> QemuConsole *src,
->                                      1,
->                                      s->buttons);
->          }
-> +        if (btn->down && btn->button =3D=3D INPUT_BUTTON_WHEEL_RIGHT) {
-> +            s->qemu_put_mouse_event(s->qemu_put_mouse_event_opaque,
-> +                                    s->axis[INPUT_AXIS_X],
-> +                                    s->axis[INPUT_AXIS_Y],
-> +                                    -2,
-> +                                    s->buttons);
-> +        }
-> +        if (btn->down && btn->button =3D=3D INPUT_BUTTON_WHEEL_LEFT) {
-> +            s->qemu_put_mouse_event(s->qemu_put_mouse_event_opaque,
-> +                                    s->axis[INPUT_AXIS_X],
-> +                                    s->axis[INPUT_AXIS_Y],
-> +                                    2,
-> +                                    s->buttons);
-> +        }
->
+ (1/1) tests/avocado/boot_linux_console.py:BootLinuxConsole.test_ppc_powernv8: PASS (70.17 s)
+ (1/1) tests/avocado/boot_linux_console.py:BootLinuxConsole.test_ppc_powernv8: PASS (70.90 s)
+ (1/1) tests/avocado/boot_linux_console.py:BootLinuxConsole.test_ppc_powernv8: PASS (70.81 s)
+ 
+ (1/1) tests/avocado/boot_linux_console.py:BootLinuxConsole.test_ppc_powernv9: PASS (75.62 s)
+ (1/1) tests/avocado/boot_linux_console.py:BootLinuxConsole.test_ppc_powernv9: PASS (69.79 s)
+ (1/1) tests/avocado/boot_linux_console.py:BootLinuxConsole.test_ppc_powernv9: PASS (72.33 s)
 
-So I think mapping to vertical makes sense, although I am not sure it's
-necessary.
+- after this series:
 
-         break;
->      case INPUT_EVENT_KIND_ABS:
->          move =3D evt->u.abs.data;
-> @@ -216,6 +231,7 @@ QEMUPutMouseEntry
-> *qemu_add_mouse_event_handler(QEMUPutMouseEvent *func,
->      QEMUPutMouseEntry *s;
->
->      s =3D g_new0(QEMUPutMouseEntry, 1);
-> +    qemu_log("qemu_add_mouse_event_handler %s", name);
->
->
-Please remove that logging
+ (1/1) tests/avocado/boot_linux_console.py:BootLinuxConsole.test_ppc_powernv8: PASS (39.90 s)
+ (1/1) tests/avocado/boot_linux_console.py:BootLinuxConsole.test_ppc_powernv8: PASS (38.25 s)
+ (1/1) tests/avocado/boot_linux_console.py:BootLinuxConsole.test_ppc_powernv8: PASS (37.99 s)
+
+ (1/1) tests/avocado/boot_linux_console.py:BootLinuxConsole.test_ppc_powernv9: PASS (43.17 s)
+ (1/1) tests/avocado/boot_linux_console.py:BootLinuxConsole.test_ppc_powernv9: PASS (43.64 s)
+ (1/1) tests/avocado/boot_linux_console.py:BootLinuxConsole.test_ppc_powernv9: PASS (44.21 s)
 
 
->      s->qemu_put_mouse_event =3D func;
->      s->qemu_put_mouse_event_opaque =3D opaque;
-> --
-> 2.32.0
->
->
->
+I've also tested this code with the EBB exception patch that is pending
+re-send [2]. The EBB kernel selftests are working as expected. This
+means that we improved the performance and didn't lost any PMU
+capability we already have.
 
---=20
-Marc-Andr=C3=A9 Lureau
 
---0000000000002c4e8105d3bbda92
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+[1] https://lists.gnu.org/archive/html/qemu-devel/2021-12/msg03486.html
+[2] https://lists.gnu.org/archive/html/qemu-devel/2021-12/msg00082.html
 
-<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
-"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Dec 22, 2021 at 5:31 AM Dmi=
-try Petrov &lt;<a href=3D"mailto:dpetroff@gmail.com">dpetroff@gmail.com</a>=
-&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px =
-0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">This=
- code seems to be used by vmport hack, passing these values allows<br>
-to implement horizontal scroll support even when using vmport.<br>
-In case it&#39;s not supported horizontal scroll will act as a vertical one=
-.<br>
-<br>
-Signed-off-by: Dmitry Petrov &lt;<a href=3D"mailto:dpetroff@gmail.com" targ=
-et=3D"_blank">dpetroff@gmail.com</a>&gt;<br></blockquote><div><br></div><di=
-v>Hmm, apparently Linux kernel handles PSMOUSE_VMMOUSE as a generic ps/2 mo=
-use without the extensions.</div><div><br></div><div>And there is no horizo=
-ntal scrolling in vmmouse protocol I can find.</div><div><br></div><blockqu=
-ote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px=
- solid rgb(204,204,204);padding-left:1ex">
----<br>
-=C2=A0ui/input-legacy.c | 16 ++++++++++++++++<br>
-=C2=A01 file changed, 16 insertions(+)<br>
-<br>
-diff --git a/ui/input-legacy.c b/ui/input-legacy.c<br>
-index 9fc78a639b..2c9a215d7f 100644<br>
---- a/ui/input-legacy.c<br>
-+++ b/ui/input-legacy.c<br>
-@@ -23,6 +23,7 @@<br>
-=C2=A0 */<br>
-<br>
-=C2=A0#include &quot;qemu/osdep.h&quot;<br>
-+#include &quot;qemu/log.h&quot;<br>
-=C2=A0#include &quot;qapi/qapi-commands-ui.h&quot;<br>
-=C2=A0#include &quot;ui/console.h&quot;<br>
-=C2=A0#include &quot;keymaps.h&quot;<br>
-@@ -179,6 +180,20 @@ static void legacy_mouse_event(DeviceState *dev, QemuC=
-onsole *src,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A01,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0s-&gt;buttons);<=
-br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (btn-&gt;down &amp;&amp; btn-&gt;button =3D=
-=3D INPUT_BUTTON_WHEEL_RIGHT) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 s-&gt;qemu_put_mouse_event(s-&gt=
-;qemu_put_mouse_event_opaque,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 s-&gt;axis[INPUT_AXIS_=
-X],<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 s-&gt;axis[INPUT_AXIS_=
-Y],<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 -2,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 s-&gt;buttons);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (btn-&gt;down &amp;&amp; btn-&gt;button =3D=
-=3D INPUT_BUTTON_WHEEL_LEFT) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 s-&gt;qemu_put_mouse_event(s-&gt=
-;qemu_put_mouse_event_opaque,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 s-&gt;axis[INPUT_AXIS_=
-X],<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 s-&gt;axis[INPUT_AXIS_=
-Y],<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 2,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 s-&gt;buttons);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br></blockquote><div><br></div><div>So I thi=
-nk mapping to vertical makes sense, although I am not sure it&#39;s necessa=
-ry.</div><div><br></div><blockquote class=3D"gmail_quote" style=3D"margin:0=
-px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
-=C2=A0 =C2=A0 =C2=A0case INPUT_EVENT_KIND_ABS:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0move =3D evt-&gt;u.abs.data;<br>
-@@ -216,6 +231,7 @@ QEMUPutMouseEntry *qemu_add_mouse_event_handler(QEMUPut=
-MouseEvent *func,<br>
-=C2=A0 =C2=A0 =C2=A0QEMUPutMouseEntry *s;<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0s =3D g_new0(QEMUPutMouseEntry, 1);<br>
-+=C2=A0 =C2=A0 qemu_log(&quot;qemu_add_mouse_event_handler %s&quot;, name);=
-<br>
-<br></blockquote><div><br></div><div>Please remove that logging<br></div><d=
-iv>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0p=
-x 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-=C2=A0 =C2=A0 =C2=A0s-&gt;qemu_put_mouse_event =3D func;<br>
-=C2=A0 =C2=A0 =C2=A0s-&gt;qemu_put_mouse_event_opaque =3D opaque;<br>
--- <br>
-2.32.0<br>
-<br>
-<br>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
-mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
 
---0000000000002c4e8105d3bbda92--
+Daniel Henrique Barboza (8):
+  target/ppc: introduce power8-pmu-insn-cnt.c.inc
+  target/ppc/power8-pmu-insn-cnt: add pmu_inc_pmc5()
+  target/ppc/power8-pmu-insn-cnt: add pmu_inc_pmc1()
+  target/ppc/power8-pmu-insn-cnt: add pmu_inc_pmc2()
+  target/ppc/power8-pmu-insn-cnt: add pmu_inc_pmc3()
+  target/ppc/power8-pmu-insn-cnt.c: add pmu_inc_pmc4()
+  target/ppc/power8-pmu-insn-cnt: add pmu_check_overflow()
+  target/ppc/power8-pmu.c: remove helper_insns_inc()
+
+ target/ppc/helper.h                  |   2 +-
+ target/ppc/power8-pmu-insn-cnt.c.inc | 365 +++++++++++++++++++++++++++
+ target/ppc/power8-pmu.c              |  60 +----
+ target/ppc/translate.c               |  44 +---
+ 4 files changed, 372 insertions(+), 99 deletions(-)
+ create mode 100644 target/ppc/power8-pmu-insn-cnt.c.inc
+
+-- 
+2.33.1
+
 
