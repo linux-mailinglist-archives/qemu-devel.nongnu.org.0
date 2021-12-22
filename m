@@ -2,139 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4BE947D7AA
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Dec 2021 20:27:09 +0100 (CET)
-Received: from localhost ([::1]:60262 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89B5447D7AE
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Dec 2021 20:29:24 +0100 (CET)
+Received: from localhost ([::1]:36952 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n07GW-0006Mt-1H
-	for lists+qemu-devel@lfdr.de; Wed, 22 Dec 2021 14:27:08 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51080)
+	id 1n07Ih-0001NG-Au
+	for lists+qemu-devel@lfdr.de; Wed, 22 Dec 2021 14:29:23 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51412)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1n077h-0007bY-JB
- for qemu-devel@nongnu.org; Wed, 22 Dec 2021 14:18:01 -0500
-Received: from mail-eopbgr140119.outbound.protection.outlook.com
- ([40.107.14.119]:46656 helo=EUR01-VE1-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1n079Q-00010g-Ut
+ for qemu-devel@nongnu.org; Wed, 22 Dec 2021 14:19:49 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:27337)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1n077f-0001Jb-Mi
- for qemu-devel@nongnu.org; Wed, 22 Dec 2021 14:18:00 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=HzoUHvcvwxn6UYT79cq9B1Hon6vNdc7F5XE2cmVGVZmRi1zGr4Fsg65Ich4ilvnrF4AzhrvIZkmOes+hl+/Zb+wc+zy9CyykhXWL0xJYf+nvy2grh9hlx99ZMXIhX3WmCpMHTYSnoeJzE7oHnBFQAU1UGgD1NqsodVskC+ujIK90R8bpxSneXVRx//CoUnBSayqC0gRBp7qkfWyyLkyQqgpp7/BCLHKwgN633x1fK89Y8F6Aw5FgRowP7lhMmbEpeqzRqspLlUgXJBxnGkiXYYb1uGUgFU5NSun195h4VAw1Z6qO/ysvNROHTyXwD4l1SJAu6qp7QNEAFKYZlX5atw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=llS1TjyFmWvFLtpCGp2YfKO92lT1wDZw4gFm+qt4bb4=;
- b=LAR6DNIOA7Wyx7K8RgN+BSuMiWDbA4rXetuCfVHvVG6HYk5YvCi/2ZQHJ91yh8naKbX+vokb6IVKjrPd6PIkWgLok/Cn6NE7ZLmmFEBvnYBHsfK6IfDP3u4uBn3TdwuwgzV7ivybh7bSDatRfNqlqh5WO7Uz18V5+dH4v0WKEHn41O/VUAVDuhQvWZMKSzarPaWD/PDrJEcqYuYCg7F0hTcotswQOUZvZK6t12P3DQviBFs39pobkqNcoPipCcJ/S7eNVZ104qzIzxG+h5jQGNbBxLagcFwRIhN0lkVJ5Z0Xw9rhkTiknjLyCZm0p8xHl0rBXFuY8EZTbP5fwojy7A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=llS1TjyFmWvFLtpCGp2YfKO92lT1wDZw4gFm+qt4bb4=;
- b=GvVpZzwtKySYzXCaRT9BfagVTbUuNGbdc4aGmRWOmzKlSy/M2+ADwzRh53dDUkCOsRNV6FkC1nDw463VAEQl8vQuoTSBS0VZ7nx00MXLqYGlip91jW2X/FDCvzgjqoZPm4Ir00hYG9S7PkK2hxyphRRRGNF04j4mX5y7BDaa6Js=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM9PR08MB6737.eurprd08.prod.outlook.com (2603:10a6:20b:304::18)
- by AM9PR08MB6290.eurprd08.prod.outlook.com (2603:10a6:20b:2d5::21)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4823.14; Wed, 22 Dec
- 2021 19:17:48 +0000
-Received: from AM9PR08MB6737.eurprd08.prod.outlook.com
- ([fe80::b118:483a:d003:3112]) by AM9PR08MB6737.eurprd08.prod.outlook.com
- ([fe80::b118:483a:d003:3112%5]) with mapi id 15.20.4823.019; Wed, 22 Dec 2021
- 19:17:47 +0000
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: qemu-devel@nongnu.org
-Cc: bleal@redhat.com, wainersm@redhat.com, philmd@redhat.com, crosa@redhat.com,
- armbru@redhat.com, eblake@redhat.com, kraxel@redhat.com,
- marcandre.lureau@gmail.com, vsementsov@virtuozzo.com,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
-Subject: [PATCH v2 3/3] avocado/vnc: add test_change_listen
-Date: Wed, 22 Dec 2021 20:17:31 +0100
-Message-Id: <20211222191731.467706-4-vsementsov@virtuozzo.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20211222191731.467706-1-vsementsov@virtuozzo.com>
-References: <20211222191731.467706-1-vsementsov@virtuozzo.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR2P281CA0035.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:14::22) To AM9PR08MB6737.eurprd08.prod.outlook.com
- (2603:10a6:20b:304::18)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1n079O-0001ZM-Rw
+ for qemu-devel@nongnu.org; Wed, 22 Dec 2021 14:19:48 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1640200785;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=kIezjOLbKCs3HkE6UzBUP1M4GuwCisiCR+oVqszw+hA=;
+ b=ADkxikM0ICPe5OMtf7z+i+gvgj2hZUkTeGkY+nU5TCnf5k7YnZl57uyh8zmcaGYzFrag24
+ XXb8TCavwwe/TnW+5AlyYO4CTAIXvQ+OBewv+MawRh5HKQpIod43V2dPtNvk4SiUFbEKXv
+ qZVL8i4P/aTe8EbAL0ErC0ar+ctIgDQ=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-605-Fvd2f_TWPPqxevd57Ptacw-1; Wed, 22 Dec 2021 14:19:44 -0500
+X-MC-Unique: Fvd2f_TWPPqxevd57Ptacw-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ g140-20020a1c2092000000b00345d1448d3aso96970wmg.9
+ for <qemu-devel@nongnu.org>; Wed, 22 Dec 2021 11:19:44 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=kIezjOLbKCs3HkE6UzBUP1M4GuwCisiCR+oVqszw+hA=;
+ b=lP2DBtcW9VLeniIhpyXIpvb38iOg/+bOr/P0V7pccPN4D+zgx1z7Q0WNMaoIBIDqP7
+ Kh8cWZwtMSBOx8n+ZeCYnotWoJZUrPbWq3dbdGj0Ha3WWeNHcrbmlUKcCgS1zjWKHLqY
+ BVbp1RrF1Iwh3xxy9l8rx4Bdxr4TyJ0j0Qneu2zRdD8jUriXRE6Ynyht/KCkuggdVyRF
+ zaJR8Yp77a+dhMVs9Z5EmPT4LcjFGzLGfwRNqJNwgNyCJbsKwZdw4m6veuXlA3FGJ/fF
+ TYlDiDpoylX25kdS+M0GbgpFNtPfkBV1qBKZlxfEth9th1th8ZXJvl5kjGXmOsB/2jRS
+ rzyw==
+X-Gm-Message-State: AOAM531GTnfvEMqKwBSSEcfZ5uJTXwtsVi8gd0z5QZANTyklUR40GzqW
+ itRecT1dB+61neRyLow4QHu4B5+DG/i7+9U1eBW5IZFLal0vQFQCyuJEL0GWBRCH8vT2sbBTl8X
+ CX5YiizWmkPGKeik=
+X-Received: by 2002:a7b:c450:: with SMTP id l16mr1833372wmi.21.1640200783461; 
+ Wed, 22 Dec 2021 11:19:43 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJy+BmnhrmVkDeJBcrif/I7wqTvBUxzT8FEy4Kyb3tSxLFiu9TktraqcSMmeVn9ISZG+9yC7Qg==
+X-Received: by 2002:a7b:c450:: with SMTP id l16mr1833358wmi.21.1640200783275; 
+ Wed, 22 Dec 2021 11:19:43 -0800 (PST)
+Received: from [192.168.1.36] (174.red-83-50-185.dynamicip.rima-tde.net.
+ [83.50.185.174])
+ by smtp.gmail.com with ESMTPSA id b1sm3193740wrd.92.2021.12.22.11.19.42
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 22 Dec 2021 11:19:42 -0800 (PST)
+Message-ID: <ad22de10-a52c-ff34-0790-3be8e7d62630@redhat.com>
+Date: Wed, 22 Dec 2021 20:19:41 +0100
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 3a29555c-75f0-4f3d-c4ba-08d9c57fbcfe
-X-MS-TrafficTypeDiagnostic: AM9PR08MB6290:EE_
-X-Microsoft-Antispam-PRVS: <AM9PR08MB6290E60234DA47F1AB9BAA03C17D9@AM9PR08MB6290.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:1079;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: X9YAvdi36hotONVSNpy+u5hBjZFbMJFtvhCkACihlvr7DmqTjVWZVJn0/KONedkubOVgehCWl/KCVBtc1rM2C9eLjIUxDt+ccG+Tj+6LUBkRAefFl4a9ptd8J5/CoYUwcKwjU5jRFYN+KpBlpCrsFMu3GDUX+eUYZ4vbDJExiWQsoIo6VJUjTr2/FxW7tnSDw89nLVDbilJTM1X/nH/0YAOUrLdbxPWSnPy6wTLgD0LwGNIlQ+pG6fitXOjpXsbxz7QMwPoQ1ARIwRSU6vwvkHS4w1BbiBbWm1+sYeoNSLkD+jCf95y0K+uaqCw598pkoDmk6MbdnHa0t5AusAOlERz2njycIg/hfjU5wAbW5AhhMxIO9hkmqqaNX3CbWHLmFLM50gHnTqu4PYRALcCBn8zbNUgPVF8zIsSZvbeBr543WbqPINdjMXUmt9Ad54vlNpMwWMu4PC36IwK9OgoGWUR6TcszZT9d388l3vVOviSjr855RwAWmjGf+bNI4MAj+fp0wwk7G1U18UCeMb+8JEK9ASCswrEVJL/mRUwa46no8Im9vV76C826wYe9sJhL7NKXNt8Dp4us2u5BDDwphCnOQ4wXZ0T+LkXIOF4tZNTbleVzcY0rgjnO55uqwcgkfzJbNI/SkHoSp/v4xL7qjLBd3bKUgevjHQbuTGDCw7xn2iDAcIA0G7paLKDBdysvVb/9y9bVvQbWYtXSM/m4kA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM9PR08MB6737.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(316002)(52116002)(38350700002)(38100700002)(6506007)(66476007)(66556008)(2906002)(66946007)(6486002)(8676002)(7416002)(4326008)(36756003)(2616005)(6916009)(5660300002)(86362001)(8936002)(186003)(26005)(1076003)(508600001)(6666004)(83380400001)(6512007);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?R2ZRa3FDQXhnK1oxeHZsb3YxckR0ZnM0OEtHK1JYOVhodXRSd24zeWh4aFlh?=
- =?utf-8?B?b3VBQlZXbEY1bVl5c05heFU0dCtsVkkvVFI5Q3JhYVRUUzVYdmd6R1NmZ0ZK?=
- =?utf-8?B?WE5FSk41emdYRkVDV2pxNm9COTBuTVlFMVFFSklUYzdkSkd1SmVubGY4TUlF?=
- =?utf-8?B?Vi9vRjZuKysrazRQUUJzWnY1eUlGR1diNmkvYVVOT3c4THNzcHhRT0p1RDVM?=
- =?utf-8?B?SW85SUxZWDZQcDV6MFdmOHpNUS9GQi8wWXlZM1JzV2xxWkI0SkpkUjFMdU4z?=
- =?utf-8?B?TkVaRlJyMk53NW9KRnlMci9idDRVNFNYRHQwdmN3UnAybW13dHlNdWhNa3Fi?=
- =?utf-8?B?LzZIZ1F6d25GWXlHY2NnSVJYTmwxaHFJTkZlRE9YWFkzWFA3cm00cXBiMDNy?=
- =?utf-8?B?M1hpSGpkeW5XYUl1VUxkUlUwazlKejYwdk9pL1RvVXc5c1hGNDNPQ0lvbDNs?=
- =?utf-8?B?cm1VZlhtNG11c3NmbzdQQ3JNdDVGRjVYaFl0dTlvU0VUMmZ3SFRVMS80V1VU?=
- =?utf-8?B?U3FrMGxNdXRWdjBmV1dVcXN0Y2hhOFgxTk11eTVHampCdXNFbHlPUGdVRXor?=
- =?utf-8?B?M0Zvd2gxa21KbkdGSnpLY20yeFRSZmtrdWlEY3hvcmMvY0ZQbEE2NWJMZ0o3?=
- =?utf-8?B?eEtJUFlrOTlpQlpYOGFkd3lUTENrN2tocU53RkUzWjRUaElsK3hSUUwyam10?=
- =?utf-8?B?ZGJJcmNDdkhxeHN2WndvRVR6Ni9XWVRLR2tpZ20vMlZRbWpSWVlqSG5IS3pY?=
- =?utf-8?B?SDRnKzRycHdSWlUvTDc2MHVZZEF2SGhWdEpNKzdYdTF1TUxNRnl1RXVPQXVR?=
- =?utf-8?B?ZUVyNHJEaExhOTFvZmZEWjkwaUhwU245VG1KWENPRlZPRjVncnp6dG83SjZ4?=
- =?utf-8?B?TDdyVHFDUEdoeEJud1I1WkMvSUpLeEs0R3FDNUZuTHViM3ZUcFBXUzZDRjFr?=
- =?utf-8?B?THgwQlBkZ3MyTXd2Szc5UThKNnhPSzE5Znoyd21IZ2ZEN3F6QS9NRktLRWpU?=
- =?utf-8?B?MDl1ajhzMUtmMHI2SE8zZ1VTOVZ4YUZ3eEtNekRFQTA5QU4xalhGdVY3eVFZ?=
- =?utf-8?B?UmY3aFViVVRwRFZZcjh6V29qR1ZPazdJL2x1TTZVRFJFNFg1NTN4NXdWMkUz?=
- =?utf-8?B?M2pPU3JoT0dWcmJzWERTanFhdGtEcW9iSGRVaGFyUXhtV2ZnYVFvOE1DaG85?=
- =?utf-8?B?M3o4by9qc3JyZnFRVFBiNTYzMnlKL0ozNXd0WEVLMTVoNzlVUmJjTk5GN2Vu?=
- =?utf-8?B?TFJKUWpqbCt4V0N0RXU2THFSNHV4QmFVMFM1SlRPMkZ6UFEwTThEemZNclJw?=
- =?utf-8?B?cEcvMG9HaHVTc2NLdHgvcWI3RENRM3YveEIwb29KKzVQZkl3dG9lU1JQUElY?=
- =?utf-8?B?ZG9oQm1jQktPaVQzeUt3YXJJZzBFVGdFRER2NkZVbWMrTVdOc0h5eXpwZUpN?=
- =?utf-8?B?dm5xaXJiV1FGaXdFdUxtTjlXd0FMdmFkdnN3NjBnc0RyYmhXcG92L29CUk9a?=
- =?utf-8?B?a1ZtTFFMMVBnNFBiNW5uM3VROG5Hc1l1aUhrSDJCWndWTTErWmxlbUpVYjNa?=
- =?utf-8?B?U1hUQmFhS3ZjczZKT2dWUXBWWnliUVF0WmJmRlNRK1BZOUlWZnMxU2tMOTBN?=
- =?utf-8?B?N0kxWlRPcHdncjlncnVYODN6OTJDak44Z0JNU2xPQ3JHUFRzZENLd1dTRzhr?=
- =?utf-8?B?WldtajZkSWVWUU5LcHVnM1dFcGp6K3RWZWJSQVk2ZWxHbnh0cXluQlo5V1hW?=
- =?utf-8?B?TU5nRm5SUkFqM0ZRSGV0cXZOREpVSUl5dEJEVVc3azJYYnZSSDB5Rmw4aEk5?=
- =?utf-8?B?RiswdHdpb0xjdDF4ZVV1ZWxsSk14bU5DVzJpOEJlK1lFSkc2cEZ0L0RRc29y?=
- =?utf-8?B?VnE1SHRjdUlPNStnY1pDZjJvOHZMV0V1N0NsTitrczQwbTFtY1ZXN2pNcnor?=
- =?utf-8?B?TzM5SkJVbzFQV012eGMxWWlmWjFkQWVYMVRjZGZkVjR4enMybWZXKzRzZ20x?=
- =?utf-8?B?Vkx0OWhHVzhrM1RlOEpVL2lMczdNZGZaMkp0S2dEN1BGYVJZWjQ0S1FVMjV2?=
- =?utf-8?B?VGR0MnIxZDBEWnVRVS9Bbk9PeG9ZVENYeS9qWVdKRHE3ZGhRb0pQQmpTV1h5?=
- =?utf-8?B?d1laSHFUNmNZbVNVUWF3NWpsWTRwa0JRYlNVeENwMW5NVmt0UG9sUHFTdW5P?=
- =?utf-8?B?bVFnZER5akc0NEUydXNhQ2NpWU9Lc09hVUdxNFhrWDhWOE1velpwT2owK01Y?=
- =?utf-8?Q?z4pUjz8vpw/ZC789YRm8LqdufwsxiWnCP3gPcidY9Y=3D?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3a29555c-75f0-4f3d-c4ba-08d9c57fbcfe
-X-MS-Exchange-CrossTenant-AuthSource: AM9PR08MB6737.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Dec 2021 19:17:47.4154 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Dizk86y2EFeR9Uml6AuLvpnfgv0VwtsD2JBCIP2LfuwILjgJ+QO+/lUQBWFjhAuB/uZ4JLfWwBBjcgfy2v2WIi3K/AOUTAGZ8AYcJ2YPNRY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR08MB6290
-Received-SPF: pass client-ip=40.107.14.119;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR01-VE1-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH] acpi: validate hotplug selector on access
+To: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org
+References: <20211221144852.589983-1-mst@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+In-Reply-To: <20211221144852.589983-1-mst@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -36
+X-Spam_score: -3.7
+X-Spam_bar: ---
+X-Spam_report: (-3.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.203,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.694, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -148,36 +99,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Ani Sinha <ani@anisinha.ca>, Igor Mammedov <imammedo@redhat.com>,
+ Mauro Matteo Cascella <mcascell@redhat.com>,
+ Alexander Bulekov <alxndr@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add simple test-case for new change-vnc-listen qmp command.
++Mauro & Alex
 
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
----
- tests/avocado/vnc.py | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+On 12/21/21 15:48, Michael S. Tsirkin wrote:
+> When bus is looked up on a pci write, we didn't
+> validate that the lookup succeeded.
+> Fuzzers thus can trigger QEMU crash by dereferencing the NULL
+> bus pointer.
+> 
+> Fixes: b32bd763a1 ("pci: introduce acpi-index property for PCI device")
+> Cc: "Igor Mammedov" <imammedo@redhat.com>
+> Fixes: https://gitlab.com/qemu-project/qemu/-/issues/770
+> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 
-diff --git a/tests/avocado/vnc.py b/tests/avocado/vnc.py
-index 096432988f..f05ee1e00a 100644
---- a/tests/avocado/vnc.py
-+++ b/tests/avocado/vnc.py
-@@ -51,3 +51,13 @@ def test_change_password(self):
-         set_password_response = self.vm.qmp('change-vnc-password',
-                                             password='new_password')
-         self.assertEqual(set_password_response['return'], {})
-+
-+    def test_change_listen(self):
-+        self.vm.add_args('-nodefaults', '-S', '-vnc', ':0')
-+        self.vm.launch()
-+        self.assertEqual(self.vm.qmp('query-vnc')['return']['service'], '5900')
-+        res = self.vm.qmp('change-vnc-listen', id='default',
-+                          addresses=[{'type': 'inet', 'host': '0.0.0.0',
-+                                      'port': '5901'}])
-+        self.assertEqual(res['return'], {})
-+        self.assertEqual(self.vm.qmp('query-vnc')['return']['service'], '5901')
--- 
-2.31.1
+It seems this problem is important enough to get a CVE assigned.
+
+Mauro, please update us when you get the CVE number.
+Michael, please amend the CVE number before committing the fix.
+
+FWIW Paolo asked every fuzzed bug reproducer to be committed
+as qtest, see tests/qtest/fuzz*c. Alex has a way to generate
+reproducer in plain C.
+
+Regards,
+
+Phil.
 
 
