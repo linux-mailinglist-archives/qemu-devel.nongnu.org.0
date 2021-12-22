@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2785D47D7ED
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Dec 2021 20:45:03 +0100 (CET)
-Received: from localhost ([::1]:57562 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5863647D80A
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Dec 2021 20:54:52 +0100 (CET)
+Received: from localhost ([::1]:55428 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n07Xp-0007I4-LP
-	for lists+qemu-devel@lfdr.de; Wed, 22 Dec 2021 14:45:01 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55494)
+	id 1n07hL-0007xa-DV
+	for lists+qemu-devel@lfdr.de; Wed, 22 Dec 2021 14:54:51 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55544)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1n07V6-0004YV-H5
- for qemu-devel@nongnu.org; Wed, 22 Dec 2021 14:42:12 -0500
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:13482)
+ id 1n07V7-0004aw-QE
+ for qemu-devel@nongnu.org; Wed, 22 Dec 2021 14:42:13 -0500
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:14728)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1n07V3-0008Kd-Qv
- for qemu-devel@nongnu.org; Wed, 22 Dec 2021 14:42:12 -0500
-Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1BMJXvQh014457; 
- Wed, 22 Dec 2021 19:42:04 GMT
+ id 1n07V4-0008Kn-K4
+ for qemu-devel@nongnu.org; Wed, 22 Dec 2021 14:42:13 -0500
+Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1BMJXsAa013618; 
+ Wed, 22 Dec 2021 19:42:05 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : content-type :
  mime-version; s=corp-2021-07-09;
- bh=ZAUYcjtQ4CZMVSRb56kgREKga11yEanCT69C5zHJOD0=;
- b=sL6bd9q4eCwPGN6Eu4VkNcKxoc72H0p8R4dLfqCXOJUpMg0z70foA+zwCBcgx2b3jcPs
- Nx2LLJqQjSV95r8ZNxlGslcOpJiwA8sjKmhPhXs24uBpPLm/Rg99RbF0AJKB8JbnHLzP
- laetJ9bDPKUge1ZP3yuLEni4fE1W7DRcYIzcxg5fMGHyueZdH0sWenbHlUhpIfUF1Vdg
- 7LbfGgdVYQDXNXDmsFHWJO4lTOg9fvBSLy8FTWHXCI+PqU5BAGvczMABkU282gnV6GBv
- aKH54dWCdPQc5zEMuK7dBjALKr5+MI7MpK7NqlzlTCD3PdFehZBp9ZIt3CPbrknJcWuf 9w== 
+ bh=75zZ/yjfc+FBxgEI3tCsey3+RfhAFPqgNxlIO52HzAY=;
+ b=u6+EsmaWcRQVzSrSXEnR4fyyhuLHlX+9smMRaZVq70Fjy5iGycpryBsBOrF+GpaK+MIK
+ yF+tFVGYgmDQRRgT2xIWoE1VFRzjyIHkg2mRds1WywV/2+MEeZj7vvfBDZ6SYqfmxbn8
+ fDmJ5FAmKlLsmXrduVL5Uqf3pzanVmBtSxx6aZGkpKh9Dp4le4ABmwmLq8aP83e2pAMZ
+ inxtNCpWhAz3ebkZUgZnAJYXqozWTb9gg9yy2km95RAWS5RWMWEtSXMN8pqvL6W4ggiy
+ ZFd34pROvfEM8MNChiChtkVu9RgSFkHZFpqeYORlc0S8Vkpgf/w66srbtkONY3LxcGVp SA== 
 Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by mx0b-00069f02.pphosted.com with ESMTP id 3d46qn0t1v-1
+ by mx0b-00069f02.pphosted.com with ESMTP id 3d46rm0tkf-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 22 Dec 2021 19:42:04 +0000
+ Wed, 22 Dec 2021 19:42:05 +0000
 Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 1BMJfCEu049078;
- Wed, 22 Dec 2021 19:42:03 GMT
+ by aserp3020.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 1BMJfCEx049078;
+ Wed, 22 Dec 2021 19:42:04 GMT
 Received: from nam12-bn8-obe.outbound.protection.outlook.com
  (mail-bn8nam12lp2171.outbound.protection.outlook.com [104.47.55.171])
- by aserp3020.oracle.com with ESMTP id 3d17f5rftb-1
+ by aserp3020.oracle.com with ESMTP id 3d17f5rftb-2
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 22 Dec 2021 19:42:03 +0000
+ Wed, 22 Dec 2021 19:42:04 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=VxspVxxqc+IyMLI2yhCi2dxOSY5ya+N+t3FuxQTbaFw7X9cV61qNuUSTRf6A/OvOn+f6IvAUNky3+zjHOGvt45ETnTCyEekzK0hGGAJQ+6aDwHJVaYQ2p+V/dx/wZdUI6+ZVSur2htVcDO4wPy9y4sZA0pThgiRVC4Qfd/VPJPeo4SYDtKdR7Iz7X4Fxfh1tirdsxvQ19pNUK5anhnKD9ybNcjawir+HjWS65J+FewrdCxA4wGdLaGsXFmfO8MFSKj7+Eblq0k6bbhaEi4/QUDVJalPChainxDxF+ekecX4jUcwe5C0ROG6OujUU0zgRt3C+IxFI413BYipyYwZ3yg==
+ b=lnhw3N7T57mZZN3UWfQEGbhvixLfzF+5vte7nbrcw+r4R6Hz0E/c+ugDZxGPrXz3wG1lbzJ1l7LKdVzHrAUTy8R0PNFdpg4hT6kldUU/kFsqFOssWx3EshVT2lERmqKv/EGZiNa1HWqzWfk/teoTF0jc1fwGUdcM8QexXo8IbIczKi0e/fLF19j6F0s5qaqPux2CeJztMBg6ahkFowdqszFv2eYI7eAThXNVdkFqtT6sRYWSkzYBTvTNAwIE6wM3byP+3ocRsyFcOdUyBArQ3gSGcxWgOj7Wgw3Oj1JI6LoyepfrQz0WyQaegBdPQ6jAMl807Ufkd4ylEeV35qbQnA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ZAUYcjtQ4CZMVSRb56kgREKga11yEanCT69C5zHJOD0=;
- b=F2GlSsNgPR+3iS57kiHVH7Evq1e/BMCYSlT1V44D1rW+/o4bBcH4nwbo9s9VYqwJ6EApRoCrmN8mPKE/sHYhGHROSEthoaYkSnDIJyIWskEMgdyi5Yl7ai4y++/Si20m0oyAzwC1Yo1g9ZUn6RNLyRvjjXFPnkhGP/T7V600HSZIMvxW2Qjy2yVdTgsCwIARLmOidq38yEiir9O7oyNqT048Pk5n4Y92Af2jDRE/pUc1jfue6bVH/4Tz9mfmAfkVGibHjKKDctJWlvek4Iqp+I+G73cp2X+yGCt4MVR7XGcm+ifRPw4+NJhC5fdr7hlfZpUPHa/If6xPwGMvW3q4tg==
+ bh=75zZ/yjfc+FBxgEI3tCsey3+RfhAFPqgNxlIO52HzAY=;
+ b=bBWRsM/jfAHP0KK7xaULaTeOhBz2AYIcP1wzN6mG7RXqOxv4d12sCmLHnBJHCGwe+avvxfVfFkriy2508Zfb9s9va3Wlop6tt86ut6/jOFwdd7VnsY6D4tQyfwiHbnhMb1zqJT8R/Gecp/VPZBRx/9p2UvfYlpHx+BK2jbyv6UZtSyjXVfwl5LWMSWkrzeA7rId7SF1Ir0vFCWd5y9qirq2BuNjDAFI+CeJrWT89EPyUzXOMkhG+O5gWWip1dqHjgjGpIbeA0KzYanbY+hRhslbz1Lr8S9PLje5uC7TCcXt3kxZmL2gfvbk78v2YtoQ4wChVMUoyHElSJrnlrC73DQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZAUYcjtQ4CZMVSRb56kgREKga11yEanCT69C5zHJOD0=;
- b=UCLkTfjnC+JErJsZM/PZPPosIhNfbbbvXHHCZyiKOby5EZgfiYTsi2pbEwAYnGsw+vUg5FmLac054Q04/XctHWExb9549lCI68SNryRWpg288dWp1rq21tY+CejWVL4czFdJmJgTRGKjrj7pGuQVUlaAAowExwfkEqaEWkbf5ns=
+ bh=75zZ/yjfc+FBxgEI3tCsey3+RfhAFPqgNxlIO52HzAY=;
+ b=Uy1i2JV1xZliwhlVBki/kbkw7H8c8d6phx86t031sf+/yqdYpZ0k+oSFeCbIyniPo/5Wr22vLBavxAfU2LLIWID/UaAvTZUP3JMgAmXWlzc371fBSY+U7StuEAi12kzazeaLIljbaaYYOyOHilnAMv+9czzmgcwFr7Xl8DGIIDc=
 Received: from BYAPR10MB3240.namprd10.prod.outlook.com (2603:10b6:a03:155::17)
  by BY5PR10MB3746.namprd10.prod.outlook.com (2603:10b6:a03:1b5::23)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4823.16; Wed, 22 Dec
- 2021 19:42:00 +0000
+ 2021 19:42:01 +0000
 Received: from BYAPR10MB3240.namprd10.prod.outlook.com
  ([fe80::d91d:1a8b:56bd:6623]) by BYAPR10MB3240.namprd10.prod.outlook.com
  ([fe80::d91d:1a8b:56bd:6623%4]) with mapi id 15.20.4801.020; Wed, 22 Dec 2021
- 19:42:00 +0000
+ 19:42:01 +0000
 From: Steve Sistare <steven.sistare@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH V7 11/29] qapi: list utility functions
-Date: Wed, 22 Dec 2021 11:05:16 -0800
-Message-Id: <1640199934-455149-12-git-send-email-steven.sistare@oracle.com>
+Subject: [PATCH V7 12/29] vl: helper to request re-exec
+Date: Wed, 22 Dec 2021 11:05:17 -0800
+Message-Id: <1640199934-455149-13-git-send-email-steven.sistare@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1640199934-455149-1-git-send-email-steven.sistare@oracle.com>
 References: <1640199934-455149-1-git-send-email-steven.sistare@oracle.com>
@@ -82,57 +82,57 @@ X-ClientProxiedBy: SJ0PR13CA0196.namprd13.prod.outlook.com
  (2603:10b6:a03:155::17)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: b1496119-740f-45ca-cc72-08d9c5831f2c
+X-MS-Office365-Filtering-Correlation-Id: 20385d3e-1f6f-443b-644c-08d9c5831f87
 X-MS-TrafficTypeDiagnostic: BY5PR10MB3746:EE_
-X-Microsoft-Antispam-PRVS: <BY5PR10MB37463B63A9530966E1D24341F97D9@BY5PR10MB3746.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
+X-Microsoft-Antispam-PRVS: <BY5PR10MB3746744C356A35164BBF98B7F97D9@BY5PR10MB3746.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:108;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: oLfWs1QImRjkYwtMVdUgKDg1TDXBTZtmv+BhBXeM6qcmp06N7Te5Gtn3YXsxY9vQ0Ltm7WwAkyzZgQEq42kmRwe6AST7mhqejjkm8spURxN/vNnX80P2tx3K3DAxbsQPg80J/l+Julxu/NeOXo971aeC9niBHPpYmsGfdJxUOHuBspGz3e7GDZYzloECdsNZtDQhLUSB1pwNjtmrEkc8u6wNzDoQ3xt1OGae1g3K6R4E1kJAJzbJ1j6R78voCj3MN4WTNSXUe86+gzPE7eKH+rr0HOC0XOgqFd4TArle0duK2SluaAeVz6ItgPA5+lP3QQ1nxG+hZFzuSPBeNi4HM1RX14D++xkNr5IBbZoRRYl8dm9EdzZWH0wCYqoyrcaeJCPL/eM3sCPhk/aa2/Wg7MJ0Z9gatN5J241+H4cuYDR8e+0J+WfIUY1oESdShcu+NGC/rMXXNtD55ZiJDBPSUaB2ViO6JfewfbSI7AAbb/Y9qKnT4/eL3aKGi7YW6ehriKg4YBu4FezlVPgAre68vmJ2UV3iqkel6aFQVzHlgGbJ0QjCnEXiujhSvunyKy0utWtw3jerLRw/VJwy6EQQAlflPDJ1Sx9+KTbUphWo+4is+v8pdLGF2fA7aHBf1wreYLXOi74Knycwy4HMn3waYZ7vdn+zwJchg+gSywABgiO35nUg8Iftz7Idv078c15Qa0TP03JfJ6DfWnJlaOKP4+XhePusRH7wXuq5EJeWTDU=
+X-Microsoft-Antispam-Message-Info: sD34zostAiWWdgp+6uvH0/uZ5gJXK4LII4FYIPq5S1eDYV8tg9UMnPkzE7RNPh+YUrbgRFqGBxg73l9w8vllwM7618NbQ1aRkpYPzOR7ObLbXu5Ep+BuWPu8lTlntnQwZszSdu13vhiaayDvBJ3+JhZpNojS3DJ/H5kuacEpAxxcQVR3aPYRksbKsO2N9zD16NhAn2t1XA4AlZQJAYPqNWQWST9tT0zKogZKxo8Qppl87uYTSBhId4tM74jlLL5KmO+TjNMUdIUDRH4eSW9AURUY7ugcI6aLKBytnsN1maWNgNaT2IP0ttwk7Gm2rWX6PCl67ANsCP0/GcDjLjUWXtyMwH35C0VE0I3+21d2lBP2OZYZTLiXPhwuefGsx+oLt7JolbIeZqoFcPXnQ1ji6y+daj6mYQZUSJR7opnGh3WqNMsG6/Dl9Dm35XkarmRd07nOnHqqHyaXsZS22538Wgmed/soPKv6jMtD/LJdmNLxKd8PMfRC234+KYjDMlsKyna61bN++PLTPucaA/XBU/FvkaZRhlAZOcz+2eH4CU1CTo77iqmSCiby5CiEC1f62F3Aih5gcLTzGPi42Qyfh9M7ppNp09ZjItv0w2SpY0F4LON3yzOn494LpNjFb0tfw4Youdxab0FtbjEZ8MADi7RhQDf7OQlzgSz97MLH5LvOA4Upgu1e766lp/6hiyk8fa+lnfdF0p/9LYpt8zZMWw==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BYAPR10MB3240.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(366004)(66556008)(66946007)(66476007)(508600001)(83380400001)(38350700002)(38100700002)(4326008)(2616005)(52116002)(107886003)(5660300002)(36756003)(186003)(2906002)(8936002)(7416002)(8676002)(6486002)(26005)(86362001)(54906003)(6666004)(6916009)(6512007)(316002)(6506007)(309714004);
+ SFS:(366004)(66556008)(66946007)(66476007)(508600001)(83380400001)(38350700002)(38100700002)(4326008)(2616005)(52116002)(107886003)(5660300002)(36756003)(186003)(2906002)(8936002)(7416002)(8676002)(6486002)(26005)(86362001)(54906003)(6666004)(6916009)(6512007)(316002)(6506007);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Xl0A66tE6ZW2NfcfmUHhUicrZYzwCpVcIMLynw+gDp2Dyrs2RlnfEjhjA3jV?=
- =?us-ascii?Q?XVw9GjZZThmIVaG9fI0oipjoOkKTXpDg7TRh48qa3lDGCA6JgYJ2m3CCTvyo?=
- =?us-ascii?Q?IkzviY0B95NQXEBYRmpEClzVc7WLZ437jj3du3UKOuTgqOFkC0Pjc/Sid5u1?=
- =?us-ascii?Q?HNomYsx64FXbf/qBIdCkVY4kawosdd8c6Ak00SRdxzMrjmiv+zuDbxNKFsmH?=
- =?us-ascii?Q?ZgQ4fmsrrXqhmONRHWbIqZraeS9OZMyKzFoehGKvgUbv+zz7ZC9hF8OToQjK?=
- =?us-ascii?Q?Zf75jsmDKlksmFEm7VrZHDnk0rrFCTs5cpAJYZH1CBUJGk2JUQmeWYEXaz7E?=
- =?us-ascii?Q?CFAII9qllsjjj6VG4ME7KynLvaqMaerOdK+tw7xLTmhIPXxna+h5IEYNtav+?=
- =?us-ascii?Q?8PmFQhr7C8poYgKvWQZdlGWUhqzusCc4Q4fynzz9D/iWxUD8aedCXIsGlzHc?=
- =?us-ascii?Q?K0XpuJ7iJ0of/wzRJ4gfwjNnSGcRJkFEktQJC0w2Bn8VBaShxmGbHzlNgKoe?=
- =?us-ascii?Q?2OQAWeRowNxvakmSrCEe74UoPlY2EswARXQ0WLsejCz9xeZMikY9o2BAwN3S?=
- =?us-ascii?Q?LA0dRXkm7Hf59Mo3XV4emZoO35j+2XIOFiu3Fer7wF8OjTB4+q6OB7m3ZknA?=
- =?us-ascii?Q?wgcrGLSGqlfupKv5Or4Wow5rn1C0B8EK6kOQFll1fedrA0qpB12akqGFTm/c?=
- =?us-ascii?Q?oJTF72dP9oH+nqt3l9gqUcGqjP2LHZBlIECPLfJpx/4+J/RIlKtQANepuNXu?=
- =?us-ascii?Q?3w6IOBqMujrnFhH0+GnLpTB/5zJyheISRCM9Pj/M9FIoJyXET+IBryFSWEPe?=
- =?us-ascii?Q?GGCOj7QKgf6EB05tDGOiVuFsdQBb6Rb7prnSqO2t/2Xl0iWgxworgI1UsF39?=
- =?us-ascii?Q?xnmi2SGif5FDCkSnOYILix9XDWzjUrOZZ7znNAdA9i3KMfd/i9iwctz4Gj/h?=
- =?us-ascii?Q?NcC8y55dnj9/UlEkApT2/55TXKpNtr6ZiweS9LjCTKPg3x/QJU34vvbfOOQk?=
- =?us-ascii?Q?dbmX4I7QY8vYYGjaOw7PbAAW7HqMx1kTgTJlGrZEatgVXZvFs7OxIXJMt9z7?=
- =?us-ascii?Q?+7bCS8ThMrYgxVQV3xvw6naZ1xIdprPz9u4f09YaEJSL9N1jm/M/L0Vkog1X?=
- =?us-ascii?Q?eXAoOWc7k6yaEHo+rq6uxbWoE/Y51qanGkT+zEB0zREZmBS1lehAfZ4qviIw?=
- =?us-ascii?Q?JN1Zb/TGwXzPD+NlfJWLNT67HyqD1mTJ5zFNuFkFN2hjlLVCH+MjoTnq/t7u?=
- =?us-ascii?Q?JCi8NXjIjB2yupPLhB5Mb8yfKBnJC1K3K+BjP6MDcT1wuvsjbr06ExAENxu4?=
- =?us-ascii?Q?BjbN34QTFEQOs10Pw1ufB1mTmqT/ni95sHEMZKn45BHq7l/ZdB4jJEOv2SoN?=
- =?us-ascii?Q?Uodmqetey2S4SQdOGYoMDvEAYqZr64Ri6NGsZLZdu4TR0WFnWIyYLwjKSTSv?=
- =?us-ascii?Q?L3UjYdElihZ7FLI/aFUIrklJhT9GQOBjrE2oR/6P7woDmiDtzV18Tg43dFOG?=
- =?us-ascii?Q?cNVnZOXRJgb8Yto/whr1cP7f2GXSGO9v2gRaaC4qEwa/5oXmXTsDfJDTFQVi?=
- =?us-ascii?Q?63Fb3f14qF19TVM5NO6vxu+X5nygUgL9QM9xnp3zsSvsc+pSLj3C2LOZOE2q?=
- =?us-ascii?Q?zQzTIy7bx0zBKun5sH1ItR3qDTUKRShut0i2A+0ll424QJJkUkuFm+tsU+Q7?=
- =?us-ascii?Q?dHSKHw=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?pRg9n9vmOg2mudz4Kpnz5vvHffljcJe/NmOJ1pFNLRMEZRDkl8U2Iy0VnRgT?=
+ =?us-ascii?Q?5Heg+4bNWRhMA6jiYKzjx+9UfrFANlgy1cK0XA1td0i3dVOJYECWNTP/9Ub2?=
+ =?us-ascii?Q?0GicRUVQIwvNlv9kTRh2GQhyTtubRu/0Q+zr4Z1wNA/IZNTKoG8N+Xu65lEi?=
+ =?us-ascii?Q?lXP2p6Jly0aVq7WICFgjjVg6SKkUEm8BKBnfE5z8+QiicQdi84TF5hx5rxeW?=
+ =?us-ascii?Q?lFaDkACNr78ROc90N6rawWyk6IwlypXn4AYP0TPtmy2gUL0JCVRg8I21opnv?=
+ =?us-ascii?Q?TF9Ci1ceSZwk7m4pk0MlQb8qkHGOheMfxjJp1cH2kzXy2eOVWUrqZXMEI0+8?=
+ =?us-ascii?Q?p3VwlHWcr07XCjG7MpUqiBJ99RNWp9KQLHSSuS7org/5m9LA62xFBbUsB8CR?=
+ =?us-ascii?Q?J6If9fiLeuqXBvZ0CasPhf70GHwHSQTVTG1VH5hrkjZTkEKZFuPixBgGaLTQ?=
+ =?us-ascii?Q?A8YYlc8rX3N3yRsH3eoqlINcxN4fr/r6XJQlldEeOEcsg9LHoFvibdg02YV1?=
+ =?us-ascii?Q?0wd8sP/2L6Lmr6OoHRpPt9wr5SXmYNfeGLVSFCo67pikyzrHgkykVh1+jH+/?=
+ =?us-ascii?Q?Tkn0J6AMCs8aWyZQFdG1hpMDDqtyOR4368nTHi9tSrU5DXu41/mx3oNh3o+W?=
+ =?us-ascii?Q?HaosrAoC7THnEP7NNZEn8VwxfrwiagZX8YsSuzTsaT1gyV88OIAah8UEWOwW?=
+ =?us-ascii?Q?Z8kDUp4PvSZcySKzNKQwacvPizqxHUTxhnwaoiN8sBeoXHd45IuxC0FRPO7y?=
+ =?us-ascii?Q?xP5ylarC79u0NNxiOeZiOxKSU+dGUDIfkt4b/ROc6ofyHVnYm5/OjjQCBm8C?=
+ =?us-ascii?Q?v6ImK2kwaEn+hoASrcUmnUfbKIsPpZV7K6WvlNme/cRhqPPArdOFo3z7b1jp?=
+ =?us-ascii?Q?HfZXSbMIsK5syojD25KcsJeVOM7y2wXOO0flEdSmUXKRGMIVew1RLT7ApLtt?=
+ =?us-ascii?Q?1OlS05y0yvIM5x+a9UB7WqPH6xv4oDt76Dpfozqk5J6uTr6cW0nuqUaQKimp?=
+ =?us-ascii?Q?jgqpjZO+dEg5BARVB01OJwGfe7Lu0sTL72r8Og+Dbs7R/XbdWAbQa90Euldn?=
+ =?us-ascii?Q?OCj0TCjVZmzfklyUfrrb7yUWZ1+P2KDVJyr7ez1I8X3MFbGXmMKtO7sya2r8?=
+ =?us-ascii?Q?bW3fZK0HEwiy1w3ME/LacKNkNbwVMmruOtLEu0PIsl/lJZGbyhmbwb0E5laf?=
+ =?us-ascii?Q?Y0QUDRYLcE8IflYVtjGhRgUX438p9GHU6OT3STg1HuPx8i9tZ6zwPVqF6o50?=
+ =?us-ascii?Q?szQVOrHkXo9UUAe682ARThwZozjbjQZlDBy4ougYOjmgf/Yq3Lmso1bztOoK?=
+ =?us-ascii?Q?kyDcb1sl1mEVowtthLV6SmeTmHp7AG+tdHzgmV9SQEUbbWDqwfmRWZV2k6OW?=
+ =?us-ascii?Q?kX7Yt20y2rIl35JJeNNyl/i9r0BdF6IGuMPcBtgU7KM6EF4+RDjuTT/PQte/?=
+ =?us-ascii?Q?FLZ8ZjmN78dOziuZ4V1huSFL7KtN/T64aZ0or5EY/mpz386NbRYmvP9vLir9?=
+ =?us-ascii?Q?+K0sEhFFFq6w9jV9l90k7+ZxL5b4buCT3T/PV+MH1A6HzmQNcA0ll4kMAQxV?=
+ =?us-ascii?Q?vzHIi2EDxIQO30qQvWUkiHZBmnYjFFEHitn8ff4oHic/8+i9Cfd653xuZ5ZK?=
+ =?us-ascii?Q?qUZ1VyGoFdnInECMWcnU8HvyJWGvy4E44t2mgVvnoSXtHvlKXQw50aH634Cf?=
+ =?us-ascii?Q?5WSEKA=3D=3D?=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b1496119-740f-45ca-cc72-08d9c5831f2c
+X-MS-Exchange-CrossTenant-Network-Message-Id: 20385d3e-1f6f-443b-644c-08d9c5831f87
 X-MS-Exchange-CrossTenant-AuthSource: BYAPR10MB3240.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Dec 2021 19:42:00.6396 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Dec 2021 19:42:01.1240 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: a+jhTppLnyQ6YMSgZ5cStOh6WviD4cfWk/fDpGKnuk6uyzYurNjcemUnIWITrZoxCeQBYB5G/wwjVPO+zSYJp5EboBK4GWsTqAzEF6c9zR4=
+X-MS-Exchange-CrossTenant-UserPrincipalName: c0WTCX2IE/vFC5nw9OiBXORn1fK57yvUrDSmkzEZZaSUiY4ElqlDDCC2KKU6wif09C2ztuSAn/Jr+MmsjXypBsCN9NdmhvjbEL6PI7+CP1w=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR10MB3746
 X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10206
  signatures=668683
@@ -141,8 +141,8 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
  spamscore=0 phishscore=0 mlxscore=0 bulkscore=0 adultscore=0
  suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2110150000 definitions=main-2112220107
-X-Proofpoint-ORIG-GUID: aT8TnoSu-q69IGVldk2EgRyALViWxXMl
-X-Proofpoint-GUID: aT8TnoSu-q69IGVldk2EgRyALViWxXMl
+X-Proofpoint-GUID: fN7Io5OyRsvEslpXSdNYOh57C6GugG6A
+X-Proofpoint-ORIG-GUID: fN7Io5OyRsvEslpXSdNYOh57C6GugG6A
 Received-SPF: pass client-ip=205.220.177.32;
  envelope-from=steven.sistare@oracle.com; helo=mx0b-00069f02.pphosted.com
 X-Spam_score_int: -27
@@ -179,176 +179,87 @@ Cc: "Daniel P. Berrange" <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Generalize strList_from_comma_list() to take any delimiter character, rename
-as strList_from_string(), and move it to qapi/util.c.  Also add
-strv_from_strList() and QAPI_LIST_LENGTH().
-
-No functional change.
+Add a qemu_system_exec_request() hook that causes the main loop to exit and
+re-exec qemu using the specified arguments.
 
 Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
 ---
- include/qapi/util.h | 28 ++++++++++++++++++++++++++++
- monitor/hmp-cmds.c  | 29 ++---------------------------
- qapi/qapi-util.c    | 37 +++++++++++++++++++++++++++++++++++++
- 3 files changed, 67 insertions(+), 27 deletions(-)
+ include/sysemu/runstate.h |  1 +
+ softmmu/runstate.c        | 21 +++++++++++++++++++++
+ 2 files changed, 22 insertions(+)
 
-diff --git a/include/qapi/util.h b/include/qapi/util.h
-index 81a2b13..c249108 100644
---- a/include/qapi/util.h
-+++ b/include/qapi/util.h
-@@ -22,6 +22,8 @@ typedef struct QEnumLookup {
-     const int size;
- } QEnumLookup;
- 
-+struct strList;
-+
- const char *qapi_enum_lookup(const QEnumLookup *lookup, int val);
- int qapi_enum_parse(const QEnumLookup *lookup, const char *buf,
-                     int def, Error **errp);
-@@ -31,6 +33,19 @@ bool qapi_bool_parse(const char *name, const char *value, bool *obj,
- int parse_qapi_name(const char *name, bool complete);
- 
- /*
-+ * Produce and return a NULL-terminated array of strings from @args.
-+ * All strings are g_strdup'd.
-+ */
-+char **strv_from_strList(const struct strList *args);
-+
-+/*
-+ * Produce a strList from the character delimited string @in.
-+ * All strings are g_strdup'd.
-+ * A NULL or empty input string returns NULL.
-+ */
-+struct strList *strList_from_string(const char *in, char delim);
-+
-+/*
-  * For any GenericList @list, insert @element at the front.
-  *
-  * Note that this macro evaluates @element exactly once, so it is safe
-@@ -56,4 +71,17 @@ int parse_qapi_name(const char *name, bool complete);
-     (tail) = &(*(tail))->next; \
- } while (0)
- 
-+/*
-+ * For any GenericList @list, return its length.
-+ */
-+#define QAPI_LIST_LENGTH(list) \
-+    ({ \
-+        int len = 0; \
-+        typeof(list) elem; \
-+        for (elem = list; elem != NULL; elem = elem->next) { \
-+            len++; \
-+        } \
-+        len; \
-+    })
-+
- #endif
-diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-index b8c22da..5ca8b4b 100644
---- a/monitor/hmp-cmds.c
-+++ b/monitor/hmp-cmds.c
-@@ -43,6 +43,7 @@
- #include "qapi/qapi-commands-run-state.h"
- #include "qapi/qapi-commands-tpm.h"
- #include "qapi/qapi-commands-ui.h"
+diff --git a/include/sysemu/runstate.h b/include/sysemu/runstate.h
+index b655c7b..198211b 100644
+--- a/include/sysemu/runstate.h
++++ b/include/sysemu/runstate.h
+@@ -57,6 +57,7 @@ void qemu_system_wakeup_enable(WakeupReason reason, bool enabled);
+ void qemu_register_wakeup_notifier(Notifier *notifier);
+ void qemu_register_wakeup_support(void);
+ void qemu_system_shutdown_request(ShutdownCause reason);
++void qemu_system_exec_request(const strList *args);
+ void qemu_system_powerdown_request(void);
+ void qemu_register_powerdown_notifier(Notifier *notifier);
+ void qemu_register_shutdown_notifier(Notifier *notifier);
+diff --git a/softmmu/runstate.c b/softmmu/runstate.c
+index 3d344c9..309a4bf 100644
+--- a/softmmu/runstate.c
++++ b/softmmu/runstate.c
+@@ -38,6 +38,7 @@
+ #include "monitor/monitor.h"
+ #include "net/net.h"
+ #include "net/vhost_net.h"
 +#include "qapi/util.h"
- #include "qapi/qapi-visit-net.h"
- #include "qapi/qapi-visit-migration.h"
- #include "qapi/qmp/qdict.h"
-@@ -70,32 +71,6 @@ bool hmp_handle_error(Monitor *mon, Error *err)
-     return false;
- }
- 
--/*
-- * Produce a strList from a comma separated list.
-- * A NULL or empty input string return NULL.
-- */
--static strList *strList_from_comma_list(const char *in)
--{
--    strList *res = NULL;
--    strList **tail = &res;
--
--    while (in && in[0]) {
--        char *comma = strchr(in, ',');
--        char *value;
--
--        if (comma) {
--            value = g_strndup(in, comma - in);
--            in = comma + 1; /* skip the , */
--        } else {
--            value = g_strdup(in);
--            in = NULL;
--        }
--        QAPI_LIST_APPEND(tail, value);
--    }
--
--    return res;
--}
--
- void hmp_info_name(Monitor *mon, const QDict *qdict)
- {
-     NameInfo *info;
-@@ -1103,7 +1078,7 @@ void hmp_announce_self(Monitor *mon, const QDict *qdict)
-                                             migrate_announce_params());
- 
-     qapi_free_strList(params->interfaces);
--    params->interfaces = strList_from_comma_list(interfaces_str);
-+    params->interfaces = strList_from_string(interfaces_str, ',');
-     params->has_interfaces = params->interfaces != NULL;
-     params->id = g_strdup(id);
-     params->has_id = !!params->id;
-diff --git a/qapi/qapi-util.c b/qapi/qapi-util.c
-index fda7044..edd51b3 100644
---- a/qapi/qapi-util.c
-+++ b/qapi/qapi-util.c
-@@ -15,6 +15,7 @@
  #include "qapi/error.h"
- #include "qemu/ctype.h"
- #include "qapi/qmp/qerror.h"
-+#include "qapi/qapi-builtin-types.h"
+ #include "qapi/qapi-commands-run-state.h"
+ #include "qapi/qapi-events-run-state.h"
+@@ -355,6 +356,7 @@ static NotifierList wakeup_notifiers =
+ static NotifierList shutdown_notifiers =
+     NOTIFIER_LIST_INITIALIZER(shutdown_notifiers);
+ static uint32_t wakeup_reason_mask = ~(1 << QEMU_WAKEUP_REASON_NONE);
++static char **exec_argv;
  
- CompatPolicy compat_policy;
- 
-@@ -152,3 +153,39 @@ int parse_qapi_name(const char *str, bool complete)
-     }
-     return p - str;
+ ShutdownCause qemu_shutdown_requested_get(void)
+ {
+@@ -371,6 +373,11 @@ static int qemu_shutdown_requested(void)
+     return qatomic_xchg(&shutdown_requested, SHUTDOWN_CAUSE_NONE);
  }
-+
-+char **strv_from_strList(const strList *args)
+ 
++static int qemu_exec_requested(void)
 +{
-+    const strList *arg;
-+    int i = 0;
-+    char **argv = g_malloc((QAPI_LIST_LENGTH(args) + 1) * sizeof(char *));
-+
-+    for (arg = args; arg != NULL; arg = arg->next) {
-+        argv[i++] = g_strdup(arg->value);
-+    }
-+    argv[i] = NULL;
-+
-+    return argv;
++    return exec_argv != NULL;
 +}
 +
-+strList *strList_from_string(const char *in, char delim)
+ static void qemu_kill_report(void)
+ {
+     if (!qtest_driver() && shutdown_signal) {
+@@ -641,6 +648,13 @@ void qemu_system_shutdown_request(ShutdownCause reason)
+     qemu_notify_event();
+ }
+ 
++void qemu_system_exec_request(const strList *args)
 +{
-+    strList *res = NULL;
-+    strList **tail = &res;
++    exec_argv = strv_from_strList(args);
++    shutdown_requested = 1;
++    qemu_notify_event();
++}
 +
-+    while (in && in[0]) {
-+        char *next = strchr(in, delim);
-+        char *value;
+ static void qemu_system_powerdown(void)
+ {
+     qapi_event_send_powerdown();
+@@ -689,6 +703,13 @@ static bool main_loop_should_exit(void)
+     }
+     request = qemu_shutdown_requested();
+     if (request) {
 +
-+        if (next) {
-+            value = g_strndup(in, next - in);
-+            in = next + 1; /* skip the delim */
-+        } else {
-+            value = g_strdup(in);
-+            in = NULL;
++        if (qemu_exec_requested()) {
++            execvp(exec_argv[0], exec_argv);
++            error_report("execvp %s failed: %s", exec_argv[0], strerror(errno));
++            g_strfreev(exec_argv);
++            exec_argv = NULL;
 +        }
-+        QAPI_LIST_APPEND(tail, value);
-+    }
-+
-+    return res;
-+}
+         qemu_kill_report();
+         qemu_system_shutdown(request);
+         if (shutdown_action == SHUTDOWN_ACTION_PAUSE) {
 -- 
 1.8.3.1
 
