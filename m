@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A92C347D141
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Dec 2021 12:46:58 +0100 (CET)
-Received: from localhost ([::1]:51650 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1388347D12B
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Dec 2021 12:43:37 +0100 (CET)
+Received: from localhost ([::1]:43218 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n005B-0000xg-PI
-	for lists+qemu-devel@lfdr.de; Wed, 22 Dec 2021 06:46:57 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51154)
+	id 1n001v-0003gl-SO
+	for lists+qemu-devel@lfdr.de; Wed, 22 Dec 2021 06:43:35 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51156)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mzzsw-0001JB-P9
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mzzsw-0001JC-PE
  for qemu-devel@nongnu.org; Wed, 22 Dec 2021 06:34:18 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:22774)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:48588)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mzzsi-00072W-MH
- for qemu-devel@nongnu.org; Wed, 22 Dec 2021 06:34:15 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mzzss-00072v-5W
+ for qemu-devel@nongnu.org; Wed, 22 Dec 2021 06:34:16 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1640172842;
+ s=mimecast20190719; t=1640172848;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=udEztULZ4lqPUg1czD/LOzeZJLmpXbIItISvorfhQIk=;
- b=PelFmp8Yyk7yI7q74DeLl4u0yna2wZ5tJ+eBfRbv9/tW8c4VE6M/7Lls0yojO3Zv8sUuvh
- B8S+5bmkjpUuo+5f+W77QJ1SL+AMN/E6xzD30/PSK+6H8IfKpbxzsbzcbw97pinCT1gnvh
- D1iO33T4ODYodlfJZ3bngyuDDzOhiWA=
+ bh=Xykkt6Z3Ra1B4KvEgNzsN/0gvucadKbt9IM1q85ysJo=;
+ b=f+H0LsNjpTYZyqkcfYzjBbO8L/EHv6w74wVGbXDO5gPs1BIoPhBRYAKQzTu7N8sczSfrS7
+ GuT9CJi+5+8z/e/BUr/5TvSJOsRo3mwyxMqXNGmF5NMxI0IMow6AzaWUdGn9ucWpfYs+7I
+ USXx5zngplZ9jga4Il4kmBwK/cAb6bs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-449-ZetR0qGLNdGcwK0UPKirwQ-1; Wed, 22 Dec 2021 06:34:00 -0500
-X-MC-Unique: ZetR0qGLNdGcwK0UPKirwQ-1
+ us-mta-255-N-NgwmUdMMObprNlRlH1eA-1; Wed, 22 Dec 2021 06:34:02 -0500
+X-MC-Unique: N-NgwmUdMMObprNlRlH1eA-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DC691801ADB;
- Wed, 22 Dec 2021 11:33:59 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5B40781CCB4;
+ Wed, 22 Dec 2021 11:34:01 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.192.135])
- by smtp.corp.redhat.com (Postfix) with ESMTP id ED34378DFB;
- Wed, 22 Dec 2021 11:33:58 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3E26F7B015;
+ Wed, 22 Dec 2021 11:34:00 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 8/9] tests/qtest/boot-order-test: Check whether machines are
- available
-Date: Wed, 22 Dec 2021 12:32:58 +0100
-Message-Id: <20211222113259.823203-9-thuth@redhat.com>
+Subject: [PULL 9/9] tests/qtest/virtio-net-failover: Use g_file_open_tmp() to
+ create temporary file
+Date: Wed, 22 Dec 2021 12:32:59 +0100
+Message-Id: <20211222113259.823203-10-thuth@redhat.com>
 In-Reply-To: <20211222113259.823203-1-thuth@redhat.com>
 References: <20211222113259.823203-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -55,8 +55,8 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
@@ -78,35 +78,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Machines might not always be compiled into the QEMU binary, so
-we should skip the test instead of failing if it is not available.
+g_test_rand_int() must not be called before g_test_init(), otherwise
+the glib will show a "g_rand_int: assertion 'rand != NULL' failed"
+message in the log. So we could change the order here, but actually,
+it's safer to use g_file_open_tmp() anyway, so let's use that function
+now instead.
 
-Message-Id: <20211220081054.151515-5-thuth@redhat.com>
+Reported-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Suggested-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20211222083652.776592-1-thuth@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/qtest/boot-order-test.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ tests/qtest/virtio-net-failover.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/tests/qtest/boot-order-test.c b/tests/qtest/boot-order-test.c
-index fac580d6c4..f1f59b1261 100644
---- a/tests/qtest/boot-order-test.c
-+++ b/tests/qtest/boot-order-test.c
-@@ -34,6 +34,11 @@ static void test_a_boot_order(const char *machine,
-     uint64_t actual;
-     QTestState *qts;
+diff --git a/tests/qtest/virtio-net-failover.c b/tests/qtest/virtio-net-failover.c
+index 4b2ba8a106..22ad54bb95 100644
+--- a/tests/qtest/virtio-net-failover.c
++++ b/tests/qtest/virtio-net-failover.c
+@@ -1306,13 +1306,15 @@ static void test_multi_in(gconstpointer opaque)
  
-+    if (machine && !qtest_has_machine(machine)) {
-+        g_test_skip("Machine is not available");
-+        return;
-+    }
+ int main(int argc, char **argv)
+ {
+-    const gchar *tmpdir = g_get_tmp_dir();
+-    gchar *tmpfile = g_strdup_printf("%s/failover_test_migrate-%u-%u",
+-                                     tmpdir, getpid(), g_test_rand_int());
++    gchar *tmpfile;
+     int ret;
+ 
+     g_test_init(&argc, &argv, NULL);
+ 
++    ret = g_file_open_tmp("failover_test_migrate-XXXXXX", &tmpfile, NULL);
++    g_assert_true(ret >= 0);
++    close(ret);
 +
-     qts = qtest_initf("-nodefaults%s%s %s", machine ? " -M " : "",
-                       machine ?: "", test_args);
-     actual = read_boot_order(qts);
+     qtest_add_func("failover-virtio-net/params/error/id", test_error_id);
+     qtest_add_func("failover-virtio-net/params/error/pcie", test_error_pcie);
+     qtest_add_func("failover-virtio-net/params/on", test_on);
 -- 
 2.27.0
 
