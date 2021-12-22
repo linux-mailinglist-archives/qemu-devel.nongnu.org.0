@@ -2,74 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A4CC47D109
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Dec 2021 12:33:49 +0100 (CET)
-Received: from localhost ([::1]:52228 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 927CB47D119
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Dec 2021 12:37:11 +0100 (CET)
+Received: from localhost ([::1]:59158 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mzzsR-0007VL-PF
-	for lists+qemu-devel@lfdr.de; Wed, 22 Dec 2021 06:33:47 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50214)
+	id 1mzzvi-0003hh-Kl
+	for lists+qemu-devel@lfdr.de; Wed, 22 Dec 2021 06:37:10 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51004)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lizhang@suse.de>) id 1mzzqE-0005WL-Rv
- for qemu-devel@nongnu.org; Wed, 22 Dec 2021 06:31:30 -0500
-Received: from smtp-out2.suse.de ([195.135.220.29]:38540)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <lizhang@suse.de>) id 1mzzqD-0006hd-4i
- for qemu-devel@nongnu.org; Wed, 22 Dec 2021 06:31:30 -0500
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mzzsW-0000nW-9R
+ for qemu-devel@nongnu.org; Wed, 22 Dec 2021 06:33:52 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20439)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mzzsS-00070u-Pr
+ for qemu-devel@nongnu.org; Wed, 22 Dec 2021 06:33:50 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1640172827;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=RAkllm2E8hvFab+U66jSkRjtIz/2yb4LcmWh8vtiipM=;
+ b=h+r4WFPQoi0t4BHYbPFyQJIfyYAos6vCgmWwOsXtFGcaL+sTVCu2pDZB9PMzXjou9HkV+7
+ SWxpavdVIc8oadHw2kMnXLMdPih94Y5OLBFpUw2axB2QOIuRlMRgFB7cRIh1xWhxKjIeMB
+ IFZpGqZxkNLMysHWi+kR4+Pc87IUnTQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-626-SLOr-nXbMbWeatZMyAq5pQ-1; Wed, 22 Dec 2021 06:33:44 -0500
+X-MC-Unique: SLOr-nXbMbWeatZMyAq5pQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 75EB91F37E;
- Wed, 22 Dec 2021 11:31:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1640172686; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=rsJccoOb4GzceYvdnqjDwKtFeMMlxoj3PAXUgjIThlY=;
- b=wl6hKqFC29kJpnuyRxpdgq9hqGCP5po88jK5um1naEC2yOU9mvkwwIATSGZAK+ZJ9UTx/X
- ElIzcjX54F2PxVyZ9TVUxQ02jUhfI7YjXuutDWLMf5o0uLmlGTF076lRLSTiMcSI5/yDDZ
- IAPKy6z54hpJd2P96FdzK9+0ZQxq92E=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1640172686;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=rsJccoOb4GzceYvdnqjDwKtFeMMlxoj3PAXUgjIThlY=;
- b=iub8TqQQZ3e+wcPlBjudnzh++cmM30husjVd/EJCFnqjcLDKkWuCAbCrLSw6Tque6IEUCg
- dhvDE5ahDqUr44Cg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 4024E13D10;
- Wed, 22 Dec 2021 11:31:26 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id iLoiDo4Mw2HBFQAAMHmgww
- (envelope-from <lizhang@suse.de>); Wed, 22 Dec 2021 11:31:26 +0000
-From: Li Zhang <lizhang@suse.de>
-To: quintela@redhat.com, dgilbert@redhat.com, cfontana@suse.de,
- qemu-devel@nongnu.org
-Subject: [PATCH 2/2] multifd: cleanup the function multifd_send_thread
-Date: Wed, 22 Dec 2021 12:30:49 +0100
-Message-Id: <20211222113049.9326-3-lizhang@suse.de>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20211222113049.9326-1-lizhang@suse.de>
-References: <20211222113049.9326-1-lizhang@suse.de>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A02631006AA4;
+ Wed, 22 Dec 2021 11:33:43 +0000 (UTC)
+Received: from thuth.com (unknown [10.39.192.135])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 746EF7B01D;
+ Wed, 22 Dec 2021 11:33:42 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 0/9] qtest fixes and improvements
+Date: Wed, 22 Dec 2021 12:32:50 +0100
+Message-Id: <20211222113259.823203-1-thuth@redhat.com>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.29; envelope-from=lizhang@suse.de;
- helo=smtp-out2.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.203,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,122 +74,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Li Zhang <lizhang@suse.de>
+Cc: Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Cleanup multifd_send_thread
+ Hi!
 
-Signed-off-by: Li Zhang <lizhang@suse.de>
----
- migration/multifd.c | 82 ++++++++++++++++++++++-----------------------
- 1 file changed, 41 insertions(+), 41 deletions(-)
+The following changes since commit 8c5f94cd4182753959c8be8de415120dc879d8f0:
 
-diff --git a/migration/multifd.c b/migration/multifd.c
-index 4ec40739e0..7888d71bfe 100644
---- a/migration/multifd.c
-+++ b/migration/multifd.c
-@@ -649,58 +649,58 @@ static void *multifd_send_thread(void *opaque)
-             break;
-         }
-         qemu_mutex_lock(&p->mutex);
--
--        if (p->pending_job) {
--            uint32_t used = p->pages->num;
--            uint64_t packet_num = p->packet_num;
--            uint32_t flags = p->flags;
--
--            if (used) {
--                ret = multifd_send_state->ops->send_prepare(p, &local_err);
--                if (ret != 0) {
--                    qemu_mutex_unlock(&p->mutex);
--                    break;
--                }
--            }
--            multifd_send_fill_packet(p);
--            p->flags = 0;
--            p->num_packets++;
--            p->num_pages += used;
--            p->pages->num = 0;
--            p->pages->block = NULL;
-+        if (!p->quit && !p->pending_job) {
-+            /* sometimes there are spurious wakeups */
-+            qemu_mutex_unlock(&p->mutex);
-+            continue;
-+        } else if (!p->pending_job) {
-             qemu_mutex_unlock(&p->mutex);
-+            break;
-+        }
- 
--            trace_multifd_send(p->id, packet_num, used, flags,
--                               p->next_packet_size);
-+        uint32_t used = p->pages->num;
-+        uint64_t packet_num = p->packet_num;
-+        uint32_t flags = p->flags;
- 
--            ret = qio_channel_write_all(p->c, (void *)p->packet,
--                                        p->packet_len, &local_err);
-+        if (used) {
-+            ret = multifd_send_state->ops->send_prepare(p, &local_err);
-             if (ret != 0) {
-+                qemu_mutex_unlock(&p->mutex);
-                 break;
-             }
-+        }
-+        multifd_send_fill_packet(p);
-+        p->flags = 0;
-+        p->num_packets++;
-+        p->num_pages += used;
-+        p->pages->num = 0;
-+        p->pages->block = NULL;
-+        qemu_mutex_unlock(&p->mutex);
- 
--            if (used) {
--                ret = multifd_send_state->ops->send_write(p, used, &local_err);
--                if (ret != 0) {
--                    break;
--                }
--            }
-+        trace_multifd_send(p->id, packet_num, used, flags,
-+                           p->next_packet_size);
- 
--            qemu_mutex_lock(&p->mutex);
--            p->pending_job--;
--            qemu_mutex_unlock(&p->mutex);
-+        ret = qio_channel_write_all(p->c, (void *)p->packet,
-+                                    p->packet_len, &local_err);
-+        if (ret != 0) {
-+            break;
-+        }
- 
--            if (flags & MULTIFD_FLAG_SYNC) {
--                qemu_sem_post(&p->sem_sync);
-+        if (used) {
-+            ret = multifd_send_state->ops->send_write(p, used, &local_err);
-+            if (ret != 0) {
-+                break;
-             }
--            qemu_sem_post(&multifd_send_state->channels_ready);
--        } else if (p->quit) {
--            qemu_mutex_unlock(&p->mutex);
--            break;
--        } else {
--            qemu_mutex_unlock(&p->mutex);
--            /* sometimes there are spurious wakeups */
-         }
-+
-+        qemu_mutex_lock(&p->mutex);
-+        p->pending_job--;
-+        qemu_mutex_unlock(&p->mutex);
-+
-+        if (flags & MULTIFD_FLAG_SYNC) {
-+            qemu_sem_post(&p->sem_sync);
-+        }
-+        qemu_sem_post(&multifd_send_state->channels_ready);
-     }
- 
- out:
--- 
-2.31.1
+  Merge tag 'pull-loong-20211221-2' of https://gitlab.com/rth7680/qemu into staging (2021-12-21 13:30:35 -0800)
+
+are available in the Git repository at:
+
+  https://gitlab.com/thuth/qemu.git tags/pull-request-2021-12-22
+
+for you to fetch changes up to e63ed64c6d10768b3a41c3337226372a9664ef6f:
+
+  tests/qtest/virtio-net-failover: Use g_file_open_tmp() to create temporary file (2021-12-22 09:37:14 +0100)
+
+----------------------------------------------------------------
+* Fixes for the virtio-net-failover test
+* Silence warnings in the boot-serial-test
+* Make qtests more flexible wrt missing machines and devices
+
+----------------------------------------------------------------
+Laurent Vivier (1):
+      failover: Silence warning messages during qtest
+
+Thomas Huth (7):
+      tests/qtest/boot-serial-test: Silence the warning about deprecated sga device
+      tests/qtest: Make the filter tests independent from a specific NIC
+      tests/qtest: Add a function that checks whether a device is available
+      tests/qtest: Improve endianness-test to work with missing machines and devices
+      tests/qtest/cdrom-test: Check whether devices are available before using them
+      tests/qtest/boot-order-test: Check whether machines are available
+      tests/qtest/virtio-net-failover: Use g_file_open_tmp() to create temporary file
+
+Zhang Chen (1):
+      MAINTAINERS: Update COLO Proxy section
+
+ MAINTAINERS                          |  1 +
+ hw/net/virtio-net.c                  |  7 ++++-
+ migration/migration.c                |  4 ++-
+ tests/qtest/boot-order-test.c        |  5 +++
+ tests/qtest/boot-serial-test.c       | 10 +++---
+ tests/qtest/cdrom-test.c             | 60 +++++++++++++++++++++++-------------
+ tests/qtest/endianness-test.c        |  5 ++-
+ tests/qtest/libqos/libqtest.h        |  8 +++++
+ tests/qtest/libqtest.c               | 44 ++++++++++++++++++++++++++
+ tests/qtest/meson.build              | 40 ++++++++++++++++++------
+ tests/qtest/test-filter-mirror.c     | 10 ++----
+ tests/qtest/test-filter-redirector.c | 20 +++---------
+ tests/qtest/test-netfilter.c         |  8 +----
+ tests/qtest/virtio-net-failover.c    |  8 +++--
+ 14 files changed, 158 insertions(+), 72 deletions(-)
 
 
