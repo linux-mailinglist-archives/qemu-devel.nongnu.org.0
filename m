@@ -2,77 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 510D147D13A
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Dec 2021 12:45:51 +0100 (CET)
-Received: from localhost ([::1]:48406 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E279847D13F
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Dec 2021 12:46:41 +0100 (CET)
+Received: from localhost ([::1]:50788 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n0046-0007C0-Bq
-	for lists+qemu-devel@lfdr.de; Wed, 22 Dec 2021 06:45:50 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52382)
+	id 1n004v-0000Nj-1D
+	for lists+qemu-devel@lfdr.de; Wed, 22 Dec 2021 06:46:41 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52880)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mzzxd-00015F-R7
- for qemu-devel@nongnu.org; Wed, 22 Dec 2021 06:39:09 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:20869)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1n000R-0003y2-96
+ for qemu-devel@nongnu.org; Wed, 22 Dec 2021 06:42:03 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58280)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mzzxc-0007d5-7G
- for qemu-devel@nongnu.org; Wed, 22 Dec 2021 06:39:09 -0500
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1n000P-00084N-M9
+ for qemu-devel@nongnu.org; Wed, 22 Dec 2021 06:42:02 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1640173147;
+ s=mimecast20190719; t=1640173317;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ogFUcmEzS6zzMopBGilCGUk71S98Jp9E6vfXnrikE+E=;
- b=c8P4Dk4bfLP5XQf3jmHg26LPExfjRDpbcJYdeAd8kWAZ5Uo6hsMz4tyWJ+YzGODy6GtU+C
- R7m/yzzPk2DGwHylBpFn5IApai5OeAnawqw7XE4yAddOrV1DRUjMs4QMMGIEjjOxX8wnvP
- WgZWSuv+rdfco6+gWLkKRuKFZB7+W/s=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding;
+ bh=gwczaIFchjInhSBw8V+mBpOW1RyV5LkeWtC81/5aAA0=;
+ b=FUNhHFXgSVywLGBfMQJFLeBu4IQi/UpwewUempG1VRHnf0OR+oWPJfqRh1azn84Af++Zxx
+ MUNHtLEb8N1C//jsSMB730mHUDcqNv3yrTC1Yb6ptcxPPBxPoUTTUY6hcFSOLq4BfYPD49
+ dasjwELyD1AF9zFjr+AUdtLdz8I1IA0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-457--9GozFg9PBi8a9zfvrQlaQ-1; Wed, 22 Dec 2021 06:39:06 -0500
-X-MC-Unique: -9GozFg9PBi8a9zfvrQlaQ-1
-Received: by mail-wm1-f71.google.com with SMTP id
- i15-20020a05600c354f00b0034566ac865bso618233wmq.6
- for <qemu-devel@nongnu.org>; Wed, 22 Dec 2021 03:39:06 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=ogFUcmEzS6zzMopBGilCGUk71S98Jp9E6vfXnrikE+E=;
- b=vyRvX1+HjPdMCAXe95dvsE5JFZkZJE1AZDT7qV1E8Uwn9x7uQ0R+BGhEZGvL+3ky10
- X5sBh6TBJGBZn8N588cEGOOAV3nsJGHD/6b00BHNAlxSh+2eSzjUMBb0/WTcnyEULSLn
- h3Epr5s54AgapMoXbe//vAtSki2zL3VGAr0AbxINE7qSVyFtPAgZT1TVRtO7sUIpnxYp
- XyGXtnR8zM0fewD23OQooLuiZg5Egb2Z107Ir66+AK2Y71/04uQKSu+jNScn8DSw9IXR
- jqIU7N7CU/j17vbjj7+id1apxXcV7uSPfVhz26gKlEieqJY9EEDkS0CitanlzPDLg0Yx
- 7bMQ==
-X-Gm-Message-State: AOAM532pHX0h3NX9L6iBgak07Iz1x+bEkzXr4EKe7QbcOTJwtf2aEvv0
- yqhkLZXb5XZDwGTFP9oJTqxeRckRRypG9X5MOrWBl4D1sF0gPit12WJ/PQhhImBP/OsQmYt12bl
- OVUlGdhlzpbQFhRI=
-X-Received: by 2002:adf:ec46:: with SMTP id w6mr1861876wrn.288.1640173142692; 
- Wed, 22 Dec 2021 03:39:02 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyiGdiwrpGSPtQcZsBZUAkoIYKjCP9uE1fFTs/Yy+Z11yrr0ac4MQBuD6PARbIy9IRR/UfXWQ==
-X-Received: by 2002:adf:ec46:: with SMTP id w6mr1861865wrn.288.1640173142441; 
- Wed, 22 Dec 2021 03:39:02 -0800 (PST)
-Received: from xz-m1.local ([64.64.123.18])
- by smtp.gmail.com with ESMTPSA id r11sm2113206wrz.78.2021.12.22.03.38.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Dec 2021 03:39:01 -0800 (PST)
-Date: Wed, 22 Dec 2021 19:38:56 +0800
-From: Peter Xu <peterx@redhat.com>
-To: Jason Wang <jasowang@redhat.com>
-Subject: Re: [PATCH] intel-iommu: correctly check passthrough during
- translation
-Message-ID: <YcMOUPyF/u1R6OCP@xz-m1.local>
-References: <20211222063956.2871-1-jasowang@redhat.com>
+ us-mta-624-ZSmdvgx_NAO_Mec1BUl2kA-1; Wed, 22 Dec 2021 06:41:56 -0500
+X-MC-Unique: ZSmdvgx_NAO_Mec1BUl2kA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B0F8664145;
+ Wed, 22 Dec 2021 11:41:55 +0000 (UTC)
+Received: from localhost (unknown [10.39.194.22])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 533C95BD25;
+ Wed, 22 Dec 2021 11:41:55 +0000 (UTC)
+From: Hanna Reitz <hreitz@redhat.com>
+To: qemu-block@nongnu.org
+Subject: [PATCH 0/3] qsd: Add --daemonize; and add job quit tests
+Date: Wed, 22 Dec 2021 12:41:50 +0100
+Message-Id: <20211222114153.67721-1-hreitz@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20211222063956.2871-1-jasowang@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -93,22 +74,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: yi.l.liu@intel.com, yi.y.sun@linux.intel.com, qemu-devel@nongnu.org,
- mst@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Dec 22, 2021 at 02:39:56PM +0800, Jason Wang wrote:
-> When scsalable mode is enabled, the passthrough more is not determined
-> by the context entry but PASID entry, so switch to use the logic of
-> vtd_dev_pt_enabled() to determine the passthrough mode in
-> vtd_do_iommu_translate().
-> 
-> Signed-off-by: Jason Wang <jasowang@redhat.com>
+Hi,
 
-Reviewed-by: Peter Xu <peterx@redhat.com>
+This series began as an attempt to write a reproducer for the following
+case:
+
+  You have a mirror job in READY state with a target that’s slow.  There
+  is still a lot of data to be written (because of active I/O in the
+  guest).  You quit qemu, and you expect quitting to be reasonably
+  quick.
+  Old qemu used to still complete the job, which may take forever, new
+  qemu cancels the job, which is better.
+
+That’s basically patch 3 in this series, which tests this behavior once
+for mirror and once for active commit.
+
+Problem is, how to simulate a slow target for this; if you use a
+throttle node in the same qemu process that you’re trying to test, qemu
+will just drain it when quitting, and so the supposedly slow target
+becomes very fast.
+
+So we need an external instance, and what better to use but the storage
+daemon.  I found that it would be nice if for this it had a --daemonize
+option (well, it would be nice in general), and so the first two patches
+implement that.
+
+
+Hanna Reitz (3):
+  qsd: Add pre-init argument parsing pass
+  qsd: Add --daemonize
+  iotests/185: Add post-READY quit tests
+
+ docs/tools/qemu-storage-daemon.rst   |   7 +
+ storage-daemon/qemu-storage-daemon.c | 188 +++++++++++++++++++++++++-
+ tests/qemu-iotests/185               | 190 ++++++++++++++++++++++++++-
+ tests/qemu-iotests/185.out           |  48 +++++++
+ 4 files changed, 430 insertions(+), 3 deletions(-)
 
 -- 
-Peter Xu
+2.33.1
 
 
