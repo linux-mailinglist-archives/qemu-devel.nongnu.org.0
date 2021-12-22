@@ -2,85 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04C6647D852
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Dec 2021 21:29:16 +0100 (CET)
-Received: from localhost ([::1]:42156 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D11C47D85F
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Dec 2021 21:48:43 +0100 (CET)
+Received: from localhost ([::1]:49710 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n08Ec-00058e-Lv
-	for lists+qemu-devel@lfdr.de; Wed, 22 Dec 2021 15:29:14 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37624)
+	id 1n08XR-0002cU-LZ
+	for lists+qemu-devel@lfdr.de; Wed, 22 Dec 2021 15:48:41 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41332)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1n08DY-0004RB-PW
- for qemu-devel@nongnu.org; Wed, 22 Dec 2021 15:28:08 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53778)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n08We-0001vZ-Fz
+ for qemu-devel@nongnu.org; Wed, 22 Dec 2021 15:47:52 -0500
+Received: from mout.kundenserver.de ([212.227.126.135]:58137)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1n08DW-0008Dm-Im
- for qemu-devel@nongnu.org; Wed, 22 Dec 2021 15:28:08 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1640204885;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=l3ecrDMgwL4VdYOd/uWB/bffW8vnIfN+mQ84mxeA940=;
- b=JkCoEYTRbJ1AGg9/6cGKbxIFIPR+irQI6XV3QZrh5s6V4bcEdY4wDtRXd7bho7otNV5HPv
- SdDQt91oeu4ENwUWFaBh1HcTshNo43xhC41Ky3Oe2On/th6AZeE87k+iAnOwJ77X5GSMGd
- FGAKo0qPlA9eNKEqwtJk/fi/7975f1Q=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-16-byBu8mawM9m4XS3fy9Mz3g-1; Wed, 22 Dec 2021 15:28:04 -0500
-X-MC-Unique: byBu8mawM9m4XS3fy9Mz3g-1
-Received: by mail-ed1-f71.google.com with SMTP id
- h22-20020a056402281600b003f839627a38so2688311ede.23
- for <qemu-devel@nongnu.org>; Wed, 22 Dec 2021 12:28:04 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=l3ecrDMgwL4VdYOd/uWB/bffW8vnIfN+mQ84mxeA940=;
- b=n2+a2ckCwOZRQTAVRRRBmgXDzQU1z/VoS6wbvn0v2rXZiPYWXmhSjHNDQQx2OoocVm
- CrCVK5xi/7dtR+wsvTmP9AT0aXVWdwJrivDTMLGgNkF1fAB9xLnxkeCv8YWo/EbsbmlD
- BgofWNBCBUAXSIUam5zkCIYVr9o2rxK+qTCEtnwDr1AIfaNU0Z9GaWegvb8A7QTw9rJ3
- aOxorgtbW8h8WHpfo1o+p7OMkdc2TlluZZ19LfvOSa5fgmxZqMl8oBJAIHIYoawaM9Uq
- dSi3NAJUv0JOtZsh0hRw1ftNJOYvqhLF+V0+cvI7NESLNj8E6ihsw0sVcyfmjsc2VXbV
- pc+g==
-X-Gm-Message-State: AOAM531bBpOdvhFxz/SGtXMTDs+jcUEGF6uWQEX4peULGZbdBO/0tZcH
- LQNLMOJctSSxLDDV9nVVTKC2rfiX7JLJS+bpwRGgXrlR0ovbUY8SFN8r4qxKG2Td1wCwmPVDJv3
- 9czf26dfud4WhKZazbT04yyU9WujF97A=
-X-Received: by 2002:a17:907:2be9:: with SMTP id
- gv41mr3818975ejc.468.1640204883102; 
- Wed, 22 Dec 2021 12:28:03 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzxpz8gcoKXtV5l/Oq/xdtmC23QIr66hTR7VssYFBYXKPGRLue95ClYCTEmlFFmeq2auVXotJ+ksBDXE9/6J90=
-X-Received: by 2002:a17:907:2be9:: with SMTP id
- gv41mr3818963ejc.468.1640204882921; 
- Wed, 22 Dec 2021 12:28:02 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n08Wc-0004tH-OG
+ for qemu-devel@nongnu.org; Wed, 22 Dec 2021 15:47:52 -0500
+Received: from [192.168.100.1] ([82.142.30.186]) by mrelayeu.kundenserver.de
+ (mreue012 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MBBCI-1nBhls2DGg-00ChnZ; Wed, 22 Dec 2021 21:47:46 +0100
+Message-ID: <c00aa20c-676f-7ad0-5381-88858a75d57c@vivier.eu>
+Date: Wed, 22 Dec 2021 21:47:45 +0100
 MIME-Version: 1.0
-References: <20211221144852.589983-1-mst@redhat.com>
- <ad22de10-a52c-ff34-0790-3be8e7d62630@redhat.com>
- <20211222151922-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20211222151922-mutt-send-email-mst@kernel.org>
-From: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Date: Wed, 22 Dec 2021 21:27:51 +0100
-Message-ID: <CAP+75-VaN5SD22ABqKNTC=dHhN4yaN-22Ucfdp=6aeYa+q+83A@mail.gmail.com>
-Subject: Re: [PATCH] acpi: validate hotplug selector on access
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.203,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH 1/6] linux-user: Split out do_prctl and subroutines
+Content-Language: fr
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20211220214135.189157-1-richard.henderson@linaro.org>
+ <20211220214135.189157-2-richard.henderson@linaro.org>
+From: Laurent Vivier <laurent@vivier.eu>
+In-Reply-To: <20211220214135.189157-2-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:wRoCqKR7oRwkytJZaoRd6BOcSDcwIvNO8SH85p39q4FrsMSzO9b
+ BMBuCMiGcwWTWG15KZcgHSaFC8cQkpyq9B5snU17LHwsY+Qk0toThpmORjQPUYT3sCOaC2X
+ WNCobxLv9nGba/QcuQmiwYdL+j70PMGv1ShWZuCQO6dcaLqTUE1vOxWV0ilRfOO3QVLnTp9
+ PdNiJfjhqwxXNl5bxcLDQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:5jLF6RLiTTk=:pUfoGEkFTUBTCYbyQzJWtg
+ a8/VJMaeaJVVxFVWW3+r3+AbQeRPT66H8onOspGaBDoor2YtEeLJPAbQVQA1TH3H+lCiNkktD
+ BHOUO4RDS3nNCiiwzGPAt4iMNm9y4H7Pl5wm9KE+fVAfMZJy2gBEeYh1tv7NIwlN1yvbpI391
+ Z5vfi70IMSwANaw9Gy2SwTUts6snOTC3znZzKtl/R3QvHaMpmQoEYCL0u8mB4hPsg5bAWJ9N9
+ K4xAK+Vl1LKlwNIeA/iQuD5aRn/T+raR80cPzm9j7J16QLYyqdK6+dr2iJpv3MDOFUG5vh1W0
+ eBAlfQ8xT50jGbh5w525ivpr9IFazUX3Z9Rm6xCP4Rz9gSzV/ow291Td9TotZ+3l1mFMZ7T5I
+ qoiweS/uRgjToIYwh7cBn5CF/UMKW2wByt3PL3Jw3OEiveY0l/Ikr7jE4G2kXjka1IE2Opele
+ QZnkm/w7idGHqKG6OnPh3cFI6vpl1t3m7SoKWsI2oXffE40kBzeE4mJDB7zpNYe8eciRStk7S
+ ARWY6V1UOE+yvcdBp9mIfMYkNncQbPZbvOky5ys+lB02fMw8sdu1Xuv/rDEqpDJSq/Y++484t
+ EoRHGmV9fDfmrT4A+uJORl0L4l/zsb/YNjCG+c/6N+Bq9Hh29zh33ZvhgcvyAVfeMi+xKGeax
+ bc0V431BwiQuYfPlq7zppKI1cgT7pHzbnT98oZh7MsV8lJvJdWYPvsGiORaRcazS0fOc=
+Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -25
+X-Spam_score: -2.6
+X-Spam_bar: --
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.694,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,52 +69,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mauro Matteo Cascella <mcascell@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Alexander Bulekov <alxndr@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Ani Sinha <ani@anisinha.ca>,
- Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Dec 22, 2021 at 9:20 PM Michael S. Tsirkin <mst@redhat.com> wrote:
-> On Wed, Dec 22, 2021 at 08:19:41PM +0100, Philippe Mathieu-Daud=C3=A9 wro=
-te:
-> > +Mauro & Alex
-> >
-> > On 12/21/21 15:48, Michael S. Tsirkin wrote:
-> > > When bus is looked up on a pci write, we didn't
-> > > validate that the lookup succeeded.
-> > > Fuzzers thus can trigger QEMU crash by dereferencing the NULL
-> > > bus pointer.
-> > >
-> > > Fixes: b32bd763a1 ("pci: introduce acpi-index property for PCI device=
-")
-> > > Cc: "Igor Mammedov" <imammedo@redhat.com>
-> > > Fixes: https://gitlab.com/qemu-project/qemu/-/issues/770
-> > > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-> >
-> > It seems this problem is important enough to get a CVE assigned.
->
-> Guest root can crash guest.
-> I don't see why we would assign a CVE.
+Le 20/12/2021 à 22:41, Richard Henderson a écrit :
+> Since the prctl constants are supposed to be generic, supply
+> any that are not provided by the host.
+> 
+> Split out subroutines for PR_GET_FP_MODE, PR_SET_FP_MODE,
+> PR_GET_VL, PR_SET_VL, PR_RESET_KEYS, PR_SET_TAGGED_ADDR_CTRL,
+> PR_GET_TAGGED_ADDR_CTRL.  Return EINVAL for guests that do
+> not support these options rather than pass them on to the host.
+> 
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>   linux-user/aarch64/target_prctl.h    | 160 ++++++++++
+>   linux-user/aarch64/target_syscall.h  |  23 --
+>   linux-user/alpha/target_prctl.h      |   1 +
+>   linux-user/arm/target_prctl.h        |   1 +
+>   linux-user/cris/target_prctl.h       |   1 +
+>   linux-user/hexagon/target_prctl.h    |   1 +
+>   linux-user/hppa/target_prctl.h       |   1 +
+>   linux-user/i386/target_prctl.h       |   1 +
+>   linux-user/m68k/target_prctl.h       |   1 +
+>   linux-user/microblaze/target_prctl.h |   1 +
+>   linux-user/mips/target_prctl.h       |  88 ++++++
+>   linux-user/mips/target_syscall.h     |   6 -
+>   linux-user/mips64/target_prctl.h     |   1 +
+>   linux-user/mips64/target_syscall.h   |   6 -
+>   linux-user/nios2/target_prctl.h      |   1 +
+>   linux-user/openrisc/target_prctl.h   |   1 +
+>   linux-user/ppc/target_prctl.h        |   1 +
+>   linux-user/riscv/target_prctl.h      |   1 +
+>   linux-user/s390x/target_prctl.h      |   1 +
+>   linux-user/sh4/target_prctl.h        |   1 +
+>   linux-user/sparc/target_prctl.h      |   1 +
+>   linux-user/x86_64/target_prctl.h     |   1 +
+>   linux-user/xtensa/target_prctl.h     |   1 +
+>   linux-user/syscall.c                 | 433 +++++++++------------------
+>   24 files changed, 414 insertions(+), 320 deletions(-)
+>   create mode 100644 linux-user/aarch64/target_prctl.h
+>   create mode 100644 linux-user/alpha/target_prctl.h
+>   create mode 100644 linux-user/arm/target_prctl.h
+>   create mode 100644 linux-user/cris/target_prctl.h
+>   create mode 100644 linux-user/hexagon/target_prctl.h
+>   create mode 100644 linux-user/hppa/target_prctl.h
+>   create mode 100644 linux-user/i386/target_prctl.h
+>   create mode 100644 linux-user/m68k/target_prctl.h
+>   create mode 100644 linux-user/microblaze/target_prctl.h
+>   create mode 100644 linux-user/mips/target_prctl.h
+>   create mode 100644 linux-user/mips64/target_prctl.h
+>   create mode 100644 linux-user/nios2/target_prctl.h
+>   create mode 100644 linux-user/openrisc/target_prctl.h
+>   create mode 100644 linux-user/ppc/target_prctl.h
+>   create mode 100644 linux-user/riscv/target_prctl.h
+>   create mode 100644 linux-user/s390x/target_prctl.h
+>   create mode 100644 linux-user/sh4/target_prctl.h
+>   create mode 100644 linux-user/sparc/target_prctl.h
+>   create mode 100644 linux-user/x86_64/target_prctl.h
+>   create mode 100644 linux-user/xtensa/target_prctl.h
+> 
 
-Well thinking about downstream distributions, if there is a CVE assigned,
-it helps them to have it written in the commit. Maybe I am mistaken.
-
-Unrelated but it seems there is a coordination problem with the
-qemu-security@ list,
-if this isn't a security issue, why was a CVE requested?
-
-> > Mauro, please update us when you get the CVE number.
-> > Michael, please amend the CVE number before committing the fix.
-> >
-> > FWIW Paolo asked every fuzzed bug reproducer to be committed
-> > as qtest, see tests/qtest/fuzz*c. Alex has a way to generate
-> > reproducer in plain C.
-> >
-> > Regards,
-> >
-> > Phil.
->
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 
 
