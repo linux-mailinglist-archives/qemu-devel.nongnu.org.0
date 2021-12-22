@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6822947D977
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Dec 2021 23:59:32 +0100 (CET)
-Received: from localhost ([::1]:60318 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10DFC47D97E
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Dec 2021 00:02:13 +0100 (CET)
+Received: from localhost ([::1]:37434 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n0Aa3-0004TG-HR
-	for lists+qemu-devel@lfdr.de; Wed, 22 Dec 2021 17:59:31 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38434)
+	id 1n0Ace-00085S-VI
+	for lists+qemu-devel@lfdr.de; Wed, 22 Dec 2021 18:02:12 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38430)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dpetroff@gmail.com>)
- id 1n0AWv-0002Hu-N6
- for qemu-devel@nongnu.org; Wed, 22 Dec 2021 17:56:19 -0500
-Received: from [2a00:1450:4864:20::535] (port=33598
- helo=mail-ed1-x535.google.com)
+ id 1n0AWv-0002Hs-NJ
+ for qemu-devel@nongnu.org; Wed, 22 Dec 2021 17:56:22 -0500
+Received: from [2a00:1450:4864:20::52d] (port=33591
+ helo=mail-ed1-x52d.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <dpetroff@gmail.com>)
- id 1n0AWr-0002QC-HI
- for qemu-devel@nongnu.org; Wed, 22 Dec 2021 17:56:15 -0500
-Received: by mail-ed1-x535.google.com with SMTP id m21so15518919edc.0
- for <qemu-devel@nongnu.org>; Wed, 22 Dec 2021 14:56:11 -0800 (PST)
+ id 1n0AWr-0002QG-GL
+ for qemu-devel@nongnu.org; Wed, 22 Dec 2021 17:56:14 -0500
+Received: by mail-ed1-x52d.google.com with SMTP id m21so15518986edc.0
+ for <qemu-devel@nongnu.org>; Wed, 22 Dec 2021 14:56:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=pyjnlbM1xVRCEuPnUEKS3/v5vZFiQrHwvnK44ISZw2w=;
- b=QTXc8+NBCnI6Dqa67MkpcwH/c+2xtxPDqCuKQfbGtg+j3dDYRBWnSqGpRkPoqIWajM
- nUPpXJCR2IvXnsXl7rfpQMeEKhY1Bq2iSi244lHsMlN5UdcAVBuZ04zY6ng1HLEi1b3+
- uOJmztc4GdwR5YDlzrwG6/IL8rCehDSrkmDe9l+L5XdNh0OPGtdDpjHWrn0zDWMdHg1G
- D/S2wmehXRJjenF/FPIeLOsaRF0ELOJ+qIp/9QbSzZnBMhJqfwCuVeZPEtBbrFd62/4X
- x7khens04f6SeYkUlwvjwSe7TcJ29TcIuyU49DSktLZRlrulaBtCplAnuBoFry5sPNn9
- 8tlg==
+ bh=7cxUbOU/d0PmlHVogfci1RL4+M00MXtpxpVMs5qcbZQ=;
+ b=moN6KU4+YvVIqByUQn17MphwX+4S+pZFeXc+JlWhqJgmU9YjXxz0i5JAtw+ipJC8AW
+ LKXND+kI7xKFQz/kA/ITuKEW7TXyOOfL1fHy6ymDxTEy/FI4koX52iUZTv6dHcUYWIp6
+ zgn3p1BXFvMvatEpPQZuQtCwejZt4Pz5MSYFwGlkADHRjoYywfoPtChA2cE8uxO4kTLe
+ 5ooeHzVEYXjZ2syro5MjRp9ll2LoLnIKl8weG1GIGE/ZEuj0kHyxv2h2gGsaHumC+OBW
+ Fv3U+BqyWQ3tGUkmDLmG9+jff8OQQpGPo6/mt2ONLsHV8ZQDJ5vv8xRfSyEcfgdNx5rp
+ X21A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=pyjnlbM1xVRCEuPnUEKS3/v5vZFiQrHwvnK44ISZw2w=;
- b=VY5S1clLgLI4Z72PEtf+PMwbb32qjoz2RHxfp0kWkE85DJxjJDo570zdv0JtpG0AlV
- wx+bRXpANfmcWOlorG7WaLUdR6htHsBL2yreAnK0jENsFy5jdPxZfiMJtkJgcPf4c5lU
- QJu16smrg9bq5QFfuGby/fxLX4iX+WlWZ9FeTNqlYBN/2Y/Tj8vUe8faEnJs9Ce6DSPn
- c2lhoLdocWmAeF/TmLT6LcWTV2DeOkgVqQHftJ16Xq5Qr+zHwhz96hFw6aThS6IfPgB6
- dfK3bn69QQM5GnJucHpkfJNDlr9EDv4+9fLmfeXsBAqIm6fhnwwuKe92sioOqZ6CvVWw
- dAyg==
-X-Gm-Message-State: AOAM5327rTIAmQtez6CP6iGfKr9XnedI5K1CbSS27EwjqcaKmfwzu8AG
- 4QzNHTYgVnjkicazNnxy7OfElb68rAg=
-X-Google-Smtp-Source: ABdhPJwlc1rUHITiJ214T2bFx7XF5IwdbDmPN/nmlLxXRgGkPV4oWsTe+zXDDnCx0rtW8VeppOlREg==
-X-Received: by 2002:a17:907:86aa:: with SMTP id
- qa42mr4085912ejc.106.1640213770501; 
- Wed, 22 Dec 2021 14:56:10 -0800 (PST)
+ bh=7cxUbOU/d0PmlHVogfci1RL4+M00MXtpxpVMs5qcbZQ=;
+ b=OYOfmjYXBnrCTShCTEVxdYa513ismQXTSyhkqbSAGloivZoZB3ZK2vzIu3+OvCZzWm
+ y0tRinHMJ6Fs6Njz0jvdNjmRXfr2EL/Aftmplqb480T0hLM3fRsgdX3IxqATt0B64IJO
+ +/M2XD7JrWRArFEuHuUQ4gjL6CaPXQUtzqA326dl30wP8Utk7W78f3f/kB5llDWQ5fOJ
+ x4ZRx3ic5FTIvC5/ZKA4q/sk8X/BmfbXObY2Ln/QMUf7hk5fnb/U6yaNHM5A+fEgKdtj
+ ejt2UZ64mqj3DU9o5NBRDIr675+VLvqBvEBlM3DahCfbxqnOKHXxcUM/lW9ACt5zOj9h
+ cJew==
+X-Gm-Message-State: AOAM532/E2qDZ4OQvXCk2L3R8LS8yw6F5v91HNEHC2A5r2VtO0LFJ5CC
+ 6B1GOKRiNRHHwd+CNheRQu1KSbfH5w8=
+X-Google-Smtp-Source: ABdhPJw2BGSAJkRiN5zlRWYpNoHKAYPKrHtu8UYpYQ2Iqiw8JBzLZwW07cPGrX143tFJJhM+DVIOEA==
+X-Received: by 2002:a17:907:96a0:: with SMTP id
+ hd32mr3938838ejc.677.1640213771060; 
+ Wed, 22 Dec 2021 14:56:11 -0800 (PST)
 Received: from owl.kpn ([2a02:a467:f77d:1:deba:f393:276b:fad2])
- by smtp.gmail.com with ESMTPSA id gv11sm1097226ejc.135.2021.12.22.14.56.09
+ by smtp.gmail.com with ESMTPSA id gv11sm1097226ejc.135.2021.12.22.14.56.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 22 Dec 2021 14:56:10 -0800 (PST)
 From: Dmitry Petrov <dpetroff@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 4/5] ui/sdl2: pass horizontal scroll information to the
- device code
-Date: Wed, 22 Dec 2021 23:56:05 +0100
-Message-Id: <20211222225606.1359162-5-dpetroff@gmail.com>
+Subject: [PATCH v3 5/5] ui/input-legacy: pass horizontal scroll information
+Date: Wed, 22 Dec 2021 23:56:06 +0100
+Message-Id: <20211222225606.1359162-6-dpetroff@gmail.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20211222225606.1359162-1-dpetroff@gmail.com>
 References: <20211222225606.1359162-1-dpetroff@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::535
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52d
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::535;
- envelope-from=dpetroff@gmail.com; helo=mail-ed1-x535.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
+ envelope-from=dpetroff@gmail.com; helo=mail-ed1-x52d.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -91,34 +90,48 @@ Cc: Dmitry Petrov <dpetroff@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This code seems to be used by vmport hack, passing these values allows
+to implement horizontal scroll support even when using vmport.
+In case it's not supported horizontal scroll will act as a vertical one.
+
 Signed-off-by: Dmitry Petrov <dpetroff@gmail.com>
 ---
- ui/sdl2.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ ui/input-legacy.c | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-diff --git a/ui/sdl2.c b/ui/sdl2.c
-index 0bd30504cf..46a252d7d9 100644
---- a/ui/sdl2.c
-+++ b/ui/sdl2.c
-@@ -33,6 +33,7 @@
- #include "sysemu/runstate-action.h"
- #include "sysemu/sysemu.h"
- #include "ui/win32-kbd-hook.h"
-+#include "qemu/log.h"
+diff --git a/ui/input-legacy.c b/ui/input-legacy.c
+index 9fc78a639b..46ea74e44d 100644
+--- a/ui/input-legacy.c
++++ b/ui/input-legacy.c
+@@ -23,6 +23,7 @@
+  */
  
- static int sdl2_num_outputs;
- static struct sdl2_console *sdl2_console;
-@@ -535,6 +536,10 @@ static void handle_mousewheel(SDL_Event *ev)
-         btn = INPUT_BUTTON_WHEEL_UP;
-     } else if (wev->y < 0) {
-         btn = INPUT_BUTTON_WHEEL_DOWN;
-+    } else if (wev->x < 0) {
-+        btn = INPUT_BUTTON_WHEEL_RIGHT;
-+    } else if (wev->x > 0) {
-+        btn = INPUT_BUTTON_WHEEL_LEFT;
-     } else {
-         return;
-     }
+ #include "qemu/osdep.h"
++#include "qemu/log.h"
+ #include "qapi/qapi-commands-ui.h"
+ #include "ui/console.h"
+ #include "keymaps.h"
+@@ -179,6 +180,20 @@ static void legacy_mouse_event(DeviceState *dev, QemuConsole *src,
+                                     1,
+                                     s->buttons);
+         }
++        if (btn->down && btn->button == INPUT_BUTTON_WHEEL_RIGHT) {
++            s->qemu_put_mouse_event(s->qemu_put_mouse_event_opaque,
++                                    s->axis[INPUT_AXIS_X],
++                                    s->axis[INPUT_AXIS_Y],
++                                    -2,
++                                    s->buttons);
++        }
++        if (btn->down && btn->button == INPUT_BUTTON_WHEEL_LEFT) {
++            s->qemu_put_mouse_event(s->qemu_put_mouse_event_opaque,
++                                    s->axis[INPUT_AXIS_X],
++                                    s->axis[INPUT_AXIS_Y],
++                                    2,
++                                    s->buttons);
++        }
+         break;
+     case INPUT_EVENT_KIND_ABS:
+         move = evt->u.abs.data;
 -- 
 2.32.0
 
