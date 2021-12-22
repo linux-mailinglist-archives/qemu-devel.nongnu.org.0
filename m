@@ -2,60 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACDEE47D795
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Dec 2021 20:22:14 +0100 (CET)
-Received: from localhost ([::1]:53200 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6FA347D794
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Dec 2021 20:22:12 +0100 (CET)
+Received: from localhost ([::1]:53110 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n07Bl-0001Pr-Qf
-	for lists+qemu-devel@lfdr.de; Wed, 22 Dec 2021 14:22:13 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51042)
+	id 1n07Bj-0001MU-Rz
+	for lists+qemu-devel@lfdr.de; Wed, 22 Dec 2021 14:22:11 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51066)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1n077b-0007Yb-I5
- for qemu-devel@nongnu.org; Wed, 22 Dec 2021 14:17:55 -0500
+ id 1n077f-0007aY-IG
+ for qemu-devel@nongnu.org; Wed, 22 Dec 2021 14:18:00 -0500
 Received: from mail-eopbgr140119.outbound.protection.outlook.com
  ([40.107.14.119]:46656 helo=EUR01-VE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1n077Z-0001Jb-FQ
- for qemu-devel@nongnu.org; Wed, 22 Dec 2021 14:17:55 -0500
+ id 1n077b-0001Jb-RH
+ for qemu-devel@nongnu.org; Wed, 22 Dec 2021 14:17:59 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=igNdMIYTRbHqZV2xKPPkeaxy1Lgfp10ea+0Or75/C4UscSeQnghGLYhH75VI679pOmAbfu1aKFznMiWVqOsDdswseqRzl9tiMung6CPu2WK5GoDYU025WjD1jd0i1VdKbvRmEudgdZT86PzTMpAlMEvreYMVhBNKa1NSDwdGIXl04kkZNmvEF5W5KWoCoBLSoPbVVdrBQRduEGnyBT4FfENvSCDt0Q8TwwK4GVMNCaRI8Oi6/6WozXUFYePDMyTHgzURWxRuH9StH4AkPPRtzpLVOX/oe3X1ahn4Mo5/Rvd9aeSGiDQ5R21reo4HgJ9lrZyzU++xXDvzc458O2Jfrg==
+ b=Qo3YddyijB6mDZuMLlXQGas8ISRqaCmOG5gw7tCWC/Q46DAVE5smWaSEN+cB8+iyL/w4gNGWEza5h9U5JiTEcYNyPnvBO6i+vGMC7MOv0DpClsyQg3bZYQKJHjKh7L5Ds9oXP7s2qTz4JJAjnMpZCu/RM+PcIzn2dOGFTKDnwnPJ+DP6Ixf0VGGh8W1kr2cIOJ8FNqwQ5G+AxySqL/iL3dMF3RQryb579tAbxdr6i15Kaap9z8vpBKU4hEWwJTIMiTakiEtgiCV2qXcEYhKzBbPrRCmmIS4+Slhm5rQ0x/77GagP97W8HQkufP8KWVxm9/G35mEeKxNmjg0G4FsxcA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6NxReX+zZB11T3FWg1GzCru/y1F/eQ929AsgbRqO0ro=;
- b=B1oXTxpcbgGfMAtFn67B7e6l/rrVAEHc1scXPnUL+MacwuQZWNXvqXYpYg+0bQcH1+1015F66wNZ+GTQgdTLt7aWymLBlP6OKPScuC6JYXxJJAHumxxh31u0Dsf0/Ej1U0N2WK8/hz5qwleYpvx+WcETCE/aVd4ZbzRIzbqLCCjAf07B2r2/Lcn8zzMldZgSuApIGhKRyjayHAsGt6v1dbkXuc/cY5ivJCj0q9z4QfFh5kVtKXOxyol8ZWk0wtPKuObD6oLf+gzTlHdeva6BEUCj69Q/GxYgGR56mSVJycvBR/iXHaV5i3T2SrKNWoWqTkGnQo1CKqLNJxEz5o36YQ==
+ bh=GVkvxmXfslKFa7aAHicEUtg8JE/6RDsWCgsb7J2iGN8=;
+ b=TtjYt94k2LU9U4fzFxRn8spv+KwuNha89GpxeOoqpbkd3qjtII1VBUBhYrZt1MrA8Trc3T9rtamN4UiOJCkUX4MsAsA/z25zePfpLdASWmD5sqSu8JEB86ehHp6eMxeBo1WVQRXBA9SU/StU4YG6hBjNSv1fyjAlqPJoR8Ro+6LOGNXaAGPk2Au1eQv5PtjWy/e2NW76CVz5eKDPGmedIa5MWc++GzYRKSb3cmXli0PH5A1DMlcsSq+zV1WKfhwzVLhT+ETfedOTnTPW6PE7KZPjGVOeTPg+pfyXG3Kc6JOZ41fT6qs7IOgoWqYCMuUql0XFbmPvDFHAdP4i3GMijg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6NxReX+zZB11T3FWg1GzCru/y1F/eQ929AsgbRqO0ro=;
- b=IzA7CGLXWJ6ihV9UOh4Rg6r0+YqSMT+MFpIWTs8Eq0VDnL09LHzur/mnPHGC5/RegG2jm4tpDqwH7eckOTtwQ05rxnbZHu8Gi2uGzmFL0yrmp3GNXabHewe8NT2C7UqLujvIRBdR63tGYGOYiM9VYRO5z44kvgrTdmvbUXelnBo=
+ bh=GVkvxmXfslKFa7aAHicEUtg8JE/6RDsWCgsb7J2iGN8=;
+ b=TqT4T7W48FjBD7EPJS2L++2IGNVp5noQvoTVQpvMCzg7Nr7STt0ePYTtjO0CISc24rmpk0Xu3/8CB5Mr4PgZu4NKhwGJQbKepU/JmX0VpTIiZRiMocWN/qUQQV8RvjnneokaCfNFBbgvyFmU0inu/UzHQgeDiPk0BvkVTqsobWg=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM9PR08MB6737.eurprd08.prod.outlook.com (2603:10a6:20b:304::18)
  by AM9PR08MB6290.eurprd08.prod.outlook.com (2603:10a6:20b:2d5::21)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4823.14; Wed, 22 Dec
- 2021 19:17:45 +0000
+ 2021 19:17:46 +0000
 Received: from AM9PR08MB6737.eurprd08.prod.outlook.com
  ([fe80::b118:483a:d003:3112]) by AM9PR08MB6737.eurprd08.prod.outlook.com
  ([fe80::b118:483a:d003:3112%5]) with mapi id 15.20.4823.019; Wed, 22 Dec 2021
- 19:17:45 +0000
+ 19:17:46 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org
 Cc: bleal@redhat.com, wainersm@redhat.com, philmd@redhat.com, crosa@redhat.com,
  armbru@redhat.com, eblake@redhat.com, kraxel@redhat.com,
  marcandre.lureau@gmail.com, vsementsov@virtuozzo.com,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
-Subject: [PATCH v2 1/3] ui/vnc: refactor arrays of addresses to
- SocketAddressList
-Date: Wed, 22 Dec 2021 20:17:29 +0100
-Message-Id: <20211222191731.467706-2-vsementsov@virtuozzo.com>
+Subject: [PATCH v2 2/3] qapi/ui: introduce change-vnc-listen
+Date: Wed, 22 Dec 2021 20:17:30 +0100
+Message-Id: <20211222191731.467706-3-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211222191731.467706-1-vsementsov@virtuozzo.com>
 References: <20211222191731.467706-1-vsementsov@virtuozzo.com>
@@ -66,66 +65,66 @@ X-ClientProxiedBy: FR2P281CA0035.DEUP281.PROD.OUTLOOK.COM
  (2603:10a6:20b:304::18)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 6580cb13-aa70-47d8-25ed-08d9c57fbbde
+X-MS-Office365-Filtering-Correlation-Id: 1fb7f058-5457-4eab-2fc8-08d9c57fbca4
 X-MS-TrafficTypeDiagnostic: AM9PR08MB6290:EE_
-X-Microsoft-Antispam-PRVS: <AM9PR08MB62901BB3C2D01B53AE51555EC17D9@AM9PR08MB6290.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:454;
+X-Microsoft-Antispam-PRVS: <AM9PR08MB62907566BA1500D2BAC70EACC17D9@AM9PR08MB6290.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 4A9C5fS3r02l9AkiLsGJ3gZeMKiVpw1xa82M8PkmC9IzB2rEJycZa2KBjLPDWdI32JzGHq4V4owRbgj2YlnTXIO6mmMlRBUVaqXklQLXj2i342MExlackZhCS8k11pevlP/OLHftCYAc6fBU9Xvi16UcuxjHPWw39EKLAWJ3sJXscaRs/67AAvKtXgR477372UfEMeAuaeJr7oVV5uU1oR6tzGYOT+uAfouSSie26kXY5mBYqDMkelb1g1f/tHyY290vdr7F0BZaElLhQHFRl6SGQGDq7fxqV8jHAlrTvP3UQO7OpIzHPjj75dqiEmRJAzquHOBW8VuEyZETpCIWFYrPldJscz+xf+xX9WO+OPKG0SCkOvx4oEQZfhAxgaddFa7MEaVQBtsySXNJ9pFKZgJYScBcFnEn2+6RL+BGCVBQvJtUMMMRP2FF21OYOW03V4jB4RAJORIDpVRWeSUqyx9tykYof+Z04xeE2tt+WCyar3NsDpKYcHa9phHIYpR1vyXomzeCIznLdu4bKq6QesZWMCrbx0YF/8JK2R9tspXgU2BWQKHQSrYgxKmjRcld2KRMffeWdvvkRHvObWzX6QIlX5pA3z2YSp9HdZpASao0V8L8E7mp/RkBIlyJwBt6fpguD47DryijxzXg5/M7FAk5ZyPIXMribaPQVjCQpAJP31FNlqe044tzkkrzhk6mj46Cbpj8vOfvB1In7LrAIA==
+X-Microsoft-Antispam-Message-Info: jixfIB8/9/sbLGduO6oM74/DqzIspgAVpFrc9ftceQQPS9ImBd+iqiceybORvafXiSWalXL+0PVuGIpTNctY5og5vACcMnlEsOCcyw5Ri2urbynLeqmXbF2X9hkzKFlX0OdauIuSrZQ8HihAomCbOdZLib2iEojCmYDxG0nvRc3VDQPYeRzkCaFPRFIMXmYizv4qbIs6ec1CXvTxwhD7jJ5lHkrWPxoOmEgMLDTIm37a7o+sdwTlgZK9PRLBmD+KJmAgR83yDU3Ni8nf+3PhhgCmH2xLrqACBCerACZZeUvmRDhcxd71sGOX0z6tbkeybzBJjrKRBwCLfbNuaZY2fzYcEAZINbT8pMScG8pkYz5x6DK9tzjSvQ2sBK7rQVFc9WnlCg73CrcrKGUiAZXWA+8G60fVx0rWtJfa47KLsXomYWT4EctF3DZPQocRkKNhffDwiiGUM4zOqwJbwZr2FWV9NkRFccYimyIT4LSJDQFfE4KqdaJx2BUh1lEK0Gvra0Qsitkpa8IgQ4ohbMZ7GBTZz8p5lcNInzlk1REsGar0qoJQAuJsYDKf1pX+KkyZ5llJbqP7/rHhqbXpSn992afg1WklocSRPAQCTgWameurUap324f1chAnfx887XQuwNU2wz4JT1BqN18Z8rnfI7AdYuUXJ4bFQm36T0yxKyLSLvlsJyCa+f3tCHsS15hHhCI70wAsv/NcwYSaLCDk4A==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM9PR08MB6737.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(4636009)(366004)(316002)(52116002)(38350700002)(38100700002)(6506007)(66476007)(66556008)(2906002)(66946007)(6486002)(8676002)(7416002)(4326008)(36756003)(2616005)(6916009)(5660300002)(86362001)(8936002)(186003)(26005)(1076003)(508600001)(6666004)(83380400001)(6512007);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SjloVVQ0dE9Xd1lxNTgwSUlLV2U0QTJRb3VmS2RBYlJ1NzdQVVIvV3JtNHUr?=
- =?utf-8?B?VnMwWVpCQ0pnMmg5Vjl3ck9DeGdkdHh4Nkk2aXNyMzlkZ0IrdjdkV3Z4dk5G?=
- =?utf-8?B?MW9nQlpqWm8rMkZKdzV0WkJZRk9SQUwxYjJZWVVMVkEwOWpwWEpxRy9yMjNS?=
- =?utf-8?B?a2J5eFpjNEFUY05Rc0tKV1NnK3p2aFMvekNJTzJSWnFDei96T1h6WFJhSFZw?=
- =?utf-8?B?SW1MR1dheTBtZkJ5WXBUQ3lnK0xvLzFnNXptUUJyc09vaG5Lay9LckNxNkVC?=
- =?utf-8?B?NmR5eDVDN1VTSm5VNTN1VU81Tko1Q2pIWDA4RDh0d0tWVG5Pc3NnNXFPajVl?=
- =?utf-8?B?dUNpME5taEVwYVZhTVlkc3ZEK3A2c1JsWUt0V2hXZmxFMXpLRjl3T3ZZNEdI?=
- =?utf-8?B?cTE0VXR6S3pwemVsdmtmMkJ2amd3U1ZuN256Q2kyNXBIZUIrRVZyNGgxb3ZL?=
- =?utf-8?B?R0RpSHBhN09kQk5Zb3RuZnJrK2lIam0rREhYbmhiZmdSRmZlOFN2N1NtWTRY?=
- =?utf-8?B?czd4YjdlcGMyUFgyUDlyazFsSjVvL0FRTW1JMkNBWjM3citFd0U0SVdoMmFD?=
- =?utf-8?B?ZWZKRERXUEhFVVU4VXNsTG1oZ3JBVTZoQ0p0MU1vZXdQNExaRHYvNGsrclBa?=
- =?utf-8?B?OTNDTHpZa2xWSHp5bjM5Uk02MS8rYmZFSWJ1TlFkVEp2d2plOUV0anAvd0kr?=
- =?utf-8?B?dE1XVVhFK3NIUU1xT0RCRFVzMHh4TjRGUFRxZU1TSTd6VnZjb3lpNUZqQWI1?=
- =?utf-8?B?UThySmNWNG44ZFRhZjhyQTV2QmFNK2lDdWJpUHlpRmxSc2R5QzRoa0d6NXE4?=
- =?utf-8?B?cWtVNUpJTGZiajhvRjRVanowVm0xYVNEWXZ1dCt5VDlNRmpXaXU3bHpNTlU4?=
- =?utf-8?B?OE9TWU1oU1ovd29palZnai9rbG9pRWlRSnkvN1ZidG1CWFRiNGRTUHY2bUho?=
- =?utf-8?B?M1V2bUlpRUpqT1pYQnRoL2FUZ2ZoaWV0VkU4OWswVXZtWEFFeUNsT1JpakhW?=
- =?utf-8?B?RG5pZ3NUYVpGYUpzYlhCQVV5eFA5amxuZzJlRWVPY2RKVTdDUHoxckFGVWY2?=
- =?utf-8?B?T1FZSTJ0L1ZYUldEbjNMOFNYZzBNTDZPbEFyS1ljR2IrM0VKcFhOZGlLVEFM?=
- =?utf-8?B?Z2l6WFlFZHFZQnRsTlNDb1BSZ2s1ZkxaSUJHYVRrMHNrTDhBcnd5eXhxdWYv?=
- =?utf-8?B?UVpsQmV2U3ltSGw0N2xTUzJCMFZReE42eXZ6SE9ueUc0MSswdkN5cERYYmFM?=
- =?utf-8?B?ay9TUGpFYXZTWS9mY1lEVUFIdnhPQ2pZQmNhNGt4SVptU01vUjJ6Nk40SzRz?=
- =?utf-8?B?UEFHUVFNYUxPYkN5SG5BV1RjY05RZVpSNEF3V2czTktvQUxmZnRFbUNxVUNv?=
- =?utf-8?B?WW55QlpLQ25PV0F2SnhOWFRsYy9aTkJkNnFQOTNRcXBMUGNqQ29WcXJDbVVj?=
- =?utf-8?B?eUJ0QjJ1d1VIM1MwWUliTjlUNVJxMWxIYm1nemthY0h4QjZpNzhpSExwaDE4?=
- =?utf-8?B?ODN2WWZmUTFJV1NpZW4zNDJldEh1ZW5kaEx2RVFsVi9JRmxEeEI5Z0ZKZTM5?=
- =?utf-8?B?VU1uSVlMQ2tlS0VjSW1TSmVXUVprZ0hSOVFRMWZRZzVIcENXaEI3Vmw4aFB1?=
- =?utf-8?B?UGF4RXBGSUhFeW9PRnVSTHpuZzc2STk1eC9HNFBsS0tmZTM5MVdMaXdJODFY?=
- =?utf-8?B?VTBrSzVMblA2VlpLWDZ3clVZM0JqditBeGt3WmJYcklMS0tvK2lJanlCT2ll?=
- =?utf-8?B?enlOcytld3hUQTdLTWUyc05mbEhKeDFsWkd4eEVYZWp0RFFvNWZWb0lRaHJy?=
- =?utf-8?B?L0J3QTJjOHRzQjJCR3NIOHZJaWJkSjdtSGE4aEkvdi9kSUJnZUFyeU9VdSt0?=
- =?utf-8?B?MUN4amY3V0xUaHBRODI5MTFmdDYrSjUvdUI5K2MwR2dUTTVSY2dDZnJsc2l3?=
- =?utf-8?B?TTRaaHhldktsWm5aWmFaY2NoVGZrZWN4ZlNkaktLVlV1TFRqUzIxMmhnaHF6?=
- =?utf-8?B?RGlSazBPczZiZmZ3MDdSRzkrLy9ML2cxU1lYTkRsTnB1R3Znb1U0dHFTMktx?=
- =?utf-8?B?cUVHRDA5ZUFpb1MxVVA5cVlYVkFMZXhwQndGd2tiMkozcmlHa2NIWS83Wm1p?=
- =?utf-8?B?YzRwdXA5ampiSWNadXlkN1dScXlzK1IraEE0NlViaCtGSkMzQUZscGZwZmha?=
- =?utf-8?B?dXhZVkV6T0N3eGdIakMrOThWVDQ2NmN2QVdlK1JkdjVKN241eElkdjdFUUpW?=
- =?utf-8?Q?2KKXB5ifuK1TCcro8tlX+tk3uQVwR1McVysfvmIbVQ=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?V2diWVdRV2tMWWM3Zkx6M3lwNnJMakxlMUFsSThNd3VPUkdvM1MxMStkUEx5?=
+ =?utf-8?B?bXZhUXd1L1FLVnBmdk1yUzNGeDFsdXZpN0V6ME9GRFZ3UTlFL1pqMzFob1hO?=
+ =?utf-8?B?ZDBkWmJrYkdpclBpOE82ZUFQQUtBcENWb2Joam5MTnhBR1dnV0xkamxidjJl?=
+ =?utf-8?B?dzdyOXIyeDY1NGJhdTZ6S2pPYlF5bTVnci9qS2FhWkpxWXdXK1ZrVEgwR2Nh?=
+ =?utf-8?B?RGxSYWpiUGN3dGREYkY5UlZjZFcwTnpvVHRQYUVRYzZXbTUyTnRGVFhYZ0Uz?=
+ =?utf-8?B?OWM4bjRrZDV0U1o5bVRVSUowb2Q3dFY2aEF3TEVoMCtKS2c1amFDaGl1Q21x?=
+ =?utf-8?B?K1VxWHRSSktCb3ZFYSthdFNjVmsvbnhXaU82V1N2Vk5ua1J5dm55U3RlQi9s?=
+ =?utf-8?B?aVAwOHJHbzdnUjBzLzY1SnVWRmNFc2VZalJFT2FlMGRHZWpBLys4cWtEeGNq?=
+ =?utf-8?B?eEIveEt3QlBpc3d2RjJCajFhNXkxMXp2aStMc1U5azJOeVlSc1BtSXpiNERR?=
+ =?utf-8?B?RE1YWThPWHVzMUVNTlpseTBMdTJoTFdwRjRwVEcrWitkVGpOeDlMYlNjME50?=
+ =?utf-8?B?b2xxaTlHVlZQWi9SZ1duRnJPRDhNVDcvbkZ0U2dxWmMra2h1aWxuRUZnYnp1?=
+ =?utf-8?B?bDRySVoxSUl3d1k4N2QvQ1UvZy9jT3ZwTUpDRkI4QzVZd3orUGRVL3U1ejlt?=
+ =?utf-8?B?MkVEUSs5TmRXdTBFaytSbDJwVFJCZkQwT1pPVnpTdUxzZUluYXhscTZTdFVU?=
+ =?utf-8?B?aWJRWTFwSWdHVVlDL2ptVmxxQllHbGo3Uk5EaGNEcXFDdlhuWkZqUXd3N1RC?=
+ =?utf-8?B?MEl5RUtWVTR5UzcyMjBjblVieDBZMUVRS2p4UmgwcnovdE9yQkt6OFZJODB1?=
+ =?utf-8?B?a1JFZ2lCMlFremgwbytCcXVNWWMyRjBvdldjZEwyNTQrNkVGOXlscENlQmhm?=
+ =?utf-8?B?SlRJNzRWcHR2NWJEdTRqTHZNUkdZUE5Mb3cxOFhHTE1Lem9nYW9kcnVCei94?=
+ =?utf-8?B?S3cxaUx5UXM5TEhLbXZreVBQYUM3cDh5dTczTVN3ekZmdHR0T1VIaWNtdU91?=
+ =?utf-8?B?NzRnSUdUZlEySXptaXk0U05zTGxhVUxlTzhkcHoyNHpoVkhPcVhPdEJyMmds?=
+ =?utf-8?B?S3BHa0tYRldVOVB6RHZLempXQ0Y0Uk11SzZmNnlDTkU3LzZzWlc4ek5rejBU?=
+ =?utf-8?B?YkNOTFd2QWpOWkpVTGVPUmNaeWlGN3ZmNkg4M28vWFZaOG1OWmM0M01hYXNp?=
+ =?utf-8?B?d2t3OHozdTFJRnprRllYZDF4ZDlHZVJQUlJZT1pZeEZHN1ZkQmFycXJKUTQy?=
+ =?utf-8?B?VHFGSERXWExvV0dRSDFhb0owZ29EWnEyOFhpR0lGbTE4MzBQZmtjeDQxRDdV?=
+ =?utf-8?B?N0pDbTJ2U3d5MEV1by8yNWFidEwvQnpHU0JUMy9obVpRWklsSEdoWVVLOTds?=
+ =?utf-8?B?TlJoc3JEZ3M4NTVSTW9ISlZ6d0JBZk9GVXo1TVRUTUx6OU1hcGI5cHV3aXJ4?=
+ =?utf-8?B?cEJHMUNKbmFYMWRHd1JXQXVPQi93WTcrZk9UZDJKY0VBU0lBVVR5MTNVRkVx?=
+ =?utf-8?B?cEtaZDZsc080SDNyS3VxZk54REVjMHY4d0M2R1NxUWVIckVFbXVUcXZVckM0?=
+ =?utf-8?B?L2c5SzVsclBGVytnMXUwMG1TWmx1bDRnTkE2VERaL3NHQzJjdWhDU3VVbkpQ?=
+ =?utf-8?B?Qlp1NW5DVEpFRHdqRlR1ZW1Md1BlR0s0QWRyRExXU1ZiRlJUblc2WFJUL2o0?=
+ =?utf-8?B?SnhHZmVESkdISEJURm1rMDYyVk1Id1Vzc1k5R1VEZnZoQ25RUkl1YnVER01m?=
+ =?utf-8?B?bXVLUkxWa3kxZ3hFcDF3MXBwNGNEc1daejB6aDJkL2g1a3dpUHEvVDFSSzA3?=
+ =?utf-8?B?aFlpdEZ0WlNzZWw2VW1vTDB0Zlk4Y09uVnZZT3laUU1wNjR3SWNQWmJESnNX?=
+ =?utf-8?B?SDEvZW41blRFWGdqVm9PNEJ6aDNGcFQxRGsyZjFvSG53TTZnN3FIUVhKK0VD?=
+ =?utf-8?B?bzJuK3FUU2swaS9wTWd2Mmh1TjV0ME5NeUtnR1lsc1F6cUpuRWI3enNEVVVF?=
+ =?utf-8?B?VlpZVllXTktWYzBmUVA2ZUtXTUFWQk5SWWthc1l5NytDbkpxb1ZUSFltRUxv?=
+ =?utf-8?B?M0VGaUxDckNXVHg3ODBTa3ZZcGxjLzEvUm9ydWwwc21tZTkzYno1eGdsVVdX?=
+ =?utf-8?B?cGM5VUVMSEFnRGlQUlRJTThMWXJ0TlV2MnlZdTFRcmxiajlIanpXQVpHdGNo?=
+ =?utf-8?Q?x5L+Np5IVS4c4qYnbJsbxqbyjfGa65QQ4vSf+EpPh4=3D?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6580cb13-aa70-47d8-25ed-08d9c57fbbde
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1fb7f058-5457-4eab-2fc8-08d9c57fbca4
 X-MS-Exchange-CrossTenant-AuthSource: AM9PR08MB6737.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Dec 2021 19:17:45.5708 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Dec 2021 19:17:46.7749 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: rf5Ectp28Avoov/Q7VIenA2xNaDHajmE8ukTef205vQte3JDTZMcA8QUj/QsQt5Zeg5A9rVtAk+HjZA9YwFfM6J9eT3m4TfTDFvNWMjLNfs=
+X-MS-Exchange-CrossTenant-UserPrincipalName: 3J2b3tsfMJngcveWi4lwrtjnaGg7PcDanwG9p63+g94ijwoPm1HMsd93HQHSYL4S0BzSZcq/QnU/wN+sSh+xxsMT6FhZMiYctnDeKXM+8b0=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR08MB6290
 Received-SPF: pass client-ip=40.107.14.119;
  envelope-from=vsementsov@virtuozzo.com;
@@ -152,294 +151,96 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Let's use SocketAddressList instead of dynamic arrays.
-Benefits:
- - Automatic cleanup: don't need specific freeing function and drop
-   some gotos.
- - Less indirection: no triple asterix anymore!
- - Prepare for the following commit, which will reuse new interface of
-   vnc_display_listen().
+Add command that can change addresses where VNC server listens for new
+connections. Prior to 6.0 this functionality was available through
+'change' qmp command which was deleted.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- ui/vnc.c | 129 ++++++++++++++++++++++---------------------------------
- 1 file changed, 51 insertions(+), 78 deletions(-)
+ docs/about/removed-features.rst |  3 ++-
+ qapi/ui.json                    | 19 +++++++++++++++++++
+ ui/vnc.c                        | 26 ++++++++++++++++++++++++++
+ 3 files changed, 47 insertions(+), 1 deletion(-)
 
+diff --git a/docs/about/removed-features.rst b/docs/about/removed-features.rst
+index d42c3341de..20e6901a82 100644
+--- a/docs/about/removed-features.rst
++++ b/docs/about/removed-features.rst
+@@ -348,7 +348,8 @@ documentation of ``query-hotpluggable-cpus`` for additional details.
+ ``change`` (removed in 6.0)
+ '''''''''''''''''''''''''''
+ 
+-Use ``blockdev-change-medium`` or ``change-vnc-password`` instead.
++Use ``blockdev-change-medium`` or ``change-vnc-password`` or
++``change-vnc-listen`` instead.
+ 
+ ``query-events`` (removed in 6.0)
+ '''''''''''''''''''''''''''''''''
+diff --git a/qapi/ui.json b/qapi/ui.json
+index 2b4371da37..6a586edff1 100644
+--- a/qapi/ui.json
++++ b/qapi/ui.json
+@@ -1334,3 +1334,22 @@
+ { 'command': 'display-reload',
+   'data': 'DisplayReloadOptions',
+   'boxed' : true }
++
++##
++# @change-vnc-listen:
++#
++# Change set of addresses to listen for connections.
++#
++# @id: vnc display identifier
++#
++# @addresses: list of addresses for listen at
++#
++# @websockets: list of addresses to listen with websockets
++#
++# Since: 7.0
++#
++##
++{ 'command': 'change-vnc-listen',
++  'data': { 'id': 'str', 'addresses': ['SocketAddress'],
++            '*websockets': ['SocketAddress'] },
++  'if': 'CONFIG_VNC' }
 diff --git a/ui/vnc.c b/ui/vnc.c
-index 1ed1c7efc6..e8430531c0 100644
+index e8430531c0..d7d0d255fc 100644
 --- a/ui/vnc.c
 +++ b/ui/vnc.c
-@@ -3812,30 +3812,19 @@ static int vnc_display_get_address(const char *addrstr,
-     return ret;
+@@ -4212,6 +4212,32 @@ fail:
+     vnc_display_close(vd);
  }
  
--static void vnc_free_addresses(SocketAddress ***retsaddr,
--                               size_t *retnsaddr)
--{
--    size_t i;
--
--    for (i = 0; i < *retnsaddr; i++) {
--        qapi_free_SocketAddress((*retsaddr)[i]);
--    }
--    g_free(*retsaddr);
--
--    *retsaddr = NULL;
--    *retnsaddr = 0;
--}
--
- static int vnc_display_get_addresses(QemuOpts *opts,
-                                      bool reverse,
--                                     SocketAddress ***retsaddr,
--                                     size_t *retnsaddr,
--                                     SocketAddress ***retwsaddr,
--                                     size_t *retnwsaddr,
-+                                     SocketAddressList **saddr_list_ret,
-+                                     SocketAddressList **wsaddr_list_ret,
-                                      Error **errp)
- {
-     SocketAddress *saddr = NULL;
-     SocketAddress *wsaddr = NULL;
-+    g_autoptr(SocketAddressList) saddr_list = NULL;
-+    SocketAddressList **saddr_tail = &saddr_list;
-+    SocketAddress *single_saddr = NULL;
-+    g_autoptr(SocketAddressList) wsaddr_list = NULL;
-+    SocketAddressList **wsaddr_tail = &wsaddr_list;
-     QemuOptsIter addriter;
-     const char *addr;
-     int to = qemu_opt_get_number(opts, "to", 0);
-@@ -3844,23 +3833,16 @@ static int vnc_display_get_addresses(QemuOpts *opts,
-     bool ipv4 = qemu_opt_get_bool(opts, "ipv4", false);
-     bool ipv6 = qemu_opt_get_bool(opts, "ipv6", false);
-     int displaynum = -1;
--    int ret = -1;
--
--    *retsaddr = NULL;
--    *retnsaddr = 0;
--    *retwsaddr = NULL;
--    *retnwsaddr = 0;
- 
-     addr = qemu_opt_get(opts, "vnc");
-     if (addr == NULL || g_str_equal(addr, "none")) {
--        ret = 0;
--        goto cleanup;
-+        return 0;
-     }
-     if (qemu_opt_get(opts, "websocket") &&
-         !qcrypto_hash_supports(QCRYPTO_HASH_ALG_SHA1)) {
-         error_setg(errp,
-                    "SHA1 hash support is required for websockets");
--        goto cleanup;
-+        return -1;
-     }
- 
-     qemu_opt_iter_init(&addriter, opts, "vnc");
-@@ -3871,7 +3853,7 @@ static int vnc_display_get_addresses(QemuOpts *opts,
-                                      ipv4, ipv6,
-                                      &saddr, errp);
-         if (rv < 0) {
--            goto cleanup;
-+            return -1;
-         }
-         /* Historical compat - first listen address can be used
-          * to set the default websocket port
-@@ -3879,13 +3861,16 @@ static int vnc_display_get_addresses(QemuOpts *opts,
-         if (displaynum == -1) {
-             displaynum = rv;
-         }
--        *retsaddr = g_renew(SocketAddress *, *retsaddr, *retnsaddr + 1);
--        (*retsaddr)[(*retnsaddr)++] = saddr;
-+        QAPI_LIST_APPEND(saddr_tail, saddr);
-     }
- 
--    /* If we had multiple primary displays, we don't do defaults
--     * for websocket, and require explicit config instead. */
--    if (*retnsaddr > 1) {
-+    if (saddr_list && !saddr_list->next) {
-+        single_saddr = saddr_list->value;
-+    } else {
-+        /*
-+         * If we had multiple primary displays, we don't do defaults
-+         * for websocket, and require explicit config instead.
-+         */
-         displaynum = -1;
-     }
- 
-@@ -3895,57 +3880,50 @@ static int vnc_display_get_addresses(QemuOpts *opts,
-                                     has_ipv4, has_ipv6,
-                                     ipv4, ipv6,
-                                     &wsaddr, errp) < 0) {
--            goto cleanup;
-+            return -1;
-         }
- 
-         /* Historical compat - if only a single listen address was
-          * provided, then this is used to set the default listen
-          * address for websocket too
-          */
--        if (*retnsaddr == 1 &&
--            (*retsaddr)[0]->type == SOCKET_ADDRESS_TYPE_INET &&
-+        if (single_saddr &&
-+            single_saddr->type == SOCKET_ADDRESS_TYPE_INET &&
-             wsaddr->type == SOCKET_ADDRESS_TYPE_INET &&
-             g_str_equal(wsaddr->u.inet.host, "") &&
--            !g_str_equal((*retsaddr)[0]->u.inet.host, "")) {
-+            !g_str_equal(single_saddr->u.inet.host, "")) {
-             g_free(wsaddr->u.inet.host);
--            wsaddr->u.inet.host = g_strdup((*retsaddr)[0]->u.inet.host);
-+            wsaddr->u.inet.host = g_strdup(single_saddr->u.inet.host);
-         }
- 
--        *retwsaddr = g_renew(SocketAddress *, *retwsaddr, *retnwsaddr + 1);
--        (*retwsaddr)[(*retnwsaddr)++] = wsaddr;
-+        QAPI_LIST_APPEND(wsaddr_tail, wsaddr);
-     }
- 
--    ret = 0;
-- cleanup:
--    if (ret < 0) {
--        vnc_free_addresses(retsaddr, retnsaddr);
--        vnc_free_addresses(retwsaddr, retnwsaddr);
--    }
--    return ret;
-+    *saddr_list_ret = g_steal_pointer(&saddr_list);
-+    *wsaddr_list_ret = g_steal_pointer(&wsaddr_list);
-+    return 0;
- }
- 
- static int vnc_display_connect(VncDisplay *vd,
--                               SocketAddress **saddr,
--                               size_t nsaddr,
--                               SocketAddress **wsaddr,
--                               size_t nwsaddr,
-+                               SocketAddressList *saddr_list,
-+                               SocketAddressList *wsaddr_list,
-                                Error **errp)
- {
-     /* connect to viewer */
-     QIOChannelSocket *sioc = NULL;
--    if (nwsaddr != 0) {
-+    if (wsaddr_list) {
-         error_setg(errp, "Cannot use websockets in reverse mode");
-         return -1;
-     }
--    if (nsaddr != 1) {
-+    if (!saddr_list || saddr_list->next) {
-         error_setg(errp, "Expected a single address in reverse mode");
-         return -1;
-     }
-     /* TODO SOCKET_ADDRESS_TYPE_FD when fd has AF_UNIX */
--    vd->is_unix = saddr[0]->type == SOCKET_ADDRESS_TYPE_UNIX;
-+    vd->is_unix = saddr_list->value->type == SOCKET_ADDRESS_TYPE_UNIX;
-     sioc = qio_channel_socket_new();
-     qio_channel_set_name(QIO_CHANNEL(sioc), "vnc-reverse");
--    if (qio_channel_socket_connect_sync(sioc, saddr[0], errp) < 0) {
-+    if (qio_channel_socket_connect_sync(sioc, saddr_list->value, errp) < 0) {
-         object_unref(OBJECT(sioc));
-         return -1;
-     }
-@@ -3956,20 +3934,18 @@ static int vnc_display_connect(VncDisplay *vd,
- 
- 
- static int vnc_display_listen(VncDisplay *vd,
--                              SocketAddress **saddr,
--                              size_t nsaddr,
--                              SocketAddress **wsaddr,
--                              size_t nwsaddr,
-+                              SocketAddressList *saddr_list,
-+                              SocketAddressList *wsaddr_list,
-                               Error **errp)
- {
--    size_t i;
-+    SocketAddressList *el;
- 
--    if (nsaddr) {
-+    if (saddr_list) {
-         vd->listener = qio_net_listener_new();
-         qio_net_listener_set_name(vd->listener, "vnc-listen");
--        for (i = 0; i < nsaddr; i++) {
-+        for (el = saddr_list; el; el = el->next) {
-             if (qio_net_listener_open_sync(vd->listener,
--                                           saddr[i], 1,
-+                                           el->value, 1,
-                                            errp) < 0)  {
-                 return -1;
-             }
-@@ -3979,12 +3955,12 @@ static int vnc_display_listen(VncDisplay *vd,
-                                          vnc_listen_io, vd, NULL);
-     }
- 
--    if (nwsaddr) {
-+    if (wsaddr_list) {
-         vd->wslistener = qio_net_listener_new();
-         qio_net_listener_set_name(vd->wslistener, "vnc-ws-listen");
--        for (i = 0; i < nwsaddr; i++) {
-+        for (el = wsaddr_list; el; el = el->next) {
-             if (qio_net_listener_open_sync(vd->wslistener,
--                                           wsaddr[i], 1,
-+                                           el->value, 1,
-                                            errp) < 0)  {
-                 return -1;
-             }
-@@ -4002,8 +3978,8 @@ void vnc_display_open(const char *id, Error **errp)
++void qmp_change_vnc_listen(const char *id, SocketAddressList *addresses,
++                           bool has_websockets, SocketAddressList *websockets,
++                           Error **errp)
++{
++    VncDisplay *vd = vnc_display_find(id);
++
++    if (!vd) {
++        error_setg(errp, "VNC display '%s' not active", id);
++        return;
++    }
++
++    if (vd->listener) {
++        qio_net_listener_disconnect(vd->listener);
++        object_unref(OBJECT(vd->listener));
++    }
++    vd->listener = NULL;
++
++    if (vd->wslistener) {
++        qio_net_listener_disconnect(vd->wslistener);
++        object_unref(OBJECT(vd->wslistener));
++    }
++    vd->wslistener = NULL;
++
++    vnc_display_listen(vd, addresses, websockets, errp);
++}
++
+ void vnc_display_add_client(const char *id, int csock, bool skipauth)
  {
      VncDisplay *vd = vnc_display_find(id);
-     QemuOpts *opts = qemu_opts_find(&qemu_vnc_opts, id);
--    SocketAddress **saddr = NULL, **wsaddr = NULL;
--    size_t nsaddr, nwsaddr;
-+    g_autoptr(SocketAddressList) saddr_list = NULL;
-+    g_autoptr(SocketAddressList) wsaddr_list = NULL;
-     const char *share, *device_id;
-     QemuConsole *con;
-     bool password = false;
-@@ -4028,8 +4004,8 @@ void vnc_display_open(const char *id, Error **errp)
-     }
- 
-     reverse = qemu_opt_get_bool(opts, "reverse", false);
--    if (vnc_display_get_addresses(opts, reverse, &saddr, &nsaddr,
--                                  &wsaddr, &nwsaddr, errp) < 0) {
-+    if (vnc_display_get_addresses(opts, reverse, &saddr_list, &wsaddr_list,
-+                                  errp) < 0) {
-         goto fail;
-     }
- 
-@@ -4211,16 +4187,16 @@ void vnc_display_open(const char *id, Error **errp)
-     }
-     qkbd_state_set_delay(vd->kbd, key_delay_ms);
- 
--    if (saddr == NULL) {
--        goto cleanup;
-+    if (saddr_list == NULL) {
-+        return;
-     }
- 
-     if (reverse) {
--        if (vnc_display_connect(vd, saddr, nsaddr, wsaddr, nwsaddr, errp) < 0) {
-+        if (vnc_display_connect(vd, saddr_list, wsaddr_list, errp) < 0) {
-             goto fail;
-         }
-     } else {
--        if (vnc_display_listen(vd, saddr, nsaddr, wsaddr, nwsaddr, errp) < 0) {
-+        if (vnc_display_listen(vd, saddr_list, wsaddr_list, errp) < 0) {
-             goto fail;
-         }
-     }
-@@ -4229,14 +4205,11 @@ void vnc_display_open(const char *id, Error **errp)
-         vnc_display_print_local_addr(vd);
-     }
- 
-- cleanup:
--    vnc_free_addresses(&saddr, &nsaddr);
--    vnc_free_addresses(&wsaddr, &nwsaddr);
-+    /* Success */
-     return;
- 
- fail:
-     vnc_display_close(vd);
--    goto cleanup;
- }
- 
- void vnc_display_add_client(const char *id, int csock, bool skipauth)
 -- 
 2.31.1
 
