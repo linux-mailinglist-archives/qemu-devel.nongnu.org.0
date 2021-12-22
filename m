@@ -2,102 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C3F747CF5D
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Dec 2021 10:35:42 +0100 (CET)
-Received: from localhost ([::1]:44550 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41DEB47CF65
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Dec 2021 10:37:20 +0100 (CET)
+Received: from localhost ([::1]:46744 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mzy29-0002e7-1I
-	for lists+qemu-devel@lfdr.de; Wed, 22 Dec 2021 04:35:41 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47704)
+	id 1mzy3i-0004Az-9s
+	for lists+qemu-devel@lfdr.de; Wed, 22 Dec 2021 04:37:19 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48064)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
- id 1mzy06-0001wa-O2; Wed, 22 Dec 2021 04:33:34 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:37666)
+ (Exim 4.90_1) (envelope-from <chenyi.qiang@intel.com>)
+ id 1mzy1o-0002wc-87
+ for qemu-devel@nongnu.org; Wed, 22 Dec 2021 04:35:21 -0500
+Received: from mga17.intel.com ([192.55.52.151]:54626)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
- id 1mzy05-0003ux-2E; Wed, 22 Dec 2021 04:33:34 -0500
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1BM9VMMe007483; 
- Wed, 22 Dec 2021 09:33:29 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=date : from : to : cc :
- subject : message-id : in-reply-to : references : mime-version :
- content-type : content-transfer-encoding; s=pp1;
- bh=b6wvrjmIO+8zJEfWdsI5FOmIUzJ8tYz8sVXI13KyNTs=;
- b=imRCA6DrdZfOkR2gnZKI7u63hZbI0eua2K4I3ORhXib62r2+fUO26L95YXOcP2dQ21PB
- Iveus9m4zNcxyk9arBJMH1MrC5R41w4k0CHIxvbJ/FXqqTMbxYvnQyiQg8U+fjVokb/E
- 0qkzbL+PhFMPC6hryAeO05kJcmXGPwoK3kaxlOKNVy5Pnt4nSAadmvf4RmW6MotDPHJC
- CxvqsXTJuibgrFMh3ZQp9j+hboqTjdhMqq99a5bnax0mUD9zxTxphcvdkP6ZByJqEump
- 3MFszaHdQXJeaS8yvpkn25uM6QF7r/zgZDgPDVumjkAXUN/1NkSwCRkj5NQ6Hzzu7d3j 3Q== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3d3f18mff3-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 22 Dec 2021 09:33:28 +0000
-Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1BM9SoFP004368;
- Wed, 22 Dec 2021 09:33:28 GMT
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.102])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3d3f18mfea-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 22 Dec 2021 09:33:28 +0000
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
- by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1BM9QqoI024315;
- Wed, 22 Dec 2021 09:33:26 GMT
-Received: from b06cxnps4075.portsmouth.uk.ibm.com
- (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
- by ppma06ams.nl.ibm.com with ESMTP id 3d16wjvts6-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 22 Dec 2021 09:33:25 +0000
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com
- (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
- by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 1BM9XMAL39780710
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 22 Dec 2021 09:33:22 GMT
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B5AA8A405B;
- Wed, 22 Dec 2021 09:33:22 +0000 (GMT)
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 39381A4062;
- Wed, 22 Dec 2021 09:33:22 +0000 (GMT)
-Received: from li-e979b1cc-23ba-11b2-a85c-dfd230f6cf82 (unknown [9.171.69.97])
- by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with SMTP;
- Wed, 22 Dec 2021 09:33:22 +0000 (GMT)
-Date: Wed, 22 Dec 2021 10:33:18 +0100
-From: Halil Pasic <pasic@linux.ibm.com>
-To: Cornelia Huck <cohuck@redhat.com>
-Subject: Re: [PATCH RFC] MAINTAINERS: split out s390x sections
-Message-ID: <20211222103318.172a69ad.pasic@linux.ibm.com>
-In-Reply-To: <87k0fy2b01.fsf@redhat.com>
-References: <20211220115419.308463-1-cohuck@redhat.com>
- <894b455c-6366-8cce-e11a-637d5f3d80e8@redhat.com>
- <87k0fy2b01.fsf@redhat.com>
-Organization: IBM
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <chenyi.qiang@intel.com>)
+ id 1mzy1l-00043d-4e
+ for qemu-devel@nongnu.org; Wed, 22 Dec 2021 04:35:19 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1640165717; x=1671701717;
+ h=message-id:date:mime-version:subject:to:references:from:
+ cc:in-reply-to:content-transfer-encoding;
+ bh=sVzPkXMbPQhPEFkR7oj7KRY0uPlCJavEn7MnFGGQMEw=;
+ b=FWhIpO5mVqxrCbwZqVW+yHyLbVCfb28ScHTOwLZnhYWd18Ijulc/dA8T
+ fIVyzyUKL1I965UF6Mi7RkxpV0qse+G/osmgoEtkHMFmQtWqLxDPkc1nE
+ QPNqANSs8/HLJ2A1PIWS3fK2m1Yc+6z+P46KdcCPrTrWrlGGi2wYOUqZg
+ fSXypq58UzDbR1DDuTnv3+QRVK1uteQG1POXcliSGbBGxtD2UTucaXAUm
+ Ftlumd97DuojsBNxMQeOuJ3Hd3HOtR9f7csuTlnyV4VqQugV1hxQmLIoR
+ gpLJfIfBePnEntDlPEOpR/WP1hcHTbHi2WcdUn0ZtfxjXSvixDc4Fy6Oa Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10205"; a="221262433"
+X-IronPort-AV: E=Sophos;i="5.88,226,1635231600"; d="scan'208";a="221262433"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Dec 2021 01:35:13 -0800
+X-IronPort-AV: E=Sophos;i="5.88,226,1635231600"; d="scan'208";a="521612190"
+Received: from cqiang-mobl.ccr.corp.intel.com (HELO [10.238.2.71])
+ ([10.238.2.71])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Dec 2021 01:35:12 -0800
+Message-ID: <084da7c6-cf0a-8d0c-1121-5c85187942a6@intel.com>
+Date: Wed, 22 Dec 2021 17:35:10 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: YfLB2xHpfdEnq6Jv0T0eltdF_oxzSvID
-X-Proofpoint-GUID: EOYy6wHdgfyQTdy_XoIaQpgNniqF6YAG
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2021-12-22_04,2021-12-21_01,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 phishscore=0
- priorityscore=1501 suspectscore=0 mlxscore=0 mlxlogscore=878
- malwarescore=0 adultscore=0 bulkscore=0 lowpriorityscore=0 impostorscore=0
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2110150000 definitions=main-2112220054
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=pasic@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Firefox/91.0 Thunderbird/91.4.0
+Subject: Re: [PULL 31/53] KVM: x86: believe what KVM says about WAITPKG
+Content-Language: en-US
+To: Paolo Bonzini <pbonzini@redhat.com>, Maxim Levitsky <mlevitsk@redhat.com>
+References: <20200706164155.24696-1-pbonzini@redhat.com>
+ <20200706164155.24696-32-pbonzini@redhat.com>
+From: Chenyi Qiang <chenyi.qiang@intel.com>
+In-Reply-To: <20200706164155.24696-32-pbonzini@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=192.55.52.151;
+ envelope-from=chenyi.qiang@intel.com; helo=mga17.intel.com
+X-Spam_score_int: -52
+X-Spam_score: -5.3
+X-Spam_bar: -----
+X-Spam_report: (-5.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.203,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.694, RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -111,22 +76,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, David Hildenbrand <david@redhat.com>,
- Eric Farman <farman@linux.ibm.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Halil Pasic <pasic@linux.ibm.com>, qemu-s390x@nongnu.org,
- Christian Borntraeger <borntraeger@linux.ibm.com>
+Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 21 Dec 2021 17:11:58 +0100
-Cornelia Huck <cohuck@redhat.com> wrote:
 
-> Any objections if I move the sections as outlined above and keep the
-> acks I already have?
 
-No objections here!
+On 7/7/2020 12:41 AM, Paolo Bonzini wrote:
+> Currently, QEMU is overriding KVM_GET_SUPPORTED_CPUID's answer for
+> the WAITPKG bit depending on the "-overcommit cpu-pm" setting.  This is a
+> bad idea because it does not even check if the host supports it, but it
+> can be done in x86_cpu_realizefn just like we do for the MONITOR bit.
+> 
+> This patch moves it there, while making it conditional on host
+> support for the related UMWAIT MSR.
+> 
+> Cc: qemu-stable@nongnu.org
+> Reported-by: Maxim Levitsky <mlevitsk@redhat.com>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>   target/i386/cpu.c      |  3 +++
+>   target/i386/kvm.c      | 11 +++++------
+>   target/i386/kvm_i386.h |  1 +
+>   3 files changed, 9 insertions(+), 6 deletions(-)
+> 
+> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+> index c44cc510e1..dc9ba06f1f 100644
+> --- a/target/i386/cpu.c
+> +++ b/target/i386/cpu.c
+> @@ -6536,6 +6536,9 @@ static void x86_cpu_realizefn(DeviceState *dev, Error **errp)
+>               host_cpuid(5, 0, &cpu->mwait.eax, &cpu->mwait.ebx,
+>                          &cpu->mwait.ecx, &cpu->mwait.edx);
+>               env->features[FEAT_1_ECX] |= CPUID_EXT_MONITOR;
+> +            if (kvm_enabled() && kvm_has_waitpkg()) {
+> +                env->features[FEAT_7_0_ECX] |= CPUID_7_0_ECX_WAITPKG;
+> +            }
 
-Regards,
-Halil
+Hi Paolo and Maxim,
+
+Sorry to find out this long-time-ago mail although the code has been 
+refactor nowadays. Recently, when testing WAITPKG exposure, I found 
+WAITPKG is no longer controlled by "-overcommit cpu-pm", i.e. if 
+!enable_cpu_pm && KVM cap reports WAITPKG (KVM set the cap in 
+vmx_set_cpu_caps), this feature can still be seen in guest. It is 
+obviously due to QEMU doesn't clear CPUID_7_0_ECX_WAITPKG explicitly if 
+!enable_cpu_pm.
+
+So, is this the expected behavior for this patch?
+
+Thanks
+Chenyi
+
+>           }
+>           if (kvm_enabled() && cpu->ucode_rev == 0) {
+>               cpu->ucode_rev = kvm_arch_get_supported_msr_feature(kvm_state,
+> diff --git a/target/i386/kvm.c b/target/i386/kvm.c
+> index 2b6b7443d2..b8455c89ed 100644
+> --- a/target/i386/kvm.c
+> +++ b/target/i386/kvm.c
+> @@ -411,12 +411,6 @@ uint32_t kvm_arch_get_supported_cpuid(KVMState *s, uint32_t function,
+>           if (host_tsx_blacklisted()) {
+>               ret &= ~(CPUID_7_0_EBX_RTM | CPUID_7_0_EBX_HLE);
+>           }
+> -    } else if (function == 7 && index == 0 && reg == R_ECX) {
+> -        if (enable_cpu_pm) {
+> -            ret |= CPUID_7_0_ECX_WAITPKG;
+> -        } else {
+> -            ret &= ~CPUID_7_0_ECX_WAITPKG;
+> -        }
+>       } else if (function == 7 && index == 0 && reg == R_EDX) {
+>           /*
+>            * Linux v4.17-v4.20 incorrectly return ARCH_CAPABILITIES on SVM hosts.
+> @@ -4730,3 +4724,8 @@ int kvm_arch_msi_data_to_gsi(uint32_t data)
+>   {
+>       abort();
+>   }
+> +
+> +bool kvm_has_waitpkg(void)
+> +{
+> +    return has_msr_umwait;
+> +}
+> diff --git a/target/i386/kvm_i386.h b/target/i386/kvm_i386.h
+> index 00bde7acaf..064b8798a2 100644
+> --- a/target/i386/kvm_i386.h
+> +++ b/target/i386/kvm_i386.h
+> @@ -44,6 +44,7 @@ void kvm_put_apicbase(X86CPU *cpu, uint64_t value);
+> 
+>   bool kvm_enable_x2apic(void);
+>   bool kvm_has_x2apic_api(void);
+> +bool kvm_has_waitpkg(void);
+> 
+>   bool kvm_hv_vpindex_settable(void);
+> 
+> --
+> 2.26.2
+> 
+> 
+> 
 
