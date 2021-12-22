@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 443BC47D339
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Dec 2021 14:54:40 +0100 (CET)
-Received: from localhost ([::1]:51582 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DF7747D348
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Dec 2021 14:58:41 +0100 (CET)
+Received: from localhost ([::1]:59246 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n024l-0001on-C7
-	for lists+qemu-devel@lfdr.de; Wed, 22 Dec 2021 08:54:39 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39834)
+	id 1n028d-00079E-QY
+	for lists+qemu-devel@lfdr.de; Wed, 22 Dec 2021 08:58:39 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39860)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1n01wN-0000Sf-MN; Wed, 22 Dec 2021 08:46:00 -0500
-Received: from [2607:f8b0:4864:20::829] (port=44579
- helo=mail-qt1-x829.google.com)
+ id 1n01wP-0000VA-NE; Wed, 22 Dec 2021 08:46:02 -0500
+Received: from [2607:f8b0:4864:20::f33] (port=34456
+ helo=mail-qv1-xf33.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1n01wL-00056X-Tb; Wed, 22 Dec 2021 08:45:59 -0500
-Received: by mail-qt1-x829.google.com with SMTP id a1so1897228qtx.11;
- Wed, 22 Dec 2021 05:45:57 -0800 (PST)
+ id 1n01wO-0005Gl-0N; Wed, 22 Dec 2021 08:46:01 -0500
+Received: by mail-qv1-xf33.google.com with SMTP id ke6so2360779qvb.1;
+ Wed, 22 Dec 2021 05:45:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=WWx76eIFxNcmOFT7ycxKCFTXwj6bZRNiJ76QbW6TfM0=;
- b=gYOW7aD9hf8DuuYxeB/3Qzckw1YZ4K1Ato9BQ8dG2FqaxVaVhbAIBX4kjgVfkllLk5
- IVehBy5Y3f7vI18+viSzXU/+gUT3zWfzOxvghFmyvrvp2J3ZxN26iUMTEe7Tz2auPYFK
- M2Z5aRPqa3uEsnJCxE+9hFuqQaFvOQIk+ZeCCsTsx/X6sB3facKZkLYVP1roCJ0MYMpT
- 7O/IIQlgvF3GfyD2MYe0xxZWTm953AO7UlLE/2/hYrRzXivIIyPQKGAVSnfZfuZaD/60
- ZW5+6bTEG30xWEJK9EPSOGLITj5wdRYbOxMX+9lWvObyxrI5/Y+33mqETCdGPGMV4KWj
- 8SYw==
+ bh=r+N1THvPQsi/qwwxs7P5fuA3pJp7S9ZSXzZY2TSQO7U=;
+ b=GDTp0lFIDpbL5bnXvZPTNKW6kQM2Iosts5bdr6igmosWvrUYY/h6kiAAE8YKRSPtLb
+ vYrvEEBesxZccjrHIHmT6swmeeXHu7ZMkDrAXgIPXtlH+j428kG0Iv1Xrenb/UYl/XP6
+ IkrrbhHwibrk3qx+miMfjA96IWBPdubxkHeKOheSZ/Exv39lXuv3M3wntr9khBX4+HAL
+ WzdoSeb0gVSDAlyrt7l6LA+iTZxYWSg+qVSsue4rbOpn59PdoGlVulW5f5E25Mt4STV7
+ 5IUxjzpaAX+wLYYoxUS6YgjfvCc2jcBgBEGY8WZXXEFmKC0FqE0tdHDD8rIYlPdnYl7J
+ z/Pw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=WWx76eIFxNcmOFT7ycxKCFTXwj6bZRNiJ76QbW6TfM0=;
- b=TpytId4iUbCf8PSYa4F6MfIVBGv0Wjs2myNNZRt5z1TBci4rjHhUjx46g9A/UDCGwN
- q4VvalAwd/TNe+ftJ6M3hPkG9raacEcKbNpCVoPra1BFCOv8kfOuHiqpugAF0oc/JANa
- 1GRwZsH0O8w+5DHeC8pG9OdiimCSWYqp/ZlTJ0A/Hdh5Ai04Kp/9scH4Sm88Xa1qPpD1
- uexFFOkFSQIAqAOeB8Z6fsXYYB/DrQCRa8SzHcBiYLxvqFFijpjaUBWoPzT543licEUM
- WEb1saD3MH0AiBHpo4dTxwZMIFqVVMBLYMqnhDioSUv2Dz9bMfpgizORTCa3jwWVMcNR
- CZfw==
-X-Gm-Message-State: AOAM533LPOW29AweTqogz3wcjrjwhU0UZsU6gmUzvb5MRGr7aTYgWZP9
- omFOY4cCdvctQegrBDZnS9mEQp4SzkE=
-X-Google-Smtp-Source: ABdhPJwtUnDa3H0L+UjrLICaNsJsICmigtYUPDhx5tXSLL8flv6rLQOC2aYK96Glvms8ocftBrTX5w==
-X-Received: by 2002:a05:622a:307:: with SMTP id
- q7mr2107905qtw.330.1640180756481; 
- Wed, 22 Dec 2021 05:45:56 -0800 (PST)
+ bh=r+N1THvPQsi/qwwxs7P5fuA3pJp7S9ZSXzZY2TSQO7U=;
+ b=68tnJYZ5gpejUDW33t1hU3lzW5ZEmoExoibR+knfka+Ow8XsK+B10O/CPdd8i/CD0n
+ nCCk26LID8hUqd6iyAmf55NBoOaj7kcsfuPSjTpcaKV5v8hD3O15gj64bCSxw8EY/ZYo
+ q0lb391QbILcRAK0/KX8q2JUHpbeSOmpTEaYet27gvRUBRkKjpGuhKaez1OBY/fJ8Svc
+ +/mYYFxYPIQJV6kYqDMQFU+2SUbfEClUCJO/N/OBHw87NRnzY9yubdYUU0w5ZOznP7OU
+ 0b4la6y2txZ+nT5M9fgVNOTssVhYGqxtxaJSWPsJa3Acj3frLc8bwUjosf2vMrw9FSyP
+ +9sg==
+X-Gm-Message-State: AOAM531Ud2CPcM8ycATjPGi7V9qmliSoh+4sjvepxk96sMYJGO1PEdv1
+ EJ/ZD3rses9ztkzT7K31nDS8ViDDF4g=
+X-Google-Smtp-Source: ABdhPJx3zaewI4nqpTjE9lqteFtnj+FjO9r7Hd3moD5VCR506hVCARiUa8Q6FL5BP66/ux+eDNaagQ==
+X-Received: by 2002:ad4:44a3:: with SMTP id n3mr2363304qvt.72.1640180758785;
+ Wed, 22 Dec 2021 05:45:58 -0800 (PST)
 Received: from rekt.ibmuc.com ([170.239.133.233])
- by smtp.gmail.com with ESMTPSA id j16sm1757054qtx.92.2021.12.22.05.45.54
+ by smtp.gmail.com with ESMTPSA id j16sm1757054qtx.92.2021.12.22.05.45.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Dec 2021 05:45:56 -0800 (PST)
+ Wed, 22 Dec 2021 05:45:58 -0800 (PST)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 7/8] target/ppc/power8-pmu-insn-cnt: add pmu_check_overflow()
-Date: Wed, 22 Dec 2021 10:45:19 -0300
-Message-Id: <20211222134520.587877-8-danielhb413@gmail.com>
+Subject: [PATCH 8/8] target/ppc/power8-pmu.c: remove helper_insns_inc()
+Date: Wed, 22 Dec 2021 10:45:20 -0300
+Message-Id: <20211222134520.587877-9-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211222134520.587877-1-danielhb413@gmail.com>
 References: <20211222134520.587877-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::829
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::f33
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::829;
- envelope-from=danielhb413@gmail.com; helo=mail-qt1-x829.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f33;
+ envelope-from=danielhb413@gmail.com; helo=mail-qv1-xf33.google.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
@@ -91,164 +90,121 @@ Cc: richard.henderson@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-pmu_check_overflow() will verify for overflow in the PMC1-5 counters,
-firing a performance monitor alert if an overflow happened with the
-proper MMCR0 bits set.
-
-The alert is fired by using helper_pmu_overflow().
+After moving all the instruction counting to TCG Ops code
+this helper is not needed anymore.
 
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- target/ppc/helper.h                  |  1 +
- target/ppc/power8-pmu-insn-cnt.c.inc | 89 ++++++++++++++++++++++++++++
- target/ppc/power8-pmu.c              |  8 +++
- 3 files changed, 98 insertions(+)
+ target/ppc/helper.h                  |  1 -
+ target/ppc/power8-pmu-insn-cnt.c.inc |  4 --
+ target/ppc/power8-pmu.c              | 60 ----------------------------
+ 3 files changed, 65 deletions(-)
 
 diff --git a/target/ppc/helper.h b/target/ppc/helper.h
-index fb6cac38b4..4d8193caab 100644
+index 4d8193caab..de80e82ebe 100644
 --- a/target/ppc/helper.h
 +++ b/target/ppc/helper.h
-@@ -26,6 +26,7 @@ DEF_HELPER_2(store_mmcr1, void, env, tl)
+@@ -25,7 +25,6 @@ DEF_HELPER_2(store_mmcr0, void, env, tl)
+ DEF_HELPER_2(store_mmcr1, void, env, tl)
  DEF_HELPER_3(store_pmc, void, env, i32, i64)
  DEF_HELPER_2(read_pmc, tl, env, i32)
- DEF_HELPER_2(insns_inc, void, env, i32)
-+DEF_HELPER_1(pmu_overflow, void, env)
+-DEF_HELPER_2(insns_inc, void, env, i32)
+ DEF_HELPER_1(pmu_overflow, void, env)
  #endif
  DEF_HELPER_1(check_tlb_flush_local, void, env)
- DEF_HELPER_1(check_tlb_flush_global, void, env)
 diff --git a/target/ppc/power8-pmu-insn-cnt.c.inc b/target/ppc/power8-pmu-insn-cnt.c.inc
-index d3dd6d4685..7bd07d8105 100644
+index 7bd07d8105..8b1604b4c7 100644
 --- a/target/ppc/power8-pmu-insn-cnt.c.inc
 +++ b/target/ppc/power8-pmu-insn-cnt.c.inc
-@@ -19,6 +19,7 @@
- #define MMCR1_PMC4_INS_CNT        0x00000002
- #define MMCR1_PMC4_INS_LATCH_CNT  0x000000FA
- 
-+#define PMC_COUNTER_NEGATIVE_VAL  0x80000000UL
- /*
-  * Increments PMC1 checking if MMCR1_PMC1SEL has one of the following
-  * events:
-@@ -211,6 +212,92 @@ static void pmu_inc_pmc5(DisasContext *ctx)
-     tcg_temp_free(t0);
-     tcg_temp_free(t1);
- }
-+
-+/*
-+ * Check for overflow of PMC1-PMC5 counters and call the overflow
-+ * helper in case any counter has overflown.
-+ */
-+static void pmu_check_overflow(DisasContext *ctx)
-+{
-+    TCGv t_pmc1, t_pmc2, t_pmc3, t_pmc4, t_pmc5;
-+    TCGv t0, t1;
-+    TCGLabel *l_pmc_overflow;
-+    TCGLabel *l_skip_pmc1_overflow;
-+    TCGLabel *l_skip_overflow;
-+
-+    /*
-+     * Check if we have overflow bits set and fire an overflow
-+     * event if necessary. Skip directly to 'l_pmc_overflow'
-+     * right after finding the first overflow.
-+     */
-+    l_pmc_overflow = gen_new_label();
-+    l_skip_pmc1_overflow = gen_new_label();
-+
-+    t0 = tcg_temp_new();
-+    gen_load_spr(t0, SPR_POWER_MMCR0);
-+    tcg_gen_andi_tl(t0, t0, MMCR0_PMC1CE);
-+    tcg_gen_brcondi_tl(TCG_COND_NE, t0, MMCR0_PMC1CE, l_skip_pmc1_overflow);
-+
-+    t_pmc1 = tcg_temp_new();
-+    gen_load_spr(t_pmc1, SPR_POWER_PMC1);
-+    tcg_gen_brcondi_tl(TCG_COND_GE, t_pmc1, PMC_COUNTER_NEGATIVE_VAL,
-+                       l_pmc_overflow);
-+
-+    gen_set_label(l_skip_pmc1_overflow);
-+
-+    l_skip_overflow = gen_new_label();
-+
-+    /*
-+     * At this point we're sure PMC1 didn't overflow. If MMCR0_PMCjCE
-+     * isn't set we can skip everything since PMC2-5 overflow is
-+     * disabled.
-+     */
-+    t1 = tcg_temp_new();
-+    gen_load_spr(t1, SPR_POWER_MMCR0);
-+    tcg_gen_andi_tl(t1, t1, MMCR0_PMCjCE);
-+    tcg_gen_brcondi_tl(TCG_COND_NE, t1, MMCR0_PMCjCE, l_skip_overflow);
-+
-+    t_pmc2 = tcg_temp_new();
-+    gen_load_spr(t_pmc2, SPR_POWER_PMC2);
-+    tcg_gen_brcondi_tl(TCG_COND_GE, t_pmc2, PMC_COUNTER_NEGATIVE_VAL,
-+                       l_pmc_overflow);
-+
-+    t_pmc3 = tcg_temp_new();
-+    gen_load_spr(t_pmc3, SPR_POWER_PMC3);
-+    tcg_gen_brcondi_tl(TCG_COND_GE, t_pmc3, PMC_COUNTER_NEGATIVE_VAL,
-+                       l_pmc_overflow);
-+
-+    t_pmc4 = tcg_temp_new();
-+    gen_load_spr(t_pmc4, SPR_POWER_PMC4);
-+    tcg_gen_brcondi_tl(TCG_COND_GE, t_pmc4, PMC_COUNTER_NEGATIVE_VAL,
-+                       l_pmc_overflow);
-+
-+    t_pmc5 = tcg_temp_new();
-+    gen_load_spr(t_pmc5, SPR_POWER_PMC5);
-+    tcg_gen_brcondi_tl(TCG_COND_LE, t_pmc5, PMC_COUNTER_NEGATIVE_VAL,
-+                       l_skip_overflow);
-+
-+    gen_set_label(l_pmc_overflow);
-+
-+    /*
-+     * The PMU overflow helper manipuilates the internal PMU timer.
-+     * In that case, if the guest is running with icount and we do not
-+     * handle it beforehand, the helper can trigger a 'bad icount
-+     * read'.
-+     */
-+    gen_icount_io_start(ctx);
-+    gen_helper_pmu_overflow(cpu_env);
-+
-+    gen_set_label(l_skip_overflow);
-+
-+    tcg_temp_free(t0);
-+    tcg_temp_free(t1);
-+    tcg_temp_free(t_pmc1);
-+    tcg_temp_free(t_pmc2);
-+    tcg_temp_free(t_pmc3);
-+    tcg_temp_free(t_pmc4);
-+    tcg_temp_free(t_pmc5);
-+}
- #endif /* #if defined(TARGET_PPC64) && !defined(CONFIG_USER_ONLY) */
- 
+@@ -303,10 +303,6 @@ static void pmu_check_overflow(DisasContext *ctx)
  #if defined(TARGET_PPC64)
-@@ -254,6 +341,8 @@ static void pmu_count_insns(DisasContext *ctx)
- 
-     gen_set_label(l_skip_pmc14);
- 
-+    pmu_check_overflow(ctx);
-+
-     tcg_temp_free(t_mmcr0);
-     tcg_temp_free(t_mmcr1);
- 
+ static void pmu_count_insns(DisasContext *ctx)
+ {
+-    /*
+-     * Do not bother calling the helper if the PMU isn't counting
+-     * instructions.
+-     */
+     if (!ctx->pmu_insn_cnt) {
+         return;
+     }
 diff --git a/target/ppc/power8-pmu.c b/target/ppc/power8-pmu.c
-index 08d1902cd5..6696c9b3ae 100644
+index 6696c9b3ae..bfc052b49e 100644
 --- a/target/ppc/power8-pmu.c
 +++ b/target/ppc/power8-pmu.c
-@@ -323,6 +323,14 @@ void helper_insns_inc(CPUPPCState *env, uint32_t num_insns)
-     }
+@@ -135,52 +135,6 @@ bool pmu_insn_cnt_enabled(CPUPPCState *env)
+     return false;
  }
  
-+/* Helper to fire a PMC interrupt from TCG code */
-+void helper_pmu_overflow(CPUPPCState *env)
-+{
-+    PowerPCCPU *cpu = env_archcpu(env);
-+
-+    fire_PMC_interrupt(cpu);
-+}
-+
- static void cpu_ppc_pmu_timer_cb(void *opaque)
+-static bool pmu_increment_insns(CPUPPCState *env, uint32_t num_insns)
+-{
+-    bool overflow_triggered = false;
+-    int sprn;
+-
+-    /* PMC6 never counts instructions */
+-    for (sprn = SPR_POWER_PMC1; sprn <= SPR_POWER_PMC5; sprn++) {
+-        PMUEventType evt_type = pmc_get_event(env, sprn);
+-        bool insn_event = evt_type == PMU_EVENT_INSTRUCTIONS ||
+-                          evt_type == PMU_EVENT_INSN_RUN_LATCH;
+-
+-        if (pmc_is_inactive(env, sprn) || !insn_event) {
+-            continue;
+-        }
+-
+-        if (evt_type == PMU_EVENT_INSTRUCTIONS) {
+-            env->spr[sprn] += num_insns;
+-        }
+-
+-        if (evt_type == PMU_EVENT_INSN_RUN_LATCH &&
+-            env->spr[SPR_CTRL] & CTRL_RUN) {
+-            env->spr[sprn] += num_insns;
+-        }
+-
+-        if (env->spr[sprn] >= PMC_COUNTER_NEGATIVE_VAL &&
+-            pmc_has_overflow_enabled(env, sprn)) {
+-
+-            overflow_triggered = true;
+-
+-            /*
+-             * The real PMU will always trigger a counter overflow with
+-             * PMC_COUNTER_NEGATIVE_VAL. We don't have an easy way to
+-             * do that since we're counting block of instructions at
+-             * the end of each translation block, and we're probably
+-             * passing this value at this point.
+-             *
+-             * Let's write PMC_COUNTER_NEGATIVE_VAL to the overflowed
+-             * counter to simulate what the real hardware would do.
+-             */
+-            env->spr[sprn] = PMC_COUNTER_NEGATIVE_VAL;
+-        }
+-    }
+-
+-    return overflow_triggered;
+-}
+-
+ static void pmu_update_cycles(CPUPPCState *env)
  {
-     PowerPCCPU *cpu = opaque;
+     uint64_t now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
+@@ -309,20 +263,6 @@ static void fire_PMC_interrupt(PowerPCCPU *cpu)
+     return;
+ }
+ 
+-/* This helper assumes that the PMC is running. */
+-void helper_insns_inc(CPUPPCState *env, uint32_t num_insns)
+-{
+-    bool overflow_triggered;
+-    PowerPCCPU *cpu;
+-
+-    overflow_triggered = pmu_increment_insns(env, num_insns);
+-
+-    if (overflow_triggered) {
+-        cpu = env_archcpu(env);
+-        fire_PMC_interrupt(cpu);
+-    }
+-}
+-
+ /* Helper to fire a PMC interrupt from TCG code */
+ void helper_pmu_overflow(CPUPPCState *env)
+ {
 -- 
 2.33.1
 
