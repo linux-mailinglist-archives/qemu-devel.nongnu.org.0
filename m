@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA55E47D151
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Dec 2021 12:52:44 +0100 (CET)
-Received: from localhost ([::1]:35686 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95FB847D157
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Dec 2021 12:54:11 +0100 (CET)
+Received: from localhost ([::1]:38632 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n00Al-0000y6-Sq
-	for lists+qemu-devel@lfdr.de; Wed, 22 Dec 2021 06:52:43 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52984)
+	id 1n00C8-0002xy-Ph
+	for lists+qemu-devel@lfdr.de; Wed, 22 Dec 2021 06:54:08 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55070)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1n000W-0004IY-NP
- for qemu-devel@nongnu.org; Wed, 22 Dec 2021 06:42:08 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34309)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1n000U-00085N-G0
- for qemu-devel@nongnu.org; Wed, 22 Dec 2021 06:42:08 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1640173325;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=9RmymRulc9pH203Gj/j21Kt5Cc46uTBP82yKJPGkMaY=;
- b=GD00mM7QK6GAD+/r1KHLIQl/fgVf554e6xDZ53fa/Hbp0iW4lazMyy/zhK6Lk8GtaAXTb5
- hE49kXiWECW6WP275OFNzXOjypxB6wDB1KR7RNRJAqFQMEH+2objOCSbUyNoscKeTbQShb
- KyqW0EhAnpwyqrTVlk0Zqr6uXTyklEw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-520-1CpK-c2qORWunc71Y72Ghw-1; Wed, 22 Dec 2021 06:42:04 -0500
-X-MC-Unique: 1CpK-c2qORWunc71Y72Ghw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CCCC71006AA4;
- Wed, 22 Dec 2021 11:42:03 +0000 (UTC)
-Received: from localhost (unknown [10.39.194.22])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 43E876A023;
- Wed, 22 Dec 2021 11:42:03 +0000 (UTC)
-From: Hanna Reitz <hreitz@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH 3/3] iotests/185: Add post-READY quit tests
-Date: Wed, 22 Dec 2021 12:41:53 +0100
-Message-Id: <20211222114153.67721-4-hreitz@redhat.com>
-In-Reply-To: <20211222114153.67721-1-hreitz@redhat.com>
-References: <20211222114153.67721-1-hreitz@redhat.com>
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1n00Ae-0001e1-9L; Wed, 22 Dec 2021 06:52:36 -0500
+Received: from [2a00:1450:4864:20::329] (port=53828
+ helo=mail-wm1-x329.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1n00Ac-0002H8-4r; Wed, 22 Dec 2021 06:52:35 -0500
+Received: by mail-wm1-x329.google.com with SMTP id l4so1408860wmq.3;
+ Wed, 22 Dec 2021 03:52:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=pwDjuVAgvV2N/5+sidQUhABSqlu5LUpVsNu+wQ0RFWg=;
+ b=hh3dqhwvABur3bKI5JKK/gkN/SFG68qHOahER5/Q2w45+TRKuXYTfsRestr1SdlO91
+ 8EYmIqbJsmXH7NfHNEhf60sP3eL+lEYsqwXXk9XwvTvdf4cYOikHWJJi4/rragh8RRQY
+ SSEIkfsL/uRu9dzINgKAJcyQrA5bLmMb+5QkJOG1VRTuJ1xHRXQ0duAFlMicigG6f3m+
+ 7KBY48L1XjcQIWUh2NabbKGaS5QgcqGWn2ZTzylwljlEmJtBUpzMxRHG0IoeddFb3AxJ
+ OuopTz5HrAon3FGWIkqHwkf+ihv9nDyeIqQQPiKHwXfS2hH8XYkR3Ya0Nd/i2rDG7WrM
+ 1HIw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=pwDjuVAgvV2N/5+sidQUhABSqlu5LUpVsNu+wQ0RFWg=;
+ b=TPibyEAD8YhLUrfcDmocHlbs+qRR16MCqHjV84aUDqmss5/M4t933YHy1qtCyYTKAp
+ biTB2zg10i6laVWwkeDFET8r9aXSG21ZqACPdDI4yhvP2bKyXBz9UsI+2s2jSF+9RjPg
+ iijXWs2/1cVwxayx3gdf7nKKi/XZNtQd0g5+79goTEBos2kaXVX5+o+wv0MVMUbRKhKg
+ iT28Cz142nSZDQyemSapZGzvFkgXTj2foKhbP3UJkztU+YPJd294QdmkmtMeIXOMZ1lC
+ ViJ+G+sIWgGPPDX40mg6QZ5GkPG1LyB3wRchcU6NkEnhGtxZz9YsQUUtlIMDw57XvJrA
+ ya8g==
+X-Gm-Message-State: AOAM533j+0eIje4iBKIXMBnkwaponSVizflTQRDyVQa240H79iXhb1iw
+ C8HorRzTtdrt3oSLBoInR1IZQOlgL/5yV3ZYj+o=
+X-Google-Smtp-Source: ABdhPJw6vkRUqnWb4wCTks3FTM3qL2TmxOXvTd65maN7mfeDrd8af9A5CmUtFL46aABvtzXX9tT+xTwiNkJh58QydCA=
+X-Received: by 2002:a1c:4406:: with SMTP id r6mr718741wma.42.1640173952122;
+ Wed, 22 Dec 2021 03:52:32 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.203,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20211222001051.2295513-1-orzechowski.alexander@gmail.com>
+ <20211222001051.2295513-4-orzechowski.alexander@gmail.com>
+In-Reply-To: <20211222001051.2295513-4-orzechowski.alexander@gmail.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Wed, 22 Dec 2021 15:52:20 +0400
+Message-ID: <CAJ+F1CLcHBmgEwAttHXw5ySuHMO_vtJVyXGiqZSWqV4C_DWfZA@mail.gmail.com>
+Subject: Re: [PATCH v2 3/3] ui: Fix gtk/gl when the scaled virtual console
+ does not fit the window
+To: Alexander Orzechowski <orzechowski.alexander@gmail.com>
+Content-Type: multipart/alternative; boundary="000000000000c9428305d3bac1b9"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::329
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-wm1-x329.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,299 +79,246 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- qemu-devel@nongnu.org
+Cc: qemu trivial <qemu-trivial@nongnu.org>, QEMU <qemu-devel@nongnu.org>,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-185 tests quitting qemu while a block job is active.  It does not
-specifically test quitting qemu while a mirror or active commit job is
-in its READY phase.
+--000000000000c9428305d3bac1b9
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Add two test cases for this, where we respectively mirror or commit to
-an external QSD instance, which provides a throttled block device.  qemu
-is supposed to cancel the job so that it can quit as soon as possible
-instead of waiting for the job to complete (which it did before 6.2).
+Hi
 
-Signed-off-by: Hanna Reitz <hreitz@redhat.com>
+On Wed, Dec 22, 2021 at 4:11 AM Alexander Orzechowski <
+orzechowski.alexander@gmail.com> wrote:
+
+> gtk/gl was incorrectly always rendering as if the 'Zoom to Fit' was
+> always checked even if it wasn't. This is now using logic closer
+> to what is being used for the existing cairo code paths.
+>
+> Signed-off-by: Alexander Orzechowski <orzechowski.alexander@gmail.com>
+>
+
+This is definitely an improvement for me (on hidpi), but I have some
+questions and I don't have much interest in working on qemu GTK3 code.
+
+(fwiw, I hope the future will be around the gtk4 widget I work on at
+https://gitlab.com/marcandre.lureau/qemu-display/)
+
+The 2nd patch should come after this one imho, to avoid intermediary extra
+regressions.
+
 ---
- tests/qemu-iotests/185     | 190 ++++++++++++++++++++++++++++++++++++-
- tests/qemu-iotests/185.out |  48 ++++++++++
- 2 files changed, 237 insertions(+), 1 deletion(-)
+>  ui/gtk-gl-area.c | 34 +++++++++++++++++++++++++++++-----
+>  1 file changed, 29 insertions(+), 5 deletions(-)
+>
+> diff --git a/ui/gtk-gl-area.c b/ui/gtk-gl-area.c
+> index 01e4e74ee3..f4f2dac882 100644
+> --- a/ui/gtk-gl-area.c
+> +++ b/ui/gtk-gl-area.c
+> @@ -41,16 +41,40 @@ void gd_gl_area_draw(VirtualConsole *vc)
+>  #ifdef CONFIG_GBM
+>      QemuDmaBuf *dmabuf =3D vc->gfx.guest_fb.dmabuf;
+>  #endif
+> +    GtkDisplayState *s =3D vc->s;
+>      int ww, wh, ws, y1, y2;
+> +    int mx, my;
+> +    int fbh, fbw;
+>
+>      if (!vc->gfx.gls) {
+>          return;
+>      }
+>
+>      gtk_gl_area_make_current(GTK_GL_AREA(vc->gfx.drawing_area));
+> +
+> +    fbw =3D surface_width(vc->gfx.ds);
+> +    fbh =3D surface_height(vc->gfx.ds);
+> +
+>      ws =3D
+> gdk_window_get_scale_factor(gtk_widget_get_window(vc->gfx.drawing_area));
+> -    ww =3D gtk_widget_get_allocated_width(vc->gfx.drawing_area) * ws;
+> -    wh =3D gtk_widget_get_allocated_height(vc->gfx.drawing_area) * ws;
+> +    ww =3D gtk_widget_get_allocated_width(vc->gfx.drawing_area);
+> +    wh =3D gtk_widget_get_allocated_height(vc->gfx.drawing_area);
+> +
+> +    if (s->full_screen) {
+> +        vc->gfx.scale_x =3D (double)ww / fbw;
+> +        vc->gfx.scale_y =3D (double)wh / fbh;
+>
 
-diff --git a/tests/qemu-iotests/185 b/tests/qemu-iotests/185
-index f2ec5c5ceb..8b1143dc16 100755
---- a/tests/qemu-iotests/185
-+++ b/tests/qemu-iotests/185
-@@ -33,6 +33,12 @@ _cleanup()
-     _rm_test_img "${TEST_IMG}.copy"
-     _cleanup_test_img
-     _cleanup_qemu
-+
-+    if [ -f "$TEST_DIR/qsd.pid" ]; then
-+        kill -SIGKILL "$(cat "$TEST_DIR/qsd.pid")"
-+        rm -f "$TEST_DIR/qsd.pid"
-+    fi
-+    rm -f "$SOCK_DIR/qsd.sock"
- }
- trap "_cleanup; exit \$status" 0 1 2 3 15
- 
-@@ -45,7 +51,7 @@ _supported_fmt qcow2
- _supported_proto file
- _supported_os Linux
- 
--size=64M
-+size=$((64 * 1048576))
- TEST_IMG="${TEST_IMG}.base" _make_test_img $size
- 
- echo
-@@ -216,6 +222,188 @@ wait=1 _cleanup_qemu | grep -v 'JOB_STATUS_CHANGE'
- 
- _check_test_img
- 
-+echo
-+echo === Start mirror to throttled QSD and exit qemu ===
-+echo
-+
-+# Mirror to a throttled QSD instance (so that qemu cannot drain the
-+# throttling), wait for READY, then write some data to the device,
-+# and then quit qemu.
-+# (qemu should force-cancel the job and not wait for the data to be
-+# written to the target.)
-+
-+_make_test_img $size
-+
-+# Will be used by this and the next case
-+set_up_throttled_qsd() {
-+    $QSD \
-+        --object throttle-group,id=thrgr,limits.bps-total=1048576 \
-+        --blockdev null-co,node-name=null,size=$size \
-+        --blockdev throttle,node-name=throttled,throttle-group=thrgr,file=null \
-+        --nbd-server addr.type=unix,addr.path="$SOCK_DIR/qsd.sock" \
-+        --export nbd,id=exp,node-name=throttled,name=target,writable=true \
-+        --pidfile "$TEST_DIR/qsd.pid" \
-+        --daemonize
-+}
-+
-+set_up_throttled_qsd
-+
-+# Need a virtio-blk device so that qemu-io writes will not block the monitor
-+_launch_qemu \
-+    --blockdev file,node-name=source-proto,filename="$TEST_IMG" \
-+    --blockdev qcow2,node-name=source-fmt,file=source-proto \
-+    --device virtio-blk,id=vblk,drive=source-fmt \
-+    --blockdev "{\"driver\": \"nbd\",
-+                 \"node-name\": \"target\",
-+                 \"server\": {
-+                     \"type\": \"unix\",
-+                     \"path\": \"$SOCK_DIR/qsd.sock\"
-+                 },
-+                 \"export\": \"target\"}"
-+
-+h=$QEMU_HANDLE
-+_send_qemu_cmd $h '{"execute": "qmp_capabilities"}' 'return'
-+
-+# Use sync=top, so the first pass will not copy the whole image
-+_send_qemu_cmd $h \
-+    '{"execute": "blockdev-mirror",
-+      "arguments": {
-+          "job-id": "mirror",
-+          "device": "source-fmt",
-+          "target": "target",
-+          "sync": "top"
-+      }}' \
-+    'return' \
-+    | grep -v JOB_STATUS_CHANGE # Ignore these events during creation
-+
-+# This too will be used by this and the next case
-+# $1: QEMU handle
-+# $2: Image size
-+wait_for_job_and_quit() {
-+    h=$1
-+    size=$2
-+
-+    # List of expected events
-+    capture_events='BLOCK_JOB_READY JOB_STATUS_CHANGE'
-+    _wait_event $h 'BLOCK_JOB_READY'
-+    QEMU_EVENTS= # Ignore all JOB_STATUS_CHANGE events that came before READY
-+
-+    # Write something to the device for post-READY mirroring.  Write it in
-+    # blocks matching the cluster size, each spaced one block apart, so
-+    # that the mirror job will have to spawn one request per cluster.
-+    # Because the number of concurrent requests is limited (to 16), this
-+    # limits the number of bytes concurrently in flight, which speeds up
-+    # cancelling the job (in-flight requests still are waited for).
-+    # To limit the number of bytes in flight, we could alternatively pass
-+    # something for blockdev-mirror's @buf-size parameter, but
-+    # block-commit does not have such a parameter, so we need to figure
-+    # something out that works for both.
-+
-+    cluster_size=65536
-+    step=$((cluster_size * 2))
-+
-+    echo '--- Writing data to the virtio-blk device ---'
-+
-+    for ofs in $(seq 0 $step $((size - step))); do
-+        qemu_io_cmd="qemu-io -d vblk/virtio-backend "
-+        qemu_io_cmd+="\\\"aio_write $ofs $cluster_size\\\""
-+
-+        # Do not include these requests in the reference output
-+        # (it's just too much)
-+        silent=yes _send_qemu_cmd $h \
-+            "{\"execute\": \"human-monitor-command\",
-+              \"arguments\": {
-+                  \"command-line\": \"$qemu_io_cmd\"
-+              }}" \
-+            'return'
-+    done
-+
-+    # Wait until the job's length is updated to reflect the write requests
-+
-+    # We have written to half of the device, so this is the expected job length
-+    final_len=$((size / 2))
-+    timeout=100 # unit: 0.1 seconds
-+    while true; do
-+        len=$(
-+            _send_qemu_cmd $h \
-+                '{"execute": "query-block-jobs"}' \
-+                'return.*"len": [0-9]\+' \
-+                | grep 'return.*"len": [0-9]\+' \
-+                | sed -e 's/.*"len": \([0-9]\+\).*/\1/'
-+        )
-+        if [ "$len" -eq "$final_len" ]; then
-+            break
-+        fi
-+        timeout=$((timeout - 1))
-+        if [ "$timeout" -eq 0 ]; then
-+            echo "ERROR: Timeout waiting for job to reach len=$final_len"
-+            break
-+        fi
-+        sleep 0.1
-+    done
-+
-+    sleep 1
-+
-+    _send_qemu_cmd $h \
-+        '{"execute": "quit"}' \
-+        'return'
-+
-+    # List of expected events
-+    capture_events='BLOCK_JOB_CANCELLED JOB_STATUS_CHANGE SHUTDOWN'
-+    _wait_event $h 'SHUTDOWN'
-+    QEMU_EVENTS= # Ignore all JOB_STATUS_CHANGE events that came before SHUTDOWN
-+    _wait_event $h 'JOB_STATUS_CHANGE' # standby
-+    _wait_event $h 'JOB_STATUS_CHANGE' # ready
-+    _wait_event $h 'JOB_STATUS_CHANGE' # aborting
-+    # Filter the offset (depends on when exactly `quit` was issued)
-+    _wait_event $h 'BLOCK_JOB_CANCELLED' \
-+        | sed -e 's/"offset": [0-9]\+/"offset": (filtered)/'
-+    _wait_event $h 'JOB_STATUS_CHANGE' # concluded
-+    _wait_event $h 'JOB_STATUS_CHANGE' # null
-+
-+    wait=yes _cleanup_qemu
-+
-+    kill -SIGTERM "$(cat "$TEST_DIR/qsd.pid")"
-+}
-+
-+wait_for_job_and_quit $h $size
-+
-+echo
-+echo === Start active commit to throttled QSD and exit qemu ===
-+echo
-+
-+# Same as the above, but instead of mirroring, do an active commit
-+
-+_make_test_img $size
-+
-+set_up_throttled_qsd
-+
-+_launch_qemu \
-+    --blockdev "{\"driver\": \"nbd\",
-+                 \"node-name\": \"target\",
-+                 \"server\": {
-+                     \"type\": \"unix\",
-+                     \"path\": \"$SOCK_DIR/qsd.sock\"
-+                 },
-+                 \"export\": \"target\"}" \
-+    --blockdev file,node-name=source-proto,filename="$TEST_IMG" \
-+    --blockdev qcow2,node-name=source-fmt,file=source-proto,backing=target \
-+    --device virtio-blk,id=vblk,drive=source-fmt
-+
-+h=$QEMU_HANDLE
-+_send_qemu_cmd $h '{"execute": "qmp_capabilities"}' 'return'
-+
-+_send_qemu_cmd $h \
-+    '{"execute": "block-commit",
-+      "arguments": {
-+          "job-id": "commit",
-+          "device": "source-fmt"
-+      }}' \
-+    'return' \
-+    | grep -v JOB_STATUS_CHANGE # Ignore these events during creation
-+
-+wait_for_job_and_quit $h $size
-+
- # success, all done
- echo "*** done"
- rm -f $seq.full
-diff --git a/tests/qemu-iotests/185.out b/tests/qemu-iotests/185.out
-index 754a641258..70e8dd6c87 100644
---- a/tests/qemu-iotests/185.out
-+++ b/tests/qemu-iotests/185.out
-@@ -116,4 +116,52 @@ Formatting 'TEST_DIR/t.qcow2.copy', fmt=qcow2 cluster_size=65536 extended_l2=off
- {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "SHUTDOWN", "data": {"guest": false, "reason": "host-qmp-quit"}}
- {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "BLOCK_JOB_CANCELLED", "data": {"device": "disk", "len": 67108864, "offset": 524288, "speed": 65536, "type": "stream"}}
- No errors were found on the image.
-+
-+=== Start mirror to throttled QSD and exit qemu ===
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
-+{"execute": "qmp_capabilities"}
-+{"return": {}}
-+{"execute": "blockdev-mirror",
-+      "arguments": {
-+          "job-id": "mirror",
-+          "device": "source-fmt",
-+          "target": "target",
-+          "sync": "top"
-+      }}
-+{"return": {}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "BLOCK_JOB_READY", "data": {"device": "mirror", "len": 0, "offset": 0, "speed": 0, "type": "mirror"}}
-+--- Writing data to the virtio-blk device ---
-+{"execute": "quit"}
-+{"return": {}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "SHUTDOWN", "data": {"guest": false, "reason": "host-qmp-quit"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "standby", "id": "mirror"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "ready", "id": "mirror"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "aborting", "id": "mirror"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "BLOCK_JOB_CANCELLED", "data": {"device": "mirror", "len": 33554432, "offset": (filtered), "speed": 0, "type": "mirror"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "concluded", "id": "mirror"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "null", "id": "mirror"}}
-+
-+=== Start active commit to throttled QSD and exit qemu ===
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
-+{"execute": "qmp_capabilities"}
-+{"return": {}}
-+{"execute": "block-commit",
-+      "arguments": {
-+          "job-id": "commit",
-+          "device": "source-fmt"
-+      }}
-+{"return": {}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "BLOCK_JOB_READY", "data": {"device": "commit", "len": 0, "offset": 0, "speed": 0, "type": "commit"}}
-+--- Writing data to the virtio-blk device ---
-+{"execute": "quit"}
-+{"return": {}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "SHUTDOWN", "data": {"guest": false, "reason": "host-qmp-quit"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "standby", "id": "commit"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "ready", "id": "commit"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "aborting", "id": "commit"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "BLOCK_JOB_CANCELLED", "data": {"device": "commit", "len": 33554432, "offset": (filtered), "speed": 0, "type": "commit"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "concluded", "id": "commit"}}
-+{"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "null", "id": "commit"}}
- *** done
--- 
-2.33.1
+Why not keep aspect-ratio in full-screen?
 
+(and hopefully the pointer follows the same size logic, as well as the
+2d/cairo & gtk-x11/egl code paths..)
+
++    } else if (s->free_scale) {
+> +        double sx, sy;
+> +
+> +        sx =3D (double)ww / fbw;
+> +        sy =3D (double)wh / fbh;
+> +
+> +        vc->gfx.scale_x =3D vc->gfx.scale_y =3D MIN(sx, sy);
+> +    }
+> +
+> +    fbw *=3D vc->gfx.scale_x * ws;
+> +    fbh *=3D vc->gfx.scale_y * ws;
+> +    mx =3D (ww * ws - fbw) / 2;
+> +    my =3D (wh * ws - fbh) / 2;
+>
+>      if (vc->gfx.scanout_mode) {
+>          if (!vc->gfx.guest_fb.framebuffer) {
+> @@ -70,11 +94,11 @@ void gd_gl_area_draw(VirtualConsole *vc)
+>          glBindFramebuffer(GL_READ_FRAMEBUFFER,
+> vc->gfx.guest_fb.framebuffer);
+>          /* GtkGLArea sets GL_DRAW_FRAMEBUFFER for us */
+>
+> -        glViewport(0, 0, ww, wh);
+> +        glViewport(mx, my, fbw, fbh);
+>          y1 =3D vc->gfx.y0_top ? 0 : vc->gfx.h;
+>          y2 =3D vc->gfx.y0_top ? vc->gfx.h : 0;
+>          glBlitFramebuffer(0, y1, vc->gfx.w, y2,
+> -                          0, 0, ww, wh,
+> +                          mx, my, fbw + mx, fbh + my,
+>                            GL_COLOR_BUFFER_BIT, GL_NEAREST);
+>  #ifdef CONFIG_GBM
+>          if (dmabuf) {
+> @@ -98,7 +122,7 @@ void gd_gl_area_draw(VirtualConsole *vc)
+>          }
+>          gtk_gl_area_make_current(GTK_GL_AREA(vc->gfx.drawing_area));
+>
+> -        surface_gl_setup_viewport(vc->gfx.gls, vc->gfx.ds, ww, wh);
+> +        glViewport(mx, my, fbw, fbh);
+>
+
+ We should be able to reuse and share the surface_gl_setup_viewport()
+logic, no?
+
+--=20
+Marc-Andr=C3=A9 Lureau
+
+--000000000000c9428305d3bac1b9
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
+"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Dec 22, 2021 at 4:11 AM Ale=
+xander Orzechowski &lt;<a href=3D"mailto:orzechowski.alexander@gmail.com">o=
+rzechowski.alexander@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D=
+"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(2=
+04,204,204);padding-left:1ex">gtk/gl was incorrectly always rendering as if=
+ the &#39;Zoom to Fit&#39; was<br>
+always checked even if it wasn&#39;t. This is now using logic closer<br>
+to what is being used for the existing cairo code paths.<br>
+<br>
+Signed-off-by: Alexander Orzechowski &lt;<a href=3D"mailto:orzechowski.alex=
+ander@gmail.com" target=3D"_blank">orzechowski.alexander@gmail.com</a>&gt;<=
+br></blockquote><div><br></div><div>This is definitely an improvement for m=
+e (on hidpi), but I have some questions and I don&#39;t have much interest =
+in working on qemu GTK3 code.</div><div><br></div><div>(fwiw, I hope the fu=
+ture will be around the gtk4 widget I work on at <a href=3D"https://gitlab.=
+com/marcandre.lureau/qemu-display/">https://gitlab.com/marcandre.lureau/qem=
+u-display/</a>)</div><div><br></div><div>The 2nd patch should come after th=
+is one imho, to avoid intermediary extra regressions.<br></div><div><br></d=
+iv><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bord=
+er-left:1px solid rgb(204,204,204);padding-left:1ex">
+---<br>
+=C2=A0ui/gtk-gl-area.c | 34 +++++++++++++++++++++++++++++-----<br>
+=C2=A01 file changed, 29 insertions(+), 5 deletions(-)<br>
+<br>
+diff --git a/ui/gtk-gl-area.c b/ui/gtk-gl-area.c<br>
+index 01e4e74ee3..f4f2dac882 100644<br>
+--- a/ui/gtk-gl-area.c<br>
++++ b/ui/gtk-gl-area.c<br>
+@@ -41,16 +41,40 @@ void gd_gl_area_draw(VirtualConsole *vc)<br>
+=C2=A0#ifdef CONFIG_GBM<br>
+=C2=A0 =C2=A0 =C2=A0QemuDmaBuf *dmabuf =3D vc-&gt;gfx.guest_fb.dmabuf;<br>
+=C2=A0#endif<br>
++=C2=A0 =C2=A0 GtkDisplayState *s =3D vc-&gt;s;<br>
+=C2=A0 =C2=A0 =C2=A0int ww, wh, ws, y1, y2;<br>
++=C2=A0 =C2=A0 int mx, my;<br>
++=C2=A0 =C2=A0 int fbh, fbw;<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0if (!vc-&gt;gfx.gls) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return;<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0gtk_gl_area_make_current(GTK_GL_AREA(vc-&gt;gfx.drawing=
+_area));<br>
++<br>
++=C2=A0 =C2=A0 fbw =3D surface_width(vc-&gt;gfx.ds);<br>
++=C2=A0 =C2=A0 fbh =3D surface_height(vc-&gt;gfx.ds);<br>
++<br>
+=C2=A0 =C2=A0 =C2=A0ws =3D gdk_window_get_scale_factor(gtk_widget_get_windo=
+w(vc-&gt;gfx.drawing_area));<br>
+-=C2=A0 =C2=A0 ww =3D gtk_widget_get_allocated_width(vc-&gt;gfx.drawing_are=
+a) * ws;<br>
+-=C2=A0 =C2=A0 wh =3D gtk_widget_get_allocated_height(vc-&gt;gfx.drawing_ar=
+ea) * ws;<br>
++=C2=A0 =C2=A0 ww =3D gtk_widget_get_allocated_width(vc-&gt;gfx.drawing_are=
+a);<br>
++=C2=A0 =C2=A0 wh =3D gtk_widget_get_allocated_height(vc-&gt;gfx.drawing_ar=
+ea);<br>
++<br>
++=C2=A0 =C2=A0 if (s-&gt;full_screen) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 vc-&gt;gfx.scale_x =3D (double)ww / fbw;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 vc-&gt;gfx.scale_y =3D (double)wh / fbh;<br></=
+blockquote><div><br></div><div>Why not keep aspect-ratio in full-screen?</d=
+iv><div><br></div><div>(and hopefully the pointer follows the same size log=
+ic, as well as the 2d/cairo &amp; gtk-x11/egl code paths..)<br></div><div> =
+<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8=
+ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
++=C2=A0 =C2=A0 } else if (s-&gt;free_scale) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 double sx, sy;<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 sx =3D (double)ww / fbw;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 sy =3D (double)wh / fbh;<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 vc-&gt;gfx.scale_x =3D vc-&gt;gfx.scale_y =3D =
+MIN(sx, sy);<br>
++=C2=A0 =C2=A0 }<br>
++<br>
++=C2=A0 =C2=A0 fbw *=3D vc-&gt;gfx.scale_x * ws;<br>
++=C2=A0 =C2=A0 fbh *=3D vc-&gt;gfx.scale_y * ws;<br>
++=C2=A0 =C2=A0 mx =3D (ww * ws - fbw) / 2;<br>
++=C2=A0 =C2=A0 my =3D (wh * ws - fbh) / 2;<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0if (vc-&gt;gfx.scanout_mode) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (!vc-&gt;gfx.guest_fb.framebuffer) {<b=
+r>
+@@ -70,11 +94,11 @@ void gd_gl_area_draw(VirtualConsole *vc)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0glBindFramebuffer(GL_READ_FRAMEBUFFER, vc=
+-&gt;gfx.guest_fb.framebuffer);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* GtkGLArea sets GL_DRAW_FRAMEBUFFER for=
+ us */<br>
+<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 glViewport(0, 0, ww, wh);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 glViewport(mx, my, fbw, fbh);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0y1 =3D vc-&gt;gfx.y0_top ? 0 : vc-&gt;gfx=
+.h;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0y2 =3D vc-&gt;gfx.y0_top ? vc-&gt;gfx.h :=
+ 0;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0glBlitFramebuffer(0, y1, vc-&gt;gfx.w, y2=
+,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 0, 0, ww, wh,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 mx, my, fbw + mx, fbh + my,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0GL_COLOR_BUFFER_BIT, GL_NEAREST);<br>
+=C2=A0#ifdef CONFIG_GBM<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (dmabuf) {<br>
+@@ -98,7 +122,7 @@ void gd_gl_area_draw(VirtualConsole *vc)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0gtk_gl_area_make_current(GTK_GL_AREA(vc-&=
+gt;gfx.drawing_area));<br>
+<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 surface_gl_setup_viewport(vc-&gt;gfx.gls, vc-&=
+gt;gfx.ds, ww, wh);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 glViewport(mx, my, fbw, fbh);<br></blockquote>=
+<div><br></div><div>=C2=A0We should be able to reuse and share the surface_=
+gl_setup_viewport() logic, no?<br></div></div><br>-- <br><div dir=3D"ltr" c=
+lass=3D"gmail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
+
+--000000000000c9428305d3bac1b9--
 
