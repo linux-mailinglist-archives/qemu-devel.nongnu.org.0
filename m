@@ -2,73 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F1CF47CCBB
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Dec 2021 06:57:54 +0100 (CET)
-Received: from localhost ([::1]:45904 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6ADB647CD29
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Dec 2021 07:56:39 +0100 (CET)
+Received: from localhost ([::1]:40374 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mzudM-0007SN-Jo
-	for lists+qemu-devel@lfdr.de; Wed, 22 Dec 2021 00:57:52 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50782)
+	id 1mzvYE-00009l-GP
+	for lists+qemu-devel@lfdr.de; Wed, 22 Dec 2021 01:56:38 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57142)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mkfssion@mkfssion.com>)
- id 1mzuaL-0006g0-Si
- for qemu-devel@nongnu.org; Wed, 22 Dec 2021 00:54:45 -0500
-Received: from mail-108-mta107.mxroute.com ([136.175.108.107]:35357)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <mkfssion@mkfssion.com>)
- id 1mzuaJ-0002c4-Vw
- for qemu-devel@nongnu.org; Wed, 22 Dec 2021 00:54:45 -0500
-Received: from filter004.mxroute.com ([149.28.56.236] filter004.mxroute.com)
- (Authenticated sender: mN4UYu2MZsgR)
- by mail-108-mta107.mxroute.com (ZoneMTA) with ESMTPSA id
- 17de0b4b5d4000b7bf.001 for <qemu-devel@nongnu.org>
- (version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES128-GCM-SHA256);
- Wed, 22 Dec 2021 05:54:39 +0000
-X-Zone-Loop: ae10609d02c199b7bfca70d3e9f01ad13940c217332d
-X-Originating-IP: [149.28.56.236]
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=mkfssion.com; s=x; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
- From:References:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:Cc:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=OFFvUO/r+jJKv3OgVxx5avsdcKeR9xV22kEAKDW79H4=; b=gIR9jbXkm+5A+kVEE0sNINyCJ7
- LCYpBI4/d6oqGJpUuDRNja2X/T704TjP1brgNQTIGz2R8BkGNX9bzA+2OhNeS+NYfFYbWxwXBlstS
- SF1njZmKtVYkSSDksqMn3tamsH+/tmjfC6NyiuDYMt4zIwfb2/Dt4uUYdOJyazKMdwqhEOUPqUhn0
- 3Rzwj/vv0PScZV1DC78kk9GweJO7iZoFUEzL6FZb6SVBZnHjHTu4qswwbVQujVqluuf3lXJvHMa56
- EOEOgPwqwv51vd5zO4NHD24ulKf+hMFDGr1DofMeFWPxF6kEFBbD3Vjr5ChTuKkIouY4wjz0NRJ01
- hucZDPYw==;
-Message-ID: <f50292bb-09e7-b307-88c6-5d54b6ee5123@mkfssion.com>
-Date: Wed, 22 Dec 2021 13:54:33 +0800
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1mzvGu-0007ig-6D; Wed, 22 Dec 2021 01:38:47 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:22382)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1mzvGk-0002vX-H9; Wed, 22 Dec 2021 01:38:36 -0500
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1BM4P7kp024410; 
+ Wed, 22 Dec 2021 06:38:24 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3d3g6wfvpc-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 22 Dec 2021 06:38:24 +0000
+Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1BM6RbXS006863;
+ Wed, 22 Dec 2021 06:38:24 GMT
+Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.106])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3d3g6wfvp1-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 22 Dec 2021 06:38:24 +0000
+Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
+ by ppma04fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1BM6aXMY002097;
+ Wed, 22 Dec 2021 06:38:22 GMT
+Received: from b06avi18878370.portsmouth.uk.ibm.com
+ (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
+ by ppma04fra.de.ibm.com with ESMTP id 3d179a9twx-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 22 Dec 2021 06:38:22 +0000
+Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
+ [9.149.105.62])
+ by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 1BM6cKCg19988800
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 22 Dec 2021 06:38:20 GMT
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 30570AE053;
+ Wed, 22 Dec 2021 06:38:20 +0000 (GMT)
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id F2EEAAE04D;
+ Wed, 22 Dec 2021 06:38:19 +0000 (GMT)
+Received: from smtp.tlslab.ibm.com (unknown [9.101.4.1])
+ by d06av26.portsmouth.uk.ibm.com (Postfix) with SMTP;
+ Wed, 22 Dec 2021 06:38:19 +0000 (GMT)
+Received: from yukon.ibmuc.com (unknown [9.171.51.190])
+ by smtp.tlslab.ibm.com (Postfix) with ESMTP id 146CD22010B;
+ Wed, 22 Dec 2021 07:38:19 +0100 (CET)
+From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+To: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Subject: [PATCH 0/5] ppc/pnv: Preliminary cleanups before user created PHBs
+Date: Wed, 22 Dec 2021 07:38:12 +0100
+Message-Id: <20211222063817.1541058-1-clg@kaod.org>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.1
-Subject: Re: [PATCH] vl: Add -set options to device opts dict when using JSON
- syntax for -device
-Content-Language: en-US
-To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
-References: <20211221071818.34731-1-mkfssion@mkfssion.com>
- <877dbyjj0t.fsf@dusky.pond.sub.org>
-From: MkfsSion <mkfssion@mkfssion.com>
-In-Reply-To: <877dbyjj0t.fsf@dusky.pond.sub.org>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-AuthUser: mkfssion@mkfssion.com
-X-Zone-Spam-Resolution: no action
-X-Zone-Spam-Status: No, score=-0.1, required=15, tests=[ARC_NA=0,
- RCPT_COUNT_TWO=0, FROM_HAS_DN=0, TO_DN_SOME=0, MIME_GOOD=-0.1,
- FROM_EQ_ENVFROM=0, MIME_TRACE=0, RCVD_COUNT_ZERO=0, NEURAL_SPAM=0,
- MID_RHS_MATCH_FROM=0]
-Received-SPF: pass client-ip=136.175.108.107;
- envelope-from=mkfssion@mkfssion.com; helo=mail-108-mta107.mxroute.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.694,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: dICwFtbqGoQdCgvs-tEvF2vOOQOKVB4y
+X-Proofpoint-GUID: jucTY-U5QdQksmLXsrfohHtBhS6oTNZS
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2021-12-22_02,2021-12-21_01,2021-12-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 suspectscore=0
+ mlxlogscore=562 clxscore=1034 phishscore=0 bulkscore=0 spamscore=0
+ lowpriorityscore=0 priorityscore=1501 adultscore=0 impostorscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2110150000 definitions=main-2112220038
+Received-SPF: softfail client-ip=148.163.158.5; envelope-from=clg@kaod.org;
+ helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -11
+X-Spam_score: -1.2
+X-Spam_bar: -
+X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,88 +98,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Daniel Henrique Barboza <danielhb413@gmail.com>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2021/12/21 19:26, Markus Armbruster wrote:> Two issues, and only looks fixable.
-> 
-> -device accepts either a QemuOpts or a JSON argument.
-> 
-> It parses the former with qemu_opts_parse_noisily() into a QemuOpt
-> stored in @qemu_device_opts.
-> 
-> It parses the latter with qobject_from_json() into a QObject stored in
-> @device_opts.  Yes, the names are confusing.
-> 
-> -set parses its argument into @group, @id, and @arg (the value).
-> 
-> Before the patch, it uses @group and @id to look up the QemuOpt in
-> @qemu_device_opts.  If found, it updates it with qemu_opt_set().
-> 
-> By design, -set operates on the QemuOpts store.
-> 
-> Options stored in @device_opts are not found.  Your patch tries to fix
-> that.  Before I can explain what's wrong with it, I need more
-> background.
-> 
-> QemuOpts arguments are parsed as a set of (key, value) pairs, where the
-> values are all strings (because qemu_device_opts.desc[] is empty).  We
-> access them with a qobject_input_visitor_new_keyval() visitor.  This
-> parses the strings according to the types being visited.
-> 
-> Example: key=42 gets stored as {"key": "42"}.  If we visit it with
-> visit_type_str(), we use string value "42".  If we visit it with
-> visit_type_int() or similar, we use integer value 42.  If we visit it
-> with visit_type_number(), we use double value 42.0.  If we visit it with
-> something else, we error out.
-> 
-> JSON arguments are parsed as arbitrary JSON object.  We access them with
-> a qobject_input_visitor_new() visitor.  This expects the values to have
-> JSON types appropriate for the types being visited.
-> 
-> Example: {"key": "42"} gets stored as is.  Now everything but
-> visit_type_str() errors out.
-> 
-Thanks for the detailed explanation. Since I am new to QEMU codebase, I did not notice that the visitor is different when -device JSON syntax is used. 
-> Back to your patch.  It adds code to look up a QObject in @device_opts.
-> If found, it updates it.
-> 
-> Issue#1: it does so regardless of @group.
-> 
-> Example:
-> 
->     $ qemu-system-x86_64 -nodefaults -S -display none -M q35,usb=on -device '{"driver": "usb-mouse", "id": "ms0"}' -set chardev.ms0.serial=456
-> 
-> Here, -set chardev... gets misinterpreted as -set device...
-> 
-Oh, I forgot to match the group name.
-> Issue#2 is the value to store in @device_opts.  Always storing a string,
-> like in the QemuOpts case, would be wrong, because it works only when
-> its accessed with visit_type_str(), i.e. the property is actually of
-> string type.
-> 
-> Example:
-> 
->     $ qemu-system-x86_64 -nodefaults -S -display none -M q35,usb=on -device '{"driver": "usb-mouse", "id": "ms0"}' -set device.ms0.serial=123
-> 
->     $ qemu-system-x86_64 -nodefaults -S -display none -M q35,usb=on -device '{"driver": "usb-mouse", "id": "ms0"}' -set device.ms0.msos-desc=off
->     qemu-system-x86_64: -device {"driver": "usb-mouse", "id": "ms0"}: Invalid parameter type for 'msos-desc', expected: boolean
-> 
-> Your patch stores a boolean if possible, else a number if possible, else
-> a string.  This is differently wrong.
-> 
-> Example:
-> 
->     $ qemu-system-x86_64 -nodefaults -S -display none -M q35,usb=on -device '{"driver": "usb-mouse", "id": "ms0"}'
-> 
-> Example:
-> 
->     $ qemu-system-x86_64 -nodefaults -S -display none -M q35,usb=on -device '{"driver": "usb-mouse", "id": "ms0"}' -set device.ms0.serial=123
->     qemu-system-x86_64: -device {"driver": "usb-mouse", "id": "ms0", "serial": "123"}: Invalid parameter type for 'serial', expected: string
-> 
-> I can't see how -set can store the right thing.
-> 
-> Aside: the error messages refer to -device instead of -set.  Known bug
-> in -set, hard to fix.
-> There seems no way to know what type of value the property actually take. I am trying to add a QDict* parameter in qdev_device_add_from_qdict() function and set thoses properties via object_set_properties_from_keyval() call but with false option for from_json argument, which will use qobject_input_visitor_new_keyval() visitor for the properties provided via -set option. Maybe the issue can be fixed in that way.
+Hello,
+
+There are the last cleanups preparing ground for PHBs created on the
+command line and possibly libvirt support.
+
+Thanks,
+
+C.
+
+C=C3=A9dric Le Goater (5):
+  ppc/pnv: Change the maximum of PHB3 devices for Power8NVL
+  ppc/pnv: Remove PHB4 reset handler
+  ppc/pnv: Remove the PHB4 "device-id" property
+  ppc/pnv: Attach PHB3 root port device when defaults are enabled
+  ppc/pnv: Attach PHB4 root port device when defaults are enabled
+
+ include/hw/pci-host/pnv_phb3.h |  2 --
+ include/hw/pci-host/pnv_phb4.h |  4 ----
+ hw/pci-host/pnv_phb3.c         |  8 --------
+ hw/pci-host/pnv_phb4.c         | 25 -------------------------
+ hw/pci-host/pnv_phb4_pec.c     |  3 ---
+ hw/ppc/pnv.c                   | 25 +++++++++++++++++++++++--
+ 6 files changed, 23 insertions(+), 44 deletions(-)
+
+--=20
+2.31.1
+
 
