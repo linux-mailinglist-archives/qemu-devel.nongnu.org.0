@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3F7847D140
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Dec 2021 12:46:54 +0100 (CET)
-Received: from localhost ([::1]:51208 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F9D947D129
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Dec 2021 12:42:04 +0100 (CET)
+Received: from localhost ([::1]:40542 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n0058-0000fA-1R
-	for lists+qemu-devel@lfdr.de; Wed, 22 Dec 2021 06:46:54 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51122)
+	id 1n000R-0001nm-Cy
+	for lists+qemu-devel@lfdr.de; Wed, 22 Dec 2021 06:42:03 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51158)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mzzss-0001EA-EW
- for qemu-devel@nongnu.org; Wed, 22 Dec 2021 06:34:16 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26746)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mzzsw-0001JS-RL
+ for qemu-devel@nongnu.org; Wed, 22 Dec 2021 06:34:18 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45253)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mzzse-00072E-Tt
- for qemu-devel@nongnu.org; Wed, 22 Dec 2021 06:34:02 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mzzso-00072c-BS
+ for qemu-devel@nongnu.org; Wed, 22 Dec 2021 06:34:15 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1640172839;
+ s=mimecast20190719; t=1640172845;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+VfZjxbclXGxpSGf66sql3q/0k8675QShcJgFOeJNuA=;
- b=i2xKzzCeNhUYi27mgM4CwhFrohgKuJ7M+DE4T+x6tKLHoVFUCiNZj9nx5JonustDh1cOvU
- IfqDZfcv30ag+7VS2E/wRN9R+azz0f1AMTO2B+UvsXBLxO0LTo7u4snC7QNogpC4Ffaevs
- Nh0tSlYvv/lY8XhKyv7yZbZn4jomXTU=
+ bh=6nLHH+PavWlXtin13BQXlBnd2GGMZZrZTTES7htzRf0=;
+ b=KtZVRa7kQVFamzL+8v4TwZuTFvu0lEroqK1Vr+JaEYuK6zzsUq2g2l/cqpLbI4hfMNCGE6
+ zaW1lpJNmjRNOl+lylQNmoMOam+CQfXQpQkqq++V98puy6Vg4euKEydO64KklN/Vg2s4m2
+ 2hYil8/R/wQndDJh8tINenyuuhmO/ig=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-518-vr9jNuz6NFiZP9fD54E64A-1; Wed, 22 Dec 2021 06:33:57 -0500
-X-MC-Unique: vr9jNuz6NFiZP9fD54E64A-1
+ us-mta-440-wYAOb5NjNdOk_m6FvjLXwA-1; Wed, 22 Dec 2021 06:33:59 -0500
+X-MC-Unique: wYAOb5NjNdOk_m6FvjLXwA-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F053D1023F4D;
- Wed, 22 Dec 2021 11:33:56 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8EEC11006AA4;
+ Wed, 22 Dec 2021 11:33:58 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.192.135])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0D8F57B015;
- Wed, 22 Dec 2021 11:33:55 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 84C8C78DFB;
+ Wed, 22 Dec 2021 11:33:57 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 6/9] tests/qtest: Improve endianness-test to work with missing
- machines and devices
-Date: Wed, 22 Dec 2021 12:32:56 +0100
-Message-Id: <20211222113259.823203-7-thuth@redhat.com>
+Subject: [PULL 7/9] tests/qtest/cdrom-test: Check whether devices are
+ available before using them
+Date: Wed, 22 Dec 2021 12:32:57 +0100
+Message-Id: <20211222113259.823203-8-thuth@redhat.com>
 In-Reply-To: <20211222113259.823203-1-thuth@redhat.com>
 References: <20211222113259.823203-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -82,32 +82,94 @@ Cc: Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The users might have built QEMU with less machines or without the
-i82378 superio device. Add some checks to the endianess-test so that
-it is able to deal with such stripped down QEMU versions, too.
+Downstream users might want to disable legacy devices in their binaries,
+so we should not blindly assume that they are available. Add some proper
+checks before using them.
 
-Message-Id: <20211220081054.151515-3-thuth@redhat.com>
+Message-Id: <20211220081054.151515-4-thuth@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/qtest/endianness-test.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ tests/qtest/cdrom-test.c | 60 ++++++++++++++++++++++++++--------------
+ 1 file changed, 39 insertions(+), 21 deletions(-)
 
-diff --git a/tests/qtest/endianness-test.c b/tests/qtest/endianness-test.c
-index 09ecb531f1..9c03b72dc9 100644
---- a/tests/qtest/endianness-test.c
-+++ b/tests/qtest/endianness-test.c
-@@ -281,7 +281,10 @@ int main(int argc, char **argv)
+diff --git a/tests/qtest/cdrom-test.c b/tests/qtest/cdrom-test.c
+index c1fcac5c45..cfca24fa94 100644
+--- a/tests/qtest/cdrom-test.c
++++ b/tests/qtest/cdrom-test.c
+@@ -142,21 +142,36 @@ static void add_x86_tests(void)
+         qtest_add_data_func("cdrom/boot/isapc", "-M isapc "
+                             "-drive if=ide,media=cdrom,file=", test_cdboot);
+     }
+-    qtest_add_data_func("cdrom/boot/am53c974",
+-                        "-device am53c974 -device scsi-cd,drive=cd1 "
+-                        "-drive if=none,id=cd1,format=raw,file=", test_cdboot);
+-    qtest_add_data_func("cdrom/boot/dc390",
+-                        "-device dc390 -device scsi-cd,drive=cd1 "
+-                        "-blockdev file,node-name=cd1,filename=", test_cdboot);
+-    qtest_add_data_func("cdrom/boot/lsi53c895a",
+-                        "-device lsi53c895a -device scsi-cd,drive=cd1 "
+-                        "-blockdev file,node-name=cd1,filename=", test_cdboot);
+-    qtest_add_data_func("cdrom/boot/megasas", "-M q35 "
+-                        "-device megasas -device scsi-cd,drive=cd1 "
+-                        "-blockdev file,node-name=cd1,filename=", test_cdboot);
+-    qtest_add_data_func("cdrom/boot/megasas-gen2", "-M q35 "
+-                        "-device megasas-gen2 -device scsi-cd,drive=cd1 "
+-                        "-blockdev file,node-name=cd1,filename=", test_cdboot);
++    if (qtest_has_device("am53c974")) {
++        qtest_add_data_func("cdrom/boot/am53c974",
++                            "-device am53c974 -device scsi-cd,drive=cd1 "
++                            "-drive if=none,id=cd1,format=raw,file=",
++                            test_cdboot);
++    }
++    if (qtest_has_device("dc390")) {
++        qtest_add_data_func("cdrom/boot/dc390",
++                            "-device dc390 -device scsi-cd,drive=cd1 "
++                            "-blockdev file,node-name=cd1,filename=",
++                            test_cdboot);
++    }
++    if (qtest_has_device("lsi53c895a")) {
++        qtest_add_data_func("cdrom/boot/lsi53c895a",
++                            "-device lsi53c895a -device scsi-cd,drive=cd1 "
++                            "-blockdev file,node-name=cd1,filename=",
++                            test_cdboot);
++    }
++    if (qtest_has_device("megasas")) {
++        qtest_add_data_func("cdrom/boot/megasas", "-M q35 "
++                            "-device megasas -device scsi-cd,drive=cd1 "
++                            "-blockdev file,node-name=cd1,filename=",
++                            test_cdboot);
++    }
++    if (qtest_has_device("megasas-gen2")) {
++        qtest_add_data_func("cdrom/boot/megasas-gen2", "-M q35 "
++                            "-device megasas-gen2 -device scsi-cd,drive=cd1 "
++                            "-blockdev file,node-name=cd1,filename=",
++                            test_cdboot);
++    }
+ }
  
-     for (i = 0; test_cases[i].arch; i++) {
-         gchar *path;
--        if (strcmp(test_cases[i].arch, arch) != 0) {
-+
-+        if (!g_str_equal(test_cases[i].arch, arch) ||
-+            !qtest_has_machine(test_cases[i].machine) ||
-+            (test_cases[i].superio && !qtest_has_device(test_cases[i].superio))) {
-             continue;
-         }
-         path = g_strdup_printf("endianness/%s",
+ static void add_s390x_tests(void)
+@@ -171,12 +186,15 @@ static void add_s390x_tests(void)
+                         "-drive driver=null-co,read-zeroes=on,if=none,id=d1 "
+                         "-device virtio-blk,drive=d2,bootindex=1 "
+                         "-drive if=none,id=d2,media=cdrom,file=", test_cdboot);
+-    qtest_add_data_func("cdrom/boot/without-bootindex",
+-                        "-device virtio-scsi -device virtio-serial "
+-                        "-device x-terminal3270 -device virtio-blk,drive=d1 "
+-                        "-drive driver=null-co,read-zeroes=on,if=none,id=d1 "
+-                        "-device virtio-blk,drive=d2 "
+-                        "-drive if=none,id=d2,media=cdrom,file=", test_cdboot);
++    if (qtest_has_device("x-terminal3270")) {
++        qtest_add_data_func("cdrom/boot/without-bootindex",
++                            "-device virtio-scsi -device virtio-serial "
++                            "-device x-terminal3270 -device virtio-blk,drive=d1 "
++                            "-drive driver=null-co,read-zeroes=on,if=none,id=d1 "
++                            "-device virtio-blk,drive=d2 "
++                            "-drive if=none,id=d2,media=cdrom,file=",
++                            test_cdboot);
++    }
+ }
+ 
+ int main(int argc, char **argv)
 -- 
 2.27.0
 
