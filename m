@@ -2,54 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FB6D47D56B
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Dec 2021 17:53:52 +0100 (CET)
-Received: from localhost ([::1]:47280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1DFF47D585
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Dec 2021 17:57:03 +0100 (CET)
+Received: from localhost ([::1]:55142 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n04sB-0008Mv-A2
-	for lists+qemu-devel@lfdr.de; Wed, 22 Dec 2021 11:53:51 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39644)
+	id 1n04vG-0005Gw-LI
+	for lists+qemu-devel@lfdr.de; Wed, 22 Dec 2021 11:57:02 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39696)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1n04qx-0006J4-0k
- for qemu-devel@nongnu.org; Wed, 22 Dec 2021 11:52:35 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:58031)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1n04r1-0006S6-4E
+ for qemu-devel@nongnu.org; Wed, 22 Dec 2021 11:52:39 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:46047)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1n04qo-0006Rj-Cw
- for qemu-devel@nongnu.org; Wed, 22 Dec 2021 11:52:27 -0500
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1n04qw-0006Ub-N2
+ for qemu-devel@nongnu.org; Wed, 22 Dec 2021 11:52:37 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1640191945;
+ s=mimecast20190719; t=1640191948;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xNcwX8e0cjHXXEaZ52oFlLVyXhJ2lNu9Kqz48iAP17E=;
- b=G4Tp3FfvufXgOU9w+bnQSaVbdjEou50az9xqP1A2fSOSXi3oFswVzNTF1sfOkefN6okfeh
- 8vysSwSq78DNRyH+y73CPXHt4PhfZvGKnQ4MQtyPXxPAZWuAd48Dor2YPQJXaA9IUs3Gbt
- N3GBBiRgnT0as+yDdig+rG1jMeQAMrg=
+ bh=zRX+D0ZoJk1LcieBjeCXrUaFeuMJAhnFrYudaVE0hro=;
+ b=ekaK796ywRd1AKPxhUFzixg3XgeCYPDwUWCC8xxTqlZZwnd3JY//nnZzFe2GW/KaXv1wD5
+ 8PGIucyvImh1NZ4J07SZYR7wtK0ehQIOHJ+IRHSX1Abj/lLKRd6hYDxzq50kmf+EqULFN1
+ TM3yumd/kIncEHsJO62oGVediDzHWGg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-605-2jid_I_bMpyS7beYGYAQNg-1; Wed, 22 Dec 2021 11:52:17 -0500
-X-MC-Unique: 2jid_I_bMpyS7beYGYAQNg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-479-jt10GU_xOi-VwAqKJzNdtg-1; Wed, 22 Dec 2021 11:52:25 -0500
+X-MC-Unique: jt10GU_xOi-VwAqKJzNdtg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 45D5C18C8C02;
- Wed, 22 Dec 2021 16:52:16 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2356081CCB5;
+ Wed, 22 Dec 2021 16:52:24 +0000 (UTC)
 Received: from localhost (unknown [10.39.194.22])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DCBD984A1D;
- Wed, 22 Dec 2021 16:52:15 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2F8C956AA2;
+ Wed, 22 Dec 2021 16:52:18 +0000 (UTC)
 From: Hanna Reitz <hreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 1/3] iotests/testrunner.py: add doc string for run_test()
-Date: Wed, 22 Dec 2021 17:52:06 +0100
-Message-Id: <20211222165208.693159-2-hreitz@redhat.com>
+Subject: [PULL 2/3] iotests/testrunner.py: move updating last_elapsed to
+ run_tests
+Date: Wed, 22 Dec 2021 17:52:07 +0100
+Message-Id: <20211222165208.693159-3-hreitz@redhat.com>
 In-Reply-To: <20211222165208.693159-1-hreitz@redhat.com>
 References: <20211222165208.693159-1-hreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -84,49 +85,44 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-We are going to modify these methods and will add more documentation in
-further commit. As a preparation add basic documentation.
+We are going to use do_run_test() in multiprocessing environment, where
+we'll not be able to change original runner object.
+
+Happily, the only thing we change is that last_elapsed and it's simple
+to do it in run_tests() instead. All other accesses to self in
+do_runt_test() and in run_test() are read-only.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-Id: <20211203122223.2780098-2-vsementsov@virtuozzo.com>
+Message-Id: <20211203122223.2780098-3-vsementsov@virtuozzo.com>
 Reviewed-by: John Snow <jsnow@redhat.com>
 Tested-by: John Snow <jsnow@redhat.com>
 Signed-off-by: Hanna Reitz <hreitz@redhat.com>
 ---
- tests/qemu-iotests/testrunner.py | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ tests/qemu-iotests/testrunner.py | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/tests/qemu-iotests/testrunner.py b/tests/qemu-iotests/testrunner.py
-index 0e29c2fddd..fa842252d3 100644
+index fa842252d3..a9f2feb58c 100644
 --- a/tests/qemu-iotests/testrunner.py
 +++ b/tests/qemu-iotests/testrunner.py
-@@ -220,6 +220,12 @@ def find_reference(self, test: str) -> str:
-         return f'{test}.out'
+@@ -287,7 +287,6 @@ def do_run_test(self, test: str) -> TestResult:
+                               diff=diff, casenotrun=casenotrun)
+         else:
+             f_bad.unlink()
+-            self.last_elapsed.update(test, elapsed)
+             return TestResult(status='pass', elapsed=elapsed,
+                               casenotrun=casenotrun)
  
-     def do_run_test(self, test: str) -> TestResult:
-+        """
-+        Run one test
-+
-+        :param test: test file path
-+        """
-+
-         f_test = Path(test)
-         f_bad = Path(f_test.name + '.out.bad')
-         f_notrun = Path(f_test.name + '.notrun')
-@@ -287,6 +293,13 @@ def do_run_test(self, test: str) -> TestResult:
+@@ -353,6 +352,9 @@ def run_tests(self, tests: List[str]) -> bool:
+                     print('\n'.join(res.diff))
+             elif res.status == 'not run':
+                 notrun.append(name)
++            elif res.status == 'pass':
++                assert res.elapsed is not None
++                self.last_elapsed.update(t, res.elapsed)
  
-     def run_test(self, test: str,
-                  test_field_width: Optional[int] = None) -> TestResult:
-+        """
-+        Run one test and print short status
-+
-+        :param test: test file path
-+        :param test_field_width: width for first field of status format
-+        """
-+
-         last_el = self.last_elapsed.get(test)
-         start = datetime.datetime.now().strftime('%H:%M:%S')
- 
+             sys.stdout.flush()
+             if res.interrupted:
 -- 
 2.33.1
 
