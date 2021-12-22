@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 863C747D335
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 Dec 2021 14:54:18 +0100 (CET)
-Received: from localhost ([::1]:49828 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3B2247D347
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 Dec 2021 14:58:08 +0100 (CET)
+Received: from localhost ([::1]:59058 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n024P-0000es-9j
-	for lists+qemu-devel@lfdr.de; Wed, 22 Dec 2021 08:54:17 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39774)
+	id 1n0287-00071M-NU
+	for lists+qemu-devel@lfdr.de; Wed, 22 Dec 2021 08:58:07 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39782)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1n01wH-0000A1-Vp; Wed, 22 Dec 2021 08:45:54 -0500
-Received: from [2607:f8b0:4864:20::736] (port=38766
- helo=mail-qk1-x736.google.com)
+ id 1n01wJ-0000Fk-ES; Wed, 22 Dec 2021 08:45:55 -0500
+Received: from [2607:f8b0:4864:20::731] (port=35708
+ helo=mail-qk1-x731.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1n01wG-0004fd-Eu; Wed, 22 Dec 2021 08:45:53 -0500
-Received: by mail-qk1-x736.google.com with SMTP id i187so181362qkf.5;
- Wed, 22 Dec 2021 05:45:50 -0800 (PST)
+ id 1n01wH-0004oh-Ag; Wed, 22 Dec 2021 08:45:55 -0500
+Received: by mail-qk1-x731.google.com with SMTP id 131so2326811qkk.2;
+ Wed, 22 Dec 2021 05:45:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=xxXRRnHZnvp04MsAHaqa9E8d5O6h7UZTAG+Wt+y/o90=;
- b=AWceXkUtqac0sTHGPPmPI00cThOy64ZV7U5Vka6mZXPcRBj88Fgzlk+X+mmbjTR9qo
- e5yu/7CpmggRxOlYcHGRBt+exP3J+oYHdTgP/7PhSamqOjWUkglv/8b6TmRfAbWUV2gl
- WkwLf7tbpDHfdwRBWUyrQsNoik4pSVAu9XDTL0sCTpJL69LB1Ux5pDLThrKL2jo65Tnd
- jJxHfbE4jpnNcCTCFrm9XVj4rnN4vyVFscqCo1IZhCXVdmNPlIdWE+00eD73DgC6guqz
- qdjhNYxb+xwWoHjToufQrhjcxR/a4cu0JzuhZTlrSkgTeEymepnDasJ7vd1rIffwfpe9
- 0KYg==
+ bh=dIlSIh9cvmccfUAnu1IQCd9pdZdcECr8vv9G/0dNp00=;
+ b=lXm+duUeeuBgiltKZUoK8wu3rnudYCtIBp+RuRfTzLA960FX27xU1JQjihthueROgs
+ gQ+CK//wkCXrvKFs6gY8DYbla2gHcghhWHDFHUyQf0AU+BOSRYo5F3DGRhZQEPY9fV0H
+ UqvEXtLIuSR7YBgLjoV2IqI90Xf5Z00OxIAMY3wuJi8zdp72tpysEtNy9eNgczd9kk1X
+ Uc2SNExXwM8Axinyz7FunxJZs3kWNe3YocsILhJ73H3zKQf3RUz2jIkPFPEwq/+lb4kJ
+ cKP0BkzhPvduDtuwaS428w+zzriFTa8IkR8M4NGqn0/IhQ7xzykXn7nTNj4t6rCB+8M0
+ CFTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=xxXRRnHZnvp04MsAHaqa9E8d5O6h7UZTAG+Wt+y/o90=;
- b=f57xcPeWCOBTyghL4GSIVWJnICOgZ6sm0z53PdlGM6H+nCLz+c2Kun1lOr7DSPE1K4
- R71af0eO8ch0+yvX1Uck3W9F8POJxyhHgCXBpWBu2ppiwEEcsC6D7lhMWL1RrEArifn/
- SSk1iRPBTHMrCJRdyCXCwr4N/wxBYPfE9a636YAKSPEu7IINqmi+XZnExHOVU9LuDeZE
- 0Uy1c1Xu14dv2+RWzSj6/cMJZmK4jFF8Y7UmnYkWpktjTLOcqH9JTsrZyq1lie6kzx8K
- RFM+bxKmCR6NCHtIKbSd/ErxXRLZfzOIvEyIOOAXOwbRu1fXhhMtB+1muP42ZZYfP+LE
- mgVA==
-X-Gm-Message-State: AOAM5307xExQRl4lY3Tge7lVFqOkiPMvGCJj04Z6XxkBjGK+4dcjBJCS
- h0g2q0L1CcNiE0b8bvHgMpjh2Nvqtwo=
-X-Google-Smtp-Source: ABdhPJwPy2SPxaCNhnrbL3ROhB0hrHJSob/7dE+PM2QU5/5w4qz+RclVL0YLeVc3YTZjJt8CVTiSmw==
-X-Received: by 2002:a37:d205:: with SMTP id f5mr1962454qkj.698.1640180750137; 
- Wed, 22 Dec 2021 05:45:50 -0800 (PST)
+ bh=dIlSIh9cvmccfUAnu1IQCd9pdZdcECr8vv9G/0dNp00=;
+ b=gtiiWLOy0uSxLv/+r4pSFvH1oTFiCwLhgdBnf6G6PD4zHsCnIDJyvRlEVpMCJAt2iN
+ Sks28imE/DncOL8pQTQJgMJGDvKGxUPA/qNNVOkLahgr/hKRqbxD8Zm4zp9Sv6opezQl
+ KieD5cILu75KuUzKocU9mN4cNmTA9voxh6RUxyELbahN3K1xW070YhIRX4OKVAk2M0gk
+ 7V+sh5bo/kfrUgBqSpYPPKcbaSlDG1S7aGDxqIfo7hSsRaFfQeSHqpABf47OR99EXE3F
+ ywStH/G6wactxn69jH4GbQHepRZF/LGUEqJdw9b9kI7ZJgJA9DwB8qfNJcrmLDl3qai2
+ zjPg==
+X-Gm-Message-State: AOAM532BobWw5Pm0INT9oCkgkQjQqFCjpb7c0v1NvubrSkrUi6naT0Dc
+ KVBM7N8RN6/4Sk7ftaDFQaHTJf8UIOc=
+X-Google-Smtp-Source: ABdhPJwWVWRBiUoKIhBz7BRbqFKpl/wXbCdYKGuPXVuSTdhF7zkIiYLsMOFoBWeosOS9x+WIx1MDfA==
+X-Received: by 2002:a05:620a:4156:: with SMTP id
+ k22mr1951060qko.636.1640180752086; 
+ Wed, 22 Dec 2021 05:45:52 -0800 (PST)
 Received: from rekt.ibmuc.com ([170.239.133.233])
- by smtp.gmail.com with ESMTPSA id j16sm1757054qtx.92.2021.12.22.05.45.48
+ by smtp.gmail.com with ESMTPSA id j16sm1757054qtx.92.2021.12.22.05.45.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Dec 2021 05:45:49 -0800 (PST)
+ Wed, 22 Dec 2021 05:45:51 -0800 (PST)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 4/8] target/ppc/power8-pmu-insn-cnt: add pmu_inc_pmc2()
-Date: Wed, 22 Dec 2021 10:45:16 -0300
-Message-Id: <20211222134520.587877-5-danielhb413@gmail.com>
+Subject: [PATCH 5/8] target/ppc/power8-pmu-insn-cnt: add pmu_inc_pmc3()
+Date: Wed, 22 Dec 2021 10:45:17 -0300
+Message-Id: <20211222134520.587877-6-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211222134520.587877-1-danielhb413@gmail.com>
 References: <20211222134520.587877-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::736
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::731
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::736;
- envelope-from=danielhb413@gmail.com; helo=mail-qk1-x736.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::731;
+ envelope-from=danielhb413@gmail.com; helo=mail-qk1-x731.google.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
@@ -90,7 +91,7 @@ Cc: richard.henderson@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add PMC2 PM_INST_CMPL count with TCG Ops.
+Add PMC3 PM_INST_CMPL count with TCG Ops.
 
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
@@ -98,44 +99,44 @@ Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
  1 file changed, 32 insertions(+)
 
 diff --git a/target/ppc/power8-pmu-insn-cnt.c.inc b/target/ppc/power8-pmu-insn-cnt.c.inc
-index 3661fb0022..be0e2dc3b5 100644
+index be0e2dc3b5..a84d688503 100644
 --- a/target/ppc/power8-pmu-insn-cnt.c.inc
 +++ b/target/ppc/power8-pmu-insn-cnt.c.inc
-@@ -14,6 +14,7 @@
- 
+@@ -15,6 +15,7 @@
  #define MMCR1_PMC1_INS_CNT        0x02000000
  #define MMCR1_PMC1_INS_CNT2       0xFE000000
-+#define MMCR1_PMC2_INS_CNT        0x00020000
+ #define MMCR1_PMC2_INS_CNT        0x00020000
++#define MMCR1_PMC3_INS_CNT        0x00000200
  
  /*
   * Increments PMC1 checking if MMCR1_PMC1SEL has one of the following
-@@ -61,6 +62,36 @@ static void pmu_inc_pmc1(DisasContext *ctx)
-     tcg_temp_free(t2);
+@@ -92,6 +93,36 @@ static void pmu_inc_pmc2(DisasContext *ctx)
+     tcg_temp_free(t1);
  }
  
 +/*
-+ * Increments PMC2 checking if MMCR1_PMC2SEL = 0x02
++ * Increments PMC3 checking if MMCR1_PMC3SEL = 0x02
 + * (PM_INST_CMPL event).
 + *
 + * This function assumes that MMCR0_FC14 is cleared.
 + */
-+static void pmu_inc_pmc2(DisasContext *ctx)
++static void pmu_inc_pmc3(DisasContext *ctx)
 +{
 +    TCGv t0, t1;
 +    TCGLabel *l_skip_pmc;
 +
-+    /* PMC2 will be incremented if MMCR1_PMC2SEL is 0x2 */
++    /* PMC3 will be incremented if MMCR1_PMC3SEL is 0x2 */
 +    l_skip_pmc = gen_new_label();
 +
 +    t0 = tcg_temp_new();
 +    gen_load_spr(t0, SPR_POWER_MMCR1);
-+    tcg_gen_andi_tl(t0, t0, MMCR1_PMC2_INS_CNT);
-+    tcg_gen_brcondi_tl(TCG_COND_NE, t0, MMCR1_PMC2_INS_CNT, l_skip_pmc);
++    tcg_gen_andi_tl(t0, t0, MMCR1_PMC3_INS_CNT);
++    tcg_gen_brcondi_tl(TCG_COND_NE, t0, MMCR1_PMC3_INS_CNT, l_skip_pmc);
 +
 +    t1 = tcg_temp_new();
-+    gen_load_spr(t1, SPR_POWER_PMC2);
++    gen_load_spr(t1, SPR_POWER_PMC3);
 +    tcg_gen_addi_tl(t1, t1, ctx->base.num_insns);
-+    gen_store_spr(SPR_POWER_PMC2, t1);
++    gen_store_spr(SPR_POWER_PMC3, t1);
 +
 +    gen_set_label(l_skip_pmc);
 +
@@ -146,11 +147,11 @@ index 3661fb0022..be0e2dc3b5 100644
  /*
   * Increments PMC5 if MMCR0_FC is cleared.
   */
-@@ -127,6 +158,7 @@ static void pmu_count_insns(DisasContext *ctx)
-     tcg_gen_brcondi_tl(TCG_COND_EQ, t_mmcr1, 0x0, l_skip_pmc14);
+@@ -159,6 +190,7 @@ static void pmu_count_insns(DisasContext *ctx)
  
      pmu_inc_pmc1(ctx);
-+    pmu_inc_pmc2(ctx);
+     pmu_inc_pmc2(ctx);
++    pmu_inc_pmc3(ctx);
  
      gen_set_label(l_skip_pmc14);
  
