@@ -2,94 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA1BB47E6CC
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Dec 2021 18:18:18 +0100 (CET)
-Received: from localhost ([::1]:34734 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B860F47E734
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Dec 2021 18:42:03 +0100 (CET)
+Received: from localhost ([::1]:55820 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n0RjN-0003M0-T6
-	for lists+qemu-devel@lfdr.de; Thu, 23 Dec 2021 12:18:17 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60008)
+	id 1n0S6M-00012V-9X
+	for lists+qemu-devel@lfdr.de; Thu, 23 Dec 2021 12:42:02 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37368)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1n0RhG-0002YX-M1
- for qemu-devel@nongnu.org; Thu, 23 Dec 2021 12:16:06 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23819)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1n0Rh5-0004Vw-22
- for qemu-devel@nongnu.org; Thu, 23 Dec 2021 12:16:06 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1640279754;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=1j5X1Na4nki8/9vb81bmDgmknEA/NzLqjrJewZGO5jM=;
- b=FksmnuUORK6Lv5aVZU3ersm2PgBJYCZROTHBFWzsltlYqLkmgJEEX9eWlQEladn9ULddJF
- kF86pq8VFsW5fAHZw2gjsB1vUT5pHohkqKm+Gld6zZ4u1wCSMBVYiBEKLaNdixysbGByPI
- CHSQebzFBJec3AeuIjFM1ybXmIAuijg=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-202-wTn1LBuAMiWWavhE4J1MOw-1; Thu, 23 Dec 2021 12:15:53 -0500
-X-MC-Unique: wTn1LBuAMiWWavhE4J1MOw-1
-Received: by mail-wm1-f71.google.com with SMTP id
- ay41-20020a05600c1e2900b00345a568e6b2so2227809wmb.4
- for <qemu-devel@nongnu.org>; Thu, 23 Dec 2021 09:15:53 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1n0S0W-0003no-1Z
+ for qemu-devel@nongnu.org; Thu, 23 Dec 2021 12:36:00 -0500
+Received: from [2607:f8b0:4864:20::102e] (port=52204
+ helo=mail-pj1-x102e.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1n0S0G-0000NI-I0
+ for qemu-devel@nongnu.org; Thu, 23 Dec 2021 12:35:59 -0500
+Received: by mail-pj1-x102e.google.com with SMTP id v16so5622139pjn.1
+ for <qemu-devel@nongnu.org>; Thu, 23 Dec 2021 09:35:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=yIw9Fjpgijj44IXOUKUCZEBlyaVdzzfrrZ8Lojvg1lY=;
+ b=KchQe9EBbruIMjeYeJXQs0w3O4kx4AL6Hoo8jlZapI4ZOjlRLvTUKO57VG05cszkq/
+ cxCx8ttS1wS+jESFzGiuNO8JRwklcfN6a0abl+aSLXx0ykUiCxgRj6UJb3XfwontSdT+
+ Pal7HtLokeKseV78BPG+ZFrr1TzNamA/WdL3i2cCdSkQYrTK4lMRF81oZHgXWIm42LQ+
+ AyZCyLTVbMX3OiICY5MitKDc2envJnLaX51xjFXqoiwUNMWIBKJlQ/5crWWzop9kAcgc
+ e8RvOe5wFMZOhSy5s3N6DCPw0YeMa8o2m2iUEczeKV/8cBVE5bg1YbhZwv4BBhZiVzP6
+ Y3AA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=1j5X1Na4nki8/9vb81bmDgmknEA/NzLqjrJewZGO5jM=;
- b=6/PV3ft9KVVegfuPHIbHU99gjjUwTRiJGKKIKqjkO6x82EG/uHhMJs2+EQ7OMfKghI
- b7OdQyi1DWnthCxzNOCtPV1kFsBpWP5hqnqHSd7rpOepqjyAopia0y38q1aO7yo7v87H
- u0RyyrjAf6ejyLwTLNtxLqkRRoz5GxBPlFhIGiCxhUDC1bvyw5wLu0/1XBfXEp0A7Ats
- FhZrPFcODcxf0skcsZGVSs9djQLvN+/oOe+yTUugjaeHb6XDIoCbzatuB+lGctw6GOx8
- f1DTIEAMP59jHXzzXn/ITQLVrQ4IaX9Vg8fLmBGXlBSQDLNqbATMYw2K+1oLb12ok2w9
- G9BQ==
-X-Gm-Message-State: AOAM532GI6i/a7VuIk5RHveubP4eYs8R0yCePKrLqFkJqZmdiup5TkjC
- m3ZOr983mQsLztGvNJaIcQo/uzwd0OEb5cRCJ2IpvQm+nls6Yoyz1ww8qcpH7U259OaUxPvwJZM
- z9NRJKXQb/aJpypQ=
-X-Received: by 2002:adf:f38a:: with SMTP id m10mr2200091wro.547.1640279750807; 
- Thu, 23 Dec 2021 09:15:50 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzDEcD8/S0jbDuY2Uh3FT0yFCdNSJdHOMIoxIanQXd9QLjIMzANMqGrnmGNxkd8kmG0rtBB0A==
-X-Received: by 2002:adf:f38a:: with SMTP id m10mr2200063wro.547.1640279750528; 
- Thu, 23 Dec 2021 09:15:50 -0800 (PST)
-Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
- ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
- by smtp.gmail.com with ESMTPSA id r20sm4953150wmd.37.2021.12.23.09.15.49
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 23 Dec 2021 09:15:50 -0800 (PST)
-Message-ID: <3790b36c-d4e8-e619-a0a3-864e435ee292@redhat.com>
-Date: Thu, 23 Dec 2021 18:15:49 +0100
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=yIw9Fjpgijj44IXOUKUCZEBlyaVdzzfrrZ8Lojvg1lY=;
+ b=V1kyGxhI8JQCIWX+Ot1/WVYcGgE5NhNTjSZx026WtqQFNwW5rSfgVl0ryqpexvmwAr
+ JQdy37/MriERNcxvJMeVHKF0Msq9MwwJs97QKHfMHMw5AtQF2hBlSTp+bys9jvxO6Ie0
+ PXBvvWGDVh3lVDoJA0HhKXSdARYxpWK8nVhN5SCdWuLZEIp15IPqheIbwBhSmFyhMArr
+ sROXH9MUKcBoFEh5QcWaEJna2JjIygM3L2u9z8PFVl/z5dpTddkaDqBdWLBZw3oC8Lw/
+ uOn250VjcUTv8dTyGeNLuT2Rsaq+QrtYPsk84rEqGYXN8rOuaA9i3b8bEXJIG7M/WD46
+ aR9Q==
+X-Gm-Message-State: AOAM532Cd8vetyMmt3t3QBTKGbmjyrIbOdiUU88WMnHddEtacCGFDeD6
+ BofyLkFgMxlSIlzAS4EFncSZbw==
+X-Google-Smtp-Source: ABdhPJwwfNHbtzXtFf76NGe6MOSECepzIn2qqq6XNXeecRXGPz/CfFnejBjUga6fpLtCWNPFFSHAWA==
+X-Received: by 2002:a17:90a:d792:: with SMTP id
+ z18mr3774755pju.182.1640280941694; 
+ Thu, 23 Dec 2021 09:35:41 -0800 (PST)
+Received: from google.com (157.214.185.35.bc.googleusercontent.com.
+ [35.185.214.157])
+ by smtp.gmail.com with ESMTPSA id t3sm6683459pfj.207.2021.12.23.09.35.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 23 Dec 2021 09:35:41 -0800 (PST)
+Date: Thu, 23 Dec 2021 17:35:37 +0000
+From: Sean Christopherson <seanjc@google.com>
+To: Chao Peng <chao.p.peng@linux.intel.com>
+Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
+ Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+ Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Yu Zhang <yu.c.zhang@linux.intel.com>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+ luto@kernel.org, john.ji@intel.com, susie.li@intel.com,
+ jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
+ david@redhat.com
+Subject: Re: [PATCH v3 kvm/queue 04/16] KVM: Extend the memslot to support
+ fd-based private memory
+Message-ID: <YcSzafzpjMy6m28B@google.com>
+References: <20211223123011.41044-1-chao.p.peng@linux.intel.com>
+ <20211223123011.41044-5-chao.p.peng@linux.intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH v5 30/31] crypto: delegate permission functions to
- JobDriver .pre_run
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
-References: <20211124064418.3120601-1-eesposit@redhat.com>
- <20211124064418.3120601-31-eesposit@redhat.com>
- <ab01f9e1-447f-6c84-b409-2737548679d4@redhat.com>
- <f0c3d869-c669-3f1b-34cd-8f2254074a3e@redhat.com>
-From: Hanna Reitz <hreitz@redhat.com>
-In-Reply-To: <f0c3d869-c669-3f1b-34cd-8f2254074a3e@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -45
-X-Spam_score: -4.6
-X-Spam_bar: ----
-X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.203,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211223123011.41044-5-chao.p.peng@linux.intel.com>
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102e
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
+ envelope-from=seanjc@google.com; helo=mail-pj1-x102e.google.com
+X-Spam_score_int: -138
+X-Spam_score: -13.9
+X-Spam_bar: -------------
+X-Spam_report: (-13.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.264, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ ENV_AND_HDR_SPF_MATCH=-0.5, FSL_HELO_FAKE=2.899, RDNS_NONE=0.793,
+ SPF_PASS=-0.001, T_SPF_HELO_TEMPERROR=0.01, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,269 +104,127 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
- qemu-devel@nongnu.org, John Snow <jsnow@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Markus Armbruster <armbru@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 20.12.21 16:47, Emanuele Giuseppe Esposito wrote:
->
->
-> On 17/12/2021 13:29, Hanna Reitz wrote:
->> On 24.11.21 07:44, Emanuele Giuseppe Esposito wrote:
->>> block_crypto_amend_options_generic_luks uses the block layer
->>> permission API, therefore it should be called with the BQL held.
->>>
->>> However, the same function is being called ib two BlockDriver
->>
->> s/ ib / by /
->>
->>> callbacks: bdrv_amend_options (under BQL) and bdrv_co_amend (I/O).
->>>
->>> The latter is I/O because it is invoked by block/amend.c's
->>> blockdev_amend_run(), a .run callback of the amend JobDriver
->>>
->>> Therefore we want to 1) change block_crypto_amend_options_generic_luks
->>> to use the permission API only when the BQL is held, and
->>> 2) use the .pre_run JobDriver callback to check for
->>> permissions before switching to the job aiocontext. This has also
->>> the benefit of applying the same permission operation to all
->>> amend implementations, not only luks.
->>>
->>> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
->>> ---
->>>   block/amend.c  | 20 ++++++++++++++++++++
->>>   block/crypto.c | 18 ++++++++++++------
->>>   2 files changed, 32 insertions(+), 6 deletions(-)
->>>
->>> diff --git a/block/amend.c b/block/amend.c
->>> index 392df9ef83..fba6add51a 100644
->>> --- a/block/amend.c
->>> +++ b/block/amend.c
->>> @@ -53,10 +53,30 @@ static int coroutine_fn blockdev_amend_run(Job 
->>> *job, Error **errp)
->>>       return ret;
->>>   }
->>> +static int blockdev_amend_refresh_perms(Job *job, Error **errp)
->>> +{
->>> +    BlockdevAmendJob *s = container_of(job, BlockdevAmendJob, common);
->>> +
->>> +    return bdrv_child_refresh_perms(s->bs, s->bs->file, errp);
->>> +}
->>
->> I miss some documentation for this function, why we do it and how it 
->> works together with the bdrv_co_amend implementation.
->
->>
->> I was trying to come up with an example text, but then I wondered – 
->> how does it actually work? bdrv_child_refresh_perms() eventually ends 
->> up in block_crypto_child_perms().  However, that will only return 
->> exceptional permissions if crypto->updating_keys is true. But that’s 
->> set only in block_crypto_amend_options_generic_luks() – i.e. when the 
->> job runs. That’s exactly why that function calls 
->> bdrv_child_refresh_perms() only after it has modified 
->> crypto->updating_keys.
->>
->> Reproducer (amend on a LUKS image with read-only=true, so it doesn’t 
->> have the WRITE permission continuously, but needs to take it as an 
->> exception in block_crypto_child_perms()):
->>
->> $ qemu-img create \
->>      -f luks \
->>      --object secret,id=sec0,data=123456 \
->>      -o key-secret=sec0 \
->>      test.luks \
->>      64M
->> Formatting 'test.luks', fmt=luks size=67108864 key-secret=sec0
->>
->> $ ./qemu-system-x86_64 \
->>      -object secret,id=sec0,data=123456 \
->>      -object iothread,id=iothr0 \
->>      -blockdev file,node-name=node0,filename=test.luks \
->>      -blockdev 
->> luks,node-name=node1,key-secret=sec0,file=node0,read-only=true \
->>      -device virtio-blk,drive=node1,iothread=iothr0 -qmp stdio \
->>      <<EOF
->> {"execute": "qmp_capabilities"}
->> {
->>      "execute": "x-blockdev-amend",
->>      "arguments": {
->>          "job-id": "amend0",
->>          "node-name": "node1",
->>          "options": {
->>              "driver": "luks",
->>              "state": "active",
->>              "new-secret": "sec0"
->>          }
->>      }
->> }
->> EOF
->>
->> {"QMP": {"version": {"qemu": {"micro": 93, "minor": 1, "major": 6}, 
->> "package": "v6.2.0-rc3-50-gdb635fc4e7"}, "capabilities": ["oob"]}}
->> {"return": {}}
->> {"timestamp": {"seconds": 1639742600, "microseconds": 574641}, 
->> "event": "JOB_STATUS_CHANGE", "data": {"status": "created", "id": 
->> "amend0"}}
->> {"timestamp": {"seconds": 1639742600, "microseconds": 574919}, 
->> "event": "JOB_STATUS_CHANGE", "data": {"status": "running", "id": 
->> "amend0"}}
->> {"return": {}}
->> qemu-system-x86_64: ../block/io.c:2041: bdrv_co_write_req_prepare: 
->> Assertion `child->perm & BLK_PERM_WRITE' failed.
->> [1]    55880 IOT instruction (core dumped)  ./qemu-system-x86_64 
->> -object secret,id=sec0,data=123456 -object  -blockdev
->>
->>
->> I believe this means we need some new block driver function to 
->> prepare for an amendment operation.  If so, another question comes 
->> up, which is whether this preparatory function should then also call 
->> bdrv_child_refresh_perms(), and then whether we should have a 
->> clean-up function for symmetry.
->>
->
-> Yes, unfortunately it means that (see at the end of the mail for more).
->
-> I think it does not work because of crypto->updating_keys missing in 
-> blockdev_amend_pre_run(). That is why the permission is not correctly 
-> set and the example fails.
->
->
->>> +
->>> +static int blockdev_amend_pre_run(Job *job, Error **errp)
->>> +{
->>> +    return blockdev_amend_refresh_perms(job, errp);
->>> +}
->>> +
->>> +static void blockdev_amend_clean(Job *job)
->>> +{
->>> +    Error *errp;
->>> +    blockdev_amend_refresh_perms(job, &errp);
->>
->> Do we really want to ignore this error?  If so, we shouldn’t pass a 
->> pointer to an unused local variable, but NULL.
->>
->> If we don’t want to ignore it, we have the option of doing what you 
->> do here and then at least reporting a potential error with 
->> error_report_err(), and then freeing it, and we also must initialize 
->> errp to NULL in this case.
->
-> Going with this one above, thanks.
->>
->> If we expect no error to happen (e.g. because we require the amend 
->> implementation to only release/share permissions and not 
->> acquire/unshare them), then I’d expect passing &error_abort here.
->>
->>> +}
->>> +
->>>   static const JobDriver blockdev_amend_job_driver = {
->>>       .instance_size = sizeof(BlockdevAmendJob),
->>>       .job_type      = JOB_TYPE_AMEND,
->>>       .run           = blockdev_amend_run,
->>> +    .pre_run       = blockdev_amend_pre_run,
->>> +    .clean         = blockdev_amend_clean,
->>>   };
->>>   void qmp_x_blockdev_amend(const char *job_id,
->>> diff --git a/block/crypto.c b/block/crypto.c
->>> index c8ba4681e2..82f154516c 100644
->>> --- a/block/crypto.c
->>> +++ b/block/crypto.c
->>> @@ -780,6 +780,7 @@ 
->>> block_crypto_get_specific_info_luks(BlockDriverState *bs, Error **errp)
->>>   static int
->>>   block_crypto_amend_options_generic_luks(BlockDriverState *bs,
->>> QCryptoBlockAmendOptions *amend_options,
->>> +                                        bool under_bql,
->>
->> This name makes sense in the context of this series, but not so much 
->> outside of it.
->>
->> I’d rename it to e.g. “in_amend_job” (and invert its value), and then 
->> explain that we don’t need to refresh the child permissions when 
->> running in an amend job, because that job has already taken care of 
->> that.
->>
->> OTOH, given that I believe we need some separate preparatory function 
->> anyway, perhaps we should just pull out the 
->> bdrv_child_refresh_perms() from this function altogether, so that we 
->> have:
->>
->> block_crypto_amend_options_luks():
->>
->> /* sets updating_keys to true, and invokes bdrv_child_refresh_perms() */
->> block_crypto_amend_options_prepare();
->> block_crypto_amend_options_generic_luks();
->> /* sets updating_keys to false, and invokes 
->> bdrv_child_refresh_perms() */
->> block_crypto_amend_options_clean();
->>
->>
->> block_crypto_co_amend_luks():
->>
->> /* No need to prepare or clean up, that is taken care of by the amend 
->> job */
->> block_crypto_amend_options_generic_luks();
->>
->>
->> (If we decide not to put bdrv_child_refresh_perms() into 
->> prepare()/clean(), then it would need to be called by 
->> block_crypto_amend_options_luks(); and if we decide not to have a 
->> block_crypto_amend_options_clean(), then we’d need to inline it fully.)
->
-> So a couple of things I will change (according with your feedbacks):
->
-> - Remove the assertion job->aio_context == qemu_in_main_thread() done 
-> in job_co_entry, as it is wrong. I don't know why I added that, but we 
-> cannot assume that job->run() always run in the main context, because 
-> the job aiocontext can be different. I don't think there is a test 
-> doing that now, but it is possible. If run() was in the main context, 
-> then bdrv_co_amend (called only in blockdev_amend_run) would be GS 
-> too, but it isn't, also according with your comment in v4:
->
-> "[...] .bdrv_co_amend very much strikes me like a GS function, but
-> it isn’t.  I’m afraid it must work on nodes that are not in the main
-> context, and it launches a job, so AFAIU we absolutely cannot run it
-> under the BQL."
->
-> - Introduce block_crypto_amend_options_prepare and 
-> block_crypto_amend_options_clean, as you suggested above. These fix 
-> the GS call stack of block_crypto_amend_options_generic_luks()
->
-> - Introduce .bdrv_pre_run() and .bdrv_cleanup(), respectively called 
-> by .job_pre_run() and .job_cleanup(). The reason is that we need to 
-> set crypto->updating_keys, otherwise the job amend won't temporary 
-> give the write permission so the example above would fail.
->
-> So for the I/O callstack of block_crypto_amend_options_generic_luks() 
-> we will have:
-> job->pre_run():
->     .bdrv_pre_run();
->         crypto->update_keys = true;
->     blockdev_amend_refresh_perms()
->
-> job->run():
->     block_crypto_amend_options_generic_luks()
->
-> job->cleanup():
->     .bdrv_cleanup();
->         crypto->update_keys = false;
->     blockdev_amend_refresh_perms()
+On Thu, Dec 23, 2021, Chao Peng wrote:
+> Extend the memslot definition to provide fd-based private memory support
+> by adding two new fields(fd/ofs). The memslot then can maintain memory
+> for both shared and private pages in a single memslot. Shared pages are
+> provided in the existing way by using userspace_addr(hva) field and
+> get_user_pages() while private pages are provided through the new
+> fields(fd/ofs). Since there is no 'hva' concept anymore for private
+> memory we cannot call get_user_pages() to get a pfn, instead we rely on
+> the newly introduced MEMFD_OPS callbacks to do the same job.
+> 
+> This new extension is indicated by a new flag KVM_MEM_PRIVATE.
+> 
+> Signed-off-by: Yu Zhang <yu.c.zhang@linux.intel.com>
+> Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
+> ---
+>  include/linux/kvm_host.h | 10 ++++++++++
+>  include/uapi/linux/kvm.h | 12 ++++++++++++
+>  2 files changed, 22 insertions(+)
+> 
+> diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
+> index f8ed799e8674..2cd35560c44b 100644
+> --- a/include/linux/kvm_host.h
+> +++ b/include/linux/kvm_host.h
+> @@ -460,8 +460,18 @@ struct kvm_memory_slot {
+>  	u32 flags;
+>  	short id;
+>  	u16 as_id;
+> +	u32 fd;
 
-Sounds good!  The only adjustment I’d make is to add “amend” somewhere 
-in the .bdrv functions (e.g. “.bdrv_amend_pre_run” and 
-“.bdrv_amend_cleanup”), because AFAIU they’ll still be amend-specific, 
-right?
+There should be no need to store the fd in the memslot, the fd should be unneeded
+outside of __kvm_set_memory_region(), e.g.
 
-(Happy holidays :))
+diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
+index 1caebded52c4..4e43262887a3 100644
+--- a/virt/kvm/kvm_main.c
++++ b/virt/kvm/kvm_main.c
+@@ -2029,10 +2029,10 @@ int __kvm_set_memory_region(struct kvm *kvm,
+        new->npages = npages;
+        new->flags = mem->flags;
+        new->userspace_addr = mem->userspace_addr;
+-       new->fd = mem->fd;
+-       new->file = NULL;
+-       new->ofs = mem->ofs;
+-
++       if (mem->flags & KVM_MEM_PRIVATE) {
++               new->private_file = fget(mem->private_fd);
++               new->private_offset = mem->private_offset;
++       }
+        r = kvm_set_memslot(kvm, old, new, change);
+        if (r)
+                kfree(new);
 
-Hanna
+> +	struct file *file;
 
+Please use more descriptive names, shaving characters is not at all priority.
+
+> +	u64 ofs;
+
+I believe this should be loff_t.
+
+	struct file *private_file;
+	struct loff_t private_offset;
+
+>  };
+>  
+> +static inline bool kvm_slot_is_private(const struct kvm_memory_slot *slot)
+> +{
+> +	if (slot && (slot->flags & KVM_MEM_PRIVATE))
+> +		return true;
+> +	return false;
+
+	return slot && (slot->flags & KVM_MEM_PRIVATE);
+
+> +}
+> +
+>  static inline bool kvm_slot_dirty_track_enabled(const struct kvm_memory_slot *slot)
+>  {
+>  	return slot->flags & KVM_MEM_LOG_DIRTY_PAGES;
+> diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
+> index 1daa45268de2..41434322fa23 100644
+> --- a/include/uapi/linux/kvm.h
+> +++ b/include/uapi/linux/kvm.h
+> @@ -103,6 +103,17 @@ struct kvm_userspace_memory_region {
+>  	__u64 userspace_addr; /* start of the userspace allocated memory */
+>  };
+>  
+> +struct kvm_userspace_memory_region_ext {
+> +	__u32 slot;
+> +	__u32 flags;
+> +	__u64 guest_phys_addr;
+> +	__u64 memory_size; /* bytes */
+> +	__u64 userspace_addr; /* hva */
+
+Would it make sense to embed "struct kvm_userspace_memory_region"?
+
+> +	__u64 ofs; /* offset into fd */
+> +	__u32 fd;
+
+Again, use descriptive names, then comments like "offset into fd" are unnecessary.
+
+	__u64 private_offset;
+	__u32 private_fd;
+
+> +	__u32 padding[5];
+> +};
+> +
+>  /*
+>   * The bit 0 ~ bit 15 of kvm_memory_region::flags are visible for userspace,
+>   * other bits are reserved for kvm internal use which are defined in
+> @@ -110,6 +121,7 @@ struct kvm_userspace_memory_region {
+>   */
+>  #define KVM_MEM_LOG_DIRTY_PAGES	(1UL << 0)
+>  #define KVM_MEM_READONLY	(1UL << 1)
+> +#define KVM_MEM_PRIVATE		(1UL << 2)
+>  
+>  /* for KVM_IRQ_LINE */
+>  struct kvm_irq_level {
+> -- 
+> 2.17.1
+> 
 
