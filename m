@@ -2,99 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EC8747E54C
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Dec 2021 16:02:06 +0100 (CET)
-Received: from localhost ([::1]:50014 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E5A147E55A
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Dec 2021 16:14:09 +0100 (CET)
+Received: from localhost ([::1]:45094 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n0PbZ-0003SV-3S
-	for lists+qemu-devel@lfdr.de; Thu, 23 Dec 2021 10:02:05 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57194)
+	id 1n0PnE-0001SP-CC
+	for lists+qemu-devel@lfdr.de; Thu, 23 Dec 2021 10:14:08 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60462)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1n0PZV-0001g4-Sb
- for qemu-devel@nongnu.org; Thu, 23 Dec 2021 09:59:58 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:57626)
+ (Exim 4.90_1) (envelope-from <i.qemu@xen0n.name>) id 1n0Pk5-0008Kj-1Q
+ for qemu-devel@nongnu.org; Thu, 23 Dec 2021 10:10:53 -0500
+Received: from mail.xen0n.name ([115.28.160.31]:60094
+ helo=mailbox.box.xen0n.name)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1n0PZT-0008SN-Ai
- for qemu-devel@nongnu.org; Thu, 23 Dec 2021 09:59:56 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1640271594;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=6/KnJlg3MpessFxhZGC14L8gc4hAMXG029JF2TzuJ4s=;
- b=eIcElbRcJjD9glMoSXcpJlYTTeqHvUXDSvY+IkyIE9skykIU67IdFQnzDz7CLW9c18Kl2Z
- DIRn8xSzJc+wvWjSXDr4dtzUKgg63XoibM0FisvZUGlUmrQ1ARSLMkmQqlwf9TtJ40UbrH
- LSqULpx+x/Va60u3cVm25DPpCsoNhOU=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-633-3V-0gbqnPeimU8O32OO6Ow-1; Thu, 23 Dec 2021 09:59:53 -0500
-X-MC-Unique: 3V-0gbqnPeimU8O32OO6Ow-1
-Received: by mail-ed1-f72.google.com with SMTP id
- dz8-20020a0564021d4800b003f897935eb3so4698133edb.12
- for <qemu-devel@nongnu.org>; Thu, 23 Dec 2021 06:59:52 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=6/KnJlg3MpessFxhZGC14L8gc4hAMXG029JF2TzuJ4s=;
- b=6WuNR/CfesuIwFKBzKNghvhMVaQuHsNtBI2cBHj4bsQVR+Zbg0mBH6PPbfAmYJhHHb
- iccA/JOi4RVbCXlCzJiKb7B8wpvIZ+scNn8DUNWQhQDPUlTuhhF6O8GKqvK5z+jgbMvV
- swf8ErrA4deUTPIhVQJxeEJBemiXlw7UNZPh4AwboJbuXpCTNEfNwUaw+sA68annpXjG
- PuKwI8NEP6fmIGHRplXFmEW/tie7xAQezrGsf5mEWu4QE0bAecBtMKT341CNw1H8+Owd
- a+J612ffsZpC4jW4Q6uQB4Z9rfkoKi/TFzmTsTKJMeiP5fzesLcK7z8tIyXn9yHDLAO7
- DsfQ==
-X-Gm-Message-State: AOAM531iWiGcSYO3wbvkoyW+rlOnDwH3nHzp+ixLvEO+ecvBEYHOZHHj
- ToMVK79n3gugqUc+kEZ21040fU1FWYd2GSx3QkLP9m5XXJc0rB+QfgxImHJWDPLsW7BEZCGX6QS
- dG8l1kQ4PJCNjcvQ=
-X-Received: by 2002:a17:906:d96a:: with SMTP id
- rp10mr2149136ejb.614.1640271592069; 
- Thu, 23 Dec 2021 06:59:52 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyRl8HgyX9pEWSRyHOAaJ54M0eYotj2ixS4ICOtTRcMVHDZb3djCpA7mzb+DfOsGOExMivhOQ==
-X-Received: by 2002:a17:906:d96a:: with SMTP id
- rp10mr2149106ejb.614.1640271591725; 
- Thu, 23 Dec 2021 06:59:51 -0800 (PST)
-Received: from ?IPV6:2a04:ee41:4:31cb:e591:1e1e:abde:a8f1?
- ([2a04:ee41:4:31cb:e591:1e1e:abde:a8f1])
- by smtp.gmail.com with ESMTPSA id o12sm2121498edz.71.2021.12.23.06.59.50
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 23 Dec 2021 06:59:51 -0800 (PST)
-Message-ID: <66c34b8b-c363-4411-ff7e-0a2272fa1629@redhat.com>
-Date: Thu, 23 Dec 2021 15:59:50 +0100
+ (Exim 4.90_1) (envelope-from <i.qemu@xen0n.name>) id 1n0Pjz-0001jD-Nt
+ for qemu-devel@nongnu.org; Thu, 23 Dec 2021 10:10:52 -0500
+Received: from [192.168.9.172] (unknown [101.88.31.179])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mailbox.box.xen0n.name (Postfix) with ESMTPSA id B99C7600B5;
+ Thu, 23 Dec 2021 23:10:35 +0800 (CST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=xen0n.name; s=mail;
+ t=1640272235; bh=GMIKbX2kxv6pCoxsOhZ0D6s8h75YLKfSP5Lx1l3ZhbQ=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=UYP6MH/vfNvjg86vGk0S4/VY7/sAZKdUiIvBaci1d/3WdKZ8hpRgpDGbh+nCGcFXP
+ uE3OBbRb8EN6dCePhXj+iG0GXrWmwoX5JCNEj37hdzuhUKECn16QdvCWf1A3jvIkqI
+ MwO0SgWuQO6NKk/dYK10gOzRahAVdcxRSZkgjI/c=
+Message-ID: <7b86800a-2303-bbd8-3e61-4eca1c5aabfa@xen0n.name>
+Date: Thu, 23 Dec 2021 23:10:29 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [RFC PATCH v2 14/14] job.c: enable job lock/unlock and remove
- Aiocontext locks
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20211104145334.1346363-1-eesposit@redhat.com>
- <20211104145334.1346363-15-eesposit@redhat.com>
- <6a0523e4-58d2-ba43-f6d9-f5ff9b616549@virtuozzo.com>
-From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-In-Reply-To: <6a0523e4-58d2-ba43-f6d9-f5ff9b616549@virtuozzo.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eesposit@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:97.0) Gecko/20100101
+ Thunderbird/97.0a1
+Subject: Re: [PATCH v2] audio: Add sndio backend
 Content-Language: en-US
+To: Alexandre Ratchov <alex@caoua.org>, qemu-devel@nongnu.org
+References: <YbxamMLKHp3IbtlW@moule.localdomain>
+From: WANG Xuerui <i.qemu@xen0n.name>
+In-Reply-To: <YbxamMLKHp3IbtlW@moule.localdomain>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eesposit@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -52
-X-Spam_score: -5.3
-X-Spam_bar: -----
-X-Spam_report: (-5.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.203,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.264, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=115.28.160.31; envelope-from=i.qemu@xen0n.name;
+ helo=mailbox.box.xen0n.name
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.264,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -107,42 +62,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- Wen Congyang <wencongyang2@huawei.com>,
- Xie Changlong <xiechanglong.d@gmail.com>,
- Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- Hanna Reitz <hreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>, Brad <brad@comstyle.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi Alexandre,
 
-
-On 18/12/2021 13:24, Vladimir Sementsov-Ogievskiy wrote:
-> 04.11.2021 17:53, Emanuele Giuseppe Esposito wrote:
->> --- a/block/replication.c
->> +++ b/block/replication.c
->> @@ -728,9 +728,11 @@ static void replication_stop(ReplicationState 
->> *rs, bool failover, Error **errp)
->>            * disk, secondary disk in backup_job_completed().
->>            */
->>           if (s->backup_job) {
->> +            aio_context_release(aio_context);
->>               job_lock();
->>               job_cancel_sync(&s->backup_job->job, true);
->>               job_unlock();
->> +            aio_context_acquire(aio_context);
-> 
-> 
-> Why we need it? If we never acquire aio context under job_lock, it 
-> should be safe to make a job-mutex critical section inside aio-context 
-> critical section.
-> 
-
-Right, it works also with the aio context taken.
-I will remove this hunk.
-
-Thank you,
-Emanuele
-
+On 12/17/21 17:38, Alexandre Ratchov wrote:
+> sndio is the native API used by OpenBSD, although it has been ported to
+> other *BSD's and Linux (packages for Ubuntu, Debian, Void, Arch, etc.).
+>
+> Signed-off-by: Brad Smith <brad@comstyle.com>
+> Signed-off-by: Alexandre Ratchov <alex@caoua.org>
+> ---
+>
+> Thank you for the reviews and all the comments. Here's a second diff
+> with all the suggested changes:
+>
+> - Replace ISC license by SPDX-License-Identifier header
+> - Fix units (milli- vs micro-) in comment about SNDIO_LATENCY_US
+> - Drop outdated comment about the "size" argument of sndio_get_buffer_out()
+> - Fix AUDIO_FORMAT_U32 handling (missing "break" statement)
+> - Set {read,write] methods to audio_generic_{read,write} (fixes craches)
+> - Check if backend is enabled in sndio_poll_event()
+> - Use https://sndio.org in description
+> - Mark options as available after 7.0 release (instead of 6.2)
+> - Describe sndio-specific options (dev, latency) in qemu-options.hx
+> - Add myself as reviewer to MAINTAINERS
+> - Style fixes: no space after function names, use 4-space indent
+> - Don't use "return foo()" if foo() returns void
+> - Include backend to audio_drivers_priority[]
+>
+> Tested on OpenBSD, works as expected!
+>
+>   MAINTAINERS            |   5 +
+>   audio/audio.c          |   1 +
+>   audio/audio_template.h |   2 +
+>   audio/meson.build      |   1 +
+>   audio/sndioaudio.c     | 555 +++++++++++++++++++++++++++++++++++++++++
+Here we can see the file added is named "sndioaudio.c", so...
+>   meson.build            |   9 +-
+>   meson_options.txt      |   4 +-
+>   qapi/audio.json        |  25 +-
+>   qemu-options.hx        |  16 ++
+>   tests/vm/freebsd       |   3 +
+>   10 files changed, 618 insertions(+), 3 deletions(-)
+>   create mode 100644 audio/sndioaudio.c
+>
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 7543eb4d59..76bdad064f 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -2307,6 +2307,7 @@ X: audio/jackaudio.c
+>   X: audio/ossaudio.c
+>   X: audio/paaudio.c
+>   X: audio/sdlaudio.c
+> +X: audio/sndio.c
+it should say "sndioaudio.c" here...
+>   X: audio/spiceaudio.c
+>   F: qapi/audio.json
+>   
+> @@ -2349,6 +2350,10 @@ R: Thomas Huth <huth@tuxfamily.org>
+>   S: Odd Fixes
+>   F: audio/sdlaudio.c
+>   
+> +Sndio Audio backend
+> +R: Alexandre Ratchov <alex@caoua.org>
+> +F: audio/sndio.c
+and here.
+> +
+>   Block layer core
+>   M: Kevin Wolf <kwolf@redhat.com>
+>   M: Hanna Reitz <hreitz@redhat.com>
 
