@@ -2,92 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1E3947E434
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Dec 2021 14:45:32 +0100 (CET)
-Received: from localhost ([::1]:58560 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79E4047E43A
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Dec 2021 14:51:28 +0100 (CET)
+Received: from localhost ([::1]:35316 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n0OPT-00084A-FL
-	for lists+qemu-devel@lfdr.de; Thu, 23 Dec 2021 08:45:31 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38426)
+	id 1n0OVC-0003Bi-HD
+	for lists+qemu-devel@lfdr.de; Thu, 23 Dec 2021 08:51:26 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39190)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n0ONm-0007El-1I
- for qemu-devel@nongnu.org; Thu, 23 Dec 2021 08:43:46 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53579)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1n0OSc-0001Xh-5f
+ for qemu-devel@nongnu.org; Thu, 23 Dec 2021 08:48:46 -0500
+Received: from smtpout3.mo529.mail-out.ovh.net ([46.105.54.81]:36553)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n0ONi-0005EG-Jm
- for qemu-devel@nongnu.org; Thu, 23 Dec 2021 08:43:44 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1640267021;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=j6u/Y8dnM8g1Ct4ZKexeby7UXE26h0EJhMaNPVTf1t0=;
- b=hHxo2fG8jQLFj/5k1fTi4CILkiPFs4LiJAdE9Anh1N48FgQQVJn0tcXGaIHrOpMGUbS6RX
- MISgD0peky4l7J2TcRDujOf6QAHi3pLHnsX5TVzLOuQNThi7q3gag6WZW4NL4iZApWdwOP
- UEKw9KAQB4ACEtpzTg4KtZ3a6Y7hu58=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-250-tQzAntiqNoqij8A2WydkQw-1; Thu, 23 Dec 2021 08:43:38 -0500
-X-MC-Unique: tQzAntiqNoqij8A2WydkQw-1
-Received: by mail-wm1-f71.google.com with SMTP id
- az11-20020a05600c600b00b00345c4309bccso1862832wmb.5
- for <qemu-devel@nongnu.org>; Thu, 23 Dec 2021 05:43:38 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=j6u/Y8dnM8g1Ct4ZKexeby7UXE26h0EJhMaNPVTf1t0=;
- b=MWn/dInRYkEmbaD1T5rfUkxDV5AlgNQWELj8fUiqLaI0NOcd2lwTF5+/7LD8lFCVdr
- eNc1pnzNZiLQBonto/aJ0QXGCgL1OgUJghMxNQ1NiGXsNwl558OXNkz3BES8KiDvVfAX
- 9pIqxbtQdOirbwbzq0b73SXrT1aVplOD+Xd/WfWm1ah+B3L6b4pbw4arTRPqUS0UAmDK
- Sp0qI0m33gtJJNa33eWDIvLviEY2vWtyKvwnjqjfq62DkdXcXVLtZ8muSwsMYH55yRcU
- VwTFClJE+HXRlX3/yZRFnyPhZUtr1Q6quGukomCMD2C45hCW8LuNriwnns3m1qyfwcsW
- zsGA==
-X-Gm-Message-State: AOAM532t/7IWhbRib+EHzOakIEnxKJXU4yI7pZgPsnhIPsTl5rx/ToLl
- LHZg/r6RxmK9+qlZnd0I+CXIJWRdwoqfuI6GYzEoYy1TgQ5iBCqejYBieX9O+uVwIDIGsW32V9Q
- bQrwq6yebQ9Ln01I=
-X-Received: by 2002:a5d:54c8:: with SMTP id x8mr1756574wrv.299.1640267017678; 
- Thu, 23 Dec 2021 05:43:37 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyEznWFeQMnBuA+EBogBTr7ArqvZx41RqrJmfYmNYvWJUD6hZUclaTv7rxrVuzEHEyxCBa/lw==
-X-Received: by 2002:a5d:54c8:: with SMTP id x8mr1756555wrv.299.1640267017463; 
- Thu, 23 Dec 2021 05:43:37 -0800 (PST)
-Received: from redhat.com ([2.55.1.37])
- by smtp.gmail.com with ESMTPSA id e13sm8247649wmq.10.2021.12.23.05.43.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 Dec 2021 05:43:37 -0800 (PST)
-Date: Thu, 23 Dec 2021 08:43:32 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Mauro Matteo Cascella <mcascell@redhat.com>
-Subject: Re: [PATCH] acpi: validate hotplug selector on access
-Message-ID: <20211223083646-mutt-send-email-mst@kernel.org>
-References: <20211221144852.589983-1-mst@redhat.com>
- <ad22de10-a52c-ff34-0790-3be8e7d62630@redhat.com>
- <20211222151922-mutt-send-email-mst@kernel.org>
- <CAP+75-VaN5SD22ABqKNTC=dHhN4yaN-22Ucfdp=6aeYa+q+83A@mail.gmail.com>
- <20211222154841-mutt-send-email-mst@kernel.org>
- <CAA8xKjWJhXge6_3k-kPc7Y3Z_X1JqbOdZvOCSuAy62ifO4E5gg@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1n0OSY-0007pc-OH
+ for qemu-devel@nongnu.org; Thu, 23 Dec 2021 08:48:45 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.109.138.42])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 9DCADD3A8F9B;
+ Thu, 23 Dec 2021 14:48:25 +0100 (CET)
+Received: from kaod.org (37.59.142.105) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.17; Thu, 23 Dec
+ 2021 14:48:24 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-105G00619a885cd-de29-4827-911f-25cbf8fd0ec0,
+ 8CA006CF2B51D87471028670A5C113E20BDD9F51) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.66.77.115
+Message-ID: <00d2736b-8263-125b-e4b1-3c56a99f27eb@kaod.org>
+Date: Thu, 23 Dec 2021 14:48:23 +0100
 MIME-Version: 1.0
-In-Reply-To: <CAA8xKjWJhXge6_3k-kPc7Y3Z_X1JqbOdZvOCSuAy62ifO4E5gg@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.203,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH v1 1/2] hw/misc: Implementating dummy AST2600 I3C model
+Content-Language: en-US
+To: Troy Lee <troy_lee@aspeedtech.com>, <qemu-devel@nongnu.org>,
+ <openbmc@lists.ozlabs.org>
+References: <20211222092319.2988568-1-troy_lee@aspeedtech.com>
+ <20211222092319.2988568-2-troy_lee@aspeedtech.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20211222092319.2988568-2-troy_lee@aspeedtech.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.105]
+X-ClientProxiedBy: DAG8EX2.mxp5.local (172.16.2.72) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: c8481a5a-25a8-4fd8-b22a-d317530f9dda
+X-Ovh-Tracer-Id: 9090797324382473068
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddruddtkedgheekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtjeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepfefgveefgeeiheffueejudevfeefteeuteejvdegudejhfetgeehhefhleefffevnecuffhomhgrihhnpeguvghvihgtvghsrdhnohenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdqrghrmhesnhhonhhgnhhurdhorhhg
+Received-SPF: pass client-ip=46.105.54.81; envelope-from=clg@kaod.org;
+ helo=smtpout3.mo529.mail-out.ovh.net
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.264,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,94 +71,441 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>, Prasad Pandit <ppandit@redhat.com>,
- Alexander Bulekov <alxndr@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Ani Sinha <ani@anisinha.ca>, Igor Mammedov <imammedo@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Cc: Andrew Jeffery <andrew@aj.id.au>, Peter Maydell <peter.maydell@linaro.org>,
+ leetroy@gmail.com, "open list:ASPEED
+ BMCs" <qemu-arm@nongnu.org>, Joel Stanley <joel@jms.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Dec 23, 2021 at 10:58:14AM +0100, Mauro Matteo Cascella wrote:
-> Hi,
-> 
-> On Wed, Dec 22, 2021 at 9:52 PM Michael S. Tsirkin <mst@redhat.com> wrote:
-> >
-> > On Wed, Dec 22, 2021 at 09:27:51PM +0100, Philippe Mathieu-Daudé wrote:
-> > > On Wed, Dec 22, 2021 at 9:20 PM Michael S. Tsirkin <mst@redhat.com> wrote:
-> > > > On Wed, Dec 22, 2021 at 08:19:41PM +0100, Philippe Mathieu-Daudé wrote:
-> > > > > +Mauro & Alex
-> > > > >
-> > > > > On 12/21/21 15:48, Michael S. Tsirkin wrote:
-> > > > > > When bus is looked up on a pci write, we didn't
-> > > > > > validate that the lookup succeeded.
-> > > > > > Fuzzers thus can trigger QEMU crash by dereferencing the NULL
-> > > > > > bus pointer.
-> > > > > >
-> > > > > > Fixes: b32bd763a1 ("pci: introduce acpi-index property for PCI device")
-> > > > > > Cc: "Igor Mammedov" <imammedo@redhat.com>
-> > > > > > Fixes: https://gitlab.com/qemu-project/qemu/-/issues/770
-> > > > > > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-> > > > >
-> > > > > It seems this problem is important enough to get a CVE assigned.
-> > > >
-> > > > Guest root can crash guest.
-> > > > I don't see why we would assign a CVE.
-> > >
-> > > Well thinking about downstream distributions, if there is a CVE assigned,
-> > > it helps them to have it written in the commit. Maybe I am mistaken.
-> > >
-> > > Unrelated but it seems there is a coordination problem with the
-> > > qemu-security@ list,
-> > > if this isn't a security issue, why was a CVE requested?
-> >
-> > Right.  I don't think a priveleged user crashing VM warrants a CVE,
-> > it can just halt a CPU or whatever. Just cancel the CVE request pls.
-> 
-> While I agree with you that this is kind of borderline and I expressed
-> similar concerns in the past, I was told that:
-> 
-> 1) root guest users are not necessarily trustworthy (from the host perspective).
-> 2) NULL pointer deref and similar issues caused by an
-> ill-handled/error condition are CVE worthy, even if triggered by root.
-> 3) In other cases, DoS triggered by root is not a security issue
-> because it's an expected behavior and not an ill-handled/error
-> condition (think of assert failures, for example).
-> 
-> In other words, "ill-handled condition" is the crucial factor that
-> makes a bug CVE worthy or not.
 
-I guess the point is that a downstream might have a slightly different
-code path where it would be more serious ...
-OK then, not a big deal for me. So what's the CVE # then?
+Hello,
 
-> +Prasad, can you shed some light on this? Is my understanding correct?
+On 12/22/21 10:23, Troy Lee wrote:
+> Introduce a dummy AST2600 I3C model.
 > 
-> Also, please note that we regularly get CVE requests for bugs like
-> this and many CVEs have been assigned in the past. Of course that
-> doesn't mean we can't change things going forward, but I think we
-> should make it clear (probably here:
-> https://www.qemu.org/docs/master/system/security.html) that these
-> kinds of bugs are not eligible for CVE assignment.
+> Aspeed 2600 SDK enables I3C support by default.  The I3C driver will try
+> to reset the device controller and setup through device address table
+> register.  This dummy model response these register with default value
+> listed on ast2600v10 datasheet chapter 54.2.  If the device address
+> table register doesn't set correctly, it will cause guest machine kernel
+> panic due to reference to invalid address.
+
+Overall looks good. Some comments,
+
+> 
+> Signed-off-by: Troy Lee <troy_lee@aspeedtech.com>
+> ---
+>   hw/misc/aspeed_i3c.c         | 258 +++++++++++++++++++++++++++++++++++
+>   hw/misc/meson.build          |   1 +
+>   include/hw/misc/aspeed_i3c.h |  30 ++++
+>   3 files changed, 289 insertions(+)
+>   create mode 100644 hw/misc/aspeed_i3c.c
+>   create mode 100644 include/hw/misc/aspeed_i3c.h
+> 
+> diff --git a/hw/misc/aspeed_i3c.c b/hw/misc/aspeed_i3c.c
+> new file mode 100644
+> index 0000000000..9d2bda203e
+> --- /dev/null
+> +++ b/hw/misc/aspeed_i3c.c
+> @@ -0,0 +1,258 @@
+> +/*
+> + * ASPEED I3C Controller
+> + *
+> + * Copyright (C) 2021 ASPEED Technology Inc.
+> + *
+> + * This code is licensed under the GPL version 2 or later.  See
+> + * the COPYING file in the top-level directory.
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +#include "qemu/log.h"
+> +#include "qemu/error-report.h"
+> +#include "hw/misc/aspeed_i3c.h"
+> +#include "qapi/error.h"
+> +#include "migration/vmstate.h"
+> +
+> +/* I3C Controller Registers */
+> +#define R_I3CG_REG0(x)                  (((x * 0x10) + 0x10) / 4)
+> +#define  I3CG_REG0_SDA_PULLUP_EN_MASK   GENMASK(29, 28)
+
+GENMASK() is a macro defined in the FSI model which is not upstream.
+There are other ways to define bitfield masks in QEMU. Please take a
+look at include/hw/registerfields.h.
 
 
-That would be good, yes.
+> +#define  I3CG_REG0_SDA_PULLUP_EN_2K     BIT(28)
+> +#define  I3CG_REG0_SDA_PULLUP_EN_750    BIT(29)
+> +#define  I3CG_REG0_SDA_PULLUP_EN_545    (BIT(29) | BIT(28))
+> +
+> +#define R_I3CG_REG1(x)                  (((x * 0x10) + 0x14) / 4)
+> +#define  I3CG_REG1_I2C_MODE             BIT(0)
+> +#define  I3CG_REG1_TEST_MODE            BIT(1)
+> +#define  I3CG_REG1_ACT_MODE_MASK        GENMASK(3, 2)
+> +#define  I3CG_REG1_ACT_MODE(x)          (((x) << 2) & I3CG_REG1_ACT_MODE_MASK)
+> +#define  I3CG_REG1_PENDING_INT_MASK     GENMASK(7, 4)
+> +#define  I3CG_REG1_PENDING_INT(x)   (((x) << 4) & I3CG_REG1_PENDING_INT_MASK)
+> +#define  I3CG_REG1_SA_MASK              GENMASK(14, 8)
+> +#define  I3CG_REG1_SA(x)                (((x) << 8) & I3CG_REG1_SA_MASK)
+> +#define  I3CG_REG1_SA_EN                BIT(15)
+> +#define  I3CG_REG1_INST_ID_MASK         GENMASK(19, 16)
+> +#define  I3CG_REG1_INST_ID(x)           (((x) << 16) & I3CG_REG1_INST_ID_MASK)
+> +
+> +/* I3C Device Registers */
+> +#define R_DEVICE_CTRL                   (0x00 / 4)
+> +#define R_DEVICE_ADDR                   (0x04 / 4)
+> +#define R_HW_CAPABILITY                 (0x08 / 4)
+> +#define R_COMMAND_QUEUE_PORT            (0x0c / 4)
+> +#define R_RESPONSE_QUEUE_PORT           (0x10 / 4)
+> +#define R_RX_TX_DATA_PORT               (0x14 / 4)
+> +#define R_IBI_QUEUE_STATUS              (0x18 / 4)
+> +#define R_IBI_QUEUE_DATA                (0x18 / 4)
+> +#define R_QUEUE_THLD_CTRL               (0x1c / 4)
+> +#define R_DATA_BUFFER_THLD_CTRL         (0x20 / 4)
+> +#define R_IBI_QUEUE_CTRL                (0x24 / 4)
+> +#define R_IBI_MR_REQ_REJECT             (0x2c / 4)
+> +#define R_IBI_SIR_REQ_REJECT            (0x30 / 4)
+> +#define R_RESET_CTRL                    (0x34 / 4)
+> +#define R_SLV_EVENT_CTRL                (0x38 / 4)
+> +#define R_INTR_STATUS                   (0x3c / 4)
+> +#define R_INTR_STATUS_EN                (0x40 / 4)
+> +#define R_INTR_SIGNAL_EN                (0x44 / 4)
+> +#define R_INTR_FORCE                    (0x48 / 4)
+> +#define R_QUEUE_STATUS_LEVEL            (0x4c / 4)
+> +#define R_DATA_BUFFER_STATUS_LEVEL      (0x50 / 4)
+> +#define R_PRESENT_STATE                 (0x54 / 4)
+> +#define R_CCC_DEVICE_STATUS             (0x58 / 4)
+> +#define R_DEVICE_ADDR_TABLE_POINTER     (0x5c / 4)
+> +#define  DEVICE_ADDR_TABLE_DEPTH(x)     (((x) & GENMASK(31, 16)) >> 16)
+> +#define  DEVICE_ADDR_TABLE_ADDR(x)      ((x) & GENMASK(7, 0))
+> +#define R_DEV_CHAR_TABLE_POINTER        (0x60 / 4)
+> +#define R_VENDOR_SPECIFIC_REG_POINTER   (0x6c / 4)
+> +#define R_SLV_MIPI_PID_VALUE            (0x70 / 4)
+> +#define R_SLV_PID_VALUE                 (0x74 / 4)
+> +#define R_SLV_CHAR_CTRL                 (0x78 / 4)
+> +#define R_SLV_MAX_LEN                   (0x7c / 4)
+> +#define R_MAX_READ_TURNAROUND           (0x80 / 4)
+> +#define R_MAX_DATA_SPEED                (0x84 / 4)
+> +#define R_SLV_DEBUG_STATUS              (0x88 / 4)
+> +#define R_SLV_INTR_REQ                  (0x8c / 4)
+> +#define R_DEVICE_CTRL_EXTENDED          (0xb0 / 4)
+> +#define R_SCL_I3C_OD_TIMING             (0xb4 / 4)
+> +#define R_SCL_I3C_PP_TIMING             (0xb8 / 4)
+> +#define R_SCL_I2C_FM_TIMING             (0xbc / 4)
+> +#define R_SCL_I2C_FMP_TIMING            (0xc0 / 4)
+> +#define R_SCL_EXT_LCNT_TIMING           (0xc8 / 4)
+> +#define R_SCL_EXT_TERMN_LCNT_TIMING     (0xcc / 4)
+> +#define R_BUS_FREE_TIMING               (0xd4 / 4)
+> +#define R_BUS_IDLE_TIMING               (0xd8 / 4)
+> +#define R_I3C_VER_ID                    (0xe0 / 4)
+> +#define R_I3C_VER_TYPE                  (0xe4 / 4)
+> +#define R_EXTENDED_CAPABILITY           (0xe8 / 4)
+> +#define R_SLAVE_CONFIG                  (0xec / 4)
+> +
+> +static uint64_t aspeed_i3c_read(void *opaque,
+> +                                hwaddr addr,
+> +                                unsigned int size)
 
-> > > > > Mauro, please update us when you get the CVE number.
-> > > > > Michael, please amend the CVE number before committing the fix.
-> > > > >
-> > > > > FWIW Paolo asked every fuzzed bug reproducer to be committed
-> > > > > as qtest, see tests/qtest/fuzz*c. Alex has a way to generate
-> > > > > reproducer in plain C.
-> > > > >
-> > > > > Regards,
-> > > > >
-> > > > > Phil.
-> > > >
-> >
+You can avoid the new lines.
+
+> +{
+> +    AspeedI3CState *s = ASPEED_I3C(opaque);
+> +    uint64_t val = 0;
+> +
+> +    addr >>= 2;
+> +
+> +    if (addr >= ASPEED_I3C_NR_REGS) {
+
+ASPEED_I3C_NR_REGS is a large value (0x8000 >> 2) which doesn't really
+represent the number of registers. I would do thing a bit differently.
+See the comment below in realize.
+
+> +        qemu_log_mask(LOG_GUEST_ERROR,
+> +                      "%s: Out-of-bounds read at offset 0x%" HWADDR_PRIx "\n",
+> +                      __func__, addr << 2);
+> +    } else if (addr < 0x800) {
+
+Where does that value come from  ?
+
+> +        /* I3C controller register */
+> +        val = s->regs[addr];
+> +    } else {
+> +        /* I3C device register */
+
+hmm, I think we need one region per I3C device instead.
+
+> +        switch (addr & 0xff) {
+> +        case R_DEVICE_ADDR_TABLE_POINTER:
+> +            val = DEVICE_ADDR_TABLE_DEPTH(0x8) | DEVICE_ADDR_TABLE_ADDR(0x280);
+> +            break;
+> +        case R_DEV_CHAR_TABLE_POINTER:
+> +            val = 0x00020200;
+> +            break;
+> +        case R_VENDOR_SPECIFIC_REG_POINTER:
+> +            val = 0x000000b0;
+> +            break;
+> +        default:
+> +            val = s->regs[addr];
+> +            break;
+> +        }
+> +    }
+> +
+> +    printf("I3C Read[%08lx] = [%08lx]\n", addr << 2, val);
+
+Please use trace-events. See trace_aspeed_scu_read/write for example.
+
+> +
+> +    return val;
+> +}
+> +
+> +static void aspeed_i3c_write(void *opaque,
+> +                             hwaddr addr,
+> +                             uint64_t data,
+> +                             unsigned int size)
+
+same.
+
+> +{
+> +    AspeedI3CState *s = ASPEED_I3C(opaque);
+> +
+> +    printf("I3C Write[%08lx] = [%08lx]\n", addr, data);
+
+same.
+
+> +
+> +    addr >>= 2;
+> +
+> +    if (addr >= ASPEED_I3C_NR_REGS) {
+> +        qemu_log_mask(LOG_GUEST_ERROR,
+> +                      "%s: Out-of-bounds write at offset 0x%" HWADDR_PRIx "\n",
+> +                      __func__, addr << 2);
+> +        return;
+> +    }
+> +
+> +    if (addr < 0x800) {
+> +        /* I3C controller register */
+> +        switch (addr) {
+> +        case R_I3CG_REG1(0):
+> +        case R_I3CG_REG1(1):
+> +        case R_I3CG_REG1(2):
+> +        case R_I3CG_REG1(3):
+> +            if (data & I3CG_REG1_I2C_MODE) {
+> +                qemu_log_mask(LOG_UNIMP,
+> +                              "%s: Not support I2C mode [%08lx]=%08lx",
+> +                              __func__, addr << 2, data);
+> +                break;
+> +            }
+> +            if (data & I3CG_REG1_SA_EN) {
+> +                qemu_log_mask(LOG_UNIMP,
+> +                              "%s: Not support slave mode [%08lx]=%08lx",
+> +                              __func__, addr << 2, data);
+> +                break;
+> +            }
+> +            s->regs[addr] = data;
+> +            break;
+> +        default:
+> +            s->regs[addr] = data;
+> +            break;
+> +        }
+> +    } else {
+> +        /* I3C device register */
+> +        switch (addr & 0xff) {
+> +        case R_RESET_CTRL:
+> +            s->regs[addr] = 0x00000000;
+> +            break;
+> +        default:
+> +            s->regs[addr] = data;
+> +            break;
+> +        }
+> +    }
+> +}
+> +
+> +static const MemoryRegionOps aspeed_i3c_ops = {
+> +    .read = aspeed_i3c_read,
+> +    .write = aspeed_i3c_write,
+> +    .endianness = DEVICE_LITTLE_ENDIAN,
+> +    .valid = {
+> +        .min_access_size = 1,
+> +        .max_access_size = 4,
+> +    }
+> +};
+> +
+> +static void aspeed_i3c_reset(DeviceState *dev)
+> +{
+> +    struct AspeedI3CState *s = ASPEED_I3C(dev);
+> +
+> +    memset(s->regs, 0, sizeof(s->regs));
+> +
+> +    /* Init I3C controller register */
+> +
+> +
+> +    /* Init I3C devices register */
+> +    for (int i = 0; i < 4; ++i) {
+
+there are 5 devices. no ?
+
+> +        uint32_t dev_base = (0x2000 + i * 0x1000) >> 4;
+> +        s->regs[dev_base + R_HW_CAPABILITY] = 0x000e00bf;
+> +        s->regs[dev_base + R_QUEUE_THLD_CTRL] = 0x01000101;
+> +
+> +        s->regs[dev_base + R_I3C_VER_ID] = 0x3130302a;
+> +        s->regs[dev_base + R_I3C_VER_TYPE] = 0x6c633033;
+
+This is a sign that we need an AspeedI3CDevice model :)
+
+> +    }
+> +}
+> +
+> +static void aspeed_i3c_realize(DeviceState *dev, Error **errp)
+> +{
+> +    AspeedI3CState *s = ASPEED_I3C(dev);
+> +    SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
+> +
+> +    sysbus_init_irq(sbd, &s->irq);
+> +
+> +    memory_region_init_io(&s->iomem, OBJECT(s), &aspeed_i3c_ops, s,
+> +            TYPE_ASPEED_I3C, 0x8000);
+
+I would do things differently with an AspeedI3CDevice, something like :
+     
+     struct AspeedI3CDevice {
+         SysBusDevice parent_obj;
+     
+         MemoryRegion mr;
+         
+         uint32_t regs[0x300 >> 2];
+     };
+
+for which you would define the realize and reset handlers like above
+but relative to the device only. The read/write ops of the device
+region would be simplified.
+     
+You will then to introduce an array of AspeedI3CDevice under
+AspeedI3CState :
+
+       AspeedI3CDevice devices[ASPEED_I3C_NR_DEVICES];
+
+and initialize them in a instance_init handler of AspeedI3CState :
+     
+     static void aspeed_i3c_instance_init(Object *obj)
+     {
+         AspeedI3CState *s = ASPEED_I3C(obj);
+         int i;
+     
+         for (i = 0; i < ASPEED_I3C_NR_DEVICES; i++) {
+             object_initialize_child(obj, "device[*]", &s->devices[i],
+                                     TYPE_ASPEED_I3C_DEVICE);
+         }
+     }
+
+and realize the devices in aspeed_i3c_realize  :
+
+     for (i = 0; i < ASPEED_I3C_NR_DEVICES; i++) {
+         Object *obj = OBJECT(&s->devices[i]);
+
+         if (!sysbus_realize(SYS_BUS_DEVICE(obj), errp)) {
+             return;
+         }
+
+	/* Map the device MMIO window in the overall I3C MMIO */
+         memory_region_add_subregion(&s->iomem, 0x2000 + i * 0x1000;
+                                     &s->devices[i].mr);
+     }
+
+I don't think we need to handle the controller registers mapped at 0x0
+to start with. You could introduce a region to catch memory ops.
+
+At some point, we would have to consider modeling the I3C bus but that's
+beyond the scope of the initial model.
+
+Thanks,
+
+C.
+
+
+> +
+> +    sysbus_init_mmio(sbd, &s->iomem);
+> +}
+> +
+> +static const VMStateDescription vmstate_aspeed_i3c = {
+> +    .name = TYPE_ASPEED_I3C,
+> +    .version_id = 1,
+> +    .minimum_version_id = 1,
+> +    .fields = (VMStateField[]) {
+> +        VMSTATE_UINT32_ARRAY(regs, AspeedI3CState, ASPEED_I3C_NR_REGS),
+> +        VMSTATE_END_OF_LIST(),
+> +    }
+> +};
+> +
+> +static void aspeed_i3c_class_init(ObjectClass *klass, void *data)
+> +{
+> +    DeviceClass *dc = DEVICE_CLASS(klass);
+> +
+> +    dc->realize = aspeed_i3c_realize;
+> +    dc->reset = aspeed_i3c_reset;
+> +    dc->desc = "Aspeed I3C Controller";
+> +    dc->vmsd = &vmstate_aspeed_i3c;
+> +}
+> +
+> +static const TypeInfo aspeed_i3c_info = {
+> +    .name = TYPE_ASPEED_I3C,
+> +    .parent = TYPE_SYS_BUS_DEVICE,
+> +    .instance_size = sizeof(AspeedI3CState),
+> +    .class_init = aspeed_i3c_class_init,
+> +};
+> +
+> +static void aspeed_i3c_register_types(void)
+> +{
+> +    type_register_static(&aspeed_i3c_info);
+> +}
+> +
+> +type_init(aspeed_i3c_register_types);
+> diff --git a/hw/misc/meson.build b/hw/misc/meson.build
+> index 73a92fc459..9e570131c2 100644
+> --- a/hw/misc/meson.build
+> +++ b/hw/misc/meson.build
+> @@ -103,6 +103,7 @@ softmmu_ss.add(when: 'CONFIG_PVPANIC_PCI', if_true: files('pvpanic-pci.c'))
+>   softmmu_ss.add(when: 'CONFIG_AUX', if_true: files('auxbus.c'))
+>   softmmu_ss.add(when: 'CONFIG_ASPEED_SOC', if_true: files(
+>     'aspeed_hace.c',
+> +  'aspeed_i3c.c',
+>     'aspeed_lpc.c',
+>     'aspeed_pwm.c',
+>     'aspeed_scu.c',
+> diff --git a/include/hw/misc/aspeed_i3c.h b/include/hw/misc/aspeed_i3c.h
+> new file mode 100644
+> index 0000000000..c8f8ae3791
+> --- /dev/null
+> +++ b/include/hw/misc/aspeed_i3c.h
+> @@ -0,0 +1,30 @@
+> +/*
+> + * ASPEED I3C Controller
+> + *
+> + * Copyright (C) 2021 ASPEED Technology Inc.
+> + *
+> + * This code is licensed under the GPL version 2 or later.  See
+> + * the COPYING file in the top-level directory.
+> + */
+> +
+> +#ifndef ASPEED_I3C_H
+> +#define ASPEED_I3C_H
+> +
+> +#include "hw/sysbus.h"
+> +
+> +#define TYPE_ASPEED_I3C "aspeed.i3c"
+> +#define ASPEED_I3C(obj) OBJECT_CHECK(AspeedI3CState, (obj), TYPE_ASPEED_I3C)
+> +
+> +#define ASPEED_I3C_NR_REGS (0x8000 >> 2)
+> +
+> +typedef struct AspeedI3CState {
+> +    /* <private> */
+> +    SysBusDevice parent;
+> +
+> +    /* <public> */
+> +    MemoryRegion iomem;
+> +    qemu_irq irq;
+> +
+> +    uint32_t regs[ASPEED_I3C_NR_REGS];
+> +} AspeedI3CState;
+> +#endif /* ASPEED_I3C_H */
 > 
-> -- 
-> Mauro Matteo Cascella
-> Red Hat Product Security
-> PGP-Key ID: BB3410B0
-
 
