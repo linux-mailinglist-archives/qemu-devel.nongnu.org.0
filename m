@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02CDC47E553
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Dec 2021 16:04:35 +0100 (CET)
-Received: from localhost ([::1]:54452 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7ABA347E552
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Dec 2021 16:04:33 +0100 (CET)
+Received: from localhost ([::1]:54404 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n0Pdy-0006Tp-41
-	for lists+qemu-devel@lfdr.de; Thu, 23 Dec 2021 10:04:34 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54750)
+	id 1n0Pdw-0006Rx-IC
+	for lists+qemu-devel@lfdr.de; Thu, 23 Dec 2021 10:04:32 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53984)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <tonistiigi@gmail.com>)
- id 1n0I0W-0001V8-Vl
- for qemu-devel@nongnu.org; Thu, 23 Dec 2021 01:55:21 -0500
-Received: from [2607:f8b0:4864:20::f31] (port=40627
- helo=mail-qv1-xf31.google.com)
+ id 1n0Hyb-0000aM-BK
+ for qemu-devel@nongnu.org; Thu, 23 Dec 2021 01:53:22 -0500
+Received: from [2607:f8b0:4864:20::1036] (port=53873
+ helo=mail-pj1-x1036.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <tonistiigi@gmail.com>)
- id 1n0I0V-0000ju-CO
- for qemu-devel@nongnu.org; Thu, 23 Dec 2021 01:55:20 -0500
-Received: by mail-qv1-xf31.google.com with SMTP id q3so4418485qvc.7
- for <qemu-devel@nongnu.org>; Wed, 22 Dec 2021 22:55:19 -0800 (PST)
+ id 1n0HyZ-0000St-KD
+ for qemu-devel@nongnu.org; Thu, 23 Dec 2021 01:53:21 -0500
+Received: by mail-pj1-x1036.google.com with SMTP id mj19so4263280pjb.3
+ for <qemu-devel@nongnu.org>; Wed, 22 Dec 2021 22:53:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=bIw+R1RY/Y5QFG4Ac7lm7tGzhOFe3QwmKTSdFZsUqpg=;
- b=FSIigy/qC/jXAy5ng2BzEnu29PO5wOYimMoBpOzYAofJ5R6QOPXLJBhj5qvjfzxvWW
- SCSOVAP2xqH7sgZXYKPEnzpTbe0kDzi9B8JOSUlZYB4xEtlyjYPIMzny82SdrFMwyBLU
- tqph2H4Xs9efC0kUZf4uTPITZh0yo396twjdoFwMyyDc2pJrW4O7dQCxP6m4AqLpWRiH
- lvewgouNWQ417mP8qHFD8N86CZhPvS/W82iB9LrK195gkVTNdNSha4uHtFlbDf4KgrpZ
- 1fMI95cIChgyQmxYPMUmD8LQQ4U/euDKtP8b2zoNx696/IJ5cLfqzvbNQKDXlA3tMvDo
- gJ5A==
+ bh=roIWVlWrA/XJs3K+sn+TYf0ybx6nOcZ/6lNtmMZ5D4I=;
+ b=Yd/X+qwl5Fls5Nf5zFxjhuxs3WbuwVvnkoOs4+7MAy9tCdiJ3yA+/Mb1H5fOrNETl2
+ fVymsWHS5z0Q4P2Cocg6FdFJypjjy3y/VGp7LfrvC0f+k5ZQhhD9tdi7GE4ZHcY/aDRu
+ H307nNHKrQ7ZU1FOVp5MC+fTHK2wA4wC24vDRUwLRUA4dIyIsns9uuDQrf9gSq3UUJ5n
+ 1gFmjogLDghVaX7nA7rCs1g0Ku2ibu1nUplpxqBfqpgbYFgX5h8hOXT8EhiDPp/CJaPm
+ VtKPfYKq4LiTEykqytlK+eQODIHocB4OOT5gfh99/LEozm5hGxWl/ITO6PKJ8IoUp3Cu
+ a8BA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=bIw+R1RY/Y5QFG4Ac7lm7tGzhOFe3QwmKTSdFZsUqpg=;
- b=rKDIkR2Yb77YLjc+Unm/pJ1qzoHl7z59T+1JIx5Wol02Wf+Oi7WSmicwLvn2AMACPP
- sOLGOjt6ViBipZ7cb+C/SAWxB4+wpxaAeUceciesdFiqIo/6OF7FpDTzpBfkecIplfgo
- IsHimXpmcfXerNxbxHC2co0ssbxY+FmAcFT2rfVdheiRPLC3sQXPHuAWDCYwErZTZNuH
- 23KbN1ZemHhEPCoHcYE1YFTedgMWbu0tx9Wwc9l5Go29kLQSm+Qeqv6VRSBvO2eBM6gK
- SCeePJulstzH0OzRUlmBLcTITVhE/exvpGXp9wBosgQWvqALpiP9TqB38WWOdQgwJCCq
- 9iIg==
-X-Gm-Message-State: AOAM532spr8839YKH5eu6c0GeblOxUp7keCMN/aiLy6uEwGUfltmxDza
- Gs/3yVMWdPE7ku9iy/rL4JY0Aid/hdLgGKEu
-X-Google-Smtp-Source: ABdhPJwWFtxgMA8adPpAvWWBZ2QNgVdS1ybt54H6nS8eQQ0ZeoH/l9YEwnu/lLXOgcVAjbDrfgvDdw==
-X-Received: by 2002:a17:902:708b:b0:148:b0b0:2ad3 with SMTP id
- z11-20020a170902708b00b00148b0b02ad3mr1105024plk.115.1640242065546; 
- Wed, 22 Dec 2021 22:47:45 -0800 (PST)
+ bh=roIWVlWrA/XJs3K+sn+TYf0ybx6nOcZ/6lNtmMZ5D4I=;
+ b=7LZgm2BYo+h1vAYt/aKIA+m/lKXcoGVJ57Xr4ptETgjgjEErNPRr+Hng3uLnhW8MWK
+ LPXRVylB5Sj+pmNChYU2toZGLNjZxQOduxGdToQ1VKdsnxyGydWCsShZGwLE3jUKDE5p
+ aG4kjCO7BWzNJcS0gOJFTiOTJOF47QhiRVCrzrfVLx2J2jZLEKhqeGBwP0jBTSyDOW1T
+ 0AUBJ/qlGuZWkh85lmF2Cj0wxO7LXP4/HPeHSvoyTNhg9LivFjMRXaTR9DYAk4gDiam3
+ d7fui4HJrAVrG8TNAGqwT1T9G5c5yNULAqLzZ3vHI7MlyBHam0ukp580Me9blLgbCT+m
+ OwdA==
+X-Gm-Message-State: AOAM530IwXxUc2h9+XCrzp0xPWkghHnkM9cqjMgTRmdNjOJz9DddW7dz
+ oyto/lfGCUTFliRmFloOYjy80FTzU8LJs0lz
+X-Google-Smtp-Source: ABdhPJyUz1Q6caiE4WmQxxwG2JlVZj2Mr6wZ0fMeeT260yB6kKrpbKXzixCD1YFsfV+GvKRfvayUZA==
+X-Received: by 2002:a17:902:d346:b0:148:d0bf:8ef1 with SMTP id
+ l6-20020a170902d34600b00148d0bf8ef1mr1110447plk.77.1640242068601; 
+ Wed, 22 Dec 2021 22:47:48 -0800 (PST)
 Received: from localhost ([2601:646:100:6be:28e2:4700:e00c:9454])
- by smtp.gmail.com with UTF8SMTPSA id m16sm4697133pfk.32.2021.12.22.22.47.44
+ by smtp.gmail.com with UTF8SMTPSA id e24sm7525708pjt.45.2021.12.22.22.47.47
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 22 Dec 2021 22:47:45 -0800 (PST)
+ Wed, 22 Dec 2021 22:47:48 -0800 (PST)
 From: Tonis Tiigi <tonistiigi@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 1/2] linux-user: add sched_getattr support
-Date: Wed, 22 Dec 2021 22:47:27 -0800
-Message-Id: <20211223064728.18048-2-tonistiigi@gmail.com>
+Subject: [PATCH v3 2/2] linux-user: call set/getscheduler set/getparam directly
+Date: Wed, 22 Dec 2021 22:47:28 -0800
+Message-Id: <20211223064728.18048-3-tonistiigi@gmail.com>
 X-Mailer: git-send-email 2.32.0 (Apple Git-132)
 In-Reply-To: <20211223064728.18048-1-tonistiigi@gmail.com>
 References: <20211223064728.18048-1-tonistiigi@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::f31
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1036
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f31;
- envelope-from=tonistiigi@gmail.com; helo=mail-qv1-xf31.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
+ envelope-from=tonistiigi@gmail.com; helo=mail-pj1-x1036.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -91,144 +91,116 @@ Cc: Tonis Tiigi <tonistiigi@gmail.com>, laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+There seems to be difference in syscall and libc definition of these
+methods and therefore musl does not implement them (1e21e78bf7). Call
+syscall directly to ensure the behavior of the libc of user application,
+not the libc that was used to build QEMU.
+
 Signed-off-by: Tonis Tiigi <tonistiigi@gmail.com>
 ---
- linux-user/syscall.c      | 94 +++++++++++++++++++++++++++++++++++++++
- linux-user/syscall_defs.h | 14 ++++++
- 2 files changed, 108 insertions(+)
+ linux-user/syscall.c      | 40 ++++++++++++++++++++++++++-------------
+ linux-user/syscall_defs.h |  4 ++++
+ 2 files changed, 31 insertions(+), 13 deletions(-)
 
 diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index f1cfcc8104..2f5a0fac5a 100644
+index 2f5a0fac5a..8c03a52a36 100644
 --- a/linux-user/syscall.c
 +++ b/linux-user/syscall.c
-@@ -339,6 +339,12 @@ _syscall3(int, sys_sched_getaffinity, pid_t, pid, unsigned int, len,
- #define __NR_sys_sched_setaffinity __NR_sched_setaffinity
- _syscall3(int, sys_sched_setaffinity, pid_t, pid, unsigned int, len,
-           unsigned long *, user_mask_ptr);
-+#define __NR_sys_sched_getattr __NR_sched_getattr
-+_syscall4(int, sys_sched_getattr, pid_t, pid, struct target_sched_attr *, attr,
-+          unsigned int, size, unsigned int, flags);
-+#define __NR_sys_sched_setattr __NR_sched_setattr
-+_syscall3(int, sys_sched_setattr, pid_t, pid, struct target_sched_attr *, attr,
-+          unsigned int, flags);
+@@ -345,6 +345,17 @@ _syscall4(int, sys_sched_getattr, pid_t, pid, struct target_sched_attr *, attr,
+ #define __NR_sys_sched_setattr __NR_sched_setattr
+ _syscall3(int, sys_sched_setattr, pid_t, pid, struct target_sched_attr *, attr,
+           unsigned int, flags);
++#define __NR_sys_sched_getscheduler __NR_sched_getscheduler
++_syscall1(int, sys_sched_getscheduler, pid_t, pid);
++#define __NR_sys_sched_setscheduler __NR_sched_setscheduler
++_syscall3(int, sys_sched_setscheduler, pid_t, pid, int, policy,
++          const struct target_sched_param *, param);
++#define __NR_sys_sched_getparam __NR_sched_getparam
++_syscall2(int, sys_sched_getparam, pid_t, pid,
++          struct target_sched_param *, param);
++#define __NR_sys_sched_setparam __NR_sched_setparam
++_syscall2(int, sys_sched_setparam, pid_t, pid,
++          const struct target_sched_param *, param);
  #define __NR_sys_getcpu __NR_getcpu
  _syscall3(int, sys_getcpu, unsigned *, cpu, unsigned *, node, void *, tcache);
  _syscall4(int, reboot, int, magic1, int, magic2, unsigned int, cmd,
-@@ -10593,6 +10599,94 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+@@ -10555,30 +10566,32 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+         return ret;
+     case TARGET_NR_sched_setparam:
+         {
+-            struct sched_param *target_schp;
+-            struct sched_param schp;
++            struct target_sched_param *target_schp;
++            struct target_sched_param schp;
+ 
+             if (arg2 == 0) {
+                 return -TARGET_EINVAL;
+             }
+-            if (!lock_user_struct(VERIFY_READ, target_schp, arg2, 1))
++            if (!lock_user_struct(VERIFY_READ, target_schp, arg2, 1)) {
+                 return -TARGET_EFAULT;
++            }
+             schp.sched_priority = tswap32(target_schp->sched_priority);
+             unlock_user_struct(target_schp, arg2, 0);
+-            return get_errno(sched_setparam(arg1, &schp));
++            return get_errno(sys_sched_setparam(arg1, &schp));
+         }
+     case TARGET_NR_sched_getparam:
+         {
+-            struct sched_param *target_schp;
+-            struct sched_param schp;
++            struct target_sched_param *target_schp;
++            struct target_sched_param schp;
+ 
+             if (arg2 == 0) {
+                 return -TARGET_EINVAL;
+             }
+-            ret = get_errno(sched_getparam(arg1, &schp));
++            ret = get_errno(sys_sched_getparam(arg1, &schp));
+             if (!is_error(ret)) {
+-                if (!lock_user_struct(VERIFY_WRITE, target_schp, arg2, 0))
++                if (!lock_user_struct(VERIFY_WRITE, target_schp, arg2, 0)) {
+                     return -TARGET_EFAULT;
++                }
+                 target_schp->sched_priority = tswap32(schp.sched_priority);
+                 unlock_user_struct(target_schp, arg2, 1);
+             }
+@@ -10586,19 +10599,20 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+         return ret;
+     case TARGET_NR_sched_setscheduler:
+         {
+-            struct sched_param *target_schp;
+-            struct sched_param schp;
++            struct target_sched_param *target_schp;
++            struct target_sched_param schp;
+             if (arg3 == 0) {
+                 return -TARGET_EINVAL;
+             }
+-            if (!lock_user_struct(VERIFY_READ, target_schp, arg3, 1))
++            if (!lock_user_struct(VERIFY_READ, target_schp, arg3, 1)) {
+                 return -TARGET_EFAULT;
++            }
+             schp.sched_priority = tswap32(target_schp->sched_priority);
+             unlock_user_struct(target_schp, arg3, 0);
+-            return get_errno(sched_setscheduler(arg1, arg2, &schp));
++            return get_errno(sys_sched_setscheduler(arg1, arg2, &schp));
          }
      case TARGET_NR_sched_getscheduler:
-         return get_errno(sched_getscheduler(arg1));
-+    case TARGET_NR_sched_getattr:
-+        {
-+            struct target_sched_attr *target_scha;
-+            struct target_sched_attr scha;
-+            if (arg2 == 0) {
-+                return -TARGET_EINVAL;
-+            }
-+            if (arg3 > sizeof(scha)) {
-+                arg3 = sizeof(scha);
-+            }
-+            ret = get_errno(sys_sched_getattr(arg1, &scha, arg3, arg4));
-+            if (!is_error(ret)) {
-+                target_scha = lock_user(VERIFY_WRITE, arg2, arg3, 0);
-+                if (!target_scha) {
-+                    return -TARGET_EFAULT;
-+                }
-+                target_scha->size = tswap32(scha.size);
-+                target_scha->sched_policy = tswap32(scha.sched_policy);
-+                target_scha->sched_flags = tswap64(scha.sched_flags);
-+                target_scha->sched_nice = tswap32(scha.sched_nice);
-+                target_scha->sched_priority = tswap32(scha.sched_priority);
-+                target_scha->sched_runtime = tswap64(scha.sched_runtime);
-+                target_scha->sched_deadline = tswap64(scha.sched_deadline);
-+                target_scha->sched_period = tswap64(scha.sched_period);
-+                if (scha.size > offsetof(struct target_sched_attr, sched_util_min)) {
-+                    target_scha->sched_util_min = tswap32(scha.sched_util_min);
-+                    target_scha->sched_util_max = tswap32(scha.sched_util_max);
-+                }
-+                unlock_user(target_scha, arg2, arg3);
-+            }
-+            return ret;
-+        }
-+    case TARGET_NR_sched_setattr:
-+        {
-+            struct target_sched_attr *target_scha;
-+            struct target_sched_attr scha;
-+            if (arg2 == 0) {
-+                return -TARGET_EINVAL;
-+            }
-+            uint32_t size;
-+            if (get_user_u32(size, arg2)) {
-+                return -TARGET_EFAULT;
-+            }
-+            if (!size) {
-+                size = offsetof(struct target_sched_attr, sched_util_min);
-+            }
-+            if (size < offsetof(struct target_sched_attr, sched_util_min)) {
-+                if (put_user_u32(sizeof(struct target_sched_attr), arg2)) {
-+                    return -TARGET_EFAULT;
-+                }
-+                return -TARGET_E2BIG;
-+            }
-+
-+            if (size > sizeof(scha)) {
-+                for (int i = sizeof(scha); i < size; i++) {
-+                    uint8_t b;
-+                    if (get_user_u8(b, arg2 + i)) {
-+                        return -TARGET_EFAULT;
-+                    }
-+                    if (b != 0) {
-+                        if (put_user_u32(sizeof(struct target_sched_attr), arg2)) {
-+                            return -TARGET_EFAULT;
-+                        }
-+                        return -TARGET_E2BIG;
-+                    }
-+                }
-+                size = sizeof(scha);
-+            }
-+
-+            target_scha = lock_user(VERIFY_READ, arg2, size, 1);
-+            if (!target_scha) {
-+                return -TARGET_EFAULT;
-+            }
-+            scha.size = size;
-+            scha.sched_policy = tswap32(target_scha->sched_policy);
-+            scha.sched_flags = tswap64(target_scha->sched_flags);
-+            scha.sched_nice = tswap32(target_scha->sched_nice);
-+            scha.sched_priority = tswap32(target_scha->sched_priority);
-+            scha.sched_runtime = tswap64(target_scha->sched_runtime);
-+            scha.sched_deadline = tswap64(target_scha->sched_deadline);
-+            scha.sched_period = tswap64(target_scha->sched_period);
-+            if (size > offsetof(struct target_sched_attr, sched_util_min)) {
-+                scha.sched_util_min = tswap32(target_scha->sched_util_min);
-+                scha.sched_util_max = tswap32(target_scha->sched_util_max);
-+            }
-+            unlock_user(target_scha, arg2, 0);
-+            return get_errno(sys_sched_setattr(arg1, &scha, arg3));
-+        }
-     case TARGET_NR_sched_yield:
-         return get_errno(sched_yield());
-     case TARGET_NR_sched_get_priority_max:
+-        return get_errno(sched_getscheduler(arg1));
++        return get_errno(sys_sched_getscheduler(arg1));
+     case TARGET_NR_sched_getattr:
+         {
+             struct target_sched_attr *target_scha;
 diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
-index 0b13975937..310d6ce8ad 100644
+index 310d6ce8ad..28b9fe9a47 100644
 --- a/linux-user/syscall_defs.h
 +++ b/linux-user/syscall_defs.h
-@@ -2914,4 +2914,18 @@ struct target_statx {
-    /* 0x100 */
+@@ -2928,4 +2928,8 @@ struct target_sched_attr {
+     abi_uint sched_util_max;
  };
  
-+/* from kernel's include/linux/sched/types.h */
-+struct target_sched_attr {
-+    abi_uint size;
-+    abi_uint sched_policy;
-+    abi_ullong sched_flags;
-+    abi_int sched_nice;
-+    abi_uint sched_priority;
-+    abi_ullong sched_runtime;
-+    abi_ullong sched_deadline;
-+    abi_ullong sched_period;
-+    abi_uint sched_util_min;
-+    abi_uint sched_util_max;
++struct target_sched_param {
++    abi_int sched_priority;
 +};
 +
  #endif
