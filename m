@@ -2,61 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CACCA47E90F
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Dec 2021 22:25:06 +0100 (CET)
-Received: from localhost ([::1]:46910 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4739547E91E
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Dec 2021 22:36:37 +0100 (CET)
+Received: from localhost ([::1]:42538 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n0VaD-0004Jp-MZ
-	for lists+qemu-devel@lfdr.de; Thu, 23 Dec 2021 16:25:05 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39800)
+	id 1n0VlM-0004MY-DU
+	for lists+qemu-devel@lfdr.de; Thu, 23 Dec 2021 16:36:36 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41226)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n0VXZ-0001vR-2Q
- for qemu-devel@nongnu.org; Thu, 23 Dec 2021 16:22:23 -0500
-Received: from mout.kundenserver.de ([212.227.17.24]:54241)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n0VXX-0008Ql-7g
- for qemu-devel@nongnu.org; Thu, 23 Dec 2021 16:22:20 -0500
-Received: from [192.168.100.1] ([82.142.30.186]) by mrelayeu.kundenserver.de
- (mreue108 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1Mate1-1mUBvP3V4l-00cNEJ; Thu, 23 Dec 2021 22:22:16 +0100
-Message-ID: <7bdd9dc1-4116-dab8-a300-9ea8241675b3@vivier.eu>
-Date: Thu, 23 Dec 2021 22:22:16 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1n0Vdd-0000OL-1b
+ for qemu-devel@nongnu.org; Thu, 23 Dec 2021 16:28:37 -0500
+Received: from [2607:f8b0:4864:20::1034] (port=34775
+ helo=mail-pj1-x1034.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1n0Vdb-00021n-Gq
+ for qemu-devel@nongnu.org; Thu, 23 Dec 2021 16:28:36 -0500
+Received: by mail-pj1-x1034.google.com with SMTP id
+ v13-20020a17090a088d00b001b0e3a74cf7so6947190pjc.1
+ for <qemu-devel@nongnu.org>; Thu, 23 Dec 2021 13:28:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:references:from:message-id:date:user-agent:mime-version
+ :in-reply-to:content-language:content-transfer-encoding;
+ bh=vEsWNYkRSARjunOOYlKyxpN9o8JNs8CIGuLa0vPrIxI=;
+ b=qI4EHnBxDgsYv49+QSO7cixEX2s4I/ZfSVpXJogS1H9bMDToMgo4euWV47i/k8CsYk
+ kAnKoh+BnEItd8HrH9uKjbRyBFYHbl1HaNJr/w7uC9u1zZSzFOPiDoEKwNiayCcImOdc
+ iFXRWwVuwXpnb+uMHjyAwuxx9ZWh7uCLk/44J/uzW7c7KQoVxicIV4Dc/BMdtyWi39Lr
+ ja1Af+qHXYnS/JDgEb3UF+FbgQZ0F3wuXSsPCUWPxPP2YNbd+18PVtaOICubh3A99Hk7
+ cd5/dD0hEJtEijU+QwKbucQLNzrZt7hCczMTKk7YX+VMjwJodrgYL1moa3tJVM84MRqZ
+ OaPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=vEsWNYkRSARjunOOYlKyxpN9o8JNs8CIGuLa0vPrIxI=;
+ b=nTUwpYtuU2VHydFK6a/6ZiP6jW/Sh/+/nNEAq2l7Ov07I3xVL38lnCscVMf8yRaQlq
+ wMBqHL7jkf6C10zGoboKbbGx4P3V1UrNH8RyaSN8JdEApFpJzM3149DsFsdXjcLoj2vz
+ zr5LzsP04G2wK/5yonuyc2Q5Od6yNCY1Bxvjpea1lIFBeEjSLW5URua7FiEKVaGA4P7h
+ qG21UmfHr+IzLe6EG5htAYT8lM1Bs29jxcydK8dZp0fheHJP1ML5i+gnf3zX4l2amud6
+ LPCLFwtAmGB1nPpHBs8q1JxBoMU7BnFNW37EqEl1Cg/NDsbNSsu1phH62Rai9ZyDlm9Q
+ R85Q==
+X-Gm-Message-State: AOAM530zIhedPfQYxGKTau8RJ19bX8gOJNEURlUW4/MO44uEpK51gN23
+ tz2bFPajs+EdkV/9MMU8WfwPD4zjc2Cthw==
+X-Google-Smtp-Source: ABdhPJzJ2qk/+D9ZuTfDoER5NmxPkLs/dD2gZX4gTqa8aEaeThXnliRMVCogIc9HFtaPnMe4CYtU+g==
+X-Received: by 2002:a17:902:c407:b0:149:2ef4:b6b2 with SMTP id
+ k7-20020a170902c40700b001492ef4b6b2mr4079668plk.112.1640294896556; 
+ Thu, 23 Dec 2021 13:28:16 -0800 (PST)
+Received: from [192.168.4.112] ([156.19.246.20])
+ by smtp.gmail.com with ESMTPSA id z23sm6700811pfr.189.2021.12.23.13.27.53
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 23 Dec 2021 13:28:16 -0800 (PST)
 Subject: Re: [PATCH 6/6] target/sh4: Implement prctl_unalign_sigbus
-Content-Language: fr
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
 References: <20211220214135.189157-1-richard.henderson@linaro.org>
  <20211220214135.189157-7-richard.henderson@linaro.org>
-From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <20211220214135.189157-7-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ <7bdd9dc1-4116-dab8-a300-9ea8241675b3@vivier.eu>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <911209e1-5b04-1b64-0929-c09e825aa37e@linaro.org>
+Date: Thu, 23 Dec 2021 13:27:20 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
+MIME-Version: 1.0
+In-Reply-To: <7bdd9dc1-4116-dab8-a300-9ea8241675b3@vivier.eu>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:pqJ6lJbhFl00OUPD689lAVdUbgl6FYyv1C/OlY3zCsoCZq9QYN+
- Tn/F2sUk04pa90y+S8NLJjBv1J8Ek6tRudJbF4mEu/aHvQTKppzOfoAaSTx7/j5ZrMlEjPP
- vyVW8UhGrFVoMDX3nSP3O9f+oYVe0RhDh1j5BBTJ0sIMQbEDnzu6LIl7PUxoKrfN4VeC7ce
- qDEUsDRDdnUUkwgCUkGuQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:VTYjGPpwlLM=:0xJyZAvlL4yFVfuW4aKsKQ
- Uz1UrvB50TJVPImh4eAJeZByNwuHVKrPVzsNbup+42lLNfiBR34ljJgSjWxn9vu0TEP4Uz3Tz
- H7m2llP/DqdSH5ALfUXAN9MaooqDEzLhCL6nogCyv+AWGKARFykykTYMFzjYvsXKz8UBi/Itw
- 6gK+4FeLeN55+mG2ASwEvRPNJuiixlMy1UeDv8OQaIAUbCOFn4z29pOVk7YLZNlcp9Zts4+YO
- 3E1KBUYTgLXp7m/EEt6g1IVFiJ10wRyCC4VMkjXUS2HFh9o9Cgm7jfkk3e1cmDzc8WxHdpvsC
- wmYlZVBe+y8WuVVEA8W7HSphh9k/o4AZ5ayo68I5XZbLt8eDHvRJPVga7+texedxVksFsKOd4
- m0WsktpRo+rkI0zuBzyH6n82L177bgfH8necUVdf8T8mM8E8LR3NogQ52s2dvAAo35Rf0vvan
- 1fzLg4UL7naKb3MvW4Wq7L88q7P/1EcnMZMdgOP2XdiZ4/fOfJG1oSrPqD/RljMuzaRdweBka
- TTy2gFNNRkkFqV+FjS8+j7Z0XeVLicy3KogGwWYzHzO5nQgnkuyN4DQ73hN36KUb6GPa1bc66
- RIaaLSXZISQ1jHQbihqHyeigXarzTqi+46q2UY5ySo1jRGKiwKUqVrzdmvMq3xKFdmZ87kmzj
- nnnq0KeCWC6qUQoCOhT7Ml7OYhZ1hf9dIrpIhwZ9c/d9OKvkBr1nlcr2AWcsd9VApwE4=
-Received-SPF: none client-ip=212.227.17.24; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.264,
- RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1034
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.264,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -72,69 +96,14 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 20/12/2021 à 22:41, Richard Henderson a écrit :
-> Leave TARGET_ALIGNED_ONLY set, but use the new CPUState
-> flag to set MO_UNALN for the instructions that the kernel
-> handles in the unaligned trap.
+On 12/23/21 1:22 PM, Laurent Vivier wrote:
+>> +#define UNALIGN(C)   (ctx->tbflags & TB_FLAG_UNALIGN ? MO_UNALN : 0)
 > 
-> The Linux kernel does not handle all memory operations: no
-> floating-point and no MAC.
-> 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->   linux-user/sh4/target_prctl.h |  2 +-
->   target/sh4/cpu.h              |  4 +++
->   target/sh4/translate.c        | 50 ++++++++++++++++++++++++-----------
->   3 files changed, 39 insertions(+), 17 deletions(-)
-> 
-> diff --git a/linux-user/sh4/target_prctl.h b/linux-user/sh4/target_prctl.h
-> index eb53b31ad5..5629ddbf39 100644
-> --- a/linux-user/sh4/target_prctl.h
-> +++ b/linux-user/sh4/target_prctl.h
-> @@ -1 +1 @@
-> -/* No special prctl support required. */
-> +#include "../generic/target_prctl_unalign.h"
-> diff --git a/target/sh4/cpu.h b/target/sh4/cpu.h
-> index 4cfb109f56..fb9dd9db2f 100644
-> --- a/target/sh4/cpu.h
-> +++ b/target/sh4/cpu.h
-> @@ -83,6 +83,7 @@
->   #define DELAY_SLOT_RTE         (1 << 2)
->   
->   #define TB_FLAG_PENDING_MOVCA  (1 << 3)
-> +#define TB_FLAG_UNALIGN        (1 << 4)
->   
->   #define GUSA_SHIFT             4
->   #ifdef CONFIG_USER_ONLY
-> @@ -373,6 +374,9 @@ static inline void cpu_get_tb_cpu_state(CPUSH4State *env, target_ulong *pc,
->               | (env->sr & ((1u << SR_MD) | (1u << SR_RB)))      /* Bits 29-30 */
->               | (env->sr & (1u << SR_FD))                        /* Bit 15 */
->               | (env->movcal_backup ? TB_FLAG_PENDING_MOVCA : 0); /* Bit 3 */
-> +#ifdef CONFIG_USER_ONLY
-> +    *flags |= TB_FLAG_UNALIGN * !env_cpu(env)->prctl_unalign_sigbus;
-> +#endif
->   }
->   
->   #endif /* SH4_CPU_H */
-> diff --git a/target/sh4/translate.c b/target/sh4/translate.c
-> index ce5d674a52..c959ce1508 100644
-> --- a/target/sh4/translate.c
-> +++ b/target/sh4/translate.c
-> @@ -50,8 +50,10 @@ typedef struct DisasContext {
->   
->   #if defined(CONFIG_USER_ONLY)
->   #define IS_USER(ctx) 1
-> +#define UNALIGN(C)   (ctx->tbflags & TB_FLAG_UNALIGN ? MO_UNALN : 0)
+> Why isn't it like the other targets: "ctx->tb_flags & TB_FLAG_UNALIGN ? MO_UNALN : 
+> MO_ALIGN)"?
 
-Why isn't it like the other targets: "ctx->tb_flags & TB_FLAG_UNALIGN ? MO_UNALN : MO_ALIGN)"?
+It should be; not using 0 was a late revision and I missed this one.
 
->   #else
->   #define IS_USER(ctx) (!(ctx->tbflags & (1u << SR_MD)))
-> +#define UNALIGN(C)   0
->   #endif
->   
->   /* Target-specific values for ctx->base.is_jmp.  */
 
-Thanks,
-Laurent
+r~
 
