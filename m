@@ -2,102 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2E9E47E1AB
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Dec 2021 11:45:44 +0100 (CET)
-Received: from localhost ([::1]:36922 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F37347E1CF
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Dec 2021 11:55:08 +0100 (CET)
+Received: from localhost ([::1]:50916 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n0LbS-0003bi-U1
-	for lists+qemu-devel@lfdr.de; Thu, 23 Dec 2021 05:45:42 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42820)
+	id 1n0LkZ-0004qT-5S
+	for lists+qemu-devel@lfdr.de; Thu, 23 Dec 2021 05:55:07 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44978)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
- id 1n0LYG-0000v2-Ev; Thu, 23 Dec 2021 05:42:24 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:64670)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1n0Lio-0003S2-EL
+ for qemu-devel@nongnu.org; Thu, 23 Dec 2021 05:53:20 -0500
+Received: from [2001:41c9:1:41f::167] (port=54478
+ helo=mail.default.ilande.bv.iomart.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
- id 1n0LYE-0005Bq-Aa; Thu, 23 Dec 2021 05:42:24 -0500
-Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1BN9fh2B012763; 
- Thu, 23 Dec 2021 10:42:19 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=date : from : to : cc :
- subject : message-id : in-reply-to : references : mime-version :
- content-type : content-transfer-encoding; s=pp1;
- bh=4RZrTLjSegO8C32W1Wyqqgc9Xc1ZJgMby0IsthWNgmQ=;
- b=PdNuBD0FIg11T0svZ7aogLP3JCNpXJYBt40j3PjBElgH+q21GhGK26l1iA/pAxX23+Pc
- 19bOl5SGV0HBte6JgzNkaK0yudkYyWUV6msIF/tCbiw+wTA1HzX75L/mGjF6dwuT/exx
- 9/or+hhsRQsQzTnz/YkD4Mys6GhR8FldzgaKoAWYUH5BhwPErjyqhgscNpEEF+hkfKEh
- i4U9YRBBiYYmP0FdxasfdJeT4OeqZo9PIYbxn8VGrIjqqm7PuPBixWgyNxwLZNtrOqN3
- 3V7Lpc5En8H0QNGYZY1W6df0nePsIeO2eaSiYyPy7o7TGm+xKT6GNN61RlhEQ3vyFRSg gg== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3d4pq0ry82-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 23 Dec 2021 10:42:19 +0000
-Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1BN9jhwK024677;
- Thu, 23 Dec 2021 10:42:18 GMT
-Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.99])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3d4pq0ry7k-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 23 Dec 2021 10:42:18 +0000
-Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
- by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1BNAXbax021054;
- Thu, 23 Dec 2021 10:42:16 GMT
-Received: from b06avi18878370.portsmouth.uk.ibm.com
- (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
- by ppma04ams.nl.ibm.com with ESMTP id 3d179a5rq3-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 23 Dec 2021 10:42:15 +0000
-Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
- [9.149.105.62])
- by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 1BNAgB5o44433886
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 23 Dec 2021 10:42:11 GMT
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 928EFAE05A;
- Thu, 23 Dec 2021 10:42:11 +0000 (GMT)
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id E54FAAE05F;
- Thu, 23 Dec 2021 10:42:10 +0000 (GMT)
-Received: from li-e979b1cc-23ba-11b2-a85c-dfd230f6cf82 (unknown [9.171.57.19])
- by d06av26.portsmouth.uk.ibm.com (Postfix) with SMTP;
- Thu, 23 Dec 2021 10:42:10 +0000 (GMT)
-Date: Thu, 23 Dec 2021 11:41:57 +0100
-From: Halil Pasic <pasic@linux.ibm.com>
-To: Cornelia Huck <cohuck@redhat.com>
-Subject: Re: [PATCH qemu] s390x/css: fix PMCW invalid mask
-Message-ID: <20211223114157.514496aa.pasic@linux.ibm.com>
-In-Reply-To: <87h7b037vw.fsf@redhat.com>
-References: <20211216131657.1057978-1-nrb@linux.ibm.com>
- <87h7b037vw.fsf@redhat.com>
-Organization: IBM
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1n0Lik-0001Zv-M4
+ for qemu-devel@nongnu.org; Thu, 23 Dec 2021 05:53:16 -0500
+Received: from [2a00:23c4:8b9f:c400:72e2:646b:9043:c91d]
+ by mail.default.ilande.bv.iomart.io with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1n0LiH-0001O2-9M; Thu, 23 Dec 2021 10:52:49 +0000
+To: yangxiaojuan <yangxiaojuan@loongson.cn>, qemu-devel@nongnu.org
+References: <1638619645-11283-1-git-send-email-yangxiaojuan@loongson.cn>
+ <1638619645-11283-23-git-send-email-yangxiaojuan@loongson.cn>
+ <1984f2fa-1ccd-af3a-7fb8-6770e0b27596@ilande.co.uk>
+ <51bc3c8e-370b-7c42-1003-5b7535491adb@loongson.cn>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Message-ID: <6226db5a-3082-63d3-56a7-5a9b154bb056@ilande.co.uk>
+Date: Thu, 23 Dec 2021 10:52:59 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <51bc3c8e-370b-7c42-1003-5b7535491adb@loongson.cn>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: MhplyXkW_jhLb4ZooLEPM8MRr1QteLc9
-X-Proofpoint-ORIG-GUID: m6sVMdyq05VAsN9mQ94deahcjOZjxWSw
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2021-12-23_02,2021-12-22_01,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 suspectscore=0
- lowpriorityscore=0 mlxlogscore=999 phishscore=0 clxscore=1015 mlxscore=0
- adultscore=0 priorityscore=1501 spamscore=0 impostorscore=0 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2110150000
- definitions=main-2112230056
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=pasic@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-SA-Exim-Connect-IP: 2a00:23c4:8b9f:c400:72e2:646b:9043:c91d
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [RFC PATCH v3 22/27] hw/loongarch: Add some devices support for
+ 3A5000.
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:41c9:1:41f::167
+ (failed)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk;
+ helo=mail.default.ilande.bv.iomart.io
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.264,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -110,97 +69,311 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, Nico Boehr <nrb@linux.ibm.com>, frankja@linux.ibm.com,
- pmorel@linux.ibm.com, qemu-devel@nongnu.org, Halil Pasic <pasic@linux.ibm.com>,
- borntraeger@de.ibm.com, qemu-s390x@nongnu.org
+Cc: peter.maydell@linaro.org, thuth@redhat.com, alex.bennee@linaro.org,
+ i.qemu@xen0n.name, richard.henderson@linaro.org, laurent@vivier.eu,
+ peterx@redhat.com, f4bug@amsat.org, alistair.francis@wdc.com,
+ maobibo@loongson.cn, pbonzini@redhat.com, chenhuacai@loongson.cn,
+ philmd@redhat.com, gaosong@loongson.cn
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 22 Dec 2021 17:46:11 +0100
-Cornelia Huck <cohuck@redhat.com> wrote:
+On 22/12/2021 08:26, yangxiaojuan wrote:
 
-> On Thu, Dec 16 2021, Nico Boehr <nrb@linux.ibm.com> wrote:
+> Hi, Mark
 > 
-> > Previously, we required bits 5, 6 and 7 to be zero (0x07 == 0b111). But,
-> > as per the principles of operation, bit 5 is ignored in MSCH and bits 0,
-> > 1, 6 and 7 need to be zero.
-> >
-> > As both PMCW_FLAGS_MASK_INVALID and ioinst_schib_valid() are only used
-> > by ioinst_handle_msch(), adjust the mask accordingly.
-> >
-> > Fixes: db1c8f53bfb1 ("s390: Channel I/O basic definitions.")
-> > Signed-off-by: Nico Boehr <nrb@linux.ibm.com>
-> > Reviewed-by: Pierre Morel <pmorel@linux.ibm.com>
-> > Reviewed-by: Halil Pasic <pasic@linux.ibm.com>
-> > Reviewed-by: Janosch Frank <frankja@linux.ibm.com>
-> > ---
-> >  include/hw/s390x/ioinst.h | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/include/hw/s390x/ioinst.h b/include/hw/s390x/ioinst.h
-> > index 3771fff9d44d..ea8d0f244492 100644
-> > --- a/include/hw/s390x/ioinst.h
-> > +++ b/include/hw/s390x/ioinst.h
-> > @@ -107,7 +107,7 @@ QEMU_BUILD_BUG_MSG(sizeof(PMCW) != 28, "size of PMCW is wrong");
-> >  #define PMCW_FLAGS_MASK_MP 0x0004
-> >  #define PMCW_FLAGS_MASK_TF 0x0002
-> >  #define PMCW_FLAGS_MASK_DNV 0x0001
-> > -#define PMCW_FLAGS_MASK_INVALID 0x0700
-> > +#define PMCW_FLAGS_MASK_INVALID 0xc300  
+> On 12/18/2021 06:02 PM, Mark Cave-Ayland wrote:
+>> On 04/12/2021 12:07, Xiaojuan Yang wrote:
+>>
+>>> 1.Add uart,virtio-net,vga and usb for 3A5000.
+>>> 2.Add irq set and map for the pci host. Non pci device
+>>> use irq 0-16, pci device use 16-64.
+>>> 3.Add some unimplented device to emulate guest unused
+>>> memory space.
+>>>
+>>> Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
+>>> Signed-off-by: Song Gao <gaosong@loongson.cn>
+>>> ---
+>>>    hw/loongarch/Kconfig            |  8 +++++
+>>>    hw/loongarch/loongson3.c        | 63 +++++++++++++++++++++++++++++++--
+>>>    hw/pci-host/ls7a.c              | 42 +++++++++++++++++++++-
+>>>    include/hw/intc/loongarch_ipi.h |  2 ++
+>>>    include/hw/pci-host/ls7a.h      |  4 +++
+>>>    softmmu/qdev-monitor.c          |  3 +-
+>>>    6 files changed, 117 insertions(+), 5 deletions(-)
+>>>
+>>> diff --git a/hw/loongarch/Kconfig b/hw/loongarch/Kconfig
+>>> index 468e3acc74..9ea3b92708 100644
+>>> --- a/hw/loongarch/Kconfig
+>>> +++ b/hw/loongarch/Kconfig
+>>> @@ -1,5 +1,13 @@
+>>>    config LOONGSON3_LS7A
+>>>        bool
+>>> +    imply VGA_PCI
+>>> +    imply VIRTIO_VGA
+>>> +    imply PARALLEL
+>>> +    imply PCI_DEVICES
+>>> +    select ISA_BUS
+>>> +    select SERIAL
+>>> +    select SERIAL_ISA
+>>> +    select VIRTIO_PCI
+>>>        select PCI_EXPRESS_7A
+>>>        select LOONGARCH_IPI
+>>>        select LOONGARCH_PCH_PIC
+>>> diff --git a/hw/loongarch/loongson3.c b/hw/loongarch/loongson3.c
+>>> index c42f830208..e4a02e7c18 100644
+>>> --- a/hw/loongarch/loongson3.c
+>>> +++ b/hw/loongarch/loongson3.c
+>>> @@ -10,8 +10,11 @@
+>>>    #include "qemu/datadir.h"
+>>>    #include "qapi/error.h"
+>>>    #include "hw/boards.h"
+>>> +#include "hw/char/serial.h"
+>>>    #include "sysemu/sysemu.h"
+>>>    #include "sysemu/qtest.h"
+>>> +#include "hw/irq.h"
+>>> +#include "net/net.h"
+>>>    #include "sysemu/runstate.h"
+>>>    #include "sysemu/reset.h"
+>>>    #include "hw/loongarch/loongarch.h"
+>>> @@ -20,6 +23,7 @@
+>>>    #include "hw/intc/loongarch_pch_pic.h"
+>>>    #include "hw/intc/loongarch_pch_msi.h"
+>>>    #include "hw/pci-host/ls7a.h"
+>>> +#include "hw/misc/unimp.h"
+>>>        static void loongarch_cpu_reset(void *opaque)
+>>> @@ -91,11 +95,12 @@ static void sysbus_mmio_map_loongarch(SysBusDevice *dev, int n,
+>>>        memory_region_add_subregion(iocsr, addr, dev->mmio[n].memory);
+>>>    }
+>>>    -static void loongson3_irq_init(MachineState *machine)
+>>> +static PCIBus *loongson3_irq_init(MachineState *machine)
+>>>    {
+>>>        LoongArchMachineState *lams = LOONGARCH_MACHINE(machine);
+>>> -    DeviceState *ipi, *extioi, *pch_pic, *pch_msi, *cpudev;
+>>> +    DeviceState *ipi, *extioi, *pch_pic, *pch_msi, *cpudev, *pciehost;
+>>>        SysBusDevice *d;
+>>> +    PCIBus *pci_bus;
+>>>        int cpu, pin, i;
+>>>        unsigned long ipi_addr;
+>>>    @@ -135,6 +140,10 @@ static void loongson3_irq_init(MachineState *machine)
+>>>        sysbus_realize_and_unref(d, &error_fatal);
+>>>        sysbus_mmio_map(d, 0, LS7A_IOAPIC_REG_BASE);
+>>>    +    serial_mm_init(get_system_memory(), LS7A_UART_BASE, 0,
+>>> +                   qdev_get_gpio_in(pch_pic, LS7A_UART_IRQ - PCH_PIC_IRQ_OFFSET),
+>>> +                   115200, serial_hd(0), DEVICE_LITTLE_ENDIAN);
+>>> +
+>>>        /* Connect 64 pch_pic irqs to extioi */
+>>>        for (int i = 0; i < PCH_PIC_IRQ_NUM; i++) {
+>>>            sysbus_connect_irq(d, i, qdev_get_gpio_in(extioi, i));
+>>> @@ -149,6 +158,35 @@ static void loongson3_irq_init(MachineState *machine)
+>>>            sysbus_connect_irq(d, i,
+>>>                               qdev_get_gpio_in(extioi, i + PCH_MSI_IRQ_START));
+>>>        }
+>>> +
+>>> +    pciehost = qdev_new(TYPE_LS7A_HOST_DEVICE);
+>>> +    d = SYS_BUS_DEVICE(pciehost);
+>>> +    sysbus_realize_and_unref(d, &error_fatal);
+>>> +    pci_bus = PCI_HOST_BRIDGE(pciehost)->bus;
+>>> +
+>>> +    /* Connect 48 pci irq to pch_pic */
+>>> +    for (i = 0; i < LS7A_PCI_IRQS; i++) {
+>>> +        qdev_connect_gpio_out(pciehost, i,
+>>> +                              qdev_get_gpio_in(pch_pic, i + LS7A_DEVICE_IRQS));
+>>> +    }
+>>> +
+>>> +    return pci_bus;
+>>> +}
+>>> +
+>>> +/* Network support */
+>>> +static void network_init(PCIBus *pci_bus)
+>>> +{
+>>> +    int i;
+>>> +
+>>> +    for (i = 0; i < nb_nics; i++) {
+>>> +        NICInfo *nd = &nd_table[i];
+>>> +
+>>> +        if (!nd->model) {
+>>> +            nd->model = g_strdup("virtio");
+>>> +        }
+>>> +
+>>> +        pci_nic_init_nofail(nd, pci_bus, nd->model, NULL);
+>>> +    }
+>>>    }
+>>>      static void loongson3_init(MachineState *machine)
+>>> @@ -161,6 +199,7 @@ static void loongson3_init(MachineState *machine)
+>>>        MemoryRegion *address_space_mem = get_system_memory();
+>>>        LoongArchMachineState *lams = LOONGARCH_MACHINE(machine);
+>>>        int i;
+>>> +    PCIBus *pci_bus = NULL;
+>>>          if (!cpu_model) {
+>>>            cpu_model = LOONGARCH_CPU_TYPE_NAME("Loongson-3A5000");
+>>> @@ -207,8 +246,26 @@ static void loongson3_init(MachineState *machine)
+>>>        memory_region_add_subregion(address_space_mem, 0x90000000, &lams->highmem);
+>>>        offset += highram_size;
+>>>    +    /*
+>>> +     * There are some invalid guest memory access.
+>>> +     * Create some unimplemented devices to emulate this.
+>>> +     */
+>>> +    create_unimplemented_device("ls7a-lpc", 0x10002000, 0x14);
+>>> +    create_unimplemented_device("pci-dma-cfg", 0x1001041c, 0x4);
+>>> +    create_unimplemented_device("node-bridge", 0xEFDFB000274, 0x4);
+>>> +    create_unimplemented_device("ls7a-lionlpc", 0x1fe01400, 0x38);
+>>> +    create_unimplemented_device("ls7a-node0", 0x0EFDFB000274, 0x4);
+>>> +
+>>>        /* Initialize the IO interrupt subsystem */
+>>> -    loongson3_irq_init(machine);
+>>> +    pci_bus = loongson3_irq_init(machine);
+>>> +
+>>> +    /* Network card */
+>>> +    network_init(pci_bus);
+>>> +
+>>> +    /* VGA setup. Don't bother loading the bios. */
+>>> +    pci_vga_init(pci_bus);
+>>> +
+>>> +    pci_create_simple(pci_bus, -1, "pci-ohci");
+>>
+>> By passing in -1 then you're allowing the PCI code to choose a suitable device/function which feels odd for an in-built device. Is this not fixed in real hardware?
+>>
+>> Same with pci_nic_init_nofail() and pci_vga_init() which are intended for machines that don't have these devices in-built.
 > 
-> Removing bit 5 from this mask makes sense, at it is simply ignored.
-> 
-> I'm a bit confused about bits 0 and 1, however. They are _QF and _W,
-> respectively (just out of the context here), which are in the same class
-> as _DNV (i.e. characteristics of the subchannel that cannot be modified
-> via msch). Looking at the PoP, I don't see what is supposed to happen if
-> the program tries to modify the dnv bit (maybe I'm simply overlooking
-> it.) I would naively assume that the w bit should behave in the same way
-> (as it does for message subchannels what dnv does for I/O subchannels,
-> and the rest of the values are not meaningful if it is not set), and
-> probably also the qf bit (as it doesn't make sense for the program to
-> turn QDIO capabilities on and off.) The main question is whether trying
-> to modify these bits causes an error or is ignored. The PoP suggests an
-> error (no idea if the internal architecture agrees, it hopefully does);
-> what happens for dnv?
+> The machine has these devices but we don't want to emulate all the devices, only emulated part devices.
+> I don't know if it is ok to do like this.
 
-"""
-Bits 0, 1, 6, and 7 of word 1, and bits 0-28 of word 6
-of the SCHIB operand must be zeros, and bits 9 and
-10 of word 1 must not both be ones. When the
-extended-I/O-measurement-block facility is installed
-and a format-1 measurement block is specified, bits
-26-31 of word 11 must be specified as zeros.
-"""
-(IBM z/Architecture Principles of Operation (SA22-7832-10), 14-8)
+I'm not sure I understand what you mean by part devices here - could you give an example?
 
-The internal architecture agrees.
-
-DNV bit is ignored. Regarding why, I don't know. Probably for historic
-reasons. The PoP tells us that whatever is not listed as significant
-or checked and results in an operation exception if not appropriate
-is ignored:
-"""
-The remaining
-fields of the SCHIB are ignored and do not affect the
-processing of MODIFY SUBCHANNEL. (For further
-details, see “Subchannel-Information Block” on
-page 2
-"""
-(same page)
-
-Regarding word 1 of the SCHIB the alignment between PoP and AR is
-perfect AFAICT.
-
+>>>        LOONGARCH_SIMPLE_MMIO_OPS(FEATURE_REG, "loongarch_feature", 0x8);
+>>>        LOONGARCH_SIMPLE_MMIO_OPS(VENDOR_REG, "loongarch_vendor", 0x8);
+>>> diff --git a/hw/pci-host/ls7a.c b/hw/pci-host/ls7a.c
+>>> index a783fb2eda..06cd641573 100644
+>>> --- a/hw/pci-host/ls7a.c
+>>> +++ b/hw/pci-host/ls7a.c
+>>> @@ -28,6 +28,41 @@ static const VMStateDescription vmstate_ls7a_pcie = {
+>>>        }
+>>>    };
+>>>    +static PCIINTxRoute ls7a_route_intx_pin_to_irq(void *opaque, int pin)
+>>> +{
+>>> +    PCIINTxRoute route;
+>>> +
+>>> +    route.irq = pin;
+>>> +    route.mode = PCI_INTX_ENABLED;
+>>> +    return route;
+>>> +}
+>>> +
+>>> +static int pci_ls7a_map_irq(PCIDevice *d, int irq_num)
+>>> +{
+>>> +    PCIBus *bus;
+>>> +    int offset, irq;
+>>> +
+>>> +    bus = pci_get_bus(d);
+>>> +    if (bus->parent_dev) {
+>>> +        irq = pci_swizzle_map_irq_fn(d, irq_num);
+>>> +        return irq;
+>>> +    }
+>>
+>> Isn't this part already handled by the code in hw/pci/pci.c when the IRQ is asserted, for example pci_change_irq_level()?
 > 
-> We support neither message subchannels nor QDIO in QEMU, so it's
-> probably not relevant right now; but it would still be good if we could
-> clarify the expected behaviour here :)
-> 
-> >  
-> >  #define PMCW_CHARS_MASK_ST 0x00e00000
-> >  #define PMCW_CHARS_MASK_MBFC 0x00000004  
-> 
-> 
+> We design a different rule for the pcie devices connect to the root bridge, assign more irqs to these devices.
+> For the pci device connect to a pcie-to-pci bridge use the common pci_swizzle_map_irq_fn to map irq.
 
+I'm less familiar with PCIe but shouldn't the interrupt mapping for devices connected 
+via a pcie-to-pci bridge be handled by the bridge in this case? Have a look at 
+pci_bridge_map_irq() to see how this is used. I'd expect the pcie-to-pci bridge to 
+map the PCI irq to your host controller irq first before calling pci_ls7a_map_irq(), 
+which I think then becomes just a simple call to pci_swizzle_map_irq_fn()?
+
+>>> +    /* pci device start from irq 80 */
+>>> +    offset = PCH_PIC_IRQ_OFFSET + LS7A_DEVICE_IRQS;
+>>> +    irq = offset + ((PCI_SLOT(d->devfn) * 4 + irq_num)) % LS7A_PCI_IRQS;
+>>> +
+>>> +    return irq;
+>>> +}
+>>> +
+>>> +static void pci_ls7a_set_irq(void *opaque, int irq_num, int level)
+>>> +{
+>>> +    LS7APCIEHost *pciehost = opaque;
+>>> +    int offset = PCH_PIC_IRQ_OFFSET + LS7A_DEVICE_IRQS;
+>>> +
+>>> +    qemu_set_irq(pciehost->irqs[irq_num - offset], level);
+>>> +}
+>>> +
+>>>    static void pci_ls7a_config_write(void *opaque, hwaddr addr,
+>>>                                      uint64_t val, unsigned size)
+>>>    {
+>>> @@ -64,10 +99,13 @@ static void ls7a_pciehost_realize(DeviceState *dev, Error **errp)
+>>>        LS7APCIEHost *s = LS7A_HOST_DEVICE(dev);
+>>>        PCIExpressHost *pex = PCIE_HOST_BRIDGE(dev);
+>>>    -    pci->bus = pci_register_root_bus(dev, "pcie.0", NULL, NULL, s,
+>>> +    pci->bus = pci_register_root_bus(dev, "pcie.0", pci_ls7a_set_irq,
+>>> +                                     pci_ls7a_map_irq, s,
+>>>                                         get_system_memory(), get_system_io(),
+>>>                                         PCI_DEVFN(1, 0), 128, TYPE_PCIE_BUS);
+>>>    +    pci_bus_set_route_irq_fn(pci->bus, ls7a_route_intx_pin_to_irq);
+>>> +
+>>>        memory_region_init_io(&s->pci_conf, OBJECT(dev),
+>>>                              &pci_ls7a_config_ops, pci->bus,
+>>>                              "ls7a_pci_conf", HT1LO_PCICFG_SIZE);
+>>> @@ -137,6 +175,8 @@ static void ls7a_pciehost_initfn(Object *obj)
+>>>        object_initialize_child(obj, "ls7a_pci", ls7a_pci, TYPE_LS7A_PCIE);
+>>>        qdev_prop_set_int32(DEVICE(ls7a_pci), "addr", PCI_DEVFN(0, 0));
+>>>        qdev_prop_set_bit(DEVICE(ls7a_pci), "multifunction", false);
+>>> +
+>>> +    qdev_init_gpio_out(DEVICE(obj), s->irqs, LS7A_PCI_IRQS);
+>>>    }
+>>>      static const char *ls7a_pciehost_root_bus_path(PCIHostState *host_bridge,
+>>> diff --git a/include/hw/intc/loongarch_ipi.h b/include/hw/intc/loongarch_ipi.h
+>>> index d2397e53e7..1113c3b1a8 100644
+>>> --- a/include/hw/intc/loongarch_ipi.h
+>>> +++ b/include/hw/intc/loongarch_ipi.h
+>>> @@ -8,6 +8,8 @@
+>>>    #ifndef HW_LOONGARCH_IPI_H
+>>>    #define HW_LOONGARCH_IPI_H
+>>>    +#include "hw/sysbus.h"
+>>> +
+>>>    /* Mainy used by iocsr read and write */
+>>>    #define SMP_IPI_MAILBOX      0x1000ULL
+>>>    #define CORE_STATUS_OFF       0x0
+>>> diff --git a/include/hw/pci-host/ls7a.h b/include/hw/pci-host/ls7a.h
+>>> index ac938d6d5f..3b9ad1e175 100644
+>>> --- a/include/hw/pci-host/ls7a.h
+>>> +++ b/include/hw/pci-host/ls7a.h
+>>> @@ -37,6 +37,9 @@
+>>>    #define LS7A_DEVICE_IRQS        16
+>>>    #define LS7A_PCI_IRQS           48
+>>>    +#define LS7A_UART_IRQ           (PCH_PIC_IRQ_OFFSET + 2)
+>>> +#define LS7A_UART_BASE          0x1fe001e0
+>>> +
+>>>    struct LS7APCIState {
+>>>        /*< private >*/
+>>>        PCIDevice parent_obj;
+>>> @@ -51,6 +54,7 @@ typedef struct LS7APCIEHost {
+>>>          LS7APCIState pci_dev;
+>>>    +    qemu_irq irqs[LS7A_PCI_IRQS];
+>>>        MemoryRegion pci_conf;
+>>>        MemoryRegion pci_io;
+>>>    } LS7APCIEHost;
+>>> diff --git a/softmmu/qdev-monitor.c b/softmmu/qdev-monitor.c
+>>> index 01f3834db5..49491d74a1 100644
+>>> --- a/softmmu/qdev-monitor.c
+>>> +++ b/softmmu/qdev-monitor.c
+>>> @@ -60,7 +60,8 @@ typedef struct QDevAlias
+>>>                                  QEMU_ARCH_HPPA | QEMU_ARCH_I386 | \
+>>>                                  QEMU_ARCH_MIPS | QEMU_ARCH_PPC |  \
+>>>                                  QEMU_ARCH_RISCV | QEMU_ARCH_SH4 | \
+>>> -                              QEMU_ARCH_SPARC | QEMU_ARCH_XTENSA)
+>>> +                              QEMU_ARCH_SPARC | QEMU_ARCH_XTENSA | \
+>>> +                              QEMU_ARCH_LOONGARCH)
+>>
+>> This part looks like it belongs to another patch?
+> 
+> OK, I will put this part to a separate patch.
+> 
+> Thanks,
+> Xiaojuan
+> 
+>>
+>>>    #define QEMU_ARCH_VIRTIO_CCW (QEMU_ARCH_S390X)
+>>>    #define QEMU_ARCH_VIRTIO_MMIO (QEMU_ARCH_M68K)
+
+ATB,
+
+Mark.
 
