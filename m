@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2DAB47E623
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Dec 2021 17:06:07 +0100 (CET)
-Received: from localhost ([::1]:49222 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D18147E630
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Dec 2021 17:12:37 +0100 (CET)
+Received: from localhost ([::1]:37680 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n0QbW-0000QQ-K5
-	for lists+qemu-devel@lfdr.de; Thu, 23 Dec 2021 11:06:06 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43052)
+	id 1n0Qho-0003ZY-EC
+	for lists+qemu-devel@lfdr.de; Thu, 23 Dec 2021 11:12:36 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43150)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1n0QXf-00050h-37; Thu, 23 Dec 2021 11:02:07 -0500
-Received: from mail-eopbgr150124.outbound.protection.outlook.com
- ([40.107.15.124]:2176 helo=EUR01-DB5-obe.outbound.protection.outlook.com)
+ id 1n0QXk-00058H-A8; Thu, 23 Dec 2021 11:02:12 -0500
+Received: from mail-eopbgr70094.outbound.protection.outlook.com
+ ([40.107.7.94]:61158 helo=EUR04-HE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1n0QXd-0005Js-AB; Thu, 23 Dec 2021 11:02:06 -0500
+ id 1n0QXd-0005KZ-NI; Thu, 23 Dec 2021 11:02:12 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=FncI+TVvHhfHKUmtg0bOE8IKqWMVHRx0jocxuH8/PoUz/lLKk1NOjhvlOLsoBjz/wg0eletcTSidIJdzcsE1jAj9SPwgGsMr4Ex4eWAVUO2/VefDD5qsX/KNZctMgZDQG5mXcfOH9j/EW+xJZLuK08k27AqAda6xsmHYDoRHO+ubzElMGZcBn8mZtQdxTMsBSYak+4rmWh1UelvU3bzgM+WmeRh7iICkCFuOTdiasnmR+fVSEIUVPWAZI0WgxUjG+DF0ipl6Wq5QWLe9IfA08c2cGBwmobtWYIoZ2RnKkGX7O87RrrKOij1kY/wZLVV7I2fkz3aXF+SZAuhp9I35sA==
+ b=IPxy/z1dHNjIsmxVXhXi1YMKUjQ28t8SGIOsTopTbsjbSeHeMNwws8a4Vq+R9tE3FJKLnNmRIRr1/ssCp4pvEgmtPhitPkS1/pUS3Ke3Y6SuX1T10rfDF//Ip2/i3yvbEjB5YChBPtHC5K8Qu/1xpEaFuyOU7wWCVVMuYN4hMdzfyi8sGUgYGx2soifDevJsehfFkTIeUlAulWp+Ev740GX1tZbAiqANkUm3ZZ50s9Hb7ojzG53ZGLWJpxL+9zp3OqUFGsEmfnJ3WCDBna8n/FqO3gneM1ANm6Oyxn6QQ1NQP6/EJwFE0PDiBmhBu/8t3ERwwoNS/rITRNSDgc1M3Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ugNx8pTaVX6K2FBKmoeNPtVML04sAuUp1rkZwwvlW9k=;
- b=iLJbnBpOb2hcoaEL/alF6zmdJ+ghrF9LRSSmti37aZl7d0d+ErslIxLrW1VLmI6f9tYu+EIm+WG+sVJG4fg2Lf+91CEcfVUq6wcG1DxBuKfIsTixxyH2FPLov5r+InFlXpEu6OQwgZEHvsEj5anlzTYfL7GkAla0ZON+M+fBw81ESKGSeV9jSaLRZVsHxaBc/oIIl3eEuHFLwXWy3rGkw0pqsFLUFnmJYgYzLqnJS1rgBdLdxvjLuSpKJeIiLSOKF3lyYTbYUXSjJLOTVtwTsyNPwRzXSvD3UEvscS1iZQkVRnTvuHghm+FqJKIU5dtOMliValET5YSbVl4o+03vqA==
+ bh=3l1S80L/AtuBK8VfJ1S7eelDCqYxyEhXzR8yV4w0eTs=;
+ b=XvYwfB8fQQ16MxO+Xvf93LnIK46RvKG5GlPCSvanrj8rs2fQTmmoAYVIyY5EkVEwtyNOukxns9womYKg6KvNrQp0+F59mDfJQoVyBZaNostVSBjdX8NVRQIiEuCxROQN0rr8gvCmCkuPToD1r3OCETWwb00MFxaRiT+Ljg7O12s6/mvUwnOK3DHuLyCbi/1cceN3e2mvJmKrJCJqRhvi4U7sYp5IyJ0QjI7PqXqVy7hHm9liVtQ204nDOY8G2CQ2vopcP8zT987npeL+mb6+MO5l+S2defwKnAlBYSl4D6AR0NPNC0KkSVCSXtM8h1sQOLvWmzi8S1WRnzwXFATiag==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ugNx8pTaVX6K2FBKmoeNPtVML04sAuUp1rkZwwvlW9k=;
- b=FOYVQEJaKOBqzqC6Ki3ld8NOACJrK8jwPT2YmWYFZ6swxgPtBYk8onJdHetG3YppwRr1y5xohN/5XwL0PZ98Z+hypWT/akdQpMwBd66F4ULkFzbD0f9R6zCVTCqCSDfXhAIBkVZ701kuJCeKo3p9+Ahrt7/zZjuEynjjKxfF6No=
+ bh=3l1S80L/AtuBK8VfJ1S7eelDCqYxyEhXzR8yV4w0eTs=;
+ b=dhOP6JAhQd6VENrFEX5Gqy012r+qV48QVWEee61/rYT3TSjf1Dff++UiYWpDt7Vr+xHSd3ygdvqV8WoeJ0rifHpReNJFawQOks7KeYY0if0210AIFvjtGiFpGtshlrWWxu0LuUlmQWj8XXXb/0eCgG3SgnDtMNXrgvnR3mWvQAY=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM9PR08MB6737.eurprd08.prod.outlook.com (2603:10a6:20b:304::18)
@@ -48,9 +48,10 @@ From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, kwolf@redhat.com, hreitz@redhat.com,
  vsementsov@virtuozzo.com, jsnow@redhat.com
-Subject: [PATCH v5 02/19] iotests.py: implement unsupported_imgopts
-Date: Thu, 23 Dec 2021 17:01:27 +0100
-Message-Id: <20211223160144.1097696-3-vsementsov@virtuozzo.com>
+Subject: [PATCH v5 03/19] iotests: specify some unsupported_imgopts for python
+ iotests
+Date: Thu, 23 Dec 2021 17:01:28 +0100
+Message-Id: <20211223160144.1097696-4-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211223160144.1097696-1-vsementsov@virtuozzo.com>
 References: <20211223160144.1097696-1-vsementsov@virtuozzo.com>
@@ -61,61 +62,61 @@ X-ClientProxiedBy: AS9PR0301CA0001.eurprd03.prod.outlook.com
  (2603:10a6:20b:304::18)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: f4e7d21e-ceb7-49c6-6720-08d9c62d8a9a
+X-MS-Office365-Filtering-Correlation-Id: 17034d0e-d8d2-47b5-ff37-08d9c62d8ad5
 X-MS-TrafficTypeDiagnostic: AM9PR08MB6148:EE_
-X-Microsoft-Antispam-PRVS: <AM9PR08MB61481B4A3575C5B2DCA41FD3C17E9@AM9PR08MB6148.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6790;
+X-Microsoft-Antispam-PRVS: <AM9PR08MB614860184B743C31D756EAB0C17E9@AM9PR08MB6148.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3826;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: THMcqs8kULanLxcBWR6jyo+xj/HZhcXE4bO0MMxKyiIYOT1dKJCMP6e/tayhlJ1ASAQ2N6O/g3qTYSjyzmv51gtixAEKnpDO007+2ujRw8SiGJDag7LoHhctCVLoGWU/jjEDQBoQxzpSqx0QbIQgAcsLH0szkjVIKUtrqoyPFGiHFWBfEaCRHgujZPwvI3SmuJvYrjn2eg4/TIK9nElIazIisWMYlg8yvBebHKzL/8P4g13sN0UJuK28Vo4h/t9naqNIAgoQxsiaytUsgb7OYcfi4UgY+lLBuyL/VpNzzdpxwoqPlFqR8rJJ/lt9yTOOGU0ls35cClgRh2j0QDQuh0q9AlQh2puugDgkBGkxA20bCnPSXV4igDXf27mO/SsBDa5bsyuhqAPxJzECoe1dJwH2DykUPbBhTJoxlNP0RWiMoTXFvLx0nbFbixMGTktXId7/pXUq5ns8gMhHjwwZEKsQv7dzshpV9YIVADKcc9OpVBo0xK817pv27mFWh4gw/mxC1myycsLCqOGdaps0A+FYsdJVG6Vr9WRzjKNMLMTZjz49jfgBM3MyZbHB1dX3XyPT0+WYHqsZDcVE7GXz95EC2i4yZ3Bjy7BHQRdPu3rAkVR2bEyLY8TP6P+hKHnj+PRlohkjZVaH3IYmaO1EHwbbz84Bh090Tw6Dk7h4ecxOxM/qDc+2zHeEhyeCRhFVn5uiIgDyH+ri/0pFM1GjXw==
+X-Microsoft-Antispam-Message-Info: W1BCfEUUSPa3fur/ZIwNkpYOxaBbjzd7wlWcr7LBWwJuIRUX1CfWzr+gg9YJFaSTrJ8EepkOVKjaHTIApHJy6Pk2Ah4IyMHRRhlRyOMSNGfdFeQkuOrNpk38LJZioqJPmqv5a/yMdS3+DXQKugkhbBb6BVt7n2w5nQI5SxGPRqVgCCaIyreXi0M6u+ztD9yKVePQAHKzWQXFUmd44GkZbG2YNxGmkXGRv4JSgmB23cXv67GqKaUQlxPP/6PSfgsPJ5dBa9tQU/s/JRm+YCJd01OvEnEhWu9jcvQMeMK2sgaHcUvZhPIaQumDcGGuE8zHhqJqQI1h4ryuMoVy9KoR3OdK74Vq/O1a2H/rrpTXw/piz9dHDlr8UQgyTNx6e0dJFvoi1sW/2T3gGrfc3KQsCm9BonhLl5z18Tz9JjG1iW8pU1Tx6Aq8Ds1G2DHJ/bhpJTPSNLHUUYZZe06BQiXfMlVqLx1nIjysgV5Wu4JqN0t3gZGq6gXos0jHzaVOTBs/hieaAyL4SkVXw/kMtkJtMH3xLXRWP4Fb83tpFaDU+eFvEA/7nreNN4HW3ntH6z6ZEFusNaff60P1wj45kZqTkqxPTA+on/NTc6/e7fRssVpC5EETRmqG+PL3IB0A+0LOclKRz5anHWGhOSbW2vwtxQOrhv+kp/HjqNnwaPSiJZWPZdGquyT3lI5IFF94l1AYubOtKRfxh1Gjw0HTfKLqtw==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM9PR08MB6737.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(4636009)(366004)(36756003)(5660300002)(8936002)(508600001)(38100700002)(66946007)(316002)(38350700002)(66476007)(66556008)(1076003)(2906002)(4326008)(6666004)(83380400001)(6506007)(2616005)(6916009)(26005)(6486002)(6512007)(86362001)(8676002)(52116002)(186003);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?TKaLx3xa6hu9sB3kWpO4nKfnOZKUB5Ce5EBCoSzxvZyCYFvnqWc9kFABozkz?=
- =?us-ascii?Q?Px+Q8jgmNnZtoLd6B4BwX5kDnXdHyxsTHVTio/LjDMJ/SQ4NE13bzBqxFyGK?=
- =?us-ascii?Q?k0m69WloSNiDNsVLRZF1/ak/StuRUBq/Y33B4kXPwvrxALd/wXAfQDonDtic?=
- =?us-ascii?Q?P8EwiUk6C0bNdtq3sPNIUZsPP0fPSfg1Gp6kt/Z7FB/2j4k8crxYszQpFf0U?=
- =?us-ascii?Q?idyAKBJH/hPNmRC/oJduxHfLoU2Oc0YMn73R7GjEpAQz0aAaGUuY8nxtHsO/?=
- =?us-ascii?Q?AJo3v03U4SngIKsRek5Rcdc/gfGZJcA/o70ezSH+t7lJfbOS+Nz+CM4H2Z1o?=
- =?us-ascii?Q?tKD+STw6+8hvin/3pk73ISvjzKtZ1RzaylIqE9n0EiBJ7ZLUXYJRj4Txm0Uq?=
- =?us-ascii?Q?F13GEYSs3KexK7zAmHwasR8mRniuIcCi2189NIKHh0m7J2NxVk2JrC6F1ZiZ?=
- =?us-ascii?Q?s/hmSQhS6/JUJ9EpeaYbyu4nTO51xlHEEwAbTNpS2D8IXBqGM3j53a+LaDep?=
- =?us-ascii?Q?llQ/nvs5rBQxWshuN8jRob7VwiMe/4FB6dB8Af8gX4g26/Sv9Y/m0GfHJ3HZ?=
- =?us-ascii?Q?S3zFK93ohWDwYF8fFZCxeF80YEQdzWOkw+q3Pa5rwMQFHUjO3y9bsmrqjjGg?=
- =?us-ascii?Q?qaKEHclldaVorED6HOoSymuujA02tHguTWEVWVElIIbmYBiPV6a84VAmhRzb?=
- =?us-ascii?Q?ftcFv6cjaWhKnaZXjWi/7UHpvQnVOl9bXb1Ay5BX8GjJuZ9UOt0jLsj0ICdl?=
- =?us-ascii?Q?+sklXtt0Wk2KqzYu+H7MrwvHxiDjdVEgfa9GEJu9ldtr9q1T/wRxzb1vaHQ1?=
- =?us-ascii?Q?plZY/tUrBy8EBwUq/1kuBAUhIuhKSbz3RhlD8h/6Q1O1PCFnN9kNdLNfTOPv?=
- =?us-ascii?Q?Z/BOtUHPQtjmZZGjG8Km/R00vlrWLWzzqrXDUdoRqDiAnW4YMVy0Xukabgs7?=
- =?us-ascii?Q?ypDKSrPH8PUWNGaTMRU3RUKwuwPZfmJJhn2xDYeGBeW5jqc+m6CekI6fUxe2?=
- =?us-ascii?Q?vN0+wvgGMsfkcK0YxD3NcOMVtUwPTxSey/V84j5nz+1Age89Or/W4g8I3FhW?=
- =?us-ascii?Q?VXXpWXgQng5hxBWeq8W+K3sgVqfOHJdcNL93aEro+LZ5bh3ZCC9KIwiHZTPr?=
- =?us-ascii?Q?hDFST4qb67ldvIscFBzyoK50rou6wJgr298DoQ8z1l0UBqODP8mJZ/sl1Tbl?=
- =?us-ascii?Q?EMKrnOlgF34fXF70oeJjv+Sg/zlj83S2XF8qleUOTfq0HIyi1I9v+c7+aBnE?=
- =?us-ascii?Q?qkGy7P1nGA1ocvC4Xt/bv0PHCzl/Ks6s/2Wm4e2tJ6f648NsJGq/hlGI42d0?=
- =?us-ascii?Q?8ZJENOjUMRLSObNId417z1LbS3hzr+2XvZr19J+Z4x7QHua25WnYJQUs5P0+?=
- =?us-ascii?Q?x778ZeTEH54KZJi1+LWZq8i28/8ntuQxYzfxQX0myaZ8Stem1ieiX5LfCtSD?=
- =?us-ascii?Q?H2rheZis16XKMuPEjzK6sHkfK2nBZvk5PhIB59dTHe7gCv2IzHxyEgV8qS8M?=
- =?us-ascii?Q?A0E8zPZMo8RkUgINmioEsM2AULtZDi+8Frluz2077QsUkO03rvDpTwYAP59h?=
- =?us-ascii?Q?CtGGNgcUph2quewe/UglsOW6fgOFh3oBQGyrBUhpOv0GO2gd7Fm3D3dsSG0s?=
- =?us-ascii?Q?ZCMyxR+19IlNIWHpeluQLbZNOliLlDo12/xAgnONu0ol5Rc5fDc36yTo8fWY?=
- =?us-ascii?Q?OrtSJ+mfnSoHn5C7hgqvubmNhvg=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?9QVRQEEcsv2TE4XmkLomPMPJzncuHSJpnMtN0C2971b/C76WdjJEDgWecPVX?=
+ =?us-ascii?Q?k9nQnhORkx+3/qgGQw5woAQ4Bi7ixcpwcZVmxLxyXixwRLZwRbBJsR+cKpnd?=
+ =?us-ascii?Q?3RHdF7XrOl4kGZNUNIWlYyOBqCEIxDK3oWnfYAjlhnjRmAI5WjzCD+BoAcXe?=
+ =?us-ascii?Q?LabaolulyrypRVIoIPMskBkrMBd9dZoFp5bZMK/oYhjQsiLI5j+35H3nBB+D?=
+ =?us-ascii?Q?nAwwHZuyinb5zwMM7dVOdef20IWsb4cGf0Ky/3eqybD/hlGrfZaMrMlF4Eay?=
+ =?us-ascii?Q?+vRsqUIkIRyH+4HHRZpPpdnn6S9CIwZl+G95oT1XoFBF10g0FeBTj1i+t8f2?=
+ =?us-ascii?Q?vo9ID6r8EoQ9nbAYFZQsEZmH1icvs6KCxrr/QaasmfJgkxg2U8/JQpDlxeNk?=
+ =?us-ascii?Q?Ww/P/YBXQHHmvVQYo+ocImirsR39eEB54YrVG9bQmGiQWfvomlIsebpW9SCE?=
+ =?us-ascii?Q?en99ZCiIqsX5kwws2vxUpk3I+P5OK/wq1SSqOErFJbM+cl9tObaUoW8HD6OL?=
+ =?us-ascii?Q?l+u0616pvLAsjZDI0SeElaUS/KI/bA1B5QWpyNBA6ta2m30qkxHHEsWJevDU?=
+ =?us-ascii?Q?eu6Px3XQObbJWLKOgjE+0zx+ijbXhEBzPt5dhD9QpvFocWyvXqZCXCgs1rpo?=
+ =?us-ascii?Q?zD/HRewZwiv5SuvjT08JpfOIgfzCb602xqWsHwAZsn0sm1WVBNO3Z2aOPIfF?=
+ =?us-ascii?Q?xh8Bj5YInURkT2CcMNNLyKgIlvV2j8i9F2YnhF/Bl+0nNFEYm3/UhV8pXMie?=
+ =?us-ascii?Q?ED9YMgFhxRUIjQ6iZXLFCKfIn/YUtW8bzsIDDm874mxD/RQ91N1ZcuXlOeny?=
+ =?us-ascii?Q?4kMikRSe4C9M3dw5GnVM2CzQ/8IlgduR3mtHmy/94h5CTQLD33F0k7G6mu5n?=
+ =?us-ascii?Q?JthjNcTNL/WDjS/weR+MIxIrnWHNBKjElBGORFHXnU4p9RWPZ4xAtoLM6Ur0?=
+ =?us-ascii?Q?dQNGXbFqnIJi8PsvMCXJgl7dWinbRWJR0Z5vuA+wlWOPAjfUbTI4+PVEE9s0?=
+ =?us-ascii?Q?55WFI713bXpuDckOhJdUcyiCgjZWaRDZBIebrD7Qn81EMumzRmpT9APVeLer?=
+ =?us-ascii?Q?fMg1+Pfryg44Q3JodfFmhgduDDiBPUgdMHjFzT9SdMif2+WvcF7YhrHAZaKD?=
+ =?us-ascii?Q?Fkviu/CdWrCLGfsr5SaVeukM0NfLrCT64lNZGM1TokL+IDi5k8TXzHrpgf2S?=
+ =?us-ascii?Q?NCwzSIL40DOgkcKT5QIt0S8Hz9VDB3YfCvr1yxC7V9+6eoq3MK5RISoHxrqF?=
+ =?us-ascii?Q?zsiNbGHxyZCgk9BmDkm6zBA0Magg8JSnKmOZ92GajtaOFkasZoQceZXqFe4T?=
+ =?us-ascii?Q?40OZv506QIHKun/xpFxR5rfAe46SkuyKeDgEfZSxWtnJESNQQFj7qjTrgwGI?=
+ =?us-ascii?Q?NVAcYxPwWsUEqeSOjRMWTzzdNYsCIrIy89WVhrpDahHKWdlGQwm3HJR2QRnt?=
+ =?us-ascii?Q?Ltrvr0JRhPvTw04qHEFh+5CqMTuaMEvak+/VDee9ru3hD8CAgsmH9KRLy42o?=
+ =?us-ascii?Q?bLhr5gMPpLj0tHIOlQe6V/xS4V7jvLpA5MpsxTLDU2AJONP1nYBxdG4crKJG?=
+ =?us-ascii?Q?AEJlD39Pe9Y6qUQ65gZ0ypzUZgqLtdG2PUycAIxK9Eia0uE0Dgy+eQVom0BQ?=
+ =?us-ascii?Q?B2fuEwGk1HojHrn1JREP19m5Kc4P4p3emL9eLLFltSCVS/1ZBaJI0+zSxLby?=
+ =?us-ascii?Q?mfd0tEe5bmg3pHjKU7GScQaD7bU=3D?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f4e7d21e-ceb7-49c6-6720-08d9c62d8a9a
+X-MS-Exchange-CrossTenant-Network-Message-Id: 17034d0e-d8d2-47b5-ff37-08d9c62d8ad5
 X-MS-Exchange-CrossTenant-AuthSource: AM9PR08MB6737.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Dec 2021 16:01:55.2088 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Dec 2021 16:01:55.5837 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: LY5BRlojcE++duPMNdOaxqPinQsCW0KwOG7pS4vsOFwwPbyLjCQVNDL7ev0a1rUPkdj/fVd6fBWgKr52XRKbpNBBKm1VShg5pzIVvjudDtk=
+X-MS-Exchange-CrossTenant-UserPrincipalName: hVWJdodWju7LHwYn5HrOmbFfD83cq8l6InHvGhfQHzGVU9GHP8KuNvVYbsA6vhRM03mD4gVhNKFM9P1YMQuiDWCxWT3BXlV/DNBocOqxCEE=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR08MB6148
-Received-SPF: pass client-ip=40.107.15.124;
+Received-SPF: pass client-ip=40.107.7.94;
  envelope-from=vsementsov@virtuozzo.com;
- helo=EUR01-DB5-obe.outbound.protection.outlook.com
+ helo=EUR04-HE1-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -138,61 +139,219 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We are going to support some addition IMGOPTS in python iotests like
-in bash iotests. Similarly to bash iotests, we want a way to skip some
-tests which can't work with specific IMGOPTS.
+We are going to support IMGOPTS for python iotests. Still some iotests
+will not work with common IMGOPTS used with bash iotests like
+specifying refcount_bits and compat qcow2 options. So we
+should define corresponding unsupported_imgopts for now.
 
-Globally for python iotests we will not support things like
-'data_file=$TEST_IMG.ext_data_file' in IMGOPTS, so, forbid this
-globally in iotests.py.
-
-Suggested-by: Hanna Reitz <hreitz@redhat.com>
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Reviewed-by: Hanna Reitz <hreitz@redhat.com>
 ---
- tests/qemu-iotests/iotests.py | 15 ++++++++++++++-
- 1 file changed, 14 insertions(+), 1 deletion(-)
+ tests/qemu-iotests/044                                 | 3 ++-
+ tests/qemu-iotests/065                                 | 3 ++-
+ tests/qemu-iotests/163                                 | 3 ++-
+ tests/qemu-iotests/165                                 | 3 ++-
+ tests/qemu-iotests/196                                 | 3 ++-
+ tests/qemu-iotests/242                                 | 3 ++-
+ tests/qemu-iotests/246                                 | 3 ++-
+ tests/qemu-iotests/254                                 | 3 ++-
+ tests/qemu-iotests/260                                 | 3 ++-
+ tests/qemu-iotests/274                                 | 3 ++-
+ tests/qemu-iotests/281                                 | 3 ++-
+ tests/qemu-iotests/303                                 | 3 ++-
+ tests/qemu-iotests/tests/migrate-bitmaps-postcopy-test | 3 ++-
+ tests/qemu-iotests/tests/migrate-bitmaps-test          | 3 ++-
+ tests/qemu-iotests/tests/remove-bitmap-from-backing    | 3 ++-
+ 15 files changed, 30 insertions(+), 15 deletions(-)
 
-diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
-index 9b374dad3d..35d92715cc 100644
---- a/tests/qemu-iotests/iotests.py
-+++ b/tests/qemu-iotests/iotests.py
-@@ -1215,6 +1215,17 @@ def _verify_virtio_scsi_pci_or_ccw() -> None:
-         notrun('Missing virtio-scsi-pci or virtio-scsi-ccw in QEMU binary')
+diff --git a/tests/qemu-iotests/044 b/tests/qemu-iotests/044
+index 64b18eb7c8..d696e6442a 100755
+--- a/tests/qemu-iotests/044
++++ b/tests/qemu-iotests/044
+@@ -117,4 +117,5 @@ class TestRefcountTableGrowth(iotests.QMPTestCase):
+ 
+ if __name__ == '__main__':
+     iotests.main(supported_fmts=['qcow2'],
+-                 supported_protocols=['file'])
++                 supported_protocols=['file'],
++                 unsupported_imgopts=['refcount_bits'])
+diff --git a/tests/qemu-iotests/065 b/tests/qemu-iotests/065
+index 3c2ca27627..dc7716275f 100755
+--- a/tests/qemu-iotests/065
++++ b/tests/qemu-iotests/065
+@@ -139,4 +139,5 @@ TestQMP = None
+ 
+ if __name__ == '__main__':
+     iotests.main(supported_fmts=['qcow2'],
+-                 supported_protocols=['file'])
++                 supported_protocols=['file'],
++                 unsupported_imgopts=['refcount_bits'])
+diff --git a/tests/qemu-iotests/163 b/tests/qemu-iotests/163
+index dedce8ef43..b8bfc95358 100755
+--- a/tests/qemu-iotests/163
++++ b/tests/qemu-iotests/163
+@@ -169,4 +169,5 @@ ShrinkBaseClass = None
+ 
+ if __name__ == '__main__':
+     iotests.main(supported_fmts=['raw', 'qcow2'],
+-                 supported_protocols=['file'])
++                 supported_protocols=['file'],
++                 unsupported_imgopts=['compat'])
+diff --git a/tests/qemu-iotests/165 b/tests/qemu-iotests/165
+index ce499946b8..e3ef28e2ee 100755
+--- a/tests/qemu-iotests/165
++++ b/tests/qemu-iotests/165
+@@ -157,4 +157,5 @@ class TestPersistentDirtyBitmap(iotests.QMPTestCase):
+ 
+ if __name__ == '__main__':
+     iotests.main(supported_fmts=['qcow2'],
+-                 supported_protocols=['file'])
++                 supported_protocols=['file'],
++                 unsupported_imgopts=['compat'])
+diff --git a/tests/qemu-iotests/196 b/tests/qemu-iotests/196
+index 2451515094..76509a5ad1 100755
+--- a/tests/qemu-iotests/196
++++ b/tests/qemu-iotests/196
+@@ -65,4 +65,5 @@ class TestInvalidateAutoclear(iotests.QMPTestCase):
+ 
+ if __name__ == '__main__':
+     iotests.main(supported_fmts=['qcow2'],
+-                 supported_protocols=['file'])
++                 supported_protocols=['file'],
++                 unsupported_imgopts=['compat'])
+diff --git a/tests/qemu-iotests/242 b/tests/qemu-iotests/242
+index a9b27668c2..96a30152b0 100755
+--- a/tests/qemu-iotests/242
++++ b/tests/qemu-iotests/242
+@@ -26,7 +26,8 @@ from iotests import qemu_img_create, qemu_io, qemu_img_pipe, \
+     file_path, img_info_log, log, filter_qemu_io
+ 
+ iotests.script_initialize(supported_fmts=['qcow2'],
+-                          supported_protocols=['file'])
++                          supported_protocols=['file'],
++                          unsupported_imgopts=['refcount_bits', 'compat'])
+ 
+ disk = file_path('disk')
+ chunk = 256 * 1024
+diff --git a/tests/qemu-iotests/246 b/tests/qemu-iotests/246
+index 5932a0e8a9..b009a78397 100755
+--- a/tests/qemu-iotests/246
++++ b/tests/qemu-iotests/246
+@@ -23,7 +23,8 @@
+ import iotests
+ from iotests import log
+ 
+-iotests.script_initialize(supported_fmts=['qcow2'])
++iotests.script_initialize(supported_fmts=['qcow2'],
++                          unsupported_imgopts=['compat'])
+ size = 64 * 1024 * 1024 * 1024
+ gran_small = 32 * 1024
+ gran_large = 128 * 1024
+diff --git a/tests/qemu-iotests/254 b/tests/qemu-iotests/254
+index 108bf5f894..7ea098818c 100755
+--- a/tests/qemu-iotests/254
++++ b/tests/qemu-iotests/254
+@@ -22,7 +22,8 @@
+ import iotests
+ from iotests import qemu_img_create, file_path, log
+ 
+-iotests.script_initialize(supported_fmts=['qcow2'])
++iotests.script_initialize(supported_fmts=['qcow2'],
++                          unsupported_imgopts=['compat'])
+ 
+ disk, top = file_path('disk', 'top')
+ size = 1024 * 1024
+diff --git a/tests/qemu-iotests/260 b/tests/qemu-iotests/260
+index 2ec64a9b99..c2133f9980 100755
+--- a/tests/qemu-iotests/260
++++ b/tests/qemu-iotests/260
+@@ -23,7 +23,8 @@ import iotests
+ from iotests import qemu_img_create, file_path, log, filter_qmp_event
+ 
+ iotests.script_initialize(
+-    supported_fmts=['qcow2']
++    supported_fmts=['qcow2'],
++    unsupported_imgopts=['compat']
+ )
+ 
+ base, top = file_path('base', 'top')
+diff --git a/tests/qemu-iotests/274 b/tests/qemu-iotests/274
+index caab008e07..080a90f10f 100755
+--- a/tests/qemu-iotests/274
++++ b/tests/qemu-iotests/274
+@@ -23,7 +23,8 @@
+ import iotests
+ 
+ iotests.script_initialize(supported_fmts=['qcow2'],
+-                          supported_platforms=['linux'])
++                          supported_platforms=['linux'],
++                          unsupported_imgopts=['refcount_bits', 'compat'])
+ 
+ size_short = 1 * 1024 * 1024
+ size_long = 2 * 1024 * 1024
+diff --git a/tests/qemu-iotests/281 b/tests/qemu-iotests/281
+index 956698083f..318e333939 100755
+--- a/tests/qemu-iotests/281
++++ b/tests/qemu-iotests/281
+@@ -245,4 +245,5 @@ class TestBlockdevBackupAbort(iotests.QMPTestCase):
+ 
+ if __name__ == '__main__':
+     iotests.main(supported_fmts=['qcow2'],
+-                 supported_protocols=['file'])
++                 supported_protocols=['file'],
++                 unsupported_imgopts=['compat'])
+diff --git a/tests/qemu-iotests/303 b/tests/qemu-iotests/303
+index 425544c064..475cb5428d 100755
+--- a/tests/qemu-iotests/303
++++ b/tests/qemu-iotests/303
+@@ -23,7 +23,8 @@ import iotests
+ import subprocess
+ from iotests import qemu_img_create, qemu_io, file_path, log, filter_qemu_io
+ 
+-iotests.script_initialize(supported_fmts=['qcow2'])
++iotests.script_initialize(supported_fmts=['qcow2'],
++                          unsupported_imgopts=['refcount_bits', 'compat'])
+ 
+ disk = file_path('disk')
+ chunk = 1024 * 1024
+diff --git a/tests/qemu-iotests/tests/migrate-bitmaps-postcopy-test b/tests/qemu-iotests/tests/migrate-bitmaps-postcopy-test
+index 00ebb5c251..fc9c4b4ef4 100755
+--- a/tests/qemu-iotests/tests/migrate-bitmaps-postcopy-test
++++ b/tests/qemu-iotests/tests/migrate-bitmaps-postcopy-test
+@@ -272,4 +272,5 @@ class TestDirtyBitmapPostcopyMigration(iotests.QMPTestCase):
  
  
-+def _verify_imgopts(unsupported: Sequence[str] = ()) -> None:
-+    imgopts = os.environ.get('IMGOPTS')
-+    # One of usage examples for IMGOPTS is "data_file=$TEST_IMG.ext_data_file"
-+    # but it supported only for bash tests. We don't have a concept of global
-+    # TEST_IMG in iotests.py, not saying about somehow parsing $variables.
-+    # So, for simplicity let's just not support any IMGOPTS with '$' inside.
-+    unsup = list(unsupported) + ['$']
-+    if imgopts and any(x in imgopts for x in unsup):
-+        notrun(f'not suitable for this imgopts: {imgopts}')
-+
-+
- def supports_quorum():
-     return 'quorum' in qemu_img_pipe('--help')
+ if __name__ == '__main__':
+-    iotests.main(supported_fmts=['qcow2'])
++    iotests.main(supported_fmts=['qcow2'],
++                 unsupported_imgopts=['compat'])
+diff --git a/tests/qemu-iotests/tests/migrate-bitmaps-test b/tests/qemu-iotests/tests/migrate-bitmaps-test
+index c23df3d75c..59f3357580 100755
+--- a/tests/qemu-iotests/tests/migrate-bitmaps-test
++++ b/tests/qemu-iotests/tests/migrate-bitmaps-test
+@@ -307,7 +307,8 @@ def main() -> None:
  
-@@ -1391,7 +1402,8 @@ def execute_setup_common(supported_fmts: Sequence[str] = (),
-                          unsupported_fmts: Sequence[str] = (),
-                          supported_protocols: Sequence[str] = (),
-                          unsupported_protocols: Sequence[str] = (),
--                         required_fmts: Sequence[str] = ()) -> bool:
-+                         required_fmts: Sequence[str] = (),
-+                         unsupported_imgopts: Sequence[str] = ()) -> bool:
-     """
-     Perform necessary setup for either script-style or unittest-style tests.
+     iotests.main(
+         supported_fmts=['qcow2'],
+-        supported_protocols=['file']
++        supported_protocols=['file'],
++        unsupported_imgopts=['compat']
+     )
  
-@@ -1411,6 +1423,7 @@ def execute_setup_common(supported_fmts: Sequence[str] = (),
-     _verify_aio_mode(supported_aio_modes)
-     _verify_formats(required_fmts)
-     _verify_virtio_blk()
-+    _verify_imgopts(unsupported_imgopts)
  
-     return debug
+diff --git a/tests/qemu-iotests/tests/remove-bitmap-from-backing b/tests/qemu-iotests/tests/remove-bitmap-from-backing
+index 8d48fc0f3c..3c397b08ea 100755
+--- a/tests/qemu-iotests/tests/remove-bitmap-from-backing
++++ b/tests/qemu-iotests/tests/remove-bitmap-from-backing
+@@ -21,7 +21,8 @@
+ import iotests
+ from iotests import log, qemu_img_create, qemu_img, qemu_img_pipe
  
+-iotests.script_initialize(supported_fmts=['qcow2'])
++iotests.script_initialize(supported_fmts=['qcow2'],
++                          unsupported_imgopts=['compat'])
+ 
+ top, base = iotests.file_path('top', 'base')
+ size = '1M'
 -- 
 2.31.1
 
