@@ -2,97 +2,126 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8C4847E7AB
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Dec 2021 19:36:06 +0100 (CET)
-Received: from localhost ([::1]:32784 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CDB647E7BD
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Dec 2021 19:47:20 +0100 (CET)
+Received: from localhost ([::1]:39172 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n0Swf-0002jy-NA
-	for lists+qemu-devel@lfdr.de; Thu, 23 Dec 2021 13:36:05 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57342)
+	id 1n0T7W-0007Ln-Rm
+	for lists+qemu-devel@lfdr.de; Thu, 23 Dec 2021 13:47:18 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58520)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1n0Sv7-0001xg-5a
- for qemu-devel@nongnu.org; Thu, 23 Dec 2021 13:34:29 -0500
-Received: from [2607:f8b0:4864:20::633] (port=39657
- helo=mail-pl1-x633.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1n0Sv5-0006yh-MB
- for qemu-devel@nongnu.org; Thu, 23 Dec 2021 13:34:28 -0500
-Received: by mail-pl1-x633.google.com with SMTP id h6so1136420plf.6
- for <qemu-devel@nongnu.org>; Thu, 23 Dec 2021 10:34:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=wgoegRi5bG9RfU6sMp0VEJxN3NnOXgdV/DTIFT/FP9s=;
- b=L+zXpuXCNgLWcMvoCH32XVHU3LmaAvryhek/ia9zaFUu0ZSn7rADevGixqyB2soisL
- lb8sy3eZ0Qb13+uIbTieaElB9/eNeY1LdDq+a6B1I4SCMgjk8KynVB6mC3VxCjS62dVR
- shouleL8Xc9cW4Wz78SXSVxVyqQLoN4F0NG+DvAR8pOfjTfWeQzVKxXB0o9Pq4oNeD2u
- D/l3mjhlcj2MVLlMZngH+SksfEZR9/1Wk/yngiydrBqbgLH3qAIjqS5gEc7eeKDfOTuB
- avLlOIlX+XDpMaVWp30QaJoxFQY/I8sNhRtyyMDPfKjd8Jl1YaMQ7pZgNNA9C4UmrgVB
- 9akA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=wgoegRi5bG9RfU6sMp0VEJxN3NnOXgdV/DTIFT/FP9s=;
- b=nooPtG830S2FX6Cnryb21wdV8i5LoIZ+GNgwqwffKqy999yL8GNwU9u1xi9z3Q/wXq
- IRDVK8LXvS0DBl4fWAA58dNbrzOpA0qyMVxjHNnQunJan6k5DZnY3gxfu1t0Hi0nouXr
- 3gbl0NtWv4+zwyqE8JPg3QweWAR7Mkgkawmjwh6R7qHNfo4uRW90yzW0zU7f5ZC6qD4L
- SqpiKIfvVNasU8bnMC3xemTeDCNegIw51GafRL8Jn5zbMQLTDdBBxjl4xYlWD11cjGTo
- ncSKIKuOPO1JeOUSGlMteGJRIDHNHeP9FKcZNNW5os9YexQ9FuSu0ldq8UEdGsBfmDpW
- xX7A==
-X-Gm-Message-State: AOAM531dvBK97HA+TKb0mgolPLmcb6bTZI5zOwYniydJvteYF1wfwrSH
- b3hqp8VfqiOF6To9/WCFi2uBtg==
-X-Google-Smtp-Source: ABdhPJymsNE7J9ptKr2BtgChAzAfQEzAGp2WzRVvToHDYcXxBbfV5GZE58CrgE/W67Py/7kxVbiHvg==
-X-Received: by 2002:a17:90a:c58f:: with SMTP id
- l15mr3967558pjt.227.1640284466086; 
- Thu, 23 Dec 2021 10:34:26 -0800 (PST)
-Received: from google.com (157.214.185.35.bc.googleusercontent.com.
- [35.185.214.157])
- by smtp.gmail.com with ESMTPSA id k6sm6898801pff.17.2021.12.23.10.34.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 Dec 2021 10:34:25 -0800 (PST)
-Date: Thu, 23 Dec 2021 18:34:22 +0000
-From: Sean Christopherson <seanjc@google.com>
-To: Chao Peng <chao.p.peng@linux.intel.com>
-Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
- Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
- Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
- Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
- "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
- luto@kernel.org, john.ji@intel.com, susie.li@intel.com,
- jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
- david@redhat.com
-Subject: Re: [PATCH v3 kvm/queue 06/16] KVM: Implement fd-based memory using
- MEMFD_OPS interfaces
-Message-ID: <YcTBLpVlETdI8JHi@google.com>
-References: <20211223123011.41044-1-chao.p.peng@linux.intel.com>
- <20211223123011.41044-7-chao.p.peng@linux.intel.com>
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1n0T0O-0005EP-9v; Thu, 23 Dec 2021 13:39:56 -0500
+Received: from mail-db8eur05on2101.outbound.protection.outlook.com
+ ([40.107.20.101]:57119 helo=EUR05-DB8-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1n0T0L-0007fG-EI; Thu, 23 Dec 2021 13:39:55 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=kgwIbZDheulZ9i0fh0Eh212BYrwTtiOG8hqD0qi4gAPoK8p+owI9RsuyW6w8pFszHUq3OdwhPg0no69AGO6ihoPtbuSIVnCB+3AOrx9bAjwbtFKZNjkz1SglUBqq3qjLjTAvq/5D06lbO2s6VN2wEFfIIL63vw4bLAx/Pj0as2JUFX+O4V81tw3xfka87+qLB3f+3WJaruxaXYl0a25N6j8Lk22J5teS090H8xHIjfbZcMvLor7OoPOiVlO+nq7gxcipUIsiDzYXzr7KdoGH4YwpC23jfHUti7ys6S6dlG4hkCYFcFjb9RaTYKP2DsLzpqbZUNnGEIAL6zEJ1byCEg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ymQi6oNcuQkCejGUZdD/bNC2J9JyXKwrmqV9kUg6D7s=;
+ b=AAR+IidQjMcIk4g/ye8iyWjtgl5YQklenG9xULYyixyWVpENblICQR/9NEgevCMxZrlTu1gjCydVgxSn5MpAJTlMWBGKpQXFiLYqAuHI9n/iqYDBqksyNPizTDs+x/UGUQjmGmtRuYi9VHn4HrzTgCrDpsUFHnuWGO7L0OZlBRkNpS8Lc/VXHJBuGLl33jVm2REWTdSPFoDkWtkHovrXU887drhDhwPDlu+vjIFlxzly6ntqqNTwk3/XlijeiFudIoL4CVeCLDqP4j81tqg8NnfN50b0wbVaMC2Yb3kpnuCWdGwWuWdGa7t2XKshR+u70H1zvKKemZDfAnpsDb7h2A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ymQi6oNcuQkCejGUZdD/bNC2J9JyXKwrmqV9kUg6D7s=;
+ b=vuNpPt5ld17h7oYTLivtAcvW9JzS4lLIz+rxGjNA3pj3Ujp0A1//3+U1opnTYGwRyqqNoewBv75KGlhu/9+aDbtSQt1XnH+ghaG5qdGcP/ME6Wzd2oHdkupxqPhjncmbyxcYtIqi/lRxKoexzSOxEhKTHkNbzJD1GrB3DO/Em/M=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM9PR08MB6737.eurprd08.prod.outlook.com (2603:10a6:20b:304::18)
+ by AM4PR0802MB2180.eurprd08.prod.outlook.com (2603:10a6:200:59::19)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4823.19; Thu, 23 Dec
+ 2021 18:39:49 +0000
+Received: from AM9PR08MB6737.eurprd08.prod.outlook.com
+ ([fe80::b118:483a:d003:3112]) by AM9PR08MB6737.eurprd08.prod.outlook.com
+ ([fe80::b118:483a:d003:3112%5]) with mapi id 15.20.4823.021; Thu, 23 Dec 2021
+ 18:39:48 +0000
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: qemu-devel@nongnu.org
+Cc: qemu-block@nongnu.org, kwolf@redhat.com, hreitz@redhat.com,
+ vsementsov@virtuozzo.com
+Subject: [PATCH] check-block.sh: passthrough -jN flag of make to -j N flag of
+ check
+Date: Thu, 23 Dec 2021 19:39:33 +0100
+Message-Id: <20211223183933.1497037-1-vsementsov@virtuozzo.com>
+X-Mailer: git-send-email 2.31.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: AM6P195CA0037.EURP195.PROD.OUTLOOK.COM
+ (2603:10a6:209:87::14) To AM9PR08MB6737.eurprd08.prod.outlook.com
+ (2603:10a6:20b:304::18)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211223123011.41044-7-chao.p.peng@linux.intel.com>
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::633
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
- envelope-from=seanjc@google.com; helo=mail-pl1-x633.google.com
-X-Spam_score_int: -138
-X-Spam_score: -13.9
-X-Spam_bar: -------------
-X-Spam_report: (-13.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, FSL_HELO_FAKE=2.899, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=no autolearn_force=no
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: b10da1b9-b5af-44a7-2909-08d9c64398ec
+X-MS-TrafficTypeDiagnostic: AM4PR0802MB2180:EE_
+X-Microsoft-Antispam-PRVS: <AM4PR0802MB2180F8F0045B459A22237A4EC17E9@AM4PR0802MB2180.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: B2gZwhZU8moMJDOaOGmjQy7jc3tDq15+iO6GRy+qhQbWinxwi8WKEsZ+Q7RxiGHVXTIq8KdSvYDg6zKuYgJYmk3QJ7Pg/7x8pAr+6LNQcuB6HAzujHYqqHyK3Cty2Mc0IVKotLeuC8ZlBUnVv6Sw19k6FG6TqHWGEGYfdLaBpeylluCCihoCZfDwGQGSWhcdBLLPe+VKYVbXfW1xTLYoz8nvl9K/jMYbw+akt0rwqlylSXvzzDt2VEW7nYrIrwEjMqWTEuMQk2iVdq790uC/+TFLTTzMKRYIWh2e0KaVKrRU3q7FmRFLAKnDY6ke9Nl/Jej91ztw62Zks0y2h5fb0znh50sIrqv6w/wP5vMbwecmegTZDO+IBFgBrbkTjPfvXGjtqZ2MYf0kziK47cafw0dsXbtjd6cFrP2UsI28JggYMyX3YvoGHC52D/3QTE1pEylsI0XPWaRX4BSGSHKlzS/VKqpVuJF9daifbAr7zDzwFIWbg/5mL9Q4SmCCxP5X/VPWlCwHD2CjFlGtXj1+zdk4yoFX3ufg0Cw4BLCH4ai+h+UuydCDASql86rDJ0nrc0kOVHE4pGRwmAlFCbt1obHtg2I44diNrzXIIzPBQhV23Uq4CFhmpHwpm6Id60LtjtgUQ/t+ONPr8kW8EuIwL1dnOpkDKnpxDA2DBQwXwKb6xKHWpplqk8NaFLroNPNcVdLnxfBCPZmXNwUSug+Xaw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM9PR08MB6737.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(38350700002)(1076003)(5660300002)(66476007)(66556008)(8936002)(6512007)(2616005)(38100700002)(83380400001)(52116002)(86362001)(6916009)(6506007)(26005)(8676002)(186003)(316002)(6666004)(6486002)(508600001)(2906002)(36756003)(107886003)(4326008)(66946007);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?M75XZb2Bmel0Rvy2aWCtoRN5oFG8xONa/fZp1EWj4djgI2SRNvK/SjFUvvP2?=
+ =?us-ascii?Q?QwcC1CaN0J+LnJGOVJGnTKwRiOq9Oy6Ca8kK3PjI99TGn4YNpw2fmfm4zEYN?=
+ =?us-ascii?Q?kRs2rfeReb+/EffK8KodRrkvubfpeupSytjdSHUktA8jiYmZLjcljQC2aT2y?=
+ =?us-ascii?Q?6Upg0KkP8RbOYmvFkZfkoCvi/789AdpsDbiqRnpWvAcLjq7XScyOB11N67GT?=
+ =?us-ascii?Q?LdWKUXw25d7Mt7fsFOyj9hG+KXHtCp8fkwQb3UzqiVVW5j6xPb2WrO7g9IgU?=
+ =?us-ascii?Q?uFXs11TiS9Ryd+s5iTX+ZjXDt4AlrvcfAJRl1o5jBS35XewyUB7HGn+O89Si?=
+ =?us-ascii?Q?3RJpK1AoL++S+abShQMqZpEwY+2dPdVyeZCsogFyXcqa+8MubLmHyh1m9GAr?=
+ =?us-ascii?Q?Hzb7UMmfzXR7zBhvWk4paXJ3qiZUa4eJrAzD/Z8KPVyMAn+sc7cIJWwAToPr?=
+ =?us-ascii?Q?IEyry5fqSX0qfzoKFAqZunoQjPtL1lTzzi0SXLjJVUEwpIbmePcaAyJvQtxy?=
+ =?us-ascii?Q?hsXzMdtkulYQnljDuUzdAScfFQcCCTo40YjbYxE8MRwRKDEz7zNOcaDqaUv/?=
+ =?us-ascii?Q?iePeNiZOQ/e4q6UZDwsblnwOMApximeGEjlHJIhfIAS7jHvyNnIZtGttMJZt?=
+ =?us-ascii?Q?gFOe+EjfuWmLcZAFVgu/mx3iIju/AoSEiSoV9tyzMTOax9v/gu7o3r9NorHL?=
+ =?us-ascii?Q?7hSM98xLP3h4oLsJUobSiq4JxE+YxzncOmFz9HDAw0zPbMa5Rzlm2zMGdxZA?=
+ =?us-ascii?Q?o3IpEYiC+sreR4cIIsi/SzrQ7eU7Kp/1sRhp6fybGRtu1mSUycOrm5qKF17l?=
+ =?us-ascii?Q?dNgZDqz8zBw23Rs4BP6yaudkhEQ5OMZWjNVCaLBugrgiKhY45ebigQglzlbE?=
+ =?us-ascii?Q?a5tt9svzMTbYvtB9eIVyLbVINtUdU7BLPbgMRxMSXgfC4BLUmtVVG9OBn6j6?=
+ =?us-ascii?Q?/bS1wjEnH11omQMko5v5ZG8YZh5UvGxrKdZfVtgvBYSHjTEIPq2kkXUJz6bO?=
+ =?us-ascii?Q?EMDPZnqGs/hyB0/7QpMFljxSuZA5dAPs0mQag6tJOpVZlIUDjSEPYbWrTY1U?=
+ =?us-ascii?Q?kWLYq9dXwYo2TVJZAtXQC5fHWZobxOHbz/PCysthp/ipk3yxqOEip1j+ZzSK?=
+ =?us-ascii?Q?GLoD7w+FQkRSnbLMFuOOWutc27CN/9qQRZ3kb35d8C+G57CwPrZg4v9RpT7R?=
+ =?us-ascii?Q?BZKDFAnvFxT1PJdjMe7yemx3fvtc08+dMdq4alsueU865A6S+s/vnAbyK4u2?=
+ =?us-ascii?Q?9IlEki1tkI6EBevi+KzCcqj14peXLFYaE4OAQ6jna3tfEH8e8Ids/meTTRtD?=
+ =?us-ascii?Q?jQURi8wRx69cLJRZrNkIJAQA/ksJpUMGQf+Us90+Zdsgjj7UDY2PZVZL6rDk?=
+ =?us-ascii?Q?ZvbVdoS5Re3OJoCV+EOoD38QYhkLVe+5vSLH9pY8q5vcYW8hJPjnYnJWhXMt?=
+ =?us-ascii?Q?1TWf5NM2UN1zsAUwOiiILuvncSBnzftCk3WQw31cm1UH9wYeVQaRnuQ9Vn+t?=
+ =?us-ascii?Q?o1LRixnC+YZR395bwguHNpszz5qZGDrYirO3fXU7tBrgX2xDfzxthj6WTlgM?=
+ =?us-ascii?Q?MWFGxLDvGYz58vovhzdtJda0PWN5HOx01AIJBiOC8cKWOnECZNEQz4sb3KtP?=
+ =?us-ascii?Q?HEmPDjt4e6TDGIWJNiKFHkzZMiSc5kCzeUw9ILVXo+yIhJcesX3VyP/808e+?=
+ =?us-ascii?Q?G6oXVQ=3D=3D?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b10da1b9-b5af-44a7-2909-08d9c64398ec
+X-MS-Exchange-CrossTenant-AuthSource: AM9PR08MB6737.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Dec 2021 18:39:48.5682 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ycPlA6Nb3JZ4ZXJiEEqJL4/v4bq1gY/2GQ7dT5zfJ4Vqn7NFp+esfKeIl3PHNmJoO0s/Q8cv28VuJn4pZ+JX9rMtONkr57/yjTcoMuRAkDs=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM4PR0802MB2180
+Received-SPF: pass client-ip=40.107.20.101;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR05-DB8-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -108,83 +137,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Dec 23, 2021, Chao Peng wrote:
-> diff --git a/arch/x86/kvm/Kconfig b/arch/x86/kvm/Kconfig
-> index 03b2ce34e7f4..86655cd660ca 100644
-> --- a/arch/x86/kvm/Kconfig
-> +++ b/arch/x86/kvm/Kconfig
-> @@ -46,6 +46,7 @@ config KVM
->  	select SRCU
->  	select INTERVAL_TREE
->  	select HAVE_KVM_PM_NOTIFIER if PM
-> +	select MEMFD_OPS
+This improves performance of running iotests during "make -jN check".
 
-MEMFD_OPS is a weird Kconfig name given that it's not just memfd() that can
-implement the ops.
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+---
+ tests/check-block.sh | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
->  	help
->  	  Support hosting fully virtualized guest machines using hardware
->  	  virtualization extensions.  You will need a fairly recent
-> diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
-> index 3bd875f9669f..21f8b1880723 100644
-> --- a/include/linux/kvm_host.h
-> +++ b/include/linux/kvm_host.h
-> @@ -806,6 +806,12 @@ static inline void kvm_irqfd_exit(void)
->  {
->  }
->  #endif
-> +
-> +int kvm_memfd_register(struct kvm *kvm, struct kvm_memory_slot *slot);
-> +void kvm_memfd_unregister(struct kvm_memory_slot *slot);
-> +long kvm_memfd_get_pfn(struct kvm_memory_slot *slot, gfn_t gfn, int *order);
-> +void kvm_memfd_put_pfn(kvm_pfn_t pfn);
-> +
->  int kvm_init(void *opaque, unsigned vcpu_size, unsigned vcpu_align,
->  		  struct module *module);
->  void kvm_exit(void);
-> diff --git a/virt/kvm/Makefile.kvm b/virt/kvm/Makefile.kvm
-> index ffdcad3cc97a..8842128d8429 100644
-> --- a/virt/kvm/Makefile.kvm
-> +++ b/virt/kvm/Makefile.kvm
-> @@ -5,7 +5,7 @@
->  
->  KVM ?= ../../../virt/kvm
->  
-> -kvm-y := $(KVM)/kvm_main.o $(KVM)/eventfd.o $(KVM)/binary_stats.o
-> +kvm-y := $(KVM)/kvm_main.o $(KVM)/eventfd.o $(KVM)/binary_stats.o $(KVM)/memfd.o
+diff --git a/tests/check-block.sh b/tests/check-block.sh
+index f86cb863de..d98d49ad63 100755
+--- a/tests/check-block.sh
++++ b/tests/check-block.sh
+@@ -74,10 +74,17 @@ cd tests/qemu-iotests
+ # QEMU_CHECK_BLOCK_AUTO is used to disable some unstable sub-tests
+ export QEMU_CHECK_BLOCK_AUTO=1
+ export PYTHONUTF8=1
++# If make was called with -jN we want to call ./check with -j N. Extract the
++# flag from MAKEFLAGS, so that if it absent (or MAKEFLAGS is not defined), JOBS
++# would be an empty line otherwise JOBS is prepared string of flag with value:
++# "-j N"
++# Note, that the following works even if make was called with "-j N" or even
++# "--jobs N", as all these variants becomes simply "-jN" in MAKEFLAGS variable.
++JOBS=$(echo "$MAKEFLAGS" | sed -n 's/\(^\|.* \)-j\([0-9]\+\)\( .*\|$\)/-j \2/p')
+ 
+ ret=0
+ for fmt in $format_list ; do
+-    ${PYTHON} ./check -makecheck -$fmt $group || ret=1
++    ${PYTHON} ./check $JOBS -makecheck -$fmt $group || ret=1
+ done
+ 
+ exit $ret
+-- 
+2.31.1
 
-This should be
-
-   kvm-$(CONFIG_MEMFD_OPS) += $(KVM)/memfd.o
-
-with stubs provided in a header file as needed.  I also really dislike naming KVM's
-file memfd.c, though I don't have a good alternative off the top of my head.
-
->  kvm-$(CONFIG_KVM_VFIO) += $(KVM)/vfio.o
->  kvm-$(CONFIG_KVM_MMIO) += $(KVM)/coalesced_mmio.o
->  kvm-$(CONFIG_KVM_ASYNC_PF) += $(KVM)/async_pf.o
-
-
-> +#ifdef CONFIG_MEMFD_OPS
-> +static const struct memfd_pfn_ops *memfd_ops;
-
-memfd_ops needs to be associated with the slot, e.g. userspace should be able to
-map multiple types of a backing stores into a single VM.  This doesn't even allow
-that for multiple VMs, and there are all kinds of ordering issues.
-
-> +void kvm_memfd_unregister(struct kvm_memory_slot *slot)
-> +{
-> +#ifdef CONFIG_MEMFD_OPS
-> +	if (slot->file) {
-> +		fput(slot->file);
-
-Needs to actually unregister.
-
-> +		slot->file = NULL;
-> +	}
-> +#endif
-> +}
-> -- 
-> 2.17.1
-> 
 
