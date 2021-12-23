@@ -2,96 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EB5547E3E2
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Dec 2021 13:59:44 +0100 (CET)
-Received: from localhost ([::1]:50438 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BF1947E3E7
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Dec 2021 14:02:23 +0100 (CET)
+Received: from localhost ([::1]:56074 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n0Nh9-0003Qb-FD
-	for lists+qemu-devel@lfdr.de; Thu, 23 Dec 2021 07:59:43 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50030)
+	id 1n0Nji-0007Ni-BQ
+	for lists+qemu-devel@lfdr.de; Thu, 23 Dec 2021 08:02:22 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46978)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1n0NS9-0004tL-Vt
- for qemu-devel@nongnu.org; Thu, 23 Dec 2021 07:44:14 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49642)
+ (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
+ id 1n0NFS-0004f2-H2
+ for qemu-devel@nongnu.org; Thu, 23 Dec 2021 07:31:06 -0500
+Received: from mga03.intel.com ([134.134.136.65]:51850)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1n0NS7-0005Nu-WC
- for qemu-devel@nongnu.org; Thu, 23 Dec 2021 07:44:13 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1640263451;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=6ygy3rDpeQMM0w8uggI3hh8xWS/nKBF5tuMLdnfRcmQ=;
- b=ET6vr/eZuR6paAUKVa3n+gCskeMdyLnynHiafVXqY//u/Wu8KEe4VQHW+E0GO7c9aPGzR/
- UGIY4bx1GL3RMJ760EuBfn0VK+r1nscB3ugw3UfWnlrhuPvjVds5ve3lzhjyJbDXLZU0vu
- N7DJfT7Oy6xrM3VYFB6aI9Hf1vUWPqI=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-230-XGx8lRH6OBGRM-CWsxPmdA-1; Thu, 23 Dec 2021 07:44:10 -0500
-X-MC-Unique: XGx8lRH6OBGRM-CWsxPmdA-1
-Received: by mail-wm1-f72.google.com with SMTP id
- d4-20020a05600c34c400b00345d5d47d54so691936wmq.6
- for <qemu-devel@nongnu.org>; Thu, 23 Dec 2021 04:44:10 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=6ygy3rDpeQMM0w8uggI3hh8xWS/nKBF5tuMLdnfRcmQ=;
- b=Vr7GeLvTwq0l2zcMYT34EdvO3O91+vxWnBIpOK2JYs0PHpVfEN0DpMUYLKuZCtHjJ7
- 5puLGsp77AgUqiz6UnlvF97rijuXSiXNnlGbyvkFec8zmV16hOACMRTj0eG82qrC1Ipm
- KfIincOK1/Ku980LxUW/RqeMNTceRseS3HIxfIdnbg+/hKnG279BP5a9itovEPUztphD
- DwqwehcgdllgeLh+0rDGGqdMnpf5GkGRnhyE/M6ba9iBVTS1NZmLoDq6HCCBiiGbCtcs
- jSzG/7GHBnNHVpKqz8iuUUypg4Q/MoJ3m10+N/UOVXSbS2d7J02P+az7kkrv1YdUIj3k
- dw3Q==
-X-Gm-Message-State: AOAM5328Uv6QFBmQAJZkFcz2Z9yLmzAHKg70257o7HTPx/6EEc4vuOyw
- yN0xFN3kkRJk5jaQ5ZjPvIgILG80PrCHW0k1Z2Xq57a6SPvzB3fuGJhtQtbF13LEhoLz68+BKiG
- L6gr5lSOW8vw9pjw=
-X-Received: by 2002:a05:600c:4408:: with SMTP id
- u8mr1724770wmn.177.1640263449156; 
- Thu, 23 Dec 2021 04:44:09 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJz9ME3PQoRnMaFcg6T8WaBICbAzVbrG2fqFZZL3B7yFkODTTPVrylXphuV5x5dviByqZk83Aw==
-X-Received: by 2002:a05:600c:4408:: with SMTP id
- u8mr1724758wmn.177.1640263448964; 
- Thu, 23 Dec 2021 04:44:08 -0800 (PST)
-Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
- ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
- by smtp.gmail.com with ESMTPSA id i1sm7733944wml.26.2021.12.23.04.44.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 23 Dec 2021 04:44:08 -0800 (PST)
-Message-ID: <d7f70d12-7fe3-ed2f-9959-79a86cf1d4e6@redhat.com>
-Date: Thu, 23 Dec 2021 13:44:08 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH v4 19/19] iotests: specify some unsupported_imgopts for
- python iotests
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20211203130737.2924594-1-vsementsov@virtuozzo.com>
- <20211203130737.2924594-20-vsementsov@virtuozzo.com>
-From: Hanna Reitz <hreitz@redhat.com>
-In-Reply-To: <20211203130737.2924594-20-vsementsov@virtuozzo.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -52
-X-Spam_score: -5.3
-X-Spam_bar: -----
-X-Spam_report: (-5.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.203,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.264, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
+ id 1n0NFM-0002TP-EJ
+ for qemu-devel@nongnu.org; Thu, 23 Dec 2021 07:31:06 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1640262660; x=1671798660;
+ h=from:to:cc:subject:date:message-id;
+ bh=B7UjJz2o8U/7WlNmnQCiNqRvJtB8Iir2uHf+buyKLjk=;
+ b=HzM1Vl87pOJfZIU3Dy9wul5yISpmQBrS74nH4zHNP1H2sAyLHpvACQiR
+ Diuvp9yT10jHHffPKtp/kM6LQ8wcC4wvvlYeDYeo/poKyHqz2dp5majT9
+ PRIWYFvn17IHRZ2cP3HrvM9LSqWPV2mCd0QkVZO5zEc7QUCMgSk4ntHLq
+ P7Yd9EK4qgqRwzVFPg620eiyMd6EkGgX3dmRPxatE9ZWqE7N2AbX656TM
+ qDPUQwrZFtoVxECZMzt+IDPPv+BkzVGII8nyCbZG2hGdycARwxUYYC9jO
+ U2woTGibo6YZi8NpBeO7YmrhnnjVkVS40IBRXaUQDjF77pvBvgFvDKKVk Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10206"; a="240769460"
+X-IronPort-AV: E=Sophos;i="5.88,229,1635231600"; d="scan'208";a="240769460"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Dec 2021 04:30:56 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,229,1635231600"; d="scan'208";a="522078427"
+Received: from chaop.bj.intel.com ([10.240.192.101])
+ by orsmga008.jf.intel.com with ESMTP; 23 Dec 2021 04:30:48 -0800
+From: Chao Peng <chao.p.peng@linux.intel.com>
+To: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, qemu-devel@nongnu.org
+Subject: [PATCH v3 kvm/queue 00/16] KVM: mm: fd-based approach for supporting
+ KVM guest private memory 
+Date: Thu, 23 Dec 2021 20:29:55 +0800
+Message-Id: <20211223123011.41044-1-chao.p.peng@linux.intel.com>
+X-Mailer: git-send-email 2.17.1
+Received-SPF: none client-ip=134.134.136.65;
+ envelope-from=chao.p.peng@linux.intel.com; helo=mga03.intel.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,96 +67,167 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, jsnow@redhat.com, qemu-devel@nongnu.org
+Cc: Wanpeng Li <wanpengli@tencent.com>, jun.nakajima@intel.com,
+ david@redhat.com, "J . Bruce Fields" <bfields@fieldses.org>,
+ dave.hansen@intel.com, "H . Peter Anvin" <hpa@zytor.com>,
+ Chao Peng <chao.p.peng@linux.intel.com>, ak@linux.intel.com,
+ Jonathan Corbet <corbet@lwn.net>, Joerg Roedel <joro@8bytes.org>,
+ x86@kernel.org, Hugh Dickins <hughd@google.com>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ luto@kernel.org, Thomas Gleixner <tglx@linutronix.de>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>, Jim Mattson <jmattson@google.com>,
+ Sean Christopherson <seanjc@google.com>, susie.li@intel.com,
+ Jeff Layton <jlayton@kernel.org>, john.ji@intel.com,
+ Yu Zhang <yu.c.zhang@linux.intel.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 03.12.21 14:07, Vladimir Sementsov-Ogievskiy wrote:
-> We support IMGOPTS for python iotests now. Still a lot of tests are
-> unprepared to common IMGOPTS that are used with bash iotests. So we
-> should define corresponding unsupported_imgopts.
->
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> ---
->   tests/qemu-iotests/044                                 | 3 ++-
->   tests/qemu-iotests/065                                 | 3 ++-
->   tests/qemu-iotests/163                                 | 3 ++-
->   tests/qemu-iotests/165                                 | 3 ++-
->   tests/qemu-iotests/196                                 | 3 ++-
->   tests/qemu-iotests/242                                 | 3 ++-
->   tests/qemu-iotests/246                                 | 3 ++-
->   tests/qemu-iotests/254                                 | 3 ++-
->   tests/qemu-iotests/260                                 | 4 ++--
->   tests/qemu-iotests/274                                 | 3 ++-
->   tests/qemu-iotests/281                                 | 3 ++-
->   tests/qemu-iotests/303                                 | 3 ++-
->   tests/qemu-iotests/tests/migrate-bitmaps-postcopy-test | 3 ++-
->   tests/qemu-iotests/tests/migrate-bitmaps-test          | 3 ++-
->   tests/qemu-iotests/tests/migrate-during-backup         | 3 ++-
->   tests/qemu-iotests/tests/remove-bitmap-from-backing    | 3 ++-
->   16 files changed, 32 insertions(+), 17 deletions(-)
+This is the third version of this series which try to implement the
+fd-based KVM guest private memory. Earlier this week I sent another v3 
+version at link:
 
-Few of these tests look like they could be made to support refcount_bits 
-if we filtered qemu-img info output accordingly, but I don’t mind just 
-marking the option as unsupported, so I’m good with your approach.
+https://lore.kernel.org/linux-mm/20211222012223.GA22448@chaop.bj.intel.com/T/
 
-> diff --git a/tests/qemu-iotests/044 b/tests/qemu-iotests/044
-> index 714329eb16..a5ee9a7ded 100755
-> --- a/tests/qemu-iotests/044
-> +++ b/tests/qemu-iotests/044
-> @@ -118,4 +118,5 @@ class TestRefcountTableGrowth(iotests.QMPTestCase):
->   if __name__ == '__main__':
->       iotests.activate_logging()
->       iotests.main(supported_fmts=['qcow2'],
-> -                 supported_protocols=['file'])
-> +                 supported_protocols=['file'],
-> +                 unsupported_imgopts=['refcount_bits'])
-> diff --git a/tests/qemu-iotests/065 b/tests/qemu-iotests/065
-> index 4b3c5c6c8c..f7c1b68dad 100755
-> --- a/tests/qemu-iotests/065
-> +++ b/tests/qemu-iotests/065
-> @@ -139,4 +139,5 @@ TestQMP = None
->   
->   if __name__ == '__main__':
->       iotests.main(supported_fmts=['qcow2'],
-> -                 supported_protocols=['file'])
-> +                 supported_protocols=['file'],
-> +                 unsupported_imgopts=['refcount_bits'])
-> diff --git a/tests/qemu-iotests/163 b/tests/qemu-iotests/163
-> index dedce8ef43..0b00df519c 100755
-> --- a/tests/qemu-iotests/163
-> +++ b/tests/qemu-iotests/163
-> @@ -169,4 +169,5 @@ ShrinkBaseClass = None
->   
->   if __name__ == '__main__':
->       iotests.main(supported_fmts=['raw', 'qcow2'],
-> -                 supported_protocols=['file'])
-> +                 supported_protocols=['file'],
-> +                 unsupported_imgopts=['compat=0.10'])
+That version is based on the latest TDX codebase. In contrast the one you
+are reading is the same code rebased to latest kvm/queue branch at commit:
 
-Works for my case (I use -o compat=0.10), but compat=v2 is also allowed.
+  c34c87a69727  KVM: x86: Update vPMCs when retiring branch instructions
 
-For cases that don’t support anything but refcount_bits=16, you already 
-disallow specifying any refcount_bits value, even refcount_bits=16 
-(which would work fine in most cases, I believe). Perhaps we should then 
-also just disallow any compat option instead of compat=0.10 specifically?
+There are some changes made to fit into the kvm queue branch but
+generally the two versions are the same code in logic.
 
-[...]
+There is also difference in test. In the previous one I tested the new
+private memory feature with TDX but in this rebased version I can not
+test the new feature because lack TDX. I did run simple regression
+test on this new version.
 
-> diff --git a/tests/qemu-iotests/tests/migrate-during-backup b/tests/qemu-iotests/tests/migrate-during-backup
-> index 34103229ee..12cc4dde2e 100755
-> --- a/tests/qemu-iotests/tests/migrate-during-backup
-> +++ b/tests/qemu-iotests/tests/migrate-during-backup
-> @@ -94,4 +94,5 @@ class TestMigrateDuringBackup(iotests.QMPTestCase):
->   
->   if __name__ == '__main__':
->       iotests.main(supported_fmts=['qcow2'],
-> -                 supported_protocols=['file'])
-> +                 supported_protocols=['file'],
-> +                 unsupported_imgopts=['compat=0.10'])
+Introduction
+------------
+In general this patch series introduce fd-based memslot which provide
+guest memory through a memfd file descriptor fd[offset,size] instead of
+hva/size. The fd then can be created from a supported memory filesystem
+like tmpfs/hugetlbfs etc which we refer as memory backend. KVM and the
+memory backend exchange some callbacks when such memslot gets created.
+At runtime KVM will call into callbacks provided by backend to get the
+pfn with the fd+offset. Memory backend will also call into KVM callbacks
+when userspace fallocate/punch hole on the fd to notify KVM to map/unmap
+secondary MMU page tables.
 
-It seems to me like this test can handle compat=0.10 just fine, though.
+Comparing to existing hva-based memslot, this new type of memslot allow
+guest memory unmapped from host userspace like QEMU and even the kernel
+itself, therefore reduce attack surface and prevent userspace bugs.
 
-Hanna
+Based on this fd-based memslot, we can build guest private memory that
+is going to be used in confidential computing environments such as Intel
+TDX and AMD SEV. When supported, the memory backend can provide more
+enforcement on the fd and KVM can use a single memslot to hold both the
+private and shared part of the guest memory. 
+
+Memfd/shmem extension
+---------------------
+Introduces new MFD_INACCESSIBLE flag for memfd_create(), the file
+created with this flag cannot read(), write() or mmap() etc.
+
+In addition, two sets of callbacks are introduced as new MEMFD_OPS:
+  - memfd_falloc_notifier: memfd -> KVM notifier when memory gets
+    allocated/invalidated through fallocate().
+  - memfd_pfn_ops: kvm -> memfd to get a pfn with the fd+offset.
+
+Memslot extension
+-----------------
+Add the private fd and the offset into the fd to existing 'shared' memslot
+so that both private/shared guest memory can live in one single memslot.
+A page in the memslot is either private or shared. A page is private only
+when it's already allocated in the backend fd, all the other cases it's
+treated as shared, this includes those already mapped as shared as well as
+those having not been mapped. This means the memory backend is the place
+which tells the truth of which page is private.
+
+Private memory map/unmap and conversion
+---------------------------------------
+Userspace's map/unmap operations are done by fallocate() ioctl on the
+backend fd.
+  - map: default fallocate() with mode=0.
+  - unmap: fallocate() with FALLOC_FL_PUNCH_HOLE.
+The map/unmap will trigger above memfd_falloc_notifier to let KVM
+map/unmap second MMU page tables.
+
+Test
+----
+NOTE: below is the test for previous TDX based version. For this version
+I only tested regular vm booting.
+
+This code has been tested with latest TDX code patches hosted at
+(https://github.com/intel/tdx/tree/kvm-upstream) with minimal TDX
+adaption and QEMU support.
+
+Example QEMU command line:
+-object tdx-guest,id=tdx \
+-object memory-backend-memfd-private,id=ram1,size=2G \
+-machine q35,kvm-type=tdx,pic=no,kernel_irqchip=split,memory-encryption=tdx,memory-backend=ram1
+
+Changelog
+----------
+v3:
+  - Added locking protection when calling
+    invalidate_page_range/fallocate callbacks.
+  - Changed memslot structure to keep use useraddr for shared memory.
+  - Re-organized F_SEAL_INACCESSIBLE and MEMFD_OPS.
+  - Added MFD_INACCESSIBLE flag to force F_SEAL_INACCESSIBLE.
+  - Commit message improvement.
+  - Many small fixes for comments from the last version.
+
+Links of previous discussions
+-----------------------------
+[1] Original design proposal:
+https://lkml.kernel.org/kvm/20210824005248.200037-1-seanjc@google.com/
+[2] Updated proposal and RFC patch v1:
+https://lkml.kernel.org/linux-fsdevel/20211111141352.26311-1-chao.p.peng@linux.intel.com/
+[3] RFC patch v2:
+https://x-lore.kernel.org/qemu-devel/20211119134739.20218-1-chao.p.peng@linux.intel.com/
+
+Chao Peng (14):
+  mm/memfd: Introduce MFD_INACCESSIBLE flag
+  KVM: Extend the memslot to support fd-based private memory
+  KVM: Maintain ofs_tree for fast memslot lookup by file offset
+  KVM: Implement fd-based memory using MEMFD_OPS interfaces
+  KVM: Refactor hva based memory invalidation code
+  KVM: Special handling for fd-based memory invalidation
+  KVM: Split out common memory invalidation code
+  KVM: Implement fd-based memory invalidation
+  KVM: Add kvm_map_gfn_range
+  KVM: Implement fd-based memory fallocation
+  KVM: Add KVM_EXIT_MEMORY_ERROR exit
+  KVM: Handle page fault for private memory
+  KVM: Use kvm_userspace_memory_region_ext
+  KVM: Register/unregister private memory slot to memfd
+
+Kirill A. Shutemov (2):
+  mm/shmem: Introduce F_SEAL_INACCESSIBLE
+  mm/memfd: Introduce MEMFD_OPS
+
+ arch/x86/kvm/Kconfig           |   1 +
+ arch/x86/kvm/mmu/mmu.c         | 120 ++++++++++++++-
+ arch/x86/kvm/mmu/paging_tmpl.h |  11 +-
+ arch/x86/kvm/x86.c             |   2 +-
+ include/linux/kvm_host.h       |  43 +++++-
+ include/linux/memfd.h          |  22 +++
+ include/linux/shmem_fs.h       |  16 ++
+ include/uapi/linux/fcntl.h     |   1 +
+ include/uapi/linux/kvm.h       |  27 ++++
+ include/uapi/linux/memfd.h     |   1 +
+ mm/Kconfig                     |   4 +
+ mm/memfd.c                     |  33 ++++-
+ mm/shmem.c                     | 195 +++++++++++++++++++++++-
+ virt/kvm/Makefile.kvm          |   2 +-
+ virt/kvm/kvm_main.c            | 262 +++++++++++++++++++++++++--------
+ virt/kvm/memfd.c               |  95 ++++++++++++
+ 16 files changed, 753 insertions(+), 82 deletions(-)
+ create mode 100644 virt/kvm/memfd.c
+
+-- 
+2.17.1
 
 
