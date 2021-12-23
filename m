@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96C0147E845
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Dec 2021 20:27:18 +0100 (CET)
-Received: from localhost ([::1]:40456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74BC947E869
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Dec 2021 20:36:42 +0100 (CET)
+Received: from localhost ([::1]:48536 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n0TkC-0004Er-UC
-	for lists+qemu-devel@lfdr.de; Thu, 23 Dec 2021 14:27:16 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42902)
+	id 1n0TtI-0001dk-VS
+	for lists+qemu-devel@lfdr.de; Thu, 23 Dec 2021 14:36:41 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44690)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1n0Thh-0002ks-Uy
- for qemu-devel@nongnu.org; Thu, 23 Dec 2021 14:24:42 -0500
-Received: from [2607:f8b0:4864:20::432] (port=45847
- helo=mail-pf1-x432.google.com)
+ id 1n0Tpd-0008D8-Bm
+ for qemu-devel@nongnu.org; Thu, 23 Dec 2021 14:32:53 -0500
+Received: from [2607:f8b0:4864:20::102f] (port=50818
+ helo=mail-pj1-x102f.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1n0Thf-0000dX-NL
- for qemu-devel@nongnu.org; Thu, 23 Dec 2021 14:24:41 -0500
-Received: by mail-pf1-x432.google.com with SMTP id u20so6014067pfi.12
- for <qemu-devel@nongnu.org>; Thu, 23 Dec 2021 11:24:37 -0800 (PST)
+ id 1n0Tpb-0003Er-J5
+ for qemu-devel@nongnu.org; Thu, 23 Dec 2021 14:32:53 -0500
+Received: by mail-pj1-x102f.google.com with SMTP id gj24so5857668pjb.0
+ for <qemu-devel@nongnu.org>; Thu, 23 Dec 2021 11:32:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=myCejLcwpQ0ZxXmDJbNzmQKjEH7tJfriJj4CTyFQCaE=;
- b=yutt1gTVgl6BoIVFTOUeB5ZSe4fma7IbvvRWlFebqhUwBW8rRnw7PLJNCDCoA+zzjc
- L0+mJVKHrYB86EjPOFk1r2oamSBk5OS3031sOr4pCy8aTbiWV146ilRTYsOGZDu3Xh/7
- GVYlL3bX6jAYuplOlVbvymgmJxqb+EPB8MYod7D0fyXfTfSWOofj7dbjzc6ftlRvr2MY
- L5Bn0rER2Hlw/s7OPNsUDa5y2RAQwxq8NWKcNYUTdtUeC8dOTKKSStQEZ3/ermKcY/2q
- 1t4hpUyJO6P2RPfs8eXrH24qKdyWGFR6ky94gwO+7MqMRGDBv7zguLg7N53RJu2y1MUk
- kmag==
+ bh=gxzV4ZI2JwC7JyDTd8y0bRKbj6p0HkOgXpQx5d9yJmI=;
+ b=yKyKGuMAcZfuXi4YDwOfG5kCkFtT9bZiftubV/w+y8UVw18rIinGii2StkjcPITTMC
+ b1SUpSQjFvN/1QTYmnLm2tO6XFLLOY4WGrpgbmf0rsMWOT5SKFfawrSbqUQZIeC/Gb8S
+ 0PyrBOt6yS8OwcFbsgpfcxlSgIFP9jFBfoHg6l1eYfA7ZquRD4g395amZJdc7B1JAEZ+
+ kgSB5TGiH8luIb+CJfeY1PSroZmQFKIt2a9RXEix25z6s4qa679H8hW6rrNk3LAiHW08
+ zLzmXEUyppq9x456dOlgqMCEpQGOEdcveyJl2C1QPEIVET7D2uRvOxkT+CFd5CJf1Em5
+ P2dQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=myCejLcwpQ0ZxXmDJbNzmQKjEH7tJfriJj4CTyFQCaE=;
- b=mVu90E57Q2c1F8GYJRNi4J9KuEVOV6a8hUk2LPvDfDHk/du6896J2YFKGkaR2pJyMm
- nCaHYwZTf1DJrRcefnrnyzjncDWAxkqxqCs0MbCEQAIJztnrAXoUwrmtLbHisnhZKf/z
- y9c1FD3VF30ZOFu7+1ohq0XhHysL9Vd86R17VSgIn0XB3DGLU2CZS+wGNroLgF+4YAMq
- qjTWTiMjHVo5zna1Iua4SEbjtyU8FU9CWJ9uWuxnda/XJlBqCaD2P4UrZJFfAmC2EK2n
- kP4L517VrAqx0kVDOnwXhSVjeVhNYYDy9K9IHm4BnJuuZTKlvh9HTH0mfu6khGWp3HXc
- Td8A==
-X-Gm-Message-State: AOAM531dsPLfbRlA45/Wpj6AqrIUiO9XlmrJAbVdoUf0Acb4g9HvXLF1
- gi6FjV/x+i0GvHV4cwvR86mO1A==
-X-Google-Smtp-Source: ABdhPJw0GyamIHNBiQtuJv0FzcPyjl3prX2qXpkbPpiKggROhkrzeGZusCmeHaLqJy8Zq5ci7OhiIQ==
-X-Received: by 2002:a05:6a00:23d5:b0:4bb:332e:a244 with SMTP id
- g21-20020a056a0023d500b004bb332ea244mr3919220pfc.84.1640287476461; 
- Thu, 23 Dec 2021 11:24:36 -0800 (PST)
+ bh=gxzV4ZI2JwC7JyDTd8y0bRKbj6p0HkOgXpQx5d9yJmI=;
+ b=LWHGLwKKrYWGmdzhHQGStcDASSci0G/HGLhHV7+lSBFg1LbssklSqaeMonFt/Di72I
+ wDXIjx2xoYT/QKYIH0lrvncaMRS3bmuYxYvp/ZK0w+qvCgiByW4l5rrsxUX4u2dSWz0e
+ 96JWeZ5fAdODYbuuE4G4x5JCKcm+MvCZT/1DT/kTBJmQPQ0RlzOH4ZzQLBtfh18r+05x
+ +zQzYet6KwwCX4u/RmeEpKhB0QBaeDcdNH3kZXWTSlCw/O35Z9ExNVWEvIOcNiD+8eWg
+ k6eN8ZrbLytF4gOO6Lqecqzn9VJiitBdGXS6Y0JQUhNwfKRk81ppSE9nUI1hTdlwQmHk
+ Nnhg==
+X-Gm-Message-State: AOAM5321TxupmVLZSpznSYgU47TI6jcTu8KFQkx7GZcdlUpcAmj4Xrzf
+ beVYC0uh0yWFDHV8ah55wYbl0FsNp3Q6SA==
+X-Google-Smtp-Source: ABdhPJy4OVR2jFGCs1Tl/wdN4xGDa9nY9a9KFNTNwzNSfyhyw8ASPS7OYVqs2al94vC8QVhCsX8T+A==
+X-Received: by 2002:a17:90b:1d81:: with SMTP id
+ pf1mr4399127pjb.42.1640287970257; 
+ Thu, 23 Dec 2021 11:32:50 -0800 (PST)
 Received: from [192.168.4.112] ([156.19.246.20])
- by smtp.gmail.com with ESMTPSA id q19sm6071978pjd.21.2021.12.23.11.24.34
+ by smtp.gmail.com with ESMTPSA id cx5sm6004058pjb.22.2021.12.23.11.32.49
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 23 Dec 2021 11:24:35 -0800 (PST)
-Subject: Re: QEMU CAS
-To: Jasper Ruehl <jasper.ruehl@tum.de>, qemu-devel@nongnu.org
-References: <67ba86a8-abd2-1715-ed8b-ed360b648c72@tum.de>
+ Thu, 23 Dec 2021 11:32:49 -0800 (PST)
+Subject: Re: [PULL v2 0/7] NBD patches
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20211223085309.511450-1-vsementsov@virtuozzo.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <37803792-b7ad-85c9-194e-5f92c1493da1@linaro.org>
-Date: Thu, 23 Dec 2021 11:24:31 -0800
+Message-ID: <f96013c0-f36a-18ae-cbb3-ce2bd7379a07@linaro.org>
+Date: Thu, 23 Dec 2021 11:32:47 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <67ba86a8-abd2-1715-ed8b-ed360b648c72@tum.de>
+In-Reply-To: <20211223085309.511450-1-vsementsov@virtuozzo.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::432
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102f
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::432;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x432.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
 X-Spam_score_int: -35
 X-Spam_score: -3.6
 X-Spam_bar: ---
@@ -90,52 +91,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Redha Gouicem <gouicem@in.tum.de>, peter.maydell@linaro.org,
- lex.bennee@linaro.org
+Cc: peter.maydell@linaro.org, eblake@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/23/21 1:51 AM, Jasper Ruehl wrote:
-> Dear QEMU Community,
+On 12/23/21 12:53 AM, Vladimir Sementsov-Ogievskiy wrote:
+> The following changes since commit 2bf40d0841b942e7ba12953d515e62a436f0af84:
 > 
-> after chatting a bit in the IRC channel, "stefanha" advised me to contact you via EMail 
-> about my problem.
-> My advisor and me from the DSE chair at the TU Munich had the idea to improve the 
-> emulation of the x86 cmpxchg instruction on ARM64 CPUs by improving the translation 
-> scheme: instead of generating a call to the GCC helper function, we introduce a new TCG IR 
-> instruction (CAS) and directly translate that into the ARM casal instruction.
+>    Merge tag 'pull-user-20211220' of https://gitlab.com/rth7680/qemu into staging (2021-12-20 13:20:07 -0800)
+> 
+> are available in the Git repository at:
+> 
+>    https://src.openvz.org/scm/~vsementsov/qemu.git tags/pull-nbd-2021-12-22-v2
+> 
+> for you to fetch changes up to ab7f7e67a7e7b49964109501dfcde4ec29bae60e:
+> 
+>    iotests: add nbd-reconnect-on-open test (2021-12-23 09:40:34 +0100)
+> 
+> ----------------------------------------------------------------
+> nbd: reconnect-on-open feature
+>    v2: simple fix for mypy and pylint complains on patch 04
+> 
+> ----------------------------------------------------------------
+> 
+> Vladimir Sementsov-Ogievskiy (7):
+>    nbd: allow reconnect on open, with corresponding new options
+>    nbd/client-connection: nbd_co_establish_connection(): return real
+>      error
+>    nbd/client-connection: improve error message of cancelled attempt
+>    iotests.py: add qemu_tool_popen()
+>    iotests.py: add and use qemu_io_wrap_args()
+>    iotests.py: add qemu_io_popen()
+>    iotests: add nbd-reconnect-on-open test
+> 
+>   qapi/block-core.json                          |  9 ++-
+>   block/nbd.c                                   | 45 +++++++++++-
+>   nbd/client-connection.c                       | 59 ++++++++++-----
+>   tests/qemu-iotests/iotests.py                 | 37 ++++++----
+>   .../qemu-iotests/tests/nbd-reconnect-on-open  | 71 +++++++++++++++++++
+>   .../tests/nbd-reconnect-on-open.out           | 11 +++
+>   6 files changed, 200 insertions(+), 32 deletions(-)
+>   create mode 100755 tests/qemu-iotests/tests/nbd-reconnect-on-open
+>   create mode 100644 tests/qemu-iotests/tests/nbd-reconnect-on-open.out
 
-If this is intended to ever be more than a class exercise,
-there are a number of things that will have to be fixed:
-
-- Host vs guest address size differences.
-   This affects, to begin, the number of arguments to the CAS opcode.
-
-- Host vs guest address space mapping.
-   For system mode, this must go through the softmmu tlb.
-   For user-only mode, this must take guest_base into account.
-
-- Host vs guest address alignment.
-   The x86_64 guest allows cmpxchg at odd addresses,
-   the aarch64 host requires cas at aligned addresses.
-
-- Host isa support -- CASAL requires ARMv8.1 FEAT_LSE.
-   For ARMv8.0, you would want to emit an LDAXR/STLXR loop.
-
-- No changes to target/ are required or desired.
-   The tcg_gen_atomic_cmpxchg_{i32,i64}() functions
-   are the interface that should be modified.
-
-
->     case INDEX_op_cas8:
->     case INDEX_op_cas16:
->     case INDEX_op_cas32:
->     case INDEX_op_cas64:
->         return C_O1_I3(r,r,r,r); 
-
-Your constraints are incorrect.  For the CASAL instruction, the cmp input (1) must match 
-the old output (0).  This would have to be "r,0,r,r".
-
+Applied, thanks.
 
 r~
+
 
