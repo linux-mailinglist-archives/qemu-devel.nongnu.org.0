@@ -2,82 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01D7F47E425
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Dec 2021 14:37:09 +0100 (CET)
-Received: from localhost ([::1]:45610 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1E3947E434
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Dec 2021 14:45:32 +0100 (CET)
+Received: from localhost ([::1]:58560 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n0OHL-0007Es-Pi
-	for lists+qemu-devel@lfdr.de; Thu, 23 Dec 2021 08:37:07 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36190)
+	id 1n0OPT-00084A-FL
+	for lists+qemu-devel@lfdr.de; Thu, 23 Dec 2021 08:45:31 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38426)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n0ODi-0004bl-4L
- for qemu-devel@nongnu.org; Thu, 23 Dec 2021 08:33:22 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34163)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n0ONm-0007El-1I
+ for qemu-devel@nongnu.org; Thu, 23 Dec 2021 08:43:46 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53579)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n0ODe-0002cE-98
- for qemu-devel@nongnu.org; Thu, 23 Dec 2021 08:33:20 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n0ONi-0005EG-Jm
+ for qemu-devel@nongnu.org; Thu, 23 Dec 2021 08:43:44 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1640266396;
+ s=mimecast20190719; t=1640267021;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=vSTjKMW+fAHVkVcfpz91JlLhyJlgL/Po4JVRpKe47bs=;
- b=Nax5bKCigM7UzvUq5I2PxJpcbF9e8S1NwKD7VVzajgCK2LB4Xs3iY6mLuQsFb2Yow9IqE9
- xZcYW1kbn61W7icqy8z/++qNHu4ffSS0NeINEG4PU82LPLuP6uKhe3IOoGcEZQ+Wv/Wosa
- etfHgWqQPTR4oIcf1zv4ig1baYqkyiU=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=j6u/Y8dnM8g1Ct4ZKexeby7UXE26h0EJhMaNPVTf1t0=;
+ b=hHxo2fG8jQLFj/5k1fTi4CILkiPFs4LiJAdE9Anh1N48FgQQVJn0tcXGaIHrOpMGUbS6RX
+ MISgD0peky4l7J2TcRDujOf6QAHi3pLHnsX5TVzLOuQNThi7q3gag6WZW4NL4iZApWdwOP
+ UEKw9KAQB4ACEtpzTg4KtZ3a6Y7hu58=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-640-oY_ydEdbOP2RgVuzhl8XQw-1; Thu, 23 Dec 2021 08:33:15 -0500
-X-MC-Unique: oY_ydEdbOP2RgVuzhl8XQw-1
-Received: by mail-wm1-f72.google.com with SMTP id
- b75-20020a1c804e000000b0034569bde713so4660550wmd.9
- for <qemu-devel@nongnu.org>; Thu, 23 Dec 2021 05:33:15 -0800 (PST)
+ us-mta-250-tQzAntiqNoqij8A2WydkQw-1; Thu, 23 Dec 2021 08:43:38 -0500
+X-MC-Unique: tQzAntiqNoqij8A2WydkQw-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ az11-20020a05600c600b00b00345c4309bccso1862832wmb.5
+ for <qemu-devel@nongnu.org>; Thu, 23 Dec 2021 05:43:38 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=vSTjKMW+fAHVkVcfpz91JlLhyJlgL/Po4JVRpKe47bs=;
- b=ZgmJU23TBVhmdHd5pq0d+96CwEVfxaHGymfEHSGUbXgntXZzu+hKyP75z7LN8F6vWJ
- iwWaDlCo+PgQ2Hlq0lSOsgCTUq6WO42x7Hl66gTBhs1uarUjJjU0rTOr99RH0eB6AwFP
- lNbnqFVi5aXW/1hcndsPy/0BXYWRV6q/xkmGSaULBuPb/5deEjVdR1Cq2biGOVMpxMle
- iO2kXu0UMqVSOZ+1Z2AaP+R9pj5eyrPPQGyn3gKlBY0uN1iMjX7Noh7SBavcWqX1Fyg5
- bnUgF8NS+yYxVPEbV1NkhTFpn+MWWKfRf5cZXaRHaLL8vYW4VaIVL6/TyCdtDYHF9wEO
- zecA==
-X-Gm-Message-State: AOAM531KoqK5UgVm3IVWypa80NKW1I1gZjn4kh33cPFMN7MkFGt9Ppta
- TBqI14hz++SOId58WkyF2yGPS1kq2Ch7Hp26fN7wn8s4VyDy/9kt6Ne/DY5sEojQUSIEQWgq22s
- Na2O2kUUhcY9pgik=
-X-Received: by 2002:a5d:4207:: with SMTP id n7mr1674258wrq.708.1640266393947; 
- Thu, 23 Dec 2021 05:33:13 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzMI+Z9LOfxWCrigLWaFZkDU+DVA5tkgEmm9TY1khGEpAnGSaKe33HS59vsgWkOgMZfL0eZ5w==
-X-Received: by 2002:a5d:4207:: with SMTP id n7mr1674241wrq.708.1640266393509; 
- Thu, 23 Dec 2021 05:33:13 -0800 (PST)
+ bh=j6u/Y8dnM8g1Ct4ZKexeby7UXE26h0EJhMaNPVTf1t0=;
+ b=MWn/dInRYkEmbaD1T5rfUkxDV5AlgNQWELj8fUiqLaI0NOcd2lwTF5+/7LD8lFCVdr
+ eNc1pnzNZiLQBonto/aJ0QXGCgL1OgUJghMxNQ1NiGXsNwl558OXNkz3BES8KiDvVfAX
+ 9pIqxbtQdOirbwbzq0b73SXrT1aVplOD+Xd/WfWm1ah+B3L6b4pbw4arTRPqUS0UAmDK
+ Sp0qI0m33gtJJNa33eWDIvLviEY2vWtyKvwnjqjfq62DkdXcXVLtZ8muSwsMYH55yRcU
+ VwTFClJE+HXRlX3/yZRFnyPhZUtr1Q6quGukomCMD2C45hCW8LuNriwnns3m1qyfwcsW
+ zsGA==
+X-Gm-Message-State: AOAM532t/7IWhbRib+EHzOakIEnxKJXU4yI7pZgPsnhIPsTl5rx/ToLl
+ LHZg/r6RxmK9+qlZnd0I+CXIJWRdwoqfuI6GYzEoYy1TgQ5iBCqejYBieX9O+uVwIDIGsW32V9Q
+ bQrwq6yebQ9Ln01I=
+X-Received: by 2002:a5d:54c8:: with SMTP id x8mr1756574wrv.299.1640267017678; 
+ Thu, 23 Dec 2021 05:43:37 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyEznWFeQMnBuA+EBogBTr7ArqvZx41RqrJmfYmNYvWJUD6hZUclaTv7rxrVuzEHEyxCBa/lw==
+X-Received: by 2002:a5d:54c8:: with SMTP id x8mr1756555wrv.299.1640267017463; 
+ Thu, 23 Dec 2021 05:43:37 -0800 (PST)
 Received: from redhat.com ([2.55.1.37])
- by smtp.gmail.com with ESMTPSA id c11sm9589610wmq.48.2021.12.23.05.33.11
+ by smtp.gmail.com with ESMTPSA id e13sm8247649wmq.10.2021.12.23.05.43.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 Dec 2021 05:33:12 -0800 (PST)
-Date: Thu, 23 Dec 2021 08:33:09 -0500
+ Thu, 23 Dec 2021 05:43:37 -0800 (PST)
+Date: Thu, 23 Dec 2021 08:43:32 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Alex Williamson <alex.williamson@redhat.com>
-Subject: Re: [PATCH] pci: Skip power-off reset when pending unplug
-Message-ID: <20211223060931-mutt-send-email-mst@kernel.org>
-References: <164002480875.2328622.7843917444941101286.stgit@omen>
- <20211220174502-mutt-send-email-mst@kernel.org>
- <20211221093656.0d30644e.alex.williamson@redhat.com>
- <20211221183400-mutt-send-email-mst@kernel.org>
- <20211222120809.3f28f44b.alex.williamson@redhat.com>
- <20211222152815-mutt-send-email-mst@kernel.org>
- <20211222161007.27cb7729.alex.williamson@redhat.com>
+To: Mauro Matteo Cascella <mcascell@redhat.com>
+Subject: Re: [PATCH] acpi: validate hotplug selector on access
+Message-ID: <20211223083646-mutt-send-email-mst@kernel.org>
+References: <20211221144852.589983-1-mst@redhat.com>
+ <ad22de10-a52c-ff34-0790-3be8e7d62630@redhat.com>
+ <20211222151922-mutt-send-email-mst@kernel.org>
+ <CAP+75-VaN5SD22ABqKNTC=dHhN4yaN-22Ucfdp=6aeYa+q+83A@mail.gmail.com>
+ <20211222154841-mutt-send-email-mst@kernel.org>
+ <CAA8xKjWJhXge6_3k-kPc7Y3Z_X1JqbOdZvOCSuAy62ifO4E5gg@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20211222161007.27cb7729.alex.williamson@redhat.com>
+In-Reply-To: <CAA8xKjWJhXge6_3k-kPc7Y3Z_X1JqbOdZvOCSuAy62ifO4E5gg@mail.gmail.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
@@ -101,315 +100,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, kraxel@redhat.com
+Cc: QEMU Developers <qemu-devel@nongnu.org>, Prasad Pandit <ppandit@redhat.com>,
+ Alexander Bulekov <alxndr@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Ani Sinha <ani@anisinha.ca>, Igor Mammedov <imammedo@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Dec 22, 2021 at 04:10:07PM -0700, Alex Williamson wrote:
-> On Wed, 22 Dec 2021 15:48:24 -0500
-> "Michael S. Tsirkin" <mst@redhat.com> wrote:
+On Thu, Dec 23, 2021 at 10:58:14AM +0100, Mauro Matteo Cascella wrote:
+> Hi,
 > 
-> > On Wed, Dec 22, 2021 at 12:08:09PM -0700, Alex Williamson wrote:
-> > > On Tue, 21 Dec 2021 18:40:09 -0500
-> > > "Michael S. Tsirkin" <mst@redhat.com> wrote:
-> > >   
-> > > > On Tue, Dec 21, 2021 at 09:36:56AM -0700, Alex Williamson wrote:  
-> > > > > On Mon, 20 Dec 2021 18:03:56 -0500
-> > > > > "Michael S. Tsirkin" <mst@redhat.com> wrote:
-> > > > >     
-> > > > > > On Mon, Dec 20, 2021 at 11:26:59AM -0700, Alex Williamson wrote:    
-> > > > > > > The below referenced commit introduced a change where devices under a
-> > > > > > > root port slot are reset in response to removing power to the slot.
-> > > > > > > This improves emulation relative to bare metal when the slot is powered
-> > > > > > > off, but introduces an unnecessary step when devices under that slot
-> > > > > > > are slated for removal.
-> > > > > > > 
-> > > > > > > In the case of an assigned device, there are mandatory delays
-> > > > > > > associated with many device reset mechanisms which can stall the hot
-> > > > > > > unplug operation.  Also, in cases where the unplug request is triggered
-> > > > > > > via a release operation of the host driver, internal device locking in
-> > > > > > > the host kernel may result in a failure of the device reset mechanism,
-> > > > > > > which generates unnecessary log warnings.
-> > > > > > > 
-> > > > > > > Skip the reset for devices that are slated for unplug.
-> > > > > > > 
-> > > > > > > Cc: qemu-stable@nongnu.org
-> > > > > > > Fixes: d5daff7d3126 ("pcie: implement slot power control for pcie root ports")
-> > > > > > > Signed-off-by: Alex Williamson <alex.williamson@redhat.com>      
-> > > > > > 
-> > > > > > I am not sure this is safe. IIUC pending_deleted_event
-> > > > > > is normally set after host admin requested device removal,
-> > > > > > while the reset could be triggered by guest for its own reasons
-> > > > > > such as suspend or driver reload.    
-> > > > > 
-> > > > > Right, the case where I mention that we get the warning looks exactly
-> > > > > like the admin doing a device eject, it calls qdev_unplug().  I'm not
-> > > > > trying to prevent arbitrary guest resets of the device, in fact there
-> > > > > are cases where the guest really should be able to reset the device,
-> > > > > nested assignment in addition to the cases you mention.  Gerd noted
-> > > > > that this was an unintended side effect of the referenced patch to
-> > > > > reset device that are imminently being removed.
-> > > > >     
-> > > > > > Looking at this some more, I am not sure I understand the
-> > > > > > issue completely.
-> > > > > > We have:
-> > > > > > 
-> > > > > >     if ((sltsta & PCI_EXP_SLTSTA_PDS) && (val & PCI_EXP_SLTCTL_PCC) &&
-> > > > > >         (val & PCI_EXP_SLTCTL_PIC_OFF) == PCI_EXP_SLTCTL_PIC_OFF &&
-> > > > > >         (!(old_slt_ctl & PCI_EXP_SLTCTL_PCC) ||
-> > > > > >         (old_slt_ctl & PCI_EXP_SLTCTL_PIC_OFF) != PCI_EXP_SLTCTL_PIC_OFF)) {
-> > > > > >         pcie_cap_slot_do_unplug(dev);
-> > > > > >     }
-> > > > > >     pcie_cap_update_power(dev);
-> > > > > > 
-> > > > > > so device unplug triggers first, reset follows and by that time
-> > > > > > there should be no devices under the bus, if there are then
-> > > > > > it's because guest did not clear the power indicator.    
-> > > > > 
-> > > > > Note that the unplug only triggers here if the Power Indicator Control
-> > > > > is OFF, I see writes to SLTCTL in the following order:
-> > > > > 
-> > > > >  01f1 - > 02f1 -> 06f1 -> 07f1
-> > > > > 
-> > > > > So PIC changes to BLINK, then PCC changes the slot to OFF (this
-> > > > > triggers the reset), then PIC changes to OFF triggering the unplug.
-> > > > > 
-> > > > > The unnecessary reset that occurs here is universal.  Should the unplug
-> > > > > be occurring when:
-> > > > > 
-> > > > >   (val & PCI_EXP_SLTCTL_PIC_OFF) != PCI_EXP_SLTCTL_PIC_ON
-> > > > > 
-> > > > > ?    
-> > > > 
-> > > > well blinking generally means "do not remove yet".  
-> > > 
-> > > Blinking indicates that the slot is in a transition phase,  
-> > 
-> > Well the spec seems to state that blinking indicates it's waiting
-> > to see user does not change his/her mind by pressing the
-> > button again.
+> On Wed, Dec 22, 2021 at 9:52 PM Michael S. Tsirkin <mst@redhat.com> wrote:
+> >
+> > On Wed, Dec 22, 2021 at 09:27:51PM +0100, Philippe Mathieu-Daudé wrote:
+> > > On Wed, Dec 22, 2021 at 9:20 PM Michael S. Tsirkin <mst@redhat.com> wrote:
+> > > > On Wed, Dec 22, 2021 at 08:19:41PM +0100, Philippe Mathieu-Daudé wrote:
+> > > > > +Mauro & Alex
+> > > > >
+> > > > > On 12/21/21 15:48, Michael S. Tsirkin wrote:
+> > > > > > When bus is looked up on a pci write, we didn't
+> > > > > > validate that the lookup succeeded.
+> > > > > > Fuzzers thus can trigger QEMU crash by dereferencing the NULL
+> > > > > > bus pointer.
+> > > > > >
+> > > > > > Fixes: b32bd763a1 ("pci: introduce acpi-index property for PCI device")
+> > > > > > Cc: "Igor Mammedov" <imammedo@redhat.com>
+> > > > > > Fixes: https://gitlab.com/qemu-project/qemu/-/issues/770
+> > > > > > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+> > > > >
+> > > > > It seems this problem is important enough to get a CVE assigned.
+> > > >
+> > > > Guest root can crash guest.
+> > > > I don't see why we would assign a CVE.
+> > >
+> > > Well thinking about downstream distributions, if there is a CVE assigned,
+> > > it helps them to have it written in the commit. Maybe I am mistaken.
+> > >
+> > > Unrelated but it seems there is a coordination problem with the
+> > > qemu-security@ list,
+> > > if this isn't a security issue, why was a CVE requested?
+> >
+> > Right.  I don't think a priveleged user crashing VM warrants a CVE,
+> > it can just halt a CPU or whatever. Just cancel the CVE request pls.
 > 
-> We're dealing with the Power Indicator, not the Attention Indicator
-> here.
-
-Let's make sure we are talking about the same here:
-
-
-The Attention Indicator, which must be yellow or amber in color, indicates that an operational
-problem exists or that the hot-plug slot is being identified so that a human operator can locate it
-easily.
-
-and
-
-Attention Indicator Blinking
-A blinking Attention Indicator indicates that system software is identifying this slot for a human
-operator to find. This behavior is controlled by a user (for example, from a software user interface
-or management tool).
-
-
-On the other hand:
-
-Power Indicator Off
-The Power Indicator in the Off state indicates that insertion or removal of an the adapter is
-permitted. Main power to the slot is off if required by the form factor. Note that, depending on the
-form factor, other power/signals may remain on, even when main power is off and the Power
-Indicator is off. In an example using the PCI Express card form factor, if the platform provides
-Vaux to hot-plug slots and the MRL is closed, any signals switched by the MRL are connected to the
-slot even when the Power Indicator is off. Signals switched by the MRL are disconnected when the
-MRL is opened. System software must cause a slotâ€™s Power Indicator to be turned off when the slot
-is not powered and/or it is permissible to insert or remove an adapter. Refer to the appropriate
-form factor specification for details.
-
-Power Indicator On
-The Power Indicator in the On state indicates that the hot-plug operation is complete and that main
-power to the slot is On and that insertion or removal of the adapter is not permitted.
-
-Power Indicator Blinking
-A blinking Power Indicator indicates that the slot is powering up or powering down and that
-insertion or removal of the adapter is not permitted.
-The blinking Power Indicator also provides visual feedback to the operator when the Attention
-Button is pressed or when hot-plug operation is initiated through the hot-plug software interface.
-
-
-
-
-> > > which we
-> > > could also interpret to mean that power has been removed and this is
-> > > the time required for the power to settle.  By that token, it might be
-> > > reasonable that a power state induced reset doesn't actually occur
-> > > until the slot reaches both the slot power off and power indicator off
-> > > state.  
-> > 
-> > The reset is actually just an attempt to approximate power off.
-> > So I'm not sure that is right powering device off and then on
-> > is just a slow but reasonable way for guests to reset a device.
+> While I agree with you that this is kind of borderline and I expressed
+> similar concerns in the past, I was told that:
 > 
-> Agree, I don't have a problem with resetting devices in response to the
-> slot being powered off, just that it's pointless, and in some scenarios
-> causes us additional grief when it occurs when the device is being
-> removed anyway.
+> 1) root guest users are not necessarily trustworthy (from the host perspective).
+> 2) NULL pointer deref and similar issues caused by an
+> ill-handled/error condition are CVE worthy, even if triggered by root.
+> 3) In other cases, DoS triggered by root is not a security issue
+> because it's an expected behavior and not an ill-handled/error
+> condition (think of assert failures, for example).
 > 
-> > >  In that case we could reorganize things to let the unplug occur
-> > > before the power transition.  
-> > 
-> > Hmm you mean unplug on host immediately when it starts blinking?
-> > But drivers are not notified at this point, are they?
+> In other words, "ill-handled condition" is the crucial factor that
+> makes a bug CVE worthy or not.
+
+I guess the point is that a downstream might have a slightly different
+code path where it would be more serious ...
+OK then, not a big deal for me. So what's the CVE # then?
+
+> +Prasad, can you shed some light on this? Is my understanding correct?
 > 
-> I think this is confusing Attention Indicator and Power Indicator
-> again.
-
-Let's try to clear it up.
-
-Here's text from the SHPC spec, pcie spec is less clear imho but
-same idea IIUC.
-
-The Power Indicator provides visual feedback to the human operator (if the system
-software accepts the request initiated by the Attention Button) by blinking. Once the
-Power Indicator begins blinking, a 5-second abort interval exists during which a second
-depression of the Attention Button cancels the operation.
-
-Attention Indicator is confusingly unrelated to the Attention Button.
-Right?
+> Also, please note that we regularly get CVE requests for bugs like
+> this and many CVEs have been assigned in the past. Of course that
+> doesn't mean we can't change things going forward, but I think we
+> should make it clear (probably here:
+> https://www.qemu.org/docs/master/system/security.html) that these
+> kinds of bugs are not eligible for CVE assignment.
 
 
->  The write sequence I noted for the slot control register was as
-> follows:
+That would be good, yes.
+
+> > > > > Mauro, please update us when you get the CVE number.
+> > > > > Michael, please amend the CVE number before committing the fix.
+> > > > >
+> > > > > FWIW Paolo asked every fuzzed bug reproducer to be committed
+> > > > > as qtest, see tests/qtest/fuzz*c. Alex has a way to generate
+> > > > > reproducer in plain C.
+> > > > >
+> > > > > Regards,
+> > > > >
+> > > > > Phil.
+> > > >
+> >
 > 
->     01f1 - > 02f1 -> 06f1 -> 07f1
-> 
->  01f1:
->    Attention Indicator: OFF
->    Power Indicator: ON
->    Power Controller: ON
-> 
->  02f1:
->    Power Indicator: ON -> BLINK
-> 
->  06f1:
->    Power Controller: ON -> OFF
-> 
->  07f1:
->    Power Indicator: BLINK -> OFF
-> 
-> The device reset currently occurs at 06f1, when the Power Controller
-> removes power to the slot.  The unplug doesn't occur until 07f1 when
-> the Power Indicator turns off.  On bare metal, the device power would
-> be in some indeterminate state between those two writes as the power
-> drains.  We've chosen to reset the device at the beginning of this
-> phase, where power is first removed (ie. instantaneous power drain),
-> but on a physical device it happens somewhere in between.
-
-Yes, this is true I think. But I think on bare metal it's guaranteed to
-happen within 1 second after power is removed, whatever the state of the
-power indicator.
-Also, Gerd attempted to add PV code that special cases KVM and
-removes all the multi-second waiting from unplug path.
-So I am not sure we should rely on the 1 second wait, either.
-
->  It therefore
-> seems valid that it could happen at the moment the Power Indicator
-> turns off such that we could precede the device reset with any
-> necessary unplug operations.
-
-However the power indicator is merely an indicator for the
-human operator. My understanding is that driver that does not want to permit
-removing the device can turn off power without turning off
-the power indicator.
-
-
-> > >  Of course the original proposal also
-> > > essentially supports this interpretation, the slot power off reset does
-> > > not occur for devices with a pending unplug and those devices are
-> > > removed after the slot transition grace period.  
-> > 
-> > Meaning the patch you posted? It relies on guest doing a specific
-> > thing though, and guest and host states are not synchronized.
-> 
-> The proposed patch just means we won't reset the device in response to
-> slot power if an unplug is pending.  So sure, if it's true that a guest
-> playing with the Power Controller without using the Power Indicator to
-> reflect the slot state could skip a device reset, but is that valid
-> guest behavior?
-
-I'm not 100% sure:
-The Power Indicator in the Off state indicates that insertion or removal of an the adapter is
-permitted.
-
-but also
-
-	System software must cause a slotâ€™s Power Indicator to be turned off when the slot
-	is not powered and/or it is permissible to insert or remove an adapter.
-
-this and/or confuses me, but I think the "or" here is simply misguided.
-The SHPC spec from which the interface in pcie was inherited just says:
-
-	When the Power Indicator is off, it means that main power to the slot is off and that
-	insertion or removal of an add-in card is permitted.
-
-
-
-> > I think it might work to defer reset if it's blinking until it actually
-> > stops blinking. To me it seems a bit less risky but but again, in theory
-> > some guest driver could use the power cycle reset while hotplug plays
-> > with PIC waiting for the cancel button press.
-> 
-> That's essentially my previous suggestion above.  The Power Indicator
-> blinking tells us the slot power is in transition, the option to press
-> the attention button to abort has passed.  I understand the abort
-> window to be governed by the Attention Indicator blinking.
-
-what text in the spec gives you that impression?
-
-> > E.g. I suspect your patch can be broken just by guest loading/unloading
-> > driver in a loop while host also triggers plug/unplug.
-> 
-> It's not clear to me why that might fail.  Can you elaborate?  All it
-> does is skip the reset when an unplug is pending, but the actual unplug
-> finalizes the device and any subsequent plug necessarily uses a new
-> device, so I don't see what goes wrong.
-
-host wants to start unplug
-meanwhile guest wants to attempt a reset (for its own reasons)
-we skip the reset to device retains a bunch of state in
-its registers, the guest attempts to drive it assuming
-a reset device.
-
-> 
-> > > > > > So I am not sure how to fix the assignment issues as I'm not sure how do
-> > > > > > they trigger, but here is a wild idea: maybe it should support an API
-> > > > > > for starting reset asynchronously, then if the following access is
-> > > > > > trying to reset again that second reset can just be skipped, while any
-> > > > > > other access will stall.    
-> > > > > 
-> > > > > As above, there's not a concurrency problem, so I don't see how an
-> > > > > async API buys us anything.    
-> > > > 
-> > > > Well unplug resets the device again, right? Why is that reset not
-> > > > problematic and this one is?  
-> > > 
-> > > It has the same issue, but there's no log message generated that
-> > > worries QE into marking this as a regression.  
-> > 
-> > Well is the device already stopped from working at this point?
-> > Prevented from getting and responding to guest accesses?
-> > By something else?
-> > Because this is what happens when it's powered off, isn't it?
-> 
-> The reset failure doesn't prevent the device from being unplugged, QEMU
-> releases it and it gets disabled by the kernel driver.  Thanks,
-
-But with device retaining state, can it get into a bad state?
-Can it also corrupt guest?
-
-> Alex
-> 
-> PS - I'm about to sign off for the year, so apologies that this
-> conversation will need to wait until next year for further follow-up on
-> my end.  Happy holidays!
-
-No big deal I think. You too!
-
--- 
-MST
+> -- 
+> Mauro Matteo Cascella
+> Red Hat Product Security
+> PGP-Key ID: BB3410B0
 
 
