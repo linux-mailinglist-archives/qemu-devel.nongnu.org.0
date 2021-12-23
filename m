@@ -2,144 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A86C947E1A8
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Dec 2021 11:43:26 +0100 (CET)
-Received: from localhost ([::1]:60964 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2E9E47E1AB
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Dec 2021 11:45:44 +0100 (CET)
+Received: from localhost ([::1]:36922 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n0LZF-0000kc-Fh
-	for lists+qemu-devel@lfdr.de; Thu, 23 Dec 2021 05:43:25 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42668)
+	id 1n0LbS-0003bi-U1
+	for lists+qemu-devel@lfdr.de; Thu, 23 Dec 2021 05:45:42 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42820)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1n0LXa-0008VP-0n
- for qemu-devel@nongnu.org; Thu, 23 Dec 2021 05:41:42 -0500
-Received: from mail-db8eur05on2128.outbound.protection.outlook.com
- ([40.107.20.128]:60641 helo=EUR05-DB8-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
+ id 1n0LYG-0000v2-Ev; Thu, 23 Dec 2021 05:42:24 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:64670)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1n0LXX-00057d-JD
- for qemu-devel@nongnu.org; Thu, 23 Dec 2021 05:41:41 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=VXq0lzt9hoj8vW+jHIs0fbNzkIy/rgtUnffz1G0WJ7PEYql1wHmtj23amatfck8d3jrF/5p+PJ+SZ0t5aATPW2T0UF2ZIXUMtmS0Nb3U1fo7MOQOQVqpIXx8y4qNN3362D1Ea8UG95pSC/0LsDMCOjxiEftav5UT6GGvxYkyoQWgsUpUzg8GkSKxkyrgNTrOSBrKsdjdnLNK9nu2Y/uJMxG9iGXz/aVSQjwGq/MDH0/Jyu3DfTPcDyCohQNmjopD5R77z0gEEDaTdiFDavsu/dDSa11pMcdF84I3R/grKUbZ4oXABSEDW28PMD0UGAw4dAfaoGJwn8YcG84Xq7vFkw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=OPdFFMpWBp2O2m3rZLedqdLQC4nx+DKumhgh6QicDSI=;
- b=Ub+fY954xak96JEV2STsBL7rW+MbZJwKciSrIvq/bkEAJmMItUAf7Yc40xUvXxOvbXeUrRlcBaWgFTofnjWRi9HGi22cTDN4ZQSl0xP8ZDhGBTFsGMZTsd+bqUkZ9+tpv0apNGcJf1DpkP418PbT7tm2Y2vyA9OOUdNGZK1RQyPxUKJlidRbqmw4rZ77GDcl0vjJGc3UJ/UHBJVTUUA0BWSqDYoTJBdSzzobd4Y6Zxgmnb+kdkOSHomtibxJhV/0Yc073g42QFBlAwrlicswSRkICrNGb1hepqcz6ioUVG1LPwy91lkwMe2dBKVzcOcBJMvukZZ62m5ioj/7yC+leQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=OPdFFMpWBp2O2m3rZLedqdLQC4nx+DKumhgh6QicDSI=;
- b=kf3UGYRyS2cnUtpkvFK0Z7fa4x67hLjkriincoBr1wgHEY+Ue5G20TTyUgUmMgB8T9zjHJBVoqi7ocDsXDCA/kB2X4omNE3DQgHpNuIstQYF81BT30vE9JdaPGNNkNBSug278axQGpItvxQds1VCPuxXz78CpYHD0msnv9Ns3ww=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM9PR08MB6737.eurprd08.prod.outlook.com (2603:10a6:20b:304::18)
- by AM8PR08MB6627.eurprd08.prod.outlook.com (2603:10a6:20b:368::19)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4823.18; Thu, 23 Dec
- 2021 10:41:37 +0000
-Received: from AM9PR08MB6737.eurprd08.prod.outlook.com
- ([fe80::b118:483a:d003:3112]) by AM9PR08MB6737.eurprd08.prod.outlook.com
- ([fe80::b118:483a:d003:3112%5]) with mapi id 15.20.4823.019; Thu, 23 Dec 2021
- 10:41:37 +0000
-Message-ID: <768f5236-bc62-84d5-d070-e964097b1267@virtuozzo.com>
-Date: Thu, 23 Dec 2021 13:41:35 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH 3/3] meson: generate trace points for qmp commands
-Content-Language: en-US
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>, "Hajnoczi, Stefan"
- <stefanha@redhat.com>, Michael Roth <michael.roth@amd.com>,
- "Armbruster, Markus" <armbru@redhat.com>
-References: <20211221193502.114296-1-vsementsov@virtuozzo.com>
- <20211221193502.114296-4-vsementsov@virtuozzo.com>
- <CABgObfYqiLwfNf4_p2_HYQPvAHKAQ=4DNr1y2OMecoO6kpovzg@mail.gmail.com>
- <1623e94d-3991-ccee-baaf-7e3154c637a0@virtuozzo.com>
-In-Reply-To: <1623e94d-3991-ccee-baaf-7e3154c637a0@virtuozzo.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: AS9PR06CA0306.eurprd06.prod.outlook.com
- (2603:10a6:20b:45b::15) To AM9PR08MB6737.eurprd08.prod.outlook.com
- (2603:10a6:20b:304::18)
+ (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
+ id 1n0LYE-0005Bq-Aa; Thu, 23 Dec 2021 05:42:24 -0500
+Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1BN9fh2B012763; 
+ Thu, 23 Dec 2021 10:42:19 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=date : from : to : cc :
+ subject : message-id : in-reply-to : references : mime-version :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=4RZrTLjSegO8C32W1Wyqqgc9Xc1ZJgMby0IsthWNgmQ=;
+ b=PdNuBD0FIg11T0svZ7aogLP3JCNpXJYBt40j3PjBElgH+q21GhGK26l1iA/pAxX23+Pc
+ 19bOl5SGV0HBte6JgzNkaK0yudkYyWUV6msIF/tCbiw+wTA1HzX75L/mGjF6dwuT/exx
+ 9/or+hhsRQsQzTnz/YkD4Mys6GhR8FldzgaKoAWYUH5BhwPErjyqhgscNpEEF+hkfKEh
+ i4U9YRBBiYYmP0FdxasfdJeT4OeqZo9PIYbxn8VGrIjqqm7PuPBixWgyNxwLZNtrOqN3
+ 3V7Lpc5En8H0QNGYZY1W6df0nePsIeO2eaSiYyPy7o7TGm+xKT6GNN61RlhEQ3vyFRSg gg== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3d4pq0ry82-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 23 Dec 2021 10:42:19 +0000
+Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1BN9jhwK024677;
+ Thu, 23 Dec 2021 10:42:18 GMT
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.99])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3d4pq0ry7k-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 23 Dec 2021 10:42:18 +0000
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+ by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1BNAXbax021054;
+ Thu, 23 Dec 2021 10:42:16 GMT
+Received: from b06avi18878370.portsmouth.uk.ibm.com
+ (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
+ by ppma04ams.nl.ibm.com with ESMTP id 3d179a5rq3-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 23 Dec 2021 10:42:15 +0000
+Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
+ [9.149.105.62])
+ by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 1BNAgB5o44433886
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 23 Dec 2021 10:42:11 GMT
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 928EFAE05A;
+ Thu, 23 Dec 2021 10:42:11 +0000 (GMT)
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id E54FAAE05F;
+ Thu, 23 Dec 2021 10:42:10 +0000 (GMT)
+Received: from li-e979b1cc-23ba-11b2-a85c-dfd230f6cf82 (unknown [9.171.57.19])
+ by d06av26.portsmouth.uk.ibm.com (Postfix) with SMTP;
+ Thu, 23 Dec 2021 10:42:10 +0000 (GMT)
+Date: Thu, 23 Dec 2021 11:41:57 +0100
+From: Halil Pasic <pasic@linux.ibm.com>
+To: Cornelia Huck <cohuck@redhat.com>
+Subject: Re: [PATCH qemu] s390x/css: fix PMCW invalid mask
+Message-ID: <20211223114157.514496aa.pasic@linux.ibm.com>
+In-Reply-To: <87h7b037vw.fsf@redhat.com>
+References: <20211216131657.1057978-1-nrb@linux.ibm.com>
+ <87h7b037vw.fsf@redhat.com>
+Organization: IBM
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 7252c4a7-8c68-4989-c90a-08d9c600cba9
-X-MS-TrafficTypeDiagnostic: AM8PR08MB6627:EE_
-X-Microsoft-Antispam-PRVS: <AM8PR08MB66270DE4D71B64611FE5F08DC17E9@AM8PR08MB6627.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:5797;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: oBbzzxwXzFk2owq7EuMbJ51ciu6BWPbFK0grn+6Bh80Tum0p9aKqSyjvtb6MgPARedPIzLvW5La9yB4WtU2ZF/S5VTt79LI88o4pskipREfClrGjP9VwfBYwHIUH6r0pLIvTbF3Gnrvuc1+rTbQRjrsSQRayL+fBDv1qp0h+fa+9Uq5mJtXvZU6OkGLlZL3ibkMJBT9TVotbIuXM5nZRMSENdV1kaVnvJJjCojO3wTte66qykrMWDPa73My0c+ak/vrpD5/uD/DtKk0Xm1+QxTMJ7CAGmgna24o7P0RicU2PDf0wIK77b0jCf57k2c6Air8ydqxEiAJ4Ag10fMWZ2Uo8ID0usS9QydaHeGziLxZoFhZ4aaTU5Dd0Cowy+rhKBZdyfWWK1alFUFmoapHH5W36TxXGYVN8VupTfoxLD9g1BrUDhR4dUbv9eu2+6+8ePC3v8nS6R4Cz6gSPpnPsbU4jceERDuOAV9tt/Br7JXKIT6gWw2CiCNg4sPIXRimVe4y9vR3oyM/YzTPGSBorhwVhqS7Eur3QeDx2tQ4ML0aT3Cg1Toa5OxF8iZJektW2XO9KrBDV9tXQ2hOBzi297NAp1CSAk34cDB6BrRdecqyzaOMjzQ82D7I7MxWL7F0gzOAnVG2NlcB1ob0JshPO2wyNsmTNxQDMpJ/T05iY5yVwl64f/gUlzjj3sAaaTeRsbihsWIxVzeShyHU7AKm2MR0r8vNHMUsGshvf+s4IjXvJyJa9wgSyv+S8XWpw4fHgzMa4wlWBRv4JtwAA/0+JxQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM9PR08MB6737.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(66556008)(52116002)(66476007)(6486002)(6512007)(8936002)(2906002)(31696002)(316002)(5660300002)(54906003)(36756003)(66946007)(508600001)(2616005)(38350700002)(8676002)(186003)(38100700002)(4326008)(6916009)(26005)(31686004)(86362001)(6506007)(45980500001)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?V05Wd29SUHpYazJRd1UvdXlUZTcrdi9oMTUvN0tVelhabW5hdGl1bCtNekZ6?=
- =?utf-8?B?NkQwRUhDSEd4MENCT2MxbEkybHBDNk43eDIrRW81QUovZUc3Z3gyZGxFeFlm?=
- =?utf-8?B?TDdkaXFGblB2ZkJHbTR6UEdKS3lRMWdSSUIrNHNuZE9kV2xmSGZCVWk0c21j?=
- =?utf-8?B?UHJ1K3YwQUdaMjhpNEpaMktnemc1RW9OdTQ1Q29ZNUJXUlBTWVpYTlNkSDZ5?=
- =?utf-8?B?UkowTnNza0oyVGpydmN4YzhvUjVHZTBrazc1VDM5M1phdndkcHpCaUoxZmtQ?=
- =?utf-8?B?RHd0YzMyRTVGblMrMUZNeGhNdEZvalhBelJmYm1jQWVDdnBmWXlhcHFHZnBP?=
- =?utf-8?B?M1Jtem9ucVNtd1BCT1d1U0hwZ0NKOUVrSWxhTTBYV29ZbWpJWGt5OWdpYUtT?=
- =?utf-8?B?N09rUXQrU29weUNSNmpVUENlLzlUQ3JpL1dIUjZ4VjRGU2cyRzY4TUxINWZ0?=
- =?utf-8?B?d0ovamF5SHRlMS84U1FVa2JUbFhZdmtOK3JGUEJwNVFRZWFXTWhvTjljeEUz?=
- =?utf-8?B?b09BWlMyUTdHbzFEMHpKa0J1KytoWHdDb0hKMHpBL0MzeEJLN1JrL0lwRERN?=
- =?utf-8?B?bS9vU01vWThYcGlXMW5aMFJNVkR1SnZabzc3aW9mY0VOeGlyN3ZScDlRRjZm?=
- =?utf-8?B?cFBHWnN0RUgzenFhTWxLbE00UmlsWmxFaURGKzFrYURzVFVHVjUzd3YxMGVL?=
- =?utf-8?B?dmhFeWhNb0ZiaEtJSDNYb1N1dktEay9maEdGNSt4RzZ6bCs0Q0poajlJd2dX?=
- =?utf-8?B?TFYwQ0FOazZNNlRISHZsVDZudERDYmF3SkRleUp0ckhXdlROMXVIM0RQNlBw?=
- =?utf-8?B?d1MxbDRsc3M0T3dNeUF5RDZiRmRrRGFlemhOblNnUzZZZ0FDTHdHTHhDNWxW?=
- =?utf-8?B?RStGU1IwYUM4TStFeWhSNmNQSWt1d2x5N2x3OExmbFdOMlhtS1FCWStMSkxR?=
- =?utf-8?B?UUhwN3RvekErZWgzMmFic3pJZ1djVEowWE1wNFRnVDVOL2cvTHlZdGY3a3pJ?=
- =?utf-8?B?UGRPSUhPSnlCWTFFdEFueUx4aktFa2E3UzNQYXZuUmNTSG9uVFFmNTJhd1lD?=
- =?utf-8?B?dmpWdDlvZkhKRHlqQlY5YmEzQUlXSm9tVnBORSs2QUo0d1k5UWpLWWpDMUtP?=
- =?utf-8?B?OGdIWktwRGovRS84MEsrdSt5bGQ1emxqbkZVOHlUb05SNGFmRkp2bVJ4TWJv?=
- =?utf-8?B?Rm9VMHJNb0plZWlmM25FODJtMENIZHorYzZZQmdOSTFLdXhxM01UOWErZ0tB?=
- =?utf-8?B?bWtKYXo2dVlYajF0Q2RMYmdSNW9nZURyRTZCYnQ0UlpCTnZkTjVqQ0d6ZnFq?=
- =?utf-8?B?a2Fsc3hUcExsLzR4RDNqZ2pVMGNZRVAxNHF6NnJON0NlR3lpaWdWSVJUeGpW?=
- =?utf-8?B?WjFHVUFkTVpzTWw5WllXYk9GenAwem9MV0pGM2FlWGs0TXl1dTlzRmZDdndw?=
- =?utf-8?B?TEV5L3FSWmZ0aWllT21ZeEZiamlJek53cTlSVmJFdE1NcVpOUXoxRFVFeG5z?=
- =?utf-8?B?SjVWUWlxdTRwaGpXV0VxUDc2QzlnOWZqOC9seEpqVmw4WE1MakZMQXZta3NK?=
- =?utf-8?B?QTBxTWpFQjBKTnBJSHh4TWI0QXZGcDNtTkRDSy8yd3FSN3dPaW0xbUFzbHpD?=
- =?utf-8?B?V1M5eWVUS0tqNlVOZXFOUHpPUE9QWlQwZHhIYzYyTWxQcmFRRm0zejBmVENW?=
- =?utf-8?B?RjdJeFFWZkU5dHZ3Sjd0V3kwaHk4dmlnQUFHSzZqMlpSV2RKRDVJQzdJcHJo?=
- =?utf-8?B?cmx0aXVmWjhaSWZrSFMxMFE0Qy9aeldidUF4bGZwQ2JBckNvcWdXSTZzTXdR?=
- =?utf-8?B?ZTU0U0J4OU5UYWlQbnV6TzZnRm9JNXlMbXJRQUtxU3ZCMTUxTTMzY1Y4VEs4?=
- =?utf-8?B?enBEWkFLUlVnOFllR20yMlErZDNJMkIydnJNN1VPYWxzWHVKbDU3K3IzbHZV?=
- =?utf-8?B?SExhUk9SRzI5eEFyMU1wVW1GdzB5QVVKdi85bXlLR0JkMHJwaHRrQTM4WExW?=
- =?utf-8?B?SUVQTXRwS0VGck8zcWpjVnAxaU82ZE8rMEhMWFJpUk9oRFpKeVVmQjV0YkNI?=
- =?utf-8?B?dlo1My9MdEM5VmJLL1d0d2szS25xcFJ5R2Y2d0E3YTQ0eUNqNVBoZmIvWGJW?=
- =?utf-8?B?V3U3bFVEZWdVdVlldWxZNm56VWdCREowVGoyelJETWhyUmdxVGtwOWlSK2M2?=
- =?utf-8?B?MS9Sblhldm5pSGxrTGhkQmZIK2tjT3NOYmpsUWFkNDBVSnFiUExjS2pqUGhR?=
- =?utf-8?Q?Y9IxqY0BbKCpUHedOnYQjus51D9qOlFRGxDiS6MiiE=3D?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7252c4a7-8c68-4989-c90a-08d9c600cba9
-X-MS-Exchange-CrossTenant-AuthSource: AM9PR08MB6737.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Dec 2021 10:41:36.9462 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: tY41Ig1y9mdEAjNxD9D76aKGrI4e+heNFSD2rAndbpKD+hPg0gcsnZnJOtcWV3jmw5bbgC5ShLDLJiQs/KakwAXG+nQlaSBkL31H7JUXMpw=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM8PR08MB6627
-Received-SPF: pass client-ip=40.107.20.128;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR05-DB8-obe.outbound.protection.outlook.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.264,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: MhplyXkW_jhLb4ZooLEPM8MRr1QteLc9
+X-Proofpoint-ORIG-GUID: m6sVMdyq05VAsN9mQ94deahcjOZjxWSw
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2021-12-23_02,2021-12-22_01,2021-12-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 suspectscore=0
+ lowpriorityscore=0 mlxlogscore=999 phishscore=0 clxscore=1015 mlxscore=0
+ adultscore=0 priorityscore=1501 spamscore=0 impostorscore=0 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2110150000
+ definitions=main-2112230056
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=pasic@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -152,101 +110,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: thuth@redhat.com, Nico Boehr <nrb@linux.ibm.com>, frankja@linux.ibm.com,
+ pmorel@linux.ibm.com, qemu-devel@nongnu.org, Halil Pasic <pasic@linux.ibm.com>,
+ borntraeger@de.ibm.com, qemu-s390x@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-23.12.2021 12:33, Vladimir Sementsov-Ogievskiy wrote:
-> 23.12.2021 01:11, Paolo Bonzini wrote:
->> Il mar 21 dic 2021, 20:35 Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com <mailto:vsementsov@virtuozzo.com>> ha scritto:
->>
->>     --- a/trace/meson.build
->>     +++ b/trace/meson.build
->>     @@ -2,10 +2,14 @@
->>       specific_ss.add(files('control-target.c'))
->>
->>       trace_events_files = []
->>     -foreach dir : [ '.' ] + trace_events_subdirs
->>     -  trace_events_file = meson.project_source_root() / dir / 'trace-events'
->>     +foreach path : [ '.' ] + trace_events_subdirs + qapi_trace_events
->>     +  if path.contains('trace-events')
->>     +    trace_events_file = meson.project_build_root() / 'qapi' / path
->>
->>
->>
->> Just using "trace_events_file = 'qapi' / path" might work, since the build is nonrecursive.
+On Wed, 22 Dec 2021 17:46:11 +0100
+Cornelia Huck <cohuck@redhat.com> wrote:
+
+> On Thu, Dec 16 2021, Nico Boehr <nrb@linux.ibm.com> wrote:
 > 
-> This say:
+> > Previously, we required bits 5, 6 and 7 to be zero (0x07 == 0b111). But,
+> > as per the principles of operation, bit 5 is ignored in MSCH and bits 0,
+> > 1, 6 and 7 need to be zero.
+> >
+> > As both PMCW_FLAGS_MASK_INVALID and ioinst_schib_valid() are only used
+> > by ioinst_handle_msch(), adjust the mask accordingly.
+> >
+> > Fixes: db1c8f53bfb1 ("s390: Channel I/O basic definitions.")
+> > Signed-off-by: Nico Boehr <nrb@linux.ibm.com>
+> > Reviewed-by: Pierre Morel <pmorel@linux.ibm.com>
+> > Reviewed-by: Halil Pasic <pasic@linux.ibm.com>
+> > Reviewed-by: Janosch Frank <frankja@linux.ibm.com>
+> > ---
+> >  include/hw/s390x/ioinst.h | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/include/hw/s390x/ioinst.h b/include/hw/s390x/ioinst.h
+> > index 3771fff9d44d..ea8d0f244492 100644
+> > --- a/include/hw/s390x/ioinst.h
+> > +++ b/include/hw/s390x/ioinst.h
+> > @@ -107,7 +107,7 @@ QEMU_BUILD_BUG_MSG(sizeof(PMCW) != 28, "size of PMCW is wrong");
+> >  #define PMCW_FLAGS_MASK_MP 0x0004
+> >  #define PMCW_FLAGS_MASK_TF 0x0002
+> >  #define PMCW_FLAGS_MASK_DNV 0x0001
+> > -#define PMCW_FLAGS_MASK_INVALID 0x0700
+> > +#define PMCW_FLAGS_MASK_INVALID 0xc300  
 > 
-> ninja: error: '../trace/qapi/qapi-commands-authz.trace-events', needed by 'trace/trace-events-all', missing and no known rule to make it
-> make[1]: *** [Makefile:162: run-ninja] Error 1
-> make[1]: Leaving directory '/work/src/qemu/up/up-trace-qmp-commands/build'
-> make: *** [GNUmakefile:11: all] Error 2
+> Removing bit 5 from this mask makes sense, at it is simply ignored.
 > 
+> I'm a bit confused about bits 0 and 1, however. They are _QF and _W,
+> respectively (just out of the context here), which are in the same class
+> as _DNV (i.e. characteristics of the subchannel that cannot be modified
+> via msch). Looking at the PoP, I don't see what is supposed to happen if
+> the program tries to modify the dnv bit (maybe I'm simply overlooking
+> it.) I would naively assume that the w bit should behave in the same way
+> (as it does for message subchannels what dnv does for I/O subchannels,
+> and the rest of the values are not meaningful if it is not set), and
+> probably also the qf bit (as it doesn't make sense for the program to
+> turn QDIO capabilities on and off.) The main question is whether trying
+> to modify these bits causes an error or is ignored. The PoP suggests an
+> error (no idea if the internal architecture agrees, it hopefully does);
+> what happens for dnv?
+
+"""
+Bits 0, 1, 6, and 7 of word 1, and bits 0-28 of word 6
+of the SCHIB operand must be zeros, and bits 9 and
+10 of word 1 must not both be ones. When the
+extended-I/O-measurement-block facility is installed
+and a format-1 measurement block is specified, bits
+26-31 of word 11 must be specified as zeros.
+"""
+(IBM z/Architecture Principles of Operation (SA22-7832-10), 14-8)
+
+The internal architecture agrees.
+
+DNV bit is ignored. Regarding why, I don't know. Probably for historic
+reasons. The PoP tells us that whatever is not listed as significant
+or checked and results in an operation exception if not appropriate
+is ignored:
+"""
+The remaining
+fields of the SCHIB are ignored and do not affect the
+processing of MODIFY SUBCHANNEL. (For further
+details, see “Subchannel-Information Block” on
+page 2
+"""
+(same page)
+
+Regarding word 1 of the SCHIB the alignment between PoP and AR is
+perfect AFAICT.
+
 > 
-> so, it consider the path relative to current "trace" directory.
+> We support neither message subchannels nor QDIO in QEMU, so it's
+> probably not relevant right now; but it would still be good if we could
+> clarify the expected behaviour here :)
 > 
->>
->> If it doesn't, use the custom target object, possibly indexing it as ct[index]. You can use a dictionary to store the custom targets and find them from the "path" variable.
->>
-> 
-> O! Great thanks! Magic. The following hack works:
-> 
-> diff --git a/meson.build b/meson.build
-> index 20d32fd20d..c42a76a14c 100644
-> --- a/meson.build
-> +++ b/meson.build
-> @@ -39,6 +39,7 @@ qemu_icondir = get_option('datadir') / 'icons'
->   config_host_data = configuration_data()
->   genh = []
->   qapi_trace_events = []
-> +qapi_trace_events_targets = {}
-> 
->   target_dirs = config_host['TARGET_DIRS'].split()
->   have_linux_user = false
-> diff --git a/qapi/meson.build b/qapi/meson.build
-> index 333ca60583..d4de04459d 100644
-> --- a/qapi/meson.build
-> +++ b/qapi/meson.build
-> @@ -139,6 +139,9 @@ foreach output : qapi_util_outputs
->     if output.endswith('.h')
->       genh += qapi_files[i]
->     endif
-> +  if output.endswith('.trace-events')
-> +    qapi_trace_events_targets += {output: qapi_files[i]}
-> +  endif
->     util_ss.add(qapi_files[i])
->     i = i + 1
->   endforeach
-> @@ -147,6 +150,9 @@ foreach output : qapi_specific_outputs + qapi_nonmodule_outputs
->     if output.endswith('.h')
->       genh += qapi_files[i]
->     endif
-> +  if output.endswith('.trace-events')
-> +    qapi_trace_events_targets += {output: qapi_files[i]}
-> +  endif
->     specific_ss.add(when: 'CONFIG_SOFTMMU', if_true: qapi_files[i])
->     i = i + 1
->   endforeach
-> diff --git a/trace/meson.build b/trace/meson.build
-> index 77e44fa68d..daa24c3a2d 100644
-> --- a/trace/meson.build
-> +++ b/trace/meson.build
-> @@ -4,7 +4,7 @@ specific_ss.add(files('control-target.c'))
->   trace_events_files = []
->   foreach path : [ '.' ] + trace_events_subdirs + qapi_trace_events
->     if path.contains('trace-events')
-> -    trace_events_file = meson.project_build_root() / 'qapi' / path
-> +    trace_events_file = qapi_trace_events_targets[path]
->     else
->       trace_events_file = meson.project_source_root() / path / 'trace-events'
->     endif
-> 
+> >  
+> >  #define PMCW_CHARS_MASK_ST 0x00e00000
+> >  #define PMCW_CHARS_MASK_MBFC 0x00000004  
 > 
 > 
 
-Or even simpler, I can use a list combined from needed qapi_files[] elements. So, the solution is to use custom target objects or their indexed subobjects instead of raw paths. This way Meson resolves dependencies better.
-
--- 
-Best regards,
-Vladimir
 
