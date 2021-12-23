@@ -2,65 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0748747DD93
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Dec 2021 03:03:23 +0100 (CET)
-Received: from localhost ([::1]:39664 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1ED7E47DDBB
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Dec 2021 03:27:23 +0100 (CET)
+Received: from localhost ([::1]:47922 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n0DRx-0005Yi-KE
-	for lists+qemu-devel@lfdr.de; Wed, 22 Dec 2021 21:03:21 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37758)
+	id 1n0DpC-0003ik-7j
+	for lists+qemu-devel@lfdr.de; Wed, 22 Dec 2021 21:27:22 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41634)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1n0DPh-00049e-59
- for qemu-devel@nongnu.org; Wed, 22 Dec 2021 21:01:01 -0500
-Received: from mail.loongson.cn ([114.242.206.163]:55556 helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1n0DPc-0000CT-W8
- for qemu-devel@nongnu.org; Wed, 22 Dec 2021 21:00:59 -0500
-Received: from [10.20.42.193] (unknown [10.20.42.193])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxOZZN2MNh_VYDAA--.2265S3;
- Thu, 23 Dec 2021 10:00:45 +0800 (CST)
-Subject: Re: [PATCH v11 00/31] LoongArch64 port of QEMU TCG
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-References: <20211221054105.178795-1-git@xen0n.name>
- <e0e4f331-6c40-bce4-fa7d-898fbe74f962@amsat.org>
- <31af4f0f-5e2c-b1c1-70dc-8b207f57aad5@loongson.cn>
- <3a0b0b3c-7fa5-6324-3e74-d7cadd8e89f5@amsat.org>
-From: gaosong <gaosong@loongson.cn>
-Message-ID: <54b1aad1-e3af-ef9f-f059-709970558dc6@loongson.cn>
-Date: Thu, 23 Dec 2021 10:00:45 +0800
-User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
+ id 1n0DlK-0008Vz-8K
+ for qemu-devel@nongnu.org; Wed, 22 Dec 2021 21:23:22 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:49120
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
+ id 1n0DlI-0007q0-Ee
+ for qemu-devel@nongnu.org; Wed, 22 Dec 2021 21:23:21 -0500
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1BN1fjuB005990
+ for <qemu-devel@nongnu.org>; Thu, 23 Dec 2021 02:23:17 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding; s=pp1;
+ bh=0b2L1nat6gG3PXmjzZpSa5TfsNVT7VauvWimKI20JLE=;
+ b=hgfHdn0MjZ2ENUb3uNtjDG6cojFDChKafC7xiR/I2yX5VQ8Uw5bZCshaB8HQS3mg50Fa
+ VzsuC/ItqBdntBAtG1n01KQZL3mrttzLSDGRrXej///8E9bIj3KiXApqZ8hLfbX17rfR
+ KKa3+yv+rqwWloQpdO50K70cHbYm43civL9fj9JiGktsZLiy8wRrSosiDk7eX9BO2btx
+ c+9u8QBlwBp8Xei046vwIoutwZBWQbaNVCFp+MSPoWUp3GoJeVYWwDMj8EDbMMo5z0lO
+ Htmx2eXryFhtFsZxez1OvFjLGaAdR+154E5kMKmz3Qe3tv9+qFs5dybQm4omNy+tQmCe 7Q== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3d4fnwrhn7-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Thu, 23 Dec 2021 02:23:17 +0000
+Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1BN2JRWs004269
+ for <qemu-devel@nongnu.org>; Thu, 23 Dec 2021 02:23:17 GMT
+Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.11])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3d4fnwrhn2-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 23 Dec 2021 02:23:17 +0000
+Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
+ by ppma03dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1BN2CrAT001738;
+ Thu, 23 Dec 2021 02:23:16 GMT
+Received: from b03cxnp08027.gho.boulder.ibm.com
+ (b03cxnp08027.gho.boulder.ibm.com [9.17.130.19])
+ by ppma03dal.us.ibm.com with ESMTP id 3d179c566a-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 23 Dec 2021 02:23:16 +0000
+Received: from b03ledav003.gho.boulder.ibm.com
+ (b03ledav003.gho.boulder.ibm.com [9.17.130.234])
+ by b03cxnp08027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 1BN2NEuN14484218
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 23 Dec 2021 02:23:14 GMT
+Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id CC6306A04D;
+ Thu, 23 Dec 2021 02:23:14 +0000 (GMT)
+Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 7F0D16A054;
+ Thu, 23 Dec 2021 02:23:14 +0000 (GMT)
+Received: from sbct-2.pok.ibm.com (unknown [9.47.158.152])
+ by b03ledav003.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Thu, 23 Dec 2021 02:23:14 +0000 (GMT)
+From: Stefan Berger <stefanb@linux.ibm.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v4 0/3] tpm: Add missing ACPI device identification objects
+Date: Wed, 22 Dec 2021 21:23:07 -0500
+Message-Id: <20211223022310.575496-1-stefanb@linux.ibm.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-In-Reply-To: <3a0b0b3c-7fa5-6324-3e74-d7cadd8e89f5@amsat.org>
-Content-Type: multipart/alternative;
- boundary="------------00C7495B1548926FE3365907"
-Content-Language: en-US
-X-CM-TRANSID: AQAAf9DxOZZN2MNh_VYDAA--.2265S3
-X-Coremail-Antispam: 1UD129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73
- VFW2AGmfu7bjvjm3AaLaJ3UjIYCTnIWjp_UUUYg7CY07I20VC2zVCF04k26cxKx2IYs7xG
- 6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
- A2z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j
- 6F4UJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26F
- 4UJVW0owAS0I0E0xvYzxvE52x082IY62kv0487McIj6xIIjxv20xvE14v26r1j6r18McIj
- 6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lF7I21c
- 0EjII2zVCS5cI20VAGYxC7Mx8GjcxK6IxK0xIIj40E5I8CrwCYjI0SjxkI62AI1cAE67vI
- Y487MxkIecxEwVCm-wCF04k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv6cx26ryrJr1UJw
- CFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r106r1rMI8I3I0E7480Y4vE
- 14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2
- IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxK
- x2IYs7xG6rWUJVWrZr1UMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxV
- AFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7VU1g4S7UUUUU==
-X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
-Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
- helo=loongson.cn
-X-Spam_score_int: -25
-X-Spam_score: -2.6
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: 0YCZk3cD0a5U2pKbm7NghVMeLKHOzfO0
+X-Proofpoint-ORIG-GUID: GxHHBUsQEVBPthmzv5O62b16svCZ75uv
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2021-12-22_09,2021-12-22_01,2021-12-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 phishscore=0
+ spamscore=0 mlxlogscore=769 malwarescore=0 lowpriorityscore=0
+ suspectscore=0 impostorscore=0 priorityscore=1501 adultscore=0
+ clxscore=1011 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2110150000 definitions=main-2112230008
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=stefanb@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
- NICE_REPLY_A=-0.694, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -73,63 +107,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- XiaoJuan Yang <yangxiaojuan@loongson.cn>, Huacai Chen <chenhuacai@kernel.org>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Laurent Vivier <laurent@vivier.eu>, WANG Xuerui <git@xen0n.name>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: marcandre.lureau@redhat.com, Stefan Berger <stefanb@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a multi-part message in MIME format.
---------------00C7495B1548926FE3365907
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+This series of patches adds missing ACPI device identification objects _STR
+and _UID to TPM 1.2 and TPM 2 ACPI tables.
 
-Hi,
+   Stefan
 
-On 2021/12/21 下午8:00, Philippe Mathieu-Daudé wrote:
->> Which way is better?
-> Access to 3a5000 hardware environment is certainly better for us,
-> as this remove the maintenance burden.
+v4:
+ - Rebased on current master: regenerated binaries in patch 3
 
-We are preparing 3a5000 hardware enviroment. Naybe one or two days later, you can get the IP.
-
-Thanks
-Song Gao
+v3:
+ - Dropped replacement of ACPI tables with empty files in 1/3.
+ - Reduced ignored files
 
 
---------------00C7495B1548926FE3365907
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 8bit
 
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <pre>Hi,
-</pre>
-    <div class="moz-cite-prefix">On 2021/12/21 下午8:00, Philippe
-      Mathieu-Daudé wrote:<br>
-    </div>
-    <blockquote type="cite"
-      cite="mid:3a0b0b3c-7fa5-6324-3e74-d7cadd8e89f5@amsat.org">
-      <blockquote type="cite" style="color: #000000;">
-        <pre class="moz-quote-pre" wrap="">Which way is better?
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">Access to 3a5000 hardware environment is certainly better for us,
-as this remove the maintenance burden.
-</pre>
-    </blockquote>
-    <pre>We are preparing 3a5000 hardware enviroment. Naybe one or two days later, you can get the IP.</pre>
-    <pre>Thanks
-Song Gao
-</pre>
-  </body>
-</html>
+Stefan Berger (3):
+  tests: acpi: prepare for updated TPM related tables
+  acpi: tpm: Add missing device identification objects
+  tests: acpi: Add updated TPM related tables
 
---------------00C7495B1548926FE3365907--
+ hw/arm/virt-acpi-build.c           |   1 +
+ hw/i386/acpi-build.c               |   8 ++++++++
+ tests/data/acpi/q35/DSDT.tis.tpm12 | Bin 8894 -> 8900 bytes
+ tests/data/acpi/q35/DSDT.tis.tpm2  | Bin 8894 -> 8921 bytes
+ 4 files changed, 9 insertions(+)
+
+-- 
+2.31.1
 
 
