@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97E3347DDC6
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Dec 2021 03:34:36 +0100 (CET)
-Received: from localhost ([::1]:57288 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5081447DDD0
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Dec 2021 03:44:32 +0100 (CET)
+Received: from localhost ([::1]:59764 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n0DwB-0001sv-9M
-	for lists+qemu-devel@lfdr.de; Wed, 22 Dec 2021 21:34:35 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43256)
+	id 1n0E5n-00041C-32
+	for lists+qemu-devel@lfdr.de; Wed, 22 Dec 2021 21:44:31 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44668)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1n0DvF-0000yp-I8
- for qemu-devel@nongnu.org; Wed, 22 Dec 2021 21:33:37 -0500
-Received: from [2607:f8b0:4864:20::430] (port=41689
- helo=mail-pf1-x430.google.com)
+ id 1n0E4y-0003Kn-64
+ for qemu-devel@nongnu.org; Wed, 22 Dec 2021 21:43:40 -0500
+Received: from [2607:f8b0:4864:20::52f] (port=36550
+ helo=mail-pg1-x52f.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1n0DvD-0000cM-Nb
- for qemu-devel@nongnu.org; Wed, 22 Dec 2021 21:33:37 -0500
-Received: by mail-pf1-x430.google.com with SMTP id m1so3924841pfk.8
- for <qemu-devel@nongnu.org>; Wed, 22 Dec 2021 18:33:34 -0800 (PST)
+ id 1n0E4w-0002mX-Gl
+ for qemu-devel@nongnu.org; Wed, 22 Dec 2021 21:43:39 -0500
+Received: by mail-pg1-x52f.google.com with SMTP id 200so3647409pgg.3
+ for <qemu-devel@nongnu.org>; Wed, 22 Dec 2021 18:43:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=zQA2/ViOqw3qZSQ8961fwO8xOLEt5DsGUCal3X7RjyQ=;
- b=wLY4DFphNHKJUIzRzzCUH/2yaRp7MPGyqhDrXN4F4HJjpKxu866Zd7ZXYG1gu4Q/4n
- wB3Ugea0RoyqLL1RmrfYNLVC4BiCFiUPP235qQw6t4w/fpEQfgM/J160DBfxYOV1Mevj
- z2S7klzFV0zmSEYWYxUczUfMzzd1Bkt6ZHTy3Rx2ePeZPAsmxTF1BElSgKRTnwVQakYd
- cE/EJyd5s4rcdyTKU+JX5k23JJY6hWFX6pCArkC4o0QUfRskxysiJkGGU47MAsoMMa7Q
- GdQSAd2QdU4fX1TripTVVoCH3/HBe8YdYiRajAkHGRxq/BiMPL9xHpc1SPAXVpfooUmu
- 7hQg==
+ bh=/acgfwDvL/Io0Y+V2Pc/ux5Vbq/tD4b3+hjC+En88Ms=;
+ b=sMd11BbMFQuU4I3SMAxUOUaZsGBXopyEw3kIaQDn0CsgGy7iC6I3eWVIDcf7N4Xc0o
+ FkKlmeRnjkZZeaK5C4xOXaWr8+/xVWcPAo0HkQujCKS2tk95VbHyf9wVKyd0R/Ox9P8c
+ WAF9jKyXfX/PVoaw7WTVrRXDDTKX2RjEbpZQzS0qzx+un6eRnw7J593YEsLZAUFKQnKt
+ 5vuD+1c32g83wA4UNIoLOmvj+2MGRE/UYArZ9oH1sWerRRrIrOgxNsv13DV3rs4nwT6P
+ QH0kh+5ZZuno13KxDKwGWlg7l+XEC7LAzDT7ZGZYbMKCUGpyQsevhpQiWxVBS/8tbEI5
+ SuEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=zQA2/ViOqw3qZSQ8961fwO8xOLEt5DsGUCal3X7RjyQ=;
- b=JXPY5kVW4L0DHX05pTOdTF3irNxkNazqh39NoBpw+z20uy+/4QMdGA5CL6dcINkBIF
- DQ/9d2o3bun2Y6r9PqYqySkFS0SocULYmJN5pqRsuvPAKBnW5t5CZRuNPqByQXUFmjdq
- AuLWPtNaXhyl77za/ndbQQs9tcBeBmkhRkhZYKi9JwREGD6/BxLVzQJ5DSdynpU94Usv
- 32BlLTWADuHN8NQi+y4k7ioBW1DTOspneVq92cBGaZzEdcy6NGenqmDeNnYAHugxwi7H
- GQzpBBgM1tRwLZLX73uffBlfZDcN3jGMDRYFxwb3GgMe7RabiQvbzEhY6NtnjI5ygleo
- WNtw==
-X-Gm-Message-State: AOAM531BeHbxBNMwWor7OKTyI5ZCAiXd6200MlEGk93lui/T8u2BWY+6
- oeVd9cPKTFXNqet+Ui1222Bx3g==
-X-Google-Smtp-Source: ABdhPJyvKpU+ZzdhSev/Ess2mmHgmRR/Xk/iCPUecFl08tPveOVsu63CVEbkERc6HFX4Qa1QH9c1LQ==
-X-Received: by 2002:a63:d446:: with SMTP id i6mr440154pgj.479.1640226813147;
- Wed, 22 Dec 2021 18:33:33 -0800 (PST)
+ bh=/acgfwDvL/Io0Y+V2Pc/ux5Vbq/tD4b3+hjC+En88Ms=;
+ b=H+xlEqEdmYiaELsWxRnWmiLDO3xI4rBYayV2mqYvOIBlFYnHjxf9pie0OPeS1e5yAz
+ 8krvcDXYzUkSRP9yANylTSBPXG4kfs+1kZ3cNtQT1Vk9rhv0aqn9NuZIAu06guWl1eo6
+ JAt0fChn0kXjuQ3wu7qxaE+KqwRfz8kKToHhFQOxA6tEVRKPTQeUuDLWOHcVtYf7FvOR
+ 1/H55psKUouLRzKRD5vSvmwKNVoSrhx2cTNxBBmuGT0npjW+4A/AaNfmKGGBbe16YO7i
+ tCoMAoDCVEMgsUc5ZKowIXZ116ECXga57xtPiGp3YGGGTOELOtCx6kmpJODQlOaBxRpy
+ UFUg==
+X-Gm-Message-State: AOAM530vN+s6ti54rAD/9t1UMcWyQ899LQfB01csa8VkUhxLAtdM5ehE
+ /UPVpGlxwPHjUjShwDSQOjHK/w==
+X-Google-Smtp-Source: ABdhPJzqDWZ0jwck+JgRK5AylyicATHBjWdWA8PlIpqrGoEzzWpC4sefcydlAh31xFrwxGrEbaTGhQ==
+X-Received: by 2002:a63:91c2:: with SMTP id l185mr456053pge.395.1640227416981; 
+ Wed, 22 Dec 2021 18:43:36 -0800 (PST)
 Received: from [192.168.4.112] ([156.19.246.20])
- by smtp.gmail.com with ESMTPSA id f7sm64524pfc.141.2021.12.22.18.33.32
+ by smtp.gmail.com with ESMTPSA id b6sm129066pjk.29.2021.12.22.18.43.36
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 22 Dec 2021 18:33:32 -0800 (PST)
-Subject: Re: [PULL 0/3] Block patches
-To: Hanna Reitz <hreitz@redhat.com>, qemu-block@nongnu.org
-References: <20211222165208.693159-1-hreitz@redhat.com>
+ Wed, 22 Dec 2021 18:43:36 -0800 (PST)
+Subject: Re: [PATCH 0/8] Re-write PPC64 PMU instruction count using TCG Ops
+To: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org
+References: <20211222134520.587877-1-danielhb413@gmail.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <7b893274-f411-efab-5aa3-8bf9baf2bfe2@linaro.org>
-Date: Wed, 22 Dec 2021 18:33:30 -0800
+Message-ID: <f4185811-f0dc-8ee9-c254-ebb04d883cd6@linaro.org>
+Date: Wed, 22 Dec 2021 18:43:34 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <20211222165208.693159-1-hreitz@redhat.com>
+In-Reply-To: <20211222134520.587877-1-danielhb413@gmail.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::430
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::52f
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::430;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x430.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52f.google.com
 X-Spam_score_int: -19
 X-Spam_score: -2.0
 X-Spam_bar: --
@@ -89,39 +89,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org
+Cc: qemu-ppc@nongnu.org, clg@kaod.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/22/21 8:52 AM, Hanna Reitz wrote:
-> The following changes since commit 8c5f94cd4182753959c8be8de415120dc879d8f0:
+On 12/22/21 5:45 AM, Daniel Henrique Barboza wrote:
+> Hi,
 > 
->    Merge tag 'pull-loong-20211221-2' of https://gitlab.com/rth7680/qemu into staging (2021-12-21 13:30:35 -0800)
+> Two days ago Richard Henderson reported test failures with Avocado and
+> powernv8/9 due to timeouts [1]. The culprit ended up to be commit , a
+> commit where I introduced PMU instruction counting for TCG PPC64.
 > 
-> are available in the Git repository at:
+> For a reason that is still unclear to me these Avocado powernv tests are
+> suffering a huge performance impact after that patch, something that I
+> didn't verify in any other scenario I've tested. So one alternative to
+> fix the situation is to understand this difference and try to solve it,
+> which can take some time.
+>   
+> Another alternative is to optimize the code introduced by that commit.
+> Today the instruction count is done by a TCG helper that is called after
+> each TB exit. I was aware that calling a helper frequently isn't
+> optimal, but that got the job done and didn't  hindered the use of
+> pSeries and powernv machines.  Well, until [1] at least.
 > 
->    https://gitlab.com/hreitz/qemu.git tags/pull-block-2021-12-22
+> This series rewrites the PMU instruction counting using TCG Ops instead
+> of a TCG helper. To do that we needed to write in TCG Ops not only the
+> logic for increment the counters but also the logic to detect counter
+> overflows.
 > 
-> for you to fetch changes up to 722f87df2545b308aec49b459b028f0802b4fd9e:
-> 
->    iotests: check: multiprocessing support (2021-12-22 16:29:48 +0100)
-> 
-> ----------------------------------------------------------------
-> Block patches:
-> - Added support to the iotests for running tests in several parallel
->    jobs (using the new -j parameter)
-> 
-> ----------------------------------------------------------------
-> Vladimir Sementsov-Ogievskiy (3):
->    iotests/testrunner.py: add doc string for run_test()
->    iotests/testrunner.py: move updating last_elapsed to run_tests
->    iotests: check: multiprocessing support
-> 
->   tests/qemu-iotests/check         |  4 +-
->   tests/qemu-iotests/testrunner.py | 86 ++++++++++++++++++++++++++++----
->   2 files changed, 80 insertions(+), 10 deletions(-)
+> A lot of code was added but the performance improvement is noticeable.
+> Using my local machine I did some test runs with the 2 Avocado powernv
+> tests that are timing out at this moment:
 
-Applied, thanks.
+You generate a *lot* of inline code here.  Way too much, actually.
+
+If you can get this performance improvement with this reorg, it merely means that your 
+original C algorithm was poor.  The compiler should have been able to do better.
+
+I've tested this theory here and...
+
+> - failing Avocado powernv tests with current master:
+> 
+>   (1/1) tests/avocado/boot_linux_console.py:BootLinuxConsole.test_ppc_powernv8: PASS (70.17 s)
+>   (1/1) tests/avocado/boot_linux_console.py:BootLinuxConsole.test_ppc_powernv8: PASS (70.90 s)
+>   (1/1) tests/avocado/boot_linux_console.py:BootLinuxConsole.test_ppc_powernv8: PASS (70.81 s)
+>   
+>   (1/1) tests/avocado/boot_linux_console.py:BootLinuxConsole.test_ppc_powernv9: PASS (75.62 s)
+>   (1/1) tests/avocado/boot_linux_console.py:BootLinuxConsole.test_ppc_powernv9: PASS (69.79 s)
+>   (1/1) tests/avocado/boot_linux_console.py:BootLinuxConsole.test_ppc_powernv9: PASS (72.33 s)
+
+boot_linux_console.py:BootLinuxConsole.test_ppc_powernv8: PASS (75.73 s)
+boot_linux_console.py:BootLinuxConsole.test_ppc_powernv9: PASS (80.20 s)
+
+> - after this series:
+> 
+>   (1/1) tests/avocado/boot_linux_console.py:BootLinuxConsole.test_ppc_powernv8: PASS (39.90 s)
+>   (1/1) tests/avocado/boot_linux_console.py:BootLinuxConsole.test_ppc_powernv8: PASS (38.25 s)
+>   (1/1) tests/avocado/boot_linux_console.py:BootLinuxConsole.test_ppc_powernv8: PASS (37.99 s)
+> 
+>   (1/1) tests/avocado/boot_linux_console.py:BootLinuxConsole.test_ppc_powernv9: PASS (43.17 s)
+>   (1/1) tests/avocado/boot_linux_console.py:BootLinuxConsole.test_ppc_powernv9: PASS (43.64 s)
+>   (1/1) tests/avocado/boot_linux_console.py:BootLinuxConsole.test_ppc_powernv9: PASS (44.21 s)
+
+boot_linux_console.py:BootLinuxConsole.test_ppc_powernv8: PASS (39.66 s)
+boot_linux_console.py:BootLinuxConsole.test_ppc_powernv9: PASS (43.02 s)
+
+BTW, pre-power8-pmu, 29c4a3363b:
+
+boot_linux_console.py:BootLinuxConsole.test_ppc_powernv8: PASS (36.62 s)
+boot_linux_console.py:BootLinuxConsole.test_ppc_powernv9: PASS (39.69 s)
+
+I'll post my series shortly.
+
 
 r~
 
