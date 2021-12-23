@@ -2,83 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23F7F47E0B6
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Dec 2021 10:07:42 +0100 (CET)
-Received: from localhost ([::1]:52780 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0162D47E0B8
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Dec 2021 10:10:38 +0100 (CET)
+Received: from localhost ([::1]:58342 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n0K4a-0000Rn-MH
-	for lists+qemu-devel@lfdr.de; Thu, 23 Dec 2021 04:07:40 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49462)
+	id 1n0K7R-0004BA-OY
+	for lists+qemu-devel@lfdr.de; Thu, 23 Dec 2021 04:10:37 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49502)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1n0K2Y-0007pJ-Qp
- for qemu-devel@nongnu.org; Thu, 23 Dec 2021 04:05:35 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:55875)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1n0K2c-0007sV-0M
+ for qemu-devel@nongnu.org; Thu, 23 Dec 2021 04:05:39 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:21056)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1n0K2S-00066o-JH
- for qemu-devel@nongnu.org; Thu, 23 Dec 2021 04:05:30 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1n0K2Z-00067t-GU
+ for qemu-devel@nongnu.org; Thu, 23 Dec 2021 04:05:36 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1640250326;
+ s=mimecast20190719; t=1640250334;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=aPW0D74pqkekSNSMMxGsdUF5/VOcFtHL0dgOkeGSeTg=;
- b=cuo8QHl7m5ylENJvfycCt31/M/+VnFg2Sex4bdWDilsVaPRxyt42EGFTIqLwlLzPahWtAB
- gb34RaUvILhV1sUYmGj7DYhB6MjL8tjs7zu4FhyGi1anJFo62Mjm659QCORX1SJwd3kTAI
- BwDlhn4s8oMoiJtogPbg1LOzflmAGH0=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=ssqhP49WQb9bj5YqgYaOkw1c6XcCWRf7c6Gkq8d+sfo=;
+ b=gvFVls9MhEeKDlB26836w5VXzs54OJaDR4Gegr6rrCy52zLEhjtmD5mfkj+TACsS+sPvd3
+ p8eGykBUSpw79AUuLPcQZckJ+A2E1HkakU6VLEpNcE3ChALc/PRtejM4/Hq3DuE/ELqcjS
+ Zfn8IqD3eTQdfYxSObAokfM86MOaK40=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-669-KZJSJeb9N_--g9ng_Ei5yQ-1; Thu, 23 Dec 2021 04:05:25 -0500
-X-MC-Unique: KZJSJeb9N_--g9ng_Ei5yQ-1
-Received: by mail-wm1-f69.google.com with SMTP id
- v23-20020a05600c215700b0034566adb612so1770417wml.0
- for <qemu-devel@nongnu.org>; Thu, 23 Dec 2021 01:05:25 -0800 (PST)
+ us-mta-265-LlsuTKApMomP27SiWB1a4w-1; Thu, 23 Dec 2021 04:05:33 -0500
+X-MC-Unique: LlsuTKApMomP27SiWB1a4w-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ n31-20020a05600c501f00b00345b15f5e15so1689206wmr.3
+ for <qemu-devel@nongnu.org>; Thu, 23 Dec 2021 01:05:33 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=aPW0D74pqkekSNSMMxGsdUF5/VOcFtHL0dgOkeGSeTg=;
- b=8M3CeYy2C4+j5UpGNZQUXpvLgqRl8hK6cgqFRp76crzUagB1H/wk1ptnPkeSCzATN4
- PhF3I3Nsw4Ndcyd8ENzcaL/sGSUdai38rmZ5b8aiiY3m1ZANK479oj8lf2ZBVNHDVL50
- zySZo1dsjhLg2C8fYVrlLfUIeS0bWlng+QzryFJkoqnOcsHTWrd6ApfmqD8taloDziVC
- ajv3GqFwZO00Dnpxk8DwCrVEFIMoq1p9Hf6E8u9ZZGnV5MN+117bI7BX0ewM+9eN6kQW
- 75J/+Zb6vq9e0NDmyf1cW2o0QotuPBMAtKlgmEph+/bpXI3Bz4vU6KKqXmT0sqR7aEi5
- BPVA==
-X-Gm-Message-State: AOAM53167ZHFJQ9ny15GSBr5ASrsgLB8SU2MHsczcNZvCk0xfaBAbA58
- 48/kINQClj1XJtoMBu9S5IA1sjqEgFN0ShJfnTzZ39ASayAkLZ3Y1x88RpNHPC5rJpk5lw97XjW
- HgiHiOF8eG0XsJas=
-X-Received: by 2002:adf:aa9d:: with SMTP id h29mr1021153wrc.120.1640250324077; 
- Thu, 23 Dec 2021 01:05:24 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzgZsHCZxLSMN92t+zqo/+Ai3nqkd6ikL2AeI6cPdQ1Gj0BcW/fP+IOLxC0xv3B2Q8PqPZV5A==
-X-Received: by 2002:adf:aa9d:: with SMTP id h29mr1021139wrc.120.1640250323860; 
- Thu, 23 Dec 2021 01:05:23 -0800 (PST)
+ bh=ssqhP49WQb9bj5YqgYaOkw1c6XcCWRf7c6Gkq8d+sfo=;
+ b=7/91cFLuk5/SsAXweE3vJxOnzf4WkMUaEftZ24fCKibWVnMTjMVCOzfFfb4gvQkai2
+ hpIEAasyJDmur5cdZWyfLc4hFa+PcURfH7yxT6NIOGZrCY4DkcJcMb2zcFgeXMjHzwl5
+ yHHj+LPCxAS7+RT6Jgstzs96Vu/ZbvzYfOkQMna/LtSCv8t65YXhLJ0H1lyBXnb0Com1
+ DJXRHJRqjBp17s2IjxzPuSDZgJBDGKND6/j3+7Yl/Dz0cUhxvzvu/iHFZAj/Hzpm4Hob
+ S5wgvnoIyXmX6eU3i3C3EHHwjVo4PGH64YXVOo2CHAchaozJO62nZKV0xEXZRIl4OrMN
+ aJvA==
+X-Gm-Message-State: AOAM533h/PbJKoSuenN5a6hbckGEyFtbWfMCqKIXLr3MP5Ayr2kE56p4
+ IOVXUHKQK8ZZViEFDpKDIjImp5lNyhwRMNd+tcfdFWapq5N/eXgx3IGWZNS+YU4iwGjZ9dTycrE
+ lTAux1QSJuW4qR/I=
+X-Received: by 2002:adf:d0cb:: with SMTP id z11mr1053688wrh.470.1640250330347; 
+ Thu, 23 Dec 2021 01:05:30 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJz6lbAK7KKGdz7oi3lfyyWPWcUNyagd3sn00VLIjMTVeltPc06PV8vaSJR00eurKU1ZmeBTIQ==
+X-Received: by 2002:adf:d0cb:: with SMTP id z11mr1053675wrh.470.1640250330199; 
+ Thu, 23 Dec 2021 01:05:30 -0800 (PST)
 Received: from [192.168.43.238] (33.red-193-152-124.dynamicip.rima-tde.net.
  [193.152.124.33])
- by smtp.gmail.com with ESMTPSA id q8sm4315178wrx.59.2021.12.23.01.05.22
+ by smtp.gmail.com with ESMTPSA id d4sm4189458wrx.102.2021.12.23.01.05.28
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 23 Dec 2021 01:05:23 -0800 (PST)
-Message-ID: <1f2ee350-fba4-40f1-7001-7212ab63d860@redhat.com>
-Date: Thu, 23 Dec 2021 07:50:42 +0100
+ Thu, 23 Dec 2021 01:05:29 -0800 (PST)
+Message-ID: <f7baa65e-48b0-2d8e-1222-66b303757829@redhat.com>
+Date: Thu, 23 Dec 2021 07:52:57 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.4.0
-Subject: Re: [PATCH 2/3] scripts/qapi-gen.py: add --add-trace-points option
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-devel@nongnu.org
-References: <20211221193502.114296-1-vsementsov@virtuozzo.com>
- <20211221193502.114296-3-vsementsov@virtuozzo.com>
+Subject: Re: [PATCH qemu master] hw/misc/aspeed_pwm: fix typo
+To: Troy Lee <troy_lee@aspeedtech.com>, openbmc@lists.ozlabs.org
+References: <20211222102423.3121181-1-troy_lee@aspeedtech.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <20211221193502.114296-3-vsementsov@virtuozzo.com>
+In-Reply-To: <20211222102423.3121181-1-troy_lee@aspeedtech.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -52
@@ -88,7 +86,7 @@ X-Spam_report: (-5.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.203,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  NICE_REPLY_A=-2.264, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,21 +99,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: michael.roth@amd.com, armbru@redhat.com, stefanha@redhat.com,
- pbonzini@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>,
+ "open list:All patches CC here" <qemu-devel@nongnu.org>, leetroy@gmail.com,
+ "open list:ASPEED BMCs" <qemu-arm@nongnu.org>,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Joel Stanley <joel@jms.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/21/21 20:35, Vladimir Sementsov-Ogievskiy wrote:
-> Add and option to generate trace points. We should generate both trace
-> points and trace-events files for further trace point code generation.
+On 12/22/21 11:24, Troy Lee wrote:
+> Typo found during developing.
 > 
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> Fixes: 70b3f1a34d3c ("hw/misc: Add basic Aspeed PWM model")
+> Signed-off-by: Troy Lee <troy_lee@aspeedtech.com>
 > ---
->  scripts/qapi/gen.py  | 13 ++++++++++---
->  scripts/qapi/main.py | 10 +++++++---
->  2 files changed, 17 insertions(+), 6 deletions(-)
+>  hw/misc/aspeed_pwm.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/hw/misc/aspeed_pwm.c b/hw/misc/aspeed_pwm.c
+> index 8ebab5dcef..dbf9634da3 100644
+> --- a/hw/misc/aspeed_pwm.c
+> +++ b/hw/misc/aspeed_pwm.c
+> @@ -96,7 +96,7 @@ static void aspeed_pwm_class_init(ObjectClass *klass, void *data)
+>  
+>      dc->realize = aspeed_pwm_realize;
+>      dc->reset = aspeed_pwm_reset;
+> -    dc->desc = "Aspeed PWM Controller",
+> +    dc->desc = "Aspeed PWM Controller";
+>      dc->vmsd = &vmstate_aspeed_pwm;
+>  }
+>  
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+No need for another patch, since it doesn't build.
+Simply squash it in your commit 70b3f1a34d3c.
 
 
