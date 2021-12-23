@@ -2,60 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 293C147E395
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Dec 2021 13:36:54 +0100 (CET)
-Received: from localhost ([::1]:33592 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3687047E3AC
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Dec 2021 13:44:57 +0100 (CET)
+Received: from localhost ([::1]:41992 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n0NL2-0005L7-DS
-	for lists+qemu-devel@lfdr.de; Thu, 23 Dec 2021 07:36:53 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47048)
+	id 1n0NSq-0002l1-9C
+	for lists+qemu-devel@lfdr.de; Thu, 23 Dec 2021 07:44:56 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47132)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1n0NFn-0005PQ-Dh
- for qemu-devel@nongnu.org; Thu, 23 Dec 2021 07:31:27 -0500
-Received: from mga09.intel.com ([134.134.136.24]:60994)
+ id 1n0NFz-0005S0-Qv
+ for qemu-devel@nongnu.org; Thu, 23 Dec 2021 07:31:41 -0500
+Received: from mga11.intel.com ([192.55.52.93]:22144)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1n0NFh-0002WV-GL
- for qemu-devel@nongnu.org; Thu, 23 Dec 2021 07:31:24 -0500
+ id 1n0NFx-0002cm-Lj
+ for qemu-devel@nongnu.org; Thu, 23 Dec 2021 07:31:39 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1640262681; x=1671798681;
+ t=1640262697; x=1671798697;
  h=from:to:cc:subject:date:message-id:in-reply-to: references;
- bh=ew4/cXS3lb99/lO49ixKJ+dC7uJ0xnp/lwkjIUwbnjs=;
- b=i4WXg6/5LKh2A/oQGQFhENwhS6nVEpvpUvlfxouEScVvgY3KDNuc/IaU
- WymGV2AOFVdELcCWCU6ah5GHlji80cT8W8DRwZ4ZPsk+HPE0gkzNGL2jg
- F6tTw33Pk/AmYxBcv+KBID/Fk1KdU1FcmnEqjQl9ElwF0kZQoPYSJMVCY
- mvgORAvqUQJ3idEn9GjVhYQ8ouhnAaUOslEpOi0G7zglvKd1X59j0JcXT
- xJ0cSs5BaMviEbhQ3Q4jlIty6BE+tSpABTNMCee9o3ElmafNwPuaoPQ37
- pPvEcRNz0kYa9bRgV1soTeBu/cdwVlwz18eFK81r3+f6U+8giRO2ST/e1 w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10206"; a="240619697"
-X-IronPort-AV: E=Sophos;i="5.88,229,1635231600"; d="scan'208";a="240619697"
+ bh=aIJ/jdrIZIbqeWf2gsio5EQmDbnrSHD8LOLFRVTJ4eg=;
+ b=lroq2U4s0eugZzIqhn8nMPPvze3nkpPe2jtJ1JhbYCCq/Wp2CJfVAfFa
+ CdlxPs14dJxfgfyOdzd16YsRoQxAEIzF4kMrqUixiwynZYIDhTZdoxPMz
+ KCkoasG68m/7tXZ4KYCYQv2l5TVn0yO/Bd7TJsc/MMkIPjp7hKV1NZ9sM
+ hDaKcFtgRlv4NRh3ldgfGV5hFgweg76JrXi+dk6m26ts3VUAUxt0swgzR
+ PjivMYVC6WCEYP2/ZWMPNdn1bU80iWANkZhi37QBZAy9LFx38NxHq34XK
+ AgATo5IqtusvCyY2pzaSbnAh0JxPpH7u5f0TVUOTRxJ2rLnLs2O3p3SX3 A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10206"; a="238352241"
+X-IronPort-AV: E=Sophos;i="5.88,229,1635231600"; d="scan'208";a="238352241"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Dec 2021 04:31:19 -0800
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Dec 2021 04:31:35 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,229,1635231600"; d="scan'208";a="522078584"
+X-IronPort-AV: E=Sophos;i="5.88,229,1635231600"; d="scan'208";a="522078687"
 Received: from chaop.bj.intel.com ([10.240.192.101])
- by orsmga008.jf.intel.com with ESMTP; 23 Dec 2021 04:31:12 -0800
+ by orsmga008.jf.intel.com with ESMTP; 23 Dec 2021 04:31:27 -0800
 From: Chao Peng <chao.p.peng@linux.intel.com>
 To: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
  linux-fsdevel@vger.kernel.org, qemu-devel@nongnu.org
-Subject: [PATCH v3 kvm/queue 03/16] mm/memfd: Introduce MEMFD_OPS
-Date: Thu, 23 Dec 2021 20:29:58 +0800
-Message-Id: <20211223123011.41044-4-chao.p.peng@linux.intel.com>
+Subject: [PATCH v3 kvm/queue 05/16] KVM: Maintain ofs_tree for fast memslot
+ lookup by file offset
+Date: Thu, 23 Dec 2021 20:30:00 +0800
+Message-Id: <20211223123011.41044-6-chao.p.peng@linux.intel.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20211223123011.41044-1-chao.p.peng@linux.intel.com>
 References: <20211223123011.41044-1-chao.p.peng@linux.intel.com>
-Received-SPF: none client-ip=134.134.136.24;
- envelope-from=chao.p.peng@linux.intel.com; helo=mga09.intel.com
-X-Spam_score_int: -44
-X-Spam_score: -4.5
-X-Spam_bar: ----
-X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.203,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Received-SPF: none client-ip=192.55.52.93;
+ envelope-from=chao.p.peng@linux.intel.com; helo=mga11.intel.com
+X-Spam_score_int: -71
+X-Spam_score: -7.2
+X-Spam_bar: -------
+X-Spam_report: (-7.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.203,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,384 +87,96 @@ Cc: Wanpeng Li <wanpengli@tencent.com>, jun.nakajima@intel.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
+Similar to hva_tree for hva range, maintain interval tree ofs_tree for
+offset range of a fd-based memslot so the lookup by offset range can be
+faster when memslot count is high.
 
-The patch introduces new MEMFD_OPS facility around file created by
-memfd_create() to allow a third kernel component to make use of memory
-bookmarked in a memfd and gets notifier when the memory in the file
-is allocated/invalidated. It will be used for KVM to use memfd file
-descriptor as the guest memory backend and KVM will use MEMFD_OPS to
-interact with memfd subsystem. In the future there might be other
-consumers (e.g. VFIO with encrypted device memory).
-
-It consists two set of callbacks:
-  - memfd_falloc_notifier: callbacks which provided by KVM and called
-    by memfd when memory gets allocated/invalidated through fallocate()
-    ioctl.
-  - memfd_pfn_ops: callbacks which provided by memfd and called by KVM
-    to request memory page from memfd.
-
-Locking is needed for above callbacks to prevent race condition.
-  - get_owner/put_owner is used to ensure the owner is still alive in
-    the invalidate_page_range/fallocate callback handlers using a
-    reference mechanism.
-  - page is locked between get_lock_pfn/put_unlock_pfn to ensure pfn is
-    still valid when it's used (e.g. when KVM page fault handler uses
-    it to establish the mapping in the secondary MMU page tables).
-
-Userspace is in charge of guest memory lifecycle: it can allocate the
-memory with fallocate() or punch hole to free memory from the guest.
-
-The file descriptor passed down to KVM as guest memory backend. KVM
-registers itself as the owner of the memfd via
-memfd_register_falloc_notifier() and provides memfd_falloc_notifier
-callbacks that need to be called on fallocate() and punching hole.
-
-memfd_register_falloc_notifier() returns memfd_pfn_ops callbacks that
-need to be used for requesting a new page from KVM.
-
-At this time only shmem is supported.
-
-Signed-off-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
 Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
 ---
- include/linux/memfd.h    |  22 ++++++
- include/linux/shmem_fs.h |  16 ++++
- mm/Kconfig               |   4 +
- mm/memfd.c               |  21 ++++++
- mm/shmem.c               | 158 +++++++++++++++++++++++++++++++++++++++
- 5 files changed, 221 insertions(+)
+ include/linux/kvm_host.h |  2 ++
+ virt/kvm/kvm_main.c      | 17 +++++++++++++----
+ 2 files changed, 15 insertions(+), 4 deletions(-)
 
-diff --git a/include/linux/memfd.h b/include/linux/memfd.h
-index 4f1600413f91..0007073b53dc 100644
---- a/include/linux/memfd.h
-+++ b/include/linux/memfd.h
-@@ -13,4 +13,26 @@ static inline long memfd_fcntl(struct file *f, unsigned int c, unsigned long a)
- }
- #endif
+diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
+index 2cd35560c44b..3bd875f9669f 100644
+--- a/include/linux/kvm_host.h
++++ b/include/linux/kvm_host.h
+@@ -451,6 +451,7 @@ static inline int kvm_vcpu_exiting_guest_mode(struct kvm_vcpu *vcpu)
+ struct kvm_memory_slot {
+ 	struct hlist_node id_node[2];
+ 	struct interval_tree_node hva_node[2];
++	struct interval_tree_node ofs_node[2];
+ 	struct rb_node gfn_node[2];
+ 	gfn_t base_gfn;
+ 	unsigned long npages;
+@@ -560,6 +561,7 @@ struct kvm_memslots {
+ 	u64 generation;
+ 	atomic_long_t last_used_slot;
+ 	struct rb_root_cached hva_tree;
++	struct rb_root_cached ofs_tree;
+ 	struct rb_root gfn_tree;
+ 	/*
+ 	 * The mapping table from slot id to memslot.
+diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
+index b0f7e6eb00ff..47e96d1eb233 100644
+--- a/virt/kvm/kvm_main.c
++++ b/virt/kvm/kvm_main.c
+@@ -1087,6 +1087,7 @@ static struct kvm *kvm_create_vm(unsigned long type)
  
-+#ifdef CONFIG_MEMFD_OPS
-+struct memfd_falloc_notifier {
-+	void (*invalidate_page_range)(struct inode *inode, void *owner,
-+				      pgoff_t start, pgoff_t end);
-+	void (*fallocate)(struct inode *inode, void *owner,
-+			  pgoff_t start, pgoff_t end);
-+	bool (*get_owner)(void *owner);
-+	void (*put_owner)(void *owner);
-+};
-+
-+struct memfd_pfn_ops {
-+	long (*get_lock_pfn)(struct inode *inode, pgoff_t offset, int *order);
-+	void (*put_unlock_pfn)(unsigned long pfn);
-+
-+};
-+
-+extern int memfd_register_falloc_notifier(struct inode *inode, void *owner,
-+				const struct memfd_falloc_notifier *notifier,
-+				const struct memfd_pfn_ops **pfn_ops);
-+extern void memfd_unregister_falloc_notifier(struct inode *inode);
-+#endif
-+
- #endif /* __LINUX_MEMFD_H */
-diff --git a/include/linux/shmem_fs.h b/include/linux/shmem_fs.h
-index 166158b6e917..503adc63728c 100644
---- a/include/linux/shmem_fs.h
-+++ b/include/linux/shmem_fs.h
-@@ -12,6 +12,11 @@
+ 			atomic_long_set(&slots->last_used_slot, (unsigned long)NULL);
+ 			slots->hva_tree = RB_ROOT_CACHED;
++			slots->ofs_tree = RB_ROOT_CACHED;
+ 			slots->gfn_tree = RB_ROOT;
+ 			hash_init(slots->id_hash);
+ 			slots->node_idx = j;
+@@ -1363,7 +1364,7 @@ static void kvm_replace_gfn_node(struct kvm_memslots *slots,
+  * With NULL @old this simply adds @new.
+  * With NULL @new this simply removes @old.
+  *
+- * If @new is non-NULL its hva_node[slots_idx] range has to be set
++ * If @new is non-NULL its hva/ofs_node[slots_idx] range has to be set
+  * appropriately.
+  */
+ static void kvm_replace_memslot(struct kvm *kvm,
+@@ -1377,6 +1378,7 @@ static void kvm_replace_memslot(struct kvm *kvm,
+ 	if (old) {
+ 		hash_del(&old->id_node[idx]);
+ 		interval_tree_remove(&old->hva_node[idx], &slots->hva_tree);
++		interval_tree_remove(&old->ofs_node[idx], &slots->ofs_tree);
  
- /* inode in-kernel data */
+ 		if ((long)old == atomic_long_read(&slots->last_used_slot))
+ 			atomic_long_set(&slots->last_used_slot, (long)new);
+@@ -1388,20 +1390,27 @@ static void kvm_replace_memslot(struct kvm *kvm,
+ 	}
  
-+#ifdef CONFIG_MEMFD_OPS
-+struct memfd_falloc_notifier;
-+struct memfd_pfn_ops;
-+#endif
-+
- struct shmem_inode_info {
- 	spinlock_t		lock;
- 	unsigned int		seals;		/* shmem seals */
-@@ -24,6 +29,10 @@ struct shmem_inode_info {
- 	struct shared_policy	policy;		/* NUMA memory alloc policy */
- 	struct simple_xattrs	xattrs;		/* list of xattrs */
- 	atomic_t		stop_eviction;	/* hold when working on inode */
-+#ifdef CONFIG_MEMFD_OPS
-+	void			*owner;
-+	const struct memfd_falloc_notifier *falloc_notifier;
-+#endif
- 	struct inode		vfs_inode;
- };
- 
-@@ -96,6 +105,13 @@ extern unsigned long shmem_swap_usage(struct vm_area_struct *vma);
- extern unsigned long shmem_partial_swap_usage(struct address_space *mapping,
- 						pgoff_t start, pgoff_t end);
- 
-+#ifdef CONFIG_MEMFD_OPS
-+extern int shmem_register_falloc_notifier(struct inode *inode, void *owner,
-+				const struct memfd_falloc_notifier *notifier,
-+				const struct memfd_pfn_ops **pfn_ops);
-+extern void shmem_unregister_falloc_notifier(struct inode *inode);
-+#endif
-+
- /* Flag allocation requirements to shmem_getpage */
- enum sgp_type {
- 	SGP_READ,	/* don't exceed i_size, don't allocate page */
-diff --git a/mm/Kconfig b/mm/Kconfig
-index 28edafc820ad..9989904d1b56 100644
---- a/mm/Kconfig
-+++ b/mm/Kconfig
-@@ -900,6 +900,10 @@ config IO_MAPPING
- config SECRETMEM
- 	def_bool ARCH_HAS_SET_DIRECT_MAP && !EMBEDDED
- 
-+config MEMFD_OPS
-+	bool
-+	depends on MEMFD_CREATE
-+
- source "mm/damon/Kconfig"
- 
- endmenu
-diff --git a/mm/memfd.c b/mm/memfd.c
-index c898a007fb76..41861870fc21 100644
---- a/mm/memfd.c
-+++ b/mm/memfd.c
-@@ -130,6 +130,27 @@ static unsigned int *memfd_file_seals_ptr(struct file *file)
- 	return NULL;
- }
- 
-+#ifdef CONFIG_MEMFD_OPS
-+int memfd_register_falloc_notifier(struct inode *inode, void *owner,
-+				   const struct memfd_falloc_notifier *notifier,
-+				   const struct memfd_pfn_ops **pfn_ops)
-+{
-+	if (shmem_mapping(inode->i_mapping))
-+		return shmem_register_falloc_notifier(inode, owner,
-+						      notifier, pfn_ops);
-+
-+	return -EINVAL;
-+}
-+EXPORT_SYMBOL_GPL(memfd_register_falloc_notifier);
-+
-+void memfd_unregister_falloc_notifier(struct inode *inode)
-+{
-+	if (shmem_mapping(inode->i_mapping))
-+		shmem_unregister_falloc_notifier(inode);
-+}
-+EXPORT_SYMBOL_GPL(memfd_unregister_falloc_notifier);
-+#endif
-+
- #define F_ALL_SEALS (F_SEAL_SEAL | \
- 		     F_SEAL_SHRINK | \
- 		     F_SEAL_GROW | \
-diff --git a/mm/shmem.c b/mm/shmem.c
-index faa7e9b1b9bc..4d8a75c4d037 100644
---- a/mm/shmem.c
-+++ b/mm/shmem.c
-@@ -78,6 +78,7 @@ static struct vfsmount *shm_mnt;
- #include <linux/userfaultfd_k.h>
- #include <linux/rmap.h>
- #include <linux/uuid.h>
-+#include <linux/memfd.h>
- 
- #include <linux/uaccess.h>
- 
-@@ -906,6 +907,68 @@ static bool shmem_punch_compound(struct page *page, pgoff_t start, pgoff_t end)
- 	return split_huge_page(page) >= 0;
- }
- 
-+static void notify_fallocate(struct inode *inode, pgoff_t start, pgoff_t end)
-+{
-+#ifdef CONFIG_MEMFD_OPS
-+	struct shmem_inode_info *info = SHMEM_I(inode);
-+	const struct memfd_falloc_notifier *notifier;
-+	void *owner;
-+	bool ret;
-+
-+	if (!info->falloc_notifier)
-+		return;
-+
-+	spin_lock(&info->lock);
-+	notifier = info->falloc_notifier;
-+	if (!notifier) {
-+		spin_unlock(&info->lock);
-+		return;
+ 	/*
+-	 * Initialize @new's hva range.  Do this even when replacing an @old
++	 * Initialize @new's hva/ofs range.  Do this even when replacing an @old
+ 	 * slot, kvm_copy_memslot() deliberately does not touch node data.
+ 	 */
+ 	new->hva_node[idx].start = new->userspace_addr;
+ 	new->hva_node[idx].last = new->userspace_addr +
+ 				  (new->npages << PAGE_SHIFT) - 1;
++	if (kvm_slot_is_private(new)) {
++		new->ofs_node[idx].start = new->ofs;
++		new->ofs_node[idx].last = new->ofs +
++					  (new->npages << PAGE_SHIFT) - 1;
 +	}
-+
-+	owner = info->owner;
-+	ret = notifier->get_owner(owner);
-+	spin_unlock(&info->lock);
-+	if (!ret)
-+		return;
-+
-+	notifier->fallocate(inode, owner, start, end);
-+	notifier->put_owner(owner);
-+#endif
-+}
-+
-+static void notify_invalidate_page(struct inode *inode, struct page *page,
-+				   pgoff_t start, pgoff_t end)
-+{
-+#ifdef CONFIG_MEMFD_OPS
-+	struct shmem_inode_info *info = SHMEM_I(inode);
-+	const struct memfd_falloc_notifier *notifier;
-+	void *owner;
-+	bool ret;
-+
-+	if (!info->falloc_notifier)
-+		return;
-+
-+	spin_lock(&info->lock);
-+	notifier = info->falloc_notifier;
-+	if (!notifier) {
-+		spin_unlock(&info->lock);
-+		return;
-+	}
-+
-+	owner = info->owner;
-+	ret = notifier->get_owner(owner);
-+	spin_unlock(&info->lock);
-+	if (!ret)
-+		return;
-+
-+	start = max(start, page->index);
-+	end = min(end, page->index + thp_nr_pages(page));
-+
-+	notifier->invalidate_page_range(inode, owner, start, end);
-+	notifier->put_owner(owner);
-+#endif
-+}
-+
- /*
-  * Remove range of pages and swap entries from page cache, and free them.
-  * If !unfalloc, truncate or punch hole; if unfalloc, undo failed fallocate.
-@@ -949,6 +1012,8 @@ static void shmem_undo_range(struct inode *inode, loff_t lstart, loff_t lend,
- 			}
- 			index += thp_nr_pages(page) - 1;
  
-+			notify_invalidate_page(inode, page, start, end);
-+
- 			if (!unfalloc || !PageUptodate(page))
- 				truncate_inode_page(mapping, page);
- 			unlock_page(page);
-@@ -1025,6 +1090,9 @@ static void shmem_undo_range(struct inode *inode, loff_t lstart, loff_t lend,
- 					index--;
- 					break;
- 				}
-+
-+				notify_invalidate_page(inode, page, start, end);
-+
- 				VM_BUG_ON_PAGE(PageWriteback(page), page);
- 				if (shmem_punch_compound(page, start, end))
- 					truncate_inode_page(mapping, page);
-@@ -2815,6 +2883,7 @@ static long shmem_fallocate(struct file *file, int mode, loff_t offset,
- 	if (!(mode & FALLOC_FL_KEEP_SIZE) && offset + len > inode->i_size)
- 		i_size_write(inode, offset + len);
- 	inode->i_ctime = current_time(inode);
-+	notify_fallocate(inode, start, end);
- undone:
- 	spin_lock(&inode->i_lock);
- 	inode->i_private = NULL;
-@@ -3784,6 +3853,20 @@ static void shmem_destroy_inodecache(void)
- 	kmem_cache_destroy(shmem_inode_cachep);
- }
+ 	/*
+ 	 * (Re)Add the new memslot.  There is no O(1) interval_tree_replace(),
+-	 * hva_node needs to be swapped with remove+insert even though hva can't
+-	 * change when replacing an existing slot.
++	 * hva_node/ofs_node needs to be swapped with remove+insert even though
++	 * hva/ofs can't change when replacing an existing slot.
+ 	 */
+ 	hash_add(slots->id_hash, &new->id_node[idx], new->id);
+ 	interval_tree_insert(&new->hva_node[idx], &slots->hva_tree);
++	if (kvm_slot_is_private(new))
++		interval_tree_insert(&new->ofs_node[idx], &slots->ofs_tree);
  
-+#ifdef CONFIG_MIGRATION
-+int shmem_migrate_page(struct address_space *mapping, struct page *newpage,
-+		       struct page *page, enum migrate_mode mode)
-+{
-+#ifdef CONFIG_MEMFD_OPS
-+	struct inode *inode = mapping->host;
-+
-+	if (SHMEM_I(inode)->owner)
-+		return -EOPNOTSUPP;
-+#endif
-+	return migrate_page(mapping, newpage, page, mode);
-+}
-+#endif
-+
- const struct address_space_operations shmem_aops = {
- 	.writepage	= shmem_writepage,
- 	.set_page_dirty	= __set_page_dirty_no_writeback,
-@@ -3798,6 +3881,81 @@ const struct address_space_operations shmem_aops = {
- };
- EXPORT_SYMBOL(shmem_aops);
- 
-+#ifdef CONFIG_MEMFD_OPS
-+static long shmem_get_lock_pfn(struct inode *inode, pgoff_t offset, int *order)
-+{
-+	struct page *page;
-+	int ret;
-+
-+	ret = shmem_getpage(inode, offset, &page, SGP_NOALLOC);
-+	if (ret)
-+		return ret;
-+
-+	*order = thp_order(compound_head(page));
-+
-+	return page_to_pfn(page);
-+}
-+
-+static void shmem_put_unlock_pfn(unsigned long pfn)
-+{
-+	struct page *page = pfn_to_page(pfn);
-+
-+	VM_BUG_ON_PAGE(!PageLocked(page), page);
-+
-+	set_page_dirty(page);
-+	unlock_page(page);
-+	put_page(page);
-+}
-+
-+static const struct memfd_pfn_ops shmem_pfn_ops = {
-+	.get_lock_pfn = shmem_get_lock_pfn,
-+	.put_unlock_pfn = shmem_put_unlock_pfn,
-+};
-+
-+int shmem_register_falloc_notifier(struct inode *inode, void *owner,
-+				const struct memfd_falloc_notifier *notifier,
-+				const struct memfd_pfn_ops **pfn_ops)
-+{
-+	gfp_t gfp;
-+	struct shmem_inode_info *info = SHMEM_I(inode);
-+
-+	if (!inode || !owner || !notifier || !pfn_ops ||
-+	    !notifier->invalidate_page_range ||
-+	    !notifier->fallocate ||
-+	    !notifier->get_owner ||
-+	    !notifier->put_owner)
-+		return -EINVAL;
-+
-+	spin_lock(&info->lock);
-+	if (info->owner && info->owner != owner) {
-+		spin_unlock(&info->lock);
-+		return -EPERM;
-+	}
-+
-+	info->owner = owner;
-+	info->falloc_notifier = notifier;
-+	spin_unlock(&info->lock);
-+
-+	gfp = mapping_gfp_mask(inode->i_mapping);
-+	gfp &= ~__GFP_MOVABLE;
-+	mapping_set_gfp_mask(inode->i_mapping, gfp);
-+	mapping_set_unevictable(inode->i_mapping);
-+
-+	*pfn_ops = &shmem_pfn_ops;
-+	return 0;
-+}
-+
-+void shmem_unregister_falloc_notifier(struct inode *inode)
-+{
-+	struct shmem_inode_info *info = SHMEM_I(inode);
-+
-+	spin_lock(&info->lock);
-+	info->owner = NULL;
-+	info->falloc_notifier = NULL;
-+	spin_unlock(&info->lock);
-+}
-+#endif
-+
- static const struct file_operations shmem_file_operations = {
- 	.mmap		= shmem_mmap,
- 	.get_unmapped_area = shmem_get_unmapped_area,
+ 	/*
+ 	 * If the memslot gfn is unchanged, rb_replace_node() can be used to
 -- 
 2.17.1
 
