@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93F5147E3B2
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Dec 2021 13:48:20 +0100 (CET)
-Received: from localhost ([::1]:45718 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9F8C47E3BA
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Dec 2021 13:52:42 +0100 (CET)
+Received: from localhost ([::1]:54130 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n0NW5-00062x-7G
-	for lists+qemu-devel@lfdr.de; Thu, 23 Dec 2021 07:48:17 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47328)
+	id 1n0NaL-0003lA-Tj
+	for lists+qemu-devel@lfdr.de; Thu, 23 Dec 2021 07:52:41 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47368)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1n0NGd-00061L-M4
- for qemu-devel@nongnu.org; Thu, 23 Dec 2021 07:32:19 -0500
-Received: from mga03.intel.com ([134.134.136.65]:51964)
+ id 1n0NGp-0006ds-0V
+ for qemu-devel@nongnu.org; Thu, 23 Dec 2021 07:32:31 -0500
+Received: from mga11.intel.com ([192.55.52.93]:22200)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1n0NGb-0002i3-OO
- for qemu-devel@nongnu.org; Thu, 23 Dec 2021 07:32:19 -0500
+ id 1n0NGn-0002jA-3u
+ for qemu-devel@nongnu.org; Thu, 23 Dec 2021 07:32:30 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1640262737; x=1671798737;
+ t=1640262749; x=1671798749;
  h=from:to:cc:subject:date:message-id:in-reply-to: references;
- bh=ALhrDscz25NWpd8el8w795CyW0Z7WyWdszVSzOyAnwk=;
- b=ZiTJ5YVFNLM+aLYu6t54XU9hH92MkEbiTaU0UtuZB+ey97Z4o/QaNufd
- n7qdBWnXszYyyBTQHzDrmBdOsn9B/mwzNqzMbpzLvjjSm4rnfrnOLdzMy
- /VYV55sei7LdW9wBDf2eI1aoqQoo6o3xLXvxjqGur5IvOBNNkF086d3KD
- 8DR42U+GQ9CUDDbAkr0bazS+JAiw5blzWYpz75Fbpm4cCtuFuf93Aq7wq
- QUIqFTZOBtNYd+rd/N0Q6KavhcRRj7L4cUs9jsc6G5LNx/YZm8gZvvENh
- aVDk1Tf3xLADnSVfuoVTRkbx3+Tkl1uu+HEZ4RtqqDu7I2O2F4JrTulqu w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10206"; a="240769685"
-X-IronPort-AV: E=Sophos;i="5.88,229,1635231600"; d="scan'208";a="240769685"
+ bh=nMOnvZvv3gJKoKC9EEW6w1t+Yt8L0I8cTqGCDM02VXY=;
+ b=jztgK7xGMAbGj/QG128Wewi7Wjo+5MqrYx8/sDjatjvTCAWXQOl0ZV7y
+ TmeyRXPmms6+AOjbrQ8IRVHkbYxW+yutkjfbWVHzluyYM+bGKP9bxQ91Y
+ wa9GjIrWBXe8MxG6swVJmDrgBbX6uBFhJ6/0/AcSCy5lVK1U6AsoCAkzE
+ tKQMfFqO0KT4yVkqwH1eRUCDNXvwqWYGGeytRdXNfZlsE/qLPglXF08ms
+ qw+DCXlCvtbZhv/4FBHmOk2w2ETFzroQi2eRgfTr6NXCWypUvK0UFg5q6
+ AI5WjkximmGkuAtiTOZJZXeoiy7PXGyP+ue2HuarQQpRCZAUSo3gjilkb Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10206"; a="238352390"
+X-IronPort-AV: E=Sophos;i="5.88,229,1635231600"; d="scan'208";a="238352390"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Dec 2021 04:32:16 -0800
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Dec 2021 04:32:24 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,229,1635231600"; d="scan'208";a="522078921"
+X-IronPort-AV: E=Sophos;i="5.88,229,1635231600"; d="scan'208";a="522078967"
 Received: from chaop.bj.intel.com ([10.240.192.101])
- by orsmga008.jf.intel.com with ESMTP; 23 Dec 2021 04:31:58 -0800
+ by orsmga008.jf.intel.com with ESMTP; 23 Dec 2021 04:32:16 -0800
 From: Chao Peng <chao.p.peng@linux.intel.com>
 To: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
  linux-fsdevel@vger.kernel.org, qemu-devel@nongnu.org
-Subject: [PATCH v3 kvm/queue 09/16] KVM: Split out common memory invalidation
- code
-Date: Thu, 23 Dec 2021 20:30:04 +0800
-Message-Id: <20211223123011.41044-10-chao.p.peng@linux.intel.com>
+Subject: [PATCH v3 kvm/queue 11/16] KVM: Add kvm_map_gfn_range
+Date: Thu, 23 Dec 2021 20:30:06 +0800
+Message-Id: <20211223123011.41044-12-chao.p.peng@linux.intel.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20211223123011.41044-1-chao.p.peng@linux.intel.com>
 References: <20211223123011.41044-1-chao.p.peng@linux.intel.com>
-Received-SPF: none client-ip=134.134.136.65;
- envelope-from=chao.p.peng@linux.intel.com; helo=mga03.intel.com
-X-Spam_score_int: -44
-X-Spam_score: -4.5
-X-Spam_bar: ----
-X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.203,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Received-SPF: none client-ip=192.55.52.93;
+ envelope-from=chao.p.peng@linux.intel.com; helo=mga11.intel.com
+X-Spam_score_int: -71
+X-Spam_score: -7.2
+X-Spam_bar: -------
+X-Spam_report: (-7.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.203,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,76 +86,106 @@ Cc: Wanpeng Li <wanpengli@tencent.com>, jun.nakajima@intel.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When fd-based memory is enabled, there will be two types of memory
-invalidation:
-  - memory invalidation from native MMU through mmu_notifier callback
-    for hva-based memory, and,
-  - memory invalidation from memfd through memfd_notifier callback for
-    fd-based memory.
-
-Some code can be shared between these two types of memory invalidation.
-This patch moves those shared code into one place so that it can be
-used for both CONFIG_MMU_NOTIFIER and CONFIG_MEMFD_NOTIFIER.
+This new function establishes the mapping in KVM page tables for a
+given gfn range. It can be used in the memory fallocate callback for
+memfd based memory to establish the mapping for KVM secondary MMU when
+the pages are allocated in the memory backend.
 
 Signed-off-by: Yu Zhang <yu.c.zhang@linux.intel.com>
 Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
 ---
- virt/kvm/kvm_main.c | 35 +++++++++++++++++++----------------
- 1 file changed, 19 insertions(+), 16 deletions(-)
+ arch/x86/kvm/mmu/mmu.c   | 47 ++++++++++++++++++++++++++++++++++++++++
+ include/linux/kvm_host.h |  2 ++
+ virt/kvm/kvm_main.c      |  5 +++++
+ 3 files changed, 54 insertions(+)
 
+diff --git a/arch/x86/kvm/mmu/mmu.c b/arch/x86/kvm/mmu/mmu.c
+index 1d275e9d76b5..2856eb662a21 100644
+--- a/arch/x86/kvm/mmu/mmu.c
++++ b/arch/x86/kvm/mmu/mmu.c
+@@ -1568,6 +1568,53 @@ static __always_inline bool kvm_handle_gfn_range(struct kvm *kvm,
+ 	return ret;
+ }
+ 
++bool kvm_map_gfn_range(struct kvm *kvm, struct kvm_gfn_range *range)
++{
++	struct kvm_vcpu *vcpu;
++	kvm_pfn_t pfn;
++	gfn_t gfn;
++	int idx;
++	bool ret = true;
++
++	/* Need vcpu context for kvm_mmu_do_page_fault. */
++	vcpu = kvm_get_vcpu(kvm, 0);
++	if (mutex_lock_killable(&vcpu->mutex))
++		return false;
++
++	vcpu_load(vcpu);
++	idx = srcu_read_lock(&kvm->srcu);
++
++	kvm_mmu_reload(vcpu);
++
++	gfn = range->start;
++	while (gfn < range->end) {
++		if (signal_pending(current)) {
++			ret = false;
++			break;
++		}
++
++		if (need_resched())
++			cond_resched();
++
++		pfn = kvm_mmu_do_page_fault(vcpu, gfn << PAGE_SHIFT,
++					PFERR_WRITE_MASK | PFERR_USER_MASK,
++					false);
++		if (is_error_noslot_pfn(pfn) || kvm->vm_bugged) {
++			ret = false;
++			break;
++		}
++
++		gfn++;
++	}
++
++	srcu_read_unlock(&kvm->srcu, idx);
++	vcpu_put(vcpu);
++
++	mutex_unlock(&vcpu->mutex);
++
++	return ret;
++}
++
+ bool kvm_unmap_gfn_range(struct kvm *kvm, struct kvm_gfn_range *range)
+ {
+ 	bool flush = false;
+diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
+index be567925831b..8c2359175509 100644
+--- a/include/linux/kvm_host.h
++++ b/include/linux/kvm_host.h
+@@ -241,6 +241,8 @@ struct kvm_gfn_range {
+ 	pte_t pte;
+ 	bool may_block;
+ };
++
++bool kvm_map_gfn_range(struct kvm *kvm, struct kvm_gfn_range *range);
+ bool kvm_unmap_gfn_range(struct kvm *kvm, struct kvm_gfn_range *range);
+ bool kvm_age_gfn(struct kvm *kvm, struct kvm_gfn_range *range);
+ bool kvm_test_age_gfn(struct kvm *kvm, struct kvm_gfn_range *range);
 diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
-index 19736a0013a0..7b7530b1ea1e 100644
+index f495c1a313bd..660ce15973ad 100644
 --- a/virt/kvm/kvm_main.c
 +++ b/virt/kvm/kvm_main.c
-@@ -469,22 +469,6 @@ void kvm_destroy_vcpus(struct kvm *kvm)
- EXPORT_SYMBOL_GPL(kvm_destroy_vcpus);
+@@ -471,6 +471,11 @@ EXPORT_SYMBOL_GPL(kvm_destroy_vcpus);
+ #if defined(CONFIG_MEMFD_OPS) ||\
+ 	(defined(CONFIG_MMU_NOTIFIER) && defined(KVM_ARCH_WANT_MMU_NOTIFIER))
  
- #if defined(CONFIG_MMU_NOTIFIER) && defined(KVM_ARCH_WANT_MMU_NOTIFIER)
--static inline struct kvm *mmu_notifier_to_kvm(struct mmu_notifier *mn)
--{
--	return container_of(mn, struct kvm, mmu_notifier);
--}
--
--static void kvm_mmu_notifier_invalidate_range(struct mmu_notifier *mn,
--					      struct mm_struct *mm,
--					      unsigned long start, unsigned long end)
--{
--	struct kvm *kvm = mmu_notifier_to_kvm(mn);
--	int idx;
--
--	idx = srcu_read_lock(&kvm->srcu);
--	kvm_arch_mmu_notifier_invalidate_range(kvm, start, end);
--	srcu_read_unlock(&kvm->srcu, idx);
--}
- 
++bool __weak kvm_map_gfn_range(struct kvm *kvm, struct kvm_gfn_range *range)
++{
++	return false;
++}
++
  typedef bool (*gfn_handler_t)(struct kvm *kvm, struct kvm_gfn_range *range);
  
-@@ -611,6 +595,25 @@ static __always_inline int __kvm_handle_useraddr_range(struct kvm *kvm,
- 	/* The notifiers are averse to booleans. :-( */
- 	return (int)ret;
- }
-+#endif
-+
-+#if defined(CONFIG_MMU_NOTIFIER) && defined(KVM_ARCH_WANT_MMU_NOTIFIER)
-+static inline struct kvm *mmu_notifier_to_kvm(struct mmu_notifier *mn)
-+{
-+	return container_of(mn, struct kvm, mmu_notifier);
-+}
-+
-+static void kvm_mmu_notifier_invalidate_range(struct mmu_notifier *mn,
-+					      struct mm_struct *mm,
-+					      unsigned long start, unsigned long end)
-+{
-+	struct kvm *kvm = mmu_notifier_to_kvm(mn);
-+	int idx;
-+
-+	idx = srcu_read_lock(&kvm->srcu);
-+	kvm_arch_mmu_notifier_invalidate_range(kvm, start, end);
-+	srcu_read_unlock(&kvm->srcu, idx);
-+}
- 
- static __always_inline int kvm_handle_hva_range(struct mmu_notifier *mn,
- 						unsigned long start,
+ typedef void (*on_lock_fn_t)(struct kvm *kvm, unsigned long start,
 -- 
 2.17.1
 
