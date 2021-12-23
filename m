@@ -2,91 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0162D47E0B8
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Dec 2021 10:10:38 +0100 (CET)
-Received: from localhost ([::1]:58342 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C11247E0B9
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Dec 2021 10:10:59 +0100 (CET)
+Received: from localhost ([::1]:58676 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n0K7R-0004BA-OY
-	for lists+qemu-devel@lfdr.de; Thu, 23 Dec 2021 04:10:37 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49502)
+	id 1n0K7l-0004P5-V7
+	for lists+qemu-devel@lfdr.de; Thu, 23 Dec 2021 04:10:58 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49540)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1n0K2c-0007sV-0M
- for qemu-devel@nongnu.org; Thu, 23 Dec 2021 04:05:39 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:21056)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1n0K2Z-00067t-GU
- for qemu-devel@nongnu.org; Thu, 23 Dec 2021 04:05:36 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1640250334;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ssqhP49WQb9bj5YqgYaOkw1c6XcCWRf7c6Gkq8d+sfo=;
- b=gvFVls9MhEeKDlB26836w5VXzs54OJaDR4Gegr6rrCy52zLEhjtmD5mfkj+TACsS+sPvd3
- p8eGykBUSpw79AUuLPcQZckJ+A2E1HkakU6VLEpNcE3ChALc/PRtejM4/Hq3DuE/ELqcjS
- Zfn8IqD3eTQdfYxSObAokfM86MOaK40=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-265-LlsuTKApMomP27SiWB1a4w-1; Thu, 23 Dec 2021 04:05:33 -0500
-X-MC-Unique: LlsuTKApMomP27SiWB1a4w-1
-Received: by mail-wm1-f70.google.com with SMTP id
- n31-20020a05600c501f00b00345b15f5e15so1689206wmr.3
- for <qemu-devel@nongnu.org>; Thu, 23 Dec 2021 01:05:33 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1n0K2f-0007t6-HT; Thu, 23 Dec 2021 04:05:44 -0500
+Received: from [2a00:1450:4864:20::42b] (port=44980
+ helo=mail-wr1-x42b.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1n0K2b-00067x-R9; Thu, 23 Dec 2021 04:05:40 -0500
+Received: by mail-wr1-x42b.google.com with SMTP id t18so10068207wrg.11;
+ Thu, 23 Dec 2021 01:05:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=ssqhP49WQb9bj5YqgYaOkw1c6XcCWRf7c6Gkq8d+sfo=;
- b=7/91cFLuk5/SsAXweE3vJxOnzf4WkMUaEftZ24fCKibWVnMTjMVCOzfFfb4gvQkai2
- hpIEAasyJDmur5cdZWyfLc4hFa+PcURfH7yxT6NIOGZrCY4DkcJcMb2zcFgeXMjHzwl5
- yHHj+LPCxAS7+RT6Jgstzs96Vu/ZbvzYfOkQMna/LtSCv8t65YXhLJ0H1lyBXnb0Com1
- DJXRHJRqjBp17s2IjxzPuSDZgJBDGKND6/j3+7Yl/Dz0cUhxvzvu/iHFZAj/Hzpm4Hob
- S5wgvnoIyXmX6eU3i3C3EHHwjVo4PGH64YXVOo2CHAchaozJO62nZKV0xEXZRIl4OrMN
- aJvA==
-X-Gm-Message-State: AOAM533h/PbJKoSuenN5a6hbckGEyFtbWfMCqKIXLr3MP5Ayr2kE56p4
- IOVXUHKQK8ZZViEFDpKDIjImp5lNyhwRMNd+tcfdFWapq5N/eXgx3IGWZNS+YU4iwGjZ9dTycrE
- lTAux1QSJuW4qR/I=
-X-Received: by 2002:adf:d0cb:: with SMTP id z11mr1053688wrh.470.1640250330347; 
- Thu, 23 Dec 2021 01:05:30 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJz6lbAK7KKGdz7oi3lfyyWPWcUNyagd3sn00VLIjMTVeltPc06PV8vaSJR00eurKU1ZmeBTIQ==
-X-Received: by 2002:adf:d0cb:: with SMTP id z11mr1053675wrh.470.1640250330199; 
- Thu, 23 Dec 2021 01:05:30 -0800 (PST)
+ bh=zadkxGQ+wjcAxb5kAIl/05p7fuN6dEKapyI4+NBCsrA=;
+ b=U+pKywCHZKK2E7piyFDxDF8ex7sw3LsToCpvW8u4RX/4TcCGFIcwoekoK3tq85RGj+
+ jSn/o8DLc5hIMOQaUu4VlIuPbeeTCc/euMUkDrttG5unY/UqlmREggevT55p7MgfTe2t
+ Rz1Mwap8nFkDpv0i1x4rWou68cc16NwGkuTVdkrrH8eEd93zcfBvMXvUu+GK0ssgS3Rk
+ o6G0QrgX6XZfXjVMCxK6YutYCYtzchuXFlK4pKqqhXhXxegeeLeFvZzzbxi0hzVb2KgP
+ yMHQhCOlwpTXBNWIQs5Qr1pgArq9zlo5rNqoDvJwthw9hztQOvatu0b8pcCAgBiErjJp
+ PZyw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=zadkxGQ+wjcAxb5kAIl/05p7fuN6dEKapyI4+NBCsrA=;
+ b=GFYWEEtCJvpg51UfTuYFNzvUyGuPIHoTPm8w5vH1WVCR72TjNNcE+5kq4sIp62fnZn
+ jruBAtnEqhx32K5qqKT4+RiWlgLikGb9zEXiJ4ng+vz5FijsIwRd2LZOdyAYNQrc3cKS
+ buAKUM+jdD7/7FLp1QW+EEW1iQy3f4mGP6hIs4leqztT3wfVnyigr/U+Pjl+T0CYyUdQ
+ K+X7PS4ep1Lx4wJxYGCJMwy843ZPHAEQwUJ/v2kSpJqDCCoQIM2CokpBdX+7xV5vU6gQ
+ qSsGQDKN6CDR3lIbG97/wKRlvq4cYxkQTXx0m0dGHoD6Mfio7KhdYLr64PnS3n2fGzrd
+ UUSA==
+X-Gm-Message-State: AOAM53138X5Ixpem/ZaC+Tt225ZgK9PPdhrgK600JyCB0yCt5ZWQ76cV
+ 6yhTj+ZEh6i2p/HTw096Bwg=
+X-Google-Smtp-Source: ABdhPJwJo9pTxIaU2/SV+nRd/IPJ3081oxnQyZfvA4p+rEpe/4MI9CBI7KCDlHetlFkmmj4IpQ3yAQ==
+X-Received: by 2002:adf:dc84:: with SMTP id r4mr1089351wrj.307.1640250334736; 
+ Thu, 23 Dec 2021 01:05:34 -0800 (PST)
 Received: from [192.168.43.238] (33.red-193-152-124.dynamicip.rima-tde.net.
  [193.152.124.33])
- by smtp.gmail.com with ESMTPSA id d4sm4189458wrx.102.2021.12.23.01.05.28
+ by smtp.gmail.com with ESMTPSA id a3sm4881085wri.98.2021.12.23.01.05.32
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 23 Dec 2021 01:05:29 -0800 (PST)
-Message-ID: <f7baa65e-48b0-2d8e-1222-66b303757829@redhat.com>
-Date: Thu, 23 Dec 2021 07:52:57 +0100
+ Thu, 23 Dec 2021 01:05:33 -0800 (PST)
+Message-ID: <09f9304c-0ea1-3782-5cc5-574244bfcfe2@amsat.org>
+Date: Thu, 23 Dec 2021 07:55:15 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.4.0
-Subject: Re: [PATCH qemu master] hw/misc/aspeed_pwm: fix typo
-To: Troy Lee <troy_lee@aspeedtech.com>, openbmc@lists.ozlabs.org
-References: <20211222102423.3121181-1-troy_lee@aspeedtech.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <20211222102423.3121181-1-troy_lee@aspeedtech.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Subject: Re: [PATCH 02/15] ppc: Mark the 'taihu' machine as deprecated
 Content-Language: en-US
+To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20211206103712.1866296-1-clg@kaod.org>
+ <20211206103712.1866296-3-clg@kaod.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+In-Reply-To: <20211206103712.1866296-3-clg@kaod.org>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -52
-X-Spam_score: -5.3
-X-Spam_bar: -----
-X-Spam_report: (-5.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.203,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.264, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42b
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42b.google.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-2.264,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,38 +92,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>,
- "open list:All patches CC here" <qemu-devel@nongnu.org>, leetroy@gmail.com,
- "open list:ASPEED BMCs" <qemu-arm@nongnu.org>,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- Joel Stanley <joel@jms.id.au>
+Cc: Christophe Leroy <christophe.leroy@c-s.fr>, Thomas Huth <thuth@redhat.com>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>, Greg Kurz <groug@kaod.org>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/22/21 11:24, Troy Lee wrote:
-> Typo found during developing.
+On 12/6/21 11:36, Cédric Le Goater wrote:
+> From: Thomas Huth <thuth@redhat.com>
 > 
-> Fixes: 70b3f1a34d3c ("hw/misc: Add basic Aspeed PWM model")
-> Signed-off-by: Troy Lee <troy_lee@aspeedtech.com>
+> The PPC 405 CPU is a system-on-a-chip, so all 405 machines are very similar,
+> except for some external periphery. However, the periphery of the 'taihu'
+> machine is hardly emulated at all (e.g. neither the LCD nor the USB part had
+> been implemented), so there is not much value added by this board. The users
+> can use the 'ref405ep' machine to test their PPC405 code instead.
+> 
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+> Message-Id: <20211203164904.290954-2-thuth@redhat.com>
+> Signed-off-by: Cédric Le Goater <clg@kaod.org>
 > ---
->  hw/misc/aspeed_pwm.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/hw/misc/aspeed_pwm.c b/hw/misc/aspeed_pwm.c
-> index 8ebab5dcef..dbf9634da3 100644
-> --- a/hw/misc/aspeed_pwm.c
-> +++ b/hw/misc/aspeed_pwm.c
-> @@ -96,7 +96,7 @@ static void aspeed_pwm_class_init(ObjectClass *klass, void *data)
->  
->      dc->realize = aspeed_pwm_realize;
->      dc->reset = aspeed_pwm_reset;
-> -    dc->desc = "Aspeed PWM Controller",
-> +    dc->desc = "Aspeed PWM Controller";
->      dc->vmsd = &vmstate_aspeed_pwm;
->  }
->  
+>  docs/about/deprecated.rst | 9 +++++++++
+>  hw/ppc/ppc405_boards.c    | 1 +
+>  2 files changed, 10 insertions(+)
 
-No need for another patch, since it doesn't build.
-Simply squash it in your commit 70b3f1a34d3c.
-
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
