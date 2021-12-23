@@ -2,73 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5870C47E2D9
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Dec 2021 13:04:30 +0100 (CET)
-Received: from localhost ([::1]:39194 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A450847E2E5
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Dec 2021 13:08:12 +0100 (CET)
+Received: from localhost ([::1]:47432 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n0Mph-0008R0-ET
-	for lists+qemu-devel@lfdr.de; Thu, 23 Dec 2021 07:04:29 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58954)
+	id 1n0MtH-0005kx-OY
+	for lists+qemu-devel@lfdr.de; Thu, 23 Dec 2021 07:08:11 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59008)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1n0MdO-0004Jb-Kx
+ id 1n0MdP-0004Kg-VM
  for qemu-devel@nongnu.org; Thu, 23 Dec 2021 06:51:47 -0500
-Received: from [2a00:1450:4864:20::42f] (port=43936
- helo=mail-wr1-x42f.google.com)
+Received: from [2a00:1450:4864:20::434] (port=37411
+ helo=mail-wr1-x434.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1n0MdL-0008Q3-TR
- for qemu-devel@nongnu.org; Thu, 23 Dec 2021 06:51:46 -0500
-Received: by mail-wr1-x42f.google.com with SMTP id v11so10923099wrw.10
- for <qemu-devel@nongnu.org>; Thu, 23 Dec 2021 03:51:42 -0800 (PST)
+ id 1n0MdN-0008QF-4Y
+ for qemu-devel@nongnu.org; Thu, 23 Dec 2021 06:51:47 -0500
+Received: by mail-wr1-x434.google.com with SMTP id t26so10947886wrb.4
+ for <qemu-devel@nongnu.org>; Thu, 23 Dec 2021 03:51:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=e1urq3/NH1DhV4VQiTljtVXGI+TxRV769wqtxpZBiJE=;
- b=PagxT/JDmSY4hHWAO9RNDgyHX7l8iVUTXjbXoXpYw6Obl0zpcQQ3wyAXU+EoZH4WqE
- WN607ztZCJJnSgKFN4DZQsmRG9+BMoLFToozG2E/IOYVS4pPBEieUtzzDq1F5pO9fUiA
- uz/ta8JjzNyyA3YTkxGUoyYxnxetqHTpCSi7XN39GjGDFpRvtG6y+TMBjcSAYS7THBxr
- uywsMOweBWOHSvO5mNFkEWWmRPFcZwrs+M/UhM8pypFFyE9GnwRoqn1+v8IiDBttVrZf
- HDR90MDxehmfukNfFku/k2VtQuNMGoSFD7HGsgKaWB/SzQKN79yGuP9phB0wJ4N/pSGr
- SKEA==
+ bh=3qbqkIQNqeg3P7tq5zzTnKQjNiTPg4hX+5Vl379ivaM=;
+ b=N/DORDta1Wp6aIYLa1EAHa0g7+AYAWqTqjrhcUocSbXBsJMm4mbu1c9U7bMnGZnp8Q
+ ItczBivZHFH5w3oiQO+AzZDTmcQQ/vLbWms+6JY1sRN8QIB1rvoXR71nWCQr6fTHisBx
+ qswkH5Jed79XgOtn+JTD5Wbv/ZZe7FuU0ZstLLG0+hyGiU7JiqJeK+RmcAIg86/Skk1c
+ kZJI27otxpy1B7kojE6Vm8onV4I1ayHRbK5g1XzIZpocVW6cORJt/7xopWPvk7iGhvid
+ U6HZZM0GLdguwbOEp4942CuoquYLjH9vh1gndFDfc4E1gmxTMlMdVmFRkMY+LXTFcY27
+ IL1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=e1urq3/NH1DhV4VQiTljtVXGI+TxRV769wqtxpZBiJE=;
- b=5VAG4rMno9YM5aTkmfcOmimy8uXpIKQuDftyhZWWIYl9B8dHUI2nqdnCUYLUJAxzS7
- aRGMmsEj/A7bN0QzKjA1BeCgWwAa+PKNl5T9/gHtNloJ/zi+eAtjqW92iXhKNq+te92g
- uYUGr3T+q0KhSPTro3fU9O8TmRwV7Nb9j2ilbK2Pz28TpSl0wdCQQ4CD5Y5goAbQlTSc
- gjIYtZtlUnMzCylU/lgDEytNDFLzqbE9yUE2xoOWJ+InXZITipcq6WHX8iShZ4PLZxsB
- yVdTig/YP6SCiVxbnQqC9DZi/oXgQcibhDTeYfwbxCf3pYeyW6+A+uziOO4NNXmue7N2
- QvJA==
-X-Gm-Message-State: AOAM532cSjf/+epcuATF8yJ05Oa3OB3Tymzw7qFLp0XOqB+H7bh1YCfx
- cVS5tIA6Z8de24RX90nGxfk/8UCjZ0o=
-X-Google-Smtp-Source: ABdhPJyNXFCckWTNwvZHfaz+iiXar6WBsmsX/OuHO/6MweKKAudJAnGd287JJVlp206q4Z+/+c/WJw==
-X-Received: by 2002:a05:6000:1886:: with SMTP id
- a6mr1545762wri.614.1640260301709; 
- Thu, 23 Dec 2021 03:51:41 -0800 (PST)
+ bh=3qbqkIQNqeg3P7tq5zzTnKQjNiTPg4hX+5Vl379ivaM=;
+ b=oxTteVB3aYq2vHwF0DLbxlUl+8nPhI0wonXJW5TgtHKfMoI/7WxsdNodUlr72orLVn
+ O8DvDP05qY6hwQ87NNCJCIgaYyJp/FyzMNQ6YF0EJIJyYqQ2Ofp2pK73/DQvNTrPxJpU
+ rDi8TorMq4U+VX/XKWFWhA4TLXbKjXnqU8l9bhKRa6lDiVQw+iHuG9xMDGiihqzfpFTq
+ EIBLIuYTFjLnbjsXBYRocZBmho75bOxXZn6qoixM6ibHS5g9MdSXmMC7eMx9cf/GOYtq
+ 4Ey/3BDC3tK9HgLCe6FeRGT4xuex2fHU5ENRbFTebKIGds82ndNTK560Ct74YY7P9qbW
+ 0ZcQ==
+X-Gm-Message-State: AOAM530siTEn0XTzPVn8IRYVsLXFLTb31xkG8SLL0819/uBy4c4S9bQ2
+ XBXPg/pL3/5mJMZ1BteVu9BGy4LbjZA=
+X-Google-Smtp-Source: ABdhPJxLOhv3S3SZM8Gy0WmXJ/aC3yxN6c1tCJmAXNBNPLubRtNJGJ7bU+ZhM7PJ3vL2vRibtLwbkA==
+X-Received: by 2002:a5d:6111:: with SMTP id v17mr1513958wrt.324.1640260302239; 
+ Thu, 23 Dec 2021 03:51:42 -0800 (PST)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id o2sm4537106wru.109.2021.12.23.03.51.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 23 Dec 2021 03:51:41 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 10/15] configure: move non-command-line variables away from
- command-line parsing section
-Date: Thu, 23 Dec 2021 12:51:29 +0100
-Message-Id: <20211223115134.579235-11-pbonzini@redhat.com>
+Subject: [PULL 11/15] meson: build contrib/ executables after generated headers
+Date: Thu, 23 Dec 2021 12:51:30 +0100
+Message-Id: <20211223115134.579235-12-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211223115134.579235-1-pbonzini@redhat.com>
 References: <20211223115134.579235-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42f
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::434
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x42f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -93,79 +91,62 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This makes it easier to identify candidates for moving to Meson.
+This will be needed as soon as config-poison.h moves from configure to
+a meson custom_target (which is built at "ninja" time).
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure | 13 ++++++-------
- 1 file changed, 6 insertions(+), 7 deletions(-)
+ contrib/elf2dmp/meson.build        | 2 +-
+ contrib/ivshmem-client/meson.build | 2 +-
+ contrib/ivshmem-server/meson.build | 2 +-
+ contrib/rdmacm-mux/meson.build     | 2 +-
+ 4 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/configure b/configure
-index 302d58102b..8eb8e4c2cc 100755
---- a/configure
-+++ b/configure
-@@ -307,16 +307,12 @@ debug="no"
- sanitizers="no"
- tsan="no"
- fortify_source="$default_feature"
--mingw32="no"
- gcov="no"
- EXESUF=""
- modules="no"
- module_upgrades="no"
- prefix="/usr/local"
- qemu_suffix="qemu"
--bsd="no"
--linux="no"
--solaris="no"
- profiler="no"
- softmmu="yes"
- linux_user=""
-@@ -330,8 +326,6 @@ opengl="$default_feature"
- cpuid_h="no"
- avx2_opt="$default_feature"
- guest_agent="$default_feature"
--guest_agent_with_vss="no"
--guest_agent_ntddscsi="no"
- vss_win32_sdk="$default_feature"
- win_sdk="no"
- want_tools="$default_feature"
-@@ -526,6 +520,10 @@ fi
- 
- # OS specific
- 
-+mingw32="no"
-+bsd="no"
-+linux="no"
-+solaris="no"
- case $targetos in
- windows)
-   mingw32="yes"
-@@ -2546,6 +2544,7 @@ fi
- ##########################################
- # check if we have VSS SDK headers for win
- 
-+guest_agent_with_vss="no"
- if test "$mingw32" = "yes" && test "$guest_agent" != "no" && \
-         test "$vss_win32_sdk" != "no" ; then
-   case "$vss_win32_sdk" in
-@@ -2576,7 +2575,6 @@ EOF
-       echo "ERROR: The headers are extracted in the directory \`inc'."
-       feature_not_found "VSS support"
-     fi
--    guest_agent_with_vss="no"
-   fi
- fi
- 
-@@ -2603,6 +2601,7 @@ fi
- 
- ##########################################
- # check if mingw environment provides a recent ntddscsi.h
-+guest_agent_ntddscsi="no"
- if test "$mingw32" = "yes" && test "$guest_agent" != "no"; then
-   cat > $TMPC << EOF
- #include <windows.h>
+diff --git a/contrib/elf2dmp/meson.build b/contrib/elf2dmp/meson.build
+index 4d86cb390a..6707d43c4f 100644
+--- a/contrib/elf2dmp/meson.build
++++ b/contrib/elf2dmp/meson.build
+@@ -1,5 +1,5 @@
+ if curl.found()
+-  executable('elf2dmp', files('main.c', 'addrspace.c', 'download.c', 'pdb.c', 'qemu_elf.c'),
++  executable('elf2dmp', files('main.c', 'addrspace.c', 'download.c', 'pdb.c', 'qemu_elf.c'), genh,
+              dependencies: [glib, curl],
+              install: true)
+ endif
+diff --git a/contrib/ivshmem-client/meson.build b/contrib/ivshmem-client/meson.build
+index 1b171efb4f..ce8dcca84d 100644
+--- a/contrib/ivshmem-client/meson.build
++++ b/contrib/ivshmem-client/meson.build
+@@ -1,4 +1,4 @@
+-executable('ivshmem-client', files('ivshmem-client.c', 'main.c'),
++executable('ivshmem-client', files('ivshmem-client.c', 'main.c'), genh,
+            dependencies: glib,
+            build_by_default: targetos == 'linux',
+            install: false)
+diff --git a/contrib/ivshmem-server/meson.build b/contrib/ivshmem-server/meson.build
+index 3a53942201..c6c3c82e89 100644
+--- a/contrib/ivshmem-server/meson.build
++++ b/contrib/ivshmem-server/meson.build
+@@ -1,4 +1,4 @@
+-executable('ivshmem-server', files('ivshmem-server.c', 'main.c'),
++executable('ivshmem-server', files('ivshmem-server.c', 'main.c'), genh,
+            dependencies: [qemuutil, rt],
+            build_by_default: targetos == 'linux',
+            install: false)
+diff --git a/contrib/rdmacm-mux/meson.build b/contrib/rdmacm-mux/meson.build
+index 6cc5016747..7674f54cc5 100644
+--- a/contrib/rdmacm-mux/meson.build
++++ b/contrib/rdmacm-mux/meson.build
+@@ -2,7 +2,7 @@ if 'CONFIG_PVRDMA' in config_host
+   # if not found, CONFIG_PVRDMA should not be set
+   # FIXME: broken on big endian architectures
+   libumad = cc.find_library('ibumad', required: true)
+-  executable('rdmacm-mux', files('main.c'),
++  executable('rdmacm-mux', files('main.c'), genh,
+              dependencies: [glib, libumad],
+              build_by_default: false,
+              install: false)
 -- 
 2.33.1
 
