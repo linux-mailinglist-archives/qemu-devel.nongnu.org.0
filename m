@@ -2,127 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C25C47E919
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Dec 2021 22:33:31 +0100 (CET)
-Received: from localhost ([::1]:35324 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 981CF47E8E6
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Dec 2021 22:04:46 +0100 (CET)
+Received: from localhost ([::1]:34236 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n0ViM-0007gp-MP
-	for lists+qemu-devel@lfdr.de; Thu, 23 Dec 2021 16:33:30 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36946)
+	id 1n0VGX-0003NA-8S
+	for lists+qemu-devel@lfdr.de; Thu, 23 Dec 2021 16:04:45 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35796)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <i@zenithal.me>) id 1n0Rz3-0001LN-5D
- for qemu-devel@nongnu.org; Thu, 23 Dec 2021 12:34:29 -0500
-Received: from [2a01:111:f403:7010::711] (port=15881
- helo=JPN01-TYC-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n0VF6-0002bS-Q6
+ for qemu-devel@nongnu.org; Thu, 23 Dec 2021 16:03:16 -0500
+Received: from mout.kundenserver.de ([212.227.17.13]:50651)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <i@zenithal.me>) id 1n0Rz1-0000CW-Lu
- for qemu-devel@nongnu.org; Thu, 23 Dec 2021 12:34:28 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=VSap+fX2ifymkqOh3FDAVuqPyhlb8O0gMg3Mo18AMagummlw5/UEEK+LXjKWlku6vT4Wtcvhl/VtAn+0Uli3jgYIrJcD4kYIxA+zBonSDNmIWbWxwHS9PO4h8X9DyYcxL21yz4GMzWPAR6NylJ4dJbCLB/tIz2JGwHLM/viP4XMvYM3jfpCxYNoC9a/AEmLIc8cuH+jTl1BaH45nGo9MO2oaPCJlLeGY9wGAVaMCxotJ0zS7mSeaGhA/E+IRIWgA/8iEWxRORYYXyUfR6h08UnMMU5x0jbpVrnY0Bn+WHrLio8CJ5aCrE8VimubGm4yHiRmnvqeITR9QY27UGzbPgA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=afbpNv9F6HJOACakV3xKdAuYZSJBe0xyDasQxOohdLs=;
- b=BuajMkSSbbasdc0t1Uf+YCa/rbrIjAgOZrrV2bKIOeICwRwKVYKsTtTySvRAGsaxjTbY66NCRxp2uynApU346TVmIqRU+fj81sunPym4t8/yeAktdxerplvZIXTT7XHoZdQWcEPQJi8TrE1j+4ipZ0lLyLlrLeBJTVrJCPl3gAbYC1ubh3DaO9tjnHyzu4ztUR1t9cjJ+2sIbAJHnBpU9pOftmwJJzlfV3EZSWZXjB2Yo2khQfrgcbwYE8vsbJzg0mwtZGc0wvozIUbU5mc+MqqCAvp2PUceMzLoDlxcs1MBjbd/mRBvj6C9RpRXq4kI/63B5pPht65GILVxP4BcCw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=zenithal.me; dmarc=pass action=none header.from=zenithal.me;
- dkim=pass header.d=zenithal.me; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zenithal.me;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=afbpNv9F6HJOACakV3xKdAuYZSJBe0xyDasQxOohdLs=;
- b=e5v9O0B0sxSPazVouEFvHYKXLFkEEpDpoSmqln1ZAI2iqKake//wREyrDnRUdV6KKlK2eLqZYZxDNA3mEhnhQO3HC1M8YkzUFct2++Odw5mkoS9nHpc4gmPU1A5eaO9Z3H5jGFyGwXOCBRv3aNeVWbBpCd6RMobzXR5ffxQN5Wk=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=zenithal.me;
-Received: from TYCP286MB1393.JPNP286.PROD.OUTLOOK.COM (2603:1096:400:c0::6) by
- TYBP286MB0032.JPNP286.PROD.OUTLOOK.COM (2603:1096:404:801c::8) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4823.18; Thu, 23 Dec 2021 17:18:39 +0000
-Received: from TYCP286MB1393.JPNP286.PROD.OUTLOOK.COM
- ([fe80::5cf9:8c86:9001:90d9]) by TYCP286MB1393.JPNP286.PROD.OUTLOOK.COM
- ([fe80::5cf9:8c86:9001:90d9%7]) with mapi id 15.20.4823.021; Thu, 23 Dec 2021
- 17:18:39 +0000
-Date: Fri, 24 Dec 2021 01:18:37 +0800
-From: "Hongren (Zenithal) Zheng" <i@zenithal.me>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 6/6] MAINTAINERS: add myself as CanoKey maintainer
-Message-ID: <YcSvbX7z/B0mBWkh@Sun>
-References: <YcSt+qozrl+J8ool@Sun>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YcSt+qozrl+J8ool@Sun>
-X-Operating-System: Linux Sun 5.10.81
-X-Mailer: Mutt 2.1.3 (2021-09-10)
-X-ClientProxiedBy: HK2PR03CA0047.apcprd03.prod.outlook.com
- (2603:1096:202:17::17) To TYCP286MB1393.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:c0::6)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n0VF4-0005LS-Qd
+ for qemu-devel@nongnu.org; Thu, 23 Dec 2021 16:03:16 -0500
+Received: from [192.168.100.1] ([82.142.30.186]) by mrelayeu.kundenserver.de
+ (mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MLhsE-1miprk0MzY-00HghQ; Thu, 23 Dec 2021 22:03:12 +0100
+Message-ID: <e506a0b4-2505-d136-53f8-c1bcafc204a1@vivier.eu>
+Date: Thu, 23 Dec 2021 22:03:11 +0100
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 67f69d79-5e71-4718-a9e6-08d9c63842e9
-X-MS-TrafficTypeDiagnostic: TYBP286MB0032:EE_
-X-Microsoft-Antispam-PRVS: <TYBP286MB003244CA768B4CB1A828EBC4BC7E9@TYBP286MB0032.JPNP286.PROD.OUTLOOK.COM>
-X-MS-Oob-TLC-OOBClassifiers: OLM:214;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: u6T3n2pUKTKf+0W99BvWdOphuilj6G1hjAfxyXwce8VDaHiyswimoiE2tJW8FUwdXr67saMFJdAGcjBVQ4TEsiHuPTKxEyApTqg8RDdToWuJIbb4TXvrCk2FiHTHDtBbpoyhoJWPbGYHJa/FbOvu6CDSxgk/p3XyFYDX0ET3lfHChXplHOA3moiwA+iNMw+tWRA1TRLwkDxcmlJmsOGj9HSmcymWfZ2DEDNcwp+N0dC4KxaDWk0H2PdolJeV2Zv0cMr7un08vAdG8aY8GviEqEnVqU/Okl2IJGb7OrGiLGioAT+iiBxWVqj+tErtyvIbOTR6EinfY4sDsM0ynfgdlJXU59e1uOv4wIfP5JszNpETY6VSjfZhDEvTWlokHCV7wAtgp2/H5BMcaSG1/Js17KRFJYr4bVBrrh9ZZ4zKeFxocI/dmn3yg0DiPcz3J8VVMGi32UtkYrqgmF+WchYthOqAbwIyMqpahv2XYZcMWEq280gsYhvwQWsmpFRfBRwBctCEM2tt4DgST4ssGilrSe2NLu2kNfgYtiUO9YakzPPDxFaXYqM2AqwUv047DUXBVtO3qTMhAMnSMZ9SZdwwQiwjZYBWNXMP9wwdB/ZmapZvoipiDpkKafIVAfmc1vdrUhGqzChw6ijN9A9FeERxccK5yaqeys0Ig+gSru+1DyeLdkuJ6rmvuQwLUjK7lam8
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:TYCP286MB1393.JPNP286.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
- SFS:(7916004)(39830400003)(376002)(136003)(396003)(366004)(346002)(186003)(4744005)(4326008)(6512007)(9686003)(6486002)(52116002)(38100700002)(508600001)(5660300002)(6506007)(6916009)(66476007)(786003)(8676002)(2906002)(8936002)(66946007)(66556008)(316002)(86362001)(33716001)(49092004);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?oc0UMKjCVTgDhgVHW2AmSYuPuuuEPIz6i0Upinm9c1CyCLdHofmZbWtwfnhC?=
- =?us-ascii?Q?2wg8rezz8ZuT3Pv/UC1sJrpMY8QGtmKtN0VsSw13kcTsoCnTBVikZVb+i9hw?=
- =?us-ascii?Q?JNY1lGk4nN2DZOW/QYcsVnkMc0AenQluFvy9wJTbjQ3v2g571MIBMTSnR3k4?=
- =?us-ascii?Q?sTYQ1Q6sIuxfVVkLMataUj6/aooPUwf6deWLlkCM1RK5VkTWgS8nC5Dhg9sC?=
- =?us-ascii?Q?dFM/QdR/eneNmLFTx9Q8gk6960ytfFh9yhPhJgXxesmoDU/ZUJkHz47qtewv?=
- =?us-ascii?Q?Xq37aTKFzAy0aK5fhXTeCrMo08kCvctoizVk3wwZMPTFcer1Y12Dc+5a613i?=
- =?us-ascii?Q?0+eo3Bj7rvRBlz6Aqq60ZAQIbzXvMMCUoPEygztIy3rh9ehb4xadg13IMvMX?=
- =?us-ascii?Q?Y6JRRIMt8DjyAZYT2T/XoCk1WdWWdfTbexKBLVJ9Oaaxd4k7HY6XWt/063d7?=
- =?us-ascii?Q?w4pNbrDTMfFFVgVf+cRMYGizYGVgaz/6idZ/JLNp3tITj7h9m8CYORomZaBj?=
- =?us-ascii?Q?UCtKcXxUb8wlxAvL3oWcReZNSA4uuQxTa6tBkMl4zOUC+mljWZ1D+JSvkeJh?=
- =?us-ascii?Q?vPH2my2MkqPId0rUmg8D1lLA0XWZo9/9uepQ/SDNTQHGaCwuP0J0FFjIh04c?=
- =?us-ascii?Q?uWlb6TExXn/cDKhQQ61pLLWVUjyegH2IdTl22Ozh8pgwozxXWPYHV7cPdtDU?=
- =?us-ascii?Q?+bw2JMBeTyorH6sbhUYQSHJo9iFdngZRY6x3qARMPJsxOsmzHa/ewhbtAfe6?=
- =?us-ascii?Q?hUDEJh4odVvsmMRWFsT4udw5lxNMiX9PWVpJW62QtgEZbw9JLtSMvaanPSfp?=
- =?us-ascii?Q?IinT7QltUk7+oe6qWiEGewTtDmIWq8sizyu1vNFnLICmMGsHCMYWVL2yCCqN?=
- =?us-ascii?Q?bSF+asicmNoU8FNZuv1dxCox1mR2lC3q2xvqcVCco2zp3iROFaEiwhzYn16n?=
- =?us-ascii?Q?ZQviaX2EpK/d+riiPq0jVWAXIieV9AHmFSBLt4ls0yU198kBXG4vnBcXEW1i?=
- =?us-ascii?Q?cAqVZ8PlWolCu6HPZdRTS3FrLc5jC3Lr31Ud8zvFEaa9aRM3jN7DB++hqOeN?=
- =?us-ascii?Q?6LG6f00VCcSbCU3Pa61bOHeZ7jkHgRszIVRLQLHWi4/1cYT1AfS2ICeJzpfb?=
- =?us-ascii?Q?HQp8YmfYBKXXbiUQ7/Pq55C79hl8UXAW9CbmyQVDhmZk6hiTkCi2ACN4fxF/?=
- =?us-ascii?Q?Waz/UUiiJ043FTnoDFkdG9qOVMFMeO9Bx0Mqgw50W3zmn7x94fnXMWNMG4to?=
- =?us-ascii?Q?8cfpM2nUrwR77ZfeyGQCckYo76enQ6uFayxFZyJ91haMCM91PoMsgg9H8adX?=
- =?us-ascii?Q?IO9LDUqpfpP+R/myvmAi4Uan/iqAOQNYQEK6GYQJKh62yIV6UxiuUu2BiMfD?=
- =?us-ascii?Q?zicaSCjVHytGAdydumoJGMhEduunHcBYixMw/5P7nWwgIhTeKh5HqXzUpe50?=
- =?us-ascii?Q?ib9pPjFvelRH7GcNjRRhf/RhlgHIWC7Xy5n7jf97TEA3EshuENZICFh4pMTe?=
- =?us-ascii?Q?tUSgUnKCSIMnAR7LhDBF85F+4LWQR067GMIblgxqxeq2QRBExRLDRp60H0jc?=
- =?us-ascii?Q?k186OF90PkmZDqMxIdR3iFzG2//K1YiV62wj54nx?=
-X-OriginatorOrg: zenithal.me
-X-MS-Exchange-CrossTenant-Network-Message-Id: 67f69d79-5e71-4718-a9e6-08d9c63842e9
-X-MS-Exchange-CrossTenant-AuthSource: TYCP286MB1393.JPNP286.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Dec 2021 17:18:39.4587 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 436d481c-43b1-4418-8d7f-84c1e4887cf0
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: STzuHJioLQ5cIqRgKCZZHjc+UR/hFtjyObDNk8cS6RPcAR3nvoeR+pZWcDEyp8my
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYBP286MB0032
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a01:111:f403:7010::711
- (failed)
-Received-SPF: pass client-ip=2a01:111:f403:7010::711;
- envelope-from=i@zenithal.me;
- helo=JPN01-TYC-obe.outbound.protection.outlook.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, RDNS_NONE=0.793,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Content-Language: fr
+To: Tonis Tiigi <tonistiigi@gmail.com>, qemu-devel@nongnu.org
+References: <20211223064728.18048-1-tonistiigi@gmail.com>
+ <20211223064728.18048-2-tonistiigi@gmail.com>
+From: Laurent Vivier <laurent@vivier.eu>
+Subject: Re: [PATCH v3 1/2] linux-user: add sched_getattr support
+In-Reply-To: <20211223064728.18048-2-tonistiigi@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:ysC3bBNXHphj0p/nS00SeciFweFdShwgA3aNHBn9q2sEVeUR/oe
+ aPTlmCIpnAnT+i7gA/Ov+A7yXAhg4cQfFt29tjl2k/MNnqhj27c2ajOI6NS/1OHDbPJQPJV
+ 5ql9zaarwbsB1TJkzpmZSiE+FmZ/ugPM84kfYtmcNl5LdaGiH0l9iOthibNpUu5DEWpfvY5
+ R4ocBA6noJrKdNRp2ejTA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:R89hJuzagJE=:vz103Gznr9XoJ0bzRAsZu5
+ jbYCYlnc8AjHiybRk56ueQkLABnKw6XL9/b89ki83DpSP1+DUs1pC6DS4/3TXsC06lCwzsz/h
+ bWKCWZdcnic9nXKO8r//3kvsISb6urBU7oTAQtB6TbbzLEfT6kz8/c6KqQgoolm3IRI3c6IUe
+ WmFn2FTXRYdrTlcExDiQK4eKSCfRxMv3G9kSh7NLSwtXZGsHJBsVbHC4YEBJhmFF7aSEElBRG
+ yO2mTtJ5YRtAvLUYHWNZ/XON4hT4MP+SyTLNIIj9NVyBII1AFAffFEYStNt4XPEJCRttnHPOq
+ FgK8BKGIhncGQKsgujRUSxDx6wwJxugfcYEvf15LXpA51q4btN8ugoCrmZcZRxsxRhS9pgSXn
+ PfsOwOrYsHw1cegnRaT3M5lCr5wp1eYdwsKY2BlEewVeLu4e3PQ1GO6OZ8napUigzNNkLjxoW
+ MAZwrYb6fj0FLvjc9mQlrH2R6T2GckBQKKYMP5iByRc3aKB0IszA5b0qDzXmDY6lifvliil6S
+ LztyWAY2bjMM1p0Z5mqDEFGKzV3yaCEwnkxK5H3Kf2kGb1pdHIoQmCYEHtKobde1d1olq/kaz
+ scSFHQnByiRzv4Amo+1/j8+F69UcWoYcEv7q23R8P64PxmAodxvgYd7763b6ZUqWvBbCJ7ECD
+ wO6Qb4zJeBVwCx5fo6z6PXN1gyhxqdG9Lh6lZBoXc4IuIxpzSzSDQ/OgCXmyz9/nn+xM=
+Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.264,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Thu, 23 Dec 2021 16:25:05 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -134,34 +69,175 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Gerd Hoffmann <kraxel@redhat.com>, contact@canokeys.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Hongren (Zenithal) Zheng <i@zenithal.me>
----
- MAINTAINERS | 8 ++++++++
- 1 file changed, 8 insertions(+)
+Le 23/12/2021 à 07:47, Tonis Tiigi a écrit :
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 5456536805..522b0e5687 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2295,6 +2295,14 @@ F: hw/timer/mips_gictimer.c
- F: include/hw/intc/mips_gic.h
- F: include/hw/timer/mips_gictimer.h
- 
-+CanoKey
-+M: Hongren (Zenithal) Zheng <i@zenithal.me>
-+S: Maintained
-+R: Canokeys.org <contact@canokeys.org>
-+F: hw/usb/canokey.c
-+F: hw/usb/canokey.h
-+F: docs/canokey.txt
-+
- Subsystems
- ----------
- Overall Audio backends
--- 
-2.34.0
+Please copy here what you explain in PATCH 0 regarding this patch.
+(do the same for PATCH 1)
+
+> Signed-off-by: Tonis Tiigi <tonistiigi@gmail.com>
+> ---
+>   linux-user/syscall.c      | 94 +++++++++++++++++++++++++++++++++++++++
+>   linux-user/syscall_defs.h | 14 ++++++
+>   2 files changed, 108 insertions(+)
+> 
+> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+> index f1cfcc8104..2f5a0fac5a 100644
+> --- a/linux-user/syscall.c
+> +++ b/linux-user/syscall.c
+> @@ -339,6 +339,12 @@ _syscall3(int, sys_sched_getaffinity, pid_t, pid, unsigned int, len,
+>   #define __NR_sys_sched_setaffinity __NR_sched_setaffinity
+>   _syscall3(int, sys_sched_setaffinity, pid_t, pid, unsigned int, len,
+>             unsigned long *, user_mask_ptr);
+> +#define __NR_sys_sched_getattr __NR_sched_getattr
+> +_syscall4(int, sys_sched_getattr, pid_t, pid, struct target_sched_attr *, attr,
+> +          unsigned int, size, unsigned int, flags);
+> +#define __NR_sys_sched_setattr __NR_sched_setattr
+> +_syscall3(int, sys_sched_setattr, pid_t, pid, struct target_sched_attr *, attr,
+> +          unsigned int, flags);
+>   #define __NR_sys_getcpu __NR_getcpu
+>   _syscall3(int, sys_getcpu, unsigned *, cpu, unsigned *, node, void *, tcache);
+>   _syscall4(int, reboot, int, magic1, int, magic2, unsigned int, cmd,
+> @@ -10593,6 +10599,94 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+>           }
+>       case TARGET_NR_sched_getscheduler:
+>           return get_errno(sched_getscheduler(arg1));
+> +    case TARGET_NR_sched_getattr:
+> +        {
+> +            struct target_sched_attr *target_scha;
+> +            struct target_sched_attr scha;
+
+In fact, this scha is used with the host syscall, so it must be  sched_attr.
+
+> +            if (arg2 == 0) {
+> +                return -TARGET_EINVAL;
+> +            }
+> +            if (arg3 > sizeof(scha)) {
+> +                arg3 = sizeof(scha);
+> +            }
+> +            ret = get_errno(sys_sched_getattr(arg1, &scha, arg3, arg4));
+> +            if (!is_error(ret)) {
+> +                target_scha = lock_user(VERIFY_WRITE, arg2, arg3, 0);
+> +                if (!target_scha) {
+> +                    return -TARGET_EFAULT;
+> +                }
+> +                target_scha->size = tswap32(scha.size);
+> +                target_scha->sched_policy = tswap32(scha.sched_policy);
+> +                target_scha->sched_flags = tswap64(scha.sched_flags);
+> +                target_scha->sched_nice = tswap32(scha.sched_nice);
+> +                target_scha->sched_priority = tswap32(scha.sched_priority);
+> +                target_scha->sched_runtime = tswap64(scha.sched_runtime);
+> +                target_scha->sched_deadline = tswap64(scha.sched_deadline);
+> +                target_scha->sched_period = tswap64(scha.sched_period);
+> +                if (scha.size > offsetof(struct target_sched_attr, sched_util_min)) {
+> +                    target_scha->sched_util_min = tswap32(scha.sched_util_min);
+> +                    target_scha->sched_util_max = tswap32(scha.sched_util_max);
+> +                }
+> +                unlock_user(target_scha, arg2, arg3);
+> +            }
+> +            return ret;
+> +        }
+> +    case TARGET_NR_sched_setattr:
+> +        {
+> +            struct target_sched_attr *target_scha;
+> +            struct target_sched_attr scha;
+
+scha is sched_attr as it is used with the host syscall.
+
+
+> +            if (arg2 == 0) {
+> +                return -TARGET_EINVAL;
+> +            }
+> +            uint32_t size;
+
+QEMU coding style doesn't allow to mix declarations and statements.
+
+> +            if (get_user_u32(size, arg2)) {
+> +                return -TARGET_EFAULT;
+> +            }
+> +            if (!size) {
+> +                size = offsetof(struct target_sched_attr, sched_util_min);
+> +            }
+> +            if (size < offsetof(struct target_sched_attr, sched_util_min)) {
+> +                if (put_user_u32(sizeof(struct target_sched_attr), arg2)) {
+> +                    return -TARGET_EFAULT;
+> +                }
+> +                return -TARGET_E2BIG;
+> +            }
+> +
+> +            if (size > sizeof(scha)) {
+> +                for (int i = sizeof(scha); i < size; i++) {
+> +                    uint8_t b;
+> +                    if (get_user_u8(b, arg2 + i)) {
+> +                        return -TARGET_EFAULT;
+> +                    }
+> +                    if (b != 0) {
+> +                        if (put_user_u32(sizeof(struct target_sched_attr), arg2)) {
+> +                            return -TARGET_EFAULT;
+> +                        }
+> +                        return -TARGET_E2BIG;
+> +                    }
+> +                }
+> +                size = sizeof(scha);
+> +            }
+
+I guess this is the code to mimic kernel copy_struct_from_user(), the part when usize > ksize.
+
+It's a little bit ugly, but I can't disagree because the kernel does the same.
+
+except that the kernel check for unsigned rather than for 8bit. Could you change that?
+
+The best would be to define check_zeroed_user() in Qemu and use it here.
+
+> +
+> +            target_scha = lock_user(VERIFY_READ, arg2, size, 1);
+> +            if (!target_scha) {
+> +                return -TARGET_EFAULT;
+> +            }
+> +            scha.size = size;
+> +            scha.sched_policy = tswap32(target_scha->sched_policy);
+> +            scha.sched_flags = tswap64(target_scha->sched_flags);
+> +            scha.sched_nice = tswap32(target_scha->sched_nice);
+> +            scha.sched_priority = tswap32(target_scha->sched_priority);
+> +            scha.sched_runtime = tswap64(target_scha->sched_runtime);
+> +            scha.sched_deadline = tswap64(target_scha->sched_deadline);
+> +            scha.sched_period = tswap64(target_scha->sched_period);
+> +            if (size > offsetof(struct target_sched_attr, sched_util_min)) {
+> +                scha.sched_util_min = tswap32(target_scha->sched_util_min);
+> +                scha.sched_util_max = tswap32(target_scha->sched_util_max);
+> +            }
+> +            unlock_user(target_scha, arg2, 0);
+> +            return get_errno(sys_sched_setattr(arg1, &scha, arg3));
+> +        }
+>       case TARGET_NR_sched_yield:
+>           return get_errno(sched_yield());
+>       case TARGET_NR_sched_get_priority_max:
+> diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
+> index 0b13975937..310d6ce8ad 100644
+> --- a/linux-user/syscall_defs.h
+> +++ b/linux-user/syscall_defs.h
+> @@ -2914,4 +2914,18 @@ struct target_statx {
+>      /* 0x100 */
+>   };
+>   
+> +/* from kernel's include/linux/sched/types.h */
+> +struct target_sched_attr {
+> +    abi_uint size;
+> +    abi_uint sched_policy;
+> +    abi_ullong sched_flags;
+> +    abi_int sched_nice;
+> +    abi_uint sched_priority;
+> +    abi_ullong sched_runtime;
+> +    abi_ullong sched_deadline;
+> +    abi_ullong sched_period;
+> +    abi_uint sched_util_min;
+> +    abi_uint sched_util_max;
+> +};
+> +
+>   #endif
+
+Thanks,
+Laurent
 
