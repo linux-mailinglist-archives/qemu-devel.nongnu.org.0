@@ -2,54 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01FA847DE50
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Dec 2021 05:36:14 +0100 (CET)
-Received: from localhost ([::1]:37516 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5ED5147DEE7
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Dec 2021 07:08:06 +0100 (CET)
+Received: from localhost ([::1]:60332 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n0Fps-00078a-Nk
-	for lists+qemu-devel@lfdr.de; Wed, 22 Dec 2021 23:36:12 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59332)
+	id 1n0HGm-0001PZ-Tt
+	for lists+qemu-devel@lfdr.de; Thu, 23 Dec 2021 01:08:04 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44496)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1n0FmF-0005My-C1; Wed, 22 Dec 2021 23:32:27 -0500
-Received: from [2404:9400:2:0:216:3eff:fee2:21ea] (port=53197
- helo=gandalf.ozlabs.org)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1n0FmC-0005Pg-5G; Wed, 22 Dec 2021 23:32:26 -0500
-Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
- id 4JKHNG2V7dz4xgw; Thu, 23 Dec 2021 15:32:14 +1100 (AEDT)
+ (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
+ id 1n0HCZ-00081T-QH
+ for qemu-devel@nongnu.org; Thu, 23 Dec 2021 01:03:44 -0500
+Received: from [2a00:1450:4864:20::32a] (port=39865
+ helo=mail-wm1-x32a.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
+ id 1n0HCX-0002zb-3E
+ for qemu-devel@nongnu.org; Thu, 23 Dec 2021 01:03:43 -0500
+Received: by mail-wm1-x32a.google.com with SMTP id
+ g7-20020a7bc4c7000000b00345c4bb365aso2298250wmk.4
+ for <qemu-devel@nongnu.org>; Wed, 22 Dec 2021 22:03:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gibson.dropbear.id.au; s=201602; t=1640233934;
- bh=7NRePnoN0kQFSY31MJuK6lQ2jVYqfu1KhzpK1Gvx9jY=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=jhsDFuWF9xA5ATKSQ6ZYIH1Pa5DfTR0TkLaagr+qsLi8uNrXR66ST5HkD5s3qx4Lw
- OPwFYfVfEBImduzdxe6pkMLvTWXZzZoGR2sWDxgt8Fh6L6/kQmS3n/+fiGS114z+CZ
- xxcMp3fVLHLxIyzIaqJaam09lU4oq1aebgG4EIQY=
-Date: Thu, 23 Dec 2021 15:26:30 +1100
-From: David Gibson <david@gibson.dropbear.id.au>
-To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
-Subject: Re: [PATCH 2/8] ppc/ppc4xx: Convert printfs()
-Message-ID: <YcP6dikn0wlyZWmU@yekko>
-References: <20211222064025.1541490-1-clg@kaod.org>
- <20211222064025.1541490-3-clg@kaod.org>
+ d=brainfault-org.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=3caBhlPnw6aHH8KEIm6pQhxgZy1/oy+G+2XrX1G70Ec=;
+ b=P7fCO6KWGg9sgrtZy682EyeIfvdxuhSxoLV3NgsKuEZ8hvXr5ZNk4gLa4V8Xrd2oKx
+ KT0L22MWaGv+r5s68gbcjeq7FDeU42uQcuw/YWeGIDD0iQkNclvLtrNf7HKjxw9KgsDl
+ XK32xKdGUCk1en7F+b68wVewKM7Wact/dgLXAtGVrSNJp0PGycgc+Jq89vDul9ACVL9C
+ P1DsMy+fesoC/zSHDZoQwxHpQUBypANSyS2dK23zXAWxA5pcFWrLYJ2kEtr+aHZJZ3w3
+ 2GzgkszH/DDqjJ+Yk9ndw7wTlahQv1kpQ2xleL/Dxv+NRak35eDkRj/KnOAd6oQCJomq
+ A4IA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=3caBhlPnw6aHH8KEIm6pQhxgZy1/oy+G+2XrX1G70Ec=;
+ b=pfOpJvxtCKu95p5oUTjZhpt19jh1Q8WxElnxwG4zQE6I8IPxYJO1Xbv6qBvJcCEAmN
+ VIvJ3cKEN1DnSVw9ONn5JyDsGNaSCkI3CJ72E0e/up98KyY19W7WMO8Lf1+ABG8eVTff
+ D1z6hfQr6sYZmXu77QWqAkxxm5ibncd0wKNd49eYMTYVY7qsng5fVUDZhx4O9ApeTsKl
+ 8XSVMb6mX0FtJGcK+3MWegvt+lnxGP1QRgxTnSmk6I0sAsa/g+nq9MIVZ/8J7iSUDrJ3
+ Vv3wJydCsdciCcLCAu9VEngX/xuaMphBa0ISK9TRoZQ2UxE/JRgiaixftNe3C/ZJDuoe
+ iINw==
+X-Gm-Message-State: AOAM533+BlL9GVHd7Hy7UwKMCdvcBWOzz/NAxl7cD4xLoo+yXbN8m58Z
+ Z7gb2wApb7k39URQbfBhI+ROn/WjAghK6XJDXJG0Tw==
+X-Google-Smtp-Source: ABdhPJx8iwYyBWWqhEg3SvvcKEjjSkJysu/JkGIVGUk4UOjLIuW1ZmwKd/ecaaheENKkoDRjrTNfSN5cVp9VyBodFeo=
+X-Received: by 2002:a7b:c017:: with SMTP id c23mr474507wmb.137.1640239419278; 
+ Wed, 22 Dec 2021 22:03:39 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="IbUvyuDO/G4CFRZg"
-Content-Disposition: inline
-In-Reply-To: <20211222064025.1541490-3-clg@kaod.org>
-X-Host-Lookup-Failed: Reverse DNS lookup failed for
- 2404:9400:2:0:216:3eff:fee2:21ea (failed)
-Received-SPF: pass client-ip=2404:9400:2:0:216:3eff:fee2:21ea;
- envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
-X-Spam_score_int: -9
-X-Spam_score: -1.0
+References: <20211220130919.413-1-jiangyifei@huawei.com>
+ <20211220130919.413-7-jiangyifei@huawei.com>
+In-Reply-To: <20211220130919.413-7-jiangyifei@huawei.com>
+From: Anup Patel <anup@brainfault.org>
+Date: Thu, 23 Dec 2021 11:33:27 +0530
+Message-ID: <CAAhSdy1=wRLZ_HAPgkmu7LUAWdQAic5pf-wDahuGX7rLEFA93g@mail.gmail.com>
+Subject: Re: [PATCH v3 06/12] target/riscv: Support start kernel directly by
+ KVM
+To: Yifei Jiang <jiangyifei@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32a
+ (failed)
+Received-SPF: none client-ip=2a00:1450:4864:20::32a;
+ envelope-from=anup@brainfault.org; helo=mail-wm1-x32a.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
 X-Spam_bar: -
-X-Spam_report: (-1.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RDNS_NONE=0.793, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -62,249 +82,438 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>
+Cc: Bin Meng <bin.meng@windriver.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Mingwang Li <limingwang@huawei.com>, KVM General <kvm@vger.kernel.org>,
+ libvir-list@redhat.com, Anup Patel <anup.patel@wdc.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, wanbo13@huawei.com,
+ Palmer Dabbelt <palmer@dabbelt.com>, kvm-riscv@lists.infradead.org,
+ wanghaibin.wang@huawei.com, Alistair Francis <Alistair.Francis@wdc.com>,
+ fanliang@huawei.com, "Wubin \(H\)" <wu.wubin@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
---IbUvyuDO/G4CFRZg
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, Dec 22, 2021 at 07:40:19AM +0100, C=E9dric le Goater wrote:
-> Use a QEMU log primitive for errors and trace events for debug.
->=20
-> Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
-
-Reviewed-by: David Gibson <david@gibson.drobear.id.au>
-
+On Mon, Dec 20, 2021 at 6:39 PM Yifei Jiang <jiangyifei@huawei.com> wrote:
+>
+> Get kernel and fdt start address in virt.c, and pass them to KVM
+> when cpu reset. Add kvm_riscv.h to place riscv specific interface.
+>
+> In addition, PLIC is created without M-mode PLIC contexts when KVM
+> is enabled.
+>
+> Signed-off-by: Yifei Jiang <jiangyifei@huawei.com>
+> Signed-off-by: Mingwang Li <limingwang@huawei.com>
+> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 > ---
->  hw/ppc/mpc8544_guts.c |  9 ++++++---
->  hw/ppc/ppc4xx_devs.c  | 39 +++++++++++----------------------------
->  hw/ppc/ppc4xx_pci.c   | 11 +++++++----
->  hw/ppc/trace-events   |  5 +++++
->  4 files changed, 29 insertions(+), 35 deletions(-)
->=20
-> diff --git a/hw/ppc/mpc8544_guts.c b/hw/ppc/mpc8544_guts.c
-> index e8d2d51c20c0..a26e83d0484b 100644
-> --- a/hw/ppc/mpc8544_guts.c
-> +++ b/hw/ppc/mpc8544_guts.c
-> @@ -19,6 +19,7 @@
-> =20
->  #include "qemu/osdep.h"
->  #include "qemu/module.h"
-> +#include "qemu/log.h"
->  #include "sysemu/runstate.h"
->  #include "cpu.h"
->  #include "hw/sysbus.h"
-> @@ -82,7 +83,9 @@ static uint64_t mpc8544_guts_read(void *opaque, hwaddr =
-addr,
->          value =3D env->spr[SPR_E500_SVR];
->          break;
->      default:
-> -        fprintf(stderr, "guts: Unknown register read: %x\n", (int)addr);
-> +        qemu_log_mask(LOG_GUEST_ERROR,
-> +                      "%s: Unknown register 0x%" HWADDR_PRIx "\n",
-> +                      __func__, addr);
->          break;
->      }
-> =20
-> @@ -101,8 +104,8 @@ static void mpc8544_guts_write(void *opaque, hwaddr a=
-ddr,
->          }
->          break;
->      default:
-> -        fprintf(stderr, "guts: Unknown register write: %x =3D %x\n",
-> -                (int)addr, (unsigned)value);
-> +        qemu_log_mask(LOG_GUEST_ERROR, "%s: Unknown register 0x%" HWADDR=
-_PRIx
-> +                       " =3D 0x%" PRIx64 "\n", __func__, addr, value);
->          break;
->      }
->  }
-> diff --git a/hw/ppc/ppc4xx_devs.c b/hw/ppc/ppc4xx_devs.c
-> index 980c48944fc7..e7d82ae5016c 100644
-> --- a/hw/ppc/ppc4xx_devs.c
-> +++ b/hw/ppc/ppc4xx_devs.c
-> @@ -35,14 +35,7 @@
->  #include "exec/address-spaces.h"
->  #include "qemu/error-report.h"
->  #include "qapi/error.h"
-> -
-> -/*#define DEBUG_UIC*/
-> -
-> -#ifdef DEBUG_UIC
-> -#  define LOG_UIC(...) qemu_log_mask(CPU_LOG_INT, ## __VA_ARGS__)
-> -#else
-> -#  define LOG_UIC(...) do { } while (0)
-> -#endif
-> +#include "trace.h"
-> =20
->  static void ppc4xx_reset(void *opaque)
->  {
-> @@ -137,8 +130,9 @@ static uint32_t sdram_bcr (hwaddr ram_base,
->          bcr =3D 0x000C0000;
->          break;
->      default:
-> -        printf("%s: invalid RAM size " TARGET_FMT_plx "\n", __func__,
-> -               ram_size);
-> +        qemu_log_mask(LOG_GUEST_ERROR,
-> +                      "%s: invalid RAM size 0x%" HWADDR_PRIx "\n", __fun=
-c__,
-> +                      ram_size);
->          return 0x00000000;
->      }
->      bcr |=3D ram_base & 0xFF800000;
-> @@ -171,10 +165,8 @@ static void sdram_set_bcr(ppc4xx_sdram_t *sdram, int=
- i,
->  {
->      if (sdram->bcr[i] & 0x00000001) {
->          /* Unmap RAM */
-> -#ifdef DEBUG_SDRAM
-> -        printf("%s: unmap RAM area " TARGET_FMT_plx " " TARGET_FMT_lx "\=
-n",
-> -               __func__, sdram_base(sdram->bcr[i]), sdram_size(sdram->bc=
-r[i]));
-> -#endif
-> +        trace_ppc4xx_sdram_unmap(sdram_base(sdram->bcr[i]),
-> +                                 sdram_size(sdram->bcr[i]));
->          memory_region_del_subregion(get_system_memory(),
->                                      &sdram->containers[i]);
->          memory_region_del_subregion(&sdram->containers[i],
-> @@ -183,10 +175,7 @@ static void sdram_set_bcr(ppc4xx_sdram_t *sdram, int=
- i,
->      }
->      sdram->bcr[i] =3D bcr & 0xFFDEE001;
->      if (enabled && (bcr & 0x00000001)) {
-> -#ifdef DEBUG_SDRAM
-> -        printf("%s: Map RAM area " TARGET_FMT_plx " " TARGET_FMT_lx "\n",
-> -               __func__, sdram_base(bcr), sdram_size(bcr));
-> -#endif
-> +        trace_ppc4xx_sdram_unmap(sdram_base(bcr), sdram_size(bcr));
->          memory_region_init(&sdram->containers[i], NULL, "sdram-container=
-s",
->                             sdram_size(bcr));
->          memory_region_add_subregion(&sdram->containers[i], 0,
-> @@ -216,10 +205,8 @@ static void sdram_unmap_bcr (ppc4xx_sdram_t *sdram)
->      int i;
-> =20
->      for (i =3D 0; i < sdram->nbanks; i++) {
-> -#ifdef DEBUG_SDRAM
-> -        printf("%s: Unmap RAM area " TARGET_FMT_plx " " TARGET_FMT_lx "\=
-n",
-> -               __func__, sdram_base(sdram->bcr[i]), sdram_size(sdram->bc=
-r[i]));
-> -#endif
-> +        trace_ppc4xx_sdram_unmap(sdram_base(sdram->bcr[i]),
-> +                                 sdram_size(sdram->bcr[i]));
->          memory_region_del_subregion(get_system_memory(),
->                                      &sdram->ram_memories[i]);
->      }
-> @@ -316,16 +303,12 @@ static void dcr_write_sdram (void *opaque, int dcrn=
-, uint32_t val)
->          case 0x20: /* SDRAM_CFG */
->              val &=3D 0xFFE00000;
->              if (!(sdram->cfg & 0x80000000) && (val & 0x80000000)) {
-> -#ifdef DEBUG_SDRAM
-> -                printf("%s: enable SDRAM controller\n", __func__);
-> -#endif
-> +                trace_ppc4xx_sdram_enable("enable");
->                  /* validate all RAM mappings */
->                  sdram_map_bcr(sdram);
->                  sdram->status &=3D ~0x80000000;
->              } else if ((sdram->cfg & 0x80000000) && !(val & 0x80000000))=
- {
-> -#ifdef DEBUG_SDRAM
-> -                printf("%s: disable SDRAM controller\n", __func__);
-> -#endif
-> +                trace_ppc4xx_sdram_enable("disable");
->                  /* invalidate all RAM mappings */
->                  sdram_unmap_bcr(sdram);
->                  sdram->status |=3D 0x80000000;
-> diff --git a/hw/ppc/ppc4xx_pci.c b/hw/ppc/ppc4xx_pci.c
-> index 304a29349c2e..5df97e6d156f 100644
-> --- a/hw/ppc/ppc4xx_pci.c
-> +++ b/hw/ppc/ppc4xx_pci.c
-> @@ -20,6 +20,7 @@
->   * 4xx SoCs, such as the 440EP. */
-> =20
->  #include "qemu/osdep.h"
-> +#include "qemu/log.h"
+>  hw/intc/sifive_plic.c    |  8 +++-
+>  hw/riscv/boot.c          | 16 +++++++-
+>  hw/riscv/virt.c          | 87 ++++++++++++++++++++++++++++------------
+>  include/hw/riscv/boot.h  |  1 +
+>  target/riscv/cpu.c       |  8 ++++
+>  target/riscv/cpu.h       |  3 ++
+>  target/riscv/kvm-stub.c  | 25 ++++++++++++
+>  target/riscv/kvm.c       | 14 +++++++
+>  target/riscv/kvm_riscv.h | 24 +++++++++++
+>  target/riscv/meson.build |  2 +-
+>  10 files changed, 159 insertions(+), 29 deletions(-)
+>  create mode 100644 target/riscv/kvm-stub.c
+>  create mode 100644 target/riscv/kvm_riscv.h
+>
+> diff --git a/hw/intc/sifive_plic.c b/hw/intc/sifive_plic.c
+> index 877e76877c..1b2b4cc25e 100644
+> --- a/hw/intc/sifive_plic.c
+> +++ b/hw/intc/sifive_plic.c
+> @@ -30,6 +30,7 @@
+>  #include "target/riscv/cpu.h"
+>  #include "migration/vmstate.h"
 >  #include "hw/irq.h"
->  #include "hw/ppc/ppc.h"
->  #include "hw/ppc/ppc4xx.h"
-> @@ -152,8 +153,9 @@ static void ppc4xx_pci_reg_write4(void *opaque, hwadd=
-r offset,
->          break;
-> =20
->      default:
-> -        printf("%s: unhandled PCI internal register 0x%lx\n", __func__,
-> -               (unsigned long)offset);
-> +        qemu_log_mask(LOG_GUEST_ERROR,
-> +                     "%s: unhandled PCI internal register 0x%" HWADDR_PR=
-Ix "\n",
-> +                     __func__, offset);
->          break;
->      }
->  }
-> @@ -218,8 +220,9 @@ static uint64_t ppc4xx_pci_reg_read4(void *opaque, hw=
-addr offset,
->          break;
-> =20
->      default:
-> -        printf("%s: invalid PCI internal register 0x%lx\n", __func__,
-> -               (unsigned long)offset);
-> +        qemu_log_mask(LOG_GUEST_ERROR,
-> +                      "%s: invalid PCI internal register 0x%" HWADDR_PRI=
-x "\n",
-> +                      __func__, offset);
->          value =3D 0;
->      }
-> =20
-> diff --git a/hw/ppc/trace-events b/hw/ppc/trace-events
-> index ada644652d94..0c55aa501471 100644
-> --- a/hw/ppc/trace-events
-> +++ b/hw/ppc/trace-events
-> @@ -164,3 +164,8 @@ ppc4xx_gpt_init(uint64_t addr) "offet 0x%" PRIx64
-> =20
->  ppc405ep_clocks_compute(const char *param, uint32_t param2, uint32_t val=
-) "%s 0x%1" PRIx32 " %d"
->  ppc405ep_clocks_setup(const char *trace) "%s"
+> +#include "sysemu/kvm.h"
+>
+>  #define RISCV_DEBUG_PLIC 0
+>
+> @@ -555,8 +556,11 @@ DeviceState *sifive_plic_create(hwaddr addr, char *hart_config,
+>
+>          qdev_connect_gpio_out(dev, i,
+>                                qdev_get_gpio_in(DEVICE(cpu), IRQ_S_EXT));
+> -        qdev_connect_gpio_out(dev, num_harts + i,
+> -                              qdev_get_gpio_in(DEVICE(cpu), IRQ_M_EXT));
 > +
-> +# ppc4xx_devs.c
-> +ppc4xx_sdram_enable(const char *trace) "%s SDRAM controller"
-> +ppc4xx_sdram_unmap(uint64_t addr, uint64_t size) "Unmap RAM area 0x%" PR=
-Ix64 " size 0x%" PRIx64
-> +ppc4xx_sdram_map(uint64_t addr, uint64_t size) "Map RAM area 0x%" PRIx64=
- " size 0x%" PRIx64
+> +        if (!kvm_enabled()) {
+> +            qdev_connect_gpio_out(dev, num_harts + i,
+> +                                  qdev_get_gpio_in(DEVICE(cpu), IRQ_M_EXT));
+> +        }
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+We should have any KVM enabled check in interrupt controller emulators
+instead I suggest to re-write the for-loop in sifive_plic_create() as follows:
 
---IbUvyuDO/G4CFRZg
-Content-Type: application/pgp-signature; name="signature.asc"
+SiFivePLICState *plic;
 
------BEGIN PGP SIGNATURE-----
+(....)
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmHD+nYACgkQbDjKyiDZ
-s5J7WhAA1WZTuSzH7DnK8ABQu0ureaePFmqXIVoOoWChzTym4WsGFY0WU25EHRDc
-OB1+Cw7vyAcdwPmVz/5Dq4CIPAHDeBkuY8WVPy+HIvNxhfv7v6JYB7lKQklSCPY2
-5vjbsfnMTW2zahdFoDO2hsaeZcIZSvtmyrzXy2tgTEA/p086CWBo9f3Cw+y0HMUA
-Bv0K8IwyOO0uK+Ov/1exZSg7qiJEyagLY5CTd1X4ybUCUt6qmv8YQCXzPqS2BQCJ
-9lEVAxKOzJETPCyzLTC5ktdsrFN7/3rRJohtdx+lcmadFjIqlt2duo8Q8koa07xB
-yK9c+38n84Iejv20pkM4XsBkOEAtNGQCuxmToDkeNCSD84qTEMpb9MoImEWsLIcS
-R77jQnw7lxTlY9DNux22SGZ9fReQHQFnsPg7vY9qK1iGwY65yyhAEEpVkhIq4ERT
-bVhFXXIDCJCe/rRFCtQrzEMA2meFaUdZU4FdOdvixfzy7kocLE49/FWqM0E6YlIH
-0vM0LFvhpjnFsnuE9Yq0EGvpJ+vRqW2p3qEqKKjTzFbW/Skv3v1ZInaIkVeCthuM
-Q2na0d9bqT84fQUqgEObo1xT56BXvY3aLwUoWAa3kzE1YPXsEbTmdxNs7LbRzI2j
-UqPf4Snpa+6LiJ+GlTm8ZkA6EZSlf0mXjEtcfMaSvkNBEiA2Y5U=
-=Htt4
------END PGP SIGNATURE-----
+plic = SIFIVE_PLIC(dev);
+for (i = 0; i < plic->num_addrs; i++) {
+    CPUState *cpu = qemu_get_cpu(plic->addr_config[i].hartid);
 
---IbUvyuDO/G4CFRZg--
+   if (plic->addr_mode[i] == PLICMode_S) {
+       qdev_connect_gpio_out(dev, i,
+            qdev_get_gpio_in(DEVICE(cpu), IRQ_S_EXT));
+   }
+   if (plic->addr_mode[i] == PLICMode_M) {
+        qdev_connect_gpio_out(dev, num_harts + i,
+            qdev_get_gpio_in(DEVICE(cpu), IRQ_M_EXT));
+    }
+}
+
+>      }
+>
+>      return dev;
+> diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
+> index 519fa455a1..ccff662d89 100644
+> --- a/hw/riscv/boot.c
+> +++ b/hw/riscv/boot.c
+> @@ -30,6 +30,7 @@
+>  #include "elf.h"
+>  #include "sysemu/device_tree.h"
+>  #include "sysemu/qtest.h"
+> +#include "sysemu/kvm.h"
+>
+>  #include <libfdt.h>
+>
+> @@ -51,7 +52,9 @@ char *riscv_plic_hart_config_string(int hart_count)
+>          CPUState *cs = qemu_get_cpu(i);
+>          CPURISCVState *env = &RISCV_CPU(cs)->env;
+>
+> -        if (riscv_has_ext(env, RVS)) {
+> +        if (kvm_enabled()) {
+> +            vals[i] = "S";
+> +        } else if (riscv_has_ext(env, RVS)) {
+>              vals[i] = "MS";
+>          } else {
+>              vals[i] = "M";
+> @@ -317,3 +320,14 @@ void riscv_setup_rom_reset_vec(MachineState *machine, RISCVHartArrayState *harts
+>
+>      return;
+>  }
+> +
+> +void riscv_setup_direct_kernel(hwaddr kernel_addr, hwaddr fdt_addr)
+> +{
+> +    CPUState *cs;
+> +
+> +    for (cs = first_cpu; cs; cs = CPU_NEXT(cs)) {
+> +        RISCVCPU *riscv_cpu = RISCV_CPU(cs);
+> +        riscv_cpu->env.kernel_addr = kernel_addr;
+> +        riscv_cpu->env.fdt_addr = fdt_addr;
+> +    }
+> +}
+> diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
+> index 3af074148e..cc1a03f284 100644
+> --- a/hw/riscv/virt.c
+> +++ b/hw/riscv/virt.c
+> @@ -38,6 +38,7 @@
+>  #include "chardev/char.h"
+>  #include "sysemu/device_tree.h"
+>  #include "sysemu/sysemu.h"
+> +#include "sysemu/kvm.h"
+>  #include "hw/pci/pci.h"
+>  #include "hw/pci-host/gpex.h"
+>  #include "hw/display/ramfb.h"
+> @@ -50,7 +51,11 @@ static const MemMapEntry virt_memmap[] = {
+>      [VIRT_CLINT] =       {  0x2000000,       0x10000 },
+>      [VIRT_ACLINT_SSWI] = {  0x2F00000,        0x4000 },
+>      [VIRT_PCIE_PIO] =    {  0x3000000,       0x10000 },
+> +#if defined(CONFIG_KVM)
+> +    [VIRT_PLIC] =        {  0xc000000, VIRT_PLIC_SIZE(VIRT_CPUS_MAX * 1) },
+> +#else
+>      [VIRT_PLIC] =        {  0xc000000, VIRT_PLIC_SIZE(VIRT_CPUS_MAX * 2) },
+> +#endif
+
+Please drop this change because the same QEMU binary should be
+usable with and without KVM enabled.
+
+>      [VIRT_UART0] =       { 0x10000000,         0x100 },
+>      [VIRT_VIRTIO] =      { 0x10001000,        0x1000 },
+>      [VIRT_FW_CFG] =      { 0x10100000,          0x18 },
+> @@ -372,13 +377,22 @@ static void create_fdt_socket_plic(RISCVVirtState *s,
+>          "sifive,plic-1.0.0", "riscv,plic0"
+>      };
+>
+> -    plic_cells = g_new0(uint32_t, s->soc[socket].num_harts * 4);
+> +    if (kvm_enabled()) {
+> +        plic_cells = g_new0(uint32_t, s->soc[socket].num_harts * 2);
+> +    } else {
+> +        plic_cells = g_new0(uint32_t, s->soc[socket].num_harts * 4);
+> +    }
+>
+>      for (cpu = 0; cpu < s->soc[socket].num_harts; cpu++) {
+> -        plic_cells[cpu * 4 + 0] = cpu_to_be32(intc_phandles[cpu]);
+> -        plic_cells[cpu * 4 + 1] = cpu_to_be32(IRQ_M_EXT);
+> -        plic_cells[cpu * 4 + 2] = cpu_to_be32(intc_phandles[cpu]);
+> -        plic_cells[cpu * 4 + 3] = cpu_to_be32(IRQ_S_EXT);
+> +        if (kvm_enabled()) {
+> +            plic_cells[cpu * 2 + 0] = cpu_to_be32(intc_phandles[cpu]);
+> +            plic_cells[cpu * 2 + 1] = cpu_to_be32(IRQ_S_EXT);
+> +        } else {
+> +            plic_cells[cpu * 4 + 0] = cpu_to_be32(intc_phandles[cpu]);
+> +            plic_cells[cpu * 4 + 1] = cpu_to_be32(IRQ_M_EXT);
+> +            plic_cells[cpu * 4 + 2] = cpu_to_be32(intc_phandles[cpu]);
+> +            plic_cells[cpu * 4 + 3] = cpu_to_be32(IRQ_S_EXT);
+> +        }
+>      }
+>
+>      plic_phandles[socket] = (*phandle)++;
+> @@ -436,10 +450,12 @@ static void create_fdt_sockets(RISCVVirtState *s, const MemMapEntry *memmap,
+>
+>          create_fdt_socket_memory(s, memmap, socket);
+>
+> -        if (s->have_aclint) {
+> -            create_fdt_socket_aclint(s, memmap, socket, intc_phandles);
+> -        } else {
+> -            create_fdt_socket_clint(s, memmap, socket, intc_phandles);
+> +        if (!kvm_enabled()) {
+> +            if (s->have_aclint) {
+> +                create_fdt_socket_aclint(s, memmap, socket, intc_phandles);
+> +            } else {
+> +                create_fdt_socket_clint(s, memmap, socket, intc_phandles);
+> +            }
+>          }
+>
+>          create_fdt_socket_plic(s, memmap, socket, phandle,
+> @@ -801,23 +817,25 @@ static void virt_machine_init(MachineState *machine)
+>                                  hart_count, &error_abort);
+>          sysbus_realize(SYS_BUS_DEVICE(&s->soc[i]), &error_abort);
+>
+> -        /* Per-socket CLINT */
+> -        riscv_aclint_swi_create(
+> -            memmap[VIRT_CLINT].base + i * memmap[VIRT_CLINT].size,
+> -            base_hartid, hart_count, false);
+> -        riscv_aclint_mtimer_create(
+> -            memmap[VIRT_CLINT].base + i * memmap[VIRT_CLINT].size +
+> -                RISCV_ACLINT_SWI_SIZE,
+> -            RISCV_ACLINT_DEFAULT_MTIMER_SIZE, base_hartid, hart_count,
+> -            RISCV_ACLINT_DEFAULT_MTIMECMP, RISCV_ACLINT_DEFAULT_MTIME,
+> -            RISCV_ACLINT_DEFAULT_TIMEBASE_FREQ, true);
+> -
+> -        /* Per-socket ACLINT SSWI */
+> -        if (s->have_aclint) {
+> +        if (!kvm_enabled()) {
+> +            /* Per-socket CLINT */
+>              riscv_aclint_swi_create(
+> -                memmap[VIRT_ACLINT_SSWI].base +
+> -                    i * memmap[VIRT_ACLINT_SSWI].size,
+> -                base_hartid, hart_count, true);
+> +                memmap[VIRT_CLINT].base + i * memmap[VIRT_CLINT].size,
+> +                base_hartid, hart_count, false);
+> +            riscv_aclint_mtimer_create(
+> +                memmap[VIRT_CLINT].base + i * memmap[VIRT_CLINT].size +
+> +                    RISCV_ACLINT_SWI_SIZE,
+> +                RISCV_ACLINT_DEFAULT_MTIMER_SIZE, base_hartid, hart_count,
+> +                RISCV_ACLINT_DEFAULT_MTIMECMP, RISCV_ACLINT_DEFAULT_MTIME,
+> +                RISCV_ACLINT_DEFAULT_TIMEBASE_FREQ, true);
+> +
+> +            /* Per-socket ACLINT SSWI */
+> +            if (s->have_aclint) {
+> +                riscv_aclint_swi_create(
+> +                    memmap[VIRT_ACLINT_SSWI].base +
+> +                        i * memmap[VIRT_ACLINT_SSWI].size,
+> +                    base_hartid, hart_count, true);
+> +            }
+>          }
+>
+>          /* Per-socket PLIC hart topology configuration string */
+> @@ -884,6 +902,16 @@ static void virt_machine_init(MachineState *machine)
+>      memory_region_add_subregion(system_memory, memmap[VIRT_MROM].base,
+>                                  mask_rom);
+>
+> +    /*
+> +     * Only direct boot kernel is currently supported for KVM VM,
+> +     * so the "-bios" parameter is ignored and treated like "-bios none"
+> +     * when KVM is enabled.
+> +     */
+> +    if (kvm_enabled()) {
+> +        g_free(machine->firmware);
+> +        machine->firmware = g_strdup("none");
+> +    }
+> +
+>      if (riscv_is_32bit(&s->soc[0])) {
+>          firmware_end_addr = riscv_find_and_load_firmware(machine,
+>                                      RISCV32_BIOS_BIN, start_addr, NULL);
+> @@ -941,6 +969,15 @@ static void virt_machine_init(MachineState *machine)
+>                                virt_memmap[VIRT_MROM].size, kernel_entry,
+>                                fdt_load_addr, machine->fdt);
+>
+> +    /*
+> +     * Only direct boot kernel is currently supported for KVM VM,
+> +     * So here setup kernel start address and fdt address.
+> +     * TODO:Support firmware loading and integrate to TCG start
+> +     */
+> +    if (kvm_enabled()) {
+> +        riscv_setup_direct_kernel(kernel_entry, fdt_load_addr);
+> +    }
+> +
+>      /* SiFive Test MMIO device */
+>      sifive_test_create(memmap[VIRT_TEST].base);
+>
+> diff --git a/include/hw/riscv/boot.h b/include/hw/riscv/boot.h
+> index baff11dd8a..5834c234aa 100644
+> --- a/include/hw/riscv/boot.h
+> +++ b/include/hw/riscv/boot.h
+> @@ -58,5 +58,6 @@ void riscv_rom_copy_firmware_info(MachineState *machine, hwaddr rom_base,
+>                                    hwaddr rom_size,
+>                                    uint32_t reset_vec_size,
+>                                    uint64_t kernel_entry);
+> +void riscv_setup_direct_kernel(hwaddr kernel_addr, hwaddr fdt_addr);
+>
+>  #endif /* RISCV_BOOT_H */
+> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> index f812998123..1c944872a3 100644
+> --- a/target/riscv/cpu.c
+> +++ b/target/riscv/cpu.c
+> @@ -29,6 +29,8 @@
+>  #include "hw/qdev-properties.h"
+>  #include "migration/vmstate.h"
+>  #include "fpu/softfloat-helpers.h"
+> +#include "sysemu/kvm.h"
+> +#include "kvm_riscv.h"
+>
+>  /* RISC-V CPU definitions */
+>
+> @@ -380,6 +382,12 @@ static void riscv_cpu_reset(DeviceState *dev)
+>      cs->exception_index = RISCV_EXCP_NONE;
+>      env->load_res = -1;
+>      set_default_nan_mode(1, &env->fp_status);
+> +
+> +#ifndef CONFIG_USER_ONLY
+> +    if (kvm_enabled()) {
+> +        kvm_riscv_reset_vcpu(cpu);
+> +    }
+> +#endif
+>  }
+>
+>  static void riscv_cpu_disas_set_info(CPUState *s, disassemble_info *info)
+> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+> index 0760c0af93..2807eb1bcb 100644
+> --- a/target/riscv/cpu.h
+> +++ b/target/riscv/cpu.h
+> @@ -255,6 +255,9 @@ struct CPURISCVState {
+>
+>      /* Fields from here on are preserved across CPU reset. */
+>      QEMUTimer *timer; /* Internal timer */
+> +
+> +    hwaddr kernel_addr;
+> +    hwaddr fdt_addr;
+>  };
+>
+>  OBJECT_DECLARE_TYPE(RISCVCPU, RISCVCPUClass,
+> diff --git a/target/riscv/kvm-stub.c b/target/riscv/kvm-stub.c
+> new file mode 100644
+> index 0000000000..39b96fe3f4
+> --- /dev/null
+> +++ b/target/riscv/kvm-stub.c
+> @@ -0,0 +1,25 @@
+> +/*
+> + * QEMU KVM RISC-V specific function stubs
+> + *
+> + * Copyright (c) 2020 Huawei Technologies Co., Ltd
+> + *
+> + * This program is free software; you can redistribute it and/or modify it
+> + * under the terms and conditions of the GNU General Public License,
+> + * version 2 or later, as published by the Free Software Foundation.
+> + *
+> + * This program is distributed in the hope it will be useful, but WITHOUT
+> + * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+> + * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+> + * more details.
+> + *
+> + * You should have received a copy of the GNU General Public License along with
+> + * this program.  If not, see <http://www.gnu.org/licenses/>.
+> + */
+> +#include "qemu/osdep.h"
+> +#include "cpu.h"
+> +#include "kvm_riscv.h"
+> +
+> +void kvm_riscv_reset_vcpu(RISCVCPU *cpu)
+> +{
+> +    abort();
+> +}
+> diff --git a/target/riscv/kvm.c b/target/riscv/kvm.c
+> index e695b91dc7..db6d8a5b6e 100644
+> --- a/target/riscv/kvm.c
+> +++ b/target/riscv/kvm.c
+> @@ -37,6 +37,7 @@
+>  #include "hw/irq.h"
+>  #include "qemu/log.h"
+>  #include "hw/loader.h"
+> +#include "kvm_riscv.h"
+>
+>  static uint64_t kvm_riscv_reg_id(CPURISCVState *env, uint64_t type, uint64_t idx)
+>  {
+> @@ -369,6 +370,19 @@ int kvm_arch_handle_exit(CPUState *cs, struct kvm_run *run)
+>      return 0;
+>  }
+>
+> +void kvm_riscv_reset_vcpu(RISCVCPU *cpu)
+> +{
+> +    CPURISCVState *env = &cpu->env;
+> +
+> +    if (!kvm_enabled()) {
+> +        return;
+> +    }
+> +    env->pc = cpu->env.kernel_addr;
+> +    env->gpr[10] = kvm_arch_vcpu_id(CPU(cpu)); /* a0 */
+> +    env->gpr[11] = cpu->env.fdt_addr;          /* a1 */
+> +    env->satp = 0;
+> +}
+> +
+>  bool kvm_arch_cpu_check_are_resettable(void)
+>  {
+>      return true;
+> diff --git a/target/riscv/kvm_riscv.h b/target/riscv/kvm_riscv.h
+> new file mode 100644
+> index 0000000000..f38c82bf59
+> --- /dev/null
+> +++ b/target/riscv/kvm_riscv.h
+> @@ -0,0 +1,24 @@
+> +/*
+> + * QEMU KVM support -- RISC-V specific functions.
+> + *
+> + * Copyright (c) 2020 Huawei Technologies Co., Ltd
+> + *
+> + * This program is free software; you can redistribute it and/or modify it
+> + * under the terms and conditions of the GNU General Public License,
+> + * version 2 or later, as published by the Free Software Foundation.
+> + *
+> + * This program is distributed in the hope it will be useful, but WITHOUT
+> + * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+> + * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+> + * more details.
+> + *
+> + * You should have received a copy of the GNU General Public License along with
+> + * this program.  If not, see <http://www.gnu.org/licenses/>.
+> + */
+> +
+> +#ifndef QEMU_KVM_RISCV_H
+> +#define QEMU_KVM_RISCV_H
+> +
+> +void kvm_riscv_reset_vcpu(RISCVCPU *cpu);
+> +
+> +#endif
+> diff --git a/target/riscv/meson.build b/target/riscv/meson.build
+> index 2faf08a941..fe41cc5805 100644
+> --- a/target/riscv/meson.build
+> +++ b/target/riscv/meson.build
+> @@ -19,7 +19,7 @@ riscv_ss.add(files(
+>    'bitmanip_helper.c',
+>    'translate.c',
+>  ))
+> -riscv_ss.add(when: 'CONFIG_KVM', if_true: files('kvm.c'))
+> +riscv_ss.add(when: 'CONFIG_KVM', if_true: files('kvm.c'), if_false: files('kvm-stub.c'))
+>
+>  riscv_softmmu_ss = ss.source_set()
+>  riscv_softmmu_ss.add(files(
+> --
+> 2.19.1
+>
+
+Regards,
+Anup
 
