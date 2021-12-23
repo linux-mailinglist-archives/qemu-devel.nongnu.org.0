@@ -2,82 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEA1C47E8D1
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Dec 2021 21:38:25 +0100 (CET)
-Received: from localhost ([::1]:40724 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D9C147E8D2
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Dec 2021 21:38:52 +0100 (CET)
+Received: from localhost ([::1]:42058 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n0Ur2-0004He-AG
-	for lists+qemu-devel@lfdr.de; Thu, 23 Dec 2021 15:38:24 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59440)
+	id 1n0UrT-0005CA-F3
+	for lists+qemu-devel@lfdr.de; Thu, 23 Dec 2021 15:38:51 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59624)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1n0UpK-0003DW-0g; Thu, 23 Dec 2021 15:36:38 -0500
-Received: from [2607:f8b0:4864:20::82c] (port=33719
- helo=mail-qt1-x82c.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1n0UpI-0008Tt-6v; Thu, 23 Dec 2021 15:36:37 -0500
-Received: by mail-qt1-x82c.google.com with SMTP id v4so3335566qtk.0;
- Thu, 23 Dec 2021 12:36:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=x3/N/dYaJR5XXppMVzYeDisR3xsyrK+uB89MhRhSOUo=;
- b=YQs/uFwqE/zinMuZkyIgtdLL41GFb3dmhdF9Svq7Ffl1CMiii+N3bq/V27PVYol6Kj
- sBwUpu6tEcB8UNUFlG6gqkIdyHk+VHmuELJ94X+bFmCeWcF97OLR3mdOtZ5HEkckcgNt
- lO55ps9rsWEvjirZUQLPKjruxZrhYCDzLsEC2vkGYoo1cd4BPwIRttDFeeaTDiXYfuEe
- gIBOnvcVHlYaV4njcGkJJ2ORYgHHxrnYpYvVi15CO7W9MDU4VxS3a6uR5GQ9kLwqiyFx
- VamSvmwOjWGLghFwFfy936ehyWV+g1SwRpag9mSjrnYN8Ed1xRuocIFtCsQas3tUhPRj
- kvOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=x3/N/dYaJR5XXppMVzYeDisR3xsyrK+uB89MhRhSOUo=;
- b=0e70ZMJFsY+MDZn1O7zc955+WKx9TikBsWSvqmKTL1AFY/yyp+GhIvmOgkcM0kcsu/
- K1gGs5d+pEwINyuRHb6lTuxmP4bx+xoYyg2LaABQOG83sIprxNyzO++s6QPzObvctFCI
- a94mJg7z7ecgbPd5kFphHKL9aebWfR8cbZ3QWoHUnwKgpIV06lN5/iyv0wskpye4WFpU
- epZeEG3PolgEz5IAj5UarfOs3NI0Sqod6Dx12swIEcdBvY88PdNdQz+cQQOfeG9UB3Oe
- tqRlsINDI5550FJjriMsTkuHnwlT7yJsMqiSlH0jrkP3ZvK84Q2hI2eXTqZ6yt8coSTw
- 1lmA==
-X-Gm-Message-State: AOAM531s0SlMLsKjr5exMjjxARL1Q8Q/H9XeLLNvD2DiWEPMODh2VkTU
- 8KAQLzLG9/5oGasyaBQGASM=
-X-Google-Smtp-Source: ABdhPJyvKkzlrSna7BSwIKgoK2SMBAEGN+uYSs7nioop2o5EK/IzE7LsBbYE0f9oyJGB2emRfRq1fQ==
-X-Received: by 2002:a05:622a:1a1c:: with SMTP id
- f28mr3140372qtb.308.1640291794954; 
- Thu, 23 Dec 2021 12:36:34 -0800 (PST)
-Received: from ?IPV6:2804:431:c7c6:7ce4:b718:2cc0:32df:97ee?
- ([2804:431:c7c6:7ce4:b718:2cc0:32df:97ee])
- by smtp.gmail.com with ESMTPSA id w8sm5068212qtc.36.2021.12.23.12.36.32
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 23 Dec 2021 12:36:34 -0800 (PST)
-Message-ID: <1b988844-075d-beb3-7fd1-a26f30e9f5dc@gmail.com>
-Date: Thu, 23 Dec 2021 17:36:30 -0300
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n0Uq1-0003rn-5a
+ for qemu-devel@nongnu.org; Thu, 23 Dec 2021 15:37:21 -0500
+Received: from mout.kundenserver.de ([212.227.17.13]:51631)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n0Upy-0000CG-5d
+ for qemu-devel@nongnu.org; Thu, 23 Dec 2021 15:37:19 -0500
+Received: from [192.168.100.1] ([82.142.30.186]) by mrelayeu.kundenserver.de
+ (mreue108 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MplTn-1mfjnQ1mX7-00qAVW; Thu, 23 Dec 2021 21:37:13 +0100
+Message-ID: <e62f2cbf-0f38-bfb8-a01c-03fa84de5fdd@vivier.eu>
+Date: Thu, 23 Dec 2021 21:37:12 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.4.0
-Subject: Re: [PATCH 0/3] Reorg ppc64 pmu insn counting
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20211223030149.1947418-1-richard.henderson@linaro.org>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <20211223030149.1947418-1-richard.henderson@linaro.org>
+Subject: Re: [PATCH v3 2/2] linux-user: call set/getscheduler set/getparam
+ directly
+Content-Language: fr
+To: Tonis Tiigi <tonistiigi@gmail.com>, qemu-devel@nongnu.org
+References: <20211223064728.18048-1-tonistiigi@gmail.com>
+ <20211223064728.18048-3-tonistiigi@gmail.com>
+From: Laurent Vivier <laurent@vivier.eu>
+In-Reply-To: <20211223064728.18048-3-tonistiigi@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::82c
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::82c;
- envelope-from=danielhb413@gmail.com; helo=mail-qt1-x82c.google.com
-X-Spam_score_int: -32
-X-Spam_score: -3.3
-X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-2.264,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:Je0krTGocf6RZw7mQr7Nn4Ns20qiL/jJ/B0YXmLFKT5lja6mJOH
+ rbgAa5vxupubTsfGx9Bg/GTi+mcXUzlvRgyQQOxZDTMghpLVVX8sFt+mBAuIAeAj5hu9Qnh
+ fz8TQ714TcRUr9Nzv2cfjCgQyLF27JLQVL1ZM+bkUsBF9bZP/c/oRPx2tDAWHS0Em3Uvy2g
+ ZXBRMuLWLWiWg31nDBwsA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:ahbp7xRLguk=:+eMdQMvgwKWqQyhdTrBTs0
+ WoyXEdCBOpJDeQ388lajdEpb/tac7xp1+Droy8PcpFOOQunWRU9nWv92zxDThGslikE1Cavip
+ 2m1JmEIo6xhEDX0gclbehljLwzEiKTodz7A7W/9qwLYU5aYXLe+0RWBB7hF2UHJB7yR8Grudw
+ vheuGeToMT0nEMbhIfeRxX6RszuFvY6R5qxOgftiQ6Tfl3L/EdhmJaFzO+yxiS3FguDph2JvJ
+ xH3Nbqahqy16wbStSOLRwT4iA08dBXiaSKNasZayHniUW7Ox+/VQHnXIoOzTr2p+QY3yH0tZF
+ faMDKNgXz1i8pQLI8cwdy1gc7jEkbNMmq9ilLWstTr6q/PIGwMWs+r4vQWjTXKwWmj/YRW9w9
+ ea4/iCFhRoAQ8jAVDpyPbwknD3gXman8qYkebqbLPbxYecU3yBGh3jaZ1Ug2CXmc2YGC2B1hE
+ iwmsms3D0moaNglE0tyBoI1KRBV4fEIzhJus4lq+Vq9AlKcC2aJTE+Ok/wm8h3FrdCo3I0oYQ
+ NY24hINPBk1tq/DsYDh2uDf9ctLYtgpXdruNjdcsX9i9YGnvx0qY66a77bccoe8rboupkPjWv
+ NTc6txts8TmzRiBYDRLVYqiEeFffvaRr5HQMf3UUMrE72x+IZ0mvxb3L77UFLdMy9mKplBJe/
+ IyogtqXDMne8bgHZYeLvCdjcp2opA5uG0KbkXEXi/K6Vat1nfhSxV+BvxX2zNjkeGcgM=
+Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.264,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,83 +70,135 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, clg@kaod.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On 12/23/21 00:01, Richard Henderson wrote:
-> In contrast to Daniel's version, the code stays in power8-pmu.c,
-> but is better organized to not take so much overhead.
+Le 23/12/2021 à 07:47, Tonis Tiigi a écrit :
+> There seems to be difference in syscall and libc definition of these
+> methods and therefore musl does not implement them (1e21e78bf7). Call
+> syscall directly to ensure the behavior of the libc of user application,
+> not the libc that was used to build QEMU.
 > 
-> Before:
+> Signed-off-by: Tonis Tiigi <tonistiigi@gmail.com>
+> ---
+>   linux-user/syscall.c      | 40 ++++++++++++++++++++++++++-------------
+>   linux-user/syscall_defs.h |  4 ++++
+>   2 files changed, 31 insertions(+), 13 deletions(-)
 > 
->      32.97%  qemu-system-ppc  qemu-system-ppc64   [.] pmc_get_event
->      20.22%  qemu-system-ppc  qemu-system-ppc64   [.] helper_insns_inc
->       4.52%  qemu-system-ppc  qemu-system-ppc64   [.] hreg_compute_hflags_value
->       3.30%  qemu-system-ppc  qemu-system-ppc64   [.] helper_lookup_tb_ptr
->       2.68%  qemu-system-ppc  qemu-system-ppc64   [.] tcg_gen_code
->       2.28%  qemu-system-ppc  qemu-system-ppc64   [.] cpu_exec
->       1.84%  qemu-system-ppc  qemu-system-ppc64   [.] pmu_insn_cnt_enabled
-> 
-> After:
-> 
->       8.42%  qemu-system-ppc  qemu-system-ppc64   [.] hreg_compute_hflags_value
->       6.65%  qemu-system-ppc  qemu-system-ppc64   [.] cpu_exec
->       6.63%  qemu-system-ppc  qemu-system-ppc64   [.] helper_insns_inc
-> 
+> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+> index 2f5a0fac5a..8c03a52a36 100644
+> --- a/linux-user/syscall.c
+> +++ b/linux-user/syscall.c
+> @@ -345,6 +345,17 @@ _syscall4(int, sys_sched_getattr, pid_t, pid, struct target_sched_attr *, attr,
+>   #define __NR_sys_sched_setattr __NR_sched_setattr
+>   _syscall3(int, sys_sched_setattr, pid_t, pid, struct target_sched_attr *, attr,
+>             unsigned int, flags);
+> +#define __NR_sys_sched_getscheduler __NR_sched_getscheduler
+> +_syscall1(int, sys_sched_getscheduler, pid_t, pid);
+> +#define __NR_sys_sched_setscheduler __NR_sched_setscheduler
+> +_syscall3(int, sys_sched_setscheduler, pid_t, pid, int, policy,
+> +          const struct target_sched_param *, param);
+> +#define __NR_sys_sched_getparam __NR_sched_getparam
+> +_syscall2(int, sys_sched_getparam, pid_t, pid,
+> +          struct target_sched_param *, param);
+> +#define __NR_sys_sched_setparam __NR_sched_setparam
+> +_syscall2(int, sys_sched_setparam, pid_t, pid,
+> +          const struct target_sched_param *, param);
+>   #define __NR_sys_getcpu __NR_getcpu
+>   _syscall3(int, sys_getcpu, unsigned *, cpu, unsigned *, node, void *, tcache);
+>   _syscall4(int, reboot, int, magic1, int, magic2, unsigned int, cmd,
+> @@ -10555,30 +10566,32 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+>           return ret;
+>       case TARGET_NR_sched_setparam:
+>           {
+> -            struct sched_param *target_schp;
+> -            struct sched_param schp;
+> +            struct target_sched_param *target_schp;
+> +            struct target_sched_param schp;
 
-Thanks for looking this up. I had no idea the original C code was that slow.
+You need to keep sched_param for schp as it is used with host syscall.
 
-This reorg is breaking PMU-EBB tests, unfortunately. These tests are run from the kernel
-tree [1] and I test them inside a pSeries TCG guest. You'll need to apply patches 9 and
-10 of [2] beforehand (they apply cleanly in current master) because they aren't upstream
-yet and EBB needs it.
+>   
+>               if (arg2 == 0) {
+>                   return -TARGET_EINVAL;
+>               }
+> -            if (!lock_user_struct(VERIFY_READ, target_schp, arg2, 1))
+> +            if (!lock_user_struct(VERIFY_READ, target_schp, arg2, 1)) {
+>                   return -TARGET_EFAULT;
+> +            }
+>               schp.sched_priority = tswap32(target_schp->sched_priority);
+>               unlock_user_struct(target_schp, arg2, 0);
+> -            return get_errno(sched_setparam(arg1, &schp));
+> +            return get_errno(sys_sched_setparam(arg1, &schp));
+>           }
+>       case TARGET_NR_sched_getparam:
+>           {
+> -            struct sched_param *target_schp;
+> -            struct sched_param schp;
+> +            struct target_sched_param *target_schp;
+> +            struct target_sched_param schp;
 
-The tests that are breaking consistently with this reorg are:
+You need to keep sched_param for schp as it is used with host syscall.
 
-back_to_back_ebbs_test.c
-cpu_event_pinned_vs_ebb_test.c
-cycles_test.c
-task_event_pinned_vs_ebb_test.c
+>   
+>               if (arg2 == 0) {
+>                   return -TARGET_EINVAL;
+>               }
+> -            ret = get_errno(sched_getparam(arg1, &schp));
+> +            ret = get_errno(sys_sched_getparam(arg1, &schp));
+>               if (!is_error(ret)) {
+> -                if (!lock_user_struct(VERIFY_WRITE, target_schp, arg2, 0))
+> +                if (!lock_user_struct(VERIFY_WRITE, target_schp, arg2, 0)) {
+>                       return -TARGET_EFAULT;
+> +                }
+>                   target_schp->sched_priority = tswap32(schp.sched_priority);
+>                   unlock_user_struct(target_schp, arg2, 1);
+>               }
+> @@ -10586,19 +10599,20 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+>           return ret;
+>       case TARGET_NR_sched_setscheduler:
+>           {
+> -            struct sched_param *target_schp;
+> -            struct sched_param schp;
+> +            struct target_sched_param *target_schp;
+> +            struct target_sched_param schp;
 
+You need to keep sched_param for schp as it is used with host syscall.
 
-The issue here is that these tests exercises different Perf events and aspects of branching
-(e.g. how fast we're detecting a counter overflow, how many times, etc) and I wasn't able to
-find out a fix using your C reorg yet.
+>               if (arg3 == 0) {
+>                   return -TARGET_EINVAL;
+>               }
+> -            if (!lock_user_struct(VERIFY_READ, target_schp, arg3, 1))
+> +            if (!lock_user_struct(VERIFY_READ, target_schp, arg3, 1)) {
+>                   return -TARGET_EFAULT;
+> +            }
+>               schp.sched_priority = tswap32(target_schp->sched_priority);
+>               unlock_user_struct(target_schp, arg3, 0);
+> -            return get_errno(sched_setscheduler(arg1, arg2, &schp));
+> +            return get_errno(sys_sched_setscheduler(arg1, arg2, &schp));
+>           }
+>       case TARGET_NR_sched_getscheduler:
+> -        return get_errno(sched_getscheduler(arg1));
+> +        return get_errno(sys_sched_getscheduler(arg1));
+>       case TARGET_NR_sched_getattr:
+>           {
+>               struct target_sched_attr *target_scha;
+> diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
+> index 310d6ce8ad..28b9fe9a47 100644
+> --- a/linux-user/syscall_defs.h
+> +++ b/linux-user/syscall_defs.h
+> @@ -2928,4 +2928,8 @@ struct target_sched_attr {
+>       abi_uint sched_util_max;
+>   };
+>   
+> +struct target_sched_param {
+> +    abi_int sched_priority;
+> +};
+> +
+>   #endif
 
-With that in mind I decided to post a new version of my TCG rework, with less repetition and
-a bit more concise, to have an alternative that can be used upstream to fix the Avocado tests.
-Meanwhile I'll see if I can get your reorg working with all EBB tests we need. All things
-equal - similar performance, all EBB tests passing - I'd rather stay with your C code than my
-TCG rework since yours doesn't rely on TCG Ops knowledge to maintain it.
-
+Sorry, I missed these problem in my previous review.
 
 Thanks,
-
-
-Daniel
-
-
-[1] https://github.com/torvalds/linux/tree/master/tools/testing/selftests/powerpc/pmu/ebb
-[2] https://lists.gnu.org/archive/html/qemu-devel/2021-12/msg00073.html
-
-> 
-> r~
-> 
-> 
-> Richard Henderson (3):
->    target/ppc: Cache per-pmc insn and cycle count settings
->    target/ppc: Rewrite pmu_increment_insns
->    target/ppc: Use env->pnc_cyc_cnt
-> 
->   target/ppc/cpu.h         |   3 +
->   target/ppc/power8-pmu.h  |  14 +--
->   target/ppc/cpu_init.c    |   1 +
->   target/ppc/helper_regs.c |   2 +-
->   target/ppc/machine.c     |   2 +
->   target/ppc/power8-pmu.c  | 230 ++++++++++++++++-----------------------
->   6 files changed, 108 insertions(+), 144 deletions(-)
-> 
+Laurent
 
