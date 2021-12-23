@@ -2,133 +2,135 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C6E947E19C
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Dec 2021 11:40:01 +0100 (CET)
-Received: from localhost ([::1]:56770 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A86C947E1A8
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Dec 2021 11:43:26 +0100 (CET)
+Received: from localhost ([::1]:60964 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n0LVv-0006Hk-T7
-	for lists+qemu-devel@lfdr.de; Thu, 23 Dec 2021 05:39:59 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41970)
+	id 1n0LZF-0000kc-Fh
+	for lists+qemu-devel@lfdr.de; Thu, 23 Dec 2021 05:43:25 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42668)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1n0LUM-00056B-HN
- for qemu-devel@nongnu.org; Thu, 23 Dec 2021 05:38:22 -0500
-Received: from mail-db8eur05on2127.outbound.protection.outlook.com
- ([40.107.20.127]:13707 helo=EUR05-DB8-obe.outbound.protection.outlook.com)
+ id 1n0LXa-0008VP-0n
+ for qemu-devel@nongnu.org; Thu, 23 Dec 2021 05:41:42 -0500
+Received: from mail-db8eur05on2128.outbound.protection.outlook.com
+ ([40.107.20.128]:60641 helo=EUR05-DB8-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1n0LUJ-0004cC-NO
- for qemu-devel@nongnu.org; Thu, 23 Dec 2021 05:38:21 -0500
+ id 1n0LXX-00057d-JD
+ for qemu-devel@nongnu.org; Thu, 23 Dec 2021 05:41:41 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=iYEAJ6tzC3qiAX/HNvWZ/RXwnbekrE7AEFs0g+ecwtJsLQXzSndZ7pMuw1tYl2DT1xvkMvgwWbQvjBGWKV88y1lPB51/6ojMSyaH732qSl3IVEWq+Df2JerFddzqYtTu4nXE0tms+yzxv63GG2vSSimlkV6lkQhacpmBAtBQ5Tbs5AoWUeVuJmKttRLpSDKIjLMAzrdYmJyGKIkwBytxlhmSezPOsfPtaw9Cyf2NPs0ohVAYgMzPfqMwYtDzGXPSvvryURxfpLZubfMZqRLTVkzZiilwSxc4di5MVTlV1afnfy/jpS7jxXtNV7QA7m3/FarzDNMxiMeMFEisV5Q5Yg==
+ b=VXq0lzt9hoj8vW+jHIs0fbNzkIy/rgtUnffz1G0WJ7PEYql1wHmtj23amatfck8d3jrF/5p+PJ+SZ0t5aATPW2T0UF2ZIXUMtmS0Nb3U1fo7MOQOQVqpIXx8y4qNN3362D1Ea8UG95pSC/0LsDMCOjxiEftav5UT6GGvxYkyoQWgsUpUzg8GkSKxkyrgNTrOSBrKsdjdnLNK9nu2Y/uJMxG9iGXz/aVSQjwGq/MDH0/Jyu3DfTPcDyCohQNmjopD5R77z0gEEDaTdiFDavsu/dDSa11pMcdF84I3R/grKUbZ4oXABSEDW28PMD0UGAw4dAfaoGJwn8YcG84Xq7vFkw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=jM7DRzNrN0uYpA/94MdKpgB2YMDZTUTR7R8YbJpNXbQ=;
- b=iyz8He5c2ocBzlRXIRIzBqLw18rmOnlxY8q5Xz8x6zLv4OJG+R1MyVj30f3rpAGi7BTDp0jwqUsovvBRmn0H+K8+3iV0CeO4fdI8WLZz/ppkIwRa6cgK8dhvxbElNGBouzh1a3+jUV7DjAB+S0ywXNxblY201WskMO9+1COT+bct1SGsTC1/9nflF2Dvjgj9Fl1sxlPOUcdqLrQtfQnWhbemFol4mxmsI62ph7Yf9uuxUiZPqtB5zJRcD/N3pD2aPiy6bmmpjKUVFJ9v8EGvvc7qVV1t7JM+RoyWSQ1YSjl/tk0WO4pfbdEWyJs+N/BrrlQDDlCzJtl+BhiqzgrRGQ==
+ bh=OPdFFMpWBp2O2m3rZLedqdLQC4nx+DKumhgh6QicDSI=;
+ b=Ub+fY954xak96JEV2STsBL7rW+MbZJwKciSrIvq/bkEAJmMItUAf7Yc40xUvXxOvbXeUrRlcBaWgFTofnjWRi9HGi22cTDN4ZQSl0xP8ZDhGBTFsGMZTsd+bqUkZ9+tpv0apNGcJf1DpkP418PbT7tm2Y2vyA9OOUdNGZK1RQyPxUKJlidRbqmw4rZ77GDcl0vjJGc3UJ/UHBJVTUUA0BWSqDYoTJBdSzzobd4Y6Zxgmnb+kdkOSHomtibxJhV/0Yc073g42QFBlAwrlicswSRkICrNGb1hepqcz6ioUVG1LPwy91lkwMe2dBKVzcOcBJMvukZZ62m5ioj/7yC+leQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jM7DRzNrN0uYpA/94MdKpgB2YMDZTUTR7R8YbJpNXbQ=;
- b=QYqagZ/RIRYwItTu8OLZaEDfmx9HZV1NKJ5+dl7t8u5zKdt5YbBXem+4NILj4VvwJOug7DV3+wOfCM036Gv6XRdaWNygU9EBFPEO8u1xhepc0puLn5IzZSKj3uxCzmOg25TJbmOCAFf7P7e/XG2YWAsNh3dD+AG1UwxoBSwGM54=
+ bh=OPdFFMpWBp2O2m3rZLedqdLQC4nx+DKumhgh6QicDSI=;
+ b=kf3UGYRyS2cnUtpkvFK0Z7fa4x67hLjkriincoBr1wgHEY+Ue5G20TTyUgUmMgB8T9zjHJBVoqi7ocDsXDCA/kB2X4omNE3DQgHpNuIstQYF81BT30vE9JdaPGNNkNBSug278axQGpItvxQds1VCPuxXz78CpYHD0msnv9Ns3ww=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM9PR08MB6737.eurprd08.prod.outlook.com (2603:10a6:20b:304::18)
- by AM9PR08MB6034.eurprd08.prod.outlook.com (2603:10a6:20b:2db::18)
+ by AM8PR08MB6627.eurprd08.prod.outlook.com (2603:10a6:20b:368::19)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4823.18; Thu, 23 Dec
- 2021 10:38:16 +0000
+ 2021 10:41:37 +0000
 Received: from AM9PR08MB6737.eurprd08.prod.outlook.com
  ([fe80::b118:483a:d003:3112]) by AM9PR08MB6737.eurprd08.prod.outlook.com
  ([fe80::b118:483a:d003:3112%5]) with mapi id 15.20.4823.019; Thu, 23 Dec 2021
- 10:38:15 +0000
-Message-ID: <17f72d0e-4474-ff04-0614-83b8fb7b31ad@virtuozzo.com>
-Date: Thu, 23 Dec 2021 13:38:13 +0300
+ 10:41:37 +0000
+Message-ID: <768f5236-bc62-84d5-d070-e964097b1267@virtuozzo.com>
+Date: Thu, 23 Dec 2021 13:41:35 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.2.0
-Subject: Re: [PATCH 1/3] scripts/qapi/commands: gen_commands(): add
- add_trace_points argument
+Subject: Re: [PATCH 3/3] meson: generate trace points for qmp commands
 Content-Language: en-US
-To: qemu-devel@nongnu.org
-Cc: stefanha@redhat.com, michael.roth@amd.com, armbru@redhat.com,
- pbonzini@redhat.com
-References: <20211221193502.114296-1-vsementsov@virtuozzo.com>
- <20211221193502.114296-2-vsementsov@virtuozzo.com>
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-In-Reply-To: <20211221193502.114296-2-vsementsov@virtuozzo.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>, "Hajnoczi, Stefan"
+ <stefanha@redhat.com>, Michael Roth <michael.roth@amd.com>,
+ "Armbruster, Markus" <armbru@redhat.com>
+References: <20211221193502.114296-1-vsementsov@virtuozzo.com>
+ <20211221193502.114296-4-vsementsov@virtuozzo.com>
+ <CABgObfYqiLwfNf4_p2_HYQPvAHKAQ=4DNr1y2OMecoO6kpovzg@mail.gmail.com>
+ <1623e94d-3991-ccee-baaf-7e3154c637a0@virtuozzo.com>
+In-Reply-To: <1623e94d-3991-ccee-baaf-7e3154c637a0@virtuozzo.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR0P281CA0004.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:15::9) To AM9PR08MB6737.eurprd08.prod.outlook.com
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: AS9PR06CA0306.eurprd06.prod.outlook.com
+ (2603:10a6:20b:45b::15) To AM9PR08MB6737.eurprd08.prod.outlook.com
  (2603:10a6:20b:304::18)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: b4a8b36d-35ed-4b29-7a55-08d9c60053bb
-X-MS-TrafficTypeDiagnostic: AM9PR08MB6034:EE_
-X-Microsoft-Antispam-PRVS: <AM9PR08MB6034E1407DC5DD705DBDC0BBC17E9@AM9PR08MB6034.eurprd08.prod.outlook.com>
+X-MS-Office365-Filtering-Correlation-Id: 7252c4a7-8c68-4989-c90a-08d9c600cba9
+X-MS-TrafficTypeDiagnostic: AM8PR08MB6627:EE_
+X-Microsoft-Antispam-PRVS: <AM8PR08MB66270DE4D71B64611FE5F08DC17E9@AM8PR08MB6627.eurprd08.prod.outlook.com>
 X-MS-Oob-TLC-OOBClassifiers: OLM:5797;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 5Kr4wJrmqZxL5Um1PdAG63mw6oPPnT8e5EOF3K1iiWZdnq4y3BapNiijjawyj3NFrp1XmaMqcP3lo2BeQKWa4183oTA/kNHLG0tiVxvB8M4gvLsckx1jFaudEtn0euSxkoHPX2hevrCJ+fZIyIWT/UnJDnJViv32xcJGSuYFikQqFo9GW0nVb+4VDEEnho2msRqASTkhbtnoDXiTn+5vyssFaNBk2vy+NuXhuV/pmJeWT1WB5lCagfKaRCKuVI0IbCcTvtdrL+4qZM6hD0ZNIF3PQHNO7mgAGSL9yZDmVZmNuZ6MTSCSLm/2Ro136GWBuHvI6SHwsOEclWbG8K/oRfdSs52qBFDCcSmf7L9TxIRP7PaoZCwYEDphdDfmDU7/UyL1U7lcYTmBdyfS+uYFTupHF+dCR8S8y9JBey3BITwXVfAYXn2YJ0LvdCXpTQTvPPhlM2Og9wrVziMU8ejHKcSV8XHL0C24fSlj+47oxGLul1XRD4H/YVtSFhguh3iFVeL5qhKw6ljb7v5yfqLhIqJF8g+u32GxeOd0uQ5zLJVouo/IJ22rD92BXbumOs9qsKvnP4AFlP8kYH7yuG85k+dLX5Rt7NyT19w0UVka3Ktq20Zg0bSbfd3vkIkIjI7Qf3m9cKgtmV9zGWtAjDx1TKcRBC335UCmrDG6bN3VP69VG96W7t5ryqQcMeQS1Bm2vMRtUTPOjksiZp5TmQFnkBjWSlK8JPjxKzLbHUrRls2UxlVjfdlxZzTIlElJoQWaFTkHYQ0KMWb6MYNuOFdJ8A==
+X-Microsoft-Antispam-Message-Info: oBbzzxwXzFk2owq7EuMbJ51ciu6BWPbFK0grn+6Bh80Tum0p9aKqSyjvtb6MgPARedPIzLvW5La9yB4WtU2ZF/S5VTt79LI88o4pskipREfClrGjP9VwfBYwHIUH6r0pLIvTbF3Gnrvuc1+rTbQRjrsSQRayL+fBDv1qp0h+fa+9Uq5mJtXvZU6OkGLlZL3ibkMJBT9TVotbIuXM5nZRMSENdV1kaVnvJJjCojO3wTte66qykrMWDPa73My0c+ak/vrpD5/uD/DtKk0Xm1+QxTMJ7CAGmgna24o7P0RicU2PDf0wIK77b0jCf57k2c6Air8ydqxEiAJ4Ag10fMWZ2Uo8ID0usS9QydaHeGziLxZoFhZ4aaTU5Dd0Cowy+rhKBZdyfWWK1alFUFmoapHH5W36TxXGYVN8VupTfoxLD9g1BrUDhR4dUbv9eu2+6+8ePC3v8nS6R4Cz6gSPpnPsbU4jceERDuOAV9tt/Br7JXKIT6gWw2CiCNg4sPIXRimVe4y9vR3oyM/YzTPGSBorhwVhqS7Eur3QeDx2tQ4ML0aT3Cg1Toa5OxF8iZJektW2XO9KrBDV9tXQ2hOBzi297NAp1CSAk34cDB6BrRdecqyzaOMjzQ82D7I7MxWL7F0gzOAnVG2NlcB1ob0JshPO2wyNsmTNxQDMpJ/T05iY5yVwl64f/gUlzjj3sAaaTeRsbihsWIxVzeShyHU7AKm2MR0r8vNHMUsGshvf+s4IjXvJyJa9wgSyv+S8XWpw4fHgzMa4wlWBRv4JtwAA/0+JxQ==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM9PR08MB6737.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(52116002)(508600001)(186003)(26005)(6506007)(38100700002)(5660300002)(38350700002)(6916009)(6512007)(6486002)(83380400001)(8676002)(4326008)(66946007)(66556008)(2616005)(2906002)(31686004)(36756003)(8936002)(86362001)(316002)(31696002)(66476007)(43740500002)(45980500001);
+ SFS:(4636009)(366004)(66556008)(52116002)(66476007)(6486002)(6512007)(8936002)(2906002)(31696002)(316002)(5660300002)(54906003)(36756003)(66946007)(508600001)(2616005)(38350700002)(8676002)(186003)(38100700002)(4326008)(6916009)(26005)(31686004)(86362001)(6506007)(45980500001)(43740500002);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Z3hFRVB0YjZzTHQrTGtIUnpYZjVGWTczY3V5RnE5aDZtZ0hUaDA3V0gxc2dk?=
- =?utf-8?B?MUdtcTFNK2dXU3RZTDM2c3d1RWVVcTNOVGVNbDVlS0FoUFpBVG5pTnM3cVRZ?=
- =?utf-8?B?RjkxcWhQRTVJUDhQOFpWRjZQTmdzYm5vd2Z4aDJvdnk0a2FRTEVEemE3UjZ2?=
- =?utf-8?B?WG9DUkxhNlEzV3crY0JZZkI5cGtROTZKODlWSEkzWVBoOC9EbEFaVFlqUjl5?=
- =?utf-8?B?aitSSVZGQlJmWWtkWmR3WkQ5TnBxYVdrYlhYRThDcThyZlJuWlpIYVkyenc3?=
- =?utf-8?B?Ky9IMnV5RUNrYVgwNXJZRnA3RVR5YWdrRVFIWUh4M2NjOTNJUzRqcEJhYzBh?=
- =?utf-8?B?WktPZ2cwQVZQSzV2Y05KNFErYndoVGpqNEdWS0VvVE5Fa2pmMWdmcGp1eWQr?=
- =?utf-8?B?KzJiTXNacFhaQml1NUc2TEk4bDBFam5uK2RRZ0RVdkk5T1QxWjZ4N29HRE90?=
- =?utf-8?B?bE4rZ3F6ci9WZ3BDV1g1VklSNzg4SlVia0VkOFpaUmZLdGR5Z3J6L2loTFRK?=
- =?utf-8?B?QjZuMmdhZDBXOElDaHMvVFllQVlodGRwVU1GdXVrSnpCb3BaTXZ1NWRqayt4?=
- =?utf-8?B?cGdlaHN4MGo2a2RhcHJ5S2cwaGNzYnFWeU91MTVNWXJORHZ6V2dDWmkrcWtv?=
- =?utf-8?B?VTRKdnR1dHBxVlRvQk4vckJtVlVmRHR1V0pjRkFoQUFBdFNOcTZLTFRvelFl?=
- =?utf-8?B?ZXgrMHFvd2Y5M0ZTS0VqL2RmNmtvQlZjZUJEZGpTUFZncCtUSUI3Q2V6Q0Nq?=
- =?utf-8?B?eU1iaUdaWEpVWDhvYXdKUmluUU9MNTVKYTRYd3pBV2d4aytqb2lJbEo4ajNr?=
- =?utf-8?B?dExwc1gwbmxIQnRpOTd5WTI2UzhPYWtCaGxBdEFTWWkzNGs5VW05YXVJc3ZH?=
- =?utf-8?B?YTVMODhsTDZBazFoS1NKOFkzMWlRMXVKSkhtV29IM09WQXN6RHRmOVA3ak1W?=
- =?utf-8?B?Ny9VNU45cGpkZkVKWnZOSVcyWXlqKzg4RlJnRUlNWEE3WTErdkJ5YkpDcGZ6?=
- =?utf-8?B?SkNjTlRYUStHK3ZQZERzM3d4NGRCL3phR1dUT3BTdlJEUStRNDVSanFuM29D?=
- =?utf-8?B?L0hWcnR4NWRIdUl5SVVuRU16QVZYYU9ndzA2TmRpOXcrNllDWnZtWkxLdDRY?=
- =?utf-8?B?LzVFZHEveC9ZVDZ3V3hrTUQ3S21VS3MvVXZwQ1l2WjBVRVl5dk55dVVxODd6?=
- =?utf-8?B?endEMFkyVThOd1lzaXgzbHBwYUpCWkFCamxxay9aQUxqdW9DYkVEajhqYUk5?=
- =?utf-8?B?ZElhSFJLbDE4K3JPMlEvWlhFMzBCNnhHRXoreXBRTXMxU0JiWlQxdHNqVnVk?=
- =?utf-8?B?a3E1N0FjL2IvOGEzY1loMlhMSFppTkdJRnVzcWo3ZFR5ZEJRd3U3WnR2dEx4?=
- =?utf-8?B?VEkvbjBKUDl2S2xDa2ZzWnJBTnBDN1ZuVi8yUzdndW1oY1N3c21KYU5SUGRD?=
- =?utf-8?B?L1IrSnZLaDZPdC9YN3ZtYjFhaFJvdTFrbCtZNi9qZlJNbTdxNy8rMWxSZ0ZI?=
- =?utf-8?B?TFVzdWVOenRwSTBaWDNDU2xtK2pKTlliZzNCVTljN2l5WUptNjVVNndnay8w?=
- =?utf-8?B?WHBYZTBwdXlVYXZqUnY4aHU3ZmQ1QlRZbEFnSys1VGVwcThLaWlQTkVnSWg5?=
- =?utf-8?B?SHROSTNpTkUvc25yMkxmOGpkSW50V2cxbFJNRnIvUmNwaTVOMmdJRU1ac3RF?=
- =?utf-8?B?Um5vTW9BYkZBYmFZNVl6ZHppR1Y4b3Y2bUxuZzNGTVR0YTA5dHNBMldnR0NC?=
- =?utf-8?B?QUhnQ0JzaGlnUzJvM0FjRzZVL1ZqVytEa0pRRzU0UzFQYXlhZjZiRHJTY0Rs?=
- =?utf-8?B?QTRNUU0xYU1oSjIxRFdHNUhWaTVFY01mMUtFMWF5OWlWRW1DZEozbEIyWEJa?=
- =?utf-8?B?RjdpU0syRURiQ0duMkdCd21nOHRlNHV3dHNwMkNRQUlLZEVGUjFoNXlrYk1k?=
- =?utf-8?B?bE8rbVE5RkJUMXp0bmRGeFExVUtwSUpuQ0xubWFsR0w1ajIxQXpkbjJoUXYw?=
- =?utf-8?B?UFF0RXVYcFBYdkxWMW91VEVtbjFIVlRHUW1lWThDc2pyQ2FQL1JUWTN3M21h?=
- =?utf-8?B?dEhTKytTZ0Z2c0RjMWQ5aENLZUhyVi9IeEp1RUdrc3VrclRWRExHQnVGNGYw?=
- =?utf-8?B?VlJ3ei85ZjdlUkhySDAyNThpTlVuZk5PL1hTdEs5MFhiR3pmbjcxL3I4d2tZ?=
- =?utf-8?B?WVJQWk8vSzJiYW43Q0pieUFBQzVxLzRYMXFJQmM5WXJNL0FRU2w5cnd2UVlK?=
- =?utf-8?B?d2dlTmd6QzliWTlZTE9tbWdDcUV3PT0=?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?V05Wd29SUHpYazJRd1UvdXlUZTcrdi9oMTUvN0tVelhabW5hdGl1bCtNekZ6?=
+ =?utf-8?B?NkQwRUhDSEd4MENCT2MxbEkybHBDNk43eDIrRW81QUovZUc3Z3gyZGxFeFlm?=
+ =?utf-8?B?TDdkaXFGblB2ZkJHbTR6UEdKS3lRMWdSSUIrNHNuZE9kV2xmSGZCVWk0c21j?=
+ =?utf-8?B?UHJ1K3YwQUdaMjhpNEpaMktnemc1RW9OdTQ1Q29ZNUJXUlBTWVpYTlNkSDZ5?=
+ =?utf-8?B?UkowTnNza0oyVGpydmN4YzhvUjVHZTBrazc1VDM5M1phdndkcHpCaUoxZmtQ?=
+ =?utf-8?B?RHd0YzMyRTVGblMrMUZNeGhNdEZvalhBelJmYm1jQWVDdnBmWXlhcHFHZnBP?=
+ =?utf-8?B?M1Jtem9ucVNtd1BCT1d1U0hwZ0NKOUVrSWxhTTBYV29ZbWpJWGt5OWdpYUtT?=
+ =?utf-8?B?N09rUXQrU29weUNSNmpVUENlLzlUQ3JpL1dIUjZ4VjRGU2cyRzY4TUxINWZ0?=
+ =?utf-8?B?d0ovamF5SHRlMS84U1FVa2JUbFhZdmtOK3JGUEJwNVFRZWFXTWhvTjljeEUz?=
+ =?utf-8?B?b09BWlMyUTdHbzFEMHpKa0J1KytoWHdDb0hKMHpBL0MzeEJLN1JrL0lwRERN?=
+ =?utf-8?B?bS9vU01vWThYcGlXMW5aMFJNVkR1SnZabzc3aW9mY0VOeGlyN3ZScDlRRjZm?=
+ =?utf-8?B?cFBHWnN0RUgzenFhTWxLbE00UmlsWmxFaURGKzFrYURzVFVHVjUzd3YxMGVL?=
+ =?utf-8?B?dmhFeWhNb0ZiaEtJSDNYb1N1dktEay9maEdGNSt4RzZ6bCs0Q0poajlJd2dX?=
+ =?utf-8?B?TFYwQ0FOazZNNlRISHZsVDZudERDYmF3SkRleUp0ckhXdlROMXVIM0RQNlBw?=
+ =?utf-8?B?d1MxbDRsc3M0T3dNeUF5RDZiRmRrRGFlemhOblNnUzZZZ0FDTHdHTHhDNWxW?=
+ =?utf-8?B?RStGU1IwYUM4TStFeWhSNmNQSWt1d2x5N2x3OExmbFdOMlhtS1FCWStMSkxR?=
+ =?utf-8?B?UUhwN3RvekErZWgzMmFic3pJZ1djVEowWE1wNFRnVDVOL2cvTHlZdGY3a3pJ?=
+ =?utf-8?B?UGRPSUhPSnlCWTFFdEFueUx4aktFa2E3UzNQYXZuUmNTSG9uVFFmNTJhd1lD?=
+ =?utf-8?B?dmpWdDlvZkhKRHlqQlY5YmEzQUlXSm9tVnBORSs2QUo0d1k5UWpLWWpDMUtP?=
+ =?utf-8?B?OGdIWktwRGovRS84MEsrdSt5bGQ1emxqbkZVOHlUb05SNGFmRkp2bVJ4TWJv?=
+ =?utf-8?B?Rm9VMHJNb0plZWlmM25FODJtMENIZHorYzZZQmdOSTFLdXhxM01UOWErZ0tB?=
+ =?utf-8?B?bWtKYXo2dVlYajF0Q2RMYmdSNW9nZURyRTZCYnQ0UlpCTnZkTjVqQ0d6ZnFq?=
+ =?utf-8?B?a2Fsc3hUcExsLzR4RDNqZ2pVMGNZRVAxNHF6NnJON0NlR3lpaWdWSVJUeGpW?=
+ =?utf-8?B?WjFHVUFkTVpzTWw5WllXYk9GenAwem9MV0pGM2FlWGs0TXl1dTlzRmZDdndw?=
+ =?utf-8?B?TEV5L3FSWmZ0aWllT21ZeEZiamlJek53cTlSVmJFdE1NcVpOUXoxRFVFeG5z?=
+ =?utf-8?B?SjVWUWlxdTRwaGpXV0VxUDc2QzlnOWZqOC9seEpqVmw4WE1MakZMQXZta3NK?=
+ =?utf-8?B?QTBxTWpFQjBKTnBJSHh4TWI0QXZGcDNtTkRDSy8yd3FSN3dPaW0xbUFzbHpD?=
+ =?utf-8?B?V1M5eWVUS0tqNlVOZXFOUHpPUE9QWlQwZHhIYzYyTWxQcmFRRm0zejBmVENW?=
+ =?utf-8?B?RjdJeFFWZkU5dHZ3Sjd0V3kwaHk4dmlnQUFHSzZqMlpSV2RKRDVJQzdJcHJo?=
+ =?utf-8?B?cmx0aXVmWjhaSWZrSFMxMFE0Qy9aeldidUF4bGZwQ2JBckNvcWdXSTZzTXdR?=
+ =?utf-8?B?ZTU0U0J4OU5UYWlQbnV6TzZnRm9JNXlMbXJRQUtxU3ZCMTUxTTMzY1Y4VEs4?=
+ =?utf-8?B?enBEWkFLUlVnOFllR20yMlErZDNJMkIydnJNN1VPYWxzWHVKbDU3K3IzbHZV?=
+ =?utf-8?B?SExhUk9SRzI5eEFyMU1wVW1GdzB5QVVKdi85bXlLR0JkMHJwaHRrQTM4WExW?=
+ =?utf-8?B?SUVQTXRwS0VGck8zcWpjVnAxaU82ZE8rMEhMWFJpUk9oRFpKeVVmQjV0YkNI?=
+ =?utf-8?B?dlo1My9MdEM5VmJLL1d0d2szS25xcFJ5R2Y2d0E3YTQ0eUNqNVBoZmIvWGJW?=
+ =?utf-8?B?V3U3bFVEZWdVdVlldWxZNm56VWdCREowVGoyelJETWhyUmdxVGtwOWlSK2M2?=
+ =?utf-8?B?MS9Sblhldm5pSGxrTGhkQmZIK2tjT3NOYmpsUWFkNDBVSnFiUExjS2pqUGhR?=
+ =?utf-8?Q?Y9IxqY0BbKCpUHedOnYQjus51D9qOlFRGxDiS6MiiE=3D?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b4a8b36d-35ed-4b29-7a55-08d9c60053bb
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7252c4a7-8c68-4989-c90a-08d9c600cba9
 X-MS-Exchange-CrossTenant-AuthSource: AM9PR08MB6737.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Dec 2021 10:38:15.8449 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Dec 2021 10:41:36.9462 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 20AdqP17+GI1S3pV0/bOgg8GnfMoHkaxoxJfXmhIzbzRM5f/thFMyB0Qk38rJ6EKHYqSoRcHHv63yn3qhVSKvWhEYla3H5mkaPCEpFdYV1M=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR08MB6034
-Received-SPF: pass client-ip=40.107.20.127;
+X-MS-Exchange-CrossTenant-UserPrincipalName: tY41Ig1y9mdEAjNxD9D76aKGrI4e+heNFSD2rAndbpKD+hPg0gcsnZnJOtcWV3jmw5bbgC5ShLDLJiQs/KakwAXG+nQlaSBkL31H7JUXMpw=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM8PR08MB6627
+Received-SPF: pass client-ip=40.107.20.128;
  envelope-from=vsementsov@virtuozzo.com;
  helo=EUR05-DB8-obe.outbound.protection.outlook.com
 X-Spam_score_int: -43
@@ -153,40 +155,96 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-21.12.2021 22:35, Vladimir Sementsov-Ogievskiy wrote:
-> Add possibility to generate trace points for each qmp command.
+23.12.2021 12:33, Vladimir Sementsov-Ogievskiy wrote:
+> 23.12.2021 01:11, Paolo Bonzini wrote:
+>> Il mar 21 dic 2021, 20:35 Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com <mailto:vsementsov@virtuozzo.com>> ha scritto:
+>>
+>>     --- a/trace/meson.build
+>>     +++ b/trace/meson.build
+>>     @@ -2,10 +2,14 @@
+>>       specific_ss.add(files('control-target.c'))
+>>
+>>       trace_events_files = []
+>>     -foreach dir : [ '.' ] + trace_events_subdirs
+>>     -  trace_events_file = meson.project_source_root() / dir / 'trace-events'
+>>     +foreach path : [ '.' ] + trace_events_subdirs + qapi_trace_events
+>>     +  if path.contains('trace-events')
+>>     +    trace_events_file = meson.project_build_root() / 'qapi' / path
+>>
+>>
+>>
+>> Just using "trace_events_file = 'qapi' / path" might work, since the build is nonrecursive.
 > 
-> We should generate both trace points and trace-events file, for further
-> trace point code generation.
+> This say:
 > 
-> Signed-off-by: Vladimir Sementsov-Ogievskiy<vsementsov@virtuozzo.com>
-> ---
->   scripts/qapi/commands.py | 84 ++++++++++++++++++++++++++++++++++------
->   1 file changed, 73 insertions(+), 11 deletions(-)
+> ninja: error: '../trace/qapi/qapi-commands-authz.trace-events', needed by 'trace/trace-events-all', missing and no known rule to make it
+> make[1]: *** [Makefile:162: run-ninja] Error 1
+> make[1]: Leaving directory '/work/src/qemu/up/up-trace-qmp-commands/build'
+> make: *** [GNUmakefile:11: all] Error 2
 > 
-> diff --git a/scripts/qapi/commands.py b/scripts/qapi/commands.py
-> index 21001bbd6b..e62f1a4125 100644
-> --- a/scripts/qapi/commands.py
-> +++ b/scripts/qapi/commands.py
-> @@ -53,7 +53,8 @@ def gen_command_decl(name: str,
->   def gen_call(name: str,
->                arg_type: Optional[QAPISchemaObjectType],
->                boxed: bool,
-> -             ret_type: Optional[QAPISchemaType]) -> str:
-> +             ret_type: Optional[QAPISchemaType],
-> +             add_trace_points: bool) -> str:
->       ret = ''
->   
->       argstr = ''
-> @@ -71,21 +72,65 @@ def gen_call(name: str,
->       if ret_type:
->           lhs = 'retval = '
->   
-> -    ret = mcgen('''
-> +    qmp_name = f'qmpq_{c_name(name)}'
+> 
+> so, it consider the path relative to current "trace" directory.
+> 
+>>
+>> If it doesn't, use the custom target object, possibly indexing it as ct[index]. You can use a dictionary to store the custom targets and find them from the "path" variable.
+>>
+> 
+> O! Great thanks! Magic. The following hack works:
+> 
+> diff --git a/meson.build b/meson.build
+> index 20d32fd20d..c42a76a14c 100644
+> --- a/meson.build
+> +++ b/meson.build
+> @@ -39,6 +39,7 @@ qemu_icondir = get_option('datadir') / 'icons'
+>   config_host_data = configuration_data()
+>   genh = []
+>   qapi_trace_events = []
+> +qapi_trace_events_targets = {}
+> 
+>   target_dirs = config_host['TARGET_DIRS'].split()
+>   have_linux_user = false
+> diff --git a/qapi/meson.build b/qapi/meson.build
+> index 333ca60583..d4de04459d 100644
+> --- a/qapi/meson.build
+> +++ b/qapi/meson.build
+> @@ -139,6 +139,9 @@ foreach output : qapi_util_outputs
+>     if output.endswith('.h')
+>       genh += qapi_files[i]
+>     endif
+> +  if output.endswith('.trace-events')
+> +    qapi_trace_events_targets += {output: qapi_files[i]}
+> +  endif
+>     util_ss.add(qapi_files[i])
+>     i = i + 1
+>   endforeach
+> @@ -147,6 +150,9 @@ foreach output : qapi_specific_outputs + qapi_nonmodule_outputs
+>     if output.endswith('.h')
+>       genh += qapi_files[i]
+>     endif
+> +  if output.endswith('.trace-events')
+> +    qapi_trace_events_targets += {output: qapi_files[i]}
+> +  endif
+>     specific_ss.add(when: 'CONFIG_SOFTMMU', if_true: qapi_files[i])
+>     i = i + 1
+>   endforeach
+> diff --git a/trace/meson.build b/trace/meson.build
+> index 77e44fa68d..daa24c3a2d 100644
+> --- a/trace/meson.build
+> +++ b/trace/meson.build
+> @@ -4,7 +4,7 @@ specific_ss.add(files('control-target.c'))
+>   trace_events_files = []
+>   foreach path : [ '.' ] + trace_events_subdirs + qapi_trace_events
+>     if path.contains('trace-events')
+> -    trace_events_file = meson.project_build_root() / 'qapi' / path
+> +    trace_events_file = qapi_trace_events_targets[path]
+>     else
+>       trace_events_file = meson.project_source_root() / path / 'trace-events'
+>     endif
+> 
+> 
+> 
 
-That was called qmpq_ because qmp_ conflicts with existing qmp_ trace points for jobs. But looking at them, they don't add much information to new qmpq_ trace events, so, in v2 I'll remove old qmp_ trace points (not many of them) and new generated trace points will be named simply qmp_*
-
+Or even simpler, I can use a list combined from needed qapi_files[] elements. So, the solution is to use custom target objects or their indexed subobjects instead of raw paths. This way Meson resolves dependencies better.
 
 -- 
 Best regards,
