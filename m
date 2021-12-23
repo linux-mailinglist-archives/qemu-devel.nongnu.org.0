@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 650D347E8B3
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Dec 2021 21:21:46 +0100 (CET)
-Received: from localhost ([::1]:47944 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8C4E47E8BB
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Dec 2021 21:23:36 +0100 (CET)
+Received: from localhost ([::1]:54936 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n0Uat-00068S-W4
-	for lists+qemu-devel@lfdr.de; Thu, 23 Dec 2021 15:21:44 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55286)
+	id 1n0Uch-0002RT-QD
+	for lists+qemu-devel@lfdr.de; Thu, 23 Dec 2021 15:23:35 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55320)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1n0UXn-0003Kz-V6; Thu, 23 Dec 2021 15:18:31 -0500
-Received: from [2607:f8b0:4864:20::929] (port=46856
- helo=mail-ua1-x929.google.com)
+ id 1n0UXp-0003OW-AB; Thu, 23 Dec 2021 15:18:33 -0500
+Received: from [2607:f8b0:4864:20::935] (port=40483
+ helo=mail-ua1-x935.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1n0UXm-0004Lh-Bk; Thu, 23 Dec 2021 15:18:31 -0500
-Received: by mail-ua1-x929.google.com with SMTP id 30so11763143uag.13;
- Thu, 23 Dec 2021 12:18:25 -0800 (PST)
+ id 1n0UXm-0004Lo-EW; Thu, 23 Dec 2021 15:18:33 -0500
+Received: by mail-ua1-x935.google.com with SMTP id v12so168170uar.7;
+ Thu, 23 Dec 2021 12:18:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=hLWaNvqAqmmsAsLdcy1M52Mog4MXVSPT/Aa3cq/UbCI=;
- b=l4N0WO4VPd3pRY7eytiutBn5HQ916Dud2sXBUMhkKjU5OkkGDq8xcBzsdKQn1f6cNH
- sY4bI/0SM2xIufF0YxumJB++mvFgQF4xtsEO/NTNWs8TqCpcCDb+PzfvtZ+v0qppU2GG
- KcOmGuBIYyz8h5eSqW6NITlOctRHz8VcmxbsYyxSMMW/p92zB1iwmr0An+yZEV+w3l+R
- Crg2npJzRy74bjPNd7OeC3LDCmbjbB0BihihBwmsPW5JVPCB9PxvFnEO+XGV8NwB7t5g
- MbyILJpn3JMZQpwkqzzbXwaxC8T9FJQ82iLwLin+2mnPeGFDsUmjNLGK7GALgUJGYW5x
- SvsA==
+ bh=wOM7FeP/6w2aBYadCaZ4laQxkp4EdcNZX4A1uV0Fgus=;
+ b=FAvJI9W8RR+zJDNN11tCIbPIXXKUT70GZBRTOxIthnqcNoBQB/D5tLXrb3/gUaToWK
+ Gi4tuIyYD9Qt1u3lcUCixSP0CpQ0KGPMOGlJVMCgzd5PYMDUwmBaTsXqS6ioTk0fySZ7
+ 8BibtgMSebWAtBa2sHCyrvdVOeNwNqCUSlmT0V/sTTqJ5tdigxvxzOD506w7rfP9Dx+g
+ C5jUIemzGKiOnCjkANMnKvLHUTTEEmQs+ktzVSnRenbIr306T93MgIuu+xGYxGLeWdw/
+ VFWN1C82FxfzjNVKmXeOCArgOWWHpcdG0wSD9RqNiYsho9S1dqaXgmPWn8VY6pmoDGdA
+ jp/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=hLWaNvqAqmmsAsLdcy1M52Mog4MXVSPT/Aa3cq/UbCI=;
- b=LTJffKIEQ2dw8CtUUK4nTKCCddHDKW1QoD1HhKGF/VtxZyCUvVUbmKBwp9mHH2APnB
- ozIzzxXZYQTbO5XvczUqLvpWinZByBa51ACilSWiowF00UL35AosQ5GHjCWb+VadLCC0
- CvynIk8B/VxparEzc8NQPB5bPux8Si9iqaPoJfxvf4slRidE5UtkNvhnj6XMjGJM2JWl
- qIK9pWhOYQpVYwD55Bmh+z4FeFfYG91G94MjnSBzXOr5RUL4dep4X7fLd/vApMZUMvDn
- Y8CI9FJt/p0ETL9aQfmtyNixlISpD7vfHUKfaKv4BBK/Yd3+4Vq+n3a/e1z6tK+rlomQ
- 3Yiw==
-X-Gm-Message-State: AOAM533Ohc+M5rM5MchWbYekZZop6eNGRoHjRtz2dTihEZBpb3aKw5aF
- 3UIdw8lNVmIzBoZr2l0kFp2ABVwWNE0=
-X-Google-Smtp-Source: ABdhPJx1hwp+suwPjjKQYYVnSbydiQHoU6DZdcYJ0OHZkmxh2vHMuzdIfUsUfh82KjtYvrwdE0xHoQ==
-X-Received: by 2002:a05:6102:50a0:: with SMTP id
- bl32mr253753vsb.72.1640290705166; 
- Thu, 23 Dec 2021 12:18:25 -0800 (PST)
+ bh=wOM7FeP/6w2aBYadCaZ4laQxkp4EdcNZX4A1uV0Fgus=;
+ b=XeMBTTH/tGDidiwIbGjAZcQzPPf5Mr98S0BYmA7oBuXX2L1w39W777qb6r4ZYyPHFW
+ suYlhToPVoPUgG9nxS9fEGP7IuYQqNuT7eb9QmNyVbQoBUCCmrzcFWGmVGpTFZ+iH654
+ aeKz+MIgKjAIxzbR066mJ0U8Z/6F0reaKqtjxQyJirF6ZaCIaZrxAtQzV4+8Qi++e4io
+ XIvn9n7REsfn6X6m6+Rhj52Tla2Q3zC6L3Nm2UZStktO+5NCiisPeGl+iLNKdffEo8ga
+ ZKyRlc6JptRLEF67pAC7arhneG2PZGTtpfUEY59/zbFeBU9jUs5J2xHBcAwzVHZVZzJJ
+ XtWQ==
+X-Gm-Message-State: AOAM533q28UBIDAlHfu4J2rV5j3zJ9EV4QnDMYrsiRXP/v0QDaPyRLYm
+ W/hkx6j9fBqpMsM4C1QnF2s60oiYhQE=
+X-Google-Smtp-Source: ABdhPJzDnXNZjypRpdbGjryuHckzqMQQOdWy76Q7VfVnVRVYsBXDx2L0uAqhdFZnSMouksbfnYKRKg==
+X-Received: by 2002:a67:e3cd:: with SMTP id k13mr1280330vsm.59.1640290707216; 
+ Thu, 23 Dec 2021 12:18:27 -0800 (PST)
 Received: from rekt.ibmuc.com ([2804:431:c7c6:7ce4:b718:2cc0:32df:97ee])
- by smtp.gmail.com with ESMTPSA id f20sm1185114vsl.31.2021.12.23.12.18.22
+ by smtp.gmail.com with ESMTPSA id f20sm1185114vsl.31.2021.12.23.12.18.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 Dec 2021 12:18:24 -0800 (PST)
+ Thu, 23 Dec 2021 12:18:26 -0800 (PST)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 1/5] target/ppc: introduce power8-pmu-insn-cnt.c.inc
-Date: Thu, 23 Dec 2021 17:18:08 -0300
-Message-Id: <20211223201812.846495-2-danielhb413@gmail.com>
+Subject: [PATCH v2 2/5] target/ppc/power8-pmu-insn-cnt: introduce
+ inc_spr_if_cond()
+Date: Thu, 23 Dec 2021 17:18:09 -0300
+Message-Id: <20211223201812.846495-3-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211223201812.846495-1-danielhb413@gmail.com>
 References: <20211223201812.846495-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::929
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::935
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::929;
- envelope-from=danielhb413@gmail.com; helo=mail-ua1-x929.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::935;
+ envelope-from=danielhb413@gmail.com; helo=mail-ua1-x935.google.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
@@ -91,100 +91,68 @@ Cc: richard.henderson@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We're going to add a significant amount of TCG ops code for
-instruction counting, eventually getting rid of the 'helper_insn_inc'
-helper entirely.
+The code that increments a PMC is repetitive: check if a given register
+has a bit/mask set or cleared and increment the counter.
 
-Create a new file to avoid putting even more stuff on the already
-crowded target/ppc/translate.c.
+inc_spr_if_cond() will help deal with this repetition. This patch also
+gives a sample of how the function works by incrementing PMC5, which is
+supposed to be incremented only if MMCR0_FC56 is not set.
+
+We've also removing the call from the helper since that would cause
+PMC5 to be counted twice.
 
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- target/ppc/power8-pmu-insn-cnt.c.inc | 54 ++++++++++++++++++++++++++++
- target/ppc/translate.c               | 44 ++---------------------
- 2 files changed, 56 insertions(+), 42 deletions(-)
- create mode 100644 target/ppc/power8-pmu-insn-cnt.c.inc
+ target/ppc/power8-pmu-insn-cnt.c.inc | 43 ++++++++++++++++++++++------
+ 1 file changed, 34 insertions(+), 9 deletions(-)
 
 diff --git a/target/ppc/power8-pmu-insn-cnt.c.inc b/target/ppc/power8-pmu-insn-cnt.c.inc
-new file mode 100644
-index 0000000000..6cdf2d2d88
---- /dev/null
+index 6cdf2d2d88..3cfb801c69 100644
+--- a/target/ppc/power8-pmu-insn-cnt.c.inc
 +++ b/target/ppc/power8-pmu-insn-cnt.c.inc
-@@ -0,0 +1,54 @@
+@@ -10,6 +10,38 @@
+  * See the COPYING file in the top-level directory.
+  */
+ 
++#if defined(TARGET_PPC64) && !defined(CONFIG_USER_ONLY)
 +/*
-+ * IBM Power8+ PMU TCG instruction count functions
-+ *
-+ * Copyright IBM Corp. 2021
-+ *
-+ * Authors:
-+ *  Daniel Henrique Barboza      <danielhb413@gmail.com>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
++ * This function increments a SPR 'spr' by 'inc_val' if a given
++ * register 'reg' has a bitmask 'mask' set (cond = TCG_COND_EQ) or
++ * not set (TCG_COND_NE).
 + */
-+
-+#if defined(TARGET_PPC64)
-+static void pmu_count_insns(DisasContext *ctx)
++static void inc_spr_if_cond(int reg, uint64_t mask, TCGCond cond,
++                            int spr, int inc_val)
 +{
-+    /*
-+     * Do not bother calling the helper if the PMU isn't counting
-+     * instructions.
-+     */
-+    if (!ctx->pmu_insn_cnt) {
-+        return;
-+    }
++    TCGCond exit_cond = tcg_invert_cond(cond);
++    TCGLabel *l_exit;
++    TCGv t0, t1;
 +
-+ #if !defined(CONFIG_USER_ONLY)
-+    /*
-+     * The PMU insns_inc() helper stops the internal PMU timer if a
-+     * counter overflows happens. In that case, if the guest is
-+     * running with icount and we do not handle it beforehand,
-+     * the helper can trigger a 'bad icount read'.
-+     */
-+    gen_icount_io_start(ctx);
++    l_exit = gen_new_label();
 +
-+    gen_helper_insns_inc(cpu_env, tcg_constant_i32(ctx->base.num_insns));
-+#else
-+    /*
-+     * User mode can read (but not write) PMC5 and start/stop
-+     * the PMU via MMCR0_FC. In this case just increment
-+     * PMC5 with base.num_insns.
-+     */
-+    TCGv t0 = tcg_temp_new();
++    t0 = tcg_temp_new();
++    gen_load_spr(t0, reg);
++    tcg_gen_andi_tl(t0, t0, mask);
++    tcg_gen_brcondi_tl(exit_cond, t0, mask, l_exit);
 +
-+    gen_load_spr(t0, SPR_POWER_PMC5);
-+    tcg_gen_addi_tl(t0, t0, ctx->base.num_insns);
-+    gen_store_spr(SPR_POWER_PMC5, t0);
++    t1 = tcg_temp_new();
++    gen_load_spr(t1, spr);
++    tcg_gen_addi_tl(t1, t1, inc_val);
++    gen_store_spr(spr, t1);
++
++    gen_set_label(l_exit);
 +
 +    tcg_temp_free(t0);
-+#endif /* #if !defined(CONFIG_USER_ONLY) */
++    tcg_temp_free(t1);
 +}
-+#else
-+static void pmu_count_insns(DisasContext *ctx)
-+{
-+    return;
-+}
-+#endif /* #if defined(TARGET_PPC64) */
-diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-index 114456148c..44773bc6cd 100644
---- a/target/ppc/translate.c
-+++ b/target/ppc/translate.c
-@@ -4183,48 +4183,8 @@ static inline void gen_update_cfar(DisasContext *ctx, target_ulong nip)
- #endif
- }
++#endif /* #if defined(TARGET_PPC64) && !defined(CONFIG_USER_ONLY) */
++
+ #if defined(TARGET_PPC64)
+ static void pmu_count_insns(DisasContext *ctx)
+ {
+@@ -22,15 +54,8 @@ static void pmu_count_insns(DisasContext *ctx)
+     }
  
--#if defined(TARGET_PPC64)
--static void pmu_count_insns(DisasContext *ctx)
--{
--    /*
--     * Do not bother calling the helper if the PMU isn't counting
--     * instructions.
--     */
--    if (!ctx->pmu_insn_cnt) {
--        return;
--    }
--
-- #if !defined(CONFIG_USER_ONLY)
+  #if !defined(CONFIG_USER_ONLY)
 -    /*
 -     * The PMU insns_inc() helper stops the internal PMU timer if a
 -     * counter overflows happens. In that case, if the guest is
@@ -194,32 +162,11 @@ index 114456148c..44773bc6cd 100644
 -    gen_icount_io_start(ctx);
 -
 -    gen_helper_insns_inc(cpu_env, tcg_constant_i32(ctx->base.num_insns));
--#else
--    /*
--     * User mode can read (but not write) PMC5 and start/stop
--     * the PMU via MMCR0_FC. In this case just increment
--     * PMC5 with base.num_insns.
--     */
--    TCGv t0 = tcg_temp_new();
--
--    gen_load_spr(t0, SPR_POWER_PMC5);
--    tcg_gen_addi_tl(t0, t0, ctx->base.num_insns);
--    gen_store_spr(SPR_POWER_PMC5, t0);
--
--    tcg_temp_free(t0);
--#endif /* #if !defined(CONFIG_USER_ONLY) */
--}
--#else
--static void pmu_count_insns(DisasContext *ctx)
--{
--    return;
--}
--#endif /* #if defined(TARGET_PPC64) */
-+/* For pmu_count_insns */
-+#include "target/ppc/power8-pmu-insn-cnt.c.inc"
- 
- static inline bool use_goto_tb(DisasContext *ctx, target_ulong dest)
- {
++    inc_spr_if_cond(SPR_POWER_MMCR0, MMCR0_FC56, TCG_COND_NE,
++                    SPR_POWER_PMC5, ctx->base.num_insns);
+ #else
+     /*
+      * User mode can read (but not write) PMC5 and start/stop
 -- 
 2.33.1
 
