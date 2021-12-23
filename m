@@ -2,102 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA5EA47DDBD
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Dec 2021 03:28:44 +0100 (CET)
-Received: from localhost ([::1]:50094 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97E3347DDC6
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Dec 2021 03:34:36 +0100 (CET)
+Received: from localhost ([::1]:57288 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n0DqV-0005Fy-Sa
-	for lists+qemu-devel@lfdr.de; Wed, 22 Dec 2021 21:28:43 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41652)
+	id 1n0DwB-0001sv-9M
+	for lists+qemu-devel@lfdr.de; Wed, 22 Dec 2021 21:34:35 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43256)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1n0DlL-000051-CE
- for qemu-devel@nongnu.org; Wed, 22 Dec 2021 21:23:23 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:50612
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1n0DlI-0007qQ-L0
- for qemu-devel@nongnu.org; Wed, 22 Dec 2021 21:23:23 -0500
-Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1BN1CJv1032254; 
- Thu, 23 Dec 2021 02:23:18 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=47kAfJwvelEDd7f89iJjcGSGIPb8jn+fvrhRMi5OFEE=;
- b=eypsL+3rlDDWdMA5OT0dBJV+HiO2oAU1rUhTXfiEtkWtj4qZAnVSZazqJncympZEfvYE
- mYkiQRtixBAYiylGugGK/fJfH3uEcEe3ei0W8+U27rwggBE/SDZ8oe7ToQtYVuhl3LY9
- xP1/oylQpti5sb98UeA+ztIQB5SVGCujAeewIvrrNmNZjrG7rJAy/rZbgn8UdVEWtrBV
- BPhwJMiBqjtGzifKlRe4u7h3AFR9b/MUoaMDAQj+d1VeOCtctBs/lB922hN6vR6xNA0+
- bVFXykY+5a5FvYKQFMV/CPmWjKZCD90xXhpoyz2++d0L29cAEJ09IxboDZciXaDrZWhF kA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3d4f7yh036-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 23 Dec 2021 02:23:18 +0000
-Received: from m0098413.ppops.net (m0098413.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1BN1vT9a020827;
- Thu, 23 Dec 2021 02:23:18 GMT
-Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.10])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3d4f7yh02w-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 23 Dec 2021 02:23:18 +0000
-Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
- by ppma02dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1BN2C8Ua013135;
- Thu, 23 Dec 2021 02:23:17 GMT
-Received: from b03cxnp08025.gho.boulder.ibm.com
- (b03cxnp08025.gho.boulder.ibm.com [9.17.130.17])
- by ppma02dal.us.ibm.com with ESMTP id 3d179c58d7-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 23 Dec 2021 02:23:17 +0000
-Received: from b03ledav003.gho.boulder.ibm.com
- (b03ledav003.gho.boulder.ibm.com [9.17.130.234])
- by b03cxnp08025.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 1BN2NGtI30736740
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 23 Dec 2021 02:23:16 GMT
-Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 787316A054;
- Thu, 23 Dec 2021 02:23:16 +0000 (GMT)
-Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 10F056A05F;
- Thu, 23 Dec 2021 02:23:16 +0000 (GMT)
-Received: from sbct-2.pok.ibm.com (unknown [9.47.158.152])
- by b03ledav003.gho.boulder.ibm.com (Postfix) with ESMTP;
- Thu, 23 Dec 2021 02:23:15 +0000 (GMT)
-From: Stefan Berger <stefanb@linux.ibm.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v4 3/3] tests: acpi: Add updated TPM related tables
-Date: Wed, 22 Dec 2021 21:23:10 -0500
-Message-Id: <20211223022310.575496-4-stefanb@linux.ibm.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20211223022310.575496-1-stefanb@linux.ibm.com>
-References: <20211223022310.575496-1-stefanb@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1n0DvF-0000yp-I8
+ for qemu-devel@nongnu.org; Wed, 22 Dec 2021 21:33:37 -0500
+Received: from [2607:f8b0:4864:20::430] (port=41689
+ helo=mail-pf1-x430.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1n0DvD-0000cM-Nb
+ for qemu-devel@nongnu.org; Wed, 22 Dec 2021 21:33:37 -0500
+Received: by mail-pf1-x430.google.com with SMTP id m1so3924841pfk.8
+ for <qemu-devel@nongnu.org>; Wed, 22 Dec 2021 18:33:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=zQA2/ViOqw3qZSQ8961fwO8xOLEt5DsGUCal3X7RjyQ=;
+ b=wLY4DFphNHKJUIzRzzCUH/2yaRp7MPGyqhDrXN4F4HJjpKxu866Zd7ZXYG1gu4Q/4n
+ wB3Ugea0RoyqLL1RmrfYNLVC4BiCFiUPP235qQw6t4w/fpEQfgM/J160DBfxYOV1Mevj
+ z2S7klzFV0zmSEYWYxUczUfMzzd1Bkt6ZHTy3Rx2ePeZPAsmxTF1BElSgKRTnwVQakYd
+ cE/EJyd5s4rcdyTKU+JX5k23JJY6hWFX6pCArkC4o0QUfRskxysiJkGGU47MAsoMMa7Q
+ GdQSAd2QdU4fX1TripTVVoCH3/HBe8YdYiRajAkHGRxq/BiMPL9xHpc1SPAXVpfooUmu
+ 7hQg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=zQA2/ViOqw3qZSQ8961fwO8xOLEt5DsGUCal3X7RjyQ=;
+ b=JXPY5kVW4L0DHX05pTOdTF3irNxkNazqh39NoBpw+z20uy+/4QMdGA5CL6dcINkBIF
+ DQ/9d2o3bun2Y6r9PqYqySkFS0SocULYmJN5pqRsuvPAKBnW5t5CZRuNPqByQXUFmjdq
+ AuLWPtNaXhyl77za/ndbQQs9tcBeBmkhRkhZYKi9JwREGD6/BxLVzQJ5DSdynpU94Usv
+ 32BlLTWADuHN8NQi+y4k7ioBW1DTOspneVq92cBGaZzEdcy6NGenqmDeNnYAHugxwi7H
+ GQzpBBgM1tRwLZLX73uffBlfZDcN3jGMDRYFxwb3GgMe7RabiQvbzEhY6NtnjI5ygleo
+ WNtw==
+X-Gm-Message-State: AOAM531BeHbxBNMwWor7OKTyI5ZCAiXd6200MlEGk93lui/T8u2BWY+6
+ oeVd9cPKTFXNqet+Ui1222Bx3g==
+X-Google-Smtp-Source: ABdhPJyvKpU+ZzdhSev/Ess2mmHgmRR/Xk/iCPUecFl08tPveOVsu63CVEbkERc6HFX4Qa1QH9c1LQ==
+X-Received: by 2002:a63:d446:: with SMTP id i6mr440154pgj.479.1640226813147;
+ Wed, 22 Dec 2021 18:33:33 -0800 (PST)
+Received: from [192.168.4.112] ([156.19.246.20])
+ by smtp.gmail.com with ESMTPSA id f7sm64524pfc.141.2021.12.22.18.33.32
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 22 Dec 2021 18:33:32 -0800 (PST)
+Subject: Re: [PULL 0/3] Block patches
+To: Hanna Reitz <hreitz@redhat.com>, qemu-block@nongnu.org
+References: <20211222165208.693159-1-hreitz@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <7b893274-f411-efab-5aa3-8bf9baf2bfe2@linaro.org>
+Date: Wed, 22 Dec 2021 18:33:30 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: qO6G3Oehxb1bJxGnute9YeOOVRZLvOq8
-X-Proofpoint-GUID: OvSZPgnnrXeawcUPtJVLLZ6u54unB8JI
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2021-12-22_09,2021-12-22_01,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 adultscore=0
- mlxscore=0 clxscore=1015 malwarescore=0 mlxlogscore=999 lowpriorityscore=0
- priorityscore=1501 bulkscore=0 spamscore=0 suspectscore=0 impostorscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2110150000
- definitions=main-2112230008
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=stefanb@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
+In-Reply-To: <20211222165208.693159-1-hreitz@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::430
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::430;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x430.google.com
 X-Spam_score_int: -19
 X-Spam_score: -2.0
 X-Spam_bar: --
 X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.694,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -110,64 +89,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Ani Sinha <ani@anisinha.ca>, marcandre.lureau@redhat.com,
- Igor Mammedov <imammedo@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
- Stefan Berger <stefanb@linux.ibm.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The updated TPM related tables have the following additions:
+On 12/22/21 8:52 AM, Hanna Reitz wrote:
+> The following changes since commit 8c5f94cd4182753959c8be8de415120dc879d8f0:
+> 
+>    Merge tag 'pull-loong-20211221-2' of https://gitlab.com/rth7680/qemu into staging (2021-12-21 13:30:35 -0800)
+> 
+> are available in the Git repository at:
+> 
+>    https://gitlab.com/hreitz/qemu.git tags/pull-block-2021-12-22
+> 
+> for you to fetch changes up to 722f87df2545b308aec49b459b028f0802b4fd9e:
+> 
+>    iotests: check: multiprocessing support (2021-12-22 16:29:48 +0100)
+> 
+> ----------------------------------------------------------------
+> Block patches:
+> - Added support to the iotests for running tests in several parallel
+>    jobs (using the new -j parameter)
+> 
+> ----------------------------------------------------------------
+> Vladimir Sementsov-Ogievskiy (3):
+>    iotests/testrunner.py: add doc string for run_test()
+>    iotests/testrunner.py: move updating last_elapsed to run_tests
+>    iotests: check: multiprocessing support
+> 
+>   tests/qemu-iotests/check         |  4 +-
+>   tests/qemu-iotests/testrunner.py | 86 ++++++++++++++++++++++++++++----
+>   2 files changed, 80 insertions(+), 10 deletions(-)
 
-   Device (TPM)
-   {
-       Name (_HID, "MSFT0101" /* TPM 2.0 Security Device */)  // _HID: Hardware ID
-+      Name (_STR, "TPM 2.0 Device")  // _STR: Description String
-+      Name (_UID, One)  // _UID: Unique ID
-       Name (_STA, 0x0F)  // _STA: Status
-       Name (_CRS, ResourceTemplate ()  // _CRS: Current Resource Settings
+Applied, thanks.
 
-Cc: Michael S. Tsirkin <mst@redhat.com>
-Cc: Igor Mammedov <imammedo@redhat.com>
-Cc: Ani Sinha <ani@anisinha.ca>
-Signed-off-by: Stefan Berger <stefanb@linux.ibm.com>
-Message-id: 20211110133559.3370990-4-stefanb@linux.ibm.com
----
- tests/data/acpi/q35/DSDT.tis.tpm12          | Bin 8894 -> 8900 bytes
- tests/data/acpi/q35/DSDT.tis.tpm2           | Bin 8894 -> 8921 bytes
- tests/qtest/bios-tables-test-allowed-diff.h |   2 --
- 3 files changed, 2 deletions(-)
-
-diff --git a/tests/data/acpi/q35/DSDT.tis.tpm12 b/tests/data/acpi/q35/DSDT.tis.tpm12
-index 0ebdf6fbd77967f1ab5d5337b7b1fed314cfaca8..fb9dd1f0599afd6b555ea570ecd00a3bb227aa84 100644
-GIT binary patch
-delta 50
-zcmdnzdc>8>CD<k8h!O(><KvB7q6(a@S~2m#PVoZ1lQk6FnOs#T7b=LdgnGI#Zf;Sq
-GVgdkr91X<)
-
-delta 45
-zcmX@&y3du%CD<iopArKDqxwcJQ3Xza&6xOLr+5MP$r=joO#Uj93l&5+_b6B}0RSYz
-B3@!iw
-
-diff --git a/tests/data/acpi/q35/DSDT.tis.tpm2 b/tests/data/acpi/q35/DSDT.tis.tpm2
-index dcbb7f0af377425db53130e8ba1c62c09c22e006..00d732e46f5d9d056e557bd026fa30f9db3b8c30 100644
-GIT binary patch
-delta 70
-zcmdnzdefE5CD<k8rV;}KBgaNAQ3Wn9?U?vrr+5J;?a7)7ZcJWklM5BZ#e;Z50(=#W
-a^b8bSQp+-vQyDnoLp@y>H@7HQF#!OXcoHoD
-
-delta 46
-zcmccVy3du%CD<iopArKD<D-pSq6%F8nlbUgPVoZnnv*pZ+?f1TCKoD*Z(gim#smOL
-C=M6sq
-
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index 5d80e408d4..dfb8523c8b 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1,3 +1 @@
- /* List of comma-separated changed AML files to ignore */
--"tests/data/acpi/q35/DSDT.tis.tpm12",
--"tests/data/acpi/q35/DSDT.tis.tpm2",
--- 
-2.31.1
-
+r~
 
