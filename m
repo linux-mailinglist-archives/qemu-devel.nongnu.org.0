@@ -2,62 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D9C147E8D2
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Dec 2021 21:38:52 +0100 (CET)
-Received: from localhost ([::1]:42058 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2742347E8D5
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Dec 2021 21:48:52 +0100 (CET)
+Received: from localhost ([::1]:47116 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n0UrT-0005CA-F3
-	for lists+qemu-devel@lfdr.de; Thu, 23 Dec 2021 15:38:51 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59624)
+	id 1n0V18-0000hF-Mo
+	for lists+qemu-devel@lfdr.de; Thu, 23 Dec 2021 15:48:50 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:32864)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n0Uq1-0003rn-5a
- for qemu-devel@nongnu.org; Thu, 23 Dec 2021 15:37:21 -0500
-Received: from mout.kundenserver.de ([212.227.17.13]:51631)
+ (Exim 4.90_1) (envelope-from <mcascell@redhat.com>)
+ id 1n0UzG-0008Qs-DA
+ for qemu-devel@nongnu.org; Thu, 23 Dec 2021 15:46:54 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:44906)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n0Upy-0000CG-5d
- for qemu-devel@nongnu.org; Thu, 23 Dec 2021 15:37:19 -0500
-Received: from [192.168.100.1] ([82.142.30.186]) by mrelayeu.kundenserver.de
- (mreue108 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MplTn-1mfjnQ1mX7-00qAVW; Thu, 23 Dec 2021 21:37:13 +0100
-Message-ID: <e62f2cbf-0f38-bfb8-a01c-03fa84de5fdd@vivier.eu>
-Date: Thu, 23 Dec 2021 21:37:12 +0100
+ (Exim 4.90_1) (envelope-from <mcascell@redhat.com>)
+ id 1n0Uz4-00020D-Oi
+ for qemu-devel@nongnu.org; Thu, 23 Dec 2021 15:46:50 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1640292397;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=XQk6qVad7sfN+2Clr7+NC1LkPpDmJT5mTk5sKYiXhyw=;
+ b=Hd/oUHJ2VGOveO4lzXNGR3pZMCxXDEcWZJnIGp2oLp8H8x3mt1qYw7MiKYfpc7B9k7OIPa
+ KSsGcDrjXutvGyID+jmxqoQ7fRVzRMsPrj4a2G4tXSp8N0p9Eg4uPXmQ4xgU7yq3UvbaWo
+ kLTyBOCSbQzkB6m4vMTcmQAcVFJ/tUU=
+Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com
+ [209.85.210.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-221-QzbGXHqAONmT5reZeBFmGw-1; Thu, 23 Dec 2021 15:46:35 -0500
+X-MC-Unique: QzbGXHqAONmT5reZeBFmGw-1
+Received: by mail-pf1-f197.google.com with SMTP id
+ t128-20020a628186000000b004bac607ec25so3917049pfd.11
+ for <qemu-devel@nongnu.org>; Thu, 23 Dec 2021 12:46:34 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=XQk6qVad7sfN+2Clr7+NC1LkPpDmJT5mTk5sKYiXhyw=;
+ b=4hVSAOcLQG2PiVyfFgCrpVR8hBFmRdZ7Iz4qEKk2mIzlSTPqaMitCrgfriVrkniBTg
+ iYQbrOViQigAkllhkyzqXmvet1WiXONJN0Z5C8sEksnYCgLoK3mlSe859V0mEgeAEXx3
+ QXGTy9Xpse977G/UjjCtVd8LPtJtBLz2QdFZ271XrJbN8PhhI2ypH9fmz7VzxNWeUQTj
+ w3psvGP8zHdPazUsXe42mcyDVHHcOR+zKOPj89eWXpaHjSzN6d3ik36GELZc8IAEQE1V
+ Rqu1fImewW5qJCwAp5nk89NES4mUCSnA3FT5l3O1yJAMoVzzzeo5dfhNUWYilHNXiLOa
+ u35g==
+X-Gm-Message-State: AOAM530Z5UCu44J4u4IscnYGIAmcCtK5KzXYZ2SHeD5rtqopUWs4gHA+
+ bqvoubbPpo6Lt1fqUM9wzlb6qF/Ua+zhfFpBanbRoSH7N9YfwW0ygaIu4cA6ybnFTjdYXqU8xsR
+ r04oF9os5z/AVw2VxVDlG6kgQOGrBdXg=
+X-Received: by 2002:a05:6a00:216f:b0:49f:dcb7:2bf2 with SMTP id
+ r15-20020a056a00216f00b0049fdcb72bf2mr3910686pff.19.1640292393840; 
+ Thu, 23 Dec 2021 12:46:33 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxUBZuPfaBXtLa3SpU8y4GYmsPJrdc7Cmi+Qflk6HZaa2259Q2TSWYiX1Wg+I5UpekjhSo/xuSkqoY2b4AwO6M=
+X-Received: by 2002:a05:6a00:216f:b0:49f:dcb7:2bf2 with SMTP id
+ r15-20020a056a00216f00b0049fdcb72bf2mr3910655pff.19.1640292393485; Thu, 23
+ Dec 2021 12:46:33 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH v3 2/2] linux-user: call set/getscheduler set/getparam
- directly
-Content-Language: fr
-To: Tonis Tiigi <tonistiigi@gmail.com>, qemu-devel@nongnu.org
-References: <20211223064728.18048-1-tonistiigi@gmail.com>
- <20211223064728.18048-3-tonistiigi@gmail.com>
-From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <20211223064728.18048-3-tonistiigi@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:Je0krTGocf6RZw7mQr7Nn4Ns20qiL/jJ/B0YXmLFKT5lja6mJOH
- rbgAa5vxupubTsfGx9Bg/GTi+mcXUzlvRgyQQOxZDTMghpLVVX8sFt+mBAuIAeAj5hu9Qnh
- fz8TQ714TcRUr9Nzv2cfjCgQyLF27JLQVL1ZM+bkUsBF9bZP/c/oRPx2tDAWHS0Em3Uvy2g
- ZXBRMuLWLWiWg31nDBwsA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:ahbp7xRLguk=:+eMdQMvgwKWqQyhdTrBTs0
- WoyXEdCBOpJDeQ388lajdEpb/tac7xp1+Droy8PcpFOOQunWRU9nWv92zxDThGslikE1Cavip
- 2m1JmEIo6xhEDX0gclbehljLwzEiKTodz7A7W/9qwLYU5aYXLe+0RWBB7hF2UHJB7yR8Grudw
- vheuGeToMT0nEMbhIfeRxX6RszuFvY6R5qxOgftiQ6Tfl3L/EdhmJaFzO+yxiS3FguDph2JvJ
- xH3Nbqahqy16wbStSOLRwT4iA08dBXiaSKNasZayHniUW7Ox+/VQHnXIoOzTr2p+QY3yH0tZF
- faMDKNgXz1i8pQLI8cwdy1gc7jEkbNMmq9ilLWstTr6q/PIGwMWs+r4vQWjTXKwWmj/YRW9w9
- ea4/iCFhRoAQ8jAVDpyPbwknD3gXman8qYkebqbLPbxYecU3yBGh3jaZ1Ug2CXmc2YGC2B1hE
- iwmsms3D0moaNglE0tyBoI1KRBV4fEIzhJus4lq+Vq9AlKcC2aJTE+Ok/wm8h3FrdCo3I0oYQ
- NY24hINPBk1tq/DsYDh2uDf9ctLYtgpXdruNjdcsX9i9YGnvx0qY66a77bccoe8rboupkPjWv
- NTc6txts8TmzRiBYDRLVYqiEeFffvaRr5HQMf3UUMrE72x+IZ0mvxb3L77UFLdMy9mKplBJe/
- IyogtqXDMne8bgHZYeLvCdjcp2opA5uG0KbkXEXi/K6Vat1nfhSxV+BvxX2zNjkeGcgM=
-Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.264,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <20211221144852.589983-1-mst@redhat.com>
+ <ad22de10-a52c-ff34-0790-3be8e7d62630@redhat.com>
+ <20211222151922-mutt-send-email-mst@kernel.org>
+ <CAP+75-VaN5SD22ABqKNTC=dHhN4yaN-22Ucfdp=6aeYa+q+83A@mail.gmail.com>
+ <20211222154841-mutt-send-email-mst@kernel.org>
+ <CAA8xKjWJhXge6_3k-kPc7Y3Z_X1JqbOdZvOCSuAy62ifO4E5gg@mail.gmail.com>
+ <20211223083646-mutt-send-email-mst@kernel.org>
+In-Reply-To: <20211223083646-mutt-send-email-mst@kernel.org>
+From: Mauro Matteo Cascella <mcascell@redhat.com>
+Date: Thu, 23 Dec 2021 21:46:22 +0100
+Message-ID: <CAA8xKjX_htWyyP_UuXqajyks79M4t6BK=JZj8+FpL1012xNevg@mail.gmail.com>
+Subject: Re: [PATCH] acpi: validate hotplug selector on access
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mcascell@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mcascell@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.203,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -70,135 +99,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: QEMU Developers <qemu-devel@nongnu.org>, Prasad Pandit <ppandit@redhat.com>,
+ Alexander Bulekov <alxndr@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Ani Sinha <ani@anisinha.ca>, Igor Mammedov <imammedo@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 23/12/2021 à 07:47, Tonis Tiigi a écrit :
-> There seems to be difference in syscall and libc definition of these
-> methods and therefore musl does not implement them (1e21e78bf7). Call
-> syscall directly to ensure the behavior of the libc of user application,
-> not the libc that was used to build QEMU.
-> 
-> Signed-off-by: Tonis Tiigi <tonistiigi@gmail.com>
-> ---
->   linux-user/syscall.c      | 40 ++++++++++++++++++++++++++-------------
->   linux-user/syscall_defs.h |  4 ++++
->   2 files changed, 31 insertions(+), 13 deletions(-)
-> 
-> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-> index 2f5a0fac5a..8c03a52a36 100644
-> --- a/linux-user/syscall.c
-> +++ b/linux-user/syscall.c
-> @@ -345,6 +345,17 @@ _syscall4(int, sys_sched_getattr, pid_t, pid, struct target_sched_attr *, attr,
->   #define __NR_sys_sched_setattr __NR_sched_setattr
->   _syscall3(int, sys_sched_setattr, pid_t, pid, struct target_sched_attr *, attr,
->             unsigned int, flags);
-> +#define __NR_sys_sched_getscheduler __NR_sched_getscheduler
-> +_syscall1(int, sys_sched_getscheduler, pid_t, pid);
-> +#define __NR_sys_sched_setscheduler __NR_sched_setscheduler
-> +_syscall3(int, sys_sched_setscheduler, pid_t, pid, int, policy,
-> +          const struct target_sched_param *, param);
-> +#define __NR_sys_sched_getparam __NR_sched_getparam
-> +_syscall2(int, sys_sched_getparam, pid_t, pid,
-> +          struct target_sched_param *, param);
-> +#define __NR_sys_sched_setparam __NR_sched_setparam
-> +_syscall2(int, sys_sched_setparam, pid_t, pid,
-> +          const struct target_sched_param *, param);
->   #define __NR_sys_getcpu __NR_getcpu
->   _syscall3(int, sys_getcpu, unsigned *, cpu, unsigned *, node, void *, tcache);
->   _syscall4(int, reboot, int, magic1, int, magic2, unsigned int, cmd,
-> @@ -10555,30 +10566,32 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
->           return ret;
->       case TARGET_NR_sched_setparam:
->           {
-> -            struct sched_param *target_schp;
-> -            struct sched_param schp;
-> +            struct target_sched_param *target_schp;
-> +            struct target_sched_param schp;
+On Thu, Dec 23, 2021 at 2:43 PM Michael S. Tsirkin <mst@redhat.com> wrote:
+>
+> On Thu, Dec 23, 2021 at 10:58:14AM +0100, Mauro Matteo Cascella wrote:
+> > Hi,
+> >
+> > On Wed, Dec 22, 2021 at 9:52 PM Michael S. Tsirkin <mst@redhat.com> wro=
+te:
+> > >
+> > > On Wed, Dec 22, 2021 at 09:27:51PM +0100, Philippe Mathieu-Daud=C3=A9=
+ wrote:
+> > > > On Wed, Dec 22, 2021 at 9:20 PM Michael S. Tsirkin <mst@redhat.com>=
+ wrote:
+> > > > > On Wed, Dec 22, 2021 at 08:19:41PM +0100, Philippe Mathieu-Daud=
+=C3=A9 wrote:
+> > > > > > +Mauro & Alex
+> > > > > >
+> > > > > > On 12/21/21 15:48, Michael S. Tsirkin wrote:
+> > > > > > > When bus is looked up on a pci write, we didn't
+> > > > > > > validate that the lookup succeeded.
+> > > > > > > Fuzzers thus can trigger QEMU crash by dereferencing the NULL
+> > > > > > > bus pointer.
+> > > > > > >
+> > > > > > > Fixes: b32bd763a1 ("pci: introduce acpi-index property for PC=
+I device")
+> > > > > > > Cc: "Igor Mammedov" <imammedo@redhat.com>
+> > > > > > > Fixes: https://gitlab.com/qemu-project/qemu/-/issues/770
+> > > > > > > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+> > > > > >
+> > > > > > It seems this problem is important enough to get a CVE assigned=
+.
+> > > > >
+> > > > > Guest root can crash guest.
+> > > > > I don't see why we would assign a CVE.
+> > > >
+> > > > Well thinking about downstream distributions, if there is a CVE ass=
+igned,
+> > > > it helps them to have it written in the commit. Maybe I am mistaken=
+.
+> > > >
+> > > > Unrelated but it seems there is a coordination problem with the
+> > > > qemu-security@ list,
+> > > > if this isn't a security issue, why was a CVE requested?
+> > >
+> > > Right.  I don't think a priveleged user crashing VM warrants a CVE,
+> > > it can just halt a CPU or whatever. Just cancel the CVE request pls.
+> >
+> > While I agree with you that this is kind of borderline and I expressed
+> > similar concerns in the past, I was told that:
+> >
+> > 1) root guest users are not necessarily trustworthy (from the host pers=
+pective).
+> > 2) NULL pointer deref and similar issues caused by an
+> > ill-handled/error condition are CVE worthy, even if triggered by root.
+> > 3) In other cases, DoS triggered by root is not a security issue
+> > because it's an expected behavior and not an ill-handled/error
+> > condition (think of assert failures, for example).
+> >
+> > In other words, "ill-handled condition" is the crucial factor that
+> > makes a bug CVE worthy or not.
+>
+> I guess the point is that a downstream might have a slightly different
+> code path where it would be more serious ...
+> OK then, not a big deal for me. So what's the CVE # then?
 
-You need to keep sched_param for schp as it is used with host syscall.
+CVE-2021-4158 has been assigned for this issue.
 
->   
->               if (arg2 == 0) {
->                   return -TARGET_EINVAL;
->               }
-> -            if (!lock_user_struct(VERIFY_READ, target_schp, arg2, 1))
-> +            if (!lock_user_struct(VERIFY_READ, target_schp, arg2, 1)) {
->                   return -TARGET_EFAULT;
-> +            }
->               schp.sched_priority = tswap32(target_schp->sched_priority);
->               unlock_user_struct(target_schp, arg2, 0);
-> -            return get_errno(sched_setparam(arg1, &schp));
-> +            return get_errno(sys_sched_setparam(arg1, &schp));
->           }
->       case TARGET_NR_sched_getparam:
->           {
-> -            struct sched_param *target_schp;
-> -            struct sched_param schp;
-> +            struct target_sched_param *target_schp;
-> +            struct target_sched_param schp;
+> > +Prasad, can you shed some light on this? Is my understanding correct?
+> >
+> > Also, please note that we regularly get CVE requests for bugs like
+> > this and many CVEs have been assigned in the past. Of course that
+> > doesn't mean we can't change things going forward, but I think we
+> > should make it clear (probably here:
+> > https://www.qemu.org/docs/master/system/security.html) that these
+> > kinds of bugs are not eligible for CVE assignment.
 
-You need to keep sched_param for schp as it is used with host syscall.
+Thanks.
+--=20
+Mauro Matteo Cascella
+Red Hat Product Security
+PGP-Key ID: BB3410B0
 
->   
->               if (arg2 == 0) {
->                   return -TARGET_EINVAL;
->               }
-> -            ret = get_errno(sched_getparam(arg1, &schp));
-> +            ret = get_errno(sys_sched_getparam(arg1, &schp));
->               if (!is_error(ret)) {
-> -                if (!lock_user_struct(VERIFY_WRITE, target_schp, arg2, 0))
-> +                if (!lock_user_struct(VERIFY_WRITE, target_schp, arg2, 0)) {
->                       return -TARGET_EFAULT;
-> +                }
->                   target_schp->sched_priority = tswap32(schp.sched_priority);
->                   unlock_user_struct(target_schp, arg2, 1);
->               }
-> @@ -10586,19 +10599,20 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
->           return ret;
->       case TARGET_NR_sched_setscheduler:
->           {
-> -            struct sched_param *target_schp;
-> -            struct sched_param schp;
-> +            struct target_sched_param *target_schp;
-> +            struct target_sched_param schp;
-
-You need to keep sched_param for schp as it is used with host syscall.
-
->               if (arg3 == 0) {
->                   return -TARGET_EINVAL;
->               }
-> -            if (!lock_user_struct(VERIFY_READ, target_schp, arg3, 1))
-> +            if (!lock_user_struct(VERIFY_READ, target_schp, arg3, 1)) {
->                   return -TARGET_EFAULT;
-> +            }
->               schp.sched_priority = tswap32(target_schp->sched_priority);
->               unlock_user_struct(target_schp, arg3, 0);
-> -            return get_errno(sched_setscheduler(arg1, arg2, &schp));
-> +            return get_errno(sys_sched_setscheduler(arg1, arg2, &schp));
->           }
->       case TARGET_NR_sched_getscheduler:
-> -        return get_errno(sched_getscheduler(arg1));
-> +        return get_errno(sys_sched_getscheduler(arg1));
->       case TARGET_NR_sched_getattr:
->           {
->               struct target_sched_attr *target_scha;
-> diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
-> index 310d6ce8ad..28b9fe9a47 100644
-> --- a/linux-user/syscall_defs.h
-> +++ b/linux-user/syscall_defs.h
-> @@ -2928,4 +2928,8 @@ struct target_sched_attr {
->       abi_uint sched_util_max;
->   };
->   
-> +struct target_sched_param {
-> +    abi_int sched_priority;
-> +};
-> +
->   #endif
-
-Sorry, I missed these problem in my previous review.
-
-Thanks,
-Laurent
 
