@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C11247E0B9
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Dec 2021 10:10:59 +0100 (CET)
-Received: from localhost ([::1]:58676 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 905DC47E0BD
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Dec 2021 10:13:34 +0100 (CET)
+Received: from localhost ([::1]:35610 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n0K7l-0004P5-V7
-	for lists+qemu-devel@lfdr.de; Thu, 23 Dec 2021 04:10:58 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49540)
+	id 1n0KAH-0007xh-J2
+	for lists+qemu-devel@lfdr.de; Thu, 23 Dec 2021 04:13:33 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49542)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1n0K2f-0007t6-HT; Thu, 23 Dec 2021 04:05:44 -0500
-Received: from [2a00:1450:4864:20::42b] (port=44980
- helo=mail-wr1-x42b.google.com)
+ id 1n0K2f-0007t7-HS; Thu, 23 Dec 2021 04:05:44 -0500
+Received: from [2a00:1450:4864:20::432] (port=47023
+ helo=mail-wr1-x432.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1n0K2b-00067x-R9; Thu, 23 Dec 2021 04:05:40 -0500
-Received: by mail-wr1-x42b.google.com with SMTP id t18so10068207wrg.11;
- Thu, 23 Dec 2021 01:05:35 -0800 (PST)
+ id 1n0K2d-00068L-W3; Thu, 23 Dec 2021 04:05:41 -0500
+Received: by mail-wr1-x432.google.com with SMTP id i22so10045104wrb.13;
+ Thu, 23 Dec 2021 01:05:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=zadkxGQ+wjcAxb5kAIl/05p7fuN6dEKapyI4+NBCsrA=;
- b=U+pKywCHZKK2E7piyFDxDF8ex7sw3LsToCpvW8u4RX/4TcCGFIcwoekoK3tq85RGj+
- jSn/o8DLc5hIMOQaUu4VlIuPbeeTCc/euMUkDrttG5unY/UqlmREggevT55p7MgfTe2t
- Rz1Mwap8nFkDpv0i1x4rWou68cc16NwGkuTVdkrrH8eEd93zcfBvMXvUu+GK0ssgS3Rk
- o6G0QrgX6XZfXjVMCxK6YutYCYtzchuXFlK4pKqqhXhXxegeeLeFvZzzbxi0hzVb2KgP
- yMHQhCOlwpTXBNWIQs5Qr1pgArq9zlo5rNqoDvJwthw9hztQOvatu0b8pcCAgBiErjJp
- PZyw==
+ bh=F0v2j8wDvTCZLEzLQyqs4QCz7oMsp+bWgd3Uz6iqkaQ=;
+ b=ZAJ3jFxKTWCmKcq15ITJ0X+RZpV5p7TYNja4uiaIVuhxiZfldcxI1WWnGUSf2WlKEq
+ FCAUZKsovAsagy7PEdLqAc8g38Xfvw9+FR52IpDBeTyfLQMNOlaEn941mRVZ+JanLXO/
+ ivlg+0P+k+UmBOg7L5SXeRod67MmGjHu3qXo/KLP0QAOIM9bGRFm5OW+ETE9+97BHG8n
+ kPM27NUh9oSvMJcF58sM2XeHSTI8cAE9Wtn1R8PQJdGN+3536NOlzWdjZjC4AKvlm2FO
+ +mVZ7p05Gqf7vKLOoTlRCFgpP3t2cHhcf+q0i9hKer1DvMeG8EO3p9dS2zt50rsQBsPK
+ S6Xg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=zadkxGQ+wjcAxb5kAIl/05p7fuN6dEKapyI4+NBCsrA=;
- b=GFYWEEtCJvpg51UfTuYFNzvUyGuPIHoTPm8w5vH1WVCR72TjNNcE+5kq4sIp62fnZn
- jruBAtnEqhx32K5qqKT4+RiWlgLikGb9zEXiJ4ng+vz5FijsIwRd2LZOdyAYNQrc3cKS
- buAKUM+jdD7/7FLp1QW+EEW1iQy3f4mGP6hIs4leqztT3wfVnyigr/U+Pjl+T0CYyUdQ
- K+X7PS4ep1Lx4wJxYGCJMwy843ZPHAEQwUJ/v2kSpJqDCCoQIM2CokpBdX+7xV5vU6gQ
- qSsGQDKN6CDR3lIbG97/wKRlvq4cYxkQTXx0m0dGHoD6Mfio7KhdYLr64PnS3n2fGzrd
- UUSA==
-X-Gm-Message-State: AOAM53138X5Ixpem/ZaC+Tt225ZgK9PPdhrgK600JyCB0yCt5ZWQ76cV
- 6yhTj+ZEh6i2p/HTw096Bwg=
-X-Google-Smtp-Source: ABdhPJwJo9pTxIaU2/SV+nRd/IPJ3081oxnQyZfvA4p+rEpe/4MI9CBI7KCDlHetlFkmmj4IpQ3yAQ==
-X-Received: by 2002:adf:dc84:: with SMTP id r4mr1089351wrj.307.1640250334736; 
- Thu, 23 Dec 2021 01:05:34 -0800 (PST)
+ bh=F0v2j8wDvTCZLEzLQyqs4QCz7oMsp+bWgd3Uz6iqkaQ=;
+ b=CCDGiQ57HOxxEssMj3FZ/ATZcGD1Qs7YgYPWzIaT1DMXJb3Sv+yZ1zBZERZyM0LAJ5
+ R/q62sM8a1DPzftINWVbH834ntxdLSFpS7txPwpQ8OjPN1EQ6G/4Tf7n3kAywcw43IhI
+ pYtR4VS+oOpx6i0forfmxuy5aB5MrGYoJWmXy21MgyGufPD2D8K4vLbUIScX71PdAs2M
+ JK+hHRSeRoYWitMdrpBtKyPhNOq4Be9VG+If7GDIKr0xLQVYMylxMrLnS1xYu3nFS68H
+ YR/Ss3vKIMWHFQNYEXIWr6d+X6Z2QCP6nwN0TsVEk2XCwsC7VuF5XHCdo2NJkE4Jr+DI
+ dLzw==
+X-Gm-Message-State: AOAM530bNxobu53Qdp7KeZhWrjKsiPqYSq5PyTXQ4BIHEJaRYbngoLKJ
+ 5XvRi+XworJy9cg2kAyoLu2E/vfywp4=
+X-Google-Smtp-Source: ABdhPJwRQczkFGMH50mkEK7wIRt0S15mjyoJX29vHtUEe2zc6GrlfTdDgxZ0Y3IToMp3ZcV8eToTDA==
+X-Received: by 2002:a05:6000:2aa:: with SMTP id
+ l10mr1071616wry.518.1640250337840; 
+ Thu, 23 Dec 2021 01:05:37 -0800 (PST)
 Received: from [192.168.43.238] (33.red-193-152-124.dynamicip.rima-tde.net.
  [193.152.124.33])
- by smtp.gmail.com with ESMTPSA id a3sm4881085wri.98.2021.12.23.01.05.32
+ by smtp.gmail.com with ESMTPSA id c11sm8703912wmq.48.2021.12.23.01.05.35
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 23 Dec 2021 01:05:33 -0800 (PST)
-Message-ID: <09f9304c-0ea1-3782-5cc5-574244bfcfe2@amsat.org>
-Date: Thu, 23 Dec 2021 07:55:15 +0100
+ Thu, 23 Dec 2021 01:05:37 -0800 (PST)
+Message-ID: <5a44d69a-3db9-6629-50b3-dbf48ab4f8d5@amsat.org>
+Date: Thu, 23 Dec 2021 08:01:11 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.4.0
-Subject: Re: [PATCH 02/15] ppc: Mark the 'taihu' machine as deprecated
+Subject: Re: [PATCH v2 0/5] hw/qdev: Clarify qdev_connect_gpio_out()
+ documentation
 Content-Language: en-US
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org
-References: <20211206103712.1866296-1-clg@kaod.org>
- <20211206103712.1866296-3-clg@kaod.org>
+To: qemu-devel@nongnu.org
+References: <20211218130437.1516929-1-f4bug@amsat.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <20211206103712.1866296-3-clg@kaod.org>
+In-Reply-To: <20211218130437.1516929-1-f4bug@amsat.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42b
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::432
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x432.google.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
@@ -92,29 +92,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Christophe Leroy <christophe.leroy@c-s.fr>, Thomas Huth <thuth@redhat.com>,
- Daniel Henrique Barboza <danielhb413@gmail.com>, Greg Kurz <groug@kaod.org>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Eduardo Habkost <eduardo@habkost.net>,
+ Peter Maydell <peter.maydell@linaro.org>, Yanan Wang <wangyanan55@huawei.com>,
+ qemu-trivial@nongnu.org, Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/6/21 11:36, Cédric Le Goater wrote:
-> From: Thomas Huth <thuth@redhat.com>
-> 
-> The PPC 405 CPU is a system-on-a-chip, so all 405 machines are very similar,
-> except for some external periphery. However, the periphery of the 'taihu'
-> machine is hardly emulated at all (e.g. neither the LCD nor the USB part had
-> been implemented), so there is not much value added by this board. The users
-> can use the 'ref405ep' machine to test their PPC405 code instead.
-> 
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-> Message-Id: <20211203164904.290954-2-thuth@redhat.com>
-> Signed-off-by: Cédric Le Goater <clg@kaod.org>
-> ---
->  docs/about/deprecated.rst | 9 +++++++++
->  hw/ppc/ppc405_boards.c    | 1 +
->  2 files changed, 10 insertions(+)
+Hi Peter.
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Since you reviewed v1, and Ack-by on v2 would be welcomed.
+Otherwise, if you don't object, I plan to queue this via
+machine-next tree.
+
+Thanks,
+
+Phil.
+
+On 12/18/21 14:04, Philippe Mathieu-Daudé wrote:
+> Trivial patches clarifying qdev_connect_gpio_out() use,
+> basically that the qemu_irq argument is an input.
+> 
+> Since v1:
+> - Addressed Yanan Wang and Peter Maydell comments:
+> - Correct qdev_init_gpio_out_named() doc
+> - Drop i8042_setup_a20_line() wrapper
+> 
+> Philippe Mathieu-Daudé (5):
+>   hw/qdev: Cosmetic around documentation
+>   hw/qdev: Correct qdev_init_gpio_out_named() documentation
+>   hw/qdev: Correct qdev_connect_gpio_out_named() documentation
+>   hw/qdev: Rename qdev_connect_gpio_out*() 'input_pin' parameter
+>   hw/input/pckbd: Open-code i8042_setup_a20_line() wrapper
+> 
+>  include/hw/input/i8042.h |  1 -
+>  include/hw/qdev-core.h   | 24 ++++++++++++++++++------
+>  hw/core/gpio.c           | 13 +++++++------
+>  hw/i386/pc.c             |  3 ++-
+>  hw/input/pckbd.c         |  5 -----
+>  5 files changed, 27 insertions(+), 19 deletions(-)
+> 
 
