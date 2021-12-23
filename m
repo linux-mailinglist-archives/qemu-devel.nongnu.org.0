@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16BF247E2B7
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Dec 2021 12:55:11 +0100 (CET)
-Received: from localhost ([::1]:45340 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0980947E2A8
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Dec 2021 12:54:05 +0100 (CET)
+Received: from localhost ([::1]:41406 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n0Mgg-0001Gl-5w
-	for lists+qemu-devel@lfdr.de; Thu, 23 Dec 2021 06:55:10 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58816)
+	id 1n0Mfc-00075Z-2H
+	for lists+qemu-devel@lfdr.de; Thu, 23 Dec 2021 06:54:04 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58854)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1n0MdI-0004G2-Cg
- for qemu-devel@nongnu.org; Thu, 23 Dec 2021 06:51:40 -0500
-Received: from [2a00:1450:4864:20::42f] (port=33780
- helo=mail-wr1-x42f.google.com)
+ id 1n0MdJ-0004HP-Co
+ for qemu-devel@nongnu.org; Thu, 23 Dec 2021 06:51:41 -0500
+Received: from [2a00:1450:4864:20::42e] (port=34742
+ helo=mail-wr1-x42e.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1n0MdG-0008OK-6T
- for qemu-devel@nongnu.org; Thu, 23 Dec 2021 06:51:39 -0500
-Received: by mail-wr1-x42f.google.com with SMTP id d9so11056023wrb.0
- for <qemu-devel@nongnu.org>; Thu, 23 Dec 2021 03:51:37 -0800 (PST)
+ id 1n0MdG-0008ON-Ps
+ for qemu-devel@nongnu.org; Thu, 23 Dec 2021 06:51:41 -0500
+Received: by mail-wr1-x42e.google.com with SMTP id s1so11008160wrg.1
+ for <qemu-devel@nongnu.org>; Thu, 23 Dec 2021 03:51:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=T5FPBJ394Dd3sA5Gnr0P+ccc+bkdQleyaVOEfIkhHPM=;
- b=Y5O2J9dd/8B0KGkla1flSW8t/HVVb8NPin4FRXvGZblCg42LEVQCw8eF7uig3kgWMG
- PnihIs1BfFoZLjn0PxA1xxw+xY8fo1tnZZCHoBjKFDa3/Pf/Tr6AJ3WxYbA0X+X4sQAK
- JahV1pG5JZhGq7NtPvJNrrMOUDZideHpmGG3EqsLmFGHXTd17FoG9ezwfYVs/8BzcUMm
- hDmxUzePK2/TalN9ubCDe6wrBc+sO/98oeVRLzj3VgOiZu7sYfhFKllR92Ot/PctpvQy
- 3vlqcVsO3EjVpBrQXvO7OfKkD/4EY4L5ATKusGjZi70KBZw6zsN9Nhyf9L8x4YEl1Dqb
- zUIA==
+ bh=1vV2h+B5IOnbHlbjwkV4mqWwGFqqRbWIHymfX5TQVsM=;
+ b=W+R0kRf/JcsD3Oj8G+3A6TN58Iq91ZyOm4T9t6FnB18Q1q8HK19PLcweyBPcIgZrsg
+ NJ9XsYpojH87DWK0eZSih3JtDgk55O6xB5Zeofl0ekkjnPnsbDDhZmoFbEE67NHZ3GBH
+ ZsSqs+a8TRkVNsmD92fiFexe4jT+eDvcLsD8blNRza+BxmmTgxaB3hEPC1bo614MQE//
+ qcad59/C9Suz5D+044UlxIXitIZHfPs99SHDjHRjduxNZdmk1eqJ3OWA6yqOvH4Qb9te
+ gID6JDm/ICaqfPmIsMRmWVsFGWoy+YBduzjG9sqSM5ocndI0jAErWUJWQjcVikKAVERi
+ P8ZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=T5FPBJ394Dd3sA5Gnr0P+ccc+bkdQleyaVOEfIkhHPM=;
- b=LCPbMxz39w1CGC5FWICHnpy2XpzKPoB+sRf2AQogBpVGewAy8MTfEi4gMTMxyWPkkk
- bCNd1uw+0EN2Ag5lYFCCs0UzjpEqZocweExNHB9eZWzn6L4hly5cdiR9piinbgvW/3EJ
- nqT+bOnNX4NKY56FNtyoT7LtaNKTyOEryYWoFk7Y/BWX4YqipsQgDDu3qkXbVTvKbqAQ
- 2umJpLu+rA2jcfY3tTBN7Ln6bu0VUWdH22wR9uZE/5TRyGC5WOYFcJg6mLerd4mfywEV
- Hkm0+h1mLnTEgHGyjizlW5tlTgXvis+3oqYA+Gdb9vvgM9OhZdLCIGnkmAzM36QcHVQf
- 7QIQ==
-X-Gm-Message-State: AOAM530ooZx75N3XXBSQfX0+c5d5+5JkjoICs+WqmJ3yVWvqRJww/J0S
- sQQUcMXZ89Czy3ZCAzVFzCw1CAgbw/o=
-X-Google-Smtp-Source: ABdhPJyje20BI3dbbEW56CdaHqhKk8b9ipiYnVN5H7cArkcGdK2oFnEfjN15CqqBbEtQpmJG3ScWyQ==
-X-Received: by 2002:adf:ba8b:: with SMTP id p11mr1500761wrg.390.1640260296688; 
- Thu, 23 Dec 2021 03:51:36 -0800 (PST)
+ bh=1vV2h+B5IOnbHlbjwkV4mqWwGFqqRbWIHymfX5TQVsM=;
+ b=BAn20hY9yd682n9wkw3XKjbLhAJGL0xvmfyTs9mgvK1vxhMTBQ16cnUluF3NciMj1t
+ /st881CJ/hIIbQCCriGmF8UL12iav8EayR5HJPY4RPlRragBiGFYqu4CwogNsTwEwhUg
+ 8VJyyzyVsS+O46/O63D/BA1ZcklFoVWU3nb7edC25LwHM3x6xHYeahUbQU3hknyLOuA7
+ XHHk462ixRODQ5i5tdLH3t3uJiZFOsgYSlaWfvn1F/t9Fe5ywUaCjaCQcBkw6zsbISP/
+ K+X7vOCUF+PIC4Dhsz+lhpq7XS+sNdHWJ+EY/xShGnA53lO23hQEmCDoXeWL3f+9TeaT
+ tlNg==
+X-Gm-Message-State: AOAM532o6t6QXFnaQB4NehHEY8K6PAcf8Ycvrp/Yb8UbsruTHVn3Eam/
+ gIii/O22cLpPem9IU3v5bEvOyeCxlso=
+X-Google-Smtp-Source: ABdhPJxlitIAyseRiJUoO/AgGdQGiSRCdBecGV3RyFpz7byb3s3E21z4yimiWkUJatzvM47J3wvm8A==
+X-Received: by 2002:a5d:6dad:: with SMTP id u13mr1582907wrs.604.1640260297255; 
+ Thu, 23 Dec 2021 03:51:37 -0800 (PST)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id o2sm4537106wru.109.2021.12.23.03.51.35
+ by smtp.gmail.com with ESMTPSA id o2sm4537106wru.109.2021.12.23.03.51.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 Dec 2021 03:51:36 -0800 (PST)
+ Thu, 23 Dec 2021 03:51:37 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 01/15] docker: include bison in debian-tricore-cross
-Date: Thu, 23 Dec 2021 12:51:20 +0100
-Message-Id: <20211223115134.579235-2-pbonzini@redhat.com>
+Subject: [PULL 02/15] meson: reuse common_user_inc when building files
+ specific to user-mode emulators
+Date: Thu, 23 Dec 2021 12:51:21 +0100
+Message-Id: <20211223115134.579235-3-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211223115134.579235-1-pbonzini@redhat.com>
 References: <20211223115134.579235-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42f
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42e
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x42f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x42e.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -87,41 +87,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Binutils sometimes fail to build if bison is not installed:
-
-  /bin/sh ./ylwrap `test -f arparse.y || echo ./`arparse.y y.tab.c arparse.c y.tab.h arparse.h y.output arparse.output --  -d
-  ./ylwrap: 109: ./ylwrap: -d: not found
-
-(the correct invocation of ylwrap would have "bison -d" after the double
-dash).  Work around by installing it in the container.
-
-Cc: Alex Bennée <alex.bennee@linaro.org>
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/596
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- tests/docker/dockerfiles/debian-tricore-cross.docker | 1 +
- 1 file changed, 1 insertion(+)
+ meson.build | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tests/docker/dockerfiles/debian-tricore-cross.docker b/tests/docker/dockerfiles/debian-tricore-cross.docker
-index d8df2c6117..3f6b55562c 100644
---- a/tests/docker/dockerfiles/debian-tricore-cross.docker
-+++ b/tests/docker/dockerfiles/debian-tricore-cross.docker
-@@ -16,6 +16,7 @@ MAINTAINER Philippe Mathieu-Daudé <f4bug@amsat.org>
- RUN apt update && \
-     DEBIAN_FRONTEND=noninteractive apt install -yy eatmydata && \
-     DEBIAN_FRONTEND=noninteractive eatmydata apt install -yy \
-+       bison \
-        bzip2 \
-        ca-certificates \
-        ccache \
+diff --git a/meson.build b/meson.build
+index f45ecf31bd..b0af02b805 100644
+--- a/meson.build
++++ b/meson.build
+@@ -2897,6 +2897,7 @@ foreach target : target_dirs
+   else
+     abi = config_target['TARGET_ABI_DIR']
+     target_type='user'
++    target_inc += common_user_inc
+     qemu_target_name = 'qemu-' + target_name
+     if target_base_arch in target_user_arch
+       t = target_user_arch[target_base_arch].apply(config_target, strict: false)
+@@ -2905,7 +2906,6 @@ foreach target : target_dirs
+     endif
+     if 'CONFIG_LINUX_USER' in config_target
+       base_dir = 'linux-user'
+-      target_inc += include_directories('linux-user/host/' / host_arch)
+     endif
+     if 'CONFIG_BSD_USER' in config_target
+       base_dir = 'bsd-user'
 -- 
 2.33.1
 
