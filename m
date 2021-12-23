@@ -2,72 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60F5847E2C7
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Dec 2021 12:58:27 +0100 (CET)
-Received: from localhost ([::1]:53982 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 161FD47E2BE
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Dec 2021 12:56:34 +0100 (CET)
+Received: from localhost ([::1]:49922 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n0Mjq-00076g-Es
-	for lists+qemu-devel@lfdr.de; Thu, 23 Dec 2021 06:58:26 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58868)
+	id 1n0Mi0-0004H7-RE
+	for lists+qemu-devel@lfdr.de; Thu, 23 Dec 2021 06:56:32 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58866)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1n0MdJ-0004Hk-W0
- for qemu-devel@nongnu.org; Thu, 23 Dec 2021 06:51:44 -0500
-Received: from [2a00:1450:4864:20::42d] (port=42920
- helo=mail-wr1-x42d.google.com)
+ id 1n0MdJ-0004Hj-W9
+ for qemu-devel@nongnu.org; Thu, 23 Dec 2021 06:51:45 -0500
+Received: from [2a00:1450:4864:20::432] (port=34746
+ helo=mail-wr1-x432.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1n0MdH-0008OV-5D
+ id 1n0MdH-0008Oa-JN
  for qemu-devel@nongnu.org; Thu, 23 Dec 2021 06:51:41 -0500
-Received: by mail-wr1-x42d.google.com with SMTP id w20so1959694wra.9
- for <qemu-devel@nongnu.org>; Thu, 23 Dec 2021 03:51:38 -0800 (PST)
+Received: by mail-wr1-x432.google.com with SMTP id s1so11008235wrg.1
+ for <qemu-devel@nongnu.org>; Thu, 23 Dec 2021 03:51:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=LsebaxjK4X3kfi6gKUiYbbi2y0XGxqQY+SM4Dw2Hp9Y=;
- b=K2H/Gx4H9z6sT8uRrgexTMP4fQ9zGUb4Osy85e819eNh8vUkDaK3UvHLKJJntkOrbk
- i/Z12lXSMcfv7oyo7MSCCOWvOvYu/6zO+up/dPYzQ6Y9raiMmVaOXOioSzUwHpPZht7j
- l9HYq0vfY8n7qu/HcSHXvEUlk8yJSLP11D/TU//d6oW/+FOfiWSUTcOp2jdToydsUnaS
- +Eu9++d4/QDfvV7Cad1aT4ku64Uxmi9MVfiMIWRh7pby7i6/SYxMdrWb+yJSq4UH9pXg
- 7yiMY6Zy2W3LHrweMio2PDyVnMtij8sqRC3ajJwG20v7HL9+GDB3EOBoVV0V2n1zgGMj
- zuZQ==
+ bh=ogRjYWYAou3o09X8Bc73cvf2JYVG5TqbPazpTT+XBgE=;
+ b=FATWLlisAC9pofBLxv7odWrHW/yw/YR3yZaGVMadXw+P5XwSNfeXOQ84CmnOywPlPU
+ TIICOlHEKrtA3dZck5otrNg+J+LO2IyKwaS0KSLny5ZXz2jyJ8L0BMcDcX3j0TifJmeh
+ +fh5JbcdlvZUm38cFURJkRnrL9T/18K0WVHDDDrIhsFSSUpodaTpKTwN72TZzbM9s61j
+ mKZpW6DZRt/VShFRTi4FYadFd+lEGQQcCfjeNeBr1zKUaykVcJ5HJOyvstKNrDew0RR5
+ ZnLe/iXUxa5ajSv2Zf28icubtA3g+xtn1bF6FpFJDFbkUYq/kVbsGDeIUQRMPYTcH+mc
+ KLnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=LsebaxjK4X3kfi6gKUiYbbi2y0XGxqQY+SM4Dw2Hp9Y=;
- b=EwNU1U+9hX2jwu9aXRe6bx0YWI1czvUjZkpSHe8EP6hcFir6S1kMBKoRy7IrtJfRdz
- PGJqTXuTjQIr5geGGabgzbdWaqN4aivqNkTdQxoYTLBHwpAmPqXy7GkX5+raffqGA8kN
- cvcZmS7EoJvlIOGQWZ20LXqoPvs2TTLQsz3NDf+yWCLYGlFlAH/4BU4WLHcE14l2X0NB
- GG1kxNeVjiTxY1ADloZJJNMTNr3cvrAYLQEiAl1yDQyzocZPv9PsH15VpQjtQVvX1rtY
- /w5fa80O6BG2EBUiXqP4dz5IaKkm5FdhB8FfwfKWMG36dAg80p97ZKiVEWl0axCctb7l
- EGVg==
-X-Gm-Message-State: AOAM531DXXOO2YtjAN/OGC9gnUlmikAWr0owjAr3ChJw4KZhAQqXZQYj
- EkaZrKjrwNrCJjyZdSQzx2CdIEX60+0=
-X-Google-Smtp-Source: ABdhPJwVhjEMhd4B4v7skS0O7QbGCrNAL8lcxyk+AJUaR5KQ5VAvo82pUPEHMu+PiunWhRAXxiRSWg==
-X-Received: by 2002:a05:6000:1c7:: with SMTP id
- t7mr1577554wrx.656.1640260297808; 
- Thu, 23 Dec 2021 03:51:37 -0800 (PST)
+ bh=ogRjYWYAou3o09X8Bc73cvf2JYVG5TqbPazpTT+XBgE=;
+ b=ZVpsHAIVSSgNWyUv6Nw0LoE/Ky0jh/Z9RgPfS8VBFY9XznxORsCkBtGpZ2ztVdlF93
+ a28e3oge2t4fyl0wRDXtdQuY3sxvGFpFc74PT3AHPRjndiP/HEDUnHSVqJfCWyoqefSX
+ 2XRKd/f7UhM7RQ+TrEnXKDw33xBC0LIsqzckdX6+4PH6qdumoSPpYh3hmOTX1XmmLMJB
+ nIEzZHJUdpBjz7lr6yryVOdruQncZlw7Wh1pJB28oFhpdDj3oyGOsvoPqXCT+9OaWhIN
+ 7cEoN7GVdhvShCAN95HZIPvzSSfK3JO0u6LbiLqu6TLMoEm3xRm/YCvUfX2T+taWEyBg
+ CP1Q==
+X-Gm-Message-State: AOAM530X+VEhjjiMPUj5Pbxp5NdoK8i/MDfgW/yWaT0i8KxGiw0O8EnA
+ 6VG3eN0gWL3BatN30uoVsCGXXC3ed38=
+X-Google-Smtp-Source: ABdhPJyCIVgPzzJe8InQJwZRQUfxYpFBxPvXUEHl+dl+Y+VOheK2xuZ8YYjD6ID/vSOUBFtx4jRPOg==
+X-Received: by 2002:adf:f6c1:: with SMTP id y1mr1501898wrp.351.1640260298379; 
+ Thu, 23 Dec 2021 03:51:38 -0800 (PST)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id o2sm4537106wru.109.2021.12.23.03.51.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 Dec 2021 03:51:37 -0800 (PST)
+ Thu, 23 Dec 2021 03:51:38 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 03/15] user: move common-user includes to a subdirectory of
- {bsd, linux}-user/
-Date: Thu, 23 Dec 2021 12:51:22 +0100
-Message-Id: <20211223115134.579235-4-pbonzini@redhat.com>
+Subject: [PULL 04/15] meson: cleanup common-user/ build
+Date: Thu, 23 Dec 2021 12:51:23 +0100
+Message-Id: <20211223115134.579235-5-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211223115134.579235-1-pbonzini@redhat.com>
 References: <20211223115134.579235-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42d
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::432
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x42d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x432.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -92,142 +90,75 @@ Cc: Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Avoid polluting the compilation of common-user/ with local include files;
-making an include file available to common-user/ should be a deliberate
-decision in order to keep a clear interface that can be used by both
-bsd-user/ and linux-user/.
+It is not necessary to have a separate static_library just for common_user
+files; using the one that already covers the rest of common_ss is enough
+unless you need to reuse some source files between emulators and tests.
+Just place common files for all user-mode emulators in common_ss,
+similar to what is already done for softmmu_ss in full system emulators.
 
+The only disadvantage is that the include_directories under bsd-user/include/
+and linux-user/include/ are now enabled for all targets rather than only
+user mode emulators.  This however is not different from how include/sysemu/
+is available when building user mode emulators.
+
+Tested-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- bsd-user/{ => include}/special-errno.h              | 0
- bsd-user/meson.build                                | 2 +-
- linux-user/{ => include}/host/aarch64/host-signal.h | 0
- linux-user/{ => include}/host/alpha/host-signal.h   | 0
- linux-user/{ => include}/host/arm/host-signal.h     | 0
- linux-user/{ => include}/host/i386/host-signal.h    | 0
- linux-user/{ => include}/host/mips/host-signal.h    | 0
- linux-user/{ => include}/host/ppc/host-signal.h     | 0
- linux-user/{ => include}/host/ppc64/host-signal.h   | 0
- linux-user/{ => include}/host/riscv/host-signal.h   | 0
- linux-user/{ => include}/host/s390/host-signal.h    | 0
- linux-user/{ => include}/host/s390x/host-signal.h   | 0
- linux-user/{ => include}/host/sparc/host-signal.h   | 0
- linux-user/{ => include}/host/sparc64/host-signal.h | 0
- linux-user/{ => include}/host/x32/host-signal.h     | 0
- linux-user/{ => include}/host/x86_64/host-signal.h  | 0
- linux-user/{ => include}/special-errno.h            | 0
- linux-user/meson.build                              | 4 ++--
- 18 files changed, 3 insertions(+), 3 deletions(-)
- rename bsd-user/{ => include}/special-errno.h (100%)
- rename linux-user/{ => include}/host/aarch64/host-signal.h (100%)
- rename linux-user/{ => include}/host/alpha/host-signal.h (100%)
- rename linux-user/{ => include}/host/arm/host-signal.h (100%)
- rename linux-user/{ => include}/host/i386/host-signal.h (100%)
- rename linux-user/{ => include}/host/mips/host-signal.h (100%)
- rename linux-user/{ => include}/host/ppc/host-signal.h (100%)
- rename linux-user/{ => include}/host/ppc64/host-signal.h (100%)
- rename linux-user/{ => include}/host/riscv/host-signal.h (100%)
- rename linux-user/{ => include}/host/s390/host-signal.h (100%)
- rename linux-user/{ => include}/host/s390x/host-signal.h (100%)
- rename linux-user/{ => include}/host/sparc/host-signal.h (100%)
- rename linux-user/{ => include}/host/sparc64/host-signal.h (100%)
- rename linux-user/{ => include}/host/x32/host-signal.h (100%)
- rename linux-user/{ => include}/host/x86_64/host-signal.h (100%)
- rename linux-user/{ => include}/special-errno.h (100%)
+ common-user/meson.build |  2 +-
+ meson.build             | 13 +------------
+ 2 files changed, 2 insertions(+), 13 deletions(-)
 
-diff --git a/bsd-user/special-errno.h b/bsd-user/include/special-errno.h
-similarity index 100%
-rename from bsd-user/special-errno.h
-rename to bsd-user/include/special-errno.h
-diff --git a/bsd-user/meson.build b/bsd-user/meson.build
-index 9fcb80c3fa..8380fa44c2 100644
---- a/bsd-user/meson.build
-+++ b/bsd-user/meson.build
-@@ -4,7 +4,7 @@ endif
+diff --git a/common-user/meson.build b/common-user/meson.build
+index 5cb42bc664..26212dda5c 100644
+--- a/common-user/meson.build
++++ b/common-user/meson.build
+@@ -1,6 +1,6 @@
+ common_user_inc += include_directories('host/' / host_arch)
  
- bsd_user_ss = ss.source_set()
+-common_user_ss.add(files(
++user_ss.add(files(
+   'safe-syscall.S',
+   'safe-syscall-error.c',
+ ))
+diff --git a/meson.build b/meson.build
+index b0af02b805..879628ab68 100644
+--- a/meson.build
++++ b/meson.build
+@@ -2377,7 +2377,6 @@ blockdev_ss = ss.source_set()
+ block_ss = ss.source_set()
+ chardev_ss = ss.source_set()
+ common_ss = ss.source_set()
+-common_user_ss = ss.source_set()
+ crypto_ss = ss.source_set()
+ hwcore_ss = ss.source_set()
+ io_ss = ss.source_set()
+@@ -2629,17 +2628,6 @@ subdir('common-user')
+ subdir('bsd-user')
+ subdir('linux-user')
  
--common_user_inc += include_directories('.')
-+common_user_inc += include_directories('include')
- 
- bsd_user_ss.add(files(
-   'bsdload.c',
-diff --git a/linux-user/host/aarch64/host-signal.h b/linux-user/include/host/aarch64/host-signal.h
-similarity index 100%
-rename from linux-user/host/aarch64/host-signal.h
-rename to linux-user/include/host/aarch64/host-signal.h
-diff --git a/linux-user/host/alpha/host-signal.h b/linux-user/include/host/alpha/host-signal.h
-similarity index 100%
-rename from linux-user/host/alpha/host-signal.h
-rename to linux-user/include/host/alpha/host-signal.h
-diff --git a/linux-user/host/arm/host-signal.h b/linux-user/include/host/arm/host-signal.h
-similarity index 100%
-rename from linux-user/host/arm/host-signal.h
-rename to linux-user/include/host/arm/host-signal.h
-diff --git a/linux-user/host/i386/host-signal.h b/linux-user/include/host/i386/host-signal.h
-similarity index 100%
-rename from linux-user/host/i386/host-signal.h
-rename to linux-user/include/host/i386/host-signal.h
-diff --git a/linux-user/host/mips/host-signal.h b/linux-user/include/host/mips/host-signal.h
-similarity index 100%
-rename from linux-user/host/mips/host-signal.h
-rename to linux-user/include/host/mips/host-signal.h
-diff --git a/linux-user/host/ppc/host-signal.h b/linux-user/include/host/ppc/host-signal.h
-similarity index 100%
-rename from linux-user/host/ppc/host-signal.h
-rename to linux-user/include/host/ppc/host-signal.h
-diff --git a/linux-user/host/ppc64/host-signal.h b/linux-user/include/host/ppc64/host-signal.h
-similarity index 100%
-rename from linux-user/host/ppc64/host-signal.h
-rename to linux-user/include/host/ppc64/host-signal.h
-diff --git a/linux-user/host/riscv/host-signal.h b/linux-user/include/host/riscv/host-signal.h
-similarity index 100%
-rename from linux-user/host/riscv/host-signal.h
-rename to linux-user/include/host/riscv/host-signal.h
-diff --git a/linux-user/host/s390/host-signal.h b/linux-user/include/host/s390/host-signal.h
-similarity index 100%
-rename from linux-user/host/s390/host-signal.h
-rename to linux-user/include/host/s390/host-signal.h
-diff --git a/linux-user/host/s390x/host-signal.h b/linux-user/include/host/s390x/host-signal.h
-similarity index 100%
-rename from linux-user/host/s390x/host-signal.h
-rename to linux-user/include/host/s390x/host-signal.h
-diff --git a/linux-user/host/sparc/host-signal.h b/linux-user/include/host/sparc/host-signal.h
-similarity index 100%
-rename from linux-user/host/sparc/host-signal.h
-rename to linux-user/include/host/sparc/host-signal.h
-diff --git a/linux-user/host/sparc64/host-signal.h b/linux-user/include/host/sparc64/host-signal.h
-similarity index 100%
-rename from linux-user/host/sparc64/host-signal.h
-rename to linux-user/include/host/sparc64/host-signal.h
-diff --git a/linux-user/host/x32/host-signal.h b/linux-user/include/host/x32/host-signal.h
-similarity index 100%
-rename from linux-user/host/x32/host-signal.h
-rename to linux-user/include/host/x32/host-signal.h
-diff --git a/linux-user/host/x86_64/host-signal.h b/linux-user/include/host/x86_64/host-signal.h
-similarity index 100%
-rename from linux-user/host/x86_64/host-signal.h
-rename to linux-user/include/host/x86_64/host-signal.h
-diff --git a/linux-user/special-errno.h b/linux-user/include/special-errno.h
-similarity index 100%
-rename from linux-user/special-errno.h
-rename to linux-user/include/special-errno.h
-diff --git a/linux-user/meson.build b/linux-user/meson.build
-index b2f4afd5e7..de4320af05 100644
---- a/linux-user/meson.build
-+++ b/linux-user/meson.build
-@@ -4,8 +4,8 @@ endif
- 
- linux_user_ss = ss.source_set()
- 
--common_user_inc += include_directories('host/' / host_arch)
--common_user_inc += include_directories('.')
-+common_user_inc += include_directories('include/host/' / host_arch)
-+common_user_inc += include_directories('include')
- 
- linux_user_ss.add(files(
-   'elfload.c',
+-common_user_ss = common_user_ss.apply(config_all, strict: false)
+-common_user = static_library('common-user',
+-                             sources: common_user_ss.sources(),
+-                             dependencies: common_user_ss.dependencies(),
+-                             include_directories: common_user_inc,
+-                             name_suffix: 'fa',
+-                             build_by_default: false)
+-common_user = declare_dependency(link_with: common_user)
+-
+-user_ss.add(common_user)
+-
+ # needed for fuzzing binaries
+ subdir('tests/qtest/libqos')
+ subdir('tests/qtest/fuzz')
+@@ -2857,6 +2845,7 @@ common_all = common_ss.apply(config_all, strict: false)
+ common_all = static_library('common',
+                             build_by_default: false,
+                             sources: common_all.sources() + genh,
++                            include_directories: common_user_inc,
+                             implicit_include_directories: false,
+                             dependencies: common_all.dependencies(),
+                             name_suffix: 'fa')
 -- 
 2.33.1
 
