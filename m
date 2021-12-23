@@ -2,140 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0261347E51B
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Dec 2021 15:48:18 +0100 (CET)
-Received: from localhost ([::1]:46222 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5A1147E554
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Dec 2021 16:04:55 +0100 (CET)
+Received: from localhost ([::1]:54994 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n0POC-0007zg-RL
-	for lists+qemu-devel@lfdr.de; Thu, 23 Dec 2021 09:48:16 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54394)
+	id 1n0PeI-0006qL-IZ
+	for lists+qemu-devel@lfdr.de; Thu, 23 Dec 2021 10:04:54 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53114)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1n0PL4-0004te-Ge; Thu, 23 Dec 2021 09:45:02 -0500
-Received: from mail-eopbgr130107.outbound.protection.outlook.com
- ([40.107.13.107]:26305 helo=EUR01-HE1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1n0PKu-0005F9-2q; Thu, 23 Dec 2021 09:45:02 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gLeMpqu8PrPPX96fH6Tt0TG0rDLn4HsRpIZgCNjx0fEwTB/GRmKaINEHOR/FrIIEkJKwvKviiPAAHTQRarvB22Y3PwQHtlBRKaytIgKz34IHnVqlc03uA3YsS+Xx0Od0Ri++vNGdDuBWbF5sVVdmlPDLTO4CJdoEpf3lzmAsQsWR2i/AzRCMGw/2Yg9R4K+0QDz366iw1VUkmiGA9FwdHhRDR+Hx8g/pfZ+xUdqDEbCi1wbMXXXtUzd8P8aIBij61XOoLpovzwyyrVQwb7xqmfpreWtMK/SlA0RroIEeIaVbky/p9R+kvMsg+lCs647itMv3ie5c3eaGq57lg9E21A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=TE5XD6QBNiPWvR5HKeic41K+3PSQgz3sy08r3Ht/1qw=;
- b=cP8K8eeVJYJrvZEqESeGYGaXvLBm02KvJwpKRirph2f06MtItr50sZZNt9OiGTq8tCAS6z14VvyKR7xv1/NIRTAsJNwspGdthHFRA0graFxW54lAR/l/hGocwYV2pS7GCHe9QliHVd0jD8UHIi8gOPIMSPuZTNX1DL6lStEKO7Z1t1aOoThLvPNsX0cvTGlAToxDJTmlREX1RSi83areeCChji9kZRc8+wPyiZHYAQuxqkK/ujFbHA0Ip2Q2zE9fIl+bdLaC3ZpDQE1krJabTERcPTGyZWZJwZn8e/oqiaBXC7bTs/zwplnCv/jenfNSlnSx5AWMtW4qLKwMpn/0JQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=TE5XD6QBNiPWvR5HKeic41K+3PSQgz3sy08r3Ht/1qw=;
- b=D4VXBQ0FaEHyziBG4jsA6jvTrkvORM/7EDi2lHmqtqJLlRcdsEXsZYFoN7aD2rLY1Yq/+dgWg3R+zIoo11n58wRCdXFDO3KTdQtjbJtjSS107T9JC4fkx9GidCpJ6sEgM+WyhnKksJMo5LvrPKjGYXXUkR5Of/Dx9WVBhk3Vbmc=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM9PR08MB6737.eurprd08.prod.outlook.com (2603:10a6:20b:304::18)
- by AM0PR08MB5395.eurprd08.prod.outlook.com (2603:10a6:208:188::13)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4823.18; Thu, 23 Dec
- 2021 14:44:48 +0000
-Received: from AM9PR08MB6737.eurprd08.prod.outlook.com
- ([fe80::b118:483a:d003:3112]) by AM9PR08MB6737.eurprd08.prod.outlook.com
- ([fe80::b118:483a:d003:3112%5]) with mapi id 15.20.4823.019; Thu, 23 Dec 2021
- 14:44:48 +0000
-Message-ID: <c68e6209-2939-d0b2-aa48-77e45c7003bb@virtuozzo.com>
-Date: Thu, 23 Dec 2021 17:44:46 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH v4 18/19] iotests.py: implement unsupported_imgopts
-Content-Language: en-US
-To: Hanna Reitz <hreitz@redhat.com>, qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, kwolf@redhat.com, jsnow@redhat.com
-References: <20211203130737.2924594-1-vsementsov@virtuozzo.com>
- <20211203130737.2924594-19-vsementsov@virtuozzo.com>
- <f93baaa5-7d05-5a59-d439-c4a7e99e48bd@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-In-Reply-To: <f93baaa5-7d05-5a59-d439-c4a7e99e48bd@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR0P281CA0053.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:48::17) To AM9PR08MB6737.eurprd08.prod.outlook.com
- (2603:10a6:20b:304::18)
+ (Exim 4.90_1) (envelope-from <tonistiigi@gmail.com>)
+ id 1n0HtA-0006k4-4M
+ for qemu-devel@nongnu.org; Thu, 23 Dec 2021 01:47:45 -0500
+Received: from [2607:f8b0:4864:20::52e] (port=35475
+ helo=mail-pg1-x52e.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <tonistiigi@gmail.com>)
+ id 1n0Ht8-0005HC-B8
+ for qemu-devel@nongnu.org; Thu, 23 Dec 2021 01:47:43 -0500
+Received: by mail-pg1-x52e.google.com with SMTP id v25so4139761pge.2
+ for <qemu-devel@nongnu.org>; Wed, 22 Dec 2021 22:47:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=nuK5ni6SPoO45Nbx3zlI9WlWEe/hlceeKwt3qfOlWTM=;
+ b=JbJAquiaLdk13AVYo6UyGTKGd4N3pZi7fjFpEKd1HQbitwWsCxogc3iqEGujyVSyw1
+ hCno0obZqXcs9QaDqPpaKEiv2FPRrq4CCeX3VQKArVzUSE81qnO+D5m6xVHA4q5D0CYF
+ rSYJLtp7oyFfR054RIydmGO2io5biNh+5TKqOlOWQuidTvkzeVYF7yfsNM4GtTGKO5+z
+ ubKi1L3pwIy2IfBLg2IxRP1Awz8j3AwzUmG8bTTtoYSfH7cSrn9B6Krx+8NGdyCneL3E
+ Wyf1CHhdmRAIv9G56aRu/uLf4tsNz4kGLqibXkFR3IcB2fFk+I7fZK0cEwWJX/I3YIA8
+ 6PCQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=nuK5ni6SPoO45Nbx3zlI9WlWEe/hlceeKwt3qfOlWTM=;
+ b=JbnBvzcB5v1NOXBHqBwMqostYIqV9WxFcQilVRjxMV0V2k5IDp+TaEboPihKRmDKl8
+ +rGssuLrxuU733w4RU9BGEbVQXvbGDfvOn92HogZX9+DJU7pD8Amg1qiTk5KJLXZqQhS
+ XbADHIMxfHQuvczex1WpSjvxkF/W/5SlrLnWUisI36vMmCXdxJdKpT6Px+qZBtR0Dj1P
+ Z7jFSsvFwczogK0xyAhepVJj9VzdDdXyxv+1Bb94hd9iqo+d99JqasNsB3IQgeLrxxQ5
+ tZvJcFMlvHW8pt31UkQutmLCf9+Td150gXlRFD2iQazX16tienXR6neusIfLG+G6e8n/
+ U5tg==
+X-Gm-Message-State: AOAM531WdN8F6A1TYJgmR8Ccb2EzXXxjPL9wl06D4R/WBFHjlmaXp9X7
+ sNv1t1bewlLPWO76oGfEM49jPiMxBxmnPuvC
+X-Google-Smtp-Source: ABdhPJy517gPT7O0SqlzTW4I2JwRzNX4WyhzD1ELQ8/kC8Ybh1u4EpFFDI6BJg4f6a8r15PRbIT3wg==
+X-Received: by 2002:a05:6a00:ac6:b029:374:a33b:a74 with SMTP id
+ c6-20020a056a000ac6b0290374a33b0a74mr1208110pfl.51.1640242059777; 
+ Wed, 22 Dec 2021 22:47:39 -0800 (PST)
+Received: from localhost ([2601:646:100:6be:5d75:3e6f:544f:655e])
+ by smtp.gmail.com with UTF8SMTPSA id f10sm3700318pge.33.2021.12.22.22.47.38
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 22 Dec 2021 22:47:39 -0800 (PST)
+From: Tonis Tiigi <tonistiigi@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 0/2] linux-user: fixes for sched_ syscalls
+Date: Wed, 22 Dec 2021 22:47:26 -0800
+Message-Id: <20211223064728.18048-1-tonistiigi@gmail.com>
+X-Mailer: git-send-email 2.32.0 (Apple Git-132)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 233244e0-e20e-4229-91ce-08d9c622c4b6
-X-MS-TrafficTypeDiagnostic: AM0PR08MB5395:EE_
-X-Microsoft-Antispam-PRVS: <AM0PR08MB53959E1133A0D647E07D0334C17E9@AM0PR08MB5395.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6790;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: vuNnYvBvwksgKWPw/kQhPxjmzDh3vPXxgtMOcZJEFNw1TNHc2X/huSeHmEglvxycwi+6IoCklnaXTfW1awlfLDEndp5XVebSWPYu81Mr3lg0g6EexWkt/oDgqMpKHpmUpO3n66iDz9J3Df0+01LdUmWDsheoNXF+8/5g4XugQUVuIwu8YoiOIhkdoOkAC4ytI7C6RnRxO8oa94SOHWPlqHLra37rz/8fXrO9WbTZlZnawoBsrsZcgGvKbDguXy3hkHMnrSYMD6EWdamO4aLdap55UAQsRAVnpk6gzn+3uS9ialAaYo7NMjVe0b97SZI8gW9vEbJTxN1/Wwwngju4+Qrl0amNbUQqdzWoQG/893AyUJvEzunPoVu6iiLN/oT9tONqUPDj/kgaFs3X9RJxa7NX8U1Q2DQEePcCff7eSQmP+sTTpXNRqnN4SsKVv12IZCuakRSsyCOeeeKYEvkx84BkZ+SC+ekZujj4psTq4cWeFDVoQzNeNYJD4/KVr0xlQ2+q+gWSnCpzHt4ZyhOretqcij1WDcAUMTcbFpxD0fvtPhOdoK/zZEKPxnW5Bqe8X/ZmOp6gE7do5DUFxd5jGnRu9NyHQmjNAJ0urbBA3NblMOylKIFK5tbzbhO9Qu9YfY7naXvg8gDd3eIgYhHs+2WdsTdX8Y1czsimP9okegjMEzV3NquwkbBnZuL5t+yN9hBZseMNyc9nMz175dylNJ0eHDdOpVE0ljwlbZIc8TXnZInrJf6gSZsBx4xM/vzurva0YqXTASInBtDSZRGduw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM9PR08MB6737.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(66946007)(31686004)(53546011)(316002)(2616005)(66476007)(4326008)(86362001)(186003)(8936002)(66556008)(6506007)(26005)(52116002)(8676002)(31696002)(6512007)(83380400001)(38350700002)(5660300002)(2906002)(36756003)(6486002)(38100700002)(508600001)(43740500002)(45980500001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UDBBRmI2TXR6VFhaSnhVL2xoRzlQSDdNUE9QV0VNOXpVNFZNUFQrSXh0RGhH?=
- =?utf-8?B?dWsyaklUK2V1Y0RKdnZYWHlDQnZTelFFN1dkUUhtaTlpaXJ2WjhIeDJJZ042?=
- =?utf-8?B?eFduN1ptSkdNb21YUjdYaW1Sek84TnRvdERmZ3hVL2JoZWh0Njd2UGtIK3RG?=
- =?utf-8?B?RVhWMS9YcGJQWUNiQ3ZOZksxbHBUamJCUVY4QlpHV1FLdDE4Q1FhNmFnRzFm?=
- =?utf-8?B?aUplTXVWL203UGE3cVlQUTBOV25BOWlOY1A0TmNjU25sVmx5UXkrV0NURUhw?=
- =?utf-8?B?b1ZHODJPay84eHBnRk5Cc1VxZm1vaVY0aHNqNW85bU1sTWJyWllnWnFpY1Z4?=
- =?utf-8?B?MmE1ZldKTU5qdUpOeWxrRFVCS01xTEswVkgrajM0ZGJQSnN4eHd5a3ZDYzFJ?=
- =?utf-8?B?QTFYQldBdk5aTkFCUkNHdG1IOUtaKzh0RkxpanR2V2Nlc05namxyb0NNaW5n?=
- =?utf-8?B?cGJDbnNLUm9nZmhOR3kxZUZRZ0xISXloaCtzSFVPSmFiVDFOU0p4bGNiVXI5?=
- =?utf-8?B?cHUrM1U2d1dKQ1NqL2NCUlFFbUQrZytjdkJMV2dHRDRoNGFiVnlmOU40Vi82?=
- =?utf-8?B?NmJ5bTRYdFJZVFU2M2JQeGRISGhidlc5YnI3OElzbHgzUjFybElBTHlYVFNv?=
- =?utf-8?B?ZU5jQjU0T1lqRmM3NlI0ZEFKaTdZSHZ1dWxrUkN3Nk9vWmZEL0NCdWpmcXMz?=
- =?utf-8?B?L0t6RlV5eUVqa25tblc4b1lpbEZIMGxiRVlUWThlNktHSkp0WnhwYitEWkhS?=
- =?utf-8?B?ZjdVSnB0VjBEcFl1MytHa2poK0MrcFJwNnk4L2t0cXJtZ3g1QlcrbGVDVEJD?=
- =?utf-8?B?VDZrdG13VmY5VnNEK1ZjeE1Hd1dEczI3Y2cyRUp1cVIyZ0Yra1J3aTR5akFY?=
- =?utf-8?B?dW82Y2s4S1loekdSMVhWUnFyR2pRWEc2aUczeFhoMEZ0TTFRdURINnBsVzl3?=
- =?utf-8?B?aHgycFVCdkRNYTBxT1g0cGVvTkpjK3FZQ2svcFNTS0xQQmNzZEJMbFREY1Zv?=
- =?utf-8?B?bDA1Sm5mT2pCZ1dhRmNVU05td1hzdmtxbDFaVFNIY2NsdHE4SHl1YTV1V0ZF?=
- =?utf-8?B?Q1NMRUNZVS9tUmxrQWI2YUhIc21zVjRDSmhFVERzV0FFUkd5TXhDdUpwQ0Z4?=
- =?utf-8?B?Yy9CcHh5THNqSVBBNlB1N0FWQXA5aERyQSt2WHVZRmE1MVF0MkUwV05IcjZN?=
- =?utf-8?B?Ulp0blRkUEEwY2VFNXROaEtPSmQwNitXb29KWVRWODZVSm9ZMkJVbUZQM1ZM?=
- =?utf-8?B?ak5Lc3M2TTNybGYrcUYxcmdMUzBrMkdqQytLQVExNGtEYkc3RHRPLy9adTNR?=
- =?utf-8?B?ZVc2MkhWSWdZdWIvOHV3akE3elhwTld0aEgvU2tkR05CUlB2NGQ1VjlacUZ5?=
- =?utf-8?B?M1ZyN0p6RjR0U0ZMSkRnWTVxWmJPT0FGL00xZFNyaWNYZThoS2FGZ3U5cVhV?=
- =?utf-8?B?ak1vZzNaUTNONjVqMXkydzdwWnhoZ2ZCaFhIeThwRUNvcVowL1F2N3RBaE1F?=
- =?utf-8?B?UkRZZjlURHM3V2sweTVaWkFSZzFxT21TSVBEMjhXeE9HaVlnQjV0VGk3U0t5?=
- =?utf-8?B?aVVEcWtFNzc2WjVHMmdRTmc4d2lDbG5pbU5vYmdRTFR6T2R6OWVaOVJ1cEkw?=
- =?utf-8?B?cXRMMmVLeHlKc0VNTmlhNW0wT3NhZnd5UlNobVRuK2lBSG9yaXFiMjBMakdk?=
- =?utf-8?B?bUdLWjB1QVRCRDFIWE9Vdk13b241MHh5c2QwOFpHUGt4RGNuNERybHBvWmU2?=
- =?utf-8?B?ZXJaS0VzeHBaS0pkQjJ6enpGM0ZyTUt6eTNUOE1FNlE0NWJoeE5lYms4NXBM?=
- =?utf-8?B?SXpsMVR6eXBvU0pJWnZQblpBKzVQR0YzZWg4SHVpSXVDa1BzZnV5aHdualdS?=
- =?utf-8?B?TDZ5QzViNnEya21CVTV1TEFYY203UkthaDh5ZHJlSEM5d3lMRmJuNGdBWUJw?=
- =?utf-8?B?ZzQ3OXlzektTK1g2aEdqRWROS2FKcjR4TnVXTTgvcGhkN3V5NkNlVjBDUHdS?=
- =?utf-8?B?ZjgyUmlZSDArQ1duYUxPQVg3NFFrUGdvZ1JjSStBNzJ5MXF6MHpQc0l2UnhT?=
- =?utf-8?B?NVhiVjJqWTFyZFo2cjJiQm1DaGFSRE1JTnoxRHR6TkxwSDF5dkZQV2YwejFT?=
- =?utf-8?B?UE4vd29ycnV2dVVtZW4zRXFGWnNVcEszekw0TGNqUkljM3luVm55TkhmT0Zh?=
- =?utf-8?B?b3dxd2xqeVpwd21DbUdSZ3VQU1BScXU5MkwwNitIWXZ2eTJnWEVqcjM0a2VJ?=
- =?utf-8?Q?VpneGKy8at6zAZMWvfY0Q/eYvXRlcyupLXnJM7ptuI=3D?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 233244e0-e20e-4229-91ce-08d9c622c4b6
-X-MS-Exchange-CrossTenant-AuthSource: AM9PR08MB6737.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Dec 2021 14:44:48.2841 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: vtlyPX+WE/HzV6tXJXvqISzbP58M56fFAzT2T1oxpZuhyvb2Yqz5pzUchSqlA6sQEKhnC2ymv3Pqdtdnj2yA0+26NB6xJv+3bMoENbRu/U4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR08MB5395
-Received-SPF: pass client-ip=40.107.13.107;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR01-HE1-obe.outbound.protection.outlook.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.264,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::52e
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52e;
+ envelope-from=tonistiigi@gmail.com; helo=mail-pg1-x52e.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Thu, 23 Dec 2021 10:02:09 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -147,33 +85,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Tonis Tiigi <tonistiigi@gmail.com>, laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-23.12.2021 15:41, Hanna Reitz wrote:
-> On 03.12.21 14:07, Vladimir Sementsov-Ogievskiy wrote:
->> We have added support for some addition IMGOPTS in python iotests like
->> in bash iotests. Similarly to bash iotests, we want a way to skip some
->> tests which can't work with specific IMGOPTS.
->>
->> Globally for python iotests we now don't support things like
->> 'data_file=$TEST_IMG.ext_data_file' in IMGOPTS, so, forbid this
->> globally in iotests.py.
->>
->> Suggested-by: Hanna Reitz <hreitz@redhat.com>
->> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
->> ---
->>   tests/qemu-iotests/iotests.py | 15 ++++++++++++++-
->>   1 file changed, 14 insertions(+), 1 deletion(-)
-> 
-> Reviewed-by: Hanna Reitz <hreitz@redhat.com>
-> 
-> Can we move this and the next patch before patch 2, though? Otherwise, the tests adjusted in the next patch will be broken after patch 2 (when given those unsupported options).  The move seems trivial, just wondering whether you know of anything that would prohibit this.
-> 
+This patchset improves support for sched_* syscalls under user emulation. The 
+first commit adds support for sched_g/setattr that was previously not 
+implemented. There is no equivalent for these syscalls in libc, so I needed to 
+redefine the struct from kernel. It can't be included directly because of 
+conflict with libc sched headers.
 
-OK
+The second commit fixes sched_g/setscheduler and sched_g/setparam, when QEMU is 
+built with musl. Musl does not implement these due to conflict between what 
+these functions should do in syscalls and libc 
+https://git.musl-libc.org/cgit/musl/commit/?id=1e21e78bf7a5c24c217446d8760be7b7188711c2
+ . I've changed it to call syscall directly what should always be the expected 
+behavior for the user.
+
+Via https://github.com/tonistiigi/binfmt/pull/70 with additional tests.
+
+Changes v3->v2:
+- Fix wrong property name for sched_flags
+- Validate size parameter and handle E2BIG errors same way as kernel does. There
+is one case where it can't be done completely correctly but clients should still
+be able to handle it: when client sends a bigger non-zero structure than current
+kernel definition we will send E2BIG with the struct size known to qemu. If now
+the client sends structure with this size it may still get another E2BIG error
+from the kernel if kernel is old and doesn't implement util_min/util_max. I don't
+think this can be handled without making additional syscalls to kernel.
+
+Changes v1->v2:
+- Locking guest addresses for sched_attr is now based on size inputs, not local 
+struct size. Also did the same for setter where I now read only the size field 
+of the struct first.
+- Use offsetof() when checking if optional fields are supported.
+- `target_sched_attr` now uses aligned types as requested. I didn't quite 
+understand why this is needed as I don't see same in kernel headers, but as 
+this type uses only constant width fields and is already aligned by default it 
+can't break anything.
+- Fixed formatting.
+- Defined own `target_sched_param` struct as requested.
+
+
+Tonis Tiigi (2):
+  linux-user: add sched_getattr support
+  linux-user: call set/getscheduler set/getparam directly
+
+ linux-user/syscall.c      | 134 ++++++++++++++++++++++++++++++++++----
+ linux-user/syscall_defs.h |  18 +++++
+ 2 files changed, 139 insertions(+), 13 deletions(-)
 
 -- 
-Best regards,
-Vladimir
+2.32.0 (Apple Git-132)
+
 
