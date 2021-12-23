@@ -2,77 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E611347E8C0
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Dec 2021 21:26:10 +0100 (CET)
-Received: from localhost ([::1]:34890 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEA1C47E8D1
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Dec 2021 21:38:25 +0100 (CET)
+Received: from localhost ([::1]:40724 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n0UfC-0007s4-2l
-	for lists+qemu-devel@lfdr.de; Thu, 23 Dec 2021 15:26:10 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55390)
+	id 1n0Ur2-0004He-AG
+	for lists+qemu-devel@lfdr.de; Thu, 23 Dec 2021 15:38:24 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59440)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1n0UXs-0003cw-Ur; Thu, 23 Dec 2021 15:18:37 -0500
-Received: from [2607:f8b0:4864:20::92a] (port=41701
- helo=mail-ua1-x92a.google.com)
+ id 1n0UpK-0003DW-0g; Thu, 23 Dec 2021 15:36:38 -0500
+Received: from [2607:f8b0:4864:20::82c] (port=33719
+ helo=mail-qt1-x82c.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1n0UXr-0004Nb-74; Thu, 23 Dec 2021 15:18:36 -0500
-Received: by mail-ua1-x92a.google.com with SMTP id p37so11806815uae.8;
- Thu, 23 Dec 2021 12:18:34 -0800 (PST)
+ id 1n0UpI-0008Tt-6v; Thu, 23 Dec 2021 15:36:37 -0500
+Received: by mail-qt1-x82c.google.com with SMTP id v4so3335566qtk.0;
+ Thu, 23 Dec 2021 12:36:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=Q+cJJo0Yu+hVDoZwEJif6PwX0qnJMxfhnSWTNhJ5kAQ=;
- b=HI/VCnmbFH02gOZEwvzrp/yyPOl1Y57/oIAcUx8h0QLLnVMoYCTYjJPG4yqSNw1SD1
- if6pZjYofoJITg2Laq8g1nN9/CcAyzUghxo8isaXvGspjIRTuyNT8wemn0orZ+0yorNt
- /1TlpE6GHTQ+nu0VvydxqBJkUjqJM4qsblwDtfJxd2QCaSLgdgjkRaq26ralYHFzJP5x
- CK96kPVAUzBxB2hZR54A/VgDy5oCPzAom9jSBP57htKvbfukVHR5LZtOwXfz2VpxXS1V
- Yyu9b6aXYMA99IQ8czJ2tFaUHha7Yx2YCMONVdlY5aXN8DYYTIxsDlGu56oy5TfS684n
- qQbw==
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=x3/N/dYaJR5XXppMVzYeDisR3xsyrK+uB89MhRhSOUo=;
+ b=YQs/uFwqE/zinMuZkyIgtdLL41GFb3dmhdF9Svq7Ffl1CMiii+N3bq/V27PVYol6Kj
+ sBwUpu6tEcB8UNUFlG6gqkIdyHk+VHmuELJ94X+bFmCeWcF97OLR3mdOtZ5HEkckcgNt
+ lO55ps9rsWEvjirZUQLPKjruxZrhYCDzLsEC2vkGYoo1cd4BPwIRttDFeeaTDiXYfuEe
+ gIBOnvcVHlYaV4njcGkJJ2ORYgHHxrnYpYvVi15CO7W9MDU4VxS3a6uR5GQ9kLwqiyFx
+ VamSvmwOjWGLghFwFfy936ehyWV+g1SwRpag9mSjrnYN8Ed1xRuocIFtCsQas3tUhPRj
+ kvOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=Q+cJJo0Yu+hVDoZwEJif6PwX0qnJMxfhnSWTNhJ5kAQ=;
- b=Apcr7hfYaaF5nlM9FXgKLD6XeKt7J6vAdqicA5qntAl8yQExpRpPN7XT6USyUmtk2Z
- xrD+G2fMJppzrbIChPTp8Wihb2Na3mE0RUi+XVF3XpCLhCTRYplJGlZ7lfYNZ54pP7Tk
- MucTLFWpv5vnCqHEMt5Zm0PixEl6awbYHtjbp4iNYpHottN6esjlv79Tx2MAQad4WllY
- M7t6AbBsgkoa7v9J1bdk4HTEx8/1e5xMnwGnO650aCbzsTU7xwMs9I/lpsudCHG2SicX
- KNS7hVQbna8D046EudKr/kC4qoytR9onwUObBbyJ1kS9OWCbvUKnyNV3inzi3+r4lVMP
- sj1g==
-X-Gm-Message-State: AOAM533hj+OeUnXrqI8O2t1JueNGLEmp3lZrP8Qtk9MXQODDnXMm8eCK
- +hL4LMmhRb5gXBH4g+Z702sUcWvXKMw=
-X-Google-Smtp-Source: ABdhPJyr30uliMxYNpzzaAeDX+fDvqh9yUHPX9sGVAcZ1XqsQagr2WVhmVXb5DolCSyLG1thvZdZhg==
-X-Received: by 2002:a05:6102:2274:: with SMTP id
- v20mr1437254vsd.40.1640290713924; 
- Thu, 23 Dec 2021 12:18:33 -0800 (PST)
-Received: from rekt.ibmuc.com ([2804:431:c7c6:7ce4:b718:2cc0:32df:97ee])
- by smtp.gmail.com with ESMTPSA id f20sm1185114vsl.31.2021.12.23.12.18.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 Dec 2021 12:18:33 -0800 (PST)
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 5/5] target/ppc/power8-pmu.c: remove helper_insns_inc()
-Date: Thu, 23 Dec 2021 17:18:12 -0300
-Message-Id: <20211223201812.846495-6-danielhb413@gmail.com>
-X-Mailer: git-send-email 2.33.1
-In-Reply-To: <20211223201812.846495-1-danielhb413@gmail.com>
-References: <20211223201812.846495-1-danielhb413@gmail.com>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=x3/N/dYaJR5XXppMVzYeDisR3xsyrK+uB89MhRhSOUo=;
+ b=0e70ZMJFsY+MDZn1O7zc955+WKx9TikBsWSvqmKTL1AFY/yyp+GhIvmOgkcM0kcsu/
+ K1gGs5d+pEwINyuRHb6lTuxmP4bx+xoYyg2LaABQOG83sIprxNyzO++s6QPzObvctFCI
+ a94mJg7z7ecgbPd5kFphHKL9aebWfR8cbZ3QWoHUnwKgpIV06lN5/iyv0wskpye4WFpU
+ epZeEG3PolgEz5IAj5UarfOs3NI0Sqod6Dx12swIEcdBvY88PdNdQz+cQQOfeG9UB3Oe
+ tqRlsINDI5550FJjriMsTkuHnwlT7yJsMqiSlH0jrkP3ZvK84Q2hI2eXTqZ6yt8coSTw
+ 1lmA==
+X-Gm-Message-State: AOAM531s0SlMLsKjr5exMjjxARL1Q8Q/H9XeLLNvD2DiWEPMODh2VkTU
+ 8KAQLzLG9/5oGasyaBQGASM=
+X-Google-Smtp-Source: ABdhPJyvKkzlrSna7BSwIKgoK2SMBAEGN+uYSs7nioop2o5EK/IzE7LsBbYE0f9oyJGB2emRfRq1fQ==
+X-Received: by 2002:a05:622a:1a1c:: with SMTP id
+ f28mr3140372qtb.308.1640291794954; 
+ Thu, 23 Dec 2021 12:36:34 -0800 (PST)
+Received: from ?IPV6:2804:431:c7c6:7ce4:b718:2cc0:32df:97ee?
+ ([2804:431:c7c6:7ce4:b718:2cc0:32df:97ee])
+ by smtp.gmail.com with ESMTPSA id w8sm5068212qtc.36.2021.12.23.12.36.32
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 23 Dec 2021 12:36:34 -0800 (PST)
+Message-ID: <1b988844-075d-beb3-7fd1-a26f30e9f5dc@gmail.com>
+Date: Thu, 23 Dec 2021 17:36:30 -0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::92a
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH 0/3] Reorg ppc64 pmu insn counting
+Content-Language: en-US
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20211223030149.1947418-1-richard.henderson@linaro.org>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+In-Reply-To: <20211223030149.1947418-1-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::82c
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::92a;
- envelope-from=danielhb413@gmail.com; helo=mail-ua1-x92a.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::82c;
+ envelope-from=danielhb413@gmail.com; helo=mail-qt1-x82c.google.com
+X-Spam_score_int: -32
+X-Spam_score: -3.3
+X-Spam_bar: ---
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-2.264,
  RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,128 +90,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: richard.henderson@linaro.org,
- Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
- clg@kaod.org, david@gibson.dropbear.id.au
+Cc: qemu-ppc@nongnu.org, clg@kaod.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-After moving all the instruction counting to TCG Ops code
-this helper is not needed anymore.
 
-Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
----
- target/ppc/helper.h                  |  1 -
- target/ppc/power8-pmu-insn-cnt.c.inc |  4 --
- target/ppc/power8-pmu.c              | 60 ----------------------------
- 3 files changed, 65 deletions(-)
 
-diff --git a/target/ppc/helper.h b/target/ppc/helper.h
-index 4d8193caab..de80e82ebe 100644
---- a/target/ppc/helper.h
-+++ b/target/ppc/helper.h
-@@ -25,7 +25,6 @@ DEF_HELPER_2(store_mmcr0, void, env, tl)
- DEF_HELPER_2(store_mmcr1, void, env, tl)
- DEF_HELPER_3(store_pmc, void, env, i32, i64)
- DEF_HELPER_2(read_pmc, tl, env, i32)
--DEF_HELPER_2(insns_inc, void, env, i32)
- DEF_HELPER_1(pmu_overflow, void, env)
- #endif
- DEF_HELPER_1(check_tlb_flush_local, void, env)
-diff --git a/target/ppc/power8-pmu-insn-cnt.c.inc b/target/ppc/power8-pmu-insn-cnt.c.inc
-index 6e0e4e1270..adb796c1c1 100644
---- a/target/ppc/power8-pmu-insn-cnt.c.inc
-+++ b/target/ppc/power8-pmu-insn-cnt.c.inc
-@@ -126,10 +126,6 @@ static void pmu_check_overflow(DisasContext *ctx)
- #if defined(TARGET_PPC64)
- static void pmu_count_insns(DisasContext *ctx)
- {
--    /*
--     * Do not bother calling the helper if the PMU isn't counting
--     * instructions.
--     */
-     if (!ctx->pmu_insn_cnt) {
-         return;
-     }
-diff --git a/target/ppc/power8-pmu.c b/target/ppc/power8-pmu.c
-index 6696c9b3ae..bfc052b49e 100644
---- a/target/ppc/power8-pmu.c
-+++ b/target/ppc/power8-pmu.c
-@@ -135,52 +135,6 @@ bool pmu_insn_cnt_enabled(CPUPPCState *env)
-     return false;
- }
- 
--static bool pmu_increment_insns(CPUPPCState *env, uint32_t num_insns)
--{
--    bool overflow_triggered = false;
--    int sprn;
--
--    /* PMC6 never counts instructions */
--    for (sprn = SPR_POWER_PMC1; sprn <= SPR_POWER_PMC5; sprn++) {
--        PMUEventType evt_type = pmc_get_event(env, sprn);
--        bool insn_event = evt_type == PMU_EVENT_INSTRUCTIONS ||
--                          evt_type == PMU_EVENT_INSN_RUN_LATCH;
--
--        if (pmc_is_inactive(env, sprn) || !insn_event) {
--            continue;
--        }
--
--        if (evt_type == PMU_EVENT_INSTRUCTIONS) {
--            env->spr[sprn] += num_insns;
--        }
--
--        if (evt_type == PMU_EVENT_INSN_RUN_LATCH &&
--            env->spr[SPR_CTRL] & CTRL_RUN) {
--            env->spr[sprn] += num_insns;
--        }
--
--        if (env->spr[sprn] >= PMC_COUNTER_NEGATIVE_VAL &&
--            pmc_has_overflow_enabled(env, sprn)) {
--
--            overflow_triggered = true;
--
--            /*
--             * The real PMU will always trigger a counter overflow with
--             * PMC_COUNTER_NEGATIVE_VAL. We don't have an easy way to
--             * do that since we're counting block of instructions at
--             * the end of each translation block, and we're probably
--             * passing this value at this point.
--             *
--             * Let's write PMC_COUNTER_NEGATIVE_VAL to the overflowed
--             * counter to simulate what the real hardware would do.
--             */
--            env->spr[sprn] = PMC_COUNTER_NEGATIVE_VAL;
--        }
--    }
--
--    return overflow_triggered;
--}
--
- static void pmu_update_cycles(CPUPPCState *env)
- {
-     uint64_t now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
-@@ -309,20 +263,6 @@ static void fire_PMC_interrupt(PowerPCCPU *cpu)
-     return;
- }
- 
--/* This helper assumes that the PMC is running. */
--void helper_insns_inc(CPUPPCState *env, uint32_t num_insns)
--{
--    bool overflow_triggered;
--    PowerPCCPU *cpu;
--
--    overflow_triggered = pmu_increment_insns(env, num_insns);
--
--    if (overflow_triggered) {
--        cpu = env_archcpu(env);
--        fire_PMC_interrupt(cpu);
--    }
--}
--
- /* Helper to fire a PMC interrupt from TCG code */
- void helper_pmu_overflow(CPUPPCState *env)
- {
--- 
-2.33.1
+On 12/23/21 00:01, Richard Henderson wrote:
+> In contrast to Daniel's version, the code stays in power8-pmu.c,
+> but is better organized to not take so much overhead.
+> 
+> Before:
+> 
+>      32.97%  qemu-system-ppc  qemu-system-ppc64   [.] pmc_get_event
+>      20.22%  qemu-system-ppc  qemu-system-ppc64   [.] helper_insns_inc
+>       4.52%  qemu-system-ppc  qemu-system-ppc64   [.] hreg_compute_hflags_value
+>       3.30%  qemu-system-ppc  qemu-system-ppc64   [.] helper_lookup_tb_ptr
+>       2.68%  qemu-system-ppc  qemu-system-ppc64   [.] tcg_gen_code
+>       2.28%  qemu-system-ppc  qemu-system-ppc64   [.] cpu_exec
+>       1.84%  qemu-system-ppc  qemu-system-ppc64   [.] pmu_insn_cnt_enabled
+> 
+> After:
+> 
+>       8.42%  qemu-system-ppc  qemu-system-ppc64   [.] hreg_compute_hflags_value
+>       6.65%  qemu-system-ppc  qemu-system-ppc64   [.] cpu_exec
+>       6.63%  qemu-system-ppc  qemu-system-ppc64   [.] helper_insns_inc
+> 
 
+Thanks for looking this up. I had no idea the original C code was that slow.
+
+This reorg is breaking PMU-EBB tests, unfortunately. These tests are run from the kernel
+tree [1] and I test them inside a pSeries TCG guest. You'll need to apply patches 9 and
+10 of [2] beforehand (they apply cleanly in current master) because they aren't upstream
+yet and EBB needs it.
+
+The tests that are breaking consistently with this reorg are:
+
+back_to_back_ebbs_test.c
+cpu_event_pinned_vs_ebb_test.c
+cycles_test.c
+task_event_pinned_vs_ebb_test.c
+
+
+The issue here is that these tests exercises different Perf events and aspects of branching
+(e.g. how fast we're detecting a counter overflow, how many times, etc) and I wasn't able to
+find out a fix using your C reorg yet.
+
+With that in mind I decided to post a new version of my TCG rework, with less repetition and
+a bit more concise, to have an alternative that can be used upstream to fix the Avocado tests.
+Meanwhile I'll see if I can get your reorg working with all EBB tests we need. All things
+equal - similar performance, all EBB tests passing - I'd rather stay with your C code than my
+TCG rework since yours doesn't rely on TCG Ops knowledge to maintain it.
+
+
+Thanks,
+
+
+Daniel
+
+
+[1] https://github.com/torvalds/linux/tree/master/tools/testing/selftests/powerpc/pmu/ebb
+[2] https://lists.gnu.org/archive/html/qemu-devel/2021-12/msg00073.html
+
+> 
+> r~
+> 
+> 
+> Richard Henderson (3):
+>    target/ppc: Cache per-pmc insn and cycle count settings
+>    target/ppc: Rewrite pmu_increment_insns
+>    target/ppc: Use env->pnc_cyc_cnt
+> 
+>   target/ppc/cpu.h         |   3 +
+>   target/ppc/power8-pmu.h  |  14 +--
+>   target/ppc/cpu_init.c    |   1 +
+>   target/ppc/helper_regs.c |   2 +-
+>   target/ppc/machine.c     |   2 +
+>   target/ppc/power8-pmu.c  | 230 ++++++++++++++++-----------------------
+>   6 files changed, 108 insertions(+), 144 deletions(-)
+> 
 
