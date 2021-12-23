@@ -2,61 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2345447E3DA
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Dec 2021 13:57:45 +0100 (CET)
-Received: from localhost ([::1]:43196 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4382D47E3D4
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Dec 2021 13:56:41 +0100 (CET)
+Received: from localhost ([::1]:41694 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n0NfE-00073R-4i
-	for lists+qemu-devel@lfdr.de; Thu, 23 Dec 2021 07:57:44 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47522)
+	id 1n0NeC-0005yG-C4
+	for lists+qemu-devel@lfdr.de; Thu, 23 Dec 2021 07:56:40 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49442)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1n0NHO-0007uv-4i
- for qemu-devel@nongnu.org; Thu, 23 Dec 2021 07:33:06 -0500
-Received: from mga05.intel.com ([192.55.52.43]:55614)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1n0NPU-0003TW-I1
+ for qemu-devel@nongnu.org; Thu, 23 Dec 2021 07:41:31 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24811)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1n0NHM-0002oT-AR
- for qemu-devel@nongnu.org; Thu, 23 Dec 2021 07:33:05 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1640262784; x=1671798784;
- h=from:to:cc:subject:date:message-id:in-reply-to: references;
- bh=gr3qIQtqhPgZ2sWGOjcNk2j5JakW0dks3WgAyQ1CBMA=;
- b=G+K84tXEeIZIud3P8up/EW3dCApAyQXpPOHT/sWN+dn6xs9ClB4Ujl7U
- jUXeEd/gqxY44SOwkuK4Y+SLO8fL33b0r4B8Urxu33SIGzVEqVIdCvSCT
- hI/Z08QMtakfWHMzaYu1PyA7yhS8ZnsT78FX0KC/EoC1KUfdIagDsmcua
- Zy1c26JRZLSBvdVQ8W214xOp/aNzZrWYlILtdd6Lfamlt59slwwqakcQV
- 7Q9TO2OtUBAIppO+HYomPJSxl8YsIFlxqqhQMFus541K1Abia4Hacy7Po
- N6dcFPSZc9Y2dAQ/sOLHdMETobi0McrnI5WQIItg1Ol5QqZhBNj+iCAUV A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10206"; a="327129988"
-X-IronPort-AV: E=Sophos;i="5.88,229,1635231600"; d="scan'208";a="327129988"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Dec 2021 04:33:02 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,229,1635231600"; d="scan'208";a="522079184"
-Received: from chaop.bj.intel.com ([10.240.192.101])
- by orsmga008.jf.intel.com with ESMTP; 23 Dec 2021 04:32:54 -0800
-From: Chao Peng <chao.p.peng@linux.intel.com>
-To: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, qemu-devel@nongnu.org
-Subject: [PATCH v3 kvm/queue 16/16] KVM: Register/unregister private memory
- slot to memfd
-Date: Thu, 23 Dec 2021 20:30:11 +0800
-Message-Id: <20211223123011.41044-17-chao.p.peng@linux.intel.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20211223123011.41044-1-chao.p.peng@linux.intel.com>
-References: <20211223123011.41044-1-chao.p.peng@linux.intel.com>
-Received-SPF: none client-ip=192.55.52.43;
- envelope-from=chao.p.peng@linux.intel.com; helo=mga05.intel.com
-X-Spam_score_int: -44
-X-Spam_score: -4.5
-X-Spam_bar: ----
-X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.203,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1n0NPJ-00044M-4D
+ for qemu-devel@nongnu.org; Thu, 23 Dec 2021 07:41:19 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1640263275;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=9cm5P7xJO6rAlYqEUBb374Y3zXmpu9FQnpZ+mQntPi8=;
+ b=CX3khG51Inlgo8K+D6ChBtspsVh+zrqDJwhOVSGtPV6hROnoVaFUQFYCLaRt71SS/89mjb
+ Wd9VWwBhzDhrHuAX2ZyRslxcze1LAmDtA0lKu7/kCNWV4bL9ljWLpF5dpTde4MWftBkut+
+ 8aeiuO3q9FDoR4HX3Dl3vG+jxJK8n8Q=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-612--_hHb2lsPB-WN_I_7RFsQw-1; Thu, 23 Dec 2021 07:41:12 -0500
+X-MC-Unique: -_hHb2lsPB-WN_I_7RFsQw-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ bg20-20020a05600c3c9400b0033a9300b44bso1927963wmb.2
+ for <qemu-devel@nongnu.org>; Thu, 23 Dec 2021 04:41:12 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=9cm5P7xJO6rAlYqEUBb374Y3zXmpu9FQnpZ+mQntPi8=;
+ b=4bQb0MPvU78xa9v7x/NnSTengMF7xQYE8816i1W0gguLseqX1NVQMPzQo5SwPWpA6p
+ SOAku0VynIevnHc2YeXARD/23Qa5qgjAHNTDgToSB8rDnC1rLJxlcXnJ0hbM2Ts9DfNI
+ Hs1fgfcND+aS6DvA5+eKXachJzbVJKCxQ9ZbhtSmeTEj/XpQSMmI1u0S9ivcgOIgB9XH
+ +RXi/2qii4AJeoJ1rP8LEclOTaqm5I1tffNNWIZ7SaAHHyowm9jxibBKysPbIYIwVI8q
+ tA6G5w0vjBi4uN/SU9X1Yne+aRVPV31tWaLD5TBCA3OSmEh64i5/BGluDZXeQqj53UjR
+ oB4Q==
+X-Gm-Message-State: AOAM532D2hmsAU//kkBlh9lmrQQYEs7igVCFQz/ZpaOpLO2SasnMjgoV
+ 123dXjst12BxnCcNLtgjsmhvgfQ6zqF+OG2EdVRZl10iIOf6l+2/xPhSW0MbJ6nKjzQDgecp3XF
+ oM0WVASM45+TDnQw=
+X-Received: by 2002:adf:dd8d:: with SMTP id x13mr1573208wrl.401.1640263271818; 
+ Thu, 23 Dec 2021 04:41:11 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxXGwa7CGVHYK7FJS3P7o4E7QC3PE/q2CF9tWoV8F5r/eLouMaQhGBtLu7DRCnDwlfInP/itA==
+X-Received: by 2002:adf:dd8d:: with SMTP id x13mr1573191wrl.401.1640263271617; 
+ Thu, 23 Dec 2021 04:41:11 -0800 (PST)
+Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
+ ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
+ by smtp.gmail.com with ESMTPSA id p13sm2837046wrr.37.2021.12.23.04.41.11
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 23 Dec 2021 04:41:11 -0800 (PST)
+Message-ID: <f93baaa5-7d05-5a59-d439-c4a7e99e48bd@redhat.com>
+Date: Thu, 23 Dec 2021 13:41:10 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH v4 18/19] iotests.py: implement unsupported_imgopts
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20211203130737.2924594-1-vsementsov@virtuozzo.com>
+ <20211203130737.2924594-19-vsementsov@virtuozzo.com>
+From: Hanna Reitz <hreitz@redhat.com>
+In-Reply-To: <20211203130737.2924594-19-vsementsov@virtuozzo.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -52
+X-Spam_score: -5.3
+X-Spam_bar: -----
+X-Spam_report: (-5.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.203,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-2.264, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -69,139 +101,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Wanpeng Li <wanpengli@tencent.com>, jun.nakajima@intel.com,
- david@redhat.com, "J . Bruce Fields" <bfields@fieldses.org>,
- dave.hansen@intel.com, "H . Peter Anvin" <hpa@zytor.com>,
- Chao Peng <chao.p.peng@linux.intel.com>, ak@linux.intel.com,
- Jonathan Corbet <corbet@lwn.net>, Joerg Roedel <joro@8bytes.org>,
- x86@kernel.org, Hugh Dickins <hughd@google.com>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- luto@kernel.org, Thomas Gleixner <tglx@linutronix.de>,
- Vitaly Kuznetsov <vkuznets@redhat.com>, Jim Mattson <jmattson@google.com>,
- Sean Christopherson <seanjc@google.com>, susie.li@intel.com,
- Jeff Layton <jlayton@kernel.org>, john.ji@intel.com,
- Yu Zhang <yu.c.zhang@linux.intel.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
+Cc: kwolf@redhat.com, jsnow@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Expose KVM_MEM_PRIVATE flag and register/unregister private memory
-slot to memfd when userspace sets the flag.
+On 03.12.21 14:07, Vladimir Sementsov-Ogievskiy wrote:
+> We have added support for some addition IMGOPTS in python iotests like
+> in bash iotests. Similarly to bash iotests, we want a way to skip some
+> tests which can't work with specific IMGOPTS.
+>
+> Globally for python iotests we now don't support things like
+> 'data_file=$TEST_IMG.ext_data_file' in IMGOPTS, so, forbid this
+> globally in iotests.py.
+>
+> Suggested-by: Hanna Reitz <hreitz@redhat.com>
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
+>   tests/qemu-iotests/iotests.py | 15 ++++++++++++++-
+>   1 file changed, 14 insertions(+), 1 deletion(-)
 
-KVM_MEM_PRIVATE is disallowed by default but architecture code can
-turn on it by implementing kvm_arch_private_memory_supported().
+Reviewed-by: Hanna Reitz <hreitz@redhat.com>
 
-Signed-off-by: Yu Zhang <yu.c.zhang@linux.intel.com>
-Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
----
- include/linux/kvm_host.h |  1 +
- virt/kvm/kvm_main.c      | 34 ++++++++++++++++++++++++++++++++--
- 2 files changed, 33 insertions(+), 2 deletions(-)
-
-diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
-index fabab3b77d57..5173c52e70d4 100644
---- a/include/linux/kvm_host.h
-+++ b/include/linux/kvm_host.h
-@@ -1229,6 +1229,7 @@ bool kvm_arch_dy_has_pending_interrupt(struct kvm_vcpu *vcpu);
- int kvm_arch_post_init_vm(struct kvm *kvm);
- void kvm_arch_pre_destroy_vm(struct kvm *kvm);
- int kvm_arch_create_vm_debugfs(struct kvm *kvm);
-+bool kvm_arch_private_memory_supported(struct kvm *kvm);
- 
- #ifndef __KVM_HAVE_ARCH_VM_ALLOC
- /*
-diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
-index cf8dcb3b8c7f..1caebded52c4 100644
---- a/virt/kvm/kvm_main.c
-+++ b/virt/kvm/kvm_main.c
-@@ -1514,10 +1514,19 @@ static void kvm_replace_memslot(struct kvm *kvm,
- 	}
- }
- 
--static int check_memory_region_flags(const struct kvm_userspace_memory_region_ext *mem)
-+bool __weak kvm_arch_private_memory_supported(struct kvm *kvm)
-+{
-+	return false;
-+}
-+
-+static int check_memory_region_flags(struct kvm *kvm,
-+			const struct kvm_userspace_memory_region_ext *mem)
- {
- 	u32 valid_flags = KVM_MEM_LOG_DIRTY_PAGES;
- 
-+	if (kvm_arch_private_memory_supported(kvm))
-+		valid_flags |= KVM_MEM_PRIVATE;
-+
- #ifdef __KVM_HAVE_READONLY_MEM
- 	valid_flags |= KVM_MEM_READONLY;
- #endif
-@@ -1756,6 +1765,8 @@ static void kvm_delete_memslot(struct kvm *kvm,
- 			       struct kvm_memory_slot *old,
- 			       struct kvm_memory_slot *invalid_slot)
- {
-+	if (old->flags & KVM_MEM_PRIVATE)
-+		kvm_memfd_unregister(old);
- 	/*
- 	 * Remove the old memslot (in the inactive memslots) by passing NULL as
- 	 * the "new" slot, and for the invalid version in the active slots.
-@@ -1836,6 +1847,14 @@ static int kvm_set_memslot(struct kvm *kvm,
- 		kvm_invalidate_memslot(kvm, old, invalid_slot);
- 	}
- 
-+	if (new->flags & KVM_MEM_PRIVATE && change == KVM_MR_CREATE) {
-+		r = kvm_memfd_register(kvm, new);
-+		if (r) {
-+			mutex_unlock(&kvm->slots_arch_lock);
-+			return r;
-+		}
-+	}
-+
- 	r = kvm_prepare_memory_region(kvm, old, new, change);
- 	if (r) {
- 		/*
-@@ -1850,6 +1869,10 @@ static int kvm_set_memslot(struct kvm *kvm,
- 		} else {
- 			mutex_unlock(&kvm->slots_arch_lock);
- 		}
-+
-+		if (new->flags & KVM_MEM_PRIVATE && change == KVM_MR_CREATE)
-+			kvm_memfd_unregister(new);
-+
- 		return r;
- 	}
- 
-@@ -1917,7 +1940,7 @@ int __kvm_set_memory_region(struct kvm *kvm,
- 	int as_id, id;
- 	int r;
- 
--	r = check_memory_region_flags(mem);
-+	r = check_memory_region_flags(kvm, mem);
- 	if (r)
- 		return r;
- 
-@@ -1974,6 +1997,10 @@ int __kvm_set_memory_region(struct kvm *kvm,
- 		if ((kvm->nr_memslot_pages + npages) < kvm->nr_memslot_pages)
- 			return -EINVAL;
- 	} else { /* Modify an existing slot. */
-+		/* Private memslots are immutable, they can only be deleted. */
-+		if (mem->flags & KVM_MEM_PRIVATE)
-+			return -EINVAL;
-+
- 		if ((mem->userspace_addr != old->userspace_addr) ||
- 		    (npages != old->npages) ||
- 		    ((mem->flags ^ old->flags) & KVM_MEM_READONLY))
-@@ -2002,6 +2029,9 @@ int __kvm_set_memory_region(struct kvm *kvm,
- 	new->npages = npages;
- 	new->flags = mem->flags;
- 	new->userspace_addr = mem->userspace_addr;
-+	new->fd = mem->fd;
-+	new->file = NULL;
-+	new->ofs = mem->ofs;
- 
- 	r = kvm_set_memslot(kvm, old, new, change);
- 	if (r)
--- 
-2.17.1
+Can we move this and the next patch before patch 2, though? Otherwise, 
+the tests adjusted in the next patch will be broken after patch 2 (when 
+given those unsupported options).  The move seems trivial, just 
+wondering whether you know of anything that would prohibit this.
 
 
