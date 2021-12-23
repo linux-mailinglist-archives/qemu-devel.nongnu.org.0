@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C313547E325
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Dec 2021 13:24:22 +0100 (CET)
-Received: from localhost ([::1]:59166 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D00A147E3A3
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Dec 2021 13:41:38 +0100 (CET)
+Received: from localhost ([::1]:39836 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n0N8v-0000zw-SF
-	for lists+qemu-devel@lfdr.de; Thu, 23 Dec 2021 07:24:21 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33396)
+	id 1n0NPd-000165-S7
+	for lists+qemu-devel@lfdr.de; Thu, 23 Dec 2021 07:41:37 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33540)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1n0Mkl-0002q1-O3
- for qemu-devel@nongnu.org; Thu, 23 Dec 2021 06:59:23 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45124)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1n0Mkt-0003HJ-K5
+ for qemu-devel@nongnu.org; Thu, 23 Dec 2021 06:59:31 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57979)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1n0Mkd-00015d-L3
- for qemu-devel@nongnu.org; Thu, 23 Dec 2021 06:59:19 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1n0Mkr-00018L-JL
+ for qemu-devel@nongnu.org; Thu, 23 Dec 2021 06:59:31 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1640260755;
+ s=mimecast20190719; t=1640260768;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/EYBW+febHIYQTHlOkEync8IzdNbwI6kyRotYTo3Vg0=;
- b=SvaQIYf5TRj6u9Oil+Bs+IUFvTSPxYYLsG2N4C0iTFU64SKsdNitAj85VLMqHOeDuW5Rtg
- +mWlZaDZJuLaMaakIIYNW0bNoYMZnLY0d0KOZqXZXJ0YZXN2oaiPMCyzyQGgfN5xxxOM65
- U19jBvIqCBRZIhQD3aVx6FXY+G9Y+rI=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=NSopmSWVqanwbnplx6qNpP3mtJv+WIiHHgiOwpgcpF4=;
+ b=YJFxS2foWMiGtljxyngGAEBGJ7kpMjni30Jte/xHzWHJbjXuCYaOdA0to+oQ/LIJKz8xle
+ UTCPaLQZrCBJJ39F/lmoOiv3xXs3QHxidHDFcECRh4hj3hggcLApgrhyBbq5mwS3Ymbpsq
+ JyjYCtxirizLiDg74Uav939XpC7V+Sk=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-178-rbOucN81Oc2tzwVXapC5AA-1; Thu, 23 Dec 2021 06:59:14 -0500
-X-MC-Unique: rbOucN81Oc2tzwVXapC5AA-1
-Received: by mail-wr1-f71.google.com with SMTP id
- j26-20020adfb31a000000b001a2356afd4fso1211581wrd.21
- for <qemu-devel@nongnu.org>; Thu, 23 Dec 2021 03:59:14 -0800 (PST)
+ us-mta-160-4bsE9F6YNNSs8nTZ47y7tw-1; Thu, 23 Dec 2021 06:59:27 -0500
+X-MC-Unique: 4bsE9F6YNNSs8nTZ47y7tw-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ l13-20020adfbd8d000000b001a23a990dbfso1224303wrh.5
+ for <qemu-devel@nongnu.org>; Thu, 23 Dec 2021 03:59:26 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=/EYBW+febHIYQTHlOkEync8IzdNbwI6kyRotYTo3Vg0=;
- b=yYRifQQs7esUGksFOlxVlvHjXgr93jyb2xeBU4ZzEvkW6pFDUjwRPD0dUwBHyeS5pp
- EisttGjVljCAzLlQHXeBv7BIU83XKw/C5rlGvGIzldRDLqBcqS6SJtLg1+b3qQ+gIK5a
- QegS1eZov/BInt+Uvt0IYAh33NgLjp/kMLjYh3mV28OTrEeN0V7Ep49ms7in3GswqJr2
- 0QNqIrzrh+9yTtXSRh9XUGX55tmX79z9PbfsXa2iupQRPf89L61hSTsL6KzPm5e3vWj9
- RGi2VfZ1vndItXavoF6p3565BVyGkJMWF55rdAOPXN6wafGHJe2O9zSz8nEL/Yz06Fzd
- KlBg==
-X-Gm-Message-State: AOAM533NglE9/lBUM4snsupN9k8eW9Q6qJMou0kKiCSEGrYxKY+MiB9J
- YU+oLI1H4NvHD5P81fVcF0VezsLYUEaU0GgQAr4Roey4QpcbNeho6VFzHFftCaQ/htZLSpUggt+
- k6rf1wj0+yHg4HYEBxTxHlQy/+LL5MjP9AlYCFeAjbKykPn+7cuAlOlcLiNEqKnoF
-X-Received: by 2002:a5d:6d8a:: with SMTP id l10mr1535612wrs.276.1640260752865; 
- Thu, 23 Dec 2021 03:59:12 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyaRgJ51599I7DyCet8+Ut1sWRqjVByW/7JuTQpWOL9QU1mMnGXmWnpqwB8ASUCZjGA5dgpXw==
-X-Received: by 2002:a5d:6d8a:: with SMTP id l10mr1535541wrs.276.1640260752403; 
- Thu, 23 Dec 2021 03:59:12 -0800 (PST)
+ bh=NSopmSWVqanwbnplx6qNpP3mtJv+WIiHHgiOwpgcpF4=;
+ b=Y23m8ZRca8J2Us5V8OyiRcM5GhY+23k4AcIJGrlrgmriJtSxTvLzO1EwNBwzl7MnWg
+ 4azCC8wgCzIX12ccP4CpOY4miZI82xJ0L+RyP6COCoqwqyQx9N7cyBBoANDrlc14DzaL
+ xI+N1QRoeIu37SkyHyMEBFujOYOR5Gqf8s1TZxZaBrhb6LeaunsC3T7epcfKehw8x95G
+ c9lWFVxKCM8FUJ98JrkLXlUAMGpF+hKacMaIsHJ8DvqkcftlZ+wJgCSHPq8Gwi+zydF6
+ GSLOneAYMbzmVw52BianByDb+LkJKlG5FyHGWDmZ7kAuieADVf+NelD65eCrObmlWrRo
+ xHXA==
+X-Gm-Message-State: AOAM532Wj4R9g7Yzr5cH4g2V2q6TK4xwFM3mPfcYsF3qby95evfbf4BQ
+ L39XkpX4pLZ0O+jPGFVufY5TbFd8DJ4LeClwafLQt//9T2w1SRsQ8oSCyAR/5vxZ/k9iOMonbYm
+ GTGLfTvoC1C8Chg4dDd5C4T38UMyimBWXD1TkSncOl340KBxoJOfxhPMsxUt0r2tr
+X-Received: by 2002:a7b:ca54:: with SMTP id m20mr1476119wml.127.1640260765617; 
+ Thu, 23 Dec 2021 03:59:25 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyn3Nwd76HLINri1ov2M1AHMbGhwDHxRznSJYVEH9ul28NBykc+7yxxHc0RMh8AndmXoGH1gg==
+X-Received: by 2002:a7b:ca54:: with SMTP id m20mr1476066wml.127.1640260765351; 
+ Thu, 23 Dec 2021 03:59:25 -0800 (PST)
 Received: from x1w.. (33.red-193-152-124.dynamicip.rima-tde.net.
  [193.152.124.33])
- by smtp.gmail.com with ESMTPSA id h204sm4790919wmh.33.2021.12.23.03.59.06
+ by smtp.gmail.com with ESMTPSA id z5sm4578810wru.87.2021.12.23.03.59.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 Dec 2021 03:59:12 -0800 (PST)
+ Thu, 23 Dec 2021 03:59:25 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 14/23] dma: Let dma_buf_read() / dma_buf_write() propagate
- MemTxResult
-Date: Thu, 23 Dec 2021 12:55:45 +0100
-Message-Id: <20211223115554.3155328-15-philmd@redhat.com>
+Subject: [PATCH v2 15/23] dma: Let st*_dma() take MemTxAttrs argument
+Date: Thu, 23 Dec 2021 12:55:46 +0100
+Message-Id: <20211223115554.3155328-16-philmd@redhat.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211223115554.3155328-1-philmd@redhat.com>
 References: <20211223115554.3155328-1-philmd@redhat.com>
@@ -83,7 +82,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.203,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -117,7 +116,6 @@ Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
  Keith Busch <kbusch@kernel.org>, John Snow <jsnow@redhat.com>,
  David Gibson <david@gibson.dropbear.id.au>,
  Eduardo Habkost <eduardo@habkost.net>, Andrew Jeffery <andrew@aj.id.au>,
- Klaus Jensen <k.jensen@samsung.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Andrew Baumann <Andrew.Baumann@microsoft.com>,
  Tyrone Ting <kfting@nuvoton.com>, qemu-ppc@nongnu.org,
@@ -125,340 +123,110 @@ Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since the previous commit, dma_buf_rw() returns a MemTxResult
-type. Do not discard it, return it to the caller.
+Let devices specify transaction attributes when calling st*_dma().
 
-Since both dma_buf_read/dma_buf_write functions were previously
-returning the QEMUSGList size not consumed, add an extra argument
-where the unconsummed size can be stored.
+Keep the default MEMTXATTRS_UNSPECIFIED in the few callers.
 
-Update the few callers.
-
-Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- include/sysemu/dma.h  |  6 ++++--
- hw/ide/ahci.c         |  8 ++++----
- hw/nvme/ctrl.c        |  4 ++--
- hw/scsi/megasas.c     | 48 ++++++++++++++++++++++++++++++-------------
- hw/scsi/scsi-bus.c    |  4 ++--
- softmmu/dma-helpers.c | 18 ++++++----------
- 6 files changed, 52 insertions(+), 36 deletions(-)
+ include/hw/pci/pci.h       |  3 ++-
+ include/hw/ppc/spapr_vio.h | 12 ++++++++----
+ include/sysemu/dma.h       | 10 ++++++----
+ hw/nvram/fw_cfg.c          |  4 ++--
+ 4 files changed, 18 insertions(+), 11 deletions(-)
 
+diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
+index a751ab5a75d..d07e9707b48 100644
+--- a/include/hw/pci/pci.h
++++ b/include/hw/pci/pci.h
+@@ -859,7 +859,8 @@ static inline MemTxResult pci_dma_write(PCIDevice *dev, dma_addr_t addr,
+     static inline void st##_s##_pci_dma(PCIDevice *dev,                 \
+                                         dma_addr_t addr, uint##_bits##_t val) \
+     {                                                                   \
+-        st##_s##_dma(pci_get_address_space(dev), addr, val);            \
++        st##_s##_dma(pci_get_address_space(dev), addr, val, \
++                     MEMTXATTRS_UNSPECIFIED); \
+     }
+ 
+ PCI_DMA_DEFINE_LDST(ub, b, 8);
+diff --git a/include/hw/ppc/spapr_vio.h b/include/hw/ppc/spapr_vio.h
+index 5d2ea8e6656..e87f8e6f596 100644
+--- a/include/hw/ppc/spapr_vio.h
++++ b/include/hw/ppc/spapr_vio.h
+@@ -118,10 +118,14 @@ static inline int spapr_vio_dma_set(SpaprVioDevice *dev, uint64_t taddr,
+         H_DEST_PARM : H_SUCCESS;
+ }
+ 
+-#define vio_stb(_dev, _addr, _val) (stb_dma(&(_dev)->as, (_addr), (_val)))
+-#define vio_sth(_dev, _addr, _val) (stw_be_dma(&(_dev)->as, (_addr), (_val)))
+-#define vio_stl(_dev, _addr, _val) (stl_be_dma(&(_dev)->as, (_addr), (_val)))
+-#define vio_stq(_dev, _addr, _val) (stq_be_dma(&(_dev)->as, (_addr), (_val)))
++#define vio_stb(_dev, _addr, _val) \
++        (stb_dma(&(_dev)->as, (_addr), (_val), MEMTXATTRS_UNSPECIFIED))
++#define vio_sth(_dev, _addr, _val) \
++        (stw_be_dma(&(_dev)->as, (_addr), (_val), MEMTXATTRS_UNSPECIFIED))
++#define vio_stl(_dev, _addr, _val) \
++        (stl_be_dma(&(_dev)->as, (_addr), (_val), MEMTXATTRS_UNSPECIFIED))
++#define vio_stq(_dev, _addr, _val) \
++        (stq_be_dma(&(_dev)->as, (_addr), (_val), MEMTXATTRS_UNSPECIFIED))
+ #define vio_ldq(_dev, _addr) (ldq_be_dma(&(_dev)->as, (_addr)))
+ 
+ int spapr_vio_send_crq(SpaprVioDevice *dev, uint8_t *crq);
 diff --git a/include/sysemu/dma.h b/include/sysemu/dma.h
-index fd8f16003dd..d11c1d794f9 100644
+index d11c1d794f9..ebbc0501681 100644
 --- a/include/sysemu/dma.h
 +++ b/include/sysemu/dma.h
-@@ -302,8 +302,10 @@ BlockAIOCB *dma_blk_read(BlockBackend *blk,
- BlockAIOCB *dma_blk_write(BlockBackend *blk,
-                           QEMUSGList *sg, uint64_t offset, uint32_t align,
-                           BlockCompletionFunc *cb, void *opaque);
--uint64_t dma_buf_read(void *ptr, int32_t len, QEMUSGList *sg, MemTxAttrs attrs);
--uint64_t dma_buf_write(void *ptr, int32_t len, QEMUSGList *sg, MemTxAttrs attrs);
-+MemTxResult dma_buf_read(void *ptr, int32_t len, uint64_t *residp,
-+                         QEMUSGList *sg, MemTxAttrs attrs);
-+MemTxResult dma_buf_write(void *ptr, int32_t len, uint64_t *residp,
-+                          QEMUSGList *sg, MemTxAttrs attrs);
- 
- void dma_acct_start(BlockBackend *blk, BlockAcctCookie *cookie,
-                     QEMUSGList *sg, enum BlockAcctType type);
-diff --git a/hw/ide/ahci.c b/hw/ide/ahci.c
-index 205dfdc6622..0c7d31ceada 100644
---- a/hw/ide/ahci.c
-+++ b/hw/ide/ahci.c
-@@ -1384,9 +1384,9 @@ static void ahci_pio_transfer(const IDEDMA *dma)
-         const MemTxAttrs attrs = MEMTXATTRS_UNSPECIFIED;
- 
-         if (is_write) {
--            dma_buf_write(s->data_ptr, size, &s->sg, attrs);
-+            dma_buf_write(s->data_ptr, size, NULL, &s->sg, attrs);
-         } else {
--            dma_buf_read(s->data_ptr, size, &s->sg, attrs);
-+            dma_buf_read(s->data_ptr, size, NULL, &s->sg, attrs);
-         }
+@@ -249,10 +249,11 @@ static inline void dma_memory_unmap(AddressSpace *as,
+     }                                                                   \
+     static inline void st##_sname##_##_end##_dma(AddressSpace *as,      \
+                                                  dma_addr_t addr,       \
+-                                                 uint##_bits##_t val)   \
++                                                 uint##_bits##_t val,   \
++                                                 MemTxAttrs attrs)      \
+     {                                                                   \
+         val = cpu_to_##_end##_bits(val);                                \
+-        dma_memory_write(as, addr, &val, (_bits) / 8, MEMTXATTRS_UNSPECIFIED); \
++        dma_memory_write(as, addr, &val, (_bits) / 8, attrs); \
      }
  
-@@ -1479,9 +1479,9 @@ static int ahci_dma_rw_buf(const IDEDMA *dma, bool is_write)
+ static inline uint8_t ldub_dma(AddressSpace *as, dma_addr_t addr)
+@@ -263,9 +264,10 @@ static inline uint8_t ldub_dma(AddressSpace *as, dma_addr_t addr)
+     return val;
+ }
+ 
+-static inline void stb_dma(AddressSpace *as, dma_addr_t addr, uint8_t val)
++static inline void stb_dma(AddressSpace *as, dma_addr_t addr,
++                           uint8_t val, MemTxAttrs attrs)
+ {
+-    dma_memory_write(as, addr, &val, 1, MEMTXATTRS_UNSPECIFIED);
++    dma_memory_write(as, addr, &val, 1, attrs);
+ }
+ 
+ DEFINE_LDST_DMA(uw, w, 16, le);
+diff --git a/hw/nvram/fw_cfg.c b/hw/nvram/fw_cfg.c
+index 9b91b15cb08..e5f3c981841 100644
+--- a/hw/nvram/fw_cfg.c
++++ b/hw/nvram/fw_cfg.c
+@@ -360,7 +360,7 @@ static void fw_cfg_dma_transfer(FWCfgState *s)
+     if (dma_memory_read(s->dma_as, dma_addr,
+                         &dma, sizeof(dma), MEMTXATTRS_UNSPECIFIED)) {
+         stl_be_dma(s->dma_as, dma_addr + offsetof(FWCfgDmaAccess, control),
+-                   FW_CFG_DMA_CTL_ERROR);
++                   FW_CFG_DMA_CTL_ERROR, MEMTXATTRS_UNSPECIFIED);
+         return;
      }
  
-     if (is_write) {
--        dma_buf_read(p, l, &s->sg, MEMTXATTRS_UNSPECIFIED);
-+        dma_buf_read(p, l, NULL, &s->sg, MEMTXATTRS_UNSPECIFIED);
-     } else {
--        dma_buf_write(p, l, &s->sg, MEMTXATTRS_UNSPECIFIED);
-+        dma_buf_write(p, l, NULL, &s->sg, MEMTXATTRS_UNSPECIFIED);
+@@ -446,7 +446,7 @@ static void fw_cfg_dma_transfer(FWCfgState *s)
      }
  
-     /* free sglist, update byte count */
-diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-index 462f79a1f60..fa410a179a6 100644
---- a/hw/nvme/ctrl.c
-+++ b/hw/nvme/ctrl.c
-@@ -1150,9 +1150,9 @@ static uint16_t nvme_tx(NvmeCtrl *n, NvmeSg *sg, uint8_t *ptr, uint32_t len,
-         uint64_t residual;
+     stl_be_dma(s->dma_as, dma_addr + offsetof(FWCfgDmaAccess, control),
+-                dma.control);
++                dma.control, MEMTXATTRS_UNSPECIFIED);
  
-         if (dir == NVME_TX_DIRECTION_TO_DEVICE) {
--            residual = dma_buf_write(ptr, len, &sg->qsg, attrs);
-+            dma_buf_write(ptr, len, &residual, &sg->qsg, attrs);
-         } else {
--            residual = dma_buf_read(ptr, len, &sg->qsg, attrs);
-+            dma_buf_read(ptr, len, &residual, &sg->qsg, attrs);
-         }
- 
-         if (unlikely(residual)) {
-diff --git a/hw/scsi/megasas.c b/hw/scsi/megasas.c
-index fe36de10a21..87101705d01 100644
---- a/hw/scsi/megasas.c
-+++ b/hw/scsi/megasas.c
-@@ -738,6 +738,7 @@ static int megasas_ctrl_get_info(MegasasState *s, MegasasCmd *cmd)
-     size_t dcmd_size = sizeof(info);
-     BusChild *kid;
-     int num_pd_disks = 0;
-+    uint64_t resid;
- 
-     memset(&info, 0x0, dcmd_size);
-     if (cmd->iov_size < dcmd_size) {
-@@ -848,7 +849,8 @@ static int megasas_ctrl_get_info(MegasasState *s, MegasasCmd *cmd)
-                                        MFI_INFO_PDMIX_SATA |
-                                        MFI_INFO_PDMIX_LD);
- 
--    cmd->iov_size -= dma_buf_read(&info, dcmd_size, &cmd->qsg, MEMTXATTRS_UNSPECIFIED);
-+    dma_buf_read(&info, dcmd_size, &resid, &cmd->qsg, MEMTXATTRS_UNSPECIFIED);
-+    cmd->iov_size -= resid;
-     return MFI_STAT_OK;
+     trace_fw_cfg_read(s, 0);
  }
- 
-@@ -856,6 +858,7 @@ static int megasas_mfc_get_defaults(MegasasState *s, MegasasCmd *cmd)
- {
-     struct mfi_defaults info;
-     size_t dcmd_size = sizeof(struct mfi_defaults);
-+    uint64_t resid;
- 
-     memset(&info, 0x0, dcmd_size);
-     if (cmd->iov_size < dcmd_size) {
-@@ -878,7 +881,8 @@ static int megasas_mfc_get_defaults(MegasasState *s, MegasasCmd *cmd)
-     info.disable_preboot_cli = 1;
-     info.cluster_disable = 1;
- 
--    cmd->iov_size -= dma_buf_read(&info, dcmd_size, &cmd->qsg, MEMTXATTRS_UNSPECIFIED);
-+    dma_buf_read(&info, dcmd_size, &resid, &cmd->qsg, MEMTXATTRS_UNSPECIFIED);
-+    cmd->iov_size -= resid;
-     return MFI_STAT_OK;
- }
- 
-@@ -886,6 +890,7 @@ static int megasas_dcmd_get_bios_info(MegasasState *s, MegasasCmd *cmd)
- {
-     struct mfi_bios_data info;
-     size_t dcmd_size = sizeof(info);
-+    uint64_t resid;
- 
-     memset(&info, 0x0, dcmd_size);
-     if (cmd->iov_size < dcmd_size) {
-@@ -899,7 +904,8 @@ static int megasas_dcmd_get_bios_info(MegasasState *s, MegasasCmd *cmd)
-         info.expose_all_drives = 1;
-     }
- 
--    cmd->iov_size -= dma_buf_read(&info, dcmd_size, &cmd->qsg, MEMTXATTRS_UNSPECIFIED);
-+    dma_buf_read(&info, dcmd_size, &resid, &cmd->qsg, MEMTXATTRS_UNSPECIFIED);
-+    cmd->iov_size -= resid;
-     return MFI_STAT_OK;
- }
- 
-@@ -907,10 +913,12 @@ static int megasas_dcmd_get_fw_time(MegasasState *s, MegasasCmd *cmd)
- {
-     uint64_t fw_time;
-     size_t dcmd_size = sizeof(fw_time);
-+    uint64_t resid;
- 
-     fw_time = cpu_to_le64(megasas_fw_time());
- 
--    cmd->iov_size -= dma_buf_read(&fw_time, dcmd_size, &cmd->qsg, MEMTXATTRS_UNSPECIFIED);
-+    dma_buf_read(&fw_time, dcmd_size, &resid, &cmd->qsg, MEMTXATTRS_UNSPECIFIED);
-+    cmd->iov_size -= resid;
-     return MFI_STAT_OK;
- }
- 
-@@ -930,6 +938,7 @@ static int megasas_event_info(MegasasState *s, MegasasCmd *cmd)
- {
-     struct mfi_evt_log_state info;
-     size_t dcmd_size = sizeof(info);
-+    uint64_t resid;
- 
-     memset(&info, 0, dcmd_size);
- 
-@@ -937,7 +946,8 @@ static int megasas_event_info(MegasasState *s, MegasasCmd *cmd)
-     info.shutdown_seq_num = cpu_to_le32(s->shutdown_event);
-     info.boot_seq_num = cpu_to_le32(s->boot_event);
- 
--    cmd->iov_size -= dma_buf_read(&info, dcmd_size, &cmd->qsg, MEMTXATTRS_UNSPECIFIED);
-+    dma_buf_read(&info, dcmd_size, &resid, &cmd->qsg, MEMTXATTRS_UNSPECIFIED);
-+    cmd->iov_size -= resid;
-     return MFI_STAT_OK;
- }
- 
-@@ -967,6 +977,7 @@ static int megasas_dcmd_pd_get_list(MegasasState *s, MegasasCmd *cmd)
-     size_t dcmd_size = sizeof(info);
-     BusChild *kid;
-     uint32_t offset, dcmd_limit, num_pd_disks = 0, max_pd_disks;
-+    uint64_t resid;
- 
-     memset(&info, 0, dcmd_size);
-     offset = 8;
-@@ -1006,7 +1017,8 @@ static int megasas_dcmd_pd_get_list(MegasasState *s, MegasasCmd *cmd)
-     info.size = cpu_to_le32(offset);
-     info.count = cpu_to_le32(num_pd_disks);
- 
--    cmd->iov_size -= dma_buf_read(&info, offset, &cmd->qsg, MEMTXATTRS_UNSPECIFIED);
-+    dma_buf_read(&info, offset, &resid, &cmd->qsg, MEMTXATTRS_UNSPECIFIED);
-+    cmd->iov_size -= resid;
-     return MFI_STAT_OK;
- }
- 
-@@ -1100,7 +1112,9 @@ static int megasas_pd_get_info_submit(SCSIDevice *sdev, int lun,
-     info->connected_port_bitmap = 0x1;
-     info->device_speed = 1;
-     info->link_speed = 1;
--    resid = dma_buf_read(cmd->iov_buf, dcmd_size, &cmd->qsg, MEMTXATTRS_UNSPECIFIED);
-+    dma_buf_read(cmd->iov_buf, dcmd_size, &resid, &cmd->qsg,
-+                 MEMTXATTRS_UNSPECIFIED);
-+    cmd->iov_size -= resid;
-     g_free(cmd->iov_buf);
-     cmd->iov_size = dcmd_size - resid;
-     cmd->iov_buf = NULL;
-@@ -1172,7 +1186,7 @@ static int megasas_dcmd_ld_get_list(MegasasState *s, MegasasCmd *cmd)
-     info.ld_count = cpu_to_le32(num_ld_disks);
-     trace_megasas_dcmd_ld_get_list(cmd->index, num_ld_disks, max_ld_disks);
- 
--    resid = dma_buf_read(&info, dcmd_size, &cmd->qsg, MEMTXATTRS_UNSPECIFIED);
-+    dma_buf_read(&info, dcmd_size, &resid, &cmd->qsg, MEMTXATTRS_UNSPECIFIED);
-     cmd->iov_size = dcmd_size - resid;
-     return MFI_STAT_OK;
- }
-@@ -1221,7 +1235,7 @@ static int megasas_dcmd_ld_list_query(MegasasState *s, MegasasCmd *cmd)
-     info.size = dcmd_size;
-     trace_megasas_dcmd_ld_get_list(cmd->index, num_ld_disks, max_ld_disks);
- 
--    resid = dma_buf_read(&info, dcmd_size, &cmd->qsg, MEMTXATTRS_UNSPECIFIED);
-+    dma_buf_read(&info, dcmd_size, &resid, &cmd->qsg, MEMTXATTRS_UNSPECIFIED);
-     cmd->iov_size = dcmd_size - resid;
-     return MFI_STAT_OK;
- }
-@@ -1232,9 +1246,10 @@ static int megasas_ld_get_info_submit(SCSIDevice *sdev, int lun,
-     struct mfi_ld_info *info = cmd->iov_buf;
-     size_t dcmd_size = sizeof(struct mfi_ld_info);
-     uint8_t cdb[6];
--    ssize_t len, resid;
-+    ssize_t len;
-     uint16_t sdev_id = ((sdev->id & 0xFF) << 8) | (lun & 0xFF);
-     uint64_t ld_size;
-+    uint64_t resid;
- 
-     if (!cmd->iov_buf) {
-         cmd->iov_buf = g_malloc0(dcmd_size);
-@@ -1271,7 +1286,8 @@ static int megasas_ld_get_info_submit(SCSIDevice *sdev, int lun,
-     info->ld_config.span[0].num_blocks = info->size;
-     info->ld_config.span[0].array_ref = cpu_to_le16(sdev_id);
- 
--    resid = dma_buf_read(cmd->iov_buf, dcmd_size, &cmd->qsg, MEMTXATTRS_UNSPECIFIED);
-+    dma_buf_read(cmd->iov_buf, dcmd_size, &resid, &cmd->qsg,
-+                 MEMTXATTRS_UNSPECIFIED);
-     g_free(cmd->iov_buf);
-     cmd->iov_size = dcmd_size - resid;
-     cmd->iov_buf = NULL;
-@@ -1316,6 +1332,7 @@ static int megasas_dcmd_cfg_read(MegasasState *s, MegasasCmd *cmd)
-     struct mfi_config_data *info;
-     int num_pd_disks = 0, array_offset, ld_offset;
-     BusChild *kid;
-+    uint64_t resid;
- 
-     if (cmd->iov_size > 4096) {
-         return MFI_STAT_INVALID_PARAMETER;
-@@ -1390,7 +1407,8 @@ static int megasas_dcmd_cfg_read(MegasasState *s, MegasasCmd *cmd)
-         ld_offset += sizeof(struct mfi_ld_config);
-     }
- 
--    cmd->iov_size -= dma_buf_read(data, info->size, &cmd->qsg, MEMTXATTRS_UNSPECIFIED);
-+    dma_buf_read(data, info->size, &resid, &cmd->qsg, MEMTXATTRS_UNSPECIFIED);
-+    cmd->iov_size -= resid;
-     return MFI_STAT_OK;
- }
- 
-@@ -1398,6 +1416,7 @@ static int megasas_dcmd_get_properties(MegasasState *s, MegasasCmd *cmd)
- {
-     struct mfi_ctrl_props info;
-     size_t dcmd_size = sizeof(info);
-+    uint64_t resid;
- 
-     memset(&info, 0x0, dcmd_size);
-     if (cmd->iov_size < dcmd_size) {
-@@ -1420,7 +1439,8 @@ static int megasas_dcmd_get_properties(MegasasState *s, MegasasCmd *cmd)
-     info.ecc_bucket_leak_rate = cpu_to_le16(1440);
-     info.expose_encl_devices = 1;
- 
--    cmd->iov_size -= dma_buf_read(&info, dcmd_size, &cmd->qsg, MEMTXATTRS_UNSPECIFIED);
-+    dma_buf_read(&info, dcmd_size, &resid, &cmd->qsg, MEMTXATTRS_UNSPECIFIED);
-+    cmd->iov_size -= resid;
-     return MFI_STAT_OK;
- }
- 
-@@ -1465,7 +1485,7 @@ static int megasas_dcmd_set_properties(MegasasState *s, MegasasCmd *cmd)
-                                             dcmd_size);
-         return MFI_STAT_INVALID_PARAMETER;
-     }
--    dma_buf_write(&info, dcmd_size, &cmd->qsg, MEMTXATTRS_UNSPECIFIED);
-+    dma_buf_write(&info, dcmd_size, NULL, &cmd->qsg, MEMTXATTRS_UNSPECIFIED);
-     trace_megasas_dcmd_unsupported(cmd->index, cmd->iov_size);
-     return MFI_STAT_OK;
- }
-diff --git a/hw/scsi/scsi-bus.c b/hw/scsi/scsi-bus.c
-index 2b5e9dca311..34cf41796bb 100644
---- a/hw/scsi/scsi-bus.c
-+++ b/hw/scsi/scsi-bus.c
-@@ -1421,9 +1421,9 @@ void scsi_req_data(SCSIRequest *req, int len)
- 
-     buf = scsi_req_get_buf(req);
-     if (req->cmd.mode == SCSI_XFER_FROM_DEV) {
--        req->resid = dma_buf_read(buf, len, req->sg, MEMTXATTRS_UNSPECIFIED);
-+        dma_buf_read(buf, len, &req->resid, req->sg, MEMTXATTRS_UNSPECIFIED);
-     } else {
--        req->resid = dma_buf_write(buf, len, req->sg, MEMTXATTRS_UNSPECIFIED);
-+        dma_buf_write(buf, len, &req->resid, req->sg, MEMTXATTRS_UNSPECIFIED);
-     }
-     scsi_req_continue(req);
- }
-diff --git a/softmmu/dma-helpers.c b/softmmu/dma-helpers.c
-index b0be1564797..498303157e9 100644
---- a/softmmu/dma-helpers.c
-+++ b/softmmu/dma-helpers.c
-@@ -321,22 +321,16 @@ static MemTxResult dma_buf_rw(void *buf, int32_t len, uint64_t *residp,
-     return res;
- }
- 
--uint64_t dma_buf_read(void *ptr, int32_t len, QEMUSGList *sg, MemTxAttrs attrs)
-+MemTxResult dma_buf_read(void *ptr, int32_t len, uint64_t *residp,
-+                         QEMUSGList *sg, MemTxAttrs attrs)
- {
--    uint64_t resid;
--
--    dma_buf_rw(ptr, len, &resid, sg, DMA_DIRECTION_FROM_DEVICE, attrs);
--
--    return resid;
-+    return dma_buf_rw(ptr, len, residp, sg, DMA_DIRECTION_FROM_DEVICE, attrs);
- }
- 
--uint64_t dma_buf_write(void *ptr, int32_t len, QEMUSGList *sg, MemTxAttrs attrs)
-+MemTxResult dma_buf_write(void *ptr, int32_t len, uint64_t *residp,
-+                          QEMUSGList *sg, MemTxAttrs attrs)
- {
--    uint64_t resid;
--
--    dma_buf_rw(ptr, len, &resid, sg, DMA_DIRECTION_TO_DEVICE, attrs);
--
--    return resid;
-+    return dma_buf_rw(ptr, len, residp, sg, DMA_DIRECTION_TO_DEVICE, attrs);
- }
- 
- void dma_acct_start(BlockBackend *blk, BlockAcctCookie *cookie,
 -- 
 2.33.1
 
