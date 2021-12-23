@@ -2,89 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD8C447E396
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Dec 2021 13:37:29 +0100 (CET)
-Received: from localhost ([::1]:36062 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DA0147E3AE
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Dec 2021 13:46:42 +0100 (CET)
+Received: from localhost ([::1]:43974 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n0NLc-0006xR-W1
-	for lists+qemu-devel@lfdr.de; Thu, 23 Dec 2021 07:37:29 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34486)
+	id 1n0NUX-0004cR-77
+	for lists+qemu-devel@lfdr.de; Thu, 23 Dec 2021 07:46:41 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46994)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1n0Mmf-00067K-Oi
- for qemu-devel@nongnu.org; Thu, 23 Dec 2021 07:01:21 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60281)
+ (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
+ id 1n0NFV-0004l9-Lw
+ for qemu-devel@nongnu.org; Thu, 23 Dec 2021 07:31:09 -0500
+Received: from mga02.intel.com ([134.134.136.20]:12225)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1n0Mmc-0001cP-LZ
- for qemu-devel@nongnu.org; Thu, 23 Dec 2021 07:01:21 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1640260878;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=BZC8tfHy3WSbpiqDLZ5c3lPSNjnKLmWgO/7ewjz5hi0=;
- b=F46FimdcjJUZnskzs23WuaKtDuQMf8h8+qSgIRFN1GPra4SN0dmFZOC41ls3tvoavBOmEz
- C6DAysSu60JJMJ7tQzDQxJ6vUmPwJbjZPwL/N/7blxnNjp1ZVAVi0WPAyXmVsCfXNayVMk
- GoWUCwLKzyQSPTAOfeBzF59C6jQl3o0=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-404--zoP9OjOOYCBAEGA3vydyg-1; Thu, 23 Dec 2021 07:01:17 -0500
-X-MC-Unique: -zoP9OjOOYCBAEGA3vydyg-1
-Received: by mail-wr1-f70.google.com with SMTP id
- h12-20020adfa4cc000000b001a22dceda69so1215171wrb.16
- for <qemu-devel@nongnu.org>; Thu, 23 Dec 2021 04:01:16 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=BZC8tfHy3WSbpiqDLZ5c3lPSNjnKLmWgO/7ewjz5hi0=;
- b=Da07NMPRf1gcJjJH52jd83z6q8rsORmNzpJQNonTLb4IWe567E7oMfTfdWhucEWo60
- Dnj0gQq5Gxm5IuqbynaDRCrxpk5VK6jozepXL9L6Vip0art+voQ1ryU1D7t+wvuq1Co4
- hSCufg1YFpY1Whsr3Qd3slhFj5D3K0QcCAML6flXDl3fXCED3PBV8++LSUCkTzdUQSBx
- MaSf/xdCe6cJTiZVD24ksoRUU+4Ps8wk/Ucg3bxbB221k1vof+GcqHpDWV88BoY2sQXQ
- teAkZCujj0NYh0wvIHLY8UascACy+hOxyWlTp28GzdeehW53GhG4Vo56RWrZ3Uz+rXBK
- zX1g==
-X-Gm-Message-State: AOAM533IeuzJd9JCJ1Llz6AmsbqnQiJNly7NRKq2ZuyUPT6FRzI1EjNZ
- F0FecPQH9X6PrU4gnY/mxbVTV9rrLXfb19WyUYRIGpm6AXRWSEr7aA/0wWPvpRoHa06QUJpXDUH
- i/G+OfcXswwqtBEODXzLSY1rEAJhH0MPkydXzXg+K1BkKchQEbQSZLOQv+ovyi6k8
-X-Received: by 2002:a05:6000:1545:: with SMTP id
- 5mr1626722wry.438.1640260875463; 
- Thu, 23 Dec 2021 04:01:15 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJx0ZGZvRo+57kUsKr7pNjACll+XAsuQh5o8lCmPbYqhx5o13/FIG5gHw4WPtGn4YvKKzkquEw==
-X-Received: by 2002:a05:6000:1545:: with SMTP id
- 5mr1626638wry.438.1640260874931; 
- Thu, 23 Dec 2021 04:01:14 -0800 (PST)
-Received: from x1w.. (33.red-193-152-124.dynamicip.rima-tde.net.
- [193.152.124.33])
- by smtp.gmail.com with ESMTPSA id l36sm9514934wms.16.2021.12.23.04.01.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 Dec 2021 04:01:14 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 23/23] pci: Let ld*_pci_dma() propagate MemTxResult
-Date: Thu, 23 Dec 2021 12:55:54 +0100
-Message-Id: <20211223115554.3155328-24-philmd@redhat.com>
-X-Mailer: git-send-email 2.33.1
-In-Reply-To: <20211223115554.3155328-1-philmd@redhat.com>
-References: <20211223115554.3155328-1-philmd@redhat.com>
-MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.203,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
+ id 1n0NFS-0002UI-23
+ for qemu-devel@nongnu.org; Thu, 23 Dec 2021 07:31:09 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1640262666; x=1671798666;
+ h=from:to:cc:subject:date:message-id:in-reply-to: references;
+ bh=xtbgbUjVJSiP/3NOnfjZyjZXB+ptWQ3Ys8Zly2meUqc=;
+ b=UjludjZjG0RAbunWnYZQK/qotzAnvFsfLCKoKTj8LLxk50FCvlL7Jwe5
+ tT4UgougcBUByn8a//nDUO9boGVOHHXgWXLTw27JDtTIKQu4nJ+jm2Syx
+ 0Tou5EPIE5OW5XLuK4WZkNvV0HcCfWL4PyBR9sdxu4dQz+u+xgwiPOq49
+ dGL0RtxF9QZreOr8iZ/izEaWK1xXeNNOMGxpIe/NJNB6llEQ2PR0rX/24
+ F181Tr+1InryMB6zTmAef7RX2PdsMP4+qbAXy5o5Jz0CqrzwXcnRmR8H6
+ 8Q/AIAekSfBfQVmIB07YEMk7S9VqxBocfButrCkUIbNJi3hEN+YqO4ebL Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10206"; a="228114526"
+X-IronPort-AV: E=Sophos;i="5.88,229,1635231600"; d="scan'208";a="228114526"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Dec 2021 04:31:04 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,229,1635231600"; d="scan'208";a="522078480"
+Received: from chaop.bj.intel.com ([10.240.192.101])
+ by orsmga008.jf.intel.com with ESMTP; 23 Dec 2021 04:30:56 -0800
+From: Chao Peng <chao.p.peng@linux.intel.com>
+To: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, qemu-devel@nongnu.org
+Subject: [PATCH v3 kvm/queue 01/16] mm/shmem: Introduce F_SEAL_INACCESSIBLE
+Date: Thu, 23 Dec 2021 20:29:56 +0800
+Message-Id: <20211223123011.41044-2-chao.p.peng@linux.intel.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20211223123011.41044-1-chao.p.peng@linux.intel.com>
+References: <20211223123011.41044-1-chao.p.peng@linux.intel.com>
+Received-SPF: none client-ip=134.134.136.20;
+ envelope-from=chao.p.peng@linux.intel.com; helo=mga02.intel.com
+X-Spam_score_int: -44
+X-Spam_score: -4.5
+X-Spam_bar: ----
+X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.203,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,315 +69,143 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
- Dmitry Fleytman <dmitry.fleytman@gmail.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Bin Meng <bin.meng@windriver.com>, David Hildenbrand <david@redhat.com>,
- Peter Xu <peterx@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Klaus Jensen <its@irrelevant.dk>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Sven Schnelle <svens@stackframe.org>, Hannes Reinecke <hare@suse.com>,
- qemu-block@nongnu.org, Daniel Henrique Barboza <danielhb413@gmail.com>,
- Havard Skinnemoen <hskinnemoen@google.com>, Joel Stanley <joel@jms.id.au>,
- Stefan Weil <sw@weilnetz.de>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Alistair Francis <alistair@alistair23.me>,
- Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
- Beniamino Galvani <b.galvani@gmail.com>, Eric Auger <eric.auger@redhat.com>,
- qemu-arm@nongnu.org, Jan Kiszka <jan.kiszka@web.de>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- Keith Busch <kbusch@kernel.org>, John Snow <jsnow@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>,
- Eduardo Habkost <eduardo@habkost.net>, Andrew Jeffery <andrew@aj.id.au>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Andrew Baumann <Andrew.Baumann@microsoft.com>,
- Tyrone Ting <kfting@nuvoton.com>, qemu-ppc@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Wanpeng Li <wanpengli@tencent.com>, jun.nakajima@intel.com,
+ david@redhat.com, "J . Bruce Fields" <bfields@fieldses.org>,
+ dave.hansen@intel.com, "H . Peter Anvin" <hpa@zytor.com>,
+ Chao Peng <chao.p.peng@linux.intel.com>, ak@linux.intel.com,
+ Jonathan Corbet <corbet@lwn.net>, Joerg Roedel <joro@8bytes.org>,
+ x86@kernel.org, Hugh Dickins <hughd@google.com>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ luto@kernel.org, Thomas Gleixner <tglx@linutronix.de>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>, Jim Mattson <jmattson@google.com>,
+ Sean Christopherson <seanjc@google.com>, susie.li@intel.com,
+ Jeff Layton <jlayton@kernel.org>, john.ji@intel.com,
+ Yu Zhang <yu.c.zhang@linux.intel.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-ld*_dma() returns a MemTxResult type. Do not discard
-it, return it to the caller.
+From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
 
-Update the few callers.
+Introduce a new seal F_SEAL_INACCESSIBLE indicating the content of
+the file is inaccessible from userspace in any possible ways like
+read(),write() or mmap() etc.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+It provides semantics required for KVM guest private memory support
+that a file descriptor with this seal set is going to be used as the
+source of guest memory in confidential computing environments such
+as Intel TDX/AMD SEV but may not be accessible from host userspace.
+
+At this time only shmem implements this seal.
+
+Signed-off-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
+Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
 ---
- include/hw/pci/pci.h | 17 ++++++++---------
- hw/audio/intel-hda.c |  2 +-
- hw/net/eepro100.c    | 25 ++++++++++---------------
- hw/net/tulip.c       | 16 ++++++++--------
- hw/scsi/megasas.c    | 21 ++++++++++++---------
- hw/scsi/mptsas.c     | 16 +++++++++++-----
- hw/scsi/vmw_pvscsi.c | 16 ++++++++++------
- 7 files changed, 60 insertions(+), 53 deletions(-)
+ include/uapi/linux/fcntl.h |  1 +
+ mm/shmem.c                 | 37 +++++++++++++++++++++++++++++++++++--
+ 2 files changed, 36 insertions(+), 2 deletions(-)
 
-diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
-index c90cecc85c0..5b36334a28a 100644
---- a/include/hw/pci/pci.h
-+++ b/include/hw/pci/pci.h
-@@ -850,15 +850,14 @@ static inline MemTxResult pci_dma_write(PCIDevice *dev, dma_addr_t addr,
-                       DMA_DIRECTION_FROM_DEVICE, MEMTXATTRS_UNSPECIFIED);
- }
+diff --git a/include/uapi/linux/fcntl.h b/include/uapi/linux/fcntl.h
+index 2f86b2ad6d7e..e2bad051936f 100644
+--- a/include/uapi/linux/fcntl.h
++++ b/include/uapi/linux/fcntl.h
+@@ -43,6 +43,7 @@
+ #define F_SEAL_GROW	0x0004	/* prevent file from growing */
+ #define F_SEAL_WRITE	0x0008	/* prevent writes */
+ #define F_SEAL_FUTURE_WRITE	0x0010  /* prevent future writes while mapped */
++#define F_SEAL_INACCESSIBLE	0x0020  /* prevent file from accessing */
+ /* (1U << 31) is reserved for signed error codes */
  
--#define PCI_DMA_DEFINE_LDST(_l, _s, _bits)                              \
--    static inline uint##_bits##_t ld##_l##_pci_dma(PCIDevice *dev,      \
--                                                   dma_addr_t addr, \
--                                                   MemTxAttrs attrs) \
--    {                                                                   \
--        uint##_bits##_t val; \
--        ld##_l##_dma(pci_get_address_space(dev), addr, &val, attrs); \
--        return val; \
--    }                                                                   \
-+#define PCI_DMA_DEFINE_LDST(_l, _s, _bits) \
-+    static inline MemTxResult ld##_l##_pci_dma(PCIDevice *dev, \
-+                                               dma_addr_t addr, \
-+                                               uint##_bits##_t *val, \
-+                                               MemTxAttrs attrs) \
-+    { \
-+        return ld##_l##_dma(pci_get_address_space(dev), addr, val, attrs); \
-+    } \
-     static inline MemTxResult st##_s##_pci_dma(PCIDevice *dev, \
-                                                dma_addr_t addr, \
-                                                uint##_bits##_t val, \
-diff --git a/hw/audio/intel-hda.c b/hw/audio/intel-hda.c
-index e34b7ab0e92..2b55d521503 100644
---- a/hw/audio/intel-hda.c
-+++ b/hw/audio/intel-hda.c
-@@ -335,7 +335,7 @@ static void intel_hda_corb_run(IntelHDAState *d)
+ /*
+diff --git a/mm/shmem.c b/mm/shmem.c
+index 18f93c2d68f1..faa7e9b1b9bc 100644
+--- a/mm/shmem.c
++++ b/mm/shmem.c
+@@ -1098,6 +1098,10 @@ static int shmem_setattr(struct user_namespace *mnt_userns,
+ 		    (newsize > oldsize && (info->seals & F_SEAL_GROW)))
+ 			return -EPERM;
  
-         rp = (d->corb_rp + 1) & 0xff;
-         addr = intel_hda_addr(d->corb_lbase, d->corb_ubase);
--        verb = ldl_le_pci_dma(&d->pci, addr + 4 * rp, MEMTXATTRS_UNSPECIFIED);
-+        ldl_le_pci_dma(&d->pci, addr + 4 * rp, &verb, MEMTXATTRS_UNSPECIFIED);
-         d->corb_rp = rp;
- 
-         dprint(d, 2, "%s: [rp 0x%x] verb 0x%08x\n", __func__, rp, verb);
-diff --git a/hw/net/eepro100.c b/hw/net/eepro100.c
-index eb82e9cb118..679f52f80f1 100644
---- a/hw/net/eepro100.c
-+++ b/hw/net/eepro100.c
-@@ -769,18 +769,16 @@ static void tx_command(EEPRO100State *s)
-     } else {
-         /* Flexible mode. */
-         uint8_t tbd_count = 0;
-+        uint32_t tx_buffer_address;
-+        uint16_t tx_buffer_size;
-+        uint16_t tx_buffer_el;
++		if ((info->seals & F_SEAL_INACCESSIBLE) &&
++		    (newsize & ~PAGE_MASK))
++			return -EINVAL;
 +
-         if (s->has_extended_tcb_support && !(s->configuration[6] & BIT(4))) {
-             /* Extended Flexible TCB. */
-             for (; tbd_count < 2; tbd_count++) {
--                uint32_t tx_buffer_address = ldl_le_pci_dma(&s->dev,
--                                                            tbd_address,
--                                                            attrs);
--                uint16_t tx_buffer_size = lduw_le_pci_dma(&s->dev,
--                                                          tbd_address + 4,
--                                                          attrs);
--                uint16_t tx_buffer_el = lduw_le_pci_dma(&s->dev,
--                                                        tbd_address + 6,
--                                                        attrs);
-+                ldl_le_pci_dma(&s->dev, tbd_address, &tx_buffer_address, attrs);
-+                lduw_le_pci_dma(&s->dev, tbd_address + 4, &tx_buffer_size, attrs);
-+                lduw_le_pci_dma(&s->dev, tbd_address + 6, &tx_buffer_el, attrs);
-                 tbd_address += 8;
-                 TRACE(RXTX, logout
-                     ("TBD (extended flexible mode): buffer address 0x%08x, size 0x%04x\n",
-@@ -796,12 +794,9 @@ static void tx_command(EEPRO100State *s)
-         }
-         tbd_address = tbd_array;
-         for (; tbd_count < s->tx.tbd_count; tbd_count++) {
--            uint32_t tx_buffer_address = ldl_le_pci_dma(&s->dev, tbd_address,
--                                                        attrs);
--            uint16_t tx_buffer_size = lduw_le_pci_dma(&s->dev, tbd_address + 4,
--                                                      attrs);
--            uint16_t tx_buffer_el = lduw_le_pci_dma(&s->dev, tbd_address + 6,
--                                                    attrs);
-+            ldl_le_pci_dma(&s->dev, tbd_address, &tx_buffer_address, attrs);
-+            lduw_le_pci_dma(&s->dev, tbd_address + 4, &tx_buffer_size, attrs);
-+            lduw_le_pci_dma(&s->dev, tbd_address + 6, &tx_buffer_el, attrs);
-             tbd_address += 8;
-             TRACE(RXTX, logout
-                 ("TBD (flexible mode): buffer address 0x%08x, size 0x%04x\n",
-diff --git a/hw/net/tulip.c b/hw/net/tulip.c
-index c76e4868f73..d5b6cc5ee69 100644
---- a/hw/net/tulip.c
-+++ b/hw/net/tulip.c
-@@ -73,15 +73,15 @@ static void tulip_desc_read(TULIPState *s, hwaddr p,
-     const MemTxAttrs attrs = MEMTXATTRS_UNSPECIFIED;
+ 		if (newsize != oldsize) {
+ 			error = shmem_reacct_size(SHMEM_I(inode)->flags,
+ 					oldsize, newsize);
+@@ -1364,6 +1368,8 @@ static int shmem_writepage(struct page *page, struct writeback_control *wbc)
+ 		goto redirty;
+ 	if (!total_swap_pages)
+ 		goto redirty;
++	if (info->seals & F_SEAL_INACCESSIBLE)
++		goto redirty;
  
-     if (s->csr[0] & CSR0_DBO) {
--        desc->status = ldl_be_pci_dma(&s->dev, p, attrs);
--        desc->control = ldl_be_pci_dma(&s->dev, p + 4, attrs);
--        desc->buf_addr1 = ldl_be_pci_dma(&s->dev, p + 8, attrs);
--        desc->buf_addr2 = ldl_be_pci_dma(&s->dev, p + 12, attrs);
-+        ldl_be_pci_dma(&s->dev, p, &desc->status, attrs);
-+        ldl_be_pci_dma(&s->dev, p + 4, &desc->control, attrs);
-+        ldl_be_pci_dma(&s->dev, p + 8, &desc->buf_addr1, attrs);
-+        ldl_be_pci_dma(&s->dev, p + 12, &desc->buf_addr2, attrs);
-     } else {
--        desc->status = ldl_le_pci_dma(&s->dev, p, attrs);
--        desc->control = ldl_le_pci_dma(&s->dev, p + 4, attrs);
--        desc->buf_addr1 = ldl_le_pci_dma(&s->dev, p + 8, attrs);
--        desc->buf_addr2 = ldl_le_pci_dma(&s->dev, p + 12, attrs);
-+        ldl_le_pci_dma(&s->dev, p, &desc->status, attrs);
-+        ldl_le_pci_dma(&s->dev, p + 4, &desc->control, attrs);
-+        ldl_le_pci_dma(&s->dev, p + 8, &desc->buf_addr1, attrs);
-+        ldl_le_pci_dma(&s->dev, p + 12, &desc->buf_addr2, attrs);
-     }
- }
+ 	/*
+ 	 * Our capabilities prevent regular writeback or sync from ever calling
+@@ -2262,6 +2268,9 @@ static int shmem_mmap(struct file *file, struct vm_area_struct *vma)
+ 	if (ret)
+ 		return ret;
  
-diff --git a/hw/scsi/megasas.c b/hw/scsi/megasas.c
-index f93c34c4201..efcd8e3035e 100644
---- a/hw/scsi/megasas.c
-+++ b/hw/scsi/megasas.c
-@@ -202,9 +202,12 @@ static uint64_t megasas_frame_get_context(MegasasState *s,
-                                           unsigned long frame)
- {
-     PCIDevice *pci = &s->parent_obj;
--    return ldq_le_pci_dma(pci,
--                          frame + offsetof(struct mfi_frame_header, context),
--                          MEMTXATTRS_UNSPECIFIED);
-+    uint64_t val;
++	if (info->seals & F_SEAL_INACCESSIBLE)
++		return -EPERM;
 +
-+    ldq_le_pci_dma(pci, frame + offsetof(struct mfi_frame_header, context),
-+                   &val, MEMTXATTRS_UNSPECIFIED);
+ 	/* arm64 - allow memory tagging on RAM-based files */
+ 	vma->vm_flags |= VM_MTE_ALLOWED;
+ 
+@@ -2459,12 +2468,15 @@ shmem_write_begin(struct file *file, struct address_space *mapping,
+ 	pgoff_t index = pos >> PAGE_SHIFT;
+ 
+ 	/* i_rwsem is held by caller */
+-	if (unlikely(info->seals & (F_SEAL_GROW |
+-				   F_SEAL_WRITE | F_SEAL_FUTURE_WRITE))) {
++	if (unlikely(info->seals & (F_SEAL_GROW | F_SEAL_WRITE |
++				    F_SEAL_FUTURE_WRITE |
++				    F_SEAL_INACCESSIBLE))) {
+ 		if (info->seals & (F_SEAL_WRITE | F_SEAL_FUTURE_WRITE))
+ 			return -EPERM;
+ 		if ((info->seals & F_SEAL_GROW) && pos + len > inode->i_size)
+ 			return -EPERM;
++		if (info->seals & F_SEAL_INACCESSIBLE)
++			return -EPERM;
+ 	}
+ 
+ 	return shmem_getpage(inode, index, pagep, SGP_WRITE);
+@@ -2538,6 +2550,21 @@ static ssize_t shmem_file_read_iter(struct kiocb *iocb, struct iov_iter *to)
+ 		end_index = i_size >> PAGE_SHIFT;
+ 		if (index > end_index)
+ 			break;
 +
-+    return val;
- }
- 
- static bool megasas_frame_is_ieee_sgl(MegasasCmd *cmd)
-@@ -536,8 +539,8 @@ static MegasasCmd *megasas_enqueue_frame(MegasasState *s,
-     s->busy++;
- 
-     if (s->consumer_pa) {
--        s->reply_queue_tail = ldl_le_pci_dma(pcid, s->consumer_pa,
--                                             MEMTXATTRS_UNSPECIFIED);
-+        ldl_le_pci_dma(pcid, s->consumer_pa, &s->reply_queue_tail,
-+                       MEMTXATTRS_UNSPECIFIED);
-     }
-     trace_megasas_qf_enqueue(cmd->index, cmd->count, cmd->context,
-                              s->reply_queue_head, s->reply_queue_tail, s->busy);
-@@ -568,14 +571,14 @@ static void megasas_complete_frame(MegasasState *s, uint64_t context)
-             stl_le_pci_dma(pci_dev, s->reply_queue_pa + queue_offset,
-                            context, attrs);
-         }
--        s->reply_queue_tail = ldl_le_pci_dma(pci_dev, s->consumer_pa, attrs);
-+        ldl_le_pci_dma(pci_dev, s->consumer_pa, &s->reply_queue_tail, attrs);
-         trace_megasas_qf_complete(context, s->reply_queue_head,
-                                   s->reply_queue_tail, s->busy);
-     }
- 
-     if (megasas_intr_enabled(s)) {
-         /* Update reply queue pointer */
--        s->reply_queue_tail = ldl_le_pci_dma(pci_dev, s->consumer_pa, attrs);
-+        ldl_le_pci_dma(pci_dev, s->consumer_pa, &s->reply_queue_tail, attrs);
-         tail = s->reply_queue_head;
-         s->reply_queue_head = megasas_next_index(s, tail, s->fw_cmds);
-         trace_megasas_qf_update(s->reply_queue_head, s->reply_queue_tail,
-@@ -679,9 +682,9 @@ static int megasas_init_firmware(MegasasState *s, MegasasCmd *cmd)
-     pa_lo = le32_to_cpu(initq->pi_addr_lo);
-     pa_hi = le32_to_cpu(initq->pi_addr_hi);
-     s->producer_pa = ((uint64_t) pa_hi << 32) | pa_lo;
--    s->reply_queue_head = ldl_le_pci_dma(pcid, s->producer_pa, attrs);
-+    ldl_le_pci_dma(pcid, s->producer_pa, &s->reply_queue_head, attrs);
-     s->reply_queue_head %= MEGASAS_MAX_FRAMES;
--    s->reply_queue_tail = ldl_le_pci_dma(pcid, s->consumer_pa, attrs);
-+    ldl_le_pci_dma(pcid, s->consumer_pa, &s->reply_queue_tail, attrs);
-     s->reply_queue_tail %= MEGASAS_MAX_FRAMES;
-     flags = le32_to_cpu(initq->flags);
-     if (flags & MFI_QUEUE_FLAG_CONTEXT64) {
-diff --git a/hw/scsi/mptsas.c b/hw/scsi/mptsas.c
-index ac9f4dfcd2a..5181b0c0b0d 100644
---- a/hw/scsi/mptsas.c
-+++ b/hw/scsi/mptsas.c
-@@ -177,10 +177,16 @@ static dma_addr_t mptsas_ld_sg_base(MPTSASState *s, uint32_t flags_and_length,
-     dma_addr_t addr;
- 
-     if (flags_and_length & MPI_SGE_FLAGS_64_BIT_ADDRESSING) {
--        addr = ldq_le_pci_dma(pci, *sgaddr + 4, attrs);
-+        uint64_t addr64;
++		/*
++		 * inode_lock protects setting up seals as well as write to
++		 * i_size. Setting F_SEAL_INACCESSIBLE only allowed with
++		 * i_size == 0.
++		 *
++		 * Check F_SEAL_INACCESSIBLE after i_size. It effectively
++		 * serialize read vs. setting F_SEAL_INACCESSIBLE without
++		 * taking inode_lock in read path.
++		 */
++		if (SHMEM_I(inode)->seals & F_SEAL_INACCESSIBLE) {
++			error = -EPERM;
++			break;
++		}
 +
-+        ldq_le_pci_dma(pci, *sgaddr + 4, &addr64, attrs);
-+        addr = addr64;
-         *sgaddr += 12;
-     } else {
--        addr = ldl_le_pci_dma(pci, *sgaddr + 4, attrs);
-+        uint32_t addr32;
+ 		if (index == end_index) {
+ 			nr = i_size & ~PAGE_MASK;
+ 			if (nr <= offset)
+@@ -2663,6 +2690,12 @@ static long shmem_fallocate(struct file *file, int mode, loff_t offset,
+ 			goto out;
+ 		}
+ 
++		if ((info->seals & F_SEAL_INACCESSIBLE) &&
++		    (offset & ~PAGE_MASK || len & ~PAGE_MASK)) {
++			error = -EINVAL;
++			goto out;
++		}
 +
-+        ldl_le_pci_dma(pci, *sgaddr + 4, &addr32, attrs);
-+        addr = addr32;
-         *sgaddr += 8;
-     }
-     return addr;
-@@ -204,7 +210,7 @@ static int mptsas_build_sgl(MPTSASState *s, MPTSASRequest *req, hwaddr addr)
-         dma_addr_t addr, len;
-         uint32_t flags_and_length;
- 
--        flags_and_length = ldl_le_pci_dma(pci, sgaddr, MEMTXATTRS_UNSPECIFIED);
-+        ldl_le_pci_dma(pci, sgaddr, &flags_and_length, MEMTXATTRS_UNSPECIFIED);
-         len = flags_and_length & MPI_SGE_LENGTH_MASK;
-         if ((flags_and_length & MPI_SGE_FLAGS_ELEMENT_TYPE_MASK)
-             != MPI_SGE_FLAGS_SIMPLE_ELEMENT ||
-@@ -235,8 +241,8 @@ static int mptsas_build_sgl(MPTSASState *s, MPTSASRequest *req, hwaddr addr)
-                 break;
-             }
- 
--            flags_and_length = ldl_le_pci_dma(pci, next_chain_addr,
--                                              MEMTXATTRS_UNSPECIFIED);
-+            ldl_le_pci_dma(pci, next_chain_addr, &flags_and_length,
-+                           MEMTXATTRS_UNSPECIFIED);
-             if ((flags_and_length & MPI_SGE_FLAGS_ELEMENT_TYPE_MASK)
-                 != MPI_SGE_FLAGS_CHAIN_ELEMENT) {
-                 return MPI_IOCSTATUS_INVALID_SGL;
-diff --git a/hw/scsi/vmw_pvscsi.c b/hw/scsi/vmw_pvscsi.c
-index 33e16f91116..4d9969f3b16 100644
---- a/hw/scsi/vmw_pvscsi.c
-+++ b/hw/scsi/vmw_pvscsi.c
-@@ -50,10 +50,10 @@
- #define PVSCSI_MAX_CMD_DATA_WORDS \
-     (sizeof(PVSCSICmdDescSetupRings)/sizeof(uint32_t))
- 
--#define RS_GET_FIELD(m, field) \
--    (ldl_le_pci_dma(&container_of(m, PVSCSIState, rings)->parent_obj, \
-+#define RS_GET_FIELD(pval, m, field) \
-+    ldl_le_pci_dma(&container_of(m, PVSCSIState, rings)->parent_obj, \
-                  (m)->rs_pa + offsetof(struct PVSCSIRingsState, field), \
--                 MEMTXATTRS_UNSPECIFIED))
-+                 pval, MEMTXATTRS_UNSPECIFIED)
- #define RS_SET_FIELD(m, field, val) \
-     (stl_le_pci_dma(&container_of(m, PVSCSIState, rings)->parent_obj, \
-                  (m)->rs_pa + offsetof(struct PVSCSIRingsState, field), val, \
-@@ -249,10 +249,11 @@ pvscsi_ring_cleanup(PVSCSIRingInfo *mgr)
- static hwaddr
- pvscsi_ring_pop_req_descr(PVSCSIRingInfo *mgr)
- {
--    uint32_t ready_ptr = RS_GET_FIELD(mgr, reqProdIdx);
-+    uint32_t ready_ptr;
-     uint32_t ring_size = PVSCSI_MAX_NUM_PAGES_REQ_RING
-                             * PVSCSI_MAX_NUM_REQ_ENTRIES_PER_PAGE;
- 
-+    RS_GET_FIELD(&ready_ptr, mgr, reqProdIdx);
-     if (ready_ptr != mgr->consumed_ptr
-         && ready_ptr - mgr->consumed_ptr < ring_size) {
-         uint32_t next_ready_ptr =
-@@ -323,8 +324,11 @@ pvscsi_ring_flush_cmp(PVSCSIRingInfo *mgr)
- static bool
- pvscsi_ring_msg_has_room(PVSCSIRingInfo *mgr)
- {
--    uint32_t prodIdx = RS_GET_FIELD(mgr, msgProdIdx);
--    uint32_t consIdx = RS_GET_FIELD(mgr, msgConsIdx);
-+    uint32_t prodIdx;
-+    uint32_t consIdx;
-+
-+    RS_GET_FIELD(&prodIdx, mgr, msgProdIdx);
-+    RS_GET_FIELD(&consIdx, mgr, msgConsIdx);
- 
-     return (prodIdx - consIdx) < (mgr->msg_len_mask + 1);
- }
+ 		shmem_falloc.waitq = &shmem_falloc_waitq;
+ 		shmem_falloc.start = (u64)unmap_start >> PAGE_SHIFT;
+ 		shmem_falloc.next = (unmap_end + 1) >> PAGE_SHIFT;
 -- 
-2.33.1
+2.17.1
 
 
