@@ -2,91 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02EFA47E26E
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Dec 2021 12:39:56 +0100 (CET)
-Received: from localhost ([::1]:51520 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DA5B47E27E
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Dec 2021 12:42:27 +0100 (CET)
+Received: from localhost ([::1]:55266 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n0MRu-0002mT-Jh
-	for lists+qemu-devel@lfdr.de; Thu, 23 Dec 2021 06:39:54 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54900)
+	id 1n0MUM-0005KM-Bl
+	for lists+qemu-devel@lfdr.de; Thu, 23 Dec 2021 06:42:26 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54916)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1n0MQ5-0001Jj-6W
+ id 1n0MQ5-0001K1-6T
  for qemu-devel@nongnu.org; Thu, 23 Dec 2021 06:38:02 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42743)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37238)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1n0MQ1-0002wg-Uy
- for qemu-devel@nongnu.org; Thu, 23 Dec 2021 06:37:59 -0500
+ id 1n0MQ3-0002wr-85
+ for qemu-devel@nongnu.org; Thu, 23 Dec 2021 06:38:00 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1640259476;
+ s=mimecast20190719; t=1640259478;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Sder3y/cXxld13XVfdXxj6wtCuvcGhUHZhj+0R2hfzk=;
- b=IRdhyWDpa8CVsYtaKVMSiiwCUjXSLPP4lqszYP2BWTtasZrDnpMXORu+yzoQ3s9Loyc072
- xBNNw9LLIk2P9mGOydl7Aq1fcvLFqslbAWrAwQjWARv7SYU/NTAOzCO6QoW5VQMW5jw7wo
- qM58CJmkfp8ExaXrPOKPg2HtiIDvQU8=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=MVvUNOfggJu3v+Zkk5uXmA7t+SI6cG4ju5zklh2btg4=;
+ b=CsZyeTH7ThRFeMJXRqVVRkg3HuiQH0o/Ppd0bao87s+6Ny5tSMlb37KZUn8vHvCyf+Gd9F
+ 6fcpHyuZaWOQ/EIp1qVJkEGgURtGDA1grnPWY6Npvj4I2LFhJs0PX1nmYvxRaJgElD67OK
+ 6AL0TFNUoLnfQ8oYIgFmMu5DJIqmUus=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-108-5s6D1hXMN1SsJ_egNLkF2Q-1; Thu, 23 Dec 2021 06:37:55 -0500
-X-MC-Unique: 5s6D1hXMN1SsJ_egNLkF2Q-1
-Received: by mail-ed1-f71.google.com with SMTP id
- y10-20020a056402358a00b003f88b132849so4555425edc.0
- for <qemu-devel@nongnu.org>; Thu, 23 Dec 2021 03:37:55 -0800 (PST)
+ us-mta-438-hzSehasfOyutvdn8gv1zog-1; Thu, 23 Dec 2021 06:37:57 -0500
+X-MC-Unique: hzSehasfOyutvdn8gv1zog-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ l14-20020aa7cace000000b003f7f8e1cbbdso4272944edt.20
+ for <qemu-devel@nongnu.org>; Thu, 23 Dec 2021 03:37:57 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=Sder3y/cXxld13XVfdXxj6wtCuvcGhUHZhj+0R2hfzk=;
- b=fJAE+Ny3m/vH1/4bHNcmM9iXfbSUOSRf1ABr7UoXaxAyOViZMVjiPm3jnSggrmYm7z
- 9hTBXLNp22WXRpQqca7UaXza1MWExX59NOmYp8lQUGai/znmRbZa3/MOhHhrgZjBn+gp
- L/HlIyb/qcNZqrBF7//kwh8WgT81EbgSdntzG8C6veE0M3rc9+LgwIoipk7IOv4zDbmn
- 9RlY2Yc16MLtVHNzQTW2kUc8kmmoIPeU+oBby0RO8UNWvned6YHNd87XD2hOpAmKjTf0
- 6tv3JUsoZXsRHlLd/ZtFDw+pSGNcJOwCrlZby6ayHnjOgom0wtZ3PVmRJ79CziBwSMTN
- IDng==
-X-Gm-Message-State: AOAM532MYfzjtFBVcDYBdNBReirRGr9dsqjNWqXCd72G12xYgZeRx+SA
- HkV/ACNEelSYausRayCsT1G5uf17CjdNFTbFm32A8BxibdG2N+HOqvCNvoWrzfmaATDAG1ica26
- rKFlZRc8ayUn6ayE=
-X-Received: by 2002:a05:6402:26d3:: with SMTP id
- x19mr1715738edd.35.1640259474519; 
- Thu, 23 Dec 2021 03:37:54 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyN3b1LLS+Q6/3ZfPM/OtHyhAXgyx6gQiiXDmquRtd8HITuQ3Y+rBOD1pQ8c9udSZTk3xBLmw==
-X-Received: by 2002:a05:6402:26d3:: with SMTP id
- x19mr1715710edd.35.1640259474209; 
- Thu, 23 Dec 2021 03:37:54 -0800 (PST)
+ bh=MVvUNOfggJu3v+Zkk5uXmA7t+SI6cG4ju5zklh2btg4=;
+ b=kwJbgIhWFeerCxdOo6ohhex3BM6B+OVjEdcxO60L6tYQO9HL5EuKENZectudVXK2lz
+ XndsaBmCZffrkTywGB6rzw/Wb/i/rEUanDKwI/xZthyUUzLpjLcYOKvcSu/TjTuLwnO+
+ lnrQbXJbtjnyWjVwx4MMHPPiPyCRCP659TXE6COJq/XGTAIXoM/VvayF0aARZsF4jhkW
+ PrGmcl71+VRDa/3OLdca9r/++KX/NiMkmTsI5spHXaQX8QCGSL9oh9imPgidd9v4Nl6U
+ GmmW52sjeb4eQfUK8olRs7tm6RY45czlUx9cQ1D9jfYUd0XrIFX5ucLO3Jvi/eEYHjOQ
+ CadQ==
+X-Gm-Message-State: AOAM530wuz6sNBx8Bt6wtq53/lMXp+u9w4xmELDW6pXPZ4+XFI7+gUtk
+ zT9wSr3Xnx5zK9oSkuoYpd0Z58KIJV+c6WbILAwBGRdgGg3xEcdyx7c+jscbAPFF461Dp9pwnNU
+ 63uclX7n8QIqciEU=
+X-Received: by 2002:aa7:d906:: with SMTP id a6mr1692560edr.363.1640259476750; 
+ Thu, 23 Dec 2021 03:37:56 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJypNlcaStmdMn2tL9fot7laifiJD3aJL2ozK5ccPha143ZfskVfe6gedHxajoD0DDFxBq1ILg==
+X-Received: by 2002:aa7:d906:: with SMTP id a6mr1692543edr.363.1640259476624; 
+ Thu, 23 Dec 2021 03:37:56 -0800 (PST)
 Received: from ?IPV6:2a04:ee41:4:31cb:e591:1e1e:abde:a8f1?
  ([2a04:ee41:4:31cb:e591:1e1e:abde:a8f1])
- by smtp.gmail.com with ESMTPSA id w7sm1929505ede.66.2021.12.23.03.37.52
+ by smtp.gmail.com with ESMTPSA id v8sm1900832edt.10.2021.12.23.03.37.55
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 23 Dec 2021 03:37:53 -0800 (PST)
-Message-ID: <7b5a36d8-ad3b-9d70-93e2-ea43638d2cf9@redhat.com>
-Date: Thu, 23 Dec 2021 12:37:51 +0100
+ Thu, 23 Dec 2021 03:37:56 -0800 (PST)
+Message-ID: <1a57508f-5fda-0f9d-027a-b1fd943680bc@redhat.com>
+Date: Thu, 23 Dec 2021 12:37:55 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.2.0
-Subject: Re: [RFC PATCH v2 05/14] block/mirror.c: use of job helpers in
- drivers to avoid TOC/TOU
+Subject: Re: [RFC PATCH v2 11/14] block_job_query: remove atomic read
 To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
  qemu-block@nongnu.org
 References: <20211104145334.1346363-1-eesposit@redhat.com>
- <20211104145334.1346363-6-eesposit@redhat.com>
- <e3d234fc-6937-61e0-c4d6-988196f16a09@virtuozzo.com>
- <67f2e473-b621-a57d-6c76-3235633649c5@redhat.com>
- <bed1cd66-2fe0-e619-fd08-d80dcafdd867@virtuozzo.com>
+ <20211104145334.1346363-12-eesposit@redhat.com>
+ <6982e901-c03f-6b90-b226-77814804c00d@virtuozzo.com>
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-In-Reply-To: <bed1cd66-2fe0-e619-fd08-d80dcafdd867@virtuozzo.com>
+In-Reply-To: <6982e901-c03f-6b90-b226-77814804c00d@virtuozzo.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eesposit@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -52
@@ -96,7 +91,7 @@ X-Spam_report: (-5.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.203,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  NICE_REPLY_A=-2.264, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -120,85 +115,22 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 
-On 20/12/2021 11:47, Vladimir Sementsov-Ogievskiy wrote:
-> 20.12.2021 13:34, Emanuele Giuseppe Esposito wrote:
->>
->>
->> On 18/12/2021 12:53, Vladimir Sementsov-Ogievskiy wrote:
->>> 04.11.2021 17:53, Emanuele Giuseppe Esposito wrote:
->>>> Once job lock is used and aiocontext is removed, mirror has
->>>> to perform job operations under the same critical section,
->>>> using the helpers prepared in previous commit.
->>>>
->>>> Note: at this stage, job_{lock/unlock} and job lock guard macros
->>>> are *nop*.
->>>>
->>>> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
->>>> ---
->>>>   block/mirror.c | 8 +++-----
->>>>   1 file changed, 3 insertions(+), 5 deletions(-)
->>>>
->>>> diff --git a/block/mirror.c b/block/mirror.c
->>>> index 00089e519b..f22fa7da6e 100644
->>>> --- a/block/mirror.c
->>>> +++ b/block/mirror.c
->>>> @@ -653,7 +653,7 @@ static int mirror_exit_common(Job *job)
->>>>       BlockDriverState *target_bs;
->>>>       BlockDriverState *mirror_top_bs;
->>>>       Error *local_err = NULL;
->>>> -    bool abort = job->ret < 0;
->>>> +    bool abort = job_has_failed(job);
->>>>       int ret = 0;
->>>>       if (s->prepared) {
->>>> @@ -1161,9 +1161,7 @@ static void mirror_complete(Job *job, Error 
->>>> **errp)
->>>>       s->should_complete = true;
->>>>       /* If the job is paused, it will be re-entered when it is 
->>>> resumed */
->>>> -    if (!job->paused) {
->>>> -        job_enter(job);
->>>> -    }
->>>> +    job_enter_not_paused(job);
->>>>   }
->>>>   static void coroutine_fn mirror_pause(Job *job)
->>>> @@ -1182,7 +1180,7 @@ static bool mirror_drained_poll(BlockJob *job)
->>>>        * from one of our own drain sections, to avoid a deadlock 
->>>> waiting for
->>>>        * ourselves.
->>>>        */
->>>> -    if (!s->common.job.paused && !job_is_cancelled(&job->job) && 
->>>> !s->in_drain) {
->>>> +    if (job_not_paused_nor_cancelled(&s->common.job) && 
->>>> !s->in_drain) {
->>>>           return true;
->>>>       }
->>>>
->>>
->>> Why to introduce a separate API function for every use case?
->>>
->>> Could we instead just use WITH_JOB_LOCK_GUARD() ?
->>>
->>
->> This implies making the struct job_mutex public. Is that ok for you?
->>
+On 18/12/2021 13:07, Vladimir Sementsov-Ogievskiy wrote:
+> 04.11.2021 17:53, Emanuele Giuseppe Esposito wrote:
+>> Not sure what the atomic here was supposed to do, since job.busy
+>> is protected by the job lock.
 > 
-> Yes, I think it's OK.
-> 
-> Alternatively, you can use job_lock() / job_unlock(), or even rewrite 
-> WITH_JOB_LOCK_GUARD() macro using job_lock/job_unlock, to keep mutex 
-> private.. But I don't think it really worth it now.
-> 
-> Note that struct Job is already public, so if we'll use per-job mutex in 
-> future it still is not a problem. Only when we decide to make struct Job 
-> private, we'll have to decide something about JOB_LOCK_GUARD(), and at 
-> this point we'll just rewrite it to work through some helper function 
-> instead of directly touching the mutex.
-> 
+> In block_job_query() it is protected only since previous commit. So, 
+> before previous commit, atomic read make sense.
+
+To me it doesn't really, because it is protected with job_lock/unlock in 
+job.c, and here is read with an atomic. But maybe I am missing something.
+
+> Hmm. but job_lock() is still a no-op at this point. So, actually, it 
+> would be more correct to drop this qatomic_read after patch 14.
 > 
 
-Ok I will do that. Just FYI the initial idea was that drivers like 
-monitor would not need to know about job_mutex lock, that is why I made 
-the helpers in mirror.c.
+Will do.
 
 Thank you,
 Emanuele
