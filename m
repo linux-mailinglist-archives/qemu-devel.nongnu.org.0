@@ -2,94 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5221347E151
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Dec 2021 11:21:17 +0100 (CET)
-Received: from localhost ([::1]:34344 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3C6B47E15D
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Dec 2021 11:23:34 +0100 (CET)
+Received: from localhost ([::1]:37156 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n0LDo-0007G4-FS
-	for lists+qemu-devel@lfdr.de; Thu, 23 Dec 2021 05:21:16 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37610)
+	id 1n0LG1-0000qU-M0
+	for lists+qemu-devel@lfdr.de; Thu, 23 Dec 2021 05:23:33 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38504)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1n0LBI-0004rr-3b
- for qemu-devel@nongnu.org; Thu, 23 Dec 2021 05:18:40 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:41909)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1n0LF9-0008TN-HW
+ for qemu-devel@nongnu.org; Thu, 23 Dec 2021 05:22:39 -0500
+Received: from [2001:41c9:1:41f::167] (port=54444
+ helo=mail.default.ilande.bv.iomart.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1n0LBG-0007XA-Ns
- for qemu-devel@nongnu.org; Thu, 23 Dec 2021 05:18:39 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1640254718;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=agxEPlQqLF5z3prp+ntLAHbmxbQSsbIL0QQVNCihRzY=;
- b=VVN0gP9gD7Uo4H6rcx/bRWL9V2E5Ia9AXCNlOWcPUDNx5kWOtQI3h+oQSQiZMItdXDfHa3
- OfGvdSInAcKk9jLYsqiKOOTgyFA2BjPmfHv76mn8rBxCVUJTaBFBLRGSpfauyoXjcNoYBU
- V7Ie6nH1DgTNAR1mnZGj7UhjUtyHEI0=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-441-TJb_bu7IPiWx2ylLAfl7Tg-1; Thu, 23 Dec 2021 05:18:35 -0500
-X-MC-Unique: TJb_bu7IPiWx2ylLAfl7Tg-1
-Received: by mail-wr1-f72.google.com with SMTP id
- j26-20020adfb31a000000b001a2356afd4fso1172137wrd.21
- for <qemu-devel@nongnu.org>; Thu, 23 Dec 2021 02:18:34 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=agxEPlQqLF5z3prp+ntLAHbmxbQSsbIL0QQVNCihRzY=;
- b=lbR26prObRgv0ZNoYxgjvpaLx0NIpqmxB8Y8muu3aLT04HZp6BTRJBH7lw21A/AjA1
- HjekAuxyD1X1sNp5xXsDURGl9usebfuoUsdPKJRFHnkzyaTr+N9YbIruaFH5O6gB+B9Y
- syWjLYRcSBPAbWA1335Vz/5kI7ZLLxhnbtiUKv+r7xl6c+4D68O2rSQNBjqjDQCr5EIY
- AZ5zCG/oXgjEUtrMX1l7F8XOxjGwWOQ/JlR8CNcDPGKpGY9aQXT/0qckTt55+aKGFdwX
- p3IQFVFR0+NRCwUm61rp1sR/nFDGLJ7/41My0mV4RFvPeFrImgVrXug1OlIBuoFgdaAQ
- GNqw==
-X-Gm-Message-State: AOAM531+BVR0QL5SgITswPioNMHrI/WiMUSMp9sUvDHX+mJ5tnAY4N2T
- 1JFP1Ga8Ch9Zvt+rR1R10CMCU6JfzfjTiPK+hBfpM+U3iDmGVk0K6TGazgfEicmgu9f/1nJR1/4
- cCOcyLEtTiM984Q4=
-X-Received: by 2002:adf:9d8c:: with SMTP id p12mr1232916wre.622.1640254713742; 
- Thu, 23 Dec 2021 02:18:33 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyvJh+Ib+4wdUPK+bgP1xyiVKvgHRhFZwG6T4lwEoyS7S3pce5Guzd/CrAjjTFVWWAQE3v+4A==
-X-Received: by 2002:adf:9d8c:: with SMTP id p12mr1232905wre.622.1640254713603; 
- Thu, 23 Dec 2021 02:18:33 -0800 (PST)
-Received: from [192.168.43.238] (33.red-193-152-124.dynamicip.rima-tde.net.
- [193.152.124.33])
- by smtp.gmail.com with ESMTPSA id b2sm5540999wrd.35.2021.12.23.02.18.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 23 Dec 2021 02:18:33 -0800 (PST)
-Message-ID: <c6754075-8b8a-3ee9-147c-ac5b99695728@redhat.com>
-Date: Thu, 23 Dec 2021 11:18:28 +0100
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1n0LF4-00016a-I0
+ for qemu-devel@nongnu.org; Thu, 23 Dec 2021 05:22:37 -0500
+Received: from [2a00:23c4:8b9f:c400:72e2:646b:9043:c91d]
+ by mail.default.ilande.bv.iomart.io with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1n0LER-0001JR-Ia; Thu, 23 Dec 2021 10:21:59 +0000
+To: yangxiaojuan <yangxiaojuan@loongson.cn>, qemu-devel@nongnu.org
+References: <1638619645-11283-1-git-send-email-yangxiaojuan@loongson.cn>
+ <1638619645-11283-19-git-send-email-yangxiaojuan@loongson.cn>
+ <411fab70-0e0e-3d3d-55ce-cc6d00f4df9a@ilande.co.uk>
+ <a00a4d13-05ed-7625-4f3f-b1e3eeb39432@loongson.cn>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Message-ID: <11fbe5fd-65a6-e1a3-6ce8-a84350593b48@ilande.co.uk>
+Date: Thu, 23 Dec 2021 10:21:57 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH 3/3] block: print the server key type and fingerprint on
- failure
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org
-References: <20211118143547.2045554-1-berrange@redhat.com>
- <20211118143547.2045554-4-berrange@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <20211118143547.2045554-4-berrange@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <a00a4d13-05ed-7625-4f3f-b1e3eeb39432@loongson.cn>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -52
-X-Spam_score: -5.3
-X-Spam_bar: -----
-X-Spam_report: (-5.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.203,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.264, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-SA-Exim-Connect-IP: 2a00:23c4:8b9f:c400:72e2:646b:9043:c91d
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [RFC PATCH v3 18/27] hw/intc: Add LoongArch ls7a interrupt
+ controller support(PCH-PIC)
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:41c9:1:41f::167
+ (failed)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk;
+ helo=mail.default.ilande.bv.iomart.io
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.264,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,28 +69,571 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- "Richard W.M. Jones" <rjones@redhat.com>, qemu-block@nongnu.org
+Cc: peter.maydell@linaro.org, thuth@redhat.com, alex.bennee@linaro.org,
+ i.qemu@xen0n.name, richard.henderson@linaro.org, laurent@vivier.eu,
+ peterx@redhat.com, f4bug@amsat.org, alistair.francis@wdc.com,
+ maobibo@loongson.cn, pbonzini@redhat.com, chenhuacai@loongson.cn,
+ philmd@redhat.com, gaosong@loongson.cn
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/18/21 15:35, Daniel P. Berrangé wrote:
-> When validating the server key fingerprint fails, it is difficult for
-> the user to know what they got wrong. The fingerprint accepted by QEMU
-> is received in a different format than openssh displays. There can also
-> be keys for multiple different ciphers in known_hosts. It may not be
-> obvious which cipher QEMU will use and whether it will be the same
-> as openssh. Address this by printing the server key type and its
+On 22/12/2021 02:38, yangxiaojuan wrote:
 
-"OpenSSH"? (twice)
-
-> corresponding fingerprint in the format QEMU accepts.
+> Hi, Mark
 > 
-> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-> ---
->  block/ssh.c | 37 ++++++++++++++++++++++++++++++-------
->  1 file changed, 30 insertions(+), 7 deletions(-)
+> On 12/18/2021 08:33 AM, Mark Cave-Ayland wrote:
+>> On 04/12/2021 12:07, Xiaojuan Yang wrote:
+>>
+>>> This patch realize the PCH-PIC interrupt controller.
+>>>
+>>> Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
+>>> Signed-off-by: Song Gao <gaosong@loongson.cn>
+>>> ---
+>>>    hw/intc/Kconfig                     |   4 +
+>>>    hw/intc/loongarch_pch_pic.c         | 357 ++++++++++++++++++++++++++++
+>>>    hw/intc/meson.build                 |   1 +
+>>>    hw/intc/trace-events                |   5 +
+>>>    hw/loongarch/Kconfig                |   1 +
+>>>    include/hw/intc/loongarch_pch_pic.h |  61 +++++
+>>>    6 files changed, 429 insertions(+)
+>>>    create mode 100644 hw/intc/loongarch_pch_pic.c
+>>>    create mode 100644 include/hw/intc/loongarch_pch_pic.h
+>>>
+>>> diff --git a/hw/intc/Kconfig b/hw/intc/Kconfig
+>>> index 511dcac537..96da13ad1d 100644
+>>> --- a/hw/intc/Kconfig
+>>> +++ b/hw/intc/Kconfig
+>>> @@ -76,3 +76,7 @@ config M68K_IRQC
+>>>      config LOONGARCH_IPI
+>>>        bool
+>>> +
+>>> +config LOONGARCH_PCH_PIC
+>>> +    bool
+>>> +    select UNIMP
+>>> diff --git a/hw/intc/loongarch_pch_pic.c b/hw/intc/loongarch_pch_pic.c
+>>> new file mode 100644
+>>> index 0000000000..2ede29ceb0
+>>> --- /dev/null
+>>> +++ b/hw/intc/loongarch_pch_pic.c
+>>> @@ -0,0 +1,357 @@
+>>> +/* SPDX-License-Identifier: GPL-2.0-or-later */
+>>> +/*
+>>> + * QEMU Loongson 7A1000 I/O interrupt controller.
+>>> + *
+>>> + * Copyright (C) 2021 Loongson Technology Corporation Limited
+>>> + */
+>>> +
+>>> +#include "qemu/osdep.h"
+>>> +#include "hw/sysbus.h"
+>>> +#include "hw/loongarch/loongarch.h"
+>>> +#include "hw/irq.h"
+>>> +#include "hw/intc/loongarch_pch_pic.h"
+>>> +#include "migration/vmstate.h"
+>>> +#include "trace.h"
+>>> +
+>>> +#define for_each_set_bit(bit, addr, size) \
+>>> +         for ((bit) = find_first_bit((addr), (size));            \
+>>> +              (bit) < (size);                                    \
+>>> +              (bit) = find_next_bit((addr), (size), (bit) + 1))
+>>> +
+>>> +static void pch_pic_update_irq(loongarch_pch_pic *s, uint64_t mask, int level)
+>>> +{
+>>> +    int i;
+>>> +    uint64_t val;
+>>> +    val = mask & s->intirr & (~s->int_mask);
+>>> +
+>>> +    for_each_set_bit(i, &val, 64) {
+>>> +        if (level == 1) {
+>>> +            if ((s->intisr & (0x1ULL << i)) == 0) {
+>>> +                s->intisr |= 1ULL << i;
+>>> +                qemu_set_irq(s->parent_irq[s->htmsi_vector[i]], 1);
+>>> +            }
+>>> +        } else if (level == 0) {
+>>> +            if (s->intisr & (0x1ULL << i)) {
+>>> +                s->intisr &= ~(0x1ULL << i);
+>>> +                qemu_set_irq(s->parent_irq[s->htmsi_vector[i]], 0);
+>>> +            }
+>>> +        }
+>>> +    }
+>>> +}
+>>
+>> The normal pattern would be to use something like:
+>>
+>> for (i = 0; i < 64; i++) {
+>>      if (level) {
+>>          s->intisr |= 1ULL << i;
+>>      } else {
+>>          s->intisr &= ~(0x1ULL << i);
+>>      }
+>>
+>>      qemu_set_irq(s->parent_irq[s->htmsi_vector[i]], level);
+>> }
+>>
+>> Why is it necessary to check the previous value of (s->intisr & (0x1ULL << i)) here?
+> 
+> Here check the previous value to avoid Unnecessary write. It seems make things more complicated. I will modify
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+In general a *_update_irq() function should be fine to propagate the IRQ up to the 
+parent directly: I think this is fine in this case because you are directly 
+manipulating the parent_irq elements rather than using e.g. a priority encoder within 
+this device to raise an IRQ to the CPU. I'm presuming this final prioritisation and 
+delivery is done elsewhere?
 
+>>> +static void pch_pic_irq_handler(void *opaque, int irq, int level)
+>>> +{
+>>> +    loongarch_pch_pic *s = LOONGARCH_PCH_PIC(opaque);
+>>> +
+>>> +    assert(irq < PCH_PIC_IRQ_NUM);
+>>> +    uint64_t mask = 1ULL << irq;
+>>> +
+>>> +    trace_pch_pic_irq_handler(s->intedge, irq, level);
+>>> +
+>>> +    if (s->intedge & mask) {
+>>> +        /* Edge triggered */
+>>> +        if (level) {
+>>> +            if ((s->last_intirr & mask) == 0) {
+>>> +                s->intirr |= mask;
+>>> +            }
+>>> +            s->last_intirr |= mask;
+>>> +        } else {
+>>> +            s->last_intirr &= ~mask;
+>>> +        }
+>>> +    } else {
+>>> +        /* Level triggered */
+>>> +        if (level) {
+>>> +            s->intirr |= mask;
+>>> +            s->last_intirr |= mask;
+>>> +        } else {
+>>> +            s->intirr &= ~mask;
+>>> +            s->last_intirr &= ~mask;
+>>> +        }
+>>> +
+>>> +    }
+>>> +    pch_pic_update_irq(s, mask, level);
+>>> +}
+>>> +
+>>> +static uint64_t loongarch_pch_pic_reg_read(void *opaque, hwaddr addr,
+>>> +                                           unsigned size)
+>>> +{
+>>> +    loongarch_pch_pic *s = LOONGARCH_PCH_PIC(opaque);
+>>> +    uint64_t val = 0;
+>>> +    uint32_t offset = addr & 0xfff;
+>>> +    int64_t offset_tmp;
+>>> +
+>>> +    if (size == 8) {
+>>> +        switch (offset) {
+>>> +        case PCH_PIC_INT_ID_OFFSET:
+>>> +            val = (PCH_PIC_INT_ID_NUM << 32) | PCH_PIC_INT_ID_VAL;
+>>> +            break;
+>>> +        case PCH_PIC_INT_MASK_OFFSET:
+>>> +            val =  s->int_mask;
+>>> +            break;
+>>> +        case PCH_PIC_INT_STATUS_OFFSET:
+>>> +            val = s->intisr & (~s->int_mask);
+>>> +            break;
+>>> +        case PCH_PIC_INT_EDGE_OFFSET:
+>>> +            val = s->intedge;
+>>> +            break;
+>>> +        case PCH_PIC_INT_POL_OFFSET:
+>>> +            val = s->int_polarity;
+>>> +            break;
+>>> +        case PCH_PIC_HTMSI_EN_OFFSET...PCH_PIC_HTMSI_EN_END:
+>>> +            val = s->htmsi_en;
+>>> +            break;
+>>> +        case PCH_PIC_AUTO_CTRL0_OFFSET...PCH_PIC_AUTO_CTRL0_END:
+>>> +        case PCH_PIC_AUTO_CTRL1_OFFSET...PCH_PIC_AUTO_CTRL1_END:
+>>> +            break;
+>>> +        default:
+>>> +            break;
+>>> +        }
+>>> +    } else if (size == 4) {
+>>> +        switch (offset) {
+>>> +        case PCH_PIC_INT_ID_OFFSET:
+>>> +            val = PCH_PIC_INT_ID_VAL;
+>>> +            break;
+>>> +        case PCH_PIC_INT_ID_OFFSET + 4:
+>>> +            val = PCH_PIC_INT_ID_NUM;
+>>> +            break;
+>>> +        case PCH_PIC_INT_MASK_OFFSET...PCH_PIC_INT_MASK_END:
+>>> +            val = ldl_p((void *)&s->int_mask +
+>>> +                        (offset - PCH_PIC_INT_MASK_OFFSET));
+>>> +            break;
+>>> +        case PCH_PIC_INT_STATUS_OFFSET...PCH_PIC_INT_STATUS_END:
+>>> +            val = ldl_p((void *)&s->intisr +
+>>> +                        (offset - PCH_PIC_INT_STATUS_OFFSET)) & (~s->int_mask);
+>>> +            break;
+>>> +        case PCH_PIC_INT_EDGE_OFFSET...PCH_PIC_INT_EDGE_END:
+>>> +            val = ldl_p((void *)&s->intedge +
+>>> +                        (offset - PCH_PIC_INT_EDGE_OFFSET));
+>>> +            break;
+>>> +        case PCH_PIC_INT_POL_OFFSET...PCH_PIC_INT_POL_END:
+>>> +            val = ldl_p((void *)&s->int_polarity +
+>>> +                        (offset - PCH_PIC_INT_POL_OFFSET));
+>>> +            break;
+>>> +        case PCH_PIC_HTMSI_EN_OFFSET...PCH_PIC_HTMSI_EN_END:
+>>> +            val = ldl_p((void *)&s->htmsi_en +
+>>> +                        (offset - PCH_PIC_HTMSI_EN_OFFSET));
+>>> +            break;
+>>> +        case PCH_PIC_AUTO_CTRL0_OFFSET...PCH_PIC_AUTO_CTRL0_END:
+>>> +        case PCH_PIC_AUTO_CTRL1_OFFSET...PCH_PIC_AUTO_CTRL1_END:
+>>> +            break;
+>>> +        default:
+>>> +            break;
+>>> +        }
+>>> +    } else if (size == 1) {
+>>> +        if (offset >= PCH_PIC_HTMSI_VEC_OFFSET) {
+>>> +            offset_tmp = offset - PCH_PIC_HTMSI_VEC_OFFSET;
+>>> +            if (offset_tmp >= 0 && offset_tmp < 64) {
+>>> +                val = s->htmsi_vector[offset_tmp];
+>>> +            }
+>>> +        } else if (offset >=  PCH_PIC_ROUTE_ENTRY_OFFSET) {
+>>> +            offset_tmp = offset - PCH_PIC_ROUTE_ENTRY_OFFSET;
+>>> +            if (offset_tmp >= 0 && offset_tmp < 64) {
+>>> +                val = s->route_entry[offset_tmp];
+>>> +            }
+>>> +        }
+>>> +    }
+>>> +
+>>> +    trace_loongarch_pch_pic_read(size, (uint32_t)addr, val);
+>>> +    return val;
+>>> +}
+>>> +
+>>> +static void loongarch_pch_pic_reg_write(void *opaque, hwaddr addr,
+>>> +                                        uint64_t data, unsigned size)
+>>> +{
+>>> +    loongarch_pch_pic *s = LOONGARCH_PCH_PIC(opaque);
+>>
+>> Perhaps use LoongArchPCHPIC for the camel case version?
+> 
+> OK, all interrupt controller will use the camel case.
+> 
+>>
+>>> +    int32_t offset_tmp;
+>>> +    uint32_t offset, old;
+>>> +    offset = addr & 0xfff;
+>>> +
+>>> +    trace_loongarch_pch_pic_write(size, (uint32_t)addr, data);
+>>> +
+>>> +    if (size == 8) {
+>>> +        switch (offset) {
+>>> +        case PCH_PIC_INT_MASK_OFFSET:
+>>> +            old = s->int_mask;
+>>> +            s->int_mask = data;
+>>> +            if (old & ~data) {
+>>> +                pch_pic_update_irq(s, (old & ~data), 1);
+>>> +            } else if (~old & data) {
+>>> +                pch_pic_update_irq(s, (~old & data), 0);
+>>> +            }
+>>> +            break;
+>>> +        case PCH_PIC_INT_STATUS_OFFSET:
+>>> +            s->intisr = data;
+>>> +            break;
+>>> +        case PCH_PIC_INT_EDGE_OFFSET:
+>>> +            s->intedge = data;
+>>> +            break;
+>>> +        case PCH_PIC_INT_CLEAR_OFFSET:
+>>> +            s->intirr &= (~(data & s->intedge));
+>>> +            pch_pic_update_irq(s, data, 0);
+>>> +            s->intisr &= (~data);
+>>> +            break;
+>>> +        case PCH_PIC_INT_POL_OFFSET:
+>>> +            s->int_polarity = data;
+>>> +            break;
+>>> +        case PCH_PIC_HTMSI_EN_OFFSET:
+>>> +            s->htmsi_en = data;
+>>> +            break;
+>>> +        case PCH_PIC_AUTO_CTRL0_OFFSET:
+>>> +        case PCH_PIC_AUTO_CTRL1_OFFSET:
+>>> +            break;
+>>> +        default:
+>>> +            break;
+>>> +        }
+>>> +    } else if (size == 4) {
+>>> +        switch (offset) {
+>>> +        case PCH_PIC_INT_MASK_OFFSET...PCH_PIC_INT_MASK_END:
+>>> +            offset -= PCH_PIC_INT_MASK_OFFSET;
+>>> +            old = ldl_p((void *)&s->int_mask + offset);
+>>> +            stl_p((void *)&s->int_mask + offset, data);
+>>> +
+>>> +            if (old & ~data) {
+>>> +                pch_pic_update_irq(s, (old & ~data), 1);
+>>> +            } else if (~old & data) {
+>>> +                pch_pic_update_irq(s, (~old & data), 0);
+>>> +            }
+>>> +            break;
+>>> +        case PCH_PIC_INT_STATUS_OFFSET...PCH_PIC_INT_STATUS_END:
+>>> +            stl_p((void *)&s->intisr + (offset - PCH_PIC_INT_STATUS_OFFSET),
+>>> +                  data);
+>>> +            break;
+>>> +        case PCH_PIC_INT_EDGE_OFFSET...PCH_PIC_INT_EDGE_END:
+>>> +            stl_p((void *)&s->intedge + (offset - PCH_PIC_INT_EDGE_OFFSET),
+>>> +                  data);
+>>> +            break;
+>>> +        case PCH_PIC_INT_CLEAR_OFFSET...PCH_PIC_INT_CLEAR_END:
+>>> +            old = s->intirr & (~(data & s->intedge));
+>>> +            stl_p((void *)&s->intirr + (offset - PCH_PIC_INT_CLEAR_OFFSET),
+>>> +                  old);
+>>> +            pch_pic_update_irq(s, data, 0);
+>>> +            old = s->intisr & (~data);
+>>> +            stl_p((void *)&s->intisr + (offset - PCH_PIC_INT_CLEAR_OFFSET),
+>>> +                  old);
+>>> +            break;
+>>> +        case PCH_PIC_INT_POL_OFFSET...PCH_PIC_INT_POL_END:
+>>> +            stl_p((void *)&s->int_polarity + (offset - PCH_PIC_INT_POL_OFFSET),
+>>> +                  data);
+>>> +            break;
+>>> +        case PCH_PIC_HTMSI_EN_OFFSET...PCH_PIC_HTMSI_EN_END:
+>>> +            stl_p((void *)&s->htmsi_en + (offset - PCH_PIC_HTMSI_EN_OFFSET),
+>>> +                  data);
+>>> +            break;
+>>> +        case PCH_PIC_AUTO_CTRL0_OFFSET...PCH_PIC_AUTO_CTRL0_END:
+>>> +        case PCH_PIC_AUTO_CTRL1_OFFSET...PCH_PIC_AUTO_CTRL1_END:
+>>> +            break;
+>>> +        default:
+>>> +            break;
+>>> +        }
+>>> +    } else if (size == 1) {
+>>> +        if (offset >= PCH_PIC_HTMSI_VEC_OFFSET) {
+>>> +            offset_tmp = offset - PCH_PIC_HTMSI_VEC_OFFSET;
+>>> +            if (offset_tmp >= 0 && offset_tmp < 64) {
+>>> +                s->htmsi_vector[offset_tmp] = (uint8_t)(data & 0xff);
+>>> +            }
+>>> +        } else if (offset >=  PCH_PIC_ROUTE_ENTRY_OFFSET) {
+>>> +            offset_tmp = offset - PCH_PIC_ROUTE_ENTRY_OFFSET;
+>>> +            if (offset_tmp >= 0 && offset_tmp < 64) {
+>>> +                s->route_entry[offset_tmp] = (uint8_t)(data & 0xff);
+>>> +            }
+>>> +        }
+>>> +    }
+>>> +}
+>>> +
+>>> +static const MemoryRegionOps loongarch_pch_pic_ops = {
+>>> +    .read = loongarch_pch_pic_reg_read,
+>>> +    .write = loongarch_pch_pic_reg_write,
+>>> +    .valid = {
+>>> +        .min_access_size = 1,
+>>> +        .max_access_size = 8,
+>>> +    },
+>>> +    .impl = {
+>>> +        .min_access_size = 1,
+>>> +        .max_access_size = 8,
+>>> +    },
+>>> +    .endianness = DEVICE_LITTLE_ENDIAN,
+>>> +};
+>>
+>> It feels like this should be split into 2 separate memory regions: as per before set .min_access_size = 4 for PCH_PIC_INT_MASK_OFFSET ... PCH_PIC_AUTO_CTRL1_END and use uint32_t for the underlying types in loongarch_pch_pic.
+>>
+>> This leaves a separate memory region for accesses > PCH_PIC_HTMSI_VEC_OFFSET which can be set with .min_access_size = 1 which maps nicely to the underlying uint8_t types. Which means you should be able to access the arrays directly instead of having to use ldl_p() and stl_p().
+>>
+> 
+> yeah, here the PCH_PIC_HTMSI_VEC_OFFSET region is right in the middle, I want to use a separate memory region to overlap the pch-pic region, is it ok to do like this? Thanks
+
+That should be fine. I'd also use a single container memory region so that you only 
+have to expose a single memory region with sysbus_init_mmio() as below:
+
+>> +static void loongarch_pch_pic_reset(DeviceState *d)
+>>> +{
+>>> +    loongarch_pch_pic *s = LOONGARCH_PCH_PIC(d);
+>>> +    int i;
+>>> +
+>>> +    s->int_mask = -1ULL;
+>>> +    s->htmsi_en = 0x0;
+>>> +    s->intedge  = 0x0;
+>>> +    s->intclr   = 0x0;
+>>> +    s->auto_crtl0 = 0x0;
+>>> +    s->auto_crtl1 = 0x0;
+>>> +    for (i = 0; i < 64; i++) {
+>>> +        s->route_entry[i] = 0x1;
+>>> +        s->htmsi_vector[i] = 0x0;
+>>> +    }
+>>> +    s->intirr = 0x0;
+>>> +    s->intisr = 0x0;
+>>> +    s->last_intirr = 0x0;
+>>> +    s->int_polarity = 0x0;
+>>> +}
+>>> +
+>>> +static void loongarch_pch_pic_init(Object *obj)
+>>> +{
+>>> +    loongarch_pch_pic *s = LOONGARCH_PCH_PIC(obj);
+>>> +    SysBusDevice *sbd = SYS_BUS_DEVICE(obj);
+>>> +    int i;
+>>> +
+>>> +    memory_region_init_io(&s->iomem, obj, &loongarch_pch_pic_ops,
+>>> +                          s, TYPE_LOONGARCH_PCH_PIC, 0x1000);
+>>> +    sysbus_init_mmio(sbd, &s->iomem);
+
+Please adjust the example below for your particular case replacing the sizes as 
+appropriate but I would expect it to look something like:
+
+     memory_region_init(&s->picmem, obj, TYPE_LOONGARCH_PCH_PIC, 0x1000);
+
+     memory_region_init_io(&s->picintmem, obj, &loongarch_pch_pic_int_ops,
+                           s, "pic.int", 0xaaaa);
+     memory_region_add_subregion(&s->picmem, INT_OFFSET, &s->picintmem);
+
+     memory_region_init_io(&s->picintmem, obj, &loongarch_pch_pic_htmsi_ops,
+                           s, "pic.htmsi", 0xbbbb);
+     memory_region_add_subregion(&s->picmem, HTMSI_OFFSET, &s->picintmem);
+
+     memory_region_init_io(&s->picroutemem, obj, &loongarch_pch_pic_route_ops,
+                           s, "pic.route", 0xcccc);
+     memory_region_add_subregion(&s->picmem, ROUTE_OFFSET, &s->picroutemem);
+
+     sysbus_init_mmio(sbd, &s->picmem);
+
+You can then configure each of the *_ops memory regions with the correct .min.access 
+and .max.access sizes accordingly, and each region will show up separately in the 
+output of "info mtree".
+
+>>> +    for (i = 0; i < PCH_PIC_IRQ_NUM; i++) {
+>>> +        sysbus_init_irq(sbd, &s->parent_irq[i]);
+>>> +    }
+>>> +    qdev_init_gpio_in(DEVICE(obj), pch_pic_irq_handler, PCH_PIC_IRQ_NUM);
+>>> +}
+>>> +
+>>> +static const VMStateDescription vmstate_loongarch_pch_pic = {
+>>> +    .name = TYPE_LOONGARCH_PCH_PIC,
+>>> +    .version_id = 1,
+>>> +    .minimum_version_id = 1,
+>>> +    .fields = (VMStateField[]) {
+>>> +        VMSTATE_UINT64(int_mask, loongarch_pch_pic),
+>>> +        VMSTATE_UINT64(htmsi_en, loongarch_pch_pic),
+>>> +        VMSTATE_UINT64(intedge, loongarch_pch_pic),
+>>> +        VMSTATE_UINT64(intclr, loongarch_pch_pic),
+>>> +        VMSTATE_UINT64(auto_crtl0, loongarch_pch_pic),
+>>> +        VMSTATE_UINT64(auto_crtl1, loongarch_pch_pic),
+>>> +        VMSTATE_UINT8_ARRAY(route_entry, loongarch_pch_pic, 64),
+>>> +        VMSTATE_UINT8_ARRAY(htmsi_vector, loongarch_pch_pic, 64),
+>>> +        VMSTATE_UINT64(last_intirr, loongarch_pch_pic),
+>>> +        VMSTATE_UINT64(intirr, loongarch_pch_pic),
+>>> +        VMSTATE_UINT64(intisr, loongarch_pch_pic),
+>>> +        VMSTATE_UINT64(int_polarity, loongarch_pch_pic),
+>>> +        VMSTATE_END_OF_LIST()
+>>> +    }
+>>> +};
+>>> +
+>>> +static void loongarch_pch_pic_class_init(ObjectClass *klass, void *data)
+>>> +{
+>>> +    DeviceClass *dc = DEVICE_CLASS(klass);
+>>> +
+>>> +    dc->reset = loongarch_pch_pic_reset;
+>>> +    dc->vmsd = &vmstate_loongarch_pch_pic;
+>>> +}
+>>> +
+>>> +static const TypeInfo loongarch_pch_pic_info = {
+>>> +    .name          = TYPE_LOONGARCH_PCH_PIC,
+>>> +    .parent        = TYPE_SYS_BUS_DEVICE,
+>>> +    .instance_size = sizeof(loongarch_pch_pic),
+>>> +    .instance_init = loongarch_pch_pic_init,
+>>> +    .class_init    = loongarch_pch_pic_class_init,
+>>> +};
+>>> +
+>>> +static void loongarch_pch_pic_register_types(void)
+>>> +{
+>>> +    type_register_static(&loongarch_pch_pic_info);
+>>> +}
+>>> +
+>>> +type_init(loongarch_pch_pic_register_types)
+>>> diff --git a/hw/intc/meson.build b/hw/intc/meson.build
+>>> index 51f0c3988a..33ba63266e 100644
+>>> --- a/hw/intc/meson.build
+>>> +++ b/hw/intc/meson.build
+>>> @@ -58,3 +58,4 @@ specific_ss.add(when: ['CONFIG_KVM', 'CONFIG_XIVE'],
+>>>    specific_ss.add(when: 'CONFIG_GOLDFISH_PIC', if_true: files('goldfish_pic.c'))
+>>>    specific_ss.add(when: 'CONFIG_M68K_IRQC', if_true: files('m68k_irqc.c'))
+>>>    specific_ss.add(when: 'CONFIG_LOONGARCH_IPI', if_true: files('loongarch_ipi.c'))
+>>> +specific_ss.add(when: 'CONFIG_LOONGARCH_PCH_PIC', if_true: files('loongarch_pch_pic.c'))
+>>> diff --git a/hw/intc/trace-events b/hw/intc/trace-events
+>>> index 124608e51f..52fedf82be 100644
+>>> --- a/hw/intc/trace-events
+>>> +++ b/hw/intc/trace-events
+>>> @@ -250,3 +250,8 @@ sh_intc_set(int id, int enable) "setting interrupt group %d to %d"
+>>>    # loongarch_ipi.c
+>>>    loongarch_ipi_read(unsigned size, uint32_t addr, unsigned long val) "size: %u addr: 0x%"PRIx32 "val: 0x%"PRIx64
+>>>    loongarch_ipi_write(unsigned size, uint32_t addr, unsigned long val) "size: %u addr: 0x%"PRIx32 "val: 0x%"PRIx64
+>>> +
+>>> +# loongarch_pch_pic.c
+>>> +pch_pic_irq_handler(uint32_t edge, int irq, int level) "edge 0x%02x irq %d level %d"
+>>> +loongarch_pch_pic_read(unsigned size, uint32_t addr, unsigned long val) "size: %u addr: 0x%"PRIx32 "val: 0x%" PRIx64
+>>> +loongarch_pch_pic_write(unsigned size, uint32_t addr, unsigned long val) "size: %u addr: 0x%"PRIx32 "val: 0x%" PRIx64
+>>> diff --git a/hw/loongarch/Kconfig b/hw/loongarch/Kconfig
+>>> index 1591574397..c2b8046b94 100644
+>>> --- a/hw/loongarch/Kconfig
+>>> +++ b/hw/loongarch/Kconfig
+>>> @@ -2,3 +2,4 @@ config LOONGSON3_LS7A
+>>>        bool
+>>>        select PCI_EXPRESS_7A
+>>>        select LOONGARCH_IPI
+>>> +    select LOONGARCH_PCH_PIC
+>>> diff --git a/include/hw/intc/loongarch_pch_pic.h b/include/hw/intc/loongarch_pch_pic.h
+>>> new file mode 100644
+>>> index 0000000000..bc04ed28ef
+>>> --- /dev/null
+>>> +++ b/include/hw/intc/loongarch_pch_pic.h
+>>> @@ -0,0 +1,61 @@
+>>> +/* SPDX-License-Identifier: GPL-2.0-or-later */
+>>> +/*
+>>> + * LoongArch 7A1000 I/O interrupt controller definitions
+>>> + *
+>>> + * Copyright (c) 2021 Loongson Technology Corporation Limited
+>>> + */
+>>> +
+>>> +#define TYPE_LOONGARCH_PCH_PIC "loongarch_pch_pic"
+>>> +DECLARE_INSTANCE_CHECKER(struct loongarch_pch_pic, LOONGARCH_PCH_PIC,
+>>> +                         TYPE_LOONGARCH_PCH_PIC)
+>>> +
+>>> +#define PCH_PIC_IRQ_START               0
+>>> +#define PCH_PIC_IRQ_END                 63
+>>> +#define PCH_PIC_IRQ_NUM                 64
+>>> +#define PCH_PIC_INT_ID_VAL              0x7000000UL
+>>> +#define PCH_PIC_INT_ID_NUM              0x3f0001UL
+>>> +
+>>> +#define PCH_PIC_INT_ID_OFFSET           0x00
+>>> +#define PCH_PIC_INT_ID_END              0x07
+>>> +#define PCH_PIC_INT_MASK_OFFSET         0x20
+>>> +#define PCH_PIC_INT_MASK_END            0x27
+>>> +#define PCH_PIC_HTMSI_EN_OFFSET         0x40
+>>> +#define PCH_PIC_HTMSI_EN_END            0x47
+>>> +#define PCH_PIC_INT_EDGE_OFFSET         0x60
+>>> +#define PCH_PIC_INT_EDGE_END            0x67
+>>> +#define PCH_PIC_INT_CLEAR_OFFSET        0x80
+>>> +#define PCH_PIC_INT_CLEAR_END           0x87
+>>> +#define PCH_PIC_AUTO_CTRL0_OFFSET       0xc0
+>>> +#define PCH_PIC_AUTO_CTRL0_END          0xc7
+>>> +#define PCH_PIC_AUTO_CTRL1_OFFSET       0xe0
+>>> +#define PCH_PIC_AUTO_CTRL1_END          0xe8
+>>> +#define PCH_PIC_ROUTE_ENTRY_OFFSET      0x100
+>>> +#define PCH_PIC_ROUTE_ENTRY_END         0x13f
+>>> +#define PCH_PIC_HTMSI_VEC_OFFSET        0x200
+>>> +#define PCH_PIC_HTMSI_VEC_END           0x23f
+>>> +#define PCH_PIC_INT_STATUS_OFFSET       0x3a0
+>>> +#define PCH_PIC_INT_STATUS_END          0x3a7
+>>> +#define PCH_PIC_INT_POL_OFFSET          0x3e0
+>>> +#define PCH_PIC_INT_POL_END             0x3e7
+>>> +
+>>> +typedef struct loongarch_pch_pic {
+>>> +    SysBusDevice parent_obj;
+>>> +    qemu_irq parent_irq[64];
+>>> +    uint64_t int_mask; /*0x020 interrupt mask register*/
+>>> +    uint64_t htmsi_en;/*0x040 1=msi*/
+>>> +    uint64_t intedge; /*0x060 edge=1 level  =0*/
+>>> +    uint64_t intclr; /*0x080 for clean edge int,set 1 clean,set 0 is noused*/
+>>> +    uint64_t auto_crtl0; /*0x0c0*/
+>>> +    uint64_t auto_crtl1; /*0x0e0*/
+>>> +    uint8_t route_entry[64]; /*0x100 - 0x138*/
+>>> +    uint8_t htmsi_vector[64]; /*0x200 - 0x238*/
+>>> +    uint64_t last_intirr;    /* edge detection */
+>>> +    uint64_t intirr; /* 0x380 interrupt request register */
+>>> +    uint64_t intisr; /* 0x3a0 interrupt service register */
+>>> +    /*
+>>> +     * 0x3e0 interrupt level polarity selection
+>>> +     * register 0 for high level trigger
+>>> +     */
+>>> +    uint64_t int_polarity;
+>>> +    MemoryRegion iomem;
+>>> +} loongarch_pch_pic;
+
+ATB,
+
+Mark.
 
