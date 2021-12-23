@@ -2,82 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 319D547E907
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Dec 2021 22:21:43 +0100 (CET)
-Received: from localhost ([::1]:41798 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CACCA47E90F
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Dec 2021 22:25:06 +0100 (CET)
+Received: from localhost ([::1]:46910 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n0VWu-0000jR-68
-	for lists+qemu-devel@lfdr.de; Thu, 23 Dec 2021 16:21:40 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39234)
+	id 1n0VaD-0004Jp-MZ
+	for lists+qemu-devel@lfdr.de; Thu, 23 Dec 2021 16:25:05 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39800)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1n0VUV-0008Ji-V3
- for qemu-devel@nongnu.org; Thu, 23 Dec 2021 16:19:11 -0500
-Received: from [2607:f8b0:4864:20::536] (port=38552
- helo=mail-pg1-x536.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1n0VUU-0007fr-HJ
- for qemu-devel@nongnu.org; Thu, 23 Dec 2021 16:19:11 -0500
-Received: by mail-pg1-x536.google.com with SMTP id s1so4433628pga.5
- for <qemu-devel@nongnu.org>; Thu, 23 Dec 2021 13:19:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=SWjeGGwydMB+5R0jAoRuAXyQHzUcee6P/kcweTr+00g=;
- b=ZOtPU7N0lTcmBIajRZrNFBL/2dAOwK4Gl5N/a43Ih4fS3EwFjdsBZ/U2S6q0PBwNLa
- 1fBF4tmK1HxRvc/68R0UZlVjRK3BZwsLap2ImnoXp78fHAJrv9z+7oaUzcKazWfWE4zc
- VuhiFtCFMlRsrmjrMHp+oOQrGPE+TODjtyX2+yT0/wlKmQOtBO191vm1AdUVBwPlbAz+
- 5NrYPg1//goV4Kf65SPNZRJHnJUZZxG4cVocRNjvYSFQs3+ZZ17U6LtG6AeA1sOqLXpa
- XoNMt0Q43FyGrDB8ma+l9imCEvQiIpWGVn0VqwExspThCEtDJP062/4VAwnp6Bn3o3AS
- ZiOg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=SWjeGGwydMB+5R0jAoRuAXyQHzUcee6P/kcweTr+00g=;
- b=0gsFJNvdePYSmmZjC0GUz/4MYD6EZY1jDC/W+vpxw0m6tp3/1kf9VLFCmsATaQn4SP
- pwBxaburqX6eOb/OcX8D2m1J14ENveJt9UOt1rRiILD/E93TArMkLxvZrUnxQLMDbScS
- wlqocCQCtW/MM2xLIvCq8mV8SCnN5kkHoyDN638llNHGlBfjoufI6vZrtI8XVRbqN14u
- xF9JNoVY4srOsqM6cBmWyfV/hbD8RqE2gfNJE+L21TFD+1t0X44IHFDzuzXDDQVwOPBF
- eW1W5Ig441x7/JkGJWEi380qrTylxqezlPd6Km4lgGqxvCFnbct46TsWyT/KHrqM+TxS
- zhQQ==
-X-Gm-Message-State: AOAM5322oPuD6FpP7rW2gMyG0wtot5m2H8HOCV7ZMIdpvCIsrBBci3Za
- gZcBMUoGfm5OlKO8KkI1ZVZdSqbjIlI3Ng==
-X-Google-Smtp-Source: ABdhPJwsUBZswbLKTmYLChpN0ffwXh//hvkTrCxudG2AROKpfe2x57hdgAL6lU+Bhb2dUKwagvrveA==
-X-Received: by 2002:a63:2c10:: with SMTP id s16mr3602459pgs.173.1640294349139; 
- Thu, 23 Dec 2021 13:19:09 -0800 (PST)
-Received: from [192.168.4.112] ([156.19.246.20])
- by smtp.gmail.com with ESMTPSA id nk23sm9155832pjb.16.2021.12.23.13.19.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 23 Dec 2021 13:19:08 -0800 (PST)
-Subject: Re: [PATCH 0/3] Reorg ppc64 pmu insn counting
-To: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org
-References: <20211223030149.1947418-1-richard.henderson@linaro.org>
- <1b988844-075d-beb3-7fd1-a26f30e9f5dc@gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <1928bc96-ace5-3e5b-2da2-723ef3071173@linaro.org>
-Date: Thu, 23 Dec 2021 13:19:05 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n0VXZ-0001vR-2Q
+ for qemu-devel@nongnu.org; Thu, 23 Dec 2021 16:22:23 -0500
+Received: from mout.kundenserver.de ([212.227.17.24]:54241)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n0VXX-0008Ql-7g
+ for qemu-devel@nongnu.org; Thu, 23 Dec 2021 16:22:20 -0500
+Received: from [192.168.100.1] ([82.142.30.186]) by mrelayeu.kundenserver.de
+ (mreue108 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1Mate1-1mUBvP3V4l-00cNEJ; Thu, 23 Dec 2021 22:22:16 +0100
+Message-ID: <7bdd9dc1-4116-dab8-a300-9ea8241675b3@vivier.eu>
+Date: Thu, 23 Dec 2021 22:22:16 +0100
 MIME-Version: 1.0
-In-Reply-To: <1b988844-075d-beb3-7fd1-a26f30e9f5dc@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::536
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::536;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x536.google.com
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.264,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH 6/6] target/sh4: Implement prctl_unalign_sigbus
+Content-Language: fr
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20211220214135.189157-1-richard.henderson@linaro.org>
+ <20211220214135.189157-7-richard.henderson@linaro.org>
+From: Laurent Vivier <laurent@vivier.eu>
+In-Reply-To: <20211220214135.189157-7-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:pqJ6lJbhFl00OUPD689lAVdUbgl6FYyv1C/OlY3zCsoCZq9QYN+
+ Tn/F2sUk04pa90y+S8NLJjBv1J8Ek6tRudJbF4mEu/aHvQTKppzOfoAaSTx7/j5ZrMlEjPP
+ vyVW8UhGrFVoMDX3nSP3O9f+oYVe0RhDh1j5BBTJ0sIMQbEDnzu6LIl7PUxoKrfN4VeC7ce
+ qDEUsDRDdnUUkwgCUkGuQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:VTYjGPpwlLM=:0xJyZAvlL4yFVfuW4aKsKQ
+ Uz1UrvB50TJVPImh4eAJeZByNwuHVKrPVzsNbup+42lLNfiBR34ljJgSjWxn9vu0TEP4Uz3Tz
+ H7m2llP/DqdSH5ALfUXAN9MaooqDEzLhCL6nogCyv+AWGKARFykykTYMFzjYvsXKz8UBi/Itw
+ 6gK+4FeLeN55+mG2ASwEvRPNJuiixlMy1UeDv8OQaIAUbCOFn4z29pOVk7YLZNlcp9Zts4+YO
+ 3E1KBUYTgLXp7m/EEt6g1IVFiJ10wRyCC4VMkjXUS2HFh9o9Cgm7jfkk3e1cmDzc8WxHdpvsC
+ wmYlZVBe+y8WuVVEA8W7HSphh9k/o4AZ5ayo68I5XZbLt8eDHvRJPVga7+texedxVksFsKOd4
+ m0WsktpRo+rkI0zuBzyH6n82L177bgfH8necUVdf8T8mM8E8LR3NogQ52s2dvAAo35Rf0vvan
+ 1fzLg4UL7naKb3MvW4Wq7L88q7P/1EcnMZMdgOP2XdiZ4/fOfJG1oSrPqD/RljMuzaRdweBka
+ TTy2gFNNRkkFqV+FjS8+j7Z0XeVLicy3KogGwWYzHzO5nQgnkuyN4DQ73hN36KUb6GPa1bc66
+ RIaaLSXZISQ1jHQbihqHyeigXarzTqi+46q2UY5ySo1jRGKiwKUqVrzdmvMq3xKFdmZ87kmzj
+ nnnq0KeCWC6qUQoCOhT7Ml7OYhZ1hf9dIrpIhwZ9c/d9OKvkBr1nlcr2AWcsd9VApwE4=
+Received-SPF: none client-ip=212.227.17.24; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.264,
+ RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,28 +69,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, clg@kaod.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/23/21 12:36 PM, Daniel Henrique Barboza wrote:
-> This reorg is breaking PMU-EBB tests, unfortunately. These tests are run from the kernel
-> tree [1] and I test them inside a pSeries TCG guest. You'll need to apply patches 9 and
-> 10 of [2] beforehand (they apply cleanly in current master) because they aren't upstream
-> yet and EBB needs it.
+Le 20/12/2021 à 22:41, Richard Henderson a écrit :
+> Leave TARGET_ALIGNED_ONLY set, but use the new CPUState
+> flag to set MO_UNALN for the instructions that the kernel
+> handles in the unaligned trap.
 > 
-> The tests that are breaking consistently with this reorg are:
+> The Linux kernel does not handle all memory operations: no
+> floating-point and no MAC.
 > 
-> back_to_back_ebbs_test.c
-> cpu_event_pinned_vs_ebb_test.c
-> cycles_test.c
-> task_event_pinned_vs_ebb_test.c
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>   linux-user/sh4/target_prctl.h |  2 +-
+>   target/sh4/cpu.h              |  4 +++
+>   target/sh4/translate.c        | 50 ++++++++++++++++++++++++-----------
+>   3 files changed, 39 insertions(+), 17 deletions(-)
+> 
+> diff --git a/linux-user/sh4/target_prctl.h b/linux-user/sh4/target_prctl.h
+> index eb53b31ad5..5629ddbf39 100644
+> --- a/linux-user/sh4/target_prctl.h
+> +++ b/linux-user/sh4/target_prctl.h
+> @@ -1 +1 @@
+> -/* No special prctl support required. */
+> +#include "../generic/target_prctl_unalign.h"
+> diff --git a/target/sh4/cpu.h b/target/sh4/cpu.h
+> index 4cfb109f56..fb9dd9db2f 100644
+> --- a/target/sh4/cpu.h
+> +++ b/target/sh4/cpu.h
+> @@ -83,6 +83,7 @@
+>   #define DELAY_SLOT_RTE         (1 << 2)
+>   
+>   #define TB_FLAG_PENDING_MOVCA  (1 << 3)
+> +#define TB_FLAG_UNALIGN        (1 << 4)
+>   
+>   #define GUSA_SHIFT             4
+>   #ifdef CONFIG_USER_ONLY
+> @@ -373,6 +374,9 @@ static inline void cpu_get_tb_cpu_state(CPUSH4State *env, target_ulong *pc,
+>               | (env->sr & ((1u << SR_MD) | (1u << SR_RB)))      /* Bits 29-30 */
+>               | (env->sr & (1u << SR_FD))                        /* Bit 15 */
+>               | (env->movcal_backup ? TB_FLAG_PENDING_MOVCA : 0); /* Bit 3 */
+> +#ifdef CONFIG_USER_ONLY
+> +    *flags |= TB_FLAG_UNALIGN * !env_cpu(env)->prctl_unalign_sigbus;
+> +#endif
+>   }
+>   
+>   #endif /* SH4_CPU_H */
+> diff --git a/target/sh4/translate.c b/target/sh4/translate.c
+> index ce5d674a52..c959ce1508 100644
+> --- a/target/sh4/translate.c
+> +++ b/target/sh4/translate.c
+> @@ -50,8 +50,10 @@ typedef struct DisasContext {
+>   
+>   #if defined(CONFIG_USER_ONLY)
+>   #define IS_USER(ctx) 1
+> +#define UNALIGN(C)   (ctx->tbflags & TB_FLAG_UNALIGN ? MO_UNALN : 0)
 
-In which case perhaps drop my first patch for now, and instead simply replicate your tcg 
-algorithm in c exactly -- using none of the helpers that currently exist.
+Why isn't it like the other targets: "ctx->tb_flags & TB_FLAG_UNALIGN ? MO_UNALN : MO_ALIGN)"?
 
-We can improve the code, and the use of pmc_get_event from hreg_compute_hregs_value second.
+>   #else
+>   #define IS_USER(ctx) (!(ctx->tbflags & (1u << SR_MD)))
+> +#define UNALIGN(C)   0
+>   #endif
+>   
+>   /* Target-specific values for ctx->base.is_jmp.  */
 
-
-r~
+Thanks,
+Laurent
 
