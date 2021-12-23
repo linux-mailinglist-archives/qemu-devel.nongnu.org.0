@@ -2,76 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4382D47E3D4
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Dec 2021 13:56:41 +0100 (CET)
-Received: from localhost ([::1]:41694 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EB5547E3E2
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Dec 2021 13:59:44 +0100 (CET)
+Received: from localhost ([::1]:50438 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n0NeC-0005yG-C4
-	for lists+qemu-devel@lfdr.de; Thu, 23 Dec 2021 07:56:40 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49442)
+	id 1n0Nh9-0003Qb-FD
+	for lists+qemu-devel@lfdr.de; Thu, 23 Dec 2021 07:59:43 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50030)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1n0NPU-0003TW-I1
- for qemu-devel@nongnu.org; Thu, 23 Dec 2021 07:41:31 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24811)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1n0NS9-0004tL-Vt
+ for qemu-devel@nongnu.org; Thu, 23 Dec 2021 07:44:14 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49642)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1n0NPJ-00044M-4D
- for qemu-devel@nongnu.org; Thu, 23 Dec 2021 07:41:19 -0500
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1n0NS7-0005Nu-WC
+ for qemu-devel@nongnu.org; Thu, 23 Dec 2021 07:44:13 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1640263275;
+ s=mimecast20190719; t=1640263451;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9cm5P7xJO6rAlYqEUBb374Y3zXmpu9FQnpZ+mQntPi8=;
- b=CX3khG51Inlgo8K+D6ChBtspsVh+zrqDJwhOVSGtPV6hROnoVaFUQFYCLaRt71SS/89mjb
- Wd9VWwBhzDhrHuAX2ZyRslxcze1LAmDtA0lKu7/kCNWV4bL9ljWLpF5dpTde4MWftBkut+
- 8aeiuO3q9FDoR4HX3Dl3vG+jxJK8n8Q=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=6ygy3rDpeQMM0w8uggI3hh8xWS/nKBF5tuMLdnfRcmQ=;
+ b=ET6vr/eZuR6paAUKVa3n+gCskeMdyLnynHiafVXqY//u/Wu8KEe4VQHW+E0GO7c9aPGzR/
+ UGIY4bx1GL3RMJ760EuBfn0VK+r1nscB3ugw3UfWnlrhuPvjVds5ve3lzhjyJbDXLZU0vu
+ N7DJfT7Oy6xrM3VYFB6aI9Hf1vUWPqI=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-612--_hHb2lsPB-WN_I_7RFsQw-1; Thu, 23 Dec 2021 07:41:12 -0500
-X-MC-Unique: -_hHb2lsPB-WN_I_7RFsQw-1
-Received: by mail-wm1-f70.google.com with SMTP id
- bg20-20020a05600c3c9400b0033a9300b44bso1927963wmb.2
- for <qemu-devel@nongnu.org>; Thu, 23 Dec 2021 04:41:12 -0800 (PST)
+ us-mta-230-XGx8lRH6OBGRM-CWsxPmdA-1; Thu, 23 Dec 2021 07:44:10 -0500
+X-MC-Unique: XGx8lRH6OBGRM-CWsxPmdA-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ d4-20020a05600c34c400b00345d5d47d54so691936wmq.6
+ for <qemu-devel@nongnu.org>; Thu, 23 Dec 2021 04:44:10 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=9cm5P7xJO6rAlYqEUBb374Y3zXmpu9FQnpZ+mQntPi8=;
- b=4bQb0MPvU78xa9v7x/NnSTengMF7xQYE8816i1W0gguLseqX1NVQMPzQo5SwPWpA6p
- SOAku0VynIevnHc2YeXARD/23Qa5qgjAHNTDgToSB8rDnC1rLJxlcXnJ0hbM2Ts9DfNI
- Hs1fgfcND+aS6DvA5+eKXachJzbVJKCxQ9ZbhtSmeTEj/XpQSMmI1u0S9ivcgOIgB9XH
- +RXi/2qii4AJeoJ1rP8LEclOTaqm5I1tffNNWIZ7SaAHHyowm9jxibBKysPbIYIwVI8q
- tA6G5w0vjBi4uN/SU9X1Yne+aRVPV31tWaLD5TBCA3OSmEh64i5/BGluDZXeQqj53UjR
- oB4Q==
-X-Gm-Message-State: AOAM532D2hmsAU//kkBlh9lmrQQYEs7igVCFQz/ZpaOpLO2SasnMjgoV
- 123dXjst12BxnCcNLtgjsmhvgfQ6zqF+OG2EdVRZl10iIOf6l+2/xPhSW0MbJ6nKjzQDgecp3XF
- oM0WVASM45+TDnQw=
-X-Received: by 2002:adf:dd8d:: with SMTP id x13mr1573208wrl.401.1640263271818; 
- Thu, 23 Dec 2021 04:41:11 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxXGwa7CGVHYK7FJS3P7o4E7QC3PE/q2CF9tWoV8F5r/eLouMaQhGBtLu7DRCnDwlfInP/itA==
-X-Received: by 2002:adf:dd8d:: with SMTP id x13mr1573191wrl.401.1640263271617; 
- Thu, 23 Dec 2021 04:41:11 -0800 (PST)
+ bh=6ygy3rDpeQMM0w8uggI3hh8xWS/nKBF5tuMLdnfRcmQ=;
+ b=Vr7GeLvTwq0l2zcMYT34EdvO3O91+vxWnBIpOK2JYs0PHpVfEN0DpMUYLKuZCtHjJ7
+ 5puLGsp77AgUqiz6UnlvF97rijuXSiXNnlGbyvkFec8zmV16hOACMRTj0eG82qrC1Ipm
+ KfIincOK1/Ku980LxUW/RqeMNTceRseS3HIxfIdnbg+/hKnG279BP5a9itovEPUztphD
+ DwqwehcgdllgeLh+0rDGGqdMnpf5GkGRnhyE/M6ba9iBVTS1NZmLoDq6HCCBiiGbCtcs
+ jSzG/7GHBnNHVpKqz8iuUUypg4Q/MoJ3m10+N/UOVXSbS2d7J02P+az7kkrv1YdUIj3k
+ dw3Q==
+X-Gm-Message-State: AOAM5328Uv6QFBmQAJZkFcz2Z9yLmzAHKg70257o7HTPx/6EEc4vuOyw
+ yN0xFN3kkRJk5jaQ5ZjPvIgILG80PrCHW0k1Z2Xq57a6SPvzB3fuGJhtQtbF13LEhoLz68+BKiG
+ L6gr5lSOW8vw9pjw=
+X-Received: by 2002:a05:600c:4408:: with SMTP id
+ u8mr1724770wmn.177.1640263449156; 
+ Thu, 23 Dec 2021 04:44:09 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJz9ME3PQoRnMaFcg6T8WaBICbAzVbrG2fqFZZL3B7yFkODTTPVrylXphuV5x5dviByqZk83Aw==
+X-Received: by 2002:a05:600c:4408:: with SMTP id
+ u8mr1724758wmn.177.1640263448964; 
+ Thu, 23 Dec 2021 04:44:08 -0800 (PST)
 Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
  ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
- by smtp.gmail.com with ESMTPSA id p13sm2837046wrr.37.2021.12.23.04.41.11
+ by smtp.gmail.com with ESMTPSA id i1sm7733944wml.26.2021.12.23.04.44.08
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 23 Dec 2021 04:41:11 -0800 (PST)
-Message-ID: <f93baaa5-7d05-5a59-d439-c4a7e99e48bd@redhat.com>
-Date: Thu, 23 Dec 2021 13:41:10 +0100
+ Thu, 23 Dec 2021 04:44:08 -0800 (PST)
+Message-ID: <d7f70d12-7fe3-ed2f-9959-79a86cf1d4e6@redhat.com>
+Date: Thu, 23 Dec 2021 13:44:08 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.3.0
-Subject: Re: [PATCH v4 18/19] iotests.py: implement unsupported_imgopts
+Subject: Re: [PATCH v4 19/19] iotests: specify some unsupported_imgopts for
+ python iotests
 To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
  qemu-block@nongnu.org
 References: <20211203130737.2924594-1-vsementsov@virtuozzo.com>
- <20211203130737.2924594-19-vsementsov@virtuozzo.com>
+ <20211203130737.2924594-20-vsementsov@virtuozzo.com>
 From: Hanna Reitz <hreitz@redhat.com>
-In-Reply-To: <20211203130737.2924594-19-vsementsov@virtuozzo.com>
+In-Reply-To: <20211203130737.2924594-20-vsementsov@virtuozzo.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -88,7 +91,7 @@ X-Spam_report: (-5.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.203,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  NICE_REPLY_A=-2.264, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,25 +109,91 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 03.12.21 14:07, Vladimir Sementsov-Ogievskiy wrote:
-> We have added support for some addition IMGOPTS in python iotests like
-> in bash iotests. Similarly to bash iotests, we want a way to skip some
-> tests which can't work with specific IMGOPTS.
+> We support IMGOPTS for python iotests now. Still a lot of tests are
+> unprepared to common IMGOPTS that are used with bash iotests. So we
+> should define corresponding unsupported_imgopts.
 >
-> Globally for python iotests we now don't support things like
-> 'data_file=$TEST_IMG.ext_data_file' in IMGOPTS, so, forbid this
-> globally in iotests.py.
->
-> Suggested-by: Hanna Reitz <hreitz@redhat.com>
 > Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 > ---
->   tests/qemu-iotests/iotests.py | 15 ++++++++++++++-
->   1 file changed, 14 insertions(+), 1 deletion(-)
+>   tests/qemu-iotests/044                                 | 3 ++-
+>   tests/qemu-iotests/065                                 | 3 ++-
+>   tests/qemu-iotests/163                                 | 3 ++-
+>   tests/qemu-iotests/165                                 | 3 ++-
+>   tests/qemu-iotests/196                                 | 3 ++-
+>   tests/qemu-iotests/242                                 | 3 ++-
+>   tests/qemu-iotests/246                                 | 3 ++-
+>   tests/qemu-iotests/254                                 | 3 ++-
+>   tests/qemu-iotests/260                                 | 4 ++--
+>   tests/qemu-iotests/274                                 | 3 ++-
+>   tests/qemu-iotests/281                                 | 3 ++-
+>   tests/qemu-iotests/303                                 | 3 ++-
+>   tests/qemu-iotests/tests/migrate-bitmaps-postcopy-test | 3 ++-
+>   tests/qemu-iotests/tests/migrate-bitmaps-test          | 3 ++-
+>   tests/qemu-iotests/tests/migrate-during-backup         | 3 ++-
+>   tests/qemu-iotests/tests/remove-bitmap-from-backing    | 3 ++-
+>   16 files changed, 32 insertions(+), 17 deletions(-)
 
-Reviewed-by: Hanna Reitz <hreitz@redhat.com>
+Few of these tests look like they could be made to support refcount_bits 
+if we filtered qemu-img info output accordingly, but I don’t mind just 
+marking the option as unsupported, so I’m good with your approach.
 
-Can we move this and the next patch before patch 2, though? Otherwise, 
-the tests adjusted in the next patch will be broken after patch 2 (when 
-given those unsupported options).  The move seems trivial, just 
-wondering whether you know of anything that would prohibit this.
+> diff --git a/tests/qemu-iotests/044 b/tests/qemu-iotests/044
+> index 714329eb16..a5ee9a7ded 100755
+> --- a/tests/qemu-iotests/044
+> +++ b/tests/qemu-iotests/044
+> @@ -118,4 +118,5 @@ class TestRefcountTableGrowth(iotests.QMPTestCase):
+>   if __name__ == '__main__':
+>       iotests.activate_logging()
+>       iotests.main(supported_fmts=['qcow2'],
+> -                 supported_protocols=['file'])
+> +                 supported_protocols=['file'],
+> +                 unsupported_imgopts=['refcount_bits'])
+> diff --git a/tests/qemu-iotests/065 b/tests/qemu-iotests/065
+> index 4b3c5c6c8c..f7c1b68dad 100755
+> --- a/tests/qemu-iotests/065
+> +++ b/tests/qemu-iotests/065
+> @@ -139,4 +139,5 @@ TestQMP = None
+>   
+>   if __name__ == '__main__':
+>       iotests.main(supported_fmts=['qcow2'],
+> -                 supported_protocols=['file'])
+> +                 supported_protocols=['file'],
+> +                 unsupported_imgopts=['refcount_bits'])
+> diff --git a/tests/qemu-iotests/163 b/tests/qemu-iotests/163
+> index dedce8ef43..0b00df519c 100755
+> --- a/tests/qemu-iotests/163
+> +++ b/tests/qemu-iotests/163
+> @@ -169,4 +169,5 @@ ShrinkBaseClass = None
+>   
+>   if __name__ == '__main__':
+>       iotests.main(supported_fmts=['raw', 'qcow2'],
+> -                 supported_protocols=['file'])
+> +                 supported_protocols=['file'],
+> +                 unsupported_imgopts=['compat=0.10'])
+
+Works for my case (I use -o compat=0.10), but compat=v2 is also allowed.
+
+For cases that don’t support anything but refcount_bits=16, you already 
+disallow specifying any refcount_bits value, even refcount_bits=16 
+(which would work fine in most cases, I believe). Perhaps we should then 
+also just disallow any compat option instead of compat=0.10 specifically?
+
+[...]
+
+> diff --git a/tests/qemu-iotests/tests/migrate-during-backup b/tests/qemu-iotests/tests/migrate-during-backup
+> index 34103229ee..12cc4dde2e 100755
+> --- a/tests/qemu-iotests/tests/migrate-during-backup
+> +++ b/tests/qemu-iotests/tests/migrate-during-backup
+> @@ -94,4 +94,5 @@ class TestMigrateDuringBackup(iotests.QMPTestCase):
+>   
+>   if __name__ == '__main__':
+>       iotests.main(supported_fmts=['qcow2'],
+> -                 supported_protocols=['file'])
+> +                 supported_protocols=['file'],
+> +                 unsupported_imgopts=['compat=0.10'])
+
+It seems to me like this test can handle compat=0.10 just fine, though.
+
+Hanna
 
 
