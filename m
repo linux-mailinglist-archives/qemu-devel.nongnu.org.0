@@ -2,61 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 981CF47E8E6
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Dec 2021 22:04:46 +0100 (CET)
-Received: from localhost ([::1]:34236 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2CB047E8F3
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Dec 2021 22:16:20 +0100 (CET)
+Received: from localhost ([::1]:37374 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n0VGX-0003NA-8S
-	for lists+qemu-devel@lfdr.de; Thu, 23 Dec 2021 16:04:45 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35796)
+	id 1n0VRj-00060c-9m
+	for lists+qemu-devel@lfdr.de; Thu, 23 Dec 2021 16:16:19 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38488)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n0VF6-0002bS-Q6
- for qemu-devel@nongnu.org; Thu, 23 Dec 2021 16:03:16 -0500
-Received: from mout.kundenserver.de ([212.227.17.13]:50651)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n0VF4-0005LS-Qd
- for qemu-devel@nongnu.org; Thu, 23 Dec 2021 16:03:16 -0500
-Received: from [192.168.100.1] ([82.142.30.186]) by mrelayeu.kundenserver.de
- (mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MLhsE-1miprk0MzY-00HghQ; Thu, 23 Dec 2021 22:03:12 +0100
-Message-ID: <e506a0b4-2505-d136-53f8-c1bcafc204a1@vivier.eu>
-Date: Thu, 23 Dec 2021 22:03:11 +0100
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1n0VPw-0005AP-Rx
+ for qemu-devel@nongnu.org; Thu, 23 Dec 2021 16:14:28 -0500
+Received: from [2607:f8b0:4864:20::102d] (port=35513
+ helo=mail-pj1-x102d.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1n0VPv-0006vw-2b
+ for qemu-devel@nongnu.org; Thu, 23 Dec 2021 16:14:28 -0500
+Received: by mail-pj1-x102d.google.com with SMTP id
+ j6-20020a17090a588600b001a78a5ce46aso9823424pji.0
+ for <qemu-devel@nongnu.org>; Thu, 23 Dec 2021 13:14:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=XuurbrG8X+WULNawSt6t0x8J7xhqiYmFRgR14KwCikk=;
+ b=ThsF4HaBc5V6EJFe7YB1b8w0H981ILMQKDGSm61va/VigJKGRkFZui8I7zHrH3J6lw
+ QQ3GICoVT0vEHLMyl3Bv2WlinVi6i8DaAae7miN/78Nyd+vLzuiwq7ABwU7DBcnKgs84
+ BPvwSeOmYHFOKygy7BB36U5Q26AjBbT/2Y4kHDmNM5sjU44HjUtjSsRn6nGdVFVKe7m3
+ 7paoRAoZZ+PWM6XEj1Sic4KbVH5i1gukML9JypXk0QqPDt3oJM30T8bRtjkdVBGyxIyx
+ Kb0Zekvvf+RSBphgQUlidtPvrF0mOY5cTpGJLJxKPqU9kGNh2FsWhmr2X2gdrPTblv4B
+ O36Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=XuurbrG8X+WULNawSt6t0x8J7xhqiYmFRgR14KwCikk=;
+ b=pk+2inwos6YHX9YDUmAFht5xZRR1ngDZ/Hzuc8o9qA7GCiH2cbefzqgtsdu/yfNIhd
+ ZaZazVa5Kmbjri7cukwoVixP03SssHL+lyH+Oj31F0k0MOV9oEdQ9ENooQI20m4e/K7a
+ +foGS1h8aDi7Y4GCdy9QlMz042H8NUWw3cYvoh2qshhDbTJiJnBAmLWKimPF1HeQrMI5
+ y6WTbRATNjCax+FybRuM7jDol5WSSHmdtwcW3NB3u0RhhsJ3AWwQUiIxtf9m4UeFJjPC
+ 3SVbCCZRo0jyCiXQXJ7xa5nWGAQ750Q3CjEh3V6sFvciTkOHnXH3zcKPsGRqziwHoNqB
+ kv+Q==
+X-Gm-Message-State: AOAM533G97ZpdS+ue6uJbuytvY98NPMoiKBmsRzuwzkfLUxLz85+ipiF
+ j5UL40V5wEM3D55H5pubeFtloA==
+X-Google-Smtp-Source: ABdhPJwJwkKaocYEQZmrZWQYQE5jAI9HKAvhow6WUp85s8aNBknHaWTulVanStmECG8Shd+xXVXelQ==
+X-Received: by 2002:a17:90b:33ce:: with SMTP id
+ lk14mr4543603pjb.25.1640294065696; 
+ Thu, 23 Dec 2021 13:14:25 -0800 (PST)
+Received: from [192.168.4.112] ([156.19.246.20])
+ by smtp.gmail.com with ESMTPSA id on2sm9954514pjb.19.2021.12.23.13.14.18
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 23 Dec 2021 13:14:25 -0800 (PST)
+Subject: Re: [PATCH v2 2/5] target/ppc/power8-pmu-insn-cnt: introduce
+ inc_spr_if_cond()
+To: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org
+References: <20211223201812.846495-1-danielhb413@gmail.com>
+ <20211223201812.846495-3-danielhb413@gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <fb968665-a73b-c024-4cfd-201168c04b21@linaro.org>
+Date: Thu, 23 Dec 2021 13:14:02 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Content-Language: fr
-To: Tonis Tiigi <tonistiigi@gmail.com>, qemu-devel@nongnu.org
-References: <20211223064728.18048-1-tonistiigi@gmail.com>
- <20211223064728.18048-2-tonistiigi@gmail.com>
-From: Laurent Vivier <laurent@vivier.eu>
-Subject: Re: [PATCH v3 1/2] linux-user: add sched_getattr support
-In-Reply-To: <20211223064728.18048-2-tonistiigi@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:ysC3bBNXHphj0p/nS00SeciFweFdShwgA3aNHBn9q2sEVeUR/oe
- aPTlmCIpnAnT+i7gA/Ov+A7yXAhg4cQfFt29tjl2k/MNnqhj27c2ajOI6NS/1OHDbPJQPJV
- 5ql9zaarwbsB1TJkzpmZSiE+FmZ/ugPM84kfYtmcNl5LdaGiH0l9iOthibNpUu5DEWpfvY5
- R4ocBA6noJrKdNRp2ejTA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:R89hJuzagJE=:vz103Gznr9XoJ0bzRAsZu5
- jbYCYlnc8AjHiybRk56ueQkLABnKw6XL9/b89ki83DpSP1+DUs1pC6DS4/3TXsC06lCwzsz/h
- bWKCWZdcnic9nXKO8r//3kvsISb6urBU7oTAQtB6TbbzLEfT6kz8/c6KqQgoolm3IRI3c6IUe
- WmFn2FTXRYdrTlcExDiQK4eKSCfRxMv3G9kSh7NLSwtXZGsHJBsVbHC4YEBJhmFF7aSEElBRG
- yO2mTtJ5YRtAvLUYHWNZ/XON4hT4MP+SyTLNIIj9NVyBII1AFAffFEYStNt4XPEJCRttnHPOq
- FgK8BKGIhncGQKsgujRUSxDx6wwJxugfcYEvf15LXpA51q4btN8ugoCrmZcZRxsxRhS9pgSXn
- PfsOwOrYsHw1cegnRaT3M5lCr5wp1eYdwsKY2BlEewVeLu4e3PQ1GO6OZ8napUigzNNkLjxoW
- MAZwrYb6fj0FLvjc9mQlrH2R6T2GckBQKKYMP5iByRc3aKB0IszA5b0qDzXmDY6lifvliil6S
- LztyWAY2bjMM1p0Z5mqDEFGKzV3yaCEwnkxK5H3Kf2kGb1pdHIoQmCYEHtKobde1d1olq/kaz
- scSFHQnByiRzv4Amo+1/j8+F69UcWoYcEv7q23R8P64PxmAodxvgYd7763b6ZUqWvBbCJ7ECD
- wO6Qb4zJeBVwCx5fo6z6PXN1gyhxqdG9Lh6lZBoXc4IuIxpzSzSDQ/OgCXmyz9/nn+xM=
-Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.264,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20211223201812.846495-3-danielhb413@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102d
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102d.google.com
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.264,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -69,175 +93,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-ppc@nongnu.org, clg@kaod.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 23/12/2021 à 07:47, Tonis Tiigi a écrit :
-
-Please copy here what you explain in PATCH 0 regarding this patch.
-(do the same for PATCH 1)
-
-> Signed-off-by: Tonis Tiigi <tonistiigi@gmail.com>
-> ---
->   linux-user/syscall.c      | 94 +++++++++++++++++++++++++++++++++++++++
->   linux-user/syscall_defs.h | 14 ++++++
->   2 files changed, 108 insertions(+)
+On 12/23/21 12:18 PM, Daniel Henrique Barboza wrote:
+> The code that increments a PMC is repetitive: check if a given register
+> has a bit/mask set or cleared and increment the counter.
 > 
-> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-> index f1cfcc8104..2f5a0fac5a 100644
-> --- a/linux-user/syscall.c
-> +++ b/linux-user/syscall.c
-> @@ -339,6 +339,12 @@ _syscall3(int, sys_sched_getaffinity, pid_t, pid, unsigned int, len,
->   #define __NR_sys_sched_setaffinity __NR_sched_setaffinity
->   _syscall3(int, sys_sched_setaffinity, pid_t, pid, unsigned int, len,
->             unsigned long *, user_mask_ptr);
-> +#define __NR_sys_sched_getattr __NR_sched_getattr
-> +_syscall4(int, sys_sched_getattr, pid_t, pid, struct target_sched_attr *, attr,
-> +          unsigned int, size, unsigned int, flags);
-> +#define __NR_sys_sched_setattr __NR_sched_setattr
-> +_syscall3(int, sys_sched_setattr, pid_t, pid, struct target_sched_attr *, attr,
-> +          unsigned int, flags);
->   #define __NR_sys_getcpu __NR_getcpu
->   _syscall3(int, sys_getcpu, unsigned *, cpu, unsigned *, node, void *, tcache);
->   _syscall4(int, reboot, int, magic1, int, magic2, unsigned int, cmd,
-> @@ -10593,6 +10599,94 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
->           }
->       case TARGET_NR_sched_getscheduler:
->           return get_errno(sched_getscheduler(arg1));
-> +    case TARGET_NR_sched_getattr:
-> +        {
-> +            struct target_sched_attr *target_scha;
-> +            struct target_sched_attr scha;
-
-In fact, this scha is used with the host syscall, so it must be  sched_attr.
-
-> +            if (arg2 == 0) {
-> +                return -TARGET_EINVAL;
-> +            }
-> +            if (arg3 > sizeof(scha)) {
-> +                arg3 = sizeof(scha);
-> +            }
-> +            ret = get_errno(sys_sched_getattr(arg1, &scha, arg3, arg4));
-> +            if (!is_error(ret)) {
-> +                target_scha = lock_user(VERIFY_WRITE, arg2, arg3, 0);
-> +                if (!target_scha) {
-> +                    return -TARGET_EFAULT;
-> +                }
-> +                target_scha->size = tswap32(scha.size);
-> +                target_scha->sched_policy = tswap32(scha.sched_policy);
-> +                target_scha->sched_flags = tswap64(scha.sched_flags);
-> +                target_scha->sched_nice = tswap32(scha.sched_nice);
-> +                target_scha->sched_priority = tswap32(scha.sched_priority);
-> +                target_scha->sched_runtime = tswap64(scha.sched_runtime);
-> +                target_scha->sched_deadline = tswap64(scha.sched_deadline);
-> +                target_scha->sched_period = tswap64(scha.sched_period);
-> +                if (scha.size > offsetof(struct target_sched_attr, sched_util_min)) {
-> +                    target_scha->sched_util_min = tswap32(scha.sched_util_min);
-> +                    target_scha->sched_util_max = tswap32(scha.sched_util_max);
-> +                }
-> +                unlock_user(target_scha, arg2, arg3);
-> +            }
-> +            return ret;
-> +        }
-> +    case TARGET_NR_sched_setattr:
-> +        {
-> +            struct target_sched_attr *target_scha;
-> +            struct target_sched_attr scha;
-
-scha is sched_attr as it is used with the host syscall.
-
-
-> +            if (arg2 == 0) {
-> +                return -TARGET_EINVAL;
-> +            }
-> +            uint32_t size;
-
-QEMU coding style doesn't allow to mix declarations and statements.
-
-> +            if (get_user_u32(size, arg2)) {
-> +                return -TARGET_EFAULT;
-> +            }
-> +            if (!size) {
-> +                size = offsetof(struct target_sched_attr, sched_util_min);
-> +            }
-> +            if (size < offsetof(struct target_sched_attr, sched_util_min)) {
-> +                if (put_user_u32(sizeof(struct target_sched_attr), arg2)) {
-> +                    return -TARGET_EFAULT;
-> +                }
-> +                return -TARGET_E2BIG;
-> +            }
-> +
-> +            if (size > sizeof(scha)) {
-> +                for (int i = sizeof(scha); i < size; i++) {
-> +                    uint8_t b;
-> +                    if (get_user_u8(b, arg2 + i)) {
-> +                        return -TARGET_EFAULT;
-> +                    }
-> +                    if (b != 0) {
-> +                        if (put_user_u32(sizeof(struct target_sched_attr), arg2)) {
-> +                            return -TARGET_EFAULT;
-> +                        }
-> +                        return -TARGET_E2BIG;
-> +                    }
-> +                }
-> +                size = sizeof(scha);
-> +            }
-
-I guess this is the code to mimic kernel copy_struct_from_user(), the part when usize > ksize.
-
-It's a little bit ugly, but I can't disagree because the kernel does the same.
-
-except that the kernel check for unsigned rather than for 8bit. Could you change that?
-
-The best would be to define check_zeroed_user() in Qemu and use it here.
-
-> +
-> +            target_scha = lock_user(VERIFY_READ, arg2, size, 1);
-> +            if (!target_scha) {
-> +                return -TARGET_EFAULT;
-> +            }
-> +            scha.size = size;
-> +            scha.sched_policy = tswap32(target_scha->sched_policy);
-> +            scha.sched_flags = tswap64(target_scha->sched_flags);
-> +            scha.sched_nice = tswap32(target_scha->sched_nice);
-> +            scha.sched_priority = tswap32(target_scha->sched_priority);
-> +            scha.sched_runtime = tswap64(target_scha->sched_runtime);
-> +            scha.sched_deadline = tswap64(target_scha->sched_deadline);
-> +            scha.sched_period = tswap64(target_scha->sched_period);
-> +            if (size > offsetof(struct target_sched_attr, sched_util_min)) {
-> +                scha.sched_util_min = tswap32(target_scha->sched_util_min);
-> +                scha.sched_util_max = tswap32(target_scha->sched_util_max);
-> +            }
-> +            unlock_user(target_scha, arg2, 0);
-> +            return get_errno(sys_sched_setattr(arg1, &scha, arg3));
-> +        }
->       case TARGET_NR_sched_yield:
->           return get_errno(sched_yield());
->       case TARGET_NR_sched_get_priority_max:
-> diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
-> index 0b13975937..310d6ce8ad 100644
-> --- a/linux-user/syscall_defs.h
-> +++ b/linux-user/syscall_defs.h
-> @@ -2914,4 +2914,18 @@ struct target_statx {
->      /* 0x100 */
->   };
+> inc_spr_if_cond() will help deal with this repetition. This patch also
+> gives a sample of how the function works by incrementing PMC5, which is
+> supposed to be incremented only if MMCR0_FC56 is not set.
+> 
+> We've also removing the call from the helper since that would cause
+> PMC5 to be counted twice.
+> 
+> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+> ---
+>   target/ppc/power8-pmu-insn-cnt.c.inc | 43 ++++++++++++++++++++++------
+>   1 file changed, 34 insertions(+), 9 deletions(-)
+> 
+> diff --git a/target/ppc/power8-pmu-insn-cnt.c.inc b/target/ppc/power8-pmu-insn-cnt.c.inc
+> index 6cdf2d2d88..3cfb801c69 100644
+> --- a/target/ppc/power8-pmu-insn-cnt.c.inc
+> +++ b/target/ppc/power8-pmu-insn-cnt.c.inc
+> @@ -10,6 +10,38 @@
+>    * See the COPYING file in the top-level directory.
+>    */
 >   
-> +/* from kernel's include/linux/sched/types.h */
-> +struct target_sched_attr {
-> +    abi_uint size;
-> +    abi_uint sched_policy;
-> +    abi_ullong sched_flags;
-> +    abi_int sched_nice;
-> +    abi_uint sched_priority;
-> +    abi_ullong sched_runtime;
-> +    abi_ullong sched_deadline;
-> +    abi_ullong sched_period;
-> +    abi_uint sched_util_min;
-> +    abi_uint sched_util_max;
-> +};
+> +#if defined(TARGET_PPC64) && !defined(CONFIG_USER_ONLY)
+> +/*
+> + * This function increments a SPR 'spr' by 'inc_val' if a given
+> + * register 'reg' has a bitmask 'mask' set (cond = TCG_COND_EQ) or
+> + * not set (TCG_COND_NE).
+> + */
+> +static void inc_spr_if_cond(int reg, uint64_t mask, TCGCond cond,
+> +                            int spr, int inc_val)
+> +{
+> +    TCGCond exit_cond = tcg_invert_cond(cond);
+> +    TCGLabel *l_exit;
+> +    TCGv t0, t1;
 > +
->   #endif
+> +    l_exit = gen_new_label();
+> +
+> +    t0 = tcg_temp_new();
+> +    gen_load_spr(t0, reg);
+> +    tcg_gen_andi_tl(t0, t0, mask);
+> +    tcg_gen_brcondi_tl(exit_cond, t0, mask, l_exit);
 
-Thanks,
-Laurent
+When testing a single bit, compare against 0, not the bit.
+
+> +    t1 = tcg_temp_new();
+> +    gen_load_spr(t1, spr);
+> +    tcg_gen_addi_tl(t1, t1, inc_val);
+> +    gen_store_spr(spr, t1);
+
+It will probably perform better to make this a true conditional add.
+I.e.
+
+     gen_load_spr(t0, spr);
+     tcg_gen_addi_tl(t1, t0, inc);
+     tcg_gen_movcond_tl(cond, t0, reg, zero, t1, t0);
+     gen_store_spr(spr, t0);
+
+> -    /*
+> -     * The PMU insns_inc() helper stops the internal PMU timer if a
+> -     * counter overflows happens. In that case, if the guest is
+> -     * running with icount and we do not handle it beforehand,
+> -     * the helper can trigger a 'bad icount read'.
+> -     */
+> -    gen_icount_io_start(ctx);
+
+Removing this is incorrect.
+
+> -    gen_helper_insns_inc(cpu_env, tcg_constant_i32(ctx->base.num_insns));
+> +    inc_spr_if_cond(SPR_POWER_MMCR0, MMCR0_FC56, TCG_COND_NE,
+> +                    SPR_POWER_PMC5, ctx->base.num_insns);
+
+This is non-bisectable.  You're removing support for all registers and only adding back 
+PMC5.  You add them all back before the end of the series, but the middle patches do not 
+behave correctly.
+
+
+r~
 
