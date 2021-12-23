@@ -2,78 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7ABA347E552
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Dec 2021 16:04:33 +0100 (CET)
-Received: from localhost ([::1]:54404 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 792B047E555
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Dec 2021 16:07:47 +0100 (CET)
+Received: from localhost ([::1]:60932 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n0Pdw-0006Rx-IC
-	for lists+qemu-devel@lfdr.de; Thu, 23 Dec 2021 10:04:32 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53984)
+	id 1n0Ph4-0001tg-5a
+	for lists+qemu-devel@lfdr.de; Thu, 23 Dec 2021 10:07:46 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:32774)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tonistiigi@gmail.com>)
- id 1n0Hyb-0000aM-BK
- for qemu-devel@nongnu.org; Thu, 23 Dec 2021 01:53:22 -0500
-Received: from [2607:f8b0:4864:20::1036] (port=53873
- helo=mail-pj1-x1036.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <tonistiigi@gmail.com>)
- id 1n0HyZ-0000St-KD
- for qemu-devel@nongnu.org; Thu, 23 Dec 2021 01:53:21 -0500
-Received: by mail-pj1-x1036.google.com with SMTP id mj19so4263280pjb.3
- for <qemu-devel@nongnu.org>; Wed, 22 Dec 2021 22:53:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=roIWVlWrA/XJs3K+sn+TYf0ybx6nOcZ/6lNtmMZ5D4I=;
- b=Yd/X+qwl5Fls5Nf5zFxjhuxs3WbuwVvnkoOs4+7MAy9tCdiJ3yA+/Mb1H5fOrNETl2
- fVymsWHS5z0Q4P2Cocg6FdFJypjjy3y/VGp7LfrvC0f+k5ZQhhD9tdi7GE4ZHcY/aDRu
- H307nNHKrQ7ZU1FOVp5MC+fTHK2wA4wC24vDRUwLRUA4dIyIsns9uuDQrf9gSq3UUJ5n
- 1gFmjogLDghVaX7nA7rCs1g0Ku2ibu1nUplpxqBfqpgbYFgX5h8hOXT8EhiDPp/CJaPm
- VtKPfYKq4LiTEykqytlK+eQODIHocB4OOT5gfh99/LEozm5hGxWl/ITO6PKJ8IoUp3Cu
- a8BA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=roIWVlWrA/XJs3K+sn+TYf0ybx6nOcZ/6lNtmMZ5D4I=;
- b=7LZgm2BYo+h1vAYt/aKIA+m/lKXcoGVJ57Xr4ptETgjgjEErNPRr+Hng3uLnhW8MWK
- LPXRVylB5Sj+pmNChYU2toZGLNjZxQOduxGdToQ1VKdsnxyGydWCsShZGwLE3jUKDE5p
- aG4kjCO7BWzNJcS0gOJFTiOTJOF47QhiRVCrzrfVLx2J2jZLEKhqeGBwP0jBTSyDOW1T
- 0AUBJ/qlGuZWkh85lmF2Cj0wxO7LXP4/HPeHSvoyTNhg9LivFjMRXaTR9DYAk4gDiam3
- d7fui4HJrAVrG8TNAGqwT1T9G5c5yNULAqLzZ3vHI7MlyBHam0ukp580Me9blLgbCT+m
- OwdA==
-X-Gm-Message-State: AOAM530IwXxUc2h9+XCrzp0xPWkghHnkM9cqjMgTRmdNjOJz9DddW7dz
- oyto/lfGCUTFliRmFloOYjy80FTzU8LJs0lz
-X-Google-Smtp-Source: ABdhPJyUz1Q6caiE4WmQxxwG2JlVZj2Mr6wZ0fMeeT260yB6kKrpbKXzixCD1YFsfV+GvKRfvayUZA==
-X-Received: by 2002:a17:902:d346:b0:148:d0bf:8ef1 with SMTP id
- l6-20020a170902d34600b00148d0bf8ef1mr1110447plk.77.1640242068601; 
- Wed, 22 Dec 2021 22:47:48 -0800 (PST)
-Received: from localhost ([2601:646:100:6be:28e2:4700:e00c:9454])
- by smtp.gmail.com with UTF8SMTPSA id e24sm7525708pjt.45.2021.12.22.22.47.47
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 22 Dec 2021 22:47:48 -0800 (PST)
-From: Tonis Tiigi <tonistiigi@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 2/2] linux-user: call set/getscheduler set/getparam directly
-Date: Wed, 22 Dec 2021 22:47:28 -0800
-Message-Id: <20211223064728.18048-3-tonistiigi@gmail.com>
-X-Mailer: git-send-email 2.32.0 (Apple Git-132)
-In-Reply-To: <20211223064728.18048-1-tonistiigi@gmail.com>
-References: <20211223064728.18048-1-tonistiigi@gmail.com>
+ (Exim 4.90_1) (envelope-from <jasper.ruehl@tum.de>)
+ id 1n0KrO-00020I-Kq
+ for qemu-devel@nongnu.org; Thu, 23 Dec 2021 04:58:07 -0500
+Received: from [2001:4ca0:0:103::81bb:ff89] (port=52677
+ helo=postout1.mail.lrz.de)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jasper.ruehl@tum.de>)
+ id 1n0KrL-0003rb-Ch
+ for qemu-devel@nongnu.org; Thu, 23 Dec 2021 04:58:05 -0500
+Received: from lxmhs51.srv.lrz.de (localhost [127.0.0.1])
+ by postout1.mail.lrz.de (Postfix) with ESMTP id 4JKQT223Yvzyc6;
+ Thu, 23 Dec 2021 10:51:50 +0100 (CET)
+Authentication-Results: postout.lrz.de (amavisd-new); dkim=pass (2048-bit key)
+ reason="pass (just generated,
+ assumed good)" header.d=tum.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tum.de; h=
+ content-language:subject:subject:from:from:user-agent
+ :mime-version:date:date:message-id:content-type:content-type
+ :received:received; s=tu-postout21; t=1640253109; bh=HvkbGNMBhA0
+ GLBcjvBrjVdvX0dOQMJxPFNI4+EPyyI4=; b=KuxVTTFH3VrQwNQiQPPkF5y/goX
+ vNvCcIoBbmcJTUnXwWABch8DElxTME3qBFZPE/vvGhTYh8nuwvvDPjgUt0G/TKQ8
+ WWz+8uhGZw8c0VtuQwUrt25S5OvNHcsSZcv5/VrWq1ph0MMXs6DDBMDRh9PSlwfZ
+ hFP7OpdXfmxQL/Lm7rlmC0vO8nhwH3wf8OdBvazG3HmfEQ0Q6peAsNuodb+yYQaA
+ vFt3L1t3TWn6UHmSMSfexeV7v/y+o8VJfm780Yinjz2hXDd2YZHl7ZgH8IcC51z/
+ wKCctHOM86N3MPStJ76wQB9fYribd+kX90/CneHt77tG3kW+S7RjAPYb0Vw==
+X-Virus-Scanned: by amavisd-new at lrz.de in lxmhs51.srv.lrz.de
+X-Spam-Score: -2.867
+Received: from postout1.mail.lrz.de ([127.0.0.1])
+ by lxmhs51.srv.lrz.de (lxmhs51.srv.lrz.de [127.0.0.1]) (amavisd-new,
+ port 20024)
+ with LMTP id YM67i9jGW5_K; Thu, 23 Dec 2021 10:51:49 +0100 (CET)
+Received: from [IPV6:2001:4ca0:2fff:9:0:1:0:1001] (unknown
+ [IPv6:2001:4ca0:2fff:9:0:1:0:1001])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by postout1.mail.lrz.de (Postfix) with ESMTPSA id 4JKQT12zSPzycB;
+ Thu, 23 Dec 2021 10:51:49 +0100 (CET)
+Content-Type: multipart/alternative;
+ boundary="------------Mha09Jw8Hc6Ic3bKn50D4Y9s"
+Message-ID: <67ba86a8-abd2-1715-ed8b-ed360b648c72@tum.de>
+Date: Thu, 23 Dec 2021 10:51:48 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1036
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+From: Jasper Ruehl <jasper.ruehl@tum.de>
+Subject: QEMU CAS
+Content-Language: en-US
+To: qemu-devel@nongnu.org
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:4ca0:0:103::81bb:ff89
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
- envelope-from=tonistiigi@gmail.com; helo=mail-pj1-x1036.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=2001:4ca0:0:103::81bb:ff89;
+ envelope-from=jasper.ruehl@tum.de; helo=postout1.mail.lrz.de
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HTML_FONT_LOW_CONTRAST=0.001, HTML_MESSAGE=0.001, NORDNS_LOW_CONTRAST=0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-Mailman-Approved-At: Thu, 23 Dec 2021 10:02:09 -0500
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,124 +85,160 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Tonis Tiigi <tonistiigi@gmail.com>, laurent@vivier.eu
+Cc: Redha Gouicem <gouicem@in.tum.de>, peter.maydell@linaro.org,
+ richard.henderson@linaro.org, lex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There seems to be difference in syscall and libc definition of these
-methods and therefore musl does not implement them (1e21e78bf7). Call
-syscall directly to ensure the behavior of the libc of user application,
-not the libc that was used to build QEMU.
+This is a multi-part message in MIME format.
+--------------Mha09Jw8Hc6Ic3bKn50D4Y9s
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Signed-off-by: Tonis Tiigi <tonistiigi@gmail.com>
----
- linux-user/syscall.c      | 40 ++++++++++++++++++++++++++-------------
- linux-user/syscall_defs.h |  4 ++++
- 2 files changed, 31 insertions(+), 13 deletions(-)
+Dear QEMU Community,
 
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 2f5a0fac5a..8c03a52a36 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -345,6 +345,17 @@ _syscall4(int, sys_sched_getattr, pid_t, pid, struct target_sched_attr *, attr,
- #define __NR_sys_sched_setattr __NR_sched_setattr
- _syscall3(int, sys_sched_setattr, pid_t, pid, struct target_sched_attr *, attr,
-           unsigned int, flags);
-+#define __NR_sys_sched_getscheduler __NR_sched_getscheduler
-+_syscall1(int, sys_sched_getscheduler, pid_t, pid);
-+#define __NR_sys_sched_setscheduler __NR_sched_setscheduler
-+_syscall3(int, sys_sched_setscheduler, pid_t, pid, int, policy,
-+          const struct target_sched_param *, param);
-+#define __NR_sys_sched_getparam __NR_sched_getparam
-+_syscall2(int, sys_sched_getparam, pid_t, pid,
-+          struct target_sched_param *, param);
-+#define __NR_sys_sched_setparam __NR_sched_setparam
-+_syscall2(int, sys_sched_setparam, pid_t, pid,
-+          const struct target_sched_param *, param);
- #define __NR_sys_getcpu __NR_getcpu
- _syscall3(int, sys_getcpu, unsigned *, cpu, unsigned *, node, void *, tcache);
- _syscall4(int, reboot, int, magic1, int, magic2, unsigned int, cmd,
-@@ -10555,30 +10566,32 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
-         return ret;
-     case TARGET_NR_sched_setparam:
-         {
--            struct sched_param *target_schp;
--            struct sched_param schp;
-+            struct target_sched_param *target_schp;
-+            struct target_sched_param schp;
- 
-             if (arg2 == 0) {
-                 return -TARGET_EINVAL;
-             }
--            if (!lock_user_struct(VERIFY_READ, target_schp, arg2, 1))
-+            if (!lock_user_struct(VERIFY_READ, target_schp, arg2, 1)) {
-                 return -TARGET_EFAULT;
-+            }
-             schp.sched_priority = tswap32(target_schp->sched_priority);
-             unlock_user_struct(target_schp, arg2, 0);
--            return get_errno(sched_setparam(arg1, &schp));
-+            return get_errno(sys_sched_setparam(arg1, &schp));
-         }
-     case TARGET_NR_sched_getparam:
-         {
--            struct sched_param *target_schp;
--            struct sched_param schp;
-+            struct target_sched_param *target_schp;
-+            struct target_sched_param schp;
- 
-             if (arg2 == 0) {
-                 return -TARGET_EINVAL;
-             }
--            ret = get_errno(sched_getparam(arg1, &schp));
-+            ret = get_errno(sys_sched_getparam(arg1, &schp));
-             if (!is_error(ret)) {
--                if (!lock_user_struct(VERIFY_WRITE, target_schp, arg2, 0))
-+                if (!lock_user_struct(VERIFY_WRITE, target_schp, arg2, 0)) {
-                     return -TARGET_EFAULT;
-+                }
-                 target_schp->sched_priority = tswap32(schp.sched_priority);
-                 unlock_user_struct(target_schp, arg2, 1);
-             }
-@@ -10586,19 +10599,20 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
-         return ret;
-     case TARGET_NR_sched_setscheduler:
-         {
--            struct sched_param *target_schp;
--            struct sched_param schp;
-+            struct target_sched_param *target_schp;
-+            struct target_sched_param schp;
-             if (arg3 == 0) {
-                 return -TARGET_EINVAL;
-             }
--            if (!lock_user_struct(VERIFY_READ, target_schp, arg3, 1))
-+            if (!lock_user_struct(VERIFY_READ, target_schp, arg3, 1)) {
-                 return -TARGET_EFAULT;
-+            }
-             schp.sched_priority = tswap32(target_schp->sched_priority);
-             unlock_user_struct(target_schp, arg3, 0);
--            return get_errno(sched_setscheduler(arg1, arg2, &schp));
-+            return get_errno(sys_sched_setscheduler(arg1, arg2, &schp));
-         }
-     case TARGET_NR_sched_getscheduler:
--        return get_errno(sched_getscheduler(arg1));
-+        return get_errno(sys_sched_getscheduler(arg1));
-     case TARGET_NR_sched_getattr:
-         {
-             struct target_sched_attr *target_scha;
-diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
-index 310d6ce8ad..28b9fe9a47 100644
---- a/linux-user/syscall_defs.h
-+++ b/linux-user/syscall_defs.h
-@@ -2928,4 +2928,8 @@ struct target_sched_attr {
-     abi_uint sched_util_max;
- };
- 
-+struct target_sched_param {
-+    abi_int sched_priority;
-+};
-+
- #endif
--- 
-2.32.0 (Apple Git-132)
+after chatting a bit in the IRC channel, "stefanha" advised me to 
+contact you via EMail about my problem.
+My advisor and me from the DSE chair at the TU Munich had the idea to 
+improve the emulation of the x86 cmpxchg instruction on ARM64 CPUs by 
+improving the translation scheme: instead of generating a call to the 
+GCC helper function, we introduce a new TCG IR instruction (CAS) and 
+directly translate that into the ARM casal instruction.
+
+During benchmarking, we noticed that our version of QEMU performs 
+correctly if we disable TCG optimizations (done in tcg/tcg.c:26).
+If we enable them, however, the emulated program hangs indefinitely in 
+futex syscalls.
+We are not sure if this misbehavior stems from a bug in the 
+implementation or if it is due to some assumptions made by the optimizer.
+
+We have tried to analyse the program using -d in_asm,op,op_opt,out_asm, 
+but could not determine the issue.
+
+Using gdb, we could determine where the threads hang.
+
+Threads 3 - END are in the futex syscall of the function do_futex_wait, 
+waiting for thread 2 to be created.
+Judging by the stack trace, Thread 2 seems to still be in the creation 
+routine:
+
+#0  syscall () at ../sysdeps/unix/sysv/linux/aarch64/syscall.S:38
+#1  0x0000aaaad21b4e60 in qemu_futex_wait (val=<optimized out>, 
+f=<optimized out>) at /qemu/qemu/include/qemu/futex.h:29
+#2  qemu_event_wait (ev=ev@entry=0xaaaad25a9470 <rcu_call_ready_event>) 
+at ../util/qemu-thread-posix.c:480
+#3  0x0000aaaad21be044 in call_rcu_thread (opaque=opaque@entry=0x0) at 
+../util/rcu.c:258
+#4  0x0000aaaad21b3d38 in qemu_thread_start (args=<optimized out>) at 
+../util/qemu-thread-posix.c:541
+#5  0x0000ffffb2626f5c in start_thread (arg=0x0) at pthread_create.c:463
+#6  0x0000ffffb257eb1c in thread_start () at 
+../sysdeps/unix/sysv/linux/aarch64/clone.S:78
+
+The code for the creation of the threads is found at 
+phoenix2.0/src/tpool.c:tpool_create
+Thread 2 is created the same way the others are, however it is the only 
+one failing.
+
+Commit introducing the native CAS emulation: 
+https://github.com/rgouicem/qemu/commit/5bc56e203936338d98acdb868786834c751f87a7
+
+Repo with the code demonstrating the problem: 
+https://github.com/haxkor/qemu_phoenix
+Run it with qemu_opt ./histogram small.bmp
+
+I have included my binary and the source code if you want to build it 
+yourself, simply run "make" in the phoenix2 folder.
+The binary will be at phoenix2/tests/histogram/histogram
+
+We hope to have provided you useful information. Please let us know if 
+there is anything else we can do.
+
+
+Best regards,
+Redha Gouicem and Jasper Ruehl.
+
+
+--------------Mha09Jw8Hc6Ic3bKn50D4Y9s
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p>Dear QEMU Community,</p>
+    <p>after chatting a bit in the IRC channel, "stefanha" advised me to
+      contact you via EMail about my problem.<br>
+      My advisor and me from the DSE chair at the TU Munich had the idea
+      to improve the emulation of the x86 cmpxchg instruction on ARM64
+      CPUs by improving the translation scheme: instead of generating a
+      call to the GCC helper function, we introduce a new TCG IR
+      instruction (CAS) and directly translate that into the ARM casal
+      instruction.</p>
+    <p>During benchmarking, we noticed that our version of QEMU performs
+      correctly if we disable TCG optimizations (done in tcg/tcg.c:26).<br>
+      If we enable them, however, the emulated program hangs
+      indefinitely in futex syscalls. <br>
+      We are not sure if this misbehavior stems from a bug in the
+      implementation or if it is due to some assumptions made by the
+      optimizer.<br>
+    </p>
+    <p>We have tried to analyse the program using -d
+      in_asm,op,op_opt,out_asm, but could not determine the issue.</p>
+    <p>Using gdb, we could determine where the threads hang.</p>
+    <p>Threads 3 - END are in the futex syscall of the function
+      do_futex_wait, waiting for thread 2 to be created.<br>
+      Judging by the stack trace, Thread 2 seems to still be in the
+      creation routine: <br>
+      <br>
+      <span style="font-family:monospace"><span
+          style="font-family:monospace"><span
+            style="color:#000000;background-color:#ffffff;">#0  syscall
+            () at ../sysdeps/unix/sysv/linux/aarch64/syscall.S:38 </span><br>
+          #1  0x0000aaaad21b4e60 in qemu_futex_wait (val=&lt;optimized
+          out&gt;, f=&lt;optimized out&gt;) at
+          /qemu/qemu/include/qemu/futex.h:29 <br>
+          #2  qemu_event_wait (ev=ev@entry=0xaaaad25a9470
+          &lt;rcu_call_ready_event&gt;) at
+          ../util/qemu-thread-posix.c:480 <br>
+          #3  0x0000aaaad21be044 in call_rcu_thread
+          (opaque=opaque@entry=0x0) at ../util/rcu.c:258 <br>
+          #4  0x0000aaaad21b3d38 in qemu_thread_start
+          (args=&lt;optimized out&gt;) at
+          ../util/qemu-thread-posix.c:541 <br>
+          #5  0x0000ffffb2626f5c in start_thread (arg=0x0) at
+          pthread_create.c:463 <br>
+          #6  0x0000ffffb257eb1c in thread_start () at
+          ../sysdeps/unix/sysv/linux/aarch64/clone.S:78<br>
+          <br>
+        </span></span></p>
+    <p>The code for the creation of the threads is found at
+      phoenix2.0/src/tpool.c:tpool_create<br>
+      Thread 2 is created the same way the others are, however it is the
+      only one failing.</p>
+    <p>Commit introducing the native CAS emulation:
+      <font color="white"> <a class="moz-txt-link-freetext"
+href="https://github.com/rgouicem/qemu/commit/5bc56e203936338d98acdb868786834c751f87a7">https://github.com/rgouicem/qemu/commit/5bc56e203936338d98acdb868786834c751f87a7</a></font></p>
+    <p>Repo with the code demonstrating the problem:
+      <a class="moz-txt-link-freetext" href="https://github.com/haxkor/qemu_phoenix">https://github.com/haxkor/qemu_phoenix</a><br>
+      Run it with qemu_opt ./histogram small.bmp<br>
+    </p>
+    <p>I have included my binary and the source code if you want to
+      build it yourself, simply run "make" in the phoenix2 folder.<br>
+      The binary will be at phoenix2/tests/histogram/histogram</p>
+    <p>We hope to have provided you useful information. Please let us
+      know if there is anything else we can do.</p>
+    <p><br>
+    </p>
+    <p>Best regards,<br>
+      Redha Gouicem and Jasper Ruehl.<br>
+    </p>
+    <p><br>
+    </p>
+  </body>
+</html>
+--------------Mha09Jw8Hc6Ic3bKn50D4Y9s--
 
 
