@@ -2,74 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F408747E9B5
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Dec 2021 00:50:27 +0100 (CET)
-Received: from localhost ([::1]:56430 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1618347E9C3
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Dec 2021 00:52:42 +0100 (CET)
+Received: from localhost ([::1]:58828 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n0Xqs-000828-J6
-	for lists+qemu-devel@lfdr.de; Thu, 23 Dec 2021 18:50:26 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42868)
+	id 1n0Xt2-0001Lp-VI
+	for lists+qemu-devel@lfdr.de; Thu, 23 Dec 2021 18:52:40 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43348)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1n0Xp8-0007Ev-9r
- for qemu-devel@nongnu.org; Thu, 23 Dec 2021 18:48:38 -0500
-Received: from [2607:f8b0:4864:20::52e] (port=42963
- helo=mail-pg1-x52e.google.com)
+ id 1n0XrE-0000V3-W4
+ for qemu-devel@nongnu.org; Thu, 23 Dec 2021 18:50:50 -0500
+Received: from [2607:f8b0:4864:20::629] (port=45999
+ helo=mail-pl1-x629.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1n0Xp6-0003RA-AT
- for qemu-devel@nongnu.org; Thu, 23 Dec 2021 18:48:37 -0500
-Received: by mail-pg1-x52e.google.com with SMTP id g2so6153921pgo.9
- for <qemu-devel@nongnu.org>; Thu, 23 Dec 2021 15:48:35 -0800 (PST)
+ id 1n0XrC-0003eB-IT
+ for qemu-devel@nongnu.org; Thu, 23 Dec 2021 18:50:47 -0500
+Received: by mail-pl1-x629.google.com with SMTP id w24so5444668ply.12
+ for <qemu-devel@nongnu.org>; Thu, 23 Dec 2021 15:50:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:references:from:message-id:date:user-agent:mime-version
  :in-reply-to:content-language:content-transfer-encoding;
- bh=DAAvn9r2ku0Zqrwe0xoLWdGP4tXwXAk1Vd/BRS9o5cA=;
- b=njdVzLBhhTZeYJElcA4tyLwTCHQPNdFWizkdmcVV3bbmYXl61uDSkyAcPMTTpce2/z
- hyEqpFrLr/fh1xV19uR2Lqt3+OjYaH2dpcM2I0EaJczB9J/uvyVWB1JVfHfdm1I51iMq
- 2JHbPeMrsqHMTwFGT8s4kG3y0zztxiZrc3CSL7X8XI/qxhSArm9MVwJS0tJrWg5acQ91
- 4Xj1XIY8oHDCBvqEZt4b3dXwx+kiWuADQlB9EAqBbq0kVLF1vDXtbmHD9Yat6Z5yYS8i
- bz6cz1CV/ufF16q0y9YnBjLNyFcfiuVvLYy6bOz/nSs8o6KeoSu+PMq0jCwr2ocEB823
- k4+g==
+ bh=pBlOtJrTAPkQxYDIO4/O+fyaezG8OoPMHLh/qJ9j8RQ=;
+ b=fOUIiBm5fvVuoQ1d6sHDi7FOluHj2SzB6UaWPi/3UiiAB8aEUHRImSPQiHCPzWL7ye
+ SRrKoy2b2mj2h9lKqHXJMwlZgU3RTqF1k1d80IEMBcsSViMncMRNCDeiiKd/VI5qrx/e
+ gvdXAF7j/6Zoag9CXJQ25IfAAw6ZmaQtnQRNk/9grv9XvRGBbr0oZxdubWCVoGWn+Y0i
+ zvDsg+YIxjrU5RLb9QeW6YWWPhqdRuxBo2EcEUZFe4RCJdkcQiXNe2JtBcyjE6pglBqc
+ BQEa6P1yFRnlOYmTb8iZNx0kJqjwfewJofeE8W0inxBP/KYNhU2ZZIJHSOWOLPsRNTVV
+ ExQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=DAAvn9r2ku0Zqrwe0xoLWdGP4tXwXAk1Vd/BRS9o5cA=;
- b=5Axs8D+Fh+w5PtSO0NGbzC/++lI/dLEbsSGzUsy/BAvFy0UVzJEO9ITFEPlxyCxSLn
- kSHTASnmF0xfOp53fMHpJ4jmvbFmyVI5J25BhBTsj+B9y3xn/UeBWuktaUuzId2pM/tn
- 9hKjs/GS2C1Xa8e5WRX6vr5v8d+O7kycTMeiBz0mdRQX0RSnj9zYc5s1RvvlPJO4p5c9
- P6CDBT0dfj34RjJVjf5PCMP1JRxv5Vru5VEp9kRO1a2mQRVgLI9lXe/VGPPbXebacwvT
- 3sbt1j+JelHMxI8lkLCxyJMrw0IPaSyFvhmQyt9x8z1UtGcpf2TTVDV7xLecuZf3swO8
- Z5AQ==
-X-Gm-Message-State: AOAM533N/VRbxQSsXMV46i4+Z/ecY4g4DvW3kHxMW+S1vNyr+uKRXhAh
- Fy+jX1ohKtrxP7JtO8K573dbkG5ZD0+ElQ==
-X-Google-Smtp-Source: ABdhPJyzI101k0OeLOgzoDXfG/NlbEqjgBaFx07hE3LC05umeGIp6wQK4gCZQkANnlSoUoprSC2GPA==
-X-Received: by 2002:a63:2c8e:: with SMTP id s136mr3911485pgs.431.1640303314820; 
- Thu, 23 Dec 2021 15:48:34 -0800 (PST)
+ bh=pBlOtJrTAPkQxYDIO4/O+fyaezG8OoPMHLh/qJ9j8RQ=;
+ b=P2PoyAbCS42RfKcGjqkFtghUT7ggjdsM9Wl0AI0xIBrvoEdzqE44qac+/tnrk0jHwV
+ XkykAW7weyf8sj137+M+ViyNj+6DzCsinpbPhUzqV324I7i9PiQLTAt+mC6zjfxRdg6m
+ wvREfk4MEYWDPCO6/0XzLRp0Daf1TSP/wMfgivs1BnzCV8r2ZO5lioWG5I9fWY91/dFI
+ M/17WGkBKEUcDZywFGu5BMMNrUO4UB+jt9S+JGy/E9oExXkLCOic58ht2l1fye4Qf93A
+ iw28jomq9v3fBxcB1VvsZwWPf496nDY18CE1N4siJWN25y2LQ/8l1aGp2gLMMpTo4sMz
+ gzng==
+X-Gm-Message-State: AOAM531D+HD3RD688wTlCgcxI7dukkfBHoCzCdFSIRWLW8MefeFmlRza
+ a1XQqc92kQ8O1Yy1D2F0uxQM5NgO8ghMJA==
+X-Google-Smtp-Source: ABdhPJxQcPn40me5nSBNC15wNSKzjs8ToKC5UDDC4PFhE2cvgspoUNAxXGM1l/doRbHi7/zYVcDiZg==
+X-Received: by 2002:a17:902:d4cd:b0:149:2d77:387b with SMTP id
+ o13-20020a170902d4cd00b001492d77387bmr4477718plg.61.1640303445226; 
+ Thu, 23 Dec 2021 15:50:45 -0800 (PST)
 Received: from [192.168.4.112] ([156.19.246.20])
- by smtp.gmail.com with ESMTPSA id y27sm7376446pfa.12.2021.12.23.15.48.34
+ by smtp.gmail.com with ESMTPSA id v8sm187811pfu.68.2021.12.23.15.50.44
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 23 Dec 2021 15:48:34 -0800 (PST)
-Subject: Re: [PULL 0/1] "make check" switch to meson test harness
+ Thu, 23 Dec 2021 15:50:44 -0800 (PST)
+Subject: Re: [PULL 03/15] user: move common-user includes to a subdirectory of
+ {bsd,linux}-user/
 To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-References: <20211223101736.507167-1-pbonzini@redhat.com>
+References: <20211223115134.579235-1-pbonzini@redhat.com>
+ <20211223115134.579235-4-pbonzini@redhat.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <581f1f22-25ed-98ef-3c54-4d42d7e5a2c7@linaro.org>
-Date: Thu, 23 Dec 2021 15:48:32 -0800
+Message-ID: <da25ee3b-aeab-9e3e-08e5-acfa7d90eec6@linaro.org>
+Date: Thu, 23 Dec 2021 15:50:43 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <20211223101736.507167-1-pbonzini@redhat.com>
+In-Reply-To: <20211223115134.579235-4-pbonzini@redhat.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::52e
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::629
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x629.google.com
 X-Spam_score_int: -35
 X-Spam_score: -3.6
 X-Spam_bar: ---
@@ -92,39 +95,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/23/21 2:17 AM, Paolo Bonzini wrote:
-> The following changes since commit 2bf40d0841b942e7ba12953d515e62a436f0af84:
+On 12/23/21 3:51 AM, Paolo Bonzini wrote:
+> Avoid polluting the compilation of common-user/ with local include files;
+> making an include file available to common-user/ should be a deliberate
+> decision in order to keep a clear interface that can be used by both
+> bsd-user/ and linux-user/.
 > 
->    Merge tag 'pull-user-20211220' of https://gitlab.com/rth7680/qemu into staging (2021-12-20 13:20:07 -0800)
-> 
-> are available in the Git repository at:
-> 
->    https://gitlab.com/bonzini/qemu.git tags/for-upstream-mtest
-> 
-> for you to fetch changes up to 3d2f73ef75e25ba850aff4fcccb36d50137afd0f:
-> 
->    build: use "meson test" as the test harness (2021-12-23 10:06:19 +0100)
-> 
-> ----------------------------------------------------------------
-> Replace tap-driver.pl with "meson test".
-> 
-> ----------------------------------------------------------------
-> Paolo Bonzini (1):
->        build: use "meson test" as the test harness
-> 
->   Makefile              |   3 +-
->   meson.build           |   5 +-
->   scripts/mtest2make.py | 112 ++++++---------
->   scripts/tap-driver.pl | 379 --------------------------------------------------
->   scripts/tap-merge.pl  | 111 ---------------
->   tests/fp/meson.build  |   2 +-
->   6 files changed, 51 insertions(+), 561 deletions(-)
->   delete mode 100755 scripts/tap-driver.pl
->   delete mode 100755 scripts/tap-merge.pl
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>   bsd-user/{ => include}/special-errno.h              | 0
+>   bsd-user/meson.build                                | 2 +-
+>   linux-user/{ => include}/host/aarch64/host-signal.h | 0
+>   linux-user/{ => include}/host/alpha/host-signal.h   | 0
+>   linux-user/{ => include}/host/arm/host-signal.h     | 0
+>   linux-user/{ => include}/host/i386/host-signal.h    | 0
+>   linux-user/{ => include}/host/mips/host-signal.h    | 0
+>   linux-user/{ => include}/host/ppc/host-signal.h     | 0
+>   linux-user/{ => include}/host/ppc64/host-signal.h   | 0
+>   linux-user/{ => include}/host/riscv/host-signal.h   | 0
+>   linux-user/{ => include}/host/s390/host-signal.h    | 0
+>   linux-user/{ => include}/host/s390x/host-signal.h   | 0
+>   linux-user/{ => include}/host/sparc/host-signal.h   | 0
+>   linux-user/{ => include}/host/sparc64/host-signal.h | 0
+>   linux-user/{ => include}/host/x32/host-signal.h     | 0
+>   linux-user/{ => include}/host/x86_64/host-signal.h  | 0
+>   linux-user/{ => include}/special-errno.h            | 0
+>   linux-user/meson.build                              | 4 ++--
+>   18 files changed, 3 insertions(+), 3 deletions(-)
+>   rename bsd-user/{ => include}/special-errno.h (100%)
+>   rename linux-user/{ => include}/host/aarch64/host-signal.h (100%)
+>   rename linux-user/{ => include}/host/alpha/host-signal.h (100%)
+>   rename linux-user/{ => include}/host/arm/host-signal.h (100%)
+>   rename linux-user/{ => include}/host/i386/host-signal.h (100%)
+>   rename linux-user/{ => include}/host/mips/host-signal.h (100%)
+>   rename linux-user/{ => include}/host/ppc/host-signal.h (100%)
+>   rename linux-user/{ => include}/host/ppc64/host-signal.h (100%)
+>   rename linux-user/{ => include}/host/riscv/host-signal.h (100%)
+>   rename linux-user/{ => include}/host/s390/host-signal.h (100%)
+>   rename linux-user/{ => include}/host/s390x/host-signal.h (100%)
+>   rename linux-user/{ => include}/host/sparc/host-signal.h (100%)
+>   rename linux-user/{ => include}/host/sparc64/host-signal.h (100%)
+>   rename linux-user/{ => include}/host/x32/host-signal.h (100%)
+>   rename linux-user/{ => include}/host/x86_64/host-signal.h (100%)
+>   rename linux-user/{ => include}/special-errno.h (100%)
 
-Applied.  The terminal output is silly, with the rotating moon, but whatever.
+You missed loongarch64.
 
 
 r~
-
 
