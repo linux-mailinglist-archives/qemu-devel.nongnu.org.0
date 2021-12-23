@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5A1147E554
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Dec 2021 16:04:55 +0100 (CET)
-Received: from localhost ([::1]:54994 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02CDC47E553
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Dec 2021 16:04:35 +0100 (CET)
+Received: from localhost ([::1]:54452 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n0PeI-0006qL-IZ
-	for lists+qemu-devel@lfdr.de; Thu, 23 Dec 2021 10:04:54 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53114)
+	id 1n0Pdy-0006Tp-41
+	for lists+qemu-devel@lfdr.de; Thu, 23 Dec 2021 10:04:34 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54750)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <tonistiigi@gmail.com>)
- id 1n0HtA-0006k4-4M
- for qemu-devel@nongnu.org; Thu, 23 Dec 2021 01:47:45 -0500
-Received: from [2607:f8b0:4864:20::52e] (port=35475
- helo=mail-pg1-x52e.google.com)
+ id 1n0I0W-0001V8-Vl
+ for qemu-devel@nongnu.org; Thu, 23 Dec 2021 01:55:21 -0500
+Received: from [2607:f8b0:4864:20::f31] (port=40627
+ helo=mail-qv1-xf31.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <tonistiigi@gmail.com>)
- id 1n0Ht8-0005HC-B8
- for qemu-devel@nongnu.org; Thu, 23 Dec 2021 01:47:43 -0500
-Received: by mail-pg1-x52e.google.com with SMTP id v25so4139761pge.2
- for <qemu-devel@nongnu.org>; Wed, 22 Dec 2021 22:47:41 -0800 (PST)
+ id 1n0I0V-0000ju-CO
+ for qemu-devel@nongnu.org; Thu, 23 Dec 2021 01:55:20 -0500
+Received: by mail-qv1-xf31.google.com with SMTP id q3so4418485qvc.7
+ for <qemu-devel@nongnu.org>; Wed, 22 Dec 2021 22:55:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=nuK5ni6SPoO45Nbx3zlI9WlWEe/hlceeKwt3qfOlWTM=;
- b=JbJAquiaLdk13AVYo6UyGTKGd4N3pZi7fjFpEKd1HQbitwWsCxogc3iqEGujyVSyw1
- hCno0obZqXcs9QaDqPpaKEiv2FPRrq4CCeX3VQKArVzUSE81qnO+D5m6xVHA4q5D0CYF
- rSYJLtp7oyFfR054RIydmGO2io5biNh+5TKqOlOWQuidTvkzeVYF7yfsNM4GtTGKO5+z
- ubKi1L3pwIy2IfBLg2IxRP1Awz8j3AwzUmG8bTTtoYSfH7cSrn9B6Krx+8NGdyCneL3E
- Wyf1CHhdmRAIv9G56aRu/uLf4tsNz4kGLqibXkFR3IcB2fFk+I7fZK0cEwWJX/I3YIA8
- 6PCQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=bIw+R1RY/Y5QFG4Ac7lm7tGzhOFe3QwmKTSdFZsUqpg=;
+ b=FSIigy/qC/jXAy5ng2BzEnu29PO5wOYimMoBpOzYAofJ5R6QOPXLJBhj5qvjfzxvWW
+ SCSOVAP2xqH7sgZXYKPEnzpTbe0kDzi9B8JOSUlZYB4xEtlyjYPIMzny82SdrFMwyBLU
+ tqph2H4Xs9efC0kUZf4uTPITZh0yo396twjdoFwMyyDc2pJrW4O7dQCxP6m4AqLpWRiH
+ lvewgouNWQ417mP8qHFD8N86CZhPvS/W82iB9LrK195gkVTNdNSha4uHtFlbDf4KgrpZ
+ 1fMI95cIChgyQmxYPMUmD8LQQ4U/euDKtP8b2zoNx696/IJ5cLfqzvbNQKDXlA3tMvDo
+ gJ5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=nuK5ni6SPoO45Nbx3zlI9WlWEe/hlceeKwt3qfOlWTM=;
- b=JbnBvzcB5v1NOXBHqBwMqostYIqV9WxFcQilVRjxMV0V2k5IDp+TaEboPihKRmDKl8
- +rGssuLrxuU733w4RU9BGEbVQXvbGDfvOn92HogZX9+DJU7pD8Amg1qiTk5KJLXZqQhS
- XbADHIMxfHQuvczex1WpSjvxkF/W/5SlrLnWUisI36vMmCXdxJdKpT6Px+qZBtR0Dj1P
- Z7jFSsvFwczogK0xyAhepVJj9VzdDdXyxv+1Bb94hd9iqo+d99JqasNsB3IQgeLrxxQ5
- tZvJcFMlvHW8pt31UkQutmLCf9+Td150gXlRFD2iQazX16tienXR6neusIfLG+G6e8n/
- U5tg==
-X-Gm-Message-State: AOAM531WdN8F6A1TYJgmR8Ccb2EzXXxjPL9wl06D4R/WBFHjlmaXp9X7
- sNv1t1bewlLPWO76oGfEM49jPiMxBxmnPuvC
-X-Google-Smtp-Source: ABdhPJy517gPT7O0SqlzTW4I2JwRzNX4WyhzD1ELQ8/kC8Ybh1u4EpFFDI6BJg4f6a8r15PRbIT3wg==
-X-Received: by 2002:a05:6a00:ac6:b029:374:a33b:a74 with SMTP id
- c6-20020a056a000ac6b0290374a33b0a74mr1208110pfl.51.1640242059777; 
- Wed, 22 Dec 2021 22:47:39 -0800 (PST)
-Received: from localhost ([2601:646:100:6be:5d75:3e6f:544f:655e])
- by smtp.gmail.com with UTF8SMTPSA id f10sm3700318pge.33.2021.12.22.22.47.38
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=bIw+R1RY/Y5QFG4Ac7lm7tGzhOFe3QwmKTSdFZsUqpg=;
+ b=rKDIkR2Yb77YLjc+Unm/pJ1qzoHl7z59T+1JIx5Wol02Wf+Oi7WSmicwLvn2AMACPP
+ sOLGOjt6ViBipZ7cb+C/SAWxB4+wpxaAeUceciesdFiqIo/6OF7FpDTzpBfkecIplfgo
+ IsHimXpmcfXerNxbxHC2co0ssbxY+FmAcFT2rfVdheiRPLC3sQXPHuAWDCYwErZTZNuH
+ 23KbN1ZemHhEPCoHcYE1YFTedgMWbu0tx9Wwc9l5Go29kLQSm+Qeqv6VRSBvO2eBM6gK
+ SCeePJulstzH0OzRUlmBLcTITVhE/exvpGXp9wBosgQWvqALpiP9TqB38WWOdQgwJCCq
+ 9iIg==
+X-Gm-Message-State: AOAM532spr8839YKH5eu6c0GeblOxUp7keCMN/aiLy6uEwGUfltmxDza
+ Gs/3yVMWdPE7ku9iy/rL4JY0Aid/hdLgGKEu
+X-Google-Smtp-Source: ABdhPJwWFtxgMA8adPpAvWWBZ2QNgVdS1ybt54H6nS8eQQ0ZeoH/l9YEwnu/lLXOgcVAjbDrfgvDdw==
+X-Received: by 2002:a17:902:708b:b0:148:b0b0:2ad3 with SMTP id
+ z11-20020a170902708b00b00148b0b02ad3mr1105024plk.115.1640242065546; 
+ Wed, 22 Dec 2021 22:47:45 -0800 (PST)
+Received: from localhost ([2601:646:100:6be:28e2:4700:e00c:9454])
+ by smtp.gmail.com with UTF8SMTPSA id m16sm4697133pfk.32.2021.12.22.22.47.44
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 22 Dec 2021 22:47:39 -0800 (PST)
+ Wed, 22 Dec 2021 22:47:45 -0800 (PST)
 From: Tonis Tiigi <tonistiigi@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 0/2] linux-user: fixes for sched_ syscalls
-Date: Wed, 22 Dec 2021 22:47:26 -0800
-Message-Id: <20211223064728.18048-1-tonistiigi@gmail.com>
+Subject: [PATCH v3 1/2] linux-user: add sched_getattr support
+Date: Wed, 22 Dec 2021 22:47:27 -0800
+Message-Id: <20211223064728.18048-2-tonistiigi@gmail.com>
 X-Mailer: git-send-email 2.32.0 (Apple Git-132)
+In-Reply-To: <20211223064728.18048-1-tonistiigi@gmail.com>
+References: <20211223064728.18048-1-tonistiigi@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::52e
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::f31
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52e;
- envelope-from=tonistiigi@gmail.com; helo=mail-pg1-x52e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f31;
+ envelope-from=tonistiigi@gmail.com; helo=mail-qv1-xf31.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -89,52 +91,147 @@ Cc: Tonis Tiigi <tonistiigi@gmail.com>, laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patchset improves support for sched_* syscalls under user emulation. The 
-first commit adds support for sched_g/setattr that was previously not 
-implemented. There is no equivalent for these syscalls in libc, so I needed to 
-redefine the struct from kernel. It can't be included directly because of 
-conflict with libc sched headers.
+Signed-off-by: Tonis Tiigi <tonistiigi@gmail.com>
+---
+ linux-user/syscall.c      | 94 +++++++++++++++++++++++++++++++++++++++
+ linux-user/syscall_defs.h | 14 ++++++
+ 2 files changed, 108 insertions(+)
 
-The second commit fixes sched_g/setscheduler and sched_g/setparam, when QEMU is 
-built with musl. Musl does not implement these due to conflict between what 
-these functions should do in syscalls and libc 
-https://git.musl-libc.org/cgit/musl/commit/?id=1e21e78bf7a5c24c217446d8760be7b7188711c2
- . I've changed it to call syscall directly what should always be the expected 
-behavior for the user.
-
-Via https://github.com/tonistiigi/binfmt/pull/70 with additional tests.
-
-Changes v3->v2:
-- Fix wrong property name for sched_flags
-- Validate size parameter and handle E2BIG errors same way as kernel does. There
-is one case where it can't be done completely correctly but clients should still
-be able to handle it: when client sends a bigger non-zero structure than current
-kernel definition we will send E2BIG with the struct size known to qemu. If now
-the client sends structure with this size it may still get another E2BIG error
-from the kernel if kernel is old and doesn't implement util_min/util_max. I don't
-think this can be handled without making additional syscalls to kernel.
-
-Changes v1->v2:
-- Locking guest addresses for sched_attr is now based on size inputs, not local 
-struct size. Also did the same for setter where I now read only the size field 
-of the struct first.
-- Use offsetof() when checking if optional fields are supported.
-- `target_sched_attr` now uses aligned types as requested. I didn't quite 
-understand why this is needed as I don't see same in kernel headers, but as 
-this type uses only constant width fields and is already aligned by default it 
-can't break anything.
-- Fixed formatting.
-- Defined own `target_sched_param` struct as requested.
-
-
-Tonis Tiigi (2):
-  linux-user: add sched_getattr support
-  linux-user: call set/getscheduler set/getparam directly
-
- linux-user/syscall.c      | 134 ++++++++++++++++++++++++++++++++++----
- linux-user/syscall_defs.h |  18 +++++
- 2 files changed, 139 insertions(+), 13 deletions(-)
-
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index f1cfcc8104..2f5a0fac5a 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -339,6 +339,12 @@ _syscall3(int, sys_sched_getaffinity, pid_t, pid, unsigned int, len,
+ #define __NR_sys_sched_setaffinity __NR_sched_setaffinity
+ _syscall3(int, sys_sched_setaffinity, pid_t, pid, unsigned int, len,
+           unsigned long *, user_mask_ptr);
++#define __NR_sys_sched_getattr __NR_sched_getattr
++_syscall4(int, sys_sched_getattr, pid_t, pid, struct target_sched_attr *, attr,
++          unsigned int, size, unsigned int, flags);
++#define __NR_sys_sched_setattr __NR_sched_setattr
++_syscall3(int, sys_sched_setattr, pid_t, pid, struct target_sched_attr *, attr,
++          unsigned int, flags);
+ #define __NR_sys_getcpu __NR_getcpu
+ _syscall3(int, sys_getcpu, unsigned *, cpu, unsigned *, node, void *, tcache);
+ _syscall4(int, reboot, int, magic1, int, magic2, unsigned int, cmd,
+@@ -10593,6 +10599,94 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+         }
+     case TARGET_NR_sched_getscheduler:
+         return get_errno(sched_getscheduler(arg1));
++    case TARGET_NR_sched_getattr:
++        {
++            struct target_sched_attr *target_scha;
++            struct target_sched_attr scha;
++            if (arg2 == 0) {
++                return -TARGET_EINVAL;
++            }
++            if (arg3 > sizeof(scha)) {
++                arg3 = sizeof(scha);
++            }
++            ret = get_errno(sys_sched_getattr(arg1, &scha, arg3, arg4));
++            if (!is_error(ret)) {
++                target_scha = lock_user(VERIFY_WRITE, arg2, arg3, 0);
++                if (!target_scha) {
++                    return -TARGET_EFAULT;
++                }
++                target_scha->size = tswap32(scha.size);
++                target_scha->sched_policy = tswap32(scha.sched_policy);
++                target_scha->sched_flags = tswap64(scha.sched_flags);
++                target_scha->sched_nice = tswap32(scha.sched_nice);
++                target_scha->sched_priority = tswap32(scha.sched_priority);
++                target_scha->sched_runtime = tswap64(scha.sched_runtime);
++                target_scha->sched_deadline = tswap64(scha.sched_deadline);
++                target_scha->sched_period = tswap64(scha.sched_period);
++                if (scha.size > offsetof(struct target_sched_attr, sched_util_min)) {
++                    target_scha->sched_util_min = tswap32(scha.sched_util_min);
++                    target_scha->sched_util_max = tswap32(scha.sched_util_max);
++                }
++                unlock_user(target_scha, arg2, arg3);
++            }
++            return ret;
++        }
++    case TARGET_NR_sched_setattr:
++        {
++            struct target_sched_attr *target_scha;
++            struct target_sched_attr scha;
++            if (arg2 == 0) {
++                return -TARGET_EINVAL;
++            }
++            uint32_t size;
++            if (get_user_u32(size, arg2)) {
++                return -TARGET_EFAULT;
++            }
++            if (!size) {
++                size = offsetof(struct target_sched_attr, sched_util_min);
++            }
++            if (size < offsetof(struct target_sched_attr, sched_util_min)) {
++                if (put_user_u32(sizeof(struct target_sched_attr), arg2)) {
++                    return -TARGET_EFAULT;
++                }
++                return -TARGET_E2BIG;
++            }
++
++            if (size > sizeof(scha)) {
++                for (int i = sizeof(scha); i < size; i++) {
++                    uint8_t b;
++                    if (get_user_u8(b, arg2 + i)) {
++                        return -TARGET_EFAULT;
++                    }
++                    if (b != 0) {
++                        if (put_user_u32(sizeof(struct target_sched_attr), arg2)) {
++                            return -TARGET_EFAULT;
++                        }
++                        return -TARGET_E2BIG;
++                    }
++                }
++                size = sizeof(scha);
++            }
++
++            target_scha = lock_user(VERIFY_READ, arg2, size, 1);
++            if (!target_scha) {
++                return -TARGET_EFAULT;
++            }
++            scha.size = size;
++            scha.sched_policy = tswap32(target_scha->sched_policy);
++            scha.sched_flags = tswap64(target_scha->sched_flags);
++            scha.sched_nice = tswap32(target_scha->sched_nice);
++            scha.sched_priority = tswap32(target_scha->sched_priority);
++            scha.sched_runtime = tswap64(target_scha->sched_runtime);
++            scha.sched_deadline = tswap64(target_scha->sched_deadline);
++            scha.sched_period = tswap64(target_scha->sched_period);
++            if (size > offsetof(struct target_sched_attr, sched_util_min)) {
++                scha.sched_util_min = tswap32(target_scha->sched_util_min);
++                scha.sched_util_max = tswap32(target_scha->sched_util_max);
++            }
++            unlock_user(target_scha, arg2, 0);
++            return get_errno(sys_sched_setattr(arg1, &scha, arg3));
++        }
+     case TARGET_NR_sched_yield:
+         return get_errno(sched_yield());
+     case TARGET_NR_sched_get_priority_max:
+diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
+index 0b13975937..310d6ce8ad 100644
+--- a/linux-user/syscall_defs.h
++++ b/linux-user/syscall_defs.h
+@@ -2914,4 +2914,18 @@ struct target_statx {
+    /* 0x100 */
+ };
+ 
++/* from kernel's include/linux/sched/types.h */
++struct target_sched_attr {
++    abi_uint size;
++    abi_uint sched_policy;
++    abi_ullong sched_flags;
++    abi_int sched_nice;
++    abi_uint sched_priority;
++    abi_ullong sched_runtime;
++    abi_ullong sched_deadline;
++    abi_ullong sched_period;
++    abi_uint sched_util_min;
++    abi_uint sched_util_max;
++};
++
+ #endif
 -- 
 2.32.0 (Apple Git-132)
 
