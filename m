@@ -2,76 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38EC347E133
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Dec 2021 11:16:44 +0100 (CET)
-Received: from localhost ([::1]:52142 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 508D547E135
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Dec 2021 11:17:02 +0100 (CET)
+Received: from localhost ([::1]:52680 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n0L9O-0000GL-Nj
-	for lists+qemu-devel@lfdr.de; Thu, 23 Dec 2021 05:16:42 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36744)
+	id 1n0L9h-0000cw-EZ
+	for lists+qemu-devel@lfdr.de; Thu, 23 Dec 2021 05:17:01 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36788)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1n0L7O-0006Zy-GU
- for qemu-devel@nongnu.org; Thu, 23 Dec 2021 05:14:38 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:25749)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1n0L7U-0006fj-60
+ for qemu-devel@nongnu.org; Thu, 23 Dec 2021 05:14:44 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37518)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1n0L7M-0006qk-4P
- for qemu-devel@nongnu.org; Thu, 23 Dec 2021 05:14:37 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1n0L7S-0006rU-PN
+ for qemu-devel@nongnu.org; Thu, 23 Dec 2021 05:14:43 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1640254475;
+ s=mimecast20190719; t=1640254482;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=wrBJ6rUNo2Cfop9dnAvTxpV0ZPjhX8aSQY+ASLs9THY=;
- b=cnJEsttIxLwonjlGVxquj4EGXkljOfTxRmeGwVhNoJ3mPStmjAPgwGUksOWJg9qW/+E4iC
- qZPTTR1u3x8HOAatrjyEBkw2WhBPipnXdw+7lG2Lpm2BUj1rxLnc2KtMYcwg6UyKYLuynQ
- 5QpC9SgtBcVEfhO91VuIDQfb458riN4=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ayL3Y6gZm6XhBH2r4HXO5sw4wKPzmz4WxHL5sCFdC0w=;
+ b=XlAAOruHSKdu+YB67H7kJvPWgE8NEpytNINmI5xGxQ1rjvICljNgxCL4u60lz4yGn+s20L
+ HK6zKjqYan9Vt8jGXIPiSwhl6+gRwhFWjwrzpOlmJ7Azf+iO7pTVv2PMHZIx7zsE+pElE9
+ ci4j1xsX6E0RX/Sn6p9ETDYWZyIfWf0=
 Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
  [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-41-vFCp_fEsNIO84rzMjgPMHQ-1; Thu, 23 Dec 2021 05:14:34 -0500
-X-MC-Unique: vFCp_fEsNIO84rzMjgPMHQ-1
+ us-mta-544-7MhYPLvcODqM20vt7DEErg-1; Thu, 23 Dec 2021 05:14:41 -0500
+X-MC-Unique: 7MhYPLvcODqM20vt7DEErg-1
 Received: by mail-wm1-f72.google.com with SMTP id
- m19-20020a05600c4f5300b00345cb6e8dd4so1558055wmq.3
- for <qemu-devel@nongnu.org>; Thu, 23 Dec 2021 02:14:34 -0800 (PST)
+ v62-20020a1cac41000000b0033719a1a714so1819624wme.6
+ for <qemu-devel@nongnu.org>; Thu, 23 Dec 2021 02:14:41 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=RsyZSeptQ2Ic7m7iT6QJcLL0+F9eV+PB0m3XuV9lcwk=;
- b=L4rVgkHVttMwDAdPZj1AgHSih51G/Mgfp9Et6DReSZjLD/cWGc41d0ON9hUEw0n9hn
- qPlYWRpzKztcIsqM5abH4pe8SAa8PVwuDL1xdKBlNEeHi8N+90PdLdiLObT8X9YYNl95
- TUkuf8y9iF4wJMdRmKVukC2X9ToQhwtWQTd43lznwvH6eqGNu6I3SD0EsGUmIwlDfdqU
- AqD5/b0BbRraEhjnwnX+w5B5NUpvuG6A0Z+HxasHrQrotan3ImanIcn1a+ryMi+z7vlP
- nEQrtJmpys2XAp2nkyMFOAuqsWRMuowplM9RX+8ucpzGR4uMjfHE3ihSanpbE9KqmkW+
- oDwQ==
-X-Gm-Message-State: AOAM531Y7WA1lTHwTKatSeDSS7uNGPibbA4HcyC/DEpxILb5ViOLj526
- Le6uvmH36cDzfIdU/6xRR5ha1C1youULAAT7xX57Stj/pOvf0/CBLfgIg5VNSeXgy2tkcogMdQy
- EbxPjArqaa+b2YVfA/skrZIJ1OsujD07AWf4FutYufa0yQYIbn/T3LMTh3YzZtyHQ
-X-Received: by 2002:a7b:c310:: with SMTP id k16mr1290944wmj.169.1640254472750; 
- Thu, 23 Dec 2021 02:14:32 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJywLUBHa7lM1oKnF9SU5zMDkVvqUzU66PdqSiurQD7i7gFyz8eIp2nGpHYJN2+ZuPDi45bm0A==
-X-Received: by 2002:a7b:c310:: with SMTP id k16mr1290920wmj.169.1640254472427; 
- Thu, 23 Dec 2021 02:14:32 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=ayL3Y6gZm6XhBH2r4HXO5sw4wKPzmz4WxHL5sCFdC0w=;
+ b=E07lATqFHJGFXLAj/gaVbrcOuKcLOMZ6Hifx9R8dxRrxAPbtVlPwoPCLcCwNisEZ5b
+ lQ56QpmpZQmah2jClTn4L6Ia7HacF3w+fb0GeWI0NB+FPAVe6flhbQZRFtEEE0+EfVRV
+ DwiPQ+gNec0bAHCJWp3X2nNiEY24cutvx1Bjv+V06htkbR7sDrFPGsBvZUUnMqG7GkkU
+ tmwiVd2kl9Zk4X0abVsVkEC5TepyjGyrNCQ87qHkhlbBqKiot31/fZCSCJDSj+1QJlco
+ XJJOqDiTJId1uVpNJeTXGysNupowjJEUxDDr4YwNQ43nzMV+pegbPj4XEfLF9uhkfxhg
+ 5yGw==
+X-Gm-Message-State: AOAM532chpcohsLvqs0oVCseJ73sQgHmuSQQdhqpoUUKmaZM4phB1eL+
+ AMCOZZA6EhAmb/Xu8suA8DSxTpckksbPUS+8+OrBQ2LyXIgbO/hVRpobz/4VcK8+nm4dFkfeZlX
+ 0hF9g1NgY8CpZngczUXJLkVvci/WjTYw1GI4haxRdIE2x57kbsRKEka/CI6H/yHBh
+X-Received: by 2002:adf:e844:: with SMTP id d4mr1212965wrn.151.1640254479924; 
+ Thu, 23 Dec 2021 02:14:39 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxzZ0UO5oY2YIF+4pXbv/1JYA2isTkwfvU1LoGnVF5/B17dvuFf7LivJ76OgR17ZBEyijJdhg==
+X-Received: by 2002:adf:e844:: with SMTP id d4mr1212940wrn.151.1640254479696; 
+ Thu, 23 Dec 2021 02:14:39 -0800 (PST)
 Received: from x1w.. (33.red-193-152-124.dynamicip.rima-tde.net.
  [193.152.124.33])
- by smtp.gmail.com with ESMTPSA id bg12sm5291640wmb.5.2021.12.23.02.14.29
+ by smtp.gmail.com with ESMTPSA id s1sm7400975wmh.35.2021.12.23.02.14.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 Dec 2021 02:14:32 -0800 (PST)
+ Thu, 23 Dec 2021 02:14:39 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 0/2] block: Minor vhost-user-blk fixes
-Date: Thu, 23 Dec 2021 11:14:24 +0100
-Message-Id: <20211223101426.3143647-1-philmd@redhat.com>
+Subject: [PATCH v2 1/2] qemu-storage-daemon: Add vhost-user-blk help
+Date: Thu, 23 Dec 2021 11:14:25 +0100
+Message-Id: <20211223101426.3143647-2-philmd@redhat.com>
 X-Mailer: git-send-email 2.33.1
+In-Reply-To: <20211223101426.3143647-1-philmd@redhat.com>
+References: <20211223101426.3143647-1-philmd@redhat.com>
 MIME-Version: 1.0
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=philmd@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -92,31 +95,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
+Cc: Kevin Wolf <kwolf@redhat.com>, Qing Wang <qinwang@redhat.com>,
+ qemu-block@nongnu.org, Eric Blake <eblake@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-- Add vhost-user-blk help to qemu-storage-daemon,=0D
-- Do not list vhost-user-blk in BlockExportType when=0D
-  CONFIG_VHOST_USER_BLK_SERVER is disabled.=0D
-=0D
-Since v1:=0D
-- Reword patch 2 description (Markus)=0D
-- Fix BlockExportOptions enum build failure (Markus)=0D
-=0D
-Philippe Mathieu-Daud=C3=A9 (2):=0D
-  qemu-storage-daemon: Add vhost-user-blk help=0D
-  qapi/block: Restrict vhost-user-blk to CONFIG_VHOST_USER_BLK_SERVER=0D
-=0D
- qapi/block-export.json               |  6 ++++--=0D
- storage-daemon/qemu-storage-daemon.c | 13 +++++++++++++=0D
- 2 files changed, 17 insertions(+), 2 deletions(-)=0D
-=0D
---=20=0D
-2.33.1=0D
-=0D
+Add missing vhost-user-blk help:
+
+  $ qemu-storage-daemon -h
+  ...
+    --export [type=]vhost-user-blk,id=<id>,node-name=<node-name>,
+             addr.type=unix,addr.path=<socket-path>[,writable=on|off]
+             [,logical-block-size=<block-size>][,num-queues=<num-queues>]
+                           export the specified block node as a
+                           vhosts-user-blk device over UNIX domain socket
+    --export [type=]vhost-user-blk,id=<id>,node-name=<node-name>,
+             fd,addr.str=<fd>[,writable=on|off]
+             [,logical-block-size=<block-size>][,num-queues=<num-queues>]
+                           export the specified block node as a
+                           vhosts-user-blk device over file descriptor
+  ...
+
+Fixes: 90fc91d50b7 ("convert vhost-user-blk server to block export API")
+Reported-by: Qing Wang <qinwang@redhat.com>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+---
+ storage-daemon/qemu-storage-daemon.c | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
+
+diff --git a/storage-daemon/qemu-storage-daemon.c b/storage-daemon/qemu-storage-daemon.c
+index 52cf17e8ace..0c19e128e3f 100644
+--- a/storage-daemon/qemu-storage-daemon.c
++++ b/storage-daemon/qemu-storage-daemon.c
+@@ -104,6 +104,19 @@ static void help(void)
+ "                         export the specified block node over FUSE\n"
+ "\n"
+ #endif /* CONFIG_FUSE */
++#ifdef CONFIG_VHOST_USER_BLK_SERVER
++"  --export [type=]vhost-user-blk,id=<id>,node-name=<node-name>,\n"
++"           addr.type=unix,addr.path=<socket-path>[,writable=on|off]\n"
++"           [,logical-block-size=<block-size>][,num-queues=<num-queues>]\n"
++"                         export the specified block node as a\n"
++"                         vhosts-user-blk device over UNIX domain socket\n"
++"  --export [type=]vhost-user-blk,id=<id>,node-name=<node-name>,\n"
++"           fd,addr.str=<fd>[,writable=on|off]\n"
++"           [,logical-block-size=<block-size>][,num-queues=<num-queues>]\n"
++"                         export the specified block node as a\n"
++"                         vhosts-user-blk device over file descriptor\n"
++"\n"
++#endif /* CONFIG_VHOST_USER_BLK_SERVER */
+ "  --monitor [chardev=]name[,mode=control][,pretty[=on|off]]\n"
+ "                         configure a QMP monitor\n"
+ "\n"
+-- 
+2.33.1
 
 
