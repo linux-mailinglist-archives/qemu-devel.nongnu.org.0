@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 259D047DDFF
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Dec 2021 04:04:20 +0100 (CET)
-Received: from localhost ([::1]:36934 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B40B47DE01
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Dec 2021 04:06:57 +0100 (CET)
+Received: from localhost ([::1]:41680 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n0EOx-0000EL-6X
-	for lists+qemu-devel@lfdr.de; Wed, 22 Dec 2021 22:04:19 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47054)
+	id 1n0ERU-0003UA-Gu
+	for lists+qemu-devel@lfdr.de; Wed, 22 Dec 2021 22:06:56 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47066)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1n0EMi-0006BI-DN
- for qemu-devel@nongnu.org; Wed, 22 Dec 2021 22:02:00 -0500
-Received: from [2607:f8b0:4864:20::629] (port=43630
- helo=mail-pl1-x629.google.com)
+ id 1n0EMj-0006Ce-F4
+ for qemu-devel@nongnu.org; Wed, 22 Dec 2021 22:02:01 -0500
+Received: from [2607:f8b0:4864:20::630] (port=42592
+ helo=mail-pl1-x630.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1n0EMf-00082b-8W
- for qemu-devel@nongnu.org; Wed, 22 Dec 2021 22:02:00 -0500
-Received: by mail-pl1-x629.google.com with SMTP id m24so3246957pls.10
- for <qemu-devel@nongnu.org>; Wed, 22 Dec 2021 19:01:53 -0800 (PST)
+ id 1n0EMf-00082q-97
+ for qemu-devel@nongnu.org; Wed, 22 Dec 2021 22:02:01 -0500
+Received: by mail-pl1-x630.google.com with SMTP id u16so3254271plg.9
+ for <qemu-devel@nongnu.org>; Wed, 22 Dec 2021 19:01:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=QDuAQPTVmudAI86lMWfLhpfjb3KuCOa/GoUZQb+Dyow=;
- b=X0VvfyZG+NI6MbmOHbdwvOrRR9nTsUf6PxSSi5XNhUiEnDQBixX7Yh7dAZra2VOc38
- JXYl+g4UXzDYBofQ+5qxKOkWSgTlEM8jaqj4CEf2O32IRM/J8NHUvEue944YG9/T2Tdm
- ARUUn2fsW6euK+MU9kMiyhneD3i08sc0EwgwfDxL6KR3oNmg7wyG5ZWimezNBiGFkXRp
- OUX59HhsvwFjw6azW33yE1ta1uo4CBonCgi8BT5ymOgn2eojIXJbIlgMDOetxL35uOlC
- IgC+d22/vOLbh8cS3mcUah/yFR1d9bwxesyAP42DJ8X7gt6bxvgS6oOZm/LozWh64Hj2
- kOGg==
+ bh=MwC8DfPxtCdA8CUKyYDPaon4yktbu90EwhN6j0mhd+Q=;
+ b=H0wwabzm9z7VIWRw2eP9jJtp8HNh7d0BRi409AIIB0fmNfBdeC9ZqK9jDvXT6TJ1xM
+ jz/KmxW4khR1KiAekJGhZclbNNAgtWsYPPjxClGm11j2BmMcyCXcul31cj0mdsmCLWtj
+ xQvznvo2chkf5o2peEXS4Isw52yH+x8+9pPiL1PHmTiHXr22srFMHKQyT2bHs7RWyTSO
+ +tgBO3+/3gHU5O2CYODpjhV75GRPug/iGfawRgYdW7OTqnmoBj0brVa9hTGNE2sv/AAY
+ o53znBrkdKvdpoJGR2WPctEpjx9+aNnliIHp3xfNhLLfqupE4IXwf3e9VtY3rGfxXlTQ
+ Ww1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=QDuAQPTVmudAI86lMWfLhpfjb3KuCOa/GoUZQb+Dyow=;
- b=UVIziMEQn38QF3Q++8R2LYVhxAZdGcLL4pUDxJ4qVnQa6KAGoQOg1gkggQI3drcFnz
- dWeDLZJ3bUF63EkgLMnVsw9WGpPng1XYGPfd7bXrLekQ2VXrVUK3cZkAl9PC40y2CnSj
- BSqJW9sJ+PGSS0GPtAWHLeP47gAAFOWQ7nzvGFbW1oIVcgCKsJu5Q0TRFrd30TKQcZSM
- Kh7DtcCq6Vh5hzdnKTdVPlw/b0Ln3oWCUnYxDEjThNdxtzF0NOWg9xWIQ2eigEiJhjd1
- qPFGJ9hFaqiqFyAulubHMNnY324yQPsbW48QnbFNrPdTjMthmAlZYCqY7Y0aSAuHBhsF
- 2uBQ==
-X-Gm-Message-State: AOAM530xg/LXEizv7ebEW+RRDR6xJowFFcT92seLrw3FRwTd1PYqwRZJ
- L2djHsBTzUvcihscbFSRo+ekf8L2TmB4uQ==
-X-Google-Smtp-Source: ABdhPJwTFDD6XH0FwTZu5sDQnyZ+vlMds7HCdkKuqOC0hpv/jIG87Yd4S/vm1j+intoXEIWQPlHKRg==
-X-Received: by 2002:a17:902:d503:b0:149:16ed:d15f with SMTP id
- b3-20020a170902d50300b0014916edd15fmr568925plg.102.1640228513099; 
- Wed, 22 Dec 2021 19:01:53 -0800 (PST)
+ bh=MwC8DfPxtCdA8CUKyYDPaon4yktbu90EwhN6j0mhd+Q=;
+ b=HPF7VQ/RuTn/ZJm/V0TjdhXTeNRMexNcJk5Bx15snVnzxpGgBeTZYsxbY+F2/aKcAj
+ CQWa9m40QjCP2xqy1KucuDvf5pICmzVCx3D5vKhnoJVqsyOa6y7tMy4H/c1QpjO+TExP
+ 0YyCs8pX1L47pzG+JDhaEF8oiePzbwrANvNr1a/LPyqUE5W4+KP3ZeuJgo2Py2ujfNWI
+ 0awhz802l/0P0VOi5/iLubrVJOUSu876JqpswcEkdiRsYFEiy4X3DLN0tzQR6fmZrRUN
+ Tu3aoq6eJZMQVztuHTSJeRXhPn/Cki2U6AUK8Iru7IrctG+ORBUSV47AQmUFVoifJza4
+ nzMA==
+X-Gm-Message-State: AOAM530LxQVBAr0Iy1sb9q/zRzNnxKMBaKXUOXRDyExRTodopROjqyHD
+ o7AXqxtsTpvGUJQSPBglfu3UrSlz9hSc5Q==
+X-Google-Smtp-Source: ABdhPJw+fHpiecv1MwBDIMMVKapd583LjTGvQVU4pj8kthHwclBBRQYu7H1C8cp5D/YXa06S6i4mvQ==
+X-Received: by 2002:a17:902:b189:b0:143:8079:3d3b with SMTP id
+ s9-20020a170902b18900b0014380793d3bmr610609plr.71.1640228514059; 
+ Wed, 22 Dec 2021 19:01:54 -0800 (PST)
 Received: from localhost.localdomain ([156.19.246.20])
- by smtp.gmail.com with ESMTPSA id q19sm4248513pfk.83.2021.12.22.19.01.52
+ by smtp.gmail.com with ESMTPSA id q19sm4248513pfk.83.2021.12.22.19.01.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Dec 2021 19:01:52 -0800 (PST)
+ Wed, 22 Dec 2021 19:01:53 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/3] target/ppc: Rewrite pmu_increment_insns
-Date: Wed, 22 Dec 2021 19:01:48 -0800
-Message-Id: <20211223030149.1947418-3-richard.henderson@linaro.org>
+Subject: [PATCH 3/3] target/ppc: Use env->pnc_cyc_cnt
+Date: Wed, 22 Dec 2021 19:01:49 -0800
+Message-Id: <20211223030149.1947418-4-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211223030149.1947418-1-richard.henderson@linaro.org>
 References: <20211223030149.1947418-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::629
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::630
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x629.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x630.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -91,112 +91,164 @@ Cc: danielhb413@gmail.com, qemu-ppc@nongnu.org, clg@kaod.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use the cached pmc_ins_cnt value.  Unroll the loop over the
-different PMC counters.  Treat the PMC4 run-latch specially.
+Use the cached pmc_cyc_cnt value in pmu_update_cycles
+and pmc_update_overflow_timer.  This leaves pmc_get_event
+and pmc_is_inactive unused, so remove them.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/ppc/power8-pmu.c | 76 ++++++++++++++++++++++++++---------------
- 1 file changed, 48 insertions(+), 28 deletions(-)
+ target/ppc/power8-pmu.c | 107 ++++------------------------------------
+ 1 file changed, 9 insertions(+), 98 deletions(-)
 
 diff --git a/target/ppc/power8-pmu.c b/target/ppc/power8-pmu.c
-index d547e4c99b..c60afa56a5 100644
+index c60afa56a5..7859ea24f5 100644
 --- a/target/ppc/power8-pmu.c
 +++ b/target/ppc/power8-pmu.c
-@@ -165,45 +165,65 @@ void pmu_update_summaries(CPUPPCState *env)
+@@ -24,19 +24,6 @@
  
- static bool pmu_increment_insns(CPUPPCState *env, uint32_t num_insns)
+ #define PMC_COUNTER_NEGATIVE_VAL 0x80000000UL
+ 
+-static bool pmc_is_inactive(CPUPPCState *env, int sprn)
+-{
+-    if (env->spr[SPR_POWER_MMCR0] & MMCR0_FC) {
+-        return true;
+-    }
+-
+-    if (sprn < SPR_POWER_PMC5) {
+-        return env->spr[SPR_POWER_MMCR0] & MMCR0_FC14;
+-    }
+-
+-    return env->spr[SPR_POWER_MMCR0] & MMCR0_FC56;
+-}
+-
+ static bool pmc_has_overflow_enabled(CPUPPCState *env, int sprn)
  {
-+    target_ulong mmcr0 = env->spr[SPR_POWER_MMCR0];
-+    unsigned ins_cnt = env->pmc_ins_cnt;
-     bool overflow_triggered = false;
+     if (sprn == SPR_POWER_PMC1) {
+@@ -46,80 +33,6 @@ static bool pmc_has_overflow_enabled(CPUPPCState *env, int sprn)
+     return env->spr[SPR_POWER_MMCR0] & MMCR0_PMCjCE;
+ }
+ 
+-/*
+- * For PMCs 1-4, IBM POWER chips has support for an implementation
+- * dependent event, 0x1E, that enables cycle counting. The Linux kernel
+- * makes extensive use of 0x1E, so let's also support it.
+- *
+- * Likewise, event 0x2 is an implementation-dependent event that IBM
+- * POWER chips implement (at least since POWER8) that is equivalent to
+- * PM_INST_CMPL. Let's support this event on PMCs 1-4 as well.
+- */
+-static PMUEventType pmc_get_event(CPUPPCState *env, int sprn)
+-{
+-    uint8_t mmcr1_evt_extr[] = { MMCR1_PMC1EVT_EXTR, MMCR1_PMC2EVT_EXTR,
+-                                 MMCR1_PMC3EVT_EXTR, MMCR1_PMC4EVT_EXTR };
+-    PMUEventType evt_type = PMU_EVENT_INVALID;
+-    uint8_t pmcsel;
+-    int i;
+-
+-    if (pmc_is_inactive(env, sprn)) {
+-        return PMU_EVENT_INACTIVE;
+-    }
+-
+-    if (sprn == SPR_POWER_PMC5) {
+-        return PMU_EVENT_INSTRUCTIONS;
+-    }
+-
+-    if (sprn == SPR_POWER_PMC6) {
+-        return PMU_EVENT_CYCLES;
+-    }
+-
+-    i = sprn - SPR_POWER_PMC1;
+-    pmcsel = extract64(env->spr[SPR_POWER_MMCR1], mmcr1_evt_extr[i],
+-                       MMCR1_EVT_SIZE);
+-
+-    switch (pmcsel) {
+-    case 0x2:
+-        evt_type = PMU_EVENT_INSTRUCTIONS;
+-        break;
+-    case 0x1E:
+-        evt_type = PMU_EVENT_CYCLES;
+-        break;
+-    case 0xF0:
+-        /*
+-         * PMC1SEL = 0xF0 is the architected PowerISA v3.1
+-         * event that counts cycles using PMC1.
+-         */
+-        if (sprn == SPR_POWER_PMC1) {
+-            evt_type = PMU_EVENT_CYCLES;
+-        }
+-        break;
+-    case 0xFA:
+-        /*
+-         * PMC4SEL = 0xFA is the "instructions completed
+-         * with run latch set" event.
+-         */
+-        if (sprn == SPR_POWER_PMC4) {
+-            evt_type = PMU_EVENT_INSN_RUN_LATCH;
+-        }
+-        break;
+-    case 0xFE:
+-        /*
+-         * PMC1SEL = 0xFE is the architected PowerISA v3.1
+-         * event to sample instructions using PMC1.
+-         */
+-        if (sprn == SPR_POWER_PMC1) {
+-            evt_type = PMU_EVENT_INSTRUCTIONS;
+-        }
+-        break;
+-    default:
+-        break;
+-    }
+-
+-    return evt_type;
+-}
+-
+ void pmu_update_summaries(CPUPPCState *env)
+ {
+     target_ulong mmcr0 = env->spr[SPR_POWER_MMCR0];
+@@ -233,18 +146,16 @@ static void pmu_update_cycles(CPUPPCState *env)
+ {
+     uint64_t now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
+     uint64_t time_delta = now - env->pmu_base_time;
 -    int sprn;
-+    target_ulong tmp;
++    int sprn, cyc_cnt = env->pmc_cyc_cnt;
  
--    /* PMC6 never counts instructions */
--    for (sprn = SPR_POWER_PMC1; sprn <= SPR_POWER_PMC5; sprn++) {
--        PMUEventType evt_type = pmc_get_event(env, sprn);
--        bool insn_event = evt_type == PMU_EVENT_INSTRUCTIONS ||
--                          evt_type == PMU_EVENT_INSN_RUN_LATCH;
--
--        if (pmc_is_inactive(env, sprn) || !insn_event) {
+     for (sprn = SPR_POWER_PMC1; sprn <= SPR_POWER_PMC6; sprn++) {
+-        if (pmc_get_event(env, sprn) != PMU_EVENT_CYCLES) {
 -            continue;
-+    if (unlikely(ins_cnt & 0x1e)) {
-+        if (ins_cnt & (1 << 1)) {
-+            tmp = env->spr[SPR_POWER_PMC1];
-+            tmp += num_insns;
-+            if (tmp >= PMC_COUNTER_NEGATIVE_VAL && (mmcr0 & MMCR0_PMC1CE)) {
-+                tmp = PMC_COUNTER_NEGATIVE_VAL;
-+                overflow_triggered = true;
-+            }
-+            env->spr[SPR_POWER_PMC1] = tmp;
++        if (cyc_cnt & (1 << (sprn - SPR_POWER_PMC1 + 1))) {
++            /*
++             * The pseries and powernv clock runs at 1Ghz, meaning
++             * that 1 nanosec equals 1 cycle.
++             */
++            env->spr[sprn] += time_delta;
          }
- 
--        if (evt_type == PMU_EVENT_INSTRUCTIONS) {
--            env->spr[sprn] += num_insns;
-+        if (ins_cnt & (1 << 2)) {
-+            tmp = env->spr[SPR_POWER_PMC2];
-+            tmp += num_insns;
-+            if (tmp >= PMC_COUNTER_NEGATIVE_VAL && (mmcr0 & MMCR0_PMCjCE)) {
-+                tmp = PMC_COUNTER_NEGATIVE_VAL;
-+                overflow_triggered = true;
-+            }
-+            env->spr[SPR_POWER_PMC2] = tmp;
-         }
- 
--        if (evt_type == PMU_EVENT_INSN_RUN_LATCH &&
--            env->spr[SPR_CTRL] & CTRL_RUN) {
--            env->spr[sprn] += num_insns;
-+        if (ins_cnt & (1 << 3)) {
-+            tmp = env->spr[SPR_POWER_PMC3];
-+            tmp += num_insns;
-+            if (tmp >= PMC_COUNTER_NEGATIVE_VAL && (mmcr0 & MMCR0_PMCjCE)) {
-+                tmp = PMC_COUNTER_NEGATIVE_VAL;
-+                overflow_triggered = true;
-+            }
-+            env->spr[SPR_POWER_PMC3] = tmp;
-         }
- 
--        if (env->spr[sprn] >= PMC_COUNTER_NEGATIVE_VAL &&
--            pmc_has_overflow_enabled(env, sprn)) {
-+        if (ins_cnt & (1 << 4)) {
-+            target_ulong mmcr1 = env->spr[SPR_POWER_MMCR1];
-+            int sel = extract64(mmcr1, MMCR1_PMC4EVT_EXTR, MMCR1_EVT_SIZE);
-+            if (sel == 0x02 || (env->spr[SPR_CTRL] & CTRL_RUN)) {
-+                tmp = env->spr[SPR_POWER_PMC4];
-+                tmp += num_insns;
-+                if (tmp >= PMC_COUNTER_NEGATIVE_VAL && (mmcr0 & MMCR0_PMCjCE)) {
-+                    tmp = PMC_COUNTER_NEGATIVE_VAL;
-+                    overflow_triggered = true;
-+                }
-+                env->spr[SPR_POWER_PMC4] = tmp;
-+            }
-+        }
-+    }
- 
-+    if (ins_cnt & (1 << 5)) {
-+        tmp = env->spr[SPR_POWER_PMC5];
-+        tmp += num_insns;
-+        if (tmp >= PMC_COUNTER_NEGATIVE_VAL && (mmcr0 & MMCR0_PMCjCE)) {
-+            tmp = PMC_COUNTER_NEGATIVE_VAL;
-             overflow_triggered = true;
 -
--            /*
--             * The real PMU will always trigger a counter overflow with
--             * PMC_COUNTER_NEGATIVE_VAL. We don't have an easy way to
--             * do that since we're counting block of instructions at
--             * the end of each translation block, and we're probably
--             * passing this value at this point.
--             *
--             * Let's write PMC_COUNTER_NEGATIVE_VAL to the overflowed
--             * counter to simulate what the real hardware would do.
--             */
--            env->spr[sprn] = PMC_COUNTER_NEGATIVE_VAL;
-         }
-+        env->spr[SPR_POWER_PMC5] = tmp;
+-        /*
+-         * The pseries and powernv clock runs at 1Ghz, meaning
+-         * that 1 nanosec equals 1 cycle.
+-         */
+-        env->spr[sprn] += time_delta;
      }
  
-     return overflow_triggered;
+     /* Update base_time for future calculations */
+@@ -273,7 +184,7 @@ static void pmc_update_overflow_timer(CPUPPCState *env, int sprn)
+         return;
+     }
+ 
+-    if (pmc_get_event(env, sprn) != PMU_EVENT_CYCLES ||
++    if (!(env->pmc_cyc_cnt & (1 << (sprn - SPR_POWER_PMC1 + 1))) ||
+         !pmc_has_overflow_enabled(env, sprn)) {
+         /* Overflow timer is not needed for this counter */
+         timer_del(pmc_overflow_timer);
+@@ -281,7 +192,7 @@ static void pmc_update_overflow_timer(CPUPPCState *env, int sprn)
+     }
+ 
+     if (env->spr[sprn] >= PMC_COUNTER_NEGATIVE_VAL) {
+-        timeout =  0;
++        timeout = 0;
+     } else {
+         timeout = PMC_COUNTER_NEGATIVE_VAL - env->spr[sprn];
+     }
 -- 
 2.25.1
 
