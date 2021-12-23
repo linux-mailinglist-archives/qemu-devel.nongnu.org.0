@@ -2,60 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD5E547E405
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Dec 2021 14:17:58 +0100 (CET)
-Received: from localhost ([::1]:54842 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6C7347E3E8
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Dec 2021 14:03:03 +0100 (CET)
+Received: from localhost ([::1]:58578 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n0Nym-00019W-MA
-	for lists+qemu-devel@lfdr.de; Thu, 23 Dec 2021 08:17:56 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47350)
+	id 1n0NkM-0000iY-Jc
+	for lists+qemu-devel@lfdr.de; Thu, 23 Dec 2021 08:03:02 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52276)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1n0NGf-00068V-Ub
- for qemu-devel@nongnu.org; Thu, 23 Dec 2021 07:32:22 -0500
-Received: from mga03.intel.com ([134.134.136.65]:51964)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1n0Nca-0004Fq-Ef
+ for qemu-devel@nongnu.org; Thu, 23 Dec 2021 07:55:00 -0500
+Received: from 8.mo552.mail-out.ovh.net ([46.105.37.156]:58839)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1n0NGd-0002i3-Ua
- for qemu-devel@nongnu.org; Thu, 23 Dec 2021 07:32:21 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1640262740; x=1671798740;
- h=from:to:cc:subject:date:message-id:in-reply-to: references;
- bh=4zBy2wqGUUHRa+bg8KFrUxUekBSmOOoI4eennjfoLXQ=;
- b=J+wv3t9CRlviaaKufv1mX5w42aJMVuNztWypGR8hfm7EOmHZICmVOxtb
- tDNBNf7DUjNZAppKrqIODb34gwx8MpFSQGIar3UqZvKm5z+jEi42phNcD
- us0VC3pLEz0Wrsjv8o/R1Px8Ewt/D9++l8XOxGE3mZtBpYSQCQc4Tor0p
- rv0HCFT6gDvANhfjFjx6b12odscKFHm7WZDz4T3V/Ngy+osFHQKCSuVA0
- VCBY1HciOUvmuS0sO90n8S1oN/Auzm625+UCX2ZqWI5voBaL//oIwKCne
- qCdkHqHE9tj5zJ6qiVSRoC2uKKWFD+i/sYrRuGf04eE3xDoRMm9VRCDF2 w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10206"; a="240769690"
-X-IronPort-AV: E=Sophos;i="5.88,229,1635231600"; d="scan'208";a="240769690"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Dec 2021 04:32:16 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,229,1635231600"; d="scan'208";a="522078930"
-Received: from chaop.bj.intel.com ([10.240.192.101])
- by orsmga008.jf.intel.com with ESMTP; 23 Dec 2021 04:32:09 -0800
-From: Chao Peng <chao.p.peng@linux.intel.com>
-To: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, qemu-devel@nongnu.org
-Subject: [PATCH v3 kvm/queue 10/16] KVM: Implement fd-based memory invalidation
-Date: Thu, 23 Dec 2021 20:30:05 +0800
-Message-Id: <20211223123011.41044-11-chao.p.peng@linux.intel.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20211223123011.41044-1-chao.p.peng@linux.intel.com>
-References: <20211223123011.41044-1-chao.p.peng@linux.intel.com>
-Received-SPF: none client-ip=134.134.136.65;
- envelope-from=chao.p.peng@linux.intel.com; helo=mga03.intel.com
-X-Spam_score_int: -44
-X-Spam_score: -4.5
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1n0NcY-0000Vq-59
+ for qemu-devel@nongnu.org; Thu, 23 Dec 2021 07:55:00 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.108.4.102])
+ by mo552.mail-out.ovh.net (Postfix) with ESMTPS id C049C21F07;
+ Thu, 23 Dec 2021 12:54:54 +0000 (UTC)
+Received: from kaod.org (37.59.142.106) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.17; Thu, 23 Dec
+ 2021 13:54:53 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-106R006d1cdff10-8dbf-40ca-bfec-f5be4f535fb7,
+ 8CA006CF2B51D87471028670A5C113E20BDD9F51) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.66.77.115
+Message-ID: <8df385c9-b25c-80bb-fb27-88f774eb44c6@kaod.org>
+Date: Thu, 23 Dec 2021 13:54:52 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH] Supporting AST2600 HACE engine accumulative mode
+Content-Language: en-US
+To: Troy Lee <troy_lee@aspeedtech.com>, <qemu-devel@nongnu.org>
+References: <20211222022231.231575-1-troy_lee@aspeedtech.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20211222022231.231575-1-troy_lee@aspeedtech.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.106]
+X-ClientProxiedBy: DAG6EX2.mxp5.local (172.16.2.52) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 7b00df1d-4c0d-4f41-b8ff-78b2ff9794cf
+X-Ovh-Tracer-Id: 8186981174223866732
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddruddtkedggeejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtjeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhephffhleegueektdetffdvffeuieeugfekkeelheelteeftdfgtefffeehueegleehnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepkhhlrghusheskhhlrghushhkihifihdrtghomh
+Received-SPF: pass client-ip=46.105.37.156; envelope-from=clg@kaod.org;
+ helo=8.mo552.mail-out.ovh.net
+X-Spam_score_int: -41
+X-Spam_score: -4.2
 X-Spam_bar: ----
-X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.203,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.264,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -68,191 +69,135 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Wanpeng Li <wanpengli@tencent.com>, jun.nakajima@intel.com,
- david@redhat.com, "J . Bruce Fields" <bfields@fieldses.org>,
- dave.hansen@intel.com, "H . Peter Anvin" <hpa@zytor.com>,
- Chao Peng <chao.p.peng@linux.intel.com>, ak@linux.intel.com,
- Jonathan Corbet <corbet@lwn.net>, Joerg Roedel <joro@8bytes.org>,
- x86@kernel.org, Hugh Dickins <hughd@google.com>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- luto@kernel.org, Thomas Gleixner <tglx@linutronix.de>,
- Vitaly Kuznetsov <vkuznets@redhat.com>, Jim Mattson <jmattson@google.com>,
- Sean Christopherson <seanjc@google.com>, susie.li@intel.com,
- Jeff Layton <jlayton@kernel.org>, john.ji@intel.com,
- Yu Zhang <yu.c.zhang@linux.intel.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>,
+ leetroy@gmail.com, "open list:ASPEED
+ BMCs" <qemu-arm@nongnu.org>, Joel Stanley <joel@jms.id.au>,
+ klaus Heinrich Kiwi <klaus@klauskiwi.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-KVM gets notified when userspace punches a hole in a fd which is used
-for guest memory. KVM should invalidate the mapping in the secondary
-MMU page tables. This is the same logic as MMU notifier invalidation
-except the fd related information is carried around to indicate the
-memory range. KVM hence can reuse most of existing MMU notifier
-invalidation code including looping through the memslots and then
-calling into kvm_unmap_gfn_range() which should do whatever needed for
-fd-based memory unmapping (e.g. for private memory managed by TDX it
-may need call into SEAM-MODULE).
+[ Adding Klaus ]
 
-Signed-off-by: Yu Zhang <yu.c.zhang@linux.intel.com>
-Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
----
- include/linux/kvm_host.h |  8 ++++-
- virt/kvm/kvm_main.c      | 69 +++++++++++++++++++++++++++++++---------
- virt/kvm/memfd.c         |  2 ++
- 3 files changed, 63 insertions(+), 16 deletions(-)
-
-diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
-index 07863ff855cd..be567925831b 100644
---- a/include/linux/kvm_host.h
-+++ b/include/linux/kvm_host.h
-@@ -233,7 +233,7 @@ bool kvm_setup_async_pf(struct kvm_vcpu *vcpu, gpa_t cr2_or_gpa,
- int kvm_async_pf_wakeup_all(struct kvm_vcpu *vcpu);
- #endif
- 
--#ifdef KVM_ARCH_WANT_MMU_NOTIFIER
-+#if defined(KVM_ARCH_WANT_MMU_NOTIFIER) || defined(CONFIG_MEMFD_OPS)
- struct kvm_gfn_range {
- 	struct kvm_memory_slot *slot;
- 	gfn_t start;
-@@ -2012,4 +2012,10 @@ static inline void kvm_handle_signal_exit(struct kvm_vcpu *vcpu)
- /* Max number of entries allowed for each kvm dirty ring */
- #define  KVM_DIRTY_RING_MAX_ENTRIES  65536
- 
-+#ifdef CONFIG_MEMFD_OPS
-+int kvm_memfd_invalidate_range(struct kvm *kvm, struct inode *inode,
-+			       unsigned long start, unsigned long end);
-+#endif /* CONFIG_MEMFD_OPS */
-+
-+
- #endif
-diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
-index 7b7530b1ea1e..f495c1a313bd 100644
---- a/virt/kvm/kvm_main.c
-+++ b/virt/kvm/kvm_main.c
-@@ -468,7 +468,8 @@ void kvm_destroy_vcpus(struct kvm *kvm)
- }
- EXPORT_SYMBOL_GPL(kvm_destroy_vcpus);
- 
--#if defined(CONFIG_MMU_NOTIFIER) && defined(KVM_ARCH_WANT_MMU_NOTIFIER)
-+#if defined(CONFIG_MEMFD_OPS) ||\
-+	(defined(CONFIG_MMU_NOTIFIER) && defined(KVM_ARCH_WANT_MMU_NOTIFIER))
- 
- typedef bool (*gfn_handler_t)(struct kvm *kvm, struct kvm_gfn_range *range);
- 
-@@ -595,6 +596,30 @@ static __always_inline int __kvm_handle_useraddr_range(struct kvm *kvm,
- 	/* The notifiers are averse to booleans. :-( */
- 	return (int)ret;
- }
-+
-+static void mn_active_invalidate_count_inc(struct kvm *kvm)
-+{
-+	spin_lock(&kvm->mn_invalidate_lock);
-+	kvm->mn_active_invalidate_count++;
-+	spin_unlock(&kvm->mn_invalidate_lock);
-+
-+}
-+
-+static void mn_active_invalidate_count_dec(struct kvm *kvm)
-+{
-+	bool wake;
-+
-+	spin_lock(&kvm->mn_invalidate_lock);
-+	wake = (--kvm->mn_active_invalidate_count == 0);
-+	spin_unlock(&kvm->mn_invalidate_lock);
-+
-+	/*
-+	 * There can only be one waiter, since the wait happens under
-+	 * slots_lock.
-+	 */
-+	if (wake)
-+		rcuwait_wake_up(&kvm->mn_memslots_update_rcuwait);
-+}
- #endif
- 
- #if defined(CONFIG_MMU_NOTIFIER) && defined(KVM_ARCH_WANT_MMU_NOTIFIER)
-@@ -732,9 +757,7 @@ static int kvm_mmu_notifier_invalidate_range_start(struct mmu_notifier *mn,
- 	 *
- 	 * Pairs with the decrement in range_end().
- 	 */
--	spin_lock(&kvm->mn_invalidate_lock);
--	kvm->mn_active_invalidate_count++;
--	spin_unlock(&kvm->mn_invalidate_lock);
-+	mn_active_invalidate_count_inc(kvm);
- 
- 	__kvm_handle_useraddr_range(kvm, &useraddr_range);
- 
-@@ -773,21 +796,11 @@ static void kvm_mmu_notifier_invalidate_range_end(struct mmu_notifier *mn,
- 		.may_block	= mmu_notifier_range_blockable(range),
- 		.inode		= NULL,
- 	};
--	bool wake;
- 
- 	__kvm_handle_useraddr_range(kvm, &useraddr_range);
- 
- 	/* Pairs with the increment in range_start(). */
--	spin_lock(&kvm->mn_invalidate_lock);
--	wake = (--kvm->mn_active_invalidate_count == 0);
--	spin_unlock(&kvm->mn_invalidate_lock);
--
--	/*
--	 * There can only be one waiter, since the wait happens under
--	 * slots_lock.
--	 */
--	if (wake)
--		rcuwait_wake_up(&kvm->mn_memslots_update_rcuwait);
-+	mn_active_invalidate_count_dec(kvm);
- 
- 	BUG_ON(kvm->mmu_notifier_count < 0);
- }
-@@ -872,6 +885,32 @@ static int kvm_init_mmu_notifier(struct kvm *kvm)
- 
- #endif /* CONFIG_MMU_NOTIFIER && KVM_ARCH_WANT_MMU_NOTIFIER */
- 
-+#ifdef CONFIG_MEMFD_OPS
-+int kvm_memfd_invalidate_range(struct kvm *kvm, struct inode *inode,
-+			       unsigned long start, unsigned long end)
-+{
-+	int ret;
-+	const struct kvm_useraddr_range useraddr_range = {
-+		.start		= start,
-+		.end		= end,
-+		.pte		= __pte(0),
-+		.handler	= kvm_unmap_gfn_range,
-+		.on_lock	= (void *)kvm_null_fn,
-+		.flush_on_ret	= true,
-+		.may_block	= false,
-+		.inode		= inode,
-+	};
-+
-+
-+	/* Prevent memslot modification */
-+	mn_active_invalidate_count_inc(kvm);
-+	ret = __kvm_handle_useraddr_range(kvm, &useraddr_range);
-+	mn_active_invalidate_count_dec(kvm);
-+
-+	return ret;
-+}
-+#endif /* CONFIG_MEMFD_OPS */
-+
- #ifdef CONFIG_HAVE_KVM_PM_NOTIFIER
- static int kvm_pm_notifier_call(struct notifier_block *bl,
- 				unsigned long state,
-diff --git a/virt/kvm/memfd.c b/virt/kvm/memfd.c
-index 662393a76782..547f65f5a187 100644
---- a/virt/kvm/memfd.c
-+++ b/virt/kvm/memfd.c
-@@ -16,6 +16,8 @@ static const struct memfd_pfn_ops *memfd_ops;
- static void memfd_invalidate_page_range(struct inode *inode, void *owner,
- 					pgoff_t start, pgoff_t end)
- {
-+	kvm_memfd_invalidate_range(owner, inode, start >> PAGE_SHIFT,
-+						 end >> PAGE_SHIFT);
- }
- 
- static void memfd_fallocate(struct inode *inode, void *owner,
--- 
-2.17.1
+On 12/22/21 03:22, Troy Lee wrote:
+> Accumulative mode will supply a initial state and append padding bit at
+> the end of hash stream.  However, the crypto library will padding those
+> bit automatically, so ripped it off from iov array.
+> 
+> Signed-off-by: Troy Lee <troy_lee@aspeedtech.com>
+> ---
+>   hw/misc/aspeed_hace.c         | 30 ++++++++++++++++++++++++++++--
+>   include/hw/misc/aspeed_hace.h |  1 +
+>   2 files changed, 29 insertions(+), 2 deletions(-)
+> 
+> diff --git a/hw/misc/aspeed_hace.c b/hw/misc/aspeed_hace.c
+> index 10f00e65f4..7c1794d6d0 100644
+> --- a/hw/misc/aspeed_hace.c
+> +++ b/hw/misc/aspeed_hace.c
+> @@ -27,6 +27,7 @@
+>   
+>   #define R_HASH_SRC      (0x20 / 4)
+>   #define R_HASH_DEST     (0x24 / 4)
+> +#define R_HASH_KEY_BUFF (0x28 / 4)
+>   #define R_HASH_SRC_LEN  (0x2c / 4)
+>   
+>   #define R_HASH_CMD      (0x30 / 4)
+> @@ -94,7 +95,10 @@ static int hash_algo_lookup(uint32_t reg)
+>       return -1;
+>   }
+>   
+> -static void do_hash_operation(AspeedHACEState *s, int algo, bool sg_mode)
+> +static void do_hash_operation(AspeedHACEState *s,
+> +                              int algo,
+> +                              bool sg_mode,
+> +                              bool acc_mode)
+>   {
+>       struct iovec iov[ASPEED_HACE_MAX_SG];
+>       g_autofree uint8_t *digest_buf;
+> @@ -103,6 +107,7 @@ static void do_hash_operation(AspeedHACEState *s, int algo, bool sg_mode)
+>   
+>       if (sg_mode) {
+>           uint32_t len = 0;
+> +        uint32_t total_len = 0;
+>   
+>           for (i = 0; !(len & SG_LIST_LEN_LAST); i++) {
+>               uint32_t addr, src;
+> @@ -127,6 +132,21 @@ static void do_hash_operation(AspeedHACEState *s, int algo, bool sg_mode)
+>               plen = iov[i].iov_len;
+>               iov[i].iov_base = address_space_map(&s->dram_as, addr, &plen, false,
+>                                                   MEMTXATTRS_UNSPECIFIED);
+> +
+> +            total_len += plen;
+> +            if (acc_mode && len & SG_LIST_LEN_LAST) {
+> +                /*
+> +                 * Read the message length in bit from last 64/128 bits
+> +                 * and tear the padding bits from iov
+> +                 */
+> +                uint64_t stream_len;
+> +
+> +                memcpy(&stream_len, iov[i].iov_base + iov[i].iov_len - 8, 8);
+> +                stream_len = __bswap_64(stream_len) / 8;
+> +
+> +                if (total_len > stream_len)
+> +                    iov[i].iov_len -= total_len - stream_len;
+> +            }
+>           }
+>       } else {
+>           hwaddr len = s->regs[R_HASH_SRC_LEN];
+> @@ -210,6 +230,9 @@ static void aspeed_hace_write(void *opaque, hwaddr addr, uint64_t data,
+>       case R_HASH_DEST:
+>           data &= ahc->dest_mask;
+>           break;
+> +    case R_HASH_KEY_BUFF:
+> +        data &= ahc->key_mask;
+> +        break;
+>       case R_HASH_SRC_LEN:
+>           data &= 0x0FFFFFFF;
+>           break;
+> @@ -234,7 +257,7 @@ static void aspeed_hace_write(void *opaque, hwaddr addr, uint64_t data,
+>                           __func__, data & ahc->hash_mask);
+>                   break;
+>           }
+> -        do_hash_operation(s, algo, data & HASH_SG_EN);
+> +        do_hash_operation(s, algo, data & HASH_SG_EN, data & HASH_DIGEST_ACCUM);
+>   
+>           if (data & HASH_IRQ_EN) {
+>               qemu_irq_raise(s->irq);
+> @@ -333,6 +356,7 @@ static void aspeed_ast2400_hace_class_init(ObjectClass *klass, void *data)
+>   
+>       ahc->src_mask = 0x0FFFFFFF;
+>       ahc->dest_mask = 0x0FFFFFF8;
+> +    ahc->key_mask = 0x0FFFFFC0;
+>       ahc->hash_mask = 0x000003ff; /* No SG or SHA512 modes */
+>   }
+>   
+> @@ -351,6 +375,7 @@ static void aspeed_ast2500_hace_class_init(ObjectClass *klass, void *data)
+>   
+>       ahc->src_mask = 0x3fffffff;
+>       ahc->dest_mask = 0x3ffffff8;
+> +    ahc->key_mask = 0x3FFFFFC0;
+>       ahc->hash_mask = 0x000003ff; /* No SG or SHA512 modes */
+>   }
+>   
+> @@ -369,6 +394,7 @@ static void aspeed_ast2600_hace_class_init(ObjectClass *klass, void *data)
+>   
+>       ahc->src_mask = 0x7FFFFFFF;
+>       ahc->dest_mask = 0x7FFFFFF8;
+> +    ahc->key_mask = 0x7FFFFFF8;
+>       ahc->hash_mask = 0x00147FFF;
+>   }
+>   
+> diff --git a/include/hw/misc/aspeed_hace.h b/include/hw/misc/aspeed_hace.h
+> index 94d5ada95f..2242945eb4 100644
+> --- a/include/hw/misc/aspeed_hace.h
+> +++ b/include/hw/misc/aspeed_hace.h
+> @@ -37,6 +37,7 @@ struct AspeedHACEClass {
+>   
+>       uint32_t src_mask;
+>       uint32_t dest_mask;
+> +    uint32_t key_mask;
+>       uint32_t hash_mask;
+>   };
+>   
+> 
 
 
