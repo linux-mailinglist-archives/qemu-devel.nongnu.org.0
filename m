@@ -2,79 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8A3947E6B8
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Dec 2021 18:13:44 +0100 (CET)
-Received: from localhost ([::1]:59920 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA1BB47E6CC
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Dec 2021 18:18:18 +0100 (CET)
+Received: from localhost ([::1]:34734 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n0Rex-0000y8-BF
-	for lists+qemu-devel@lfdr.de; Thu, 23 Dec 2021 12:13:43 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59056)
+	id 1n0RjN-0003M0-T6
+	for lists+qemu-devel@lfdr.de; Thu, 23 Dec 2021 12:18:17 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60008)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1n0Rct-00007D-UC
- for qemu-devel@nongnu.org; Thu, 23 Dec 2021 12:11:36 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49734)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1n0RhG-0002YX-M1
+ for qemu-devel@nongnu.org; Thu, 23 Dec 2021 12:16:06 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23819)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1n0Rcq-00035K-MV
- for qemu-devel@nongnu.org; Thu, 23 Dec 2021 12:11:34 -0500
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1n0Rh5-0004Vw-22
+ for qemu-devel@nongnu.org; Thu, 23 Dec 2021 12:16:06 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1640279491;
+ s=mimecast20190719; t=1640279754;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=emjBsxpW2HO0Sn5kT0HJgA5pIhA5HsvbRUfLoO/yagE=;
- b=JW2AiVJ+yYBvIx/uulMz405C+W9u29Ycm/2N9LuH8eY/plB8FSGKbfkHdOWxOKt58vT2C+
- 33mVhlpsMc9ZE0LL5GLWceHo1J9AM2WjBQlJgp8Q1lxB+Pf3AzNQEoHt/tHGm3XoS4lUJM
- zIwoWlPb3yY59jdyFuvUtQpdYZzhIkg=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=1j5X1Na4nki8/9vb81bmDgmknEA/NzLqjrJewZGO5jM=;
+ b=FksmnuUORK6Lv5aVZU3ersm2PgBJYCZROTHBFWzsltlYqLkmgJEEX9eWlQEladn9ULddJF
+ kF86pq8VFsW5fAHZw2gjsB1vUT5pHohkqKm+Gld6zZ4u1wCSMBVYiBEKLaNdixysbGByPI
+ CHSQebzFBJec3AeuIjFM1ybXmIAuijg=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-26-7alWC4lvNSOGsLVhUxJ0nA-1; Thu, 23 Dec 2021 12:11:28 -0500
-X-MC-Unique: 7alWC4lvNSOGsLVhUxJ0nA-1
-Received: by mail-wm1-f72.google.com with SMTP id
- n3-20020a05600c3b8300b00345c3fc40b0so3025375wms.3
- for <qemu-devel@nongnu.org>; Thu, 23 Dec 2021 09:11:28 -0800 (PST)
+ us-mta-202-wTn1LBuAMiWWavhE4J1MOw-1; Thu, 23 Dec 2021 12:15:53 -0500
+X-MC-Unique: wTn1LBuAMiWWavhE4J1MOw-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ ay41-20020a05600c1e2900b00345a568e6b2so2227809wmb.4
+ for <qemu-devel@nongnu.org>; Thu, 23 Dec 2021 09:15:53 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=emjBsxpW2HO0Sn5kT0HJgA5pIhA5HsvbRUfLoO/yagE=;
- b=n32IPQpWP7nbELQEWi3ZGznXbiCOG7HI1rjgBgpGAO+F/aMTkl/b4qDCDpQpV3OhE8
- YmVZBuKZ3ZKsqj2YRXDwT0pwciXvPvo4/C/vx4t2W5hDQEntZKR10J93zIXEUnwueCR+
- VogNFEVwJhUALJjVtgyNicexmJfSX/TPT4Oq0Xu9ZAxEVVF1Ctn7UdfZOXASt+JpQ7w1
- VLnS0bAAsZ+dpdtl5VwyXJkyUEn3YdXRWWjjCttJ/PYb/05KSdX/zqoPFBh/m/mi7qQq
- 4cAS+wUBtfYDBqM2T9eF8xJEzfcuHJy6+gr/CShif079bMn175jzWtzLGBKRLJdLbbb+
- bW4g==
-X-Gm-Message-State: AOAM533RcN/5sUmO6P9FjGgmK1ghzTa/LfMLoyYvVwK1YOlezof6JVAg
- cC+wezBON0mj9C0Xl625u8CYY4IcHL+HMGYtxxst7Pf8tZT7fzVD+c4slDsPosNPtwoKLTrMCwT
- CrOKAYN8yaH8xsZg=
-X-Received: by 2002:a7b:ce8e:: with SMTP id q14mr2362500wmj.51.1640279487626; 
- Thu, 23 Dec 2021 09:11:27 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyq1fe9thiWVUonuAg12+Wl8+R+62zJBWtHsOUDo11gB0+grmMyFJV9sNQUfEFP1obRFqYzRA==
-X-Received: by 2002:a7b:ce8e:: with SMTP id q14mr2362471wmj.51.1640279487342; 
- Thu, 23 Dec 2021 09:11:27 -0800 (PST)
+ bh=1j5X1Na4nki8/9vb81bmDgmknEA/NzLqjrJewZGO5jM=;
+ b=6/PV3ft9KVVegfuPHIbHU99gjjUwTRiJGKKIKqjkO6x82EG/uHhMJs2+EQ7OMfKghI
+ b7OdQyi1DWnthCxzNOCtPV1kFsBpWP5hqnqHSd7rpOepqjyAopia0y38q1aO7yo7v87H
+ u0RyyrjAf6ejyLwTLNtxLqkRRoz5GxBPlFhIGiCxhUDC1bvyw5wLu0/1XBfXEp0A7Ats
+ FhZrPFcODcxf0skcsZGVSs9djQLvN+/oOe+yTUugjaeHb6XDIoCbzatuB+lGctw6GOx8
+ f1DTIEAMP59jHXzzXn/ITQLVrQ4IaX9Vg8fLmBGXlBSQDLNqbATMYw2K+1oLb12ok2w9
+ G9BQ==
+X-Gm-Message-State: AOAM532GI6i/a7VuIk5RHveubP4eYs8R0yCePKrLqFkJqZmdiup5TkjC
+ m3ZOr983mQsLztGvNJaIcQo/uzwd0OEb5cRCJ2IpvQm+nls6Yoyz1ww8qcpH7U259OaUxPvwJZM
+ z9NRJKXQb/aJpypQ=
+X-Received: by 2002:adf:f38a:: with SMTP id m10mr2200091wro.547.1640279750807; 
+ Thu, 23 Dec 2021 09:15:50 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzDEcD8/S0jbDuY2Uh3FT0yFCdNSJdHOMIoxIanQXd9QLjIMzANMqGrnmGNxkd8kmG0rtBB0A==
+X-Received: by 2002:adf:f38a:: with SMTP id m10mr2200063wro.547.1640279750528; 
+ Thu, 23 Dec 2021 09:15:50 -0800 (PST)
 Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
  ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
- by smtp.gmail.com with ESMTPSA id y11sm5441565wrp.86.2021.12.23.09.11.26
+ by smtp.gmail.com with ESMTPSA id r20sm4953150wmd.37.2021.12.23.09.15.49
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 23 Dec 2021 09:11:27 -0800 (PST)
-Message-ID: <1cfd3189-215f-6b91-f453-2fc87f64ce2a@redhat.com>
-Date: Thu, 23 Dec 2021 18:11:25 +0100
+ Thu, 23 Dec 2021 09:15:50 -0800 (PST)
+Message-ID: <3790b36c-d4e8-e619-a0a3-864e435ee292@redhat.com>
+Date: Thu, 23 Dec 2021 18:15:49 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.3.0
-Subject: Re: [PATCH v5 28/31] block.c: assert BQL lock held in
- bdrv_co_invalidate_cache
+Subject: Re: [PATCH v5 30/31] crypto: delegate permission functions to
+ JobDriver .pre_run
 To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
 References: <20211124064418.3120601-1-eesposit@redhat.com>
- <20211124064418.3120601-29-eesposit@redhat.com>
- <56deaef1-6a4e-c544-9916-42a20cc20c7a@redhat.com>
- <9ca5c434-ddf6-2ed3-08ae-92da5fc98013@redhat.com>
- <b1e190b3-7466-0d4e-554b-bd9d4ce5a43e@redhat.com>
+ <20211124064418.3120601-31-eesposit@redhat.com>
+ <ab01f9e1-447f-6c84-b409-2737548679d4@redhat.com>
+ <f0c3d869-c669-3f1b-34cd-8f2254074a3e@redhat.com>
 From: Hanna Reitz <hreitz@redhat.com>
-In-Reply-To: <b1e190b3-7466-0d4e-554b-bd9d4ce5a43e@redhat.com>
+In-Reply-To: <f0c3d869-c669-3f1b-34cd-8f2254074a3e@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -84,14 +83,13 @@ Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -52
-X-Spam_score: -5.3
-X-Spam_bar: -----
-X-Spam_report: (-5.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.203,
+X-Spam_score_int: -45
+X-Spam_score: -4.6
+X-Spam_bar: ----
+X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.203,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.264, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-2.264, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -117,169 +115,255 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 20.12.21 13:20, Emanuele Giuseppe Esposito wrote:
+On 20.12.21 16:47, Emanuele Giuseppe Esposito wrote:
 >
 >
-> On 17/12/2021 17:38, Emanuele Giuseppe Esposito wrote:
+> On 17/12/2021 13:29, Hanna Reitz wrote:
+>> On 24.11.21 07:44, Emanuele Giuseppe Esposito wrote:
+>>> block_crypto_amend_options_generic_luks uses the block layer
+>>> permission API, therefore it should be called with the BQL held.
+>>>
+>>> However, the same function is being called ib two BlockDriver
+>>
+>> s/ ib / by /
+>>
+>>> callbacks: bdrv_amend_options (under BQL) and bdrv_co_amend (I/O).
+>>>
+>>> The latter is I/O because it is invoked by block/amend.c's
+>>> blockdev_amend_run(), a .run callback of the amend JobDriver
+>>>
+>>> Therefore we want to 1) change block_crypto_amend_options_generic_luks
+>>> to use the permission API only when the BQL is held, and
+>>> 2) use the .pre_run JobDriver callback to check for
+>>> permissions before switching to the job aiocontext. This has also
+>>> the benefit of applying the same permission operation to all
+>>> amend implementations, not only luks.
+>>>
+>>> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+>>> ---
+>>>   block/amend.c  | 20 ++++++++++++++++++++
+>>>   block/crypto.c | 18 ++++++++++++------
+>>>   2 files changed, 32 insertions(+), 6 deletions(-)
+>>>
+>>> diff --git a/block/amend.c b/block/amend.c
+>>> index 392df9ef83..fba6add51a 100644
+>>> --- a/block/amend.c
+>>> +++ b/block/amend.c
+>>> @@ -53,10 +53,30 @@ static int coroutine_fn blockdev_amend_run(Job 
+>>> *job, Error **errp)
+>>>       return ret;
+>>>   }
+>>> +static int blockdev_amend_refresh_perms(Job *job, Error **errp)
+>>> +{
+>>> +    BlockdevAmendJob *s = container_of(job, BlockdevAmendJob, common);
+>>> +
+>>> +    return bdrv_child_refresh_perms(s->bs, s->bs->file, errp);
+>>> +}
+>>
+>> I miss some documentation for this function, why we do it and how it 
+>> works together with the bdrv_co_amend implementation.
+>
+>>
+>> I was trying to come up with an example text, but then I wondered – 
+>> how does it actually work? bdrv_child_refresh_perms() eventually ends 
+>> up in block_crypto_child_perms().  However, that will only return 
+>> exceptional permissions if crypto->updating_keys is true. But that’s 
+>> set only in block_crypto_amend_options_generic_luks() – i.e. when the 
+>> job runs. That’s exactly why that function calls 
+>> bdrv_child_refresh_perms() only after it has modified 
+>> crypto->updating_keys.
+>>
+>> Reproducer (amend on a LUKS image with read-only=true, so it doesn’t 
+>> have the WRITE permission continuously, but needs to take it as an 
+>> exception in block_crypto_child_perms()):
+>>
+>> $ qemu-img create \
+>>      -f luks \
+>>      --object secret,id=sec0,data=123456 \
+>>      -o key-secret=sec0 \
+>>      test.luks \
+>>      64M
+>> Formatting 'test.luks', fmt=luks size=67108864 key-secret=sec0
+>>
+>> $ ./qemu-system-x86_64 \
+>>      -object secret,id=sec0,data=123456 \
+>>      -object iothread,id=iothr0 \
+>>      -blockdev file,node-name=node0,filename=test.luks \
+>>      -blockdev 
+>> luks,node-name=node1,key-secret=sec0,file=node0,read-only=true \
+>>      -device virtio-blk,drive=node1,iothread=iothr0 -qmp stdio \
+>>      <<EOF
+>> {"execute": "qmp_capabilities"}
+>> {
+>>      "execute": "x-blockdev-amend",
+>>      "arguments": {
+>>          "job-id": "amend0",
+>>          "node-name": "node1",
+>>          "options": {
+>>              "driver": "luks",
+>>              "state": "active",
+>>              "new-secret": "sec0"
+>>          }
+>>      }
+>> }
+>> EOF
+>>
+>> {"QMP": {"version": {"qemu": {"micro": 93, "minor": 1, "major": 6}, 
+>> "package": "v6.2.0-rc3-50-gdb635fc4e7"}, "capabilities": ["oob"]}}
+>> {"return": {}}
+>> {"timestamp": {"seconds": 1639742600, "microseconds": 574641}, 
+>> "event": "JOB_STATUS_CHANGE", "data": {"status": "created", "id": 
+>> "amend0"}}
+>> {"timestamp": {"seconds": 1639742600, "microseconds": 574919}, 
+>> "event": "JOB_STATUS_CHANGE", "data": {"status": "running", "id": 
+>> "amend0"}}
+>> {"return": {}}
+>> qemu-system-x86_64: ../block/io.c:2041: bdrv_co_write_req_prepare: 
+>> Assertion `child->perm & BLK_PERM_WRITE' failed.
+>> [1]    55880 IOT instruction (core dumped)  ./qemu-system-x86_64 
+>> -object secret,id=sec0,data=123456 -object  -blockdev
 >>
 >>
->> On 17/12/2021 12:04, Hanna Reitz wrote:
->>> On 24.11.21 07:44, Emanuele Giuseppe Esposito wrote:
->>>> bdrv_co_invalidate_cache is special: it is an I/O function,
->>>
->>> I still don’t believe it is, but well.
->>>
->>> (Yes, it is called by a test in an iothread, but I believe we’ve 
->>> seen that the tests simply sometimes test things that shouldn’t be 
->>> allowed.)
->>>
->>>> but uses the block layer permission API, which is GS.
->>>>
->>>> Because of this, we can assert that either the function is
->>>> being called with BQL held, and thus can use the permission API,
->>>> or make sure that the permission API is not used, by ensuring that
->>>> bs (and parents) .open_flags does not contain BDRV_O_INACTIVE.
->>>>
->>>> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
->>>> ---
->>>>   block.c | 26 ++++++++++++++++++++++++++
->>>>   1 file changed, 26 insertions(+)
->>>>
->>>> diff --git a/block.c b/block.c
->>>> index a0309f827d..805974676b 100644
->>>> --- a/block.c
->>>> +++ b/block.c
->>>> @@ -6574,6 +6574,26 @@ void bdrv_init_with_whitelist(void)
->>>>       bdrv_init();
->>>>   }
->>>> +static bool bdrv_is_active(BlockDriverState *bs)
->>>> +{
->>>> +    BdrvChild *parent;
->>>> +
->>>> +    if (bs->open_flags & BDRV_O_INACTIVE) {
->>>> +        return false;
->>>> +    }
->>>> +
->>>> +    QLIST_FOREACH(parent, &bs->parents, next_parent) {
->>>> +        if (parent->klass->parent_is_bds) {
->>>> +            BlockDriverState *parent_bs = parent->opaque;
->>>
->>> This looks like a really bad hack to me.  We purposefully have made 
->>> the parent link opaque so that a BDS cannot easily reach its 
->>> parents.  All accesses should go through BdrvChildClass methods.
->>>
->>> I also don’t understand why we need to query parents at all. The 
->>> only fact that determines whether the current BDS will have its 
->>> permissions changed is whether the BDS itself is active or 
->>> inactive.  Sure, we’ll invoke bdrv_co_invalidate_cache() on the 
->>> parents, too, but then we could simply let the assertion fail there.
->>>
->>>> +            if (!bdrv_is_active(parent_bs)) {
->>>> +                return false;
->>>> +            }
->>>> +        }
->>>> +    }
->>>> +
->>>> +   return true;
->>>> +}
->>>> +
->>>>   int coroutine_fn bdrv_co_invalidate_cache(BlockDriverState *bs, 
->>>> Error **errp)
->>>>   {
->>>>       BdrvChild *child, *parent;
->>>> @@ -6585,6 +6605,12 @@ int coroutine_fn 
->>>> bdrv_co_invalidate_cache(BlockDriverState *bs, Error **errp)
->>>>           return -ENOMEDIUM;
->>>>       }
->>>> +    /*
->>>> +     * No need to muck with permissions if bs is active.
->>>> +     * TODO: should activation be a separate function?
->>>> +     */
->>>> +    assert(qemu_in_main_thread() || bdrv_is_active(bs));
->>>> +
->>>
->>> I don’t understand this, really.  It looks to me like “if you don’t 
->>> call this in the main thread, this better be a no-op”, i.e., you 
->>> must never call this function in an I/O thread if you really want to 
->>> use it.  I.e. what I’d classify as a GS function.
->>>
->>> It sounds like this is just a special case for said test, and 
->>> special-casing code for tests sounds like a bad idea.
->>
->> Ok, but trying to leave just the qemu_in_main_thread() assertion 
->> makes test 307 (./check 307) fail.
->> I am actually not sure on why it fails, but I am sure it is because 
->> of the assertion, since without it it passes.
->>
->> I tried with gdb (./check -gdb 307 on one terminal and
->> gdb -iex "target remote localhost:12345"
->> in another) but it points me to this below, which I think is the ndb 
->> server getting the socket closed (because on the other side it 
->> crashed), and not the actual error.
->>
->>
->> Thread 1 "qemu-system-x86" received signal SIGPIPE, Broken pipe.
->> 0x00007ffff68af54d in sendmsg () from target:/lib64/libc.so.6
->> (gdb) bt
->> #0  0x00007ffff68af54d in sendmsg () from target:/lib64/libc.so.6
->> #1  0x0000555555c13cc9 in qio_channel_socket_writev (ioc=<optimized 
->> out>, iov=0x5555569a4870, niov=1, fds=0x0, nfds=<optimized out>, 
->> errp=0x0)
->>      at ../io/channel-socket.c:561
->> #2  0x0000555555c19b18 in qio_channel_writev_full_all 
->> (ioc=0x55555763b800, iov=iov@entry=0x7fffe8dffd80, niov=niov@entry=1, 
->> fds=fds@entry=0x0,
->>      nfds=nfds@entry=0, errp=errp@entry=0x0) at ../io/channel.c:240
->> #3  0x0000555555c19bd2 in qio_channel_writev_all (errp=0x0, niov=1, 
->> iov=0x7fffe8dffd80, ioc=<optimized out>) at ../io/channel.c:220
->> #4  qio_channel_write_all (ioc=<optimized out>, 
->> buf=buf@entry=0x7fffe8dffdd0 "", buflen=buflen@entry=20, 
->> errp=errp@entry=0x0) at ../io/channel.c:330
->> #5  0x0000555555c27e75 in nbd_write (errp=0x0, size=20, 
->> buffer=0x7fffe8dffdd0, ioc=<optimized out>) at ../nbd/nbd-internal.h:71
->> #6  nbd_negotiate_send_rep_len (client=client@entry=0x555556f60930, 
->> type=type@entry=1, len=len@entry=0, errp=errp@entry=0x0) at 
->> ../nbd/server.c:203
->> #7  0x0000555555c29db1 in nbd_negotiate_send_rep (errp=0x0, type=1, 
->> client=0x555556f60930) at ../nbd/server.c:211
->> --Type <RET> for more, q to quit, c to continue without paging--
->> #8  nbd_negotiate_options (errp=0x7fffe8dffe88, client=<optimized 
->> out>) at ../nbd/server.c:1224
->> #9  nbd_negotiate (errp=0x7fffe8dffe88, client=<optimized out>) at 
->> ../nbd/server.c:1340
->> #10 nbd_co_client_start (opaque=<optimized out>) at ../nbd/server.c:2715
->> #11 0x0000555555d70423 in coroutine_trampoline (i0=<optimized out>, 
->> i1=<optimized out>) at ../util/coroutine-ucontext.c:173
->> #12 0x00007ffff67f3820 in ?? () from target:/lib64/libc.so.6
->> #13 0x00007fffffffca80 in ?? ()
+>> I believe this means we need some new block driver function to 
+>> prepare for an amendment operation.  If so, another question comes 
+>> up, which is whether this preparatory function should then also call 
+>> bdrv_child_refresh_perms(), and then whether we should have a 
+>> clean-up function for symmetry.
 >>
 >
-> Ok the reason for this is line 89 of tests/qemu-iotests/307:
+> Yes, unfortunately it means that (see at the end of the mail for more).
 >
-> # Should ignore the iothread conflict, but then fail because of the
-> # permission conflict (and not crash)
-> vm.qmp_log('block-export-add', id='export1', type='nbd', 
-> node_name='null',
->                iothread='iothread1', fixed_iothread=False, writable=True)
+> I think it does not work because of crypto->updating_keys missing in 
+> blockdev_amend_pre_run(). That is why the permission is not correctly 
+> set and the example fails.
 >
-> This calls qmp_block_export_add() and then blk_exp_add(), that calls 
-> bdrv_invalidate_cache().
-> Both functions are running in the main thread, but then 
-> bdrv_invalidate_cache invokes bdrv_co_invalidate_cache() as a 
-> coroutine in the AioContext of the given bs, so not the main loop.
 >
-> So Hanna, what should we do here? This seems very similar to the 
-> discussion in patch 22, ie run blockdev-create (in this case 
-> block-export-add, which seems similar?) involving nodes in I/O threads.
+>>> +
+>>> +static int blockdev_amend_pre_run(Job *job, Error **errp)
+>>> +{
+>>> +    return blockdev_amend_refresh_perms(job, errp);
+>>> +}
+>>> +
+>>> +static void blockdev_amend_clean(Job *job)
+>>> +{
+>>> +    Error *errp;
+>>> +    blockdev_amend_refresh_perms(job, &errp);
+>>
+>> Do we really want to ignore this error?  If so, we shouldn’t pass a 
+>> pointer to an unused local variable, but NULL.
+>>
+>> If we don’t want to ignore it, we have the option of doing what you 
+>> do here and then at least reporting a potential error with 
+>> error_report_err(), and then freeing it, and we also must initialize 
+>> errp to NULL in this case.
+>
+> Going with this one above, thanks.
+>>
+>> If we expect no error to happen (e.g. because we require the amend 
+>> implementation to only release/share permissions and not 
+>> acquire/unshare them), then I’d expect passing &error_abort here.
+>>
+>>> +}
+>>> +
+>>>   static const JobDriver blockdev_amend_job_driver = {
+>>>       .instance_size = sizeof(BlockdevAmendJob),
+>>>       .job_type      = JOB_TYPE_AMEND,
+>>>       .run           = blockdev_amend_run,
+>>> +    .pre_run       = blockdev_amend_pre_run,
+>>> +    .clean         = blockdev_amend_clean,
+>>>   };
+>>>   void qmp_x_blockdev_amend(const char *job_id,
+>>> diff --git a/block/crypto.c b/block/crypto.c
+>>> index c8ba4681e2..82f154516c 100644
+>>> --- a/block/crypto.c
+>>> +++ b/block/crypto.c
+>>> @@ -780,6 +780,7 @@ 
+>>> block_crypto_get_specific_info_luks(BlockDriverState *bs, Error **errp)
+>>>   static int
+>>>   block_crypto_amend_options_generic_luks(BlockDriverState *bs,
+>>> QCryptoBlockAmendOptions *amend_options,
+>>> +                                        bool under_bql,
+>>
+>> This name makes sense in the context of this series, but not so much 
+>> outside of it.
+>>
+>> I’d rename it to e.g. “in_amend_job” (and invert its value), and then 
+>> explain that we don’t need to refresh the child permissions when 
+>> running in an amend job, because that job has already taken care of 
+>> that.
+>>
+>> OTOH, given that I believe we need some separate preparatory function 
+>> anyway, perhaps we should just pull out the 
+>> bdrv_child_refresh_perms() from this function altogether, so that we 
+>> have:
+>>
+>> block_crypto_amend_options_luks():
+>>
+>> /* sets updating_keys to true, and invokes bdrv_child_refresh_perms() */
+>> block_crypto_amend_options_prepare();
+>> block_crypto_amend_options_generic_luks();
+>> /* sets updating_keys to false, and invokes 
+>> bdrv_child_refresh_perms() */
+>> block_crypto_amend_options_clean();
+>>
+>>
+>> block_crypto_co_amend_luks():
+>>
+>> /* No need to prepare or clean up, that is taken care of by the amend 
+>> job */
+>> block_crypto_amend_options_generic_luks();
+>>
+>>
+>> (If we decide not to put bdrv_child_refresh_perms() into 
+>> prepare()/clean(), then it would need to be called by 
+>> block_crypto_amend_options_luks(); and if we decide not to have a 
+>> block_crypto_amend_options_clean(), then we’d need to inline it fully.)
+>
+> So a couple of things I will change (according with your feedbacks):
+>
+> - Remove the assertion job->aio_context == qemu_in_main_thread() done 
+> in job_co_entry, as it is wrong. I don't know why I added that, but we 
+> cannot assume that job->run() always run in the main context, because 
+> the job aiocontext can be different. I don't think there is a test 
+> doing that now, but it is possible. If run() was in the main context, 
+> then bdrv_co_amend (called only in blockdev_amend_run) would be GS 
+> too, but it isn't, also according with your comment in v4:
+>
+> "[...] .bdrv_co_amend very much strikes me like a GS function, but
+> it isn’t.  I’m afraid it must work on nodes that are not in the main
+> context, and it launches a job, so AFAIU we absolutely cannot run it
+> under the BQL."
+>
+> - Introduce block_crypto_amend_options_prepare and 
+> block_crypto_amend_options_clean, as you suggested above. These fix 
+> the GS call stack of block_crypto_amend_options_generic_luks()
+>
+> - Introduce .bdrv_pre_run() and .bdrv_cleanup(), respectively called 
+> by .job_pre_run() and .job_cleanup(). The reason is that we need to 
+> set crypto->updating_keys, otherwise the job amend won't temporary 
+> give the write permission so the example above would fail.
+>
+> So for the I/O callstack of block_crypto_amend_options_generic_luks() 
+> we will have:
+> job->pre_run():
+>     .bdrv_pre_run();
+>         crypto->update_keys = true;
+>     blockdev_amend_refresh_perms()
+>
+> job->run():
+>     block_crypto_amend_options_generic_luks()
+>
+> job->cleanup():
+>     .bdrv_cleanup();
+>         crypto->update_keys = false;
+>     blockdev_amend_refresh_perms()
 
-Honestly, I’m still thinking about this and haven’t come to a 
-conclusion.  It doesn’t seem invalid to run bdrv_co_invalidate_cache() 
-in the context of the BDS here, but then the assertion that the BDS is 
-already active seems kind of just lucky to work.
+Sounds good!  The only adjustment I’d make is to add “amend” somewhere 
+in the .bdrv functions (e.g. “.bdrv_amend_pre_run” and 
+“.bdrv_amend_cleanup”), because AFAIU they’ll still be amend-specific, 
+right?
 
-I plan to look into whether I can reproduce some case where the 
-assertion doesn’t hold (thinking of migration with a block device in an 
-iothread), and then see what I learn from this. :/
+(Happy holidays :))
 
 Hanna
 
