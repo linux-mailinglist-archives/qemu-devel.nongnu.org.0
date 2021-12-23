@@ -2,93 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98C1347E567
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Dec 2021 16:22:40 +0100 (CET)
-Received: from localhost ([::1]:51016 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E11C47E61D
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Dec 2021 16:59:13 +0100 (CET)
+Received: from localhost ([::1]:42306 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n0PvT-0005t4-5O
-	for lists+qemu-devel@lfdr.de; Thu, 23 Dec 2021 10:22:39 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34328)
+	id 1n0QUp-0003el-Hi
+	for lists+qemu-devel@lfdr.de; Thu, 23 Dec 2021 10:59:11 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41792)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1n0PtQ-00049A-C6
- for qemu-devel@nongnu.org; Thu, 23 Dec 2021 10:20:32 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53329)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1n0PtJ-0005ZJ-Ia
- for qemu-devel@nongnu.org; Thu, 23 Dec 2021 10:20:30 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1640272813;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=oePvyCjfiPluXvKJHkFTBpQziB6Ur/we0SCYw3saUlU=;
- b=NO6M9Fdt4IEdukKD9iGzs3JdwtZqzpMjc8tMbpt2/Qn0oY1y2QeAwfQVKc7svt70DI6LvX
- ihvr1X9x+va/v5olwQwR28xLyA8liQdrFXaLMeojsxPPyJ2Biy/23MNjLPkFEq1dfnj+hy
- quWslIDAba7JcezIPT8mjHMkeCoeORY=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-54-jwvcrBUyMOCPyo6DoKASEA-1; Thu, 23 Dec 2021 10:20:12 -0500
-X-MC-Unique: jwvcrBUyMOCPyo6DoKASEA-1
-Received: by mail-wm1-f71.google.com with SMTP id
- b75-20020a1c804e000000b0034569bde713so4803976wmd.9
- for <qemu-devel@nongnu.org>; Thu, 23 Dec 2021 07:20:12 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <klaus@klauskiwi.com>)
+ id 1n0QTi-0002xk-M9
+ for qemu-devel@nongnu.org; Thu, 23 Dec 2021 10:58:02 -0500
+Received: from [2607:f8b0:4864:20::d31] (port=35750
+ helo=mail-io1-xd31.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <klaus@klauskiwi.com>)
+ id 1n0QTg-0003tt-Iw
+ for qemu-devel@nongnu.org; Thu, 23 Dec 2021 10:58:02 -0500
+Received: by mail-io1-xd31.google.com with SMTP id y70so7692519iof.2
+ for <qemu-devel@nongnu.org>; Thu, 23 Dec 2021 07:57:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=klauskiwi-com.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=8p9MLaCKz/fqR+Dj6FewUhKVZsrPCzwWYzzcA88mmmo=;
+ b=s/WkxmIkQNxJs9nzOxQNdHF2GCUot5uUEtWLzW6p+IxvjG4zIZ2+zZw46zrm0Fgj87
+ IMpXGmfDaGMThN0nwzEZa56ASVQakieOzoORenlhzx298HBh4evCWONJq6SrwPrTZERu
+ Rv+pV+UkHOGgPOmeYa1fA/LtTtRC/k2cIveALEQMVko1bejJ4+Cpt/gspg+m70xzJFS6
+ BhEzdlQeHSVV1FFx+UUA+rjxrzTBNfgtn4NHSqkoUXhFpXSP6KyC+G77K+oqdf8VegP8
+ 7U0iWhGulV+hX5Gtt9+5I1rLbiRir6eCFOimKZXYZ7wyggPMS4zUvsJ0Qsca5BgBIuUM
+ LTyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=oePvyCjfiPluXvKJHkFTBpQziB6Ur/we0SCYw3saUlU=;
- b=iUBTZtd6BkSjPXdSSCmAXvIRmlzFy4EeA6mALx0vmJIddRpuKano8oRr2YiaN1Ie9Z
- dHO0h+yty/41osWoJWK2oi1jhYCaCxvj7iu9Nxw1oAx9dQbTNt1ub02bKWd8L8ZgTHJ+
- wc48ycUJgsx36A28oYd4KaUEacph6cA37lJHmIbLxJ6d41/GOBdPk0wlfMFnH6ax/ai4
- B927iKpOFSiUn1PYi2G1vfAWg980XnigG8Bs3htsENrPANUbwJ1DfMM1ulWfcLHl2hho
- OQ1Rno4FyXBfj1XCnDTnsB1ClGzBYkzqIRkhvof0/WkwCwDs9RH5NlIJMHr9p2Q7PUYv
- Gu8g==
-X-Gm-Message-State: AOAM530V1XheYfHOpCP/tzX60k1+2zCnYAFaarbfL0ggKzWIBC/Dmua+
- +k5f5DjzssJpK5+VMEOloqQ/v2jrL1kNTukxQQhUol2Nwz6JAKhzgw3omb4CxzifssYoRljFKOS
- VqBgnK6l4t8QvBH8=
-X-Received: by 2002:a5d:6e85:: with SMTP id k5mr2131226wrz.545.1640272811146; 
- Thu, 23 Dec 2021 07:20:11 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJym41C4kcr94pNjSEaCo/9kxaYh424V57Q2UzTCc7eVQkZZLNyn9uggYrjsXoEr5P0tg333HA==
-X-Received: by 2002:a5d:6e85:: with SMTP id k5mr2131219wrz.545.1640272810929; 
- Thu, 23 Dec 2021 07:20:10 -0800 (PST)
-Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
- ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
- by smtp.gmail.com with ESMTPSA id t12sm5772768wrs.72.2021.12.23.07.20.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 23 Dec 2021 07:20:10 -0800 (PST)
-Message-ID: <3fc5f1c1-74d1-4e2a-5552-4296304bf5f3@redhat.com>
-Date: Thu, 23 Dec 2021 16:20:10 +0100
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=8p9MLaCKz/fqR+Dj6FewUhKVZsrPCzwWYzzcA88mmmo=;
+ b=zM6fXr26+zlpgZpydPcTAZEbNU+/4Z2D8BfpZEfrS9AxO09gKKeZHHw7RdPW22JyH5
+ bNtAU/UYsKPQrwpgmY0JILJDGOnpBhXeC91XL+uk5eSuQI4NcqaMSQ/G8yve9sS/4WTy
+ xsYXTM8t8ju3BuzkRAF/QYcfvAhE9VHr1CHy9J5clonwlPGAgehio/fLTwhc7hLrCE8E
+ wRrCSB8jUqZhGRzJ1Ej0KQ14kJ0CnE0McUD98PCF8l+NlrLR5hOokfEzO2Pu+leZUjfV
+ +da2dMG1K94GyXy3FIvPkOhYjVsZKj0aQKSbS9j3heYrvCDTjusG7PqQLW5e6EhuTFhF
+ JjvA==
+X-Gm-Message-State: AOAM531K5q4w1T2nrRxa3fA/vpfJq37WgGzd1b41ntDKphv/Cuqkgkc2
+ ALzJsH0l7ptXrvjdSfAQ525Go9cOk3Q1vfbOp+EIiA==
+X-Google-Smtp-Source: ABdhPJxA04tmo1S8zykjfguBGWHQrIFanhj/zZGCnfmkTTuabE3mzT8UH18OndkHJU/K44X/T/9zNpcp62D4QBEvQNY=
+X-Received: by 2002:a05:6638:3815:: with SMTP id
+ i21mr1656512jav.192.1640275078835; 
+ Thu, 23 Dec 2021 07:57:58 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH for-7.0] tests/qemu-iotests: Fix 051 for binaries without
- 'lsi53c895a'
-To: Thomas Huth <thuth@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- qemu-devel@nongnu.org
-References: <20211206143404.247032-1-thuth@redhat.com>
-From: Hanna Reitz <hreitz@redhat.com>
-In-Reply-To: <20211206143404.247032-1-thuth@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -52
-X-Spam_score: -5.3
-X-Spam_bar: -----
-X-Spam_report: (-5.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.203,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.264, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+References: <20211222022231.231575-1-troy_lee@aspeedtech.com>
+ <8df385c9-b25c-80bb-fb27-88f774eb44c6@kaod.org>
+In-Reply-To: <8df385c9-b25c-80bb-fb27-88f774eb44c6@kaod.org>
+From: Klaus Heinrich Kiwi <klaus@klauskiwi.com>
+Date: Thu, 23 Dec 2021 12:57:47 -0300
+Message-ID: <CAJOFXWgEqYTAL59Z2CPzQTedYqN9pWuyiEt7jbG1ENZinNj=2w@mail.gmail.com>
+Subject: Re: [PATCH] Supporting AST2600 HACE engine accumulative mode
+To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d31
+ (failed)
+Received-SPF: none client-ip=2607:f8b0:4864:20::d31;
+ envelope-from=klaus@klauskiwi.com; helo=mail-io1-xd31.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,25 +83,182 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-block@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>,
+ Troy Lee <troy_lee@aspeedtech.com>, qemu-devel@nongnu.org, leetroy@gmail.com,
+ "open list:ASPEED BMCs" <qemu-arm@nongnu.org>, Joel Stanley <joel@jms.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 06.12.21 15:34, Thomas Huth wrote:
-> The lsi53c895a SCSI adaptor might not be enabled in each and every
-> x86 QEMU binary, e.g. it's disabled in the RHEL/CentOS build.
-> Thus let's add a check to the 051 test so that it does not fail if
-> this device is not available.
+Em qui., 23 de dez. de 2021 =C3=A0s 09:54, C=C3=A9dric Le Goater <clg@kaod.=
+org> escreveu:
 >
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->   tests/qemu-iotests/051 | 4 ++++
->   1 file changed, 4 insertions(+)
+> [ Adding Klaus ]
 
-Thanks, applied to my block branch:
+Thanks Cedric. It's been a while since I've looked at this but I'll do my b=
+est..
 
-https://gitlab.com/hreitz/qemu/-/commits/block
+>
+> On 12/22/21 03:22, Troy Lee wrote:
+> > Accumulative mode will supply a initial state and append padding bit at
+> > the end of hash stream.  However, the crypto library will padding those
+> > bit automatically, so ripped it off from iov array.
+> >
+> > Signed-off-by: Troy Lee <troy_lee@aspeedtech.com>
+> > ---
+> >   hw/misc/aspeed_hace.c         | 30 ++++++++++++++++++++++++++++--
+> >   include/hw/misc/aspeed_hace.h |  1 +
+> >   2 files changed, 29 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/hw/misc/aspeed_hace.c b/hw/misc/aspeed_hace.c
+> > index 10f00e65f4..7c1794d6d0 100644
+> > --- a/hw/misc/aspeed_hace.c
+> > +++ b/hw/misc/aspeed_hace.c
+> > @@ -27,6 +27,7 @@
+> >
+> >   #define R_HASH_SRC      (0x20 / 4)
+> >   #define R_HASH_DEST     (0x24 / 4)
+> > +#define R_HASH_KEY_BUFF (0x28 / 4)
+> >   #define R_HASH_SRC_LEN  (0x2c / 4)
+> >
+> >   #define R_HASH_CMD      (0x30 / 4)
+> > @@ -94,7 +95,10 @@ static int hash_algo_lookup(uint32_t reg)
+> >       return -1;
+> >   }
+> >
+> > -static void do_hash_operation(AspeedHACEState *s, int algo, bool sg_mo=
+de)
+> > +static void do_hash_operation(AspeedHACEState *s,
+> > +                              int algo,
+> > +                              bool sg_mode,
+> > +                              bool acc_mode)
+> >   {
+> >       struct iovec iov[ASPEED_HACE_MAX_SG];
+> >       g_autofree uint8_t *digest_buf;
+> > @@ -103,6 +107,7 @@ static void do_hash_operation(AspeedHACEState *s, i=
+nt algo, bool sg_mode)
+> >
+> >       if (sg_mode) {
+> >           uint32_t len =3D 0;
+> > +        uint32_t total_len =3D 0;
+> >
+> >           for (i =3D 0; !(len & SG_LIST_LEN_LAST); i++) {
+> >               uint32_t addr, src;
+> > @@ -127,6 +132,21 @@ static void do_hash_operation(AspeedHACEState *s, =
+int algo, bool sg_mode)
+> >               plen =3D iov[i].iov_len;
+> >               iov[i].iov_base =3D address_space_map(&s->dram_as, addr, =
+&plen, false,
+> >                                                   MEMTXATTRS_UNSPECIFIE=
+D);
+> > +
+> > +            total_len +=3D plen;
+> > +            if (acc_mode && len & SG_LIST_LEN_LAST) {
+I think we should make the precedence here explicit (with the use of
+()) instead of implicit. Also, isn't (len * SGL_LIST_LEN_LAST) always
+true inside this for loop?
 
-Hanna
+> > +                /*
+> > +                 * Read the message length in bit from last 64/128 bit=
+s
+> > +                 * and tear the padding bits from iov
+> > +                 */
+> > +                uint64_t stream_len;
+> > +
+> > +                memcpy(&stream_len, iov[i].iov_base + iov[i].iov_len -=
+ 8, 8);
+> > +                stream_len =3D __bswap_64(stream_len) / 8;
+> > +
 
+I no longer have access to the aspeed workbook I guess, but what is
+the actual specification here? is the message length 64 or 128 bits?
+and bswap seems arch-dependent - you probably want to be explicit if
+this is big or little-endian and use the appropriate conversion
+function.
+
+> > +                if (total_len > stream_len)
+> > +                    iov[i].iov_len -=3D total_len - stream_len;
+> > +            }
+
+I guess you're not using total_len except for this comparison? Feels
+like there's a better way to first compare and then assign the value,
+other than assign, compare, re-assign etc.
+
+The rest of it looks fine apparently. Are you planning on adding to
+the testcases are well?
+
+Thanks,
+
+ -Klaus
+
+ /*
+ <klaus@klauskiwi.com> - http://blog.klauskiwi.com
+ */
+
+> >           }
+> >       } else {
+> >           hwaddr len =3D s->regs[R_HASH_SRC_LEN];
+> > @@ -210,6 +230,9 @@ static void aspeed_hace_write(void *opaque, hwaddr =
+addr, uint64_t data,
+> >       case R_HASH_DEST:
+> >           data &=3D ahc->dest_mask;
+> >           break;
+> > +    case R_HASH_KEY_BUFF:
+> > +        data &=3D ahc->key_mask;
+> > +        break;
+> >       case R_HASH_SRC_LEN:
+> >           data &=3D 0x0FFFFFFF;
+> >           break;
+> > @@ -234,7 +257,7 @@ static void aspeed_hace_write(void *opaque, hwaddr =
+addr, uint64_t data,
+> >                           __func__, data & ahc->hash_mask);
+> >                   break;
+> >           }
+> > -        do_hash_operation(s, algo, data & HASH_SG_EN);
+> > +        do_hash_operation(s, algo, data & HASH_SG_EN, data & HASH_DIGE=
+ST_ACCUM);
+> >
+> >           if (data & HASH_IRQ_EN) {
+> >               qemu_irq_raise(s->irq);
+> > @@ -333,6 +356,7 @@ static void aspeed_ast2400_hace_class_init(ObjectCl=
+ass *klass, void *data)
+> >
+> >       ahc->src_mask =3D 0x0FFFFFFF;
+> >       ahc->dest_mask =3D 0x0FFFFFF8;
+> > +    ahc->key_mask =3D 0x0FFFFFC0;
+> >       ahc->hash_mask =3D 0x000003ff; /* No SG or SHA512 modes */
+> >   }
+> >
+> > @@ -351,6 +375,7 @@ static void aspeed_ast2500_hace_class_init(ObjectCl=
+ass *klass, void *data)
+> >
+> >       ahc->src_mask =3D 0x3fffffff;
+> >       ahc->dest_mask =3D 0x3ffffff8;
+> > +    ahc->key_mask =3D 0x3FFFFFC0;
+> >       ahc->hash_mask =3D 0x000003ff; /* No SG or SHA512 modes */
+> >   }
+> >
+> > @@ -369,6 +394,7 @@ static void aspeed_ast2600_hace_class_init(ObjectCl=
+ass *klass, void *data)
+> >
+> >       ahc->src_mask =3D 0x7FFFFFFF;
+> >       ahc->dest_mask =3D 0x7FFFFFF8;
+> > +    ahc->key_mask =3D 0x7FFFFFF8;
+> >       ahc->hash_mask =3D 0x00147FFF;
+> >   }
+> >
+> > diff --git a/include/hw/misc/aspeed_hace.h b/include/hw/misc/aspeed_hac=
+e.h
+> > index 94d5ada95f..2242945eb4 100644
+> > --- a/include/hw/misc/aspeed_hace.h
+> > +++ b/include/hw/misc/aspeed_hace.h
+> > @@ -37,6 +37,7 @@ struct AspeedHACEClass {
+> >
+> >       uint32_t src_mask;
+> >       uint32_t dest_mask;
+> > +    uint32_t key_mask;
+> >       uint32_t hash_mask;
+> >   };
+> >
+> >
+>
 
