@@ -2,60 +2,134 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F37347E1CF
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Dec 2021 11:55:08 +0100 (CET)
-Received: from localhost ([::1]:50916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E58647E211
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Dec 2021 12:10:44 +0100 (CET)
+Received: from localhost ([::1]:44062 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n0LkZ-0004qT-5S
-	for lists+qemu-devel@lfdr.de; Thu, 23 Dec 2021 05:55:07 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44978)
+	id 1n0Lzd-0002s0-Px
+	for lists+qemu-devel@lfdr.de; Thu, 23 Dec 2021 06:10:41 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48090)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1n0Lio-0003S2-EL
- for qemu-devel@nongnu.org; Thu, 23 Dec 2021 05:53:20 -0500
-Received: from [2001:41c9:1:41f::167] (port=54478
- helo=mail.default.ilande.bv.iomart.io)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1n0LxF-0000Tx-Kb; Thu, 23 Dec 2021 06:08:13 -0500
+Received: from mail-eopbgr140107.outbound.protection.outlook.com
+ ([40.107.14.107]:9686 helo=EUR01-VE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1n0Lik-0001Zv-M4
- for qemu-devel@nongnu.org; Thu, 23 Dec 2021 05:53:16 -0500
-Received: from [2a00:23c4:8b9f:c400:72e2:646b:9043:c91d]
- by mail.default.ilande.bv.iomart.io with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1n0LiH-0001O2-9M; Thu, 23 Dec 2021 10:52:49 +0000
-To: yangxiaojuan <yangxiaojuan@loongson.cn>, qemu-devel@nongnu.org
-References: <1638619645-11283-1-git-send-email-yangxiaojuan@loongson.cn>
- <1638619645-11283-23-git-send-email-yangxiaojuan@loongson.cn>
- <1984f2fa-1ccd-af3a-7fb8-6770e0b27596@ilande.co.uk>
- <51bc3c8e-370b-7c42-1003-5b7535491adb@loongson.cn>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Message-ID: <6226db5a-3082-63d3-56a7-5a9b154bb056@ilande.co.uk>
-Date: Thu, 23 Dec 2021 10:52:59 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
-MIME-Version: 1.0
-In-Reply-To: <51bc3c8e-370b-7c42-1003-5b7535491adb@loongson.cn>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1n0LxD-0003is-Mh; Thu, 23 Dec 2021 06:08:12 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=O7SP+QCOD/4GCfMzasjoAgyUHw9fpQVLEgY2orEgqxMzVVwrLvHdKOul0lfsbJzl/QeboOWpNcq62xC5k1/ifRmt46s0rvTSCBTV6HCF9Oy0wh4pM8RsJaJs9A/H6b6xyQj/tGxivngwPYa/MQi+KAnf/2/vtMM8GzUFztp3sthtSnZPtuW/qI1fl2684QXZ3NbZKimTQY21+RShN1Zu+SlBXbp8reMw5uiiQ89rcHibHGCT4NZuraqb2Qcz+GxfLS2iBAF483Wmz/dKr3nPNwaKo3pHvTD9T2LneRJEPxXF2c0nDXHEsDrLegwagQNJUKyLECjK8Ryz2olhpL4Frg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=B9oJSgsBjH4N8E+ng9qYwu4miBD94i21hR31JFJQGUo=;
+ b=KcBY7+rWnxk87px68R07PcUo7d+sEUaIstOcCyNl4ompTzPeUEoBwt6TtfzjN7s5sYjKW4jYDjR6QHVPqc1zq0y1do90uGNz89DP2YETQiR4ImT/DWkhw8gP0hoKp+fpOlDJE6K1IYiuuSPb2WcFRE/0nAUwQmsikdGEJ1yRpO3XuhC1VvbMGN/XHIy9YAywX/KU1H42IT0v8Ce5a6SPSnkSJqM7PzmIKDnbmu5dHlAs3HzOdkbBim7dc8lpxSQwv33hV2GyKhCxDrAeJD7IELIsAKdgyRiGoEWXXXk2afVw+GnIZXgjDeSQpbm7nesOsFpmEdSPiOmorADvT9Et3A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=B9oJSgsBjH4N8E+ng9qYwu4miBD94i21hR31JFJQGUo=;
+ b=p1fGscrE6470qqJR+wQSxx9fYMloMHqQWW5NEntGyGUp0eRYWQgzydax1XCWxMSiCNvD5M8MoREW7sKbv1ELgQHLOghP98TMEO5TCGKaq8iGdujXZnl3ChxSBE8FiWftfzXo+esnDkmAJp5TMxmqZgUCPh9ufCsmIB3cOxYM/FQ=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM9PR08MB6737.eurprd08.prod.outlook.com (2603:10a6:20b:304::18)
+ by AM0PR08MB3700.eurprd08.prod.outlook.com (2603:10a6:208:fc::25)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4823.19; Thu, 23 Dec
+ 2021 11:08:05 +0000
+Received: from AM9PR08MB6737.eurprd08.prod.outlook.com
+ ([fe80::b118:483a:d003:3112]) by AM9PR08MB6737.eurprd08.prod.outlook.com
+ ([fe80::b118:483a:d003:3112%5]) with mapi id 15.20.4823.019; Thu, 23 Dec 2021
+ 11:08:05 +0000
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: qemu-devel@nongnu.org
+Cc: qemu-block@nongnu.org, stefanha@redhat.com, michael.roth@amd.com,
+ vsementsov@virtuozzo.com, jsnow@redhat.com, armbru@redhat.com,
+ hreitz@redhat.com, kwolf@redhat.com, pbonzini@redhat.com, philmd@redhat.com
+Subject: [PATCH v2 0/4] trace qmp commands
+Date: Thu, 23 Dec 2021 12:07:52 +0100
+Message-Id: <20211223110756.699148-1-vsementsov@virtuozzo.com>
+X-Mailer: git-send-email 2.31.1
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a00:23c4:8b9f:c400:72e2:646b:9043:c91d
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [RFC PATCH v3 22/27] hw/loongarch: Add some devices support for
- 3A5000.
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:41c9:1:41f::167
- (failed)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk;
- helo=mail.default.ilande.bv.iomart.io
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.264,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+X-ClientProxiedBy: AS9PR06CA0094.eurprd06.prod.outlook.com
+ (2603:10a6:20b:465::7) To AM9PR08MB6737.eurprd08.prod.outlook.com
+ (2603:10a6:20b:304::18)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: cb016c14-0722-47c9-bbda-08d9c6047e4a
+X-MS-TrafficTypeDiagnostic: AM0PR08MB3700:EE_
+X-Microsoft-Antispam-PRVS: <AM0PR08MB370044A1D579456241A2851DC17E9@AM0PR08MB3700.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:4714;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: wkdyymX6FAag+aHeqlUgAt5gRcl3tFAgMfqu7zJpFUGJKgHEDELbvYyjrjpON6XqisR2cvdhv0Mp26wBPwbpsO+xVPeN5APxcKALkeKHozGljgrrITum3SldvO+zxkN1esbm3t7zm3qU9RHGD5+/Nw6/k5C0iupy/SKd/9HUnxRDfOelngrxR6cJYYbUG+eFzJGeGtU+lnAFOoQ4Mu2VBmy6IR65/gMisLTu5dI5oekCIoRlD7+XI1whC+es68Mr+zAbvNh10hhMJ+prgNXAdBam6NlvF2MsR7xFA/pZJeOway7xhZXjZYBvLCb5q0ukydJT420b9IOl6GQ5LD1rUeq4PJfbWyauY6RcRRrH2GRqvZpH9a/NVKP03/Kn3W6iidxcTijSg5AyxqxX2jdD/57XAexso4G6AA0S6GbbjshqQYaijuiSCQ9kfsO64Spo7QoVXuc5Zlvpg/G4+UhEvCZLsGQFbA8AiyKUVKmxhDBUHsi9RdCzvAXco6JJkOW4Et4K5n1Gz+seEc1ExoPVC9TkytrExrgr0LWCnrTJIrGYVpTJJYzDYWyn39uk0HMGEEIfFoUEtuBtz4KIjcrQ6sA6O+1J3eJmQGX40O8n2ZPthg9eFAV9yxSXmYQ1juswleNYMlBtddHQLSGk3KC6cJKubiERxSJKBAe17cqpMYR/w3Y6mdxywhcYIjpz9zpE2R1H3CWbPHv1HeW6mvrdRA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM9PR08MB6737.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(52116002)(6916009)(66946007)(6506007)(2906002)(1076003)(4744005)(7416002)(6512007)(26005)(186003)(508600001)(8676002)(6666004)(316002)(83380400001)(86362001)(5660300002)(38100700002)(8936002)(38350700002)(66556008)(4326008)(66476007)(36756003)(6486002)(2616005);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cWdvODNWanpIcmRoUzNpUGptaUVma2l2MGh4bzJ4MjRHcnB4RUkxOCt2VnZZ?=
+ =?utf-8?B?bWNlb25NZ3BVNWJiMDI2SUN3bGZwOWNPeDhiZ0lrY3d0VGI1Ly8vQ2haTi9K?=
+ =?utf-8?B?aWswK3pDdjVkU0VGZmFYNENhSjJlcFlJbm1MQ2I1aGdZUVFGQUx5cTJLVUk4?=
+ =?utf-8?B?NUZVcGJPeUNsNDJZTDN2cGYrakg4RWtUVHpObElXL29qOENNUkxXKzhOMUs2?=
+ =?utf-8?B?SGM4YjZCS0JacFlqdFdoaXY4dEVOSFhXanJlSU0wdEJRWk9GdytLY3AwZTdD?=
+ =?utf-8?B?Z1FnQjA3ZzVjZ3JBT01UYXNGbFdqMTVJT0VyMFB5RTkyNUdmRXJyY1NIUW1a?=
+ =?utf-8?B?MnVRUGxlY2FOV0RwMDVNV2JQY2dKNmh1SW90YzNqVHBpZnJXcEgweHhCRnkr?=
+ =?utf-8?B?djFZUmVXYXgzVVhudjgzZzJ6UGg0c3RISGN3ei9KVWkrRnZYRDhZNkpqUE83?=
+ =?utf-8?B?VjkzcjI3TS8xUDlYcHF6ZG1mNDV2SmZZVXA5d2FVSnBVeG92UG42UVZVWnNM?=
+ =?utf-8?B?dmpEdkNxenBjd1lVeWFlY2FoSllwWUJvemFVSVhkVlhPM3NXN3dVMzAvamxG?=
+ =?utf-8?B?YkV5anUwSWdwZHRvbjQxWGw1SEw1VCtnb0ZyQ09SUTVYQnc3MFM5Z1dYMk9Q?=
+ =?utf-8?B?UTl5ZVRWaFNXU0kxaTdBc3dDcDRjTnZVL3ZET2IrcG1GNzROcjZsK1Y2VjRI?=
+ =?utf-8?B?RU5KT2p4QnJhd0dKUGZGbXEyNWZCb2FHZTZ3c3UwUWh4ek9Oall1TFQ0M3hq?=
+ =?utf-8?B?ejhyYXVsdWFMZTJ0TTVFZWRnTnRoVkU5MnkvWjRITC9OUTlmd2UySktDM3VK?=
+ =?utf-8?B?dE1udkxLc3VEN0pUSGRiZERZdzgyVE5UYUN1cHBLcG1sdUhQUDRadjhnVnlY?=
+ =?utf-8?B?TGtjRTVrR0JwbGU3NEVTSUFORkI4WVJicHZxNmczb2tsZjF0RU83K0VEYk1v?=
+ =?utf-8?B?TllBV3BtZDJDcDQvY1FSSERsblVaVVpra0xta2hZbURRTHUrRXN6a21VS0xC?=
+ =?utf-8?B?T1hXMkFiQktXL0tWVlZKYlJXRTIrRG9EOXRqUXgvZmNIQUswMEN2Q1craEVP?=
+ =?utf-8?B?M014ekVxcnBHZkZzNGpESllNZ29yQ1VpNzRjak5BYXpVSmZmWXB4c2ZHbGhj?=
+ =?utf-8?B?OUM5QVZoeHpiUnZaMXRuWTFmTlV6cnh1SzhHQlJHYXZDc2FnczNLd2l3Qk9w?=
+ =?utf-8?B?c0EwRUlCcnl1ZzRhdWNyKzBPckVYa0I0U0JGdVpleDlWMUpUL3FvUDg4K1VM?=
+ =?utf-8?B?ZE50QklINWNwaXRFSnBwa2pRSkpya1hwdnVsMU1uRUZ3aXg4cEJ0TTJ0dHFk?=
+ =?utf-8?B?U3hxVUtPVFBDUklpZHRlS1EvLzlQL2V3WE1JNzZwWG9FaVlYWWtIdjZjUFdL?=
+ =?utf-8?B?cG55T1FZaU8vZkYySDJUd09VU2FrRHRMQVRwUDNJYnFKcURKQllZdkF3cmw3?=
+ =?utf-8?B?bmVOVFlWZkZERWRLTVBIQ0VkRHJ3WDB3YlMzcHJFa0p4YWhuZkszMHJFcUli?=
+ =?utf-8?B?eEgxWXl5cVZNUDhPRHo1Q200K2xiOXZ5UFVSaURNUlpDS3UxWWZyenVqeUxa?=
+ =?utf-8?B?NTR4RDhoNWtUQTdtWlVFeHBkc240YlplbnBxSkZGeVNtRHU1WEs0U0FhUFkr?=
+ =?utf-8?B?VTZZOG5Gc084TDUzMFIyR3h3MDZkd2xWemRrWTJXY3cvRjBIWTRDNkJac3Bq?=
+ =?utf-8?B?WWs2Q3N1L3JvQjMwU1lyaHVVMDcyaUh6ZWVESlNUcVNWc0RhYVpuUmdXLytQ?=
+ =?utf-8?B?cW9BOVpwWHRtelNWMzlMak9STWV1QytRT0x0RzEvaUwyZm9XQy93WGRiNEcv?=
+ =?utf-8?B?MXJvWTA4VWEvb2w0UHBKNW1JVWk4K1RUUE41eGJ3WkxCTVBhOTMxOE5wMGRT?=
+ =?utf-8?B?cVByT2lQSmhPRTBqeGlEYmV2SEZZcHdTNDNmK25wNWl1cHgxcmRDS3NsdzJi?=
+ =?utf-8?B?SHlubTFLQTZxTnJRMEd3SUJJdjFkMjNocmR0OGFYZmJldnJYQk5HV2gvYitn?=
+ =?utf-8?B?TzUxWGRPQ0NLdFdNb2dRd1BEcDJsL1k0QS90aXdVRzlvS0pjbjRNT3RZUTBv?=
+ =?utf-8?B?MWNOMStzSzMvQUJ5Q0pQbXRQM2E3THo4SkQ0dTJBSUlKS2FmWmNwM1crbUcw?=
+ =?utf-8?B?c2lmWjlzVXh4TmRIazNCc2J0YldGRS9yWUVGYnRFTFR4aUUvbDZDMGhrYWRP?=
+ =?utf-8?B?RWVyQ0ZTSmk1WGpCb3YzbWI1ZnZGeDRVZmlXQlpOMVZRaXhvS0xzN0k5bXdx?=
+ =?utf-8?Q?snDvrodg+9wrmYMVHthRWfz9FFO0VN5tClDVl/nZhM=3D?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: cb016c14-0722-47c9-bbda-08d9c6047e4a
+X-MS-Exchange-CrossTenant-AuthSource: AM9PR08MB6737.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Dec 2021 11:08:05.2662 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 8gxzrt655NRr5usu2kSHwYwXmoi7mo9Woo/LMp0+fyALZwHFaTMm79n8JzGQhgDhvTHVAkoszeI4FZNtq/2bxmZ6kslP+ddg4Jlw1x/3fNA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR08MB3700
+Received-SPF: pass client-ip=40.107.14.107;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR01-VE1-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -69,311 +143,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, thuth@redhat.com, alex.bennee@linaro.org,
- i.qemu@xen0n.name, richard.henderson@linaro.org, laurent@vivier.eu,
- peterx@redhat.com, f4bug@amsat.org, alistair.francis@wdc.com,
- maobibo@loongson.cn, pbonzini@redhat.com, chenhuacai@loongson.cn,
- philmd@redhat.com, gaosong@loongson.cn
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 22/12/2021 08:26, yangxiaojuan wrote:
+Hi all!
 
-> Hi, Mark
-> 
-> On 12/18/2021 06:02 PM, Mark Cave-Ayland wrote:
->> On 04/12/2021 12:07, Xiaojuan Yang wrote:
->>
->>> 1.Add uart,virtio-net,vga and usb for 3A5000.
->>> 2.Add irq set and map for the pci host. Non pci device
->>> use irq 0-16, pci device use 16-64.
->>> 3.Add some unimplented device to emulate guest unused
->>> memory space.
->>>
->>> Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
->>> Signed-off-by: Song Gao <gaosong@loongson.cn>
->>> ---
->>>    hw/loongarch/Kconfig            |  8 +++++
->>>    hw/loongarch/loongson3.c        | 63 +++++++++++++++++++++++++++++++--
->>>    hw/pci-host/ls7a.c              | 42 +++++++++++++++++++++-
->>>    include/hw/intc/loongarch_ipi.h |  2 ++
->>>    include/hw/pci-host/ls7a.h      |  4 +++
->>>    softmmu/qdev-monitor.c          |  3 +-
->>>    6 files changed, 117 insertions(+), 5 deletions(-)
->>>
->>> diff --git a/hw/loongarch/Kconfig b/hw/loongarch/Kconfig
->>> index 468e3acc74..9ea3b92708 100644
->>> --- a/hw/loongarch/Kconfig
->>> +++ b/hw/loongarch/Kconfig
->>> @@ -1,5 +1,13 @@
->>>    config LOONGSON3_LS7A
->>>        bool
->>> +    imply VGA_PCI
->>> +    imply VIRTIO_VGA
->>> +    imply PARALLEL
->>> +    imply PCI_DEVICES
->>> +    select ISA_BUS
->>> +    select SERIAL
->>> +    select SERIAL_ISA
->>> +    select VIRTIO_PCI
->>>        select PCI_EXPRESS_7A
->>>        select LOONGARCH_IPI
->>>        select LOONGARCH_PCH_PIC
->>> diff --git a/hw/loongarch/loongson3.c b/hw/loongarch/loongson3.c
->>> index c42f830208..e4a02e7c18 100644
->>> --- a/hw/loongarch/loongson3.c
->>> +++ b/hw/loongarch/loongson3.c
->>> @@ -10,8 +10,11 @@
->>>    #include "qemu/datadir.h"
->>>    #include "qapi/error.h"
->>>    #include "hw/boards.h"
->>> +#include "hw/char/serial.h"
->>>    #include "sysemu/sysemu.h"
->>>    #include "sysemu/qtest.h"
->>> +#include "hw/irq.h"
->>> +#include "net/net.h"
->>>    #include "sysemu/runstate.h"
->>>    #include "sysemu/reset.h"
->>>    #include "hw/loongarch/loongarch.h"
->>> @@ -20,6 +23,7 @@
->>>    #include "hw/intc/loongarch_pch_pic.h"
->>>    #include "hw/intc/loongarch_pch_msi.h"
->>>    #include "hw/pci-host/ls7a.h"
->>> +#include "hw/misc/unimp.h"
->>>        static void loongarch_cpu_reset(void *opaque)
->>> @@ -91,11 +95,12 @@ static void sysbus_mmio_map_loongarch(SysBusDevice *dev, int n,
->>>        memory_region_add_subregion(iocsr, addr, dev->mmio[n].memory);
->>>    }
->>>    -static void loongson3_irq_init(MachineState *machine)
->>> +static PCIBus *loongson3_irq_init(MachineState *machine)
->>>    {
->>>        LoongArchMachineState *lams = LOONGARCH_MACHINE(machine);
->>> -    DeviceState *ipi, *extioi, *pch_pic, *pch_msi, *cpudev;
->>> +    DeviceState *ipi, *extioi, *pch_pic, *pch_msi, *cpudev, *pciehost;
->>>        SysBusDevice *d;
->>> +    PCIBus *pci_bus;
->>>        int cpu, pin, i;
->>>        unsigned long ipi_addr;
->>>    @@ -135,6 +140,10 @@ static void loongson3_irq_init(MachineState *machine)
->>>        sysbus_realize_and_unref(d, &error_fatal);
->>>        sysbus_mmio_map(d, 0, LS7A_IOAPIC_REG_BASE);
->>>    +    serial_mm_init(get_system_memory(), LS7A_UART_BASE, 0,
->>> +                   qdev_get_gpio_in(pch_pic, LS7A_UART_IRQ - PCH_PIC_IRQ_OFFSET),
->>> +                   115200, serial_hd(0), DEVICE_LITTLE_ENDIAN);
->>> +
->>>        /* Connect 64 pch_pic irqs to extioi */
->>>        for (int i = 0; i < PCH_PIC_IRQ_NUM; i++) {
->>>            sysbus_connect_irq(d, i, qdev_get_gpio_in(extioi, i));
->>> @@ -149,6 +158,35 @@ static void loongson3_irq_init(MachineState *machine)
->>>            sysbus_connect_irq(d, i,
->>>                               qdev_get_gpio_in(extioi, i + PCH_MSI_IRQ_START));
->>>        }
->>> +
->>> +    pciehost = qdev_new(TYPE_LS7A_HOST_DEVICE);
->>> +    d = SYS_BUS_DEVICE(pciehost);
->>> +    sysbus_realize_and_unref(d, &error_fatal);
->>> +    pci_bus = PCI_HOST_BRIDGE(pciehost)->bus;
->>> +
->>> +    /* Connect 48 pci irq to pch_pic */
->>> +    for (i = 0; i < LS7A_PCI_IRQS; i++) {
->>> +        qdev_connect_gpio_out(pciehost, i,
->>> +                              qdev_get_gpio_in(pch_pic, i + LS7A_DEVICE_IRQS));
->>> +    }
->>> +
->>> +    return pci_bus;
->>> +}
->>> +
->>> +/* Network support */
->>> +static void network_init(PCIBus *pci_bus)
->>> +{
->>> +    int i;
->>> +
->>> +    for (i = 0; i < nb_nics; i++) {
->>> +        NICInfo *nd = &nd_table[i];
->>> +
->>> +        if (!nd->model) {
->>> +            nd->model = g_strdup("virtio");
->>> +        }
->>> +
->>> +        pci_nic_init_nofail(nd, pci_bus, nd->model, NULL);
->>> +    }
->>>    }
->>>      static void loongson3_init(MachineState *machine)
->>> @@ -161,6 +199,7 @@ static void loongson3_init(MachineState *machine)
->>>        MemoryRegion *address_space_mem = get_system_memory();
->>>        LoongArchMachineState *lams = LOONGARCH_MACHINE(machine);
->>>        int i;
->>> +    PCIBus *pci_bus = NULL;
->>>          if (!cpu_model) {
->>>            cpu_model = LOONGARCH_CPU_TYPE_NAME("Loongson-3A5000");
->>> @@ -207,8 +246,26 @@ static void loongson3_init(MachineState *machine)
->>>        memory_region_add_subregion(address_space_mem, 0x90000000, &lams->highmem);
->>>        offset += highram_size;
->>>    +    /*
->>> +     * There are some invalid guest memory access.
->>> +     * Create some unimplemented devices to emulate this.
->>> +     */
->>> +    create_unimplemented_device("ls7a-lpc", 0x10002000, 0x14);
->>> +    create_unimplemented_device("pci-dma-cfg", 0x1001041c, 0x4);
->>> +    create_unimplemented_device("node-bridge", 0xEFDFB000274, 0x4);
->>> +    create_unimplemented_device("ls7a-lionlpc", 0x1fe01400, 0x38);
->>> +    create_unimplemented_device("ls7a-node0", 0x0EFDFB000274, 0x4);
->>> +
->>>        /* Initialize the IO interrupt subsystem */
->>> -    loongson3_irq_init(machine);
->>> +    pci_bus = loongson3_irq_init(machine);
->>> +
->>> +    /* Network card */
->>> +    network_init(pci_bus);
->>> +
->>> +    /* VGA setup. Don't bother loading the bios. */
->>> +    pci_vga_init(pci_bus);
->>> +
->>> +    pci_create_simple(pci_bus, -1, "pci-ohci");
->>
->> By passing in -1 then you're allowing the PCI code to choose a suitable device/function which feels odd for an in-built device. Is this not fixed in real hardware?
->>
->> Same with pci_nic_init_nofail() and pci_vga_init() which are intended for machines that don't have these devices in-built.
-> 
-> The machine has these devices but we don't want to emulate all the devices, only emulated part devices.
-> I don't know if it is ok to do like this.
+This series aims to add trace points for each qmp command with help of
+qapi code generator.
 
-I'm not sure I understand what you mean by part devices here - could you give an example?
+v2:
+01: new
+02: use qmp_* naming for new trace-events
+03: add Philippe's r-b, thanks!
+04: rewrite, so that it works now! Thanks to Paolo for fast help!
 
->>>        LOONGARCH_SIMPLE_MMIO_OPS(FEATURE_REG, "loongarch_feature", 0x8);
->>>        LOONGARCH_SIMPLE_MMIO_OPS(VENDOR_REG, "loongarch_vendor", 0x8);
->>> diff --git a/hw/pci-host/ls7a.c b/hw/pci-host/ls7a.c
->>> index a783fb2eda..06cd641573 100644
->>> --- a/hw/pci-host/ls7a.c
->>> +++ b/hw/pci-host/ls7a.c
->>> @@ -28,6 +28,41 @@ static const VMStateDescription vmstate_ls7a_pcie = {
->>>        }
->>>    };
->>>    +static PCIINTxRoute ls7a_route_intx_pin_to_irq(void *opaque, int pin)
->>> +{
->>> +    PCIINTxRoute route;
->>> +
->>> +    route.irq = pin;
->>> +    route.mode = PCI_INTX_ENABLED;
->>> +    return route;
->>> +}
->>> +
->>> +static int pci_ls7a_map_irq(PCIDevice *d, int irq_num)
->>> +{
->>> +    PCIBus *bus;
->>> +    int offset, irq;
->>> +
->>> +    bus = pci_get_bus(d);
->>> +    if (bus->parent_dev) {
->>> +        irq = pci_swizzle_map_irq_fn(d, irq_num);
->>> +        return irq;
->>> +    }
->>
->> Isn't this part already handled by the code in hw/pci/pci.c when the IRQ is asserted, for example pci_change_irq_level()?
-> 
-> We design a different rule for the pcie devices connect to the root bridge, assign more irqs to these devices.
-> For the pci device connect to a pcie-to-pci bridge use the common pci_swizzle_map_irq_fn to map irq.
+Vladimir Sementsov-Ogievskiy (4):
+  jobs: drop qmp_ trace points
+  scripts/qapi/commands: gen_commands(): add add_trace_points argument
+  scripts/qapi-gen.py: add --add-trace-points option
+  meson: generate trace points for qmp commands
 
-I'm less familiar with PCIe but shouldn't the interrupt mapping for devices connected 
-via a pcie-to-pci bridge be handled by the bridge in this case? Have a look at 
-pci_bridge_map_irq() to see how this is used. I'd expect the pcie-to-pci bridge to 
-map the PCI irq to your host controller irq first before calling pci_ls7a_map_irq(), 
-which I think then becomes just a simple call to pci_swizzle_map_irq_fn()?
+ meson.build              |  1 +
+ blockdev.c               |  8 ----
+ job-qmp.c                |  6 ---
+ block/trace-events       |  9 -----
+ qapi/meson.build         |  9 ++++-
+ scripts/qapi/commands.py | 84 ++++++++++++++++++++++++++++++++++------
+ scripts/qapi/gen.py      | 13 +++++--
+ scripts/qapi/main.py     | 10 +++--
+ trace-events             |  8 ----
+ trace/meson.build        | 11 ++++--
+ 10 files changed, 107 insertions(+), 52 deletions(-)
 
->>> +    /* pci device start from irq 80 */
->>> +    offset = PCH_PIC_IRQ_OFFSET + LS7A_DEVICE_IRQS;
->>> +    irq = offset + ((PCI_SLOT(d->devfn) * 4 + irq_num)) % LS7A_PCI_IRQS;
->>> +
->>> +    return irq;
->>> +}
->>> +
->>> +static void pci_ls7a_set_irq(void *opaque, int irq_num, int level)
->>> +{
->>> +    LS7APCIEHost *pciehost = opaque;
->>> +    int offset = PCH_PIC_IRQ_OFFSET + LS7A_DEVICE_IRQS;
->>> +
->>> +    qemu_set_irq(pciehost->irqs[irq_num - offset], level);
->>> +}
->>> +
->>>    static void pci_ls7a_config_write(void *opaque, hwaddr addr,
->>>                                      uint64_t val, unsigned size)
->>>    {
->>> @@ -64,10 +99,13 @@ static void ls7a_pciehost_realize(DeviceState *dev, Error **errp)
->>>        LS7APCIEHost *s = LS7A_HOST_DEVICE(dev);
->>>        PCIExpressHost *pex = PCIE_HOST_BRIDGE(dev);
->>>    -    pci->bus = pci_register_root_bus(dev, "pcie.0", NULL, NULL, s,
->>> +    pci->bus = pci_register_root_bus(dev, "pcie.0", pci_ls7a_set_irq,
->>> +                                     pci_ls7a_map_irq, s,
->>>                                         get_system_memory(), get_system_io(),
->>>                                         PCI_DEVFN(1, 0), 128, TYPE_PCIE_BUS);
->>>    +    pci_bus_set_route_irq_fn(pci->bus, ls7a_route_intx_pin_to_irq);
->>> +
->>>        memory_region_init_io(&s->pci_conf, OBJECT(dev),
->>>                              &pci_ls7a_config_ops, pci->bus,
->>>                              "ls7a_pci_conf", HT1LO_PCICFG_SIZE);
->>> @@ -137,6 +175,8 @@ static void ls7a_pciehost_initfn(Object *obj)
->>>        object_initialize_child(obj, "ls7a_pci", ls7a_pci, TYPE_LS7A_PCIE);
->>>        qdev_prop_set_int32(DEVICE(ls7a_pci), "addr", PCI_DEVFN(0, 0));
->>>        qdev_prop_set_bit(DEVICE(ls7a_pci), "multifunction", false);
->>> +
->>> +    qdev_init_gpio_out(DEVICE(obj), s->irqs, LS7A_PCI_IRQS);
->>>    }
->>>      static const char *ls7a_pciehost_root_bus_path(PCIHostState *host_bridge,
->>> diff --git a/include/hw/intc/loongarch_ipi.h b/include/hw/intc/loongarch_ipi.h
->>> index d2397e53e7..1113c3b1a8 100644
->>> --- a/include/hw/intc/loongarch_ipi.h
->>> +++ b/include/hw/intc/loongarch_ipi.h
->>> @@ -8,6 +8,8 @@
->>>    #ifndef HW_LOONGARCH_IPI_H
->>>    #define HW_LOONGARCH_IPI_H
->>>    +#include "hw/sysbus.h"
->>> +
->>>    /* Mainy used by iocsr read and write */
->>>    #define SMP_IPI_MAILBOX      0x1000ULL
->>>    #define CORE_STATUS_OFF       0x0
->>> diff --git a/include/hw/pci-host/ls7a.h b/include/hw/pci-host/ls7a.h
->>> index ac938d6d5f..3b9ad1e175 100644
->>> --- a/include/hw/pci-host/ls7a.h
->>> +++ b/include/hw/pci-host/ls7a.h
->>> @@ -37,6 +37,9 @@
->>>    #define LS7A_DEVICE_IRQS        16
->>>    #define LS7A_PCI_IRQS           48
->>>    +#define LS7A_UART_IRQ           (PCH_PIC_IRQ_OFFSET + 2)
->>> +#define LS7A_UART_BASE          0x1fe001e0
->>> +
->>>    struct LS7APCIState {
->>>        /*< private >*/
->>>        PCIDevice parent_obj;
->>> @@ -51,6 +54,7 @@ typedef struct LS7APCIEHost {
->>>          LS7APCIState pci_dev;
->>>    +    qemu_irq irqs[LS7A_PCI_IRQS];
->>>        MemoryRegion pci_conf;
->>>        MemoryRegion pci_io;
->>>    } LS7APCIEHost;
->>> diff --git a/softmmu/qdev-monitor.c b/softmmu/qdev-monitor.c
->>> index 01f3834db5..49491d74a1 100644
->>> --- a/softmmu/qdev-monitor.c
->>> +++ b/softmmu/qdev-monitor.c
->>> @@ -60,7 +60,8 @@ typedef struct QDevAlias
->>>                                  QEMU_ARCH_HPPA | QEMU_ARCH_I386 | \
->>>                                  QEMU_ARCH_MIPS | QEMU_ARCH_PPC |  \
->>>                                  QEMU_ARCH_RISCV | QEMU_ARCH_SH4 | \
->>> -                              QEMU_ARCH_SPARC | QEMU_ARCH_XTENSA)
->>> +                              QEMU_ARCH_SPARC | QEMU_ARCH_XTENSA | \
->>> +                              QEMU_ARCH_LOONGARCH)
->>
->> This part looks like it belongs to another patch?
-> 
-> OK, I will put this part to a separate patch.
-> 
-> Thanks,
-> Xiaojuan
-> 
->>
->>>    #define QEMU_ARCH_VIRTIO_CCW (QEMU_ARCH_S390X)
->>>    #define QEMU_ARCH_VIRTIO_MMIO (QEMU_ARCH_M68K)
+-- 
+2.31.1
 
-ATB,
-
-Mark.
 
