@@ -2,138 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A81A247E749
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 Dec 2021 18:53:59 +0100 (CET)
-Received: from localhost ([::1]:43886 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 857AF47E764
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 Dec 2021 19:03:54 +0100 (CET)
+Received: from localhost ([::1]:57124 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n0SHu-0003IS-Pw
-	for lists+qemu-devel@lfdr.de; Thu, 23 Dec 2021 12:53:58 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41718)
+	id 1n0SRV-0004gl-5a
+	for lists+qemu-devel@lfdr.de; Thu, 23 Dec 2021 13:03:53 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45310)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1n0SFc-0000TD-JC; Thu, 23 Dec 2021 12:51:36 -0500
-Received: from mail-vi1eur05on2096.outbound.protection.outlook.com
- ([40.107.21.96]:47360 helo=EUR05-VI1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1n0SFa-0005LJ-NV; Thu, 23 Dec 2021 12:51:35 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=df3e85psnHXRtS1CGqVE1RrII1UqnyyQVJAfqiicC9L/nvQTvmxO1mf3PD9/bHcxMKmm878EaIFpFYe+FsYA9V+kdpHBgCVus4Rfi/0n1TY7h+xGDYkwIDRgUtusJhBclZ/aDHnzZ/vuQ4+lk7of+8P6ZbFSOKnjN20MtkIYIiRub0wRvjIesRnhiLWLopy3dyAt6rfaduzxozTXodMMtmAEKZExtAtSaFIQOFFWoqK4MSOYPYW+EzYcOBTRztN6DsrsYxQJEptriRwa+6Z/sAKFisrVAVzbrbvxbmibXGwFnvthcKAaQONauzGj+/XDUj3tbKnYgiNJACKLj1KNRA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=5/VytNmCyh2PlQ1ogbmgxuDV/3SM9DyjBDt1HO0mGMM=;
- b=C6YGdfO829bHYUL+LHxV+PXLNIJc+wzgqpLHA1XY9VqMm7tIna4DQl9NvwcKh1zDxPcpOCFyCsEOnT4HGCRhuFmsad+DS68lauNkZU5ICOzja3mhk8grTIQVOg2vuwslH/RhwVE5VOJNKhdPDZTMSC4vR4e0Uw2D6yzcXnZajfXLPG7zXvhcPjDO8alLa5H2JicdFdMyIRlAUBo83shZIXFOkbSRw1XlztfEdBOqN+gtgaQ4AcU2QZEnDuMRDO9GfrL/9sSr0TzBBFkOGySjtx8ozpPxY2ptfOy6mZ/tAqnBGXnqlM/wry6+GfM82YM3UIH9uyyprVd1+JtqJhGvaQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5/VytNmCyh2PlQ1ogbmgxuDV/3SM9DyjBDt1HO0mGMM=;
- b=MdlldS1KzAd0hx7HaRZN7B+o/1qMwJTp+GWtvQtskRa4/jBDbhBVX74MLgEOIQOg2EGEsE9muATcIGoj9GtVNG7oLrMjBbDG/tHIcR30p352nCIAX59LwxnWtZ38YnyqddYc6A7lQJz5j9Yz7QIsxFsARjawH5Gdr4Dp89OW/to=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=virtuozzo.com;
-Received: from AS8PR08MB6741.eurprd08.prod.outlook.com (2603:10a6:20b:353::8)
- by AS8PR08MB6741.eurprd08.prod.outlook.com (2603:10a6:20b:353::8)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4801.20; Thu, 23 Dec
- 2021 17:51:31 +0000
-Received: from AS8PR08MB6741.eurprd08.prod.outlook.com
- ([fe80::c80b:8f00:60b2:81c5]) by AS8PR08MB6741.eurprd08.prod.outlook.com
- ([fe80::c80b:8f00:60b2:81c5%5]) with mapi id 15.20.4801.020; Thu, 23 Dec 2021
- 17:51:31 +0000
-Message-ID: <3176d47b-1f4d-b662-1779-7c55f7a7dfa0@virtuozzo.com>
-Date: Thu, 23 Dec 2021 20:51:29 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH] iotests/MRCE: Write data to source
-Content-Language: en-US
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: Hanna Reitz <hreitz@redhat.com>, qemu-block@nongnu.org
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org
-References: <20211223165308.103793-1-hreitz@redhat.com>
- <ec50682f-a421-797c-a436-085f00ccda35@virtuozzo.com>
-In-Reply-To: <ec50682f-a421-797c-a436-085f00ccda35@virtuozzo.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR3P281CA0038.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:4a::14) To AS8PR08MB6741.eurprd08.prod.outlook.com
- (2603:10a6:20b:353::8)
+ (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1n0SQK-00040K-T8
+ for qemu-devel@nongnu.org; Thu, 23 Dec 2021 13:02:40 -0500
+Received: from [2607:f8b0:4864:20::431] (port=46977
+ helo=mail-pf1-x431.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1n0SQJ-0007mC-9E
+ for qemu-devel@nongnu.org; Thu, 23 Dec 2021 13:02:40 -0500
+Received: by mail-pf1-x431.google.com with SMTP id t123so5858930pfc.13
+ for <qemu-devel@nongnu.org>; Thu, 23 Dec 2021 10:02:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=F3vp7cNpz2qk0OIvJVZgGpZrlLI8cGs8eddNh3pH4O0=;
+ b=V6LVAQd/8UIn8ldsx5JR1O9YpJZeToHbDLZbS7mg8/+loFV7/N7sZ+XhcLN4ER+wrt
+ a4OJl94CKbfUSCf2rds4kBh5Lrrm72ej4Vw2jCZdwyaTpvW1Rfri5/b6D0d+XdP6rcLq
+ EnCBOIjnXfg4hlKeBatFlHOFTTdwmCQQ6xeF/Ly1U82igCJHWiW1VL+d3kr+QmXcuLv8
+ 0JyTkQyChwcIVqzmWpqo1NlewbWrHW4RFSMnsRxLAB2r1vNJbOQ7FxBRMK3jdWuCu2Zf
+ vQb1n9Yb12+2OopiSqPqPM/6Qm6od8AV54HqElWU29SUVdpkee1DGnFa+7+XiW0B251Y
+ fEzw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=F3vp7cNpz2qk0OIvJVZgGpZrlLI8cGs8eddNh3pH4O0=;
+ b=oH/DrVpArliW6U0L8e6mCfEam1WKw/wHmETvVamjXwLDwsfZMDPwhO5qpSzYJXe7um
+ 2l2uIzs+cEQCXmLhhatz4N40W1Z/nRTowzRs85LMIu+wz3MmS0vi2frAMyOV5TyOWB+W
+ Su9jNLooxLDQCWZq2W6E8FfD5orOIVYnlTYo07XeHr5vcTKTQIdBfNh260XSv1im4OGt
+ EJmLu17srUQzpnUe8t9xmjhYxSLLHDqb13Lwr+kDr/SEpeX5mzz5Yu6ZG12mt+9wOcMR
+ SLJdAb/wuXV5OG3gHFvNkUWpfq5HVS4pqFX+KgJnCrqgVeqAP18fzAvvLwQCWl2i41x4
+ 8OXw==
+X-Gm-Message-State: AOAM532nzT8vcQ3yBskW6LhFlgnlhpF0E/rseUOupiXSoFRRLwoJ1SVc
+ mA4+5QwVcoEVkvKFbNhRcC/Pwg==
+X-Google-Smtp-Source: ABdhPJwrV3ydO2yyHoylZ6+Gjlc1pXLEXn2GLpfX+eRE21Of6xThdp2NrJD74NCN2Jt8w5I9duli3Q==
+X-Received: by 2002:a65:648b:: with SMTP id e11mr3022987pgv.138.1640282557705; 
+ Thu, 23 Dec 2021 10:02:37 -0800 (PST)
+Received: from google.com (157.214.185.35.bc.googleusercontent.com.
+ [35.185.214.157])
+ by smtp.gmail.com with ESMTPSA id gg23sm9329532pjb.31.2021.12.23.10.02.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 23 Dec 2021 10:02:36 -0800 (PST)
+Date: Thu, 23 Dec 2021 18:02:33 +0000
+From: Sean Christopherson <seanjc@google.com>
+To: Chao Peng <chao.p.peng@linux.intel.com>
+Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
+ Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+ Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Yu Zhang <yu.c.zhang@linux.intel.com>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+ luto@kernel.org, john.ji@intel.com, susie.li@intel.com,
+ jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
+ david@redhat.com
+Subject: Re: [PATCH v3 kvm/queue 05/16] KVM: Maintain ofs_tree for fast
+ memslot lookup by file offset
+Message-ID: <YcS5uStTallwRs0G@google.com>
+References: <20211223123011.41044-1-chao.p.peng@linux.intel.com>
+ <20211223123011.41044-6-chao.p.peng@linux.intel.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 640d0ccc-7a97-4dab-906d-08d9c63cda80
-X-MS-TrafficTypeDiagnostic: AS8PR08MB6741:EE_
-X-Microsoft-Antispam-PRVS: <AS8PR08MB67415055C6952649D08C878AC17E9@AS8PR08MB6741.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:3513;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: VniZGK1xjmBQC5LIVez8Jpl83UPMMbZjLobtjAHbV1xQTMzd9z40Qu4ZFegGma9fV9cadPjVhZgejlSOLMM7oAGVrJJrs/pnxvGIwxS9a25EZdKMCjnbO915NTiQmGwGarmhJv3NshNxPxh7xyg0BIEYIBgJBhCqBIxsl7pc5NMuRQYu2u0KJeO4OoFFhyR6BMG4d/esy+ZH5RS3574TK2YzL9fD1Hfwr8/llHAxc0B3P6L9xEDrEcXmojl97Thgmi7EDtrtkSox/+Pm1XkICaErX8c+ffY7LI60/akWW1fA/8SyAKyK11IP4CaZlPsZtw8MurszkZGLhLanZZYeKaTvykYfz9MILXTERsfZqwH6dnxlybfjzt7U3UGH9SQzbL6HTeYC6N+QP6xbBSTSyd5BEsW1khTux+wimFjqiBlSVI1NNoNVN+fLFveYZwDIK9RrCtvMSzh9At1VcwkRvqtGiBeCLq3aH0GjqQn2dOLXLL8nc8PCmChCN/VSDcCCxjoQZQXA44i0WTUOMDvbWx8KTOrsxABFkoCwVXF6Y0EQSAF09r4ehxojyJf21Uu8l050fA4O0lx6q7prSU10sy26j9/tFmQjS2P5+jYnwcAF6g0mI3dV6IUqQhR7vtpnw0G+8Ese14IufOUiyuGUK7kNzWmzpcPYT/mzwPPiuRgGFZooS1O9/5tHTa3uI47vI02i6l7P/Dnpb+P6+iTXz+oRgx3fWDemCxNCuz1mXHr7NlUcB+GyNQop7MGZlUOz5OprJw23n+xg6GqVqCiLgw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AS8PR08MB6741.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(83380400001)(2906002)(6486002)(6512007)(31686004)(508600001)(38350700002)(36756003)(66556008)(38100700002)(86362001)(6506007)(2616005)(4326008)(31696002)(52116002)(5660300002)(8676002)(66946007)(8936002)(558084003)(26005)(316002)(66476007)(186003)(45980500001)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?bmVIMHUyaUZGZ2ZiR3VRS1ZwRmg4Qm83UlZTREtYVFB2TzFBZzY0aldsbDd5?=
- =?utf-8?B?NWZMNm95bjlLYkRWS0U4eGVVNWI2UEh4aVQvdWE3bWgvZlg4MGtJYzYvY1VH?=
- =?utf-8?B?LzllUkNWY0xsNkE0SHExZWNwcFkyY2s5NXVLakMwV2NvNjE4aFdTNnRvU25O?=
- =?utf-8?B?RUxIOWtOSTl3SXo5VVpES1NlUHZpV1pKRHVjbWlxSjFBT0IySnZjeEVyWk9M?=
- =?utf-8?B?Ylk2QWNtcnhSVjBkRWJSWnBMWVhiUEtEWm1ERXZmdzhOVTJ6UmQvdTQ3TTFT?=
- =?utf-8?B?NnZ3OUJ6ODZlRkR6eStTSWlhbWk3eGN1UG1iQnRyV1FFRUVhR3c5NERhdlNq?=
- =?utf-8?B?K2FTL1Nwb3lHNzJZN0hja1daSWN0eEorUjNpRmxvRFFmNWFTUG53ZTVHaXV5?=
- =?utf-8?B?WEZjZldHV28xcUpJb2t4dFBCck12ZTkxaGRLQWVTRzFFQ0VMYXgrK0hMMGEr?=
- =?utf-8?B?Ujd4b3VwTkdlcVZhcjJ1UHI0UWhrRmhlOHdvN0lQK21SZ0dlaVhqQVVOdHA4?=
- =?utf-8?B?a0tUV1dQditxcVA5UTVyRUVCcFlBZDBkMmYrejU4WG9jZ0tHNjhhcmVhRkNj?=
- =?utf-8?B?Q043RDZwc0hEMTRuc1d3TTRNT0U5bE1haE10VnhsNFJqNWJwYzhxL2Y0MVhh?=
- =?utf-8?B?RlhnYWRCSGRWeS9KQU5WTHltZmJ0QzF5TFhXeGttUEllOEhKS25xalhNOEtz?=
- =?utf-8?B?Ylc3S1dnWlliRWQySnZOWHM5aUNrZHExd0FjSEZGeWlJYjF2RHU0ejh6L1I0?=
- =?utf-8?B?czljV2NOdGhPWkNLL3JuUEY5UTJ6d2wxdFFRZWRtVkREcVQyczZnZEdwY1lw?=
- =?utf-8?B?TkE2dHlwZkhUY3JUNTJzRnlzMkxGMjdaQ1pFOTRBcUNVYi8zT3VaUkwxRzRR?=
- =?utf-8?B?cTRMbFo4MW1jbjZDb0dyU1FvdmhoRmE1RkFVYUFidFhKR1VQZEpJWGNaVW5D?=
- =?utf-8?B?cGhObDhFVGFqTkJxYmM1bUQ4enl5dUpZVVRUTGh0RTlwaXdoamlUNTkwUG9u?=
- =?utf-8?B?bEl6UEI2ak1NMmc0Y2kwandTUUgwd0szNEF0U1d6VnpEeDBRWEhrd2xnd0hW?=
- =?utf-8?B?TkV0QnZiS3pOTGxDRFJsRGFVVlgrSTB0U3dQeDlFR0xndXJ2Q21zb3Z2cUpD?=
- =?utf-8?B?Znl3Tm1tRExQNTFRd0Z1MDFpNVpFRE5SamtLM1pLRkRBTGFZOHk2NCt2K1Aw?=
- =?utf-8?B?cjVxL2dneHYyeDhkSkp1a3dCUDEyYlNSWmZRNDJTQW5COFhPRE9CMndnV1RG?=
- =?utf-8?B?d0RMYjlQS0ZEZk80SENUbTA2L2VET1RmOHI1aS95K1phUFdjaGJTcDNzMzdL?=
- =?utf-8?B?Tmd1TFo2dURwVDFHbkZyQ093d1lDU29waURhOHJXUG5aN09kQlhPdlFDUGs0?=
- =?utf-8?B?b21TTXN6M2NtM0IvVUhIQzR2akZDM3NtcGJSTzNMZzZyTkUzcWFjM215ZWQ3?=
- =?utf-8?B?L0JkbG9aVm1MRDkxbnF1cFNkcFppc1NsSE5IbVFEVWlad2RIeDRZWnlNbS9F?=
- =?utf-8?B?bERmYTdUR1MvZFk5TUdQY0pDWTlVUFQ3RnppekdaVzF3ajdnWnJvMzczZUpr?=
- =?utf-8?B?c0hQOFU0dWxxNXNJSXBDY2xaOXlHWUZMTEswc3ExZk9QazNFU0JCSTlSdXBu?=
- =?utf-8?B?dEs5MjJIaUJ1MUt0UlQybHZ2d1ZyeFB5M01wcTdGdGtvNHA4bGJMUnJpUjVw?=
- =?utf-8?B?bW9GL1JVZSswSy8vd1k5b1FJaVVrdjJNdDB0OHd0WGx1TFVSaXlQQ2g5K1Zq?=
- =?utf-8?B?M29JRTRRTUVLclRZTHJnRVZzbmM4R2ZHRkloRk0rNzVLcGRKUEZCczFDdmlk?=
- =?utf-8?B?S2Nkcjl6MEUwRXJKN2RTZHNZNWZ0SnlMNDJBYzZmVkFBZkdCVlI0UHV3SE4r?=
- =?utf-8?B?TzZhcHZVUjRCWC81Y3ExTWZZTHovekhtRWJKVCs4T0VJeWNwakNHS1BPMEdi?=
- =?utf-8?B?T3RLMzI0dWRaRmw4RXJOcFJsU2QyVWlpMGtKTThTWG5jeUxoblUrMDZHYlFy?=
- =?utf-8?B?d0JvVFNUOS9pM280T1liRmpyMFhiTlU2cW9KVXJRK1hlNkN3VkVvRDQzOGNG?=
- =?utf-8?B?WjJvMllFYXQ1a3ZPOENRTzR6aFFSaEIxMG1PV2F1NDZjd2o4eDFCZEtkYWc1?=
- =?utf-8?B?eVdHWDkzWTJUV1JjY0pPWnNhSnY3NnRnK3VwNTgvWlBBWU9pakh3MDZaYkV2?=
- =?utf-8?B?WVhaZ2o2RVNmYVFDeXRIdC85bHpPT1kvS0VvQU1yTkpwdzNhaXZ0NFB0Z0J0?=
- =?utf-8?Q?Tkd59V15aV33g4cXjHJ3o/r4TkQRCzgGzofpm8Xze4=3D?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 640d0ccc-7a97-4dab-906d-08d9c63cda80
-X-MS-Exchange-CrossTenant-AuthSource: AS8PR08MB6741.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Dec 2021 17:51:31.7046 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 34cg17+66+t5/zSsr0nugrYZIyjlyhvxkIxxXDtrdJaP45CoNmY4UAMYXsaOWmCCqgq8R0Vg8MegTj+9iV4PJINasHdkyERcgtZc6GWp7QQ=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6741
-Received-SPF: pass client-ip=40.107.21.96;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR05-VI1-obe.outbound.protection.outlook.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.264,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211223123011.41044-6-chao.p.peng@linux.intel.com>
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::431
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::431;
+ envelope-from=seanjc@google.com; helo=mail-pf1-x431.google.com
+X-Spam_score_int: -138
+X-Spam_score: -13.9
+X-Spam_bar: -------------
+X-Spam_report: (-13.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ ENV_AND_HDR_SPF_MATCH=-0.5, FSL_HELO_FAKE=2.899, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -149,14 +107,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-23.12.2021 20:50, Vladimir Sementsov-Ogievskiy wrote:
-> 
-> Hmm, relying on flush requests sequence doesn't seem reliable..
-> Maybe, it's better to insert blockdev-add filter after JOB_READY? blockdev-reopen should work now for "file" link changing.
+On Thu, Dec 23, 2021, Chao Peng wrote:
+> Similar to hva_tree for hva range, maintain interval tree ofs_tree for
+> offset range of a fd-based memslot so the lookup by offset range can be
+> faster when memslot count is high.
 
-s/blockdev-add/blkdebug/ :)
+This won't work.  The hva_tree relies on there being exactly one virtual address
+space, whereas with private memory, userspace can map multiple files into the
+guest at different gfns, but with overlapping offsets.
 
--- 
-Best regards,
-Vladimir
+I also dislike hijacking __kvm_handle_hva_range() in patch 07.
+
+KVM also needs to disallow mapping the same file+offset into multiple gfns, which
+I don't see anywhere in this series.
+
+In other words, there needs to be a 1:1 gfn:file+offset mapping.  Since userspace
+likely wants to allocate a single file for guest private memory and map it into
+multiple discontiguous slots, e.g. to skip the PCI hole, the best idea off the top
+of my head would be to register the notifier on a per-slot basis, not a per-VM
+basis.  It would require a 'struct kvm *' in 'struct kvm_memory_slot', but that's
+not a huge deal.
+
+That way, KVM's notifier callback already knows the memslot and can compute overlap
+between the memslot and the range by reversing the math done by kvm_memfd_get_pfn().
+Then, armed with the gfn and slot, invalidation is just a matter of constructing
+a struct kvm_gfn_range and invoking kvm_unmap_gfn_range().
 
