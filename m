@@ -2,81 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F27047EB88
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Dec 2021 06:19:10 +0100 (CET)
-Received: from localhost ([::1]:52616 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35ED247EC52
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Dec 2021 07:57:34 +0100 (CET)
+Received: from localhost ([::1]:43070 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n0cyz-0002aW-8K
-	for lists+qemu-devel@lfdr.de; Fri, 24 Dec 2021 00:19:09 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49724)
+	id 1n0eWC-0004Aa-Ls
+	for lists+qemu-devel@lfdr.de; Fri, 24 Dec 2021 01:57:32 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37110)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1n0cxi-0001JS-QO
- for qemu-devel@nongnu.org; Fri, 24 Dec 2021 00:17:50 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54642)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1n0ePD-0001BR-9L
+ for qemu-devel@nongnu.org; Fri, 24 Dec 2021 01:50:20 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:41667)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1n0cxc-00029M-LA
- for qemu-devel@nongnu.org; Fri, 24 Dec 2021 00:17:50 -0500
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1n0eP8-0005i8-L5
+ for qemu-devel@nongnu.org; Fri, 24 Dec 2021 01:50:17 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1640323064;
+ s=mimecast20190719; t=1640328611;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=MqJSz13F3kg3zGDMBn7d0I3shfUWBDGnQgf5PXpzMs0=;
- b=ezqi7rp4bvAdET4hNZzeAKjbjNLKdD1ajzzr0CAtg+Es+pDE2gl4B5I2AjwaTDSB7ulA1w
- BEyPJCaMqVX8hFrRpXRFy4erTvQgVAuvFQqPFBDRuPXM2FHtDc6M0rfN5fMtPf3o48FTIC
- Z76OByVkgLBZODPc7RhZxGcDue5ttZw=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding;
+ bh=xxehAdMv0U4ikixDA8W3wFBtD+72He39d/3O69WmgbM=;
+ b=YS733MD5CMFWqGF+09lzpp4lyG01mnXRRAXPOJZbozpdhTdzWiYaAuezDiuGyL+Q1WvYWm
+ mJIPI9wSo3z47bmQPYNVdf2eVxmjORixBzUAMMfuGeB41yihvOiFJHvLvcpYILZgdJJztq
+ dH4n0pWmcF/YcYAWWKXuGeFnwGE2ORQ=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-562-FN3K3dOONRGRiHlBbif7Rg-1; Fri, 24 Dec 2021 00:17:42 -0500
-X-MC-Unique: FN3K3dOONRGRiHlBbif7Rg-1
-Received: by mail-wm1-f71.google.com with SMTP id
- b20-20020a05600c4e1400b003457da1c91eso2857235wmq.4
- for <qemu-devel@nongnu.org>; Thu, 23 Dec 2021 21:17:42 -0800 (PST)
+ us-mta-279-4zmciqkXPjCJHntulN8wnA-1; Fri, 24 Dec 2021 01:50:10 -0500
+X-MC-Unique: 4zmciqkXPjCJHntulN8wnA-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ o20-20020adfa114000000b001a2abc089d8so1443880wro.4
+ for <qemu-devel@nongnu.org>; Thu, 23 Dec 2021 22:50:10 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=MqJSz13F3kg3zGDMBn7d0I3shfUWBDGnQgf5PXpzMs0=;
- b=sDzqsZplQawMQvg2tyB1Zi6QY6Q3cvX84QA50R4nRvsBBjK8/KPPsZjICFAofA/bfd
- FsqSX1uH4Zz9v20a3Ab5LTLXSSnaKVhZWtTJ7Nm43tnx8vc6JjXOQDMjceboeGSuVDEB
- BglDb1e/mWHJ+/GvN73NI4Lb9eA0CG/foC09fOUwQ0cpBRnJ/9Ydah8WX8veg+y/CcP1
- MIX2nTZC65oIJhUcSuOKCBw3yQMIsg5keE88kDjixmjIBcACTdXbLjMKt22XNttCxgkI
- 01wxAUN82Am1WOQUYRAqlEBvI14u6ewp+xJzjYuDpcac3lboaCiXXr1HvAmt/xxBurzX
- xMpw==
-X-Gm-Message-State: AOAM531zJVMjHUoi/So2IESMkCOqmG068+DWnDsQfA2O0LBPy7nEJKES
- SNERp3up4OUsJLhlIWfRVmi6evL8GNGNrP9RJFY6iOBWqIMYI32nY8WS5W70bBalxBXB0sHFX2m
- BGT8S+ApwOzLdkK4=
-X-Received: by 2002:a05:6000:18aa:: with SMTP id
- b10mr3565477wri.305.1640323061511; 
- Thu, 23 Dec 2021 21:17:41 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxzgGPaAh5STrWfCGa8Ro/LgyoRVrxn/8UwLK8x2hN9HOaEAJmuKJfBkx9zg3Au2pzGiR32pA==
-X-Received: by 2002:a05:6000:18aa:: with SMTP id
- b10mr3565465wri.305.1640323061372; 
- Thu, 23 Dec 2021 21:17:41 -0800 (PST)
-Received: from xz-m1.local ([85.203.46.180])
- by smtp.gmail.com with ESMTPSA id n12sm7540766wrf.29.2021.12.23.21.17.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 Dec 2021 21:17:41 -0800 (PST)
-Date: Fri, 24 Dec 2021 13:17:34 +0800
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=xxehAdMv0U4ikixDA8W3wFBtD+72He39d/3O69WmgbM=;
+ b=XFSpJTqTnV/5QM7kT6TUE3WacLiYJw2nuXY1yHjqEk969U66Fjl2sqCWXbT2slI1D5
+ b7n3WY5+cpJyg9R5SJXrN1/FPJi+0YhajAGf4vmE63YHZz7U9omS3bujx8tLcgDDjZET
+ ejH4dsyOXNCo/yE24d8l/8pbzkcAMSqqZffHwoJ0IuoanMSM75nGHQZPkcNFhAHkF7tf
+ AaCdJyrO09euy5Xj6NCII0B0JeCmsSHxuwJh9kPsJJoB1w4/r2J5AaLxd3Caqd/POI4a
+ p3yZ2L2C1bPN1qSvbpW8j9FVOSDMpC9E7Q+KmjQ7OvcnQiD5WUgZJWQPq31V7RgWdimG
+ fJnw==
+X-Gm-Message-State: AOAM530B8bOm+d2AdVemaUkd4Z7q5ochj9yoXEnS/jtbvXOH4D78wOP1
+ L8LVMCm+XjRo5CvPwrfa+l8uPPdng2KsY3gLqPBRdBXNU2HGV7XvslkDmoj1w2+5OosxRQIu4n0
+ g6RiN6Zk8FWtwyH2F2P/YJdpfFuyxOvPPX0+MqNEd3irvnsNHDl1t5syD6i4EhbQm
+X-Received: by 2002:a05:6000:1687:: with SMTP id
+ y7mr3827928wrd.234.1640328608804; 
+ Thu, 23 Dec 2021 22:50:08 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwbO5DnENHVR1oPvLQ3ByVf5Unt73qayTUk+J6HSlryl6F/16TBKbbDIfyVCmCAe5kpB8unnw==
+X-Received: by 2002:a05:6000:1687:: with SMTP id
+ y7mr3827915wrd.234.1640328608489; 
+ Thu, 23 Dec 2021 22:50:08 -0800 (PST)
+Received: from localhost.localdomain ([64.64.123.8])
+ by smtp.gmail.com with ESMTPSA id h14sm2174425wmq.16.2021.12.23.22.50.05
+ (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+ Thu, 23 Dec 2021 22:50:08 -0800 (PST)
 From: Peter Xu <peterx@redhat.com>
-To: huangy81@chinatelecom.cn
-Subject: Re: [PATCH v10 0/3] support dirty restraint on vCPU
-Message-ID: <YcVX7n1lTh2j2F8l@xz-m1.local>
-References: <cover.1639479557.git.huangy81@chinatelecom.cn>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 0/8] migration: Postcopy cleanup on ram disgard
+Date: Fri, 24 Dec 2021 14:49:52 +0800
+Message-Id: <20211224065000.97572-1-peterx@redhat.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-In-Reply-To: <cover.1639479557.git.huangy81@chinatelecom.cn>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -97,34 +93,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>, David Hildenbrand <david@redhat.com>,
- Juan Quintela <quintela@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>, Markus ArmBruster <armbru@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: David Edmondson <david.edmondson@oracle.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Leonardo Bras Soares Passos <lsoaresp@redhat.com>, peterx@redhat.com,
+ Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Dec 14, 2021 at 07:07:31PM +0800, huangy81@chinatelecom.cn wrote:
-> From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
-> 
-> v10:
-> - rebase on master
-> - make the following modifications on patch [1/3]:
->   1. Make "dirtylimit-calc" thread joinable and join it after quitting.
-> 
->   2. Add finalize function to free dirtylimit_calc_state
-> 
->   3. Do some code clean work
+v3:
+- s/disgard/discard/, s/exit/return/ [DavidE]
 
-I played with v10, much, much better and usable, thanks!
+v2:
+- add r-bs for Dave
+- move mig_cmd_args reference later than index bound check [Dave]
+- use chars in tracepoints instead of number of steps [Dave]
+- add one patch for postcopy-run tracing
 
-I still got some other comments though, please have a look on whether they're
-sane.  Also sorry again for the delay on reviewing.
+Some queued patches for ram disgard cleanup, and some debug probes.
+
+QEMU's ram disgard logic is probably a bit hard to predict because we send a
+bunch of packets to notify the disgarded ranges rather than sending the bitmap.
+The packets to send depending on the bitmap layout.
+
+Initially I thought it could be a problem but in reality it's fine so far per
+my initial measurement.  So I'm flushing the cleanup/trace patches out because
+I think they're still helpful.
+
+Please have a look, thanks.
+
+Peter Xu (8):
+  migration: Drop dead code of ram_debug_dump_bitmap()
+  migration: Don't return for postcopy_chunk_hostpages()
+  migration: Drop postcopy_chunk_hostpages()
+  migration: Do chunk page in postcopy_each_ram_send_discard()
+  migration: Drop return code for disgard ram process
+  migration: Dump sub-cmd name in loadvm_process_command tp
+  migration: Finer grained tracepoints for POSTCOPY_LISTEN
+  migration: Tracepoint change in postcopy-run bottom half
+
+ migration/migration.c  |   5 +-
+ migration/ram.c        | 103 ++++++-----------------------------------
+ migration/ram.h        |   4 +-
+ migration/savevm.c     |  24 ++++++++--
+ migration/trace-events |   7 ++-
+ 5 files changed, 38 insertions(+), 105 deletions(-)
 
 -- 
-Peter Xu
+2.32.0
 
 
