@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2037947EAF5
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Dec 2021 04:52:43 +0100 (CET)
-Received: from localhost ([::1]:37934 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F021E47EB03
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Dec 2021 04:56:25 +0100 (CET)
+Received: from localhost ([::1]:44524 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n0bdK-0000jA-71
-	for lists+qemu-devel@lfdr.de; Thu, 23 Dec 2021 22:52:42 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33042)
+	id 1n0bgu-00058v-PM
+	for lists+qemu-devel@lfdr.de; Thu, 23 Dec 2021 22:56:24 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33146)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1n0bay-0006lV-MF; Thu, 23 Dec 2021 22:50:17 -0500
-Received: from smtp25.cstnet.cn ([159.226.251.25]:49288 helo=cstnet.cn)
+ id 1n0bb7-0006mx-G9; Thu, 23 Dec 2021 22:50:26 -0500
+Received: from smtp25.cstnet.cn ([159.226.251.25]:49276 helo=cstnet.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <liweiwei@iscas.ac.cn>)
- id 1n0bav-0001Zb-Rd; Thu, 23 Dec 2021 22:50:16 -0500
+ id 1n0baw-0001Za-Nv; Thu, 23 Dec 2021 22:50:25 -0500
 Received: from localhost.localdomain (unknown [180.156.147.178])
- by APP-05 (Coremail) with SMTP id zQCowACHjwNqQ8VheYHIBA--.4261S3;
- Fri, 24 Dec 2021 11:50:04 +0800 (CST)
+ by APP-05 (Coremail) with SMTP id zQCowACHjwNqQ8VheYHIBA--.4261S4;
+ Fri, 24 Dec 2021 11:50:05 +0800 (CST)
 From: liweiwei <liweiwei@iscas.ac.cn>
 To: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
  qemu-riscv@nongnu.org, qemu-devel@nongnu.org
-Subject: [PATCH 1/6] target/riscv: add cfg properties for zfinx,
- zdinx and zhinx{min}
-Date: Fri, 24 Dec 2021 11:49:10 +0800
-Message-Id: <20211224034915.17204-2-liweiwei@iscas.ac.cn>
+Subject: [PATCH 2/6] target/riscv: add support for unique fpr read/write with
+ support for zfinx
+Date: Fri, 24 Dec 2021 11:49:11 +0800
+Message-Id: <20211224034915.17204-3-liweiwei@iscas.ac.cn>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20211224034915.17204-1-liweiwei@iscas.ac.cn>
 References: <20211224034915.17204-1-liweiwei@iscas.ac.cn>
-X-CM-TRANSID: zQCowACHjwNqQ8VheYHIBA--.4261S3
-X-Coremail-Antispam: 1UD129KBjvJXoWxuF1rZF1ftFy8Aw1fJw1UKFg_yoW5Ary8pr
- WUW3WayF98XFy7Aas7JF1Dt3W8Wwn7GFWrK392vw1fWrWSqrW5JF4qk34UZF4Yq3WrXF1a
- 9F4qkFy5Ar48ZaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUU9v14x267AKxVW5JVWrJwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_Jr4l82xGYIkIc2
- x26xkF7I0E14v26r1I6r4UM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0
- Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1l84
- ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s0DM2AI
- xVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20x
- vE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xv
- r2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxAIw28IcxkI7VAKI48JMxC20s
- 026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_
- JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14
- v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xva
- j40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JV
- W8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUbec_DUUUUU==
+X-CM-TRANSID: zQCowACHjwNqQ8VheYHIBA--.4261S4
+X-Coremail-Antispam: 1UD129KBjvJXoWxGF13ZF1ruw1xWrWrZr4kXrb_yoW7JrW5pF
+ 4Ik34UZrn5Xr1fGFWSyr4UArn8ur1S9ryqy3yrC3y8Ar42qrn8Cwn3KrWavFW7AFZ5ur1Y
+ kFZxCFWUCF48Xa7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUU9m14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_Jryl82xGYIkIc2
+ x26xkF7I0E14v26r4j6ryUM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0
+ Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_Gr1UM2
+ 8EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAS
+ 0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2
+ IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0
+ Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCF04k20xvY0x0EwIxGrwCFx2
+ IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v2
+ 6r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67
+ AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IY
+ s7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr
+ 0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUc6pPUUUUU=
 X-Originating-IP: [180.156.147.178]
 X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
 Received-SPF: pass client-ip=159.226.251.25; envelope-from=liweiwei@iscas.ac.cn;
  helo=cstnet.cn
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,96 +77,214 @@ Co-authored-by: ardxwe <ardxwe@gmail.com>
 Signed-off-by: liweiwei <liweiwei@iscas.ac.cn>
 Signed-off-by: wangjunqiang <wangjunqiang@iscas.ac.cn>
 ---
- roms/SLOF                |  2 +-
- target/riscv/cpu.c       | 12 ++++++++++++
- target/riscv/cpu.h       |  4 ++++
- target/riscv/translate.c |  8 ++++++++
- 4 files changed, 25 insertions(+), 1 deletion(-)
+ target/riscv/translate.c | 169 +++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 169 insertions(+)
 
-diff --git a/roms/SLOF b/roms/SLOF
-index a6906b024c..dd0dcaa1c1 160000
---- a/roms/SLOF
-+++ b/roms/SLOF
-@@ -1 +1 @@
--Subproject commit a6906b024c6cca5a86496f51eb4bfee3a0c36148
-+Subproject commit dd0dcaa1c1085c159ddab709c7f274b3917be8bd
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 6ef3314bce..a5fa14f2ac 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -491,6 +491,11 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
-             cpu->cfg.ext_d = true;
-         }
- 
-+        if (cpu->cfg.ext_zdinx || cpu->cfg.ext_zhinx ||
-+            cpu->cfg.ext_zhinxmin ) {
-+            cpu->cfg.ext_zfinx = true;
-+        }
-+
-         /* Set the ISA extensions, checks should have happened above */
-         if (cpu->cfg.ext_i) {
-             ext |= RVI;
-@@ -565,6 +570,13 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
-         if (cpu->cfg.ext_j) {
-             ext |= RVJ;
-         }
-+        if (cpu->cfg.ext_zfinx && ((ext & (RVF | RVD)) || cpu->cfg.ext_zfh ||
-+                                   cpu->cfg.ext_zfhmin)) {
-+            error_setg(errp,
-+                    "'Zfinx' cannot be supported together with 'F', 'D', 'Zfh',"
-+                    " 'Zfhmin'");
-+            return;
-+        }
- 
-         set_misa(env, env->misa_mxl, ext);
-     }
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index dc10f27093..6fba31c5cd 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -315,8 +315,12 @@ struct RISCVCPU {
-         bool ext_counters;
-         bool ext_ifencei;
-         bool ext_icsr;
-+        bool ext_zdinx;
-         bool ext_zfh;
-         bool ext_zfhmin;
-+        bool ext_zfinx;
-+        bool ext_zhinx;
-+        bool ext_zhinxmin;
- 
-         char *priv_spec;
-         char *user_spec;
 diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-index 5df6c0d800..8b1cdacf50 100644
+index 8b1cdacf50..bac42e60bd 100644
 --- a/target/riscv/translate.c
 +++ b/target/riscv/translate.c
-@@ -76,8 +76,12 @@ typedef struct DisasContext {
-     RISCVMXL ol;
-     bool virt_enabled;
-     bool ext_ifencei;
-+    bool ext_zdinx;
-     bool ext_zfh;
-     bool ext_zfhmin;
-+    bool ext_zfinx;
-+    bool ext_zhinx;
-+    bool ext_zhinxmin;
-     bool hlsx;
-     /* vector extension */
-     bool vill;
-@@ -703,8 +707,12 @@ static void riscv_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
-     ctx->misa_ext = env->misa_ext;
-     ctx->frm = -1;  /* unknown rounding mode */
-     ctx->ext_ifencei = cpu->cfg.ext_ifencei;
-+    ctx->ext_zdinx = cpu->cfg.ext_zdinx;
-     ctx->ext_zfh = cpu->cfg.ext_zfh;
-     ctx->ext_zfhmin = cpu->cfg.ext_zfhmin;
-+    ctx->ext_zfinx = cpu->cfg.ext_zfinx;
-+    ctx->ext_zhinx = cpu->cfg.ext_zhinx;
-+    ctx->ext_zhinxmin = cpu->cfg.ext_zhinxmin;
-     ctx->vlen = cpu->cfg.vlen;
-     ctx->elen = cpu->cfg.elen;
-     ctx->mstatus_hs_fs = FIELD_EX32(tb_flags, TB_FLAGS, MSTATUS_HS_FS);
+@@ -104,10 +104,13 @@ typedef struct DisasContext {
+     target_ulong vstart;
+     bool vl_eq_vlmax;
+     uint8_t ntemp;
++    uint8_t nftemp;
+     CPUState *cs;
+     TCGv zero;
+     /* Space for 3 operands plus 1 extra for address computation. */
+     TCGv temp[4];
++    /* Space for 4 float point operands */
++    TCGv_i64 ftemp[4];
+     /* PointerMasking extension */
+     bool pm_enabled;
+     TCGv pm_mask;
+@@ -295,6 +298,165 @@ static void gen_set_gpr(DisasContext *ctx, int reg_num, TCGv t)
+     }
+ }
+ 
++static TCGv_i64 ftemp_new(DisasContext *ctx)
++{
++    assert(ctx->nftemp < ARRAY_SIZE(ctx->ftemp));
++    return ctx->ftemp[ctx->nftemp++] = tcg_temp_new_i64();
++}
++
++static TCGv_i64 get_fpr_hs(DisasContext *ctx, int reg_num)
++{
++    if (ctx->ext_zfinx) {
++        switch (get_ol(ctx)) {
++        case MXL_RV32:
++#ifdef TARGET_RISCV32
++        {
++            TCGv_i64 t = ftemp_new(ctx);
++            if (reg_num == 0) {
++                tcg_gen_concat_i32_i64(t, ctx->zero, ctx->zero);
++            } else {
++                tcg_gen_concat_i32_i64(t, cpu_gpr[reg_num], ctx->zero);
++            }
++            return t;
++        }
++#else
++        /* fall through */
++        case MXL_RV64:
++            if (reg_num == 0) {
++                return ctx->zero;
++            } else {
++                return cpu_gpr[reg_num];
++            }
++#endif
++        default:
++            g_assert_not_reached();
++        }
++    } else {
++        return cpu_fpr[reg_num];
++    }
++}
++
++static TCGv_i64 get_fpr_d(DisasContext *ctx, int reg_num)
++{
++    if (ctx->ext_zfinx) {
++        switch (get_ol(ctx)) {
++        case MXL_RV32:
++            if (reg_num & 1) {
++                gen_exception_illegal(ctx);
++                return NULL;
++            } else {
++#ifdef TARGET_RISCV32
++                TCGv_i64 t = ftemp_new(ctx);
++                if (reg_num == 0) {
++                    tcg_gen_concat_i32_i64(t, ctx->zero, ctx->zero);
++                } else {
++                    tcg_gen_concat_i32_i64(t, cpu_gpr[reg_num], cpu_gpr[reg_num + 1]);
++                }
++                return t;
++            }
++#else
++                if (reg_num == 0) {
++                    return ctx->zero;
++                } else {
++                    TCGv_i64 t = ftemp_new(ctx);
++                    tcg_gen_deposit_i64(t, cpu_gpr[reg_num], cpu_gpr[reg_num + 1], 32, 32);
++                    return t;
++                }
++            }
++        case MXL_RV64:
++            if (reg_num == 0) {
++                return ctx->zero;
++            } else {
++                return cpu_gpr[reg_num];
++            }
++#endif
++        default:
++            g_assert_not_reached();
++        }
++    } else {
++        return cpu_fpr[reg_num];
++    }
++}
++
++static TCGv_i64 dest_fpr(DisasContext *ctx, int reg_num)
++{
++    if (ctx->ext_zfinx) {
++        switch (get_ol(ctx)) {
++        case MXL_RV32:
++            return ftemp_new(ctx);
++#ifdef TARGET_RISCV64
++        case MXL_RV64:
++            if (reg_num == 0) {
++                return ftemp_new(ctx);
++            } else {
++                return cpu_gpr[reg_num];
++            }
++#endif
++        default:
++            g_assert_not_reached();
++        }
++    } else {
++        return cpu_fpr[reg_num];
++    }
++}
++
++static void gen_set_fpr_hs(DisasContext *ctx, int reg_num, TCGv_i64 t)
++{
++    if (ctx->ext_zfinx) {
++        if (reg_num != 0) {
++            switch (get_ol(ctx)) {
++            case MXL_RV32:
++#ifdef TARGET_RISCV32
++                tcg_gen_extrl_i64_i32(cpu_gpr[reg_num], t);
++                break;
++#else
++                tcg_gen_ext32s_i64(cpu_gpr[reg_num], t);
++                break;
++            case MXL_RV64:
++                tcg_gen_mov_i64(cpu_gpr[reg_num], t);
++                break;
++#endif
++            default:
++                g_assert_not_reached();
++            }
++        }
++    } else {
++        tcg_gen_mov_i64(cpu_fpr[reg_num], t);
++    }
++}
++
++static void gen_set_fpr_d(DisasContext *ctx, int reg_num, TCGv_i64 t)
++{
++    if (ctx->ext_zfinx) {
++        if (reg_num != 0) {
++            switch (get_ol(ctx)) {
++            case MXL_RV32:
++                if (reg_num & 1) {
++                    gen_exception_illegal(ctx);
++                } else {
++#ifdef TARGET_RISCV32
++                    tcg_gen_extrl_i64_i32(cpu_gpr[reg_num], t);
++                    tcg_gen_extrh_i64_i32(cpu_gpr[reg_num + 1], t);
++                }
++                break;
++#else
++                    tcg_gen_ext32s_i64(cpu_gpr[reg_num], t);
++                    tcg_gen_sari_i64(cpu_gpr[reg_num + 1], t, 32);
++                }
++                break;
++            case MXL_RV64:
++                tcg_gen_mov_i64(cpu_gpr[reg_num], t);
++                break;
++#endif
++            default:
++                g_assert_not_reached();
++            }
++        }
++    } else {
++        tcg_gen_mov_i64(cpu_fpr[reg_num], t);
++    }
++}
++
+ static void gen_jal(DisasContext *ctx, int rd, target_ulong imm)
+ {
+     target_ulong next_pc;
+@@ -727,6 +889,8 @@ static void riscv_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
+     ctx->cs = cs;
+     ctx->ntemp = 0;
+     memset(ctx->temp, 0, sizeof(ctx->temp));
++    ctx->nftemp = 0;
++    memset(ctx->ftemp, 0, sizeof(ctx->ftemp));
+     ctx->pm_enabled = FIELD_EX32(tb_flags, TB_FLAGS, PM_ENABLED);
+     int priv = tb_flags & TB_FLAGS_PRIV_MMU_MASK;
+     ctx->pm_mask = pm_mask[priv];
+@@ -761,6 +925,11 @@ static void riscv_tr_translate_insn(DisasContextBase *dcbase, CPUState *cpu)
+         ctx->temp[i] = NULL;
+     }
+     ctx->ntemp = 0;
++    for (int i = ctx->nftemp - 1; i >= 0; --i) {
++        tcg_temp_free_i64(ctx->ftemp[i]);
++        ctx->ftemp[i] = NULL;
++    }
++    ctx->nftemp = 0;
+ 
+     if (ctx->base.is_jmp == DISAS_NEXT) {
+         target_ulong page_start;
 -- 
 2.17.1
 
