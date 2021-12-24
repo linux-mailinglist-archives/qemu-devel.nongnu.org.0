@@ -2,88 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B369447ECD2
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Dec 2021 08:47:09 +0100 (CET)
-Received: from localhost ([::1]:35704 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7E1F47ECCB
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Dec 2021 08:42:18 +0100 (CET)
+Received: from localhost ([::1]:56440 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n0fIC-0005zI-AA
-	for lists+qemu-devel@lfdr.de; Fri, 24 Dec 2021 02:47:08 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43048)
+	id 1n0fDU-0000iD-4n
+	for lists+qemu-devel@lfdr.de; Fri, 24 Dec 2021 02:42:16 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43144)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1n0ews-0001OG-S3
- for qemu-devel@nongnu.org; Fri, 24 Dec 2021 02:25:08 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48587)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1n0ewr-0004KP-DU
- for qemu-devel@nongnu.org; Fri, 24 Dec 2021 02:25:06 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1640330704;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=8ALGLhs4D+zSLf8PSqAGQ0h6G4DyhB8+iP9NmT1eg4I=;
- b=MstiP1D6I1kESer1KtWFFIl8YqrnaDeqrSgIGJhXQrfe3cKZCf/595IPPvcUryl1hb3FBn
- bllI88hvahGs363Xwq/8dnUXuieS1g/rTmURlCfq2aK0XKLSagfPqhJi+fRdOPo0UUn8Pd
- z74sBIQwzU/P2YTdOKOp9LbksXZZ7IM=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-408-amuxwXUIN42zbxBWv6h5PA-1; Fri, 24 Dec 2021 02:25:03 -0500
-X-MC-Unique: amuxwXUIN42zbxBWv6h5PA-1
-Received: by mail-wr1-f70.google.com with SMTP id
- w25-20020adf8bd9000000b001a255212b7cso1488090wra.18
- for <qemu-devel@nongnu.org>; Thu, 23 Dec 2021 23:25:03 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=8ALGLhs4D+zSLf8PSqAGQ0h6G4DyhB8+iP9NmT1eg4I=;
- b=b2t3SFlB2NP0vcyo9LBWaY+13WVOMBJNpt1D5QSYOVKeLDkI6cVKmj5L/Lyoe7vu/K
- G5WskovbvzrnSLOAzL5KgsvNR/ZFOKWWX4nRGYQf4huQ1B3tpecvz9nDLsL3bzE33eIT
- kAnVLERuumpiVWEcI3+QI6oBcudNsJx23ItlWFd6QiL5RYa5S2CnXgL+KJjbjSmkizz4
- NhDv+bJYCWEeadSYdo5kVP5jZkr+yy2WiTAq77ung2Nr0vi6SIr0mpzm1Y+dGCBWmWgz
- bGft+0S1qhfsxkZ6e0OqD0vHDXfvKNntkm/cZIIT6a6NcRo7QJmNohlolEeLOgT2TA62
- PgWA==
-X-Gm-Message-State: AOAM532kzaTDAhJdACxxTq2VT/5DOpNnWjC0eppDLJWbk2hFTaiDi2i1
- Eey4T0PczBTO7oxo/429x3QxUcyIR1kMGCXG4WHdX+gH8Z7so7/fSirwJafi8ESE4gkfaKPSLGC
- Yz3UHFbezLaGS1Js=
-X-Received: by 2002:a05:6000:184a:: with SMTP id
- c10mr3688437wri.376.1640330702347; 
- Thu, 23 Dec 2021 23:25:02 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJweuE+LEdximMmYshJy/JKg4NX5JQjYXZizOxRO2hhqWgAqL0TTkdIbeYrEfCC/h3uPfCg0dw==
-X-Received: by 2002:a05:6000:184a:: with SMTP id
- c10mr3688425wri.376.1640330702124; 
- Thu, 23 Dec 2021 23:25:02 -0800 (PST)
-Received: from xz-m1.local ([64.64.123.8])
- by smtp.gmail.com with ESMTPSA id m10sm7093709wms.25.2021.12.23.23.24.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 Dec 2021 23:25:01 -0800 (PST)
-Date: Fri, 24 Dec 2021 15:24:55 +0800
-From: Peter Xu <peterx@redhat.com>
-To: Juan Quintela <quintela@redhat.com>
-Subject: Re: [PATCH v2 3/6] migration: ram_release_pages() always receive 1
- page as argument
-Message-ID: <YcV1x02ls6ESEuLz@xz-m1.local>
-References: <20211221125235.67414-1-quintela@redhat.com>
- <20211221125235.67414-4-quintela@redhat.com>
+ (Exim 4.90_1) (envelope-from <mkfssion@mkfssion.com>)
+ id 1n0exH-0001Vh-7A
+ for qemu-devel@nongnu.org; Fri, 24 Dec 2021 02:25:33 -0500
+Received: from mail-108-mta40.mxroute.com ([136.175.108.40]:34665)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <mkfssion@mkfssion.com>)
+ id 1n0exD-0004Q5-Vt
+ for qemu-devel@nongnu.org; Fri, 24 Dec 2021 02:25:29 -0500
+Received: from filter004.mxroute.com ([149.28.56.236] filter004.mxroute.com)
+ (Authenticated sender: mN4UYu2MZsgR)
+ by mail-108-mta40.mxroute.com (ZoneMTA) with ESMTPSA id 17deb54852d000b7bf.001
+ for <qemu-devel@nongnu.org>
+ (version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES128-GCM-SHA256);
+ Fri, 24 Dec 2021 07:25:24 +0000
+X-Zone-Loop: 040cabec25d03579ded6869be06e65df352ebfb2ea6c
+X-Originating-IP: [149.28.56.236]
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=mkfssion.com; s=x; h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date
+ :Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=4WdwHLUvDNJNp9a++8gpKuaDXVbMYAzy/tqew3u+Pkw=; b=lQLAKQC4fXYmBRVziUvMRW6koI
+ nHDZt8jbhoWHmBXAzgbicmS0MR4ij32BuRu58NyjjGjNdlGCJM/ESCg14jOOkkAk5oX1Zj8W8yVLy
+ jpFoXB/DfOgKQb2Ih3QTLaqiRPzbNAWM1DkUTqBya2xuk8U/G6LJTzq4E+Tm2pull8HNOUVSuV+4+
+ wIF5vNxF2ANOjdCAyQsEaXe5j/OUUtRGU7e/oDzw/lmdBPtyXMolP7Whipo2UyKtSgqrl+4dW52Z0
+ yUh25qfcSowpMY9/iJ2Rgt4dXvmXnIF92P+6sVspLzLDwC1Jq54rcu/bN4XhCZckWXKaJGgotkznY
+ C4lZwiMw==;
+From: MkfsSion <mkfssion@mkfssion.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2] vl: Add support to set properties when using JSON syntax
+ for -device via -set option
+Date: Fri, 24 Dec 2021 15:25:11 +0800
+Message-Id: <20211224072511.63894-1-mkfssion@mkfssion.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-In-Reply-To: <20211221125235.67414-4-quintela@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.203,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-AuthUser: mkfssion@mkfssion.com
+X-Zone-Spam-Resolution: no action
+X-Zone-Spam-Status: No, score=5, required=15, tests=[ARC_NA=0,
+ MID_CONTAINS_FROM=1, FROM_HAS_DN=0, RCPT_COUNT_THREE=0, TO_DN_SOME=0,
+ R_MISSING_CHARSET=2.5, RCVD_COUNT_ZERO=0, FROM_EQ_ENVFROM=0, MIME_TRACE=0,
+ BROKEN_CONTENT_TYPE=1.5, NEURAL_SPAM=0]
+Received-SPF: pass client-ip=136.175.108.40;
+ envelope-from=mkfssion@mkfssion.com; helo=mail-108-mta40.mxroute.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,28 +75,118 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Leonardo Bras <leobras@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, MkfsSion <mkfssion@mkfssion.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Dec 21, 2021 at 01:52:32PM +0100, Juan Quintela wrote:
-> -static void ram_release_pages(const char *rbname, uint64_t offset, int pages)
-> +static void ram_release_page(const char *rbname, uint64_t offset)
->  {
->      if (!migrate_release_ram() || !migration_in_postcopy()) {
->          return;
->      }
->  
-> -    ram_discard_range(rbname, offset, ((ram_addr_t)pages) << TARGET_PAGE_BITS);
-> +    ram_discard_range(rbname, offset, 1ULL << TARGET_PAGE_BITS);
+When using JSON syntax for -device, -set option can not find device
+specified in JSON by id field. The following commandline is an example:
 
-This is TARGET_PAGE_SIZE, afaict.. anyway,
+$ qemu-system-x86_64 -device '{"id":"foo"}' -set device.foo.bar=1
+qemu-system-x86_64: -set device.foo.bar=1: there is no device "foo" defined
 
-Reviewed-by: Peter Xu <peterx@redhat.com>
+The patch fixes the above issue by trying to convert value provided by -set
+option to the type that the setting property actually takes.
 
+Signed-off-by: YuanYang Meng <mkfssion@mkfssion.com>
+---
+ v2:
+     1.Set device option when group is 'device' only
+     2.Store value in type that properties actually take
+
+
+ softmmu/vl.c | 62 ++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 62 insertions(+)
+
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index 620a1f1367..c213e9e022 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -30,7 +30,9 @@
+ #include "hw/qdev-properties.h"
+ #include "qapi/compat-policy.h"
+ #include "qapi/error.h"
++#include "qapi/qmp/qbool.h"
+ #include "qapi/qmp/qdict.h"
++#include "qapi/qmp/qnum.h"
+ #include "qapi/qmp/qstring.h"
+ #include "qapi/qmp/qjson.h"
+ #include "qemu-version.h"
+@@ -2274,6 +2276,61 @@ static void qemu_read_default_config_file(Error **errp)
+     }
+ }
+ 
++static bool qemu_set_device_option_property(const char *id, const char *key,
++                                            const char *value, Error **errp) {
++    DeviceOption *opt;
++    QTAILQ_FOREACH(opt, &device_opts, next) {
++        const char *device_id = qdict_get_try_str(opt->opts, "id");
++        if (device_id && (strcmp(device_id, id) == 0)) {
++            QObject *obj = NULL;
++            if ((strcmp(key, "id") == 0) ||
++                (strcmp(key, "bus") == 0) ||
++                (strcmp(key, "driver") == 0)) {
++                obj = QOBJECT(qstring_from_str(value));
++            } else {
++                const char *driver = qdict_get_try_str(opt->opts, "driver");
++                if (driver) {
++                    ObjectClass *klass = object_class_by_name(driver);
++                    ObjectProperty *prop = object_class_property_find(klass, key);
++                    if (prop) {
++                        if (strcmp(prop->type, "str") == 0) {
++                            obj = QOBJECT(qstring_from_str(value));
++                        } else if (strcmp(prop->type, "bool") == 0) {
++                            bool boolean;
++                            if (qapi_bool_parse(key, value, &boolean, errp)) {
++                                obj = QOBJECT(qbool_from_bool(boolean));
++                            }
++                        } else if (strncmp(prop->type, "uint", 4) == 0) {
++                            uint64_t num;
++                            if (parse_option_size(key, value, &num, errp)) {
++                                obj = QOBJECT(qnum_from_uint(num));
++                            }
++                        } else {
++                            error_setg(errp,
++                                       "Setting property %s on device %s with "
++                                       "type %s is unsupported via -set option",
++                                       key, id, prop->type);
++                        }
++                    } else {
++                        error_setg(errp, "Unable to find property %s on device %s",
++                                   key, id);
++                    }
++                } else {
++                    error_setg(errp, "Unable to get driver for device %s", id);
++                }
++            }
++            if (obj) {
++                qdict_del(opt->opts, key);
++                qdict_put_obj(opt->opts, key, obj);
++                return true;
++            } else {
++                return false;
++            }
++        }
++    }
++    return false;
++}
++
+ static void qemu_set_option(const char *str, Error **errp)
+ {
+     char group[64], id[64], arg[64];
+@@ -2294,6 +2351,11 @@ static void qemu_set_option(const char *str, Error **errp)
+         if (list) {
+             opts = qemu_opts_find(list, id);
+             if (!opts) {
++                if (strcmp(group, "device") == 0) {
++                    if (qemu_set_device_option_property(id, arg,
++                                                        str + offset + 1, errp))
++                        return;
++                }
+                 error_setg(errp, "there is no %s \"%s\" defined", group, id);
+                 return;
+             }
 -- 
-Peter Xu
+2.34.1
 
 
