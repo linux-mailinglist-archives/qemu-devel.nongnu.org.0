@@ -2,78 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC46447F155
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Dec 2021 23:34:29 +0100 (CET)
-Received: from localhost ([::1]:36192 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D645C47F156
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Dec 2021 23:35:13 +0100 (CET)
+Received: from localhost ([::1]:37682 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n0t8u-0000RQ-QY
-	for lists+qemu-devel@lfdr.de; Fri, 24 Dec 2021 17:34:28 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41086)
+	id 1n0t9c-0001QZ-Oa
+	for lists+qemu-devel@lfdr.de; Fri, 24 Dec 2021 17:35:13 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41130)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1n0t6x-00075g-Pw
- for qemu-devel@nongnu.org; Fri, 24 Dec 2021 17:32:27 -0500
-Received: from [2607:f8b0:4864:20::431] (port=41860
- helo=mail-pf1-x431.google.com)
+ id 1n0t7C-0007fq-Ba
+ for qemu-devel@nongnu.org; Fri, 24 Dec 2021 17:32:43 -0500
+Received: from [2607:f8b0:4864:20::629] (port=36552
+ helo=mail-pl1-x629.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1n0t6w-0001ja-C4
- for qemu-devel@nongnu.org; Fri, 24 Dec 2021 17:32:27 -0500
-Received: by mail-pf1-x431.google.com with SMTP id m1so8612231pfk.8
- for <qemu-devel@nongnu.org>; Fri, 24 Dec 2021 14:32:25 -0800 (PST)
+ id 1n0t7A-0001ls-R1
+ for qemu-devel@nongnu.org; Fri, 24 Dec 2021 17:32:42 -0500
+Received: by mail-pl1-x629.google.com with SMTP id p14so7355760plf.3
+ for <qemu-devel@nongnu.org>; Fri, 24 Dec 2021 14:32:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=g/xzk76qJgEQKrpBfHFLJ/ww1pOt8DJdlgWZ/XEbBfk=;
- b=i2lHdKkMTpXfCP3kpFf7qdi0VHlnrC6jec8rHZ/OznZdGRLyIFErX3O6Mh2CEw9hud
- GMFT/x0N96WPHkmRVEp9Cc2mc9wRcNdTh2uKn3L+lExjobu6Nqm7t9NHhJ2AzgERrpPK
- xwyCJRDfgjFfdtz4elrhPD+83VsFjVBv9KiPIcYqt2DsWGlbTiDULFFft3nfhYV+ljhi
- GUMc8hojoIyufOvg6/HEXytUYdtXfuyAjXQYGTgK5dvZaB/J0E5YnVDsIJ2fNm1SydDm
- xYmbZQ8mtySGjFK4TJFE2EyiBpjv01DaNmNW+nTjOTnDz0ukSXx29+Uv/P1MPs53WerI
- e9DA==
+ bh=tq1OxEwLLycubPx5xI0peBbyRqoKzJ/bEvPvhp6uHYA=;
+ b=yrzLWLIhKBSuLK8W6njA5vViEWC6Uje32++QFUal71sHGtkVHsRXAF+zuoLEbSezcA
+ tFGv13zFSHMy2CVC0/nZJJkijyJNSXsSurCmQ4mvtjcg4ElwN2ensXxQrIN6vOE2WptM
+ arGhODlGThfDMd3YMFH9CLwCQ0p/KuFCuKGYQw74O3dDJpGNLm34Y25nc1Ck1F7WcBbP
+ a3yK3DtayRIjJSUS8h1Si4ZLzvLpDyrBQ6yGE0OdUkcPSrP9BTjbgnVRkpI8umYFttoh
+ h6CnjeUmBfEIajRHsOuPGUPIZOAKR1cJPO1sD1JZp5HmJCZdzCoFd+B6Ga/HNxsX6SX7
+ Fo/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=g/xzk76qJgEQKrpBfHFLJ/ww1pOt8DJdlgWZ/XEbBfk=;
- b=PttbQvBW1+IQ6C1MC4T/c5Mxws2HIhuqAvspY9MTT4igObDOzPUrNRGcXHunv2AwV5
- TM1GizqDI1I9E3a31WiKKz9yLXrA+KFYO8+u6RY8uDUxZQgNJEK5vu9pYTH1I4tI/ql5
- Bo6zkXUZ55P0ahydkIxjUNP/67onCx6gfKrxDO5zW00AVuDRO8Rehx/P/0YsQo1HKwIu
- NPCZkTwGw6LeB8Ozues+2InHuuC3aGOPzQf4kco2Nh6PeAhksknPn0l8wlr22q9Yg7D3
- VTkyu9qwdJd9vHGMUFzHuJYUfXeYfDU1/q9EKN7P9mdnZZHFofQFHmGutq5RJTrHVF6z
- ZJ/Q==
-X-Gm-Message-State: AOAM530e7fWkgbHhRCxttYHEf7O5cw+M+g4qKrmlNuQEepfJ6YX1HkpG
- ZD4fM+TvKVE04aUN3gh5ZJHsxg==
-X-Google-Smtp-Source: ABdhPJxTDBxRSg8ntxUxUYHcSoE1VdmiirWd2LJq2RAuFZfoJcRlK/F7fHj1BI9dBe4XE9VyJL8Cug==
-X-Received: by 2002:a62:36c1:0:b0:4ba:da22:218c with SMTP id
- d184-20020a6236c1000000b004bada22218cmr8608827pfa.26.1640385144942; 
- Fri, 24 Dec 2021 14:32:24 -0800 (PST)
+ bh=tq1OxEwLLycubPx5xI0peBbyRqoKzJ/bEvPvhp6uHYA=;
+ b=mDrs1OmxElD7YDLbRpOLLnM+BYMttYoad9bfrUmH0F5QyUbdCMmYZvAOfuCX+ZbNQs
+ l21ivAMPaD/WBidebVrYMXBNprZuJvefxDmkn36lFSoQWxmLAdOzFSh9UfzvMxrH72ok
+ hEETTPLW3EsM0u3YHo+oABgIrGGI7K624iKM8JjYLu7vZ5jIrTz7/6FTWjiW9x+5hbL2
+ SIqLii0QwlF2ujBnfvcolrQZQI1TiZljqUlNOayuf5FYBBJrxmqvHGtQ9hR5k+LPodUf
+ mmW9nnyjx6eAKthth7z3tZfKlvSdv50XTTewf3TP3Kl6Owjn2ZVDMXcth1aBTWHJoLLE
+ GcGA==
+X-Gm-Message-State: AOAM5330YwEKDVaEbOxVBJR0pctlJAIGBru3TeZHhC6BVmfD67WtPbiR
+ aq/mnl7nP3qv5oQUxj1cMJN6FGIoNFvuiQ==
+X-Google-Smtp-Source: ABdhPJyRaKyQ8Ou+a72L2Eap8CiRe6wElsXNA6SkqeEzd9f2wBZVYujMkbz5tDHK7l6ZikZxnwMGeA==
+X-Received: by 2002:a17:902:b712:b0:143:72b7:4096 with SMTP id
+ d18-20020a170902b71200b0014372b74096mr8314475pls.25.1640385159654; 
+ Fri, 24 Dec 2021 14:32:39 -0800 (PST)
 Received: from [172.20.100.20] ([156.19.246.20])
- by smtp.gmail.com with ESMTPSA id m68sm8518153pga.30.2021.12.24.14.32.24
+ by smtp.gmail.com with ESMTPSA id 15sm399121pfy.151.2021.12.24.14.32.38
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 24 Dec 2021 14:32:24 -0800 (PST)
-Subject: Re: [PATCH 5/6] target/riscv: add support for zhinx/zhinxmin
+ Fri, 24 Dec 2021 14:32:39 -0800 (PST)
+Subject: Re: [PATCH 6/6] target/riscv: expose zfinx, zdinx, zhinx{min}
+ properties
 To: liweiwei <liweiwei@iscas.ac.cn>, palmer@dabbelt.com,
  alistair.francis@wdc.com, bin.meng@windriver.com, qemu-riscv@nongnu.org,
  qemu-devel@nongnu.org
 References: <20211224034915.17204-1-liweiwei@iscas.ac.cn>
- <20211224034915.17204-6-liweiwei@iscas.ac.cn>
+ <20211224034915.17204-7-liweiwei@iscas.ac.cn>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <7a1db384-de9f-ae96-ce63-0f921a201179@linaro.org>
-Date: Fri, 24 Dec 2021 14:32:22 -0800
+Message-ID: <e2209460-1592-e6fa-18be-54a7f66c9387@linaro.org>
+Date: Fri, 24 Dec 2021 14:32:37 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <20211224034915.17204-6-liweiwei@iscas.ac.cn>
+In-Reply-To: <20211224034915.17204-7-liweiwei@iscas.ac.cn>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::431
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::629
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::431;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x431.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x629.google.com
 X-Spam_score_int: -33
 X-Spam_score: -3.4
 X-Spam_bar: ---
@@ -98,14 +99,31 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 12/23/21 7:49 PM, liweiwei wrote:
-> +static inline float16 check_nanbox_h(CPURISCVState *env, uint64_t f)
->   {
-> +    /* Disable nanbox check when enable zfinx */
-> +    if (RISCV_CPU(env_cpu(env))->cfg.ext_zfinx)
-> +        return (uint16_t)f;
+> Co-authored-by: ardxwe <ardxwe@gmail.com>
+> Signed-off-by: liweiwei <liweiwei@iscas.ac.cn>
+> Signed-off-by: wangjunqiang <wangjunqiang@iscas.ac.cn>
+> ---
+>   target/riscv/cpu.c | 4 ++++
+>   1 file changed, 4 insertions(+)
+> 
+> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> index a5fa14f2ac..dbd15693be 100644
+> --- a/target/riscv/cpu.c
+> +++ b/target/riscv/cpu.c
+> @@ -657,6 +657,10 @@ static Property riscv_cpu_properties[] = {
+>       DEFINE_PROP_BOOL("zbb", RISCVCPU, cfg.ext_zbb, true),
+>       DEFINE_PROP_BOOL("zbc", RISCVCPU, cfg.ext_zbc, true),
+>       DEFINE_PROP_BOOL("zbs", RISCVCPU, cfg.ext_zbs, true),
+> +    DEFINE_PROP_BOOL("Zdinx", RISCVCPU, cfg.ext_zdinx, false),
+> +    DEFINE_PROP_BOOL("Zfinx", RISCVCPU, cfg.ext_zfinx, false),
+> +    DEFINE_PROP_BOOL("Zhinx", RISCVCPU, cfg.ext_zhinx, false),
+> +    DEFINE_PROP_BOOL("Zhinxmin", RISCVCPU, cfg.ext_zhinxmin, false),
+>       DEFINE_PROP_BOOL("x-h", RISCVCPU, cfg.ext_h, false),
+>       DEFINE_PROP_BOOL("x-j", RISCVCPU, cfg.ext_j, false),
+>       /* ePMP 0.9.3 */
+> 
 
-Braces.
-
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 r~
 
