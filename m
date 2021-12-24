@@ -2,75 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C9B547F136
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Dec 2021 22:22:40 +0100 (CET)
-Received: from localhost ([::1]:41090 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A706147F139
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Dec 2021 22:26:58 +0100 (CET)
+Received: from localhost ([::1]:45572 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n0s1O-0004hd-Mq
-	for lists+qemu-devel@lfdr.de; Fri, 24 Dec 2021 16:22:38 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60072)
+	id 1n0s5Z-0007sF-6g
+	for lists+qemu-devel@lfdr.de; Fri, 24 Dec 2021 16:26:57 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60774)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1n0s0B-0003bk-72
- for qemu-devel@nongnu.org; Fri, 24 Dec 2021 16:21:24 -0500
-Received: from [2607:f8b0:4864:20::531] (port=44738
- helo=mail-pg1-x531.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1n0s09-00042x-KE
- for qemu-devel@nongnu.org; Fri, 24 Dec 2021 16:21:22 -0500
-Received: by mail-pg1-x531.google.com with SMTP id m15so8419572pgu.11
- for <qemu-devel@nongnu.org>; Fri, 24 Dec 2021 13:21:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=4j8iJ6x2JwrdxdzFiVSALfDzAA5Vx5rvZD7tSdQG6kY=;
- b=YoDypSXsxV8FnV4DIcRDk5C9V+tW+fqP6lhtpZ9sXjDLF3IH0/26wtaYeu/NsAKar3
- biOq9MHo5UuMflbSyWL7+WMX2XkyxdDGkAwqx2sU2x+gVxl2Lgx6Uq+OjsAlHCT3sx2H
- duaDeXdw/cl2Cl6+9c4Gkgk7S1NjbU6Yd/hvPXpQcCp2UQMoFziezyy7pkGNr4lDa2Zx
- cIBUw1UtmNMdLUVjUBkCxRzW8P09TPxQco3LMaKRRhzi6GhbwUClF5DBdfnrA1Q5VKkY
- 0fXykAL7qeNLPXV5+2jw0uHiOKEHyxBh0aivdrtjYs7MgAoMgeIB2X4MeAJKpPqzbuFj
- HsWQ==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1n0s4R-00075v-Ag
+ for qemu-devel@nongnu.org; Fri, 24 Dec 2021 16:25:48 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:37981)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1n0s4N-0007ny-AR
+ for qemu-devel@nongnu.org; Fri, 24 Dec 2021 16:25:46 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1640381141;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=I81qnYZa4ERC4xoyxWWfU9PNq+hQnVW9a146QUPBiD4=;
+ b=Vm3VDH1BgNn5L88YC6dLdkEk6GY0Vv7xZx/xzYn4NIUmUShunbbEhzF+hZSpC+JxlLJt7L
+ THeSmlmYsadN1HIU/a91IMC69tkLHr5nlfhJH1vYi7TVS27fb1R7nZqqG+jw9tfQRnT/ws
+ L/wHbSbj63UXXjC/eDeXyQn9uJ5qmtU=
+Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com
+ [209.85.215.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-163-3DPTFyCmPLmTMox0ftyQCQ-1; Fri, 24 Dec 2021 16:25:38 -0500
+X-MC-Unique: 3DPTFyCmPLmTMox0ftyQCQ-1
+Received: by mail-pg1-f200.google.com with SMTP id
+ n22-20020a6563d6000000b0029261ffde9bso5572661pgv.22
+ for <qemu-devel@nongnu.org>; Fri, 24 Dec 2021 13:25:37 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=4j8iJ6x2JwrdxdzFiVSALfDzAA5Vx5rvZD7tSdQG6kY=;
- b=hCf34/u+eKe6qLK16AKF1FGI7rbrBtvQHhL/aMbtHpJvYD6CoOvMygnIqI7q375XwC
- dxto6H4ptuWaXSqfk6wDgoNOdUe8Z+c5VqUYrqwbKlASvgnGIBmYnwPsCXEBNTD6JYL4
- 13BWrJ7XwPJdty8yGju56xpzOUhBwPaVE4Qs3uyrvc7D3+Qb5B8v5eIL5B4JV1cWIlYF
- O9Bd8phXImgcmRR2ZiVhCwkqZoQXfUtnPS4ff3q27H5WsCevfFrPJ4t2mPqs58bqSjFS
- c2Q3i3Q5aAjqzkJLbYNdndaMys3NhhlPueyaPLlInEJAnqQ9WBgTlJHInygLL9UXIDtF
- vNzA==
-X-Gm-Message-State: AOAM532UJnpjBxYCJIx1lMt/OWFlhXWf/rTASFiQlvDL7AzMaNhPdgh9
- Kp2anfO80/oqUPNIQnoEJUydNsl8PQ6qYg==
-X-Google-Smtp-Source: ABdhPJyEg3VcvHfhoolPsDY/n7Y/4ziLXylPl4oOKXGS6ElsU4vLQ6O8qxzk8vhCGRC0YMEvzwiIzg==
-X-Received: by 2002:a63:fd53:: with SMTP id m19mr7259983pgj.563.1640380879547; 
- Fri, 24 Dec 2021 13:21:19 -0800 (PST)
-Received: from localhost.localdomain ([156.19.246.20])
- by smtp.gmail.com with ESMTPSA id o22sm8974630pfu.89.2021.12.24.13.21.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 24 Dec 2021 13:21:19 -0800 (PST)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] tests/tcg: Use $cpu in configure.sh
-Date: Fri, 24 Dec 2021 13:21:17 -0800
-Message-Id: <20211224212117.2404218-1-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.25.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=I81qnYZa4ERC4xoyxWWfU9PNq+hQnVW9a146QUPBiD4=;
+ b=vwaAjpcPTTZTmOADDYYuNJeDERyg2lmyGEfZYyV0L/xmmOSNF+N50qBTtriM0AshGc
+ Oj2GsGwJCoKn7Ecc5JU0efIm1YzN0k+Ck4L4uCem7GJT2/zQLQdU1y7jAdJPLWeKR0wm
+ E7vb19t13nNHGpHE+RzRUwuCNircXLPFbVqFuiv+LF3KVUwmNJx1IZdZzg9luz+x4Skf
+ nEor3ZZ3Q+O2k9gRjQY79wabdwDH0LUjXWBrp5KgkAYmY5PL3I/pQ9RwZOLdDGi3lVew
+ Nb0ZCUNabcPLO0Jq5L0lGN+ZQksV9vsCXTTzEKgQKjRronpb4Yxm9MZ2dZTZJ8PaKJC1
+ Q7Ag==
+X-Gm-Message-State: AOAM531k+tlzE0+41YdVFCrzGlT8h65kBoIQVTvips2jEl9qExDQkT70
+ daqtmCNWWiK+w8xEcyc4Otx+PsqqvDKr+uTsOUP6wS2wWlVH2b3c40a7Vg/AjSYSsRoEvln9dpE
+ 0ZfZhnJ5u1ugL/rvoUnjeno8JsE5wrKk=
+X-Received: by 2002:a17:90b:1a8b:: with SMTP id
+ ng11mr9804371pjb.13.1640381136750; 
+ Fri, 24 Dec 2021 13:25:36 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyLFcJ3DfV0VMzv2V6ZotjjBMV+e6TWMALiMcmcChLZipHmmSa1B5GF2cwITIiAmt2GKSDw8YX/BQUrki4VVx8=
+X-Received: by 2002:a17:90b:1a8b:: with SMTP id
+ ng11mr9804352pjb.13.1640381136483; 
+ Fri, 24 Dec 2021 13:25:36 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::531
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::531;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x531.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+References: <20211224113402.6d2d54f9@orange>
+In-Reply-To: <20211224113402.6d2d54f9@orange>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Date: Fri, 24 Dec 2021 22:25:24 +0100
+Message-ID: <CABgObfZWaeo2yQLvgHNhA443yqZLtcSusbms8hUafx-KuYXUaA@mail.gmail.com>
+Subject: Re: QEMU CI failure of cross-i386-* targets (meson picks wrong glib
+ for native target)
+To: Alessandro Di Federico <ale@rev.ng>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/alternative; boundary="000000000000efca8f05d3eafe5d"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.203,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,47 +93,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, alex.bennee@linaro.org
+Cc: Brian Cain <bcain@quicinc.com>, Taylor Simpson <tsimpson@quicinc.com>,
+ Anton Johansson via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use $cpu instead of $ARCH, which has been removed from
-the top-level configure.
+--000000000000efca8f05d3eafe5d
+Content-Type: text/plain; charset="UTF-8"
 
-Fixes: 823eb013452e
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- configure              | 2 +-
- tests/tcg/configure.sh | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+Is the configure script setting $cross_compile to yes? That will decide
+whether meson getting a --cross-file or a --native-file option, and
+consequently whether it treats the host and build machines as equal or
+different.
 
-diff --git a/configure b/configure
-index eb977e5b6f..030728d11e 100755
---- a/configure
-+++ b/configure
-@@ -3821,7 +3821,7 @@ done
- (for i in $cross_cc_vars; do
-   export $i
- done
--export target_list source_path use_containers ARCH
-+export target_list source_path use_containers cpu
- $source_path/tests/tcg/configure.sh)
- 
- # temporary config to build submodules
-diff --git a/tests/tcg/configure.sh b/tests/tcg/configure.sh
-index 9ef913df5b..8eb4287c84 100755
---- a/tests/tcg/configure.sh
-+++ b/tests/tcg/configure.sh
-@@ -326,7 +326,7 @@ for target in $target_list; do
-   elif test $got_cross_cc = no && test "$container" != no && \
-           test -n "$container_image"; then
-       for host in $container_hosts; do
--          if test "$host" = "$ARCH"; then
-+          if test "$host" = "$cpu"; then
-               echo "DOCKER_IMAGE=$container_image" >> $config_target_mak
-               echo "DOCKER_CROSS_CC_GUEST=$container_cross_cc" >> \
-                    $config_target_mak
--- 
-2.25.1
+Paolo
+
+Il ven 24 dic 2021, 12:09 Alessandro Di Federico <ale@rev.ng> ha scritto:
+
+> Hi Paolo, I'm trying to get the QEMU CI run successfully for the
+> idef-parser patchset. However I'm facing an issue I haven't been able
+> to work around with meson. Maybe you can help?
+>
+> The failing tests are cross-i386-*
+>
+>     https://gitlab.com/carl.cudig/qemu/-/jobs/1437392669
+>     https://gitlab.com/carl.cudig/qemu/-/jobs/1437392673
+>     https://gitlab.com/carl.cudig/qemu/-/jobs/1437392671
+>
+> I think the problem is that we're adding a new build-time dependency:
+> glib. However glib is also a run-time dependency and, AFAIU, when cross
+> compiling for x86 on a x86-64 machine, if you create a native
+> executable, meson picks up the x86 version of glib (as opposed to the
+> x86-64).
+>
+> I've been fiddling with this for a while, unsuccessfully.
+>
+> Relevant portion of the code:
+>
+>
+> https://gitlab.com/carl.cudig/qemu/-/commit/c020958c37fa723f7e933a58b1bb1c3668ff4cff#8145a41027f26ff426d5a2c8b00c56f227943165_198_202
+>
+> Happy holidays!
+>
+> --
+> Alessandro Di Federico
+> rev.ng Labs Srl
+>
+>
+
+--000000000000efca8f05d3eafe5d
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto">Is the configure script setting $cross_compile to yes? Th=
+at will decide whether meson getting a --cross-file or a --native-file opti=
+on, and consequently whether it treats the host and build machines as equal=
+ or different.<br><div dir=3D"auto"><br></div><div dir=3D"auto">Paolo</div>=
+</div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">=
+Il ven 24 dic 2021, 12:09 Alessandro Di Federico &lt;<a href=3D"mailto:ale@=
+rev.ng" target=3D"_blank" rel=3D"noreferrer">ale@rev.ng</a>&gt; ha scritto:=
+<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bord=
+er-left:1px #ccc solid;padding-left:1ex">Hi Paolo, I&#39;m trying to get th=
+e QEMU CI run successfully for the<br>
+idef-parser patchset. However I&#39;m facing an issue I haven&#39;t been ab=
+le<br>
+to work around with meson. Maybe you can help?<br>
+<br>
+The failing tests are cross-i386-*<br>
+<br>
+=C2=A0 =C2=A0 <a href=3D"https://gitlab.com/carl.cudig/qemu/-/jobs/14373926=
+69" rel=3D"noreferrer noreferrer noreferrer" target=3D"_blank">https://gitl=
+ab.com/carl.cudig/qemu/-/jobs/1437392669</a><br>
+=C2=A0 =C2=A0 <a href=3D"https://gitlab.com/carl.cudig/qemu/-/jobs/14373926=
+73" rel=3D"noreferrer noreferrer noreferrer" target=3D"_blank">https://gitl=
+ab.com/carl.cudig/qemu/-/jobs/1437392673</a><br>
+=C2=A0 =C2=A0 <a href=3D"https://gitlab.com/carl.cudig/qemu/-/jobs/14373926=
+71" rel=3D"noreferrer noreferrer noreferrer" target=3D"_blank">https://gitl=
+ab.com/carl.cudig/qemu/-/jobs/1437392671</a><br>
+<br>
+I think the problem is that we&#39;re adding a new build-time dependency:<b=
+r>
+glib. However glib is also a run-time dependency and, AFAIU, when cross<br>
+compiling for x86 on a x86-64 machine, if you create a native<br>
+executable, meson picks up the x86 version of glib (as opposed to the<br>
+x86-64).<br>
+<br>
+I&#39;ve been fiddling with this for a while, unsuccessfully.<br>
+<br>
+Relevant portion of the code:<br>
+<br>
+=C2=A0 =C2=A0 <a href=3D"https://gitlab.com/carl.cudig/qemu/-/commit/c02095=
+8c37fa723f7e933a58b1bb1c3668ff4cff#8145a41027f26ff426d5a2c8b00c56f227943165=
+_198_202" rel=3D"noreferrer noreferrer noreferrer" target=3D"_blank">https:=
+//gitlab.com/carl.cudig/qemu/-/commit/c020958c37fa723f7e933a58b1bb1c3668ff4=
+cff#8145a41027f26ff426d5a2c8b00c56f227943165_198_202</a><br>
+<br>
+Happy holidays!<br>
+<br>
+-- <br>
+Alessandro Di Federico<br>
+rev.ng Labs Srl<br>
+<br>
+</blockquote></div>
+
+--000000000000efca8f05d3eafe5d--
 
 
