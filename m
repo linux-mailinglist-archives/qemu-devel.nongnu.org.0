@@ -2,42 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 761C147EE84
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Dec 2021 12:17:59 +0100 (CET)
-Received: from localhost ([::1]:46970 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE84C47EE83
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Dec 2021 12:17:58 +0100 (CET)
+Received: from localhost ([::1]:46926 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n0iaE-0000zo-Jc
-	for lists+qemu-devel@lfdr.de; Fri, 24 Dec 2021 06:17:58 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36148)
+	id 1n0iaD-0000xz-Qa
+	for lists+qemu-devel@lfdr.de; Fri, 24 Dec 2021 06:17:57 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36178)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <nikita.lapshin@virtuozzo.com>)
- id 1n0iUO-00018W-IG
- for qemu-devel@nongnu.org; Fri, 24 Dec 2021 06:11:57 -0500
-Received: from relay.sw.ru ([185.231.240.75]:48180)
+ id 1n0iUP-00018X-Dx
+ for qemu-devel@nongnu.org; Fri, 24 Dec 2021 06:11:59 -0500
+Received: from relay.sw.ru ([185.231.240.75]:48188)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <nikita.lapshin@virtuozzo.com>)
- id 1n0iUL-0003OP-OD
- for qemu-devel@nongnu.org; Fri, 24 Dec 2021 06:11:55 -0500
+ id 1n0iUL-0003OS-OA
+ for qemu-devel@nongnu.org; Fri, 24 Dec 2021 06:11:57 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=virtuozzo.com; s=relay; h=MIME-Version:Message-Id:Date:Subject:From:
- Content-Type; bh=BCZPOz7PNvWKMmFA73SNdrDpoTzMi0IKzZ/uQSMBGGc=; b=efuiodMQD5EQ
- bv2+/SZNPv8WVruP/XBiYTQlfPHKot8Vbq6iOXkOeehXQwprIJRCbGPV2BU7LLvRgNsFXnWDqMWb3
- GMnbj0GeYJ2kGoiroOyLq/7P6w8qsn22NnpSON9cX6EaZIgBQ+jLOpshRnDdjX/qvXG9TAfa98022
- iaGzc=;
+ Content-Type; bh=tCvifQSnLlWrMvmJBaFd5pcx1Ud1JDyXCYHoGHkKti8=; b=sbjo1RF0rdJG
+ g/gNAiiMrNvqf1SyBNOnNSL8n7+c2Tbav11SaTIGvQ2myuSiCo7f/L0os56GJ/JnSp+OCuJZ1A0pm
+ bpsoJD3uTjLz3XZJOEOE6qRBlkYQqXPTDVQY9Ou6jLH4buR4I3DxCzZnJVv5tSvBI2ZdfLEp+5KND
+ eHh40=;
 Received: from [10.94.3.117] (helo=nun.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.94.2)
  (envelope-from <nikita.lapshin@virtuozzo.com>)
- id 1n0iUH-004OwN-2L; Fri, 24 Dec 2021 14:11:49 +0300
+ id 1n0iUH-004OwN-4E; Fri, 24 Dec 2021 14:11:49 +0300
 From: Nikita Lapshin <nikita.lapshin@virtuozzo.com>
 To: qemu-devel@nongnu.org
 Cc: quintela@redhat.com, dgilbert@redhat.com, eblake@redhat.com,
  armbru@redhat.com, eduardo@habkost.net, crosa@redhat.com, kwolf@redhat.com,
  hreitz@redhat.com, nikita.lapshin@virtuozzo.com, vsementsov@virtuozzo.com,
  den@virtuozzo.com
-Subject: [PATCH 4/6] migration: Add ram-only capability
-Date: Fri, 24 Dec 2021 14:11:46 +0300
-Message-Id: <20211224111148.345438-5-nikita.lapshin@virtuozzo.com>
+Subject: [PATCH 5/6] migration: analyze-migration script changed
+Date: Fri, 24 Dec 2021 14:11:47 +0300
+Message-Id: <20211224111148.345438-6-nikita.lapshin@virtuozzo.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20211224111148.345438-1-nikita.lapshin@virtuozzo.com>
 References: <20211224111148.345438-1-nikita.lapshin@virtuozzo.com>
@@ -66,149 +66,91 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If this capability is enabled migration stream
-will have RAM section only.
+This script is used for RAM capabilities test. But it cannot work
+in case of no vm description in migration stream.
+So new flag is added to allow work this script with ram-only
+migration stream.
 
 Signed-off-by: Nikita Lapshin <nikita.lapshin@virtuozzo.com>
 ---
- migration/migration.c | 20 +++++++++++++++++++-
- migration/migration.h |  1 +
- migration/savevm.c    | 11 ++++++++++-
- qapi/migration.json   |  7 +++++--
- 4 files changed, 35 insertions(+), 4 deletions(-)
+ scripts/analyze-migration.py | 19 ++++++++++++-------
+ 1 file changed, 12 insertions(+), 7 deletions(-)
 
-diff --git a/migration/migration.c b/migration/migration.c
-index 006447d00a..4d7ef9d8dc 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -1257,6 +1257,14 @@ static bool migrate_caps_check(bool *cap_list,
-         return false;
-     }
+diff --git a/scripts/analyze-migration.py b/scripts/analyze-migration.py
+index b82a1b0c58..80077a09bc 100755
+--- a/scripts/analyze-migration.py
++++ b/scripts/analyze-migration.py
+@@ -495,7 +495,7 @@ def __init__(self, filename):
+         self.filename = filename
+         self.vmsd_desc = None
  
-+    if (cap_list[MIGRATION_CAPABILITY_NO_RAM] &&
-+        cap_list[MIGRATION_CAPABILITY_RAM_ONLY]) {
-+        error_setg(errp, "ram-only and no-ram aren't "
-+                         "compatible with each other");
-+
-+        return false;
-+    }
-+
-     return true;
- }
+-    def read(self, desc_only = False, dump_memory = False, write_memory = False):
++    def read(self, ram_only, desc_only = False, dump_memory = False, write_memory = False):
+         # Read in the whole file
+         file = MigrationFile(self.filename)
  
-@@ -2619,6 +2627,15 @@ bool migrate_no_ram(void)
-     return s->enabled_capabilities[MIGRATION_CAPABILITY_NO_RAM];
- }
+@@ -509,7 +509,8 @@ def read(self, desc_only = False, dump_memory = False, write_memory = False):
+         if data != self.QEMU_VM_FILE_VERSION:
+             raise Exception("Invalid version number %d" % data)
  
-+bool migrate_ram_only(void)
-+{
-+    MigrationState *s;
-+
-+    s = migrate_get_current();
-+
-+    return s->enabled_capabilities[MIGRATION_CAPABILITY_RAM_ONLY];
-+}
-+
- /* migration thread support */
- /*
-  * Something bad happened to the RP stream, mark an error
-@@ -3973,7 +3990,8 @@ static void *bg_migration_thread(void *opaque)
-      * save their state to channel-buffer along with devices.
-      */
-     cpu_synchronize_all_states();
--    if (qemu_savevm_state_complete_precopy_non_iterable(fb, false, false)) {
-+    if (!migrate_ram_only() &&
-+        qemu_savevm_state_complete_precopy_non_iterable(fb, false, false)) {
-         goto fail;
-     }
-     /*
-diff --git a/migration/migration.h b/migration/migration.h
-index 43f7bf8eba..d5a077e00d 100644
---- a/migration/migration.h
-+++ b/migration/migration.h
-@@ -359,6 +359,7 @@ bool migrate_use_events(void);
- bool migrate_postcopy_blocktime(void);
- bool migrate_background_snapshot(void);
- bool migrate_no_ram(void);
-+bool migrate_ram_only(void);
+-        self.load_vmsd_json(file)
++        if not ram_only:
++            self.load_vmsd_json(file)
  
- /* Sending on the return path - generic and then for each message type */
- void migrate_send_rp_shut(MigrationIncomingState *mis,
-diff --git a/migration/savevm.c b/migration/savevm.c
-index ba644083ab..e41ca76000 100644
---- a/migration/savevm.c
-+++ b/migration/savevm.c
-@@ -249,6 +249,7 @@ typedef struct SaveStateEntry {
-     void *opaque;
-     CompatEntry *compat;
-     int is_iterable;
-+    bool is_ram;
- } SaveStateEntry;
+         # Read sections
+         self.sections = collections.OrderedDict()
+@@ -518,7 +519,10 @@ def read(self, desc_only = False, dump_memory = False, write_memory = False):
+             return
  
- typedef struct SaveState {
-@@ -802,6 +803,10 @@ int register_savevm_live(const char *idstr,
-         se->is_iterable = 1;
-     }
+         ramargs = {}
+-        ramargs['page_size'] = self.vmsd_desc['page_size']
++        if ram_only:
++            ramargs['page_size'] = 4096
++        else:
++            ramargs['page_size'] = self.vmsd_desc['page_size']
+         ramargs['dump_memory'] = dump_memory
+         ramargs['write_memory'] = write_memory
+         self.section_classes[('ram',0)][1] = ramargs
+@@ -579,6 +583,7 @@ def default(self, o):
+ parser.add_argument("-m", "--memory", help='dump RAM contents as well', action='store_true')
+ parser.add_argument("-d", "--dump", help='what to dump ("state" or "desc")', default='state')
+ parser.add_argument("-x", "--extract", help='extract contents into individual files', action='store_true')
++parser.add_argument("--ram-only", help='parse migration dump containing only RAM', action='store_true')
+ args = parser.parse_args()
  
-+    if (!strcmp("ram", idstr)) {
-+        se->is_ram = true;
-+    }
-+
-     pstrcat(se->idstr, sizeof(se->idstr), idstr);
+ jsonenc = JSONEncoder(indent=4, separators=(',', ': '))
+@@ -586,14 +591,14 @@ def default(self, o):
+ if args.extract:
+     dump = MigrationDump(args.file)
  
-     if (instance_id == VMSTATE_INSTANCE_ID_ANY) {
-@@ -949,6 +954,10 @@ static bool should_skip(SaveStateEntry *se)
-         return true;
-     }
+-    dump.read(desc_only = True)
++    dump.read(desc_only = True, ram_only = args.ram_only)
+     print("desc.json")
+     f = open("desc.json", "w")
+     f.truncate()
+     f.write(jsonenc.encode(dump.vmsd_desc))
+     f.close()
  
-+    if (migrate_ram_only() && !se->is_ram) {
-+        return true;
-+    }
-+
-     return false;
- }
- 
-@@ -1486,7 +1495,7 @@ int qemu_savevm_state_complete_precopy(QEMUFile *f, bool iterable_only,
-         }
-     }
- 
--    if (iterable_only) {
-+    if (iterable_only || migrate_ram_only()) {
-         goto flush;
-     }
- 
-diff --git a/qapi/migration.json b/qapi/migration.json
-index d53956852c..626fc59d14 100644
---- a/qapi/migration.json
-+++ b/qapi/migration.json
-@@ -454,6 +454,8 @@
- #
- # @no-ram: If enabled, migration stream won't contain any ram in it. (since 7.0)
- #
-+# @ram-only: If enabled, only RAM sections will be sent. (since 7.0)
-+#
- # Features:
- # @unstable: Members @x-colo and @x-ignore-shared are experimental.
- #
-@@ -467,7 +469,7 @@
-            'block', 'return-path', 'pause-before-switchover', 'multifd',
-            'dirty-bitmaps', 'postcopy-blocktime', 'late-block-activate',
-            { 'name': 'x-ignore-shared', 'features': [ 'unstable' ] },
--           'validate-uuid', 'background-snapshot', 'no-ram'] }
-+           'validate-uuid', 'background-snapshot', 'no-ram', 'ram-only'] }
- ##
- # @MigrationCapabilityStatus:
- #
-@@ -521,7 +523,8 @@
- #       {"state": true, "capability": "events"},
- #       {"state": false, "capability": "postcopy-ram"},
- #       {"state": false, "capability": "x-colo"},
--#       {"state": false, "capability": "no-ram"}
-+#       {"state": false, "capability": "no-ram"},
-+#       {"state": false, "capability": "ram-only"}
- #    ]}
- #
- ##
+-    dump.read(write_memory = True)
++    dump.read(write_memory = True, ram_only = args.ram_only)
+     dict = dump.getDict()
+     print("state.json")
+     f = open("state.json", "w")
+@@ -602,12 +607,12 @@ def default(self, o):
+     f.close()
+ elif args.dump == "state":
+     dump = MigrationDump(args.file)
+-    dump.read(dump_memory = args.memory)
++    dump.read(dump_memory = args.memory, ram_only = args.ram_only)
+     dict = dump.getDict()
+     print(jsonenc.encode(dict))
+ elif args.dump == "desc":
+     dump = MigrationDump(args.file)
+-    dump.read(desc_only = True)
++    dump.read(desc_only = True, ram_only = args.ram_only)
+     print(jsonenc.encode(dump.vmsd_desc))
+ else:
+     raise Exception("Please specify either -x, -d state or -d desc")
 -- 
 2.27.0
 
