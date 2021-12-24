@@ -2,78 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BB8247EB83
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Dec 2021 06:16:15 +0100 (CET)
-Received: from localhost ([::1]:47990 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 462AE47EB85
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Dec 2021 06:18:18 +0100 (CET)
+Received: from localhost ([::1]:50212 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n0cwA-0007mL-8Q
-	for lists+qemu-devel@lfdr.de; Fri, 24 Dec 2021 00:16:14 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48876)
+	id 1n0cy9-0000xQ-Cg
+	for lists+qemu-devel@lfdr.de; Fri, 24 Dec 2021 00:18:17 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49346)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1n0cuX-000752-H9
- for qemu-devel@nongnu.org; Fri, 24 Dec 2021 00:14:33 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:20831)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1n0cwL-0008N9-RR
+ for qemu-devel@nongnu.org; Fri, 24 Dec 2021 00:16:28 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20586)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1n0cuW-0001Tj-5X
- for qemu-devel@nongnu.org; Fri, 24 Dec 2021 00:14:33 -0500
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1n0cwJ-0001zi-7o
+ for qemu-devel@nongnu.org; Fri, 24 Dec 2021 00:16:24 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1640322871;
+ s=mimecast20190719; t=1640322982;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=UNxzvN0Qar6P8nUL/xIycC1M4Bs97gE3YexLAe5fv9c=;
- b=BV1jsYFKbi2ll7JGO3AZAIvM1C2xSuqDPfIFRZMK1oeZlL7ReFjiR0FGmcHHkCPNVrLqyN
- g+wFx1qYGkpOXyfn6x+POVkix2ew0+4stP0VlbOShvOpm6oiCWhreuAmHk3Nr3K/lPwCFh
- n55QLyzkCg53eH6KzSqJD1zDPpWQrf8=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=3ARCOoI1pcyoJDhl5TakV8nF6wbmPd+i+H8ijTicBgE=;
+ b=asiL+sUcauoP8NWhhjnND9/TVkWnLHrYqSONmdZoFFwR3EArxvp4H5LY2xtoGSjvsBuhDq
+ AjdPkdBmesZMG45kQ8eohLmkL6trg/IzURoBJP2n2T39A3hQeti8G2VkuQzyi+E03gKG+K
+ 29OZLmzjHig6HtOhAt72MF3tve7GYIA=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-91-Pwuv3udDOomUkjgJU4zRaQ-1; Fri, 24 Dec 2021 00:14:30 -0500
-X-MC-Unique: Pwuv3udDOomUkjgJU4zRaQ-1
-Received: by mail-wm1-f72.google.com with SMTP id
- n3-20020a05600c3b8300b00345c3fc40b0so3801807wms.3
- for <qemu-devel@nongnu.org>; Thu, 23 Dec 2021 21:14:30 -0800 (PST)
+ us-mta-42-W_y-yJZXND6g_9klz832lw-1; Fri, 24 Dec 2021 00:16:18 -0500
+X-MC-Unique: W_y-yJZXND6g_9klz832lw-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ p22-20020a05600c1d9600b00345a25ea8cfso2885171wms.5
+ for <qemu-devel@nongnu.org>; Thu, 23 Dec 2021 21:16:17 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=UNxzvN0Qar6P8nUL/xIycC1M4Bs97gE3YexLAe5fv9c=;
- b=iwvNwuW5E5XiFBmNlVaLutPCbe+LO9ph/bm9n0TChRUwh5GUm5Cgpwd1gUAzR/XnOX
- /Fkqqt8xb3NUa81rhdwmhhOPuHzjKn1K/n4BR17w4/djiDKHT7m9A0labFqe1nW689JP
- Pa3WmljV53FW8CITT89vj72dey4XmTvoMSGcF4HixHQagvgVxcmFO8lPWBZjsjDJ+m+V
- pEGIPQdz5N3PGWYUctm0kV1HzCBFwssCbhh/KM+pQkKfG1OEUGu/Vp2Plfi2yd85b0ss
- svz3S2vhee9tXr+Q6PvkHQS//M8hCm8p+9D2S8lhXavzfjhAHpEuUVvgKvj0Aad1PF1A
- GwtA==
-X-Gm-Message-State: AOAM532Ih+lRxQk+Zoe2A8vFnMXO6jr8HNODxcCuwEwXQMupJcsjPSOw
- EM4YhWInbYaVtSJTmqr6UoXyxl0J2VaNYmeLUcR1MprrSKQ9Kfe/FoTBax3dmGXe5A4CUcz+q8A
- hsJTKRAz/JQUTZI0=
-X-Received: by 2002:a5d:6d09:: with SMTP id e9mr3645426wrq.142.1640322869134; 
- Thu, 23 Dec 2021 21:14:29 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyj6fkgMdmDuqgFPAqQKxZMukurpDfqn3NtIK6xChqLHACgPk/htAOySu9mdbRclErtAVvS2w==
-X-Received: by 2002:a5d:6d09:: with SMTP id e9mr3645424wrq.142.1640322868974; 
- Thu, 23 Dec 2021 21:14:28 -0800 (PST)
+ bh=3ARCOoI1pcyoJDhl5TakV8nF6wbmPd+i+H8ijTicBgE=;
+ b=12nUT2g5WcbGdLhBYgTAmbIX62H4Q3CjdBvd7Zk/d+i0ALYlLtvWwZoNI1SGcxiuAV
+ rhjTs9KqW5194gQwNkpcjgjxuXW9n3xOLU+iARrB9KyXjCHj1q6pBBRBRjaT5hp/zmJg
+ Y7JbRwdzRmDps2D01ewuyzExwgGudzkAmQ4VsyrTN4a7xY1cecRcMjbq1/aYGrkYmNS8
+ iw3rCg7sBtJt975OE1I7Ne1uu3LaZIKMZ9/xsQ7vw1f6o3GMbLiNwg01JiSuq7DvypsH
+ 8nROs3pvFUXG5u2mIK5aiSH+JRxbXvQu9I9Bus6FAk72IAKXwgojtCNkewgdAKh4nryY
+ +LRQ==
+X-Gm-Message-State: AOAM532TG2g3PyzLstGhT44sbt5H4uC0bBvDXdjzAlSNNMQILqqB6DH2
+ 7MMBHJBUyRN/yZ/xJ4SOLN3fIfX8JhvvuenwLvfRZwru9xahLA5PBAPWh5GVzJDnun6UTm9mkkR
+ uKEa4pkEh0UB1y+w=
+X-Received: by 2002:a1c:1b08:: with SMTP id b8mr3600618wmb.28.1640322976835;
+ Thu, 23 Dec 2021 21:16:16 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyeF5WPfeiHblBIZUccqe7oXYx+J9013K5Fbc/HqMVOiCrwvBUesg9JtS+e2oEnH8IImS27Vg==
+X-Received: by 2002:a1c:1b08:: with SMTP id b8mr3600603wmb.28.1640322976616;
+ Thu, 23 Dec 2021 21:16:16 -0800 (PST)
 Received: from xz-m1.local ([85.203.46.180])
- by smtp.gmail.com with ESMTPSA id 9sm8629955wrz.90.2021.12.23.21.14.24
+ by smtp.gmail.com with ESMTPSA id j26sm8345383wms.46.2021.12.23.21.16.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 23 Dec 2021 21:14:28 -0800 (PST)
-Date: Fri, 24 Dec 2021 13:14:21 +0800
+ Thu, 23 Dec 2021 21:16:16 -0800 (PST)
+Date: Fri, 24 Dec 2021 13:16:10 +0800
 From: Peter Xu <peterx@redhat.com>
-To: huangy81@chinatelecom.cn
+To: Markus Armbruster <armbru@redhat.com>
 Subject: Re: [PATCH v10 3/3] cpus-common: implement dirty page limit on
  virtual CPU
-Message-ID: <YcVXLbqbWpcOdeAK@xz-m1.local>
+Message-ID: <YcVXkHEkFqfcLztG@xz-m1.local>
 References: <cover.1639479557.git.huangy81@chinatelecom.cn>
+ <cover.1639479557.git.huangy81@chinatelecom.cn>
  <d54bfe75d5d64e64a21bda977d40f62579cd0222.1639479557.git.huangy81@chinatelecom.cn>
+ <874k7anwtc.fsf@dusky.pond.sub.org>
+ <4397f17c-4431-8480-127b-4228271523c8@chinatelecom.cn>
+ <Ybmiw59Qh3sHukyh@xz-m1.local> <87y24m2df7.fsf@dusky.pond.sub.org>
+ <YbrbQYiEMGz864aB@xz-m1.local>
+ <a6dc86b7-29c2-fa08-ad16-017d8b1301d9@chinatelecom.cn>
+ <877dc4yhjq.fsf@dusky.pond.sub.org>
 MIME-Version: 1.0
-In-Reply-To: <d54bfe75d5d64e64a21bda977d40f62579cd0222.1639479557.git.huangy81@chinatelecom.cn>
+In-Reply-To: <877dc4yhjq.fsf@dusky.pond.sub.org>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -95,30 +102,44 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Eduardo Habkost <eduardo@habkost.net>, David Hildenbrand <david@redhat.com>,
- Juan Quintela <quintela@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>, Markus ArmBruster <armbru@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, Hyman Huang <huangy81@chinatelecom.cn>,
+ qemu-devel <qemu-devel@nongnu.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Dec 14, 2021 at 07:07:34PM +0800, huangy81@chinatelecom.cn wrote:
-> +void qmp_vcpu_dirty_limit(bool enable,
-> +                          bool has_cpu_index,
-> +                          uint64_t cpu_index,
-> +                          bool has_dirty_rate,
-> +                          uint64_t dirty_rate,
-> +                          Error **errp)
-> +{
-> +    static bool initialized;
+On Thu, Dec 16, 2021 at 11:23:37AM +0100, Markus Armbruster wrote:
+> Hyman Huang <huangy81@chinatelecom.cn> writes:
+> 
+> [...]
+> 
+> > So the final format of qmp we conclude are:
+> >
+> > case 1: setup vcpu 0 dirty page limit 100MB/s
+> > set-vcpu-dirty-limit cpu-index=0 dirty-rate=100
+> >
+> > case 2: setup all vcpu dirty page limit 100MB/s
+> > set-vcpu-dirty-limit dirty-rate=100
+> >
+> > case 3: cancel vcpu 0 dirty page limit
+> > cancel-vcpu-dirty-limit cpu-index=0
+> >
+> > case 4: cancel all vcpu dirty page limit
+> > cancel-vcpu-dirty-limit
+> >
+> > case 5: query limit infomatioin of all vcpu enabled
+> > query-vcpu-dirty-limit
+> >
+> > And the corresponding hmp format keep the same style:
+> >
+> > Is there any advice? :)
+> 
+> Looks okay to me.
 
-IMHO this is not needed; if we're with a global state pointer then it's the
-same to check against that.
-
-The rest looks mostly good (besides the last proposal on API design which you
-got confirmation from Markus).
+Same here.
 
 -- 
 Peter Xu
