@@ -2,48 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A50A47EB02
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Dec 2021 04:56:22 +0100 (CET)
-Received: from localhost ([::1]:44296 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2037947EAF5
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Dec 2021 04:52:43 +0100 (CET)
+Received: from localhost ([::1]:37934 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n0bgr-0004xf-6Z
-	for lists+qemu-devel@lfdr.de; Thu, 23 Dec 2021 22:56:21 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33120)
+	id 1n0bdK-0000jA-71
+	for lists+qemu-devel@lfdr.de; Thu, 23 Dec 2021 22:52:42 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33042)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1n0bb5-0006lo-1o; Thu, 23 Dec 2021 22:50:23 -0500
-Received: from smtp25.cstnet.cn ([159.226.251.25]:49270 helo=cstnet.cn)
+ id 1n0bay-0006lV-MF; Thu, 23 Dec 2021 22:50:17 -0500
+Received: from smtp25.cstnet.cn ([159.226.251.25]:49288 helo=cstnet.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <liweiwei@iscas.ac.cn>)
- id 1n0bav-0001ZL-So; Thu, 23 Dec 2021 22:50:20 -0500
+ id 1n0bav-0001Zb-Rd; Thu, 23 Dec 2021 22:50:16 -0500
 Received: from localhost.localdomain (unknown [180.156.147.178])
- by APP-05 (Coremail) with SMTP id zQCowACHjwNqQ8VheYHIBA--.4261S2;
- Fri, 24 Dec 2021 11:50:02 +0800 (CST)
+ by APP-05 (Coremail) with SMTP id zQCowACHjwNqQ8VheYHIBA--.4261S3;
+ Fri, 24 Dec 2021 11:50:04 +0800 (CST)
 From: liweiwei <liweiwei@iscas.ac.cn>
 To: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
  qemu-riscv@nongnu.org, qemu-devel@nongnu.org
-Subject: [PATCH 0/6] support subsets of Float-Point in Integer Registers
- extensions
-Date: Fri, 24 Dec 2021 11:49:09 +0800
-Message-Id: <20211224034915.17204-1-liweiwei@iscas.ac.cn>
+Subject: [PATCH 1/6] target/riscv: add cfg properties for zfinx,
+ zdinx and zhinx{min}
+Date: Fri, 24 Dec 2021 11:49:10 +0800
+Message-Id: <20211224034915.17204-2-liweiwei@iscas.ac.cn>
 X-Mailer: git-send-email 2.17.1
-X-CM-TRANSID: zQCowACHjwNqQ8VheYHIBA--.4261S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7uFW3tryfCryfXrWUCF1rWFg_yoW8XFyDpr
- 4rG3y3CrZ5JFWfXw4fJ3WDAr1Yqr4rWw47twn7twn7Aw43AFW5JrnrKw1Sgw18Ja48Wr9F
- 93WUCr13Cw45JFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUyG14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
- 6F4UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVWxJr
- 0_GcWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
- 2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
- W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1l42xK82IYc2Ij64vI
- r41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8Gjc
- xK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0
- cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8V
- AvwI8IcIk0rVWrZr1j6s0DMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7Cj
- xVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7VUbXdbUUUUUU==
+In-Reply-To: <20211224034915.17204-1-liweiwei@iscas.ac.cn>
+References: <20211224034915.17204-1-liweiwei@iscas.ac.cn>
+X-CM-TRANSID: zQCowACHjwNqQ8VheYHIBA--.4261S3
+X-Coremail-Antispam: 1UD129KBjvJXoWxuF1rZF1ftFy8Aw1fJw1UKFg_yoW5Ary8pr
+ WUW3WayF98XFy7Aas7JF1Dt3W8Wwn7GFWrK392vw1fWrWSqrW5JF4qk34UZF4Yq3WrXF1a
+ 9F4qkFy5Ar48ZaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUU9v14x267AKxVW5JVWrJwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_Jr4l82xGYIkIc2
+ x26xkF7I0E14v26r1I6r4UM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0
+ Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1l84
+ ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s0DM2AI
+ xVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20x
+ vE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xv
+ r2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxAIw28IcxkI7VAKI48JMxC20s
+ 026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_
+ JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14
+ v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xva
+ j40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JV
+ W8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUbec_DUUUUU==
 X-Originating-IP: [180.156.147.178]
 X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
 Received-SPF: pass client-ip=159.226.251.25; envelope-from=liweiwei@iscas.ac.cn;
@@ -70,38 +73,100 @@ Cc: wangjunqiang@iscas.ac.cn, liweiwei <liweiwei@iscas.ac.cn>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patchset implements RISC-V Float-Point in Integer Registers extensions(Version 1.0.0-rc), which includes Zfinx, Zdinx, Zhinx and Zhinxmin extension. 
+Co-authored-by: ardxwe <ardxwe@gmail.com>
+Signed-off-by: liweiwei <liweiwei@iscas.ac.cn>
+Signed-off-by: wangjunqiang <wangjunqiang@iscas.ac.cn>
+---
+ roms/SLOF                |  2 +-
+ target/riscv/cpu.c       | 12 ++++++++++++
+ target/riscv/cpu.h       |  4 ++++
+ target/riscv/translate.c |  8 ++++++++
+ 4 files changed, 25 insertions(+), 1 deletion(-)
 
-Specification:
-https://github.com/riscv/riscv-zfinx/blob/main/zfinx-1.0.0-rc.pdf
-
-The port is available here:
-https://github.com/plctlab/plct-qemu/tree/plct-zfinx-upstream
-
-To test this implementation, specify cpu argument with 'Zfinx =true,Zdinx=true,Zhinx=true,Zhinxmin=true' with 'g=false,f=false,d=false,Zfh=false,Zfhmin-false'
-This implementation can pass gcc tests, ci result can be found in https://ci.rvperf.org/job/plct-qemu-zfinx-upstream/.
-
-liweiwei (6):
-  target/riscv: add cfg properties for zfinx, zdinx and zhinx{min}
-  target/riscv: add support for unique fpr read/write with support for
-    zfinx
-  target/riscv: add support for zfinx
-  target/riscv: add support for zdinx
-  target/riscv: add support for zhinx/zhinxmin
-  target/riscv: expose zfinx, zdinx, zhinx{min} properties
-
- roms/SLOF                                 |   2 +-
- target/riscv/cpu.c                        |  16 +
- target/riscv/cpu.h                        |   4 +
- target/riscv/fpu_helper.c                 | 120 ++++----
- target/riscv/helper.h                     |   4 +-
- target/riscv/insn_trans/trans_rvd.c.inc   | 252 +++++++++++-----
- target/riscv/insn_trans/trans_rvf.c.inc   | 330 ++++++++++++++-------
- target/riscv/insn_trans/trans_rvzfh.c.inc | 342 +++++++++++++++-------
- target/riscv/internals.h                  |  12 +-
- target/riscv/translate.c                  | 177 +++++++++++
- 10 files changed, 914 insertions(+), 345 deletions(-)
-
+diff --git a/roms/SLOF b/roms/SLOF
+index a6906b024c..dd0dcaa1c1 160000
+--- a/roms/SLOF
++++ b/roms/SLOF
+@@ -1 +1 @@
+-Subproject commit a6906b024c6cca5a86496f51eb4bfee3a0c36148
++Subproject commit dd0dcaa1c1085c159ddab709c7f274b3917be8bd
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index 6ef3314bce..a5fa14f2ac 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -491,6 +491,11 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+             cpu->cfg.ext_d = true;
+         }
+ 
++        if (cpu->cfg.ext_zdinx || cpu->cfg.ext_zhinx ||
++            cpu->cfg.ext_zhinxmin ) {
++            cpu->cfg.ext_zfinx = true;
++        }
++
+         /* Set the ISA extensions, checks should have happened above */
+         if (cpu->cfg.ext_i) {
+             ext |= RVI;
+@@ -565,6 +570,13 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+         if (cpu->cfg.ext_j) {
+             ext |= RVJ;
+         }
++        if (cpu->cfg.ext_zfinx && ((ext & (RVF | RVD)) || cpu->cfg.ext_zfh ||
++                                   cpu->cfg.ext_zfhmin)) {
++            error_setg(errp,
++                    "'Zfinx' cannot be supported together with 'F', 'D', 'Zfh',"
++                    " 'Zfhmin'");
++            return;
++        }
+ 
+         set_misa(env, env->misa_mxl, ext);
+     }
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index dc10f27093..6fba31c5cd 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -315,8 +315,12 @@ struct RISCVCPU {
+         bool ext_counters;
+         bool ext_ifencei;
+         bool ext_icsr;
++        bool ext_zdinx;
+         bool ext_zfh;
+         bool ext_zfhmin;
++        bool ext_zfinx;
++        bool ext_zhinx;
++        bool ext_zhinxmin;
+ 
+         char *priv_spec;
+         char *user_spec;
+diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+index 5df6c0d800..8b1cdacf50 100644
+--- a/target/riscv/translate.c
++++ b/target/riscv/translate.c
+@@ -76,8 +76,12 @@ typedef struct DisasContext {
+     RISCVMXL ol;
+     bool virt_enabled;
+     bool ext_ifencei;
++    bool ext_zdinx;
+     bool ext_zfh;
+     bool ext_zfhmin;
++    bool ext_zfinx;
++    bool ext_zhinx;
++    bool ext_zhinxmin;
+     bool hlsx;
+     /* vector extension */
+     bool vill;
+@@ -703,8 +707,12 @@ static void riscv_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
+     ctx->misa_ext = env->misa_ext;
+     ctx->frm = -1;  /* unknown rounding mode */
+     ctx->ext_ifencei = cpu->cfg.ext_ifencei;
++    ctx->ext_zdinx = cpu->cfg.ext_zdinx;
+     ctx->ext_zfh = cpu->cfg.ext_zfh;
+     ctx->ext_zfhmin = cpu->cfg.ext_zfhmin;
++    ctx->ext_zfinx = cpu->cfg.ext_zfinx;
++    ctx->ext_zhinx = cpu->cfg.ext_zhinx;
++    ctx->ext_zhinxmin = cpu->cfg.ext_zhinxmin;
+     ctx->vlen = cpu->cfg.vlen;
+     ctx->elen = cpu->cfg.elen;
+     ctx->mstatus_hs_fs = FIELD_EX32(tb_flags, TB_FLAGS, MSTATUS_HS_FS);
 -- 
 2.17.1
 
