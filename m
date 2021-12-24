@@ -2,77 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1618347E9C3
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Dec 2021 00:52:42 +0100 (CET)
-Received: from localhost ([::1]:58828 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2A3D47E9CC
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Dec 2021 01:13:39 +0100 (CET)
+Received: from localhost ([::1]:34862 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n0Xt2-0001Lp-VI
-	for lists+qemu-devel@lfdr.de; Thu, 23 Dec 2021 18:52:40 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43348)
+	id 1n0YDK-0005UM-Bq
+	for lists+qemu-devel@lfdr.de; Thu, 23 Dec 2021 19:13:38 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46698)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1n0XrE-0000V3-W4
- for qemu-devel@nongnu.org; Thu, 23 Dec 2021 18:50:50 -0500
-Received: from [2607:f8b0:4864:20::629] (port=45999
- helo=mail-pl1-x629.google.com)
+ id 1n0YBD-0004cN-8s
+ for qemu-devel@nongnu.org; Thu, 23 Dec 2021 19:11:27 -0500
+Received: from [2607:f8b0:4864:20::102b] (port=53049
+ helo=mail-pj1-x102b.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1n0XrC-0003eB-IT
- for qemu-devel@nongnu.org; Thu, 23 Dec 2021 18:50:47 -0500
-Received: by mail-pl1-x629.google.com with SMTP id w24so5444668ply.12
- for <qemu-devel@nongnu.org>; Thu, 23 Dec 2021 15:50:46 -0800 (PST)
+ id 1n0YBB-00077w-Hq
+ for qemu-devel@nongnu.org; Thu, 23 Dec 2021 19:11:26 -0500
+Received: by mail-pj1-x102b.google.com with SMTP id co15so6246490pjb.2
+ for <qemu-devel@nongnu.org>; Thu, 23 Dec 2021 16:11:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:references:from:message-id:date:user-agent:mime-version
- :in-reply-to:content-language:content-transfer-encoding;
- bh=pBlOtJrTAPkQxYDIO4/O+fyaezG8OoPMHLh/qJ9j8RQ=;
- b=fOUIiBm5fvVuoQ1d6sHDi7FOluHj2SzB6UaWPi/3UiiAB8aEUHRImSPQiHCPzWL7ye
- SRrKoy2b2mj2h9lKqHXJMwlZgU3RTqF1k1d80IEMBcsSViMncMRNCDeiiKd/VI5qrx/e
- gvdXAF7j/6Zoag9CXJQ25IfAAw6ZmaQtnQRNk/9grv9XvRGBbr0oZxdubWCVoGWn+Y0i
- zvDsg+YIxjrU5RLb9QeW6YWWPhqdRuxBo2EcEUZFe4RCJdkcQiXNe2JtBcyjE6pglBqc
- BQEa6P1yFRnlOYmTb8iZNx0kJqjwfewJofeE8W0inxBP/KYNhU2ZZIJHSOWOLPsRNTVV
- ExQQ==
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=4gUOee2JGs+nwYdX0DTinP0UspyW2eibc3P2aX28UOw=;
+ b=uOX5wqGI0r+8Ap7Gbul6ZBvrAh6Dn8nxK6iwMciaJfgLfSALWcY83csCjGvUVWsiFT
+ qnrpQ4eVmrlSoILYuQv7K8qkK6X//xyfYVLMX+QcF8qk90mzfrgaS0uNbARzfdhi4N9T
+ WoBP6QviXtr/clnEIdhqyn9kGIZ7W92X0kCgg8HZ/bQYolLqrD3krC+Oyn6E2iWGkb4q
+ JZTFbPcGivudGm3zfMWZkO34soTICZSuqZiAPtYsiy3KA9DaH2CaN0vG0BcaQxBJ6hPJ
+ ATHLemD5J2MwjMWmpqimzMiBGpV24DmYrXLOWH/NNfhbcL7xxhgn6Q9CyV1bldNHkvjN
+ uUEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:references:from:message-id:date
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=pBlOtJrTAPkQxYDIO4/O+fyaezG8OoPMHLh/qJ9j8RQ=;
- b=P2PoyAbCS42RfKcGjqkFtghUT7ggjdsM9Wl0AI0xIBrvoEdzqE44qac+/tnrk0jHwV
- XkykAW7weyf8sj137+M+ViyNj+6DzCsinpbPhUzqV324I7i9PiQLTAt+mC6zjfxRdg6m
- wvREfk4MEYWDPCO6/0XzLRp0Daf1TSP/wMfgivs1BnzCV8r2ZO5lioWG5I9fWY91/dFI
- M/17WGkBKEUcDZywFGu5BMMNrUO4UB+jt9S+JGy/E9oExXkLCOic58ht2l1fye4Qf93A
- iw28jomq9v3fBxcB1VvsZwWPf496nDY18CE1N4siJWN25y2LQ/8l1aGp2gLMMpTo4sMz
- gzng==
-X-Gm-Message-State: AOAM531D+HD3RD688wTlCgcxI7dukkfBHoCzCdFSIRWLW8MefeFmlRza
- a1XQqc92kQ8O1Yy1D2F0uxQM5NgO8ghMJA==
-X-Google-Smtp-Source: ABdhPJxQcPn40me5nSBNC15wNSKzjs8ToKC5UDDC4PFhE2cvgspoUNAxXGM1l/doRbHi7/zYVcDiZg==
-X-Received: by 2002:a17:902:d4cd:b0:149:2d77:387b with SMTP id
- o13-20020a170902d4cd00b001492d77387bmr4477718plg.61.1640303445226; 
- Thu, 23 Dec 2021 15:50:45 -0800 (PST)
+ bh=4gUOee2JGs+nwYdX0DTinP0UspyW2eibc3P2aX28UOw=;
+ b=vz5KyzKZuF4Zz131viLbxjEhSKRO78OvWjIrNUwJkFezFC1ryAssQrtHDbuQA6Fy1t
+ wy9CVW0/2pm8ERuaeNKkmbAmFGaj95g0ysf8mPreJdBJEWbY3+cpZgsWDdZzSS7D/OcN
+ PDV7q1C8PRA0gZn/R244ldRCjXFNU4M/+hbXZIb73h/jPz/JJGroI22YA7y/gDAI1gur
+ Zb5k6+qLdihEClWuiCWRGAKg6XMsT/LDgaVjW3/QBdzpBiN25UN6sRn2gBrCxbbA6mpy
+ 4045MH6TKmcp2JxXCXMz5OOfH7Z0g6jftz9GrlMz1oFN69cHIPEkdbF2HbqLTUCqlfzx
+ 8sAg==
+X-Gm-Message-State: AOAM531Zs0DOPgG2kOZ1b+efXFt4hXyGJEHIiwQUTjgOdIIQo0UU/Vxi
+ QzyHCcKhGQDnTKhUdsLSj53KnQ==
+X-Google-Smtp-Source: ABdhPJzMsLHvsk9vJiR48wHwryC1c7ZgyWsNRNTJXDqZ371w4X9uGZ5OyOWs893x+5ncIoRDHrflSg==
+X-Received: by 2002:a17:902:e80a:b0:149:14aa:a1a5 with SMTP id
+ u10-20020a170902e80a00b0014914aaa1a5mr4442363plg.29.1640304683560; 
+ Thu, 23 Dec 2021 16:11:23 -0800 (PST)
 Received: from [192.168.4.112] ([156.19.246.20])
- by smtp.gmail.com with ESMTPSA id v8sm187811pfu.68.2021.12.23.15.50.44
+ by smtp.gmail.com with ESMTPSA id c5sm5879371pgi.89.2021.12.23.16.11.19
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 23 Dec 2021 15:50:44 -0800 (PST)
-Subject: Re: [PULL 03/15] user: move common-user includes to a subdirectory of
- {bsd,linux}-user/
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-References: <20211223115134.579235-1-pbonzini@redhat.com>
- <20211223115134.579235-4-pbonzini@redhat.com>
+ Thu, 23 Dec 2021 16:11:23 -0800 (PST)
+Subject: Re: [RFC v2 02/12] target/ppc: powerpc_excp: Set vector earlier
+To: Fabiano Rosas <farosas@linux.ibm.com>, qemu-devel@nongnu.org
+References: <20211220181903.3456898-1-farosas@linux.ibm.com>
+ <20211220181903.3456898-3-farosas@linux.ibm.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <da25ee3b-aeab-9e3e-08e5-acfa7d90eec6@linaro.org>
-Date: Thu, 23 Dec 2021 15:50:43 -0800
+Message-ID: <302f14b9-adcb-26c2-74a9-5c74eb74a751@linaro.org>
+Date: Thu, 23 Dec 2021 16:11:13 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <20211223115134.579235-4-pbonzini@redhat.com>
+In-Reply-To: <20211220181903.3456898-3-farosas@linux.ibm.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::629
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102b
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x629.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102b.google.com
 X-Spam_score_int: -35
 X-Spam_score: -3.6
 X-Spam_bar: ---
@@ -92,55 +91,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: danielhb413@gmail.com, qemu-ppc@nongnu.org, clg@kaod.org,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/23/21 3:51 AM, Paolo Bonzini wrote:
-> Avoid polluting the compilation of common-user/ with local include files;
-> making an include file available to common-user/ should be a deliberate
-> decision in order to keep a clear interface that can be used by both
-> bsd-user/ and linux-user/.
+On 12/20/21 10:18 AM, Fabiano Rosas wrote:
+> None of the interrupt setup code touches 'vector', so we can move it
+> earlier in the function. This will allow us to later move the System
+> Call Vectored setup that is on the top level into the
+> POWERPC_EXCP_SYSCALL_VECTORED code block.
 > 
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> This patch also moves the verification for when 'excp' does not have
+> an address associated with it. We now bail a little earlier when that
+> is the case. This should not cause any visible effects.
+> 
+> Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
 > ---
->   bsd-user/{ => include}/special-errno.h              | 0
->   bsd-user/meson.build                                | 2 +-
->   linux-user/{ => include}/host/aarch64/host-signal.h | 0
->   linux-user/{ => include}/host/alpha/host-signal.h   | 0
->   linux-user/{ => include}/host/arm/host-signal.h     | 0
->   linux-user/{ => include}/host/i386/host-signal.h    | 0
->   linux-user/{ => include}/host/mips/host-signal.h    | 0
->   linux-user/{ => include}/host/ppc/host-signal.h     | 0
->   linux-user/{ => include}/host/ppc64/host-signal.h   | 0
->   linux-user/{ => include}/host/riscv/host-signal.h   | 0
->   linux-user/{ => include}/host/s390/host-signal.h    | 0
->   linux-user/{ => include}/host/s390x/host-signal.h   | 0
->   linux-user/{ => include}/host/sparc/host-signal.h   | 0
->   linux-user/{ => include}/host/sparc64/host-signal.h | 0
->   linux-user/{ => include}/host/x32/host-signal.h     | 0
->   linux-user/{ => include}/host/x86_64/host-signal.h  | 0
->   linux-user/{ => include}/special-errno.h            | 0
->   linux-user/meson.build                              | 4 ++--
->   18 files changed, 3 insertions(+), 3 deletions(-)
->   rename bsd-user/{ => include}/special-errno.h (100%)
->   rename linux-user/{ => include}/host/aarch64/host-signal.h (100%)
->   rename linux-user/{ => include}/host/alpha/host-signal.h (100%)
->   rename linux-user/{ => include}/host/arm/host-signal.h (100%)
->   rename linux-user/{ => include}/host/i386/host-signal.h (100%)
->   rename linux-user/{ => include}/host/mips/host-signal.h (100%)
->   rename linux-user/{ => include}/host/ppc/host-signal.h (100%)
->   rename linux-user/{ => include}/host/ppc64/host-signal.h (100%)
->   rename linux-user/{ => include}/host/riscv/host-signal.h (100%)
->   rename linux-user/{ => include}/host/s390/host-signal.h (100%)
->   rename linux-user/{ => include}/host/s390x/host-signal.h (100%)
->   rename linux-user/{ => include}/host/sparc/host-signal.h (100%)
->   rename linux-user/{ => include}/host/sparc64/host-signal.h (100%)
->   rename linux-user/{ => include}/host/x32/host-signal.h (100%)
->   rename linux-user/{ => include}/host/x86_64/host-signal.h (100%)
->   rename linux-user/{ => include}/special-errno.h (100%)
+>   target/ppc/excp_helper.c | 16 ++++++++--------
+>   1 file changed, 8 insertions(+), 8 deletions(-)
+> 
+> diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
+> index 8b9c6bc5a8..14fd0213a0 100644
+> --- a/target/ppc/excp_helper.c
+> +++ b/target/ppc/excp_helper.c
+> @@ -352,6 +352,14 @@ static inline void powerpc_excp(PowerPCCPU *cpu, int excp_model, int excp)
+>       }
+>   #endif
+>   
+> +    vector = env->excp_vectors[excp];
+> +    if (vector == (target_ulong)-1ULL) {
+> +        cpu_abort(cs, "Raised an exception without defined vector %d\n",
+> +                  excp);
+> +    }
+> +
+> +    vector |= env->excp_prefix;
+> +
+>       switch (excp) {
+>       case POWERPC_EXCP_NONE:
+>           /* Should never happen */
 
-You missed loongarch64.
+You've moved the cpu_abort above the excp check above the early return for NONE (which 
+possibly shouldn't exist) and above the excp default
+
+         cpu_abort(cs, "Invalid PowerPC exception %d. Aborting\n", excp);
+
+I would certainly expect invalid excp to not have a defined vector either.
+
+I'll also note that the excp_vectors[] index is no longer bounds checked by the switch.
 
 
 r~
