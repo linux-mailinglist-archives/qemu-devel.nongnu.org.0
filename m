@@ -2,61 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6ADE047EA9C
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Dec 2021 03:40:07 +0100 (CET)
-Received: from localhost ([::1]:47510 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A50A47EB02
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Dec 2021 04:56:22 +0100 (CET)
+Received: from localhost ([::1]:44296 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n0aV4-0000mL-3D
-	for lists+qemu-devel@lfdr.de; Thu, 23 Dec 2021 21:40:06 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47374)
+	id 1n0bgr-0004xf-6Z
+	for lists+qemu-devel@lfdr.de; Thu, 23 Dec 2021 22:56:21 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33120)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lei.rao@intel.com>) id 1n0aTc-0008WO-ND
- for qemu-devel@nongnu.org; Thu, 23 Dec 2021 21:38:37 -0500
-Received: from mga11.intel.com ([192.55.52.93]:15209)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lei.rao@intel.com>) id 1n0aTY-0008BW-Kr
- for qemu-devel@nongnu.org; Thu, 23 Dec 2021 21:38:36 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1640313512; x=1671849512;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=kctzOXuZTZx+AIlbQ1aUqK+99mE7TH7tNpJJt0X7ZSA=;
- b=nHj9HYwxR/HP23tCMtZD85gS0gd2LpuNRDkB2AQT7RpHsAlr0WJPxdWs
- bkCq1mggZc/rE10Myt0X7V8kKRt/oHacHi6RdISB2XBQE6TLfykbBrhIr
- vAsDVcehXFhFV3xggg7T96iiw00wpC2FDXQ1YfqyR5VT2ymGgqT9ARqOM
- NvYt3JTZDtlCV24Au+RUeu06VnDyV1y1FJ0TnFaBWYNh9v7qwEk6cfSIM
- j0kWI8avcUG3fVDkGqFklUe52R2c/fNb7xfKCdyOip2xExWjNb5k7iCy/
- AlTP1261f/pARGrJ4MuwCG9i98Q+yf5xoMusWRpa4WqS7ZvbzULYchVGy w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10207"; a="238452450"
-X-IronPort-AV: E=Sophos;i="5.88,231,1635231600"; d="scan'208";a="238452450"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Dec 2021 18:38:18 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,231,1635231600"; d="scan'208";a="551359884"
-Received: from unknown (HELO leirao-pc.bj.intel.com) ([10.238.156.139])
- by orsmga001.jf.intel.com with ESMTP; 23 Dec 2021 18:38:16 -0800
-From: "Rao, Lei" <lei.rao@intel.com>
-To: chen.zhang@intel.com,
-	lizhijian@cn.fujitsu.com,
-	jasowang@redhat.com
-Subject: [PATCH] net/filter: Optimize filter_send to coroutine
-Date: Fri, 24 Dec 2021 10:37:55 +0800
-Message-Id: <20211224023755.532189-1-lei.rao@intel.com>
-X-Mailer: git-send-email 2.32.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=192.55.52.93; envelope-from=lei.rao@intel.com;
- helo=mga11.intel.com
-X-Spam_score_int: -72
-X-Spam_score: -7.3
-X-Spam_bar: -------
-X-Spam_report: (-7.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.203,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1n0bb5-0006lo-1o; Thu, 23 Dec 2021 22:50:23 -0500
+Received: from smtp25.cstnet.cn ([159.226.251.25]:49270 helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1n0bav-0001ZL-So; Thu, 23 Dec 2021 22:50:20 -0500
+Received: from localhost.localdomain (unknown [180.156.147.178])
+ by APP-05 (Coremail) with SMTP id zQCowACHjwNqQ8VheYHIBA--.4261S2;
+ Fri, 24 Dec 2021 11:50:02 +0800 (CST)
+From: liweiwei <liweiwei@iscas.ac.cn>
+To: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
+ qemu-riscv@nongnu.org, qemu-devel@nongnu.org
+Subject: [PATCH 0/6] support subsets of Float-Point in Integer Registers
+ extensions
+Date: Fri, 24 Dec 2021 11:49:09 +0800
+Message-Id: <20211224034915.17204-1-liweiwei@iscas.ac.cn>
+X-Mailer: git-send-email 2.17.1
+X-CM-TRANSID: zQCowACHjwNqQ8VheYHIBA--.4261S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7uFW3tryfCryfXrWUCF1rWFg_yoW8XFyDpr
+ 4rG3y3CrZ5JFWfXw4fJ3WDAr1Yqr4rWw47twn7twn7Aw43AFW5JrnrKw1Sgw18Ja48Wr9F
+ 93WUCr13Cw45JFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUyG14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+ 6F4UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVWxJr
+ 0_GcWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
+ 2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
+ W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1l42xK82IYc2Ij64vI
+ r41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8Gjc
+ xK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0
+ cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8V
+ AvwI8IcIk0rVWrZr1j6s0DMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7Cj
+ xVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7VUbXdbUUUUUU==
+X-Originating-IP: [180.156.147.178]
+X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
+Received-SPF: pass client-ip=159.226.251.25; envelope-from=liweiwei@iscas.ac.cn;
+ helo=cstnet.cn
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -69,130 +65,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Rao, Lei" <lei.rao@intel.com>, qemu-devel@nongnu.org
+Cc: wangjunqiang@iscas.ac.cn, liweiwei <liweiwei@iscas.ac.cn>,
+ lazyparser@gmail.com, ardxwe@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch is to improve the logic of QEMU main thread sleep code in
-qemu_chr_write_buffer() where it can be blocked and can't run other
-coroutines during COLO IO stress test.
+This patchset implements RISC-V Float-Point in Integer Registers extensions(Version 1.0.0-rc), which includes Zfinx, Zdinx, Zhinx and Zhinxmin extension. 
 
-Our approach is to put filter_send() in a coroutine. In this way,
-filter_send() will call qemu_coroutine_yield() in qemu_co_sleep_ns(),
-so that it can be scheduled out and QEMU main thread has opportunity to
-run other tasks.
+Specification:
+https://github.com/riscv/riscv-zfinx/blob/main/zfinx-1.0.0-rc.pdf
 
-Signed-off-by: Lei Rao <lei.rao@intel.com>
-Signed-off-by: Zhang Chen <chen.zhang@intel.com>
----
- net/filter-mirror.c | 67 ++++++++++++++++++++++++++++++++++++---------
- 1 file changed, 54 insertions(+), 13 deletions(-)
+The port is available here:
+https://github.com/plctlab/plct-qemu/tree/plct-zfinx-upstream
 
-diff --git a/net/filter-mirror.c b/net/filter-mirror.c
-index f20240cc9f..1e9f8b6216 100644
---- a/net/filter-mirror.c
-+++ b/net/filter-mirror.c
-@@ -20,6 +20,7 @@
- #include "chardev/char-fe.h"
- #include "qemu/iov.h"
- #include "qemu/sockets.h"
-+#include "block/aio-wait.h"
- 
- #define TYPE_FILTER_MIRROR "filter-mirror"
- typedef struct MirrorState MirrorState;
-@@ -42,20 +43,21 @@ struct MirrorState {
-     bool vnet_hdr;
- };
- 
--static int filter_send(MirrorState *s,
--                       const struct iovec *iov,
--                       int iovcnt)
-+typedef struct FilterSendCo {
-+    MirrorState *s;
-+    char *buf;
-+    ssize_t size;
-+    bool done;
-+    int ret;
-+} FilterSendCo;
-+
-+static int _filter_send(MirrorState *s,
-+                       char *buf,
-+                       ssize_t size)
- {
-     NetFilterState *nf = NETFILTER(s);
-     int ret = 0;
--    ssize_t size = 0;
-     uint32_t len = 0;
--    char *buf;
--
--    size = iov_size(iov, iovcnt);
--    if (!size) {
--        return 0;
--    }
- 
-     len = htonl(size);
-     ret = qemu_chr_fe_write_all(&s->chr_out, (uint8_t *)&len, sizeof(len));
-@@ -80,10 +82,7 @@ static int filter_send(MirrorState *s,
-         }
-     }
- 
--    buf = g_malloc(size);
--    iov_to_buf(iov, iovcnt, 0, buf, size);
-     ret = qemu_chr_fe_write_all(&s->chr_out, (uint8_t *)buf, size);
--    g_free(buf);
-     if (ret != size) {
-         goto err;
-     }
-@@ -94,6 +93,48 @@ err:
-     return ret < 0 ? ret : -EIO;
- }
- 
-+static void coroutine_fn filter_send_co(void *opaque)
-+{
-+    FilterSendCo *data = opaque;
-+
-+    data->ret = _filter_send(data->s, data->buf, data->size);
-+    data->done = true;
-+    g_free(data->buf);
-+    aio_wait_kick();
-+}
-+
-+static int filter_send(MirrorState *s,
-+                       const struct iovec *iov,
-+                       int iovcnt)
-+{
-+    ssize_t size = iov_size(iov, iovcnt);
-+    char *buf = NULL;
-+
-+    if (!size) {
-+        return 0;
-+    }
-+
-+    buf = g_malloc(size);
-+    iov_to_buf(iov, iovcnt, 0, buf, size);
-+
-+    FilterSendCo data = {
-+        .s = s,
-+        .size = size,
-+        .buf = buf,
-+        .ret = 0,
-+    };
-+
-+    Coroutine *co = qemu_coroutine_create(filter_send_co, &data);
-+    qemu_coroutine_enter(co);
-+
-+    while (!data.done) {
-+        aio_poll(qemu_get_aio_context(), true);
-+    }
-+
-+    return data.ret;
-+
-+}
-+
- static void redirector_to_filter(NetFilterState *nf,
-                                  const uint8_t *buf,
-                                  int len)
+To test this implementation, specify cpu argument with 'Zfinx =true,Zdinx=true,Zhinx=true,Zhinxmin=true' with 'g=false,f=false,d=false,Zfh=false,Zfhmin-false'
+This implementation can pass gcc tests, ci result can be found in https://ci.rvperf.org/job/plct-qemu-zfinx-upstream/.
+
+liweiwei (6):
+  target/riscv: add cfg properties for zfinx, zdinx and zhinx{min}
+  target/riscv: add support for unique fpr read/write with support for
+    zfinx
+  target/riscv: add support for zfinx
+  target/riscv: add support for zdinx
+  target/riscv: add support for zhinx/zhinxmin
+  target/riscv: expose zfinx, zdinx, zhinx{min} properties
+
+ roms/SLOF                                 |   2 +-
+ target/riscv/cpu.c                        |  16 +
+ target/riscv/cpu.h                        |   4 +
+ target/riscv/fpu_helper.c                 | 120 ++++----
+ target/riscv/helper.h                     |   4 +-
+ target/riscv/insn_trans/trans_rvd.c.inc   | 252 +++++++++++-----
+ target/riscv/insn_trans/trans_rvf.c.inc   | 330 ++++++++++++++-------
+ target/riscv/insn_trans/trans_rvzfh.c.inc | 342 +++++++++++++++-------
+ target/riscv/internals.h                  |  12 +-
+ target/riscv/translate.c                  | 177 +++++++++++
+ 10 files changed, 914 insertions(+), 345 deletions(-)
+
 -- 
-2.32.0
+2.17.1
 
 
