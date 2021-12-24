@@ -2,42 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4ADDB47EE80
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Dec 2021 12:14:24 +0100 (CET)
-Received: from localhost ([::1]:38996 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E80F447EE7E
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Dec 2021 12:14:22 +0100 (CET)
+Received: from localhost ([::1]:39074 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n0iWl-0003pW-C9
-	for lists+qemu-devel@lfdr.de; Fri, 24 Dec 2021 06:14:23 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36200)
+	id 1n0iWj-0003sV-A7
+	for lists+qemu-devel@lfdr.de; Fri, 24 Dec 2021 06:14:21 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36182)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <nikita.lapshin@virtuozzo.com>)
- id 1n0iUQ-00018a-TY
+ id 1n0iUP-00018Z-Rm
  for qemu-devel@nongnu.org; Fri, 24 Dec 2021 06:11:59 -0500
-Received: from relay.sw.ru ([185.231.240.75]:48186)
+Received: from relay.sw.ru ([185.231.240.75]:48176)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <nikita.lapshin@virtuozzo.com>)
- id 1n0iUM-0003OV-7M
- for qemu-devel@nongnu.org; Fri, 24 Dec 2021 06:11:58 -0500
+ id 1n0iUM-0003OR-7K
+ for qemu-devel@nongnu.org; Fri, 24 Dec 2021 06:11:57 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=virtuozzo.com; s=relay; h=MIME-Version:Message-Id:Date:Subject:From:
- Content-Type; bh=znwnfv7R77s7s4VebADjDiwiaRtlNq5ELCcua3CtUrQ=; b=qgzxeCTchrPh
- Qe0CqYplG4RtpIdWr+if03+JT8Wq3O4zUoMXAf2owUmvkOSLKuN1wUS0vmItaneLLArrI6sinVxTM
- OfWyCUtFAiFMHP+M9kFwVyruX98BkMbChgRoop2kWeFyLZFmeo7q8QcFSfBD1Te8PMnLuAw2XK5tf
- 3NAVg=;
+ Content-Type; bh=Yee3Ax2klg8vh7BdC/9EFRNijNMHc9EKU3OOmfpV7Xc=; b=JU+gPCBuBLpu
+ Ypmg0/9zs0XS78HZmD1uJjps/QL+jrEqVVuJ5o+r65zIItXIqpGsZ+mGvAEEj3ZNz4bf8J9V5DjjI
+ E6OA5JTUxwSADFcDRReEwO54EicjV5nsJUhQpc+oSm3cXxWUb1Qd1u2plY1g5p6gWfLh/dj7OhMZS
+ ZYaPs=;
 Received: from [10.94.3.117] (helo=nun.qa.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.94.2)
  (envelope-from <nikita.lapshin@virtuozzo.com>)
- id 1n0iUG-004OwN-Vr; Fri, 24 Dec 2021 14:11:48 +0300
+ id 1n0iUH-004OwN-0C; Fri, 24 Dec 2021 14:11:49 +0300
 From: Nikita Lapshin <nikita.lapshin@virtuozzo.com>
 To: qemu-devel@nongnu.org
 Cc: quintela@redhat.com, dgilbert@redhat.com, eblake@redhat.com,
  armbru@redhat.com, eduardo@habkost.net, crosa@redhat.com, kwolf@redhat.com,
  hreitz@redhat.com, nikita.lapshin@virtuozzo.com, vsementsov@virtuozzo.com,
  den@virtuozzo.com
-Subject: [PATCH 2/6] migration: should_skip() implemented
-Date: Fri, 24 Dec 2021 14:11:44 +0300
-Message-Id: <20211224111148.345438-3-nikita.lapshin@virtuozzo.com>
+Subject: [PATCH 3/6] migration: Add no-ram capability
+Date: Fri, 24 Dec 2021 14:11:45 +0300
+Message-Id: <20211224111148.345438-4-nikita.lapshin@virtuozzo.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20211224111148.345438-1-nikita.lapshin@virtuozzo.com>
 References: <20211224111148.345438-1-nikita.lapshin@virtuozzo.com>
@@ -66,109 +66,105 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For next changes it is convenient to make all decisions about
-sections skipping in one function.
+This capability disable RAM section in migration stream.
 
 Signed-off-by: Nikita Lapshin <nikita.lapshin@virtuozzo.com>
 ---
- migration/savevm.c | 42 ++++++++++++++++++++----------------------
- 1 file changed, 20 insertions(+), 22 deletions(-)
+ migration/migration.c | 9 +++++++++
+ migration/migration.h | 1 +
+ migration/ram.c       | 6 ++++++
+ qapi/migration.json   | 8 +++++---
+ 4 files changed, 21 insertions(+), 3 deletions(-)
 
-diff --git a/migration/savevm.c b/migration/savevm.c
-index f90fdb2bdd..ba644083ab 100644
---- a/migration/savevm.c
-+++ b/migration/savevm.c
-@@ -943,6 +943,15 @@ static int vmstate_save(QEMUFile *f, SaveStateEntry *se,
-     return vmstate_save_state(f, se->vmsd, se->opaque, vmdesc);
+diff --git a/migration/migration.c b/migration/migration.c
+index 3de11ae921..006447d00a 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -2610,6 +2610,15 @@ bool migrate_background_snapshot(void)
+     return s->enabled_capabilities[MIGRATION_CAPABILITY_BACKGROUND_SNAPSHOT];
  }
  
-+static bool should_skip(SaveStateEntry *se)
++bool migrate_no_ram(void)
 +{
-+    if (se->ops->is_active && !se->ops->is_active(se->opaque)) {
-+        return true;
-+    }
++    MigrationState *s;
 +
-+    return false;
++    s = migrate_get_current();
++
++    return s->enabled_capabilities[MIGRATION_CAPABILITY_NO_RAM];
 +}
 +
+ /* migration thread support */
  /*
-  * Write the header for device section (QEMU_VM_SECTION START/END/PART/FULL)
-  */
-@@ -1207,10 +1216,8 @@ void qemu_savevm_state_setup(QEMUFile *f)
-         if (!se->ops || !se->ops->save_setup) {
-             continue;
-         }
--        if (se->ops->is_active) {
--            if (!se->ops->is_active(se->opaque)) {
--                continue;
--            }
-+        if (should_skip(se)) {
-+            continue;
-         }
-         save_section_header(f, se, QEMU_VM_SECTION_START);
+  * Something bad happened to the RP stream, mark an error
+diff --git a/migration/migration.h b/migration/migration.h
+index 8130b703eb..43f7bf8eba 100644
+--- a/migration/migration.h
++++ b/migration/migration.h
+@@ -358,6 +358,7 @@ int migrate_decompress_threads(void);
+ bool migrate_use_events(void);
+ bool migrate_postcopy_blocktime(void);
+ bool migrate_background_snapshot(void);
++bool migrate_no_ram(void);
  
-@@ -1238,10 +1245,8 @@ int qemu_savevm_state_resume_prepare(MigrationState *s)
-         if (!se->ops || !se->ops->resume_prepare) {
-             continue;
-         }
--        if (se->ops->is_active) {
--            if (!se->ops->is_active(se->opaque)) {
--                continue;
--            }
-+        if (should_skip(se)) {
-+            continue;
-         }
-         ret = se->ops->resume_prepare(s, se->opaque);
-         if (ret < 0) {
-@@ -1268,8 +1273,7 @@ int qemu_savevm_state_iterate(QEMUFile *f, bool postcopy)
-         if (!se->ops || !se->ops->save_live_iterate) {
-             continue;
-         }
--        if (se->ops->is_active &&
--            !se->ops->is_active(se->opaque)) {
-+        if (should_skip(se)) {
-             continue;
-         }
-         if (se->ops->is_active_iterate &&
-@@ -1336,10 +1340,8 @@ void qemu_savevm_state_complete_postcopy(QEMUFile *f)
-         if (!se->ops || !se->ops->save_live_complete_postcopy) {
-             continue;
-         }
--        if (se->ops->is_active) {
--            if (!se->ops->is_active(se->opaque)) {
--                continue;
--            }
-+        if (should_skip(se)) {
-+            continue;
-         }
-         trace_savevm_section_start(se->idstr, se->section_id);
-         /* Section type */
-@@ -1373,10 +1375,8 @@ int qemu_savevm_state_complete_precopy_iterable(QEMUFile *f, bool in_postcopy)
-             continue;
-         }
+ /* Sending on the return path - generic and then for each message type */
+ void migrate_send_rp_shut(MigrationIncomingState *mis,
+diff --git a/migration/ram.c b/migration/ram.c
+index 57efa67f20..aa3583d0bc 100644
+--- a/migration/ram.c
++++ b/migration/ram.c
+@@ -4339,6 +4339,11 @@ static int ram_resume_prepare(MigrationState *s, void *opaque)
+     return 0;
+ }
  
--        if (se->ops->is_active) {
--            if (!se->ops->is_active(se->opaque)) {
--                continue;
--            }
-+        if (should_skip(se)) {
-+            continue;
-         }
-         trace_savevm_section_start(se->idstr, se->section_id);
++static bool ram_is_active(void* opaque)
++{
++    return !migrate_no_ram();
++}
++
+ static SaveVMHandlers savevm_ram_handlers = {
+     .save_setup = ram_save_setup,
+     .save_live_iterate = ram_save_iterate,
+@@ -4351,6 +4356,7 @@ static SaveVMHandlers savevm_ram_handlers = {
+     .load_setup = ram_load_setup,
+     .load_cleanup = ram_load_cleanup,
+     .resume_prepare = ram_resume_prepare,
++    .is_active = ram_is_active,
+ };
  
-@@ -1521,10 +1521,8 @@ void qemu_savevm_state_pending(QEMUFile *f, uint64_t threshold_size,
-         if (!se->ops || !se->ops->save_live_pending) {
-             continue;
-         }
--        if (se->ops->is_active) {
--            if (!se->ops->is_active(se->opaque)) {
--                continue;
--            }
-+        if (should_skip(se)) {
-+            continue;
-         }
-         se->ops->save_live_pending(f, se->opaque, threshold_size,
-                                    res_precopy_only, res_compatible,
+ static void ram_mig_ram_block_resized(RAMBlockNotifier *n, void *host,
+diff --git a/qapi/migration.json b/qapi/migration.json
+index bbfd48cf0b..d53956852c 100644
+--- a/qapi/migration.json
++++ b/qapi/migration.json
+@@ -452,6 +452,8 @@
+ #                       procedure starts. The VM RAM is saved with running VM.
+ #                       (since 6.0)
+ #
++# @no-ram: If enabled, migration stream won't contain any ram in it. (since 7.0)
++#
+ # Features:
+ # @unstable: Members @x-colo and @x-ignore-shared are experimental.
+ #
+@@ -465,8 +467,7 @@
+            'block', 'return-path', 'pause-before-switchover', 'multifd',
+            'dirty-bitmaps', 'postcopy-blocktime', 'late-block-activate',
+            { 'name': 'x-ignore-shared', 'features': [ 'unstable' ] },
+-           'validate-uuid', 'background-snapshot'] }
+-
++           'validate-uuid', 'background-snapshot', 'no-ram'] }
+ ##
+ # @MigrationCapabilityStatus:
+ #
+@@ -519,7 +520,8 @@
+ #       {"state": false, "capability": "compress"},
+ #       {"state": true, "capability": "events"},
+ #       {"state": false, "capability": "postcopy-ram"},
+-#       {"state": false, "capability": "x-colo"}
++#       {"state": false, "capability": "x-colo"},
++#       {"state": false, "capability": "no-ram"}
+ #    ]}
+ #
+ ##
 -- 
 2.27.0
 
