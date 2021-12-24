@@ -2,81 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA14147EC74
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Dec 2021 08:07:13 +0100 (CET)
-Received: from localhost ([::1]:55452 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C109847ECA2
+	for <lists+qemu-devel@lfdr.de>; Fri, 24 Dec 2021 08:20:47 +0100 (CET)
+Received: from localhost ([::1]:38706 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n0efZ-0004OE-1y
-	for lists+qemu-devel@lfdr.de; Fri, 24 Dec 2021 02:07:13 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37282)
+	id 1n0esf-0004jJ-Pc
+	for lists+qemu-devel@lfdr.de; Fri, 24 Dec 2021 02:20:45 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40848)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1n0ePY-0001IY-OV
- for qemu-devel@nongnu.org; Fri, 24 Dec 2021 01:50:41 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21746)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1n0el9-0002CG-Dx
+ for qemu-devel@nongnu.org; Fri, 24 Dec 2021 02:12:59 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:27563)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1n0ePX-0005s8-7R
- for qemu-devel@nongnu.org; Fri, 24 Dec 2021 01:50:40 -0500
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1n0el6-0003fP-4G
+ for qemu-devel@nongnu.org; Fri, 24 Dec 2021 02:12:57 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1640328638;
+ s=mimecast20190719; t=1640329974;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+enMLVlcylOm8RcSTo9530m2haG9qkSll4HC4NkeZ3U=;
- b=QC2m0v4zO48WqQbJXct7d72p6SwnoGR8pdhMwC9lEc5bLXetIssmPM+eNcp7XEXfpOvvdS
- EBcWKdL/1VIRhcDqZw99lTzEk+M63TTX2eV4KxYD+qBT9ZQ+djNliThbDfZpyCPOwhhKsk
- /ktnqJfVtiPiM5HBTtqOjanMJRh/yU0=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=P6VzuhmYI2t4F7RUVA7iRpnTIINLfWZX3Q/dRio+4Ec=;
+ b=W+Gdp9P36v5uU5b7j1jizBT5w3wMaKud+bYPbtqC6G+ay+SEW8DWCkM0r63fazS9P59ger
+ 22AqkAGkP74hR+zajrgqQNhLTqLcsFFiVcRENyys1QFAHjxMHS9/tLy0thiW4AlbspNvAS
+ jDbS1gJTTuTaJ98uH9fT0n/gExcMV08=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-252-y40iUgLBPpO3NgLf5o0jeg-1; Fri, 24 Dec 2021 01:50:37 -0500
-X-MC-Unique: y40iUgLBPpO3NgLf5o0jeg-1
-Received: by mail-wr1-f71.google.com with SMTP id
- l13-20020adfbd8d000000b001a23a990dbfso1469461wrh.5
- for <qemu-devel@nongnu.org>; Thu, 23 Dec 2021 22:50:37 -0800 (PST)
+ us-mta-205-Vgt9JQq7PvOjoSR-6i7F7A-1; Fri, 24 Dec 2021 02:12:54 -0500
+X-MC-Unique: Vgt9JQq7PvOjoSR-6i7F7A-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ w25-20020adf8bd9000000b001a255212b7cso1476866wra.18
+ for <qemu-devel@nongnu.org>; Thu, 23 Dec 2021 23:12:53 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=+enMLVlcylOm8RcSTo9530m2haG9qkSll4HC4NkeZ3U=;
- b=0/8NnsNUE7QV8fnatBGGzvirUPOyfb7YGofGYwkSKP7h8m9tCevhEccjh1lwGVi2Sq
- Jb3pIBgzVOWABNYaGSb/fLGp0qt0jOq2cNMk4WR7svZXwtOPP8HRxBk2YvmsfgXYQdKi
- Rt8Wl1ORx6Oe8rn/udwwbecnjV22KygwKM5s86zs0oO+r7mBBYcG1cj2HwKC4wMY+NKi
- qjtnbEreUD+TFK87IOMH7WSGlt+uQBlNQsxG6jeb8vkmKZTGj7x4IUeL8A+QWK3dWXwW
- x59j7CEpRNeWg2/6a+j0AxTf60SR5C/uKcoJfKSl4YtVfN9gua9mmLUBvArfG2WD+z9r
- ig3Q==
-X-Gm-Message-State: AOAM533pJkzTVLEOonQh+j3NouTRqmp4kIgU5VwFPsWjSGlarUV8uVgP
- GwWMvzNar624r2sAX1Pwt/zwkf7KjqurUCr9UT64BczN8G71GGtK+amzl0TeHiHhjaqwj2PpvuX
- KhtQsR1I94RU0NKACr4aPs/Y+GB3cU0fkLC5wRdwHpmqKGNz9fViuwkW8gxxsgeNm
-X-Received: by 2002:a05:600c:1f0c:: with SMTP id
- bd12mr3765762wmb.82.1640328636128; 
- Thu, 23 Dec 2021 22:50:36 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwsBOkfhJZrxOiO3h9psvPKQtNi91Jp3gtQKaWaoLIwO75VMYvRINchx1v8CG2zzbIMqzd41A==
-X-Received: by 2002:a05:600c:1f0c:: with SMTP id
- bd12mr3765747wmb.82.1640328635847; 
- Thu, 23 Dec 2021 22:50:35 -0800 (PST)
-Received: from localhost.localdomain ([64.64.123.8])
- by smtp.gmail.com with ESMTPSA id h14sm2174425wmq.16.2021.12.23.22.50.32
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Thu, 23 Dec 2021 22:50:35 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=P6VzuhmYI2t4F7RUVA7iRpnTIINLfWZX3Q/dRio+4Ec=;
+ b=X5TdoN1k0LZsXM2ZCb4hCagVE33hzwnHpMn+VsD/f2GCu1Lc3vIoGYmUff7V+OM6t7
+ T1zgDf/AeSm4F/ceGZEtPdFy2yDbLObHMR9Q1VmogrvS6oWEax9rqwtykmxQJYLJNYt1
+ nNOi4l2dTRbQ24eOoF2gT2GHQLehnTKe6cMmpRNe9DHzjPDM6dpCKZuz6n4N502hLUMb
+ ay0JaYF5U1+qY4pMrsPgiu9ZBOZn3vXK7ExzthrJqqXY9z5pde4oxGhLjmueE3OPTL+P
+ QBBZVz2/aumo/NBO/KOMtWAXsX/4JQCnYmaJYrJAA+5RaugmdRGIWhXOBqq4DeXa2K6y
+ 6m6A==
+X-Gm-Message-State: AOAM533WGu/OlxfyW0AyzEEZ3UdRCTqWSPT1SbPzq3wFBJobhXqfOY7t
+ 6TFwW/vAyAx0UWlkwru3ivuciKdp7eA0SBvSeeYOnKnMFLQhN1bWm2wOiQndKRf0YXDCl2vA8ZY
+ 9VuYBx0ENBj5vZBo=
+X-Received: by 2002:a05:600c:4e4f:: with SMTP id
+ e15mr3978119wmq.67.1640329972604; 
+ Thu, 23 Dec 2021 23:12:52 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyNdOJjkBYUM8R4P/aB1hqVGj9EI6MPeMLyceNlaQk3efpyzAu01jeNmfbp1ghxFmXex/P6CQ==
+X-Received: by 2002:a05:600c:4e4f:: with SMTP id
+ e15mr3978107wmq.67.1640329972418; 
+ Thu, 23 Dec 2021 23:12:52 -0800 (PST)
+Received: from xz-m1.local ([64.64.123.8])
+ by smtp.gmail.com with ESMTPSA id ay29sm9145547wmb.13.2021.12.23.23.12.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 23 Dec 2021 23:12:52 -0800 (PST)
+Date: Fri, 24 Dec 2021 15:12:46 +0800
 From: Peter Xu <peterx@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 8/8] migration: Tracepoint change in postcopy-run bottom
- half
-Date: Fri, 24 Dec 2021 14:50:00 +0800
-Message-Id: <20211224065000.97572-9-peterx@redhat.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20211224065000.97572-1-peterx@redhat.com>
-References: <20211224065000.97572-1-peterx@redhat.com>
+To: Juan Quintela <quintela@redhat.com>
+Subject: Re: [PATCH v2 1/6] migration: All this fields are unsigned
+Message-ID: <YcVy7mu1GVyLvV/n@xz-m1.local>
+References: <20211221125235.67414-1-quintela@redhat.com>
+ <20211221125235.67414-2-quintela@redhat.com>
 MIME-Version: 1.0
+In-Reply-To: <20211221125235.67414-2-quintela@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -97,85 +98,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: David Edmondson <david.edmondson@oracle.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Leonardo Bras Soares Passos <lsoaresp@redhat.com>, peterx@redhat.com,
- Juan Quintela <quintela@redhat.com>
+Cc: Leonardo Bras <leobras@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Remove the old two tracepoints and they're even near each other:
+On Tue, Dec 21, 2021 at 01:52:30PM +0100, Juan Quintela wrote:
+> So printing it as %d is wrong.  Notice that for the channel id, that
+> is an uint8_t, but I changed it anyways for consistency.
 
-    trace_loadvm_postcopy_handle_run_cpu_sync()
-    trace_loadvm_postcopy_handle_run_vmstart()
+Just curious: uint_8 can always correctly converted to a int, so the patch
+shouldn't have a functional change, right?
 
-Add trace_loadvm_postcopy_handle_run_bh() with a finer granule trace.
+> 
+> Signed-off-by: Juan Quintela <quintela@redhat.com>
+> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Signed-off-by: Peter Xu <peterx@redhat.com>
----
- migration/savevm.c     | 12 +++++++++---
- migration/trace-events |  3 +--
- 2 files changed, 10 insertions(+), 5 deletions(-)
+Reviewed-by: Peter Xu <peterx@redhat.com>
 
-diff --git a/migration/savevm.c b/migration/savevm.c
-index 592d550a2f..3b8f565b14 100644
---- a/migration/savevm.c
-+++ b/migration/savevm.c
-@@ -2005,13 +2005,19 @@ static void loadvm_postcopy_handle_run_bh(void *opaque)
-     Error *local_err = NULL;
-     MigrationIncomingState *mis = opaque;
- 
-+    trace_loadvm_postcopy_handle_run_bh("enter");
-+
-     /* TODO we should move all of this lot into postcopy_ram.c or a shared code
-      * in migration.c
-      */
-     cpu_synchronize_all_post_init();
- 
-+    trace_loadvm_postcopy_handle_run_bh("after cpu sync");
-+
-     qemu_announce_self(&mis->announce_timer, migrate_announce_params());
- 
-+    trace_loadvm_postcopy_handle_run_bh("after announce");
-+
-     /* Make sure all file formats flush their mutable metadata.
-      * If we get an error here, just don't restart the VM yet. */
-     bdrv_invalidate_cache_all(&local_err);
-@@ -2021,9 +2027,7 @@ static void loadvm_postcopy_handle_run_bh(void *opaque)
-         autostart = false;
-     }
- 
--    trace_loadvm_postcopy_handle_run_cpu_sync();
--
--    trace_loadvm_postcopy_handle_run_vmstart();
-+    trace_loadvm_postcopy_handle_run_bh("after invalidate cache");
- 
-     dirty_bitmap_mig_before_vm_start();
- 
-@@ -2036,6 +2040,8 @@ static void loadvm_postcopy_handle_run_bh(void *opaque)
-     }
- 
-     qemu_bh_delete(mis->bh);
-+
-+    trace_loadvm_postcopy_handle_run_bh("return");
- }
- 
- /* After all discards we can start running and asking for pages */
-diff --git a/migration/trace-events b/migration/trace-events
-index 77d1237d89..e165687af2 100644
---- a/migration/trace-events
-+++ b/migration/trace-events
-@@ -16,8 +16,7 @@ loadvm_handle_recv_bitmap(char *s) "%s"
- loadvm_postcopy_handle_advise(void) ""
- loadvm_postcopy_handle_listen(const char *str) "%s"
- loadvm_postcopy_handle_run(void) ""
--loadvm_postcopy_handle_run_cpu_sync(void) ""
--loadvm_postcopy_handle_run_vmstart(void) ""
-+loadvm_postcopy_handle_run_bh(const char *str) "%s"
- loadvm_postcopy_handle_resume(void) ""
- loadvm_postcopy_ram_handle_discard(void) ""
- loadvm_postcopy_ram_handle_discard_end(void) ""
 -- 
-2.32.0
+Peter Xu
 
 
