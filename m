@@ -2,86 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D645C47F156
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 Dec 2021 23:35:13 +0100 (CET)
-Received: from localhost ([::1]:37682 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7737E47F186
+	for <lists+qemu-devel@lfdr.de>; Sat, 25 Dec 2021 00:46:47 +0100 (CET)
+Received: from localhost ([::1]:47364 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n0t9c-0001QZ-Oa
-	for lists+qemu-devel@lfdr.de; Fri, 24 Dec 2021 17:35:13 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41130)
+	id 1n0uGs-0006DU-4k
+	for lists+qemu-devel@lfdr.de; Fri, 24 Dec 2021 18:46:46 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50060)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1n0t7C-0007fq-Ba
- for qemu-devel@nongnu.org; Fri, 24 Dec 2021 17:32:43 -0500
-Received: from [2607:f8b0:4864:20::629] (port=36552
- helo=mail-pl1-x629.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1n0t7A-0001ls-R1
- for qemu-devel@nongnu.org; Fri, 24 Dec 2021 17:32:42 -0500
-Received: by mail-pl1-x629.google.com with SMTP id p14so7355760plf.3
- for <qemu-devel@nongnu.org>; Fri, 24 Dec 2021 14:32:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=tq1OxEwLLycubPx5xI0peBbyRqoKzJ/bEvPvhp6uHYA=;
- b=yrzLWLIhKBSuLK8W6njA5vViEWC6Uje32++QFUal71sHGtkVHsRXAF+zuoLEbSezcA
- tFGv13zFSHMy2CVC0/nZJJkijyJNSXsSurCmQ4mvtjcg4ElwN2ensXxQrIN6vOE2WptM
- arGhODlGThfDMd3YMFH9CLwCQ0p/KuFCuKGYQw74O3dDJpGNLm34Y25nc1Ck1F7WcBbP
- a3yK3DtayRIjJSUS8h1Si4ZLzvLpDyrBQ6yGE0OdUkcPSrP9BTjbgnVRkpI8umYFttoh
- h6CnjeUmBfEIajRHsOuPGUPIZOAKR1cJPO1sD1JZp5HmJCZdzCoFd+B6Ga/HNxsX6SX7
- Fo/g==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1n0uFV-0005MY-Vr
+ for qemu-devel@nongnu.org; Fri, 24 Dec 2021 18:45:22 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55898)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1n0uFS-0007eC-J9
+ for qemu-devel@nongnu.org; Fri, 24 Dec 2021 18:45:20 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1640389517;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=djtV4Zg+5Y2t9qXSDNiQLJloqba1CwpOshfT6XZOspA=;
+ b=BDDUcrvL9LUYbOFfoyDczHDNj1A4oopVrlapGqJQgmMMVpul95NWADA6yC4B6+SiPHDH2N
+ cM8ZoBHzVmFN2hfyk81mrai3/NW0Gas5IOkFgDWAnrKaopdb1z15D9jDLsNWDS2f6+5Ff+
+ hGTtDYU8hsJzmVhIMKauOCKUZ8dr8T0=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-380-Fk4Xbac_NJi27wpRgR4zRg-1; Fri, 24 Dec 2021 18:45:16 -0500
+X-MC-Unique: Fk4Xbac_NJi27wpRgR4zRg-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ m19-20020a05600c4f5300b00345cb6e8dd4so3391949wmq.3
+ for <qemu-devel@nongnu.org>; Fri, 24 Dec 2021 15:45:16 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=tq1OxEwLLycubPx5xI0peBbyRqoKzJ/bEvPvhp6uHYA=;
- b=mDrs1OmxElD7YDLbRpOLLnM+BYMttYoad9bfrUmH0F5QyUbdCMmYZvAOfuCX+ZbNQs
- l21ivAMPaD/WBidebVrYMXBNprZuJvefxDmkn36lFSoQWxmLAdOzFSh9UfzvMxrH72ok
- hEETTPLW3EsM0u3YHo+oABgIrGGI7K624iKM8JjYLu7vZ5jIrTz7/6FTWjiW9x+5hbL2
- SIqLii0QwlF2ujBnfvcolrQZQI1TiZljqUlNOayuf5FYBBJrxmqvHGtQ9hR5k+LPodUf
- mmW9nnyjx6eAKthth7z3tZfKlvSdv50XTTewf3TP3Kl6Owjn2ZVDMXcth1aBTWHJoLLE
- GcGA==
-X-Gm-Message-State: AOAM5330YwEKDVaEbOxVBJR0pctlJAIGBru3TeZHhC6BVmfD67WtPbiR
- aq/mnl7nP3qv5oQUxj1cMJN6FGIoNFvuiQ==
-X-Google-Smtp-Source: ABdhPJyRaKyQ8Ou+a72L2Eap8CiRe6wElsXNA6SkqeEzd9f2wBZVYujMkbz5tDHK7l6ZikZxnwMGeA==
-X-Received: by 2002:a17:902:b712:b0:143:72b7:4096 with SMTP id
- d18-20020a170902b71200b0014372b74096mr8314475pls.25.1640385159654; 
- Fri, 24 Dec 2021 14:32:39 -0800 (PST)
-Received: from [172.20.100.20] ([156.19.246.20])
- by smtp.gmail.com with ESMTPSA id 15sm399121pfy.151.2021.12.24.14.32.38
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 24 Dec 2021 14:32:39 -0800 (PST)
-Subject: Re: [PATCH 6/6] target/riscv: expose zfinx, zdinx, zhinx{min}
- properties
-To: liweiwei <liweiwei@iscas.ac.cn>, palmer@dabbelt.com,
- alistair.francis@wdc.com, bin.meng@windriver.com, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org
-References: <20211224034915.17204-1-liweiwei@iscas.ac.cn>
- <20211224034915.17204-7-liweiwei@iscas.ac.cn>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <e2209460-1592-e6fa-18be-54a7f66c9387@linaro.org>
-Date: Fri, 24 Dec 2021 14:32:37 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ bh=djtV4Zg+5Y2t9qXSDNiQLJloqba1CwpOshfT6XZOspA=;
+ b=wxIF3X8NwoqhIDmG5Ra9LMfmkryeOr2WWQN9gDpVW1ja8w8La9M8Rqf7ijW0qQ3vAR
+ M8tLhz/l2Uxbvr4ZxbuGbMoah8Sf9HFDZMZKOe8GyDxtTGg1cOMNnEhiAnkW9mccWAMp
+ fsQ1guKDgv2gJ7BBhn4feuDN4hthWk9cYwpxUaWLzTJqWtKOwRPW5GOOi6D+F/BkI/hj
+ Q5o7GtHMpTS9vtwlxZR/uKKGpt4LWuqBa66uBqaveFscKGOCgn39n8ZT6y3Go9YBjBFl
+ XdWl4/IV7PPxKG3W+ZXa5wBPFBFJJVTdT2a91LAs8/tIKzwfNFMSg2HepqcfUJsWHkl8
+ 1fMg==
+X-Gm-Message-State: AOAM533/Uc7SsqsIHQ0xdcxt7soXXroLEj2U99AoVQ+wWnZEENIm70yx
+ lra7sB/ds7pHl9FWPZfyhxeHgliyNdfnwYJBk9l0pqveKmpBK8gy4Qd1N9VP0Kz+te+j/kLl5cA
+ F+HbVB1a7zrXi7+Yb8W4TAR+NGIUrhvqRGAxuFtRAEhFp9o6ShaGe3LahPHMPnMyF
+X-Received: by 2002:adf:ec85:: with SMTP id z5mr5836464wrn.568.1640389514229; 
+ Fri, 24 Dec 2021 15:45:14 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyxwfXTXvZngkVd3lvDxTxowWvcYlkt/nFGVEaGHQbMnhcSQSIvNZ0BS8pIqAte4y5L2CUAmw==
+X-Received: by 2002:adf:ec85:: with SMTP id z5mr5836446wrn.568.1640389513859; 
+ Fri, 24 Dec 2021 15:45:13 -0800 (PST)
+Received: from localhost.localdomain
+ (adijon-655-1-69-27.w90-13.abo.wanadoo.fr. [90.13.240.27])
+ by smtp.gmail.com with ESMTPSA id bg34sm13174955wmb.47.2021.12.24.15.45.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 24 Dec 2021 15:45:13 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] tests/unit/test-util-sockets: Use g_file_open_tmp() to create
+ temp file
+Date: Sat, 25 Dec 2021 00:45:04 +0100
+Message-Id: <20211224234504.3413370-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.33.1
 MIME-Version: 1.0
-In-Reply-To: <20211224034915.17204-7-liweiwei@iscas.ac.cn>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::629
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x629.google.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
 X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.133,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.203,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,36 +93,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: wangjunqiang@iscas.ac.cn, lazyparser@gmail.com, ardxwe@gmail.com
+Cc: qemu-trivial@nongnu.org, Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/23/21 7:49 PM, liweiwei wrote:
-> Co-authored-by: ardxwe <ardxwe@gmail.com>
-> Signed-off-by: liweiwei <liweiwei@iscas.ac.cn>
-> Signed-off-by: wangjunqiang <wangjunqiang@iscas.ac.cn>
-> ---
->   target/riscv/cpu.c | 4 ++++
->   1 file changed, 4 insertions(+)
-> 
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index a5fa14f2ac..dbd15693be 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -657,6 +657,10 @@ static Property riscv_cpu_properties[] = {
->       DEFINE_PROP_BOOL("zbb", RISCVCPU, cfg.ext_zbb, true),
->       DEFINE_PROP_BOOL("zbc", RISCVCPU, cfg.ext_zbc, true),
->       DEFINE_PROP_BOOL("zbs", RISCVCPU, cfg.ext_zbs, true),
-> +    DEFINE_PROP_BOOL("Zdinx", RISCVCPU, cfg.ext_zdinx, false),
-> +    DEFINE_PROP_BOOL("Zfinx", RISCVCPU, cfg.ext_zfinx, false),
-> +    DEFINE_PROP_BOOL("Zhinx", RISCVCPU, cfg.ext_zhinx, false),
-> +    DEFINE_PROP_BOOL("Zhinxmin", RISCVCPU, cfg.ext_zhinxmin, false),
->       DEFINE_PROP_BOOL("x-h", RISCVCPU, cfg.ext_h, false),
->       DEFINE_PROP_BOOL("x-j", RISCVCPU, cfg.ext_j, false),
->       /* ePMP 0.9.3 */
-> 
+Similarly to commit e63ed64c6d1 ("tests/qtest/virtio-net-failover:
+Use g_file_open_tmp() to create temporary file"), avoid calling
+g_test_rand_int() before g_test_init(): use g_file_open_tmp().
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+---
+ tests/unit/test-util-sockets.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-r~
+diff --git a/tests/unit/test-util-sockets.c b/tests/unit/test-util-sockets.c
+index 72b92465298..896247e3ed3 100644
+--- a/tests/unit/test-util-sockets.c
++++ b/tests/unit/test-util-sockets.c
+@@ -305,9 +305,11 @@ static void test_socket_unix_abstract(void)
+     };
+     int i;
+ 
++    i = g_file_open_tmp("unix-XXXXXX", &addr.u.q_unix.path, NULL);
++    g_assert_true(i >= 0);
++    close(i);
++
+     addr.type = SOCKET_ADDRESS_TYPE_UNIX;
+-    addr.u.q_unix.path = g_strdup_printf("unix-%d-%u",
+-                                         getpid(), g_random_int());
+     addr.u.q_unix.has_abstract = true;
+     addr.u.q_unix.abstract = true;
+     addr.u.q_unix.has_tight = false;
+-- 
+2.33.1
+
 
