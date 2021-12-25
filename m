@@ -2,85 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5999A47F47E
-	for <lists+qemu-devel@lfdr.de>; Sat, 25 Dec 2021 22:11:44 +0100 (CET)
-Received: from localhost ([::1]:50648 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A323747F489
+	for <lists+qemu-devel@lfdr.de>; Sat, 25 Dec 2021 22:55:07 +0100 (CET)
+Received: from localhost ([::1]:34490 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n1EKN-00047y-03
-	for lists+qemu-devel@lfdr.de; Sat, 25 Dec 2021 16:11:43 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52342)
+	id 1n1F0M-00076F-8Q
+	for lists+qemu-devel@lfdr.de; Sat, 25 Dec 2021 16:55:06 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60122)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1n1EIn-0003H7-6w
- for qemu-devel@nongnu.org; Sat, 25 Dec 2021 16:10:05 -0500
-Received: from [2a00:1450:4864:20::42c] (port=37650
- helo=mail-wr1-x42c.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1n1EIl-0004ER-FD
- for qemu-devel@nongnu.org; Sat, 25 Dec 2021 16:10:04 -0500
-Received: by mail-wr1-x42c.google.com with SMTP id t26so23890713wrb.4
- for <qemu-devel@nongnu.org>; Sat, 25 Dec 2021 13:10:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=opDT46zkJCSGTtvG8b9D86kSHF1twnmQ8aubSHprGRk=;
- b=Oj2bFTWN5RW6g6ljRhRFNiB6kRO/VZ4gHpwBhmYlN9eiX4ZnYzAoQxCaTCwujeCU+O
- jTF+QQI8ChfjSsEUCDNcMyMYV2HAOw3E/A62bHKaM6MqD/NIQWyEru9Gum6SPD6dQLAw
- O1sB4ytIrfURfDV5JhY0hL+TdUg7zXXOpNiYFnioLUPrnODCIDKv23EAKZroDY16AHp1
- 1yRMTmtiZtmMPhVWbarDC353pKHjKA9CBexv8OOfsvuSZ1f/gOutU3KHW+Nu1sN78E+s
- eH1UgGFKBkI75XvInrNQIgT92g2sqM2Wz4rJvTISU/9JN5BHp8uSa/2keWW8IIEyZBRH
- 8ZfA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=opDT46zkJCSGTtvG8b9D86kSHF1twnmQ8aubSHprGRk=;
- b=kOqb+5t410Nv7hBDQYvWK0EQEHmNL9SVN7QrQYO340ISqvbsbPoNnvPq2mSJvtFFrb
- uXmMKlphuNCSUbSRudI/lPk14XYYc09rFSBZLXjKN+nA7Cbrw7ark/TxzUnf6+NMeQs+
- AWkN+27K2+/s5bKodKIz+sYHMtuiCU00MRVHps0jmgkdY7EjNOb1jel835hvVj9zQAl2
- ePTkv7b66B1Vb52PPtToWLRlggM64qL3gvTPZ1rVUQOQqtkfdmufA/mIxKA47K+MPgry
- XgVcVjuwvAHauT4qwB1M0BDo7VZSY1uPR9QWPaXlhKGck6MDlahZc7hMwWXmYQct1+w0
- tr4Q==
-X-Gm-Message-State: AOAM5303Z53BJHIn3APJE8vnlgTZIwQ+FraFaDnpg/p5hr4vA3RqtgVu
- i0341HN9s/TY8KmN1Ji6gpY=
-X-Google-Smtp-Source: ABdhPJy/eefhNh50EjiGeT6t82GIFrTXjsUsrKVhUQfPikLg8/5SD7FEmxytjbGdM47UudQaxuFaaw==
-X-Received: by 2002:a5d:58ef:: with SMTP id f15mr8023565wrd.108.1640466601657; 
- Sat, 25 Dec 2021 13:10:01 -0800 (PST)
-Received: from [192.168.1.16] (adijon-655-1-69-27.w90-13.abo.wanadoo.fr.
- [90.13.240.27])
- by smtp.gmail.com with ESMTPSA id i8sm11728072wmq.4.2021.12.25.13.10.00
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 25 Dec 2021 13:10:00 -0800 (PST)
-Message-ID: <d6531d1f-3c62-f3b3-aad0-25971e5bad95@amsat.org>
-Date: Sat, 25 Dec 2021 22:09:58 +0100
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1n1Eyi-0005pE-9w; Sat, 25 Dec 2021 16:53:24 -0500
+Received: from zero.eik.bme.hu ([152.66.115.2]:52412)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1n1Eyf-0006wT-QX; Sat, 25 Dec 2021 16:53:23 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 76411746353;
+ Sat, 25 Dec 2021 22:53:16 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 4C7CA746333; Sat, 25 Dec 2021 22:53:16 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 4A4387462D3;
+ Sat, 25 Dec 2021 22:53:16 +0100 (CET)
+Date: Sat, 25 Dec 2021 22:53:16 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: "mario@locati.it" <mario@locati.it>
+Subject: Re: [PATCH] target/ppc: Fix e6500 boot
+In-Reply-To: <R4OPHT$7F12C66D1107397991E0E4C978FE6AF1@locati.it>
+Message-ID: <a17ceb16-bce5-2090-8473-78b316bf5fb5@eik.bme.hu>
+References: =?iso-8859-1?q?=3C20211213133542=2E2608540=2D1=2Dfarosas=40linux=2Eib?=
+ =?iso-8859-1?q?m=2Ecom=3E_=3C724f7563=2Df36c=2D2c37=2D3b94=2D951c3d92?=
+ =?iso-8859-1?q?2861=40eik=2Ebme=2Ehu=3E?=
+ <R4OPHT$7F12C66D1107397991E0E4C978FE6AF1@locati.it>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH 1/2] tests/tcg/multiarch: Read fp flags before printf
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20211224035541.2159966-1-richard.henderson@linaro.org>
- <20211224035541.2159966-2-richard.henderson@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <20211224035541.2159966-2-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42c
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42c.google.com
-X-Spam_score_int: -8
-X-Spam_score: -0.9
-X-Spam_bar: /
-X-Spam_report: (-0.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.196,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: multipart/mixed; boundary="3866299591-66115725-1640469196=:11478"
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,25 +57,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Taylor Simpson <tsimpson@quicinc.com>, alex.bennee@linaro.org
+Cc: clg@kaod.org, danielhb413@gmail.com, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org, farosas@linux.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/24/21 04:55, Richard Henderson wrote:
-> We need to read the floating-point flags before printf may do
-> other floating-point operations which may affect the flags.
-> 
-> Hexagon reference files regenerated by Taylor Simpson.
-> 
-> Signed-off-by: Taylor Simpson <tsimpson@quicinc.com>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> Message-Id: <1639510781-3790-1-git-send-email-tsimpson@quicinc.com>
-> ---
->  tests/tcg/multiarch/float_convs.c |   2 +-
->  tests/tcg/multiarch/float_madds.c |   2 +-
->  tests/tcg/hexagon/float_convs.ref | 152 +++++++++++++++---------------
->  tests/tcg/hexagon/float_madds.ref |  48 +++++-----
->  4 files changed, 102 insertions(+), 102 deletions(-)
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+--3866299591-66115725-1640469196=:11478
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8BIT
+
+On Sat, 25 Dec 2021, mario@locati.it wrote:
+> I have tried to launch a freshly compiled qemu from git master on a NXP 
+> T2080RDB devkit that has a e6500 CPU in combination with a freshly 
+> compiled kernel 5.16-rc6
+> I have Debian SID ppc64 up and running using such a kernel, and when I 
+> launch qemu to run a VM with the same debian sid for ppc64 and the same 
+> kernel using --enable-kvm I end up with a kernel panic
+>
+>
+> [....]
+> Run /sbin/init as init process
+> random: fast init done
+> systemd[1]: illegal instruction (4) at 3fff96562ac8 nip 3fff96562ac8 lr 3fff96562aa8 code 1 in libc-2.32.so[3fff96516000+1f7000]
+> systemd[1]: code: 60000000 38600006 9122b7e8 4801bead 60000000 60000000 8122b7e8 2c090004 
+> systemd[1]: code: 40820014 39200005 60000000 9122b7e8 <00000000> 60000000 8122b7e8 2c090005 
+
+Looks like it trips on a 0 opcode here in the middle of other values that 
+look like valid code so I wonder how that 0 got there? Did something 
+overwrite it before it tried to execute it? If it always happens on the 
+same address maybe you could try attaching gdb and put a watch point on 
+that address to see what writes there, otherwise I don't know how to debug 
+this.
+
+Regards,
+BALATON Zoltan
+
+> Kernel panic - not syncing: Attempted to kill init! exitcode=0x00000004
+> Rebooting in 180 seconds..
+>
+>
+> On the positive side, for the first time I am not flooded by milions 
+> kernel error messages from the serial console attached to the devkit, 
+> not a single error spitted out from it, great!
+>
+>
+> The kernel config file I used
+> https://repo.powerprogress.org/t2080rdb/qemu/kernel_5.16-rc6.config
+>
+>
+> The resulting kernel
+> https://repo.powerprogress.org/t2080rdb/qemu/uImage_5.16-rc6
+>
+>
+> The complete console output I get when configuring qemu before compilation
+> https://repo.powerprogress.org/t2080rdb/qemu/2021-12-25_qemu_git_configure_on_ppc64.txt
+>
+>
+> The complete console output that end up with the kernel panic when launching qemu
+> https://repo.powerprogress.org/t2080rdb/qemu/2021-12-25_qemu_ppc64_e6500_kvm_debian_sid_log.txt
+ 
+--3866299591-66115725-1640469196=:11478--
 
