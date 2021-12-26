@@ -2,89 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B86F47F4ED
-	for <lists+qemu-devel@lfdr.de>; Sun, 26 Dec 2021 03:26:49 +0100 (CET)
-Received: from localhost ([::1]:38674 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E27D47F510
+	for <lists+qemu-devel@lfdr.de>; Sun, 26 Dec 2021 04:49:42 +0100 (CET)
+Received: from localhost ([::1]:42612 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n1JFI-0007E4-18
-	for lists+qemu-devel@lfdr.de; Sat, 25 Dec 2021 21:26:48 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44072)
+	id 1n1KXU-0000xF-Qc
+	for lists+qemu-devel@lfdr.de; Sat, 25 Dec 2021 22:49:40 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51158)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1n1JEG-0006Dp-UU
- for qemu-devel@nongnu.org; Sat, 25 Dec 2021 21:25:45 -0500
-Received: from wout2-smtp.messagingengine.com ([64.147.123.25]:43385)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1n1JEF-0002Oo-77
- for qemu-devel@nongnu.org; Sat, 25 Dec 2021 21:25:44 -0500
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.west.internal (Postfix) with ESMTP id 195373200BF9;
- Sat, 25 Dec 2021 21:25:39 -0500 (EST)
-Received: from imap44 ([10.202.2.94])
- by compute5.internal (MEProxy); Sat, 25 Dec 2021 21:25:39 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
- mime-version:message-id:in-reply-to:references:date:from:to:cc
- :subject:content-type:content-transfer-encoding; s=fm1; bh=fW30j
- 1rhfRigN017RcV6UuthfL/FCHqPcP361YRxVEY=; b=DlFhBHXKeH+0I0EYXqgQf
- QYLgycd8m55y19/UakF5uuhl8lL0DhL//8x2EUzbjd0I+KSFqNnOLgwxbzWlGoTY
- 7UMIR984F9o6trX3nRsmT2fUDZpbbOWgC+wr+e0w0Oy4jPGxl/z+AQjNvsuWH2tW
- MbCKoEj+oT6JZf8GXpbirCT0OoLGNYyXl5liS6Af5kEoXvqsYbS/nBBFLRuYl3g2
- fnjhiNCvBnFu2eSrw0K3zChOLMhi1AX3QimY0jUdlbZKd+2JsH++Lbn/O5ARr4GY
- s9zAOyWNJMbErEZbGEkjhc2j+RtRVGFEtRn/agG49UR+I1Xfdg+fGpUe8IEYf28U
- w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:content-type
- :date:from:in-reply-to:message-id:mime-version:references
- :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm1; bh=fW30j1rhfRigN017RcV6UuthfL/FCHqPcP361YRxV
- EY=; b=DY73QMVm7pLQ8lETEYJoss9yHlSM/pTSaMEbhPmMgdPs1BNbEneQAgA1F
- qgJ2W9Ps4soJqWbNA64wdPMd0g2YL1WBgOF7wIV87WUTBxoO4UXx86xnrczblvAJ
- 8R751jnoqNIUNkSiRwkp8RuNkaBCXc5ELTm8Ha+D17kROfyxF4oMktgqADoI9CKC
- anRn8YGHH2Sjjw/KxJZdzxpkfcdsYstgW6B+i2/qMiHcdQpMVWfsE4d4X1GkOKdS
- pkd4dwKhDnetovUHuL6/eLbyRZMwwRXLFoGA8WcMQ7tGT/v9od6QrBlPQOhYSzgM
- pO8XzwPosk+s5Nnyyt3Fsj+QU0ZAQ==
-X-ME-Sender: <xms:otLHYeTA7MbkChoFqabnImbKzt6GFk4sBZUf2scfCZbtJCTaUBrIog>
- <xme:otLHYTwVQTrvecdrsYzLXMTi-VpFHu_30FfH3S8Iq3G759sxuMPO55baPxh09VhGZ
- g2sHh8LvOgqqGyD8Hc>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddruddufedgfeelucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepofgfggfkjghffffhvffutgfgsehtqhertderreejnecuhfhrohhmpedflfhi
- rgiguhhnucgjrghnghdfuceojhhirgiguhhnrdihrghnghesfhhlhihgohgrthdrtghomh
- eqnecuggftrfgrthhtvghrnhepfeetgeekveeftefhgfduheegvdeuuddvieefvddvlefh
- feehkeetfeeukedtfeejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrg
- hilhhfrhhomhepjhhirgiguhhnrdihrghnghesfhhlhihgohgrthdrtghomh
-X-ME-Proxy: <xmx:otLHYb1Ketn2DncbGnxKEgk3WLTtb37cav6S0wL0cFq3QS8MsgSFfA>
- <xmx:otLHYaAMV4mjs_XY2vOz0SGPyTYftpAs4qzhZy2d4L3-f7f3anmZ0Q>
- <xmx:otLHYXjkK08zQy--_FhY0-GIPaNkhh-PWZPTb0YybP0M9OIEtQvA8g>
- <xmx:otLHYasIssEoGvGqGR2xJaAdTdEO1-k83qOjMB1KRV6iwW2i7EdLkQ>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id 44E4AFA0AA6; Sat, 25 Dec 2021 21:25:38 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.5.0-alpha0-4525-g8883000b21-fm-20211221.001-g8883000b
-Mime-Version: 1.0
-Message-Id: <1cc49727-5ad5-4c4f-be81-6450e5889cff@www.fastmail.com>
-In-Reply-To: <20211226001931.3809249-3-f4bug@amsat.org>
-References: <20211226001931.3809249-1-f4bug@amsat.org>
- <20211226001931.3809249-3-f4bug@amsat.org>
-Date: Sun, 26 Dec 2021 02:25:15 +0000
-From: "Jiaxun Yang" <jiaxun.yang@flygoat.com>
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- "BALATON Zoltan via" <qemu-devel@nongnu.org>
-Subject: Re: [RFC PATCH 2/2] tests/tcg/mips64el: Run float tests
-Content-Type: text/plain;charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=64.147.123.25;
- envelope-from=jiaxun.yang@flygoat.com; helo=wout2-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1n1KWJ-0000Aj-Nk
+ for qemu-devel@nongnu.org; Sat, 25 Dec 2021 22:48:27 -0500
+Received: from [2607:f8b0:4864:20::433] (port=39875
+ helo=mail-pf1-x433.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1n1KWI-0007AX-5q
+ for qemu-devel@nongnu.org; Sat, 25 Dec 2021 22:48:27 -0500
+Received: by mail-pf1-x433.google.com with SMTP id s15so10774063pfk.6
+ for <qemu-devel@nongnu.org>; Sat, 25 Dec 2021 19:48:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=5p1+El9ll2VSOgukMIqNAiiwkILUJLg8fOI9DP13lyA=;
+ b=D56zIQ7JuOpjH0/egShB3kGELn7UyewI2qWTAg8PhTeAJRF0mS0+4jOaXA1AAl0jvp
+ NH/r6Z10Nmw5rViISRC7oDkttK7uSY5XZFmgRyWkJa3IEOLj+Te7qm+w2CNTaz7QRTtj
+ 7AiOR+LtWcqWqQosh2Jy+4wq9Co1OW9jIwBYeOVtiwjXUeB3WXprsseruDHph73RzXMH
+ 5PtGUmVcwUbmJC4NQHLbIszXdqv/WfSyzdcMgIViHPcmhWFfWKjjc2lw205bSH8KKSwm
+ 0+zpWj9V/zaF7HL2a+nuWlAZYRMUPEouiz9hjSFix1P2IZ+C6SA2L4JSeyBDpZE3/rSD
+ Zsxg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=5p1+El9ll2VSOgukMIqNAiiwkILUJLg8fOI9DP13lyA=;
+ b=a1+YTGxYvntVKc9svX2TGvOML5sAtfGh42BcKLisv8TqZ57OkoUjp339HaLlwlT90V
+ tALGNDenleu6LtHCE7vEiGEMM1hkOZb9lhzG2EGxbwGDnyOThnmT1m/44QiTFu/HHX5Q
+ AnvO31bVArueUp8/9ssiCiXPlqXKC0FoxaoBVvI4lTGjfQk+2ab1kuWDlartghhhzq6y
+ R6cdAyRb0ja6jHgdG1tCreCVGoHuHD4zODBa8R4+MruXZOTMeTRPK1rmANwC/2TDB4Qp
+ zoggUrybyVZFiCqt/VgjU2SafB7V8Im0L+U4GCxj9rLwrCIISXKcyLgmthr8fz5MHDht
+ R/WQ==
+X-Gm-Message-State: AOAM531H/LByU/uQJIWR+6H8OfUk+02otBtr/zs+wa2uDHjI3Atv8waR
+ Nc+7MV5ZPTTI0XqQEfmMRbmTow==
+X-Google-Smtp-Source: ABdhPJwCM+93JcG52+gJGzpEFnMras4EoYcE1IJ/IEyahY6vke0glnRZgmVFzq98I9uE90CFhYMNew==
+X-Received: by 2002:a63:606:: with SMTP id 6mr11167481pgg.359.1640490504633;
+ Sat, 25 Dec 2021 19:48:24 -0800 (PST)
+Received: from [172.20.100.20] ([156.19.246.20])
+ by smtp.gmail.com with ESMTPSA id s30sm6111461pfw.195.2021.12.25.19.48.23
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 25 Dec 2021 19:48:24 -0800 (PST)
+Subject: Re: [PATCH 2/6] target/riscv: add support for unique fpr read/write
+ with support for zfinx
+To: liweiwei <liweiwei@iscas.ac.cn>, palmer@dabbelt.com,
+ alistair.francis@wdc.com, bin.meng@windriver.com, qemu-riscv@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20211224034915.17204-1-liweiwei@iscas.ac.cn>
+ <20211224034915.17204-3-liweiwei@iscas.ac.cn>
+ <ec5adcb4-3090-50e2-4981-38149e120249@linaro.org>
+ <2acd9ead-d9e8-46be-b306-2aa26ced06b5@iscas.ac.cn>
+ <be0bf212-5200-2f25-8b9e-5f7fe2941ccd@linaro.org>
+ <9ea3554f-367a-bd4e-fc4f-a98367b96260@iscas.ac.cn>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <3f56629e-890d-5b42-b4b6-e3b7592e1e96@linaro.org>
+Date: Sat, 25 Dec 2021 19:48:20 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
+MIME-Version: 1.0
+In-Reply-To: <9ea3554f-367a-bd4e-fc4f-a98367b96260@iscas.ac.cn>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::433
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::433;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x433.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.196,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,62 +97,18 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Alex_Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Huacai Chen <chenhuacai@kernel.org>,
- Richard Henderson <richard.henderson@linaro.org>
+Cc: wangjunqiang@iscas.ac.cn, lazyparser@gmail.com, ardxwe@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 12/25/21 5:42 PM, liweiwei wrote:
+> Sorry. In the old spec(version 0.41), nanboxing is not totally disabled, but "NaN-boxing 
+> is limited to |XLEN| bits, not |FLEN| bits". Taking misa.mxl into acount, if misa.mxl is 
+> RV32, and maximum is RV64, this should be sign-extended. Is there any other new update for 
+> nanboxing  to the spec?
+
+Yes, in 1.0.0-rc, it's all gone.
 
 
-=E5=9C=A82021=E5=B9=B412=E6=9C=8826=E6=97=A5=E5=8D=81=E4=BA=8C=E6=9C=88 =
-=E4=B8=8A=E5=8D=8812:19=EF=BC=8CPhilippe Mathieu-Daud=C3=A9=E5=86=99=E9=81=
-=93=EF=BC=9A
-> Unfortunately this fails:
->
->   $ make run-tcg-tests-mips64el-linux-user
->   ...
->   Files float_convs.out and tests/tcg/mips64el/float_convs.ref differ
->   --- float_convs.out     2021-12-26 01:03:48.585973637 +0100
->   +++ tests/tcg/mips64el/float_convs.ref   2021-12-26 00:29:35.8044653=
-40 +0100
->   @@ -1,40 +1,40 @@
->    ### Rounding to nearest
->   -from single: f32(nan:0xffffffff)
->   -  to double: f64(nan:0x007ff7ffffffffffff) (INVALID)
->   -   to int32: 2147483647 (INVALID)
->   -   to int64: 9223372036854775807 (INVALID)
->   -  to uint32: 2147483647 (INVALID)
->   -  to uint64: 9223372036854775807 (INVALID)
->   make[2]: *** [tests/tcg/multiarch/Makefile.target:32: run-float_conv=
-s] Error 1
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> ---
->  tests/tcg/mips64el/Makefile.target | 2 ++
->  1 file changed, 2 insertions(+)
->  create mode 100644 tests/tcg/mips64el/Makefile.target
->
-> diff --git a/tests/tcg/mips64el/Makefile.target=20
-> b/tests/tcg/mips64el/Makefile.target
-> new file mode 100644
-> index 00000000000..dcb1e9d72ac
-> --- /dev/null
-> +++ b/tests/tcg/mips64el/Makefile.target
-> @@ -0,0 +1,2 @@
-> +float_%: CFLAGS+=3D-march=3Dloongson3a
-> +float_%: QEMU_OPTS+=3D-cpu Loongson-3A4000
-
-Hmm, -march=3Dloongson3a assumed legacy NaN while our -cpu Loongson-3A40=
-00 assumed IEEE 754-2008 style NaN.
-
-I guess switch to Loongson-3A1000 can help?
-
-Thanks.
-
-> --=20
-> 2.33.1
-
---=20
-- Jiaxun
+r~
 
