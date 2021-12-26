@@ -2,73 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0351247F5B8
-	for <lists+qemu-devel@lfdr.de>; Sun, 26 Dec 2021 08:51:43 +0100 (CET)
-Received: from localhost ([::1]:46128 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D331647F67B
+	for <lists+qemu-devel@lfdr.de>; Sun, 26 Dec 2021 11:53:58 +0100 (CET)
+Received: from localhost ([::1]:54418 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n1OJh-00025Z-K2
-	for lists+qemu-devel@lfdr.de; Sun, 26 Dec 2021 02:51:41 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46910)
+	id 1n1RA5-0002mW-Dn
+	for lists+qemu-devel@lfdr.de; Sun, 26 Dec 2021 05:53:57 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43414)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1n1OGj-0001Jl-Oq
- for qemu-devel@nongnu.org; Sun, 26 Dec 2021 02:48:37 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55390)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1n1OGg-0003yN-VB
- for qemu-devel@nongnu.org; Sun, 26 Dec 2021 02:48:36 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1640504912;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=n72cskj0xks/cMUunZUJeF1fj5na/a4KpmUDo3Y/Z2I=;
- b=CNnQqf5725UDxm5UzLLX5CJbaqsdl/970g8W7amPfId0zaddNMph1z7yh5Uvplt/ZgEeny
- OhihLnueXxkQxUE2PzLCsjrp5SNF8jl9bXOx0wO2HU3eL77z+Vn1f+CkT9bvfcgZgh0Nyk
- GNV2KH4O/FmuiW8cidb4fLgBzFC83QU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-436-nX6y1B_hOoedQKhjizf2Cw-1; Sun, 26 Dec 2021 02:48:29 -0500
-X-MC-Unique: nX6y1B_hOoedQKhjizf2Cw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2E3371006AA3;
- Sun, 26 Dec 2021 07:48:28 +0000 (UTC)
-Received: from localhost (unknown [10.39.192.44])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7621973178;
- Sun, 26 Dec 2021 07:48:27 +0000 (UTC)
-Date: Sun, 26 Dec 2021 08:48:26 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
-Subject: Re: Building QEMU as a shared library
-Message-ID: <YcgeSqB5m2la2Bif@stefanha-x1.localdomain>
-References: <PA4PR09MB4880FF47C3A6E249E55B80E2EB769@PA4PR09MB4880.eurprd09.prod.outlook.com>
- <CAFEAcA8m0M2+=ZuBAXcRmyGMzjHdjCYWM+_KzFK_eoPdwX-vpA@mail.gmail.com>
- <c2efa7d0-906b-21bc-bcee-d9f79a2e2064@amsat.org>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1n1R6d-0001Pi-3X
+ for qemu-devel@nongnu.org; Sun, 26 Dec 2021 05:50:23 -0500
+Received: from [2a00:1450:4864:20::436] (port=38604
+ helo=mail-wr1-x436.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1n1R6b-0000JA-Au
+ for qemu-devel@nongnu.org; Sun, 26 Dec 2021 05:50:22 -0500
+Received: by mail-wr1-x436.google.com with SMTP id e5so26377681wrc.5
+ for <qemu-devel@nongnu.org>; Sun, 26 Dec 2021 02:50:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=j+/7VCATsHA92inZZwh/cnro/NWa/VPcHp1vUBSZBVk=;
+ b=WfASaAbnnpWKSirNSzYSq7A5or2nVyv9b6ruFK8OGiNbbCgybADkfeN48MUnW7VVQb
+ BCDGhk6w1c1SVbEbmbOO/uKMCOgWm4jbe+OfjAeyW8K0IX403M9IbppwUzc1F+xEchh9
+ hWqilEJVvH6bnmZ1TV+vvFVdENkm7K2eaB3WQDjIg+gu4ZGKQjiXoNAon2t+SMx2NeA+
+ hHyIqXNwd/PInW/bQqIF+oa/qzXwRakSjNlctk9Hooc2KzXwrg9XpwnJKKtAh3icahD0
+ f7JIsQrlh/QwL3kgFTjI1Q+kEf+pQ6XP1iqShfX3blfOjLKM+lMkWxR1g6BUhmH0vsAL
+ czvQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=j+/7VCATsHA92inZZwh/cnro/NWa/VPcHp1vUBSZBVk=;
+ b=WFxNH7svqI+hNKfFmoiafgXyoIqTqoG82OvBfABfcPS58+iZtPJVnykLuyUBGesrTU
+ uIi9yGYWy8WDS9D1wVZLkZJj/PPhiCpj0/xI+3lJBs/xZtOdh+VIyZYLkl7TkUDNbdIe
+ Yv0R9jaQuRRi1s/lZHa0y24VkS+LwOgCMIhQISArtR0nv6ih1J7zIXDo8i5zeYtMSFAL
+ unN2DQj+RjF4b2mVMsrc6EyM3LdglSKwyHmJsVCFOuCN7uSnJULmSwTkD5y1MwE0nQ/r
+ VtiPVr2x3AJGpddu1Xur/dwsiAb+4ykLRxBhcgy/d1nBK2qj4jGDfncuTREbScQECzuF
+ c5wg==
+X-Gm-Message-State: AOAM5303/SMpfMAxcx89OcL58FwjUGkifHMxRtI3Xtzbn6VG9k0oW94a
+ 2akJuqQJHrFR9qZ8KKXv4ro=
+X-Google-Smtp-Source: ABdhPJzsh1buhdxIVpP1vOHE7SG0yhbJ54akdJcoZJO3ZCdFy8HteaawHOoFmZbAezaBUtgHPWBalg==
+X-Received: by 2002:adf:d1cc:: with SMTP id b12mr10170464wrd.282.1640515816629; 
+ Sun, 26 Dec 2021 02:50:16 -0800 (PST)
+Received: from [192.168.1.16] (adijon-655-1-69-27.w90-13.abo.wanadoo.fr.
+ [90.13.240.27])
+ by smtp.gmail.com with ESMTPSA id m17sm16905196wms.25.2021.12.26.02.50.14
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 26 Dec 2021 02:50:15 -0800 (PST)
+Message-ID: <ada264bd-6277-0c44-b010-cbbe93e98a8e@amsat.org>
+Date: Sun, 26 Dec 2021 11:50:13 +0100
 MIME-Version: 1.0
-In-Reply-To: <c2efa7d0-906b-21bc-bcee-d9f79a2e2064@amsat.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="4HCLZGcfgh6p0tkY"
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.57,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [RFC PATCH 2/2] tests/tcg/mips64el: Run float tests
+Content-Language: en-US
+To: Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ BALATON Zoltan via <qemu-devel@nongnu.org>
+References: <20211226001931.3809249-1-f4bug@amsat.org>
+ <20211226001931.3809249-3-f4bug@amsat.org>
+ <1cc49727-5ad5-4c4f-be81-6450e5889cff@www.fastmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+In-Reply-To: <1cc49727-5ad5-4c4f-be81-6450e5889cff@www.fastmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::436
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x436.google.com
+X-Spam_score_int: -7
+X-Spam_score: -0.8
+X-Spam_bar: /
+X-Spam_report: (-0.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.063,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,53 +95,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Amir Gonnen <amir.gonnen@neuroblade.ai>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ Huacai Chen <chenhuacai@kernel.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---4HCLZGcfgh6p0tkY
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 12/26/21 03:25, Jiaxun Yang wrote:
+> 在2021年12月26日十二月 上午12:19，Philippe Mathieu-Daudé写道：
+>> Unfortunately this fails:
+>>
+>>   $ make run-tcg-tests-mips64el-linux-user
+>>   ...
+>>   Files float_convs.out and tests/tcg/mips64el/float_convs.ref differ
+>>   --- float_convs.out     2021-12-26 01:03:48.585973637 +0100
+>>   +++ tests/tcg/mips64el/float_convs.ref   2021-12-26 00:29:35.804465340 +0100
+>>   @@ -1,40 +1,40 @@
+>>    ### Rounding to nearest
+>>   -from single: f32(nan:0xffffffff)
+>>   -  to double: f64(nan:0x007ff7ffffffffffff) (INVALID)
+>>   -   to int32: 2147483647 (INVALID)
+>>   -   to int64: 9223372036854775807 (INVALID)
+>>   -  to uint32: 2147483647 (INVALID)
+>>   -  to uint64: 9223372036854775807 (INVALID)
+>>   make[2]: *** [tests/tcg/multiarch/Makefile.target:32: run-float_convs] Error 1
+>>
+>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>> ---
+>>  tests/tcg/mips64el/Makefile.target | 2 ++
+>>  1 file changed, 2 insertions(+)
+>>  create mode 100644 tests/tcg/mips64el/Makefile.target
+>>
+>> diff --git a/tests/tcg/mips64el/Makefile.target 
+>> b/tests/tcg/mips64el/Makefile.target
+>> new file mode 100644
+>> index 00000000000..dcb1e9d72ac
+>> --- /dev/null
+>> +++ b/tests/tcg/mips64el/Makefile.target
+>> @@ -0,0 +1,2 @@
+>> +float_%: CFLAGS+=-march=loongson3a
+>> +float_%: QEMU_OPTS+=-cpu Loongson-3A4000
+> 
+> Hmm, -march=loongson3a assumed legacy NaN while our -cpu Loongson-3A4000 assumed IEEE 754-2008 style NaN.
+> 
+> I guess switch to Loongson-3A1000 can help?
 
-On Thu, Dec 23, 2021 at 10:49:46AM +0100, Philippe Mathieu-Daud=E9 wrote:
-> What are your thoughts on Daniel idea to where (IIUC) cores can are
-> external processes wired via vhost-user. One problem is not all
-> operating systems supported provide this possibility.
+Nop, exactly the same error.
 
-There is no fundamental limitation that prevents vhost-user from being
-used on non-Linux OSes. Eventfds can be replaced with pipes or other
-file descriptors. Shared memory fd passing can be replaced with an
-OS-specific shared memory API.
+Also, float_madds fails as:
 
-If the OS does not support these things:
-
-- Johannes Berg added in-band notifications ("docs: vhost-user: add
-  in-band kick/call messages"), so eventfds aren't strictly necessary
-  anymore.
-
-- David Gilbert is working on in-band DMA, reducing the need for shared
-  memory (at the cost of extra inter-process communication).
-
-Stefan
-
---4HCLZGcfgh6p0tkY
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmHIHkkACgkQnKSrs4Gr
-c8hw4Af/ZC6Bq8uz7SZnOQULb243+sRQ+1/Yth9zXSJqm7O9iX4VFh7pKviBs++4
-uUdWUWBJpKvLb0bKaTOJZW2/RKuHUEmFAEKVFW9xXrXUXRgu2ZdXgPkLIOOHXxbm
-JKguo9kUq/EfG5FVrUlNJjrYpXEM2TQ6jAmGYLMw/IicWiqDdQ0BkZYEDboEQm2h
-GDaopCzqiaFWWwpCMdVv/H3CK6kgO3emmm+7ZQXfFuThhTqbYyQl0nQMtN5dGsLI
-ZdpWX99ZjUpdq/NFhNWm2tCikpJaI7b79PRFSWX/scvnsUqSEX/4/Rgs7PW5aPlu
-KiFoaO77s97daoGoJiSuBzcDcFYrXw==
-=loqc
------END PGP SIGNATURE-----
-
---4HCLZGcfgh6p0tkY--
-
+Files float_madds.out and tests/tcg/mips64el/float_madds.ref differ
+--- float_madds.out     2021-12-26 11:49:06.018532269 +0100
++++ tests/tcg/mips64el/float_madds.ref   2021-12-26 01:16:02.269497182 +0100
+@@ -1,16 +1,16 @@
+ ### Rounding to nearest
+-op : f32(nan:0xffffffff) * f32(nan:0xffbfffff) + f32(-inf:0xff800000)
+-res: f32(nan:0x7fbfffff) flags=INVALID (0/0)
+-op : f32(nan:0xffbfffff) * f32(-inf:0xff800000) + f32(nan:0xffffffff)
+-res: f32(nan:0x7fbfffff) flags=INVALID (0/1)
+-op : f32(-inf:0xff800000) * f32(nan:0xffffffff) + f32(nan:0xffbfffff)
+-res: f32(nan:0x7fbfffff) flags=INVALID (0/2)
+make[2]: *** [tests/tcg/multiarch/Makefile.target:30: run-float_madds]
+Error 1
 
