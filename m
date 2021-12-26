@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D07B547F824
-	for <lists+qemu-devel@lfdr.de>; Sun, 26 Dec 2021 16:43:12 +0100 (CET)
-Received: from localhost ([::1]:39952 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B14A247F826
+	for <lists+qemu-devel@lfdr.de>; Sun, 26 Dec 2021 16:44:28 +0100 (CET)
+Received: from localhost ([::1]:44322 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n1Vfz-0002PH-W2
-	for lists+qemu-devel@lfdr.de; Sun, 26 Dec 2021 10:43:12 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57302)
+	id 1n1VhD-0005oK-SU
+	for lists+qemu-devel@lfdr.de; Sun, 26 Dec 2021 10:44:27 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57346)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
- id 1n1VdL-0008I3-PU
- for qemu-devel@nongnu.org; Sun, 26 Dec 2021 10:40:28 -0500
-Received: from mailout03.t-online.de ([194.25.134.81]:59696)
+ id 1n1VdY-0000Jr-Q5
+ for qemu-devel@nongnu.org; Sun, 26 Dec 2021 10:40:41 -0500
+Received: from mailout08.t-online.de ([194.25.134.20]:40516)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
- id 1n1VdK-00085i-2P
- for qemu-devel@nongnu.org; Sun, 26 Dec 2021 10:40:27 -0500
-Received: from fwd78.dcpf.telekom.de (fwd78.aul.t-online.de [10.223.144.104])
- by mailout03.t-online.de (Postfix) with SMTP id 705677DDD;
- Sun, 26 Dec 2021 16:40:22 +0100 (CET)
-Received: from linpower.localnet ([46.86.48.20]) by fwd78.t-online.de
+ id 1n1VdW-0008Ar-TI
+ for qemu-devel@nongnu.org; Sun, 26 Dec 2021 10:40:40 -0500
+Received: from fwd75.dcpf.telekom.de (fwd75.aul.t-online.de [10.223.144.101])
+ by mailout08.t-online.de (Postfix) with SMTP id 0648A2003;
+ Sun, 26 Dec 2021 16:40:31 +0100 (CET)
+Received: from linpower.localnet ([46.86.48.20]) by fwd75.t-online.de
  with (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384 encrypted)
- esmtp id 1n1VdE-1Aji530; Sun, 26 Dec 2021 16:40:20 +0100
+ esmtp id 1n1VdG-1rsBkn0; Sun, 26 Dec 2021 16:40:22 +0100
 Received: by linpower.localnet (Postfix, from userid 1000)
- id 51D9F20055F; Sun, 26 Dec 2021 16:40:17 +0100 (CET)
+ id 53087200610; Sun, 26 Dec 2021 16:40:17 +0100 (CET)
 From: =?UTF-8?q?Volker=20R=C3=BCmelin?= <vr_qemu@t-online.de>
 To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: [PATCH 2/3] dsoundaudio: fix crackling audio recordings
-Date: Sun, 26 Dec 2021 16:40:16 +0100
-Message-Id: <20211226154017.6067-2-vr_qemu@t-online.de>
+Subject: [PATCH 3/3] hw/audio/intel-hda: fix stream reset
+Date: Sun, 26 Dec 2021 16:40:17 +0100
+Message-Id: <20211226154017.6067-3-vr_qemu@t-online.de>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cf516f2a-fea8-2000-1b80-a5465d0e1ee6@t-online.de>
 References: <cf516f2a-fea8-2000-1b80-a5465d0e1ee6@t-online.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-TOI-EXPURGATEID: 150726::1640533220-0000AD4E-BFC9BE55/0/0 CLEAN NORMAL
-X-TOI-MSGID: f9cb908c-1bbe-45c6-836d-42f5217d713a
-Received-SPF: none client-ip=194.25.134.81;
- envelope-from=volker.ruemelin@t-online.de; helo=mailout03.t-online.de
+X-TOI-EXPURGATEID: 150726::1640533222-000184BD-4B97F37E/0/0 CLEAN NORMAL
+X-TOI-MSGID: 42266fdf-f7fa-4414-b59e-dec32e836437
+Received-SPF: none client-ip=194.25.134.20;
+ envelope-from=volker.ruemelin@t-online.de; helo=mailout08.t-online.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -64,50 +64,35 @@ Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Audio recordings with the DirectSound backend don't sound right.
-A look a the Microsoft online documentation tells us why.
+Quote from:
+High Definition Audio Specification 1.0a, section 3.3.35
 
-From the DirectSound Programming Guide, Capture Buffer Information:
-'You can safely copy data from the buffer only up to the read
-cursor.'
+Offset 80: {IOB}SDnCTL Stream Reset (SRST): Writing a 1 causes
+the corresponding stream to be reset. The Stream Descriptor
+registers (except the SRST bit itself) ... are reset.
 
-Change the code to read up to the read cursor instead of the
-capture cursor.
+Change the code to reset the Stream Descriptor Control and Status
+registers except the SRST bit.
 
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/757
 Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
 ---
- audio/dsoundaudio.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+ hw/audio/intel-hda.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/audio/dsoundaudio.c b/audio/dsoundaudio.c
-index cfc79c129e..3dd2c4d4a6 100644
---- a/audio/dsoundaudio.c
-+++ b/audio/dsoundaudio.c
-@@ -536,13 +536,12 @@ static void *dsound_get_buffer_in(HWVoiceIn *hw, size_t *size)
-     DSoundVoiceIn *ds = (DSoundVoiceIn *) hw;
-     LPDIRECTSOUNDCAPTUREBUFFER dscb = ds->dsound_capture_buffer;
-     HRESULT hr;
--    DWORD cpos, rpos, act_size;
-+    DWORD rpos, act_size;
-     size_t req_size;
-     int err;
-     void *ret;
- 
--    hr = IDirectSoundCaptureBuffer_GetCurrentPosition(
--        dscb, &cpos, ds->first_time ? &rpos : NULL);
-+    hr = IDirectSoundCaptureBuffer_GetCurrentPosition(dscb, NULL, &rpos);
-     if (FAILED(hr)) {
-         dsound_logerr(hr, "Could not get capture buffer position\n");
-         *size = 0;
-@@ -554,7 +553,7 @@ static void *dsound_get_buffer_in(HWVoiceIn *hw, size_t *size)
-         ds->first_time = false;
+diff --git a/hw/audio/intel-hda.c b/hw/audio/intel-hda.c
+index 8ce9df64e3..eed81f9023 100644
+--- a/hw/audio/intel-hda.c
++++ b/hw/audio/intel-hda.c
+@@ -578,7 +578,7 @@ static void intel_hda_set_st_ctl(IntelHDAState *d, const IntelHDAReg *reg, uint3
+     if (st->ctl & 0x01) {
+         /* reset */
+         dprint(d, 1, "st #%d: reset\n", reg->stream);
+-        st->ctl = SD_STS_FIFO_READY << 24;
++        st->ctl = SD_STS_FIFO_READY << 24 | SD_CTL_STREAM_RESET;
      }
- 
--    req_size = audio_ring_dist(cpos, hw->pos_emul, hw->size_emul);
-+    req_size = audio_ring_dist(rpos, hw->pos_emul, hw->size_emul);
-     req_size = MIN(*size, MIN(req_size, hw->size_emul - hw->pos_emul));
- 
-     if (req_size == 0) {
+     if ((st->ctl & 0x02) != (old & 0x02)) {
+         uint32_t stnr = (st->ctl >> 20) & 0x0f;
 -- 
 2.31.1
 
