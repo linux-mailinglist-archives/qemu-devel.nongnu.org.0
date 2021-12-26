@@ -2,44 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8015C47F825
-	for <lists+qemu-devel@lfdr.de>; Sun, 26 Dec 2021 16:43:23 +0100 (CET)
-Received: from localhost ([::1]:40924 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D886D47F823
+	for <lists+qemu-devel@lfdr.de>; Sun, 26 Dec 2021 16:42:33 +0100 (CET)
+Received: from localhost ([::1]:38630 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n1VgA-00033y-Lp
-	for lists+qemu-devel@lfdr.de; Sun, 26 Dec 2021 10:43:22 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57418)
+	id 1n1VfM-0001XS-Ea
+	for lists+qemu-devel@lfdr.de; Sun, 26 Dec 2021 10:42:32 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57278)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
- id 1n1Ve4-00010J-Vl
- for qemu-devel@nongnu.org; Sun, 26 Dec 2021 10:41:12 -0500
-Received: from mailout09.t-online.de ([194.25.134.84]:51392)
+ (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
+ id 1n1VdK-0008EV-AQ
+ for qemu-devel@nongnu.org; Sun, 26 Dec 2021 10:40:26 -0500
+Received: from mailout02.t-online.de ([194.25.134.17]:34586)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
- id 1n1Ve3-0008F8-99
- for qemu-devel@nongnu.org; Sun, 26 Dec 2021 10:41:12 -0500
-Received: from fwd77.dcpf.telekom.de (fwd77.aul.t-online.de [10.223.144.103])
- by mailout09.t-online.de (Postfix) with SMTP id 0521813499;
- Sun, 26 Dec 2021 16:38:25 +0100 (CET)
-Received: from [192.168.211.200] ([46.86.48.20]) by fwd77.t-online.de
+ (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
+ id 1n1VdI-00084E-9e
+ for qemu-devel@nongnu.org; Sun, 26 Dec 2021 10:40:25 -0500
+Received: from fwd83.dcpf.telekom.de (fwd83.aul.t-online.de [10.223.144.109])
+ by mailout02.t-online.de (Postfix) with SMTP id E86B466A7;
+ Sun, 26 Dec 2021 16:40:17 +0100 (CET)
+Received: from linpower.localnet ([46.86.48.20]) by fwd83.t-online.de
  with (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384 encrypted)
- esmtp id 1n1VbL-3qnKDp0; Sun, 26 Dec 2021 16:38:24 +0100
-Message-ID: <cf516f2a-fea8-2000-1b80-a5465d0e1ee6@t-online.de>
-Date: Sun, 26 Dec 2021 16:38:23 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.1
-From: =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>
-Subject: [PATCH 0/3] misc. audio fixes
+ esmtp id 1n1VdB-07Gh9t0; Sun, 26 Dec 2021 16:40:17 +0100
+Received: by linpower.localnet (Postfix, from userid 1000)
+ id 4FFB22001EE; Sun, 26 Dec 2021 16:40:17 +0100 (CET)
+From: =?UTF-8?q?Volker=20R=C3=BCmelin?= <vr_qemu@t-online.de>
 To: Gerd Hoffmann <kraxel@redhat.com>
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Subject: [PATCH 1/3] jackaudio: use ifdefs to hide unavailable functions
+Date: Sun, 26 Dec 2021 16:40:15 +0100
+Message-Id: <20211226154017.6067-1-vr_qemu@t-online.de>
+X-Mailer: git-send-email 2.31.1
+In-Reply-To: <cf516f2a-fea8-2000-1b80-a5465d0e1ee6@t-online.de>
+References: <cf516f2a-fea8-2000-1b80-a5465d0e1ee6@t-online.de>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-TOI-EXPURGATEID: 150726::1640533104-0001606D-65B1DD36/0/0 CLEAN NORMAL
-X-TOI-MSGID: e6936845-db61-4689-83b0-bed28c512c1c
-Received-SPF: none client-ip=194.25.134.84; envelope-from=vr_qemu@t-online.de;
- helo=mailout09.t-online.de
+X-TOI-EXPURGATEID: 150726::1640533217-0000EDC4-48A55EE4/0/0 CLEAN NORMAL
+X-TOI-MSGID: 22ac286c-1cc2-49c3-8004-a3c98e1f1015
+Received-SPF: none client-ip=194.25.134.17;
+ envelope-from=volker.ruemelin@t-online.de; helo=mailout02.t-online.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -62,21 +64,56 @@ Cc: Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Three unrelated audio fixes.
+On Windows the jack_set_thread_creator() function and on MacOS the
+pthread_setname_np() function with a thread pointer paramater is
+not available. Use #ifdefs to remove the jack_set_thread_creator()
+function call and the qjack_thread_creator() function in both
+cases.
 
-The first one is a build fix for the Jack Audio backend on Windows and 
-MacOS.
+The qjack_thread_creator() function just sets the name of the
+created thread for debugging purposes and isn't really necessary.
 
-Volker Rümelin (3):
-   jackaudio: use ifdefs to hide unavailable functions
-   dsoundaudio: fix crackling audio recordings
-   hw/audio/intel-hda: fix stream reset
+From the jack_set_thread_creator() documentation:
+(...)
 
-  audio/dsoundaudio.c  | 7 +++----
-  audio/jackaudio.c    | 4 ++++
-  hw/audio/intel-hda.c | 2 +-
-  3 files changed, 8 insertions(+), 5 deletions(-)
+No normal application/client should consider calling this. (...)
 
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/785
+Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
+---
+ audio/jackaudio.c | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/audio/jackaudio.c b/audio/jackaudio.c
+index e7de6d5433..317009e936 100644
+--- a/audio/jackaudio.c
++++ b/audio/jackaudio.c
+@@ -622,6 +622,7 @@ static void qjack_enable_in(HWVoiceIn *hw, bool enable)
+     ji->c.enabled = enable;
+ }
+ 
++#if !defined(WIN32) && defined(CONFIG_PTHREAD_SETNAME_NP_W_TID)
+ static int qjack_thread_creator(jack_native_thread_t *thread,
+     const pthread_attr_t *attr, void *(*function)(void *), void *arg)
+ {
+@@ -635,6 +636,7 @@ static int qjack_thread_creator(jack_native_thread_t *thread,
+ 
+     return ret;
+ }
++#endif
+ 
+ static void *qjack_init(Audiodev *dev)
+ {
+@@ -687,7 +689,9 @@ static void register_audio_jack(void)
+ {
+     qemu_mutex_init(&qjack_shutdown_lock);
+     audio_driver_register(&jack_driver);
++#if !defined(WIN32) && defined(CONFIG_PTHREAD_SETNAME_NP_W_TID)
+     jack_set_thread_creator(qjack_thread_creator);
++#endif
+     jack_set_error_function(qjack_error);
+     jack_set_info_function(qjack_info);
+ }
 -- 
 2.31.1
 
