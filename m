@@ -2,85 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 453D547F48C
-	for <lists+qemu-devel@lfdr.de>; Sat, 25 Dec 2021 23:03:26 +0100 (CET)
-Received: from localhost ([::1]:41782 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D079D47F4CC
+	for <lists+qemu-devel@lfdr.de>; Sun, 26 Dec 2021 01:16:58 +0100 (CET)
+Received: from localhost ([::1]:33412 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n1F8O-0004Yl-SC
-	for lists+qemu-devel@lfdr.de; Sat, 25 Dec 2021 17:03:24 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34286)
+	id 1n1HDd-0006fM-CP
+	for lists+qemu-devel@lfdr.de; Sat, 25 Dec 2021 19:16:57 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55378)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1n1F5q-0002I2-3D
- for qemu-devel@nongnu.org; Sat, 25 Dec 2021 17:00:50 -0500
-Received: from [2607:f8b0:4864:20::52f] (port=41900
- helo=mail-pg1-x52f.google.com)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1n1HCW-0005yu-7K
+ for qemu-devel@nongnu.org; Sat, 25 Dec 2021 19:15:48 -0500
+Received: from [2a00:1450:4864:20::52e] (port=35439
+ helo=mail-ed1-x52e.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1n1F5m-0007xj-KS
- for qemu-devel@nongnu.org; Sat, 25 Dec 2021 17:00:45 -0500
-Received: by mail-pg1-x52f.google.com with SMTP id f8so272507pgf.8
- for <qemu-devel@nongnu.org>; Sat, 25 Dec 2021 14:00:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=huojoUY6Ut1L3Ad37ePmEFVp69bi+GgWjz+LBsWI8I4=;
- b=rG+QkeLACkFycXwmZ5gZsUUhOQ2vo8/N+jGlESo/TA+K7euFt/wx6gejtG/8EFBFFX
- tdLWDukH1kSvYGafxWHM9ORtGWJCy7TOtuxg2m8A2Nzt4M2e6bAMkK8m0qhPPDObMreX
- 6Lg1DekmCOss6wyFNVNRDH4IpxQxSJ4VCMKJAYwKxd9AZDTvnhnTC9lmgMfVuxyn4xBV
- 6Toqq0gIKTOXlKVN9UAPdgCbF5kffYZGPS3+MviVRX+5g1M8p0xzGpFz07/npPyApWP9
- reHFJjPP/G94/9JJM7QVfD1K3eaUmDs1XJdWXzol9RwhiPwJYyQx72g4HeFztC3ERhM1
- W+9w==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1n1HCU-0001le-M1
+ for qemu-devel@nongnu.org; Sat, 25 Dec 2021 19:15:47 -0500
+Received: by mail-ed1-x52e.google.com with SMTP id y22so46912985edq.2
+ for <qemu-devel@nongnu.org>; Sat, 25 Dec 2021 16:15:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=XXNJQWkHzAXVVhXM5Ss3pMhuUSDY9ZmuPr81h1v/+7s=;
+ b=lIQL0v4Uxk09tJ+Jovw9ClfjZLn5BLgK8pMeOjsPw0OKVoiSyiyH0y0hNxzWE9lcoi
+ +oZVNIVb0+WMFSVjXaF9KD1br0Y8b9qyHLw4E8WcSf99LTR/sVlHS3mvmPLToX/Rd7r/
+ vR7jp72elbaoo5s7Y74Z3+VhjPvrSdVfX0QU+wZiQJiBohO+A/aqeUY6d+fIU0NYmL6F
+ r5ADVfOhFZt8pdEHPPizLBMJsUjpg+iiyMEfHu49UrSxPZa2xoZPCWHf/ltle9B+NL+8
+ V4DRKEwTi1PE6EbB4DKj6+t0LSecGmPz97GvbsQ6gBRSJYGg89oTBeAWldsB7uEdjKPv
+ tquA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=huojoUY6Ut1L3Ad37ePmEFVp69bi+GgWjz+LBsWI8I4=;
- b=0cw6vWCq5VnU4xl6wE4cel7kpCDBo3EA2DGggrlvo+OAe7fvc6mHP92lqNFNXBISBG
- KSvsTHHjrEkYmeEMkpVYDYHQdY2qOK2yluY2N0n0t4m6xWAk+tT8fyw+HIO1WJfpx++Z
- D3MuJl80AKrFO6va6lLCHlgQKsYlQMJE+KHMeb29kX5nGBd80ufyUHuAbGSefzl9lKW+
- M6bSwHelcEX/86yn6dmKqB0aKdRK/kIa2kZz2Nrkh9DxpHbEQ9qXE+F1aSFy7Qa0S099
- UadfZYJ2+wGWNMvr3uqSzjGA75alq7gyZOleKrj3gDs2HYApxuSRZ7AIhrG7ftO9bCbZ
- uj7A==
-X-Gm-Message-State: AOAM531Wi4ztiWecv1mT1MpPqgLzUyp8GtH9vKtOf2Rw8dltTT6d+qd1
- gnW8iAacZ4JiEAicZ9le4xI4Gg==
-X-Google-Smtp-Source: ABdhPJyBrzkTXsAt6/bxvyH0Tl1viRjUYGyzfh69C/tpIJ/k7V0xHFxGrnjd0OK3bZ7vbUTNuVTkMw==
-X-Received: by 2002:a65:5547:: with SMTP id t7mr10700549pgr.510.1640469632299; 
- Sat, 25 Dec 2021 14:00:32 -0800 (PST)
-Received: from [172.20.100.20] ([156.19.246.20])
- by smtp.gmail.com with ESMTPSA id u3sm12977478pfk.82.2021.12.25.14.00.30
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 25 Dec 2021 14:00:31 -0800 (PST)
-Subject: Re: [PATCH 2/6] target/riscv: add support for unique fpr read/write
- with support for zfinx
-To: liweiwei <liweiwei@iscas.ac.cn>, palmer@dabbelt.com,
- alistair.francis@wdc.com, bin.meng@windriver.com, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org
-References: <20211224034915.17204-1-liweiwei@iscas.ac.cn>
- <20211224034915.17204-3-liweiwei@iscas.ac.cn>
- <ec5adcb4-3090-50e2-4981-38149e120249@linaro.org>
- <2acd9ead-d9e8-46be-b306-2aa26ced06b5@iscas.ac.cn>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <be0bf212-5200-2f25-8b9e-5f7fe2941ccd@linaro.org>
-Date: Sat, 25 Dec 2021 14:00:29 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=XXNJQWkHzAXVVhXM5Ss3pMhuUSDY9ZmuPr81h1v/+7s=;
+ b=b87l0ROdEOf+5Q09cViQnzsU/M6jnFjDyJyxjD0EvX+jbuZaI+QnBh+n4WDWgbLNFK
+ 4fRiIjYvvO9OuXRQWNkQ1O8+VFaoHZW40z59vFwoIR8BtMK9qDlHlGJLmX/LnFZFF1ct
+ eje/fa70+hqv1YDRkaTVveth7vpvkYbhSqEeyc1OGS0M6CMPZEyRAlHG121HAHm/ZtQL
+ LtoFOSsNjHOUmTTJO9KnelJD1Q7nffjiUiBY4mWmsYA29JypHFPMAc9ZPSnHEn/n2oSr
+ lCTQmCcTBZyn+5TSZlHsYCe9Y9lMWytMNRzdforte25ZwklC5fUPjgd7901QP5aW8MPB
+ hi/Q==
+X-Gm-Message-State: AOAM5320fWAEwrBKJmmB/YgUQHwCzp5Y3cUCCilQLXznnGmM2El9xwFr
+ nYpDYA7gr08E494Go0G/dBcJ0tvA4Wn/+g==
+X-Google-Smtp-Source: ABdhPJzUv283+tdIIX3JEpp3lGyJE7wqS1KiEoqdnU7M5WuwFpAOfXFgQfsPhgGOw2NbMcc+3tqrUA==
+X-Received: by 2002:a05:6402:26d3:: with SMTP id
+ x19mr10977697edd.35.1640477744801; 
+ Sat, 25 Dec 2021 16:15:44 -0800 (PST)
+Received: from x1w.redhat.com (adijon-655-1-69-27.w90-13.abo.wanadoo.fr.
+ [90.13.240.27])
+ by smtp.gmail.com with ESMTPSA id oz31sm3809221ejc.35.2021.12.25.16.15.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 25 Dec 2021 16:15:44 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] tests/tcg: Fix target-specific Makefile variables path for
+ user-mode
+Date: Sun, 26 Dec 2021 01:15:41 +0100
+Message-Id: <20211226001541.3807919-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.33.1
 MIME-Version: 1.0
-In-Reply-To: <2acd9ead-d9e8-46be-b306-2aa26ced06b5@iscas.ac.cn>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::52f
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52e
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52f.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.196,
+Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x52e.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
  RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
@@ -95,17 +88,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: wangjunqiang@iscas.ac.cn, lazyparser@gmail.com, ardxwe@gmail.com
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/24/21 7:13 PM, liweiwei wrote:
-> In RV64 case, this should be nan-boxing value( upper bits are all ones).  However, zfinx 
-> will not check nan-boxing of source, the upper 32 bits have no effect on the final result. 
-> So I think both zero-extended or sign-extended are OK.
+Commit 812b31d3f91 refactor missed to update this path.
 
-There is no nanboxing in zfinx at all -- values are sign-extended.
+Fixes: 812b31d3f91 ("configs: rename default-configs to configs and reorganise")
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ tests/tcg/Makefile.target | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/tests/tcg/Makefile.target b/tests/tcg/Makefile.target
+index 63cf1b2573f..2d6ec70156e 100644
+--- a/tests/tcg/Makefile.target
++++ b/tests/tcg/Makefile.target
+@@ -33,7 +33,7 @@ all:
+ -include ../../../config-host.mak
+ -include ../config-$(TARGET).mak
+ ifeq ($(CONFIG_USER_ONLY),y)
+--include $(SRC_PATH)/default-configs/targets/$(TARGET).mak
++-include $(SRC_PATH)/configs/targets/$(TARGET)/default.mak
+ endif
+ 
+ # for including , in command strings
+-- 
+2.33.1
 
-r~
 
