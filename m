@@ -2,61 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A51A947F84A
-	for <lists+qemu-devel@lfdr.de>; Sun, 26 Dec 2021 17:50:01 +0100 (CET)
-Received: from localhost ([::1]:42870 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 894AB47F872
+	for <lists+qemu-devel@lfdr.de>; Sun, 26 Dec 2021 19:00:12 +0100 (CET)
+Received: from localhost ([::1]:50864 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n1Wie-0005PJ-4h
-	for lists+qemu-devel@lfdr.de; Sun, 26 Dec 2021 11:50:00 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37298)
+	id 1n1XoZ-0003Eq-6q
+	for lists+qemu-devel@lfdr.de; Sun, 26 Dec 2021 13:00:11 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46714)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1n1Wh6-0004hq-0S
- for qemu-devel@nongnu.org; Sun, 26 Dec 2021 11:48:24 -0500
-Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:32815)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1n1XmS-0002Hk-N3
+ for qemu-devel@nongnu.org; Sun, 26 Dec 2021 12:58:00 -0500
+Received: from smtpout4.mo529.mail-out.ovh.net ([217.182.185.173]:44827)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1n1Wh4-0000dv-2O
- for qemu-devel@nongnu.org; Sun, 26 Dec 2021 11:48:23 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.108.4.25])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 6AE13D41420F;
- Sun, 26 Dec 2021 17:48:08 +0100 (CET)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1n1XmQ-0008RS-MQ
+ for qemu-devel@nongnu.org; Sun, 26 Dec 2021 12:58:00 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.108.16.193])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id CDF85D4158FE;
+ Sun, 26 Dec 2021 18:57:55 +0100 (CET)
 Received: from kaod.org (37.59.142.101) by DAG4EX1.mxp5.local (172.16.2.31)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.17; Sun, 26 Dec
- 2021 17:48:07 +0100
+ 2021 18:57:55 +0100
 Authentication-Results: garm.ovh; auth=pass
- (GARM-101G004a75f4cfc-06e2-4cdc-a7d3-e501b1b2d587,
+ (GARM-101G00466a6d6ae-bfe8-4998-8d6f-9f6d1c503d3b,
  AE5CAB6D971D10CFB765AF31D09B51945E61BB24) smtp.auth=clg@kaod.org
 X-OVh-ClientIp: 82.66.77.115
-Message-ID: <1ae8b8d3-6987-9f8d-baca-fc38ea492bad@kaod.org>
-Date: Sun, 26 Dec 2021 17:48:07 +0100
+Message-ID: <ec0cf758-f05f-9fcf-eb97-14cb7a1fd9a2@kaod.org>
+Date: Sun, 26 Dec 2021 18:57:54 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.3.0
-Subject: Re: [RFC v2 00/12] target/ppc: powerpc_excp improvements
+Subject: Re: [PATCH] target/ppc: Fix e6500 boot
 Content-Language: en-US
-To: Fabiano Rosas <farosas@linux.ibm.com>, <qemu-devel@nongnu.org>
-References: <20211220181903.3456898-1-farosas@linux.ibm.com>
+To: BALATON Zoltan <balaton@eik.bme.hu>, "mario@locati.it" <mario@locati.it>
+References: <20211213133542.2608540-1-farosas@linux.ibm.com>
+ <724f7563-f36c-2c37-3b94-951c3d922861@eik.bme.hu>
+ <R4OPHT$7F12C66D1107397991E0E4C978FE6AF1@locati.it>
+ <a17ceb16-bce5-2090-8473-78b316bf5fb5@eik.bme.hu>
 From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20211220181903.3456898-1-farosas@linux.ibm.com>
+In-Reply-To: <a17ceb16-bce5-2090-8473-78b316bf5fb5@eik.bme.hu>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Originating-IP: [37.59.142.101]
-X-ClientProxiedBy: DAG3EX2.mxp5.local (172.16.2.22) To DAG4EX1.mxp5.local
+X-ClientProxiedBy: DAG2EX1.mxp5.local (172.16.2.11) To DAG4EX1.mxp5.local
  (172.16.2.31)
-X-Ovh-Tracer-GUID: e09b9f67-1ceb-4923-9375-9d770bcf91ac
-X-Ovh-Tracer-Id: 11297279669126400931
+X-Ovh-Tracer-GUID: d393a15f-6359-4154-86b3-b278a982955c
+X-Ovh-Tracer-Id: 12475815393871498022
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddruddugedgheelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtjeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhephffhleegueektdetffdvffeuieeugfekkeelheelteeftdfgtefffeehueegleehnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutddunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepuggrnhhivghlhhgsgedufeesghhmrghilhdrtghomh
-Received-SPF: pass client-ip=178.32.125.2; envelope-from=clg@kaod.org;
- helo=smtpout1.mo529.mail-out.ovh.net
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddruddugedgieeiucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtjeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepieejieevleeutdfhffefleehteduieehueetueduvddutdekudeffffffeeftdfhnecuffhomhgrihhnpeefvddrshhonecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutddunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepuggrnhhivghlhhgsgedufeesghhmrghilhdrtghomh
+Received-SPF: pass client-ip=217.182.185.173; envelope-from=clg@kaod.org;
+ helo=smtpout4.mo529.mail-out.ovh.net
 X-Spam_score_int: -19
 X-Spam_score: -2.0
 X-Spam_bar: --
 X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.063,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -69,124 +72,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: danielhb413@gmail.com, qemu-ppc@nongnu.org, david@gibson.dropbear.id.au
+Cc: danielhb413@gmail.com, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ farosas@linux.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello Fabiano,
+On 12/25/21 22:53, BALATON Zoltan wrote:
+> On Sat, 25 Dec 2021, mario@locati.it wrote:
+>> I have tried to launch a freshly compiled qemu from git master on a NXP T2080RDB devkit that has a e6500 CPU in combination with a freshly compiled kernel 5.16-rc6
+>> I have Debian SID ppc64 up and running using such a kernel, and when I launch qemu to run a VM with the same debian sid for ppc64 and the same kernel using --enable-kvm I end up with a kernel panic
 
-On 12/20/21 19:18, Fabiano Rosas wrote:
-> This changed a lot since v1, basically what remains is the idea that
-> we want to have some sort of array of interrupts and some sort of
-> separation between processors.
+Thanks for testing,
+
+>>
+>> [....]
+>> Run /sbin/init as init process
+>> random: fast init done
+>> systemd[1]: illegal instruction (4) at 3fff96562ac8 nip 3fff96562ac8 lr 3fff96562aa8 code 1 in libc-2.32.so[3fff96516000+1f7000]
+
+debian ppc64 sid has a glibc 2.33 AFAICT
+
+>> systemd[1]: code: 60000000 38600006 9122b7e8 4801bead 60000000 60000000 8122b7e8 2c090004
+>> systemd[1]: code: 40820014 39200005 60000000 9122b7e8 <00000000> 60000000 8122b7e8 2c090005
 > 
-> At the end of this series we'll have:
-> 
-> - One file with all interrupt implementations (interrupts.c);
-> 
-> - Separate files for each major group of CPUs (book3s, booke,
->    32bits). Only interrupt code for now, but we could bring pieces of
->    cpu_init into them;
-> 
-> - Four separate interrupt arrays, one for each of the above groups
->    plus KVM.
-> 
-> - powerpc_excp calls into the individual files and from there we
->    dispatch according to what is available in the interrupts array.
+> Looks like it trips on a 0 opcode here in the middle of other values that look like valid code so I wonder how that 0 got there? Did something overwrite it before it tried to execute it? 
 
+This looks like the abort() routine.
 
-This is going in the good direction. I think we need more steps for
-the reviewers, for tests and bisectability. First 4 patches are OK
-and I hope to merge them ASAP.
+> If it always happens on the same address maybe you could try attaching gdb and put a watch point on that address to see what writes there, otherwise I don't know how to debug this.
 
-The powerpc_excp() routine has grown nearly out of control these last
-years and it is becoming difficult to maintain. The goal is to clarify
-what it is going on for each CPU or each CPU family. The first step
-consists basically in duplicating the code and moving the exceptions
-handlers in specific routines.
-
-1. cleanups should come first as usual.
-
-2. isolate large chunks, like Nick did with ppc_excp_apply_ail().
-    We could do easily the same for :
-
-    2.1 ILE
-    2.2 unimplemeted ones doing a cpu abort:
-     
-          cpu_abort(cs, ".... "  "is not implemented yet !\n");
-    2.3 6x TLBS
-
-    This should reduce considerably powerpc_excp() without changing too
-    much the execution path.
-
-3. Cleanup the use of excp_model, like in dcbz_common() and kvm.
-    This is not critical but some are shortcuts.
-
-4. Introduce a new powerpc_excp() handler :
-
-    static void powerpc_excp(PowerPCCPU *cpu, int excp)
-    {
-        switch(env->excp_model) {
-        case POWERPC_EXCP_FOO1:
-        case POWERPC_EXCP_FOO2:
-            powerpc_excp_foo(cpu, excp);
-	   break;
-        case POWERPC_EXCP_BAR:
-            powerpc_excp_legacy(cpu, excp);
-	   break;
-        default:
-            g_assert_not_reached();
-        }
-    }
-
-    and start duplicating code cpu per cpu in specific excp handlers, avoiding
-    as much as possible the use of excp_model in the powerpc_excp_*() routines.
-    That's for the theory.
-
-    I suppose these can be grouped in the following way :
-
-    * 405 CPU
-         POWERPC_EXCP_40x,
-
-    * 6xx CPUs
-         POWERPC_EXCP_601,
-         POWERPC_EXCP_602,
-         POWERPC_EXCP_603,
-         POWERPC_EXCP_G2,
-         POWERPC_EXCP_604,
-	
-    * 7xx CPUs
-         POWERPC_EXCP_7x0,
-         POWERPC_EXCP_7x5,
-         POWERPC_EXCP_74xx,
-	
-    * BOOKE CPUs
-         POWERPC_EXCP_BOOKE,
-
-    * BOOKS CPUs
-         POWERPC_EXCP_970,            /* could be special */
-         POWERPC_EXCP_POWER7,
-         POWERPC_EXCP_POWER8,
-         POWERPC_EXCP_POWER9,
-         POWERPC_EXCP_POWER10,
-     
-    If not possible, then, we will duplicate more and that's not a problem.
-
-    I would keep the routines in the same excp_helper.c file for now; we
-    can move the code in different files but I would do it later and with
-    other components in mind and not just the exception models. book3s,
-    booke, 7xx, 6xx, 405 are the different groups. It fits what you did.
-    
-5. Once done, get rid of powerpc_excp_legacy()
-
-6. Start looking at refactoring again.
-
-    There might be a common prologue and epilogue. As a consequence we could
-    change the args passed to powerpc_excp_*().
-
-    There could be common handlers and that's why an array of exception
-    handlers looks good. this is what you are trying to address after patch 5
-    but I would prefer to do the above steps before.
+Could you deduce the routine name from the nip ?
 
 Thanks,
 
