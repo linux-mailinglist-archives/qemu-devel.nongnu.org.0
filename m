@@ -2,61 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07F3B47F9A2
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Dec 2021 02:23:08 +0100 (CET)
-Received: from localhost ([::1]:59490 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F82E47F9A7
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Dec 2021 02:36:56 +0100 (CET)
+Received: from localhost ([::1]:35924 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n1ejC-0002NU-Ed
-	for lists+qemu-devel@lfdr.de; Sun, 26 Dec 2021 20:23:06 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43420)
+	id 1n1ewY-0006Qu-O8
+	for lists+qemu-devel@lfdr.de; Sun, 26 Dec 2021 20:36:54 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44590)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lei.rao@intel.com>) id 1n1eh7-0001fa-Dv
- for qemu-devel@nongnu.org; Sun, 26 Dec 2021 20:20:57 -0500
-Received: from mga14.intel.com ([192.55.52.115]:30323)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lei.rao@intel.com>) id 1n1eh3-0001N2-TJ
- for qemu-devel@nongnu.org; Sun, 26 Dec 2021 20:20:56 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1640568053; x=1672104053;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=wTuL7RbPAYnr1ELlXpXsmL1orpxxXXivnFwXFV7IUZc=;
- b=WLAzztOfKOWfSEtoTPs6GU1jgFD3V0jdU5ls/fMJDlcjxKxofUj9PJnb
- 3RrT2n+DhmNLP7AjyAk8KVy42Ki5bDchQGmUUAbn0j60+8eAO+n15/cLE
- 1eU4/lkUsCm5Kz8+b4AEBrds0gt5gr7iQZQfhcqODqhd41QpbZ+RmXPOE
- X2tPHkF7FQCasbnIEuH3nX0Qh5tanM4Sd+ewTF4nkfPWz7QHd3kfJ3NSy
- C5FDoKWSh6WHTih56u2VbmO6eN5ed//Le23GhHR7PqHi26EE4TB7sFeeU
- 3YTSrPk4CS5qQ3K6yXUWzUj7mD6FTQf/Jmn4kfp6B4kxf5/JATHbDW/kh Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10209"; a="241363985"
-X-IronPort-AV: E=Sophos;i="5.88,238,1635231600"; d="scan'208";a="241363985"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Dec 2021 17:20:48 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,238,1635231600"; d="scan'208";a="686137631"
-Received: from unknown (HELO leirao-pc.bj.intel.com) ([10.238.156.139])
- by orsmga005.jf.intel.com with ESMTP; 26 Dec 2021 17:20:45 -0800
-From: Rao Lei <lei.rao@intel.com>
-To: chen.zhang@intel.com,
-	lizhijian@cn.fujitsu.com,
-	jasowang@redhat.com
-Subject: [PATCH v2] net/filter: Optimize filter_send to coroutine
-Date: Mon, 27 Dec 2021 09:20:28 +0800
-Message-Id: <20211227012028.545526-1-lei.rao@intel.com>
-X-Mailer: git-send-email 2.32.0
+ (Exim 4.90_1) (envelope-from <shannon.zhaosl@gmail.com>)
+ id 1n1eul-0005i5-L4
+ for qemu-devel@nongnu.org; Sun, 26 Dec 2021 20:35:04 -0500
+Received: from [2607:f8b0:4864:20::1030] (port=51110
+ helo=mail-pj1-x1030.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <shannon.zhaosl@gmail.com>)
+ id 1n1euk-0002WF-0a
+ for qemu-devel@nongnu.org; Sun, 26 Dec 2021 20:35:03 -0500
+Received: by mail-pj1-x1030.google.com with SMTP id gj24so12305192pjb.0
+ for <qemu-devel@nongnu.org>; Sun, 26 Dec 2021 17:35:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=KYqCT2vdk7agKHnboHtfnlObDlSNL/rSXiO8mw6OCpk=;
+ b=TAkiPccGX7qBlz8ouno8OYp3nw2Plccm6yp1R+GFZtblFA26gERgqGkZNHCAiAqusx
+ Mwxt+ZH4WQrc83QA2wcoxfyBNVqqyNeAyvjcgopVkqnxHoW6sLsGETSUZkGpsyt1xev8
+ b6KN5M5n/twYR0xkQFnvhlbUnvLMczFW5nk6NOpBo+dGe3nMePAFxPxMOQLu545Rvjfv
+ qbiuMR4PLzmhELVCheBhq/zg0r9NSTJk3GB7JObTX7max+GpkInjB441WONglI+T8Tg8
+ ERmryCmT8tdX96gq2807654xI80CSZipBtVv+SJvmfrQigjC3WNRGT3TbZAwO+xLw20p
+ DzhQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=KYqCT2vdk7agKHnboHtfnlObDlSNL/rSXiO8mw6OCpk=;
+ b=QHP1I3SdjmQRFMOZO3KV5XcgcFwGaBEcWQ2OKiTHJu6A38JHeSnqBI9ZWhWD1jW1Mp
+ AJv/yWFCVnvv3SOomKCM+PQItxgvAN+I23Xpq2LUCSLicRH+zUJkFgmsBz2m2n/7xKXa
+ x3KoqFu5BYm92cSRyDJU3Bc8tcgdzKQl9Dz3COLsbpx9d/emOmMhs8gnSxWjVs4RKBsh
+ 7gFKG6BvKxSh0LhB/Emj4UQfUkqFFAugRNgxjq3haWat0R0eQ2W9WQ8kPVcNz9wsD+BD
+ QWsmITRPkgbZQ7NCzqr0/cxt2xfeIg10nZDdcPs9Hc6gLXORubB3sT2MW6jf8KcjRoin
+ cYrA==
+X-Gm-Message-State: AOAM532e4BU3DXY3ycOK0R5+5QPHOeAnS3VTIEI/rB4/x7IpHDrTVDzH
+ /hrJex1fQjudZ4dELflAeIo=
+X-Google-Smtp-Source: ABdhPJxorLSu7Y7In12dW9mrI+mG85L772bBINUesf/2tNFyjZcvlehamY0QFh1IZ+0z8+dgiOa8iA==
+X-Received: by 2002:a17:90a:db0f:: with SMTP id
+ g15mr18967152pjv.76.1640568899944; 
+ Sun, 26 Dec 2021 17:34:59 -0800 (PST)
+Received: from [30.43.104.201] ([47.89.83.34])
+ by smtp.gmail.com with ESMTPSA id cx5sm13878321pjb.22.2021.12.26.17.34.57
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 26 Dec 2021 17:34:59 -0800 (PST)
+Message-ID: <784f44d1-0f90-3c02-52ba-02f8a6824464@gmail.com>
+Date: Mon, 27 Dec 2021 09:34:56 +0800
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=192.55.52.115; envelope-from=lei.rao@intel.com;
- helo=mga14.intel.com
-X-Spam_score_int: -76
-X-Spam_score: -7.7
-X-Spam_bar: -------
-X-Spam_report: (-7.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.57,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH v4 2/3] acpi: tpm: Add missing device identification
+ objects
+Content-Language: en-US
+To: Stefan Berger <stefanb@linux.ibm.com>, qemu-devel@nongnu.org
+References: <20211223022310.575496-1-stefanb@linux.ibm.com>
+ <20211223022310.575496-3-stefanb@linux.ibm.com>
+From: Shannon Zhao <shannon.zhaosl@gmail.com>
+In-Reply-To: <20211223022310.575496-3-stefanb@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1030
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
+ envelope-from=shannon.zhaosl@gmail.com; helo=mail-pj1-x1030.google.com
+X-Spam_score_int: -13
+X-Spam_score: -1.4
+X-Spam_bar: -
+X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.063, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -69,131 +92,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Rao Lei <lei.rao@intel.com>, qemu-devel@nongnu.org,
- Li Zhijian <lizhijian@fujitsu.com>
+Cc: Ani Sinha <ani@anisinha.ca>, marcandre.lureau@redhat.com,
+ Igor Mammedov <imammedo@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch is to improve the logic of QEMU main thread sleep code in
-qemu_chr_write_buffer() where it can be blocked and can't run other
-coroutines during COLO IO stress test.
 
-Our approach is to put filter_send() in a coroutine. In this way,
-filter_send() will call qemu_coroutine_yield() in qemu_co_sleep_ns(),
-so that it can be scheduled out and QEMU main thread has opportunity to
-run other tasks.
 
-Signed-off-by: Lei Rao <lei.rao@intel.com>
-Signed-off-by: Zhang Chen <chen.zhang@intel.com>
-Reviewed-by: Li Zhijian <lizhijian@fujitsu.com>
----
- net/filter-mirror.c | 66 ++++++++++++++++++++++++++++++++++++---------
- 1 file changed, 53 insertions(+), 13 deletions(-)
+On 2021/12/23 10:23, Stefan Berger wrote:
+> Add missing device identification objects _STR and _UID. They will appear
+> as files 'description' and 'uid' under Linux sysfs.
+> 
+> Cc: Shannon Zhao <shannon.zhaosl@gmail.com>
+> Cc: Michael S. Tsirkin <mst@redhat.com>
+> Cc: Igor Mammedov <imammedo@redhat.com>
+> Cc: Ani Sinha <ani@anisinha.ca>
+> Fixes: https://gitlab.com/qemu-project/qemu/-/issues/708
+> Signed-off-by: Stefan Berger <stefanb@linux.ibm.com>
+> Message-id: 20211110133559.3370990-3-stefanb@linux.ibm.com
+> ---
+>   hw/arm/virt-acpi-build.c | 1 +
+>   hw/i386/acpi-build.c     | 8 ++++++++
+>   2 files changed, 9 insertions(+)
+> 
+> diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
+> index d0f4867fdf..f2514ce77c 100644
+> --- a/hw/arm/virt-acpi-build.c
+> +++ b/hw/arm/virt-acpi-build.c
+> @@ -229,6 +229,7 @@ static void acpi_dsdt_add_tpm(Aml *scope, VirtMachineState *vms)
+>   
+>       Aml *dev = aml_device("TPM0");
+>       aml_append(dev, aml_name_decl("_HID", aml_string("MSFT0101")));
+> +    aml_append(dev, aml_name_decl("_STR", aml_string("TPM 2.0 Device")));
+>       aml_append(dev, aml_name_decl("_UID", aml_int(0)));
+>
+For ARM part
+Reviewed-by: Shannon Zhao <shannon.zhaosl@gmail.com>
 
-diff --git a/net/filter-mirror.c b/net/filter-mirror.c
-index f20240cc9f..34a63b5dbb 100644
---- a/net/filter-mirror.c
-+++ b/net/filter-mirror.c
-@@ -20,6 +20,7 @@
- #include "chardev/char-fe.h"
- #include "qemu/iov.h"
- #include "qemu/sockets.h"
-+#include "block/aio-wait.h"
- 
- #define TYPE_FILTER_MIRROR "filter-mirror"
- typedef struct MirrorState MirrorState;
-@@ -42,20 +43,21 @@ struct MirrorState {
-     bool vnet_hdr;
- };
- 
--static int filter_send(MirrorState *s,
--                       const struct iovec *iov,
--                       int iovcnt)
-+typedef struct FilterSendCo {
-+    MirrorState *s;
-+    char *buf;
-+    ssize_t size;
-+    bool done;
-+    int ret;
-+} FilterSendCo;
-+
-+static int _filter_send(MirrorState *s,
-+                       char *buf,
-+                       ssize_t size)
- {
-     NetFilterState *nf = NETFILTER(s);
-     int ret = 0;
--    ssize_t size = 0;
-     uint32_t len = 0;
--    char *buf;
--
--    size = iov_size(iov, iovcnt);
--    if (!size) {
--        return 0;
--    }
- 
-     len = htonl(size);
-     ret = qemu_chr_fe_write_all(&s->chr_out, (uint8_t *)&len, sizeof(len));
-@@ -80,10 +82,7 @@ static int filter_send(MirrorState *s,
-         }
-     }
- 
--    buf = g_malloc(size);
--    iov_to_buf(iov, iovcnt, 0, buf, size);
-     ret = qemu_chr_fe_write_all(&s->chr_out, (uint8_t *)buf, size);
--    g_free(buf);
-     if (ret != size) {
-         goto err;
-     }
-@@ -94,6 +93,47 @@ err:
-     return ret < 0 ? ret : -EIO;
- }
- 
-+static void coroutine_fn filter_send_co(void *opaque)
-+{
-+    FilterSendCo *data = opaque;
-+
-+    data->ret = _filter_send(data->s, data->buf, data->size);
-+    data->done = true;
-+    g_free(data->buf);
-+    aio_wait_kick();
-+}
-+
-+static int filter_send(MirrorState *s,
-+                       const struct iovec *iov,
-+                       int iovcnt)
-+{
-+    ssize_t size = iov_size(iov, iovcnt);
-+    char *buf = NULL;
-+
-+    if (!size) {
-+        return 0;
-+    }
-+
-+    buf = g_malloc(size);
-+    iov_to_buf(iov, iovcnt, 0, buf, size);
-+
-+    FilterSendCo data = {
-+        .s = s,
-+        .size = size,
-+        .buf = buf,
-+        .ret = 0,
-+    };
-+
-+    Coroutine *co = qemu_coroutine_create(filter_send_co, &data);
-+    qemu_coroutine_enter(co);
-+
-+    while (!data.done) {
-+        aio_poll(qemu_get_aio_context(), true);
-+    }
-+
-+    return data.ret;
-+}
-+
- static void redirector_to_filter(NetFilterState *nf,
-                                  const uint8_t *buf,
-                                  int len)
--- 
-2.32.0
-
+>       Aml *crs = aml_resource_template();
+> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+> index 8383b83ee3..2fb70847cb 100644
+> --- a/hw/i386/acpi-build.c
+> +++ b/hw/i386/acpi-build.c
+> @@ -1812,11 +1812,15 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+>                       dev = aml_device("TPM");
+>                       aml_append(dev, aml_name_decl("_HID",
+>                                                     aml_string("MSFT0101")));
+> +                    aml_append(dev,
+> +                               aml_name_decl("_STR",
+> +                                             aml_string("TPM 2.0 Device")));
+>                   } else {
+>                       dev = aml_device("ISA.TPM");
+>                       aml_append(dev, aml_name_decl("_HID",
+>                                                     aml_eisaid("PNP0C31")));
+>                   }
+> +                aml_append(dev, aml_name_decl("_UID", aml_int(1)));
+>   
+>                   aml_append(dev, aml_name_decl("_STA", aml_int(0xF)));
+>                   crs = aml_resource_template();
+> @@ -1844,6 +1848,8 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+>       if (TPM_IS_CRB(tpm)) {
+>           dev = aml_device("TPM");
+>           aml_append(dev, aml_name_decl("_HID", aml_string("MSFT0101")));
+> +        aml_append(dev, aml_name_decl("_STR",
+> +                                      aml_string("TPM 2.0 Device")));
+>           crs = aml_resource_template();
+>           aml_append(crs, aml_memory32_fixed(TPM_CRB_ADDR_BASE,
+>                                              TPM_CRB_ADDR_SIZE, AML_READ_WRITE));
+> @@ -1851,6 +1857,8 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+>   
+>           aml_append(dev, aml_name_decl("_STA", aml_int(0xf)));
+>   
+> +        aml_append(dev, aml_name_decl("_UID", aml_int(1)));
+> +
+>           tpm_build_ppi_acpi(tpm, dev);
+>   
+>           aml_append(sb_scope, dev);
 
