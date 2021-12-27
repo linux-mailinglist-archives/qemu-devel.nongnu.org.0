@@ -2,58 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59C1F47FD4F
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Dec 2021 14:26:31 +0100 (CET)
-Received: from localhost ([::1]:47544 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 836FB47FDD7
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Dec 2021 15:34:42 +0100 (CET)
+Received: from localhost ([::1]:49230 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n1q1G-000361-Er
-	for lists+qemu-devel@lfdr.de; Mon, 27 Dec 2021 08:26:30 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44970)
+	id 1n1r5F-0001xY-I7
+	for lists+qemu-devel@lfdr.de; Mon, 27 Dec 2021 09:34:41 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54820)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1n1pzG-0002Dw-6W
- for qemu-devel@nongnu.org; Mon, 27 Dec 2021 08:24:26 -0500
-Received: from kylie.crudebyte.com ([5.189.157.229]:32947)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1n1pzE-0001YX-33
- for qemu-devel@nongnu.org; Mon, 27 Dec 2021 08:24:25 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=vRCv0HG6BZQ6sWcZiMydIpWyZRzIOCNfBIXydzwOwn8=; b=vvQ/0o6ZabwIJXY+EmbEjzu0ae
- X/B7v0XmjiWU+l5H5U5dgrcYtJL5dWu4lyBp+hhx5vwLZwIsrvQCtDqdxIwgTCKOCsj3EeguV325a
- 9xxdO1mg3NWD0MzkyVufc1RxV+V2c1A1urG/cqtXZgaOkpuZX9m49HPgRIwKqGa50HFrYIZz5Yrto
- 1EqHOhbofRB+MgRSwUpHpqNY0tGyKFhOS9Xi1tKoYuWnNEp9OjRDg7XZhCc7T0QVxbi5UTh2AwbVC
- 9Rb4xT1btvE8H0f3kTCYO9vC4VHsuPtWitAosJK8b+jFtldqUCxU87LNQT/HatAiKmzekTMy+Jd3z
- fol9ioCWfS1n7LTPnEQS2LtsuMFLxjwJj0F7DaKdSOHsfr2qkYttm+RqCa5bJrLM+Ya9+zHOLah/O
- AFTqJ0uPUOi0q7OTeOnFCeYHUkQI3ugPlqEVhEfbGJ9aonJ3v/3gC9uLYCEaGn5D++Z6oEFg/lalK
- f7MWykyTOgWk4FfirwSGO1IERUbepurfltqmVBQzVcnp8XgGcXuOtck0VpSacgPdvQF8TApvX+Ep2
- NqJY9ksYLVG9Eu+zthKcRHQdf/nnOzqBc/uEy5vn2/2ZlIt47YIB/ki44tyGGNqoxJ58WbdgJxzO7
- hAmaGKbDK9R5+vhukZly0AS/pZ8G/DdDCjsqg/uKg=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org
-Cc: Volker =?ISO-8859-1?Q?R=FCmelin?= <vr_qemu@t-online.de>,
- Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH 1/3] jackaudio: use ifdefs to hide unavailable functions
-Date: Mon, 27 Dec 2021 14:24:19 +0100
-Message-ID: <4841310.u599JrRuOa@silver>
-In-Reply-To: <20211226154017.6067-1-vr_qemu@t-online.de>
-References: <cf516f2a-fea8-2000-1b80-a5465d0e1ee6@t-online.de>
- <20211226154017.6067-1-vr_qemu@t-online.de>
+ (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
+ id 1n1qzN-0001hc-Sk
+ for qemu-devel@nongnu.org; Mon, 27 Dec 2021 09:28:37 -0500
+Received: from [2607:f8b0:4864:20::531] (port=40882
+ helo=mail-pg1-x531.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
+ id 1n1qzH-00030D-5i
+ for qemu-devel@nongnu.org; Mon, 27 Dec 2021 09:28:33 -0500
+Received: by mail-pg1-x531.google.com with SMTP id l10so13662227pgm.7
+ for <qemu-devel@nongnu.org>; Mon, 27 Dec 2021 06:28:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=J+u58HAk1TScXtkb1on2YBkzpP66DXa2fL3EH4iJnEA=;
+ b=rypHYMWFpfRk13U6vR8KIsaXSt+6JmmLGx1IYW8P6EWRX/YSsGDvH8W17SygtWJps2
+ LPWpqUCF3QwmZLxVzLlga3e1/Ou7Ye6gMqUCk6kGwQmnNP26G94I2XmG3C68oE7tazbr
+ +I0edIj5YANuzIB7MA3ehhqNt7AiUmfTpEXO9iaTZisLR7RCdj1yqHfcssRscYa+CNq0
+ mprbdQbd/vku/5XiaLhHT1kCC1rZ4vOPqixOlwcAHL2scu4gWiDeX4jWNOUwR3B8PgOy
+ nJ2/HXBdV8BEQ1wsqoiDQEGfNqgfzJYFQjJ6+Z0ZyrJ0ZJ+RLCdNQk8zILUTmIN9S+a4
+ aYWg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=J+u58HAk1TScXtkb1on2YBkzpP66DXa2fL3EH4iJnEA=;
+ b=FQursZiH92fHKz5cB+TtzKQukBxotA4nDWkF5j+TO/XVkYv4p5DCK9N1v6I4KREcdk
+ dz16J5HSrKMR5phYhpNMSK/ymbCSE3x5AuLT0NwHbMQD7ioQjsu4JgqIOUUvtWhUsbq2
+ TpxjnwGWfYiIBxj7Ml8MDdr7zfxS50AvuhJMIkOrs1y2AUIaNAx4id5r/AMH2PZ5z6sz
+ vr25gMNrz7E55t3fNfbQzXK9hhvm6+iXCaD93o0Nqyw27/Xd+K60PVeoLJerPUjoTBom
+ gukJBnb7qCVg3xl8n653KNZ4nvaDTo+0Hi5RlRuFioTVwwRYwmSY4/VNfP1vjeO/fbs6
+ 9wLA==
+X-Gm-Message-State: AOAM5326ZCkHwvpxr+jCZstKRef0ukfikmHxmqNWetV/BiF5iGeMhm4k
+ tQcSxSbjxkzCi26Nyl2MNtcyMQ==
+X-Google-Smtp-Source: ABdhPJydIX1Pe1IElJoTwNkXHSTHzMTJkWIza+UhIaeN0AHFL3te07yvroHDi2Jhu4JVHohO2MDeJQ==
+X-Received: by 2002:a65:6411:: with SMTP id a17mr16047357pgv.203.1640615307667; 
+ Mon, 27 Dec 2021 06:28:27 -0800 (PST)
+Received: from libai.bytedance.net ([153.254.110.96])
+ by smtp.gmail.com with ESMTPSA id p2sm15072916pgn.73.2021.12.27.06.28.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 27 Dec 2021 06:28:27 -0800 (PST)
+From: zhenwei pi <pizhenwei@bytedance.com>
+To: peter.maydell@linaro.org, richard.henderson@linaro.org, kraxel@redhat.com,
+ eblake@redhat.com, pbonzini@redhat.com
+Subject: [PATCH 0/5] Introduce camera subsystem and USB video device
+Date: Mon, 27 Dec 2021 22:27:29 +0800
+Message-Id: <20211227142734.691900-1-pizhenwei@bytedance.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::531
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::531;
+ envelope-from=pizhenwei@bytedance.com; helo=mail-pg1-x531.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -66,76 +84,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-devel@nongnu.org, zhenwei pi <pizhenwei@bytedance.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sonntag, 26. Dezember 2021 16:40:15 CET Volker R=FCmelin wrote:
-> On Windows the jack_set_thread_creator() function and on MacOS the
-> pthread_setname_np() function with a thread pointer paramater is
-> not available. Use #ifdefs to remove the jack_set_thread_creator()
-> function call and the qjack_thread_creator() function in both
-> cases.
->=20
-> The qjack_thread_creator() function just sets the name of the
-> created thread for debugging purposes and isn't really necessary.
+1, The full picture of this patch set:
+   +---------+       +------------+     +---------------+
+   |UVC(done)|       |virtio(TODO)|     |other HW device|
+   +---------+       +------------+     +---------------+
+         |                 |                     |
+         |            +------------+             |
+	 +------------+camera(done)+-------------+
+                      +----+-------+
+                           |
+         +-----------------+---------------------+
+         |                 |                     |
+  +------+------+     +----+-----+        +------+------+
+  |builtin(done)|     |v4l2(done)|        |other drivers|
+  +-------------+     +----------+        +-------------+
 
-As far as Windows is concerned, right, there is no jack_set_thread_creator(=
-).
+With this patch set, We can run a desktop VM (Ex Ubuntu-2004), several camera
+APPs(cheese, kamoso, guvcview and qcam) work fine.
 
-I find it actually very useful to have named threads for debugging purposes=
-,=20
-especially for processes that have a load of threads, but I see there would=
- be=20
-no easy solution to preserve this for macOS, as on macOS pthread_setname_np=
-()=20
-must be called from the to be named thread itself, and the thread's entry=20
-point is on JACK server side, so for now ...
+Some works still in working:
+  1, hot-plug
+  2, compat with live migration
+  3, several actions defined in UVC SPEC
 
-Reviewed-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Zhenwei Pi (5):
+  camera: Introduce camera subsystem and builtin driver
+  camera: v4l2: Introduce v4l2 camera driver
+  usb: Introduce video&mescellaneous
+  usb: allow max 8192 bytes for desc
+  usb-video: Introduce USB video class
 
-> From the jack_set_thread_creator() documentation:
-> (...)
->=20
-> No normal application/client should consider calling this. (...)
->=20
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/785
-> Signed-off-by: Volker R=FCmelin <vr_qemu@t-online.de>
-> ---
->  audio/jackaudio.c | 4 ++++
->  1 file changed, 4 insertions(+)
->=20
-> diff --git a/audio/jackaudio.c b/audio/jackaudio.c
-> index e7de6d5433..317009e936 100644
-> --- a/audio/jackaudio.c
-> +++ b/audio/jackaudio.c
-> @@ -622,6 +622,7 @@ static void qjack_enable_in(HWVoiceIn *hw, bool enabl=
-e)
->      ji->c.enabled =3D enable;
->  }
->=20
-> +#if !defined(WIN32) && defined(CONFIG_PTHREAD_SETNAME_NP_W_TID)
->  static int qjack_thread_creator(jack_native_thread_t *thread,
->      const pthread_attr_t *attr, void *(*function)(void *), void *arg)
->  {
-> @@ -635,6 +636,7 @@ static int qjack_thread_creator(jack_native_thread_t
-> *thread,
->=20
->      return ret;
->  }
-> +#endif
->=20
->  static void *qjack_init(Audiodev *dev)
->  {
-> @@ -687,7 +689,9 @@ static void register_audio_jack(void)
->  {
->      qemu_mutex_init(&qjack_shutdown_lock);
->      audio_driver_register(&jack_driver);
-> +#if !defined(WIN32) && defined(CONFIG_PTHREAD_SETNAME_NP_W_TID)
->      jack_set_thread_creator(qjack_thread_creator);
-> +#endif
->      jack_set_error_function(qjack_error);
->      jack_set_info_function(qjack_info);
->  }
+ camera/builtin.c        |  717 ++++++++++++++++++++
+ camera/camera-int.h     |   19 +
+ camera/camera.c         |  522 +++++++++++++++
+ camera/meson.build      |   20 +
+ camera/trace-events     |   28 +
+ camera/trace.h          |    1 +
+ camera/v4l2.c           |  637 ++++++++++++++++++
+ hw/usb/Kconfig          |    5 +
+ hw/usb/desc.c           |   15 +-
+ hw/usb/desc.h           |    1 +
+ hw/usb/dev-video.c      | 1395 +++++++++++++++++++++++++++++++++++++++
+ hw/usb/meson.build      |    1 +
+ hw/usb/trace-events     |   11 +
+ include/camera/camera.h |  238 +++++++
+ include/hw/usb.h        |    2 +
+ include/hw/usb/video.h  |  303 +++++++++
+ meson.build             |   20 +-
+ meson_options.txt       |    3 +
+ qapi/camera.json        |  101 +++
+ qapi/meson.build        |    1 +
+ qapi/qapi-schema.json   |    1 +
+ qemu-options.hx         |   13 +
+ softmmu/vl.c            |    4 +
+ 23 files changed, 4050 insertions(+), 8 deletions(-)
+ create mode 100644 camera/builtin.c
+ create mode 100644 camera/camera-int.h
+ create mode 100644 camera/camera.c
+ create mode 100644 camera/meson.build
+ create mode 100644 camera/trace-events
+ create mode 100644 camera/trace.h
+ create mode 100644 camera/v4l2.c
+ create mode 100644 hw/usb/dev-video.c
+ create mode 100644 include/camera/camera.h
+ create mode 100644 include/hw/usb/video.h
+ create mode 100644 qapi/camera.json
 
+-- 
+2.25.1
 
 
