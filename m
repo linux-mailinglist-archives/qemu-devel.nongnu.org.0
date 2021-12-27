@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC748480004
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Dec 2021 16:42:34 +0100 (CET)
-Received: from localhost ([::1]:58294 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6423E480042
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Dec 2021 16:44:17 +0100 (CET)
+Received: from localhost ([::1]:34264 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n1s8v-0005Z1-OS
-	for lists+qemu-devel@lfdr.de; Mon, 27 Dec 2021 10:42:33 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48548)
+	id 1n1sAa-0008N4-HS
+	for lists+qemu-devel@lfdr.de; Mon, 27 Dec 2021 10:44:16 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48566)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n1s6O-0003xf-9w
- for qemu-devel@nongnu.org; Mon, 27 Dec 2021 10:39:56 -0500
-Received: from mout.kundenserver.de ([212.227.126.134]:37301)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n1s6f-0004Gg-EQ
+ for qemu-devel@nongnu.org; Mon, 27 Dec 2021 10:40:16 -0500
+Received: from mout.kundenserver.de ([212.227.126.134]:59553)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n1s6M-00079Z-SR
- for qemu-devel@nongnu.org; Mon, 27 Dec 2021 10:39:56 -0500
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n1s6b-0007AX-As
+ for qemu-devel@nongnu.org; Mon, 27 Dec 2021 10:40:11 -0500
 Received: from [192.168.100.1] ([82.142.30.186]) by mrelayeu.kundenserver.de
  (mreue012 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1N8VkX-1mNoNt2O2b-014WlR; Mon, 27 Dec 2021 16:39:52 +0100
-Message-ID: <00aabac6-4889-9a7c-e0d6-f117bfe54d0c@vivier.eu>
-Date: Mon, 27 Dec 2021 16:39:51 +0100
+ 1M5Qhx-1n2h3C2501-001Oue; Mon, 27 Dec 2021 16:40:07 +0100
+Message-ID: <282abb4c-bffa-5a01-f9ca-f01fec45abd3@vivier.eu>
+Date: Mon, 27 Dec 2021 16:40:06 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.4.0
-Subject: Re: [PATCH v2 5/6] target/hppa: Implement prctl_unalign_sigbus
+Subject: Re: [PATCH v2 6/6] target/sh4: Implement prctl_unalign_sigbus
 Content-Language: fr
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20211227150127.2659293-1-richard.henderson@linaro.org>
- <20211227150127.2659293-6-richard.henderson@linaro.org>
+ <20211227150127.2659293-7-richard.henderson@linaro.org>
 From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <20211227150127.2659293-6-richard.henderson@linaro.org>
+In-Reply-To: <20211227150127.2659293-7-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:gsKhGWg2d9K0JUFI9muae2e8oLM6VkUIUMkmy5V57YO6MpCk3E/
- dNwgFPsfj0oZuG4M35zaPf6LmxktCNL7PblGWWyALMYCOFR9Y/3cSmqwnBrNVCgLcbMssvc
- kx0TIyOQe18+xRPF0HWTXE/H4K6GtnhI5k6w4jE4zrhIEI44LhpA7zn+zEOsh3IzEtuZKao
- 8xXahtTHKqyX+A4IPRNdw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:IVCXT49IdfA=:Rj7gANuuB3geKcjqy9RZdw
- hr4N58oN94UoEsKlKmYYM16cV0hsohNbmxJafUyF3gMesHhzFjLDe+Q6JhdKV0I7zKOJwR4Cd
- yTtFFbWT/qEHsaT/rSbds6H+nr8iwQTIe1vds6ie93ccCUZZYNx4a28o4j5Eg686LbAsOppdi
- qxjEz4u86he/g9p5C4zBs1U8vv4evjjrFhBG1pRQNRFR9oUOzuCBAVyEwpSL7g/eO5Bd6v9Zb
- fV+ENZzEtJUk6j0zhce3Fau+neruvrF+v6L5ZroY6hMF7ZwtAtTtrLzhppLkwJKZeOwqZDBNQ
- /HZ5DZSnF1hwpZBCnGuum6mhIAaJ7zE1Mvlreub/DArzcVrr05JtL7LIU9LAivxsufQoln7mE
- hNaiaEZt8ouh+Dlf6ROl8+rH9WyVskEZjz3zxKOsB3B8ubjMkFWkrAVYgGtxQrOzUPXz1bbaL
- RofwYyz26X7H2XNzz8+i4cIrgn9jF3ynyfYiLYn3glVqtLotWKWichpVsaxbZwGPl/1JthrJp
- MGOHxReZ0xjFvD3Fiab9YENaxYWO+gxCLE+aWGbhpvlLH1x7oS3apS8aK7j9xOmU9PWBeJznd
- EWK3UTNKxpQMZbzNFk9Q4NyuTNqIgPbdFdU83X8g/SfGDM4z0Wt38p19aHU2F4SBB4V742cgF
- VUitQuZl/zBmMFJJNOEdpK5r89Yf26VsofiAcY8XY/v/PJpsURaXWjbJ4oeW2vlnFRp8=
+X-Provags-ID: V03:K1:tGqsIlGx+a+86xmY0ydmQFQN822Evh8WHtZE4Ak4NSFJhcLhHQS
+ gKZJ5dheMZJKzoXJN4hYqw6/Elretel5E1+2R3w4RLjZE/PKVqWWT5wUGNU201wEw7zSDFP
+ gTuKgFMa3vBJUBkv+bLQ8WHlPnPpFeUl/zmqR26FwlVCPNcJZQ5GmVNshXzUhJPxOL/ZOG2
+ N2io4kv1A7VQGpXm7TH4w==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:SCeNxoVDnMg=:bQXJ5wPbtlO3E03kAuByzG
+ /EzQx5jouWosYd7C0TwdzhT+yQGBt4viPDx2ouO8uSV50acQjY8xAaoqK5N7e0LBE10BsxBa/
+ BAo+ZNrYLwDaQdKhv6kPaK0Bh/1jb0CsXiI/5tNyqyPzt1x39N6mtlDQa6ECnXkqea6xhZ95Q
+ M/mWntOA/57SjrM68UbL7fWse6s5P8QvvQFeYhdw6c5tTZwB77iIbdNAgKZRnA0wtkZl4I2Sy
+ +AiJ079gzx9N13ym344AGp8MoBeyRgHKCnVBYHkXR6vEb89B+/0OryqRda3BdewxX+PNM5+kQ
+ oO19FxNGU8VFqgKJe4931mhJu14mfpvxLYa+CYozV/kz9/rJj//ZoyXqHC2GSx+2hTjz245ND
+ JDfAyYWCkU28wmYrbwtUrljbEu02JsdIr2U84bE4kYw/u4zoAiqcVGcv94ijZh1TvWcmuWoJw
+ DNBONfrKmR+xUQ1KZAk/3iiwYwP9/JjIBS9DJJrHwRAov3RQaTQPdBEw9Atsb47r489Ob2OCh
+ 422MBq521I84jrUbyLo8nkg/zXnbx4vXpvWYrG+IMgsZvox8cM8Ytp/2hIINGub8WrHxrXcQr
+ 3GNNEUEayI+Syf5BQSgXDkH/RjYZffrt5xCTRD8l/PsZ/MnWzPtgHHWuwvBQNba6sGpM5Nn9/
+ 0E16QenZKJuUPOWPo80eybB6c4lbc3c9E0O4hveO9BLOqoVtlUXp7TcqJTtBzsgMyvEo=
 Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -32
@@ -77,13 +77,15 @@ Le 27/12/2021 à 16:01, Richard Henderson a écrit :
 > flag to set MO_UNALN for the instructions that the kernel
 > handles in the unaligned trap.
 > 
+> The Linux kernel does not handle all memory operations: no
+> floating-point and no MAC.
+> 
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->   linux-user/hppa/target_prctl.h |  2 +-
->   target/hppa/cpu.h              |  5 ++++-
->   target/hppa/translate.c        | 19 +++++++++++++++----
->   3 files changed, 20 insertions(+), 6 deletions(-)
-> 
+>   linux-user/sh4/target_prctl.h |  2 +-
+>   target/sh4/cpu.h              |  4 +++
+>   target/sh4/translate.c        | 50 ++++++++++++++++++++++++-----------
+>   3 files changed, 39 insertions(+), 17 deletions(-)
 
 
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
