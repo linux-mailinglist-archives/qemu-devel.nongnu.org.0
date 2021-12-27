@@ -2,71 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0709247FAC0
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Dec 2021 08:33:53 +0100 (CET)
-Received: from localhost ([::1]:56844 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D83047FBBA
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Dec 2021 11:04:07 +0100 (CET)
+Received: from localhost ([::1]:39090 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n1kVz-0004Ah-FD
-	for lists+qemu-devel@lfdr.de; Mon, 27 Dec 2021 02:33:51 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52726)
+	id 1n1mrO-0002lw-0c
+	for lists+qemu-devel@lfdr.de; Mon, 27 Dec 2021 05:04:06 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43130)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ykonotopov@gmail.com>)
- id 1n1kRd-0003Jj-9R
- for qemu-devel@nongnu.org; Mon, 27 Dec 2021 02:29:21 -0500
-Received: from mail-lf1-f44.google.com ([209.85.167.44]:33717)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ykonotopov@gmail.com>)
- id 1n1kRb-0008JX-QV
- for qemu-devel@nongnu.org; Mon, 27 Dec 2021 02:29:21 -0500
-Received: by mail-lf1-f44.google.com with SMTP id k21so33145159lfu.0
- for <qemu-devel@nongnu.org>; Sun, 26 Dec 2021 23:29:19 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1n1mor-0001XC-8u
+ for qemu-devel@nongnu.org; Mon, 27 Dec 2021 05:01:29 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:37754)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1n1mon-0000lt-UG
+ for qemu-devel@nongnu.org; Mon, 27 Dec 2021 05:01:27 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1640599284;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=H2VnKaNwYG8GFn9HjceVvnT5HgMc4tIB+ZpmLcUSKJQ=;
+ b=N3DjA/YvEikES6zN4IfofawMryqkjLTb/69hum/ktyfeAkZTjaC8idtl9QoEbpQsctVMXj
+ ctz7vkpZzozDFeUeQ10wOlPkzdGwvsEQpeEUSzdXeFgJvj8E/lmBdo4BYdaWQjp2Inqzor
+ mu4gwNQr01exBLAXNpDsfIF7k+Y7ijQ=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-675-Mq_-j9BLNOSWOFddrc6qqg-1; Mon, 27 Dec 2021 05:01:23 -0500
+X-MC-Unique: Mq_-j9BLNOSWOFddrc6qqg-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ i5-20020a05640242c500b003f84839a8c3so10717635edc.6
+ for <qemu-devel@nongnu.org>; Mon, 27 Dec 2021 02:01:23 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
- :content-transfer-encoding;
- bh=KoOpc6Gl8t6Kg+GxCdRP2VmgrzTJACiinYPjhcQeOcw=;
- b=Y3VnrrhSmn5l/8KJMf5odG2R981V9j+Q6DymohN5exhRtf+wj0nQyUrOpKMIQmfV43
- lNp5QLKS+uxDce6ExyKvVrHGy3flnJhMTFb7yrSow3yBaKAbDrWnrY7suDh9B4WGPvKL
- h/oFzBI67O3tAFpsY0mamYoXtpRx/BBfOWScKtelV0g2MQj9zk1ZHeQh0a36KQtr88JP
- +frSlDUMNd6UVgnVYeTOrSyLW7mKx6/dJupLwbYvZ9La4UfvsYwXD1ok87DWMpcoNysK
- K7g1H9b/03ktKEq68YU+tBARKWLulglJWyfHJJKLjLMoH4a2enFRzlDLIlw2WCGgQZGr
- iHqg==
-X-Gm-Message-State: AOAM533fE4DTUS7C2LPujgdSqBNSHuIVR48LXImcaNFb9TZ+gtMeWSEv
- vwEjfQjbZslfR5ycX4ljtmY=
-X-Google-Smtp-Source: ABdhPJxOnFG29LcR3VXM+6gntJhQtzs2LNRtpWDAW/FT0YTX4Pa7AzD55iZvjxQbkJQpEQy4TXloNg==
-X-Received: by 2002:ac2:4f03:: with SMTP id k3mr14780556lfr.314.1640590157776; 
- Sun, 26 Dec 2021 23:29:17 -0800 (PST)
-Received: from [192.168.178.33] (95-24-165-59.broadband.corbina.ru.
- [95.24.165.59])
- by smtp.gmail.com with ESMTPSA id o6sm1052343lfk.232.2021.12.26.23.29.16
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 26 Dec 2021 23:29:17 -0800 (PST)
-Message-ID: <a167f9ed-75a7-e719-bc68-d22b13e85db8@gnome.org>
-Date: Mon, 27 Dec 2021 11:29:15 +0400
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=H2VnKaNwYG8GFn9HjceVvnT5HgMc4tIB+ZpmLcUSKJQ=;
+ b=rjK0izn1+y98yER7cSfbrW3XE4c3nNoHQ+tHCt40FxKcQPmI+cznbjld/j1xAU0h6N
+ JDxfv5qCN/4qEwYQ2wDe/QL2OomGXW5qNKaBFFVFHarX9bpXx0S5Dxsj+qFVrWAraq6t
+ tw4m2x6sdL2o0LEu0l30NlzLU/uaTZB44C+qWT1EGEc+utJhIfUDVH8pIwH3fhz0NEqE
+ 3KeqssIDQqTqCz7hC2UkRQEHmV0hv8w3+oyf8OM81ZKsWQ+cZDYfiO5Ld+TonMNTh/T+
+ Z/SJIyM1xAjUhSIRQ8OGBFMv2kYzsQNMtU3f5q6AsJPvNoL3DemUV36ssPeL02vBs/yg
+ /6xw==
+X-Gm-Message-State: AOAM530uJmtsoYDWltF9zCTij+NA4jpmIGkEnTHiZMvfeSLeGFGsC+5u
+ ah5jvEC1Qlk4h8n8kI1SA6/ZO/vTcRc72e73c0n93bLx/9gcMalU6cy5/nPqFAYcX6QBpC0Q8m0
+ jMwhz139vD2waweg=
+X-Received: by 2002:aa7:da8a:: with SMTP id q10mr15905982eds.302.1640599282326; 
+ Mon, 27 Dec 2021 02:01:22 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJy9CdfVfUmy1CZM1yhDlN62xLEt/Rm0+TYDOl5gNp1F65YY8IhMOZu0BfmXwXZ3MS8jXGTW9Q==
+X-Received: by 2002:aa7:da8a:: with SMTP id q10mr15905960eds.302.1640599282008; 
+ Mon, 27 Dec 2021 02:01:22 -0800 (PST)
+Received: from localhost ([185.140.112.229])
+ by smtp.gmail.com with ESMTPSA id i8sm3945466edc.91.2021.12.27.02.01.21
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 27 Dec 2021 02:01:21 -0800 (PST)
+Date: Mon, 27 Dec 2021 11:01:20 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH] tests/qtest/test-x86-cpuid-compat: Check for machines
+ before using them
+Message-ID: <20211227110120.5d61f6ee@redhat.com>
+In-Reply-To: <20211222153923.1000420-1-thuth@redhat.com>
+References: <20211222153923.1000420-1-thuth@redhat.com>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.30; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH] tpm: fixed be_buffer_size size in in tpm_crb
-Content-Language: ru-RU
-To: Stefan Berger <stefanb@linux.ibm.com>, qemu-devel@nongnu.org
-References: <20211225123806.113368-1-ykonotopov@gnome.org>
- <c212e049-0f1a-dc81-e785-2ae02097187d@linux.ibm.com>
-From: Yuri Konotopov <ykonotopov@gnome.org>
-In-Reply-To: <c212e049-0f1a-dc81-e785-2ae02097187d@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=209.85.167.44; envelope-from=ykonotopov@gmail.com;
- helo=mail-lf1-f44.google.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9,
- FREEMAIL_FORGED_FROMDOMAIN=0.248, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-1.363,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.575,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,30 +97,137 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-devel@nongnu.org, "Michael S . Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-27.12.2021 06:24, Stefan Berger пишет:
-> I suppose the host has a TIS interface.
+On Wed, 22 Dec 2021 16:39:23 +0100
+Thomas Huth <thuth@redhat.com> wrote:
 
-Hello, Stefan.
+> The user might have disabled the pc-i440fx machine type (or it's older
+> versions, like done in downstream RHEL) in the QEMU binary, so let's
+> better check whether the machine types are available before using them.
+> 
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+Looks good to me, so
+
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 
 
-I do not think so. There is only tpm_crb tpm kernel module compiled in 
-my system
+the only concern is that when deprecated machine is removed,
+this code will happily hide test block which should be removed.
 
-# systemd-cryptenroll --tpm2-device=list
-PATH        DEVICE      DRIVER
-/dev/tpmrm0 MSFT0101:00 tpm_crb
-
-
->
-> The reason it gives this message is that the response this TPM may 
-> send back could be 4096 bytes in size but the CRB of the VM can only 
-> catch 3968 bytes, so there's a mismatch. You may not be able to use 
-> the CRB in passthrough mode. I would try to have the VM use the TIS.
-
--- 
-Best regards, Yuri Konotopov
+> ---
+>  tests/qtest/test-x86-cpuid-compat.c | 85 ++++++++++++++++-------------
+>  1 file changed, 48 insertions(+), 37 deletions(-)
+> 
+> diff --git a/tests/qtest/test-x86-cpuid-compat.c b/tests/qtest/test-x86-cpuid-compat.c
+> index f28848e06e..39138db774 100644
+> --- a/tests/qtest/test-x86-cpuid-compat.c
+> +++ b/tests/qtest/test-x86-cpuid-compat.c
+> @@ -302,54 +302,65 @@ int main(int argc, char **argv)
+>  
+>      /* Check compatibility of old machine-types that didn't
+>       * auto-increase level/xlevel/xlevel2: */
+> -
+> -    add_cpuid_test("x86/cpuid/auto-level/pc-2.7",
+> -                   "-machine pc-i440fx-2.7 -cpu 486,arat=on,avx512vbmi=on,xsaveopt=on",
+> -                   "level", 1);
+> -    add_cpuid_test("x86/cpuid/auto-xlevel/pc-2.7",
+> -                   "-machine pc-i440fx-2.7 -cpu 486,3dnow=on,sse4a=on,invtsc=on,npt=on,svm=on",
+> -                   "xlevel", 0);
+> -    add_cpuid_test("x86/cpuid/auto-xlevel2/pc-2.7",
+> -                   "-machine pc-i440fx-2.7 -cpu 486,xstore=on",
+> -                   "xlevel2", 0);
+> +    if (qtest_has_machine("pc-i440fx-2.7")) {
+> +        add_cpuid_test("x86/cpuid/auto-level/pc-2.7",
+> +                       "-machine pc-i440fx-2.7 -cpu 486,arat=on,avx512vbmi=on,xsaveopt=on",
+> +                       "level", 1);
+> +        add_cpuid_test("x86/cpuid/auto-xlevel/pc-2.7",
+> +                       "-machine pc-i440fx-2.7 -cpu 486,3dnow=on,sse4a=on,invtsc=on,npt=on,svm=on",
+> +                       "xlevel", 0);
+> +        add_cpuid_test("x86/cpuid/auto-xlevel2/pc-2.7",
+> +                       "-machine pc-i440fx-2.7 -cpu 486,xstore=on",
+> +                       "xlevel2", 0);
+> +    }
+>      /*
+>       * QEMU 1.4.0 had auto-level enabled for CPUID[7], already,
+>       * and the compat code that sets default level shouldn't
+>       * disable the auto-level=7 code:
+>       */
+> -    add_cpuid_test("x86/cpuid/auto-level7/pc-i440fx-1.4/off",
+> -                   "-machine pc-i440fx-1.4 -cpu Nehalem",
+> -                   "level", 2);
+> -    add_cpuid_test("x86/cpuid/auto-level7/pc-i440fx-1.5/on",
+> -                   "-machine pc-i440fx-1.4 -cpu Nehalem,smap=on",
+> -                   "level", 7);
+> -    add_cpuid_test("x86/cpuid/auto-level7/pc-i440fx-2.3/off",
+> -                   "-machine pc-i440fx-2.3 -cpu Penryn",
+> -                   "level", 4);
+> -    add_cpuid_test("x86/cpuid/auto-level7/pc-i440fx-2.3/on",
+> -                   "-machine pc-i440fx-2.3 -cpu Penryn,erms=on",
+> -                   "level", 7);
+> -    add_cpuid_test("x86/cpuid/auto-level7/pc-i440fx-2.9/off",
+> -                   "-machine pc-i440fx-2.9 -cpu Conroe",
+> -                   "level", 10);
+> -    add_cpuid_test("x86/cpuid/auto-level7/pc-i440fx-2.9/on",
+> -                   "-machine pc-i440fx-2.9 -cpu Conroe,erms=on",
+> -                   "level", 10);
+> +    if (qtest_has_machine("pc-i440fx-1.4")) {
+> +        add_cpuid_test("x86/cpuid/auto-level7/pc-i440fx-1.4/off",
+> +                       "-machine pc-i440fx-1.4 -cpu Nehalem",
+> +                       "level", 2);
+> +        add_cpuid_test("x86/cpuid/auto-level7/pc-i440fx-1.5/on",
+> +                       "-machine pc-i440fx-1.4 -cpu Nehalem,smap=on",
+> +                       "level", 7);
+> +    }
+> +    if (qtest_has_machine("pc-i440fx-2.3")) {
+> +        add_cpuid_test("x86/cpuid/auto-level7/pc-i440fx-2.3/off",
+> +                       "-machine pc-i440fx-2.3 -cpu Penryn",
+> +                       "level", 4);
+> +        add_cpuid_test("x86/cpuid/auto-level7/pc-i440fx-2.3/on",
+> +                       "-machine pc-i440fx-2.3 -cpu Penryn,erms=on",
+> +                       "level", 7);
+> +    }
+> +    if (qtest_has_machine("pc-i440fx-2.9")) {
+> +        add_cpuid_test("x86/cpuid/auto-level7/pc-i440fx-2.9/off",
+> +                       "-machine pc-i440fx-2.9 -cpu Conroe",
+> +                       "level", 10);
+> +        add_cpuid_test("x86/cpuid/auto-level7/pc-i440fx-2.9/on",
+> +                       "-machine pc-i440fx-2.9 -cpu Conroe,erms=on",
+> +                       "level", 10);
+> +    }
+>  
+>      /*
+>       * xlevel doesn't have any feature that triggers auto-level
+>       * code on old machine-types.  Just check that the compat code
+>       * is working correctly:
+>       */
+> -    add_cpuid_test("x86/cpuid/xlevel-compat/pc-i440fx-2.3",
+> -                   "-machine pc-i440fx-2.3 -cpu SandyBridge",
+> -                   "xlevel", 0x8000000a);
+> -    add_cpuid_test("x86/cpuid/xlevel-compat/pc-i440fx-2.4/npt-off",
+> -                   "-machine pc-i440fx-2.4 -cpu SandyBridge,",
+> -                   "xlevel", 0x80000008);
+> -    add_cpuid_test("x86/cpuid/xlevel-compat/pc-i440fx-2.4/npt-on",
+> -                   "-machine pc-i440fx-2.4 -cpu SandyBridge,svm=on,npt=on",
+> -                   "xlevel", 0x80000008);
+> +    if (qtest_has_machine("pc-i440fx-2.3")) {
+> +        add_cpuid_test("x86/cpuid/xlevel-compat/pc-i440fx-2.3",
+> +                       "-machine pc-i440fx-2.3 -cpu SandyBridge",
+> +                       "xlevel", 0x8000000a);
+> +    }
+> +    if (qtest_has_machine("pc-i440fx-2.4")) {
+> +        add_cpuid_test("x86/cpuid/xlevel-compat/pc-i440fx-2.4/npt-off",
+> +                       "-machine pc-i440fx-2.4 -cpu SandyBridge,",
+> +                       "xlevel", 0x80000008);
+> +        add_cpuid_test("x86/cpuid/xlevel-compat/pc-i440fx-2.4/npt-on",
+> +                       "-machine pc-i440fx-2.4 -cpu SandyBridge,svm=on,npt=on",
+> +                       "xlevel", 0x80000008);
+> +    }
+>  
+>      /* Test feature parsing */
+>      add_feature_test("x86/cpuid/features/plus",
 
 
