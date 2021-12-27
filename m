@@ -2,61 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6423E480042
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Dec 2021 16:44:17 +0100 (CET)
-Received: from localhost ([::1]:34264 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB71848013A
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Dec 2021 16:55:53 +0100 (CET)
+Received: from localhost ([::1]:38624 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n1sAa-0008N4-HS
-	for lists+qemu-devel@lfdr.de; Mon, 27 Dec 2021 10:44:16 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48566)
+	id 1n1sLo-0003KT-Js
+	for lists+qemu-devel@lfdr.de; Mon, 27 Dec 2021 10:55:52 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52110)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n1s6f-0004Gg-EQ
- for qemu-devel@nongnu.org; Mon, 27 Dec 2021 10:40:16 -0500
-Received: from mout.kundenserver.de ([212.227.126.134]:59553)
+ (Exim 4.90_1) (envelope-from <maz@kernel.org>) id 1n1sK9-0002X8-Pk
+ for qemu-devel@nongnu.org; Mon, 27 Dec 2021 10:54:09 -0500
+Received: from dfw.source.kernel.org ([139.178.84.217]:50804)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n1s6b-0007AX-As
- for qemu-devel@nongnu.org; Mon, 27 Dec 2021 10:40:11 -0500
-Received: from [192.168.100.1] ([82.142.30.186]) by mrelayeu.kundenserver.de
- (mreue012 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1M5Qhx-1n2h3C2501-001Oue; Mon, 27 Dec 2021 16:40:07 +0100
-Message-ID: <282abb4c-bffa-5a01-f9ca-f01fec45abd3@vivier.eu>
-Date: Mon, 27 Dec 2021 16:40:06 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH v2 6/6] target/sh4: Implement prctl_unalign_sigbus
-Content-Language: fr
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20211227150127.2659293-1-richard.henderson@linaro.org>
- <20211227150127.2659293-7-richard.henderson@linaro.org>
-From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <20211227150127.2659293-7-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:tGqsIlGx+a+86xmY0ydmQFQN822Evh8WHtZE4Ak4NSFJhcLhHQS
- gKZJ5dheMZJKzoXJN4hYqw6/Elretel5E1+2R3w4RLjZE/PKVqWWT5wUGNU201wEw7zSDFP
- gTuKgFMa3vBJUBkv+bLQ8WHlPnPpFeUl/zmqR26FwlVCPNcJZQ5GmVNshXzUhJPxOL/ZOG2
- N2io4kv1A7VQGpXm7TH4w==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:SCeNxoVDnMg=:bQXJ5wPbtlO3E03kAuByzG
- /EzQx5jouWosYd7C0TwdzhT+yQGBt4viPDx2ouO8uSV50acQjY8xAaoqK5N7e0LBE10BsxBa/
- BAo+ZNrYLwDaQdKhv6kPaK0Bh/1jb0CsXiI/5tNyqyPzt1x39N6mtlDQa6ECnXkqea6xhZ95Q
- M/mWntOA/57SjrM68UbL7fWse6s5P8QvvQFeYhdw6c5tTZwB77iIbdNAgKZRnA0wtkZl4I2Sy
- +AiJ079gzx9N13ym344AGp8MoBeyRgHKCnVBYHkXR6vEb89B+/0OryqRda3BdewxX+PNM5+kQ
- oO19FxNGU8VFqgKJe4931mhJu14mfpvxLYa+CYozV/kz9/rJj//ZoyXqHC2GSx+2hTjz245ND
- JDfAyYWCkU28wmYrbwtUrljbEu02JsdIr2U84bE4kYw/u4zoAiqcVGcv94ijZh1TvWcmuWoJw
- DNBONfrKmR+xUQ1KZAk/3iiwYwP9/JjIBS9DJJrHwRAov3RQaTQPdBEw9Atsb47r489Ob2OCh
- 422MBq521I84jrUbyLo8nkg/zXnbx4vXpvWYrG+IMgsZvox8cM8Ytp/2hIINGub8WrHxrXcQr
- 3GNNEUEayI+Syf5BQSgXDkH/RjYZffrt5xCTRD8l/PsZ/MnWzPtgHHWuwvBQNba6sGpM5Nn9/
- 0E16QenZKJuUPOWPo80eybB6c4lbc3c9E0O4hveO9BLOqoVtlUXp7TcqJTtBzsgMyvEo=
-Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -32
-X-Spam_score: -3.3
-X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.363,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <maz@kernel.org>) id 1n1sK7-0000g3-Rt
+ for qemu-devel@nongnu.org; Mon, 27 Dec 2021 10:54:09 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 98A136104C;
+ Mon, 27 Dec 2021 15:53:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F10BC36AE7;
+ Mon, 27 Dec 2021 15:53:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1640620438;
+ bh=JfRjJBbke0t9wYrDsjzgGQyQfybfI1k8I701E5RWL4o=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=bRW3Glt/AiVN5Cj0LDfujV33Ts6ZRmBt9Zz9Q3HxK/3qs1kXf1/SaqYVrNVeVehqe
+ b17VHwf0LUkVczPE0G8sMirI6G6ySw4L+d9vpGIvP8lFLwTeevSC9+qmmdhoyIijP2
+ DFxVgzmQoojf7cw5ZUEu//o7BO+K7wU6FrdWvrHInKay+nTjES6XKkXA3NqUwseBQR
+ q++Q3RHmxQ56NJkPMNMSm0c8pZEyKmV4eCSIxUEY6w+CmlZSpT8HKwl/ElcQHi/GrK
+ a0j3FoKJ7gH4VFBUC/zZl1cORVVclEIR4ztPG6tGTlNwrRYLKGZwc8KRntD7zXsAG1
+ GDErb8QuzeLzw==
+Received: from cfbb000407.r.cam.camfibre.uk ([185.219.108.64]
+ helo=wait-a-minute.misterjones.org)
+ by disco-boy.misterjones.org with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <maz@kernel.org>)
+ id 1n1sJw-00Ea9t-5p; Mon, 27 Dec 2021 15:53:56 +0000
+Date: Mon, 27 Dec 2021 15:53:55 +0000
+Message-ID: <87pmpiyrfw.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: eric.auger@redhat.com
+Subject: Re: [PATCH v2 1/5] hw/arm/virt: Key enablement of highmem PCIe on
+ highmem_ecam
+In-Reply-To: <dbe883ca-880e-7f2b-1de7-4b2d3361545d@redhat.com>
+References: <20211003164605.3116450-1-maz@kernel.org>
+ <20211003164605.3116450-2-maz@kernel.org>
+ <dbe883ca-880e-7f2b-1de7-4b2d3361545d@redhat.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
+ (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: eric.auger@redhat.com, qemu-devel@nongnu.org,
+ drjones@redhat.com, peter.maydell@linaro.org, kvmarm@lists.cs.columbia.edu,
+ kvm@vger.kernel.org, kernel-team@android.com
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org);
+ SAEximRunCond expanded to false
+Received-SPF: pass client-ip=139.178.84.217; envelope-from=maz@kernel.org;
+ helo=dfw.source.kernel.org
+X-Spam_score_int: -26
+X-Spam_score: -2.7
+X-Spam_bar: --
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.575,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -69,24 +82,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
+ kvm@vger.kernel.org, qemu-devel@nongnu.org, kernel-team@android.com,
+ kvmarm@lists.cs.columbia.edu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 27/12/2021 à 16:01, Richard Henderson a écrit :
-> Leave TARGET_ALIGNED_ONLY set, but use the new CPUState
-> flag to set MO_UNALN for the instructions that the kernel
-> handles in the unaligned trap.
-> 
-> The Linux kernel does not handle all memory operations: no
-> floating-point and no MAC.
-> 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->   linux-user/sh4/target_prctl.h |  2 +-
->   target/sh4/cpu.h              |  4 +++
->   target/sh4/translate.c        | 50 ++++++++++++++++++++++++-----------
->   3 files changed, 39 insertions(+), 17 deletions(-)
+Hi Eric,
 
+Picking this up again after a stupidly long time...
 
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+On Mon, 04 Oct 2021 13:00:21 +0100,
+Eric Auger <eric.auger@redhat.com> wrote:
+> 
+> Hi Marc,
+> 
+> On 10/3/21 6:46 PM, Marc Zyngier wrote:
+> > Currently, the highmem PCIe region is oddly keyed on the highmem
+> > attribute instead of highmem_ecam. Move the enablement of this PCIe
+> > region over to highmem_ecam.
+> >
+> > Signed-off-by: Marc Zyngier <maz@kernel.org>
+> > ---
+> >  hw/arm/virt-acpi-build.c | 10 ++++------
+> >  hw/arm/virt.c            |  4 ++--
+> >  2 files changed, 6 insertions(+), 8 deletions(-)
+> >
+> > diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
+> > index 037cc1fd82..d7bef0e627 100644
+> > --- a/hw/arm/virt-acpi-build.c
+> > +++ b/hw/arm/virt-acpi-build.c
+> > @@ -157,10 +157,9 @@ static void acpi_dsdt_add_virtio(Aml *scope,
+> >  }
+> >  
+> >  static void acpi_dsdt_add_pci(Aml *scope, const MemMapEntry *memmap,
+> > -                              uint32_t irq, bool use_highmem, bool highmem_ecam,
+> > -                              VirtMachineState *vms)
+> > +                              uint32_t irq, VirtMachineState *vms)
+> >  {
+> > -    int ecam_id = VIRT_ECAM_ID(highmem_ecam);
+> > +    int ecam_id = VIRT_ECAM_ID(vms->highmem_ecam);
+> >      struct GPEXConfig cfg = {
+> >          .mmio32 = memmap[VIRT_PCIE_MMIO],
+> >          .pio    = memmap[VIRT_PCIE_PIO],
+> > @@ -169,7 +168,7 @@ static void acpi_dsdt_add_pci(Aml *scope, const MemMapEntry *memmap,
+> >          .bus    = vms->bus,
+> >      };
+> >  
+> > -    if (use_highmem) {
+> > +    if (vms->highmem_ecam) {
+> highmem_ecam is more restrictive than use_highmem:
+> vms->highmem_ecam &= vms->highmem && (!firmware_loaded || aarch64);
+> 
+> If I remember correctly there was a problem using highmem ECAM with 32b
+> AAVMF FW.
+>
+> However 5125f9cd2532 ("hw/arm/virt: Add high MMIO PCI region, 512G in
+> size") introduced high MMIO PCI region without this constraint.
+
+Then I really don't understand the point of this highmem_ecam. We only
+register the highmem version if highmem_ecam is set (see the use of
+VIRT_ECAM_ID() to pick the right ECAM window).
+
+So keying this on highmem makes it expose a device that may not be
+there the first place since, as you pointed out that highmem_ecam can
+be false in cases where highmem is true.
+
+> So to me we should keep vms->highmem here
+
+I really must be missing how this is supposed to work.
+
+	M.
+
+-- 
+Without deviation from the norm, progress is not possible.
 
