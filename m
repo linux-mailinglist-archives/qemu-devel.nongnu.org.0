@@ -2,52 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4065C48046B
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Dec 2021 20:39:24 +0100 (CET)
-Received: from localhost ([::1]:50472 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4A6C480467
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Dec 2021 20:35:59 +0100 (CET)
+Received: from localhost ([::1]:44144 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n1vq7-0002Gp-Bc
-	for lists+qemu-devel@lfdr.de; Mon, 27 Dec 2021 14:39:23 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36226)
+	id 1n1vmo-0006Dq-AH
+	for lists+qemu-devel@lfdr.de; Mon, 27 Dec 2021 14:35:58 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36240)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1n1via-0003Jc-OC
+ id 1n1via-0003Jf-QO
  for qemu-devel@nongnu.org; Mon, 27 Dec 2021 14:31:37 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34416)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29805)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1n1viX-00058W-EZ
- for qemu-devel@nongnu.org; Mon, 27 Dec 2021 14:31:35 -0500
+ id 1n1viZ-00059q-2l
+ for qemu-devel@nongnu.org; Mon, 27 Dec 2021 14:31:36 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1640633492;
+ s=mimecast20190719; t=1640633494;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=6AExfDQMqY19heM+BOJJWYlxz7rXjqGXSBaenbUMh60=;
- b=Pawu+YYpdqOFtXJhCiyE27sY1yiskeFLV0M1CWqwDS/qX7r+dCTLiqGXqjOVxFBfFHzW3p
- nlm8S7rpX7jAhHG7uKBxdBmRXi9Ib5TBI4witk6IUT7nalUYX2HhI/eqJsuFFPfx76Ihbg
- 5T4axIPPqeimj8boeKhrazHaLy2lZAQ=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=7waZA+pYw3jXrMhW063V3gWHhMqeP7udpsHgl8NTfU0=;
+ b=Mm0ISbYeQT14soG8f4GX4K6B6XBHR8s8mCwbMt8k+thQ7CQmBylYor2iao7WbaK+MLAkxj
+ zr0DaRaZLDiT2N+YuDvNhXA7UGuAwbON50GHjcsvHWmIjjQwvcQAXp3+YrOOiZB2f2TXXb
+ LvIxsFhRs8UGyTSS2u51ttPY1zxTThQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-622-uQ4DpTClP06wg3Lapae6SA-1; Mon, 27 Dec 2021 14:31:29 -0500
-X-MC-Unique: uQ4DpTClP06wg3Lapae6SA-1
+ us-mta-362-w3SJKeHANKuA0j_bpoKYtQ-1; Mon, 27 Dec 2021 14:31:30 -0500
+X-MC-Unique: w3SJKeHANKuA0j_bpoKYtQ-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 489CD8042A2;
- Mon, 27 Dec 2021 19:31:28 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 77EF8102CC42;
+ Mon, 27 Dec 2021 19:31:29 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq.redhat.com
  (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 65DA360BF4;
- Mon, 27 Dec 2021 19:31:22 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9426E60BF4;
+ Mon, 27 Dec 2021 19:31:28 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/4] Fix -acpitable regression
-Date: Mon, 27 Dec 2021 14:31:16 -0500
-Message-Id: <20211227193120.1084176-1-imammedo@redhat.com>
+Subject: [PATCH 1/4] acpi: fix QEMU crash when started with SLIC table
+Date: Mon, 27 Dec 2021 14:31:17 -0500
+Message-Id: <20211227193120.1084176-2-imammedo@redhat.com>
+In-Reply-To: <20211227193120.1084176-1-imammedo@redhat.com>
+References: <20211227193120.1084176-1-imammedo@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
@@ -81,44 +84,78 @@ Cc: dlenski@gmail.com, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+if QEMU is started with used provided SLIC table blob,
 
-Since 6.2 QEMU will assert when SLIC table is passed with                        
-help of -acpitable. This series fixes the issue and adds a test                  
-case for it.                                                                     
-                                                                                 
-                                                                                 
-PS: gitlab whining:                                                              
-* the issue was reported and ivestigated via shiny gitlab issue tracker,      
-  the problem is that all that discussion is buried there and is not stored     
-  in qemu-devel mail list. So when gitlab is gone, so will be all the history    
-  and one won't have (nicely and locally stored) mail archive to search in       
-  a convenient way.                                                              
-  Also I'd notice the report earlier if it were forwarded to qemu-devel.         
-  I wonder if there is a way to bridge issue tracker discussions to mail list?   
-* another issue is that gitlab hides user's emails, with a bit of detective work 
-  one can find email if the user has committed a patch via gitlab, but that doesn't
-  work for every user. So I can't CC/properly credit reporter when posting formal
-  patch. 
+  -acpitable sig=SLIC,oem_id='CRASH ',oem_table_id="ME",oem_rev=00002210,asl_compiler_id="",asl_compiler_rev=00000000,data=/dev/null
+it will assert with:
 
-CC: dlenski@gmail.com
-CC: mst@redhat.com
+  hw/acpi/aml-build.c:61:build_append_padded_str: assertion failed: (len <= maxlen)
 
+and following backtrace:
 
-Igor Mammedov (4):
-  acpi: fix QEMU crash when started with SLIC table
-  tests: acpi: whitelist expected blobs before changing them
-  tests: acpi: add SLIC table test
-  tests: acpi: SLIC: update expected blobs
+  ...
+  build_append_padded_str (array=0x555556afe320, str=0x555556afdb2e "CRASH ME", maxlen=0x6, pad=0x20) at hw/acpi/aml-build.c:61
+  acpi_table_begin (desc=0x7fffffffd1b0, array=0x555556afe320) at hw/acpi/aml-build.c:1727
+  build_fadt (tbl=0x555556afe320, linker=0x555557ca3830, f=0x7fffffffd318, oem_id=0x555556afdb2e "CRASH ME", oem_table_id=0x555556afdb34 "ME") at hw/acpi/aml-build.c:2064
+  ...
 
- hw/acpi/core.c                 |   4 ++--
- hw/i386/acpi-build.c           |   2 ++
- tests/data/acpi/q35/FACP.slic  | Bin 0 -> 244 bytes
- tests/data/acpi/q35/SLIC.slic  | Bin 0 -> 36 bytes
- tests/qtest/bios-tables-test.c |  15 +++++++++++++++
- 5 files changed, 19 insertions(+), 2 deletions(-)
- create mode 100644 tests/data/acpi/q35/FACP.slic
- create mode 100644 tests/data/acpi/q35/SLIC.slic
+which happens due to acpi_table_begin() expecting NULL terminated
+oem_id and oem_table_id strings, which is normally the case, but
+in case of user provided SLIC table, oem_id points to table's blob
+directly and as result oem_id became longer than expected.
 
+Fix issue by handling oem_id consistently and make acpi_get_slic_oem()
+return NULL terminated strings.
+
+PS:
+After [1] refactoring, oem_id semantics became inconsistent, where
+NULL terminated string was coming from machine and old way pointer
+into byte array coming from -acpitable option. That used to work
+since build_header() wasn't expecting NULL terminated string and
+blindly copied the 1st 6 bytes only.
+
+However commit [2] broke that by replacing build_header() with
+acpi_table_begin(), which was expecting NULL terminated string
+and was checking oem_id size.
+
+1) 602b45820 ("acpi: Permit OEM ID and OEM table ID fields to be changed")
+2)
+Fixes: 4b56e1e4eb08 ("acpi: build_fadt: use acpi_table_begin()/acpi_table_end() instead of build_header()")
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/786
+Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+---
+ hw/acpi/core.c       | 4 ++--
+ hw/i386/acpi-build.c | 2 ++
+ 2 files changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/hw/acpi/core.c b/hw/acpi/core.c
+index 1e004d0078..3e811bf03c 100644
+--- a/hw/acpi/core.c
++++ b/hw/acpi/core.c
+@@ -345,8 +345,8 @@ int acpi_get_slic_oem(AcpiSlicOem *oem)
+         struct acpi_table_header *hdr = (void *)(u - sizeof(hdr->_length));
+ 
+         if (memcmp(hdr->sig, "SLIC", 4) == 0) {
+-            oem->id = hdr->oem_id;
+-            oem->table_id = hdr->oem_table_id;
++            oem->id = g_strndup(hdr->oem_id, 6);
++            oem->table_id = g_strndup(hdr->oem_table_id, 8);
+             return 0;
+         }
+     }
+diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+index 8383b83ee3..0234fe7588 100644
+--- a/hw/i386/acpi-build.c
++++ b/hw/i386/acpi-build.c
+@@ -2723,6 +2723,8 @@ void acpi_build(AcpiBuildTables *tables, MachineState *machine)
+ 
+     /* Cleanup memory that's no longer used. */
+     g_array_free(table_offsets, true);
++    g_free(slic_oem.id);
++    g_free(slic_oem.table_id);
+ }
+ 
+ static void acpi_ram_update(MemoryRegion *mr, GArray *data)
 -- 
 2.31.1
 
