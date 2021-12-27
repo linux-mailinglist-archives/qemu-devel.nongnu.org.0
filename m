@@ -2,71 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EC9E48046C
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Dec 2021 20:43:12 +0100 (CET)
-Received: from localhost ([::1]:54764 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9E7648047D
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Dec 2021 21:08:51 +0100 (CET)
+Received: from localhost ([::1]:38816 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n1vtn-0005IW-Oz
-	for lists+qemu-devel@lfdr.de; Mon, 27 Dec 2021 14:43:11 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36242)
+	id 1n1wIc-0006X4-FE
+	for lists+qemu-devel@lfdr.de; Mon, 27 Dec 2021 15:08:50 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41798)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1n1vib-0003Kh-H9
- for qemu-devel@nongnu.org; Mon, 27 Dec 2021 14:31:37 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25020)
+ (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
+ id 1n1wGB-0005TQ-9G; Mon, 27 Dec 2021 15:06:19 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:7406)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1n1viZ-0005A9-QG
- for qemu-devel@nongnu.org; Mon, 27 Dec 2021 14:31:37 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1640633495;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=QBYUK7VxZy9M2kaoqYbflC51sHliXuuRV4MPHXaCvsY=;
- b=FYRkUxOTJuJadjETQL5gFEiF0WnRvRazQaU9hIMb3lzVqmtDZ7jfCmfBZUc3U5VWWygbaf
- Aejr/GiorP91pgsz2c9xcdMK7UpuVK7VVepAe+NrpBW6T2zmKoj17OwuG92kOkwrb1AkaD
- 0pwGcsKhPszOn/BVRG40w9aYzaaXSC0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-424-ccir3uLSPA2n2t7FHVDlzg-1; Mon, 27 Dec 2021 14:31:33 -0500
-X-MC-Unique: ccir3uLSPA2n2t7FHVDlzg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C7E25102CC43;
- Mon, 27 Dec 2021 19:31:32 +0000 (UTC)
-Received: from dell-r430-03.lab.eng.brq.redhat.com
- (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F3A3B60BF4;
- Mon, 27 Dec 2021 19:31:31 +0000 (UTC)
-From: Igor Mammedov <imammedo@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 4/4] tests: acpi: SLIC: update expected blobs
-Date: Mon, 27 Dec 2021 14:31:20 -0500
-Message-Id: <20211227193120.1084176-5-imammedo@redhat.com>
-In-Reply-To: <20211227193120.1084176-1-imammedo@redhat.com>
-References: <20211227193120.1084176-1-imammedo@redhat.com>
+ (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
+ id 1n1wG5-0001Mt-Ji; Mon, 27 Dec 2021 15:06:18 -0500
+Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1BRJ7b4u017517; 
+ Mon, 27 Dec 2021 20:05:52 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : in-reply-to : references : date : message-id : mime-version :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=KerdjtruOrF1ytiwJ468zrO00fZQ+Ut1Rw57OhfPwOw=;
+ b=GM38g0l+uGkCr2Fb8QZ9dXEyt0bmQsFTaLljk/EknBNZpFx4iCgmH5UQIv4BNs7MyczK
+ t476xAADvwyAHbkB75U88CpVwhufvAV3zTbK9jxu3G3z9JU/FU0z2hagNw70iCU7rczy
+ LEpDaIatbrzyW8NOTWRLngacGW+mVhWGrlpB2cC7UXjIDQt5fd2O3gK/3OKxeVdX0JUX
+ PY2R/TfE/TBCff6hnJpYSovq6Jalp2tI33t3wviQLxsPj439MHYiBhrD3ML+K8KXqSAV
+ XdnuDLSfYARyTPdr46YhNspG7SZ01agzt4T89BEhf/+MBm9W96BpebBKriUF4D7kYNjL kg== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3d7dqdy839-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 27 Dec 2021 20:05:52 +0000
+Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1BRK39HX027763;
+ Mon, 27 Dec 2021 20:05:52 GMT
+Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com
+ [169.47.144.27])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3d7dqdy82p-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 27 Dec 2021 20:05:52 +0000
+Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
+ by ppma05wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1BRJxAOM023971;
+ Mon, 27 Dec 2021 20:05:50 GMT
+Received: from b03cxnp07027.gho.boulder.ibm.com
+ (b03cxnp07027.gho.boulder.ibm.com [9.17.130.14])
+ by ppma05wdc.us.ibm.com with ESMTP id 3d5tx9xr43-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 27 Dec 2021 20:05:50 +0000
+Received: from b03ledav004.gho.boulder.ibm.com
+ (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
+ by b03cxnp07027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 1BRK5nVm32964904
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 27 Dec 2021 20:05:50 GMT
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id C4D0A7805C;
+ Mon, 27 Dec 2021 20:05:49 +0000 (GMT)
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 2950D78064;
+ Mon, 27 Dec 2021 20:05:49 +0000 (GMT)
+Received: from localhost (unknown [9.211.154.52])
+ by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTPS;
+ Mon, 27 Dec 2021 20:05:48 +0000 (GMT)
+From: Fabiano Rosas <farosas@linux.ibm.com>
+To: "mario@locati.it" <mario@locati.it>, clg@kaod.org
+Subject: Re: [PATCH] target/ppc: Fix e6500 boot
+In-Reply-To: <R4SG07$EE0184281B6DB251884FD0A5E86E2438@locati.it>
+References: <20211213133542.2608540-1-farosas@linux.ibm.com>
+ <724f7563-f36c-2c37-3b94-951c3d922861@eik.bme.hu>
+ <R4OPHT$7F12C66D1107397991E0E4C978FE6AF1@locati.it>
+ <a17ceb16-bce5-2090-8473-78b316bf5fb5@eik.bme.hu>
+ <ec0cf758-f05f-9fcf-eb97-14cb7a1fd9a2@kaod.org>
+ <R4SG07$EE0184281B6DB251884FD0A5E86E2438@locati.it>
+Date: Mon, 27 Dec 2021 17:05:46 -0300
+Message-ID: <87tuetrexx.fsf@linux.ibm.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.575,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: JinF8aQ8m8F13R-uobq5HLrHR1fIfrkn
+X-Proofpoint-ORIG-GUID: Lq6dxIYMDqgCcuawZqhm-i0FL7VKaEyh
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2021-12-27_10,2021-12-24_01,2021-12-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 mlxlogscore=999
+ mlxscore=0 malwarescore=0 priorityscore=1501 phishscore=0 clxscore=1015
+ impostorscore=0 bulkscore=0 suspectscore=0 lowpriorityscore=0 spamscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2110150000
+ definitions=main-2112270097
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=farosas@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,44 +112,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: dlenski@gmail.com, mst@redhat.com
+Cc: danielhb413@gmail.com, qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Igor Mammedov <imammedo@redhat.com>
----
- tests/qtest/bios-tables-test-allowed-diff.h |   2 --
- tests/data/acpi/q35/FACP.slic               | Bin 244 -> 244 bytes
- tests/data/acpi/q35/SLIC.slic               | Bin 0 -> 36 bytes
- 3 files changed, 2 deletions(-)
+"mario@locati.it" <mario@locati.it> writes:
 
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index 49dbf8fa3e..dfb8523c8b 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1,3 +1 @@
- /* List of comma-separated changed AML files to ignore */
--"tests/data/acpi/q35/FACP.slic",
--"tests/data/acpi/q35/SLIC.slic",
-diff --git a/tests/data/acpi/q35/FACP.slic b/tests/data/acpi/q35/FACP.slic
-index f6a864cc863c7763f6c09d3814ad184a658fa0a0..891fd4b784b7b6b3ea303976db7ecd5b669bc84b 100644
-GIT binary patch
-delta 28
-jcmeyu_=Qo#&CxmF3j+fKvygL;W3Y#Uud9N>M3Dyoc<=}c
+> I have updated=C2=A0 the guest VM but I get exactly the same result excep=
+t that now I have libc-2.33.so installed.
+>
+> [...]
+> VFS: Mounted root (ext4 filesystem) on device 254:0.
+> devtmpfs: mounted
+> Freeing unused kernel image (initmem) memory: 468K
+> This architecture does not have kernel memory protection.
+> Run /sbin/init as init process
+> random: fast init done
+> systemd[1]: illegal instruction (4) at 3fff8b7e615c nip 3fff8b7e615c lr 3=
+fff8b7e613c code 1 in libc-2.33.so[3fff8b799000+1fe000]
+> systemd[1]: code: 60000000 38600006 9122b7d0 4801bf19 60000000 60000000 8=
+122b7d0 2c090004=C2=A0
+> systemd[1]: code: 40820014 39200005 60000000 9122b7d0 <00000000> 60000000=
+ 8122b7d0 2c090005=C2=A0
+> Kernel panic - not syncing: Attempted to kill init! exitcode=3D0x00000004
+> Rebooting in 180 seconds..
 
-delta 28
-jcmeyu_=Qo#&CxmF3j+fK^G+v!XOCb7r-%UOi6RdGgN+Fa
-
-diff --git a/tests/data/acpi/q35/SLIC.slic b/tests/data/acpi/q35/SLIC.slic
-index e69de29bb2d1d6434b8b29ae775ad8c2e48c5391..fd26592e2480c5d02a018e0d855a04106661a7b5 100644
-GIT binary patch
-literal 36
-mcmWIc@pM*UU|?YMbPjS1_E7M31#*C(gN1>iFg3Rn#0CI%)&>Cp
-
-literal 0
-HcmV?d00001
-
--- 
-2.31.1
-
+Can you make the hdd_debian_ppc64_new.img available? We won't be able to
+reproduce the exact same scenario because we can't run KVM, but if it
+boots with TCG we can at least look around the code that is failing to
+see if it gives us any clues.
 
