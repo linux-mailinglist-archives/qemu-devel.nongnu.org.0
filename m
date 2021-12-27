@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86E11480468
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Dec 2021 20:36:00 +0100 (CET)
-Received: from localhost ([::1]:44036 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B0A548046A
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Dec 2021 20:39:23 +0100 (CET)
+Received: from localhost ([::1]:50440 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n1vmp-0006AQ-BX
-	for lists+qemu-devel@lfdr.de; Mon, 27 Dec 2021 14:35:59 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36202)
+	id 1n1vq6-0002Fe-JN
+	for lists+qemu-devel@lfdr.de; Mon, 27 Dec 2021 14:39:22 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36234)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1n1via-0003J7-2g
+ id 1n1via-0003Je-IP
  for qemu-devel@nongnu.org; Mon, 27 Dec 2021 14:31:37 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:25528)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:23955)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1n1viX-00058X-Cd
- for qemu-devel@nongnu.org; Mon, 27 Dec 2021 14:31:34 -0500
+ id 1n1viY-00059p-LC
+ for qemu-devel@nongnu.org; Mon, 27 Dec 2021 14:31:36 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1640633492;
+ s=mimecast20190719; t=1640633494;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=IohRrLv2IciQtMjeHPn1umJe1KHZbSz98hmfga1wT/Q=;
- b=QRtEy9b9ZnWn2LsXH8kAP5+KvEkyAvZ5PpzBHp1KvoP+HqopVarwojp3nqKFKU+3KN4clY
- bWuOtQ7K2NHIqUgWENNUntsLwK0n0v3jh3y3y3F6wsRLYYSdrPvnBvILla8tIpKuxSi7Wh
- yNiaik8xtxp/cNI6iqIvdF7HmVlOFW0=
+ bh=Z1Jrlzv+VyTzFZ5GrX5k7LoGumWAwouAPtyADK6iv84=;
+ b=N9l5bcE/dXXDxotFZjn0R3T4VeFZm69AZ0VeB3mL1ABFURUJiGWuF1ZhWOntRZKzv0VKob
+ K+J42R+vvKYqNPwSmreCJQpmoPl8Sh25AylWf+cGPbRCSagFvu2XdiF2o4LXU+Draq4xJM
+ WeJ1wg0MninHTfiVQ82sOhIcV36TNHk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-625-RAipG4w8Pnaom025TlrFbg-1; Mon, 27 Dec 2021 14:31:31 -0500
-X-MC-Unique: RAipG4w8Pnaom025TlrFbg-1
+ us-mta-125-SpbPUgwPMy63BuW1l9QKzQ-1; Mon, 27 Dec 2021 14:31:33 -0500
+X-MC-Unique: SpbPUgwPMy63BuW1l9QKzQ-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8A3A918397BF;
- Mon, 27 Dec 2021 19:31:30 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A8BC12F25;
+ Mon, 27 Dec 2021 19:31:31 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq.redhat.com
  (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B5CC260BF4;
- Mon, 27 Dec 2021 19:31:29 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D4C9960BF4;
+ Mon, 27 Dec 2021 19:31:30 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/4] tests: acpi: whitelist expected blobs before changing them
-Date: Mon, 27 Dec 2021 14:31:18 -0500
-Message-Id: <20211227193120.1084176-3-imammedo@redhat.com>
+Subject: [PATCH 3/4] tests: acpi: add SLIC table test
+Date: Mon, 27 Dec 2021 14:31:19 -0500
+Message-Id: <20211227193120.1084176-4-imammedo@redhat.com>
 In-Reply-To: <20211227193120.1084176-1-imammedo@redhat.com>
 References: <20211227193120.1084176-1-imammedo@redhat.com>
 MIME-Version: 1.0
@@ -84,38 +84,50 @@ Cc: dlenski@gmail.com, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+When user uses '-acpitable' to add SLIC table, some ACPI
+tables (FADT) will change its 'Oem ID'/'Oem Table ID' fields to
+match that of SLIC. Test makes sure thati QEMU handles
+those fields correctly when SLIC table is added with
+'-acpitable' option.
+
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 ---
- tests/qtest/bios-tables-test-allowed-diff.h |   2 ++
- tests/data/acpi/q35/FACP.slic               | Bin 0 -> 244 bytes
- tests/data/acpi/q35/SLIC.slic               |   0
- 3 files changed, 2 insertions(+)
- create mode 100644 tests/data/acpi/q35/FACP.slic
- create mode 100644 tests/data/acpi/q35/SLIC.slic
+ tests/qtest/bios-tables-test.c | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index dfb8523c8b..49dbf8fa3e 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1 +1,3 @@
- /* List of comma-separated changed AML files to ignore */
-+"tests/data/acpi/q35/FACP.slic",
-+"tests/data/acpi/q35/SLIC.slic",
-diff --git a/tests/data/acpi/q35/FACP.slic b/tests/data/acpi/q35/FACP.slic
-new file mode 100644
-index 0000000000000000000000000000000000000000..f6a864cc863c7763f6c09d3814ad184a658fa0a0
-GIT binary patch
-literal 244
-zcmZ>BbPo8!z`($~)5+i2BUr&HBEVSz2pEB4AU24G0Y(N+hD|^Y6El!tgNU*~X%LSC
-z$X0-fGcm9T0LA|E|L2FOWMD7?GM2V5Ffej3F#P0!h{7ddihwku0+2v57svwxMxcSn
-X_QAxFX+{NzJ3wNL4G8yu_%Hwf>-7!+
-
-literal 0
-HcmV?d00001
-
-diff --git a/tests/data/acpi/q35/SLIC.slic b/tests/data/acpi/q35/SLIC.slic
-new file mode 100644
-index 0000000000..e69de29bb2
+diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
+index 9a468e29eb..e6b72d9026 100644
+--- a/tests/qtest/bios-tables-test.c
++++ b/tests/qtest/bios-tables-test.c
+@@ -1502,6 +1502,20 @@ static void test_acpi_virt_viot(void)
+     free_test_data(&data);
+ }
+ 
++static void test_acpi_q35_slic(void)
++{
++    test_data data = {
++        .machine = MACHINE_Q35,
++        .variant = ".slic",
++    };
++
++    test_acpi_one("-acpitable sig=SLIC,oem_id='CRASH ',oem_table_id='ME',"
++                  "oem_rev=00002210,asl_compiler_id='qemu',"
++                  "asl_compiler_rev=00000000,data=/dev/null",
++                  &data);
++    free_test_data(&data);
++}
++
+ static void test_oem_fields(test_data *data)
+ {
+     int i;
+@@ -1677,6 +1691,7 @@ int main(int argc, char *argv[])
+             qtest_add_func("acpi/q35/kvm/dmar", test_acpi_q35_kvm_dmar);
+         }
+         qtest_add_func("acpi/q35/viot", test_acpi_q35_viot);
++        qtest_add_func("acpi/q35/slic", test_acpi_q35_slic);
+     } else if (strcmp(arch, "aarch64") == 0) {
+         if (has_tcg) {
+             qtest_add_func("acpi/virt", test_acpi_virt_tcg);
 -- 
 2.31.1
 
