@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E538647FFF5
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Dec 2021 16:42:17 +0100 (CET)
-Received: from localhost ([::1]:57128 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC748480004
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Dec 2021 16:42:34 +0100 (CET)
+Received: from localhost ([::1]:58294 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n1s8e-0004kb-JO
-	for lists+qemu-devel@lfdr.de; Mon, 27 Dec 2021 10:42:16 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48512)
+	id 1n1s8v-0005Z1-OS
+	for lists+qemu-devel@lfdr.de; Mon, 27 Dec 2021 10:42:33 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48548)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n1s6A-0003fl-Aq
- for qemu-devel@nongnu.org; Mon, 27 Dec 2021 10:39:42 -0500
-Received: from mout.kundenserver.de ([212.227.126.134]:42225)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n1s6O-0003xf-9w
+ for qemu-devel@nongnu.org; Mon, 27 Dec 2021 10:39:56 -0500
+Received: from mout.kundenserver.de ([212.227.126.134]:37301)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n1s68-00078x-Mg
- for qemu-devel@nongnu.org; Mon, 27 Dec 2021 10:39:42 -0500
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n1s6M-00079Z-SR
+ for qemu-devel@nongnu.org; Mon, 27 Dec 2021 10:39:56 -0500
 Received: from [192.168.100.1] ([82.142.30.186]) by mrelayeu.kundenserver.de
- (mreue009 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MKsaz-1miok91ulJ-00LGFY; Mon, 27 Dec 2021 16:39:36 +0100
-Message-ID: <67f0cf6c-642a-9e5b-4ba7-cff4b579ce7f@vivier.eu>
-Date: Mon, 27 Dec 2021 16:39:35 +0100
+ (mreue012 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1N8VkX-1mNoNt2O2b-014WlR; Mon, 27 Dec 2021 16:39:52 +0100
+Message-ID: <00aabac6-4889-9a7c-e0d6-f117bfe54d0c@vivier.eu>
+Date: Mon, 27 Dec 2021 16:39:51 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.4.0
-Subject: Re: [PATCH v2 4/6] target/alpha: Implement prctl_unalign_sigbus
+Subject: Re: [PATCH v2 5/6] target/hppa: Implement prctl_unalign_sigbus
 Content-Language: fr
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20211227150127.2659293-1-richard.henderson@linaro.org>
- <20211227150127.2659293-5-richard.henderson@linaro.org>
+ <20211227150127.2659293-6-richard.henderson@linaro.org>
 From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <20211227150127.2659293-5-richard.henderson@linaro.org>
+In-Reply-To: <20211227150127.2659293-6-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:yvAisN6kEbZIAa6y/e5rhsnsJzqTk7Xt4TUJQwS7QNgOm4+kCJi
- LmjusUHkRSX3/r87FTlcjfCetM7+S5imbkyuibTwe/sJull4nZMHZTnWUpUD9K4wjcXIotZ
- seGJRpQbUCKEfRrPTgCjKs1rd/cHV68ySneE2LA1/gQhDCLGp8FKZ67sPnrkY1RhfPoMLkT
- eQjLsYPf8D6ezEcS7eq7g==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:9+g/oEMvQao=:yej2djhHD8OlssDGh8Knbe
- 6GkkL8qVbs2HWasL9CsX65+uK+/E4E/gY84DPh28gKLt5hNqrykQ/7CmMizoTfT/VqB4kMFqZ
- 2ks+WQotUfEtp2FnAp14l9xMUHoGoS2yamNWbwXPpZB+zfsp80BqLJvR3ae/I94SPeFZLvUz9
- v0rem8dl2561yWoisizA6Jt0Z7/DDcbNK5vZEJ/xF5ltRX5XKthV4nHXRLnw8iK68B8lmk5/5
- XtSleiweDWgz7bXIMOb81k11szY11Wpza054kO5y6mAgMORfMZMfX/m6COoWDJo6UY4c3iQNp
- cMLzW0Q6OtRkcsH8hrgdNDiMif1tT5eWJEHGt+0LEvlv6iCUF5WPi9oL33szaHB0s2jlf5Rxu
- deYdFbYyk8ONuN9ogOuF8Ri9VAO7aAtqNtW//yzf8JOX28fZK0l2/xIA3Ca0xJqogQmvk+3tu
- iVPqrTQtXZBhIV20tfcH3CIZZFBfFbhb2DOutU9bRX1waEErj+KlFFJVPBdknnHrYmsM6fG0I
- +NFaYa70zmTfD3PTm5HsH2tC/QFCjzvqB7OvKn+05glxH3DoXNVGrvzPTVOxu7xYYOsqkoc3D
- KSf6tFir1DcNI5BMfLgqP4kxK0ll5EL4+G33Z6ARzRT2UUsH0CEnTxJwh7c7+XQAgF5sKIXf3
- h/QQh85FCcqAYMvLSzYFbpJ+cqCj2NMK45s35WtIPR2vLSpObsShV2roSMBH6BOrE5AQ=
+X-Provags-ID: V03:K1:gsKhGWg2d9K0JUFI9muae2e8oLM6VkUIUMkmy5V57YO6MpCk3E/
+ dNwgFPsfj0oZuG4M35zaPf6LmxktCNL7PblGWWyALMYCOFR9Y/3cSmqwnBrNVCgLcbMssvc
+ kx0TIyOQe18+xRPF0HWTXE/H4K6GtnhI5k6w4jE4zrhIEI44LhpA7zn+zEOsh3IzEtuZKao
+ 8xXahtTHKqyX+A4IPRNdw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:IVCXT49IdfA=:Rj7gANuuB3geKcjqy9RZdw
+ hr4N58oN94UoEsKlKmYYM16cV0hsohNbmxJafUyF3gMesHhzFjLDe+Q6JhdKV0I7zKOJwR4Cd
+ yTtFFbWT/qEHsaT/rSbds6H+nr8iwQTIe1vds6ie93ccCUZZYNx4a28o4j5Eg686LbAsOppdi
+ qxjEz4u86he/g9p5C4zBs1U8vv4evjjrFhBG1pRQNRFR9oUOzuCBAVyEwpSL7g/eO5Bd6v9Zb
+ fV+ENZzEtJUk6j0zhce3Fau+neruvrF+v6L5ZroY6hMF7ZwtAtTtrLzhppLkwJKZeOwqZDBNQ
+ /HZ5DZSnF1hwpZBCnGuum6mhIAaJ7zE1Mvlreub/DArzcVrr05JtL7LIU9LAivxsufQoln7mE
+ hNaiaEZt8ouh+Dlf6ROl8+rH9WyVskEZjz3zxKOsB3B8ubjMkFWkrAVYgGtxQrOzUPXz1bbaL
+ RofwYyz26X7H2XNzz8+i4cIrgn9jF3ynyfYiLYn3glVqtLotWKWichpVsaxbZwGPl/1JthrJp
+ MGOHxReZ0xjFvD3Fiab9YENaxYWO+gxCLE+aWGbhpvlLH1x7oS3apS8aK7j9xOmU9PWBeJznd
+ EWK3UTNKxpQMZbzNFk9Q4NyuTNqIgPbdFdU83X8g/SfGDM4z0Wt38p19aHU2F4SBB4V742cgF
+ VUitQuZl/zBmMFJJNOEdpK5r89Yf26VsofiAcY8XY/v/PJpsURaXWjbJ4oeW2vlnFRp8=
 Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -32
@@ -79,10 +79,12 @@ Le 27/12/2021 à 16:01, Richard Henderson a écrit :
 > 
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->   linux-user/alpha/target_prctl.h |  2 +-
->   target/alpha/cpu.h              |  5 +++++
->   target/alpha/translate.c        | 31 ++++++++++++++++++++++---------
->   3 files changed, 28 insertions(+), 10 deletions(-)
+>   linux-user/hppa/target_prctl.h |  2 +-
+>   target/hppa/cpu.h              |  5 ++++-
+>   target/hppa/translate.c        | 19 +++++++++++++++----
+>   3 files changed, 20 insertions(+), 6 deletions(-)
+> 
+
 
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 
