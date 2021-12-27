@@ -2,103 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9E7648047D
-	for <lists+qemu-devel@lfdr.de>; Mon, 27 Dec 2021 21:08:51 +0100 (CET)
-Received: from localhost ([::1]:38816 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F73948047F
+	for <lists+qemu-devel@lfdr.de>; Mon, 27 Dec 2021 21:16:53 +0100 (CET)
+Received: from localhost ([::1]:45366 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n1wIc-0006X4-FE
-	for lists+qemu-devel@lfdr.de; Mon, 27 Dec 2021 15:08:50 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41798)
+	id 1n1wQO-0002rI-6H
+	for lists+qemu-devel@lfdr.de; Mon, 27 Dec 2021 15:16:52 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42704)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1n1wGB-0005TQ-9G; Mon, 27 Dec 2021 15:06:19 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:7406)
+ (Exim 4.90_1) (envelope-from <maz@kernel.org>) id 1n1wNG-0000wP-87
+ for qemu-devel@nongnu.org; Mon, 27 Dec 2021 15:13:38 -0500
+Received: from ams.source.kernel.org ([145.40.68.75]:59288)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1n1wG5-0001Mt-Ji; Mon, 27 Dec 2021 15:06:18 -0500
-Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1BRJ7b4u017517; 
- Mon, 27 Dec 2021 20:05:52 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : in-reply-to : references : date : message-id : mime-version :
- content-type : content-transfer-encoding; s=pp1;
- bh=KerdjtruOrF1ytiwJ468zrO00fZQ+Ut1Rw57OhfPwOw=;
- b=GM38g0l+uGkCr2Fb8QZ9dXEyt0bmQsFTaLljk/EknBNZpFx4iCgmH5UQIv4BNs7MyczK
- t476xAADvwyAHbkB75U88CpVwhufvAV3zTbK9jxu3G3z9JU/FU0z2hagNw70iCU7rczy
- LEpDaIatbrzyW8NOTWRLngacGW+mVhWGrlpB2cC7UXjIDQt5fd2O3gK/3OKxeVdX0JUX
- PY2R/TfE/TBCff6hnJpYSovq6Jalp2tI33t3wviQLxsPj439MHYiBhrD3ML+K8KXqSAV
- XdnuDLSfYARyTPdr46YhNspG7SZ01agzt4T89BEhf/+MBm9W96BpebBKriUF4D7kYNjL kg== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3d7dqdy839-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 27 Dec 2021 20:05:52 +0000
-Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1BRK39HX027763;
- Mon, 27 Dec 2021 20:05:52 GMT
-Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.27])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3d7dqdy82p-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 27 Dec 2021 20:05:52 +0000
-Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
- by ppma05wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1BRJxAOM023971;
- Mon, 27 Dec 2021 20:05:50 GMT
-Received: from b03cxnp07027.gho.boulder.ibm.com
- (b03cxnp07027.gho.boulder.ibm.com [9.17.130.14])
- by ppma05wdc.us.ibm.com with ESMTP id 3d5tx9xr43-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 27 Dec 2021 20:05:50 +0000
-Received: from b03ledav004.gho.boulder.ibm.com
- (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
- by b03cxnp07027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 1BRK5nVm32964904
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 27 Dec 2021 20:05:50 GMT
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id C4D0A7805C;
- Mon, 27 Dec 2021 20:05:49 +0000 (GMT)
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 2950D78064;
- Mon, 27 Dec 2021 20:05:49 +0000 (GMT)
-Received: from localhost (unknown [9.211.154.52])
- by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTPS;
- Mon, 27 Dec 2021 20:05:48 +0000 (GMT)
-From: Fabiano Rosas <farosas@linux.ibm.com>
-To: "mario@locati.it" <mario@locati.it>, clg@kaod.org
-Subject: Re: [PATCH] target/ppc: Fix e6500 boot
-In-Reply-To: <R4SG07$EE0184281B6DB251884FD0A5E86E2438@locati.it>
-References: <20211213133542.2608540-1-farosas@linux.ibm.com>
- <724f7563-f36c-2c37-3b94-951c3d922861@eik.bme.hu>
- <R4OPHT$7F12C66D1107397991E0E4C978FE6AF1@locati.it>
- <a17ceb16-bce5-2090-8473-78b316bf5fb5@eik.bme.hu>
- <ec0cf758-f05f-9fcf-eb97-14cb7a1fd9a2@kaod.org>
- <R4SG07$EE0184281B6DB251884FD0A5E86E2438@locati.it>
-Date: Mon, 27 Dec 2021 17:05:46 -0300
-Message-ID: <87tuetrexx.fsf@linux.ibm.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: JinF8aQ8m8F13R-uobq5HLrHR1fIfrkn
-X-Proofpoint-ORIG-GUID: Lq6dxIYMDqgCcuawZqhm-i0FL7VKaEyh
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2021-12-27_10,2021-12-24_01,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 mlxlogscore=999
- mlxscore=0 malwarescore=0 priorityscore=1501 phishscore=0 clxscore=1015
- impostorscore=0 bulkscore=0 suspectscore=0 lowpriorityscore=0 spamscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2110150000
- definitions=main-2112270097
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=farosas@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+ (Exim 4.90_1) (envelope-from <maz@kernel.org>) id 1n1wND-0002GP-S1
+ for qemu-devel@nongnu.org; Mon, 27 Dec 2021 15:13:37 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id F1DAFB81142;
+ Mon, 27 Dec 2021 20:13:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE192C36AE7;
+ Mon, 27 Dec 2021 20:13:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1640636008;
+ bh=uwbPNY5tEL2J9KworijcI/BzXuaiHuUEjSWMvWKe3MM=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=G080XVmiH+EjNpkz80n9k88wC37Rl3tmAfbtR7tGsAcT0+til4usH4SA9E3NpBTOx
+ oPzYccOpS04ej7Pol7x5adC6FidLRUFrU7uAa2olJpbl4Bo4r2qgCKD0ujlJySiNYz
+ xHes4kVFrxhqOEmAFtcjrqY+ohEPM2eQzUcvNxQ+MkL2MhV8WluFrzgBeWTiSzrMsE
+ CXEs23JjGM0QaPoG5UVELhc3pTu+bv7TqcCVMgEXDyxVBh3srTdRE7hwIH17N9k1fd
+ Nl8VbcVt7tDHj41/WMqQq4beShmxzTr1A2SLosIMleyggn7aN+7sZkbIlnd4hpEHLr
+ eiRaFwxh28rrA==
+Received: from cfbb000407.r.cam.camfibre.uk ([185.219.108.64]
+ helo=wait-a-minute.misterjones.org)
+ by disco-boy.misterjones.org with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <maz@kernel.org>)
+ id 1n1wN4-00EcmG-Ic; Mon, 27 Dec 2021 20:13:26 +0000
+Date: Mon, 27 Dec 2021 20:13:25 +0000
+Message-ID: <87mtklztzu.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: Andrew Jones <drjones@redhat.com>
+Subject: Re: [PATCH v2 4/5] hw/arm/virt: Use the PA range to compute the
+ memory map
+In-Reply-To: <20211004101110.imtfcufnrdwhneev@gator>
+References: <20211003164605.3116450-1-maz@kernel.org>
+ <20211003164605.3116450-5-maz@kernel.org>
+ <20211004101110.imtfcufnrdwhneev@gator>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
+ (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: drjones@redhat.com, qemu-devel@nongnu.org,
+ eric.auger@redhat.com, peter.maydell@linaro.org, kvmarm@lists.cs.columbia.edu,
+ kvm@vger.kernel.org, kernel-team@android.com
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org);
+ SAEximRunCond expanded to false
+Received-SPF: pass client-ip=145.40.68.75; envelope-from=maz@kernel.org;
+ helo=ams.source.kernel.org
+X-Spam_score_int: -26
+X-Spam_score: -2.7
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.575,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -112,33 +82,141 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: danielhb413@gmail.com, qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, kvm@vger.kernel.org,
+ qemu-devel@nongnu.org, Eric Auger <eric.auger@redhat.com>,
+ kernel-team@android.com, kvmarm@lists.cs.columbia.edu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-"mario@locati.it" <mario@locati.it> writes:
+On Mon, 04 Oct 2021 11:11:10 +0100,
+Andrew Jones <drjones@redhat.com> wrote:
+> 
+> On Sun, Oct 03, 2021 at 05:46:04PM +0100, Marc Zyngier wrote:
+> > The highmem attribute is nothing but another way to express the
+> > PA range of a VM. To support HW that has a smaller PA range then
+> > what QEMU assumes, pass this PA range to the virt_set_memmap()
+> > function, allowing it to correctly exclude highmem devices
+> > if they are outside of the PA range.
+> > 
+> > Signed-off-by: Marc Zyngier <maz@kernel.org>
+> > ---
+> >  hw/arm/virt.c | 46 +++++++++++++++++++++++++++++++++++-----------
+> >  1 file changed, 35 insertions(+), 11 deletions(-)
+> > 
+> > diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+> > index 9d2abdbd5f..a572e0c9d9 100644
+> > --- a/hw/arm/virt.c
+> > +++ b/hw/arm/virt.c
+> > @@ -1610,10 +1610,10 @@ static uint64_t virt_cpu_mp_affinity(VirtMachineState *vms, int idx)
+> >      return arm_cpu_mp_affinity(idx, clustersz);
+> >  }
+> >  
+> > -static void virt_set_memmap(VirtMachineState *vms)
+> > +static void virt_set_memmap(VirtMachineState *vms, int pa_bits)
+> >  {
+> >      MachineState *ms = MACHINE(vms);
+> > -    hwaddr base, device_memory_base, device_memory_size;
+> > +    hwaddr base, device_memory_base, device_memory_size, memtop;
+> >      int i;
+> >  
+> >      vms->memmap = extended_memmap;
+> > @@ -1628,9 +1628,12 @@ static void virt_set_memmap(VirtMachineState *vms)
+> >          exit(EXIT_FAILURE);
+> >      }
+> >  
+> > -    if (!vms->highmem &&
+> > -        vms->memmap[VIRT_MEM].base + ms->maxram_size > 4 * GiB) {
+> > -        error_report("highmem=off, but memory crosses the 4GiB limit\n");
+> > +    if (!vms->highmem)
+> > +	    pa_bits = 32;
+> > +
+> > +    if (vms->memmap[VIRT_MEM].base + ms->maxram_size > BIT_ULL(pa_bits)) {
+> > +	    error_report("Addressing limited to %d bits, but memory exceeds it by %llu bytes\n",
+> > +			 pa_bits, vms->memmap[VIRT_MEM].base + ms->maxram_size - BIT_ULL(pa_bits));
+> >          exit(EXIT_FAILURE);
+> >      }
+> >      /*
+> > @@ -1645,7 +1648,7 @@ static void virt_set_memmap(VirtMachineState *vms)
+> >      device_memory_size = ms->maxram_size - ms->ram_size + ms->ram_slots * GiB;
+> >  
+> >      /* Base address of the high IO region */
+> > -    base = device_memory_base + ROUND_UP(device_memory_size, GiB);
+> > +    memtop = base = device_memory_base + ROUND_UP(device_memory_size, GiB);
+> >      if (base < device_memory_base) {
+> >          error_report("maxmem/slots too huge");
+> >          exit(EXIT_FAILURE);
+> > @@ -1662,9 +1665,17 @@ static void virt_set_memmap(VirtMachineState *vms)
+> >          vms->memmap[i].size = size;
+> >          base += size;
+> >      }
+> > -    vms->highest_gpa = (vms->highmem ?
+> > -                        base :
+> > -                        vms->memmap[VIRT_MEM].base + ms->maxram_size) - 1;
+> > +
+> > +    /*
+> > +     * If base fits within pa_bits, all good. If it doesn't, limit it
+> > +     * to the end of RAM, which is guaranteed to fit within pa_bits.
+> 
+> We tested that
+> 
+>   vms->memmap[VIRT_MEM].base + ms->maxram_size
+> 
+> fits within pa_bits, but here we're setting highest_gpa to
+> 
+>   ROUND_UP(vms->memmap[VIRT_MEM].base + ms->ram_size, GiB) +
+>   ROUND_UP(ms->maxram_size - ms->ram_size + ms->ram_slots * GiB, GiB)
+> 
+> which will be larger. Shouldn't we test memtop instead to make this
+> guarantee?
 
-> I have updated=C2=A0 the guest VM but I get exactly the same result excep=
-t that now I have libc-2.33.so installed.
->
-> [...]
-> VFS: Mounted root (ext4 filesystem) on device 254:0.
-> devtmpfs: mounted
-> Freeing unused kernel image (initmem) memory: 468K
-> This architecture does not have kernel memory protection.
-> Run /sbin/init as init process
-> random: fast init done
-> systemd[1]: illegal instruction (4) at 3fff8b7e615c nip 3fff8b7e615c lr 3=
-fff8b7e613c code 1 in libc-2.33.so[3fff8b799000+1fe000]
-> systemd[1]: code: 60000000 38600006 9122b7d0 4801bf19 60000000 60000000 8=
-122b7d0 2c090004=C2=A0
-> systemd[1]: code: 40820014 39200005 60000000 9122b7d0 <00000000> 60000000=
- 8122b7d0 2c090005=C2=A0
-> Kernel panic - not syncing: Attempted to kill init! exitcode=3D0x00000004
-> Rebooting in 180 seconds..
+Yes, well spotted.
 
-Can you make the hdd_debian_ppc64_new.img available? We won't be able to
-reproduce the exact same scenario because we can't run KVM, but if it
-boots with TCG we can at least look around the code that is failing to
-see if it gives us any clues.
+> 
+> 
+> > +     */
+> > +    if (base <= BIT_ULL(pa_bits)) {
+> > +        vms->highest_gpa = base -1;
+> > +    } else {
+> > +        vms->highest_gpa = memtop - 1;
+> > +    }
+> > +
+> >      if (device_memory_size > 0) {
+> >          ms->device_memory = g_malloc0(sizeof(*ms->device_memory));
+> >          ms->device_memory->base = device_memory_base;
+> > @@ -1860,7 +1871,20 @@ static void machvirt_init(MachineState *machine)
+> >       * to create a VM with the right number of IPA bits.
+> >       */
+> >      if (!vms->memmap) {
+> > -        virt_set_memmap(vms);
+> > +        ARMCPU *armcpu = ARM_CPU(first_cpu);
+> 
+> 
+> I think it's too early to use first_cpu here (although, I'll admit I'm
+> always confused as to what gets initialized when...) Assuming we need to
+> realize the cpus first, then we don't do that until a bit further down
+> in this function. I wonder if it's possible to delay this memmap setup
+> until after cpu realization. I see the memmap getting used prior when
+> calculating virt_max_cpus, but that looks like it needs to be updated
+> anyway to take highmem into account as to whether or not we should
+> consider the high gicv3 redist region in the calculation.
+
+OK, this is nothing short of total hell. You can't create the memory
+map later, as MTE and the secure world both get in the way (they
+really want a valid memory map). And as you pointed out, using
+first_cpu is not appropriate here (obviously, I didn't test this
+nearly enough). I could split the creation of the CPUs in two
+sequences with the memory map creation in between, but this quickly
+becomes quite invasive.
+
+My current approach is to keep the current flow, but to create a
+temporary CPU, find whatever I need to know about it, and free
+it. Yes, this is a bit overkill, but it solves the chicken and egg
+issue simply enough.
+
+Thanks,
+
+	M.
+
+-- 
+Without deviation from the norm, progress is not possible.
 
