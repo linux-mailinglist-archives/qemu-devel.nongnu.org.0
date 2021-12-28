@@ -2,28 +2,28 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB23B4807D2
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Dec 2021 10:28:54 +0100 (CET)
-Received: from localhost ([::1]:54802 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D602D4807D9
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Dec 2021 10:34:07 +0100 (CET)
+Received: from localhost ([::1]:36742 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n28ms-00039L-29
-	for lists+qemu-devel@lfdr.de; Tue, 28 Dec 2021 04:28:54 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52136)
+	id 1n28rv-0001iH-1D
+	for lists+qemu-devel@lfdr.de; Tue, 28 Dec 2021 04:34:07 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52162)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1n28h4-0007kO-OC; Tue, 28 Dec 2021 04:22:54 -0500
-Received: from szxga01-in.huawei.com ([45.249.212.187]:3514)
+ id 1n28h6-0007sK-Ko; Tue, 28 Dec 2021 04:22:56 -0500
+Received: from szxga08-in.huawei.com ([45.249.212.255]:3254)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1n28h2-00079t-Vt; Tue, 28 Dec 2021 04:22:54 -0500
-Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.55])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4JNTWS6WRqzZdwR;
- Tue, 28 Dec 2021 17:19:32 +0800 (CST)
+ id 1n28h4-0007AW-Hj; Tue, 28 Dec 2021 04:22:56 -0500
+Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.57])
+ by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4JNTWV5WYqz1DKCP;
+ Tue, 28 Dec 2021 17:19:34 +0800 (CST)
 Received: from DESKTOP-TMVL5KK.china.huawei.com (10.174.187.128) by
  dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Tue, 28 Dec 2021 17:22:49 +0800
+ 15.1.2308.20; Tue, 28 Dec 2021 17:22:50 +0800
 To: <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>
 CC: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones
  <drjones@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
@@ -33,22 +33,20 @@ CC: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones
  Shannon Zhao <shannon.zhaosl@gmail.com>, Ani Sinha <ani@anisinha.ca>, Markus
  Armbruster <armbru@redhat.com>, Eric Blake <eblake@redhat.com>,
  <wanghaibin.wang@huawei.com>, Yanan Wang <wangyanan55@huawei.com>
-Subject: [PATCH v5 07/14] MAINTAINERS: Self-recommended as reviewer of
- "Machine core"
-Date: Tue, 28 Dec 2021 17:22:14 +0800
-Message-ID: <20211228092221.21068-8-wangyanan55@huawei.com>
+Subject: [PATCH v5 08/14] hw/arm/virt: Support clusters on ARM virt machines
+Date: Tue, 28 Dec 2021 17:22:15 +0800
+Message-ID: <20211228092221.21068-9-wangyanan55@huawei.com>
 X-Mailer: git-send-email 2.8.4.windows.1
 In-Reply-To: <20211228092221.21068-1-wangyanan55@huawei.com>
 References: <20211228092221.21068-1-wangyanan55@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-Originating-IP: [10.174.187.128]
 X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
  dggpemm500023.china.huawei.com (7.185.36.83)
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.187;
- envelope-from=wangyanan55@huawei.com; helo=szxga01-in.huawei.com
+Received-SPF: pass client-ip=45.249.212.255;
+ envelope-from=wangyanan55@huawei.com; helo=szxga08-in.huawei.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
@@ -72,29 +70,60 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  Yanan Wang <wangyanan55@huawei.com>
 From:  Yanan Wang via <qemu-devel@nongnu.org>
 
-I've built interests in the generic machine subsystem and
-have also been working on projects related to this part,
-self-recommand myself as a reviewer so that I can help to
-review some patches familiar to me, and have a chance to
-learn more continuously.
+In implementations of ARM64 architecture, at most there could be
+a CPU topology hierarchy like "sockets/dies/clusters/cores/threads"
+defined. For example, some ARM64 server chip Kunpeng 920 totally
+has 2 sockets, 2 NUMA nodes (also represent CPU dies range) in each
+socket, 6 clusters in each NUMA node, 4 CPU cores in each cluster.
+
+Clusters within the same NUMA share the L3 cache data and cores
+within the same cluster share a L2 cache and a L3 cache tag.
+Given that designing a vCPU topology with cluster level for the
+guest can gain scheduling performance improvement, let's support
+this new parameter on ARM virt machines.
+
+After this, we can define a 4-level CPU topology hierarchy like:
+cpus=*,maxcpus=*,sockets=*,clusters=*,cores=*,threads=*.
 
 Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
 ---
- MAINTAINERS | 1 +
- 1 file changed, 1 insertion(+)
+ hw/arm/virt.c   |  1 +
+ qemu-options.hx | 10 ++++++++++
+ 2 files changed, 11 insertions(+)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 5456536805..fe5eea76f6 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1631,6 +1631,7 @@ Machine core
- M: Eduardo Habkost <eduardo@habkost.net>
- M: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
- R: Philippe Mathieu-Daudé <philmd@redhat.com>
-+R: Yanan Wang <wangyanan55@huawei.com>
- S: Supported
- F: cpu.c
- F: hw/core/cpu.c
+diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+index 6bce595aba..f413e146d9 100644
+--- a/hw/arm/virt.c
++++ b/hw/arm/virt.c
+@@ -2700,6 +2700,7 @@ static void virt_machine_class_init(ObjectClass *oc, void *data)
+     hc->unplug_request = virt_machine_device_unplug_request_cb;
+     hc->unplug = virt_machine_device_unplug_cb;
+     mc->nvdimm_supported = true;
++    mc->smp_props.clusters_supported = true;
+     mc->auto_enable_numa_with_memhp = true;
+     mc->auto_enable_numa_with_memdev = true;
+     mc->default_ram_id = "mach-virt.ram";
+diff --git a/qemu-options.hx b/qemu-options.hx
+index fd1f8135fb..69ef1cdb85 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -277,6 +277,16 @@ SRST
+ 
+         -smp 16,sockets=2,dies=2,cores=2,threads=2,maxcpus=16
+ 
++    The following sub-option defines a CPU topology hierarchy (2 sockets
++    totally on the machine, 2 clusters per socket, 2 cores per cluster,
++    2 threads per core) for ARM virt machines which support sockets/clusters
++    /cores/threads. Some members of the option can be omitted but their values
++    will be automatically computed:
++
++    ::
++
++        -smp 16,sockets=2,clusters=2,cores=2,threads=2,maxcpus=16
++
+     Historically preference was given to the coarsest topology parameters
+     when computing missing values (ie sockets preferred over cores, which
+     were preferred over threads), however, this behaviour is considered
 -- 
 2.27.0
 
