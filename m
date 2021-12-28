@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66D0B480CDE
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Dec 2021 20:52:29 +0100 (CET)
-Received: from localhost ([::1]:56958 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CE3B480CE2
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Dec 2021 20:56:14 +0100 (CET)
+Received: from localhost ([::1]:41662 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n2IWK-0003TH-HN
-	for lists+qemu-devel@lfdr.de; Tue, 28 Dec 2021 14:52:28 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48536)
+	id 1n2IZx-0003lD-FM
+	for lists+qemu-devel@lfdr.de; Tue, 28 Dec 2021 14:56:13 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48552)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1n2IJ1-0003p7-BR; Tue, 28 Dec 2021 14:38:44 -0500
-Received: from [2607:f8b0:4864:20::f33] (port=41493
- helo=mail-qv1-xf33.google.com)
+ id 1n2IJ3-0003pc-N5; Tue, 28 Dec 2021 14:38:51 -0500
+Received: from [2607:f8b0:4864:20::731] (port=41817
+ helo=mail-qk1-x731.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1n2IIy-000463-FN; Tue, 28 Dec 2021 14:38:41 -0500
-Received: by mail-qv1-xf33.google.com with SMTP id h5so17250475qvh.8;
- Tue, 28 Dec 2021 11:38:38 -0800 (PST)
+ id 1n2IIz-00046I-VO; Tue, 28 Dec 2021 14:38:44 -0500
+Received: by mail-qk1-x731.google.com with SMTP id m2so16410818qkd.8;
+ Tue, 28 Dec 2021 11:38:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=4WZ6JNIq3xK0p0FOmEg7AUGxE7yaj6GV0bZDM+lh/uI=;
- b=lmfvFE4rZSNO6ueI3dDa5T/mVd+mLABJYVDmFZxZg8KT8dAaQDb46D7avRFAVTKTJ0
- i/UqclDDxmCsmbS+mU2R98xnoQuO6QioJPrpjG8nu4ihoi5YkHUsGY6TAlL8U3Lh340Y
- 7V5q5tatoCykY/J1aW8w9Q/6xF3dlnCFRfIWD1Kr1hYVkBenGemYr3J2Cx6O3TvGs4G2
- 0phTfbe20vyPuc87X6W+ILZdJwJE51se+E6eSwDLSELVFNTemVucoCbpRSEhicyljxWV
- LwLfdmndkEQJ/SynW7e33g4BRwNtX0Ux7y3DuDNmhT4sXjixEjpFlsQ5y/HTxICOwV6X
- 1hiQ==
+ bh=GjKRBmPEKhn1TcAQb/t7oYLA8tdf6AgYCnXFZrqJgiA=;
+ b=cxSof2AnYWdtJDRrd4TqJuW0yb1/z01CBriABVJq/B/wIv01cA6be61YJTSd8DQJjb
+ o/NFpdnew0sso38ZnegLKbhI1PrTe6SYfix50iN0sojAYzAVyaVG4N6hmkxQbYXIPrSo
+ HA2K7kL8121CHLDZMkFVbwrtkt/yRjRxwdzB0l9cWg80vbz1AqwMK3aXFIv6abCOoQa+
+ TjMKGRdv9wag5TvA7tter+p9a47wajurmoVlTIBYlY4fBQYh4Jildfj/7Xp4ECI/enZw
+ zHgnuq8nIpf5xKSk5riuh+ybYgU306Z5ur1xG7cfP3yUgZfZOdBw+++H4Rt/JB3r5/Hz
+ SRmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=4WZ6JNIq3xK0p0FOmEg7AUGxE7yaj6GV0bZDM+lh/uI=;
- b=b7SMQwTyz3OlaWuigTdUjHY8XLo4JW2OSUfy8HofJGwU3EevajFwg80uHbkfrmLK+U
- sfBtt4liZEXkitL0gnxzAHl7HNQmsvGWTWnWChw0VpffQ67fIQzZnB0qdtvXSyI1q+V1
- AkdwKPbbuvgdEKJxVvnj5f6DMKBrJQUsOqGDMnL/i20bjwN1WWoMEXp5FYMDlbW+6W0/
- vgsy+d5cnOcPZ6gwASeJTpmo8lrXoMakOSy0OzTAmjteb0mDNu84RjNLFS/Hx3Aj8lXQ
- jZGxTPJwHsdwjxbFR/y8UhnG1f67q9/a3Fqlg+Et3eezwhrYSmr8GLn/u2ruxLqJ69rX
- dWrA==
-X-Gm-Message-State: AOAM5330SIiKcf6hjb93xGFFh1L9Rh5LHicZXG3z/3/jTM+/eHMU32QC
- al8jyaCRqUatoyKbi0GyEVhaiY5lYWw=
-X-Google-Smtp-Source: ABdhPJzYNxo6w5gnD/IL0awVeSeTMzIfDZJkNn+wqJ0y/YJA6JRWUQlJGS8ETDGwlmdJ+xQEuqSgZQ==
-X-Received: by 2002:a05:6214:e83:: with SMTP id
- hf3mr20757988qvb.13.1640720318352; 
- Tue, 28 Dec 2021 11:38:38 -0800 (PST)
+ bh=GjKRBmPEKhn1TcAQb/t7oYLA8tdf6AgYCnXFZrqJgiA=;
+ b=KwXPoNeK3yUY1EsUmNzmXWZwyO2oGgc/SahrMaAl2UtCyAHPBclZd0+wPASTvezabH
+ oqbFLW/ArntGmk5jaTeyeuNJUtkEjQdpmElzf6RJvTujYB7F49D2JhNJ68Ja3uGUzTzw
+ PP+2gOgPo4wmOgYmxGZCXj7EejBaC3eR/yO90vxiwqJqxqJilncwuGsTW3U7UyCrltyk
+ vBCLcz+IyP2zSZNbZ9TBxXY7YxpgvC9AC4xyNLSsXY6kkDkqic5/w0rZaWDnwyV2ZD97
+ IO7lhvVAW9OV1teR9T5Iom8w/X28ngc5xT89X72JK+zHkPdsS4ngVd80GqqUZ4LPZgRA
+ c9Pw==
+X-Gm-Message-State: AOAM533GXMo4z5V7IKDQPHjXQjZ5kCyXDpNix+ebI1TrLCpjNk8CVoJF
+ K4CIP2+q10kDmN+DcsPtyfTk4WwdbmA=
+X-Google-Smtp-Source: ABdhPJwSeQbesm3BZQROdcIJnQGWAfxYvAy5BpEUG7uChj62/JGO5QnwrDKEEpeU7xedCqXW8905hA==
+X-Received: by 2002:a05:620a:2f9:: with SMTP id
+ a25mr16496939qko.498.1640720320188; 
+ Tue, 28 Dec 2021 11:38:40 -0800 (PST)
 Received: from rekt.ibmuc.com ([2804:431:c7c6:7ce4:b718:2cc0:32df:97ee])
- by smtp.gmail.com with ESMTPSA id r20sm16924059qkp.21.2021.12.28.11.38.36
+ by smtp.gmail.com with ESMTPSA id r20sm16924059qkp.21.2021.12.28.11.38.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Dec 2021 11:38:38 -0800 (PST)
+ Tue, 28 Dec 2021 11:38:40 -0800 (PST)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 11/17] pnv_phb4_pec.c: use pnv_pec_get_phb_id() in
- pnv_pec_dt_xscom()
-Date: Tue, 28 Dec 2021 16:38:00 -0300
-Message-Id: <20211228193806.1198496-12-danielhb413@gmail.com>
+Subject: [PATCH 12/17] pnv_phb4_pec.c: use 'default_enabled()' to init
+ stack->phb
+Date: Tue, 28 Dec 2021 16:38:01 -0300
+Message-Id: <20211228193806.1198496-13-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211228193806.1198496-1-danielhb413@gmail.com>
 References: <20211228193806.1198496-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::f33
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::731
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f33;
- envelope-from=danielhb413@gmail.com; helo=mail-qv1-xf33.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::731;
+ envelope-from=danielhb413@gmail.com; helo=mail-qk1-x731.google.com
 X-Spam_score_int: 8
 X-Spam_score: 0.8
 X-Spam_bar: /
@@ -90,43 +90,91 @@ Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Relying on stack->phb to write the xscom DT of the PEC is something that
-we won't be able to do with user creatable pnv-phb4 devices.
+The next step before enabling user creatable pnv-phb4 devices is to
+decople the init of the stack->phb object from
+pnv_pec_stk_instance_init().
 
-Hopefully, this can be done by using pnv_pec_get_phb_id(), which is
-already used by pnv_pec_realize() to set the phb-id of the stack. Use
-the same idea in pnv_pec_dt_xscom() to write ibm,phb-index without the
-need to accessing stack->phb, since stack->phb is not granted to be !=
-NULL when user creatable phbs are introduced.
+First, use 'defaults_enabled()' inside pnv_pec_realize() to create the
+stack->phb object, while removing the equivalent object_initiate_child()
+call from stk_instance_init(). Create a new "phb" stack property link so
+we can assign stack->phb in an idiomatic manner.
+
+Then we need to handle stack->phb->index assignment. The value is
+retrieved with pnv_pec_get_phd_id() and, until this patch, this was
+being assigned to a 'phb-id' stack link to phb->index. It is simpler to
+assign this directly given that now we need to interact with the PnvPHB4
+object directly to set its other attributes. Assign phb->index directly
+with the value of pnv_pec_get_phb_id(), and remove the now unused link.
 
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- hw/pci-host/pnv_phb4_pec.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ hw/pci-host/pnv_phb4_pec.c | 29 +++++++++++++++++++++++------
+ 1 file changed, 23 insertions(+), 6 deletions(-)
 
 diff --git a/hw/pci-host/pnv_phb4_pec.c b/hw/pci-host/pnv_phb4_pec.c
-index 4f6db26633..56ffd446ab 100644
+index 56ffd446ab..031e98f1f4 100644
 --- a/hw/pci-host/pnv_phb4_pec.c
 +++ b/hw/pci-host/pnv_phb4_pec.c
-@@ -466,8 +466,7 @@ static int pnv_pec_dt_xscom(PnvXScomInterface *dev, void *fdt,
-                       pecc->compat_size)));
+@@ -19,6 +19,7 @@
+ #include "hw/pci/pci_bus.h"
+ #include "hw/ppc/pnv.h"
+ #include "hw/qdev-properties.h"
++#include "sysemu/sysemu.h"
  
+ #include <libfdt.h>
+ 
+@@ -409,11 +410,29 @@ static void pnv_pec_realize(DeviceState *dev, Error **errp)
      for (i = 0; i < pec->num_stacks; i++) {
--        PnvPhb4PecStack *stack = &pec->stacks[i];
--        PnvPHB4 *phb = &stack->phb;
-+        int phb_id =  pnv_pec_get_phb_id(pec, i);
-         int stk_offset;
+         PnvPhb4PecStack *stack = &pec->stacks[i];
+         Object *stk_obj = OBJECT(stack);
+-        int phb_id =  pnv_pec_get_phb_id(pec, i);
  
-         name = g_strdup_printf("stack@%x", i);
-@@ -477,7 +476,7 @@ static int pnv_pec_dt_xscom(PnvXScomInterface *dev, void *fdt,
-         _FDT((fdt_setprop(fdt, stk_offset, "compatible", pecc->stk_compat,
-                           pecc->stk_compat_size)));
-         _FDT((fdt_setprop_cell(fdt, stk_offset, "reg", i)));
--        _FDT((fdt_setprop_cell(fdt, stk_offset, "ibm,phb-index", phb->phb_id)));
-+        _FDT((fdt_setprop_cell(fdt, stk_offset, "ibm,phb-index", phb_id)));
-     }
+         object_property_set_int(stk_obj, "stack-no", i, &error_abort);
+-        object_property_set_int(stk_obj, "phb-id", phb_id, &error_abort);
+         object_property_set_link(stk_obj, "pec", OBJECT(pec), &error_abort);
++
++        /* Create and realize the default stack->phb */
++        if (defaults_enabled()) {
++            PnvPHB4 *phb = PNV_PHB4(qdev_new(TYPE_PNV_PHB4));
++            int phb_id =  pnv_pec_get_phb_id(pec, i);
++
++            object_property_set_int(OBJECT(phb), "index",
++                                    phb_id, &error_abort);
++            object_property_set_link(OBJECT(phb), "stack",
++                                     stk_obj, &error_abort);
++
++            pnv_phb4_set_stack_phb_props(stack, phb);
++            if (!sysbus_realize_and_unref(SYS_BUS_DEVICE(phb), errp)) {
++                return;
++            }
++
++            object_property_set_link(stk_obj, "phb", OBJECT(phb),
++                                     &error_abort);
++        }
++
+         if (!qdev_realize(DEVICE(stk_obj), NULL, errp)) {
+             return;
+         }
+@@ -549,10 +568,6 @@ static const TypeInfo pnv_pec_type_info = {
  
-     return 0;
+ static void pnv_pec_stk_instance_init(Object *obj)
+ {
+-    PnvPhb4PecStack *stack = PNV_PHB4_PEC_STACK(obj);
+-
+-    object_initialize_child(obj, "phb", &stack->phb, TYPE_PNV_PHB4);
+-    object_property_add_alias(obj, "phb-id", OBJECT(&stack->phb), "index");
+ }
+ 
+ static void pnv_pec_stk_realize(DeviceState *dev, Error **errp)
+@@ -589,6 +604,8 @@ static Property pnv_pec_stk_properties[] = {
+         DEFINE_PROP_UINT32("stack-no", PnvPhb4PecStack, stack_no, 0),
+         DEFINE_PROP_LINK("pec", PnvPhb4PecStack, pec, TYPE_PNV_PHB4_PEC,
+                          PnvPhb4PecState *),
++        DEFINE_PROP_LINK("phb", PnvPhb4PecStack, phb, TYPE_PNV_PHB4,
++                         PnvPHB4 *),
+         DEFINE_PROP_END_OF_LIST(),
+ };
+ 
 -- 
 2.33.1
 
