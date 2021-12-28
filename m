@@ -2,59 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54535480897
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Dec 2021 11:58:30 +0100 (CET)
-Received: from localhost ([::1]:48670 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 242B94808D0
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Dec 2021 12:33:37 +0100 (CET)
+Received: from localhost ([::1]:58926 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n2ABY-0006GS-TF
-	for lists+qemu-devel@lfdr.de; Tue, 28 Dec 2021 05:58:28 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37782)
+	id 1n2AjX-0006gM-Op
+	for lists+qemu-devel@lfdr.de; Tue, 28 Dec 2021 06:33:35 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43962)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1n2A9h-0005M4-9o; Tue, 28 Dec 2021 05:56:33 -0500
-Received: from szxga08-in.huawei.com ([45.249.212.255]:3255)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1n2A9e-0002yV-48; Tue, 28 Dec 2021 05:56:33 -0500
-Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.56])
- by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4JNWbR0B1Tz1DKKZ;
- Tue, 28 Dec 2021 18:53:07 +0800 (CST)
-Received: from [10.174.187.128] (10.174.187.128) by
- dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.1.2308.20; Tue, 28 Dec 2021 18:56:23 +0800
-Subject: Re: [PATCH v4 00/10] ARM virt: Introduce CPU clusters topology support
-To: <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>
-CC: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones
- <drjones@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>, Marcel Apfelbaum
- <marcel.apfelbaum@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>, "Michael S
- . Tsirkin" <mst@redhat.com>, Igor Mammedov <imammedo@redhat.com>, Ani Sinha
- <ani@anisinha.ca>, Markus Armbruster <armbru@redhat.com>, Eric Blake
- <eblake@redhat.com>, <wanghaibin.wang@huawei.com>
-References: <20211121122502.9844-1-wangyanan55@huawei.com>
-Message-ID: <e73c9ce9-e2e8-308c-b638-bab8b13e93ca@huawei.com>
-Date: Tue, 28 Dec 2021 18:56:22 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <mario@locati.it>) id 1n2AiP-0005oS-RI
+ for qemu-devel@nongnu.org; Tue, 28 Dec 2021 06:32:25 -0500
+Received: from smtpcmd01-s.aruba.it ([62.149.158.221]:41209)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <mario@locati.it>) id 1n2AiN-0008Qc-5q
+ for qemu-devel@nongnu.org; Tue, 28 Dec 2021 06:32:25 -0500
+Received: from locati.it ([10.10.9.174]) by Aruba Outgoing Smtp  with ESMTPA
+ id 2AiKnyVKxZs8s2AiKnvh6w; Tue, 28 Dec 2021 12:32:20 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=aruba.it; s=a1;
+ t=1640691140; bh=+WaIr3OX38sV2wy0dQ2rVwajtkRa5ogUnXncfMNWFFM=;
+ h=Date:Subject:MIME-Version:Content-Type:From:To;
+ b=ezHy8URZKp9m0stalRYR9iJROABKRzsSsnjMmfjEiqtQ42x46hcZzgjJT3yPb2MmF
+ dkwtQ6bQo1UeRzYsUHM/f1iDNuwFGM+CikaLEZWn46+mlFE2bVdiuT7tD8Yn6MhxK+
+ yI5JiS/jQN2142eFZJ8W9zYpfoPMbIRPH/kl7RRpcXIzdFhr1ep6mJogPhMVPKXG/h
+ iSkP/j/iWhcO/EidJ5pi1zZlB/HBwuYjt3hZ2d+AOG/Dd6i2n/NHooeg7aKEuHIjBH
+ gBOE2nAwefCtZADCKBiDNa4lZLmehxD5WSrBWdqkICp8It+A+J8poRyhpHUa6pysjt
+ n19kgxUxnYQeg==
+Date: Tue, 28 Dec 2021 12:32:20 +0100
+Message-Id: <R4TPDW$C86797A2F461878EECDD3613AA35BE28@locati.it>
+In-Reply-To: <87tuetrexx.fsf@linux.ibm.com>
+References: =?iso-8859-1?q?=3C20211213133542=2E2608540=2D1=2Dfarosas=40linux=2Eib?=
+ =?iso-8859-1?q?m=2Ecom=3E_=3C724f7563=2Df36c=2D2c37=2D3b94=2D951c3d92?=
+ =?iso-8859-1?q?2861=40eik=2Ebme=2Ehu=3E_=3CR4OPHT=247F12C66D110739799?=
+ =?iso-8859-1?q?1E0E4C978FE6AF1=40locati=2Eit=3E_=3Ca17ceb16=2Dbce5=2D?=
+ =?iso-8859-1?q?2090=2D8473=2D78b316bf5fb5=40eik=2Ebme=2Ehu=3E_=3Cec0c?=
+ =?iso-8859-1?q?f758=2Df05f=2D9fcf=2Deb97=2D14cb7a1fd9a2=40kaod=2Eorg?=
+ =?iso-8859-1?q?=3E_=3CR4SG07=24EE0184281B6DB251884FD0A5E86E2438=40loc?=
+ =?iso-8859-1?q?ati=2Eit=3E_=3C87tuetrexx=2Efsf=40linux=2Eibm=2Ecom=3E?=
+Subject: Re: [PATCH] target/ppc: Fix e6500 boot
 MIME-Version: 1.0
-In-Reply-To: <20211121122502.9844-1-wangyanan55@huawei.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Originating-IP: [10.174.187.128]
-X-ClientProxiedBy: dggeme706-chm.china.huawei.com (10.1.199.102) To
- dggpemm500023.china.huawei.com (7.185.36.83)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.255;
- envelope-from=wangyanan55@huawei.com; helo=szxga08-in.huawei.com
-X-Spam_score_int: -71
-X-Spam_score: -7.2
-X-Spam_bar: -------
-X-Spam_report: (-7.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-3.024,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Sensitivity: 3
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+From: "mario@locati.it" <mario@locati.it>
+To: farosas@linux.ibm.com
+X-XaM3-API-Version: V4(R2)
+X-type: 0
+X-SenderIP: 2.36.99.11
+X-CMAE-Envelope: MS4wfIU2enS4A2GW46R4r9u+IyuGqG2NHjDmOo45sCgfiv9Xtx1NNxOE2Nx2Ls44K9RspBFJrTTkJ806tWreF9yISLboLX2cGOdtHZOUGsxIO4GTwrJEf9T6
+ EN0UMxtLtZOUQDfuNykWI10DILPPksOhd1/KoXQ+ToRUFa8QwsgDDp6nJ0GmxjZAKNTbfDBidXvAVlkeSABJBQ11avdlbQr+rX/e5orM4Lk8BPs4AnHP4AlJ
+ xvXCGem4R0e3EkXgcgdEZ5fZ+/Rh6iR3rzAEV4wBX3iKU/j85ZdudOgc6yUfOeWy426AGBBwVOOQDTXLCreGUA==
+Received-SPF: none client-ip=62.149.158.221; envelope-from=mario@locati.it;
+ helo=smtpcmd01-s.aruba.it
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -67,105 +73,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: danielhb413@gmail.com, qemu-ppc@nongnu.org, clg@kaod.org,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  "wangyanan (Y)" <wangyanan55@huawei.com>
-From:  "wangyanan (Y)" via <qemu-devel@nongnu.org>
 
-I have sent a v5 with four new patches added, so this v4 can be ignored.
-v5: https://patchew.org/QEMU/20211228092221.21068-1-wangyanan55@huawei.com/
-
-Thanks,
-Yanan
-
-On 2021/11/21 20:24, Yanan Wang wrote:
-> Hi,
->
-> This series introduces the new CPU clusters topology parameter
-> and enable the support for it on ARM virt machines.
->
-> Background and descriptions:
-> The new Cluster-Aware Scheduling support has landed in Linux 5.16,
-> which has been proved to benefit the scheduling performance (e.g.
-> load balance and wake_affine strategy) on both x86_64 and AArch64.
-> We can see Kernel PR [1] and the latest patch set [2] for reference.
->
-> So now in Linux 5.16 we have four-level arch-neutral CPU topology
-> definition like below and a new scheduler level for clusters.
-> struct cpu_topology {
->      int thread_id;
->      int core_id;
->      int cluster_id;
->      int package_id;
->      int llc_id;
->      cpumask_t thread_sibling;
->      cpumask_t core_sibling;
->      cpumask_t cluster_sibling;
->      cpumask_t llc_sibling;
-> }
->
-> A cluster generally means a group of CPU cores which share L2 cache
-> or other mid-level resources, and it is the shared resources that
-> is used to improve scheduler's behavior. From the point of view of
-> the size range, it's between CPU die and CPU core. For example, on
-> some ARM64 Kunpeng servers, we have 6 clusters in each NUMA node,
-> and 4 CPU cores in each cluster. The 4 CPU cores share a separate
-> L2 cache and a L3 cache tag, which brings cache affinity advantage.
->
-> [1] https://lore.kernel.org/lkml/163572864855.3357115.17938524897008353101.tglx@xen13/
-> [2] https://lkml.org/lkml/2021/9/24/178
->
-> In virtualization, on the Hosts which have pClusters, if we can
-> design a vCPU topology with cluster level for guest kernel and
-> have a dedicated vCPU pinning. A Cluster-Aware Guest kernel can
-> also make use of the cache affinity of CPU clusters to gain
-> similar scheduling performance.
->
-> This series consists of two parts:
-> The first part (patch 1-3):
-> Implement infrastructure for CPU cluster level topology support,
-> including the SMP documentation, configuration and parsing.
->
-> The second part (part 4-10):
-> Enable CPU cluster support on ARM virt machines, so that users
-> can specify a 4-level CPU hierarchy sockets/clusters/cores/threads.
-> And the 4-level topology will be described to guest kernel through
-> ACPI PPTT and DT cpu-map.
->
-> Changelog:
-> v3->v4:
-> - Significant change from v3 to v4, since the whole series is reworked
->    based on latest QEMU SMP frame.
-> - v3: https://lore.kernel.org/qemu-devel/20210516103228.37792-1-wangyanan55@huawei.com/
->
-> Yanan Wang (10):
->    qemu-options: Improve readability of SMP related Docs
->    hw/core/machine: Introduce CPU cluster topology support
->    hw/core/machine: Wrap target specific parameters together
->    hw/arm/virt: Support clusters on ARM virt machines
->    hw/arm/virt: Support cluster level in DT cpu-map
->    hw/acpi/aml-build: Improve scalability of PPTT generation
->    hw/arm/virt-acpi-build: Make an ARM specific PPTT generator
->    tests/acpi/bios-tables-test: Allow changes to virt/PPTT file
->    hw/acpi/virt-acpi-build: Support cluster level in PPTT generation
->    tests/acpi/bios-table-test: Update expected virt/PPTT file
->
->   hw/acpi/aml-build.c         |  66 ++------------------------
->   hw/arm/virt-acpi-build.c    |  92 +++++++++++++++++++++++++++++++++++-
->   hw/arm/virt.c               |  16 ++++---
->   hw/core/machine-smp.c       |  29 +++++++++---
->   hw/core/machine.c           |   3 ++
->   include/hw/acpi/aml-build.h |   5 +-
->   include/hw/boards.h         |   6 ++-
->   qapi/machine.json           |   5 +-
->   qemu-options.hx             |  91 +++++++++++++++++++++++++++--------
->   softmmu/vl.c                |   3 ++
->   tests/data/acpi/virt/PPTT   | Bin 76 -> 96 bytes
->   11 files changed, 214 insertions(+), 102 deletions(-)
->
-> --
-> 2.19.1
->
-> .
-
+>From: "Fabiano Rosas" farosas@linux.ibm.com=0A>To: "mario@locati.it" mar=
+io@locati.it, clg@kaod.org=0A>Cc: danielhb413@gmail.com, qemu-ppc@nongnu.=
+org, qemu-devel@nongnu.org, balaton@eik.bme.hu=0A>Date: Mon, 27 Dec 2021 =
+17:05:46 -0300=0A>Subject: Re: [PATCH] target/ppc: Fix e6500 boot=0A>=0A>=
+"mario@locati.it" <mario@locati.it> writes:=0A>=C2=A0=0A>> I have updated=
+=C2=A0 the guest VM but I get exactly the same result except that now I h=
+ave libc-2.33.so installed.=0A>>=C2=A0=0A>> [...]=0A>> VFS: Mounted root =
+(ext4 filesystem) on device 254:0.=0A>> devtmpfs: mounted=0A>> Freeing un=
+used kernel image (initmem) memory: 468K=0A>> This architecture does not =
+have kernel memory protection.=0A>> Run /sbin/init as init process=0A>> r=
+andom: fast init done=0A>> systemd[1]: illegal instruction (4) at 3fff8b7=
+e615c nip 3fff8b7e615c lr 3fff8b7e613c code 1 in libc-2.33.so[3fff8b79900=
+0+1fe000]=0A>> systemd[1]: code: 60000000 38600006 9122b7d0 4801bf19 6000=
+0000 60000000 8122b7d0 2c090004=C2=A0=0A>> systemd[1]: code: 40820014 392=
+00005 60000000 9122b7d0 <00000000> 60000000 8122b7d0 2c090005=C2=A0=0A>> =
+Kernel panic - not syncing: Attempted to kill init! exitcode=3D0x00000004=
+=0A>> Rebooting in 180 seconds..=0A>=C2=A0=0A>Can you make the hdd_debian=
+_ppc64_new.img available? We won't be able to=0A>reproduce the exact same=
+ scenario because we can't run KVM, but if it=0A>boots with TCG we can at=
+ least look around the code that is failing to=0A>see if it gives us any =
+clues.=0A=0A=0ASure, you may download the hdd of the VM I am using on the=
+ NXP T2080RDB from=0Ahttps://repo.powerprogress.org/t2080rdb/qemu/hdd_deb=
+ian_sid_ppc64.qcow2=0A=0AI have compressed the original raw disk (18.8GB)=
+ into a smaller qcow2 (3.8GB), I cannot get a smaller image sorry.=0A=0AU=
+se the following kernel to launch it=0Ahttps://repo.powerprogress.org/t20=
+80rdb/qemu/uImage_5.16-rc6=0A=0ANo matter which video output I try, but o=
+n my ubuntu 20.04 x86_64 I cannot get X11 working, so to launch qemu I us=
+e=0Aqemu-system-ppc64 -accel tcg -M ppce500 -cpu e6500 -smp 4 -m 2G -vga =
+none -nographic -net nic -net user -drive format=3Dqcow2,file=3Dhdd_debia=
+n_sid_ppc64.qcow2,index=3D0,if=3Dvirtio -kernel uImage_5.16-rc6 -append "=
+root=3D/dev/vda rw"=0Athat do now work=0Aqemu-system-ppc64 -accel tcg -M =
+ppce500 -cpu e5500 -smp 4 -m 2G -vga none -nographic -net nic -net user -=
+drive format=3Dqcow2,file=3Dhdd_debian_sid_ppc64.qcow2,index=3D0,if=3Dvir=
+tio -kernel uImage_5.16-rc6 -append "root=3D/dev/vda rw"=0Athat works, th=
+e system sees e5500 cores, whereas running it on the devkit, the system s=
+ee the host e6500 cores=0A=0A=0A
 
