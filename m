@@ -2,58 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 041364807DF
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Dec 2021 10:36:42 +0100 (CET)
-Received: from localhost ([::1]:43454 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AE69480877
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Dec 2021 11:35:51 +0100 (CET)
+Received: from localhost ([::1]:37410 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n28uP-0006CF-4i
-	for lists+qemu-devel@lfdr.de; Tue, 28 Dec 2021 04:36:41 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52246)
+	id 1n29pd-000660-Mp
+	for lists+qemu-devel@lfdr.de; Tue, 28 Dec 2021 05:35:49 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34348)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1n28hF-0008Mg-0q; Tue, 28 Dec 2021 04:23:05 -0500
-Received: from szxga03-in.huawei.com ([45.249.212.189]:4166)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1n29o7-0005AO-Te
+ for qemu-devel@nongnu.org; Tue, 28 Dec 2021 05:34:16 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51233)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1n28hC-0007CQ-N6; Tue, 28 Dec 2021 04:23:04 -0500
-Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.54])
- by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4JNTXc6mbFz8w6R;
- Tue, 28 Dec 2021 17:20:32 +0800 (CST)
-Received: from DESKTOP-TMVL5KK.china.huawei.com (10.174.187.128) by
- dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Tue, 28 Dec 2021 17:22:58 +0800
-To: <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>
-CC: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones
- <drjones@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>, Marcel
- Apfelbaum <marcel.apfelbaum@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Shannon Zhao <shannon.zhaosl@gmail.com>, Ani Sinha <ani@anisinha.ca>, Markus
- Armbruster <armbru@redhat.com>, Eric Blake <eblake@redhat.com>,
- <wanghaibin.wang@huawei.com>, Yanan Wang <wangyanan55@huawei.com>
-Subject: [PATCH v5 14/14] tests/acpi/bios-table-test: Update expected
- virt/PPTT file
-Date: Tue, 28 Dec 2021 17:22:21 +0800
-Message-ID: <20211228092221.21068-15-wangyanan55@huawei.com>
-X-Mailer: git-send-email 2.8.4.windows.1
-In-Reply-To: <20211228092221.21068-1-wangyanan55@huawei.com>
-References: <20211228092221.21068-1-wangyanan55@huawei.com>
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1n29o4-0000DK-6B
+ for qemu-devel@nongnu.org; Tue, 28 Dec 2021 05:34:15 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1640687651;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Z6hMnATLglnqwTZoiWpQq1tnAqHOHJxZqhiIwHJuN1w=;
+ b=FIk5hbNeyyA25WjRI9TunZoK/uMIsC+fNDAK6SLOogpm4DeymOUs1/zQQjon/3h28jFccy
+ 6eFUb78CdLBXfC8yOk3fFzcGOplaT9bUL5KTV2e3qhXKNDOGa4wvMU6nAhcVX+7Ae9dvoL
+ J6HeywUpYJjArwBpbKdgeMlnWCRNxK4=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-94-yvpptWEDOHKfzfVxUb7fKA-1; Tue, 28 Dec 2021 05:34:10 -0500
+X-MC-Unique: yvpptWEDOHKfzfVxUb7fKA-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ d6-20020adfa346000000b001a262748c6fso3813228wrb.12
+ for <qemu-devel@nongnu.org>; Tue, 28 Dec 2021 02:34:10 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=Z6hMnATLglnqwTZoiWpQq1tnAqHOHJxZqhiIwHJuN1w=;
+ b=wL3iFBNuO8/4/6Ylnj9JQYHO+XpcD7BW++UQnTeHMau12COzdXSqVINHKI5ScdE8h/
+ WP+dbSwQ05QQ/QADMrxbEQW+++Tld6W4Z2VuiGFcVFCXLdb8tL/PhKGTheE0nnlhCc0z
+ idMtX3cLVKJz1wl0NwL8J/oNocQQv0D2Ni14bTJsgpqtf51rItvgxLxYjA5wvbPPNMTs
+ PTkm42d38ULrgyyDJJ3RYokFVlWzCFWoDEo2+zM+7tm95qDx1qUDsy1YqCFXd/HSO7CP
+ XtbbYHpc1PQT3m7iiy4KWyTpxSqbz3RawVtO9V+SSjD5+ruXkKyqNOhuwFpaMi2stFzJ
+ qT7g==
+X-Gm-Message-State: AOAM531k7GO84wcw7RxCpDCboxk9GLheq1Q93ffR2GvCP846KdtcvQLE
+ Ajn+Wa12uEBrLrkXq8syW2V+Kp6ZzdpbAI6+KoRrDq+A8iaQmJjzG2nrzPH6g0q5vOxxbRo5xME
+ +u0euwDwTqdxls7E=
+X-Received: by 2002:a05:600c:3583:: with SMTP id
+ p3mr16672985wmq.180.1640687648092; 
+ Tue, 28 Dec 2021 02:34:08 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyn4E8HqS2uKgc9pcBxNYsDsCjOA8koUNGCaQEBiJ011KspbAH2JvTJjuxvfvMRRA/2L3PnoQ==
+X-Received: by 2002:a05:600c:3583:: with SMTP id
+ p3mr16672944wmq.180.1640687647714; 
+ Tue, 28 Dec 2021 02:34:07 -0800 (PST)
+Received: from [192.168.1.16] (adijon-655-1-69-27.w90-13.abo.wanadoo.fr.
+ [90.13.240.27])
+ by smtp.gmail.com with ESMTPSA id u3sm22834762wrs.0.2021.12.28.02.34.02
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 28 Dec 2021 02:34:07 -0800 (PST)
+Message-ID: <3aba5b46-9b2a-0270-2b4d-8384b012a0f0@redhat.com>
+Date: Tue, 28 Dec 2021 11:33:59 +0100
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.174.187.128]
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- dggpemm500023.china.huawei.com (7.185.36.83)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.189;
- envelope-from=wangyanan55@huawei.com; helo=szxga03-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH 1/2] hw/dma: sifive_pdma: support high 32-bit access of
+ 64-bit register
+To: Jim Shu <jim.shu@sifive.com>, Alistair.Francis@wdc.com,
+ bin.meng@windriver.com, palmer@dabbelt.com, frank.chang@sifive.com,
+ qemu-riscv@nongnu.org, qemu-devel@nongnu.org
+References: <20211228005236.415583-1-jim.shu@sifive.com>
+ <20211228005236.415583-2-jim.shu@sifive.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+In-Reply-To: <20211228005236.415583-2-jim.shu@sifive.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -63
+X-Spam_score: -6.4
+X-Spam_bar: ------
+X-Spam_report: (-6.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.573,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-3.024, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -68,108 +107,330 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Yanan Wang <wangyanan55@huawei.com>
-From:  Yanan Wang via <qemu-devel@nongnu.org>
 
-Run ./tests/data/acpi/rebuild-expected-aml.sh from build directory
-to update PPTT binary. Also empty bios-tables-test-allowed-diff.h.
+Hi Jim and Frank,
 
-The disassembled differences between actual and expected PPTT:
+On 12/28/21 01:52, Jim Shu wrote:
+> Real PDMA support high 32-bit read/write memory access of 64-bit
+> register.
+> 
+> The following result is PDMA tested in U-Boot on Unmatched board:
+> 
+> 1. Real PDMA is allowed high 32-bit read/write to 64-bit register.
+> => mw.l 0x3000000 0x0                      <= Disclaim channel 0
+> => mw.l 0x3000000 0x1                      <= Claim channel 0
+> => mw.l 0x3000010 0x80000000               <= Write low 32-bit NextDest (NextDest = 0x280000000)
+> => mw.l 0x3000014 0x2                      <= Write high 32-bit NextDest
+> => md.l 0x3000010 1                        <= Dump low 32-bit NextDest
+> 03000010: 80000000
+> => md.l 0x3000014 1                        <= Dump high 32-bit NextDest
+> 03000014: 00000002
+> => mw.l 0x3000018 0x80001000               <= Write low 32-bit NextSrc (NextSrc = 0x280001000)
+> => mw.l 0x300001c 0x2                      <= Write high 32-bit NextSrc
+> => md.l 0x3000018 1                        <= Dump low 32-bit NextSrc
+> 03000010: 80001000
+> => md.l 0x300001c 1                        <= Dump high 32-bit NextSrc
+> 03000014: 00000002
+> 
+> 2. PDMA transfer from 0x280001000 to 0x280000000 is OK.
+> => mw.q 0x3000008 0x4                      <= NextBytes = 4
+> => mw.l 0x3000004 0x22000000               <= wsize = rsize = 2 (2^2 = 4 bytes)
+> => mw.l 0x280000000 0x87654321             <= Fill test data to dst
+> => mw.l 0x280001000 0x12345678             <= Fill test data to src
+> => md.l 0x280000000 1; md.l 0x280001000 1  <= Dump src/dst memory contents
+> 280000000: 87654321                              !Ce.
+> 280001000: 12345678                              xV4.
+> => md.l 0x3000000 8                        <= Dump PDMA status
+> 03000000: 00000001 22000000 00000004 00000000    ......."........
+> 03000010: 80000000 00000002 80001000 00000002    ................
+> => mw.l 0x3000000 0x3                      <= Set channel 0 run and claim bits
+> => md.l 0x3000000 8                        <= Dump PDMA status
+> 03000000: 40000001 22000000 00000004 00000000    ...@..."........
+> 03000010: 80000000 00000002 80001000 00000002    ................
+> => md.l 0x280000000 1; md.l 0x280001000 1  <= Dump src/dst memory contents
+> 280000000: 12345678                               xV4.
+> 280001000: 12345678                               xV4.
+> 
+> Signed-off-by: Jim Shu <jim.shu@sifive.com>
+> Reviewed-by: Frank Chang <frank.chang@sifive.com>
+> ---
+>  hw/dma/sifive_pdma.c | 174 +++++++++++++++++++++++++++++++++++++------
+>  1 file changed, 152 insertions(+), 22 deletions(-)
+> 
+> diff --git a/hw/dma/sifive_pdma.c b/hw/dma/sifive_pdma.c
+> index 85fe34f5f3..b8b198ab4e 100644
+> --- a/hw/dma/sifive_pdma.c
+> +++ b/hw/dma/sifive_pdma.c
+> @@ -177,18 +177,44 @@ static inline void sifive_pdma_update_irq(SiFivePDMAState *s, int ch)
+>      s->chan[ch].state = DMA_CHAN_STATE_IDLE;
+>  }
+>  
+> -static uint64_t sifive_pdma_read(void *opaque, hwaddr offset, unsigned size)
+> +static uint64_t sifive_pdma_readq(SiFivePDMAState *s, int ch, hwaddr offset)
+>  {
+> -    SiFivePDMAState *s = opaque;
+> -    int ch = SIFIVE_PDMA_CHAN_NO(offset);
+>      uint64_t val = 0;
+>  
+> -    if (ch >= SIFIVE_PDMA_CHANS) {
+> -        qemu_log_mask(LOG_GUEST_ERROR, "%s: Invalid channel no %d\n",
+> -                      __func__, ch);
+> -        return 0;
+> +    offset &= 0xfff;
+> +    switch (offset) {
+> +    case DMA_NEXT_BYTES:
+> +        val = s->chan[ch].next_bytes;
+> +        break;
+> +    case DMA_NEXT_DST:
+> +        val = s->chan[ch].next_dst;
+> +        break;
+> +    case DMA_NEXT_SRC:
+> +        val = s->chan[ch].next_src;
+> +        break;
+> +    case DMA_EXEC_BYTES:
+> +        val = s->chan[ch].exec_bytes;
+> +        break;
+> +    case DMA_EXEC_DST:
+> +        val = s->chan[ch].exec_dst;
+> +        break;
+> +    case DMA_EXEC_SRC:
+> +        val = s->chan[ch].exec_src;
+> +        break;
+> +    default:
+> +        qemu_log_mask(LOG_GUEST_ERROR,
+> +                      "%s: Unexpected 64-bit access to 0x%" HWADDR_PRIX "\n",
+> +                      __func__, offset);
+> +        break;
+>      }
+>  
+> +    return val;
+> +}
+> +
+> +static uint32_t sifive_pdma_readl(SiFivePDMAState *s, int ch, hwaddr offset)
+> +{
+> +    uint32_t val = 0;
+> +
+>      offset &= 0xfff;
+>      switch (offset) {
+>      case DMA_CONTROL:
+> @@ -198,28 +224,47 @@ static uint64_t sifive_pdma_read(void *opaque, hwaddr offset, unsigned size)
+>          val = s->chan[ch].next_config;
+>          break;
+>      case DMA_NEXT_BYTES:
+> -        val = s->chan[ch].next_bytes;
+> +        val = extract64(s->chan[ch].next_bytes, 0, 32);
+> +        break;
+> +    case DMA_NEXT_BYTES + 4:
+> +        val = extract64(s->chan[ch].next_bytes, 32, 32);
+>          break;
+>      case DMA_NEXT_DST:
+> -        val = s->chan[ch].next_dst;
+> +        val = extract64(s->chan[ch].next_dst, 0, 32);
+> +        break;
+> +    case DMA_NEXT_DST + 4:
+> +        val = extract64(s->chan[ch].next_dst, 32, 32);
+>          break;
+>      case DMA_NEXT_SRC:
+> -        val = s->chan[ch].next_src;
+> +        val = extract64(s->chan[ch].next_src, 0, 32);
+> +        break;
+> +    case DMA_NEXT_SRC + 4:
+> +        val = extract64(s->chan[ch].next_src, 32, 32);
+>          break;
+>      case DMA_EXEC_CONFIG:
+>          val = s->chan[ch].exec_config;
+>          break;
+>      case DMA_EXEC_BYTES:
+> -        val = s->chan[ch].exec_bytes;
+> +        val = extract64(s->chan[ch].exec_bytes, 0, 32);
+> +        break;
+> +    case DMA_EXEC_BYTES + 4:
+> +        val = extract64(s->chan[ch].exec_bytes, 32, 32);
+>          break;
+>      case DMA_EXEC_DST:
+> -        val = s->chan[ch].exec_dst;
+> +        val = extract64(s->chan[ch].exec_dst, 0, 32);
+> +        break;
+> +    case DMA_EXEC_DST + 4:
+> +        val = extract64(s->chan[ch].exec_dst, 32, 32);
+>          break;
+>      case DMA_EXEC_SRC:
+> -        val = s->chan[ch].exec_src;
+> +        val = extract64(s->chan[ch].exec_src, 0, 32);
+> +        break;
+> +    case DMA_EXEC_SRC + 4:
+> +        val = extract64(s->chan[ch].exec_src, 32, 32);
+>          break;
+>      default:
+> -        qemu_log_mask(LOG_GUEST_ERROR, "%s: Bad offset 0x%" HWADDR_PRIX "\n",
+> +        qemu_log_mask(LOG_GUEST_ERROR,
+> +                      "%s: Unexpected 32-bit access to 0x%" HWADDR_PRIX "\n",
+>                        __func__, offset);
+>          break;
+>      }
+> @@ -227,19 +272,66 @@ static uint64_t sifive_pdma_read(void *opaque, hwaddr offset, unsigned size)
+>      return val;
+>  }
+>  
+> -static void sifive_pdma_write(void *opaque, hwaddr offset,
+> -                              uint64_t value, unsigned size)
+> +static uint64_t sifive_pdma_read(void *opaque, hwaddr offset, unsigned size)
+>  {
+>      SiFivePDMAState *s = opaque;
+>      int ch = SIFIVE_PDMA_CHAN_NO(offset);
+> -    bool claimed, run;
+> +    uint64_t val = 0;
+>  
+>      if (ch >= SIFIVE_PDMA_CHANS) {
+>          qemu_log_mask(LOG_GUEST_ERROR, "%s: Invalid channel no %d\n",
+>                        __func__, ch);
+> -        return;
+> +        return 0;
+> +    }
+> +
+> +    switch (size) {
+> +    case 8:
+> +        val = sifive_pdma_readq(s, ch, offset);
+> +        break;
+> +    case 4:
+> +        val = sifive_pdma_readl(s, ch, offset);
+> +        break;
+> +    default:
+> +        qemu_log_mask(LOG_GUEST_ERROR, "%s: Invalid read size %u to PDMA\n",
+> +                      __func__, size);
+> +        return 0;
+>      }
+>  
+> +    return val;
+> +}
+> +
+> +static void sifive_pdma_writeq(SiFivePDMAState *s, int ch,
+> +                               hwaddr offset, uint64_t value)
+> +{
+> +    offset &= 0xfff;
+> +    switch (offset) {
+> +    case DMA_NEXT_BYTES:
+> +        s->chan[ch].next_bytes = value;
+> +        break;
+> +    case DMA_NEXT_DST:
+> +        s->chan[ch].next_dst = value;
+> +        break;
+> +    case DMA_NEXT_SRC:
+> +        s->chan[ch].next_src = value;
+> +        break;
+> +    case DMA_EXEC_BYTES:
+> +    case DMA_EXEC_DST:
+> +    case DMA_EXEC_SRC:
+> +        /* these are read-only registers */
+> +        break;
+> +    default:
+> +        qemu_log_mask(LOG_GUEST_ERROR,
+> +                      "%s: Unexpected 64-bit access to 0x%" HWADDR_PRIX "\n",
+> +                      __func__, offset);
+> +        break;
+> +    }
+> +}
+> +
+> +static void sifive_pdma_writel(SiFivePDMAState *s, int ch,
+> +                               hwaddr offset, uint32_t value)
+> +{
+> +    bool claimed, run;
+> +
+>      offset &= 0xfff;
+>      switch (offset) {
+>      case DMA_CONTROL:
+> @@ -282,13 +374,24 @@ static void sifive_pdma_write(void *opaque, hwaddr offset,
+>          s->chan[ch].next_config = value;
+>          break;
+>      case DMA_NEXT_BYTES:
+> -        s->chan[ch].next_bytes = value;
+> +        s->chan[ch].next_bytes =
+> +            deposit64(s->chan[ch].next_bytes, 0, 32, value);
+> +        break;
+> +    case DMA_NEXT_BYTES + 4:
+> +        s->chan[ch].next_bytes =
+> +            deposit64(s->chan[ch].next_bytes, 32, 32, value);
+>          break;
+>      case DMA_NEXT_DST:
+> -        s->chan[ch].next_dst = value;
+> +        s->chan[ch].next_dst = deposit64(s->chan[ch].next_dst, 0, 32, value);
+> +        break;
+> +    case DMA_NEXT_DST + 4:
+> +        s->chan[ch].next_dst = deposit64(s->chan[ch].next_dst, 32, 32, value);
+>          break;
+>      case DMA_NEXT_SRC:
+> -        s->chan[ch].next_src = value;
+> +        s->chan[ch].next_src = deposit64(s->chan[ch].next_src, 0, 32, value);
+> +        break;
+> +    case DMA_NEXT_SRC + 4:
+> +        s->chan[ch].next_src = deposit64(s->chan[ch].next_src, 32, 32, value);
+>          break;
+>      case DMA_EXEC_CONFIG:
+>      case DMA_EXEC_BYTES:
+> @@ -297,12 +400,39 @@ static void sifive_pdma_write(void *opaque, hwaddr offset,
+>          /* these are read-only registers */
+>          break;
+>      default:
+> -        qemu_log_mask(LOG_GUEST_ERROR, "%s: Bad offset 0x%" HWADDR_PRIX "\n",
+> +        qemu_log_mask(LOG_GUEST_ERROR,
+> +                      "%s: Unexpected 32-bit access to 0x%" HWADDR_PRIX "\n",
+>                        __func__, offset);
+>          break;
+>      }
+>  }
+>  
+> +static void sifive_pdma_write(void *opaque, hwaddr offset,
+> +                              uint64_t value, unsigned size)
+> +{
+> +    SiFivePDMAState *s = opaque;
+> +    int ch = SIFIVE_PDMA_CHAN_NO(offset);
+> +
+> +    if (ch >= SIFIVE_PDMA_CHANS) {
+> +        qemu_log_mask(LOG_GUEST_ERROR, "%s: Invalid channel no %d\n",
+> +                      __func__, ch);
+> +        return;
+> +    }
+> +
+> +    switch (size) {
+> +    case 8:
+> +        sifive_pdma_writeq(s, ch, offset, value);
+> +        break;
+> +    case 4:
+> +        sifive_pdma_writel(s, ch, offset, (uint32_t) value);
+> +        break;
+> +    default:
+> +        qemu_log_mask(LOG_GUEST_ERROR, "%s: Invalid write size %u to PDMA\n",
+> +                      __func__, size);
+> +        break;
+> +    }
+> +}
+> +
+>  static const MemoryRegionOps sifive_pdma_ops = {
+>      .read = sifive_pdma_read,
+>      .write = sifive_pdma_write,
 
- /*
-  * Intel ACPI Component Architecture
-  * AML/ASL+ Disassembler version 20180810 (64-bit version)
-  * Copyright (c) 2000 - 2018 Intel Corporation
-  *
-- * Disassembly of tests/data/acpi/virt/PPTT, Mon Oct 25 20:24:53 2021
-+ * Disassembly of /tmp/aml-BPI5B1, Mon Oct 25 20:24:53 2021
-  *
-  * ACPI Data Table [PPTT]
-  *
-  * Format: [HexOffset DecimalOffset ByteLength]  FieldName : FieldValue
-  */
+Would this work instead?
 
- [000h 0000   4]                    Signature : "PPTT"    [Processor Properties Topology Table]
--[004h 0004   4]                 Table Length : 0000004C
-+[004h 0004   4]                 Table Length : 00000060
- [008h 0008   1]                     Revision : 02
--[009h 0009   1]                     Checksum : A8
-+[009h 0009   1]                     Checksum : 48
- [00Ah 0010   6]                       Oem ID : "BOCHS "
- [010h 0016   8]                 Oem Table ID : "BXPC    "
- [018h 0024   4]                 Oem Revision : 00000001
- [01Ch 0028   4]              Asl Compiler ID : "BXPC"
- [020h 0032   4]        Asl Compiler Revision : 00000001
+-- >8 --
+diff --git a/hw/dma/sifive_pdma.c b/hw/dma/sifive_pdma.c
+index 85fe34f5f31..8f879de6f60 100644
+--- a/hw/dma/sifive_pdma.c
++++ b/hw/dma/sifive_pdma.c
+@@ -308,10 +308,14 @@ static const MemoryRegionOps sifive_pdma_ops = {
+     .write = sifive_pdma_write,
+     .endianness = DEVICE_LITTLE_ENDIAN,
+     /* there are 32-bit and 64-bit wide registers */
+-    .impl = {
++    .valid = {
+         .min_access_size = 4,
+         .max_access_size = 8,
+     }
++    .impl = {
++        .min_access_size = 8,
++        .max_access_size = 8,
++    }
+ };
 
- [024h 0036   1]                Subtable Type : 00 [Processor Hierarchy Node]
- [025h 0037   1]                       Length : 14
- [026h 0038   2]                     Reserved : 0000
- [028h 0040   4]        Flags (decoded below) : 00000001
-                             Physical package : 1
-                      ACPI Processor ID valid : 0
- [02Ch 0044   4]                       Parent : 00000000
- [030h 0048   4]            ACPI Processor ID : 00000000
- [034h 0052   4]      Private Resource Number : 00000000
-
- [038h 0056   1]                Subtable Type : 00 [Processor Hierarchy Node]
- [039h 0057   1]                       Length : 14
- [03Ah 0058   2]                     Reserved : 0000
--[03Ch 0060   4]        Flags (decoded below) : 0000000A
-+[03Ch 0060   4]        Flags (decoded below) : 00000000
-                             Physical package : 0
--                     ACPI Processor ID valid : 1
-+                     ACPI Processor ID valid : 0
- [040h 0064   4]                       Parent : 00000024
- [044h 0068   4]            ACPI Processor ID : 00000000
- [048h 0072   4]      Private Resource Number : 00000000
-
--Raw Table Data: Length 76 (0x4C)
-+[04Ch 0076   1]                Subtable Type : 00 [Processor Hierarchy Node]
-+[04Dh 0077   1]                       Length : 14
-+[04Eh 0078   2]                     Reserved : 0000
-+[050h 0080   4]        Flags (decoded below) : 0000000A
-+                            Physical package : 0
-+                     ACPI Processor ID valid : 1
-+[054h 0084   4]                       Parent : 00000038
-+[058h 0088   4]            ACPI Processor ID : 00000000
-+[05Ch 0092   4]      Private Resource Number : 00000000
-+
-+Raw Table Data: Length 96 (0x60)
-
--    0000: 50 50 54 54 4C 00 00 00 02 A8 42 4F 43 48 53 20  // PPTTL.....BOCHS
-+    0000: 50 50 54 54 60 00 00 00 02 48 42 4F 43 48 53 20  // PPTT`....HBOCHS
-     0010: 42 58 50 43 20 20 20 20 01 00 00 00 42 58 50 43  // BXPC    ....BXPC
-     0020: 01 00 00 00 00 14 00 00 01 00 00 00 00 00 00 00  // ................
--    0030: 00 00 00 00 00 00 00 00 00 14 00 00 0A 00 00 00  // ................
--    0040: 24 00 00 00 00 00 00 00 00 00 00 00              // $...........
-+    0030: 00 00 00 00 00 00 00 00 00 14 00 00 00 00 00 00  // ................
-+    0040: 24 00 00 00 00 00 00 00 00 00 00 00 00 14 00 00  // $...............
-+    0050: 0A 00 00 00 38 00 00 00 00 00 00 00 00 00 00 00  // ....8...........
-
-Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
 ---
- tests/data/acpi/virt/PPTT                   | Bin 76 -> 96 bytes
- tests/qtest/bios-tables-test-allowed-diff.h |   1 -
- 2 files changed, 1 deletion(-)
-
-diff --git a/tests/data/acpi/virt/PPTT b/tests/data/acpi/virt/PPTT
-index 7a1258ecf123555b24462c98ccbb76b4ac1d0c2b..f56ea63b369a604877374ad696c396e796ab1c83 100644
-GIT binary patch
-delta 53
-zcmV-50LuSNU<y!BR8(L90006=kqR;-00000Bme*a000000000002BZK3IG5AH~;_u
-L0000000000uCW9Z
-
-delta 32
-qcmV+*0N?*$ObSp?R8&j=00080kqR=APy`Gl00000000000001OcLdh}
-
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index cb143a55a6..dfb8523c8b 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1,2 +1 @@
- /* List of comma-separated changed AML files to ignore */
--"tests/data/acpi/virt/PPTT",
--- 
-2.27.0
 
 
