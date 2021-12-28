@@ -2,28 +2,28 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F12E84807DD
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Dec 2021 10:34:32 +0100 (CET)
-Received: from localhost ([::1]:37856 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0ACD04807E0
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Dec 2021 10:37:06 +0100 (CET)
+Received: from localhost ([::1]:44134 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n28sJ-0002Sj-PX
-	for lists+qemu-devel@lfdr.de; Tue, 28 Dec 2021 04:34:31 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52220)
+	id 1n28um-0006eL-Sx
+	for lists+qemu-devel@lfdr.de; Tue, 28 Dec 2021 04:37:05 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52230)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1n28hC-00089s-0L; Tue, 28 Dec 2021 04:23:02 -0500
-Received: from szxga02-in.huawei.com ([45.249.212.188]:3062)
+ id 1n28hC-0008Ck-Ne; Tue, 28 Dec 2021 04:23:02 -0500
+Received: from szxga02-in.huawei.com ([45.249.212.188]:4151)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1n28h8-0007Bt-DQ; Tue, 28 Dec 2021 04:23:01 -0500
+ id 1n28hA-0007C6-CP; Tue, 28 Dec 2021 04:23:02 -0500
 Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.55])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4JNTZq42MSzbjYT;
- Tue, 28 Dec 2021 17:22:27 +0800 (CST)
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4JNTZK4V1gz9rvd;
+ Tue, 28 Dec 2021 17:22:01 +0800 (CST)
 Received: from DESKTOP-TMVL5KK.china.huawei.com (10.174.187.128) by
  dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Tue, 28 Dec 2021 17:22:54 +0800
+ 15.1.2308.20; Tue, 28 Dec 2021 17:22:56 +0800
 To: <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>
 CC: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones
  <drjones@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
@@ -33,10 +33,10 @@ CC: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones
  Shannon Zhao <shannon.zhaosl@gmail.com>, Ani Sinha <ani@anisinha.ca>, Markus
  Armbruster <armbru@redhat.com>, Eric Blake <eblake@redhat.com>,
  <wanghaibin.wang@huawei.com>, Yanan Wang <wangyanan55@huawei.com>
-Subject: [PATCH v5 11/14] hw/arm/virt-acpi-build: Make an ARM specific PPTT
- generator
-Date: Tue, 28 Dec 2021 17:22:18 +0800
-Message-ID: <20211228092221.21068-12-wangyanan55@huawei.com>
+Subject: [PATCH v5 12/14] tests/acpi/bios-tables-test: Allow changes to
+ virt/PPTT file
+Date: Tue, 28 Dec 2021 17:22:19 +0800
+Message-ID: <20211228092221.21068-13-wangyanan55@huawei.com>
 X-Mailer: git-send-email 2.8.4.windows.1
 In-Reply-To: <20211228092221.21068-1-wangyanan55@huawei.com>
 References: <20211228092221.21068-1-wangyanan55@huawei.com>
@@ -71,236 +71,21 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  Yanan Wang <wangyanan55@huawei.com>
 From:  Yanan Wang via <qemu-devel@nongnu.org>
 
-We have a generic build_pptt() in hw/acpi/aml-build.c but it's
-currently only used in ARM acpi initialization. Now we are going
-to support the new CPU cluster parameter which is currently only
-supported by ARM, it won't be a very good idea to add it to the
-generic build_pptt() as it will make the code complex and hard
-to maintain especially when we also support CPU cache topology
-hierarchy in build_pptt() too. Note that the cache topology
-design also varies between different CPU targets.
-
-So an ARM specific PPTT generator becomes necessary now. Given
-that the generic one is currently only used by ARM, let's just
-move build_pptt() from aml-build.c to virt-acpi-build.c with
-minor update.
+List test/data/acpi/virt/PPTT as the expected files allowed to
+be changed in tests/qtest/bios-tables-test-allowed-diff.h
 
 Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
 ---
- hw/acpi/aml-build.c         | 80 ++-----------------------------------
- hw/arm/virt-acpi-build.c    | 77 ++++++++++++++++++++++++++++++++++-
- include/hw/acpi/aml-build.h |  5 ++-
- 3 files changed, 81 insertions(+), 81 deletions(-)
+ tests/qtest/bios-tables-test-allowed-diff.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
-index be3851be36..040fbc9b4b 100644
---- a/hw/acpi/aml-build.c
-+++ b/hw/acpi/aml-build.c
-@@ -1968,10 +1968,9 @@ void build_slit(GArray *table_data, BIOSLinker *linker, MachineState *ms,
-  * ACPI spec, Revision 6.3
-  * 5.2.29.1 Processor hierarchy node structure (Type 0)
-  */
--static void build_processor_hierarchy_node(GArray *tbl, uint32_t flags,
--                                           uint32_t parent, uint32_t id,
--                                           uint32_t *priv_rsrc,
--                                           uint32_t priv_num)
-+void build_processor_hierarchy_node(GArray *tbl, uint32_t flags,
-+                                    uint32_t parent, uint32_t id,
-+                                    uint32_t *priv_rsrc, uint32_t priv_num)
- {
-     int i;
- 
-@@ -1994,79 +1993,6 @@ static void build_processor_hierarchy_node(GArray *tbl, uint32_t flags,
-     }
- }
- 
--/*
-- * ACPI spec, Revision 6.3
-- * 5.2.29 Processor Properties Topology Table (PPTT)
-- */
--void build_pptt(GArray *table_data, BIOSLinker *linker, MachineState *ms,
--                const char *oem_id, const char *oem_table_id)
--{
--    GQueue *list = g_queue_new();
--    guint pptt_start = table_data->len;
--    guint father_offset;
--    guint length, i;
--    int uid = 0;
--    int socket;
--    AcpiTable table = { .sig = "PPTT", .rev = 2,
--                        .oem_id = oem_id, .oem_table_id = oem_table_id };
--
--    acpi_table_begin(&table, table_data);
--
--    for (socket = 0; socket < ms->smp.sockets; socket++) {
--        g_queue_push_tail(list,
--            GUINT_TO_POINTER(table_data->len - pptt_start));
--        build_processor_hierarchy_node(
--            table_data,
--            /*
--             * Physical package - represents the boundary
--             * of a physical package
--             */
--            (1 << 0),
--            0, socket, NULL, 0);
--    }
--
--    length = g_queue_get_length(list);
--    for (i = 0; i < length; i++) {
--        int core;
--
--        father_offset = GPOINTER_TO_UINT(g_queue_pop_head(list));
--        for (core = 0; core < ms->smp.cores; core++) {
--            if (ms->smp.threads > 1) {
--                g_queue_push_tail(list,
--                    GUINT_TO_POINTER(table_data->len - pptt_start));
--                build_processor_hierarchy_node(
--                    table_data,
--                    (0 << 0), /* not a physical package */
--                    father_offset, core, NULL, 0);
--            } else {
--                build_processor_hierarchy_node(
--                    table_data,
--                    (1 << 1) | /* ACPI Processor ID valid */
--                    (1 << 3),  /* Node is a Leaf */
--                    father_offset, uid++, NULL, 0);
--            }
--        }
--    }
--
--    length = g_queue_get_length(list);
--    for (i = 0; i < length; i++) {
--        int thread;
--
--        father_offset = GPOINTER_TO_UINT(g_queue_pop_head(list));
--        for (thread = 0; thread < ms->smp.threads; thread++) {
--            build_processor_hierarchy_node(
--                table_data,
--                (1 << 1) | /* ACPI Processor ID valid */
--                (1 << 2) | /* Processor is a Thread */
--                (1 << 3),  /* Node is a Leaf */
--                father_offset, uid++, NULL, 0);
--        }
--    }
--
--    g_queue_free(list);
--    acpi_table_end(linker, &table);
--}
--
- /* build rev1/rev3/rev5.1 FADT */
- void build_fadt(GArray *tbl, BIOSLinker *linker, const AcpiFadtData *f,
-                 const char *oem_id, const char *oem_table_id)
-diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
-index d0f4867fdf..3ce7680393 100644
---- a/hw/arm/virt-acpi-build.c
-+++ b/hw/arm/virt-acpi-build.c
-@@ -808,6 +808,80 @@ build_madt(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
-     acpi_table_end(linker, &table);
- }
- 
-+/*
-+ * ACPI spec, Revision 6.3
-+ * 5.2.29 Processor Properties Topology Table (PPTT)
-+ */
-+static void
-+build_pptt(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
-+{
-+    MachineState *ms = MACHINE(vms);
-+    GQueue *list = g_queue_new();
-+    guint pptt_start = table_data->len;
-+    guint father_offset;
-+    guint length, i;
-+    int uid = 0;
-+    int socket;
-+    AcpiTable table = { .sig = "PPTT", .rev = 2, .oem_id = vms->oem_id,
-+                        .oem_table_id = vms->oem_table_id };
-+
-+    acpi_table_begin(&table, table_data);
-+
-+    for (socket = 0; socket < ms->smp.sockets; socket++) {
-+        g_queue_push_tail(list,
-+            GUINT_TO_POINTER(table_data->len - pptt_start));
-+        build_processor_hierarchy_node(
-+            table_data,
-+            /*
-+             * Physical package - represents the boundary
-+             * of a physical package
-+             */
-+            (1 << 0),
-+            0, socket, NULL, 0);
-+    }
-+
-+    length = g_queue_get_length(list);
-+    for (i = 0; i < length; i++) {
-+        int core;
-+
-+        father_offset = GPOINTER_TO_UINT(g_queue_pop_head(list));
-+        for (core = 0; core < ms->smp.cores; core++) {
-+            if (ms->smp.threads > 1) {
-+                g_queue_push_tail(list,
-+                    GUINT_TO_POINTER(table_data->len - pptt_start));
-+                build_processor_hierarchy_node(
-+                    table_data,
-+                    (0 << 0), /* not a physical package */
-+                    father_offset, core, NULL, 0);
-+            } else {
-+                build_processor_hierarchy_node(
-+                    table_data,
-+                    (1 << 1) | /* ACPI Processor ID valid */
-+                    (1 << 3),  /* Node is a Leaf */
-+                    father_offset, uid++, NULL, 0);
-+            }
-+        }
-+    }
-+
-+    length = g_queue_get_length(list);
-+    for (i = 0; i < length; i++) {
-+        int thread;
-+
-+        father_offset = GPOINTER_TO_UINT(g_queue_pop_head(list));
-+        for (thread = 0; thread < ms->smp.threads; thread++) {
-+            build_processor_hierarchy_node(
-+                table_data,
-+                (1 << 1) | /* ACPI Processor ID valid */
-+                (1 << 2) | /* Processor is a Thread */
-+                (1 << 3),  /* Node is a Leaf */
-+                father_offset, uid++, NULL, 0);
-+        }
-+    }
-+
-+    g_queue_free(list);
-+    acpi_table_end(linker, &table);
-+}
-+
- /* FADT */
- static void build_fadt_rev5(GArray *table_data, BIOSLinker *linker,
-                             VirtMachineState *vms, unsigned dsdt_tbl_offset)
-@@ -953,8 +1027,7 @@ void virt_acpi_build(VirtMachineState *vms, AcpiBuildTables *tables)
- 
-     if (!vmc->no_cpu_topology) {
-         acpi_add_table(table_offsets, tables_blob);
--        build_pptt(tables_blob, tables->linker, ms,
--                   vms->oem_id, vms->oem_table_id);
-+        build_pptt(tables_blob, tables->linker, vms);
-     }
- 
-     acpi_add_table(table_offsets, tables_blob);
-diff --git a/include/hw/acpi/aml-build.h b/include/hw/acpi/aml-build.h
-index 8346003a22..2c457c8f17 100644
---- a/include/hw/acpi/aml-build.h
-+++ b/include/hw/acpi/aml-build.h
-@@ -489,8 +489,9 @@ void build_srat_memory(GArray *table_data, uint64_t base,
- void build_slit(GArray *table_data, BIOSLinker *linker, MachineState *ms,
-                 const char *oem_id, const char *oem_table_id);
- 
--void build_pptt(GArray *table_data, BIOSLinker *linker, MachineState *ms,
--                const char *oem_id, const char *oem_table_id);
-+void build_processor_hierarchy_node(GArray *tbl, uint32_t flags,
-+                                    uint32_t parent, uint32_t id,
-+                                    uint32_t *priv_rsrc, uint32_t priv_num);
- 
- void build_fadt(GArray *tbl, BIOSLinker *linker, const AcpiFadtData *f,
-                 const char *oem_id, const char *oem_table_id);
+diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
+index dfb8523c8b..cb143a55a6 100644
+--- a/tests/qtest/bios-tables-test-allowed-diff.h
++++ b/tests/qtest/bios-tables-test-allowed-diff.h
+@@ -1 +1,2 @@
+ /* List of comma-separated changed AML files to ignore */
++"tests/data/acpi/virt/PPTT",
 -- 
 2.27.0
 
