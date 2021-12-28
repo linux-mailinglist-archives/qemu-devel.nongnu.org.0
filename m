@@ -2,76 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21017480CDF
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Dec 2021 20:52:31 +0100 (CET)
-Received: from localhost ([::1]:57182 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17008480D8E
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Dec 2021 22:49:30 +0100 (CET)
+Received: from localhost ([::1]:60242 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n2IWM-0003bw-8q
-	for lists+qemu-devel@lfdr.de; Tue, 28 Dec 2021 14:52:30 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48714)
+	id 1n2KLY-0001P5-NI
+	for lists+qemu-devel@lfdr.de; Tue, 28 Dec 2021 16:49:28 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43100)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1n2IJk-0003yf-Dg; Tue, 28 Dec 2021 14:39:28 -0500
-Received: from [2607:f8b0:4864:20::732] (port=34349
- helo=mail-qk1-x732.google.com)
+ (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1n2KKO-0000jQ-Og
+ for qemu-devel@nongnu.org; Tue, 28 Dec 2021 16:48:16 -0500
+Received: from [2607:f8b0:4864:20::42e] (port=42962
+ helo=mail-pf1-x42e.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1n2IJT-00047b-ET; Tue, 28 Dec 2021 14:39:17 -0500
-Received: by mail-qk1-x732.google.com with SMTP id b85so18061030qkc.1;
- Tue, 28 Dec 2021 11:38:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=2XiWEBDF142LHMVr3kJNFRGx9OjiLnQOHdejwQhKny8=;
- b=m9g8B3UI72qSVdHYMjUGwj19zxo2UPV9yB8e5CT/D4zejfgzozDgvkEQI7KVw2enz1
- 5WbXX6yPHVqGRYGba31vkBfcNN5EXJ3uDQ74kdNpXi9m8tTIuEomRQRkSJ0FUrd4rXSA
- 7nfneZV/F29uEho/iUR4SD6Y7lEHvKZvQWkbe82xGMn6FfftQ6ksnLCkGk31NwZryLFk
- jQmbXAUdKougMsLjslAPcHnSzbe+uukhXEff6pxvGeeVhfdEiahXeRaaCETnsm2XQyWt
- LcdVBOMKgZ2npn8RdamZFsLpuLCPoq2kHBMecENON+kpBjJKMFV+PmG594udBwkrfpDJ
- zZow==
+ (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1n2KKN-0003tx-4F
+ for qemu-devel@nongnu.org; Tue, 28 Dec 2021 16:48:16 -0500
+Received: by mail-pf1-x42e.google.com with SMTP id t19so17160209pfg.9
+ for <qemu-devel@nongnu.org>; Tue, 28 Dec 2021 13:48:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=AINbZEGCl8z/7FJgJFS1bW6C73bLWpVUK2DVW0sKcL8=;
+ b=i8BDfu3Cbnb3Viigeb90+/RoyFCsdY4zmmhG67xy1/xKkRGBvV7zYsDSfUujxRz1M6
+ WKWW+hF3hWcTBahPXxiAE2dd5TzfFfyW+kaCuL37DnTaDADymu2gDTSIFocZkVOxl6Bm
+ CXzjV9xx6eCJ5Fw/xZYWhUhKQdZf9vwKMKPt6PajLZqspTsivs90pzHPbq5ZOF4iu0Al
+ EogQs7/Dz0D2oeqbOHpA93p/WmGqQRboZHG7tge27x0qsYapE32/3MTkgYVB/z5hT7Oh
+ xGGAYApGd3to+yh2r1kf72CjhAP/3e8BbkQgzoMOcENXvMEuD5Cz7S0TaFuhwptpdVII
+ KgIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=2XiWEBDF142LHMVr3kJNFRGx9OjiLnQOHdejwQhKny8=;
- b=T3gJ4eeGXiS2J7DUyOs2g6CASVnGgsb808Nt24bX2gyeAqUZUC4h/HMyF4pX0qwLiv
- 3oftSyUtIPxwIKz1Bl90Rcu8jJIDiggDmAJ9Ci0z+VOaQqK05mQxYohJARgmQb8a8J94
- Dq9d1ItDBRkIOY2KGjXK4NHyo2GsVXizXWKbCSUVX8TTjEVnbTxqzuJ4rnTzAE20IsMC
- 1wUvGAeVwk1+nIm63IvxbAuW8/QYbSgEK1kwHLeGynM/kbpyXYsvgpH0sJrJvw/etc+/
- HRLo1Dg42NAp1qW2e2SMADKtt7CBFBghZlyiAK/DZVFvb3sC4p5jpPFbOXbsoqjUFrq1
- wtNg==
-X-Gm-Message-State: AOAM532iLBB72NQQ4i4AgCPf95ZlQQ7IxDUBXdMNmYIboVf2Uj/+fCAy
- y5qUhPNmLRgUL4YBfr0suPczAAKLp/s=
-X-Google-Smtp-Source: ABdhPJxS3KRIbEK6lFBodBzjAVORQ2iwj802LdSLcfal285AZDgiq0/U0RfsXEPuXk3E2EvyQxC43A==
-X-Received: by 2002:a05:620a:1249:: with SMTP id
- a9mr15531412qkl.76.1640720330645; 
- Tue, 28 Dec 2021 11:38:50 -0800 (PST)
-Received: from rekt.ibmuc.com ([2804:431:c7c6:7ce4:b718:2cc0:32df:97ee])
- by smtp.gmail.com with ESMTPSA id r20sm16924059qkp.21.2021.12.28.11.38.48
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=AINbZEGCl8z/7FJgJFS1bW6C73bLWpVUK2DVW0sKcL8=;
+ b=3Swi8+k/t13Xz4Xc81iJB6QeV9y7+c6q/YpGkv+yhPY2Y5HGG7q2DxGVwnmgB2JeNF
+ c6iCyb6GPDX1WYbLhSzopdz/y/Z4YXSEnKMpInWFXJWIKiirkJF1N1hwRkeNMgweqGug
+ i0/WoIvIBZNEuownsT2zswUcf0EC/E3w11j/AgOTmAnu5osp1IdZa5Xjm82qCUVNVF3D
+ B4IuvCFLK44T+B8n660h+8rHrZADL7+pYyhuc7FQV27gRxrsGJc1XYQoBU4AJZkWpfAk
+ JBhZT6ZWeQshTrwikFYdYisY9KBbbqbYo3wQbJBslFnHZsSI6yiCY2Bjfekt0A73C7tY
+ VMQw==
+X-Gm-Message-State: AOAM532WiXZkbjZSRLJ1D6Y1wkpPd1K73AkVbT+5zSk5CG8xRcXo5z5S
+ 2vaRUM1sVzMm36UPlY0RimfNXA==
+X-Google-Smtp-Source: ABdhPJyKE3UVODPS1fshDuKNztoIqtf+jVLcm9grjNtuxnSRjURqBYuIllKdU8KU2kEC55IFpKtL1g==
+X-Received: by 2002:a63:711a:: with SMTP id m26mr3052221pgc.49.1640728092301; 
+ Tue, 28 Dec 2021 13:48:12 -0800 (PST)
+Received: from google.com (157.214.185.35.bc.googleusercontent.com.
+ [35.185.214.157])
+ by smtp.gmail.com with ESMTPSA id t8sm113511pfj.114.2021.12.28.13.48.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Dec 2021 11:38:50 -0800 (PST)
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 17/17] pnv_phb4.c: change TYPE_PNV_PHB4_ROOT_BUS name
-Date: Tue, 28 Dec 2021 16:38:06 -0300
-Message-Id: <20211228193806.1198496-18-danielhb413@gmail.com>
-X-Mailer: git-send-email 2.33.1
-In-Reply-To: <20211228193806.1198496-1-danielhb413@gmail.com>
-References: <20211228193806.1198496-1-danielhb413@gmail.com>
+ Tue, 28 Dec 2021 13:48:11 -0800 (PST)
+Date: Tue, 28 Dec 2021 21:48:08 +0000
+From: Sean Christopherson <seanjc@google.com>
+To: Chao Peng <chao.p.peng@linux.intel.com>
+Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
+ Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+ Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Yu Zhang <yu.c.zhang@linux.intel.com>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+ luto@kernel.org, john.ji@intel.com, susie.li@intel.com,
+ jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
+ david@redhat.com
+Subject: Re: [PATCH v3 kvm/queue 05/16] KVM: Maintain ofs_tree for fast
+ memslot lookup by file offset
+Message-ID: <YcuGGCo5pR31GkZE@google.com>
+References: <20211223123011.41044-1-chao.p.peng@linux.intel.com>
+ <20211223123011.41044-6-chao.p.peng@linux.intel.com>
+ <YcS5uStTallwRs0G@google.com>
+ <20211224035418.GA43608@chaop.bj.intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::732
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211224035418.GA43608@chaop.bj.intel.com>
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42e
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::732;
- envelope-from=danielhb413@gmail.com; helo=mail-qk1-x732.google.com
-X-Spam_score_int: 8
-X-Spam_score: 0.8
-X-Spam_bar: /
-X-Spam_report: (0.8 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_ENVFROM_END_DIGIT=0.25,
- FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42e;
+ envelope-from=seanjc@google.com; helo=mail-pf1-x42e.google.com
+X-Spam_score_int: -167
+X-Spam_score: -16.8
+X-Spam_bar: ----------------
+X-Spam_report: (-16.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ ENV_AND_HDR_SPF_MATCH=-0.5, FSL_HELO_FAKE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,91 +106,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
- clg@kaod.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Similar to what was happening with pnv-phb3 buses,
-TYPE_PNV_PHB4_ROOT_BUS set to "pnv-phb4-root-bus" is a bit too long for
-a default root bus name. The usual default name for theses buses in QEMU
-are 'pcie', but we want to make a distinction between pnv-phb4 buses and
-other PCIE buses, at least as far as default name goes, because not all
-PCIE devices are attachable to a pnv-phb4 root-bus type.
+On Fri, Dec 24, 2021, Chao Peng wrote:
+> On Thu, Dec 23, 2021 at 06:02:33PM +0000, Sean Christopherson wrote:
+> > On Thu, Dec 23, 2021, Chao Peng wrote:
+> > > Similar to hva_tree for hva range, maintain interval tree ofs_tree for
+> > > offset range of a fd-based memslot so the lookup by offset range can be
+> > > faster when memslot count is high.
+> > 
+> > This won't work.  The hva_tree relies on there being exactly one virtual address
+> > space, whereas with private memory, userspace can map multiple files into the
+> > guest at different gfns, but with overlapping offsets.
+> 
+> OK, that's the point.
+> 
+> > 
+> > I also dislike hijacking __kvm_handle_hva_range() in patch 07.
+> > 
+> > KVM also needs to disallow mapping the same file+offset into multiple gfns, which
+> > I don't see anywhere in this series.
+> 
+> This can be checked against file+offset overlapping with existing slots
+> when register a new one.
+> 
+> > 
+> > In other words, there needs to be a 1:1 gfn:file+offset mapping.  Since userspace
+> > likely wants to allocate a single file for guest private memory and map it into
+> > multiple discontiguous slots, e.g. to skip the PCI hole, the best idea off the top
+> > of my head would be to register the notifier on a per-slot basis, not a per-VM
+> > basis.  It would require a 'struct kvm *' in 'struct kvm_memory_slot', but that's
+> > not a huge deal.
+> > 
+> > That way, KVM's notifier callback already knows the memslot and can compute overlap
+> > between the memslot and the range by reversing the math done by kvm_memfd_get_pfn().
+> > Then, armed with the gfn and slot, invalidation is just a matter of constructing
+> > a struct kvm_gfn_range and invoking kvm_unmap_gfn_range().
+> 
+> KVM is easy but the kernel bits would be difficulty, it has to maintain
+> fd+offset to memslot mapping because one fd can have multiple memslots,
+> it need decide which memslot needs to be notified.
 
-Changing the default to 'phb4-root' allow us to have a shorter name
-while making this bus distinct, and the user can always set its own bus
-naming via the "id" attribute anyway.
+No, the kernel side maintains an opaque pointer like it does today, KVM handles
+reverse engineering the memslot to get the offset and whatever else it needs.
+notify_fallocate() and other callbacks are unchanged, though they probably can
+drop the inode.
 
-This is the 'info qtree' output after this change, using a powernv9
-domain with 2 sockets and default settings enabled:
+E.g. likely with bad math and handwaving on the overlap detection:
 
-qemu-system-ppc64 -m 4G -machine powernv9,accel=tcg \
-     -smp 2,sockets=2,cores=1,threads=1
+int kvm_private_fd_fallocate_range(void *owner, pgoff_t start, pgoff_t end)
+{
+	struct kvm_memory_slot *slot = owner;
+	struct kvm_gfn_range gfn_range = {
+		.slot	   = slot,
+		.start	   = (start - slot->private_offset) >> PAGE_SHIFT,
+		.end	   = (end - slot->private_offset) >> PAGE_SHIFT,
+		.may_block = true,
+	};
 
-  dev: pnv-phb4, id ""
-    index = 5 (0x5)
-    chip-id = 1 (0x1)
-    version = 704374636546 (0xa400000002)
-    device-id = 1217 (0x4c1)
-    x-config-reg-migration-enabled = true
-    bypass-iommu = false
-    bus: phb4-root.11
-      type phb4-root
-      dev: pnv-phb4-root-port, id ""
-(...)
-  dev: pnv-phb4, id ""
-    index = 0 (0x0)
-    chip-id = 1 (0x1)
-    version = 704374636546 (0xa400000002)
-    device-id = 1217 (0x4c1)
-    x-config-reg-migration-enabled = true
-    bypass-iommu = false
-    bus: phb4-root.6
-      type phb4-root
-      dev: pnv-phb4-root-port, id ""
-(..)
-  dev: pnv-phb4, id ""
-    index = 5 (0x5)
-    chip-id = 0 (0x0)
-    version = 704374636546 (0xa400000002)
-    device-id = 1217 (0x4c1)
-    x-config-reg-migration-enabled = true
-    bypass-iommu = false
-    bus: phb4-root.5
-      type phb4-root
-      dev: pnv-phb4-root-port, id ""
-(...)
-  dev: pnv-phb4, id ""
-    index = 0 (0x0)
-    chip-id = 0 (0x0)
-    version = 704374636546 (0xa400000002)
-    device-id = 1217 (0x4c1)
-    x-config-reg-migration-enabled = true
-    bypass-iommu = false
-    bus: phb4-root.0
-      type phb4-root
-      dev: pnv-phb4-root-port, id ""
+	if (!has_overlap(slot, start, end))
+		return 0;
 
-Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
----
- include/hw/pci-host/pnv_phb4.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+	gfn_range.end = min(gfn_range.end, slot->base_gfn + slot->npages);
 
-diff --git a/include/hw/pci-host/pnv_phb4.h b/include/hw/pci-host/pnv_phb4.h
-index d67e33924b..cd0714d30b 100644
---- a/include/hw/pci-host/pnv_phb4.h
-+++ b/include/hw/pci-host/pnv_phb4.h
-@@ -47,7 +47,7 @@ typedef struct PnvPhb4DMASpace {
- /*
-  * PHB4 PCIe Root port
-  */
--#define TYPE_PNV_PHB4_ROOT_BUS "pnv-phb4-root-bus"
-+#define TYPE_PNV_PHB4_ROOT_BUS "phb4-root"
- #define TYPE_PNV_PHB4_ROOT_PORT "pnv-phb4-root-port"
- #define TYPE_PNV_PHB5_ROOT_PORT "pnv-phb5-root-port"
- 
--- 
-2.33.1
+	kvm_unmap_gfn_range(slot->kvm, &gfn_range);
+	return 0;
+}
 
 
