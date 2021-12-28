@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9106F480CD6
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Dec 2021 20:45:57 +0100 (CET)
-Received: from localhost ([::1]:38788 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC742480CDA
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Dec 2021 20:49:03 +0100 (CET)
+Received: from localhost ([::1]:47520 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n2IQ0-0007zo-J8
-	for lists+qemu-devel@lfdr.de; Tue, 28 Dec 2021 14:45:56 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48454)
+	id 1n2IT1-0005Xh-0B
+	for lists+qemu-devel@lfdr.de; Tue, 28 Dec 2021 14:49:03 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48452)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1n2IIp-0003le-1t; Tue, 28 Dec 2021 14:38:32 -0500
-Received: from [2607:f8b0:4864:20::f2c] (port=41485
- helo=mail-qv1-xf2c.google.com)
+ id 1n2IIp-0003ld-1t; Tue, 28 Dec 2021 14:38:32 -0500
+Received: from [2607:f8b0:4864:20::82c] (port=34692
+ helo=mail-qt1-x82c.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1n2IIn-00044Z-4Q; Tue, 28 Dec 2021 14:38:30 -0500
-Received: by mail-qv1-xf2c.google.com with SMTP id h5so17250074qvh.8;
- Tue, 28 Dec 2021 11:38:24 -0800 (PST)
+ id 1n2IIn-00044e-3b; Tue, 28 Dec 2021 14:38:30 -0500
+Received: by mail-qt1-x82c.google.com with SMTP id o17so17087660qtk.1;
+ Tue, 28 Dec 2021 11:38:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=jnMv/5hIl0V178unfqwgd3QFIUiErNAVfl6i1TwmTC4=;
- b=SzxpmiAheiYxTHj/Mdzc75y+duNKhz50soFpVpeTU9lCbyuHhS9kekpu05BR0TaPmM
- PR+Bv7is893hCMOOU7+55dvEcl0Q8UVp8jHhG/G7hAECcdAlBfEHwXp4Mx34orJBsq6C
- mUrO3ypDCt9tQQl6rElC1WDIRBJXzFEW5RjZ02Gxr16U171aad9qMm5IF+tM5kfBwI5l
- ndae1kXsFZGLIhIu1Z30Lb4/p97u1TaPghgGZHeTfPepEtJNBQow6+e6Uw0kiFyI3EDL
- c2II84cZ0q6DNDvm/MSRvhir9f5WIUVJ+HY0POK1wxLX+OE7kdACbfU7PnLFiYSGsKtP
- fAug==
+ bh=vrkDjgKppKzQGTIo1wj0QuJKlu9Bp3LERFGDDCEreL0=;
+ b=poR8A13lvSzVio4je5btxfZBwW10Ke1ZAYi/sEzVq+XXgcd7ZVtsCkCTxYHBs4Yx8n
+ gH4/NXyl7OwimN1pCmwXZYYJHlOR+r0nDnSwWgTfeIsery6rPer9MDAjMHb3v34Ul26B
+ yxSDX88rckuLiLy2pCFBi/pgNjfSqjaBs8Y/W+EyG5FQul8WiOgP6yYgeGlDHEFaNkD6
+ n5Fsi/Cal0i/rhdGkVJbSdOcLZFd71s6to9byymL7Gygcil/+FvKwBDGQxE071SWItyR
+ 5kKH2R9yDYSrqb3MSvb0lED6A2Ike2bTjZwd36X3grt3GSVK5Uh/h6Dxka8MRm95c4oB
+ r3aw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=jnMv/5hIl0V178unfqwgd3QFIUiErNAVfl6i1TwmTC4=;
- b=xjRgW8HFSzDMvSh4fDAEp8l2Jiuj8du/6z5us51mxmxLj/R5IFP/bsek2uyaEer8tL
- 0hrrJGVxA7/YBAR2EuYOpMxhXWwl0+WxQNmxoW7FOz3SclpfBNQFC1GFtUL2q/MlaGMi
- 5+XvwY/kfAyCYRkZmUEWUbsE6uJKDMMc6wuAY3Mpt66YOVsBjxhVcJ0lwGnyi+eGTToy
- 1UpyZQTU8OWvf+ZLrvRGEvHkc3Br03/wuFhLQGGOt9LIzr0qFDRl++SMXicJgFckIK9y
- Gkw1apdkZIPw0ihi0PvsjFvoYn4qwLVOOfSEbhYJy3iHzvnELhVXikNgholO6gnOVn/R
- /Yvg==
-X-Gm-Message-State: AOAM532Gms+pNVjFw8YlPZ7BXvoDVYOJ6xnRaiEStOScbyO7kA/Zl3hQ
- 0UJ/wSBOT40GMz6dB42HJR92t+7RC/Y=
-X-Google-Smtp-Source: ABdhPJzFO7qJICbURovH/hBsauDJGihO0WV7gO54nfwf1oQ0WTn9FhUr/Z6PQBZVPac9mFI59eYr2A==
-X-Received: by 2002:ad4:5cac:: with SMTP id q12mr20724568qvh.37.1640720304396; 
- Tue, 28 Dec 2021 11:38:24 -0800 (PST)
+ bh=vrkDjgKppKzQGTIo1wj0QuJKlu9Bp3LERFGDDCEreL0=;
+ b=pb3nIwtCx1dpu6IW2dPyuNJkCvRZIoRLXpvYsQvhaJtu6XNlbNnwEvrMcfuKjSTZ+D
+ aGhsq4GmkhNYxPXNYCrwArO60Fx9HtA504uyuarglkdjanrzKtokPLZFSSHNeEFTcGt5
+ KyywKhd/MHLIu7WG3cJunjlZ3Opg2BozBYiRBBnn+XT4fTS8zE8JFo2gfn1K5Wr5T0Ji
+ aMGb9sz3RjWuG/zOjUC/WBVDosH8dabgD0/qgzfnHACFM7R1vRo2oOj2OUY9iiAsNNah
+ 78A8jC+/su+lRobsCIQ0YuND9Fb+pY5gOwirm8OKnBhSeJIXV+lmBzxyBVKy83Z8JCcp
+ TU7g==
+X-Gm-Message-State: AOAM5312/hr5VlvxPXWqXbTjShfkvsLPEsvGbeWCOgjUDOM2aA5xvdPh
+ IhoAB7QS0bUagT53FhQyvwRFjhuvz78=
+X-Google-Smtp-Source: ABdhPJwYN/NuDbcBAln5MNF0PmdqoF/i3lzpSTdDIhs+C5LdUNj5CFdLCY4rPoXQEIzSCQK0yxzAdQ==
+X-Received: by 2002:ac8:5a42:: with SMTP id o2mr19665505qta.400.1640720306240; 
+ Tue, 28 Dec 2021 11:38:26 -0800 (PST)
 Received: from rekt.ibmuc.com ([2804:431:c7c6:7ce4:b718:2cc0:32df:97ee])
- by smtp.gmail.com with ESMTPSA id r20sm16924059qkp.21.2021.12.28.11.38.22
+ by smtp.gmail.com with ESMTPSA id r20sm16924059qkp.21.2021.12.28.11.38.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Dec 2021 11:38:24 -0800 (PST)
+ Tue, 28 Dec 2021 11:38:26 -0800 (PST)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 04/17] pnv_phb4.c: add unique chassis and slot for
- pnv_phb4_root_port
-Date: Tue, 28 Dec 2021 16:37:53 -0300
-Message-Id: <20211228193806.1198496-5-danielhb413@gmail.com>
+Subject: [PATCH 05/17] pnv.c: simplify pnv_phb_attach_root_port()
+Date: Tue, 28 Dec 2021 16:37:54 -0300
+Message-Id: <20211228193806.1198496-6-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211228193806.1198496-1-danielhb413@gmail.com>
 References: <20211228193806.1198496-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::f2c
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::82c
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f2c;
- envelope-from=danielhb413@gmail.com; helo=mail-qv1-xf2c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::82c;
+ envelope-from=danielhb413@gmail.com; helo=mail-qt1-x82c.google.com
 X-Spam_score_int: 8
 X-Spam_score: 0.8
 X-Spam_bar: /
@@ -89,44 +88,62 @@ Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-A similar situation as described previously with pnv_phb3_root_port
-devices also happens with pnv_phb4_root_ports.
+The root port 'chassis' and 'slot' attributes are being set in the
+realize() callback of phb3_root_port and phb4_root_port.
 
-The solution is the same: assign an unique chassis/slot combo for them.
+Remove the unneeded 'chassis' and 'slot' setting from
+pnv_phb_attach_root_port().
 
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- hw/pci-host/pnv_phb4.c | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+ hw/ppc/pnv.c | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
 
-diff --git a/hw/pci-host/pnv_phb4.c b/hw/pci-host/pnv_phb4.c
-index 23ab3ba594..4554490e51 100644
---- a/hw/pci-host/pnv_phb4.c
-+++ b/hw/pci-host/pnv_phb4.c
-@@ -1396,8 +1396,23 @@ static void pnv_phb4_root_port_reset(DeviceState *dev)
- static void pnv_phb4_root_port_realize(DeviceState *dev, Error **errp)
- {
-     PCIERootPortClass *rpc = PCIE_ROOT_PORT_GET_CLASS(dev);
-+    PCIDevice *pci = PCI_DEVICE(dev);
-+    PCIBus *bus = pci_get_bus(pci);
-+    PnvPHB4 *phb = NULL;
-     Error *local_err = NULL;
+diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
+index 1bd84d20c1..605296fab5 100644
+--- a/hw/ppc/pnv.c
++++ b/hw/ppc/pnv.c
+@@ -1222,12 +1222,10 @@ static void pnv_chip_icp_realize(Pnv8Chip *chip8, Error **errp)
+ }
  
-+    phb = (PnvPHB4 *) object_dynamic_cast(OBJECT(bus->qbus.parent),
-+                                          TYPE_PNV_PHB4);
-+
-+    if (!phb) {
-+        error_setg(errp, "%s must be connected to pnv-phb4 buses", dev->id);
-+        return;
-+    }
-+
-+    /* Set unique chassis/slot values for the root port */
-+    qdev_prop_set_uint8(&pci->qdev, "chassis", phb->chip_id);
-+    qdev_prop_set_uint16(&pci->qdev, "slot", phb->phb_id);
-+
-     rpc->parent_realize(dev, &local_err);
-     if (local_err) {
-         error_propagate(errp, local_err);
+ /* Attach a root port */
+-static void pnv_phb_attach_root_port(PCIHostState *pci, int id, const char *name)
++static void pnv_phb_attach_root_port(PCIHostState *pci, const char *name)
+ {
+     PCIDevice *root = pci_new(PCI_DEVFN(0, 0), name);
+ 
+-    qdev_prop_set_uint8(&root->qdev, "chassis", id);
+-    qdev_prop_set_uint16(&root->qdev, "slot", id);
+     pci_realize_and_unref(root, pci->bus, &error_fatal);
+ }
+ 
+@@ -1326,7 +1324,7 @@ static void pnv_chip_power8_realize(DeviceState *dev, Error **errp)
+             return;
+         }
+ 
+-        pnv_phb_attach_root_port(PCI_HOST_BRIDGE(phb), phb->phb_id,
++        pnv_phb_attach_root_port(PCI_HOST_BRIDGE(phb),
+                                  TYPE_PNV_PHB3_ROOT_PORT);
+     }
+ }
+@@ -1506,7 +1504,7 @@ static void pnv_chip_power9_pec_realize(PnvChip *chip, Error **errp)
+         for (j = 0; j < pec->num_stacks; j++) {
+             PnvPHB4 *phb = &pec->stacks[j].phb;
+ 
+-            pnv_phb_attach_root_port(PCI_HOST_BRIDGE(phb), phb->phb_id,
++            pnv_phb_attach_root_port(PCI_HOST_BRIDGE(phb),
+                                      TYPE_PNV_PHB4_ROOT_PORT);
+         }
+     }
+@@ -1754,7 +1752,7 @@ static void pnv_chip_power10_phb_realize(PnvChip *chip, Error **errp)
+         for (j = 0; j < pec->num_stacks; j++) {
+             PnvPHB4 *phb = &pec->stacks[j].phb;
+ 
+-            pnv_phb_attach_root_port(PCI_HOST_BRIDGE(phb), phb->phb_id,
++            pnv_phb_attach_root_port(PCI_HOST_BRIDGE(phb),
+                                      TYPE_PNV_PHB5_ROOT_PORT);
+         }
+     }
 -- 
 2.33.1
 
