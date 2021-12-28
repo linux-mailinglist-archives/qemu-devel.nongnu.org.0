@@ -2,83 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2DCC480544
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Dec 2021 00:52:39 +0100 (CET)
-Received: from localhost ([::1]:43584 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0D46480566
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Dec 2021 01:55:35 +0100 (CET)
+Received: from localhost ([::1]:56372 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n1znC-0006d9-FV
-	for lists+qemu-devel@lfdr.de; Mon, 27 Dec 2021 18:52:38 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41378)
+	id 1n20m4-0001UT-TW
+	for lists+qemu-devel@lfdr.de; Mon, 27 Dec 2021 19:55:34 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47498)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yaoyuan0329os@gmail.com>)
- id 1n1zlV-0005NV-Kc
- for qemu-devel@nongnu.org; Mon, 27 Dec 2021 18:50:53 -0500
-Received: from [2607:f8b0:4864:20::533] (port=45645
- helo=mail-pg1-x533.google.com)
+ (Exim 4.90_1) (envelope-from <jim.shu@sifive.com>)
+ id 1n20kG-0007vH-8G
+ for qemu-devel@nongnu.org; Mon, 27 Dec 2021 19:53:40 -0500
+Received: from [2607:f8b0:4864:20::434] (port=44858
+ helo=mail-pf1-x434.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <yaoyuan0329os@gmail.com>)
- id 1n1zlT-0004LU-Q3
- for qemu-devel@nongnu.org; Mon, 27 Dec 2021 18:50:53 -0500
-Received: by mail-pg1-x533.google.com with SMTP id 2so14530237pgb.12
- for <qemu-devel@nongnu.org>; Mon, 27 Dec 2021 15:50:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=jMDYAAEzWKf+ZWKv9FVeegcQUYl4xuyCtWob58cAQWw=;
- b=Mn7hUoT2uvnAFbeYWRxfKqSyou/4u6IWp5Ab9qGalAnlr7CngmbOyRZZC+s5asEIUW
- D9pKUg8BUKSlcrGHpuRE0eVQ4R7/edscU9ohcmHdtsmKqr+Boz5j3tg6LOO5/I88JJv4
- TZK7o2ygufhlP3LYfuzuoWG7p9becxKvBXHa41Cizd2XQ8ivuEkcaWMZ99iHFwZnjN1i
- KeMwOIR2V0jav1n+UfooUNeR5uBznQwTmB2E267YriDa4fRhYLSFBc3Uf4oK+pSoJTaC
- K1JaaZzvNioZAMKg1NKVaFFaQ2xG0686bGDyixKpHfpRm1UO6iFaJuVD9qoCX9mzH8P7
- OoSQ==
+ (Exim 4.90_1) (envelope-from <jim.shu@sifive.com>)
+ id 1n20kE-0002qC-Fh
+ for qemu-devel@nongnu.org; Mon, 27 Dec 2021 19:53:39 -0500
+Received: by mail-pf1-x434.google.com with SMTP id t187so1291457pfb.11
+ for <qemu-devel@nongnu.org>; Mon, 27 Dec 2021 16:53:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=9pNhO47/chTtN7Y6oLe83YSgjAjrTEE1HfRynfLZ5OQ=;
+ b=fX5mpFxkL0deruFupsUIh8bK0Ken0qBC/T1+FpnQCzKh4DhF9/USL1IRWcbo1CNxYq
+ 3r6lAN5amsUoAqGZgmvfhEsoTvKnP4CfBfNT2wVXluU2QuDRjDN0TpiFnevxtdcm00V7
+ uYL0JxuVeUOA1BGbE1WWvOysNIzXnnBmZwg9ZTX0Gk1zCU/A56r1FuodZglko4Nq1R3f
+ S2puRIzxhQ+XbeU22ibi0LTp0Y5x2r6LaUO4ShaHB0VsDhyJSpRYjCCi1bnp8SQMh3LS
+ 63orveZ7MWGmaIEKdX6ntACWDHy8FdhSDhelaPMMI5DckG7npUOVMFaEsAlewbsjiIwL
+ C39g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=jMDYAAEzWKf+ZWKv9FVeegcQUYl4xuyCtWob58cAQWw=;
- b=xW0veHwBIwyrGF07Vf/mjoysC4bdD5BBiSYousFOodGJw/9E5Av1JtC+w8cCKpQ1kp
- +llT/CXMMYpGWExpI2rvsmj0GgyHGCk1X4AlG8LjkmPrwRpb0s9fcG301BYysmO3w6J4
- jCBlhjoxmRMegeRzPqqneO79x3G110NdtopHMUgzmQ6+62Mj1XI+PLqeGUcUmS/YBgWj
- EOe9rSucV44GKtfQzxrnPSqKuohEv8JARkr61b0hRYqwVvxshowl1jqUwCVf6fvc3bmO
- yZkEEXp9jcUSn0B73KfdYOxHb3qNusJI3v8EEzjdX1VwHys+GoUxvHvDkjtoXPciAX22
- oIxA==
-X-Gm-Message-State: AOAM531Ha7ZgVXgelQM+0cNWv+Y43kXcSNswLuB3v71qaFXToWkHGGKb
- 5u/R3dBykuIUuum0FYrXLws=
-X-Google-Smtp-Source: ABdhPJyliKjaqPaj3bkR5OEDX+2h8UmXBD78mFpsM4oAqOKbEenA5uObRsI4rm3mReETZDeq4yKueA==
-X-Received: by 2002:a62:158f:0:b0:4ba:b456:24b9 with SMTP id
- 137-20020a62158f000000b004bab45624b9mr19854677pfv.86.1640649047357; 
- Mon, 27 Dec 2021 15:50:47 -0800 (PST)
-Received: from localhost (176.222.229.35.bc.googleusercontent.com.
- [35.229.222.176])
- by smtp.gmail.com with ESMTPSA id 10sm18533824pfm.56.2021.12.27.15.50.46
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=9pNhO47/chTtN7Y6oLe83YSgjAjrTEE1HfRynfLZ5OQ=;
+ b=BqqHe9nG0qdUe67ARQh9QafoVFAsxPB9RTn1kXD9Sgu9t9BT7fJqb3UeMKmUO3vZ6d
+ t5CLVWTiHUXBh4hGw3qOyF/v61uk9F2O+u3XgUQ42Gn9g58nkdJIIUc3ERftOplKyrjD
+ SySf522v7irffsoeAUiPD85WE8m7sHyEhof9ce9au+z6+E63GVQN2pJgpcPzwkuKAJzG
+ 35dJ4QgGW5v0AEXKb/Xl6YBxZHXSYGbfkOZpvi6ROJqFq0dUJmRd/vjnssfslNJFk1Wy
+ 8CivkHJKf4mpdl4f3n7SCLOl2MovSTkyryvWIueDdY7KodhgBAZplA34hnRJijJD995y
+ 3NjQ==
+X-Gm-Message-State: AOAM530qO7CgSeXDTI8KygPsiN2CnQhiMa4KBsGqE9xHpPslOt9q5nkP
+ PoDzMyXCWahUZhNsjf0z/CNkHA==
+X-Google-Smtp-Source: ABdhPJxhmjDpp9revYSQZ4BKXScXoIHj/8fFgB6/KmNxyEg/KcZCAtRovlKyIKA8AenAWwyxM03v+g==
+X-Received: by 2002:a63:1c1d:: with SMTP id c29mr17679385pgc.89.1640652816620; 
+ Mon, 27 Dec 2021 16:53:36 -0800 (PST)
+Received: from localhost.localdomain (1-169-192-165.dynamic-ip.hinet.net.
+ [1.169.192.165])
+ by smtp.gmail.com with ESMTPSA id t27sm19266587pfg.41.2021.12.27.16.53.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Dec 2021 15:50:46 -0800 (PST)
-Date: Tue, 28 Dec 2021 07:50:42 +0800
-From: Yao Yuan <yaoyuan0329os@gmail.com>
-To: Chao Peng <chao.p.peng@linux.intel.com>
-Subject: Re: [PATCH v3 kvm/queue 05/16] KVM: Maintain ofs_tree for fast
- memslot lookup by file offset
-Message-ID: <20211227235042.rmnwzcqy6ujj75zp@sapienza>
-References: <20211223123011.41044-1-chao.p.peng@linux.intel.com>
- <20211223123011.41044-6-chao.p.peng@linux.intel.com>
- <YcS5uStTallwRs0G@google.com>
- <20211224035418.GA43608@chaop.bj.intel.com>
+ Mon, 27 Dec 2021 16:53:36 -0800 (PST)
+From: Jim Shu <jim.shu@sifive.com>
+To: Alistair.Francis@wdc.com, bin.meng@windriver.com, palmer@dabbelt.com,
+ frank.chang@sifive.com, qemu-riscv@nongnu.org, qemu-devel@nongnu.org
+Subject: [PATCH 0/2] Align SiFive PDMA behavior to real hardware
+Date: Tue, 28 Dec 2021 08:52:34 +0800
+Message-Id: <20211228005236.415583-1-jim.shu@sifive.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211224035418.GA43608@chaop.bj.intel.com>
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::533
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::434
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::533;
- envelope-from=yaoyuan0329os@gmail.com; helo=mail-pg1-x533.google.com
-X-Spam_score_int: 1
-X-Spam_score: 0.1
-X-Spam_bar: /
-X-Spam_report: (0.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HK_RANDOM_ENVFROM=0.45, HK_RANDOM_FROM=0.998, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::434;
+ envelope-from=jim.shu@sifive.com; helo=mail-pf1-x434.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,68 +85,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Wanpeng Li <wanpengli@tencent.com>, jun.nakajima@intel.com,
- kvm@vger.kernel.org, david@redhat.com, qemu-devel@nongnu.org,
- "J . Bruce Fields" <bfields@fieldses.org>, linux-mm@kvack.org,
- "H . Peter Anvin" <hpa@zytor.com>, ak@linux.intel.com,
- Jonathan Corbet <corbet@lwn.net>, Joerg Roedel <joro@8bytes.org>,
- x86@kernel.org, Hugh Dickins <hughd@google.com>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- luto@kernel.org, Thomas Gleixner <tglx@linutronix.de>,
- Vitaly Kuznetsov <vkuznets@redhat.com>, Jim Mattson <jmattson@google.com>,
- dave.hansen@intel.com, Sean Christopherson <seanjc@google.com>,
- susie.li@intel.com, Jeff Layton <jlayton@kernel.org>,
- linux-kernel@vger.kernel.org, john.ji@intel.com,
- Yu Zhang <yu.c.zhang@linux.intel.com>, linux-fsdevel@vger.kernel.org,
- Paolo Bonzini <pbonzini@redhat.com>, Andrew Morton <akpm@linux-foundation.org>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
+Cc: Jim Shu <jim.shu@sifive.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Dec 24, 2021 at 11:54:18AM +0800, Chao Peng wrote:
-> On Thu, Dec 23, 2021 at 06:02:33PM +0000, Sean Christopherson wrote:
-> > On Thu, Dec 23, 2021, Chao Peng wrote:
-> > > Similar to hva_tree for hva range, maintain interval tree ofs_tree for
-> > > offset range of a fd-based memslot so the lookup by offset range can be
-> > > faster when memslot count is high.
-> >
-> > This won't work.  The hva_tree relies on there being exactly one virtual address
-> > space, whereas with private memory, userspace can map multiple files into the
-> > guest at different gfns, but with overlapping offsets.
->
-> OK, that's the point.
->
-> >
-> > I also dislike hijacking __kvm_handle_hva_range() in patch 07.
-> >
-> > KVM also needs to disallow mapping the same file+offset into multiple gfns, which
-> > I don't see anywhere in this series.
->
-> This can be checked against file+offset overlapping with existing slots
-> when register a new one.
->
-> >
-> > In other words, there needs to be a 1:1 gfn:file+offset mapping.  Since userspace
-> > likely wants to allocate a single file for guest private memory and map it into
-> > multiple discontiguous slots, e.g. to skip the PCI hole, the best idea off the top
-> > of my head would be to register the notifier on a per-slot basis, not a per-VM
-> > basis.  It would require a 'struct kvm *' in 'struct kvm_memory_slot', but that's
-> > not a huge deal.
-> >
-> > That way, KVM's notifier callback already knows the memslot and can compute overlap
-> > between the memslot and the range by reversing the math done by kvm_memfd_get_pfn().
-> > Then, armed with the gfn and slot, invalidation is just a matter of constructing
-> > a struct kvm_gfn_range and invoking kvm_unmap_gfn_range().
->
-> KVM is easy but the kernel bits would be difficulty, it has to maintain
-> fd+offset to memslot mapping because one fd can have multiple memslots,
-> it need decide which memslot needs to be notified.
+HiFive Unmatched PDMA supports high/low 32-bit access of 64-bit
+register, but QEMU emulation support low part access now. Enhance QEMU
+emulation to support high 32-bit access. 
 
-How about pass "context" of fd (e.g. the gfn/hva start point) when register
-the invalidation notifier to fd, then in callback kvm can convert the
-offset to absolute hva/gfn with such "context", then do memslot invalidation.
+Also, permit 4/8-byte valid access in PDMA as we have verified 32/64-bit
+accesses of PDMA registers are supported.
 
->
-> Thanks,
-> Chao
+Jim Shu (2):
+  hw/dma: sifive_pdma: support high 32-bit access of 64-bit register
+  hw/dma: sifive_pdma: permit 4/8-byte access size of PDMA registers
+
+ hw/dma/sifive_pdma.c | 178 +++++++++++++++++++++++++++++++++++++------
+ 1 file changed, 156 insertions(+), 22 deletions(-)
+
+-- 
+2.25.1
+
 
