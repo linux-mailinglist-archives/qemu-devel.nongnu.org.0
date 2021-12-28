@@ -2,144 +2,142 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FFCF48097B
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Dec 2021 14:18:20 +0100 (CET)
-Received: from localhost ([::1]:35640 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8FD14809BA
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Dec 2021 14:31:03 +0100 (CET)
+Received: from localhost ([::1]:39296 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n2CMt-0003FU-9U
-	for lists+qemu-devel@lfdr.de; Tue, 28 Dec 2021 08:18:19 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34658)
+	id 1n2CZC-0006LA-Od
+	for lists+qemu-devel@lfdr.de; Tue, 28 Dec 2021 08:31:02 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36174)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1n2CLf-0002Yi-T6
- for qemu-devel@nongnu.org; Tue, 28 Dec 2021 08:17:03 -0500
-Received: from [2a01:111:f400:7d00::707] (port=2486
- helo=EUR05-VI1-obe.outbound.protection.outlook.com)
+ id 1n2CWO-0005bs-Ou
+ for qemu-devel@nongnu.org; Tue, 28 Dec 2021 08:28:08 -0500
+Received: from mail-db8eur05on2123.outbound.protection.outlook.com
+ ([40.107.20.123]:65376 helo=EUR05-DB8-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1n2CLT-00082Y-M0
- for qemu-devel@nongnu.org; Tue, 28 Dec 2021 08:17:00 -0500
+ id 1n2CWM-0001Vc-Bw
+ for qemu-devel@nongnu.org; Tue, 28 Dec 2021 08:28:07 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=RTFaKOqjo/0StuOdcgijDzWnUe6/gZuTh28K+q0LK5XFvAT5wabaaV3vu4G8aJ1Clg/OYpIhHb7Ck532W22oVgZkiZ6ZgqGDdtHuSK7FIencdel9eNpU2NCFGz5QNj8AZC4Ob8i68VLLz/9/EwTf5ywmIuZW8yQ4tN4SqefUv2IyMmeuaYTp4ZDSiRznE4SUDxk3m54c4yVs6orGOr8EfR58C9rES+CzTUU70Gw/M4g+fA2O9huEnyMCog+LP8Dih9KP37JVh7d5boLyY+OSXaJj/2jRLwc8uwHbMIMpIB7xTzDkqMngCCYUWH60NQ9qKzCqvp4EjNAIY77yoXRs6w==
+ b=f0l2inXVRVe59G81ufsHQcC+L7coUKZngkmiZdU2drmPoH82Gg/IpGdS5Y/YF2qBo0eFncxP/i4xbmt4DlzFUfbwfW4T/mz+5ENpMQnglYy1KdVOipP7dlceDkIGQDgN79xc+9JkusavjIwhfsuUEZ0Nj64o7TWJYDuoqVxeCqnnalBhqAF2vvZRwQD7Xtnbz5UD/SZUGSYbeAVLJUwl4RelfvvMy/G+poP9utXngkocsclcsX9QzXvYrY1h5/+pNGMMvqnODhyFqTh1kKrxg1/cB67u3dWIYEHKv1lBs0O316+/AnsT7VUCvL92R/UKK4Ob+6r2rk1GwHkqmwu8BA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=2M0ty6uxlVBBQVop7HoTY18TqPOIGQaJZmy67+5I7jA=;
- b=VcCCrjFqeYEYc7Xtg+4UB3k96JU337PL0NlOb2eN/PhWcnqHau9DanzwO2UGv6kTJ1uSGgxwGCpox7a6CbdzQdHzCoi10AN3x6YSVrKLJThkL3RponaHNcvLhvK+VRRLjn3PhWwihIqAsLMYr9qn/O5ez1+Hk1kF5/vG4/KK3MQvCO9Pjpg7K3KBnsyqfsvxsnGf+IHVgRaYsUK5Gn1H0SwNYPYjLuovBAN/ipa0KI4d0PGyZSUAzh1JG2WHUJXHUuqf1AO4+ghk+rOAduAb7htsNhDDZOOMpWdhLw6LD2xgn02LT0FGscLhXLyKEIVJLM+7wWWvHBHSX2JQroOvag==
+ bh=PxYPf6iNM+AsCiQC1rTAzs905RR2NWHfeY8fPWKxAg4=;
+ b=fjJ86hHfP5eocDFww3UeyzKBFczwGzUvEKBjHHlERRObGgYMFed45338ZOIuO+aZiTNasl/qnguKkv9nPbUAmAZ3F7YL1yhgpjQbswCe0txYP53YqyTXmoAU7JGwM29uh3EFeZA8tzlk2S5yxR3QDhuzz24a6NMnWMzwGMT2dv1enBl/FwEcVbpNjpGNMGU8E3X4IEqwV94eeTtO+zfSnKwb8czBIhWF/vl2yVKELYha2Pt8W723chz0DyI5YOdTlo3Myokpbm5BeLcc1weFVijgD1NAxJFtnpS3LnY9WhX/3VnhQxTki5plIhxyi48Q87HSbXFCXYrgteuO6ltyeg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2M0ty6uxlVBBQVop7HoTY18TqPOIGQaJZmy67+5I7jA=;
- b=ugkvMGFgfvtxUtrgesJ4N7mxbQ2vr9L0X/Hs2Qva3k6eOYGZZw0IfoLQJuiahw6pLocZRw/ok3ybmwHkcyT/b4TraNgkb2aOaR5JKuEeemUmj7cxotn1d9IKlkiaXuGjKcBW6JgCKVrQOemrbaaWN3BcBmW2tPQmu9TzpgppcO8=
+ bh=PxYPf6iNM+AsCiQC1rTAzs905RR2NWHfeY8fPWKxAg4=;
+ b=I10ufo8QVU0723ri9TjWrVdS2ZwRmttvvksBwEK8MXQCnSQOK1p8OIHUE1JCGhZiglNtTLYZXMS+ZcaEWyiWRgg8BO3EODBqtygIff4HuIsh42Hp4fFMNkSsYURUuawyvFwm/o95BB7fNYy8bxrvI9JtEJza2XTiQhnJR5K+qpA=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM9PR08MB6737.eurprd08.prod.outlook.com (2603:10a6:20b:304::18)
- by AM0PR08MB4435.eurprd08.prod.outlook.com (2603:10a6:208:144::19)
+ by AM0PR08MB3844.eurprd08.prod.outlook.com (2603:10a6:208:101::28)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4823.19; Tue, 28 Dec
- 2021 13:16:40 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4823.21; Tue, 28 Dec
+ 2021 13:27:55 +0000
 Received: from AM9PR08MB6737.eurprd08.prod.outlook.com
  ([fe80::b118:483a:d003:3112]) by AM9PR08MB6737.eurprd08.prod.outlook.com
  ([fe80::b118:483a:d003:3112%5]) with mapi id 15.20.4823.023; Tue, 28 Dec 2021
- 13:16:40 +0000
-Message-ID: <59c6a7b3-0de6-c7d9-5234-e6401347e077@virtuozzo.com>
-Date: Tue, 28 Dec 2021 16:16:38 +0300
+ 13:27:55 +0000
+Message-ID: <bd5e20e3-6fe8-faea-1d60-2f7a8325eb9f@virtuozzo.com>
+Date: Tue, 28 Dec 2021 16:27:53 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.2.0
-Subject: Re: [PATCH 4/6] migration: Add ram-only capability
+Subject: Re: [PATCH 5/6] migration: analyze-migration script changed
 Content-Language: en-US
 To: Nikita Lapshin <nikita.lapshin@virtuozzo.com>, qemu-devel@nongnu.org
 Cc: quintela@redhat.com, dgilbert@redhat.com, eblake@redhat.com,
  armbru@redhat.com, eduardo@habkost.net, crosa@redhat.com, kwolf@redhat.com,
  hreitz@redhat.com, den@virtuozzo.com
 References: <20211224111148.345438-1-nikita.lapshin@virtuozzo.com>
- <20211224111148.345438-5-nikita.lapshin@virtuozzo.com>
+ <20211224111148.345438-6-nikita.lapshin@virtuozzo.com>
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-In-Reply-To: <20211224111148.345438-5-nikita.lapshin@virtuozzo.com>
+In-Reply-To: <20211224111148.345438-6-nikita.lapshin@virtuozzo.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AS8PR04CA0069.eurprd04.prod.outlook.com
- (2603:10a6:20b:313::14) To AM9PR08MB6737.eurprd08.prod.outlook.com
+X-ClientProxiedBy: FR3P281CA0013.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:1d::18) To AM9PR08MB6737.eurprd08.prod.outlook.com
  (2603:10a6:20b:304::18)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: e1f72435-6245-4977-0438-08d9ca0448ff
-X-MS-TrafficTypeDiagnostic: AM0PR08MB4435:EE_
-X-Microsoft-Antispam-PRVS: <AM0PR08MB443530F2C9888AA595806C5BC1439@AM0PR08MB4435.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:376;
+X-MS-Office365-Filtering-Correlation-Id: c4702128-1855-4471-7bba-08d9ca05db46
+X-MS-TrafficTypeDiagnostic: AM0PR08MB3844:EE_
+X-Microsoft-Antispam-PRVS: <AM0PR08MB3844D1687150A07A848998A4C1439@AM0PR08MB3844.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: dyAle1c2y5OxRK0yg6Bpcq5+yi/ih4a+TmJB6J0e5HDwa0u64qfmRE+tdHIAeZ/XjnqTtNwmU4vonUxyL8dt4sZKoOm2im1v2QNaFwnHgGL0PoCYekSrdXqPX9wSw7yjbUuvzRXv+NTpJiGjPu175emjshrd5ijVqpVu1Yg2oNwR6AVmHXs8XqkkxwjWmttdJ1+02hmrV0VQHSR5GiQVUm7A0kfsTnwViCd5MrFwAckGXeqoDCF088MNMYQT1E/v29Ylfhcxqipcu8rj7rctF1IUEW+YyKlAiRS8lN6e/jbfoLvKRta/Vjtm2NiRkJ+w7H1pAXc3ciikEThalh5soZ/aHJgOexOttnLBhgC7w5ZCI+4yhVVH48GdgyVFBpoRuCtEuzBg8WpEGjTm5DPcVsbsgO7Pcr0f6OXAWQKD2HYILucEB1Fcls8R0gAINUU/JiQn86aNtNuEWhci0Dc2B8Pb2NhbbDAeOPOYlZRrAdO7hgV0nqbOsvyuimvdLFZEvwwW2fPd4c+tSo68wH2j2GVf6N9Nl9T5eYGyaiXouEulx5icsCDyyQqWCpxhBy3neH8wkDYZGNxMcdCCteKxlQiyo2HM0nVBdHdI09w9IcdqRDyJaJcub4NEr8dpPlSJxfEOmA5cKeuf0Us22Ih4pThT38Qkj62DvCDX004h16R7j6rsstAbtlqD/n35irC++bisU5+qTbOpYTAfwjE2cPGG+AUD5qVucY5TQ/1Kb8XHagiRNjaqm9QsDrtGlDUn2AqwGaX7Mw7wxXosA5cJKA==
+X-Microsoft-Antispam-Message-Info: NImYjt22jieqVawWbruR55znNpMZadGlY3G5UGVHy2SLUamWvToT8l665o2inDGTdgq7k3YCrZ/opwMgEM7XVIRdLQw6MBcG9Vw+iPYEji9QPHC5XNW1B3BlICK3IL7d9BMx3sPT7iLIxeKDAKaWlFJziaXx1IfWWvLHgV1qk4uPGPrsmVQN8CukkKAbo7dC+FUPuUMz7NLYZHmChXM20v03iNXxA6KqRmCWk13Sr9D6+wZhe+PFafYPCCo/+WDJ10N1FTtCy6tXePLie/ToEeBORNvFinOFHfQdFllN7H18RpscuL1Ew47+mfB2vinO7YmhJM2B68iVorwEi3pnNF5wBtdQGVwHRUtp0a1/GDGII4JN9ipv+wNjEo09iNTAbvDFttS06DYbAOr8gH6ir1j4mYZMatNhBtuiig8tdGJp0ohaE79SPG1yrBR0atSZFlEjE+9LIpuvU6oEkZBgdbUhjQEEdWZEpzmVmEkyoI4Ls9g6gCFFZWnSueynKFyZea46QBpP84r8hueJm+Ka524cknmFJ6EDwV/ArdueV17TNUl47WGE1/cSa5H80XQ1l7VFCPASkLAe7essMwjD7s0+HvP57zOFBNEpCTOyYtGX2Gh4DWagghRzdOsUifhNCHITn2nkjWXBEKmd9h+EZKqT70TDJxZuBMpu1M+2lXDtJ//N0JQusatamm56HyoUZG/Baijr3hO31sT98qg6fj9l9wtE+I7OUUWlSEjRtBbe+0PoTy/AEfMhjAzTmtWo/4HOp7TD3J7OXPdADa5G3Q==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM9PR08MB6737.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(66476007)(2906002)(66556008)(6512007)(8936002)(31696002)(26005)(52116002)(36756003)(38100700002)(38350700002)(6506007)(316002)(66946007)(83380400001)(2616005)(31686004)(186003)(86362001)(8676002)(4326008)(6486002)(508600001)(5660300002)(107886003)(43740500002)(45980500001);
+ SFS:(4636009)(366004)(66556008)(508600001)(26005)(31686004)(52116002)(8936002)(316002)(86362001)(2616005)(31696002)(2906002)(6512007)(38350700002)(107886003)(6506007)(83380400001)(4326008)(8676002)(36756003)(66946007)(186003)(5660300002)(66476007)(6486002)(38100700002)(45980500001)(43740500002);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QUVGdEUrOG05SFltRTVkLzQzU2pDc1grQmNCV3ZlSXBjNnlGYUl3OVdPQzlq?=
- =?utf-8?B?MjN1UGZjUzlFMjJPWXZLbkwyWGxiYW1qUDFORTgyUmpydUJ1QkhqNFdtU1FQ?=
- =?utf-8?B?L3cyV0s4cUFIeVp6RFVNODN0QzlVT1k0SmsxTkFlZ3RZTmo2MXRyY3dscjht?=
- =?utf-8?B?Q0Q0UjA5VWxJVjdKMlkrakpkUFNRcmJUWFRNMkRybjZvbzFlU2paaTdQZWI3?=
- =?utf-8?B?OUxtbEhwcDV1YlFRN2s4MFc5dHhWKy92N2srd0svVWY2cTlUQ2ZXc2pDNXVz?=
- =?utf-8?B?eGVCaDBNazRBb0JJQUhPM09henBIeTgrTDZPcHZwbmM3dmt2T3VaSU96bDY4?=
- =?utf-8?B?NEY5NlFCNkFQVG9SdVJ4ZVRoUjEyQk1jK2ZKbzdGUUMzekpkU1kxeHZxL0tU?=
- =?utf-8?B?d0owMHV3d1hVK3BuV1JiaVJpMStTWU9wVkJ5T3BUNmRvT1poMnZGOXVRNjhp?=
- =?utf-8?B?WkxmSDBKRGgrNHVqQkp6UnVqd0o3Q2Y1cWNwTjBWbSsyQUZiL0ZxbjdOR3NR?=
- =?utf-8?B?eitWelBvS09PSlY0dmhlYVdzWUdjRit6Tkk5YmdMR2hjTzZyVFcyMS9aajRE?=
- =?utf-8?B?bkUyU3YwUWtpWHllcEdvRERMTm9XVERIODJXZkZBVlI2ZDA3S3BpUDlsNVpV?=
- =?utf-8?B?OEtGK2hVc2ZoMHBwaTdkclcxUTZOaTI2aHJlUHN5Wk9iUzBPSk1vTDY0TWhz?=
- =?utf-8?B?Z1VWSHJQTHlxdE1JVWJHaFhsUjhxSUFDYTJNdkJ1K2JUWjZFcWR6RHY2OU43?=
- =?utf-8?B?UzlUWjVGMUMrVHpaRU1TTXh6UGdXd3hia21haTJqTE1HQmVWSWVXeFpVaXJr?=
- =?utf-8?B?Tms2N0tsTnFGVjY3WVFkcDlTaVN6WUREREtZcjdHbFFCWENNZS9TUFpMOCtB?=
- =?utf-8?B?cVhOMEUweVV1VEU1VlY4c0tmaUJOY1R6Wnd0UUdjb3FkN1NaaVBEV1VvV0FC?=
- =?utf-8?B?UVYwYWVGOGlnZjl4SXpNaEhBQ3E1ZlVWeWdSRit1KzRpRjI3ejFHVTVjdHc3?=
- =?utf-8?B?ZGZhc1hIV0wrVk42MmdsWHprQVgyNUpmazkraUh1V0Q5b3kra0syZ1NkTG1k?=
- =?utf-8?B?a2Q3UG5hcjczbng5VzRLYXcxa1lWMUdnNTJXK1NWRU1GbExXd0QvTytyUEc0?=
- =?utf-8?B?TDB1cHUwY0E5NldkbTFPcms2NWZhSW5mME5oZWRwNHBBOCtNZGFsN3NjaGta?=
- =?utf-8?B?RmNHU2lwVjVDSnVob0lGQVZjck1PRVNQVld6TUkxVmFEMU42Ung5UlE1WEhT?=
- =?utf-8?B?MkNGT0lFSnFjaE9oRENWeU1lVUcweDBWTk92c3BZZjQwMXJkY21LYS9tNmh4?=
- =?utf-8?B?VlRlQWJRbzhVMGR3MURHakZ1WUxCTC9TalNaZnhLV0lDbmNDZW5tTzJLT0lO?=
- =?utf-8?B?Z1lSUmt5TEVBZk13UHkvOTFNZEZUdHdWMFA1RDc3STBRS283RjFENzBmcEwx?=
- =?utf-8?B?UGxQWVU0UUhYYjBUTGF5NS9iV2k2THRiaTlFWWVFMGhOeXJtajBOUmd2TFNL?=
- =?utf-8?B?NUloa2Zud0tEeUl3UEJBZlEyajRFS0tkZkxNL2pJNXZZVkdPNGFzR2t2ZFRQ?=
- =?utf-8?B?UE5aaUhKM3grM0RGSHpsRGVkc0JRRldscnN3SC9mRWRqTkNPaHlWY0poV2Rt?=
- =?utf-8?B?Y1kzcTBKRVhJWFREdCtYVnV3WFQ5aFFabEdCVm5pcjU3M1Y3TW4xL1JEb0JI?=
- =?utf-8?B?VG1KMDEwaGZzUHVVdHZaZDNlZUFuc29kTlVGZTA2a012M3FINlNNVy9IZFhx?=
- =?utf-8?B?Ukp4THNUQWhDaElLQm11dlNCY3JNblZIeUYrN2U4QlI0UTJyb1BoMEtWQ3pk?=
- =?utf-8?B?NlJrQTVhYUVzTmZNR1RmaURWSy82MlBxNDFuR08zcktYVGVGaHpaR1lWTXJY?=
- =?utf-8?B?c0daUU1YODliRWJqM01iU3YvbmlEWU9BMWRjNm1mOW0zMEtOV2NQTmJmMHlW?=
- =?utf-8?B?cmZRSlBjZzB3ME00Zk1YTnZwemYrTDhqQUlLb1c3V3J0RHpYWUk2MGFFYjhK?=
- =?utf-8?B?dFlsRVVqOEZmaHdzRXhHdjZLU3pzemhaVkRtNjlScmdOOUw3R0ZKRE1KRGd0?=
- =?utf-8?B?WUtnNDNpbHdVSGhYcGtOQ2luYlQ0Mk03aWRrc0xwVjN6NmdzcTZ4VGdDUDdr?=
- =?utf-8?B?RmpReHZsWHdTaHhFOGthM2lDTlEzMDczWWxza2JOMk9pdXNQb3BEdi8wQkYr?=
- =?utf-8?B?cmVRa3Jyc0FJU3FsbnM0L1BsMzcxK3RjbzhJWFc3VFU3UE1ndE9LTThwMVJx?=
- =?utf-8?Q?u3xfgNw1QbyIOcY0JJsg8Sc7Bfa6eTtlxe9fKz9CcU=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?KzNzeVZFaEVyUTZtUysrMDdNdWtqeVEwdS9nWnFRbEJXUWRoZEFCdUtkbmJQ?=
+ =?utf-8?B?d2djRGUxa2J4R3BSVGdVWFk0Qkd6dXUxdVg0RENIYjBCUVp4S05sSGJMT3hL?=
+ =?utf-8?B?NmJtaUI2MmJTVUU5WGtxMGZhOEpGMGZCWnNvSjJ4eHF2d2gxa1NKcXlheG9K?=
+ =?utf-8?B?a2RLNlZwaFFnbnRUMURlVHRWZmJjcUo1VHUwd2pRMk1XZENrc0VGMU90OUt4?=
+ =?utf-8?B?NTFsSDEwbXduVWhyQ0JxeEJxWjFlY0JLMnRXVXlYKzFWMTh5dDV6ZDl6VXZp?=
+ =?utf-8?B?bUpvdENJUUhhTCtSSzFkRlFuMGpvV093NE5wV3BITnpVTEZHM0t3OGQrdGVM?=
+ =?utf-8?B?aVRMQnk5dlFEOTNDZXNXcXAydnBZbG8vcFM0VmJBcGRNOVEycmd1Wmd0NDIv?=
+ =?utf-8?B?c1BnUGtGaUpmS1VQLy9kRTI1SWxmTkpRc2tJSHN5NVVsR0JTWWRMN0p1U21B?=
+ =?utf-8?B?aUd6cDF6M2NiTGErblY4UHA2bDVHQzZmVnYwemJRN1hFZW5YdWgxTmJNTkM2?=
+ =?utf-8?B?LzJBbmJrTjJPVFNMc2xxUG5mQWhZTVcybG0vOWszOU54TC9STTB4dXZ3emlx?=
+ =?utf-8?B?dndhb3J4aVVTVFR4YyttWEdMaXZwWXZNM1R5WUpuc3VhZEJGK3pnTHFzS0VH?=
+ =?utf-8?B?N2R4YVo4MTJCTVpuZGNjbDArd05PeHhlTG8zOW9Hdm5HTGZiUmcyZE1sTnN4?=
+ =?utf-8?B?Mlg2TWdabzN3ME9GSkxLU1lxNGNqY2JabUhsWk9IY0JWdGdXV2VVdlZBUkdZ?=
+ =?utf-8?B?b3RLT1psWFZkMDhMRDlqeFcrQVBIMEVOeXN5Y0RhdHZ2b2xZV0Mzc1R4aklU?=
+ =?utf-8?B?djBJbFlCbXlocTJzUEZ1eUtYa3Y5NlJTcTBVaEhab0lvZHhqQnMwNWpQTFUv?=
+ =?utf-8?B?MlVxeHhpZTNiTEZEVS95K3VDRDhGbys3RXZNMXRsRkZHaUFxZW5raFZJK20v?=
+ =?utf-8?B?a1ovb0htTlRXbkZvVHNpTGV3Z1JiOUhnVjFkeStQYnlQN2VyOEc2Lzc5VlFJ?=
+ =?utf-8?B?SmRMVzJlNHhQRjV5OVhYNHRUVnJCc0Zha2NTYVdySG03VTk1N0daajJPalN0?=
+ =?utf-8?B?c3dWbGNWVWRaRTBweWt1UWQ3ZW9QZU5UemxFazBYREFMWERxTy9sblBQTDk0?=
+ =?utf-8?B?OGRUWEVsMkF3UnYvS3NCUUlUaVUrUkxuYjlIKzFpZldLUm8rMExxZHI4WFd4?=
+ =?utf-8?B?WFdGR25YcFpQME4zaTQrOTRsWVlwRnNMQ1hKZE1SNFBNNlNCMS9Ua2VtVk5q?=
+ =?utf-8?B?MU5Jc013d0l3M0pBWTJOZXVRYTJMTjJJOUNWTmQ4Ly9CcWt3NHduaEhyd0U1?=
+ =?utf-8?B?U2ZLYkRnWnFHVXhPTzZjSkFlVVU0cmtTVzF1dVQ1S254clJTOUw1bjFnRXJk?=
+ =?utf-8?B?OVJBMDlUWGhoZ0FXZTVNVHdabXlWcHFWYXdRYVo1ZndJdmVWUDArb215eHFK?=
+ =?utf-8?B?TmlLSzdKLzl6NkVidVgxanoyNmxEVm96WFJvRmJwTnJRVU5abTNxYkNYdUJV?=
+ =?utf-8?B?OWtPcm9tVGZBYitQSWVWUXd6cThYeGp5VlkzSjN5UHVHZ2Z2Y1pWMEtRTExk?=
+ =?utf-8?B?QW55WGtJdjkxMHdoaHN6ckZYaFlQQWllUG16RjZKdnJoWWRUdFVScTdtRzlu?=
+ =?utf-8?B?TndkSzFrWnI1M2dTMG5MVmtRcTFKeU53M0ZnS25WMU1yRnUvU2xVNGVPSCtU?=
+ =?utf-8?B?aVlDSjBHYlhJVzZuUU9DR1ZmL20rdk41Z3VuZU9LZmVuazltaDk5K0pkMXQ1?=
+ =?utf-8?B?ZEdTd25obU5HSTJEUEdpSE8zSEFZUU05eU1WdlJJbkcwMnRqazBEYzZJdDBF?=
+ =?utf-8?B?OWFIVWlPbkgxbEFDSUFheUt4QUdUTDI4TEdqWEh4T3FPZFV1dW1EK2cxSVI2?=
+ =?utf-8?B?NFgrM0tGQy90SFZGQzl3ZGdMdno3T2E1YlFBdWpCTTRLR29MTlVwNmNSZXh5?=
+ =?utf-8?B?K1IxVkhONk5xRHVqaWFFeVpNaytiTS9ZZ3JzazJYYVRVbm8yLzVJVUpoL2h3?=
+ =?utf-8?B?QzFkQmpRMXhVN213emppVDh2TGMwa2dNR1ptWTNaZXRxV0c5TUUxbk1ZZ3RF?=
+ =?utf-8?B?akJCRjFKdHZkN0xJa0VPU3JoV2xWNjlSRW93RGhueGRkRGg1WVNYajMrVW1s?=
+ =?utf-8?B?d0hWVEFyN29nUzlsUVJwODdBWGluSVBiaytEZlFhcllpd0ozWHB5V3VkYjBZ?=
+ =?utf-8?B?TzJ4Ums1cEJ0TkVpZHJFcFlzek5HYTlINWRiakphUHNxNXdKaXJEU1ZCU25J?=
+ =?utf-8?Q?Ii2EMyxIOziztDB2y+jUujkh+l9cN96MZWBnIz5VvM=3D?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e1f72435-6245-4977-0438-08d9ca0448ff
+X-MS-Exchange-CrossTenant-Network-Message-Id: c4702128-1855-4471-7bba-08d9ca05db46
 X-MS-Exchange-CrossTenant-AuthSource: AM9PR08MB6737.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Dec 2021 13:16:40.4394 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Dec 2021 13:27:55.3518 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: EqK6VmIQDm54MzK6Oos87YlyQsueN51GsGHGDsuJy3j7cvkpMzB1to5erWWXArgh1irlE9+ac/0YpADp6n7HaMV4bPQyU19ehGZs8gRa2X8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR08MB4435
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a01:111:f400:7d00::707
- (failed)
-Received-SPF: pass client-ip=2a01:111:f400:7d00::707;
+X-MS-Exchange-CrossTenant-UserPrincipalName: VtuICJcqvLk+PMF0tY3Epwj6p3q1XiGlku+xkw1xiSmeqvj+tup1+MFfk18jJp8N/5l/H2yFxU7nReZWLNu3DeKCIxnmCcmjRWM/bL/EiIk=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR08MB3844
+Received-SPF: pass client-ip=40.107.20.123;
  envelope-from=vsementsov@virtuozzo.com;
- helo=EUR05-VI1-obe.outbound.protection.outlook.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
-X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.024,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ helo=EUR05-DB8-obe.outbound.protection.outlook.com
+X-Spam_score_int: -50
+X-Spam_score: -5.1
+X-Spam_bar: -----
+X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.024,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -156,157 +154,96 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 24.12.2021 14:11, Nikita Lapshin wrote:
-> If this capability is enabled migration stream
-> will have RAM section only.
+> This script is used for RAM capabilities test. But it cannot work
+> in case of no vm description in migration stream.
+> So new flag is added to allow work this script with ram-only
+> migration stream.
 > 
 > Signed-off-by: Nikita Lapshin <nikita.lapshin@virtuozzo.com>
 > ---
->   migration/migration.c | 20 +++++++++++++++++++-
->   migration/migration.h |  1 +
->   migration/savevm.c    | 11 ++++++++++-
->   qapi/migration.json   |  7 +++++--
->   4 files changed, 35 insertions(+), 4 deletions(-)
+>   scripts/analyze-migration.py | 19 ++++++++++++-------
+>   1 file changed, 12 insertions(+), 7 deletions(-)
 > 
-> diff --git a/migration/migration.c b/migration/migration.c
-> index 006447d00a..4d7ef9d8dc 100644
-> --- a/migration/migration.c
-> +++ b/migration/migration.c
-> @@ -1257,6 +1257,14 @@ static bool migrate_caps_check(bool *cap_list,
->           return false;
->       }
+> diff --git a/scripts/analyze-migration.py b/scripts/analyze-migration.py
+> index b82a1b0c58..80077a09bc 100755
+> --- a/scripts/analyze-migration.py
+> +++ b/scripts/analyze-migration.py
+> @@ -495,7 +495,7 @@ def __init__(self, filename):
+>           self.filename = filename
+>           self.vmsd_desc = None
 >   
-> +    if (cap_list[MIGRATION_CAPABILITY_NO_RAM] &&
-> +        cap_list[MIGRATION_CAPABILITY_RAM_ONLY]) {
-> +        error_setg(errp, "ram-only and no-ram aren't "
-> +                         "compatible with each other");
-> +
-> +        return false;
-> +    }
-> +
->       return true;
->   }
+> -    def read(self, desc_only = False, dump_memory = False, write_memory = False):
+> +    def read(self, ram_only, desc_only = False, dump_memory = False, write_memory = False):
+>           # Read in the whole file
+>           file = MigrationFile(self.filename)
 >   
-> @@ -2619,6 +2627,15 @@ bool migrate_no_ram(void)
->       return s->enabled_capabilities[MIGRATION_CAPABILITY_NO_RAM];
->   }
+> @@ -509,7 +509,8 @@ def read(self, desc_only = False, dump_memory = False, write_memory = False):
+>           if data != self.QEMU_VM_FILE_VERSION:
+>               raise Exception("Invalid version number %d" % data)
 >   
-> +bool migrate_ram_only(void)
-> +{
-> +    MigrationState *s;
-> +
-> +    s = migrate_get_current();
-> +
-> +    return s->enabled_capabilities[MIGRATION_CAPABILITY_RAM_ONLY];
-> +}
-> +
->   /* migration thread support */
->   /*
->    * Something bad happened to the RP stream, mark an error
-> @@ -3973,7 +3990,8 @@ static void *bg_migration_thread(void *opaque)
->        * save their state to channel-buffer along with devices.
->        */
->       cpu_synchronize_all_states();
-> -    if (qemu_savevm_state_complete_precopy_non_iterable(fb, false, false)) {
-> +    if (!migrate_ram_only() &&
-> +        qemu_savevm_state_complete_precopy_non_iterable(fb, false, false)) {
+> -        self.load_vmsd_json(file)
+> +        if not ram_only:
+> +            self.load_vmsd_json(file)
+>   
+>           # Read sections
+>           self.sections = collections.OrderedDict()
+> @@ -518,7 +519,10 @@ def read(self, desc_only = False, dump_memory = False, write_memory = False):
+>               return
+>   
+>           ramargs = {}
+> -        ramargs['page_size'] = self.vmsd_desc['page_size']
+> +        if ram_only:
+> +            ramargs['page_size'] = 4096
+> +        else:
+> +            ramargs['page_size'] = self.vmsd_desc['page_size']
+>           ramargs['dump_memory'] = dump_memory
+>           ramargs['write_memory'] = write_memory
+>           self.section_classes[('ram',0)][1] = ramargs
+> @@ -579,6 +583,7 @@ def default(self, o):
+>   parser.add_argument("-m", "--memory", help='dump RAM contents as well', action='store_true')
+>   parser.add_argument("-d", "--dump", help='what to dump ("state" or "desc")', default='state')
+>   parser.add_argument("-x", "--extract", help='extract contents into individual files', action='store_true')
+> +parser.add_argument("--ram-only", help='parse migration dump containing only RAM', action='store_true')
+>   args = parser.parse_args()
+>   
+>   jsonenc = JSONEncoder(indent=4, separators=(',', ': '))
+> @@ -586,14 +591,14 @@ def default(self, o):
+>   if args.extract:
+>       dump = MigrationDump(args.file)
+>   
+> -    dump.read(desc_only = True)
+> +    dump.read(desc_only = True, ram_only = args.ram_only)
+>       print("desc.json")
+>       f = open("desc.json", "w")
+>       f.truncate()
+>       f.write(jsonenc.encode(dump.vmsd_desc))
+>       f.close()
+>   
+> -    dump.read(write_memory = True)
+> +    dump.read(write_memory = True, ram_only = args.ram_only)
+>       dict = dump.getDict()
+>       print("state.json")
+>       f = open("state.json", "w")
+> @@ -602,12 +607,12 @@ def default(self, o):
+>       f.close()
+>   elif args.dump == "state":
+>       dump = MigrationDump(args.file)
+> -    dump.read(dump_memory = args.memory)
+> +    dump.read(dump_memory = args.memory, ram_only = args.ram_only)
+>       dict = dump.getDict()
+>       print(jsonenc.encode(dict))
+>   elif args.dump == "desc":
+>       dump = MigrationDump(args.file)
+> -    dump.read(desc_only = True)
+> +    dump.read(desc_only = True, ram_only = args.ram_only)
 
-Here... [*]
+I think, ram_only can't be supperted when we want to dump description ?
 
->           goto fail;
->       }
->       /*
-> diff --git a/migration/migration.h b/migration/migration.h
-> index 43f7bf8eba..d5a077e00d 100644
-> --- a/migration/migration.h
-> +++ b/migration/migration.h
-> @@ -359,6 +359,7 @@ bool migrate_use_events(void);
->   bool migrate_postcopy_blocktime(void);
->   bool migrate_background_snapshot(void);
->   bool migrate_no_ram(void);
-> +bool migrate_ram_only(void);
->   
->   /* Sending on the return path - generic and then for each message type */
->   void migrate_send_rp_shut(MigrationIncomingState *mis,
-> diff --git a/migration/savevm.c b/migration/savevm.c
-> index ba644083ab..e41ca76000 100644
-> --- a/migration/savevm.c
-> +++ b/migration/savevm.c
-> @@ -249,6 +249,7 @@ typedef struct SaveStateEntry {
->       void *opaque;
->       CompatEntry *compat;
->       int is_iterable;
-> +    bool is_ram;
->   } SaveStateEntry;
->   
->   typedef struct SaveState {
-> @@ -802,6 +803,10 @@ int register_savevm_live(const char *idstr,
->           se->is_iterable = 1;
->       }
->   
-> +    if (!strcmp("ram", idstr)) {
-> +        se->is_ram = true;
-> +    }
-> +
->       pstrcat(se->idstr, sizeof(se->idstr), idstr);
->   
->       if (instance_id == VMSTATE_INSTANCE_ID_ANY) {
-> @@ -949,6 +954,10 @@ static bool should_skip(SaveStateEntry *se)
->           return true;
->       }
->   
-> +    if (migrate_ram_only() && !se->is_ram) {
-> +        return true;
-> +    }
-> +
->       return false;
->   }
->   
-> @@ -1486,7 +1495,7 @@ int qemu_savevm_state_complete_precopy(QEMUFile *f, bool iterable_only,
->           }
->       }
->   
-> -    if (iterable_only) {
-> +    if (iterable_only || migrate_ram_only()) {
->           goto flush;
->       }
+Otherwise looks good to me.
 
-[*] ... and here you care to avoid calling same qemu_savevm_state_complete_precopy_non_iterable()
-
-Seems better to check migrate_ram_only at start of qemu_savevm_state_complete_precopy_non_iterable() and do early return from it.
-
->   
-> diff --git a/qapi/migration.json b/qapi/migration.json
-> index d53956852c..626fc59d14 100644
-> --- a/qapi/migration.json
-> +++ b/qapi/migration.json
-> @@ -454,6 +454,8 @@
->   #
->   # @no-ram: If enabled, migration stream won't contain any ram in it. (since 7.0)
->   #
-> +# @ram-only: If enabled, only RAM sections will be sent. (since 7.0)
-> +#
->   # Features:
->   # @unstable: Members @x-colo and @x-ignore-shared are experimental.
->   #
-> @@ -467,7 +469,7 @@
->              'block', 'return-path', 'pause-before-switchover', 'multifd',
->              'dirty-bitmaps', 'postcopy-blocktime', 'late-block-activate',
->              { 'name': 'x-ignore-shared', 'features': [ 'unstable' ] },
-> -           'validate-uuid', 'background-snapshot', 'no-ram'] }
-> +           'validate-uuid', 'background-snapshot', 'no-ram', 'ram-only'] }
->   ##
->   # @MigrationCapabilityStatus:
->   #
-> @@ -521,7 +523,8 @@
->   #       {"state": true, "capability": "events"},
->   #       {"state": false, "capability": "postcopy-ram"},
->   #       {"state": false, "capability": "x-colo"},
-> -#       {"state": false, "capability": "no-ram"}
-> +#       {"state": false, "capability": "no-ram"},
-> +#       {"state": false, "capability": "ram-only"}
->   #    ]}
->   #
->   ##
+>       print(jsonenc.encode(dump.vmsd_desc))
+>   else:
+>       raise Exception("Please specify either -x, -d state or -d desc")
 > 
 
 
