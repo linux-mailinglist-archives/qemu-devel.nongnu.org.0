@@ -2,95 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06CA3480CCC
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Dec 2021 20:30:42 +0100 (CET)
-Received: from localhost ([::1]:57516 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91155480CD1
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Dec 2021 20:44:21 +0100 (CET)
+Received: from localhost ([::1]:36862 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n2IBF-0000lI-4S
-	for lists+qemu-devel@lfdr.de; Tue, 28 Dec 2021 14:30:41 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46746)
+	id 1n2IOQ-0006hv-Ge
+	for lists+qemu-devel@lfdr.de; Tue, 28 Dec 2021 14:44:20 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48390)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1n2I9I-0008AS-E2
- for qemu-devel@nongnu.org; Tue, 28 Dec 2021 14:28:40 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:22423)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1n2I9H-0002xB-59
- for qemu-devel@nongnu.org; Tue, 28 Dec 2021 14:28:40 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1640719718;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=qzq6ZcjbayTNJfL4IrlU4jb+5rwVP1q8GDO8/MTd9GU=;
- b=FZxefGdzwKyYWCeSpXu7JcJHrVcUVejTcE1ddvSIAv4qSbjPDDgt4tfp6r7uymNVTeuVNu
- TKSSLB370zLR/hBirINy4dSbiE+sUB/saIVLqVMvHE2OkGCSmxOqpfCh1NX/Q1MDo+81So
- UiBE30c07Jg8ADNypNbNAuDb0NUdNEg=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-439-mfLFuQaPNRyliGagfVYLLw-1; Tue, 28 Dec 2021 14:28:35 -0500
-X-MC-Unique: mfLFuQaPNRyliGagfVYLLw-1
-Received: by mail-wm1-f69.google.com with SMTP id
- v62-20020a1cac41000000b0033719a1a714so6538767wme.6
- for <qemu-devel@nongnu.org>; Tue, 28 Dec 2021 11:28:35 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1n2IIe-0003iN-FR; Tue, 28 Dec 2021 14:38:20 -0500
+Received: from [2607:f8b0:4864:20::833] (port=45781
+ helo=mail-qt1-x833.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1n2IIc-00043c-7x; Tue, 28 Dec 2021 14:38:20 -0500
+Received: by mail-qt1-x833.google.com with SMTP id p19so17021331qtw.12;
+ Tue, 28 Dec 2021 11:38:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=YSuZZP4Pavigk1uaydCMo6TBO9tkTdWagOhCQs42diU=;
+ b=WG9VxcFKxourdeRqv0RMpLIPleb+IIOcQL+OIpbWBQ5910A9mHSQ5eZGiKds9G6/Xq
+ bDuMPRKAnWQQ+3ZU1fynPd3rnmQJ1/8Awy7zUSHGwIleoc74K6UejKmEBjbn7KHP9dT/
+ vT+zS0yQPE66JwykcBXXZWTKFRDpnE+jhOtB9lzJGz9DUy/QoTvL40z3jjDxpMgspbgu
+ iCjOHZP1EWHkWz4lAdbC0Uz6dVGtUdh98+M1tjfbDV4QM9p1L6rWzG3G96gEyiXLX+cP
+ BaB5n+yS1w8EbDJSRdnvB8feSJtKhwtzvt7/WcOb+jI9qpKsrYonYbvhesPM0hDZ3Rz+
+ P1FQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=qzq6ZcjbayTNJfL4IrlU4jb+5rwVP1q8GDO8/MTd9GU=;
- b=CJHLTJoBfYrNDzKcTQ8tTK5pp0WLH+D0gnbhHzmNaNckn26YELvvaMRXhtJsNRB2lx
- oDovwVLmXyRSgmMIFZrh3qFnQnn/SMRlYBMa0acOGHvHPRtRPCGWKKs2sM8BnRnpcCBI
- DNIrFp7lZ9DAJ28EHUq7gAiIdaY1CIytmSCPj49lOzwBw0o5Iy/L7BaYZnOEUtB/+tI+
- urimKiqo7zuvpUjTvO8beu9bu20PZLSmdkuTQ224Sf321wfne2ot7cp2zp1PIOukvmIB
- 7CUKAyKGsIwIgP4Xy+1FJujTmPTi9GSmXzKmwsSVZRgFcjsibbUdJARN6u1zOYVamFtA
- O2+w==
-X-Gm-Message-State: AOAM532uG8HHxa0g5Ik++o9J3pO6s5xbmAsmiM9dnMvJ8j08opTZZZQR
- rW4U7PV9i7QNjR9wrAaJRmZdr2W6JOK4arOBRD/xtUU7BFnBaXx76H9sdPJiGGkt6rsW1TxckEj
- WRCsnXozmkO3HTFU=
-X-Received: by 2002:a05:6000:108e:: with SMTP id
- y14mr17582067wrw.69.1640719714255; 
- Tue, 28 Dec 2021 11:28:34 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwszwwk05KIJyXGbuTC9UCV8XiBgIewkyHhmbNAyIxDlVTVkDXtIofIeACufMHytvwTekMS5A==
-X-Received: by 2002:a05:6000:108e:: with SMTP id
- y14mr17582048wrw.69.1640719714065; 
- Tue, 28 Dec 2021 11:28:34 -0800 (PST)
-Received: from [192.168.1.16] (adijon-655-1-69-27.w90-13.abo.wanadoo.fr.
- [90.13.240.27])
- by smtp.gmail.com with ESMTPSA id r9sm19329735wmq.18.2021.12.28.11.28.32
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 28 Dec 2021 11:28:33 -0800 (PST)
-Message-ID: <c91bf7a2-f9c7-a7fd-4d58-88c0e1220533@redhat.com>
-Date: Tue, 28 Dec 2021 20:28:31 +0100
+ bh=YSuZZP4Pavigk1uaydCMo6TBO9tkTdWagOhCQs42diU=;
+ b=jMnRehVwo143KWKmnfpxWKmFP7xOb8O9RDKsUr6aEytGkU8+zGw10wJOSkRsfHdIYW
+ cxCGcdZDtJeIidOYSIQeB1Vl/YH48VJ458paDY1TmTpQnHIvEF4PLHP5bmMaCNakfkhu
+ SR7ZLfB0xQaqPuBZM4UF3WqqoBzW74vP7vdWzOr2n2Bpt9+8zlqkNzSXwtqpzJL5FLen
+ ZKpAYCqYCE7OyThZZJnhGSDM8i8iuTelSzm8gfuD8M5Nba30aScdhwIUWcjdepuK/8/D
+ iUS/ypf/xNqDDWy0T68L6o+Geq7d6zYI3Y3fliVu8yqRxr1GZKEC1/A/Y+kpTaur7Kbc
+ H1mA==
+X-Gm-Message-State: AOAM532wsj3csZW98J1Hsk+FEOvUMCshyLjVhDOn74+FOhl0g4Hk+rwo
+ /GV9YD56qDC37MT6LEAvVbUWicUMfa0=
+X-Google-Smtp-Source: ABdhPJyHy8AnZDcU3cPRWokFxkDJA0X+iEXc4lrakbta5NbsYydEtzTm+IUCiYnQMRayt8Mn2uqpbw==
+X-Received: by 2002:ac8:7505:: with SMTP id u5mr19285567qtq.449.1640720296392; 
+ Tue, 28 Dec 2021 11:38:16 -0800 (PST)
+Received: from rekt.ibmuc.com ([2804:431:c7c6:7ce4:b718:2cc0:32df:97ee])
+ by smtp.gmail.com with ESMTPSA id r20sm16924059qkp.21.2021.12.28.11.38.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 28 Dec 2021 11:38:16 -0800 (PST)
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 00/17] ppc/pnv: enable pnv-phb4 user devices
+Date: Tue, 28 Dec 2021 16:37:49 -0300
+Message-Id: <20211228193806.1198496-1-danielhb413@gmail.com>
+X-Mailer: git-send-email 2.33.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH v5 06/14] tests/unit/test-smp-parse: Keep default MIN/MAX
- CPUs in machine_base_class_init
-To: Yanan Wang <wangyanan55@huawei.com>, qemu-devel@nongnu.org,
- qemu-arm@nongnu.org
-References: <20211228092221.21068-1-wangyanan55@huawei.com>
- <20211228092221.21068-7-wangyanan55@huawei.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <20211228092221.21068-7-wangyanan55@huawei.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -44
-X-Spam_score: -4.5
-X-Spam_bar: ----
-X-Spam_report: (-4.5 / 5.0 requ) DKIMWL_WL_HIGH=-0.573, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.024,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::833
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::833;
+ envelope-from=danielhb413@gmail.com; helo=mail-qt1-x833.google.com
+X-Spam_score_int: 8
+X-Spam_score: 0.8
+X-Spam_bar: /
+X-Spam_report: (0.8 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_ENVFROM_END_DIGIT=0.25,
+ FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,27 +81,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>,
- Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>, wanghaibin.wang@huawei.com,
- Markus Armbruster <armbru@redhat.com>, Shannon Zhao <shannon.zhaosl@gmail.com>,
- Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>,
- Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>
+Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
+ clg@kaod.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/28/21 10:22, Yanan Wang wrote:
-> Most machine types in test-smp-parse will be OK to have the default
-> MIN/MAX CPUs except "smp-generic-invalid", let's keep the default
-> values in machine_base_class_init which will be inherited. And if
-> we hope a different value for a specific machine, modify it in its
-> own initialization function.
-> 
-> Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
-> ---
->  tests/unit/test-smp-parse.c | 16 ++--------------
->  1 file changed, 2 insertions(+), 14 deletions(-)
+Hi,
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+This series implements pnv-phb4 user devices for the powernv9 machine.
+It also includes a couple of pnv-phb3 and pnv-phb3-root-port fixes that
+were also applied for the pnv4 equivalents.
+
+During the enablement I had to rollback from the previously added
+support for user creatable pnv-phb4-pec devices. The most important
+reason is user experience. PEC devices that doesn't spawn the PHB
+devices will be just a placeholder to add PHBs, having no use of their
+own as far as the user sees it. From this standpoint it makes more sense
+to just create all PECs and attach the PHBs the user wants on them.
+Patch 14 also describes technical reasons to rollback this support.
+
+The series is rebased using Cedric's 'powernv-6.2' branch [1]i, which
+includes the '[PATCH 0/5] ppc/pnv: Preliminary cleanups before user
+created PHBs' patches [2].
+
+[1] https://github.com/legoater/qemu/tree/powernv-6.2
+[2] https://lists.gnu.org/archive/html/qemu-devel/2021-12/msg03810.html
+
+
+Daniel Henrique Barboza (17):
+  pnv_phb3.c: add unique chassis and slot for pnv_phb3_root_port
+  pnv_phb3.c: do not set 'root-bus' as bus name
+  pnv_phb3.h: change TYPE_PNV_PHB3_ROOT_BUS name
+  pnv_phb4.c: add unique chassis and slot for pnv_phb4_root_port
+  pnv.c: simplify pnv_phb_attach_root_port()
+  pnv_phb4.c: attach default root port in phb4 realize()
+  pnv_phb4.c: check if root port exists in rc_config functions
+  pnv_phb4.c: introduce pnv_phb4_set_stack_phb_props()
+  pnv_phb4_pec.c: move pnv_pec_phb_offset() to pnv_phb4.c
+  pnv_phb4.c: introduce pnv_pec_init_stack_xscom()
+  pnv_phb4_pec.c: use pnv_pec_get_phb_id() in pnv_pec_dt_xscom()
+  pnv_phb4_pec.c: use 'default_enabled()' to init stack->phb
+  pnv_phb4.h: turn phb into a pointer in struct PnvPhb4PecStack
+  Revert "ppc/pnv: Introduce support for user created PHB4 devices"
+  ppc/pnv: Introduce user creatable pnv-phb4 devices
+  pnv_phb4.c: do not set 'root-bus' as bus name
+  pnv_phb4.c: change TYPE_PNV_PHB4_ROOT_BUS name
+
+ hw/pci-host/pnv_phb3.c         |  19 +++-
+ hw/pci-host/pnv_phb4.c         | 188 +++++++++++++++++++++++++++++++--
+ hw/pci-host/pnv_phb4_pec.c     | 107 ++++++-------------
+ hw/ppc/pnv.c                   |  31 ++----
+ include/hw/pci-host/pnv_phb3.h |   2 +-
+ include/hw/pci-host/pnv_phb4.h |  13 ++-
+ include/hw/ppc/pnv.h           |   1 +
+ 7 files changed, 252 insertions(+), 109 deletions(-)
+
+-- 
+2.33.1
 
 
