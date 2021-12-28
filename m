@@ -2,65 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 242B94808D0
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Dec 2021 12:33:37 +0100 (CET)
-Received: from localhost ([::1]:58926 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 895614808F8
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Dec 2021 13:07:39 +0100 (CET)
+Received: from localhost ([::1]:39344 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n2AjX-0006gM-Op
-	for lists+qemu-devel@lfdr.de; Tue, 28 Dec 2021 06:33:35 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43962)
+	id 1n2BGT-0005v2-RJ
+	for lists+qemu-devel@lfdr.de; Tue, 28 Dec 2021 07:07:38 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50056)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mario@locati.it>) id 1n2AiP-0005oS-RI
- for qemu-devel@nongnu.org; Tue, 28 Dec 2021 06:32:25 -0500
-Received: from smtpcmd01-s.aruba.it ([62.149.158.221]:41209)
+ (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
+ id 1n2BCg-0003mt-Pv; Tue, 28 Dec 2021 07:03:42 -0500
+Received: from [201.28.113.2] (port=54011 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <mario@locati.it>) id 1n2AiN-0008Qc-5q
- for qemu-devel@nongnu.org; Tue, 28 Dec 2021 06:32:25 -0500
-Received: from locati.it ([10.10.9.174]) by Aruba Outgoing Smtp  with ESMTPA
- id 2AiKnyVKxZs8s2AiKnvh6w; Tue, 28 Dec 2021 12:32:20 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=aruba.it; s=a1;
- t=1640691140; bh=+WaIr3OX38sV2wy0dQ2rVwajtkRa5ogUnXncfMNWFFM=;
- h=Date:Subject:MIME-Version:Content-Type:From:To;
- b=ezHy8URZKp9m0stalRYR9iJROABKRzsSsnjMmfjEiqtQ42x46hcZzgjJT3yPb2MmF
- dkwtQ6bQo1UeRzYsUHM/f1iDNuwFGM+CikaLEZWn46+mlFE2bVdiuT7tD8Yn6MhxK+
- yI5JiS/jQN2142eFZJ8W9zYpfoPMbIRPH/kl7RRpcXIzdFhr1ep6mJogPhMVPKXG/h
- iSkP/j/iWhcO/EidJ5pi1zZlB/HBwuYjt3hZ2d+AOG/Dd6i2n/NHooeg7aKEuHIjBH
- gBOE2nAwefCtZADCKBiDNa4lZLmehxD5WSrBWdqkICp8It+A+J8poRyhpHUa6pysjt
- n19kgxUxnYQeg==
-Date: Tue, 28 Dec 2021 12:32:20 +0100
-Message-Id: <R4TPDW$C86797A2F461878EECDD3613AA35BE28@locati.it>
-In-Reply-To: <87tuetrexx.fsf@linux.ibm.com>
-References: =?iso-8859-1?q?=3C20211213133542=2E2608540=2D1=2Dfarosas=40linux=2Eib?=
- =?iso-8859-1?q?m=2Ecom=3E_=3C724f7563=2Df36c=2D2c37=2D3b94=2D951c3d92?=
- =?iso-8859-1?q?2861=40eik=2Ebme=2Ehu=3E_=3CR4OPHT=247F12C66D110739799?=
- =?iso-8859-1?q?1E0E4C978FE6AF1=40locati=2Eit=3E_=3Ca17ceb16=2Dbce5=2D?=
- =?iso-8859-1?q?2090=2D8473=2D78b316bf5fb5=40eik=2Ebme=2Ehu=3E_=3Cec0c?=
- =?iso-8859-1?q?f758=2Df05f=2D9fcf=2Deb97=2D14cb7a1fd9a2=40kaod=2Eorg?=
- =?iso-8859-1?q?=3E_=3CR4SG07=24EE0184281B6DB251884FD0A5E86E2438=40loc?=
- =?iso-8859-1?q?ati=2Eit=3E_=3C87tuetrexx=2Efsf=40linux=2Eibm=2Ecom=3E?=
-Subject: Re: [PATCH] target/ppc: Fix e6500 boot
+ (envelope-from <matheus.ferst@eldorado.org.br>)
+ id 1n2BCe-0004Ql-Rs; Tue, 28 Dec 2021 07:03:42 -0500
+Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
+ Microsoft SMTPSVC(8.5.9600.16384); Tue, 28 Dec 2021 09:03:34 -0300
+Received: from eldorado.org.br (unknown [10.10.70.45])
+ by power9a (Postfix) with ESMTP id A33CA800670;
+ Tue, 28 Dec 2021 09:03:33 -0300 (-03)
+From: matheus.ferst@eldorado.org.br
+To: qemu-devel@nongnu.org,
+	qemu-ppc@nongnu.org
+Subject: [PATCH v2] target/ppc: do not silence snan in xscvspdpn
+Date: Tue, 28 Dec 2021 09:03:10 -0300
+Message-Id: <20211228120310.1957990-1-matheus.ferst@eldorado.org.br>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-Sensitivity: 3
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-From: "mario@locati.it" <mario@locati.it>
-To: farosas@linux.ibm.com
-X-XaM3-API-Version: V4(R2)
-X-type: 0
-X-SenderIP: 2.36.99.11
-X-CMAE-Envelope: MS4wfIU2enS4A2GW46R4r9u+IyuGqG2NHjDmOo45sCgfiv9Xtx1NNxOE2Nx2Ls44K9RspBFJrTTkJ806tWreF9yISLboLX2cGOdtHZOUGsxIO4GTwrJEf9T6
- EN0UMxtLtZOUQDfuNykWI10DILPPksOhd1/KoXQ+ToRUFa8QwsgDDp6nJ0GmxjZAKNTbfDBidXvAVlkeSABJBQ11avdlbQr+rX/e5orM4Lk8BPs4AnHP4AlJ
- xvXCGem4R0e3EkXgcgdEZ5fZ+/Rh6iR3rzAEV4wBX3iKU/j85ZdudOgc6yUfOeWy426AGBBwVOOQDTXLCreGUA==
-Received-SPF: none client-ip=62.149.158.221; envelope-from=mario@locati.it;
- helo=smtpcmd01-s.aruba.it
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=unavailable autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-OriginalArrivalTime: 28 Dec 2021 12:03:34.0070 (UTC)
+ FILETIME=[F0229D60:01D7FBE2]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
+Received-SPF: pass client-ip=201.28.113.2;
+ envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: 8
+X-Spam_score: 0.8
+X-Spam_bar: /
+X-Spam_report: (0.8 / 5.0 requ) RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -73,45 +53,122 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: danielhb413@gmail.com, qemu-ppc@nongnu.org, clg@kaod.org,
- qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, Matheus Ferst <matheus.ferst@eldorado.org.br>,
+ danielhb413@gmail.com, richard.henderson@linaro.org, groug@kaod.org,
+ f4bug@amsat.org, clg@kaod.org, alex.bennee@linaro.org, aurelien@aurel32.net,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
->From: "Fabiano Rosas" farosas@linux.ibm.com=0A>To: "mario@locati.it" mar=
-io@locati.it, clg@kaod.org=0A>Cc: danielhb413@gmail.com, qemu-ppc@nongnu.=
-org, qemu-devel@nongnu.org, balaton@eik.bme.hu=0A>Date: Mon, 27 Dec 2021 =
-17:05:46 -0300=0A>Subject: Re: [PATCH] target/ppc: Fix e6500 boot=0A>=0A>=
-"mario@locati.it" <mario@locati.it> writes:=0A>=C2=A0=0A>> I have updated=
-=C2=A0 the guest VM but I get exactly the same result except that now I h=
-ave libc-2.33.so installed.=0A>>=C2=A0=0A>> [...]=0A>> VFS: Mounted root =
-(ext4 filesystem) on device 254:0.=0A>> devtmpfs: mounted=0A>> Freeing un=
-used kernel image (initmem) memory: 468K=0A>> This architecture does not =
-have kernel memory protection.=0A>> Run /sbin/init as init process=0A>> r=
-andom: fast init done=0A>> systemd[1]: illegal instruction (4) at 3fff8b7=
-e615c nip 3fff8b7e615c lr 3fff8b7e613c code 1 in libc-2.33.so[3fff8b79900=
-0+1fe000]=0A>> systemd[1]: code: 60000000 38600006 9122b7d0 4801bf19 6000=
-0000 60000000 8122b7d0 2c090004=C2=A0=0A>> systemd[1]: code: 40820014 392=
-00005 60000000 9122b7d0 <00000000> 60000000 8122b7d0 2c090005=C2=A0=0A>> =
-Kernel panic - not syncing: Attempted to kill init! exitcode=3D0x00000004=
-=0A>> Rebooting in 180 seconds..=0A>=C2=A0=0A>Can you make the hdd_debian=
-_ppc64_new.img available? We won't be able to=0A>reproduce the exact same=
- scenario because we can't run KVM, but if it=0A>boots with TCG we can at=
- least look around the code that is failing to=0A>see if it gives us any =
-clues.=0A=0A=0ASure, you may download the hdd of the VM I am using on the=
- NXP T2080RDB from=0Ahttps://repo.powerprogress.org/t2080rdb/qemu/hdd_deb=
-ian_sid_ppc64.qcow2=0A=0AI have compressed the original raw disk (18.8GB)=
- into a smaller qcow2 (3.8GB), I cannot get a smaller image sorry.=0A=0AU=
-se the following kernel to launch it=0Ahttps://repo.powerprogress.org/t20=
-80rdb/qemu/uImage_5.16-rc6=0A=0ANo matter which video output I try, but o=
-n my ubuntu 20.04 x86_64 I cannot get X11 working, so to launch qemu I us=
-e=0Aqemu-system-ppc64 -accel tcg -M ppce500 -cpu e6500 -smp 4 -m 2G -vga =
-none -nographic -net nic -net user -drive format=3Dqcow2,file=3Dhdd_debia=
-n_sid_ppc64.qcow2,index=3D0,if=3Dvirtio -kernel uImage_5.16-rc6 -append "=
-root=3D/dev/vda rw"=0Athat do now work=0Aqemu-system-ppc64 -accel tcg -M =
-ppce500 -cpu e5500 -smp 4 -m 2G -vga none -nographic -net nic -net user -=
-drive format=3Dqcow2,file=3Dhdd_debian_sid_ppc64.qcow2,index=3D0,if=3Dvir=
-tio -kernel uImage_5.16-rc6 -append "root=3D/dev/vda rw"=0Athat works, th=
-e system sees e5500 cores, whereas running it on the devkit, the system s=
-ee the host e6500 cores=0A=0A=0A
+From: Matheus Ferst <matheus.ferst@eldorado.org.br>
+
+The non-signalling versions of VSX scalar convert to shorter/longer
+precision insns doesn't silence SNaNs in the hardware. To better match
+this behavior, use the non-arithmatic conversion of helper_todouble
+instead of float32_to_float64. A test is added to prevent future
+regressions.
+
+Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
+---
+ target/ppc/fpu_helper.c                 |  5 +---
+ tests/tcg/ppc64/Makefile.target         |  4 +--
+ tests/tcg/ppc64le/Makefile.target       |  4 +--
+ tests/tcg/ppc64le/non_signalling_xscv.c | 37 +++++++++++++++++++++++++
+ 4 files changed, 42 insertions(+), 8 deletions(-)
+ create mode 100644 tests/tcg/ppc64le/non_signalling_xscv.c
+
+diff --git a/target/ppc/fpu_helper.c b/target/ppc/fpu_helper.c
+index 700c79156b..e5c29b53b8 100644
+--- a/target/ppc/fpu_helper.c
++++ b/target/ppc/fpu_helper.c
+@@ -2816,10 +2816,7 @@ uint64_t helper_xscvdpspn(CPUPPCState *env, uint64_t xb)
+ 
+ uint64_t helper_xscvspdpn(CPUPPCState *env, uint64_t xb)
+ {
+-    float_status tstat = env->fp_status;
+-    set_float_exception_flags(0, &tstat);
+-
+-    return float32_to_float64(xb >> 32, &tstat);
++    return helper_todouble(xb >> 32);
+ }
+ 
+ /*
+diff --git a/tests/tcg/ppc64/Makefile.target b/tests/tcg/ppc64/Makefile.target
+index 8f4c7ac4ed..0368007028 100644
+--- a/tests/tcg/ppc64/Makefile.target
++++ b/tests/tcg/ppc64/Makefile.target
+@@ -6,9 +6,9 @@ VPATH += $(SRC_PATH)/tests/tcg/ppc64
+ VPATH += $(SRC_PATH)/tests/tcg/ppc64le
+ 
+ ifneq ($(DOCKER_IMAGE)$(CROSS_CC_HAS_POWER8_VECTOR),)
+-PPC64_TESTS=bcdsub
++PPC64_TESTS=bcdsub non_signalling_xscv
+ endif
+-bcdsub: CFLAGS += -mpower8-vector
++$(PPC64_TESTS): CFLAGS += -mpower8-vector
+ 
+ PPC64_TESTS += byte_reverse
+ PPC64_TESTS += mtfsf
+diff --git a/tests/tcg/ppc64le/Makefile.target b/tests/tcg/ppc64le/Makefile.target
+index e031f65adc..480ff0898d 100644
+--- a/tests/tcg/ppc64le/Makefile.target
++++ b/tests/tcg/ppc64le/Makefile.target
+@@ -5,9 +5,9 @@
+ VPATH += $(SRC_PATH)/tests/tcg/ppc64le
+ 
+ ifneq ($(DOCKER_IMAGE)$(CROSS_CC_HAS_POWER8_VECTOR),)
+-PPC64LE_TESTS=bcdsub
++PPC64LE_TESTS=bcdsub non_signalling_xscv
+ endif
+-bcdsub: CFLAGS += -mpower8-vector
++$(PPC64LE_TESTS): CFLAGS += -mpower8-vector
+ 
+ ifneq ($(DOCKER_IMAGE)$(CROSS_CC_HAS_POWER10),)
+ PPC64LE_TESTS += byte_reverse
+diff --git a/tests/tcg/ppc64le/non_signalling_xscv.c b/tests/tcg/ppc64le/non_signalling_xscv.c
+new file mode 100644
+index 0000000000..91e25cad46
+--- /dev/null
++++ b/tests/tcg/ppc64le/non_signalling_xscv.c
+@@ -0,0 +1,37 @@
++#include <stdio.h>
++#include <stdint.h>
++#include <inttypes.h>
++#include <assert.h>
++
++#define TEST(INSN, B_HI, B_LO, T_HI, T_LO) \
++    do {                                                                \
++        uint64_t th, tl, bh = B_HI, bl = B_LO;                          \
++        asm("mtvsrd 0, %2\n\t"                                          \
++            "mtvsrd 1, %3\n\t"                                          \
++            "xxmrghd 0, 0, 1\n\t"                                       \
++            INSN " 0, 0\n\t"                                            \
++            "mfvsrd %0, 0\n\t"                                          \
++            "xxswapd 0, 0\n\t"                                          \
++            "mfvsrd %1, 0\n\t"                                          \
++            : "=r" (th), "=r" (tl)                                      \
++            : "r" (bh), "r" (bl)                                        \
++            : "vs0", "vs1");                                            \
++        printf(INSN "(0x%016" PRIx64 "%016" PRIx64 ") = 0x%016" PRIx64  \
++               "%016" PRIx64 "\n", bh, bl, th, tl);                     \
++        assert(th == T_HI && tl == T_LO);                               \
++    } while (0)
++
++int main(void)
++{
++    /* SNaN shouldn't be silenced */
++    TEST("xscvspdpn", 0x7fbfffff00000000ULL, 0x0, 0x7ff7ffffe0000000ULL, 0x0);
++    TEST("xscvdpspn", 0x7ff7ffffffffffffULL, 0x0, 0x7fbfffff7fbfffffULL, 0x0);
++
++    /*
++     * SNaN inputs having no significant bits in the upper 23 bits of the
++     * signifcand will return Infinity as the result.
++     */
++    TEST("xscvdpspn", 0x7ff000001fffffffULL, 0x0, 0x7f8000007f800000ULL, 0x0);
++
++    return 0;
++}
+-- 
+2.25.1
+
 
