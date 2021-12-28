@@ -2,79 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A33A480CBA
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Dec 2021 20:19:16 +0100 (CET)
-Received: from localhost ([::1]:47976 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD5FC480CCA
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Dec 2021 20:27:06 +0100 (CET)
+Received: from localhost ([::1]:52286 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n2I0B-0002KP-4w
-	for lists+qemu-devel@lfdr.de; Tue, 28 Dec 2021 14:19:15 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45300)
+	id 1n2I7l-0005cS-Lf
+	for lists+qemu-devel@lfdr.de; Tue, 28 Dec 2021 14:27:05 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45980)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1n2HyY-0001Jn-Ey
- for qemu-devel@nongnu.org; Tue, 28 Dec 2021 14:17:36 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40444)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1n2I4C-0004JL-7g
+ for qemu-devel@nongnu.org; Tue, 28 Dec 2021 14:23:25 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:45696)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1n2HyW-0001hm-G0
- for qemu-devel@nongnu.org; Tue, 28 Dec 2021 14:17:33 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1n2I40-0002Li-K3
+ for qemu-devel@nongnu.org; Tue, 28 Dec 2021 14:23:17 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1640719051;
+ s=mimecast20190719; t=1640719390;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Js4t0jQJWnGTvWLylhheiLko/KNFgBwnGYBU+uEJwH0=;
- b=E8+jXiPSzBh/suVUsDIuvd4KWj4iJC1o/Ga1Mi9MYlMSG3h4MnkKhnZX9IKO+TjUh3Zj5/
- G6tzZ/OnRPnjUioHh8PzRt1mHX0hkK9Mqw0+PNCHx6FFV/C+M1yUvwAP7w+MEAogsYzyz8
- +xquvG4E8IdL/Y2nST9JeEOZwO8bLnU=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Bc3+qaTUdeyOdPPhLrwmGRg6msURoULR5CEU221oa/Q=;
+ b=OmMNtEf6Cf66mtXtJOyYffR0ykgU16mtdm1woJdMS6Jh0L7T5rEJcUwz0qeuP7bbXa9VBl
+ QFPLaVsr3JnTISgOCDOv/ANx/Go+16K5lrBtFHLxm12yi24hcUTdjXVqUwu5Lr/4jb0LoY
+ XzXyfLGAgxnWhR3lUWkqidjmWeUohUs=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-482-6zaYzL3FOhConIw_HMMlVQ-1; Tue, 28 Dec 2021 14:17:25 -0500
-X-MC-Unique: 6zaYzL3FOhConIw_HMMlVQ-1
-Received: by mail-wr1-f71.google.com with SMTP id
- p1-20020adfba81000000b001a25b07ff53so4212660wrg.22
- for <qemu-devel@nongnu.org>; Tue, 28 Dec 2021 11:17:25 -0800 (PST)
+ us-mta-613-s3tGtGnVNf-9eNCNGFSxNg-1; Tue, 28 Dec 2021 14:23:08 -0500
+X-MC-Unique: s3tGtGnVNf-9eNCNGFSxNg-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ g189-20020a1c20c6000000b00345bf554707so10738182wmg.4
+ for <qemu-devel@nongnu.org>; Tue, 28 Dec 2021 11:23:08 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=Js4t0jQJWnGTvWLylhheiLko/KNFgBwnGYBU+uEJwH0=;
- b=6O09mwq0KPy2raKDMuiwo7zRGBUVjm5b+Ui7x5dNB/BP8CL9TacMvBaY6JRYAwalOA
- VZ5nGok+2lpKw0oUUTPTd+3xspduKieRLt4ErMoFnpJdqZDXlEmtkSKBLo2YqS4SJDgS
- FLt3bYXcTjE0F4nraQDcWlBKU+7+3IAEaqtulKc2Cjio7OWFy6URO2baFN4TMdLMY5LU
- 0iLxAvF4p9WrUuNShDjSYomYODC58JHT3YpgGpM4FbBmL5i2CD+zIMUNJ7X+4hI2C35x
- qm8qa4UlThVj9I3N+59nJRnCSqRk7jKO4Hzn6X9bWthaxCsETEKInguQOnFZlwudwgMF
- 0fjg==
-X-Gm-Message-State: AOAM530nzgF2KUIgXVXo/Zc9Qt8oSm1GO+Z1odDdPLTYbluq1DgiZZIC
- r5WwwYrawL8/jHvSdEp3Dk1AXPsDfAmYIaDka1U2fYJkDILOm4qizpQJez2gngsytW3HZbvdjBy
- Yh66pJEmUK6KGyo0=
-X-Received: by 2002:a05:600c:1c9f:: with SMTP id
- k31mr18514454wms.159.1640719044212; 
- Tue, 28 Dec 2021 11:17:24 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyYlyc85sSsV8P6A+TmBnNkKY4gI+PaHFlJLrbvCZjz2a15+OPiDdHzx++qfTHIPIZAaFKTYA==
-X-Received: by 2002:a05:600c:1c9f:: with SMTP id
- k31mr18514426wms.159.1640719043964; 
- Tue, 28 Dec 2021 11:17:23 -0800 (PST)
+ bh=Bc3+qaTUdeyOdPPhLrwmGRg6msURoULR5CEU221oa/Q=;
+ b=iacK66QGSl5sYyWIgqFT7rLFFYad2jjbdTix1uKsMDQNVG8Rx76Mz+bioOZDd+2fjE
+ NuIJnTgAyzl9NQTTQR6t42xOCXBP4AvMxiNV9VPfIUU+0exLgH+mDBfkrQaNGIhn13ER
+ 0vQYxelbB59FuANEVRqpVS+Nih83mmeWGO/7jR6T0hSeFcu3tOhMCf683knwPgjR5ubM
+ vVIPkPUEj+80obVD0AF0QIH1Yyi/9+/Ni8jG7fWZZnHIT6zXFfScfnX21jWnx94Uoz50
+ 7SeEFQpvyC9KzqPS5FsvbnEEkeYaLpvfJiZ7nxNPszEH+ZTqVKnHh1J35JGmWsgYYlMX
+ 8XfQ==
+X-Gm-Message-State: AOAM530DIx5oH7bzFv3O2TFNYhBcK2yLlfPxrPAoAxdr5RelDhTOvo6n
+ menRLPWqWYw4s1jEe1+GBIoObOkPZOGOaW9dDgmoTaNOwOnzD/UxcECGRq6PJcpPg+8OWDo7ZKg
+ Wb8enrGR5aPZQAVY=
+X-Received: by 2002:a7b:c108:: with SMTP id w8mr18312741wmi.136.1640719387619; 
+ Tue, 28 Dec 2021 11:23:07 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyyWILVhenOj7n3neNCcu97EHZnvzogONGKH1ygHkk9D/RdVFAsqDk5ibkVVSTt+ZqJvD6ajg==
+X-Received: by 2002:a7b:c108:: with SMTP id w8mr18312715wmi.136.1640719387398; 
+ Tue, 28 Dec 2021 11:23:07 -0800 (PST)
 Received: from [192.168.1.16] (adijon-655-1-69-27.w90-13.abo.wanadoo.fr.
  [90.13.240.27])
- by smtp.gmail.com with ESMTPSA id v1sm21597088wru.45.2021.12.28.11.17.21
+ by smtp.gmail.com with ESMTPSA id l17sm9963035wms.24.2021.12.28.11.23.03
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 28 Dec 2021 11:17:23 -0800 (PST)
-Message-ID: <fa7f67b2-ca1d-bd95-1a33-534a50b2d4c8@redhat.com>
-Date: Tue, 28 Dec 2021 20:17:19 +0100
+ Tue, 28 Dec 2021 11:23:06 -0800 (PST)
+Message-ID: <21974630-06ee-bacd-ca83-0116f1c6d4ec@redhat.com>
+Date: Tue, 28 Dec 2021 20:23:02 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.4.0
-Subject: Re: [PATCH v5 02/14] hw/core/machine: Introduce CPU cluster topology
- support
+Subject: Re: [PATCH v5 03/14] hw/core/machine: Wrap target specific parameters
+ together
 To: Yanan Wang <wangyanan55@huawei.com>, qemu-devel@nongnu.org,
  qemu-arm@nongnu.org
 References: <20211228092221.21068-1-wangyanan55@huawei.com>
- <20211228092221.21068-3-wangyanan55@huawei.com>
+ <20211228092221.21068-4-wangyanan55@huawei.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <20211228092221.21068-3-wangyanan55@huawei.com>
+In-Reply-To: <20211228092221.21068-4-wangyanan55@huawei.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -82,16 +80,15 @@ X-Mimecast-Originator: redhat.com
 Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -63
-X-Spam_score: -6.4
-X-Spam_bar: ------
-X-Spam_report: (-6.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.573,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-3.024, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_score_int: -44
+X-Spam_score: -4.5
+X-Spam_bar: ----
+X-Spam_report: (-4.5 / 5.0 requ) DKIMWL_WL_HIGH=-0.573, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.024,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -113,90 +110,86 @@ Cc: Eduardo Habkost <eduardo@habkost.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
-
 On 12/28/21 10:22, Yanan Wang wrote:
-> The new Cluster-Aware Scheduling support has landed in Linux 5.16,
-> which has been proved to benefit the scheduling performance (e.g.
-> load balance and wake_affine strategy) on both x86_64 and AArch64.
+> Wrap the CPU target specific parameters together into a single
+> variable except generic sockets/cores/threads, to make related
+> code lines shorter and more concise.
 > 
-> So now in Linux 5.16 we have four-level arch-neutral CPU topology
-> definition like below and a new scheduler level for clusters.
-> struct cpu_topology {
->     int thread_id;
->     int core_id;
->     int cluster_id;
->     int package_id;
->     int llc_id;
->     cpumask_t thread_sibling;
->     cpumask_t core_sibling;
->     cpumask_t cluster_sibling;
->     cpumask_t llc_sibling;
-> }
-> 
-> A cluster generally means a group of CPU cores which share L2 cache
-> or other mid-level resources, and it is the shared resources that
-> is used to improve scheduler's behavior. From the point of view of
-> the size range, it's between CPU die and CPU core. For example, on
-> some ARM64 Kunpeng servers, we have 6 clusters in each NUMA node,
-> and 4 CPU cores in each cluster. The 4 CPU cores share a separate
-> L2 cache and a L3 cache tag, which brings cache affinity advantage.
-> 
-> In virtualization, on the Hosts which have pClusters, if we can
-
-Maybe [*] -> reference to pClusters?
-
-> design a vCPU topology with cluster level for guest kernel and
-> have a dedicated vCPU pinning. A Cluster-Aware Guest kernel can
-> also make use of the cache affinity of CPU clusters to gain
-> similar scheduling performance.
-> 
-> This patch adds infrastructure for CPU cluster level topology
-> configuration and parsing, so that the user can specify cluster
-> parameter if their machines support it.
+> No functional change intended.
 > 
 > Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
 > ---
->  hw/core/machine-smp.c | 26 +++++++++++++++++++-------
->  hw/core/machine.c     |  3 +++
->  include/hw/boards.h   |  6 +++++-
->  qapi/machine.json     |  5 ++++-
->  qemu-options.hx       |  7 ++++---
->  softmmu/vl.c          |  3 +++
->  6 files changed, 38 insertions(+), 12 deletions(-)
+>  hw/core/machine-smp.c | 17 ++++++++++-------
+>  1 file changed, 10 insertions(+), 7 deletions(-)
+> 
+> diff --git a/hw/core/machine-smp.c b/hw/core/machine-smp.c
+> index b39ed21e65..4547d7bbdc 100644
+> --- a/hw/core/machine-smp.c
+> +++ b/hw/core/machine-smp.c
+> @@ -79,6 +79,7 @@ void machine_parse_smp_config(MachineState *ms,
+>      unsigned cores   = config->has_cores ? config->cores : 0;
+>      unsigned threads = config->has_threads ? config->threads : 0;
+>      unsigned maxcpus = config->has_maxcpus ? config->maxcpus : 0;
+> +    unsigned others;
+>  
+>      /*
+>       * Specified CPU topology parameters must be greater than zero,
+> @@ -111,6 +112,8 @@ void machine_parse_smp_config(MachineState *ms,
+>      dies = dies > 0 ? dies : 1;
+>      clusters = clusters > 0 ? clusters : 1;
+>  
+> +    others = dies * clusters;
 
-> diff --git a/qapi/machine.json b/qapi/machine.json
-> index edeab6084b..ff0ab4ca20 100644
-> --- a/qapi/machine.json
-> +++ b/qapi/machine.json
-> @@ -1404,7 +1404,9 @@
->  #
->  # @dies: number of dies per socket in the CPU topology
->  #
-> -# @cores: number of cores per die in the CPU topology
-> +# @clusters: number of clusters per die in the CPU topology
+This doesn't seem clearer to me...
 
-Missing:
-
-   #            (since 7.0)
-
-> +#
-> +# @cores: number of cores per cluster in the CPU topology
->  #
->  # @threads: number of threads per core in the CPU topology
->  #
-> @@ -1416,6 +1418,7 @@
->       '*cpus': 'int',
->       '*sockets': 'int',
->       '*dies': 'int',
-> +     '*clusters': 'int',
->       '*cores': 'int',
->       '*threads': 'int',
->       '*maxcpus': 'int' } }
-If you want I can update the doc when applying.
-
-Thanks,
-
-Phil.
+>      /* compute missing values based on the provided ones */
+>      if (cpus == 0 && maxcpus == 0) {
+>          sockets = sockets > 0 ? sockets : 1;
+> @@ -124,30 +127,30 @@ void machine_parse_smp_config(MachineState *ms,
+>              if (sockets == 0) {
+>                  cores = cores > 0 ? cores : 1;
+>                  threads = threads > 0 ? threads : 1;
+> -                sockets = maxcpus / (dies * clusters * cores * threads);
+> +                sockets = maxcpus / (cores * threads * others);
+>              } else if (cores == 0) {
+>                  threads = threads > 0 ? threads : 1;
+> -                cores = maxcpus / (sockets * dies * clusters * threads);
+> +                cores = maxcpus / (sockets * threads * others);
+>              }
+>          } else {
+>              /* prefer cores over sockets since 6.2 */
+>              if (cores == 0) {
+>                  sockets = sockets > 0 ? sockets : 1;
+>                  threads = threads > 0 ? threads : 1;
+> -                cores = maxcpus / (sockets * dies * clusters * threads);
+> +                cores = maxcpus / (sockets * threads * others);
+>              } else if (sockets == 0) {
+>                  threads = threads > 0 ? threads : 1;
+> -                sockets = maxcpus / (dies * clusters * cores * threads);
+> +                sockets = maxcpus / (cores * threads * others);
+>              }
+>          }
+>  
+>          /* try to calculate omitted threads at last */
+>          if (threads == 0) {
+> -            threads = maxcpus / (sockets * dies * clusters * cores);
+> +            threads = maxcpus / (sockets * cores * others);
+>          }
+>      }
+>  
+> -    maxcpus = maxcpus > 0 ? maxcpus : sockets * dies * clusters * cores * threads;
+> +    maxcpus = maxcpus > 0 ? maxcpus : sockets * cores * threads * others;
+>      cpus = cpus > 0 ? cpus : maxcpus;
+>  
+>      ms->smp.cpus = cpus;
+> @@ -159,7 +162,7 @@ void machine_parse_smp_config(MachineState *ms,
+>      ms->smp.max_cpus = maxcpus;
+>  
+>      /* sanity-check of the computed topology */
+> -    if (sockets * dies * clusters * cores * threads != maxcpus) {
+> +    if (sockets * cores * threads * others != maxcpus) {
+>          g_autofree char *topo_msg = cpu_hierarchy_to_string(ms);
+>          error_setg(errp, "Invalid CPU topology: "
+>                     "product of the hierarchy must match maxcpus: "
 
 
