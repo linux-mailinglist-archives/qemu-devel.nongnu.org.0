@@ -2,84 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0500648087D
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Dec 2021 11:40:12 +0100 (CET)
-Received: from localhost ([::1]:42750 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54535480897
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Dec 2021 11:58:30 +0100 (CET)
+Received: from localhost ([::1]:48670 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n29tr-0001Pd-4r
-	for lists+qemu-devel@lfdr.de; Tue, 28 Dec 2021 05:40:11 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35022)
+	id 1n2ABY-0006GS-TF
+	for lists+qemu-devel@lfdr.de; Tue, 28 Dec 2021 05:58:28 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37782)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1n29so-0000bx-K2; Tue, 28 Dec 2021 05:39:06 -0500
-Received: from [2a00:1450:4864:20::32c] (port=38475
- helo=mail-wm1-x32c.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1n29sm-0000k9-Sn; Tue, 28 Dec 2021 05:39:06 -0500
-Received: by mail-wm1-x32c.google.com with SMTP id
- p1-20020a1c7401000000b00345c2d068bdso9977071wmc.3; 
- Tue, 28 Dec 2021 02:39:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=d9TQ2zAqfG02sxjwSZPPq4Sb04K9ZzDmUPMlFg6zzF8=;
- b=diJEmawoHeiMBRfGkdGlSQAFcwS5flLHdKp+BgwgFiqTQ4XZ8BVnenuW698PF2IKWB
- Vt68B11VN2geHJ3miw2gZGW4Q6QSEO0rDYGkGy1uXmsWA33uE+WPUQAEQrCoPwMfA4Z0
- tjQJ0YDscg+u09T75zCUGP1t5PaWU0PWU03ZlQbS8uexdafiJ0WetqPgpFcGH3py1sNI
- fmHrgVWzgdzvF+9Nxq+48oieYA8MxzNP+fMJrtEd0x9/kswvOcu+32F54kT1YEoVitCB
- 4aJvhyoz+LCrH0e6Sbn6NKhnL0pZIWXKoC0PZkIBbmzIkeLVdRGxGBBw0t3hEQgfSo40
- KW0Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=d9TQ2zAqfG02sxjwSZPPq4Sb04K9ZzDmUPMlFg6zzF8=;
- b=EU1/rQpDHFJIAsTedAGA6yiXecqnQ+Zl2lJ6ds+4F6+ZO4g1S70DfEqBSHhfW7q9YP
- GVYvet0d9ozvoZnF9OAc6fJFmaP/0rIyCsA0ckLOfnbtYBvz2RuQm9J+XF5BsAPbyMOM
- VY8be3mlcMMaAzAwuH87ct965vmdxyE/Ack30KRJriRO1Swnad7wsoT71+t8wYJyI4fO
- jq4RDhiaD8NNx4NoRsf36V5HkT4NErqVLOobz4cNRUw2YpCj86NQcNeT8cas5qX92qq6
- TNBr4VJeWuh0hv3Go3/b9ZEpe15Km6JLU46hE1qilhNqynj1+ht5rvdobJTXcn/UGdDe
- m1gg==
-X-Gm-Message-State: AOAM530DgoQjQmTogkComv0k2lmj6NycfAOn0QPglwPWbJvo/mHBVKto
- jiP0hnMKnWgcgPGQxiYiPLI=
-X-Google-Smtp-Source: ABdhPJzMfy3y5AcsdVG5mPYvRUz+S37xX8gsOj/LB0+3EwXvtssuvBpGv1evKRUXQPZ/VFqKhwSxtw==
-X-Received: by 2002:a05:600c:2f01:: with SMTP id
- r1mr17115300wmn.153.1640687942085; 
- Tue, 28 Dec 2021 02:39:02 -0800 (PST)
-Received: from [192.168.1.16] (adijon-655-1-69-27.w90-13.abo.wanadoo.fr.
- [90.13.240.27])
- by smtp.gmail.com with ESMTPSA id g198sm20472534wme.23.2021.12.28.02.39.00
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 28 Dec 2021 02:39:01 -0800 (PST)
-Message-ID: <81325a49-b9ce-037e-b8c5-8f82eb0d3d52@amsat.org>
-Date: Tue, 28 Dec 2021 11:38:59 +0100
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1n2A9h-0005M4-9o; Tue, 28 Dec 2021 05:56:33 -0500
+Received: from szxga08-in.huawei.com ([45.249.212.255]:3255)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1n2A9e-0002yV-48; Tue, 28 Dec 2021 05:56:33 -0500
+Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.56])
+ by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4JNWbR0B1Tz1DKKZ;
+ Tue, 28 Dec 2021 18:53:07 +0800 (CST)
+Received: from [10.174.187.128] (10.174.187.128) by
+ dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
+ 15.1.2308.20; Tue, 28 Dec 2021 18:56:23 +0800
+Subject: Re: [PATCH v4 00/10] ARM virt: Introduce CPU clusters topology support
+To: <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>
+CC: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones
+ <drjones@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>, Marcel Apfelbaum
+ <marcel.apfelbaum@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>, "Michael S
+ . Tsirkin" <mst@redhat.com>, Igor Mammedov <imammedo@redhat.com>, Ani Sinha
+ <ani@anisinha.ca>, Markus Armbruster <armbru@redhat.com>, Eric Blake
+ <eblake@redhat.com>, <wanghaibin.wang@huawei.com>
+References: <20211121122502.9844-1-wangyanan55@huawei.com>
+Message-ID: <e73c9ce9-e2e8-308c-b638-bab8b13e93ca@huawei.com>
+Date: Tue, 28 Dec 2021 18:56:22 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH] hw/sd: Add SDHC support for SD card SPI-mode
+In-Reply-To: <20211121122502.9844-1-wangyanan55@huawei.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 Content-Language: en-US
-To: frank.chang@sifive.com, qemu-devel@nongnu.org
-References: <20211228015055.8709-1-frank.chang@sifive.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <20211228015055.8709-1-frank.chang@sifive.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32c
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32c.google.com
-X-Spam_score_int: -36
-X-Spam_score: -3.7
-X-Spam_bar: ---
-X-Spam_report: (-3.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-3.024,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Originating-IP: [10.174.187.128]
+X-ClientProxiedBy: dggeme706-chm.china.huawei.com (10.1.199.102) To
+ dggpemm500023.china.huawei.com (7.185.36.83)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.255;
+ envelope-from=wangyanan55@huawei.com; helo=szxga08-in.huawei.com
+X-Spam_score_int: -71
+X-Spam_score: -7.2
+X-Spam_bar: -------
+X-Spam_report: (-7.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-3.024,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,74 +67,105 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-block@nongnu.org,
- Bin Meng <bin.meng@windriver.com>, Jim Shu <jim.shu@sifive.com>,
- Alexander Bulekov <alxndr@bu.edu>, Alistair Francis <alistair.francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  "wangyanan (Y)" <wangyanan55@huawei.com>
+From:  "wangyanan (Y)" via <qemu-devel@nongnu.org>
 
-On 12/28/21 02:50, frank.chang@sifive.com wrote:
-> From: Frank Chang <frank.chang@sifive.com>
-> 
-> In SPI-mode, SD card's OCR register: Card Capacity Status (CCS) bit
-> is not set to 1 correclty when the assigned SD image size is larger
-> than 2GB (SDHC). This will cause the SD card to be indentified as SDSC
-> incorrectly. CCS bit should be set to 1 if we are using SDHC.
-> 
-> Also, as there's no power up emulation in SPI-mode.
-> The OCR register: Card power up status bit bit (busy) should also
-> be set to 1 when reset. (busy bit is set to LOW if the card has not
-> finished the power up routine.)
-> 
-> Signed-off-by: Frank Chang <frank.chang@sifive.com>
-> Reviewed-by: Jim Shu <jim.shu@sifive.com>
-> ---
->  hw/sd/sd.c | 14 +++++++++++++-
->  1 file changed, 13 insertions(+), 1 deletion(-)
-> 
-> diff --git a/hw/sd/sd.c b/hw/sd/sd.c
-> index bb5dbff68c..9169208dbc 100644
-> --- a/hw/sd/sd.c
-> +++ b/hw/sd/sd.c
-> @@ -294,6 +294,18 @@ static void sd_set_ocr(SDState *sd)
->  {
->      /* All voltages OK */
->      sd->ocr = R_OCR_VDD_VOLTAGE_WIN_HI_MASK;
-> +
-> +    if (sd->spi) {
-> +        /*
-> +         * We don't need to emulate power up sequence in SPI-mode.
-> +         * Thus, the card's power up status bit should be set to 1 when reset.
-> +         * The card's capacity status bit should also be set if SD card size
-> +         * is larger than 2GB for SDHC support.
-> +         */
-> +        sd->ocr = FIELD_DP32(sd->ocr, OCR, CARD_POWER_UP, 1);
-> +        sd->ocr = FIELD_DP32(sd->ocr, OCR, CARD_CAPACITY,
-> +                             sd->size > SDSC_MAX_CAPACITY);
+I have sent a v5 with four new patches added, so this v4 can be ignored.
+v5: https://patchew.org/QEMU/20211228092221.21068-1-wangyanan55@huawei.com/
 
-Simply call sd_ocr_powerup() instead, so we get the trace event.
+Thanks,
+Yanan
 
-Calling sd_ocr_powerup():
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+On 2021/11/21 20:24, Yanan Wang wrote:
+> Hi,
+>
+> This series introduces the new CPU clusters topology parameter
+> and enable the support for it on ARM virt machines.
+>
+> Background and descriptions:
+> The new Cluster-Aware Scheduling support has landed in Linux 5.16,
+> which has been proved to benefit the scheduling performance (e.g.
+> load balance and wake_affine strategy) on both x86_64 and AArch64.
+> We can see Kernel PR [1] and the latest patch set [2] for reference.
+>
+> So now in Linux 5.16 we have four-level arch-neutral CPU topology
+> definition like below and a new scheduler level for clusters.
+> struct cpu_topology {
+>      int thread_id;
+>      int core_id;
+>      int cluster_id;
+>      int package_id;
+>      int llc_id;
+>      cpumask_t thread_sibling;
+>      cpumask_t core_sibling;
+>      cpumask_t cluster_sibling;
+>      cpumask_t llc_sibling;
+> }
+>
+> A cluster generally means a group of CPU cores which share L2 cache
+> or other mid-level resources, and it is the shared resources that
+> is used to improve scheduler's behavior. From the point of view of
+> the size range, it's between CPU die and CPU core. For example, on
+> some ARM64 Kunpeng servers, we have 6 clusters in each NUMA node,
+> and 4 CPU cores in each cluster. The 4 CPU cores share a separate
+> L2 cache and a L3 cache tag, which brings cache affinity advantage.
+>
+> [1] https://lore.kernel.org/lkml/163572864855.3357115.17938524897008353101.tglx@xen13/
+> [2] https://lkml.org/lkml/2021/9/24/178
+>
+> In virtualization, on the Hosts which have pClusters, if we can
+> design a vCPU topology with cluster level for guest kernel and
+> have a dedicated vCPU pinning. A Cluster-Aware Guest kernel can
+> also make use of the cache affinity of CPU clusters to gain
+> similar scheduling performance.
+>
+> This series consists of two parts:
+> The first part (patch 1-3):
+> Implement infrastructure for CPU cluster level topology support,
+> including the SMP documentation, configuration and parsing.
+>
+> The second part (part 4-10):
+> Enable CPU cluster support on ARM virt machines, so that users
+> can specify a 4-level CPU hierarchy sockets/clusters/cores/threads.
+> And the 4-level topology will be described to guest kernel through
+> ACPI PPTT and DT cpu-map.
+>
+> Changelog:
+> v3->v4:
+> - Significant change from v3 to v4, since the whole series is reworked
+>    based on latest QEMU SMP frame.
+> - v3: https://lore.kernel.org/qemu-devel/20210516103228.37792-1-wangyanan55@huawei.com/
+>
+> Yanan Wang (10):
+>    qemu-options: Improve readability of SMP related Docs
+>    hw/core/machine: Introduce CPU cluster topology support
+>    hw/core/machine: Wrap target specific parameters together
+>    hw/arm/virt: Support clusters on ARM virt machines
+>    hw/arm/virt: Support cluster level in DT cpu-map
+>    hw/acpi/aml-build: Improve scalability of PPTT generation
+>    hw/arm/virt-acpi-build: Make an ARM specific PPTT generator
+>    tests/acpi/bios-tables-test: Allow changes to virt/PPTT file
+>    hw/acpi/virt-acpi-build: Support cluster level in PPTT generation
+>    tests/acpi/bios-table-test: Update expected virt/PPTT file
+>
+>   hw/acpi/aml-build.c         |  66 ++------------------------
+>   hw/arm/virt-acpi-build.c    |  92 +++++++++++++++++++++++++++++++++++-
+>   hw/arm/virt.c               |  16 ++++---
+>   hw/core/machine-smp.c       |  29 +++++++++---
+>   hw/core/machine.c           |   3 ++
+>   include/hw/acpi/aml-build.h |   5 +-
+>   include/hw/boards.h         |   6 ++-
+>   qapi/machine.json           |   5 +-
+>   qemu-options.hx             |  91 +++++++++++++++++++++++++++--------
+>   softmmu/vl.c                |   3 ++
+>   tests/data/acpi/virt/PPTT   | Bin 76 -> 96 bytes
+>   11 files changed, 214 insertions(+), 102 deletions(-)
+>
+> --
+> 2.19.1
+>
+> .
 
-> +    }
->  }
->  
->  static void sd_ocr_powerup(void *opaque)
-> @@ -560,6 +572,7 @@ static void sd_reset(DeviceState *dev)
->  
->      sd->state = sd_idle_state;
->      sd->rca = 0x0000;
-> +    sd->size = size;
->      sd_set_ocr(sd);
->      sd_set_scr(sd);
->      sd_set_cid(sd);
-> @@ -574,7 +587,6 @@ static void sd_reset(DeviceState *dev)
->      memset(sd->function_group, 0, sizeof(sd->function_group));
->      sd->erase_start = INVALID_ADDRESS;
->      sd->erase_end = INVALID_ADDRESS;
-> -    sd->size = size;
->      sd->blk_len = 0x200;
->      sd->pwd_len = 0;
->      sd->expecting_acmd = false;
 
