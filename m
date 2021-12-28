@@ -2,66 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91155480CD1
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Dec 2021 20:44:21 +0100 (CET)
-Received: from localhost ([::1]:36862 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E70A5480CD3
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Dec 2021 20:45:17 +0100 (CET)
+Received: from localhost ([::1]:37682 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n2IOQ-0006hv-Ge
-	for lists+qemu-devel@lfdr.de; Tue, 28 Dec 2021 14:44:20 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48390)
+	id 1n2IPE-0007GY-NA
+	for lists+qemu-devel@lfdr.de; Tue, 28 Dec 2021 14:45:12 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48392)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1n2IIe-0003iN-FR; Tue, 28 Dec 2021 14:38:20 -0500
-Received: from [2607:f8b0:4864:20::833] (port=45781
- helo=mail-qt1-x833.google.com)
+ id 1n2IIf-0003ie-7f; Tue, 28 Dec 2021 14:38:21 -0500
+Received: from [2607:f8b0:4864:20::82d] (port=33330
+ helo=mail-qt1-x82d.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1n2IIc-00043c-7x; Tue, 28 Dec 2021 14:38:20 -0500
-Received: by mail-qt1-x833.google.com with SMTP id p19so17021331qtw.12;
- Tue, 28 Dec 2021 11:38:17 -0800 (PST)
+ id 1n2IId-00043q-IR; Tue, 28 Dec 2021 14:38:20 -0500
+Received: by mail-qt1-x82d.google.com with SMTP id v4so14447659qtk.0;
+ Tue, 28 Dec 2021 11:38:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=YSuZZP4Pavigk1uaydCMo6TBO9tkTdWagOhCQs42diU=;
- b=WG9VxcFKxourdeRqv0RMpLIPleb+IIOcQL+OIpbWBQ5910A9mHSQ5eZGiKds9G6/Xq
- bDuMPRKAnWQQ+3ZU1fynPd3rnmQJ1/8Awy7zUSHGwIleoc74K6UejKmEBjbn7KHP9dT/
- vT+zS0yQPE66JwykcBXXZWTKFRDpnE+jhOtB9lzJGz9DUy/QoTvL40z3jjDxpMgspbgu
- iCjOHZP1EWHkWz4lAdbC0Uz6dVGtUdh98+M1tjfbDV4QM9p1L6rWzG3G96gEyiXLX+cP
- BaB5n+yS1w8EbDJSRdnvB8feSJtKhwtzvt7/WcOb+jI9qpKsrYonYbvhesPM0hDZ3Rz+
- P1FQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=eJ6+Ke1xC05ZgUOb+BKNnwR7Eg4U6KM0vXnMAljxOwI=;
+ b=Wl2PKkHA7+6CR8ngCYI2Q7X92pnxesKw+lgQCG79Bvlc3phRGubx50c21bAgAyKXxE
+ mdUGq305//tgKWoLmM71ESXG5ad1r1kX0+P8I7Rg/kqsmBjUtlWkcoyzrm3YB7n05/Tt
+ YNosD2QKvkz6job+837G2Rsxh6EJvlbrWn0pNjFRPUooCA8bQmMq1A4TWLj4W2Dt17uI
+ O/2U2y1U2SZ7Sf8g8vooY1F2NT8dGF6lVBcpKicYTDBufPVOfWTrIRt7YOAyBwbIT28b
+ tAckKb0Fjy/8jMKtRV7/x7GxqDTEhPuPG3so7UNMYuoDoB0csUP83pJ66NGcqO820FsL
+ SsNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=YSuZZP4Pavigk1uaydCMo6TBO9tkTdWagOhCQs42diU=;
- b=jMnRehVwo143KWKmnfpxWKmFP7xOb8O9RDKsUr6aEytGkU8+zGw10wJOSkRsfHdIYW
- cxCGcdZDtJeIidOYSIQeB1Vl/YH48VJ458paDY1TmTpQnHIvEF4PLHP5bmMaCNakfkhu
- SR7ZLfB0xQaqPuBZM4UF3WqqoBzW74vP7vdWzOr2n2Bpt9+8zlqkNzSXwtqpzJL5FLen
- ZKpAYCqYCE7OyThZZJnhGSDM8i8iuTelSzm8gfuD8M5Nba30aScdhwIUWcjdepuK/8/D
- iUS/ypf/xNqDDWy0T68L6o+Geq7d6zYI3Y3fliVu8yqRxr1GZKEC1/A/Y+kpTaur7Kbc
- H1mA==
-X-Gm-Message-State: AOAM532wsj3csZW98J1Hsk+FEOvUMCshyLjVhDOn74+FOhl0g4Hk+rwo
- /GV9YD56qDC37MT6LEAvVbUWicUMfa0=
-X-Google-Smtp-Source: ABdhPJyHy8AnZDcU3cPRWokFxkDJA0X+iEXc4lrakbta5NbsYydEtzTm+IUCiYnQMRayt8Mn2uqpbw==
-X-Received: by 2002:ac8:7505:: with SMTP id u5mr19285567qtq.449.1640720296392; 
- Tue, 28 Dec 2021 11:38:16 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=eJ6+Ke1xC05ZgUOb+BKNnwR7Eg4U6KM0vXnMAljxOwI=;
+ b=tArT+SEQToAMsJI4M/HG9RjAi2dyasD6QGo07fWhWz21BwZjn32mcif2u4JOH5//VJ
+ pvkCtRanvDlFH6CquwPvVQDhwT1q6MZqcNYb/WY+Aq9LgFxN6qJjsDohl5Hd9SRKRP5Y
+ ZpaWfb7XE9zbUQmOcq37ZbDfV//mOoSWi8GaWE+6MN6aSOn/bX68xiE1d6MqkWm/apjq
+ jNKc794VoTgVbAKP6HYubpp7zfpvEGAqTHitHAVND87TEhcwrGOaNwd5rkP1CcgmD5/5
+ S0B9VkwK1+tpMeWaG2dRybd4QOqpplPfWgegVkiTClUNrlmY9NtdLPphoBumrlZLgc3+
+ ElZA==
+X-Gm-Message-State: AOAM532W0VH+mTwh3m9fP/Nq6lt7ZgU677fVwelALEtGUz3IIN1TMaYW
+ WFlkZQ4ZThTOFi5zVEbHt1kil9EIvPk=
+X-Google-Smtp-Source: ABdhPJxEj0D1qSuV90fNQ+Xam1DKB/em3wP04aZT66P4OsuZ9buDfhbTLMl3fioFe0AXAU9UYI6dJQ==
+X-Received: by 2002:a05:622a:5:: with SMTP id
+ x5mr19978778qtw.110.1640720298344; 
+ Tue, 28 Dec 2021 11:38:18 -0800 (PST)
 Received: from rekt.ibmuc.com ([2804:431:c7c6:7ce4:b718:2cc0:32df:97ee])
- by smtp.gmail.com with ESMTPSA id r20sm16924059qkp.21.2021.12.28.11.38.14
+ by smtp.gmail.com with ESMTPSA id r20sm16924059qkp.21.2021.12.28.11.38.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Dec 2021 11:38:16 -0800 (PST)
+ Tue, 28 Dec 2021 11:38:18 -0800 (PST)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 00/17] ppc/pnv: enable pnv-phb4 user devices
-Date: Tue, 28 Dec 2021 16:37:49 -0300
-Message-Id: <20211228193806.1198496-1-danielhb413@gmail.com>
+Subject: [PATCH 01/17] pnv_phb3.c: add unique chassis and slot for
+ pnv_phb3_root_port
+Date: Tue, 28 Dec 2021 16:37:50 -0300
+Message-Id: <20211228193806.1198496-2-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.33.1
+In-Reply-To: <20211228193806.1198496-1-danielhb413@gmail.com>
+References: <20211228193806.1198496-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::833
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::82d
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::833;
- envelope-from=danielhb413@gmail.com; helo=mail-qt1-x833.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::82d;
+ envelope-from=danielhb413@gmail.com; helo=mail-qt1-x82d.google.com
 X-Spam_score_int: 8
 X-Spam_score: 0.8
 X-Spam_bar: /
@@ -86,56 +90,59 @@ Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+When creating a pnv_phb3_root_port using the command line, the first
+root port is created successfully, but the second fails with the
+following error:
 
-This series implements pnv-phb4 user devices for the powernv9 machine.
-It also includes a couple of pnv-phb3 and pnv-phb3-root-port fixes that
-were also applied for the pnv4 equivalents.
+qemu-system-ppc64: -device pnv-phb3-root-port,bus=phb3-root.0,id=pcie.3:
+Can't add chassis slot, error -16
 
-During the enablement I had to rollback from the previously added
-support for user creatable pnv-phb4-pec devices. The most important
-reason is user experience. PEC devices that doesn't spawn the PHB
-devices will be just a placeholder to add PHBs, having no use of their
-own as far as the user sees it. From this standpoint it makes more sense
-to just create all PECs and attach the PHBs the user wants on them.
-Patch 14 also describes technical reasons to rollback this support.
+This error comes from the realize() function of its parent type,
+rp_realize() from TYPE_PCIE_ROOT_PORT. pcie_chassis_add_slot() fails
+with -EBUSY if there's an existing PCIESlot that has the same
+chassis/slot value, regardless of being in a different bus.
 
-The series is rebased using Cedric's 'powernv-6.2' branch [1]i, which
-includes the '[PATCH 0/5] ppc/pnv: Preliminary cleanups before user
-created PHBs' patches [2].
+One way to prevent this error is simply set chassis and slot values in
+the command line. However, since phb3 root buses only supports a single
+root port, we can just get an unique chassis/slot value by checking
+which root bus the pnv_phb3_root_port is going to be attached, get the
+equivalent phb3 device and use its chip-id and index values, which are
+guaranteed to be unique.
 
-[1] https://github.com/legoater/qemu/tree/powernv-6.2
-[2] https://lists.gnu.org/archive/html/qemu-devel/2021-12/msg03810.html
+Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+---
+ hw/pci-host/pnv_phb3.c | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
-
-Daniel Henrique Barboza (17):
-  pnv_phb3.c: add unique chassis and slot for pnv_phb3_root_port
-  pnv_phb3.c: do not set 'root-bus' as bus name
-  pnv_phb3.h: change TYPE_PNV_PHB3_ROOT_BUS name
-  pnv_phb4.c: add unique chassis and slot for pnv_phb4_root_port
-  pnv.c: simplify pnv_phb_attach_root_port()
-  pnv_phb4.c: attach default root port in phb4 realize()
-  pnv_phb4.c: check if root port exists in rc_config functions
-  pnv_phb4.c: introduce pnv_phb4_set_stack_phb_props()
-  pnv_phb4_pec.c: move pnv_pec_phb_offset() to pnv_phb4.c
-  pnv_phb4.c: introduce pnv_pec_init_stack_xscom()
-  pnv_phb4_pec.c: use pnv_pec_get_phb_id() in pnv_pec_dt_xscom()
-  pnv_phb4_pec.c: use 'default_enabled()' to init stack->phb
-  pnv_phb4.h: turn phb into a pointer in struct PnvPhb4PecStack
-  Revert "ppc/pnv: Introduce support for user created PHB4 devices"
-  ppc/pnv: Introduce user creatable pnv-phb4 devices
-  pnv_phb4.c: do not set 'root-bus' as bus name
-  pnv_phb4.c: change TYPE_PNV_PHB4_ROOT_BUS name
-
- hw/pci-host/pnv_phb3.c         |  19 +++-
- hw/pci-host/pnv_phb4.c         | 188 +++++++++++++++++++++++++++++++--
- hw/pci-host/pnv_phb4_pec.c     | 107 ++++++-------------
- hw/ppc/pnv.c                   |  31 ++----
- include/hw/pci-host/pnv_phb3.h |   2 +-
- include/hw/pci-host/pnv_phb4.h |  13 ++-
- include/hw/ppc/pnv.h           |   1 +
- 7 files changed, 252 insertions(+), 109 deletions(-)
-
+diff --git a/hw/pci-host/pnv_phb3.c b/hw/pci-host/pnv_phb3.c
+index 4e2d680d44..130d392b3e 100644
+--- a/hw/pci-host/pnv_phb3.c
++++ b/hw/pci-host/pnv_phb3.c
+@@ -1156,8 +1156,24 @@ static const TypeInfo pnv_phb3_root_bus_info = {
+ static void pnv_phb3_root_port_realize(DeviceState *dev, Error **errp)
+ {
+     PCIERootPortClass *rpc = PCIE_ROOT_PORT_GET_CLASS(dev);
++    PCIDevice *pci = PCI_DEVICE(dev);
++    PCIBus *bus = pci_get_bus(pci);
++    PnvPHB3 *phb = NULL;
+     Error *local_err = NULL;
+ 
++    phb = (PnvPHB3 *) object_dynamic_cast(OBJECT(bus->qbus.parent),
++                                          TYPE_PNV_PHB3);
++
++    if (!phb) {
++        error_setg(errp,
++"pnv_phb3_root_port devices must be connected to pnv-phb3 buses");
++        return;
++    }
++
++    /* Set unique chassis/slot values for the root port */
++    qdev_prop_set_uint8(&pci->qdev, "chassis", phb->chip_id);
++    qdev_prop_set_uint16(&pci->qdev, "slot", phb->phb_id);
++
+     rpc->parent_realize(dev, &local_err);
+     if (local_err) {
+         error_propagate(errp, local_err);
 -- 
 2.33.1
 
