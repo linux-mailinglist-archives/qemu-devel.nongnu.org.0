@@ -2,80 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB4BF480AA3
-	for <lists+qemu-devel@lfdr.de>; Tue, 28 Dec 2021 16:07:57 +0100 (CET)
-Received: from localhost ([::1]:48814 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FF2F480B06
+	for <lists+qemu-devel@lfdr.de>; Tue, 28 Dec 2021 17:00:48 +0100 (CET)
+Received: from localhost ([::1]:39952 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n2E4y-00050s-D7
-	for lists+qemu-devel@lfdr.de; Tue, 28 Dec 2021 10:07:56 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46008)
+	id 1n2Eu6-0003NN-Uc
+	for lists+qemu-devel@lfdr.de; Tue, 28 Dec 2021 11:00:46 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59878)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dennis.lissov@gmail.com>)
- id 1n2DQC-0005DE-TJ
- for qemu-devel@nongnu.org; Tue, 28 Dec 2021 09:25:48 -0500
-Received: from [2a00:1450:4864:20::236] (port=39451
- helo=mail-lj1-x236.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dennis.lissov@gmail.com>)
- id 1n2DQB-0002GH-2o
- for qemu-devel@nongnu.org; Tue, 28 Dec 2021 09:25:48 -0500
-Received: by mail-lj1-x236.google.com with SMTP id x4so13417619ljc.6
- for <qemu-devel@nongnu.org>; Tue, 28 Dec 2021 06:25:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=GUfc0YkkmhcdekSITpF31vxFFCiF9qZPhScbvYBicwo=;
- b=Aunxf8xqWaT9UvVbjB1aT9aQWKIqjqLM8DRwX/oZJM5F3jUEvypt6zYMsrvMQlMDFD
- +AykeMxOoLddW+q+z6m/UqcrbT2gN63f+oCZM7PeGd4Y/swWya/HOoM1neI9NHUWgncx
- s2/jGRW+5a7Bwe3i8O6fu9gZMQRN+ZwTK8OljusqSCFqWHzh9uPfF2F4oVIcqIhdJPRg
- /oALczcYV5bg4Y2WhSUBEwQ/W8qdPy7uL7mo5LbzJuSqtAP550BL4FMCZ+o6UscHmpiT
- oFgVUROcSZKdQOJcdkPYpWLcbCjudUxu4kdvq0o7JoqHwzwdeBfA0bi1qPzroFDtsjYR
- Gr1g==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1n2Erd-0002He-1B
+ for qemu-devel@nongnu.org; Tue, 28 Dec 2021 10:58:13 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:56536)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1n2Era-0006el-39
+ for qemu-devel@nongnu.org; Tue, 28 Dec 2021 10:58:11 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1640707089;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=9+TKXXn456JTKpa2QllacDt3a1HqFcgf7yI3+X2lAhw=;
+ b=eQwHQ03jdPqIHDoe+m6jAgpTwCVV1AyI5No5ZkYpMqfq3oQS4r1ig/0kk4ek5viRNjh8/o
+ Ml59WNEN9ncdp9wGjNOe7cdPKyRqB/sOZ3Pe/NboQu1x7twhmEAVGS/cy7Zthy0ZkokhIp
+ 1FLjy9ft0FMy+brW5rm4iMTlZo35ss8=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-65-IVSH_Jl3OtWSmRMIr7tKig-1; Tue, 28 Dec 2021 10:58:08 -0500
+X-MC-Unique: IVSH_Jl3OtWSmRMIr7tKig-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ d13-20020adf9b8d000000b001a2aa837f8dso4013343wrc.3
+ for <qemu-devel@nongnu.org>; Tue, 28 Dec 2021 07:58:08 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=GUfc0YkkmhcdekSITpF31vxFFCiF9qZPhScbvYBicwo=;
- b=F+Sme2WoZXbUyYLj3y1Jet1bNR/Cl9jPNnGdySxazbDInYTFLmFgH7jK4WTpdDJd1I
- 1SIHfFZypcmWiGZI6A88t/q6Ao1A8RW4fJuEXngo96AFfifOJCS4i8aO7k/nDIOaE4d7
- OIUohXCev2t9IMZ2kjLviFmllhgtw+f6EtrbK+5x+ckUxYxyRACvQUOJ0AfsoDmK9Ytr
- iIyZzCcbt17oW4WsLHWb4G2gCkIKz9lJFO9xsj9181K2lDeBys3CWr3eZOYKpxoxfjNl
- Jcb9mJYTh24T4f0Hz1tqgdhI6Uk2O8dbp71LNkqW9GeY3vuzOqJViUlqZSNcoNOiQi17
- +j9Q==
-X-Gm-Message-State: AOAM532Wy/wR/nXElZG0B3AY+FDbzNIGoklI+TtVbBFeo0IGe2reXEif
- t0wTNVpwvYQju7to/J5mv5giWF5Fs7auFH2z
-X-Google-Smtp-Source: ABdhPJzgkqD898TTJbMT7NbQnoV+0nJ8UuzDEQku5Lg6x/BhyQnjnsKj2KrIgvHdCcm/loTj/qZLXA==
-X-Received: by 2002:a2e:b5dc:: with SMTP id g28mr10623084ljn.486.1640701542847; 
- Tue, 28 Dec 2021 06:25:42 -0800 (PST)
-Received: from dennis-tp.localnet ([185.13.112.121])
- by smtp.gmail.com with ESMTPSA id f22sm1558999ljc.38.2021.12.28.06.25.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Dec 2021 06:25:42 -0800 (PST)
-From: Denis Lisov <dennis.lissov@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: Re: [PATCH 1/4] acpi: fix QEMU crash when started with SLIC table
-Date: Tue, 28 Dec 2021 17:25:41 +0300
-Message-ID: <5346724.vFx2qVVIhK@dennis-tp>
-In-Reply-To: <20211227193120.1084176-2-imammedo@redhat.com>
-References: <20211227193120.1084176-1-imammedo@redhat.com>
- <20211227193120.1084176-2-imammedo@redhat.com>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=9+TKXXn456JTKpa2QllacDt3a1HqFcgf7yI3+X2lAhw=;
+ b=huOA9G23nQ/WMJRGsu58ixBGDiPYqmL5Uaa/OlYcdW0teFZTNKPHFzhS4P/uQd94es
+ P5PSZbUdxkjN00NrDnA4JEhZ3y97Wj5C2KJFLOBF0oiBR7rM+xH0cqdMDQU6Ks6EAyO7
+ yZLQ8rCqqkJqfGAlEQziyQUrGPD/GGqzUcYl4l9K0ZJF8mP3XlWuChqOw/gJx3wMyq0A
+ EFmzvuiGqAOKPvwFinY5rg3B22udHHTXgyPtV8wnZlTtvNf62XycVbwj2Vw4EtT8G5CA
+ 9eM4f4Qf3tFh5sXjxP2ePiT5j90v1kEf7aRTEvhyGmBGrTegYJoWdTQzNe2aWHkaJmzb
+ ofNw==
+X-Gm-Message-State: AOAM533HHlC24UW0ZOaxooxwpHZV1jbb6xCHUYtpiNfYrq5Uz/a4sLis
+ 7LkpVkMnGCXOUm8c3xzNzp+zyPrPnPN2b4Ldgl5Oijfjno7IiJ/tCXmL0M24yK7RZq5mN5JPSrc
+ 5fMHektyA9QD8sRQ=
+X-Received: by 2002:a05:6000:1085:: with SMTP id
+ y5mr17462675wrw.696.1640707087284; 
+ Tue, 28 Dec 2021 07:58:07 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJw8SY4YoH+YDT6RAkrrhhNABa8r8akes03d0HGZnb/F2otKnldzQW7zoCDNV9hlrtSgeKoEjQ==
+X-Received: by 2002:a05:6000:1085:: with SMTP id
+ y5mr17462641wrw.696.1640707086985; 
+ Tue, 28 Dec 2021 07:58:06 -0800 (PST)
+Received: from [192.168.1.16] (adijon-655-1-69-27.w90-13.abo.wanadoo.fr.
+ [90.13.240.27])
+ by smtp.gmail.com with ESMTPSA id c8sm18384343wrp.40.2021.12.28.07.58.05
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 28 Dec 2021 07:58:06 -0800 (PST)
+Message-ID: <10e4c8af-e09b-4777-9670-7a5090974514@redhat.com>
+Date: Tue, 28 Dec 2021 16:58:04 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::236
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::236;
- envelope-from=dennis.lissov@gmail.com; helo=mail-lj1-x236.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH v5 05/14] tests/unit/test-smp-parse: No need to explicitly
+ zero MachineClass members
+To: Yanan Wang <wangyanan55@huawei.com>, qemu-devel@nongnu.org,
+ qemu-arm@nongnu.org
+References: <20211228092221.21068-1-wangyanan55@huawei.com>
+ <20211228092221.21068-6-wangyanan55@huawei.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+In-Reply-To: <20211228092221.21068-6-wangyanan55@huawei.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -63
+X-Spam_score: -6.4
+X-Spam_bar: ------
+X-Spam_report: (-6.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.573,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-3.024, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Tue, 28 Dec 2021 10:06:12 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,91 +104,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mammedov <imammedo@redhat.com>, dlenski@gmail.com, mst@redhat.com
+Cc: Eduardo Habkost <eduardo@habkost.net>,
+ Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>, wanghaibin.wang@huawei.com,
+ Markus Armbruster <armbru@redhat.com>, Shannon Zhao <shannon.zhaosl@gmail.com>,
+ Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>,
+ Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Monday, 27 December 2021 22:31:17 MSK Igor Mammedov wrote:
-> if QEMU is started with used provided SLIC table blob,
+On 12/28/21 10:22, Yanan Wang wrote:
+> The default value of the MachineClass members is 0, which
+> means we don't have to explicitly zero them. Also the value
+> of "mc->smp_props.prefer_sockets" will be taken care of by
+> smp_parse_test(), we don't necessarily need the statement
+> in machine_base_class_init() either.
 > 
->   -acpitable sig=SLIC,oem_id='CRASH
-> ',oem_table_id="ME",oem_rev=00002210,asl_compiler_id="",asl_compiler_rev=00
-> 000000,data=/dev/null it will assert with:
-> 
->   hw/acpi/aml-build.c:61:build_append_padded_str: assertion failed: (len <=
-> maxlen)
-> 
-> and following backtrace:
-> 
->   ...
->   build_append_padded_str (array=0x555556afe320, str=0x555556afdb2e "CRASH
-> ME", maxlen=0x6, pad=0x20) at hw/acpi/aml-build.c:61 acpi_table_begin
-> (desc=0x7fffffffd1b0, array=0x555556afe320) at hw/acpi/aml-build.c:1727
-> build_fadt (tbl=0x555556afe320, linker=0x555557ca3830, f=0x7fffffffd318,
-> oem_id=0x555556afdb2e "CRASH ME", oem_table_id=0x555556afdb34 "ME") at
-> hw/acpi/aml-build.c:2064 ...
-> 
-> which happens due to acpi_table_begin() expecting NULL terminated
-> oem_id and oem_table_id strings, which is normally the case, but
-> in case of user provided SLIC table, oem_id points to table's blob
-> directly and as result oem_id became longer than expected.
-> 
-> Fix issue by handling oem_id consistently and make acpi_get_slic_oem()
-> return NULL terminated strings.
-> 
-> PS:
-> After [1] refactoring, oem_id semantics became inconsistent, where
-> NULL terminated string was coming from machine and old way pointer
-> into byte array coming from -acpitable option. That used to work
-> since build_header() wasn't expecting NULL terminated string and
-> blindly copied the 1st 6 bytes only.
-> 
-> However commit [2] broke that by replacing build_header() with
-> acpi_table_begin(), which was expecting NULL terminated string
-> and was checking oem_id size.
-> 
-> 1) 602b45820 ("acpi: Permit OEM ID and OEM table ID fields to be changed")
-> 2)
-> Fixes: 4b56e1e4eb08 ("acpi: build_fadt: use
-> acpi_table_begin()/acpi_table_end() instead of build_header()") Resolves:
-> https://gitlab.com/qemu-project/qemu/-/issues/786
-> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+> Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
 > ---
->  hw/acpi/core.c       | 4 ++--
->  hw/i386/acpi-build.c | 2 ++
->  2 files changed, 4 insertions(+), 2 deletions(-)
-> 
-> diff --git a/hw/acpi/core.c b/hw/acpi/core.c
-> index 1e004d0078..3e811bf03c 100644
-> --- a/hw/acpi/core.c
-> +++ b/hw/acpi/core.c
-> @@ -345,8 +345,8 @@ int acpi_get_slic_oem(AcpiSlicOem *oem)
->          struct acpi_table_header *hdr = (void *)(u - sizeof(hdr->_length));
-> 
->          if (memcmp(hdr->sig, "SLIC", 4) == 0) {
-> -            oem->id = hdr->oem_id;
-> -            oem->table_id = hdr->oem_table_id;
-> +            oem->id = g_strndup(hdr->oem_id, 6);
-> +            oem->table_id = g_strndup(hdr->oem_table_id, 8);
->              return 0;
->          }
->      }
-> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-> index 8383b83ee3..0234fe7588 100644
-> --- a/hw/i386/acpi-build.c
-> +++ b/hw/i386/acpi-build.c
-> @@ -2723,6 +2723,8 @@ void acpi_build(AcpiBuildTables *tables, MachineState
-> *machine)
-> 
->      /* Cleanup memory that's no longer used. */
->      g_array_free(table_offsets, true);
-> +    g_free(slic_oem.id);
-> +    g_free(slic_oem.table_id);
->  }
-> 
->  static void acpi_ram_update(MemoryRegion *mr, GArray *data)
+>  tests/unit/test-smp-parse.c | 10 ----------
+>  1 file changed, 10 deletions(-)
 
-Tested-by: Denis Lisov <dennis.lissov@gmail.com>
-
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
 
