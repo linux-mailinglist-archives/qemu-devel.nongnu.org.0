@@ -2,91 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F484481584
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Dec 2021 18:03:17 +0100 (CET)
-Received: from localhost ([::1]:35184 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6D2D48159F
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Dec 2021 18:05:57 +0100 (CET)
+Received: from localhost ([::1]:39774 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n2cM7-0006A8-Vr
-	for lists+qemu-devel@lfdr.de; Wed, 29 Dec 2021 12:03:16 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42738)
+	id 1n2cOi-0000yS-OE
+	for lists+qemu-devel@lfdr.de; Wed, 29 Dec 2021 12:05:56 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42768)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1n2cHK-0003gR-5a; Wed, 29 Dec 2021 11:58:18 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:12364)
+ id 1n2cHR-0003sV-SU; Wed, 29 Dec 2021 11:58:26 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:39452)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1n2cHI-00045r-Di; Wed, 29 Dec 2021 11:58:17 -0500
-Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1BTGDZlF012808; 
- Wed, 29 Dec 2021 16:58:04 GMT
+ id 1n2cHM-000472-CD; Wed, 29 Dec 2021 11:58:25 -0500
+Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1BTEjQ2O021992; 
+ Wed, 29 Dec 2021 16:58:07 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
  : date : message-id : in-reply-to : references : mime-version :
- content-type : content-transfer-encoding; s=pp1;
- bh=nA41Y0utFfoa1ol857Nyt3ticEI9LoCNQTJYxEUoMXg=;
- b=ekn8B9htKtfUujBDbUv2eNnjh3QBuJrWEgIwyUZcj+NN7ycDTgGHLW9g27Y38aeeZDvO
- mBmFHQ5eDGITvV4mF1ae2emyFmcWnBYwDO3DZwDMjOitRYvJPaZ6RSjd0R7Med9XAltD
- 4xuda3jEBgIOkWJopjmQ+KkLwu7txGq3NWDCup8XBdE55QievpUo8mKiDL8zeYVRduNM
- 5UIkuY7HTB1TkU597W7FrbLQdV+aos0COwojOEXlGWBbbdNpHq5OVWYVpJgtREeFaM6p
- nMunGAx7P5cAKOJs/WrE6cvG/lPccIP7ml4xgFEZnuthqmeu0ot55RnFFnQg39+6RQWo mA== 
+ content-transfer-encoding; s=pp1;
+ bh=i3kgBymahYCbAL10VjwHG+xpSV7Y4ch3uriY8EAqRbE=;
+ b=bQWJKqK9nK3EfS4cxBzvqyiX/zsov40/VeTRmd+D7poi0LNLbKtmwsuoRugbCdZcqblJ
+ LS2237ZeeD3MLvv+8AZzYo1HUtEW5EreLYaFcdkKSls4dP+SiYkmpZEsDcJ5YI7niRL0
+ z+7o7YN3cECU/a9m4cC/fzmYF1wuIIcXeBMdEUPc6kSiPzF7MxAZww5kSgohN1AcP8SK
+ oOvJ6j5P8yv56WGf1KP80YqXbAKYdyuFmkxvFO7LC1K55fV5yZ/UzVox3I2IS1Z2IQK0
+ GDI7enoL5rk/joc4cefG6yULmBJYOb5bDJEdO0yScDAZx81bOogKh+wu0m5AXYLbvrFE aA== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3d7uscu9kr-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3d7yr0es5n-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 29 Dec 2021 16:58:04 +0000
-Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1BTGdFkM005200;
- Wed, 29 Dec 2021 16:58:03 GMT
-Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.10])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3d7uscu9kh-1
+ Wed, 29 Dec 2021 16:58:07 +0000
+Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1BTGipOs029689;
+ Wed, 29 Dec 2021 16:58:07 GMT
+Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
+ [169.63.214.131])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3d7yr0es5c-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 29 Dec 2021 16:58:03 +0000
-Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
- by ppma02dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1BTGvf8a023142;
- Wed, 29 Dec 2021 16:58:03 GMT
-Received: from b01cxnp22035.gho.pok.ibm.com (b01cxnp22035.gho.pok.ibm.com
- [9.57.198.25]) by ppma02dal.us.ibm.com with ESMTP id 3d5txbbeaa-1
+ Wed, 29 Dec 2021 16:58:07 +0000
+Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
+ by ppma01dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1BTGuuN1029283;
+ Wed, 29 Dec 2021 16:58:05 GMT
+Received: from b01cxnp22033.gho.pok.ibm.com (b01cxnp22033.gho.pok.ibm.com
+ [9.57.198.23]) by ppma01dal.us.ibm.com with ESMTP id 3d5txc3fv1-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 29 Dec 2021 16:58:02 +0000
+ Wed, 29 Dec 2021 16:58:05 +0000
 Received: from b01ledav006.gho.pok.ibm.com (b01ledav006.gho.pok.ibm.com
  [9.57.199.111])
- by b01cxnp22035.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 1BTGw2Hh26607902
+ by b01cxnp22033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 1BTGw46427656490
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 29 Dec 2021 16:58:02 GMT
+ Wed, 29 Dec 2021 16:58:04 GMT
 Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id E3109AC05E;
- Wed, 29 Dec 2021 16:58:01 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id D7951AC059;
+ Wed, 29 Dec 2021 16:58:04 +0000 (GMT)
 Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id F22BAAC059;
- Wed, 29 Dec 2021 16:57:59 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 7FA63AC05B;
+ Wed, 29 Dec 2021 16:58:02 +0000 (GMT)
 Received: from farosas.linux.ibm.com.com (unknown [9.211.90.107])
  by b01ledav006.gho.pok.ibm.com (Postfix) with ESMTP;
- Wed, 29 Dec 2021 16:57:59 +0000 (GMT)
+ Wed, 29 Dec 2021 16:58:02 +0000 (GMT)
 From: Fabiano Rosas <farosas@linux.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 1/5] target/ppc: powerpc_excp: Set alternate SRRs directly
-Date: Wed, 29 Dec 2021 13:57:47 -0300
-Message-Id: <20211229165751.3774248-2-farosas@linux.ibm.com>
+Subject: [PATCH v2 2/5] target/ppc: powerpc_excp: Add excp_vectors bounds check
+Date: Wed, 29 Dec 2021 13:57:48 -0300
+Message-Id: <20211229165751.3774248-3-farosas@linux.ibm.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211229165751.3774248-1-farosas@linux.ibm.com>
 References: <20211229165751.3774248-1-farosas@linux.ibm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: 0fKaukr_RMBpxqlff6QwmPmVnK0SZ7vP
-X-Proofpoint-ORIG-GUID: rhIwO_Q-_8nlKFGkjf_HZzLQd15fFadQ
+X-Proofpoint-GUID: LLe03oozYwccsyxRmuG82uHRPbnFEDPR
+X-Proofpoint-ORIG-GUID: HNiJAXWxjMhBYL353K9xVAwHDaHifrnD
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
  definitions=2021-12-29_06,2021-12-29_01,2021-12-02_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015
- priorityscore=1501 mlxscore=0 adultscore=0 suspectscore=0 phishscore=0
- impostorscore=0 lowpriorityscore=0 malwarescore=0 mlxlogscore=771
- bulkscore=0 spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2110150000 definitions=main-2112290088
+ lowpriorityscore=0 mlxscore=0
+ priorityscore=1501 phishscore=0 adultscore=0 bulkscore=0 mlxlogscore=999
+ suspectscore=0 impostorscore=0 spamscore=0 malwarescore=0 clxscore=1015
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2110150000
+ definitions=main-2112290088
 Received-SPF: pass client-ip=148.163.156.1; envelope-from=farosas@linux.ibm.com;
  helo=mx0a-001b2d01.pphosted.com
 X-Spam_score_int: 0
@@ -112,81 +111,43 @@ Cc: richard.henderson@linaro.org, danielhb413@gmail.com, qemu-ppc@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There are currently only two interrupts that use alternate SRRs, so
-let them write to them directly during the setup code.
+The next patch will start accessing the excp_vectors array earlier in
+the function, so add a bounds check as first thing here.
 
-No functional change intended.
+This converts the empty return on POWERPC_EXCP_NONE to an error. This
+exception number never reaches this function and if it does it
+probably means something else went wrong up the line.
 
 Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
-Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- target/ppc/excp_helper.c | 23 ++++++++---------------
- 1 file changed, 8 insertions(+), 15 deletions(-)
+ target/ppc/excp_helper.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
 diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-index f90e616aac..8b9c6bc5a8 100644
+index 8b9c6bc5a8..9a03e4b896 100644
 --- a/target/ppc/excp_helper.c
 +++ b/target/ppc/excp_helper.c
-@@ -298,7 +298,7 @@ static inline void powerpc_excp(PowerPCCPU *cpu, int excp_model, int excp)
-     CPUState *cs = CPU(cpu);
-     CPUPPCState *env = &cpu->env;
+@@ -300,6 +300,10 @@ static inline void powerpc_excp(PowerPCCPU *cpu, int excp_model, int excp)
      target_ulong msr, new_msr, vector;
--    int srr0, srr1, asrr0, asrr1, lev = -1;
-+    int srr0, srr1, lev = -1;
+     int srr0, srr1, lev = -1;
  
++    if (excp <= POWERPC_EXCP_NONE || excp >= POWERPC_EXCP_NB) {
++        cpu_abort(cs, "Invalid PowerPC exception %d. Aborting\n", excp);
++    }
++
      qemu_log_mask(CPU_LOG_INT, "Raise exception at " TARGET_FMT_lx
                    " => %08x (%02x)\n", env->nip, excp, env->error_code);
-@@ -319,8 +319,6 @@ static inline void powerpc_excp(PowerPCCPU *cpu, int excp_model, int excp)
-     /* target registers */
-     srr0 = SPR_SRR0;
-     srr1 = SPR_SRR1;
--    asrr0 = -1;
--    asrr1 = -1;
  
-     /*
-      * check for special resume at 0x100 from doze/nap/sleep/winkle on
-@@ -410,8 +408,9 @@ static inline void powerpc_excp(PowerPCCPU *cpu, int excp_model, int excp)
-             /* FIXME: choose one or the other based on CPU type */
-             srr0 = SPR_BOOKE_MCSRR0;
-             srr1 = SPR_BOOKE_MCSRR1;
--            asrr0 = SPR_BOOKE_CSRR0;
--            asrr1 = SPR_BOOKE_CSRR1;
-+
-+            env->spr[SPR_BOOKE_CSRR0] = env->nip;
-+            env->spr[SPR_BOOKE_CSRR1] = msr;
-             break;
-         default:
-             break;
-@@ -570,8 +569,10 @@ static inline void powerpc_excp(PowerPCCPU *cpu, int excp_model, int excp)
-             /* FIXME: choose one or the other based on CPU type */
-             srr0 = SPR_BOOKE_DSRR0;
-             srr1 = SPR_BOOKE_DSRR1;
--            asrr0 = SPR_BOOKE_CSRR0;
--            asrr1 = SPR_BOOKE_CSRR1;
-+
-+            env->spr[SPR_BOOKE_CSRR0] = env->nip;
-+            env->spr[SPR_BOOKE_CSRR1] = msr;
-+
-             /* DBSR already modified by caller */
-         } else {
-             cpu_abort(cs, "Debug exception triggered on unsupported model\n");
-@@ -838,14 +839,6 @@ static inline void powerpc_excp(PowerPCCPU *cpu, int excp_model, int excp)
+@@ -353,9 +357,6 @@ static inline void powerpc_excp(PowerPCCPU *cpu, int excp_model, int excp)
+ #endif
  
-     vector |= env->excp_prefix;
- 
--    /* If any alternate SRR register are defined, duplicate saved values */
--    if (asrr0 != -1) {
--        env->spr[asrr0] = env->nip;
--    }
--    if (asrr1 != -1) {
--        env->spr[asrr1] = msr;
--    }
--
- #if defined(TARGET_PPC64)
-     if (excp_model == POWERPC_EXCP_BOOKE) {
-         if (env->spr[SPR_BOOKE_EPCR] & EPCR_ICM) {
+     switch (excp) {
+-    case POWERPC_EXCP_NONE:
+-        /* Should never happen */
+-        return;
+     case POWERPC_EXCP_CRITICAL:    /* Critical input                         */
+         switch (excp_model) {
+         case POWERPC_EXCP_40x:
 -- 
 2.33.1
 
