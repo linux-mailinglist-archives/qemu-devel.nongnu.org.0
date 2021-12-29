@@ -2,81 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23194480F10
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Dec 2021 03:55:17 +0100 (CET)
-Received: from localhost ([::1]:42002 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 112F8480F6E
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Dec 2021 04:50:40 +0100 (CET)
+Received: from localhost ([::1]:58520 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n2P7U-0007J3-9K
-	for lists+qemu-devel@lfdr.de; Tue, 28 Dec 2021 21:55:16 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57716)
+	id 1n2Pz4-00042x-MM
+	for lists+qemu-devel@lfdr.de; Tue, 28 Dec 2021 22:50:38 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39116)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1n2OwU-0003Hv-Mi
- for qemu-devel@nongnu.org; Tue, 28 Dec 2021 21:43:56 -0500
-Received: from [2607:f8b0:4864:20::534] (port=44796
- helo=mail-pg1-x534.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1n2OwS-0005xQ-5M
- for qemu-devel@nongnu.org; Tue, 28 Dec 2021 21:43:53 -0500
-Received: by mail-pg1-x534.google.com with SMTP id m15so17323561pgu.11
- for <qemu-devel@nongnu.org>; Tue, 28 Dec 2021 18:43:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=jxCcFrmTdf4r9WPSe3R0xGMWSqwC3U1jx8xIeXhaN/g=;
- b=ELb/rfel+oyO1CAbBcHJJvnkRWm45/FGZgChT+DPIn9YT8CXtLpEv+GNmIaX6QutlS
- mXFylz4AZLnWFcZZrEt62IP/308YkDsBrhnP30LlPs6Cs0IXD7UY7WLFW8NGJqOVlhMK
- LeIPwyOG8JRR4FDxXWFXzNsHTSLyoO0e+55qBGOeQypIIuUpWwocCc/VrC6hoUzTXG01
- c34PsVdx9BoU56Wet7OODNIwSZXYOd7GNj8JkwsA0dbuKZmNQCMv/u83+nG1UK1y3dRe
- u04zArq7SJbx3qfdm1nEnFKRQ4ybV8ajFK8QsshmlFmHToOoTronHZiBFwtUy292+Yip
- pxsA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=jxCcFrmTdf4r9WPSe3R0xGMWSqwC3U1jx8xIeXhaN/g=;
- b=hFZANopxJecMXgeM7d6jtTxTeOyZtBXlFdtphkg4eX9oZVkAEKEBc7zJD1yaK8fwXS
- nDBajHmCkf+092m+9aCVI+A0mEYLEWyCfmLHBjABA6gqicGn56PRhSg7ReILXTRJaF1G
- IfmJL8A4u/P0PSTKaV9xuDkS2T4IdrkwKhh24qRK+sWFBbKYFlNNj74MIEBsrC+wZrc/
- xPbL7CCtN1/UIlAwfXq4Uy8JbvCwOkBLfMMP9rXgD5BhrLNHS96arDsvcD7ijInp913o
- n52iCC8tdQ8ANcabCW1Xuz4tzf4Q+zEI/OfKchdTe5diNoefbiY0+7AWHyYtF6bvSWzX
- U89Q==
-X-Gm-Message-State: AOAM530vzEFEo9JMVQIexeFQc5s4uRPhLLvk0uyBNYJq1tFcIOALI0YK
- yDYBbUjTjtqAYx2kqGxmjQUGMoXlFF9l5g==
-X-Google-Smtp-Source: ABdhPJzVPqsGwYXuxhA6IJITyNWYUEK7XGBgXc3ZENiTF9Re+8u5ZOA3Rkf4HYwY+H6Fr+bELvcF0g==
-X-Received: by 2002:a63:485a:: with SMTP id x26mr21747313pgk.580.1640745830595; 
- Tue, 28 Dec 2021 18:43:50 -0800 (PST)
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com.
- [209.85.215.173])
- by smtp.gmail.com with ESMTPSA id ot7sm26859672pjb.12.2021.12.28.18.43.50
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 28 Dec 2021 18:43:50 -0800 (PST)
-Received: by mail-pg1-f173.google.com with SMTP id f8so7283867pgf.8;
- Tue, 28 Dec 2021 18:43:50 -0800 (PST)
-X-Received: by 2002:a63:395:: with SMTP id 143mr21760538pgd.181.1640745829688; 
- Tue, 28 Dec 2021 18:43:49 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1n2Pwr-0002X2-My; Tue, 28 Dec 2021 22:48:21 -0500
+Received: from szxga03-in.huawei.com ([45.249.212.189]:4168)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1n2Pwn-00076J-9W; Tue, 28 Dec 2021 22:48:21 -0500
+Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.54])
+ by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4JNy3q691Lz8vms;
+ Wed, 29 Dec 2021 11:45:43 +0800 (CST)
+Received: from [10.174.187.128] (10.174.187.128) by
+ dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
+ 15.1.2308.20; Wed, 29 Dec 2021 11:48:10 +0800
+Subject: Re: [PATCH v5 02/14] hw/core/machine: Introduce CPU cluster topology
+ support
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>
+CC: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones
+ <drjones@redhat.com>, Eduardo Habkost <eduardo@habkost.net>, Marcel Apfelbaum
+ <marcel.apfelbaum@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>, "Michael S
+ . Tsirkin" <mst@redhat.com>, Igor Mammedov <imammedo@redhat.com>, Shannon
+ Zhao <shannon.zhaosl@gmail.com>, Ani Sinha <ani@anisinha.ca>, Markus
+ Armbruster <armbru@redhat.com>, Eric Blake <eblake@redhat.com>,
+ <wanghaibin.wang@huawei.com>
+References: <20211228092221.21068-1-wangyanan55@huawei.com>
+ <20211228092221.21068-3-wangyanan55@huawei.com>
+ <fa7f67b2-ca1d-bd95-1a33-534a50b2d4c8@redhat.com>
+Message-ID: <2248a06d-7c3d-2ee3-e683-901d9bcbec02@huawei.com>
+Date: Wed, 29 Dec 2021 11:48:10 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-References: <20211229021250.29804-1-frank.chang@sifive.com>
-In-Reply-To: <20211229021250.29804-1-frank.chang@sifive.com>
-From: Frank Chang <frank.chang@sifive.com>
-Date: Wed, 29 Dec 2021 10:43:38 +0800
-X-Gmail-Original-Message-ID: <CANzO1D2aLFo-H_R9GL67HMF-3UUDFQW4osZuC1O7m4BpHDh4JQ@mail.gmail.com>
-Message-ID: <CANzO1D2aLFo-H_R9GL67HMF-3UUDFQW4osZuC1O7m4BpHDh4JQ@mail.gmail.com>
-Subject: Re: [PATCH 0/3] Fix RVV calling incorrect RFV/RVD check functions bug
-To: Frank Chang <frank.chang@sifive.com>
-Content-Type: multipart/alternative; boundary="000000000000586af205d43fe8e9"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::534
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::534;
- envelope-from=frank.chang@sifive.com; helo=mail-pg1-x534.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <fa7f67b2-ca1d-bd95-1a33-534a50b2d4c8@redhat.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-Originating-IP: [10.174.187.128]
+X-ClientProxiedBy: dggeme714-chm.china.huawei.com (10.1.199.110) To
+ dggpemm500023.china.huawei.com (7.185.36.83)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.189;
+ envelope-from=wangyanan55@huawei.com; helo=szxga03-in.huawei.com
+X-Spam_score_int: -71
+X-Spam_score: -7.2
+X-Spam_bar: -------
+X-Spam_report: (-7.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-3.024,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,110 +71,130 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  "wangyanan (Y)" <wangyanan55@huawei.com>
+From:  "wangyanan (Y)" via <qemu-devel@nongnu.org>
 
---000000000000586af205d43fe8e9
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Hi Philippe,
+Thanks for your review.
 
-<frank.chang@sifive.com> =E6=96=BC 2021=E5=B9=B412=E6=9C=8829=E6=97=A5 =E9=
-=80=B1=E4=B8=89 =E4=B8=8A=E5=8D=8810:13=E5=AF=AB=E9=81=93=EF=BC=9A
-
-> From: Frank Chang <frank.chang@sifive.com>
+On 2021/12/29 3:17, Philippe Mathieu-Daudé wrote:
+> Hi,
 >
-> For vector widening and narrowing floating-point instructions, we should
-> use require_scale_rvf() instead of require_rvf() to check whether the
-> correspond RVF/RVD is enabled if either source or destination
-> floating-point operand is double-width of SEW. Otherwise, illegal
-> instruction exception should be raised.
->
-> e.g. For SEW=3D16, if the source/destination floating-point operand is
-> double-width of SEW, RVF needs to be enabled. Otherwise, an illegal
-> instruction exception will be raised. Similarly, for SEW=3D32, RVD
-> needs to be enabled.
->
-> Frank Chang (3):
->   target/riscv: rvv-1.0: Call the correct RVF/RVD check funtion for
->     widening fp insns
->   target/riscv: rvv-1.0: Call the correct RVF/RVD check funtion for
->     widening fp/int type-convert insns
->   target/riscv: rvv-1.0: Call the correct RVF/RVD check funtion for
->     narrowing fp/int type-convert insns
+> On 12/28/21 10:22, Yanan Wang wrote:
+>> The new Cluster-Aware Scheduling support has landed in Linux 5.16,
+>> which has been proved to benefit the scheduling performance (e.g.
+>> load balance and wake_affine strategy) on both x86_64 and AArch64.
+>>
+>> So now in Linux 5.16 we have four-level arch-neutral CPU topology
+>> definition like below and a new scheduler level for clusters.
+>> struct cpu_topology {
+>>      int thread_id;
+>>      int core_id;
+>>      int cluster_id;
+>>      int package_id;
+>>      int llc_id;
+>>      cpumask_t thread_sibling;
+>>      cpumask_t core_sibling;
+>>      cpumask_t cluster_sibling;
+>>      cpumask_t llc_sibling;
+>> }
+>>
+>> A cluster generally means a group of CPU cores which share L2 cache
+>> or other mid-level resources, and it is the shared resources that
+>> is used to improve scheduler's behavior. From the point of view of
+>> the size range, it's between CPU die and CPU core. For example, on
+>> some ARM64 Kunpeng servers, we have 6 clusters in each NUMA node,
+>> and 4 CPU cores in each cluster. The 4 CPU cores share a separate
+>> L2 cache and a L3 cache tag, which brings cache affinity advantage.
+>>
+>> In virtualization, on the Hosts which have pClusters, if we can
+> Maybe [*] -> reference to pClusters?
+Hm, I'm not sure what kind of reference is appropriate here.
+The third paragraph in the commit message has explained what
+a cluster generally means. We can also read the description of
+clusters in Linux kernel Kconfig files: [1] and [2].
 
+[1]arm64: https://github.com/torvalds/linux/blob/master/arch/arm64/Kconfig
 
-Oops, I misspell the word "function" in the patch titles.
-I will correct it in my next patchset.
+config SCHED_CLUSTER
+        bool "Cluster scheduler support"
+        help
+          Cluster scheduler support improves the CPU scheduler's decision
+          making when dealing with machines that have clusters of CPUs.
+          Cluster usually means a couple of CPUs which are placed closely
+          by sharing mid-level caches, last-level cache tags or internal
+          busses.
 
-Regards,
-Frank Chang
+[2]x86: https://github.com/torvalds/linux/blob/master/arch/x86/Kconfig
 
+config SCHED_CLUSTER
+        bool "Cluster scheduler support"
+        depends on SMP
+        default y
+        help
+          Cluster scheduler support improves the CPU scheduler's decision
+          making when dealing with machines that have clusters of CPUs.
+          Cluster usually means a couple of CPUs which are placed closely
+          by sharing mid-level caches, last-level cache tags or internal
+          busses.
+>> design a vCPU topology with cluster level for guest kernel and
+>> have a dedicated vCPU pinning. A Cluster-Aware Guest kernel can
+>> also make use of the cache affinity of CPU clusters to gain
+>> similar scheduling performance.
+>>
+>> This patch adds infrastructure for CPU cluster level topology
+>> configuration and parsing, so that the user can specify cluster
+>> parameter if their machines support it.
+>>
+>> Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
+>> ---
+>>   hw/core/machine-smp.c | 26 +++++++++++++++++++-------
+>>   hw/core/machine.c     |  3 +++
+>>   include/hw/boards.h   |  6 +++++-
+>>   qapi/machine.json     |  5 ++++-
+>>   qemu-options.hx       |  7 ++++---
+>>   softmmu/vl.c          |  3 +++
+>>   6 files changed, 38 insertions(+), 12 deletions(-)
+>> diff --git a/qapi/machine.json b/qapi/machine.json
+>> index edeab6084b..ff0ab4ca20 100644
+>> --- a/qapi/machine.json
+>> +++ b/qapi/machine.json
+>> @@ -1404,7 +1404,9 @@
+>>   #
+>>   # @dies: number of dies per socket in the CPU topology
+>>   #
+>> -# @cores: number of cores per die in the CPU topology
+>> +# @clusters: number of clusters per die in the CPU topology
+> Missing:
+>
+>     #            (since 7.0)
+Ah, yes.
+>> +#
+>> +# @cores: number of cores per cluster in the CPU topology
+>>   #
+>>   # @threads: number of threads per core in the CPU topology
+>>   #
+>> @@ -1416,6 +1418,7 @@
+>>        '*cpus': 'int',
+>>        '*sockets': 'int',
+>>        '*dies': 'int',
+>> +     '*clusters': 'int',
+>>        '*cores': 'int',
+>>        '*threads': 'int',
+>>        '*maxcpus': 'int' } }
+> If you want I can update the doc when applying.
+Do you mean the missing "since 7.0"?
+If you have a plan to apply the first 1-7 patches separately and
+I don't need to respin, please help to update it, thank you! :)
 
+Thanks,
+Yanan
+> Thanks,
 >
+> Phil.
+>
+> .
 
-
->  target/riscv/insn_trans/trans_rvv.c.inc | 78 ++++++++++++++++++-------
->  1 file changed, 57 insertions(+), 21 deletions(-)
->
-> --
-> 2.31.1
->
->
->
-
---000000000000586af205d43fe8e9
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">&lt;<a href=3D"mailto:frank.chang@sifive.=
-com">frank.chang@sifive.com</a>&gt; =E6=96=BC 2021=E5=B9=B412=E6=9C=8829=E6=
-=97=A5 =E9=80=B1=E4=B8=89 =E4=B8=8A=E5=8D=8810:13=E5=AF=AB=E9=81=93=EF=BC=
-=9A<br></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" s=
-tyle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pad=
-ding-left:1ex">From: Frank Chang &lt;<a href=3D"mailto:frank.chang@sifive.c=
-om" target=3D"_blank">frank.chang@sifive.com</a>&gt;<br>
-<br>
-For vector widening and narrowing floating-point instructions, we should<br=
->
-use require_scale_rvf() instead of require_rvf() to check whether the<br>
-correspond RVF/RVD is enabled if either source or destination<br>
-floating-point operand is double-width of SEW. Otherwise, illegal<br>
-instruction exception should be raised.<br>
-<br>
-e.g. For SEW=3D16, if the source/destination floating-point operand is<br>
-double-width of SEW, RVF needs to be enabled. Otherwise, an illegal<br>
-instruction exception will be raised. Similarly, for SEW=3D32, RVD<br>
-needs to be enabled.<br>
-<br>
-Frank Chang (3):<br>
-=C2=A0 target/riscv: rvv-1.0: Call the correct RVF/RVD check funtion for<br=
->
-=C2=A0 =C2=A0 widening fp insns<br>
-=C2=A0 target/riscv: rvv-1.0: Call the correct RVF/RVD check funtion for<br=
->
-=C2=A0 =C2=A0 widening fp/int type-convert insns<br>
-=C2=A0 target/riscv: rvv-1.0: Call the correct RVF/RVD check funtion for<br=
->
-=C2=A0 =C2=A0 narrowing fp/int type-convert insns</blockquote><div><br></di=
-v><div>Oops, I misspell the word &quot;function&quot; in the patch titles.<=
-/div><div>I will correct it in my next patchset.</div><div><br></div><div>R=
-egards,</div><div>Frank Chang</div><div>=C2=A0</div><blockquote class=3D"gm=
-ail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,=
-204,204);padding-left:1ex">=C2=A0</blockquote><blockquote class=3D"gmail_qu=
-ote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,20=
-4);padding-left:1ex">
-<br>
-=C2=A0target/riscv/insn_trans/trans_rvv.c.inc | 78 ++++++++++++++++++------=
--<br>
-=C2=A01 file changed, 57 insertions(+), 21 deletions(-)<br>
-<br>
---<br>
-2.31.1<br>
-<br>
-<br>
-</blockquote></div></div>
-
---000000000000586af205d43fe8e9--
 
