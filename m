@@ -2,99 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C49E481403
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Dec 2021 15:22:26 +0100 (CET)
-Received: from localhost ([::1]:60612 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D79EA4814C0
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Dec 2021 16:47:32 +0100 (CET)
+Received: from localhost ([::1]:45862 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n2ZqT-0006to-3o
-	for lists+qemu-devel@lfdr.de; Wed, 29 Dec 2021 09:22:25 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35186)
+	id 1n2bAp-0005ZA-D8
+	for lists+qemu-devel@lfdr.de; Wed, 29 Dec 2021 10:47:31 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53518)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1n2Zmy-0005wO-D7; Wed, 29 Dec 2021 09:18:48 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:15520)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1n2b8A-0003zF-8d
+ for qemu-devel@nongnu.org; Wed, 29 Dec 2021 10:44:47 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:26663)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1n2Zmv-0006iu-Uw; Wed, 29 Dec 2021 09:18:47 -0500
-Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1BTDj2oJ018719; 
- Wed, 29 Dec 2021 14:18:34 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : in-reply-to : references : date : message-id : mime-version :
- content-type : content-transfer-encoding; s=pp1;
- bh=NRNheN4fqYBjwr7ms2+qOEfymkQ8Y/5nCES58Hq2I9k=;
- b=fz/6qZV7+wFdYyIYHGgUqDTgUqSLOnyNFB7FkEA57GnkefMq54HfuBYj+fAHNvKSb9tp
- CuMTmo2Byt+/KQ42yOLCdA2gAqeoR46MpszD2dajscHMlXrqVYlmHEFBlrBLzA29WLOs
- TGiyNT+Vk125mb5g+xnBw9kk8VYEqsF0lL2WTz/XBj0o0PL5yAVf4XYsY9vW6OekoFcE
- DgRWpp9e7h5pjdRA6/dje096SYk6OLmHu8pWJdWU05y4sAUBIvTjIWAoHSl6+VXS94l0
- B8AjPXAjINGuoJZrALxQx6RC/EB59uJBhTQvcdOuWX0lQ/hhbCBLR3KeGBq46yPnThDD LQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3d7xduwqsx-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 29 Dec 2021 14:18:33 +0000
-Received: from m0098393.ppops.net (m0098393.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1BTDplLa012080;
- Wed, 29 Dec 2021 14:18:33 GMT
-Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
- [169.63.214.131])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3d7xduwqsu-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 29 Dec 2021 14:18:33 +0000
-Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
- by ppma01dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1BTE8vW8001731;
- Wed, 29 Dec 2021 14:18:32 GMT
-Received: from b01cxnp23033.gho.pok.ibm.com (b01cxnp23033.gho.pok.ibm.com
- [9.57.198.28]) by ppma01dal.us.ibm.com with ESMTP id 3d5txc0sqc-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 29 Dec 2021 14:18:32 +0000
-Received: from b01ledav005.gho.pok.ibm.com (b01ledav005.gho.pok.ibm.com
- [9.57.199.110])
- by b01cxnp23033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 1BTEIUVM30409050
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 29 Dec 2021 14:18:31 GMT
-Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id E1703AE05C;
- Wed, 29 Dec 2021 14:18:30 +0000 (GMT)
-Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id DDAD5AE060;
- Wed, 29 Dec 2021 14:18:29 +0000 (GMT)
-Received: from localhost (unknown [9.211.90.107])
- by b01ledav005.gho.pok.ibm.com (Postfix) with ESMTPS;
- Wed, 29 Dec 2021 14:18:29 +0000 (GMT)
-From: Fabiano Rosas <farosas@linux.ibm.com>
-To: =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>, qemu-devel@nongnu.org
-Subject: Re: [RFC v2 00/12] target/ppc: powerpc_excp improvements
-In-Reply-To: <1ae8b8d3-6987-9f8d-baca-fc38ea492bad@kaod.org>
-References: <20211220181903.3456898-1-farosas@linux.ibm.com>
- <1ae8b8d3-6987-9f8d-baca-fc38ea492bad@kaod.org>
-Date: Wed, 29 Dec 2021 11:18:26 -0300
-Message-ID: <87bl0z3365.fsf@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1n2b88-0003uG-0x
+ for qemu-devel@nongnu.org; Wed, 29 Dec 2021 10:44:45 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1640792683;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=mExkZsv9A8Q1n0goSpSfiwDto8PAAQAk5+cxpi3m8w0=;
+ b=McgZES88/FPYsXhEV0/it5opjD8/uVRPmaqkmU6nriTKU3b5UxOY1v2GMtNYmxDjZtrht1
+ 03wakAuug5ObPQ1TQz8TMZYZPofY5ktKFahXCRfKcz4vLWx9NZ9THi43l9+KH9YjOjiGzv
+ SR2zuqtjIrVbwMAVzFmKxGm+DQ98/q8=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-573-UUJuSwGPMQSFv5tSdfyJ-g-1; Wed, 29 Dec 2021 10:44:40 -0500
+X-MC-Unique: UUJuSwGPMQSFv5tSdfyJ-g-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ v190-20020a1cacc7000000b003456d598510so12558681wme.6
+ for <qemu-devel@nongnu.org>; Wed, 29 Dec 2021 07:44:39 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=mExkZsv9A8Q1n0goSpSfiwDto8PAAQAk5+cxpi3m8w0=;
+ b=6SWyzULq149vSPPM/yIyqqZfZJn4eP02gW2mTai+rhFFPVc1LAiQ6dgn8urEr/QahS
+ Imgk0+B5zkxaxLbLmbzz+CdRB4lsqAO03uEvwdq8bgwh9SQZ7Q24lIw1Qn/Uw5ny0pOu
+ 3XrfBXaAJOWoF6NDTGl45SicSPK+D/IAGLVKoTvKlmr/Y9OgPqvOQXjX37OqSqrubxpJ
+ b+u3EHyxXIhAoHt+4rjZPV4ZfWK+3eRopOp9qI0HYWfT3JR/YbxjzgPoFsWI/8S383xr
+ wSzfz59NAJSITeDuxkOpGvjj56LyKKXQdfFNTgDCtKB/PtqrxsKCsoM2wqJYAW2ateXS
+ 22Zw==
+X-Gm-Message-State: AOAM530nuIVeiuCG6fxGNm9qnXrV72E+heS+MvcLHDPaBlGHtod8lod0
+ LAGP8sBq2QbV8Mve1YwI6K+1+qflNHjeJRFKipKzinLDJLxuAXPQblHR1BWxYCW1xq/yG3U2ZWr
+ cUl+gWvYa8xGyFoU=
+X-Received: by 2002:a1c:f609:: with SMTP id w9mr22389561wmc.99.1640792678849; 
+ Wed, 29 Dec 2021 07:44:38 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJye3kzZ41uro3usAM9yyR8kpAMxM01qHvzCNQT0ydIa3a9mrqlh3swdbZSakzr3BGqbOh9LIQ==
+X-Received: by 2002:a1c:f609:: with SMTP id w9mr22389535wmc.99.1640792678590; 
+ Wed, 29 Dec 2021 07:44:38 -0800 (PST)
+Received: from [192.168.1.16] (adijon-655-1-69-27.w90-13.abo.wanadoo.fr.
+ [90.13.240.27])
+ by smtp.gmail.com with ESMTPSA id z11sm27506670wmf.9.2021.12.29.07.44.33
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 29 Dec 2021 07:44:37 -0800 (PST)
+Message-ID: <e93b2162-fbab-dd03-ab80-9b8564c0c8c8@redhat.com>
+Date: Wed, 29 Dec 2021 16:44:30 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: 0qsg9NaEOeiH_D281a6WXksKmAn5ygUn
-X-Proofpoint-ORIG-GUID: ou2UotdooTwZA8E7klbyZWMvQD1kXTMV
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2021-12-29_05,2021-12-29_01,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 malwarescore=0
- lowpriorityscore=0 impostorscore=0 mlxscore=0 suspectscore=0
- mlxlogscore=999 spamscore=0 bulkscore=0 clxscore=1015 adultscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2110150000 definitions=main-2112290077
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=farosas@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: 0
-X-Spam_score: -0.1
-X-Spam_bar: /
-X-Spam_report: (-0.1 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH v5 02/14] hw/core/machine: Introduce CPU cluster topology
+ support
+To: "wangyanan (Y)" <wangyanan55@huawei.com>, qemu-devel@nongnu.org,
+ qemu-arm@nongnu.org
+References: <20211228092221.21068-1-wangyanan55@huawei.com>
+ <20211228092221.21068-3-wangyanan55@huawei.com>
+ <fa7f67b2-ca1d-bd95-1a33-534a50b2d4c8@redhat.com>
+ <2248a06d-7c3d-2ee3-e683-901d9bcbec02@huawei.com>
+ <084c5004-6eb6-9952-0d9c-6ae3dc69aca0@redhat.com>
+ <4efc3a6e-4077-86fb-2d11-5e15fe6ad886@huawei.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+In-Reply-To: <4efc3a6e-4077-86fb-2d11-5e15fe6ad886@huawei.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -44
+X-Spam_score: -4.5
+X-Spam_bar: ----
+X-Spam_report: (-4.5 / 5.0 requ) DKIMWL_WL_HIGH=-0.573, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.024,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -107,147 +105,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: danielhb413@gmail.com, qemu-ppc@nongnu.org, david@gibson.dropbear.id.au
+Cc: Eduardo Habkost <eduardo@habkost.net>,
+ Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>, wanghaibin.wang@huawei.com,
+ Markus Armbruster <armbru@redhat.com>, Shannon Zhao <shannon.zhaosl@gmail.com>,
+ Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>,
+ Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-C=C3=A9dric Le Goater <clg@kaod.org> writes:
+On 12/29/21 14:04, wangyanan (Y) wrote:
+> 
+> On 2021/12/29 18:44, Philippe Mathieu-Daudé wrote:
+>> On 12/29/21 04:48, wangyanan (Y) wrote:
+>>> Hi Philippe,
+>>> Thanks for your review.
+>>>
+>>> On 2021/12/29 3:17, Philippe Mathieu-Daudé wrote:
+>>>> Hi,
+>>>>
+>>>> On 12/28/21 10:22, Yanan Wang wrote:
+>>>>> The new Cluster-Aware Scheduling support has landed in Linux 5.16,
+>>>>> which has been proved to benefit the scheduling performance (e.g.
+>>>>> load balance and wake_affine strategy) on both x86_64 and AArch64.
+>>>>>
+>>>>> So now in Linux 5.16 we have four-level arch-neutral CPU topology
+>>>>> definition like below and a new scheduler level for clusters.
+>>>>> struct cpu_topology {
+>>>>>       int thread_id;
+>>>>>       int core_id;
+>>>>>       int cluster_id;
+>>>>>       int package_id;
+>>>>>       int llc_id;
+>>>>>       cpumask_t thread_sibling;
+>>>>>       cpumask_t core_sibling;
+>>>>>       cpumask_t cluster_sibling;
+>>>>>       cpumask_t llc_sibling;
+>>>>> }
+>>>>>
+>>>>> A cluster generally means a group of CPU cores which share L2 cache
+>>>>> or other mid-level resources, and it is the shared resources that
+>>>>> is used to improve scheduler's behavior. From the point of view of
+>>>>> the size range, it's between CPU die and CPU core. For example, on
+>>>>> some ARM64 Kunpeng servers, we have 6 clusters in each NUMA node,
+>>>>> and 4 CPU cores in each cluster. The 4 CPU cores share a separate
+>>>>> L2 cache and a L3 cache tag, which brings cache affinity advantage.
+>>>>>
+>>>>> In virtualization, on the Hosts which have pClusters, if we can
+>>>> Maybe [*] -> reference to pClusters?
+>>> Hm, I'm not sure what kind of reference is appropriate here.
+>> So I guess the confusion comes from a simple typo =)
+> I tried to mean "physical clusters" on host by pClusters, on the contrary
+> to "virtual clusters" on guest. But obviously it brings confusion.
 
-> Hello Fabiano,
->
-> On 12/20/21 19:18, Fabiano Rosas wrote:
->> This changed a lot since v1, basically what remains is the idea that
->> we want to have some sort of array of interrupts and some sort of
->> separation between processors.
->>=20
->> At the end of this series we'll have:
->>=20
->> - One file with all interrupt implementations (interrupts.c);
->>=20
->> - Separate files for each major group of CPUs (book3s, booke,
->>    32bits). Only interrupt code for now, but we could bring pieces of
->>    cpu_init into them;
->>=20
->> - Four separate interrupt arrays, one for each of the above groups
->>    plus KVM.
->>=20
->> - powerpc_excp calls into the individual files and from there we
->>    dispatch according to what is available in the interrupts array.
->
->
-> This is going in the good direction. I think we need more steps for
-> the reviewers, for tests and bisectability. First 4 patches are OK
-> and I hope to merge them ASAP.
+OK, I got confused because you don't use "vClusters".
 
-Ok, I'm sending another series with just these 4 + the bounds check
-Richard mentioned.
+>> Is it OK if I replace "pClusters" by "Clusters"?
+> Sure, it's clearer to just use "clusters", please do that.
 
->
-> The powerpc_excp() routine has grown nearly out of control these last
-> years and it is becoming difficult to maintain. The goal is to clarify
-> what it is going on for each CPU or each CPU family. The first step
-> consists basically in duplicating the code and moving the exceptions
-> handlers in specific routines.
->
-> 1. cleanups should come first as usual.
->
-> 2. isolate large chunks, like Nick did with ppc_excp_apply_ail().
->     We could do easily the same for :
->
->     2.1 ILE
->     2.2 unimplemeted ones doing a cpu abort:
->=20=20=20=20=20=20
->           cpu_abort(cs, ".... "  "is not implemented yet !\n");
->     2.3 6x TLBS
->
->     This should reduce considerably powerpc_excp() without changing too
->     much the execution path.
+OK.
 
-Agreed.
-
->
-> 3. Cleanup the use of excp_model, like in dcbz_common() and kvm.
->     This is not critical but some are shortcuts.
-
-The issue here is that we would probably be switching one arbitrary
-identifier for another. I don't think we have a lightweight canonical
-way of identifying a CPU or group of CPUs. But maybe having these
-conditionals on a specific CPU should be considered a hack to begin
-with.
-
->
-> 4. Introduce a new powerpc_excp() handler :
->
->     static void powerpc_excp(PowerPCCPU *cpu, int excp)
->     {
->         switch(env->excp_model) {
->         case POWERPC_EXCP_FOO1:
->         case POWERPC_EXCP_FOO2:
->             powerpc_excp_foo(cpu, excp);
-> 	   break;
->         case POWERPC_EXCP_BAR:
->             powerpc_excp_legacy(cpu, excp);
-> 	   break;
->         default:
->             g_assert_not_reached();
->         }
->     }
->
->     and start duplicating code cpu per cpu in specific excp handlers, avo=
-iding
->     as much as possible the use of excp_model in the powerpc_excp_*() rou=
-tines.
->     That's for the theory.
->
->     I suppose these can be grouped in the following way :
->
->     * 405 CPU
->          POWERPC_EXCP_40x,
->
->     * 6xx CPUs
->          POWERPC_EXCP_601,
->          POWERPC_EXCP_602,
->          POWERPC_EXCP_603,
->          POWERPC_EXCP_G2,
->          POWERPC_EXCP_604,
->=20=09
->     * 7xx CPUs
->          POWERPC_EXCP_7x0,
->          POWERPC_EXCP_7x5,
->          POWERPC_EXCP_74xx,
->=20=09
->     * BOOKE CPUs
->          POWERPC_EXCP_BOOKE,
->
->     * BOOKS CPUs
->          POWERPC_EXCP_970,            /* could be special */
->          POWERPC_EXCP_POWER7,
->          POWERPC_EXCP_POWER8,
->          POWERPC_EXCP_POWER9,
->          POWERPC_EXCP_POWER10,
->=20=20=20=20=20=20
->     If not possible, then, we will duplicate more and that's not a proble=
-m.
->
->     I would keep the routines in the same excp_helper.c file for now; we
->     can move the code in different files but I would do it later and with
->     other components in mind and not just the exception models. book3s,
->     booke, 7xx, 6xx, 405 are the different groups. It fits what you did.
->=20=20=20=20=20
-> 5. Once done, get rid of powerpc_excp_legacy()
->
-> 6. Start looking at refactoring again.
->
->     There might be a common prologue and epilogue. As a consequence we co=
-uld
->     change the args passed to powerpc_excp_*().
->
->     There could be common handlers and that's why an array of exception
->     handlers looks good. this is what you are trying to address after pat=
-ch 5
->     but I would prefer to do the above steps before.
-
-Ack all of this. I'm working on it.
-
-Thank you for the inputs.
 
