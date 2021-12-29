@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78F1D480F03
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Dec 2021 03:48:39 +0100 (CET)
-Received: from localhost ([::1]:58202 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A90A480F0E
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Dec 2021 03:53:41 +0100 (CET)
+Received: from localhost ([::1]:39830 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n2P14-0007Vu-AL
-	for lists+qemu-devel@lfdr.de; Tue, 28 Dec 2021 21:48:38 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56026)
+	id 1n2P5w-0005pi-Aa
+	for lists+qemu-devel@lfdr.de; Tue, 28 Dec 2021 21:53:40 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56082)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1n2Onf-0005GH-OM
- for qemu-devel@nongnu.org; Tue, 28 Dec 2021 21:34:47 -0500
-Received: from [2607:f8b0:4864:20::531] (port=33605
+ id 1n2Onj-0005X5-Jr
+ for qemu-devel@nongnu.org; Tue, 28 Dec 2021 21:34:51 -0500
+Received: from [2607:f8b0:4864:20::531] (port=35723
  helo=mail-pg1-x531.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1n2One-0004he-1E
- for qemu-devel@nongnu.org; Tue, 28 Dec 2021 21:34:47 -0500
-Received: by mail-pg1-x531.google.com with SMTP id 7so4665881pgn.0
- for <qemu-devel@nongnu.org>; Tue, 28 Dec 2021 18:34:45 -0800 (PST)
+ id 1n2Onh-0004i3-0P
+ for qemu-devel@nongnu.org; Tue, 28 Dec 2021 21:34:51 -0500
+Received: by mail-pg1-x531.google.com with SMTP id v25so17328164pge.2
+ for <qemu-devel@nongnu.org>; Tue, 28 Dec 2021 18:34:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=jbLe1H2YPzqkbRWWQ+VDyla260n74cDi0uoHKqxIf+k=;
- b=Slkod0h518utOxYraByj7qZKRVYm2xGMUdmoPL3JS9yuRC8YVdzAMpbBtx53DwbDaO
- QnJor1rYuN9nU4t8UzBC18OXIihXZCKcqLXgNnbhh2FXbvGI4l6HKoqCdQpTYUt8lB8d
- vg5qq2W8Xqn01WYCO63EEfLM9T5BmrRS45m/2Ey1Ihv/XNb1Lq5Q2p2X2SZDqU5vWRj4
- ytRDANZ81z51PVwdtYSQSNXjB9dCG1WzALlDruebYlK/8ehmIHAsN/DKYZ0Zgr6V11GE
- 1l5GS9L0eCstXEUv+ilrmz/bbay4ZUBsT3Ihg2EPokQ7fOj5UibQt6Y7TtnyyYkoNXmt
- N2Pw==
+ bh=a/1SK78VzpiOsgr0EBerUPE1kdvcozJbIunlylc+UAk=;
+ b=bCs+CeJbVHGEho0BUU7WG63NFsmGGn00dX3t9gtlAhXHE4Fa780nRISC3ahAYXQ54r
+ Y2yoGCN4XOSXsgyd9wBOOJC6SCiOCD8sNhD3t3qH4uo/ft5LpPxHz3m7Qg+jWPaRWKgF
+ zjvICLC1KA3btAzxffGJMSFELh5/sH5+bCYh6yPkHUiDsoYm3+lB6atGZ8B3DlEtBJXV
+ dN8e59+cBzb3JoajbDD6EXjnPDi7fFtNMvXdlcXTVal1Fb5f94RBAyw+R30PbuMYYYW/
+ AZqKWUu0E8STmKe++x0r5P8uraPxxhL9xi9bydvZBTjaeFqS7ip63+AvpUdicFXFlLHi
+ gEIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=jbLe1H2YPzqkbRWWQ+VDyla260n74cDi0uoHKqxIf+k=;
- b=Fx6dTAY1fmgvJdwu2raUBEIJzIcxYE6GAaguZRj0khzD+fbN/sh2ITYmBBgjiV606m
- su21SH3H/9bl8cz1cRTLtsM5+WZZHHuXy3vU2BBCCIQCAa0nhXyzR+IEeDt1rnANqEjj
- aS3ZD32GxTJxnveo/IAVDg1TeYNXZ+tuJilmjFbC+sCohViFQD6pf5JwP75qdsG+n+HK
- o6cg1V49aaNWGjI0GuGqLue1pbz8so36dNmZmjMoPlCUov4XnarKyg9iNW5P+iHNCqVN
- v8TT3CeSq1QorUUMTVAr3+SoSFQwqgWn55Qs+ZejoRxGfeIILR5m9ALVd8AT7f4FAqyX
- s6sg==
-X-Gm-Message-State: AOAM532aAIDryFITtwE8WVYkfkBIJ58xnXNcFaaLqJJadORJdtAF5IMU
- 80XdG92oqpYXRY5ePLxgMyRuc42VFzhc7xSZ
-X-Google-Smtp-Source: ABdhPJwxTBrSoON7JTgbjkdulCtAfIy5MaRegcgq7CtmCPSEjtCs2x5k864lDeA8eSEIeb38hvwWwA==
-X-Received: by 2002:a63:7f58:: with SMTP id p24mr21873523pgn.109.1640745284647; 
- Tue, 28 Dec 2021 18:34:44 -0800 (PST)
+ bh=a/1SK78VzpiOsgr0EBerUPE1kdvcozJbIunlylc+UAk=;
+ b=hNxAoG4PkdI9z6B7gpFR9ndgFNXAYs53pgXIGBxjwhs/sFUdkHpY/skWS9rs0oJxTk
+ Kt6HROktzhIyWHduudEjApNdwcbH2IvLk4mbwwzH5DeiactcR1uATmzptJx+VXanC3T5
+ L3ehVdbf5yPN48LNKxUTw0jDSgUp7QGPR6Rlyn9KhVnlSBhI0tRmB0STWR1PrcLgswa6
+ bPkocnKYInL1IuEgriUIbOUUHFCmV3iKvmXueCKOtwT4kCKwNpYAvk8Fv/h/PK3B4ZSh
+ ChJOKFSQ9coGQjl6KGt+3J6bUiJc9MupWHFLTg4YAd0LRj7sxRSIdjN3/LF9V6TfBPzl
+ 8vww==
+X-Gm-Message-State: AOAM530A4OCvnKjj5DsPllH/6CJCNitL2sJuBn6hPQ0+qHezrmk/8ATk
+ aKeP3eSusZGJBwiNgun1xT9wtbaYXB1D2DEX
+X-Google-Smtp-Source: ABdhPJxE0ll9A/q8pfh+diU7JBk/vtbtZPvydJwfrY4yS5rUHb2uIZggWOI/uphw2ljKmjVoUWWmeA==
+X-Received: by 2002:a65:6716:: with SMTP id u22mr21557056pgf.414.1640745287585; 
+ Tue, 28 Dec 2021 18:34:47 -0800 (PST)
 Received: from hsinchu16.internal.sifive.com
  (59-124-168-89.hinet-ip.hinet.net. [59.124.168.89])
- by smtp.gmail.com with ESMTPSA id m3sm22613635pjz.10.2021.12.28.18.34.42
+ by smtp.gmail.com with ESMTPSA id m3sm22613635pjz.10.2021.12.28.18.34.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Dec 2021 18:34:44 -0800 (PST)
+ Tue, 28 Dec 2021 18:34:47 -0800 (PST)
 From: frank.chang@sifive.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH 16/17] target/riscv: rvv-1.0: Add Zve32f support for narrowing
- type-convert insns
-Date: Wed, 29 Dec 2021 10:33:43 +0800
-Message-Id: <20211229023348.12606-17-frank.chang@sifive.com>
+Subject: [PATCH 17/17] target/riscv: rvv-1.0: Allow Zve32f extension to be
+ turned on
+Date: Wed, 29 Dec 2021 10:33:44 +0800
+Message-Id: <20211229023348.12606-18-frank.chang@sifive.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211229023348.12606-1-frank.chang@sifive.com>
 References: <20211229023348.12606-1-frank.chang@sifive.com>
@@ -87,52 +87,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-riscv@nongnu.org, Frank Chang <frank.chang@sifive.com>,
- Bin Meng <bin.meng@windriver.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>, LIU Zhiwei <zhiwei_liu@c-sky.com>
+Cc: Frank Chang <frank.chang@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bin.meng@windriver.com>,
+ qemu-riscv@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Frank Chang <frank.chang@sifive.com>
 
-Vector narrowing conversion instructions are provided to and from all
-supported integer EEWs for Zve32f extension.
-
 Signed-off-by: Frank Chang <frank.chang@sifive.com>
 ---
- target/riscv/insn_trans/trans_rvv.c.inc | 3 +++
- 1 file changed, 3 insertions(+)
+ target/riscv/cpu.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_trans/trans_rvv.c.inc
-index da0e501f85..5214cf08db 100644
---- a/target/riscv/insn_trans/trans_rvv.c.inc
-+++ b/target/riscv/insn_trans/trans_rvv.c.inc
-@@ -2860,6 +2860,7 @@ static bool opfxv_narrow_check(DisasContext *s, arg_rmr *a)
-     return opfv_narrow_check(s, a) &&
-            require_rvf(s) &&
-            (s->sew != MO_64) &&
-+           require_zve32f(s) &&
-            require_zve64f(s);
- }
- 
-@@ -2868,6 +2869,7 @@ static bool opffv_narrow_check(DisasContext *s, arg_rmr *a)
-     return opfv_narrow_check(s, a) &&
-            require_scale_rvf(s) &&
-            (s->sew != MO_8) &&
-+           require_scale_zve32f(s) &&
-            require_scale_zve64f(s);
- }
- 
-@@ -2918,6 +2920,7 @@ static bool opxfv_narrow_check(DisasContext *s, arg_rmr *a)
-            vext_check_isa_ill(s) &&
-            /* OPFV narrowing instructions ignore vs1 check */
-            vext_check_sd(s, a->rd, a->rs2, a->vm) &&
-+           require_scale_zve32f(s) &&
-            require_scale_zve64f(s);
- }
- 
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index 5e98860a09..2b54c64f56 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -636,6 +636,7 @@ static Property riscv_cpu_properties[] = {
+     DEFINE_PROP_BOOL("Zicsr", RISCVCPU, cfg.ext_icsr, true),
+     DEFINE_PROP_BOOL("Zfh", RISCVCPU, cfg.ext_zfh, false),
+     DEFINE_PROP_BOOL("Zfhmin", RISCVCPU, cfg.ext_zfhmin, false),
++    DEFINE_PROP_BOOL("Zve32f", RISCVCPU, cfg.ext_zve32f, false),
+     DEFINE_PROP_BOOL("Zve64f", RISCVCPU, cfg.ext_zve64f, false),
+     DEFINE_PROP_BOOL("mmu", RISCVCPU, cfg.mmu, true),
+     DEFINE_PROP_BOOL("pmp", RISCVCPU, cfg.pmp, true),
 -- 
 2.31.1
 
