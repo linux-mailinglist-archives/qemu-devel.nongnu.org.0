@@ -2,79 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A19E9480ED6
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Dec 2021 03:16:49 +0100 (CET)
-Received: from localhost ([::1]:47238 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 236AA480EDA
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Dec 2021 03:18:33 +0100 (CET)
+Received: from localhost ([::1]:52782 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n2OWG-0005Le-Cz
-	for lists+qemu-devel@lfdr.de; Tue, 28 Dec 2021 21:16:48 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51916)
+	id 1n2OXw-0000gr-9A
+	for lists+qemu-devel@lfdr.de; Tue, 28 Dec 2021 21:18:32 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52274)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1n2OSk-00029H-8T
- for qemu-devel@nongnu.org; Tue, 28 Dec 2021 21:13:11 -0500
-Received: from [2607:f8b0:4864:20::429] (port=38855
- helo=mail-pf1-x429.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1n2OSh-0001Wt-TK
- for qemu-devel@nongnu.org; Tue, 28 Dec 2021 21:13:09 -0500
-Received: by mail-pf1-x429.google.com with SMTP id b22so17520337pfb.5
- for <qemu-devel@nongnu.org>; Tue, 28 Dec 2021 18:13:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=lcxkfLDjFOWX3IL1YOje/OBFiAcSnNeG897+Wew0UM0=;
- b=Rdp8y/wVdvneOQLRKWG6pG2OnOxwWvwFQwNbVAdqXXfHC7ei2fY7F5KJTMbYvdzxTT
- jd0nkWu2vusDfL0l5Vnn4YWPMjsYxEdZxQj8a94T/Jd4cPEkj2bqTr+algvkLGaA6MWD
- iD2TAGLTS2dLej/9JrAK+PwVFIRlEU4BlDhh3H5kjT4aGn8h5vBjFzsqUrqRCZAET7mU
- QpSgDY+gfa2PGYpWozvStY2NPZ4FKCmXolYkrtCumvyCFyl0l8/RKCjr9ZAsI1PFwVj4
- Q/hWw7Ibo95e1l0DMBQTEkWEicKMSFzZrXNE/hxgOPLn7gEenkMbEG4EUhsX0bfG2I27
- Wrhw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=lcxkfLDjFOWX3IL1YOje/OBFiAcSnNeG897+Wew0UM0=;
- b=SooAC2zU3ouvI5vNTupKzNNaCgPGEdssbAvPOOcwIgGYbZKKJnxbUc/EYNtBGuhHkc
- SXnxHxVyr1gGVI30rTnRuwhcMQphHkI00CgCNob8qpPxVX0WRZKnIBXxPLD6P09ilVPT
- 9sQpB5WgzJ+T1zKc5T2vZV6M/2H2bMICBePmL2aWQLbp3+KbXwLAQWE9bAMFuiRH2ppD
- 6feXReKaEmLoHm1d5CGG9KHwLw3CSnh8lhCYW0mOTxj8lNGTJbJJy3aGqyQ9J9HZ6ZO9
- na3bgwKQVL5sCywu8XJog6UU+iPs4ilKszzzvnWHxNG6HdJnVe+vDy7PuasdWH8KQ8G1
- oaHg==
-X-Gm-Message-State: AOAM530PVn5bXMG7bPcIxFgZSPkrxkraLEJcibMu03/UhdxEx8k7NhaH
- UimXXG/0wDPmeveowcjFPdY2sr9isye7MGUk
-X-Google-Smtp-Source: ABdhPJyhMFw+9/+RE1c5aJX9wcocOBUUJTnwWCnGNffVPhh2gr1TW9QD0qY3gF2ITds7esB8C40wjQ==
-X-Received: by 2002:a65:680a:: with SMTP id l10mr21315621pgt.52.1640743986508; 
- Tue, 28 Dec 2021 18:13:06 -0800 (PST)
-Received: from hsinchu16.internal.sifive.com
- (59-124-168-89.hinet-ip.hinet.net. [59.124.168.89])
- by smtp.gmail.com with ESMTPSA id k8sm15693975pjs.53.2021.12.28.18.13.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Dec 2021 18:13:06 -0800 (PST)
-From: frank.chang@sifive.com
-To: qemu-devel@nongnu.org
-Subject: [PATCH 3/3] target/riscv: rvv-1.0: Call the correct RVF/RVD check
- funtion for narrowing fp/int type-convert insns
-Date: Wed, 29 Dec 2021 10:12:48 +0800
-Message-Id: <20211229021250.29804-4-frank.chang@sifive.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20211229021250.29804-1-frank.chang@sifive.com>
-References: <20211229021250.29804-1-frank.chang@sifive.com>
+ (Exim 4.90_1) (envelope-from <lei.rao@intel.com>) id 1n2OU7-0003yX-1o
+ for qemu-devel@nongnu.org; Tue, 28 Dec 2021 21:14:35 -0500
+Received: from mga02.intel.com ([134.134.136.20]:28067)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <lei.rao@intel.com>) id 1n2OTs-0001ee-UZ
+ for qemu-devel@nongnu.org; Tue, 28 Dec 2021 21:14:24 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1640744060; x=1672280060;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=rQeRD27hZvZAX48Gxp5zd4ulDZBGjaA9FHdhvIjuYtQ=;
+ b=AEkY/0J+wmVbDaYAluz26+0KKq8GWYsTZ4YNcbVA8ACW/OLaHpnjJkf0
+ hfRKxL/pG7hFfCdCRHNRRjRxqJMU68ZgeijJM52Rj2kasnua01k0hJ7Ib
+ f8B9oLzm1yd3AA2UPmaF8QigonXS6eNE+h9XTfc0gUFE18/UuNDXvOHKl
+ dnII5NNPaELK+Jleod1fU0VWx76cSoVVNNTo3K80UMhjcvNtc3DMz94rx
+ N+8uPAcEiHF365vxqsvh3zJnzKpuKhATnkarLac1PYkZLO7bJ6E6eEJcL
+ PLXop5fIG+hi6NXG42PLnrdlrH+7TX+0GEfgUK10ihXXZ3uKufhT/hQVD Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10211"; a="228755359"
+X-IronPort-AV: E=Sophos;i="5.88,244,1635231600"; d="scan'208";a="228755359"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Dec 2021 18:14:16 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,244,1635231600"; d="scan'208";a="523833448"
+Received: from unknown (HELO leirao-pc.bj.intel.com) ([10.238.156.139])
+ by orsmga008.jf.intel.com with ESMTP; 28 Dec 2021 18:14:15 -0800
+From: Rao Lei <lei.rao@intel.com>
+To: kraxel@redhat.com
+Subject: [RFC PATCH] ui/vnc.c: Fixed a deadlock bug.
+Date: Wed, 29 Dec 2021 10:14:04 +0800
+Message-Id: <20211229021404.100550-1-lei.rao@intel.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::429
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
- envelope-from=frank.chang@sifive.com; helo=mail-pf1-x429.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=134.134.136.20; envelope-from=lei.rao@intel.com;
+ helo=mga02.intel.com
+X-Spam_score_int: -49
+X-Spam_score: -5.0
+X-Spam_bar: -----
+X-Spam_report: (-5.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.573,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,86 +67,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-riscv@nongnu.org, Frank Chang <frank.chang@sifive.com>,
- Bin Meng <bin.meng@windriver.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>, LIU Zhiwei <zhiwei_liu@c-sky.com>
+Cc: Rao Lei <lei.rao@intel.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Frank Chang <frank.chang@sifive.com>
+The GDB statck is as follows:
+(gdb) bt
+0  __lll_lock_wait (futex=futex@entry=0x56211df20360, private=0) at lowlevellock.c:52
+1  0x00007f263caf20a3 in __GI___pthread_mutex_lock (mutex=0x56211df20360) at ../nptl/pthread_mutex_lock.c:80
+2  0x000056211a757364 in qemu_mutex_lock_impl (mutex=0x56211df20360, file=0x56211a804857 "../ui/vnc-jobs.h", line=60)
+    at ../util/qemu-thread-posix.c:80
+3  0x000056211a0ef8c7 in vnc_lock_output (vs=0x56211df14200) at ../ui/vnc-jobs.h:60
+4  0x000056211a0efcb7 in vnc_clipboard_send (vs=0x56211df14200, count=1, dwords=0x7ffdf1701338) at ../ui/vnc-clipboard.c:138
+5  0x000056211a0f0129 in vnc_clipboard_notify (notifier=0x56211df244c8, data=0x56211dd1bbf0) at ../ui/vnc-clipboard.c:209
+6  0x000056211a75dde8 in notifier_list_notify (list=0x56211afa17d0 <clipboard_notifiers>, data=0x56211dd1bbf0) at ../util/notify.c:39
+7  0x000056211a0bf0e6 in qemu_clipboard_update (info=0x56211dd1bbf0) at ../ui/clipboard.c:50
+8  0x000056211a0bf05d in qemu_clipboard_peer_release (peer=0x56211df244c0, selection=QEMU_CLIPBOARD_SELECTION_CLIPBOARD)
+    at ../ui/clipboard.c:41
+9  0x000056211a0bef9b in qemu_clipboard_peer_unregister (peer=0x56211df244c0) at ../ui/clipboard.c:19
+10 0x000056211a0d45f3 in vnc_disconnect_finish (vs=0x56211df14200) at ../ui/vnc.c:1358
+11 0x000056211a0d4c9d in vnc_client_read (vs=0x56211df14200) at ../ui/vnc.c:1611
+12 0x000056211a0d4df8 in vnc_client_io (ioc=0x56211ce70690, condition=G_IO_IN, opaque=0x56211df14200) at ../ui/vnc.c:1649
+13 0x000056211a5b976c in qio_channel_fd_source_dispatch
+    (source=0x56211ce50a00, callback=0x56211a0d4d71 <vnc_client_io>, user_data=0x56211df14200) at ../io/channel-watch.c:84
+14 0x00007f263ccede8e in g_main_context_dispatch () at /lib/x86_64-linux-gnu/libglib-2.0.so.0
+15 0x000056211a77d4a1 in glib_pollfds_poll () at ../util/main-loop.c:232
+16 0x000056211a77d51f in os_host_main_loop_wait (timeout=958545) at ../util/main-loop.c:255
+17 0x000056211a77d630 in main_loop_wait (nonblocking=0) at ../util/main-loop.c:531
+18 0x000056211a45bc8e in qemu_main_loop () at ../softmmu/runstate.c:726
+19 0x000056211a0b45fa in main (argc=69, argv=0x7ffdf1701778, envp=0x7ffdf17019a8) at ../softmmu/main.c:50
 
-vfncvt.f.xu.w, vfncvt.f.x.w convert double-width integer to single-width
-floating-point. Therefore, should use require_rvf() to check whether
-RVF/RVD is enabled.
+From the call trace, we can see it is a deadlock bug.
+vnc_disconnect_finish will acquire the output_mutex.
+But, the output_mutex will be acquired again in vnc_clipboard_send.
+Repeated locking will cause deadlock. So, I move
+qemu_clipboard_peer_unregister() behind vnc_unlock_output();
 
-vfncvt.f.f.w, vfncvt.rod.f.f.w convert double-width floating-point to
-single-width integer. Therefore, should use require_scale_rvf() to check
-whether RVF/RVD is enabled.
+Signed-off-by: Lei Rao <lei.rao@intel.com>
 ---
- target/riscv/insn_trans/trans_rvv.c.inc | 32 ++++++++++++++++++-------
- 1 file changed, 24 insertions(+), 8 deletions(-)
+ ui/vnc.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_trans/trans_rvv.c.inc
-index f1b44ccad2..6c285c958b 100644
---- a/target/riscv/insn_trans/trans_rvv.c.inc
-+++ b/target/riscv/insn_trans/trans_rvv.c.inc
-@@ -2719,17 +2719,29 @@ GEN_OPFXV_WIDEN_TRANS(vfwcvt_f_x_v)
- static bool opfv_narrow_check(DisasContext *s, arg_rmr *a)
- {
-     return require_rvv(s) &&
--           require_rvf(s) &&
--           (s->sew != MO_64) &&
-            vext_check_isa_ill(s) &&
-            /* OPFV narrowing instructions ignore vs1 check */
-            vext_check_sd(s, a->rd, a->rs2, a->vm);
- }
- 
--#define GEN_OPFV_NARROW_TRANS(NAME, HELPER, FRM)                   \
-+static bool opfxv_narrow_check(DisasContext *s, arg_rmr *a)
-+{
-+    return opfv_narrow_check(s, a) &&
-+           require_rvf(s) &&
-+           (s->sew != MO_64);
-+}
+diff --git a/ui/vnc.c b/ui/vnc.c
+index 1ed1c7efc6..3ccd33dedc 100644
+--- a/ui/vnc.c
++++ b/ui/vnc.c
+@@ -1354,12 +1354,12 @@ void vnc_disconnect_finish(VncState *vs)
+         /* last client gone */
+         vnc_update_server_surface(vs->vd);
+     }
++    vnc_unlock_output(vs);
 +
-+static bool opffv_narrow_check(DisasContext *s, arg_rmr *a)
-+{
-+    return opfv_narrow_check(s, a) &&
-+           require_scale_rvf(s) &&
-+           (s->sew != MO_8);
-+}
-+
-+#define GEN_OPFV_NARROW_TRANS(NAME, CHECK, HELPER, FRM)            \
- static bool trans_##NAME(DisasContext *s, arg_rmr *a)              \
- {                                                                  \
--    if (opfv_narrow_check(s, a)) {                                 \
-+    if (CHECK(s, a)) {                                             \
-         if (FRM != RISCV_FRM_DYN) {                                \
-             gen_set_rm(s, RISCV_FRM_DYN);                          \
-         }                                                          \
-@@ -2756,11 +2768,15 @@ static bool trans_##NAME(DisasContext *s, arg_rmr *a)              \
-     return false;                                                  \
- }
+     if (vs->cbpeer.notifier.notify) {
+         qemu_clipboard_peer_unregister(&vs->cbpeer);
+     }
  
--GEN_OPFV_NARROW_TRANS(vfncvt_f_xu_w, vfncvt_f_xu_w, RISCV_FRM_DYN)
--GEN_OPFV_NARROW_TRANS(vfncvt_f_x_w, vfncvt_f_x_w, RISCV_FRM_DYN)
--GEN_OPFV_NARROW_TRANS(vfncvt_f_f_w, vfncvt_f_f_w, RISCV_FRM_DYN)
-+GEN_OPFV_NARROW_TRANS(vfncvt_f_xu_w, opfxv_narrow_check, vfncvt_f_xu_w,
-+                      RISCV_FRM_DYN)
-+GEN_OPFV_NARROW_TRANS(vfncvt_f_x_w, opfxv_narrow_check, vfncvt_f_x_w,
-+                      RISCV_FRM_DYN)
-+GEN_OPFV_NARROW_TRANS(vfncvt_f_f_w, opffv_narrow_check, vfncvt_f_f_w,
-+                      RISCV_FRM_DYN)
- /* Reuse the helper function from vfncvt.f.f.w */
--GEN_OPFV_NARROW_TRANS(vfncvt_rod_f_f_w, vfncvt_f_f_w, RISCV_FRM_ROD)
-+GEN_OPFV_NARROW_TRANS(vfncvt_rod_f_f_w, opffv_narrow_check, vfncvt_f_f_w,
-+                      RISCV_FRM_ROD)
- 
- static bool opxfv_narrow_check(DisasContext *s, arg_rmr *a)
- {
+-    vnc_unlock_output(vs);
+-
+     qemu_mutex_destroy(&vs->output_mutex);
+     if (vs->bh != NULL) {
+         qemu_bh_delete(vs->bh);
 -- 
-2.31.1
+2.32.0
 
 
