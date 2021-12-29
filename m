@@ -2,92 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 060924817CE
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Dec 2021 00:46:17 +0100 (CET)
-Received: from localhost ([::1]:40034 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26B0A4817CF
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Dec 2021 00:51:44 +0100 (CET)
+Received: from localhost ([::1]:43060 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n2ie6-0000VY-O6
-	for lists+qemu-devel@lfdr.de; Wed, 29 Dec 2021 18:46:14 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41040)
+	id 1n2ijP-0002jY-50
+	for lists+qemu-devel@lfdr.de; Wed, 29 Dec 2021 18:51:43 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41768)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1n2ick-0008AB-Bp
- for qemu-devel@nongnu.org; Wed, 29 Dec 2021 18:44:50 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44091)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1n2ici-0005HY-F9
- for qemu-devel@nongnu.org; Wed, 29 Dec 2021 18:44:49 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1640821487;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=nnzsXZ1+OHeS/Mms3W9A3svBTo0olr8TZ0k05JKH99A=;
- b=IJK5gnbyidNMD0Q587ttbcS7R58GYot3uRX2a8cAUJRFB0jVKVswShjkOzUQI1n1bkfxBl
- t5a5oX3cPWbX50FgH7gvizR0WB5qSLeBISZzgRmDM306inU05hZZkzIXVkGJY06XvVTBtZ
- eWro04+ly2VOPbaGU136a6nmGkYFsVw=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-484-RzKZJM5CPrWhNuPylO5s1A-1; Wed, 29 Dec 2021 18:44:46 -0500
-X-MC-Unique: RzKZJM5CPrWhNuPylO5s1A-1
-Received: by mail-wr1-f71.google.com with SMTP id
- s30-20020adfa29e000000b001a25caee635so5464172wra.19
- for <qemu-devel@nongnu.org>; Wed, 29 Dec 2021 15:44:45 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1n2iiP-00024W-Qb
+ for qemu-devel@nongnu.org; Wed, 29 Dec 2021 18:50:41 -0500
+Received: from [2607:f8b0:4864:20::62a] (port=40537
+ helo=mail-pl1-x62a.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1n2iiO-0007gm-39
+ for qemu-devel@nongnu.org; Wed, 29 Dec 2021 18:50:41 -0500
+Received: by mail-pl1-x62a.google.com with SMTP id l15so2029650pls.7
+ for <qemu-devel@nongnu.org>; Wed, 29 Dec 2021 15:50:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=uq5qA18YWuVaw3mKk8soeGxJhCNO0cpAmFFVyATnO30=;
+ b=csfKoe15COipLaCJTpKgLhYmJENiIbMfsSOJ3HgBsyin5rronfqFypkI805P2l3PQg
+ IObxlSip4Z2fzYQnQ+HIC0yuo5YxloIVQWv7s27EmeYSheMuHTQzl4O9cSmq4BkNKwF3
+ 6vT7Q0HuGUBFqxBZ2mNcML9CdOUEp+IUIZO6yEeFycpcK66ALY2E5XnGs3RpIoNukuHf
+ LC3LG8kl8MsDj1he73JZR4pHozh0h7bd9Ler8x99OKwP+I/wC2JvqBAfEny7QZ0ZKBCl
+ +yfBnyA/5uAQzohtGTHw90uNd3cewf9V4WtOSLNX4blyxM8QI+I39S/u1XyFvYLeCF10
+ O6QQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=nnzsXZ1+OHeS/Mms3W9A3svBTo0olr8TZ0k05JKH99A=;
- b=CmRd7zwQyn1ubqu34fmrZDy700rJamOwNFbl9PeusHeqzsQmLHILLbgQfOhgpbXryx
- BQYdhZBwFqYCK2GjuQ/ynyf56DWSUH8YKLuSGn8gBoERhJx5B5kPHgfWoibfhUGoM2+A
- 0uXbyVy6nVr9PJyej9v3D1V9h07rnhDWssEgfAYr61ZlTgtJ4stULDOc05dFJ6RgKD56
- 99q8uD+kei4Izq83YwszA7Wt7e/EPeAdfZ1+SEB4BgUaxLIf8G1zR3WlGVo/Sb0XbWf6
- xgJOUURTr8DiWb8vL3d/9Qy5hPPAug6Gn4ht0x2nu/0DCZiAm9fTDOsOKnZZweYhSaId
- Lqzw==
-X-Gm-Message-State: AOAM5327KpknjUR9XlY2FiKB6Z8flmXBrPUkmgoLKUycT5Vwd5drgR5I
- EsOgF7qJBYtDEI/P0IPL+trdLbeL9WZKHIV99Ru1oUSI8VXD2R+A1H+6S3rKocMY59abCZmJwG4
- 6cm2gSQXHBGqge9U=
-X-Received: by 2002:adf:ba8b:: with SMTP id p11mr22257558wrg.390.1640821484927; 
- Wed, 29 Dec 2021 15:44:44 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJz53QYy+t6rX72jtyQuoXwRQdLPczkC7ZMW0Qv0ktiQaluVZlCtjanHKvEAGLsZmgLjm5iA1A==
-X-Received: by 2002:adf:ba8b:: with SMTP id p11mr22257544wrg.390.1640821484712; 
- Wed, 29 Dec 2021 15:44:44 -0800 (PST)
-Received: from [192.168.1.36] (26.red-83-50-86.dynamicip.rima-tde.net.
- [83.50.86.26])
- by smtp.gmail.com with ESMTPSA id b1sm24758647wrd.92.2021.12.29.15.44.43
+ bh=uq5qA18YWuVaw3mKk8soeGxJhCNO0cpAmFFVyATnO30=;
+ b=M5Wlman3jWtyHUkOD+3W7JwS3I4droq4T9bFBwBrqlj0ekh3puPQyA9rKqdVPhykXh
+ Gb+4MUf6ivqskI8BJP3bPRMAgoNkVJ7CBsA/kKBbs6xk2k6YqwyuEIk5SUTK8XBanILh
+ ozMeuTiKUBrAl5a7UT2VI4wPAo+tyZ5q0LUF3bqh+YzqTXnvVJ7jjxWQiMltIyetb+Vq
+ JmKq+Cc8kNDLtzOZMTdfx4Nn54kTEHLmkM0lFQ3szkAnfeAc5D1s8kAkzQS7EeeDLhBi
+ zrdHdVPJK8E7Xvf81732H0exzL+UjMdmw1ffiWd8JNNfvbOM0IoKLJ8c0LguTRyLUxFv
+ VMcw==
+X-Gm-Message-State: AOAM531/RUrmFghFScUoxYa0z/lEXN0l9bKUz/bFTvWYE09WRarTH+9P
+ 6/er1Xtb5Dqwr1NjeZSO1jWEMw==
+X-Google-Smtp-Source: ABdhPJxSu8pG/tgtCYks+5AfS1nHCjxl0JqCezp3xh+/+zzXfFsS8sMK5oYsAA8dFjLd28E5NiDMyg==
+X-Received: by 2002:a17:902:8b89:b0:149:9c7d:2fb6 with SMTP id
+ ay9-20020a1709028b8900b001499c7d2fb6mr5649724plb.68.1640821838674; 
+ Wed, 29 Dec 2021 15:50:38 -0800 (PST)
+Received: from [172.16.1.241] (76-14-210-194.or.wavecable.com. [76.14.210.194])
+ by smtp.gmail.com with ESMTPSA id c6sm3302371pfv.62.2021.12.29.15.50.38
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 29 Dec 2021 15:44:44 -0800 (PST)
-Message-ID: <d908967c-c7bb-2323-f506-2ae5b41fd197@redhat.com>
-Date: Thu, 30 Dec 2021 00:44:43 +0100
+ Wed, 29 Dec 2021 15:50:38 -0800 (PST)
+Subject: Re: [PULL 0/6] Block jobs patches
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20211229192127.1772134-1-vsementsov@virtuozzo.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <bf29fad2-c22d-bc04-0622-b17441c72934@linaro.org>
+Date: Wed, 29 Dec 2021 15:50:36 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH 0/2] dump: add 32-bit guest Windows support
-To: Viktor Prutyanov <viktor.prutyanov@phystech.edu>,
- marcandre.lureau@redhat.com, dgilbert@redhat.com,
- yuri.benditovich@daynix.com, yan@daynix.com, qemu-devel@nongnu.org
-References: <20211229175255.133073-1-viktor.prutyanov@phystech.edu>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <20211229175255.133073-1-viktor.prutyanov@phystech.edu>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20211229192127.1772134-1-vsementsov@virtuozzo.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -44
-X-Spam_score: -4.5
-X-Spam_bar: ----
-X-Spam_report: (-4.5 / 5.0 requ) DKIMWL_WL_HIGH=-0.573, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.024,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62a
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62a.google.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
+X-Spam_bar: --
+X-Spam_report: (-2.4 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.024,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,38 +91,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: kwolf@redhat.com, peter.maydell@linaro.org, hreitz@redhat.com,
+ jsnow@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Viktor,
-
-On 12/29/21 18:52, Viktor Prutyanov wrote:
-> Since 32-bit versions of Windows still exist, there is a need to take
-> live and crash dumps of such guests along with 64-bit guests. So, add
-> an ability for 'dump-guest-memory -w' to take dumps from 32-bit guest.
-> When running the command QEMU consumes 32-bit Complete Memory Dump
-> header passed by guest driver through vmcoreinfo device as it was
-> previously done for 64-bit headers. 32-bit vmcoreinfo guest driver in
-> upstream virtio-win can fill such a header.
+On 12/29/21 11:21 AM, Vladimir Sementsov-Ogievskiy wrote:
+> The following changes since commit 89f3bfa3265554d1d591ee4d7f1197b6e3397e84:
 > 
-> Viktor Prutyanov (2):
->   include/qemu: add 32-bit Windows dump structures and definitions
->   dump/win_dump: add 32-bit guest Windows support for dump-guest-memory
+>    Merge tag 'pull-pa-20211223' of https://gitlab.com/rth7680/qemu into staging (2021-12-23 17:53:36 -0800)
+> 
+> are available in the Git repository at:
+> 
+>    https://src.openvz.org/scm/~vsementsov/qemu.git tags/pull-jobs-2021-12-29
+> 
+> for you to fetch changes up to 985cac8f200443ad952becc03b07c51ff4f80983:
+> 
+>    blockjob: drop BlockJob.blk field (2021-12-28 15:18:59 +0100)
+> 
+> ----------------------------------------------------------------
+> Jobs patches:
+>   - small fix of job_create()
+>   - refactoring: drop BlockJob.blk field
+> 
+> ----------------------------------------------------------------
+> 
+> Emanuele Giuseppe Esposito (1):
+>    job.c: add missing notifier initialization
+> 
+> Vladimir Sementsov-Ogievskiy (5):
+>    blockjob: implement and use block_job_get_aio_context
+>    test-blockjob-txn: don't abuse job->blk
+>    block/stream: add own blk
+>    test-bdrv-drain: don't use BlockJob.blk
+>    blockjob: drop BlockJob.blk field
+> 
+>   include/block/blockjob.h       | 10 +++++++---
+>   block/mirror.c                 |  7 -------
+>   block/stream.c                 | 24 +++++++++++++++++------
+>   blockdev.c                     |  6 +++---
+>   blockjob.c                     | 36 ++++++++++++++++------------------
+>   job.c                          |  1 +
+>   qemu-img.c                     |  2 +-
+>   tests/unit/test-bdrv-drain.c   | 12 ++++++++----
+>   tests/unit/test-blockjob-txn.c | 10 +---------
+>   tests/qemu-iotests/141.out     |  2 +-
+>   tests/qemu-iotests/283         |  3 ++-
+>   tests/qemu-iotests/283.out     |  2 +-
+>   12 files changed, 60 insertions(+), 55 deletions(-)
 
-Looking at your series, the patches are doing a bit too much.
+Applied, thanks.
 
-Suggestion to ease review:
-- Rename WinContext -> WinContext64 (+ add union) in a preliminary patch
-- Rename WinDumpHeader -> WinDumpHeader64 in another patch
-- Add *WIN_DUMP_FIELD* macros only using the 64-bit
-- Add 32-bit structures
-- Add 32-bit code
-  (better name 'bool x64', maybe 'is_64bit' or 'guest64'?)
 
-Otherwise LGTM.
-
-Regards,
-
-Phil.
+r~
 
 
