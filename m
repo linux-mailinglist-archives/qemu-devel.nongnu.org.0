@@ -2,76 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AD8548175F
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Dec 2021 23:54:37 +0100 (CET)
-Received: from localhost ([::1]:42956 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F244C481760
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Dec 2021 23:54:40 +0100 (CET)
+Received: from localhost ([::1]:43240 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n2hq7-0006LX-VP
-	for lists+qemu-devel@lfdr.de; Wed, 29 Dec 2021 17:54:35 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33108)
+	id 1n2hqC-0006XI-2b
+	for lists+qemu-devel@lfdr.de; Wed, 29 Dec 2021 17:54:40 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33128)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1n2hnq-0004Pj-RT
- for qemu-devel@nongnu.org; Wed, 29 Dec 2021 17:52:14 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:38349)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1n2hnv-0004S8-DK
+ for qemu-devel@nongnu.org; Wed, 29 Dec 2021 17:52:20 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:20257)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1n2hno-0000Q8-PV
- for qemu-devel@nongnu.org; Wed, 29 Dec 2021 17:52:13 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1n2hns-0000QW-W8
+ for qemu-devel@nongnu.org; Wed, 29 Dec 2021 17:52:18 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1640818332;
+ s=mimecast20190719; t=1640818336;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=LwJfUpmeeEXAK7Kppp3cEs5xp8T8nEqb5Z0Nu1PlcQk=;
- b=g25qk9+73nFfDut9mwFXdQdx3CKlftJO0jJkjWN1HYagoC2wburX8csglYQUYhdjGMr0hd
- caLpwo/FkDv9n0Y/ticEwMR0BK4eQAeTeu4mhINUUjNcJS8iiEbrMj8FpuoLT5XCJUn8sK
- vNKXE5hGFrRaCzYew80X1ToIMK8t2Uw=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=e5+ddy+WSkN1x0e4CgeIS+1g9hRe1FYGtrRjE7UXe3I=;
+ b=Yig5lCIO8xeOWiVphT+lMWlauP14mmtRQ0FREklZuTm3rR4j6ADAWAUP7okqZT2y33FDNm
+ H5jYeV09QwQZWq0o6yw5UnG/aKe2pZzkohNrhT8wZpavK6YShTJF0Kq/d3QG0IpgUKTqpm
+ FFhaFhkSzoz8nrAFX9gUiRnH10WGPJk=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-589-nDlcm0TWPt-x0HT1dTWvpw-1; Wed, 29 Dec 2021 17:52:10 -0500
-X-MC-Unique: nDlcm0TWPt-x0HT1dTWvpw-1
-Received: by mail-wr1-f72.google.com with SMTP id
- w25-20020adf8bd9000000b001a255212b7cso5392853wra.18
- for <qemu-devel@nongnu.org>; Wed, 29 Dec 2021 14:52:10 -0800 (PST)
+ us-mta-607-BCPHrGTNPrabjLXn6erLpQ-1; Wed, 29 Dec 2021 17:52:15 -0500
+X-MC-Unique: BCPHrGTNPrabjLXn6erLpQ-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ p1-20020adfba81000000b001a25b07ff53so5443786wrg.22
+ for <qemu-devel@nongnu.org>; Wed, 29 Dec 2021 14:52:14 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=YM5/7G2bbT2zSiTpibf5KDTYTSxWd5fMK8CWNnzsx5o=;
- b=6K3a7LouRle7d8td+KhfA7xlYclwBjoZFgpnMJYoL7HlvOlalaIMQqkeVhOAO/ilkp
- AZwiiAvG/BuBtkoxI+PjuaowMZY2umnOWy1cvR+FLsSPRDdttcfkfaMhYvzgUGsAmJ3x
- UMOuF0Uk7NI6qHE6JfzHtfb6QfwuDdKdakQSCnnzIeLwkjpytW7LqYgpjnPThLUjrocF
- OI602hW8/8Rza98nXK11hbnVcFsCf7rOyntThyn/1BeZNRFHQavJYcTPjZXFLLAMyCUw
- zTi5eQfHQZwyX4e4C5eRO2qN0yI8dFYTnRt+aa6zxsG1L34xsnuejZbrNfkZ4nV8qqXm
- vLxg==
-X-Gm-Message-State: AOAM532syjRilbdYiMs3tMNAPxm08Mqq8x+C/LFeeNi79FCflsKJM3Yv
- /ZpsP4FBMqb0sN63BCOOBV+MBzvqLj9fidELJgoqjCBc+MU9G1YTbJhgtkU0W9MTEuF1xYu/Sz1
- Eyd+XO+WFJLb67vcr8ADcLBZ/UsJroTC94ODcHKRIK+7Z6ikvJzZQDzSb/B60nedu
-X-Received: by 2002:a05:600c:6009:: with SMTP id
- az9mr23517980wmb.32.1640818329032; 
- Wed, 29 Dec 2021 14:52:09 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJw3t5SaJC4GfUu61Mz+Zv99TEOU1JdILr2ps4LNzh/9BTX/Gxgug2G1tlxYQldKlkVRbvaepw==
-X-Received: by 2002:a05:600c:6009:: with SMTP id
- az9mr23517958wmb.32.1640818328797; 
- Wed, 29 Dec 2021 14:52:08 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=e5+ddy+WSkN1x0e4CgeIS+1g9hRe1FYGtrRjE7UXe3I=;
+ b=rxZkUGiTY3PIZ5mHLXCkpfPouavHE4XIe5/i4TN/FNqQ4FJsmHqk0B0ev77CUb5H4w
+ syn2pj19gbTpfgepRqz4zG7tpOQeONeR6wIs+Prmk/9ZsamnxNIM6V4LXZ6EDxhQlvdw
+ +nRRpq0ZG/WDrClSD2BUOL7XTVFD38C8/XlhJ44Nxt9xIGQGzn0TQOuhNp6BOYVd43jP
+ 2QBn+FMxbcImQXFVoWgYUJ3dQfN3xHyZby4uZXGwgKEw8u3IF/KZi3xQQDeTYHNvzdvA
+ 1pYGNOvGQTkugZtROxaxW9UzWNb6qcWjZV9ngM7TPD6PbGukv2xoCeOHn9RbuMVyP/XV
+ GPQQ==
+X-Gm-Message-State: AOAM530ml8ekgmyP1HZGuYM7t/TMX2UVFpqKkWDuO6/qshTuLgqz4aLt
+ 5u6PXdqNcY30ANPbvo/1oSSvhV3n3bSq6gB+WdMvVRYDKUphWFskLC9Pek0sIkpr9MC84JUjYKB
+ bA5N34pbL8O1dE6blXDaxZOsGqVo44oPNHoyuUI5EADDHN+TlZCrvSzn/+pmWuwTe
+X-Received: by 2002:a7b:c30e:: with SMTP id k14mr23423874wmj.156.1640818333514; 
+ Wed, 29 Dec 2021 14:52:13 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxGgAj5wI9V2CIC5uSc/9zp/z8ESmizqvkVWkzXGtpfuURnXDCNlDWP97EWJdLWZ6dxdSjIfg==
+X-Received: by 2002:a7b:c30e:: with SMTP id k14mr23423858wmj.156.1640818333323; 
+ Wed, 29 Dec 2021 14:52:13 -0800 (PST)
 Received: from x1w.. (26.red-83-50-86.dynamicip.rima-tde.net. [83.50.86.26])
- by smtp.gmail.com with ESMTPSA id u9sm24765655wmm.7.2021.12.29.14.52.07
+ by smtp.gmail.com with ESMTPSA id y3sm21962630wrq.12.2021.12.29.14.52.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 29 Dec 2021 14:52:08 -0800 (PST)
+ Wed, 29 Dec 2021 14:52:12 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/3] hw/sysbus: Document GPIO related functions
-Date: Wed, 29 Dec 2021 23:52:03 +0100
-Message-Id: <20211229225206.171882-1-philmd@redhat.com>
+Subject: [PATCH 1/3] hw/qdev: Restrict qdev_get_gpio_out_connector() to
+ qdev-internal.h
+Date: Wed, 29 Dec 2021 23:52:04 +0100
+Message-Id: <20211229225206.171882-2-philmd@redhat.com>
 X-Mailer: git-send-email 2.33.1
+In-Reply-To: <20211229225206.171882-1-philmd@redhat.com>
+References: <20211229225206.171882-1-philmd@redhat.com>
 MIME-Version: 1.0
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -14
@@ -102,30 +104,94 @@ Cc: Eduardo Habkost <eduardo@habkost.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Reduce the scope of a pair of qdev/sysbus functions,=0D
-then document the sysbus functions related to creating=0D
-and connecting GPIO lines.=0D
-=0D
-Based-on: <20211218130437.1516929-1-f4bug@amsat.org>=0D
-=0D
-Philippe Mathieu-Daud=C3=A9 (3):=0D
-  hw/qdev: Restrict qdev_get_gpio_out_connector() to qdev-internal.h=0D
-  hw/sysbus: Restrict sysbus_get_connected_irq() to sysbus-internal.h=0D
-  hw/sysbus: Document GPIO related functions=0D
-=0D
- hw/core/qdev-internal.h   | 15 +++++++++=0D
- hw/core/sysbus-internal.h | 16 +++++++++=0D
- include/hw/qdev-core.h    | 18 ----------=0D
- include/hw/sysbus.h       | 69 ++++++++++++++++++++++++++++++++++++---=0D
- hw/core/gpio.c            |  1 +=0D
- hw/core/platform-bus.c    |  2 +-=0D
- hw/core/sysbus.c          |  2 ++=0D
- 7 files changed, 99 insertions(+), 24 deletions(-)=0D
- create mode 100644 hw/core/qdev-internal.h=0D
- create mode 100644 hw/core/sysbus-internal.h=0D
-=0D
---=20=0D
-2.33.1=0D
-=0D
+qdev_get_gpio_out_connector() is called by sysbus_get_connected_irq()
+which is only used by platform-bus.c; restrict it to hw/core/ by
+adding a local "qdev-internal.h" header.
+
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+---
+ hw/core/qdev-internal.h | 15 +++++++++++++++
+ include/hw/qdev-core.h  | 18 ------------------
+ hw/core/gpio.c          |  1 +
+ hw/core/sysbus.c        |  1 +
+ 4 files changed, 17 insertions(+), 18 deletions(-)
+ create mode 100644 hw/core/qdev-internal.h
+
+diff --git a/hw/core/qdev-internal.h b/hw/core/qdev-internal.h
+new file mode 100644
+index 00000000000..6ec17d0ea70
+--- /dev/null
++++ b/hw/core/qdev-internal.h
+@@ -0,0 +1,15 @@
++/* SPDX-License-Identifier: GPL-2.0-or-later */
++/*
++ * qdev internal helpers
++ *
++ * Copyright (c) 2009-2021 QEMU contributors
++ */
++#ifndef HW_CORE_QDEV_INTERNAL_H
++#define HW_CORE_QDEV_INTERNAL_H
++
++#include "hw/qdev-core.h"
++
++/* Following functions are only used by the platform-bus subsystem */
++qemu_irq qdev_get_gpio_out_connector(DeviceState *dev, const char *name, int n);
++
++#endif /* HW_CORE_QDEV_INTERNAL_H */
+diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
+index d19c9417520..655899654bb 100644
+--- a/include/hw/qdev-core.h
++++ b/include/hw/qdev-core.h
+@@ -532,24 +532,6 @@ void qdev_connect_gpio_out(DeviceState *dev, int n, qemu_irq pin);
+ void qdev_connect_gpio_out_named(DeviceState *dev, const char *name, int n,
+                                  qemu_irq input_pin);
+ 
+-/**
+- * qdev_get_gpio_out_connector: Get the qemu_irq connected to an output GPIO
+- * @dev: Device whose output GPIO we are interested in
+- * @name: Name of the output GPIO array
+- * @n: Number of the output GPIO line within that array
+- *
+- * Returns whatever qemu_irq is currently connected to the specified
+- * output GPIO line of @dev. This will be NULL if the output GPIO line
+- * has never been wired up to the anything.  Note that the qemu_irq
+- * returned does not belong to @dev -- it will be the input GPIO or
+- * IRQ of whichever device the board code has connected up to @dev's
+- * output GPIO.
+- *
+- * You probably don't need to use this function -- it is used only
+- * by the platform-bus subsystem.
+- */
+-qemu_irq qdev_get_gpio_out_connector(DeviceState *dev, const char *name, int n);
+-
+ /**
+  * qdev_intercept_gpio_out: Intercept an existing GPIO connection
+  * @dev: Device to intercept the outbound GPIO line from
+diff --git a/hw/core/gpio.c b/hw/core/gpio.c
+index 80d07a6ec99..513ccbd1062 100644
+--- a/hw/core/gpio.c
++++ b/hw/core/gpio.c
+@@ -21,6 +21,7 @@
+ #include "hw/qdev-core.h"
+ #include "hw/irq.h"
+ #include "qapi/error.h"
++#include "qdev-internal.h"
+ 
+ static NamedGPIOList *qdev_get_named_gpio_list(DeviceState *dev,
+                                                const char *name)
+diff --git a/hw/core/sysbus.c b/hw/core/sysbus.c
+index 05c1da3d311..0e6773c8df7 100644
+--- a/hw/core/sysbus.c
++++ b/hw/core/sysbus.c
+@@ -23,6 +23,7 @@
+ #include "hw/sysbus.h"
+ #include "monitor/monitor.h"
+ #include "exec/address-spaces.h"
++#include "qdev-internal.h"
+ 
+ static void sysbus_dev_print(Monitor *mon, DeviceState *dev, int indent);
+ static char *sysbus_get_fw_dev_path(DeviceState *dev);
+-- 
+2.33.1
 
 
