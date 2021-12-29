@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21875481761
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Dec 2021 23:54:41 +0100 (CET)
-Received: from localhost ([::1]:43216 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 508E1481764
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Dec 2021 23:56:37 +0100 (CET)
+Received: from localhost ([::1]:48644 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n2hqB-0006WX-Uh
-	for lists+qemu-devel@lfdr.de; Wed, 29 Dec 2021 17:54:39 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33158)
+	id 1n2hs4-0001mN-EL
+	for lists+qemu-devel@lfdr.de; Wed, 29 Dec 2021 17:56:36 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33172)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1n2ho1-0004Vv-M4
- for qemu-devel@nongnu.org; Wed, 29 Dec 2021 17:52:26 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30401)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1n2ho3-0004WL-O4
+ for qemu-devel@nongnu.org; Wed, 29 Dec 2021 17:52:30 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46567)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1n2hnz-0000Qq-Q9
- for qemu-devel@nongnu.org; Wed, 29 Dec 2021 17:52:24 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1n2ho2-0000R4-9V
+ for qemu-devel@nongnu.org; Wed, 29 Dec 2021 17:52:27 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1640818343;
+ s=mimecast20190719; t=1640818345;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=QoRpcBVSaExXmb7fG4VqILyo3dvxz3orNpgQdbWBHqE=;
- b=HKGSSisBtuycW/6lnTD3GDH61/vJzee1yijTKT3CAMAOOvD7CPv1WHRRUDeL70ZTwG4zTC
- vZ9SJvQaknl7WkaIsO8h+VvIVXiXAKoDF4FHQHoM7qDOCMtOQObOfw1HV7g1pDDsDnXgH7
- 7earPucR5kyKUdHUm4YiZUgDR5JbQvA=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=uqL8vZZPvn+NdNRr9VNi7rmG13LdpKOsdG9YYXl47e0=;
+ b=NknRLXjCkjZrB4iVDObXU1KBrOBGyogUY/itqO6AjiOZXnbXWGRkSS5KafpYiuwWbtjaG0
+ KKssJigIodFjaRT166ZA0+DVYk9wwZeTV+/NYXwfVcCW467W+/imAXc2KKdtBNCcw+VR5f
+ F+5eEoUqFZkFblw2HQrC2s5DVn2ng3k=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-558-J3hbLGh1MLyuWM_RHZW5Ag-1; Wed, 29 Dec 2021 17:52:20 -0500
-X-MC-Unique: J3hbLGh1MLyuWM_RHZW5Ag-1
-Received: by mail-wm1-f69.google.com with SMTP id
- d4-20020a05600c34c400b00345d5d47d54so4880757wmq.6
- for <qemu-devel@nongnu.org>; Wed, 29 Dec 2021 14:52:20 -0800 (PST)
+ us-mta-648-m-uCqYawOgqboPdZZiXALA-1; Wed, 29 Dec 2021 17:52:24 -0500
+X-MC-Unique: m-uCqYawOgqboPdZZiXALA-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ v18-20020a5d5912000000b001815910d2c0so5430430wrd.1
+ for <qemu-devel@nongnu.org>; Wed, 29 Dec 2021 14:52:24 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=QoRpcBVSaExXmb7fG4VqILyo3dvxz3orNpgQdbWBHqE=;
- b=oR6eoCfMggQwYpIEHbZg4udAqFmrKqqqhGpe9er1ZZsgl3Yi1H9iv8oLq8PFh7MwUD
- kDuIApUf9nTAKz8Q5YPFJYnIaszs31AoOGN2vflkFK6EPUSXLHmEIDvTjIQMXQbS0WKc
- CMEgS6IiyiehujTBMY0N+euNgj6xGhRCcj0X6xjKnZAjqycP6eSxWaAH6E3xMEONocGy
- Yduaih7rcvyFmpo3Wp3ezigxnfjGMW69PRNoB9po1lQ/ELUGUVoP37OjPWpY7qvqGhvk
- pukoc2O2dgvTZ18DkhT7QCP75zp7m57wF8bTa2IdLQe4+wsBJ03ygNDwDhPyDHSvLJ48
- Vqhw==
-X-Gm-Message-State: AOAM532niM31JQkorilc6Mkzi+lxzuml7IfIsW7J8AgPlEzMOAiPPj4q
- 3+zLDDg0L9qD0pcoBtMClQzIZi/+tQe+u8yhDsS/nZgcmlqwIjAjycINSy7N0GYllGIj41dzbCD
- qCO02z34sNu5RGwicYgEudrAQm5mbWZ8rylk/BbqG+P82whuUkc5NQwGo+V9c//iC
-X-Received: by 2002:a05:600c:204d:: with SMTP id
- p13mr24293397wmg.102.1640818338883; 
- Wed, 29 Dec 2021 14:52:18 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzPE5b8DuLYePT6Y64gnwlRrsxQC6MembPp94mt7rHfJzJ5kIt/jQTJNtbRZIKLfHzQvWr+qg==
-X-Received: by 2002:a05:600c:204d:: with SMTP id
- p13mr24293379wmg.102.1640818338702; 
- Wed, 29 Dec 2021 14:52:18 -0800 (PST)
+ bh=uqL8vZZPvn+NdNRr9VNi7rmG13LdpKOsdG9YYXl47e0=;
+ b=JGhBaYH+fBUT5WSptVYD0IxmIfLPZPQ0+Yw712ZIMokYsyv88OhHnxV/bhRdDcF5Db
+ xoc35W2Mgo9X99WnEJlJzNhw2r5fIxOvtAtdbk8e5mlpoVnqCUmxv2Zmpr0hEpRIQ4bU
+ 44344dew5flffrbAL/jhlx4nsfDEPcg0+psTPJkFqrL7Vw22o38QI3c3eAvJPIxDdsFQ
+ XYI5w7lkOySxd6GBy5poR0VYxrDqZEAPCrSDmyOmCFCC7BLapmI+Z9iqOtaLL/Qo5TCp
+ 0Zb71lweKsaVvLs8Y745pJ0Hr2Od5G5Ms+ITDuyTusyljDHISaeupV7pnRkgNi6jD/xz
+ aiXQ==
+X-Gm-Message-State: AOAM533Uz2W+TimCS9h/qpbGDmRuvSIQ6B80DomZZV8LwBu/X6HnhQa8
+ nGsARwsWm8g1PWObHnuGWBfaLSL2ipYyzEinYCLvz2LvKUkG1s//0tUaYzuFOq15wKXCQ79+1Iw
+ 4AAUobdyYgjiFZW6SZq872QpbCI67IzsGLlwyO3L9qzcVuxnrLeAZunUlpDIuJLe0
+X-Received: by 2002:a05:600c:1d8f:: with SMTP id
+ p15mr23685446wms.102.1640818343454; 
+ Wed, 29 Dec 2021 14:52:23 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJw1+hlMZ/ltqE4Tzud7R7Rd6xQgmcqVKrh37e2H+5JTXkTd/vc993T+03P96RWNnah8R1JRig==
+X-Received: by 2002:a05:600c:1d8f:: with SMTP id
+ p15mr23685432wms.102.1640818343242; 
+ Wed, 29 Dec 2021 14:52:23 -0800 (PST)
 Received: from x1w.. (26.red-83-50-86.dynamicip.rima-tde.net. [83.50.86.26])
- by smtp.gmail.com with ESMTPSA id n9sm27898232wmq.37.2021.12.29.14.52.17
+ by smtp.gmail.com with ESMTPSA id e5sm25289236wrq.116.2021.12.29.14.52.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 29 Dec 2021 14:52:18 -0800 (PST)
+ Wed, 29 Dec 2021 14:52:22 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/3] hw/sysbus: Restrict sysbus_get_connected_irq() to
- sysbus-internal.h
-Date: Wed, 29 Dec 2021 23:52:05 +0100
-Message-Id: <20211229225206.171882-3-philmd@redhat.com>
+Subject: [PATCH 3/3] hw/sysbus: Document GPIO related functions
+Date: Wed, 29 Dec 2021 23:52:06 +0100
+Message-Id: <20211229225206.171882-4-philmd@redhat.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211229225206.171882-1-philmd@redhat.com>
 References: <20211229225206.171882-1-philmd@redhat.com>
@@ -106,79 +105,98 @@ Cc: Eduardo Habkost <eduardo@habkost.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-sysbus_get_connected_irq() and sysbus_is_irq_connected() are only
-used by platform-bus.c; restrict them to hw/core/ by adding a local
-"sysbus-internal.h" header.
+Similarly to cd07d7f9f51 ("qdev: Document GPIO related functions"),
+add documentation comments for the various sysbus functions
+related to creating and connecting GPIO lines.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- hw/core/sysbus-internal.h | 16 ++++++++++++++++
- include/hw/sysbus.h       |  2 --
- hw/core/platform-bus.c    |  2 +-
- hw/core/sysbus.c          |  1 +
- 4 files changed, 18 insertions(+), 3 deletions(-)
- create mode 100644 hw/core/sysbus-internal.h
+ include/hw/sysbus.h | 67 +++++++++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 64 insertions(+), 3 deletions(-)
 
-diff --git a/hw/core/sysbus-internal.h b/hw/core/sysbus-internal.h
-new file mode 100644
-index 00000000000..991b3e3159c
---- /dev/null
-+++ b/hw/core/sysbus-internal.h
-@@ -0,0 +1,16 @@
-+/* SPDX-License-Identifier: GPL-2.0-or-later */
-+/*
-+ * SysBus internal helpers
-+ *
-+ * Copyright (c) 2021 QEMU contributors
-+ */
-+#ifndef HW_CORE_SYSBUS_INTERNAL_H
-+#define HW_CORE_SYSBUS_INTERNAL_H
-+
-+#include "hw/sysbus.h"
-+
-+/* Following functions are only used by the platform-bus subsystem */
-+qemu_irq sysbus_get_connected_irq(SysBusDevice *dev, int n);
-+bool sysbus_is_irq_connected(SysBusDevice *dev, int n);
-+
-+#endif /* HW_CORE_SYSBUS_INTERNAL_H */
 diff --git a/include/hw/sysbus.h b/include/hw/sysbus.h
-index 3564b7b6a22..24645ee7996 100644
+index 24645ee7996..7b2b7c7faaa 100644
 --- a/include/hw/sysbus.h
 +++ b/include/hw/sysbus.h
-@@ -77,8 +77,6 @@ void sysbus_init_ioports(SysBusDevice *dev, uint32_t ioport, uint32_t size);
+@@ -69,14 +69,75 @@ typedef void FindSysbusDeviceFunc(SysBusDevice *sbdev, void *opaque);
+ 
+ void sysbus_init_mmio(SysBusDevice *dev, MemoryRegion *memory);
+ MemoryRegion *sysbus_mmio_get_region(SysBusDevice *dev, int n);
+-void sysbus_init_irq(SysBusDevice *dev, qemu_irq *p);
+-void sysbus_pass_irq(SysBusDevice *dev, SysBusDevice *target);
+-void sysbus_init_ioports(SysBusDevice *dev, uint32_t ioport, uint32_t size);
+ 
++/**
++ * sysbus_init_irq: Create an output GPIO line
++ * @dev: Sysbus device to create output GPIO for
++ * @irq: Pointer to qemu_irq for the GPIO lines
++ *
++ * Sysbus devices should use this function in their instance_init
++ * or realize methods to create any output GPIO lines they need.
++ *
++ * The @irq argument should be a pointer to either a "qemu_irq" in
++ * the device's state structure. The device implementation can then raise
++ * and lower the GPIO line by calling qemu_set_irq(). (If anything is
++ * connected to the other end of the GPIO this will cause the handler
++ * function for that input GPIO to be called.)
++ *
++ * See sysbus_connect_irq() for how code that uses such a device can
++ * connect to one of its output GPIO lines.
++ *
++ * There is no need to release the @pins allocated array because it
++ * will be automatically released when @dev calls its instance_finalize()
++ * handler.
++ */
++void sysbus_init_irq(SysBusDevice *dev, qemu_irq *irq);
++
++/**
++ * sysbus_pass_irq: Create GPIO lines on container which pass through
++ *                  to a target device
++ * @dev: Device which needs to expose GPIO lines
++ * @target: Device which has GPIO lines
++ *
++ * This function allows a container device to create GPIO arrays on itself
++ * which simply pass through to a GPIO array of another device. It is
++ * useful when modelling complex devices such system-on-chip, where a
++ * sysbus device contains other sysbus devices.
++ *
++ * It is not possible to pass a subset of the GPIO lines with this function.
++ *
++ * To users of the container sysbus device, the GPIO array created on @dev
++ * behaves exactly like any other.
++ */
++void sysbus_pass_irq(SysBusDevice *dev, SysBusDevice *target);
++
++void sysbus_init_ioports(SysBusDevice *dev, uint32_t ioport, uint32_t size);
+ 
  bool sysbus_has_irq(SysBusDevice *dev, int n);
  bool sysbus_has_mmio(SysBusDevice *dev, unsigned int n);
++
++/**
++ * sysbus_connect_irq: Connect a sysbus device output GPIO line
++ * @dev: sysbus device whose GPIO to connect
++ * @n: Number of the output GPIO line (which must be in range)
++ * @pin: qemu_irq to connect the output line to
++ *
++ * This function connects an output GPIO line on a sysbus device
++ * up to an arbitrary qemu_irq, so that when the device asserts that
++ * output GPIO line, the qemu_irq's callback is invoked.
++ * The index @n of the GPIO line must be valid, otherwise this function
++ * will assert().
++ *
++ * Outbound GPIO lines can be connected to any qemu_irq, but the common
++ * case is connecting them to another device's inbound GPIO line, using
++ * the qemu_irq returned by qdev_get_gpio_in() or qdev_get_gpio_in_named().
++ *
++ * It is not valid to try to connect one outbound GPIO to multiple
++ * qemu_irqs at once, or to connect multiple outbound GPIOs to the
++ * same qemu_irq; see qdev_connect_gpio_out() for details.
++ */
  void sysbus_connect_irq(SysBusDevice *dev, int n, qemu_irq irq);
--bool sysbus_is_irq_connected(SysBusDevice *dev, int n);
--qemu_irq sysbus_get_connected_irq(SysBusDevice *dev, int n);
++
  void sysbus_mmio_map(SysBusDevice *dev, int n, hwaddr addr);
  void sysbus_mmio_map_overlap(SysBusDevice *dev, int n, hwaddr addr,
                               int priority);
-diff --git a/hw/core/platform-bus.c b/hw/core/platform-bus.c
-index b8487b26b67..016fb71eba1 100644
---- a/hw/core/platform-bus.c
-+++ b/hw/core/platform-bus.c
-@@ -25,7 +25,7 @@
- #include "qapi/error.h"
- #include "qemu/error-report.h"
- #include "qemu/module.h"
--
-+#include "sysbus-internal.h"
- 
- /*
-  * Returns the PlatformBus IRQ number for a SysBusDevice irq number or -1 if
-diff --git a/hw/core/sysbus.c b/hw/core/sysbus.c
-index 0e6773c8df7..dcd7beda184 100644
---- a/hw/core/sysbus.c
-+++ b/hw/core/sysbus.c
-@@ -24,6 +24,7 @@
- #include "monitor/monitor.h"
- #include "exec/address-spaces.h"
- #include "qdev-internal.h"
-+#include "sysbus-internal.h"
- 
- static void sysbus_dev_print(Monitor *mon, DeviceState *dev, int indent);
- static char *sysbus_get_fw_dev_path(DeviceState *dev);
 -- 
 2.33.1
 
