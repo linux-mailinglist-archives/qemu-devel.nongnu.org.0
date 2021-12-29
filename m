@@ -2,97 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D79EA4814C0
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Dec 2021 16:47:32 +0100 (CET)
-Received: from localhost ([::1]:45862 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9CEF481585
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Dec 2021 18:03:17 +0100 (CET)
+Received: from localhost ([::1]:35146 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n2bAp-0005ZA-D8
-	for lists+qemu-devel@lfdr.de; Wed, 29 Dec 2021 10:47:31 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53518)
+	id 1n2cM8-00068s-7r
+	for lists+qemu-devel@lfdr.de; Wed, 29 Dec 2021 12:03:16 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42736)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1n2b8A-0003zF-8d
- for qemu-devel@nongnu.org; Wed, 29 Dec 2021 10:44:47 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:26663)
+ (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
+ id 1n2cHK-0003gO-31; Wed, 29 Dec 2021 11:58:18 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:1670)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1n2b88-0003uG-0x
- for qemu-devel@nongnu.org; Wed, 29 Dec 2021 10:44:45 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1640792683;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=mExkZsv9A8Q1n0goSpSfiwDto8PAAQAk5+cxpi3m8w0=;
- b=McgZES88/FPYsXhEV0/it5opjD8/uVRPmaqkmU6nriTKU3b5UxOY1v2GMtNYmxDjZtrht1
- 03wakAuug5ObPQ1TQz8TMZYZPofY5ktKFahXCRfKcz4vLWx9NZ9THi43l9+KH9YjOjiGzv
- SR2zuqtjIrVbwMAVzFmKxGm+DQ98/q8=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-573-UUJuSwGPMQSFv5tSdfyJ-g-1; Wed, 29 Dec 2021 10:44:40 -0500
-X-MC-Unique: UUJuSwGPMQSFv5tSdfyJ-g-1
-Received: by mail-wm1-f72.google.com with SMTP id
- v190-20020a1cacc7000000b003456d598510so12558681wme.6
- for <qemu-devel@nongnu.org>; Wed, 29 Dec 2021 07:44:39 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=mExkZsv9A8Q1n0goSpSfiwDto8PAAQAk5+cxpi3m8w0=;
- b=6SWyzULq149vSPPM/yIyqqZfZJn4eP02gW2mTai+rhFFPVc1LAiQ6dgn8urEr/QahS
- Imgk0+B5zkxaxLbLmbzz+CdRB4lsqAO03uEvwdq8bgwh9SQZ7Q24lIw1Qn/Uw5ny0pOu
- 3XrfBXaAJOWoF6NDTGl45SicSPK+D/IAGLVKoTvKlmr/Y9OgPqvOQXjX37OqSqrubxpJ
- b+u3EHyxXIhAoHt+4rjZPV4ZfWK+3eRopOp9qI0HYWfT3JR/YbxjzgPoFsWI/8S383xr
- wSzfz59NAJSITeDuxkOpGvjj56LyKKXQdfFNTgDCtKB/PtqrxsKCsoM2wqJYAW2ateXS
- 22Zw==
-X-Gm-Message-State: AOAM530nuIVeiuCG6fxGNm9qnXrV72E+heS+MvcLHDPaBlGHtod8lod0
- LAGP8sBq2QbV8Mve1YwI6K+1+qflNHjeJRFKipKzinLDJLxuAXPQblHR1BWxYCW1xq/yG3U2ZWr
- cUl+gWvYa8xGyFoU=
-X-Received: by 2002:a1c:f609:: with SMTP id w9mr22389561wmc.99.1640792678849; 
- Wed, 29 Dec 2021 07:44:38 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJye3kzZ41uro3usAM9yyR8kpAMxM01qHvzCNQT0ydIa3a9mrqlh3swdbZSakzr3BGqbOh9LIQ==
-X-Received: by 2002:a1c:f609:: with SMTP id w9mr22389535wmc.99.1640792678590; 
- Wed, 29 Dec 2021 07:44:38 -0800 (PST)
-Received: from [192.168.1.16] (adijon-655-1-69-27.w90-13.abo.wanadoo.fr.
- [90.13.240.27])
- by smtp.gmail.com with ESMTPSA id z11sm27506670wmf.9.2021.12.29.07.44.33
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 29 Dec 2021 07:44:37 -0800 (PST)
-Message-ID: <e93b2162-fbab-dd03-ab80-9b8564c0c8c8@redhat.com>
-Date: Wed, 29 Dec 2021 16:44:30 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH v5 02/14] hw/core/machine: Introduce CPU cluster topology
- support
-To: "wangyanan (Y)" <wangyanan55@huawei.com>, qemu-devel@nongnu.org,
- qemu-arm@nongnu.org
-References: <20211228092221.21068-1-wangyanan55@huawei.com>
- <20211228092221.21068-3-wangyanan55@huawei.com>
- <fa7f67b2-ca1d-bd95-1a33-534a50b2d4c8@redhat.com>
- <2248a06d-7c3d-2ee3-e683-901d9bcbec02@huawei.com>
- <084c5004-6eb6-9952-0d9c-6ae3dc69aca0@redhat.com>
- <4efc3a6e-4077-86fb-2d11-5e15fe6ad886@huawei.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <4efc3a6e-4077-86fb-2d11-5e15fe6ad886@huawei.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
+ (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
+ id 1n2cHI-00045n-9P; Wed, 29 Dec 2021 11:58:17 -0500
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 1BTGB12u005075; 
+ Wed, 29 Dec 2021 16:58:02 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : content-type : content-transfer-encoding :
+ mime-version; s=pp1; bh=wIW9PUeL7A31BC91OFX2iax8hWAT8pqPlNGP7oEiB+o=;
+ b=MmnehyCTI6+1cmnJutL5TbpQeQ289WsF4PjuHHDLtD+BQO9C75Bob7R0NX46HC8kyGFY
+ RnE1Gii8tnmzFCn1J/e7CcFDRA+WSvhrCJ2d39q/nqRJfEIC9fwxcd3eFJ6RmAGwqnX1
+ Hytg1PX2/R5JERQg+ge17F7dNAtc+Jk2/PHnX40hx4y+dxUTBGFb/8b+pvJg/7v1LRDi
+ C9eGWKIZoAZs3I+42BLEaSirEN1amFOomBz3iOa4w7N/espNNgSQdLus8Wd+LlHT7uGw
+ 4Op2z0TW1HA6a0iASbC91iGCHULHBR4sSPnOEKdz8PNip34atVV8PRoNMql13gC3y7z9 ZA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3d7uscu9k6-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 29 Dec 2021 16:58:01 +0000
+Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1BTGiNiX007483;
+ Wed, 29 Dec 2021 16:58:01 GMT
+Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
+ [169.53.41.122])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3d7uscu9jv-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 29 Dec 2021 16:58:01 +0000
+Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
+ by ppma04dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1BTGm8qX005590;
+ Wed, 29 Dec 2021 16:58:00 GMT
+Received: from b01cxnp23033.gho.pok.ibm.com (b01cxnp23033.gho.pok.ibm.com
+ [9.57.198.28]) by ppma04dal.us.ibm.com with ESMTP id 3d5txauffg-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 29 Dec 2021 16:58:00 +0000
+Received: from b01ledav006.gho.pok.ibm.com (b01ledav006.gho.pok.ibm.com
+ [9.57.199.111])
+ by b01cxnp23033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 1BTGvxVe30802226
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 29 Dec 2021 16:57:59 GMT
+Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 7F3CFAC059;
+ Wed, 29 Dec 2021 16:57:59 +0000 (GMT)
+Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 715E8AC05E;
+ Wed, 29 Dec 2021 16:57:57 +0000 (GMT)
+Received: from farosas.linux.ibm.com.com (unknown [9.211.90.107])
+ by b01ledav006.gho.pok.ibm.com (Postfix) with ESMTP;
+ Wed, 29 Dec 2021 16:57:57 +0000 (GMT)
+From: Fabiano Rosas <farosas@linux.ibm.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 0/5] target/ppc: powerpc_excp improvements (1/n)
+Date: Wed, 29 Dec 2021 13:57:46 -0300
+Message-Id: <20211229165751.3774248-1-farosas@linux.ibm.com>
+X-Mailer: git-send-email 2.33.1
 Content-Type: text/plain; charset=UTF-8
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: mzI0-1iz61fujyJxjTi4vCq6wEyfDetv
+X-Proofpoint-ORIG-GUID: 2dBhvtfDkv0jNL-a8Z8ZzASq6tbMnRkE
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -44
-X-Spam_score: -4.5
-X-Spam_bar: ----
-X-Spam_report: (-4.5 / 5.0 requ) DKIMWL_WL_HIGH=-0.573, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.024,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2021-12-29_06,2021-12-29_01,2021-12-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015
+ priorityscore=1501 mlxscore=0 adultscore=0 suspectscore=0 phishscore=0
+ impostorscore=0 lowpriorityscore=0 malwarescore=0 mlxlogscore=884
+ bulkscore=0 spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2110150000 definitions=main-2112290088
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=farosas@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: 0
+X-Spam_score: -0.1
+X-Spam_bar: /
+X-Spam_report: (-0.1 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,64 +105,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>,
- Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>, wanghaibin.wang@huawei.com,
- Markus Armbruster <armbru@redhat.com>, Shannon Zhao <shannon.zhaosl@gmail.com>,
- Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>,
- Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>
+Cc: richard.henderson@linaro.org, danielhb413@gmail.com, qemu-ppc@nongnu.org,
+ clg@kaod.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/29/21 14:04, wangyanan (Y) wrote:
-> 
-> On 2021/12/29 18:44, Philippe Mathieu-Daudé wrote:
->> On 12/29/21 04:48, wangyanan (Y) wrote:
->>> Hi Philippe,
->>> Thanks for your review.
->>>
->>> On 2021/12/29 3:17, Philippe Mathieu-Daudé wrote:
->>>> Hi,
->>>>
->>>> On 12/28/21 10:22, Yanan Wang wrote:
->>>>> The new Cluster-Aware Scheduling support has landed in Linux 5.16,
->>>>> which has been proved to benefit the scheduling performance (e.g.
->>>>> load balance and wake_affine strategy) on both x86_64 and AArch64.
->>>>>
->>>>> So now in Linux 5.16 we have four-level arch-neutral CPU topology
->>>>> definition like below and a new scheduler level for clusters.
->>>>> struct cpu_topology {
->>>>>       int thread_id;
->>>>>       int core_id;
->>>>>       int cluster_id;
->>>>>       int package_id;
->>>>>       int llc_id;
->>>>>       cpumask_t thread_sibling;
->>>>>       cpumask_t core_sibling;
->>>>>       cpumask_t cluster_sibling;
->>>>>       cpumask_t llc_sibling;
->>>>> }
->>>>>
->>>>> A cluster generally means a group of CPU cores which share L2 cache
->>>>> or other mid-level resources, and it is the shared resources that
->>>>> is used to improve scheduler's behavior. From the point of view of
->>>>> the size range, it's between CPU die and CPU core. For example, on
->>>>> some ARM64 Kunpeng servers, we have 6 clusters in each NUMA node,
->>>>> and 4 CPU cores in each cluster. The 4 CPU cores share a separate
->>>>> L2 cache and a L3 cache tag, which brings cache affinity advantage.
->>>>>
->>>>> In virtualization, on the Hosts which have pClusters, if we can
->>>> Maybe [*] -> reference to pClusters?
->>> Hm, I'm not sure what kind of reference is appropriate here.
->> So I guess the confusion comes from a simple typo =)
-> I tried to mean "physical clusters" on host by pClusters, on the contrary
-> to "virtual clusters" on guest. But obviously it brings confusion.
+This series comprises of the first 4 patches from the RFC v2 plus an
+extra patch addressing review comments.
 
-OK, I got confused because you don't use "vClusters".
+Patch 1,3,4,5 have been reviewed.
 
->> Is it OK if I replace "pClusters" by "Clusters"?
-> Sure, it's clearer to just use "clusters", please do that.
+Patch 2 addresses prior comments from patch 3 and has not been
+reviewed.
 
-OK.
+RFC v1:
+https://lists.nongnu.org/archive/html/qemu-ppc/2021-06/msg00026.html
+
+RFC v2:
+https://lists.nongnu.org/archive/html/qemu-ppc/2021-12/msg00542.html
+
+Fabiano Rosas (5):
+  target/ppc: powerpc_excp: Set alternate SRRs directly
+  target/ppc: powerpc_excp: Add excp_vectors bounds check
+  target/ppc: powerpc_excp: Set vector earlier
+  target/ppc: powerpc_excp: Move system call vectored code together
+  target/ppc: powerpc_excp: Stop passing excp_model around
+
+ target/ppc/excp_helper.c | 102 ++++++++++++++++++---------------------
+ 1 file changed, 46 insertions(+), 56 deletions(-)
+
+-- 
+2.33.1
 
 
