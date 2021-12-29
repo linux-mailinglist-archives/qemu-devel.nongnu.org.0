@@ -2,67 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51CEF48108F
-	for <lists+qemu-devel@lfdr.de>; Wed, 29 Dec 2021 07:54:04 +0100 (CET)
-Received: from localhost ([::1]:55050 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE93348109F
+	for <lists+qemu-devel@lfdr.de>; Wed, 29 Dec 2021 08:18:47 +0100 (CET)
+Received: from localhost ([::1]:33468 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n2SqZ-0005gB-DA
-	for lists+qemu-devel@lfdr.de; Wed, 29 Dec 2021 01:54:03 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37630)
+	id 1n2TEU-0002id-IM
+	for lists+qemu-devel@lfdr.de; Wed, 29 Dec 2021 02:18:46 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42670)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mkfssion@mkfssion.com>)
- id 1n2Shf-0003FI-3v
- for qemu-devel@nongnu.org; Wed, 29 Dec 2021 01:44:51 -0500
-Received: from mail-108-mta159.mxroute.com ([136.175.108.159]:35841)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <mkfssion@mkfssion.com>)
- id 1n2Shc-0006zS-R1
- for qemu-devel@nongnu.org; Wed, 29 Dec 2021 01:44:50 -0500
-Received: from filter004.mxroute.com ([149.28.56.236] filter004.mxroute.com)
- (Authenticated sender: mN4UYu2MZsgR)
- by mail-108-mta159.mxroute.com (ZoneMTA) with ESMTPSA id
- 17e04ef0f53000b7bf.001 for <qemu-devel@nongnu.org>
- (version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES128-GCM-SHA256);
- Wed, 29 Dec 2021 06:44:42 +0000
-X-Zone-Loop: 5645927cca01d93f5001ea4455461c1013b115743b2f
-X-Originating-IP: [149.28.56.236]
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=mkfssion.com; s=x; h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date
- :Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=4WdwHLUvDNJNp9a++8gpKuaDXVbMYAzy/tqew3u+Pkw=; b=C99RkcZUJnyyT7rhKXSo3CAdno
- U4P1ze5BvfYB6LTxZHQDBM822tig5GIWaOBCUS7wc4Qva0AAlbecwXrOCsQwmk/uT2Kuae6jxj0Ji
- wNdp/O8Mx5k4cL/TXvKC51y925klDuEjGPitXmLE8nq0qav/PLLcmi+HI273k0IHtOon36VZi4tuZ
- cRHjYdmlnB0PcfPiChDATBLxNT2QYleooLr8orYQ/dsjObbwPyhVMfEfdqMaYXrnOyhVwkWavbQZA
- q1E8neHOpTf+j+ELpEY/zaRThjR8f39W2PicXYV5tAFQiFsOPGzqiw2IPsoV7pmme5EUb6hIhtZ66
- d4R9kvXw==;
-From: MkfsSion <mkfssion@mkfssion.com>
-To: armbru@redhat.com
-Subject: [PATCH v2] vl: Add support to set properties when using JSON syntax
- for -device via -set option
-Date: Wed, 29 Dec 2021 14:44:21 +0800
-Message-Id: <20211224072511.63894-1-mkfssion@mkfssion.com>
-X-Mailer: git-send-email 2.34.1
+ (Exim 4.90_1) (envelope-from <chenxiang66@hisilicon.com>)
+ id 1n2T9q-0001f5-5X; Wed, 29 Dec 2021 02:13:59 -0500
+Received: from szxga08-in.huawei.com ([45.249.212.255]:3256)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <chenxiang66@hisilicon.com>)
+ id 1n2T9m-0002ci-TR; Wed, 29 Dec 2021 02:13:57 -0500
+Received: from dggeme756-chm.china.huawei.com (unknown [172.30.72.56])
+ by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4JP2c02nPPz1DJb5;
+ Wed, 29 Dec 2021 15:10:24 +0800 (CST)
+Received: from [10.40.193.166] (10.40.193.166) by
+ dggeme756-chm.china.huawei.com (10.3.19.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2308.20; Wed, 29 Dec 2021 15:13:41 +0800
+Subject: Re: [RFC v2 1/2] hw/pci-host/gpex: Allow to generate preserve boot
+ config DSM #5
+To: Eric Auger <eric.auger@redhat.com>, <eric.auger.pro@gmail.com>,
+ <imammedo@redhat.com>, <philmd@redhat.com>, <peter.maydell@linaro.org>,
+ <shannon.zhaosl@gmail.com>, <shameerali.kolothum.thodi@huawei.com>,
+ <ardb@kernel.org>, <jean-philippe@linaro.org>, <qemu-arm@nongnu.org>,
+ <qemu-devel@nongnu.org>, <drjones@redhat.com>
+References: <20211005085313.493858-1-eric.auger@redhat.com>
+ <20211005085313.493858-2-eric.auger@redhat.com>
+CC: <gshan@redhat.com>, "linuxarm@huawei.com" <linuxarm@huawei.com>
+Message-ID: <97906621-e6e1-67ec-a3a2-26e5fd07f1a6@hisilicon.com>
+Date: Wed, 29 Dec 2021 15:13:41 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
+ Thunderbird/45.2.0
 MIME-Version: 1.0
+In-Reply-To: <20211005085313.493858-2-eric.auger@redhat.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-AuthUser: mkfssion@mkfssion.com
-X-Zone-Spam-Resolution: no action
-X-Zone-Spam-Status: No, score=5, required=15, tests=[ARC_NA=0,
- MID_CONTAINS_FROM=1, FROM_HAS_DN=0, RCPT_COUNT_THREE=0, TO_DN_SOME=0,
- R_MISSING_CHARSET=2.5, RCVD_COUNT_ZERO=0, FROM_EQ_ENVFROM=0, MIME_TRACE=0,
- BROKEN_CONTENT_TYPE=1.5, NEURAL_SPAM=0]
-Received-SPF: pass client-ip=136.175.108.159;
- envelope-from=mkfssion@mkfssion.com; helo=mail-108-mta159.mxroute.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Originating-IP: [10.40.193.166]
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+ dggeme756-chm.china.huawei.com (10.3.19.102)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.255;
+ envelope-from=chenxiang66@hisilicon.com; helo=szxga08-in.huawei.com
+X-Spam_score_int: -71
+X-Spam_score: -7.2
+X-Spam_bar: -------
+X-Spam_report: (-7.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-3.024,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -75,119 +66,114 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, MkfsSion <mkfssion@mkfssion.com>,
- "open list:All patches CC here" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  "chenxiang (M)" <chenxiang66@hisilicon.com>
+From:  "chenxiang (M)" via <qemu-devel@nongnu.org>
 
-When using JSON syntax for -device, -set option can not find device
-specified in JSON by id field. The following commandline is an example:
-
-$ qemu-system-x86_64 -device '{"id":"foo"}' -set device.foo.bar=1
-qemu-system-x86_64: -set device.foo.bar=1: there is no device "foo" defined
-
-The patch fixes the above issue by trying to convert value provided by -set
-option to the type that the setting property actually takes.
-
-Signed-off-by: YuanYang Meng <mkfssion@mkfssion.com>
----
- v2:
-     1.Set device option when group is 'device' only
-     2.Store value in type that properties actually take
+Hi Eric,
 
 
- softmmu/vl.c | 62 ++++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 62 insertions(+)
+在 2021/10/5 16:53, Eric Auger 写道:
+> Add a 'preserve_config' field in struct GPEXConfig and
+> if set generate the DSM #5 for preserving PCI boot configurations.
+> The DSM presence is needed to expose RMRs.
+>
+> At the moment the DSM generation is not yet enabled.
+>
+> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+> ---
+>   include/hw/pci-host/gpex.h |  1 +
+>   hw/pci-host/gpex-acpi.c    | 12 ++++++++++++
+>   2 files changed, 13 insertions(+)
+>
+> diff --git a/include/hw/pci-host/gpex.h b/include/hw/pci-host/gpex.h
+> index fcf8b63820..3f8f8ec38d 100644
+> --- a/include/hw/pci-host/gpex.h
+> +++ b/include/hw/pci-host/gpex.h
+> @@ -64,6 +64,7 @@ struct GPEXConfig {
+>       MemMapEntry pio;
+>       int         irq;
+>       PCIBus      *bus;
+> +    bool        preserve_config;
+>   };
+>   
+>   int gpex_set_irq_num(GPEXHost *s, int index, int gsi);
+> diff --git a/hw/pci-host/gpex-acpi.c b/hw/pci-host/gpex-acpi.c
+> index e7e162a00a..7dab259379 100644
+> --- a/hw/pci-host/gpex-acpi.c
+> +++ b/hw/pci-host/gpex-acpi.c
+> @@ -164,6 +164,12 @@ void acpi_dsdt_add_gpex(Aml *scope, struct GPEXConfig *cfg)
+>                   aml_append(dev, aml_name_decl("_PXM", aml_int(numa_node)));
+>               }
+>   
+> +            if (cfg->preserve_config) {
+> +                method = aml_method("_DSM", 5, AML_SERIALIZED);
 
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index 620a1f1367..c213e9e022 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -30,7 +30,9 @@
- #include "hw/qdev-properties.h"
- #include "qapi/compat-policy.h"
- #include "qapi/error.h"
-+#include "qapi/qmp/qbool.h"
- #include "qapi/qmp/qdict.h"
-+#include "qapi/qmp/qnum.h"
- #include "qapi/qmp/qstring.h"
- #include "qapi/qmp/qjson.h"
- #include "qemu-version.h"
-@@ -2274,6 +2276,61 @@ static void qemu_read_default_config_file(Error **errp)
-     }
- }
- 
-+static bool qemu_set_device_option_property(const char *id, const char *key,
-+                                            const char *value, Error **errp) {
-+    DeviceOption *opt;
-+    QTAILQ_FOREACH(opt, &device_opts, next) {
-+        const char *device_id = qdict_get_try_str(opt->opts, "id");
-+        if (device_id && (strcmp(device_id, id) == 0)) {
-+            QObject *obj = NULL;
-+            if ((strcmp(key, "id") == 0) ||
-+                (strcmp(key, "bus") == 0) ||
-+                (strcmp(key, "driver") == 0)) {
-+                obj = QOBJECT(qstring_from_str(value));
-+            } else {
-+                const char *driver = qdict_get_try_str(opt->opts, "driver");
-+                if (driver) {
-+                    ObjectClass *klass = object_class_by_name(driver);
-+                    ObjectProperty *prop = object_class_property_find(klass, key);
-+                    if (prop) {
-+                        if (strcmp(prop->type, "str") == 0) {
-+                            obj = QOBJECT(qstring_from_str(value));
-+                        } else if (strcmp(prop->type, "bool") == 0) {
-+                            bool boolean;
-+                            if (qapi_bool_parse(key, value, &boolean, errp)) {
-+                                obj = QOBJECT(qbool_from_bool(boolean));
-+                            }
-+                        } else if (strncmp(prop->type, "uint", 4) == 0) {
-+                            uint64_t num;
-+                            if (parse_option_size(key, value, &num, errp)) {
-+                                obj = QOBJECT(qnum_from_uint(num));
-+                            }
-+                        } else {
-+                            error_setg(errp,
-+                                       "Setting property %s on device %s with "
-+                                       "type %s is unsupported via -set option",
-+                                       key, id, prop->type);
-+                        }
-+                    } else {
-+                        error_setg(errp, "Unable to find property %s on device %s",
-+                                   key, id);
-+                    }
-+                } else {
-+                    error_setg(errp, "Unable to get driver for device %s", id);
-+                }
-+            }
-+            if (obj) {
-+                qdict_del(opt->opts, key);
-+                qdict_put_obj(opt->opts, key, obj);
-+                return true;
-+            } else {
-+                return false;
-+            }
-+        }
-+    }
-+    return false;
-+}
-+
- static void qemu_set_option(const char *str, Error **errp)
- {
-     char group[64], id[64], arg[64];
-@@ -2294,6 +2351,11 @@ static void qemu_set_option(const char *str, Error **errp)
-         if (list) {
-             opts = qemu_opts_find(list, id);
-             if (!opts) {
-+                if (strcmp(group, "device") == 0) {
-+                    if (qemu_set_device_option_property(id, arg,
-+                                                        str + offset + 1, errp))
-+                        return;
-+                }
-                 error_setg(errp, "there is no %s \"%s\" defined", group, id);
-                 return;
-             }
--- 
-2.34.1
+I notice there is a ACPI BIOS Error when booting virtual machine which 
+seems be caused by this patch as I add this patchset in my branch to 
+test the function of vsmmu.
+It seems that it requires only 4 parameter for method _DSM, but use 5 
+parameters here.
+The error log is as following:
+
+[    2.355459] ACPI BIOS Error (bug): Failure creating named object 
+[\_SB.PCI0._DSM], AE_ALREADY_EXISTS (20210930/dswload2-327)
+[    2.355467] ACPI Error: AE_ALREADY_EXISTS, During name lookup/catalog 
+(20210930/psobject-221)
+[    2.355470] ACPI: Skipping parse of AML opcode: OpcodeName 
+unavailable (0x0014)
+[    2.355657] ACPI: 1 ACPI AML tables successfully acquired and loaded
+[    2.356321] ACPI: Interpreter enabled
+[    2.356323] ACPI: Using GIC for interrupt routing
+[    2.356333] ACPI: MCFG table detected, 1 entries
+[    2.361359] ARMH0011:00: ttyAMA0 at MMIO 0x9000000 (irq = 16, 
+base_baud = 0) is a SBSA
+[    2.619805] printk: console [ttyAMA0] enabled
+[    2.622114] ACPI: PCI Root Bridge [PCI0] (domain 0000 [bus 00-ff])
+[    2.622788] acpi PNP0A08:00: _OSC: OS supports [ExtendedConfig ASPM 
+ClockPM Segments MSI HPX-Type3]
+[    2.623776] acpi PNP0A08:00: _OSC: platform does not support [LTR]
+[    2.624600] acpi PNP0A08:00: _OSC: OS now controls [PCIeHotplug PME 
+AER PCIeCapability]
+[    2.625721] acpi PNP0A08:00: ECAM area [mem 
+0x4010000000-0x401fffffff] reserved by PNP0C02:00
+[    2.626645] acpi PNP0A08:00: ECAM at [mem 0x4010000000-0x401fffffff] 
+for [bus 00-ff]
+[    2.627450] ACPI: Remapped I/O 0x000000003eff0000 to [io 
+0x0000-0xffff window]
+[    2.628229] ACPI BIOS Error (bug): \_SB.PCI0._DSM: Excess arguments - 
+ASL declared 5, ACPI requires 4 (20210930/nsarguments-166)
+[    2.629576] PCI host bridge to bus 0000:00
+[    2.630008] pci_bus 0000:00: root bus resource [mem 
+0x10000000-0x3efeffff window]
+[    2.630747] pci_bus 0000:00: root bus resource [io  0x0000-0xffff window]
+[    2.631405] pci_bus 0000:00: root bus resource [mem 
+0x8000000000-0xffffffffff window]
+[    2.632177] pci_bus 0000:00: root bus resource [bus 00-ff]
+[    2.632731] ACPI BIOS Error (bug): \_SB.PCI0._DSM: Excess arguments - 
+ASL declared 5, ACPI requires 4 (20210930/nsarguments-166)
+
+
+> +                aml_append(method, aml_return(aml_int(0)));
+> +                aml_append(dev, method);
+> +            }
+> +
+>               acpi_dsdt_add_pci_route_table(dev, cfg->irq);
+>   
+>               /*
+> @@ -191,6 +197,12 @@ void acpi_dsdt_add_gpex(Aml *scope, struct GPEXConfig *cfg)
+>       aml_append(dev, aml_name_decl("_STR", aml_unicode("PCIe 0 Device")));
+>       aml_append(dev, aml_name_decl("_CCA", aml_int(1)));
+>   
+> +    if (cfg->preserve_config) {
+> +        method = aml_method("_DSM", 5, AML_SERIALIZED);
+> +        aml_append(method, aml_return(aml_int(0)));
+> +        aml_append(dev, method);
+> +    }
+> +
+>       acpi_dsdt_add_pci_route_table(dev, cfg->irq);
+>   
+>       method = aml_method("_CBA", 0, AML_NOTSERIALIZED);
 
 
