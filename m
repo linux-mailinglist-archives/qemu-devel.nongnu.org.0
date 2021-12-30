@@ -2,81 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51C81481DF6
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Dec 2021 17:09:21 +0100 (CET)
-Received: from localhost ([::1]:54150 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85D6C481DF5
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Dec 2021 17:09:14 +0100 (CET)
+Received: from localhost ([::1]:53734 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n2xzU-0002dA-Em
-	for lists+qemu-devel@lfdr.de; Thu, 30 Dec 2021 11:09:20 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44736)
+	id 1n2xzN-0002LU-7S
+	for lists+qemu-devel@lfdr.de; Thu, 30 Dec 2021 11:09:13 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45104)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1n2xvr-00086Q-CJ
- for qemu-devel@nongnu.org; Thu, 30 Dec 2021 11:05:35 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41361)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1n2xxt-0000l0-Lv
+ for qemu-devel@nongnu.org; Thu, 30 Dec 2021 11:07:42 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:25858)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1n2xvo-0004GF-2p
- for qemu-devel@nongnu.org; Thu, 30 Dec 2021 11:05:33 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1n2xxr-0004aC-S5
+ for qemu-devel@nongnu.org; Thu, 30 Dec 2021 11:07:41 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1640880330;
+ s=mimecast20190719; t=1640880459;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=JMOfaJ/LMhDSs430s4HqaNJL/fJKyjqZbj2wrNrE+Yg=;
- b=Gk/kCMl0AQOqpgw4vGDGK3RNQui0WVnLpM8hOfYmMPOVBTqUUCS3Jw0OcjlP3MzDUf5UfO
- vAlQjpFX2H8G6xR1jZp108vMaLKptJK5bhUyP+4W8sFbnhtbHlM0l0EE0w7x6LvtVLnQ2X
- uvck8cKJ04ZemDcx/DMlAVm82ThVck0=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=yX/pvSgj4F0NpydsSkEKwkLZ2HI2cTP2y1vAkSFiFbU=;
+ b=KI7Ce0IAu7iJWawLF1/qE0+G10QqDda7myKn0GWh8iaDrZgcjB3+2TozS27dISBibWl4OT
+ 5OrjqYjLhmf6rR/h5y48qEFr0I4ismAYlD2U42d5p7cRQFVHHjWpoBY2WUWAGxkngOaF0l
+ zIsDqpvnvL4XP6w8Ii+SBB82ZoPGi4w=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-134-g0XA61BWOp-BWj9DDV5rZA-1; Thu, 30 Dec 2021 11:05:29 -0500
-X-MC-Unique: g0XA61BWOp-BWj9DDV5rZA-1
-Received: by mail-wm1-f69.google.com with SMTP id
- r2-20020a05600c35c200b00345c3b82b22so11748205wmq.0
- for <qemu-devel@nongnu.org>; Thu, 30 Dec 2021 08:05:29 -0800 (PST)
+ us-mta-197-Hg5R1HlIOlqxj4bQglKwGw-1; Thu, 30 Dec 2021 11:07:38 -0500
+X-MC-Unique: Hg5R1HlIOlqxj4bQglKwGw-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ g6-20020adfbc86000000b001a2d62be244so5080490wrh.23
+ for <qemu-devel@nongnu.org>; Thu, 30 Dec 2021 08:07:37 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=JMOfaJ/LMhDSs430s4HqaNJL/fJKyjqZbj2wrNrE+Yg=;
- b=rLbPBGxF6SgUado0YYZ46cPMMAdBayst4U3EUQHtVKm5GP1/qSqlE68c5Noi7IHbQC
- YsJcVIUqK2kaNfpFGKepHj3PnTWtt4Onbvh9KchGSS3uuDbvkHNqH8vd6vDgriEY9sb3
- 9iBjZl8tSX61IgtSIrTjuuJxTkdTSV9k2s9rztQWIFlntDyhG2BQnyOtcysE3fwAkKNf
- MuLxCJoKNBWmwB/sBx3IenCZ3nfaopKbdh4wamWPEMkNVB5X3edK32SSB9p2u78z3p1H
- YnYj8MfoRW2XSv0Se27zMpCrq8MliKrm87d8+rZL1C0pKWEZ8tKCMZJhDZCBnldJxZEN
- rVtg==
-X-Gm-Message-State: AOAM531bBe5XBBr5RkMpVeQAhchN/I7gr7t31NElscItQHRWzzrk4RQl
- LDV/hVm3pN4eWMdCT28PXNdvXw237b8Ri0/F4Tu/4zpAeekBVitkKt2X2cfB4z8k3iLHG/g4UNa
- WNw0vbgWBZ0if1DFRQ24huyfvI3NV3O7ZS4tY7ZzyeRl6bv3wLkLy6jBwoGpkKryk
-X-Received: by 2002:a5d:440e:: with SMTP id z14mr3756661wrq.611.1640880328183; 
- Thu, 30 Dec 2021 08:05:28 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxUMOda5qjaqTE+68qVvqb0A8MMGWgi4qK9A96jnG8eYpl7UNIBsyvnQXlILYYobsH3S+Ihlg==
-X-Received: by 2002:a5d:440e:: with SMTP id z14mr3756636wrq.611.1640880328016; 
- Thu, 30 Dec 2021 08:05:28 -0800 (PST)
-Received: from x1w.. (26.red-83-50-86.dynamicip.rima-tde.net. [83.50.86.26])
- by smtp.gmail.com with ESMTPSA id y1sm23930187wrm.3.2021.12.30.08.05.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 Dec 2021 08:05:27 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] migration: Don't return for postcopy_send_discard_bm_ram()
-Date: Thu, 30 Dec 2021 17:05:25 +0100
-Message-Id: <20211230160525.462185-1-philmd@redhat.com>
-X-Mailer: git-send-email 2.33.1
+ bh=yX/pvSgj4F0NpydsSkEKwkLZ2HI2cTP2y1vAkSFiFbU=;
+ b=Tj46yyoQ/1cQh0KBPwgE0pD/V0Ju0NU5mgJZNzBN2z3rTSnjibh4izKne4btI9xVJy
+ RiQTbSXsTd/XyMczEWWFMppXo68qhkmcse4A2p0KhsT2h7U0GBrBbRrfXWjv8XlclZ2u
+ WjkWSUVXZqpj/1xG2PAedUkriZN5SOJ1gizVhPTy2xrW0ByKT4MT/MVQ+k3TehXLbwOv
+ OzTM6MS8SXHd3XX4ednH5dM6+v7b1K/35sQHOPgev+zi1d5bHsrxh+2JCl2sot590W9k
+ vzrzgKZ4MiL1m1dggp6ejRIco88HykkcgEu4sno/iOf8WKzSKXX1dxb5DjAa8+Am1/oO
+ 0S3Q==
+X-Gm-Message-State: AOAM5330d5gdngqLnjSvrnlqiwYcKdwyj8Q/DgQIfPZQ1oMebPEBlMRh
+ uN1VK5dL0PpoH4s6/qeIAYwIldJL1OtiJIwiViCSVjqQiitDzHEgnWab3WhXDd2Oc+z3b1I4bz8
+ pwaZGTSMDbcgbNsjPpK+Pz/3fEamh6NsQLzLUWy9CTFqGfy2v8Xo+eJc1qVi2RFvY
+X-Received: by 2002:a05:600c:4e4b:: with SMTP id
+ e11mr26423372wmq.28.1640880456527; 
+ Thu, 30 Dec 2021 08:07:36 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwcez3N3OgnPIasr4D7X1914KUavu6ASdwFzucJ+TJzxwR86fN48/lRYOui745OZrtyUxNbgg==
+X-Received: by 2002:a05:600c:4e4b:: with SMTP id
+ e11mr26423317wmq.28.1640880456225; 
+ Thu, 30 Dec 2021 08:07:36 -0800 (PST)
+Received: from [192.168.1.36] (26.red-83-50-86.dynamicip.rima-tde.net.
+ [83.50.86.26])
+ by smtp.gmail.com with ESMTPSA id h3sm24458082wrt.94.2021.12.30.08.07.32
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 30 Dec 2021 08:07:35 -0800 (PST)
+Message-ID: <60d8426a-b2fe-08e7-5ab6-ee73dcd114cc@redhat.com>
+Date: Thu, 30 Dec 2021 17:07:31 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH v2 00/23] hw: Have DMA APIs take MemTxAttrs arg &
+ propagate MemTxResult (full)
+To: qemu-devel@nongnu.org
+References: <20211223115554.3155328-1-philmd@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+In-Reply-To: <20211223115554.3155328-1-philmd@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) DKIMWL_WL_HIGH=-0.573, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_score_int: -44
+X-Spam_score: -4.5
+X-Spam_bar: ----
+X-Spam_report: (-4.5 / 5.0 requ) DKIMWL_WL_HIGH=-0.573, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.024,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
@@ -91,53 +101,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: David Edmondson <david.edmondson@oracle.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
- Juan Quintela <quintela@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
+ Dmitry Fleytman <dmitry.fleytman@gmail.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Bin Meng <bin.meng@windriver.com>, David Hildenbrand <david@redhat.com>,
+ Peter Xu <peterx@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Klaus Jensen <its@irrelevant.dk>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Sven Schnelle <svens@stackframe.org>, Hannes Reinecke <hare@suse.com>,
+ qemu-block@nongnu.org, Daniel Henrique Barboza <danielhb413@gmail.com>,
+ Havard Skinnemoen <hskinnemoen@google.com>, Joel Stanley <joel@jms.id.au>,
+ Stefan Weil <sw@weilnetz.de>, Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Alistair Francis <alistair@alistair23.me>,
+ Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
+ Beniamino Galvani <b.galvani@gmail.com>, Eric Auger <eric.auger@redhat.com>,
+ qemu-arm@nongnu.org, Jan Kiszka <jan.kiszka@web.de>,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Keith Busch <kbusch@kernel.org>, John Snow <jsnow@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ Eduardo Habkost <eduardo@habkost.net>, Andrew Jeffery <andrew@aj.id.au>,
+ Andrew Baumann <Andrew.Baumann@microsoft.com>,
+ Tyrone Ting <kfting@nuvoton.com>, qemu-ppc@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-postcopy_send_discard_bm_ram() always return zero. Since it can't
-fail, simplify and do not return anything.
+On 12/23/21 12:55, Philippe Mathieu-Daudé wrote:
+> Hi Peter and Paolo.
+> 
+> This series contains all the uncontroversary patches from
+> the "improve DMA situations, avoid re-entrancy issues"
+> earlier series. The rest will be discussed on top.
+> 
+> The only operations added are:
+> - take MemTxAttrs argument
+> - propagate MemTxResult
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
-Based-on: <20211224065000.97572-1-peterx@redhat.com>
----
- migration/ram.c | 6 +-----
- 1 file changed, 1 insertion(+), 5 deletions(-)
-
-diff --git a/migration/ram.c b/migration/ram.c
-index 5234d1ece11..e241ce98461 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -2433,14 +2433,12 @@ void ram_postcopy_migrated_memory_release(MigrationState *ms)
- /**
-  * postcopy_send_discard_bm_ram: discard a RAMBlock
-  *
-- * Returns zero on success
-- *
-  * Callback from postcopy_each_ram_send_discard for each RAMBlock
-  *
-  * @ms: current migration state
-  * @block: RAMBlock to discard
-  */
--static int postcopy_send_discard_bm_ram(MigrationState *ms, RAMBlock *block)
-+static void postcopy_send_discard_bm_ram(MigrationState *ms, RAMBlock *block)
- {
-     unsigned long end = block->used_length >> TARGET_PAGE_BITS;
-     unsigned long current;
-@@ -2464,8 +2462,6 @@ static int postcopy_send_discard_bm_ram(MigrationState *ms, RAMBlock *block)
-         postcopy_discard_send_range(ms, one, discard_length);
-         current = one + discard_length;
-     }
--
--    return 0;
- }
- 
- static void postcopy_chunk_hostpages_pass(MigrationState *ms, RAMBlock *block);
--- 
-2.33.1
+Series queued.
 
 
