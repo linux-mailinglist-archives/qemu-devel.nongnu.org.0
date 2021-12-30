@@ -2,61 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61E14481D20
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Dec 2021 15:34:51 +0100 (CET)
-Received: from localhost ([::1]:34672 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FBE9481D45
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Dec 2021 15:49:15 +0100 (CET)
+Received: from localhost ([::1]:45162 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n2wW2-0003QS-G6
-	for lists+qemu-devel@lfdr.de; Thu, 30 Dec 2021 09:34:50 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51332)
+	id 1n2wjx-0004Wa-8s
+	for lists+qemu-devel@lfdr.de; Thu, 30 Dec 2021 09:49:13 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56504)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1n2wTE-0000GE-GY; Thu, 30 Dec 2021 09:31:56 -0500
-Received: from smtp23.cstnet.cn ([159.226.251.23]:55294 helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liweiwei@iscas.ac.cn>)
- id 1n2wTA-0004Aq-NT; Thu, 30 Dec 2021 09:31:56 -0500
-Received: from localhost.localdomain (unknown [180.156.147.178])
- by APP-03 (Coremail) with SMTP id rQCowADHzFjJws1h4_TqBA--.24839S9;
- Thu, 30 Dec 2021 22:31:44 +0800 (CST)
-From: liweiwei <liweiwei@iscas.ac.cn>
-To: richard.henderson@linaro.org, palmer@dabbelt.com, alistair.francis@wdc.com,
- bin.meng@windriver.com, qemu-riscv@nongnu.org, qemu-devel@nongnu.org
-Subject: [PATCH v3 7/7] target/riscv: rvk: expose zbk* and zk* properties
-Date: Thu, 30 Dec 2021 22:30:58 +0800
-Message-Id: <20211230143058.7352-8-liweiwei@iscas.ac.cn>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20211230143058.7352-1-liweiwei@iscas.ac.cn>
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1n2whU-0001zo-Oy
+ for qemu-devel@nongnu.org; Thu, 30 Dec 2021 09:46:41 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59739)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1n2whT-0001ZL-CT
+ for qemu-devel@nongnu.org; Thu, 30 Dec 2021 09:46:40 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1640875598;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=kMrKXo7xkCpLD4GNZ+ajbcGDV/Mzs/7dS6YnmXW9hF8=;
+ b=CfVQFr9humH1qcSKLEZoka9e64WLGzf4wxpoDO30nMY3XWMF6FA1rW6f+nrnhxpwp8GyS0
+ qC/v7TQ8kHfhWr6i2d3vgkvU9XWJ7iRxY9pgqmt9jJmLHrGMe8MuDOoFROJtVfqHvO60hg
+ 5qSeT1a80XWfiUZZus8Il9oz54MhzJs=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-646-fyAartHHO3uQIb6XZky4eg-1; Thu, 30 Dec 2021 09:46:32 -0500
+X-MC-Unique: fyAartHHO3uQIb6XZky4eg-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ g6-20020adfbc86000000b001a2d62be244so5002024wrh.23
+ for <qemu-devel@nongnu.org>; Thu, 30 Dec 2021 06:46:32 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=kMrKXo7xkCpLD4GNZ+ajbcGDV/Mzs/7dS6YnmXW9hF8=;
+ b=V3SNRWpZFWwYZRqVzmaZmFl1PBOPiL8QJPsPmTpSHxBmu4dZEDPVYaPaC8FE9Drf24
+ 02clZLfh/ERDNezjd32k6hB+DLEIhBwuqoqvZ6DNGirN4VgGljNnG5Jrg1sftKWRIB8r
+ N4tUV5Ou+IrMOimxMJ8Imzxp/1Lbw7NRjkSpkFvXevn0cPheJuXUkXxzdz/dOXRjcOjC
+ /RXWfUft/RoKevYkag5pctupYmAmglrds56OCpEMl5bvydN8rSUIh0R1aDG6yACitveq
+ LyI7L5AMjTUt3vvYPZi7hnOz12wxdbrnVjsn6vtgm9lMZtmuDwEi9tNXo0LKVi2nDVth
+ l+Bg==
+X-Gm-Message-State: AOAM530jz2cvUss7MybZqdt02Q3DQZweQKXcHMK8TwJ/dphqLplK7UY3
+ dwddp7rteTwCPXpLgEuMkOKZsAFPP5F8Ec7IrQONaCvUghTUI5nzG1HvtpeZEPAfd4g98HS6jCb
+ MA0kmBrATxcNAirE=
+X-Received: by 2002:a05:600c:154f:: with SMTP id
+ f15mr26727586wmg.62.1640875591412; 
+ Thu, 30 Dec 2021 06:46:31 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzTh0Cqw1A4+rQmVnp8vblZpwCTEv8fj5GTKJAbENF9W2OZ2aAjlQNLNoHEIKpsl6ZeQ4IV7A==
+X-Received: by 2002:a05:600c:154f:: with SMTP id
+ f15mr26727565wmg.62.1640875591135; 
+ Thu, 30 Dec 2021 06:46:31 -0800 (PST)
+Received: from [192.168.50.34] (static-180-27-86-188.ipcom.comunitel.net.
+ [188.86.27.180])
+ by smtp.gmail.com with ESMTPSA id bd19sm26348672wmb.23.2021.12.30.06.46.30
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 30 Dec 2021 06:46:30 -0800 (PST)
+Message-ID: <faa025d1-0c8f-b0ed-74d6-575c008edd84@redhat.com>
+Date: Thu, 30 Dec 2021 15:46:29 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH v3 3/7] crypto include/crypto target/arm: move sm4_sbox to
+ crypto
+To: liweiwei <liweiwei@iscas.ac.cn>, richard.henderson@linaro.org,
+ palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
+ qemu-riscv@nongnu.org, qemu-devel@nongnu.org
 References: <20211230143058.7352-1-liweiwei@iscas.ac.cn>
-X-CM-TRANSID: rQCowADHzFjJws1h4_TqBA--.24839S9
-X-Coremail-Antispam: 1UD129KBjvJXoW7ZFWUJryrJF1rJFWrXFW7twb_yoW8WrW8pr
- 15XFW7KwnxJry3Aay5tw1DJ3yrCa1fC3sFg3yxZ3Z7Ar4fKr47WF1DJanYkr47Xr4rZF4f
- uF13ur1F939Yya7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUPY14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_JF0E3s1l82xGYI
- kIc2x26xkF7I0E14v26ryj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2
- z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_Gr
- 1UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s0D
- M2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjx
- v20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1l
- F7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E8cxan2
- IY04v7MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAF
- wI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc4
- 0Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1I6r4UMIIF0xvE2Ix0cI8IcVCY1x0267AK
- xVWxJVW8Jr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r
- 4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUQSdkU
- UUUU=
-X-Originating-IP: [180.156.147.178]
-X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
-Received-SPF: pass client-ip=159.226.251.23; envelope-from=liweiwei@iscas.ac.cn;
- helo=cstnet.cn
-X-Spam_score_int: -22
-X-Spam_score: -2.3
-X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_BL=0.001, RCVD_IN_MSPIKE_L4=0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ <20211230143058.7352-4-liweiwei@iscas.ac.cn>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+In-Reply-To: <20211230143058.7352-4-liweiwei@iscas.ac.cn>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -44
+X-Spam_score: -4.5
+X-Spam_bar: ----
+X-Spam_report: (-4.5 / 5.0 requ) DKIMWL_WL_HIGH=-0.573, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.024,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -69,42 +104,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: wangjunqiang@iscas.ac.cn, liweiwei <liweiwei@iscas.ac.cn>,
- lazyparser@gmail.com, luruibo2000@163.com, lustrew@foxmail.com
+Cc: wangjunqiang@iscas.ac.cn, lazyparser@gmail.com, lustrew@foxmail.com,
+ luruibo2000@163.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: liweiwei <liweiwei@iscas.ac.cn>
-Signed-off-by: wangjunqiang <wangjunqiang@iscas.ac.cn>
----
- target/riscv/cpu.c | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+Hi,
 
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 961c5f4334..6575ec8cfa 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -668,6 +668,19 @@ static Property riscv_cpu_properties[] = {
-     DEFINE_PROP_BOOL("zbb", RISCVCPU, cfg.ext_zbb, true),
-     DEFINE_PROP_BOOL("zbc", RISCVCPU, cfg.ext_zbc, true),
-     DEFINE_PROP_BOOL("zbs", RISCVCPU, cfg.ext_zbs, true),
-+    DEFINE_PROP_BOOL("x-zbkb", RISCVCPU, cfg.ext_zbkb, false),
-+    DEFINE_PROP_BOOL("x-zbkc", RISCVCPU, cfg.ext_zbkc, false),
-+    DEFINE_PROP_BOOL("x-zbkx", RISCVCPU, cfg.ext_zbkx, false),
-+    DEFINE_PROP_BOOL("x-zk", RISCVCPU, cfg.ext_zk, false),
-+    DEFINE_PROP_BOOL("x-zkn", RISCVCPU, cfg.ext_zkn, false),
-+    DEFINE_PROP_BOOL("x-zknd", RISCVCPU, cfg.ext_zknd, false),
-+    DEFINE_PROP_BOOL("x-zkne", RISCVCPU, cfg.ext_zkne, false),
-+    DEFINE_PROP_BOOL("x-zknh", RISCVCPU, cfg.ext_zknh, false),
-+    DEFINE_PROP_BOOL("x-zkr", RISCVCPU, cfg.ext_zkr, false),
-+    DEFINE_PROP_BOOL("x-zks", RISCVCPU, cfg.ext_zks, false),
-+    DEFINE_PROP_BOOL("x-zksed", RISCVCPU, cfg.ext_zksed, false),
-+    DEFINE_PROP_BOOL("x-zksh", RISCVCPU, cfg.ext_zksh, false),
-+    DEFINE_PROP_BOOL("x-zkt", RISCVCPU, cfg.ext_zkt, false),
-     DEFINE_PROP_BOOL("x-h", RISCVCPU, cfg.ext_h, false),
-     DEFINE_PROP_BOOL("x-j", RISCVCPU, cfg.ext_j, false),
-     /* ePMP 0.9.3 */
--- 
-2.17.1
+On 12/30/21 15:30, liweiwei wrote:
+>    - share it between target/arm and target/riscv
+
+"Share sm4_sbox between ARM and RISCV targets."?
+
+> 
+> Signed-off-by: liweiwei <liweiwei@iscas.ac.cn>
+> Signed-off-by: wangjunqiang <wangjunqiang@iscas.ac.cn>
+> ---
+>  crypto/meson.build         |  1 +
+>  crypto/sm4.c               | 48 ++++++++++++++++++++++++++++++++++++++
+>  include/crypto/sm4.h       |  6 +++++
+>  meson                      |  2 +-
+>  target/arm/crypto_helper.c | 36 +---------------------------
+>  5 files changed, 57 insertions(+), 36 deletions(-)
+
+> diff --git a/crypto/sm4.c b/crypto/sm4.c
+> new file mode 100644
+> index 0000000000..1cdcb8a620
+> --- /dev/null
+> +++ b/crypto/sm4.c
+
+> +uint8_t const sm4_sbox[] = {
+
+Please explicit the [256] array size.
+
+> diff --git a/meson b/meson
+> index 12f9f04ba0..b25d94e7c7 160000
+> --- a/meson
+> +++ b/meson
+> @@ -1 +1 @@
+> -Subproject commit 12f9f04ba0decfda425dbbf9a501084c153a2d18
+> +Subproject commit b25d94e7c77fda05a7fdfe8afe562cf9760d69da
+
+Unrelated change...
+
+Otherwise (without the submodule change):
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+
+Thanks,
+
+Phil.
 
 
