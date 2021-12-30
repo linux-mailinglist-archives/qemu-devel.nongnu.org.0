@@ -2,74 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00805481DDB
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Dec 2021 16:53:17 +0100 (CET)
-Received: from localhost ([::1]:34316 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFC60481DDD
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Dec 2021 16:54:50 +0100 (CET)
+Received: from localhost ([::1]:37012 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n2xjv-000577-Jp
-	for lists+qemu-devel@lfdr.de; Thu, 30 Dec 2021 10:53:15 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41966)
+	id 1n2xlR-0006vw-P3
+	for lists+qemu-devel@lfdr.de; Thu, 30 Dec 2021 10:54:49 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42264)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1n2xig-0004Rl-Kh
- for qemu-devel@nongnu.org; Thu, 30 Dec 2021 10:51:58 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47974)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1n2xk6-0005tC-87
+ for qemu-devel@nongnu.org; Thu, 30 Dec 2021 10:53:26 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:56487)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1n2xid-0001uO-QQ
- for qemu-devel@nongnu.org; Thu, 30 Dec 2021 10:51:57 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1n2xk3-0002Vb-MY
+ for qemu-devel@nongnu.org; Thu, 30 Dec 2021 10:53:24 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1640879514;
+ s=mimecast20190719; t=1640879602;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=yFX4VKWtGmT5PqMOb8nJtrxxNKDSTkB0+0PgeoBgomI=;
- b=RDkcTV+bpCWKH95aoj/U00PCrqPWWXrxMrwxsNZNDYR/1XH2Cg4sB58jBEutag31yfxnSa
- 1mWomC1+ojtznq9lYRJygFJ3qkA3y/ujBcmJHdp+5fzUxGyknzSHf5NMYHINNHuVIInR3U
- A04l9tTMLmDoEnYE9gqsJZKGu09G+DQ=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=o+xQzUDGzb0MolPND4VvhcVJx75/srsMeDe7eFZTqdI=;
+ b=B6n0CWdvRK7Qxq4RFlaHu/BNEN4Uogxf0YJZem6kVd0KVhtPeeISIxNEuG6Tr0UjZv67fx
+ unq62I8JXZrSG7owcR+0RImgsjOUZhj/k5OkrlYwqqvTi2mSJUjVMcZt63Hp5E/JD4xXBZ
+ ID8oz7eliFTvm4sZFprmKV0a/rHkJAc=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-650-ulVelWa7OVmgEAWhSeG6Xw-1; Thu, 30 Dec 2021 10:51:53 -0500
-X-MC-Unique: ulVelWa7OVmgEAWhSeG6Xw-1
-Received: by mail-wr1-f71.google.com with SMTP id
- r9-20020adfb1c9000000b001a2981d9356so6360558wra.20
- for <qemu-devel@nongnu.org>; Thu, 30 Dec 2021 07:51:53 -0800 (PST)
+ us-mta-131-bAmXX8wiNNeYbEkvm2eiBg-1; Thu, 30 Dec 2021 10:53:21 -0500
+X-MC-Unique: bAmXX8wiNNeYbEkvm2eiBg-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ s30-20020adfa29e000000b001a25caee635so6345658wra.19
+ for <qemu-devel@nongnu.org>; Thu, 30 Dec 2021 07:53:21 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=yFX4VKWtGmT5PqMOb8nJtrxxNKDSTkB0+0PgeoBgomI=;
- b=Ec/L840NsmKwJeI1zde0DOW4pkebAIaAKgDKc2ipt7ued02yGIUM3tNK0BnC5CAlF8
- vkwZatWRxv/nqDiSC+nOW4+I0calSV9v8e17MLl6aP029kD+uGLIJV4fpYDbzJZIsQZY
- 4CphMmHlhztBPNaxxepiX+hvQwn/qEO98bh0tKL5tLhavXj1om2VTAaSN/sdhNUfxr11
- vXp6RiyVYjpLLc5a5nunsXAu7CrjcEZkmMYdnM3P2zj6ZEVgMOJHIVvZwdxhy/d6KuCo
- cFk1s51nlCZQAUS69sNmwN2Tm9J4XZpLFpNeM9aEdqI0Q8RH7nCTH2V/hM13VIfkhCTR
- xrgg==
-X-Gm-Message-State: AOAM531ctACBOrCENnOujUtEPgpFPFGPEz0aY3bwHi9E+1A/zZy2G+Is
- TvUQmYtxosQAZxckQdNytYFE9kuovjMU8MEibZyc60KN5p80e/MsyQmJGq/lu2vDq4yuJGspclQ
- 7P6MwTnprZSoBDwiFAJ8XwGI4JJrM3xp4C8cvvt3Z0L2WA47tXgZr+pwXv2Yj71PB
-X-Received: by 2002:adf:e88a:: with SMTP id d10mr25493607wrm.114.1640879512211; 
- Thu, 30 Dec 2021 07:51:52 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxyHmdI8FjX8tsL5EaUhlDBrAB3wZZysJAvs4QfJZbI1zBLR/5gMbVbuGK3oP/kNDpQnQxHqQ==
-X-Received: by 2002:adf:e88a:: with SMTP id d10mr25493587wrm.114.1640879511985; 
- Thu, 30 Dec 2021 07:51:51 -0800 (PST)
+ bh=o+xQzUDGzb0MolPND4VvhcVJx75/srsMeDe7eFZTqdI=;
+ b=oiKgwpwKmr0NLdiYeMRByEB//kBegQ6EsrGnwBRrI13/xvhBFHcxgi9HyXS1npdFtw
+ Q587Brhpr4Lnz7JiQD3NjhJQQx2DZOheLeWVyxs/jSVN9Q50oSSWypx/sZJq3VIJAmqn
+ 3QgbAIc6xNgXzIs91mf/pMr7/c9SmOJx+3+kC+CZ78ziJ3b7LB3tpOASpVcaXaK17lVF
+ MULrSMuIam82IENKDbd1Wd8LjhHIvxn2HXLydS7FrVdkc0QqyeYvNLnu9OpNcsljjTYq
+ ivq0sidYVELvOzaUOIHlpAJ8j60NfPRr8L7uqb+ZA9QmGf3gJHPbze5gWKu6FTzihwX+
+ AJLQ==
+X-Gm-Message-State: AOAM530FwWni8UvDX0qju8SogLQPycoEU2Dg5pF4njsuLiQtB+6TUMZC
+ yPKxj4ERX+q1IxalhGkkNXko+gk9x34rsu7lbsKk7ebvyMb7OGZJ3BunNZwkpojEXHv2QuV6/S2
+ M4TVk1mNgg75Rs4I=
+X-Received: by 2002:a05:600c:4f8d:: with SMTP id
+ n13mr26172892wmq.43.1640879600581; 
+ Thu, 30 Dec 2021 07:53:20 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyOraSTEZvH1/KhH74sTewN+vXLXruBUQMsu+Td0x0icmanS6TCEUo3iRTI29pExgDnnUoNcQ==
+X-Received: by 2002:a05:600c:4f8d:: with SMTP id
+ n13mr26172882wmq.43.1640879600422; 
+ Thu, 30 Dec 2021 07:53:20 -0800 (PST)
 Received: from [192.168.1.36] (26.red-83-50-86.dynamicip.rima-tde.net.
  [83.50.86.26])
- by smtp.gmail.com with ESMTPSA id f8sm25885720wry.16.2021.12.30.07.51.50
+ by smtp.gmail.com with ESMTPSA id d22sm24331944wmq.17.2021.12.30.07.53.19
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 30 Dec 2021 07:51:51 -0800 (PST)
-Message-ID: <4cffe6bc-532f-9673-d126-ec2622f03623@redhat.com>
-Date: Thu, 30 Dec 2021 16:51:50 +0100
+ Thu, 30 Dec 2021 07:53:19 -0800 (PST)
+Message-ID: <fe54ebdc-ba45-7e69-0869-b8de62f71a2b@redhat.com>
+Date: Thu, 30 Dec 2021 16:53:19 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.4.0
-Subject: Re: [PATCH] gitlab-ci: Always upload artifacts by default
-To: qemu-devel@nongnu.org
-References: <20211229233355.217174-1-philmd@redhat.com>
+Subject: Re: [PATCH v3 2/8] migration: Don't return for
+ postcopy_chunk_hostpages()
+To: Peter Xu <peterx@redhat.com>, qemu-devel@nongnu.org
+References: <20211224065000.97572-1-peterx@redhat.com>
+ <20211224065000.97572-3-peterx@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <20211229233355.217174-1-philmd@redhat.com>
+In-Reply-To: <20211224065000.97572-3-peterx@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -77,7 +81,7 @@ X-Mimecast-Originator: redhat.com
 Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -44
 X-Spam_score: -4.5
@@ -98,41 +102,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Beraldo Leal <bleal@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>
+Cc: David Edmondson <david.edmondson@oracle.com>,
+ Juan Quintela <quintela@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Leonardo Bras Soares Passos <lsoaresp@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/30/21 00:33, Philippe Mathieu-Daudé wrote:
-> GitLab defaults [1] to upload artifacts only when the job succeeds,
-> which is not helpful to troubleshoot failing tests. Switch to
-> always upload artifacts by default for QEMU jobs, by setting the
-> 'artifacts:when' keyword in the global default section [2].
+On 12/24/21 07:49, Peter Xu wrote:
+> It always return zero, because it just can't go wrong so far.  Simplify the
+> code with no functional change.
 > 
-> [1] https://docs.gitlab.com/ee/ci/yaml/index.html#artifactswhen
-> [2] https://docs.gitlab.com/ee/ci/yaml/index.html#default
-> 
-> Reported-by: Richard Henderson <richard.henderson@linaro.org>
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> Signed-off-by: Peter Xu <peterx@redhat.com>
 > ---
->  .gitlab-ci.d/qemu-project.yml | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/.gitlab-ci.d/qemu-project.yml b/.gitlab-ci.d/qemu-project.yml
-> index 871262fe0e8..24137c14dc4 100644
-> --- a/.gitlab-ci.d/qemu-project.yml
-> +++ b/.gitlab-ci.d/qemu-project.yml
-> @@ -1,6 +1,10 @@
->  # This file contains the set of jobs run by the QEMU project:
->  # https://gitlab.com/qemu-project/qemu/-/pipelines
->  
-> +default:
-> +  artifacts:
-> +    when: always
+>  migration/ram.c | 11 ++---------
+>  1 file changed, 2 insertions(+), 9 deletions(-)
 
-Hmm this doesn't work as expected... Please disregard this patch.
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
 
