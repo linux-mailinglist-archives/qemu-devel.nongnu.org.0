@@ -2,93 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B8144820E4
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Dec 2021 00:46:25 +0100 (CET)
-Received: from localhost ([::1]:52528 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDC9A4820E7
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Dec 2021 00:56:13 +0100 (CET)
+Received: from localhost ([::1]:55428 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n357n-0006d3-KU
-	for lists+qemu-devel@lfdr.de; Thu, 30 Dec 2021 18:46:23 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57844)
+	id 1n35HI-0000dr-GG
+	for lists+qemu-devel@lfdr.de; Thu, 30 Dec 2021 18:56:12 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59228)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1n355s-0005ob-5H
- for qemu-devel@nongnu.org; Thu, 30 Dec 2021 18:44:24 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46487)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1n355p-0005v9-3U
- for qemu-devel@nongnu.org; Thu, 30 Dec 2021 18:44:22 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1640907859;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=WuQrebXlWYvPYnP3xtEE5R+lHpPs6twXsULRdhshnz4=;
- b=HeCEtdmYh+5FG+7WtdHtVvPInbJkS7niIok1AQMt7h5ID5pcJbBK0JY4094/fAm7bzbA8s
- 2k6LjNjh2vl0pQeX2f9ZIsmdmJL5gGPRx2aIYg6LXNHOJVk9Ogihb3VVFixaU3PtIGWBkD
- TD25Yy0Bjiv/jA6boKMJWhEfLwEgJbM=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-132--cJj0_N4OBiieHQteASPgg-1; Thu, 30 Dec 2021 18:44:18 -0500
-X-MC-Unique: -cJj0_N4OBiieHQteASPgg-1
-Received: by mail-ed1-f70.google.com with SMTP id
- b8-20020a056402350800b003f8f42a883dso10733696edd.16
- for <qemu-devel@nongnu.org>; Thu, 30 Dec 2021 15:44:18 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1n35Fd-0008O0-GV
+ for qemu-devel@nongnu.org; Thu, 30 Dec 2021 18:54:29 -0500
+Received: from [2607:f8b0:4864:20::102f] (port=44549
+ helo=mail-pj1-x102f.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1n35Fc-00079f-0I
+ for qemu-devel@nongnu.org; Thu, 30 Dec 2021 18:54:29 -0500
+Received: by mail-pj1-x102f.google.com with SMTP id
+ n30-20020a17090a5aa100b001b2b6509685so7059415pji.3
+ for <qemu-devel@nongnu.org>; Thu, 30 Dec 2021 15:54:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ce4EdEvJ54s5dx2BGommxFo4mh0NFq12faqUaOkjkjI=;
+ b=CjdDUc46QN6KgW53A6Tml8tIFPrg68RvGuAgCzZu5rwvLzkKouZVXXn+3LQaLQvBNb
+ FZVqZ8KRv8Lcsid1qD08pDWBaEwYkQJXgPHgMmjfU4E0Ov1mFfgHBXpSUQtqomCnXgSB
+ bA0g+pZjFZsWnr/ZXCDQ49clpxHMzTprFda6zp6N7PqkPfqqqkj2lgh6YQA2onGBHppB
+ CajPAt1pm9djUzsYhljUQc6oF9Kp9ivHT4UggA7uRvjB9sorGP/HI6fP8IxLmWwHwWu6
+ LxL5vt57zna894xrotv7tBHl5YrSspvfSzQxoVgRwHY9nSl4zq2ysWD1ijKgKEnihGCe
+ YMqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=WuQrebXlWYvPYnP3xtEE5R+lHpPs6twXsULRdhshnz4=;
- b=Rfsknx/d2/HwayTtHAn5AyxqiXODHMBiWcnnJRsiTQBUxWLoMuWciUBS+gjuH1QVMQ
- dBVBWaTy/QX+mk6Gu6E08lqDVCdfayQGiuZlMlujY4mhdJ9JSixN30XJejg2ypFzT1I+
- bmbQzDMP+QiVa/0tusbjWN0H1apKGjpd3txcFkU+ZHtCvMbK1TeZF81PsbqeJZbtXoRf
- 2MN6oPdyXKvkLj4V5b2HPE1zAN6DFhiXCAd97H2xhdY4lvpFYSd21sxWYMXlA2Y2hy6H
- ZVvVpH/+66J8KGt61a/TSWUxfndczISBdNK1rXCZphwFw23lWmFmJqpKzeRWdLaI5xSu
- h1Qg==
-X-Gm-Message-State: AOAM532kIMoNLykVLjnpw3NXokTA9jrRlpCLFQ1LJlXpQDTuT7IT1LPd
- NMR/rKtXYKGFrsBo8jLgzrXsz9h9YzsuEIkAofYi1iHE8q58NMCt/vrQ4pTxU2/KXE2LXyE/BGT
- b+tDnp2mPWL8uTAM=
-X-Received: by 2002:a17:906:eb04:: with SMTP id
- mb4mr26031021ejb.27.1640907857511; 
- Thu, 30 Dec 2021 15:44:17 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwdrommw9ud+rlhWsLKIJ+l63GhFOhfErrfOJQ53M7ht/6uq8IrV85jat9d8Z0IsufZ855VNQ==
-X-Received: by 2002:a17:906:eb04:: with SMTP id
- mb4mr26030989ejb.27.1640907857199; 
- Thu, 30 Dec 2021 15:44:17 -0800 (PST)
-Received: from [192.168.1.36] (26.red-83-50-86.dynamicip.rima-tde.net.
- [83.50.86.26])
- by smtp.gmail.com with ESMTPSA id hb17sm7928654ejc.195.2021.12.30.15.44.15
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 30 Dec 2021 15:44:16 -0800 (PST)
-Message-ID: <20f8a371-53ae-ec92-1d44-f8fa530934e2@redhat.com>
-Date: Fri, 31 Dec 2021 00:44:14 +0100
+ bh=ce4EdEvJ54s5dx2BGommxFo4mh0NFq12faqUaOkjkjI=;
+ b=2cUbvMdCy67xplP7e+G5ShLa7QHp91h7BHtspV8oubOsf1VYAK4vhidTjI5ufcqHAb
+ 4UtYCUhOI0nC2vID+3Y6LMXe6s3ZS0xwUVPBlM6WfhUmfwi/5k8FIUrvp46v+kOkKISF
+ jGs3K7yeajbyVlMsxXjsm8mVkr3cAEsaTAgJVIM4IZhz43hbhKu+r0MSvDz4xNfBDIw4
+ 7ETCR0og/WcKueibJ8qTVA+/n0Z1d54QKWFRYL1zlohGncBdwtW7Z2bxhlLiQOehu3gU
+ wFzqYeqau1pE8ZzRQLcPxNiQaqtPnJKT82mZDeGQmY3V+F8m2NAm8DZzpWHYzqq+yy+R
+ 2l5Q==
+X-Gm-Message-State: AOAM530FGREbOqLk+Gq8HKCSCXmyl8VnIZbSU06cHNlnHC6yeJIpzOzt
+ 2pqtji5cyKzexMgpTezEoD61qZwT+XyHtg==
+X-Google-Smtp-Source: ABdhPJwsW3bMtdyHF2Ax+A6dnwppvMbc+k2vh6O+TpTFRhL2b4qjD2m0x5ptbpwLfH1OcSj5FyFrYQ==
+X-Received: by 2002:a17:902:b189:b0:143:8079:3d3b with SMTP id
+ s9-20020a170902b18900b0014380793d3bmr33508867plr.71.1640908466250; 
+ Thu, 30 Dec 2021 15:54:26 -0800 (PST)
+Received: from stoup.hsd1.or.comcast.net
+ ([2601:1c0:6101:be80:23dc:65c4:ecfd:93ff])
+ by smtp.gmail.com with ESMTPSA id u71sm23421858pgd.68.2021.12.30.15.54.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 30 Dec 2021 15:54:25 -0800 (PST)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] tests/tcg: Unconditionally use 90 second timeout
+Date: Thu, 30 Dec 2021 15:54:24 -0800
+Message-Id: <20211230235424.49155-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH] MAINTAINERS: Change philmd's email address
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20211230145822.441358-1-philmd@redhat.com>
- <a626e131-fc12-c787-e21f-84fbe6be0898@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <a626e131-fc12-c787-e21f-84fbe6be0898@linaro.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -44
-X-Spam_score: -4.5
-X-Spam_bar: ----
-X-Spam_report: (-4.5 / 5.0 requ) DKIMWL_WL_HIGH=-0.573, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.024,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102f
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
+X-Spam_score_int: 6
+X-Spam_score: 0.6
+X-Spam_bar: /
+X-Spam_report: (0.6 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,26 +86,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>, Fam Zheng <fam@euphon.net>,
- Thomas Huth <thuth@redhat.com>, "Daniel P . Berrange" <berrange@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, qemu-block@nongnu.org,
- Kashyap Chamarthy <kchamart@redhat.com>, David Hildenbrand <david@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Peter Xu <peterx@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>
+Cc: pbonzini@redhat.com, alex.bennee@linaro.org, f4bug@amsat.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/30/21 23:00, Richard Henderson wrote:
-> On 12/30/21 6:58 AM, Philippe Mathieu-Daudé wrote:
->> +Philippe Mathieu-Daudé<philmd@redhat.com>  <f4bug@amsat.org>
-> 
-> Actually, it looks like the mailmap is backward.
+The cross-i386-tci test has timeouts because we're no longer
+actually applying the timeout that we desired.  Hack around it.
 
-Doh of course >_<
+Fixes: 23a77b2d18b8 ("build-system: clean up TCG/TCI configury")
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ tests/tcg/Makefile.target | 12 +++++-------
+ 1 file changed, 5 insertions(+), 7 deletions(-)
+---
 
-Thanks for catching it.
+This fixes the persistant timeouts that we've been seeing in
+gitlab for the cross-i386-tci target.
+
+---
+
+diff --git a/tests/tcg/Makefile.target b/tests/tcg/Makefile.target
+index 63cf1b2573..0f8645f782 100644
+--- a/tests/tcg/Makefile.target
++++ b/tests/tcg/Makefile.target
+@@ -82,13 +82,12 @@ QEMU_OPTS=
+ 
+ 
+ # If TCG debugging, or TCI is enabled things are a lot slower
+-ifneq ($(CONFIG_TCG_INTERPRETER),)
++# ??? Makefile no longer has any indication that TCI is enabled,
++# but for the record:
++#   15s    original default
++#   60s    with --enable-debug
++#   90s    with --enable-tcg-interpreter
+ TIMEOUT=90
+-else ifneq ($(CONFIG_DEBUG_TCG),)
+-TIMEOUT=60
+-else
+-TIMEOUT=15
+-endif
+ 
+ ifdef CONFIG_USER_ONLY
+ # The order we include is important. We include multiarch first and
+@@ -144,7 +143,6 @@ PLUGINS=$(patsubst %.c, lib%.so, $(notdir $(wildcard $(PLUGIN_SRC)/*.c)))
+ $(foreach p,$(PLUGINS), \
+ 	$(foreach t,$(TESTS),\
+ 		$(eval run-plugin-$(t)-with-$(p): $t $p) \
+-		$(eval run-plugin-$(t)-with-$(p): TIMEOUT=60) \
+ 		$(eval RUN_TESTS+=run-plugin-$(t)-with-$(p))))
+ endif
+ 
+-- 
+2.25.1
 
 
