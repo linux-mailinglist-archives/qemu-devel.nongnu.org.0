@@ -2,76 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 999CB481C53
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Dec 2021 14:03:15 +0100 (CET)
-Received: from localhost ([::1]:49226 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50B68481C5B
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Dec 2021 14:07:53 +0100 (CET)
+Received: from localhost ([::1]:57264 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n2v5O-0001Sb-Mh
-	for lists+qemu-devel@lfdr.de; Thu, 30 Dec 2021 08:03:14 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54520)
+	id 1n2v9s-0007N3-EZ
+	for lists+qemu-devel@lfdr.de; Thu, 30 Dec 2021 08:07:52 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54548)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
- id 1n2ug9-0004gV-E6
- for qemu-devel@nongnu.org; Thu, 30 Dec 2021 07:37:09 -0500
-Received: from [2607:f8b0:4864:20::102f] (port=52813
- helo=mail-pj1-x102f.google.com)
+ id 1n2ugC-0004uK-Qs
+ for qemu-devel@nongnu.org; Thu, 30 Dec 2021 07:37:12 -0500
+Received: from [2607:f8b0:4864:20::534] (port=33464
+ helo=mail-pg1-x534.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
- id 1n2ug7-0003WA-RX
- for qemu-devel@nongnu.org; Thu, 30 Dec 2021 07:37:09 -0500
-Received: by mail-pj1-x102f.google.com with SMTP id co15so21131444pjb.2
- for <qemu-devel@nongnu.org>; Thu, 30 Dec 2021 04:37:07 -0800 (PST)
+ id 1n2ugB-0003Wg-AK
+ for qemu-devel@nongnu.org; Thu, 30 Dec 2021 07:37:12 -0500
+Received: by mail-pg1-x534.google.com with SMTP id 7so8677860pgn.0
+ for <qemu-devel@nongnu.org>; Thu, 30 Dec 2021 04:37:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=brainfault-org.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=oPClrl+E022R8f538AAyF53sS8xiciJmEKN7UogGtIA=;
- b=q02hmWLgBhGRN/t3eZRjb56LHe8A1PtbQ8j3wfSpeE1xrL5ljl6lJcvBWEVEbWhdSM
- Ql8Bt1qCeoI21OZ1OARSWBHck2SBN2RIHNGURixAUxg76sQ84ELrIQgIt/gMPrtJ14gz
- LpZGjQvPMkgTalI2E6kb5690Ydz6TDMKAnPisSKj5XohP2NZbbbe03kFEhDCjEB9BKsg
- WNl8MG+POrBextIKKF1HWQiaWHJ28hNI3+UbC3GWrjERmPqkBi91ncrNLGpS+sYK3XWC
- F92hgh3YiDgwG2JjOtWg1uvheessXxGW79fuYsKt8vYRMJt4i9MIhiuPM13vW53UqOTp
- TcJg==
+ bh=ba+tzdtFHkcsjjcU0If6YzKpfeahDC/ZvvxeQqTk1fU=;
+ b=OXtMeouxigNm1ThXSWWtgDgKPSCOjChpBvq0QyvZEDuoxkMKtrBQAG7Hvo4XAC4uLZ
+ EUHgorH/8I+0a+TyMd+JgAJWro73V1JJfgkhViNFlIp9Yr4FeOzwBDr8jj9AD9pEMhMd
+ mxqYwBFvHLOMLrcI2eIu+fTZR88AzU39C5GlvweVuBXQJlGOlPLvOydqgfcbzbPglEbn
+ SzF5EGIirtidGmRevuWmFfb/cc1c9L3pdPRisw9gbOynaTENbucCH/QDSm4KBcLvFe1d
+ 3J3aPOQk+34K4H7ymAHrsNM/NaLwbMc8ayCcWFSQeKvPYyRTjujvyIdzW7dwqXKlAXrV
+ qUSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=oPClrl+E022R8f538AAyF53sS8xiciJmEKN7UogGtIA=;
- b=sVEhLsve1E7/yMv54FsnfjUTrnkKmG1swBkcG1s1/OM6TKvUxzXkC5Ta71xfUUnceo
- xBNwXaQt0RDFFArMFL8VueI7r99pDg732iWYl1iOJ4gaXr64sUhGtatiJS29QtQ9GN9k
- LuiMZ95jJr6ADXmWTTlQ004UmtI658HS2MGhDpcfQzTp1RU4IP/m5pC1NuKiEKJUcOH+
- NsSjVTdDoTebJr3NWgU1d8oI5x5d7djStQaG1udoqA+sT137+LYSjl0wIfyL3x0FKO+K
- StZPV+pcHCWetnjOFzszPVttaqJp/3tbRK7AoJHhyaxuAebq7GH+rE4BHrLjGHYtPO+m
- mstw==
-X-Gm-Message-State: AOAM533VoNEu6Z264ixYdOfeyXX8sLz3mnxx1r/ArDFklPl3ynvKBTLQ
- /314IKZp4LYBRLBnQgmUQsFtMw==
-X-Google-Smtp-Source: ABdhPJw4Ik5zUgVhq3BYRAGbAQERkq+DiDnnlnBPtxewcWWFFIVQCDmT3cxmNnTi0oIC1uPy6VD+wA==
-X-Received: by 2002:a17:90b:4b90:: with SMTP id
- lr16mr38053403pjb.209.1640867826548; 
- Thu, 30 Dec 2021 04:37:06 -0800 (PST)
+ bh=ba+tzdtFHkcsjjcU0If6YzKpfeahDC/ZvvxeQqTk1fU=;
+ b=JIHFv8Oe0+aXSiC11YSdq7mZMYZAqzeMDqgATQBbMJHADWfnSg9m9yDdbf3SLxKaxx
+ aKfZTZ8zLH/s0xvrUIl0DAmZLCsqIqbC8x4QFediaJnmIS0FtCHB0yqMrBuYhwXhf4mb
+ 7ROKlJKCjHXxYXefodjWR+92RIXw2hadA9P2SDrRKqZdqlpYTMZjfmbWL4RKGUUYVcO9
+ B9CxqJjQ1XoEQXY2OkDghxB0cSll/syRAWkHRnI6+zQ/QVVdgX1OnASHKxgiWx4K82Sl
+ XF20+/Tc/nDL7WpUxvm0oV/6q34qJk+YPXYrUX9xpuEHNLaWCoReG8QrEkT+dOuLLJ8r
+ 7arg==
+X-Gm-Message-State: AOAM531cbU7lNuNVmMtpSLw3puGFXTjUmdGwS6eZ27i5Js/5TG/7hJSf
+ 4idNuAdz4QEv/dx8wFeH9Ynt+A==
+X-Google-Smtp-Source: ABdhPJzRs5T5PfWaGR+h9fMG34gOOXKE9jH+/0HPBLtEYtwOrmNt67rle1vAJuVYquwqy62gyNJ/kw==
+X-Received: by 2002:a63:354c:: with SMTP id c73mr27248603pga.532.1640867830026; 
+ Thu, 30 Dec 2021 04:37:10 -0800 (PST)
 Received: from localhost.localdomain ([171.61.71.9])
- by smtp.gmail.com with ESMTPSA id a3sm28588348pfv.47.2021.12.30.04.37.02
+ by smtp.gmail.com with ESMTPSA id a3sm28588348pfv.47.2021.12.30.04.37.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 Dec 2021 04:37:05 -0800 (PST)
+ Thu, 30 Dec 2021 04:37:09 -0800 (PST)
 From: Anup Patel <anup@brainfault.org>
 To: Peter Maydell <peter.maydell@linaro.org>,
  Palmer Dabbelt <palmer@dabbelt.com>,
  Alistair Francis <Alistair.Francis@wdc.com>,
  Sagar Karandikar <sagark@eecs.berkeley.edu>
-Subject: [PATCH v6 22/23] docs/system: riscv: Document AIA options for virt
- machine
-Date: Thu, 30 Dec 2021 18:05:38 +0530
-Message-Id: <20211230123539.52786-23-anup@brainfault.org>
+Subject: [PATCH v6 23/23] hw/riscv: virt: Increase maximum number of allowed
+ CPUs
+Date: Thu, 30 Dec 2021 18:05:39 +0530
+Message-Id: <20211230123539.52786-24-anup@brainfault.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211230123539.52786-1-anup@brainfault.org>
 References: <20211230123539.52786-1-anup@brainfault.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102f
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::534
  (failed)
-Received-SPF: none client-ip=2607:f8b0:4864:20::102f;
- envelope-from=anup@brainfault.org; helo=mail-pj1-x102f.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::534;
+ envelope-from=anup@brainfault.org; helo=mail-pg1-x534.google.com
 X-Spam_score_int: 8
 X-Spam_score: 0.8
 X-Spam_bar: /
@@ -90,51 +89,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-riscv@nongnu.org, Anup Patel <anup@brainfault.org>,
- qemu-devel@nongnu.org, Alistair Francis <alistair.francis@wdc.com>,
- Atish Patra <atishp@atishpatra.org>, Bin Meng <bmeng.cn@gmail.com>
+Cc: Anup Patel <anup@brainfault.org>, Bin Meng <bmeng.cn@gmail.com>,
+ qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
+ Atish Patra <atishp@atishpatra.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Anup Patel <anup.patel@wdc.com>
 
-We have two new machine options "aia" and "aia-guests" available
-for the RISC-V virt machine so let's document these options.
+To facilitate software development of RISC-V systems with large number
+of HARTs, we increase the maximum number of allowed CPUs to 512 (2^9).
+
+We also add a detailed source level comments about limit defines which
+impact the physical address space utilization.
 
 Signed-off-by: Anup Patel <anup.patel@wdc.com>
 Signed-off-by: Anup Patel <anup@brainfault.org>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- docs/system/riscv/virt.rst | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+ hw/riscv/virt.c         | 10 ++++++++++
+ include/hw/riscv/virt.h |  2 +-
+ 2 files changed, 11 insertions(+), 1 deletion(-)
 
-diff --git a/docs/system/riscv/virt.rst b/docs/system/riscv/virt.rst
-index fa016584bf..373645513a 100644
---- a/docs/system/riscv/virt.rst
-+++ b/docs/system/riscv/virt.rst
-@@ -63,6 +63,22 @@ The following machine-specific options are supported:
-   When this option is "on", ACLINT devices will be emulated instead of
-   SiFive CLINT. When not specified, this option is assumed to be "off".
+diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
+index 7579f7b41f..86b03736eb 100644
+--- a/hw/riscv/virt.c
++++ b/hw/riscv/virt.c
+@@ -44,6 +44,16 @@
+ #include "hw/pci-host/gpex.h"
+ #include "hw/display/ramfb.h"
  
-+- aia=[none|aplic|aplic-imsic]
++/*
++ * The virt machine physical address space used by some of the devices
++ * namely ACLINT, PLIC, APLIC, and IMSIC depend on number of Sockets,
++ * number of CPUs, and number of IMSIC guest files.
++ *
++ * Various limits defined by VIRT_SOCKETS_MAX_BITS, VIRT_CPUS_MAX_BITS,
++ * and VIRT_IRQCHIP_MAX_GUESTS_BITS are tuned for maximum utilization
++ * of virt machine physical address space.
++ */
 +
-+  This option allows selecting interrupt controller defined by the AIA
-+  (advanced interrupt architecture) specification. The "aia=aplic" selects
-+  APLIC (advanced platform level interrupt controller) to handle wired
-+  interrupts whereas the "aia=aplic-imsic" selects APLIC and IMSIC (incoming
-+  message signaled interrupt controller) to handle both wired interrupts and
-+  MSIs. When not specified, this option is assumed to be "none" which selects
-+  SiFive PLIC to handle wired interrupts.
-+
-+- aia-guests=nnn
-+
-+  The number of per-HART VS-level AIA IMSIC pages to be emulated for a guest
-+  having AIA IMSIC (i.e. "aia=aplic-imsic" selected). When not specified,
-+  the default number of per-HART VS-level AIA IMSIC pages is 0.
-+
- Running Linux kernel
- --------------------
+ #define VIRT_IMSIC_GROUP_MAX_SIZE      (1U << IMSIC_MMIO_GROUP_MIN_SHIFT)
+ #if VIRT_IMSIC_GROUP_MAX_SIZE < \
+     IMSIC_GROUP_SIZE(VIRT_CPUS_MAX_BITS, VIRT_IRQCHIP_MAX_GUESTS_BITS)
+diff --git a/include/hw/riscv/virt.h b/include/hw/riscv/virt.h
+index e12e8ddcae..62d8e9c6d0 100644
+--- a/include/hw/riscv/virt.h
++++ b/include/hw/riscv/virt.h
+@@ -24,7 +24,7 @@
+ #include "hw/block/flash.h"
+ #include "qom/object.h"
  
+-#define VIRT_CPUS_MAX_BITS             3
++#define VIRT_CPUS_MAX_BITS             9
+ #define VIRT_CPUS_MAX                  (1 << VIRT_CPUS_MAX_BITS)
+ #define VIRT_SOCKETS_MAX_BITS          2
+ #define VIRT_SOCKETS_MAX               (1 << VIRT_SOCKETS_MAX_BITS)
 -- 
 2.25.1
 
