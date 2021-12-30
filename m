@@ -2,91 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0AF6481DEF
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Dec 2021 17:07:30 +0100 (CET)
-Received: from localhost ([::1]:50504 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51C81481DF6
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Dec 2021 17:09:21 +0100 (CET)
+Received: from localhost ([::1]:54150 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n2xxh-0008Vn-Q6
-	for lists+qemu-devel@lfdr.de; Thu, 30 Dec 2021 11:07:29 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44418)
+	id 1n2xzU-0002dA-Em
+	for lists+qemu-devel@lfdr.de; Thu, 30 Dec 2021 11:09:20 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44736)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1n2xu6-0007D0-UR
- for qemu-devel@nongnu.org; Thu, 30 Dec 2021 11:03:48 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40388)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1n2xvr-00086Q-CJ
+ for qemu-devel@nongnu.org; Thu, 30 Dec 2021 11:05:35 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41361)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1n2xu4-00047m-Fz
- for qemu-devel@nongnu.org; Thu, 30 Dec 2021 11:03:45 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1n2xvo-0004GF-2p
+ for qemu-devel@nongnu.org; Thu, 30 Dec 2021 11:05:33 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1640880223;
+ s=mimecast20190719; t=1640880330;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=JtPDPu3QtCmxReWn+yjMCRr4WSNNaK7KyhJQAskfNig=;
- b=QDqwd63SvXR9sTSubsxNsjFM97pfZdA3W65+LBXhYu3dmSIDUfOhHciztuWZNmzG3LilR/
- 3f2O7AFB+wEc2qnQKSK5fKxTLe589paZ43xmaaMSJfRVyN8OwxWT9GcmHbt/MsktA+trLG
- MbXPjnCsA3Yp668FKDFaAzqn5nEQ8WM=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding;
+ bh=JMOfaJ/LMhDSs430s4HqaNJL/fJKyjqZbj2wrNrE+Yg=;
+ b=Gk/kCMl0AQOqpgw4vGDGK3RNQui0WVnLpM8hOfYmMPOVBTqUUCS3Jw0OcjlP3MzDUf5UfO
+ vAlQjpFX2H8G6xR1jZp108vMaLKptJK5bhUyP+4W8sFbnhtbHlM0l0EE0w7x6LvtVLnQ2X
+ uvck8cKJ04ZemDcx/DMlAVm82ThVck0=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-550-bktOsDUXOaS5W0CpPth2yg-1; Thu, 30 Dec 2021 11:03:42 -0500
-X-MC-Unique: bktOsDUXOaS5W0CpPth2yg-1
-Received: by mail-wr1-f72.google.com with SMTP id
- g6-20020adfbc86000000b001a2d62be244so5076605wrh.23
- for <qemu-devel@nongnu.org>; Thu, 30 Dec 2021 08:03:42 -0800 (PST)
+ us-mta-134-g0XA61BWOp-BWj9DDV5rZA-1; Thu, 30 Dec 2021 11:05:29 -0500
+X-MC-Unique: g0XA61BWOp-BWj9DDV5rZA-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ r2-20020a05600c35c200b00345c3b82b22so11748205wmq.0
+ for <qemu-devel@nongnu.org>; Thu, 30 Dec 2021 08:05:29 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=JtPDPu3QtCmxReWn+yjMCRr4WSNNaK7KyhJQAskfNig=;
- b=0AQqNm5laY8CB7gWcQWSG8yUtht+mllPZXoUQkSQwZPc4dYT+Ynt+xHSvyrNPt3EzU
- UoBarbp4zJsVUQsXAiiE+T/BycSoB0bYqRJrB0SC5KJO0yhQoEm9R4AA1ysfSKBtfc3M
- pq92PI9GNfiFaFZoq+MOHt5T3tcu6ToVCdixhJ4WAt8/+TqLvEpC9voOtiVBp5K8lGjL
- DltO7m6dAhu9DqOSwIiHwyPIlS7KLUIQfSUitv90N1kK/N658xR7vvaW4lxMueN7oItz
- WqrJVIQ08vqf81ZxOF/wvHtwUjeGF9A20Db4Kzm/lRI01WwUeKbxbHm0gtHp1V2ouRzC
- Yl+g==
-X-Gm-Message-State: AOAM533oEUud086w7k71RYF2ATeDbN8OLBg5OqBp7cJoAfASph67qexP
- T+kPUaWsU8mpS1RF7pMKvoPDiu6JChVBjHm2RXKV0MzPvqFLyiVtpxIvFoQmrdAHUmmR4r1bmoP
- rDMd64Ijdbf3h3zU=
-X-Received: by 2002:a05:6000:188c:: with SMTP id
- a12mr27255453wri.45.1640880221739; 
- Thu, 30 Dec 2021 08:03:41 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzxj/jYe2Gnys70nwCHGLe3VDROsPnDi7jfgoB1kmU1cHxR1AjDqJn+K33d1czj2BHus1KgLw==
-X-Received: by 2002:a05:6000:188c:: with SMTP id
- a12mr27255412wri.45.1640880221160; 
- Thu, 30 Dec 2021 08:03:41 -0800 (PST)
-Received: from [192.168.1.36] (26.red-83-50-86.dynamicip.rima-tde.net.
- [83.50.86.26])
- by smtp.gmail.com with ESMTPSA id j17sm23989414wrp.68.2021.12.30.08.03.39
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 30 Dec 2021 08:03:40 -0800 (PST)
-Message-ID: <657e35d6-57c0-c84b-44e3-5ba25639ce40@redhat.com>
-Date: Thu, 30 Dec 2021 17:03:38 +0100
+ bh=JMOfaJ/LMhDSs430s4HqaNJL/fJKyjqZbj2wrNrE+Yg=;
+ b=rLbPBGxF6SgUado0YYZ46cPMMAdBayst4U3EUQHtVKm5GP1/qSqlE68c5Noi7IHbQC
+ YsJcVIUqK2kaNfpFGKepHj3PnTWtt4Onbvh9KchGSS3uuDbvkHNqH8vd6vDgriEY9sb3
+ 9iBjZl8tSX61IgtSIrTjuuJxTkdTSV9k2s9rztQWIFlntDyhG2BQnyOtcysE3fwAkKNf
+ MuLxCJoKNBWmwB/sBx3IenCZ3nfaopKbdh4wamWPEMkNVB5X3edK32SSB9p2u78z3p1H
+ YnYj8MfoRW2XSv0Se27zMpCrq8MliKrm87d8+rZL1C0pKWEZ8tKCMZJhDZCBnldJxZEN
+ rVtg==
+X-Gm-Message-State: AOAM531bBe5XBBr5RkMpVeQAhchN/I7gr7t31NElscItQHRWzzrk4RQl
+ LDV/hVm3pN4eWMdCT28PXNdvXw237b8Ri0/F4Tu/4zpAeekBVitkKt2X2cfB4z8k3iLHG/g4UNa
+ WNw0vbgWBZ0if1DFRQ24huyfvI3NV3O7ZS4tY7ZzyeRl6bv3wLkLy6jBwoGpkKryk
+X-Received: by 2002:a5d:440e:: with SMTP id z14mr3756661wrq.611.1640880328183; 
+ Thu, 30 Dec 2021 08:05:28 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxUMOda5qjaqTE+68qVvqb0A8MMGWgi4qK9A96jnG8eYpl7UNIBsyvnQXlILYYobsH3S+Ihlg==
+X-Received: by 2002:a5d:440e:: with SMTP id z14mr3756636wrq.611.1640880328016; 
+ Thu, 30 Dec 2021 08:05:28 -0800 (PST)
+Received: from x1w.. (26.red-83-50-86.dynamicip.rima-tde.net. [83.50.86.26])
+ by smtp.gmail.com with ESMTPSA id y1sm23930187wrm.3.2021.12.30.08.05.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 30 Dec 2021 08:05:27 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] migration: Don't return for postcopy_send_discard_bm_ram()
+Date: Thu, 30 Dec 2021 17:05:25 +0100
+Message-Id: <20211230160525.462185-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.33.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH v3 5/8] migration: Drop return code for disgard ram process
-To: Peter Xu <peterx@redhat.com>, qemu-devel@nongnu.org
-References: <20211224065000.97572-1-peterx@redhat.com>
- <20211224065000.97572-6-peterx@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <20211224065000.97572-6-peterx@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -44
-X-Spam_score: -4.5
-X-Spam_bar: ----
-X-Spam_report: (-4.5 / 5.0 requ) DKIMWL_WL_HIGH=-0.573, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.024,
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) DKIMWL_WL_HIGH=-0.573, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
@@ -102,27 +92,52 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: David Edmondson <david.edmondson@oracle.com>,
- Juan Quintela <quintela@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Leonardo Bras Soares Passos <lsoaresp@redhat.com>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
+ Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/24/21 07:49, Peter Xu wrote:
-> It will just never fail.  Drop those return values where they're constantly
-> zeros.
-> 
-> A tiny touch-up on the tracepoint so trace_ram_postcopy_send_discard_bitmap()
-> is called after the logic itself (which sounds more reasonable).
-> 
-> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> Signed-off-by: Peter Xu <peterx@redhat.com>
-> ---
->  migration/migration.c |  5 +----
->  migration/ram.c       | 20 +++++---------------
->  migration/ram.h       |  2 +-
->  3 files changed, 7 insertions(+), 20 deletions(-)
+postcopy_send_discard_bm_ram() always return zero. Since it can't
+fail, simplify and do not return anything.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+---
+Based-on: <20211224065000.97572-1-peterx@redhat.com>
+---
+ migration/ram.c | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
+
+diff --git a/migration/ram.c b/migration/ram.c
+index 5234d1ece11..e241ce98461 100644
+--- a/migration/ram.c
++++ b/migration/ram.c
+@@ -2433,14 +2433,12 @@ void ram_postcopy_migrated_memory_release(MigrationState *ms)
+ /**
+  * postcopy_send_discard_bm_ram: discard a RAMBlock
+  *
+- * Returns zero on success
+- *
+  * Callback from postcopy_each_ram_send_discard for each RAMBlock
+  *
+  * @ms: current migration state
+  * @block: RAMBlock to discard
+  */
+-static int postcopy_send_discard_bm_ram(MigrationState *ms, RAMBlock *block)
++static void postcopy_send_discard_bm_ram(MigrationState *ms, RAMBlock *block)
+ {
+     unsigned long end = block->used_length >> TARGET_PAGE_BITS;
+     unsigned long current;
+@@ -2464,8 +2462,6 @@ static int postcopy_send_discard_bm_ram(MigrationState *ms, RAMBlock *block)
+         postcopy_discard_send_range(ms, one, discard_length);
+         current = one + discard_length;
+     }
+-
+-    return 0;
+ }
+ 
+ static void postcopy_chunk_hostpages_pass(MigrationState *ms, RAMBlock *block);
+-- 
+2.33.1
 
 
