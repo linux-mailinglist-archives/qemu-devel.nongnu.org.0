@@ -2,84 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18E7C482087
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Dec 2021 23:14:58 +0100 (CET)
-Received: from localhost ([::1]:57666 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47AAB4820CE
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Dec 2021 00:03:47 +0100 (CET)
+Received: from localhost ([::1]:39406 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n33hI-00040E-Uo
-	for lists+qemu-devel@lfdr.de; Thu, 30 Dec 2021 17:14:56 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44834)
+	id 1n34SX-0004Ti-Tt
+	for lists+qemu-devel@lfdr.de; Thu, 30 Dec 2021 18:03:45 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47348)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1n33ey-0003CN-DL; Thu, 30 Dec 2021 17:12:33 -0500
-Received: from [2607:f8b0:4864:20::a31] (port=39605
- helo=mail-vk1-xa31.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1n33ew-0003Ti-QP; Thu, 30 Dec 2021 17:12:32 -0500
-Received: by mail-vk1-xa31.google.com with SMTP id m200so14370289vka.6;
- Thu, 30 Dec 2021 14:12:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=MnecX+uFpUQpjlRW7PepMxaAiL6WwQM0dLeDIIIndeo=;
- b=VpFazGBS0EgMS32N9qKP0UOPNry+54YBnd7ofeOTI2KcCjiciwj/y7a9OSZmRkcly1
- M1ZBH4wKl3AQ+NmquwwxiU7B5q13ipXrdkfybrr7AF+rLkoap2Sn8WyI23ShTQ4FtDJ6
- Chdm+rvrM4ofCftvJkKEC74HxqYD0bgudcCNRnQVgtVScQTCe6qbIe/pRQDaaKclbrfd
- z3nv8QrlvRuVUeFEXnZwDTwELh+xsrK0jB4NtdZdLm3c2uECm/Qxvna3hNstireCyAyx
- 5YsMrtDEyo+8ZQO5loDQBK0a7CYM/cF+f4bK+kJfJdsh2Yo6A1W2Aim6KiWih+YqMFsa
- +t9Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=MnecX+uFpUQpjlRW7PepMxaAiL6WwQM0dLeDIIIndeo=;
- b=PIy1mz+j3cpa/5g/lYjkw4kqkJm1fw3BtZIJNH2Zk/e+eYh+XVYLiUyh5qkzJToxjy
- Kd5v1U3Gr125RpvEEXL16f1dIxY6EgZNwIfQkhO7HaQobaQemGawkDkRGs9b7G4Zcmqf
- U1qXDjdhUt7V986PIhWKNgXD90hPmEehQsyqtA1u0lJ8N8ok+r6Q1fWJ+n9m5HA7s8Jn
- lSoN72ZAL120XyPBX5U0SEWMX3IlxWp3upypcnS/GFHaajHgRkk5KtDKG/rxGo1NE75+
- cu7/JshTftco77CoElA5do4u3CyHfEopT/Do8EJhKy0Pp71wTYlMIWA5gEv9lPZAsnGE
- 1+Cw==
-X-Gm-Message-State: AOAM530JgJ3Ku6l5osM/MMEdGJFZ+Yr8SCrb4SrK/lOkmIeIHDWo8s1H
- qqIIhc19t+scBpKNE8/wX/VJTitm/yw=
-X-Google-Smtp-Source: ABdhPJzwhPrQQhjjZ7+lwaIVC23OZJ3APyQGS36sn3QYW/Ol8O1qgFutW/gqeQRJRVX5RdYqX5VwGQ==
-X-Received: by 2002:a1f:a94b:: with SMTP id s72mr11045453vke.10.1640902349280; 
- Thu, 30 Dec 2021 14:12:29 -0800 (PST)
-Received: from ?IPV6:2804:431:c7c7:4491:8fea:55ee:561c:b285?
- ([2804:431:c7c7:4491:8fea:55ee:561c:b285])
- by smtp.gmail.com with ESMTPSA id m3sm5280422vsh.7.2021.12.30.14.12.27
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 30 Dec 2021 14:12:29 -0800 (PST)
-Message-ID: <c2d241d4-d466-c599-e00e-3fdb62722bbb@gmail.com>
-Date: Thu, 30 Dec 2021 19:12:26 -0300
+ (Exim 4.90_1) (envelope-from <puleglot@puleglot.ru>)
+ id 1n33ws-0006eD-Qm
+ for qemu-devel@nongnu.org; Thu, 30 Dec 2021 17:31:02 -0500
+Received: from puleglot.ru ([195.201.32.202]:55208)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <puleglot@puleglot.ru>)
+ id 1n33wp-0008Td-8g
+ for qemu-devel@nongnu.org; Thu, 30 Dec 2021 17:31:01 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tsoy.me;
+ s=mymail; h=Sender:Content-Transfer-Encoding:MIME-Version:Content-Type:
+ References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Reply-To:Content-ID
+ :Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:
+ Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe
+ :List-Post:List-Owner:List-Archive;
+ bh=fSiu4d1NQ1v6fUKZYgSIqaRFYh76rGshZvhPzD5D7+s=; b=bm9Lw/13vO/VO4fGPP8iKLh9rv
+ sfzR8qyV40ZoMnk3WB83Mi44iWZIWCONlu7kHuPUS11099UhvGmubSIB374IlS8dGVtamPvsyuz/D
+ /52i5QtR5r6FLPQ++TJeDkVV4TwK4RpNQkHE6GuzWWk2kkkhZb8K8dM26q1ECV4EIBVA=;
+Received: from [2a00:1370:8125:bd4b::b41]
+ by puleglot.ru with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+ (Exim 4.94.2) (envelope-from <puleglot@puleglot.ru>)
+ id 1n33wg-0001r6-KS; Fri, 31 Dec 2021 01:30:49 +0300
+Message-ID: <05376f2228c860f5812927467930b58ce477cd0a.camel@tsoy.me>
+Subject: Re: [PATCH 1/4] acpi: fix QEMU crash when started with SLIC table
+From: Alexander Tsoy <alexander@tsoy.me>
+To: Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org
+Date: Fri, 31 Dec 2021 01:30:48 +0300
+In-Reply-To: <20211227193120.1084176-2-imammedo@redhat.com>
+References: <20211227193120.1084176-1-imammedo@redhat.com>
+ <20211227193120.1084176-2-imammedo@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH 0/3] Reorg ppc64 pmu insn counting
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20211223030149.1947418-1-richard.henderson@linaro.org>
- <1b988844-075d-beb3-7fd1-a26f30e9f5dc@gmail.com>
- <1928bc96-ace5-3e5b-2da2-723ef3071173@linaro.org>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <1928bc96-ace5-3e5b-2da2-723ef3071173@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::a31
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::a31;
- envelope-from=danielhb413@gmail.com; helo=mail-vk1-xa31.google.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_ENVFROM_END_DIGIT=0.25,
- FREEMAIL_FROM=0.001, NICE_REPLY_A=-3.024, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=195.201.32.202; envelope-from=puleglot@puleglot.ru;
+ helo=puleglot.ru
+X-Spam_score_int: 1
+X-Spam_score: 0.1
+X-Spam_bar: /
+X-Spam_report: (0.1 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Thu, 30 Dec 2021 18:02:50 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,51 +65,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, clg@kaod.org, david@gibson.dropbear.id.au
+Cc: dlenski@gmail.com, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On 12/23/21 18:19, Richard Henderson wrote:
-> On 12/23/21 12:36 PM, Daniel Henrique Barboza wrote:
->> This reorg is breaking PMU-EBB tests, unfortunately. These tests are run from the kernel
->> tree [1] and I test them inside a pSeries TCG guest. You'll need to apply patches 9 and
->> 10 of [2] beforehand (they apply cleanly in current master) because they aren't upstream
->> yet and EBB needs it.
->>
->> The tests that are breaking consistently with this reorg are:
->>
->> back_to_back_ebbs_test.c
->> cpu_event_pinned_vs_ebb_test.c
->> cycles_test.c
->> task_event_pinned_vs_ebb_test.c
+В Пн, 27/12/2021 в 14:31 -0500, Igor Mammedov пишет:
+> if QEMU is started with used provided SLIC table blob,
 > 
-> In which case perhaps drop my first patch for now, and instead simply replicate your tcg algorithm in c exactly -- using none of the helpers that currently exist.
+>   -acpitable sig=SLIC,oem_id='CRASH
+> ',oem_table_id="ME",oem_rev=00002210,asl_compiler_id="",asl_compiler_re
+> v=00000000,data=/dev/null
+> it will assert with:
 > 
-> We can improve the code, and the use of pmc_get_event from hreg_compute_hregs_value second.
-
-
-While attempting to do that I figured what was off with this series and ended up
-fixing it.
-
-It's now working with the event-based branch interrupt tests and Avocado seems happy
-as well. It took some small adjustments/fixes in patches 1/2 and an extra patch of mine
-tuning the existing logic after the reorg.
-
-
-I'll clean it up and re-send it next week/year.
-
-
-Thanks
-
-
-Daniel
-
-
-
-
+>   hw/acpi/aml-build.c:61:build_append_padded_str: assertion failed:
+> (len <= maxlen)
 > 
+> and following backtrace:
 > 
-> r~
+>   ...
+>   build_append_padded_str (array=0x555556afe320, str=0x555556afdb2e
+> "CRASH ME", maxlen=0x6, pad=0x20) at hw/acpi/aml-build.c:61
+>   acpi_table_begin (desc=0x7fffffffd1b0, array=0x555556afe320) at
+> hw/acpi/aml-build.c:1727
+>   build_fadt (tbl=0x555556afe320, linker=0x555557ca3830,
+> f=0x7fffffffd318, oem_id=0x555556afdb2e "CRASH ME",
+> oem_table_id=0x555556afdb34 "ME") at hw/acpi/aml-build.c:2064
+>   ...
+> 
+> which happens due to acpi_table_begin() expecting NULL terminated
+> oem_id and oem_table_id strings, which is normally the case, but
+> in case of user provided SLIC table, oem_id points to table's blob
+> directly and as result oem_id became longer than expected.
+> 
+> Fix issue by handling oem_id consistently and make acpi_get_slic_oem()
+> return NULL terminated strings.
+> 
+> PS:
+> After [1] refactoring, oem_id semantics became inconsistent, where
+> NULL terminated string was coming from machine and old way pointer
+> into byte array coming from -acpitable option. That used to work
+> since build_header() wasn't expecting NULL terminated string and
+> blindly copied the 1st 6 bytes only.
+> 
+> However commit [2] broke that by replacing build_header() with
+> acpi_table_begin(), which was expecting NULL terminated string
+> and was checking oem_id size.
+> 
+> 1) 602b45820 ("acpi: Permit OEM ID and OEM table ID fields to be
+> changed")
+> 2)
+> Fixes: 4b56e1e4eb08 ("acpi: build_fadt: use
+> acpi_table_begin()/acpi_table_end() instead of build_header()")
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/786
+> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+> ---
+>  hw/acpi/core.c       | 4 ++--
+>  hw/i386/acpi-build.c | 2 ++
+>  2 files changed, 4 insertions(+), 2 deletions(-)
+> 
+> diff --git a/hw/acpi/core.c b/hw/acpi/core.c
+> index 1e004d0078..3e811bf03c 100644
+> --- a/hw/acpi/core.c
+> +++ b/hw/acpi/core.c
+> @@ -345,8 +345,8 @@ int acpi_get_slic_oem(AcpiSlicOem *oem)
+>          struct acpi_table_header *hdr = (void *)(u - sizeof(hdr-
+> >_length));
+>  
+>          if (memcmp(hdr->sig, "SLIC", 4) == 0) {
+> -            oem->id = hdr->oem_id;
+> -            oem->table_id = hdr->oem_table_id;
+> +            oem->id = g_strndup(hdr->oem_id, 6);
+> +            oem->table_id = g_strndup(hdr->oem_table_id, 8);
+>              return 0;
+>          }
+>      }
+> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+> index 8383b83ee3..0234fe7588 100644
+> --- a/hw/i386/acpi-build.c
+> +++ b/hw/i386/acpi-build.c
+> @@ -2723,6 +2723,8 @@ void acpi_build(AcpiBuildTables *tables,
+> MachineState *machine)
+>  
+>      /* Cleanup memory that's no longer used. */
+>      g_array_free(table_offsets, true);
+> +    g_free(slic_oem.id);
+> +    g_free(slic_oem.table_id);
+>  }
+>  
+>  static void acpi_ram_update(MemoryRegion *mr, GArray *data)
+
+Tested-by: Alexander Tsoy <alexander@tsoy.me>
+
 
