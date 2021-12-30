@@ -2,76 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8418481DE3
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Dec 2021 16:57:51 +0100 (CET)
-Received: from localhost ([::1]:40794 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BDFA481DE5
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Dec 2021 16:58:33 +0100 (CET)
+Received: from localhost ([::1]:43016 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n2xoM-0001Fv-V4
-	for lists+qemu-devel@lfdr.de; Thu, 30 Dec 2021 10:57:50 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42884)
+	id 1n2xp2-0002rP-ER
+	for lists+qemu-devel@lfdr.de; Thu, 30 Dec 2021 10:58:32 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43028)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1n2xn3-0000TN-Ez
- for qemu-devel@nongnu.org; Thu, 30 Dec 2021 10:56:29 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:49177)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1n2xnm-0001bM-Ef
+ for qemu-devel@nongnu.org; Thu, 30 Dec 2021 10:57:14 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:53589)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1n2xn2-0003G1-0h
- for qemu-devel@nongnu.org; Thu, 30 Dec 2021 10:56:29 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1n2xnk-0003N0-Lx
+ for qemu-devel@nongnu.org; Thu, 30 Dec 2021 10:57:14 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1640879787;
+ s=mimecast20190719; t=1640879832;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=o43fJSwmqj8EQb0ueL/AK/V3EDN9Hv6cpmI3XKSE5RQ=;
- b=KrlP8ojFHeRxgRbw8OyFflQj/e+/bx4XxmbKrT3fcziFj10IEE5tHReu88QL9KmJwR59oe
- 1CauQn0Q+dQhhHNNJXtUwbj8tDX8f946VZUgWgLRetyhd3+sMqeQK+VXiIU7vfsMgxUmBe
- jDl9VD0hZW9PgWDJvp7z1XQv3AhQLCo=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Bp3fUA2kncPLGuhg+TCPvIoDp106DF6NtRj/boaXCAk=;
+ b=JoY71zwYdxukdEWu86CFKSKr9aoKoXdN2WLc0nS1INCtLebNoBWNZvYH/shtXra5fw54mt
+ SGYpaGMNKVgVm4i/wgdtAdJe4K+CCgN9uf7At1x+7zT6tyqDxURs6IcvIE9/OiFLf8gPj4
+ rb+/t9lx5SdTNvA9OSB1hJkIbteUai0=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-411--PquX81eNn-J2HLbse_cqg-1; Thu, 30 Dec 2021 10:56:26 -0500
-X-MC-Unique: -PquX81eNn-J2HLbse_cqg-1
-Received: by mail-wr1-f71.google.com with SMTP id
- h12-20020adfa4cc000000b001a22dceda69so6339782wrb.16
- for <qemu-devel@nongnu.org>; Thu, 30 Dec 2021 07:56:25 -0800 (PST)
+ us-mta-551-B4WHf2PpOl6gy5AjAIapkg-1; Thu, 30 Dec 2021 10:57:11 -0500
+X-MC-Unique: B4WHf2PpOl6gy5AjAIapkg-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ h12-20020adfa4cc000000b001a22dceda69so6340539wrb.16
+ for <qemu-devel@nongnu.org>; Thu, 30 Dec 2021 07:57:10 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=o43fJSwmqj8EQb0ueL/AK/V3EDN9Hv6cpmI3XKSE5RQ=;
- b=BXWlE72/OPLGNE2f9Sera2KE8r7tHt49/AD//mGVC6a4WPqQKS1w/IBPkhsO6tmsbf
- 8AKvAlSXxeSqdWSg7v5B1DUWsu28sdCdMLNylCu17sMybFloT7M91fGNxDnwRpulxXV3
- zlslPzXqHRvdO0blmdwoeCl8RHWjNIfrk2g/pQCrl2WS4icIKy6xHd4AorUiRH1Y1LfJ
- Qf0VdDeM5Dg17cxPSUgN7YgN8xuWY47UBToVTmfZWn7kSphf3ZtqL44aKoGq5Ds71XpN
- NmFdzf4JmfhCamKJkjMJtVhtnMqhxlOIUs3A9ahlMo2CBIiQiSox2xCF/z0JYBWvmuyv
- 26DQ==
-X-Gm-Message-State: AOAM532FFzdgD4KB/fAZdsqkABygEw1THnAopip/Ijr0WzA424NaVA9g
- XPed7C8H9XJ6xO/eyeO8cXJy/rxEzIGdmv6bPMsqHuFcwBFjevmTndegHlJw8ta+wBcFtqUQ7hm
- lqoi94sWTyZldalU=
-X-Received: by 2002:adf:e80c:: with SMTP id o12mr6314090wrm.364.1640879785059; 
- Thu, 30 Dec 2021 07:56:25 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyqhIuQwnbGn4UtNAJ2GI0kgVYspvc12tFp0VmdI95zLrDm3aUB6vpOpPzOGh9V4531kDbE+w==
-X-Received: by 2002:adf:e80c:: with SMTP id o12mr6314079wrm.364.1640879784894; 
- Thu, 30 Dec 2021 07:56:24 -0800 (PST)
+ bh=Bp3fUA2kncPLGuhg+TCPvIoDp106DF6NtRj/boaXCAk=;
+ b=i94nEoNr5TabTcoj4ahajeB4Tf4sQN9vZ9VGtBEM0GcCBMvebUaBe/PHHOVicIZwND
+ +ZsmaAyM+A70zX++YueWsD/D4inxDCLy5aI40GrOeyckI0XJ5Tt45cE0sBb0Ili5UOXH
+ o9I3aGAXGB+vcIBbFOsQsxr1jyds9mOGI9SETdFt4H18HT/vOj5SCiV2gqgUDHOlA2Nc
+ Rhw0yFAYLuGPjKfVPE+z9bX/zFLPe95X47rzMqWKrtnanDQWQql5QpfRi7kt0yFB3WL5
+ uP9iLybhbRvoi+kYIQdzrrprzrVCOs18nWpjWRq/PmfRebCV5M4NsWmGWCz3S3/OYg+T
+ 9aow==
+X-Gm-Message-State: AOAM5310v+PiDTGfhCWZRthtqfQpvrxSvqUhjI3gFceFhJIm6zbkygZC
+ k2mNP328xwNk/AiH4E4rwklyVIGnwKt+DaM604KxTXzVbBeVy+9hnkykfrk7PFSRBQofbCOvPrZ
+ 5zFJtGynSHyjo+3k=
+X-Received: by 2002:a05:600c:3d8c:: with SMTP id
+ bi12mr26670916wmb.63.1640879829808; 
+ Thu, 30 Dec 2021 07:57:09 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzJ0NznGt9MMYf1UET0xaTCUqC51IPtSSiS+wG2c0voNS72ITxrvvWNbO4vsxGqYBNH1oIK+w==
+X-Received: by 2002:a05:600c:3d8c:: with SMTP id
+ bi12mr26670904wmb.63.1640879829679; 
+ Thu, 30 Dec 2021 07:57:09 -0800 (PST)
 Received: from [192.168.1.36] (26.red-83-50-86.dynamicip.rima-tde.net.
  [83.50.86.26])
- by smtp.gmail.com with ESMTPSA id l14sm18935520wrr.53.2021.12.30.07.56.24
+ by smtp.gmail.com with ESMTPSA id t12sm27600995wrs.72.2021.12.30.07.57.08
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 30 Dec 2021 07:56:24 -0800 (PST)
-Message-ID: <3c9dfe95-22c1-e690-5018-1a2c330f5a15@redhat.com>
-Date: Thu, 30 Dec 2021 16:56:23 +0100
+ Thu, 30 Dec 2021 07:57:09 -0800 (PST)
+Message-ID: <00950a09-6c75-b0ab-89d7-284939853fda@redhat.com>
+Date: Thu, 30 Dec 2021 16:57:08 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.4.0
-Subject: Re: [PATCH v3 7/8] migration: Finer grained tracepoints for
- POSTCOPY_LISTEN
+Subject: Re: [PATCH v3 8/8] migration: Tracepoint change in postcopy-run
+ bottom half
 To: Peter Xu <peterx@redhat.com>, qemu-devel@nongnu.org
 References: <20211224065000.97572-1-peterx@redhat.com>
- <20211224065000.97572-8-peterx@redhat.com>
+ <20211224065000.97572-9-peterx@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <20211224065000.97572-8-peterx@redhat.com>
+In-Reply-To: <20211224065000.97572-9-peterx@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -107,15 +109,19 @@ Cc: David Edmondson <david.edmondson@oracle.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/24/21 07:49, Peter Xu wrote:
-> The enablement of postcopy listening has a few steps, add a few tracepoints to
-> be there ready for some basic measurements for them.
+On 12/24/21 07:50, Peter Xu wrote:
+> Remove the old two tracepoints and they're even near each other:
+> 
+>     trace_loadvm_postcopy_handle_run_cpu_sync()
+>     trace_loadvm_postcopy_handle_run_vmstart()
+> 
+> Add trace_loadvm_postcopy_handle_run_bh() with a finer granule trace.
 > 
 > Signed-off-by: Peter Xu <peterx@redhat.com>
 > ---
->  migration/savevm.c     | 9 ++++++++-
->  migration/trace-events | 2 +-
->  2 files changed, 9 insertions(+), 2 deletions(-)
+>  migration/savevm.c     | 12 +++++++++---
+>  migration/trace-events |  3 +--
+>  2 files changed, 10 insertions(+), 5 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
