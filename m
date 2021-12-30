@@ -2,77 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3B5348207F
+	by mail.lfdr.de (Postfix) with ESMTPS id A7F5648207E
 	for <lists+qemu-devel@lfdr.de>; Thu, 30 Dec 2021 23:07:46 +0100 (CET)
-Received: from localhost ([::1]:53228 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:53186 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n33aL-0000gE-QD
+	id 1n33aL-0000ee-9v
 	for lists+qemu-devel@lfdr.de; Thu, 30 Dec 2021 17:07:45 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41998)
+Received: from eggs.gnu.org ([209.51.188.92]:42462)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1n33Xf-0006dn-Hp
- for qemu-devel@nongnu.org; Thu, 30 Dec 2021 17:05:00 -0500
-Received: from [2607:f8b0:4864:20::52f] (port=39443
- helo=mail-pg1-x52f.google.com)
+ id 1n33Yg-00075P-Cl
+ for qemu-devel@nongnu.org; Thu, 30 Dec 2021 17:06:02 -0500
+Received: from [2607:f8b0:4864:20::1030] (port=39684
+ helo=mail-pj1-x1030.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1n33Xc-0001qM-GI
- for qemu-devel@nongnu.org; Thu, 30 Dec 2021 17:04:58 -0500
-Received: by mail-pg1-x52f.google.com with SMTP id r5so22409957pgi.6
- for <qemu-devel@nongnu.org>; Thu, 30 Dec 2021 14:04:56 -0800 (PST)
+ id 1n33Ye-00027J-La
+ for qemu-devel@nongnu.org; Thu, 30 Dec 2021 17:06:01 -0500
+Received: by mail-pj1-x1030.google.com with SMTP id
+ z9-20020a17090a7b8900b001b13558eadaso29055643pjc.4
+ for <qemu-devel@nongnu.org>; Thu, 30 Dec 2021 14:06:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=YKxE/u697Fy7tHFdfstn9rAvLC3TMyPW/Xh9GGO+SHM=;
- b=jxjRhXeDvhYgt0VOxb4Zd7QqRO345Dztb8w+yBVPkQRDRGXP++VKvFrySQl0moAXb3
- nBuBmFbTNqw5hu0zVQD/kqEVjRoKx6mXDMwlQGMuQWUwBOIkWFmOesgC3PwjHH7iu+AY
- c6hLPRNOYJWldggAHANp5v4aF8/WLwos+df0T01ki0tBx0c3dioe8sMarGDyw1MAHDBH
- P/nojKgqbJDHCQqPv3l0eaRz0XkRqz6nPgRChWKvR1DjO5Gm2E7dXSAErHECFBS9kSe6
- ch+ILWfRZ9YNYHWhXyfj1wAeBSyJA2gYKlAtk2RNBts+RNTjWTqq3lAtc9VCffDSoklx
- TgTw==
+ bh=opQ2aIuedl98iM94eoiegPJB9kaZb+Br7YxHdpdCYQI=;
+ b=Ed1/I8HydlK/Du0w48zbv4niFYfsW3zOhnBOxGn5icApg2hT2Q7dtI1I5cyjyhgo1A
+ R/YCTfsmv3SodIthYh+YC+1e5lhNatGhE/S1gdoDfHlhFQljhac0dDpJhVv+rtXhNZkt
+ R8vkh3gezPGJcEklay4D/40EHAC9Tc0T01pRt/ai+MLtuUvq3U2DLJLkbBbCPhWXN4bt
+ Q+VO6aAptxqzlnPGURuMM7QrY7LK0QUOoj1LrzFDpVNCTpalM/0JcFqGjj7kvmwe2ZPq
+ yAwzm6hE2KvToQnsaq2qLue2qtyBMZ7a+GUfRMXMNBhtvQaTlxNLRI5749fph6PzGMk+
+ /aTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=YKxE/u697Fy7tHFdfstn9rAvLC3TMyPW/Xh9GGO+SHM=;
- b=17SxZGiuxsMFfIVUSehdPP5HCiGfk5cHnkZnKk0wBlngxuukMdMbxeKFi4Od+es2IX
- pSqANSa+YLDNcGboDzzellyRVPgnuxs8G+EHGdTofOSNWerv+UVDXqKY9E8PyRDkbYKD
- oO4yiji73/gAPB0uQN99MnN6mHHeVmQDG+ia7Ggb1I9x5WKxFbsHM2gMIX90uoRrqGyP
- h0XCzPvHFfodvmN96Vi5IfFovLDtPgVfrUD2IhjKAuV1r7a9rPPiIhFfS/34n2CRM/Sv
- kuzJwwd05Rkdpt8qVXWBm4cHjOXHrDYRaXDnYwOYYdN41rO6hdHT2LgSfb1MR9Pz1acf
- Pjew==
-X-Gm-Message-State: AOAM5326KXxPdYn4i4EvvXUU6aMXO56SLCvEMN6iWIFzvdzda2A3YoJZ
- xY93SYz83YpIbaR0W36/sJzLJw==
-X-Google-Smtp-Source: ABdhPJwrFsXHkaYkLFmIabX8Oy179nAP73uZ5VGsXtU02j8pxLIF2Hw/IdimneiSyJ+cuCXDTjr5QQ==
-X-Received: by 2002:a63:290:: with SMTP id 138mr28799443pgc.425.1640901895244; 
- Thu, 30 Dec 2021 14:04:55 -0800 (PST)
+ bh=opQ2aIuedl98iM94eoiegPJB9kaZb+Br7YxHdpdCYQI=;
+ b=5yA1wSDW/8JKHpVaXBmNygfjQ8+Jzrx/RviuayyoMCD7kiXA7Dd0MxjuBWIJOEfcRO
+ 1O9gbkRUZx71S1lsC6hVmWYiNx6vCv9pO77ZCBAP4SSwUG31CHuGn/5mYrgW0q/oxgFs
+ tQo/fDGG6hm85xnwJltiXWnpuozLn4Re9iJGXXxVqzEHJAnL+RnpJ7mBI7hFU7BuD9Ea
+ 0UNEU+xse8ofPHKNf1kWGQD49EwWjPG6jd7BElYVzOAvbLqaaWnhoH6xmhl0iDOLr9Nq
+ x/G8hz7DlUatI6GCNzdF2Mzc51Jp7INNl4X8Vlo9w/wJMP7/cWlgM4+ajrHzKNjnkuNt
+ FkdA==
+X-Gm-Message-State: AOAM530xxwXugsORfwcxsUpBdWuE5g4+IVaJlOJQ+fNbiXrEkbjbLlCU
+ dyNZZV5VTBZ/1ikPpPZVXi7Emg==
+X-Google-Smtp-Source: ABdhPJwX3QkKETRYn4s2ciPAmf1J1g+G64wu1Ydr/g7VVJceoyMkDMorjM6IiId4MM8irAfC5VhirA==
+X-Received: by 2002:a17:90b:4f43:: with SMTP id
+ pj3mr40178096pjb.239.1640901959229; 
+ Thu, 30 Dec 2021 14:05:59 -0800 (PST)
 Received: from ?IPv6:2601:1c0:6101:be80:23dc:65c4:ecfd:93ff?
  ([2601:1c0:6101:be80:23dc:65c4:ecfd:93ff])
- by smtp.gmail.com with ESMTPSA id z19sm19903200pfe.94.2021.12.30.14.04.54
+ by smtp.gmail.com with ESMTPSA id f8sm23728595pga.69.2021.12.30.14.05.58
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 30 Dec 2021 14:04:54 -0800 (PST)
-Subject: Re: [PATCH v2 2/5] target/ppc: powerpc_excp: Add excp_vectors bounds
- check
+ Thu, 30 Dec 2021 14:05:58 -0800 (PST)
+Subject: Re: [PATCH v2 3/5] target/ppc: powerpc_excp: Set vector earlier
 To: Fabiano Rosas <farosas@linux.ibm.com>, qemu-devel@nongnu.org
 References: <20211229165751.3774248-1-farosas@linux.ibm.com>
- <20211229165751.3774248-3-farosas@linux.ibm.com>
+ <20211229165751.3774248-4-farosas@linux.ibm.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <b53df0ed-790a-b6e9-d1c2-68434ed2b1e8@linaro.org>
-Date: Thu, 30 Dec 2021 14:04:52 -0800
+Message-ID: <fbd28e4a-01fa-c96b-5a27-cd14e82f8c5d@linaro.org>
+Date: Thu, 30 Dec 2021 14:05:57 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <20211229165751.3774248-3-farosas@linux.ibm.com>
+In-Reply-To: <20211229165751.3774248-4-farosas@linux.ibm.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::52f
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1030
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1030.google.com
 X-Spam_score_int: -23
 X-Spam_score: -2.4
 X-Spam_bar: --
@@ -98,17 +99,22 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 12/29/21 8:57 AM, Fabiano Rosas wrote:
-> The next patch will start accessing the excp_vectors array earlier in
-> the function, so add a bounds check as first thing here.
+> None of the interrupt setup code touches 'vector', so we can move it
+> earlier in the function. This will allow us to later move the System
+> Call Vectored setup that is on the top level into the
+> POWERPC_EXCP_SYSCALL_VECTORED code block.
 > 
-> This converts the empty return on POWERPC_EXCP_NONE to an error. This
-> exception number never reaches this function and if it does it
-> probably means something else went wrong up the line.
+> This patch also moves the verification for when 'excp' does not have
+> an address associated with it. We now bail a little earlier when that
+> is the case. This should not cause any visible effects.
 > 
-> Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
+> Signed-off-by: Fabiano Rosas<farosas@linux.ibm.com>
+> Reviewed-by: Cédric Le Goater<clg@kaod.org>
+> ---
+>   target/ppc/excp_helper.c | 16 ++++++++--------
+>   1 file changed, 8 insertions(+), 8 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-
 
 r~
 
