@@ -2,78 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFC60481DDD
-	for <lists+qemu-devel@lfdr.de>; Thu, 30 Dec 2021 16:54:50 +0100 (CET)
-Received: from localhost ([::1]:37012 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A02AC481DDF
+	for <lists+qemu-devel@lfdr.de>; Thu, 30 Dec 2021 16:55:12 +0100 (CET)
+Received: from localhost ([::1]:37954 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n2xlR-0006vw-P3
-	for lists+qemu-devel@lfdr.de; Thu, 30 Dec 2021 10:54:49 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42264)
+	id 1n2xln-0007YT-Ox
+	for lists+qemu-devel@lfdr.de; Thu, 30 Dec 2021 10:55:11 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42378)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1n2xk6-0005tC-87
- for qemu-devel@nongnu.org; Thu, 30 Dec 2021 10:53:26 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:56487)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1n2xka-0006Dj-Ec
+ for qemu-devel@nongnu.org; Thu, 30 Dec 2021 10:53:56 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27209)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1n2xk3-0002Vb-MY
- for qemu-devel@nongnu.org; Thu, 30 Dec 2021 10:53:24 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1n2xkY-0002ul-Oo
+ for qemu-devel@nongnu.org; Thu, 30 Dec 2021 10:53:56 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1640879602;
+ s=mimecast20190719; t=1640879634;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=o+xQzUDGzb0MolPND4VvhcVJx75/srsMeDe7eFZTqdI=;
- b=B6n0CWdvRK7Qxq4RFlaHu/BNEN4Uogxf0YJZem6kVd0KVhtPeeISIxNEuG6Tr0UjZv67fx
- unq62I8JXZrSG7owcR+0RImgsjOUZhj/k5OkrlYwqqvTi2mSJUjVMcZt63Hp5E/JD4xXBZ
- ID8oz7eliFTvm4sZFprmKV0a/rHkJAc=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=V5WBdadtyv8vwBqsDtVwfVLBxP0ZqC09RN4F0iSeJu4=;
+ b=TXGoRZQAV6t4SYOa3JS28et14QpMalHfrZUeaVjXrFDN3jib2A2Vk6AiTJQkq0XaD9jYVT
+ BsyXcjyF9KZPHrVFKbpkAl7uztgLBV1zSDTCX5fQdp1xsBK3GwMYdfKDR/4I27HiZSrz9M
+ zw/fJH0GZrVyrUukb7KGHqclLCalhd0=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-131-bAmXX8wiNNeYbEkvm2eiBg-1; Thu, 30 Dec 2021 10:53:21 -0500
-X-MC-Unique: bAmXX8wiNNeYbEkvm2eiBg-1
-Received: by mail-wr1-f72.google.com with SMTP id
- s30-20020adfa29e000000b001a25caee635so6345658wra.19
- for <qemu-devel@nongnu.org>; Thu, 30 Dec 2021 07:53:21 -0800 (PST)
+ us-mta-140-qk5_T1i6NlOo6KeNNYUPTA-1; Thu, 30 Dec 2021 10:53:52 -0500
+X-MC-Unique: qk5_T1i6NlOo6KeNNYUPTA-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ l20-20020a05600c1d1400b003458e02cea0so13595419wms.7
+ for <qemu-devel@nongnu.org>; Thu, 30 Dec 2021 07:53:52 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=o+xQzUDGzb0MolPND4VvhcVJx75/srsMeDe7eFZTqdI=;
- b=oiKgwpwKmr0NLdiYeMRByEB//kBegQ6EsrGnwBRrI13/xvhBFHcxgi9HyXS1npdFtw
- Q587Brhpr4Lnz7JiQD3NjhJQQx2DZOheLeWVyxs/jSVN9Q50oSSWypx/sZJq3VIJAmqn
- 3QgbAIc6xNgXzIs91mf/pMr7/c9SmOJx+3+kC+CZ78ziJ3b7LB3tpOASpVcaXaK17lVF
- MULrSMuIam82IENKDbd1Wd8LjhHIvxn2HXLydS7FrVdkc0QqyeYvNLnu9OpNcsljjTYq
- ivq0sidYVELvOzaUOIHlpAJ8j60NfPRr8L7uqb+ZA9QmGf3gJHPbze5gWKu6FTzihwX+
- AJLQ==
-X-Gm-Message-State: AOAM530FwWni8UvDX0qju8SogLQPycoEU2Dg5pF4njsuLiQtB+6TUMZC
- yPKxj4ERX+q1IxalhGkkNXko+gk9x34rsu7lbsKk7ebvyMb7OGZJ3BunNZwkpojEXHv2QuV6/S2
- M4TVk1mNgg75Rs4I=
-X-Received: by 2002:a05:600c:4f8d:: with SMTP id
- n13mr26172892wmq.43.1640879600581; 
- Thu, 30 Dec 2021 07:53:20 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyOraSTEZvH1/KhH74sTewN+vXLXruBUQMsu+Td0x0icmanS6TCEUo3iRTI29pExgDnnUoNcQ==
-X-Received: by 2002:a05:600c:4f8d:: with SMTP id
- n13mr26172882wmq.43.1640879600422; 
- Thu, 30 Dec 2021 07:53:20 -0800 (PST)
+ bh=V5WBdadtyv8vwBqsDtVwfVLBxP0ZqC09RN4F0iSeJu4=;
+ b=DtfLLsOZ4K+/m6R8xMw6itKwNeNd95xDrdcXYc9RP2OSgs3chhmisPvnTDjaI1IVNm
+ qZDL/Un6gs9C8XMvoVWnRQnKkc+GLLc+x9lsUrAtGuT2bHjjO9QW+DFDKS8264FNqTkC
+ QYk9sgK6q47iJ1DfHHTfWTdT3e6aydxSA6XVbbSzUW+gvjexgA/Le2lsjeCp/ziH7Fum
+ idulJ2lxF+KXfIruk3CPBQ8gPof9Z0fnVlNY0J2Y9e0aGbrY28qhFcdaFyjInIo3rxtI
+ rDnxZ3liOD8qHyRoywREhK4clWHW2QXwGrd/iSkbSdwx7+WBf92Am60F5oYA1Sze30Xd
+ GDVQ==
+X-Gm-Message-State: AOAM530HdHx8owiuvFsrV5XhyVbxo1/tdXe/19eExB3h3MLr/tUAPpCE
+ EKRlKc+qXTTtvAhHeRGj2z5l84Q8+Qno5we0X9odftdicrleX3HKXqBUUjLkCA2og6YyQtlZlMC
+ a5Udw3QpFWAk3VIY=
+X-Received: by 2002:a5d:6cd0:: with SMTP id c16mr25369713wrc.625.1640879631758; 
+ Thu, 30 Dec 2021 07:53:51 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxegwzUw7LV/J9wYEZ+L6Nyet+AUxPc6sSypiDqL5H0bfpi0wVyDQ6u4W4A118lAg5JBxUiPQ==
+X-Received: by 2002:a5d:6cd0:: with SMTP id c16mr25369698wrc.625.1640879631620; 
+ Thu, 30 Dec 2021 07:53:51 -0800 (PST)
 Received: from [192.168.1.36] (26.red-83-50-86.dynamicip.rima-tde.net.
  [83.50.86.26])
- by smtp.gmail.com with ESMTPSA id d22sm24331944wmq.17.2021.12.30.07.53.19
+ by smtp.gmail.com with ESMTPSA id p18sm4407986wms.16.2021.12.30.07.53.50
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 30 Dec 2021 07:53:19 -0800 (PST)
-Message-ID: <fe54ebdc-ba45-7e69-0869-b8de62f71a2b@redhat.com>
-Date: Thu, 30 Dec 2021 16:53:19 +0100
+ Thu, 30 Dec 2021 07:53:51 -0800 (PST)
+Message-ID: <b84cf18f-f759-802c-832d-4a81edc749c4@redhat.com>
+Date: Thu, 30 Dec 2021 16:53:50 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.4.0
-Subject: Re: [PATCH v3 2/8] migration: Don't return for
- postcopy_chunk_hostpages()
+Subject: Re: [PATCH v3 1/8] migration: Drop dead code of
+ ram_debug_dump_bitmap()
 To: Peter Xu <peterx@redhat.com>, qemu-devel@nongnu.org
 References: <20211224065000.97572-1-peterx@redhat.com>
- <20211224065000.97572-3-peterx@redhat.com>
+ <20211224065000.97572-2-peterx@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <20211224065000.97572-3-peterx@redhat.com>
+In-Reply-To: <20211224065000.97572-2-peterx@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -81,7 +79,7 @@ X-Mimecast-Originator: redhat.com
 Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -44
 X-Spam_score: -4.5
@@ -110,14 +108,16 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 12/24/21 07:49, Peter Xu wrote:
-> It always return zero, because it just can't go wrong so far.  Simplify the
-> code with no functional change.
+> I planned to add "#ifdef DEBUG_POSTCOPY" around the function too because
+> otherwise it'll be compiled into qemu binary even if it'll never be used.  Then
+> I found that maybe it's easier to just drop it for good..
 > 
 > Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 > Signed-off-by: Peter Xu <peterx@redhat.com>
 > ---
->  migration/ram.c | 11 ++---------
->  1 file changed, 2 insertions(+), 9 deletions(-)
+>  migration/ram.c | 39 ---------------------------------------
+>  migration/ram.h |  2 --
+>  2 files changed, 41 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
