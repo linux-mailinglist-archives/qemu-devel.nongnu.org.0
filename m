@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD652482413
+	by mail.lfdr.de (Postfix) with ESMTPS id F3E39482414
 	for <lists+qemu-devel@lfdr.de>; Fri, 31 Dec 2021 13:58:30 +0100 (CET)
-Received: from localhost ([::1]:35416 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:35410 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n3HUL-0003Pu-Tw
+	id 1n3HUM-0003Pe-2H
 	for lists+qemu-devel@lfdr.de; Fri, 31 Dec 2021 07:58:30 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53692)
+Received: from eggs.gnu.org ([209.51.188.92]:53730)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1n3HLO-0006pq-C9
- for qemu-devel@nongnu.org; Fri, 31 Dec 2021 07:49:14 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:57287)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1n3HLZ-000703-ES
+ for qemu-devel@nongnu.org; Fri, 31 Dec 2021 07:49:25 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:28064)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1n3HLM-0000oi-Bl
- for qemu-devel@nongnu.org; Fri, 31 Dec 2021 07:49:13 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1n3HLX-0000qf-Gw
+ for qemu-devel@nongnu.org; Fri, 31 Dec 2021 07:49:25 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1640954951;
+ s=mimecast20190719; t=1640954962;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=bClaEEXntH4eCLk8QgonvKJOvx/K9+KjgTtycd8N1c0=;
- b=QpKQ2b2tbbe7hmy9LYcNgoR8krME+IbtMQHFSIFciafg38NVCilW7o9ToCu6h9jhQlOSoP
- Zh5DcMWGM0nF+RZ28I+mZZi+oxJXmrJdwqffb2oqp0qTZ8PkkKWuR5EEJtyN8qe+SOF3bj
- HpqGskI3zHl7yEkp7gwYCUaitH9hVPA=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=93VPh+l1pFg92Ehm7FnMqhc0uWxRDWcIdf0CzMkvjbk=;
+ b=D0nCwUwD9PoQzUzF8DcC9V7RgW2Bzjllf04rRcVesoeS6CpvwftDDbuC5j4YkKz4v3kpb5
+ QJXsh+Tl5BnlVKYAt4TQpGYiZBP7l5DSe5M2Gfd+8eNIAtc08anHVw0Fivs5vaW9oz9qOh
+ n1NGeyreO2mtUevxjtj8xttUlMkyOVw=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-617-KQxj2WK8P3Cnx-zSLd858A-1; Fri, 31 Dec 2021 07:49:11 -0500
-X-MC-Unique: KQxj2WK8P3Cnx-zSLd858A-1
-Received: by mail-wr1-f72.google.com with SMTP id
- k4-20020adfc704000000b001a32d86a772so4036773wrg.5
- for <qemu-devel@nongnu.org>; Fri, 31 Dec 2021 04:49:10 -0800 (PST)
+ us-mta-421-P3b7HEe3MO-UVXKaiCq-wg-1; Fri, 31 Dec 2021 07:49:20 -0500
+X-MC-Unique: P3b7HEe3MO-UVXKaiCq-wg-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ o20-20020adfa114000000b001a2abc089d8so7479474wro.4
+ for <qemu-devel@nongnu.org>; Fri, 31 Dec 2021 04:49:20 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=bClaEEXntH4eCLk8QgonvKJOvx/K9+KjgTtycd8N1c0=;
- b=SIJ1x5A/0aUwUKm5tIpc740szJ9USDX0GTQk8zv+pSRxOgC9bEGiVUk6eSD4hNMCQO
- PIZQHXPtYbi1J5ScSfCi8y7503PUbWAtraCZGD61j4G0jkYQDxa1jXwkzMJQJIqbFLt/
- G8cIvvTkTjKlpzq6SSy5qGlzqqe193nPNWoe4V3mRJtsfe42cf/H2xJJ7nHIB3wUDKW7
- QmQwHwcXflX6pgFAjmc6Ar5gTOjJxSXfqThe8njZrIeh9dhhgGEG6x1iN7NVS/QE0A4d
- zG/eaFhIXv/QB2v2bH/2zGmE+5NPf7rpP0vouLMxpFs98PsdV39RUGo6LM4IVpi+EAbs
- +6Wg==
-X-Gm-Message-State: AOAM533GfGR86Q/ruDQmNgzu2jX5Ooi0xdD4ts/nB5hCitf0e8kEPvXp
- k9RCacAFWM4UsWGUr8VcnTcgZXGBzuzSR6kUrA3BDrcCpT03ExXWE/Ik8ks8Ilnerz4U6kHGqX+
- ZKvcQyu8l97DdQaei4SUE6ZPu/ZsTPPR1P4TGbwhOtPIWJjsYEU25otGl0dTa/wJC
-X-Received: by 2002:a7b:cc90:: with SMTP id p16mr29756341wma.98.1640954949602; 
- Fri, 31 Dec 2021 04:49:09 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwWuCwwlXTyrcrYJKmEn7ys2XzdLsNHWQa3xdMufv+f+nHpUFYJbRjDgnt/SKcBQprZWli78Q==
-X-Received: by 2002:a7b:cc90:: with SMTP id p16mr29756326wma.98.1640954949315; 
- Fri, 31 Dec 2021 04:49:09 -0800 (PST)
+ bh=93VPh+l1pFg92Ehm7FnMqhc0uWxRDWcIdf0CzMkvjbk=;
+ b=40REgsEl3lDLjnaZaBa5ugIdQkUich7SvvH3Tc9W0xyJbAGiCwl4v1+3gNninVxkHR
+ WaZBEFNwoxLT54VaB9fpOq2glI/VU7fTJAfAEuVwv3QBRc33k2FN59GgQjKRSXf4CqAw
+ xoEhtbXGAaz4dKtG7S1OyzRzKwRcJphB+ZJbgpcSDwskjvm5hvRbXer2+c0HnBoKys5u
+ jbl9VMu6gWQy3vo/v3NRfifPgGs9eIaQ9iql30xj18zbkMGkqQmfQ64KS0G0A1/KEgvK
+ HgROQcdvFkJYQQ8KzEO4j8ADJqp066qvmX2o/c6vgkVwt7viXeX16WIfaPrO+msHQfag
+ 0gLw==
+X-Gm-Message-State: AOAM530tax3W/b89KbogYocCJC1ySPzYCivLerHe4lUY595xiHb9b8O1
+ c8DsAUvWJOnvX+4ZuHbaGa6vtN4WXbvHZEkk9qE6I4ftb5G9n5BWEZ+Pm38fXz2fDOagBoYDUvf
+ VuZDlOG6GVu1H0FfiNiO3FB4LLBnWABzWUTAkjwltWGzVWgngvnt3faZUo6aWJHv1
+X-Received: by 2002:a5d:56c2:: with SMTP id m2mr29302479wrw.313.1640954958312; 
+ Fri, 31 Dec 2021 04:49:18 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJy7CYZVL3mgRAeJ2vF4LSDCeG8wD0+tbRSix0I/GbFEekILPoeksc7hgOZi3yej2AcoCxK6rg==
+X-Received: by 2002:a5d:56c2:: with SMTP id m2mr29302458wrw.313.1640954958019; 
+ Fri, 31 Dec 2021 04:49:18 -0800 (PST)
 Received: from x1w.redhat.com (26.red-83-50-86.dynamicip.rima-tde.net.
  [83.50.86.26])
- by smtp.gmail.com with ESMTPSA id b14sm24166561wri.112.2021.12.31.04.49.08
+ by smtp.gmail.com with ESMTPSA id l26sm26399403wrz.44.2021.12.31.04.49.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 31 Dec 2021 04:49:08 -0800 (PST)
+ Fri, 31 Dec 2021 04:49:17 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 17/20] tests/unit/test-smp-parse: Keep default MIN/MAX CPUs in
- machine_base_class_init
-Date: Fri, 31 Dec 2021 13:47:51 +0100
-Message-Id: <20211231124754.1005747-18-philmd@redhat.com>
+Subject: [PULL 19/20] MAINTAINERS: Change philmd's email address
+Date: Fri, 31 Dec 2021 13:47:53 +0100
+Message-Id: <20211231124754.1005747-20-philmd@redhat.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211231124754.1005747-1-philmd@redhat.com>
 References: <20211231124754.1005747-1-philmd@redhat.com>
@@ -97,76 +96,135 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Yanan Wang <wangyanan55@huawei.com>, Eduardo Habkost <eduardo@habkost.net>,
+ Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Yanan Wang <wangyanan55@huawei.com>
+The philmd@redhat.com email address will stop working on
+2022-01-01, change it to my personal email address.
 
-Most machine types in test-smp-parse will be OK to have the default
-MIN/MAX CPUs except "smp-generic-invalid", let's keep the default
-values in machine_base_class_init which will be inherited. And if
-we hope a different value for a specific machine, modify it in its
-own initialization function.
+Update .mailmap in case anyone wants to send me an email
+because of some past commit I authored.
 
-Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20211228092221.21068-7-wangyanan55@huawei.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20211231000759.707519-1-philmd@redhat.com>
 ---
- tests/unit/test-smp-parse.c | 16 ++--------------
- 1 file changed, 2 insertions(+), 14 deletions(-)
+ .gitlab-ci.d/edk2/Dockerfile |  2 +-
+ .mailmap                     |  1 +
+ MAINTAINERS                  | 18 +++++++++---------
+ 3 files changed, 11 insertions(+), 10 deletions(-)
 
-diff --git a/tests/unit/test-smp-parse.c b/tests/unit/test-smp-parse.c
-index 72d83d1bbc9..fdc39a846ca 100644
---- a/tests/unit/test-smp-parse.c
-+++ b/tests/unit/test-smp-parse.c
-@@ -523,15 +523,10 @@ static void machine_base_class_init(ObjectClass *oc, void *data)
- {
-     MachineClass *mc = MACHINE_CLASS(oc);
+diff --git a/.gitlab-ci.d/edk2/Dockerfile b/.gitlab-ci.d/edk2/Dockerfile
+index b4584d1cf64..13029310f6d 100644
+--- a/.gitlab-ci.d/edk2/Dockerfile
++++ b/.gitlab-ci.d/edk2/Dockerfile
+@@ -3,7 +3,7 @@
+ #
+ FROM ubuntu:16.04
  
--    mc->name = g_strdup(SMP_MACHINE_NAME);
--}
--
--static void machine_generic_valid_class_init(ObjectClass *oc, void *data)
--{
--    MachineClass *mc = MACHINE_CLASS(oc);
--
-     mc->min_cpus = MIN_CPUS;
-     mc->max_cpus = MAX_CPUS;
-+
-+    mc->name = g_strdup(SMP_MACHINE_NAME);
- }
+-MAINTAINER Philippe Mathieu-Daudé <philmd@redhat.com>
++MAINTAINER Philippe Mathieu-Daudé <f4bug@amsat.org>
  
- static void machine_generic_invalid_class_init(ObjectClass *oc, void *data)
-@@ -547,9 +542,6 @@ static void machine_with_dies_class_init(ObjectClass *oc, void *data)
- {
-     MachineClass *mc = MACHINE_CLASS(oc);
+ # Install packages required to build EDK2
+ RUN apt update \
+diff --git a/.mailmap b/.mailmap
+index c45d1c53014..5113f55b3a0 100644
+--- a/.mailmap
++++ b/.mailmap
+@@ -63,6 +63,7 @@ Paul Burton <paulburton@kernel.org> <paul.burton@mips.com>
+ Paul Burton <paulburton@kernel.org> <paul.burton@imgtec.com>
+ Paul Burton <paulburton@kernel.org> <paul@archlinuxmips.org>
+ Paul Burton <paulburton@kernel.org> <pburton@wavecomp.com>
++Philippe Mathieu-Daudé <f4bug@amsat.org> <philmd@redhat.com>
+ Stefan Brankovic <stefan.brankovic@syrmia.com> <stefan.brankovic@rt-rk.com.com>
+ Yongbok Kim <yongbok.kim@mips.com> <yongbok.kim@imgtec.com>
  
--    mc->min_cpus = MIN_CPUS;
--    mc->max_cpus = MAX_CPUS;
--
-     mc->smp_props.dies_supported = true;
- }
+diff --git a/MAINTAINERS b/MAINTAINERS
+index fe5eea76f67..ae6c74f3ff5 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1630,7 +1630,7 @@ F: pc-bios/bios-microvm.bin
+ Machine core
+ M: Eduardo Habkost <eduardo@habkost.net>
+ M: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+-R: Philippe Mathieu-Daudé <philmd@redhat.com>
++R: Philippe Mathieu-Daudé <f4bug@amsat.org>
+ R: Yanan Wang <wangyanan55@huawei.com>
+ S: Supported
+ F: cpu.c
+@@ -1811,7 +1811,7 @@ F: docs/virtio-net-failover.rst
+ T: git https://github.com/jasowang/qemu.git net
  
-@@ -557,9 +549,6 @@ static void machine_with_clusters_class_init(ObjectClass *oc, void *data)
- {
-     MachineClass *mc = MACHINE_CLASS(oc);
+ Parallel NOR Flash devices
+-M: Philippe Mathieu-Daudé <philmd@redhat.com>
++M: Philippe Mathieu-Daudé <f4bug@amsat.org>
+ T: git https://gitlab.com/philmd/qemu.git pflash-next
+ S: Maintained
+ F: hw/block/pflash_cfi*.c
+@@ -2227,7 +2227,7 @@ F: hw/isa/piix4.c
+ F: include/hw/southbridge/piix.h
  
--    mc->min_cpus = MIN_CPUS;
--    mc->max_cpus = MAX_CPUS;
--
-     mc->smp_props.clusters_supported = true;
- }
+ Firmware configuration (fw_cfg)
+-M: Philippe Mathieu-Daudé <philmd@redhat.com>
++M: Philippe Mathieu-Daudé <f4bug@amsat.org>
+ R: Gerd Hoffmann <kraxel@redhat.com>
+ S: Supported
+ F: docs/specs/fw_cfg.txt
+@@ -2525,7 +2525,7 @@ F: scripts/coccinelle/errp-guard.cocci
  
-@@ -718,7 +707,6 @@ static const TypeInfo smp_machine_types[] = {
-     }, {
-         .name           = MACHINE_TYPE_NAME("smp-generic-valid"),
-         .parent         = TYPE_MACHINE,
--        .class_init     = machine_generic_valid_class_init,
-     }, {
-         .name           = MACHINE_TYPE_NAME("smp-generic-invalid"),
-         .parent         = TYPE_MACHINE,
+ GDB stub
+ M: Alex Bennée <alex.bennee@linaro.org>
+-R: Philippe Mathieu-Daudé <philmd@redhat.com>
++R: Philippe Mathieu-Daudé <f4bug@amsat.org>
+ S: Maintained
+ F: gdbstub*
+ F: include/exec/gdbstub.h
+@@ -2536,7 +2536,7 @@ Memory API
+ M: Paolo Bonzini <pbonzini@redhat.com>
+ M: Peter Xu <peterx@redhat.com>
+ M: David Hildenbrand <david@redhat.com>
+-R: Philippe Mathieu-Daudé <philmd@redhat.com>
++R: Philippe Mathieu-Daudé <f4bug@amsat.org>
+ S: Supported
+ F: include/exec/ioport.h
+ F: include/exec/memop.h
+@@ -3030,14 +3030,14 @@ F: include/hw/i2c/smbus_slave.h
+ F: include/hw/i2c/smbus_eeprom.h
+ 
+ Firmware schema specifications
+-M: Philippe Mathieu-Daudé <philmd@redhat.com>
++M: Philippe Mathieu-Daudé <f4bug@amsat.org>
+ R: Daniel P. Berrange <berrange@redhat.com>
+ R: Kashyap Chamarthy <kchamart@redhat.com>
+ S: Maintained
+ F: docs/interop/firmware.json
+ 
+ EDK2 Firmware
+-M: Philippe Mathieu-Daudé <philmd@redhat.com>
++M: Philippe Mathieu-Daudé <f4bug@amsat.org>
+ R: Gerd Hoffmann <kraxel@redhat.com>
+ S: Supported
+ F: hw/i386/*ovmf*
+@@ -3275,7 +3275,7 @@ F: block/null.c
+ NVMe Block Driver
+ M: Stefan Hajnoczi <stefanha@redhat.com>
+ R: Fam Zheng <fam@euphon.net>
+-R: Philippe Mathieu-Daudé <philmd@redhat.com>
++R: Philippe Mathieu-Daudé <f4bug@amsat.org>
+ L: qemu-block@nongnu.org
+ S: Supported
+ F: block/nvme*
+@@ -3518,7 +3518,7 @@ F: tests/tcg/Makefile.include
+ Integration Testing with the Avocado framework
+ W: https://trello.com/b/6Qi1pxVn/avocado-qemu
+ R: Cleber Rosa <crosa@redhat.com>
+-R: Philippe Mathieu-Daudé <philmd@redhat.com>
++R: Philippe Mathieu-Daudé <f4bug@amsat.org>
+ R: Wainer dos Santos Moschetta <wainersm@redhat.com>
+ R: Beraldo Leal <bleal@redhat.com>
+ S: Odd Fixes
 -- 
 2.33.1
 
