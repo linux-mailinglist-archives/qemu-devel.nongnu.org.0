@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 608494820F1
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Dec 2021 01:09:25 +0100 (CET)
-Received: from localhost ([::1]:38986 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E15B482118
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Dec 2021 01:57:52 +0100 (CET)
+Received: from localhost ([::1]:50782 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n35U4-0000ky-82
-	for lists+qemu-devel@lfdr.de; Thu, 30 Dec 2021 19:09:24 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33104)
+	id 1n36Ew-0002Qi-T2
+	for lists+qemu-devel@lfdr.de; Thu, 30 Dec 2021 19:57:50 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40176)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1n35Ss-0008Nd-Sw
- for qemu-devel@nongnu.org; Thu, 30 Dec 2021 19:08:10 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31820)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1n36D8-00006I-OQ
+ for qemu-devel@nongnu.org; Thu, 30 Dec 2021 19:55:58 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30393)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1n35Sq-0002As-M6
- for qemu-devel@nongnu.org; Thu, 30 Dec 2021 19:08:10 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1n36D5-0003PO-Pg
+ for qemu-devel@nongnu.org; Thu, 30 Dec 2021 19:55:57 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1640909287;
+ s=mimecast20190719; t=1640912154;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding;
- bh=sMo8+9HAMD4muizFSIM+Foi4zMhInQ8Z6O2BhsG6c4c=;
- b=GfrK7lCKb23hNMghblqWzyYLsWyiDuHj7BEU6vTM8XFxuel/bxgiN6u1cY1VIAVIjnDkWn
- H84Gj9pjPMXqqFjNJM5hZF8UtKGC3401nVkbjUOmiVrq4J4Vl5c8K7b5qrNo+A09ENQ/A6
- S1FJILFSdTP9Hl63FZRgZTKdwORfo9A=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=nIvnvaO7Gu9GiaMVkJIT6rNmE1jZrRoO/WYpnsIuhQA=;
+ b=foKBlJkQWJ5K8GdbPdiE1mktRvHRk4abyfS0unqnecibARPJfU/JVxlg8zvMWa8gRUgjcD
+ lYVlcZzAXk0MmXE+OFRhj+HVpkGlrJ5OYsF/oM+ti6k0OtDsE1sYcVSM1GdYLgJFQRyngu
+ GFwdvX8Dbv787fWJHfnInjUuZTF3XMA=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-110-6CAqCx8gMkyXDPxOC9l8LQ-1; Thu, 30 Dec 2021 19:08:02 -0500
-X-MC-Unique: 6CAqCx8gMkyXDPxOC9l8LQ-1
-Received: by mail-ed1-f71.google.com with SMTP id
- o20-20020a056402439400b003f83cf1e472so17979188edc.18
- for <qemu-devel@nongnu.org>; Thu, 30 Dec 2021 16:08:02 -0800 (PST)
+ us-mta-550-c98l9ruQMaexUBj9ECluMA-1; Thu, 30 Dec 2021 19:55:49 -0500
+X-MC-Unique: c98l9ruQMaexUBj9ECluMA-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ d7-20020aa7ce07000000b003f84e9b9c2fso17912684edv.3
+ for <qemu-devel@nongnu.org>; Thu, 30 Dec 2021 16:55:49 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=sMo8+9HAMD4muizFSIM+Foi4zMhInQ8Z6O2BhsG6c4c=;
- b=XyPE5kuV2D3z0jqBdhfoP45gXlPYT2tQDc+ZrfzrbbUK04Nk2ZFzuaAQoKBXcL2hgG
- Ut72R+wbBuTtlLKRpy/VLiTwjTJv6qKB6VLwyyV/m+rL+Efctr89kw35SoussubxDZQY
- 35ux2yQeM5ltlEv+aFa20qZo1O7k2ByQQq4zO+84eARLKDq0ssU22uBcJwKj6w8HLQ6L
- 98p05ar7KHP7jkyMuAc7sPusKUm/iNWD3aiW22No2kmSjrh+NUqXspS2TUwAgx1Nax4M
- 6m2LPFs4Xwx0aiaFnr1N4nZA63eOTorVrIe4FWAFJdblaV6t7TKfJlugFYhS6D/xXXUx
- zRbA==
-X-Gm-Message-State: AOAM531CuR6lGVJLcrBhUqPm9NIzHJlmjaxfJsAyvWU9SVnOdEiOwAe2
- R7K5R/vV++S/bWSQ83sFxdTE68fVFmBlzmlCihETTMD+5b1+ipz4eXAWnP5oEJyepv24gAFn+44
- oxA7IfClKz62TUKhdJCvCAo9w9Tj+PcrFvr82LI4o+HiO/WJrNhL/YwV0Eh3z79xh
-X-Received: by 2002:a17:907:76d4:: with SMTP id
- kf20mr26457782ejc.44.1640909281680; 
- Thu, 30 Dec 2021 16:08:01 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzy7IVy0qW/Y9tw3bqjZF0vGMXGbzFHGhSEmwk4HzUMnuI6ZbXpO5Es3xuE4tfakl2V3x2INA==
-X-Received: by 2002:a17:907:76d4:: with SMTP id
- kf20mr26457740ejc.44.1640909281373; 
- Thu, 30 Dec 2021 16:08:01 -0800 (PST)
+ bh=pDRmazb+4KPtkm8dzqZRVUrvxCnEvo7Ag4JhFVW3GQQ=;
+ b=0lww9BLKRuCpeGqkcWwtrAjJod6c76WHteloFEzcfhMnxPZjTVY9Lke57uwxouto28
+ SgkIs60spqcXsWmGBQ9NcoH+vDcv7OHr/nZRkTjIVPmZT4VfnrYeX3gDqaAptgbwRcPT
+ ckZpoFRQDMLIcJDzmhHgp53E/6i0PkChI19UE1Ew1xYyd2TVflXEeaEyjPD98j9g2FLC
+ lK/DHCJptSmBG8MV1XdoF3li8laO6fx8ToRu8XNGpw1ASdZcuvETbzWzTybSG36wYjnS
+ /1B7gbXRA9lM119dwS8Kyw9S7ftdtPA4h94f3zx+R2M39FQWQdNXVU7msp5W4jgnlgbo
+ Qnpw==
+X-Gm-Message-State: AOAM530gr/oCtN0rgyWb9/JKsFjCrQppPCFjzGYL9ruKFGX8/U9bFnov
+ 4nvzQ1jSPl0tM10AqK4/SA1kVd0QCx3aw3bMa5LMs9uh7KkOKK3byU42UFkEeLeDbSojmcSHM37
+ iIA38ILrbdXw9MYfXlv8O24ULM2kTTIvOoY6pW4QC7fujx5SupkIq8cAtoeiXFQpC
+X-Received: by 2002:a17:907:160d:: with SMTP id
+ hb13mr26629175ejc.588.1640912148441; 
+ Thu, 30 Dec 2021 16:55:48 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyyQMIOek6SFZjakB0nT+Sa7jnf0vDsF2OKcxwKm1xlElj9BwfcyW/kxbQKPE9gh8tAc/LbvA==
+X-Received: by 2002:a17:907:160d:: with SMTP id
+ hb13mr26629155ejc.588.1640912148151; 
+ Thu, 30 Dec 2021 16:55:48 -0800 (PST)
 Received: from x1w.redhat.com (26.red-83-50-86.dynamicip.rima-tde.net.
  [83.50.86.26])
- by smtp.gmail.com with ESMTPSA id dt13sm7988288ejc.157.2021.12.30.16.07.59
+ by smtp.gmail.com with ESMTPSA id 7sm8069766ejh.161.2021.12.30.16.55.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 Dec 2021 16:08:01 -0800 (PST)
+ Thu, 30 Dec 2021 16:55:47 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2] MAINTAINERS: Change philmd's email address
-Date: Fri, 31 Dec 2021 01:07:59 +0100
-Message-Id: <20211231000759.707519-1-philmd@redhat.com>
+Subject: [PULL 00/22] Memory API patches for 2021-12-31
+Date: Fri, 31 Dec 2021 01:55:24 +0100
+Message-Id: <20211231005546.723396-1-philmd@redhat.com>
 X-Mailer: git-send-email 2.33.1
 MIME-Version: 1.0
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -14
@@ -94,148 +94,116 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>, Fam Zheng <fam@euphon.net>,
- Thomas Huth <thuth@redhat.com>, "Daniel P . Berrange" <berrange@redhat.com>,
- qemu-block@nongnu.org, David Hildenbrand <david@redhat.com>,
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Kashyap Chamarthy <kchamart@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Peter Xu <peterx@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Beraldo Leal <bleal@redhat.com>
+ Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The philmd@redhat.com email address will stop working on
-2022-01-01, change it to my personal email address.
-
-Update .mailmap in case anyone wants to send me an email
-because of some past commit I authored.
-
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
-v2: Fixed .mailmap (Richard)
----
- .gitlab-ci.d/edk2/Dockerfile |  2 +-
- .mailmap                     |  1 +
- MAINTAINERS                  | 18 +++++++++---------
- 3 files changed, 11 insertions(+), 10 deletions(-)
-
-diff --git a/.gitlab-ci.d/edk2/Dockerfile b/.gitlab-ci.d/edk2/Dockerfile
-index b4584d1cf64..13029310f6d 100644
---- a/.gitlab-ci.d/edk2/Dockerfile
-+++ b/.gitlab-ci.d/edk2/Dockerfile
-@@ -3,7 +3,7 @@
- #
- FROM ubuntu:16.04
- 
--MAINTAINER Philippe Mathieu-Daudé <philmd@redhat.com>
-+MAINTAINER Philippe Mathieu-Daudé <f4bug@amsat.org>
- 
- # Install packages required to build EDK2
- RUN apt update \
-diff --git a/.mailmap b/.mailmap
-index c45d1c53014..5113f55b3a0 100644
---- a/.mailmap
-+++ b/.mailmap
-@@ -63,6 +63,7 @@ Paul Burton <paulburton@kernel.org> <paul.burton@mips.com>
- Paul Burton <paulburton@kernel.org> <paul.burton@imgtec.com>
- Paul Burton <paulburton@kernel.org> <paul@archlinuxmips.org>
- Paul Burton <paulburton@kernel.org> <pburton@wavecomp.com>
-+Philippe Mathieu-Daudé <f4bug@amsat.org> <philmd@redhat.com>
- Stefan Brankovic <stefan.brankovic@syrmia.com> <stefan.brankovic@rt-rk.com.com>
- Yongbok Kim <yongbok.kim@mips.com> <yongbok.kim@imgtec.com>
- 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 54565368054..c64c2be9bd5 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1630,7 +1630,7 @@ F: pc-bios/bios-microvm.bin
- Machine core
- M: Eduardo Habkost <eduardo@habkost.net>
- M: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
--R: Philippe Mathieu-Daudé <philmd@redhat.com>
-+R: Philippe Mathieu-Daudé <f4bug@amsat.org>
- S: Supported
- F: cpu.c
- F: hw/core/cpu.c
-@@ -1810,7 +1810,7 @@ F: docs/virtio-net-failover.rst
- T: git https://github.com/jasowang/qemu.git net
- 
- Parallel NOR Flash devices
--M: Philippe Mathieu-Daudé <philmd@redhat.com>
-+M: Philippe Mathieu-Daudé <f4bug@amsat.org>
- T: git https://gitlab.com/philmd/qemu.git pflash-next
- S: Maintained
- F: hw/block/pflash_cfi*.c
-@@ -2226,7 +2226,7 @@ F: hw/isa/piix4.c
- F: include/hw/southbridge/piix.h
- 
- Firmware configuration (fw_cfg)
--M: Philippe Mathieu-Daudé <philmd@redhat.com>
-+M: Philippe Mathieu-Daudé <f4bug@amsat.org>
- R: Gerd Hoffmann <kraxel@redhat.com>
- S: Supported
- F: docs/specs/fw_cfg.txt
-@@ -2524,7 +2524,7 @@ F: scripts/coccinelle/errp-guard.cocci
- 
- GDB stub
- M: Alex Bennée <alex.bennee@linaro.org>
--R: Philippe Mathieu-Daudé <philmd@redhat.com>
-+R: Philippe Mathieu-Daudé <f4bug@amsat.org>
- S: Maintained
- F: gdbstub*
- F: include/exec/gdbstub.h
-@@ -2535,7 +2535,7 @@ Memory API
- M: Paolo Bonzini <pbonzini@redhat.com>
- M: Peter Xu <peterx@redhat.com>
- M: David Hildenbrand <david@redhat.com>
--R: Philippe Mathieu-Daudé <philmd@redhat.com>
-+R: Philippe Mathieu-Daudé <f4bug@amsat.org>
- S: Supported
- F: include/exec/ioport.h
- F: include/exec/memop.h
-@@ -3029,14 +3029,14 @@ F: include/hw/i2c/smbus_slave.h
- F: include/hw/i2c/smbus_eeprom.h
- 
- Firmware schema specifications
--M: Philippe Mathieu-Daudé <philmd@redhat.com>
-+M: Philippe Mathieu-Daudé <f4bug@amsat.org>
- R: Daniel P. Berrange <berrange@redhat.com>
- R: Kashyap Chamarthy <kchamart@redhat.com>
- S: Maintained
- F: docs/interop/firmware.json
- 
- EDK2 Firmware
--M: Philippe Mathieu-Daudé <philmd@redhat.com>
-+M: Philippe Mathieu-Daudé <f4bug@amsat.org>
- R: Gerd Hoffmann <kraxel@redhat.com>
- S: Supported
- F: hw/i386/*ovmf*
-@@ -3274,7 +3274,7 @@ F: block/null.c
- NVMe Block Driver
- M: Stefan Hajnoczi <stefanha@redhat.com>
- R: Fam Zheng <fam@euphon.net>
--R: Philippe Mathieu-Daudé <philmd@redhat.com>
-+R: Philippe Mathieu-Daudé <f4bug@amsat.org>
- L: qemu-block@nongnu.org
- S: Supported
- F: block/nvme*
-@@ -3517,7 +3517,7 @@ F: tests/tcg/Makefile.include
- Integration Testing with the Avocado framework
- W: https://trello.com/b/6Qi1pxVn/avocado-qemu
- R: Cleber Rosa <crosa@redhat.com>
--R: Philippe Mathieu-Daudé <philmd@redhat.com>
-+R: Philippe Mathieu-Daudé <f4bug@amsat.org>
- R: Wainer dos Santos Moschetta <wainersm@redhat.com>
- R: Beraldo Leal <bleal@redhat.com>
- S: Odd Fixes
--- 
-2.33.1
+The following changes since commit d5a9f352896fe43183ef01072b374e89a3488315=
+:=0D
+=0D
+  Merge tag 'pull-jobs-2021-12-29' of https://src.openvz.org/scm/~vsementso=
+v/qemu into staging (2021-12-29 14:33:23 -0800)=0D
+=0D
+are available in the Git repository at:=0D
+=0D
+  https://github.com/philmd/qemu.git tags/memory-api-20211231=0D
+=0D
+for you to fetch changes up to 4a63054bce23982b99f4d3c65528e47e614086b2:=0D
+=0D
+  pci: Let ld*_pci_dma() propagate MemTxResult (2021-12-31 01:05:27 +0100)=
+=0D
+=0D
+----------------------------------------------------------------=0D
+Memory API patches=0D
+=0D
+Have various functions from the Memory API:=0D
+- take a MemTxAttrs argument,=0D
+- propagate a MemTxResult.=0D
+=0D
+Some patches trigger "WARNING: line over 80 characters",=0D
+and a pair "ERROR: spaces required around that '*' (ctx:WxV)",=0D
+both false positives.=0D
+----------------------------------------------------------------=0D
+=0D
+Philippe Mathieu-Daud=C3=A9 (22):=0D
+  hw/scsi/megasas: Use uint32_t for reply queue head/tail values=0D
+  dma: Let dma_memory_valid() take MemTxAttrs argument=0D
+  dma: Let dma_memory_set() take MemTxAttrs argument=0D
+  dma: Let dma_memory_rw_relaxed() take MemTxAttrs argument=0D
+  dma: Let dma_memory_rw() take MemTxAttrs argument=0D
+  dma: Let dma_memory_read/write() take MemTxAttrs argument=0D
+  dma: Let dma_memory_map() take MemTxAttrs argument=0D
+  dma: Have dma_buf_rw() take a void pointer=0D
+  dma: Have dma_buf_read() / dma_buf_write() take a void pointer=0D
+  pci: Let pci_dma_rw() take MemTxAttrs argument=0D
+  dma: Let dma_buf_rw() take MemTxAttrs argument=0D
+  dma: Let dma_buf_write() take MemTxAttrs argument=0D
+  dma: Let dma_buf_read() take MemTxAttrs argument=0D
+  dma: Let dma_buf_rw() propagate MemTxResult=0D
+  dma: Let st*_dma() take MemTxAttrs argument=0D
+  dma: Let ld*_dma() take MemTxAttrs argument=0D
+  dma: Let st*_dma() propagate MemTxResult=0D
+  dma: Let ld*_dma() propagate MemTxResult=0D
+  pci: Let st*_pci_dma() take MemTxAttrs argument=0D
+  pci: Let ld*_pci_dma() take MemTxAttrs argument=0D
+  pci: Let st*_pci_dma() propagate MemTxResult=0D
+  pci: Let ld*_pci_dma() propagate MemTxResult=0D
+=0D
+ include/hw/pci/pci.h          | 38 +++++++++------=0D
+ include/hw/ppc/spapr_vio.h    | 30 ++++++++----=0D
+ include/sysemu/dma.h          | 88 ++++++++++++++++++++---------------=0D
+ hw/arm/musicpal.c             | 13 +++---=0D
+ hw/arm/smmu-common.c          |  3 +-=0D
+ hw/arm/smmuv3.c               | 14 ++++--=0D
+ hw/audio/intel-hda.c          | 13 ++++--=0D
+ hw/core/generic-loader.c      |  3 +-=0D
+ hw/display/virtio-gpu.c       | 10 ++--=0D
+ hw/dma/pl330.c                | 12 +++--=0D
+ hw/dma/sparc32_dma.c          | 16 ++++---=0D
+ hw/dma/xlnx-zynq-devcfg.c     |  6 ++-=0D
+ hw/dma/xlnx_dpdma.c           | 10 ++--=0D
+ hw/hyperv/vmbus.c             |  8 ++--=0D
+ hw/i386/amd_iommu.c           | 16 ++++---=0D
+ hw/i386/intel_iommu.c         | 28 ++++++-----=0D
+ hw/ide/ahci.c                 | 18 ++++---=0D
+ hw/ide/macio.c                |  2 +-=0D
+ hw/intc/pnv_xive.c            |  7 +--=0D
+ hw/intc/spapr_xive.c          |  3 +-=0D
+ hw/intc/xive.c                |  7 +--=0D
+ hw/misc/bcm2835_property.c    |  3 +-=0D
+ hw/misc/macio/mac_dbdma.c     | 10 ++--=0D
+ hw/net/allwinner-sun8i-emac.c | 18 ++++---=0D
+ hw/net/eepro100.c             | 49 +++++++++++--------=0D
+ hw/net/ftgmac100.c            | 25 ++++++----=0D
+ hw/net/imx_fec.c              | 32 ++++++++-----=0D
+ hw/net/npcm7xx_emc.c          | 20 ++++----=0D
+ hw/net/tulip.c                | 36 +++++++-------=0D
+ hw/nvme/ctrl.c                |  5 +-=0D
+ hw/nvram/fw_cfg.c             | 16 ++++---=0D
+ hw/pci-host/pnv_phb3.c        |  5 +-=0D
+ hw/pci-host/pnv_phb3_msi.c    |  9 ++--=0D
+ hw/pci-host/pnv_phb4.c        |  5 +-=0D
+ hw/scsi/esp-pci.c             |  2 +-=0D
+ hw/scsi/megasas.c             | 64 ++++++++++++++-----------=0D
+ hw/scsi/mptsas.c              | 16 +++++--=0D
+ hw/scsi/scsi-bus.c            |  4 +-=0D
+ hw/scsi/vmw_pvscsi.c          | 20 +++++---=0D
+ hw/sd/allwinner-sdhost.c      | 14 +++---=0D
+ hw/sd/sdhci.c                 | 35 ++++++++------=0D
+ hw/usb/hcd-dwc2.c             |  8 ++--=0D
+ hw/usb/hcd-ehci.c             |  6 ++-=0D
+ hw/usb/hcd-ohci.c             | 28 ++++++-----=0D
+ hw/usb/hcd-xhci.c             | 26 +++++++----=0D
+ hw/usb/libhw.c                |  3 +-=0D
+ hw/virtio/virtio.c            |  6 ++-=0D
+ softmmu/dma-helpers.c         | 40 ++++++++++------=0D
+ hw/scsi/trace-events          |  8 ++--=0D
+ 49 files changed, 526 insertions(+), 332 deletions(-)=0D
+=0D
+--=20=0D
+2.33.1=0D
+=0D
 
 
