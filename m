@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF05948211A
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Dec 2021 01:57:57 +0100 (CET)
-Received: from localhost ([::1]:51326 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE18A48211E
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Dec 2021 02:00:37 +0100 (CET)
+Received: from localhost ([::1]:59462 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n36F3-0002p3-0T
-	for lists+qemu-devel@lfdr.de; Thu, 30 Dec 2021 19:57:57 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40190)
+	id 1n36Hc-0008De-L2
+	for lists+qemu-devel@lfdr.de; Thu, 30 Dec 2021 20:00:36 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40220)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1n36DE-0000EH-2a
- for qemu-devel@nongnu.org; Thu, 30 Dec 2021 19:56:04 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:48564)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1n36DJ-0000SH-FP
+ for qemu-devel@nongnu.org; Thu, 30 Dec 2021 19:56:09 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:46497)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1n36DC-0003TO-C1
- for qemu-devel@nongnu.org; Thu, 30 Dec 2021 19:56:03 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1n36DH-0003Wa-OR
+ for qemu-devel@nongnu.org; Thu, 30 Dec 2021 19:56:09 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1640912161;
+ s=mimecast20190719; t=1640912166;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=uy66yOKuirQhWV608pFhVD3cE7bRMCKIXJgxDkyzKSE=;
- b=WKa7uKSMg9XgHHpTY+ukQVBpGFMOOSy8iAKLwaX/t7BchwT+oawLFsQhjHv5xOjra4idcg
- yRvtTNNlexdOMi1T/MBSpvUhowX4eWI5VLB0im1pMg4cxF9nNcg9t4Er+rfOrvIL+AW95G
- pcxfbmTdqn5iZm8q0E0YBGZeGIuxPnM=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=KeiKMm3CiVyYkpY8CZBmincKnDi2qBU6go149AXy5rM=;
+ b=Neroi8xz6c7ibgkP0XtH/meXqrK3FDsimcjKud637kTeRVvTZmLuaZKp/Esc9WjsuBuwiD
+ aXT8se7AuQ4BKHe993u9BdH8yYFNnAlQ3NuOz088Ocja2KiGSzTMtHSUmXz4a+7J4EpGgb
+ +7lvXpLa47wxPAOKPGcKbIv9miUsw0Q=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-61-9zH_oyvtMaSpq5wRybqaRw-1; Thu, 30 Dec 2021 19:56:00 -0500
-X-MC-Unique: 9zH_oyvtMaSpq5wRybqaRw-1
-Received: by mail-ed1-f72.google.com with SMTP id
- w10-20020a50d78a000000b003f82342a95aso18010064edi.22
- for <qemu-devel@nongnu.org>; Thu, 30 Dec 2021 16:56:00 -0800 (PST)
+ us-mta-283-_9VmfQfoN_-8M-WnH9icbQ-1; Thu, 30 Dec 2021 19:56:05 -0500
+X-MC-Unique: _9VmfQfoN_-8M-WnH9icbQ-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ s7-20020a056402520700b003f841380832so18007501edd.5
+ for <qemu-devel@nongnu.org>; Thu, 30 Dec 2021 16:56:05 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=uy66yOKuirQhWV608pFhVD3cE7bRMCKIXJgxDkyzKSE=;
- b=YNnZz2JZpahLWfEil4nXjmG8GiaSp1JzuqWFDwfUF3V+xe8g1Y+3Ka/lReex4dlsrn
- jcjFwsEPKrPo1Mgo7urwildlF387X8EdSzK2WEgap3UNn2S7Dz/+EkEhriPAHK7VWZqb
- nSg/r9rwoMTivswO1TUTuxF/zkl+9filjuHhmJ8os5d/z78ugzQmfAR7zEbi0Pn29DVB
- qfW1RG68Mg2WHsb09ObSSI38El/u2P9F+lav6GXJTUlulLHvAj+nSfm1DXaDGOFMWZIa
- MMVYTE0/sD2qarM6Nhtgt2kaD2ebA+R77DEjVwBww3bDQmXgvOyvT2+jL/VPzIw9cTtw
- dyNA==
-X-Gm-Message-State: AOAM5319SdOSDbppK865/aW40JrfBlKQdHGzCC6MiHE/v6uegY3rUsIA
- RB0zPRuhoa3Kmpkk4vaiaewaKuSLJcxpyDHmwjY3ODU7hQPzY3abV5DrxsvGyFkw8K1PH7QFf+X
- HFf9haa+jIRg6Nh5Omn8oRHQ+N0c0nCxhhWsFZkl/03tD21jgJ3Kq+9xHAJifCedN
-X-Received: by 2002:a17:907:6291:: with SMTP id
- nd17mr27508360ejc.194.1640912158908; 
- Thu, 30 Dec 2021 16:55:58 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwI+GJ4PwEgTyOFvi3A2nlMq/uUlGx0+QlsmykwqgsEfKS1giVY8J+QNyin6Odu4eSAR35GRg==
-X-Received: by 2002:a17:907:6291:: with SMTP id
- nd17mr27508338ejc.194.1640912158703; 
- Thu, 30 Dec 2021 16:55:58 -0800 (PST)
+ bh=KeiKMm3CiVyYkpY8CZBmincKnDi2qBU6go149AXy5rM=;
+ b=qgYmykPRZZ+1kNZeYeuKYjHfkpYaYcw57CLSl5Bs6SRmUjXLtj24gK5YxZ17KEo80Y
+ WVByAD1jEEeALcHQDFOOY9yWJ/GnrmxR7/JqVFroDzkcTF9jfXRAidYlZRx1Xfck6tkz
+ gABbDUJwaWtH0AdtHd/4Ke3kpAqSHG+uOUl5bieFe9cUQEmkgGhM63vQOFPKV2NnKFFd
+ skxlx2Rr1f8IW78+JyzI/m8xDjwTMEA9s417vgaWYTsujlVw6pgwCphGNpUl/4FX2BSq
+ d+YmdCM85/S71w9ss0oLmrmGDyEGg0Cv3uFE1XxTk+Qg0PUUk1ECvH54FLRGSfNZzPKn
+ gKDw==
+X-Gm-Message-State: AOAM533Aw/0lANzlwYs9vTeh/W9lDSMBueuPgYzNAKFxA8KGcjdDGBqY
+ 7i28ws+1ZZwzDefq0TowiAcHVyZmvruOrb1yFUNf0ajEXxI5c/83Mz/AwTco5e0A73fypqS4LA9
+ bN0NaFBUMPms7S24lRYtDbFPZqjFhoZol8IPHoKnEIS8nSGrtE3A/lAs2qQRk6uWy
+X-Received: by 2002:a17:907:3f1e:: with SMTP id
+ hq30mr26395927ejc.613.1640912163820; 
+ Thu, 30 Dec 2021 16:56:03 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJy8EpB5y2+AMoaEaWfz4XYbAXOoEvLYwkRjiiX7GIsqoOr1LpK8Iery8RuK1CPuCr8UjUlmnA==
+X-Received: by 2002:a17:907:3f1e:: with SMTP id
+ hq30mr26395911ejc.613.1640912163521; 
+ Thu, 30 Dec 2021 16:56:03 -0800 (PST)
 Received: from x1w.redhat.com (26.red-83-50-86.dynamicip.rima-tde.net.
  [83.50.86.26])
- by smtp.gmail.com with ESMTPSA id w11sm6836119edd.21.2021.12.30.16.55.57
+ by smtp.gmail.com with ESMTPSA id b7sm9978785edj.24.2021.12.30.16.56.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 Dec 2021 16:55:58 -0800 (PST)
+ Thu, 30 Dec 2021 16:56:03 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 02/22] dma: Let dma_memory_valid() take MemTxAttrs argument
-Date: Fri, 31 Dec 2021 01:55:26 +0100
-Message-Id: <20211231005546.723396-3-philmd@redhat.com>
+Subject: [PULL 03/22] dma: Let dma_memory_set() take MemTxAttrs argument
+Date: Fri, 31 Dec 2021 01:55:27 +0100
+Message-Id: <20211231005546.723396-4-philmd@redhat.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211231005546.723396-1-philmd@redhat.com>
 References: <20211231005546.723396-1-philmd@redhat.com>
@@ -106,50 +106,88 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Let devices specify transaction attributes when calling
-dma_memory_valid().
+dma_memory_set().
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Li Qiang <liq3ea@gmail.com>
 Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Acked-by: Stefan Hajnoczi <stefanha@redhat.com>
-Message-Id: <20211223115554.3155328-2-philmd@redhat.com>
+Message-Id: <20211223115554.3155328-3-philmd@redhat.com>
 ---
- include/hw/ppc/spapr_vio.h | 2 +-
- include/sysemu/dma.h       | 4 ++--
- 2 files changed, 3 insertions(+), 3 deletions(-)
+ include/hw/ppc/spapr_vio.h | 3 ++-
+ include/sysemu/dma.h       | 3 ++-
+ hw/nvram/fw_cfg.c          | 3 ++-
+ softmmu/dma-helpers.c      | 5 ++---
+ 4 files changed, 8 insertions(+), 6 deletions(-)
 
 diff --git a/include/hw/ppc/spapr_vio.h b/include/hw/ppc/spapr_vio.h
-index 4bea87f39cc..4c45f1579fa 100644
+index 4c45f1579fa..c90e74a67dd 100644
 --- a/include/hw/ppc/spapr_vio.h
 +++ b/include/hw/ppc/spapr_vio.h
-@@ -91,7 +91,7 @@ static inline void spapr_vio_irq_pulse(SpaprVioDevice *dev)
- static inline bool spapr_vio_dma_valid(SpaprVioDevice *dev, uint64_t taddr,
-                                        uint32_t size, DMADirection dir)
+@@ -111,7 +111,8 @@ static inline int spapr_vio_dma_write(SpaprVioDevice *dev, uint64_t taddr,
+ static inline int spapr_vio_dma_set(SpaprVioDevice *dev, uint64_t taddr,
+                                     uint8_t c, uint32_t size)
  {
--    return dma_memory_valid(&dev->as, taddr, size, dir);
-+    return dma_memory_valid(&dev->as, taddr, size, dir, MEMTXATTRS_UNSPECIFIED);
+-    return (dma_memory_set(&dev->as, taddr, c, size) != 0) ?
++    return (dma_memory_set(&dev->as, taddr,
++                           c, size, MEMTXATTRS_UNSPECIFIED) != 0) ?
+         H_DEST_PARM : H_SUCCESS;
  }
  
- static inline int spapr_vio_dma_read(SpaprVioDevice *dev, uint64_t taddr,
 diff --git a/include/sysemu/dma.h b/include/sysemu/dma.h
-index 3201e7901db..296f3b57c9c 100644
+index 296f3b57c9c..d23516f020a 100644
 --- a/include/sysemu/dma.h
 +++ b/include/sysemu/dma.h
-@@ -73,11 +73,11 @@ static inline void dma_barrier(AddressSpace *as, DMADirection dir)
-  * dma_memory_{read,write}() and check for errors */
- static inline bool dma_memory_valid(AddressSpace *as,
-                                     dma_addr_t addr, dma_addr_t len,
--                                    DMADirection dir)
-+                                    DMADirection dir, MemTxAttrs attrs)
- {
-     return address_space_access_valid(as, addr, len,
-                                       dir == DMA_DIRECTION_FROM_DEVICE,
--                                      MEMTXATTRS_UNSPECIFIED);
-+                                      attrs);
- }
+@@ -175,9 +175,10 @@ static inline MemTxResult dma_memory_write(AddressSpace *as, dma_addr_t addr,
+  * @addr: address within that address space
+  * @c: constant byte to fill the memory
+  * @len: the number of bytes to fill with the constant byte
++ * @attrs: memory transaction attributes
+  */
+ MemTxResult dma_memory_set(AddressSpace *as, dma_addr_t addr,
+-                           uint8_t c, dma_addr_t len);
++                           uint8_t c, dma_addr_t len, MemTxAttrs attrs);
  
- static inline MemTxResult dma_memory_rw_relaxed(AddressSpace *as,
+ /**
+  * address_space_map: Map a physical memory region into a host virtual address.
+diff --git a/hw/nvram/fw_cfg.c b/hw/nvram/fw_cfg.c
+index c06b30de112..f7803fe3c30 100644
+--- a/hw/nvram/fw_cfg.c
++++ b/hw/nvram/fw_cfg.c
+@@ -399,7 +399,8 @@ static void fw_cfg_dma_transfer(FWCfgState *s)
+              * tested before.
+              */
+             if (read) {
+-                if (dma_memory_set(s->dma_as, dma.address, 0, len)) {
++                if (dma_memory_set(s->dma_as, dma.address, 0, len,
++                                   MEMTXATTRS_UNSPECIFIED)) {
+                     dma.control |= FW_CFG_DMA_CTL_ERROR;
+                 }
+             }
+diff --git a/softmmu/dma-helpers.c b/softmmu/dma-helpers.c
+index 7d766a5e89a..1f07217ad4a 100644
+--- a/softmmu/dma-helpers.c
++++ b/softmmu/dma-helpers.c
+@@ -19,7 +19,7 @@
+ /* #define DEBUG_IOMMU */
+ 
+ MemTxResult dma_memory_set(AddressSpace *as, dma_addr_t addr,
+-                           uint8_t c, dma_addr_t len)
++                           uint8_t c, dma_addr_t len, MemTxAttrs attrs)
+ {
+     dma_barrier(as, DMA_DIRECTION_FROM_DEVICE);
+ 
+@@ -31,8 +31,7 @@ MemTxResult dma_memory_set(AddressSpace *as, dma_addr_t addr,
+     memset(fillbuf, c, FILLBUF_SIZE);
+     while (len > 0) {
+         l = len < FILLBUF_SIZE ? len : FILLBUF_SIZE;
+-        error |= address_space_write(as, addr, MEMTXATTRS_UNSPECIFIED,
+-                                     fillbuf, l);
++        error |= address_space_write(as, addr, attrs, fillbuf, l);
+         len -= l;
+         addr += l;
+     }
 -- 
 2.33.1
 
