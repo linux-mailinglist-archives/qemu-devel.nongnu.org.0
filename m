@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 378D8482407
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Dec 2021 13:52:55 +0100 (CET)
-Received: from localhost ([::1]:46508 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A5AA482409
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Dec 2021 13:52:59 +0100 (CET)
+Received: from localhost ([::1]:46560 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n3HOw-0000KR-1d
-	for lists+qemu-devel@lfdr.de; Fri, 31 Dec 2021 07:52:54 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53376)
+	id 1n3HP0-0000Ma-Hq
+	for lists+qemu-devel@lfdr.de; Fri, 31 Dec 2021 07:52:58 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53404)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1n3HKL-0005pg-I1
- for qemu-devel@nongnu.org; Fri, 31 Dec 2021 07:48:09 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35739)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1n3HKP-0005sB-SV
+ for qemu-devel@nongnu.org; Fri, 31 Dec 2021 07:48:14 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:46107)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1n3HKJ-0000hD-S3
- for qemu-devel@nongnu.org; Fri, 31 Dec 2021 07:48:08 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1n3HKO-0000hW-59
+ for qemu-devel@nongnu.org; Fri, 31 Dec 2021 07:48:13 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1640954887;
+ s=mimecast20190719; t=1640954891;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=w+4sOFVvGeEBA7BnPdfDCmGmrSKk6Q3SFRcpoINpXLs=;
- b=WjT3nnVcpn996B/KLPepHl0FNciZIifax+7FLZwoKdqnnefLx6y4JgHxHXRnTmLtB8WS4+
- PLEm7cMjQsg6LsnV0/I5omnBaUXXEBZSQsN8VOowXZFFPPqKf2soXjVhyEh9jS3PfJsn/w
- jZB4ic3AE/5JnSlp7gbH8XkmO3U2S00=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=JTqiL35hH/fnhlD9CAtxeQRLllRocCsMZlpBqswrwZk=;
+ b=ECoZA3aVdYDNAbEVAnHxFuqa1wG7lG+yfJ7d/4v6cQoWLYbMe252qjx+SQjoRXOtuGIFfA
+ bF/qnVnxFnYXehkOSoKstrv/WaryJ4rorj+O8auI5Qu4Gx82FUmCCKYKfR1wX/1lSRMBpL
+ 8FUne6kLuVQEshrQREk20GaXu/k30No=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-620-ctXIyOY6OYWUzzQSfYaDwA-1; Fri, 31 Dec 2021 07:48:06 -0500
-X-MC-Unique: ctXIyOY6OYWUzzQSfYaDwA-1
-Received: by mail-wm1-f70.google.com with SMTP id
- b20-20020a05600c4e1400b003457da1c91eso7459758wmq.4
- for <qemu-devel@nongnu.org>; Fri, 31 Dec 2021 04:48:06 -0800 (PST)
+ us-mta-433-xMX-Ce7yOkiQMU9zSKDy5A-1; Fri, 31 Dec 2021 07:48:10 -0500
+X-MC-Unique: xMX-Ce7yOkiQMU9zSKDy5A-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ q21-20020adfab15000000b001a24b36e47eso7486604wrc.2
+ for <qemu-devel@nongnu.org>; Fri, 31 Dec 2021 04:48:10 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=w+4sOFVvGeEBA7BnPdfDCmGmrSKk6Q3SFRcpoINpXLs=;
- b=HX82ryBHU88b+XNI1UVPpKv2sWHkxTWsVvQHLX6Ve5GYqfmisoXvVdNJPoF2Btisya
- LqpjnvOXcz+3GpuGcb0TUodHDfCdPb1s94eaSO4di4GiCJSWRQWp8wq8/yFyvA/ACRYC
- 6ikDQ7kCr4OQcfYMKXbqxvzf3nALCl9bSjLM3L6ZhIShlrH92y2tD6i0yRQX25M5i4qq
- n/kgthS/EF7fq+sziQYnfRQVA5FbOSFEb9XY2E0t7jLOOSvj8qJFJOb/H2CR3uJvZnPt
- uyZqc43STx/JjDvYwl6iN5xtyuSaLOFQDuTFBLtblGmECfvmyVhbKXRCRKObV90TEKS7
- bd5g==
-X-Gm-Message-State: AOAM532U1Vu+kUBMdM5hKkoY4T6z5NSJyW0ikMci+ZUne18NMa2B3VPF
- XCm7RPhhpeDOm2OrROTiHJLfKuv1axDNMRU1aoRC1T+r2YRayae1ErWNOqrguRkox2mEe4IeFil
- +JCnBzIkQdH5BULInmu8VtL4lRxEyVP9QKiTqr/PSN7OUKhi9dSs/9L45s/1tRH2V
-X-Received: by 2002:a5d:5552:: with SMTP id g18mr29566589wrw.488.1640954884905; 
- Fri, 31 Dec 2021 04:48:04 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyLVTENjJV+R2FLSYKqDJYJt9nlJEAyU3i2Iu97NnYhrmRKk/KTo07di/XWcmiH/9jMF9bLIg==
-X-Received: by 2002:a5d:5552:: with SMTP id g18mr29566569wrw.488.1640954884653; 
- Fri, 31 Dec 2021 04:48:04 -0800 (PST)
+ bh=JTqiL35hH/fnhlD9CAtxeQRLllRocCsMZlpBqswrwZk=;
+ b=4pOB0ZnfRgrK4DQvmR1Q61l8gnAapYtunMjxMqLseO4MZdKma1SVGkMUMOQ9++POeT
+ bkbV0optEkQN0u4/WUhjSRweLk1TS2vaB4d3CBEs7ETmcQzwFh0f418uAzHDYK+3EQRY
+ AVPyLmt0DOo86vFOUwXD/PrKjQdqNqOwaIKRUyguPZyaMrMiC9NaWWzlSI/VhpSOnfHC
+ oLEdht46Gmxx4qlrtZAbqdNiy4Af6ilAsXDodIFBXs3HcR1V7UC1U8KavD7dln1wPLWC
+ dlaTjmffmOSd6O/rNYltprVFcjKMbIVl7mDCEnO5fhfoZqjGZDY2Ah8xb8VNskn2zFUx
+ pMqQ==
+X-Gm-Message-State: AOAM531cPRC0C99AdJK7KsSwN+OYx/WtM6VT3s9sqJ6s3RY/NrAHDs8a
+ wLggxAHBwWS6LgLZ7ug3oSxNxSH0CJhF81uF8q+Z/4G26P/NmAdgpHBjd+v+JC/rNSLbcdRK9dg
+ 7MeuOHLMSxHw2aJBDTiAItW/CycHGxOLU5OMLFSRSyyzzFI/RWgv5XJ3yQSRGHeZO
+X-Received: by 2002:a5d:6d8a:: with SMTP id l10mr29419136wrs.527.1640954889241; 
+ Fri, 31 Dec 2021 04:48:09 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwr/EmqueGAyqLvgcx4UNeUxXdD+Kd40nXpHzxituCIozj2AWoPC+VvUnNH9ocWmeRXHzswhg==
+X-Received: by 2002:a5d:6d8a:: with SMTP id l10mr29419120wrs.527.1640954889066; 
+ Fri, 31 Dec 2021 04:48:09 -0800 (PST)
 Received: from x1w.redhat.com (26.red-83-50-86.dynamicip.rima-tde.net.
  [83.50.86.26])
- by smtp.gmail.com with ESMTPSA id r7sm25915338wrt.77.2021.12.31.04.48.03
+ by smtp.gmail.com with ESMTPSA id y11sm31550168wry.70.2021.12.31.04.48.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 31 Dec 2021 04:48:04 -0800 (PST)
+ Fri, 31 Dec 2021 04:48:08 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 02/20] hw/qdev: Correct qdev_init_gpio_out_named() documentation
-Date: Fri, 31 Dec 2021 13:47:36 +0100
-Message-Id: <20211231124754.1005747-3-philmd@redhat.com>
+Subject: [PULL 03/20] hw/qdev: Correct qdev_connect_gpio_out_named()
+ documentation
+Date: Fri, 31 Dec 2021 13:47:37 +0100
+Message-Id: <20211231124754.1005747-4-philmd@redhat.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211231124754.1005747-1-philmd@redhat.com>
 References: <20211231124754.1005747-1-philmd@redhat.com>
@@ -74,7 +75,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
@@ -103,31 +104,40 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-qdev_init_gpio_out_named() is described as qdev_init_gpio_out(),
+qdev_connect_gpio_out_named() is described as qdev_connect_gpio_out(),
 and referring to itself in an endless loop, which is confusing. Fix.
 
-Reported-by: Yanan Wang <wangyanan55@huawei.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Yanan Wang <wangyanan55@huawei.com>
-Message-Id: <20211218130437.1516929-3-f4bug@amsat.org>
+Message-Id: <20211218130437.1516929-4-f4bug@amsat.org>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- include/hw/qdev-core.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ include/hw/qdev-core.h | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
 diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
-index 59a822ffceb..dcf20c69b89 100644
+index dcf20c69b89..424c48daf6e 100644
 --- a/include/hw/qdev-core.h
 +++ b/include/hw/qdev-core.h
-@@ -621,7 +621,7 @@ void qdev_init_gpio_in(DeviceState *dev, qemu_irq_handler handler, int n);
- void qdev_init_gpio_out(DeviceState *dev, qemu_irq *pins, int n);
+@@ -504,7 +504,8 @@ qemu_irq qdev_get_gpio_in_named(DeviceState *dev, const char *name, int n);
+ void qdev_connect_gpio_out(DeviceState *dev, int n, qemu_irq pin);
  
  /**
-- * qdev_init_gpio_out: create an array of named output GPIO lines
-+ * qdev_init_gpio_out_named: create an array of named output GPIO lines
-  * @dev: Device to create output GPIOs for
-  * @pins: Pointer to qemu_irq or qemu_irq array for the GPIO lines
-  * @name: Name to give this array of GPIO lines
+- * qdev_connect_gpio_out: Connect one of a device's anonymous output GPIO lines
++ * qdev_connect_gpio_out_named: Connect one of a device's named output
++ *                              GPIO lines
+  * @dev: Device whose GPIO to connect
+  * @name: Name of the output GPIO array
+  * @n: Number of the anonymous output GPIO line (which must be in range)
+@@ -526,7 +527,7 @@ void qdev_connect_gpio_out(DeviceState *dev, int n, qemu_irq pin);
+  * qemu_irqs at once, or to connect multiple outbound GPIOs to the
+  * same qemu_irq; see qdev_connect_gpio_out() for details.
+  *
+- * For named output GPIO lines, use qdev_connect_gpio_out_named().
++ * For anonymous output GPIO lines, use qdev_connect_gpio_out().
+  */
+ void qdev_connect_gpio_out_named(DeviceState *dev, const char *name, int n,
+                                  qemu_irq pin);
 -- 
 2.33.1
 
