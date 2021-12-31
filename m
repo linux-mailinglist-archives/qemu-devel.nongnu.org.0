@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C32F6482181
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Dec 2021 03:29:11 +0100 (CET)
-Received: from localhost ([::1]:36198 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 083EE48218E
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Dec 2021 03:31:49 +0100 (CET)
+Received: from localhost ([::1]:38920 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n37fK-0002fn-BL
-	for lists+qemu-devel@lfdr.de; Thu, 30 Dec 2021 21:29:10 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55136)
+	id 1n37hs-0004lF-5Q
+	for lists+qemu-devel@lfdr.de; Thu, 30 Dec 2021 21:31:48 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55604)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1n37df-0001zs-8S
- for qemu-devel@nongnu.org; Thu, 30 Dec 2021 21:27:27 -0500
-Received: from mga14.intel.com ([192.55.52.115]:19557)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1n37dc-0000pS-VX
- for qemu-devel@nongnu.org; Thu, 30 Dec 2021 21:27:26 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1640917645; x=1672453645;
- h=date:from:to:cc:subject:message-id:reply-to:references:
- mime-version:in-reply-to;
- bh=GWTpTesJcb+925QqthMUbTz8/8tLtbXxt+lqNt52Aec=;
- b=VkAXwfuScZXn+Ma9vcSxSAlbcqQRqcXf3qQ30oKDt+fS0od7g/SWN2s1
- uo9ZyFY/Dhu58fnzs/O33J3TeOs9qqWwWpccVJwhdTKtO9/GOPrg7uNRv
- 0QhA4Wn1cbOj0bvrcavKXqkHaVl0k/mMmdjyZBD89PgXWav0GQCoTqFuE
- pdHg9Do88S4nt1wPEgCOAtc8xQFRCVsixCDHBckjn3LPGoAUKZeHHvh7i
- oQxjbJIV6934cdQT41rjbzLD16qj8uT63FG64bosunAfLUkuKUOvUt6uI
- QMyA02R1eYDGelFWD3vQc7/mPUXQgA1TVB41arYGV1yvP7Usp4ZCXoS2K Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10213"; a="241970533"
-X-IronPort-AV: E=Sophos;i="5.88,250,1635231600"; d="scan'208";a="241970533"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Dec 2021 18:27:21 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,250,1635231600"; d="scan'208";a="666705441"
-Received: from chaop.bj.intel.com (HELO localhost) ([10.240.192.101])
- by fmsmga001.fm.intel.com with ESMTP; 30 Dec 2021 18:27:12 -0800
-Date: Fri, 31 Dec 2021 10:26:36 +0800
-From: Chao Peng <chao.p.peng@linux.intel.com>
-To: Sean Christopherson <seanjc@google.com>
-Subject: Re: [PATCH v3 kvm/queue 05/16] KVM: Maintain ofs_tree for fast
- memslot lookup by file offset
-Message-ID: <20211231022636.GA7025@chaop.bj.intel.com>
-References: <20211223123011.41044-1-chao.p.peng@linux.intel.com>
- <20211223123011.41044-6-chao.p.peng@linux.intel.com>
- <YcS5uStTallwRs0G@google.com>
- <20211224035418.GA43608@chaop.bj.intel.com>
- <YcuGGCo5pR31GkZE@google.com>
+ (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1n37gI-0003qA-5O; Thu, 30 Dec 2021 21:30:13 -0500
+Received: from smtp23.cstnet.cn ([159.226.251.23]:53778 helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1n37gF-00027y-0V; Thu, 30 Dec 2021 21:30:09 -0500
+Received: from [192.168.0.102] (unknown [180.156.147.178])
+ by APP-03 (Coremail) with SMTP id rQCowADX3loka85hWM3vBA--.21766S2;
+ Fri, 31 Dec 2021 10:29:57 +0800 (CST)
+Subject: Re: [PATCH v3 1/7] target/riscv: rvk: add cfg properties for zbk* and
+ zk*
+To: Bin Meng <bmeng.cn@gmail.com>
+References: <20211230143058.7352-1-liweiwei@iscas.ac.cn>
+ <20211230143058.7352-2-liweiwei@iscas.ac.cn>
+ <CAEUhbmWjnGxJ2DtrQkEVD+JAXgivPDAbwoSf+y4up6dDcvjNgQ@mail.gmail.com>
+From: liweiwei <liweiwei@iscas.ac.cn>
+Message-ID: <c43057cb-c582-bf52-b55c-4cb153bfa317@iscas.ac.cn>
+Date: Fri, 31 Dec 2021 10:29:55 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YcuGGCo5pR31GkZE@google.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-Received-SPF: none client-ip=192.55.52.115;
- envelope-from=chao.p.peng@linux.intel.com; helo=mga14.intel.com
-X-Spam_score_int: -56
-X-Spam_score: -5.7
+In-Reply-To: <CAEUhbmWjnGxJ2DtrQkEVD+JAXgivPDAbwoSf+y4up6dDcvjNgQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-CM-TRANSID: rQCowADX3loka85hWM3vBA--.21766S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7ZFykKF4DJF1UAw4fCryDWrg_yoW8uFy8p3
+ y5Ga15Ar9rAryxCw4fZFyUKF1rWwn7GryIga9rtFn3GrWIkrWfJF4qkw429F4vqF4FvF1a
+ gF1YkF1qkFsrAFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUBv14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
+ 6r4UJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26F
+ 4UJVW0owAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv
+ 7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r
+ 1j6r4UM4x0Y48IcVAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628v
+ n2kIc2xKxwCYjI0SjxkI62AI1cAE67vIY487MxkF7I0Ew4C26cxK6c8Ij28IcwCF04k20x
+ vY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I
+ 3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIx
+ AIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAI
+ cVCF04k26cxKx2IYs7xG6rWUJVWrZr1UMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4
+ A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JU2fOwUUUUU=
+X-Originating-IP: [180.156.147.178]
+X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
+Received-SPF: pass client-ip=159.226.251.23; envelope-from=liweiwei@iscas.ac.cn;
+ helo=cstnet.cn
+X-Spam_score_int: -52
+X-Spam_score: -5.3
 X-Spam_bar: -----
-X-Spam_report: (-5.7 / 5.0 requ) DKIMWL_WL_HIGH=-0.573, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-5.3 / 5.0 requ) NICE_REPLY_A=-3.024, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_BL=0.001, RCVD_IN_MSPIKE_L4=0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,82 +75,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
-Cc: Wanpeng Li <wanpengli@tencent.com>, jun.nakajima@intel.com,
- kvm@vger.kernel.org, david@redhat.com, qemu-devel@nongnu.org,
- "J . Bruce Fields" <bfields@fieldses.org>, linux-mm@kvack.org,
- "H . Peter Anvin" <hpa@zytor.com>, ak@linux.intel.com,
- Jonathan Corbet <corbet@lwn.net>, Joerg Roedel <joro@8bytes.org>,
- x86@kernel.org, Hugh Dickins <hughd@google.com>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- luto@kernel.org, Thomas Gleixner <tglx@linutronix.de>,
- Vitaly Kuznetsov <vkuznets@redhat.com>, Jim Mattson <jmattson@google.com>,
- dave.hansen@intel.com, susie.li@intel.com, Jeff Layton <jlayton@kernel.org>,
- linux-kernel@vger.kernel.org, john.ji@intel.com,
- Yu Zhang <yu.c.zhang@linux.intel.com>, linux-fsdevel@vger.kernel.org,
- Paolo Bonzini <pbonzini@redhat.com>, Andrew Morton <akpm@linux-foundation.org>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
+Cc: lazyparser@gmail.com, "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ lustrew@foxmail.com, wangjunqiang <wangjunqiang@iscas.ac.cn>,
+ Bin Meng <bin.meng@windriver.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>, luruibo2000@163.com,
+ Alistair Francis <alistair.francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Dec 28, 2021 at 09:48:08PM +0000, Sean Christopherson wrote:
-> On Fri, Dec 24, 2021, Chao Peng wrote:
-> > On Thu, Dec 23, 2021 at 06:02:33PM +0000, Sean Christopherson wrote:
-> > > On Thu, Dec 23, 2021, Chao Peng wrote:
-> > > 
-> > > In other words, there needs to be a 1:1 gfn:file+offset mapping.  Since userspace
-> > > likely wants to allocate a single file for guest private memory and map it into
-> > > multiple discontiguous slots, e.g. to skip the PCI hole, the best idea off the top
-> > > of my head would be to register the notifier on a per-slot basis, not a per-VM
-> > > basis.  It would require a 'struct kvm *' in 'struct kvm_memory_slot', but that's
-> > > not a huge deal.
-> > > 
-> > > That way, KVM's notifier callback already knows the memslot and can compute overlap
-> > > between the memslot and the range by reversing the math done by kvm_memfd_get_pfn().
-> > > Then, armed with the gfn and slot, invalidation is just a matter of constructing
-> > > a struct kvm_gfn_range and invoking kvm_unmap_gfn_range().
-> > 
-> > KVM is easy but the kernel bits would be difficulty, it has to maintain
-> > fd+offset to memslot mapping because one fd can have multiple memslots,
-> > it need decide which memslot needs to be notified.
-> 
-> No, the kernel side maintains an opaque pointer like it does today,
 
-But the opaque pointer will now become memslot, isn't it? That said,
-kernel side should maintain a list of opaque pointer (memslot) instead
-of one for each fd (inode) since a fd to memslot mapping is 1:M now.
+在 2021/12/31 上午10:04, Bin Meng 写道:
+> On Thu, Dec 30, 2021 at 10:32 PM liweiwei <liweiwei@iscas.ac.cn> wrote:
+>> Signed-off-by: liweiwei <liweiwei@iscas.ac.cn>
+>> Signed-off-by: wangjunqiang <wangjunqiang@iscas.ac.cn>
+> nits: looks like the best practice of the name is:
+>
+> Weiwei Li and Junqiang Wang
+>
+Thanks for your comment.  I'll update this later.
+>> Acked-by: Alistair Francis <alistair.francis@wdc.com>
+>> ---
+>>   target/riscv/cpu.c | 23 +++++++++++++++++++++++
+>>   target/riscv/cpu.h | 13 +++++++++++++
+>>   2 files changed, 36 insertions(+)
+>>
+>> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+>> index 6ef3314bce..961c5f4334 100644
+>> --- a/target/riscv/cpu.c
+>> +++ b/target/riscv/cpu.c
+>> @@ -491,6 +491,29 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+>>               cpu->cfg.ext_d = true;
+>>           }
+>>
+>> +        if (cpu->cfg.ext_zk) {
+>> +            cpu->cfg.ext_zkn = true;
+>> +            cpu->cfg.ext_zkr = true;
+>> +            cpu->cfg.ext_zkt = true;
+>> +        }
+>> +
+>> +        if (cpu->cfg.ext_zkn) {
+>> +            cpu->cfg.ext_zbkb = true;
+>> +            cpu->cfg.ext_zbkc = true;
+>> +            cpu->cfg.ext_zbkx = true;
+>> +            cpu->cfg.ext_zkne = true;
+>> +            cpu->cfg.ext_zknd = true;
+>> +            cpu->cfg.ext_zknh = true;
+>> +        }
+>> +
+>> +        if (cpu->cfg.ext_zks) {
+>> +            cpu->cfg.ext_zbkb = true;
+>> +            cpu->cfg.ext_zbkc = true;
+>> +            cpu->cfg.ext_zbkx = true;
+>> +            cpu->cfg.ext_zksed = true;
+>> +            cpu->cfg.ext_zksh = true;
+>> +        }
+>> +
+>>           /* Set the ISA extensions, checks should have happened above */
+>>           if (cpu->cfg.ext_i) {
+>>               ext |= RVI;
+>> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+>> index dc10f27093..edca7118ff 100644
+>> --- a/target/riscv/cpu.h
+>> +++ b/target/riscv/cpu.h
+>> @@ -311,7 +311,20 @@ struct RISCVCPU {
+>>           bool ext_zba;
+>>           bool ext_zbb;
+>>           bool ext_zbc;
+>> +        bool ext_zbkb;
+>> +        bool ext_zbkc;
+>> +        bool ext_zbkx;
+>>           bool ext_zbs;
+>> +        bool ext_zk;
+>> +        bool ext_zkn;
+>> +        bool ext_zknd;
+>> +        bool ext_zkne;
+>> +        bool ext_zknh;
+>> +        bool ext_zkr;
+>> +        bool ext_zks;
+>> +        bool ext_zksed;
+>> +        bool ext_zksh;
+>> +        bool ext_zkt;
+>>           bool ext_counters;
+>>           bool ext_ifencei;
+>>           bool ext_icsr;
+>> --
+> Regards,
+> Bin
 
->KVM handles
-> reverse engineering the memslot to get the offset and whatever else it needs.
-> notify_fallocate() and other callbacks are unchanged, though they probably can
-> drop the inode.
-> 
-> E.g. likely with bad math and handwaving on the overlap detection:
-> 
-> int kvm_private_fd_fallocate_range(void *owner, pgoff_t start, pgoff_t end)
-> {
-> 	struct kvm_memory_slot *slot = owner;
-> 	struct kvm_gfn_range gfn_range = {
-> 		.slot	   = slot,
-> 		.start	   = (start - slot->private_offset) >> PAGE_SHIFT,
-> 		.end	   = (end - slot->private_offset) >> PAGE_SHIFT,
-> 		.may_block = true,
-> 	};
-> 
-> 	if (!has_overlap(slot, start, end))
-> 		return 0;
-> 
-> 	gfn_range.end = min(gfn_range.end, slot->base_gfn + slot->npages);
-> 
-> 	kvm_unmap_gfn_range(slot->kvm, &gfn_range);
-> 	return 0;
-> }
-
-I understand this KVM side handling, but again one fd can have multiple
-memslots. How shmem decides to notify which memslot from a list of
-memslots when it invokes the notify_fallocate()? Or just notify all
-the possible memslots then let KVM to check? 
-
-Thanks,
-Chao
 
