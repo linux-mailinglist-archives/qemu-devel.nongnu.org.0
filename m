@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A5AA482409
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Dec 2021 13:52:59 +0100 (CET)
-Received: from localhost ([::1]:46560 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBB8A48240E
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Dec 2021 13:55:54 +0100 (CET)
+Received: from localhost ([::1]:55060 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n3HP0-0000Ma-Hq
-	for lists+qemu-devel@lfdr.de; Fri, 31 Dec 2021 07:52:58 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53404)
+	id 1n3HRp-00064v-U1
+	for lists+qemu-devel@lfdr.de; Fri, 31 Dec 2021 07:55:53 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53428)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1n3HKP-0005sB-SV
- for qemu-devel@nongnu.org; Fri, 31 Dec 2021 07:48:14 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:46107)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1n3HKU-0005wa-Fv
+ for qemu-devel@nongnu.org; Fri, 31 Dec 2021 07:48:18 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:49127)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1n3HKO-0000hW-59
- for qemu-devel@nongnu.org; Fri, 31 Dec 2021 07:48:13 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1n3HKS-0000jn-On
+ for qemu-devel@nongnu.org; Fri, 31 Dec 2021 07:48:18 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1640954891;
+ s=mimecast20190719; t=1640954896;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=JTqiL35hH/fnhlD9CAtxeQRLllRocCsMZlpBqswrwZk=;
- b=ECoZA3aVdYDNAbEVAnHxFuqa1wG7lG+yfJ7d/4v6cQoWLYbMe252qjx+SQjoRXOtuGIFfA
- bF/qnVnxFnYXehkOSoKstrv/WaryJ4rorj+O8auI5Qu4Gx82FUmCCKYKfR1wX/1lSRMBpL
- 8FUne6kLuVQEshrQREk20GaXu/k30No=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=uQrjre6Db1sZNkT4sskEN8IBgNsCcPmlEpkvvQNs6e4=;
+ b=JZO+Wzo5fvgLhBsdymW1W8HZjZoqw/hfiC9x46R3w50k1nYqBpNAzW0Key9dTNM+lcTdQG
+ oSyy1g9drjCr4IwrZLY9EkC6QFITOwvvWDL1BQKUc3pkFlVaD+l+er8zq1Ps2aqvjoe9aB
+ wQZRSX9xk84DexgcVKOGgU0aj1tu2u4=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-433-xMX-Ce7yOkiQMU9zSKDy5A-1; Fri, 31 Dec 2021 07:48:10 -0500
-X-MC-Unique: xMX-Ce7yOkiQMU9zSKDy5A-1
-Received: by mail-wr1-f72.google.com with SMTP id
- q21-20020adfab15000000b001a24b36e47eso7486604wrc.2
- for <qemu-devel@nongnu.org>; Fri, 31 Dec 2021 04:48:10 -0800 (PST)
+ us-mta-59-r5P0qJ9-Oi-xUO6VbEsSTg-1; Fri, 31 Dec 2021 07:48:15 -0500
+X-MC-Unique: r5P0qJ9-Oi-xUO6VbEsSTg-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ w25-20020adf8bd9000000b001a255212b7cso7494131wra.18
+ for <qemu-devel@nongnu.org>; Fri, 31 Dec 2021 04:48:15 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=JTqiL35hH/fnhlD9CAtxeQRLllRocCsMZlpBqswrwZk=;
- b=4pOB0ZnfRgrK4DQvmR1Q61l8gnAapYtunMjxMqLseO4MZdKma1SVGkMUMOQ9++POeT
- bkbV0optEkQN0u4/WUhjSRweLk1TS2vaB4d3CBEs7ETmcQzwFh0f418uAzHDYK+3EQRY
- AVPyLmt0DOo86vFOUwXD/PrKjQdqNqOwaIKRUyguPZyaMrMiC9NaWWzlSI/VhpSOnfHC
- oLEdht46Gmxx4qlrtZAbqdNiy4Af6ilAsXDodIFBXs3HcR1V7UC1U8KavD7dln1wPLWC
- dlaTjmffmOSd6O/rNYltprVFcjKMbIVl7mDCEnO5fhfoZqjGZDY2Ah8xb8VNskn2zFUx
- pMqQ==
-X-Gm-Message-State: AOAM531cPRC0C99AdJK7KsSwN+OYx/WtM6VT3s9sqJ6s3RY/NrAHDs8a
- wLggxAHBwWS6LgLZ7ug3oSxNxSH0CJhF81uF8q+Z/4G26P/NmAdgpHBjd+v+JC/rNSLbcdRK9dg
- 7MeuOHLMSxHw2aJBDTiAItW/CycHGxOLU5OMLFSRSyyzzFI/RWgv5XJ3yQSRGHeZO
-X-Received: by 2002:a5d:6d8a:: with SMTP id l10mr29419136wrs.527.1640954889241; 
- Fri, 31 Dec 2021 04:48:09 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwr/EmqueGAyqLvgcx4UNeUxXdD+Kd40nXpHzxituCIozj2AWoPC+VvUnNH9ocWmeRXHzswhg==
-X-Received: by 2002:a5d:6d8a:: with SMTP id l10mr29419120wrs.527.1640954889066; 
- Fri, 31 Dec 2021 04:48:09 -0800 (PST)
+ bh=uQrjre6Db1sZNkT4sskEN8IBgNsCcPmlEpkvvQNs6e4=;
+ b=Ms3uEPBG3n598M5nJ/uhc43c1KfY6sXnSUIn4uYk3zrZthiyYK5IDRatH/modAMMfA
+ C6Kx6iR0a6pdWrZoB68onNDVtlHp7Gi/EpBvb+rmQpGP3f5mVGDs5EVytqehaKGay5t8
+ zGN17cl7mBL+GGHuweYKPYfuqeIpxYr+Mm4WgkXaMsLfqxl67j1mpgaLbt991a0mqbSq
+ QNv1SRRTIzdijaEt0mOK9MlEFQcsHctt3wGYl4PEIXrryoMWWrY/1doq2j+DfBaY4T0/
+ To4KVwx1igYhz1EURocePvIQx9T1ChpefV87OSzk/TMk8YBea83jp+VTcY8p4YExSUle
+ J+bQ==
+X-Gm-Message-State: AOAM5329MLmesEXjH6b/Ynmm9oIYzhn/nTKhlmyoF3iCifHhOUCndXru
+ 3kW11WUg+I5Ntn6QfqEPCQw6sa2KY9GGH77FQOxFDk13caxrKbuEL1dXAGo4oz3g7D6SRZwzKKk
+ WvHAsV+QV/8aqWSxrVBa6FWH4HHrTWnh7RoL4rhMigOSQdhM7cMyP1K3libcCV/62
+X-Received: by 2002:a5d:488a:: with SMTP id g10mr15576231wrq.653.1640954893603; 
+ Fri, 31 Dec 2021 04:48:13 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzj64MCdxk3k9Hhr8hj4/AtZ9Fw4XMI0Tl40rrw40U5RcpByN32mz7ctTQDt60mIgKX5OMRdg==
+X-Received: by 2002:a5d:488a:: with SMTP id g10mr15576206wrq.653.1640954893349; 
+ Fri, 31 Dec 2021 04:48:13 -0800 (PST)
 Received: from x1w.redhat.com (26.red-83-50-86.dynamicip.rima-tde.net.
  [83.50.86.26])
- by smtp.gmail.com with ESMTPSA id y11sm31550168wry.70.2021.12.31.04.48.08
+ by smtp.gmail.com with ESMTPSA id g6sm27436067wri.67.2021.12.31.04.48.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 31 Dec 2021 04:48:08 -0800 (PST)
+ Fri, 31 Dec 2021 04:48:13 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 03/20] hw/qdev: Correct qdev_connect_gpio_out_named()
- documentation
-Date: Fri, 31 Dec 2021 13:47:37 +0100
-Message-Id: <20211231124754.1005747-4-philmd@redhat.com>
+Subject: [PULL 04/20] hw/qdev: Rename qdev_connect_gpio_out*() 'input_pin'
+ parameter
+Date: Fri, 31 Dec 2021 13:47:38 +0100
+Message-Id: <20211231124754.1005747-5-philmd@redhat.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211231124754.1005747-1-philmd@redhat.com>
 References: <20211231124754.1005747-1-philmd@redhat.com>
@@ -104,40 +104,88 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-qdev_connect_gpio_out_named() is described as qdev_connect_gpio_out(),
-and referring to itself in an endless loop, which is confusing. Fix.
+@pin is an input where we connect a device output.
+Rename it @input_pin to simplify the documentation.
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Yanan Wang <wangyanan55@huawei.com>
-Message-Id: <20211218130437.1516929-4-f4bug@amsat.org>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <20211218130437.1516929-5-f4bug@amsat.org>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- include/hw/qdev-core.h | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ include/hw/qdev-core.h |  6 +++---
+ hw/core/gpio.c         | 13 +++++++------
+ 2 files changed, 10 insertions(+), 9 deletions(-)
 
 diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
-index dcf20c69b89..424c48daf6e 100644
+index 424c48daf6e..d19c9417520 100644
 --- a/include/hw/qdev-core.h
 +++ b/include/hw/qdev-core.h
-@@ -504,7 +504,8 @@ qemu_irq qdev_get_gpio_in_named(DeviceState *dev, const char *name, int n);
- void qdev_connect_gpio_out(DeviceState *dev, int n, qemu_irq pin);
- 
- /**
-- * qdev_connect_gpio_out: Connect one of a device's anonymous output GPIO lines
-+ * qdev_connect_gpio_out_named: Connect one of a device's named output
-+ *                              GPIO lines
+@@ -476,7 +476,7 @@ qemu_irq qdev_get_gpio_in_named(DeviceState *dev, const char *name, int n);
+  * qdev_connect_gpio_out: Connect one of a device's anonymous output GPIO lines
+  * @dev: Device whose GPIO to connect
+  * @n: Number of the anonymous output GPIO line (which must be in range)
+- * @pin: qemu_irq to connect the output line to
++ * @input_pin: qemu_irq to connect the output line to
+  *
+  * This function connects an anonymous output GPIO line on a device
+  * up to an arbitrary qemu_irq, so that when the device asserts that
+@@ -509,7 +509,7 @@ void qdev_connect_gpio_out(DeviceState *dev, int n, qemu_irq pin);
   * @dev: Device whose GPIO to connect
   * @name: Name of the output GPIO array
   * @n: Number of the anonymous output GPIO line (which must be in range)
-@@ -526,7 +527,7 @@ void qdev_connect_gpio_out(DeviceState *dev, int n, qemu_irq pin);
-  * qemu_irqs at once, or to connect multiple outbound GPIOs to the
-  * same qemu_irq; see qdev_connect_gpio_out() for details.
+- * @pin: qemu_irq to connect the output line to
++ * @input_pin: qemu_irq to connect the output line to
   *
-- * For named output GPIO lines, use qdev_connect_gpio_out_named().
-+ * For anonymous output GPIO lines, use qdev_connect_gpio_out().
+  * This function connects an anonymous output GPIO line on a device
+  * up to an arbitrary qemu_irq, so that when the device asserts that
+@@ -530,7 +530,7 @@ void qdev_connect_gpio_out(DeviceState *dev, int n, qemu_irq pin);
+  * For anonymous output GPIO lines, use qdev_connect_gpio_out().
   */
  void qdev_connect_gpio_out_named(DeviceState *dev, const char *name, int n,
-                                  qemu_irq pin);
+-                                 qemu_irq pin);
++                                 qemu_irq input_pin);
+ 
+ /**
+  * qdev_get_gpio_out_connector: Get the qemu_irq connected to an output GPIO
+diff --git a/hw/core/gpio.c b/hw/core/gpio.c
+index 8e6b4f5edf3..80d07a6ec99 100644
+--- a/hw/core/gpio.c
++++ b/hw/core/gpio.c
+@@ -115,17 +115,18 @@ qemu_irq qdev_get_gpio_in(DeviceState *dev, int n)
+ }
+ 
+ void qdev_connect_gpio_out_named(DeviceState *dev, const char *name, int n,
+-                                 qemu_irq pin)
++                                 qemu_irq input_pin)
+ {
+     char *propname = g_strdup_printf("%s[%d]",
+                                      name ? name : "unnamed-gpio-out", n);
+-    if (pin && !OBJECT(pin)->parent) {
++    if (input_pin && !OBJECT(input_pin)->parent) {
+         /* We need a name for object_property_set_link to work */
+         object_property_add_child(container_get(qdev_get_machine(),
+                                                 "/unattached"),
+-                                  "non-qdev-gpio[*]", OBJECT(pin));
++                                  "non-qdev-gpio[*]", OBJECT(input_pin));
+     }
+-    object_property_set_link(OBJECT(dev), propname, OBJECT(pin), &error_abort);
++    object_property_set_link(OBJECT(dev), propname,
++                             OBJECT(input_pin), &error_abort);
+     g_free(propname);
+ }
+ 
+@@ -165,9 +166,9 @@ qemu_irq qdev_intercept_gpio_out(DeviceState *dev, qemu_irq icpt,
+     return disconnected;
+ }
+ 
+-void qdev_connect_gpio_out(DeviceState *dev, int n, qemu_irq pin)
++void qdev_connect_gpio_out(DeviceState *dev, int n, qemu_irq input_pin)
+ {
+-    qdev_connect_gpio_out_named(dev, NULL, n, pin);
++    qdev_connect_gpio_out_named(dev, NULL, n, input_pin);
+ }
+ 
+ void qdev_pass_gpios(DeviceState *dev, DeviceState *container,
 -- 
 2.33.1
 
