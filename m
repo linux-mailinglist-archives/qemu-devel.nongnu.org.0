@@ -2,71 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B4F9482280
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Dec 2021 07:32:35 +0100 (CET)
-Received: from localhost ([::1]:47738 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99DC4482295
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Dec 2021 08:34:11 +0100 (CET)
+Received: from localhost ([::1]:58074 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n3BSs-0005kS-E1
-	for lists+qemu-devel@lfdr.de; Fri, 31 Dec 2021 01:32:34 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37564)
+	id 1n3CQU-0006zk-4Q
+	for lists+qemu-devel@lfdr.de; Fri, 31 Dec 2021 02:34:10 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48058)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1n3BP4-0003zA-2U; Fri, 31 Dec 2021 01:28:39 -0500
-Received: from [2607:f8b0:4864:20::b32] (port=44994
- helo=mail-yb1-xb32.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1n3BP2-0005t9-Fn; Fri, 31 Dec 2021 01:28:37 -0500
-Received: by mail-yb1-xb32.google.com with SMTP id i3so63737084ybh.11;
- Thu, 30 Dec 2021 22:28:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=qC4p5MBo1f2jzshZnn28VPpiyg3eAGA22vMrjRj/y8k=;
- b=jXTm41uvD+1pLnNvqKASuOwYP/siy2O88y4i4N3QkEAwc6FTiNB6mffCK5drVR/Uqw
- yiSJOtdVD0kK2dXQfgCN2Gcqc9lOq0kWYdhbb/nJtdlEjMnX4kMEyj90dDWuHAF5FRVW
- 7zq6WQauyoodxZ5R6sRhlu+C8d9k1q37u1guRJ1jsJeGpPltvWzrnuSaFGvrdfFMz6xH
- FXhgGa+EypqCtZFFkcpcYu/x3zpHsgy94QXwkMkTgWWSbTmg+tT1oeQ3B1poyWiB+CJd
- Thg1r9Y1FbckI/homy74HhNmYbkOYzDIo2ft/t7Ae8Q0p781YWmFicWRuu2SlALUWANY
- Mwaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=qC4p5MBo1f2jzshZnn28VPpiyg3eAGA22vMrjRj/y8k=;
- b=y/x5gEjS2WROzMtUqX1XSQpnWjqpKylvumR9wlZMBODb9+b8RF37pbp2LwI2JCn01X
- AV2Q/rG+rCez5iD0bsCo8nINc8b8KNdvvHoHxcRf4x/njioPojafAhV5raZTsT1XzQ4/
- BOYhwMnr0ku0HZUCMW66p5WF0QBmSE9hexGXqeAtAHdsDmq9nGhImmjRrjSr24e2d8jd
- qVyHvC7vCIgxuP/agGJ/fElYxf1gwU294FRYPxh9UQ4Kh79UJm2Qf/na8if9zk7d06LE
- GezjjkMIsNADuVbpwW96x7+0aVnakquqsJ1gcA6zgDudVp0xzMvZHiJy+ie8dfTkggz1
- qoQg==
-X-Gm-Message-State: AOAM532qNef09g8DDPwK5MrG5OOlZxLxu/0GmT07WiwqydKJuMta0cW+
- M86syQU6LmX93QM0YUKJfToI8e5mdddTTjDu7Yw=
-X-Google-Smtp-Source: ABdhPJw4i7j+UrTk5nbh7ej3FRN8jC8N0ACEWUoglUi9+7jKpXTHcOaQYusq2VtX2TFmqxQmlAhp93xqjHURMlA7fHQ=
-X-Received: by 2002:a25:3242:: with SMTP id y63mr27856104yby.670.1640932115091; 
- Thu, 30 Dec 2021 22:28:35 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1n3CNE-00063E-L3
+ for qemu-devel@nongnu.org; Fri, 31 Dec 2021 02:30:48 -0500
+Received: from szxga02-in.huawei.com ([45.249.212.188]:4152)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1n3CNA-0002Xx-Ff
+ for qemu-devel@nongnu.org; Fri, 31 Dec 2021 02:30:48 -0500
+Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.53])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4JQGxB3sm9z9s2P;
+ Fri, 31 Dec 2021 15:29:34 +0800 (CST)
+Received: from [10.174.187.128] (10.174.187.128) by
+ dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
+ 15.1.2308.20; Fri, 31 Dec 2021 15:30:30 +0800
+Subject: Re: [PATCH 1/3] hw/qdev: Restrict qdev_get_gpio_out_connector() to
+ qdev-internal.h
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ <qemu-devel@nongnu.org>
+CC: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>, Eduardo
+ Habkost <eduardo@habkost.net>, Peter Maydell <peter.maydell@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>, Paolo Bonzini
+ <pbonzini@redhat.com>
+References: <20211229225206.171882-1-philmd@redhat.com>
+ <20211229225206.171882-2-philmd@redhat.com>
+Message-ID: <8bf1a23a-7e3e-538b-3854-629545a98089@huawei.com>
+Date: Fri, 31 Dec 2021 15:30:30 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-References: <20211231032337.15579-1-liweiwei@iscas.ac.cn>
- <20211231032337.15579-2-liweiwei@iscas.ac.cn>
-In-Reply-To: <20211231032337.15579-2-liweiwei@iscas.ac.cn>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Fri, 31 Dec 2021 14:28:23 +0800
-Message-ID: <CAEUhbmWG-G96R6k8frQg+cdwkEV84xkQKt3h8zd=Wg1H8_aSfA@mail.gmail.com>
-Subject: Re: [PATCH v2 1/6] target/riscv: add cfg properties for zfinx, zdinx
- and zhinx{min}
-To: Weiwei Li <liweiwei@iscas.ac.cn>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b32
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b32;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb32.google.com
-X-Spam_score_int: 6
-X-Spam_score: 0.6
-X-Spam_bar: /
-X-Spam_report: (0.6 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <20211229225206.171882-2-philmd@redhat.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-Originating-IP: [10.174.187.128]
+X-ClientProxiedBy: dggeme710-chm.china.huawei.com (10.1.199.106) To
+ dggpemm500023.china.huawei.com (7.185.36.83)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.188;
+ envelope-from=wangyanan55@huawei.com; helo=szxga02-in.huawei.com
+X-Spam_score_int: -52
+X-Spam_score: -5.3
+X-Spam_bar: -----
+X-Spam_report: (-5.3 / 5.0 requ) NICE_REPLY_A=-3.024, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,111 +69,105 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lazyparser@gmail.com, "open list:RISC-V" <qemu-riscv@nongnu.org>,
- wangjunqiang <wangjunqiang@iscas.ac.cn>, Bin Meng <bin.meng@windriver.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>, ardxwe@gmail.com,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  "wangyanan (Y)" <wangyanan55@huawei.com>
+From:  "wangyanan (Y)" via <qemu-devel@nongnu.org>
 
-On Fri, Dec 31, 2021 at 11:26 AM Weiwei Li <liweiwei@iscas.ac.cn> wrote:
+Hi,
+
+On 2021/12/30 6:52, Philippe Mathieu-Daudé wrote:
+> qdev_get_gpio_out_connector() is called by sysbus_get_connected_irq()
+> which is only used by platform-bus.c; restrict it to hw/core/ by
+> adding a local "qdev-internal.h" header.
 >
-> From: liweiwei <liweiwei@iscas.ac.cn>
-
-You missed here, "From" should match "SoB" name
-
->
-> Co-authored-by: ardxwe <ardxwe@gmail.com>
-> Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
-> Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 > ---
->  target/riscv/cpu.c       | 12 ++++++++++++
->  target/riscv/cpu.h       |  4 ++++
->  target/riscv/translate.c |  8 ++++++++
->  3 files changed, 24 insertions(+)
+>   hw/core/qdev-internal.h | 15 +++++++++++++++
+>   include/hw/qdev-core.h  | 18 ------------------
+>   hw/core/gpio.c          |  1 +
+>   hw/core/sysbus.c        |  1 +
+>   4 files changed, 17 insertions(+), 18 deletions(-)
+>   create mode 100644 hw/core/qdev-internal.h
 >
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index 6ef3314bce..d9ea005724 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -491,6 +491,11 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
->              cpu->cfg.ext_d = true;
->          }
->
-> +        if (cpu->cfg.ext_zdinx || cpu->cfg.ext_zhinx ||
-> +            cpu->cfg.ext_zhinxmin) {
-> +            cpu->cfg.ext_zfinx = true;
-> +        }
+> diff --git a/hw/core/qdev-internal.h b/hw/core/qdev-internal.h
+> new file mode 100644
+> index 00000000000..6ec17d0ea70
+> --- /dev/null
+> +++ b/hw/core/qdev-internal.h
+> @@ -0,0 +1,15 @@
+> +/* SPDX-License-Identifier: GPL-2.0-or-later */
+> +/*
+> + * qdev internal helpers
+> + *
+> + * Copyright (c) 2009-2021 QEMU contributors
+> + */
+> +#ifndef HW_CORE_QDEV_INTERNAL_H
+> +#define HW_CORE_QDEV_INTERNAL_H
 > +
->          /* Set the ISA extensions, checks should have happened above */
->          if (cpu->cfg.ext_i) {
->              ext |= RVI;
-> @@ -565,6 +570,13 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
->          if (cpu->cfg.ext_j) {
->              ext |= RVJ;
->          }
-> +        if (cpu->cfg.ext_zfinx && ((ext & (RVF | RVD)) || cpu->cfg.ext_zfh ||
-> +                                   cpu->cfg.ext_zfhmin)) {
-> +            error_setg(errp,
-> +                    "'Zfinx' cannot be supported together with 'F', 'D', 'Zfh',"
-> +                    " 'Zfhmin'");
-> +            return;
-> +        }
->
->          set_misa(env, env->misa_mxl, ext);
->      }
-> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> index dc10f27093..6fba31c5cd 100644
-> --- a/target/riscv/cpu.h
-> +++ b/target/riscv/cpu.h
-> @@ -315,8 +315,12 @@ struct RISCVCPU {
->          bool ext_counters;
->          bool ext_ifencei;
->          bool ext_icsr;
-> +        bool ext_zdinx;
->          bool ext_zfh;
->          bool ext_zfhmin;
-> +        bool ext_zfinx;
-> +        bool ext_zhinx;
-> +        bool ext_zhinxmin;
->
->          char *priv_spec;
->          char *user_spec;
-> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-> index 5df6c0d800..8b1cdacf50 100644
-> --- a/target/riscv/translate.c
-> +++ b/target/riscv/translate.c
-> @@ -76,8 +76,12 @@ typedef struct DisasContext {
->      RISCVMXL ol;
->      bool virt_enabled;
->      bool ext_ifencei;
-> +    bool ext_zdinx;
->      bool ext_zfh;
->      bool ext_zfhmin;
-> +    bool ext_zfinx;
-> +    bool ext_zhinx;
-> +    bool ext_zhinxmin;
->      bool hlsx;
->      /* vector extension */
->      bool vill;
-> @@ -703,8 +707,12 @@ static void riscv_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
->      ctx->misa_ext = env->misa_ext;
->      ctx->frm = -1;  /* unknown rounding mode */
->      ctx->ext_ifencei = cpu->cfg.ext_ifencei;
-> +    ctx->ext_zdinx = cpu->cfg.ext_zdinx;
->      ctx->ext_zfh = cpu->cfg.ext_zfh;
->      ctx->ext_zfhmin = cpu->cfg.ext_zfhmin;
-> +    ctx->ext_zfinx = cpu->cfg.ext_zfinx;
-> +    ctx->ext_zhinx = cpu->cfg.ext_zhinx;
-> +    ctx->ext_zhinxmin = cpu->cfg.ext_zhinxmin;
->      ctx->vlen = cpu->cfg.vlen;
->      ctx->elen = cpu->cfg.elen;
->      ctx->mstatus_hs_fs = FIELD_EX32(tb_flags, TB_FLAGS, MSTATUS_HS_FS);
-> --
+> +#include "hw/qdev-core.h"
+> +
+> +/* Following functions are only used by the platform-bus subsystem */
+Could it be better to also keep the original function comment here?
+> +qemu_irq qdev_get_gpio_out_connector(DeviceState *dev, const char *name, int n);
+> +
+> +#endif /* HW_CORE_QDEV_INTERNAL_H */
+> diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
+> index d19c9417520..655899654bb 100644
+> --- a/include/hw/qdev-core.h
+> +++ b/include/hw/qdev-core.h
+> @@ -532,24 +532,6 @@ void qdev_connect_gpio_out(DeviceState *dev, int n, qemu_irq pin);
+>   void qdev_connect_gpio_out_named(DeviceState *dev, const char *name, int n,
+>                                    qemu_irq input_pin);
+>   
+> -/**
+> - * qdev_get_gpio_out_connector: Get the qemu_irq connected to an output GPIO
+> - * @dev: Device whose output GPIO we are interested in
+> - * @name: Name of the output GPIO array
+> - * @n: Number of the output GPIO line within that array
+> - *
+> - * Returns whatever qemu_irq is currently connected to the specified
+> - * output GPIO line of @dev. This will be NULL if the output GPIO line
+> - * has never been wired up to the anything.  Note that the qemu_irq
+> - * returned does not belong to @dev -- it will be the input GPIO or
+> - * IRQ of whichever device the board code has connected up to @dev's
+> - * output GPIO.
+> - *
+> - * You probably don't need to use this function -- it is used only
+> - * by the platform-bus subsystem.
+> - */
+> -qemu_irq qdev_get_gpio_out_connector(DeviceState *dev, const char *name, int n);
+> -
+>   /**
+>    * qdev_intercept_gpio_out: Intercept an existing GPIO connection
+>    * @dev: Device to intercept the outbound GPIO line from
+> diff --git a/hw/core/gpio.c b/hw/core/gpio.c
+> index 80d07a6ec99..513ccbd1062 100644
+> --- a/hw/core/gpio.c
+> +++ b/hw/core/gpio.c
+> @@ -21,6 +21,7 @@
+>   #include "hw/qdev-core.h"
+>   #include "hw/irq.h"
+>   #include "qapi/error.h"
+> +#include "qdev-internal.h"
+>   
+>   static NamedGPIOList *qdev_get_named_gpio_list(DeviceState *dev,
+>                                                  const char *name)
+> diff --git a/hw/core/sysbus.c b/hw/core/sysbus.c
+> index 05c1da3d311..0e6773c8df7 100644
+> --- a/hw/core/sysbus.c
+> +++ b/hw/core/sysbus.c
+> @@ -23,6 +23,7 @@
+>   #include "hw/sysbus.h"
+>   #include "monitor/monitor.h"
+>   #include "exec/address-spaces.h"
+> +#include "qdev-internal.h"
+>   
+>   static void sysbus_dev_print(Monitor *mon, DeviceState *dev, int indent);
+>   static char *sysbus_get_fw_dev_path(DeviceState *dev);
+Otherwise, the tweak looks reasonable:
+Reviewed-by: Yanan Wang <wangyanan55@huawei.com>
 
-Regards,
-Bin
+Thanks,
+Yanan
 
