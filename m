@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB59C48227E
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Dec 2021 07:30:41 +0100 (CET)
-Received: from localhost ([::1]:45862 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 911CE48227C
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Dec 2021 07:26:42 +0100 (CET)
+Received: from localhost ([::1]:42090 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n3BR2-0004KZ-3b
-	for lists+qemu-devel@lfdr.de; Fri, 31 Dec 2021 01:30:40 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35618)
+	id 1n3BNB-0001Zo-8s
+	for lists+qemu-devel@lfdr.de; Fri, 31 Dec 2021 01:26:41 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35628)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1n3B7T-0003NC-Bl
- for qemu-devel@nongnu.org; Fri, 31 Dec 2021 01:10:29 -0500
-Received: from mga05.intel.com ([192.55.52.43]:3745)
+ id 1n3B7V-0003NI-MN
+ for qemu-devel@nongnu.org; Fri, 31 Dec 2021 01:10:31 -0500
+Received: from mga05.intel.com ([192.55.52.43]:3743)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1n3B7Q-0008IE-RZ
- for qemu-devel@nongnu.org; Fri, 31 Dec 2021 01:10:26 -0500
+ id 1n3B7S-0008Hw-Mb
+ for qemu-devel@nongnu.org; Fri, 31 Dec 2021 01:10:28 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1640931024; x=1672467024;
+ t=1640931026; x=1672467026;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=WlKrbpM0Mweq/okCiNR1t37y/Tzpv8jgr5VO4f8zCSA=;
- b=jNsXL3XQsG2lZhzZMO+PSbB6UospPfT4rX3QmAeXbIz39rK/PPud54w2
- a6NySfam3FJXzpdYbefEgf9sT4UC/63Ag4Fhu9ClNyFth8Zd3jawUT/FU
- O4VNAohYZqK6V1SNTsW6R0WDWayn8KHqeEt8wtQLCvxGMl5VfADS5B799
- ouobTHey4yPzoxUot6E683z4/8hZQh7caYmWRJb9FOgqRsVdOqosWZGwH
- TiTKXfLPI0L8zl+cU1TGonfeKbgDo4gJ22LDzTEy0Udp5L9uZptDyLnvt
- QmHXwnwoAKWB8U2MvZ3talO5vphH3GlykCefhE+caTUWzQx7JplviW8BY Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10213"; a="328110762"
-X-IronPort-AV: E=Sophos;i="5.88,250,1635231600"; d="scan'208";a="328110762"
+ bh=jDBQXCJr6mRM51CY171mIjAONQezSBEhlvTSUD3CMC8=;
+ b=oHDk42SZcD+GiK4grelCVlAMGvHqIDpO2Ow1rpJ28AgRDLKRRkuZsR7k
+ gK4NApVqGttfx3zkJASibyzGclCrrv/w7TQrXD8ofTuRGla9QsOkLosa9
+ jVI2xSehtMsADGBQFLfasXQHu+mkmP3P6/18BF4dAmZsjI4Oa4H/UOs0q
+ VxZ9BUSDt6IpUz2QPM+K8GVizCiIqcb0F8Gxc3lLoyzfXEJ2RUrDjvEoK
+ Q/3w/lyJqU6CUk75IWWj/Yjw6UTIAo8SyhPR9Kp4kk0dYL3w77k5Te4+w
+ 0ooFhaPseMeO/nievh9GS2fYs2CgI6H3hyRCpRzkEVKGpXQP0S4xKHLkn Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10213"; a="328110766"
+X-IronPort-AV: E=Sophos;i="5.88,250,1635231600"; d="scan'208";a="328110766"
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Dec 2021 22:10:21 -0800
-X-IronPort-AV: E=Sophos;i="5.88,250,1635231600"; d="scan'208";a="470867800"
+ 30 Dec 2021 22:10:23 -0800
+X-IronPort-AV: E=Sophos;i="5.88,250,1635231600"; d="scan'208";a="470867810"
 Received: from unknown (HELO localhost.localdomain) ([10.239.13.19])
  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Dec 2021 22:10:20 -0800
+ 30 Dec 2021 22:10:22 -0800
 From: Zhang Chen <chen.zhang@intel.com>
 To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
  Juan Quintela <quintela@redhat.com>, qemu-dev <qemu-devel@nongnu.org>
-Subject: [PATCH 2/3] migration/migration.c: Avoid COLO boot in postcopy
- migration
-Date: Fri, 31 Dec 2021 13:59:34 +0800
-Message-Id: <20211231055935.1878503-3-chen.zhang@intel.com>
+Subject: [PATCH 3/3] migration/migration.c: Remove the MIGRATION_STATUS_ACTIVE
+ when migration finished
+Date: Fri, 31 Dec 2021 13:59:35 +0800
+Message-Id: <20211231055935.1878503-4-chen.zhang@intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211231055935.1878503-1-chen.zhang@intel.com>
 References: <20211231055935.1878503-1-chen.zhang@intel.com>
@@ -77,41 +77,32 @@ Cc: Zhang Chen <chen.zhang@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-COLO dose not support postcopy migration and remove the Fixme.
+The MIGRATION_STATUS_ACTIVE indicates that migration is running.
+Remove it to be handled by the default operation,
+It should be part of the unknown ending states.
 
 Signed-off-by: Zhang Chen <chen.zhang@intel.com>
 ---
- migration/migration.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ migration/migration.c | 6 ------
+ 1 file changed, 6 deletions(-)
 
 diff --git a/migration/migration.c b/migration/migration.c
-index 2afa77da03..3fac9c67ca 100644
+index 3fac9c67ca..21e1498f46 100644
 --- a/migration/migration.c
 +++ b/migration/migration.c
-@@ -3230,7 +3230,11 @@ static void migration_completion(MigrationState *s)
-         goto fail_invalidate;
-     }
- 
--    if (!migrate_colo_enabled()) {
-+    if (migrate_colo_enabled() && s->state == MIGRATION_STATUS_ACTIVE) {
-+        /* COLO dose not support postcopy */
-+        migrate_set_state(&s->state, MIGRATION_STATUS_ACTIVE,
-+                          MIGRATION_STATUS_COLO);
-+    } else {
-         migrate_set_state(&s->state, current_active_state,
-                           MIGRATION_STATUS_COMPLETED);
-     }
-@@ -3621,10 +3625,6 @@ static void migration_iteration_finish(MigrationState *s)
+@@ -3625,12 +3625,6 @@ static void migration_iteration_finish(MigrationState *s)
                           "COLO enabled", __func__);
          }
          migrate_start_colo_process(s);
+-         /* Fallthrough */
+-    case MIGRATION_STATUS_ACTIVE:
 -        /*
--         * Fixme: we will run VM in COLO no matter its old running state.
--         * After exited COLO, we will keep running.
+-         * We should really assert here, but since it's during
+-         * migration, let's try to reduce the usage of assertions.
 -         */
-          /* Fallthrough */
-     case MIGRATION_STATUS_ACTIVE:
-         /*
+         s->vm_was_running = true;
+         /* Fallthrough */
+     case MIGRATION_STATUS_FAILED:
 -- 
 2.25.1
 
