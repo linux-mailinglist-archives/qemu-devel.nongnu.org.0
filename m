@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBB8A48240E
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Dec 2021 13:55:54 +0100 (CET)
-Received: from localhost ([::1]:55060 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 830EF48240F
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Dec 2021 13:55:55 +0100 (CET)
+Received: from localhost ([::1]:55128 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n3HRp-00064v-U1
-	for lists+qemu-devel@lfdr.de; Fri, 31 Dec 2021 07:55:53 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53428)
+	id 1n3HRq-00068F-L4
+	for lists+qemu-devel@lfdr.de; Fri, 31 Dec 2021 07:55:54 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53442)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1n3HKU-0005wa-Fv
- for qemu-devel@nongnu.org; Fri, 31 Dec 2021 07:48:18 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:49127)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1n3HKY-0005zo-MO
+ for qemu-devel@nongnu.org; Fri, 31 Dec 2021 07:48:23 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:38073)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1n3HKS-0000jn-On
- for qemu-devel@nongnu.org; Fri, 31 Dec 2021 07:48:18 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1n3HKW-0000k8-T0
+ for qemu-devel@nongnu.org; Fri, 31 Dec 2021 07:48:22 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1640954896;
+ s=mimecast20190719; t=1640954900;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=uQrjre6Db1sZNkT4sskEN8IBgNsCcPmlEpkvvQNs6e4=;
- b=JZO+Wzo5fvgLhBsdymW1W8HZjZoqw/hfiC9x46R3w50k1nYqBpNAzW0Key9dTNM+lcTdQG
- oSyy1g9drjCr4IwrZLY9EkC6QFITOwvvWDL1BQKUc3pkFlVaD+l+er8zq1Ps2aqvjoe9aB
- wQZRSX9xk84DexgcVKOGgU0aj1tu2u4=
+ bh=xmB2pjpPBRixvCwzPKhtMpmRFUaHeigjOeRVD50Cfio=;
+ b=S2eJcC8nLqFyPr0p002FeUR7pI/RFZJ+G6WGE/9dMRghQu39BecATaljpg2aULW3AmZMbz
+ GXjGjoEh/cBWBIfgWqD8mJHAEtxI57E16rNW8ta99YPLLmJK9ahvKD5YelJfUWglnGSqpB
+ ruY1iYYPChrGvRmLgNEVHqIdl0r/bQ8=
 Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
  [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-59-r5P0qJ9-Oi-xUO6VbEsSTg-1; Fri, 31 Dec 2021 07:48:15 -0500
-X-MC-Unique: r5P0qJ9-Oi-xUO6VbEsSTg-1
+ us-mta-257-u-HVej0pPkm6T_6FaJVLVw-1; Fri, 31 Dec 2021 07:48:19 -0500
+X-MC-Unique: u-HVej0pPkm6T_6FaJVLVw-1
 Received: by mail-wr1-f71.google.com with SMTP id
- w25-20020adf8bd9000000b001a255212b7cso7494131wra.18
- for <qemu-devel@nongnu.org>; Fri, 31 Dec 2021 04:48:15 -0800 (PST)
+ f13-20020adfe90d000000b001a15c110077so7494943wrm.8
+ for <qemu-devel@nongnu.org>; Fri, 31 Dec 2021 04:48:19 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=uQrjre6Db1sZNkT4sskEN8IBgNsCcPmlEpkvvQNs6e4=;
- b=Ms3uEPBG3n598M5nJ/uhc43c1KfY6sXnSUIn4uYk3zrZthiyYK5IDRatH/modAMMfA
- C6Kx6iR0a6pdWrZoB68onNDVtlHp7Gi/EpBvb+rmQpGP3f5mVGDs5EVytqehaKGay5t8
- zGN17cl7mBL+GGHuweYKPYfuqeIpxYr+Mm4WgkXaMsLfqxl67j1mpgaLbt991a0mqbSq
- QNv1SRRTIzdijaEt0mOK9MlEFQcsHctt3wGYl4PEIXrryoMWWrY/1doq2j+DfBaY4T0/
- To4KVwx1igYhz1EURocePvIQx9T1ChpefV87OSzk/TMk8YBea83jp+VTcY8p4YExSUle
- J+bQ==
-X-Gm-Message-State: AOAM5329MLmesEXjH6b/Ynmm9oIYzhn/nTKhlmyoF3iCifHhOUCndXru
- 3kW11WUg+I5Ntn6QfqEPCQw6sa2KY9GGH77FQOxFDk13caxrKbuEL1dXAGo4oz3g7D6SRZwzKKk
- WvHAsV+QV/8aqWSxrVBa6FWH4HHrTWnh7RoL4rhMigOSQdhM7cMyP1K3libcCV/62
-X-Received: by 2002:a5d:488a:: with SMTP id g10mr15576231wrq.653.1640954893603; 
- Fri, 31 Dec 2021 04:48:13 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzj64MCdxk3k9Hhr8hj4/AtZ9Fw4XMI0Tl40rrw40U5RcpByN32mz7ctTQDt60mIgKX5OMRdg==
-X-Received: by 2002:a5d:488a:: with SMTP id g10mr15576206wrq.653.1640954893349; 
- Fri, 31 Dec 2021 04:48:13 -0800 (PST)
+ bh=xmB2pjpPBRixvCwzPKhtMpmRFUaHeigjOeRVD50Cfio=;
+ b=urzqsozuJzhmnxK9szi9HTpA/BCXktIxJYHhCuBYy3T0IhdPg/tBbkNiZQieFBYyi/
+ sdkoEmpjeGIzWLs07m0lcweuJUQB7u6zIm4uISvjuElioMUHJRQSEi7URkTGgGsJ7ujn
+ Q043XsUs0zxG+1CmGdBlUAXaQO41IWs2x7L4iJMMv09IQHhy5IApaL5SOBGiN4pIzJDS
+ nL5ga0o27M7aC113tpuEt7tMgGDhCPZWzelvhEnWrpjj7Rm6LEfHY6+COWaoYIMfKoba
+ adsPWsJmFTKy6j5XdPhqGdHYz3xZKEqf4FhUVHUpYG7zFS9AiHiceGaU1Yfte4bqdE3f
+ F+0Q==
+X-Gm-Message-State: AOAM533RXLQ2Bq5PbB9QnbrJHlw1X8rkbpoyF3/rRSnH8Q95W7o31nUT
+ Mlb74IswsqJxbNd1XIFR+hv7k/jJVW867rGTgBfo/hqkDQeE18krlGJlarGHtUAJknIBB2I37Cn
+ gAPE5BwS8LXqZwpLNMkiqo05KadTwmnLz1EHDOFiuwluRXGCxwhSfBHIlS+6KY8lX
+X-Received: by 2002:a05:6000:108a:: with SMTP id
+ y10mr28770154wrw.335.1640954897872; 
+ Fri, 31 Dec 2021 04:48:17 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyGpX+LsFprT8hw+VLP7mQuNE1tHjfABBtig5YpWxcStgP8CjRRA5QN/vTAZNPggMwuurC+fQ==
+X-Received: by 2002:a05:6000:108a:: with SMTP id
+ y10mr28770140wrw.335.1640954897698; 
+ Fri, 31 Dec 2021 04:48:17 -0800 (PST)
 Received: from x1w.redhat.com (26.red-83-50-86.dynamicip.rima-tde.net.
  [83.50.86.26])
- by smtp.gmail.com with ESMTPSA id g6sm27436067wri.67.2021.12.31.04.48.12
+ by smtp.gmail.com with ESMTPSA id n12sm29245382wrf.29.2021.12.31.04.48.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 31 Dec 2021 04:48:13 -0800 (PST)
+ Fri, 31 Dec 2021 04:48:17 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 04/20] hw/qdev: Rename qdev_connect_gpio_out*() 'input_pin'
- parameter
-Date: Fri, 31 Dec 2021 13:47:38 +0100
-Message-Id: <20211231124754.1005747-5-philmd@redhat.com>
+Subject: [PULL 05/20] tests/unit/test-smp-parse: Pass machine type as argument
+ to tests
+Date: Fri, 31 Dec 2021 13:47:39 +0100
+Message-Id: <20211231124754.1005747-6-philmd@redhat.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20211231124754.1005747-1-philmd@redhat.com>
 References: <20211231124754.1005747-1-philmd@redhat.com>
@@ -97,95 +99,68 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Yanan Wang <wangyanan55@huawei.com>, Eduardo Habkost <eduardo@habkost.net>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Use g_test_add_data_func() instead of g_test_add_func() so we can
+pass the machine type to the tests (we will soon have different
+machine types).
 
-@pin is an input where we connect a device output.
-Rename it @input_pin to simplify the documentation.
-
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Yanan Wang <wangyanan55@huawei.com>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20211218130437.1516929-5-f4bug@amsat.org>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20211216132015.815493-2-philmd@redhat.com>
 ---
- include/hw/qdev-core.h |  6 +++---
- hw/core/gpio.c         | 13 +++++++------
- 2 files changed, 10 insertions(+), 9 deletions(-)
+ tests/unit/test-smp-parse.c | 18 ++++++++++++------
+ 1 file changed, 12 insertions(+), 6 deletions(-)
 
-diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
-index 424c48daf6e..d19c9417520 100644
---- a/include/hw/qdev-core.h
-+++ b/include/hw/qdev-core.h
-@@ -476,7 +476,7 @@ qemu_irq qdev_get_gpio_in_named(DeviceState *dev, const char *name, int n);
-  * qdev_connect_gpio_out: Connect one of a device's anonymous output GPIO lines
-  * @dev: Device whose GPIO to connect
-  * @n: Number of the anonymous output GPIO line (which must be in range)
-- * @pin: qemu_irq to connect the output line to
-+ * @input_pin: qemu_irq to connect the output line to
-  *
-  * This function connects an anonymous output GPIO line on a device
-  * up to an arbitrary qemu_irq, so that when the device asserts that
-@@ -509,7 +509,7 @@ void qdev_connect_gpio_out(DeviceState *dev, int n, qemu_irq pin);
-  * @dev: Device whose GPIO to connect
-  * @name: Name of the output GPIO array
-  * @n: Number of the anonymous output GPIO line (which must be in range)
-- * @pin: qemu_irq to connect the output line to
-+ * @input_pin: qemu_irq to connect the output line to
-  *
-  * This function connects an anonymous output GPIO line on a device
-  * up to an arbitrary qemu_irq, so that when the device asserts that
-@@ -530,7 +530,7 @@ void qdev_connect_gpio_out(DeviceState *dev, int n, qemu_irq pin);
-  * For anonymous output GPIO lines, use qdev_connect_gpio_out().
-  */
- void qdev_connect_gpio_out_named(DeviceState *dev, const char *name, int n,
--                                 qemu_irq pin);
-+                                 qemu_irq input_pin);
- 
- /**
-  * qdev_get_gpio_out_connector: Get the qemu_irq connected to an output GPIO
-diff --git a/hw/core/gpio.c b/hw/core/gpio.c
-index 8e6b4f5edf3..80d07a6ec99 100644
---- a/hw/core/gpio.c
-+++ b/hw/core/gpio.c
-@@ -115,17 +115,18 @@ qemu_irq qdev_get_gpio_in(DeviceState *dev, int n)
+diff --git a/tests/unit/test-smp-parse.c b/tests/unit/test-smp-parse.c
+index b02450e25a3..37c6b4981db 100644
+--- a/tests/unit/test-smp-parse.c
++++ b/tests/unit/test-smp-parse.c
+@@ -487,9 +487,10 @@ static void machine_base_class_init(ObjectClass *oc, void *data)
+     mc->name = g_strdup(SMP_MACHINE_NAME);
  }
  
- void qdev_connect_gpio_out_named(DeviceState *dev, const char *name, int n,
--                                 qemu_irq pin)
-+                                 qemu_irq input_pin)
+-static void test_generic(void)
++static void test_generic(const void *opaque)
  {
-     char *propname = g_strdup_printf("%s[%d]",
-                                      name ? name : "unnamed-gpio-out", n);
--    if (pin && !OBJECT(pin)->parent) {
-+    if (input_pin && !OBJECT(input_pin)->parent) {
-         /* We need a name for object_property_set_link to work */
-         object_property_add_child(container_get(qdev_get_machine(),
-                                                 "/unattached"),
--                                  "non-qdev-gpio[*]", OBJECT(pin));
-+                                  "non-qdev-gpio[*]", OBJECT(input_pin));
-     }
--    object_property_set_link(OBJECT(dev), propname, OBJECT(pin), &error_abort);
-+    object_property_set_link(OBJECT(dev), propname,
-+                             OBJECT(input_pin), &error_abort);
-     g_free(propname);
+-    Object *obj = object_new(TYPE_MACHINE);
++    const char *machine_type = opaque;
++    Object *obj = object_new(machine_type);
+     MachineState *ms = MACHINE(obj);
+     MachineClass *mc = MACHINE_GET_CLASS(obj);
+     SMPTestData *data = &(SMPTestData){{ }};
+@@ -525,9 +526,10 @@ static void test_generic(void)
+     object_unref(obj);
  }
  
-@@ -165,9 +166,9 @@ qemu_irq qdev_intercept_gpio_out(DeviceState *dev, qemu_irq icpt,
-     return disconnected;
- }
- 
--void qdev_connect_gpio_out(DeviceState *dev, int n, qemu_irq pin)
-+void qdev_connect_gpio_out(DeviceState *dev, int n, qemu_irq input_pin)
+-static void test_with_dies(void)
++static void test_with_dies(const void *opaque)
  {
--    qdev_connect_gpio_out_named(dev, NULL, n, pin);
-+    qdev_connect_gpio_out_named(dev, NULL, n, input_pin);
- }
+-    Object *obj = object_new(TYPE_MACHINE);
++    const char *machine_type = opaque;
++    Object *obj = object_new(machine_type);
+     MachineState *ms = MACHINE(obj);
+     MachineClass *mc = MACHINE_GET_CLASS(obj);
+     SMPTestData *data = &(SMPTestData){{ }};
+@@ -599,8 +601,12 @@ int main(int argc, char *argv[])
  
- void qdev_pass_gpios(DeviceState *dev, DeviceState *container,
+     g_test_init(&argc, &argv, NULL);
+ 
+-    g_test_add_func("/test-smp-parse/generic", test_generic);
+-    g_test_add_func("/test-smp-parse/with_dies", test_with_dies);
++    g_test_add_data_func("/test-smp-parse/generic",
++                         TYPE_MACHINE,
++                         test_generic);
++    g_test_add_data_func("/test-smp-parse/with_dies",
++                         TYPE_MACHINE,
++                         test_with_dies);
+ 
+     g_test_run();
+ 
 -- 
 2.33.1
 
