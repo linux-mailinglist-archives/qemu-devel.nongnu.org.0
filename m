@@ -2,60 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3C2A482296
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Dec 2021 08:40:59 +0100 (CET)
-Received: from localhost ([::1]:32928 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA4634822A1
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Dec 2021 08:50:30 +0100 (CET)
+Received: from localhost ([::1]:40938 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n3CX4-0000oA-Il
-	for lists+qemu-devel@lfdr.de; Fri, 31 Dec 2021 02:40:58 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48456)
+	id 1n3CgH-0006bQ-EO
+	for lists+qemu-devel@lfdr.de; Fri, 31 Dec 2021 02:50:29 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49074)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1n3CQq-0007jd-Om
- for qemu-devel@nongnu.org; Fri, 31 Dec 2021 02:34:32 -0500
-Received: from szxga01-in.huawei.com ([45.249.212.187]:3434)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1n3CX3-0002av-Lp; Fri, 31 Dec 2021 02:40:57 -0500
+Received: from smtpout2.mo529.mail-out.ovh.net ([79.137.123.220]:55901)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1n3CQo-00037M-7I
- for qemu-devel@nongnu.org; Fri, 31 Dec 2021 02:34:32 -0500
-Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.56])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4JQH2F0y8ZzccDp;
- Fri, 31 Dec 2021 15:33:57 +0800 (CST)
-Received: from [10.174.187.128] (10.174.187.128) by
- dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.1.2308.20; Fri, 31 Dec 2021 15:34:26 +0800
-Subject: Re: [PATCH 2/3] hw/sysbus: Restrict sysbus_get_connected_irq() to
- sysbus-internal.h
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- <qemu-devel@nongnu.org>
-CC: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>, Eduardo
- Habkost <eduardo@habkost.net>, Peter Maydell <peter.maydell@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>, Paolo Bonzini
- <pbonzini@redhat.com>
-References: <20211229225206.171882-1-philmd@redhat.com>
- <20211229225206.171882-3-philmd@redhat.com>
-Message-ID: <14f32db5-dc0d-df29-a0aa-1247eef23ba9@huawei.com>
-Date: Fri, 31 Dec 2021 15:34:26 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1n3CX1-0003p4-KK; Fri, 31 Dec 2021 02:40:57 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.109.143.124])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id EBD21D4C82D9;
+ Fri, 31 Dec 2021 08:40:51 +0100 (CET)
+Received: from kaod.org (37.59.142.95) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.17; Fri, 31 Dec
+ 2021 08:40:51 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-95G0019194dda8-2b33-4862-acf1-85029ae87510,
+ 3D80871A5AC245C0530038040CECACC5925050C1) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 86.250.77.2
+Message-ID: <88edfb3d-508d-ff59-8083-ffc6c2e08c9c@kaod.org>
+Date: Fri, 31 Dec 2021 08:40:50 +0100
 MIME-Version: 1.0
-In-Reply-To: <20211229225206.171882-3-philmd@redhat.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH v2 2/5] target/ppc: powerpc_excp: Add excp_vectors bounds
+ check
 Content-Language: en-US
-X-Originating-IP: [10.174.187.128]
-X-ClientProxiedBy: dggeme704-chm.china.huawei.com (10.1.199.100) To
- dggpemm500023.china.huawei.com (7.185.36.83)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.187;
- envelope-from=wangyanan55@huawei.com; helo=szxga01-in.huawei.com
-X-Spam_score_int: -52
-X-Spam_score: -5.3
-X-Spam_bar: -----
-X-Spam_report: (-5.3 / 5.0 requ) NICE_REPLY_A=-3.024, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+To: Fabiano Rosas <farosas@linux.ibm.com>, <qemu-devel@nongnu.org>
+References: <20211229165751.3774248-1-farosas@linux.ibm.com>
+ <20211229165751.3774248-3-farosas@linux.ibm.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20211229165751.3774248-3-farosas@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.95]
+X-ClientProxiedBy: DAG2EX1.mxp5.local (172.16.2.11) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: a1c52e6f-5434-409a-a409-0a04ad40d688
+X-Ovh-Tracer-Id: 12971211355944684326
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddruddvgedgudduudcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeigedvffekgeeftedutddttdevudeihfegudffkeeitdekkeetkefhffelveelleenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleehnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepuggrnhhivghlhhgsgedufeesghhmrghilhdrtghomh
+Received-SPF: pass client-ip=79.137.123.220; envelope-from=clg@kaod.org;
+ helo=smtpout2.mo529.mail-out.ovh.net
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) NICE_REPLY_A=-3.024,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -69,88 +71,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: richard.henderson@linaro.org, danielhb413@gmail.com, qemu-ppc@nongnu.org,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  "wangyanan (Y)" <wangyanan55@huawei.com>
-From:  "wangyanan (Y)" via <qemu-devel@nongnu.org>
 
+On 12/29/21 17:57, Fabiano Rosas wrote:
+> The next patch will start accessing the excp_vectors array earlier in
+> the function, so add a bounds check as first thing here.
+> 
+> This converts the empty return on POWERPC_EXCP_NONE to an error. This
+> exception number never reaches this function and if it does it
+> probably means something else went wrong up the line.
+> 
+> Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
 
-On 2021/12/30 6:52, Philippe Mathieu-Daudé wrote:
-> sysbus_get_connected_irq() and sysbus_is_irq_connected() are only
-> used by platform-bus.c; restrict them to hw/core/ by adding a local
-> "sysbus-internal.h" header.
->
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> ---
->   hw/core/sysbus-internal.h | 16 ++++++++++++++++
->   include/hw/sysbus.h       |  2 --
->   hw/core/platform-bus.c    |  2 +-
->   hw/core/sysbus.c          |  1 +
->   4 files changed, 18 insertions(+), 3 deletions(-)
->   create mode 100644 hw/core/sysbus-internal.h
-Reviewed-by: Yanan Wang <wangyanan55@huawei.com>
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
 
 Thanks,
-Yanan
-> diff --git a/hw/core/sysbus-internal.h b/hw/core/sysbus-internal.h
-> new file mode 100644
-> index 00000000000..991b3e3159c
-> --- /dev/null
-> +++ b/hw/core/sysbus-internal.h
-> @@ -0,0 +1,16 @@
-> +/* SPDX-License-Identifier: GPL-2.0-or-later */
-> +/*
-> + * SysBus internal helpers
-> + *
-> + * Copyright (c) 2021 QEMU contributors
-> + */
-> +#ifndef HW_CORE_SYSBUS_INTERNAL_H
-> +#define HW_CORE_SYSBUS_INTERNAL_H
-> +
-> +#include "hw/sysbus.h"
-> +
-> +/* Following functions are only used by the platform-bus subsystem */
-> +qemu_irq sysbus_get_connected_irq(SysBusDevice *dev, int n);
-> +bool sysbus_is_irq_connected(SysBusDevice *dev, int n);
-> +
-> +#endif /* HW_CORE_SYSBUS_INTERNAL_H */
-> diff --git a/include/hw/sysbus.h b/include/hw/sysbus.h
-> index 3564b7b6a22..24645ee7996 100644
-> --- a/include/hw/sysbus.h
-> +++ b/include/hw/sysbus.h
-> @@ -77,8 +77,6 @@ void sysbus_init_ioports(SysBusDevice *dev, uint32_t ioport, uint32_t size);
->   bool sysbus_has_irq(SysBusDevice *dev, int n);
->   bool sysbus_has_mmio(SysBusDevice *dev, unsigned int n);
->   void sysbus_connect_irq(SysBusDevice *dev, int n, qemu_irq irq);
-> -bool sysbus_is_irq_connected(SysBusDevice *dev, int n);
-> -qemu_irq sysbus_get_connected_irq(SysBusDevice *dev, int n);
->   void sysbus_mmio_map(SysBusDevice *dev, int n, hwaddr addr);
->   void sysbus_mmio_map_overlap(SysBusDevice *dev, int n, hwaddr addr,
->                                int priority);
-> diff --git a/hw/core/platform-bus.c b/hw/core/platform-bus.c
-> index b8487b26b67..016fb71eba1 100644
-> --- a/hw/core/platform-bus.c
-> +++ b/hw/core/platform-bus.c
-> @@ -25,7 +25,7 @@
->   #include "qapi/error.h"
->   #include "qemu/error-report.h"
->   #include "qemu/module.h"
-> -
-> +#include "sysbus-internal.h"
+
+C.
+
+> ---
+>   target/ppc/excp_helper.c | 7 ++++---
+>   1 file changed, 4 insertions(+), 3 deletions(-)
+> 
+> diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
+> index 8b9c6bc5a8..9a03e4b896 100644
+> --- a/target/ppc/excp_helper.c
+> +++ b/target/ppc/excp_helper.c
+> @@ -300,6 +300,10 @@ static inline void powerpc_excp(PowerPCCPU *cpu, int excp_model, int excp)
+>       target_ulong msr, new_msr, vector;
+>       int srr0, srr1, lev = -1;
 >   
->   /*
->    * Returns the PlatformBus IRQ number for a SysBusDevice irq number or -1 if
-> diff --git a/hw/core/sysbus.c b/hw/core/sysbus.c
-> index 0e6773c8df7..dcd7beda184 100644
-> --- a/hw/core/sysbus.c
-> +++ b/hw/core/sysbus.c
-> @@ -24,6 +24,7 @@
->   #include "monitor/monitor.h"
->   #include "exec/address-spaces.h"
->   #include "qdev-internal.h"
-> +#include "sysbus-internal.h"
+> +    if (excp <= POWERPC_EXCP_NONE || excp >= POWERPC_EXCP_NB) {
+> +        cpu_abort(cs, "Invalid PowerPC exception %d. Aborting\n", excp);
+> +    }
+> +
+>       qemu_log_mask(CPU_LOG_INT, "Raise exception at " TARGET_FMT_lx
+>                     " => %08x (%02x)\n", env->nip, excp, env->error_code);
 >   
->   static void sysbus_dev_print(Monitor *mon, DeviceState *dev, int indent);
->   static char *sysbus_get_fw_dev_path(DeviceState *dev);
+> @@ -353,9 +357,6 @@ static inline void powerpc_excp(PowerPCCPU *cpu, int excp_model, int excp)
+>   #endif
+>   
+>       switch (excp) {
+> -    case POWERPC_EXCP_NONE:
+> -        /* Should never happen */
+> -        return;
+>       case POWERPC_EXCP_CRITICAL:    /* Critical input                         */
+>           switch (excp_model) {
+>           case POWERPC_EXCP_40x:
+> 
 
 
