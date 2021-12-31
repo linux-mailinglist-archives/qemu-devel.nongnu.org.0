@@ -2,91 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDEED482565
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Dec 2021 18:26:18 +0100 (CET)
-Received: from localhost ([::1]:59650 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 225F8482570
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Dec 2021 18:43:23 +0100 (CET)
+Received: from localhost ([::1]:35986 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n3LfV-0001DJ-FX
-	for lists+qemu-devel@lfdr.de; Fri, 31 Dec 2021 12:26:17 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54532)
+	id 1n3Lw1-0005KV-9t
+	for lists+qemu-devel@lfdr.de; Fri, 31 Dec 2021 12:43:21 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58306)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1n3Ldw-0000DH-5A
- for qemu-devel@nongnu.org; Fri, 31 Dec 2021 12:24:40 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60452)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1n3Ldt-0003JZ-5c
- for qemu-devel@nongnu.org; Fri, 31 Dec 2021 12:24:38 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1640971475;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Pm0KqvWeKe4/uWQYe65sg3WyV7Qvacvpmu3Di9N+aDw=;
- b=RMLXm7COupWAqR5u2SrB2NutU5kYCx8ah+GXVygkJLZklg6ncGSoud3+zhMdQBdG9TxHcl
- W/xuk1FtaHXmTq1PFUHrxgPyMwb0qKqv1+Dm+McY16M8+nkTRB4T49QQYrbZQHmEed8Jgd
- 9r/I2DYbfRYn4oCmbuvGMYXxZxsAbz8=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-470-0-21KY-vNU2dFz54BsHuUA-1; Fri, 31 Dec 2021 12:24:32 -0500
-X-MC-Unique: 0-21KY-vNU2dFz54BsHuUA-1
-Received: by mail-wm1-f71.google.com with SMTP id
- a203-20020a1c7fd4000000b0034574187420so14429985wmd.5
- for <qemu-devel@nongnu.org>; Fri, 31 Dec 2021 09:24:32 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <carwynellis@gmail.com>)
+ id 1n3Lv0-0004JH-WA; Fri, 31 Dec 2021 12:42:19 -0500
+Received: from [2a00:1450:4864:20::434] (port=44970
+ helo=mail-wr1-x434.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <carwynellis@gmail.com>)
+ id 1n3Luz-0002nY-7A; Fri, 31 Dec 2021 12:42:18 -0500
+Received: by mail-wr1-x434.google.com with SMTP id k18so20273964wrg.11;
+ Fri, 31 Dec 2021 09:42:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version:signed-off-by
+ :content-transfer-encoding;
+ bh=2if3R9DA+TOXAIr9zervaqdIqJ1B+6O2/bLr/Ji83iU=;
+ b=iW8U6dMCahFwcnhk3d50RSC/8NjBwODizx+s2w5lBl/D7GpgMB78GsX/smkTKeghPj
+ 6idasYY9gDn/JTUMtZJ6TOEcKsAsqpUsOzH8Rs2IKgcFu9G4F55i/ga5DcIbLt2og/FT
+ s1JBcH8SGd6U3Czqkmq1jRH/f8RKs0F03XZoGSFYwm8+tS2bVH1PoynOQIzNIY5dJl28
+ Xwgn1R+mVIo9Vjx1/1BWCsfx2KbklYExZA62Bg5dKrbdaeK6AsZNShLx9KON5f9sSHOZ
+ XX+tubJhNbA/YlQnsKdKSsxSo8x15rNkk9kGKlGKmnKIAH/wRFnvvSD4DSZS/s+r4smK
+ 7XXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=Pm0KqvWeKe4/uWQYe65sg3WyV7Qvacvpmu3Di9N+aDw=;
- b=q+g9ClwKjVfyVaeS1+p1VIAZd0m6ofF90VRjfQWmPH5UtqQ2Jv2OvoY4Dg8rB9GcBz
- j34HetNH5nI28GWt/8Ag7SX7VnIUmnA+CrvqqF4vz/wiaawjQ/kFu9soVzo/Hod5HxOD
- mSmcpAMk/9d5WONMOktYbTNc9NZdXMy6j4d3RrZcpfVBYVsegMwSVexphnEuE4Ejmp4d
- Ww2+ARqsckchkMu59vCikOwrJh/Mvy63yBdpJQMEUJeesqqjDCjQYeUP7uFaQp6YLtjL
- 5ZTWyiZQ1gCl08dZ/3AO/NksMYC0OWJLewDVB83hqQN7txK9EbqmTUkVKMHGFzS4ESLd
- XTKg==
-X-Gm-Message-State: AOAM532RrYJx5f99tZ8riOPoBVyvCWjfTJDWfvVoR4HhXfRFsJzmetfF
- cJhZwh0dnMnKPWKYaq5RZvvuiNtpW096Co7PNoS+ZFw0lJytYW9v9BKEkkWKBFf4qQrw0z8HC4Z
- z6FsBU4Rgwcavq0g=
-X-Received: by 2002:a5d:47c6:: with SMTP id o6mr30837291wrc.326.1640971471462; 
- Fri, 31 Dec 2021 09:24:31 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJx/y/fh9jujTQzkogYNueOwbkuUgFbV0Z41QGsj2xUiInY3lkMl8Zinn7HrMrntda/1KkqEHw==
-X-Received: by 2002:a5d:47c6:: with SMTP id o6mr30837278wrc.326.1640971471272; 
- Fri, 31 Dec 2021 09:24:31 -0800 (PST)
-Received: from [192.168.1.36] (26.red-83-50-86.dynamicip.rima-tde.net.
- [83.50.86.26])
- by smtp.gmail.com with ESMTPSA id m17sm26897401wrz.91.2021.12.31.09.24.30
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 31 Dec 2021 09:24:30 -0800 (PST)
-Message-ID: <923a68ea-61fa-eedc-6102-efafe4eb5de6@redhat.com>
-Date: Fri, 31 Dec 2021 18:24:30 +0100
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :signed-off-by:content-transfer-encoding;
+ bh=2if3R9DA+TOXAIr9zervaqdIqJ1B+6O2/bLr/Ji83iU=;
+ b=Ky5y9ZrEN/N9bRBDQOxnU0kKjgFhs4HAEAjDtLKFdCymifUe4D+9zQI0Loz4Hg9UG8
+ DC8rX+Ib1LfsBxcsKWW16ZQnN4YWgx3aw1KhkoSUWqiBjcxwv5nuMeknWz3f8HieFYhw
+ DfD9sWlWoDXqF6Yv/P8gmUBJKBM5M2QTAwwmCzUT4RbIx7PPg1uCngFZA3to4qSiQOLG
+ hzqkVdKjPtL1hJ3HtlCb5ToK0pd3VmQSb2YOAbWMkcYWMMZJtggeaFtA7CmGQj3gdYEq
+ FEp/geRxiB4pniV8NYXV2CRYVdAplMfv3PeyouHGza9DC6NcFgNMLruR2MYNsheCh0C0
+ MxAg==
+X-Gm-Message-State: AOAM530uHlU+VVQCBdtcquHs9aPy46cyPgwg6cZ9Pi0bEYchbQ8lWSPR
+ NUVUrdClwH7GBIi+uJD1WeFqWsCsFeA=
+X-Google-Smtp-Source: ABdhPJzcBLYnOxwFzQl7KQvYFeYMH0leFFwynI4q1voR69mee/kVOdHTjG+iZQ/V6mGq6KjcQP37SA==
+X-Received: by 2002:a05:6000:1548:: with SMTP id
+ 8mr28416050wry.489.1640972535505; 
+ Fri, 31 Dec 2021 09:42:15 -0800 (PST)
+Received: from localhost.localdomain (201.11.75.194.dyn.plus.net.
+ [194.75.11.201])
+ by smtp.googlemail.com with ESMTPSA id p13sm19762149wrs.54.2021.12.31.09.42.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 31 Dec 2021 09:42:15 -0800 (PST)
+From: Carwyn Ellis <carwynellis@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/1] ui/cocoa: Add option to disable left command and hide
+ cursor on click
+Date: Fri, 31 Dec 2021 17:42:09 +0000
+Message-Id: <20211231174210.82446-1-carwynellis@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PULL 00/20] Machine-next patches for 2021-12-31
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20211231124754.1005747-1-philmd@redhat.com>
- <2b80ab7e-2225-d23d-38d5-8468d5fdf190@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-In-Reply-To: <2b80ab7e-2225-d23d-38d5-8468d5fdf190@linaro.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
+Signed-off-by: Carwyn Ellis <carwynellis@gmail.com>
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -44
-X-Spam_score: -4.5
-X-Spam_bar: ----
-X-Spam_report: (-4.5 / 5.0 requ) DKIMWL_WL_HIGH=-0.573, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.024,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::434
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=carwynellis@gmail.com; helo=mail-wr1-x434.google.com
+X-Spam_score_int: 6
+X-Spam_score: 0.6
+X-Spam_bar: /
+X-Spam_report: (0.6 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,37 +85,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yanan Wang <wangyanan55@huawei.com>, Eduardo Habkost <eduardo@habkost.net>
+Cc: qemu-trivial@nongnu.org, peter.maydell@linaro.org,
+ Carwyn Ellis <carwynellis@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/31/21 18:07, Richard Henderson wrote:
-> On 12/31/21 4:47 AM, Philippe Mathieu-Daudé wrote:
->> The following changes since commit
->> 69f153667fce723ee546d2f047d66d0cfa67c3cc:
->>
->>    Merge tag 'memory-api-20211231' ofhttps://github.com/philmd/qemu 
->> into staging (2021-12-30 17:02:42 -0800)
->>
->> are available in the Git repository at:
->>
->>    https://github.com/philmd/qemu.git  tags/machine-core-20211231
->>
->> for you to fetch changes up to 2ece6e64846e1929c4ed338c73328d3b126e48d3:
->>
->>    MAINTAINERS: email address change (2021-12-31 13:42:54 +0100)
-> 
-> gpg: Signature made Fri 31 Dec 2021 04:45:35 AM PST
-> gpg:                using RSA key FAABE75E12917221DCFD6BB2E3E32C2CDEADC0DE
-> gpg: Good signature from "Philippe Mathieu-Daudé (F4BUG)
-> <f4bug@amsat.org>" [expired]
-> gpg: Note: This key has expired!
-> Primary key fingerprint: FAAB E75E 1291 7221 DCFD  6BB2 E3E3 2C2C DEAD C0DE
-> 
-> Wanna push a refresh to your key?
+Apologies for all the spam on what should be a simple change. Still
+getting the hang of all of this. :/
 
-Oops =) Refreshed (pgp.mit.edu & keyserver.ubuntu.com).
+Please disregard my earlier submissions. After further testing I
+realised that the calls to cursor hide/unhide weren't balanced which
+broke the hide/unhide behaviour. I've added an additional static flag
+to track the cursor state so the cursor state is only updated where this
+would change the existing cursor state, ensuring the calls are now
+balanced.
 
-Thank you :)
+Having made the switch to an M1 Mac I needed to switch from VMware back
+to QEMU in order to run some intel guests.
+
+This patch addresses a couple of niggles with the cocoa UI, namely:
+
+ - Using command-tab to switch between the guest OS and MacOS sends the
+   command keypress to the guest which can be annoying e.g. on a
+   windows guest this may trigger the start menu
+
+ - Switching between the guest and MacOS sometimes leaves the MacOS
+   mouse cursor visible with no way to hide it without switching
+   windows again
+
+To address these issues I've made the following changes
+
+ - Added a new cocoa display option left-command-key which can be used
+   to disable the left command key in the guest. Default is on.
+
+ - Added a call to hideCursor on left and right mouse clicks so if the
+   cursor is visible after switching back to the guest a mouse click
+   will hide the cursor again.
+
+ - Also updated the command line docs to reference the show-cursor
+   option which is also respected by the cocoa UI code.
+
+Carwyn Ellis (1):
+  ui/cocoa: Add option to disable left command and hide cursor on click
+
+ qapi/ui.json    | 17 +++++++++++++++++
+ qemu-options.hx | 12 ++++++++++++
+ ui/cocoa.m      | 33 +++++++++++++++++++++++++--------
+ 3 files changed, 54 insertions(+), 8 deletions(-)
+
+-- 
+2.34.1
 
 
