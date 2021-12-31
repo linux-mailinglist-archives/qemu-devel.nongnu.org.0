@@ -2,79 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 725494825BA
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Dec 2021 21:11:38 +0100 (CET)
-Received: from localhost ([::1]:45202 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 419A54825B9
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Dec 2021 21:11:25 +0100 (CET)
+Received: from localhost ([::1]:44680 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n3OFT-0005MX-Iu
-	for lists+qemu-devel@lfdr.de; Fri, 31 Dec 2021 15:11:37 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53620)
+	id 1n3OFI-000514-Bj
+	for lists+qemu-devel@lfdr.de; Fri, 31 Dec 2021 15:11:24 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53862)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1n3OC1-0002Ql-E1
- for qemu-devel@nongnu.org; Fri, 31 Dec 2021 15:08:01 -0500
-Received: from [2607:f8b0:4864:20::629] (port=35492
- helo=mail-pl1-x629.google.com)
+ id 1n3OCy-0003Jz-1z
+ for qemu-devel@nongnu.org; Fri, 31 Dec 2021 15:09:00 -0500
+Received: from [2607:f8b0:4864:20::531] (port=40698
+ helo=mail-pg1-x531.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1n3OBy-00015o-Vl
- for qemu-devel@nongnu.org; Fri, 31 Dec 2021 15:08:01 -0500
-Received: by mail-pl1-x629.google.com with SMTP id n16so20853434plc.2
- for <qemu-devel@nongnu.org>; Fri, 31 Dec 2021 12:07:58 -0800 (PST)
+ id 1n3OCw-0001wM-KV
+ for qemu-devel@nongnu.org; Fri, 31 Dec 2021 15:08:59 -0500
+Received: by mail-pg1-x531.google.com with SMTP id l10so24668721pgm.7
+ for <qemu-devel@nongnu.org>; Fri, 31 Dec 2021 12:08:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Hdsj0Lp/8fh7hpvT87fjGFU+kaFDguNJtjevDTV84Y4=;
- b=KsWprDx3RQX12U+FXWoBABpc0V+fgF3BUYZ/DOnzrG/Sa9m7LJzIjYIGdFkKxLDGd0
- BGKKslINjN71kM8cOoUplZBadFGA9ALc8MEaAbQrp87eianKLKui+FSRnkH6DHMKtU1T
- xGdsCQI2hkmk4zCIm37VktVyOwtDydUoU1zDkbjQeNNwktjp10l0Hc4vQJAhiAPkrdtM
- bT0S9CJJu2rLR+epVTY4VZkX9ZkW/fgw/pOcQN964Tlsy8jWPp1CP94KsuWbkNOKiOVd
- dD+l5XFG+OkrF0x9dZNRNcYPrdZ6TZF69a6u8SjbL6FnDg7jbOqXDq6c3HJs3wpz/xvu
- HJrw==
+ bh=pDARFuuOH3dZPSTOMQVEtIEqj5GtBB/z/yvYY99bTGQ=;
+ b=wYck7mKqyWqXR9FKfUTvavMg2ExVq6Jbxv4vX9IRPA8PO728TSqccy1hYaYLdiy6Ig
+ uA5RMhbL9Gr8jvWuE7ej+1C5h+mnGc8PQLG+wEc28D0uL1zURILYf4tOv5P2ve/OJryr
+ memimjqQslHZgLvSBkQR1fLkMsp5SKpzAPHsRAgpXAK8YiC1+rBvjlwON1C7+tG/QDuS
+ y8WvPWEjINTkLZ1TJsg0Hrd/s03Uyn0zRDzfrhjx7rcsJO4YZ+gom4Kuox+Tro4XaKHO
+ qFnVCtFghcbNwhKpOkaxqz+GDggWmgoGs/7qobZtaL0h/doqkZKa8AnUoDmpaWmvXtRC
+ l6Gg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=Hdsj0Lp/8fh7hpvT87fjGFU+kaFDguNJtjevDTV84Y4=;
- b=7CNXXTNm6Lj8pKaYQvSuAxsd2tr6ZPgu3hEA5udehrYlTxZaFAACMz7eQS0FC6o29l
- vPD6fcHdXY1rBjPuI+aE9G57WaA73h2e2dAtwkSNkUD48s05lzOwMf2AOzycbvKNwFzd
- C3F0hjphwMjKK3Z5L6nWnL+dUgS/1h5XV0UMYf027mfaZVok99kRFPmQ+qDxXPyTmNwO
- CELsItIxils2lMnqWAGndAA9CiOagDuv9smWlIBj7Vho+pQ8jKlTkyKiVEPTTFrH7tMF
- vj1dOsqu6Bw/fEPT/n5axgWpvCJQC4ZNn4C8pP++DTzJhgxiF6+S8q/wSoPAH5XR41qm
- 7bJA==
-X-Gm-Message-State: AOAM530D1q0A10Z44BYBSwDdr29U3XCQuxHfSQs4W0M+LMJmBtqlHToW
- SuJ5eoe7yt5ASgyID9XrwMhJZQ==
-X-Google-Smtp-Source: ABdhPJylCjbnB2uOhVNt2sGk9VSlZeTfloZA+e6y697zKBPRogO899fE1xzYGKAs/NSGp8Sidlu78A==
-X-Received: by 2002:a17:90b:388d:: with SMTP id
- mu13mr44845249pjb.86.1640981277613; 
- Fri, 31 Dec 2021 12:07:57 -0800 (PST)
+ bh=pDARFuuOH3dZPSTOMQVEtIEqj5GtBB/z/yvYY99bTGQ=;
+ b=BjyVJeqOTuCqK1opWTn4OyixW9Rc9TW1sPoan3EkJpM3w4nTSUV7gpSLQagco1k/i7
+ fi2l3pRznYivRQijilZ4Xb/bfULptPMClQc0ZTolukVeNJbOzgPuzEAZaKEHOgzD5r8i
+ l4r8k8FKCFMrQOSlDZUvjIHLy9H49xfMMngY19QVa32jLw6bZLM0iDVIUpAEMEXl95H4
+ ySUj6YLNVwuUJkiaXtfAqZZHlYFwM6wUYYYktSerMOeRyhIiq5zbbzMZYhgxS7gxQXrY
+ MckrmRGNBZUszY8E9TgSxnu7sRkW+6SXcCWX7ouYqz5iBhBA2SDadHE5SoBlmqd0oCS8
+ MlsQ==
+X-Gm-Message-State: AOAM5332KCTZ9WyItN+L30J34HeDS/Jmqivzf8B+ZuVwTGU7Ot9C/yI0
+ Z0Qiw/NF3Axl83cOOXHmXeC6IA==
+X-Google-Smtp-Source: ABdhPJw+YdicPhydjMsqQyaqyWEbf6y5Nl8INqJnxuyosT8TOGo/yrZYyBmk7wgkURm89RT3hzdFIQ==
+X-Received: by 2002:a63:864a:: with SMTP id x71mr32240288pgd.297.1640981337317; 
+ Fri, 31 Dec 2021 12:08:57 -0800 (PST)
 Received: from ?IPv6:2601:1c0:6101:be80:9312:6940:7d21:4efb?
  ([2601:1c0:6101:be80:9312:6940:7d21:4efb])
- by smtp.gmail.com with ESMTPSA id mi5sm32842256pjb.21.2021.12.31.12.07.56
+ by smtp.gmail.com with ESMTPSA id j190sm25884713pge.70.2021.12.31.12.08.56
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 31 Dec 2021 12:07:57 -0800 (PST)
-Subject: Re: [PATCH v2 4/6] target/riscv: add support for zdinx
+ Fri, 31 Dec 2021 12:08:57 -0800 (PST)
+Subject: Re: [PATCH v2 5/6] target/riscv: add support for zhinx/zhinxmin
 To: Weiwei Li <liweiwei@iscas.ac.cn>, palmer@dabbelt.com,
  alistair.francis@wdc.com, bin.meng@windriver.com, qemu-riscv@nongnu.org,
  qemu-devel@nongnu.org
 References: <20211231032337.15579-1-liweiwei@iscas.ac.cn>
- <20211231032337.15579-5-liweiwei@iscas.ac.cn>
+ <20211231032337.15579-6-liweiwei@iscas.ac.cn>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <71a505a1-fd9f-6cbd-2bbc-6bce301bf1f4@linaro.org>
-Date: Fri, 31 Dec 2021 12:07:55 -0800
+Message-ID: <8e66ab20-9d1c-d637-3516-51b0eb025d41@linaro.org>
+Date: Fri, 31 Dec 2021 12:08:55 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <20211231032337.15579-5-liweiwei@iscas.ac.cn>
+In-Reply-To: <20211231032337.15579-6-liweiwei@iscas.ac.cn>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::629
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::531
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x629.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::531;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x531.google.com
 X-Spam_score_int: -23
 X-Spam_score: -2.4
 X-Spam_bar: --
@@ -99,27 +98,22 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 12/30/21 7:23 PM, Weiwei Li wrote:
-> +    if (reg_num != 0) {
-> +        switch (get_ol(ctx)) {
+> From: liweiwei<liweiwei@iscas.ac.cn>
+> 
+>    - update extension check REQUIRE_ZHINX_OR_ZFH and REQUIRE_ZFH_OR_ZFHMIN_OR_ZHINX_OR_ZHINXMIN
+>    - update half float point register read/write
+>    - disable nanbox_h check
+> 
+> Signed-off-by: Weiwei Li<liweiwei@iscas.ac.cn>
+> Signed-off-by: Junqiang Wang<wangjunqiang@iscas.ac.cn>
+> ---
+>   target/riscv/fpu_helper.c                 |  89 +++---
+>   target/riscv/helper.h                     |   2 +-
+>   target/riscv/insn_trans/trans_rvzfh.c.inc | 332 +++++++++++++++-------
+>   target/riscv/internals.h                  |  16 +-
+>   4 files changed, 296 insertions(+), 143 deletions(-)
 
-get_xl, not get_ol, two instances.
-
-
-> +#ifdef TARGET_RISCV32
-> +    {
-> +        TCGv_i64 t = ftemp_new(ctx);
-> +        tcg_gen_concat_i32_i64(t, cpu_gpr[reg_num], cpu_gpr[reg_num + 1]);
-> +        return t;
-> +    }
-> +#else
-> +    {
-> +        TCGv_i64 t = ftemp_new(ctx);
-> +        tcg_gen_deposit_i64(t, cpu_gpr[reg_num], cpu_gpr[reg_num + 1], 32, 32);
-> +        return t;
-> +    }
-
-Unify these two cases and use tcg_gen_concat_tl_i64.
-
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 r~
 
