@@ -2,67 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A33C8482216
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Dec 2021 06:11:55 +0100 (CET)
-Received: from localhost ([::1]:46014 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9870448221A
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Dec 2021 06:24:22 +0100 (CET)
+Received: from localhost ([::1]:50314 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n3ACo-00072B-7O
-	for lists+qemu-devel@lfdr.de; Fri, 31 Dec 2021 00:11:54 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55052)
+	id 1n3AOr-0002Be-6e
+	for lists+qemu-devel@lfdr.de; Fri, 31 Dec 2021 00:24:21 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57500)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lizhijian@fujitsu.com>)
- id 1n3AAB-0005fa-Pj
- for qemu-devel@nongnu.org; Fri, 31 Dec 2021 00:09:11 -0500
-Received: from mail.cn.fujitsu.com ([183.91.158.132]:9396
- helo=heian.cn.fujitsu.com) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <lizhijian@fujitsu.com>) id 1n3AA9-0006KF-GD
- for qemu-devel@nongnu.org; Fri, 31 Dec 2021 00:09:11 -0500
-IronPort-Data: =?us-ascii?q?A9a23=3AfsYcIK4OKf/+U7KgtbhiYQxRtNXFchMFZxGqfqr?=
- =?us-ascii?q?LsXjdYENS3zQFnDNKCGqHbvvZYGT1Ltwibd638U0D6MXXzdY2GwE5pCpnJ55og?=
- =?us-ascii?q?ZCbXIzGdC8cHM8zwvXrFRsht4NHAjX5BJhcokT0+1H9YtANkVEmjfvRH+CnUba?=
- =?us-ascii?q?dUsxMbVQMpBkJ2EsLd9ER0tYAbeiRW2thiPuqyyHtEAbNNw1cbgr435m+RCZH5?=
- =?us-ascii?q?5wejt+3UmsWPpintHeG/5Uc4Ql2yauZdxMUSaEMdgK2qnqq8V23wo/Z109F5tK?=
- =?us-ascii?q?NmbC9fFAIQ6LJIE6FjX8+t6qK20AE/3JtlP1gcqd0hUR/0l1lm/h1ycdNtJ6xQ?=
- =?us-ascii?q?AEBMLDOmfgGTl9TFCQW0ahuoeaWfijn6JbOp6HBWz62qxl0N2k4YYcF9c5+BHp?=
- =?us-ascii?q?H6bofMj9lRhuDiuTw0rKyTOZEh8I/Ic2tN4Qa0ll4wC3UF7AjSIHPTqHOzdtZ2?=
- =?us-ascii?q?j4qgYZJB/m2T9MUbCcqYBnebhlnPFARB5Qj2uCyiRHXbz1FtFK9v6c742HPigd?=
- =?us-ascii?q?21dDQ3HD9EjCRbZwN2B/G+SSdpCKkaiz2/ee3kVKtmk9ATMeW9c8jZL8vKQ=3D?=
- =?us-ascii?q?=3D?=
-IronPort-HdrOrdr: =?us-ascii?q?A9a23=3ACAB9Qa1R1scUPjRVPIiXGwqjBI4kLtp133Aq?=
- =?us-ascii?q?2lEZdPU1SL39qynKppkmPHDP5gr5J0tLpTntAsi9qBDnhPtICOsqTNSftWDd0Q?=
- =?us-ascii?q?PGEGgI1/qB/9SPIU3D398Y/aJhXow7M9foEGV95PyQ3CCIV/om3/mLmZrFudvj?=
-X-IronPort-AV: E=Sophos;i="5.88,250,1635177600"; d="scan'208";a="119780125"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
- by heian.cn.fujitsu.com with ESMTP; 31 Dec 2021 13:09:03 +0800
-Received: from G08CNEXMBPEKD04.g08.fujitsu.local (unknown [10.167.33.201])
- by cn.fujitsu.com (Postfix) with ESMTP id B68E64D15A24;
- Fri, 31 Dec 2021 13:08:58 +0800 (CST)
-Received: from G08CNEXCHPEKD07.g08.fujitsu.local (10.167.33.80) by
- G08CNEXMBPEKD04.g08.fujitsu.local (10.167.33.201) with Microsoft SMTP Server
- (TLS) id 15.0.1497.23; Fri, 31 Dec 2021 13:08:59 +0800
-Received: from FNSTPC.g08.fujitsu.local (10.167.226.45) by
- G08CNEXCHPEKD07.g08.fujitsu.local (10.167.33.209) with Microsoft SMTP Server
- id 15.0.1497.23 via Frontend Transport; Fri, 31 Dec 2021 13:08:59 +0800
-From: Li Zhijian <lizhijian@cn.fujitsu.com>
-To: <thuth@redhat.com>, <peter.maydell@linaro.org>, <f4bug@amsat.org>
-Subject: [PATCH] MAINTAINERS: email address change
-Date: Fri, 31 Dec 2021 13:09:01 +0800
-Message-ID: <20211231050901.360-1-lizhijian@cn.fujitsu.com>
-X-Mailer: git-send-email 2.33.0
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1n3AN6-000180-Rz
+ for qemu-devel@nongnu.org; Fri, 31 Dec 2021 00:22:32 -0500
+Received: from [2607:f8b0:4864:20::102e] (port=40535
+ helo=mail-pj1-x102e.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1n3AN5-0008US-0o
+ for qemu-devel@nongnu.org; Fri, 31 Dec 2021 00:22:32 -0500
+Received: by mail-pj1-x102e.google.com with SMTP id
+ o63-20020a17090a0a4500b001b1c2db8145so29715776pjo.5
+ for <qemu-devel@nongnu.org>; Thu, 30 Dec 2021 21:22:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=H3LNc3FjkzfcdFc3tj4ZQCzHKkdPl2RrUZpfxzhF/jM=;
+ b=d/1AYHQFGXo/R/CovzL+rOeHrqBW+zP5hS8w8H73HDy3oKaw8OCh5VbQugpOOCxuZJ
+ uW9nibY7ZYqSGHfBX+o4Yh3ZRWHwl5/E1fKwAR4/V7Wcp8T9WluqylYG/DOr6tk2ZZJy
+ DTHaDN26B51ckcTRJ7vtP16rpI2glc0KCO10rIDV/1FKKHe4xStLvbV6uGu4kvnC0iAA
+ vFhXPW/WQv79tHvIlocG4iD5H7757iKDj01nxrkZrm919LhRF/JnGSQ8A79jh+w4Kd3k
+ lYLoVk30d8SHGlsMwW8l6HOQmNhAtqNSDp1H6J2p384+qdZnCWTYdup9+TlQffPJkd0/
+ sIpg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=H3LNc3FjkzfcdFc3tj4ZQCzHKkdPl2RrUZpfxzhF/jM=;
+ b=jdPAcKH8qHDcTKO1dhZ65AeiStw8Pv06LuKENLiRj0Co/z5r6+q5tsWZyqmXiJwkBz
+ MEbSzdqVTxkz3RAy+P6HcvbYPg+cSdOq9zC/c2WYKI+S5mfpEyFlpdAov+VLBLGbsyNd
+ o9LazfKz9D6jOWiifwYAhLbiZQcqHh7PuWp+tn7MZypSn6YmSKipj561hKU/VLFrWJWC
+ G7e/nlyZqS0y7h1jLmOzen8DmOrQTxXX+iAJEIwMRCGc0dMnCnnCR2PJzGVVkjtUFjPz
+ hSj16iSp9Y6/6P403aBP6OHdlN3kOwkYbCwSPLbFGiYcLcGoEHj92zGfqElMw5U7a+b/
+ mjPg==
+X-Gm-Message-State: AOAM532CTL46qrkfdto9f4xcojeo8hRSq4SMyU/JuTQwnzlLxIZ+HOdA
+ G+NXdr3oeUnC9QGEf1qMLRmeAg==
+X-Google-Smtp-Source: ABdhPJxe3Cfu0xh9Mein/ybdMl+boolOfnlYAU0VGNTxWetogSe+11VkIXT/ywFL//wwfvgaVVzLDw==
+X-Received: by 2002:a17:902:c94b:b0:149:22af:ed1c with SMTP id
+ i11-20020a170902c94b00b0014922afed1cmr33441953pla.78.1640928149449; 
+ Thu, 30 Dec 2021 21:22:29 -0800 (PST)
+Received: from ?IPv6:2601:1c0:6101:be80:23dc:65c4:ecfd:93ff?
+ ([2601:1c0:6101:be80:23dc:65c4:ecfd:93ff])
+ by smtp.gmail.com with ESMTPSA id 36sm17763500pgq.94.2021.12.30.21.22.28
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 30 Dec 2021 21:22:29 -0800 (PST)
+Subject: Re: [PULL 00/22] Memory API patches for 2021-12-31
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20211231005546.723396-1-philmd@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <fe54a136-04b4-61dd-d548-6cfcc16894fd@linaro.org>
+Date: Thu, 30 Dec 2021 21:22:27 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
+In-Reply-To: <20211231005546.723396-1-philmd@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-yoursite-MailScanner-ID: B68E64D15A24.ADD85
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: lizhijian@fujitsu.com
-Received-SPF: neutral client-ip=183.91.158.132;
- envelope-from=lizhijian@fujitsu.com; helo=heian.cn.fujitsu.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_NEUTRAL=0.779 autolearn=ham autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102e
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102e.google.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
+X-Spam_bar: --
+X-Spam_report: (-2.4 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.024,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -75,36 +93,113 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: chen.zhang@intel.com, qemu-devel@nongnu.org,
- Li Zhijian <lizhijian@cn.fujitsu.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fujitsu's mail service has migrated to O365 months ago, the
-lizhijian@cn.fujitsu.com address will stop working on 2022-06-01,
-change it to my new email address lizhijian@fujitsu.com.
+On 12/30/21 4:55 PM, Philippe Mathieu-Daudé wrote:
+> The following changes since commit d5a9f352896fe43183ef01072b374e89a3488315:
+> 
+>    Merge tag 'pull-jobs-2021-12-29' of https://src.openvz.org/scm/~vsementsov/qemu into staging (2021-12-29 14:33:23 -0800)
+> 
+> are available in the Git repository at:
+> 
+>    https://github.com/philmd/qemu.git tags/memory-api-20211231
+> 
+> for you to fetch changes up to 4a63054bce23982b99f4d3c65528e47e614086b2:
+> 
+>    pci: Let ld*_pci_dma() propagate MemTxResult (2021-12-31 01:05:27 +0100)
+> 
+> ----------------------------------------------------------------
+> Memory API patches
+> 
+> Have various functions from the Memory API:
+> - take a MemTxAttrs argument,
+> - propagate a MemTxResult.
+> 
+> Some patches trigger "WARNING: line over 80 characters",
+> and a pair "ERROR: spaces required around that '*' (ctx:WxV)",
+> both false positives.
+> ----------------------------------------------------------------
+> 
+> Philippe Mathieu-Daudé (22):
+>    hw/scsi/megasas: Use uint32_t for reply queue head/tail values
+>    dma: Let dma_memory_valid() take MemTxAttrs argument
+>    dma: Let dma_memory_set() take MemTxAttrs argument
+>    dma: Let dma_memory_rw_relaxed() take MemTxAttrs argument
+>    dma: Let dma_memory_rw() take MemTxAttrs argument
+>    dma: Let dma_memory_read/write() take MemTxAttrs argument
+>    dma: Let dma_memory_map() take MemTxAttrs argument
+>    dma: Have dma_buf_rw() take a void pointer
+>    dma: Have dma_buf_read() / dma_buf_write() take a void pointer
+>    pci: Let pci_dma_rw() take MemTxAttrs argument
+>    dma: Let dma_buf_rw() take MemTxAttrs argument
+>    dma: Let dma_buf_write() take MemTxAttrs argument
+>    dma: Let dma_buf_read() take MemTxAttrs argument
+>    dma: Let dma_buf_rw() propagate MemTxResult
+>    dma: Let st*_dma() take MemTxAttrs argument
+>    dma: Let ld*_dma() take MemTxAttrs argument
+>    dma: Let st*_dma() propagate MemTxResult
+>    dma: Let ld*_dma() propagate MemTxResult
+>    pci: Let st*_pci_dma() take MemTxAttrs argument
+>    pci: Let ld*_pci_dma() take MemTxAttrs argument
+>    pci: Let st*_pci_dma() propagate MemTxResult
+>    pci: Let ld*_pci_dma() propagate MemTxResult
+> 
+>   include/hw/pci/pci.h          | 38 +++++++++------
+>   include/hw/ppc/spapr_vio.h    | 30 ++++++++----
+>   include/sysemu/dma.h          | 88 ++++++++++++++++++++---------------
+>   hw/arm/musicpal.c             | 13 +++---
+>   hw/arm/smmu-common.c          |  3 +-
+>   hw/arm/smmuv3.c               | 14 ++++--
+>   hw/audio/intel-hda.c          | 13 ++++--
+>   hw/core/generic-loader.c      |  3 +-
+>   hw/display/virtio-gpu.c       | 10 ++--
+>   hw/dma/pl330.c                | 12 +++--
+>   hw/dma/sparc32_dma.c          | 16 ++++---
+>   hw/dma/xlnx-zynq-devcfg.c     |  6 ++-
+>   hw/dma/xlnx_dpdma.c           | 10 ++--
+>   hw/hyperv/vmbus.c             |  8 ++--
+>   hw/i386/amd_iommu.c           | 16 ++++---
+>   hw/i386/intel_iommu.c         | 28 ++++++-----
+>   hw/ide/ahci.c                 | 18 ++++---
+>   hw/ide/macio.c                |  2 +-
+>   hw/intc/pnv_xive.c            |  7 +--
+>   hw/intc/spapr_xive.c          |  3 +-
+>   hw/intc/xive.c                |  7 +--
+>   hw/misc/bcm2835_property.c    |  3 +-
+>   hw/misc/macio/mac_dbdma.c     | 10 ++--
+>   hw/net/allwinner-sun8i-emac.c | 18 ++++---
+>   hw/net/eepro100.c             | 49 +++++++++++--------
+>   hw/net/ftgmac100.c            | 25 ++++++----
+>   hw/net/imx_fec.c              | 32 ++++++++-----
+>   hw/net/npcm7xx_emc.c          | 20 ++++----
+>   hw/net/tulip.c                | 36 +++++++-------
+>   hw/nvme/ctrl.c                |  5 +-
+>   hw/nvram/fw_cfg.c             | 16 ++++---
+>   hw/pci-host/pnv_phb3.c        |  5 +-
+>   hw/pci-host/pnv_phb3_msi.c    |  9 ++--
+>   hw/pci-host/pnv_phb4.c        |  5 +-
+>   hw/scsi/esp-pci.c             |  2 +-
+>   hw/scsi/megasas.c             | 64 ++++++++++++++-----------
+>   hw/scsi/mptsas.c              | 16 +++++--
+>   hw/scsi/scsi-bus.c            |  4 +-
+>   hw/scsi/vmw_pvscsi.c          | 20 +++++---
+>   hw/sd/allwinner-sdhost.c      | 14 +++---
+>   hw/sd/sdhci.c                 | 35 ++++++++------
+>   hw/usb/hcd-dwc2.c             |  8 ++--
+>   hw/usb/hcd-ehci.c             |  6 ++-
+>   hw/usb/hcd-ohci.c             | 28 ++++++-----
+>   hw/usb/hcd-xhci.c             | 26 +++++++----
+>   hw/usb/libhw.c                |  3 +-
+>   hw/virtio/virtio.c            |  6 ++-
+>   softmmu/dma-helpers.c         | 40 ++++++++++------
+>   hw/scsi/trace-events          |  8 ++--
+>   49 files changed, 526 insertions(+), 332 deletions(-)
 
-Signed-off-by: Li Zhijian <lizhijian@cn.fujitsu.com>
----
- MAINTAINERS | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Applied, thanks.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 50435b8d2f5..e5cda5886d4 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2943,7 +2943,7 @@ F: docs/COLO-FT.txt
- 
- COLO Proxy
- M: Zhang Chen <chen.zhang@intel.com>
--M: Li Zhijian <lizhijian@cn.fujitsu.com>
-+M: Li Zhijian <lizhijian@fujitsu.com>
- S: Supported
- F: docs/colo-proxy.txt
- F: net/colo*
--- 
-2.33.0
-
-
+r~
 
 
