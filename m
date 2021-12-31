@@ -2,51 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE873482270
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Dec 2021 07:19:48 +0100 (CET)
-Received: from localhost ([::1]:36164 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28A24482271
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Dec 2021 07:19:50 +0100 (CET)
+Received: from localhost ([::1]:36202 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n3BGV-0005pg-8n
-	for lists+qemu-devel@lfdr.de; Fri, 31 Dec 2021 01:19:47 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35612)
+	id 1n3BGW-0005r3-VL
+	for lists+qemu-devel@lfdr.de; Fri, 31 Dec 2021 01:19:49 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35602)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1n3B7S-0003NA-RE
+ id 1n3B7S-0003N9-A8
  for qemu-devel@nongnu.org; Fri, 31 Dec 2021 01:10:29 -0500
-Received: from mga05.intel.com ([192.55.52.43]:3740)
+Received: from mga05.intel.com ([192.55.52.43]:3743)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1n3B7P-0008Hl-VG
+ id 1n3B7Q-0008Hw-1I
  for qemu-devel@nongnu.org; Fri, 31 Dec 2021 01:10:25 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1640931023; x=1672467023;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=s3k6kkrt1N9POwJjN6dnIlEGBhgDYluFhq9ap4BR2zI=;
- b=APRn2cLPTPPQ5iS0qIxnZhbt6gmF/K06UQxrt2YcAwsWyYNlBxH4xPT7
- 1IZiwqMm49oXzUM/aPTWtZpXwxqfotsAjSWhB1LYMeF7kOqxrBIaxz5K6
- tQHfglNl63+ZK6e0Zz5vjpTFbw3+/W8t4hMCsJuCbMJyUfFEVZSn70m95
- fCgcHQI6zIppodeD4S4RiMpmM1Othp26AMvB5u51ywWg8xS+2PL3EyANO
- fDZAa2gyvjFhCnYGOMNp0YFPZ3k6gTZLFvS+Z+VgMaXzirSByHMyJPfFZ
- 4ggmkjcz0m0KQ6Bav9gcXq4xXHoculhuQ4ncpwb1hYDkx33ZV7oxi5Xw0 w==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10213"; a="328110754"
-X-IronPort-AV: E=Sophos;i="5.88,250,1635231600"; d="scan'208";a="328110754"
+ t=1640931024; x=1672467024;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=7qP1tIM4rhCOqOJDe77opsBZ8kwlldx4EwRWQw1/79k=;
+ b=e4Z/RC2lm5C7IGiIFZ7eKg0TJuyVHgaJGQcTfyRrBXEUVXI8LUUCrrUn
+ w4gBuiKC8/3Yo/Tori0P7Nv/f25lMap4NLjA5o8NJ2LJWijPZ1eRtkG/E
+ esROHyyTaqoaKVBxm8KRY6r04xecJGx+wXyOnxkncboEN+lzWvOtdW24w
+ 8r8fCS8kQNzUkEveW9f+/yfh0oicrPtZ4zdB19uFy35skP77OpPtZawO3
+ hUhGxwrTvFu8jNgT+4qrAXwKDx8D04zY2R2Krct6xoZchsBO68hKIn9vj
+ iG6nJ0mZ/01Qsg0TL3xYs4lnnp7RL2l3Od+AEmfR4/zpLbl3FjnvYg7CH Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10213"; a="328110759"
+X-IronPort-AV: E=Sophos;i="5.88,250,1635231600"; d="scan'208";a="328110759"
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Dec 2021 22:10:18 -0800
-X-IronPort-AV: E=Sophos;i="5.88,250,1635231600"; d="scan'208";a="470867779"
+ 30 Dec 2021 22:10:20 -0800
+X-IronPort-AV: E=Sophos;i="5.88,250,1635231600"; d="scan'208";a="470867789"
 Received: from unknown (HELO localhost.localdomain) ([10.239.13.19])
  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Dec 2021 22:10:17 -0800
+ 30 Dec 2021 22:10:18 -0800
 From: Zhang Chen <chen.zhang@intel.com>
 To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
  Juan Quintela <quintela@redhat.com>, qemu-dev <qemu-devel@nongnu.org>
-Subject: [PATCH 0/3] Some minor fixes for migration states
-Date: Fri, 31 Dec 2021 13:59:32 +0800
-Message-Id: <20211231055935.1878503-1-chen.zhang@intel.com>
+Subject: [PATCH 1/3] migration/migration.c: Add missed default error handler
+ for migration state
+Date: Fri, 31 Dec 2021 13:59:33 +0800
+Message-Id: <20211231055935.1878503-2-chen.zhang@intel.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20211231055935.1878503-1-chen.zhang@intel.com>
+References: <20211231055935.1878503-1-chen.zhang@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=192.55.52.43; envelope-from=chen.zhang@intel.com;
@@ -74,19 +77,27 @@ Cc: Zhang Chen <chen.zhang@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This series solved some fixme and comments in code.
-Please see the details in each patch commit message.
+In the migration_completion() no other status is expected, for
+example MIGRATION_STATUS_CANCELLING, MIGRATION_STATUS_CANCELLED, etc.
 
-Zhang Chen (3):
-  migration/migration.c: Add missed default error handler for migration
-    state
-  migration/migration.c: Avoid COLO boot in postcopy migration
-  migration/migration.c: Remove the MIGRATION_STATUS_ACTIVE when
-    migration finished
+Signed-off-by: Zhang Chen <chen.zhang@intel.com>
+---
+ migration/migration.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- migration/migration.c | 18 ++++++------------
- 1 file changed, 6 insertions(+), 12 deletions(-)
-
+diff --git a/migration/migration.c b/migration/migration.c
+index 0652165610..2afa77da03 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -3205,7 +3205,7 @@ static void migration_completion(MigrationState *s)
+         qemu_mutex_unlock_iothread();
+ 
+         trace_migration_completion_postcopy_end_after_complete();
+-    } else if (s->state == MIGRATION_STATUS_CANCELLING) {
++    } else {
+         goto fail;
+     }
+ 
 -- 
 2.25.1
 
