@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C27E4825B6
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Dec 2021 21:06:42 +0100 (CET)
-Received: from localhost ([::1]:37954 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B6BB4825B7
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Dec 2021 21:08:57 +0100 (CET)
+Received: from localhost ([::1]:41220 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n3OAj-0000Lx-6g
-	for lists+qemu-devel@lfdr.de; Fri, 31 Dec 2021 15:06:41 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52360)
+	id 1n3OCu-0002hU-7A
+	for lists+qemu-devel@lfdr.de; Fri, 31 Dec 2021 15:08:56 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53056)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1n3O85-0007pf-1g
- for qemu-devel@nongnu.org; Fri, 31 Dec 2021 15:03:57 -0500
-Received: from [2607:f8b0:4864:20::62a] (port=35479
+ id 1n3OAI-0000mL-1V
+ for qemu-devel@nongnu.org; Fri, 31 Dec 2021 15:06:16 -0500
+Received: from [2607:f8b0:4864:20::62a] (port=42615
  helo=mail-pl1-x62a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1n3O83-0008VV-Cu
- for qemu-devel@nongnu.org; Fri, 31 Dec 2021 15:03:56 -0500
-Received: by mail-pl1-x62a.google.com with SMTP id n16so20848807plc.2
- for <qemu-devel@nongnu.org>; Fri, 31 Dec 2021 12:03:54 -0800 (PST)
+ id 1n3OAG-0000hh-Ji
+ for qemu-devel@nongnu.org; Fri, 31 Dec 2021 15:06:13 -0500
+Received: by mail-pl1-x62a.google.com with SMTP id u16so20809685plg.9
+ for <qemu-devel@nongnu.org>; Fri, 31 Dec 2021 12:06:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=gG7RXgRlm2AYt1ljvPE4NwgBPrdvl/u/jy/2qZB4Ik8=;
- b=u5pmnuKjp651FqjorS3+QRp+PgXilV47QVe0pa5XOqiXgS0sXb57LTtF7gP898HItW
- HYVnlD3ZQ4mIvKE/QkRIMVhvi3J4ucz8NffXwP768P1k4RR08YB9dUUgAyn0o6zMSs5I
- 0KAfP7LlsbaVKvJ0TJZwNxcGXm0EY7AhEH/v9aT7EE0JNghqyuZCUKx0cuX4u4Orznku
- /7o9z3U/NEma1HlSZ2LcJhHmpIKYv0B53mhJPMyiQ3dgi4GoV4gE1UQ58gG16Hp36QBs
- swM4pdjYj+xi7ubGBqze+HwlKqBVA0uHmrJPdi/gN0fgEuiD96WLj7Z+K+73nCGpFw3b
- RPkQ==
+ bh=FuzZSVbhcQ0CA2x3SDM7NGDD6+Kzvi7uwLuUd00z16c=;
+ b=Pi5C6WIH+4/ik4DjLqGLBlmp8klPfUWicD3x9v1xTags+kB5y0maqTd2sF2nZx3Kj5
+ N8BTDq8QJF4waatiLhVY43h6MQYYmAzq0xJ1IdedKiFvqPCenL0R9J63TGJoluG+1bVM
+ 0xXuMy3sLsRxdRmPjZPC3kbH/xwFFFjtncnfTGgzBvDuPEZ6XzRiOR8Q7RPkY0bykA8a
+ KXZ5nGvJZtuK38Mwy9C7PexJyhDzSKe/5POi8m08eVM0T6BdptqXEPWDcKF1SXQeNe1O
+ HDZ/W6ZWR414GhlM4xRqwh3ApqSd9OVBSQmCbu5UdcIVqIf56yDRlyCPpDm0UNj5lV/B
+ 2xtA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=gG7RXgRlm2AYt1ljvPE4NwgBPrdvl/u/jy/2qZB4Ik8=;
- b=UrLAIE8Hj+DJixn0voTgkAZQuV6gt0Z1hTyo5D2D05JkF7nJGVwMeGixmC0gT+LCom
- FGR5ygHNgaZdYbZKywXettcTHnLd6dWazVCu8bZQyggE64nfBmFO2zz2a8HR+AuuGsJ0
- TA8FpK2CbIUMS+7ttQ0ISyQrdQaUkZRYKYBlWgFu3m2247xpJpPbnzjmBCzv12V387tA
- Kn7amUswPwsqJTtADj9PDNlCk8T5bkG/QG9YWFxozJ9mePqveCI4lGXDaoAmwpW2QRyA
- 5ZePONWxPu+GEtdXATOTavZHfUdYGTLUdGdc5pXe1UNpX4RrB4xDt96Kpx8+d0BHsQkj
- Z4Ag==
-X-Gm-Message-State: AOAM530+6gKqmfPtSx63HRBNLiLSGMA2mNdAce2mvyEz8tsRqACc8A3W
- 31mWqTA5h4CV76zwrjVNfgyGbw==
-X-Google-Smtp-Source: ABdhPJw5nXiXhqS/VHbfV08kteHOLoyklDUMZ9T2tHCIc968K+KKzqR4zJgiDu2mGUW7SlVUInvdlA==
-X-Received: by 2002:a17:90b:2249:: with SMTP id
- hk9mr43336614pjb.246.1640981033172; 
- Fri, 31 Dec 2021 12:03:53 -0800 (PST)
+ bh=FuzZSVbhcQ0CA2x3SDM7NGDD6+Kzvi7uwLuUd00z16c=;
+ b=ZwFXyqTwceKx38Iww9TsjTE5LggIJnOq2oayAbvnEVbGjNEDhHdRPzF5TbJxIMVj/l
+ TWsLwESksZYDrAPPBi1fXrspTQ9kEDpxaM9pPEaWqr8x6h6oCuXN2wZMHPJKAkbPPAbZ
+ J+Qd1BLUAU53/AAxYACIik6P2wX/yaY9ymslbisWlRdQUIJf4b/ZcqjE6q/cyHTBrYNs
+ 5E9IbzuvMFMnJNkfIHNt1bVx2FUovJEC/fHvVbTuiTiEJGpR/i7KJurYBwOSpDda7c+q
+ nfvsGQKDIDYc2KXnHmMKy2N25cDEodZAlIVJ9BYz406OXylwSwvdgjckpBENGIvO1ARb
+ v16Q==
+X-Gm-Message-State: AOAM5329qy7Zz3x+CKVMn9f4sR63i3aUf7bMHlSA5vY74OLSUS5oOMdn
+ OTewvbv7dWIsvCtA1WyHgIjXRg==
+X-Google-Smtp-Source: ABdhPJzb2p0Dxvvjg7zX8OvChwyscUZlWSH6wJVclJgO3IJoPGMYfjFzDw/ffMPB3T4ihL1BdMKS+g==
+X-Received: by 2002:a17:90b:4c48:: with SMTP id
+ np8mr44667690pjb.51.1640981171484; 
+ Fri, 31 Dec 2021 12:06:11 -0800 (PST)
 Received: from ?IPv6:2601:1c0:6101:be80:9312:6940:7d21:4efb?
  ([2601:1c0:6101:be80:9312:6940:7d21:4efb])
- by smtp.gmail.com with ESMTPSA id j23sm25395488pga.59.2021.12.31.12.03.52
+ by smtp.gmail.com with ESMTPSA id b65sm30275743pfg.209.2021.12.31.12.06.10
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 31 Dec 2021 12:03:52 -0800 (PST)
+ Fri, 31 Dec 2021 12:06:11 -0800 (PST)
 Subject: Re: [PATCH v2 3/6] target/riscv: add support for zfinx
 To: Weiwei Li <liweiwei@iscas.ac.cn>, palmer@dabbelt.com,
  alistair.francis@wdc.com, bin.meng@windriver.com, qemu-riscv@nongnu.org,
@@ -62,8 +62,8 @@ To: Weiwei Li <liweiwei@iscas.ac.cn>, palmer@dabbelt.com,
 References: <20211231032337.15579-1-liweiwei@iscas.ac.cn>
  <20211231032337.15579-4-liweiwei@iscas.ac.cn>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <20101077-e471-fc29-2c83-92778f24bfc4@linaro.org>
-Date: Fri, 31 Dec 2021 12:03:50 -0800
+Message-ID: <a522f7f6-b6ad-02de-dabc-0511740aef83@linaro.org>
+Date: Fri, 31 Dec 2021 12:06:09 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.14.0
 MIME-Version: 1.0
@@ -99,24 +99,11 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 12/30/21 7:23 PM, Weiwei Li wrote:
-> From: liweiwei<liweiwei@iscas.ac.cn>
-> 
->    - update extension check REQUIRE_ZFINX_OR_F
->    - update single float point register read/write
->    - disable nanbox_s check
-> 
-> Co-authored-by: ardxwe<ardxwe@gmail.com>
-> Signed-off-by: Weiwei Li<liweiwei@iscas.ac.cn>
-> Signed-off-by: Junqiang Wang<wangjunqiang@iscas.ac.cn>
-> ---
->   target/riscv/fpu_helper.c               |  89 +++----
->   target/riscv/helper.h                   |   2 +-
->   target/riscv/insn_trans/trans_rvf.c.inc | 314 ++++++++++++++++--------
->   target/riscv/internals.h                |  16 +-
->   target/riscv/translate.c                |  90 +++++++
->   5 files changed, 367 insertions(+), 144 deletions(-)
+> +    if (reg_num != 0) {
+> +        switch (get_ol(ctx)) {
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Oh, you should be using get_xl here and elsewhere in this patch, not get_ol.
+
 
 r~
 
