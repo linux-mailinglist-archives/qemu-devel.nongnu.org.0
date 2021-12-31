@@ -2,62 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA4634822A1
-	for <lists+qemu-devel@lfdr.de>; Fri, 31 Dec 2021 08:50:30 +0100 (CET)
-Received: from localhost ([::1]:40938 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F7084822B1
+	for <lists+qemu-devel@lfdr.de>; Fri, 31 Dec 2021 09:14:47 +0100 (CET)
+Received: from localhost ([::1]:56814 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n3CgH-0006bQ-EO
-	for lists+qemu-devel@lfdr.de; Fri, 31 Dec 2021 02:50:29 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49074)
+	id 1n3D3m-0001Ph-5y
+	for lists+qemu-devel@lfdr.de; Fri, 31 Dec 2021 03:14:46 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53668)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1n3CX3-0002av-Lp; Fri, 31 Dec 2021 02:40:57 -0500
-Received: from smtpout2.mo529.mail-out.ovh.net ([79.137.123.220]:55901)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1n3CX1-0003p4-KK; Fri, 31 Dec 2021 02:40:57 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.109.143.124])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id EBD21D4C82D9;
- Fri, 31 Dec 2021 08:40:51 +0100 (CET)
-Received: from kaod.org (37.59.142.95) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.17; Fri, 31 Dec
- 2021 08:40:51 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-95G0019194dda8-2b33-4862-acf1-85029ae87510,
- 3D80871A5AC245C0530038040CECACC5925050C1) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 86.250.77.2
-Message-ID: <88edfb3d-508d-ff59-8083-ffc6c2e08c9c@kaod.org>
-Date: Fri, 31 Dec 2021 08:40:50 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH v2 2/5] target/ppc: powerpc_excp: Add excp_vectors bounds
- check
-Content-Language: en-US
-To: Fabiano Rosas <farosas@linux.ibm.com>, <qemu-devel@nongnu.org>
-References: <20211229165751.3774248-1-farosas@linux.ibm.com>
- <20211229165751.3774248-3-farosas@linux.ibm.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20211229165751.3774248-3-farosas@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.95]
-X-ClientProxiedBy: DAG2EX1.mxp5.local (172.16.2.11) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: a1c52e6f-5434-409a-a409-0a04ad40d688
-X-Ovh-Tracer-Id: 12971211355944684326
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddruddvgedgudduudcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeigedvffekgeeftedutddttdevudeihfegudffkeeitdekkeetkefhffelveelleenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleehnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepuggrnhhivghlhhgsgedufeesghhmrghilhdrtghomh
-Received-SPF: pass client-ip=79.137.123.220; envelope-from=clg@kaod.org;
- helo=smtpout2.mo529.mail-out.ovh.net
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) NICE_REPLY_A=-3.024,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1n3Cz4-0003rQ-Mh; Fri, 31 Dec 2021 03:09:56 -0500
+Received: from smtp21.cstnet.cn ([159.226.251.21]:54112 helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1n3Cyy-0002UG-Jr; Fri, 31 Dec 2021 03:09:53 -0500
+Received: from localhost.localdomain (unknown [180.156.147.178])
+ by APP-01 (Coremail) with SMTP id qwCowACnrZ3Dus5h9gmUBQ--.44953S2;
+ Fri, 31 Dec 2021 16:09:39 +0800 (CST)
+From: Weiwei Li <liweiwei@iscas.ac.cn>
+To: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
+ qemu-riscv@nongnu.org, qemu-devel@nongnu.org
+Subject: [PATCH v2 0/3] support subsets of virtual memory extension
+Date: Fri, 31 Dec 2021 16:09:20 +0800
+Message-Id: <20211231080923.24252-1-liweiwei@iscas.ac.cn>
+X-Mailer: git-send-email 2.17.1
+X-CM-TRANSID: qwCowACnrZ3Dus5h9gmUBQ--.44953S2
+X-Coremail-Antispam: 1UD129KBjvdXoWrKr13XF43tF4DuFWfKw43trb_yoWkWFb_Gr
+ 1vgF97u34j9a15GFZ8Ar1DGrW3Kr4fGF18ta17tw4jkFy7WryUJwn2qFyDXr1UZrs5XFna
+ krn3JFWfKr1UWjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUIcSsGvfJTRUUUbzxFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+ 6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+ A2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_
+ Gr1UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
+ Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
+ I7IYx2IY67AKxVWUXVWUAwAv7VC2z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r
+ 4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCF04k20xvY0x0EwIxG
+ rwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4
+ vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IY
+ x2IY67AKxVWUCVW8JwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26c
+ xKx2IYs7xG6Fyj6rWUJwCI42IY6I8E87Iv67AKxVW8JVWxJwCI42IY6I8E87Iv6xkF7I0E
+ 14v26r4UJVWxJrUvcSsGvfC2KfnxnUUI43ZEXa7VUb7GYJUUUUU==
+X-Originating-IP: [180.156.147.178]
+X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
+Received-SPF: pass client-ip=159.226.251.21; envelope-from=liweiwei@iscas.ac.cn;
+ helo=cstnet.cn
+X-Spam_score_int: -22
+X-Spam_score: -2.3
+X-Spam_bar: --
+X-Spam_report: (-2.3 / 5.0 requ) RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -71,56 +65,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: richard.henderson@linaro.org, danielhb413@gmail.com, qemu-ppc@nongnu.org,
- david@gibson.dropbear.id.au
+Cc: wangjunqiang@iscas.ac.cn, Weiwei Li <liweiwei@iscas.ac.cn>,
+ lazyparser@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/29/21 17:57, Fabiano Rosas wrote:
-> The next patch will start accessing the excp_vectors array earlier in
-> the function, so add a bounds check as first thing here.
-> 
-> This converts the empty return on POWERPC_EXCP_NONE to an error. This
-> exception number never reaches this function and if it does it
-> probably means something else went wrong up the line.
-> 
-> Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
+This patchset implements virtual memory related RISC-V extensions: Svnapot version 1.0, Svinval vesion 1.0, Svpbmt version 1.0. 
 
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
+Specification:
+https://github.com/riscv/virtual-memory/tree/main/specs
 
-Thanks,
+The port is available here:
+https://github.com/plctlab/plct-qemu/tree/plct-virtmem-upstream-v2
 
-C.
+To test this implementation, specify cpu argument with 'x-svinval=true,x-svnapot=true,x-svpbmt=true'.
 
-> ---
->   target/ppc/excp_helper.c | 7 ++++---
->   1 file changed, 4 insertions(+), 3 deletions(-)
-> 
-> diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-> index 8b9c6bc5a8..9a03e4b896 100644
-> --- a/target/ppc/excp_helper.c
-> +++ b/target/ppc/excp_helper.c
-> @@ -300,6 +300,10 @@ static inline void powerpc_excp(PowerPCCPU *cpu, int excp_model, int excp)
->       target_ulong msr, new_msr, vector;
->       int srr0, srr1, lev = -1;
->   
-> +    if (excp <= POWERPC_EXCP_NONE || excp >= POWERPC_EXCP_NB) {
-> +        cpu_abort(cs, "Invalid PowerPC exception %d. Aborting\n", excp);
-> +    }
-> +
->       qemu_log_mask(CPU_LOG_INT, "Raise exception at " TARGET_FMT_lx
->                     " => %08x (%02x)\n", env->nip, excp, env->error_code);
->   
-> @@ -353,9 +357,6 @@ static inline void powerpc_excp(PowerPCCPU *cpu, int excp_model, int excp)
->   #endif
->   
->       switch (excp) {
-> -    case POWERPC_EXCP_NONE:
-> -        /* Should never happen */
-> -        return;
->       case POWERPC_EXCP_CRITICAL:    /* Critical input                         */
->           switch (excp_model) {
->           case POWERPC_EXCP_40x:
-> 
+This implementation can pass the riscv-tests for rv64ssvnapot.
+
+v2:
+* add extension check for svnapot and svpbmt
+
+Weiwei Li (3):
+  target/riscv: add support for svnapot extension
+  target/riscv: add support for svinval extension
+  target/riscv: add support for svpbmt extension
+
+ target/riscv/cpu.c                          |  3 +
+ target/riscv/cpu.h                          |  3 +
+ target/riscv/cpu_bits.h                     |  4 ++
+ target/riscv/cpu_helper.c                   | 27 ++++++--
+ target/riscv/insn32.decode                  |  7 ++
+ target/riscv/insn_trans/trans_svinval.c.inc | 75 +++++++++++++++++++++
+ target/riscv/translate.c                    |  1 +
+ 7 files changed, 116 insertions(+), 4 deletions(-)
+ create mode 100644 target/riscv/insn_trans/trans_svinval.c.inc
+
+-- 
+2.17.1
 
 
