@@ -2,82 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6F39482858
-	for <lists+qemu-devel@lfdr.de>; Sat,  1 Jan 2022 20:49:00 +0100 (CET)
-Received: from localhost ([::1]:57460 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2843C482859
+	for <lists+qemu-devel@lfdr.de>; Sat,  1 Jan 2022 20:51:22 +0100 (CET)
+Received: from localhost ([::1]:60628 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n3kN8-0002nW-TR
-	for lists+qemu-devel@lfdr.de; Sat, 01 Jan 2022 14:48:58 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37132)
+	id 1n3kPR-0004ws-9q
+	for lists+qemu-devel@lfdr.de; Sat, 01 Jan 2022 14:51:21 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37398)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1n3kKr-0001cn-VD
- for qemu-devel@nongnu.org; Sat, 01 Jan 2022 14:46:37 -0500
-Received: from [2607:f8b0:4864:20::62a] (port=42905
- helo=mail-pl1-x62a.google.com)
+ id 1n3kNA-0003Ld-AR
+ for qemu-devel@nongnu.org; Sat, 01 Jan 2022 14:49:00 -0500
+Received: from [2607:f8b0:4864:20::42f] (port=40563
+ helo=mail-pf1-x42f.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1n3kKq-0005RX-9b
- for qemu-devel@nongnu.org; Sat, 01 Jan 2022 14:46:37 -0500
-Received: by mail-pl1-x62a.google.com with SMTP id u16so22207043plg.9
- for <qemu-devel@nongnu.org>; Sat, 01 Jan 2022 11:46:35 -0800 (PST)
+ id 1n3kN7-0005t8-Le
+ for qemu-devel@nongnu.org; Sat, 01 Jan 2022 14:48:58 -0500
+Received: by mail-pf1-x42f.google.com with SMTP id q3so21787645pfs.7
+ for <qemu-devel@nongnu.org>; Sat, 01 Jan 2022 11:48:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=8969tUHfXRWgTbX6sm68tXRe/102EeKxQ84VJR272Bw=;
- b=CDTYetogW7wZJbF6adxSObh5UqDdX5DNTxCXrcpDF00TQmEUObjVlb72Nc3n3gBqyu
- nfVnkLMm30NV3tAVDh9wj3L70DQgqnmxeka/UUvWbaQPsKXlmHzjnR6olbK3pXUwIvRe
- 061tiAcf7bwGCE3iX0WOQsN9yhduNKwONAyJ9x73wKUYRl5syKpMQJ9YkOeep8xJ3ko5
- 4uX8vUcnoCSSqFXb/8Dl647A8ZtrDwDXhN/ZK+lQGGThQvQa+Dv2P7gQaM+VuLKKM2VE
- C6sjd6/f7MkIzgF4Is/oHDJ39y6AqHt4x0cy7/w0AFK7iaxTPslq3J270ORcv+aJvCo9
- k3Sg==
+ bh=5IiEudQMvResE/8WiUfbWhjW+91YE1wdR/BfYJc4HVQ=;
+ b=rQD7joDyMLhlHeZZ79S2K0cHQrU5md/gS0Oe8a1M7tkzFfackImlV5PDs8oLKKEzr4
+ r82w6x5LMTAeeghdxuqlW7CeZcL8ByvQcJPSi7TZkbrDeqXH6oulXAxW3HkRzUDmB69j
+ Y7XsENVmOKnUXRhAE07ixUg6szz/7//9fUZZ7Ki8KOEy3Lkf1PbV79UHjAgi/KEiJRLn
+ 5lLgBshLOCIdZ+dl7q2dFiq9u+tPOJOA2mY75T4nXemo/VdX+1HIZyII0xBV64AREH1J
+ VeV8eXz1eAyNL8o4aGhZ726i9G0+07qNzuar9gM48CQMvoZkzF9fn2WcMwcNlddRr63W
+ 8hJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=8969tUHfXRWgTbX6sm68tXRe/102EeKxQ84VJR272Bw=;
- b=w1YaMZlnz2/lyDNQz2O8I3nIJCbyPLRaP3ZLCk4vz537wj2tmTBNa3TK6DldHphgvX
- olDqRRd71MccqUJe6FKjwT8AIXTCIGAoGEgYZB5XKAruUfqHM7gppwtCqqOtLtmazQPH
- Wtk4JeSo0e6evUAae6ghePMw8+ZiOt0xqPg3MMXK7r5fccrQTaUrDoIvAs4Oto7lv/0X
- Ubgo5qrLcdKMlPuDIW6HY2SLmX6MPNcreMpFDGQuUPivWicXsdC4OF8AP0/i7if4MuPC
- U77XCY8S48Bp2lJL0xwZcvGs+lvhUNFxVCC7eJOSD5YcsoQd3Rw4P04f2wJchm2BFShl
- rsFA==
-X-Gm-Message-State: AOAM532WEHeZL1ZNHgWq5ipO6iszAUXHFsWrVKz/vqderDodXF49XjYa
- 8FL+Bf3yExaqDBxiQ7BaImzDcA==
-X-Google-Smtp-Source: ABdhPJz9nhhia3nllvcZUUU6DUeXw7Qi+/8V+wgdYUNR5kBQLkoQth7q4EzeIuObgmXoktFgY5+FXA==
-X-Received: by 2002:a17:90a:c087:: with SMTP id
- o7mr48109218pjs.91.1641066394391; 
- Sat, 01 Jan 2022 11:46:34 -0800 (PST)
+ bh=5IiEudQMvResE/8WiUfbWhjW+91YE1wdR/BfYJc4HVQ=;
+ b=3IvyyWqEYaLK58JCUZAZESCEn0TuEtaI0xfpT4CZckC82mBwKK30F/jYoSfEoBWBdO
+ YIWMk/adM27Ywf/ntGmqyEyXIqityYYtHKemhw45OakQZtaJBLB5xmWt8iC5t8TxymDZ
+ khjIxEqVLXTjxTnGYvk+Gk/indJeN/UCGBtp1nUm2JjsWx+nLNlmPLutlE2AGxFmnsfP
+ vqZiPoLScGT2dav+0QJ6aEmEbub4Ekz61MerQabb48X9mxju1kIWup6Cf9dG/qNORbYG
+ vn62GNesMKc6LkOJVOwE+Gi7FA5V4XD3k+UbblsE8v9HWuWFZVaCFDQRTPUZyGGpU4SR
+ l61w==
+X-Gm-Message-State: AOAM5324mkNjEA6bYeA8KkwtejBUAIUPokR4jEzK4brd7MjvuYORiMqx
+ lD/TmOlYRre0/v3RxV8I2uxgag==
+X-Google-Smtp-Source: ABdhPJwNIO/UtOBhmBfv1EnEyN559aIEtRkQxPzd7whKisu2YHm5eD0ijGi48ODN9p3QGyFbNiUNVA==
+X-Received: by 2002:a63:384d:: with SMTP id h13mr16548141pgn.472.1641066536330; 
+ Sat, 01 Jan 2022 11:48:56 -0800 (PST)
 Received: from ?IPv6:2601:1c0:6101:be80:ffc3:704e:e577:9222?
  ([2601:1c0:6101:be80:ffc3:704e:e577:9222])
- by smtp.gmail.com with ESMTPSA id h13sm17762364pgq.63.2022.01.01.11.46.33
+ by smtp.gmail.com with ESMTPSA id g16sm31434589pfv.159.2022.01.01.11.48.55
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 01 Jan 2022 11:46:33 -0800 (PST)
-Subject: Re: [PATCH v2 2/6] target/riscv: hardwire mstatus.FS to zero when
- enable zfinx
+ Sat, 01 Jan 2022 11:48:56 -0800 (PST)
+Subject: Re: [PATCH v2 3/6] target/riscv: add support for zfinx
 To: Weiwei Li <liweiwei@iscas.ac.cn>, palmer@dabbelt.com,
  alistair.francis@wdc.com, bin.meng@windriver.com, qemu-riscv@nongnu.org,
  qemu-devel@nongnu.org
 References: <20211231032337.15579-1-liweiwei@iscas.ac.cn>
- <20211231032337.15579-3-liweiwei@iscas.ac.cn>
- <09ecdc1d-2f51-d5bf-1ecd-9ab6c132fd2e@linaro.org>
- <4b38e2e8-f288-f53a-71a6-f34feafb18b4@iscas.ac.cn>
+ <20211231032337.15579-4-liweiwei@iscas.ac.cn>
+ <a522f7f6-b6ad-02de-dabc-0511740aef83@linaro.org>
+ <7096a296-f1c2-44e7-d084-1c473b50a711@iscas.ac.cn>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <43631cc8-64c1-9998-f693-51bff18b0671@linaro.org>
-Date: Sat, 1 Jan 2022 11:46:31 -0800
+Message-ID: <120dea96-eade-bcd6-eea0-0017b165f1ca@linaro.org>
+Date: Sat, 1 Jan 2022 11:48:54 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <4b38e2e8-f288-f53a-71a6-f34feafb18b4@iscas.ac.cn>
+In-Reply-To: <7096a296-f1c2-44e7-d084-1c473b50a711@iscas.ac.cn>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62a
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42f
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42f.google.com
 X-Spam_score_int: -23
 X-Spam_score: -2.4
 X-Spam_bar: --
@@ -101,23 +99,25 @@ Cc: wangjunqiang@iscas.ac.cn, lazyparser@gmail.com, ardxwe@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/31/21 9:55 PM, Weiwei Li wrote:
->> This shouldn't be necessary because it should never have been set.
-> Yes, I think so. However, I have a question about MSTATUS_MIE and MSTATUS_MPRV, will they 
-> be set before cpu reset?
+On 12/31/21 10:05 PM, Weiwei Li wrote:
+> 在 2022/1/1 上午4:06, Richard Henderson 写道:
+>> On 12/30/21 7:23 PM, Weiwei Li wrote:
+>>> +    if (reg_num != 0) {
+>>> +        switch (get_ol(ctx)) {
+>>
+>> Oh, you should be using get_xl here and elsewhere in this patch, not get_ol.
+> 
+> Sorry. I don't know the difference between get_xl and  get_ol. From gpr register 
+> read/write function, It seems get_ol is used in register read, and get_xl is used in 
+> register write.
+> 
+> However, "ctx->ol= ctx->xl;" is executed before translate instruction.
 
-Yes, via warm reset.
+ol is the operation length; xl is the register length.
 
->> I would think it would be more correct to have a positive test for RVF, rather than a 
->> negative test for ZFINX?
-> It may  deviate from the original value of mstatus_mask with a positive test for RVF.
-
-Oh, you mean misa_ext?  Hmm.  Interesting point.
-
-When F extension is not implemented, FS is either hardwired to zero (without S-mode) or 
-optionally zero.  So this looks like an existing bug to be fixed.
+In this case, the operation length doesn't matter -- we're interested in distinguishing 
+RV32 and RV64, because that's where the change in semantics comes from.
 
 
 r~
-
 
