@@ -2,66 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 141914827AF
-	for <lists+qemu-devel@lfdr.de>; Sat,  1 Jan 2022 14:18:36 +0100 (CET)
-Received: from localhost ([::1]:53894 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AECB44827B2
+	for <lists+qemu-devel@lfdr.de>; Sat,  1 Jan 2022 14:22:01 +0100 (CET)
+Received: from localhost ([::1]:56398 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n3eHL-0004HA-75
-	for lists+qemu-devel@lfdr.de; Sat, 01 Jan 2022 08:18:35 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35364)
+	id 1n3eKe-000641-R8
+	for lists+qemu-devel@lfdr.de; Sat, 01 Jan 2022 08:22:00 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35676)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
- id 1n3eG9-0003aw-NU
- for qemu-devel@nongnu.org; Sat, 01 Jan 2022 08:17:22 -0500
-Received: from [2a00:1450:4864:20::434] (port=43891
- helo=mail-wr1-x434.google.com)
+ id 1n3eIa-0005FT-Kz
+ for qemu-devel@nongnu.org; Sat, 01 Jan 2022 08:19:56 -0500
+Received: from [2a00:1450:4864:20::330] (port=43793
+ helo=mail-wm1-x330.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
- id 1n3eG7-0001fY-MQ
- for qemu-devel@nongnu.org; Sat, 01 Jan 2022 08:17:20 -0500
-Received: by mail-wr1-x434.google.com with SMTP id o3so2378172wrh.10
- for <qemu-devel@nongnu.org>; Sat, 01 Jan 2022 05:17:19 -0800 (PST)
+ id 1n3eIZ-0001rA-5p
+ for qemu-devel@nongnu.org; Sat, 01 Jan 2022 08:19:52 -0500
+Received: by mail-wm1-x330.google.com with SMTP id
+ k66-20020a1ca145000000b00345fa984108so10204856wme.2
+ for <qemu-devel@nongnu.org>; Sat, 01 Jan 2022 05:19:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=brainfault-org.20210112.gappssmtp.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=imOW++GZyZQGv4lJugti242NBmXZazlWAQqs1XM/fbU=;
- b=IqMe7bM733IjKlUY2/4I2w/jPSjnJXgh6LjWLHhkp/EjaBO8RratwgXdlnaPeM9W+H
- E9BkNXq6Qolpb+4QV1zMS1hKlIifPOXyU0U4n5UbRGIZJeJI3EaUmp51CCT9hxq4rRue
- jdbApnbrqyzicw3B4M4ALa2fw9v5QUIX7gSLfgl6tbwkamoap5V0/VRSYAl2+lfMxbRp
- A5aj6vPV9nueFkRprzfLCU3LYpHgPlxQBWuXDM2Qiz82tu+N3UOOs5y0Rpw4cz9sBJ4K
- PCLbvilJp3AvAHPS4v6Z28ZTpqjD8TrS1ner8khTsH1wTf+BrpXJOOxeYx1W6YeyPxXP
- /gqw==
+ :cc; bh=mG6rn/qJpS01V1Nlw8A9sLS9nFO6AkO9W7RAPWBePn8=;
+ b=bQp8IRttOn8imdDhOx62mjqb9zw21m3MWSF/4U7pCL//Jme3tUmhuL/iKxryrWQINB
+ /p/mZsmK6rYOmRCnYab4DFBLdf7lV3HT9J5ij6Yw7m+YbN4pWEpGNmzqAFGfsP3EtqRG
+ KvGZZhjYBu4yhb690Wtos7GHMqurkpa5zqynL1HUnPnSS9YND+yTSYShescozEoA5wdi
+ ovR2y84/UZ1OxUIuDXndMHduLuMK8IjAWGZWCJ4wMK3TOn8o5A2SwrIJHTY3IEN+j5L8
+ lwAnH4ElIdLix331jCE3mYkkfORjzXQmLg1x7hy7cxLxqch7ylUC+kgw+z0jJpkXvC0B
+ /htg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=imOW++GZyZQGv4lJugti242NBmXZazlWAQqs1XM/fbU=;
- b=GmlKKNIMkVUsaE21m7tT77wGqZDjaYEUhlvZ5aNddT3JGwPFDXVQSn8iHzXXcXMhCU
- Un9S/mk1pMrLnKPV719wBP666ebLQM5mhqjrt4HCkwG/czdHE8TQ0zQgg5bChSfxHPH8
- A3LRfoGMhWgIEsmxsDUOFzVAyHzWZirJ02TwozRdByM8p1xu/GiANuvwc32DRDoag78k
- YAsNx7U5i914WL9Yx1qYuA0V5En5URUAnGTorHxw8IC6RlGg1jdHugp1BnHMASRtcgNY
- 7UhHGolWyxS7jCgAamVUE0sR7c9pJ+yrrpERv1R/kHLIcLE/3F0fiMxjIaNYRmE/pagJ
- hLMg==
-X-Gm-Message-State: AOAM530vH3NZj31tvPyYGtj7UzGiPfzCPGWG1DDjp4R0mKOXIoOwkQU/
- hFtFTed2IDh0DJbPXQ4jsLc/+5aMbwaz2/YIecYbEw==
-X-Google-Smtp-Source: ABdhPJzaE/SRi/r581fSMXf+Hw0S90vbIQ4yVhUEN+BeP9J9dqKsI7duAH4sAlezT7SUI7ZXV0jZQGEUTZQOvzJvsfs=
-X-Received: by 2002:a5d:56c2:: with SMTP id m2mr32608246wrw.313.1641043037704; 
- Sat, 01 Jan 2022 05:17:17 -0800 (PST)
+ bh=mG6rn/qJpS01V1Nlw8A9sLS9nFO6AkO9W7RAPWBePn8=;
+ b=bdZJr7gH5UplVMD9pGj0g2mbWe38wtN5NW/kUnvaRUI2CDrGC6oYcsX+b1CjI99+Cd
+ xENSmFcK3IneZ3fVuFcGm1M67f78UhP4LSbx2A7B7kvOFt3t/vnsSP7aoMnQA324lwcE
+ n2s/vOusCtRaCEXreEX2M+vtYaTgUOENOO6PTgRgWlVLYdPoLHFTvpri1MmtRoj3XU/x
+ MnLoXaXxKQnIbZCRai1rEElfcM0JgPtTg26Kkh6hitl/1S1Km1Jshx/XyiLoGBn9mNam
+ 30Lfz2PhNaST6kFzqA8DWqetP+5bqCBLX2kR5Zcd259SvJpzi2vcOO3n/jEcgzkJEmzo
+ Gzrg==
+X-Gm-Message-State: AOAM532Y968EGhH0pphBoxKw7gx43DINMCIyXuU8xfmso0cq436MafTX
+ rO+Zl/zbPoRozj2cCaUi5qZKDw0dGj2UewUGwNGhsQ==
+X-Google-Smtp-Source: ABdhPJyDqSC/P+Nt66VHElGltY2na0+5vj62ZGMQCtP6a7VHx61YlsZC0aIeP4r+P69sa0SETELIjHaCt0iSWbSEcAo=
+X-Received: by 2002:a05:600c:1da5:: with SMTP id
+ p37mr33446398wms.59.1641043189719; 
+ Sat, 01 Jan 2022 05:19:49 -0800 (PST)
 MIME-Version: 1.0
 References: <20211231080923.24252-1-liweiwei@iscas.ac.cn>
- <20211231080923.24252-2-liweiwei@iscas.ac.cn>
-In-Reply-To: <20211231080923.24252-2-liweiwei@iscas.ac.cn>
+ <20211231080923.24252-4-liweiwei@iscas.ac.cn>
+In-Reply-To: <20211231080923.24252-4-liweiwei@iscas.ac.cn>
 From: Anup Patel <anup@brainfault.org>
-Date: Sat, 1 Jan 2022 18:47:06 +0530
-Message-ID: <CAAhSdy1jr-_ntceCCmHLCfcVcLnDrj4eVMugWaAMwxcvruHs2w@mail.gmail.com>
-Subject: Re: [PATCH v2 1/3] target/riscv: add support for svnapot extension
+Date: Sat, 1 Jan 2022 18:49:38 +0530
+Message-ID: <CAAhSdy0ZVqYRZd_fkfagaee2tHiKtCKQi965gyqLkJAUCFRFfA@mail.gmail.com>
+Subject: Re: [PATCH v2 3/3] target/riscv: add support for svpbmt extension
 To: Weiwei Li <liweiwei@iscas.ac.cn>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::434
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::330
  (failed)
-Received-SPF: none client-ip=2a00:1450:4864:20::434;
- envelope-from=anup@brainfault.org; helo=mail-wr1-x434.google.com
+Received-SPF: none client-ip=2a00:1450:4864:20::330;
+ envelope-from=anup@brainfault.org; helo=mail-wm1-x330.google.com
 X-Spam_score_int: 8
 X-Spam_score: 0.8
 X-Spam_bar: /
@@ -90,27 +92,30 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Fri, Dec 31, 2021 at 1:40 PM Weiwei Li <liweiwei@iscas.ac.cn> wrote:
 >
+> It uses two PTE bits, but otherwise has no effect on QEMU, since QEMU is sequentially consistent and doesn't model PMAs currently
+>
 > Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
 > Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
+> Tested-by: Heiko Stuebner <heiko@sntech.de>
 > ---
->  target/riscv/cpu.c        |  1 +
->  target/riscv/cpu.h        |  1 +
->  target/riscv/cpu_bits.h   |  1 +
->  target/riscv/cpu_helper.c | 20 ++++++++++++++++----
->  4 files changed, 19 insertions(+), 4 deletions(-)
+>  target/riscv/cpu.c        | 1 +
+>  target/riscv/cpu.h        | 1 +
+>  target/riscv/cpu_bits.h   | 3 +++
+>  target/riscv/cpu_helper.c | 9 ++++++++-
+>  4 files changed, 13 insertions(+), 1 deletion(-)
 >
 > diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index 6ef3314bce..cbcb7f522b 100644
+> index 77ef0f85fe..743bcfe297 100644
 > --- a/target/riscv/cpu.c
 > +++ b/target/riscv/cpu.c
-> @@ -647,6 +647,7 @@ static Property riscv_cpu_properties[] = {
->      DEFINE_PROP_BOOL("zbs", RISCVCPU, cfg.ext_zbs, true),
->      DEFINE_PROP_BOOL("x-h", RISCVCPU, cfg.ext_h, false),
+> @@ -649,6 +649,7 @@ static Property riscv_cpu_properties[] = {
 >      DEFINE_PROP_BOOL("x-j", RISCVCPU, cfg.ext_j, false),
-> +    DEFINE_PROP_BOOL("x-svnapot", RISCVCPU, cfg.ext_svnapot, false),
+>      DEFINE_PROP_BOOL("x-svinval", RISCVCPU, cfg.ext_svinval, false),
+>      DEFINE_PROP_BOOL("x-svnapot", RISCVCPU, cfg.ext_svnapot, false),
+> +    DEFINE_PROP_BOOL("x-svpbmt", RISCVCPU, cfg.ext_svpbmt, false),
 
-Please drop the "x-" prefix here as well. The Svnapot extension is
-already ratified.
+Drop the "x-" prefix, same as the other two patches. The Svpmbt extension
+is also ratified.
 
 Regards,
 Anup
@@ -119,68 +124,61 @@ Anup
 >      DEFINE_PROP_BOOL("x-epmp", RISCVCPU, cfg.epmp, false),
 >
 > diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> index dc10f27093..1fbbde28c6 100644
+> index 5dd9e53293..6656b8a4f3 100644
 > --- a/target/riscv/cpu.h
 > +++ b/target/riscv/cpu.h
-> @@ -315,6 +315,7 @@ struct RISCVCPU {
->          bool ext_counters;
->          bool ext_ifencei;
+> @@ -317,6 +317,7 @@ struct RISCVCPU {
 >          bool ext_icsr;
-> +        bool ext_svnapot;
+>          bool ext_svinval;
+>          bool ext_svnapot;
+> +        bool ext_svpbmt;
 >          bool ext_zfh;
 >          bool ext_zfhmin;
 >
 > diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
-> index 1e31f4d35f..1156c941cb 100644
+> index 1156c941cb..3dae358aa5 100644
 > --- a/target/riscv/cpu_bits.h
 > +++ b/target/riscv/cpu_bits.h
-> @@ -483,6 +483,7 @@ typedef enum {
+> @@ -483,7 +483,10 @@ typedef enum {
 >  #define PTE_A               0x040 /* Accessed */
 >  #define PTE_D               0x080 /* Dirty */
 >  #define PTE_SOFT            0x300 /* Reserved for Software */
-> +#define PTE_N               0x8000000000000000 /* NAPOT translation */
+> +#define PTE_RSVD            0x1FC0000000000000 /* Reserved for future use */
+> +#define PTE_PBMT            0x6000000000000000 /* Page-based memory types */
+>  #define PTE_N               0x8000000000000000 /* NAPOT translation */
+> +#define PTE_ATTR            0xFFC0000000000000 /* All attributes bits */
 >
 >  /* Page table PPN shift amount */
 >  #define PTE_PPN_SHIFT       10
 > diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-> index 10f3baba53..e044153986 100644
+> index e044153986..41d04675b3 100644
 > --- a/target/riscv/cpu_helper.c
 > +++ b/target/riscv/cpu_helper.c
-> @@ -619,9 +619,12 @@ restart:
+> @@ -619,16 +619,23 @@ restart:
 >              return TRANSLATE_FAIL;
 >          }
 >
-> -        hwaddr ppn = pte >> PTE_PPN_SHIFT;
-> +        hwaddr ppn = (pte & ~(target_ulong)PTE_N) >> PTE_PPN_SHIFT;
+> -        hwaddr ppn = (pte & ~(target_ulong)PTE_N) >> PTE_PPN_SHIFT;
+> +        hwaddr ppn = (pte & ~(target_ulong)PTE_ATTR) >> PTE_PPN_SHIFT;
 >
-> -        if (!(pte & PTE_V)) {
-> +        RISCVCPU *cpu = env_archcpu(env);
-> +        if (!cpu->cfg.ext_svnapot && (pte & PTE_N)) {
+>          RISCVCPU *cpu = env_archcpu(env);
+>          if (!cpu->cfg.ext_svnapot && (pte & PTE_N)) {
+>              return TRANSLATE_FAIL;
+> +        } else if (!cpu->cfg.ext_svpbmt && (pte & PTE_PBMT)) {
 > +            return TRANSLATE_FAIL;
-> +        } else if (!(pte & PTE_V)) {
+> +        } else if (pte & PTE_RSVD) {
+> +            return TRANSLATE_FAIL;
+>          } else if (!(pte & PTE_V)) {
 >              /* Invalid PTE */
 >              return TRANSLATE_FAIL;
 >          } else if (!(pte & (PTE_R | PTE_W | PTE_X))) {
-> @@ -699,8 +702,17 @@ restart:
->              /* for superpage mappings, make a fake leaf PTE for the TLB's
->                 benefit. */
->              target_ulong vpn = addr >> PGSHIFT;
-> -            *physical = ((ppn | (vpn & ((1L << ptshift) - 1))) << PGSHIFT) |
-> -                        (addr & ~TARGET_PAGE_MASK);
-> +
-> +            int napot_bits = ((pte & PTE_N) ? (ctzl(ppn) + 1) : 0);
-> +            if (((pte & PTE_N) && ((ppn == 0) || (i != (levels - 1)))) ||
-> +                (napot_bits != 0 && napot_bits != 4)) {
+>              /* Inner PTE, continue walking */
+> +            if (pte & (PTE_D | PTE_A | PTE_U | PTE_N | PTE_PBMT)) {
 > +                return TRANSLATE_FAIL;
 > +            }
-> +
-> +            *physical = (((ppn & ~(((target_ulong)1 << napot_bits) - 1)) |
-> +                          (vpn & (((target_ulong)1 << napot_bits) - 1)) |
-> +                          (vpn & (((target_ulong)1 << ptshift) - 1))
-> +                        ) << PGSHIFT) | (addr & ~TARGET_PAGE_MASK);
->
->              /* set permissions on the TLB entry */
->              if ((pte & PTE_R) || ((pte & PTE_X) && mxr)) {
+>              base = ppn << PGSHIFT;
+>          } else if ((pte & (PTE_R | PTE_W | PTE_X)) == PTE_W) {
+>              /* Reserved leaf PTE flags: PTE_W */
 > --
 > 2.17.1
 >
