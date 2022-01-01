@@ -2,50 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A583482715
-	for <lists+qemu-devel@lfdr.de>; Sat,  1 Jan 2022 09:36:32 +0100 (CET)
-Received: from localhost ([::1]:54452 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 898AB4827AE
+	for <lists+qemu-devel@lfdr.de>; Sat,  1 Jan 2022 14:17:04 +0100 (CET)
+Received: from localhost ([::1]:51750 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n3ZsL-0003BY-UV
-	for lists+qemu-devel@lfdr.de; Sat, 01 Jan 2022 03:36:30 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55526)
+	id 1n3eFr-0002m2-14
+	for lists+qemu-devel@lfdr.de; Sat, 01 Jan 2022 08:17:03 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35148)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1n3Zoh-0001ft-J8; Sat, 01 Jan 2022 03:32:43 -0500
-Received: from gandalf.ozlabs.org ([150.107.74.76]:59955)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1n3Zof-0006JR-Mx; Sat, 01 Jan 2022 03:32:43 -0500
-Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
- id 4JQwHS5rKsz4xXW; Sat,  1 Jan 2022 19:32:36 +1100 (AEDT)
+ (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
+ id 1n3eEh-0001uJ-Bi
+ for qemu-devel@nongnu.org; Sat, 01 Jan 2022 08:15:51 -0500
+Received: from [2a00:1450:4864:20::42e] (port=40482
+ helo=mail-wr1-x42e.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
+ id 1n3eEf-0001WP-2n
+ for qemu-devel@nongnu.org; Sat, 01 Jan 2022 08:15:51 -0500
+Received: by mail-wr1-x42e.google.com with SMTP id q16so60560857wrg.7
+ for <qemu-devel@nongnu.org>; Sat, 01 Jan 2022 05:15:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gibson.dropbear.id.au; s=201602; t=1641025956;
- bh=Yz51vDaNm0BSi8nwK4MPy9FIEsh9PVgL+VAO1kGTxx0=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=VrdnFC/g1oSuPKn3HOuWsi4nOCSVyF+oGZbAYyZ1nK96q4U4RMiEr8YbBsan/K404
- WO9y0IIR2k3gfUs7LPCKexngVhxbrCL6usnUWCJI98+Ui+34bX9CkiVGIrRLR0RLvB
- jLOuYBTB7tkM1Pgb1ke2XTDvh3R2g5kg7LWEiGK8=
-Date: Sat, 1 Jan 2022 19:31:56 +1100
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Fabiano Rosas <farosas@linux.ibm.com>
-Subject: Re: [PATCH v2 3/5] target/ppc: powerpc_excp: Set vector earlier
-Message-ID: <YdARfHm0SB7gn8UC@yekko>
-References: <20211229165751.3774248-1-farosas@linux.ibm.com>
- <20211229165751.3774248-4-farosas@linux.ibm.com>
+ d=brainfault-org.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=SatgV+RMvTwTvHGyt4nEXoJAgF0vRCGgej/z8x3N8qA=;
+ b=a7ffHTEm9TSoqZgaPKbkRV6VWf0FYM8RNBtBXUFXAdHDNvOoHLnaBhcSYxGTn6fkHf
+ sQbWEVEdRS1L94tUO7wE3XZnDlrz2FkpVmMkXBzofh/sInYSY2HrbvBz5WbabTpj59KS
+ qTJp1jm7OFtRlQTPpKbsHVYIf2BGD61P5XK14D84nE7IEVQp/d9tqI3YjHKRaWwjh29T
+ 5BDLVj7YSadXBjvwcKEXdXD9BngW9JrgLHdvaB7ZHGsnkazSUDzLetwidVJn3aenkmA6
+ tEKMysASCyLJluvZ9+Vj10zvotdwztNYYM04ThGsaMgGPj0BQkJQ6HmflPRO2B1c6+be
+ CgUQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=SatgV+RMvTwTvHGyt4nEXoJAgF0vRCGgej/z8x3N8qA=;
+ b=T7aT+1xH+QQ09DppLRxgFFGyqf4UqWyZOhFj3jHrQT+N/1B2tmCgs2mRJg8F8iez6G
+ Ddp4snk/4/r4JPHku7XKv+7ehq9sDYRwvlKk5MfDhy0yXz5OU4YHRup2aVmrHskCH//w
+ H9tfucKpZPzJQ4Rz8+jTU/DSkNpJENZSMkj3ORiJOAtBmarnbehjtkTH8l+UoLMYdrXZ
+ k5Ab7eiMHYRumdVYa6zIDsW1lnvPdOowMm4hwwunD4MFO/+jGHDJS/DbZnY4P+b7Ho/j
+ bH8ntIX5Jv7z4nD2KXMl37VTTKleWkrXL7ZK6RlHYPJrEiHnsXjVxjnjzdR4+tic1deD
+ SR0g==
+X-Gm-Message-State: AOAM53272+KfVOE2nm6JdoNI0tkfLfcqpzE2bA926XH4iN5KXGZQwGny
+ +rYg2Cyy0lJAxCVXW8LVxnjssbUnGGNRr3NLNTJnIQ==
+X-Google-Smtp-Source: ABdhPJxCfgqLw8qo3e5IAYOnb5WtQUD2d+7XVf82eWd/q5AduWkWQyiLhg4wW5N6hfwlS39yNFypjTVn44cq0EYtTvo=
+X-Received: by 2002:adf:d1e2:: with SMTP id g2mr32111208wrd.346.1641042946915; 
+ Sat, 01 Jan 2022 05:15:46 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="ap2/PF8qkf/rlKXe"
-Content-Disposition: inline
-In-Reply-To: <20211229165751.3774248-4-farosas@linux.ibm.com>
-Received-SPF: pass client-ip=150.107.74.76;
- envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
-X-Spam_score_int: 1
-X-Spam_score: 0.1
+References: <20211231080923.24252-1-liweiwei@iscas.ac.cn>
+ <20211231080923.24252-3-liweiwei@iscas.ac.cn>
+In-Reply-To: <20211231080923.24252-3-liweiwei@iscas.ac.cn>
+From: Anup Patel <anup@brainfault.org>
+Date: Sat, 1 Jan 2022 18:45:36 +0530
+Message-ID: <CAAhSdy32+q_oT4hE2ohsVnNcaEK29=BWnqyu5V3MQuXUMA7Rvg@mail.gmail.com>
+Subject: Re: [PATCH v2 2/3] target/riscv: add support for svinval extension
+To: Weiwei Li <liweiwei@iscas.ac.cn>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42e
+ (failed)
+Received-SPF: none client-ip=2a00:1450:4864:20::42e;
+ envelope-from=anup@brainfault.org; helo=mail-wr1-x42e.google.com
+X-Spam_score_int: 8
+X-Spam_score: 0.8
 X-Spam_bar: /
-X-Spam_report: (0.1 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (0.8 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -58,99 +80,167 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: richard.henderson@linaro.org, danielhb413@gmail.com, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org, clg@kaod.org
+Cc: =?UTF-8?B?V2VpIFd1ICjlkLTkvJ8p?= <lazyparser@gmail.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>, wangjunqiang@iscas.ac.cn,
+ Bin Meng <bin.meng@windriver.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
---ap2/PF8qkf/rlKXe
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, Dec 29, 2021 at 01:57:49PM -0300, Fabiano Rosas wrote:
-> None of the interrupt setup code touches 'vector', so we can move it
-> earlier in the function. This will allow us to later move the System
-> Call Vectored setup that is on the top level into the
-> POWERPC_EXCP_SYSCALL_VECTORED code block.
->=20
-> This patch also moves the verification for when 'excp' does not have
-> an address associated with it. We now bail a little earlier when that
-> is the case. This should not cause any visible effects.
->=20
-> Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
-> Reviewed-by: C=E9dric Le Goater <clg@kaod.org>
-
-Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
-
+On Fri, Dec 31, 2021 at 1:43 PM Weiwei Li <liweiwei@iscas.ac.cn> wrote:
+>
+> Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
+> Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
 > ---
->  target/ppc/excp_helper.c | 16 ++++++++--------
->  1 file changed, 8 insertions(+), 8 deletions(-)
->=20
-> diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-> index 9a03e4b896..1fe20b4806 100644
-> --- a/target/ppc/excp_helper.c
-> +++ b/target/ppc/excp_helper.c
-> @@ -356,6 +356,14 @@ static inline void powerpc_excp(PowerPCCPU *cpu, int=
- excp_model, int excp)
->      }
->  #endif
-> =20
-> +    vector =3D env->excp_vectors[excp];
-> +    if (vector =3D=3D (target_ulong)-1ULL) {
-> +        cpu_abort(cs, "Raised an exception without defined vector %d\n",
-> +                  excp);
-> +    }
+>  target/riscv/cpu.c                          |  1 +
+>  target/riscv/cpu.h                          |  1 +
+>  target/riscv/insn32.decode                  |  7 ++
+>  target/riscv/insn_trans/trans_svinval.c.inc | 75 +++++++++++++++++++++
+>  target/riscv/translate.c                    |  1 +
+>  5 files changed, 85 insertions(+)
+>  create mode 100644 target/riscv/insn_trans/trans_svinval.c.inc
+>
+> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> index cbcb7f522b..77ef0f85fe 100644
+> --- a/target/riscv/cpu.c
+> +++ b/target/riscv/cpu.c
+> @@ -647,6 +647,7 @@ static Property riscv_cpu_properties[] = {
+>      DEFINE_PROP_BOOL("zbs", RISCVCPU, cfg.ext_zbs, true),
+>      DEFINE_PROP_BOOL("x-h", RISCVCPU, cfg.ext_h, false),
+>      DEFINE_PROP_BOOL("x-j", RISCVCPU, cfg.ext_j, false),
+> +    DEFINE_PROP_BOOL("x-svinval", RISCVCPU, cfg.ext_svinval, false),
+
+Please drop the "x-" prefix. The Svinval extension is already ratified.
+
+Regards,
+Anup
+
+>      DEFINE_PROP_BOOL("x-svnapot", RISCVCPU, cfg.ext_svnapot, false),
+>      /* ePMP 0.9.3 */
+>      DEFINE_PROP_BOOL("x-epmp", RISCVCPU, cfg.epmp, false),
+> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+> index 1fbbde28c6..5dd9e53293 100644
+> --- a/target/riscv/cpu.h
+> +++ b/target/riscv/cpu.h
+> @@ -315,6 +315,7 @@ struct RISCVCPU {
+>          bool ext_counters;
+>          bool ext_ifencei;
+>          bool ext_icsr;
+> +        bool ext_svinval;
+>          bool ext_svnapot;
+>          bool ext_zfh;
+>          bool ext_zfhmin;
+> diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
+> index 8617307b29..809464113a 100644
+> --- a/target/riscv/insn32.decode
+> +++ b/target/riscv/insn32.decode
+> @@ -784,3 +784,10 @@ fcvt_l_h   1100010  00010 ..... ... ..... 1010011 @r2_rm
+>  fcvt_lu_h  1100010  00011 ..... ... ..... 1010011 @r2_rm
+>  fcvt_h_l   1101010  00010 ..... ... ..... 1010011 @r2_rm
+>  fcvt_h_lu  1101010  00011 ..... ... ..... 1010011 @r2_rm
 > +
-> +    vector |=3D env->excp_prefix;
+> +# *** Svinval Standard Extension ***
+> +sinval_vma        0001011 ..... ..... 000 00000 1110011 @sfence_vma
+> +sfence_w_inval    0001100 00000 00000 000 00000 1110011
+> +sfence_inval_ir   0001100 00001 00000 000 00000 1110011
+> +hinval_vvma       0011011 ..... ..... 000 00000 1110011 @hfence_vvma
+> +hinval_gvma       0111011 ..... ..... 000 00000 1110011 @hfence_gvma
+> diff --git a/target/riscv/insn_trans/trans_svinval.c.inc b/target/riscv/insn_trans/trans_svinval.c.inc
+> new file mode 100644
+> index 0000000000..1dde665661
+> --- /dev/null
+> +++ b/target/riscv/insn_trans/trans_svinval.c.inc
+> @@ -0,0 +1,75 @@
+> +/*
+> + * RISC-V translation routines for the Svinval Standard Instruction Set.
+> + *
+> + * Copyright (c) 2020-2021 PLCT lab
+> + *
+> + * This program is free software; you can redistribute it and/or modify it
+> + * under the terms and conditions of the GNU General Public License,
+> + * version 2 or later, as published by the Free Software Foundation.
+> + *
+> + * This program is distributed in the hope it will be useful, but WITHOUT
+> + * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+> + * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+> + * more details.
+> + *
+> + * You should have received a copy of the GNU General Public License along with
+> + * this program.  If not, see <http://www.gnu.org/licenses/>.
+> + */
 > +
->      switch (excp) {
->      case POWERPC_EXCP_CRITICAL:    /* Critical input                    =
-     */
->          switch (excp_model) {
-> @@ -832,14 +840,6 @@ static inline void powerpc_excp(PowerPCCPU *cpu, int=
- excp_model, int excp)
->      }
->  #endif
-> =20
-> -    vector =3D env->excp_vectors[excp];
-> -    if (vector =3D=3D (target_ulong)-1ULL) {
-> -        cpu_abort(cs, "Raised an exception without defined vector %d\n",
-> -                  excp);
-> -    }
-> -
-> -    vector |=3D env->excp_prefix;
-> -
->  #if defined(TARGET_PPC64)
->      if (excp_model =3D=3D POWERPC_EXCP_BOOKE) {
->          if (env->spr[SPR_BOOKE_EPCR] & EPCR_ICM) {
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---ap2/PF8qkf/rlKXe
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmHQEXsACgkQbDjKyiDZ
-s5Ifng//QiYogbeQI1roFrUU9DiPci5BOgEnyGuJGneA5EWd8WCI1oZ2+P0upuAm
-kEFTFkfOj0ifAzYEhg8Tj9HL/HYmQshf/e6OXQ+yjR1dnsBQR7MW8hz/fIbHm4Ef
-JXCHKmQ6b/EHoWQSi8EIfYPGt5iBeBBEWntSDpqEAKqTPx1QAmSL7jar7lng9W4U
-JovOyuFcwi0r2oIuwqPwgXf+r3HWrXhrhmErD4pqqlk2KpPTA1cL4qTkcrACjYus
-TFlalo8w297UqEOPIvuehmBc1LzhviQ/Zn9ypFC4SUqjqm83PYmSjfV0VK6fY7WB
-KcgQaK6NJBBlLy1tZRZ7uVFt3aeb92his47DDK4ZeVReSoJuaYqFijePbeGFYueA
-lxtihnPgJzZ5GAFwZ2RZ2OH/3+10+Vt7VYu2GNAdy5EVDQFQn+mSav7cILNFoxBE
-fPplNcIjUSUNmyH7h7jVrVYTQgf6RZVz/Jti7tbzJa752KMqZxBeoi65+9nx5dwH
-v34M0kutz599720oUP+YpzW5vuzrHbmVyj3gzx6VXHea8arZDn5sOSYLPVDxBrPL
-8VCIzWfipqOQ1jSO63lFfUcgE3okti6Pz6HTLmYAksnq9WMBS6Io903UQHepqNBx
-HDPKz5J51y30UMA37+cHqaf2RBcmiVTVOWs9+Nr3PSXNT6900lQ=
-=w13t
------END PGP SIGNATURE-----
-
---ap2/PF8qkf/rlKXe--
+> +#define REQUIRE_SVINVAL(ctx) do {                    \
+> +    if (!RISCV_CPU(ctx->cs)->cfg.ext_svinval) {      \
+> +        return false;                                \
+> +    }                                                \
+> +} while (0)
+> +
+> +static bool trans_sinval_vma(DisasContext *ctx, arg_sinval_vma *a)
+> +{
+> +    REQUIRE_SVINVAL(ctx);
+> +    /* Do the same as sfence.vma currently */
+> +    REQUIRE_EXT(ctx, RVS);
+> +#ifndef CONFIG_USER_ONLY
+> +    gen_helper_tlb_flush(cpu_env);
+> +    return true;
+> +#endif
+> +    return false;
+> +}
+> +
+> +static bool trans_sfence_w_inval(DisasContext *ctx, arg_sfence_w_inval *a)
+> +{
+> +    REQUIRE_SVINVAL(ctx);
+> +    REQUIRE_EXT(ctx, RVS);
+> +    /* Do nothing currently */
+> +    return true;
+> +}
+> +
+> +static bool trans_sfence_inval_ir(DisasContext *ctx, arg_sfence_inval_ir *a)
+> +{
+> +    REQUIRE_SVINVAL(ctx);
+> +    REQUIRE_EXT(ctx, RVS);
+> +    /* Do nothing currently */
+> +    return true;
+> +}
+> +
+> +static bool trans_hinval_vvma(DisasContext *ctx, arg_hinval_vvma *a)
+> +{
+> +    REQUIRE_SVINVAL(ctx);
+> +    /* Do the same as hfence.vvma currently */
+> +    REQUIRE_EXT(ctx, RVH);
+> +#ifndef CONFIG_USER_ONLY
+> +    gen_helper_hyp_tlb_flush(cpu_env);
+> +    return true;
+> +#endif
+> +    return false;
+> +}
+> +
+> +static bool trans_hinval_gvma(DisasContext *ctx, arg_hinval_gvma *a)
+> +{
+> +    REQUIRE_SVINVAL(ctx);
+> +    /* Do the same as hfence.gvma currently */
+> +    REQUIRE_EXT(ctx, RVH);
+> +#ifndef CONFIG_USER_ONLY
+> +    gen_helper_hyp_gvma_tlb_flush(cpu_env);
+> +    return true;
+> +#endif
+> +    return false;
+> +}
+> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+> index 5df6c0d800..47541a4db0 100644
+> --- a/target/riscv/translate.c
+> +++ b/target/riscv/translate.c
+> @@ -651,6 +651,7 @@ static uint32_t opcode_at(DisasContextBase *dcbase, target_ulong pc)
+>  #include "insn_trans/trans_rvb.c.inc"
+>  #include "insn_trans/trans_rvzfh.c.inc"
+>  #include "insn_trans/trans_privileged.c.inc"
+> +#include "insn_trans/trans_svinval.c.inc"
+>
+>  /* Include the auto-generated decoder for 16 bit insn */
+>  #include "decode-insn16.c.inc"
+> --
+> 2.17.1
+>
+>
 
