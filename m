@@ -2,70 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46A004829CD
-	for <lists+qemu-devel@lfdr.de>; Sun,  2 Jan 2022 06:59:21 +0100 (CET)
-Received: from localhost ([::1]:50254 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72143482C14
+	for <lists+qemu-devel@lfdr.de>; Sun,  2 Jan 2022 17:29:40 +0100 (CET)
+Received: from localhost ([::1]:41418 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n3tto-0004Kq-BV
-	for lists+qemu-devel@lfdr.de; Sun, 02 Jan 2022 00:59:20 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51742)
+	id 1n43jn-0000te-Hd
+	for lists+qemu-devel@lfdr.de; Sun, 02 Jan 2022 11:29:39 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57394)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1n3trU-0002s9-Oo; Sun, 02 Jan 2022 00:56:58 -0500
-Received: from smtp23.cstnet.cn ([159.226.251.23]:59718 helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liweiwei@iscas.ac.cn>)
- id 1n3trS-0000Sj-1w; Sun, 02 Jan 2022 00:56:55 -0500
-Received: from [192.168.0.103] (unknown [180.156.147.178])
- by APP-03 (Coremail) with SMTP id rQCowACHjVmcPtFhFw4FBQ--.59158S2;
- Sun, 02 Jan 2022 13:56:45 +0800 (CST)
-Subject: Re: [PATCH v2 3/6] target/riscv: add support for zfinx
-To: Richard Henderson <richard.henderson@linaro.org>, palmer@dabbelt.com,
- alistair.francis@wdc.com, bin.meng@windriver.com, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org
-References: <20211231032337.15579-1-liweiwei@iscas.ac.cn>
- <20211231032337.15579-4-liweiwei@iscas.ac.cn>
- <a522f7f6-b6ad-02de-dabc-0511740aef83@linaro.org>
- <7096a296-f1c2-44e7-d084-1c473b50a711@iscas.ac.cn>
- <120dea96-eade-bcd6-eea0-0017b165f1ca@linaro.org>
-From: Weiwei Li <liweiwei@iscas.ac.cn>
-Message-ID: <1219e20b-eb43-ed52-3ea5-41b24fdf8210@iscas.ac.cn>
-Date: Sun, 2 Jan 2022 13:56:44 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ (Exim 4.90_1) (envelope-from <konrad.schwarz@siemens.com>)
+ id 1n43P3-0006av-3F
+ for qemu-devel@nongnu.org; Sun, 02 Jan 2022 11:08:14 -0500
+Received: from david.siemens.de ([192.35.17.14]:35007)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <konrad.schwarz@siemens.com>)
+ id 1n43Oz-0004CI-OQ
+ for qemu-devel@nongnu.org; Sun, 02 Jan 2022 11:08:11 -0500
+Received: from mail1.sbs.de (mail1.sbs.de [192.129.41.35])
+ by david.siemens.de (8.15.2/8.15.2) with ESMTPS id 202G83Gt006120
+ (version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Sun, 2 Jan 2022 17:08:03 +0100
+Received: from fedora.vmnet8.md1wgtfc ([144.145.220.57])
+ by mail1.sbs.de (8.15.2/8.15.2) with ESMTP id 202G82US030977;
+ Sun, 2 Jan 2022 17:08:02 +0100
+From: Konrad Schwarz <konrad.schwarz@siemens.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v1 0/5] Improve RISC-V debugging support.
+Date: Sun,  2 Jan 2022 17:06:07 +0100
+Message-Id: <cover.1641137349.git.konrad.schwarz@siemens.com>
+X-Mailer: git-send-email 2.25.4
 MIME-Version: 1.0
-In-Reply-To: <120dea96-eade-bcd6-eea0-0017b165f1ca@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-CM-TRANSID: rQCowACHjVmcPtFhFw4FBQ--.59158S2
-X-Coremail-Antispam: 1UD129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73
- VFW2AGmfu7bjvjm3AaLaJ3UjIYCTnIWjp_UUUYZ7AC8VAFwI0_Gr0_Xr1l1xkIjI8I6I8E
- 6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28Cjx
- kF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVWUJVWUCwA2z4x0Y4vE2Ix0cI8I
- cVCY1x0267AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIE14v26F4j6r4UJwA2z4x0Y4vEx4A2js
- IEc7CjxVAFwI0_Gr1j6F4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAK
- zVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUGVWUXwAv7VC2z280aVAFwI0_Jr0_Gr1lOx
- 8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwAC
- I402YVCY1x02628vn2kIc2xKxwCYjI0SjxkI62AI1cAE67vIY487MxkF7I0Ew4C26cxK6c
- 8Ij28IcwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E
- 14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIx
- kGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAF
- wI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6Fyj6rWUJwCI42IY6I8E87Iv67AKxVWUJV
- W8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfUnXdb
- UUUUU
-X-Originating-IP: [180.156.147.178]
-X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
-Received-SPF: pass client-ip=159.226.251.23; envelope-from=liweiwei@iscas.ac.cn;
- helo=cstnet.cn
-X-Spam_score_int: -52
-X-Spam_score: -5.3
+Received-SPF: pass client-ip=192.35.17.14;
+ envelope-from=konrad.schwarz@siemens.com; helo=david.siemens.de
+X-Spam_score_int: -49
+X-Spam_score: -5.0
 X-Spam_bar: -----
-X-Spam_report: (-5.3 / 5.0 requ) NICE_REPLY_A=-3.024, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_BL=0.001, RCVD_IN_MSPIKE_L4=0.001, SPF_HELO_PASS=-0.001,
+X-Spam_report: (-5.0 / 5.0 requ) RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Sun, 02 Jan 2022 11:21:53 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,20 +55,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: wangjunqiang@iscas.ac.cn, lazyparser@gmail.com, ardxwe@gmail.com
+Cc: Konrad Schwarz <konrad.schwarz@siemens.com>,
+ Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bin.meng@windriver.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+1) Make the QEMU monitor `info registers' command more informative
+2) Implement the QEMU monitor `print $register'
+3) Introduce a new command `info gmem' to the QEMU monitor, which displays
+   a RISC-V hypervisor's guest's 2nd level paging tables similarly to the
+   existing `info mem' command.
+4) Improve QEMU RISC-V target descriptions for GDB. In particular, add
+   type information for many control and status registers.
+5) Extend the virtual `priv' register with hypervisor virtualization status.
 
-在 2022/1/2 上午3:48, Richard Henderson 写道:
-> ol is the operation length; xl is the register length.
->
-> In this case, the operation length doesn't matter -- we're interested 
-> in distinguishing RV32 and RV64, because that's where the change in 
-> semantics comes from.
->
-So both read and write fpr should use get_xl from this point.
->
-> r~
+Konrad Schwarz (5):
+  RISC-V: larger and more consistent register set for 'info registers'
+  RISC-V: monitor's print register functionality
+  RISC-V: 'info gmem' to show hypervisor guest -> physical address
+    translations
+  RISC-V: Typed CSRs in gdbserver
+  RISC-V: Add `v' (virtualization mode) bit to the `priv' virtual debug
+    register
+
+ gdb-xml/riscv-32bit-virtual.xml   |  30 ++-
+ gdb-xml/riscv-64bit-virtual.xml   |  30 ++-
+ hmp-commands-info.hx              |  16 ++
+ include/monitor/hmp-target.h      |   2 +
+ target/riscv/cpu.c                | 327 ++++++++++++++++++++++++++---
+ target/riscv/csr.c                |   2 +
+ target/riscv/csr32-op-gdbserver.h | 109 ++++++++++
+ target/riscv/csr64-op-gdbserver.h |  76 +++++++
+ target/riscv/gdb_csr_types.c      | 333 ++++++++++++++++++++++++++++++
+ target/riscv/gdb_csr_types.h      |   3 +
+ target/riscv/gdbstub.c            |  31 ++-
+ target/riscv/meson.build          |   4 +-
+ target/riscv/monitor.c            | 204 ++++++++++++++----
+ 13 files changed, 1096 insertions(+), 71 deletions(-)
+ create mode 100644 target/riscv/csr32-op-gdbserver.h
+ create mode 100644 target/riscv/csr64-op-gdbserver.h
+ create mode 100644 target/riscv/gdb_csr_types.c
+ create mode 100644 target/riscv/gdb_csr_types.h
+
+
+base-commit: 8627edfb3f1fca24a96a0954148885c3241c10f8
+-- 
+Konrad Schwarz
 
 
