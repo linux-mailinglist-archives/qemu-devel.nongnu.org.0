@@ -2,78 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B85FF482C70
-	for <lists+qemu-devel@lfdr.de>; Sun,  2 Jan 2022 18:43:56 +0100 (CET)
-Received: from localhost ([::1]:41468 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D50DB482CBD
+	for <lists+qemu-devel@lfdr.de>; Sun,  2 Jan 2022 21:58:39 +0100 (CET)
+Received: from localhost ([::1]:56870 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n44tf-0008VO-Hk
-	for lists+qemu-devel@lfdr.de; Sun, 02 Jan 2022 12:43:55 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44250)
+	id 1n47w6-0002CQ-Ig
+	for lists+qemu-devel@lfdr.de; Sun, 02 Jan 2022 15:58:38 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55692)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <carwynellis@gmail.com>)
- id 1n44rs-0006Kg-Sf; Sun, 02 Jan 2022 12:42:04 -0500
-Received: from [2a00:1450:4864:20::42e] (port=33642
- helo=mail-wr1-x42e.google.com)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1n47uq-0001Q0-Dc; Sun, 02 Jan 2022 15:57:20 -0500
+Received: from [2a00:1450:4864:20::432] (port=34320
+ helo=mail-wr1-x432.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <carwynellis@gmail.com>)
- id 1n44rr-0003lj-3M; Sun, 02 Jan 2022 12:42:04 -0500
-Received: by mail-wr1-x42e.google.com with SMTP id d9so65918405wrb.0;
- Sun, 02 Jan 2022 09:42:02 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1n47uo-0005La-AA; Sun, 02 Jan 2022 15:57:20 -0500
+Received: by mail-wr1-x432.google.com with SMTP id s1so66504506wrg.1;
+ Sun, 02 Jan 2022 12:57:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:signed-off-by:content-transfer-encoding;
- bh=pHCAwqns1twtPFixgldOfBOPXptGKHgFxpFDmDRmBVg=;
- b=lAl50+GPB3pIhLuudiXTIDrYGSifmxGpOpu6yCoZWHPpLeV4u44stFn5/PMNlAhwwM
- B/KcIO7zAuBIQaC1M5POM3DCI8zrOBQ9HVWBVfzvCkB74BVg576cgrCtidDhmxD4S57e
- zzuX65SjAHLEzwqEfrvOqbtf296e4wm8KnMm941gQU+e+AhKNWUH+4SuhUepI7v/9EV0
- RNpd//gxFUk5oA1iVI74yzAvRblMfW1FdU8x6yrSRqFUOBSa+zeDryMk77b3EKaQmLi2
- iKDXM0A8HmAG/+QFi/xPDWx7O+zjCsYYlOr686s6oY8kn0BGauAkzhI5f7NIjKSPBpaA
- oFjg==
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=umm/5+Wu6oMls5tZiZay6ebKUYbgdNSnoLvBnbhiaWI=;
+ b=QVvZ7yU8GMIy/wcLEm2wff9H9uiqYDXu/K5r+hUaco2uOlO9DKqrBp+yisd4pK4tjU
+ LLH4dMCEUxIAQGxXDN2z0N49wthB4eWebrs764RswL3sqb97yL0/Sfb5O4eKOWwKX2xR
+ N+v8cqLYHXvocE//UKIbyEhTK4Ldblot6RrB9Rx0iEer6olNfRyozCllAvHuzPsrbCKL
+ uIY7K3D9NmpoGw/Y+CBp0J91bz70kEKB1H/V12mMnw6lEJhKXANoH8TlRTwRZsKaKBaL
+ Q1fDrbpF60xEU3l0NTdC8jTZ0mNB6brOH4xgbjXy9bSWA/A1NBRa7UoFAWPZc70w8VeW
+ TaFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:signed-off-by:content-transfer-encoding;
- bh=pHCAwqns1twtPFixgldOfBOPXptGKHgFxpFDmDRmBVg=;
- b=AYocj8MFIFlyqg/pgWL6DJfVsG3b2qBqyg+glAL5mHmGJYj+TryZFZ48F3GEs/7BKU
- bX1NglzX6uAESRmcYfCaIq10og45P3Csp71eQCZkQP/wDvgpjN2puTimmMiRqQipylFt
- b/GVaycYkeXh1g5OHlTYlcZIzPiXyyDISTRByxo6dxQcGXwOD9D+4I1OdeWcIp8e4L21
- cD+aGSqJK9A9Lc4rCs5j5e1+LtYcZ2SIIFAcv3g6WZpuFziNsLZaITVsddWsa+Fw5bNS
- qZY4hqMBZqaQmyNPm2K+PlnN3w7WGv89X5g4qhXk9BkGC96gwBd/zoT9heu0ZakepIMZ
- p/DQ==
-X-Gm-Message-State: AOAM533yx70dJ9ynW2BikUFBRtIYsdEf5xlARBGodx1xSLSTonCoWoaE
- 8Xafs1N+zUNV9p7WgJRPZnjVQp8BmVI=
-X-Google-Smtp-Source: ABdhPJzhNs0LfxYOMI0U/boWBDL1Yro+z7I4B7hOrlH9zDgtM+5enU/KSl9UmwZeZuYArWTpXNonSw==
-X-Received: by 2002:a5d:6049:: with SMTP id j9mr34787212wrt.332.1641145321566; 
- Sun, 02 Jan 2022 09:42:01 -0800 (PST)
-Received: from localhost.localdomain (201.11.75.194.dyn.plus.net.
- [194.75.11.201])
- by smtp.googlemail.com with ESMTPSA id w9sm1626565wrq.70.2022.01.02.09.42.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 02 Jan 2022 09:42:01 -0800 (PST)
-From: Carwyn Ellis <carwynellis@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 2/2] ui/cocoa: release mouse when user switches away from QEMU
- window
-Date: Sun,  2 Jan 2022 17:41:53 +0000
-Message-Id: <20220102174153.70043-3-carwynellis@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220102174153.70043-1-carwynellis@gmail.com>
-References: <20220102174153.70043-1-carwynellis@gmail.com>
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=umm/5+Wu6oMls5tZiZay6ebKUYbgdNSnoLvBnbhiaWI=;
+ b=YrYUbQq6ZPDYcIUzHVZaaUq5hbC6tU5tulCLuGWCWps6k+kVQ7EjJ6yMxXhIKzVSPF
+ bTllxDkyOYr7A0SDgBeiGcDu/S4korBku/E21u7I6GHTnfnkWw87QVP504sSu89g1LzK
+ 9z3SFAu2cfk5scAcVr+yr06xh7S6UZv923qoBqJ4xWp0LbS17gpeNqUsZpHAzGJQZqKz
+ kAuzqGA3aQz96JBWmzwBpH34Uf7KQNzX74dnHCmcK4utkT+BU5VYzHskxgDz4FtfflGT
+ SucxtwZgFLD4rZdIVlWmZadu42280GMhn8C/yyDrBqsBibXAstISCxJWe744+meiRLix
+ H2dg==
+X-Gm-Message-State: AOAM532oYfSAX4LF7czepGdQ1ki+zD06/r/66WnokU9f7QHR8/0vhIaM
+ LxCfhckaPR6ba4FbbQw2DYw=
+X-Google-Smtp-Source: ABdhPJwDRCrmPVkIgSmni8h2E3qXiS1ZhIw7wzof9ee4C6czi04EcWI8ObCzRMyedqtIdXHM6Lvjzw==
+X-Received: by 2002:a05:6000:1684:: with SMTP id
+ y4mr35152283wrd.26.1641157035851; 
+ Sun, 02 Jan 2022 12:57:15 -0800 (PST)
+Received: from [192.168.1.36] (26.red-83-50-86.dynamicip.rima-tde.net.
+ [83.50.86.26])
+ by smtp.gmail.com with ESMTPSA id c8sm34750240wmq.34.2022.01.02.12.57.14
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 02 Jan 2022 12:57:15 -0800 (PST)
+Message-ID: <99e369be-ac50-5076-ee32-27576040806a@amsat.org>
+Date: Sun, 2 Jan 2022 21:57:13 +0100
 MIME-Version: 1.0
-Signed-off-by: Carwyn Ellis <carwynellis@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH v2] hw/sd: Add SDHC support for SD card SPI-mode
+Content-Language: en-US
+To: frank.chang@sifive.com, qemu-devel@nongnu.org
+References: <20211228125719.14712-1-frank.chang@sifive.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+In-Reply-To: <20211228125719.14712-1-frank.chang@sifive.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42e
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::432
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=carwynellis@gmail.com; helo=mail-wr1-x42e.google.com
-X-Spam_score_int: 6
-X-Spam_score: 0.6
-X-Spam_bar: /
-X-Spam_report: (0.6 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x432.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-3.024,
  RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,47 +91,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, peter.maydell@linaro.org,
- Carwyn Ellis <carwynellis@gmail.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-block@nongnu.org,
+ Bin Meng <bin.meng@windriver.com>, Jim Shu <jim.shu@sifive.com>,
+ Alexander Bulekov <alxndr@bu.edu>, Alistair Francis <alistair.francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This resolves an issue where using command-tab to switch between QEMU
-and other windows on the host can leave the mouse pointer visible.
+On 12/28/21 13:57, frank.chang@sifive.com wrote:
+> From: Frank Chang <frank.chang@sifive.com>
+> 
+> In SPI-mode, SD card's OCR register: Card Capacity Status (CCS) bit
+> is not set to 1 correclty when the assigned SD image size is larger
+> than 2GB (SDHC). This will cause the SD card to be indentified as SDSC
+> incorrectly. CCS bit should be set to 1 if we are using SDHC.
+> 
+> Also, as there's no power up emulation in SPI-mode.
+> The OCR register: Card power up status bit bit (busy) should also
+> be set to 1 when reset. (busy bit is set to LOW if the card has not
+> finished the power up routine.)
+> 
+> Signed-off-by: Frank Chang <frank.chang@sifive.com>
+> Reviewed-by: Jim Shu <jim.shu@sifive.com>
+> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> ---
+>  hw/sd/sd.c | 24 +++++++++++++++++-------
+>  1 file changed, 17 insertions(+), 7 deletions(-)
 
-By releasing the mouse when the user switches away, the user must left
-click on the QEMU window when switching back in order to hide the
-pointer and return control to the guest.
-
-This appraoch ensures that the calls to NSCursor hide and unhide are
-always balanced and thus work correctly when invoked.
-
-Signed-off-by: Carwyn Ellis <carwynellis@gmail.com>
----
- ui/cocoa.m | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/ui/cocoa.m b/ui/cocoa.m
-index 01045d6698..3f7af4a8fa 100644
---- a/ui/cocoa.m
-+++ b/ui/cocoa.m
-@@ -1243,6 +1243,7 @@ QemuCocoaView *cocoaView;
- - (void) applicationWillResignActive: (NSNotification *)aNotification
- {
-     COCOA_DEBUG("QemuCocoaAppController: applicationWillResignActive\n");
-+    [cocoaView ungrabMouse];
-     [cocoaView raiseAllKeys];
- }
- 
-@@ -2052,6 +2053,7 @@ static void cocoa_display_init(DisplayState *ds, DisplayOptions *opts)
-             [(QemuCocoaAppController *)[[NSApplication sharedApplication] delegate] toggleFullScreen: nil];
-         });
-     }
-+
-     if (opts->has_show_cursor && opts->show_cursor) {
-         cursor_hide = 0;
-     }
--- 
-2.34.1
-
+Thanks, queued to sdmmc-next.
 
