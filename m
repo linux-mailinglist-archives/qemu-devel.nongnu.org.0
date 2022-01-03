@@ -2,82 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51B4248389D
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jan 2022 22:44:22 +0100 (CET)
-Received: from localhost ([::1]:56958 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E6B64838A6
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jan 2022 22:51:43 +0100 (CET)
+Received: from localhost ([::1]:34016 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n4V7t-0005qY-60
-	for lists+qemu-devel@lfdr.de; Mon, 03 Jan 2022 16:44:21 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33106)
+	id 1n4VEz-0001Px-UQ
+	for lists+qemu-devel@lfdr.de; Mon, 03 Jan 2022 16:51:41 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35502)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1n4V4Y-0004BY-Pv
- for qemu-devel@nongnu.org; Mon, 03 Jan 2022 16:40:57 -0500
-Received: from [2607:f8b0:4864:20::42b] (port=39851
- helo=mail-pf1-x42b.google.com)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1n4VDi-0000R8-Mt; Mon, 03 Jan 2022 16:50:24 -0500
+Received: from [2607:f8b0:4864:20::82c] (port=39555
+ helo=mail-qt1-x82c.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1n4V4X-0003HH-BT
- for qemu-devel@nongnu.org; Mon, 03 Jan 2022 16:40:54 -0500
-Received: by mail-pf1-x42b.google.com with SMTP id s15so30478265pfk.6
- for <qemu-devel@nongnu.org>; Mon, 03 Jan 2022 13:40:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=+qXF9vtwT1WE2DCJuLt4tHGUOpfbxxk3aSMBPHhsQmY=;
- b=MCGZx2ZhTJjt3h4A552jbf+rejzZyJKfRNh8w6CYydSJ2VBjeV9IWl3f6HqCr0eC3m
- FQNPGsXK4mVIi9NaUBt5Csm+FLud2wm7iF4WpQRrJNU94A6abTkd9pEjuGXMb0IkdiWK
- LAEzJx+KRFvGLrMan4LMT3DQhPdunUhvDJbkkvL6uFEh+gtcp7PYCISu5Gm+WspsqzZp
- VGl9xZ9F2ePPbgJvM2qPIxwi8h6sOr4pjoQ1AVY6al1Q6IZ1R8SCIackKn/iMMCjGbuH
- EBqIlhUo5RjmjHtKXTD/2ViAIDpOTAg3e784QtL9ti5rR2K0GTyB+9TwsAiTlfr9o4rM
- Ro2Q==
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1n4VDf-0006bI-RK; Mon, 03 Jan 2022 16:50:22 -0500
+Received: by mail-qt1-x82c.google.com with SMTP id bp39so31986721qtb.6;
+ Mon, 03 Jan 2022 13:50:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=zL8ZCasVpfR1HFcPDPofy7sus5IHdrje0/+tvS7bOSs=;
+ b=GIKhQR5g7prf+5cR6ZGGQi7JBJjUnZl0Jcj2Vu+D8ev7WVPpGa9T6fdC0PW/l9FI7G
+ 8QP6T2TI1e9s4vzq6S/ydAyMEypYCxCiDL0NJ7ZI9R5EK07L3e3gleawW90LvqV/Hdux
+ e/9ykLcSsaO74CHnlVQH/siCEm03xOR5LpnzRAVKZ3djVNElhbEJClIxAzrvOqO7FBmL
+ 7shffrV4A//EljoXuAJ163NRALTI9aVIAZ9BGXgIjhyU0w2v1of3a8HgrEvpJzc2oJa5
+ yG3nuZOnaoleEwIOSla7hiWjRvD9p6H3/b9AuDKuDvDtCo6AagKTji1uUBu9w4J6/9TK
+ xLZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=+qXF9vtwT1WE2DCJuLt4tHGUOpfbxxk3aSMBPHhsQmY=;
- b=XGGdvHv+agS5HEwwHQemiN4ZyRr3M/e4gzUJTH8eZTlMJoLmQmFGul6RYxKUEqbbtz
- w3ponH1lfmk+IL5k662RCCZSkG5zxjf6E4x8SE7q/uby5moH89J7pzRqZFIudbct+jCl
- qvUz/TDk+SFEb9lZAF2WykayptkvLZNAlOgu9ixIGi+E7sfKy3FMRFxY3OOZ9/gmMvlM
- AGZualftOaPhTYneRUG2fF1JhZXm555jCDjY9Zg+ybv6yI+KVPM3MNU8Mfcpy5s4q+yu
- qeeMFYe7Pj/bnGj+WXwC94cFXEF9xIGViB16kiWb7jFVDQvZK/8ngaqqaulbAiWeqySD
- tRhg==
-X-Gm-Message-State: AOAM530uERDFtfgCm7DLUGpAy8Y83WX2lyHmYesIG+nZr4dMH4+VUPE6
- vg9Qrze3WipvRSFAN6bivj7j2Q==
-X-Google-Smtp-Source: ABdhPJwYOJrNzyEcKNxRMqOMBcjZka1rOKT1iMpHyOkLUkiAMKvwbdStjQLz3LemcRxzLRImfomIVg==
-X-Received: by 2002:a63:8341:: with SMTP id h62mr41069157pge.283.1641246052042; 
- Mon, 03 Jan 2022 13:40:52 -0800 (PST)
-Received: from [192.168.1.13] (174-21-75-75.tukw.qwest.net. [174.21.75.75])
- by smtp.gmail.com with ESMTPSA id e9sm33072742pgp.39.2022.01.03.13.40.51
+ bh=zL8ZCasVpfR1HFcPDPofy7sus5IHdrje0/+tvS7bOSs=;
+ b=n9yWa51Jg1HqG3oBlg1nWQFtCDIsozRXefhBQktDzgkr2rON+SC7RfDgd+A9bxym/f
+ ocgpNQpbuiqikNiatjeExSldSL97HovJT/b/10vq94kos/qqoAi+1NpiAsvqRPbWMIBZ
+ 7+eqmjVX0L7JoMBB1va/5oNCHwSSy9HmNCeQVSXPx5weBlD7wFddVSyQ1jsJFa/Xd2jn
+ /dmrTRRIHRkN9232k6wwjeYBogejTT7l1bQg10iZVar5Zx7rJ7112DBicFwLON48fFuu
+ 6Ysxxon4vLAJ/E4dYDkv1BHDK6l4CvagFfwUfCmwkMNiNWTYAUUIo/jMeYLPKsT3LOYW
+ CcYQ==
+X-Gm-Message-State: AOAM5327tse2x9GWg3XJrP0jOHtzVDzv7gAPYI8ogjsS7lSWzIbC5XSM
+ 1isXo0amOMlucRu53HON1eI=
+X-Google-Smtp-Source: ABdhPJx1A3Pm3sF898IcJF+cPnwB4NF3bHZ+RUVJ8VLBkNiI+xElxDSnUW3XPN2RO5IFbP+ngIHaaA==
+X-Received: by 2002:ac8:580b:: with SMTP id g11mr42365954qtg.542.1641246613171; 
+ Mon, 03 Jan 2022 13:50:13 -0800 (PST)
+Received: from ?IPV6:2804:431:c7c7:f4d8:aa07:335f:99e0:a6e7?
+ ([2804:431:c7c7:f4d8:aa07:335f:99e0:a6e7])
+ by smtp.gmail.com with ESMTPSA id j124sm27565555qkd.98.2022.01.03.13.50.11
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 03 Jan 2022 13:40:51 -0800 (PST)
-Subject: Re: [PATCH v2 5/5] target/ppc: do not call hreg_compute_hflags() in
- helper_store_mmcr0()
-To: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org
-References: <20220103185332.117878-1-danielhb413@gmail.com>
- <20220103185332.117878-6-danielhb413@gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <7a262c9b-fef2-9295-fce4-abf41f823715@linaro.org>
-Date: Mon, 3 Jan 2022 13:40:50 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ Mon, 03 Jan 2022 13:50:12 -0800 (PST)
+Message-ID: <25b90f46-befa-3fc9-cdef-e6e999765f33@gmail.com>
+Date: Mon, 3 Jan 2022 18:50:09 -0300
 MIME-Version: 1.0
-In-Reply-To: <20220103185332.117878-6-danielhb413@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH v2 4/5] target/ppc: keep ins_cnt/cyc_cnt cleared if
+ MMCR0_FC is set
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42b
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20220103185332.117878-1-danielhb413@gmail.com>
+ <20220103185332.117878-5-danielhb413@gmail.com>
+ <0b9b2a07-4b0c-4095-9365-d95139e182fc@linaro.org>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+In-Reply-To: <0b9b2a07-4b0c-4095-9365-d95139e182fc@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::82c
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42b.google.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Received-SPF: pass client-ip=2607:f8b0:4864:20::82c;
+ envelope-from=danielhb413@gmail.com; helo=mail-qt1-x82c.google.com
+X-Spam_score_int: -24
+X-Spam_score: -2.5
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.354,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.5 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_ENVFROM_END_DIGIT=0.25,
+ FREEMAIL_FROM=0.001, NICE_REPLY_A=-3.354, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,35 +96,64 @@ Cc: qemu-ppc@nongnu.org, clg@kaod.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/3/22 10:53 AM, Daniel Henrique Barboza wrote:
-> MMCR0 writes will change only MMCR0 bits which are used to calculate
-> HFLAGS_PMCC0, HFLAGS_PMCC1 and HFLAGS_INSN_CNT hflags. No other machine
-> register will be changed during this operation. This means that
-> hreg_compute_hflags() is overkill for what we need to do.
-> 
-> pmu_update_summaries() is already updating HFLAGS_INSN_CNT without
-> calling hreg_compure_hflags(). Let's do the same for the other 2 MMCR0
-> hflags.
-> 
-> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-> ---
->   target/ppc/power8-pmu.c | 7 ++++++-
->   1 file changed, 6 insertions(+), 1 deletion(-)
-> 
-> diff --git a/target/ppc/power8-pmu.c b/target/ppc/power8-pmu.c
-> index 73713ca2a3..69342413bd 100644
-> --- a/target/ppc/power8-pmu.c
-> +++ b/target/ppc/power8-pmu.c
-> @@ -224,12 +224,17 @@ static void pmu_update_overflow_timers(CPUPPCState *env)
->   
->   void helper_store_mmcr0(CPUPPCState *env, target_ulong value)
->   {
-> +    uint32_t hflags_pmcc0 = (value & MMCR0_PMCC0) != 0;
-> +    uint32_t hflags_pmcc1 = (value & MMCR0_PMCC1) != 0;
 
-Could use bool here.  Otherwise,
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+On 1/3/22 18:38, Richard Henderson wrote:
+> On 1/3/22 10:53 AM, Daniel Henrique Barboza wrote:
+>> pmu_update_summaries() is not considering the case where the PMU can be
+>> turned off (i.e. stop counting all events) if MMCR0_FC is set,
+>> regardless of the other frozen counter bits state. This use case was
+>> covered in the late pmc_get_event(), via the also gone pmc_is_inactive(),
+>> that would return an invalid event if MMCR0_FC was set.
+>>
+>> This use case is exercised by the back_to_back_ebbs_test Linux kernel
+>> selftests [1]. As it is today, after enabling EBB exceptions, the test
+>> will report an additional event-based branch being taken and will fail.
+>> Other tests, such as cycles_test.c, will report additional cycles being
+>> calculated in the counters because we're not freezing the PMU quick
+>> enough.
+>>
+>> Fix pmu_update_summaries() by keeping env->ins_cnt and env->cyc_cnt
+>> cleared when MMCR0_FC is set.
+>>
+>> [1] tools/testing/selftests/powerpc/pmu/ebb/back_to_back_ebbs_test.c
+>>
+>> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+>> ---
+>>   target/ppc/power8-pmu.c | 5 +++++
+>>   1 file changed, 5 insertions(+)
+>>
+>> diff --git a/target/ppc/power8-pmu.c b/target/ppc/power8-pmu.c
+>> index 7fc7d91109..73713ca2a3 100644
+>> --- a/target/ppc/power8-pmu.c
+>> +++ b/target/ppc/power8-pmu.c
+>> @@ -40,6 +40,10 @@ void pmu_update_summaries(CPUPPCState *env)
+>>       int ins_cnt = 0;
+>>       int cyc_cnt = 0;
+>> +    if (mmcr0 & MMCR0_FC) {
+>> +        goto hflags_calc;
+>> +    }
+>> +
+>>       if (!(mmcr0 & MMCR0_FC14) && mmcr1 != 0) {
+>>           target_ulong sel;
+>> @@ -71,6 +75,7 @@ void pmu_update_summaries(CPUPPCState *env)
+>>       ins_cnt |= !(mmcr0 & MMCR0_FC56) << 5;
+>>       cyc_cnt |= !(mmcr0 & MMCR0_FC56) << 6;
+>> + hflags_calc:
+> 
+> Good catch, but should be folded into patch 1 to avoid bisection breakage.
 
-r~
+Fair point. Given that you have a suggestion in patch 5 as well I'll send a v3.
+
+
+Thanks,
+
+
+Daniel
+
+
+
+> 
+> 
+> r~
 
