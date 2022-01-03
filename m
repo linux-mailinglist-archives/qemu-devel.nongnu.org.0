@@ -2,86 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 371A7483039
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jan 2022 12:11:41 +0100 (CET)
-Received: from localhost ([::1]:38376 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B12C648307E
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jan 2022 12:28:43 +0100 (CET)
+Received: from localhost ([::1]:50016 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n4LFb-0007lV-R0
-	for lists+qemu-devel@lfdr.de; Mon, 03 Jan 2022 06:11:39 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48072)
+	id 1n4LW6-00084G-89
+	for lists+qemu-devel@lfdr.de; Mon, 03 Jan 2022 06:28:42 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51122)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1n4LEC-0006Pc-0n; Mon, 03 Jan 2022 06:10:12 -0500
-Received: from [2607:f8b0:4864:20::92f] (port=43811
- helo=mail-ua1-x92f.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1n4LE9-000448-G1; Mon, 03 Jan 2022 06:10:11 -0500
-Received: by mail-ua1-x92f.google.com with SMTP id i5so42068551uaq.10;
- Mon, 03 Jan 2022 03:10:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=3BkOxyIZLfX+5voECTNgrjWNy9NLm7CQSpXkk0SGuGU=;
- b=dW06u2ak6IzB/dKEkCxKMzxKp5fsez/uB0tkoe+iEIrmqky8f8xjjKHMVKDzM9VOzb
- h2mEjV7vz+/OpYZvfbW4yh9ouwQFWRzFpfQdvctKm3TIvRobKtku4ikCyuSmupWi7qUs
- mh41WHhUvXOFdp7TPY1Srpu4w4wqkK428Wog+944Fdx8vtQIyLFlBi1vpcDSoRK8TQLr
- TLOxOTiUKmGhciqDg8YO48iTZwLMoMjhZ2BzvbEpEZGI21Zu4NL5xEeuBAcKomYqUDDf
- V1gRqo7afpfbpWifbw9aL1UAfp1JSHzkKKJH0PRzgsKHXbOplve8BHOD3BDEqZk3ploH
- F0sA==
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1n4LRo-0003tE-7l
+ for qemu-devel@nongnu.org; Mon, 03 Jan 2022 06:24:16 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:48025)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1n4LRl-0001gg-D7
+ for qemu-devel@nongnu.org; Mon, 03 Jan 2022 06:24:15 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1641209052;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=y8543RBcbTiihZAEfg+TpAZCXc3IeQ2oAodPtdz2D7Y=;
+ b=AsSdG2Mdv2X8WFbcA2V7ODJzsc66+/hsXdYNwvjQxIbKkhMTPudsZKqfTlsPXPhiHe5LgQ
+ absuyBYcOSLtik/NvJ/Jsq48Ci4HyGII6bqnSBAOLLVWZIdxNEjn70caVq1fqAnh8dwD+X
+ E0ZQKVvUk/2ze9C0Db6uRgvR8yuokmQ=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-421-DianKqamOum-REPEHfZ7Zg-1; Mon, 03 Jan 2022 06:24:11 -0500
+X-MC-Unique: DianKqamOum-REPEHfZ7Zg-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ i5-20020a05640242c500b003f84839a8c3so22649715edc.6
+ for <qemu-devel@nongnu.org>; Mon, 03 Jan 2022 03:24:11 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=3BkOxyIZLfX+5voECTNgrjWNy9NLm7CQSpXkk0SGuGU=;
- b=kGC61WYbbd7rCfrFHq8E34vThhBo3UFtjFH1JDjsEgQ0zodAVfcEZ+WCo2Ok2WHgoC
- vez2SbBVijoPoHSEMv+0apuW47HEXe5HbCK+bjLm5yoYl1ezlvAlhzTdB8tmrxTM6VKH
- EGr4En8MDOesj1Nxf4N35LFzCjAd76fW+aAzYKDonCxuFtpLkqicgU5K/mRwhErzTrZu
- WdTdB3vSAVRs4H8moV4/9jvpkm+mcqaa7/+twHMg+sb38Ff2lv9IV/KWJS/qM/PlA9yc
- qyHSV0f5Vpb8LF6n/DD3yirFzkrYSjcvVJ7z0hxlpwMJsG6xD+rR1Ak8hSnI58YMtlEY
- iU7Q==
-X-Gm-Message-State: AOAM533Xq4+vNEMlM4j5+uTvCMZrgzaZApp6idA+90QoKj0+2N9Dghfs
- WNhx1BO72r/L8VWtjziSC3zjyEmnFPc=
-X-Google-Smtp-Source: ABdhPJzcmRz3av885mnTPK+mkr4DqujLj7/omPqq65iGrRg4ir+ZbMwsrGLMX5I5KKs9VW3E/XILdg==
-X-Received: by 2002:ab0:3d0c:: with SMTP id f12mr10059462uax.15.1641208206341; 
- Mon, 03 Jan 2022 03:10:06 -0800 (PST)
-Received: from ?IPV6:2804:431:c7c7:f4d8:aa07:335f:99e0:a6e7?
- ([2804:431:c7c7:f4d8:aa07:335f:99e0:a6e7])
- by smtp.gmail.com with ESMTPSA id m3sm7164058vsh.7.2022.01.03.03.10.04
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 03 Jan 2022 03:10:06 -0800 (PST)
-Message-ID: <3d16773a-f070-b2a8-24ae-34d0a7bed64d@gmail.com>
-Date: Mon, 3 Jan 2022 08:10:03 -0300
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=y8543RBcbTiihZAEfg+TpAZCXc3IeQ2oAodPtdz2D7Y=;
+ b=isOJ8iorCc7mZyBjxfNL5gJrFLWuH4eixwgBHvDTLue3bW82EhFZlCzPddVI37/Oqy
+ eS9dqyB+XoSbFF+PoieCJfhldaBPg3ogHV+RKrxXsraMU/I70/cxkL/lxKd/pfoLSTEf
+ 1qvUej7HGwm/sB84OqzFG5kR99W6FP6aeJiZJJY6O0uhB+La27N0Xoqh/rdG4Yb2JN2R
+ DWluUvWkg39Fbr2l/1JfALIhMitTfuLrh+ZUS1STZRQ4HwcYqVzDuB6Gxm3tdfUW2i3Z
+ FLANKD4hu0yK4bflsQExk7aMMQtVH4vdyCQBdif65OWKxQPz/iPlyQRjOt2UO0bd4xqp
+ PCaA==
+X-Gm-Message-State: AOAM533h6cc2JjkZORJP0oQ6xdc74CFhdu6TM30jlH4AIJJfEmzuSZMJ
+ o2Wwv1ULlqU13RUd5zx2EMasXZ5KWSaB1dr9FQlI50plLcyMZMkf14xz1ryRzkqRGRviKx8NS+z
+ cTTGNUcGVgOXN+Eg=
+X-Received: by 2002:a17:907:7f29:: with SMTP id
+ qf41mr35422743ejc.715.1641209050429; 
+ Mon, 03 Jan 2022 03:24:10 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzvL+PnA2Y+kEQc1JNmob1Gix7ddMZoAxw3Xd9PwgkggulaH+eW8VWN7uC0007ns06r9DZcEg==
+X-Received: by 2002:a17:907:7f29:: with SMTP id
+ qf41mr35422716ejc.715.1641209050123; 
+ Mon, 03 Jan 2022 03:24:10 -0800 (PST)
+Received: from gator (cst2-173-70.cust.vodafone.cz. [31.30.173.70])
+ by smtp.gmail.com with ESMTPSA id gs17sm10467012ejc.116.2022.01.03.03.24.09
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 03 Jan 2022 03:24:09 -0800 (PST)
+Date: Mon, 3 Jan 2022 12:24:07 +0100
+From: Andrew Jones <drjones@redhat.com>
+To: Yanan Wang <wangyanan55@huawei.com>
+Subject: Re: [PATCH v6 3/7] hw/acpi/aml-build: Improve scalability of PPTT
+ generation
+Message-ID: <20220103112407.p7aep3yqnlhevylc@gator>
+References: <20220103084636.2496-1-wangyanan55@huawei.com>
+ <20220103084636.2496-4-wangyanan55@huawei.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH 0/3] Reorg ppc64 pmu insn counting
-Content-Language: en-US
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20211223030149.1947418-1-richard.henderson@linaro.org>
- <1b988844-075d-beb3-7fd1-a26f30e9f5dc@gmail.com>
- <1928bc96-ace5-3e5b-2da2-723ef3071173@linaro.org>
- <c2d241d4-d466-c599-e00e-3fdb62722bbb@gmail.com>
- <238d16f2-988d-2efe-b68a-b7581f54dda8@kaod.org>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <238d16f2-988d-2efe-b68a-b7581f54dda8@kaod.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::92f
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::92f;
- envelope-from=danielhb413@gmail.com; helo=mail-ua1-x92f.google.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+In-Reply-To: <20220103084636.2496-4-wangyanan55@huawei.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=drjones@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) DKIMWL_WL_HIGH=-0.37, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-3.354,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,66 +98,131 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, david@gibson.dropbear.id.au
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "Michael S . Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ Shannon Zhao <shannon.zhaosl@gmail.com>, qemu-arm@nongnu.org,
+ Eric Auger <eauger@redhat.com>, wanghaibin.wang@huawei.com,
+ Ani Sinha <ani@anisinha.ca>, Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On 1/3/22 03:48, Cédric Le Goater wrote:
-> On 12/30/21 23:12, Daniel Henrique Barboza wrote:
->>
->>
->> On 12/23/21 18:19, Richard Henderson wrote:
->>> On 12/23/21 12:36 PM, Daniel Henrique Barboza wrote:
->>>> This reorg is breaking PMU-EBB tests, unfortunately. These tests are run from the kernel
->>>> tree [1] and I test them inside a pSeries TCG guest. You'll need to apply patches 9 and
->>>> 10 of [2] beforehand (they apply cleanly in current master) because they aren't upstream
->>>> yet and EBB needs it.
->>>>
->>>> The tests that are breaking consistently with this reorg are:
->>>>
->>>> back_to_back_ebbs_test.c
->>>> cpu_event_pinned_vs_ebb_test.c
->>>> cycles_test.c
->>>> task_event_pinned_vs_ebb_test.c
->>>
->>> In which case perhaps drop my first patch for now, and instead simply replicate your tcg algorithm in c exactly -- using none of the helpers that currently exist.
->>>
->>> We can improve the code, and the use of pmc_get_event from hreg_compute_hregs_value second.
->>
->>
->> While attempting to do that I figured what was off with this series and ended up
->> fixing it.
->>
->> It's now working with the event-based branch interrupt tests and Avocado seems happy
->> as well. It took some small adjustments/fixes in patches 1/2 and an extra patch of mine
->> tuning the existing logic after the reorg.
->>
->>
->> I'll clean it up and re-send it next week/year.
+On Mon, Jan 03, 2022 at 04:46:32PM +0800, Yanan Wang wrote:
+> Currently we generate a PPTT table of n-level processor hierarchy
+> with n-level loops in build_pptt(). It works fine as now there are
+> only three CPU topology parameters. But the code may become less
+> scalable with the processor hierarchy levels increasing.
 > 
-> Shouldn't we merge this series first ? It is really improving emulation
-> and keeps the check-avocado tests under the timeout limit (which I find
-> important).
+> This patch only improves the scalability of build_pptt by reducing
+> the loops, and intends to make no functional change.
+> 
+> Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
+> ---
+>  hw/acpi/aml-build.c | 50 +++++++++++++++++++++++++++++----------------
+>  1 file changed, 32 insertions(+), 18 deletions(-)
+> 
+> diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
+> index b3b3310df3..be3851be36 100644
+> --- a/hw/acpi/aml-build.c
+> +++ b/hw/acpi/aml-build.c
+> @@ -2001,7 +2001,10 @@ static void build_processor_hierarchy_node(GArray *tbl, uint32_t flags,
+>  void build_pptt(GArray *table_data, BIOSLinker *linker, MachineState *ms,
+>                  const char *oem_id, const char *oem_table_id)
+>  {
+> -    int pptt_start = table_data->len;
+> +    GQueue *list = g_queue_new();
+> +    guint pptt_start = table_data->len;
+> +    guint father_offset;
 
+"parent_offset" would be more conventional.
 
-As it is this series is breaking EBB tests if we apply the EBB interrupt patches
-on top of it. If your concern is strictly with the Avocado tests then we'd better
-off pushing my TCG version which fixes Avocado and don't break anything else.
+> +    guint length, i;
+>      int uid = 0;
+>      int socket;
+>      AcpiTable table = { .sig = "PPTT", .rev = 2,
+> @@ -2010,9 +2013,8 @@ void build_pptt(GArray *table_data, BIOSLinker *linker, MachineState *ms,
+>      acpi_table_begin(&table, table_data);
+>  
+>      for (socket = 0; socket < ms->smp.sockets; socket++) {
+> -        uint32_t socket_offset = table_data->len - pptt_start;
+> -        int core;
+> -
+> +        g_queue_push_tail(list,
+> +            GUINT_TO_POINTER(table_data->len - pptt_start));
+>          build_processor_hierarchy_node(
+>              table_data,
+>              /*
+> @@ -2021,35 +2023,47 @@ void build_pptt(GArray *table_data, BIOSLinker *linker, MachineState *ms,
+>               */
+>              (1 << 0),
+>              0, socket, NULL, 0);
+> +    }
+>  
+> -        for (core = 0; core < ms->smp.cores; core++) {
+> -            uint32_t core_offset = table_data->len - pptt_start;
+> -            int thread;
+> +    length = g_queue_get_length(list);
+> +    for (i = 0; i < length; i++) {
+> +        int core;
+>  
+> +        father_offset = GPOINTER_TO_UINT(g_queue_pop_head(list));
+> +        for (core = 0; core < ms->smp.cores; core++) {
+>              if (ms->smp.threads > 1) {
+> +                g_queue_push_tail(list,
+> +                    GUINT_TO_POINTER(table_data->len - pptt_start));
+>                  build_processor_hierarchy_node(
+>                      table_data,
+>                      (0 << 0), /* not a physical package */
+> -                    socket_offset, core, NULL, 0);
+> -
+> -                for (thread = 0; thread < ms->smp.threads; thread++) {
+> -                    build_processor_hierarchy_node(
+> -                        table_data,
+> -                        (1 << 1) | /* ACPI Processor ID valid */
+> -                        (1 << 2) | /* Processor is a Thread */
+> -                        (1 << 3),  /* Node is a Leaf */
+> -                        core_offset, uid++, NULL, 0);
+> -                }
+> +                    father_offset, core, NULL, 0);
+>              } else {
+>                  build_processor_hierarchy_node(
+>                      table_data,
+>                      (1 << 1) | /* ACPI Processor ID valid */
+>                      (1 << 3),  /* Node is a Leaf */
+> -                    socket_offset, uid++, NULL, 0);
+> +                    father_offset, uid++, NULL, 0);
+>              }
+>          }
+>      }
+>  
+> +    length = g_queue_get_length(list);
+> +    for (i = 0; i < length; i++) {
+> +        int thread;
+> +
+> +        father_offset = GPOINTER_TO_UINT(g_queue_pop_head(list));
+> +        for (thread = 0; thread < ms->smp.threads; thread++) {
+> +            build_processor_hierarchy_node(
+> +                table_data,
+> +                (1 << 1) | /* ACPI Processor ID valid */
+> +                (1 << 2) | /* Processor is a Thread */
+> +                (1 << 3),  /* Node is a Leaf */
+> +                father_offset, uid++, NULL, 0);
+> +        }
+> +    }
+> +
+> +    g_queue_free(list);
+>      acpi_table_end(linker, &table);
+>  }
 
-Besides, I'll sent the v2 of this series today, tomorrow at the latest. We're better
-off pushing the fixed version.
+This patch actually increases the number of loops, since we need to visit
+higher hierarchical nodes twice (once to enqueue and once to dequeue). We
+do reduce code indentation and it looks like we could more easily skip
+hierarchy levels we don't want, though. While my impulse is to say we
+should just keep this simple and add another nested loop for clusters, I
+guess I'm OK with this too.
 
+Reviewed-by: Andrew Jones <drjones@redhat.com>
 
 Thanks,
+drew
 
-Daniel
-
-
-
-> 
-> Thanks,
-> 
-> C.
 
