@@ -2,93 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29057482FC7
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jan 2022 11:07:18 +0100 (CET)
-Received: from localhost ([::1]:58786 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30218482FC8
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jan 2022 11:09:30 +0100 (CET)
+Received: from localhost ([::1]:33054 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n4KFI-0005ZU-Q5
-	for lists+qemu-devel@lfdr.de; Mon, 03 Jan 2022 05:07:16 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33398)
+	id 1n4KHQ-0007NV-Ut
+	for lists+qemu-devel@lfdr.de; Mon, 03 Jan 2022 05:09:28 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33890)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1n4KD7-0004YN-IN
- for qemu-devel@nongnu.org; Mon, 03 Jan 2022 05:05:05 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:30096)
+ (Exim 4.90_1) (envelope-from <fbarrat@linux.ibm.com>)
+ id 1n4KG8-0006Rv-KJ; Mon, 03 Jan 2022 05:08:08 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:35014)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1n4KD4-0001Gf-QI
- for qemu-devel@nongnu.org; Mon, 03 Jan 2022 05:05:00 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641204296;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Z2l8NPNJ+FX/eLYB/TA3Cwkrx6+m1xAsDcvWcOMzhPM=;
- b=Og8i8P5uhKzI1kQ6ZBesbOS88/5TJKuyDowHfl2AQ/bOpiopshY8A0ZgsB6kaG24Q0R8jK
- cv8ydGDxD80Nxm0SDOkj2sHwveLH0cvi/K/L+T+mnDDY+3w7Y6I0Y2V/Wj8HTXd5KlIdwU
- OwRY5wKjdPhFznW6kPtuIsBHOic9j7U=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-593-Z_PS6KU5MMSqMmGACoMAJQ-1; Mon, 03 Jan 2022 05:04:55 -0500
-X-MC-Unique: Z_PS6KU5MMSqMmGACoMAJQ-1
-Received: by mail-wr1-f72.google.com with SMTP id
- w25-20020adf8bd9000000b001a255212b7cso10053380wra.18
- for <qemu-devel@nongnu.org>; Mon, 03 Jan 2022 02:04:54 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=Z2l8NPNJ+FX/eLYB/TA3Cwkrx6+m1xAsDcvWcOMzhPM=;
- b=0OppEm0AP29iaWN4/BctQmrtzGb/5YjcgatjRTOk7/eHlJCOkqD9n5vH5MAYJh9s2D
- 8i1bpxSz+W/RjewlO/130taY5DgVJK/l8QTEW405Ani8hVWug2YIKxyJdT6jZ/1izof0
- JNvZyhgt4dzKG+EJUUfaMQkW7VRXCS1OeqiYNc74inwjwP5nCVXRQJEJ3nAAVjIerGBO
- 9SjUyR/+X9O9Hip4ZxiDilRfWOoA8SS4CkIlnL6RDi9P2E5Dv6oWn7nSK19am3MYQwcz
- MvkU4u3mVlPV8qS0O4k4t+T7zY/aB4scaPdCvZ0Ztltrku9yxT7WoHwernaJ8MxND0Kw
- wddA==
-X-Gm-Message-State: AOAM533V0FYZuZ6WB1fdIu9qwO1gIuQJWLgBgAXgUqtKeDVW6YdZFAbv
- d0iy12EMbuWiv8qpvhk6fZ23xSyT7uQWTAbPb9TFb3iQx65ayhO4XnIXNKSvisxuLFcIB7n2uwV
- xR0viF9BbVFDuPII=
-X-Received: by 2002:adf:eb4c:: with SMTP id u12mr37513849wrn.707.1641204293972; 
- Mon, 03 Jan 2022 02:04:53 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJz31AuQ7jjMJKzKs+LjE9p8o8tkW3SZqBhG8kk1topBZ5EhPE3EA8D1AfK+MPgvNsM8wGQSXg==
-X-Received: by 2002:adf:eb4c:: with SMTP id u12mr37513820wrn.707.1641204293662; 
- Mon, 03 Jan 2022 02:04:53 -0800 (PST)
-Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
- ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
- by smtp.gmail.com with ESMTPSA id s22sm37288377wmc.1.2022.01.03.02.04.52
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 03 Jan 2022 02:04:53 -0800 (PST)
-Message-ID: <b1021bec-124c-6abb-694e-cc10d9c459f3@redhat.com>
-Date: Mon, 3 Jan 2022 11:04:52 +0100
+ (Exim 4.90_1) (envelope-from <fbarrat@linux.ibm.com>)
+ id 1n4KG6-0004VM-T4; Mon, 03 Jan 2022 05:08:08 -0500
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 2037ngth021128; 
+ Mon, 3 Jan 2022 10:07:51 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=BVsqHrIHwyN8iqlnJfmO4+hMMdm81bTnAYlTIHLjsmU=;
+ b=U+8YEbwJGGrJe4IAgT4h/JeopgVDoQlJnfeSsmnbLuNqhgBTAUZCTfhY81B8bO4KTjYF
+ +ARzTOIfVugYrXYESFvGsj1j5+Yujd8duM313thc7dqPNtJ2pv4oq3S20GAZ5oU7u1mz
+ N6VCiieq3nVwMNH2w6aF7YJLm/jr59GEMhNe5v9dHM1CzBBr7PWJJKxiK4xwAi3UCTjM
+ ruP+mGVlKHfshXxH48jUNFUNqE/eFSOIf+EgDSHaY4iKBL+iFyWzbtPgJ6VlpVOzgdlL
+ bwV/Ikkb1quhNb6qplT04DvTxfWavuIfez6dI8EqLPFYjF0HnY3bf7D38fDhy681PK5f ag== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3dbw3jt7ne-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 03 Jan 2022 10:07:51 +0000
+Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 203A1kKF006748;
+ Mon, 3 Jan 2022 10:07:50 GMT
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.98])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3dbw3jt7mm-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 03 Jan 2022 10:07:50 +0000
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+ by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 203A3gFN007635;
+ Mon, 3 Jan 2022 10:07:48 GMT
+Received: from b06cxnps4074.portsmouth.uk.ibm.com
+ (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
+ by ppma03ams.nl.ibm.com with ESMTP id 3daek99hsc-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 03 Jan 2022 10:07:48 +0000
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
+ [9.149.105.58])
+ by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 203A7jbm28442930
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 3 Jan 2022 10:07:46 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id DCA204C040;
+ Mon,  3 Jan 2022 10:07:45 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 918904C052;
+ Mon,  3 Jan 2022 10:07:45 +0000 (GMT)
+Received: from [9.145.163.160] (unknown [9.145.163.160])
+ by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Mon,  3 Jan 2022 10:07:45 +0000 (GMT)
+Message-ID: <468b0860-fcd1-f7d0-4180-d75e4e25e9c1@linux.ibm.com>
+Date: Mon, 3 Jan 2022 11:07:45 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PULL 10/28] export/fuse: Pass default_permissions for mount
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
-References: <20210709125035.191321-1-kwolf@redhat.com>
- <20210709125035.191321-11-kwolf@redhat.com>
- <b1e1147b-1495-1b54-81cc-3a867c3f34bb@virtuozzo.com>
-From: Hanna Reitz <hreitz@redhat.com>
-In-Reply-To: <b1e1147b-1495-1b54-81cc-3a867c3f34bb@virtuozzo.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+ Thunderbird/91.4.0
+Subject: Re: [PATCH] target/ppc: Check effective address validity
 Content-Language: en-US
+To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20211231073122.3183583-1-clg@kaod.org>
+From: Frederic Barrat <fbarrat@linux.ibm.com>
+In-Reply-To: <20211231073122.3183583-1-clg@kaod.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -45
-X-Spam_score: -4.6
-X-Spam_bar: ----
-X-Spam_report: (-4.6 / 5.0 requ) DKIMWL_WL_HIGH=-0.37, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.354,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: SLC1M6A_APsYtbQUxUU-6KrydWcpc24r
+X-Proofpoint-GUID: o2hzcPeeV6XziLgmjaDdTWs0GQkMmY9D
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2022-01-03_03,2022-01-01_01,2021-12-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ mlxlogscore=999 lowpriorityscore=0 impostorscore=0 spamscore=0 mlxscore=0
+ malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 adultscore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2110150000 definitions=main-2201030068
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=fbarrat@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.354, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,113 +111,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org
+Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, Greg Kurz <groug@kaod.org>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 24.12.21 16:04, Vladimir Sementsov-Ogievskiy wrote:
-> 09.07.2021 15:50, Kevin Wolf wrote:
->> From: Max Reitz <mreitz@redhat.com>
->>
->> We do not do any permission checks in fuse_open(), so let the kernel do
->> them.  We already let fuse_getattr() report the proper UNIX permissions,
->> so this should work the way we want.
->>
->> This causes a change in 308's reference output, because now opening a
->> non-writable export with O_RDWR fails already, instead of only actually
->> attempting to write to it.  (That is an improvement.)
->>
->> Signed-off-by: Max Reitz <mreitz@redhat.com>
->> Message-Id: <20210625142317.271673-2-mreitz@redhat.com>
->> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
->> ---
->>   block/export/fuse.c        | 8 ++++++--
->>   tests/qemu-iotests/308     | 3 ++-
->>   tests/qemu-iotests/308.out | 2 +-
->>   3 files changed, 9 insertions(+), 4 deletions(-)
->>
->> diff --git a/block/export/fuse.c b/block/export/fuse.c
->> index 38f74c94da..d0b88e8f80 100644
->> --- a/block/export/fuse.c
->> +++ b/block/export/fuse.c
->> @@ -153,8 +153,12 @@ static int setup_fuse_export(FuseExport *exp, 
->> const char *mountpoint,
->>       struct fuse_args fuse_args;
->>       int ret;
->>   -    /* Needs to match what fuse_init() sets.  Only max_read must 
->> be supplied. */
->> -    mount_opts = g_strdup_printf("max_read=%zu", 
->> FUSE_MAX_BOUNCE_BYTES);
->> +    /*
->> +     * max_read needs to match what fuse_init() sets.
->> +     * max_write need not be supplied.
->> +     */
->> +    mount_opts = g_strdup_printf("max_read=%zu,default_permissions",
->> +                                 FUSE_MAX_BOUNCE_BYTES);
->>         fuse_argv[0] = ""; /* Dummy program name */
->>       fuse_argv[1] = "-o";
->> diff --git a/tests/qemu-iotests/308 b/tests/qemu-iotests/308
->> index f122065d0f..11c28a75f2 100755
->> --- a/tests/qemu-iotests/308
->> +++ b/tests/qemu-iotests/308
->> @@ -215,7 +215,8 @@ echo '=== Writable export ==='
->>   fuse_export_add 'export-mp' "'mountpoint': '$EXT_MP', 'writable': 
->> true"
->>     # Check that writing to the read-only export fails
->> -$QEMU_IO -f raw -c 'write -P 42 1M 64k' "$TEST_IMG" | _filter_qemu_io
->> +$QEMU_IO -f raw -c 'write -P 42 1M 64k' "$TEST_IMG" 2>&1 \
->> +    | _filter_qemu_io | _filter_testdir | _filter_imgfmt
->>     # But here it should work
->>   $QEMU_IO -f raw -c 'write -P 42 1M 64k' "$EXT_MP" | _filter_qemu_io
->> diff --git a/tests/qemu-iotests/308.out b/tests/qemu-iotests/308.out
->> index 466e7e0267..0e9420645f 100644
->> --- a/tests/qemu-iotests/308.out
->> +++ b/tests/qemu-iotests/308.out
->> @@ -91,7 +91,7 @@ virtual size: 0 B (0 bytes)
->>                 'mountpoint': 'TEST_DIR/t.IMGFMT.fuse', 'writable': true
->>             } }
->>   {"return": {}}
->> -write failed: Permission denied
->> +qemu-io: can't open device TEST_DIR/t.IMGFMT: Could not open 
->> 'TEST_DIR/t.IMGFMT': Permission denied
->>   wrote 65536/65536 bytes at offset 1048576
->>   64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
->>   wrote 65536/65536 bytes at offset 1048576
->>
->
-> Hi!
->
-> 308 test fails for me now:
->
-> 308   fail       [16:02:49] [16:02:53]   3.5s   (last: 3.7s) output 
-> mismatch (see 308.out.bad)
-> --- /work/src/qemu/master/tests/qemu-iotests/308.out
-> +++ 308.out.bad
-> @@ -91,7 +91,7 @@
->                'mountpoint': 'TEST_DIR/t.IMGFMT.fuse', 'writable': true
->            } }
->  {"return": {}}
-> -qemu-io: can't open device TEST_DIR/t.IMGFMT: Could not open 
-> 'TEST_DIR/t.IMGFMT': Permission denied
-> +write failed: Permission denied
->  wrote 65536/65536 bytes at offset 1048576
->  64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
->  wrote 65536/65536 bytes at offset 1048576
-> Failures: 308
-> Failed 1 of 1 iotests
->
->
-> And bisect points to exactly this commit.
->
-> Should it somehow depend on environment?
 
-I suspect that’s because you’re running the test as root? 
-(CAP_DAC_OVERRIDE allows opening files even when the permissions don’t 
-allow for it.  We already have similar cases in 118.)
 
-Skipping the whole test for root would be quite harsh...  Since this is 
-just about a single line, I think we can do something with .casenotrun.
+On 31/12/2021 08:31, Cédric Le Goater wrote:
+> For Radix translation, the EA range is 64-bits. when EA(2:11) are
+> nonzero, a segment interrupt should occur.
+> 
+> Signed-off-by: Cédric Le Goater <clg@kaod.org>
+> ---
 
-Hanna
 
+Looks ok to me.
+Reviewed-by: Frederic Barrat <fbarrat@linux.ibm.com>
+
+   Fred
+
+
+>   target/ppc/mmu-radix64.h | 1 +
+>   target/ppc/mmu-radix64.c | 5 +++++
+>   2 files changed, 6 insertions(+)
+> 
+> diff --git a/target/ppc/mmu-radix64.h b/target/ppc/mmu-radix64.h
+> index b70357cf345c..4c768aa5cc74 100644
+> --- a/target/ppc/mmu-radix64.h
+> +++ b/target/ppc/mmu-radix64.h
+> @@ -5,6 +5,7 @@
+>   
+>   /* Radix Quadrants */
+>   #define R_EADDR_MASK            0x3FFFFFFFFFFFFFFF
+> +#define R_EADDR_VALID_MASK      0xC00FFFFFFFFFFFFF
+>   #define R_EADDR_QUADRANT        0xC000000000000000
+>   #define R_EADDR_QUADRANT0       0x0000000000000000
+>   #define R_EADDR_QUADRANT1       0x4000000000000000
+> diff --git a/target/ppc/mmu-radix64.c b/target/ppc/mmu-radix64.c
+> index d10ae001d7c9..040c055bff65 100644
+> --- a/target/ppc/mmu-radix64.c
+> +++ b/target/ppc/mmu-radix64.c
+> @@ -32,6 +32,11 @@ static bool ppc_radix64_get_fully_qualified_addr(const CPUPPCState *env,
+>                                                    vaddr eaddr,
+>                                                    uint64_t *lpid, uint64_t *pid)
+>   {
+> +    /* When EA(2:11) are nonzero, raise a segment interrupt */
+> +    if (eaddr & ~R_EADDR_VALID_MASK) {
+> +        return false;
+> +    }
+> +
+>       if (msr_hv) { /* MSR[HV] -> Hypervisor/bare metal */
+>           switch (eaddr & R_EADDR_QUADRANT) {
+>           case R_EADDR_QUADRANT0:
 
