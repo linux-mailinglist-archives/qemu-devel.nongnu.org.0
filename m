@@ -2,84 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20D8F483899
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jan 2022 22:38:56 +0100 (CET)
-Received: from localhost ([::1]:51548 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7A5848389B
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jan 2022 22:42:17 +0100 (CET)
+Received: from localhost ([::1]:54256 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n4V2c-00026D-O3
-	for lists+qemu-devel@lfdr.de; Mon, 03 Jan 2022 16:38:54 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60698)
+	id 1n4V5s-00043j-H2
+	for lists+qemu-devel@lfdr.de; Mon, 03 Jan 2022 16:42:16 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60828)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1n4V1f-0001Gj-3z; Mon, 03 Jan 2022 16:37:55 -0500
-Received: from [2607:f8b0:4864:20::82d] (port=33673
- helo=mail-qt1-x82d.google.com)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1n4V2J-0002N5-NH
+ for qemu-devel@nongnu.org; Mon, 03 Jan 2022 16:38:35 -0500
+Received: from [2607:f8b0:4864:20::102e] (port=54244
+ helo=mail-pj1-x102e.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1n4V1d-0000So-GW; Mon, 03 Jan 2022 16:37:54 -0500
-Received: by mail-qt1-x82d.google.com with SMTP id v4so29623438qtk.0;
- Mon, 03 Jan 2022 13:37:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=OHHAKkfKTZsIahpHduSpta8mxiHCrAlb3m8ZlZtz/CQ=;
- b=c7LK6pfPVNcJYkPVg1ZdzDFNhmqSgFRZh6kejZbr1SFZYN6UA7yWCDmmoe1VFDqMeK
- YPv8YVAC8P/kM1+jHGsRlIK/TcM99LCOPG+CGPrUgmxEzWZpWrqytApBLjvJgEE24FG/
- X42aaF/z3Q3po/0SQsJAjdbaUjjSWnqIzK8po2wlyLZC9L1upUHLkP5RQzoWSsJgkchi
- 9sPsnazzeOyUynAx5M4epDQwBBD3A5vUZ8M7DGqrvXRp9kLPYS0dHZoWA3n+bQ0kaoWS
- 0BJEJxQkQHbMAKJwC2/U6Oy9qG3hVWBOiBX3dtlTA0ywF4x/cEIh5JXOat+8hiK63zXI
- JIoA==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1n4V2I-0000WN-4J
+ for qemu-devel@nongnu.org; Mon, 03 Jan 2022 16:38:35 -0500
+Received: by mail-pj1-x102e.google.com with SMTP id mj19so29722946pjb.3
+ for <qemu-devel@nongnu.org>; Mon, 03 Jan 2022 13:38:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=0I7XCI61yTJ76Ii81uRxmH9SO5wsJTBXO1PzhBoYFZs=;
+ b=exFFNtPpjaIfVxB7Iub8SDF6/3auWaGD83mxUJT0/ZGAXK1GVUMoooAOxwO/lFgJ8F
+ boxHCsF4b4fXSManx5LoQUQrTSdWCae7lMk27cuYo+xBAV3EwnJcMm5wPz0157dYwm61
+ Tg1C6GnBgo8SBja1kY3JlqDL8Exj2cdiWHprJgfoX5YcPX4X00x626RJvb0b7JnsA3QG
+ RO6xoQMtGlD2idL4/jo70Wx8NwsHwzavAGI4v4zVp5u3wKeNbDWW/EbzTP9f+oPo4VtM
+ K6e/QnfP6A7EmGiEmveZJo612oE1R7L5IskxMBfaa3WOvIDCZ/pIT8gENOO5Bqb51Jnu
+ EZMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=OHHAKkfKTZsIahpHduSpta8mxiHCrAlb3m8ZlZtz/CQ=;
- b=6bk8KppyfJawFQtKacLvlPS7xUuPz4VwTtK1xvRhd0wARJddQECAut4gLBQkbb0/pL
- c/IbP1Jdnur/PPRIcqvmbLj2HT8evM45Z3icq2SDKxvAMXM54M9fW7D1Z89MSAeeTcLp
- aX19p9FEVVMMlZWBn/oXopEa4FhIEou0QlwYM+3vAzM1xRFAbvt6PsNb6T7XTgOdVk+s
- 0uiFCWzZrfGoKIx7eqmJifEdK7Kufq4T57LAWXjTPrLnQqXVNqKcUiRR3/muVYQ74uTl
- y0QAYKjVrCS9e+araAyE8ltimaFY1jwEDth74if2rSb1+DIQw4walUnFrg4X9mTQabPn
- HS5Q==
-X-Gm-Message-State: AOAM531xLCcIGis6NfQsLVHp9E3zfN2hc3oY/pcrdzMHeH3vl2GkLvic
- R/nq/V2sUsSuPASrDeV8muM=
-X-Google-Smtp-Source: ABdhPJynqhn/n1836ry7kSWA++LWIh6Rnq1JPLaG9BuGldlvt3w8Dm7hRufVCN1Y/ZoFXt+sKmTZSA==
-X-Received: by 2002:a05:622a:352:: with SMTP id
- r18mr42508980qtw.61.1641245872295; 
- Mon, 03 Jan 2022 13:37:52 -0800 (PST)
-Received: from ?IPV6:2804:431:c7c7:f4d8:aa07:335f:99e0:a6e7?
- ([2804:431:c7c7:f4d8:aa07:335f:99e0:a6e7])
- by smtp.gmail.com with ESMTPSA id c7sm32055753qtx.67.2022.01.03.13.37.50
+ bh=0I7XCI61yTJ76Ii81uRxmH9SO5wsJTBXO1PzhBoYFZs=;
+ b=fEkPmWA8utMs9JivjtCapPPNZbhz9hX7wHuUYHSq0T9/VECwgrfqrd2MayPizAVocE
+ HXVFt2AM3YwbGthLoWKl/sMUAJ7CwDSEjGxDsNeHsC4sserRoeFxS96/Q52UqDpdpX1G
+ f8kEKKLcioqKhV2N8FlQs1Urdwvb0zhOjteDPBm0hnBSrizcLW88s/+sa9MxfNiAC/NG
+ vn1X/fd5/1Dt37CDlD7O/IZWgEa4QDNWXW1GMG55aEe3QOs8xt3bnWIr/eirrvteVQNB
+ DFRGpj3K1J8tC5j3MUPdXutiHsXjWWb3FASXH5brfQQf+FQH6HjX4SZOEMM21B7+IH9e
+ mfng==
+X-Gm-Message-State: AOAM531x/BEauyYO/tNNk0mSASBnB1Su0LyyhqHJ54Gfo4QQk9Ww4TsM
+ za3G1WuKD2x7PDdnCNHrWryJjQ==
+X-Google-Smtp-Source: ABdhPJyEQCTAQAon5i8yLfRZFdjiKNU7c+zC4j7I8pL5hlBhILEd53kYEmWOVjiQbDiAg4sLlN93wQ==
+X-Received: by 2002:a17:90b:3509:: with SMTP id
+ ls9mr57646905pjb.5.1641245912655; 
+ Mon, 03 Jan 2022 13:38:32 -0800 (PST)
+Received: from [192.168.1.13] (174-21-75-75.tukw.qwest.net. [174.21.75.75])
+ by smtp.gmail.com with ESMTPSA id q22sm41672931pfk.27.2022.01.03.13.38.32
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 03 Jan 2022 13:37:52 -0800 (PST)
-Message-ID: <3d837bb6-9fa2-7204-9c13-78c2bbd486e9@gmail.com>
-Date: Mon, 3 Jan 2022 18:37:49 -0300
+ Mon, 03 Jan 2022 13:38:32 -0800 (PST)
+Subject: Re: [PATCH v2 4/5] target/ppc: keep ins_cnt/cyc_cnt cleared if
+ MMCR0_FC is set
+To: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org
+References: <20220103185332.117878-1-danielhb413@gmail.com>
+ <20220103185332.117878-5-danielhb413@gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <0b9b2a07-4b0c-4095-9365-d95139e182fc@linaro.org>
+Date: Mon, 3 Jan 2022 13:38:30 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH 00/17] ppc/pnv: enable pnv-phb4 user devices
+In-Reply-To: <20220103185332.117878-5-danielhb413@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-devel@nongnu.org
-References: <20211228193806.1198496-1-danielhb413@gmail.com>
- <e62ca8df-25a2-222c-1ffe-12fc52a4a82f@kaod.org>
- <91929906-0ade-51ce-295f-38cd68c519b9@gmail.com>
- <e52685ef-d9d6-9ad4-dd7a-a12d9feeaf13@kaod.org>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <e52685ef-d9d6-9ad4-dd7a-a12d9feeaf13@kaod.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::82d
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102e
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::82d;
- envelope-from=danielhb413@gmail.com; helo=mail-qt1-x82d.google.com
-X-Spam_score_int: -24
-X-Spam_score: -2.5
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102e.google.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_ENVFROM_END_DIGIT=0.25,
- FREEMAIL_FROM=0.001, NICE_REPLY_A=-3.354, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.354,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,72 +92,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, david@gibson.dropbear.id.au
+Cc: qemu-ppc@nongnu.org, clg@kaod.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On 1/3/22 18:20, Cédric Le Goater wrote:
-> On 1/3/22 19:58, Daniel Henrique Barboza wrote:
->>
->>
->> On 1/3/22 05:21, Cédric Le Goater wrote:
->>> Hello Daniel,
->>>
->>> On 12/28/21 20:37, Daniel Henrique Barboza wrote:
->>>> Hi,
->>>>
->>>> This series implements pnv-phb4 user devices for the powernv9 machine.
->>>> It also includes a couple of pnv-phb3 and pnv-phb3-root-port fixes that
->>>> were also applied for the pnv4 equivalents.
->>>>
->>>> During the enablement I had to rollback from the previously added
->>>> support for user creatable pnv-phb4-pec devices. The most important
->>>> reason is user experience. PEC devices that doesn't spawn the PHB
->>>> devices will be just a placeholder to add PHBs, having no use of their
->>>> own as far as the user sees it. From this standpoint it makes more sense
->>>> to just create all PECs and attach the PHBs the user wants on them.
->>>> Patch 14 also describes technical reasons to rollback this support.
->>>>
->>>> The series is rebased using Cedric's 'powernv-6.2' branch [1]i, which
->>>> includes the '[PATCH 0/5] ppc/pnv: Preliminary cleanups before user
->>>> created PHBs' patches [2].
->>>
->>> It would be easier if you based the patchset on mainline. It's not
->>> a problem to resend patches of another person or/and even rework
->>> them to fit your needs.
->>
->> Sure, I'll send the v2 based on the mainline + the required patches.
+On 1/3/22 10:53 AM, Daniel Henrique Barboza wrote:
+> pmu_update_summaries() is not considering the case where the PMU can be
+> turned off (i.e. stop counting all events) if MMCR0_FC is set,
+> regardless of the other frozen counter bits state. This use case was
+> covered in the late pmc_get_event(), via the also gone pmc_is_inactive(),
+> that would return an invalid event if MMCR0_FC was set.
 > 
-> Let me merge a couple first. It should reduce the overhead. I will drop
-> these :
-
-No problem. I'll re-send the v2 after the merge.
-
+> This use case is exercised by the back_to_back_ebbs_test Linux kernel
+> selftests [1]. As it is today, after enabling EBB exceptions, the test
+> will report an additional event-based branch being taken and will fail.
+> Other tests, such as cycles_test.c, will report additional cycles being
+> calculated in the counters because we're not freezing the PMU quick
+> enough.
 > 
->    ppc/pnv: Attach PHB3 root port device when defaults are enabled
->    ppc/pnv: Attach PHB4 root port device when defaults are enabled
+> Fix pmu_update_summaries() by keeping env->ins_cnt and env->cyc_cnt
+> cleared when MMCR0_FC is set.
 > 
-> They are in the way for your changes.
-
-
-I`ll drop these in my side as well.
-
-
-Thanks,
-
-
-Daniel
-
-
-
-
-
-
-
+> [1] tools/testing/selftests/powerpc/pmu/ebb/back_to_back_ebbs_test.c
 > 
-> Thanks,
+> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+> ---
+>   target/ppc/power8-pmu.c | 5 +++++
+>   1 file changed, 5 insertions(+)
 > 
-> C.
+> diff --git a/target/ppc/power8-pmu.c b/target/ppc/power8-pmu.c
+> index 7fc7d91109..73713ca2a3 100644
+> --- a/target/ppc/power8-pmu.c
+> +++ b/target/ppc/power8-pmu.c
+> @@ -40,6 +40,10 @@ void pmu_update_summaries(CPUPPCState *env)
+>       int ins_cnt = 0;
+>       int cyc_cnt = 0;
+>   
+> +    if (mmcr0 & MMCR0_FC) {
+> +        goto hflags_calc;
+> +    }
+> +
+>       if (!(mmcr0 & MMCR0_FC14) && mmcr1 != 0) {
+>           target_ulong sel;
+>   
+> @@ -71,6 +75,7 @@ void pmu_update_summaries(CPUPPCState *env)
+>       ins_cnt |= !(mmcr0 & MMCR0_FC56) << 5;
+>       cyc_cnt |= !(mmcr0 & MMCR0_FC56) << 6;
+>   
+> + hflags_calc:
+
+Good catch, but should be folded into patch 1 to avoid bisection breakage.
+
+
+r~
 
