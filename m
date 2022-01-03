@@ -2,99 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72F454838C0
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jan 2022 23:15:06 +0100 (CET)
-Received: from localhost ([::1]:58342 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83F2A4838C5
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jan 2022 23:19:01 +0100 (CET)
+Received: from localhost ([::1]:35448 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n4Vbd-0001jC-Ir
-	for lists+qemu-devel@lfdr.de; Mon, 03 Jan 2022 17:15:05 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40304)
+	id 1n4VfQ-0005Tu-MB
+	for lists+qemu-devel@lfdr.de; Mon, 03 Jan 2022 17:19:00 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42080)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1n4VV7-00050C-S2; Mon, 03 Jan 2022 17:08:21 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:58286)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n4Ve5-00044l-R6
+ for qemu-devel@nongnu.org; Mon, 03 Jan 2022 17:17:37 -0500
+Received: from mout.kundenserver.de ([212.227.17.13]:34063)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1n4VV6-00022O-98; Mon, 03 Jan 2022 17:08:21 -0500
-Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 203Igi6j014100; 
- Mon, 3 Jan 2022 22:08:15 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=IYDpOdIfccKYPQKZFDKk2RnjZA4r8rEzn1vdcmd2S1U=;
- b=QwnIzq1SsZ6eyliVJRnpbpfSrm/WPcnVbFgNiO5f8hYMeOY82od1LsvqfTRICr4k9i7d
- U/bM0mmak4GId2dcaBsXySJ21XyycrIAGJ6pALMYUtUhuulsVFsG960hGjb5znRFUaID
- U/xN9wMiggTcLNrDNCCc7JbhH5r9uMCY4A+4lvOHCqG1rZhGWOkODyIoDSTWy0syT6vT
- P6qY3FAkaZTWRhMyo/ka7pEYTL00RV1dSzV1rs4cGF2K+iZILfuqO40ShzCpFgW2O+fO
- hjY6yzvKczkyBD6cjEN5RiUL2YLPBjiuwrcWAdbCw9zj00JnPAQdRZSLp/d81ZSiSoGS GA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3dc6nrje5s-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 03 Jan 2022 22:08:14 +0000
-Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 203M1YWH022305;
- Mon, 3 Jan 2022 22:08:14 GMT
-Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
- [169.53.41.122])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3dc6nrje5k-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 03 Jan 2022 22:08:14 +0000
-Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
- by ppma04dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 203LwUDv001156;
- Mon, 3 Jan 2022 22:08:13 GMT
-Received: from b03cxnp07028.gho.boulder.ibm.com
- (b03cxnp07028.gho.boulder.ibm.com [9.17.130.15])
- by ppma04dal.us.ibm.com with ESMTP id 3daekar3xu-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 03 Jan 2022 22:08:13 +0000
-Received: from b03ledav004.gho.boulder.ibm.com
- (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
- by b03cxnp07028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 203M8CYE31719834
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 3 Jan 2022 22:08:12 GMT
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 8D83878063;
- Mon,  3 Jan 2022 22:08:12 +0000 (GMT)
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id CC29978067;
- Mon,  3 Jan 2022 22:08:10 +0000 (GMT)
-Received: from farosas.linux.ibm.com.com (unknown [9.211.145.159])
- by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTP;
- Mon,  3 Jan 2022 22:08:10 +0000 (GMT)
-From: Fabiano Rosas <farosas@linux.ibm.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 9/9] target/ppc: Introduce a wrapper for powerpc_excp
-Date: Mon,  3 Jan 2022 19:07:46 -0300
-Message-Id: <20220103220746.3916246-10-farosas@linux.ibm.com>
-X-Mailer: git-send-email 2.33.1
-In-Reply-To: <20220103220746.3916246-1-farosas@linux.ibm.com>
-References: <20220103220746.3916246-1-farosas@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n4Ve2-00082v-Ho
+ for qemu-devel@nongnu.org; Mon, 03 Jan 2022 17:17:37 -0500
+Received: from [192.168.100.1] ([82.142.30.62]) by mrelayeu.kundenserver.de
+ (mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1N7AAk-1mLQtE09r2-017YHF; Mon, 03 Jan 2022 23:17:32 +0100
+Message-ID: <66c90d94-ca29-2ba3-3b17-4a7a58f1d296@vivier.eu>
+Date: Mon, 3 Jan 2022 23:17:31 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Content-Language: fr
+To: =?UTF-8?Q?T=c3=b5nis_Tiigi?= <tonistiigi@gmail.com>
+References: <20211223064728.18048-1-tonistiigi@gmail.com>
+ <20211223064728.18048-2-tonistiigi@gmail.com>
+ <e506a0b4-2505-d136-53f8-c1bcafc204a1@vivier.eu>
+ <CABn_tOmPjctnJU465R1b4ykRvryidj56rGeMKnaLJ+H3WAt8aw@mail.gmail.com>
+ <CABn_tOn3aqXwPx2q173BEOTUoBjTtDLYuF34kf4mHbeAG+6+NQ@mail.gmail.com>
+ <75604d1b-8cd1-b984-bcfe-c7c7d8d10728@vivier.eu>
+ <CABn_tOnQTgTu3XUyvKWiKgm53ep_NiL=qz6qQcp2vjT7y6rsgQ@mail.gmail.com>
+From: Laurent Vivier <laurent@vivier.eu>
+Subject: Re: [PATCH v3 1/2] linux-user: add sched_getattr support
+In-Reply-To: <CABn_tOnQTgTu3XUyvKWiKgm53ep_NiL=qz6qQcp2vjT7y6rsgQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: xkp5j1QbU59JLlNnCOIIhT9OEgyWL8YS
-X-Proofpoint-ORIG-GUID: NTDAeX2_RTNADVa5dIbIWgMAhN4S_qiD
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2022-01-03_08,2022-01-01_01,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0
- malwarescore=0 priorityscore=1501 mlxscore=0 bulkscore=0 phishscore=0
- suspectscore=0 lowpriorityscore=0 spamscore=0 adultscore=0 clxscore=1015
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2110150000 definitions=main-2201030147
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=farosas@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: 0
-X-Spam_score: -0.1
-X-Spam_bar: /
-X-Spam_report: (-0.1 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Provags-ID: V03:K1:MSGrRVfmdKwAm1nLtHnjTdNx9SfpJkgIj/HnegRkSNG58eUjUAY
+ rHq89+ABsVvjVa7SHNwl+QGbETZf1vMHNy6eYwHVh/nJwCoi6Q5fxYSkqLpi/8xYtPU4c3N
+ 5Cs6nIgR0rMb3km73cWA6qNc7kuUZSZXU+uaRl/zifFwyYDkujMy0tdSm1AiUjCmYC4MK14
+ PYnECoav68nyISkfTnJiQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:PSIIrqLU6Zg=:HhOZ/lSbTsG13wLgKi2zED
+ g8YGcERLG0La/1+7kWuwGCvf7LpUCB4fVdgvcT1yXa+cVeQKpz/jvyLhk1fyWBGV58OOboo1i
+ 7drsHTi+hqM47u/QNiWh2pVrIOnKPrESaE4zRw0VqS58eRmr1mgajVbXKfnRDmOTtiPSZ4Cao
+ o53jgSzUnlMNQEYS06JadgyWnawqS3l7eJ0O8MAcjJpBX7PQ4u26/AeF61KKouCb78joS3QlH
+ dbki4+WTj+X/dl6MC+vE1pVzotYr04ZpRLxjznzYWx9o4szYOC9QJCwCDPJvUxGjVO1UrQxkV
+ ubcPlROw+BNrVA2ySD0RTbkKN8mGj9Zyi8dnZlzcC7vCKmiAN/7vLbOWmozZw0Q47fsWNjYfb
+ kilBeejR4bMqtP67qZFjQkJJDkr8T8FAINBrfh0QtyzfN+Mv8bpZfF8uNmtUx4O6eEng/HZW4
+ 7iOo319h0H6HTToUlhuM3D2c6zeIV+sWsIJ8YcHE/C4Ilz+C22oAjXjHuROHAR4WyOA/A7U4Y
+ EFaytdfea4Ab5aHjS4Nt8ecGISlw83twJ61xUxu4UfNj4pmV3mah/wOFqfgf2NOAACRlVuOaa
+ VL+Pxz1ie445UW4EjV/3D1doWf7hKValJgSyqlrPLXV3ccFFa4P1OQ/b1Jo6Jf4ycA3JixKD4
+ pwbQ9UKxCswerZRpcMJfzDEYwmvGILycDS/DgALu6TuxSHiJc6BX/d7ASqROD25Xfl3M=
+Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) NICE_REPLY_A=-3.354, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -107,50 +73,201 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: richard.henderson@linaro.org, danielhb413@gmail.com, qemu-ppc@nongnu.org,
- clg@kaod.org, david@gibson.dropbear.id.au
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Next patches will split powerpc_excp in multiple family specific
-handlers. This patch adds a wrapper to make the transition clearer.
+Le 03/01/2022 à 20:31, Tõnis Tiigi a écrit :
+> On Mon, Jan 3, 2022 at 10:37 AM Laurent Vivier <laurent@vivier.eu> wrote:
+>>
+>> Le 03/01/2022 à 18:07, Tõnis Tiigi a écrit :
+>>> Ping Laurent. Any suggestions for the follow-up questions?
+>>>
+>>> On Thu, Dec 23, 2021 at 3:00 PM Tõnis Tiigi <tonistiigi@gmail.com> wrote:
+>>>>
+>>>> On Thu, Dec 23, 2021 at 1:03 PM Laurent Vivier <laurent@vivier.eu> wrote:
+>>>>>
+>>>>> Le 23/12/2021 à 07:47, Tonis Tiigi a écrit :
+>>>>>
+>>>>> Please copy here what you explain in PATCH 0 regarding this patch.
+>>>>> (do the same for PATCH 1)
+>>>>>
+>>>>>> Signed-off-by: Tonis Tiigi <tonistiigi@gmail.com>
+>>>>>> ---
+>>>>>>     linux-user/syscall.c      | 94 +++++++++++++++++++++++++++++++++++++++
+>>>>>>     linux-user/syscall_defs.h | 14 ++++++
+>>>>>>     2 files changed, 108 insertions(+)
+>>>>>>
+>>>>>> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+>>>>>> index f1cfcc8104..2f5a0fac5a 100644
+>>>>>> --- a/linux-user/syscall.c
+>>>>>> +++ b/linux-user/syscall.c
+>>>>>> @@ -339,6 +339,12 @@ _syscall3(int, sys_sched_getaffinity, pid_t, pid, unsigned int, len,
+>>>>>>     #define __NR_sys_sched_setaffinity __NR_sched_setaffinity
+>>>>>>     _syscall3(int, sys_sched_setaffinity, pid_t, pid, unsigned int, len,
+>>>>>>               unsigned long *, user_mask_ptr);
+>>>>>> +#define __NR_sys_sched_getattr __NR_sched_getattr
+>>>>>> +_syscall4(int, sys_sched_getattr, pid_t, pid, struct target_sched_attr *, attr,
+>>>>>> +          unsigned int, size, unsigned int, flags);
+>>>>>> +#define __NR_sys_sched_setattr __NR_sched_setattr
+>>>>>> +_syscall3(int, sys_sched_setattr, pid_t, pid, struct target_sched_attr *, attr,
+>>>>>> +          unsigned int, flags);
+>>>>>>     #define __NR_sys_getcpu __NR_getcpu
+>>>>>>     _syscall3(int, sys_getcpu, unsigned *, cpu, unsigned *, node, void *, tcache);
+>>>>>>     _syscall4(int, reboot, int, magic1, int, magic2, unsigned int, cmd,
+>>>>>> @@ -10593,6 +10599,94 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+>>>>>>             }
+>>>>>>         case TARGET_NR_sched_getscheduler:
+>>>>>>             return get_errno(sched_getscheduler(arg1));
+>>>>>> +    case TARGET_NR_sched_getattr:
+>>>>>> +        {
+>>>>>> +            struct target_sched_attr *target_scha;
+>>>>>> +            struct target_sched_attr scha;
+>>>>>
+>>>>> In fact, this scha is used with the host syscall, so it must be  sched_attr.
+>>>>
+>>>>
+>>>> Where do you want me to define the "host variant" of sched_attr and
+>>>> with what types for the properties? Or do you want additional
+>>>> typedef(where?) so the name is less confusing? All properties in this
+>>>> type are fixed length and identical for all architectures.
+>>
+>> It's better to use the host variant with the host syscall.
+>>
+>> Normally sched_attr comes with kernel headers, so it should be available and you should not have to
+>> define it.
+>>
+>> We need to define a target property because alignment also matters as the alignment for type can
+>> differ from an architecture to another. I agree that in most cases it should not be needed but I
+>> think it's cleaner like that.
+>>
+>> so for this part, only replace "struct target_sched_attr scha;" by "struct sched_att scha;"
+> 
+> sched_attr is defined in linux/sched/types.h . I can't include it
+> directly as it conflicts with libc headers with "redefinition of
+> 'struct sched_param'". It looks like
+> https://lkml.org/lkml/2020/5/28/810 attempted to resolve this conflict
+> but was not merged and seems to be stuck in kernel vs glibc blame
+> cycle.
+>
 
-Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
----
- target/ppc/excp_helper.c | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
+So the best to do is to define a struct host_sched_attr (a strict copy of the kernel one) and use it 
+with sched_getattr().
 
-diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-index a4787c3ae2..15c492a934 100644
---- a/target/ppc/excp_helper.c
-+++ b/target/ppc/excp_helper.c
-@@ -336,7 +336,7 @@ static inline void powerpc_set_excp_state(PowerPCCPU *cpu,
-  * Note that this function should be greatly optimized when called
-  * with a constant excp, from ppc_hw_interrupt
-  */
--static inline void powerpc_excp(PowerPCCPU *cpu, int excp)
-+static inline void powerpc_excp_legacy(PowerPCCPU *cpu, int excp)
- {
-     CPUState *cs = CPU(cpu);
-     CPUPPCState *env = &cpu->env;
-@@ -805,6 +805,16 @@ static inline void powerpc_excp(PowerPCCPU *cpu, int excp)
-     powerpc_set_excp_state(cpu, vector, new_msr);
- }
- 
-+static void powerpc_excp(PowerPCCPU *cpu, int excp)
-+{
-+    CPUPPCState *env = &cpu->env;
-+
-+    switch (env->excp_model) {
-+    default:
-+        powerpc_excp_legacy(cpu, excp);
-+    }
-+}
-+
- void ppc_cpu_do_interrupt(CPUState *cs)
- {
-     PowerPCCPU *cpu = POWERPC_CPU(cs);
--- 
-2.33.1
+See for instance prlimit64 implementation:
 
+163a05a8398b ("linux-user: Implement prlimit64 syscall")
+
+it's a bit old, but it shows the main idea of a host structure for the host side, a target structure 
+for the target side (we have introduced the abi type since).
+
+>>
+>>>>
+>>>>>
+>>>>>
+>>>>>> +            if (arg2 == 0) {
+>>>>>> +                return -TARGET_EINVAL;
+>>>>>> +            }
+>>>>>> +            if (arg3 > sizeof(scha)) {
+>>>>>> +                arg3 = sizeof(scha);
+>>>>>> +            }
+>>>>>> +            ret = get_errno(sys_sched_getattr(arg1, &scha, arg3, arg4));
+>>>>>> +            if (!is_error(ret)) {
+>>>>>> +                target_scha = lock_user(VERIFY_WRITE, arg2, arg3, 0);
+>>>>>> +                if (!target_scha) {
+>>>>>> +                    return -TARGET_EFAULT;
+>>>>>> +                }
+>>>>>> +                target_scha->size = tswap32(scha.size);
+>>>>>> +                target_scha->sched_policy = tswap32(scha.sched_policy);
+>>>>>> +                target_scha->sched_flags = tswap64(scha.sched_flags);
+>>>>>> +                target_scha->sched_nice = tswap32(scha.sched_nice);
+>>>>>> +                target_scha->sched_priority = tswap32(scha.sched_priority);
+>>>>>> +                target_scha->sched_runtime = tswap64(scha.sched_runtime);
+>>>>>> +                target_scha->sched_deadline = tswap64(scha.sched_deadline);
+>>>>>> +                target_scha->sched_period = tswap64(scha.sched_period);
+>>>>>> +                if (scha.size > offsetof(struct target_sched_attr, sched_util_min)) {
+>>>>>> +                    target_scha->sched_util_min = tswap32(scha.sched_util_min);
+>>>>>> +                    target_scha->sched_util_max = tswap32(scha.sched_util_max);
+>>>>>> +                }
+>>>>>> +                unlock_user(target_scha, arg2, arg3);
+>>>>>> +            }
+>>>>>> +            return ret;
+>>>>>> +        }
+>>>>>> +    case TARGET_NR_sched_setattr:
+>>>>>> +        {
+>>>>>> +            struct target_sched_attr *target_scha;
+>>>>>> +            struct target_sched_attr scha;
+>>>>>
+>>>>> scha is sched_attr as it is used with the host syscall.
+>>>>>
+>>>>>
+>>>>>> +            if (arg2 == 0) {
+>>>>>> +                return -TARGET_EINVAL;
+>>>>>> +            }
+>>>>>> +            uint32_t size;
+>>>>>
+>>>>> QEMU coding style doesn't allow to mix declarations and statements.
+>>>>>
+>>>>>> +            if (get_user_u32(size, arg2)) {
+>>>>>> +                return -TARGET_EFAULT;
+>>>>>> +            }
+>>>>>> +            if (!size) {
+>>>>>> +                size = offsetof(struct target_sched_attr, sched_util_min);
+>>>>>> +            }
+>>>>>> +            if (size < offsetof(struct target_sched_attr, sched_util_min)) {
+>>>>>> +                if (put_user_u32(sizeof(struct target_sched_attr), arg2)) {
+>>>>>> +                    return -TARGET_EFAULT;
+>>>>>> +                }
+>>>>>> +                return -TARGET_E2BIG;
+>>>>>> +            }
+>>>>>> +
+>>>>>> +            if (size > sizeof(scha)) {
+>>>>>> +                for (int i = sizeof(scha); i < size; i++) {
+>>>>>> +                    uint8_t b;
+>>>>>> +                    if (get_user_u8(b, arg2 + i)) {
+>>>>>> +                        return -TARGET_EFAULT;
+>>>>>> +                    }
+>>>>>> +                    if (b != 0) {
+>>>>>> +                        if (put_user_u32(sizeof(struct target_sched_attr), arg2)) {
+>>>>>> +                            return -TARGET_EFAULT;
+>>>>>> +                        }
+>>>>>> +                        return -TARGET_E2BIG;
+>>>>>> +                    }
+>>>>>> +                }
+>>>>>> +                size = sizeof(scha);
+>>>>>> +            }
+>>>>>
+>>>>> I guess this is the code to mimic kernel copy_struct_from_user(), the part when usize > ksize.
+>>>>>
+>>>>> It's a little bit ugly, but I can't disagree because the kernel does the same.
+>>>>>
+>>>>> except that the kernel check for unsigned rather than for 8bit. Could you change that?
+>>>>
+>>>>
+>>>> You mean "unsigned long" like in
+>>>> https://github.com/torvalds/linux/blob/76657eaef4a759e695eb1883d4f1d9af1e4ff9a8/lib/usercopy.c#L57
+>>
+>> yes
+>>
+>>>> ? That would mean that this code needs to be much more complicated to
+>>>> handle the cases for the unaligned start and end bytes, need
+>>>> aligned_byte_mask helper etc. Even though kernel seems to have extra
+>>>> code for these cases iiuc it can still get EFAULT on specific
+>>>> conditions.
+>>
+>> OK, I don't want too complicated code here, so I think we can keep your version.
+>> But could you move this code to a function?
+> 
+> Sure, but could you tell me where do you want it defined. syscall.c
+> does not seem to have generic helper functions and current helpers
+> seem to be macros in qemu.h . Also, are we talking about a function
+> like check_zeroed_user() or a variant of lock_user() with two size
+> parameters(or lock_user_struct() with extra size param)?
+
+You can put it in syscall.c, and I'm thinking more about a function like check_zeroed_user().
+But feel free to do as you want, and if you think it's not a good idea to have a function you can 
+keep the code as is.
+
+Thanks,
+Laurent
 
