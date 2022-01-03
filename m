@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBFD3482F2F
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jan 2022 10:02:57 +0100 (CET)
-Received: from localhost ([::1]:54598 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58632482F34
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jan 2022 10:05:35 +0100 (CET)
+Received: from localhost ([::1]:56794 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n4JF2-0005gw-Qw
-	for lists+qemu-devel@lfdr.de; Mon, 03 Jan 2022 04:02:56 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48892)
+	id 1n4JHa-0007Cb-Aq
+	for lists+qemu-devel@lfdr.de; Mon, 03 Jan 2022 04:05:34 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49484)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1n4JCQ-0004S4-3J
- for qemu-devel@nongnu.org; Mon, 03 Jan 2022 04:00:14 -0500
-Received: from 8.mo552.mail-out.ovh.net ([46.105.37.156]:53607)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1n4JCN-00020V-Ub
- for qemu-devel@nongnu.org; Mon, 03 Jan 2022 04:00:13 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.108.1.31])
- by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 9580A2144B;
- Mon,  3 Jan 2022 09:00:09 +0000 (UTC)
-Received: from kaod.org (37.59.142.105) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.17; Mon, 3 Jan
- 2022 10:00:09 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-105G00606b2e6be-9e7b-435b-b403-7978b56fe14a,
- 71ABFCEAB0EE88409933ED7B68EF8EFCD2601B88) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <dc489ab6-3d0c-f6ab-4fe4-bf179081ecf4@kaod.org>
-Date: Mon, 3 Jan 2022 10:00:08 +0100
+ (Exim 4.90_1) (envelope-from <bjorn.topel@gmail.com>)
+ id 1n4JDx-0005KH-Em
+ for qemu-devel@nongnu.org; Mon, 03 Jan 2022 04:01:49 -0500
+Received: from mail-lf1-f52.google.com ([209.85.167.52]:45829)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bjorn.topel@gmail.com>)
+ id 1n4JDv-0002Oc-Nk
+ for qemu-devel@nongnu.org; Mon, 03 Jan 2022 04:01:49 -0500
+Received: by mail-lf1-f52.google.com with SMTP id u13so73556192lff.12
+ for <qemu-devel@nongnu.org>; Mon, 03 Jan 2022 01:01:46 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=r7ji59pr+eafAlYWeNvDesu4JUv0rmm0MdLuRUjbmf0=;
+ b=XcDQwoMbJbGSH0J8uFwQ1w9EqZdNy/Qg6X9HBuB90vDZUynL840kDlMazXtWJSRI5l
+ aIrS4wdu1U51KzzeRtwwMm6QFJVoq9tu+UrRIvYs1+qLaujweZ7ELpCAbEKAb0nKRPDa
+ 4xMkdNY09K8gJ8AzfSTjFbi9soWxjRXqYrt8KM7irRySbq57Gqi76PeYQHDi1jBw8emd
+ mtacLyACmlpSsbB0hHxEx22xZTMGcml7HylA8iNv5sX/g/k7wT7EAf/M/9KyCzge8zXq
+ sBOCL6sarKgByZ3PA6SSBEM1eQs8WNrQAkFIBOXINndTUCkOZ2Mmzgizc3/vfgqLdRzb
+ Yiew==
+X-Gm-Message-State: AOAM53188IUiUbrFfR0lqGXnmNAZezDbijFy6GXBmE30CDPIozxw79nQ
+ WQeIqgFnDdk463sUa+Luz3wawPrhsMU=
+X-Google-Smtp-Source: ABdhPJwIOb7A+LtWb4zg1XzNujzd1L880MbDgWj7eBm87eeSjYOf4YQaaPaXO/dMKiSEHxOLXnvCFQ==
+X-Received: by 2002:a05:6512:2032:: with SMTP id
+ s18mr38334060lfs.392.1641200505147; 
+ Mon, 03 Jan 2022 01:01:45 -0800 (PST)
+Received: from bjorn-nuc.. ([193.138.218.214])
+ by smtp.gmail.com with ESMTPSA id j15sm3558282lfg.102.2022.01.03.01.01.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 03 Jan 2022 01:01:44 -0800 (PST)
+From: =?UTF-8?q?Bj=C3=B6rn=20T=C3=B6pel?= <bjorn@kernel.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] optionrom: Turn off -fcf-protection
+Date: Mon,  3 Jan 2022 10:01:12 +0100
+Message-Id: <20220103090112.312202-1-bjorn@kernel.org>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH 09/17] pnv_phb4_pec.c: move pnv_pec_phb_offset() to
- pnv_phb4.c
-Content-Language: en-US
-To: Daniel Henrique Barboza <danielhb413@gmail.com>, <qemu-devel@nongnu.org>
-References: <20211228193806.1198496-1-danielhb413@gmail.com>
- <20211228193806.1198496-10-danielhb413@gmail.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20211228193806.1198496-10-danielhb413@gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.105]
-X-ClientProxiedBy: DAG9EX1.mxp5.local (172.16.2.81) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 15b2ef59-0e52-4470-9aa8-eb2858bbaf1e
-X-Ovh-Tracer-Id: 13481806962369727456
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrudeftddguddviecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthejredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpefhhfelgeeukedtteffvdffueeiuefgkeekleehleetfedtgfetffefheeugeelheenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopegurghvihgusehgihgsshhonhdrughrohhpsggvrghrrdhiugdrrghu
-Received-SPF: pass client-ip=46.105.37.156; envelope-from=clg@kaod.org;
- helo=8.mo552.mail-out.ovh.net
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) NICE_REPLY_A=-3.354,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=209.85.167.52; envelope-from=bjorn.topel@gmail.com;
+ helo=mail-lf1-f52.google.com
+X-Spam_score_int: 5
+X-Spam_score: 0.5
+X-Spam_bar: /
+X-Spam_report: (0.5 / 5.0 requ) FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -71,122 +72,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, david@gibson.dropbear.id.au
+Cc: =?UTF-8?q?Bj=C3=B6rn=20T=C3=B6pel?= <bjorn@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/28/21 20:37, Daniel Henrique Barboza wrote:
-> The logic inside pnv_pec_phb_offset() wiil be useful in the next patch
+Ubuntu GCC enables -fcf-protection globally, which is not supported
+for x86 16-bit (realmode). This causes the build to fail.
 
-will
+This commit turns off that option.
 
-> to determine the stack that should contain a PHB4 device.
-> 
-> Move the function to pnv_phb4.c and make it public since there's no
-> pnv_phb4_pec.h header. While we're at it, add 'stack_index' as a
-> parameter and make the function return 'phb-id' directly. And rename it
-> to pnv_pec_get_phb_id() to be even clearer about the function intent.
-> 
-> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+Signed-off-by: Björn Töpel <bjorn@kernel.org>
+---
+ pc-bios/optionrom/Makefile | 1 +
+ 1 file changed, 1 insertion(+)
 
-Looks good,
-
-> ---
->   hw/pci-host/pnv_phb4.c         | 17 +++++++++++++++++
->   hw/pci-host/pnv_phb4_pec.c     | 15 +--------------
->   include/hw/pci-host/pnv_phb4.h |  2 ++
->   3 files changed, 20 insertions(+), 14 deletions(-)
-> 
-> diff --git a/hw/pci-host/pnv_phb4.c b/hw/pci-host/pnv_phb4.c
-> index 0ea505cc94..36c56007ba 100644
-> --- a/hw/pci-host/pnv_phb4.c
-> +++ b/hw/pci-host/pnv_phb4.c
-> @@ -1164,6 +1164,23 @@ static AddressSpace *pnv_phb4_dma_iommu(PCIBus *bus, void *opaque, int devfn)
->       return &ds->dma_as;
->   }
->   
-> +/*
-> + * Return the index/phb-id of a PHB4 that belongs to a
-> + * pec->stacks[stack_index] stack.
-> + */
-> +int pnv_pec_get_phb_id(PnvPhb4PecState *pec, int stack_index)
-
-pnv_phb4_pec_get_phb_id() would be cleaner.
-
-Thanks,
-
-C.
-
-
-
-> +{
-> +    PnvPhb4PecClass *pecc = PNV_PHB4_PEC_GET_CLASS(pec);
-> +    int index = pec->index;
-> +    int offset = 0;
-> +
-> +    while (index--) {
-> +        offset += pecc->num_stacks[index];
-> +    }
-> +
-> +    return offset + stack_index;
-> +}
-> +
->   /*
->    * Set the object properties of a phb in relation with its stack.
->    *
-> diff --git a/hw/pci-host/pnv_phb4_pec.c b/hw/pci-host/pnv_phb4_pec.c
-> index 700ee4b185..bc2f8bb8b1 100644
-> --- a/hw/pci-host/pnv_phb4_pec.c
-> +++ b/hw/pci-host/pnv_phb4_pec.c
-> @@ -374,19 +374,6 @@ static void pnv_pec_instance_init(Object *obj)
->       }
->   }
->   
-> -static int pnv_pec_phb_offset(PnvPhb4PecState *pec)
-> -{
-> -    PnvPhb4PecClass *pecc = PNV_PHB4_PEC_GET_CLASS(pec);
-> -    int index = pec->index;
-> -    int offset = 0;
-> -
-> -    while (index--) {
-> -        offset += pecc->num_stacks[index];
-> -    }
-> -
-> -    return offset;
-> -}
-> -
->   static void pnv_pec_realize(DeviceState *dev, Error **errp)
->   {
->       PnvPhb4PecState *pec = PNV_PHB4_PEC(dev);
-> @@ -422,7 +409,7 @@ static void pnv_pec_realize(DeviceState *dev, Error **errp)
->       for (i = 0; i < pec->num_stacks; i++) {
->           PnvPhb4PecStack *stack = &pec->stacks[i];
->           Object *stk_obj = OBJECT(stack);
-> -        int phb_id = pnv_pec_phb_offset(pec) + i;
-> +        int phb_id =  pnv_pec_get_phb_id(pec, i);
->   
->           object_property_set_int(stk_obj, "stack-no", i, &error_abort);
->           object_property_set_int(stk_obj, "phb-id", phb_id, &error_abort);
-> diff --git a/include/hw/pci-host/pnv_phb4.h b/include/hw/pci-host/pnv_phb4.h
-> index d7838513f1..0fa88ca3fa 100644
-> --- a/include/hw/pci-host/pnv_phb4.h
-> +++ b/include/hw/pci-host/pnv_phb4.h
-> @@ -15,6 +15,7 @@
->   #include "hw/ppc/xive.h"
->   #include "qom/object.h"
->   
-> +typedef struct PnvPhb4PecState PnvPhb4PecState;
->   typedef struct PnvPhb4PecStack PnvPhb4PecStack;
->   typedef struct PnvPHB4 PnvPHB4;
->   typedef struct PnvChip PnvChip;
-> @@ -134,6 +135,7 @@ struct PnvPHB4 {
->   void pnv_phb4_pic_print_info(PnvPHB4 *phb, Monitor *mon);
->   void pnv_phb4_update_regions(PnvPhb4PecStack *stack);
->   void pnv_phb4_set_stack_phb_props(PnvPhb4PecStack *stack, PnvPHB4 *phb);
-> +int pnv_pec_get_phb_id(PnvPhb4PecState *pec, int stack_index);
->   extern const MemoryRegionOps pnv_phb4_xscom_ops;
->   
->   /*
-> 
+diff --git a/pc-bios/optionrom/Makefile b/pc-bios/optionrom/Makefile
+index 5d55d25acca2..c5f5fa02ef06 100644
+--- a/pc-bios/optionrom/Makefile
++++ b/pc-bios/optionrom/Makefile
+@@ -21,6 +21,7 @@ override CFLAGS += $(filter -W%, $(QEMU_CFLAGS))
+ override CFLAGS += $(CFLAGS_NOPIE) -ffreestanding -I$(TOPSRC_DIR)/include
+ override CFLAGS += $(call cc-option, -fno-stack-protector)
+ override CFLAGS += $(call cc-option, -m16)
++override CFLAGS += $(call cc-option, -fcf-protection=none)
+ 
+ ifeq ($(filter -m16, $(CFLAGS)),)
+ # Attempt to work around compilers that lack -m16 (GCC <= 4.8, clang <= ??)
+-- 
+2.32.0
 
 
