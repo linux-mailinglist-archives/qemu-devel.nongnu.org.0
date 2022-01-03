@@ -2,64 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58632482F34
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jan 2022 10:05:35 +0100 (CET)
-Received: from localhost ([::1]:56794 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49FF3482F3D
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jan 2022 10:11:25 +0100 (CET)
+Received: from localhost ([::1]:60846 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n4JHa-0007Cb-Aq
-	for lists+qemu-devel@lfdr.de; Mon, 03 Jan 2022 04:05:34 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49484)
+	id 1n4JNE-0001na-FL
+	for lists+qemu-devel@lfdr.de; Mon, 03 Jan 2022 04:11:24 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51428)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bjorn.topel@gmail.com>)
- id 1n4JDx-0005KH-Em
- for qemu-devel@nongnu.org; Mon, 03 Jan 2022 04:01:49 -0500
-Received: from mail-lf1-f52.google.com ([209.85.167.52]:45829)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bjorn.topel@gmail.com>)
- id 1n4JDv-0002Oc-Nk
- for qemu-devel@nongnu.org; Mon, 03 Jan 2022 04:01:49 -0500
-Received: by mail-lf1-f52.google.com with SMTP id u13so73556192lff.12
- for <qemu-devel@nongnu.org>; Mon, 03 Jan 2022 01:01:46 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=r7ji59pr+eafAlYWeNvDesu4JUv0rmm0MdLuRUjbmf0=;
- b=XcDQwoMbJbGSH0J8uFwQ1w9EqZdNy/Qg6X9HBuB90vDZUynL840kDlMazXtWJSRI5l
- aIrS4wdu1U51KzzeRtwwMm6QFJVoq9tu+UrRIvYs1+qLaujweZ7ELpCAbEKAb0nKRPDa
- 4xMkdNY09K8gJ8AzfSTjFbi9soWxjRXqYrt8KM7irRySbq57Gqi76PeYQHDi1jBw8emd
- mtacLyACmlpSsbB0hHxEx22xZTMGcml7HylA8iNv5sX/g/k7wT7EAf/M/9KyCzge8zXq
- sBOCL6sarKgByZ3PA6SSBEM1eQs8WNrQAkFIBOXINndTUCkOZ2Mmzgizc3/vfgqLdRzb
- Yiew==
-X-Gm-Message-State: AOAM53188IUiUbrFfR0lqGXnmNAZezDbijFy6GXBmE30CDPIozxw79nQ
- WQeIqgFnDdk463sUa+Luz3wawPrhsMU=
-X-Google-Smtp-Source: ABdhPJwIOb7A+LtWb4zg1XzNujzd1L880MbDgWj7eBm87eeSjYOf4YQaaPaXO/dMKiSEHxOLXnvCFQ==
-X-Received: by 2002:a05:6512:2032:: with SMTP id
- s18mr38334060lfs.392.1641200505147; 
- Mon, 03 Jan 2022 01:01:45 -0800 (PST)
-Received: from bjorn-nuc.. ([193.138.218.214])
- by smtp.gmail.com with ESMTPSA id j15sm3558282lfg.102.2022.01.03.01.01.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 03 Jan 2022 01:01:44 -0800 (PST)
-From: =?UTF-8?q?Bj=C3=B6rn=20T=C3=B6pel?= <bjorn@kernel.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] optionrom: Turn off -fcf-protection
-Date: Mon,  3 Jan 2022 10:01:12 +0100
-Message-Id: <20220103090112.312202-1-bjorn@kernel.org>
-X-Mailer: git-send-email 2.32.0
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1n4JKX-0008Nw-Mg; Mon, 03 Jan 2022 04:08:41 -0500
+Received: from szxga01-in.huawei.com ([45.249.212.187]:3516)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1n4JKU-0007mJ-Mv; Mon, 03 Jan 2022 04:08:37 -0500
+Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.57])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4JS8w00ZZszZcWc;
+ Mon,  3 Jan 2022 17:05:04 +0800 (CST)
+Received: from [10.174.187.128] (10.174.187.128) by
+ dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
+ 15.1.2308.20; Mon, 3 Jan 2022 17:08:27 +0800
+Subject: Re: [PATCH v5 00/14] ARM virt: Introduce CPU clusters topology support
+To: <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>
+CC: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones
+ <drjones@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>, Marcel Apfelbaum
+ <marcel.apfelbaum@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>, "Michael S
+ . Tsirkin" <mst@redhat.com>, Igor Mammedov <imammedo@redhat.com>, Shannon
+ Zhao <shannon.zhaosl@gmail.com>, Ani Sinha <ani@anisinha.ca>, Markus
+ Armbruster <armbru@redhat.com>, Eric Blake <eblake@redhat.com>,
+ <wanghaibin.wang@huawei.com>
+References: <20211228092221.21068-1-wangyanan55@huawei.com>
+Message-ID: <7f2cc572-4ee8-2ce1-2824-311845d65021@huawei.com>
+Date: Mon, 3 Jan 2022 17:08:27 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=209.85.167.52; envelope-from=bjorn.topel@gmail.com;
- helo=mail-lf1-f52.google.com
-X-Spam_score_int: 5
-X-Spam_score: 0.5
-X-Spam_bar: /
-X-Spam_report: (0.5 / 5.0 requ) FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <20211228092221.21068-1-wangyanan55@huawei.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-Originating-IP: [10.174.187.128]
+X-ClientProxiedBy: dggeme702-chm.china.huawei.com (10.1.199.98) To
+ dggpemm500023.china.huawei.com (7.185.36.83)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.187;
+ envelope-from=wangyanan55@huawei.com; helo=szxga01-in.huawei.com
+X-Spam_score_int: -56
+X-Spam_score: -5.7
+X-Spam_bar: -----
+X-Spam_report: (-5.7 / 5.0 requ) NICE_REPLY_A=-3.354, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -72,33 +68,121 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Bj=C3=B6rn=20T=C3=B6pel?= <bjorn@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  "wangyanan (Y)" <wangyanan55@huawei.com>
+From:  "wangyanan (Y)" via <qemu-devel@nongnu.org>
 
-Ubuntu GCC enables -fcf-protection globally, which is not supported
-for x86 16-bit (realmode). This causes the build to fail.
+The rest ARM & ACPI part (patches 8-14) have been packed into v6:
+v6: https://patchew.org/QEMU/20220103084636.2496-1-wangyanan55@huawei.com/
 
-This commit turns off that option.
+Thanks,
+Yanan
 
-Signed-off-by: Björn Töpel <bjorn@kernel.org>
----
- pc-bios/optionrom/Makefile | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/pc-bios/optionrom/Makefile b/pc-bios/optionrom/Makefile
-index 5d55d25acca2..c5f5fa02ef06 100644
---- a/pc-bios/optionrom/Makefile
-+++ b/pc-bios/optionrom/Makefile
-@@ -21,6 +21,7 @@ override CFLAGS += $(filter -W%, $(QEMU_CFLAGS))
- override CFLAGS += $(CFLAGS_NOPIE) -ffreestanding -I$(TOPSRC_DIR)/include
- override CFLAGS += $(call cc-option, -fno-stack-protector)
- override CFLAGS += $(call cc-option, -m16)
-+override CFLAGS += $(call cc-option, -fcf-protection=none)
- 
- ifeq ($(filter -m16, $(CFLAGS)),)
- # Attempt to work around compilers that lack -m16 (GCC <= 4.8, clang <= ??)
--- 
-2.32.0
+On 2021/12/28 17:22, Yanan Wang wrote:
+> Hi,
+>
+> This series introduces the new CPU clusters topology parameter
+> and enable the support for it on ARM virt machines.
+>
+> Background and descriptions:
+> The new Cluster-Aware Scheduling support has landed in Linux 5.16,
+> which has been proved to benefit the scheduling performance (e.g.
+> load balance and wake_affine strategy) for both x86_64 and AArch64.
+> We can see the PR [1] or the actual patch series [2] for reference.
+>
+> So since Linux 5.16 we have four-level arch-neutral CPU topology
+> definition like below and a new scheduler level for clusters.
+> struct cpu_topology {
+>      int thread_id;
+>      int core_id;
+>      int cluster_id;
+>      int package_id;
+>      int llc_id;
+>      cpumask_t thread_sibling;
+>      cpumask_t core_sibling;
+>      cpumask_t cluster_sibling;
+>      cpumask_t llc_sibling;
+> }
+>
+> A cluster generally means a group of CPU cores which share L2 cache
+> or other mid-level resources, and it is the shared resources that
+> is used to improve scheduler's behavior. From the point of view of
+> the size range, it's between CPU die and CPU core. For example, on
+> some ARM64 Kunpeng servers, we have 6 clusters in each NUMA node,
+> and 4 CPU cores in each cluster. The 4 CPU cores share a separate
+> L2 cache and a L3 cache tag, which brings cache affinity advantage.
+>
+> [1] https://lore.kernel.org/lkml/163572864855.3357115.17938524897008353101.tglx@xen13/
+> [2] https://lkml.org/lkml/2021/9/24/178
+>
+> In virtualization, on the Hosts which have pClusters, if we can
+> design a vCPU topology with cluster level for guest kernel and
+> have a dedicated vCPU pinning. A Cluster-Aware Guest kernel can
+> also make use of the cache affinity of CPU clusters to gain
+> similar scheduling performance. So this series introduce clusters
+> support in the vCPU topology on ARM virt machines.
+>
+> The patches are arranged mainly in two parts:
+> The first part (patch 1-7):
+> - Implement infrastructure for CPU cluster level topology support,
+>    including the SMP documentation, configuration and parsing,
+>    adding testcases for clusters.
+>
+> The second part (part 8-14):
+> - Enable CPU cluster support on ARM virt machines, so that users
+>    can specify a 4-level CPU hierarchy sockets/clusters/cores/threads.
+>    And the 4-level topology will be described to guest kernel through
+>    ACPI PPTT and DT cpu-map.
+>
+> Changelog:
+> v3->v4:
+> - Significant change from v3 to v4, since the whole series is reworked
+>    based on latest QEMU SMP frame.
+> - v3: https://patchew.org/QEMU/20210516103228.37792-1-wangyanan55@huawei.com/
+>
+> v4->v5:
+> - newly added patches 4-7
+> - rebased on Philippe series: "tests/unit: Rework test-smp-parse tests"
+>    https://patchew.org/QEMU/20211216132015.815493-1-philmd@redhat.com/
+> - v4: https://patchew.org/QEMU/20211121122502.9844-1-wangyanan55@huawei.com/
+>
+> Yanan Wang (14):
+>    qemu-options: Improve readability of SMP related Docs
+>    hw/core/machine: Introduce CPU cluster topology support
+>    hw/core/machine: Wrap target specific parameters together
+>    tests/unit/test-smp-parse: Add testcases for CPU clusters
+>    tests/unit/test-smp-parse: No need to explicitly zero MachineClass
+>      members
+>    tests/unit/test-smp-parse: Keep default MIN/MAX CPUs in
+>      machine_base_class_init
+>    MAINTAINERS: Self-recommended as reviewer of "Machine core"
+>    hw/arm/virt: Support clusters on ARM virt machines
+>    hw/arm/virt: Support cluster level in DT cpu-map
+>    hw/acpi/aml-build: Improve scalability of PPTT generation
+>    hw/arm/virt-acpi-build: Make an ARM specific PPTT generator
+>    tests/acpi/bios-tables-test: Allow changes to virt/PPTT file
+>    hw/arm/virt-acpi-build: Support cluster level in PPTT generation
+>    tests/acpi/bios-table-test: Update expected virt/PPTT file
+>
+>   MAINTAINERS                 |   1 +
+>   hw/acpi/aml-build.c         |  66 +----------------
+>   hw/arm/virt-acpi-build.c    |  92 +++++++++++++++++++++++-
+>   hw/arm/virt.c               |  16 +++--
+>   hw/core/machine-smp.c       |  29 ++++++--
+>   hw/core/machine.c           |   3 +
+>   include/hw/acpi/aml-build.h |   5 +-
+>   include/hw/boards.h         |   6 +-
+>   qapi/machine.json           |   5 +-
+>   qemu-options.hx             |  91 ++++++++++++++++++-----
+>   softmmu/vl.c                |   3 +
+>   tests/data/acpi/virt/PPTT   | Bin 76 -> 96 bytes
+>   tests/unit/test-smp-parse.c | 140 ++++++++++++++++++++++++++++++------
+>   13 files changed, 332 insertions(+), 125 deletions(-)
+>
+> --
+> 2.27.0
+>
+> .
 
 
