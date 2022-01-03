@@ -2,62 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D974482F54
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jan 2022 10:19:42 +0100 (CET)
-Received: from localhost ([::1]:42654 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DE06482F6D
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jan 2022 10:27:35 +0100 (CET)
+Received: from localhost ([::1]:46852 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n4JVE-0000V1-JQ
-	for lists+qemu-devel@lfdr.de; Mon, 03 Jan 2022 04:19:41 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53108)
+	id 1n4Jcs-0003eN-NH
+	for lists+qemu-devel@lfdr.de; Mon, 03 Jan 2022 04:27:34 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54804)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1n4JRI-0005zL-Bs
- for qemu-devel@nongnu.org; Mon, 03 Jan 2022 04:15:37 -0500
-Received: from szxga01-in.huawei.com ([45.249.212.187]:3437)
+ (Exim 4.90_1) (envelope-from <andy.pei@intel.com>)
+ id 1n4JbJ-0002mu-Pm; Mon, 03 Jan 2022 04:25:57 -0500
+Received: from mga06.intel.com ([134.134.136.31]:21269)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1n4JRE-0003Lz-Fb
- for qemu-devel@nongnu.org; Mon, 03 Jan 2022 04:15:36 -0500
-Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.55])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4JS97G3Q4GzcbTM;
- Mon,  3 Jan 2022 17:14:50 +0800 (CST)
-Received: from [10.174.187.128] (10.174.187.128) by
- dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.1.2308.20; Mon, 3 Jan 2022 17:15:22 +0800
-Subject: Re: [PATCH 1/3] hw/qdev: Restrict qdev_get_gpio_out_connector() to
- qdev-internal.h
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- <qemu-devel@nongnu.org>, Peter Maydell <peter.maydell@linaro.org>
-CC: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>, Eduardo
- Habkost <eduardo@habkost.net>, Richard Henderson
- <richard.henderson@linaro.org>, Paolo Bonzini <pbonzini@redhat.com>
-References: <20211229225206.171882-1-philmd@redhat.com>
- <20211229225206.171882-2-philmd@redhat.com>
- <8bf1a23a-7e3e-538b-3854-629545a98089@huawei.com>
- <d09675d0-b7fa-7484-22fa-e02a1655bcb0@redhat.com>
-Message-ID: <7edb5d8a-9dd4-419f-4dee-6e06a52136f0@huawei.com>
-Date: Mon, 3 Jan 2022 17:15:21 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
-MIME-Version: 1.0
-In-Reply-To: <d09675d0-b7fa-7484-22fa-e02a1655bcb0@redhat.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+ (Exim 4.90_1) (envelope-from <andy.pei@intel.com>)
+ id 1n4JbG-00052z-VG; Mon, 03 Jan 2022 04:25:57 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1641201955; x=1672737955;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=X8s7b9zjL7HIPfXu7oC9fTPmD2XMd6qGlktwyRZTstQ=;
+ b=GekLl9W8PEmzKQkYA5imBAeNpnHDh6h/i4RSXLKYStTwjM7vN1x8nNMy
+ isi8zrDItMbA0eiVJ5oY0/3wL/3GBJgoaEZiB7Sb596MjzeljLzF7iylH
+ A8u7ZGTC/CZWNbO5z/bItOvZojMkh8r3y3lPTlCpolBiHSDCqdzUkzHZK
+ oC1bnQTMXcnLGlOKbZ2slkgtr1h0rvkxsrGjnVE66TpDdConCNq9x4gPV
+ FnBZLKTYMfLuI5fEuSSezedg5rz6QOkRNYLrkY43mKScuoNl01gc9yYrN
+ pi/db2COJbfe77eClUcdMlKNkyX1OHCIvqmX7gNlakTrIrRbo2SuU+R7K Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10215"; a="302791791"
+X-IronPort-AV: E=Sophos;i="5.88,257,1635231600"; d="scan'208";a="302791791"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Jan 2022 01:25:51 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,257,1635231600"; d="scan'208";a="620259632"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+ by orsmga004.jf.intel.com with ESMTP; 03 Jan 2022 01:25:50 -0800
+Received: from shsmsx606.ccr.corp.intel.com (10.109.6.216) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20; Mon, 3 Jan 2022 01:25:50 -0800
+Received: from shsmsx601.ccr.corp.intel.com (10.109.6.141) by
+ SHSMSX606.ccr.corp.intel.com (10.109.6.216) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20; Mon, 3 Jan 2022 17:25:48 +0800
+Received: from shsmsx601.ccr.corp.intel.com ([10.109.6.141]) by
+ SHSMSX601.ccr.corp.intel.com ([10.109.6.141]) with mapi id 15.01.2308.020;
+ Mon, 3 Jan 2022 17:25:48 +0800
+From: "Pei, Andy" <andy.pei@intel.com>
+To: Raphael Norwitz <raphael.norwitz@nutanix.com>
+Subject: RE: [PATCH] hw/vhost-user-blk: turn on VIRTIO_BLK_F_SIZE_MAX feature
+ for virtio blk device
+Thread-Topic: [PATCH] hw/vhost-user-blk: turn on VIRTIO_BLK_F_SIZE_MAX feature
+ for virtio blk device
+Thread-Index: AQHX4m9+IYUGhcVMdU2sZbuldi6YsawbE1kAgDYvOxA=
+Date: Mon, 3 Jan 2022 09:25:48 +0000
+Message-ID: <787eba524fcb425db426ea12ff168191@intel.com>
+References: <1637892018-89555-1-git-send-email-andy.pei@intel.com>
+ <20211129215732.GA5722@raphael-debian-dev>
+In-Reply-To: <20211129215732.GA5722@raphael-debian-dev>
+Accept-Language: en-US
 Content-Language: en-US
-X-Originating-IP: [10.174.187.128]
-X-ClientProxiedBy: dggeme712-chm.china.huawei.com (10.1.199.108) To
- dggpemm500023.china.huawei.com (7.185.36.83)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.187;
- envelope-from=wangyanan55@huawei.com; helo=szxga01-in.huawei.com
-X-Spam_score_int: -75
-X-Spam_score: -7.6
-X-Spam_bar: -------
-X-Spam_report: (-7.6 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-3.354,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-version: 11.6.200.16
+dlp-reaction: no-action
+x-originating-ip: [10.239.127.36]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+Received-SPF: pass client-ip=134.134.136.31; envelope-from=andy.pei@intel.com;
+ helo=mga06.intel.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) DKIMWL_WL_HIGH=-0.37, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -70,121 +93,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: "kwolf@redhat.com" <kwolf@redhat.com>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
+ "mst@redhat.com" <mst@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "mreitz@redhat.com" <mreitz@redhat.com>, "Liu,
+ Changpeng" <changpeng.liu@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  "wangyanan (Y)" <wangyanan55@huawei.com>
-From:  "wangyanan (Y)" via <qemu-devel@nongnu.org>
 
+Hi Raphael,
 
-On 2021/12/31 20:11, Philippe Mathieu-Daudé wrote:
-> On 12/31/21 08:30, wangyanan (Y) wrote:
->> Hi,
->>
->> On 2021/12/30 6:52, Philippe Mathieu-Daudé wrote:
->>> qdev_get_gpio_out_connector() is called by sysbus_get_connected_irq()
->>> which is only used by platform-bus.c; restrict it to hw/core/ by
->>> adding a local "qdev-internal.h" header.
->>>
->>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
->>> ---
->>>    hw/core/qdev-internal.h | 15 +++++++++++++++
->>>    include/hw/qdev-core.h  | 18 ------------------
->>>    hw/core/gpio.c          |  1 +
->>>    hw/core/sysbus.c        |  1 +
->>>    4 files changed, 17 insertions(+), 18 deletions(-)
->>>    create mode 100644 hw/core/qdev-internal.h
->>>
->>> diff --git a/hw/core/qdev-internal.h b/hw/core/qdev-internal.h
->>> new file mode 100644
->>> index 00000000000..6ec17d0ea70
->>> --- /dev/null
->>> +++ b/hw/core/qdev-internal.h
->>> @@ -0,0 +1,15 @@
->>> +/* SPDX-License-Identifier: GPL-2.0-or-later */
->>> +/*
->>> + * qdev internal helpers
->>> + *
->>> + * Copyright (c) 2009-2021 QEMU contributors
->>> + */
->>> +#ifndef HW_CORE_QDEV_INTERNAL_H
->>> +#define HW_CORE_QDEV_INTERNAL_H
->>> +
->>> +#include "hw/qdev-core.h"
->>> +
->>> +/* Following functions are only used by the platform-bus subsystem */
->> Could it be better to also keep the original function comment here?
-> We could, but this include being now internal, it seems superfluous.
-Ok, makes sense to me. :)
+Thanks for your reply.
+I will fix the grammar mistake in V2.
 
-Thanks,
-Yanan
-> Since Peter documented this function, let see if he has an preference.
->
->>> +qemu_irq qdev_get_gpio_out_connector(DeviceState *dev, const char
->>> *name, int n);
->>> +
->>> +#endif /* HW_CORE_QDEV_INTERNAL_H */
->>> diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
->>> index d19c9417520..655899654bb 100644
->>> --- a/include/hw/qdev-core.h
->>> +++ b/include/hw/qdev-core.h
->>> @@ -532,24 +532,6 @@ void qdev_connect_gpio_out(DeviceState *dev, int
->>> n, qemu_irq pin);
->>>    void qdev_connect_gpio_out_named(DeviceState *dev, const char *name,
->>> int n,
->>>                                     qemu_irq input_pin);
->>>    -/**
->>> - * qdev_get_gpio_out_connector: Get the qemu_irq connected to an
->>> output GPIO
->>> - * @dev: Device whose output GPIO we are interested in
->>> - * @name: Name of the output GPIO array
->>> - * @n: Number of the output GPIO line within that array
->>> - *
->>> - * Returns whatever qemu_irq is currently connected to the specified
->>> - * output GPIO line of @dev. This will be NULL if the output GPIO line
->>> - * has never been wired up to the anything.  Note that the qemu_irq
->>> - * returned does not belong to @dev -- it will be the input GPIO or
->>> - * IRQ of whichever device the board code has connected up to @dev's
->>> - * output GPIO.
->>> - *
->>> - * You probably don't need to use this function -- it is used only
->>> - * by the platform-bus subsystem.
->>> - */
->>> -qemu_irq qdev_get_gpio_out_connector(DeviceState *dev, const char
->>> *name, int n);
->>> -
->>>    /**
->>>     * qdev_intercept_gpio_out: Intercept an existing GPIO connection
->>>     * @dev: Device to intercept the outbound GPIO line from
->>> diff --git a/hw/core/gpio.c b/hw/core/gpio.c
->>> index 80d07a6ec99..513ccbd1062 100644
->>> --- a/hw/core/gpio.c
->>> +++ b/hw/core/gpio.c
->>> @@ -21,6 +21,7 @@
->>>    #include "hw/qdev-core.h"
->>>    #include "hw/irq.h"
->>>    #include "qapi/error.h"
->>> +#include "qdev-internal.h"
->>>      static NamedGPIOList *qdev_get_named_gpio_list(DeviceState *dev,
->>>                                                   const char *name)
->>> diff --git a/hw/core/sysbus.c b/hw/core/sysbus.c
->>> index 05c1da3d311..0e6773c8df7 100644
->>> --- a/hw/core/sysbus.c
->>> +++ b/hw/core/sysbus.c
->>> @@ -23,6 +23,7 @@
->>>    #include "hw/sysbus.h"
->>>    #include "monitor/monitor.h"
->>>    #include "exec/address-spaces.h"
->>> +#include "qdev-internal.h"
->>>      static void sysbus_dev_print(Monitor *mon, DeviceState *dev, int
->>> indent);
->>>    static char *sysbus_get_fw_dev_path(DeviceState *dev);
->> Otherwise, the tweak looks reasonable:
->> Reviewed-by: Yanan Wang <wangyanan55@huawei.com>
-> Thanks,
->
-> Phil.
->
-> .
+-----Original Message-----
+From: Raphael Norwitz <raphael.norwitz@nutanix.com>=20
+Sent: Tuesday, November 30, 2021 5:58 AM
+To: Pei, Andy <andy.pei@intel.com>
+Cc: qemu-devel@nongnu.org; qemu-block@nongnu.org; Liu, Changpeng <changpeng=
+.liu@intel.com>; Raphael Norwitz <raphael.norwitz@nutanix.com>; mst@redhat.=
+com; kwolf@redhat.com; mreitz@redhat.com
+Subject: Re: [PATCH] hw/vhost-user-blk: turn on VIRTIO_BLK_F_SIZE_MAX featu=
+re for virtio blk device
 
+Just a commit message nit. Otherwise I'm happy with this. OFC should not be=
+ queued for 6.2.
+
+On Fri, Nov 26, 2021 at 10:00:18AM +0800, Andy Pei wrote:
+> Turn on pre-defined feature VIRTIO_BLK_F_SIZE_MAX virtio blk device to=20
+> avoid guest DMA request size is too large to exceed hardware spec.
+
+Grammar here. Should be something like "...DMA request sizes which are to l=
+arge for the hardware spec".
+
+>=20
+> Signed-off-by: Andy Pei <andy.pei@intel.com>
+
+Acked-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
+
+> ---
+>  hw/block/vhost-user-blk.c | 1 +
+>  1 file changed, 1 insertion(+)
+>=20
+> diff --git a/hw/block/vhost-user-blk.c b/hw/block/vhost-user-blk.c=20
+> index ba13cb8..eb1264a 100644
+> --- a/hw/block/vhost-user-blk.c
+> +++ b/hw/block/vhost-user-blk.c
+> @@ -252,6 +252,7 @@ static uint64_t vhost_user_blk_get_features(VirtIODev=
+ice *vdev,
+>      VHostUserBlk *s =3D VHOST_USER_BLK(vdev);
+> =20
+>      /* Turn on pre-defined features */
+> +    virtio_add_feature(&features, VIRTIO_BLK_F_SIZE_MAX);
+>      virtio_add_feature(&features, VIRTIO_BLK_F_SEG_MAX);
+>      virtio_add_feature(&features, VIRTIO_BLK_F_GEOMETRY);
+>      virtio_add_feature(&features, VIRTIO_BLK_F_TOPOLOGY);
+> --
+> 1.8.3.1
+>=20
 
