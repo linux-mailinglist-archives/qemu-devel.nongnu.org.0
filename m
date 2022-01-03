@@ -2,74 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B50F648374D
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jan 2022 19:59:33 +0100 (CET)
-Received: from localhost ([::1]:54266 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84D3F483753
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jan 2022 20:02:47 +0100 (CET)
+Received: from localhost ([::1]:59094 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n4SYO-00032D-Id
-	for lists+qemu-devel@lfdr.de; Mon, 03 Jan 2022 13:59:32 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38224)
+	id 1n4SbW-0006Ro-Lf
+	for lists+qemu-devel@lfdr.de; Mon, 03 Jan 2022 14:02:46 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39538)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1n4SXK-0001Ts-RI; Mon, 03 Jan 2022 13:58:26 -0500
-Received: from [2607:f8b0:4864:20::736] (port=37822
- helo=mail-qk1-x736.google.com)
+ id 1n4SaZ-0005Xt-MN; Mon, 03 Jan 2022 14:01:48 -0500
+Received: from [2607:f8b0:4864:20::832] (port=44586
+ helo=mail-qt1-x832.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1n4SXI-000833-1B; Mon, 03 Jan 2022 13:58:26 -0500
-Received: by mail-qk1-x736.google.com with SMTP id t66so20743053qkb.4;
- Mon, 03 Jan 2022 10:58:23 -0800 (PST)
+ id 1n4SaX-0000aD-UY; Mon, 03 Jan 2022 14:01:47 -0500
+Received: by mail-qt1-x832.google.com with SMTP id a1so31331105qtx.11;
+ Mon, 03 Jan 2022 11:01:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=ufTAd0zJcjPqs9eeB6QTMDCrqFU873XSvjw2FEIRhPs=;
- b=KoX47fV38yuYnXEYgxnrYaS7ttstzdi9o+eQIha20icdmIMGik2E7N6a1Vf4MnewrV
- 3kT/Ju7s9Q04/aFd+2da/9dsomJQxOqCMRwkiQjMdBHHDEv/SSfbasuHWorx1fn1Qz6j
- F4pYAGjnpGo+hUbXfo4K3md9f8V85w5Cw5fb2dtg+D4iSzABTAM1pTPSnYGs9gDNeER6
- 76h6/UH/lqciVY42pxnvzwI6meCP6xwWDSH5X/ehd3fPPDStjq2PWK4JneJZ9T5d5vfY
- MHliFE9jKqlej7QVTi/a2Lj1UzLMxHI9GNyj27QJT3nfu2Fo3/Uuvx8t7UnqggTqJiOz
- fyOA==
+ bh=IX1wol99FbM8jubXumm+48lvRql3+Y4En+/fjD+aTr0=;
+ b=STHrjXWw2SMiRaCHkPyuMkpvI9U+GRukScJeMyHtNx2GzyelwRIKMoBRUdtpaCNAnF
+ FHqMRwSP/kEQrSugmQyUxy2DhjYT6+kpNy8HIwN0NFRvCfr/4YYofjxlffg01bAN+TWu
+ 5AOSxKWcNSznPzZ4Qd1yD+xRyN15peWiDzZvd9XJdoZ/PF0JIjMTcWtWuYnkNp91zXRr
+ NTWH7gvg14eGzGYHZvQpsJs3SbfxHR27N/R0nSAj4Ypka9htp0/H8I/einSKSiLf7+bh
+ s1mWoeJDjqWQ92OTWH+Hbu65kVHdCipRszWbnXYzogyPPAOM6cn0s1mM1q8PvMWH69x+
+ qGWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=ufTAd0zJcjPqs9eeB6QTMDCrqFU873XSvjw2FEIRhPs=;
- b=tdn5fbwbcuNcb7YgEgkQV/5Lga+Ciduvke3MB5u8g5jGgE5M/pgMFhTqt6OAC6Qtka
- GDNv0MynroNzJKDc9OENZYxNP3vcUDj7poFgqndnAjT/eyhNs/7RKaGCVdJ+MAsRqBRK
- rpu7sJaM7tC/8g0ncaGKryv+M6Zpm8W1T65dtTO01o2RQ/AxfFz2VEZe2djzdcgdWoWS
- FLz1hN1Eb3f7i9ML4yZg8LXVji1vPvWIbbRV/ccMik4EgAAOgzcVLavTlMATfZdoRqP5
- M368PTvHDx28bjN2P8/p/9o4k5AfzMOJOYR9bfFDA86FA5nW7Q0CTh1g8SxINd5O3RrY
- oKDw==
-X-Gm-Message-State: AOAM53373r2ohJrcuGZWNApmf47guDLUry5suyglhvGtE79++SKffia5
- akWciZC6q58crCShpSB4S02U9BhM9q0=
-X-Google-Smtp-Source: ABdhPJxW7CF0/S7SIlaxzJ4miLtbcCMKoBzfy2QP55MjizWlXWxmbm2scMNQjao8jbo9S042bcTvBw==
-X-Received: by 2002:a37:9b0c:: with SMTP id d12mr32572949qke.389.1641236302784; 
- Mon, 03 Jan 2022 10:58:22 -0800 (PST)
+ bh=IX1wol99FbM8jubXumm+48lvRql3+Y4En+/fjD+aTr0=;
+ b=r9692E66sCVt8+NYDN09+c2/squL4uq1uj3ndmEVPyBPz8wyjGTUstEHuxK2Yxbq+Z
+ lD4hTdL5x03/oUx4+CnqYO8qGJtdZpBH6cJ363WNVgLQpDV3n3+PGaBKHt8ivWOeJE9A
+ acB1xYFXDTVNrFjez+A7u18O8FlsjCtYfmanj6/l3XGnDLjJnsA38IlHg28BrX7m34nx
+ iH/Uuzy/+LwZ4LlzbAZ7kI25pSBmhDOTJw5D2f2RzRU7lDlnmdl/zchq79vCd8S0sv6S
+ bjapqJZspgxmRGwgEPHuE8J8DbUNTujbgtDLDqPI92DirgGEZjg7LSTkPKD4n7EY43YM
+ Ka7Q==
+X-Gm-Message-State: AOAM532W0UHw3fTmnmOPyiZC3IU/3j70IUxzlhMFUatOXbMh6LQLFKOk
+ NOIE/MEN0mDqGX5pPA5T/DAL0AxcIvA=
+X-Google-Smtp-Source: ABdhPJw/ZKiwrqhXqn5ICyyH6amskSlujGCoYgr9DmfhIsNL+GYLIAYFXGxBpPMxT48dCFsh9xtoxA==
+X-Received: by 2002:a05:622a:1789:: with SMTP id
+ s9mr41921288qtk.604.1641236504780; 
+ Mon, 03 Jan 2022 11:01:44 -0800 (PST)
 Received: from ?IPV6:2804:431:c7c7:f4d8:aa07:335f:99e0:a6e7?
  ([2804:431:c7c7:f4d8:aa07:335f:99e0:a6e7])
- by smtp.gmail.com with ESMTPSA id bj30sm28446741qkb.58.2022.01.03.10.58.20
+ by smtp.gmail.com with ESMTPSA id c25sm29702267qkp.31.2022.01.03.11.01.42
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 03 Jan 2022 10:58:22 -0800 (PST)
-Message-ID: <91929906-0ade-51ce-295f-38cd68c519b9@gmail.com>
-Date: Mon, 3 Jan 2022 15:58:19 -0300
+ Mon, 03 Jan 2022 11:01:44 -0800 (PST)
+Message-ID: <e947fdf3-1aec-4257-d5dc-9765ad8e34e8@gmail.com>
+Date: Mon, 3 Jan 2022 16:01:41 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.4.0
-Subject: Re: [PATCH 00/17] ppc/pnv: enable pnv-phb4 user devices
+Subject: Re: [PATCH 03/17] pnv_phb3.h: change TYPE_PNV_PHB3_ROOT_BUS name
 Content-Language: en-US
 To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-devel@nongnu.org
 References: <20211228193806.1198496-1-danielhb413@gmail.com>
- <e62ca8df-25a2-222c-1ffe-12fc52a4a82f@kaod.org>
+ <20211228193806.1198496-4-danielhb413@gmail.com>
+ <49139a66-ea8b-b599-d7c4-e40597e558f3@kaod.org>
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <e62ca8df-25a2-222c-1ffe-12fc52a4a82f@kaod.org>
+In-Reply-To: <49139a66-ea8b-b599-d7c4-e40597e558f3@kaod.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::736
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::832
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::736;
- envelope-from=danielhb413@gmail.com; helo=mail-qk1-x736.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::832;
+ envelope-from=danielhb413@gmail.com; helo=mail-qt1-x832.google.com
 X-Spam_score_int: -24
 X-Spam_score: -2.5
 X-Spam_bar: --
@@ -96,35 +98,72 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 
-On 1/3/22 05:21, Cédric Le Goater wrote:
-> Hello Daniel,
-> 
+On 1/3/22 05:28, Cédric Le Goater wrote:
 > On 12/28/21 20:37, Daniel Henrique Barboza wrote:
->> Hi,
+>> The TYPE_PNV_PHB3_ROOT_BUS name is used as the default bus name when
+>> the dev has no 'id'. However, pnv-phb3-root-bus is a bit too long to be
+>> used as a bus name.
 >>
->> This series implements pnv-phb4 user devices for the powernv9 machine.
->> It also includes a couple of pnv-phb3 and pnv-phb3-root-port fixes that
->> were also applied for the pnv4 equivalents.
+>> Most common QEMU buses and PCI controllers are named based on their bus
+>> type (e.g. pSeries spapr-pci-host-bridge is called 'pci'). The most
+>> common name for a PCIE bus controller in QEMU is 'pcie'. Naming it
+>> 'pcie' would break the documented use of the pnv-phb3 device, since
+>> 'pcie.0' would now refer to the root bus instead of the first root port.
 >>
->> During the enablement I had to rollback from the previously added
->> support for user creatable pnv-phb4-pec devices. The most important
->> reason is user experience. PEC devices that doesn't spawn the PHB
->> devices will be just a placeholder to add PHBs, having no use of their
->> own as far as the user sees it. From this standpoint it makes more sense
->> to just create all PECs and attach the PHBs the user wants on them.
->> Patch 14 also describes technical reasons to rollback this support.
+>> There's nothing particularly wrong with the 'root-bus' name used before,
+>> aside from the fact that 'root-bus' is being used for pnv-phb3 and
+>> pnv-phb4 created buses, which is not quite correct since these buses
+>> aren't implemented the same way in QEMU - you can't plug a
+>> pnv-phb4-root-port into a pnv-phb3 root bus, for example.
 >>
->> The series is rebased using Cedric's 'powernv-6.2' branch [1]i, which
->> includes the '[PATCH 0/5] ppc/pnv: Preliminary cleanups before user
->> created PHBs' patches [2].
+>> This patch renames it as 'phb3-root', which is a compromise between the
+>> existing and the previously used name. Creating 3 phbs without ID will
+>> result in an "info qtree" output similar to this:
+>>
+>> bus: main-system-bus
+>>    type System
+>>    dev: pnv-phb3, id ""
+>>      index = 2 (0x2)
+>>      chip-id = 0 (0x0)
+>>      x-config-reg-migration-enabled = true
+>>      bypass-iommu = false
+>>      bus: phb3-root.2
+>>        type phb3-root
+>>    dev: pnv-phb3, id ""
+>>      index = 1 (0x1)
+>>      chip-id = 0 (0x0)
+>>      x-config-reg-migration-enabled = true
+>>      bypass-iommu = false
+>>      bus: phb3-root.1
+>>        type phb3-root
+>>    dev: pnv-phb3, id ""
+>>      index = 0 (0x0)
+>>      chip-id = 0 (0x0)
+>>      x-config-reg-migration-enabled = true
+>>      bypass-iommu = false
+>>      bus: phb3-root.0
+>>        type phb3-root
+>>
+>> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+>> ---
+>>   include/hw/pci-host/pnv_phb3.h | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/include/hw/pci-host/pnv_phb3.h b/include/hw/pci-host/pnv_phb3.h
+>> index 2e423c3890..658ee40e13 100644
+>> --- a/include/hw/pci-host/pnv_phb3.h
+>> +++ b/include/hw/pci-host/pnv_phb3.h
+>> @@ -105,7 +105,7 @@ struct PnvPBCQState {
+>>   /*
+>>    * PHB3 PCIe Root port
+>>    */
+>> -#define TYPE_PNV_PHB3_ROOT_BUS "pnv-phb3-root-bus"
+>> +#define TYPE_PNV_PHB3_ROOT_BUS "phb3-root"
 > 
-> It would be easier if you based the patchset on mainline. It's not
-> a problem to resend patches of another person or/and even rework
-> them to fit your needs.
+> hmm, what about "pnv-phb3-root" ? I like the 'pnv' prefix to identify
+> the machine.
 
-
-Sure, I'll send the v2 based on the mainline + the required patches.
-
+Works for me. I'll make the change in v2.
 
 Thanks,
 
@@ -132,7 +171,14 @@ Thanks,
 Daniel
 
 > 
+> 
 > Thanks,
 > 
 > C.
+> 
+> 
+> 
+>>   #define TYPE_PNV_PHB3_ROOT_PORT "pnv-phb3-root-port"
+>>
+> 
 
