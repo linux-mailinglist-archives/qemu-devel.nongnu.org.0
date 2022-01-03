@@ -2,60 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49FF3482F3D
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jan 2022 10:11:25 +0100 (CET)
-Received: from localhost ([::1]:60846 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2174482F3F
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jan 2022 10:11:29 +0100 (CET)
+Received: from localhost ([::1]:60810 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n4JNE-0001na-FL
-	for lists+qemu-devel@lfdr.de; Mon, 03 Jan 2022 04:11:24 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51428)
+	id 1n4JNH-0001mJ-Se
+	for lists+qemu-devel@lfdr.de; Mon, 03 Jan 2022 04:11:28 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51398)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1n4JKX-0008Nw-Mg; Mon, 03 Jan 2022 04:08:41 -0500
-Received: from szxga01-in.huawei.com ([45.249.212.187]:3516)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1n4JKU-0008N5-Dj; Mon, 03 Jan 2022 04:08:34 -0500
+Received: from smtpout3.mo529.mail-out.ovh.net ([46.105.54.81]:57037)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1n4JKU-0007mJ-Mv; Mon, 03 Jan 2022 04:08:37 -0500
-Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.57])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4JS8w00ZZszZcWc;
- Mon,  3 Jan 2022 17:05:04 +0800 (CST)
-Received: from [10.174.187.128] (10.174.187.128) by
- dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.1.2308.20; Mon, 3 Jan 2022 17:08:27 +0800
-Subject: Re: [PATCH v5 00/14] ARM virt: Introduce CPU clusters topology support
-To: <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>
-CC: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones
- <drjones@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>, Marcel Apfelbaum
- <marcel.apfelbaum@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>, "Michael S
- . Tsirkin" <mst@redhat.com>, Igor Mammedov <imammedo@redhat.com>, Shannon
- Zhao <shannon.zhaosl@gmail.com>, Ani Sinha <ani@anisinha.ca>, Markus
- Armbruster <armbru@redhat.com>, Eric Blake <eblake@redhat.com>,
- <wanghaibin.wang@huawei.com>
-References: <20211228092221.21068-1-wangyanan55@huawei.com>
-Message-ID: <7f2cc572-4ee8-2ce1-2824-311845d65021@huawei.com>
-Date: Mon, 3 Jan 2022 17:08:27 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1n4JKS-0007lj-3q; Mon, 03 Jan 2022 04:08:34 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.109.143.123])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 92A45D52889E;
+ Mon,  3 Jan 2022 10:08:29 +0100 (CET)
+Received: from kaod.org (37.59.142.105) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.17; Mon, 3 Jan
+ 2022 10:08:29 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-105G00672add0d4-c977-4037-9ff7-7f3262c01769,
+ 71ABFCEAB0EE88409933ED7B68EF8EFCD2601B88) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <2ee5ae64-3fec-9bf7-7c5d-010f90bdd379@kaod.org>
+Date: Mon, 3 Jan 2022 10:08:28 +0100
 MIME-Version: 1.0
-In-Reply-To: <20211228092221.21068-1-wangyanan55@huawei.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH 11/17] pnv_phb4_pec.c: use pnv_pec_get_phb_id() in
+ pnv_pec_dt_xscom()
 Content-Language: en-US
-X-Originating-IP: [10.174.187.128]
-X-ClientProxiedBy: dggeme702-chm.china.huawei.com (10.1.199.98) To
- dggpemm500023.china.huawei.com (7.185.36.83)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.187;
- envelope-from=wangyanan55@huawei.com; helo=szxga01-in.huawei.com
-X-Spam_score_int: -56
-X-Spam_score: -5.7
-X-Spam_bar: -----
-X-Spam_report: (-5.7 / 5.0 requ) NICE_REPLY_A=-3.354, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+To: Daniel Henrique Barboza <danielhb413@gmail.com>, <qemu-devel@nongnu.org>
+References: <20211228193806.1198496-1-danielhb413@gmail.com>
+ <20211228193806.1198496-12-danielhb413@gmail.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20211228193806.1198496-12-danielhb413@gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.105]
+X-ClientProxiedBy: DAG5EX2.mxp5.local (172.16.2.42) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 6a30e3b5-9307-406f-9980-198381a4dc82
+X-Ovh-Tracer-Id: 13622544450947484640
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrudefudcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeigedvffekgeeftedutddttdevudeihfegudffkeeitdekkeetkefhffelveelleenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopegurghvihgusehgihgsshhonhdrughrohhpsggvrghrrdhiugdrrghu
+Received-SPF: pass client-ip=46.105.54.81; envelope-from=clg@kaod.org;
+ helo=smtpout3.mo529.mail-out.ovh.net
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) NICE_REPLY_A=-3.354, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -68,121 +70,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-ppc@nongnu.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  "wangyanan (Y)" <wangyanan55@huawei.com>
-From:  "wangyanan (Y)" via <qemu-devel@nongnu.org>
 
-The rest ARM & ACPI part (patches 8-14) have been packed into v6:
-v6: https://patchew.org/QEMU/20220103084636.2496-1-wangyanan55@huawei.com/
+On 12/28/21 20:38, Daniel Henrique Barboza wrote:
+> Relying on stack->phb to write the xscom DT of the PEC is something that
+> we won't be able to do with user creatable pnv-phb4 devices.
+> 
+> Hopefully, this can be done by using pnv_pec_get_phb_id(), which is
+> already used by pnv_pec_realize() to set the phb-id of the stack. Use
+> the same idea in pnv_pec_dt_xscom() to write ibm,phb-index without the
+> need to accessing stack->phb, since stack->phb is not granted to be !=
+> NULL when user creatable phbs are introduced.
+> 
+> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
+
+Couldn't we do that already without the previous change ?
 
 Thanks,
-Yanan
 
-On 2021/12/28 17:22, Yanan Wang wrote:
-> Hi,
->
-> This series introduces the new CPU clusters topology parameter
-> and enable the support for it on ARM virt machines.
->
-> Background and descriptions:
-> The new Cluster-Aware Scheduling support has landed in Linux 5.16,
-> which has been proved to benefit the scheduling performance (e.g.
-> load balance and wake_affine strategy) for both x86_64 and AArch64.
-> We can see the PR [1] or the actual patch series [2] for reference.
->
-> So since Linux 5.16 we have four-level arch-neutral CPU topology
-> definition like below and a new scheduler level for clusters.
-> struct cpu_topology {
->      int thread_id;
->      int core_id;
->      int cluster_id;
->      int package_id;
->      int llc_id;
->      cpumask_t thread_sibling;
->      cpumask_t core_sibling;
->      cpumask_t cluster_sibling;
->      cpumask_t llc_sibling;
-> }
->
-> A cluster generally means a group of CPU cores which share L2 cache
-> or other mid-level resources, and it is the shared resources that
-> is used to improve scheduler's behavior. From the point of view of
-> the size range, it's between CPU die and CPU core. For example, on
-> some ARM64 Kunpeng servers, we have 6 clusters in each NUMA node,
-> and 4 CPU cores in each cluster. The 4 CPU cores share a separate
-> L2 cache and a L3 cache tag, which brings cache affinity advantage.
->
-> [1] https://lore.kernel.org/lkml/163572864855.3357115.17938524897008353101.tglx@xen13/
-> [2] https://lkml.org/lkml/2021/9/24/178
->
-> In virtualization, on the Hosts which have pClusters, if we can
-> design a vCPU topology with cluster level for guest kernel and
-> have a dedicated vCPU pinning. A Cluster-Aware Guest kernel can
-> also make use of the cache affinity of CPU clusters to gain
-> similar scheduling performance. So this series introduce clusters
-> support in the vCPU topology on ARM virt machines.
->
-> The patches are arranged mainly in two parts:
-> The first part (patch 1-7):
-> - Implement infrastructure for CPU cluster level topology support,
->    including the SMP documentation, configuration and parsing,
->    adding testcases for clusters.
->
-> The second part (part 8-14):
-> - Enable CPU cluster support on ARM virt machines, so that users
->    can specify a 4-level CPU hierarchy sockets/clusters/cores/threads.
->    And the 4-level topology will be described to guest kernel through
->    ACPI PPTT and DT cpu-map.
->
-> Changelog:
-> v3->v4:
-> - Significant change from v3 to v4, since the whole series is reworked
->    based on latest QEMU SMP frame.
-> - v3: https://patchew.org/QEMU/20210516103228.37792-1-wangyanan55@huawei.com/
->
-> v4->v5:
-> - newly added patches 4-7
-> - rebased on Philippe series: "tests/unit: Rework test-smp-parse tests"
->    https://patchew.org/QEMU/20211216132015.815493-1-philmd@redhat.com/
-> - v4: https://patchew.org/QEMU/20211121122502.9844-1-wangyanan55@huawei.com/
->
-> Yanan Wang (14):
->    qemu-options: Improve readability of SMP related Docs
->    hw/core/machine: Introduce CPU cluster topology support
->    hw/core/machine: Wrap target specific parameters together
->    tests/unit/test-smp-parse: Add testcases for CPU clusters
->    tests/unit/test-smp-parse: No need to explicitly zero MachineClass
->      members
->    tests/unit/test-smp-parse: Keep default MIN/MAX CPUs in
->      machine_base_class_init
->    MAINTAINERS: Self-recommended as reviewer of "Machine core"
->    hw/arm/virt: Support clusters on ARM virt machines
->    hw/arm/virt: Support cluster level in DT cpu-map
->    hw/acpi/aml-build: Improve scalability of PPTT generation
->    hw/arm/virt-acpi-build: Make an ARM specific PPTT generator
->    tests/acpi/bios-tables-test: Allow changes to virt/PPTT file
->    hw/arm/virt-acpi-build: Support cluster level in PPTT generation
->    tests/acpi/bios-table-test: Update expected virt/PPTT file
->
->   MAINTAINERS                 |   1 +
->   hw/acpi/aml-build.c         |  66 +----------------
->   hw/arm/virt-acpi-build.c    |  92 +++++++++++++++++++++++-
->   hw/arm/virt.c               |  16 +++--
->   hw/core/machine-smp.c       |  29 ++++++--
->   hw/core/machine.c           |   3 +
->   include/hw/acpi/aml-build.h |   5 +-
->   include/hw/boards.h         |   6 +-
->   qapi/machine.json           |   5 +-
->   qemu-options.hx             |  91 ++++++++++++++++++-----
->   softmmu/vl.c                |   3 +
->   tests/data/acpi/virt/PPTT   | Bin 76 -> 96 bytes
->   tests/unit/test-smp-parse.c | 140 ++++++++++++++++++++++++++++++------
->   13 files changed, 332 insertions(+), 125 deletions(-)
->
-> --
-> 2.27.0
->
-> .
+C.
+
+
+> ---
+>   hw/pci-host/pnv_phb4_pec.c | 5 ++---
+>   1 file changed, 2 insertions(+), 3 deletions(-)
+> 
+> diff --git a/hw/pci-host/pnv_phb4_pec.c b/hw/pci-host/pnv_phb4_pec.c
+> index 4f6db26633..56ffd446ab 100644
+> --- a/hw/pci-host/pnv_phb4_pec.c
+> +++ b/hw/pci-host/pnv_phb4_pec.c
+> @@ -466,8 +466,7 @@ static int pnv_pec_dt_xscom(PnvXScomInterface *dev, void *fdt,
+>                         pecc->compat_size)));
+>   
+>       for (i = 0; i < pec->num_stacks; i++) {
+> -        PnvPhb4PecStack *stack = &pec->stacks[i];
+> -        PnvPHB4 *phb = &stack->phb;
+> +        int phb_id =  pnv_pec_get_phb_id(pec, i);
+>           int stk_offset;
+>   
+>           name = g_strdup_printf("stack@%x", i);
+> @@ -477,7 +476,7 @@ static int pnv_pec_dt_xscom(PnvXScomInterface *dev, void *fdt,
+>           _FDT((fdt_setprop(fdt, stk_offset, "compatible", pecc->stk_compat,
+>                             pecc->stk_compat_size)));
+>           _FDT((fdt_setprop_cell(fdt, stk_offset, "reg", i)));
+> -        _FDT((fdt_setprop_cell(fdt, stk_offset, "ibm,phb-index", phb->phb_id)));
+> +        _FDT((fdt_setprop_cell(fdt, stk_offset, "ibm,phb-index", phb_id)));
+>       }
+>   
+>       return 0;
+> 
 
 
