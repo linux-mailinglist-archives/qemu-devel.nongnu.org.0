@@ -2,94 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 030B3483818
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jan 2022 21:53:19 +0100 (CET)
-Received: from localhost ([::1]:37548 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69EE948381D
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jan 2022 21:57:49 +0100 (CET)
+Received: from localhost ([::1]:39956 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n4UKU-0004fI-55
-	for lists+qemu-devel@lfdr.de; Mon, 03 Jan 2022 15:53:18 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46916)
+	id 1n4UOq-0006Uy-Hs
+	for lists+qemu-devel@lfdr.de; Mon, 03 Jan 2022 15:57:48 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48258)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1n4UJc-0003xa-M3
- for qemu-devel@nongnu.org; Mon, 03 Jan 2022 15:52:24 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35240)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1n4UJY-0001xv-8B
- for qemu-devel@nongnu.org; Mon, 03 Jan 2022 15:52:23 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641243138;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ABU3XNj2HJ7n7M9kme8C3z7FRWvYadGdaNCEPuF0wM8=;
- b=YEu9qnqCHQoY1wwe9btXBBYCgXmHB6qdmRc2lQCwhuMzNxkD5q1MtC6rI4SQN//nLQ6t3N
- 9LsXA7lYsnmHLIWmaaINe4VpXjbw2Lbm0eWQxYYEcvc/ocAiEylzeSCREebEIvvDo7M4uY
- E92g9DGyyzfam6JNlu7wOiEbT3TknUI=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-202-9vTUfndbPyKu97sChjt7bA-1; Mon, 03 Jan 2022 15:52:17 -0500
-X-MC-Unique: 9vTUfndbPyKu97sChjt7bA-1
-Received: by mail-wr1-f72.google.com with SMTP id
- w25-20020adf8bd9000000b001a255212b7cso10663769wra.18
- for <qemu-devel@nongnu.org>; Mon, 03 Jan 2022 12:52:17 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1n4UNz-0005nt-Az
+ for qemu-devel@nongnu.org; Mon, 03 Jan 2022 15:56:55 -0500
+Received: from [2a00:1450:4864:20::42a] (port=37397
+ helo=mail-wr1-x42a.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1n4UNx-0002rN-DQ
+ for qemu-devel@nongnu.org; Mon, 03 Jan 2022 15:56:55 -0500
+Received: by mail-wr1-x42a.google.com with SMTP id t26so72029800wrb.4
+ for <qemu-devel@nongnu.org>; Mon, 03 Jan 2022 12:56:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=YOGPTCqsGe0RvAC1N3hJM5+buBZxUjuBMLPC7Y8VPYw=;
+ b=GrqDKXHOUI+bwyvi23QbCvxoboH8F14XY2goZpl/WkrfACnRX2WhJgOWhVO19UtjQz
+ zgSa6tl83aFb7nPmGcjaOSHdNnD2bjHKJFJGwr9pDsfMa3TVvjULqRXMv8FXORgaT+UC
+ WwyR677GWTVdAlbmX3ZgHphyUoUr4I6NLEDYihvN07CG3joumClo25JTmj6DtZDqIFhN
+ rNsPiK1kX2Le+45LlWIHnmzfLMdE24KjjAFvcFKSyPTqxeHQYXdG4i5q86XdwH2UdLEg
+ 4+y8ay9TAZxhvMkHTuDMmvp+YfOIXMf0Wz1ge7mA1TUBygHJO8qPtNeYwQD0AUXCGpOD
+ ha/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:references:from:in-reply-to
  :content-transfer-encoding;
- bh=ABU3XNj2HJ7n7M9kme8C3z7FRWvYadGdaNCEPuF0wM8=;
- b=LF+SMIULXVDvF+CnpVDVrx6kN1nHz7b5Bc9FrerI01zCfaql5axuEibW9Mfx0al/HL
- KGxJdY0sTvBMjVsE6th/Z2n1mqIK+mbjnK4vjC/skhd+ixnpvUP0GQOOfnauZKqWfYCQ
- jzaGVuX4I86Z6oz9pFs/hbOtyIyXRXlnKvTtwbu1PF0eaeQNVS8GRr2NK+6ULBu9rI5X
- bdi2FJeHlXQCwLh5r9owcgT696dkQdxHQuRc9W+eLtet4Yoa5knhWw9o2KBz0qIyUoJd
- HYO3X8bqcUbG92pcsuZLE2CDk5aMNUb0ci5NA0ypfsAuqHZ7H0mHBrFL41xb6+lIAqKE
- EMdg==
-X-Gm-Message-State: AOAM531g2pEOemW75mfpw+/xWUr9vRjt7WV/sK8ffH0MuLXMYfEZjb6w
- G7QBeV3zLu6zfM6fG8e4tZS0BND5HLFyvip6b0khtHPgJV19BHh7dH2ILT7JC1A670KL4Gpc8By
- 1bzZ2/Gy37fu/jc4=
-X-Received: by 2002:a05:6000:124a:: with SMTP id
- j10mr39181612wrx.110.1641243136509; 
- Mon, 03 Jan 2022 12:52:16 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJziA/OILY4en/D6/Bj9e6A2hrbVBEtHW2n7oKR0+Jg/T62ae0WoTn7QB020jQIOW/44OTKD8g==
-X-Received: by 2002:a05:6000:124a:: with SMTP id
- j10mr39181598wrx.110.1641243136312; 
- Mon, 03 Jan 2022 12:52:16 -0800 (PST)
-Received: from [192.168.8.100] (tmo-098-68.customers.d1-online.com.
- [80.187.98.68])
- by smtp.gmail.com with ESMTPSA id c13sm35040262wrt.114.2022.01.03.12.52.15
+ bh=YOGPTCqsGe0RvAC1N3hJM5+buBZxUjuBMLPC7Y8VPYw=;
+ b=4hnySfTLcbo1R5kP09bSlTggoGO6unRSuDpianIf9i+ZJvzbJzXQReINvYJLzJDfTk
+ qVULtxniYV0Re+pY6oK5bL5c/dd1VFG0nLkBMRZj0yuWr9juplsk9+fH5zijMbFAzJk3
+ GyG4xgSZtvZ1x4EeUlcbQ4s+0R/RVP9Ym5K0Ja8jIpTdQlScpPUupfA9DiTPclMxBIlo
+ soQyFTVO73wkSoI59vmOgRy/3h2l+ceAtxLF2miwA+8shINo7z8evTB39cqksCR/i3G8
+ ZWslOa3RQsd73GyrkWeP3RN6/VqemVyPFHsVcp1dW3SFhhlEnF1hC5Q0eo44jd0IfBa/
+ P1cw==
+X-Gm-Message-State: AOAM530DeSWAwJyRh+enbxFgMJWk84ElkhdUFVy4gLN5xkgdPqd/i/oy
+ +T55RskuPoLmovjN3pms+aw=
+X-Google-Smtp-Source: ABdhPJzQFXdkzQqXG8UCUwJnfE2UuHWMhFZqjg9opHIZwhOeP/VbpwepoDgtdeREDAUNJ0HoGwC8oQ==
+X-Received: by 2002:adf:df8f:: with SMTP id z15mr31552886wrl.413.1641243411893; 
+ Mon, 03 Jan 2022 12:56:51 -0800 (PST)
+Received: from [192.168.1.37] (26.red-83-50-86.dynamicip.rima-tde.net.
+ [83.50.86.26])
+ by smtp.gmail.com with ESMTPSA id l26sm35324243wrz.44.2022.01.03.12.56.50
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 03 Jan 2022 12:52:15 -0800 (PST)
-Message-ID: <a051554a-cd93-dc87-33ad-d3fd15142af2@redhat.com>
-Date: Mon, 3 Jan 2022 21:52:14 +0100
+ Mon, 03 Jan 2022 12:56:51 -0800 (PST)
+Message-ID: <ca12e6d4-f439-4ee7-b4b2-6e72bd4922db@amsat.org>
+Date: Mon, 3 Jan 2022 21:56:50 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PULL v2 20/36] docs/sphinx: add sphinx modules to include D-Bus
- documentation
-To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
-References: <20211221065855.142578-1-marcandre.lureau@redhat.com>
- <20211221065855.142578-21-marcandre.lureau@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20211221065855.142578-21-marcandre.lureau@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.4.1
+Subject: Re: [PATCH] FreeBSD: Upgrade to 12.3 release
 Content-Language: en-US
+To: Brad Smith <brad@comstyle.com>, qemu-devel@nongnu.org,
+ Thomas Huth <thuth@redhat.com>,
+ WainerdosSantosMoschetta@humpty.home.comstyle.com,
+ Beraldo Leal <bleal@redhat.com>, Alex Benn_e <alex.bennee@linaro.org>
+References: <YdNgg/FI6LdYmDJ5@humpty.home.comstyle.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+In-Reply-To: <YdNgg/FI6LdYmDJ5@humpty.home.comstyle.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -45
-X-Spam_score: -4.6
-X-Spam_bar: ----
-X-Spam_report: (-4.6 / 5.0 requ) DKIMWL_WL_HIGH=-0.37, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.354,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42a
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42a.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-3.354,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,73 +95,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, richard.henderson@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 21/12/2021 07.58, marcandre.lureau@redhat.com wrote:
-> From: Marc-André Lureau <marcandre.lureau@redhat.com>
-> 
-> Add a new dbus-doc directive to import D-Bus interfaces documentation
-> from the introspection XML. The comments annotations follow the
-> gtkdoc/kerneldoc style, and should be formatted with reST.
-> 
-> Note: I realize after the fact that I was implementing those modules
-> with sphinx 4, and that we have much lower requirements. Instead of
-> lowering the features and code (removing type annotations etc), let's
-> have a warning in the documentation when the D-Bus modules can't be
-> used, and point to the source XML file in that case.
-> 
-> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-> Acked-by: Gerd Hoffmann <kraxel@redhat.com>
+On 3/1/22 21:45, Brad Smith wrote:
+> FreeBSD: Upgrade to 12.3 release
+
+Maybe some mention like:
+
+'''
+Note, since libasn1 got fixed in 12.3 [*], this commit re-enables GNUTLS.
+
+[*]
+https://gitlab.com/gnutls/libtasn1/-/merge_requests/71
+'''
+
+> Signed-off-by: Brad Smith <brad@comstyle.com>
+> Tested-by: Thomas Huth <thuth@redhat.com>
 > ---
->   docs/conf.py               |   8 +
->   docs/sphinx/dbusdoc.py     | 166 +++++++++++++++
->   docs/sphinx/dbusdomain.py  | 406 +++++++++++++++++++++++++++++++++++++
->   docs/sphinx/dbusparser.py  | 373 ++++++++++++++++++++++++++++++++++
->   docs/sphinx/fakedbusdoc.py |  25 +++
->   5 files changed, 978 insertions(+)
->   create mode 100644 docs/sphinx/dbusdoc.py
->   create mode 100644 docs/sphinx/dbusdomain.py
->   create mode 100644 docs/sphinx/dbusparser.py
->   create mode 100644 docs/sphinx/fakedbusdoc.py
+>   .gitlab-ci.d/cirrus.yml | 5 +----
+>   tests/vm/freebsd        | 8 +++-----
+>   2 files changed, 4 insertions(+), 9 deletions(-)
 > 
-> diff --git a/docs/conf.py b/docs/conf.py
-> index 763e7d243448..e79015975e6a 100644
-> --- a/docs/conf.py
-> +++ b/docs/conf.py
-> @@ -73,6 +73,12 @@
->   # ones.
->   extensions = ['kerneldoc', 'qmp_lexer', 'hxtool', 'depfile', 'qapidoc']
+> diff --git a/.gitlab-ci.d/cirrus.yml b/.gitlab-ci.d/cirrus.yml
+> index d273a9e713..18ded37c77 100644
+> --- a/.gitlab-ci.d/cirrus.yml
+> +++ b/.gitlab-ci.d/cirrus.yml
+> @@ -52,14 +52,11 @@ x64-freebsd-12-build:
+>       NAME: freebsd-12
+>       CIRRUS_VM_INSTANCE_TYPE: freebsd_instance
+>       CIRRUS_VM_IMAGE_SELECTOR: image_family
+> -    CIRRUS_VM_IMAGE_NAME: freebsd-12-2
+> +    CIRRUS_VM_IMAGE_NAME: freebsd-12-3
+>       CIRRUS_VM_CPUS: 8
+>       CIRRUS_VM_RAM: 8G
+>       UPDATE_COMMAND: pkg update
+>       INSTALL_COMMAND: pkg install -y
+> -    # TODO: Enable gnutls again once FreeBSD's libtasn1 got fixed
+> -    # See: https://gitlab.com/gnutls/libtasn1/-/merge_requests/71
+> -    CONFIGURE_ARGS: --disable-gnutls
+>       TEST_TARGETS: check
 >   
-> +if sphinx.version_info[:3] > (4, 0, 0):
-> +    tags.add('sphinx4')
-> +    extensions += ['dbusdoc']
-> +else:
-> +    extensions += ['fakedbusdoc']
-> +
->   # Add any paths that contain templates here, relative to this directory.
->   templates_path = [os.path.join(qemu_docdir, '_templates')]
+>   x64-freebsd-13-build:
+> diff --git a/tests/vm/freebsd b/tests/vm/freebsd
+> index 6e20e84322..805db759d6 100755
+> --- a/tests/vm/freebsd
+> +++ b/tests/vm/freebsd
+> @@ -28,8 +28,8 @@ class FreeBSDVM(basevm.BaseVM):
+>       name = "freebsd"
+>       arch = "x86_64"
+>   https://gitlab.com/gnutls/libtasn1/-/merge_requests/71
+> -    link = "https://download.freebsd.org/ftp/releases/ISO-IMAGES/12.2/FreeBSD-12.2-RELEASE-amd64-disc1.iso.xz"
+> -    csum = "a4530246cafbf1dd42a9bd3ea441ca9a78a6a0cd070278cbdf63f3a6f803ecae"
+> +    link = "https://download.freebsd.org/ftp/releases/ISO-IMAGES/12.3/FreeBSD-12.3-RELEASE-amd64-disc1.iso.xz"
+> +    csum = "36dd0de50f1fe5f0a88e181e94657656de26fb64254412f74e80e128e8b938b4"
+>       size = "20G"
+>       pkgs = [
+>           # build tools
+> @@ -65,8 +65,6 @@ class FreeBSDVM(basevm.BaseVM):
+>           "zstd",
+>       ]
 >   
-> @@ -311,3 +317,5 @@
->   kerneldoc_srctree = os.path.join(qemu_docdir, '..')
->   hxtool_srctree = os.path.join(qemu_docdir, '..')
->   qapidoc_srctree = os.path.join(qemu_docdir, '..')
-> +dbusdoc_srctree = os.path.join(qemu_docdir, '..')
-> +dbus_index_common_prefix = ["org.qemu."]
-
-This does not work with my version of Sphinx (v 1.7.6):
-
-Program sphinx-build-3 found: YES (/usr/bin/sphinx-build-3)
-../../home/thuth/devel/qemu/docs/meson.build:30: WARNING: 
-/usr/bin/sphinx-build-3:
-Extension error:
-Could not import extension fakedbusdoc (exception: cannot import name 
-'SphinxDirective')
-
-Any ideas how to fix it?
-
-  Thomas
-
+> -    # TODO: Enable gnutls again once FreeBSD's libtasn1 got fixed
+> -    # See: https://gitlab.com/gnutls/libtasn1/-/merge_requests/71
+>       BUILD_SCRIPT = """
+>           set -e;
+>           rm -rf /home/qemu/qemu-test.*
+> @@ -74,7 +72,7 @@ class FreeBSDVM(basevm.BaseVM):
+>           mkdir src build; cd src;
+>           tar -xf /dev/vtbd1;
+>           cd ../build
+> -        ../src/configure --python=python3.7 --disable-gnutls {configure_opts};
+> +        ../src/configure --python=python3.7 {configure_opts};
+>           gmake --output-sync -j{jobs} {target} {verbose};
+>       """
+>   
 
 
