@@ -2,65 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83F2A4838C5
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jan 2022 23:19:01 +0100 (CET)
-Received: from localhost ([::1]:35448 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89B834838D6
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jan 2022 23:47:49 +0100 (CET)
+Received: from localhost ([::1]:42314 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n4VfQ-0005Tu-MB
-	for lists+qemu-devel@lfdr.de; Mon, 03 Jan 2022 17:19:00 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42080)
+	id 1n4W7H-0003FI-EZ
+	for lists+qemu-devel@lfdr.de; Mon, 03 Jan 2022 17:47:48 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48010)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n4Ve5-00044l-R6
- for qemu-devel@nongnu.org; Mon, 03 Jan 2022 17:17:37 -0500
-Received: from mout.kundenserver.de ([212.227.17.13]:34063)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n4Ve2-00082v-Ho
- for qemu-devel@nongnu.org; Mon, 03 Jan 2022 17:17:37 -0500
-Received: from [192.168.100.1] ([82.142.30.62]) by mrelayeu.kundenserver.de
- (mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1N7AAk-1mLQtE09r2-017YHF; Mon, 03 Jan 2022 23:17:32 +0100
-Message-ID: <66c90d94-ca29-2ba3-3b17-4a7a58f1d296@vivier.eu>
-Date: Mon, 3 Jan 2022 23:17:31 +0100
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1n4W5e-0002Jj-M5; Mon, 03 Jan 2022 17:46:06 -0500
+Received: from [2607:f8b0:4864:20::633] (port=41941
+ helo=mail-pl1-x633.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1n4W5c-00010d-LM; Mon, 03 Jan 2022 17:46:06 -0500
+Received: by mail-pl1-x633.google.com with SMTP id z3so25769886plg.8;
+ Mon, 03 Jan 2022 14:46:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=tjNJsYq6Ik1+zt7rNqdAmOW7gqrU3dk/2owcMcG94pA=;
+ b=DHxrodr/0CqkaomuwZFyPtVIwNmuDg5cDcSMnOXTEn/xX9YbHy7bfsZ5n0taiG7vIP
+ JAwGJ143/ICWU0Inylh9DFTjbcytbdaEI/AVerNd0qbb2DZjuBgsGlnegtbgBlv6okDr
+ jNvuWzwPuT6dSsT+oU7IRImpL2FxwYFSOJULwwWw/DVlaI9sudrI3sQcNqEXUwoMLT76
+ cMlo/U94sFm1EJoBH7PoPLo1dv3HnyMNIz9kFZRLJjq9g5kzD3a1c+S1MvClEi6CYQT2
+ Py9CZ8F9xtqGaM2a/QSZoDYFzTTleBuQlSJQd+FTF07ZZFWDMp7OiJoA7c8su8Tna5dY
+ V/zQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=tjNJsYq6Ik1+zt7rNqdAmOW7gqrU3dk/2owcMcG94pA=;
+ b=HMk5TDkKqb5UwbdBEqdNmT/IDiC0oSE5qLOIgGBmCZsQrnzpRbZapwj4vL6qsbRNiY
+ pfAy/M6i+ST0URKCaP2IHZphbcTAlx58RSvSV19BAhYd5tvzn0k8NsJ7C/475L71ZcGQ
+ 9qRV9oRB2Ym31VOud9AmgLNLfLPv6V8JTscjBcpBvbN5H/2d6Z3M1fcolSPrcLG7tn8G
+ L0PePXAWrtfV0u3Z9yzar+JmNV93FB9lUq3IIsZ06Y4wmBQiScm7lc5OmSr2RInY2gic
+ xIS3RqeHtoTfbXk8ZTgkDYTDphNuMwVEzcA0iLajy5nZLKunI+rTt8ru//xFvrqE8oux
+ kKlw==
+X-Gm-Message-State: AOAM5325YsL8AE3npYVZNwcgr012un5PJ4Ym2EYhrHBndOAjjC6kwlg9
+ f6RpCcrbg5hAXbcqQfmm9KRmxw05qBUNlN2Xmw8=
+X-Google-Smtp-Source: ABdhPJzXiG5vewNeYUvUqy2VAuofPkaTfIiQ0jH0xrbugulsJA4LPw2TH16jNpAHthUm3LEeyUnajA//F4LQiUfjT2o=
+X-Received: by 2002:a17:902:8544:b0:142:66e7:afbb with SMTP id
+ d4-20020a170902854400b0014266e7afbbmr46887359plo.62.1641249962441; Mon, 03
+ Jan 2022 14:46:02 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Content-Language: fr
-To: =?UTF-8?Q?T=c3=b5nis_Tiigi?= <tonistiigi@gmail.com>
-References: <20211223064728.18048-1-tonistiigi@gmail.com>
- <20211223064728.18048-2-tonistiigi@gmail.com>
- <e506a0b4-2505-d136-53f8-c1bcafc204a1@vivier.eu>
- <CABn_tOmPjctnJU465R1b4ykRvryidj56rGeMKnaLJ+H3WAt8aw@mail.gmail.com>
- <CABn_tOn3aqXwPx2q173BEOTUoBjTtDLYuF34kf4mHbeAG+6+NQ@mail.gmail.com>
- <75604d1b-8cd1-b984-bcfe-c7c7d8d10728@vivier.eu>
- <CABn_tOnQTgTu3XUyvKWiKgm53ep_NiL=qz6qQcp2vjT7y6rsgQ@mail.gmail.com>
-From: Laurent Vivier <laurent@vivier.eu>
-Subject: Re: [PATCH v3 1/2] linux-user: add sched_getattr support
-In-Reply-To: <CABn_tOnQTgTu3XUyvKWiKgm53ep_NiL=qz6qQcp2vjT7y6rsgQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:MSGrRVfmdKwAm1nLtHnjTdNx9SfpJkgIj/HnegRkSNG58eUjUAY
- rHq89+ABsVvjVa7SHNwl+QGbETZf1vMHNy6eYwHVh/nJwCoi6Q5fxYSkqLpi/8xYtPU4c3N
- 5Cs6nIgR0rMb3km73cWA6qNc7kuUZSZXU+uaRl/zifFwyYDkujMy0tdSm1AiUjCmYC4MK14
- PYnECoav68nyISkfTnJiQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:PSIIrqLU6Zg=:HhOZ/lSbTsG13wLgKi2zED
- g8YGcERLG0La/1+7kWuwGCvf7LpUCB4fVdgvcT1yXa+cVeQKpz/jvyLhk1fyWBGV58OOboo1i
- 7drsHTi+hqM47u/QNiWh2pVrIOnKPrESaE4zRw0VqS58eRmr1mgajVbXKfnRDmOTtiPSZ4Cao
- o53jgSzUnlMNQEYS06JadgyWnawqS3l7eJ0O8MAcjJpBX7PQ4u26/AeF61KKouCb78joS3QlH
- dbki4+WTj+X/dl6MC+vE1pVzotYr04ZpRLxjznzYWx9o4szYOC9QJCwCDPJvUxGjVO1UrQxkV
- ubcPlROw+BNrVA2ySD0RTbkKN8mGj9Zyi8dnZlzcC7vCKmiAN/7vLbOWmozZw0Q47fsWNjYfb
- kilBeejR4bMqtP67qZFjQkJJDkr8T8FAINBrfh0QtyzfN+Mv8bpZfF8uNmtUx4O6eEng/HZW4
- 7iOo319h0H6HTToUlhuM3D2c6zeIV+sWsIJ8YcHE/C4Ilz+C22oAjXjHuROHAR4WyOA/A7U4Y
- EFaytdfea4Ab5aHjS4Nt8ecGISlw83twJ61xUxu4UfNj4pmV3mah/wOFqfgf2NOAACRlVuOaa
- VL+Pxz1ie445UW4EjV/3D1doWf7hKValJgSyqlrPLXV3ccFFa4P1OQ/b1Jo6Jf4ycA3JixKD4
- pwbQ9UKxCswerZRpcMJfzDEYwmvGILycDS/DgALu6TuxSHiJc6BX/d7ASqROD25Xfl3M=
-Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) NICE_REPLY_A=-3.354, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=unavailable autolearn_force=no
+References: <20211228005236.415583-1-jim.shu@sifive.com>
+ <20211228005236.415583-2-jim.shu@sifive.com>
+In-Reply-To: <20211228005236.415583-2-jim.shu@sifive.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Tue, 4 Jan 2022 08:45:35 +1000
+Message-ID: <CAKmqyKOrRmVSH9a_-PeNSGcAjjJG-nB0VMS+jLCG9w4AsxATBQ@mail.gmail.com>
+Subject: Re: [PATCH 1/2] hw/dma: sifive_pdma: support high 32-bit access of
+ 64-bit register
+To: Jim Shu <jim.shu@sifive.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::633
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
+ envelope-from=alistair23@gmail.com; helo=mail-pl1-x633.google.com
+X-Spam_score_int: 8
+X-Spam_score: 0.8
+X-Spam_bar: /
+X-Spam_report: (0.8 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_ENVFROM_END_DIGIT=0.25,
+ FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -73,201 +80,320 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Frank Chang <frank.chang@sifive.com>, Bin Meng <bin.meng@windriver.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 03/01/2022 à 20:31, Tõnis Tiigi a écrit :
-> On Mon, Jan 3, 2022 at 10:37 AM Laurent Vivier <laurent@vivier.eu> wrote:
->>
->> Le 03/01/2022 à 18:07, Tõnis Tiigi a écrit :
->>> Ping Laurent. Any suggestions for the follow-up questions?
->>>
->>> On Thu, Dec 23, 2021 at 3:00 PM Tõnis Tiigi <tonistiigi@gmail.com> wrote:
->>>>
->>>> On Thu, Dec 23, 2021 at 1:03 PM Laurent Vivier <laurent@vivier.eu> wrote:
->>>>>
->>>>> Le 23/12/2021 à 07:47, Tonis Tiigi a écrit :
->>>>>
->>>>> Please copy here what you explain in PATCH 0 regarding this patch.
->>>>> (do the same for PATCH 1)
->>>>>
->>>>>> Signed-off-by: Tonis Tiigi <tonistiigi@gmail.com>
->>>>>> ---
->>>>>>     linux-user/syscall.c      | 94 +++++++++++++++++++++++++++++++++++++++
->>>>>>     linux-user/syscall_defs.h | 14 ++++++
->>>>>>     2 files changed, 108 insertions(+)
->>>>>>
->>>>>> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
->>>>>> index f1cfcc8104..2f5a0fac5a 100644
->>>>>> --- a/linux-user/syscall.c
->>>>>> +++ b/linux-user/syscall.c
->>>>>> @@ -339,6 +339,12 @@ _syscall3(int, sys_sched_getaffinity, pid_t, pid, unsigned int, len,
->>>>>>     #define __NR_sys_sched_setaffinity __NR_sched_setaffinity
->>>>>>     _syscall3(int, sys_sched_setaffinity, pid_t, pid, unsigned int, len,
->>>>>>               unsigned long *, user_mask_ptr);
->>>>>> +#define __NR_sys_sched_getattr __NR_sched_getattr
->>>>>> +_syscall4(int, sys_sched_getattr, pid_t, pid, struct target_sched_attr *, attr,
->>>>>> +          unsigned int, size, unsigned int, flags);
->>>>>> +#define __NR_sys_sched_setattr __NR_sched_setattr
->>>>>> +_syscall3(int, sys_sched_setattr, pid_t, pid, struct target_sched_attr *, attr,
->>>>>> +          unsigned int, flags);
->>>>>>     #define __NR_sys_getcpu __NR_getcpu
->>>>>>     _syscall3(int, sys_getcpu, unsigned *, cpu, unsigned *, node, void *, tcache);
->>>>>>     _syscall4(int, reboot, int, magic1, int, magic2, unsigned int, cmd,
->>>>>> @@ -10593,6 +10599,94 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
->>>>>>             }
->>>>>>         case TARGET_NR_sched_getscheduler:
->>>>>>             return get_errno(sched_getscheduler(arg1));
->>>>>> +    case TARGET_NR_sched_getattr:
->>>>>> +        {
->>>>>> +            struct target_sched_attr *target_scha;
->>>>>> +            struct target_sched_attr scha;
->>>>>
->>>>> In fact, this scha is used with the host syscall, so it must be  sched_attr.
->>>>
->>>>
->>>> Where do you want me to define the "host variant" of sched_attr and
->>>> with what types for the properties? Or do you want additional
->>>> typedef(where?) so the name is less confusing? All properties in this
->>>> type are fixed length and identical for all architectures.
->>
->> It's better to use the host variant with the host syscall.
->>
->> Normally sched_attr comes with kernel headers, so it should be available and you should not have to
->> define it.
->>
->> We need to define a target property because alignment also matters as the alignment for type can
->> differ from an architecture to another. I agree that in most cases it should not be needed but I
->> think it's cleaner like that.
->>
->> so for this part, only replace "struct target_sched_attr scha;" by "struct sched_att scha;"
-> 
-> sched_attr is defined in linux/sched/types.h . I can't include it
-> directly as it conflicts with libc headers with "redefinition of
-> 'struct sched_param'". It looks like
-> https://lkml.org/lkml/2020/5/28/810 attempted to resolve this conflict
-> but was not merged and seems to be stuck in kernel vs glibc blame
-> cycle.
+On Tue, Dec 28, 2021 at 10:54 AM Jim Shu <jim.shu@sifive.com> wrote:
 >
+> Real PDMA support high 32-bit read/write memory access of 64-bit
+> register.
+>
+> The following result is PDMA tested in U-Boot on Unmatched board:
+>
+> 1. Real PDMA is allowed high 32-bit read/write to 64-bit register.
+> => mw.l 0x3000000 0x0                      <= Disclaim channel 0
+> => mw.l 0x3000000 0x1                      <= Claim channel 0
+> => mw.l 0x3000010 0x80000000               <= Write low 32-bit NextDest (NextDest = 0x280000000)
+> => mw.l 0x3000014 0x2                      <= Write high 32-bit NextDest
+> => md.l 0x3000010 1                        <= Dump low 32-bit NextDest
+> 03000010: 80000000
+> => md.l 0x3000014 1                        <= Dump high 32-bit NextDest
+> 03000014: 00000002
+> => mw.l 0x3000018 0x80001000               <= Write low 32-bit NextSrc (NextSrc = 0x280001000)
+> => mw.l 0x300001c 0x2                      <= Write high 32-bit NextSrc
+> => md.l 0x3000018 1                        <= Dump low 32-bit NextSrc
+> 03000010: 80001000
+> => md.l 0x300001c 1                        <= Dump high 32-bit NextSrc
+> 03000014: 00000002
+>
+> 2. PDMA transfer from 0x280001000 to 0x280000000 is OK.
+> => mw.q 0x3000008 0x4                      <= NextBytes = 4
+> => mw.l 0x3000004 0x22000000               <= wsize = rsize = 2 (2^2 = 4 bytes)
+> => mw.l 0x280000000 0x87654321             <= Fill test data to dst
+> => mw.l 0x280001000 0x12345678             <= Fill test data to src
+> => md.l 0x280000000 1; md.l 0x280001000 1  <= Dump src/dst memory contents
+> 280000000: 87654321                              !Ce.
+> 280001000: 12345678                              xV4.
+> => md.l 0x3000000 8                        <= Dump PDMA status
+> 03000000: 00000001 22000000 00000004 00000000    ......."........
+> 03000010: 80000000 00000002 80001000 00000002    ................
+> => mw.l 0x3000000 0x3                      <= Set channel 0 run and claim bits
+> => md.l 0x3000000 8                        <= Dump PDMA status
+> 03000000: 40000001 22000000 00000004 00000000    ...@..."........
+> 03000010: 80000000 00000002 80001000 00000002    ................
+> => md.l 0x280000000 1; md.l 0x280001000 1  <= Dump src/dst memory contents
+> 280000000: 12345678                               xV4.
+> 280001000: 12345678                               xV4.
+>
+> Signed-off-by: Jim Shu <jim.shu@sifive.com>
+> Reviewed-by: Frank Chang <frank.chang@sifive.com>
 
-So the best to do is to define a struct host_sched_attr (a strict copy of the kernel one) and use it 
-with sched_getattr().
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-See for instance prlimit64 implementation:
+Alistair
 
-163a05a8398b ("linux-user: Implement prlimit64 syscall")
-
-it's a bit old, but it shows the main idea of a host structure for the host side, a target structure 
-for the target side (we have introduced the abi type since).
-
->>
->>>>
->>>>>
->>>>>
->>>>>> +            if (arg2 == 0) {
->>>>>> +                return -TARGET_EINVAL;
->>>>>> +            }
->>>>>> +            if (arg3 > sizeof(scha)) {
->>>>>> +                arg3 = sizeof(scha);
->>>>>> +            }
->>>>>> +            ret = get_errno(sys_sched_getattr(arg1, &scha, arg3, arg4));
->>>>>> +            if (!is_error(ret)) {
->>>>>> +                target_scha = lock_user(VERIFY_WRITE, arg2, arg3, 0);
->>>>>> +                if (!target_scha) {
->>>>>> +                    return -TARGET_EFAULT;
->>>>>> +                }
->>>>>> +                target_scha->size = tswap32(scha.size);
->>>>>> +                target_scha->sched_policy = tswap32(scha.sched_policy);
->>>>>> +                target_scha->sched_flags = tswap64(scha.sched_flags);
->>>>>> +                target_scha->sched_nice = tswap32(scha.sched_nice);
->>>>>> +                target_scha->sched_priority = tswap32(scha.sched_priority);
->>>>>> +                target_scha->sched_runtime = tswap64(scha.sched_runtime);
->>>>>> +                target_scha->sched_deadline = tswap64(scha.sched_deadline);
->>>>>> +                target_scha->sched_period = tswap64(scha.sched_period);
->>>>>> +                if (scha.size > offsetof(struct target_sched_attr, sched_util_min)) {
->>>>>> +                    target_scha->sched_util_min = tswap32(scha.sched_util_min);
->>>>>> +                    target_scha->sched_util_max = tswap32(scha.sched_util_max);
->>>>>> +                }
->>>>>> +                unlock_user(target_scha, arg2, arg3);
->>>>>> +            }
->>>>>> +            return ret;
->>>>>> +        }
->>>>>> +    case TARGET_NR_sched_setattr:
->>>>>> +        {
->>>>>> +            struct target_sched_attr *target_scha;
->>>>>> +            struct target_sched_attr scha;
->>>>>
->>>>> scha is sched_attr as it is used with the host syscall.
->>>>>
->>>>>
->>>>>> +            if (arg2 == 0) {
->>>>>> +                return -TARGET_EINVAL;
->>>>>> +            }
->>>>>> +            uint32_t size;
->>>>>
->>>>> QEMU coding style doesn't allow to mix declarations and statements.
->>>>>
->>>>>> +            if (get_user_u32(size, arg2)) {
->>>>>> +                return -TARGET_EFAULT;
->>>>>> +            }
->>>>>> +            if (!size) {
->>>>>> +                size = offsetof(struct target_sched_attr, sched_util_min);
->>>>>> +            }
->>>>>> +            if (size < offsetof(struct target_sched_attr, sched_util_min)) {
->>>>>> +                if (put_user_u32(sizeof(struct target_sched_attr), arg2)) {
->>>>>> +                    return -TARGET_EFAULT;
->>>>>> +                }
->>>>>> +                return -TARGET_E2BIG;
->>>>>> +            }
->>>>>> +
->>>>>> +            if (size > sizeof(scha)) {
->>>>>> +                for (int i = sizeof(scha); i < size; i++) {
->>>>>> +                    uint8_t b;
->>>>>> +                    if (get_user_u8(b, arg2 + i)) {
->>>>>> +                        return -TARGET_EFAULT;
->>>>>> +                    }
->>>>>> +                    if (b != 0) {
->>>>>> +                        if (put_user_u32(sizeof(struct target_sched_attr), arg2)) {
->>>>>> +                            return -TARGET_EFAULT;
->>>>>> +                        }
->>>>>> +                        return -TARGET_E2BIG;
->>>>>> +                    }
->>>>>> +                }
->>>>>> +                size = sizeof(scha);
->>>>>> +            }
->>>>>
->>>>> I guess this is the code to mimic kernel copy_struct_from_user(), the part when usize > ksize.
->>>>>
->>>>> It's a little bit ugly, but I can't disagree because the kernel does the same.
->>>>>
->>>>> except that the kernel check for unsigned rather than for 8bit. Could you change that?
->>>>
->>>>
->>>> You mean "unsigned long" like in
->>>> https://github.com/torvalds/linux/blob/76657eaef4a759e695eb1883d4f1d9af1e4ff9a8/lib/usercopy.c#L57
->>
->> yes
->>
->>>> ? That would mean that this code needs to be much more complicated to
->>>> handle the cases for the unaligned start and end bytes, need
->>>> aligned_byte_mask helper etc. Even though kernel seems to have extra
->>>> code for these cases iiuc it can still get EFAULT on specific
->>>> conditions.
->>
->> OK, I don't want too complicated code here, so I think we can keep your version.
->> But could you move this code to a function?
-> 
-> Sure, but could you tell me where do you want it defined. syscall.c
-> does not seem to have generic helper functions and current helpers
-> seem to be macros in qemu.h . Also, are we talking about a function
-> like check_zeroed_user() or a variant of lock_user() with two size
-> parameters(or lock_user_struct() with extra size param)?
-
-You can put it in syscall.c, and I'm thinking more about a function like check_zeroed_user().
-But feel free to do as you want, and if you think it's not a good idea to have a function you can 
-keep the code as is.
-
-Thanks,
-Laurent
+> ---
+>  hw/dma/sifive_pdma.c | 174 +++++++++++++++++++++++++++++++++++++------
+>  1 file changed, 152 insertions(+), 22 deletions(-)
+>
+> diff --git a/hw/dma/sifive_pdma.c b/hw/dma/sifive_pdma.c
+> index 85fe34f5f3..b8b198ab4e 100644
+> --- a/hw/dma/sifive_pdma.c
+> +++ b/hw/dma/sifive_pdma.c
+> @@ -177,18 +177,44 @@ static inline void sifive_pdma_update_irq(SiFivePDMAState *s, int ch)
+>      s->chan[ch].state = DMA_CHAN_STATE_IDLE;
+>  }
+>
+> -static uint64_t sifive_pdma_read(void *opaque, hwaddr offset, unsigned size)
+> +static uint64_t sifive_pdma_readq(SiFivePDMAState *s, int ch, hwaddr offset)
+>  {
+> -    SiFivePDMAState *s = opaque;
+> -    int ch = SIFIVE_PDMA_CHAN_NO(offset);
+>      uint64_t val = 0;
+>
+> -    if (ch >= SIFIVE_PDMA_CHANS) {
+> -        qemu_log_mask(LOG_GUEST_ERROR, "%s: Invalid channel no %d\n",
+> -                      __func__, ch);
+> -        return 0;
+> +    offset &= 0xfff;
+> +    switch (offset) {
+> +    case DMA_NEXT_BYTES:
+> +        val = s->chan[ch].next_bytes;
+> +        break;
+> +    case DMA_NEXT_DST:
+> +        val = s->chan[ch].next_dst;
+> +        break;
+> +    case DMA_NEXT_SRC:
+> +        val = s->chan[ch].next_src;
+> +        break;
+> +    case DMA_EXEC_BYTES:
+> +        val = s->chan[ch].exec_bytes;
+> +        break;
+> +    case DMA_EXEC_DST:
+> +        val = s->chan[ch].exec_dst;
+> +        break;
+> +    case DMA_EXEC_SRC:
+> +        val = s->chan[ch].exec_src;
+> +        break;
+> +    default:
+> +        qemu_log_mask(LOG_GUEST_ERROR,
+> +                      "%s: Unexpected 64-bit access to 0x%" HWADDR_PRIX "\n",
+> +                      __func__, offset);
+> +        break;
+>      }
+>
+> +    return val;
+> +}
+> +
+> +static uint32_t sifive_pdma_readl(SiFivePDMAState *s, int ch, hwaddr offset)
+> +{
+> +    uint32_t val = 0;
+> +
+>      offset &= 0xfff;
+>      switch (offset) {
+>      case DMA_CONTROL:
+> @@ -198,28 +224,47 @@ static uint64_t sifive_pdma_read(void *opaque, hwaddr offset, unsigned size)
+>          val = s->chan[ch].next_config;
+>          break;
+>      case DMA_NEXT_BYTES:
+> -        val = s->chan[ch].next_bytes;
+> +        val = extract64(s->chan[ch].next_bytes, 0, 32);
+> +        break;
+> +    case DMA_NEXT_BYTES + 4:
+> +        val = extract64(s->chan[ch].next_bytes, 32, 32);
+>          break;
+>      case DMA_NEXT_DST:
+> -        val = s->chan[ch].next_dst;
+> +        val = extract64(s->chan[ch].next_dst, 0, 32);
+> +        break;
+> +    case DMA_NEXT_DST + 4:
+> +        val = extract64(s->chan[ch].next_dst, 32, 32);
+>          break;
+>      case DMA_NEXT_SRC:
+> -        val = s->chan[ch].next_src;
+> +        val = extract64(s->chan[ch].next_src, 0, 32);
+> +        break;
+> +    case DMA_NEXT_SRC + 4:
+> +        val = extract64(s->chan[ch].next_src, 32, 32);
+>          break;
+>      case DMA_EXEC_CONFIG:
+>          val = s->chan[ch].exec_config;
+>          break;
+>      case DMA_EXEC_BYTES:
+> -        val = s->chan[ch].exec_bytes;
+> +        val = extract64(s->chan[ch].exec_bytes, 0, 32);
+> +        break;
+> +    case DMA_EXEC_BYTES + 4:
+> +        val = extract64(s->chan[ch].exec_bytes, 32, 32);
+>          break;
+>      case DMA_EXEC_DST:
+> -        val = s->chan[ch].exec_dst;
+> +        val = extract64(s->chan[ch].exec_dst, 0, 32);
+> +        break;
+> +    case DMA_EXEC_DST + 4:
+> +        val = extract64(s->chan[ch].exec_dst, 32, 32);
+>          break;
+>      case DMA_EXEC_SRC:
+> -        val = s->chan[ch].exec_src;
+> +        val = extract64(s->chan[ch].exec_src, 0, 32);
+> +        break;
+> +    case DMA_EXEC_SRC + 4:
+> +        val = extract64(s->chan[ch].exec_src, 32, 32);
+>          break;
+>      default:
+> -        qemu_log_mask(LOG_GUEST_ERROR, "%s: Bad offset 0x%" HWADDR_PRIX "\n",
+> +        qemu_log_mask(LOG_GUEST_ERROR,
+> +                      "%s: Unexpected 32-bit access to 0x%" HWADDR_PRIX "\n",
+>                        __func__, offset);
+>          break;
+>      }
+> @@ -227,19 +272,66 @@ static uint64_t sifive_pdma_read(void *opaque, hwaddr offset, unsigned size)
+>      return val;
+>  }
+>
+> -static void sifive_pdma_write(void *opaque, hwaddr offset,
+> -                              uint64_t value, unsigned size)
+> +static uint64_t sifive_pdma_read(void *opaque, hwaddr offset, unsigned size)
+>  {
+>      SiFivePDMAState *s = opaque;
+>      int ch = SIFIVE_PDMA_CHAN_NO(offset);
+> -    bool claimed, run;
+> +    uint64_t val = 0;
+>
+>      if (ch >= SIFIVE_PDMA_CHANS) {
+>          qemu_log_mask(LOG_GUEST_ERROR, "%s: Invalid channel no %d\n",
+>                        __func__, ch);
+> -        return;
+> +        return 0;
+> +    }
+> +
+> +    switch (size) {
+> +    case 8:
+> +        val = sifive_pdma_readq(s, ch, offset);
+> +        break;
+> +    case 4:
+> +        val = sifive_pdma_readl(s, ch, offset);
+> +        break;
+> +    default:
+> +        qemu_log_mask(LOG_GUEST_ERROR, "%s: Invalid read size %u to PDMA\n",
+> +                      __func__, size);
+> +        return 0;
+>      }
+>
+> +    return val;
+> +}
+> +
+> +static void sifive_pdma_writeq(SiFivePDMAState *s, int ch,
+> +                               hwaddr offset, uint64_t value)
+> +{
+> +    offset &= 0xfff;
+> +    switch (offset) {
+> +    case DMA_NEXT_BYTES:
+> +        s->chan[ch].next_bytes = value;
+> +        break;
+> +    case DMA_NEXT_DST:
+> +        s->chan[ch].next_dst = value;
+> +        break;
+> +    case DMA_NEXT_SRC:
+> +        s->chan[ch].next_src = value;
+> +        break;
+> +    case DMA_EXEC_BYTES:
+> +    case DMA_EXEC_DST:
+> +    case DMA_EXEC_SRC:
+> +        /* these are read-only registers */
+> +        break;
+> +    default:
+> +        qemu_log_mask(LOG_GUEST_ERROR,
+> +                      "%s: Unexpected 64-bit access to 0x%" HWADDR_PRIX "\n",
+> +                      __func__, offset);
+> +        break;
+> +    }
+> +}
+> +
+> +static void sifive_pdma_writel(SiFivePDMAState *s, int ch,
+> +                               hwaddr offset, uint32_t value)
+> +{
+> +    bool claimed, run;
+> +
+>      offset &= 0xfff;
+>      switch (offset) {
+>      case DMA_CONTROL:
+> @@ -282,13 +374,24 @@ static void sifive_pdma_write(void *opaque, hwaddr offset,
+>          s->chan[ch].next_config = value;
+>          break;
+>      case DMA_NEXT_BYTES:
+> -        s->chan[ch].next_bytes = value;
+> +        s->chan[ch].next_bytes =
+> +            deposit64(s->chan[ch].next_bytes, 0, 32, value);
+> +        break;
+> +    case DMA_NEXT_BYTES + 4:
+> +        s->chan[ch].next_bytes =
+> +            deposit64(s->chan[ch].next_bytes, 32, 32, value);
+>          break;
+>      case DMA_NEXT_DST:
+> -        s->chan[ch].next_dst = value;
+> +        s->chan[ch].next_dst = deposit64(s->chan[ch].next_dst, 0, 32, value);
+> +        break;
+> +    case DMA_NEXT_DST + 4:
+> +        s->chan[ch].next_dst = deposit64(s->chan[ch].next_dst, 32, 32, value);
+>          break;
+>      case DMA_NEXT_SRC:
+> -        s->chan[ch].next_src = value;
+> +        s->chan[ch].next_src = deposit64(s->chan[ch].next_src, 0, 32, value);
+> +        break;
+> +    case DMA_NEXT_SRC + 4:
+> +        s->chan[ch].next_src = deposit64(s->chan[ch].next_src, 32, 32, value);
+>          break;
+>      case DMA_EXEC_CONFIG:
+>      case DMA_EXEC_BYTES:
+> @@ -297,12 +400,39 @@ static void sifive_pdma_write(void *opaque, hwaddr offset,
+>          /* these are read-only registers */
+>          break;
+>      default:
+> -        qemu_log_mask(LOG_GUEST_ERROR, "%s: Bad offset 0x%" HWADDR_PRIX "\n",
+> +        qemu_log_mask(LOG_GUEST_ERROR,
+> +                      "%s: Unexpected 32-bit access to 0x%" HWADDR_PRIX "\n",
+>                        __func__, offset);
+>          break;
+>      }
+>  }
+>
+> +static void sifive_pdma_write(void *opaque, hwaddr offset,
+> +                              uint64_t value, unsigned size)
+> +{
+> +    SiFivePDMAState *s = opaque;
+> +    int ch = SIFIVE_PDMA_CHAN_NO(offset);
+> +
+> +    if (ch >= SIFIVE_PDMA_CHANS) {
+> +        qemu_log_mask(LOG_GUEST_ERROR, "%s: Invalid channel no %d\n",
+> +                      __func__, ch);
+> +        return;
+> +    }
+> +
+> +    switch (size) {
+> +    case 8:
+> +        sifive_pdma_writeq(s, ch, offset, value);
+> +        break;
+> +    case 4:
+> +        sifive_pdma_writel(s, ch, offset, (uint32_t) value);
+> +        break;
+> +    default:
+> +        qemu_log_mask(LOG_GUEST_ERROR, "%s: Invalid write size %u to PDMA\n",
+> +                      __func__, size);
+> +        break;
+> +    }
+> +}
+> +
+>  static const MemoryRegionOps sifive_pdma_ops = {
+>      .read = sifive_pdma_read,
+>      .write = sifive_pdma_write,
+> --
+> 2.25.1
+>
+>
 
