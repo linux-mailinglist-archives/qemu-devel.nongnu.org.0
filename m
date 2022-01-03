@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E413848363A
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jan 2022 18:35:46 +0100 (CET)
-Received: from localhost ([::1]:48078 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DD5F483638
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jan 2022 18:35:45 +0100 (CET)
+Received: from localhost ([::1]:47956 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n4RFK-0006fA-12
-	for lists+qemu-devel@lfdr.de; Mon, 03 Jan 2022 12:35:46 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38280)
+	id 1n4RFI-0006ah-3h
+	for lists+qemu-devel@lfdr.de; Mon, 03 Jan 2022 12:35:44 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38236)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1n4RDA-0004bK-PX
- for qemu-devel@nongnu.org; Mon, 03 Jan 2022 12:33:32 -0500
-Received: from [2607:f8b0:4864:20::534] (port=43830
- helo=mail-pg1-x534.google.com)
+ id 1n4RD9-0004au-Hp
+ for qemu-devel@nongnu.org; Mon, 03 Jan 2022 12:33:31 -0500
+Received: from [2607:f8b0:4864:20::62a] (port=43792
+ helo=mail-pl1-x62a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1n4RD8-00088l-1B
- for qemu-devel@nongnu.org; Mon, 03 Jan 2022 12:33:32 -0500
-Received: by mail-pg1-x534.google.com with SMTP id 8so30581819pgc.10
+ id 1n4RD7-00088n-US
+ for qemu-devel@nongnu.org; Mon, 03 Jan 2022 12:33:31 -0500
+Received: by mail-pl1-x62a.google.com with SMTP id l16so13226137plg.10
  for <qemu-devel@nongnu.org>; Mon, 03 Jan 2022 09:33:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=dhyLDhJxviT7Nl2YqmMcOySDo+jc6egc2s/azRKRrJo=;
- b=hYLF/NDdorFNKOc3A8Htz2eEXCxwU8NK/Xn1RZKvRzWY8wrp+0GOA3AM066en79+LQ
- 9cCq1XDwPUdwx+oZVhPRbIP5Rp4MO+avQuKPM8EkoC9HVwX6NWJCsygDSveCxc0q/TIP
- sg1f+nzvu1GoNF3+qdugps467/3LMk5jL85C8LBRuzkqEBYWcaJODlLZtpLLbHs1A80+
- voO91vpq+hDxuZ6My5ADHR84e8Fot4dZ53lYpxbWmVO56Bi5CaS5u+9UI7IAhWsR/LZk
- jzEKflRhqRqH4lZJNv61CaqBuzCOHGVcAzCXdYAr5S/yvXljg8vhkWDee49rOgWRNEj3
- W2Zw==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=d5gaGDZ+99ggf9ZXPhFh9Enr0XUZOvFdyJRvEuhLCgk=;
+ b=gW+H9mMpOQ7xUmG6jUQ9pHc/5dSwbi94lom5aBmw9nUoHdv7CoE9cdLTWuURP8ZtOj
+ CeKUZO674+A7Knvql+k9JkOPvIg6GSveq0wH+2DAGxPyvAcRhp4VeViMjLbhsYdYTzvr
+ sJJgq2VK+ucrVsgR+a0ApObMnr4Qg4kl7WLFUfgtb5BQ3KxCKX+EjwrtKZNE02dB9hxE
+ B7cT2OBSIUpfGEgYequHzZY8u/cSwN4pY4TUS5ZyDfj9FKS9JwmQpfwb6bbONsC9wF3p
+ Ufyt8jWmok/hUwH9fEKhbLRmc+r4HukgpCFLWiN7j/xxym5QI79+w+SycqwZpyrgAnYy
+ rPTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=dhyLDhJxviT7Nl2YqmMcOySDo+jc6egc2s/azRKRrJo=;
- b=l5a0IkrHpwZS1NC6c52MvFx0JwuwQEGFau2BBRDD3L5EfxQ3SfDzfwHMipD/Rhev01
- dfcvMAjC5lHhBNJltSl6KIFXjY3V+GGcQyZmVCPPQp+wcE3eF9HR7tl/1phCWKit1ZnT
- efdqu7Z7V5RN9EpTWkH9XDAk6iTDIxz3eB0W98pfg5qa0UNZcTZiZtXIwKS8WZfTEKCX
- FDzGYdlL7WTtUXGsPZ9CfJyNdDF0zTgYG9it5ZFDGQ7HpxE6GFV0ZUR02BfixEpjBFkR
- jmBC2htQ0Voq9/YdZEzl6oALQowuYojdYUbBgUTJbS0alVAmVqmZGedf2uG62cdFMaqd
- o0lg==
-X-Gm-Message-State: AOAM5304EAc8SL0+GIk0jgrN1dXK2tKZ/PuWdjQykJ074OPerdnEcBBo
- V/UlaAmQzwXlSoEbCYQnbvs+5X2ogNS8Zg==
-X-Google-Smtp-Source: ABdhPJwjG6V03KXkz3uWB7PhmMj2eA3qOHqxIXPdWh/zVeORGFChaduhvZCE8LlvYbENjpI7vVvraw==
-X-Received: by 2002:a05:6a00:1ac7:b0:4bb:7601:df3 with SMTP id
- f7-20020a056a001ac700b004bb76010df3mr47516357pfv.21.1641231207219; 
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=d5gaGDZ+99ggf9ZXPhFh9Enr0XUZOvFdyJRvEuhLCgk=;
+ b=lzQfAGlB6jUM15KVm6Pd/0Wgo0Joo4aUP8egLVP/itG7OhBVNNVNv4rGiJFzFzC74D
+ YzcrnBRXJzV4tpyV9XxrycRmGMeUxY2fJZ64MS3v5tFnyxzJfKhKyA0XnHrbdKm+VZ3e
+ ur1R/Il6vutgP0Xid2uEcPYDjzo8uqS8EAM8bRdXklgbOtByo27CLes8ih0WCmhTWxlq
+ hsT13uqZbJlQgKy2bB/Kvt98leCl7hru/rMxpuwkf2Oyr3CBnmrPsrh5ODbABC5rwSuE
+ yPbRy9OGMJglJOsxVejXnGOlvrf3JpT2b/l+txYssWwCi/g9r1ph1ZMVRYYpP920nroq
+ c53w==
+X-Gm-Message-State: AOAM530Nu4jxfK/iilcZ/ejAu0rw2st/zgUhs8C6CpKsNLlOdm2VzZI+
+ zJDksYsDHFrBoIjRwgA4GEdbu1YywHeRwg==
+X-Google-Smtp-Source: ABdhPJx7tWHiVTcC8aYfe8f6B6fC/Ez76AVdbgQJ6qkIza9Snz8C9kVHrhwi49pf2LgrKKXu8FzbqA==
+X-Received: by 2002:a17:902:e0c1:b0:148:fef1:37c9 with SMTP id
+ e1-20020a170902e0c100b00148fef137c9mr46266721pla.3.1641231207861; 
  Mon, 03 Jan 2022 09:33:27 -0800 (PST)
 Received: from localhost.localdomain (174-21-75-75.tukw.qwest.net.
  [174.21.75.75])
- by smtp.gmail.com with ESMTPSA id s14sm39348564pfk.171.2022.01.03.09.33.26
- for <qemu-devel@nongnu.org>
+ by smtp.gmail.com with ESMTPSA id s14sm39348564pfk.171.2022.01.03.09.33.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 03 Jan 2022 09:33:26 -0800 (PST)
+ Mon, 03 Jan 2022 09:33:27 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 0/5] Misc patch queue
-Date: Mon,  3 Jan 2022 09:33:21 -0800
-Message-Id: <20220103173326.257152-1-richard.henderson@linaro.org>
+Subject: [PULL 1/5] meson: Unify mips and mips64 in host_arch
+Date: Mon,  3 Jan 2022 09:33:22 -0800
+Message-Id: <20220103173326.257152-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220103173326.257152-1-richard.henderson@linaro.org>
+References: <20220103173326.257152-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::534
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62a
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::534;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x534.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62a.google.com
 X-Spam_score_int: 6
 X-Spam_score: 0.6
 X-Spam_bar: /
@@ -87,42 +88,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 69f153667fce723ee546d2f047d66d0cfa67c3cc:
+Fixes the build on a mips64 host.  Prior to the break, we identified
+the arch via the __mips__ define; afterward we use meson's
+host_machine.cpu_family().  Restore the previous combination.
 
-  Merge tag 'memory-api-20211231' of https://github.com/philmd/qemu into staging (2021-12-30 17:02:42 -0800)
+Fixes: 823eb013452e ("configure, meson: move ARCH to meson.build")
+Reported-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ meson.build | 2 ++
+ 1 file changed, 2 insertions(+)
 
-are available in the Git repository at:
+diff --git a/meson.build b/meson.build
+index 886f0a9343..53065e96ec 100644
+--- a/meson.build
++++ b/meson.build
+@@ -74,6 +74,8 @@ if cpu not in supported_cpus
+   host_arch = 'unknown'
+ elif cpu == 'x86'
+   host_arch = 'i386'
++elif cpu == 'mips64'
++  host_arch = 'mips'
+ else
+   host_arch = cpu
+ endif
+-- 
+2.25.1
 
-  https://gitlab.com/rth7680/qemu.git tags/pull-misc-20220103
-
-for you to fetch changes up to 5c23f0c3191907000bab278654570a7d5879822a:
-
-  gitlab: Disable check-python-tox (2022-01-03 08:55:55 -0800)
-
-----------------------------------------------------------------
-Fix some meson conversion breakage
-Disable check-python-tox
-Fix emulation of hppa STBY insn
-
-----------------------------------------------------------------
-Richard Henderson (5):
-      meson: Unify mips and mips64 in host_arch
-      tests/tcg: Use $cpu in configure.sh
-      tests/tcg: Unconditionally use 90 second timeout
-      target/hppa: Fix atomic_store_3 for STBY
-      gitlab: Disable check-python-tox
-
- configure                      |  2 +-
- meson.build                    |  2 +
- target/hppa/op_helper.c        | 27 +++++++------
- tests/tcg/hppa/stby.c          | 87 ++++++++++++++++++++++++++++++++++++++++++
- .gitlab-ci.d/static_checks.yml |  2 +
- tests/tcg/Makefile.target      | 12 +++---
- tests/tcg/configure.sh         |  2 +-
- tests/tcg/hppa/Makefile.target |  5 +++
- 8 files changed, 118 insertions(+), 21 deletions(-)
- create mode 100644 tests/tcg/hppa/stby.c
 
