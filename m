@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94838482F03
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jan 2022 09:29:06 +0100 (CET)
-Received: from localhost ([::1]:40156 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0898482F04
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jan 2022 09:29:28 +0100 (CET)
+Received: from localhost ([::1]:41014 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n4IiH-00020a-MZ
-	for lists+qemu-devel@lfdr.de; Mon, 03 Jan 2022 03:29:05 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41746)
+	id 1n4Iid-0002aM-Ot
+	for lists+qemu-devel@lfdr.de; Mon, 03 Jan 2022 03:29:27 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42136)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1n4IgL-0007kF-2u
- for qemu-devel@nongnu.org; Mon, 03 Jan 2022 03:27:05 -0500
-Received: from smtpout3.mo529.mail-out.ovh.net ([46.105.54.81]:58111)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1n4IhW-00010a-7X
+ for qemu-devel@nongnu.org; Mon, 03 Jan 2022 03:28:18 -0500
+Received: from 2.mo548.mail-out.ovh.net ([178.33.255.19]:50481)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1n4IgG-00065a-Kd
- for qemu-devel@nongnu.org; Mon, 03 Jan 2022 03:27:04 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.108.20.191])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 7B6E3D5253D9;
- Mon,  3 Jan 2022 09:26:58 +0100 (CET)
-Received: from kaod.org (37.59.142.97) by DAG4EX1.mxp5.local (172.16.2.31)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1n4IhU-0006FH-4c
+ for qemu-devel@nongnu.org; Mon, 03 Jan 2022 03:28:17 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.109.143.186])
+ by mo548.mail-out.ovh.net (Postfix) with ESMTPS id E9203208E9;
+ Mon,  3 Jan 2022 08:28:10 +0000 (UTC)
+Received: from kaod.org (37.59.142.98) by DAG4EX1.mxp5.local (172.16.2.31)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.17; Mon, 3 Jan
- 2022 09:26:57 +0100
+ 2022 09:28:10 +0100
 Authentication-Results: garm.ovh; auth=pass
- (GARM-97G0028a5d8b66-9622-4adf-9de7-aa37993ccfb7,
- 71ABFCEAB0EE88409933ED7B68EF8EFCD2601B88) smtp.auth=clg@kaod.org
+ (GARM-98R002306cacb2-9eb6-4005-81d3-3f14200c7ff7,
+ 2FB4A63B976BE1634B5E5BEF676EDDCED9FE10A5) smtp.auth=clg@kaod.org
 X-OVh-ClientIp: 82.64.250.170
-Message-ID: <5636d824-3784-59fd-23d6-24868e3ad54f@kaod.org>
-Date: Mon, 3 Jan 2022 09:26:56 +0100
+Message-ID: <49139a66-ea8b-b599-d7c4-e40597e558f3@kaod.org>
+Date: Mon, 3 Jan 2022 09:28:09 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.3.0
-Subject: Re: [PATCH 02/17] pnv_phb3.c: do not set 'root-bus' as bus name
+Subject: Re: [PATCH 03/17] pnv_phb3.h: change TYPE_PNV_PHB3_ROOT_BUS name
 Content-Language: en-US
 To: Daniel Henrique Barboza <danielhb413@gmail.com>, <qemu-devel@nongnu.org>
 References: <20211228193806.1198496-1-danielhb413@gmail.com>
- <20211228193806.1198496-3-danielhb413@gmail.com>
+ <20211228193806.1198496-4-danielhb413@gmail.com>
 From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20211228193806.1198496-3-danielhb413@gmail.com>
+In-Reply-To: <20211228193806.1198496-4-danielhb413@gmail.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.97]
-X-ClientProxiedBy: DAG6EX1.mxp5.local (172.16.2.51) To DAG4EX1.mxp5.local
+X-Originating-IP: [37.59.142.98]
+X-ClientProxiedBy: DAG4EX2.mxp5.local (172.16.2.32) To DAG4EX1.mxp5.local
  (172.16.2.31)
-X-Ovh-Tracer-GUID: 5d506b04-89d6-437d-8bc0-30d7d769093f
-X-Ovh-Tracer-Id: 12921390283615603680
+X-Ovh-Tracer-GUID: d08c7440-3e20-451a-9b85-b3ec8eb8d03a
+X-Ovh-Tracer-Id: 12941656479209655264
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrudeftddguddulecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthejredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpefhhfelgeeukedtteffvdffueeiuefgkeekleehleetfedtgfetffefheeugeelheenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepuggrvhhiugesghhisghsohhnrdgurhhophgsvggrrhdrihgurdgruh
-Received-SPF: pass client-ip=46.105.54.81; envelope-from=clg@kaod.org;
- helo=smtpout3.mo529.mail-out.ovh.net
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrudeftddguddulecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthejredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpefhhfelgeeukedtteffvdffueeiuefgkeekleehleetfedtgfetffefheeugeelheenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepuggrvhhiugesghhisghsohhnrdgurhhophgsvggrrhdrihgurdgruh
+Received-SPF: pass client-ip=178.33.255.19; envelope-from=clg@kaod.org;
+ helo=2.mo548.mail-out.ovh.net
 X-Spam_score_int: -33
 X-Spam_score: -3.4
 X-Spam_bar: ---
@@ -74,76 +74,79 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 12/28/21 20:37, Daniel Henrique Barboza wrote:
-> All pnv-phb3-root-bus buses are being created as 'root-bus'. This
-> makes it impossible to, for example, add a pnv-phb3-root-port in
-> a specific root bus, since they all have the same name. By default
-> the device will be parented by the pnv-phb3 device that precedeced it in
-
-preceded
-
-> the QEMU command line.
+> The TYPE_PNV_PHB3_ROOT_BUS name is used as the default bus name when
+> the dev has no 'id'. However, pnv-phb3-root-bus is a bit too long to be
+> used as a bus name.
 > 
-> Moreover, this doesn't all for custom bus naming. Libvirt, for instance,
-> likes to name these buses as 'pcie.N', where 'N' is the index value of
-> the controller in the domain XML, by using the 'id' command line
-
-This sentence is difficult to understand ^.
-
-
-> attribute. At this moment this is also being ignored - the created root
-> bus will always be named 'root-bus'.
+> Most common QEMU buses and PCI controllers are named based on their bus
+> type (e.g. pSeries spapr-pci-host-bridge is called 'pci'). The most
+> common name for a PCIE bus controller in QEMU is 'pcie'. Naming it
+> 'pcie' would break the documented use of the pnv-phb3 device, since
+> 'pcie.0' would now refer to the root bus instead of the first root port.
 > 
-> This patch fixes both scenarios by removing the 'root-bus' name from the
-> pci_register_root_bus() call. If an "id" is provided, use that.
-> Otherwise use 'NULL' as bus name. The 'NULL' value will be handled in
-> qbus_init_internal() and it will defaulted as lowercase bus type + the
-> global bus_id value.
+> There's nothing particularly wrong with the 'root-bus' name used before,
+> aside from the fact that 'root-bus' is being used for pnv-phb3 and
+> pnv-phb4 created buses, which is not quite correct since these buses
+> aren't implemented the same way in QEMU - you can't plug a
+> pnv-phb4-root-port into a pnv-phb3 root bus, for example.
 > 
-> After this path we can define the bus name by using the 'id' attribute:
+> This patch renames it as 'phb3-root', which is a compromise between the
+> existing and the previously used name. Creating 3 phbs without ID will
+> result in an "info qtree" output similar to this:
 > 
-> qemu-system-ppc64 -m 4G -machine powernv8,accel=tcg \
->      -device pnv-phb3,chip-id=0,index=1,id=pcie.0
-> 
->    dev: pnv-phb3, id "pcie.0"
->      index = 1 (0x1)
+> bus: main-system-bus
+>    type System
+>    dev: pnv-phb3, id ""
+>      index = 2 (0x2)
 >      chip-id = 0 (0x0)
 >      x-config-reg-migration-enabled = true
 >      bypass-iommu = false
->      bus: pcie.0
->        type pnv-phb3-root-bus
-> 
-> And without an 'id' we will have the following default:
-> 
-> qemu-system-ppc64 -m 4G -machine powernv8,accel=tcg \
->      -device pnv-phb3,chip-id=0,index=1
-> 
+>      bus: phb3-root.2
+>        type phb3-root
 >    dev: pnv-phb3, id ""
 >      index = 1 (0x1)
 >      chip-id = 0 (0x0)
 >      x-config-reg-migration-enabled = true
 >      bypass-iommu = false
->      bus: pnv-phb3-root-bus.0
->        type pnv-phb3-root-bus
+>      bus: phb3-root.1
+>        type phb3-root
+>    dev: pnv-phb3, id ""
+>      index = 0 (0x0)
+>      chip-id = 0 (0x0)
+>      x-config-reg-migration-enabled = true
+>      bypass-iommu = false
+>      bus: phb3-root.0
+>        type phb3-root
 > 
 > Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 > ---
->   hw/pci-host/pnv_phb3.c | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
+>   include/hw/pci-host/pnv_phb3.h | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/hw/pci-host/pnv_phb3.c b/hw/pci-host/pnv_phb3.c
-> index 130d392b3e..f1b1f109a3 100644
-> --- a/hw/pci-host/pnv_phb3.c
-> +++ b/hw/pci-host/pnv_phb3.c
-> @@ -1064,7 +1064,8 @@ static void pnv_phb3_realize(DeviceState *dev, Error **errp)
->       memory_region_init(&phb->pci_mmio, OBJECT(phb), "pci-mmio",
->                          PCI_MMIO_TOTAL_SIZE);
+> diff --git a/include/hw/pci-host/pnv_phb3.h b/include/hw/pci-host/pnv_phb3.h
+> index 2e423c3890..658ee40e13 100644
+> --- a/include/hw/pci-host/pnv_phb3.h
+> +++ b/include/hw/pci-host/pnv_phb3.h
+> @@ -105,7 +105,7 @@ struct PnvPBCQState {
+>   /*
+>    * PHB3 PCIe Root port
+>    */
+> -#define TYPE_PNV_PHB3_ROOT_BUS "pnv-phb3-root-bus"
+> +#define TYPE_PNV_PHB3_ROOT_BUS "phb3-root"
+
+hmm, what about "pnv-phb3-root" ? I like the 'pnv' prefix to identify
+the machine.
+
+
+Thanks,
+
+C.
+
+
+
 >   
-> -    pci->bus = pci_register_root_bus(dev, "root-bus",
-> +    pci->bus = pci_register_root_bus(dev,
-> +                                     dev->id ? dev->id : NULL,
->                                        pnv_phb3_set_irq, pnv_phb3_map_irq, phb,
->                                        &phb->pci_mmio, &phb->pci_io,
->                                        0, 4, TYPE_PNV_PHB3_ROOT_BUS);
+>   #define TYPE_PNV_PHB3_ROOT_PORT "pnv-phb3-root-port"
+>   
 > 
 
 
