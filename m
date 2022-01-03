@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17701483739
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jan 2022 19:55:03 +0100 (CET)
-Received: from localhost ([::1]:38608 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 083FB48373F
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jan 2022 19:57:09 +0100 (CET)
+Received: from localhost ([::1]:45704 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n4SU1-0000tU-AY
-	for lists+qemu-devel@lfdr.de; Mon, 03 Jan 2022 13:55:01 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36472)
+	id 1n4SW4-0005h2-3w
+	for lists+qemu-devel@lfdr.de; Mon, 03 Jan 2022 13:57:08 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36502)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1n4SSn-0007E6-Ai; Mon, 03 Jan 2022 13:53:45 -0500
-Received: from [2607:f8b0:4864:20::82a] (port=46681
- helo=mail-qt1-x82a.google.com)
+ id 1n4SSq-0007G2-OG; Mon, 03 Jan 2022 13:53:48 -0500
+Received: from [2607:f8b0:4864:20::831] (port=46688
+ helo=mail-qt1-x831.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1n4SSl-0006Fv-PP; Mon, 03 Jan 2022 13:53:45 -0500
-Received: by mail-qt1-x82a.google.com with SMTP id m25so31284575qtq.13;
- Mon, 03 Jan 2022 10:53:43 -0800 (PST)
+ id 1n4SSn-0006GD-So; Mon, 03 Jan 2022 13:53:47 -0500
+Received: by mail-qt1-x831.google.com with SMTP id m25so31284726qtq.13;
+ Mon, 03 Jan 2022 10:53:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=1YvrJH5YwHHRtW56oNyUneTyQq1NiAo34LeXTbSRtiw=;
- b=Hf+ShszpnzaUDNWYu5bkUUfhXXniBZvzhOXdzWGiXkg14ucL4965ROoPc5z+v0Z5Bi
- 6osTnb+AtgqzDDtLCFD/a7y3DIgRsrM/KMBp+fK133i18Nsesbj4qBHxblUQzNeYQGMu
- F9DGmJ4agYbANYzRKcMV+CWIW1fLQDeWChbdRmhva7OlxmaT1W3ykthiVcppJZEccB8A
- LuUEqW42mUu7+mxXivIKkYNSM7t/AQY/pMW+aFLxVSqYqdhVIaahCZhrHJchFsPOVgDv
- yLVT8v1QEBvu0fcBjzDxiZN9dCyj7VCEn0klom3Eow+FHScSrH9LtAt8VvqHfW2S8dF5
- e6/g==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=ONhwFubTJrewF85Qam/ZsiMfJoEJAy9vmUnumANzWDc=;
+ b=NUixM5UkM4pWDVnXQa1AceSRgeTQSqXQJwRbkMMvhYknnsluPDF/hxhZfbmP2uRQZ2
+ Xb+b9DxZudPwBLPce/JsSqqgiDop5FLQOjzT9hXcu4gIPVJQPcoi27cK/6XyCPg4Ykt+
+ htWCO5lMRqkL8d2tl9fAAj/Mt/P71o9kMB/iO5ABOU9wF+dA1Vjm8R4WCg63IPwBCwjP
+ piN2ZL2GYfQObJXa8WsYLmFMPdjVF5rWcbCgP31fHut6cGzQnCJzGaKNiyMnWjPs7zlo
+ Q2ySlCvDobQ/9znweAyI/k7VuY+aZbyrZkGDz6bme9ltgC0ApZtqBf6oBCHK/goeoXeu
+ OviA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=1YvrJH5YwHHRtW56oNyUneTyQq1NiAo34LeXTbSRtiw=;
- b=Zv0zzQND00evcOnZn3g4xpQdg0dTWBpvlrLJlLAR6y7GdCX4fiohnVFbtj09kc2/iY
- Iz/90CuSGoB3pAqDZ0hF1QmHY3/kdKljGMGs7RLTfA+QN4X9KdpXe8VRmpWmV+o3TNir
- 8iJy3KyAPrmjQfK8Z7n7xpAY2L+2jy7q4K6bu/vFQufMqsu50KAZQ9zlQ8ystGUHZVuu
- 6MVPZAz7/bYw3RpGKK3Ko0CZTcVuNu2QreI4keHFV7NydxFmzdy6h98l5tZkTGf0+U0/
- IN/0xIqwARGyGNrRWyFV55O5miy367HeMAG0DzqMhjYLexxRqM54PPIo9Ar+8mNHuDNm
- 7WuA==
-X-Gm-Message-State: AOAM530j4N+v8ZPC79TlESqqXTzkFnShmChnRM0rsAtDNBqWWY6WCVBX
- PP16fM0KuuNgT0JpxsxGs6FN8vTmIDk=
-X-Google-Smtp-Source: ABdhPJwGXpB7bJX4PavnhcrViQENKnRTSmbC/OBdWrHnswwh/IijcgzgMN+Dewre0Dv6f6ZMzR29kA==
-X-Received: by 2002:a05:622a:1386:: with SMTP id
- o6mr41411296qtk.64.1641236022503; 
- Mon, 03 Jan 2022 10:53:42 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=ONhwFubTJrewF85Qam/ZsiMfJoEJAy9vmUnumANzWDc=;
+ b=8E0hPnZyt7xqm8WbSwLHhbAlEc0qvKCyUqdJFyD2/Gxl/6P1yLs2+Pur8iZXloZ0Oy
+ cogRqmn5nqumQcU4NjMsZ6ruqf+koheBIugNSwXtXI6gtYDRC63bwWilEgj99pX5gxnk
+ 3fdZpXl53Iex7R77U9Mku47vLQNF/+bhcUEg9kx2zMwGrlWGUDhurgvfvA2Aia4WXEvx
+ c7vm3VsItTZKsPnTV3DIPh6mgdWTyLzMM23WSOb/NXW7lvOgQ3BSrsnypR/YAdcqhufU
+ gbzr6u6blBWqMgChQ8GnsP7/bg/Ctimurzo0vSKViHalJ+FLX3c5342RljqHhDVP+VvG
+ p//Q==
+X-Gm-Message-State: AOAM532ZFz2bRri1tE3RE/gaDFBLrARCAeoM+WM+V4g71Zus0YzCWiXM
+ CkQBEnXMikf+KKWSUqwdNU0d/8+xWhw=
+X-Google-Smtp-Source: ABdhPJwBtpIyfHp0KTAQ97onLimlS69WKBnt4MozNeeOtqRby/cmP2wse+osRu4HZd7XE3VUlXr1fw==
+X-Received: by 2002:ac8:5842:: with SMTP id h2mr41138732qth.244.1641236024807; 
+ Mon, 03 Jan 2022 10:53:44 -0800 (PST)
 Received: from rekt.ibmuc.com ([2804:431:c7c7:f4d8:aa07:335f:99e0:a6e7])
- by smtp.gmail.com with ESMTPSA id w9sm29002867qko.71.2022.01.03.10.53.39
+ by smtp.gmail.com with ESMTPSA id w9sm29002867qko.71.2022.01.03.10.53.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 03 Jan 2022 10:53:42 -0800 (PST)
+ Mon, 03 Jan 2022 10:53:44 -0800 (PST)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 0/5] Reorg ppc64 pmu insn counting
-Date: Mon,  3 Jan 2022 15:53:27 -0300
-Message-Id: <20220103185332.117878-1-danielhb413@gmail.com>
+Subject: [PATCH v2 1/5] target/ppc: Cache per-pmc insn and cycle count settings
+Date: Mon,  3 Jan 2022 15:53:28 -0300
+Message-Id: <20220103185332.117878-2-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.33.1
+In-Reply-To: <20220103185332.117878-1-danielhb413@gmail.com>
+References: <20220103185332.117878-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::82a
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::831
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::82a;
- envelope-from=danielhb413@gmail.com; helo=mail-qt1-x82a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::831;
+ envelope-from=danielhb413@gmail.com; helo=mail-qt1-x831.google.com
 X-Spam_score_int: 8
 X-Spam_score: 0.8
 X-Spam_bar: /
@@ -88,51 +89,205 @@ Cc: richard.henderson@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+From: Richard Henderson <richard.henderson@linaro.org>
 
-This is the v2 of Richard's work sent in [1]. The initial implementation
-presented some issues with the event-based branch kernel tests that I
-fixed in this new version. This code is now passing all EBB PPC64
-tests, it makes Avocado happy and it's all contained in the C helper.
+This is the combination of frozen bit and counter type, on a per
+counter basis. So far this is only used by HFLAGS_INSN_CNT, but
+will be used more later.
 
-Last patch is an improvement that became natural to do after seeing
-how Richard updates env->hflags in pmu_update_summaries().
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+[danielhb: fixed PMC4 cyc_cnt shift and insn run latch code]
+Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+---
+ target/ppc/cpu.h         |  3 +++
+ target/ppc/cpu_init.c    |  1 +
+ target/ppc/helper_regs.c |  2 +-
+ target/ppc/machine.c     |  2 ++
+ target/ppc/power8-pmu.c  | 53 +++++++++++++++++++++++++++++++---------
+ target/ppc/power8-pmu.h  | 14 +++++------
+ 6 files changed, 54 insertions(+), 21 deletions(-)
 
-Avocado test performance:
-
- (1/1) tests/avocado/boot_linux_console.py:BootLinuxConsole.test_ppc_powernv8: PASS (32.63 s)
- (1/1) tests/avocado/boot_linux_console.py:BootLinuxConsole.test_ppc_powernv9: PASS (34.16 s)
-
-Changes from v1:
-- patch 1:
-  * fixed a couple of minor that was causing test failures
-- patch 2 and 3: unchanged
-- patch 4 (new):
-  * clear HFLAGS_INSN_CNT if MMCR0_FC is set
-- patch 5 (new):
-  * avoid calling hreg_compute_hflags()
-- v1 link: https://lists.gnu.org/archive/html/qemu-devel/2021-12/msg04013.html
-
-[1] https://lists.gnu.org/archive/html/qemu-devel/2021-12/msg04013.html
-
-
-Daniel Henrique Barboza (2):
-  target/ppc: keep ins_cnt/cyc_cnt cleared if MMCR0_FC is set
-  target/ppc: do not call hreg_compute_hflags() in helper_store_mmcr0()
-
-Richard Henderson (3):
-  target/ppc: Cache per-pmc insn and cycle count settings
-  target/ppc: Rewrite pmu_increment_insns
-  target/ppc: Use env->pnc_cyc_cnt
-
- target/ppc/cpu.h         |   3 +
- target/ppc/cpu_init.c    |   1 +
- target/ppc/helper_regs.c |   2 +-
- target/ppc/machine.c     |   2 +
- target/ppc/power8-pmu.c  | 238 +++++++++++++++++----------------------
- target/ppc/power8-pmu.h  |  14 +--
- 6 files changed, 117 insertions(+), 143 deletions(-)
-
+diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+index fc66c3561d..a297a52168 100644
+--- a/target/ppc/cpu.h
++++ b/target/ppc/cpu.h
+@@ -1144,6 +1144,9 @@ struct CPUPPCState {
+     /* Other registers */
+     target_ulong spr[1024]; /* special purpose registers */
+     ppc_spr_t spr_cb[1024];
++    /* Composite status for PMC[1-5] enabled and counting insns or cycles. */
++    uint8_t pmc_ins_cnt;
++    uint8_t pmc_cyc_cnt;
+     /* Vector status and control register, minus VSCR_SAT */
+     uint32_t vscr;
+     /* VSX registers (including FP and AVR) */
+diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
+index 06ef15cd9e..63f9babfee 100644
+--- a/target/ppc/cpu_init.c
++++ b/target/ppc/cpu_init.c
+@@ -8313,6 +8313,7 @@ static void ppc_cpu_reset(DeviceState *dev)
+ #endif /* CONFIG_TCG */
+ #endif
+ 
++    pmu_update_summaries(env);
+     hreg_compute_hflags(env);
+     env->reserve_addr = (target_ulong)-1ULL;
+     /* Be sure no exception or interrupt is pending */
+diff --git a/target/ppc/helper_regs.c b/target/ppc/helper_regs.c
+index b847928842..8671b7bb69 100644
+--- a/target/ppc/helper_regs.c
++++ b/target/ppc/helper_regs.c
+@@ -123,7 +123,7 @@ static uint32_t hreg_compute_hflags_value(CPUPPCState *env)
+     }
+ 
+ #if defined(TARGET_PPC64)
+-    if (pmu_insn_cnt_enabled(env)) {
++    if (env->pmc_ins_cnt) {
+         hflags |= 1 << HFLAGS_INSN_CNT;
+     }
+ #endif
+diff --git a/target/ppc/machine.c b/target/ppc/machine.c
+index 93972df58e..756d8de5d8 100644
+--- a/target/ppc/machine.c
++++ b/target/ppc/machine.c
+@@ -8,6 +8,7 @@
+ #include "qapi/error.h"
+ #include "qemu/main-loop.h"
+ #include "kvm_ppc.h"
++#include "power8-pmu.h"
+ 
+ static void post_load_update_msr(CPUPPCState *env)
+ {
+@@ -19,6 +20,7 @@ static void post_load_update_msr(CPUPPCState *env)
+      */
+     env->msr ^= env->msr_mask & ~((1ULL << MSR_TGPR) | MSR_HVB);
+     ppc_store_msr(env, msr);
++    pmu_update_summaries(env);
+ }
+ 
+ static int cpu_load_old(QEMUFile *f, void *opaque, int version_id)
+diff --git a/target/ppc/power8-pmu.c b/target/ppc/power8-pmu.c
+index 08d1902cd5..4fce6e8de8 100644
+--- a/target/ppc/power8-pmu.c
++++ b/target/ppc/power8-pmu.c
+@@ -11,8 +11,6 @@
+  */
+ 
+ #include "qemu/osdep.h"
+-
+-#include "power8-pmu.h"
+ #include "cpu.h"
+ #include "helper_regs.h"
+ #include "exec/exec-all.h"
+@@ -20,6 +18,7 @@
+ #include "qemu/error-report.h"
+ #include "qemu/main-loop.h"
+ #include "hw/ppc/ppc.h"
++#include "power8-pmu.h"
+ 
+ #if defined(TARGET_PPC64) && !defined(CONFIG_USER_ONLY)
+ 
+@@ -121,18 +120,47 @@ static PMUEventType pmc_get_event(CPUPPCState *env, int sprn)
+     return evt_type;
+ }
+ 
+-bool pmu_insn_cnt_enabled(CPUPPCState *env)
++void pmu_update_summaries(CPUPPCState *env)
+ {
+-    int sprn;
+-
+-    for (sprn = SPR_POWER_PMC1; sprn <= SPR_POWER_PMC5; sprn++) {
+-        if (pmc_get_event(env, sprn) == PMU_EVENT_INSTRUCTIONS ||
+-            pmc_get_event(env, sprn) == PMU_EVENT_INSN_RUN_LATCH) {
+-            return true;
++    target_ulong mmcr0 = env->spr[SPR_POWER_MMCR0];
++    target_ulong mmcr1 = env->spr[SPR_POWER_MMCR1];
++    int ins_cnt = 0;
++    int cyc_cnt = 0;
++
++    if (!(mmcr0 & MMCR0_FC14) && mmcr1 != 0) {
++        target_ulong sel;
++
++        sel = extract64(mmcr1, MMCR1_PMC1EVT_EXTR, MMCR1_EVT_SIZE);
++        switch (sel) {
++        case 0x02:
++        case 0xfe:
++            ins_cnt |= 1 << 1;
++            break;
++        case 0x1e:
++        case 0xf0:
++            cyc_cnt |= 1 << 1;
++            break;
+         }
++
++        sel = extract64(mmcr1, MMCR1_PMC2EVT_EXTR, MMCR1_EVT_SIZE);
++        ins_cnt |= (sel == 0x02) << 2;
++        cyc_cnt |= (sel == 0x1e) << 2;
++
++        sel = extract64(mmcr1, MMCR1_PMC3EVT_EXTR, MMCR1_EVT_SIZE);
++        ins_cnt |= (sel == 0x02) << 3;
++        cyc_cnt |= (sel == 0x1e) << 3;
++
++        sel = extract64(mmcr1, MMCR1_PMC4EVT_EXTR, MMCR1_EVT_SIZE);
++        ins_cnt |= ((sel == 0xfa) || (sel == 0x2)) << 4;
++        cyc_cnt |= (sel == 0x1e) << 4;
+     }
+ 
+-    return false;
++    ins_cnt |= !(mmcr0 & MMCR0_FC56) << 5;
++    cyc_cnt |= !(mmcr0 & MMCR0_FC56) << 6;
++
++    env->pmc_ins_cnt = ins_cnt;
++    env->pmc_cyc_cnt = cyc_cnt;
++    env->hflags = deposit32(env->hflags, HFLAGS_INSN_CNT, 1, ins_cnt != 0);
+ }
+ 
+ static bool pmu_increment_insns(CPUPPCState *env, uint32_t num_insns)
+@@ -264,8 +292,9 @@ void helper_store_mmcr0(CPUPPCState *env, target_ulong value)
+ 
+     env->spr[SPR_POWER_MMCR0] = value;
+ 
+-    /* MMCR0 writes can change HFLAGS_PMCCCLEAR and HFLAGS_INSN_CNT */
++    /* MMCR0 writes can change HFLAGS_PMCC[01] and HFLAGS_INSN_CNT */
+     hreg_compute_hflags(env);
++    pmu_update_summaries(env);
+ 
+     /* Update cycle overflow timers with the current MMCR0 state */
+     pmu_update_overflow_timers(env);
+@@ -278,7 +307,7 @@ void helper_store_mmcr1(CPUPPCState *env, uint64_t value)
+     env->spr[SPR_POWER_MMCR1] = value;
+ 
+     /* MMCR1 writes can change HFLAGS_INSN_CNT */
+-    hreg_compute_hflags(env);
++    pmu_update_summaries(env);
+ }
+ 
+ target_ulong helper_read_pmc(CPUPPCState *env, uint32_t sprn)
+diff --git a/target/ppc/power8-pmu.h b/target/ppc/power8-pmu.h
+index 3ee4b4cda5..a839199561 100644
+--- a/target/ppc/power8-pmu.h
++++ b/target/ppc/power8-pmu.h
+@@ -13,14 +13,12 @@
+ #ifndef POWER8_PMU
+ #define POWER8_PMU
+ 
+-#include "qemu/osdep.h"
+-#include "cpu.h"
+-#include "exec/exec-all.h"
+-#include "exec/helper-proto.h"
+-#include "qemu/error-report.h"
+-#include "qemu/main-loop.h"
+-
+ void cpu_ppc_pmu_init(CPUPPCState *env);
+-bool pmu_insn_cnt_enabled(CPUPPCState *env);
++
++#if defined(TARGET_PPC64) && !defined(CONFIG_USER_ONLY)
++void pmu_update_summaries(CPUPPCState *env);
++#else
++static inline void pmu_update_summaries(CPUPPCState *env) { }
++#endif
+ 
+ #endif
 -- 
 2.33.1
 
