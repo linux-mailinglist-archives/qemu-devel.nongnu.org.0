@@ -2,80 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13100482E46
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jan 2022 06:48:52 +0100 (CET)
-Received: from localhost ([::1]:47676 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A820D482E8F
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jan 2022 07:52:20 +0100 (CET)
+Received: from localhost ([::1]:33362 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n4GDC-0002H8-He
-	for lists+qemu-devel@lfdr.de; Mon, 03 Jan 2022 00:48:50 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47156)
+	id 1n4HCd-00065Z-Jw
+	for lists+qemu-devel@lfdr.de; Mon, 03 Jan 2022 01:52:19 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53370)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1n4G8J-0000zG-Vp
- for qemu-devel@nongnu.org; Mon, 03 Jan 2022 00:43:48 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36059)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1n4Gw2-000261-M1; Mon, 03 Jan 2022 01:35:10 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:49246)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1n4G8F-0007Vc-T9
- for qemu-devel@nongnu.org; Mon, 03 Jan 2022 00:43:45 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641188621;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=DNIpUoZsXznhjtoVxL+BLzHiU/YRZ5NBMAdbInJIAf8=;
- b=KqKEGsHT+7PAQish0VrzC13eq4lhtK9ETCYiS26OWZl6vxvQSArW/UCZodRwa5ewgTLAg1
- Y+EoH5vu/GJJ4LtfQWGqErxkYoNGafJc35OqOBtG0XSrSBBx3vnAbd+Do+tN4JFrER7AK3
- rF3kgcY1XtbHc/vstdFVi4GwdpExuyQ=
-Received: from mail-ua1-f70.google.com (mail-ua1-f70.google.com
- [209.85.222.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-524-dXF59_EGPMq7tMcrM72NpA-1; Mon, 03 Jan 2022 00:43:39 -0500
-X-MC-Unique: dXF59_EGPMq7tMcrM72NpA-1
-Received: by mail-ua1-f70.google.com with SMTP id
- w14-20020ab055ce000000b002fedc60272fso9218254uaa.21
- for <qemu-devel@nongnu.org>; Sun, 02 Jan 2022 21:43:39 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=DNIpUoZsXznhjtoVxL+BLzHiU/YRZ5NBMAdbInJIAf8=;
- b=CKzqVmV5K1itDarwdZ5RLkJVoeZgi48YWN5h+KnlOtf5H4aNSJVNld2maCbjQztmJA
- zvKABX7N3DASXv4AtHkB3KSeLYTtvHlVDBSrTKeUrKEv6mcrUsYwfY6XmKpGnYZc2Dt/
- kdkDDCvJJRbIvNDAB6/uSwps009Y2CS4E1/gHIUT8oikQnubeb9XPNdtB4uOBD1qsrm2
- yK8emyafH59TOQ6Gd2Cpe5/50J1K1LtQdSlwJ5uwZYIH5PCBBT1b5b5tNIgxmbHJNrjr
- vFqjyuv2Fgrfwm6gnGKIPvJJ4e/5lNaqfHj4y8LP1tVmizzHQ9EcuQvcdmUxtiFh/kBL
- wCAA==
-X-Gm-Message-State: AOAM533xc6tXPU7HOUUOCiNJY/mF4WnaIRdPnt2aXmJ2sIcEpg8/rmpL
- rF/EpDkmD96GWfytspd5a7pR2CWY2fEVZrImYH5gZPz8gdo6pftdezOutK4JkG4Y26mRIu9nvSl
- AaXJ5toFNHQntZgnQKBc4XY9bEQolnBA=
-X-Received: by 2002:a67:ce0b:: with SMTP id s11mr14178901vsl.38.1641188618539; 
- Sun, 02 Jan 2022 21:43:38 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJylimGp/J6ksTytXKzH8z8aMC3gulCSWbJEy1n4mHeyRHXCzCnfxpqeonYCetmVrq1XnOP4rCiofddqZR1WxYU=
-X-Received: by 2002:a67:ce0b:: with SMTP id s11mr14178896vsl.38.1641188618302; 
- Sun, 02 Jan 2022 21:43:38 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1n4Gvz-0007zo-Gz; Mon, 03 Jan 2022 01:35:09 -0500
+Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 2034mZHx015657; 
+ Mon, 3 Jan 2022 06:34:49 GMT
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.102])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3dbteqhqrt-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 03 Jan 2022 06:34:48 +0000
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+ by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2036Y7Qg010692;
+ Mon, 3 Jan 2022 06:34:46 GMT
+Received: from b06cxnps4075.portsmouth.uk.ibm.com
+ (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
+ by ppma06ams.nl.ibm.com with ESMTP id 3dae7jg8pm-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 03 Jan 2022 06:34:46 +0000
+Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com
+ [9.149.105.60])
+ by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 2036YiFX48562552
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 3 Jan 2022 06:34:44 GMT
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id EA3F742041;
+ Mon,  3 Jan 2022 06:34:43 +0000 (GMT)
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id BFB6C4204F;
+ Mon,  3 Jan 2022 06:34:43 +0000 (GMT)
+Received: from smtp.tlslab.ibm.com (unknown [9.101.4.1])
+ by d06av24.portsmouth.uk.ibm.com (Postfix) with SMTP;
+ Mon,  3 Jan 2022 06:34:43 +0000 (GMT)
+Received: from yukon.ibmuc.com (unknown [9.171.33.19])
+ by smtp.tlslab.ibm.com (Postfix) with ESMTP id EA64D22017E;
+ Mon,  3 Jan 2022 07:34:42 +0100 (CET)
+From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+To: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Subject: [PATCH v2 0/9] ppc/ppc405: Fixes
+Date: Mon,  3 Jan 2022 07:34:32 +0100
+Message-Id: <20220103063441.3424853-1-clg@kaod.org>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-References: <d2112a58-a6bc-ebaa-ad94-60d66f4a3437@linaro.org>
- <46a6112c-bc7a-d76f-ccc1-a921df6add77@redhat.com>
-In-Reply-To: <46a6112c-bc7a-d76f-ccc1-a921df6add77@redhat.com>
-From: John Snow <jsnow@redhat.com>
-Date: Mon, 3 Jan 2022 00:43:27 -0500
-Message-ID: <CAFn=p-axOPEimW8H=TmUHwPnvGw--vFMG377Jq1Mhpu0a0Jdvw@mail.gmail.com>
-Subject: Re: check-python-tox failures
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="0000000000009a887c05d4a70084"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) DKIMWL_WL_HIGH=-0.573, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: 93fqdfs93m70rGoJX5gRb62KDatWoYkx
+X-Proofpoint-GUID: 93fqdfs93m70rGoJX5gRb62KDatWoYkx
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2022-01-03_02,2022-01-01_01,2021-12-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 adultscore=0
+ spamscore=0 priorityscore=1501 phishscore=0 mlxlogscore=791 malwarescore=0
+ impostorscore=0 lowpriorityscore=0 mlxscore=0 suspectscore=0 clxscore=1034
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2110150000
+ definitions=main-2201030044
+Received-SPF: softfail client-ip=148.163.156.1; envelope-from=clg@kaod.org;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: 7
+X-Spam_score: 0.7
+X-Spam_bar: /
+X-Spam_report: (0.7 / 5.0 requ) SPF_HELO_NONE=0.001,
+ SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,110 +91,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>, Cleber Rosa <crosa@redhat.com>
+Cc: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000009a887c05d4a70084
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Hello,
 
-On Wed, Dec 29, 2021 at 7:03 PM Philippe Mathieu-Daud=C3=A9 <philmd@redhat.=
-com>
-wrote:
+The series starts with a couple of cleanups helping debug. It then
+adds back support for 405 timers which was broken 10 years ago.
 
-> On 12/23/21 05:11, Richard Henderson wrote:
-> > Hi John,
-> >
-> > This test has been failing for quite a while. While it is allowed to
-> > fail, can we either fix this or disable it, to allow the ci to go prope=
-r
-> > green?
->
-> This job not only fails on the mainstream pipelines, but also on
-> all forks recently rebased. This is very annoying, I am in favor
-> of disabling the job until someone figure out what is wrong.
->
-> Phil.
->
->
-I've been away on holiday, and will be away for another week.
+Thanks,
 
-Looks like a few dependencies were updated in the python ecosystem and
-broke a few things. I tried to fix it in a few hurried minutes, but ... it
-looks pretty broken:
+C.=20
 
- (33/33) tests/pylint.sh:  FAIL: Exited with status: '1', stdout:
-"************* \nqemu/__init__.py:1:0: F0010: error while code parsing:
-Unable to load file qemu/__init__.py:\n[Errno 2] No such file or directory:
-'qemu/__init__.py' (parse-error)\n", stderr: "*************
-\nqemu/__init_... (0.54 s)
+Changes in v2:
 
-I am not sure why on god's green earth Pylint has decided it doesn't know
-how to import namespaced modules anymore. I probably won't be able to fix
-this until next week, so just disable it for now and I'll fix it when I get
-back.
+ - removed inlining from powerpc_excp() routines
+ - fixed a compile breakage with CONFIG_USER_ONLY
+ - removed all DEBUG defines from MMU models
 
---js.
+C=C3=A9dric Le Goater (9):
+  target/ppc: Remove static inline
+  target/ppc: Print out literal exception names in logs
+  ppc/ppc4xx: Convert printfs()
+  ppc/ppc405: Activate MMU logs
+  ppc/ppc405: Restore TCR and STR write handlers
+  ppc/ppc405: Rework ppc_40x_timers_init() to use a PowerPCCPU
+  ppc/ppc405: Fix timer initialization
+  ppc/ppc405: Introduce a store helper for SPR_40x_PID
+  ppc/ppc405: Dump specific registers
 
-(ps: attempted fix here https://gitlab.com/jsnow/qemu/-/pipelines/440208449
-but there seems to be something very wrong with pylint in the tox
-environment -- I suspect a dependency of pylint's was updated and is
-breaking things. I'll have to identify which one it is and update the
-package reqs to exclude it, but ATM I have no idea which it is.)
+ target/ppc/cpu.h             |   2 +
+ target/ppc/helper.h          |   2 +
+ target/ppc/spr_tcg.h         |   3 +
+ hw/ppc/mpc8544_guts.c        |   9 +-
+ hw/ppc/ppc.c                 |  67 +++++++++-----
+ hw/ppc/ppc405_uc.c           |   2 -
+ hw/ppc/ppc4xx_devs.c         |  39 +++------
+ hw/ppc/ppc4xx_pci.c          |  11 ++-
+ target/ppc/cpu_init.c        |  33 +++++--
+ target/ppc/excp_helper.c     |  87 +++++++++++++++++--
+ target/ppc/mmu_common.c      | 164 ++++++++++++++++-------------------
+ target/ppc/mmu_helper.c      |  97 ++++++++++-----------
+ target/ppc/timebase_helper.c |  10 +++
+ target/ppc/translate.c       |  20 +++++
+ hw/ppc/trace-events          |   7 ++
+ 15 files changed, 338 insertions(+), 215 deletions(-)
 
-(pps, Cleber, what happened to the avocado output here? It's not showing
-error logs from the failed tests anymore. Did avocado update and break
-these options?)
-
---0000000000009a887c05d4a70084
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"g=
-mail_attr">On Wed, Dec 29, 2021 at 7:03 PM Philippe Mathieu-Daud=C3=A9 &lt;=
-<a href=3D"mailto:philmd@redhat.com">philmd@redhat.com</a>&gt; wrote:<br></=
-div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bor=
-der-left:1px solid rgb(204,204,204);padding-left:1ex">On 12/23/21 05:11, Ri=
-chard Henderson wrote:<br>
-&gt; Hi John,<br>
-&gt; <br>
-&gt; This test has been failing for quite a while. While it is allowed to<b=
-r>
-&gt; fail, can we either fix this or disable it, to allow the ci to go prop=
-er<br>
-&gt; green?<br>
-<br>
-This job not only fails on the mainstream pipelines, but also on<br>
-all forks recently rebased. This is very annoying, I am in favor<br>
-of disabling the job until someone figure out what is wrong.<br>
-<br>
-Phil.<br>
-<br></blockquote><div><br></div><div>I&#39;ve been away on holiday, and wil=
-l be away for another week.</div><div><br></div><div>Looks like a few depen=
-dencies were updated in the python ecosystem and broke a few things. I trie=
-d to fix it in a few hurried minutes, but ... it looks pretty broken:<br></=
-div><div><br></div><div>=C2=A0(33/33) tests/pylint.sh: =C2=A0FAIL: Exited w=
-ith status: &#39;1&#39;, stdout: &quot;************* \nqemu/__init__.py:1:0=
-: F0010: error while code parsing: Unable to load file qemu/__init__.py:\n[=
-Errno 2] No such file or directory: &#39;qemu/__init__.py&#39; (parse-error=
-)\n&quot;, stderr: &quot;************* \nqemu/__init_... (0.54 s)</div><div=
-><br></div><div>I am not sure why on god&#39;s green earth Pylint has decid=
-ed it doesn&#39;t know how to import namespaced modules anymore. I probably=
- won&#39;t be able to fix this until next week, so just disable it for now =
-and I&#39;ll fix it when I get back.<br></div><div><br></div><div>--js.<br>=
-<br></div><div>(ps: attempted fix here <a href=3D"https://gitlab.com/jsnow/=
-qemu/-/pipelines/440208449">https://gitlab.com/jsnow/qemu/-/pipelines/44020=
-8449</a> but there seems to be something very wrong with pylint in the tox =
-environment -- I suspect a dependency of pylint&#39;s was updated and is br=
-eaking things. I&#39;ll have to identify which one it is and update the pac=
-kage reqs to exclude it, but ATM I have no idea which it is.)</div><div><br=
-></div><div>(pps, Cleber, what happened to the avocado output here? It&#39;=
-s not showing error logs from the failed tests anymore. Did avocado update =
-and break these options?)<br></div></div></div>
-
---0000000000009a887c05d4a70084--
+--=20
+2.31.1
 
 
