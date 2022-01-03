@@ -2,87 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A2F3482FFE
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jan 2022 11:43:39 +0100 (CET)
-Received: from localhost ([::1]:53260 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 371A7483039
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jan 2022 12:11:41 +0100 (CET)
+Received: from localhost ([::1]:38376 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n4KoU-0005Yb-8u
-	for lists+qemu-devel@lfdr.de; Mon, 03 Jan 2022 05:43:38 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41326)
+	id 1n4LFb-0007lV-R0
+	for lists+qemu-devel@lfdr.de; Mon, 03 Jan 2022 06:11:39 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48072)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n4KnV-0004k8-FE
- for qemu-devel@nongnu.org; Mon, 03 Jan 2022 05:42:37 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46116)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n4KnS-0004Z4-DY
- for qemu-devel@nongnu.org; Mon, 03 Jan 2022 05:42:36 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641206552;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=+lOuE+a/zSx3OOzS3W5VGTlE1nihjTd8EVMPWn0ToeI=;
- b=MkHXKaWZr8SwaNB5r5STB2nxgHDXI33PSe1Tr4wNlVm9b/6bwH/EK6fRg5cZvmQlkjvPTx
- 7a8qUVvAVk1eKPb9UTWz7txInc6IXYXL9SSUBj7NBrOkI8NVh3FAZIatsVtXOSBLEBeq4D
- 9upXnc4KElHZv9814A7vUa/PfKfKeZU=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-588-4xsLt5iePwyZwiVDuKRTdQ-1; Mon, 03 Jan 2022 05:42:31 -0500
-X-MC-Unique: 4xsLt5iePwyZwiVDuKRTdQ-1
-Received: by mail-ed1-f70.google.com with SMTP id
- g11-20020a056402090b00b003f8fd1ac475so14758831edz.1
- for <qemu-devel@nongnu.org>; Mon, 03 Jan 2022 02:42:31 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1n4LEC-0006Pc-0n; Mon, 03 Jan 2022 06:10:12 -0500
+Received: from [2607:f8b0:4864:20::92f] (port=43811
+ helo=mail-ua1-x92f.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1n4LE9-000448-G1; Mon, 03 Jan 2022 06:10:11 -0500
+Received: by mail-ua1-x92f.google.com with SMTP id i5so42068551uaq.10;
+ Mon, 03 Jan 2022 03:10:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=3BkOxyIZLfX+5voECTNgrjWNy9NLm7CQSpXkk0SGuGU=;
+ b=dW06u2ak6IzB/dKEkCxKMzxKp5fsez/uB0tkoe+iEIrmqky8f8xjjKHMVKDzM9VOzb
+ h2mEjV7vz+/OpYZvfbW4yh9ouwQFWRzFpfQdvctKm3TIvRobKtku4ikCyuSmupWi7qUs
+ mh41WHhUvXOFdp7TPY1Srpu4w4wqkK428Wog+944Fdx8vtQIyLFlBi1vpcDSoRK8TQLr
+ TLOxOTiUKmGhciqDg8YO48iTZwLMoMjhZ2BzvbEpEZGI21Zu4NL5xEeuBAcKomYqUDDf
+ V1gRqo7afpfbpWifbw9aL1UAfp1JSHzkKKJH0PRzgsKHXbOplve8BHOD3BDEqZk3ploH
+ F0sA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=+lOuE+a/zSx3OOzS3W5VGTlE1nihjTd8EVMPWn0ToeI=;
- b=ejxQi3kibJ4esGx59XVy79GtMO8+boPRzyrMFxufFx9e2ZqP3YYrtyA67rCR6vwfGV
- w5jAXDx0mQUcDuvn6wlJbsOUpJyYgyRpNlDmAiMM3dFSs73x1u3e3V5l5uBPQuw8TXh7
- T5xRiivsWBN1e72uwAR+9MGC9v0ISV6Fxq+JlhIq7KEw/weUO/mtaNE2ufi6J2djO3A3
- cac+lwF2bBCi64UK8XEwDc1W+peocFXkl8NkG49H1rYV8LK5Pxon1Bxn0TQgPMV7QkpU
- 0iu5CXE6FeE7R9LYApqpEWzAcgfSemnnOcxKeyRkqeB/5BZKmSCgbXe7PRKlF3lWrEuu
- 0gaw==
-X-Gm-Message-State: AOAM532KjEeUr4ULG8vBhNLzUS7vMk5JBbRC64G8i91xl8SfdTvsbyB2
- GSR8hosFnc4FLaNPgWjjvNOElDqjWuauH26nPrKLgOVr8YXJt5Bl26jSWJlFBnJrujuy/HkRcZ6
- 5pxf9CqYmS1BMExg=
-X-Received: by 2002:a17:906:4556:: with SMTP id
- s22mr35658626ejq.321.1641206550663; 
- Mon, 03 Jan 2022 02:42:30 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxyPKjyP5wiorC0AtlB82bfx7zNZ3/LivrEcs66iGQk6e6nR3cV6cKNclqzUDlFZKLnrTdCfQ==
-X-Received: by 2002:a17:906:4556:: with SMTP id
- s22mr35658612ejq.321.1641206550460; 
- Mon, 03 Jan 2022 02:42:30 -0800 (PST)
-Received: from redhat.com ([2.55.137.15])
- by smtp.gmail.com with ESMTPSA id gt20sm6664926ejc.11.2022.01.03.02.42.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 03 Jan 2022 02:42:29 -0800 (PST)
-Date: Mon, 3 Jan 2022 05:42:26 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Andy Pei <andy.pei@intel.com>
-Subject: Re: [PATCH v2] hw/vhost-user-blk: turn on VIRTIO_BLK_F_SIZE_MAX
- feature for virtio blk device
-Message-ID: <20220103053913-mutt-send-email-mst@kernel.org>
-References: <1641202092-149677-1-git-send-email-andy.pei@intel.com>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=3BkOxyIZLfX+5voECTNgrjWNy9NLm7CQSpXkk0SGuGU=;
+ b=kGC61WYbbd7rCfrFHq8E34vThhBo3UFtjFH1JDjsEgQ0zodAVfcEZ+WCo2Ok2WHgoC
+ vez2SbBVijoPoHSEMv+0apuW47HEXe5HbCK+bjLm5yoYl1ezlvAlhzTdB8tmrxTM6VKH
+ EGr4En8MDOesj1Nxf4N35LFzCjAd76fW+aAzYKDonCxuFtpLkqicgU5K/mRwhErzTrZu
+ WdTdB3vSAVRs4H8moV4/9jvpkm+mcqaa7/+twHMg+sb38Ff2lv9IV/KWJS/qM/PlA9yc
+ qyHSV0f5Vpb8LF6n/DD3yirFzkrYSjcvVJ7z0hxlpwMJsG6xD+rR1Ak8hSnI58YMtlEY
+ iU7Q==
+X-Gm-Message-State: AOAM533Xq4+vNEMlM4j5+uTvCMZrgzaZApp6idA+90QoKj0+2N9Dghfs
+ WNhx1BO72r/L8VWtjziSC3zjyEmnFPc=
+X-Google-Smtp-Source: ABdhPJzcmRz3av885mnTPK+mkr4DqujLj7/omPqq65iGrRg4ir+ZbMwsrGLMX5I5KKs9VW3E/XILdg==
+X-Received: by 2002:ab0:3d0c:: with SMTP id f12mr10059462uax.15.1641208206341; 
+ Mon, 03 Jan 2022 03:10:06 -0800 (PST)
+Received: from ?IPV6:2804:431:c7c7:f4d8:aa07:335f:99e0:a6e7?
+ ([2804:431:c7c7:f4d8:aa07:335f:99e0:a6e7])
+ by smtp.gmail.com with ESMTPSA id m3sm7164058vsh.7.2022.01.03.03.10.04
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 03 Jan 2022 03:10:06 -0800 (PST)
+Message-ID: <3d16773a-f070-b2a8-24ae-34d0a7bed64d@gmail.com>
+Date: Mon, 3 Jan 2022 08:10:03 -0300
 MIME-Version: 1.0
-In-Reply-To: <1641202092-149677-1-git-send-email-andy.pei@intel.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) DKIMWL_WL_HIGH=-0.37, DKIM_SIGNED=0.1,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH 0/3] Reorg ppc64 pmu insn counting
+Content-Language: en-US
+To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20211223030149.1947418-1-richard.henderson@linaro.org>
+ <1b988844-075d-beb3-7fd1-a26f30e9f5dc@gmail.com>
+ <1928bc96-ace5-3e5b-2da2-723ef3071173@linaro.org>
+ <c2d241d4-d466-c599-e00e-3fdb62722bbb@gmail.com>
+ <238d16f2-988d-2efe-b68a-b7581f54dda8@kaod.org>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+In-Reply-To: <238d16f2-988d-2efe-b68a-b7581f54dda8@kaod.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::92f
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::92f;
+ envelope-from=danielhb413@gmail.com; helo=mail-ua1-x92f.google.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-3.354,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,45 +94,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, qemu-block@nongnu.org, qemu-devel@nongnu.org,
- raphael.norwitz@nutanix.com, mreitz@redhat.com, changpeng.liu@intel.com
+Cc: qemu-ppc@nongnu.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jan 03, 2022 at 05:28:12PM +0800, Andy Pei wrote:
-> Turn on pre-defined feature VIRTIO_BLK_F_SIZE_MAX for virtio blk device to
-> avoid guest DMA request sizes which are too large for hardware spec.
+
+
+On 1/3/22 03:48, Cédric Le Goater wrote:
+> On 12/30/21 23:12, Daniel Henrique Barboza wrote:
+>>
+>>
+>> On 12/23/21 18:19, Richard Henderson wrote:
+>>> On 12/23/21 12:36 PM, Daniel Henrique Barboza wrote:
+>>>> This reorg is breaking PMU-EBB tests, unfortunately. These tests are run from the kernel
+>>>> tree [1] and I test them inside a pSeries TCG guest. You'll need to apply patches 9 and
+>>>> 10 of [2] beforehand (they apply cleanly in current master) because they aren't upstream
+>>>> yet and EBB needs it.
+>>>>
+>>>> The tests that are breaking consistently with this reorg are:
+>>>>
+>>>> back_to_back_ebbs_test.c
+>>>> cpu_event_pinned_vs_ebb_test.c
+>>>> cycles_test.c
+>>>> task_event_pinned_vs_ebb_test.c
+>>>
+>>> In which case perhaps drop my first patch for now, and instead simply replicate your tcg algorithm in c exactly -- using none of the helpers that currently exist.
+>>>
+>>> We can improve the code, and the use of pmc_get_event from hreg_compute_hregs_value second.
+>>
+>>
+>> While attempting to do that I figured what was off with this series and ended up
+>> fixing it.
+>>
+>> It's now working with the event-based branch interrupt tests and Avocado seems happy
+>> as well. It took some small adjustments/fixes in patches 1/2 and an extra patch of mine
+>> tuning the existing logic after the reorg.
+>>
+>>
+>> I'll clean it up and re-send it next week/year.
 > 
-> Signed-off-by: Andy Pei <andy.pei@intel.com>
+> Shouldn't we merge this series first ? It is really improving emulation
+> and keeps the check-avocado tests under the timeout limit (which I find
+> important).
 
 
-> ---
+As it is this series is breaking EBB tests if we apply the EBB interrupt patches
+on top of it. If your concern is strictly with the Avocado tests then we'd better
+off pushing my TCG version which fixes Avocado and don't break anything else.
 
-Thanks!
-Notes for future submissions:
-- pls include acks sent on previous versions unless changes you made
-  are substantial enough to invalidate them
-- pls include a changelog for those that reviewed previous versions
+Besides, I'll sent the v2 of this series today, tomorrow at the latest. We're better
+off pushing the fixed version.
 
-No need to repost this one though.
-Thanks!
 
->  hw/block/vhost-user-blk.c | 1 +
->  1 file changed, 1 insertion(+)
+Thanks,
+
+Daniel
+
+
+
 > 
-> diff --git a/hw/block/vhost-user-blk.c b/hw/block/vhost-user-blk.c
-> index ba13cb8..eb1264a 100644
-> --- a/hw/block/vhost-user-blk.c
-> +++ b/hw/block/vhost-user-blk.c
-> @@ -252,6 +252,7 @@ static uint64_t vhost_user_blk_get_features(VirtIODevice *vdev,
->      VHostUserBlk *s = VHOST_USER_BLK(vdev);
->  
->      /* Turn on pre-defined features */
-> +    virtio_add_feature(&features, VIRTIO_BLK_F_SIZE_MAX);
->      virtio_add_feature(&features, VIRTIO_BLK_F_SEG_MAX);
->      virtio_add_feature(&features, VIRTIO_BLK_F_GEOMETRY);
->      virtio_add_feature(&features, VIRTIO_BLK_F_TOPOLOGY);
-> -- 
-> 1.8.3.1
-
+> Thanks,
+> 
+> C.
 
