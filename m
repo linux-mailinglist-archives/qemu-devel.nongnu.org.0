@@ -2,91 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D8954838BB
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jan 2022 23:13:02 +0100 (CET)
-Received: from localhost ([::1]:50616 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72F454838C0
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jan 2022 23:15:06 +0100 (CET)
+Received: from localhost ([::1]:58342 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n4VZd-00051Y-AD
-	for lists+qemu-devel@lfdr.de; Mon, 03 Jan 2022 17:13:01 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40284)
+	id 1n4Vbd-0001jC-Ir
+	for lists+qemu-devel@lfdr.de; Mon, 03 Jan 2022 17:15:05 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40304)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1n4VV5-0004s4-QP; Mon, 03 Jan 2022 17:08:19 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:52334)
+ id 1n4VV7-00050C-S2; Mon, 03 Jan 2022 17:08:21 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:58286)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1n4VV4-000228-Av; Mon, 03 Jan 2022 17:08:19 -0500
-Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 203LJMtc001451; 
- Mon, 3 Jan 2022 22:08:13 GMT
+ id 1n4VV6-00022O-98; Mon, 03 Jan 2022 17:08:21 -0500
+Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 203Igi6j014100; 
+ Mon, 3 Jan 2022 22:08:15 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
  : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding; s=pp1;
- bh=zYZ3xbYCwXe7kX1jvdgVrXhRLY6jTgxNcBk6p0KjME4=;
- b=Hhx9G4VNMupiHHuar7eoUqUcTBOnSoP67cNp9y1juzWsaLoTBAAVI+rRql2sNNP557WJ
- phueJfH6IHewtxKhXL+Vzf16hirlPmg/38J04RpShwC7Dt2sij+yeNazDvhTlnutvSjM
- uoPOZHugmDQrCQHBTKJ+X544vtq9DtN2YSfyh0ULnblIoP5CPiOnMlJFzQ7A47wU1adV
- PaeOz/kpYPq3QkLRNRVEAG5AqZ2SVl9OwqEsKV0ivXJz2YfPDYegkYcuqet62C80wsCc
- aBt7UoVrckfbTTliFmxTq5OKXGD8hm3+QuGZtkZeVXdY7a5nxKW1PK0xJC9FeWnZ0nvh 6g== 
+ bh=IYDpOdIfccKYPQKZFDKk2RnjZA4r8rEzn1vdcmd2S1U=;
+ b=QwnIzq1SsZ6eyliVJRnpbpfSrm/WPcnVbFgNiO5f8hYMeOY82od1LsvqfTRICr4k9i7d
+ U/bM0mmak4GId2dcaBsXySJ21XyycrIAGJ6pALMYUtUhuulsVFsG960hGjb5znRFUaID
+ U/xN9wMiggTcLNrDNCCc7JbhH5r9uMCY4A+4lvOHCqG1rZhGWOkODyIoDSTWy0syT6vT
+ P6qY3FAkaZTWRhMyo/ka7pEYTL00RV1dSzV1rs4cGF2K+iZILfuqO40ShzCpFgW2O+fO
+ hjY6yzvKczkyBD6cjEN5RiUL2YLPBjiuwrcWAdbCw9zj00JnPAQdRZSLp/d81ZSiSoGS GA== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3dc8xyrgac-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3dc6nrje5s-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 03 Jan 2022 22:08:12 +0000
-Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 203M0JUb018802;
- Mon, 3 Jan 2022 22:08:12 GMT
+ Mon, 03 Jan 2022 22:08:14 +0000
+Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 203M1YWH022305;
+ Mon, 3 Jan 2022 22:08:14 GMT
 Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
  [169.53.41.122])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3dc8xyrga6-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3dc6nrje5k-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 03 Jan 2022 22:08:12 +0000
+ Mon, 03 Jan 2022 22:08:14 +0000
 Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
- by ppma04dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 203LwUJ9001137;
- Mon, 3 Jan 2022 22:08:11 GMT
-Received: from b03cxnp08027.gho.boulder.ibm.com
- (b03cxnp08027.gho.boulder.ibm.com [9.17.130.19])
- by ppma04dal.us.ibm.com with ESMTP id 3daekar3x5-1
+ by ppma04dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 203LwUDv001156;
+ Mon, 3 Jan 2022 22:08:13 GMT
+Received: from b03cxnp07028.gho.boulder.ibm.com
+ (b03cxnp07028.gho.boulder.ibm.com [9.17.130.15])
+ by ppma04dal.us.ibm.com with ESMTP id 3daekar3xu-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 03 Jan 2022 22:08:11 +0000
+ Mon, 03 Jan 2022 22:08:13 +0000
 Received: from b03ledav004.gho.boulder.ibm.com
  (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
- by b03cxnp08027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 203M8AEP17040090
+ by b03cxnp07028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 203M8CYE31719834
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 3 Jan 2022 22:08:10 GMT
+ Mon, 3 Jan 2022 22:08:12 GMT
 Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 6800878064;
+ by IMSVA (Postfix) with ESMTP id 8D83878063;
+ Mon,  3 Jan 2022 22:08:12 +0000 (GMT)
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id CC29978067;
  Mon,  3 Jan 2022 22:08:10 +0000 (GMT)
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id AABC47805F;
- Mon,  3 Jan 2022 22:08:08 +0000 (GMT)
 Received: from farosas.linux.ibm.com.com (unknown [9.211.145.159])
  by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTP;
- Mon,  3 Jan 2022 22:08:08 +0000 (GMT)
+ Mon,  3 Jan 2022 22:08:10 +0000 (GMT)
 From: Fabiano Rosas <farosas@linux.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 8/9] target/ppc: powerpc_excp: Move AIL under a Book3s block
-Date: Mon,  3 Jan 2022 19:07:45 -0300
-Message-Id: <20220103220746.3916246-9-farosas@linux.ibm.com>
+Subject: [PATCH 9/9] target/ppc: Introduce a wrapper for powerpc_excp
+Date: Mon,  3 Jan 2022 19:07:46 -0300
+Message-Id: <20220103220746.3916246-10-farosas@linux.ibm.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20220103220746.3916246-1-farosas@linux.ibm.com>
 References: <20220103220746.3916246-1-farosas@linux.ibm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: h-FY3kCC6MlV4n5HmQ499ghxU6h8u_JR
-X-Proofpoint-ORIG-GUID: d75dyzO1VwATPjAxyA4YTUQQcAFWjfv7
+X-Proofpoint-GUID: xkp5j1QbU59JLlNnCOIIhT9OEgyWL8YS
+X-Proofpoint-ORIG-GUID: NTDAeX2_RTNADVa5dIbIWgMAhN4S_qiD
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2022-01-03_09,2022-01-01_01,2021-12-02_01
+ definitions=2022-01-03_08,2022-01-01_01,2021-12-02_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 spamscore=0
- phishscore=0 mlxlogscore=999 priorityscore=1501 clxscore=1015
- impostorscore=0 adultscore=0 bulkscore=0 lowpriorityscore=0 malwarescore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2110150000 definitions=main-2201030148
+ impostorscore=0
+ malwarescore=0 priorityscore=1501 mlxscore=0 bulkscore=0 phishscore=0
+ suspectscore=0 lowpriorityscore=0 spamscore=0 adultscore=0 clxscore=1015
+ mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2110150000 definitions=main-2201030147
 Received-SPF: pass client-ip=148.163.158.5; envelope-from=farosas@linux.ibm.com;
  helo=mx0b-001b2d01.pphosted.com
 X-Spam_score_int: 0
@@ -112,53 +112,44 @@ Cc: richard.henderson@linaro.org, danielhb413@gmail.com, qemu-ppc@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-AIL only applies for Book3s CPUs, so move it along with ILE. This
-moves ILE further down in the file because the AIL function can alter
-vector so we cannot move it up.
+Next patches will split powerpc_excp in multiple family specific
+handlers. This patch adds a wrapper to make the transition clearer.
 
 Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
 ---
- target/ppc/excp_helper.c | 20 ++++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
+ target/ppc/excp_helper.c | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
 
 diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-index d7e087f2f6..a4787c3ae2 100644
+index a4787c3ae2..15c492a934 100644
 --- a/target/ppc/excp_helper.c
 +++ b/target/ppc/excp_helper.c
-@@ -766,14 +766,6 @@ static inline void powerpc_excp(PowerPCCPU *cpu, int excp)
-         }
-     }
- 
--    /*
--     * We preserve MSR_LE, but some CPUs can take interrupts in a
--     * different endianness.
--     */
--    if (excp_model >= POWERPC_EXCP_970) {
--        ppc_excp_toggle_ile(cpu, &new_msr);
--    }
--
- #if defined(TARGET_PPC64)
-     if (excp_model == POWERPC_EXCP_BOOKE) {
-         if (env->spr[SPR_BOOKE_EPCR] & EPCR_ICM) {
-@@ -799,8 +791,16 @@ static inline void powerpc_excp(PowerPCCPU *cpu, int excp)
-         env->spr[srr1] = msr;
-     }
- 
--    /* This can update new_msr and vector if AIL applies */
--    ppc_excp_apply_ail(cpu, excp_model, excp, msr, &new_msr, &vector);
-+    if (excp_model >= POWERPC_EXCP_970) {
-+        /*
-+         * We preserve MSR_LE, but some CPUs can take interrupts in a
-+         * different endianness.
-+         */
-+        ppc_excp_toggle_ile(cpu, &new_msr);
-+
-+        /* This can update new_msr and vector if AIL applies */
-+        ppc_excp_apply_ail(cpu, excp_model, excp, msr, &new_msr, &vector);
-+    }
- 
+@@ -336,7 +336,7 @@ static inline void powerpc_set_excp_state(PowerPCCPU *cpu,
+  * Note that this function should be greatly optimized when called
+  * with a constant excp, from ppc_hw_interrupt
+  */
+-static inline void powerpc_excp(PowerPCCPU *cpu, int excp)
++static inline void powerpc_excp_legacy(PowerPCCPU *cpu, int excp)
+ {
+     CPUState *cs = CPU(cpu);
+     CPUPPCState *env = &cpu->env;
+@@ -805,6 +805,16 @@ static inline void powerpc_excp(PowerPCCPU *cpu, int excp)
      powerpc_set_excp_state(cpu, vector, new_msr);
  }
+ 
++static void powerpc_excp(PowerPCCPU *cpu, int excp)
++{
++    CPUPPCState *env = &cpu->env;
++
++    switch (env->excp_model) {
++    default:
++        powerpc_excp_legacy(cpu, excp);
++    }
++}
++
+ void ppc_cpu_do_interrupt(CPUState *cs)
+ {
+     PowerPCCPU *cpu = POWERPC_CPU(cs);
 -- 
 2.33.1
 
