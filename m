@@ -2,70 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25FBC4838E7
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jan 2022 23:52:41 +0100 (CET)
-Received: from localhost ([::1]:57666 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1D504838E5
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jan 2022 23:52:20 +0100 (CET)
+Received: from localhost ([::1]:55802 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n4WC0-0005Ac-8f
-	for lists+qemu-devel@lfdr.de; Mon, 03 Jan 2022 17:52:40 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48458)
+	id 1n4WBf-0003wL-TS
+	for lists+qemu-devel@lfdr.de; Mon, 03 Jan 2022 17:52:19 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48496)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1n4W7c-0004Jt-L9; Mon, 03 Jan 2022 17:48:08 -0500
-Received: from [2607:f8b0:4864:20::733] (port=44760
- helo=mail-qk1-x733.google.com)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1n4W7t-0005Kx-2O; Mon, 03 Jan 2022 17:48:25 -0500
+Received: from [2607:f8b0:4864:20::102b] (port=37675
+ helo=mail-pj1-x102b.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1n4W7b-0001HH-3D; Mon, 03 Jan 2022 17:48:08 -0500
-Received: by mail-qk1-x733.google.com with SMTP id l11so33110585qke.11;
- Mon, 03 Jan 2022 14:48:06 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1n4W7r-0001IR-Ff; Mon, 03 Jan 2022 17:48:24 -0500
+Received: by mail-pj1-x102b.google.com with SMTP id
+ y16-20020a17090a6c9000b001b13ffaa625so38912617pjj.2; 
+ Mon, 03 Jan 2022 14:48:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=mEJ52DjcGZ77H9RLGxNugn3Xq43tGiUJ7ZTvhWHmtPQ=;
- b=EVdcMirjf6nhw4j17PZMBvHACfsJ4izafsTJkTdycZ1VpD+ioSYKWGsnn5+P2Akrrr
- Gmo/Fvc+pRvnGx5pyVXZuxvnSgbgRReGbbk5fCNwhgSeQr4s7UsnMv4Wko8bx/almgnJ
- cq5LA/rFJasxaVnN+UWphrcs2Rusf4yHHjPG75popbHQ36XXAbMsrbeOWUEbNIxHmrPE
- Ti0ZcNIWT2wRKjvIqToXO0+Q5OB1gwIHr/Tk6ZkgDtQmwxWX/Yq9Fs4C+R4epOXJmZAK
- CTbIrbmxS+scIVWZ5GmUmSl6ydXgeKmIWyRoYxCinORrbw9QiqYXgkMNijOqNjEmyHn4
- tHEA==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=iWZzEiS5kAjMq93arrDLQMfuajuYgKjAkXInC/TbZNM=;
+ b=fk/7guKOb6G9moETs6xDCXMVv8gIX4T4eHZwx9iQwDSFOrK7fV3uEzJgLzX4ri/sKz
+ lssBzjXoEsUNvG1BxPLUJISa1wpLNTfnY8OOdzSixCKFXJY78vCOVrX8tE2PFwNgPsXW
+ yYLBy2YVgT9B3oNXoC2Nj4atABgb/IsJLAdL/A5IOKxar4v3u9QGZy42FqiZrbDOI9ee
+ dmB8CSxETC/sReRLQ5qIuc+PqXjKyg3Uc7THSN8qZfqEZ3v8HepSEqBLxbvJAxyZ3chg
+ 2JQigbWbLcebg3s2+VO8uBz6LxFDQ1mva4FQCbnix/ow6li/Ylr0YdNLU68mh5zxSwsL
+ kq8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=mEJ52DjcGZ77H9RLGxNugn3Xq43tGiUJ7ZTvhWHmtPQ=;
- b=6cHPiIOyF5E3dVqOpVzA27rHML/DvDYDxFFoPKtuy3W5g6AfF8Ae/XCMVJPb1a9+zH
- WIqXdKnIAiHGb8/d/POytC7hmO68uQPACJpPNWlSIoosg6f2cOuJKNWiALVP52AXFIJU
- PnFnzPoBGFG9Hgz2n86HiSLgXl7Ka7C2OpSXXQPAOmLmTQfBFofYlydZ+DPWgIUZPSwD
- SrNzBGWk4hBPKoKPkun2sYG8cqT4m1ael9DmH+hT7Nn9KIXzCUeLH+xE2ih/cgyKcF5m
- wLhev3v/tDS4VCZ8B8lEMwCMFJMJpw6W7I7+Lj0o+fuyBdidvd+5eJsFxzMcIa4pD2uP
- ZudA==
-X-Gm-Message-State: AOAM530fg4m+QjRpb1vY7UreJprlG/d6Mlz/2XFeuqW63+Ai3hmOigEZ
- NcriSYkEja+b0CkE0GTF0DoeiO5d72o=
-X-Google-Smtp-Source: ABdhPJwd6Z5nAInxgg64/9OMlS6aZsOfpAVOsFlz7fsZUbzhg1xbfaOUhAe2wwVQgWoCt/mMNxBRTQ==
-X-Received: by 2002:a05:620a:3710:: with SMTP id
- de16mr34937020qkb.247.1641250085954; 
- Mon, 03 Jan 2022 14:48:05 -0800 (PST)
-Received: from rekt.ibmuc.com ([2804:431:c7c7:f4d8:aa07:335f:99e0:a6e7])
- by smtp.gmail.com with ESMTPSA id t123sm22917176qkb.135.2022.01.03.14.48.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 03 Jan 2022 14:48:05 -0800 (PST)
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 4/4] target/ppc: do not call hreg_compute_hflags() in
- helper_store_mmcr0()
-Date: Mon,  3 Jan 2022 19:47:46 -0300
-Message-Id: <20220103224746.167831-5-danielhb413@gmail.com>
-X-Mailer: git-send-email 2.33.1
-In-Reply-To: <20220103224746.167831-1-danielhb413@gmail.com>
-References: <20220103224746.167831-1-danielhb413@gmail.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=iWZzEiS5kAjMq93arrDLQMfuajuYgKjAkXInC/TbZNM=;
+ b=5/ZOOwDOyng/d52I2gEmVCFYjrqd5iqD4ubzSZtUBL6xxnaUHP7vQCnGjNsmgBHAQr
+ hhGSuc970+Iq8Rn02W6dhls26azBrDVtsCa3/tnB7W9BDIOkKCd2eAC3jXst+1ixcSZQ
+ mLgnkvFL4IH+iPVrdiaDcm5IXCF23Bu3dmx0T8T7EqDEYmrhvqhW0xY+agvoAqWdFaWP
+ 2Rv/KhFQUhGl+ELY+LywVHVeSkQN5Awox6fTGCbp6pEenJlkiM7KqZGgFB+GoxcqKRia
+ 9jVjkmP6cLcyqAQVME6w5fSjWVlJOFMtoTmKW645sP+nUfP1U2WQPnGntWQ5MqqxfnRD
+ Jv8w==
+X-Gm-Message-State: AOAM532G6ZtSxG12GK+fOP4gkyZ2C71MsRUuPasFfT8N7/OAStGUQDty
+ 1uNkSiewKm39asAfehbfHkvlR2DLIHhi4IfC6Tk=
+X-Google-Smtp-Source: ABdhPJwWMFkGtS5s6WxkatZdCstBaorcBsBN7wgBf/CU6mCKcCEb/5XV0j9cU2+OEWLlQlpuWNMpxEpPThR49FaJhDU=
+X-Received: by 2002:a17:90a:c087:: with SMTP id
+ o7mr56934605pjs.91.1641250100719; 
+ Mon, 03 Jan 2022 14:48:20 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::733
+References: <20211224034915.17204-1-liweiwei@iscas.ac.cn>
+ <20211224034915.17204-2-liweiwei@iscas.ac.cn>
+In-Reply-To: <20211224034915.17204-2-liweiwei@iscas.ac.cn>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Tue, 4 Jan 2022 08:47:54 +1000
+Message-ID: <CAKmqyKM4iTcVEjrezZEXikObm5MuVpcUag+bKYdMaamDdFP6Pg@mail.gmail.com>
+Subject: Re: [PATCH 1/6] target/riscv: add cfg properties for zfinx,
+ zdinx and zhinx{min}
+To: liweiwei <liweiwei@iscas.ac.cn>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102b
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::733;
- envelope-from=danielhb413@gmail.com; helo=mail-qk1-x733.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
+ envelope-from=alistair23@gmail.com; helo=mail-pj1-x102b.google.com
 X-Spam_score_int: 8
 X-Spam_score: 0.8
 X-Spam_bar: /
@@ -85,50 +81,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: richard.henderson@linaro.org, danielhb413@gmail.com, qemu-ppc@nongnu.org,
- clg@kaod.org, david@gibson.dropbear.id.au
+Cc: lazyparser@gmail.com, "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ wangjunqiang <wangjunqiang@iscas.ac.cn>, Bin Meng <bin.meng@windriver.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>, ardxwe@gmail.com,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-MMCR0 writes will change only MMCR0 bits which are used to calculate
-HFLAGS_PMCC0, HFLAGS_PMCC1 and HFLAGS_INSN_CNT hflags. No other machine
-register will be changed during this operation. This means that
-hreg_compute_hflags() is overkill for what we need to do.
+On Fri, Dec 24, 2021 at 1:51 PM liweiwei <liweiwei@iscas.ac.cn> wrote:
+>
+> Co-authored-by: ardxwe <ardxwe@gmail.com>
+> Signed-off-by: liweiwei <liweiwei@iscas.ac.cn>
+> Signed-off-by: wangjunqiang <wangjunqiang@iscas.ac.cn>
+> ---
+>  roms/SLOF                |  2 +-
+>  target/riscv/cpu.c       | 12 ++++++++++++
+>  target/riscv/cpu.h       |  4 ++++
+>  target/riscv/translate.c |  8 ++++++++
+>  4 files changed, 25 insertions(+), 1 deletion(-)
+>
+> diff --git a/roms/SLOF b/roms/SLOF
+> index a6906b024c..dd0dcaa1c1 160000
+> --- a/roms/SLOF
+> +++ b/roms/SLOF
+> @@ -1 +1 @@
+> -Subproject commit a6906b024c6cca5a86496f51eb4bfee3a0c36148
+> +Subproject commit dd0dcaa1c1085c159ddab709c7f274b3917be8bd
 
-pmu_update_summaries() is already updating HFLAGS_INSN_CNT without
-calling hreg_compure_hflags(). Let's do the same for the other 2 MMCR0
-hflags.
+It looks like you accidentally changed a submodule.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
----
- target/ppc/power8-pmu.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
-
-diff --git a/target/ppc/power8-pmu.c b/target/ppc/power8-pmu.c
-index 73713ca2a3..236e8e66e9 100644
---- a/target/ppc/power8-pmu.c
-+++ b/target/ppc/power8-pmu.c
-@@ -224,12 +224,17 @@ static void pmu_update_overflow_timers(CPUPPCState *env)
- 
- void helper_store_mmcr0(CPUPPCState *env, target_ulong value)
- {
-+    bool hflags_pmcc0 = (value & MMCR0_PMCC0) != 0;
-+    bool hflags_pmcc1 = (value & MMCR0_PMCC1) != 0;
-+
-     pmu_update_cycles(env);
- 
-     env->spr[SPR_POWER_MMCR0] = value;
- 
-     /* MMCR0 writes can change HFLAGS_PMCC[01] and HFLAGS_INSN_CNT */
--    hreg_compute_hflags(env);
-+    env->hflags = deposit32(env->hflags, HFLAGS_PMCC0, 1, hflags_pmcc0);
-+    env->hflags = deposit32(env->hflags, HFLAGS_PMCC1, 1, hflags_pmcc1);
-+
-     pmu_update_summaries(env);
- 
-     /* Update cycle overflow timers with the current MMCR0 state */
--- 
-2.33.1
-
+Alistair
 
