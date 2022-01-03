@@ -2,61 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35E36482F12
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jan 2022 09:42:06 +0100 (CET)
-Received: from localhost ([::1]:53136 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A4D3482F1D
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jan 2022 09:50:30 +0100 (CET)
+Received: from localhost ([::1]:33284 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n4Iuq-0001tp-9n
-	for lists+qemu-devel@lfdr.de; Mon, 03 Jan 2022 03:42:04 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44372)
+	id 1n4J2z-0007pS-CW
+	for lists+qemu-devel@lfdr.de; Mon, 03 Jan 2022 03:50:29 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45846)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1n4ItS-00013B-U9
- for qemu-devel@nongnu.org; Mon, 03 Jan 2022 03:40:38 -0500
-Received: from smtpout2.mo529.mail-out.ovh.net ([79.137.123.220]:56087)
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1n4IzW-0004Iz-Au; Mon, 03 Jan 2022 03:46:54 -0500
+Received: from szxga02-in.huawei.com ([45.249.212.188]:3064)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1n4ItQ-0001L5-O5
- for qemu-devel@nongnu.org; Mon, 03 Jan 2022 03:40:38 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.109.143.201])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 63903D526400;
- Mon,  3 Jan 2022 09:40:34 +0100 (CET)
-Received: from kaod.org (37.59.142.97) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.17; Mon, 3 Jan
- 2022 09:40:33 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-97G002cbb3c7ad-b455-4d49-afc7-da8d3b606641,
- 71ABFCEAB0EE88409933ED7B68EF8EFCD2601B88) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <ef1465a3-27eb-83da-f925-4eb9e6dede78@kaod.org>
-Date: Mon, 3 Jan 2022 09:40:33 +0100
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1n4IzS-0006Rg-2j; Mon, 03 Jan 2022 03:46:54 -0500
+Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.53])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4JS8V62BPvzbj23;
+ Mon,  3 Jan 2022 16:46:06 +0800 (CST)
+Received: from DESKTOP-TMVL5KK.china.huawei.com (10.174.187.128) by
+ dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20; Mon, 3 Jan 2022 16:46:38 +0800
+To: <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>
+CC: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones
+ <drjones@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>, Igor Mammedov
+ <imammedo@redhat.com>, Shannon Zhao <shannon.zhaosl@gmail.com>, Ani Sinha
+ <ani@anisinha.ca>, Eric Auger <eauger@redhat.com>,
+ <wanghaibin.wang@huawei.com>, Yanan Wang <wangyanan55@huawei.com>
+Subject: [PATCH v6 0/7] ARM virt: Support CPU cluster topology
+Date: Mon, 3 Jan 2022 16:46:29 +0800
+Message-ID: <20220103084636.2496-1-wangyanan55@huawei.com>
+X-Mailer: git-send-email 2.8.4.windows.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH 16/17] pnv_phb4.c: do not set 'root-bus' as bus name
-Content-Language: en-US
-To: Daniel Henrique Barboza <danielhb413@gmail.com>, <qemu-devel@nongnu.org>
-References: <20211228193806.1198496-1-danielhb413@gmail.com>
- <20211228193806.1198496-17-danielhb413@gmail.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20211228193806.1198496-17-danielhb413@gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.97]
-X-ClientProxiedBy: DAG2EX1.mxp5.local (172.16.2.11) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 755f312a-af49-4ab2-8901-3334d0e70a62
-X-Ovh-Tracer-Id: 13151073864155696096
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrudeftddguddvvdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeigedvffekgeeftedutddttdevudeihfegudffkeeitdekkeetkefhffelveelleenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepuggrvhhiugesghhisghsohhnrdgurhhophgsvggrrhdrihgurdgruh
-Received-SPF: pass client-ip=79.137.123.220; envelope-from=clg@kaod.org;
- helo=smtpout2.mo529.mail-out.ovh.net
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) NICE_REPLY_A=-3.354,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain
+X-Originating-IP: [10.174.187.128]
+X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
+ dggpemm500023.china.huawei.com (7.185.36.83)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.188;
+ envelope-from=wangyanan55@huawei.com; helo=szxga02-in.huawei.com
+X-Spam_score_int: -22
+X-Spam_score: -2.3
+X-Spam_bar: --
+X-Spam_report: (-2.3 / 5.0 requ) RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -70,98 +60,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Yanan Wang <wangyanan55@huawei.com>
+From:  Yanan Wang via <qemu-devel@nongnu.org>
 
-On 12/28/21 20:38, Daniel Henrique Barboza wrote:
-> This change has the same motivation as the one done for pnv-phb3-root-bus
-> buses previously. Defaulting every bus to 'root-bus' makes it impossible to attach
-> root ports to specific buses and it doesn't allow for custom bus
-> naming because we're ignoring the 'id' value when registering the root
-> bus.
-> 
-> After this patch, creating pnv-phb4 devices with 'id' being set will
-> result in the following qtree:
-> 
-> qemu-system-ppc64 -m 4G -machine powernv9,accel=tcg \
->     -device pnv-phb4,chip-id=0,index=0,id=pcie.0 \
->     -device pnv-phb4,chip-id=1,index=4,id=pcie.1
-> 
-> bus: main-system-bus
->    type System
->    dev: pnv-phb4, id "pcie.1"
->      index = 4 (0x4)
->      chip-id = 1 (0x1)
->      version = 704374636546 (0xa400000002)
->      device-id = 1217 (0x4c1)
->      x-config-reg-migration-enabled = true
->      bypass-iommu = false
->      bus: pcie.1
->        type pnv-phb4-root-bus
->    dev: pnv-phb4, id "pcie.0"
->      index = 0 (0x0)
->      chip-id = 0 (0x0)
->      version = 704374636546 (0xa400000002)
->      device-id = 1217 (0x4c1)
->      x-config-reg-migration-enabled = true
->      bypass-iommu = false
->      bus: pcie.0
->        type pnv-phb4-root-bus
-> 
-> And without setting any ids:
-> 
-> qemu-system-ppc64 -m 4G -machine powernv9,accel=tcg \
->     -device pnv-phb4,chip-id=0,index=0,id=pcie.0 \
->     -device pnv-phb4,chip-id=1,index=4,id=pcie.1
-> 
-> bus: main-system-bus
->    type System
->    dev: pnv-phb4, id ""
->      index = 4 (0x4)
->      chip-id = 1 (0x1)
->      version = 704374636546 (0xa400000002)
->      device-id = 1217 (0x4c1)
->      x-config-reg-migration-enabled = true
->      bypass-iommu = false
->      bus: pnv-phb4-root-bus.1
->        type pnv-phb4-root-bus
->    dev: pnv-phb4, id ""
->      index = 0 (0x0)
->      chip-id = 0 (0x0)
->      version = 704374636546 (0xa400000002)
->      device-id = 1217 (0x4c1)
->      x-config-reg-migration-enabled = true
->      bypass-iommu = false
->      bus: pnv-phb4-root-bus.0
->        type pnv-phb4-root-bus
-> 
-> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+This v6 series enables the support for CPU cluster topology on
+ARM virt machines. The generic infrastructure for CPU cluster
+parameter now is in upstream.
 
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
+Background and descriptions:
+The new Cluster-Aware Scheduling support has landed in Linux 5.16,
+which has been proved to benefit the scheduling performance (e.g.
+load balance and wake_affine strategy) for both x86_64 and AArch64.
+We can see the PR [1] or the actual patch series [2] for reference.
 
-Thanks,
+So since Linux 5.16 we have four-level arch-neutral CPU topology
+definition like below and a new scheduler level for clusters.
+struct cpu_topology {
+    int thread_id;
+    int core_id;
+    int cluster_id;
+    int package_id;
+    int llc_id;
+    cpumask_t thread_sibling;
+    cpumask_t core_sibling;
+    cpumask_t cluster_sibling;
+    cpumask_t llc_sibling;
+}
 
-C.
+A cluster generally means a group of CPU cores which share L2 cache
+or other mid-level resources, and it is the shared resources that
+is used to improve scheduler's behavior. From the point of view of
+the size range, it's between CPU die and CPU core. For example, on
+some ARM64 Kunpeng servers, we have 6 clusters in each NUMA node,
+and 4 CPU cores in each cluster. The 4 CPU cores share a separate
+L2 cache and a L3 cache tag, which brings cache affinity advantage.
 
+[1] https://lore.kernel.org/lkml/163572864855.3357115.17938524897008353101.tglx@xen13/
+[2] https://lkml.org/lkml/2021/9/24/178
 
-> ---
->   hw/pci-host/pnv_phb4.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/hw/pci-host/pnv_phb4.c b/hw/pci-host/pnv_phb4.c
-> index 7b53c12b7c..982a61ebc0 100644
-> --- a/hw/pci-host/pnv_phb4.c
-> +++ b/hw/pci-host/pnv_phb4.c
-> @@ -1354,7 +1354,7 @@ static void pnv_phb4_realize(DeviceState *dev, Error **errp)
->       memory_region_init(&phb->pci_mmio, OBJECT(phb), name,
->                          PCI_MMIO_TOTAL_SIZE);
->   
-> -    pci->bus = pci_register_root_bus(dev, "root-bus",
-> +    pci->bus = pci_register_root_bus(dev, dev->id,
->                                        pnv_phb4_set_irq, pnv_phb4_map_irq, phb,
->                                        &phb->pci_mmio, &phb->pci_io,
->                                        0, 4, TYPE_PNV_PHB4_ROOT_BUS);
-> 
+In virtualization, on the Hosts which have physical clusters, if we
+can design a vCPU topology with cluster level for guest kernel and
+have a dedicated vCPU pinning. A Cluster-Aware Guest kernel can also
+make use of the cache affinity of CPU clusters to gain similar
+scheduling performance. This series only enables clusters support
+in the vCPU topology on ARM virt machines. We can also enable it
+for other machine types in the future if needed.
+
+The patches in this series do:
+- Enable CPU cluster support on ARM virt machines, so that users
+  can specify a 4-level CPU hierarchy sockets/clusters/cores/threads.
+  And the 4-level topology will be described to guest kernel through
+  ACPI PPTT and DT cpu-map.
+
+Changelog:
+v5->v6:
+- drop the generic part which is in upstream now
+- rebased on latest master
+- v5: https://patchew.org/QEMU/20211228092221.21068-1-wangyanan55@huawei.com/
+
+Yanan Wang (7):
+  hw/arm/virt: Support CPU cluster on ARM virt machine
+  hw/arm/virt: Support cluster level in DT cpu-map
+  hw/acpi/aml-build: Improve scalability of PPTT generation
+  hw/arm/virt-acpi-build: Make an ARM specific PPTT generator
+  tests/acpi/bios-tables-test: Allow changes to virt/PPTT file
+  hw/arm/virt-acpi-build: Support cluster level in PPTT generation
+  tests/acpi/bios-table-test: Update expected virt/PPTT file
+
+ hw/acpi/aml-build.c         |  66 ++------------------------
+ hw/arm/virt-acpi-build.c    |  92 +++++++++++++++++++++++++++++++++++-
+ hw/arm/virt.c               |  16 ++++---
+ include/hw/acpi/aml-build.h |   5 +-
+ qemu-options.hx             |  10 ++++
+ tests/data/acpi/virt/PPTT   | Bin 76 -> 96 bytes
+ 6 files changed, 115 insertions(+), 74 deletions(-)
+
+--
+2.27.0
 
 
