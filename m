@@ -2,75 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B12C648307E
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jan 2022 12:28:43 +0100 (CET)
-Received: from localhost ([::1]:50016 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A528E483088
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jan 2022 12:30:41 +0100 (CET)
+Received: from localhost ([::1]:55356 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n4LW6-00084G-89
-	for lists+qemu-devel@lfdr.de; Mon, 03 Jan 2022 06:28:42 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51122)
+	id 1n4LXz-0003B4-Kt
+	for lists+qemu-devel@lfdr.de; Mon, 03 Jan 2022 06:30:39 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51594)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1n4LRo-0003tE-7l
- for qemu-devel@nongnu.org; Mon, 03 Jan 2022 06:24:16 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:48025)
+ id 1n4LSv-0005Jy-Ac
+ for qemu-devel@nongnu.org; Mon, 03 Jan 2022 06:25:25 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:46849)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1n4LRl-0001gg-D7
- for qemu-devel@nongnu.org; Mon, 03 Jan 2022 06:24:15 -0500
+ id 1n4LSc-0001nI-QT
+ for qemu-devel@nongnu.org; Mon, 03 Jan 2022 06:25:23 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641209052;
+ s=mimecast20190719; t=1641209101;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=y8543RBcbTiihZAEfg+TpAZCXc3IeQ2oAodPtdz2D7Y=;
- b=AsSdG2Mdv2X8WFbcA2V7ODJzsc66+/hsXdYNwvjQxIbKkhMTPudsZKqfTlsPXPhiHe5LgQ
- absuyBYcOSLtik/NvJ/Jsq48Ci4HyGII6bqnSBAOLLVWZIdxNEjn70caVq1fqAnh8dwD+X
- E0ZQKVvUk/2ze9C0Db6uRgvR8yuokmQ=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=rhbKdI2L+n64FvniTwVs30EHeKvUt3sJZ/iH19/8KUs=;
+ b=PVq9ibc+5qAyf/khDPgG7pDTBA1RIwp1nr1EGcdnOoklBicoM5HQiWewmAyf35f68BZeMV
+ xZHBSqGeowA/mA6Ur0Jk1dVerziXf5FR7Uz5tNZ97rsW4N7t0JKO3Jm2lTae5WsQNyBUZJ
+ LWFb9qhwK08RG85H4+zQctcUpCQKjqA=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-421-DianKqamOum-REPEHfZ7Zg-1; Mon, 03 Jan 2022 06:24:11 -0500
-X-MC-Unique: DianKqamOum-REPEHfZ7Zg-1
-Received: by mail-ed1-f69.google.com with SMTP id
- i5-20020a05640242c500b003f84839a8c3so22649715edc.6
- for <qemu-devel@nongnu.org>; Mon, 03 Jan 2022 03:24:11 -0800 (PST)
+ us-mta-447-zrh4_-XGNX6G7fdp-sc6UQ-1; Mon, 03 Jan 2022 06:25:00 -0500
+X-MC-Unique: zrh4_-XGNX6G7fdp-sc6UQ-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ q15-20020a056402518f00b003f87abf9c37so22591229edd.15
+ for <qemu-devel@nongnu.org>; Mon, 03 Jan 2022 03:25:00 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=y8543RBcbTiihZAEfg+TpAZCXc3IeQ2oAodPtdz2D7Y=;
- b=isOJ8iorCc7mZyBjxfNL5gJrFLWuH4eixwgBHvDTLue3bW82EhFZlCzPddVI37/Oqy
- eS9dqyB+XoSbFF+PoieCJfhldaBPg3ogHV+RKrxXsraMU/I70/cxkL/lxKd/pfoLSTEf
- 1qvUej7HGwm/sB84OqzFG5kR99W6FP6aeJiZJJY6O0uhB+La27N0Xoqh/rdG4Yb2JN2R
- DWluUvWkg39Fbr2l/1JfALIhMitTfuLrh+ZUS1STZRQ4HwcYqVzDuB6Gxm3tdfUW2i3Z
- FLANKD4hu0yK4bflsQExk7aMMQtVH4vdyCQBdif65OWKxQPz/iPlyQRjOt2UO0bd4xqp
- PCaA==
-X-Gm-Message-State: AOAM533h6cc2JjkZORJP0oQ6xdc74CFhdu6TM30jlH4AIJJfEmzuSZMJ
- o2Wwv1ULlqU13RUd5zx2EMasXZ5KWSaB1dr9FQlI50plLcyMZMkf14xz1ryRzkqRGRviKx8NS+z
- cTTGNUcGVgOXN+Eg=
-X-Received: by 2002:a17:907:7f29:: with SMTP id
- qf41mr35422743ejc.715.1641209050429; 
- Mon, 03 Jan 2022 03:24:10 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzvL+PnA2Y+kEQc1JNmob1Gix7ddMZoAxw3Xd9PwgkggulaH+eW8VWN7uC0007ns06r9DZcEg==
-X-Received: by 2002:a17:907:7f29:: with SMTP id
- qf41mr35422716ejc.715.1641209050123; 
- Mon, 03 Jan 2022 03:24:10 -0800 (PST)
+ bh=rhbKdI2L+n64FvniTwVs30EHeKvUt3sJZ/iH19/8KUs=;
+ b=F+PGcCdVYVQpRRWGGTfTAKMGp8DXXnZ7YjRxk9TAgNzE0nmSUulMkt/qrAZeNSUQS9
+ /MfIyNCj111BfMBOUvAfb5ea6Zq7i6zB3cbxXNZSIfl/Puvp+noxldmTXrrE+5namQe0
+ EEexY25BqQeZZWqjTVIEw0txnahvOTE5symKYHY+4CMWZd99f9mop/y5MThQ5VwV6AfG
+ rYjHFJnY0paRit2Kg1oD7DP/2Rbysrjvwc0c3xXdy1WOLtrD9bbbpRtqDV205hvhKhaL
+ yuZnWAXQkG0Zk1XsXhfzet2VE0NR2Ka+ZpiWPTjIo86X3mV+yb6Z1UK5y71wCv9YSUSU
+ NJCQ==
+X-Gm-Message-State: AOAM532HgwVrkL7yL5yQKEgj70V9Lv5JGnw3/IGQtyUgFDEnb9b/I6Eh
+ O41AxUCulWQhhtWY0Gath/v0HkfHCmm5cCZb5mv8F0GRkCOome436mjhgwmutZHDp1BhHT+khfx
+ 8mxgRsQwmc6kNplE=
+X-Received: by 2002:aa7:d6d6:: with SMTP id x22mr44544471edr.132.1641209099647; 
+ Mon, 03 Jan 2022 03:24:59 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJy8CC3uHJ0mBCdXFmGo+ZBfzsH8dulCEQC6Kt5gW8h8AxciRwrutf9WvzqJfJH4Jqi4PsnePQ==
+X-Received: by 2002:aa7:d6d6:: with SMTP id x22mr44544454edr.132.1641209099415; 
+ Mon, 03 Jan 2022 03:24:59 -0800 (PST)
 Received: from gator (cst2-173-70.cust.vodafone.cz. [31.30.173.70])
- by smtp.gmail.com with ESMTPSA id gs17sm10467012ejc.116.2022.01.03.03.24.09
+ by smtp.gmail.com with ESMTPSA id e4sm10832046ejs.13.2022.01.03.03.24.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 03 Jan 2022 03:24:09 -0800 (PST)
-Date: Mon, 3 Jan 2022 12:24:07 +0100
+ Mon, 03 Jan 2022 03:24:59 -0800 (PST)
+Date: Mon, 3 Jan 2022 12:24:57 +0100
 From: Andrew Jones <drjones@redhat.com>
 To: Yanan Wang <wangyanan55@huawei.com>
-Subject: Re: [PATCH v6 3/7] hw/acpi/aml-build: Improve scalability of PPTT
- generation
-Message-ID: <20220103112407.p7aep3yqnlhevylc@gator>
+Subject: Re: [PATCH v6 1/7] hw/arm/virt: Support CPU cluster on ARM virt
+ machine
+Message-ID: <20220103112457.56iglr2wbcrbws2y@gator>
 References: <20220103084636.2496-1-wangyanan55@huawei.com>
- <20220103084636.2496-4-wangyanan55@huawei.com>
+ <20220103084636.2496-2-wangyanan55@huawei.com>
 MIME-Version: 1.0
-In-Reply-To: <20220103084636.2496-4-wangyanan55@huawei.com>
+In-Reply-To: <20220103084636.2496-2-wangyanan55@huawei.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -106,123 +104,69 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jan 03, 2022 at 04:46:32PM +0800, Yanan Wang wrote:
-> Currently we generate a PPTT table of n-level processor hierarchy
-> with n-level loops in build_pptt(). It works fine as now there are
-> only three CPU topology parameters. But the code may become less
-> scalable with the processor hierarchy levels increasing.
+On Mon, Jan 03, 2022 at 04:46:30PM +0800, Yanan Wang wrote:
+> ARM64 machines like Kunpeng Family Server Chips have a level
+> of hardware topology in which a group of CPU cores share L3
+> cache tag or L2 cache. For example, Kunpeng 920 typically
+> has 6 or 8 clusters in each NUMA node (also represent range
+> of CPU die), and each cluster has 4 CPU cores. All clusters
+> share L3 cache data, but CPU cores in each cluster share a
+> local L3 tag.
 > 
-> This patch only improves the scalability of build_pptt by reducing
-> the loops, and intends to make no functional change.
+> Running a guest kernel with Cluster-Aware Scheduling on the
+> Hosts which have physical clusters, if we can design a vCPU
+> topology with cluster level for guest kernel and then have
+> a dedicated vCPU pinning, the guest will gain scheduling
+> performance improvement from cache affinity of CPU cluster.
+> 
+> So let's enable the support for this new parameter on ARM
+> virt machines. After this patch, we can define a 4-level
+> CPU hierarchy like: cpus=*,maxcpus=*,sockets=*,clusters=*,
+> cores=*,threads=*.
 > 
 > Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
 > ---
->  hw/acpi/aml-build.c | 50 +++++++++++++++++++++++++++++----------------
->  1 file changed, 32 insertions(+), 18 deletions(-)
+>  hw/arm/virt.c   |  1 +
+>  qemu-options.hx | 10 ++++++++++
+>  2 files changed, 11 insertions(+)
 > 
-> diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
-> index b3b3310df3..be3851be36 100644
-> --- a/hw/acpi/aml-build.c
-> +++ b/hw/acpi/aml-build.c
-> @@ -2001,7 +2001,10 @@ static void build_processor_hierarchy_node(GArray *tbl, uint32_t flags,
->  void build_pptt(GArray *table_data, BIOSLinker *linker, MachineState *ms,
->                  const char *oem_id, const char *oem_table_id)
->  {
-> -    int pptt_start = table_data->len;
-> +    GQueue *list = g_queue_new();
-> +    guint pptt_start = table_data->len;
-> +    guint father_offset;
-
-"parent_offset" would be more conventional.
-
-> +    guint length, i;
->      int uid = 0;
->      int socket;
->      AcpiTable table = { .sig = "PPTT", .rev = 2,
-> @@ -2010,9 +2013,8 @@ void build_pptt(GArray *table_data, BIOSLinker *linker, MachineState *ms,
->      acpi_table_begin(&table, table_data);
+> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+> index 6bce595aba..f413e146d9 100644
+> --- a/hw/arm/virt.c
+> +++ b/hw/arm/virt.c
+> @@ -2700,6 +2700,7 @@ static void virt_machine_class_init(ObjectClass *oc, void *data)
+>      hc->unplug_request = virt_machine_device_unplug_request_cb;
+>      hc->unplug = virt_machine_device_unplug_cb;
+>      mc->nvdimm_supported = true;
+> +    mc->smp_props.clusters_supported = true;
+>      mc->auto_enable_numa_with_memhp = true;
+>      mc->auto_enable_numa_with_memdev = true;
+>      mc->default_ram_id = "mach-virt.ram";
+> diff --git a/qemu-options.hx b/qemu-options.hx
+> index fd1f8135fb..69ef1cdb85 100644
+> --- a/qemu-options.hx
+> +++ b/qemu-options.hx
+> @@ -277,6 +277,16 @@ SRST
 >  
->      for (socket = 0; socket < ms->smp.sockets; socket++) {
-> -        uint32_t socket_offset = table_data->len - pptt_start;
-> -        int core;
-> -
-> +        g_queue_push_tail(list,
-> +            GUINT_TO_POINTER(table_data->len - pptt_start));
->          build_processor_hierarchy_node(
->              table_data,
->              /*
-> @@ -2021,35 +2023,47 @@ void build_pptt(GArray *table_data, BIOSLinker *linker, MachineState *ms,
->               */
->              (1 << 0),
->              0, socket, NULL, 0);
-> +    }
+>          -smp 16,sockets=2,dies=2,cores=2,threads=2,maxcpus=16
 >  
-> -        for (core = 0; core < ms->smp.cores; core++) {
-> -            uint32_t core_offset = table_data->len - pptt_start;
-> -            int thread;
-> +    length = g_queue_get_length(list);
-> +    for (i = 0; i < length; i++) {
-> +        int core;
->  
-> +        father_offset = GPOINTER_TO_UINT(g_queue_pop_head(list));
-> +        for (core = 0; core < ms->smp.cores; core++) {
->              if (ms->smp.threads > 1) {
-> +                g_queue_push_tail(list,
-> +                    GUINT_TO_POINTER(table_data->len - pptt_start));
->                  build_processor_hierarchy_node(
->                      table_data,
->                      (0 << 0), /* not a physical package */
-> -                    socket_offset, core, NULL, 0);
-> -
-> -                for (thread = 0; thread < ms->smp.threads; thread++) {
-> -                    build_processor_hierarchy_node(
-> -                        table_data,
-> -                        (1 << 1) | /* ACPI Processor ID valid */
-> -                        (1 << 2) | /* Processor is a Thread */
-> -                        (1 << 3),  /* Node is a Leaf */
-> -                        core_offset, uid++, NULL, 0);
-> -                }
-> +                    father_offset, core, NULL, 0);
->              } else {
->                  build_processor_hierarchy_node(
->                      table_data,
->                      (1 << 1) | /* ACPI Processor ID valid */
->                      (1 << 3),  /* Node is a Leaf */
-> -                    socket_offset, uid++, NULL, 0);
-> +                    father_offset, uid++, NULL, 0);
->              }
->          }
->      }
->  
-> +    length = g_queue_get_length(list);
-> +    for (i = 0; i < length; i++) {
-> +        int thread;
+> +    The following sub-option defines a CPU topology hierarchy (2 sockets
+> +    totally on the machine, 2 clusters per socket, 2 cores per cluster,
+> +    2 threads per core) for ARM virt machines which support sockets/clusters
+> +    /cores/threads. Some members of the option can be omitted but their values
+> +    will be automatically computed:
 > +
-> +        father_offset = GPOINTER_TO_UINT(g_queue_pop_head(list));
-> +        for (thread = 0; thread < ms->smp.threads; thread++) {
-> +            build_processor_hierarchy_node(
-> +                table_data,
-> +                (1 << 1) | /* ACPI Processor ID valid */
-> +                (1 << 2) | /* Processor is a Thread */
-> +                (1 << 3),  /* Node is a Leaf */
-> +                father_offset, uid++, NULL, 0);
-> +        }
-> +    }
+> +    ::
 > +
-> +    g_queue_free(list);
->      acpi_table_end(linker, &table);
->  }
-
-This patch actually increases the number of loops, since we need to visit
-higher hierarchical nodes twice (once to enqueue and once to dequeue). We
-do reduce code indentation and it looks like we could more easily skip
-hierarchy levels we don't want, though. While my impulse is to say we
-should just keep this simple and add another nested loop for clusters, I
-guess I'm OK with this too.
+> +        -smp 16,sockets=2,clusters=2,cores=2,threads=2,maxcpus=16
+> +
+>      Historically preference was given to the coarsest topology parameters
+>      when computing missing values (ie sockets preferred over cores, which
+>      were preferred over threads), however, this behaviour is considered
+> -- 
+> 2.27.0
+>
 
 Reviewed-by: Andrew Jones <drjones@redhat.com>
-
-Thanks,
-drew
 
 
