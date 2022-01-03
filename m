@@ -2,54 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67983482F23
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jan 2022 09:54:08 +0100 (CET)
-Received: from localhost ([::1]:39762 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFE4D482F29
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jan 2022 09:59:10 +0100 (CET)
+Received: from localhost ([::1]:50058 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n4J6T-0003ns-Kc
-	for lists+qemu-devel@lfdr.de; Mon, 03 Jan 2022 03:54:05 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45890)
+	id 1n4JBN-0002QO-TE
+	for lists+qemu-devel@lfdr.de; Mon, 03 Jan 2022 03:59:09 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47476)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1n4IzX-0004JZ-Na; Mon, 03 Jan 2022 03:46:56 -0500
-Received: from szxga03-in.huawei.com ([45.249.212.189]:4171)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1n4J6V-0005SM-QO
+ for qemu-devel@nongnu.org; Mon, 03 Jan 2022 03:54:08 -0500
+Received: from 8.mo552.mail-out.ovh.net ([46.105.37.156]:40717)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1n4IzU-0006SL-7F; Mon, 03 Jan 2022 03:46:55 -0500
-Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.56])
- by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4JS8Rx3TSHz8vnq;
- Mon,  3 Jan 2022 16:44:13 +0800 (CST)
-Received: from DESKTOP-TMVL5KK.china.huawei.com (10.174.187.128) by
- dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Mon, 3 Jan 2022 16:46:45 +0800
-To: <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>
-CC: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones
- <drjones@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>, Igor Mammedov
- <imammedo@redhat.com>, Shannon Zhao <shannon.zhaosl@gmail.com>, Ani Sinha
- <ani@anisinha.ca>, Eric Auger <eauger@redhat.com>,
- <wanghaibin.wang@huawei.com>, Yanan Wang <wangyanan55@huawei.com>
-Subject: [PATCH v6 7/7] tests/acpi/bios-table-test: Update expected virt/PPTT
- file
-Date: Mon, 3 Jan 2022 16:46:36 +0800
-Message-ID: <20220103084636.2496-8-wangyanan55@huawei.com>
-X-Mailer: git-send-email 2.8.4.windows.1
-In-Reply-To: <20220103084636.2496-1-wangyanan55@huawei.com>
-References: <20220103084636.2496-1-wangyanan55@huawei.com>
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1n4J6R-0000lR-JY
+ for qemu-devel@nongnu.org; Mon, 03 Jan 2022 03:54:07 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.108.20.195])
+ by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 6E19B20D24;
+ Mon,  3 Jan 2022 08:54:00 +0000 (UTC)
+Received: from kaod.org (37.59.142.99) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.17; Mon, 3 Jan
+ 2022 09:54:00 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-99G003a09b7ee2-22db-41dc-932a-762cfed37332,
+ 71ABFCEAB0EE88409933ED7B68EF8EFCD2601B88) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <998859f6-ea3e-704a-400d-4bc09a4c6d4e@kaod.org>
+Date: Mon, 3 Jan 2022 09:53:59 +0100
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.174.187.128]
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- dggpemm500023.china.huawei.com (7.185.36.83)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.189;
- envelope-from=wangyanan55@huawei.com; helo=szxga03-in.huawei.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
-X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH 07/17] pnv_phb4.c: check if root port exists in rc_config
+ functions
+Content-Language: en-US
+To: Daniel Henrique Barboza <danielhb413@gmail.com>, <qemu-devel@nongnu.org>
+References: <20211228193806.1198496-1-danielhb413@gmail.com>
+ <20211228193806.1198496-8-danielhb413@gmail.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20211228193806.1198496-8-danielhb413@gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.99]
+X-ClientProxiedBy: DAG2EX1.mxp5.local (172.16.2.11) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 9f86ff27-1ac6-46b1-afca-b9757e21af88
+X-Ovh-Tracer-Id: 13377942696241171363
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrudeftddguddvgecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthejredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpefhhfelgeeukedtteffvdffueeiuefgkeekleehleetfedtgfetffefheeugeelheenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleelnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepfhhrvgguvghrihgtrdgsrghrrhgrthesfhhrrdhisghmrdgtohhm
+Received-SPF: pass client-ip=46.105.37.156; envelope-from=clg@kaod.org;
+ helo=8.mo552.mail-out.ovh.net
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) NICE_REPLY_A=-3.354,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -63,110 +71,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Frederic Barrat <frederic.barrat@fr.ibm.com>, qemu-ppc@nongnu.org,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Yanan Wang <wangyanan55@huawei.com>
-From:  Yanan Wang via <qemu-devel@nongnu.org>
 
-Run ./tests/data/acpi/rebuild-expected-aml.sh from build directory
-to update PPTT binary. Also empty bios-tables-test-allowed-diff.h.
+On 12/28/21 20:37, Daniel Henrique Barboza wrote:
+> pnv_phb4_rc_config_read() and pnv_phb4_rc_config_write() are asserting
+> the existence of the root port. The root port is now optional, and there
+> will be cases where a pnv-phb4 device won't have a root port attached.
 
-The disassembled differences between actual and expected PPTT:
+May be we should enforce a stronger link between the two objects to avoid
+creating an empty PHB device.
 
- /*
-  * Intel ACPI Component Architecture
-  * AML/ASL+ Disassembler version 20180810 (64-bit version)
-  * Copyright (c) 2000 - 2018 Intel Corporation
-  *
-- * Disassembly of tests/data/acpi/virt/PPTT, Mon Oct 25 20:24:53 2021
-+ * Disassembly of /tmp/aml-BPI5B1, Mon Oct 25 20:24:53 2021
-  *
-  * ACPI Data Table [PPTT]
-  *
-  * Format: [HexOffset DecimalOffset ByteLength]  FieldName : FieldValue
-  */
+> Instead of asserting, check if the root port exists before read/writing
+> into it> 
+> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+> ---
+>   hw/pci-host/pnv_phb4.c | 8 ++++++--
+>   1 file changed, 6 insertions(+), 2 deletions(-)
+> 
+> diff --git a/hw/pci-host/pnv_phb4.c b/hw/pci-host/pnv_phb4.c
+> index daa468b812..6bd907f91a 100644
+> --- a/hw/pci-host/pnv_phb4.c
+> +++ b/hw/pci-host/pnv_phb4.c
+> @@ -152,7 +152,9 @@ static void pnv_phb4_rc_config_write(PnvPHB4 *phb, unsigned off,
+>       }
+>   
+>       pdev = pci_find_device(pci->bus, 0, 0);
+> -    assert(pdev);
+> +    if (!pdev) {
 
- [000h 0000   4]                    Signature : "PPTT"    [Processor Properties Topology Table]
--[004h 0004   4]                 Table Length : 0000004C
-+[004h 0004   4]                 Table Length : 00000060
- [008h 0008   1]                     Revision : 02
--[009h 0009   1]                     Checksum : A8
-+[009h 0009   1]                     Checksum : 48
- [00Ah 0010   6]                       Oem ID : "BOCHS "
- [010h 0016   8]                 Oem Table ID : "BXPC    "
- [018h 0024   4]                 Oem Revision : 00000001
- [01Ch 0028   4]              Asl Compiler ID : "BXPC"
- [020h 0032   4]        Asl Compiler Revision : 00000001
+We should log an error at least.
 
- [024h 0036   1]                Subtable Type : 00 [Processor Hierarchy Node]
- [025h 0037   1]                       Length : 14
- [026h 0038   2]                     Reserved : 0000
- [028h 0040   4]        Flags (decoded below) : 00000001
-                             Physical package : 1
-                      ACPI Processor ID valid : 0
- [02Ch 0044   4]                       Parent : 00000000
- [030h 0048   4]            ACPI Processor ID : 00000000
- [034h 0052   4]      Private Resource Number : 00000000
+> +        return;
+> +    }
+>   
+>       pci_host_config_write_common(pdev, off, PHB_RC_CONFIG_SIZE,
+>                                    bswap32(val), 4);
+> @@ -171,7 +173,9 @@ static uint64_t pnv_phb4_rc_config_read(PnvPHB4 *phb, unsigned off,
+>       }
+>   
+>       pdev = pci_find_device(pci->bus, 0, 0);
+> -    assert(pdev);
+> +    if (!pdev) {
+> +        return 0x0;
 
- [038h 0056   1]                Subtable Type : 00 [Processor Hierarchy Node]
- [039h 0057   1]                       Length : 14
- [03Ah 0058   2]                     Reserved : 0000
--[03Ch 0060   4]        Flags (decoded below) : 0000000A
-+[03Ch 0060   4]        Flags (decoded below) : 00000000
-                             Physical package : 0
--                     ACPI Processor ID valid : 1
-+                     ACPI Processor ID valid : 0
- [040h 0064   4]                       Parent : 00000024
- [044h 0068   4]            ACPI Processor ID : 00000000
- [048h 0072   4]      Private Resource Number : 00000000
+         return ~0ull;
 
--Raw Table Data: Length 76 (0x4C)
-+[04Ch 0076   1]                Subtable Type : 00 [Processor Hierarchy Node]
-+[04Dh 0077   1]                       Length : 14
-+[04Eh 0078   2]                     Reserved : 0000
-+[050h 0080   4]        Flags (decoded below) : 0000000A
-+                            Physical package : 0
-+                     ACPI Processor ID valid : 1
-+[054h 0084   4]                       Parent : 00000038
-+[058h 0088   4]            ACPI Processor ID : 00000000
-+[05Ch 0092   4]      Private Resource Number : 00000000
-+
-+Raw Table Data: Length 96 (0x60)
-
--    0000: 50 50 54 54 4C 00 00 00 02 A8 42 4F 43 48 53 20  // PPTTL.....BOCHS
-+    0000: 50 50 54 54 60 00 00 00 02 48 42 4F 43 48 53 20  // PPTT`....HBOCHS
-     0010: 42 58 50 43 20 20 20 20 01 00 00 00 42 58 50 43  // BXPC    ....BXPC
-     0020: 01 00 00 00 00 14 00 00 01 00 00 00 00 00 00 00  // ................
--    0030: 00 00 00 00 00 00 00 00 00 14 00 00 0A 00 00 00  // ................
--    0040: 24 00 00 00 00 00 00 00 00 00 00 00              // $...........
-+    0030: 00 00 00 00 00 00 00 00 00 14 00 00 00 00 00 00  // ................
-+    0040: 24 00 00 00 00 00 00 00 00 00 00 00 00 14 00 00  // $...............
-+    0050: 0A 00 00 00 38 00 00 00 00 00 00 00 00 00 00 00  // ....8...........
-
-Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
----
- tests/data/acpi/virt/PPTT                   | Bin 76 -> 96 bytes
- tests/qtest/bios-tables-test-allowed-diff.h |   1 -
- 2 files changed, 1 deletion(-)
-
-diff --git a/tests/data/acpi/virt/PPTT b/tests/data/acpi/virt/PPTT
-index 7a1258ecf123555b24462c98ccbb76b4ac1d0c2b..f56ea63b369a604877374ad696c396e796ab1c83 100644
-GIT binary patch
-delta 53
-zcmV-50LuSNU<y!BR8(L90006=kqR;-00000Bme*a000000000002BZK3IG5AH~;_u
-L0000000000uCW9Z
-
-delta 32
-qcmV+*0N?*$ObSp?R8&j=00080kqR=APy`Gl00000000000001OcLdh}
-
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index cb143a55a6..dfb8523c8b 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1,2 +1 @@
- /* List of comma-separated changed AML files to ignore */
--"tests/data/acpi/virt/PPTT",
--- 
-2.27.0
+> +    }
+>   
+>       val = pci_host_config_read_common(pdev, off, PHB_RC_CONFIG_SIZE, 4);
+>       return bswap32(val);
+> 
 
 
