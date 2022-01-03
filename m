@@ -2,81 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89A1E4830BF
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jan 2022 12:53:31 +0100 (CET)
-Received: from localhost ([::1]:51670 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B7484830D6
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jan 2022 13:03:29 +0100 (CET)
+Received: from localhost ([::1]:56508 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n4Lu6-0004K5-5o
-	for lists+qemu-devel@lfdr.de; Mon, 03 Jan 2022 06:53:30 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57342)
+	id 1n4M3k-0008IC-7y
+	for lists+qemu-devel@lfdr.de; Mon, 03 Jan 2022 07:03:28 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59064)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1n4Ls0-0002bt-D3
- for qemu-devel@nongnu.org; Mon, 03 Jan 2022 06:51:21 -0500
-Received: from [2607:f8b0:4864:20::52f] (port=41619
- helo=mail-pg1-x52f.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1n4Lrx-00058Z-Vq
- for qemu-devel@nongnu.org; Mon, 03 Jan 2022 06:51:19 -0500
-Received: by mail-pg1-x52f.google.com with SMTP id f8so19871949pgf.8
- for <qemu-devel@nongnu.org>; Mon, 03 Jan 2022 03:51:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
- h=from:date:to:cc:subject:in-reply-to:message-id:references
- :user-agent:mime-version;
- bh=63ZFdEOtqSvg0xZjqAggJ+4KpQskQfk8HGyey34Y54A=;
- b=USj7Ot2eli294rX9yBx55eVstygJmoNtDbVRmNautaLD9A4FtvvJljaXjHLNdEIR07
- 2NL69oDrx/wGlJrjEZ435ts9h4oSnoEMvrXCleWMyDnS75xdMklop4DiIaHV/zc2xGdO
- bCOm5XGPV2OW26de6YIfWHnmmeg6uZtL52meqKUttQlkkZ8LHZ6OYdElmSy142Nh4oRJ
- zuh7V0e67en32CTa5wun2OLHhUZ3qWodvUVGQluJ8DyebLH3Sic2dAKouWpaVj6HvhRj
- 6SJtnIlwetyfGhtddXAGdR8+GnbXpbBqGBPzmPhnJF3HbDK6YsFmTEJGMxFk1nbZde6h
- 8tKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
- :references:user-agent:mime-version;
- bh=63ZFdEOtqSvg0xZjqAggJ+4KpQskQfk8HGyey34Y54A=;
- b=s2/y+VEvD+GfTsrp8tYMfeiflvRflxq2WHGIN+JHGGfpseU+2EAYrMzSMYBAwbRf+1
- 6dK+DInZppBo8O7pPIRcFNLhsw6Hp4JBEiSxrtfNiwuK1mz4yj2zfjQTAfNInYBM3TTc
- TpqSEGkdWtTvaNMIc6sUgA+xqZq2H85pBeJpkPLQe0I+5M8PZ+U8UUh+udJEyOH61JvI
- SdQ7tPK0MfmrrHcsPs1KjQl5BMYb9tyCrG+JDxNUKlsKsw//5FQNLV7Opfwv1FzmMSOL
- NiNaqGLLSH5pA1QQ0s9BdK75aFNmT8+8fbfgUOgaQELhqQylTf9SKbQjblUTca6guoR7
- 6+/g==
-X-Gm-Message-State: AOAM531FE6ATyUzZkFpynH1eFiPTBTiNfWlPxxDTkrUjghvz6qIuUv4c
- vrfSKQrKblPMbVBQa6KsaOGhNA==
-X-Google-Smtp-Source: ABdhPJxaZ2I3/vb8o5dl2g+s05x/XSR+HDbHscTP7TIKXe/66ebg8Kmr4+NwP+cw8iTroRQslk7U4g==
-X-Received: by 2002:a05:6a00:853:b0:4bb:a8c5:873 with SMTP id
- q19-20020a056a00085300b004bba8c50873mr40374634pfk.2.1641210675178; 
- Mon, 03 Jan 2022 03:51:15 -0800 (PST)
-Received: from anisinha-lenovo ([115.96.198.244])
- by smtp.googlemail.com with ESMTPSA id
- s12sm42009749pfg.148.2022.01.03.03.51.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 03 Jan 2022 03:51:14 -0800 (PST)
-From: Ani Sinha <ani@anisinha.ca>
-X-Google-Original-From: Ani Sinha <anisinha@anisinha.ca>
-Date: Mon, 3 Jan 2022 17:21:08 +0530 (IST)
-X-X-Sender: anisinha@anisinha-lenovo
-To: Yanan Wang <wangyanan55@huawei.com>
-Subject: Re: [PATCH v6 5/7] tests/acpi/bios-tables-test: Allow changes to
- virt/PPTT file
-In-Reply-To: <20220103084636.2496-6-wangyanan55@huawei.com>
-Message-ID: <alpine.DEB.2.22.394.2201031720510.14895@anisinha-lenovo>
-References: <20220103084636.2496-1-wangyanan55@huawei.com>
- <20220103084636.2496-6-wangyanan55@huawei.com>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1n4M0m-0007Nq-5x
+ for qemu-devel@nongnu.org; Mon, 03 Jan 2022 07:00:24 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39124)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1n4M0j-0006ff-Ag
+ for qemu-devel@nongnu.org; Mon, 03 Jan 2022 07:00:22 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1641211220;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=0fKP9zosX7TfMKiXpXX9yY5E+SH8zJ4zQq33T8EFkfg=;
+ b=cHMxRp8dTYOPtk/AIT+rGRkf6YnXHEt9KMwTb1UCP3n1pselnuoKoA5JT/9MWLHPiwBFJd
+ pFgVpWoRa496wGtSohR6a9mlFcxdZ1RHzx8YV243Wzl7EI5fPcn9UEiGKbgUoTSQOGD+CK
+ e5b1J8WYuK2dkcLbtV6fENRUQqjEblw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-86-o1Wl2scxMoyawuislI5Wgg-1; Mon, 03 Jan 2022 07:00:17 -0500
+X-MC-Unique: o1Wl2scxMoyawuislI5Wgg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A1B228042E1;
+ Mon,  3 Jan 2022 12:00:16 +0000 (UTC)
+Received: from localhost (unknown [10.39.194.53])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0682672414;
+ Mon,  3 Jan 2022 12:00:15 +0000 (UTC)
+From: Hanna Reitz <hreitz@redhat.com>
+To: qemu-block@nongnu.org
+Subject: [PATCH] iotests/308: Fix for CAP_DAC_OVERRIDE
+Date: Mon,  3 Jan 2022 13:00:14 +0100
+Message-Id: <20220103120014.13061-1-hreitz@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::52f
- (failed)
-Received-SPF: none client-ip=2607:f8b0:4864:20::52f;
- envelope-from=ani@anisinha.ca; helo=mail-pg1-x52f.google.com
-X-Spam_score_int: 8
-X-Spam_score: 0.8
-X-Spam_bar: /
-X-Spam_report: (0.8 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=no autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) DKIMWL_WL_HIGH=-0.37, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,38 +74,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
- Shannon Zhao <shannon.zhaosl@gmail.com>, qemu-arm@nongnu.org,
- Eric Auger <eauger@redhat.com>, wanghaibin.wang@huawei.com,
- Ani Sinha <ani@anisinha.ca>, Igor Mammedov <imammedo@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+With CAP_DAC_OVERRIDE (which e.g. root generally has), permission checks
+will be bypassed when opening files.
 
+308 in one instance tries to open a read-only file (FUSE export) with
+qemu-io as read/write, and expects this to fail.  However, when running
+it as root, opening will succeed (thanks to CAP_DAC_OVERRIDE) and only
+the actual write operation will fail.
 
-On Mon, 3 Jan 2022, Yanan Wang wrote:
+Note this as "Case not run", but have the test pass in either case.
 
-> List test/data/acpi/virt/PPTT as the expected files allowed to
-> be changed in tests/qtest/bios-tables-test-allowed-diff.h
->
-> Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
+Reported-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Fixes: 2c7dd057aa7bd7a875e9b1a53975c220d6380bc4
+       ("export/fuse: Pass default_permissions for mount")
+Signed-off-by: Hanna Reitz <hreitz@redhat.com>
+---
+ tests/qemu-iotests/308     | 25 +++++++++++++++++++++++--
+ tests/qemu-iotests/308.out |  2 +-
+ 2 files changed, 24 insertions(+), 3 deletions(-)
 
-Acked-by: Ani Sinha <ani@anisinha.ca>
+diff --git a/tests/qemu-iotests/308 b/tests/qemu-iotests/308
+index 2e3f8f4282..bde4aac2fa 100755
+--- a/tests/qemu-iotests/308
++++ b/tests/qemu-iotests/308
+@@ -230,8 +230,29 @@ echo '=== Writable export ==='
+ fuse_export_add 'export-mp' "'mountpoint': '$EXT_MP', 'writable': true"
+ 
+ # Check that writing to the read-only export fails
+-$QEMU_IO -f raw -c 'write -P 42 1M 64k' "$TEST_IMG" 2>&1 \
+-    | _filter_qemu_io | _filter_testdir | _filter_imgfmt
++output=$($QEMU_IO -f raw -c 'write -P 42 1M 64k' "$TEST_IMG" 2>&1 \
++             | _filter_qemu_io | _filter_testdir | _filter_imgfmt)
++
++# Expected reference output: Opening the file fails because it has no
++# write permission
++reference="Could not open 'TEST_DIR/t.IMGFMT': Permission denied"
++
++if echo "$output" | grep -q "$reference"; then
++    echo "Writing to read-only export failed: OK"
++elif echo "$output" | grep -q "write failed: Permission denied"; then
++    # With CAP_DAC_OVERRIDE (e.g. when running this test as root), the export
++    # can be opened regardless of its file permissions, but writing will then
++    # fail.  This is not the result for which we want to test, so count this as
++    # a SKIP.
++    _casenotrun "Opening RO export as R/W succeeded, perhaps because of" \
++        "CAP_DAC_OVERRIDE"
++
++    # Still, write this to the reference output to make the test pass
++    echo "Writing to read-only export failed: OK"
++else
++    echo "Writing to read-only export failed: ERROR"
++    echo "$output"
++fi
+ 
+ # But here it should work
+ $QEMU_IO -f raw -c 'write -P 42 1M 64k' "$EXT_MP" | _filter_qemu_io
+diff --git a/tests/qemu-iotests/308.out b/tests/qemu-iotests/308.out
+index fc47bb11a2..e4467a10cf 100644
+--- a/tests/qemu-iotests/308.out
++++ b/tests/qemu-iotests/308.out
+@@ -95,7 +95,7 @@ virtual size: 0 B (0 bytes)
+               'mountpoint': 'TEST_DIR/t.IMGFMT.fuse', 'writable': true
+           } }
+ {"return": {}}
+-qemu-io: can't open device TEST_DIR/t.IMGFMT: Could not open 'TEST_DIR/t.IMGFMT': Permission denied
++Writing to read-only export failed: OK
+ wrote 65536/65536 bytes at offset 1048576
+ 64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+ wrote 65536/65536 bytes at offset 1048576
+-- 
+2.33.1
 
-> ---
->  tests/qtest/bios-tables-test-allowed-diff.h | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-> index dfb8523c8b..cb143a55a6 100644
-> --- a/tests/qtest/bios-tables-test-allowed-diff.h
-> +++ b/tests/qtest/bios-tables-test-allowed-diff.h
-> @@ -1 +1,2 @@
->  /* List of comma-separated changed AML files to ignore */
-> +"tests/data/acpi/virt/PPTT",
-> --
-> 2.27.0
->
->
 
