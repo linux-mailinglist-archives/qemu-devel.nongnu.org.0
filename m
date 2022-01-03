@@ -2,85 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 022464837DD
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jan 2022 20:59:50 +0100 (CET)
-Received: from localhost ([::1]:36480 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA6BB483809
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jan 2022 21:36:58 +0100 (CET)
+Received: from localhost ([::1]:55306 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n4TUi-0006Me-9U
-	for lists+qemu-devel@lfdr.de; Mon, 03 Jan 2022 14:59:48 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58218)
+	id 1n4U4f-0005MU-CN
+	for lists+qemu-devel@lfdr.de; Mon, 03 Jan 2022 15:36:57 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42858)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1n4TTI-0005U3-2a; Mon, 03 Jan 2022 14:58:20 -0500
-Received: from [2607:f8b0:4864:20::102d] (port=35769
- helo=mail-pj1-x102d.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1n4TTG-0005no-M5; Mon, 03 Jan 2022 14:58:19 -0500
-Received: by mail-pj1-x102d.google.com with SMTP id
- r16-20020a17090a0ad000b001b276aa3aabso25409949pje.0; 
- Mon, 03 Jan 2022 11:58:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=SBE6KQP37CWnde/CbhtlOyjyXw1Api0n+yun7sxgR/k=;
- b=nauJea3zM8Oh5iPcBvoOGPIT0Y9mqeYl98xfD0LoR85OkqdJW5c2GQH5w7LSYJYVOD
- y9R77UuvjdlBd4c/l+e2XwMmf6QNTbMfqYreKWkU1dvsNP6V2lMdtWpOHNdfsdAbBn3t
- 84Kxvi9sJ5wpgivLrWLDACDyzA6JFqi9kVHWX4q6TqpoFtSJgMrkmncUZofpCl3QFdkv
- qQQ3aWP+YhTVTl9TXK4HL+s6msDF4yPZLhcbc3s1RTyJ7Se/QuwuSFLOaNYdqrdHf9Bn
- aGbMVl1GPoXh4GWsaiGJ3HBOrexYF0zAaK+jZd+bVf5v0blyswIiVGK6+2r2x4pn76ZI
- ZPfQ==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1n4U3h-0004eR-B5
+ for qemu-devel@nongnu.org; Mon, 03 Jan 2022 15:35:57 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:28983)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1n4U3d-0006Nb-6l
+ for qemu-devel@nongnu.org; Mon, 03 Jan 2022 15:35:55 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1641242151;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=39X8l4bVnmzpIddDjFE7Wgn7MLuaIEpkoBpLCcugMS0=;
+ b=SEcicPljn4+lkM/IIRNUc4u920+6RbxOM1RmHXozaSjI0JHJHcQEn3t58qp94tkHIF108P
+ U7KNGv8EunjzuNU2ybDdN4r36BuVYwCJ24A0YegC6FbLvMAEExQ1U9QPqreWSWAljk2D0D
+ qk1lc3f1EBxo20Auo0oESjP4ql9blW4=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-389-OXtjCiU5NreXXUz71FX9jA-1; Mon, 03 Jan 2022 15:35:50 -0500
+X-MC-Unique: OXtjCiU5NreXXUz71FX9jA-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ f13-20020adfe90d000000b001a15c110077so10649504wrm.8
+ for <qemu-devel@nongnu.org>; Mon, 03 Jan 2022 12:35:50 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=SBE6KQP37CWnde/CbhtlOyjyXw1Api0n+yun7sxgR/k=;
- b=ac4OWKJk7BfNJbmnE5Z/lhB96WBgBLKQw8IlIW1j4L/b9/U6bjNNffcsBYO9b2Wi9N
- dcXLAWCDSTfZb/+uBQWVm3aIQGGhjXCGnYzS//eZwKWbNoI/1orrPYfxkX/x++XVCE6c
- 9bA4ng3T7K7MMi6ExmCJAo72kHtToxMrY7bLSlr4C3q68ROjw2A+RpX3Sv+0LQarZwCs
- PeO9qI6oGccXhOgyo+KrnVKAarFTRIKJI+61BJ6h66NOBOK1+dCEx+HhrJuZSByiMvYM
- IMxHe8SdOC2kuk8JfqBx/TIvY2dF0Pc0nZeQPqzFWzQCJQuiJcURcXD68gsPJ28g9mfb
- /Zhg==
-X-Gm-Message-State: AOAM531GVtutlCA5rot6ECILv2W0Vxx8/GW5U3s7bMjwmBQfTj1S+78U
- uMV0QBia3flSfiaIEFAA5Jg=
-X-Google-Smtp-Source: ABdhPJxVnV2mrZJW+eRaIkX5gzZftxdUqkd9vw2WCpeqcm1nXzLjc/d6qwpv3MlsbkGie/Wom5SD3w==
-X-Received: by 2002:a17:90a:fe0b:: with SMTP id
- ck11mr57853472pjb.22.1641239896904; 
- Mon, 03 Jan 2022 11:58:16 -0800 (PST)
-Received: from [192.168.1.37] (26.red-83-50-86.dynamicip.rima-tde.net.
- [83.50.86.26])
- by smtp.gmail.com with ESMTPSA id b9sm41473192pfm.127.2022.01.03.11.58.14
+ h=x-gm-message-state:message-id:date:mime-version:user-agent
+ :content-language:to:from:subject:content-transfer-encoding;
+ bh=39X8l4bVnmzpIddDjFE7Wgn7MLuaIEpkoBpLCcugMS0=;
+ b=L6joy2obg4i3ytMkLQCc1GHkkcHfXvccx6ooONwhn+HEA2VyhD23aQPbLIii2tCjvK
+ CfpeqeIyOUfzUNuUK37SOpVnuXeG5Jktl+oGtl9qKZjFl/4ttSR10+nnsJWyxblTGyJZ
+ 8MMj2LbxIDlJQB7r4LVEpje3MpRtlh7odOhpn4PMkRCOoiPX8xVzXuyYvq7pD/PO5Uh4
+ 1mUuf6iwdENb3EEnqN8w8F6stZPK5jOSOC0FlIlrOdQU0mmc+PGkBmdwia4oYsJT7kX2
+ +Tq9SnE1orK4D3WAovuLh6M82FmVuASQsPurL0xeYfckMflvQGrk3pGeGU5HbIThXf6e
+ 0USQ==
+X-Gm-Message-State: AOAM5333pyTHEqFFY198LluH6FNlfnx6tT1yvjtus84VjfVafqhc4xQJ
+ Ct1328zEUKDA69MxVaW7JEaOxqN3vZFisBuKkKxhl5Kp11BOXGmG+95RA92avYmOtaqkt4Ew2GV
+ N2EOy5azb/dBnvUDW1h64ii2UjSZNedGdROGMt6fHF6bAHRUq1Sfml3g7ctqEcpE=
+X-Received: by 2002:a05:600c:3b24:: with SMTP id
+ m36mr38635733wms.4.1641242029419; 
+ Mon, 03 Jan 2022 12:33:49 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJw/ZW/532NCHPfLj8CgIPFMz0FlKNBaRbHDbYDWzMTJoHv1lfCNM21wOIZ2MPTf9SGwdAt4vg==
+X-Received: by 2002:a05:600c:3b24:: with SMTP id
+ m36mr38635723wms.4.1641242029166; 
+ Mon, 03 Jan 2022 12:33:49 -0800 (PST)
+Received: from [192.168.8.100] (tmo-098-68.customers.d1-online.com.
+ [80.187.98.68])
+ by smtp.gmail.com with ESMTPSA id g18sm35374185wmq.5.2022.01.03.12.33.48
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 03 Jan 2022 11:58:16 -0800 (PST)
-Message-ID: <9f571604-6999-d12a-ac6d-ea461bf2fd64@amsat.org>
-Date: Mon, 3 Jan 2022 20:58:12 +0100
+ Mon, 03 Jan 2022 12:33:48 -0800 (PST)
+Message-ID: <23807667-2b98-60d4-b3f8-dd571e2f5927@redhat.com>
+Date: Mon, 3 Jan 2022 21:33:46 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.4.1
-Subject: Re: [PATCH 3/4] hw/arm: add i2c muxes to kudo-bmc
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+To: QEMU Developers <qemu-devel@nongnu.org>,
+ Peter Maydell <peter.maydell@linaro.org>, Paolo Bonzini <pbonzini@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Subject: Something broke "make html" and "make man"
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Language: en-US
-To: Patrick Venture <venture@google.com>, peter.maydell@linaro.org
-References: <20220102215844.2888833-1-venture@google.com>
- <20220102215844.2888833-4-venture@google.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <20220102215844.2888833-4-venture@google.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102d
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x102d.google.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-3.354,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) DKIMWL_WL_HIGH=-0.37, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,17 +97,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: wuhaotsh@google.com, titusr@google.com, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org, crauer@google.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/1/22 22:58, Patrick Venture wrote:
-> Signed-off-by: Patrick Venture <venture@google.com>
-> Reviewed-by: Hao Wu <wuhaotsh@google.com>
-> ---
->   hw/arm/npcm7xx_boards.c | 9 +++++++++
->   1 file changed, 9 insertions(+)
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+  Hi!
+
+"make html" and "make man" do not work anymore:
+
+$ make help | grep -B1 html
+Documentation targets:
+   html man              - Build documentation in specified format
+$ make html
+   GIT     ui/keycodemapdb meson tests/fp/berkeley-testfloat-3 
+tests/fp/berkeley-softfloat-3 dtc capstone slirp
+make: *** No rule to make target 'html'.  Stop.
+$ make man
+   GIT     ui/keycodemapdb meson tests/fp/berkeley-testfloat-3 
+tests/fp/berkeley-softfloat-3 dtc capstone slirp
+make: *** No rule to make target 'man'.  Stop.
+
+Anybody any ideas how to fix it?
+
+  Thomas
+
 
