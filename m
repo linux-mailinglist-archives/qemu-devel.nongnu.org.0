@@ -2,89 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA6BB483809
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jan 2022 21:36:58 +0100 (CET)
-Received: from localhost ([::1]:55306 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9623C483811
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jan 2022 21:47:32 +0100 (CET)
+Received: from localhost ([::1]:34680 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n4U4f-0005MU-CN
-	for lists+qemu-devel@lfdr.de; Mon, 03 Jan 2022 15:36:57 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42858)
+	id 1n4UEt-0002TT-5O
+	for lists+qemu-devel@lfdr.de; Mon, 03 Jan 2022 15:47:31 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45782)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1n4U3h-0004eR-B5
- for qemu-devel@nongnu.org; Mon, 03 Jan 2022 15:35:57 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:28983)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1n4U3d-0006Nb-6l
- for qemu-devel@nongnu.org; Mon, 03 Jan 2022 15:35:55 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641242151;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=39X8l4bVnmzpIddDjFE7Wgn7MLuaIEpkoBpLCcugMS0=;
- b=SEcicPljn4+lkM/IIRNUc4u920+6RbxOM1RmHXozaSjI0JHJHcQEn3t58qp94tkHIF108P
- U7KNGv8EunjzuNU2ybDdN4r36BuVYwCJ24A0YegC6FbLvMAEExQ1U9QPqreWSWAljk2D0D
- qk1lc3f1EBxo20Auo0oESjP4ql9blW4=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-389-OXtjCiU5NreXXUz71FX9jA-1; Mon, 03 Jan 2022 15:35:50 -0500
-X-MC-Unique: OXtjCiU5NreXXUz71FX9jA-1
-Received: by mail-wr1-f72.google.com with SMTP id
- f13-20020adfe90d000000b001a15c110077so10649504wrm.8
- for <qemu-devel@nongnu.org>; Mon, 03 Jan 2022 12:35:50 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent
- :content-language:to:from:subject:content-transfer-encoding;
- bh=39X8l4bVnmzpIddDjFE7Wgn7MLuaIEpkoBpLCcugMS0=;
- b=L6joy2obg4i3ytMkLQCc1GHkkcHfXvccx6ooONwhn+HEA2VyhD23aQPbLIii2tCjvK
- CfpeqeIyOUfzUNuUK37SOpVnuXeG5Jktl+oGtl9qKZjFl/4ttSR10+nnsJWyxblTGyJZ
- 8MMj2LbxIDlJQB7r4LVEpje3MpRtlh7odOhpn4PMkRCOoiPX8xVzXuyYvq7pD/PO5Uh4
- 1mUuf6iwdENb3EEnqN8w8F6stZPK5jOSOC0FlIlrOdQU0mmc+PGkBmdwia4oYsJT7kX2
- +Tq9SnE1orK4D3WAovuLh6M82FmVuASQsPurL0xeYfckMflvQGrk3pGeGU5HbIThXf6e
- 0USQ==
-X-Gm-Message-State: AOAM5333pyTHEqFFY198LluH6FNlfnx6tT1yvjtus84VjfVafqhc4xQJ
- Ct1328zEUKDA69MxVaW7JEaOxqN3vZFisBuKkKxhl5Kp11BOXGmG+95RA92avYmOtaqkt4Ew2GV
- N2EOy5azb/dBnvUDW1h64ii2UjSZNedGdROGMt6fHF6bAHRUq1Sfml3g7ctqEcpE=
-X-Received: by 2002:a05:600c:3b24:: with SMTP id
- m36mr38635733wms.4.1641242029419; 
- Mon, 03 Jan 2022 12:33:49 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJw/ZW/532NCHPfLj8CgIPFMz0FlKNBaRbHDbYDWzMTJoHv1lfCNM21wOIZ2MPTf9SGwdAt4vg==
-X-Received: by 2002:a05:600c:3b24:: with SMTP id
- m36mr38635723wms.4.1641242029166; 
- Mon, 03 Jan 2022 12:33:49 -0800 (PST)
-Received: from [192.168.8.100] (tmo-098-68.customers.d1-online.com.
- [80.187.98.68])
- by smtp.gmail.com with ESMTPSA id g18sm35374185wmq.5.2022.01.03.12.33.48
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 03 Jan 2022 12:33:48 -0800 (PST)
-Message-ID: <23807667-2b98-60d4-b3f8-dd571e2f5927@redhat.com>
-Date: Mon, 3 Jan 2022 21:33:46 +0100
+ (Exim 4.90_1) (envelope-from <brad@comstyle.com>) id 1n4UDY-00016c-NM
+ for qemu-devel@nongnu.org; Mon, 03 Jan 2022 15:46:08 -0500
+Received: from [2607:f938:3000:8::2] (port=27936 helo=mail.comstyle.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_CHACHA20_POLY1305:256)
+ (Exim 4.90_1) (envelope-from <brad@comstyle.com>) id 1n4UDV-0000y4-E5
+ for qemu-devel@nongnu.org; Mon, 03 Jan 2022 15:46:08 -0500
+Received: from mail.comstyle.com (localhost [127.0.0.1])
+ by mail.comstyle.com (Postfix) with ESMTP id 4JSSSh40KWz8PbN;
+ Mon,  3 Jan 2022 15:45:56 -0500 (EST)
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=comstyle.com; h=date:from
+ :to:subject:message-id:mime-version:content-type; s=default; bh=
+ t/YjoNj5hS4ooNuYRiw6hFTJIRM=; b=PvacxyPT+X2QcAFH3uAktL+enHqhf4v4
+ gU5pJi6dM6mOwoRuJn4HyIHsxrkFcrSRqDuym9cPzRfSBgts1iGAEXjntwszXhyo
+ sk+vNtlNNK7511JWaC6OOjw/ILQlXfH/VGPLeMNEF4oDksaL2WlQHiJ/4utLNvlu
+ kn7f80DCnxI=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=comstyle.com; h=date:from:to
+ :subject:message-id:mime-version:content-type; q=dns; s=default; b=
+ AggxNwIsKxcGIHW2MH8IfBY7BIvWDBFTbpPVriw+R/e5urJG3F6wUWMnmBamlzI0
+ Uia41JxYUqcLam0BrK/Y7MyvfPcWkr6d69asZGQXAT4Odaf9jEN2/m5vlaOBDowl
+ lSIaD1nEjYZTYXRBJ4H86iNGfGbFcHTO2V8TPGUME5M=
+Received: from humpty.home.comstyle.com
+ (bras-base-toroon2719w-grc-53-142-114-5-252.dsl.bell.ca [142.114.5.252])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested) (Authenticated sender: brad)
+ by mail.comstyle.com (Postfix) with ESMTPSA id 4JSSSh1vy9z8PbK;
+ Mon,  3 Jan 2022 15:45:56 -0500 (EST)
+Date: Mon, 3 Jan 2022 15:45:55 -0500
+From: Brad Smith <brad@comstyle.com>
+To: qemu-devel@nongnu.org, Thomas Huth <thuth@redhat.com>,
+ WainerdosSantosMoschetta@humpty.home.comstyle.com,
+ Beraldo Leal <bleal@redhat.com>, Alex Benn_e <alex.bennee@linaro.org>,
+ Philippe Mathieu-Daud_ <f4bug@amsat.org>
+Subject: [PATCH] FreeBSD: Upgrade to 12.3 release
+Message-ID: <YdNgg/FI6LdYmDJ5@humpty.home.comstyle.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-To: QEMU Developers <qemu-devel@nongnu.org>,
- Peter Maydell <peter.maydell@linaro.org>, Paolo Bonzini <pbonzini@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Subject: Something broke "make html" and "make man"
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) DKIMWL_WL_HIGH=-0.37, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f938:3000:8::2
+ (failed)
+Received-SPF: pass client-ip=2607:f938:3000:8::2;
+ envelope-from=brad@comstyle.com; helo=mail.comstyle.com
+X-Spam_score_int: 6
+X-Spam_score: 0.6
+X-Spam_bar: /
+X-Spam_report: (0.6 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,25 +73,69 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+FreeBSD: Upgrade to 12.3 release
 
-  Hi!
+Signed-off-by: Brad Smith <brad@comstyle.com>
+Tested-by: Thomas Huth <thuth@redhat.com>
+---
+ .gitlab-ci.d/cirrus.yml | 5 +----
+ tests/vm/freebsd        | 8 +++-----
+ 2 files changed, 4 insertions(+), 9 deletions(-)
 
-"make html" and "make man" do not work anymore:
-
-$ make help | grep -B1 html
-Documentation targets:
-   html man              - Build documentation in specified format
-$ make html
-   GIT     ui/keycodemapdb meson tests/fp/berkeley-testfloat-3 
-tests/fp/berkeley-softfloat-3 dtc capstone slirp
-make: *** No rule to make target 'html'.  Stop.
-$ make man
-   GIT     ui/keycodemapdb meson tests/fp/berkeley-testfloat-3 
-tests/fp/berkeley-softfloat-3 dtc capstone slirp
-make: *** No rule to make target 'man'.  Stop.
-
-Anybody any ideas how to fix it?
-
-  Thomas
+diff --git a/.gitlab-ci.d/cirrus.yml b/.gitlab-ci.d/cirrus.yml
+index d273a9e713..18ded37c77 100644
+--- a/.gitlab-ci.d/cirrus.yml
++++ b/.gitlab-ci.d/cirrus.yml
+@@ -52,14 +52,11 @@ x64-freebsd-12-build:
+     NAME: freebsd-12
+     CIRRUS_VM_INSTANCE_TYPE: freebsd_instance
+     CIRRUS_VM_IMAGE_SELECTOR: image_family
+-    CIRRUS_VM_IMAGE_NAME: freebsd-12-2
++    CIRRUS_VM_IMAGE_NAME: freebsd-12-3
+     CIRRUS_VM_CPUS: 8
+     CIRRUS_VM_RAM: 8G
+     UPDATE_COMMAND: pkg update
+     INSTALL_COMMAND: pkg install -y
+-    # TODO: Enable gnutls again once FreeBSD's libtasn1 got fixed
+-    # See: https://gitlab.com/gnutls/libtasn1/-/merge_requests/71
+-    CONFIGURE_ARGS: --disable-gnutls
+     TEST_TARGETS: check
+ 
+ x64-freebsd-13-build:
+diff --git a/tests/vm/freebsd b/tests/vm/freebsd
+index 6e20e84322..805db759d6 100755
+--- a/tests/vm/freebsd
++++ b/tests/vm/freebsd
+@@ -28,8 +28,8 @@ class FreeBSDVM(basevm.BaseVM):
+     name = "freebsd"
+     arch = "x86_64"
+ 
+-    link = "https://download.freebsd.org/ftp/releases/ISO-IMAGES/12.2/FreeBSD-12.2-RELEASE-amd64-disc1.iso.xz"
+-    csum = "a4530246cafbf1dd42a9bd3ea441ca9a78a6a0cd070278cbdf63f3a6f803ecae"
++    link = "https://download.freebsd.org/ftp/releases/ISO-IMAGES/12.3/FreeBSD-12.3-RELEASE-amd64-disc1.iso.xz"
++    csum = "36dd0de50f1fe5f0a88e181e94657656de26fb64254412f74e80e128e8b938b4"
+     size = "20G"
+     pkgs = [
+         # build tools
+@@ -65,8 +65,6 @@ class FreeBSDVM(basevm.BaseVM):
+         "zstd",
+     ]
+ 
+-    # TODO: Enable gnutls again once FreeBSD's libtasn1 got fixed
+-    # See: https://gitlab.com/gnutls/libtasn1/-/merge_requests/71
+     BUILD_SCRIPT = """
+         set -e;
+         rm -rf /home/qemu/qemu-test.*
+@@ -74,7 +72,7 @@ class FreeBSDVM(basevm.BaseVM):
+         mkdir src build; cd src;
+         tar -xf /dev/vtbd1;
+         cd ../build
+-        ../src/configure --python=python3.7 --disable-gnutls {configure_opts};
++        ../src/configure --python=python3.7 {configure_opts};
+         gmake --output-sync -j{jobs} {target} {verbose};
+     """
+ 
+-- 
+2.34.1
 
 
