@@ -2,86 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 162F84836BD
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jan 2022 19:21:56 +0100 (CET)
-Received: from localhost ([::1]:44372 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4772C483719
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jan 2022 19:42:34 +0100 (CET)
+Received: from localhost ([::1]:55678 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n4Rxz-00014h-7t
-	for lists+qemu-devel@lfdr.de; Mon, 03 Jan 2022 13:21:55 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53586)
+	id 1n4SHw-0001IY-Rg
+	for lists+qemu-devel@lfdr.de; Mon, 03 Jan 2022 13:42:32 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60298)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1n4RwL-0008S5-Bq
- for qemu-devel@nongnu.org; Mon, 03 Jan 2022 13:20:13 -0500
-Received: from [2607:f8b0:4864:20::42b] (port=37572
- helo=mail-pf1-x42b.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1n4RwI-0002HN-Ld
- for qemu-devel@nongnu.org; Mon, 03 Jan 2022 13:20:12 -0500
-Received: by mail-pf1-x42b.google.com with SMTP id 8so30123533pfo.4
- for <qemu-devel@nongnu.org>; Mon, 03 Jan 2022 10:20:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=NtPQKe/kGwerFMLIbBtq0vz3KNYNQh6X5ZIff2Nt5+A=;
- b=OYJjkwQjp40q/X5hiiEh6jfj0yZaFR0b+TeWHCbmj4pHJyXIlV8OUY9PMfgkdUU2t/
- XbIDlYfJOyAi+iqLoVmJEITzIPis4+JAg4wqOs7tZvxGRUdmpH7tfGGkSsrKAuf5CR1f
- tNwPlklJs2fDjh7PZ9hiWAoNCTtH4DZHhLKGzTpgppj1FytUacvrxaIJzTA4Jn9JxUS7
- a5KhhTc3K6/x+ubk51MEXFngOQ1sz3z+6mODrXHfnheZVGJU0GrXQYJVAU3NmFupLRM7
- x1AaMdmOeyKdmCcEoErUlCLu823Gptm8J/U245474fp6WwGDUByk+JTlb4zfzZkrVXnc
- X5Rw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=NtPQKe/kGwerFMLIbBtq0vz3KNYNQh6X5ZIff2Nt5+A=;
- b=ADokpPCMmLbPIZ04YYXrzuHUGm7EBMpOJsIR8W2ajxl44uh8/C21xFjr5Hdoj4izfe
- XXJ+mhJIjHvAY7VyHIFTzVaJNnBVCkYEJKBA7ENc1urx+7LzEC14DRoZioVMOXHNGmmW
- pqX/W9TSYideJReLqdeG6OlUqR8qZ4zEEeGkTF4xMPxn566hNqVyjdWEOPTEUqhPQ+DO
- DJ7Jz0NersXKMH8T37U+3H+aIQB0CZM+QEstIgaba0Eo+QB9ZVP/jtmNJk1PMx8f8nXt
- WZF6V/4Wu59ZR3GbX28r/yfWbn6eqjIjjrIoc0LC/DolLk7mxLdqag2l6JEXqm6o7ORy
- EG8Q==
-X-Gm-Message-State: AOAM5322udI35AsnrHRjOXzQTK1b173vZoJ/rRuozVsJpEfky/OH2rfr
- ChDpi7oHn+7xnVCy/dO7QYxHGQ==
-X-Google-Smtp-Source: ABdhPJyd/ZXAXE1I0jzW6KypM76VCw2VHJWz2BHt2klo58GnKzUeRC7RcFfv+psxpDHvKfxH27NC0Q==
-X-Received: by 2002:a63:88c7:: with SMTP id
- l190mr41131512pgd.392.1641234009046; 
- Mon, 03 Jan 2022 10:20:09 -0800 (PST)
-Received: from [192.168.1.13] (174-21-75-75.tukw.qwest.net. [174.21.75.75])
- by smtp.gmail.com with ESMTPSA id t5sm31411173pgj.85.2022.01.03.10.20.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 03 Jan 2022 10:20:08 -0800 (PST)
-Subject: Re: [PATCH 1/2] linux-user/ppc: deliver SIGTRAP on POWERPC_EXCP_TRAP
-To: "Matheus K. Ferst" <matheus.ferst@eldorado.org.br>,
- qemu-devel@nongnu.org, qemu-ppc@nongnu.org
-References: <20220103165625.307309-1-matheus.ferst@eldorado.org.br>
- <20220103165625.307309-2-matheus.ferst@eldorado.org.br>
- <8c606234-2939-e64e-d2d6-ae351e13fede@linaro.org>
- <9fb0237b-d960-348f-f875-261f331d0cbc@eldorado.org.br>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <2f73f73e-b8fb-212c-08fd-4daee3695290@linaro.org>
-Date: Mon, 3 Jan 2022 10:20:07 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n4SDL-0008M4-TK
+ for qemu-devel@nongnu.org; Mon, 03 Jan 2022 13:37:47 -0500
+Received: from mout.kundenserver.de ([212.227.17.10]:54475)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n4SDJ-0008N3-Mz
+ for qemu-devel@nongnu.org; Mon, 03 Jan 2022 13:37:47 -0500
+Received: from [192.168.100.1] ([82.142.30.62]) by mrelayeu.kundenserver.de
+ (mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1N33ZD-1mPbC410nN-013RQp; Mon, 03 Jan 2022 19:37:41 +0100
+Message-ID: <75604d1b-8cd1-b984-bcfe-c7c7d8d10728@vivier.eu>
+Date: Mon, 3 Jan 2022 19:37:40 +0100
 MIME-Version: 1.0
-In-Reply-To: <9fb0237b-d960-348f-f875-261f331d0cbc@eldorado.org.br>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Content-Language: fr
+To: =?UTF-8?Q?T=c3=b5nis_Tiigi?= <tonistiigi@gmail.com>
+References: <20211223064728.18048-1-tonistiigi@gmail.com>
+ <20211223064728.18048-2-tonistiigi@gmail.com>
+ <e506a0b4-2505-d136-53f8-c1bcafc204a1@vivier.eu>
+ <CABn_tOmPjctnJU465R1b4ykRvryidj56rGeMKnaLJ+H3WAt8aw@mail.gmail.com>
+ <CABn_tOn3aqXwPx2q173BEOTUoBjTtDLYuF34kf4mHbeAG+6+NQ@mail.gmail.com>
+From: Laurent Vivier <laurent@vivier.eu>
+Subject: Re: [PATCH v3 1/2] linux-user: add sched_getattr support
+In-Reply-To: <CABn_tOn3aqXwPx2q173BEOTUoBjTtDLYuF34kf4mHbeAG+6+NQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42b
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42b.google.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.354,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Provags-ID: V03:K1:rz63a4LYeqL+UH2o8ujZpCSDoLXXbxMKp5LWfJ9jboNfE48zsbe
+ FPLMZCYLpPoZqg05PZlO3IkPh+nZNam+nByEKWlqqF1CUUDSbKZTtTVhHi+WIWSEo/aeXf8
+ Fla+burTwxMKMXfqUkJu6EB3vd6FkQtsJ2vFWniyhJQhPLCD8yWy9+FdundFnDuF0j09aDw
+ 0iQ7Ymi3mgF5PLm4MU21g==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:amjpEhQqtsU=:YRNQjb/QY8fTguwwHWQdv9
+ 3NRx3jMkqBxdc/cdUVA6ACY4259Ah2Amj6zj/sHYQZVOrisAompzsY5H8Ob+eV4+ndUpFOOZr
+ JpC4XuEQL3g60b6/vN8J5fxHcQfDo7vFyoKeOQm6K4GFrti/abSwRCJXPBADKgwlmmI8PyC0D
+ 4jeOhUDciZoitsIi+/5bIfYZri7LFwzZGdQy5dpijUJubcV/atf4AjrkIHbVkq+Nh6lHyaqny
+ tL0viKqhAbmECWwz/CHipQVMnfcswXspB8aSVr9oXhwVRFVFqluLE3g1eXY8HD3SGTYEMvIfH
+ W53K+rJk4hOGl7zzXa2vh6+SV6y20yzKDvvDncdNnCn7QogxFCjmsk54CxG2Buzq7/FevyfLs
+ nRgbKqycaYT5qO0d/y/7Y5AdCNyGfnIK0EGiY2P4nQBlA8r/vsI2y1UfGK7bqAOYKtUodOffk
+ X70zhPSRRvwukq9bof70iuWTxSbE8WzP/bRQVLhSvX9xuZOImRuwP9cjazmXF00vkptg0N6wj
+ ZSrmV5rPNdGUxfry3ELX2rDZApmT61ujMmljuGxBx55U0+JzjaFmkYX4ow6pX90oXKwKOJdXh
+ j2cz32m4CZBp/10tKyERmxHIZJtQcYch4UXYATE+wV9bXZ2vI1Dr4WqQNzxYeExezKFkS5asP
+ yISSzc+tfaR8EF5GlPmSAuAwsu1nmV7/FeDxCEaucJ6NDv/MfosSNK1c6GP41Q4werH8=
+Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) NICE_REPLY_A=-3.354, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,49 +71,221 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: laurent@vivier.eu, groug@kaod.org, danielhb413@gmail.com, clg@kaod.org,
- david@gibson.dropbear.id.au
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/3/22 10:12 AM, Matheus K. Ferst wrote:
-> On 03/01/2022 14:50, Richard Henderson wrote:
->> On 1/3/22 8:56 AM, matheus.ferst@eldorado.org.br wrote:
->>> From: Matheus Ferst <matheus.ferst@eldorado.org.br>
->>>
->>> Handle POWERPC_EXCP_TRAP in cpu_loop to deliver SIGTRAP on tw[i]/td[i].
->>> The si_code comes from do_program_check in the kernel source file
->>> arch/powerpc/kernel/traps.c
->>>
->>> Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
->>> ---
->>>   linux-user/ppc/cpu_loop.c | 4 +++-
->>>   1 file changed, 3 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/linux-user/ppc/cpu_loop.c b/linux-user/ppc/cpu_loop.c
->>> index 30c82f2354..8fbaa772dc 100644
->>> --- a/linux-user/ppc/cpu_loop.c
->>> +++ b/linux-user/ppc/cpu_loop.c
->>> @@ -242,7 +242,9 @@ void cpu_loop(CPUPPCState *env)
->>>                   }
->>>                   break;
->>>               case POWERPC_EXCP_TRAP:
->>> -                cpu_abort(cs, "Tried to call a TRAP\n");
->>> +                info.si_signo = TARGET_SIGTRAP;
->>> +                info.si_errno = 0;
->>> +                info.si_code = TARGET_TRAP_BRKPT;
+Le 03/01/2022 à 18:07, Tõnis Tiigi a écrit :
+> Ping Laurent. Any suggestions for the follow-up questions?
+> 
+> On Thu, Dec 23, 2021 at 3:00 PM Tõnis Tiigi <tonistiigi@gmail.com> wrote:
 >>
->> You're missing the address, which should be nip.
+>> On Thu, Dec 23, 2021 at 1:03 PM Laurent Vivier <laurent@vivier.eu> wrote:
+>>>
+>>> Le 23/12/2021 à 07:47, Tonis Tiigi a écrit :
+>>>
+>>> Please copy here what you explain in PATCH 0 regarding this patch.
+>>> (do the same for PATCH 1)
+>>>
+>>>> Signed-off-by: Tonis Tiigi <tonistiigi@gmail.com>
+>>>> ---
+>>>>    linux-user/syscall.c      | 94 +++++++++++++++++++++++++++++++++++++++
+>>>>    linux-user/syscall_defs.h | 14 ++++++
+>>>>    2 files changed, 108 insertions(+)
+>>>>
+>>>> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+>>>> index f1cfcc8104..2f5a0fac5a 100644
+>>>> --- a/linux-user/syscall.c
+>>>> +++ b/linux-user/syscall.c
+>>>> @@ -339,6 +339,12 @@ _syscall3(int, sys_sched_getaffinity, pid_t, pid, unsigned int, len,
+>>>>    #define __NR_sys_sched_setaffinity __NR_sched_setaffinity
+>>>>    _syscall3(int, sys_sched_setaffinity, pid_t, pid, unsigned int, len,
+>>>>              unsigned long *, user_mask_ptr);
+>>>> +#define __NR_sys_sched_getattr __NR_sched_getattr
+>>>> +_syscall4(int, sys_sched_getattr, pid_t, pid, struct target_sched_attr *, attr,
+>>>> +          unsigned int, size, unsigned int, flags);
+>>>> +#define __NR_sys_sched_setattr __NR_sched_setattr
+>>>> +_syscall3(int, sys_sched_setattr, pid_t, pid, struct target_sched_attr *, attr,
+>>>> +          unsigned int, flags);
+>>>>    #define __NR_sys_getcpu __NR_getcpu
+>>>>    _syscall3(int, sys_getcpu, unsigned *, cpu, unsigned *, node, void *, tcache);
+>>>>    _syscall4(int, reboot, int, magic1, int, magic2, unsigned int, cmd,
+>>>> @@ -10593,6 +10599,94 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+>>>>            }
+>>>>        case TARGET_NR_sched_getscheduler:
+>>>>            return get_errno(sched_getscheduler(arg1));
+>>>> +    case TARGET_NR_sched_getattr:
+>>>> +        {
+>>>> +            struct target_sched_attr *target_scha;
+>>>> +            struct target_sched_attr scha;
+>>>
+>>> In fact, this scha is used with the host syscall, so it must be  sched_attr.
 >>
->> https://github.com/torvalds/linux/blob/master/arch/powerpc/kernel/traps.c#L1503
-> 
-> After this switch-case, there is a
-> 
-> info._sifields._sigfault._addr = env->nip;
-> 
-> Is there anything else to be set?
+>>
+>> Where do you want me to define the "host variant" of sched_attr and
+>> with what types for the properties? Or do you want additional
+>> typedef(where?) so the name is less confusing? All properties in this
+>> type are fixed length and identical for all architectures.
 
-Nope, sorry I missed that.
+It's better to use the host variant with the host syscall.
 
-r~
+Normally sched_attr comes with kernel headers, so it should be available and you should not have to 
+define it.
+
+We need to define a target property because alignment also matters as the alignment for type can 
+differ from an architecture to another. I agree that in most cases it should not be needed but I 
+think it's cleaner like that.
+
+so for this part, only replace "struct target_sched_attr scha;" by "struct sched_att scha;"
+
+>>
+>>>
+>>>
+>>>> +            if (arg2 == 0) {
+>>>> +                return -TARGET_EINVAL;
+>>>> +            }
+>>>> +            if (arg3 > sizeof(scha)) {
+>>>> +                arg3 = sizeof(scha);
+>>>> +            }
+>>>> +            ret = get_errno(sys_sched_getattr(arg1, &scha, arg3, arg4));
+>>>> +            if (!is_error(ret)) {
+>>>> +                target_scha = lock_user(VERIFY_WRITE, arg2, arg3, 0);
+>>>> +                if (!target_scha) {
+>>>> +                    return -TARGET_EFAULT;
+>>>> +                }
+>>>> +                target_scha->size = tswap32(scha.size);
+>>>> +                target_scha->sched_policy = tswap32(scha.sched_policy);
+>>>> +                target_scha->sched_flags = tswap64(scha.sched_flags);
+>>>> +                target_scha->sched_nice = tswap32(scha.sched_nice);
+>>>> +                target_scha->sched_priority = tswap32(scha.sched_priority);
+>>>> +                target_scha->sched_runtime = tswap64(scha.sched_runtime);
+>>>> +                target_scha->sched_deadline = tswap64(scha.sched_deadline);
+>>>> +                target_scha->sched_period = tswap64(scha.sched_period);
+>>>> +                if (scha.size > offsetof(struct target_sched_attr, sched_util_min)) {
+>>>> +                    target_scha->sched_util_min = tswap32(scha.sched_util_min);
+>>>> +                    target_scha->sched_util_max = tswap32(scha.sched_util_max);
+>>>> +                }
+>>>> +                unlock_user(target_scha, arg2, arg3);
+>>>> +            }
+>>>> +            return ret;
+>>>> +        }
+>>>> +    case TARGET_NR_sched_setattr:
+>>>> +        {
+>>>> +            struct target_sched_attr *target_scha;
+>>>> +            struct target_sched_attr scha;
+>>>
+>>> scha is sched_attr as it is used with the host syscall.
+>>>
+>>>
+>>>> +            if (arg2 == 0) {
+>>>> +                return -TARGET_EINVAL;
+>>>> +            }
+>>>> +            uint32_t size;
+>>>
+>>> QEMU coding style doesn't allow to mix declarations and statements.
+>>>
+>>>> +            if (get_user_u32(size, arg2)) {
+>>>> +                return -TARGET_EFAULT;
+>>>> +            }
+>>>> +            if (!size) {
+>>>> +                size = offsetof(struct target_sched_attr, sched_util_min);
+>>>> +            }
+>>>> +            if (size < offsetof(struct target_sched_attr, sched_util_min)) {
+>>>> +                if (put_user_u32(sizeof(struct target_sched_attr), arg2)) {
+>>>> +                    return -TARGET_EFAULT;
+>>>> +                }
+>>>> +                return -TARGET_E2BIG;
+>>>> +            }
+>>>> +
+>>>> +            if (size > sizeof(scha)) {
+>>>> +                for (int i = sizeof(scha); i < size; i++) {
+>>>> +                    uint8_t b;
+>>>> +                    if (get_user_u8(b, arg2 + i)) {
+>>>> +                        return -TARGET_EFAULT;
+>>>> +                    }
+>>>> +                    if (b != 0) {
+>>>> +                        if (put_user_u32(sizeof(struct target_sched_attr), arg2)) {
+>>>> +                            return -TARGET_EFAULT;
+>>>> +                        }
+>>>> +                        return -TARGET_E2BIG;
+>>>> +                    }
+>>>> +                }
+>>>> +                size = sizeof(scha);
+>>>> +            }
+>>>
+>>> I guess this is the code to mimic kernel copy_struct_from_user(), the part when usize > ksize.
+>>>
+>>> It's a little bit ugly, but I can't disagree because the kernel does the same.
+>>>
+>>> except that the kernel check for unsigned rather than for 8bit. Could you change that?
+>>
+>>
+>> You mean "unsigned long" like in
+>> https://github.com/torvalds/linux/blob/76657eaef4a759e695eb1883d4f1d9af1e4ff9a8/lib/usercopy.c#L57
+
+yes
+
+>> ? That would mean that this code needs to be much more complicated to
+>> handle the cases for the unaligned start and end bytes, need
+>> aligned_byte_mask helper etc. Even though kernel seems to have extra
+>> code for these cases iiuc it can still get EFAULT on specific
+>> conditions.
+
+OK, I don't want too complicated code here, so I think we can keep your version.
+But could you move this code to a function?
+
+>>>
+>>>
+>>> The best would be to define check_zeroed_user() in Qemu and use it here.
+>>>
+>>>> +
+>>>> +            target_scha = lock_user(VERIFY_READ, arg2, size, 1);
+>>>> +            if (!target_scha) {
+>>>> +                return -TARGET_EFAULT;
+>>>> +            }
+>>>> +            scha.size = size;
+>>>> +            scha.sched_policy = tswap32(target_scha->sched_policy);
+>>>> +            scha.sched_flags = tswap64(target_scha->sched_flags);
+>>>> +            scha.sched_nice = tswap32(target_scha->sched_nice);
+>>>> +            scha.sched_priority = tswap32(target_scha->sched_priority);
+>>>> +            scha.sched_runtime = tswap64(target_scha->sched_runtime);
+>>>> +            scha.sched_deadline = tswap64(target_scha->sched_deadline);
+>>>> +            scha.sched_period = tswap64(target_scha->sched_period);
+>>>> +            if (size > offsetof(struct target_sched_attr, sched_util_min)) {
+>>>> +                scha.sched_util_min = tswap32(target_scha->sched_util_min);
+>>>> +                scha.sched_util_max = tswap32(target_scha->sched_util_max);
+>>>> +            }
+>>>> +            unlock_user(target_scha, arg2, 0);
+>>>> +            return get_errno(sys_sched_setattr(arg1, &scha, arg3));
+>>>> +        }
+>>>>        case TARGET_NR_sched_yield:
+>>>>            return get_errno(sched_yield());
+>>>>        case TARGET_NR_sched_get_priority_max:
+>>>> diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
+>>>> index 0b13975937..310d6ce8ad 100644
+>>>> --- a/linux-user/syscall_defs.h
+>>>> +++ b/linux-user/syscall_defs.h
+>>>> @@ -2914,4 +2914,18 @@ struct target_statx {
+>>>>       /* 0x100 */
+>>>>    };
+>>>>
+>>>> +/* from kernel's include/linux/sched/types.h */
+>>>> +struct target_sched_attr {
+>>>> +    abi_uint size;
+>>>> +    abi_uint sched_policy;
+>>>> +    abi_ullong sched_flags;
+>>>> +    abi_int sched_nice;
+>>>> +    abi_uint sched_priority;
+>>>> +    abi_ullong sched_runtime;
+>>>> +    abi_ullong sched_deadline;
+>>>> +    abi_ullong sched_period;
+>>>> +    abi_uint sched_util_min;
+>>>> +    abi_uint sched_util_max;
+>>>> +};
+>>>> +
+>>>>    #endif
+>>>
+>>> Thanks,
+>>> Laurent
+
 
