@@ -2,77 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 759BB483550
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jan 2022 18:06:52 +0100 (CET)
-Received: from localhost ([::1]:53892 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92019483559
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jan 2022 18:10:02 +0100 (CET)
+Received: from localhost ([::1]:60194 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n4QnL-0006zL-4v
-	for lists+qemu-devel@lfdr.de; Mon, 03 Jan 2022 12:06:51 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58088)
+	id 1n4QqO-0002r0-OJ
+	for lists+qemu-devel@lfdr.de; Mon, 03 Jan 2022 12:10:01 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59606)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1n4Qkh-0004ai-4l
- for qemu-devel@nongnu.org; Mon, 03 Jan 2022 12:04:13 -0500
-Received: from [2607:f8b0:4864:20::635] (port=35424
- helo=mail-pl1-x635.google.com)
+ id 1n4Qo3-00019Q-0P
+ for qemu-devel@nongnu.org; Mon, 03 Jan 2022 12:07:35 -0500
+Received: from [2607:f8b0:4864:20::1031] (port=39656
+ helo=mail-pj1-x1031.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1n4Qkd-00078A-I8
- for qemu-devel@nongnu.org; Mon, 03 Jan 2022 12:04:05 -0500
-Received: by mail-pl1-x635.google.com with SMTP id n16so25285394plc.2
- for <qemu-devel@nongnu.org>; Mon, 03 Jan 2022 09:04:02 -0800 (PST)
+ id 1n4Qo1-0001PQ-Eo
+ for qemu-devel@nongnu.org; Mon, 03 Jan 2022 12:07:34 -0500
+Received: by mail-pj1-x1031.google.com with SMTP id
+ z9-20020a17090a7b8900b001b13558eadaso38180269pjc.4
+ for <qemu-devel@nongnu.org>; Mon, 03 Jan 2022 09:07:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:references:from:message-id:date:user-agent:mime-version
  :in-reply-to:content-language:content-transfer-encoding;
- bh=AiKEFolOB7TlClq2xj4IEFa79NBsndpYBIuNRh4zh3c=;
- b=Iwc4Nn7AKA9+Ygc8o7+pU1iafAHJg+mnxA/lleykvYe0odb58UslaxgfiP8oejbwqA
- 9miwM92xecrTVZlmntvNXE163Q9elzFNinvFeHASEE29kmkcjMYkaAZJRIwAIZA+uTJr
- 32vWSd2vZUjpIwe/WUQ1ATWItVMqlrrj4iH9xtzUQFD3H2RGS8UDQGIoFg8wJeCk5m2/
- hHSICUs52l7qI8K0v0D/F+rQvFp8BD0fmCszYWZswOURlstLYs424nNxCfTTJ95gleEO
- ENxeoBByg94B8PjwYrK9XbpEf1mO360mktNZ5pdQWuMjIKjhCVxLYN7oanEn757Y0YKj
- KBKg==
+ bh=zMDSUk+S5mMZYl6o06d8M5ho4q/GUY7dnMxhENTc9SQ=;
+ b=lLvTo7c23k6xYjocBrdd+imADTuRGGVBH6DCmCeOncb/GFHrn5lqzTZj3IWkW/xGAN
+ GaxB08KXqS8J0uAoNN0+09Z+YOjTlgK5sowidw1avqFEKYtxiY6LSNxL3Vbb3EgS11GO
+ GF4s8Ftcorrq/tzcc0HjvTVzoQ5YwlGZ3fKdk+7G4+W3vlbv+yHsQwqpOenwR2l3gy+s
+ y93AMdksgo0r/kHbG55XyWyB2HbFmmyIFgTb9mPT5vnnj+9odbJvNd2X9skzrDymYKjR
+ axb2XMUkM2iKGeVD6RkfgIXBeruRGQB7hYv9v5DK7GRuMlaamoz3o7dsMQPUglV3MkJq
+ IZ3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=AiKEFolOB7TlClq2xj4IEFa79NBsndpYBIuNRh4zh3c=;
- b=pVEWVeDnATH0jcekQYQQoD0UkLgnfakNKNMW3Y48HsE5RK7SmHwx0PW8YqRRcPJWyO
- lq6JMXej+M0GQmXy74/cL9JeXaGjpkWC3npfdM17qC9ElXjrD9jTB+oJmZ6OC7mbCDzc
- lVF5zP5Y3xrBdZ/WAj0gQGrpTgnGlpFZ7vIfNJbwP7qajP6GudiooVnk54Tnf4IT/XfL
- KaUcT2FHqhe/G9mrUpnzkt2hszgWIP3/k32k9aQrbH/N5G62mm29Yme3auZH34TNJX1W
- eSc7NGAjN4r5FK4YtsMbG27RhRZ8XJXuQhFS8vTL1/uRnzSVVC0Gbcq89sjpr1TDKqY+
- pO5w==
-X-Gm-Message-State: AOAM53145m6eXqTG12TicT7T84YSS4iVKewFudLpMOfUtse9yj3gqkJs
- 9AYnRmaixVMaSnPjpEP7x4lZqIHxK7dIZQ==
-X-Google-Smtp-Source: ABdhPJziEVpWb/XBgHQ0txOvxTckOIx9GGE4nFe7I91She7V/Aacme/TUBwxTSszkwkXLEXaynhUyA==
-X-Received: by 2002:a17:90a:5409:: with SMTP id
- z9mr57322271pjh.129.1641229440682; 
- Mon, 03 Jan 2022 09:04:00 -0800 (PST)
+ bh=zMDSUk+S5mMZYl6o06d8M5ho4q/GUY7dnMxhENTc9SQ=;
+ b=uW1LdkcGXiahA4ZRI9I0GyFHo5CVHsTqo5GtXJYZBtbqjtrXuY7TApWfSbTcHdCLcc
+ MvumtjPcJ31kBIPCfZVub1BQmcw5XBdEELXgrilHb4KxiJcHccMUzB5qyK+6Xg30E4FN
+ +04OUThzZ/xueZA2c4peQm7cA8qBput97UItviqTEkQJ+qwDkl4FAS2kod1h0E4jRkkP
+ sZMoC9H10fE0btqN89nT2KE8jFHkCsHqkBqF5K1DrfGC4xUkl3YjnQfB6WTvwuXEhTCe
+ F/nggoP19Phz0FUgXVJJ3R074AYZ02696qLXMYbWvIs/k6qqrhl/V293Tsq0Zzlwbuq4
+ bAiQ==
+X-Gm-Message-State: AOAM532XffnC3/in7vpVpzgEfOmrNRZmakHwC76WEkAqAd0Q2HZYys8d
+ +T5v1YAzlLiG4iyo3kDlg74h46ZFsfUV2w==
+X-Google-Smtp-Source: ABdhPJyZPwMla2TZE64ECYlbJBkrDmTUQ8c6WtqvtB1Sduzh8HSuYoOzVjj9xXewjPk0KTpAgkrvRg==
+X-Received: by 2002:a17:902:9a08:b0:149:7da0:b7ad with SMTP id
+ v8-20020a1709029a0800b001497da0b7admr34063200plp.84.1641229652040; 
+ Mon, 03 Jan 2022 09:07:32 -0800 (PST)
 Received: from [192.168.1.13] (174-21-75-75.tukw.qwest.net. [174.21.75.75])
- by smtp.gmail.com with ESMTPSA id d13sm33720248pfl.18.2022.01.03.09.04.00
+ by smtp.gmail.com with ESMTPSA id d13sm33725570pfl.18.2022.01.03.09.07.31
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 03 Jan 2022 09:04:00 -0800 (PST)
-Subject: Re: [PATCH v2 1/9] target/ppc: Remove static inline
+ Mon, 03 Jan 2022 09:07:31 -0800 (PST)
+Subject: Re: [PATCH v2 4/9] ppc/ppc405: Activate MMU logs
 To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org,
  qemu-devel@nongnu.org
 References: <20220103063441.3424853-1-clg@kaod.org>
- <20220103063441.3424853-2-clg@kaod.org>
+ <20220103063441.3424853-5-clg@kaod.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <0ca1cb97-2896-3022-4604-9daa14ad6359@linaro.org>
-Date: Mon, 3 Jan 2022 09:03:58 -0800
+Message-ID: <e1f8c7e0-db31-62be-0b8e-ee647ecaa832@linaro.org>
+Date: Mon, 3 Jan 2022 09:07:30 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <20220103063441.3424853-2-clg@kaod.org>
+In-Reply-To: <20220103063441.3424853-5-clg@kaod.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::635
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1031
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x635.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
@@ -96,13 +97,17 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 1/2/22 10:34 PM, Cédric Le Goater wrote:
-> The compiler should know better how to inline code if necessary.
+> There is no need to deactivate MMU logging at compile time. Remove all
+> use of defines. Only keep DUMP_PAGE_TABLES for another series since
+> page tables could be dumped from the monitor.
 > 
-> Suggested-by: Richard Henderson<richard.henderson@linaro.org>
+> Signed-off-by: Cédric Le Goater<clg@kaod.org>
+> Message-Id:<20211222064025.1541490-4-clg@kaod.org>
 > Signed-off-by: Cédric Le Goater<clg@kaod.org>
 > ---
->   target/ppc/excp_helper.c | 12 ++++++------
->   1 file changed, 6 insertions(+), 6 deletions(-)
+>   target/ppc/mmu_common.c | 164 +++++++++++++++++++---------------------
+>   target/ppc/mmu_helper.c |  97 +++++++++++-------------
+>   2 files changed, 122 insertions(+), 139 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
