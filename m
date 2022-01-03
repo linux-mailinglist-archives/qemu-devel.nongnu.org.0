@@ -2,76 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7288348345E
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jan 2022 16:43:20 +0100 (CET)
-Received: from localhost ([::1]:41774 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86A614834A2
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jan 2022 17:16:23 +0100 (CET)
+Received: from localhost ([::1]:41694 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n4PUV-00008A-2n
-	for lists+qemu-devel@lfdr.de; Mon, 03 Jan 2022 10:43:19 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39278)
+	id 1n4Q0U-00048Z-5t
+	for lists+qemu-devel@lfdr.de; Mon, 03 Jan 2022 11:16:22 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47242)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1n4PTA-0007ke-Me
- for qemu-devel@nongnu.org; Mon, 03 Jan 2022 10:41:56 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27707)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1n4Pyl-0002Ld-5h
+ for qemu-devel@nongnu.org; Mon, 03 Jan 2022 11:14:35 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:20188)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1n4PT7-0002zE-TG
- for qemu-devel@nongnu.org; Mon, 03 Jan 2022 10:41:55 -0500
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1n4Pyi-0006Sz-4h
+ for qemu-devel@nongnu.org; Mon, 03 Jan 2022 11:14:34 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641224512;
+ s=mimecast20190719; t=1641226470;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9ETO8hU13ChAgjsAPqwowabNr8l9w0NxSSAXaHFh7iA=;
- b=g2r4iQy7mtmv5vrKaEXty0omOV6/N1Fq0ASnI1yZSKl9Duf2Q2oN7dTC72aeeae3ta4cGU
- 4snLNlloa6dokwbhq1jQsjOkJQ6HskS/rpAsOY3i8Di5aMwn/SD1rm5DBD2nJBKaaMDYtj
- 0gM7JH51doZDIqqFL9FrQd676CJfJ+Y=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=6vatypZsgtsjKl7k5RfWjAxRDGWbsasp9XiiBdYutPg=;
+ b=bKXHl18wdGIbCkkjFLMxgYqkeFP10OmYTU0t/jkhN59JpGf731TQC7LnrRqF4tOqQZYvmT
+ YVTGnsZESFBHWrvmNSyDDzpeHsR/A/2y97v5h+dbLUkwLNox5hlsaZjQIRX/uvQ5vYuyvz
+ SxvXMWdJIlHddEW7QX7/EyonNFyMwmo=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-288-6QI5U168N0uVeTOeaQEfpQ-1; Mon, 03 Jan 2022 10:41:50 -0500
-X-MC-Unique: 6QI5U168N0uVeTOeaQEfpQ-1
-Received: by mail-wm1-f69.google.com with SMTP id
- b75-20020a1c804e000000b0034569bde713so16680754wmd.9
- for <qemu-devel@nongnu.org>; Mon, 03 Jan 2022 07:41:50 -0800 (PST)
+ us-mta-453-pTAnkSArN8qCoaVX2Tyq0Q-1; Mon, 03 Jan 2022 11:14:29 -0500
+X-MC-Unique: pTAnkSArN8qCoaVX2Tyq0Q-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ b20-20020a05600c4e1400b003457da1c91eso8905265wmq.4
+ for <qemu-devel@nongnu.org>; Mon, 03 Jan 2022 08:14:29 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=9ETO8hU13ChAgjsAPqwowabNr8l9w0NxSSAXaHFh7iA=;
- b=jN4PFe/yb7P+c9KoPOfzdphVIdnkZXaVLyxFBsuB1ntDktQtFBLwQdqM6gWmoCWbre
- 0InNGMVK2raNg1+/orFPnnaCAG66KIsmGVgimYmu82/BcV2agiF4Bi1+U5H5H/TG7o5l
- J/FTXWC/DMaJTXSYTGFMi1ZQ4FmwkEqcifCjjd0cUKm6mf4emI2qbSDkAP9obQeb0Hgc
- wBX307BwkEK4dnpuvv0aw6QSJIiYwmQpACBVUFZGCD0oyTwFPp5JyXOHup07Ua6TSG83
- /h/s1CeMRHLmV0PbzwP2C/fOhJA1IluPQIc1dkCTXZqiFyCAIB6A0fW4kxjiasN45Zge
- V2LQ==
-X-Gm-Message-State: AOAM531Uc62SrHbKIcy+7X2mOdMtBM2dYr92LPdWuVc1EzRfdXXAHAhw
- 5LksWw2iR0fUke3wtfNYtsxXBPc8p2emeKhuySSadzJPoCue6l6Cd+9yviSNDlhbWYgiF1MvS8N
- PeCbOFTn4QXhXwKw=
-X-Received: by 2002:adf:c445:: with SMTP id a5mr21194424wrg.631.1641224509373; 
- Mon, 03 Jan 2022 07:41:49 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzyrKF2E9vh6GHAnAAIL153LuUGPm/qZlJEZjw4j2X/cNOpnvBnXPhKSfKgHezNCFJHUXXdqA==
-X-Received: by 2002:adf:c445:: with SMTP id a5mr21194404wrg.631.1641224509081; 
- Mon, 03 Jan 2022 07:41:49 -0800 (PST)
+ bh=6vatypZsgtsjKl7k5RfWjAxRDGWbsasp9XiiBdYutPg=;
+ b=5mq+OA6FkxzVa2CK7quugNYnsnW56AeMeCpa3geuERjcjfSbIseiuviC+YBaaeiXcH
+ nC4sWw8iQhaY0y7p6KnKt7xNV62bzz2HwFNcqqZmLFMOJVuE13heOQI4pBQs2bYDpHyK
+ vCMetuPOKGNVa2x85G3qGshq36GkuNViKIQ5i49mha38tmdIAAw4QIUXIccb/0LztpTY
+ iy+YMhnBkhv5UDjyqiowl6EMlFfSX5RNb5emgkbpIvxfNOwMNdNcuezVwNH/f+5JFYYP
+ 2+/oz1KaZKe1rLtBEvTGsGrcYMGYWTeUaIaTmQPGzzGmC4L+gYL69rlWxK3FstxN0iKQ
+ 1D1Q==
+X-Gm-Message-State: AOAM531RQvydmc0kQJzb4XCDzsCTrR75B2Oa60v7g1YwCRjc7fsusVWY
+ XTCEXk+UnsBy/Z2ClMywPPTTdzVMniw8GmfhwR+qMmOLjaR4H9sxMZFJrMwx/GG9rB+Wjeb6V0x
+ cBH0kRGoJ/q5ZShQ=
+X-Received: by 2002:a5d:4563:: with SMTP id a3mr40565933wrc.371.1641226468766; 
+ Mon, 03 Jan 2022 08:14:28 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwuiayleX3kqjkENqzEfZKFR7SqAXL1z9HhIziqHJ1ATccXbXoAR1qVTT4NhYGbPj+xUJui9g==
+X-Received: by 2002:a5d:4563:: with SMTP id a3mr40565913wrc.371.1641226468509; 
+ Mon, 03 Jan 2022 08:14:28 -0800 (PST)
 Received: from ?IPV6:2a02:8071:5055:3f20:7ad9:a400:6d51:83e6?
  ([2a02:8071:5055:3f20:7ad9:a400:6d51:83e6])
- by smtp.gmail.com with ESMTPSA id j17sm35241139wrp.68.2022.01.03.07.41.48
+ by smtp.gmail.com with ESMTPSA id bk17sm4971743wrb.105.2022.01.03.08.14.27
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 03 Jan 2022 07:41:48 -0800 (PST)
-Message-ID: <656148be-0a1c-8983-5dec-4f19c068d11d@redhat.com>
-Date: Mon, 3 Jan 2022 16:41:48 +0100
+ Mon, 03 Jan 2022 08:14:28 -0800 (PST)
+Message-ID: <4fad54e5-f22c-277a-4264-59995ae52390@redhat.com>
+Date: Mon, 3 Jan 2022 17:14:27 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.3.0
-Subject: Re: [PATCH] iotests/MRCE: Write data to source
+Subject: Re: [PATCH 1/3] qsd: Add pre-init argument parsing pass
 To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
  qemu-block@nongnu.org
-References: <20211223165308.103793-1-hreitz@redhat.com>
- <ec50682f-a421-797c-a436-085f00ccda35@virtuozzo.com>
+References: <20211222114153.67721-1-hreitz@redhat.com>
+ <20211222114153.67721-2-hreitz@redhat.com>
+ <45780114-34ab-a0c6-87ed-3b26ba4cbbd2@virtuozzo.com>
 From: Hanna Reitz <hreitz@redhat.com>
-In-Reply-To: <ec50682f-a421-797c-a436-085f00ccda35@virtuozzo.com>
+In-Reply-To: <45780114-34ab-a0c6-87ed-3b26ba4cbbd2@virtuozzo.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -79,7 +80,7 @@ X-Mimecast-Originator: redhat.com
 Content-Language: en-US
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -45
 X-Spam_score: -4.6
@@ -104,155 +105,143 @@ Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 23.12.21 18:50, Vladimir Sementsov-Ogievskiy wrote:
-> 23.12.2021 19:53, Hanna Reitz wrote:
->> This test assumes that mirror flushes the source when entering the READY
->> state, and that the format level will pass that flush on to the protocol
->> level (where we intercept it with blkdebug).
+On 30.12.21 17:00, Vladimir Sementsov-Ogievskiy wrote:
+> 22.12.2021 14:41, Hanna Reitz wrote:
+>> We want to add a --daemonize argument to QSD's command line.  This will
+>> require forking the process before we do any complex initialization
+>> steps, like setting up the block layer or QMP.  Therefore, we must scan
+>> the command line for it long before our current process_options() call.
 >>
->> However, apparently that does not happen when using a VMDK image with
->> zeroed_grain=on, which actually is the default set by testenv.py.  Right
->> now, Python tests ignore IMGOPTS, though, so this has no effect; but
->> Vladimir has a series that will change this, so we need to fix this test
->> before that series lands.
+>> Instead of adding custom new code to do so, just reuse process_options()
+>> and give it a @pre_init_pass argument to distinguish the two passes.  I
+>> believe there are some other switches but --daemonize that deserve
+>> parsing in the first pass:
 >>
->> We can fix it by writing data to the source before we start the mirror
->> job; apparently that makes the (VMDK) format layer change its mind and
->> pass on the pre-READY flush to the protocol level, so the test passes
->> again.  (I presume, without any data written, mirror just does a 64M
->> zero write on the target, which VMDK with zeroed_grain=on basically just
->> ignores.)
+>> - --help and --version are supposed to only print some text and then
+>>    immediately exit (so any initialization we do would be for naught).
+>>    This changes behavior, because now "--blockdev inv-drv --help" will
+>>    print a help text instead of complaining about the --blockdev
+>>    argument.
+>>    Note that this is similar in behavior to other tools, though: 
+>> "--help"
+>>    is generally immediately acted upon when finding it in the argument
+>>    list, potentially before other arguments (even ones before it) are
+>>    acted on.  For example, "ls /does-not-exist --help" prints a help 
+>> text
+>>    and does not complain about ENOENT.
 >>
->> Without this, we do not get a flush, and so blkdebug only sees a single
->> flush at the end of the job instead of two, and therefore does not
->> inject an error, which makes the block job complete instead of raising
->> an error.
+>> - --pidfile does not need initialization, and is already exempted from
+>>    the sequential order that process_options() claims to strictly follow
+>>    (the PID file is only created after all arguments are processed, not
+>>    at the time the --pidfile argument appears), so it makes sense to
+>>    include it in the same category as --daemonize.
+>>
+>> - Invalid arguments should always be reported as soon as possible.  (The
+>>    same caveat with --help applies: That means that "--blockdev inv-drv
+>>    --inv-arg" will now complain about --inv-arg, not inv-drv.)
+>>
+>> Note that we could decide to check only for --daemonize in the first
+>> pass, and defer --help, --version, and checking for invalid arguments to
+>> the second one, thus largely keeping our current behavior. However,
+>> this would break "--help --daemonize": The child would print the help
+>> text to stdout, which is redirected to /dev/null, and so the text would
+>> disappear.  We would need to have the text be printed to stderr instead,
+>> and this would then make the parent process exit with EXIT_FAILURE,
+>> which is probably not what we want for --help.
+>>
+>> This patch does make some references to --daemonize without having
+>> implemented it yet, but that will happen in the next patch.
 >>
 >> Signed-off-by: Hanna Reitz <hreitz@redhat.com>
 >
 > Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 >
-> Hmm, relying on flush requests sequence doesn't seem reliable..
-> Maybe, it's better to insert blockdev-add filter after JOB_READY? 
-> blockdev-reopen should work now for "file" link changing.
+>> ---
+>>   storage-daemon/qemu-storage-daemon.c | 37 ++++++++++++++++++++++++++--
+>>   1 file changed, 35 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/storage-daemon/qemu-storage-daemon.c 
+>> b/storage-daemon/qemu-storage-daemon.c
+>> index 52cf17e8ac..42a52d3b1c 100644
+>> --- a/storage-daemon/qemu-storage-daemon.c
+>> +++ b/storage-daemon/qemu-storage-daemon.c
+>> @@ -164,7 +164,23 @@ static int getopt_set_loc(int argc, char **argv, 
+>> const char *optstring,
+>>       return c;
+>>   }
+>>   -static void process_options(int argc, char *argv[])
+>> +/**
+>> + * Process QSD command-line arguments.
+>> + *
+>> + * This is done in two passes:
+>> + *
+>> + * First (@pre_init_pass is true), we do a pass where all global
+>> + * arguments pertaining to the QSD process (like --help or --daemonize)
+>> + * are processed.  This pass is done before most of the QEMU-specific
+>> + * initialization steps (e.g. initializing the block layer or QMP), and
+>> + * so must only process arguments that are not really QEMU-specific.
+>> + *
+>> + * Second (@pre_init_pass is false), we (sequentially) process all
+>> + * QEMU/QSD-specific arguments.  Many of these arguments are 
+>> effectively
+>> + * translated to QMP commands (like --blockdev for blockdev-add, or
+>> + * --export for block-export-add).
+>> + */
+>> +static void process_options(int argc, char *argv[], bool pre_init_pass)
+>>   {
+>>       int c;
+>>   @@ -187,7 +203,22 @@ static void process_options(int argc, char 
+>> *argv[])
+>>        * they are given on the command lines. This means that things 
+>> must be
+>
+> So, --pidfile already breaks a bit this comment. Still would be good 
+> to adjust it now..
+>
+> may be, s/options/QEMU-specific options/ or something like this.
 
-Oh, yes, that would be nice, good idea!
+Right, makes sense to make it match the comment above the function.
 
-But, on the other hand...  I tried, but unfortunately blockdev-reopen 
-doesn’t seem to work that well with vmdk in particular:
-
-$ ./qemu-img create -f vmdk /tmp/test.vmdk 64M
-Formatting '/tmp/test.vmdk', fmt=vmdk size=67108864 compat6=off 
-hwversion=undefined
-
-$ ./qemu-system-x86_64 \
-     -qmp stdio \
-     -blockdev file,node-name=file,filename=/tmp/test.vmdk \
-     -blockdev vmdk,node-name=vmdk,file=file \
-     -blockdev raw,node-name=raw,file=file \
-     <<EOF
-{"execute": "qmp_capabilities"}
-{"execute": "blockdev-reopen",
-  "arguments": {
-    "options": [{
-      "node-name": "vmdk",
-      "driver": "vmdk",
-      "file": "raw"}]}}
-{"execute": "quit"}
-EOF
-{"QMP": {"version": {"qemu": {"micro": 50, "minor": 2, "major": 6}, 
-"package": "v6.2.0-428-g572068bc87"}, "capabilities": ["oob"]}}
-{"return": {}}
-{"return": {}}
-{"return": {}}
-{"timestamp": {"seconds": 1641223501, "microseconds": 865524}, "event": 
-"SHUTDOWN", "data": {"guest": false, "reason": "host-qmp-quit"}}
-[1]    21585 segmentation fault (core dumped)  ./qemu-system-x86_64 -qmp 
-stdio -blockdev  -blockdev  -blockdev  <<<''
-
-
-I don’t quite know what’s wrong, seems to me like some strong reference 
-may be missing:
-
-(gdb) bt
-#0  0x00005643a784bb93 in bdrv_unset_inherits_from 
-(root=root@entry=0x5643a898d990, child=child@entry=0x5643a89856c0, 
-tran=tran@entry=0x0) at ../block.c:3172
-#1  0x00005643a78524d0 in bdrv_unref_child (child=0x5643a89856c0, 
-parent=0x5643a898d990) at ../block.c:3199
-#2  bdrv_unref_child (parent=parent@entry=0x5643a898d990, 
-child=0x5643a89856c0) at ../block.c:3193
-#3  0x00005643a78b0c31 in vmdk_free_extents (bs=0x5643a898d990) at 
-../block/vmdk.c:277
-#4  0x00005643a78b0c5a in vmdk_close (bs=<optimized out>) at 
-../block/vmdk.c:2810
-#5  0x00005643a785260c in bdrv_close (bs=0x5643a898d990) at ../block.c:4790
-#6  bdrv_delete (bs=<optimized out>) at ../block.c:5248
-#7  bdrv_unref (bs=bs@entry=0x5643a898d990) at ../block.c:6675
-#8  0x00005643a78436c5 in blockdev_close_all_bdrv_states () at 
-../blockdev.c:675
-#9  0x00005643a784f24f in bdrv_close_all () at ../block.c:4846
-#10 0x00005643a77032de in qemu_cleanup () at ../softmmu/runstate.c:816
-#11 0x00005643a7412823 in main (argc=<optimized out>, argv=<optimized 
-out>, envp=<optimized out>) at ../softmmu/main.c:51
-(gdb) p *child->bs
-Cannot access memory at address 0x5646ccad4005
-
-
-Valgrind points to vmdk_free_extents(), which makes me believe that the 
-problem is that changing vmdk’s file child would need some cooperation 
-from it to update its s->extents[...].file pointers:
-
-==23055== Invalid read of size 8
-==23055==    at 0x194CD0: bdrv_unset_inherits_from (block.c:3172)
-==23055==    by 0x19B60F: bdrv_unref_child (block.c:3199)
-==23055==    by 0x19B60F: bdrv_unref_child (block.c:3193)
-==23055==    by 0x1F9D70: vmdk_free_extents (vmdk.c:277)
-==23055==    by 0x1F9D99: vmdk_close (vmdk.c:2810)
-==23055==    by 0x19B74B: bdrv_close (block.c:4790)
-==23055==    by 0x19B74B: bdrv_delete (block.c:5248)
-==23055==    by 0x19B74B: bdrv_unref (block.c:6675)
-==23055==    by 0x18C804: blockdev_close_all_bdrv_states (blockdev.c:675)
-==23055==    by 0x19838E: bdrv_close_all (block.c:4846)
-==23055==    by 0x17F235: main (qemu-storage-daemon.c:354)
-==23055==  Address 0x11259770 is 0 bytes inside a block of size 96 free'd
-==23055==    at 0x48440E4: free (vg_replace_malloc.c:872)
-==23055==    by 0x4AE0DAC: g_free (gmem.c:199)
-==23055==    by 0x2ACE21: tran_commit (transactions.c:87)
-==23055==    by 0x19D109: bdrv_reopen_multiple (block.c:4325)
-==23055==    by 0x18FCB7: qmp_blockdev_reopen (blockdev.c:3599)
-==23055==    by 0x272B0D: qmp_marshal_blockdev_reopen 
-(qapi-commands-block-core.c:1086)
-==23055==    by 0x295238: do_qmp_dispatch_bh (qmp-dispatch.c:129)
-==23055==    by 0x2AD8A3: aio_bh_call (async.c:141)
-==23055==    by 0x2AD8A3: aio_bh_poll (async.c:169)
-==23055==    by 0x29E61D: aio_dispatch (aio-posix.c:381)
-==23055==    by 0x2AD4ED: aio_ctx_dispatch (async.c:311)
-==23055==    by 0x4ADF12F: UnknownInlinedFun (gmain.c:3381)
-==23055==    by 0x4ADF12F: g_main_context_dispatch (gmain.c:4099)
-==23055==    by 0x2B8E07: glib_pollfds_poll (main-loop.c:232)
-==23055==    by 0x2B8E07: os_host_main_loop_wait (main-loop.c:255)
-==23055==    by 0x2B8E07: main_loop_wait (main-loop.c:531)
-==23055==  Block was alloc'd at
-==23055==    at 0x484186F: malloc (vg_replace_malloc.c:381)
-==23055==    by 0x4AE44A8: g_malloc (gmem.c:106)
-==23055==    by 0x19A52F: bdrv_attach_child_common (block.c:2912)
-==23055==    by 0x19A878: bdrv_attach_child_noperm (block.c:3002)
-==23055==    by 0x19BC90: bdrv_attach_child (block.c:3095)
-==23055==    by 0x1FC72E: vmdk_open (vmdk.c:1265)
-==23055==    by 0x19B1D9: bdrv_open_driver (block.c:1566)
-==23055==    by 0x19EAE3: bdrv_open_common (block.c:1858)
-==23055==    by 0x19EAE3: bdrv_open_inherit (block.c:3865)
-==23055==    by 0x19FB02: bdrv_open (block.c:3958)
-==23055==    by 0x18FA9D: qmp_blockdev_add (blockdev.c:3540)
-==23055==    by 0x17F1CA: process_options (qemu-storage-daemon.c:216)
-==23055==    by 0x17F1CA: main (qemu-storage-daemon.c:338)
-
-
-So we can’t use blockdev-reopen until this is fixed™, and because this 
-kind of is a blocker for your series, I think I’ll just take the patch 
-as-is then.
-
-Hanna
+>>        * defined first before they can be referenced in another option.
+>>        */
+>> +    optind = 1;
+>>       while ((c = getopt_set_loc(argc, argv, "-hT:V", long_options)) 
+>> != -1) {
+>> +        bool handle_option_pre_init;
+>> +
+>> +        /* Should this argument be processed in the pre-init pass? */
+>> +        handle_option_pre_init =
+>> +            c == '?' ||
+>> +            c == 'h' ||
+>> +            c == 'V' ||
+>> +            c == OPTION_PIDFILE;
+>> +
+>> +        /* Process every option only in its respective pass */
+>> +        if (pre_init_pass != handle_option_pre_init) {
+>> +            continue;
+>> +        }
+>> +
+>>           switch (c) {
+>>           case '?':
+>>               exit(EXIT_FAILURE);
+>> @@ -321,6 +352,8 @@ int main(int argc, char *argv[])
+>>       qemu_init_exec_dir(argv[0]);
+>>       os_setup_signal_handling();
+>>   +    process_options(argc, argv, true);
+>> +
+>>       module_call_init(MODULE_INIT_QOM);
+>>       module_call_init(MODULE_INIT_TRACE);
+>>       qemu_add_opts(&qemu_trace_opts);
+>> @@ -335,7 +368,7 @@ int main(int argc, char *argv[])
+>>       qemu_set_log(LOG_TRACE);
+>>         qemu_init_main_loop(&error_fatal);
+>> -    process_options(argc, argv);
+>> +    process_options(argc, argv, false);
+>>         /*
+>>        * Write the pid file after creating chardevs, exports, and NBD 
+>> servers but
+>>
+>
+>
 
 
