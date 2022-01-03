@@ -2,77 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB111483741
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jan 2022 19:57:15 +0100 (CET)
-Received: from localhost ([::1]:46202 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B50F648374D
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jan 2022 19:59:33 +0100 (CET)
+Received: from localhost ([::1]:54266 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n4SWA-00061e-VV
-	for lists+qemu-devel@lfdr.de; Mon, 03 Jan 2022 13:57:14 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36578)
+	id 1n4SYO-00032D-Id
+	for lists+qemu-devel@lfdr.de; Mon, 03 Jan 2022 13:59:32 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38224)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1n4SSz-0007WW-CE; Mon, 03 Jan 2022 13:53:57 -0500
-Received: from [2607:f8b0:4864:20::f35] (port=43732
- helo=mail-qv1-xf35.google.com)
+ id 1n4SXK-0001Ts-RI; Mon, 03 Jan 2022 13:58:26 -0500
+Received: from [2607:f8b0:4864:20::736] (port=37822
+ helo=mail-qk1-x736.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1n4SSx-0006HY-Si; Mon, 03 Jan 2022 13:53:57 -0500
-Received: by mail-qv1-xf35.google.com with SMTP id fq10so31801524qvb.10;
- Mon, 03 Jan 2022 10:53:55 -0800 (PST)
+ id 1n4SXI-000833-1B; Mon, 03 Jan 2022 13:58:26 -0500
+Received: by mail-qk1-x736.google.com with SMTP id t66so20743053qkb.4;
+ Mon, 03 Jan 2022 10:58:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=V3YTg3Mut9jhi/NXD0xJNr/90t1QA5jizZEVU//o/q4=;
- b=ejxFk90e00DOtcUcy4eJqGOULioc89fBxifgcmxi2LqcOjF7XfG4RUa6Vt3hA30V95
- /gdlWM6yDpH3dduuydtVCMoRHMoqZQW1wOCbbKuGKsbYDMkbUf1oQeyuEj0LbOFrzd1Z
- iY0c1C/AlvBga1tJZPwdKbSdQ/01YuFTJOxQfy6NLkdnpVXF5ivhVQ9KUej3+xy8og1h
- rl/6deZsRlbKhq9gltXcu5uK4RoVWy+EaJnD/RqBGxwqvILNrZvREaGZ0OXqvfo3d3uS
- Ba0TwJOcBQAFkBlgRltWgSZeVtBrk/Ad4i6y1ko01yR1o6UhiZzxtEWsLUlrtkxH1NHf
- jhSw==
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=ufTAd0zJcjPqs9eeB6QTMDCrqFU873XSvjw2FEIRhPs=;
+ b=KoX47fV38yuYnXEYgxnrYaS7ttstzdi9o+eQIha20icdmIMGik2E7N6a1Vf4MnewrV
+ 3kT/Ju7s9Q04/aFd+2da/9dsomJQxOqCMRwkiQjMdBHHDEv/SSfbasuHWorx1fn1Qz6j
+ F4pYAGjnpGo+hUbXfo4K3md9f8V85w5Cw5fb2dtg+D4iSzABTAM1pTPSnYGs9gDNeER6
+ 76h6/UH/lqciVY42pxnvzwI6meCP6xwWDSH5X/ehd3fPPDStjq2PWK4JneJZ9T5d5vfY
+ MHliFE9jKqlej7QVTi/a2Lj1UzLMxHI9GNyj27QJT3nfu2Fo3/Uuvx8t7UnqggTqJiOz
+ fyOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=V3YTg3Mut9jhi/NXD0xJNr/90t1QA5jizZEVU//o/q4=;
- b=qxMMqYdQMRR6v3GQCiokd0i57u5y4oxRkkrJJvOevzuSdU+ANptfEA8rAz1vPIAud9
- 9JXmTFiFuaJFHmrx2NywEwnbp2JJ6k07osklFNNNu7hT5++DX+G7G+PAcw0af+RlErN0
- wNCnvmjpM4c7DYWgRzRWURpES+h4lWjqV82CceQ+cil033zoAbAw/lt/ziSITBuosjCF
- E82ZHYM7qZqHMmGOCZG9Uw83tPrJo3URLUguR6egscX7DsKbJVv+3JiV3wdTXi27mPpH
- yVUzj+Wa/uJVQSCCCCiox4VSU0N7L8Sq59VxzMzR/tP30XK2pgaHNAnsSn7fGqSJ6/in
- CUTg==
-X-Gm-Message-State: AOAM531xVI/cL+xGCtUhfvgfvH53Q9AoPEUTl7zmaAu1Eq5u3EfFsYjc
- HE8YdZ0CmYz8s2uTlXCCkaqa2Tp0mjM=
-X-Google-Smtp-Source: ABdhPJyzCZ6gSaj+KXPjAh2TreHqVLE6khWrmX8HQSgZomMEIR1JeHH8gqnoJwYX87+c2ECSbDIxHQ==
-X-Received: by 2002:a05:6214:c82:: with SMTP id
- r2mr12350244qvr.51.1641236034631; 
- Mon, 03 Jan 2022 10:53:54 -0800 (PST)
-Received: from rekt.ibmuc.com ([2804:431:c7c7:f4d8:aa07:335f:99e0:a6e7])
- by smtp.gmail.com with ESMTPSA id w9sm29002867qko.71.2022.01.03.10.53.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 03 Jan 2022 10:53:54 -0800 (PST)
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 5/5] target/ppc: do not call hreg_compute_hflags() in
- helper_store_mmcr0()
-Date: Mon,  3 Jan 2022 15:53:32 -0300
-Message-Id: <20220103185332.117878-6-danielhb413@gmail.com>
-X-Mailer: git-send-email 2.33.1
-In-Reply-To: <20220103185332.117878-1-danielhb413@gmail.com>
-References: <20220103185332.117878-1-danielhb413@gmail.com>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=ufTAd0zJcjPqs9eeB6QTMDCrqFU873XSvjw2FEIRhPs=;
+ b=tdn5fbwbcuNcb7YgEgkQV/5Lga+Ciduvke3MB5u8g5jGgE5M/pgMFhTqt6OAC6Qtka
+ GDNv0MynroNzJKDc9OENZYxNP3vcUDj7poFgqndnAjT/eyhNs/7RKaGCVdJ+MAsRqBRK
+ rpu7sJaM7tC/8g0ncaGKryv+M6Zpm8W1T65dtTO01o2RQ/AxfFz2VEZe2djzdcgdWoWS
+ FLz1hN1Eb3f7i9ML4yZg8LXVji1vPvWIbbRV/ccMik4EgAAOgzcVLavTlMATfZdoRqP5
+ M368PTvHDx28bjN2P8/p/9o4k5AfzMOJOYR9bfFDA86FA5nW7Q0CTh1g8SxINd5O3RrY
+ oKDw==
+X-Gm-Message-State: AOAM53373r2ohJrcuGZWNApmf47guDLUry5suyglhvGtE79++SKffia5
+ akWciZC6q58crCShpSB4S02U9BhM9q0=
+X-Google-Smtp-Source: ABdhPJxW7CF0/S7SIlaxzJ4miLtbcCMKoBzfy2QP55MjizWlXWxmbm2scMNQjao8jbo9S042bcTvBw==
+X-Received: by 2002:a37:9b0c:: with SMTP id d12mr32572949qke.389.1641236302784; 
+ Mon, 03 Jan 2022 10:58:22 -0800 (PST)
+Received: from ?IPV6:2804:431:c7c7:f4d8:aa07:335f:99e0:a6e7?
+ ([2804:431:c7c7:f4d8:aa07:335f:99e0:a6e7])
+ by smtp.gmail.com with ESMTPSA id bj30sm28446741qkb.58.2022.01.03.10.58.20
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 03 Jan 2022 10:58:22 -0800 (PST)
+Message-ID: <91929906-0ade-51ce-295f-38cd68c519b9@gmail.com>
+Date: Mon, 3 Jan 2022 15:58:19 -0300
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH 00/17] ppc/pnv: enable pnv-phb4 user devices
+Content-Language: en-US
+To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-devel@nongnu.org
+References: <20211228193806.1198496-1-danielhb413@gmail.com>
+ <e62ca8df-25a2-222c-1ffe-12fc52a4a82f@kaod.org>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+In-Reply-To: <e62ca8df-25a2-222c-1ffe-12fc52a4a82f@kaod.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::f35
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::736
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f35;
- envelope-from=danielhb413@gmail.com; helo=mail-qv1-xf35.google.com
-X-Spam_score_int: 8
-X-Spam_score: 0.8
-X-Spam_bar: /
-X-Spam_report: (0.8 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::736;
+ envelope-from=danielhb413@gmail.com; helo=mail-qk1-x736.google.com
+X-Spam_score_int: -24
+X-Spam_score: -2.5
+X-Spam_bar: --
+X-Spam_report: (-2.5 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
  DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_ENVFROM_END_DIGIT=0.25,
- FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ FREEMAIL_FROM=0.001, NICE_REPLY_A=-3.354, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,50 +90,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: richard.henderson@linaro.org,
- Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
- clg@kaod.org, david@gibson.dropbear.id.au
+Cc: qemu-ppc@nongnu.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-MMCR0 writes will change only MMCR0 bits which are used to calculate
-HFLAGS_PMCC0, HFLAGS_PMCC1 and HFLAGS_INSN_CNT hflags. No other machine
-register will be changed during this operation. This means that
-hreg_compute_hflags() is overkill for what we need to do.
 
-pmu_update_summaries() is already updating HFLAGS_INSN_CNT without
-calling hreg_compure_hflags(). Let's do the same for the other 2 MMCR0
-hflags.
 
-Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
----
- target/ppc/power8-pmu.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+On 1/3/22 05:21, Cédric Le Goater wrote:
+> Hello Daniel,
+> 
+> On 12/28/21 20:37, Daniel Henrique Barboza wrote:
+>> Hi,
+>>
+>> This series implements pnv-phb4 user devices for the powernv9 machine.
+>> It also includes a couple of pnv-phb3 and pnv-phb3-root-port fixes that
+>> were also applied for the pnv4 equivalents.
+>>
+>> During the enablement I had to rollback from the previously added
+>> support for user creatable pnv-phb4-pec devices. The most important
+>> reason is user experience. PEC devices that doesn't spawn the PHB
+>> devices will be just a placeholder to add PHBs, having no use of their
+>> own as far as the user sees it. From this standpoint it makes more sense
+>> to just create all PECs and attach the PHBs the user wants on them.
+>> Patch 14 also describes technical reasons to rollback this support.
+>>
+>> The series is rebased using Cedric's 'powernv-6.2' branch [1]i, which
+>> includes the '[PATCH 0/5] ppc/pnv: Preliminary cleanups before user
+>> created PHBs' patches [2].
+> 
+> It would be easier if you based the patchset on mainline. It's not
+> a problem to resend patches of another person or/and even rework
+> them to fit your needs.
 
-diff --git a/target/ppc/power8-pmu.c b/target/ppc/power8-pmu.c
-index 73713ca2a3..69342413bd 100644
---- a/target/ppc/power8-pmu.c
-+++ b/target/ppc/power8-pmu.c
-@@ -224,12 +224,17 @@ static void pmu_update_overflow_timers(CPUPPCState *env)
- 
- void helper_store_mmcr0(CPUPPCState *env, target_ulong value)
- {
-+    uint32_t hflags_pmcc0 = (value & MMCR0_PMCC0) != 0;
-+    uint32_t hflags_pmcc1 = (value & MMCR0_PMCC1) != 0;
-+
-     pmu_update_cycles(env);
- 
-     env->spr[SPR_POWER_MMCR0] = value;
- 
-     /* MMCR0 writes can change HFLAGS_PMCC[01] and HFLAGS_INSN_CNT */
--    hreg_compute_hflags(env);
-+    env->hflags = deposit32(env->hflags, HFLAGS_PMCC0, 1, hflags_pmcc0);
-+    env->hflags = deposit32(env->hflags, HFLAGS_PMCC1, 1, hflags_pmcc1);
-+
-     pmu_update_summaries(env);
- 
-     /* Update cycle overflow timers with the current MMCR0 state */
--- 
-2.33.1
 
+Sure, I'll send the v2 based on the mainline + the required patches.
+
+
+Thanks,
+
+
+Daniel
+
+> 
+> Thanks,
+> 
+> C.
 
