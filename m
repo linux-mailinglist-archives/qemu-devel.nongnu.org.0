@@ -2,103 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30218482FC8
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jan 2022 11:09:30 +0100 (CET)
-Received: from localhost ([::1]:33054 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07B07482FC9
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jan 2022 11:11:08 +0100 (CET)
+Received: from localhost ([::1]:35302 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n4KHQ-0007NV-Ut
-	for lists+qemu-devel@lfdr.de; Mon, 03 Jan 2022 05:09:28 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33890)
+	id 1n4KJ1-0000XE-3M
+	for lists+qemu-devel@lfdr.de; Mon, 03 Jan 2022 05:11:07 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34006)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fbarrat@linux.ibm.com>)
- id 1n4KG8-0006Rv-KJ; Mon, 03 Jan 2022 05:08:08 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:35014)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1n4KHC-0007fp-6b
+ for qemu-devel@nongnu.org; Mon, 03 Jan 2022 05:09:14 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22044)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fbarrat@linux.ibm.com>)
- id 1n4KG6-0004VM-T4; Mon, 03 Jan 2022 05:08:08 -0500
-Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 2037ngth021128; 
- Mon, 3 Jan 2022 10:07:51 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=BVsqHrIHwyN8iqlnJfmO4+hMMdm81bTnAYlTIHLjsmU=;
- b=U+8YEbwJGGrJe4IAgT4h/JeopgVDoQlJnfeSsmnbLuNqhgBTAUZCTfhY81B8bO4KTjYF
- +ARzTOIfVugYrXYESFvGsj1j5+Yujd8duM313thc7dqPNtJ2pv4oq3S20GAZ5oU7u1mz
- N6VCiieq3nVwMNH2w6aF7YJLm/jr59GEMhNe5v9dHM1CzBBr7PWJJKxiK4xwAi3UCTjM
- ruP+mGVlKHfshXxH48jUNFUNqE/eFSOIf+EgDSHaY4iKBL+iFyWzbtPgJ6VlpVOzgdlL
- bwV/Ikkb1quhNb6qplT04DvTxfWavuIfez6dI8EqLPFYjF0HnY3bf7D38fDhy681PK5f ag== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3dbw3jt7ne-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 03 Jan 2022 10:07:51 +0000
-Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 203A1kKF006748;
- Mon, 3 Jan 2022 10:07:50 GMT
-Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.98])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3dbw3jt7mm-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 03 Jan 2022 10:07:50 +0000
-Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
- by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 203A3gFN007635;
- Mon, 3 Jan 2022 10:07:48 GMT
-Received: from b06cxnps4074.portsmouth.uk.ibm.com
- (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
- by ppma03ams.nl.ibm.com with ESMTP id 3daek99hsc-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 03 Jan 2022 10:07:48 +0000
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
- [9.149.105.58])
- by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 203A7jbm28442930
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 3 Jan 2022 10:07:46 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id DCA204C040;
- Mon,  3 Jan 2022 10:07:45 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 918904C052;
- Mon,  3 Jan 2022 10:07:45 +0000 (GMT)
-Received: from [9.145.163.160] (unknown [9.145.163.160])
- by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Mon,  3 Jan 2022 10:07:45 +0000 (GMT)
-Message-ID: <468b0860-fcd1-f7d0-4180-d75e4e25e9c1@linux.ibm.com>
-Date: Mon, 3 Jan 2022 11:07:45 +0100
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1n4KHA-0005kv-8U
+ for qemu-devel@nongnu.org; Mon, 03 Jan 2022 05:09:13 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1641204551;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=gEz58uy+bNrS3WTqaycTJm7D8MHJM/MBUCck2a9e+Vs=;
+ b=NAEgQu3AQi9WwsM9AI5jig63NmeQubRUhCFhXZ9sz/wmhdJ0ruWaZyh8YlOEm3gviIQvUf
+ BqP+N4oUbO6FenufU7o/gMXPOrFa+uo/hd5XB950TefmsViWTsfrkySPM5CJWk0P/pOngk
+ fxdHSrfI+P7BYzZLbSoYfBCYW0LCrZY=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-550-nnCpob4iN4eKY5Hx5YcnpQ-1; Mon, 03 Jan 2022 05:09:10 -0500
+X-MC-Unique: nnCpob4iN4eKY5Hx5YcnpQ-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ g6-20020adfbc86000000b001a2d62be244so8805199wrh.23
+ for <qemu-devel@nongnu.org>; Mon, 03 Jan 2022 02:09:10 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent
+ :content-language:to:cc:references:from:subject:in-reply-to
+ :content-transfer-encoding;
+ bh=gEz58uy+bNrS3WTqaycTJm7D8MHJM/MBUCck2a9e+Vs=;
+ b=S8t8PliYTYDP3mrnYK6Ft+3mBGhjUmR1rGxvL2e3PdPxEXt8krAn5Ui3LfwaAi7iIf
+ MPJOot3TEHqhVxE4twxdtprKIuo1MGqGZr3774S0Gb+Lb37vCSymDdAfssmyr3DprswJ
+ 8IJlo0eNSiti95BOTrXI4uw81BGZ2pMGSCW16hzN9Si3l/b44L+6B0ILvaUjEmcavoTP
+ QNxc5jaSsZeSlDQxlmPZtrxizAjI/dQuhjtL7ll0NB5cz+cjFxi8yh5Ar6qWuZllQzjI
+ DgMLWboPKUNKKfNwLv/ii3Q1+w9uQNtw2J9ZiXy5zHwM4sa/509XM1s5AP/010KWxgiQ
+ L+nw==
+X-Gm-Message-State: AOAM533Y4FiYbrkDq/ZCzMmJzA5/xwrtDszvFIibcdJUyrjM9+03N/Pu
+ h70eePOAHw0H2MxOtEy+IH9b+o5EKyZW/ijg29qyWR2sUl+B0OsL47mCCkPUN1HxUX/xsKSRtpn
+ S4gw6Wlns/k8kiD8=
+X-Received: by 2002:a7b:cbd4:: with SMTP id n20mr38022192wmi.125.1641204549040; 
+ Mon, 03 Jan 2022 02:09:09 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyOsM2LFQBAgos8ALNZ0LJyqgbCgA3P79Ny7mClowew+WZz4cKVNdUGxy62iD1vxNvSjZJPnQ==
+X-Received: by 2002:a7b:cbd4:: with SMTP id n20mr38022178wmi.125.1641204548841; 
+ Mon, 03 Jan 2022 02:09:08 -0800 (PST)
+Received: from [192.168.8.100] (tmo-098-68.customers.d1-online.com.
+ [80.187.98.68])
+ by smtp.gmail.com with ESMTPSA id f10sm13717776wmq.16.2022.01.03.02.09.07
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 03 Jan 2022 02:09:08 -0800 (PST)
+Message-ID: <214c77f0-eb08-3375-6ab7-c09651b53a9c@redhat.com>
+Date: Mon, 3 Jan 2022 11:09:06 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.4.0
-Subject: Re: [PATCH] target/ppc: Check effective address validity
+To: Igor Mammedov <imammedo@redhat.com>
+References: <20211222153923.1000420-1-thuth@redhat.com>
+ <20211227110120.5d61f6ee@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH] tests/qtest/test-x86-cpuid-compat: Check for machines
+ before using them
+In-Reply-To: <20211227110120.5d61f6ee@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Language: en-US
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org
-References: <20211231073122.3183583-1-clg@kaod.org>
-From: Frederic Barrat <fbarrat@linux.ibm.com>
-In-Reply-To: <20211231073122.3183583-1-clg@kaod.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: SLC1M6A_APsYtbQUxUU-6KrydWcpc24r
-X-Proofpoint-GUID: o2hzcPeeV6XziLgmjaDdTWs0GQkMmY9D
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2022-01-03_03,2022-01-01_01,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- mlxlogscore=999 lowpriorityscore=0 impostorscore=0 spamscore=0 mlxscore=0
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 adultscore=0
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2110150000 definitions=main-2201030068
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=fbarrat@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.354, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -45
+X-Spam_score: -4.6
+X-Spam_bar: ----
+X-Spam_report: (-4.6 / 5.0 requ) DKIMWL_WL_HIGH=-0.37, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.354,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -111,57 +100,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, Greg Kurz <groug@kaod.org>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-devel@nongnu.org, "Michael S . Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On 31/12/2021 08:31, Cédric Le Goater wrote:
-> For Radix translation, the EA range is 64-bits. when EA(2:11) are
-> nonzero, a segment interrupt should occur.
+On 27/12/2021 11.01, Igor Mammedov wrote:
+> On Wed, 22 Dec 2021 16:39:23 +0100
+> Thomas Huth <thuth@redhat.com> wrote:
 > 
-> Signed-off-by: Cédric Le Goater <clg@kaod.org>
-> ---
-
-
-Looks ok to me.
-Reviewed-by: Frederic Barrat <fbarrat@linux.ibm.com>
-
-   Fred
-
-
->   target/ppc/mmu-radix64.h | 1 +
->   target/ppc/mmu-radix64.c | 5 +++++
->   2 files changed, 6 insertions(+)
+>> The user might have disabled the pc-i440fx machine type (or it's older
+>> versions, like done in downstream RHEL) in the QEMU binary, so let's
+>> better check whether the machine types are available before using them.
+>>
+>> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> Looks good to me, so
 > 
-> diff --git a/target/ppc/mmu-radix64.h b/target/ppc/mmu-radix64.h
-> index b70357cf345c..4c768aa5cc74 100644
-> --- a/target/ppc/mmu-radix64.h
-> +++ b/target/ppc/mmu-radix64.h
-> @@ -5,6 +5,7 @@
->   
->   /* Radix Quadrants */
->   #define R_EADDR_MASK            0x3FFFFFFFFFFFFFFF
-> +#define R_EADDR_VALID_MASK      0xC00FFFFFFFFFFFFF
->   #define R_EADDR_QUADRANT        0xC000000000000000
->   #define R_EADDR_QUADRANT0       0x0000000000000000
->   #define R_EADDR_QUADRANT1       0x4000000000000000
-> diff --git a/target/ppc/mmu-radix64.c b/target/ppc/mmu-radix64.c
-> index d10ae001d7c9..040c055bff65 100644
-> --- a/target/ppc/mmu-radix64.c
-> +++ b/target/ppc/mmu-radix64.c
-> @@ -32,6 +32,11 @@ static bool ppc_radix64_get_fully_qualified_addr(const CPUPPCState *env,
->                                                    vaddr eaddr,
->                                                    uint64_t *lpid, uint64_t *pid)
->   {
-> +    /* When EA(2:11) are nonzero, raise a segment interrupt */
-> +    if (eaddr & ~R_EADDR_VALID_MASK) {
-> +        return false;
-> +    }
-> +
->       if (msr_hv) { /* MSR[HV] -> Hypervisor/bare metal */
->           switch (eaddr & R_EADDR_QUADRANT) {
->           case R_EADDR_QUADRANT0:
+> Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+> 
+> 
+> the only concern is that when deprecated machine is removed,
+> this code will happily hide test block which should be removed.
+
+Yes, but ideally, the person who removes depreacted machines should "grep" 
+throught the sources for the machines that should be removed anyway 
+(otherwise you might miss the spots where they are mentioned in comments 
+anyway, like in hw/i386/acpi-build.c for example).
+
+By the way, currently there are no x86 machines marked as deprecated ... 
+should we maybe mark the pc-i440fx-1.x machines as deprecated now, since 
+they are very old already?
+
+  Thomas
+
 
