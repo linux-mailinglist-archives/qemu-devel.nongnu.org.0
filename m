@@ -2,83 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E6B64838A6
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jan 2022 22:51:43 +0100 (CET)
-Received: from localhost ([::1]:34016 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9B624838B3
+	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jan 2022 23:09:53 +0100 (CET)
+Received: from localhost ([::1]:40900 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n4VEz-0001Px-UQ
-	for lists+qemu-devel@lfdr.de; Mon, 03 Jan 2022 16:51:41 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35502)
+	id 1n4VWZ-0006t0-Fo
+	for lists+qemu-devel@lfdr.de; Mon, 03 Jan 2022 17:09:51 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40172)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1n4VDi-0000R8-Mt; Mon, 03 Jan 2022 16:50:24 -0500
-Received: from [2607:f8b0:4864:20::82c] (port=39555
- helo=mail-qt1-x82c.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1n4VDf-0006bI-RK; Mon, 03 Jan 2022 16:50:22 -0500
-Received: by mail-qt1-x82c.google.com with SMTP id bp39so31986721qtb.6;
- Mon, 03 Jan 2022 13:50:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=zL8ZCasVpfR1HFcPDPofy7sus5IHdrje0/+tvS7bOSs=;
- b=GIKhQR5g7prf+5cR6ZGGQi7JBJjUnZl0Jcj2Vu+D8ev7WVPpGa9T6fdC0PW/l9FI7G
- 8QP6T2TI1e9s4vzq6S/ydAyMEypYCxCiDL0NJ7ZI9R5EK07L3e3gleawW90LvqV/Hdux
- e/9ykLcSsaO74CHnlVQH/siCEm03xOR5LpnzRAVKZ3djVNElhbEJClIxAzrvOqO7FBmL
- 7shffrV4A//EljoXuAJ163NRALTI9aVIAZ9BGXgIjhyU0w2v1of3a8HgrEvpJzc2oJa5
- yG3nuZOnaoleEwIOSla7hiWjRvD9p6H3/b9AuDKuDvDtCo6AagKTji1uUBu9w4J6/9TK
- xLZg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=zL8ZCasVpfR1HFcPDPofy7sus5IHdrje0/+tvS7bOSs=;
- b=n9yWa51Jg1HqG3oBlg1nWQFtCDIsozRXefhBQktDzgkr2rON+SC7RfDgd+A9bxym/f
- ocgpNQpbuiqikNiatjeExSldSL97HovJT/b/10vq94kos/qqoAi+1NpiAsvqRPbWMIBZ
- 7+eqmjVX0L7JoMBB1va/5oNCHwSSy9HmNCeQVSXPx5weBlD7wFddVSyQ1jsJFa/Xd2jn
- /dmrTRRIHRkN9232k6wwjeYBogejTT7l1bQg10iZVar5Zx7rJ7112DBicFwLON48fFuu
- 6Ysxxon4vLAJ/E4dYDkv1BHDK6l4CvagFfwUfCmwkMNiNWTYAUUIo/jMeYLPKsT3LOYW
- CcYQ==
-X-Gm-Message-State: AOAM5327tse2x9GWg3XJrP0jOHtzVDzv7gAPYI8ogjsS7lSWzIbC5XSM
- 1isXo0amOMlucRu53HON1eI=
-X-Google-Smtp-Source: ABdhPJx1A3Pm3sF898IcJF+cPnwB4NF3bHZ+RUVJ8VLBkNiI+xElxDSnUW3XPN2RO5IFbP+ngIHaaA==
-X-Received: by 2002:ac8:580b:: with SMTP id g11mr42365954qtg.542.1641246613171; 
- Mon, 03 Jan 2022 13:50:13 -0800 (PST)
-Received: from ?IPV6:2804:431:c7c7:f4d8:aa07:335f:99e0:a6e7?
- ([2804:431:c7c7:f4d8:aa07:335f:99e0:a6e7])
- by smtp.gmail.com with ESMTPSA id j124sm27565555qkd.98.2022.01.03.13.50.11
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 03 Jan 2022 13:50:12 -0800 (PST)
-Message-ID: <25b90f46-befa-3fc9-cdef-e6e999765f33@gmail.com>
-Date: Mon, 3 Jan 2022 18:50:09 -0300
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH v2 4/5] target/ppc: keep ins_cnt/cyc_cnt cleared if
- MMCR0_FC is set
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20220103185332.117878-1-danielhb413@gmail.com>
- <20220103185332.117878-5-danielhb413@gmail.com>
- <0b9b2a07-4b0c-4095-9365-d95139e182fc@linaro.org>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <0b9b2a07-4b0c-4095-9365-d95139e182fc@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
+ id 1n4VUt-0004P3-2s; Mon, 03 Jan 2022 17:08:07 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:26100
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
+ id 1n4VUr-0001zv-8U; Mon, 03 Jan 2022 17:08:06 -0500
+Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 203JCmor001928; 
+ Mon, 3 Jan 2022 22:07:56 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : content-transfer-encoding : mime-version; s=pp1;
+ bh=oEt8uj+W+hZH/watIh86+SR7v+hQOleGIrDBuvdgjF8=;
+ b=pA7uDMK4J2suLU4Ow3ohr9vTil52vkgXJkeIRbx2e//CCKF04VxMgGh+hXMqczd8UROt
+ 4UpuIvDmM6gbaDaXrf6zjUzb8TeeYbS5mIVrpD2Uqok0RFRysiiYh2+mKQg0tJfDspeP
+ /5NJlxjY12Eihf44ha6Ao/pNxrMl3WC3ONAAVrZectwigo8dw8ixSnWhp+uLtF7i++65
+ 094tNL376wWanRABXQioOlQ+RHkVSeIZj40FoF/bd2nKi8FDOtmCS2F9P/GugM/FwySo
+ sIItVUsPicGIJ6qW3tGWj/it1ASpRC/0X/GDEnn95YvskFcfAGkYFKlX/3CR2pnZQ8sm Eg== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3dc73tt2eh-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 03 Jan 2022 22:07:55 +0000
+Received: from m0098416.ppops.net (m0098416.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 203M3Y7R016207;
+ Mon, 3 Jan 2022 22:07:55 GMT
+Received: from ppma03wdc.us.ibm.com (ba.79.3fa9.ip4.static.sl-reverse.com
+ [169.63.121.186])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3dc73tt2ea-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 03 Jan 2022 22:07:55 +0000
+Received: from pps.filterd (ppma03wdc.us.ibm.com [127.0.0.1])
+ by ppma03wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 203LvtVe030603;
+ Mon, 3 Jan 2022 22:07:54 GMT
+Received: from b03cxnp07029.gho.boulder.ibm.com
+ (b03cxnp07029.gho.boulder.ibm.com [9.17.130.16])
+ by ppma03wdc.us.ibm.com with ESMTP id 3daek9r96j-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 03 Jan 2022 22:07:54 +0000
+Received: from b03ledav004.gho.boulder.ibm.com
+ (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
+ by b03cxnp07029.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 203M7raS14811484
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 3 Jan 2022 22:07:53 GMT
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 9A77C7805E;
+ Mon,  3 Jan 2022 22:07:53 +0000 (GMT)
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id E177878064;
+ Mon,  3 Jan 2022 22:07:51 +0000 (GMT)
+Received: from farosas.linux.ibm.com.com (unknown [9.211.145.159])
+ by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Mon,  3 Jan 2022 22:07:51 +0000 (GMT)
+From: Fabiano Rosas <farosas@linux.ibm.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/9] target/ppc: powerpc_excp improvements (2/n)
+Date: Mon,  3 Jan 2022 19:07:37 -0300
+Message-Id: <20220103220746.3916246-1-farosas@linux.ibm.com>
+X-Mailer: git-send-email 2.33.1
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: JWSxIPdLzIMdCKuuwCCIJqHt5Aen7jpY
+X-Proofpoint-ORIG-GUID: qTo-tjqC1qHpGqu4pG4IoN7f9EEyCqik
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::82c
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::82c;
- envelope-from=danielhb413@gmail.com; helo=mail-qt1-x82c.google.com
-X-Spam_score_int: -24
-X-Spam_score: -2.5
-X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_ENVFROM_END_DIGIT=0.25,
- FREEMAIL_FROM=0.001, NICE_REPLY_A=-3.354, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2022-01-03_09,2022-01-01_01,2021-12-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 spamscore=0
+ phishscore=0 clxscore=1015 impostorscore=0 suspectscore=0
+ lowpriorityscore=0 mlxlogscore=732 malwarescore=0 mlxscore=0 bulkscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2110150000 definitions=main-2201030147
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=farosas@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: 0
+X-Spam_score: -0.1
+X-Spam_bar: /
+X-Spam_report: (-0.1 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,68 +106,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, clg@kaod.org, david@gibson.dropbear.id.au
+Cc: richard.henderson@linaro.org, danielhb413@gmail.com, qemu-ppc@nongnu.org,
+ clg@kaod.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+These are the follow up cleanups from the RFC that touch the top level
+of powerpc_excp. Applies on top of the 1/n series.
 
+Patches 1-2: extract software TLB debug into a function;
 
-On 1/3/22 18:38, Richard Henderson wrote:
-> On 1/3/22 10:53 AM, Daniel Henrique Barboza wrote:
->> pmu_update_summaries() is not considering the case where the PMU can be
->> turned off (i.e. stop counting all events) if MMCR0_FC is set,
->> regardless of the other frozen counter bits state. This use case was
->> covered in the late pmc_get_event(), via the also gone pmc_is_inactive(),
->> that would return an invalid event if MMCR0_FC was set.
->>
->> This use case is exercised by the back_to_back_ebbs_test Linux kernel
->> selftests [1]. As it is today, after enabling EBB exceptions, the test
->> will report an additional event-based branch being taken and will fail.
->> Other tests, such as cycles_test.c, will report additional cycles being
->> calculated in the counters because we're not freezing the PMU quick
->> enough.
->>
->> Fix pmu_update_summaries() by keeping env->ins_cnt and env->cyc_cnt
->> cleared when MMCR0_FC is set.
->>
->> [1] tools/testing/selftests/powerpc/pmu/ebb/back_to_back_ebbs_test.c
->>
->> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
->> ---
->>   target/ppc/power8-pmu.c | 5 +++++
->>   1 file changed, 5 insertions(+)
->>
->> diff --git a/target/ppc/power8-pmu.c b/target/ppc/power8-pmu.c
->> index 7fc7d91109..73713ca2a3 100644
->> --- a/target/ppc/power8-pmu.c
->> +++ b/target/ppc/power8-pmu.c
->> @@ -40,6 +40,10 @@ void pmu_update_summaries(CPUPPCState *env)
->>       int ins_cnt = 0;
->>       int cyc_cnt = 0;
->> +    if (mmcr0 & MMCR0_FC) {
->> +        goto hflags_calc;
->> +    }
->> +
->>       if (!(mmcr0 & MMCR0_FC14) && mmcr1 != 0) {
->>           target_ulong sel;
->> @@ -71,6 +75,7 @@ void pmu_update_summaries(CPUPPCState *env)
->>       ins_cnt |= !(mmcr0 & MMCR0_FC56) << 5;
->>       cyc_cnt |= !(mmcr0 & MMCR0_FC56) << 6;
->> + hflags_calc:
-> 
-> Good catch, but should be folded into patch 1 to avoid bisection breakage.
+Patch 3: group the "unimplemented" messages;
 
-Fair point. Given that you have a suggestion in patch 5 as well I'll send a v3.
+Patches 4-8: move ILE code into a separate function and put ILE and
+             AIL under a BookS conditional;
 
+Patch 9: the powerpc_excp_legacy wrapper. Subsequent patch series will
+         be dedicated to splitting one "cpu family" each. I have 40x
+         ready and I'm working on 60x.
 
-Thanks,
+RFC v1:
+https://lists.nongnu.org/archive/html/qemu-ppc/2021-06/msg00026.html
 
+RFC v2:
+https://lists.nongnu.org/archive/html/qemu-ppc/2021-12/msg00542.html
 
-Daniel
+Cleanups 1/n:
+https://mail.gnu.org/archive/html/qemu-ppc/2021-12/msg00696.html
 
+Fabiano Rosas (9):
+  target/ppc: powerpc_excp: Extract software TLB logging into a function
+  target/ppc: powerpc_excp: Keep 60x soft MMU logs active
+  target/ppc: powerpc_excp: Group unimplemented exceptions
+  target/ppc: Add HV support to ppc_interrupts_little_endian
+  target/ppc: Use ppc_interrupts_little_endian in powerpc_excp
+  target/ppc: powerpc_excp: Preserve MSR_LE bit
+  target/ppc: powerpc_excp: Move ILE setting into a function
+  target/ppc: powerpc_excp: Move AIL under a Book3s block
+  target/ppc: Introduce a wrapper for powerpc_excp
 
+ target/ppc/arch_dump.c   |   2 +-
+ target/ppc/cpu.h         |  21 ++--
+ target/ppc/excp_helper.c | 218 ++++++++++++++-------------------------
+ 3 files changed, 92 insertions(+), 149 deletions(-)
 
-> 
-> 
-> r~
+-- 
+2.33.1
+
 
