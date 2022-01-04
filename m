@@ -2,63 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D8474841A3
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 13:26:16 +0100 (CET)
-Received: from localhost ([::1]:45370 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C273C4841CA
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 13:44:47 +0100 (CET)
+Received: from localhost ([::1]:52028 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n4itL-0004II-2q
-	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 07:26:15 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43934)
+	id 1n4jBG-0001ak-DF
+	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 07:44:46 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47664)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1n4ir9-0002ej-Sz
- for qemu-devel@nongnu.org; Tue, 04 Jan 2022 07:23:59 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:52047)
+ (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1n4j7w-0000m6-BA
+ for qemu-devel@nongnu.org; Tue, 04 Jan 2022 07:41:20 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:20679)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1n4ir6-0001N1-10
- for qemu-devel@nongnu.org; Tue, 04 Jan 2022 07:23:58 -0500
+ (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1n4j7s-0006x6-Na
+ for qemu-devel@nongnu.org; Tue, 04 Jan 2022 07:41:19 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641299034;
+ s=mimecast20190719; t=1641300075;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=5XoS3J1i+TmaZcEd1FD21XD8kABRNBqg8LAxRI+1Hno=;
- b=K7yJY/CmO2CqyxKckgI5qmkG7Zf1SL9HwVOHp/hexSi1zm8A33Xl+5DRQnMMARfZHZeRSj
- t4q/3m979aKLA9gYhDIw3exzdsQLc04Cn3Ic10ls5/c28iljGmQgve2fE4bCnqYYIr2mik
- vn+8ozeg7n/BKeqES2ZnaOMQRkQgMeU=
+ bh=wQrno4NnP9NEgq9ITM7RfEUdBop4vAIKU+EWFI6CqSI=;
+ b=UQqFweIBflg/2RAdTGcNcPeMwI2mOn1FifIqlY6xr+ONI/qV8kqWtI23AKmKmdhIGm333/
+ CWOjWMceMN3O9A7Acx2MS/ThULy5fLUptAPnzjTq7Q2/FN8Fl+lXfLmmqEgD6D3xuQ/eno
+ YZIWbaEv4Ix62CLMAz0IiBX72XORDCg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-611-ubnHuZWEPUaiYqLdGAey_w-1; Tue, 04 Jan 2022 07:23:53 -0500
-X-MC-Unique: ubnHuZWEPUaiYqLdGAey_w-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-281-259yzm-SNs6TLApxztv_YA-1; Tue, 04 Jan 2022 07:41:12 -0500
+X-MC-Unique: 259yzm-SNs6TLApxztv_YA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 145FD100CCC0;
- Tue,  4 Jan 2022 12:23:52 +0000 (UTC)
-Received: from sirius.home.kraxel.org (unknown [10.39.193.24])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CF9187E641;
- Tue,  4 Jan 2022 12:23:51 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 25BBB1800091; Tue,  4 Jan 2022 13:23:50 +0100 (CET)
-Date: Tue, 4 Jan 2022 13:23:50 +0100
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Carwyn Ellis <carwynellis@gmail.com>
-Subject: Re: [PATCH 2/2] hw/display/vmware_vga: do not discard screen updates
-Message-ID: <20220104122350.ktsnpqfmtrmwcxrk@sirius.home.kraxel.org>
-References: <20220104091135.61226-1-carwynellis@gmail.com>
- <20220104091135.61226-3-carwynellis@gmail.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CAFC6801AAB;
+ Tue,  4 Jan 2022 12:41:10 +0000 (UTC)
+Received: from localhost (unknown [10.2.17.57])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CA83B2376A;
+ Tue,  4 Jan 2022 12:41:00 +0000 (UTC)
+Date: Tue, 4 Jan 2022 12:40:59 +0000
+From: "Richard W.M. Jones" <rjones@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: Redesign of QEMU startup & initial configuration
+Message-ID: <20220104124059.GA1341@redhat.com>
+References: <87lf13cx3x.fsf@dusky.pond.sub.org>
 MIME-Version: 1.0
-In-Reply-To: <20220104091135.61226-3-carwynellis@gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <87lf13cx3x.fsf@dusky.pond.sub.org>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=rjones@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=rjones@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
@@ -79,39 +77,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, qemu-devel@nongnu.org
+Cc: Damien Hedde <damien.hedde@greensocs.com>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Mark Burton <mark.burton@greensocs.com>,
+ qemu-devel@nongnu.org, Mirela Grujic <mirela.grujic@greensocs.com>,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  Hi,
+Sorry for very delayed reply ...
 
-> This change firstly increases the screen update FIFO size to ensure it's
-> large enough to accomodate all updates deferred in a given screen
-> refresh cycle.
+On Thu, Dec 02, 2021 at 07:57:38AM +0100, Markus Armbruster wrote:
+> 1. QMP only
+> 
+>    Management applications need to use QMP for monitoring anyway.  They
+>    may want to use it for initial configuration, too.  Libvirt does.
+> 
+>    They still need to bootstrap a QMP monitor, and for that, CLI is fine
+>    as long as it's simple and stable.
 
-How do you know it's large enough?
+libguestfs actually does not use the QMP monitor but manages to
+configure eveything from the command line just fine.  I've attached
+below a typical example.  (Of course we can use libvirt too, but still
+for many configurations libvirt causes problems unfortunately).
 
-> @@ -385,7 +385,14 @@ static inline void vmsvga_update_rect_delayed(struct vmsvga_state_s *s,
->  {
->      struct vmsvga_rect_s *rect = &s->redraw_fifo[s->redraw_fifo_last++];
->  
-> -    s->redraw_fifo_last &= REDRAW_FIFO_LEN - 1;
-> +    if (s->redraw_fifo_last >= REDRAW_FIFO_LEN) {
-> +        VMWARE_VGA_DEBUG("%s: Discarding updates - FIFO length %d exceeded\n",
-> +            "vmsvga_update_rect_delayed",
-> +            REDRAW_FIFO_LEN
+> Human users struggle with inconsistent syntax, insufficiently expressive
+> configuration files, and huge command lines.
 
-Hmm, apparently you don't know ;)
+One advantage of "huge command lines" is that they document the
+configuration of qemu quite well.  I know it's only an approximation,
+but in many cases it's exactly what we want.  It is frequently the
+case when troubleshooting that we ask the user "what is the qemu
+command line", and they can get that from the libvirt log file or
+through "ps".
 
-How about just calling vmsvga_update_rect_flush()
-when the fifo is (almost) full?
+So we need to consider this and make sure that everything is changed
+so we don't regress.  libguestfs will need substantial changes and
+libvirt must dump the full configuration (qinfo or whatever) to the
+log file.
 
-Which guest do you use btw?  I'm kind-of surprised this is still being
-used even though it hasn't seen any development (beside fixing a bug now
-and then) for a decade or so and the feature gap to recent vmware is
-huge ...
+I don't really disagreee with anything else you wrote however.
 
-take care,
-  Gerd
+Rich.
+
+
+libguestfs example:
+
+/usr/bin/qemu-kvm \
+    -global virtio-blk-pci.scsi=off \
+    -no-user-config \
+    -nodefaults \
+    -display none \
+    -machine accel=kvm:tcg,graphics=off \
+    -cpu max \
+    -m 1280 \
+    -no-reboot \
+    -rtc driftfix=slew \
+    -no-hpet \
+    -global kvm-pit.lost_tick_policy=discard \
+    -kernel /var/tmp/.guestfs-1000/appliance.d/kernel \
+    -initrd /var/tmp/.guestfs-1000/appliance.d/initrd \
+    -object rng-random,filename=/dev/urandom,id=rng0 \
+    -device virtio-rng-pci,rng=rng0 \
+    -device virtio-scsi-pci,id=scsi \
+    -drive file=/tmp/libguestfs9bBO1w/scratch1.img,cache=unsafe,format=raw,id=hd0,if=none \
+    -device scsi-hd,drive=hd0 \
+    -drive file=/var/tmp/.guestfs-1000/appliance.d/root,snapshot=on,id=appliance,cache=unsafe,if=none \
+    -device scsi-hd,drive=appliance \
+    -device virtio-serial-pci \
+    -serial stdio \
+    -chardev socket,path=/run/user/1000/libguestfsGIlAlu/guestfsd.sock,id=channel0 \
+    -device virtserialport,chardev=channel0,name=org.libguestfs.channel.0 \
+    -append "panic=1 console=ttyS0 edd=off udevtimeout=6000 udev.event-timeout=6000 no_timer_check printk.time=1 cgroup_disable=memory usbcore.nousb cryptomgr.notests tsc=reliable 8250.nr_uarts=1 root=UUID=9e6e8889-f991-45a3-bb41-67acebe7b062 selinux=0 guestfs_verbose=1 TERM=xterm-256color"
+
+
+-- 
+Richard Jones, Virtualization Group, Red Hat http://people.redhat.com/~rjones
+Read my programming and virtualization blog: http://rwmj.wordpress.com
+virt-df lists disk usage of guests without needing to install any
+software inside the virtual machine.  Supports Linux and Windows.
+http://people.redhat.com/~rjones/virt-df/
 
 
