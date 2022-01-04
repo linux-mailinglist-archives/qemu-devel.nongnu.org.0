@@ -2,91 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38CDA483F7B
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 10:57:07 +0100 (CET)
-Received: from localhost ([::1]:57250 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A22F6483F87
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 10:58:27 +0100 (CET)
+Received: from localhost ([::1]:60804 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n4gZ0-0004ut-2o
-	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 04:57:06 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43666)
+	id 1n4gaI-0007X0-HN
+	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 04:58:26 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43932)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1n4gXa-0003XD-8H
- for qemu-devel@nongnu.org; Tue, 04 Jan 2022 04:55:39 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:51362)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1n4gXY-0000kl-N9
- for qemu-devel@nongnu.org; Tue, 04 Jan 2022 04:55:37 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641290136;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=HF2VlczSsHWxkP7wIN35QSZPmSkRYwqKh1d1uJtJvwM=;
- b=Sq6tRcpEa4950ejzHjVYGk/yEBhARyUqrBwbOdqbEu0JIkFQCWQ/JlD8P/3cUOwmnV/jPi
- HZ7tnnt5LG8EJVCjuLlLcDHJFXKECIpx2oM3dQY6dCkDrAuw3PDQ124tCNPESinJFoFQ0I
- 2aQFf96svvcAT7knrXSaHI/TH/aN4Vs=
-Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com
- [209.85.216.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-613-i3nO5xpjOPiJW0lxtOaRJg-1; Tue, 04 Jan 2022 04:55:33 -0500
-X-MC-Unique: i3nO5xpjOPiJW0lxtOaRJg-1
-Received: by mail-pj1-f70.google.com with SMTP id
- 35-20020a17090a0fa600b001b160e1ecffso23820592pjz.9
- for <qemu-devel@nongnu.org>; Tue, 04 Jan 2022 01:55:32 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1n4gYi-0005VF-66; Tue, 04 Jan 2022 04:56:48 -0500
+Received: from [2607:f8b0:4864:20::f35] (port=33781
+ helo=mail-qv1-xf35.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1n4gYg-0000tW-Ij; Tue, 04 Jan 2022 04:56:47 -0500
+Received: by mail-qv1-xf35.google.com with SMTP id kk22so33854474qvb.0;
+ Tue, 04 Jan 2022 01:56:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=CFiVwjOuPicgaEcwv4D8cwN2CS49Lz6CG2XfpnK2e/M=;
+ b=WgLgAUV8tjfNDR4F8ctDbNWhvUzc3OwCEZOs1ZI3sg/ZnFOw/gtCQkowGHaoSvTPJs
+ qdvMP4Jn1SHnu/+PkjAJ3/B8G34MZjHu2XjybfLh27aMqmeWhK/fC/ZOKkmcOQzTEtVy
+ c7SJwjyIQyqj5XFgfW/7uZ77yB+stDvAoHCW9FQhD2LleUNrd16d2EU1E2ZKjMCSuyYS
+ 5hsALVduemjWDWcJXIVXI4q41RyRDj87Ra7LSsTICR35rQSSWJLSsmaBsFVARqs3nQzH
+ 3+2TJwGgGEsfph1e0T8j7oBnSFQwKkXTPivVBK+nsyD4f8/ifIZAINcCAF9UpBHnzW1i
+ I1Qw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=HF2VlczSsHWxkP7wIN35QSZPmSkRYwqKh1d1uJtJvwM=;
- b=fj47FgbE6TokDbJq3LAZk2Mdv+SwvEqxW7vaUGOSS9GI/+KQGYCw/AWzciCna82jeb
- X/z60fj64DxjJpnhfGyV4TunoLnq8WYNFv6tSp3J06A22wNFlORufphNHZ67ES20+81k
- jR5T4t7AHiwI5Q0grY4HrYfZLLte5+guKzNAegyJ9K95vtgP2UANlZ4IgocqIxrSds7u
- Yoc6G5XOYcNfGDGzf5o3nwXGPqyEL3yiU77ib436/xS9ljZ99HTZI3Unu4v05amp/eCT
- U8qRJotZ4NOLktTifH4IaKdFfOQ6eYlXd28hJzL56cxNaq4G2jLsALmljhqT/RWWuV/5
- ER3w==
-X-Gm-Message-State: AOAM533k4WFHE5hzvMMWUZ4zbNVfLgtdb4zk7KBEzThATFTwzhft5kkG
- CS5bGhcd5tx6/Qq3gn7OtJ+m8asFyustcq/UfPBM2XKxLjWtFj35lgmQpkE12tGLZZSR/s55wiA
- kllcfGSyT7l5pylI=
-X-Received: by 2002:a17:90a:c788:: with SMTP id
- gn8mr59351012pjb.212.1641290132167; 
- Tue, 04 Jan 2022 01:55:32 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxgMEW/px37l8UvOMBu/ocY3/FEgzmAXVjlxOSjUPGT2rkOF9D7ZjEJ3hGvBeFJpB7982VxWQ==
-X-Received: by 2002:a17:90a:c788:: with SMTP id
- gn8mr59350991pjb.212.1641290131940; 
- Tue, 04 Jan 2022 01:55:31 -0800 (PST)
-Received: from xz-m1.local ([191.101.132.50])
- by smtp.gmail.com with ESMTPSA id l22sm42308687pfc.167.2022.01.04.01.55.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Jan 2022 01:55:31 -0800 (PST)
-Date: Tue, 4 Jan 2022 17:55:24 +0800
-From: Peter Xu <peterx@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: [PATCH v2 8/9] hw/dma: Use dma_addr_t type definition when
- relevant
-Message-ID: <YdQZi3GB0dbiOdbm@xz-m1.local>
-References: <20220104085431.2122999-1-f4bug@amsat.org>
- <20220104085431.2122999-9-f4bug@amsat.org>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=CFiVwjOuPicgaEcwv4D8cwN2CS49Lz6CG2XfpnK2e/M=;
+ b=qdQuD7KToB5O//sHgu+qpDIEcLwEdf4hLmT3+YTQ9aI22kcww6fNrXqrEXNQxbC4o2
+ 7SPJC7pT8nR+OoCplw2TYuTWpsPeT6po+GXONGlHQbxuhr2QTnmBRL9ZSzyNlJL8ES9M
+ 4rfeXeWo/GlLhlWjaH3nIytRAxq/pJxjYV+Fjeg2689omm9lmGcDAHiowA0kg0MSDECU
+ 6tPJl/MQ8pCdyWEFQRJsBvQA8E+ctnqF0ur4WLFpvwmzlxoRP1C2u2wCU0jxDpL5mhrl
+ I9/jjdq/B6ACp6najo86fs+gK9dI1r3sJkbAohXMUdds4wSaqIBnKCHiTB2KU/2U1uzr
+ CTjQ==
+X-Gm-Message-State: AOAM530CEIHhzCnIrzouCmPFV1iAYIVd+AqXewc0GB5JYwxRb7Lwkp2A
+ KIaUFYbx1MSv3A6SATuq+eI08KmCH10=
+X-Google-Smtp-Source: ABdhPJzXW4BCB73A6RyzV40FXWc/152Q3cQgVGdVEsNWoIEL4Bie4eK9hHvcp6I9TsstiWrv2zpmbg==
+X-Received: by 2002:a0c:e808:: with SMTP id y8mr44878395qvn.48.1641290205475; 
+ Tue, 04 Jan 2022 01:56:45 -0800 (PST)
+Received: from ?IPV6:2804:431:c7c7:f4d8:aa07:335f:99e0:a6e7?
+ ([2804:431:c7c7:f4d8:aa07:335f:99e0:a6e7])
+ by smtp.gmail.com with ESMTPSA id p67sm26984719qkf.49.2022.01.04.01.56.43
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 04 Jan 2022 01:56:45 -0800 (PST)
+Message-ID: <770d6df3-dff1-84b7-f6db-09f9458f6261@gmail.com>
+Date: Tue, 4 Jan 2022 06:56:42 -0300
 MIME-Version: 1.0
-In-Reply-To: <20220104085431.2122999-9-f4bug@amsat.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH v2 00/19] ppc/pnv: Add support for user created PHB3/PHB4
+ devices
+Content-Language: en-US
+To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20211213132830.108372-1-clg@kaod.org>
+ <8cc4ad78-48e9-5e01-cae8-d89f9ee8a3a1@kaod.org>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+In-Reply-To: <8cc4ad78-48e9-5e01-cae8-d89f9ee8a3a1@kaod.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) DKIMWL_WL_HIGH=-0.37, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::f35
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f35;
+ envelope-from=danielhb413@gmail.com; helo=mail-qv1-xf35.google.com
+X-Spam_score_int: -24
+X-Spam_score: -2.5
+X-Spam_bar: --
+X-Spam_report: (-2.5 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_ENVFROM_END_DIGIT=0.25,
+ FREEMAIL_FROM=0.001, NICE_REPLY_A=-3.354, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,39 +92,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Hannes Reinecke <hare@suse.com>,
- qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org,
- Yuval Shaia <yuval.shaia.ml@gmail.com>, Klaus Jensen <its@irrelevant.dk>,
- Keith Busch <kbusch@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>,
- John Snow <jsnow@redhat.com>
+Cc: Frederic Barrat <fbarrat@linux.ibm.com>, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jan 04, 2022 at 09:54:30AM +0100, Philippe Mathieu-Daudé wrote:
-> diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-> index 462f79a1f60..c3c49176110 100644
-> --- a/hw/nvme/ctrl.c
-> +++ b/hw/nvme/ctrl.c
-> @@ -1147,7 +1147,7 @@ static uint16_t nvme_tx(NvmeCtrl *n, NvmeSg *sg, uint8_t *ptr, uint32_t len,
->  
->      if (sg->flags & NVME_SG_DMA) {
->          const MemTxAttrs attrs = MEMTXATTRS_UNSPECIFIED;
-> -        uint64_t residual;
-> +        dma_addr_t residual;
->  
->          if (dir == NVME_TX_DIRECTION_TO_DEVICE) {
->              residual = dma_buf_write(ptr, len, &sg->qsg, attrs);
 
-If there's a new version: Maybe also change the return value types of
-dma_buf_write|read() to dma_addr_t?
 
-It'll be changed anyway in the next patch, so not a big deal.
+On 12/15/21 13:56, Cédric Le Goater wrote:
+> On 12/13/21 14:28, Cédric Le Goater wrote:
+>> Hello,
+>>
+>> On the POWER8 processor, powernv8 machine, PHB3 devices can simply be
+>> created with :
+>>
+>>     -device pnv-phb3,chip-id=0,index=1
+>>
+>> with a maximum of 3 PHB3s per chip, each PHB3 adding a new PCIe bus.
+>>
+>> On the POWER9 processor, powernv9 machine, the logic is different. The
+>> the chip comes with 3 PHB4 PECs (PCI Express Controller) and each PEC
+>> can have several PHBs :
+>>
+>>    * PEC0 provides 1 PHB  (PHB0)
+>>    * PEC1 provides 2 PHBs (PHB1 and PHB2)
+>>    * PEC2 provides 3 PHBs (PHB3, PHB4 and PHB5)
+>>
+>> The PEC devices can be created with :
+>>
+>>     -device pnv-phb4-pec,chip-id=0,index=1
+>>
+>> And the number of added PHB4 devices depends on the PEC index. Each
+>> PHB4 adds a new PCIe bus.
+>>
+>> The following changes are mostly cleanups and improvements of the
+>> PHB3/4 realize routines to enable support. One important change is
+>> related to the way the powernv machine populates the device tree. It
+>> depends on the object hierarchy and it is necessary to reparent user
+>> created devices to the chip they belong to (see PATCH 5). PHB3 is a
+>> little more sophisticated because of its SysBusDevice nature (see
+>> PATCH 6).
+>>
+>> It would be preferable for libvirt and user to add one PHB4 (one PCIe
+>> bus) at a time but that's another step. The plan is to merge real soon
+>> the first patches which are required cleanups of the models and give
+>> some more time for the last ones.
+> 
+> Applied patches 1-14 which are simple cleanups to ppc-next.
 
-The rest patches looks good to me.  Thanks.
+Did you also push patches 15-19? Or these were the ones that you decided to
+discard?
 
--- 
-Peter Xu
 
+Thanks,
+
+
+Daniel
+
+> 
+> Thanks,
+> 
+> C.
 
