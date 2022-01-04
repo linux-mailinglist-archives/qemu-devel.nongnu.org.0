@@ -2,61 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 622F4483E0A
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 09:26:01 +0100 (CET)
-Received: from localhost ([::1]:58342 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6D25483E07
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 09:25:00 +0100 (CET)
+Received: from localhost ([::1]:56432 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n4f8q-00021L-5x
-	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 03:26:00 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45408)
+	id 1n4f7r-0000kD-F3
+	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 03:24:59 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46004)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1n4eTZ-0005Cq-Bo
- for qemu-devel@nongnu.org; Tue, 04 Jan 2022 02:43:22 -0500
-Received: from 8.mo548.mail-out.ovh.net ([46.105.45.231]:56431)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1n4eXO-0001cK-Ca
+ for qemu-devel@nongnu.org; Tue, 04 Jan 2022 02:47:21 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56371)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1n4eTX-0002H0-Ke
- for qemu-devel@nongnu.org; Tue, 04 Jan 2022 02:43:20 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.108.16.105])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 7E24920C45;
- Tue,  4 Jan 2022 07:43:18 +0000 (UTC)
-Received: from kaod.org (37.59.142.103) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.17; Tue, 4 Jan
- 2022 08:43:18 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-103G005f78db978-06a4-4e1c-840b-bc5eaf9bb761,
- DC41CA294A1AC0AE13D8E7EBC58C249E9ADF812E) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <49eebc8b-49ad-0b70-a6bc-53a7a633fcf8@kaod.org>
-Date: Tue, 4 Jan 2022 08:43:12 +0100
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1n4eXI-0006By-Kr
+ for qemu-devel@nongnu.org; Tue, 04 Jan 2022 02:47:14 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1641282430;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=QHNjoyWmkVOxoJY34VYOUgFZD4WQvmARWyZEhNx+vt8=;
+ b=fLJJbl/D1TBv1H3HYQlOdfN9ucmg2JfWnKZ2d7KeCc7qDND8b2SUF3RJUBdclNDu0rP22p
+ x6nfYlFKHwrFHuIr/xtDuDSYxutLfHWdInoyBLdg92iD3su7ob08T53K+aJ5ZFcHtA3nT4
+ WWcgljKqG7PVR9Tp9XXhx4m8DaZHOTg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-426-ZgYTTT9UPd6kWbxVvYrkLw-1; Tue, 04 Jan 2022 02:47:09 -0500
+X-MC-Unique: ZgYTTT9UPd6kWbxVvYrkLw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 67C811014519
+ for <qemu-devel@nongnu.org>; Tue,  4 Jan 2022 07:47:06 +0000 (UTC)
+Received: from localhost (unknown [10.39.208.6])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8A6EC7A23A;
+ Tue,  4 Jan 2022 07:46:52 +0000 (UTC)
+From: marcandre.lureau@redhat.com
+To: qemu-devel@nongnu.org
+Subject: [PATCH] docs/sphinx: fix compatibility with sphinx < 1.8
+Date: Tue,  4 Jan 2022 11:46:49 +0400
+Message-Id: <20220104074649.1712440-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH 0/5] ppc/pnv: Preliminary cleanups before user created PHBs
-Content-Language: en-US
-To: <qemu-ppc@nongnu.org>, <qemu-devel@nongnu.org>
-References: <20211222063817.1541058-1-clg@kaod.org>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20211222063817.1541058-1-clg@kaod.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.103]
-X-ClientProxiedBy: DAG8EX2.mxp5.local (172.16.2.72) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: ac705a47-b43e-41b2-8161-172e929ebdd6
-X-Ovh-Tracer-Id: 18056619756201413597
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrudefvddguddtjecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeigedvffekgeeftedutddttdevudeihfegudffkeeitdekkeetkefhffelveelleenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtfeenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopegurghnihgvlhhhsgegudefsehgmhgrihhlrdgtohhm
-Received-SPF: pass client-ip=46.105.45.231; envelope-from=clg@kaod.org;
- helo=8.mo548.mail-out.ovh.net
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) NICE_REPLY_A=-3.354,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Received-SPF: pass client-ip=170.10.133.124;
+ envelope-from=marcandre.lureau@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) DKIMWL_WL_HIGH=-0.37, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -69,31 +77,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel Henrique Barboza <danielhb413@gmail.com>
+Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ thuth@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/22/21 07:38, Cédric Le Goater wrote:
-> Hello,
-> 
-> There are the last cleanups preparing ground for PHBs created on the
-> command line and possibly libvirt support.
-> 
-> Thanks,
-> 
-> C.
-> 
-> Cédric Le Goater (5):
->    ppc/pnv: Change the maximum of PHB3 devices for Power8NVL
->    ppc/pnv: Remove PHB4 reset handler
->    ppc/pnv: Remove the PHB4 "device-id" property
->    ppc/pnv: Attach PHB3 root port device when defaults are enabled
->    ppc/pnv: Attach PHB4 root port device when defaults are enabled
+From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
+SphinxDirective was added with sphinx 1.8 (2018-09-13).
 
-Applied patches 1-3 in ppc-next.
+Reported-by: Thomas Huth <thuth@redhat.com>
+Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+---
+ docs/sphinx/fakedbusdoc.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Thanks,
+diff --git a/docs/sphinx/fakedbusdoc.py b/docs/sphinx/fakedbusdoc.py
+index a680b257547f..d2c507904654 100644
+--- a/docs/sphinx/fakedbusdoc.py
++++ b/docs/sphinx/fakedbusdoc.py
+@@ -7,12 +7,12 @@
+ # Author: Marc-André Lureau <marcandre.lureau@redhat.com>
+ """dbus-doc is a Sphinx extension that provides documentation from D-Bus XML."""
+ 
++from docutils.parsers.rst import Directive
+ from sphinx.application import Sphinx
+-from sphinx.util.docutils import SphinxDirective
+ from typing import Any, Dict
+ 
+ 
+-class FakeDBusDocDirective(SphinxDirective):
++class FakeDBusDocDirective(Directive):
+     has_content = True
+     required_arguments = 1
+ 
+-- 
+2.34.1.8.g35151cf07204
 
-C.
 
