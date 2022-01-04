@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09089484A58
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 23:05:40 +0100 (CET)
-Received: from localhost ([::1]:45414 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B355484A90
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 23:16:17 +0100 (CET)
+Received: from localhost ([::1]:52604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n4rw2-0004WX-En
-	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 17:05:38 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35364)
+	id 1n4s6K-0001Ts-F8
+	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 17:16:16 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37178)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1n4ru9-0003Gd-AT
- for qemu-devel@nongnu.org; Tue, 04 Jan 2022 17:03:41 -0500
-Received: from [2607:f8b0:4864:20::d29] (port=45979
- helo=mail-io1-xd29.google.com)
+ id 1n4s2e-0006xE-Pc
+ for qemu-devel@nongnu.org; Tue, 04 Jan 2022 17:12:28 -0500
+Received: from [2607:f8b0:4864:20::12a] (port=33426
+ helo=mail-il1-x12a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1n4ru6-0006qg-Su
- for qemu-devel@nongnu.org; Tue, 04 Jan 2022 17:03:41 -0500
-Received: by mail-io1-xd29.google.com with SMTP id i14so45150275ioj.12
- for <qemu-devel@nongnu.org>; Tue, 04 Jan 2022 14:03:38 -0800 (PST)
+ id 1n4s2b-0000it-8q
+ for qemu-devel@nongnu.org; Tue, 04 Jan 2022 17:12:28 -0500
+Received: by mail-il1-x12a.google.com with SMTP id u8so29451293ilk.0
+ for <qemu-devel@nongnu.org>; Tue, 04 Jan 2022 14:12:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=+YVBVxKw87k2+u6cGbToAvim02AspMtRICByzBJjrzI=;
- b=e2WmRdgkuaEzf30+Jg+IcpqsES074h59sBxDwSgaZKCQCmk1lEMTxcwGsJlIBmQrRw
- h4ER2QOyuCYem2Vrw6sGAz+/Ph4ObYdWraMjQVSdYxOWiS5ahQ+50fLr7OvMOW9fC9/U
- XBdNe2swtw4zxR4yOZPtxGcfwQ9y3zl6sNbAAVLympghE/nM6XSZKFoFEXp7hOTziaJ9
- xBaA/eUh2P78+rpbpbcpSQtZFNA/gK0wXVgUrTtZ/c1tKGdCNkXsi/Y+ooboPKo+mt3M
- x7Nk+DQUUZtHPVmoX11Vvvp5dKhnRMBSJxbO1VTYQ7JAOKeeVDWScz1w4ogIbiji7j1W
- c2ug==
+ :cc; bh=DXfHXK2t9iGIP+cIIwx+HHvuH+yAqklA09vn8v8fYzI=;
+ b=i+F6VzFTuN98KBerhW2D8ok2IRpN9YHDc5t67vd3RF3SmDKHXL8Lz2Dk+bL9+hRKUm
+ WTitDRDmNfi2oM+G23oRZPrTRgIi2Bflb/rjfE/4HqvLX00e8M6XyUGU70OthuUZ5jQQ
+ 1NklHVYDXXZ5r9mloP8ZGFjlebO4drmmu62jhV/FEp0ydQadKy9n0ikLmOC63ToF4vVW
+ IV+L/euS9mtcynoI6kxm8L6BpB7hJrgEWYJnKRHMm53Goihr/D8J95vD/wfvBFkEImLG
+ oSgZsmzNg9Q+nGvry150x0Yl/CGV7jPFM34HHQnhwTjsJPLtdGsza57DBtUYp7Zj/0JS
+ Hp8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=+YVBVxKw87k2+u6cGbToAvim02AspMtRICByzBJjrzI=;
- b=Wo3Rx6bBxYGCB1DsU6XCTaIByzzZBky8U6PfTtZqyGbAiFW9sZaycgIOsywf6BEZvl
- 2CpKMylvkGNrfXR6+LMSBdbExd53JyVqTU+T9qRC+X1S1ztJTp8kkrh/kIg3ptcBXo2G
- QxXcPa0upIB6O4umCAG7MhKPNyAhV64s4sPdBj0IWyUPFnfkIJy0MdOmz//Jc6CHnH0n
- hK9t/6l8kUygVpqJyOzNXn+rlWZO8+xkLCFD5UoaTSpl86k9woirdgopY+AVO+z12Fhr
- T2od/AQWGQkp57Ddz41blrIkjJyps0JXEf6F81PrHNVxDl4bggHr1YVFLbJxx8AXb8Hd
- 1yFg==
-X-Gm-Message-State: AOAM533J3kEHB3EwiNE4n75OdPu5OU3F+rW9MjI26z3sofekq+95SPXf
- aygIywF+dg/S/LW4/3YjbTpiDMBfaXjpk9arYhg=
-X-Google-Smtp-Source: ABdhPJygcSVbSb0N6vfy2A8V9Y6s5646nolrKG5MwTFNFP2iD9lLKXwclQ+ofk9tbQhIhNuh0fDILoUDrsTtu0oXVGs=
-X-Received: by 2002:a02:aa8f:: with SMTP id u15mr23753345jai.63.1641333817558; 
- Tue, 04 Jan 2022 14:03:37 -0800 (PST)
+ bh=DXfHXK2t9iGIP+cIIwx+HHvuH+yAqklA09vn8v8fYzI=;
+ b=b7R7qEhxCPsaeWA3DaN5wxYPDYcgO7vrUtALEyvELSESKg19J4yGKmFLcGqK0e6eNb
+ YGbxYMfZMHBqqNS2QN/Z50kKrZDMt/hXH7l2synbZQCev4Pt8MHPDUZdiJy/XDzrghff
+ 9GE5GDTtUZFaz2OV9KGkrxhGL410WJcroEflYzesJ1BfMrPsgL3wfvIh87cZJo6F1vXe
+ GOwbagMxi4cshOq0Yubae+8e7uN6v+qoinbjwsFrbWq7NU1x4qMWRROWKOhjZjIwgQxV
+ bnDhltzryMe4tRCbijwue7iyyvcstqDOjl4I8wq4+r4vq2Pzegswf8lu0gzOfbViQkRT
+ 0J8g==
+X-Gm-Message-State: AOAM5326mMqMcUJm0R/qtRTFvFFBg3N2Sa0PA32GkQ0kB35s07nLrL2C
+ Db+hYdbgdQZ0LKLdHYAp2nUOUPvj/5oiDH9gKlk=
+X-Google-Smtp-Source: ABdhPJw3WcDFUGxXrvaOBzfrK4GCtxUq6rn7hxKEHykR2m8nd+orsjWsidL0hR3poSeY/o7SB8xjPIj4itOBCdedk58=
+X-Received: by 2002:a92:cac5:: with SMTP id m5mr23255173ilq.74.1641334344002; 
+ Tue, 04 Jan 2022 14:12:24 -0800 (PST)
 MIME-Version: 1.0
 References: <00a79b65-288f-f17c-abe4-fcfd3f7971fd@oth-regensburg.de>
  <cover.1641309725.git.konrad.schwarz@siemens.com>
- <03cb38fdfab89a6725fa0c7cadad2055d6be48a4.1641309725.git.konrad.schwarz@siemens.com>
-In-Reply-To: <03cb38fdfab89a6725fa0c7cadad2055d6be48a4.1641309725.git.konrad.schwarz@siemens.com>
+ <79194a3cf9e3bd1df41401eeee901055b8702c7b.1641309725.git.konrad.schwarz@siemens.com>
+In-Reply-To: <79194a3cf9e3bd1df41401eeee901055b8702c7b.1641309725.git.konrad.schwarz@siemens.com>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Wed, 5 Jan 2022 08:03:11 +1000
-Message-ID: <CAKmqyKNq6ewguvDAH_v=4N5qPQAMgZSJNU8pJRC91X-Sh_WvXA@mail.gmail.com>
-Subject: Re: [PATCH v2 3/5] RISC-V: 'info gmem' to show hypervisor guest ->
- physical address translations
+Date: Wed, 5 Jan 2022 08:11:57 +1000
+Message-ID: <CAKmqyKNjPRt2kgyELPQF_c0eGwXajapYgcMYsLja7H3EuvVq+A@mail.gmail.com>
+Subject: Re: [PATCH v2 4/5] RISC-V: Typed CSRs in gdbserver
 To: Konrad Schwarz <konrad.schwarz@siemens.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d29
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::12a
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d29;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd29.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::12a;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x12a.google.com
 X-Spam_score_int: 8
 X-Spam_score: 0.8
 X-Spam_bar: /
@@ -89,321 +88,727 @@ Cc: Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bin.meng@windriver.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jan 5, 2022 at 1:55 AM Konrad Schwarz
+On Wed, Jan 5, 2022 at 1:56 AM Konrad Schwarz
 <konrad.schwarz@siemens.com> wrote:
 >
-> This is analog to the existing 'info mem' command and is implemented
-> using the same machinery.
+> GDB target descriptions support typed registers;
+> such that `info register X' displays not only the hex value of
+> register `X', but also the individual bitfields the register
+> comprises (if any), using textual labels if possible.
+>
+> This patch includes type information for GDB for
+> a large subset of the RISC-V Control and Status Registers (CSRs).
 >
 > Signed-off-by: Konrad Schwarz <konrad.schwarz@siemens.com>
-
-Hello and thanks for the patches
-
 > ---
->  hmp-commands-info.hx         |  16 +++++
->  include/monitor/hmp-target.h |   2 +
->  target/riscv/monitor.c       | 135 +++++++++++++++++++++++++----------
->  3 files changed, 117 insertions(+), 36 deletions(-)
+>  target/riscv/csr.c                |   2 +
+>  target/riscv/csr32-op-gdbserver.h | 109 ++++++++++
+>  target/riscv/csr64-op-gdbserver.h |  76 +++++++
+>  target/riscv/gdb_csr_type_group.c |  16 ++
+>  target/riscv/gdb_csr_type_group.h |   3 +
+>  target/riscv/gdb_csr_types.c      | 333 ++++++++++++++++++++++++++++++
+>  target/riscv/gdb_csr_types.h      |   3 +
+>  target/riscv/gdbstub.c            |  26 ++-
+>  target/riscv/meson.build          |   4 +-
+>  9 files changed, 566 insertions(+), 6 deletions(-)
+>  create mode 100644 target/riscv/csr32-op-gdbserver.h
+>  create mode 100644 target/riscv/csr64-op-gdbserver.h
+>  create mode 100644 target/riscv/gdb_csr_type_group.c
+>  create mode 100644 target/riscv/gdb_csr_type_group.h
+>  create mode 100644 target/riscv/gdb_csr_types.c
+>  create mode 100644 target/riscv/gdb_csr_types.h
 >
-> diff --git a/hmp-commands-info.hx b/hmp-commands-info.hx
-> index 407a1da800..fa519f0129 100644
-> --- a/hmp-commands-info.hx
-> +++ b/hmp-commands-info.hx
-> @@ -237,6 +237,22 @@ SRST
->      Show the active virtual memory mappings.
->  ERST
->
-> +#if defined TARGET_RISCV
-> +    {
-> +        .name       = "gmem",
-> +        .args_type  = "",
-> +        .params     = "",
-> +        .help       = "show the hypervisor guest's physical address"
-> +                   " translation",
-> +        .cmd        = hmp_info_gmem,
-> +    },
-> +#endif
-
-I don't think we want RISC-V specific commands. Could we not just
-extend `info mem` instead?
-
-> +
-> +SRST
-> +  ``info gmem``
-> +    Show the hypervisor guest's physical address translation.
-> +ERST
-> +
->      {
->          .name       = "mtree",
->          .args_type  = "flatview:-f,dispatch_tree:-d,owner:-o,disabled:-D",
-> diff --git a/include/monitor/hmp-target.h b/include/monitor/hmp-target.h
-> index ffdc15a34b..9f2dd976f6 100644
-> --- a/include/monitor/hmp-target.h
-> +++ b/include/monitor/hmp-target.h
-> @@ -2,6 +2,7 @@
->   * QEMU monitor
+> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+> index 9f41954894..557b4afe0e 100644
+> --- a/target/riscv/csr.c
+> +++ b/target/riscv/csr.c
+> @@ -3,6 +3,7 @@
 >   *
->   * Copyright (c) 2003-2004 Fabrice Bellard
+>   * Copyright (c) 2016-2017 Sagar Karandikar, sagark@eecs.berkeley.edu
+>   * Copyright (c) 2017-2018 SiFive, Inc.
 > + * Copyright (c) 2021 Siemens AG, konrad.schwarz@siemens.com
 
-Generally you would only add a copyright claim for a very large
-change. Adding a single function prototype doesn't really cut it.
+Please don't add these to existing files. In this case you have just
+added a newline to this file
 
 >   *
->   * Permission is hereby granted, free of charge, to any person obtaining a copy
->   * of this software and associated documentation files (the "Software"), to deal
-> @@ -45,6 +46,7 @@ CPUArchState *mon_get_cpu_env(Monitor *mon);
->  CPUState *mon_get_cpu(Monitor *mon);
->
->  void hmp_info_mem(Monitor *mon, const QDict *qdict);
-> +void hmp_info_gmem(Monitor *mon, const QDict *qdict);
->  void hmp_info_tlb(Monitor *mon, const QDict *qdict);
->  void hmp_mce(Monitor *mon, const QDict *qdict);
->  void hmp_info_local_apic(Monitor *mon, const QDict *qdict);
-> diff --git a/target/riscv/monitor.c b/target/riscv/monitor.c
-> index 3f74ea9934..ad58bdf9ca 100644
-> --- a/target/riscv/monitor.c
-> +++ b/target/riscv/monitor.c
-> @@ -25,16 +25,6 @@
->  #include "monitor/monitor.h"
->  #include "monitor/hmp-target.h"
->
-> -#ifdef TARGET_RISCV64
-> -#define PTE_HEADER_FIELDS       "vaddr            paddr            "\
-> -                                "size             attr\n"
-> -#define PTE_HEADER_DELIMITER    "---------------- ---------------- "\
-> -                                "---------------- -------\n"
-> -#else
-> -#define PTE_HEADER_FIELDS       "vaddr    paddr            size     attr\n"
-> -#define PTE_HEADER_DELIMITER    "-------- ---------------- -------- -------\n"
-> -#endif
-> -
->  /* Perform linear address sign extension */
->  static target_ulong addr_canonical(int va_bits, target_ulong addr)
->  {
-> @@ -47,10 +37,34 @@ static target_ulong addr_canonical(int va_bits, target_ulong addr)
->      return addr;
->  }
->
-> -static void print_pte_header(Monitor *mon)
-> +static void print_pte_header(Monitor *mon,
-> +        char const vaddr_char, char const paddr_char)
->  {
-> -    monitor_printf(mon, PTE_HEADER_FIELDS);
-> -    monitor_printf(mon, PTE_HEADER_DELIMITER);
+>   * This program is free software; you can redistribute it and/or modify it
+>   * under the terms and conditions of the GNU General Public License,
+> @@ -2094,5 +2095,6 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
+>      [CSR_MHPMCOUNTER29H] = { "mhpmcounter29h", any32,  read_zero },
+>      [CSR_MHPMCOUNTER30H] = { "mhpmcounter30h", any32,  read_zero },
+>      [CSR_MHPMCOUNTER31H] = { "mhpmcounter31h", any32,  read_zero },
 > +
-> +# define        VIRTUAL_WIDTH\
-> +        ((int) ((sizeof "ff" - sizeof "") * sizeof(target_ulong)))
-> +# define        PHYSICAL_WIDTH\
-> +        ((int) ((sizeof "ff" - sizeof "") * sizeof(hwaddr)))
-> +# define        ATTRIBUTE_WIDTH ((int) (sizeof "rwxugad" - sizeof ""))
-> +
-> +# define        VIRTUAL_COLUMN_WIDTH    (1 + VIRTUAL_WIDTH)
-> +# define        PHYSICAL_COLUMN_WIDTH   (1 + PHYSICAL_WIDTH)
-> +
-> +    static char const dashes[PHYSICAL_WIDTH] = "----------------";
-> +
-> +    monitor_printf(mon,
-> +            "%c%-*s%c%-*s%-*s%-*s\n"
-> +            "%-*.*s%-*.*s%-*.*s%-*.*s\n",
-> +
-> +            vaddr_char, VIRTUAL_COLUMN_WIDTH - 1, "addr",
-> +            paddr_char, PHYSICAL_COLUMN_WIDTH - 1, "addr",
-> +            VIRTUAL_COLUMN_WIDTH, "size",
-> +            ATTRIBUTE_WIDTH, "attr",
-> +
-> +            VIRTUAL_COLUMN_WIDTH, VIRTUAL_WIDTH, dashes,
-> +            PHYSICAL_COLUMN_WIDTH, PHYSICAL_WIDTH, dashes,
-> +            VIRTUAL_COLUMN_WIDTH, VIRTUAL_WIDTH, dashes,
-> +            ATTRIBUTE_WIDTH, ATTRIBUTE_WIDTH, dashes);
->  }
->
->  static void print_pte(Monitor *mon, int va_bits, target_ulong vaddr,
-> @@ -65,21 +79,36 @@ static void print_pte(Monitor *mon, int va_bits, target_ulong vaddr,
->          return;
->      }
->
-> -    monitor_printf(mon, TARGET_FMT_lx " " TARGET_FMT_plx " " TARGET_FMT_lx
-> -                   " %c%c%c%c%c%c%c\n",
-> -                   addr_canonical(va_bits, vaddr),
-> -                   paddr, size,
-> -                   attr & PTE_R ? 'r' : '-',
-> -                   attr & PTE_W ? 'w' : '-',
-> -                   attr & PTE_X ? 'x' : '-',
-> -                   attr & PTE_U ? 'u' : '-',
-> -                   attr & PTE_G ? 'g' : '-',
-> -                   attr & PTE_A ? 'a' : '-',
-> -                   attr & PTE_D ? 'd' : '-');
-> +# if 4 == TARGET_LONG_SIZE
-> +#       define  TARGET_xFMT     PRIx32
-> +# elif 8 == TARGET_LONG_SIZE
-> +#       define  TARGET_xFMT     PRIx64
-> +# else
-> +#       error TARGET_LONG_SIZE not handled
-> +# endif
+>  #endif /* !CONFIG_USER_ONLY */
+>  };
+> diff --git a/target/riscv/csr32-op-gdbserver.h b/target/riscv/csr32-op-gdbserver.h
+> new file mode 100644
+> index 0000000000..e8ec527f23
+> --- /dev/null
+> +++ b/target/riscv/csr32-op-gdbserver.h
+> @@ -0,0 +1,109 @@
+> +/* Copyright (c) 2021 Siemens AG, konrad.schwarz@siemens.com */
 
-You can just use TCG_PRIlx instead
+All of these files should have the usual file boiler plate
+
+> +
+> +  [CSR_USTATUS] { .gdb_type = "sstatus-fields", .gdb_group = "user" },
+> +  [CSR_UIE] { .gdb_type = "sie-fields", .gdb_group = "user" },
+> +  [CSR_UTVEC] { .gdb_type = "code_ptr", .gdb_group = "user" },
+> +  [CSR_USCRATCH] { .gdb_type = "data_ptr", .gdb_group = "user" },
+> +  [CSR_UEPC] { .gdb_type = "code_ptr", .gdb_group = "user" },
+> +  [CSR_UCAUSE] { .gdb_type = "scause-fields", .gdb_group = "user" },
+> +  [CSR_UTVAL] { .gdb_type = "data_ptr", .gdb_group = "user" },
+> +  [CSR_UIP] { .gdb_type = "code_ptr", .gdb_group = "user" },
+> +  [CSR_CYCLE] { .gdb_type = "uint32", .gdb_group = "user" },
+> +  [CSR_TIME] { .gdb_type = "uint32", .gdb_group = "user" },
+> +  [CSR_INSTRET] { .gdb_type = "uint32", .gdb_group = "user" },
+> +  [CSR_HPMCOUNTER3] { .gdb_type = "int", .gdb_group = "user" },
+> +  [CSR_HPMCOUNTER4] { .gdb_type = "int", .gdb_group = "user" },
+> +  [CSR_HPMCOUNTER5] { .gdb_type = "int", .gdb_group = "user" },
+> +  [CSR_HPMCOUNTER6] { .gdb_type = "int", .gdb_group = "user" },
+> +  [CSR_HPMCOUNTER7] { .gdb_type = "int", .gdb_group = "user" },
+> +  [CSR_HPMCOUNTER8] { .gdb_type = "int", .gdb_group = "user" },
+> +  [CSR_HPMCOUNTER9] { .gdb_type = "int", .gdb_group = "user" },
+> +  [CSR_HPMCOUNTER10] { .gdb_type = "int", .gdb_group = "user" },
+> +  [CSR_HPMCOUNTER11] { .gdb_type = "int", .gdb_group = "user" },
+> +  [CSR_HPMCOUNTER12] { .gdb_type = "int", .gdb_group = "user" },
+> +  [CSR_HPMCOUNTER13] { .gdb_type = "int", .gdb_group = "user" },
+> +  [CSR_HPMCOUNTER14] { .gdb_type = "int", .gdb_group = "user" },
+> +  [CSR_HPMCOUNTER15] { .gdb_type = "int", .gdb_group = "user" },
+> +  [CSR_HPMCOUNTER16] { .gdb_type = "int", .gdb_group = "user" },
+> +  [CSR_HPMCOUNTER17] { .gdb_type = "int", .gdb_group = "user" },
+> +  [CSR_HPMCOUNTER18] { .gdb_type = "int", .gdb_group = "user" },
+> +  [CSR_HPMCOUNTER19] { .gdb_type = "int", .gdb_group = "user" },
+> +  [CSR_HPMCOUNTER20] { .gdb_type = "int", .gdb_group = "user" },
+> +  [CSR_HPMCOUNTER21] { .gdb_type = "int", .gdb_group = "user" },
+> +  [CSR_HPMCOUNTER22] { .gdb_type = "int", .gdb_group = "user" },
+> +  [CSR_HPMCOUNTER23] { .gdb_type = "int", .gdb_group = "user" },
+> +  [CSR_HPMCOUNTER24] { .gdb_type = "int", .gdb_group = "user" },
+> +  [CSR_HPMCOUNTER25] { .gdb_type = "int", .gdb_group = "user" },
+> +  [CSR_HPMCOUNTER26] { .gdb_type = "int", .gdb_group = "user" },
+> +  [CSR_HPMCOUNTER27] { .gdb_type = "int", .gdb_group = "user" },
+> +  [CSR_HPMCOUNTER28] { .gdb_type = "int", .gdb_group = "user" },
+> +  [CSR_HPMCOUNTER29] { .gdb_type = "int", .gdb_group = "user" },
+> +  [CSR_HPMCOUNTER30] { .gdb_type = "int", .gdb_group = "user" },
+> +  [CSR_HPMCOUNTER31] { .gdb_type = "int", .gdb_group = "user" },
+> +  [CSR_CYCLEH] { .gdb_type = "uint32", .gdb_group = "user" },
+> +  [CSR_TIMEH] { .gdb_type = "uint32", .gdb_group = "user" },
+> +  [CSR_INSTRETH] { .gdb_type = "uint32", .gdb_group = "user" },
+> +  [CSR_HPMCOUNTER3H] { .gdb_type = "int", .gdb_group = "user" },
+> +  [CSR_HPMCOUNTER4H] { .gdb_type = "int", .gdb_group = "user" },
+> +  [CSR_HPMCOUNTER5H] { .gdb_type = "int", .gdb_group = "user" },
+> +  [CSR_HPMCOUNTER6H] { .gdb_type = "int", .gdb_group = "user" },
+> +  [CSR_HPMCOUNTER7H] { .gdb_type = "int", .gdb_group = "user" },
+> +  [CSR_HPMCOUNTER8H] { .gdb_type = "int", .gdb_group = "user" },
+> +  [CSR_HPMCOUNTER9H] { .gdb_type = "int", .gdb_group = "user" },
+> +  [CSR_HPMCOUNTER10H] { .gdb_type = "int", .gdb_group = "user" },
+> +  [CSR_HPMCOUNTER11H] { .gdb_type = "int", .gdb_group = "user" },
+> +  [CSR_HPMCOUNTER12H] { .gdb_type = "int", .gdb_group = "user" },
+> +  [CSR_HPMCOUNTER13H] { .gdb_type = "int", .gdb_group = "user" },
+> +  [CSR_HPMCOUNTER14H] { .gdb_type = "int", .gdb_group = "user" },
+> +  [CSR_HPMCOUNTER15H] { .gdb_type = "int", .gdb_group = "user" },
+> +  [CSR_HPMCOUNTER16H] { .gdb_type = "int", .gdb_group = "user" },
+> +  [CSR_HPMCOUNTER17H] { .gdb_type = "int", .gdb_group = "user" },
+> +  [CSR_HPMCOUNTER18H] { .gdb_type = "int", .gdb_group = "user" },
+> +  [CSR_HPMCOUNTER19H] { .gdb_type = "int", .gdb_group = "user" },
+> +  [CSR_HPMCOUNTER20H] { .gdb_type = "int", .gdb_group = "user" },
+> +  [CSR_HPMCOUNTER21H] { .gdb_type = "int", .gdb_group = "user" },
+> +  [CSR_HPMCOUNTER22H] { .gdb_type = "int", .gdb_group = "user" },
+> +  [CSR_HPMCOUNTER23H] { .gdb_type = "int", .gdb_group = "user" },
+> +  [CSR_HPMCOUNTER24H] { .gdb_type = "int", .gdb_group = "user" },
+> +  [CSR_HPMCOUNTER25H] { .gdb_type = "int", .gdb_group = "user" },
+> +  [CSR_HPMCOUNTER26H] { .gdb_type = "int", .gdb_group = "user" },
+> +  [CSR_HPMCOUNTER27H] { .gdb_type = "int", .gdb_group = "user" },
+> +  [CSR_HPMCOUNTER28H] { .gdb_type = "int", .gdb_group = "user" },
+> +  [CSR_HPMCOUNTER29H] { .gdb_type = "int", .gdb_group = "user" },
+> +  [CSR_HPMCOUNTER30H] { .gdb_type = "int", .gdb_group = "user" },
+> +  [CSR_HPMCOUNTER31H] { .gdb_type = "int", .gdb_group = "user" },
+> +  [CSR_SSTATUS] { .gdb_type = "sstatus-fields", .gdb_group = "supervisor" },
+> +  [CSR_SEDELEG] { .gdb_type = "uint32", .gdb_group = "supervisor" },
+> +  [CSR_SIDELEG] { .gdb_type = "sie-fields", .gdb_group = "supervisor" },
+> +  [CSR_SIE] { .gdb_type = "sie-fields", .gdb_group = "supervisor" },
+> +  [CSR_STVEC] { .gdb_type = "stvec-fields", .gdb_group = "supervisor" },
+> +  [CSR_SCOUNTEREN] { .gdb_type = "scounteren-fields", .gdb_group = "supervisor" },
+> +  [CSR_SSCRATCH] { .gdb_type = "data_ptr", .gdb_group = "supervisor" },
+> +  [CSR_SEPC] { .gdb_type = "code_ptr", .gdb_group = "supervisor" },
+> +  [CSR_SCAUSE] { .gdb_type = "scause-fields", .gdb_group = "supervisor" },
+> +  [CSR_STVAL] { .gdb_type = "data_ptr", .gdb_group = "supervisor" },
+> +  [CSR_SIP] { .gdb_type = "sip-fields", .gdb_group = "supervisor" },
+> +  [CSR_SATP] { .gdb_type = "satp-fields", .gdb_group = "supervisor" },
+> +  [CSR_HSTATUS] { .gdb_type = "hstatus-fields", .gdb_group = "hypervisor" },
+> +  [CSR_HEDELEG] { .gdb_type = "hedeleg-fields", .gdb_group = "hypervisor" },
+> +  [CSR_HIDELEG] { .gdb_type = "hie-fields", .gdb_group = "hypervisor" },
+> +  [CSR_HIE] { .gdb_type = "hie-fields", .gdb_group = "hypervisor" },
+> +  [CSR_HCOUNTEREN] { .gdb_type = "int", .gdb_group = "hypervisor" },
+> +  [CSR_HGEIE] { .gdb_type = "uint32", .gdb_group = "hypervisor" },
+> +  [CSR_HGEIP] { .gdb_type = "uint32", .gdb_group = "hypervisor" },
+> +  [CSR_HTVAL] { .gdb_type = "data_ptr", .gdb_group = "hypervisor" },
+> +  [CSR_HIP] { .gdb_type = "hip-fields", .gdb_group = "hypervisor" },
+> +  [CSR_HVIP] { .gdb_type = "hvip-fields", .gdb_group = "hypervisor" },
+> +  [CSR_HGATP] { .gdb_type = "hgatp-fields", .gdb_group = "hypervisor" },
+> +  [CSR_HTIMEDELTA] { .gdb_type = "int", .gdb_group = "hypervisor" },
+> +  [CSR_HTIMEDELTAH] { .gdb_type = "int", .gdb_group = "hypervisor" },
+> +  [CSR_HTINST] { .gdb_type = "uint32", .gdb_group = "hypervisor" },
+> +  [CSR_VSSTATUS] { .gdb_type = "sstatus-fields", .gdb_group = "virtual-supervisor" },
+> +  [CSR_VSIE] { .gdb_type = "sie-fields", .gdb_group = "virtual-supervisor" },
+> +  [CSR_VSTVEC] { .gdb_type = "stvec-fields", .gdb_group = "virtual-supervisor" },
+> +  [CSR_VSSCRATCH] { .gdb_type = "data_ptr", .gdb_group = "virtual-supervisor" },
+> +  [CSR_VSEPC] { .gdb_type = "code_ptr", .gdb_group = "virtual-supervisor" },
+> +  [CSR_VSCAUSE] { .gdb_type = "scause-fields", .gdb_group = "virtual-supervisor" },
+> +  [CSR_VSTVAL] { .gdb_type = "data_ptr", .gdb_group = "virtual-supervisor" },
+> +  [CSR_VSIP] { .gdb_type = "sip-fields", .gdb_group = "virtual-supervisor" },
+> +  [CSR_VSATP] { .gdb_type = "satp-fields", .gdb_group = "virtual-supervisor" },
+> diff --git a/target/riscv/csr64-op-gdbserver.h b/target/riscv/csr64-op-gdbserver.h
+> new file mode 100644
+> index 0000000000..fc4bc62d9e
+> --- /dev/null
+> +++ b/target/riscv/csr64-op-gdbserver.h
+> @@ -0,0 +1,76 @@
+> +/* Copyright (c) 2021 Siemens AG, konrad.schwarz@siemens.com */
+> +
+> +  [CSR_USTATUS] { .gdb_type = "sstatus-fields", .gdb_group = "user" },
+> +  [CSR_UIE] { .gdb_type = "sie-fields", .gdb_group = "user" },
+> +  [CSR_UTVEC] { .gdb_type = "code_ptr", .gdb_group = "user" },
+> +  [CSR_USCRATCH] { .gdb_type = "data_ptr", .gdb_group = "user" },
+> +  [CSR_UEPC] { .gdb_type = "code_ptr", .gdb_group = "user" },
+> +  [CSR_UCAUSE] { .gdb_type = "scause-fields", .gdb_group = "user" },
+> +  [CSR_UTVAL] { .gdb_type = "data_ptr", .gdb_group = "user" },
+> +  [CSR_UIP] { .gdb_type = "code_ptr", .gdb_group = "user" },
+> +  [CSR_CYCLE] { .gdb_type = "uint64", .gdb_group = "user" },
+> +  [CSR_TIME] { .gdb_type = "uint64", .gdb_group = "user" },
+> +  [CSR_INSTRET] { .gdb_type = "uint64", .gdb_group = "user" },
+> +  [CSR_HPMCOUNTER3] { .gdb_type = "int", .gdb_group = "user" },
+> +  [CSR_HPMCOUNTER4] { .gdb_type = "int", .gdb_group = "user" },
+> +  [CSR_HPMCOUNTER5] { .gdb_type = "int", .gdb_group = "user" },
+> +  [CSR_HPMCOUNTER6] { .gdb_type = "int", .gdb_group = "user" },
+> +  [CSR_HPMCOUNTER7] { .gdb_type = "int", .gdb_group = "user" },
+> +  [CSR_HPMCOUNTER8] { .gdb_type = "int", .gdb_group = "user" },
+> +  [CSR_HPMCOUNTER9] { .gdb_type = "int", .gdb_group = "user" },
+> +  [CSR_HPMCOUNTER10] { .gdb_type = "int", .gdb_group = "user" },
+> +  [CSR_HPMCOUNTER11] { .gdb_type = "int", .gdb_group = "user" },
+> +  [CSR_HPMCOUNTER12] { .gdb_type = "int", .gdb_group = "user" },
+> +  [CSR_HPMCOUNTER13] { .gdb_type = "int", .gdb_group = "user" },
+> +  [CSR_HPMCOUNTER14] { .gdb_type = "int", .gdb_group = "user" },
+> +  [CSR_HPMCOUNTER15] { .gdb_type = "int", .gdb_group = "user" },
+> +  [CSR_HPMCOUNTER16] { .gdb_type = "int", .gdb_group = "user" },
+> +  [CSR_HPMCOUNTER17] { .gdb_type = "int", .gdb_group = "user" },
+> +  [CSR_HPMCOUNTER18] { .gdb_type = "int", .gdb_group = "user" },
+> +  [CSR_HPMCOUNTER19] { .gdb_type = "int", .gdb_group = "user" },
+> +  [CSR_HPMCOUNTER20] { .gdb_type = "int", .gdb_group = "user" },
+> +  [CSR_HPMCOUNTER21] { .gdb_type = "int", .gdb_group = "user" },
+> +  [CSR_HPMCOUNTER22] { .gdb_type = "int", .gdb_group = "user" },
+> +  [CSR_HPMCOUNTER23] { .gdb_type = "int", .gdb_group = "user" },
+> +  [CSR_HPMCOUNTER24] { .gdb_type = "int", .gdb_group = "user" },
+> +  [CSR_HPMCOUNTER25] { .gdb_type = "int", .gdb_group = "user" },
+> +  [CSR_HPMCOUNTER26] { .gdb_type = "int", .gdb_group = "user" },
+> +  [CSR_HPMCOUNTER27] { .gdb_type = "int", .gdb_group = "user" },
+> +  [CSR_HPMCOUNTER28] { .gdb_type = "int", .gdb_group = "user" },
+> +  [CSR_HPMCOUNTER29] { .gdb_type = "int", .gdb_group = "user" },
+> +  [CSR_HPMCOUNTER30] { .gdb_type = "int", .gdb_group = "user" },
+> +  [CSR_HPMCOUNTER31] { .gdb_type = "int", .gdb_group = "user" },
+> +  [CSR_SSTATUS] { .gdb_type = "sstatus-fields", .gdb_group = "supervisor" },
+> +  [CSR_SEDELEG] { .gdb_type = "uint64", .gdb_group = "supervisor" },
+> +  [CSR_SIDELEG] { .gdb_type = "sie-fields", .gdb_group = "supervisor" },
+> +  [CSR_SIE] { .gdb_type = "sie-fields", .gdb_group = "supervisor" },
+> +  [CSR_STVEC] { .gdb_type = "stvec-fields", .gdb_group = "supervisor" },
+> +  [CSR_SCOUNTEREN] { .gdb_type = "scounteren-fields", .gdb_group = "supervisor" },
+> +  [CSR_SSCRATCH] { .gdb_type = "data_ptr", .gdb_group = "supervisor" },
+> +  [CSR_SEPC] { .gdb_type = "code_ptr", .gdb_group = "supervisor" },
+> +  [CSR_SCAUSE] { .gdb_type = "scause-fields", .gdb_group = "supervisor" },
+> +  [CSR_STVAL] { .gdb_type = "data_ptr", .gdb_group = "supervisor" },
+> +  [CSR_SIP] { .gdb_type = "sip-fields", .gdb_group = "supervisor" },
+> +  [CSR_SATP] { .gdb_type = "satp-fields", .gdb_group = "supervisor" },
+> +  [CSR_HSTATUS] { .gdb_type = "hstatus-fields", .gdb_group = "hypervisor" },
+> +  [CSR_HEDELEG] { .gdb_type = "hedeleg-fields", .gdb_group = "hypervisor" },
+> +  [CSR_HIDELEG] { .gdb_type = "hie-fields", .gdb_group = "hypervisor" },
+> +  [CSR_HIE] { .gdb_type = "hie-fields", .gdb_group = "hypervisor" },
+> +  [CSR_HCOUNTEREN] { .gdb_type = "int", .gdb_group = "hypervisor" },
+> +  [CSR_HGEIE] { .gdb_type = "uint64", .gdb_group = "hypervisor" },
+> +  [CSR_HGEIP] { .gdb_type = "uint64", .gdb_group = "hypervisor" },
+> +  [CSR_HTVAL] { .gdb_type = "data_ptr", .gdb_group = "hypervisor" },
+> +  [CSR_HIP] { .gdb_type = "hip-fields", .gdb_group = "hypervisor" },
+> +  [CSR_HVIP] { .gdb_type = "hvip-fields", .gdb_group = "hypervisor" },
+> +  [CSR_HGATP] { .gdb_type = "hgatp-fields", .gdb_group = "hypervisor" },
+> +  [CSR_HTIMEDELTA] { .gdb_type = "int", .gdb_group = "hypervisor" },
+> +  [CSR_HTINST] { .gdb_type = "uint64", .gdb_group = "hypervisor" },
+> +  [CSR_VSSTATUS] { .gdb_type = "sstatus-fields", .gdb_group = "virtual-supervisor" },
+> +  [CSR_VSIE] { .gdb_type = "sie-fields", .gdb_group = "virtual-supervisor" },
+> +  [CSR_VSTVEC] { .gdb_type = "stvec-fields", .gdb_group = "virtual-supervisor" },
+> +  [CSR_VSSCRATCH] { .gdb_type = "data_ptr", .gdb_group = "virtual-supervisor" },
+> +  [CSR_VSEPC] { .gdb_type = "code_ptr", .gdb_group = "virtual-supervisor" },
+> +  [CSR_VSCAUSE] { .gdb_type = "scause-fields", .gdb_group = "virtual-supervisor" },
+> +  [CSR_VSTVAL] { .gdb_type = "data_ptr", .gdb_group = "virtual-supervisor" },
+> +  [CSR_VSIP] { .gdb_type = "sip-fields", .gdb_group = "virtual-supervisor" },
+> +  [CSR_VSATP] { .gdb_type = "satp-fields", .gdb_group = "virtual-supervisor" },
+> diff --git a/target/riscv/gdb_csr_type_group.c b/target/riscv/gdb_csr_type_group.c
+> new file mode 100644
+> index 0000000000..af394de302
+> --- /dev/null
+> +++ b/target/riscv/gdb_csr_type_group.c
+> @@ -0,0 +1,16 @@
+> +/* Copyright 2021 Siemens AG */
+> +#include "qemu/osdep.h"
+> +#include "cpu.h"
+> +#include "gdb_csr_type_group.h"
+> +
+> +struct riscv_gdb_csr_tg const riscv_gdb_csr_type_group[] = {
+> +
+> +#if !defined(CONFIG_USER_ONLY)
+> +#  ifdef TARGET_RISCV64
+> +#    include "csr64-op-gdbserver.h"
+> +#  elif defined TARGET_RISCV64
+> +#    include "csr32-op-gdbserver.h"
+
+This doesn't look right. `if defined TARGET_RISCV64` -> `include
+"csr32-op-gdbserver.h"`?
+
+Also this should be dynamic instead of based on the build time CPU, as
+the user could use a 32-bit CPU on a 64-bit target build.
+
+> +#  endif
+> +#endif /* !CONFIG_USER_ONLY */
+> +
+> +};
+> diff --git a/target/riscv/gdb_csr_type_group.h b/target/riscv/gdb_csr_type_group.h
+> new file mode 100644
+> index 0000000000..e044913bd7
+> --- /dev/null
+> +++ b/target/riscv/gdb_csr_type_group.h
+> @@ -0,0 +1,3 @@
+> +extern struct riscv_gdb_csr_tg {
+> +    char const *gdb_type, *gdb_group;
+> +} const riscv_gdb_csr_type_group[CSR_TABLE_SIZE];
+
+I feel like all of the header files could be combined into one single
+file and instead of using macros just pick the struct.
 
 Alistair
 
+> diff --git a/target/riscv/gdb_csr_types.c b/target/riscv/gdb_csr_types.c
+> new file mode 100644
+> index 0000000000..48b1db2b88
+> --- /dev/null
+> +++ b/target/riscv/gdb_csr_types.c
+> @@ -0,0 +1,333 @@
+> +/* Copyright (c) 2021 Siemens AG, konrad.schwarz@siemens.com */
 > +
-> +    /* note: RISC-V physical addresses are actually xlen + 2 bits long
-> +    OTHO, QEMU wil probably never support addresses longer than 64 bits */
-> +    monitor_printf(mon,
-> +            "%-*.*" TARGET_xFMT
-> +            "%-*.*" PRIx64
-> +            "%-*.*" TARGET_xFMT
-> +            "%c%c%c%c%c%c%c\n",
-> +            VIRTUAL_COLUMN_WIDTH, VIRTUAL_WIDTH, addr_canonical(va_bits, vaddr),
-> +            PHYSICAL_COLUMN_WIDTH, PHYSICAL_WIDTH, paddr,
-> +            VIRTUAL_COLUMN_WIDTH, VIRTUAL_WIDTH, size,
-> +            attr & PTE_R ? 'r' : '-',
-> +            attr & PTE_W ? 'w' : '-',
-> +            attr & PTE_X ? 'x' : '-',
-> +            attr & PTE_U ? 'u' : '-',
-> +            attr & PTE_G ? 'g' : '-',
-> +            attr & PTE_A ? 'a' : '-',
-> +            attr & PTE_D ? 'd' : '-');
+> +#include "qemu/osdep.h"
+> +#include "gdb_csr_types.h"
+> +#define STR(X) #X
+> +
+> +char const riscv_gdb_csr_types[] =
+> +#ifdef TARGET_RISCV32
+> +   STR(
+> +<enum id="sstatus-fs-type" size="4">
+> +  <evalue name="off" value="0"/>
+> +  <evalue name="initial" value="1"/>
+> +  <evalue name="clean" value="2"/>
+> +  <evalue name="dirty" value="3"/>
+> +</enum><enum id="sstatus-xs-type" size="4">
+> +  <evalue name="off" value="0"/>
+> +  <evalue name="initial" value="1"/>
+> +  <evalue name="clean" value="2"/>
+> +  <evalue name="dirty" value="3"/>
+> +</enum><enum id="sstatus-uxl-type" size="4">
+> +  <evalue name="32" value="1"/>
+> +  <evalue name="64" value="2"/>
+> +  <evalue name="128" value="3"/>
+> +</enum><enum id="stvec-mode-type" size="4">
+> +  <evalue name="direct" value="0"/>
+> +  <evalue name="vectored" value="1"/>
+> +</enum><enum id="scause-exc-type" size="4">
+> +  <evalue name="instruction_address_misaligned" value="0"/>
+> +  <evalue name="instruction_access_fault" value="1"/>
+> +  <evalue name="illegal_instruction" value="2"/>
+> +  <evalue name="breakpoint" value="3"/>
+> +  <evalue name="load_address_misaligned" value="4"/>
+> +  <evalue name="load_access_fault" value="5"/>
+> +  <evalue name="store_address_misaligned" value="6"/>
+> +  <evalue name="store_access_fault" value="7"/>
+> +  <evalue name="enironment_call_from_U_mode" value="8"/>
+> +  <evalue name="enironment_call_from_S_mode" value="9"/>
+> +  <evalue name="enironment_call_from_VS_mode" value="10"/>
+> +  <evalue name="enironment_call_from_M_mode" value="11"/>
+> +  <evalue name="instruction_page_fault" value="12"/>
+> +  <evalue name="load_page_fault" value="13"/>
+> +  <evalue name="store_page_fault" value="15"/>
+> +  <evalue name="instruction_guest_page_fault" value="20"/>
+> +  <evalue name="load_guest_page_fault" value="21"/>
+> +  <evalue name="virtual_instruction" value="22"/>
+> +  <evalue name="store_guest_page_fault" value="23"/>
+> +</enum><enum id="satp-mode-type" size="4">
+> +  <evalue name="bare" value="0"/>
+> +  <evalue name="sv32" value="1"/>
+> +  <evalue name="sv39" value="8"/>
+> +  <evalue name="sv48" value="9"/>
+> +  <evalue name="sv57" value="10"/>
+> +  <evalue name="sv64" value="11"/>
+> +</enum><enum id="hgatp-mode-type" size="4">
+> +  <evalue name="bare" value="0"/>
+> +  <evalue name="sv32x4" value="1"/>
+> +  <evalue name="sv39x4" value="8"/>
+> +  <evalue name="sv48x4" value="9"/>
+> +  <evalue name="sv57x4" value="10"/>
+> +</enum><flags id="sstatus-fields" size="4">
+> +  <field name="sie" start="1" end="1"/>
+> +  <field name="mie" start="3" end="3"/>
+> +  <field name="spie" start="5" end="5"/>
+> +  <field name="ube" start="6" end="6"/>
+> +  <field name="mpie" start="7" end="7"/>
+> +  <field name="spp" start="8" end="8"/>
+> +  <field name="mpp" start="11" end="12"/>
+> +  <field name="fs" start="13" end="14" type="sstatus-fs-type"/>
+> +  <field name="xs" start="15" end="16" type="sstatus-xs-type"/>
+> +  <field name="mprv" start="17" end="17"/>
+> +  <field name="sum" start="18" end="18"/>
+> +  <field name="mxr" start="19" end="19"/>
+> +  <field name="tvm" start="20" end="20"/>
+> +  <field name="tw" start="21" end="21"/>
+> +  <field name="tsr" start="22" end="23"/>
+> +  <field name="uxl" start="32" end="33" type="sstatus-uxl-type"/>
+> +  <field name="sxl" start="34" end="35"/>
+> +  <field name="sbe" start="36" end="36"/>
+> +  <field name="mbe" start="37" end="37"/>
+> +  <field name="gva" start="38" end="38"/>
+> +  <field name="mpv" start="39" end="39"/>
+> +  <field name="sd" start="63" end="63"/>
+> +</flags><flags id="sie-fields" size="4">
+> +  <field name="ssie" start="1" end="1"/>
+> +  <field name="vssie" start="2" end="2"/>
+> +  <field name="msie" start="3" end="3"/>
+> +  <field name="stie" start="5" end="5"/>
+> +  <field name="vstie" start="6" end="6"/>
+> +  <field name="mtie" start="7" end="7"/>
+> +  <field name="seie" start="9" end="9"/>
+> +  <field name="vseie" start="10" end="10"/>
+> +  <field name="meie" start="11" end="11"/>
+> +  <field name="sgeie" start="12" end="12"/>
+> +</flags><flags id="stvec-fields" size="4">
+> +  <field name="mode" start="0" end="1" type="stvec-mode-type"/>
+> +  <field name="base" start="2" end="63"/>
+> +</flags><flags id="scounteren-fields" size="4">
+> +  <field name="cy" start="0" end="0"/>
+> +  <field name="tm" start="1" end="1"/>
+> +  <field name="ir" start="2" end="2"/>
+> +  <field name="hpm" start="3" end="31"/>
+> +</flags><flags id="scause-fields" size="4">
+> +  <field name="exc" start="0" end="30" type="scause-exc-type"/>
+> +  <field name="interrupt" start="31" end="31"/>
+> +</flags><flags id="sip-fields" size="4">
+> +  <field name="ssip" start="1" end="1"/>
+> +  <field name="vssip" start="2" end="2"/>
+> +  <field name="msip" start="3" end="3"/>
+> +  <field name="stip" start="5" end="5"/>
+> +  <field name="vstip" start="6" end="6"/>
+> +  <field name="mtip" start="7" end="7"/>
+> +  <field name="seip" start="9" end="9"/>
+> +  <field name="vseip" start="10" end="10"/>
+> +  <field name="meip" start="11" end="11"/>
+> +  <field name="sgeip" start="12" end="12"/>
+> +</flags><flags id="satp-fields" size="4">
+> +  <field name="ppn" start="0" end="43"/>
+> +  <field name="asid" start="44" end="59"/>
+> +  <field name="mode" start="60" end="63" type="satp-mode-type"/>
+> +</flags><flags id="hstatus-fields" size="4">
+> +  <field name="vsbe" start="5" end="5"/>
+> +  <field name="gva" start="6" end="6"/>
+> +  <field name="spv" start="7" end="7"/>
+> +  <field name="spvp" start="8" end="8"/>
+> +  <field name="hu" start="9" end="9"/>
+> +  <field name="vgein" start="12" end="17"/>
+> +  <field name="vtvm" start="20" end="20"/>
+> +  <field name="vtsr" start="22" end="22"/>
+> +  <field name="vsxl" start="32" end="33"/>
+> +</flags><flags id="hedeleg-fields" size="4">
+> +  <field name="instruction_address_misaligned" start="0" end="0"/>
+> +  <field name="instruction_access_fault" start="1" end="1"/>
+> +  <field name="illegal_instruction" start="2" end="2"/>
+> +  <field name="breakpoint" start="3" end="3"/>
+> +  <field name="load_address_misaligned" start="4" end="4"/>
+> +  <field name="load_access_fault" start="5" end="5"/>
+> +  <field name="store_address_misaligned" start="6" end="6"/>
+> +  <field name="store_access_fault" start="7" end="7"/>
+> +  <field name="enironment_call_from_U_mode" start="8" end="8"/>
+> +  <field name="enironment_call_from_S_mode" start="9" end="9"/>
+> +  <field name="enironment_call_from_VS_mode" start="10" end="10"/>
+> +  <field name="enironment_call_from_M_mode" start="11" end="11"/>
+> +  <field name="instruction_page_fault" start="12" end="12"/>
+> +  <field name="load_page_fault" start="13" end="13"/>
+> +  <field name="store_page_fault" start="15" end="15"/>
+> +  <field name="instruction_guest_page_fault" start="20" end="20"/>
+> +  <field name="load_guest_page_fault" start="21" end="21"/>
+> +  <field name="virtual_instruction" start="22" end="22"/>
+> +  <field name="store_guest_page_fault" start="23" end="23"/>
+> +</flags><flags id="hie-fields" size="4">
+> +  <field name="vssie" start="2" end="2"/>
+> +  <field name="vstie" start="6" end="6"/>
+> +  <field name="vseie" start="10" end="10"/>
+> +  <field name="sgeie" start="12" end="12"/>
+> +</flags><flags id="hip-fields" size="4">
+> +  <field name="vssip" start="2" end="2"/>
+> +  <field name="vstip" start="6" end="6"/>
+> +  <field name="vseip" start="10" end="10"/>
+> +  <field name="sgeip" start="12" end="12"/>
+> +</flags><flags id="hvip-fields" size="4">
+> +  <field name="vssip" start="2" end="2"/>
+> +  <field name="vstip" start="6" end="6"/>
+> +  <field name="vseip" start="10" end="10"/>
+> +</flags><flags id="hgatp-fields" size="4">
+> +  <field name="ppn" start="0" end="43"/>
+> +  <field name="vmid" start="44" end="57"/>
+> +  <field name="mode" start="60" end="63" type="hgatp-mode-type"/>
+> +</flags>
+> +)
+> +#elif defined TARGET_RISCV64
+> +   STR(
+> +<enum id="sstatus-fs-type" size="8">
+> +  <evalue name="off" value="0"/>
+> +  <evalue name="initial" value="1"/>
+> +  <evalue name="clean" value="2"/>
+> +  <evalue name="dirty" value="3"/>
+> +</enum><enum id="sstatus-xs-type" size="8">
+> +  <evalue name="off" value="0"/>
+> +  <evalue name="initial" value="1"/>
+> +  <evalue name="clean" value="2"/>
+> +  <evalue name="dirty" value="3"/>
+> +</enum><enum id="sstatus-uxl-type" size="8">
+> +  <evalue name="32" value="1"/>
+> +  <evalue name="64" value="2"/>
+> +  <evalue name="128" value="3"/>
+> +</enum><enum id="stvec-mode-type" size="8">
+> +  <evalue name="direct" value="0"/>
+> +  <evalue name="vectored" value="1"/>
+> +</enum><enum id="scause-exc-type" size="8">
+> +  <evalue name="instruction_address_misaligned" value="0"/>
+> +  <evalue name="instruction_access_fault" value="1"/>
+> +  <evalue name="illegal_instruction" value="2"/>
+> +  <evalue name="breakpoint" value="3"/>
+> +  <evalue name="load_address_misaligned" value="4"/>
+> +  <evalue name="load_access_fault" value="5"/>
+> +  <evalue name="store_address_misaligned" value="6"/>
+> +  <evalue name="store_access_fault" value="7"/>
+> +  <evalue name="enironment_call_from_U_mode" value="8"/>
+> +  <evalue name="enironment_call_from_S_mode" value="9"/>
+> +  <evalue name="enironment_call_from_VS_mode" value="10"/>
+> +  <evalue name="enironment_call_from_M_mode" value="11"/>
+> +  <evalue name="instruction_page_fault" value="12"/>
+> +  <evalue name="load_page_fault" value="13"/>
+> +  <evalue name="store_page_fault" value="15"/>
+> +  <evalue name="instruction_guest_page_fault" value="20"/>
+> +  <evalue name="load_guest_page_fault" value="21"/>
+> +  <evalue name="virtual_instruction" value="22"/>
+> +  <evalue name="store_guest_page_fault" value="23"/>
+> +</enum><enum id="satp-mode-type" size="8">
+> +  <evalue name="bare" value="0"/>
+> +  <evalue name="sv32" value="1"/>
+> +  <evalue name="sv39" value="8"/>
+> +  <evalue name="sv48" value="9"/>
+> +  <evalue name="sv57" value="10"/>
+> +  <evalue name="sv64" value="11"/>
+> +</enum><enum id="hgatp-mode-type" size="8">
+> +  <evalue name="bare" value="0"/>
+> +  <evalue name="sv32x4" value="1"/>
+> +  <evalue name="sv39x4" value="8"/>
+> +  <evalue name="sv48x4" value="9"/>
+> +  <evalue name="sv57x4" value="10"/>
+> +</enum><flags id="sstatus-fields" size="8">
+> +  <field name="sie" start="1" end="1"/>
+> +  <field name="mie" start="3" end="3"/>
+> +  <field name="spie" start="5" end="5"/>
+> +  <field name="ube" start="6" end="6"/>
+> +  <field name="mpie" start="7" end="7"/>
+> +  <field name="spp" start="8" end="8"/>
+> +  <field name="mpp" start="11" end="12"/>
+> +  <field name="fs" start="13" end="14" type="sstatus-fs-type"/>
+> +  <field name="xs" start="15" end="16" type="sstatus-xs-type"/>
+> +  <field name="mprv" start="17" end="17"/>
+> +  <field name="sum" start="18" end="18"/>
+> +  <field name="mxr" start="19" end="19"/>
+> +  <field name="tvm" start="20" end="20"/>
+> +  <field name="tw" start="21" end="21"/>
+> +  <field name="tsr" start="22" end="23"/>
+> +  <field name="uxl" start="32" end="33" type="sstatus-uxl-type"/>
+> +  <field name="sxl" start="34" end="35"/>
+> +  <field name="sbe" start="36" end="36"/>
+> +  <field name="mbe" start="37" end="37"/>
+> +  <field name="gva" start="38" end="38"/>
+> +  <field name="mpv" start="39" end="39"/>
+> +  <field name="sd" start="63" end="63"/>
+> +</flags><flags id="sie-fields" size="8">
+> +  <field name="ssie" start="1" end="1"/>
+> +  <field name="vssie" start="2" end="2"/>
+> +  <field name="msie" start="3" end="3"/>
+> +  <field name="stie" start="5" end="5"/>
+> +  <field name="vstie" start="6" end="6"/>
+> +  <field name="mtie" start="7" end="7"/>
+> +  <field name="seie" start="9" end="9"/>
+> +  <field name="vseie" start="10" end="10"/>
+> +  <field name="meie" start="11" end="11"/>
+> +  <field name="sgeie" start="12" end="12"/>
+> +</flags><flags id="stvec-fields" size="8">
+> +  <field name="mode" start="0" end="1" type="stvec-mode-type"/>
+> +  <field name="base" start="2" end="63"/>
+> +</flags><flags id="scounteren-fields" size="8">
+> +  <field name="cy" start="0" end="0"/>
+> +  <field name="tm" start="1" end="1"/>
+> +  <field name="ir" start="2" end="2"/>
+> +  <field name="hpm" start="3" end="31"/>
+> +</flags><flags id="scause-fields" size="8">
+> +  <field name="exc" start="0" end="62" type="scause-exc-type"/>
+> +  <field name="interrupt" start="63" end="63"/>
+> +</flags><flags id="sip-fields" size="8">
+> +  <field name="ssip" start="1" end="1"/>
+> +  <field name="vssip" start="2" end="2"/>
+> +  <field name="msip" start="3" end="3"/>
+> +  <field name="stip" start="5" end="5"/>
+> +  <field name="vstip" start="6" end="6"/>
+> +  <field name="mtip" start="7" end="7"/>
+> +  <field name="seip" start="9" end="9"/>
+> +  <field name="vseip" start="10" end="10"/>
+> +  <field name="meip" start="11" end="11"/>
+> +  <field name="sgeip" start="12" end="12"/>
+> +</flags><flags id="satp-fields" size="8">
+> +  <field name="ppn" start="0" end="43"/>
+> +  <field name="asid" start="44" end="59"/>
+> +  <field name="mode" start="60" end="63" type="satp-mode-type"/>
+> +</flags><flags id="hstatus-fields" size="8">
+> +  <field name="vsbe" start="5" end="5"/>
+> +  <field name="gva" start="6" end="6"/>
+> +  <field name="spv" start="7" end="7"/>
+> +  <field name="spvp" start="8" end="8"/>
+> +  <field name="hu" start="9" end="9"/>
+> +  <field name="vgein" start="12" end="17"/>
+> +  <field name="vtvm" start="20" end="20"/>
+> +  <field name="vtsr" start="22" end="22"/>
+> +  <field name="vsxl" start="32" end="33"/>
+> +</flags><flags id="hedeleg-fields" size="8">
+> +  <field name="instruction_address_misaligned" start="0" end="0"/>
+> +  <field name="instruction_access_fault" start="1" end="1"/>
+> +  <field name="illegal_instruction" start="2" end="2"/>
+> +  <field name="breakpoint" start="3" end="3"/>
+> +  <field name="load_address_misaligned" start="4" end="4"/>
+> +  <field name="load_access_fault" start="5" end="5"/>
+> +  <field name="store_address_misaligned" start="6" end="6"/>
+> +  <field name="store_access_fault" start="7" end="7"/>
+> +  <field name="enironment_call_from_U_mode" start="8" end="8"/>
+> +  <field name="enironment_call_from_S_mode" start="9" end="9"/>
+> +  <field name="enironment_call_from_VS_mode" start="10" end="10"/>
+> +  <field name="enironment_call_from_M_mode" start="11" end="11"/>
+> +  <field name="instruction_page_fault" start="12" end="12"/>
+> +  <field name="load_page_fault" start="13" end="13"/>
+> +  <field name="store_page_fault" start="15" end="15"/>
+> +  <field name="instruction_guest_page_fault" start="20" end="20"/>
+> +  <field name="load_guest_page_fault" start="21" end="21"/>
+> +  <field name="virtual_instruction" start="22" end="22"/>
+> +  <field name="store_guest_page_fault" start="23" end="23"/>
+> +</flags><flags id="hie-fields" size="8">
+> +  <field name="vssie" start="2" end="2"/>
+> +  <field name="vstie" start="6" end="6"/>
+> +  <field name="vseie" start="10" end="10"/>
+> +  <field name="sgeie" start="12" end="12"/>
+> +</flags><flags id="hip-fields" size="8">
+> +  <field name="vssip" start="2" end="2"/>
+> +  <field name="vstip" start="6" end="6"/>
+> +  <field name="vseip" start="10" end="10"/>
+> +  <field name="sgeip" start="12" end="12"/>
+> +</flags><flags id="hvip-fields" size="8">
+> +  <field name="vssip" start="2" end="2"/>
+> +  <field name="vstip" start="6" end="6"/>
+> +  <field name="vseip" start="10" end="10"/>
+> +</flags><flags id="hgatp-fields" size="8">
+> +  <field name="ppn" start="0" end="43"/>
+> +  <field name="vmid" start="44" end="57"/>
+> +  <field name="mode" start="60" end="63" type="hgatp-mode-type"/>
+> +</flags>
+> +)
+> +# endif
+> +;
+> diff --git a/target/riscv/gdb_csr_types.h b/target/riscv/gdb_csr_types.h
+> new file mode 100644
+> index 0000000000..e55c978ac8
+> --- /dev/null
+> +++ b/target/riscv/gdb_csr_types.h
+> @@ -0,0 +1,3 @@
+> +/* Copyright (c) 2021 Siemens AG, konrad.schwarz@siemens.com */
+> +
+> +extern char const riscv_gdb_csr_types[];
+> diff --git a/target/riscv/gdbstub.c b/target/riscv/gdbstub.c
+> index 23429179e2..9c3f68eeaf 100644
+> --- a/target/riscv/gdbstub.c
+> +++ b/target/riscv/gdbstub.c
+> @@ -2,6 +2,7 @@
+>   * RISC-V GDB Server Stub
+>   *
+>   * Copyright (c) 2016-2017 Sagar Karandikar, sagark@eecs.berkeley.edu
+> + * Copyright (c) 2021 Siemens AG, konrad.schwarz@siemens.com
+>   *
+>   * This program is free software; you can redistribute it and/or modify it
+>   * under the terms and conditions of the GNU General Public License,
+> @@ -155,6 +156,9 @@ static int riscv_gdb_set_virtual(CPURISCVState *cs, uint8_t *mem_buf, int n)
+>      return 0;
 >  }
 >
->  static void walk_pte(Monitor *mon, hwaddr base, target_ulong start,
->                       int level, int ptidxbits, int ptesize, int va_bits,
-> +                     int guest,
->                       target_ulong *vbase, hwaddr *pbase, hwaddr *last_paddr,
->                       target_ulong *last_size, int *last_attr)
+> +#include "gdb_csr_types.h"
+> +#include "gdb_csr_type_group.h"
+> +
+>  static int riscv_gen_dynamic_csr_xml(CPUState *cs, int base_reg)
 >  {
-> @@ -89,7 +118,7 @@ static void walk_pte(Monitor *mon, hwaddr base, target_ulong start,
->      target_ulong pte;
->      int ptshift;
->      int attr;
-> -    int idx;
-> +    int idx, idx_end;
+>      RISCVCPU *cpu = RISCV_CPU(cs);
+> @@ -163,21 +167,33 @@ static int riscv_gen_dynamic_csr_xml(CPUState *cs, int base_reg)
+>      riscv_csr_predicate_fn predicate;
+>      int bitsize = 16 << env->misa_mxl_max;
+>      int i;
+> +    riscv_csr_operations *csr_op;
+> +    struct riscv_gdb_csr_tg const *csr_tg;
 >
->      if (level < 0) {
->          return;
-> @@ -98,7 +127,8 @@ static void walk_pte(Monitor *mon, hwaddr base, target_ulong start,
->      ptshift = level * ptidxbits;
->      pgsize = 1UL << (PGSHIFT + ptshift);
+>      g_string_printf(s, "<?xml version=\"1.0\"?>");
+>      g_string_append_printf(s, "<!DOCTYPE feature SYSTEM \"gdb-target.dtd\">");
+>      g_string_append_printf(s, "<feature name=\"org.gnu.gdb.riscv.csr\">");
 >
-> -    for (idx = 0; idx < (1UL << ptidxbits); idx++) {
-> +    for (idx = 0, idx_end = 1 << (ptidxbits + (guest ? 2 : 0));
-> +            idx_end > idx; idx++) {
->          pte_addr = base + idx * ptesize;
->          cpu_physical_memory_read(pte_addr, &pte, ptesize);
->
-> @@ -131,7 +161,9 @@ static void walk_pte(Monitor *mon, hwaddr base, target_ulong start,
+> -    for (i = 0; i < CSR_TABLE_SIZE; i++) {
+> -        predicate = csr_ops[i].predicate;
+> +    g_string_append(s, riscv_gdb_csr_types);
+> +
+> +    for (i = 0, csr_op = csr_ops, csr_tg = riscv_gdb_csr_type_group;
+> +            i < CSR_TABLE_SIZE; ++csr_op, ++csr_tg, ++i) {
+> +        predicate = csr_op->predicate;
+>          if (predicate && (predicate(env, i) == RISCV_EXCP_NONE)) {
+> -            if (csr_ops[i].name) {
+> -                g_string_append_printf(s, "<reg name=\"%s\"", csr_ops[i].name);
+> +            if (csr_op->name) {
+> +                g_string_append_printf(s, "<reg name=\"%s\"", csr_op->name);
 >              } else {
->                  /* pointer to the next level of the page table */
->                  walk_pte(mon, paddr, start, level - 1, ptidxbits, ptesize,
-> -                         va_bits, vbase, pbase, last_paddr,
-> +                         va_bits,
-> +                         0 /* guest */,
-> +                         vbase, pbase, last_paddr,
->                           last_size, last_attr);
+>                  g_string_append_printf(s, "<reg name=\"csr%03x\"", i);
 >              }
->          }
-> @@ -141,7 +173,9 @@ static void walk_pte(Monitor *mon, hwaddr base, target_ulong start,
->
->  }
->
-> -static void mem_info_svxx(Monitor *mon, CPUArchState *env)
-> +static void mem_info_svxx(Monitor *mon, CPUArchState *env,
-> +        target_ulong const atp,
-> +        int guest, char const vaddr_char, char const paddr_char)
->  {
->      int levels, ptidxbits, ptesize, vm, va_bits;
->      hwaddr base;
-> @@ -152,11 +186,11 @@ static void mem_info_svxx(Monitor *mon, CPUArchState *env)
->      int last_attr;
->
->      if (riscv_cpu_mxl(env) == MXL_RV32) {
-> -        base = (hwaddr)get_field(env->satp, SATP32_PPN) << PGSHIFT;
-> -        vm = get_field(env->satp, SATP32_MODE);
-> +        base = (hwaddr)get_field(atp, SATP32_PPN) << PGSHIFT;
-> +        vm = get_field(atp, SATP32_MODE);
->      } else {
-> -        base = (hwaddr)get_field(env->satp, SATP64_PPN) << PGSHIFT;
-> -        vm = get_field(env->satp, SATP64_MODE);
-> +        base = (hwaddr)get_field(atp, SATP64_PPN) << PGSHIFT;
-> +        vm = get_field(atp, SATP64_MODE);
->      }
->
->      switch (vm) {
-> @@ -189,7 +223,7 @@ static void mem_info_svxx(Monitor *mon, CPUArchState *env)
->      va_bits = PGSHIFT + levels * ptidxbits;
->
->      /* print header */
-> -    print_pte_header(mon);
-> +    print_pte_header(mon, vaddr_char, paddr_char);
->
->      vbase = -1;
->      pbase = -1;
-> @@ -199,6 +233,7 @@ static void mem_info_svxx(Monitor *mon, CPUArchState *env)
->
->      /* walk page tables, starting from address 0 */
->      walk_pte(mon, base, 0, levels - 1, ptidxbits, ptesize, va_bits,
-> +             guest,
->               &vbase, &pbase, &last_paddr, &last_size, &last_attr);
->
->      /* don't forget the last one */
-> @@ -209,6 +244,7 @@ static void mem_info_svxx(Monitor *mon, CPUArchState *env)
->  void hmp_info_mem(Monitor *mon, const QDict *qdict)
->  {
->      CPUArchState *env;
-> +    target_ulong atp;
->
->      env = mon_get_cpu_env(mon);
->      if (!env) {
-> @@ -221,19 +257,46 @@ void hmp_info_mem(Monitor *mon, const QDict *qdict)
->          return;
->      }
->
-> +    atp = env->satp;
->      if (riscv_cpu_mxl(env) == MXL_RV32) {
-> -        if (!(env->satp & SATP32_MODE)) {
-> +        if (!(atp & SATP32_MODE)) {
->              monitor_printf(mon, "No translation or protection\n");
->              return;
->          }
->      } else {
-> -        if (!(env->satp & SATP64_MODE)) {
-> +        if (!(atp & SATP64_MODE)) {
->              monitor_printf(mon, "No translation or protection\n");
->              return;
+>              g_string_append_printf(s, " bitsize=\"%d\"", bitsize);
+> -            g_string_append_printf(s, " regnum=\"%d\"/>", base_reg + i);
+> +            g_string_append_printf(s, " regnum=\"%d\"", base_reg + i);
+> +            if (csr_tg->gdb_type) {
+> +                g_string_append_printf(s, " type=\"%s\"", csr_tg->gdb_type);
+> +            }
+> +            if (csr_tg->gdb_group) {
+> +                g_string_append_printf(s, " group=\"%s\"", csr_tg->gdb_group);
+> +            }
+> +            g_string_append(s, " />\n");
 >          }
 >      }
 >
-> -    mem_info_svxx(mon, env);
-> +    mem_info_svxx(mon, env, atp, 0, 'v', 'p');
-> +}
-> +
-> +void hmp_info_gmem(Monitor *mon, const QDict *qdict)
-> +{
-> +    CPUArchState *env;
-> +    target_ulong atp;
-> +
-> +    env = mon_get_cpu_env(mon);
-> +    if (!env) {
-> +        monitor_printf(mon, "No CPU available\n");
-> +        return;
-> +    }
-> +
-> +    if (!riscv_has_ext(env, RVH)) {
-> +        monitor_printf(mon, "hypervisor extension not available\n");
-> +        return;
-> +    }
-> +
-> +    atp = env->hgatp;
-> +    if (!((MXL_RV32 == riscv_cpu_mxl(env) ? SATP32_MODE : SATP64_MODE)
-> +            & atp)) {
-> +        monitor_printf(mon, "No translation or protection\n");
-> +        return;
-> +    }
-> +
-> +    mem_info_svxx(mon, env, atp, 1, 'g', 'p');
->  }
+> diff --git a/target/riscv/meson.build b/target/riscv/meson.build
+> index d5e0bc93ea..e1945e54c4 100644
+> --- a/target/riscv/meson.build
+> +++ b/target/riscv/meson.build
+> @@ -25,7 +25,9 @@ riscv_softmmu_ss.add(files(
+>    'arch_dump.c',
+>    'pmp.c',
+>    'monitor.c',
+> -  'machine.c'
+> +  'machine.c',
+> +  'gdb_csr_types.c',
+> +  'gdb_csr_type_group.c'
+>  ))
 >
->  static const MonitorDef monitor_defs[] = {
+>  target_arch += {'riscv': riscv_ss}
 > --
 > Konrad Schwarz
 >
