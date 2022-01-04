@@ -2,107 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 070B24843BD
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 15:51:43 +0100 (CET)
-Received: from localhost ([::1]:56180 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2774D48440D
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 16:01:45 +0100 (CET)
+Received: from localhost ([::1]:37848 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n4lA4-0001py-N3
-	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 09:51:40 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50264)
+	id 1n4lJn-0000ay-OO
+	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 10:01:43 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52410)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1n4l7C-0008Q6-7Q
- for qemu-devel@nongnu.org; Tue, 04 Jan 2022 09:48:42 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:46514)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1n4l79-0002hg-PB
- for qemu-devel@nongnu.org; Tue, 04 Jan 2022 09:48:41 -0500
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 204Dva5h019663; 
- Tue, 4 Jan 2022 14:48:36 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- subject : to : cc : references : from : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=E7M1NaL6mUeVyqFwV26dwIhbq5JWh2VFl0a1OgybWEM=;
- b=H1rcj3+Xm0GoMJJ0Knx/97Fhq7lWXN3gd4QoZR4WbRp5oPyA3k/9Evy+I2rpMLrWSzgx
- mYPd7IWaFaIYCVDmyjrmLljvSkybff1MqyT0iTXgCH7m35Vd07K6LmvDii+scnfV8zTz
- OQvOWGdDQHT15B2HtoXYrvu++9hGm3Di1+xlFLNaZDzmxcrUoG3smuFPdy10UIBerhYG
- u6WNC7sOfXxZe2UgRTZqFhOfdZSdAuEeymFiocpaI+k4f7DYt4Gv3NrRe1aKvA15WgP+
- SeQ1dpqhOE6QmIl+fhZcdZ0gONVun/Mvc9kGsjyaBJ6UdGN4iJOQZD+RvNFeM8hVb5zO UA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3dcen7aqhg-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 04 Jan 2022 14:48:36 +0000
-Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 204DhmMU015048;
- Tue, 4 Jan 2022 14:48:35 GMT
-Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
- [169.53.41.122])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3dcen7aqh5-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 04 Jan 2022 14:48:35 +0000
-Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
- by ppma04dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 204EmXs7014144;
- Tue, 4 Jan 2022 14:48:34 GMT
-Received: from b01cxnp22036.gho.pok.ibm.com (b01cxnp22036.gho.pok.ibm.com
- [9.57.198.26]) by ppma04dal.us.ibm.com with ESMTP id 3daekb76f6-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 04 Jan 2022 14:48:34 +0000
-Received: from b01ledav002.gho.pok.ibm.com (b01ledav002.gho.pok.ibm.com
- [9.57.199.107])
- by b01cxnp22036.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 204EmXM19176030
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 4 Jan 2022 14:48:33 GMT
-Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 11D2012405C;
- Tue,  4 Jan 2022 14:48:33 +0000 (GMT)
-Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id DAA08124052;
- Tue,  4 Jan 2022 14:48:32 +0000 (GMT)
-Received: from [9.47.158.152] (unknown [9.47.158.152])
- by b01ledav002.gho.pok.ibm.com (Postfix) with ESMTP;
- Tue,  4 Jan 2022 14:48:32 +0000 (GMT)
-Message-ID: <1b32e29a-36fc-7275-e856-97a12585e0a3@linux.ibm.com>
-Date: Tue, 4 Jan 2022 09:48:32 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH v4 2/3] acpi: tpm: Add missing device identification
- objects
-Content-Language: en-US
-To: Igor Mammedov <imammedo@redhat.com>
-References: <20211223022310.575496-1-stefanb@linux.ibm.com>
- <20211223022310.575496-3-stefanb@linux.ibm.com>
- <20220104105506.17ed9209@redhat.com>
-From: Stefan Berger <stefanb@linux.ibm.com>
-In-Reply-To: <20220104105506.17ed9209@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: IfaUeO8a0mUIMwS7uHCksmbHTnMqrvZc
-X-Proofpoint-GUID: BHq-kOUfky7e4cSPYDgVF8X49bpyEcIr
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1n4lGJ-0006tf-Fg
+ for qemu-devel@nongnu.org; Tue, 04 Jan 2022 09:58:07 -0500
+Received: from [2a00:1450:4864:20::535] (port=34751
+ helo=mail-ed1-x535.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1n4lGH-0004Qo-Pv
+ for qemu-devel@nongnu.org; Tue, 04 Jan 2022 09:58:07 -0500
+Received: by mail-ed1-x535.google.com with SMTP id u25so28206702edf.1
+ for <qemu-devel@nongnu.org>; Tue, 04 Jan 2022 06:58:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=sn12UEUc7Qk8/uEupR3XTclgJmwgV1UmJePL9srNWJA=;
+ b=eYsuJe0f9Q1Nkg2H1MOWFBS8DIdgxEjIh61Wh0wQebzzPxVqrF9frkfc4b138dOuch
+ xsq2aE26ZMRPpypbhP9tRIQVsaZCnEsAYQOG5MJ6uDse9HbF1EkB3OhFe81HBPpJbhXC
+ tlvTMiBun6zohWNEUCFPULqswo52RypxYplcAH8Hy97/BANcYX06l6K29vLsMClokUzK
+ reNQU35UEHyfUjMmF4ZfJX68JIpH8uwPRaM/xKyu7udU6orJDr+2QSJZAGqG3ZnnsLNz
+ Mt2qKVJ5TXkgiFZk9TQpLJ0Xi1WSOC5LlJtZ4tZxActAlmehq1Mnc9NN+bw5igK2d+hs
+ 9lbA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=sn12UEUc7Qk8/uEupR3XTclgJmwgV1UmJePL9srNWJA=;
+ b=Q74x0z+xhPgrPEF3uS7P9dFIyEj7LbPixMpzw9eV7lzCghrvF774kLZG3+ODMPLOLh
+ 5wOcpmSGLMCHBTIU/l3Y9PJ9+3v2yrZ/Yi570mnUWxUfFn4e8gVwowOIHElJmmyZdQ/K
+ +I5NeaPO7/152UG8/MydO1GPe9X6EiJIrPxsDOTIw2nkz1nHHFi8aH5W6yH+AeK64THf
+ Kl4NBbf5+TAuZHTVIpeuBZT59K+6MXKVmz4qiB+X/VkoWSRK/+Si4uCX/r7cHZMygofK
+ eCmPVpR96JPlCzydNtYhbKy7ZwYDmwoUbTZ/Ri1UyejxoZ1936ZFYK6Kfr95M6cm3qEW
+ HM3A==
+X-Gm-Message-State: AOAM532jMWSuuzpRiDaQE8teQnaLPt/4rVxfBVApfm7ldYhHczsTTt3E
+ pq+rASY2BKdFzJgMRpa2S/EGz/V4nJY=
+X-Google-Smtp-Source: ABdhPJwhFU4I6I2vRNKXchePw/yrau3A68VnpowexnVCSfr66Mx5ndQQHxlU3b5vuAqp/PNVQln3ew==
+X-Received: by 2002:a05:6402:1d81:: with SMTP id
+ dk1mr49438320edb.328.1641308284579; 
+ Tue, 04 Jan 2022 06:58:04 -0800 (PST)
+Received: from localhost.localdomain ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
+ by smtp.gmail.com with ESMTPSA id j21sm11475964ejj.133.2022.01.04.06.58.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 04 Jan 2022 06:58:04 -0800 (PST)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 02/15] user: move common-user includes to a subdirectory of
+ {bsd, linux}-user/
+Date: Tue,  4 Jan 2022 15:57:36 +0100
+Message-Id: <20220104145749.417387-3-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.33.1
+In-Reply-To: <20220104145749.417387-1-pbonzini@redhat.com>
+References: <20220104145749.417387-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2022-01-04_06,2022-01-04_01,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015
- lowpriorityscore=0 impostorscore=0 malwarescore=0 suspectscore=0
- phishscore=0 spamscore=0 mlxscore=0 priorityscore=1501 adultscore=0
- mlxlogscore=999 bulkscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2110150000 definitions=main-2201040098
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=stefanb@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.354, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::535
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::535;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x535.google.com
+X-Spam_score_int: 12
+X-Spam_score: 1.2
+X-Spam_bar: +
+X-Spam_report: (1.2 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -115,99 +88,154 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Ani Sinha <ani@anisinha.ca>, marcandre.lureau@redhat.com,
- "Michael S . Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
- Shannon Zhao <shannon.zhaosl@gmail.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Avoid polluting the compilation of common-user/ with local include files;
+making an include file available to common-user/ should be a deliberate
+decision in order to keep a clear interface that can be used by both
+bsd-user/ and linux-user/.
 
-On 1/4/22 04:55, Igor Mammedov wrote:
-> On Wed, 22 Dec 2021 21:23:09 -0500
-> Stefan Berger <stefanb@linux.ibm.com> wrote:
->
->> Add missing device identification objects _STR and _UID. They will appear
-> why, does it break anything or it's just cosmetic?
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ bsd-user/{ => include}/special-errno.h                  | 0
+ bsd-user/meson.build                                    | 2 +-
+ linux-user/{ => include}/host/aarch64/host-signal.h     | 0
+ linux-user/{ => include}/host/alpha/host-signal.h       | 0
+ linux-user/{ => include}/host/arm/host-signal.h         | 0
+ linux-user/{ => include}/host/i386/host-signal.h        | 0
+ linux-user/{ => include}/host/loongarch64/host-signal.h | 0
+ linux-user/{ => include}/host/mips/host-signal.h        | 0
+ linux-user/{ => include}/host/ppc/host-signal.h         | 0
+ linux-user/{ => include}/host/ppc64/host-signal.h       | 0
+ linux-user/{ => include}/host/riscv/host-signal.h       | 0
+ linux-user/{ => include}/host/s390/host-signal.h        | 0
+ linux-user/{ => include}/host/s390x/host-signal.h       | 0
+ linux-user/{ => include}/host/sparc/host-signal.h       | 0
+ linux-user/{ => include}/host/sparc64/host-signal.h     | 0
+ linux-user/{ => include}/host/x32/host-signal.h         | 0
+ linux-user/{ => include}/host/x86_64/host-signal.h      | 0
+ linux-user/{ => include}/special-errno.h                | 0
+ linux-user/meson.build                                  | 4 ++--
+ 19 files changed, 3 insertions(+), 3 deletions(-)
+ rename bsd-user/{ => include}/special-errno.h (100%)
+ rename linux-user/{ => include}/host/aarch64/host-signal.h (100%)
+ rename linux-user/{ => include}/host/alpha/host-signal.h (100%)
+ rename linux-user/{ => include}/host/arm/host-signal.h (100%)
+ rename linux-user/{ => include}/host/i386/host-signal.h (100%)
+ rename linux-user/{ => include}/host/loongarch64/host-signal.h (100%)
+ rename linux-user/{ => include}/host/mips/host-signal.h (100%)
+ rename linux-user/{ => include}/host/ppc/host-signal.h (100%)
+ rename linux-user/{ => include}/host/ppc64/host-signal.h (100%)
+ rename linux-user/{ => include}/host/riscv/host-signal.h (100%)
+ rename linux-user/{ => include}/host/s390/host-signal.h (100%)
+ rename linux-user/{ => include}/host/s390x/host-signal.h (100%)
+ rename linux-user/{ => include}/host/sparc/host-signal.h (100%)
+ rename linux-user/{ => include}/host/sparc64/host-signal.h (100%)
+ rename linux-user/{ => include}/host/x32/host-signal.h (100%)
+ rename linux-user/{ => include}/host/x86_64/host-signal.h (100%)
+ rename linux-user/{ => include}/special-errno.h (100%)
 
-I don't know about whether any software needs these entries but it's 
-driven by this:
+diff --git a/bsd-user/special-errno.h b/bsd-user/include/special-errno.h
+similarity index 100%
+rename from bsd-user/special-errno.h
+rename to bsd-user/include/special-errno.h
+diff --git a/bsd-user/meson.build b/bsd-user/meson.build
+index 9fcb80c3fa..8380fa44c2 100644
+--- a/bsd-user/meson.build
++++ b/bsd-user/meson.build
+@@ -4,7 +4,7 @@ endif
+ 
+ bsd_user_ss = ss.source_set()
+ 
+-common_user_inc += include_directories('.')
++common_user_inc += include_directories('include')
+ 
+ bsd_user_ss.add(files(
+   'bsdload.c',
+diff --git a/linux-user/host/aarch64/host-signal.h b/linux-user/include/host/aarch64/host-signal.h
+similarity index 100%
+rename from linux-user/host/aarch64/host-signal.h
+rename to linux-user/include/host/aarch64/host-signal.h
+diff --git a/linux-user/host/alpha/host-signal.h b/linux-user/include/host/alpha/host-signal.h
+similarity index 100%
+rename from linux-user/host/alpha/host-signal.h
+rename to linux-user/include/host/alpha/host-signal.h
+diff --git a/linux-user/host/arm/host-signal.h b/linux-user/include/host/arm/host-signal.h
+similarity index 100%
+rename from linux-user/host/arm/host-signal.h
+rename to linux-user/include/host/arm/host-signal.h
+diff --git a/linux-user/host/i386/host-signal.h b/linux-user/include/host/i386/host-signal.h
+similarity index 100%
+rename from linux-user/host/i386/host-signal.h
+rename to linux-user/include/host/i386/host-signal.h
+diff --git a/linux-user/host/loongarch64/host-signal.h b/linux-user/include/host/loongarch64/host-signal.h
+similarity index 100%
+rename from linux-user/host/loongarch64/host-signal.h
+rename to linux-user/include/host/loongarch64/host-signal.h
+diff --git a/linux-user/host/mips/host-signal.h b/linux-user/include/host/mips/host-signal.h
+similarity index 100%
+rename from linux-user/host/mips/host-signal.h
+rename to linux-user/include/host/mips/host-signal.h
+diff --git a/linux-user/host/ppc/host-signal.h b/linux-user/include/host/ppc/host-signal.h
+similarity index 100%
+rename from linux-user/host/ppc/host-signal.h
+rename to linux-user/include/host/ppc/host-signal.h
+diff --git a/linux-user/host/ppc64/host-signal.h b/linux-user/include/host/ppc64/host-signal.h
+similarity index 100%
+rename from linux-user/host/ppc64/host-signal.h
+rename to linux-user/include/host/ppc64/host-signal.h
+diff --git a/linux-user/host/riscv/host-signal.h b/linux-user/include/host/riscv/host-signal.h
+similarity index 100%
+rename from linux-user/host/riscv/host-signal.h
+rename to linux-user/include/host/riscv/host-signal.h
+diff --git a/linux-user/host/s390/host-signal.h b/linux-user/include/host/s390/host-signal.h
+similarity index 100%
+rename from linux-user/host/s390/host-signal.h
+rename to linux-user/include/host/s390/host-signal.h
+diff --git a/linux-user/host/s390x/host-signal.h b/linux-user/include/host/s390x/host-signal.h
+similarity index 100%
+rename from linux-user/host/s390x/host-signal.h
+rename to linux-user/include/host/s390x/host-signal.h
+diff --git a/linux-user/host/sparc/host-signal.h b/linux-user/include/host/sparc/host-signal.h
+similarity index 100%
+rename from linux-user/host/sparc/host-signal.h
+rename to linux-user/include/host/sparc/host-signal.h
+diff --git a/linux-user/host/sparc64/host-signal.h b/linux-user/include/host/sparc64/host-signal.h
+similarity index 100%
+rename from linux-user/host/sparc64/host-signal.h
+rename to linux-user/include/host/sparc64/host-signal.h
+diff --git a/linux-user/host/x32/host-signal.h b/linux-user/include/host/x32/host-signal.h
+similarity index 100%
+rename from linux-user/host/x32/host-signal.h
+rename to linux-user/include/host/x32/host-signal.h
+diff --git a/linux-user/host/x86_64/host-signal.h b/linux-user/include/host/x86_64/host-signal.h
+similarity index 100%
+rename from linux-user/host/x86_64/host-signal.h
+rename to linux-user/include/host/x86_64/host-signal.h
+diff --git a/linux-user/special-errno.h b/linux-user/include/special-errno.h
+similarity index 100%
+rename from linux-user/special-errno.h
+rename to linux-user/include/special-errno.h
+diff --git a/linux-user/meson.build b/linux-user/meson.build
+index b2f4afd5e7..de4320af05 100644
+--- a/linux-user/meson.build
++++ b/linux-user/meson.build
+@@ -4,8 +4,8 @@ endif
+ 
+ linux_user_ss = ss.source_set()
+ 
+-common_user_inc += include_directories('host/' / host_arch)
+-common_user_inc += include_directories('.')
++common_user_inc += include_directories('include/host/' / host_arch)
++common_user_inc += include_directories('include')
+ 
+ linux_user_ss.add(files(
+   'elfload.c',
+-- 
+2.33.1
 
-https://gitlab.com/qemu-project/qemu/-/issues/708
 
-
->
->> as files 'description' and 'uid' under Linux sysfs.
->>
->> Cc: Shannon Zhao <shannon.zhaosl@gmail.com>
->> Cc: Michael S. Tsirkin <mst@redhat.com>
->> Cc: Igor Mammedov <imammedo@redhat.com>
->> Cc: Ani Sinha <ani@anisinha.ca>
->> Fixes: https://gitlab.com/qemu-project/qemu/-/issues/708
->> Signed-off-by: Stefan Berger <stefanb@linux.ibm.com>
->> Message-id: 20211110133559.3370990-3-stefanb@linux.ibm.com
->> ---
->>   hw/arm/virt-acpi-build.c | 1 +
->>   hw/i386/acpi-build.c     | 8 ++++++++
->>   2 files changed, 9 insertions(+)
->>
->> diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
->> index d0f4867fdf..f2514ce77c 100644
->> --- a/hw/arm/virt-acpi-build.c
->> +++ b/hw/arm/virt-acpi-build.c
->> @@ -229,6 +229,7 @@ static void acpi_dsdt_add_tpm(Aml *scope, VirtMachineState *vms)
->>   
->>       Aml *dev = aml_device("TPM0");
->>       aml_append(dev, aml_name_decl("_HID", aml_string("MSFT0101")));
->> +    aml_append(dev, aml_name_decl("_STR", aml_string("TPM 2.0 Device")));
->>       aml_append(dev, aml_name_decl("_UID", aml_int(0)));
->>   
->>       Aml *crs = aml_resource_template();
->> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
->> index 8383b83ee3..2fb70847cb 100644
->> --- a/hw/i386/acpi-build.c
->> +++ b/hw/i386/acpi-build.c
->> @@ -1812,11 +1812,15 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
->>                       dev = aml_device("TPM");
->>                       aml_append(dev, aml_name_decl("_HID",
->>                                                     aml_string("MSFT0101")));
->> +                    aml_append(dev,
->> +                               aml_name_decl("_STR",
->> +                                             aml_string("TPM 2.0 Device")));
->>                   } else {
->>                       dev = aml_device("ISA.TPM");
->>                       aml_append(dev, aml_name_decl("_HID",
->>                                                     aml_eisaid("PNP0C31")));
->>                   }
->> +                aml_append(dev, aml_name_decl("_UID", aml_int(1)));
-> why it's 1, and not 0 as in virt-arm?
-
-Marc-Andre and I looked at machines with hardware TPMs and that's what 
-we found there as well, a '1'.
-
-
->
->>   
->>                   aml_append(dev, aml_name_decl("_STA", aml_int(0xF)));
->>                   crs = aml_resource_template();
->> @@ -1844,6 +1848,8 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
->>       if (TPM_IS_CRB(tpm)) {
->>           dev = aml_device("TPM");
->>           aml_append(dev, aml_name_decl("_HID", aml_string("MSFT0101")));
->> +        aml_append(dev, aml_name_decl("_STR",
->> +                                      aml_string("TPM 2.0 Device")));
->>           crs = aml_resource_template();
->>           aml_append(crs, aml_memory32_fixed(TPM_CRB_ADDR_BASE,
->>                                              TPM_CRB_ADDR_SIZE, AML_READ_WRITE));
->> @@ -1851,6 +1857,8 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
->>   
->>           aml_append(dev, aml_name_decl("_STA", aml_int(0xf)));
->>
-> no necessary ^^^ empty line
-fixed
->
->> +        aml_append(dev, aml_name_decl("_UID", aml_int(1)));
->> +
->>           tpm_build_ppi_acpi(tpm, dev);
->>   
->>           aml_append(sb_scope, dev);
 
