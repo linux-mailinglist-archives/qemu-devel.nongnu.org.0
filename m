@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFF54483E16
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 09:27:27 +0100 (CET)
-Received: from localhost ([::1]:33708 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BEE6E483E1C
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 09:30:02 +0100 (CET)
+Received: from localhost ([::1]:38092 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n4fAF-0004Vm-3q
-	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 03:27:27 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47296)
+	id 1n4fCj-0007Ui-RI
+	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 03:30:01 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47326)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1n4eeE-0005i3-Jc; Tue, 04 Jan 2022 02:54:22 -0500
-Received: from [2a00:1450:4864:20::42f] (port=42608
- helo=mail-wr1-x42f.google.com)
+ id 1n4eeJ-0005xm-0O; Tue, 04 Jan 2022 02:54:27 -0500
+Received: from [2a00:1450:4864:20::435] (port=42614
+ helo=mail-wr1-x435.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1n4eeC-0007DE-U3; Tue, 04 Jan 2022 02:54:22 -0500
-Received: by mail-wr1-x42f.google.com with SMTP id w20so65385844wra.9;
- Mon, 03 Jan 2022 23:54:20 -0800 (PST)
+ id 1n4eeH-0007Dg-EP; Tue, 04 Jan 2022 02:54:26 -0500
+Received: by mail-wr1-x435.google.com with SMTP id w20so65386077wra.9;
+ Mon, 03 Jan 2022 23:54:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=eBJgYpxMfElZCjSoM/LIb7+pEggDV+9LpvhxGVUtM6k=;
- b=Ruk3r5wFFU0Y7dO4gXZ7PA6NplKKwWSnJjmptGNd2EsRQ94gaHhHGm/qxZN8cv9ZN1
- SydGjF2EpoH9LRfPpOj+vsG9qIqGpSKm1GNTsErhRFmU5r2pB99GuepwtEPU2GxVyOCP
- 6vix+Hxcuk4biikzGXjcIXkJNvTwanYnvazayM5v09OFaglaMlVPTSEOn4/4wN8FNiTg
- f7+PvzzPGd6oIvQF8mDhO/0+gfsd8RRekHS73aHaQhu8eSx08WFFW0d/oEhajo6snQGB
- cXq7OaRWVLLOHVrXWFVXCKTl/qOXYVlVp8U/5MmUYgxVtY7Gf+4VVi0klzhys1MLT6Km
- zR2w==
+ bh=Wd/Soq2H07h5BSMvthuGipUGkg5Y9nHl9X+h1GuA2BY=;
+ b=Bw7i9dVjJFZHPlqWcIvp9Vxedw4D97BnbyJEC+8Wmr9HqKOacfuLfVywXdQYxEstfF
+ 1c4ApXpcEuztNJDZVmAbkxViFNgB57qh3Fa4B151xsrED40yEw4gjKQimfaMDdj8sVCB
+ 1u1/jwcR3Y6gz9JeK+nf5WPt3asuHxtloMWGL3hXWz8ubXzMIiOQkRn0gQuaanZkl0P8
+ XhyOGDKSmGi3FpzSr8soh72e1d89Gt5cavYwb8hbZw8xXRye5Vb05v/uh5ADr8kHP/wS
+ QfcERxeAa4A4SXCrswfjWM4FSoz9a/CE19B3NK1/ZZPYveAqVEavNEZYUVfI9zxt3z7B
+ /a9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=eBJgYpxMfElZCjSoM/LIb7+pEggDV+9LpvhxGVUtM6k=;
- b=Jgw2p6K9tBYcvhj5YryndUdmTsjbRqiHpr8UrBekhUixhXBHM/+Baxuyd3/QCJnNRE
- zOoqOrgeXPcvuvO+ezf/Y6BLoDXqvtG7g4lOYaf4y5QHCwCawaoXmRtoJfzhqgXTUG/c
- VttrbV1is4v8VUAv++wyYqhTOx5mOBLQEhv9X9OEhVkfJD+xuNyA+Qg2zZfc8FONgY1m
- HI2xMe7uM97cAWPS4z4WV7EqOmUoaXIfhfZWM0DVQpFKGfMnxVX6Mvepv6dLd1GJMb+0
- oy+EiLP3UR6dST0tdFXiOI+rJYUQ7tzyTXwQ3TKczOMsikhndhw2TjFM+FcxRUzYemoR
- UEPg==
-X-Gm-Message-State: AOAM531USzI/MGP1rlXpNzLNrQRgRfMisTzgFJRqlcK/fsWYfl1eF6be
- gUPHZE3/PsDZ3VWypboZNAw6FIpSkXsqxA==
-X-Google-Smtp-Source: ABdhPJzwUprtIiK4OhIfP9UbUHM3M2CnDbmYP+PT3RRFvgq9y6I2b5+64Le9Zi0Cbpnt2CGiCzWc4w==
-X-Received: by 2002:a5d:6c6a:: with SMTP id r10mr41154070wrz.60.1641282859150; 
- Mon, 03 Jan 2022 23:54:19 -0800 (PST)
+ bh=Wd/Soq2H07h5BSMvthuGipUGkg5Y9nHl9X+h1GuA2BY=;
+ b=ukYM9IXIa9WPEM0cQMs5BJIJucRXG7A8qD7WJficzrznI8kOaygxbNQRqICmMXOJwX
+ jJCGrVZloMGg96fjyBojq20pwInwyh5O8Fo8nTJUuSvYT9mRvBCdJU/yRfOF/Cnhnb4I
+ 9Kyu/kTdvTl5IWKGk6+5wpbYGx4E64eJJUsIB44XwPilAPjnYHORi7k5qgsDedFsBzoZ
+ C+bTewHT0TAoBPF4c6XNcOFA3lpfGZBa02vpVQHABxWkyoyddRd9UHxwo83d0oqLN/ac
+ 41g9O0d5pS6aVfXJbx5LgaBdU4QRQSVQ7WDyB2LInex3WDu1rKJwOVE4I+rJs55ZNJE1
+ D+hw==
+X-Gm-Message-State: AOAM531GDPvWYHFrwzUGP97JpcPPeMgHCjL89Qzr5/0dr3OREeCk9fsp
+ xM6+rvQP+pTioX3slEle4/HnDfFIAbHUzg==
+X-Google-Smtp-Source: ABdhPJzmcC/QKRkJql+EPxuMU0Jio+JBx9MUrN8fYMMUDMmNqRbn/ToLDlkMyzV2C8ZmOw9CQfok2w==
+X-Received: by 2002:adf:f48e:: with SMTP id l14mr41835621wro.88.1641282863763; 
+ Mon, 03 Jan 2022 23:54:23 -0800 (PST)
 Received: from x1w.. (26.red-83-50-86.dynamicip.rima-tde.net. [83.50.86.26])
- by smtp.gmail.com with ESMTPSA id l2sm37545576wru.83.2022.01.03.23.54.18
+ by smtp.gmail.com with ESMTPSA id f10sm16295181wmq.16.2022.01.03.23.54.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 03 Jan 2022 23:54:18 -0800 (PST)
+ Mon, 03 Jan 2022 23:54:23 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 1/2] hw/sd/sdcard: Rename Write Protect Group variables
-Date: Tue,  4 Jan 2022 08:54:11 +0100
-Message-Id: <20220104075412.2088859-2-f4bug@amsat.org>
+Subject: [PULL 2/2] hw/sd: Add SDHC support for SD card SPI-mode
+Date: Tue,  4 Jan 2022 08:54:12 +0100
+Message-Id: <20220104075412.2088859-3-f4bug@amsat.org>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20220104075412.2088859-1-f4bug@amsat.org>
 References: <20220104075412.2088859-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42f
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::435
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x435.google.com
 X-Spam_score_int: 12
 X-Spam_score: 1.2
 X-Spam_bar: +
@@ -85,113 +85,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexander Bulekov <alxndr@bu.edu>, Bin Meng <bin.meng@windriver.com>,
+Cc: Frank Chang <frank.chang@sifive.com>, Bin Meng <bin.meng@windriver.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- qemu-block@nongnu.org
+ qemu-block@nongnu.org, Jim Shu <jim.shu@sifive.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-'wp_groups' holds a bitmap, rename it as 'wp_group_bmap'.
-'wpgrps_size' is the bitmap size (in bits), rename it as
-'wp_group_bits'.
+From: Frank Chang <frank.chang@sifive.com>
 
-Patch created mechanically using:
+In SPI-mode, SD card's OCR register: Card Capacity Status (CCS) bit
+is not set to 1 correclty when the assigned SD image size is larger
+than 2GB (SDHC). This will cause the SD card to be indentified as SDSC
+incorrectly. CCS bit should be set to 1 if we are using SDHC.
 
-  $ sed -i -e s/wp_groups/wp_group_bmap/ \
-           -e s/wpgrps_size/wp_group_bits/ hw/sd/sd.c
+Also, as there's no power up emulation in SPI-mode.
+The OCR register: Card power up status bit bit (busy) should also
+be set to 1 when reset. (busy bit is set to LOW if the card has not
+finished the power up routine.)
 
+Signed-off-by: Frank Chang <frank.chang@sifive.com>
+Reviewed-by: Jim Shu <jim.shu@sifive.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <20211228125719.14712-1-frank.chang@sifive.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20210728181728.2012952-4-f4bug@amsat.org>
-Reviewed-by: Alexander Bulekov <alxndr@bu.edu>
 ---
- hw/sd/sd.c | 24 ++++++++++++------------
- 1 file changed, 12 insertions(+), 12 deletions(-)
+ hw/sd/sd.c | 24 +++++++++++++++++-------
+ 1 file changed, 17 insertions(+), 7 deletions(-)
 
 diff --git a/hw/sd/sd.c b/hw/sd/sd.c
-index bb5dbff68c0..0bb99352cc1 100644
+index 0bb99352cc1..551d03cf5ec 100644
 --- a/hw/sd/sd.c
 +++ b/hw/sd/sd.c
-@@ -116,8 +116,8 @@ struct SDState {
-     int32_t state;    /* current card state, one of SDCardStates */
-     uint32_t vhs;
-     bool wp_switch;
--    unsigned long *wp_groups;
--    int32_t wpgrps_size;
-+    unsigned long *wp_group_bmap;
-+    int32_t wp_group_bits;
-     uint64_t size;
-     uint32_t blk_len;
-     uint32_t multi_blk_cnt;
-@@ -567,10 +567,10 @@ static void sd_reset(DeviceState *dev)
-     sd_set_cardstatus(sd);
-     sd_set_sdstatus(sd);
+@@ -290,12 +290,6 @@ FIELD(OCR, CARD_POWER_UP,              31,  1)
+                                | R_OCR_CARD_CAPACITY_MASK \
+                                | R_OCR_CARD_POWER_UP_MASK)
  
--    g_free(sd->wp_groups);
-+    g_free(sd->wp_group_bmap);
-     sd->wp_switch = sd->blk ? !blk_is_writable(sd->blk) : false;
--    sd->wpgrps_size = sect;
--    sd->wp_groups = bitmap_new(sd->wpgrps_size);
-+    sd->wp_group_bits = sect;
-+    sd->wp_group_bmap = bitmap_new(sd->wp_group_bits);
+-static void sd_set_ocr(SDState *sd)
+-{
+-    /* All voltages OK */
+-    sd->ocr = R_OCR_VDD_VOLTAGE_WIN_HI_MASK;
+-}
+-
+ static void sd_ocr_powerup(void *opaque)
+ {
+     SDState *sd = opaque;
+@@ -311,6 +305,22 @@ static void sd_ocr_powerup(void *opaque)
+     }
+ }
+ 
++static void sd_set_ocr(SDState *sd)
++{
++    /* All voltages OK */
++    sd->ocr = R_OCR_VDD_VOLTAGE_WIN_HI_MASK;
++
++    if (sd->spi) {
++        /*
++         * We don't need to emulate power up sequence in SPI-mode.
++         * Thus, the card's power up status bit should be set to 1 when reset.
++         * The card's capacity status bit should also be set if SD card size
++         * is larger than 2GB for SDHC support.
++         */
++        sd_ocr_powerup(sd);
++    }
++}
++
+ static void sd_set_scr(SDState *sd)
+ {
+     sd->scr[0] = 0 << 4;        /* SCR structure version 1.0 */
+@@ -560,6 +570,7 @@ static void sd_reset(DeviceState *dev)
+ 
+     sd->state = sd_idle_state;
+     sd->rca = 0x0000;
++    sd->size = size;
+     sd_set_ocr(sd);
+     sd_set_scr(sd);
+     sd_set_cid(sd);
+@@ -574,7 +585,6 @@ static void sd_reset(DeviceState *dev)
      memset(sd->function_group, 0, sizeof(sd->function_group));
      sd->erase_start = INVALID_ADDRESS;
      sd->erase_end = INVALID_ADDRESS;
-@@ -673,7 +673,7 @@ static const VMStateDescription sd_vmstate = {
-         VMSTATE_UINT32(card_status, SDState),
-         VMSTATE_PARTIAL_BUFFER(sd_status, SDState, 1),
-         VMSTATE_UINT32(vhs, SDState),
--        VMSTATE_BITMAP(wp_groups, SDState, 0, wpgrps_size),
-+        VMSTATE_BITMAP(wp_group_bmap, SDState, 0, wp_group_bits),
-         VMSTATE_UINT32(blk_len, SDState),
-         VMSTATE_UINT32(multi_blk_cnt, SDState),
-         VMSTATE_UINT32(erase_start, SDState),
-@@ -803,8 +803,8 @@ static void sd_erase(SDState *sd)
-         if (sdsc) {
-             /* Only SDSC cards support write protect groups */
-             wpnum = sd_addr_to_wpnum(erase_addr);
--            assert(wpnum < sd->wpgrps_size);
--            if (test_bit(wpnum, sd->wp_groups)) {
-+            assert(wpnum < sd->wp_group_bits);
-+            if (test_bit(wpnum, sd->wp_group_bmap)) {
-                 sd->card_status |= WP_ERASE_SKIP;
-                 continue;
-             }
-@@ -869,7 +869,7 @@ static void sd_function_switch(SDState *sd, uint32_t arg)
- 
- static inline bool sd_wp_addr(SDState *sd, uint64_t addr)
- {
--    return test_bit(sd_addr_to_wpnum(addr), sd->wp_groups);
-+    return test_bit(sd_addr_to_wpnum(addr), sd->wp_group_bmap);
- }
- 
- static void sd_lock_command(SDState *sd)
-@@ -897,7 +897,7 @@ static void sd_lock_command(SDState *sd)
-             sd->card_status |= LOCK_UNLOCK_FAILED;
-             return;
-         }
--        bitmap_zero(sd->wp_groups, sd->wpgrps_size);
-+        bitmap_zero(sd->wp_group_bmap, sd->wp_group_bits);
-         sd->csd[14] &= ~0x10;
-         sd->card_status &= ~CARD_IS_LOCKED;
-         sd->pwd_len = 0;
-@@ -1348,7 +1348,7 @@ static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
-             }
- 
-             sd->state = sd_programming_state;
--            set_bit(sd_addr_to_wpnum(addr), sd->wp_groups);
-+            set_bit(sd_addr_to_wpnum(addr), sd->wp_group_bmap);
-             /* Bzzzzzzztt .... Operation complete.  */
-             sd->state = sd_transfer_state;
-             return sd_r1b;
-@@ -1370,7 +1370,7 @@ static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
-             }
- 
-             sd->state = sd_programming_state;
--            clear_bit(sd_addr_to_wpnum(addr), sd->wp_groups);
-+            clear_bit(sd_addr_to_wpnum(addr), sd->wp_group_bmap);
-             /* Bzzzzzzztt .... Operation complete.  */
-             sd->state = sd_transfer_state;
-             return sd_r1b;
+-    sd->size = size;
+     sd->blk_len = 0x200;
+     sd->pwd_len = 0;
+     sd->expecting_acmd = false;
 -- 
 2.33.1
 
