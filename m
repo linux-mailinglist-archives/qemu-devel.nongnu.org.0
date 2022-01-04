@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9080F483A93
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 03:24:45 +0100 (CET)
-Received: from localhost ([::1]:35146 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D49EF483A8E
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 03:23:50 +0100 (CET)
+Received: from localhost ([::1]:34178 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n4ZVE-0006Ml-N9
-	for lists+qemu-devel@lfdr.de; Mon, 03 Jan 2022 21:24:44 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51108)
+	id 1n4ZUM-0005hv-0A
+	for lists+qemu-devel@lfdr.de; Mon, 03 Jan 2022 21:23:50 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51116)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1n4ZMc-0002ke-NQ
- for qemu-devel@nongnu.org; Mon, 03 Jan 2022 21:15:50 -0500
-Received: from [2607:f8b0:4864:20::102c] (port=55914
- helo=mail-pj1-x102c.google.com)
+ id 1n4ZMd-0002mV-Em
+ for qemu-devel@nongnu.org; Mon, 03 Jan 2022 21:15:51 -0500
+Received: from [2607:f8b0:4864:20::533] (port=40477
+ helo=mail-pg1-x533.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1n4ZMb-0008AI-6V
- for qemu-devel@nongnu.org; Mon, 03 Jan 2022 21:15:50 -0500
-Received: by mail-pj1-x102c.google.com with SMTP id iy13so30130277pjb.5
- for <qemu-devel@nongnu.org>; Mon, 03 Jan 2022 18:15:48 -0800 (PST)
+ id 1n4ZMb-0008AY-P4
+ for qemu-devel@nongnu.org; Mon, 03 Jan 2022 21:15:51 -0500
+Received: by mail-pg1-x533.google.com with SMTP id l10so31434259pgm.7
+ for <qemu-devel@nongnu.org>; Mon, 03 Jan 2022 18:15:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=g06UIpFMVvSvANx+Qg+u743yK9fN9ISDaQhh0blxyhQ=;
- b=RayTa0ycU6LGpG5heatUGzR4CuZLKoUWs2ksQLp7YH7/q34wC7BooM048P624IGXS2
- /yP5MuX3T6uJHmn+b6su923vWmYpBvo4KXlIP5+PtN2PB+2B8LS9EJ/9I/k3LhDeIuvg
- vEbGCUBIlzisQhs2D+YNB0yN4jBhFd4++QL/BOB248fWW7xCxYUKvuCpcRlTYukEbUfi
- oFxV4sShlG7bI8GpbChEJsPKxCb2uOLGFcCpa4Ds0UTuLxKia/59KOphyhffla4OMI1q
- bVcnSPxyMu5H2MX4k1HpOyFOBXnh2xrpqML4W4JtaRCCu0xSBaq8UvredsOcPSevliXm
- XeeQ==
+ bh=E7JCU1a/pkRMOjn44wnlj8F4Wtu8gz5MK8RJjxKzysE=;
+ b=LlnvOaleMsTHTr5F9hF2bNEryy2962/e1nWidwAX+7EafwpH8JbIQAYfKuGERIHI1u
+ pMiGVZ+948Q7XoO+polkah2l6mRFRQAe7eSTlEGG4zqavB6FlNSYDH0FrbbT4fwCwXU8
+ 8B/bTIKSCTIDlNKGnXri6eHq6MVpExzdur+ZGRe9uOWF5pHZWALx54Em2Fi/dn6cRaRG
+ ZDKjTPSOMxnRJNkXgAfFgTJt37SQNcFNzuPJ+yIYjjEX7ZpafAfY+wlDpeQRzPyyhLNW
+ BKaIRHhgqjC0JbU3Tw7V6fdTR16uRV2jphU7VWwfk1g8oX7VBigUK3X6rGSDjPIY0UTG
+ 3oIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=g06UIpFMVvSvANx+Qg+u743yK9fN9ISDaQhh0blxyhQ=;
- b=uDWHhWDg5Rw0V/UcmHh0y02A11nSBAK0p/KXmtZ12VcySxmP5IocJHr39cBCZA5xpO
- U9JnH1uy4TgR9YVuiW+IEaBBwdEnll2sWc8pWgy8l8PKsZBEUbr6hXU15hcPMa4nL88K
- OmxCEUllLyrBhiIWYHQ5gn5uHPocwEM8r2YGBTe8df89nWldtDNGw+U+c6vzDxYbgYxW
- 468JhLO0/gH6X9IbFy/rsw2PQudL5K6R0rEkiaG+8znBhdmdnzzRigbcpDks8Puanbly
- 5ugC+8fZqi2uOnfCSkqbV4gOHxLBZ6R4U8XLFrwFVw+e0Y2ahTUMDeIXAhXx8s4A3iSh
- /BhA==
-X-Gm-Message-State: AOAM5302qRHsoQTWEdLLX/EqI54T53mmGufS8FnWHboGmR2LEoNVPp9o
- SORe0oRgdU2OxbRzUioYWc0+Tn/B0Lbrfw==
-X-Google-Smtp-Source: ABdhPJzASGCfhZ9Fp+03WBhtM2o2DO9m7o/1s0m7dtpwLRnNDb7SZquMiSdULONkDzbdHpWX8eTMjQ==
-X-Received: by 2002:a17:90a:cc1:: with SMTP id
- 1mr20280370pjt.124.1641262547919; 
- Mon, 03 Jan 2022 18:15:47 -0800 (PST)
+ bh=E7JCU1a/pkRMOjn44wnlj8F4Wtu8gz5MK8RJjxKzysE=;
+ b=Cgh5iWMOiaBoxUXR11kqDBTzYhdF4NClSUaieWr1e9QahNvO6UbRLy5b9qk4neNwlg
+ KnHntfI2MH1LsXMPXTCLZ6MAIFAUlhiofxN4/p6ZSVSAfvA5Xz+7nPJv2ZYitZDWpeql
+ cBrhDNrsFUYXWjBvN48If0kU+vbM2McV3hsXfz3SRB6FnWThU/+MReg5TDqbPKNGJDxd
+ 59Kh7ievMGRITlCGXO6Gx+v2MQj9sNSWAxvv0Ronw9ga9NJNYE0iRxG+ruWFd2LtmmK0
+ Td/WUrJzbtMtBYyc+N67djNPwlZuObPMqhK7VxTQtTi9QylMk4nw/hLfniKMTmuRh37q
+ 3XuQ==
+X-Gm-Message-State: AOAM532OgunogVHaJ0cq7FuGIjO/L433ryWMAAUb5pAbeYxmZMzwEQaP
+ Ls7ccKwnEGJUf7MPEmqe7NqAdNqqJzeYHg==
+X-Google-Smtp-Source: ABdhPJxW5qU7odljVwoSJIlfoR8UKdqHTRZJl+bAWduiRS4ypFs3dkkL+2UgAn2tREd7ogasfKpu1g==
+X-Received: by 2002:a63:9854:: with SMTP id l20mr42317871pgo.536.1641262548536; 
+ Mon, 03 Jan 2022 18:15:48 -0800 (PST)
 Received: from localhost.localdomain (174-21-75-75.tukw.qwest.net.
  [174.21.75.75])
- by smtp.gmail.com with ESMTPSA id b4sm37395501pjm.17.2022.01.03.18.15.47
+ by smtp.gmail.com with ESMTPSA id b4sm37395501pjm.17.2022.01.03.18.15.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 03 Jan 2022 18:15:47 -0800 (PST)
+ Mon, 03 Jan 2022 18:15:48 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 6/7] tcg/tci: Support raising sigbus for user-only
-Date: Mon,  3 Jan 2022 18:15:42 -0800
-Message-Id: <20220104021543.396571-7-richard.henderson@linaro.org>
+Subject: [PATCH v4 7/7] tests/tcg/multiarch: Add sigbus.c
+Date: Mon,  3 Jan 2022 18:15:43 -0800
+Message-Id: <20220104021543.396571-8-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220104021543.396571-1-richard.henderson@linaro.org>
 References: <20220104021543.396571-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102c
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::533
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::533;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x533.google.com
 X-Spam_score_int: 6
 X-Spam_score: 0.6
 X-Spam_bar: /
@@ -91,74 +90,89 @@ Cc: git@xen0n.name, peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+A mostly generic test for unaligned access raising SIGBUS.
+
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/tci.c | 20 ++++++++++++++------
- 1 file changed, 14 insertions(+), 6 deletions(-)
+ tests/tcg/multiarch/sigbus.c | 68 ++++++++++++++++++++++++++++++++++++
+ 1 file changed, 68 insertions(+)
+ create mode 100644 tests/tcg/multiarch/sigbus.c
 
-diff --git a/tcg/tci.c b/tcg/tci.c
-index e76087ccac..92a7c81674 100644
---- a/tcg/tci.c
-+++ b/tcg/tci.c
-@@ -292,11 +292,11 @@ static bool tci_compare64(uint64_t u0, uint64_t u1, TCGCond condition)
- static uint64_t tci_qemu_ld(CPUArchState *env, target_ulong taddr,
-                             MemOpIdx oi, const void *tb_ptr)
- {
--    MemOp mop = get_memop(oi) & (MO_BSWAP | MO_SSIZE);
-+    MemOp mop = get_memop(oi);
-     uintptr_t ra = (uintptr_t)tb_ptr;
- 
- #ifdef CONFIG_SOFTMMU
--    switch (mop) {
-+    switch (mop & (MO_BSWAP | MO_SSIZE)) {
-     case MO_UB:
-         return helper_ret_ldub_mmu(env, taddr, oi, ra);
-     case MO_SB:
-@@ -326,10 +326,14 @@ static uint64_t tci_qemu_ld(CPUArchState *env, target_ulong taddr,
-     }
- #else
-     void *haddr = g2h(env_cpu(env), taddr);
-+    unsigned a_mask = (1u << get_alignment_bits(mop)) - 1;
-     uint64_t ret;
- 
-     set_helper_retaddr(ra);
--    switch (mop) {
-+    if (taddr & a_mask) {
-+        helper_unaligned_ld(env, taddr);
+diff --git a/tests/tcg/multiarch/sigbus.c b/tests/tcg/multiarch/sigbus.c
+new file mode 100644
+index 0000000000..8134c5fd56
+--- /dev/null
++++ b/tests/tcg/multiarch/sigbus.c
+@@ -0,0 +1,68 @@
++#define _GNU_SOURCE 1
++
++#include <assert.h>
++#include <stdlib.h>
++#include <signal.h>
++#include <endian.h>
++
++
++unsigned long long x = 0x8877665544332211ull;
++void * volatile p = (void *)&x + 1;
++
++void sigbus(int sig, siginfo_t *info, void *uc)
++{
++    assert(sig == SIGBUS);
++    assert(info->si_signo == SIGBUS);
++#ifdef BUS_ADRALN
++    assert(info->si_code == BUS_ADRALN);
++#endif
++    assert(info->si_addr == p);
++    exit(EXIT_SUCCESS);
++}
++
++int main()
++{
++    struct sigaction sa = {
++        .sa_sigaction = sigbus,
++        .sa_flags = SA_SIGINFO
++    };
++    int allow_fail = 0;
++    int tmp;
++
++    tmp = sigaction(SIGBUS, &sa, NULL);
++    assert(tmp == 0);
++
++    /*
++     * Select an operation that's likely to enforce alignment.
++     * On many guests that support unaligned accesses by default,
++     * this is often an atomic operation.
++     */
++#if defined(__aarch64__)
++    asm volatile("ldxr %w0,[%1]" : "=r"(tmp) : "r"(p) : "memory");
++#elif defined(__alpha__)
++    asm volatile("ldl_l %0,0(%1)" : "=r"(tmp) : "r"(p) : "memory");
++#elif defined(__arm__)
++    asm volatile("ldrex %0,[%1]" : "=r"(tmp) : "r"(p) : "memory");
++#elif defined(__powerpc__)
++    asm volatile("lwarx %0,0,%1" : "=r"(tmp) : "r"(p) : "memory");
++#elif defined(__riscv_atomic)
++    asm volatile("lr.w %0,(%1)" : "=r"(tmp) : "r"(p) : "memory");
++#else
++    /* No insn known to fault unaligned -- try for a straight load. */
++    allow_fail = 1;
++    tmp = *(volatile int *)p;
++#endif
++
++    assert(allow_fail);
++
++    /*
++     * We didn't see a signal.
++     * We might as well validate the unaligned load worked.
++     */
++    if (BYTE_ORDER == LITTLE_ENDIAN) {
++        assert(tmp == 0x55443322);
++    } else {
++        assert(tmp == 0x77665544);
 +    }
-+    switch (mop & (MO_BSWAP | MO_SSIZE)) {
-     case MO_UB:
-         ret = ldub_p(haddr);
-         break;
-@@ -377,11 +381,11 @@ static uint64_t tci_qemu_ld(CPUArchState *env, target_ulong taddr,
- static void tci_qemu_st(CPUArchState *env, target_ulong taddr, uint64_t val,
-                         MemOpIdx oi, const void *tb_ptr)
- {
--    MemOp mop = get_memop(oi) & (MO_BSWAP | MO_SSIZE);
-+    MemOp mop = get_memop(oi);
-     uintptr_t ra = (uintptr_t)tb_ptr;
- 
- #ifdef CONFIG_SOFTMMU
--    switch (mop) {
-+    switch (mop & (MO_BSWAP | MO_SIZE)) {
-     case MO_UB:
-         helper_ret_stb_mmu(env, taddr, val, oi, ra);
-         break;
-@@ -408,9 +412,13 @@ static void tci_qemu_st(CPUArchState *env, target_ulong taddr, uint64_t val,
-     }
- #else
-     void *haddr = g2h(env_cpu(env), taddr);
-+    unsigned a_mask = (1u << get_alignment_bits(mop)) - 1;
- 
-     set_helper_retaddr(ra);
--    switch (mop) {
-+    if (taddr & a_mask) {
-+        helper_unaligned_st(env, taddr);
-+    }
-+    switch (mop & (MO_BSWAP | MO_SIZE)) {
-     case MO_UB:
-         stb_p(haddr, val);
-         break;
++    return EXIT_SUCCESS;
++}
 -- 
 2.25.1
 
