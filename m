@@ -2,83 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C19A7483F17
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 10:21:41 +0100 (CET)
-Received: from localhost ([::1]:51020 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB069483F18
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 10:23:39 +0100 (CET)
+Received: from localhost ([::1]:53914 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n4g0i-0005be-UH
-	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 04:21:40 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37106)
+	id 1n4g2c-0007Zd-Tt
+	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 04:23:38 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37376)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <carwynellis@gmail.com>)
- id 1n4fzj-0004dY-QQ; Tue, 04 Jan 2022 04:20:40 -0500
-Received: from [2a00:1450:4864:20::330] (port=39459
- helo=mail-wm1-x330.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <carwynellis@gmail.com>)
- id 1n4fzi-0008FG-2j; Tue, 04 Jan 2022 04:20:39 -0500
-Received: by mail-wm1-x330.google.com with SMTP id
- g7-20020a7bc4c7000000b00345c4bb365aso19607881wmk.4; 
- Tue, 04 Jan 2022 01:20:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:subject:from:in-reply-to:date:cc
- :content-transfer-encoding:message-id:references:to;
- bh=GCPLuPwSXoVEGZ8BAJ3WOKIPJnETmpVk7myN2twz94Y=;
- b=o2UtxdpsFXbiivKYe8V8zPgku/6U9TQP+DVqrsdcsCzjMpqJu5P4ERJlw7MiTQsIKJ
- hqz6ubPieTSlxLoBhYM8g2ebfiwp3zx5pPnhCOqXhNCWYK6UYJZdeb8+BgkUaz/h8zf/
- sMEefynurZMHlqEP60e4L8SZ5yxnp8twv32khDu0cJWFlcsHzJrWav3rCmmvaathm/Al
- KLxyOjPTMDMxfLXvEaNqigpZlFCHga0twDe9ZBqaBylc2lm0LwtKfT43P2K+OKgWUk+0
- GMGgenrkvuBcDbvlN6r253ESXf6W0IBsWn3RZYqA6TDArsKydrkN5CaMexaSwCSk+7pK
- 3m9w==
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1n4g1Q-0006PN-Jg
+ for qemu-devel@nongnu.org; Tue, 04 Jan 2022 04:22:24 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56651)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1n4g1O-0008SJ-HG
+ for qemu-devel@nongnu.org; Tue, 04 Jan 2022 04:22:23 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1641288141;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=kpPbMs6w49sFOKkrthipgLc9y9OJDJtApyK1XofcVnU=;
+ b=hKBoTGRtTyMrSnGQYV4CLPx80o1w65kGnuz/W/7eYyl9404EUMa8HOzFC4sOfMPXC5yj/Q
+ e4VHHFJhsNavbDra6ScwVKZPpMe1o751/Rzk46rSY081iCVpL6gB9LSmA60zx193KNJeDb
+ ekE6SBcGOfrfdZhUMsThJIRiUxQ4pA0=
+Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com
+ [209.85.210.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-622-IZszrnsrPPSlttnBGTvtrw-1; Tue, 04 Jan 2022 04:22:19 -0500
+X-MC-Unique: IZszrnsrPPSlttnBGTvtrw-1
+Received: by mail-pf1-f199.google.com with SMTP id
+ c74-20020a621c4d000000b004bbfc8d62d5so10901349pfc.18
+ for <qemu-devel@nongnu.org>; Tue, 04 Jan 2022 01:22:19 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
- :content-transfer-encoding:message-id:references:to;
- bh=GCPLuPwSXoVEGZ8BAJ3WOKIPJnETmpVk7myN2twz94Y=;
- b=tZ2s5K4kd1zfmLXSjABcP7wDPIqnBGwTm4foe8bMDTy2kdNbpGifxBd1uzIM4IbPrw
- cKmKCEP9WMz+pEtR8Uc2Hye88ChLEdKkD3WRT7Eri8gG9eI1j6Qy8y2fZUAtRiEj3pQy
- VF1iX9dUqt6TdmKE0JSlNN3XoWoqlDqVB/K0mf9m24GTCB6+W+k2fitzrcA86NBSXT+0
- hFmCw/mD8tEBv0cVoP/HxuCaoHsMBDf1epcv3+FFiVdQAr33V6EAB/nnQaKOLsMCxLau
- oNwnNXt0eFWYTg/TOgRNQxvcotkwrIueNG5lx4C0qRop/2P3XnBcf1fk8uBjT7OQ9rKp
- yTXg==
-X-Gm-Message-State: AOAM533hjjG+o4s1Ef/iyPDZyiScfc0k/+nFaiEfStuKnlnSWsQPYkhZ
- PblOlgbgy9sLgDZLtwK3nsk=
-X-Google-Smtp-Source: ABdhPJwnkABgMKkv3g1Zi8bZSs7ORwFXCyVYIAna2Uz7kKsfYfhJxrQThpAVsE4nswAAzEB6KU1SCA==
-X-Received: by 2002:a05:600c:4998:: with SMTP id
- h24mr41042217wmp.188.1641288035740; 
- Tue, 04 Jan 2022 01:20:35 -0800 (PST)
-Received: from smtpclient.apple (201.11.75.194.dyn.plus.net. [194.75.11.201])
- by smtp.gmail.com with ESMTPSA id
- c7sm41754536wri.21.2022.01.04.01.20.35
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 04 Jan 2022 01:20:35 -0800 (PST)
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 15.0 \(3693.40.0.1.81\))
-Subject: Re: [PATCH 1/2] hw/display/vmware_vga: only show debug output if
- DEBUG enabled
-From: Carwyn Ellis <carwynellis@gmail.com>
-In-Reply-To: <5be97a9e-8df4-621a-8875-56979448a777@vivier.eu>
-Date: Tue, 4 Jan 2022 09:20:34 +0000
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=kpPbMs6w49sFOKkrthipgLc9y9OJDJtApyK1XofcVnU=;
+ b=1amr8I07d+PmkxLW746BMBDQ+qMcnKkzNla+7bgmZqc6JElyyTcgXZtMUQ+lAL4gJM
+ jFLtgUNoVHoFSfltADRf2wP2DYeX4NbVwykfUhr6YJrsP0JvyouegBzhI1lr97tF1627
+ srqOntIEkGMq8iWDQT4c7n1z9GpvMYJR8/O0faZ26dFPRBm1re5J8LRskZFyX4NUNw0M
+ UP9x3cgcRQlEvswCNAYV8G5Mop4fs91hJue0rWNvgSNluasrCibCJRRbi2GhClRNDips
+ 2ZE/pvySuA0gGkENoudjM66qdYAQlZLuamXwP8IrLTNOKtcZJPLIBz8JaBDMZcy973Q+
+ BDJw==
+X-Gm-Message-State: AOAM530XYs1yx08ieBevUPMazRyQwzSmsMaCOFt2cdVc7IChKlcMGJ50
+ 8NKShdCjXFS4VjkeMEmha2cIoHI+CH2Nx+/xXRLC3TUCvGVuGkoLSy0liwn7HjXkmvmAOR7FmXv
+ 1LaNqNqjwjCvIMQ/mNqo+JDk4JGYqbpw=
+X-Received: by 2002:a05:6a00:2349:b0:4ba:98c6:48f6 with SMTP id
+ j9-20020a056a00234900b004ba98c648f6mr50281807pfj.42.1641288138881; 
+ Tue, 04 Jan 2022 01:22:18 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyyXYhkU6lzA4q7pfqmF/EDFPEXCEO2c2ztYIn7xvD6z67Wu5AjyaOC21m+15h0iKYTcGDBAPxUhaCCI25yFlk=
+X-Received: by 2002:a05:6a00:2349:b0:4ba:98c6:48f6 with SMTP id
+ j9-20020a056a00234900b004ba98c648f6mr50281779pfj.42.1641288138584; Tue, 04
+ Jan 2022 01:22:18 -0800 (PST)
+MIME-Version: 1.0
+References: <20220104091240.160867-1-thuth@redhat.com>
+In-Reply-To: <20220104091240.160867-1-thuth@redhat.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Date: Tue, 4 Jan 2022 13:22:07 +0400
+Message-ID: <CAMxuvawfYGyhEnf3q8djozK5XW3aRe4Tt+z_xC-yoUGDTRNSkg@mail.gmail.com>
+Subject: Re: [PATCH] gitlab-ci: Enable docs in the centos job
+To: Thomas Huth <thuth@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlureau@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Message-Id: <5DC1E921-4166-45E4-8EBE-BA07A2708956@gmail.com>
-References: <20220104091135.61226-1-carwynellis@gmail.com>
- <20220104091135.61226-2-carwynellis@gmail.com>
- <5be97a9e-8df4-621a-8875-56979448a777@vivier.eu>
-To: Laurent Vivier <laurent@vivier.eu>
-X-Mailer: Apple Mail (2.3693.40.0.1.81)
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::330
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=carwynellis@gmail.com; helo=mail-wm1-x330.google.com
-X-Spam_score_int: 6
-X-Spam_score: 0.6
-X-Spam_bar: /
-X-Spam_report: (0.6 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mlureau@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) DKIMWL_WL_HIGH=-0.37, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,118 +93,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, qemu-devel@nongnu.org
+Cc: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hey,
+On Tue, Jan 4, 2022 at 1:12 PM Thomas Huth <thuth@redhat.com> wrote:
+>
+> We just ran into a problem that the docs don't build on RHEL8 / CentOS 8
+> anymore. Seems like these distros are using one of the oldest Sphinx
+> versions that we still have to support. Thus enable the docs build in
+> the CI on CentOS so that such bugs don't slip in so easily again.
+>
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
 
-Thanks for getting back to me.
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
-Yeah will take a look and update when I have a mo.
-
-Cheers
-Carwyn
-
-> On 4 Jan 2022, at 09:18, Laurent Vivier <laurent@vivier.eu> wrote:
->=20
-> Le 04/01/2022 =C3=A0 10:11, Carwyn Ellis a =C3=A9crit :
->> Debug output was always being sent to STDERR. This has been replaced =
-by
->> a define that will only show this output when DEBUG is set to true.
->> Signed-off-by: Carwyn Ellis <carwynellis@gmail.com>
->> ---
->>  hw/display/vmware_vga.c | 26 ++++++++++++++++----------
->>  1 file changed, 16 insertions(+), 10 deletions(-)
->> diff --git a/hw/display/vmware_vga.c b/hw/display/vmware_vga.c
->> index e2969a6c81..8080e085d1 100644
->> --- a/hw/display/vmware_vga.c
->> +++ b/hw/display/vmware_vga.c
->> @@ -43,6 +43,12 @@
->>    /* See http://vmware-svga.sf.net/ for some documentation on VMWare =
-SVGA */
->>  +#ifdef DEBUG
->> +#define VMWARE_VGA_DEBUG(...) { (void) fprintf(stdout, __VA_ARGS__); =
-}
->> +#else
->> +#define VMWARE_VGA_DEBUG(...) ((void) 0)
->> +#endif
->> +
->=20
-> Could you replace this macro by adding some trace-events instead.
->=20
-> See =
-https://qemu-project.gitlab.io/qemu/devel/tracing.html#using-trace-events
->=20
-> Thanks,
-> Laurent
->=20
->>  struct vmsvga_state_s {
->>      VGACommonState vga;
->>  @@ -297,45 +303,45 @@ static inline bool =
-vmsvga_verify_rect(DisplaySurface *surface,
->>                                        int x, int y, int w, int h)
->>  {
->>      if (x < 0) {
->> -        fprintf(stderr, "%s: x was < 0 (%d)\n", name, x);
->> +        VMWARE_VGA_DEBUG("%s: x was < 0 (%d)\n", name, x);
->>          return false;
->>      }
->>      if (x > SVGA_MAX_WIDTH) {
->> -        fprintf(stderr, "%s: x was > %d (%d)\n", name, =
-SVGA_MAX_WIDTH, x);
->> +        VMWARE_VGA_DEBUG("%s: x was > %d (%d)\n", name, =
-SVGA_MAX_WIDTH, x);
->>          return false;
->>      }
->>      if (w < 0) {
->> -        fprintf(stderr, "%s: w was < 0 (%d)\n", name, w);
->> +        VMWARE_VGA_DEBUG("%s: w was < 0 (%d)\n", name, w);
->>          return false;
->>      }
->>      if (w > SVGA_MAX_WIDTH) {
->> -        fprintf(stderr, "%s: w was > %d (%d)\n", name, =
-SVGA_MAX_WIDTH, w);
->> +        VMWARE_VGA_DEBUG("%s: w was > %d (%d)\n", name, =
-SVGA_MAX_WIDTH, w);
->>          return false;
->>      }
->>      if (x + w > surface_width(surface)) {
->> -        fprintf(stderr, "%s: width was > %d (x: %d, w: %d)\n",
->> +        VMWARE_VGA_DEBUG("%s: width was > %d (x: %d, w: %d)\n",
->>                  name, surface_width(surface), x, w);
->>          return false;
->>      }
->>        if (y < 0) {
->> -        fprintf(stderr, "%s: y was < 0 (%d)\n", name, y);
->> +        VMWARE_VGA_DEBUG("%s: y was < 0 (%d)\n", name, y);
->>          return false;
->>      }
->>      if (y > SVGA_MAX_HEIGHT) {
->> -        fprintf(stderr, "%s: y was > %d (%d)\n", name, =
-SVGA_MAX_HEIGHT, y);
->> +        VMWARE_VGA_DEBUG("%s: y was > %d (%d)\n", name, =
-SVGA_MAX_HEIGHT, y);
->>          return false;
->>      }
->>      if (h < 0) {
->> -        fprintf(stderr, "%s: h was < 0 (%d)\n", name, h);
->> +        VMWARE_VGA_DEBUG("%s: h was < 0 (%d)\n", name, h);
->>          return false;
->>      }
->>      if (h > SVGA_MAX_HEIGHT) {
->> -        fprintf(stderr, "%s: h was > %d (%d)\n", name, =
-SVGA_MAX_HEIGHT, h);
->> +        VMWARE_VGA_DEBUG("%s: h was > %d (%d)\n", name, =
-SVGA_MAX_HEIGHT, h);
->>          return false;
->>      }
->>      if (y + h > surface_height(surface)) {
->> -        fprintf(stderr, "%s: update height > %d (y: %d, h: %d)\n",
->> +        VMWARE_VGA_DEBUG("%s: update height > %d (y: %d, h: %d)\n",
->>                  name, surface_height(surface), y, h);
->>          return false;
->>      }
->=20
+> ---
+>  Based-on: <20220104074649.1712440-1-marcandre.lureau@redhat.com>
+>
+>  .gitlab-ci.d/buildtest.yml | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/.gitlab-ci.d/buildtest.yml b/.gitlab-ci.d/buildtest.yml
+> index d52fde23ec..083d1b25e5 100644
+> --- a/.gitlab-ci.d/buildtest.yml
+> +++ b/.gitlab-ci.d/buildtest.yml
+> @@ -164,7 +164,7 @@ build-system-centos:
+>    variables:
+>      IMAGE: centos8
+>      CONFIGURE_ARGS: --disable-nettle --enable-gcrypt --enable-fdt=3Dsyst=
+em
+> -                    --enable-modules --enable-trace-backends=3Ddtrace
+> +      --enable-modules --enable-trace-backends=3Ddtrace --enable-docs
+>      TARGETS: ppc64-softmmu or1k-softmmu s390x-softmmu
+>        x86_64-softmmu rx-softmmu sh4-softmmu nios2-softmmu
+>      MAKE_CHECK_ARGS: check-build
+> --
+> 2.27.0
+>
 
 
