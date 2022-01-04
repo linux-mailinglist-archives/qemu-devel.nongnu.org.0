@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A403483E8C
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 09:57:46 +0100 (CET)
-Received: from localhost ([::1]:37810 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B939483E9C
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 09:59:59 +0100 (CET)
+Received: from localhost ([::1]:46228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n4fdZ-0002EB-Ev
-	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 03:57:45 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60090)
+	id 1n4ffi-0007rY-Bp
+	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 03:59:58 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60124)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1n4fag-0007i7-Os; Tue, 04 Jan 2022 03:54:46 -0500
-Received: from [2a00:1450:4864:20::42d] (port=37709
- helo=mail-wr1-x42d.google.com)
+ id 1n4fap-000893-KX; Tue, 04 Jan 2022 03:54:55 -0500
+Received: from [2a00:1450:4864:20::331] (port=51113
+ helo=mail-wm1-x331.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1n4faf-0007oW-8i; Tue, 04 Jan 2022 03:54:46 -0500
-Received: by mail-wr1-x42d.google.com with SMTP id t26so74656169wrb.4;
- Tue, 04 Jan 2022 00:54:44 -0800 (PST)
+ id 1n4fak-0007qD-Gp; Tue, 04 Jan 2022 03:54:55 -0500
+Received: by mail-wm1-x331.google.com with SMTP id b73so22760548wmd.0;
+ Tue, 04 Jan 2022 00:54:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=7poeiDAlvUUvxRbvytrefmDPizDrA/o3E05wUsT87M4=;
- b=UUGEaBcPNOZd+Dbmoy6MFSgbtwK6P7e/c9wozixeIFNndcIjstYEMhf3/8UfcCC7/+
- 79J5rLVk8gE2CZGFXzisQ5l76K7eL5t6pF5Y6lD9gTq1CwrHLp5V4JVD0euJKTDVNuox
- RZmt0D9m/ofWCScjAIqO/+6F7QpTaUMQcmT+Q5cZpVSXYT7FwWApN07KxU3ZqQwDtA1r
- IyLY1JtWnj3ihha3TENpDfl121v0RaMAQ6mltEDYf8zgDraSAyN+LgJgtx9EqTa2lh1J
- 3JHPswE3n6LQ+f9T0vpb52IbjW9jtdKNaDZAnMOIklMLZVIHrE6IYVq81hJuzEr4K/6O
- 2ggw==
+ bh=U5ZN7of/l34l2Sf8f/6H3euMQxJOF1roUgmAROhi/go=;
+ b=W3Em5YHrKGlMUyrF8bJUJXMMHZG+Tu0W61tJVatf4ebQBFr2Op2V26goFiHz3/CYvX
+ EV51Q+wp4HA6QnBxOqzB5jz0ACXKiKSckcTwGtewBUtKC2ap9RZN2N64hOVlTPsGB12O
+ A8mEa3fTW/CMxbghJw/zrjSp8tH6cRtbqrT3ApypkAHii767CbCacJlv3R4qZpJzkxum
+ Qtb4JpTXoBbhUCuQBEXKVqQFlbpSyG+fxNfjjVD06onjuTIQx8Rl564g+l2II0KtiOqR
+ zdVtmn0Sfk/6aYmlsoENx6qX/C62ajmVpIlO7oF5UKRcvanL9k0tYGK0bSAjRuVayMuh
+ wZIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=7poeiDAlvUUvxRbvytrefmDPizDrA/o3E05wUsT87M4=;
- b=ysao4X8JiUQsK2Fq8kRN8lpAyd9kDlck0d7SuWkBmN8JfftjUWZ99HEsYhS+ZjUKmv
- Td67CEqlz8A0ZRwm8BZ3yIYTU3SrRPafR8OVXBjhOKpm0hl0eczsqniXNAgO2k7ZkVIe
- sMFI7EkyqNaoDSxy6xPGRZpaUCliALy4NDfPZF02MCoP45sGtLXuYM1kZOBJxvj7LeL4
- sDDnew8oc8xUXYL+4/ANGyC5JN5YrD/bYz5m1J8zbNwRUH+RBBJhHeNDox7ib8GIlOTc
- INVh+wsxG/bv1wVjHyOacht3anusgZPLBp7tRv/ZI9nlGl9DsW9AXoH7BkI9hqNCCjLK
- appQ==
-X-Gm-Message-State: AOAM533Mg2tzkJ45LIQYU3dhakqvsnA4ABDkj0miHv/EuHuVH3enNIoz
- 7wPSsPX+smHz+E8Eo4o1Mlzcu+wu6qrkFQ==
-X-Google-Smtp-Source: ABdhPJwuO/20isVdDxP2PyzAjyNLAfzVJWXJ3er99Hc6IeVZWz8r4k17PqTyYAqYA+l15lpIkAgS6w==
-X-Received: by 2002:a5d:5749:: with SMTP id q9mr39548940wrw.17.1641286483229; 
- Tue, 04 Jan 2022 00:54:43 -0800 (PST)
+ bh=U5ZN7of/l34l2Sf8f/6H3euMQxJOF1roUgmAROhi/go=;
+ b=BEIcF/wqTspqDlepm2zathSdOAYSqlovS5KOLjyAdOMbe4lJZ822Hxlw4goaBvVbNq
+ 9CaUQezgny8M1cLWUwMhLYqirvj6KTbZU+9F5G8KgWikM+ctOAlnhACvFliTZaDkbGZb
+ 68L7rolJ80OogzZ96iwUIJjLWFC8zmfI1AOz6B0xhyaXCgrUqUFf14WeMRmVNbcFT8IC
+ ceX6JclSAvV8PUmQSNypt4jVqrlmGaBz0njD1bGF/ckeA0Obe0LdqzUJhv04V5qebNXE
+ XeSYvoNY1xsEJAf0N5LNLZvnMp658hwHxyBUKSvXBybYFCHnB597bgHND63opx3xzcP4
+ E+cw==
+X-Gm-Message-State: AOAM531T7wlbAah7YkCAOzfB17kwFhWC3Dw1yDBzP46HPLSdujDHk5uW
+ wWwxfsNeATN3+0As4iIOlIL0F229Kt6NaQ==
+X-Google-Smtp-Source: ABdhPJxCXzCsr84h4XdRU/YKoJVUjZfQPsKZmczKt2pSGHILzDqI6ElLFpHM3VDVupA131nO9G5EEw==
+X-Received: by 2002:a1c:4d0d:: with SMTP id o13mr41448660wmh.70.1641286488230; 
+ Tue, 04 Jan 2022 00:54:48 -0800 (PST)
 Received: from x1w.. (26.red-83-50-86.dynamicip.rima-tde.net. [83.50.86.26])
- by smtp.gmail.com with ESMTPSA id r7sm36312281wrt.77.2022.01.04.00.54.42
+ by smtp.gmail.com with ESMTPSA id j13sm42333500wmq.11.2022.01.04.00.54.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Jan 2022 00:54:42 -0800 (PST)
+ Tue, 04 Jan 2022 00:54:47 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 2/9] hw/pci: Restrict pci-bus stub to sysemu
-Date: Tue,  4 Jan 2022 09:54:24 +0100
-Message-Id: <20220104085431.2122999-3-f4bug@amsat.org>
+Subject: [PATCH v2 3/9] hw/pci: Document pci_dma_map()
+Date: Tue,  4 Jan 2022 09:54:25 +0100
+Message-Id: <20220104085431.2122999-4-f4bug@amsat.org>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20220104085431.2122999-1-f4bug@amsat.org>
 References: <20220104085431.2122999-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42d
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::331
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x331.google.com
 X-Spam_score_int: 12
 X-Spam_score: 1.2
 X-Spam_bar: +
@@ -98,34 +98,35 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Neither tools nor user-mode emulation require the PCI bus stub.
-
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- stubs/meson.build | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ include/hw/pci/pci.h | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-diff --git a/stubs/meson.build b/stubs/meson.build
-index 363f6fa785d..d359cbe1ad7 100644
---- a/stubs/meson.build
-+++ b/stubs/meson.build
-@@ -26,7 +26,6 @@
- stub_ss.add(files('module-opts.c'))
- stub_ss.add(files('monitor.c'))
- stub_ss.add(files('monitor-core.c'))
--stub_ss.add(files('pci-bus.c'))
- stub_ss.add(files('qemu-timer-notify-cb.c'))
- stub_ss.add(files('qmp_memory_device.c'))
- stub_ss.add(files('qmp-command-available.c'))
-@@ -51,6 +50,7 @@
- endif
- if have_system
-   stub_ss.add(files('fw_cfg.c'))
-+  stub_ss.add(files('pci-bus.c'))
-   stub_ss.add(files('semihost.c'))
-   stub_ss.add(files('usb-dev-stub.c'))
-   stub_ss.add(files('xen-hw-stub.c'))
+diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
+index 5b36334a28a..07f08aa0626 100644
+--- a/include/hw/pci/pci.h
++++ b/include/hw/pci/pci.h
+@@ -876,6 +876,18 @@ PCI_DMA_DEFINE_LDST(q_be, q_be, 64);
+ 
+ #undef PCI_DMA_DEFINE_LDST
+ 
++/**
++ * pci_dma_map: Map device PCI address space range into host virtual address
++ *
++ * May map a subset of the requested range, given by and returned in @plen.
++ * May return %NULL and set *@plen to zero(0), if resources needed to perform
++ * the mapping are exhausted.
++ *
++ * @dev: #PCIDevice to be accessed
++ * @addr: address within that device's address space
++ * @plen: pointer to length of buffer; updated on return
++ * @dir: indicates the transfer direction
++ */
+ static inline void *pci_dma_map(PCIDevice *dev, dma_addr_t addr,
+                                 dma_addr_t *plen, DMADirection dir)
+ {
 -- 
 2.33.1
 
