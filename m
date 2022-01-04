@@ -2,72 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B459484789
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 19:12:44 +0100 (CET)
-Received: from localhost ([::1]:42410 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0BA648479D
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 19:15:01 +0100 (CET)
+Received: from localhost ([::1]:46234 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n4oId-0004sh-9V
-	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 13:12:43 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41578)
+	id 1n4oKr-0007Y0-2d
+	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 13:15:01 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42634)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1n4oFZ-0000Ol-TM
- for qemu-devel@nongnu.org; Tue, 04 Jan 2022 13:09:33 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27320)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1n4oFX-00075X-KU
- for qemu-devel@nongnu.org; Tue, 04 Jan 2022 13:09:33 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641319770;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=UB8dwyslmLZOyLETvks2rEYkSuF5hGMNLNneKUh0AkI=;
- b=FYVYWoVATknxIq+97kEDGXg12Q5bM8oKfvOy/85nYAZ0Mc9B1Uk6mGn0DJGFFcxTO97jHJ
- FB2MJaEzq26X/7WS6Dye2RJgRp0sl3edEVXTix3mXyQLJiFqrbkUrGnb9JYQsfi6wm1We0
- sw4M3ib8+xYogT+8W1dMrBjQAuP2Ldg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-516-gsdZmlQSMqm5rlgH0nuXyA-1; Tue, 04 Jan 2022 13:09:25 -0500
-X-MC-Unique: gsdZmlQSMqm5rlgH0nuXyA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A56C681EE60;
- Tue,  4 Jan 2022 18:09:24 +0000 (UTC)
-Received: from redhat.com (unknown [10.22.32.2])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BE92110A48BC;
- Tue,  4 Jan 2022 18:09:23 +0000 (UTC)
-Date: Tue, 4 Jan 2022 18:09:21 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Stefan Berger <stefanb@linux.ibm.com>
-Subject: Re: [PATCH v5 0/3]  tpm: Add missing ACPI device identification
- objects
-Message-ID: <YdSNUYNxa/g1P3BR@redhat.com>
-References: <20220104175806.872996-1-stefanb@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1n4oIG-0005rS-VT
+ for qemu-devel@nongnu.org; Tue, 04 Jan 2022 13:12:20 -0500
+Received: from [2607:f8b0:4864:20::62f] (port=37591
+ helo=mail-pl1-x62f.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1n4oIF-0007tA-B7
+ for qemu-devel@nongnu.org; Tue, 04 Jan 2022 13:12:20 -0500
+Received: by mail-pl1-x62f.google.com with SMTP id j13so27639022plx.4
+ for <qemu-devel@nongnu.org>; Tue, 04 Jan 2022 10:12:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=Y7JpSgdH23C/bbNwpmyo7W94YzU1BmUOYf12VTSIF60=;
+ b=pGRbXaF5pFEF4Sid1HOyTB5W28Jhsw3v2RfXdqdOeXLrYFU3oZyVTXtnLN1dfcwt0/
+ G3hhKqaAq5ZN5LlMimR4cKQOZ20ulk86D99lKILVNay1GB1n8yyJFGJKn66mSzGisqMy
+ /TsEUmKevX9Ky8Q85y9mEAkwKpxKWgNEmvvBfLE1gLz1u7nZaMh1+F9fcCY8jhoClKKB
+ P0+5nYza4Xi0KxZd51xXK/G3LDPdaqmEnLTapKqVj58jy3eFmpTeQjtLI9Swuk8AuM1d
+ iBfcaOIiXvPCTvuNS3oIYe6L9SIAOuGbn9nBDC/0UWfrvRX3MaiPKLqZ3YbCNVJgTs2n
+ ay6w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Y7JpSgdH23C/bbNwpmyo7W94YzU1BmUOYf12VTSIF60=;
+ b=LEaR8pnjW8H+pTAYwNKoRvXm8dWZK1xcRdLLlTvX52NL9tAHur2toQwUiJBPaMvPvW
+ MS1JX0nD/KOxi7CkGEKtwI3EdL6VAx5mmhV947mRTqdmdIJSIUXMMDj3IN1shj9bxMjA
+ 5PCxZWLDzh2Hpgc+r6T1Vn87BnUkQqpEkXx8dwFvE4UF/jiTcA5JpPFG9b3HGoIBi7D3
+ 2uxzNkRgKr0QiUWsQSrApIE2ZozecOTXhM69W5ffxZw71LvQn6tlhueUJ3y6EMFi5U5D
+ k3/c9VNeVerGP4yfMl++KX8RgClqghYopKecIfaA7UFY/Oa1Abgq1MYP3d3R/Jg6xx/o
+ YGHg==
+X-Gm-Message-State: AOAM533lx/EqMbUCxVdcRuN90W86T3zehZV8P/Z/mCedniGiD7ZJK0si
+ lBXZSGPl6KzSjidksY2vD9ePMJ+BMaLsUw==
+X-Google-Smtp-Source: ABdhPJxnliI0b8EgDa+CriV66R4SeIOmGMCWjJ3sNh+b5o7q/mdeTDNMshFm1jg4jf7aJRmXFlInTQ==
+X-Received: by 2002:a17:90a:c788:: with SMTP id
+ gn8mr61544165pjb.212.1641319936882; 
+ Tue, 04 Jan 2022 10:12:16 -0800 (PST)
+Received: from [192.168.1.13] (174-21-75-75.tukw.qwest.net. [174.21.75.75])
+ by smtp.gmail.com with ESMTPSA id e11sm53837pjh.14.2022.01.04.10.12.16
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 04 Jan 2022 10:12:16 -0800 (PST)
+Subject: Re: [PULL 02/15] linux-user: Move syscall error detection into
+ safe_syscall_base
+To: Laurent Vivier <laurent@vivier.eu>
+References: <20211220202500.111897-1-richard.henderson@linaro.org>
+ <20211220202500.111897-3-richard.henderson@linaro.org>
+ <69f6a9fc-d2b3-661c-38d7-1991b34c55ca@vivier.eu>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <28475541-89ef-031e-adf5-b1c2fef97195@linaro.org>
+Date: Tue, 4 Jan 2022 10:12:15 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <20220104175806.872996-1-stefanb@linux.ibm.com>
-User-Agent: Mutt/2.1.3 (2021-09-10)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) DKIMWL_WL_HIGH=-0.37, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+In-Reply-To: <69f6a9fc-d2b3-661c-38d7-1991b34c55ca@vivier.eu>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62f
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62f.google.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.354,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,23 +93,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org, Warner Losh <imp@bsdimp.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jan 04, 2022 at 12:58:03PM -0500, Stefan Berger wrote:
-> This series of patches adds missing ACPI device identification objects _STR
-> and _UID to TPM 1.2 and TPM 2 ACPI tables.
+On 1/4/22 5:51 AM, Laurent Vivier wrote:
+> This patch breaks command execution in bash command line interface:
+> 
+> - if I run "chroot chroot/powerpc/jessie ls", it works
+> 
+> - if I run "echo ls |  chroot chroot/powerpc/jessie", it hangs
+> 
+> - if I run "chroot chroot/powerpc/jessie bash invalid_command",
+>    it does nothing whereas it should return "bash: invalid_command: No such file or 
+> directory".
 
-What was the practical impact on guests (if any) from these ACPI
-objects being missing ?
+Thanks.  I've reproduced this (or something close enough):
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Host:
+openat(AT_FDCWD, "asdf", O_RDONLY) = -1 ENOENT (No such file or directory)
 
+Guest:
+502138 open("asdf",O_RDONLY|O_LARGEFILE) = 100
+
+
+r~
 
