@@ -2,61 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A573D483D57
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 08:57:39 +0100 (CET)
-Received: from localhost ([::1]:35692 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CC07483D33
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 08:51:27 +0100 (CET)
+Received: from localhost ([::1]:46766 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n4ehO-0000nK-Ov
-	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 02:57:38 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43376)
+	id 1n4ebO-0005xF-71
+	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 02:51:26 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43294)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1n4eIR-0005q1-NZ; Tue, 04 Jan 2022 02:31:58 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:17308)
+ id 1n4eIP-0005pq-Px; Tue, 04 Jan 2022 02:31:57 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:40892)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1n4eIO-0008Hy-Fr; Tue, 04 Jan 2022 02:31:51 -0500
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 2044n7vl008421; 
+ id 1n4eIM-0008GV-VT; Tue, 04 Jan 2022 02:31:49 -0500
+Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20438eoj001115; 
  Tue, 4 Jan 2022 07:31:37 GMT
-Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.106])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3dcfhn27hm-1
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.99])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3dc8xyyfkj-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Tue, 04 Jan 2022 07:31:37 +0000
-Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
- by ppma04fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2047OQjK029151;
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+ by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2047O2s9009492;
  Tue, 4 Jan 2022 07:31:35 GMT
 Received: from b06avi18626390.portsmouth.uk.ibm.com
  (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
- by ppma04fra.de.ibm.com with ESMTP id 3daek9x9k7-1
+ by ppma04ams.nl.ibm.com with ESMTP id 3daek9y5hy-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Tue, 04 Jan 2022 07:31:35 +0000
-Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
- [9.149.105.59])
+Received: from d06av24.portsmouth.uk.ibm.com (mk.ibm.com [9.149.105.60])
  by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 2047Mm0P29491658
+ id 2047MmsW47382998
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Tue, 4 Jan 2022 07:22:48 GMT
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 67327A405D;
- Tue,  4 Jan 2022 07:31:32 +0000 (GMT)
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 2C750A4040;
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 20EAC42047;
+ Tue,  4 Jan 2022 07:31:33 +0000 (GMT)
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id D884942045;
  Tue,  4 Jan 2022 07:31:32 +0000 (GMT)
 Received: from smtp.tlslab.ibm.com (unknown [9.101.4.1])
- by d06av23.portsmouth.uk.ibm.com (Postfix) with SMTP;
+ by d06av24.portsmouth.uk.ibm.com (Postfix) with SMTP;
  Tue,  4 Jan 2022 07:31:32 +0000 (GMT)
 Received: from yukon.ibmuc.com (unknown [9.171.33.19])
- by smtp.tlslab.ibm.com (Postfix) with ESMTP id 6520E2201F1;
- Tue,  4 Jan 2022 08:31:31 +0100 (CET)
+ by smtp.tlslab.ibm.com (Postfix) with ESMTP id 1CB5A220144;
+ Tue,  4 Jan 2022 08:31:32 +0100 (CET)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
-Subject: [PULL 13/26] ppc/ppc405: Rework ppc_40x_timers_init() to use a
- PowerPCCPU
-Date: Tue,  4 Jan 2022 08:31:08 +0100
-Message-Id: <20220104073121.3784280-14-clg@kaod.org>
+Subject: [PULL 14/26] ppc/ppc405: Fix timer initialization
+Date: Tue,  4 Jan 2022 08:31:09 +0100
+Message-Id: <20220104073121.3784280-15-clg@kaod.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20220104073121.3784280-1-clg@kaod.org>
 References: <20220104073121.3784280-1-clg@kaod.org>
@@ -64,23 +62,23 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: scGYZH3HLROCOo1wneP7rBY9gEpS87gy
-X-Proofpoint-ORIG-GUID: scGYZH3HLROCOo1wneP7rBY9gEpS87gy
+X-Proofpoint-GUID: RBcT9joH2noUvrwoaY8iX3owX20o4hTG
+X-Proofpoint-ORIG-GUID: RBcT9joH2noUvrwoaY8iX3owX20o4hTG
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
  definitions=2022-01-04_04,2022-01-01_01,2021-12-02_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 adultscore=0
- mlxlogscore=788 spamscore=0 suspectscore=0 priorityscore=1501
- clxscore=1034 mlxscore=0 phishscore=0 lowpriorityscore=0 bulkscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ mlxscore=0 spamscore=0
+ phishscore=0 mlxlogscore=616 priorityscore=1501 clxscore=1034
+ impostorscore=0 adultscore=0 bulkscore=0 lowpriorityscore=0 malwarescore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2110150000 definitions=main-2201040049
-Received-SPF: softfail client-ip=148.163.156.1; envelope-from=clg@kaod.org;
- helo=mx0a-001b2d01.pphosted.com
+Received-SPF: softfail client-ip=148.163.158.5; envelope-from=clg@kaod.org;
+ helo=mx0b-001b2d01.pphosted.com
 X-Spam_score_int: 7
 X-Spam_score: 0.7
 X-Spam_bar: /
-X-Spam_report: (0.7 / 5.0 requ) SPF_HELO_NONE=0.001,
+X-Spam_report: (0.7 / 5.0 requ) RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,115 +98,34 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a small cleanup to ease reading. It includes the removal of a
-check done on the returned value of g_malloc0(), which can not fail.
+Timers are already initialized in ppc4xx_init(). No need to do it a
+second time with a wrong set.
 
+Fixes: d715ea961254 ("PPC: 405: Fix ppc405ep initialization")
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
-Message-Id: <20211222064025.1541490-6-clg@kaod.org>
+Message-Id: <20211222064025.1541490-7-clg@kaod.org>
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
-Message-Id: <20220103063441.3424853-7-clg@kaod.org>
+Message-Id: <20220103063441.3424853-8-clg@kaod.org>
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 ---
- hw/ppc/ppc.c | 42 +++++++++++++++++++-----------------------
- 1 file changed, 19 insertions(+), 23 deletions(-)
+ hw/ppc/ppc405_uc.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/hw/ppc/ppc.c b/hw/ppc/ppc.c
-index cca99cb86f81..bb5bee9a3382 100644
---- a/hw/ppc/ppc.c
-+++ b/hw/ppc/ppc.c
-@@ -1124,14 +1124,12 @@ struct ppc40x_timer_t {
- /* Fixed interval timer */
- static void cpu_4xx_fit_cb (void *opaque)
- {
--    PowerPCCPU *cpu;
--    CPUPPCState *env;
-+    PowerPCCPU *cpu =3D opaque;
-+    CPUPPCState *env =3D &cpu->env;
-     ppc_tb_t *tb_env;
-     ppc40x_timer_t *ppc40x_timer;
-     uint64_t now, next;
-=20
--    env =3D opaque;
--    cpu =3D env_archcpu(env);
-     tb_env =3D env->tb_env;
-     ppc40x_timer =3D tb_env->opaque;
-     now =3D qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
-@@ -1193,13 +1191,11 @@ static void start_stop_pit (CPUPPCState *env, ppc=
-_tb_t *tb_env, int is_excp)
-=20
- static void cpu_4xx_pit_cb (void *opaque)
- {
--    PowerPCCPU *cpu;
--    CPUPPCState *env;
-+    PowerPCCPU *cpu =3D opaque;
-+    CPUPPCState *env =3D &cpu->env;
-     ppc_tb_t *tb_env;
-     ppc40x_timer_t *ppc40x_timer;
-=20
--    env =3D opaque;
--    cpu =3D env_archcpu(env);
-     tb_env =3D env->tb_env;
-     ppc40x_timer =3D tb_env->opaque;
-     env->spr[SPR_40x_TSR] |=3D 1 << 27;
-@@ -1216,14 +1212,12 @@ static void cpu_4xx_pit_cb (void *opaque)
- /* Watchdog timer */
- static void cpu_4xx_wdt_cb (void *opaque)
- {
--    PowerPCCPU *cpu;
--    CPUPPCState *env;
-+    PowerPCCPU *cpu =3D opaque;
-+    CPUPPCState *env =3D &cpu->env;
-     ppc_tb_t *tb_env;
-     ppc40x_timer_t *ppc40x_timer;
-     uint64_t now, next;
-=20
--    env =3D opaque;
--    cpu =3D env_archcpu(env);
-     tb_env =3D env->tb_env;
-     ppc40x_timer =3D tb_env->opaque;
-     now =3D qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
-@@ -1341,24 +1335,26 @@ clk_setup_cb ppc_40x_timers_init (CPUPPCState *en=
-v, uint32_t freq,
- {
-     ppc_tb_t *tb_env;
-     ppc40x_timer_t *ppc40x_timer;
-+    PowerPCCPU *cpu =3D env_archcpu(env);
-+
-+    trace_ppc40x_timers_init(freq);
-=20
-     tb_env =3D g_malloc0(sizeof(ppc_tb_t));
-+    ppc40x_timer =3D g_malloc0(sizeof(ppc40x_timer_t));
-+
-     env->tb_env =3D tb_env;
-     tb_env->flags =3D PPC_DECR_UNDERFLOW_TRIGGERED;
--    ppc40x_timer =3D g_malloc0(sizeof(ppc40x_timer_t));
-     tb_env->tb_freq =3D freq;
-     tb_env->decr_freq =3D freq;
-     tb_env->opaque =3D ppc40x_timer;
--    trace_ppc40x_timers_init(freq);
--    if (ppc40x_timer !=3D NULL) {
--        /* We use decr timer for PIT */
--        tb_env->decr_timer =3D timer_new_ns(QEMU_CLOCK_VIRTUAL, &cpu_4xx=
-_pit_cb, env);
--        ppc40x_timer->fit_timer =3D
--            timer_new_ns(QEMU_CLOCK_VIRTUAL, &cpu_4xx_fit_cb, env);
--        ppc40x_timer->wdt_timer =3D
--            timer_new_ns(QEMU_CLOCK_VIRTUAL, &cpu_4xx_wdt_cb, env);
--        ppc40x_timer->decr_excp =3D decr_excp;
--    }
-+
-+    /* We use decr timer for PIT */
-+    tb_env->decr_timer =3D timer_new_ns(QEMU_CLOCK_VIRTUAL, &cpu_4xx_pit=
-_cb, cpu);
-+    ppc40x_timer->fit_timer =3D
-+        timer_new_ns(QEMU_CLOCK_VIRTUAL, &cpu_4xx_fit_cb, cpu);
-+    ppc40x_timer->wdt_timer =3D
-+        timer_new_ns(QEMU_CLOCK_VIRTUAL, &cpu_4xx_wdt_cb, cpu);
-+    ppc40x_timer->decr_excp =3D decr_excp;
-=20
-     return &ppc_40x_set_tb_clk;
- }
+diff --git a/hw/ppc/ppc405_uc.c b/hw/ppc/ppc405_uc.c
+index ec97b22bd019..8aacd275a652 100644
+--- a/hw/ppc/ppc405_uc.c
++++ b/hw/ppc/ppc405_uc.c
+@@ -1461,8 +1461,6 @@ PowerPCCPU *ppc405ep_init(MemoryRegion *address_spa=
+ce_mem,
+     ppc4xx_pob_init(env);
+     /* OBP arbitrer */
+     ppc4xx_opba_init(0xef600600);
+-    /* Initialize timers */
+-    ppc_booke_timers_init(cpu, sysclk, 0);
+     /* Universal interrupt controller */
+     uicdev =3D qdev_new(TYPE_PPC_UIC);
+     uicsbd =3D SYS_BUS_DEVICE(uicdev);
 --=20
 2.31.1
 
