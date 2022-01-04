@@ -2,90 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B71FE483C7B
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 08:29:33 +0100 (CET)
-Received: from localhost ([::1]:48786 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A5DD483D46
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 08:54:19 +0100 (CET)
+Received: from localhost ([::1]:55332 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n4eGC-0004AQ-Bb
-	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 02:29:32 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42084)
+	id 1n4ee9-0003JJ-Qx
+	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 02:54:17 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43240)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1n4eCw-0003Pn-54
- for qemu-devel@nongnu.org; Tue, 04 Jan 2022 02:26:10 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32812)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1n4eIO-0005pn-BK; Tue, 04 Jan 2022 02:31:57 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:26876
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1n4eCs-0007Ja-UD
- for qemu-devel@nongnu.org; Tue, 04 Jan 2022 02:26:08 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641281165;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=/JLdAwjDTJp7sVDMx/x79697JdW13Yd7WBoM1+jZqjQ=;
- b=K3/tssT1hDesxJpvVKNwx9TQ4HjCpxwV1eiHNT3mi4/9HCu6EWxJMrDoc9dlFxmkMEn6FY
- CLqGsEEEwH4FELmbhEWgGfp4viOsd2NTJ8BHki/duxBQbpD+vTQFEBDfKcqBniXtbfuDTq
- 71mBdNOQG6j/QH4m+giJIKZvtHZQUG0=
-Received: from mail-pg1-f199.google.com (mail-pg1-f199.google.com
- [209.85.215.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-176-v3MM8YxFNZutJ7deysiApQ-1; Tue, 04 Jan 2022 02:26:05 -0500
-X-MC-Unique: v3MM8YxFNZutJ7deysiApQ-1
-Received: by mail-pg1-f199.google.com with SMTP id
- l6-20020a633e06000000b0034006440151so19298841pga.23
- for <qemu-devel@nongnu.org>; Mon, 03 Jan 2022 23:26:04 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=/JLdAwjDTJp7sVDMx/x79697JdW13Yd7WBoM1+jZqjQ=;
- b=MELEuaGJ9EnK5tSU6qu+uG3NZr3LRWiTurquxKLpvAkabQq7m2rNGezh0MjHotH6I6
- mEmHDq6mzvzvCiSR/Rzry2bb14eMMEhYDhCsEZTu/v3ZIdOD5aoCVSI0S52SNgGPrqTZ
- DzrbyBpsyAKF06OqEuzbgvMuEHkn09TxZ+TdFnKBK1cfg8IXeQaRqLW9AugVXgeaIoG/
- 1xEEzcjr+xLteZIefkUgGYqHqIo8pCpjKknUs6q02oMP4KhLHtlMon7wpSciOqPH4GxY
- F+O3v4Qi5Pjv0pBADLXs37arzaGUmFzAmpCCVFnWd4s9oHh1co3dwNTouEaWLele2oHq
- RmPw==
-X-Gm-Message-State: AOAM532F8O/E8Kcei2JcnfzyoR9hDjpZcN6SXTFHohPpPdzkimBOPvJ4
- xq5SQ+tmq4WXOqnYDmpyDQgb1qxxVYav4dl0VLMsa/UVyFdekAtm8Vq4FlZ3ZewnJZ9PoREEr4h
- ocF2RQLM8mKb003o=
-X-Received: by 2002:a17:90a:b108:: with SMTP id
- z8mr59109742pjq.99.1641281163839; 
- Mon, 03 Jan 2022 23:26:03 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwt9+1MVaa5lYT1V4AJhNK2xzUIV1PtGBP02ky91k9AXUoqUd1kHeXjHt2KV3Kpi4o3N6QcNA==
-X-Received: by 2002:a17:90a:b108:: with SMTP id
- z8mr59109719pjq.99.1641281163560; 
- Mon, 03 Jan 2022 23:26:03 -0800 (PST)
-Received: from xz-m1.local ([191.101.132.50])
- by smtp.gmail.com with ESMTPSA id f7sm39602686pfc.141.2022.01.03.23.26.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 03 Jan 2022 23:26:03 -0800 (PST)
-Date: Tue, 4 Jan 2022 15:25:55 +0800
-From: Peter Xu <peterx@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH 3/8] hw/pci: Document pci_dma_map()
-Message-ID: <YdP2g1kKQ7azrwV4@xz-m1.local>
-References: <20211231114901.976937-1-philmd@redhat.com>
- <20211231114901.976937-4-philmd@redhat.com>
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1n4eIL-0008CT-1W; Tue, 04 Jan 2022 02:31:48 -0500
+Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 2045ILPX002313; 
+ Tue, 4 Jan 2022 07:31:29 GMT
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.98])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3dcfyphug7-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 04 Jan 2022 07:31:29 +0000
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+ by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2047O512030606;
+ Tue, 4 Jan 2022 07:31:26 GMT
+Received: from b06cxnps4075.portsmouth.uk.ibm.com
+ (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
+ by ppma03ams.nl.ibm.com with ESMTP id 3daek9f5yf-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 04 Jan 2022 07:31:26 +0000
+Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
+ [9.149.105.61])
+ by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 2047VNsM36307286
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 4 Jan 2022 07:31:23 GMT
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id D5F2311C04C;
+ Tue,  4 Jan 2022 07:31:23 +0000 (GMT)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 9AD2211C05E;
+ Tue,  4 Jan 2022 07:31:23 +0000 (GMT)
+Received: from smtp.tlslab.ibm.com (unknown [9.101.4.1])
+ by d06av25.portsmouth.uk.ibm.com (Postfix) with SMTP;
+ Tue,  4 Jan 2022 07:31:23 +0000 (GMT)
+Received: from yukon.ibmuc.com (unknown [9.171.33.19])
+ by smtp.tlslab.ibm.com (Postfix) with ESMTP id B127B220144;
+ Tue,  4 Jan 2022 08:31:22 +0100 (CET)
+From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+To: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Subject: [PULL 00/26] ppc queue
+Date: Tue,  4 Jan 2022 08:30:55 +0100
+Message-Id: <20220104073121.3784280-1-clg@kaod.org>
+X-Mailer: git-send-email 2.31.1
+Content-Type: text/plain; charset=UTF-8
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: Mx75NLHYZS5bYGAQQlmXfRaXpuqpnJw0
+X-Proofpoint-GUID: Mx75NLHYZS5bYGAQQlmXfRaXpuqpnJw0
+Content-Transfer-Encoding: quoted-printable
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-In-Reply-To: <20211231114901.976937-4-philmd@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) DKIMWL_WL_HIGH=-0.37, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2022-01-04_04,2022-01-01_01,2021-12-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 clxscore=1034
+ mlxscore=0 spamscore=0 malwarescore=0 priorityscore=1501 adultscore=0
+ impostorscore=0 mlxlogscore=826 bulkscore=0 suspectscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2110150000 definitions=main-2201040049
+Received-SPF: softfail client-ip=148.163.158.5; envelope-from=clg@kaod.org;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: 11
+X-Spam_score: 1.1
+X-Spam_bar: +
+X-Spam_report: (1.1 / 5.0 requ) KHOP_HELO_FCRDNS=0.399,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,20 +94,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: David Hildenbrand <david@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Dec 31, 2021 at 12:48:56PM +0100, Philippe Mathieu-Daudé wrote:
-> +/**
-> + * pci_dma_map: Map a physical memory region into a device PCI address space.
+The following changes since commit b5a3d8bc9146ba22a25116cb748c97341bf99737:
 
-Shouldn't this be: "Map device PCI address space range into host virtual
-address"?
+  Merge tag 'pull-misc-20220103' of https://gitlab.com/rth7680/qemu into st=
+aging (2022-01-03 09:34:41 -0800)
 
--- 
-Peter Xu
+are available in the Git repository at:
 
+  https://github.com/legoater/qemu/ tags/pull-ppc-20220104
+
+for you to fetch changes up to 0625c7760d5451d7436ef0738f763c6bb5141919:
+
+  target/ppc: do not call hreg_compute_hflags() in helper_store_mmcr0() (20=
+22-01-04 07:55:35 +0100)
+
+----------------------------------------------------------------
+ppc 7.0 queue:
+
+* Cleanup of PowerNV PHBs (Daniel and Cedric)
+* Cleanup and fixes for PPC405 machine (Cedric)
+* Fix for xscvspdpn (Matheus)
+* Rework of powerpc exception handling 1/n (Fabiano)
+* Optimisation for PMU (Richard and Daniel)
+
+----------------------------------------------------------------
+C=C3=A9dric Le Goater (14):
+      ppc/pnv: Change the maximum of PHB3 devices for Power8NVL
+      ppc/pnv: Remove PHB4 reset handler
+      ppc/pnv: Remove the PHB4 "device-id" property
+      target/ppc: Improve logging in Radix MMU
+      target/ppc: Check effective address validity
+      target/ppc: Remove static inline
+      target/ppc: Print out literal exception names in logs
+      ppc/ppc4xx: Convert printfs()
+      ppc/ppc405: Activate MMU logs
+      ppc/ppc405: Restore TCR and STR write handlers
+      ppc/ppc405: Rework ppc_40x_timers_init() to use a PowerPCCPU
+      ppc/ppc405: Fix timer initialization
+      ppc/ppc405: Introduce a store helper for SPR_40x_PID
+      ppc/ppc405: Dump specific registers
+
+Daniel Henrique Barboza (3):
+      pnv_phb3.c: do not set 'root-bus' as bus name
+      pnv_phb4.c: do not set 'root-bus' as bus name
+      target/ppc: do not call hreg_compute_hflags() in helper_store_mmcr0()
+
+Fabiano Rosas (5):
+      target/ppc: powerpc_excp: Set alternate SRRs directly
+      target/ppc: powerpc_excp: Add excp_vectors bounds check
+      target/ppc: powerpc_excp: Set vector earlier
+      target/ppc: powerpc_excp: Move system call vectored code together
+      target/ppc: powerpc_excp: Stop passing excp_model around
+
+Matheus Ferst (1):
+      target/ppc: do not silence snan in xscvspdpn
+
+Richard Henderson (3):
+      target/ppc: Cache per-pmc insn and cycle count settings
+      target/ppc: Rewrite pmu_increment_insns
+      target/ppc: Use env->pnc_cyc_cnt
+
+ include/hw/pci-host/pnv_phb4.h          |   2 -
+ target/ppc/cpu.h                        |   5 +
+ target/ppc/helper.h                     |   2 +
+ target/ppc/mmu-radix64.h                |   1 +
+ target/ppc/power8-pmu.h                 |  14 +-
+ target/ppc/spr_tcg.h                    |   3 +
+ hw/pci-host/pnv_phb3.c                  |   3 +-
+ hw/pci-host/pnv_phb4.c                  |  16 +--
+ hw/pci-host/pnv_phb4_pec.c              |   3 -
+ hw/ppc/mpc8544_guts.c                   |   9 +-
+ hw/ppc/pnv.c                            |   2 +-
+ hw/ppc/ppc.c                            |  67 ++++++---
+ hw/ppc/ppc405_uc.c                      |   2 -
+ hw/ppc/ppc4xx_devs.c                    |  39 ++----
+ hw/ppc/ppc4xx_pci.c                     |  11 +-
+ target/ppc/cpu_init.c                   |  34 +++--
+ target/ppc/excp_helper.c                | 187 ++++++++++++++++---------
+ target/ppc/fpu_helper.c                 |   5 +-
+ target/ppc/helper_regs.c                |   2 +-
+ target/ppc/machine.c                    |   2 +
+ target/ppc/mmu-radix64.c                |  60 +++++++-
+ target/ppc/mmu_common.c                 | 164 +++++++++++-----------
+ target/ppc/mmu_helper.c                 |  97 ++++++-------
+ target/ppc/power8-pmu.c                 | 238 ++++++++++++++--------------=
+----
+ target/ppc/timebase_helper.c            |  10 ++
+ target/ppc/translate.c                  |  20 +++
+ tests/tcg/ppc64le/non_signalling_xscv.c |  37 +++++
+ hw/ppc/trace-events                     |   7 +
+ tests/tcg/ppc64/Makefile.target         |   4 +-
+ tests/tcg/ppc64le/Makefile.target       |   4 +-
+ 30 files changed, 604 insertions(+), 446 deletions(-)
+ create mode 100644 tests/tcg/ppc64le/non_signalling_xscv.c
 
