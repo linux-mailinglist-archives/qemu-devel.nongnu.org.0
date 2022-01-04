@@ -2,64 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10D4C4841EC
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 13:53:22 +0100 (CET)
-Received: from localhost ([::1]:55710 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EDC5484213
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 14:07:48 +0100 (CET)
+Received: from localhost ([::1]:37504 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n4jJY-0004dR-Au
-	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 07:53:20 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49164)
+	id 1n4jXW-0004D3-PU
+	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 08:07:46 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52198)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1n4jF3-000353-MT
- for qemu-devel@nongnu.org; Tue, 04 Jan 2022 07:48:46 -0500
-Received: from mail-yb1-f176.google.com ([209.85.219.176]:33491)
+ id 1n4jSJ-0007jA-73; Tue, 04 Jan 2022 08:02:23 -0500
+Received: from [2a00:1450:4864:20::32f] (port=41771
+ helo=mail-wm1-x32f.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1n4jEz-0000X7-36
- for qemu-devel@nongnu.org; Tue, 04 Jan 2022 07:48:40 -0500
-Received: by mail-yb1-f176.google.com with SMTP id g80so63887451ybf.0
- for <qemu-devel@nongnu.org>; Tue, 04 Jan 2022 04:48:32 -0800 (PST)
+ id 1n4jSH-0003YQ-95; Tue, 04 Jan 2022 08:02:22 -0500
+Received: by mail-wm1-x32f.google.com with SMTP id
+ b186-20020a1c1bc3000000b00345734afe78so1409173wmb.0; 
+ Tue, 04 Jan 2022 05:02:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Q7ES0GF02cXzslgykTZ9t4FabduIAKBz+ch9l0nNhZQ=;
+ b=NSO/s+bxDzTWvPPsjlZ+YB+b7WNjFufOHyZR1aKS+EW7FfmIv0mPsVAdWnujvgV4DQ
+ zbC7MCdPTSgc9cLD3rRyUdFoU7lOOXytHrHbAtSzT9dTFGkxNTcjb1HBAoooeBDHazVh
+ DARs1bqAFQP2mTNEdKqeDUXL7fbuy0BI9nrXSqcd/YcGKMAdjy5WcVUJlK7cJYPr+7zO
+ seMWUEoli17l0CUOvhvzTA6j3HbCTDQMZsYkXm0VfjWKvzDdXnO9I+Wu37Ymy1Y8ph6R
+ 6QwKN5s3CvIWtUhDzZkYlMOKDDkNGDYjV9ctdR+G710YLI8/H5K/52xyb0D9L+TvR2p3
+ aTYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=wdD1+3CU6JzAXzB1L7bmpHp+VpI3pZ2Jh7z6E5ipRO4=;
- b=xTAyvWrw6q4BMsCKmTuo2RqiR0W1HEapzjT5l8sd7hFFm8AGYBxMru5W5RuznriYck
- OOf/eKaEjdvBDDo3Qr1Ctoi8gx/3sdi9q9H5ymFJGvN8CP2v299hJ5eGcTdguLEKFxzt
- gTa1t1ITC8HSNE8UMhTc0z28UuASIUmZ7f9boEi/4vVNfjmt6dEeIn4Z9q60U5YLLiDg
- HItuF7FNdcwjOVLVz8cpeO8Kx8+PZfhpqMCh/TXSOSeB8t1uY8yS/TBvjIHKB+e04gPU
- CNwNG/nlhwPChc0TF3BEL6oA+o/zKGAczKuW67v9WsDEwQ8BSs7bYhjTWiOEuFzHzSo5
- OKmg==
-X-Gm-Message-State: AOAM531caqZARaLeV4zkyax3sVuXDTh7I8dA7JelOcTdrz46k5YfbqF2
- lc5EVO5i80ybaemnWrv+NWP0T08EfYpmpjt5/i8=
-X-Google-Smtp-Source: ABdhPJziJl8nXhHsqPpm7Q7x0SDsDkl+umwKIQBnjqgj1kZZdgpSOxFhvhtQjiYzqbUW2Yw57I9cq26eYOvswNwb56k=
-X-Received: by 2002:a05:6902:1022:: with SMTP id
- x2mr41493549ybt.229.1641300512061; 
- Tue, 04 Jan 2022 04:48:32 -0800 (PST)
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=Q7ES0GF02cXzslgykTZ9t4FabduIAKBz+ch9l0nNhZQ=;
+ b=nFeYw/K1lv5Q6E4IEJD/mUbUW3p4FsqzMlsBsNCkRPrvbzls40coxgBNhgLqyj4ihe
+ bGh0XgqkOe8ghkLxE4k8BuohDkXth/zyM7CrLHTma+wPCphOLLn2zPMTMLVZfNpDhMNs
+ N2wj57SLBYKRuWQxFz1PAeqj/HHBqq9TInWQvL85bhutxnpEMpGMnITVXrrmhPsb8yuS
+ JLwjbD42bt2Kf13csr4SUe/EA4ynmkf4qCnXS48UrjuSU11NDQMZXRkMKgCHzYC3M3Om
+ QLnEGoiUFzOmAqYRVhbqsi9YzmSsgRPFPyNlYfysP3wVMYBNKgGve/Se2r6AaRoqvEQ2
+ ukPg==
+X-Gm-Message-State: AOAM530RC/sXjSaSMoPwWmvrN37soUulqLnIiLEKrT7pvSOs9eAkL8RN
+ 8PB+xn9qydGPvAM4CnFVZPAPseasV2Y=
+X-Google-Smtp-Source: ABdhPJxsEKjdqFJTiT/nXDncszfyzuHfYvUUoneVi4O9kULm0dJaesf/ER3NUo8d9PnlN5yjXTfnHQ==
+X-Received: by 2002:a05:600c:4f46:: with SMTP id
+ m6mr35883542wmq.19.1641301339383; 
+ Tue, 04 Jan 2022 05:02:19 -0800 (PST)
+Received: from x1w.. (83.red-83-50-87.dynamicip.rima-tde.net. [83.50.87.83])
+ by smtp.gmail.com with ESMTPSA id p15sm35685916wmj.46.2022.01.04.05.02.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 04 Jan 2022 05:02:18 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] linux-user: Fix trivial build error on loongarch64
+Date: Tue,  4 Jan 2022 14:02:17 +0100
+Message-Id: <20220104130217.2144929-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.33.1
 MIME-Version: 1.0
-References: <20211221054105.178795-1-git@xen0n.name>
- <20211221054105.178795-30-git@xen0n.name>
- <1d837c79-e939-f540-0a31-759975b43560@loongson.cn>
- <67ac3255-30d3-783e-cf9b-db2e8e84b162@xen0n.name>
-In-Reply-To: <67ac3255-30d3-783e-cf9b-db2e8e84b162@xen0n.name>
-From: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Date: Tue, 4 Jan 2022 13:48:21 +0100
-Message-ID: <CAAdtpL7-Xg1mLi6rUad0be-79cie=nCopsiPc6ZUtKkJEZpDDw@mail.gmail.com>
-Subject: Re: [PATCH v11 29/31] linux-user: Implement CPU-specific signal
- handler for loongarch64 hosts
-To: WANG Xuerui <i.qemu@xen0n.name>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=209.85.219.176;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-yb1-f176.google.com
-X-Spam_score_int: 5
-X-Spam_score: 0.5
-X-Spam_bar: /
-X-Spam_report: (0.5 / 5.0 requ) FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32f
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32f.google.com
+X-Spam_score_int: 12
+X-Spam_score: 1.2
+X-Spam_bar: +
+X-Spam_report: (1.2 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -73,91 +85,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- XiaoJuan Yang <yangxiaojuan@loongson.cn>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>, gaosong <gaosong@loongson.cn>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: qemu-trivial@nongnu.org, Michael Tokarev <mjt@tls.msk.ru>,
+ Laurent Vivier <laurent@vivier.eu>, Song Gao <gaosong@loongson.cn>,
+ WANG Xuerui <git@xen0n.name>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Dec 30, 2021 at 4:50 AM WANG Xuerui <i.qemu@xen0n.name> wrote:
->
-> Hi,
->
-> On 12/30/21 11:11, gaosong wrote:
->
-> HI,
->
-> On 2021/12/21 =E4=B8=8B=E5=8D=881:41, WANG Xuerui wrote:
->
-> +    case 0b001110: /* indexed, atomic, bounds-checking memory operations=
- */
-> +        uint32_t sel =3D (insn >> 15) & 0b11111111111;
-> +
-> +        switch (sel) {
-> +        case 0b00000100000: /* stx.b */
-> +        case 0b00000101000: /* stx.h */
-> +        case 0b00000110000: /* stx.w */
-> +        case 0b00000111000: /* stx.d */
-> +        case 0b00001110000: /* fstx.s */
-> +        case 0b00001111000: /* fstx.d */
-> +        case 0b00011101100: /* fstgt.s */
-> +        case 0b00011101101: /* fstgt.d */
-> +        case 0b00011101110: /* fstle.s */
-> +        case 0b00011101111: /* fstle.d */
-> +        case 0b00011111000: /* stgt.b */
-> +        case 0b00011111001: /* stgt.h */
-> +        case 0b00011111010: /* stgt.w */
-> +        case 0b00011111011: /* stgt.d */
-> +        case 0b00011111100: /* stle.b */
-> +        case 0b00011111101: /* stle.h */
-> +        case 0b00011111110: /* stle.w */
-> +        case 0b00011111111: /* stle.d */
-> +        case 0b00011000000 ... 0b00011100011: /* am* insns */
-> +            return true;
-> +        }
-> +        break;
-> +    }
->
-> We build qemu-x86_64 on LoongArch machine, but got an error,
->
-> ../linux-user/host/loongarch64/host-signal.h:57:9: error: a label can onl=
-y be part of a statement and a declaration is not a statement
->          uint32_t sel =3D (insn >> 15) & 0b11111111111;
->          ^~~~~~~~
->
-> I think  we should define  'sel'  before:
->
->     /* Detect store by reading the instruction at the program counter.  *=
-/
->     switch ((insn >> 26) & 0b111111) {
->
-> or
-> case 0b001110:
->
->      {
->
->           uint32_t set =3D ...;
->
->           ...
->
->      }
->
-> I can't reproduce the error on both my development machines (amd64 and lo=
-ongarch64), so I wonder if the issue is related to your particular setup (i=
-.e. compiler versions and such)?
+When building using GCC 8.3.0 on loongarch64 (Loongnix) we get:
 
-I can reproduce, setup:
+  In file included from ../linux-user/signal.c:33:
+  ../linux-user/host/loongarch64/host-signal.h: In function ‘host_signal_write’:
+  ../linux-user/host/loongarch64/host-signal.h:57:9: error: a label can only be part of a statement and a declaration is not a statement
+         uint32_t sel = (insn >> 15) & 0b11111111111;
+         ^~~~~~~~
 
-Project version: 6.2.50
-C compiler for the host machine: cc (gcc 8.3.0 "cc (Loongnix
-8.3.0-6.lnd.vec.27) 8.3.0")
-C linker for the host machine: cc ld.bfd 2.31.1-system
-Host machine cpu family: loongarch64
-Host machine cpu: loongarch64
-C++ compiler for the host machine: c++ (gcc 8.3.0 "c++ (Loongnix
-8.3.0-6.lnd.vec.27) 8.3.0")
-C++ linker for the host machine: c++ ld.bfd 2.31.1-system
+We don't use the 'sel' variable more than once, so drop it.
+
+Meson output for the record:
+
+  Host machine cpu family: loongarch64
+  Host machine cpu: loongarch64
+  C compiler for the host machine: cc (gcc 8.3.0 "cc (Loongnix 8.3.0-6.lnd.vec.27) 8.3.0")
+  C linker for the host machine: cc ld.bfd 2.31.1-system
+
+Fixes: ad812c3bd65 ("linux-user: Implement CPU-specific signal handler for loongarch64 hosts")
+Reported-by: Song Gao <gaosong@loongson.cn>
+Suggested-by: Song Gao <gaosong@loongson.cn>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ linux-user/host/loongarch64/host-signal.h | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
+
+diff --git a/linux-user/host/loongarch64/host-signal.h b/linux-user/host/loongarch64/host-signal.h
+index 05e2c823717..7effa242515 100644
+--- a/linux-user/host/loongarch64/host-signal.h
++++ b/linux-user/host/loongarch64/host-signal.h
+@@ -54,9 +54,7 @@ static inline bool host_signal_write(siginfo_t *info, ucontext_t *uc)
+         }
+         break;
+     case 0b001110: /* indexed, atomic, bounds-checking memory operations */
+-        uint32_t sel = (insn >> 15) & 0b11111111111;
+-
+-        switch (sel) {
++        switch ((insn >> 15) & 0b11111111111) {
+         case 0b00000100000: /* stx.b */
+         case 0b00000101000: /* stx.h */
+         case 0b00000110000: /* stx.w */
+-- 
+2.33.1
+
 
