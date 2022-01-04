@@ -2,55 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA4C3484232
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 14:18:05 +0100 (CET)
-Received: from localhost ([::1]:51436 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C20F4484237
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 14:19:48 +0100 (CET)
+Received: from localhost ([::1]:55782 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n4jhU-0005Ts-89
-	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 08:18:04 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55130)
+	id 1n4jj9-0008Om-JM
+	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 08:19:47 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55594)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <i.qemu@xen0n.name>)
- id 1n4jeY-0003Mn-1i; Tue, 04 Jan 2022 08:15:02 -0500
-Received: from mail.xen0n.name ([115.28.160.31]:48058
- helo=mailbox.box.xen0n.name)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <i.qemu@xen0n.name>)
- id 1n4jeU-0000pq-8w; Tue, 04 Jan 2022 08:15:01 -0500
-Received: from [100.100.57.236] (unknown [220.248.53.61])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
- (No client certificate requested)
- by mailbox.box.xen0n.name (Postfix) with ESMTPSA id EF45C60106;
- Tue,  4 Jan 2022 21:14:51 +0800 (CST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=xen0n.name; s=mail;
- t=1641302092; bh=R1M7dQvOca5gqz1U2iE/VVkUddkWR3CkiLZSHoUo8JI=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=kDPtKx3sZWx6iMwPR/4CIh7d2nKDLoSd1RtSeyRxvk8VewXnOIV2o7p0qa6UWOgme
- d02mSmioReN0L3wfNXmP2OPUNdz51mSkKRNOD5vC1TqGXBp9+jppL4rj7XDDbaVaCk
- rwurxXaP2ZSeDXuB6R0WEk3lrIfJaHOhoCnk+UHA=
-Message-ID: <f4ef50ec-0804-fdd0-108e-d4584294a29d@xen0n.name>
-Date: Tue, 4 Jan 2022 21:14:51 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:97.0)
- Gecko/20100101 Thunderbird/97.0a1
-Subject: Re: [PATCH] linux-user: Fix trivial build error on loongarch64
-Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20220104130217.2144929-1-f4bug@amsat.org>
-From: WANG Xuerui <i.qemu@xen0n.name>
-In-Reply-To: <20220104130217.2144929-1-f4bug@amsat.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=115.28.160.31; envelope-from=i.qemu@xen0n.name;
- helo=mailbox.box.xen0n.name
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.354,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ (Exim 4.90_1) (envelope-from <carwynellis@gmail.com>)
+ id 1n4jh3-00069I-6M; Tue, 04 Jan 2022 08:17:37 -0500
+Received: from [2a00:1450:4864:20::430] (port=46073
+ helo=mail-wr1-x430.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <carwynellis@gmail.com>)
+ id 1n4jh1-0001Rv-LP; Tue, 04 Jan 2022 08:17:36 -0500
+Received: by mail-wr1-x430.google.com with SMTP id v7so76032324wrv.12;
+ Tue, 04 Jan 2022 05:17:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:subject:from:in-reply-to:date:cc
+ :content-transfer-encoding:message-id:references:to;
+ bh=+fc5pRio4+WMiKWqnBvSS9a0SN3ZgBjI/DGotEeBVys=;
+ b=eAdC/MezHyAOJPbKp8BZqu1rOC4JBS4/yPDUXXT9lWBJZRUMAI4OOoVH+AZ9noWDOS
+ OcVKK9bfy5vaPd3CDjSS8e0Hga2BakpMaMBq2GKsw+183FomJZbXYDIGpqIy1dBhffdo
+ bUEnhGeVh5EaZzVrqPRsj0ZQY7wQ90//4PNfl5JLR0C+ay9cxPzcUWoXc2PM0phtvWwT
+ SzMaCQX6bPPM3MD6lCDnRqkEYpi2DMipZlRWO9ZZ6k6wwLVvlC4MK7SHJhvpUjakr1d9
+ WHTDvBDo4Gh/qsm+l7DrzGVubb9MXWSjyOFKOkNnGWUPr5wQyluVsHLWIZ3kwOV7z+F1
+ Dh+Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+ :content-transfer-encoding:message-id:references:to;
+ bh=+fc5pRio4+WMiKWqnBvSS9a0SN3ZgBjI/DGotEeBVys=;
+ b=E6plBlxxdo18+uB4WQZ4M8SU8AXRgc/njuiqWYqR9Ss/+3thNCamzmIz90yf8sm6NS
+ 6K0EGmDmY5JxP00C0WZwCsNXg8jTYkolrztgHjc5Jrc6mgZquYrU2heKFzisKzdmV+VG
+ 3pdYiNQz81vFoSeua8mzK51ENsBMmJE7osFtzSo8MLdqZAELUlf1CDfEPuh25NAKWbzr
+ rPg175q6Kfs3fwUY6jY4SoObameNZEa9ec/IIVAWQZJE9n6DeQVDO9789Cc5IgJRlOtT
+ 6XyUKSDqG1LTeQ8aH3gMXb6NeOcMulykPIiPLMybPHXv/2PTVDXkIAxK44wY5uzASAYW
+ FGbg==
+X-Gm-Message-State: AOAM530fJd1ExfTKqfOyw6dzFosMNz5Y4YuZ9x/7qpCqemuXPE1YRvmK
+ 1UsiXvaHqTFFTugHShEHzIg=
+X-Google-Smtp-Source: ABdhPJz8odjqj7XorCjyeTGUVEO+heI1TldQt2qFmmH0DjG1BD9577JtG7x1Jc0ixj6fOjdNkrqsCw==
+X-Received: by 2002:adf:fa87:: with SMTP id h7mr41218003wrr.561.1641302252884; 
+ Tue, 04 Jan 2022 05:17:32 -0800 (PST)
+Received: from smtpclient.apple (201.11.75.194.dyn.plus.net. [194.75.11.201])
+ by smtp.gmail.com with ESMTPSA id
+ l2sm39461627wrs.43.2022.01.04.05.17.32
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Tue, 04 Jan 2022 05:17:32 -0800 (PST)
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 15.0 \(3693.40.0.1.81\))
+Subject: Re: [PATCH 2/2] hw/display/vmware_vga: do not discard screen updates
+From: Carwyn Ellis <carwynellis@gmail.com>
+In-Reply-To: <20220104122350.ktsnpqfmtrmwcxrk@sirius.home.kraxel.org>
+Date: Tue, 4 Jan 2022 13:17:31 +0000
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <A9FA2066-AC8D-490F-B60B-6675EFF4A8F5@gmail.com>
+References: <20220104091135.61226-1-carwynellis@gmail.com>
+ <20220104091135.61226-3-carwynellis@gmail.com>
+ <20220104122350.ktsnpqfmtrmwcxrk@sirius.home.kraxel.org>
+To: Gerd Hoffmann <kraxel@redhat.com>
+X-Mailer: Apple Mail (2.3693.40.0.1.81)
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::430
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=carwynellis@gmail.com; helo=mail-wr1-x430.google.com
+X-Spam_score_int: 6
+X-Spam_score: 0.6
+X-Spam_bar: /
+X-Spam_report: (0.6 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -63,71 +88,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: WANG Xuerui <git@xen0n.name>, qemu-trivial@nongnu.org,
- Michael Tokarev <mjt@tls.msk.ru>, Laurent Vivier <laurent@vivier.eu>,
- Song Gao <gaosong@loongson.cn>
+Cc: qemu-trivial@nongnu.org, QEMU <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2022/1/4 21:02, Philippe Mathieu-Daudé wrote:
 
-> When building using GCC 8.3.0 on loongarch64 (Loongnix) we get:
->
->   In file included from ../linux-user/signal.c:33:
->   ../linux-user/host/loongarch64/host-signal.h: In function ‘host_signal_write’:
->   ../linux-user/host/loongarch64/host-signal.h:57:9: error: a label can only be part of a statement and a declaration is not a statement
->          uint32_t sel = (insn >> 15) & 0b11111111111;
->          ^~~~~~~~
->
-> We don't use the 'sel' variable more than once, so drop it.
->
-> Meson output for the record:
->
->   Host machine cpu family: loongarch64
->   Host machine cpu: loongarch64
->   C compiler for the host machine: cc (gcc 8.3.0 "cc (Loongnix 8.3.0-6.lnd.vec.27) 8.3.0")
->   C linker for the host machine: cc ld.bfd 2.31.1-system
-So this issue indeed only happens on the Loongson-provided toolchain
-with the ancient 8.3.0 version of gcc, after all... I'd have to admit
-that I was initially reluctant to even investigate this, given the
-tendency of Loongson people not verifying things on upstream versions of
-their own work, but...
->
-> Fixes: ad812c3bd65 ("linux-user: Implement CPU-specific signal handler for loongarch64 hosts")
-> Reported-by: Song Gao <gaosong@loongson.cn>
-> Suggested-by: Song Gao <gaosong@loongson.cn>
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
->  linux-user/host/loongarch64/host-signal.h | 4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
->
-> diff --git a/linux-user/host/loongarch64/host-signal.h b/linux-user/host/loongarch64/host-signal.h
-> index 05e2c823717..7effa242515 100644
-> --- a/linux-user/host/loongarch64/host-signal.h
-> +++ b/linux-user/host/loongarch64/host-signal.h
-> @@ -54,9 +54,7 @@ static inline bool host_signal_write(siginfo_t *info, ucontext_t *uc)
->          }
->          break;
->      case 0b001110: /* indexed, atomic, bounds-checking memory operations */
-> -        uint32_t sel = (insn >> 15) & 0b11111111111;
-> -
-> -        switch (sel) {
-> +        switch ((insn >> 15) & 0b11111111111) {
->          case 0b00000100000: /* stx.b */
->          case 0b00000101000: /* stx.h */
->          case 0b00000110000: /* stx.w */
 
-the fix is obvious enough, doesn't harm readability, and solves a real
-problem for some (their toolchain being outdated is not their fault,
-rather Loongson's).
+> On 4 Jan 2022, at 12:23, Gerd Hoffmann <kraxel@redhat.com> wrote:
+>=20
+>  Hi,
+>=20
+>> This change firstly increases the screen update FIFO size to ensure =
+it's
+>> large enough to accomodate all updates deferred in a given screen
+>> refresh cycle.
+>=20
+> How do you know it's large enough?
+>=20
+>> @@ -385,7 +385,14 @@ static inline void =
+vmsvga_update_rect_delayed(struct vmsvga_state_s *s,
+>> {
+>>     struct vmsvga_rect_s *rect =3D =
+&s->redraw_fifo[s->redraw_fifo_last++];
+>>=20
+>> -    s->redraw_fifo_last &=3D REDRAW_FIFO_LEN - 1;
+>> +    if (s->redraw_fifo_last >=3D REDRAW_FIFO_LEN) {
+>> +        VMWARE_VGA_DEBUG("%s: Discarding updates - FIFO length %d =
+exceeded\n",
+>> +            "vmsvga_update_rect_delayed",
+>> +            REDRAW_FIFO_LEN
+>=20
+> Hmm, apparently you don't know ;)
+>=20
+> How about just calling vmsvga_update_rect_flush()
+> when the fifo is (almost) full?
 
-So after fixing the commit message:
+Yeah will give that a shot. Wasn=E2=80=99t sure how it=E2=80=99d play so =
+did the simplest thing possible.
 
-Reviewed-by: WANG Xuerui <git@xen0n.name>
+>=20
+> Which guest do you use btw?  I'm kind-of surprised this is still being
+> used even though it hasn't seen any development (beside fixing a bug =
+now
+> and then) for a decade or so and the feature gap to recent vmware is
+> huge ...
+>=20
 
-(Or do I just collect this patch and fix the commit message myself,
-sending a pull request later? I'm new to QEMU maintenance procedure and
-I'm still not quite sure if it is too heavyweight to have you send v2
-for just a single typo and R-b tag collection.)
+This is an old vmware vm that rarely gets used. Figured I=E2=80=99d see =
+if I could get it working over the holidays after making the move off an =
+intel mac to m1, and noticed the issue with the output. In this case =
+using the already configured vmware drivers was the least worst option.
 
+> take care,
+>  Gerd
+>=20
+
+Cheers
+Carwyn=
 
