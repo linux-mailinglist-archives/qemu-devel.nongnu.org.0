@@ -2,61 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB283483F3E
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 10:35:05 +0100 (CET)
-Received: from localhost ([::1]:39844 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC450483F3F
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 10:36:52 +0100 (CET)
+Received: from localhost ([::1]:41964 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n4gDg-0000nw-FI
-	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 04:35:04 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39260)
+	id 1n4gFP-0002NK-Ua
+	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 04:36:51 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39392)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1n4gCK-0007qu-Mk; Tue, 04 Jan 2022 04:33:40 -0500
-Received: from smtpout3.mo529.mail-out.ovh.net ([46.105.54.81]:46855)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1n4gD2-0000os-1T
+ for qemu-devel@nongnu.org; Tue, 04 Jan 2022 04:34:24 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41529)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1n4gCI-0003Ll-MI; Tue, 04 Jan 2022 04:33:40 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.109.146.173])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id AAF25D569F88;
- Tue,  4 Jan 2022 10:33:35 +0100 (CET)
-Received: from kaod.org (37.59.142.96) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.17; Tue, 4 Jan
- 2022 10:33:35 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-96R001543c2275-ae05-43e0-a4b3-88bfc376c4c0,
- 8E52E0D80BCA28EB10B868BCDB857CC95652C900) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <78d37b76-3118-8d54-4d0a-9946a14a91e5@kaod.org>
-Date: Tue, 4 Jan 2022 10:33:31 +0100
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1n4gCz-00058B-Ka
+ for qemu-devel@nongnu.org; Tue, 04 Jan 2022 04:34:23 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1641288859;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=HzMZR2ZjVbWArqEQGpvxHm56eCK0XGiypcERpLaanbU=;
+ b=C86jg6kqlGkVNGfkCVFdfs9AJmFHigX1CFlq4rbc9xdrLD3Ojfm8k7TBRyVbjuzq01ZNmE
+ D+k9Hqeq/JedGKYt/9n2xEgZh1mETSAUO0wk9b8xdUVyztpVUTthMCC1iUEQ7WYCU7JEOJ
+ 5lEfw695dq3aIiQkiWS69ApQ7bvPCV4=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-654-meq-qwuwMLK2Vv777pl7cA-1; Tue, 04 Jan 2022 04:34:18 -0500
+X-MC-Unique: meq-qwuwMLK2Vv777pl7cA-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ dz8-20020a0564021d4800b003f897935eb3so24883512edb.12
+ for <qemu-devel@nongnu.org>; Tue, 04 Jan 2022 01:34:18 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=HzMZR2ZjVbWArqEQGpvxHm56eCK0XGiypcERpLaanbU=;
+ b=t7vnmHEjc9/tEUoUpqol/zWMBuyzilDsMRn/JrtYkKfrl9p6GGzVcbZtZZZjKanhGD
+ oTdv3V7Xz0is0sZwMswM2MrzcrUDxReMgbNNcNWjmJcN8UGLYoKpom1hQiX4+SydW7o0
+ Im8FlvJX8xoHRta7gvpj2Dj3knCFJ4kfhkle9tTGFGx8l6vBHlDt6oIgAzUnJA5j3XwV
+ 79LpIoCzVSdNQEdfN8YETKYxxGHpNC4jBFW9OVmPhd8XrzwVAe4hAtJ0JfGHAKwlN4cD
+ 7ytBdRR3dq7J8Na5p5k1IXlNm1Vv2S1CISFQgdQ0out8WNNY8jH56mJGjFaRMF/Kpqb8
+ gfOA==
+X-Gm-Message-State: AOAM533ha4sE7BSvzFCSaRxcte6WCL5oo3XGOA9XR1Tt+CMUinqH8Dfb
+ 5CuWNQZ4ta3hVT1U5H2HqQdHyDsGaagIRus+ra+zBetWjfPzFS0BCFsEpp1Zc88PG5SFpoLUVy+
+ 9P2seZdGbBcOvCtU=
+X-Received: by 2002:a17:907:1692:: with SMTP id
+ hc18mr38799724ejc.558.1641288857828; 
+ Tue, 04 Jan 2022 01:34:17 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJy4vNxFE0Njt2FkLAwsuI8SDC/6G4DvUNHNscgmDjOZuhe77P/pvXRsH2bwwR9JaM2R2aR+gQ==
+X-Received: by 2002:a17:907:1692:: with SMTP id
+ hc18mr38799714ejc.558.1641288857602; 
+ Tue, 04 Jan 2022 01:34:17 -0800 (PST)
+Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ by smtp.gmail.com with ESMTPSA id dn4sm11415607ejc.95.2022.01.04.01.34.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 04 Jan 2022 01:34:17 -0800 (PST)
+Date: Tue, 4 Jan 2022 10:34:15 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Daniil Tatianin <d-tatianin@yandex-team.ru>
+Subject: Re: [PATCH v1] hw/smbios: verify header type for file before using it
+Message-ID: <20220104103415.49b14493@redhat.com>
+In-Reply-To: <20211129135211.1114466-1-d-tatianin@yandex-team.ru>
+References: <20211129135211.1114466-1-d-tatianin@yandex-team.ru>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.30; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH 2/9] target/ppc: powerpc_excp: Keep 60x soft MMU logs
- active
-Content-Language: en-US
-To: Fabiano Rosas <farosas@linux.ibm.com>, <qemu-devel@nongnu.org>
-References: <20220103220746.3916246-1-farosas@linux.ibm.com>
- <20220103220746.3916246-3-farosas@linux.ibm.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20220103220746.3916246-3-farosas@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.96]
-X-ClientProxiedBy: DAG9EX2.mxp5.local (172.16.2.82) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 8ebe01f1-563c-46ae-af15-fc693c340ccd
-X-Ovh-Tracer-Id: 1472395605727742758
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrudeffedgtdehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepieegvdffkeegfeetuddttddtveduiefhgeduffekiedtkeekteekhfffleevleelnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopegurghnihgvlhhhsgegudefsehgmhgrihhlrdgtohhm
-Received-SPF: pass client-ip=46.105.54.81; envelope-from=clg@kaod.org;
- helo=smtpout3.mo529.mail-out.ovh.net
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) NICE_REPLY_A=-3.354, RCVD_IN_MSPIKE_H2=-0.001,
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) DKIMWL_WL_HIGH=-0.37, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -70,68 +98,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: richard.henderson@linaro.org, danielhb413@gmail.com, qemu-ppc@nongnu.org,
- david@gibson.dropbear.id.au
+Cc: ani@anisinha.ca, qemu-devel@nongnu.org, yc-core@yandex-team.ru,
+ mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/3/22 23:07, Fabiano Rosas wrote:
-> Remove the compile time definition and make the logging be controlled
-> by the `-d mmu` option in the cmdline.
-> 
-> Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
+On Mon, 29 Nov 2021 16:52:11 +0300
+Daniil Tatianin <d-tatianin@yandex-team.ru> wrote:
 
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
+here should be more verbose description of the issue
+preferably with a way to reproduce it.
+and what/why patch does what it does.
 
-Thanks,
-
-C.
-
-
+> Signed-off-by: Daniil Tatianin <d-tatianin@yandex-team.ru>
 > ---
->   target/ppc/excp_helper.c | 15 ++++++---------
->   1 file changed, 6 insertions(+), 9 deletions(-)
+>  hw/smbios/smbios.c | 6 ++++++
+>  1 file changed, 6 insertions(+)
 > 
-> diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-> index 002a42261b..4769abfb0c 100644
-> --- a/target/ppc/excp_helper.c
-> +++ b/target/ppc/excp_helper.c
-> @@ -30,8 +30,6 @@
->   #include "exec/cpu_ldst.h"
->   #endif
->   
-> -/* #define DEBUG_SOFTWARE_TLB */
-> -
->   /*****************************************************************************/
->   /* Exception processing */
->   #if !defined(CONFIG_USER_ONLY)
-> @@ -65,7 +63,6 @@ static inline void dump_hcall(CPUPPCState *env)
->   
->   static void ppc_excp_debug_sw_tlb(CPUPPCState *env, int excp)
->   {
-> -#if defined(DEBUG_SOFTWARE_TLB)
->       const char *es;
->       target_ulong *miss, *cmp;
->       int en;
-> @@ -89,12 +86,12 @@ static void ppc_excp_debug_sw_tlb(CPUPPCState *env, int excp)
->           miss = &env->spr[SPR_DMISS];
->           cmp = &env->spr[SPR_DCMP];
->       }
-> -    qemu_log("6xx %sTLB miss: %cM " TARGET_FMT_lx " %cC "
-> -             TARGET_FMT_lx " H1 " TARGET_FMT_lx " H2 "
-> -             TARGET_FMT_lx " %08x\n", es, en, *miss, en, *cmp,
-> -             env->spr[SPR_HASH1], env->spr[SPR_HASH2],
-> -             env->error_code);
-> -#endif
+> diff --git a/hw/smbios/smbios.c b/hw/smbios/smbios.c
+> index 7397e56737..c55f77368a 100644
+> --- a/hw/smbios/smbios.c
+> +++ b/hw/smbios/smbios.c
+> @@ -1163,6 +1163,12 @@ void smbios_entry_add(QemuOpts *opts, Error **errp)
+>              return;
+>          }
+>  
+> +        if (header->type > SMBIOS_MAX_TYPE) {
+> +            error_setg(errp,
+> +                       "invalid header type %d!", header->type);
+
+3.0 spec says that types over 127 are valid and for use by OEM/etc,
+but QEMU doesn't support anything over 127 due to limited size of
+have_fields_bitmap.
+So I'd rephrase it as "unsupported header type"
+
+> +            return;
+> +        }
 > +
-> +    qemu_log_mask(CPU_LOG_MMU, "6xx %sTLB miss: %cM " TARGET_FMT_lx " %cC "
-> +                  TARGET_FMT_lx " H1 " TARGET_FMT_lx " H2 "
-> +                  TARGET_FMT_lx " %08x\n", es, en, *miss, en, *cmp,
-> +                  env->spr[SPR_HASH1], env->spr[SPR_HASH2],
-> +                  env->error_code);
->   }
->   
->   
-> 
+>          if (test_bit(header->type, have_fields_bitmap)) {
+>              error_setg(errp,
+>                         "can't load type %d struct, fields already specified!",
 
 
