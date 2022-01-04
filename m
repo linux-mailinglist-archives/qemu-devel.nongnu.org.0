@@ -2,85 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72809484961
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 21:42:14 +0100 (CET)
-Received: from localhost ([::1]:47524 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B713848497C
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 21:53:29 +0100 (CET)
+Received: from localhost ([::1]:52960 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n4qdJ-0005aD-4E
-	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 15:42:13 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47330)
+	id 1n4qoC-0001H5-FI
+	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 15:53:28 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48784)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1n4qc4-0004lq-IT
- for qemu-devel@nongnu.org; Tue, 04 Jan 2022 15:40:56 -0500
-Received: from [2607:f8b0:4864:20::1035] (port=45886
- helo=mail-pj1-x1035.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1n4qc2-0004Js-Nv
- for qemu-devel@nongnu.org; Tue, 04 Jan 2022 15:40:56 -0500
-Received: by mail-pj1-x1035.google.com with SMTP id
- l16-20020a17090a409000b001b2e9628c9cso4340613pjg.4
- for <qemu-devel@nongnu.org>; Tue, 04 Jan 2022 12:40:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=3VrYoNA/xILe/mvT36gxoItTluXvrjXa7CJrxIMsX0o=;
- b=KeNofYob7emM8pZ9rbij99cJnHF3UiQGVmRczaOJoGGUh9+Qq6npVg8UvMTrajWuxy
- ejk32OKOMizS2meQSXrX2YosQxWFMjpfhNtd6QXVajB8r312KdaD8HfO/expWs4u7ZqZ
- UK6X0/bKmLSfTBzP9QR7eFYtgSXilcXpWLFuLyY3hNuPmUwJFsgGEzrzNQ48XUh0XFQz
- +acMQtB4sHK1boPdVc1D7QkOSWZ1osncnQNvy+lo+0aJJRS6NpKXN0CSP87UJ65aTM1P
- EnLhBEPF4Tng3vtZMvHiXH6QBHYsbP8kXSRudMGoludkyHNi2sukl3WB3Ub2MhiklEoY
- +bjg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=3VrYoNA/xILe/mvT36gxoItTluXvrjXa7CJrxIMsX0o=;
- b=6/Ep7li+Lun6qd7hm39sfDghsy4+eJL+5l1pynAn05ZyRO4JYhbVunW6bkhR8HebAR
- BBwjOtcZ77osMez5wKPlOh90257oAGC6uFGGlAStW14HboouJgEqW+m6G9EPz5geMEEj
- orAm0EB74RteZFNhdxMkyDZoRDZED0FcAlCHkw46M8meddAB3ggfMZMtnUmMCVbkDdgs
- v1pqexsfZ3c1YIRjFioaYDiqyiFUvNMzjsMTivJ9BnWfuagVNq5ovWgaX2PgkvvZeMxS
- jA72Dmtq18QzIU/k1oPx2cflvvw4kC5ZyYrHHJDYpF+Ekz3W6tz+dH6KeWMHcz+wYVcd
- RbeA==
-X-Gm-Message-State: AOAM532q4XX9ExlYlArH6MkltFU5rH3bznQ8NVClyGmUntbIGapQebO7
- 83Gz8eTV26sv9YSnUKzuMhpqdQ==
-X-Google-Smtp-Source: ABdhPJxf/ik/Y38VYkYLmBfxQcbxiU/njiP3rM6oWO5mtjginJbxMSZxO4ekVawojZpu9eJSmC5hzQ==
-X-Received: by 2002:a17:903:11cf:b0:149:a17a:361b with SMTP id
- q15-20020a17090311cf00b00149a17a361bmr25760391plh.146.1641328853171; 
- Tue, 04 Jan 2022 12:40:53 -0800 (PST)
-Received: from [192.168.1.13] (174-21-75-75.tukw.qwest.net. [174.21.75.75])
- by smtp.gmail.com with ESMTPSA id h15sm46036189pfc.134.2022.01.04.12.40.52
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 04 Jan 2022 12:40:52 -0800 (PST)
-Subject: Re: [PATCH] tests/docker: Add gentoo-loongarch64-cross image and run
- cross builds in GitLab
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- WANG Xuerui <git@xen0n.name>
-References: <20211229062204.3726981-1-git@xen0n.name>
- <87fsq3l26b.fsf@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <1a87cd1d-dd4c-b360-23c6-60903fbb6a8d@linaro.org>
-Date: Tue, 4 Jan 2022 12:40:50 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
+ id 1n4qma-0000QE-9G; Tue, 04 Jan 2022 15:51:48 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:34466)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
+ id 1n4qmY-00078V-Mt; Tue, 04 Jan 2022 15:51:48 -0500
+Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 204JrSIu031003; 
+ Tue, 4 Jan 2022 20:51:32 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : in-reply-to : references : date : message-id : mime-version :
+ content-type; s=pp1; bh=/MIB7NFvW5UCRnu2JdO9BkMCSwSmaQdOFod1D+N5RGQ=;
+ b=Jou38eVMlZG94hh93s2/O6ebtAIyUrxZ5pmpCRHq8qZASyC/RVvYAR0vgHyjhpbfsKZy
+ nT45RKZC46dzgK0QqDIopmp30SF1Bd8nZigM1L8Ojwhf2ivXc/TxL1ayodURy78jjZaZ
+ 5x7A7oECZL99r5CfFbIf2nT4Z6agNTjvK9gjeOfNJbTntHkqMzIksKfnTp4GHNq6uiQa
+ 0Wd3K2sXWA8idvngW1Htvdp5ZxTDS1eKnk4VeZ36rp2EYFi7gXGD7bWjgSta8gQ8knLF
+ 9X547HpIjNFb49rgoh41zFrWmSXi4YZAT/U5aN4nt596Sv9VItVLSQn2bdOf8byTRdcH Kg== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3dcp2qhdvp-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 04 Jan 2022 20:51:32 +0000
+Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 204Kp6pp030108;
+ Tue, 4 Jan 2022 20:51:32 GMT
+Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
+ [169.53.41.122])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3dcp2qhdvc-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 04 Jan 2022 20:51:32 +0000
+Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
+ by ppma04dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 204KmYfZ031128;
+ Tue, 4 Jan 2022 20:51:31 GMT
+Received: from b03cxnp07027.gho.boulder.ibm.com
+ (b03cxnp07027.gho.boulder.ibm.com [9.17.130.14])
+ by ppma04dal.us.ibm.com with ESMTP id 3daekbesvw-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 04 Jan 2022 20:51:31 +0000
+Received: from b03ledav004.gho.boulder.ibm.com
+ (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
+ by b03cxnp07027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 204KpUmr33489358
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 4 Jan 2022 20:51:30 GMT
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 25FDD78067;
+ Tue,  4 Jan 2022 20:51:30 +0000 (GMT)
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 85B5E78074;
+ Tue,  4 Jan 2022 20:51:29 +0000 (GMT)
+Received: from localhost (unknown [9.163.4.248])
+ by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTPS;
+ Tue,  4 Jan 2022 20:51:29 +0000 (GMT)
+From: Fabiano Rosas <farosas@linux.ibm.com>
+To: qemu-devel@nongnu.org
+Subject: Re: [PATCH 6/9] target/ppc: powerpc_excp: Preserve MSR_LE bit
+In-Reply-To: <20220103220746.3916246-7-farosas@linux.ibm.com>
+References: <20220103220746.3916246-1-farosas@linux.ibm.com>
+ <20220103220746.3916246-7-farosas@linux.ibm.com>
+Date: Tue, 04 Jan 2022 17:51:27 -0300
+Message-ID: <87fsq3ns1c.fsf@linux.ibm.com>
 MIME-Version: 1.0
-In-Reply-To: <87fsq3l26b.fsf@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1035
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.354,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+Content-Type: text/plain
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: W5ku9CrUuyneDdeSZ0CKjET5pLWF_vHB
+X-Proofpoint-ORIG-GUID: D-131QxTs27woGGZk2eGecx-YFZerVbJ
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2022-01-04_10,2022-01-04_01,2021-12-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0
+ priorityscore=1501 impostorscore=0 suspectscore=0 phishscore=0 mlxscore=0
+ mlxlogscore=578 spamscore=0 adultscore=0 lowpriorityscore=0 clxscore=1015
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2110150000 definitions=main-2201040133
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=farosas@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: 0
+X-Spam_score: -0.1
+X-Spam_bar: /
+X-Spam_report: (-0.1 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,38 +106,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Beraldo Leal <bleal@redhat.com>,
- qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Cc: qemu-ppc@nongnu.org, danielhb413@gmail.com, richard.henderson@linaro.org,
+ clg@kaod.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/4/22 10:31 AM, Alex Bennée wrote:
->> +docker-image-gentoo-loongarch64-cross: $(DOCKER_FILES_DIR)/gentoo-loongarch64-cross.docker
->> +	$(if $(NOCACHE), 								\
->> +		$(call quiet-command,							\
->> +			$(DOCKER_SCRIPT) build -t qemu/gentoo-loongarch64-cross -f $< 	\
->> +			$(if $V,,--quiet) --no-cache 					\
->> +			--registry $(DOCKER_REGISTRY) --extra-files			\
->> +			$(DOCKER_FILES_DIR)/gentoo-loongarch64-cross.docker.d/build-toolchain.sh, \
->> +			"BUILD", "gentoo-loongarch64-cross"),				\
->> +		$(call quiet-command,							\
->> +			$(DOCKER_SCRIPT) fetch $(if $V,,--quiet)			\
->> +				qemu/gentoo-loongarch64-cross $(DOCKER_REGISTRY),	\
->> +			"FETCH", "gentoo-loongarch64-cross")				\
->> +		$(call quiet-command,							\
->> +			$(DOCKER_SCRIPT) update $(if $V,,--quiet) 			\
->> +				qemu/gentoo-loongarch64-cross --add-current-user,	\
->> +			"PREPARE", "gentoo-loongarch64-cross"))
->> +
->> +
-> 
-> Can this not use debian-toolchain-run (possibly renamed) like the
-> microblaze and nios2 toolchains?
+Fabiano Rosas <farosas@linux.ibm.com> writes:
 
-At present there are too many "debian" prefixes in the macro.
-It could be reorganized, but perhaps not trivially.
+> We currently clear MSR_LE when copying bits from env->msr to
+> new_msr. However, for CPUs that do not have LPCR_ILE we always set
+> new_msr[LE] according to env->msr[LE]. And for CPUs that do have ILE
+> support we need to check LPCR/HID0 anyway, so there's no need to clear
+> the bit when copying.
+>
+> Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
+> ---
+>  target/ppc/excp_helper.c | 14 +++++---------
+>  1 file changed, 5 insertions(+), 9 deletions(-)
+>
+> diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
+> index 5d31940426..e56ddbe5d5 100644
+> --- a/target/ppc/excp_helper.c
+> +++ b/target/ppc/excp_helper.c
+> @@ -348,10 +348,10 @@ static inline void powerpc_excp(PowerPCCPU *cpu, int excp)
+>      }
+>  
+>      /*
+> -     * new interrupt handler msr preserves existing HV and ME unless
+> -     * explicitly overriden
+> +     * new interrupt handler msr preserves existing HV, ME and LE
+> +     * unless explicitly overriden.
+>       */
+> -    new_msr = env->msr & (((target_ulong)1 << MSR_ME) | MSR_HVB);
+> +    new_msr = env->msr & (((target_ulong)1 << MSR_ME) | MSR_HVB | MSR_LE);
+>  
+>      /* target registers */
+>      srr0 = SPR_SRR0;
+> @@ -763,13 +763,9 @@ static inline void powerpc_excp(PowerPCCPU *cpu, int excp)
+>      if (excp_model >= POWERPC_EXCP_970) {
+>          if (ppc_interrupts_little_endian(cpu, !!(new_msr & MSR_HVB))) {
+>              new_msr |= (target_ulong)1 << MSR_LE;
+> +        } else {
+> +            new_msr &= ~((target_ulong)1 << MSR_LE);
+>          }
+> -    } else if (msr_ile) {
+> -        new_msr |= (target_ulong)1 << MSR_LE;
+> -    }
+> -#else
+> -    if (msr_ile) {
+> -        new_msr |= (target_ulong)1 << MSR_LE;
+>      }
+>  #endif
 
-
-r~
+This patch is incorrect, don't bother with it. I misread the msr_ile
+macro as msr_le. I'll think of an alternative.
 
