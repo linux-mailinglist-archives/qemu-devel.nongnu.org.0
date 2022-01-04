@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2774D48440D
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 16:01:45 +0100 (CET)
-Received: from localhost ([::1]:37848 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 806D7484411
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 16:02:05 +0100 (CET)
+Received: from localhost ([::1]:38116 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n4lJn-0000ay-OO
-	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 10:01:43 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52410)
+	id 1n4lK8-0000m9-9g
+	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 10:02:04 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52450)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1n4lGJ-0006tf-Fg
- for qemu-devel@nongnu.org; Tue, 04 Jan 2022 09:58:07 -0500
-Received: from [2a00:1450:4864:20::535] (port=34751
- helo=mail-ed1-x535.google.com)
+ id 1n4lGN-000713-7y
+ for qemu-devel@nongnu.org; Tue, 04 Jan 2022 09:58:11 -0500
+Received: from [2a00:1450:4864:20::534] (port=40831
+ helo=mail-ed1-x534.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1n4lGH-0004Qo-Pv
- for qemu-devel@nongnu.org; Tue, 04 Jan 2022 09:58:07 -0500
-Received: by mail-ed1-x535.google.com with SMTP id u25so28206702edf.1
- for <qemu-devel@nongnu.org>; Tue, 04 Jan 2022 06:58:05 -0800 (PST)
+ id 1n4lGL-0004RL-Dp
+ for qemu-devel@nongnu.org; Tue, 04 Jan 2022 09:58:10 -0500
+Received: by mail-ed1-x534.google.com with SMTP id z29so149499982edl.7
+ for <qemu-devel@nongnu.org>; Tue, 04 Jan 2022 06:58:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=sn12UEUc7Qk8/uEupR3XTclgJmwgV1UmJePL9srNWJA=;
- b=eYsuJe0f9Q1Nkg2H1MOWFBS8DIdgxEjIh61Wh0wQebzzPxVqrF9frkfc4b138dOuch
- xsq2aE26ZMRPpypbhP9tRIQVsaZCnEsAYQOG5MJ6uDse9HbF1EkB3OhFe81HBPpJbhXC
- tlvTMiBun6zohWNEUCFPULqswo52RypxYplcAH8Hy97/BANcYX06l6K29vLsMClokUzK
- reNQU35UEHyfUjMmF4ZfJX68JIpH8uwPRaM/xKyu7udU6orJDr+2QSJZAGqG3ZnnsLNz
- Mt2qKVJ5TXkgiFZk9TQpLJ0Xi1WSOC5LlJtZ4tZxActAlmehq1Mnc9NN+bw5igK2d+hs
- 9lbA==
+ bh=JePqecmS0meombKTS33f5FvbmSwi5wC8hckPf3PFsDw=;
+ b=cW3+cCVEtrgHJdHGLU4AWkkV+JBbW4KRS9LA/yCfN6BVy4vh7F2vzLJb34GUIUB6Ag
+ Bgz6g/YSd4grWXn4NWorWjnvfsk858lqbw/6dpdbSlLMHWd5NDyLdlnzISDQvv4b46KR
+ 9Y1TQEaufzCs/UrTRxEu54uYXUdvpo+zLvAkTcDV5lZRx+opsZOPRjIXc9fEkPEJ5R/s
+ Q0h6DoH9CYpgZHYP25ia4FO76pVTch24PRvn8WA7UKx1EnDrn2FT+rX6ZzUKJ9W/w9XJ
+ W4hH6ykxISPnVhRoP7u7TRHaYrGvL3mh/ox0+XuYyU9f/yD3923/57CxzWnRb0JGsQIC
+ Af4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=sn12UEUc7Qk8/uEupR3XTclgJmwgV1UmJePL9srNWJA=;
- b=Q74x0z+xhPgrPEF3uS7P9dFIyEj7LbPixMpzw9eV7lzCghrvF774kLZG3+ODMPLOLh
- 5wOcpmSGLMCHBTIU/l3Y9PJ9+3v2yrZ/Yi570mnUWxUfFn4e8gVwowOIHElJmmyZdQ/K
- +I5NeaPO7/152UG8/MydO1GPe9X6EiJIrPxsDOTIw2nkz1nHHFi8aH5W6yH+AeK64THf
- Kl4NBbf5+TAuZHTVIpeuBZT59K+6MXKVmz4qiB+X/VkoWSRK/+Si4uCX/r7cHZMygofK
- eCmPVpR96JPlCzydNtYhbKy7ZwYDmwoUbTZ/Ri1UyejxoZ1936ZFYK6Kfr95M6cm3qEW
- HM3A==
-X-Gm-Message-State: AOAM532jMWSuuzpRiDaQE8teQnaLPt/4rVxfBVApfm7ldYhHczsTTt3E
- pq+rASY2BKdFzJgMRpa2S/EGz/V4nJY=
-X-Google-Smtp-Source: ABdhPJwhFU4I6I2vRNKXchePw/yrau3A68VnpowexnVCSfr66Mx5ndQQHxlU3b5vuAqp/PNVQln3ew==
-X-Received: by 2002:a05:6402:1d81:: with SMTP id
- dk1mr49438320edb.328.1641308284579; 
- Tue, 04 Jan 2022 06:58:04 -0800 (PST)
+ bh=JePqecmS0meombKTS33f5FvbmSwi5wC8hckPf3PFsDw=;
+ b=Dal8SxUxDsIaJJhlMt5xZ0pq6RSRRIPD5nDdMhRMdkE6fyqW8wt/KVoLhMaNzk0VeE
+ MIwW0Txvs/yqqh2bO4dpO2FgFjTJupLx/fqZzTbraznYeSxM9mj6eg7VQOskjPbGud3R
+ UzOv1W6HGEx7CwtGaQtNVfC7e3bEhaoOATd5fpbGpyugdvPNym6EzuUaJSAa9lsv4kmG
+ COboy4ardUfhO+/7w8mquMGe3Bix03By8HwL9Z06uHaro9Q/PaOIgTnAz5MyvuNDsWAX
+ 6Q6CZSo3D+7Q+fZ3oWCqjerwGX93ceOL01LCc5dGtthGlgDTNzkizXHbneLX5Gq3zug4
+ Tuvw==
+X-Gm-Message-State: AOAM532ql5DVvF7Y7J6MUEU8e7hn/xKp5YF29FX0cKHO3PLpGT0nvbIp
+ PbFe6uUodAC1FDyFVqEgEvcQCG4Hk4w=
+X-Google-Smtp-Source: ABdhPJwM9ZMzZA0E6lughvYPeVzmfq3zdOkHA2Byahme4oENSyVilwBmwU+RdOC9bL6h94yoQQZl3g==
+X-Received: by 2002:a05:6402:190c:: with SMTP id
+ e12mr50248499edz.153.1641308288083; 
+ Tue, 04 Jan 2022 06:58:08 -0800 (PST)
 Received: from localhost.localdomain ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
- by smtp.gmail.com with ESMTPSA id j21sm11475964ejj.133.2022.01.04.06.58.03
+ by smtp.gmail.com with ESMTPSA id j21sm11475964ejj.133.2022.01.04.06.58.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Jan 2022 06:58:04 -0800 (PST)
+ Tue, 04 Jan 2022 06:58:07 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 02/15] user: move common-user includes to a subdirectory of
- {bsd, linux}-user/
-Date: Tue,  4 Jan 2022 15:57:36 +0100
-Message-Id: <20220104145749.417387-3-pbonzini@redhat.com>
+Subject: [PULL 04/15] block/file-posix: Simplify the XFS_IOC_DIOINFO handling
+Date: Tue,  4 Jan 2022 15:57:38 +0100
+Message-Id: <20220104145749.417387-5-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20220104145749.417387-1-pbonzini@redhat.com>
 References: <20220104145749.417387-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::535
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::534
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::535;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x535.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::534;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x534.google.com
 X-Spam_score_int: 12
 X-Spam_score: 1.2
 X-Spam_bar: +
@@ -88,152 +87,185 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>
+Cc: Thomas Huth <thuth@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Avoid polluting the compilation of common-user/ with local include files;
-making an include file available to common-user/ should be a deliberate
-decision in order to keep a clear interface that can be used by both
-bsd-user/ and linux-user/.
+From: Thomas Huth <thuth@redhat.com>
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+The handling for the XFS_IOC_DIOINFO ioctl is currently quite excessive:
+This is not a "real" feature like the other features that we provide with
+the "--enable-xxx" and "--disable-xxx" switches for the configure script,
+since this does not influence lots of code (it's only about one call to
+xfsctl() in file-posix.c), so people don't gain much with the ability to
+disable this with "--disable-xfsctl".
+It's also unfortunate that the ioctl will be disabled on Linux in case
+the user did not install the right xfsprogs-devel package before running
+configure. Thus let's simplify this by providing the ioctl definition
+on our own, so we can completely get rid of the header dependency and
+thus the related code in the configure script.
+
+Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+Message-Id: <20211215125824.250091-1-thuth@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- bsd-user/{ => include}/special-errno.h                  | 0
- bsd-user/meson.build                                    | 2 +-
- linux-user/{ => include}/host/aarch64/host-signal.h     | 0
- linux-user/{ => include}/host/alpha/host-signal.h       | 0
- linux-user/{ => include}/host/arm/host-signal.h         | 0
- linux-user/{ => include}/host/i386/host-signal.h        | 0
- linux-user/{ => include}/host/loongarch64/host-signal.h | 0
- linux-user/{ => include}/host/mips/host-signal.h        | 0
- linux-user/{ => include}/host/ppc/host-signal.h         | 0
- linux-user/{ => include}/host/ppc64/host-signal.h       | 0
- linux-user/{ => include}/host/riscv/host-signal.h       | 0
- linux-user/{ => include}/host/s390/host-signal.h        | 0
- linux-user/{ => include}/host/s390x/host-signal.h       | 0
- linux-user/{ => include}/host/sparc/host-signal.h       | 0
- linux-user/{ => include}/host/sparc64/host-signal.h     | 0
- linux-user/{ => include}/host/x32/host-signal.h         | 0
- linux-user/{ => include}/host/x86_64/host-signal.h      | 0
- linux-user/{ => include}/special-errno.h                | 0
- linux-user/meson.build                                  | 4 ++--
- 19 files changed, 3 insertions(+), 3 deletions(-)
- rename bsd-user/{ => include}/special-errno.h (100%)
- rename linux-user/{ => include}/host/aarch64/host-signal.h (100%)
- rename linux-user/{ => include}/host/alpha/host-signal.h (100%)
- rename linux-user/{ => include}/host/arm/host-signal.h (100%)
- rename linux-user/{ => include}/host/i386/host-signal.h (100%)
- rename linux-user/{ => include}/host/loongarch64/host-signal.h (100%)
- rename linux-user/{ => include}/host/mips/host-signal.h (100%)
- rename linux-user/{ => include}/host/ppc/host-signal.h (100%)
- rename linux-user/{ => include}/host/ppc64/host-signal.h (100%)
- rename linux-user/{ => include}/host/riscv/host-signal.h (100%)
- rename linux-user/{ => include}/host/s390/host-signal.h (100%)
- rename linux-user/{ => include}/host/s390x/host-signal.h (100%)
- rename linux-user/{ => include}/host/sparc/host-signal.h (100%)
- rename linux-user/{ => include}/host/sparc64/host-signal.h (100%)
- rename linux-user/{ => include}/host/x32/host-signal.h (100%)
- rename linux-user/{ => include}/host/x86_64/host-signal.h (100%)
- rename linux-user/{ => include}/special-errno.h (100%)
+ block/file-posix.c | 37 ++++++++++++++++---------------------
+ configure          | 31 -------------------------------
+ meson.build        |  1 -
+ 3 files changed, 16 insertions(+), 53 deletions(-)
 
-diff --git a/bsd-user/special-errno.h b/bsd-user/include/special-errno.h
-similarity index 100%
-rename from bsd-user/special-errno.h
-rename to bsd-user/include/special-errno.h
-diff --git a/bsd-user/meson.build b/bsd-user/meson.build
-index 9fcb80c3fa..8380fa44c2 100644
---- a/bsd-user/meson.build
-+++ b/bsd-user/meson.build
-@@ -4,7 +4,7 @@ endif
+diff --git a/block/file-posix.c b/block/file-posix.c
+index b283093e5b..1f1756e192 100644
+--- a/block/file-posix.c
++++ b/block/file-posix.c
+@@ -106,10 +106,6 @@
+ #include <sys/diskslice.h>
+ #endif
  
- bsd_user_ss = ss.source_set()
+-#ifdef CONFIG_XFS
+-#include <xfs/xfs.h>
+-#endif
+-
+ /* OS X does not have O_DSYNC */
+ #ifndef O_DSYNC
+ #ifdef O_SYNC
+@@ -156,9 +152,6 @@ typedef struct BDRVRawState {
+     int perm_change_flags;
+     BDRVReopenState *reopen_state;
  
--common_user_inc += include_directories('.')
-+common_user_inc += include_directories('include')
+-#ifdef CONFIG_XFS
+-    bool is_xfs:1;
+-#endif
+     bool has_discard:1;
+     bool has_write_zeroes:1;
+     bool discard_zeroes:1;
+@@ -409,14 +402,22 @@ static void raw_probe_alignment(BlockDriverState *bs, int fd, Error **errp)
+     if (probe_logical_blocksize(fd, &bs->bl.request_alignment) < 0) {
+         bs->bl.request_alignment = 0;
+     }
+-#ifdef CONFIG_XFS
+-    if (s->is_xfs) {
+-        struct dioattr da;
+-        if (xfsctl(NULL, fd, XFS_IOC_DIOINFO, &da) >= 0) {
+-            bs->bl.request_alignment = da.d_miniosz;
+-            /* The kernel returns wrong information for d_mem */
+-            /* s->buf_align = da.d_mem; */
+-        }
++
++#ifdef __linux__
++    /*
++     * The XFS ioctl definitions are shipped in extra packages that might
++     * not always be available. Since we just need the XFS_IOC_DIOINFO ioctl
++     * here, we simply use our own definition instead:
++     */
++    struct xfs_dioattr {
++        uint32_t d_mem;
++        uint32_t d_miniosz;
++        uint32_t d_maxiosz;
++    } da;
++    if (ioctl(fd, _IOR('X', 30, struct xfs_dioattr), &da) >= 0) {
++        bs->bl.request_alignment = da.d_miniosz;
++        /* The kernel returns wrong information for d_mem */
++        /* s->buf_align = da.d_mem; */
+     }
+ #endif
  
- bsd_user_ss.add(files(
-   'bsdload.c',
-diff --git a/linux-user/host/aarch64/host-signal.h b/linux-user/include/host/aarch64/host-signal.h
-similarity index 100%
-rename from linux-user/host/aarch64/host-signal.h
-rename to linux-user/include/host/aarch64/host-signal.h
-diff --git a/linux-user/host/alpha/host-signal.h b/linux-user/include/host/alpha/host-signal.h
-similarity index 100%
-rename from linux-user/host/alpha/host-signal.h
-rename to linux-user/include/host/alpha/host-signal.h
-diff --git a/linux-user/host/arm/host-signal.h b/linux-user/include/host/arm/host-signal.h
-similarity index 100%
-rename from linux-user/host/arm/host-signal.h
-rename to linux-user/include/host/arm/host-signal.h
-diff --git a/linux-user/host/i386/host-signal.h b/linux-user/include/host/i386/host-signal.h
-similarity index 100%
-rename from linux-user/host/i386/host-signal.h
-rename to linux-user/include/host/i386/host-signal.h
-diff --git a/linux-user/host/loongarch64/host-signal.h b/linux-user/include/host/loongarch64/host-signal.h
-similarity index 100%
-rename from linux-user/host/loongarch64/host-signal.h
-rename to linux-user/include/host/loongarch64/host-signal.h
-diff --git a/linux-user/host/mips/host-signal.h b/linux-user/include/host/mips/host-signal.h
-similarity index 100%
-rename from linux-user/host/mips/host-signal.h
-rename to linux-user/include/host/mips/host-signal.h
-diff --git a/linux-user/host/ppc/host-signal.h b/linux-user/include/host/ppc/host-signal.h
-similarity index 100%
-rename from linux-user/host/ppc/host-signal.h
-rename to linux-user/include/host/ppc/host-signal.h
-diff --git a/linux-user/host/ppc64/host-signal.h b/linux-user/include/host/ppc64/host-signal.h
-similarity index 100%
-rename from linux-user/host/ppc64/host-signal.h
-rename to linux-user/include/host/ppc64/host-signal.h
-diff --git a/linux-user/host/riscv/host-signal.h b/linux-user/include/host/riscv/host-signal.h
-similarity index 100%
-rename from linux-user/host/riscv/host-signal.h
-rename to linux-user/include/host/riscv/host-signal.h
-diff --git a/linux-user/host/s390/host-signal.h b/linux-user/include/host/s390/host-signal.h
-similarity index 100%
-rename from linux-user/host/s390/host-signal.h
-rename to linux-user/include/host/s390/host-signal.h
-diff --git a/linux-user/host/s390x/host-signal.h b/linux-user/include/host/s390x/host-signal.h
-similarity index 100%
-rename from linux-user/host/s390x/host-signal.h
-rename to linux-user/include/host/s390x/host-signal.h
-diff --git a/linux-user/host/sparc/host-signal.h b/linux-user/include/host/sparc/host-signal.h
-similarity index 100%
-rename from linux-user/host/sparc/host-signal.h
-rename to linux-user/include/host/sparc/host-signal.h
-diff --git a/linux-user/host/sparc64/host-signal.h b/linux-user/include/host/sparc64/host-signal.h
-similarity index 100%
-rename from linux-user/host/sparc64/host-signal.h
-rename to linux-user/include/host/sparc64/host-signal.h
-diff --git a/linux-user/host/x32/host-signal.h b/linux-user/include/host/x32/host-signal.h
-similarity index 100%
-rename from linux-user/host/x32/host-signal.h
-rename to linux-user/include/host/x32/host-signal.h
-diff --git a/linux-user/host/x86_64/host-signal.h b/linux-user/include/host/x86_64/host-signal.h
-similarity index 100%
-rename from linux-user/host/x86_64/host-signal.h
-rename to linux-user/include/host/x86_64/host-signal.h
-diff --git a/linux-user/special-errno.h b/linux-user/include/special-errno.h
-similarity index 100%
-rename from linux-user/special-errno.h
-rename to linux-user/include/special-errno.h
-diff --git a/linux-user/meson.build b/linux-user/meson.build
-index b2f4afd5e7..de4320af05 100644
---- a/linux-user/meson.build
-+++ b/linux-user/meson.build
-@@ -4,8 +4,8 @@ endif
+@@ -798,12 +799,6 @@ static int raw_open_common(BlockDriverState *bs, QDict *options,
+ #endif
+     s->needs_alignment = raw_needs_alignment(bs);
  
- linux_user_ss = ss.source_set()
+-#ifdef CONFIG_XFS
+-    if (platform_test_xfs_fd(s->fd)) {
+-        s->is_xfs = true;
+-    }
+-#endif
+-
+     bs->supported_zero_flags = BDRV_REQ_MAY_UNMAP | BDRV_REQ_NO_FALLBACK;
+     if (S_ISREG(st.st_mode)) {
+         /* When extending regular files, we get zeros from the OS */
+diff --git a/configure b/configure
+index 030728d11e..3a523a3d14 100755
+--- a/configure
++++ b/configure
+@@ -291,7 +291,6 @@ EXTRA_CXXFLAGS=""
+ EXTRA_LDFLAGS=""
  
--common_user_inc += include_directories('host/' / host_arch)
--common_user_inc += include_directories('.')
-+common_user_inc += include_directories('include/host/' / host_arch)
-+common_user_inc += include_directories('include')
+ xen_ctrl_version="$default_feature"
+-xfs="$default_feature"
+ membarrier="$default_feature"
+ vhost_kernel="$default_feature"
+ vhost_net="$default_feature"
+@@ -1021,10 +1020,6 @@ for opt do
+   ;;
+   --enable-opengl) opengl="yes"
+   ;;
+-  --disable-xfsctl) xfs="no"
+-  ;;
+-  --enable-xfsctl) xfs="yes"
+-  ;;
+   --disable-zlib-test)
+   ;;
+   --enable-guest-agent) guest_agent="yes"
+@@ -1431,7 +1426,6 @@ cat << EOF
+   avx512f         AVX512F optimization support
+   replication     replication support
+   opengl          opengl support
+-  xfsctl          xfsctl support
+   qom-cast-debug  cast debugging support
+   tools           build qemu-io, qemu-nbd and qemu-img tools
+   bochs           bochs image format support
+@@ -2323,28 +2317,6 @@ EOF
+     fi
+ fi
  
- linux_user_ss.add(files(
-   'elfload.c',
+-##########################################
+-# xfsctl() probe, used for file-posix.c
+-if test "$xfs" != "no" ; then
+-  cat > $TMPC << EOF
+-#include <stddef.h>  /* NULL */
+-#include <xfs/xfs.h>
+-int main(void)
+-{
+-    xfsctl(NULL, 0, 0, NULL);
+-    return 0;
+-}
+-EOF
+-  if compile_prog "" "" ; then
+-    xfs="yes"
+-  else
+-    if test "$xfs" = "yes" ; then
+-      feature_not_found "xfs" "Install xfsprogs/xfslibs devel"
+-    fi
+-    xfs=no
+-  fi
+-fi
+-
+ ##########################################
+ # plugin linker support probe
+ 
+@@ -3456,9 +3428,6 @@ echo "CONFIG_BDRV_RO_WHITELIST=$block_drv_ro_whitelist" >> $config_host_mak
+ if test "$block_drv_whitelist_tools" = "yes" ; then
+   echo "CONFIG_BDRV_WHITELIST_TOOLS=y" >> $config_host_mak
+ fi
+-if test "$xfs" = "yes" ; then
+-  echo "CONFIG_XFS=y" >> $config_host_mak
+-fi
+ qemu_version=$(head $source_path/VERSION)
+ echo "PKGVERSION=$pkgversion" >>$config_host_mak
+ echo "SRC_PATH=$source_path" >> $config_host_mak
+diff --git a/meson.build b/meson.build
+index 5f0b6300b4..5a57906e98 100644
+--- a/meson.build
++++ b/meson.build
+@@ -3445,7 +3445,6 @@ if spice_protocol.found()
+   summary_info += {'  spice server support': spice}
+ endif
+ summary_info += {'rbd support':       rbd}
+-summary_info += {'xfsctl support':    config_host.has_key('CONFIG_XFS')}
+ summary_info += {'smartcard support': cacard}
+ summary_info += {'U2F support':       u2f}
+ summary_info += {'libusb':            libusb}
 -- 
 2.33.1
 
