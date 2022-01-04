@@ -2,84 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14D3C484A8A
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 23:15:11 +0100 (CET)
-Received: from localhost ([::1]:51838 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00404484A92
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 23:17:19 +0100 (CET)
+Received: from localhost ([::1]:55782 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n4s5G-0000xw-2t
-	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 17:15:10 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37316)
+	id 1n4s7L-0003wy-4r
+	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 17:17:19 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37658)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1n4s3k-0007zE-Rk
- for qemu-devel@nongnu.org; Tue, 04 Jan 2022 17:13:36 -0500
-Received: from [2607:f8b0:4864:20::434] (port=42870
- helo=mail-pf1-x434.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1n4s3j-0000nz-DG
- for qemu-devel@nongnu.org; Tue, 04 Jan 2022 17:13:36 -0500
-Received: by mail-pf1-x434.google.com with SMTP id t19so33390817pfg.9
- for <qemu-devel@nongnu.org>; Tue, 04 Jan 2022 14:13:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=yGhC5KNeUzflPJXWteXAWgl1DeyBYTlAzOlKhY0VdZs=;
- b=deJd+JzV1b8vgfCZ4/zl75e+lKbqI9V7zecOLmCs5R327fsMRcCq45FNImCrWYplLC
- +dXV4DaL4ffb3OYw4lnKLYM+oQyRmiQA/6/Ryce1rtYtoRKARjngz+Zzg3BJPCYTqbzc
- t39QHkWHNxNZ/8OmAJejRLsRuASgzLLqn5mUw8VWUdsmq6G01JPpeBSv5gUyFefGRMH9
- fuMyqwrN6PvPvL+Bm8ysj2tFiAK89SqWuUEkms5RBxBU3gqWc1qNWaUJu//RuazhxQxJ
- xjrpZuDFmaD30BXI2JxtyPbXGI0236/iDfe2cNPO0MI39kVqbkz2J4D9ApaJRRYgfqlQ
- Eugg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=yGhC5KNeUzflPJXWteXAWgl1DeyBYTlAzOlKhY0VdZs=;
- b=xqRPb9FJ1n5K6tDqjxS1ZV+ZhxiResjiLkfLzLCwVEnJgZfDYWiJbocXYhxHxkcekm
- xdrEJqLNPTIZDCrBc4lyxDoMW579pyKnsWrZr7tvAMrzh6Wx4kb0sgngLgB9dQ3AgdED
- DY8r02Vj1xZcpx71j2LPBRz4AXseTrRu3D9pfhXKPYqE5WYgxzbGj/pqC7dzk3+s3YNs
- F4FWm04MWpV3pyYQW/KsfkzbRwH79bH3Md3VI5UI06mL/C/VgRj8EmZCx6lwCOrzKDxX
- bi3/nzhfnqOR5AfYscNvjhyO28cxPFlVoTxx4f4xkgXVUov5uGi7/3BYNFKciKZuM+yR
- rM7Q==
-X-Gm-Message-State: AOAM531uaZDDXaGiKvSMjEP4ktoIByh8lZbJRVAfoY3CYtZWoapXizUI
- SpVh1WEs+JVPhFJDXsVBYPuylw==
-X-Google-Smtp-Source: ABdhPJzdaJFtlrXyYnKqOW1ux2eJIuT26XhgcyknJi49YK1HC5AAR0vOoeZt3ff/L9njD1Yi2ceyoQ==
-X-Received: by 2002:a05:6a00:1818:b0:4ba:c287:a406 with SMTP id
- y24-20020a056a00181800b004bac287a406mr52363203pfa.6.1641334414082; 
- Tue, 04 Jan 2022 14:13:34 -0800 (PST)
-Received: from [192.168.1.13] (174-21-75-75.tukw.qwest.net. [174.21.75.75])
- by smtp.gmail.com with ESMTPSA id l22sm43859988pfc.167.2022.01.04.14.13.33
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 04 Jan 2022 14:13:33 -0800 (PST)
-Subject: Re: [PATCH v2] linux-user: Fix trivial build error on loongarch64
- hosts
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20220104215027.2180972-1-f4bug@amsat.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <8d48454c-12d4-1c3c-e85d-12c319deb3ec@linaro.org>
-Date: Tue, 4 Jan 2022 14:13:32 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
-MIME-Version: 1.0
-In-Reply-To: <20220104215027.2180972-1-f4bug@amsat.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::434
+ (Exim 4.90_1) (envelope-from <maz@kernel.org>) id 1n4s5Q-00028C-Iy
+ for qemu-devel@nongnu.org; Tue, 04 Jan 2022 17:15:26 -0500
+Received: from [2604:1380:4641:c500::1] (port=52114 helo=dfw.source.kernel.org)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <maz@kernel.org>) id 1n4s5O-0000wj-3l
+ for qemu-devel@nongnu.org; Tue, 04 Jan 2022 17:15:20 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 02EFC61477;
+ Tue,  4 Jan 2022 22:15:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6BF27C36AE0;
+ Tue,  4 Jan 2022 22:15:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1641334507;
+ bh=Kzxk3RkrfZPbqtVWNZWORHyjEKYI+rtH1xhVbWuMzOA=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=pwB/pe3aUdMravRuQYn0T8NZNVDW1z8daASldlC0mEeXgRK35sNzT5qwkYKVQed6w
+ dbRUdFbLZS62AXFWZHBB/GyNHVMO2cLDezb/l4A4KxMtGGolTmYWUX4sQVCRdOuLu6
+ TtSk3Tk3igYcUp+ECfTHnS0+CkdaXql7E5waQP3kkt7KOYTultkV0KejXUDOE/aGut
+ Oo2XxstZitkDhWkCNnrJr1nszmJ1eiygdKRVoblG0g+OUuCRowMpKe+p4eq6DOp+VK
+ ZYiAIAopeXCR2JQRnP/mbcOm2xDTSNccLyqgHiNPax7NeZ2ZJFrQYYgFWVbaGZlWjo
+ 7vNHAptC/AcgA==
+Received: from sofa.misterjones.org ([185.219.108.64]
+ helo=wait-a-minute.misterjones.org)
+ by disco-boy.misterjones.org with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <maz@kernel.org>)
+ id 1n4s5B-00G18j-HJ; Tue, 04 Jan 2022 22:15:05 +0000
+Date: Tue, 04 Jan 2022 22:15:04 +0000
+Message-ID: <877dbfywpj.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: eric.auger@redhat.com
+Subject: Re: [PATCH v2 1/5] hw/arm/virt: Key enablement of highmem PCIe on
+ highmem_ecam
+In-Reply-To: <b9031d40-897e-b8c5-4240-fc2936dcbcb9@redhat.com>
+References: <20211003164605.3116450-1-maz@kernel.org>
+ <20211003164605.3116450-2-maz@kernel.org>
+ <dbe883ca-880e-7f2b-1de7-4b2d3361545d@redhat.com>
+ <87pmpiyrfw.wl-maz@kernel.org>
+ <b9031d40-897e-b8c5-4240-fc2936dcbcb9@redhat.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
+ (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: eric.auger@redhat.com, qemu-devel@nongnu.org,
+ drjones@redhat.com, peter.maydell@linaro.org, kvmarm@lists.cs.columbia.edu,
+ kvm@vger.kernel.org, kernel-team@android.com
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org);
+ SAEximRunCond expanded to false
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2604:1380:4641:c500::1
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::434;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x434.google.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.354,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Received-SPF: pass client-ip=2604:1380:4641:c500::1;
+ envelope-from=maz@kernel.org; helo=dfw.source.kernel.org
+X-Spam_score_int: 2
+X-Spam_score: 0.2
+X-Spam_bar: /
+X-Spam_report: (0.2 / 5.0 requ) DKIMWL_WL_HIGH=-0.37, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,40 +86,126 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, WANG Xuerui <git@xen0n.name>,
- Michael Tokarev <mjt@tls.msk.ru>, Laurent Vivier <laurent@vivier.eu>,
- Song Gao <gaosong@loongson.cn>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
+ kvm@vger.kernel.org, qemu-devel@nongnu.org, kernel-team@android.com,
+ kvmarm@lists.cs.columbia.edu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/4/22 1:50 PM, Philippe Mathieu-Daudé wrote:
-> When building using GCC 8.3.0 on loongarch64 (Loongnix) we get:
-> 
->    In file included from ../linux-user/signal.c:33:
->    ../linux-user/host/loongarch64/host-signal.h: In function ‘host_signal_write’:
->    ../linux-user/host/loongarch64/host-signal.h:57:9: error: a label can only be part of a statement and a declaration is not a statement
->           uint32_t sel = (insn >> 15) & 0b11111111111;
->           ^~~~~~~~
-> 
-> We don't use the 'sel' variable more than once, so drop it.
-> 
-> Meson output for the record:
-> 
->    Host machine cpu family: loongarch64
->    Host machine cpu: loongarch64
->    C compiler for the host machine: cc (gcc 8.3.0 "cc (Loongnix 8.3.0-6.lnd.vec.27) 8.3.0")
->    C linker for the host machine: cc ld.bfd 2.31.1-system
-> 
-> Fixes: ad812c3bd65 ("linux-user: Implement CPU-specific signal handler for loongarch64 hosts")
-> Reported-by: Song Gao<gaosong@loongson.cn>
-> Suggested-by: Song Gao<gaosong@loongson.cn>
-> Reviewed-by: WANG Xuerui<git@xen0n.name>
-> Signed-off-by: Philippe Mathieu-Daudé<f4bug@amsat.org>
-> ---
->   linux-user/host/loongarch64/host-signal.h | 4 +---
->   1 file changed, 1 insertion(+), 3 deletions(-)
+Hi Eric,
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+On Tue, 04 Jan 2022 15:31:33 +0000,
+Eric Auger <eric.auger@redhat.com> wrote:
+> 
+> Hi Marc,
+> 
+> On 12/27/21 4:53 PM, Marc Zyngier wrote:
+> > Hi Eric,
+> >
+> > Picking this up again after a stupidly long time...
+> >
+> > On Mon, 04 Oct 2021 13:00:21 +0100,
+> > Eric Auger <eric.auger@redhat.com> wrote:
+> >> Hi Marc,
+> >>
+> >> On 10/3/21 6:46 PM, Marc Zyngier wrote:
+> >>> Currently, the highmem PCIe region is oddly keyed on the highmem
+> >>> attribute instead of highmem_ecam. Move the enablement of this PCIe
+> >>> region over to highmem_ecam.
+> >>>
+> >>> Signed-off-by: Marc Zyngier <maz@kernel.org>
+> >>> ---
+> >>>  hw/arm/virt-acpi-build.c | 10 ++++------
+> >>>  hw/arm/virt.c            |  4 ++--
+> >>>  2 files changed, 6 insertions(+), 8 deletions(-)
+> >>>
+> >>> diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
+> >>> index 037cc1fd82..d7bef0e627 100644
+> >>> --- a/hw/arm/virt-acpi-build.c
+> >>> +++ b/hw/arm/virt-acpi-build.c
+> >>> @@ -157,10 +157,9 @@ static void acpi_dsdt_add_virtio(Aml *scope,
+> >>>  }
+> >>>  
+> >>>  static void acpi_dsdt_add_pci(Aml *scope, const MemMapEntry *memmap,
+> >>> -                              uint32_t irq, bool use_highmem, bool highmem_ecam,
+> >>> -                              VirtMachineState *vms)
+> >>> +                              uint32_t irq, VirtMachineState *vms)
+> >>>  {
+> >>> -    int ecam_id = VIRT_ECAM_ID(highmem_ecam);
+> >>> +    int ecam_id = VIRT_ECAM_ID(vms->highmem_ecam);
+> >>>      struct GPEXConfig cfg = {
+> >>>          .mmio32 = memmap[VIRT_PCIE_MMIO],
+> >>>          .pio    = memmap[VIRT_PCIE_PIO],
+> >>> @@ -169,7 +168,7 @@ static void acpi_dsdt_add_pci(Aml *scope, const MemMapEntry *memmap,
+> >>>          .bus    = vms->bus,
+> >>>      };
+> >>>  
+> >>> -    if (use_highmem) {
+> >>> +    if (vms->highmem_ecam) {
+> >> highmem_ecam is more restrictive than use_highmem:
+> >> vms->highmem_ecam &= vms->highmem && (!firmware_loaded || aarch64);
+> >>
+> >> If I remember correctly there was a problem using highmem ECAM with 32b
+> >> AAVMF FW.
+> >>
+> >> However 5125f9cd2532 ("hw/arm/virt: Add high MMIO PCI region, 512G in
+> >> size") introduced high MMIO PCI region without this constraint.
+> > Then I really don't understand the point of this highmem_ecam. We only
+> > register the highmem version if highmem_ecam is set (see the use of
+> > VIRT_ECAM_ID() to pick the right ECAM window).
+> 
+> but aren't we talking about different regions? On one hand the [high]
+> MMIO region (512GB wide) and the [high] ECAM region (256MB large).
+> To me you can enable either independently. High MMIO region is used by
+> some devices likes ivshmem/video cards while high ECAM was introduced to
+> extend the number of supported buses: 601d626d148a (hw/arm/virt: Add a
+> new 256MB ECAM region).
+> 
+> with the above change the high MMIO region won't be set with 32b
+> FW+kernel and LPAE whereas it is currently.
+> 
+> high ECAM was not supported by 32b FW, hence the highmem_ecam.
+> 
+> but maybe I miss your point?
 
-r~
+There are two issues.
+
+First, I have been conflating the ECAM and MMIO ranges, and you only
+made me realise that they were supposed to be independent.  I still
+think the keying on highmem is wrong, but the main issue is that the
+highmem* flags don't quite describe the shape of the platform.
+
+All these booleans indicate is whether the feature they describe (the
+high MMIO range, the high ECAM range, and in one of my patches the
+high RD range) are *allowed* to live above 4GB, but do not express
+whether then are actually usable (i.e. fit in the PA range).
+
+Maybe we need to be more thorough in the way we describe the extended
+region in the VirtMachineState structure:
+
+- highmem: overall control for anything that *can* live above 4GB
+- highmem_ecam: Has a PCIe ECAM region above 256GB
+- highmem_mmio: Has a PCIe MMIO region above 256GB
+- highmem_redist: Has 512 RDs above 256GB
+
+Crucially, the last 3 items must fit in the PA range or be disabled.
+
+We have highmem_ecam which is keyed on highmem, but not on the PA
+range.  highmem_mmio doesn't exist at all (we use highmem instead),
+and I'm only introducing highmem_redist.
+
+For these 3 ranges, we should have something like
+
+vms->highmem_xxx &= (vms->highmem &&
+		     (vms->memmap[XXX].base + vms->vms->memmap[XXX].size) < vms->highest_gpa);
+
+and treat them as independent entities.  Unless someone shouts, I'm
+going to go ahead and implement this logic.
+
+Thanks,
+
+	M.
+
+-- 
+Without deviation from the norm, progress is not possible.
 
