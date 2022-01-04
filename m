@@ -2,58 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 433C1483EF1
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 10:15:04 +0100 (CET)
-Received: from localhost ([::1]:40650 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CB6C483EF5
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 10:17:21 +0100 (CET)
+Received: from localhost ([::1]:45404 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n4fuJ-0006mE-D3
-	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 04:15:03 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35602)
+	id 1n4fwW-0001eW-KX
+	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 04:17:20 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36086)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1n4fsD-00049D-CK
- for qemu-devel@nongnu.org; Tue, 04 Jan 2022 04:12:53 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:26250)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1n4fud-00008m-R2
+ for qemu-devel@nongnu.org; Tue, 04 Jan 2022 04:15:24 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43567)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1n4fsA-0005wC-QB
- for qemu-devel@nongnu.org; Tue, 04 Jan 2022 04:12:52 -0500
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1n4fub-0006TR-BE
+ for qemu-devel@nongnu.org; Tue, 04 Jan 2022 04:15:22 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641287569;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=GNnZTC4QpHRPOI1c/mOevbCnmUawYOQTR502wMVYbwI=;
- b=iXCqFDTqCa/5sui+KVBO1wYrCiqClfcGwhlY3nCvXVOdAsIW1/vEFeIDU4ZUG39Ms3cbrT
- K1bNfvuU4HH6JKnjb/EEEUVRisy2kVdL06ID0rWiNaVE7AOgEEgM9kIv1xQqs3kPw57fIy
- jsOWjFiqmrzef3z3gX1IQ6XfjxaeF68=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ s=mimecast20190719; t=1641287720;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=AfxLYaMv9MOI5oGnZPXOOjKzxlJsDSfeFMuD1ZhQKM4=;
+ b=NzKmoDV+KTGzs8TeqltKbmI/vXfFx4+Vbhrnfw7O5VmRuN6bW+mVtVqCue3RVgANCsP0TE
+ GG9o3ix9qJ7DJ4H7EKrAJtK5FkUftbya0CEvfyFoSXzeaMd3kePq5J6pZx8JQJMKl2TfUL
+ bb+HlT14V1umqRA2DewgWX8GbL1beBA=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-283-yXQVRBEnMhqvHfN-gLccOA-1; Tue, 04 Jan 2022 04:12:46 -0500
-X-MC-Unique: yXQVRBEnMhqvHfN-gLccOA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C863681CCB4;
- Tue,  4 Jan 2022 09:12:45 +0000 (UTC)
-Received: from thuth.com (unknown [10.39.192.144])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EC88F79591;
- Tue,  4 Jan 2022 09:12:43 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] gitlab-ci: Enable docs in the centos job
-Date: Tue,  4 Jan 2022 10:12:40 +0100
-Message-Id: <20220104091240.160867-1-thuth@redhat.com>
+ us-mta-338--1tf0k4yNhyT5t-6oGblDg-1; Tue, 04 Jan 2022 04:15:19 -0500
+X-MC-Unique: -1tf0k4yNhyT5t-6oGblDg-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ a69-20020a1c7f48000000b00345d3d135caso8066498wmd.7
+ for <qemu-devel@nongnu.org>; Tue, 04 Jan 2022 01:15:19 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
+ :user-agent:reply-to:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=lM0h9S7jTd6TS6LioRKqHE88mC30cLTombUICMwikOk=;
+ b=dRWvFyrKfyHT/UNNoHCxsKaqoWQ9F3XI91BwvdQYUHIA83Pa2yJoa7Jj39xNpWHwAO
+ 2K5/gDqi1JU8lJi74H9BJKDg6KilvMAWKLo+fVvV5etugGgZNYSmjO28eOEqO9tpK5O0
+ QEuO9Q+jdhm/NwUwlC/tsww8jn6+CLwyEn75st5s3TiRLpUwyLKBLlYETdwBoT2TLjJ2
+ er20EqQMHIjiF9q556D6ppai8T4lT7TkXu5kzknzoldmrYP5DXZnbJ5ygQKAjz4a9+Az
+ LwOrTuPtWVrgD2QR/CzRZUHNgd8W7rORReOPjr7c2/pLcfqyXAba9pQ76osUt2LHAR8Y
+ Cr1A==
+X-Gm-Message-State: AOAM5333OYOBH9+wfk8u7ZyZW9xHsAC/nkXW9W/ONwVE1Pd1aIykUF1t
+ DZ8gFTQJMbk0IuF1wYYs4EbCeLcWDqBXQzLPNamRnM9Jv/zPlATT9PNTNxFd3dikRbIaPt6q7q1
+ 8bFFTlyfAvqKQeo0=
+X-Received: by 2002:adf:ef4f:: with SMTP id c15mr41180695wrp.226.1641287717958; 
+ Tue, 04 Jan 2022 01:15:17 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyCI1QelPqDIyQv54wk/3Re1oQbCpONORO79hM6SlEHlMIkAFkyLUF4LKgI6EqyJaDmLyQSAA==
+X-Received: by 2002:adf:ef4f:: with SMTP id c15mr41180682wrp.226.1641287717723; 
+ Tue, 04 Jan 2022 01:15:17 -0800 (PST)
+Received: from localhost (static-174-144-85-188.ipcom.comunitel.net.
+ [188.85.144.174])
+ by smtp.gmail.com with ESMTPSA id h204sm37516945wmh.33.2022.01.04.01.15.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 04 Jan 2022 01:15:17 -0800 (PST)
+From: Juan Quintela <quintela@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH] migration: Don't return for postcopy_send_discard_bm_ram()
+In-Reply-To: <20211230160525.462185-1-philmd@redhat.com> ("Philippe
+ =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Thu, 30 Dec 2021 17:05:25
+ +0100")
+References: <20211230160525.462185-1-philmd@redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+Date: Tue, 04 Jan 2022 10:15:16 +0100
+Message-ID: <871r1n7tgb.fsf@secure.mitica>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
@@ -74,40 +101,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Beraldo Leal <bleal@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Reply-To: quintela@redhat.com
+Cc: David Edmondson <david.edmondson@oracle.com>, qemu-devel@nongnu.org,
+ Peter Xu <peterx@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We just ran into a problem that the docs don't build on RHEL8 / CentOS 8
-anymore. Seems like these distros are using one of the oldest Sphinx
-versions that we still have to support. Thus enable the docs build in
-the CI on CentOS so that such bugs don't slip in so easily again.
+Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> wrote:
+> postcopy_send_discard_bm_ram() always return zero. Since it can't
+> fail, simplify and do not return anything.
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> ---
+> Based-on: <20211224065000.97572-1-peterx@redhat.com>
+> ---
+>  migration/ram.c | 6 +-----
+>  1 file changed, 1 insertion(+), 5 deletions(-)
+>
+> diff --git a/migration/ram.c b/migration/ram.c
+> index 5234d1ece11..e241ce98461 100644
+> --- a/migration/ram.c
+> +++ b/migration/ram.c
+> @@ -2433,14 +2433,12 @@ void ram_postcopy_migrated_memory_release(Migrati=
+onState *ms)
+>  /**
+>   * postcopy_send_discard_bm_ram: discard a RAMBlock
+>   *
+> - * Returns zero on success
+> - *
+>   * Callback from postcopy_each_ram_send_discard for each RAMBlock
+>   *
+>   * @ms: current migration state
+>   * @block: RAMBlock to discard
+>   */
+> -static int postcopy_send_discard_bm_ram(MigrationState *ms, RAMBlock *bl=
+ock)
+> +static void postcopy_send_discard_bm_ram(MigrationState *ms, RAMBlock *b=
+lock)
+>  {
+>      unsigned long end =3D block->used_length >> TARGET_PAGE_BITS;
+>      unsigned long current;
+> @@ -2464,8 +2462,6 @@ static int postcopy_send_discard_bm_ram(MigrationSt=
+ate *ms, RAMBlock *block)
+>          postcopy_discard_send_range(ms, one, discard_length);
+>          current =3D one + discard_length;
+>      }
+> -
+> -    return 0;
+>  }
+> =20
+>  static void postcopy_chunk_hostpages_pass(MigrationState *ms, RAMBlock *=
+block);
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- Based-on: <20220104074649.1712440-1-marcandre.lureau@redhat.com>
+Nack.
 
- .gitlab-ci.d/buildtest.yml | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+You need to change the only caller (postcopy_each_send_discard) also.
 
-diff --git a/.gitlab-ci.d/buildtest.yml b/.gitlab-ci.d/buildtest.yml
-index d52fde23ec..083d1b25e5 100644
---- a/.gitlab-ci.d/buildtest.yml
-+++ b/.gitlab-ci.d/buildtest.yml
-@@ -164,7 +164,7 @@ build-system-centos:
-   variables:
-     IMAGE: centos8
-     CONFIGURE_ARGS: --disable-nettle --enable-gcrypt --enable-fdt=system
--                    --enable-modules --enable-trace-backends=dtrace
-+      --enable-modules --enable-trace-backends=dtrace --enable-docs
-     TARGETS: ppc64-softmmu or1k-softmmu s390x-softmmu
-       x86_64-softmmu rx-softmmu sh4-softmmu nios2-softmmu
-     MAKE_CHECK_ARGS: check-build
--- 
-2.27.0
+        ret =3D postcopy_send_discard_bm_ram(ms, block);
+        postcopy_discard_send_finish(ms);
+        if (ret) {
+            return ret;
+        }
+
+Not sure if doing the same operation with
+postcopy_each_send_discard/ram_postcopy_send_discard_bitmap() and
+postcopy_chunk_hugepages makes sense.
+
+Later, Juan.
+
 
 
