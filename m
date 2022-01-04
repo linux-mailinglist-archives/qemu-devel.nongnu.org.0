@@ -2,90 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC450483F3F
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 10:36:52 +0100 (CET)
-Received: from localhost ([::1]:41964 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E203483F43
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 10:39:29 +0100 (CET)
+Received: from localhost ([::1]:44320 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n4gFP-0002NK-Ua
-	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 04:36:51 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39392)
+	id 1n4gHw-00041j-JG
+	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 04:39:28 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40326)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1n4gD2-0000os-1T
- for qemu-devel@nongnu.org; Tue, 04 Jan 2022 04:34:24 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41529)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1n4gCz-00058B-Ka
- for qemu-devel@nongnu.org; Tue, 04 Jan 2022 04:34:23 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641288859;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=HzMZR2ZjVbWArqEQGpvxHm56eCK0XGiypcERpLaanbU=;
- b=C86jg6kqlGkVNGfkCVFdfs9AJmFHigX1CFlq4rbc9xdrLD3Ojfm8k7TBRyVbjuzq01ZNmE
- D+k9Hqeq/JedGKYt/9n2xEgZh1mETSAUO0wk9b8xdUVyztpVUTthMCC1iUEQ7WYCU7JEOJ
- 5lEfw695dq3aIiQkiWS69ApQ7bvPCV4=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-654-meq-qwuwMLK2Vv777pl7cA-1; Tue, 04 Jan 2022 04:34:18 -0500
-X-MC-Unique: meq-qwuwMLK2Vv777pl7cA-1
-Received: by mail-ed1-f69.google.com with SMTP id
- dz8-20020a0564021d4800b003f897935eb3so24883512edb.12
- for <qemu-devel@nongnu.org>; Tue, 04 Jan 2022 01:34:18 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1n4gGv-0003La-L5
+ for qemu-devel@nongnu.org; Tue, 04 Jan 2022 04:38:25 -0500
+Received: from mail-yb1-f169.google.com ([209.85.219.169]:35379)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1n4gGu-0006AE-6c
+ for qemu-devel@nongnu.org; Tue, 04 Jan 2022 04:38:25 -0500
+Received: by mail-yb1-f169.google.com with SMTP id j83so87724553ybg.2
+ for <qemu-devel@nongnu.org>; Tue, 04 Jan 2022 01:38:23 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=HzMZR2ZjVbWArqEQGpvxHm56eCK0XGiypcERpLaanbU=;
- b=t7vnmHEjc9/tEUoUpqol/zWMBuyzilDsMRn/JrtYkKfrl9p6GGzVcbZtZZZjKanhGD
- oTdv3V7Xz0is0sZwMswM2MrzcrUDxReMgbNNcNWjmJcN8UGLYoKpom1hQiX4+SydW7o0
- Im8FlvJX8xoHRta7gvpj2Dj3knCFJ4kfhkle9tTGFGx8l6vBHlDt6oIgAzUnJA5j3XwV
- 79LpIoCzVSdNQEdfN8YETKYxxGHpNC4jBFW9OVmPhd8XrzwVAe4hAtJ0JfGHAKwlN4cD
- 7ytBdRR3dq7J8Na5p5k1IXlNm1Vv2S1CISFQgdQ0out8WNNY8jH56mJGjFaRMF/Kpqb8
- gfOA==
-X-Gm-Message-State: AOAM533ha4sE7BSvzFCSaRxcte6WCL5oo3XGOA9XR1Tt+CMUinqH8Dfb
- 5CuWNQZ4ta3hVT1U5H2HqQdHyDsGaagIRus+ra+zBetWjfPzFS0BCFsEpp1Zc88PG5SFpoLUVy+
- 9P2seZdGbBcOvCtU=
-X-Received: by 2002:a17:907:1692:: with SMTP id
- hc18mr38799724ejc.558.1641288857828; 
- Tue, 04 Jan 2022 01:34:17 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJy4vNxFE0Njt2FkLAwsuI8SDC/6G4DvUNHNscgmDjOZuhe77P/pvXRsH2bwwR9JaM2R2aR+gQ==
-X-Received: by 2002:a17:907:1692:: with SMTP id
- hc18mr38799714ejc.558.1641288857602; 
- Tue, 04 Jan 2022 01:34:17 -0800 (PST)
-Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
- by smtp.gmail.com with ESMTPSA id dn4sm11415607ejc.95.2022.01.04.01.34.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Jan 2022 01:34:17 -0800 (PST)
-Date: Tue, 4 Jan 2022 10:34:15 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: Daniil Tatianin <d-tatianin@yandex-team.ru>
-Subject: Re: [PATCH v1] hw/smbios: verify header type for file before using it
-Message-ID: <20220104103415.49b14493@redhat.com>
-In-Reply-To: <20211129135211.1114466-1-d-tatianin@yandex-team.ru>
-References: <20211129135211.1114466-1-d-tatianin@yandex-team.ru>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.30; x86_64-redhat-linux-gnu)
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=WSzFov2qu+QnxJANxPd7PiYtqbEqov/QbMwE9QaYmSs=;
+ b=pdL4vLVJ2Qkz84BBRd5DxVmHXscIYkt/bL+Tkby/oPpg3YEPZJ/7bETx7b+uSkR02l
+ nRWiA2473ISvS7vdZixAoHGHS5/S5OJH7yN86p0Jxu7xwDiurj/veC5ikdrjw1DhlGCi
+ CT83fvqH8mz0pgLlRJYt1N8S7b+1Sz26kEmFVM+teO944S6ELm7v4FMMVYT4y2jeRLmD
+ DEaJC/jBWlvJeNDxs6Eav+J4DNO3VzWykoowxv4DRi7CoA2WzOAgzFL9UwRMf8f7motb
+ J1qx/yzIU19WUJfL28ezZEby5zrCo6ryo5zX/isA0ICPugz3mtgejMpJpSQUQ32QEIjV
+ j0Ow==
+X-Gm-Message-State: AOAM5320Eyhf5cVvYm8ZuKMt7qkwc2xMTfsNbtINW4J3CV71te5S6MG1
+ xXakaoA3mKHtou4K1IR8met3xQnk0jykVVRBh6U=
+X-Google-Smtp-Source: ABdhPJwmS3aqru8w5zcIeWsZEGILkLkcL/HM1JQ+r8yz/zp5oL15s4GyuOGZ9h74YXNbR6g70sHYZTq4xSiIpfesquk=
+X-Received: by 2002:a25:8008:: with SMTP id m8mr7422387ybk.704.1641289103189; 
+ Tue, 04 Jan 2022 01:38:23 -0800 (PST)
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) DKIMWL_WL_HIGH=-0.37, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+References: <20220104024136.1433545-1-xiaoyao.li@intel.com>
+In-Reply-To: <20220104024136.1433545-1-xiaoyao.li@intel.com>
+From: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Date: Tue, 4 Jan 2022 10:38:12 +0100
+Message-ID: <CAAdtpL7mQtDO2Vr--jYjRP-G7KQ6MxfoYH1NewehQHt8KTg2aw@mail.gmail.com>
+Subject: Re: [PATCH] sysemu: Cleanup qemu_run_machine_init_done_notifiers()
+To: Xiaoyao Li <xiaoyao.li@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=209.85.219.169;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-yb1-f169.google.com
+X-Spam_score_int: 5
+X-Spam_score: 0.5
+X-Spam_bar: /
+X-Spam_report: (0.5 / 5.0 requ) FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,45 +68,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ani@anisinha.ca, qemu-devel@nongnu.org, yc-core@yandex-team.ru,
- mst@redhat.com
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ Michael Tokarev <mjt@tls.msk.ru>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 29 Nov 2021 16:52:11 +0300
-Daniil Tatianin <d-tatianin@yandex-team.ru> wrote:
+On Tue, Jan 4, 2022 at 3:41 AM Xiaoyao Li <xiaoyao.li@intel.com> wrote:
+>
+> Remove qemu_run_machine_init_done_notifiers() since no implementation
+> and user.
 
-here should be more verbose description of the issue
-preferably with a way to reproduce it.
-and what/why patch does what it does.
+Fixes: f66dc8737c9 ("vl: move all generic initialization out of vl.c")
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
-> Signed-off-by: Daniil Tatianin <d-tatianin@yandex-team.ru>
+> Signed-off-by: Xiaoyao Li <xiaoyao.li@intel.com>
 > ---
->  hw/smbios/smbios.c | 6 ++++++
->  1 file changed, 6 insertions(+)
-> 
-> diff --git a/hw/smbios/smbios.c b/hw/smbios/smbios.c
-> index 7397e56737..c55f77368a 100644
-> --- a/hw/smbios/smbios.c
-> +++ b/hw/smbios/smbios.c
-> @@ -1163,6 +1163,12 @@ void smbios_entry_add(QemuOpts *opts, Error **errp)
->              return;
->          }
->  
-> +        if (header->type > SMBIOS_MAX_TYPE) {
-> +            error_setg(errp,
-> +                       "invalid header type %d!", header->type);
-
-3.0 spec says that types over 127 are valid and for use by OEM/etc,
-but QEMU doesn't support anything over 127 due to limited size of
-have_fields_bitmap.
-So I'd rephrase it as "unsupported header type"
-
-> +            return;
-> +        }
-> +
->          if (test_bit(header->type, have_fields_bitmap)) {
->              error_setg(errp,
->                         "can't load type %d struct, fields already specified!",
-
+>  include/sysemu/sysemu.h | 1 -
+>  1 file changed, 1 deletion(-)
+>
+> diff --git a/include/sysemu/sysemu.h b/include/sysemu/sysemu.h
+> index 8fae667172ac..b9421e03ffdd 100644
+> --- a/include/sysemu/sysemu.h
+> +++ b/include/sysemu/sysemu.h
+> @@ -16,7 +16,6 @@ extern bool qemu_uuid_set;
+>  void qemu_add_exit_notifier(Notifier *notify);
+>  void qemu_remove_exit_notifier(Notifier *notify);
+>
+> -void qemu_run_machine_init_done_notifiers(void);
+>  void qemu_add_machine_init_done_notifier(Notifier *notify);
+>  void qemu_remove_machine_init_done_notifier(Notifier *notify);
+>
+> --
+> 2.27.0
+>
+>
 
