@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C3FB483A8A
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 03:22:00 +0100 (CET)
-Received: from localhost ([::1]:59058 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9080F483A93
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 03:24:45 +0100 (CET)
+Received: from localhost ([::1]:35146 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n4ZSZ-0003S6-9o
-	for lists+qemu-devel@lfdr.de; Mon, 03 Jan 2022 21:21:59 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51098)
+	id 1n4ZVE-0006Ml-N9
+	for lists+qemu-devel@lfdr.de; Mon, 03 Jan 2022 21:24:44 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51108)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1n4ZMc-0002jJ-8M
+ id 1n4ZMc-0002ke-NQ
  for qemu-devel@nongnu.org; Mon, 03 Jan 2022 21:15:50 -0500
-Received: from [2607:f8b0:4864:20::429] (port=34632
- helo=mail-pf1-x429.google.com)
+Received: from [2607:f8b0:4864:20::102c] (port=55914
+ helo=mail-pj1-x102c.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1n4ZMa-0008AB-JD
- for qemu-devel@nongnu.org; Mon, 03 Jan 2022 21:15:49 -0500
-Received: by mail-pf1-x429.google.com with SMTP id c2so30866887pfc.1
+ id 1n4ZMb-0008AI-6V
+ for qemu-devel@nongnu.org; Mon, 03 Jan 2022 21:15:50 -0500
+Received: by mail-pj1-x102c.google.com with SMTP id iy13so30130277pjb.5
  for <qemu-devel@nongnu.org>; Mon, 03 Jan 2022 18:15:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=drAXBZTymGcrnF+EgkjguW2KpUEgYFQR5BMyVS6Ccfg=;
- b=VkyyhpB6b6FX3yel49pBpR9J8Cp4MpE5AzMhYr0PYItcb1n3Bm4RWTDGnU77xhFNDO
- 3wunTRttgzjkRqTcSLPFPkFwCgSsUlnJBjtRjc+pSEi5z6REwzt3TheVts0E63UP2hGC
- Sr3VnuUEKn/QG+ZgBvIuEQ0g1FG4wTtczp+9CTGWvzFExpnzG/u3a3GKCGs0HbHZSuIu
- +d9d3WTSFNrZvPoZ3X7gdN81GSstVIiGHonfAV6Lr70N8+BjCm94Me/3kIvAHIxZcWVL
- +hzY1m4EBReTX+kbmkZOQNeAeVTApumbwT1d0KXRPFHlE1Q214gXOkcDSjPBbrwAdufH
- lx+Q==
+ bh=g06UIpFMVvSvANx+Qg+u743yK9fN9ISDaQhh0blxyhQ=;
+ b=RayTa0ycU6LGpG5heatUGzR4CuZLKoUWs2ksQLp7YH7/q34wC7BooM048P624IGXS2
+ /yP5MuX3T6uJHmn+b6su923vWmYpBvo4KXlIP5+PtN2PB+2B8LS9EJ/9I/k3LhDeIuvg
+ vEbGCUBIlzisQhs2D+YNB0yN4jBhFd4++QL/BOB248fWW7xCxYUKvuCpcRlTYukEbUfi
+ oFxV4sShlG7bI8GpbChEJsPKxCb2uOLGFcCpa4Ds0UTuLxKia/59KOphyhffla4OMI1q
+ bVcnSPxyMu5H2MX4k1HpOyFOBXnh2xrpqML4W4JtaRCCu0xSBaq8UvredsOcPSevliXm
+ XeeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=drAXBZTymGcrnF+EgkjguW2KpUEgYFQR5BMyVS6Ccfg=;
- b=emDfvEVbxxLKL/BKccDyJ6zE9HTiWUA+jNyrCYbcNKapmpr34AVokCWs642r6QS0Yh
- d+9QDdgRXFnc404fg8o2c5yPGIEZtvl8LjeBeh9MCcTvLrjZ/qMrk14Js8l4qisEFqNg
- KfnRXU80BsELswKlB1jgGESpt9OMwKddt6vdUDL8favePksuw+XMhboKBud5DLix8xFx
- XFXmLAiwEsfRLNGrGyj2hIC4l6pQ22M38zITj9KkCy0A7yHPHZzV02nYqcgD3m3+vFOY
- zNmY/orak+BGE59f7TzxvYgr7YPZBQ5l+LRhozvWeviX0sSRGzl5YxUyGv8YgJTWijbO
- Ehbg==
-X-Gm-Message-State: AOAM533gm6YW6qMpgt3xblp7GhUCga2cbkzBLMDw4u57k/Poe9+Tj5yZ
- CwDc1yOD3mBThnk4G1Nwq+D5I/qdFwMlWg==
-X-Google-Smtp-Source: ABdhPJxPOXLwvJ6ecz+Fh5hSFGzv/oibTHlMDs3qZ/kDY8j4MIiJHchZf5skilUP+FHf4Oqw9/NaNA==
-X-Received: by 2002:a63:9819:: with SMTP id q25mr36395191pgd.605.1641262547309; 
+ bh=g06UIpFMVvSvANx+Qg+u743yK9fN9ISDaQhh0blxyhQ=;
+ b=uDWHhWDg5Rw0V/UcmHh0y02A11nSBAK0p/KXmtZ12VcySxmP5IocJHr39cBCZA5xpO
+ U9JnH1uy4TgR9YVuiW+IEaBBwdEnll2sWc8pWgy8l8PKsZBEUbr6hXU15hcPMa4nL88K
+ OmxCEUllLyrBhiIWYHQ5gn5uHPocwEM8r2YGBTe8df89nWldtDNGw+U+c6vzDxYbgYxW
+ 468JhLO0/gH6X9IbFy/rsw2PQudL5K6R0rEkiaG+8znBhdmdnzzRigbcpDks8Puanbly
+ 5ugC+8fZqi2uOnfCSkqbV4gOHxLBZ6R4U8XLFrwFVw+e0Y2ahTUMDeIXAhXx8s4A3iSh
+ /BhA==
+X-Gm-Message-State: AOAM5302qRHsoQTWEdLLX/EqI54T53mmGufS8FnWHboGmR2LEoNVPp9o
+ SORe0oRgdU2OxbRzUioYWc0+Tn/B0Lbrfw==
+X-Google-Smtp-Source: ABdhPJzASGCfhZ9Fp+03WBhtM2o2DO9m7o/1s0m7dtpwLRnNDb7SZquMiSdULONkDzbdHpWX8eTMjQ==
+X-Received: by 2002:a17:90a:cc1:: with SMTP id
+ 1mr20280370pjt.124.1641262547919; 
  Mon, 03 Jan 2022 18:15:47 -0800 (PST)
 Received: from localhost.localdomain (174-21-75-75.tukw.qwest.net.
  [174.21.75.75])
- by smtp.gmail.com with ESMTPSA id b4sm37395501pjm.17.2022.01.03.18.15.46
+ by smtp.gmail.com with ESMTPSA id b4sm37395501pjm.17.2022.01.03.18.15.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 03 Jan 2022 18:15:47 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 5/7] tcg/s390x: Support raising sigbus for user-only
-Date: Mon,  3 Jan 2022 18:15:41 -0800
-Message-Id: <20220104021543.396571-6-richard.henderson@linaro.org>
+Subject: [PATCH v4 6/7] tcg/tci: Support raising sigbus for user-only
+Date: Mon,  3 Jan 2022 18:15:42 -0800
+Message-Id: <20220104021543.396571-7-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220104021543.396571-1-richard.henderson@linaro.org>
 References: <20220104021543.396571-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::429
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102c
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x429.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102c.google.com
 X-Spam_score_int: 6
 X-Spam_score: 0.6
 X-Spam_bar: /
@@ -90,134 +91,74 @@ Cc: git@xen0n.name, peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/s390x/tcg-target.h     |  2 --
- tcg/s390x/tcg-target.c.inc | 59 ++++++++++++++++++++++++++++++++++++--
- 2 files changed, 57 insertions(+), 4 deletions(-)
+ tcg/tci.c | 20 ++++++++++++++------
+ 1 file changed, 14 insertions(+), 6 deletions(-)
 
-diff --git a/tcg/s390x/tcg-target.h b/tcg/s390x/tcg-target.h
-index 527ada0f63..69217d995b 100644
---- a/tcg/s390x/tcg-target.h
-+++ b/tcg/s390x/tcg-target.h
-@@ -178,9 +178,7 @@ static inline void tb_target_set_jmp_target(uintptr_t tc_ptr, uintptr_t jmp_rx,
-     /* no need to flush icache explicitly */
- }
- 
--#ifdef CONFIG_SOFTMMU
- #define TCG_TARGET_NEED_LDST_LABELS
--#endif
- #define TCG_TARGET_NEED_POOL_LABELS
- 
- #endif
-diff --git a/tcg/s390x/tcg-target.c.inc b/tcg/s390x/tcg-target.c.inc
-index 57e803e339..d5ec770fb8 100644
---- a/tcg/s390x/tcg-target.c.inc
-+++ b/tcg/s390x/tcg-target.c.inc
-@@ -29,6 +29,7 @@
- #error "unsupported code generation mode"
- #endif
- 
-+#include "../tcg-ldst.c.inc"
- #include "../tcg-pool.c.inc"
- #include "elf.h"
- 
-@@ -136,6 +137,7 @@ typedef enum S390Opcode {
-     RI_OIHL     = 0xa509,
-     RI_OILH     = 0xa50a,
-     RI_OILL     = 0xa50b,
-+    RI_TMLL     = 0xa701,
- 
-     RIE_CGIJ    = 0xec7c,
-     RIE_CGRJ    = 0xec64,
-@@ -1804,8 +1806,6 @@ static void tcg_out_qemu_st_direct(TCGContext *s, MemOp opc, TCGReg data,
- }
- 
- #if defined(CONFIG_SOFTMMU)
--#include "../tcg-ldst.c.inc"
--
- /* We're expecting to use a 20-bit negative offset on the tlb memory ops.  */
- QEMU_BUILD_BUG_ON(TLB_MASK_TABLE_OFS(0) > 0);
- QEMU_BUILD_BUG_ON(TLB_MASK_TABLE_OFS(0) < -(1 << 19));
-@@ -1942,6 +1942,53 @@ static bool tcg_out_qemu_st_slow_path(TCGContext *s, TCGLabelQemuLdst *lb)
-     return true;
- }
- #else
-+static void tcg_out_test_alignment(TCGContext *s, bool is_ld,
-+                                   TCGReg addrlo, unsigned a_bits)
-+{
-+    unsigned a_mask = (1 << a_bits) - 1;
-+    TCGLabelQemuLdst *l = new_ldst_label(s);
-+
-+    l->is_ld = is_ld;
-+    l->addrlo_reg = addrlo;
-+
-+    /* We are expecting a_bits to max out at 7, much lower than TMLL. */
-+    tcg_debug_assert(a_bits < 16);
-+    tcg_out_insn(s, RI, TMLL, addrlo, a_mask);
-+
-+    tcg_out16(s, RI_BRC | (7 << 4)); /* CC in {1,2,3} */
-+    l->label_ptr[0] = s->code_ptr;
-+    s->code_ptr += 1;
-+
-+    l->raddr = tcg_splitwx_to_rx(s->code_ptr);
-+}
-+
-+static bool tcg_out_fail_alignment(TCGContext *s, TCGLabelQemuLdst *l)
-+{
-+    if (!patch_reloc(l->label_ptr[0], R_390_PC16DBL,
-+                     (intptr_t)tcg_splitwx_to_rx(s->code_ptr), 2)) {
-+        return false;
-+    }
-+
-+    tcg_out_mov(s, TCG_TYPE_TL, TCG_REG_R3, l->addrlo_reg);
-+    tcg_out_mov(s, TCG_TYPE_PTR, TCG_REG_R2, TCG_AREG0);
-+
-+    /* "Tail call" to the helper, with the return address back inline. */
-+    tcg_out_movi(s, TCG_TYPE_PTR, TCG_REG_R14, (uintptr_t)l->raddr);
-+    tgen_gotoi(s, S390_CC_ALWAYS, (const void *)(l->is_ld ? helper_unaligned_ld
-+                                                 : helper_unaligned_st));
-+    return true;
-+}
-+
-+static bool tcg_out_qemu_ld_slow_path(TCGContext *s, TCGLabelQemuLdst *l)
-+{
-+    return tcg_out_fail_alignment(s, l);
-+}
-+
-+static bool tcg_out_qemu_st_slow_path(TCGContext *s, TCGLabelQemuLdst *l)
-+{
-+    return tcg_out_fail_alignment(s, l);
-+}
-+
- static void tcg_prepare_user_ldst(TCGContext *s, TCGReg *addr_reg,
-                                   TCGReg *index_reg, tcg_target_long *disp)
+diff --git a/tcg/tci.c b/tcg/tci.c
+index e76087ccac..92a7c81674 100644
+--- a/tcg/tci.c
++++ b/tcg/tci.c
+@@ -292,11 +292,11 @@ static bool tci_compare64(uint64_t u0, uint64_t u1, TCGCond condition)
+ static uint64_t tci_qemu_ld(CPUArchState *env, target_ulong taddr,
+                             MemOpIdx oi, const void *tb_ptr)
  {
-@@ -1980,7 +2027,11 @@ static void tcg_out_qemu_ld(TCGContext* s, TCGReg data_reg, TCGReg addr_reg,
- #else
-     TCGReg index_reg;
-     tcg_target_long disp;
-+    unsigned a_bits = get_alignment_bits(opc);
+-    MemOp mop = get_memop(oi) & (MO_BSWAP | MO_SSIZE);
++    MemOp mop = get_memop(oi);
+     uintptr_t ra = (uintptr_t)tb_ptr;
  
-+    if (a_bits) {
-+        tcg_out_test_alignment(s, true, addr_reg, a_bits);
-+    }
-     tcg_prepare_user_ldst(s, &addr_reg, &index_reg, &disp);
-     tcg_out_qemu_ld_direct(s, opc, data_reg, addr_reg, index_reg, disp);
- #endif
-@@ -2007,7 +2058,11 @@ static void tcg_out_qemu_st(TCGContext* s, TCGReg data_reg, TCGReg addr_reg,
+ #ifdef CONFIG_SOFTMMU
+-    switch (mop) {
++    switch (mop & (MO_BSWAP | MO_SSIZE)) {
+     case MO_UB:
+         return helper_ret_ldub_mmu(env, taddr, oi, ra);
+     case MO_SB:
+@@ -326,10 +326,14 @@ static uint64_t tci_qemu_ld(CPUArchState *env, target_ulong taddr,
+     }
  #else
-     TCGReg index_reg;
-     tcg_target_long disp;
-+    unsigned a_bits = get_alignment_bits(opc);
+     void *haddr = g2h(env_cpu(env), taddr);
++    unsigned a_mask = (1u << get_alignment_bits(mop)) - 1;
+     uint64_t ret;
  
-+    if (a_bits) {
-+        tcg_out_test_alignment(s, false, addr_reg, a_bits);
+     set_helper_retaddr(ra);
+-    switch (mop) {
++    if (taddr & a_mask) {
++        helper_unaligned_ld(env, taddr);
 +    }
-     tcg_prepare_user_ldst(s, &addr_reg, &index_reg, &disp);
-     tcg_out_qemu_st_direct(s, opc, data_reg, addr_reg, index_reg, disp);
- #endif
++    switch (mop & (MO_BSWAP | MO_SSIZE)) {
+     case MO_UB:
+         ret = ldub_p(haddr);
+         break;
+@@ -377,11 +381,11 @@ static uint64_t tci_qemu_ld(CPUArchState *env, target_ulong taddr,
+ static void tci_qemu_st(CPUArchState *env, target_ulong taddr, uint64_t val,
+                         MemOpIdx oi, const void *tb_ptr)
+ {
+-    MemOp mop = get_memop(oi) & (MO_BSWAP | MO_SSIZE);
++    MemOp mop = get_memop(oi);
+     uintptr_t ra = (uintptr_t)tb_ptr;
+ 
+ #ifdef CONFIG_SOFTMMU
+-    switch (mop) {
++    switch (mop & (MO_BSWAP | MO_SIZE)) {
+     case MO_UB:
+         helper_ret_stb_mmu(env, taddr, val, oi, ra);
+         break;
+@@ -408,9 +412,13 @@ static void tci_qemu_st(CPUArchState *env, target_ulong taddr, uint64_t val,
+     }
+ #else
+     void *haddr = g2h(env_cpu(env), taddr);
++    unsigned a_mask = (1u << get_alignment_bits(mop)) - 1;
+ 
+     set_helper_retaddr(ra);
+-    switch (mop) {
++    if (taddr & a_mask) {
++        helper_unaligned_st(env, taddr);
++    }
++    switch (mop & (MO_BSWAP | MO_SIZE)) {
+     case MO_UB:
+         stb_p(haddr, val);
+         break;
 -- 
 2.25.1
 
