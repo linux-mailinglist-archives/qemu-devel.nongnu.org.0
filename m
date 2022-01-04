@@ -2,40 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E347B4849AE
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 22:06:02 +0100 (CET)
-Received: from localhost ([::1]:34228 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7CFC4849AD
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 22:05:50 +0100 (CET)
+Received: from localhost ([::1]:33932 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n4r0M-0008Lc-0U
-	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 16:06:02 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50354)
+	id 1n4r09-00089i-FR
+	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 16:05:49 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50370)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1n4qw2-0005dW-8P; Tue, 04 Jan 2022 16:01:34 -0500
+ id 1n4qw4-0005hI-Sa; Tue, 04 Jan 2022 16:01:36 -0500
 Received: from [201.28.113.2] (port=18444 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1n4qw0-0000Ie-P7; Tue, 04 Jan 2022 16:01:33 -0500
+ id 1n4qw3-0000Ie-9U; Tue, 04 Jan 2022 16:01:36 -0500
 Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
  secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
  Tue, 4 Jan 2022 18:01:26 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id 022F28006C0;
- Tue,  4 Jan 2022 18:01:25 -0300 (-03)
+ by p9ibm (Postfix) with ESMTP id 4E02580012A;
+ Tue,  4 Jan 2022 18:01:26 -0300 (-03)
 From: matheus.ferst@eldorado.org.br
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
-Subject: [PATCH v2 1/2] linux-user/ppc: deliver SIGTRAP on POWERPC_EXCP_TRAP
-Date: Tue,  4 Jan 2022 18:00:14 -0300
-Message-Id: <20220104210015.457468-2-matheus.ferst@eldorado.org.br>
+Subject: [PATCH v2 2/2] tests/tcg/ppc64le: change signal_save_restore_xer to
+ use SIGTRAP
+Date: Tue,  4 Jan 2022 18:00:15 -0300
+Message-Id: <20220104210015.457468-3-matheus.ferst@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220104210015.457468-1-matheus.ferst@eldorado.org.br>
 References: <20220104210015.457468-1-matheus.ferst@eldorado.org.br>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 04 Jan 2022 21:01:26.0436 (UTC)
- FILETIME=[3CDB1E40:01D801AE]
+X-OriginalArrivalTime: 04 Jan 2022 21:01:26.0670 (UTC)
+ FILETIME=[3CFED2E0:01D801AE]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
 Received-SPF: pass client-ip=201.28.113.2;
  envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -64,29 +65,47 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Matheus Ferst <matheus.ferst@eldorado.org.br>
 
-Handle POWERPC_EXCP_TRAP in cpu_loop to deliver SIGTRAP on tw[i]/td[i].
-The si_code comes from do_program_check in the kernel source file
-arch/powerpc/kernel/traps.c
+Now that linux-user delivers the signal on tw, we can change
+signal_save_restore_xer to use SIGTRAP instead of SIGILL.
 
+Suggested-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
 ---
- linux-user/ppc/cpu_loop.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ tests/tcg/ppc64le/signal_save_restore_xer.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/linux-user/ppc/cpu_loop.c b/linux-user/ppc/cpu_loop.c
-index 46e6ffd6d3..6c99feb19b 100644
---- a/linux-user/ppc/cpu_loop.c
-+++ b/linux-user/ppc/cpu_loop.c
-@@ -188,7 +188,8 @@ void cpu_loop(CPUPPCState *env)
-                 }
-                 break;
-             case POWERPC_EXCP_TRAP:
--                cpu_abort(cs, "Tried to call a TRAP\n");
-+                si_signo = TARGET_SIGTRAP;
-+                si_code = TARGET_TRAP_BRKPT;
-                 break;
-             default:
-                 /* Should not happen ! */
+diff --git a/tests/tcg/ppc64le/signal_save_restore_xer.c b/tests/tcg/ppc64le/signal_save_restore_xer.c
+index e4f8a07dd7..9227f4f455 100644
+--- a/tests/tcg/ppc64le/signal_save_restore_xer.c
++++ b/tests/tcg/ppc64le/signal_save_restore_xer.c
+@@ -11,7 +11,7 @@
+ 
+ uint64_t saved;
+ 
+-void sigill_handler(int sig, siginfo_t *si, void *ucontext)
++void sigtrap_handler(int sig, siginfo_t *si, void *ucontext)
+ {
+     ucontext_t *uc = ucontext;
+     uc->uc_mcontext.regs->nip += 4;
+@@ -23,14 +23,14 @@ int main(void)
+ {
+     uint64_t initial = XER_CA | XER_CA32, restored;
+     struct sigaction sa = {
+-        .sa_sigaction = sigill_handler,
++        .sa_sigaction = sigtrap_handler,
+         .sa_flags = SA_SIGINFO
+     };
+ 
+-    sigaction(SIGILL, &sa, NULL);
++    sigaction(SIGTRAP, &sa, NULL);
+ 
+     asm("mtspr 1, %1\n\t"
+-        ".long 0x0\n\t"
++        "trap\n\t"
+         "mfspr %0, 1\n\t"
+         : "=r" (restored)
+         : "r" (initial));
 -- 
 2.25.1
 
