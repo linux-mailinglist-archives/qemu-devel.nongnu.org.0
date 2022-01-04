@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FBED484704
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 18:32:49 +0100 (CET)
-Received: from localhost ([::1]:55388 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8E7E484709
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 18:36:53 +0100 (CET)
+Received: from localhost ([::1]:34180 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n4ng0-00059Y-6n
-	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 12:32:48 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59256)
+	id 1n4njw-0001fx-Px
+	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 12:36:52 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60054)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1n4net-0003PD-C2
- for qemu-devel@nongnu.org; Tue, 04 Jan 2022 12:31:40 -0500
-Received: from [2607:f8b0:4864:20::1032] (port=53107
- helo=mail-pj1-x1032.google.com)
+ (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1n4ni6-0000Zt-CP
+ for qemu-devel@nongnu.org; Tue, 04 Jan 2022 12:34:59 -0500
+Received: from [2607:f8b0:4864:20::434] (port=33628
+ helo=mail-pf1-x434.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1n4ner-0003Ro-Qq
- for qemu-devel@nongnu.org; Tue, 04 Jan 2022 12:31:39 -0500
-Received: by mail-pj1-x1032.google.com with SMTP id co15so31910558pjb.2
- for <qemu-devel@nongnu.org>; Tue, 04 Jan 2022 09:31:35 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1n4ni4-0004HJ-Sz
+ for qemu-devel@nongnu.org; Tue, 04 Jan 2022 12:34:58 -0500
+Received: by mail-pf1-x434.google.com with SMTP id 205so32853091pfu.0
+ for <qemu-devel@nongnu.org>; Tue, 04 Jan 2022 09:34:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=rOI9lx3ly2W5g+I//wMzwDwVhtW2WkhsJvnaYL+oVaA=;
- b=GM1vaX8nnsQ5aen4uuxpsO114wif5ycCG9Oq+Pc5m0xedO5AWvlwlk+0nur670mGKt
- onzOYTKoI9ivHrmZ5omlX7G/9g8vG1Dk7BMz+AhbgZkQYjM5XKrkVKn/mua46+jhsgFl
- 2x7N1/izW3LtGJIoZWWYJyzycZQWJVLVQuROwTwUx6Lb7wS1WfjJ2ZYfADX8e7fCk4Gv
- 3x2oDnc8GvPEK74RL4V15y2/q8Wd2PT6kYpMQXV19pxe40QE3h194kOApOsI9U9v5KmD
- d9EPsZeQajXh15idUScX3jRX2SE0PftIP1z+OqwywcvLzNIoSgKRELKr5w7K0PR0/UYB
- ULOQ==
+ bh=whSHyDkf0XZc1mjjjqOGE1/cp29qdWazioE+cyFAqO0=;
+ b=AKGtA6ul6yuij5z+AvEU6YGN7uC/zmR1Z3AA2eavQwv49exOo937KC2cThIO1M5x5R
+ ld8sDO2VSHM/RDAO9u2p+XO+70K8kcxVOrir1Y0yigapUXNM0Ylp9TZuzLp8opNiwQ7F
+ AnKU33bHmO0NaKXzOI53pZm3IA1/NzLaG7sHnIF4oNjbhA1aPFUnql4JxyGrCHn6JbAR
+ SUbiQLLvznmxlgAa1lOw1puG4OnmRONMmAC/E92187ZUZ0u1IfwKfyQOhRxiduWbOsmw
+ QfJOYMgQVQMBG6eYUimmH+OiBuy14zVxqAM71F46TwcrfoWBadi7V6J39TzjtU+srhbw
+ QcaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=rOI9lx3ly2W5g+I//wMzwDwVhtW2WkhsJvnaYL+oVaA=;
- b=zRhsRdgyVTPlNhB6YCgYaFeStKeXSb96e90kRq3+9YCTjuZyVSEU4gg/E3okunVINK
- STAtD/Kb0BzY61VoVfmfBWGOisfIR4KwfA3CwvY9I8ICgo/AwbOhYg1CYtUNsXAHs67/
- CIfdbtBLlQJuPNy9vt1543rp7432YKMA5CF5rtvkr3uK5EFLTxJvSQn/GdOOgFqgnjyT
- BeNetuXkJ+hXpO0c0+ihhfXtzR4sMIKibrFOOAu4ZcFh+BmD5/ZYKr/l0ut+/vF2vKYO
- Stc/q44+wpD8SgmKxFbOD1uDKCga6uGSEJpbDLH6hvG2afQR6r40gRSETfKnNMEw7coZ
- 6Egw==
-X-Gm-Message-State: AOAM530rumMHdi1aKG5lIoAmvPWwGVSdLz6g29zBIbysxmOO8MdCb2XU
- wtuqeoXagK9L9FcOuxoENv7I8Q==
-X-Google-Smtp-Source: ABdhPJyW9pN160gPJHaycV7mP2xi077B27olHyhgGOoe6nr/BCGbiHdtFfrcOodNTbojl/LtojMyPQ==
-X-Received: by 2002:a17:902:8645:b0:149:7d71:c229 with SMTP id
- y5-20020a170902864500b001497d71c229mr39146383plt.141.1641317493940; 
- Tue, 04 Jan 2022 09:31:33 -0800 (PST)
+ bh=whSHyDkf0XZc1mjjjqOGE1/cp29qdWazioE+cyFAqO0=;
+ b=SogCXoR8EI8cfe+fs278H8EQLixAfv2e38vm7xZgesiUUdwj+zDj+DU2vSMKSspab5
+ 6fT2NgKoaqZ4nbVeQsN3muGZG6Fe4VszZjGdrNTuG028LJDBy7aUbB8m3Qi8lbGs6gVb
+ vyPFK8ZBdOPoKspz78fgtf+XIZ7idVkrKKTLpWBG2SB4HegM0StYdFcLOv+PJ57wWMVy
+ 2Ku8fsrzbbboKqjldcVpo342uEKP8gxqXTZGeyJa52icocMMQv0SdBoN9Bk89nruuy7p
+ +3zddAQ1oPQTueeYPGkiR1ctypwZGtAi0mbUGj814oU6Evb0GGZ+iUYJ0OsEyXNpeqWa
+ 6uHg==
+X-Gm-Message-State: AOAM532DRB/blbNlnoAPHQTY9dkRk2RDmRgPFPXrptaOzJLJf02ZRd1u
+ Lp+kWrupoT2JVM/1q/xSbJGGtw==
+X-Google-Smtp-Source: ABdhPJzZB3uUldS3H3PomxXInau17VQRCQJ4/BUX9qRXpwldcK2cYuphdyVvLg2cunzd1cVS/euxnw==
+X-Received: by 2002:a63:87c3:: with SMTP id
+ i186mr45003143pge.507.1641317695407; 
+ Tue, 04 Jan 2022 09:34:55 -0800 (PST)
 Received: from google.com (157.214.185.35.bc.googleusercontent.com.
  [35.185.214.157])
- by smtp.gmail.com with ESMTPSA id l22sm43563684pfc.167.2022.01.04.09.31.33
+ by smtp.gmail.com with ESMTPSA id k23sm401859pji.3.2022.01.04.09.34.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Jan 2022 09:31:33 -0800 (PST)
-Date: Tue, 4 Jan 2022 17:31:30 +0000
+ Tue, 04 Jan 2022 09:34:54 -0800 (PST)
+Date: Tue, 4 Jan 2022 17:34:51 +0000
 From: Sean Christopherson <seanjc@google.com>
 To: Chao Peng <chao.p.peng@linux.intel.com>
 Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
@@ -71,21 +71,21 @@ Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
  luto@kernel.org, john.ji@intel.com, susie.li@intel.com,
  jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
  david@redhat.com
-Subject: Re: [PATCH v3 kvm/queue 11/16] KVM: Add kvm_map_gfn_range
-Message-ID: <YdSEcknuErGe0gQa@google.com>
+Subject: Re: [PATCH v3 kvm/queue 04/16] KVM: Extend the memslot to support
+ fd-based private memory
+Message-ID: <YdSFO2fAHhdGsPLG@google.com>
 References: <20211223123011.41044-1-chao.p.peng@linux.intel.com>
- <20211223123011.41044-12-chao.p.peng@linux.intel.com>
- <YcS6m9CieYaIGA3F@google.com>
- <20211224041351.GB44042@chaop.bj.intel.com>
- <20211231023334.GA7255@chaop.bj.intel.com>
+ <20211223123011.41044-5-chao.p.peng@linux.intel.com>
+ <YcSzafzpjMy6m28B@google.com>
+ <20211231025344.GC7255@chaop.bj.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20211231023334.GA7255@chaop.bj.intel.com>
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1032
+In-Reply-To: <20211231025344.GC7255@chaop.bj.intel.com>
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::434
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
- envelope-from=seanjc@google.com; helo=mail-pj1-x1032.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::434;
+ envelope-from=seanjc@google.com; helo=mail-pf1-x434.google.com
 X-Spam_score_int: -148
 X-Spam_score: -14.9
 X-Spam_bar: --------------
@@ -111,31 +111,38 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Fri, Dec 31, 2021, Chao Peng wrote:
-> On Fri, Dec 24, 2021 at 12:13:51PM +0800, Chao Peng wrote:
-> > On Thu, Dec 23, 2021 at 06:06:19PM +0000, Sean Christopherson wrote:
-> > > On Thu, Dec 23, 2021, Chao Peng wrote:
-> > > > This new function establishes the mapping in KVM page tables for a
-> > > > given gfn range. It can be used in the memory fallocate callback for
-> > > > memfd based memory to establish the mapping for KVM secondary MMU when
-> > > > the pages are allocated in the memory backend.
-> > > 
-> > > NAK, under no circumstance should KVM install SPTEs in response to allocating
-> > > memory in a file.   The correct thing to do is to invalidate the gfn range
-> > > associated with the newly mapped range, i.e. wipe out any shared SPTEs associated
-> > > with the memslot.
+> On Thu, Dec 23, 2021 at 05:35:37PM +0000, Sean Christopherson wrote:
+> > On Thu, Dec 23, 2021, Chao Peng wrote:
+> > > diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
+> > > index 1daa45268de2..41434322fa23 100644
+> > > --- a/include/uapi/linux/kvm.h
+> > > +++ b/include/uapi/linux/kvm.h
+> > > @@ -103,6 +103,17 @@ struct kvm_userspace_memory_region {
+> > >  	__u64 userspace_addr; /* start of the userspace allocated memory */
+> > >  };
+> > >  
+> > > +struct kvm_userspace_memory_region_ext {
+> > > +	__u32 slot;
+> > > +	__u32 flags;
+> > > +	__u64 guest_phys_addr;
+> > > +	__u64 memory_size; /* bytes */
+> > > +	__u64 userspace_addr; /* hva */
 > > 
-> > Right, thanks.
+> > Would it make sense to embed "struct kvm_userspace_memory_region"?
+> > 
+> > > +	__u64 ofs; /* offset into fd */
+> > > +	__u32 fd;
+> > 
+> > Again, use descriptive names, then comments like "offset into fd" are unnecessary.
+> > 
+> > 	__u64 private_offset;
+> > 	__u32 private_fd;
 > 
-> BTW, I think the current fallocate() callback is just useless as long as
-> we don't want to install KVM SPTEs in response to allocating memory in a
-> file. The invalidation of the shared SPTEs should be notified through 
-> mmu_notifier of the shared memory backend, not memfd_notifier of the
-> private memory backend.
+> My original thought is the same fields might be used for shared memslot
+> as well in future (e.g. there may be another KVM_MEM_* bit can reuse the
+> same fields for shared slot) so non private-specific name may sound
+> better. But definitely I have no objection and can use private_* names
+> for next version unless there is other objection.
 
-No, because the private fd is the final source of truth as to whether or not a
-GPA is private, e.g. userspace may choose to not unmap the shared backing.
-KVM's rule per Paolo's/this proposoal is that a GPA is private if it has a private
-memslot and is present in the private backing store.  And the other core rule is
-that KVM must never map both the private and shared variants of a GPA into the
-guest.
+If that does happen, it's easy enough to wrap them in a union.
 
