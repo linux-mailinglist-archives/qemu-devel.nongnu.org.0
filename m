@@ -2,65 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E3A6483A75
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 03:06:21 +0100 (CET)
-Received: from localhost ([::1]:38362 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F688483A7C
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 03:09:00 +0100 (CET)
+Received: from localhost ([::1]:42400 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n4ZDP-0005xh-O7
-	for lists+qemu-devel@lfdr.de; Mon, 03 Jan 2022 21:06:19 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49344)
+	id 1n4ZFz-0000HN-PV
+	for lists+qemu-devel@lfdr.de; Mon, 03 Jan 2022 21:08:59 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49520)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yan.y.zhao@intel.com>)
- id 1n4ZBW-00059p-Mq
- for qemu-devel@nongnu.org; Mon, 03 Jan 2022 21:04:22 -0500
-Received: from mga03.intel.com ([134.134.136.65]:12655)
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1n4ZCz-0005yZ-F2; Mon, 03 Jan 2022 21:05:53 -0500
+Received: from szxga02-in.huawei.com ([45.249.212.188]:4153)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yan.y.zhao@intel.com>)
- id 1n4ZBT-0002SS-E0
- for qemu-devel@nongnu.org; Mon, 03 Jan 2022 21:04:22 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1641261859; x=1672797859;
- h=date:from:to:cc:subject:message-id:reply-to:references:
- mime-version:in-reply-to;
- bh=rOuUJmbr74WI4ZIAyOLlAU0/SD3eXv+IaIUsKvmCi7c=;
- b=QOmzr4HVuhEtgLKWF0wxAO/tR5E7shzsh0xjIjAnTCizRIYMY0gIY/cn
- tr+8sPlw4c10yDrpIapUFSiuUYagLSSzOTtZjK24gahlGQOn0eSykOp+H
- QTS8dNGPNCbBMvVFMErrz9FKH5L6rKrVwDIgPCUX0keNAjMxTEh1Me2Oj
- gVI7cas61gFPfSGkyPhepVIoJd8IhAlum8kApMu1SBtY9z8H9gcPg8zJb
- HJOvnys7KSeUlWoal3Qa/GxICo3JHR/KpLK8RZQ8U7CTRbhB8/Gi0tXdb
- PLJ8o14qGit9VipvI/+2N650I68zLEpK0NcwUaRrTGGGbBYBDyVXDi4TS A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10216"; a="242096675"
-X-IronPort-AV: E=Sophos;i="5.88,258,1635231600"; d="scan'208";a="242096675"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Jan 2022 18:04:14 -0800
-X-IronPort-AV: E=Sophos;i="5.88,258,1635231600"; d="scan'208";a="512282072"
-Received: from yzhao56-desk.sh.intel.com ([10.239.159.43])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Jan 2022 18:04:06 -0800
-Date: Tue, 4 Jan 2022 09:46:35 +0800
-From: Yan Zhao <yan.y.zhao@intel.com>
-To: Chao Peng <chao.p.peng@linux.intel.com>
-Subject: Re: [PATCH v3 kvm/queue 14/16] KVM: Handle page fault for private
- memory
-Message-ID: <20220104014629.GA2330@yzhao56-desk.sh.intel.com>
-References: <20211223123011.41044-1-chao.p.peng@linux.intel.com>
- <20211223123011.41044-15-chao.p.peng@linux.intel.com>
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1n4ZCw-0003zn-IY; Mon, 03 Jan 2022 21:05:53 -0500
+Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.54])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4JSbXX0PKGz9rx2;
+ Tue,  4 Jan 2022 10:04:44 +0800 (CST)
+Received: from [10.174.187.128] (10.174.187.128) by
+ dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
+ 15.1.2308.20; Tue, 4 Jan 2022 10:05:44 +0800
+Subject: Re: [PATCH v6 3/7] hw/acpi/aml-build: Improve scalability of PPTT
+ generation
+To: Andrew Jones <drjones@redhat.com>
+CC: <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>, Peter Maydell
+ <peter.maydell@linaro.org>, "Michael S . Tsirkin" <mst@redhat.com>, Igor
+ Mammedov <imammedo@redhat.com>, Shannon Zhao <shannon.zhaosl@gmail.com>, Ani
+ Sinha <ani@anisinha.ca>, Eric Auger <eauger@redhat.com>,
+ <wanghaibin.wang@huawei.com>
+References: <20220103084636.2496-1-wangyanan55@huawei.com>
+ <20220103084636.2496-4-wangyanan55@huawei.com>
+ <20220103112407.p7aep3yqnlhevylc@gator>
+Message-ID: <50b8d6d9-8ed1-5a25-cad3-7c3d6e8fafed@huawei.com>
+Date: Tue, 4 Jan 2022 10:05:43 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211223123011.41044-15-chao.p.peng@linux.intel.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-Received-SPF: pass client-ip=134.134.136.65; envelope-from=yan.y.zhao@intel.com;
- helo=mga03.intel.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) DKIMWL_WL_HIGH=-0.37, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+In-Reply-To: <20220103112407.p7aep3yqnlhevylc@gator>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-Originating-IP: [10.174.187.128]
+X-ClientProxiedBy: dggeme704-chm.china.huawei.com (10.1.199.100) To
+ dggpemm500023.china.huawei.com (7.185.36.83)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.188;
+ envelope-from=wangyanan55@huawei.com; helo=szxga02-in.huawei.com
+X-Spam_score_int: -56
+X-Spam_score: -5.7
+X-Spam_bar: -----
+X-Spam_report: (-5.7 / 5.0 requ) NICE_REPLY_A=-3.354, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -74,246 +68,138 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Yan Zhao <yan.y.zhao@intel.com>
-Cc: Wanpeng Li <wanpengli@tencent.com>, jun.nakajima@intel.com,
- kvm@vger.kernel.org, david@redhat.com, qemu-devel@nongnu.org,
- "J . Bruce Fields" <bfields@fieldses.org>, linux-mm@kvack.org,
- "H . Peter Anvin" <hpa@zytor.com>, ak@linux.intel.com,
- Jonathan Corbet <corbet@lwn.net>, Joerg Roedel <joro@8bytes.org>,
- x86@kernel.org, Hugh Dickins <hughd@google.com>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- luto@kernel.org, Thomas Gleixner <tglx@linutronix.de>,
- Vitaly Kuznetsov <vkuznets@redhat.com>, Jim Mattson <jmattson@google.com>,
- dave.hansen@intel.com, Sean Christopherson <seanjc@google.com>,
- susie.li@intel.com, Jeff Layton <jlayton@kernel.org>,
- linux-kernel@vger.kernel.org, john.ji@intel.com,
- Yu Zhang <yu.c.zhang@linux.intel.com>, linux-fsdevel@vger.kernel.org,
- Paolo Bonzini <pbonzini@redhat.com>, Andrew Morton <akpm@linux-foundation.org>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  "wangyanan (Y)" <wangyanan55@huawei.com>
+From:  "wangyanan (Y)" via <qemu-devel@nongnu.org>
 
-On Thu, Dec 23, 2021 at 08:30:09PM +0800, Chao Peng wrote:
-> When a page fault from the secondary page table while the guest is
-> running happens in a memslot with KVM_MEM_PRIVATE, we need go
-> different paths for private access and shared access.
-> 
->   - For private access, KVM checks if the page is already allocated in
->     the memory backend, if yes KVM establishes the mapping, otherwise
->     exits to userspace to convert a shared page to private one.
+Hi Drew,
+Thanks for your review.
+On 2022/1/3 19:24, Andrew Jones wrote:
+> On Mon, Jan 03, 2022 at 04:46:32PM +0800, Yanan Wang wrote:
+>> Currently we generate a PPTT table of n-level processor hierarchy
+>> with n-level loops in build_pptt(). It works fine as now there are
+>> only three CPU topology parameters. But the code may become less
+>> scalable with the processor hierarchy levels increasing.
+>>
+>> This patch only improves the scalability of build_pptt by reducing
+>> the loops, and intends to make no functional change.
+>>
+>> Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
+>> ---
+>>   hw/acpi/aml-build.c | 50 +++++++++++++++++++++++++++++----------------
+>>   1 file changed, 32 insertions(+), 18 deletions(-)
+>>
+>> diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
+>> index b3b3310df3..be3851be36 100644
+>> --- a/hw/acpi/aml-build.c
+>> +++ b/hw/acpi/aml-build.c
+>> @@ -2001,7 +2001,10 @@ static void build_processor_hierarchy_node(GArray *tbl, uint32_t flags,
+>>   void build_pptt(GArray *table_data, BIOSLinker *linker, MachineState *ms,
+>>                   const char *oem_id, const char *oem_table_id)
+>>   {
+>> -    int pptt_start = table_data->len;
+>> +    GQueue *list = g_queue_new();
+>> +    guint pptt_start = table_data->len;
+>> +    guint father_offset;
+> "parent_offset" would be more conventional.
+Apparently... I will rename it.
+>> +    guint length, i;
+>>       int uid = 0;
+>>       int socket;
+>>       AcpiTable table = { .sig = "PPTT", .rev = 2,
+>> @@ -2010,9 +2013,8 @@ void build_pptt(GArray *table_data, BIOSLinker *linker, MachineState *ms,
+>>       acpi_table_begin(&table, table_data);
+>>   
+>>       for (socket = 0; socket < ms->smp.sockets; socket++) {
+>> -        uint32_t socket_offset = table_data->len - pptt_start;
+>> -        int core;
+>> -
+>> +        g_queue_push_tail(list,
+>> +            GUINT_TO_POINTER(table_data->len - pptt_start));
+>>           build_processor_hierarchy_node(
+>>               table_data,
+>>               /*
+>> @@ -2021,35 +2023,47 @@ void build_pptt(GArray *table_data, BIOSLinker *linker, MachineState *ms,
+>>                */
+>>               (1 << 0),
+>>               0, socket, NULL, 0);
+>> +    }
+>>   
+>> -        for (core = 0; core < ms->smp.cores; core++) {
+>> -            uint32_t core_offset = table_data->len - pptt_start;
+>> -            int thread;
+>> +    length = g_queue_get_length(list);
+>> +    for (i = 0; i < length; i++) {
+>> +        int core;
+>>   
+>> +        father_offset = GPOINTER_TO_UINT(g_queue_pop_head(list));
+>> +        for (core = 0; core < ms->smp.cores; core++) {
+>>               if (ms->smp.threads > 1) {
+>> +                g_queue_push_tail(list,
+>> +                    GUINT_TO_POINTER(table_data->len - pptt_start));
+>>                   build_processor_hierarchy_node(
+>>                       table_data,
+>>                       (0 << 0), /* not a physical package */
+>> -                    socket_offset, core, NULL, 0);
+>> -
+>> -                for (thread = 0; thread < ms->smp.threads; thread++) {
+>> -                    build_processor_hierarchy_node(
+>> -                        table_data,
+>> -                        (1 << 1) | /* ACPI Processor ID valid */
+>> -                        (1 << 2) | /* Processor is a Thread */
+>> -                        (1 << 3),  /* Node is a Leaf */
+>> -                        core_offset, uid++, NULL, 0);
+>> -                }
+>> +                    father_offset, core, NULL, 0);
+>>               } else {
+>>                   build_processor_hierarchy_node(
+>>                       table_data,
+>>                       (1 << 1) | /* ACPI Processor ID valid */
+>>                       (1 << 3),  /* Node is a Leaf */
+>> -                    socket_offset, uid++, NULL, 0);
+>> +                    father_offset, uid++, NULL, 0);
+>>               }
+>>           }
+>>       }
+>>   
+>> +    length = g_queue_get_length(list);
+>> +    for (i = 0; i < length; i++) {
+>> +        int thread;
+>> +
+>> +        father_offset = GPOINTER_TO_UINT(g_queue_pop_head(list));
+>> +        for (thread = 0; thread < ms->smp.threads; thread++) {
+>> +            build_processor_hierarchy_node(
+>> +                table_data,
+>> +                (1 << 1) | /* ACPI Processor ID valid */
+>> +                (1 << 2) | /* Processor is a Thread */
+>> +                (1 << 3),  /* Node is a Leaf */
+>> +                father_offset, uid++, NULL, 0);
+>> +        }
+>> +    }
+>> +
+>> +    g_queue_free(list);
+>>       acpi_table_end(linker, &table);
+>>   }
+> This patch actually increases the number of loops, since we need to visit
+> higher hierarchical nodes twice (once to enqueue and once to dequeue).
+Yes, we actually need to access the higher hierarchical node's offset twice.
+But that may not be a problem since numbers of topology parameters are
+not so huge that we need to consider the performance.
+> We
+> do reduce code indentation and it looks like we could more easily skip
+> hierarchy levels we don't want, though.
+Yes, just as you said. The commit message doesn't describe the motivation
+well. This patch aims to reduce the increasing code indentation because of
+increasing nested loops, and consequently it's a bit easier to extend with
+new topology level.
+> While my impulse is to say we
+> should just keep this simple and add another nested loop for clusters, I
+> guess I'm OK with this too.
+Thank you!
+> Reviewed-by: Andrew Jones <drjones@redhat.com>
 >
-will this conversion be atomical or not?
-For example, after punching a hole in a private memory slot, will KVM
-see two notifications: one for invalidation of the whole private memory
-slot, and one for fallocate of the rest ranges besides the hole?
-Or, KVM only sees one invalidation notification for the hole?
-Could you please show QEMU code about this conversion?
+Thanks,
+Yanan
 
-
->   - For shared access, KVM also checks if the page is already allocated
->     in the memory backend, if yes then exit to userspace to convert a
->     private page to shared one, otherwise it's treated as a traditional
->     hva-based shared memory, KVM lets existing code to obtain a pfn with
->     get_user_pages() and establish the mapping.
-> 
-> The above code assume private memory is persistent and pre-allocated in
-> the memory backend so KVM can use this information as an indicator for
-> a page is private or shared. The above check is then performed by
-> calling kvm_memfd_get_pfn() which currently is implemented as a
-> pagecache search but in theory that can be implemented differently
-> (i.e. when the page is even not mapped into host pagecache there should
-> be some different implementation).
-> 
-> Signed-off-by: Yu Zhang <yu.c.zhang@linux.intel.com>
-> Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
-> ---
->  arch/x86/kvm/mmu/mmu.c         | 73 ++++++++++++++++++++++++++++++++--
->  arch/x86/kvm/mmu/paging_tmpl.h | 11 +++--
->  2 files changed, 77 insertions(+), 7 deletions(-)
-> 
-> diff --git a/arch/x86/kvm/mmu/mmu.c b/arch/x86/kvm/mmu/mmu.c
-> index 2856eb662a21..fbcdf62f8281 100644
-> --- a/arch/x86/kvm/mmu/mmu.c
-> +++ b/arch/x86/kvm/mmu/mmu.c
-> @@ -2920,6 +2920,9 @@ int kvm_mmu_max_mapping_level(struct kvm *kvm,
->  	if (max_level == PG_LEVEL_4K)
->  		return PG_LEVEL_4K;
->  
-> +	if (kvm_slot_is_private(slot))
-> +		return max_level;
-> +
->  	host_level = host_pfn_mapping_level(kvm, gfn, pfn, slot);
->  	return min(host_level, max_level);
->  }
-> @@ -3950,7 +3953,59 @@ static bool kvm_arch_setup_async_pf(struct kvm_vcpu *vcpu, gpa_t cr2_or_gpa,
->  				  kvm_vcpu_gfn_to_hva(vcpu, gfn), &arch);
->  }
->  
-> -static bool kvm_faultin_pfn(struct kvm_vcpu *vcpu, struct kvm_page_fault *fault, int *r)
-> +static bool kvm_vcpu_is_private_gfn(struct kvm_vcpu *vcpu, gfn_t gfn)
-> +{
-> +	/*
-> +	 * At this time private gfn has not been supported yet. Other patch
-> +	 * that enables it should change this.
-> +	 */
-> +	return false;
-> +}
-> +
-> +static bool kvm_faultin_pfn_private(struct kvm_vcpu *vcpu,
-> +				    struct kvm_page_fault *fault,
-> +				    bool *is_private_pfn, int *r)
-> +{
-> +	int order;
-> +	int mem_convert_type;
-> +	struct kvm_memory_slot *slot = fault->slot;
-> +	long pfn = kvm_memfd_get_pfn(slot, fault->gfn, &order);
-For private memory slots, it's possible to have pfns backed by
-backends other than memfd, e.g. devicefd. So is it possible to let those
-private memslots keep private and use traditional hva-based way?
-Reasons below:
-1. only memfd is supported in this patch set.
-2. qemu/host read/write to those private memslots backing up by devicefd may
-not cause machine check.
-
-Thanks
-Yan
-
-
-> +
-> +	if (kvm_vcpu_is_private_gfn(vcpu, fault->addr >> PAGE_SHIFT)) {
-> +		if (pfn < 0)
-> +			mem_convert_type = KVM_EXIT_MEM_MAP_PRIVATE;
-> +		else {
-> +			fault->pfn = pfn;
-> +			if (slot->flags & KVM_MEM_READONLY)
-> +				fault->map_writable = false;
-> +			else
-> +				fault->map_writable = true;
-> +
-> +			if (order == 0)
-> +				fault->max_level = PG_LEVEL_4K;
-> +			*is_private_pfn = true;
-> +			*r = RET_PF_FIXED;
-> +			return true;
-> +		}
-> +	} else {
-> +		if (pfn < 0)
-> +			return false;
-> +
-> +		kvm_memfd_put_pfn(pfn);
-> +		mem_convert_type = KVM_EXIT_MEM_MAP_SHARED;
-> +	}
-> +
-> +	vcpu->run->exit_reason = KVM_EXIT_MEMORY_ERROR;
-> +	vcpu->run->mem.type = mem_convert_type;
-> +	vcpu->run->mem.u.map.gpa = fault->gfn << PAGE_SHIFT;
-> +	vcpu->run->mem.u.map.size = PAGE_SIZE;
-> +	fault->pfn = -1;
-> +	*r = -1;
-> +	return true;
-> +}
-> +
-> +static bool kvm_faultin_pfn(struct kvm_vcpu *vcpu, struct kvm_page_fault *fault,
-> +			    bool *is_private_pfn, int *r)
->  {
->  	struct kvm_memory_slot *slot = fault->slot;
->  	bool async;
-> @@ -3984,6 +4039,10 @@ static bool kvm_faultin_pfn(struct kvm_vcpu *vcpu, struct kvm_page_fault *fault,
->  		}
->  	}
->  
-> +	if (kvm_slot_is_private(slot) &&
-> +	    kvm_faultin_pfn_private(vcpu, fault, is_private_pfn, r))
-> +		return *r == RET_PF_FIXED ? false : true;
-> +
->  	async = false;
->  	fault->pfn = __gfn_to_pfn_memslot(slot, fault->gfn, false, &async,
->  					  fault->write, &fault->map_writable,
-> @@ -4044,6 +4103,7 @@ static int direct_page_fault(struct kvm_vcpu *vcpu, struct kvm_page_fault *fault
->  	bool is_tdp_mmu_fault = is_tdp_mmu(vcpu->arch.mmu);
->  
->  	unsigned long mmu_seq;
-> +	bool is_private_pfn = false;
->  	int r;
->  
->  	fault->gfn = fault->addr >> PAGE_SHIFT;
-> @@ -4063,7 +4123,7 @@ static int direct_page_fault(struct kvm_vcpu *vcpu, struct kvm_page_fault *fault
->  	mmu_seq = vcpu->kvm->mmu_notifier_seq;
->  	smp_rmb();
->  
-> -	if (kvm_faultin_pfn(vcpu, fault, &r))
-> +	if (kvm_faultin_pfn(vcpu, fault, &is_private_pfn, &r))
->  		return r;
->  
->  	if (handle_abnormal_pfn(vcpu, fault, ACC_ALL, &r))
-> @@ -4076,7 +4136,7 @@ static int direct_page_fault(struct kvm_vcpu *vcpu, struct kvm_page_fault *fault
->  	else
->  		write_lock(&vcpu->kvm->mmu_lock);
->  
-> -	if (is_page_fault_stale(vcpu, fault, mmu_seq))
-> +	if (!is_private_pfn && is_page_fault_stale(vcpu, fault, mmu_seq))
->  		goto out_unlock;
->  
->  	r = make_mmu_pages_available(vcpu);
-> @@ -4093,7 +4153,12 @@ static int direct_page_fault(struct kvm_vcpu *vcpu, struct kvm_page_fault *fault
->  		read_unlock(&vcpu->kvm->mmu_lock);
->  	else
->  		write_unlock(&vcpu->kvm->mmu_lock);
-> -	kvm_release_pfn_clean(fault->pfn);
-> +
-> +	if (is_private_pfn)
-> +		kvm_memfd_put_pfn(fault->pfn);
-> +	else
-> +		kvm_release_pfn_clean(fault->pfn);
-> +
->  	return r;
->  }
->  
-> diff --git a/arch/x86/kvm/mmu/paging_tmpl.h b/arch/x86/kvm/mmu/paging_tmpl.h
-> index 5b5bdac97c7b..640fd1e2fe4c 100644
-> --- a/arch/x86/kvm/mmu/paging_tmpl.h
-> +++ b/arch/x86/kvm/mmu/paging_tmpl.h
-> @@ -825,6 +825,8 @@ static int FNAME(page_fault)(struct kvm_vcpu *vcpu, struct kvm_page_fault *fault
->  	int r;
->  	unsigned long mmu_seq;
->  	bool is_self_change_mapping;
-> +	bool is_private_pfn = false;
-> +
->  
->  	pgprintk("%s: addr %lx err %x\n", __func__, fault->addr, fault->error_code);
->  	WARN_ON_ONCE(fault->is_tdp);
-> @@ -873,7 +875,7 @@ static int FNAME(page_fault)(struct kvm_vcpu *vcpu, struct kvm_page_fault *fault
->  	mmu_seq = vcpu->kvm->mmu_notifier_seq;
->  	smp_rmb();
->  
-> -	if (kvm_faultin_pfn(vcpu, fault, &r))
-> +	if (kvm_faultin_pfn(vcpu, fault, &is_private_pfn, &r))
->  		return r;
->  
->  	if (handle_abnormal_pfn(vcpu, fault, walker.pte_access, &r))
-> @@ -901,7 +903,7 @@ static int FNAME(page_fault)(struct kvm_vcpu *vcpu, struct kvm_page_fault *fault
->  	r = RET_PF_RETRY;
->  	write_lock(&vcpu->kvm->mmu_lock);
->  
-> -	if (is_page_fault_stale(vcpu, fault, mmu_seq))
-> +	if (!is_private_pfn && is_page_fault_stale(vcpu, fault, mmu_seq))
->  		goto out_unlock;
->  
->  	kvm_mmu_audit(vcpu, AUDIT_PRE_PAGE_FAULT);
-> @@ -913,7 +915,10 @@ static int FNAME(page_fault)(struct kvm_vcpu *vcpu, struct kvm_page_fault *fault
->  
->  out_unlock:
->  	write_unlock(&vcpu->kvm->mmu_lock);
-> -	kvm_release_pfn_clean(fault->pfn);
-> +	if (is_private_pfn)
-> +		kvm_memfd_put_pfn(fault->pfn);
-> +	else
-> +		kvm_release_pfn_clean(fault->pfn);
->  	return r;
->  }
->  
-> -- 
-> 2.17.1
-> 
-> 
 
