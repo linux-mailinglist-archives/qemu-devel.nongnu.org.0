@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C23FA4848AD
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 20:36:25 +0100 (CET)
-Received: from localhost ([::1]:57764 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D14B484908
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 20:58:17 +0100 (CET)
+Received: from localhost ([::1]:47974 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n4pbc-0005cu-CE
-	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 14:36:24 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33896)
+	id 1n4pwl-000124-Kq
+	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 14:58:15 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37758)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1n4pYX-0003hi-4P; Tue, 04 Jan 2022 14:33:13 -0500
-Received: from [2607:f8b0:4864:20::730] (port=38782
+ id 1n4pum-0007iZ-HW; Tue, 04 Jan 2022 14:56:12 -0500
+Received: from [2607:f8b0:4864:20::730] (port=43776
  helo=mail-qk1-x730.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1n4pYV-0002S9-Gz; Tue, 04 Jan 2022 14:33:12 -0500
-Received: by mail-qk1-x730.google.com with SMTP id i187so33810743qkf.5;
- Tue, 04 Jan 2022 11:33:10 -0800 (PST)
+ id 1n4puk-0000Tp-IF; Tue, 04 Jan 2022 14:56:12 -0500
+Received: by mail-qk1-x730.google.com with SMTP id f138so35938789qke.10;
+ Tue, 04 Jan 2022 11:56:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=x6d5346VsGWdwD0ipoTG3h58PBcnNdNQunHwrbJTAXI=;
- b=jxra/O1jezhbTXSnCA+08KaQhS7Ojp8NzynMFY2z9oEB9EVd98P8UpEvJnHLfanplR
- c9vyunia6+M3EatizUrNGUisEIEMoc5m8SOnwgTc8z5A8M3PnnIoEmleSlF+X8I8i9gH
- aFLbbSTg8bJtzhHWdFeTiWhGh4jNksypnlqU2Dw4NZlXZWgFifKbANzv1RMsGVTNa/6v
- evWunXwmI1PNBqakCEa84AMKhsIJlWvfb3dBQrAX0j5203AyAH/BkXm81wM93deYCJT0
- GEnFd2EO8GZ95wCW9q8UFNu8xyoQRxmhKBjeJ81uAj9N8PHI7wmyClkLr1O6qHqrBSKY
- 1ShA==
+ bh=hafsEJfMxFPS4MFMmIHjMn/kFX6/c5BraufvbaJmW6Y=;
+ b=mvh2It0nb0AwXsYpDvDGSukhZZzBSCqBngZu2EEga30w3XeUYL9XyJA0YS6Pkx+Rjt
+ B2RSg5CA2K/sH2TEOalHL50+liEtxDcKfezqZAXhqWiCnAsy3wL52c0zd31wygPMpSPQ
+ 34DgPr+8Jh2kJ1Jm+SS8lMOA0SaTJRC7cDkRXcVaQqw51Ydx826tEel3CSvz9o1KP3l7
+ 2TWuNDT7H45hJJ0VNgyy4vDAtFumYPvQgrsRarL/uDBSimHbsFZAbla/MnYPerg92ogJ
+ e6hlgqJs7oAl6Z3x8np1BuaZSXKYU49Jc0m+2iJ/e+WXLaErKqyM4L0fyeHv81qlAn8E
+ Jjiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=x6d5346VsGWdwD0ipoTG3h58PBcnNdNQunHwrbJTAXI=;
- b=TMr3SCOgG7BiElmgsZlZL/d1IEo34mdpr+XCxYrXKj0c3pACwbBWzGELpoyKHmqu4G
- nG1YgX2AYnR7wk5jQdw2/fCj2STe8kNNmMyiP7CBQvh4xUGaJKjwwTh+zEiDnX0Kn9Gd
- tyNickmWOuwJOoEnleYbeKxDarUr0Hs7p1uSMH0NVRXhUzm9xi7Hx+fhJy0bcP54aawI
- lzTD4Wom4Ja13t2+HyDWBxnmImxTBawl3c1mqGv2VTFsJQTo/16AzUqgFMV3LHOmNPIQ
- 2qCPMI5hoqpfDudJ7ASjDcLANayBfYbXnrU/zu/n/1gSUw9bEiJYv9YM5RTNU1jhfhuT
- Xnlg==
-X-Gm-Message-State: AOAM5303dvTyidqYvkLjyQWI6wlgQegOePB+VDq8RjavPaby2ZKjrVA5
- T7cMf3Lc97I6Ga6b3lI3AG0=
-X-Google-Smtp-Source: ABdhPJwbMqfWLUnXPYVg/L5DHuNO0434rLekbeTOpfLr+fqjs6M8TaDlgjTDhi1haUAB5xeWwrUvaQ==
-X-Received: by 2002:a05:620a:4107:: with SMTP id
- j7mr36645119qko.645.1641324789907; 
- Tue, 04 Jan 2022 11:33:09 -0800 (PST)
+ bh=hafsEJfMxFPS4MFMmIHjMn/kFX6/c5BraufvbaJmW6Y=;
+ b=3se/juhb4lKWwrX5Fyr9saJxzcnI4rHi2Q3vM/ekG58y3i70lPs0hHKyf7uGjraQ1M
+ lVo9LRGVHxxwgIqy92L3MZmwCsGXxB4mpsNqDONKM4GVbj6znhMAsBNnJ59dkxqdb1Bq
+ gSXsA7LHGKPHL3+6K69gaqr4ve7aKFPYuVvLrpUF7xxpvhISPUfegvAbEdPZpci7xDww
+ xPCGinildEKPhYHZTq9LbqZS9K11+BOjGOO5arpX/pZIMaQnC8TNbYkdbu28deis0Vk9
+ ExpWpu69j54yk9QPbh/+mMaPfd0ukLhTg8IZ9GypaXSsZijCiE4YWzt1wVqDcKemYmID
+ kXfg==
+X-Gm-Message-State: AOAM5303jdPsrHbKJZR1rkKH7Rqjq5xSpkhwmA984yByTcbEW3K66KUu
+ e/OVaf/CU/8tYNuqt9vAxvI=
+X-Google-Smtp-Source: ABdhPJxflWoncQHR0bMjE4EuxK3l/xLFZdZSnw+MrDRg9TWn4lwwKpFOX4iLALltrX8YyfDZCurXWA==
+X-Received: by 2002:a05:620a:15ec:: with SMTP id
+ p12mr76017qkm.489.1641326169287; 
+ Tue, 04 Jan 2022 11:56:09 -0800 (PST)
 Received: from ?IPV6:2804:431:c7c7:f4d8:aa07:335f:99e0:a6e7?
  ([2804:431:c7c7:f4d8:aa07:335f:99e0:a6e7])
- by smtp.gmail.com with ESMTPSA id m1sm32879409qkn.115.2022.01.04.11.33.08
+ by smtp.gmail.com with ESMTPSA id i6sm32872720qkn.26.2022.01.04.11.56.06
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 04 Jan 2022 11:33:09 -0800 (PST)
-Message-ID: <2dd76203-e22f-9142-b94a-df94e1f9b797@gmail.com>
-Date: Tue, 4 Jan 2022 16:33:04 -0300
+ Tue, 04 Jan 2022 11:56:09 -0800 (PST)
+Message-ID: <fc7a604b-ca56-510d-e0c9-ec6dee4d0261@gmail.com>
+Date: Tue, 4 Jan 2022 16:56:05 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.4.0
-Subject: Re: [PATCH 01/17] pnv_phb3.c: add unique chassis and slot for
- pnv_phb3_root_port
+Subject: Re: [PATCH 0/3] Reorg ppc64 pmu insn counting
 Content-Language: en-US
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-devel@nongnu.org
-References: <20211228193806.1198496-1-danielhb413@gmail.com>
- <20211228193806.1198496-2-danielhb413@gmail.com>
- <2a8367ed-d23b-3716-77d0-911cba9ecb74@kaod.org>
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20211223030149.1947418-1-richard.henderson@linaro.org>
+ <1b988844-075d-beb3-7fd1-a26f30e9f5dc@gmail.com> <87fsq4dfck.fsf@linaro.org>
+ <328302bb-b916-8d13-70e6-e6f88b0745db@gmail.com> <875yqzn56l.fsf@linaro.org>
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <2a8367ed-d23b-3716-77d0-911cba9ecb74@kaod.org>
+In-Reply-To: <875yqzn56l.fsf@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::730
@@ -93,100 +92,157 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, david@gibson.dropbear.id.au
+Cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org,
+ Richard Henderson <richard.henderson@linaro.org>, clg@kaod.org,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 
-On 1/3/22 05:24, Cédric Le Goater wrote:
-> On 12/28/21 20:37, Daniel Henrique Barboza wrote:
->> When creating a pnv_phb3_root_port using the command line, the first
->> root port is created successfully, but the second fails with the
->> following error:
->>
->> qemu-system-ppc64: -device pnv-phb3-root-port,bus=phb3-root.0,id=pcie.3:
->> Can't add chassis slot, error -16
->>
->> This error comes from the realize() function of its parent type,
->> rp_realize() from TYPE_PCIE_ROOT_PORT. pcie_chassis_add_slot() fails
->> with -EBUSY if there's an existing PCIESlot that has the same
->> chassis/slot value, regardless of being in a different bus.
->>
->> One way to prevent this error is simply set chassis and slot values in
->> the command line. However, since phb3 root buses only supports a single
->> root port, we can just get an unique chassis/slot value by checking
->> which root bus the pnv_phb3_root_port is going to be attached, get the
->> equivalent phb3 device and use its chip-id and index values, which are
->> guaranteed to be unique.
+On 1/4/22 07:32, Alex Bennée wrote:
 > 
-> I guess parent_realize() will fail if we add 2 root port devices under
-> the same phb ?
+> Daniel Henrique Barboza <danielhb413@gmail.com> writes:
+> 
+>> On 1/3/22 12:07, Alex Bennée wrote:
+>>> Daniel Henrique Barboza <danielhb413@gmail.com> writes:
+>>>
+>>>> On 12/23/21 00:01, Richard Henderson wrote:
+>>>>> In contrast to Daniel's version, the code stays in power8-pmu.c,
+>>>>> but is better organized to not take so much overhead.
+>>>>> Before:
+>>>>>        32.97%  qemu-system-ppc  qemu-system-ppc64   [.] pmc_get_event
+>>>>>        20.22%  qemu-system-ppc  qemu-system-ppc64   [.] helper_insns_inc
+>>>>>         4.52%  qemu-system-ppc  qemu-system-ppc64   [.] hreg_compute_hflags_value
+>>>>>         3.30%  qemu-system-ppc  qemu-system-ppc64   [.] helper_lookup_tb_ptr
+>>>>>         2.68%  qemu-system-ppc  qemu-system-ppc64   [.] tcg_gen_code
+>>>>>         2.28%  qemu-system-ppc  qemu-system-ppc64   [.] cpu_exec
+>>>>>         1.84%  qemu-system-ppc  qemu-system-ppc64   [.] pmu_insn_cnt_enabled
+>>>>> After:
+>>>>>         8.42%  qemu-system-ppc  qemu-system-ppc64   [.]
+>>>>> hreg_compute_hflags_value
+>>>>>         6.65%  qemu-system-ppc  qemu-system-ppc64   [.] cpu_exec
+>>>>>         6.63%  qemu-system-ppc  qemu-system-ppc64   [.] helper_insns_inc
+>>>>>
+>>>>
+>>>> Thanks for looking this up. I had no idea the original C code was that slow.
+>>>>
+>>> <snip>
+>>>>
+>>>> With that in mind I decided to post a new version of my TCG rework, with less repetition and
+>>>> a bit more concise, to have an alternative that can be used upstream to fix the Avocado tests.
+>>>> Meanwhile I'll see if I can get your reorg working with all EBB tests we need. All things
+>>>> equal - similar performance, all EBB tests passing - I'd rather stay with your C code than my
+>>>> TCG rework since yours doesn't rely on TCG Ops knowledge to maintain
+>>>> it.
+>>> Reading this series did make me wonder if we need a more generic
+>>> service
+>>> from the TCG for helping with "internal" instrumentation needed for
+>>> things like decent PMU emulation. We haven't gone as much for it in ARM
+>>> yet but it would be nice to. It would be even nicer if such a facility
+>>> could be used by stuff like icount as well so we don't end up doing the
+>>> same thing twice.
+>>
+>> Back in May 2021 when I first starting working on this code I tried to base myself in the
+>> ARM PMU code. In fact, the cycle and insn calculation done in the very first version of
+>> this work was based on what ARM does in target/arm/helper.c, cycles_get_count() and
+>> instructions_get_count(). The cycle calculation got simplified because our PPC64 CPU
+>> has a 1Ghz clock so it's easier to just consider 1ns = 1 cycle.
+>>
+>> For instruction count, aside from my 2-3 weeks of spectacular failures trying to count
+>> instructions inside translate.c, I also looked into how TCG plugins work and tried to do
+>> something similar to what plugin_gen_tb_end() does at the end of the translator_loop()
+>> in accel/tcg/translator.c. For some reason I wasn't able to replicate the same behavior
+>> that I would have if I used the TCG plugin framework in the
+>> 'canonical' way.
+> 
+> plugin_gen_tb_end is probably overkill because we should already know
+> how many instructions there are in a translated block on account of the
+> insn_start and insn_end ops that mark them. In fact see gen_tb_end()
+> which is where icount updates the value used in the decrement at the
+> start of each block. Assuming no synchronous exceptions occur you could
+> just increment a counter at the end of the block as no async IRQs will
+> occur until we have executed all of those instructions.
+> 
+> Of course it's never quite so simple and when running in full icount
+> mode we have to take into account exceptions that can be triggered by IO
+> accesses. This involves doing a re-translation to ensures the IO
+> instruction is always the last we execute.
+> 
+> I'm guessing for PMU counters to be somewhat correct we would want to
+> ensure updates throughout the block (before each memory op and helper
+> call). This would hopefully avoid the cost of "full" icount support
+> which is only single threaded. However this is the opposite to icount's
+> budget and pre-decrement approach which feels messier than it could be.
 
-If we change chassis/slot for each new pci root port the QEMU emulation will
-allow it. The problem is with skiboot which, at least according to the commit
-that introduced powernv9 support [1], does not support multiple PCIE devices in the
-same PHB:
 
-----
-No default device layout is provided and PCI devices can be added on
-any of the available PCIe Root Port (pcie.0 .. 2 of a Power9 chip)
-with address 0x0 as the firwware (skiboot) only accepts a single
-device per root port.
-----
+What about cycle counting without icount? With icount is a rather simple matter
+of making some assumptions about the CPU freq and relying on the shift parameter
+to have a somewhat good precision. Without icount the cycle count, at least in
+the current implementation in the ppc64 PMU, is erratic.
 
-That said, I'm taking this information at face value. Perhaps this is a test
-worth doing to at least document this restriction more explicitly in the
-docs.
+The problem is that, at least as far as I've read pSeries and powernv code (guest
+and bare metal IBM Power emulation), the CPU freq is a 1Ghz that we write in
+the FDT and do nothing else with it. We do not enforce (or throttle) the CPU freq
+in the emulation. A quick look into ARM code also seems to do similar assumptions:
 
 
-[1] https://github.com/qemu/qemu/commit/4f9924c4d4cf9c039e247c5cdbbf71bce4e573c3
+static uint64_t cycles_get_count(CPUARMState *env)
+{
+#ifndef CONFIG_USER_ONLY
+     return muldiv64(qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL),
+                    ARM_CPU_FREQ, NANOSECONDS_PER_SECOND);
+#else
+     return cpu_get_host_ticks();
+#endif
+}
+
+#ifndef CONFIG_USER_ONLY
+static int64_t cycles_ns_per(uint64_t cycles)
+{
+     return (ARM_CPU_FREQ / NANOSECONDS_PER_SECOND) * cycles;
+}
+
+
+$ git grep 'ARM_CPU_FREQ'
+target/arm/helper.c:#define ARM_CPU_FREQ 1000000000 /* FIXME: 1 GHz, should be configurable */
+target/arm/helper.c:                   ARM_CPU_FREQ, NANOSECONDS_PER_SECOND);
+target/arm/helper.c:    return (ARM_CPU_FREQ / NANOSECONDS_PER_SECOND) * cycles;
+
+
+But I digress. Having a generic way of counting instruction across all the boards would
+be a fine improvement. cycle calculation can wait.
+
+
+> 
+>> I ended up doing something similar to what instructions_get_count() from ARM does, which
+>> relies on icount. Richard then aided me in figuring out that I could count instructions
+>> directly by tapping into the end of each TB.
+> 
+> instructions_get_count will also work without icount but is affected by
+> wall clock time distortions in that case.
+> 
+>> So, for a generic service of sorts I believe it would be nice to re-use the TCG plugins
+>> API in the internal instrumentation (I tried it once, failed, not sure if I messed up
+>> or it's not possible ATM). That would be a good start to try to get all this logic in a
+>> generic code for internal translate code to use.
+> 
+> Agreed - although the plugin specific stuff is really just focused on
+> our limited visibility API. Unless you are referring to
+> accel/tcg/plugin-gen.c which are just helpers for manipulating the TCG
+> ops after the initial translation.
+
+
+TCG plug-ins came to mind because they operate like generic APIs that can be used across
+multiple archs, but any way of putting generic instrumentation code that can be used internally
+everywhere would do. TCG plug-ins seems to be a good candidate for that since the infrastructure
+is already in place.
 
 
 Thanks,
 
+
 Daniel
 
-> 
-> Thanks,
-> 
-> C.
-> 
-> 
->>
->> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
->> ---
->>   hw/pci-host/pnv_phb3.c | 16 ++++++++++++++++
->>   1 file changed, 16 insertions(+)
->>
->> diff --git a/hw/pci-host/pnv_phb3.c b/hw/pci-host/pnv_phb3.c
->> index 4e2d680d44..130d392b3e 100644
->> --- a/hw/pci-host/pnv_phb3.c
->> +++ b/hw/pci-host/pnv_phb3.c
->> @@ -1156,8 +1156,24 @@ static const TypeInfo pnv_phb3_root_bus_info = {
->>   static void pnv_phb3_root_port_realize(DeviceState *dev, Error **errp)
->>   {
->>       PCIERootPortClass *rpc = PCIE_ROOT_PORT_GET_CLASS(dev);
->> +    PCIDevice *pci = PCI_DEVICE(dev);
->> +    PCIBus *bus = pci_get_bus(pci);
->> +    PnvPHB3 *phb = NULL;
->>       Error *local_err = NULL;
->> +    phb = (PnvPHB3 *) object_dynamic_cast(OBJECT(bus->qbus.parent),
->> +                                          TYPE_PNV_PHB3);
->> +
->> +    if (!phb) {
->> +        error_setg(errp,
->> +"pnv_phb3_root_port devices must be connected to pnv-phb3 buses");
->> +        return;
->> +    }
->> +
->> +    /* Set unique chassis/slot values for the root port */
->> +    qdev_prop_set_uint8(&pci->qdev, "chassis", phb->chip_id);
->> +    qdev_prop_set_uint16(&pci->qdev, "slot", phb->phb_id);
->> +
->>       rpc->parent_realize(dev, &local_err);
->>       if (local_err) {
->>           error_propagate(errp, local_err);
->>
 > 
 
