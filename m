@@ -2,75 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BB3E484817
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 19:52:23 +0100 (CET)
-Received: from localhost ([::1]:44106 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39C6D4848B7
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 20:42:24 +0100 (CET)
+Received: from localhost ([::1]:33252 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n4ov0-0001kZ-0s
-	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 13:52:22 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52516)
+	id 1n4phO-0008Sf-U2
+	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 14:42:22 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35100)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1n4onN-0005mH-9u
- for qemu-devel@nongnu.org; Tue, 04 Jan 2022 13:44:29 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:26281)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1n4onL-0007xe-B1
- for qemu-devel@nongnu.org; Tue, 04 Jan 2022 13:44:28 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641321866;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Q6CGT+trdRuujURpK1psMiFidPx068lat9wSkAi6MQI=;
- b=YX42ygDzG+4KUzPf+ZpHidnLTq+UuGKiKhABRkwKcQDlF/OYbLQQhGrOAvcxrDgcfHYJKt
- tEyx6d2PoGr5n1s5CSsXepjRjOiX/6kfAGHGwz6pRmD9Uh1yqTb+9DVxvWct5m9D4o87UL
- 7KWokP6rYRJ4Kl5IG1hFNWzDF4hJ+LQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-651-MXFPWKsJNtmj693l_BpMcg-1; Tue, 04 Jan 2022 13:44:23 -0500
-X-MC-Unique: MXFPWKsJNtmj693l_BpMcg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 539C8190A7A6;
- Tue,  4 Jan 2022 18:44:22 +0000 (UTC)
-Received: from redhat.com (unknown [10.22.32.2])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 188B58032C;
- Tue,  4 Jan 2022 18:44:20 +0000 (UTC)
-Date: Tue, 4 Jan 2022 18:44:18 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Henry Kleynhans <henry.kleynhans@gmail.com>
-Subject: Re: [PATCH 2/2] [crypto] Only verify CA certs in chain of trust
-Message-ID: <YdSVgnQ6+JfeePAl@redhat.com>
-References: <20211222150600.37677-1-henry.kleynhans@gmail.com>
- <20211222150600.37677-2-henry.kleynhans@gmail.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1n4pfu-0007Zv-EB
+ for qemu-devel@nongnu.org; Tue, 04 Jan 2022 14:40:50 -0500
+Received: from [2a00:1450:4864:20::42f] (port=44797
+ helo=mail-wr1-x42f.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1n4pfs-0004gQ-2q
+ for qemu-devel@nongnu.org; Tue, 04 Jan 2022 14:40:50 -0500
+Received: by mail-wr1-x42f.google.com with SMTP id k18so41553970wrg.11
+ for <qemu-devel@nongnu.org>; Tue, 04 Jan 2022 11:40:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=tpRktyZ1LWipudfBpJuMPfwzlk5qEM+f5zYt1qyeybw=;
+ b=JdAyOjwQ2H1rVqETJGDh+M5kCFica59dspzs1JHHpfjBXZ21VfJVQVIVPtxTA4SFuA
+ 9ZeASsfjsU28TOU0W4OpY/LLWKufbYOB1nv3OZYeykH2CN8YSSdaLw5jITp/7O/PdXz4
+ Nj0shAWQLxrdVfOJwy8P8RL7ofilxlnK/6CzWNje/K9xdtQtkD5aw9RunArLnUdOaxXw
+ Zk/C+DeoC7zhgI9Vf/rCHeob1RBkjwzWwr4ZKvlbFDA3Ac6kIYQU7BaOBmXTkbIfrn8m
+ 2B93ws+4ngqvMCOFy3XJsP58nMReVJI0zvwQkY0805qluyv8phmfJ5aAd4CC4RZYxLtp
+ fNQg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=tpRktyZ1LWipudfBpJuMPfwzlk5qEM+f5zYt1qyeybw=;
+ b=tKQH10n94geITmzjXSx0WwpzIoLt4PakT+07ClU98QrH/rHG1nfM7kBayMbcHCfkmy
+ nGwEHzHYQ0SSwtZOWhNsIUBY9KmvUOeFh0a7sOy78rjMt5aaKGsDQ4HR8ND0gkcs7Xz4
+ 4oAXZ84XVxyPHIPq70XsjjUDnTnN/HSqASw77PLx7SDVIqmyvgmnw8sHAXe0GV0lUPrh
+ lFjaSpFalanQNaxJSnNNoTmzkHpTe7uQ94kUSdmWMuQtNnt5EGRNG2tjw5WOTdppRl37
+ 3aGkceXwuf6oYCM5G9DJKR5zCAQw3M5tAjtGoKlkRuzRqA48kmFkegy96mA79gRnvqDp
+ XLDQ==
+X-Gm-Message-State: AOAM531ULp0/c4IJDp62F9XEjCrsg3j00DZw/wv08igJmNO/1StVK6da
+ 5p+xMpf9ggJXb2VeTPOZzJGPQg==
+X-Google-Smtp-Source: ABdhPJw/f5dCTr2lg6TqHI3DvUllzfXcS7zcZOKoh3yDDjU5qx5AafP1UC3s5E/lQMWZ7ppIsTA3PA==
+X-Received: by 2002:a5d:54d2:: with SMTP id x18mr43262977wrv.701.1641325246066; 
+ Tue, 04 Jan 2022 11:40:46 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id t15sm16409273wrz.82.2022.01.04.11.40.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 04 Jan 2022 11:40:45 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 3CE361FFB7;
+ Tue,  4 Jan 2022 19:40:44 +0000 (GMT)
+References: <20211229062204.3726981-1-git@xen0n.name>
+User-agent: mu4e 1.7.5; emacs 28.0.90
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: WANG Xuerui <git@xen0n.name>
+Subject: Re: [PATCH] tests/docker: Add gentoo-loongarch64-cross image and
+ run cross builds in GitLab
+Date: Tue, 04 Jan 2022 18:31:27 +0000
+In-reply-to: <20211229062204.3726981-1-git@xen0n.name>
+Message-ID: <87fsq3l26b.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20211222150600.37677-2-henry.kleynhans@gmail.com>
-User-Agent: Mutt/2.1.3 (2021-09-10)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) DKIMWL_WL_HIGH=-0.37, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42f
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42f.google.com
+X-Spam_score_int: 6
+X-Spam_score: 0.6
+X-Spam_bar: /
+X-Spam_report: (0.6 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,187 +90,362 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Henry Kleynhans <hkleynhans@fb.com>, qemu-devel@nongnu.org,
- henry.kleynhans@fb.com
+Cc: Thomas Huth <thuth@redhat.com>, Beraldo Leal <bleal@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Dec 22, 2021 at 03:06:00PM +0000, Henry Kleynhans wrote:
-> From: Henry Kleynhans <hkleynhans@fb.com>
-> 
-> The CA file provided to qemu may contain CA certificates which do not
-> form part of the chain of trust for the specific certificate we are
-> sanity checking.
-> 
-> This patch changes the sanity checking from validating every CA
-> certificate to only checking the CA certificates which are part of the
-> chain of trust (issuer chain).  Other certificates are ignored.
-> 
-> Signed-off-by: Henry Kleynhans <hkleynhans@fb.com>
+
+WANG Xuerui <git@xen0n.name> writes:
+
+> Normally this would be based on qemu/debian10 or qemu/ubuntu2004, but
+> after a week-long struggle, I still cannot build stage2 gcc with the
+> known-good LoongArch toolchain sources, so I chose the least-resistance
+> path with Gentoo as base image. As this image is not expected to be
+> re-built by CI, like hexagon, it should not take much maintenance
+> effort; also it's expected to be replaced as soon as Debian is
+> available.
+>
+> As the LoongArch *target* has not been merged yet, a check-tcg job is
+> not added at the moment, but cross builds with the TCG *host* port are
+> already possible, and added to CI matrix.
+>
+> Due to constant flux of the toolchain sources used (especially that of
+> glibc), the binaries built with this image may or may not work when
+> run on actual hardware, but still useful for ensuring things correctly
+> build. This image is expected to be updated every once in a while,
+> before everything settles down.
+>
+> As a reference, the image takes about 25 minutes to rebuild on a
+> Threadripper 3990X system with Docker operating on HDD; YMMV but it
+> probably wouldn't become significantly shorter, as everything needs to
+> be built from source in our case.
+>
+> (In the original submission along with the rest of LoongArch TCG
+> patches, I forgot to make the dependency to the container build job
+> optional, thus CI was passing in my own fork but broke upstream. Fixed
+> for a 2nd take, and I also took the chance to update base image versions
+> and such.)
+>
+> Signed-off-by: WANG Xuerui <git@xen0n.name>
 > ---
->  crypto/tlscredsx509.c                 | 50 +++++++++++++++++++++++----
->  tests/unit/test-crypto-tlscredsx509.c | 25 +++++++++++++-
->  2 files changed, 68 insertions(+), 7 deletions(-)
-
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-
-> 
-> diff --git a/crypto/tlscredsx509.c b/crypto/tlscredsx509.c
-> index d061c68253..841f80aac6 100644
-> --- a/crypto/tlscredsx509.c
-> +++ b/crypto/tlscredsx509.c
-> @@ -315,6 +315,44 @@ qcrypto_tls_creds_check_cert(QCryptoTLSCredsX509 *creds,
->      return 0;
->  }
->  
-> +static int
-> +qcrypto_tls_creds_check_authority_chain(QCryptoTLSCredsX509 *creds,
-> +                                        gnutls_x509_crt_t cert,
-> +                                        gnutls_x509_crt_t *cacerts,
-> +                                        unsigned int ncacerts,
-> +                                        const char *cacertFile,
-> +                                        bool isServer,
-> +                                        bool isCA,
-> +                                        Error **errp)
-> +{
-> +    gnutls_x509_crt_t *cert_to_check = &cert;
-> +    int checking_issuer = 1;
-> +    int retval = 0;
+>
+> (Note to CI maintainers: obviously this image has to be built and pushed
+> manually, for everything to keep working. Sorry for the extra work
+> early-on, but the community around LoongArch still hope to upstream most
+> things during 2022 so eventually we will transition away from this.
+> This work is no hurry though, and Happy Holidays everyone!)
+>
+>  .gitlab-ci.d/container-cross.yml              |  27 +++++
+>  .gitlab-ci.d/crossbuilds.yml                  |  25 ++++
+>  MAINTAINERS                                   |   2 +
+>  tests/docker/Makefile.include                 |  21 ++++
+>  .../gentoo-loongarch64-cross.docker           |  21 ++++
+>  .../build-toolchain.sh                        | 109 ++++++++++++++++++
+>  6 files changed, 205 insertions(+)
+>  create mode 100644 tests/docker/dockerfiles/gentoo-loongarch64-cross.doc=
+ker
+>  create mode 100755 tests/docker/dockerfiles/gentoo-loongarch64-cross.doc=
+ker.d/build-toolchain.sh
+>
+> diff --git a/.gitlab-ci.d/container-cross.yml b/.gitlab-ci.d/container-cr=
+oss.yml
+> index a3b5b90552..7a8cc556cc 100644
+> --- a/.gitlab-ci.d/container-cross.yml
+> +++ b/.gitlab-ci.d/container-cross.yml
+> @@ -82,6 +82,33 @@ hppa-debian-cross-container:
+>    variables:
+>      NAME: debian-hppa-cross
+>=20=20
+> +# Similar to hexagon, we don't want to build loongarch64 in the CI eithe=
+r.
+> +loongarch64-cross-container:
+> +  image: docker:stable
+> +  stage: containers
+> +  rules:
+> +    - if: '$CI_PROJECT_NAMESPACE =3D=3D "qemu-project"'
+> +      when: never
+> +    - when: always
+> +  variables:
+> +    NAME: gentoo-loongarch64-cross
+> +    GIT_DEPTH: 1
+> +  services:
+> +    - docker:dind
+> +  before_script:
+> +    - export TAG=3D"$CI_REGISTRY_IMAGE/qemu/$NAME:latest"
+> +    - export COMMON_TAG=3D"$CI_REGISTRY/qemu-project/qemu/qemu/$NAME:lat=
+est"
+> +    - docker info
+> +    - docker login $CI_REGISTRY -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_=
+PASSWORD"
+> +  script:
+> +    - echo "TAG:$TAG"
+> +    - echo "COMMON_TAG:$COMMON_TAG"
+> +    - docker pull $COMMON_TAG
+> +    - docker tag $COMMON_TAG $TAG
+> +    - docker push "$TAG"
+> +  after_script:
+> +    - docker logout
 > +
-> +    while (checking_issuer) {
-> +        checking_issuer = 0;
+>  m68k-debian-cross-container:
+>    extends: .container_job_template
+>    stage: containers-layer2
+> diff --git a/.gitlab-ci.d/crossbuilds.yml b/.gitlab-ci.d/crossbuilds.yml
+> index 17d6cb3e45..ef19ade554 100644
+> --- a/.gitlab-ci.d/crossbuilds.yml
+> +++ b/.gitlab-ci.d/crossbuilds.yml
+> @@ -68,6 +68,31 @@ cross-i386-tci:
+>      EXTRA_CONFIGURE_OPTS: --target-list=3Di386-softmmu,i386-linux-user,a=
+arch64-softmmu,aarch64-linux-user,ppc-softmmu,ppc-linux-user
+>      MAKE_CHECK_ARGS: check check-tcg
+>=20=20
+> +# Upstream LoongArch support is still incomplete, but toolchain is alrea=
+dy
+> +# usable and partially merged, so the host support is already testable; =
+but
+> +# don't let failures block CI.
+> +#
+> +# Similar to hexagon, the container image is built outside of CI and man=
+ually
+> +# uploaded at the moment, so make the dependency to container build job
+> +# optional.
+> +cross-loongarch64-system:
+> +  extends: .cross_system_build_job
+> +  allow_failure: true
+> +  needs:
+> +    job: loongarch64-cross-container
+> +    optional: true
+> +  variables:
+> +    IMAGE: gentoo-loongarch64-cross
 > +
-> +        if (gnutls_x509_crt_check_issuer(*cert_to_check, *cert_to_check)) {
-> +            /* The cert is self-signed indicating we have reached the root of trust. */
-> +            return qcrypto_tls_creds_check_cert(creds, *cert_to_check, cacertFile,
-> +                                                isServer, isCA, errp);
-> +        }
-> +        for (int i = 0; i < ncacerts; i++) {
-> +            if (gnutls_x509_crt_check_issuer(*cert_to_check, cacerts[i])) {
-> +                retval = qcrypto_tls_creds_check_cert(creds, cacerts[i], cacertFile,
-> +                                                      isServer, isCA, errp);
-> +                if (retval < 0) {
-> +                    return retval;
-> +                }
-> +                cert_to_check = &cacerts[i];
-> +                checking_issuer = 1;
-> +                break;
-> +            }
-> +        }
-> +    }
+> +cross-loongarch64-user:
+> +  extends: .cross_user_build_job
+> +  allow_failure: true
+> +  needs:
+> +    job: loongarch64-cross-container
+> +    optional: true
+> +  variables:
+> +    IMAGE: gentoo-loongarch64-cross
 > +
-> +    return -1;
+>  cross-mips-system:
+>    extends: .cross_system_build_job
+>    needs:
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 5456536805..6b42fe16c7 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -3148,6 +3148,8 @@ LoongArch64 TCG target
+>  M: WANG Xuerui <git@xen0n.name>
+>  S: Maintained
+>  F: tcg/loongarch64/
+> +F: tests/docker/dockerfiles/gentoo-loongarch64-cross.docker
+> +F: tests/docker/dockerfiles/gentoo-loongarch64-cross.docker.d/
+>=20=20
+>  MIPS TCG target
+>  M: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
+> index f1a0c5db7a..a2cdf193bb 100644
+> --- a/tests/docker/Makefile.include
+> +++ b/tests/docker/Makefile.include
+> @@ -176,6 +176,27 @@ docker-image-debian-hexagon-cross: $(DOCKER_FILES_DI=
+R)/debian-hexagon-cross.dock
+>  				qemu/debian-hexagon-cross --add-current-user,		\
+>  			"PREPARE", "debian-hexagon-cross"))
+>=20=20
+> +#
+> +# Same for loongarch64-cross.
+> +#
+> +docker-image-gentoo-loongarch64-cross: $(DOCKER_FILES_DIR)/gentoo-loonga=
+rch64-cross.docker
+> +	$(if $(NOCACHE), 								\
+> +		$(call quiet-command,							\
+> +			$(DOCKER_SCRIPT) build -t qemu/gentoo-loongarch64-cross -f $< 	\
+> +			$(if $V,,--quiet) --no-cache 					\
+> +			--registry $(DOCKER_REGISTRY) --extra-files			\
+> +			$(DOCKER_FILES_DIR)/gentoo-loongarch64-cross.docker.d/build-toolchain=
+.sh, \
+> +			"BUILD", "gentoo-loongarch64-cross"),				\
+> +		$(call quiet-command,							\
+> +			$(DOCKER_SCRIPT) fetch $(if $V,,--quiet)			\
+> +				qemu/gentoo-loongarch64-cross $(DOCKER_REGISTRY),	\
+> +			"FETCH", "gentoo-loongarch64-cross")				\
+> +		$(call quiet-command,							\
+> +			$(DOCKER_SCRIPT) update $(if $V,,--quiet) 			\
+> +				qemu/gentoo-loongarch64-cross --add-current-user,	\
+> +			"PREPARE", "gentoo-loongarch64-cross"))
+> +
+> +
 
-I have a feeling this should be 'return 0'.  eg consider the case
-where the cacert.pem does not contain the issuer of clientcert.pem.
-we will only do one iteration of the while(checking_issuer) loop,
-not hitting any of the 'return' statements. This is ok, so should
-report success I think.
+Can this not use debian-toolchain-run (possibly renamed) like the
+microblaze and nios2 toolchains? The hexagon only has the legacy setup
+because we never merged the more traditional image due to signal issues.
 
-> +}
->  
->  static int
->  qcrypto_tls_creds_check_cert_pair(gnutls_x509_crt_t cert,
-> @@ -500,12 +538,12 @@ qcrypto_tls_creds_x509_sanity_check(QCryptoTLSCredsX509 *creds,
->          goto cleanup;
->      }
->  
-> -    for (i = 0; i < ncacerts; i++) {
-> -        if (qcrypto_tls_creds_check_cert(creds,
-> -                                         cacerts[i], cacertFile,
-> -                                         isServer, true, errp) < 0) {
-> -            goto cleanup;
-> -        }
-> +    if (cert && 
-> +        qcrypto_tls_creds_check_authority_chain(creds, cert, 
-> +                                                cacerts, ncacerts,
-> +                                                cacertFile, isServer,
-> +                                                true, errp) < 0) {
-> +        goto cleanup;
->      }
->  
->      if (cert && ncacerts &&
-> diff --git a/tests/unit/test-crypto-tlscredsx509.c b/tests/unit/test-crypto-tlscredsx509.c
-> index aab4149b56..e4d657ba61 100644
-> --- a/tests/unit/test-crypto-tlscredsx509.c
-> +++ b/tests/unit/test-crypto-tlscredsx509.c
-> @@ -589,6 +589,12 @@ int main(int argc, char **argv)
->                   true, true, GNUTLS_KEY_KEY_CERT_SIGN,
->                   false, false, NULL, NULL,
->                   0, 0);
-> +    TLS_CERT_REQ(cacertlevel1creq_invalid, cacertrootreq,
-> +                 "UK", "qemu level 1c invalid", NULL, NULL, NULL, NULL,
-> +                 true, true, true,
-> +                 true, true, GNUTLS_KEY_KEY_CERT_SIGN,
-> +                 false, false, NULL, NULL,
-> +                 360, 400);
->      TLS_CERT_REQ(cacertlevel2areq, cacertlevel1areq,
->                   "UK", "qemu level 2a", NULL, NULL, NULL, NULL,
->                   true, true, true,
-> @@ -617,16 +623,32 @@ int main(int argc, char **argv)
->          cacertlevel2areq.crt,
->      };
->  
+>  debian-toolchain-run =3D \
+>  	$(if $(NOCACHE), 						\
+>  		$(call quiet-command,					\
+> diff --git a/tests/docker/dockerfiles/gentoo-loongarch64-cross.docker b/t=
+ests/docker/dockerfiles/gentoo-loongarch64-cross.docker
+> new file mode 100644
+> index 0000000000..59846223d3
+> --- /dev/null
+> +++ b/tests/docker/dockerfiles/gentoo-loongarch64-cross.docker
+> @@ -0,0 +1,21 @@
+> +#
+> +# Docker LoongArch64 cross-compiler target
+> +#
+> +# This docker target is used for building loongarch64 tests. As it also
+> +# needs to be able to build QEMU itself in CI we include it's
+> +# build-deps. It is also a "stand-alone" image so as not to be
+> +# triggered by re-builds on other base images given it takes a long
+> +# time to build.
+> +#
 > +
->      test_tls_write_cert_chain(WORKDIR "cacertchain-ctx.pem",
->                                certchain,
->                                G_N_ELEMENTS(certchain));
->  
-> +    gnutls_x509_crt_t certchain_with_invalid[] = {
-> +        cacertrootreq.crt,
-> +        cacertlevel1areq.crt,
-> +        cacertlevel1breq.crt,
-> +        cacertlevel1creq_invalid.crt,
-> +        cacertlevel2areq.crt,
-> +    };
+> +FROM docker.io/gentoo/stage3:20211229
 > +
-> +    test_tls_write_cert_chain(WORKDIR "cacertchain-with-invalid-ctx.pem",
-> +                              certchain_with_invalid,
-> +                              G_N_ELEMENTS(certchain_with_invalid));
+> +ADD build-toolchain.sh /root/build-toolchain.sh
+> +RUN cd /root && ./build-toolchain.sh
 > +
->      TLS_TEST_REG(chain1, true,
->                   WORKDIR "cacertchain-ctx.pem",
->                   servercertlevel3areq.filename, false);
->      TLS_TEST_REG(chain2, false,
->                   WORKDIR "cacertchain-ctx.pem",
->                   clientcertlevel2breq.filename, false);
-> +    TLS_TEST_REG(certchainwithexpiredcert, false,
-> +                 WORKDIR "cacertchain-with-invalid-ctx.pem",
-> +                 clientcertlevel2breq.filename, false);
->  
->      /* Some missing certs - first two are fatal, the last
->       * is ok
-> @@ -640,7 +662,6 @@ int main(int argc, char **argv)
->      TLS_TEST_REG(missingclient, false,
->                   cacert1req.filename,
->                   "clientcertdoesnotexist.pem", false);
-> -
->      ret = g_test_run();
->  
->      test_tls_discard_cert(&cacertreq);
-> @@ -694,10 +715,12 @@ int main(int argc, char **argv)
->      test_tls_discard_cert(&cacertrootreq);
->      test_tls_discard_cert(&cacertlevel1areq);
->      test_tls_discard_cert(&cacertlevel1breq);
-> +    test_tls_discard_cert(&cacertlevel1creq_invalid);
->      test_tls_discard_cert(&cacertlevel2areq);
->      test_tls_discard_cert(&servercertlevel3areq);
->      test_tls_discard_cert(&clientcertlevel2breq);
->      unlink(WORKDIR "cacertchain-ctx.pem");
-> +    unlink(WORKDIR "cacertchain-with-invalid-ctx.pem");
->  
->      test_tls_cleanup(KEYFILE);
->      rmdir(WORKDIR);
-> -- 
-> 2.34.1
-> 
+> +# Specify the cross prefix for this image (see tests/docker/common.rc)
+> +# Also gcc 12 currently produces spurious warnings under our condition so
+> +# disable Werror as well
+> +ENV QEMU_CONFIGURE_OPTS --cross-prefix=3Dloongarch64-unknown-linux-gnu- =
+--disable-werror
+> +# We don't have target support at the moment, so just verify that things=
+ build
+> +ENV DEF_TARGET_LIST x86_64-softmmu,x86_64-linux-user
+> diff --git a/tests/docker/dockerfiles/gentoo-loongarch64-cross.docker.d/b=
+uild-toolchain.sh b/tests/docker/dockerfiles/gentoo-loongarch64-cross.docke=
+r.d/build-toolchain.sh
+> new file mode 100755
+> index 0000000000..654f1394e9
+> --- /dev/null
+> +++ b/tests/docker/dockerfiles/gentoo-loongarch64-cross.docker.d/build-to=
+olchain.sh
+> @@ -0,0 +1,109 @@
+> +#!/bin/bash
+> +
+> +set -e
+> +
+> +TRIPLE=3Dloongarch64-unknown-linux-gnu
+> +CROSSDEV_OV=3D/opt/crossdev-overlay
+> +LOONGSON_OV=3D/opt/loongson-overlay
+> +CROSS_EMERGE=3D"${TRIPLE}-emerge"
+> +
+> +# this will break on non-SMP machines, but no one should build this image
+> +# on such machine in the first place
+> +J=3D$(expr $(nproc) / 2)
+> +echo "MAKEOPTS=3D\"-j${J} -l${J}\"" >> /etc/portage/make.conf
+> +echo "EGIT_CLONE_TYPE=3Dshallow" >> /etc/portage/make.conf
+> +
+> +# these features are not supported in Docker
+> +export FEATURES=3D"-ipc-sandbox -network-sandbox"
+> +
+> +# populate Portage tree
+> +GENTOO_MIRROR=3D'https://bouncer.gentoo.org/fetch/root/all'
+> +PORTAGE_SNAPSHOT_FILE=3Dgentoo-20211228.tar.xz
+> +pushd /tmp
+> +    # not every mirror will have this file synced yet, so retry until su=
+ccess
+> +    i=3D0
+> +    max_retry=3D5
+> +    while [[ $i -lt $max_retry ]]; do
+> +        [[ $i -gt 0 ]] && echo "Retrying ($i of $max_retry)..."
+> +        wget "${GENTOO_MIRROR}/snapshots/${PORTAGE_SNAPSHOT_FILE}" && br=
+eak
+> +        : $((i++))
+> +    done
+> +    [[ -f "$PORTAGE_SNAPSHOT_FILE" ]] || exit 1
+> +
+> +    mkdir -p /var/db/repos/gentoo
+> +    pushd /var/db/repos/gentoo
+> +        tar -xf "/tmp/${PORTAGE_SNAPSHOT_FILE}" --strip-components=3D1
+> +    popd
+> +
+> +    rm "$PORTAGE_SNAPSHOT_FILE"
+> +popd
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+This seems a little excessive. Wouldn't a straight emerge --sync do or
+even just sticking to the state of portage in the source docker image?
 
+Maybe:
+
+  emerge-webrsync --revert=3D20211228
+
+> +
+> +emerge -j crossdev dev-vcs/git
+> +
+> +# prepare for crossdev
+> +mkdir /etc/portage/repos.conf
+> +crossdev -t "$TRIPLE" --ov-output "$CROSSDEV_OV" --init-target
+> +
+> +git clone https://github.com/xen0n/loongson-overlay.git "$LOONGSON_OV"
+> +pushd "$LOONGSON_OV"
+> +    git checkout 20b9c9f96fb5ed596bbab6bd6f274932492fb12b
+> +popd
+> +
+> +pushd "${CROSSDEV_OV}/cross-${TRIPLE}"
+> +    rm binutils gcc glibc linux-headers
+> +    ln -s "${LOONGSON_OV}/sys-devel/binutils" .
+> +    ln -s "${LOONGSON_OV}/sys-devel/gcc" .
+> +    ln -s "${LOONGSON_OV}/sys-libs/glibc" .
+> +    ln -s "${LOONGSON_OV}/sys-kernel/linux-headers" .
+> +popd
+> +
+> +cat > "${CROSSDEV_OV}/metadata/layout.conf" <<EOF
+> +masters =3D gentoo
+> +repo-name =3D crossdev-overlay
+> +manifest-hashes =3D SHA256 SHA512 WHIRLPOOL
+> +thin-manifests =3D true
+> +EOF
+> +
+> +chown -R portage:portage "$CROSSDEV_OV"
+> +chown -R portage:portage "$LOONGSON_OV"
+> +
+> +# make cross toolchain
+> +crossdev -t "$TRIPLE" --without-headers \
+> +    --binutils 2.37_p1-r1 \
+> +    --gcc 12.0.0_pre9999 \
+> +    --libc 2.34-r4
+> +
+> +# prepare for loongarch cross emerges
+> +TARGET_PROFILE=3D"default/linux/loong/21.0/la64v100/lp64d/desktop"
+> +pushd "/usr/${TRIPLE}/etc/portage"
+> +    rm make.profile
+> +    ln -s "${LOONGSON_OV}/profiles/${TARGET_PROFILE}" ./make.profile
+> +
+> +    # util-linux needs this to not depend on pam, causing circular deps =
+later
+> +    sed -i '/^USE=3D".*"$/s/"$/ -su"/' ./make.conf
+> +
+> +    mkdir repos.conf
+> +    cat > repos.conf/loongson.conf <<EOF
+> +[loongson]
+> +priority =3D 50
+> +location =3D $LOONGSON_OV
+> +auto-sync =3D No
+> +EOF
+> +
+> +popd
+> +
+> +# add build deps for qemu
+> +
+> +# gawk seems to have problems installing with concurrency, and its deps
+> +# include ncurses that needs disabling sandbox to correctly build under
+> +# Docker, so just turn off sandbox for all emerges
+> +export FEATURES=3D"$FEATURES -sandbox -usersandbox"
+> +$CROSS_EMERGE -1 --onlydeps -j$J gawk
+> +mkdir -p "/usr/${TRIPLE}/bin"
+> +MAKEOPTS=3D'-j1' $CROSS_EMERGE -1 gawk
+> +
+> +# then build the rest
+> +$CROSS_EMERGE -1 --onlydeps -j$J qemu
+> +
+> +# clean up downloaded files and Portage tree for smaller image
+> +rm -rf /var/db/repos/gentoo /var/cache/distfiles
+
+
+--=20
+Alex Benn=C3=A9e
 
