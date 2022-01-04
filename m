@@ -2,78 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F342484A87
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 23:13:39 +0100 (CET)
-Received: from localhost ([::1]:48972 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14D3C484A8A
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 23:15:11 +0100 (CET)
+Received: from localhost ([::1]:51838 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n4s3l-0007T7-S0
-	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 17:13:37 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37146)
+	id 1n4s5G-0000xw-2t
+	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 17:15:10 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37316)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1n4s2U-0006bO-Hz
- for qemu-devel@nongnu.org; Tue, 04 Jan 2022 17:12:18 -0500
-Received: from [2607:f8b0:4864:20::102d] (port=45814
- helo=mail-pj1-x102d.google.com)
+ id 1n4s3k-0007zE-Rk
+ for qemu-devel@nongnu.org; Tue, 04 Jan 2022 17:13:36 -0500
+Received: from [2607:f8b0:4864:20::434] (port=42870
+ helo=mail-pf1-x434.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1n4s2S-0000i1-Uk
- for qemu-devel@nongnu.org; Tue, 04 Jan 2022 17:12:18 -0500
-Received: by mail-pj1-x102d.google.com with SMTP id
- l16-20020a17090a409000b001b2e9628c9cso4533361pjg.4
- for <qemu-devel@nongnu.org>; Tue, 04 Jan 2022 14:12:16 -0800 (PST)
+ id 1n4s3j-0000nz-DG
+ for qemu-devel@nongnu.org; Tue, 04 Jan 2022 17:13:36 -0500
+Received: by mail-pf1-x434.google.com with SMTP id t19so33390817pfg.9
+ for <qemu-devel@nongnu.org>; Tue, 04 Jan 2022 14:13:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=P6xhGYYr91lnNxeqlRVVxNtY1H9DPDkhgfonaLuaVr4=;
- b=ibE2UE8Vx2/YuigWRBPkRhdKPWpdgO1ydiDWrg5VhFK7RLZ2WheWCZxQYftxe8dnPC
- 244jftfESleNyZGJn19OjakArAl6sVszHTp7to3cI85YffhVGfri9LbMCSYC6SyW5Gck
- Bos8/K+mOabqN1nxxpxW0iUC4Rq8S8j0YTsQ1nyAuWCoGLkulm3n8KoypHTCpQzD02iu
- 7hsAp2LIDE18zmhgwhBDJ++C6DBDdbFQ+x3x0CRdTgbonUGMMXE/E5w0tP67GmWJ7JMU
- 4af1cVj2NII5j5kTuYvjXGNvSUK3r2m2arim9g3GPoueOqG8t9GGHyw6q+S/QMMNzFpV
- C4gg==
+ bh=yGhC5KNeUzflPJXWteXAWgl1DeyBYTlAzOlKhY0VdZs=;
+ b=deJd+JzV1b8vgfCZ4/zl75e+lKbqI9V7zecOLmCs5R327fsMRcCq45FNImCrWYplLC
+ +dXV4DaL4ffb3OYw4lnKLYM+oQyRmiQA/6/Ryce1rtYtoRKARjngz+Zzg3BJPCYTqbzc
+ t39QHkWHNxNZ/8OmAJejRLsRuASgzLLqn5mUw8VWUdsmq6G01JPpeBSv5gUyFefGRMH9
+ fuMyqwrN6PvPvL+Bm8ysj2tFiAK89SqWuUEkms5RBxBU3gqWc1qNWaUJu//RuazhxQxJ
+ xjrpZuDFmaD30BXI2JxtyPbXGI0236/iDfe2cNPO0MI39kVqbkz2J4D9ApaJRRYgfqlQ
+ Eugg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=P6xhGYYr91lnNxeqlRVVxNtY1H9DPDkhgfonaLuaVr4=;
- b=SdiKcNoEg9MIyevM2Q0RkqDVTw9IOMXGO5k3OU3FDPqOBvrxd+wdP0ax4FTuHlyvDA
- feXJQkGDZmJJdVqKrf4PN/R6IuG98MsKUSUUHT560psa9fFWOe7vGfe1uwZh6HpnZ/+2
- 1l3e4L4CKZJ3odN4fePZNh2HYb/z/MUhBHEUai/Kfkb97NVv7LJCriGZ43kmNDMpG40q
- LUO6vrmSpM67nBBF9y+yT+XpSEWopMhelKHGtSjOSV7XtXBVXha0GuqCnofkxgTk+7ZN
- +DCZGMY58JLIgFznCpr9hqaXKyDTWkeI3tavFYpUB7ub0eOhnxTLOZHJNzzTu2mqCSF0
- d7NQ==
-X-Gm-Message-State: AOAM5313s5jD4LrS2oO8Q8OkIz9jz5A41NpBSqCqZEel7Wjvzbcl2O+C
- cBWDgJzCDaQV2j1JaVAUVa02hA==
-X-Google-Smtp-Source: ABdhPJzc5aQPfPlfJcDIniJfe32ydmj+xpMYKbDhiEqUmqaFXr4pmggzejjarc8O10CSmq+lsOs+4Q==
-X-Received: by 2002:a17:90a:d3c2:: with SMTP id
- d2mr480621pjw.219.1641334335334; 
- Tue, 04 Jan 2022 14:12:15 -0800 (PST)
+ bh=yGhC5KNeUzflPJXWteXAWgl1DeyBYTlAzOlKhY0VdZs=;
+ b=xqRPb9FJ1n5K6tDqjxS1ZV+ZhxiResjiLkfLzLCwVEnJgZfDYWiJbocXYhxHxkcekm
+ xdrEJqLNPTIZDCrBc4lyxDoMW579pyKnsWrZr7tvAMrzh6Wx4kb0sgngLgB9dQ3AgdED
+ DY8r02Vj1xZcpx71j2LPBRz4AXseTrRu3D9pfhXKPYqE5WYgxzbGj/pqC7dzk3+s3YNs
+ F4FWm04MWpV3pyYQW/KsfkzbRwH79bH3Md3VI5UI06mL/C/VgRj8EmZCx6lwCOrzKDxX
+ bi3/nzhfnqOR5AfYscNvjhyO28cxPFlVoTxx4f4xkgXVUov5uGi7/3BYNFKciKZuM+yR
+ rM7Q==
+X-Gm-Message-State: AOAM531uaZDDXaGiKvSMjEP4ktoIByh8lZbJRVAfoY3CYtZWoapXizUI
+ SpVh1WEs+JVPhFJDXsVBYPuylw==
+X-Google-Smtp-Source: ABdhPJzdaJFtlrXyYnKqOW1ux2eJIuT26XhgcyknJi49YK1HC5AAR0vOoeZt3ff/L9njD1Yi2ceyoQ==
+X-Received: by 2002:a05:6a00:1818:b0:4ba:c287:a406 with SMTP id
+ y24-20020a056a00181800b004bac287a406mr52363203pfa.6.1641334414082; 
+ Tue, 04 Jan 2022 14:13:34 -0800 (PST)
 Received: from [192.168.1.13] (174-21-75-75.tukw.qwest.net. [174.21.75.75])
- by smtp.gmail.com with ESMTPSA id lw5sm305333pjb.13.2022.01.04.14.12.14
+ by smtp.gmail.com with ESMTPSA id l22sm43859988pfc.167.2022.01.04.14.13.33
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 04 Jan 2022 14:12:15 -0800 (PST)
-Subject: Re: [PATCH v2 1/2] linux-user/ppc: deliver SIGTRAP on
- POWERPC_EXCP_TRAP
-To: matheus.ferst@eldorado.org.br, qemu-devel@nongnu.org, qemu-ppc@nongnu.org
-References: <20220104210015.457468-1-matheus.ferst@eldorado.org.br>
- <20220104210015.457468-2-matheus.ferst@eldorado.org.br>
+ Tue, 04 Jan 2022 14:13:33 -0800 (PST)
+Subject: Re: [PATCH v2] linux-user: Fix trivial build error on loongarch64
+ hosts
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20220104215027.2180972-1-f4bug@amsat.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <eebcc0ab-8585-7521-7ddc-b8e85c97aa02@linaro.org>
-Date: Tue, 4 Jan 2022 14:12:13 -0800
+Message-ID: <8d48454c-12d4-1c3c-e85d-12c319deb3ec@linaro.org>
+Date: Tue, 4 Jan 2022 14:13:32 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <20220104210015.457468-2-matheus.ferst@eldorado.org.br>
+In-Reply-To: <20220104215027.2180972-1-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102d
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::434
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::434;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x434.google.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
@@ -93,22 +92,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: laurent@vivier.eu, groug@kaod.org, danielhb413@gmail.com, clg@kaod.org,
- david@gibson.dropbear.id.au
+Cc: qemu-trivial@nongnu.org, WANG Xuerui <git@xen0n.name>,
+ Michael Tokarev <mjt@tls.msk.ru>, Laurent Vivier <laurent@vivier.eu>,
+ Song Gao <gaosong@loongson.cn>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/4/22 1:00 PM, matheus.ferst@eldorado.org.br wrote:
-> From: Matheus Ferst<matheus.ferst@eldorado.org.br>
+On 1/4/22 1:50 PM, Philippe Mathieu-Daudé wrote:
+> When building using GCC 8.3.0 on loongarch64 (Loongnix) we get:
 > 
-> Handle POWERPC_EXCP_TRAP in cpu_loop to deliver SIGTRAP on tw[i]/td[i].
-> The si_code comes from do_program_check in the kernel source file
-> arch/powerpc/kernel/traps.c
+>    In file included from ../linux-user/signal.c:33:
+>    ../linux-user/host/loongarch64/host-signal.h: In function ‘host_signal_write’:
+>    ../linux-user/host/loongarch64/host-signal.h:57:9: error: a label can only be part of a statement and a declaration is not a statement
+>           uint32_t sel = (insn >> 15) & 0b11111111111;
+>           ^~~~~~~~
 > 
-> Signed-off-by: Matheus Ferst<matheus.ferst@eldorado.org.br>
+> We don't use the 'sel' variable more than once, so drop it.
+> 
+> Meson output for the record:
+> 
+>    Host machine cpu family: loongarch64
+>    Host machine cpu: loongarch64
+>    C compiler for the host machine: cc (gcc 8.3.0 "cc (Loongnix 8.3.0-6.lnd.vec.27) 8.3.0")
+>    C linker for the host machine: cc ld.bfd 2.31.1-system
+> 
+> Fixes: ad812c3bd65 ("linux-user: Implement CPU-specific signal handler for loongarch64 hosts")
+> Reported-by: Song Gao<gaosong@loongson.cn>
+> Suggested-by: Song Gao<gaosong@loongson.cn>
+> Reviewed-by: WANG Xuerui<git@xen0n.name>
+> Signed-off-by: Philippe Mathieu-Daudé<f4bug@amsat.org>
 > ---
->   linux-user/ppc/cpu_loop.c | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
+>   linux-user/host/loongarch64/host-signal.h | 4 +---
+>   1 file changed, 1 insertion(+), 3 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
