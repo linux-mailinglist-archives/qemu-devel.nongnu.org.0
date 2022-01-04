@@ -2,71 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1475C484A3C
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 22:52:02 +0100 (CET)
-Received: from localhost ([::1]:34864 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15051484A3F
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 22:52:56 +0100 (CET)
+Received: from localhost ([::1]:37334 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n4riq-0004th-SG
-	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 16:52:00 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:32822)
+	id 1n4rjj-0006ZL-5f
+	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 16:52:55 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:32874)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1n4rhE-0003Dk-QQ; Tue, 04 Jan 2022 16:50:21 -0500
-Received: from [2607:f8b0:4864:20::d30] (port=39486
- helo=mail-io1-xd30.google.com)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1n4rhW-0003GA-Cj; Tue, 04 Jan 2022 16:50:40 -0500
+Received: from [2a00:1450:4864:20::429] (port=35647
+ helo=mail-wr1-x429.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1n4rhA-0004NA-2s; Tue, 04 Jan 2022 16:50:17 -0500
-Received: by mail-io1-xd30.google.com with SMTP id y11so40635722iod.6;
- Tue, 04 Jan 2022 13:50:15 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1n4rhQ-0004XH-44; Tue, 04 Jan 2022 16:50:34 -0500
+Received: by mail-wr1-x429.google.com with SMTP id j18so78832485wrd.2;
+ Tue, 04 Jan 2022 13:50:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=YH9Leo9srv0mjnG3XtGtDkXI8iCi7ViITDy07e20ir4=;
- b=oCewEJSOzWWWn2HRrd9stapjDqmltBdBzqElGsdIxLNxIPe4H1381El3NLfuwmgsNr
- oj+BsHOsMNC5iSLX3GspF7gYoxzcJTDabQF9sfrNEwV7+FUO9CQSpcHloL6mojqHY6RO
- y2pPdWJmyaWpreHc9+2P9DAIlRHU5rYz1Y/4JAFXc3bhsLoGpQ4zxZ9BB/QdYC6+jky6
- WrIYrgfaiXjIbLlz/SCU0i76YBoD18nB3nJx43Tf5G6BclOCins7FpLTY9N4tuBb8vKe
- fHu79ZWe5hHnzkd6ijFAvA5RpJKgWJ6hmeBqYrCi5Ts+soWO8/ZDur83aawI45T2QpBf
- 5CXg==
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=CKRFGK/nQbJSO9eH4vCzDs3frMk9TG9xrgiou6/dFxQ=;
+ b=H+s4xYLBvW4eeeXr3hAw3ptmkPoEOaFbt6nwqLZaPfmfiSzWlg/0kUFzl9tpDVoZI+
+ QJCk2IYJO6bWK+fpudq3TAIaFVlQqbBdBrRg9dDh8vZR13vS2vHk4vmvcLKwEEZfNR1l
+ UBfQf64EsWqeUrHlGk6r6Xyqj+CgvOJQ7QauYhY4scGakO0XG/fDguFRwhrb3v0mIaKr
+ oCvv+IcBRScP3Cduy24r1yAbqZzw3Ow+M8Z2BdocNXsvNfY0hmkeBVWWtL19vvNnMrZ0
+ xCS07DZJrKjnzJrrqj/UT7ns3P7ioTPsbIt1JtfF4mpNG41ca63dM26r7rf1kEHiWI6L
+ q70g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=YH9Leo9srv0mjnG3XtGtDkXI8iCi7ViITDy07e20ir4=;
- b=BeTLbqduKIZP5/BUQV3fZceQkr3k9X5Phu879VMtcezOfx8CH38YC3QKFTBpHuXLvV
- 4gpFXRrF/U09KzH0AIMmzG4uNKPHDNzYhhdSbSfKzg4b96jIYaCgiRnhmwOI00MccwZ/
- yURpxOQXCTNEZCrjFeDgU9qqI9tpttbXK0AVIehlhFl4486lA4RuRowkDgeD5g09NpSl
- FAVVkPz+AjO00GYBRZvXAFvphc4MFYpFX2R0rO0YhRtEpJSX7MTcr7rpxvA/pX7nmQAM
- q5FquN8P0jYJ4EvFdESlO0hue1sgAEQtxiqNIiQ/neJEeXdc/8URG/lMCuQdX0DSfm9+
- C8FA==
-X-Gm-Message-State: AOAM533jZvP3M8qK3WB4dd+9WTbxcvqvnjDttHcwVdirLa8djZY4HdpW
- HxNoqZXhDAH/LLNjUF13BGs4sC3Gdq7EZM8c8kk=
-X-Google-Smtp-Source: ABdhPJyGAmPDm3rs1v8CFgwYLTIXyZsmv1JWOUbDvYrAgTn2hV0xC5Qz+LxKt3hDtB6IY95J4u+BoFe+vfKkrza61Hs=
-X-Received: by 2002:a02:aa8f:: with SMTP id u15mr23735183jai.63.1641333014723; 
- Tue, 04 Jan 2022 13:50:14 -0800 (PST)
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=CKRFGK/nQbJSO9eH4vCzDs3frMk9TG9xrgiou6/dFxQ=;
+ b=6eHuTscLhAPF7yFRD9W4fSuY6L6IEyxWJea31oPGk4psfBRUdmGarzo+N8q0yINGVV
+ +EaC0v+X3WI44+AiRl2IMhQMtVGjNi+txQeKQG3FnMl32IPTrLxwi6FVCj1qJz56bWUF
+ FSJ6iF1vZb93N/xAImMf4TJ7Fi/NoAuEa5YjPQCpdFgnfFzbKpZfF5JODMwTUPB+t1xM
+ y8LvD8V4zTGYOItWHLS7TVuhANONse++PrUzuq4TknIyHvpuIA28TnFDHUp3E2nW5cCG
+ DGXvHstFHMSFfRMzHNY3UgJIYgU01KeRgZ+FN0oPTYHnG85x8XM9/LPKC8m0oAGLSxh/
+ hqQQ==
+X-Gm-Message-State: AOAM531kRG7p8kDwEBAxxENNqhWtsxI27phHWgk6dbt3nOx8NRQp73B0
+ Q1ArwaTPSZGBKCrmvloxn2EM6A5NoDc=
+X-Google-Smtp-Source: ABdhPJyW7nwCVZE03wLWlyJEoM7FjY+evtSXj/v5so2cyHbLiEjhHb8GHQYEDYG5ZuGN7UZ3kwe5nQ==
+X-Received: by 2002:adf:aac7:: with SMTP id i7mr44556716wrc.537.1641333029395; 
+ Tue, 04 Jan 2022 13:50:29 -0800 (PST)
+Received: from x1w.. (83.red-83-50-87.dynamicip.rima-tde.net. [83.50.87.83])
+ by smtp.gmail.com with ESMTPSA id y1sm38872710wrm.3.2022.01.04.13.50.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 04 Jan 2022 13:50:29 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2] linux-user: Fix trivial build error on loongarch64 hosts
+Date: Tue,  4 Jan 2022 22:50:27 +0100
+Message-Id: <20220104215027.2180972-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.33.1
 MIME-Version: 1.0
-References: <20211229021250.29804-1-frank.chang@sifive.com>
- <20211229021250.29804-2-frank.chang@sifive.com>
-In-Reply-To: <20211229021250.29804-2-frank.chang@sifive.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Wed, 5 Jan 2022 07:49:48 +1000
-Message-ID: <CAKmqyKPdkj9VLLHN-gL=yEeeK7K3L2mqjrDTgCBRgDpvRbKw4Q@mail.gmail.com>
-Subject: Re: [PATCH 1/3] target/riscv: rvv-1.0: Call the correct RVF/RVD check
- funtion for widening fp insns
-To: Frank Chang <frank.chang@sifive.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d30
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::429
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d30;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd30.google.com
-X-Spam_score_int: 8
-X-Spam_score: 0.8
-X-Spam_bar: /
-X-Spam_report: (0.8 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_ENVFROM_END_DIGIT=0.25,
- FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x429.google.com
+X-Spam_score_int: 12
+X-Spam_score: 1.2
+X-Spam_bar: +
+X-Spam_report: (1.2 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,77 +83,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Bin Meng <bin.meng@windriver.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>, LIU Zhiwei <zhiwei_liu@c-sky.com>
+Cc: qemu-trivial@nongnu.org, Michael Tokarev <mjt@tls.msk.ru>,
+ Laurent Vivier <laurent@vivier.eu>, Song Gao <gaosong@loongson.cn>,
+ WANG Xuerui <git@xen0n.name>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Dec 29, 2021 at 12:15 PM <frank.chang@sifive.com> wrote:
->
-> From: Frank Chang <frank.chang@sifive.com>
->
-> Vector widening floating-point instructions should use
-> require_scale_rvf() instead of require_rvf() to check whether RVF/RVD is
-> enabled.
+When building using GCC 8.3.0 on loongarch64 (Loongnix) we get:
 
-Missing Signed off by line
+  In file included from ../linux-user/signal.c:33:
+  ../linux-user/host/loongarch64/host-signal.h: In function ‘host_signal_write’:
+  ../linux-user/host/loongarch64/host-signal.h:57:9: error: a label can only be part of a statement and a declaration is not a statement
+         uint32_t sel = (insn >> 15) & 0b11111111111;
+         ^~~~~~~~
 
-Alistair
+We don't use the 'sel' variable more than once, so drop it.
 
-> ---
->  target/riscv/insn_trans/trans_rvv.c.inc | 12 ++++++++----
->  1 file changed, 8 insertions(+), 4 deletions(-)
->
-> diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_trans/trans_rvv.c.inc
-> index 5e3f7fdb77..8d92243f2b 100644
-> --- a/target/riscv/insn_trans/trans_rvv.c.inc
-> +++ b/target/riscv/insn_trans/trans_rvv.c.inc
-> @@ -2254,7 +2254,8 @@ GEN_OPFVF_TRANS(vfrsub_vf,  opfvf_check)
->  static bool opfvv_widen_check(DisasContext *s, arg_rmrr *a)
->  {
->      return require_rvv(s) &&
-> -           require_rvf(s) &&
-> +           require_scale_rvf(s) &&
-> +           (s->sew != MO_8) &&
->             vext_check_isa_ill(s) &&
->             vext_check_dss(s, a->rd, a->rs1, a->rs2, a->vm);
->  }
-> @@ -2292,7 +2293,8 @@ GEN_OPFVV_WIDEN_TRANS(vfwsub_vv, opfvv_widen_check)
->  static bool opfvf_widen_check(DisasContext *s, arg_rmrr *a)
->  {
->      return require_rvv(s) &&
-> -           require_rvf(s) &&
-> +           require_scale_rvf(s) &&
-> +           (s->sew != MO_8) &&
->             vext_check_isa_ill(s) &&
->             vext_check_ds(s, a->rd, a->rs2, a->vm);
->  }
-> @@ -2321,7 +2323,8 @@ GEN_OPFVF_WIDEN_TRANS(vfwsub_vf)
->  static bool opfwv_widen_check(DisasContext *s, arg_rmrr *a)
->  {
->      return require_rvv(s) &&
-> -           require_rvf(s) &&
-> +           require_scale_rvf(s) &&
-> +           (s->sew != MO_8) &&
->             vext_check_isa_ill(s) &&
->             vext_check_dds(s, a->rd, a->rs1, a->rs2, a->vm);
->  }
-> @@ -2359,7 +2362,8 @@ GEN_OPFWV_WIDEN_TRANS(vfwsub_wv)
->  static bool opfwf_widen_check(DisasContext *s, arg_rmrr *a)
->  {
->      return require_rvv(s) &&
-> -           require_rvf(s) &&
-> +           require_scale_rvf(s) &&
-> +           (s->sew != MO_8) &&
->             vext_check_isa_ill(s) &&
->             vext_check_dd(s, a->rd, a->rs2, a->vm);
->  }
-> --
-> 2.31.1
->
->
+Meson output for the record:
+
+  Host machine cpu family: loongarch64
+  Host machine cpu: loongarch64
+  C compiler for the host machine: cc (gcc 8.3.0 "cc (Loongnix 8.3.0-6.lnd.vec.27) 8.3.0")
+  C linker for the host machine: cc ld.bfd 2.31.1-system
+
+Fixes: ad812c3bd65 ("linux-user: Implement CPU-specific signal handler for loongarch64 hosts")
+Reported-by: Song Gao <gaosong@loongson.cn>
+Suggested-by: Song Gao <gaosong@loongson.cn>
+Reviewed-by: WANG Xuerui <git@xen0n.name>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ linux-user/host/loongarch64/host-signal.h | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
+
+diff --git a/linux-user/host/loongarch64/host-signal.h b/linux-user/host/loongarch64/host-signal.h
+index 05e2c823717..7effa242515 100644
+--- a/linux-user/host/loongarch64/host-signal.h
++++ b/linux-user/host/loongarch64/host-signal.h
+@@ -54,9 +54,7 @@ static inline bool host_signal_write(siginfo_t *info, ucontext_t *uc)
+         }
+         break;
+     case 0b001110: /* indexed, atomic, bounds-checking memory operations */
+-        uint32_t sel = (insn >> 15) & 0b11111111111;
+-
+-        switch (sel) {
++        switch ((insn >> 15) & 0b11111111111) {
+         case 0b00000100000: /* stx.b */
+         case 0b00000101000: /* stx.h */
+         case 0b00000110000: /* stx.w */
+-- 
+2.33.1
+
 
