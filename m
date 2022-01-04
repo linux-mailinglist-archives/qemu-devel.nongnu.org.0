@@ -2,60 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8E7E484709
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 18:36:53 +0100 (CET)
-Received: from localhost ([::1]:34180 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D2F9484718
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 18:40:45 +0100 (CET)
+Received: from localhost ([::1]:38412 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n4njw-0001fx-Px
-	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 12:36:52 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60054)
+	id 1n4nng-0004o5-9m
+	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 12:40:44 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33036)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1n4ni6-0000Zt-CP
- for qemu-devel@nongnu.org; Tue, 04 Jan 2022 12:34:59 -0500
-Received: from [2607:f8b0:4864:20::434] (port=33628
- helo=mail-pf1-x434.google.com)
+ (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1n4nlw-0003zK-Cb
+ for qemu-devel@nongnu.org; Tue, 04 Jan 2022 12:38:57 -0500
+Received: from [2607:f8b0:4864:20::630] (port=44958
+ helo=mail-pl1-x630.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1n4ni4-0004HJ-Sz
- for qemu-devel@nongnu.org; Tue, 04 Jan 2022 12:34:58 -0500
-Received: by mail-pf1-x434.google.com with SMTP id 205so32853091pfu.0
- for <qemu-devel@nongnu.org>; Tue, 04 Jan 2022 09:34:56 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1n4nlj-0006pe-Um
+ for qemu-devel@nongnu.org; Tue, 04 Jan 2022 12:38:56 -0500
+Received: by mail-pl1-x630.google.com with SMTP id h1so24347194pls.11
+ for <qemu-devel@nongnu.org>; Tue, 04 Jan 2022 09:38:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=whSHyDkf0XZc1mjjjqOGE1/cp29qdWazioE+cyFAqO0=;
- b=AKGtA6ul6yuij5z+AvEU6YGN7uC/zmR1Z3AA2eavQwv49exOo937KC2cThIO1M5x5R
- ld8sDO2VSHM/RDAO9u2p+XO+70K8kcxVOrir1Y0yigapUXNM0Ylp9TZuzLp8opNiwQ7F
- AnKU33bHmO0NaKXzOI53pZm3IA1/NzLaG7sHnIF4oNjbhA1aPFUnql4JxyGrCHn6JbAR
- SUbiQLLvznmxlgAa1lOw1puG4OnmRONMmAC/E92187ZUZ0u1IfwKfyQOhRxiduWbOsmw
- QfJOYMgQVQMBG6eYUimmH+OiBuy14zVxqAM71F46TwcrfoWBadi7V6J39TzjtU+srhbw
- QcaQ==
+ bh=lyYzwxTZWc2pKk20hwF7g02tZU/8D7vFzmqot46zr3o=;
+ b=hF4kd1Mq//yjpl61nrYwvKMLJT6MIhV0E6IJ7zAD3JWlI+Lf9Kl7EjPWqG9SBDfEF8
+ bLQriumtvq/d4LPMxq+QOQ59vvcAi7NGeWaxhSlxlkxdhBfO29QiUCBdFlPXpq95IOxu
+ JnrHN+97F5CEcTUWcX51rjIW0pyoQQer1CQy1E5p5jQtDlIK/mVO/JhHG7vsEQcySXvf
+ BNaUi94Me+iu/Cekap3IlPAukuOJezwMa5QK5Oa7ly7GCgO/RioM5k2JBuseJG/0A/de
+ MBbrQnE1pKQwoHwCb9W1/cXrW4NS+qeUQ6HoMhdMIjuDjY1Jis5Xz1s308oEz41ERKbt
+ +qzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=whSHyDkf0XZc1mjjjqOGE1/cp29qdWazioE+cyFAqO0=;
- b=SogCXoR8EI8cfe+fs278H8EQLixAfv2e38vm7xZgesiUUdwj+zDj+DU2vSMKSspab5
- 6fT2NgKoaqZ4nbVeQsN3muGZG6Fe4VszZjGdrNTuG028LJDBy7aUbB8m3Qi8lbGs6gVb
- vyPFK8ZBdOPoKspz78fgtf+XIZ7idVkrKKTLpWBG2SB4HegM0StYdFcLOv+PJ57wWMVy
- 2Ku8fsrzbbboKqjldcVpo342uEKP8gxqXTZGeyJa52icocMMQv0SdBoN9Bk89nruuy7p
- +3zddAQ1oPQTueeYPGkiR1ctypwZGtAi0mbUGj814oU6Evb0GGZ+iUYJ0OsEyXNpeqWa
- 6uHg==
-X-Gm-Message-State: AOAM532DRB/blbNlnoAPHQTY9dkRk2RDmRgPFPXrptaOzJLJf02ZRd1u
- Lp+kWrupoT2JVM/1q/xSbJGGtw==
-X-Google-Smtp-Source: ABdhPJzZB3uUldS3H3PomxXInau17VQRCQJ4/BUX9qRXpwldcK2cYuphdyVvLg2cunzd1cVS/euxnw==
-X-Received: by 2002:a63:87c3:: with SMTP id
- i186mr45003143pge.507.1641317695407; 
- Tue, 04 Jan 2022 09:34:55 -0800 (PST)
+ bh=lyYzwxTZWc2pKk20hwF7g02tZU/8D7vFzmqot46zr3o=;
+ b=fibNk0S08gW0kljWJjmyeLPknVCXgcP3NQ1exBApGqgFpctcaUfPbYed0wZrl3Kv0D
+ 5PXBdcaMBQWfIywu+hl1l2CFqfmemUFsvDIJiBuzgf1xn08TXFCnQ8xIendoP8VIIP5n
+ OCqkCTNjt1ySZ+GCQ5a2//ssEPtSa8QmtFgxZxrTps1GVsmf2c+mGLLiHFOScMNSiu01
+ U6Uyf0LWCYDzGtRjEcwivJ3R9OSbB1uufhZyugITdDITuPPdlZA/rengjmE5xl2raCIr
+ 2S3tYR5HfgMug+TAp1VxpxsGi2zBiZyECTi7HcKQ/T5pYYssBLOv+06FTPMS/0TwkCI6
+ Hnsw==
+X-Gm-Message-State: AOAM532huvS73Ydef2qoS/lpgW/08xWExIccD2bXVM2BO17FgO9ekriZ
+ ZRR+3tFJLDPbAbYHE2FOxXBFQw==
+X-Google-Smtp-Source: ABdhPJzjgo+EqH45rd3keKS/UyOltBLQmBVP2JYcV5J6T2Al78JIvydxac3UZxoz6wC2BU8T/FSzTQ==
+X-Received: by 2002:a17:90b:4d86:: with SMTP id
+ oj6mr61729268pjb.185.1641317922423; 
+ Tue, 04 Jan 2022 09:38:42 -0800 (PST)
 Received: from google.com (157.214.185.35.bc.googleusercontent.com.
  [35.185.214.157])
- by smtp.gmail.com with ESMTPSA id k23sm401859pji.3.2022.01.04.09.34.54
+ by smtp.gmail.com with ESMTPSA id k23sm407842pji.3.2022.01.04.09.38.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Jan 2022 09:34:54 -0800 (PST)
-Date: Tue, 4 Jan 2022 17:34:51 +0000
+ Tue, 04 Jan 2022 09:38:41 -0800 (PST)
+Date: Tue, 4 Jan 2022 17:38:38 +0000
 From: Sean Christopherson <seanjc@google.com>
 To: Chao Peng <chao.p.peng@linux.intel.com>
-Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+Cc: Robert Hoo <robert.hu@linux.intel.com>, kvm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org,
  linux-fsdevel@vger.kernel.org, qemu-devel@nongnu.org,
  Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
  Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
@@ -71,29 +72,27 @@ Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
  luto@kernel.org, john.ji@intel.com, susie.li@intel.com,
  jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
  david@redhat.com
-Subject: Re: [PATCH v3 kvm/queue 04/16] KVM: Extend the memslot to support
- fd-based private memory
-Message-ID: <YdSFO2fAHhdGsPLG@google.com>
+Subject: Re: [PATCH v3 kvm/queue 03/16] mm/memfd: Introduce MEMFD_OPS
+Message-ID: <YdSGHnMFV5Mu9vdF@google.com>
 References: <20211223123011.41044-1-chao.p.peng@linux.intel.com>
- <20211223123011.41044-5-chao.p.peng@linux.intel.com>
- <YcSzafzpjMy6m28B@google.com>
- <20211231025344.GC7255@chaop.bj.intel.com>
+ <20211223123011.41044-4-chao.p.peng@linux.intel.com>
+ <95d13ac7da32aa1530d6883777ef3279e4ad825d.camel@linux.intel.com>
+ <20211231023853.GB7255@chaop.bj.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20211231025344.GC7255@chaop.bj.intel.com>
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::434
+In-Reply-To: <20211231023853.GB7255@chaop.bj.intel.com>
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::630
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::434;
- envelope-from=seanjc@google.com; helo=mail-pf1-x434.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
+ envelope-from=seanjc@google.com; helo=mail-pl1-x630.google.com
 X-Spam_score_int: -148
 X-Spam_score: -14.9
 X-Spam_bar: --------------
 X-Spam_report: (-14.9 / 5.0 requ) DKIMWL_WL_MED=-0.001, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, FSL_HELO_FAKE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- USER_IN_DEF_DKIM_WL=-7.5,
+ ENV_AND_HDR_SPF_MATCH=-0.5, FSL_HELO_FAKE=0.001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
  USER_IN_DEF_SPF_WL=-7.5 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -111,38 +110,48 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Fri, Dec 31, 2021, Chao Peng wrote:
-> On Thu, Dec 23, 2021 at 05:35:37PM +0000, Sean Christopherson wrote:
-> > On Thu, Dec 23, 2021, Chao Peng wrote:
-> > > diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
-> > > index 1daa45268de2..41434322fa23 100644
-> > > --- a/include/uapi/linux/kvm.h
-> > > +++ b/include/uapi/linux/kvm.h
-> > > @@ -103,6 +103,17 @@ struct kvm_userspace_memory_region {
-> > >  	__u64 userspace_addr; /* start of the userspace allocated memory */
-> > >  };
+> On Fri, Dec 24, 2021 at 11:53:15AM +0800, Robert Hoo wrote:
+> > On Thu, 2021-12-23 at 20:29 +0800, Chao Peng wrote:
+> > > From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
 > > >  
-> > > +struct kvm_userspace_memory_region_ext {
-> > > +	__u32 slot;
-> > > +	__u32 flags;
-> > > +	__u64 guest_phys_addr;
-> > > +	__u64 memory_size; /* bytes */
-> > > +	__u64 userspace_addr; /* hva */
+> > > +static void notify_fallocate(struct inode *inode, pgoff_t start,
+> > > pgoff_t end)
+> > > +{
+> > > +#ifdef CONFIG_MEMFD_OPS
+> > > +	struct shmem_inode_info *info = SHMEM_I(inode);
+> > > +	const struct memfd_falloc_notifier *notifier;
+> > > +	void *owner;
+> > > +	bool ret;
+> > > +
+> > > +	if (!info->falloc_notifier)
+> > > +		return;
+> > > +
+> > > +	spin_lock(&info->lock);
+> > > +	notifier = info->falloc_notifier;
+> > > +	if (!notifier) {
+> > > +		spin_unlock(&info->lock);
+> > > +		return;
+> > > +	}
+> > > +
+> > > +	owner = info->owner;
+> > > +	ret = notifier->get_owner(owner);
+> > > +	spin_unlock(&info->lock);
+> > > +	if (!ret)
+> > > +		return;
+> > > +
+> > > +	notifier->fallocate(inode, owner, start, end);
 > > 
-> > Would it make sense to embed "struct kvm_userspace_memory_region"?
-> > 
-> > > +	__u64 ofs; /* offset into fd */
-> > > +	__u32 fd;
-> > 
-> > Again, use descriptive names, then comments like "offset into fd" are unnecessary.
-> > 
-> > 	__u64 private_offset;
-> > 	__u32 private_fd;
+> > I see notifier->fallocate(), i.e. memfd_fallocate(), discards
+> > kvm_memfd_fallocate_range()'s return value. Should it be checked?
 > 
-> My original thought is the same fields might be used for shared memslot
-> as well in future (e.g. there may be another KVM_MEM_* bit can reuse the
-> same fields for shared slot) so non private-specific name may sound
-> better. But definitely I have no objection and can use private_* names
-> for next version unless there is other objection.
+> I think we can ignore it, just like how current mmu_notifier does,
+> the return value of __kvm_handle_hva_range is discarded in
+> kvm_mmu_notifier_invalidate_range_start(). Even when KVM side failed,
+> it's not fatal, it should not block the operation in the primary MMU.
 
-If that does happen, it's easy enough to wrap them in a union.
+If the return value is ignored, it'd be better to have no return value at all so
+that it's clear fallocate() will continue on regardless of whether or not the
+secondary MMU callback succeeds.  E.g. if KVM can't handle the fallocate() for
+whatever reason, then knowing that fallocate() will continue on means KVM should
+mark the VM as dead so that the broken setup cannot be abused by userspace.
 
