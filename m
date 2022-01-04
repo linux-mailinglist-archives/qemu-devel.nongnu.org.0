@@ -2,82 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5702C484483
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 16:27:48 +0100 (CET)
-Received: from localhost ([::1]:40168 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D53F484479
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 16:24:55 +0100 (CET)
+Received: from localhost ([::1]:36196 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n4lj1-00051k-7B
-	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 10:27:47 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56948)
+	id 1n4lgE-0002B2-5E
+	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 10:24:54 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58546)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1n4lXD-0006uD-Oy
- for qemu-devel@nongnu.org; Tue, 04 Jan 2022 10:15:35 -0500
-Received: from [2607:f8b0:4864:20::62d] (port=44793
- helo=mail-pl1-x62d.google.com)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1n4leH-0000ie-5F
+ for qemu-devel@nongnu.org; Tue, 04 Jan 2022 10:22:53 -0500
+Received: from [2a00:1450:4864:20::42d] (port=36502
+ helo=mail-wr1-x42d.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1n4lXB-00027l-UD
- for qemu-devel@nongnu.org; Tue, 04 Jan 2022 10:15:35 -0500
-Received: by mail-pl1-x62d.google.com with SMTP id h1so24082391pls.11
- for <qemu-devel@nongnu.org>; Tue, 04 Jan 2022 07:15:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
- h=date:from:to:cc:subject:in-reply-to:message-id:references
- :user-agent:mime-version;
- bh=zcUFUa/RtDuy2i7gm6X+J6VhFThhKYo+09+fRZfPAs8=;
- b=BDpkGy+rSda+83Dt/MWxvcsuk+F4mPusvGNTTDU8jctgAOPnet35yu6+xk8fvr0ZXm
- KfJWllMkRMipnOMzgpr8+Dd18RNYPBw7KDfsYJ4aoiSQ0OsYmMTnelgepenvs7ysC8we
- HKf3vr1DxH2HXhpkWZissx8TcMuygEepF2QhSrZxWktHxAnxV980OClKn6lMAHkl+/FI
- aapd1MBPAoURlFtQRiQxEdPZWJZM7P36B295OfT3ho2aRCnHwZoo9jydjqb3RJQaynDs
- +Sft4PlmE/Js1Vcy6vjyrRb4Xvqw/AFA5Y5rQodXl13ejqsylTQtF7SOZS3PqJCRIptt
- f3Uw==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1n4leF-0003M4-Kq
+ for qemu-devel@nongnu.org; Tue, 04 Jan 2022 10:22:52 -0500
+Received: by mail-wr1-x42d.google.com with SMTP id r17so76864009wrc.3
+ for <qemu-devel@nongnu.org>; Tue, 04 Jan 2022 07:22:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=eQlBfsRW1/6O8Q2Gy4A7PLstpAL/49eCPR6d0ZZoPB4=;
+ b=fKZAquBT9RKHE2y3GNy7Jwu68MnCF9s0CvU3ImVHu0eWI50nFi/LhcRNRjZNi6YN2/
+ x/mmPCYO1MTAV2cLtX8K+Ry7aYutuwOiHkDPQlfRRlR7DXjkA7K1afIIIZCukOLm0IVW
+ bsiYF8EjhnCJNALOHBeZYEhSX88YKzOTzBZ6FSXKPgldQ42Hk00+bBXSRfgEGGLSD2xy
+ TlYKFTpkVn78wR+cYuepBkbVrDk9ka9bXulnYFChbLA8gBvTK7cenOCzijxWNRm8wlAE
+ 9gi+k96DWQj99NrGTTROnAC6Yo30DxJ3cCItWqAtFY/KETZQfjRg0XX2DQvJr9VzUBIL
+ 4TbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:in-reply-to:message-id
- :references:user-agent:mime-version;
- bh=zcUFUa/RtDuy2i7gm6X+J6VhFThhKYo+09+fRZfPAs8=;
- b=NOo8VQtnQWP+Oz2uBpwiE3uUB/+vTgl2AmRYnikvSM1r1gEf6lZOHVk7fMqzmh8VD3
- 005n7dbyVEN/Bwh7KmiKymk3tGIoTSlvZCnvv8xd00WLZ3bBl7rI+PrVaWaZ4eLoG+Rx
- UyKk4MK3+wByAQGNXnqrfJgZwvfU1lAUt91JymkdWvxHUIM0l6CimUtY7gp5NYvSc2OT
- CWj4V9s5RvqFNUQPee5ee/PcHPiNMerTD1r+R19FnsHsEgF5l564x54IwQAawteJBCLL
- i1tL8kAELZ/DQRqgcgU92JfPekYkHq5NEqWZ4nFoE2jRZvbmED3abyWEWK4aU9nnok6N
- pKCg==
-X-Gm-Message-State: AOAM532SUlSbtBVGtx++dZKys/wJGo/OVFqUiOIa+3Bk6bORSQjokGA0
- /gaA4gxzdEd5iHaZUDr3nPP6iw==
-X-Google-Smtp-Source: ABdhPJyI1gm4s9+YYnDO81salF2yH9seKf3xbFeceqoa0/TPPNRZsDlvjUmDDEwL1fHKecjIT+LhEQ==
-X-Received: by 2002:a17:902:e884:b0:148:b91b:d7e2 with SMTP id
- w4-20020a170902e88400b00148b91bd7e2mr48866704plg.87.1641309331184; 
- Tue, 04 Jan 2022 07:15:31 -0800 (PST)
-Received: from [10.25.18.11] ([138.199.24.26])
- by smtp.googlemail.com with ESMTPSA id
- nk23sm41516145pjb.16.2022.01.04.07.15.28
- (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 04 Jan 2022 07:15:30 -0800 (PST)
-Date: Tue, 4 Jan 2022 20:45:24 +0530 (IST)
-From: Ani Sinha <ani@anisinha.ca>
-X-X-Sender: ani@athabasca.local
-To: Stefan Berger <stefanb@linux.ibm.com>
-Subject: Re: [PATCH v4 2/3] acpi: tpm: Add missing device identification
- objects
-In-Reply-To: <1b32e29a-36fc-7275-e856-97a12585e0a3@linux.ibm.com>
-Message-ID: <alpine.OSX.2.20.2201042044240.27406@athabasca.local>
-References: <20211223022310.575496-1-stefanb@linux.ibm.com>
- <20211223022310.575496-3-stefanb@linux.ibm.com>
- <20220104105506.17ed9209@redhat.com>
- <1b32e29a-36fc-7275-e856-97a12585e0a3@linux.ibm.com>
-User-Agent: Alpine 2.20 (OSX 67 2015-01-07)
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=eQlBfsRW1/6O8Q2Gy4A7PLstpAL/49eCPR6d0ZZoPB4=;
+ b=shWr1mKr+0fijS1E8Nmf7ZgjtPUxlHAyOTBIB3PkVC2+0xKwln6x7J40Idi+sxFS6a
+ 2H9cqd7eTmJGrM1VHQZJTHHN7K5EcsnJ/cdh5O4nYCyo1W2UflEEOPnMJY4HJ4he452E
+ LQl9l/uzbz2YN3bzRde25aTDnCYkS9+gycsMvXS/qwx+5EYfWrEU4dBJ78tKwnKFdeHU
+ 1lyPxuUEHFobX7HabntjobtxMKkEPw1clkefkU2na5uupg/9OYDr4tkfMDoPWa4HMiR6
+ e23ZZ7jhMEF3o604m4FZmIEKy5+DjsbmZekh+nRHZtKbqDKJSWCR2bC8SqLvI0CVJKgc
+ YiCg==
+X-Gm-Message-State: AOAM532OAFKfmnFXT5mbZWAzZNfr2iGneaLnCpnbcJTg1t+QfX6HuTMe
+ TircGBnn9oAD/KonuxXhSMs=
+X-Google-Smtp-Source: ABdhPJyO5jdqqeGYkFcSCfFsFx6BxPbi9mw5Jr/ucALJkQuakBNsVqk4X1c53YbmOZMxPeInEGa41A==
+X-Received: by 2002:adf:d225:: with SMTP id k5mr43279268wrh.360.1641309769799; 
+ Tue, 04 Jan 2022 07:22:49 -0800 (PST)
+Received: from [192.168.51.187] (static-180-27-86-188.ipcom.comunitel.net.
+ [188.86.27.180])
+ by smtp.gmail.com with ESMTPSA id m17sm43038720wms.25.2022.01.04.07.22.48
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 04 Jan 2022 07:22:49 -0800 (PST)
+Message-ID: <222c5015-399d-0ff0-e061-7dd3a947d4d4@amsat.org>
+Date: Tue, 4 Jan 2022 16:22:48 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62d
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.4.1
+Subject: Re: [PATCH 4/5] usb: allow max 8192 bytes for desc
+Content-Language: en-US
+To: zhenwei pi <pizhenwei@bytedance.com>, peter.maydell@linaro.org,
+ richard.henderson@linaro.org, kraxel@redhat.com, eblake@redhat.com,
+ pbonzini@redhat.com
+References: <20211227142734.691900-1-pizhenwei@bytedance.com>
+ <20211227142734.691900-5-pizhenwei@bytedance.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+In-Reply-To: <20211227142734.691900-5-pizhenwei@bytedance.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42d
  (failed)
-Received-SPF: none client-ip=2607:f8b0:4864:20::62d;
- envelope-from=ani@anisinha.ca; helo=mail-pl1-x62d.google.com
-X-Spam_score_int: 8
-X-Spam_score: 0.8
-X-Spam_bar: /
-X-Spam_report: (0.8 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42d.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-3.354,
  RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,109 +95,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mammedov <imammedo@redhat.com>,
- Shannon Zhao <shannon.zhaosl@gmail.com>,
- "Michael S . Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
- marcandre.lureau@redhat.com
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 27/12/21 15:27, zhenwei pi wrote:
+> A device of USB video class usually uses larger desc structure, so
+> use larger buffer to avoid failure.
+> 
+> Signed-off-by: zhenwei pi <pizhenwei@bytedance.com>
+> ---
+>   hw/usb/desc.c | 15 ++++++++-------
+>   hw/usb/desc.h |  1 +
+>   2 files changed, 9 insertions(+), 7 deletions(-)
+> 
+> diff --git a/hw/usb/desc.c b/hw/usb/desc.c
+> index 8b6eaea407..7f6cc2f99b 100644
+> --- a/hw/usb/desc.c
+> +++ b/hw/usb/desc.c
+> @@ -632,7 +632,8 @@ int usb_desc_get_descriptor(USBDevice *dev, USBPacket *p,
+>       bool msos = (dev->flags & (1 << USB_DEV_FLAG_MSOS_DESC_IN_USE));
+>       const USBDesc *desc = usb_device_get_usb_desc(dev);
+>       const USBDescDevice *other_dev;
+> -    uint8_t buf[256];
+> +    size_t buflen = USB_DESC_MAX_LEN;
+> +    g_autofree uint8_t *buf = g_malloc(buflen);
 
+Do we want to have a per-device desc_size (in USBDevice, default to
+256, video devices set it to 8K)?
 
-On Tue, 4 Jan 2022, Stefan Berger wrote:
+How "hot" is this path? Could we keep 8K on the stack?
 
->
-> On 1/4/22 04:55, Igor Mammedov wrote:
-> > On Wed, 22 Dec 2021 21:23:09 -0500
-> > Stefan Berger <stefanb@linux.ibm.com> wrote:
-> >
-> > > Add missing device identification objects _STR and _UID. They will appear
-> > why, does it break anything or it's just cosmetic?
->
-> I don't know about whether any software needs these entries but it's driven by
-> this:
->
-> https://gitlab.com/qemu-project/qemu/-/issues/708
+> diff --git a/hw/usb/desc.h b/hw/usb/desc.h
+> index 3ac604ecfa..35babdeff6 100644
+> --- a/hw/usb/desc.h
+> +++ b/hw/usb/desc.h
+> @@ -199,6 +199,7 @@ struct USBDesc {
+>       const USBDescMSOS         *msos;
+>   };
+>   
+> +#define USB_DESC_MAX_LEN    8192
+>   #define USB_DESC_FLAG_SUPER (1 << 1)
+>   
+>   /* little helpers */
 
-Ok so you might want to add
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/708
-
-in the commit message. Please see:
-https://www.qemu.org/docs/master/devel/submitting-a-patch.html#write-a-meaningful-commit-message
-
->
-> >
-> > > as files 'description' and 'uid' under Linux sysfs.
-> > >
-> > > Cc: Shannon Zhao <shannon.zhaosl@gmail.com>
-> > > Cc: Michael S. Tsirkin <mst@redhat.com>
-> > > Cc: Igor Mammedov <imammedo@redhat.com>
-> > > Cc: Ani Sinha <ani@anisinha.ca>
-> > > Fixes: https://gitlab.com/qemu-project/qemu/-/issues/708
-> > > Signed-off-by: Stefan Berger <stefanb@linux.ibm.com>
-> > > Message-id: 20211110133559.3370990-3-stefanb@linux.ibm.com
-> > > ---
-> > >   hw/arm/virt-acpi-build.c | 1 +
-> > >   hw/i386/acpi-build.c     | 8 ++++++++
-> > >   2 files changed, 9 insertions(+)
-> > >
-> > > diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
-> > > index d0f4867fdf..f2514ce77c 100644
-> > > --- a/hw/arm/virt-acpi-build.c
-> > > +++ b/hw/arm/virt-acpi-build.c
-> > > @@ -229,6 +229,7 @@ static void acpi_dsdt_add_tpm(Aml *scope,
-> > > VirtMachineState *vms)
-> > >         Aml *dev = aml_device("TPM0");
-> > >       aml_append(dev, aml_name_decl("_HID", aml_string("MSFT0101")));
-> > > +    aml_append(dev, aml_name_decl("_STR", aml_string("TPM 2.0 Device")));
-> > >       aml_append(dev, aml_name_decl("_UID", aml_int(0)));
-> > >         Aml *crs = aml_resource_template();
-> > > diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-> > > index 8383b83ee3..2fb70847cb 100644
-> > > --- a/hw/i386/acpi-build.c
-> > > +++ b/hw/i386/acpi-build.c
-> > > @@ -1812,11 +1812,15 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
-> > >                       dev = aml_device("TPM");
-> > >                       aml_append(dev, aml_name_decl("_HID",
-> > >                                                     aml_string("MSFT0101")));
-> > > +                    aml_append(dev,
-> > > +                               aml_name_decl("_STR",
-> > > +                                             aml_string("TPM 2.0
-> > > Device")));
-> > >                   } else {
-> > >                       dev = aml_device("ISA.TPM");
-> > >                       aml_append(dev, aml_name_decl("_HID",
-> > >                                                     aml_eisaid("PNP0C31")));
-> > >                   }
-> > > +                aml_append(dev, aml_name_decl("_UID", aml_int(1)));
-> > why it's 1, and not 0 as in virt-arm?
->
-> Marc-Andre and I looked at machines with hardware TPMs and that's what we
-> found there as well, a '1'.
->
->
-> >
-> > >                     aml_append(dev, aml_name_decl("_STA", aml_int(0xF)));
-> > >                   crs = aml_resource_template();
-> > > @@ -1844,6 +1848,8 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
-> > >       if (TPM_IS_CRB(tpm)) {
-> > >           dev = aml_device("TPM");
-> > >           aml_append(dev, aml_name_decl("_HID", aml_string("MSFT0101")));
-> > > +        aml_append(dev, aml_name_decl("_STR",
-> > > +                                      aml_string("TPM 2.0 Device")));
-> > >           crs = aml_resource_template();
-> > >           aml_append(crs, aml_memory32_fixed(TPM_CRB_ADDR_BASE,
-> > >                                              TPM_CRB_ADDR_SIZE,
-> > > AML_READ_WRITE));
-> > > @@ -1851,6 +1857,8 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
-> > >             aml_append(dev, aml_name_decl("_STA", aml_int(0xf)));
-> > >
-> > no necessary ^^^ empty line
-> fixed
-> >
-> > > +        aml_append(dev, aml_name_decl("_UID", aml_int(1)));
-> > > +
-> > >           tpm_build_ppi_acpi(tpm, dev);
-> > >             aml_append(sb_scope, dev);
->
 
