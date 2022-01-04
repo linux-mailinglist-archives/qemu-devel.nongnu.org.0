@@ -2,100 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3EF348472E
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 18:45:13 +0100 (CET)
-Received: from localhost ([::1]:45130 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBCE1484745
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 18:57:19 +0100 (CET)
+Received: from localhost ([::1]:60516 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n4ns0-0001BY-Uu
-	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 12:45:12 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35026)
+	id 1n4o3j-0003ZC-0H
+	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 12:57:19 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37668)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1n4nqn-0008Rk-MT
- for qemu-devel@nongnu.org; Tue, 04 Jan 2022 12:43:57 -0500
-Received: from [2607:f8b0:4864:20::52d] (port=34590
- helo=mail-pg1-x52d.google.com)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1n4o2E-0002fE-Jt
+ for qemu-devel@nongnu.org; Tue, 04 Jan 2022 12:55:46 -0500
+Received: from [2607:f8b0:4864:20::1031] (port=39685
+ helo=mail-pj1-x1031.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1n4nqm-0008Be-2G
- for qemu-devel@nongnu.org; Tue, 04 Jan 2022 12:43:57 -0500
-Received: by mail-pg1-x52d.google.com with SMTP id g22so33334355pgn.1
- for <qemu-devel@nongnu.org>; Tue, 04 Jan 2022 09:43:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=13+cbru1EicSyFl290RL62qNhQ55+dHM2uIjjFzOwWQ=;
- b=qiqd4ZBl5BqJHPRL1WkKqev6zYNCBKXygXrnDR+B8P5U+ncr+nyYGcNLR7VtJRMbR+
- nu+XvQR0ZvTHDgijE3+Ephw/fASHy6xXWP0G97pDtjkfz1dKRsQLmc6PexXKZ6eOiTmr
- wLjrAbgjf1xpI3WYhgSKqeScUoNRXJvAlDnLd371vsx/3pwzIE9KXiKfaj3I/ZdHjqA8
- xBpOOwl5sZ+x9RvltjE0m8jfdToQt4TESxL7mb+P6lBPBE7kEi7z47aEbg/ZFbrTwxVh
- thDTi9pkTIUf/VFrmufk4T+y2xu0pNllCtxK03hhz2Xp5v22QQLi5JXx3XoNiDlljx2j
- eUEg==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1n4o2C-000237-M1
+ for qemu-devel@nongnu.org; Tue, 04 Jan 2022 12:55:46 -0500
+Received: by mail-pj1-x1031.google.com with SMTP id
+ z9-20020a17090a7b8900b001b13558eadaso212449pjc.4
+ for <qemu-devel@nongnu.org>; Tue, 04 Jan 2022 09:55:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=h7cjAoGr5vCxQ6S4fJNfzK98ozPexbzoVjz0QV4SOqU=;
+ b=sRG9QrA/FF2Ac/y5K747+9hBdM0INPpqHwc/RQTzg+LhN5jQ7rAVgyOHOUNj6oUMJJ
+ AOkx0pPScy77wmveybGBcF3FqHt3+x0nMLSYgsPIjRNoHujpcmLLKLfZ/znsuH9b511V
+ 6Exp/AG0qPTlbvel6ijPTbnDPQbmWeOETZQuD2uzPFoMj9LyY7c0FUNCtOMplg1oEx20
+ i9pfAzbSGfSPLnhqomx3D/DMAqU3M3Gpr3L5ckGPNtSnBxzWRmy6HRcUgbDCWXGiU8s4
+ 13aA6CAUFoLF1RQFVmGgYwh+IF6ZXRsq5mW5w3Aqi/acKpLmwTyCPXoT+ZoRSEiKLO7Z
+ c0/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=13+cbru1EicSyFl290RL62qNhQ55+dHM2uIjjFzOwWQ=;
- b=T/KY8JBQChLXcQjMbaiEL4/0DdfidV5nfudPS6vjYYe9wuZl4InRZjcD06L3OBbOFj
- 1wwScx7lll6clAd6RLTz8+rlpoLpGPAEZ1xHivOuD/RAfKw0S3gQc8s00sBwmoiQWSYP
- kCFoxU9VcJhNSLBeEdqrEFQq2z73bsMQzDFe/YO1xrnEYY5BCqNJuoeR5e39TKxF97mN
- RTAuyGlH89wqisgQsCtPc1A8kfW5d0Zpik/O30FjRU3Nt959bOXAHBh+v40jNrTMhMlG
- bQBeB6JKmYw6EQbcSDwFcQgju6SBNw4tFvrMerSpG8dwKepRU6TiieyLctPQNzG8WRkK
- aKiw==
-X-Gm-Message-State: AOAM532Au3WlX6z6JVrkNTAs8fRcwTZ8r8xMEm4OgTDMsdBhql2gCqac
- tkySnhVCjy/CMCSwxCNrvPqlqA==
-X-Google-Smtp-Source: ABdhPJzQtrrXhdr9JNHtClHOyyxM1wCawkxYoqgHsdkj3QcxdAXEJm9cAZOEh3vO62LsqFUjGuIFog==
-X-Received: by 2002:a63:ba47:: with SMTP id l7mr46031570pgu.75.1641318234513; 
- Tue, 04 Jan 2022 09:43:54 -0800 (PST)
-Received: from google.com (157.214.185.35.bc.googleusercontent.com.
- [35.185.214.157])
- by smtp.gmail.com with ESMTPSA id n14sm34881764pgd.80.2022.01.04.09.43.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Jan 2022 09:43:53 -0800 (PST)
-Date: Tue, 4 Jan 2022 17:43:50 +0000
-From: Sean Christopherson <seanjc@google.com>
-To: Chao Peng <chao.p.peng@linux.intel.com>
-Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
- Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
- Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
- Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
- "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
- luto@kernel.org, john.ji@intel.com, susie.li@intel.com,
- jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
- david@redhat.com
-Subject: Re: [PATCH v3 kvm/queue 05/16] KVM: Maintain ofs_tree for fast
- memslot lookup by file offset
-Message-ID: <YdSHViDXGkjz5t/Q@google.com>
-References: <20211223123011.41044-1-chao.p.peng@linux.intel.com>
- <20211223123011.41044-6-chao.p.peng@linux.intel.com>
- <YcS5uStTallwRs0G@google.com>
- <20211224035418.GA43608@chaop.bj.intel.com>
- <YcuGGCo5pR31GkZE@google.com>
- <20211231022636.GA7025@chaop.bj.intel.com>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=h7cjAoGr5vCxQ6S4fJNfzK98ozPexbzoVjz0QV4SOqU=;
+ b=rWL5uXzlC0PBmLFTJ7ksDO80/inHWzKgOj4DV0LozLkGQ7RxaNhEHJO9sw6G/27L/H
+ EpVpq6pZCepteOCNOUL8VTAE6MeJaMxjPR2Igoj8d5/qzuusHYmtF64XR/GWZSEWqD3D
+ ba9slJZYXI8gJzlCD0rdvrODL+mWCQjWJ+9xS6DuM8LGTRT1oyucG6UHJOedkOG2ZmC4
+ KmZKWmcMvFs3Le1nhu9RelnlAfkBLGcr/2ni5FoRni7uxvA1lUmf5wiJwXoQwIT9RJ+i
+ DRm3G5G8yT6aXAkaV38amh3N3N/GHRAoK42wHrQ0jCOEMkKDuxiVJnpJCJHQxc0pjVHF
+ vhsg==
+X-Gm-Message-State: AOAM531lt4nvplH0aLxec35QWw+Yf5gTWPX4c5NWuftdwJNaAiyGdPqB
+ vkKmA+kcn5Ba/O3RrpY1Lhd97g==
+X-Google-Smtp-Source: ABdhPJyKR7aVzIVK1lT1Er4k1v+W5uTuoN65/LtelloaPNvEDsHuDnIxkZsL7WEmT9hiLCDPbnfY/w==
+X-Received: by 2002:a17:90b:4a45:: with SMTP id
+ lb5mr61840277pjb.188.1641318942918; 
+ Tue, 04 Jan 2022 09:55:42 -0800 (PST)
+Received: from [192.168.1.13] (174-21-75-75.tukw.qwest.net. [174.21.75.75])
+ by smtp.gmail.com with ESMTPSA id h3sm22480pjk.48.2022.01.04.09.55.42
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 04 Jan 2022 09:55:42 -0800 (PST)
+Subject: Re: [PULL 00/26] ppc queue
+To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20220104073121.3784280-1-clg@kaod.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <e8f21a24-42f6-ba0e-6b6f-47e30b13cc0a@linaro.org>
+Date: Tue, 4 Jan 2022 09:55:40 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211231022636.GA7025@chaop.bj.intel.com>
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::52d
+In-Reply-To: <20220104073121.3784280-1-clg@kaod.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1031
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
- envelope-from=seanjc@google.com; helo=mail-pg1-x52d.google.com
-X-Spam_score_int: -148
-X-Spam_score: -14.9
-X-Spam_bar: --------------
-X-Spam_report: (-14.9 / 5.0 requ) DKIMWL_WL_MED=-0.001, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, FSL_HELO_FAKE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.354,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -108,49 +92,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Dec 31, 2021, Chao Peng wrote:
-> On Tue, Dec 28, 2021 at 09:48:08PM +0000, Sean Christopherson wrote:
-> >KVM handles
-> > reverse engineering the memslot to get the offset and whatever else it needs.
-> > notify_fallocate() and other callbacks are unchanged, though they probably can
-> > drop the inode.
-> > 
-> > E.g. likely with bad math and handwaving on the overlap detection:
-> > 
-> > int kvm_private_fd_fallocate_range(void *owner, pgoff_t start, pgoff_t end)
-> > {
-> > 	struct kvm_memory_slot *slot = owner;
-> > 	struct kvm_gfn_range gfn_range = {
-> > 		.slot	   = slot,
-> > 		.start	   = (start - slot->private_offset) >> PAGE_SHIFT,
-> > 		.end	   = (end - slot->private_offset) >> PAGE_SHIFT,
-> > 		.may_block = true,
-> > 	};
-> > 
-> > 	if (!has_overlap(slot, start, end))
-> > 		return 0;
-> > 
-> > 	gfn_range.end = min(gfn_range.end, slot->base_gfn + slot->npages);
-> > 
-> > 	kvm_unmap_gfn_range(slot->kvm, &gfn_range);
-> > 	return 0;
-> > }
+On 1/3/22 11:30 PM, Cédric Le Goater wrote:
+> The following changes since commit b5a3d8bc9146ba22a25116cb748c97341bf99737:
 > 
-> I understand this KVM side handling, but again one fd can have multiple
-> memslots. How shmem decides to notify which memslot from a list of
-> memslots when it invokes the notify_fallocate()? Or just notify all
-> the possible memslots then let KVM to check? 
+>    Merge tag 'pull-misc-20220103' of https://gitlab.com/rth7680/qemu into staging (2022-01-03 09:34:41 -0800)
+> 
+> are available in the Git repository at:
+> 
+>    https://github.com/legoater/qemu/ tags/pull-ppc-20220104
+> 
+> for you to fetch changes up to 0625c7760d5451d7436ef0738f763c6bb5141919:
+> 
+>    target/ppc: do not call hreg_compute_hflags() in helper_store_mmcr0() (2022-01-04 07:55:35 +0100)
+> 
+> ----------------------------------------------------------------
+> ppc 7.0 queue:
+> 
+> * Cleanup of PowerNV PHBs (Daniel and Cedric)
+> * Cleanup and fixes for PPC405 machine (Cedric)
+> * Fix for xscvspdpn (Matheus)
+> * Rework of powerpc exception handling 1/n (Fabiano)
+> * Optimisation for PMU (Richard and Daniel)
+> 
+> ----------------------------------------------------------------
+> Cédric Le Goater (14):
+>        ppc/pnv: Change the maximum of PHB3 devices for Power8NVL
+>        ppc/pnv: Remove PHB4 reset handler
+>        ppc/pnv: Remove the PHB4 "device-id" property
+>        target/ppc: Improve logging in Radix MMU
+>        target/ppc: Check effective address validity
+>        target/ppc: Remove static inline
+>        target/ppc: Print out literal exception names in logs
+>        ppc/ppc4xx: Convert printfs()
+>        ppc/ppc405: Activate MMU logs
+>        ppc/ppc405: Restore TCR and STR write handlers
+>        ppc/ppc405: Rework ppc_40x_timers_init() to use a PowerPCCPU
+>        ppc/ppc405: Fix timer initialization
+>        ppc/ppc405: Introduce a store helper for SPR_40x_PID
+>        ppc/ppc405: Dump specific registers
+> 
+> Daniel Henrique Barboza (3):
+>        pnv_phb3.c: do not set 'root-bus' as bus name
+>        pnv_phb4.c: do not set 'root-bus' as bus name
+>        target/ppc: do not call hreg_compute_hflags() in helper_store_mmcr0()
+> 
+> Fabiano Rosas (5):
+>        target/ppc: powerpc_excp: Set alternate SRRs directly
+>        target/ppc: powerpc_excp: Add excp_vectors bounds check
+>        target/ppc: powerpc_excp: Set vector earlier
+>        target/ppc: powerpc_excp: Move system call vectored code together
+>        target/ppc: powerpc_excp: Stop passing excp_model around
+> 
+> Matheus Ferst (1):
+>        target/ppc: do not silence snan in xscvspdpn
+> 
+> Richard Henderson (3):
+>        target/ppc: Cache per-pmc insn and cycle count settings
+>        target/ppc: Rewrite pmu_increment_insns
+>        target/ppc: Use env->pnc_cyc_cnt
+> 
+>   include/hw/pci-host/pnv_phb4.h          |   2 -
+>   target/ppc/cpu.h                        |   5 +
+>   target/ppc/helper.h                     |   2 +
+>   target/ppc/mmu-radix64.h                |   1 +
+>   target/ppc/power8-pmu.h                 |  14 +-
+>   target/ppc/spr_tcg.h                    |   3 +
+>   hw/pci-host/pnv_phb3.c                  |   3 +-
+>   hw/pci-host/pnv_phb4.c                  |  16 +--
+>   hw/pci-host/pnv_phb4_pec.c              |   3 -
+>   hw/ppc/mpc8544_guts.c                   |   9 +-
+>   hw/ppc/pnv.c                            |   2 +-
+>   hw/ppc/ppc.c                            |  67 ++++++---
+>   hw/ppc/ppc405_uc.c                      |   2 -
+>   hw/ppc/ppc4xx_devs.c                    |  39 ++----
+>   hw/ppc/ppc4xx_pci.c                     |  11 +-
+>   target/ppc/cpu_init.c                   |  34 +++--
+>   target/ppc/excp_helper.c                | 187 ++++++++++++++++---------
+>   target/ppc/fpu_helper.c                 |   5 +-
+>   target/ppc/helper_regs.c                |   2 +-
+>   target/ppc/machine.c                    |   2 +
+>   target/ppc/mmu-radix64.c                |  60 +++++++-
+>   target/ppc/mmu_common.c                 | 164 +++++++++++-----------
+>   target/ppc/mmu_helper.c                 |  97 ++++++-------
+>   target/ppc/power8-pmu.c                 | 238 ++++++++++++++------------------
+>   target/ppc/timebase_helper.c            |  10 ++
+>   target/ppc/translate.c                  |  20 +++
+>   tests/tcg/ppc64le/non_signalling_xscv.c |  37 +++++
+>   hw/ppc/trace-events                     |   7 +
+>   tests/tcg/ppc64/Makefile.target         |   4 +-
+>   tests/tcg/ppc64le/Makefile.target       |   4 +-
+>   30 files changed, 604 insertions(+), 446 deletions(-)
+>   create mode 100644 tests/tcg/ppc64le/non_signalling_xscv.c
 
-Heh, yeah, those are the two choices.  :-)
+Applied, thanks.
 
-Either the backing store needs to support registering callbacks for specific,
-arbitrary ranges, or it needs to invoke all registered callbacks.  Invoking all
-callbacks has my vote; it's much simpler to implement and is unlikely to incur
-meaningful overhead.  _Something_ has to find the overlapping ranges, that cost
-doesn't magically go away if it's pushed into the backing store.
+r~
 
-Note, invoking all notifiers is also aligned with the mmu_notifier behavior.
 
