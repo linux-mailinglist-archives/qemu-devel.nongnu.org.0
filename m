@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 806D7484411
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 16:02:05 +0100 (CET)
-Received: from localhost ([::1]:38116 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 961A4484413
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 16:02:47 +0100 (CET)
+Received: from localhost ([::1]:39374 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n4lK8-0000m9-9g
-	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 10:02:04 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52450)
+	id 1n4lKo-0001fR-MG
+	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 10:02:46 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52372)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1n4lGN-000713-7y
- for qemu-devel@nongnu.org; Tue, 04 Jan 2022 09:58:11 -0500
-Received: from [2a00:1450:4864:20::534] (port=40831
- helo=mail-ed1-x534.google.com)
+ id 1n4lGC-0006p2-UL
+ for qemu-devel@nongnu.org; Tue, 04 Jan 2022 09:58:01 -0500
+Received: from [2a00:1450:4864:20::531] (port=45731
+ helo=mail-ed1-x531.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1n4lGL-0004RL-Dp
- for qemu-devel@nongnu.org; Tue, 04 Jan 2022 09:58:10 -0500
-Received: by mail-ed1-x534.google.com with SMTP id z29so149499982edl.7
- for <qemu-devel@nongnu.org>; Tue, 04 Jan 2022 06:58:09 -0800 (PST)
+ id 1n4lGB-0004PK-0C
+ for qemu-devel@nongnu.org; Tue, 04 Jan 2022 09:58:00 -0500
+Received: by mail-ed1-x531.google.com with SMTP id j6so149435343edw.12
+ for <qemu-devel@nongnu.org>; Tue, 04 Jan 2022 06:57:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=JePqecmS0meombKTS33f5FvbmSwi5wC8hckPf3PFsDw=;
- b=cW3+cCVEtrgHJdHGLU4AWkkV+JBbW4KRS9LA/yCfN6BVy4vh7F2vzLJb34GUIUB6Ag
- Bgz6g/YSd4grWXn4NWorWjnvfsk858lqbw/6dpdbSlLMHWd5NDyLdlnzISDQvv4b46KR
- 9Y1TQEaufzCs/UrTRxEu54uYXUdvpo+zLvAkTcDV5lZRx+opsZOPRjIXc9fEkPEJ5R/s
- Q0h6DoH9CYpgZHYP25ia4FO76pVTch24PRvn8WA7UKx1EnDrn2FT+rX6ZzUKJ9W/w9XJ
- W4hH6ykxISPnVhRoP7u7TRHaYrGvL3mh/ox0+XuYyU9f/yD3923/57CxzWnRb0JGsQIC
- Af4g==
+ h=sender:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=I27wBkrvErk0SZk4+ho4+cLDk6/gTORqQ9WBE8KvQjY=;
+ b=aQAPJGwq/f5KUU9hQ7+5e3P2lbr6yrJFF+mjXB2/wG5emZUaBLxPtaAJoLQmjim+SE
+ fUnqqRUGmHCH7R1R4c2LlguSidLtD/8kEnJstaihIhjkG1S6X1jeWs2Mq4073OKCloKE
+ xIUXhhpYveNcNWKpl5Ggq7AUUGYcZB2p1pz7qeDW/tmfrG573Jm43l1ZX6p+ehbZKtpt
+ 9j5ecsGvH1dcLhmkbTgTL/hJxvm7U2LKUW7rA9Dwn4t1LbESrQye81xbBxPL1lAVC57z
+ lsKvUEwFI83tbLzqloaPStGnZkTTRC8OMKFYY/ZvXRfmpxyBMZEMj8Djl1ZveIO7jYwv
+ PNjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=JePqecmS0meombKTS33f5FvbmSwi5wC8hckPf3PFsDw=;
- b=Dal8SxUxDsIaJJhlMt5xZ0pq6RSRRIPD5nDdMhRMdkE6fyqW8wt/KVoLhMaNzk0VeE
- MIwW0Txvs/yqqh2bO4dpO2FgFjTJupLx/fqZzTbraznYeSxM9mj6eg7VQOskjPbGud3R
- UzOv1W6HGEx7CwtGaQtNVfC7e3bEhaoOATd5fpbGpyugdvPNym6EzuUaJSAa9lsv4kmG
- COboy4ardUfhO+/7w8mquMGe3Bix03By8HwL9Z06uHaro9Q/PaOIgTnAz5MyvuNDsWAX
- 6Q6CZSo3D+7Q+fZ3oWCqjerwGX93ceOL01LCc5dGtthGlgDTNzkizXHbneLX5Gq3zug4
- Tuvw==
-X-Gm-Message-State: AOAM532ql5DVvF7Y7J6MUEU8e7hn/xKp5YF29FX0cKHO3PLpGT0nvbIp
- PbFe6uUodAC1FDyFVqEgEvcQCG4Hk4w=
-X-Google-Smtp-Source: ABdhPJwM9ZMzZA0E6lughvYPeVzmfq3zdOkHA2Byahme4oENSyVilwBmwU+RdOC9bL6h94yoQQZl3g==
-X-Received: by 2002:a05:6402:190c:: with SMTP id
- e12mr50248499edz.153.1641308288083; 
- Tue, 04 Jan 2022 06:58:08 -0800 (PST)
+ h=x-gm-message-state:sender:from:to:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=I27wBkrvErk0SZk4+ho4+cLDk6/gTORqQ9WBE8KvQjY=;
+ b=WtlkpcPVt0BVbwUgLl95FtJQKcipoTJiL8Wl954RoBEHJDA+fv61/yzSNyrfkSh8r/
+ UYhawM9zuXrmupwiCuhc4w4v7uF3wLIYJDhk653Q0mV6CETo3pYHXD2f17a5DP86AARi
+ 0tSelMakhyb798mDYd2ys76IAv9GMreyqsPmj6yEDbn4IE5wuS1HjnbfjdTA72Dg4aUu
+ eMrsy/BFN6n3g7siJ4We/rEO3nesawXXjrqcDFJoYypmER7kOaQpR74X1dqVOP3waHgc
+ 2oB9BUfs4QYsp5xKoe8d6FcOWIAiRh7rbEfSjxxzSwS5OaTXhPDlvFfu0rUptDZAdCfj
+ pk2Q==
+X-Gm-Message-State: AOAM533AW4HxWP50ratbsjsX7mIzCVOCBPD/hPWvP+r0ckTueLCRes1v
+ W2b1Ji+7NGI+TvLVnqoKuBkorhKbDQw=
+X-Google-Smtp-Source: ABdhPJynk9tcEEM0AN3f/7juB2FkQRHrGALUEeWP4WRVBlvfVKYdG6c4jk+qYzyV3ycqcifqXEoRDQ==
+X-Received: by 2002:a05:6402:390:: with SMTP id
+ o16mr47608194edv.78.1641308277207; 
+ Tue, 04 Jan 2022 06:57:57 -0800 (PST)
 Received: from localhost.localdomain ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
- by smtp.gmail.com with ESMTPSA id j21sm11475964ejj.133.2022.01.04.06.58.06
+ by smtp.gmail.com with ESMTPSA id j21sm11475964ejj.133.2022.01.04.06.57.56
+ for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Jan 2022 06:58:07 -0800 (PST)
+ Tue, 04 Jan 2022 06:57:56 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 04/15] block/file-posix: Simplify the XFS_IOC_DIOINFO handling
-Date: Tue,  4 Jan 2022 15:57:38 +0100
-Message-Id: <20220104145749.417387-5-pbonzini@redhat.com>
+Subject: [PULL v3 00/15] Build system and KVM changes for 2021-12-23
+Date: Tue,  4 Jan 2022 15:57:34 +0100
+Message-Id: <20220104145749.417387-1-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.33.1
-In-Reply-To: <20220104145749.417387-1-pbonzini@redhat.com>
-References: <20220104145749.417387-1-pbonzini@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::534
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::531
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::534;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x534.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::531;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x531.google.com
 X-Spam_score_int: 12
 X-Spam_score: 1.2
 X-Spam_bar: +
@@ -87,187 +87,110 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Thomas Huth <thuth@redhat.com>
+The following changes since commit b5a3d8bc9146ba22a25116cb748c97341bf99737:
 
-The handling for the XFS_IOC_DIOINFO ioctl is currently quite excessive:
-This is not a "real" feature like the other features that we provide with
-the "--enable-xxx" and "--disable-xxx" switches for the configure script,
-since this does not influence lots of code (it's only about one call to
-xfsctl() in file-posix.c), so people don't gain much with the ability to
-disable this with "--disable-xfsctl".
-It's also unfortunate that the ioctl will be disabled on Linux in case
-the user did not install the right xfsprogs-devel package before running
-configure. Thus let's simplify this by providing the ioctl definition
-on our own, so we can completely get rid of the header dependency and
-thus the related code in the configure script.
+  Merge tag 'pull-misc-20220103' of https://gitlab.com/rth7680/qemu into staging (2022-01-03 09:34:41 -0800)
 
-Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
-Signed-off-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20211215125824.250091-1-thuth@redhat.com>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- block/file-posix.c | 37 ++++++++++++++++---------------------
- configure          | 31 -------------------------------
- meson.build        |  1 -
- 3 files changed, 16 insertions(+), 53 deletions(-)
+are available in the Git repository at:
 
-diff --git a/block/file-posix.c b/block/file-posix.c
-index b283093e5b..1f1756e192 100644
---- a/block/file-posix.c
-+++ b/block/file-posix.c
-@@ -106,10 +106,6 @@
- #include <sys/diskslice.h>
- #endif
- 
--#ifdef CONFIG_XFS
--#include <xfs/xfs.h>
--#endif
--
- /* OS X does not have O_DSYNC */
- #ifndef O_DSYNC
- #ifdef O_SYNC
-@@ -156,9 +152,6 @@ typedef struct BDRVRawState {
-     int perm_change_flags;
-     BDRVReopenState *reopen_state;
- 
--#ifdef CONFIG_XFS
--    bool is_xfs:1;
--#endif
-     bool has_discard:1;
-     bool has_write_zeroes:1;
-     bool discard_zeroes:1;
-@@ -409,14 +402,22 @@ static void raw_probe_alignment(BlockDriverState *bs, int fd, Error **errp)
-     if (probe_logical_blocksize(fd, &bs->bl.request_alignment) < 0) {
-         bs->bl.request_alignment = 0;
-     }
--#ifdef CONFIG_XFS
--    if (s->is_xfs) {
--        struct dioattr da;
--        if (xfsctl(NULL, fd, XFS_IOC_DIOINFO, &da) >= 0) {
--            bs->bl.request_alignment = da.d_miniosz;
--            /* The kernel returns wrong information for d_mem */
--            /* s->buf_align = da.d_mem; */
--        }
-+
-+#ifdef __linux__
-+    /*
-+     * The XFS ioctl definitions are shipped in extra packages that might
-+     * not always be available. Since we just need the XFS_IOC_DIOINFO ioctl
-+     * here, we simply use our own definition instead:
-+     */
-+    struct xfs_dioattr {
-+        uint32_t d_mem;
-+        uint32_t d_miniosz;
-+        uint32_t d_maxiosz;
-+    } da;
-+    if (ioctl(fd, _IOR('X', 30, struct xfs_dioattr), &da) >= 0) {
-+        bs->bl.request_alignment = da.d_miniosz;
-+        /* The kernel returns wrong information for d_mem */
-+        /* s->buf_align = da.d_mem; */
-     }
- #endif
- 
-@@ -798,12 +799,6 @@ static int raw_open_common(BlockDriverState *bs, QDict *options,
- #endif
-     s->needs_alignment = raw_needs_alignment(bs);
- 
--#ifdef CONFIG_XFS
--    if (platform_test_xfs_fd(s->fd)) {
--        s->is_xfs = true;
--    }
--#endif
--
-     bs->supported_zero_flags = BDRV_REQ_MAY_UNMAP | BDRV_REQ_NO_FALLBACK;
-     if (S_ISREG(st.st_mode)) {
-         /* When extending regular files, we get zeros from the OS */
-diff --git a/configure b/configure
-index 030728d11e..3a523a3d14 100755
---- a/configure
-+++ b/configure
-@@ -291,7 +291,6 @@ EXTRA_CXXFLAGS=""
- EXTRA_LDFLAGS=""
- 
- xen_ctrl_version="$default_feature"
--xfs="$default_feature"
- membarrier="$default_feature"
- vhost_kernel="$default_feature"
- vhost_net="$default_feature"
-@@ -1021,10 +1020,6 @@ for opt do
-   ;;
-   --enable-opengl) opengl="yes"
-   ;;
--  --disable-xfsctl) xfs="no"
--  ;;
--  --enable-xfsctl) xfs="yes"
--  ;;
-   --disable-zlib-test)
-   ;;
-   --enable-guest-agent) guest_agent="yes"
-@@ -1431,7 +1426,6 @@ cat << EOF
-   avx512f         AVX512F optimization support
-   replication     replication support
-   opengl          opengl support
--  xfsctl          xfsctl support
-   qom-cast-debug  cast debugging support
-   tools           build qemu-io, qemu-nbd and qemu-img tools
-   bochs           bochs image format support
-@@ -2323,28 +2317,6 @@ EOF
-     fi
- fi
- 
--##########################################
--# xfsctl() probe, used for file-posix.c
--if test "$xfs" != "no" ; then
--  cat > $TMPC << EOF
--#include <stddef.h>  /* NULL */
--#include <xfs/xfs.h>
--int main(void)
--{
--    xfsctl(NULL, 0, 0, NULL);
--    return 0;
--}
--EOF
--  if compile_prog "" "" ; then
--    xfs="yes"
--  else
--    if test "$xfs" = "yes" ; then
--      feature_not_found "xfs" "Install xfsprogs/xfslibs devel"
--    fi
--    xfs=no
--  fi
--fi
--
- ##########################################
- # plugin linker support probe
- 
-@@ -3456,9 +3428,6 @@ echo "CONFIG_BDRV_RO_WHITELIST=$block_drv_ro_whitelist" >> $config_host_mak
- if test "$block_drv_whitelist_tools" = "yes" ; then
-   echo "CONFIG_BDRV_WHITELIST_TOOLS=y" >> $config_host_mak
- fi
--if test "$xfs" = "yes" ; then
--  echo "CONFIG_XFS=y" >> $config_host_mak
--fi
- qemu_version=$(head $source_path/VERSION)
- echo "PKGVERSION=$pkgversion" >>$config_host_mak
- echo "SRC_PATH=$source_path" >> $config_host_mak
-diff --git a/meson.build b/meson.build
-index 5f0b6300b4..5a57906e98 100644
---- a/meson.build
-+++ b/meson.build
-@@ -3445,7 +3445,6 @@ if spice_protocol.found()
-   summary_info += {'  spice server support': spice}
- endif
- summary_info += {'rbd support':       rbd}
--summary_info += {'xfsctl support':    config_host.has_key('CONFIG_XFS')}
- summary_info += {'smartcard support': cacard}
- summary_info += {'U2F support':       u2f}
- summary_info += {'libusb':            libusb}
+  https://gitlab.com/bonzini/qemu.git tags/for-upstream
+
+for you to fetch changes up to a2c137e7e00d1bfcc80a17ff8e5104d0e1de2f9a:
+
+  tests/tcg: Fix target-specific Makefile variables path for user-mode (2022-01-04 14:08:44 +0100)
+
+----------------------------------------------------------------
+* configure and meson cleanups
+* KVM_GET/SET_SREGS2 support for x86
+
+----------------------------------------------------------------
+
+I dropped the tricore Dockerfile change because it is still broken occasionally
+with the patch.
+
+Maxim Levitsky (1):
+      KVM: use KVM_{GET|SET}_SREGS2 when supported.
+
+Paolo Bonzini (12):
+      meson: reuse common_user_inc when building files specific to user-mode emulators
+      user: move common-user includes to a subdirectory of {bsd,linux}-user/
+      meson: cleanup common-user/ build
+      configure: simplify creation of plugin symbol list
+      configure: do not set bsd_user/linux_user early
+      configure, makefile: remove traces of really old files
+      configure: parse --enable/--disable-strip automatically, flip default
+      configure: move non-command-line variables away from command-line parsing section
+      meson: build contrib/ executables after generated headers
+      configure, meson: move config-poison.h to meson
+      meson: add comments in the target-specific flags section
+      KVM: x86: ignore interrupt_bitmap field of KVM_GET/SET_SREGS
+
+Philippe Mathieu-Daudé (1):
+      tests/tcg: Fix target-specific Makefile variables path for user-mode
+
+Thomas Huth (1):
+      block/file-posix: Simplify the XFS_IOC_DIOINFO handling
+
+ Makefile                                           |  11 +-
+ block/file-posix.c                                 |  37 ++---
+ bsd-user/{ => include}/special-errno.h             |   0
+ bsd-user/meson.build                               |   2 +-
+ common-user/meson.build                            |   2 +-
+ configure                                          | 182 +++------------------
+ contrib/elf2dmp/meson.build                        |   2 +-
+ contrib/ivshmem-client/meson.build                 |   2 +-
+ contrib/ivshmem-server/meson.build                 |   2 +-
+ contrib/rdmacm-mux/meson.build                     |   2 +-
+ .../{ => include}/host/aarch64/host-signal.h       |   0
+ linux-user/{ => include}/host/alpha/host-signal.h  |   0
+ linux-user/{ => include}/host/arm/host-signal.h    |   0
+ linux-user/{ => include}/host/i386/host-signal.h   |   0
+ .../{ => include}/host/loongarch64/host-signal.h   |   0
+ linux-user/{ => include}/host/mips/host-signal.h   |   0
+ linux-user/{ => include}/host/ppc/host-signal.h    |   0
+ linux-user/{ => include}/host/ppc64/host-signal.h  |   0
+ linux-user/{ => include}/host/riscv/host-signal.h  |   0
+ linux-user/{ => include}/host/s390/host-signal.h   |   0
+ linux-user/{ => include}/host/s390x/host-signal.h  |   0
+ linux-user/{ => include}/host/sparc/host-signal.h  |   0
+ .../{ => include}/host/sparc64/host-signal.h       |   0
+ linux-user/{ => include}/host/x32/host-signal.h    |   0
+ linux-user/{ => include}/host/x86_64/host-signal.h |   0
+ linux-user/{ => include}/special-errno.h           |   0
+ linux-user/meson.build                             |   4 +-
+ meson.build                                        |  33 ++--
+ pc-bios/s390-ccw/Makefile                          |   2 -
+ plugins/meson.build                                |  11 +-
+ scripts/make-config-poison.sh                      |  16 ++
+ scripts/meson-buildoptions.py                      |  21 ++-
+ scripts/meson-buildoptions.sh                      |   3 +
+ target/i386/cpu.h                                  |   3 +
+ target/i386/kvm/kvm.c                              | 130 +++++++++++++--
+ target/i386/machine.c                              |  29 ++++
+ tests/tcg/Makefile.target                          |   2 +-
+ 37 files changed, 259 insertions(+), 237 deletions(-)
+ rename bsd-user/{ => include}/special-errno.h (100%)
+ rename linux-user/{ => include}/host/aarch64/host-signal.h (100%)
+ rename linux-user/{ => include}/host/alpha/host-signal.h (100%)
+ rename linux-user/{ => include}/host/arm/host-signal.h (100%)
+ rename linux-user/{ => include}/host/i386/host-signal.h (100%)
+ rename linux-user/{ => include}/host/loongarch64/host-signal.h (100%)
+ rename linux-user/{ => include}/host/mips/host-signal.h (100%)
+ rename linux-user/{ => include}/host/ppc/host-signal.h (100%)
+ rename linux-user/{ => include}/host/ppc64/host-signal.h (100%)
+ rename linux-user/{ => include}/host/riscv/host-signal.h (100%)
+ rename linux-user/{ => include}/host/s390/host-signal.h (100%)
+ rename linux-user/{ => include}/host/s390x/host-signal.h (100%)
+ rename linux-user/{ => include}/host/sparc/host-signal.h (100%)
+ rename linux-user/{ => include}/host/sparc64/host-signal.h (100%)
+ rename linux-user/{ => include}/host/x32/host-signal.h (100%)
+ rename linux-user/{ => include}/host/x86_64/host-signal.h (100%)
+ rename linux-user/{ => include}/special-errno.h (100%)
+ create mode 100755 scripts/make-config-poison.sh
 -- 
 2.33.1
-
 
 
