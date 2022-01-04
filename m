@@ -2,88 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FADA484739
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 18:51:28 +0100 (CET)
-Received: from localhost ([::1]:55554 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D370A484721
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 18:41:58 +0100 (CET)
+Received: from localhost ([::1]:41172 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n4ny3-0008PN-Hg
-	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 12:51:27 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35554)
+	id 1n4nop-0006nO-E5
+	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 12:41:56 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33558)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
- id 1n4nt0-0002KF-6L
- for qemu-devel@nongnu.org; Tue, 04 Jan 2022 12:46:14 -0500
-Received: from smtp-relay-services-0.canonical.com ([185.125.188.250]:52008)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
- id 1n4nsx-0000NF-3K
- for qemu-devel@nongnu.org; Tue, 04 Jan 2022 12:46:13 -0500
-Received: from loganberry.canonical.com (loganberry.canonical.com
- [91.189.90.37])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by smtp-relay-services-0.canonical.com (Postfix) with ESMTPSA id 88A454046E
- for <qemu-devel@nongnu.org>; Tue,  4 Jan 2022 17:46:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=launchpad.net;
- s=20210803; t=1641318360;
- bh=Ww2OQP8EcFDhm3JqZy8pKhBK489HY1ONzDN5vlIpZns=;
- h=MIME-Version:Content-Type:Date:From:To:Reply-To:References:
- Message-Id:Subject;
- b=gTLcAKGssKG6Y6F8ejiqwpSD7O9EhYgg9WHPPzFCRh39+oIAHj5arDO687jTlwAGs
- rolRz6QzBxI+Up1iFkJVkBAsIIxsD2xztMXL/yaMHfp3TnAZgZk+nr6HNABbcbe5b+
- 9HV235UxLVX+DoIGjhqLTfp1AjDDHEov47p/zFaLueRtX2MPjb1j7PQGDXO6EYkL5v
- cY0K/76gnqTfRF7kF4j4Zg+CstDbI2jt92OCRby1n6gVWEnfG3Qgl7CMqAoFMDAjFL
- yT/r9QLC45N653Z4WQkdSdGe3CKHjddE1FL2K/MSsTb41ZUaMXKXaYX2+24q9Yp3Yj
- mxSWK7nKGiiEA==
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id AAEAE2E81C7
- for <qemu-devel@nongnu.org>; Tue,  4 Jan 2022 17:45:46 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1n4nmu-0004oG-37
+ for qemu-devel@nongnu.org; Tue, 04 Jan 2022 12:39:56 -0500
+Received: from [2607:f8b0:4864:20::92d] (port=43934
+ helo=mail-ua1-x92d.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1n4nmr-00076t-Q9
+ for qemu-devel@nongnu.org; Tue, 04 Jan 2022 12:39:55 -0500
+Received: by mail-ua1-x92d.google.com with SMTP id i5so49454007uaq.10
+ for <qemu-devel@nongnu.org>; Tue, 04 Jan 2022 09:39:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=PjDOKUvm2P6W576M8ZAU2rBHORpIL81PfJTfD7CpP8E=;
+ b=0XBjaMIuvgKyaP4iQWcdL9d4DQ3XBVMAmVQ4Ppt4d7gCoM5VmjkpfTL0PI1PJbM5Sz
+ NXaUd2MVM57XjbFyD7jRHmPmssW7/4tOlyIaGavIpkOIqfdXKdxCOlydXBBeK3beiafo
+ DYBHHE3fqys9+V9X79ZGqDGwsvraPqda0LWLtJKaLz97g3h7Yg/6ToZ+HaWsiQ3DlUju
+ Rx29G/1T30eSfXYzI7+apAPTGbEhISwxIDXnRtz2on73TFPEApKBuw93BNV5KDVru4l4
+ oe5OhiebmZPKb8PqR8P6Ug4enKk6puOW0XcyUkKNyCbLMPurH1r0mb+jr2XaVk2AZWQx
+ 4v5w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=PjDOKUvm2P6W576M8ZAU2rBHORpIL81PfJTfD7CpP8E=;
+ b=5OtoFTSOotaf9mAoBQCGzCZTI5AOdMFX6qIDC9FqdbLnemH6F3mrX/Ex0EH86u39Y+
+ COe7dNKzvI82Rvdl7hiiipB7RQ8Ol+Sq046vy2JQhkAS8j7fx0PWpo3WUaxgqT4Hebx5
+ GspKly/6HbOm1VY2ayZY3hH5EosgbcMqWdIaKb0m81Ve+xdRknmmNPph9/gojB8bsfUG
+ pHuufqHPoGVx+eC14x8gMft5ZGLcXSSdv1KYvufAzVmhVVsEr0XfChyDY5lwkiEMLThb
+ WWomFgC4HcqdKwDqbldqY8922NJCLmjb8fr2/zgGiq2Dm3lG4t4jryjizwywfc3/g3nz
+ 8wcw==
+X-Gm-Message-State: AOAM533SEkTTmpiGn6zHlgqPuELCugnzTh5E8RUfHfMX9ZwhC3HySySB
+ 5hteAxFOJFQNFzNmUuJ9MbnIXvrp763mDmwsDD4M1A==
+X-Google-Smtp-Source: ABdhPJzIlDo6kNxQTIuCNQeNjEe5QZba4sBzWNirC0deDPyIe1x1T9KMvF1G0a03sx1pJzFowHtsrpxdY5nKSV+uCGw=
+X-Received: by 2002:a05:6102:ec2:: with SMTP id
+ m2mr16058785vst.6.1641317992628; 
+ Tue, 04 Jan 2022 09:39:52 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 04 Jan 2022 17:39:00 -0000
-From: Brian Murray <1749393@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
- status=Fix Released; importance=Undecided; assignee=None; 
-X-Launchpad-Bug: distribution=ubuntu; distroseries=focal; sourcepackage=qemu;
- component=main; status=Fix Released; importance=Medium;
- assignee=christian.ehrhardt@canonical.com; 
-X-Launchpad-Bug-Tags: arm linux-user qemu-20.10 server-next verification-done
- verification-done-focal
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: brian-murray doko frankwu gerard-f-vidal-4 hertzog
- janitor komainu8 laurent-vivier paelzer peterogden pmaydell racb rth
- sebunger44
-X-Launchpad-Bug-Reporter: =?utf-8?q?Rapha=C3=ABl_Hertzog_=28hertzog=29?=
-X-Launchpad-Bug-Modifier: Brian Murray (brian-murray)
-References: <151859702399.9461.6832978283203997178.malonedeb@chaenomeles.canonical.com>
-Message-Id: <164131794056.14863.16124966196303791434.malone@wampee.canonical.com>
-Subject: [Bug 1749393] Update Released
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="adb364d6a74a28e7b95d51cd30446ec16160de6c"; Instance="production"
-X-Launchpad-Hash: fbd1d118438cdb73e1c35098edf7e6729b7a75b5
-Received-SPF: pass client-ip=185.125.188.250;
- envelope-from=noreply@launchpad.net; helo=smtp-relay-services-0.canonical.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
-X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+References: <20211127201846.64187-1-imp@bsdimp.com>
+ <CANCZdfpUYJZHfSZCZrk05U3K=gUM8gudFDEHjm3xhZU5bX0ztw@mail.gmail.com>
+ <87k0ffl8mh.fsf@linaro.org>
+In-Reply-To: <87k0ffl8mh.fsf@linaro.org>
+From: Warner Losh <imp@bsdimp.com>
+Date: Tue, 4 Jan 2022 10:39:41 -0700
+Message-ID: <CANCZdfo1Ls187QmaK21Uj5R8x5cU=jojG3v8XzuNJGjCabjT3A@mail.gmail.com>
+Subject: Re: [PATCH for 7.0 0/5] bsd-user-smoke: A simple smoke test for
+ bsd-user
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: multipart/alternative; boundary="000000000000ea15ef05d4c51f7e"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::92d
+ (failed)
+Received-SPF: none client-ip=2607:f8b0:4864:20::92d;
+ envelope-from=wlosh@bsdimp.com; helo=mail-ua1-x92d.google.com
+X-Spam_score_int: 8
+X-Spam_score: 0.8
+X-Spam_bar: /
+X-Spam_report: (0.8 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -92,128 +81,239 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1749393 <1749393@bugs.launchpad.net>
+Cc: Gleb Popov <arrowd@freebsd.org>, Kyle Evans <kevans@freebsd.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Konrad Witaszczyk <def@freebsd.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The verification of the Stable Release Update for qemu has completed
-successfully and the package is now being released to -updates.
-Subsequently, the Ubuntu Stable Release Updates Team is being
-unsubscribed and will not receive messages about this bug report.  In
-the event that you encounter a regression using the package from
--updates please report a new bug using ubuntu-bug and tag the bug report
-regression-update so we can easily find any regressions.
+--000000000000ea15ef05d4c51f7e
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
---=20
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1749393
+On Tue, Jan 4, 2022 at 10:21 AM Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
+rote:
 
-Title:
-  sbrk() not working under qemu-user with a PIE-compiled binary?
+>
+> Warner Losh <imp@bsdimp.com> writes:
+>
+> > PING!
+> >
+> > If anybody (especially the BSD reviewers) could look at these, that
+> would be great!
+> >
+> > It's been suggested I rename bsd-user-smoke to just be bsd-user and we
+> put our tests there until we can switch to the more generic tcg
+> > tests, so I'll do that and resend in a few days.
+>
+> That seems reasonable. I'm curious how much of check-tcg runs on BSD at
+> the moment?
+>
 
-Status in QEMU:
-  Fix Released
-Status in qemu package in Ubuntu:
-  Fix Released
-Status in qemu source package in Focal:
-  Fix Released
+About 1/3-1/2 on x86 (due to lack of signal support, the x86 stuff is
+pretty basic since it's
+really never evolved past it's early Blue Swirl origin phase). On other
+platforms, you
+need a 'sysroot' to build with the cross compiler specified. FreeBSD has
+the compiler
+built to build for any target by default, but not the sysroot needed and we
+don't
+currently have a good sysroot package that would easily drop into
+automation. The
+smoke test is carefully crafted to not need this. To be honest, I've not
+yet tested other
+architectures due to this issue with check-tcg, but will do so now that I'm
+back from
+the holidays. There's some other issues with bsd-user I need to focus on
+first (more
+changes to sys/user.h breaking the build leading to much downstream angst).
 
-Bug description:
-  [Impact]
+Warner
 
-  =C2=A0* The current space reserved can be too small and we can end up
-  =C2=A0=C2=A0=C2=A0with no space at all for BRK. It can happen to any case=
-, but is
-  =C2=A0=C2=A0=C2=A0much more likely with the now common PIE binaries.
 
-  =C2=A0* Backport the upstream fix which reserves a bit more space while l=
-oading
-  =C2=A0=C2=A0=C2=A0and giving it back after interpreter and stack is loade=
-d.
+> >
+> > Warner
+> >
+> > On Sat, Nov 27, 2021 at 1:19 PM Warner Losh <imp@bsdimp.com> wrote:
+> >
+> >  This series adds a number of simple binaries that FreeBSD's clang can
+> build on
+> >  any system. I've kept it simple so that there's no extra binaries that
+> need to
+> >  be installed. Given the current state of bsd-user in the project's
+> repo, this
+> >  likely is as extensive a set of tests that should be done right now. W=
+e
+> can load
+> >  static binaries only (so these are static binaries) and hello world is
+> the
+> >  canonical test. I have binaries for all the supported FreeBSD targets,
+> but have
+> >  included only the ones that are in upstream (or in review) at this tim=
+e.
+> >
+> >  In the future, I'll integreate with the tcg tests when there's more in
+> upstream
+> >  they can test.  Since that requires putting together FreeBSD sysroots
+> for all
+> >  the supported architectures for multiple versions, I'm going to delay
+> that for a
+> >  while. I'll also integrate FreeBSD's 5k system tests when we're much
+> further
+> >  along with the upstreaming.
+> >
+> >  The purpose of this is to give others doing changes in this area a
+> standardized
+> >  way to ensure their changes don't fundamentally break bsd-user. This
+> approach
+> >  will work for all setups that do a 'make check' to do their testing.
+> >
+> >  Based-on: 20211108035136.43687-1-imp@bsdimp.com
+> >
+> >  Warner Losh (5):
+> >    h.armv7: Simple hello-world test for armv7
+> >    h.i386: Simple hello-world test for i386
+> >    h.amd64: Simple hello-world test for x86_64
+> >    smoke-bsd-user: A test script to run all the FreeBSD binaries
+> >    bsd-user-smoke: Add to build
+> >
+> >   tests/bsd-user-smoke/h.amd64.S      | 28 +++++++++++++++++++++
+> >   tests/bsd-user-smoke/h.armv7.S      | 37 +++++++++++++++++++++++++++
+> >   tests/bsd-user-smoke/h.i386.S       | 39 ++++++++++++++++++++++++++++=
++
+> >   tests/bsd-user-smoke/meson.build    | 31 +++++++++++++++++++++++
+> >   tests/bsd-user-smoke/smoke-bsd-user | 22 ++++++++++++++++
+> >   tests/meson.build                   |  1 +
+> >   6 files changed, 158 insertions(+)
+> >   create mode 100644 tests/bsd-user-smoke/h.amd64.S
+> >   create mode 100644 tests/bsd-user-smoke/h.armv7.S
+> >   create mode 100644 tests/bsd-user-smoke/h.i386.S
+> >   create mode 100644 tests/bsd-user-smoke/meson.build
+> >   create mode 100644 tests/bsd-user-smoke/smoke-bsd-user
+> >
+> >  --
+> >  2.33.0
+>
+>
+> --
+> Alex Benn=C3=A9e
+>
 
-  [Test Plan]
+--000000000000ea15ef05d4c51f7e
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-  =C2=A0* On x86 run:
-  sudo apt install -y qemu-user-static docker.io
-  sudo docker run --rm arm64v8/debian:bullseye bash -c 'apt update && apt i=
-nstall -y wget'
-  ...
-  Running hooks in /etc/ca-certificates/update.d...
-  done.
-  Errors were encountered while processing:
-  =C2=A0libc-bin
-  E: Sub-process /usr/bin/dpkg returned an error code (1)
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Tue, Jan 4, 2022 at 10:21 AM Alex =
+Benn=C3=A9e &lt;<a href=3D"mailto:alex.bennee@linaro.org">alex.bennee@linar=
+o.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"ma=
+rgin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:=
+1ex"><br>
+Warner Losh &lt;<a href=3D"mailto:imp@bsdimp.com" target=3D"_blank">imp@bsd=
+imp.com</a>&gt; writes:<br>
+<br>
+&gt; PING!<br>
+&gt;<br>
+&gt; If anybody (especially the BSD reviewers) could look at these, that wo=
+uld be great!<br>
+&gt;<br>
+&gt; It&#39;s been suggested I rename bsd-user-smoke to just be bsd-user an=
+d we put our tests there until we can switch to the more generic tcg<br>
+&gt; tests, so I&#39;ll do that and resend in a few days.<br>
+<br>
+That seems reasonable. I&#39;m curious how much of check-tcg runs on BSD at=
+<br>
+the moment?<br></blockquote><div><br></div><div>About 1/3-1/2 on x86 (due t=
+o lack of signal support, the x86 stuff is pretty basic since it&#39;s</div=
+><div>really never evolved past it&#39;s early Blue Swirl origin phase). On=
+ other platforms, you</div><div>need a &#39;sysroot&#39; to build with the =
+cross compiler specified. FreeBSD has the compiler</div><div>built to build=
+ for any target by default, but not the sysroot needed and we don&#39;t</di=
+v><div>currently have a good sysroot package that would easily drop into au=
+tomation. The</div><div>smoke test is carefully crafted to not need this. T=
+o be honest, I&#39;ve not yet tested other</div><div>architectures due to t=
+his issue with check-tcg, but will do so now that I&#39;m back from</div><d=
+iv>the holidays. There&#39;s some other issues with bsd-user I need to focu=
+s on first (more</div><div>changes to sys/user.h breaking the build leading=
+ to much downstream angst).</div><div><br></div><div>Warner</div><div>=C2=
+=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
+x;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+&gt;<br>
+&gt; Warner<br>
+&gt;<br>
+&gt; On Sat, Nov 27, 2021 at 1:19 PM Warner Losh &lt;<a href=3D"mailto:imp@=
+bsdimp.com" target=3D"_blank">imp@bsdimp.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt;=C2=A0 This series adds a number of simple binaries that FreeBSD&#39;s =
+clang can build on<br>
+&gt;=C2=A0 any system. I&#39;ve kept it simple so that there&#39;s no extra=
+ binaries that need to<br>
+&gt;=C2=A0 be installed. Given the current state of bsd-user in the project=
+&#39;s repo, this<br>
+&gt;=C2=A0 likely is as extensive a set of tests that should be done right =
+now. We can load<br>
+&gt;=C2=A0 static binaries only (so these are static binaries) and hello wo=
+rld is the<br>
+&gt;=C2=A0 canonical test. I have binaries for all the supported FreeBSD ta=
+rgets, but have<br>
+&gt;=C2=A0 included only the ones that are in upstream (or in review) at th=
+is time.<br>
+&gt;<br>
+&gt;=C2=A0 In the future, I&#39;ll integreate with the tcg tests when there=
+&#39;s more in upstream<br>
+&gt;=C2=A0 they can test.=C2=A0 Since that requires putting together FreeBS=
+D sysroots for all<br>
+&gt;=C2=A0 the supported architectures for multiple versions, I&#39;m going=
+ to delay that for a<br>
+&gt;=C2=A0 while. I&#39;ll also integrate FreeBSD&#39;s 5k system tests whe=
+n we&#39;re much further<br>
+&gt;=C2=A0 along with the upstreaming.<br>
+&gt;<br>
+&gt;=C2=A0 The purpose of this is to give others doing changes in this area=
+ a standardized<br>
+&gt;=C2=A0 way to ensure their changes don&#39;t fundamentally break bsd-us=
+er. This approach<br>
+&gt;=C2=A0 will work for all setups that do a &#39;make check&#39; to do th=
+eir testing.<br>
+&gt;<br>
+&gt;=C2=A0 Based-on: <a href=3D"mailto:20211108035136.43687-1-imp@bsdimp.co=
+m" target=3D"_blank">20211108035136.43687-1-imp@bsdimp.com</a><br>
+&gt;<br>
+&gt;=C2=A0 Warner Losh (5):<br>
+&gt;=C2=A0 =C2=A0 h.armv7: Simple hello-world test for armv7<br>
+&gt;=C2=A0 =C2=A0 h.i386: Simple hello-world test for i386<br>
+&gt;=C2=A0 =C2=A0 h.amd64: Simple hello-world test for x86_64<br>
+&gt;=C2=A0 =C2=A0 smoke-bsd-user: A test script to run all the FreeBSD bina=
+ries<br>
+&gt;=C2=A0 =C2=A0 bsd-user-smoke: Add to build<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0tests/bsd-user-smoke/h.amd64.S=C2=A0 =C2=A0 =C2=A0 | 28 ++=
++++++++++++++++++++<br>
+&gt;=C2=A0 =C2=A0tests/bsd-user-smoke/h.armv7.S=C2=A0 =C2=A0 =C2=A0 | 37 ++=
++++++++++++++++++++++++++<br>
+&gt;=C2=A0 =C2=A0tests/bsd-user-smoke/h.i386.S=C2=A0 =C2=A0 =C2=A0 =C2=A0| =
+39 +++++++++++++++++++++++++++++<br>
+&gt;=C2=A0 =C2=A0tests/bsd-user-smoke/meson.build=C2=A0 =C2=A0 | 31 +++++++=
+++++++++++++++++<br>
+&gt;=C2=A0 =C2=A0tests/bsd-user-smoke/smoke-bsd-user | 22 ++++++++++++++++<=
+br>
+&gt;=C2=A0 =C2=A0tests/meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 1 +<br>
+&gt;=C2=A0 =C2=A06 files changed, 158 insertions(+)<br>
+&gt;=C2=A0 =C2=A0create mode 100644 tests/bsd-user-smoke/h.amd64.S<br>
+&gt;=C2=A0 =C2=A0create mode 100644 tests/bsd-user-smoke/h.armv7.S<br>
+&gt;=C2=A0 =C2=A0create mode 100644 tests/bsd-user-smoke/h.i386.S<br>
+&gt;=C2=A0 =C2=A0create mode 100644 tests/bsd-user-smoke/meson.build<br>
+&gt;=C2=A0 =C2=A0create mode 100644 tests/bsd-user-smoke/smoke-bsd-user<br>
+&gt;<br>
+&gt;=C2=A0 -- <br>
+&gt;=C2=A0 2.33.0<br>
+<br>
+<br>
+-- <br>
+Alex Benn=C3=A9e<br>
+</blockquote></div></div>
 
- =20
-  Second test from bug 1928075
-
-  $ sudo qemu-debootstrap --arch=3Darm64 bullseye bullseye-arm64
-  http://ftp.debian.org/debian
-
-  In the bad case this is failing like
-  W: Failure trying to run: /sbin/ldconfig
-  W: See //debootstrap/debootstrap.log for detail
-
-  And in that log file you'll see the segfault
-  $ tail -n 2 bullseye-arm64/debootstrap/debootstrap.log
-  qemu: uncaught target signal 11 (Segmentation fault) - core dumped
-  Segmentation fault (core dumped)
-
-  [Where problems could occur]
-
-  =C2=A0* Regressions would be around use-cases of linux-user that is
-  =C2=A0=C2=A0=C2=A0emulation not of a system but of binaries.
-  =C2=A0=C2=A0=C2=A0Commonly uses for cross-tests and cross-builds so that =
-is the
-  =C2=A0=C2=A0=C2=A0space to watch for regressions
-
-  [Other Info]
-
-  =C2=A0* n/a
-
-  ---
-
-  In Debian unstable, we recently switched bash to be a PIE-compiled
-  binary (for hardening). Unfortunately this resulted in bash being
-  broken when run under qemu-user (for all target architectures, host
-  being amd64 for me).
-
-  $ sudo chroot /srv/chroots/sid-i386/ qemu-i386-static /bin/bash
-  bash: xmalloc: .././shell.c:1709: cannot allocate 10 bytes (0 bytes alloc=
-ated)
-
-  bash has its own malloc implementation based on sbrk():
-  https://git.savannah.gnu.org/cgit/bash.git/tree/lib/malloc/malloc.c
-
-  When we disable this internal implementation and rely on glibc's
-  malloc, then everything is fine. But it might be that glibc has a
-  fallback when sbrk() is not working properly and it might hide the
-  underlying problem in qemu-user.
-
-  This issue has also been reported to the bash upstream author and he sugg=
-ested that the issue might be in qemu-user so I'm opening a ticket here. He=
-re's the discussion with the bash upstream author:
-  https://lists.gnu.org/archive/html/bug-bash/2018-02/threads.html#00080
-
-  You can find the problematic bash binary in that .deb file:
-  http://snapshot.debian.org/archive/debian/20180206T154716Z/pool/main/b/ba=
-sh/bash_4.4.18-1_i386.deb
-
-  The version of qemu I have been using is 2.11 (Debian package qemu-
-  user-static version 1:2.11+dfsg-1) but I have had reports that the
-  problem is reproducible with older versions (back to 2.8 at least).
-
-  Here are the related Debian bug reports:
-  https://bugs.debian.org/889869
-  https://bugs.debian.org/865599
-
-  It's worth noting that bash used to have this problem (when compiled as a=
- PIE binary) even when run directly but then something got fixed in the ker=
-nel and now the problem only appears when run under qemu-user:
-  https://bugs.launchpad.net/ubuntu/+source/linux/+bug/1518483
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1749393/+subscriptions
-
+--000000000000ea15ef05d4c51f7e--
 
