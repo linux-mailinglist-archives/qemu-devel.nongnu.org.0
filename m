@@ -2,63 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D047483FA7
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 11:11:13 +0100 (CET)
-Received: from localhost ([::1]:44518 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC57A48402D
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 11:54:13 +0100 (CET)
+Received: from localhost ([::1]:54158 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n4gme-0007f3-Cv
-	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 05:11:12 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46642)
+	id 1n4hSG-0008Kt-9Z
+	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 05:54:12 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56206)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1n4gkl-00069k-Ss
- for qemu-devel@nongnu.org; Tue, 04 Jan 2022 05:09:15 -0500
-Received: from 9.mo552.mail-out.ovh.net ([87.98.180.222]:56197)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1n4gkj-0003DI-3E
- for qemu-devel@nongnu.org; Tue, 04 Jan 2022 05:09:15 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.109.146.107])
- by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 035EE2199A;
- Tue,  4 Jan 2022 10:09:09 +0000 (UTC)
-Received: from kaod.org (37.59.142.96) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.17; Tue, 4 Jan
- 2022 11:09:09 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-96R001b5645bea-052f-4230-b6aa-c72c40d4e290,
- 8E52E0D80BCA28EB10B868BCDB857CC95652C900) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <ca700ead-7cf1-6d8c-12f6-9d03b547d517@kaod.org>
-Date: Tue, 4 Jan 2022 11:09:08 +0100
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1n4hR1-0007WQ-W4
+ for qemu-devel@nongnu.org; Tue, 04 Jan 2022 05:52:56 -0500
+Received: from [2a00:1450:4864:20::332] (port=37520
+ helo=mail-wm1-x332.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1n4hR0-0000nL-4x
+ for qemu-devel@nongnu.org; Tue, 04 Jan 2022 05:52:55 -0500
+Received: by mail-wm1-x332.google.com with SMTP id
+ a203-20020a1c7fd4000000b003457874263aso22482685wmd.2
+ for <qemu-devel@nongnu.org>; Tue, 04 Jan 2022 02:52:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=7aQll3SEqob5yxnCdeLvuddHbnieO8WwXAcfaxO2gqc=;
+ b=zG6Ip773ytUn+uA5w8Rj4Hc+i4gZNH52j/MDVzTcpt10LbKEThI/9J754DmKFm8ilJ
+ 9GBA1rbZrmj6BcWn6V1WtxlbJ9AedQHO3DhkbhIp3EeBboqwmgU4TtgySpAAejqk+qcD
+ BIkk+szw7ivIg6pCRAAkQzqw5D/72K9dNrWlqGPhqgiFgX5nRDD4MrHuj2axJ/DsTYiL
+ 8r0zIlArQZexJ0VnhUVzgUTPkD0AF00grLtHofESFtTlLkV4GjL8ga0nyCMTjPXHh0Zt
+ 6dLDuECdEsRWQMdcPHt4ZCcRLlJ57/Qemr1l/rU3ip2Jc36iGE11nvPu2VdByhK+m0kB
+ JmPw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=7aQll3SEqob5yxnCdeLvuddHbnieO8WwXAcfaxO2gqc=;
+ b=Glg2TbC8SeIfg9VWf161PbBcTWk6MGTiAVHh4P9BkNTEw1CgknQwwojIFUocrkCT/V
+ JxFtPv4+D4QNOGA6NO4v0edHoKI1Afkg9UpanjEmA0IuG3uT4vEHHiqLPYw0Bv2Df3dW
+ Ld9PDoIqyvdoTjBiqCTlJukdSll8cDUSlAoIE5BF5F9+VSEZHnStFvt0OluzpmcCgLGF
+ Hol0tkgPFr1aD9f37V9AEuw4xZX28AO73SmdJp+IYNNmc5zFGmdRfN9H8dhc1xoqrqs3
+ 0/4uy/eJ6CXRxj7hbU+D9iDMn19A6i1zyJW+2Y19GQ8/EqsTTW7/HI5zXPEnk1dhR2QZ
+ rH2A==
+X-Gm-Message-State: AOAM532wfmXQW00NjsY73ekACJ8DztnsV/kni72/D2/Ahj2iuBBR0LC3
+ dEg2tSrexZ4kdOVQQtXLBJEXZw==
+X-Google-Smtp-Source: ABdhPJwWcJrvqFFWm4RNtlcTulg8eQl7gbCa76X9jLGkF/VS7UXKgubI5+980M7SVTvetNSzB3An9Q==
+X-Received: by 2002:a05:600c:4e15:: with SMTP id
+ b21mr42150177wmq.91.1641293572488; 
+ Tue, 04 Jan 2022 02:52:52 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id w9sm6843841wrq.70.2022.01.04.02.52.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 04 Jan 2022 02:52:51 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 890D31FFB7;
+ Tue,  4 Jan 2022 10:52:50 +0000 (GMT)
+References: <20211223030149.1947418-1-richard.henderson@linaro.org>
+ <1b988844-075d-beb3-7fd1-a26f30e9f5dc@gmail.com>
+ <87fsq4dfck.fsf@linaro.org>
+ <328302bb-b916-8d13-70e6-e6f88b0745db@gmail.com>
+User-agent: mu4e 1.7.5; emacs 28.0.90
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Daniel Henrique Barboza <danielhb413@gmail.com>
+Subject: Re: [PATCH 0/3] Reorg ppc64 pmu insn counting
+Date: Tue, 04 Jan 2022 10:32:01 +0000
+In-reply-to: <328302bb-b916-8d13-70e6-e6f88b0745db@gmail.com>
+Message-ID: <875yqzn56l.fsf@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH 5/9] target/ppc: Use ppc_interrupts_little_endian in
- powerpc_excp
-Content-Language: en-US
-To: Fabiano Rosas <farosas@linux.ibm.com>, <qemu-devel@nongnu.org>
-References: <20220103220746.3916246-1-farosas@linux.ibm.com>
- <20220103220746.3916246-6-farosas@linux.ibm.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20220103220746.3916246-6-farosas@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.96]
-X-ClientProxiedBy: DAG7EX1.mxp5.local (172.16.2.61) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 1b792582-f469-408d-b65b-e41538d74294
-X-Ovh-Tracer-Id: 2073063205278878502
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrudeffedguddvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtjeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhephffhleegueektdetffdvffeuieeugfekkeelheelteeftdfgtefffeehueegleehnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopegurghnihgvlhhhsgegudefsehgmhgrihhlrdgtohhm
-Received-SPF: pass client-ip=87.98.180.222; envelope-from=clg@kaod.org;
- helo=9.mo552.mail-out.ovh.net
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) NICE_REPLY_A=-3.354,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::332
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x332.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -71,63 +94,124 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: richard.henderson@linaro.org, danielhb413@gmail.com, qemu-ppc@nongnu.org,
+Cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org,
+ Richard Henderson <richard.henderson@linaro.org>, clg@kaod.org,
  david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/3/22 23:07, Fabiano Rosas wrote:
-> The ppc_interrupts_little_endian function is suitable for determining
-> the endianness of interrupts for all Book3S CPUs.
-> 
-> (I'm keeping the MSR check for the rest of the CPUs, but it will go
-> away in the next patch.)
-> 
-> Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
-> ---
->   target/ppc/excp_helper.c | 21 ++-------------------
->   1 file changed, 2 insertions(+), 19 deletions(-)
-> 
-> diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-> index 0dbadc5d07..5d31940426 100644
-> --- a/target/ppc/excp_helper.c
-> +++ b/target/ppc/excp_helper.c
-> @@ -760,25 +760,8 @@ static inline void powerpc_excp(PowerPCCPU *cpu, int excp)
->        * CPU, the HV mode, etc...
->        */
->   #ifdef TARGET_PPC64
-> -    if (excp_model == POWERPC_EXCP_POWER7) {
-> -        if (!(new_msr & MSR_HVB) && (env->spr[SPR_LPCR] & LPCR_ILE)) {
-> -            new_msr |= (target_ulong)1 << MSR_LE;
-> -        }
-> -    } else if (excp_model == POWERPC_EXCP_POWER8) {
-> -        if (new_msr & MSR_HVB) {
-> -            if (env->spr[SPR_HID0] & HID0_HILE) {
-> -                new_msr |= (target_ulong)1 << MSR_LE;
-> -            }
-> -        } else if (env->spr[SPR_LPCR] & LPCR_ILE) {
-> -            new_msr |= (target_ulong)1 << MSR_LE;
-> -        }
-> -    } else if (excp_model == POWERPC_EXCP_POWER9 ||
-> -               excp_model == POWERPC_EXCP_POWER10) {
-> -        if (new_msr & MSR_HVB) {
-> -            if (env->spr[SPR_HID0] & HID0_POWER9_HILE) {
-> -                new_msr |= (target_ulong)1 << MSR_LE;
-> -            }
-> -        } else if (env->spr[SPR_LPCR] & LPCR_ILE) {
-> +    if (excp_model >= POWERPC_EXCP_970) {
 
-why include POWERPC_EXCP_970 ? These CPUs do not support Little Endian.
+Daniel Henrique Barboza <danielhb413@gmail.com> writes:
 
-Thanks,
+> On 1/3/22 12:07, Alex Benn=C3=A9e wrote:
+>> Daniel Henrique Barboza <danielhb413@gmail.com> writes:
+>>=20
+>>> On 12/23/21 00:01, Richard Henderson wrote:
+>>>> In contrast to Daniel's version, the code stays in power8-pmu.c,
+>>>> but is better organized to not take so much overhead.
+>>>> Before:
+>>>>       32.97%  qemu-system-ppc  qemu-system-ppc64   [.] pmc_get_event
+>>>>       20.22%  qemu-system-ppc  qemu-system-ppc64   [.] helper_insns_inc
+>>>>        4.52%  qemu-system-ppc  qemu-system-ppc64   [.] hreg_compute_hf=
+lags_value
+>>>>        3.30%  qemu-system-ppc  qemu-system-ppc64   [.] helper_lookup_t=
+b_ptr
+>>>>        2.68%  qemu-system-ppc  qemu-system-ppc64   [.] tcg_gen_code
+>>>>        2.28%  qemu-system-ppc  qemu-system-ppc64   [.] cpu_exec
+>>>>        1.84%  qemu-system-ppc  qemu-system-ppc64   [.] pmu_insn_cnt_en=
+abled
+>>>> After:
+>>>>        8.42%  qemu-system-ppc  qemu-system-ppc64   [.]
+>>>> hreg_compute_hflags_value
+>>>>        6.65%  qemu-system-ppc  qemu-system-ppc64   [.] cpu_exec
+>>>>        6.63%  qemu-system-ppc  qemu-system-ppc64   [.] helper_insns_inc
+>>>>
+>>>
+>>> Thanks for looking this up. I had no idea the original C code was that =
+slow.
+>>>
+>> <snip>
+>>>
+>>> With that in mind I decided to post a new version of my TCG rework, wit=
+h less repetition and
+>>> a bit more concise, to have an alternative that can be used upstream to=
+ fix the Avocado tests.
+>>> Meanwhile I'll see if I can get your reorg working with all EBB tests w=
+e need. All things
+>>> equal - similar performance, all EBB tests passing - I'd rather stay wi=
+th your C code than my
+>>> TCG rework since yours doesn't rely on TCG Ops knowledge to maintain
+>>> it.
+>> Reading this series did make me wonder if we need a more generic
+>> service
+>> from the TCG for helping with "internal" instrumentation needed for
+>> things like decent PMU emulation. We haven't gone as much for it in ARM
+>> yet but it would be nice to. It would be even nicer if such a facility
+>> could be used by stuff like icount as well so we don't end up doing the
+>> same thing twice.
+>
+> Back in May 2021 when I first starting working on this code I tried to ba=
+se myself in the
+> ARM PMU code. In fact, the cycle and insn calculation done in the very fi=
+rst version of
+> this work was based on what ARM does in target/arm/helper.c, cycles_get_c=
+ount() and
+> instructions_get_count(). The cycle calculation got simplified because ou=
+r PPC64 CPU
+> has a 1Ghz clock so it's easier to just consider 1ns =3D 1 cycle.
+>
+> For instruction count, aside from my 2-3 weeks of spectacular failures tr=
+ying to count
+> instructions inside translate.c, I also looked into how TCG plugins work =
+and tried to do
+> something similar to what plugin_gen_tb_end() does at the end of the tran=
+slator_loop()
+> in accel/tcg/translator.c. For some reason I wasn't able to replicate the=
+ same behavior
+> that I would have if I used the TCG plugin framework in the
+> 'canonical' way.
 
-C.
+plugin_gen_tb_end is probably overkill because we should already know
+how many instructions there are in a translated block on account of the
+insn_start and insn_end ops that mark them. In fact see gen_tb_end()
+which is where icount updates the value used in the decrement at the
+start of each block. Assuming no synchronous exceptions occur you could
+just increment a counter at the end of the block as no async IRQs will
+occur until we have executed all of those instructions.
 
+Of course it's never quite so simple and when running in full icount
+mode we have to take into account exceptions that can be triggered by IO
+accesses. This involves doing a re-translation to ensures the IO
+instruction is always the last we execute.
 
-> +        if (ppc_interrupts_little_endian(cpu, !!(new_msr & MSR_HVB))) {
->               new_msr |= (target_ulong)1 << MSR_LE;
->           }
->       } else if (msr_ile) {
-> 
+I'm guessing for PMU counters to be somewhat correct we would want to
+ensure updates throughout the block (before each memory op and helper
+call). This would hopefully avoid the cost of "full" icount support
+which is only single threaded. However this is the opposite to icount's
+budget and pre-decrement approach which feels messier than it could be.
 
+> I ended up doing something similar to what instructions_get_count() from =
+ARM does, which
+> relies on icount. Richard then aided me in figuring out that I could coun=
+t instructions
+> directly by tapping into the end of each TB.
+
+instructions_get_count will also work without icount but is affected by
+wall clock time distortions in that case.
+
+> So, for a generic service of sorts I believe it would be nice to re-use t=
+he TCG plugins
+> API in the internal instrumentation (I tried it once, failed, not sure if=
+ I messed up
+> or it's not possible ATM). That would be a good start to try to get all t=
+his logic in a
+> generic code for internal translate code to use.
+
+Agreed - although the plugin specific stuff is really just focused on
+our limited visibility API. Unless you are referring to
+accel/tcg/plugin-gen.c which are just helpers for manipulating the TCG
+ops after the initial translation.
+
+--=20
+Alex Benn=C3=A9e
 
