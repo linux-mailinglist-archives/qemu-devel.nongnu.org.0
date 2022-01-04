@@ -2,60 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9131F483A83
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 03:17:39 +0100 (CET)
-Received: from localhost ([::1]:47586 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99439483A86
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 03:18:19 +0100 (CET)
+Received: from localhost ([::1]:49264 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n4ZOM-0004AU-2s
-	for lists+qemu-devel@lfdr.de; Mon, 03 Jan 2022 21:17:38 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50920)
+	id 1n4ZP0-0005Jo-O5
+	for lists+qemu-devel@lfdr.de; Mon, 03 Jan 2022 21:18:18 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51010)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1n4ZM0-00023r-Gm; Mon, 03 Jan 2022 21:15:12 -0500
-Received: from szxga02-in.huawei.com ([45.249.212.188]:3066)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1n4ZLy-00086L-Cj; Mon, 03 Jan 2022 21:15:11 -0500
-Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.55])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4JSblq0PFVzbjmB;
- Tue,  4 Jan 2022 10:14:31 +0800 (CST)
-Received: from [10.174.187.128] (10.174.187.128) by
- dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.1.2308.20; Tue, 4 Jan 2022 10:15:03 +0800
-Subject: Re: [PATCH v6 6/7] hw/arm/virt-acpi-build: Support cluster level in
- PPTT generation
-To: Andrew Jones <drjones@redhat.com>
-CC: <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>, Peter Maydell
- <peter.maydell@linaro.org>, "Michael S . Tsirkin" <mst@redhat.com>, Igor
- Mammedov <imammedo@redhat.com>, Shannon Zhao <shannon.zhaosl@gmail.com>, Ani
- Sinha <ani@anisinha.ca>, Eric Auger <eauger@redhat.com>,
- <wanghaibin.wang@huawei.com>
-References: <20220103084636.2496-1-wangyanan55@huawei.com>
- <20220103084636.2496-7-wangyanan55@huawei.com>
- <20220103113238.g3vk7nxmgefxe2gn@gator>
-Message-ID: <845ec56e-7a06-3774-2dab-c50040b59f4e@huawei.com>
-Date: Tue, 4 Jan 2022 10:15:03 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1n4ZMZ-0002eV-K5
+ for qemu-devel@nongnu.org; Mon, 03 Jan 2022 21:15:47 -0500
+Received: from [2607:f8b0:4864:20::1033] (port=47035
+ helo=mail-pj1-x1033.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1n4ZMX-00089h-TX
+ for qemu-devel@nongnu.org; Mon, 03 Jan 2022 21:15:47 -0500
+Received: by mail-pj1-x1033.google.com with SMTP id
+ rj2-20020a17090b3e8200b001b1944bad25so1534798pjb.5
+ for <qemu-devel@nongnu.org>; Mon, 03 Jan 2022 18:15:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=L6wMKf9WQuJh0uf86l3yzSvA28qzOgjbwZds66MwlPw=;
+ b=UxeD8JHmai/WAerESFfwJOEVN6WSZGiwu9RjZlo/9Frjena1QEFP3GF/BFKqbtXpL/
+ 1XHPRsZ5X8swg/CdmasZMD65rrV3fy+aScA8LxAnHvbPs0wgN7wHHRQAyl+PfaeZCaBz
+ 4EMM0+pzOuBZKQNv6Q6gBrcUbFXBG2eoHnFcMblc0T4huU0OT5i2pCc5ss7irvNedUv1
+ AXid/4wRmLfBj0nV3/L5goB9OJ1Up1go4BqP1RI20fePzW/q2J4NwUqSSdJjV/9Keoy7
+ ws1tPzJLTTb3/R17Q6uixm0eflFZPzkVCxky4yjieb+E/bLVRq5oum1hGXrS6JCCTNl/
+ 0mAA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=L6wMKf9WQuJh0uf86l3yzSvA28qzOgjbwZds66MwlPw=;
+ b=O6eU+skIKBE0S/hSsmHnfy8iMv82xd8wkz/aOp6YIkgZIhafUyUlfVJUqLbj0Br/Qe
+ m/HiyvyXZzFusknlG9iruVXbBNc609OJwBT671csbuse/EjfAu80sUS+C0o/KOm6eZhy
+ ZTZxLLKOpfdwQIIhTBUnJUczN0rNbNC+wprjtUzrjyF1gjVMocN+MDSPtLQNyaaZFsXL
+ nQKctsAlGiGkTO3/bzyK2NN74i625t7wk2FHCTYbOKTk2K+zuzkQSSz6GOx4i5xHyj/c
+ DOIcROKG5fu1y9SLh95Qe743O3NtdXViHvlwmge8FXNleSO5f5Sc2dc2ntSC+Uuhfs56
+ psyA==
+X-Gm-Message-State: AOAM532oeV3A9/Opelreno2/S6UnRanwkUdr/cKNi2olWZzQb8AN4ai2
+ NtHioVPapan/nrk78VO9B6QHbXbl81CpqA==
+X-Google-Smtp-Source: ABdhPJwtfbcGksSwabr3NEEmefKEFOu1GF6Jae1BEDmCjmr4+Piq1OovQtl5vDX9CF9bwXObdEOeZQ==
+X-Received: by 2002:a17:902:7146:b0:149:537e:e35e with SMTP id
+ u6-20020a170902714600b00149537ee35emr46711991plm.55.1641262544272; 
+ Mon, 03 Jan 2022 18:15:44 -0800 (PST)
+Received: from localhost.localdomain (174-21-75-75.tukw.qwest.net.
+ [174.21.75.75])
+ by smtp.gmail.com with ESMTPSA id b4sm37395501pjm.17.2022.01.03.18.15.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 03 Jan 2022 18:15:43 -0800 (PST)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v4 0/7] Unaligned access for user only
+Date: Mon,  3 Jan 2022 18:15:36 -0800
+Message-Id: <20220104021543.396571-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20220103113238.g3vk7nxmgefxe2gn@gator>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Originating-IP: [10.174.187.128]
-X-ClientProxiedBy: dggeme714-chm.china.huawei.com (10.1.199.110) To
- dggpemm500023.china.huawei.com (7.185.36.83)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.188;
- envelope-from=wangyanan55@huawei.com; helo=szxga02-in.huawei.com
-X-Spam_score_int: -56
-X-Spam_score: -5.7
-X-Spam_bar: -----
-X-Spam_report: (-5.7 / 5.0 requ) NICE_REPLY_A=-3.354, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1033
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1033.google.com
+X-Spam_score_int: 6
+X-Spam_score: 0.6
+X-Spam_bar: /
+X-Spam_report: (0.6 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -68,58 +86,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: git@xen0n.name, peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  "wangyanan (Y)" <wangyanan55@huawei.com>
-From:  "wangyanan (Y)" via <qemu-devel@nongnu.org>
+
+Version 3 was way back in August:
+
+https://lore.kernel.org/qemu-devel/20210818191920.390759-1-richard.henderson@linaro.org/
+
+Quite a few of the patches in there have been merged, but not all.
+
+Based-on: <20211227150127.2659293-1-richard.henderson@linaro.org>
+
+There are follow-on patch sets for arm, mips, and sparc, which I
+will be refreshing soon.  Xuerui, I believe that tcg/loongarch
+should be as simple as one of these five.
 
 
-On 2022/1/3 19:32, Andrew Jones wrote:
-> On Mon, Jan 03, 2022 at 04:46:35PM +0800, Yanan Wang wrote:
->> Support cluster level in generation of ACPI Processor Properties
->> Topology Table (PPTT) for ARM virt machines.
->>
->> Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
->> ---
->>   hw/arm/virt-acpi-build.c | 15 +++++++++++++++
->>   1 file changed, 15 insertions(+)
->>
->> diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
->> index 3ce7680393..5f91969688 100644
->> --- a/hw/arm/virt-acpi-build.c
->> +++ b/hw/arm/virt-acpi-build.c
->> @@ -840,6 +840,21 @@ build_pptt(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
->>               0, socket, NULL, 0);
->>       }
->>   
->> +    length = g_queue_get_length(list);
->> +    for (i = 0; i < length; i++) {
->> +        int cluster;
->> +
->> +        father_offset = GPOINTER_TO_UINT(g_queue_pop_head(list));
->> +        for (cluster = 0; cluster < ms->smp.clusters; cluster++) {
->> +            g_queue_push_tail(list,
->> +                GUINT_TO_POINTER(table_data->len - pptt_start));
->> +            build_processor_hierarchy_node(
->> +                table_data,
->> +                (0 << 0), /* not a physical package */
->> +                father_offset, cluster, NULL, 0);
->> +        }
->> +    }
->> +
->>       length = g_queue_get_length(list);
->>       for (i = 0; i < length; i++) {
->>           int core;
->> -- 
->> 2.27.0
->>
-> Looks good except please do s/father_offset/parent_offset/ as I mentioned
-> in an earlier patch.
-Will do.
->
-> Reviewed-by: Andrew Jones <drjones@redhat.com>
->
-Thanks,
-Yanan
+r~
+
+
+Richard Henderson (7):
+  tcg/i386: Support raising sigbus for user-only
+  tcg/aarch64: Support raising sigbus for user-only
+  tcg/ppc: Support raising sigbus for user-only
+  tcg/riscv: Support raising sigbus for user-only
+  tcg/s390x: Support raising sigbus for user-only
+  tcg/tci: Support raising sigbus for user-only
+  tests/tcg/multiarch: Add sigbus.c
+
+ tcg/aarch64/tcg-target.h     |   2 -
+ tcg/i386/tcg-target.h        |   2 -
+ tcg/ppc/tcg-target.h         |   2 -
+ tcg/riscv/tcg-target.h       |   2 -
+ tcg/s390x/tcg-target.h       |   2 -
+ tcg/tci.c                    |  20 +++++--
+ tests/tcg/multiarch/sigbus.c |  68 +++++++++++++++++++++++
+ tcg/aarch64/tcg-target.c.inc |  91 +++++++++++++++++++++++++------
+ tcg/i386/tcg-target.c.inc    | 103 +++++++++++++++++++++++++++++++++--
+ tcg/ppc/tcg-target.c.inc     |  98 ++++++++++++++++++++++++++++++---
+ tcg/riscv/tcg-target.c.inc   |  63 ++++++++++++++++++++-
+ tcg/s390x/tcg-target.c.inc   |  59 +++++++++++++++++++-
+ 12 files changed, 462 insertions(+), 50 deletions(-)
+ create mode 100644 tests/tcg/multiarch/sigbus.c
+
+-- 
+2.25.1
 
 
