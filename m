@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B939483E9C
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 09:59:59 +0100 (CET)
-Received: from localhost ([::1]:46228 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E892483E8E
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 09:58:02 +0100 (CET)
+Received: from localhost ([::1]:38876 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n4ffi-0007rY-Bp
-	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 03:59:58 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60124)
+	id 1n4fdp-0002wX-JA
+	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 03:58:01 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60144)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1n4fap-000893-KX; Tue, 04 Jan 2022 03:54:55 -0500
-Received: from [2a00:1450:4864:20::331] (port=51113
- helo=mail-wm1-x331.google.com)
+ id 1n4faq-0008A5-Tg; Tue, 04 Jan 2022 03:54:57 -0500
+Received: from [2a00:1450:4864:20::32a] (port=41820
+ helo=mail-wm1-x32a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1n4fak-0007qD-Gp; Tue, 04 Jan 2022 03:54:55 -0500
-Received: by mail-wm1-x331.google.com with SMTP id b73so22760548wmd.0;
- Tue, 04 Jan 2022 00:54:49 -0800 (PST)
+ id 1n4fao-0007qh-So; Tue, 04 Jan 2022 03:54:56 -0500
+Received: by mail-wm1-x32a.google.com with SMTP id
+ b186-20020a1c1bc3000000b00345734afe78so1062659wmb.0; 
+ Tue, 04 Jan 2022 00:54:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=U5ZN7of/l34l2Sf8f/6H3euMQxJOF1roUgmAROhi/go=;
- b=W3Em5YHrKGlMUyrF8bJUJXMMHZG+Tu0W61tJVatf4ebQBFr2Op2V26goFiHz3/CYvX
- EV51Q+wp4HA6QnBxOqzB5jz0ACXKiKSckcTwGtewBUtKC2ap9RZN2N64hOVlTPsGB12O
- A8mEa3fTW/CMxbghJw/zrjSp8tH6cRtbqrT3ApypkAHii767CbCacJlv3R4qZpJzkxum
- Qtb4JpTXoBbhUCuQBEXKVqQFlbpSyG+fxNfjjVD06onjuTIQx8Rl564g+l2II0KtiOqR
- zdVtmn0Sfk/6aYmlsoENx6qX/C62ajmVpIlO7oF5UKRcvanL9k0tYGK0bSAjRuVayMuh
- wZIA==
+ bh=yvZa8b0WHcG2jEyELY6TUmGBIF4NV8nnHE4fxcg5oio=;
+ b=g6nj9j8JrL95fVT5zjGsSHYoNN7XUU6cCK6X/6IbBZ5x+EvuMvGuI5OKmpYIBVlHNm
+ Z5/58QuQh/vMM+08mfzF2jxxYfueGNRXXUM7WkDolWETpc6s129GIR2JOEZt0Uk5Kwfl
+ dyvMDk2FtP8It9pUXICcPQuCO8vVl/VjWr+lMa84T96u+VVjzwtDaWWy5mFZuUku/ARX
+ vD9onWbDEBu567kwjPYZm4WqHrXjf71Hu1A3/87E9/2JX/3CXoiQzEeQDrPpLFNT7M/+
+ kDJYNrLM4UT2IhHP43khmqWmbnQBBx7Z/jnzqJb9YSI2ErH38vXiqNElLn/+u5WTJY3L
+ NJKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=U5ZN7of/l34l2Sf8f/6H3euMQxJOF1roUgmAROhi/go=;
- b=BEIcF/wqTspqDlepm2zathSdOAYSqlovS5KOLjyAdOMbe4lJZ822Hxlw4goaBvVbNq
- 9CaUQezgny8M1cLWUwMhLYqirvj6KTbZU+9F5G8KgWikM+ctOAlnhACvFliTZaDkbGZb
- 68L7rolJ80OogzZ96iwUIJjLWFC8zmfI1AOz6B0xhyaXCgrUqUFf14WeMRmVNbcFT8IC
- ceX6JclSAvV8PUmQSNypt4jVqrlmGaBz0njD1bGF/ckeA0Obe0LdqzUJhv04V5qebNXE
- XeSYvoNY1xsEJAf0N5LNLZvnMp658hwHxyBUKSvXBybYFCHnB597bgHND63opx3xzcP4
- E+cw==
-X-Gm-Message-State: AOAM531T7wlbAah7YkCAOzfB17kwFhWC3Dw1yDBzP46HPLSdujDHk5uW
- wWwxfsNeATN3+0As4iIOlIL0F229Kt6NaQ==
-X-Google-Smtp-Source: ABdhPJxCXzCsr84h4XdRU/YKoJVUjZfQPsKZmczKt2pSGHILzDqI6ElLFpHM3VDVupA131nO9G5EEw==
-X-Received: by 2002:a1c:4d0d:: with SMTP id o13mr41448660wmh.70.1641286488230; 
- Tue, 04 Jan 2022 00:54:48 -0800 (PST)
+ bh=yvZa8b0WHcG2jEyELY6TUmGBIF4NV8nnHE4fxcg5oio=;
+ b=uoKQI2OPRW5TPzSObPxjLEZtLVlnRzVsdmeQDy+A7RpcXmRw1E8p1CPwSaaDZ4TsTq
+ Ik5wwsj63xyLXnYZ2KKR51dUxH6tLsICF1z90RupVtAH3eEZbRu3W+oUctry8mDKvhss
+ n+86Wzvf9XlxSCXkhIe5+cYO4O1WDhPf4bYbIFVKY0pv4yMso4m2atJc3WUlBbl8WGsm
+ bQiM8qNQmw8Sfy2uebVxgMyq1Poi6XRQ2ChK+NXebRU1v1WOqi6UlKh/H1+TCt4CzE+e
+ tWpjc+jdA0fYqn5RcdzLptP0x6XMy//aKxDQWeeQAlkuDBKZwetrRlNSkHv1qkkH7D3m
+ x2jA==
+X-Gm-Message-State: AOAM532VQMQqtNBHqI67tshYpxEa7N7e7YxBicc3BbZfBnW9HcaqIGSe
+ qFaubGwfgVlXxLdQv/uTUF6u/kwSPJvlmA==
+X-Google-Smtp-Source: ABdhPJwgiFY2RpJKFcyhpprvhgR/vzhQBUWzykDcC8yWRIdLtUldVwkgYFfoFXFcsFS4KCsWIPqp3g==
+X-Received: by 2002:a05:600c:3514:: with SMTP id
+ h20mr41249559wmq.62.1641286493150; 
+ Tue, 04 Jan 2022 00:54:53 -0800 (PST)
 Received: from x1w.. (26.red-83-50-86.dynamicip.rima-tde.net. [83.50.86.26])
- by smtp.gmail.com with ESMTPSA id j13sm42333500wmq.11.2022.01.04.00.54.47
+ by smtp.gmail.com with ESMTPSA id s207sm36214809wme.2.2022.01.04.00.54.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Jan 2022 00:54:47 -0800 (PST)
+ Tue, 04 Jan 2022 00:54:52 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 3/9] hw/pci: Document pci_dma_map()
-Date: Tue,  4 Jan 2022 09:54:25 +0100
-Message-Id: <20220104085431.2122999-4-f4bug@amsat.org>
+Subject: [PATCH v2 4/9] hw/dma: Remove CONFIG_USER_ONLY check
+Date: Tue,  4 Jan 2022 09:54:26 +0100
+Message-Id: <20220104085431.2122999-5-f4bug@amsat.org>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20220104085431.2122999-1-f4bug@amsat.org>
 References: <20220104085431.2122999-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::331
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32a
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x331.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32a.google.com
 X-Spam_score_int: 12
 X-Spam_score: 1.2
 X-Spam_bar: +
@@ -98,35 +100,36 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
+DMA API should not be included in user-mode emulation.
+If so, build should fail. Remove the CONFIG_USER_ONLY check.
+
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- include/hw/pci/pci.h | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ include/sysemu/dma.h | 3 ---
+ 1 file changed, 3 deletions(-)
 
-diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
-index 5b36334a28a..07f08aa0626 100644
---- a/include/hw/pci/pci.h
-+++ b/include/hw/pci/pci.h
-@@ -876,6 +876,18 @@ PCI_DMA_DEFINE_LDST(q_be, q_be, 64);
+diff --git a/include/sysemu/dma.h b/include/sysemu/dma.h
+index b3faef41b2f..0db2478a506 100644
+--- a/include/sysemu/dma.h
++++ b/include/sysemu/dma.h
+@@ -31,8 +31,6 @@ struct QEMUSGList {
+     AddressSpace *as;
+ };
  
- #undef PCI_DMA_DEFINE_LDST
+-#ifndef CONFIG_USER_ONLY
+-
+ /*
+  * When an IOMMU is present, bus addresses become distinct from
+  * CPU/memory physical addresses and may be a different size.  Because
+@@ -288,7 +286,6 @@ void qemu_sglist_init(QEMUSGList *qsg, DeviceState *dev, int alloc_hint,
+                       AddressSpace *as);
+ void qemu_sglist_add(QEMUSGList *qsg, dma_addr_t base, dma_addr_t len);
+ void qemu_sglist_destroy(QEMUSGList *qsg);
+-#endif
  
-+/**
-+ * pci_dma_map: Map device PCI address space range into host virtual address
-+ *
-+ * May map a subset of the requested range, given by and returned in @plen.
-+ * May return %NULL and set *@plen to zero(0), if resources needed to perform
-+ * the mapping are exhausted.
-+ *
-+ * @dev: #PCIDevice to be accessed
-+ * @addr: address within that device's address space
-+ * @plen: pointer to length of buffer; updated on return
-+ * @dir: indicates the transfer direction
-+ */
- static inline void *pci_dma_map(PCIDevice *dev, dma_addr_t addr,
-                                 dma_addr_t *plen, DMADirection dir)
- {
+ typedef BlockAIOCB *DMAIOFunc(int64_t offset, QEMUIOVector *iov,
+                               BlockCompletionFunc *cb, void *cb_opaque,
 -- 
 2.33.1
 
