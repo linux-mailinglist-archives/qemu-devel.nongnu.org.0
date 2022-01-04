@@ -2,59 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BD5B483FA0
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 11:08:47 +0100 (CET)
-Received: from localhost ([::1]:40000 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12CE9483FA6
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 11:09:53 +0100 (CET)
+Received: from localhost ([::1]:41908 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n4gkI-0004cQ-9O
-	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 05:08:46 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46298)
+	id 1n4glM-0005t2-6G
+	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 05:09:52 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46418)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1n4gin-0003ZR-Fv
- for qemu-devel@nongnu.org; Tue, 04 Jan 2022 05:07:13 -0500
-Received: from 9.mo548.mail-out.ovh.net ([46.105.48.137]:42373)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1n4gjY-0004GD-Go
+ for qemu-devel@nongnu.org; Tue, 04 Jan 2022 05:08:00 -0500
+Received: from 5.mo548.mail-out.ovh.net ([188.165.49.213]:51181)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1n4gil-0002pr-FA
- for qemu-devel@nongnu.org; Tue, 04 Jan 2022 05:07:13 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.109.138.129])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 5640820425;
- Tue,  4 Jan 2022 10:07:07 +0000 (UTC)
-Received: from kaod.org (37.59.142.103) by DAG4EX1.mxp5.local (172.16.2.31)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1n4gjW-00037L-GH
+ for qemu-devel@nongnu.org; Tue, 04 Jan 2022 05:08:00 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.108.16.246])
+ by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 0F85120425;
+ Tue,  4 Jan 2022 10:07:55 +0000 (UTC)
+Received: from kaod.org (37.59.142.96) by DAG4EX1.mxp5.local (172.16.2.31)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.17; Tue, 4 Jan
- 2022 11:07:06 +0100
+ 2022 11:07:54 +0100
 Authentication-Results: garm.ovh; auth=pass
- (GARM-103G005c7aa6e82-2bc4-43e0-891c-5e4eb1f9eac5,
- DC41CA294A1AC0AE13D8E7EBC58C249E9ADF812E) smtp.auth=clg@kaod.org
+ (GARM-96R001681bb1e6-d609-404e-a577-b430e81b642a,
+ 8E52E0D80BCA28EB10B868BCDB857CC95652C900) smtp.auth=clg@kaod.org
 X-OVh-ClientIp: 82.64.250.170
-Message-ID: <0dd83750-d91b-06cc-e013-551034d4439c@kaod.org>
-Date: Tue, 4 Jan 2022 11:07:05 +0100
+Message-ID: <b741ff1b-a2b6-e43c-5cd9-fccd448a4fb2@kaod.org>
+Date: Tue, 4 Jan 2022 11:07:48 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.3.0
-Subject: Re: [PATCH v2 00/19] ppc/pnv: Add support for user created PHB3/PHB4
- devices
+Subject: Re: [PATCH v2 19/19] ppc/pnv: Move num_phbs under Pnv8Chip
 Content-Language: en-US
 To: Daniel Henrique Barboza <danielhb413@gmail.com>, <qemu-ppc@nongnu.org>,
  <qemu-devel@nongnu.org>
 References: <20211213132830.108372-1-clg@kaod.org>
- <8cc4ad78-48e9-5e01-cae8-d89f9ee8a3a1@kaod.org>
- <770d6df3-dff1-84b7-f6db-09f9458f6261@gmail.com>
+ <20211213132830.108372-20-clg@kaod.org>
+ <0ede7097-61ce-a0b2-68c8-786644bde795@gmail.com>
 From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <770d6df3-dff1-84b7-f6db-09f9458f6261@gmail.com>
+In-Reply-To: <0ede7097-61ce-a0b2-68c8-786644bde795@gmail.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.103]
-X-ClientProxiedBy: DAG8EX2.mxp5.local (172.16.2.72) To DAG4EX1.mxp5.local
+X-Originating-IP: [37.59.142.96]
+X-ClientProxiedBy: DAG6EX2.mxp5.local (172.16.2.52) To DAG4EX1.mxp5.local
  (172.16.2.31)
-X-Ovh-Tracer-GUID: 3b25eeeb-b37d-48a1-9d4d-79a2ceb8793c
-X-Ovh-Tracer-Id: 2038441785485659043
+X-Ovh-Tracer-GUID: 974d8bd9-c0c2-4201-8998-07a7c17a5ef9
+X-Ovh-Tracer-Id: 2051952581694426019
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrudeffedguddvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepieegvdffkeegfeetuddttddtveduiefhgeduffekiedtkeekteekhfffleevleelnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdefnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepghhrohhugheskhgrohgurdhorhhg
-Received-SPF: pass client-ip=46.105.48.137; envelope-from=clg@kaod.org;
- helo=9.mo548.mail-out.ovh.net
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrudeffedguddvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepieegvdffkeegfeetuddttddtveduiefhgeduffekiedtkeekteekhfffleevleelnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelieenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehgrhhouhhgsehkrghougdrohhrgh
+Received-SPF: pass client-ip=188.165.49.213; envelope-from=clg@kaod.org;
+ helo=5.mo548.mail-out.ovh.net
 X-Spam_score_int: -33
 X-Spam_score: -3.4
 X-Spam_bar: ---
@@ -77,57 +76,83 @@ Cc: Frederic Barrat <fbarrat@linux.ibm.com>, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/4/22 10:56, Daniel Henrique Barboza wrote:
+On 1/4/22 10:53, Daniel Henrique Barboza wrote:
 > 
 > 
-> On 12/15/21 13:56, Cédric Le Goater wrote:
->> On 12/13/21 14:28, Cédric Le Goater wrote:
->>> Hello,
->>>
->>> On the POWER8 processor, powernv8 machine, PHB3 devices can simply be
->>> created with :
->>>
->>>     -device pnv-phb3,chip-id=0,index=1
->>>
->>> with a maximum of 3 PHB3s per chip, each PHB3 adding a new PCIe bus.
->>>
->>> On the POWER9 processor, powernv9 machine, the logic is different. The
->>> the chip comes with 3 PHB4 PECs (PCI Express Controller) and each PEC
->>> can have several PHBs :
->>>
->>>    * PEC0 provides 1 PHB  (PHB0)
->>>    * PEC1 provides 2 PHBs (PHB1 and PHB2)
->>>    * PEC2 provides 3 PHBs (PHB3, PHB4 and PHB5)
->>>
->>> The PEC devices can be created with :
->>>
->>>     -device pnv-phb4-pec,chip-id=0,index=1
->>>
->>> And the number of added PHB4 devices depends on the PEC index. Each
->>> PHB4 adds a new PCIe bus.
->>>
->>> The following changes are mostly cleanups and improvements of the
->>> PHB3/4 realize routines to enable support. One important change is
->>> related to the way the powernv machine populates the device tree. It
->>> depends on the object hierarchy and it is necessary to reparent user
->>> created devices to the chip they belong to (see PATCH 5). PHB3 is a
->>> little more sophisticated because of its SysBusDevice nature (see
->>> PATCH 6).
->>>
->>> It would be preferable for libvirt and user to add one PHB4 (one PCIe
->>> bus) at a time but that's another step. The plan is to merge real soon
->>> the first patches which are required cleanups of the models and give
->>> some more time for the last ones.
+> On 12/13/21 10:28, Cédric Le Goater wrote:
+>> It is not used elsewhere so that's where it belongs.
 >>
->> Applied patches 1-14 which are simple cleanups to ppc-next.
+>> Signed-off-by: Cédric Le Goater <clg@kaod.org>
+>> ---
 > 
-> Did you also push patches 15-19? Or these were the ones that you decided to
-> discard?
+> I am/was using this patch and didn't provide my r-b on it:
+> 
+> 
+> Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 
-1-14 are now merged in mainline. I dropped patches 15-19 because they are
-in the way for your changes.
+Yes. Just resend with your next series.
 
 Thanks,
 
 C.
+
+
+> 
+>>   include/hw/ppc/pnv.h | 4 ++--
+>>   hw/ppc/pnv.c         | 7 +++----
+>>   2 files changed, 5 insertions(+), 6 deletions(-)
+>>
+>> diff --git a/include/hw/ppc/pnv.h b/include/hw/ppc/pnv.h
+>> index ca27bd39f0ac..251c9854329d 100644
+>> --- a/include/hw/ppc/pnv.h
+>> +++ b/include/hw/ppc/pnv.h
+>> @@ -52,7 +52,6 @@ struct PnvChip {
+>>       uint64_t     cores_mask;
+>>       PnvCore      **cores;
+>> -    uint32_t     num_phbs;
+>>       uint32_t     num_pecs;
+>>       MemoryRegion xscom_mmio;
+>> @@ -82,6 +81,7 @@ struct Pnv8Chip {
+>>   #define PNV8_CHIP_PHB3_MAX 4
+>>       PnvPHB3      phbs[PNV8_CHIP_PHB3_MAX];
+>> +    uint32_t     num_phbs;
+>>       XICSFabric    *xics;
+>>   };
+>> @@ -136,8 +136,8 @@ struct PnvChipClass {
+>>       /*< public >*/
+>>       uint64_t     chip_cfam_id;
+>>       uint64_t     cores_mask;
+>> -    uint32_t     num_phbs;
+>>       uint32_t     num_pecs;
+>> +    uint32_t     num_phbs;
+>>       DeviceRealize parent_realize;
+>> diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
+>> index 2b027e299d27..8a3732c982e5 100644
+>> --- a/hw/ppc/pnv.c
+>> +++ b/hw/ppc/pnv.c
+>> @@ -1099,7 +1099,6 @@ static void pnv_chip_power10_intc_print_info(PnvChip *chip, PowerPCCPU *cpu,
+>>   static void pnv_chip_power8_instance_init(Object *obj)
+>>   {
+>> -    PnvChip *chip = PNV_CHIP(obj);
+>>       Pnv8Chip *chip8 = PNV8_CHIP(obj);
+>>       PnvChipClass *pcc = PNV_CHIP_GET_CLASS(obj);
+>>       int i;
+>> @@ -1118,10 +1117,10 @@ static void pnv_chip_power8_instance_init(Object *obj)
+>>       object_initialize_child(obj, "homer", &chip8->homer, TYPE_PNV8_HOMER);
+>>       if (defaults_enabled()) {
+>> -        chip->num_phbs = pcc->num_phbs;
+>> +        chip8->num_phbs = pcc->num_phbs;
+>>       }
+>> -    for (i = 0; i < chip->num_phbs; i++) {
+>> +    for (i = 0; i < chip8->num_phbs; i++) {
+>>           object_initialize_child(obj, "phb[*]", &chip8->phbs[i], TYPE_PNV_PHB3);
+>>       }
+>> @@ -1239,7 +1238,7 @@ static void pnv_chip_power8_realize(DeviceState *dev, Error **errp)
+>>                                   &chip8->homer.regs);
+>>       /* PHB3 controllers */
+>> -    for (i = 0; i < chip->num_phbs; i++) {
+>> +    for (i = 0; i < chip8->num_phbs; i++) {
+>>           PnvPHB3 *phb = &chip8->phbs[i];
+>>           object_property_set_int(OBJECT(phb), "index", i, &error_fatal);
+
 
