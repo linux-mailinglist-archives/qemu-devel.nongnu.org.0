@@ -2,63 +2,107 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A87848438F
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 15:41:27 +0100 (CET)
-Received: from localhost ([::1]:51024 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 070B24843BD
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 15:51:43 +0100 (CET)
+Received: from localhost ([::1]:56180 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n4l09-0006GW-SI
-	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 09:41:25 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:47974)
+	id 1n4lA4-0001py-N3
+	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 09:51:40 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50264)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ahmedaabouzied44@gmail.com>)
- id 1n4kyE-0005YS-Nz
- for qemu-devel@nongnu.org; Tue, 04 Jan 2022 09:39:26 -0500
-Received: from mail-ed1-f52.google.com ([209.85.208.52]:35334)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ahmedaabouzied44@gmail.com>)
- id 1n4kyD-000747-5o
- for qemu-devel@nongnu.org; Tue, 04 Jan 2022 09:39:26 -0500
-Received: by mail-ed1-f52.google.com with SMTP id y22so149398731edq.2;
- Tue, 04 Jan 2022 06:39:24 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=kxYvO6vytvThSJJhNF/SYLJHX4z9Qoey16/6hwLNNOU=;
- b=uht1gWVDxfHPB85FodVKRT6labMlLMuXmt9BbmZ9zMFtFrtUaW9u7cl7ZRgYoivOOq
- H13DKXO7A2lVyJ+d02Q0DoypKAI+fLG7dM0KWFdVP3hwdE+7BH5ekDfp8iURDQgRN7jW
- pxuKJfFlmmj87pGhVs536Nh/HQn3Ty2aCEFpEs3pSPrb9OU2OJzj2bS9C1MyZFUzEm0e
- zVjjCJ3oZpioAON4UfTcw55TIUXhdizjXppRANQLmLLYILX2QEpoKwSn8ICH+EKXWAZ6
- 4povdT6FAk5anrI4N7ecPUNVlRXwwH9mdnerR8DmyOTf3j3qd1NPD/IFRJKGl8iX1HoC
- EMEw==
-X-Gm-Message-State: AOAM531mc86O3X7npH/nVFKgOgZa1HX+oM4D6+6YgKrBNJHev6NDJ7+O
- ws0CwJ8/CqoRNybvxbQ2ePd2fRyCCC5m3k1h
-X-Google-Smtp-Source: ABdhPJy8h+zIlZLE2QLqMVmvPKX8L/I45RBi5qbA6vhlIRPHDPdID4WJtaMtEf7k7CdWeFVVLQL+RA==
-X-Received: by 2002:aa7:d799:: with SMTP id s25mr46578188edq.127.1641307162618; 
- Tue, 04 Jan 2022 06:39:22 -0800 (PST)
-Received: from pythagoras.localdomain ([154.190.100.93])
- by smtp.googlemail.com with ESMTPSA id g9sm14889368edb.53.2022.01.04.06.39.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Jan 2022 06:39:22 -0800 (PST)
-From: Ahmed Abouzied <email@aabouzied.com>
-To: qemu-qemu-trivial@nongnu.org
-Subject: [PATCH] linux-user/syscall.c: malloc to g_try_malloc
-Date: Tue,  4 Jan 2022 16:38:41 +0200
-Message-Id: <20220104143841.25116-1-email@aabouzied.com>
-X-Mailer: git-send-email 2.25.1
+ (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
+ id 1n4l7C-0008Q6-7Q
+ for qemu-devel@nongnu.org; Tue, 04 Jan 2022 09:48:42 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:46514)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
+ id 1n4l79-0002hg-PB
+ for qemu-devel@nongnu.org; Tue, 04 Jan 2022 09:48:41 -0500
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 204Dva5h019663; 
+ Tue, 4 Jan 2022 14:48:36 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ subject : to : cc : references : from : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=E7M1NaL6mUeVyqFwV26dwIhbq5JWh2VFl0a1OgybWEM=;
+ b=H1rcj3+Xm0GoMJJ0Knx/97Fhq7lWXN3gd4QoZR4WbRp5oPyA3k/9Evy+I2rpMLrWSzgx
+ mYPd7IWaFaIYCVDmyjrmLljvSkybff1MqyT0iTXgCH7m35Vd07K6LmvDii+scnfV8zTz
+ OQvOWGdDQHT15B2HtoXYrvu++9hGm3Di1+xlFLNaZDzmxcrUoG3smuFPdy10UIBerhYG
+ u6WNC7sOfXxZe2UgRTZqFhOfdZSdAuEeymFiocpaI+k4f7DYt4Gv3NrRe1aKvA15WgP+
+ SeQ1dpqhOE6QmIl+fhZcdZ0gONVun/Mvc9kGsjyaBJ6UdGN4iJOQZD+RvNFeM8hVb5zO UA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3dcen7aqhg-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 04 Jan 2022 14:48:36 +0000
+Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 204DhmMU015048;
+ Tue, 4 Jan 2022 14:48:35 GMT
+Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
+ [169.53.41.122])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3dcen7aqh5-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 04 Jan 2022 14:48:35 +0000
+Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
+ by ppma04dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 204EmXs7014144;
+ Tue, 4 Jan 2022 14:48:34 GMT
+Received: from b01cxnp22036.gho.pok.ibm.com (b01cxnp22036.gho.pok.ibm.com
+ [9.57.198.26]) by ppma04dal.us.ibm.com with ESMTP id 3daekb76f6-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 04 Jan 2022 14:48:34 +0000
+Received: from b01ledav002.gho.pok.ibm.com (b01ledav002.gho.pok.ibm.com
+ [9.57.199.107])
+ by b01cxnp22036.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 204EmXM19176030
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 4 Jan 2022 14:48:33 GMT
+Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 11D2012405C;
+ Tue,  4 Jan 2022 14:48:33 +0000 (GMT)
+Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id DAA08124052;
+ Tue,  4 Jan 2022 14:48:32 +0000 (GMT)
+Received: from [9.47.158.152] (unknown [9.47.158.152])
+ by b01ledav002.gho.pok.ibm.com (Postfix) with ESMTP;
+ Tue,  4 Jan 2022 14:48:32 +0000 (GMT)
+Message-ID: <1b32e29a-36fc-7275-e856-97a12585e0a3@linux.ibm.com>
+Date: Tue, 4 Jan 2022 09:48:32 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH v4 2/3] acpi: tpm: Add missing device identification
+ objects
+Content-Language: en-US
+To: Igor Mammedov <imammedo@redhat.com>
+References: <20211223022310.575496-1-stefanb@linux.ibm.com>
+ <20211223022310.575496-3-stefanb@linux.ibm.com>
+ <20220104105506.17ed9209@redhat.com>
+From: Stefan Berger <stefanb@linux.ibm.com>
+In-Reply-To: <20220104105506.17ed9209@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: IfaUeO8a0mUIMwS7uHCksmbHTnMqrvZc
+X-Proofpoint-GUID: BHq-kOUfky7e4cSPYDgVF8X49bpyEcIr
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=209.85.208.52;
- envelope-from=ahmedaabouzied44@gmail.com; helo=mail-ed1-f52.google.com
-X-Spam_score_int: 7
-X-Spam_score: 0.7
-X-Spam_bar: /
-X-Spam_report: (0.7 / 5.0 requ) FREEMAIL_ENVFROM_END_DIGIT=0.25,
- FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2022-01-04_06,2022-01-04_01,2021-12-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015
+ lowpriorityscore=0 impostorscore=0 malwarescore=0 suspectscore=0
+ phishscore=0 spamscore=0 mlxscore=0 priorityscore=1501 adultscore=0
+ mlxlogscore=999 bulkscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2110150000 definitions=main-2201040098
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=stefanb@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.354, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -71,54 +115,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Ahmed Abouzied <email@aabouzied.com>, jsnow@redhat.com,
- qemu-devel@nongnu.org
+Cc: Ani Sinha <ani@anisinha.ca>, marcandre.lureau@redhat.com,
+ "Michael S . Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ Shannon Zhao <shannon.zhaosl@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use g_try_malloc instead of malloc to alocate the target ifconfig.
-Also replace the corresponding free with g_free.
 
-Signed-off-by: Ahmed Abouzied <email@aabouzied.com>
----
+On 1/4/22 04:55, Igor Mammedov wrote:
+> On Wed, 22 Dec 2021 21:23:09 -0500
+> Stefan Berger <stefanb@linux.ibm.com> wrote:
+>
+>> Add missing device identification objects _STR and _UID. They will appear
+> why, does it break anything or it's just cosmetic?
 
-Hello, 
+I don't know about whether any software needs these entries but it's 
+driven by this:
 
-I noticed that there was a `malloc` call in this file. It seems that it
-was added by the commit 22e4a267 (3 years ago) which was after the commit
-0e173b24 (6 years ago) that replaced malloc calls with glib alternative calls.
+https://gitlab.com/qemu-project/qemu/-/issues/708
 
-There is no issue for this on Gitlab. Should I have created an issue
-first? 
 
-Best regards,
+>
+>> as files 'description' and 'uid' under Linux sysfs.
+>>
+>> Cc: Shannon Zhao <shannon.zhaosl@gmail.com>
+>> Cc: Michael S. Tsirkin <mst@redhat.com>
+>> Cc: Igor Mammedov <imammedo@redhat.com>
+>> Cc: Ani Sinha <ani@anisinha.ca>
+>> Fixes: https://gitlab.com/qemu-project/qemu/-/issues/708
+>> Signed-off-by: Stefan Berger <stefanb@linux.ibm.com>
+>> Message-id: 20211110133559.3370990-3-stefanb@linux.ibm.com
+>> ---
+>>   hw/arm/virt-acpi-build.c | 1 +
+>>   hw/i386/acpi-build.c     | 8 ++++++++
+>>   2 files changed, 9 insertions(+)
+>>
+>> diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
+>> index d0f4867fdf..f2514ce77c 100644
+>> --- a/hw/arm/virt-acpi-build.c
+>> +++ b/hw/arm/virt-acpi-build.c
+>> @@ -229,6 +229,7 @@ static void acpi_dsdt_add_tpm(Aml *scope, VirtMachineState *vms)
+>>   
+>>       Aml *dev = aml_device("TPM0");
+>>       aml_append(dev, aml_name_decl("_HID", aml_string("MSFT0101")));
+>> +    aml_append(dev, aml_name_decl("_STR", aml_string("TPM 2.0 Device")));
+>>       aml_append(dev, aml_name_decl("_UID", aml_int(0)));
+>>   
+>>       Aml *crs = aml_resource_template();
+>> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+>> index 8383b83ee3..2fb70847cb 100644
+>> --- a/hw/i386/acpi-build.c
+>> +++ b/hw/i386/acpi-build.c
+>> @@ -1812,11 +1812,15 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+>>                       dev = aml_device("TPM");
+>>                       aml_append(dev, aml_name_decl("_HID",
+>>                                                     aml_string("MSFT0101")));
+>> +                    aml_append(dev,
+>> +                               aml_name_decl("_STR",
+>> +                                             aml_string("TPM 2.0 Device")));
+>>                   } else {
+>>                       dev = aml_device("ISA.TPM");
+>>                       aml_append(dev, aml_name_decl("_HID",
+>>                                                     aml_eisaid("PNP0C31")));
+>>                   }
+>> +                aml_append(dev, aml_name_decl("_UID", aml_int(1)));
+> why it's 1, and not 0 as in virt-arm?
 
- linux-user/syscall.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Marc-Andre and I looked at machines with hardware TPMs and that's what 
+we found there as well, a '1'.
 
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 56a3e17183..715f9430e1 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -4867,7 +4867,7 @@ static abi_long do_ioctl_ifconf(const IOCTLEntry *ie, uint8_t *buf_temp,
-              * We can't fit all the extents into the fixed size buffer.
-              * Allocate one that is large enough and use it instead.
-              */
--            host_ifconf = malloc(outbufsz);
-+            host_ifconf = g_try_malloc(outbufsz);
-             if (!host_ifconf) {
-                 return -TARGET_ENOMEM;
-             }
-@@ -4915,7 +4915,7 @@ static abi_long do_ioctl_ifconf(const IOCTLEntry *ie, uint8_t *buf_temp,
-     }
- 
-     if (free_buf) {
--        free(host_ifconf);
-+        g_free(host_ifconf);
-     }
- 
-     return ret;
--- 
-2.25.1
 
+>
+>>   
+>>                   aml_append(dev, aml_name_decl("_STA", aml_int(0xF)));
+>>                   crs = aml_resource_template();
+>> @@ -1844,6 +1848,8 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+>>       if (TPM_IS_CRB(tpm)) {
+>>           dev = aml_device("TPM");
+>>           aml_append(dev, aml_name_decl("_HID", aml_string("MSFT0101")));
+>> +        aml_append(dev, aml_name_decl("_STR",
+>> +                                      aml_string("TPM 2.0 Device")));
+>>           crs = aml_resource_template();
+>>           aml_append(crs, aml_memory32_fixed(TPM_CRB_ADDR_BASE,
+>>                                              TPM_CRB_ADDR_SIZE, AML_READ_WRITE));
+>> @@ -1851,6 +1857,8 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+>>   
+>>           aml_append(dev, aml_name_decl("_STA", aml_int(0xf)));
+>>
+> no necessary ^^^ empty line
+fixed
+>
+>> +        aml_append(dev, aml_name_decl("_UID", aml_int(1)));
+>> +
+>>           tpm_build_ppi_acpi(tpm, dev);
+>>   
+>>           aml_append(sb_scope, dev);
 
