@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8F2E48444A
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 16:10:48 +0100 (CET)
-Received: from localhost ([::1]:57406 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62CF448446B
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 16:18:12 +0100 (CET)
+Received: from localhost ([::1]:49098 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n4lSZ-0005nG-Qj
-	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 10:10:47 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52558)
+	id 1n4lZj-00014s-GL
+	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 10:18:11 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52572)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1n4lGa-0007Ch-B3
- for qemu-devel@nongnu.org; Tue, 04 Jan 2022 09:58:24 -0500
-Received: from [2a00:1450:4864:20::533] (port=33697
- helo=mail-ed1-x533.google.com)
+ id 1n4lGc-0007Fh-Eh
+ for qemu-devel@nongnu.org; Tue, 04 Jan 2022 09:58:26 -0500
+Received: from [2a00:1450:4864:20::52e] (port=39641
+ helo=mail-ed1-x52e.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1n4lGX-0004TN-98
- for qemu-devel@nongnu.org; Tue, 04 Jan 2022 09:58:22 -0500
-Received: by mail-ed1-x533.google.com with SMTP id m21so150743983edc.0
- for <qemu-devel@nongnu.org>; Tue, 04 Jan 2022 06:58:20 -0800 (PST)
+ id 1n4lGa-0004Tn-21
+ for qemu-devel@nongnu.org; Tue, 04 Jan 2022 09:58:25 -0500
+Received: by mail-ed1-x52e.google.com with SMTP id f5so149581616edq.6
+ for <qemu-devel@nongnu.org>; Tue, 04 Jan 2022 06:58:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=+E66IqNCT2gLnUgFCZeM7BI9JgDWyXcfb0XGm+77LJI=;
- b=joASk/TOleFA1ufQ0hR+4B/DzUKmHVmqpqQbPnyRicxwrJrERiBnht9NyQkm0Y705n
- JMW5nCbEMfgYLWl8luiie73o8getgmBf1KhN2wXONJExGHlbsv2PpHUiW1BAohxLfKS+
- 2pz+t4kQ+ohFKlTrqUSnOfxoZw4vuobYq3ewjurKGz7iL7i7O5KIJ8erVB7EuwaOnZvb
- mh+hIKgOU34GtXKH+bcWGrqWvefnXANZHw0wTyaH2i/c6SGZ/m4DrL/C6/cp8obcfi1T
- +TfHh7oyU4VLNp2he+MzW0EKVQ1JEOwjkH3n1SBY8IDGpV82+DklK09S66ImfIYGDfhu
- 3B1g==
+ bh=lV2rTUdM+LnDXLeS+qWWf2AzxWW8/OVgd5CrN+RzjDc=;
+ b=KgdmmJec8msFScG84e3fan2poIS6D0pP6xFW+7zg9eADRsIPffYGpmpnJD6YykgOkA
+ egec8zJBAIQQ23UbMVApG54svDg74UKwBl2PYx0AglE4HcP0hPXMF4AatG9UZ9shRDoW
+ FEqtfS01VQmrSfdtjaMWvDQ/YwH1mC4i5/0v/N8rrPP43e+3gA4or+/bVPFfRf6Zhuhu
+ DrWVbjSCOdSyP1AQlOOgu4Wzw75HLswquRhdH9WdO/DYMBLNjjJ2UqKLzmArkOLlwBYv
+ tC4AZ0WqFVOA6fy/sm4P7L+G89mrI89iOxDj8eGFm53ugQ9w5Cce7chP16PV66g88vgO
+ +CQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=+E66IqNCT2gLnUgFCZeM7BI9JgDWyXcfb0XGm+77LJI=;
- b=kEHq0cGi1vZLH2O/Z3rHfZzM1XBGzhwHfVxhbqm/UFHlE5AXS4kKBNmESTWhZ5ogzh
- JYLFlRvvY7A8V4ZVTtA07EEXqfYV3NpuKe7ZsmslcRXBU5159esDzH/nUSDm3aZFO6gW
- FzshbO5bJEFsQoS8zuJnnS7wjRdeqVqA+CBVOJ3rjgPP17KHg9xziHGKlbEgQzan2FfS
- NOh6t20lYLfw3gdHSMdZ7vT4dHxh2Wjts+YgXu4Bfkyr4vM9isBVd32QrziE+3akS03y
- DfkxmwDdGge45layESVhlsI3e8FpL5qZMLk1bgEeA1PRqsuwdaDsr0aKASQJgRyVPdER
- JrmA==
-X-Gm-Message-State: AOAM5318deRhz70REoKkqLWeS+itLDJ7I/tKcVXgd/ecuMmS7VMPmP/w
- XrIp85oEeJa1TLQ2AP8iiY/D5d42xec=
-X-Google-Smtp-Source: ABdhPJwpm1kSiOB3yt6OqC60izgKcDZ9Dt5RQ0knmIs/bOHdbrtt7HH3GcvY6P0YShP4aH8152LvDA==
-X-Received: by 2002:a17:907:2d12:: with SMTP id
- gs18mr40136439ejc.198.1641308299805; 
- Tue, 04 Jan 2022 06:58:19 -0800 (PST)
+ bh=lV2rTUdM+LnDXLeS+qWWf2AzxWW8/OVgd5CrN+RzjDc=;
+ b=NkTR2ga0suVrZrEpzx/JuC5RHmN+ImL2ekogtwYsgpNJtG0CXxf1HFyJatxcS8QcN0
+ iuPMFTtVMnHPevIsA+Wv6CcyDc0mIHbepiJ2jBV+K6BBGc521ap/QYfrOXLBkrqaJytv
+ 8bzFDA+tQILVjaj8hkvMUmSvm6NliF94yG+kTTzssc9LfYVToT+KTxMYBKQQqkhVKv7e
+ 7eLicFnIKZTeMi60aoR8V+qowHxcYczpR3NRTNrisdrheRhXLPE0iWW9PjpNLkuLUxEX
+ tMBhg266CYBegsIrCz5cVlydTuLxMPg10eJXudSNCMsNsOR5E8sjvoB2oiG6UUqF9y+y
+ 7RlA==
+X-Gm-Message-State: AOAM532vSkksWzo7ry8poxh8hqIMt8JoNkiulQaw8OzFaVmjg3BBm0G6
+ q2HAA8qixQRBffACAq9AeuR1rv9lOC8=
+X-Google-Smtp-Source: ABdhPJwcMfWYAIEyyqZ/WZE0rK+aM6FJm+NWQptKiZljAsaXwTCeUbe8sjxHQ5x7Nwl4m9UkQ8nT8w==
+X-Received: by 2002:a05:6402:2024:: with SMTP id
+ ay4mr49378120edb.16.1641308302570; 
+ Tue, 04 Jan 2022 06:58:22 -0800 (PST)
 Received: from localhost.localdomain ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
  by smtp.gmail.com with ESMTPSA id j21sm11475964ejj.133.2022.01.04.06.58.19
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Jan 2022 06:58:19 -0800 (PST)
+ Tue, 04 Jan 2022 06:58:22 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 11/15] configure, meson: move config-poison.h to meson
-Date: Tue,  4 Jan 2022 15:57:45 +0100
-Message-Id: <20220104145749.417387-12-pbonzini@redhat.com>
+Subject: [PULL 12/15] meson: add comments in the target-specific flags section
+Date: Tue,  4 Jan 2022 15:57:46 +0100
+Message-Id: <20220104145749.417387-13-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20220104145749.417387-1-pbonzini@redhat.com>
 References: <20220104145749.417387-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::533
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52e
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::533;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x533.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52e.google.com
 X-Spam_score_int: 12
 X-Spam_score: 1.2
 X-Spam_bar: +
@@ -91,98 +91,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This ensures that the file is regenerated properly whenever config-target.h
-or config-devices.h files change.
-
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- Makefile                      |  2 +-
- configure                     | 11 -----------
- meson.build                   | 12 ++++++++++++
- scripts/make-config-poison.sh | 16 ++++++++++++++++
- 4 files changed, 29 insertions(+), 12 deletions(-)
- create mode 100755 scripts/make-config-poison.sh
+ meson.build | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/Makefile b/Makefile
-index 8037f73b35..9e2e3bf004 100644
---- a/Makefile
-+++ b/Makefile
-@@ -221,7 +221,7 @@ qemu-%.tar.bz2:
- 
- distclean: clean
- 	-$(quiet-@)test -f build.ninja && $(NINJA) $(NINJAFLAGS) -t clean -g || :
--	rm -f config-host.mak config-poison.h
-+	rm -f config-host.mak
- 	rm -f tests/tcg/config-*.mak
- 	rm -f config.status
- 	rm -f roms/seabios/config.mak
-diff --git a/configure b/configure
-index e3d603d381..187632c371 100755
---- a/configure
-+++ b/configure
-@@ -3833,17 +3833,6 @@ if test -n "${deprecated_features}"; then
-     echo "  features: ${deprecated_features}"
- fi
- 
--# Create list of config switches that should be poisoned in common code...
--# but filter out CONFIG_TCG and CONFIG_USER_ONLY which are special.
--target_configs_h=$(ls *-config-devices.h *-config-target.h 2>/dev/null)
--if test -n "$target_configs_h" ; then
--    sed -n -e '/CONFIG_TCG/d' -e '/CONFIG_USER_ONLY/d' \
--        -e '/^#define / { s///; s/ .*//; s/^/#pragma GCC poison /p; }' \
--        $target_configs_h | sort -u > config-poison.h
--else
--    :> config-poison.h
--fi
--
- # Save the configure command line for later reuse.
- cat <<EOD >config.status
- #!/bin/sh
 diff --git a/meson.build b/meson.build
-index 5a57906e98..36fc720ba3 100644
+index 36fc720ba3..6489ff8425 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -2028,6 +2028,18 @@ config_all += {
-   'CONFIG_ALL': true,
- }
+@@ -238,6 +238,7 @@ endif
+ # Target-specific checks and dependencies #
+ ###########################################
  
-+target_configs_h = []
-+foreach target: target_dirs
-+  target_configs_h += config_target_h[target]
-+  target_configs_h += config_devices_h.get(target, [])
-+endforeach
-+genh += custom_target('config-poison.h',
-+                      input: [target_configs_h],
-+                      output: 'config-poison.h',
-+                      capture: true,
-+                      command: [find_program('scripts/make-config-poison.sh'),
-+                                target_configs_h])
-+
- ##############
- # Submodules #
- ##############
-diff --git a/scripts/make-config-poison.sh b/scripts/make-config-poison.sh
-new file mode 100755
-index 0000000000..d222a04304
---- /dev/null
-+++ b/scripts/make-config-poison.sh
-@@ -0,0 +1,16 @@
-+#! /bin/sh
-+
-+if test $# = 0; then
-+  exit 0
-+fi
-+
-+# Create list of config switches that should be poisoned in common code...
-+# but filter out CONFIG_TCG and CONFIG_USER_ONLY which are special.
-+exec sed -n \
-+  -e' /CONFIG_TCG/d' \
-+  -e '/CONFIG_USER_ONLY/d' \
-+  -e '/^#define / {' \
-+  -e    's///' \
-+  -e    's/ .*//' \
-+  -e    's/^/#pragma GCC poison /p' \
-+  -e '}' "$@"
++# Fuzzing
+ if get_option('fuzzing') and get_option('fuzzing_engine') == '' and \
+     not cc.links('''
+           #include <stdint.h>
+@@ -249,6 +250,7 @@ if get_option('fuzzing') and get_option('fuzzing_engine') == '' and \
+   error('Your compiler does not support -fsanitize=fuzzer')
+ endif
+ 
++# Tracing backends
+ if 'ftrace' in get_option('trace_backends') and targetos != 'linux'
+   error('ftrace is supported only on Linux')
+ endif
+@@ -262,6 +264,7 @@ if 'syslog' in get_option('trace_backends') and not cc.compiles('''
+   error('syslog is not supported on this system')
+ endif
+ 
++# Miscellaneous Linux-only features
+ if targetos != 'linux' and get_option('mpath').enabled()
+   error('Multipath is supported only on Linux')
+ endif
+@@ -271,6 +274,7 @@ if targetos != 'linux' and get_option('multiprocess').enabled()
+ endif
+ multiprocess_allowed = targetos == 'linux' and not get_option('multiprocess').disabled()
+ 
++# Target-specific libraries and flags
+ libm = cc.find_library('m', required: false)
+ threads = dependency('threads')
+ util = cc.find_library('util', required: false)
+@@ -311,6 +315,7 @@ elif targetos == 'openbsd'
+   endif
+ endif
+ 
++# Target-specific configuration of accelerators
+ accelerators = []
+ if not get_option('kvm').disabled() and targetos == 'linux'
+   accelerators += 'CONFIG_KVM'
 -- 
 2.33.1
 
