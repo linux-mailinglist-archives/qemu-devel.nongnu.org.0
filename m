@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12CE9483FA6
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 11:09:53 +0100 (CET)
-Received: from localhost ([::1]:41908 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D047483FA7
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 11:11:13 +0100 (CET)
+Received: from localhost ([::1]:44518 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n4glM-0005t2-6G
-	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 05:09:52 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46418)
+	id 1n4gme-0007f3-Cv
+	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 05:11:12 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46642)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1n4gjY-0004GD-Go
- for qemu-devel@nongnu.org; Tue, 04 Jan 2022 05:08:00 -0500
-Received: from 5.mo548.mail-out.ovh.net ([188.165.49.213]:51181)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1n4gkl-00069k-Ss
+ for qemu-devel@nongnu.org; Tue, 04 Jan 2022 05:09:15 -0500
+Received: from 9.mo552.mail-out.ovh.net ([87.98.180.222]:56197)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1n4gjW-00037L-GH
- for qemu-devel@nongnu.org; Tue, 04 Jan 2022 05:08:00 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.108.16.246])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 0F85120425;
- Tue,  4 Jan 2022 10:07:55 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1n4gkj-0003DI-3E
+ for qemu-devel@nongnu.org; Tue, 04 Jan 2022 05:09:15 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.109.146.107])
+ by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 035EE2199A;
+ Tue,  4 Jan 2022 10:09:09 +0000 (UTC)
 Received: from kaod.org (37.59.142.96) by DAG4EX1.mxp5.local (172.16.2.31)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.17; Tue, 4 Jan
- 2022 11:07:54 +0100
+ 2022 11:09:09 +0100
 Authentication-Results: garm.ovh; auth=pass
- (GARM-96R001681bb1e6-d609-404e-a577-b430e81b642a,
+ (GARM-96R001b5645bea-052f-4230-b6aa-c72c40d4e290,
  8E52E0D80BCA28EB10B868BCDB857CC95652C900) smtp.auth=clg@kaod.org
 X-OVh-ClientIp: 82.64.250.170
-Message-ID: <b741ff1b-a2b6-e43c-5cd9-fccd448a4fb2@kaod.org>
-Date: Tue, 4 Jan 2022 11:07:48 +0100
+Message-ID: <ca700ead-7cf1-6d8c-12f6-9d03b547d517@kaod.org>
+Date: Tue, 4 Jan 2022 11:09:08 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.3.0
-Subject: Re: [PATCH v2 19/19] ppc/pnv: Move num_phbs under Pnv8Chip
+Subject: Re: [PATCH 5/9] target/ppc: Use ppc_interrupts_little_endian in
+ powerpc_excp
 Content-Language: en-US
-To: Daniel Henrique Barboza <danielhb413@gmail.com>, <qemu-ppc@nongnu.org>,
- <qemu-devel@nongnu.org>
-References: <20211213132830.108372-1-clg@kaod.org>
- <20211213132830.108372-20-clg@kaod.org>
- <0ede7097-61ce-a0b2-68c8-786644bde795@gmail.com>
+To: Fabiano Rosas <farosas@linux.ibm.com>, <qemu-devel@nongnu.org>
+References: <20220103220746.3916246-1-farosas@linux.ibm.com>
+ <20220103220746.3916246-6-farosas@linux.ibm.com>
 From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <0ede7097-61ce-a0b2-68c8-786644bde795@gmail.com>
+In-Reply-To: <20220103220746.3916246-6-farosas@linux.ibm.com>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-Originating-IP: [37.59.142.96]
-X-ClientProxiedBy: DAG6EX2.mxp5.local (172.16.2.52) To DAG4EX1.mxp5.local
+X-ClientProxiedBy: DAG7EX1.mxp5.local (172.16.2.61) To DAG4EX1.mxp5.local
  (172.16.2.31)
-X-Ovh-Tracer-GUID: 974d8bd9-c0c2-4201-8998-07a7c17a5ef9
-X-Ovh-Tracer-Id: 2051952581694426019
+X-Ovh-Tracer-GUID: 1b792582-f469-408d-b65b-e41538d74294
+X-Ovh-Tracer-Id: 2073063205278878502
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrudeffedguddvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepieegvdffkeegfeetuddttddtveduiefhgeduffekiedtkeekteekhfffleevleelnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelieenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehgrhhouhhgsehkrghougdrohhrgh
-Received-SPF: pass client-ip=188.165.49.213; envelope-from=clg@kaod.org;
- helo=5.mo548.mail-out.ovh.net
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrudeffedguddvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtjeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhephffhleegueektdetffdvffeuieeugfekkeelheelteeftdfgtefffeehueegleehnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopegurghnihgvlhhhsgegudefsehgmhgrihhlrdgtohhm
+Received-SPF: pass client-ip=87.98.180.222; envelope-from=clg@kaod.org;
+ helo=9.mo552.mail-out.ovh.net
 X-Spam_score_int: -33
 X-Spam_score: -3.4
 X-Spam_bar: ---
 X-Spam_report: (-3.4 / 5.0 requ) NICE_REPLY_A=-3.354,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -72,87 +71,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Frederic Barrat <fbarrat@linux.ibm.com>, Greg Kurz <groug@kaod.org>
+Cc: richard.henderson@linaro.org, danielhb413@gmail.com, qemu-ppc@nongnu.org,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/4/22 10:53, Daniel Henrique Barboza wrote:
+On 1/3/22 23:07, Fabiano Rosas wrote:
+> The ppc_interrupts_little_endian function is suitable for determining
+> the endianness of interrupts for all Book3S CPUs.
 > 
+> (I'm keeping the MSR check for the rest of the CPUs, but it will go
+> away in the next patch.)
 > 
-> On 12/13/21 10:28, Cédric Le Goater wrote:
->> It is not used elsewhere so that's where it belongs.
->>
->> Signed-off-by: Cédric Le Goater <clg@kaod.org>
->> ---
+> Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
+> ---
+>   target/ppc/excp_helper.c | 21 ++-------------------
+>   1 file changed, 2 insertions(+), 19 deletions(-)
 > 
-> I am/was using this patch and didn't provide my r-b on it:
-> 
-> 
-> Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+> diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
+> index 0dbadc5d07..5d31940426 100644
+> --- a/target/ppc/excp_helper.c
+> +++ b/target/ppc/excp_helper.c
+> @@ -760,25 +760,8 @@ static inline void powerpc_excp(PowerPCCPU *cpu, int excp)
+>        * CPU, the HV mode, etc...
+>        */
+>   #ifdef TARGET_PPC64
+> -    if (excp_model == POWERPC_EXCP_POWER7) {
+> -        if (!(new_msr & MSR_HVB) && (env->spr[SPR_LPCR] & LPCR_ILE)) {
+> -            new_msr |= (target_ulong)1 << MSR_LE;
+> -        }
+> -    } else if (excp_model == POWERPC_EXCP_POWER8) {
+> -        if (new_msr & MSR_HVB) {
+> -            if (env->spr[SPR_HID0] & HID0_HILE) {
+> -                new_msr |= (target_ulong)1 << MSR_LE;
+> -            }
+> -        } else if (env->spr[SPR_LPCR] & LPCR_ILE) {
+> -            new_msr |= (target_ulong)1 << MSR_LE;
+> -        }
+> -    } else if (excp_model == POWERPC_EXCP_POWER9 ||
+> -               excp_model == POWERPC_EXCP_POWER10) {
+> -        if (new_msr & MSR_HVB) {
+> -            if (env->spr[SPR_HID0] & HID0_POWER9_HILE) {
+> -                new_msr |= (target_ulong)1 << MSR_LE;
+> -            }
+> -        } else if (env->spr[SPR_LPCR] & LPCR_ILE) {
+> +    if (excp_model >= POWERPC_EXCP_970) {
 
-Yes. Just resend with your next series.
+why include POWERPC_EXCP_970 ? These CPUs do not support Little Endian.
 
 Thanks,
 
 C.
 
 
+> +        if (ppc_interrupts_little_endian(cpu, !!(new_msr & MSR_HVB))) {
+>               new_msr |= (target_ulong)1 << MSR_LE;
+>           }
+>       } else if (msr_ile) {
 > 
->>   include/hw/ppc/pnv.h | 4 ++--
->>   hw/ppc/pnv.c         | 7 +++----
->>   2 files changed, 5 insertions(+), 6 deletions(-)
->>
->> diff --git a/include/hw/ppc/pnv.h b/include/hw/ppc/pnv.h
->> index ca27bd39f0ac..251c9854329d 100644
->> --- a/include/hw/ppc/pnv.h
->> +++ b/include/hw/ppc/pnv.h
->> @@ -52,7 +52,6 @@ struct PnvChip {
->>       uint64_t     cores_mask;
->>       PnvCore      **cores;
->> -    uint32_t     num_phbs;
->>       uint32_t     num_pecs;
->>       MemoryRegion xscom_mmio;
->> @@ -82,6 +81,7 @@ struct Pnv8Chip {
->>   #define PNV8_CHIP_PHB3_MAX 4
->>       PnvPHB3      phbs[PNV8_CHIP_PHB3_MAX];
->> +    uint32_t     num_phbs;
->>       XICSFabric    *xics;
->>   };
->> @@ -136,8 +136,8 @@ struct PnvChipClass {
->>       /*< public >*/
->>       uint64_t     chip_cfam_id;
->>       uint64_t     cores_mask;
->> -    uint32_t     num_phbs;
->>       uint32_t     num_pecs;
->> +    uint32_t     num_phbs;
->>       DeviceRealize parent_realize;
->> diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
->> index 2b027e299d27..8a3732c982e5 100644
->> --- a/hw/ppc/pnv.c
->> +++ b/hw/ppc/pnv.c
->> @@ -1099,7 +1099,6 @@ static void pnv_chip_power10_intc_print_info(PnvChip *chip, PowerPCCPU *cpu,
->>   static void pnv_chip_power8_instance_init(Object *obj)
->>   {
->> -    PnvChip *chip = PNV_CHIP(obj);
->>       Pnv8Chip *chip8 = PNV8_CHIP(obj);
->>       PnvChipClass *pcc = PNV_CHIP_GET_CLASS(obj);
->>       int i;
->> @@ -1118,10 +1117,10 @@ static void pnv_chip_power8_instance_init(Object *obj)
->>       object_initialize_child(obj, "homer", &chip8->homer, TYPE_PNV8_HOMER);
->>       if (defaults_enabled()) {
->> -        chip->num_phbs = pcc->num_phbs;
->> +        chip8->num_phbs = pcc->num_phbs;
->>       }
->> -    for (i = 0; i < chip->num_phbs; i++) {
->> +    for (i = 0; i < chip8->num_phbs; i++) {
->>           object_initialize_child(obj, "phb[*]", &chip8->phbs[i], TYPE_PNV_PHB3);
->>       }
->> @@ -1239,7 +1238,7 @@ static void pnv_chip_power8_realize(DeviceState *dev, Error **errp)
->>                                   &chip8->homer.regs);
->>       /* PHB3 controllers */
->> -    for (i = 0; i < chip->num_phbs; i++) {
->> +    for (i = 0; i < chip8->num_phbs; i++) {
->>           PnvPHB3 *phb = &chip8->phbs[i];
->>           object_property_set_int(OBJECT(phb), "index", i, &error_fatal);
 
 
