@@ -2,92 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6AE7483ED8
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 10:06:45 +0100 (CET)
-Received: from localhost ([::1]:59390 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3F68483EE9
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 10:12:28 +0100 (CET)
+Received: from localhost ([::1]:33560 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n4fmH-0000AW-0r
-	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 04:06:45 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33584)
+	id 1n4frn-000219-4y
+	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 04:12:27 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35198)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1n4fj6-0006H2-El
- for qemu-devel@nongnu.org; Tue, 04 Jan 2022 04:03:28 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57147)
+ (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
+ id 1n4fqO-0001MQ-Hv
+ for qemu-devel@nongnu.org; Tue, 04 Jan 2022 04:11:00 -0500
+Received: from mga04.intel.com ([192.55.52.120]:41341)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1n4fiz-00029C-Fr
- for qemu-devel@nongnu.org; Tue, 04 Jan 2022 04:03:26 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641287000;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=wlO1H2kd7LlcCtye6cUzTipAzY2ie3kVy6q3Eb2RLhs=;
- b=D3cGVUAHLJlP9tzCkESqKkdDxeXvhd0PGS3sHLDXdZ2y6kNv8Xk1YnNPN2G33wesGQNA9P
- r2a066mB0WXDeCrMWRWSSS2IZZrpZY/y0ZD8E+4sYxE/awqq95W0NqeHsFiDV+R7bnodsM
- OFslkcAWI6OUBqbVof7SoAeQc6skPMk=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-198-gFZvTAvTOLes9w2_E4YctA-1; Tue, 04 Jan 2022 04:03:15 -0500
-X-MC-Unique: gFZvTAvTOLes9w2_E4YctA-1
-Received: by mail-wr1-f72.google.com with SMTP id
- v1-20020adfc5c1000000b001a37fd2fa2dso2422730wrg.22
- for <qemu-devel@nongnu.org>; Tue, 04 Jan 2022 01:03:15 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent
- :content-language:to:cc:references:from:subject:in-reply-to
- :content-transfer-encoding;
- bh=wlO1H2kd7LlcCtye6cUzTipAzY2ie3kVy6q3Eb2RLhs=;
- b=OnGP89K4X5bsGqV8Yn3DjTbgPiwNM4msEm7iW3wgygCQt6yPAopnbxZcl4yXrtsqkx
- Ql3phrXez5ZnsxpRxcTTTd7oO1DqOAsKTyL5BR4UZ+oeFJi3Wi0Pi96wJfynkVHH0o5M
- HuoGMa5Y89GSS82hvjxktr3ARCF4rwno7thh793od5YrLGuqrZ9yMzWtIhc40+tf/p7N
- 5PSIh6A1Lqmcj2WKUHxhMCGQT2I2aKQ9j0PJMP2l1ge5e3jSMuV0Is1DQ+AimhBL6163
- X8HzOD+S55pnCpq4AcDd7qiBAI2gHBFQGKdcXH12NlMcFByiy/HjXqw8GPjwE5MjWks5
- h/Rw==
-X-Gm-Message-State: AOAM532qXe7gzY5pLbXKshn8BdFIuQf/xZxPNK5ep7+N+Bz4TC626CoG
- oLWNKaStu4ndnhKeQ1wLvMPdj9CjkmeovEDnclf3Obh45z4eeiZFV1SMHZyXeogePLSydjgLfoU
- b0bxbih7cZqMbTIw=
-X-Received: by 2002:a5d:6483:: with SMTP id o3mr43909681wri.101.1641286994220; 
- Tue, 04 Jan 2022 01:03:14 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxwaJ4/YUV7yQvPdPkRAEl9p9hua5x2zfZPCLMZXN2302Vc7gq4SuG74tEmd+ztXXA8SrFlZA==
-X-Received: by 2002:a5d:6483:: with SMTP id o3mr43909664wri.101.1641286994041; 
- Tue, 04 Jan 2022 01:03:14 -0800 (PST)
-Received: from [192.168.8.100] (tmo-098-68.customers.d1-online.com.
- [80.187.98.68])
- by smtp.gmail.com with ESMTPSA id c7sm41694753wri.21.2022.01.04.01.03.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 04 Jan 2022 01:03:13 -0800 (PST)
-Message-ID: <e34c782a-d22e-cc95-58d6-d6e2e495dfa2@redhat.com>
-Date: Tue, 4 Jan 2022 10:03:12 +0100
+ (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
+ id 1n4fqI-0005eX-LD
+ for qemu-devel@nongnu.org; Tue, 04 Jan 2022 04:11:00 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1641287454; x=1672823454;
+ h=date:from:to:cc:subject:message-id:reply-to:references:
+ mime-version:in-reply-to;
+ bh=rl+9/vI+L0cuDx+k5y0HMB6G4IvN76ZZeARXiZbpGLQ=;
+ b=XmGFdwp/oEVnCRGdVQzEvMib/EFGquwQ7Lyo6GBwM2KVdtNdAmejdeuN
+ t0dkda+0tz0RMvXkBRareZzmjIlzuililCA0UugF33iJ7ms6X8eLOOrZ4
+ KAWvYR+42qGm/k///nysQuxUB5LAoDRvYTapZqgbK0x4tKcT6+J72Cicp
+ cYvpuwn57ylxnU+vzfCLbLi4lLXRCf1OPlmFirU5HqggEidqLKY0UsYA9
+ Ac2u2+xnk0QHEMpIsEXtUoXPlVOnP2p4N4q7erz+Q+VbMMCZ9O7ZRbb6D
+ DeztuORRp31H8OHl1zzTrDm4pQUv3yAGSj1LeRQuHMUj8LRXOAAVWNlr4 w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10216"; a="241008130"
+X-IronPort-AV: E=Sophos;i="5.88,260,1635231600"; d="scan'208";a="241008130"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Jan 2022 01:10:50 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,260,1635231600"; d="scan'208";a="471992735"
+Received: from chaop.bj.intel.com (HELO localhost) ([10.240.192.101])
+ by orsmga006.jf.intel.com with ESMTP; 04 Jan 2022 01:10:42 -0800
+Date: Tue, 4 Jan 2022 17:10:08 +0800
+From: Chao Peng <chao.p.peng@linux.intel.com>
+To: Yan Zhao <yan.y.zhao@intel.com>
+Subject: Re: [PATCH v3 kvm/queue 14/16] KVM: Handle page fault for private
+ memory
+Message-ID: <20220104091008.GA21806@chaop.bj.intel.com>
+References: <20211223123011.41044-1-chao.p.peng@linux.intel.com>
+ <20211223123011.41044-15-chao.p.peng@linux.intel.com>
+ <20220104014629.GA2330@yzhao56-desk.sh.intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
-References: <20220104074649.1712440-1-marcandre.lureau@redhat.com>
- <9ace664b-2396-a338-c59f-35cdbdbde3e3@redhat.com>
- <CAMxuvayE-jJ5sdfv_a1oR5X+pK3iGAy3w7Ti8LQ5YB7ZSTEvyg@mail.gmail.com>
-From: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH] docs/sphinx: fix compatibility with sphinx < 1.8
-In-Reply-To: <CAMxuvayE-jJ5sdfv_a1oR5X+pK3iGAy3w7Ti8LQ5YB7ZSTEvyg@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -45
-X-Spam_score: -4.6
-X-Spam_bar: ----
-X-Spam_report: (-4.6 / 5.0 requ) DKIMWL_WL_HIGH=-0.37, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.354,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220104014629.GA2330@yzhao56-desk.sh.intel.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+Received-SPF: none client-ip=192.55.52.120;
+ envelope-from=chao.p.peng@linux.intel.com; helo=mga04.intel.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) DKIM_INVALID=0.1, DKIM_SIGNED=0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,77 +74,186 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>, Peter Maydell <peter.maydell@linaro.org>
+Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
+Cc: Wanpeng Li <wanpengli@tencent.com>, jun.nakajima@intel.com,
+ kvm@vger.kernel.org, david@redhat.com, qemu-devel@nongnu.org,
+ "J . Bruce Fields" <bfields@fieldses.org>, linux-mm@kvack.org,
+ "H . Peter Anvin" <hpa@zytor.com>, ak@linux.intel.com,
+ Jonathan Corbet <corbet@lwn.net>, Joerg Roedel <joro@8bytes.org>,
+ x86@kernel.org, Hugh Dickins <hughd@google.com>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ luto@kernel.org, Thomas Gleixner <tglx@linutronix.de>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>, Jim Mattson <jmattson@google.com>,
+ dave.hansen@intel.com, Sean Christopherson <seanjc@google.com>,
+ susie.li@intel.com, Jeff Layton <jlayton@kernel.org>,
+ linux-kernel@vger.kernel.org, john.ji@intel.com,
+ Yu Zhang <yu.c.zhang@linux.intel.com>, linux-fsdevel@vger.kernel.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Andrew Morton <akpm@linux-foundation.org>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 04/01/2022 09.15, Marc-André Lureau wrote:
-> Hi Thomas
+On Tue, Jan 04, 2022 at 09:46:35AM +0800, Yan Zhao wrote:
+> On Thu, Dec 23, 2021 at 08:30:09PM +0800, Chao Peng wrote:
+> > When a page fault from the secondary page table while the guest is
+> > running happens in a memslot with KVM_MEM_PRIVATE, we need go
+> > different paths for private access and shared access.
+> > 
+> >   - For private access, KVM checks if the page is already allocated in
+> >     the memory backend, if yes KVM establishes the mapping, otherwise
+> >     exits to userspace to convert a shared page to private one.
+> >
+> will this conversion be atomical or not?
+> For example, after punching a hole in a private memory slot, will KVM
+> see two notifications: one for invalidation of the whole private memory
+> slot, and one for fallocate of the rest ranges besides the hole?
+> Or, KVM only sees one invalidation notification for the hole?
+
+Punching hole doesn't need to invalidate the whole memory slot. It only
+send one invalidation notification to KVM for the 'hole' part.
+
+Taking shared-to-private conversion as example it only invalidates the
+'hole' part (that usually only the portion of the whole memory) on the
+shared fd,, and then fallocate the private memory in the private fd at
+the 'hole'. The KVM invalidation notification happens when the shared
+hole gets invalidated. The establishment of the private mapping happens
+at subsequent KVM page fault handlers.
+
+> Could you please show QEMU code about this conversion?
+
+See below for the QEMU side conversion code. The above described
+invalidation and fallocation will be two steps in this conversion. If
+error happens in the middle then this error will be propagated to
+kvm_run to do the proper action (e.g. may kill the guest?).
+
+int ram_block_convert_range(RAMBlock *rb, uint64_t start, size_t length,
+                            bool shared_to_private)
+{
+    int ret; 
+    int fd_from, fd_to;
+
+    if (!rb || rb->private_fd <= 0) { 
+        return -1;
+    }    
+
+    if (!QEMU_PTR_IS_ALIGNED(start, rb->page_size) ||
+        !QEMU_PTR_IS_ALIGNED(length, rb->page_size)) {
+        return -1;
+    }    
+
+    if (length > rb->max_length) {
+        return -1;
+    }    
+
+    if (shared_to_private) {
+        fd_from = rb->fd;
+        fd_to = rb->private_fd;
+    } else {
+        fd_from = rb->private_fd;
+        fd_to = rb->fd;
+    }    
+
+    ret = ram_block_discard_range_fd(rb, start, length, fd_from);
+    if (ret) {
+        return ret; 
+    }    
+
+    if (fd_to > 0) { 
+        return fallocate(fd_to, 0, start, length);
+    }    
+
+    return 0;
+}
+
 > 
-> On Tue, Jan 4, 2022 at 12:11 PM Thomas Huth <thuth@redhat.com> wrote:
->>
->> On 04/01/2022 08.46, marcandre.lureau@redhat.com wrote:
->>> From: Marc-André Lureau <marcandre.lureau@redhat.com>
->>>
->>> SphinxDirective was added with sphinx 1.8 (2018-09-13).
->>>
->>> Reported-by: Thomas Huth <thuth@redhat.com>
->>> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
->>> ---
->>>    docs/sphinx/fakedbusdoc.py | 4 ++--
->>>    1 file changed, 2 insertions(+), 2 deletions(-)
->>>
->>> diff --git a/docs/sphinx/fakedbusdoc.py b/docs/sphinx/fakedbusdoc.py
->>> index a680b257547f..d2c507904654 100644
->>> --- a/docs/sphinx/fakedbusdoc.py
->>> +++ b/docs/sphinx/fakedbusdoc.py
->>> @@ -7,12 +7,12 @@
->>>    # Author: Marc-André Lureau <marcandre.lureau@redhat.com>
->>>    """dbus-doc is a Sphinx extension that provides documentation from D-Bus XML."""
->>>
->>> +from docutils.parsers.rst import Directive
->>>    from sphinx.application import Sphinx
->>> -from sphinx.util.docutils import SphinxDirective
->>>    from typing import Any, Dict
->>>
->>>
->>> -class FakeDBusDocDirective(SphinxDirective):
->>> +class FakeDBusDocDirective(Directive):
->>>        has_content = True
->>>        required_arguments = 1
->>
->> Thanks, that fixes my issue, indeed!
->>
->> Tested-by: Thomas Huth <thuth@redhat.com>
->>
->> I wonder whether we could turn such sphinx warnings during the configure
->> phase into a hard failure so that such bugs would fail in the CI instead of
->> getting merge without notice...?
->>
 > 
-> I don't think there is a way to set the max sphinx version (an
-> argument such as --max-version=1.7.9)
+> >   - For shared access, KVM also checks if the page is already allocated
+> >     in the memory backend, if yes then exit to userspace to convert a
+> >     private page to shared one, otherwise it's treated as a traditional
+> >     hva-based shared memory, KVM lets existing code to obtain a pfn with
+> >     get_user_pages() and establish the mapping.
+> > 
+> > The above code assume private memory is persistent and pre-allocated in
+> > the memory backend so KVM can use this information as an indicator for
+> > a page is private or shared. The above check is then performed by
+> > calling kvm_memfd_get_pfn() which currently is implemented as a
+> > pagecache search but in theory that can be implemented differently
+> > (i.e. when the page is even not mapped into host pagecache there should
+> > be some different implementation).
+> > 
+> > Signed-off-by: Yu Zhang <yu.c.zhang@linux.intel.com>
+> > Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
+> > ---
+> >  arch/x86/kvm/mmu/mmu.c         | 73 ++++++++++++++++++++++++++++++++--
+> >  arch/x86/kvm/mmu/paging_tmpl.h | 11 +++--
+> >  2 files changed, 77 insertions(+), 7 deletions(-)
+> > 
+> > diff --git a/arch/x86/kvm/mmu/mmu.c b/arch/x86/kvm/mmu/mmu.c
+> > index 2856eb662a21..fbcdf62f8281 100644
+> > --- a/arch/x86/kvm/mmu/mmu.c
+> > +++ b/arch/x86/kvm/mmu/mmu.c
+> > @@ -2920,6 +2920,9 @@ int kvm_mmu_max_mapping_level(struct kvm *kvm,
+> >  	if (max_level == PG_LEVEL_4K)
+> >  		return PG_LEVEL_4K;
+> >  
+> > +	if (kvm_slot_is_private(slot))
+> > +		return max_level;
+> > +
+> >  	host_level = host_pfn_mapping_level(kvm, gfn, pfn, slot);
+> >  	return min(host_level, max_level);
+> >  }
+> > @@ -3950,7 +3953,59 @@ static bool kvm_arch_setup_async_pf(struct kvm_vcpu *vcpu, gpa_t cr2_or_gpa,
+> >  				  kvm_vcpu_gfn_to_hva(vcpu, gfn), &arch);
+> >  }
+> >  
+> > -static bool kvm_faultin_pfn(struct kvm_vcpu *vcpu, struct kvm_page_fault *fault, int *r)
+> > +static bool kvm_vcpu_is_private_gfn(struct kvm_vcpu *vcpu, gfn_t gfn)
+> > +{
+> > +	/*
+> > +	 * At this time private gfn has not been supported yet. Other patch
+> > +	 * that enables it should change this.
+> > +	 */
+> > +	return false;
+> > +}
+> > +
+> > +static bool kvm_faultin_pfn_private(struct kvm_vcpu *vcpu,
+> > +				    struct kvm_page_fault *fault,
+> > +				    bool *is_private_pfn, int *r)
+> > +{
+> > +	int order;
+> > +	int mem_convert_type;
+> > +	struct kvm_memory_slot *slot = fault->slot;
+> > +	long pfn = kvm_memfd_get_pfn(slot, fault->gfn, &order);
+> For private memory slots, it's possible to have pfns backed by
+> backends other than memfd, e.g. devicefd.
 
-Yes, I didn't expect that... I was rather wondering whether warnings could 
-be turned into errors - and there seems to be "-W" option indeed ... and 
-looking at docs/meson.build, we even use it if configuration has been done 
-with --enable-werror !
+Surely yes, although this patch only supports memfd, but it's designed
+to be extensible to support other memory backing stores than memfd. There
+is one assumption in this design however: one private memslot can be
+backed by only one type of such memory backing store, e.g. if the
+devicefd you mentioned can independently provide memory for a memslot
+then that's no issue.
 
-> The only way I can think of is to cover building with that version in
-> the CI, as long as it is supported.
+>So is it possible to let those
+> private memslots keep private and use traditional hva-based way?
 
-I thought that it would have slipped through the CI since the warning was 
-ignored - but it rather seems like it slipped through since the CentOS job 
-is not building the docs at all! See:
+Typically this fd-based private memory uses the 'offset' as the
+userspace address to get a pfn from the backing store fd. But I believe
+the current code does not prevent you from using the hva as the
+userspace address, as long as your memory backing store understand that
+address and can provide the pfn basing on it. But since you already have
+the hva, you probably already mmap-ed the fd to userspace, that seems
+not this private memory patch can protect you. Probably I didn't quite
+understand 'keep private' you mentioned here.
 
-  https://gitlab.com/qemu-project/qemu/-/jobs/1937664125#L260
-
-I'll send a patch to use --enable-docs there, too:
-
-  https://gitlab.com/thuth/qemu/-/jobs/1938762318#L4071
-
-  Thomas
-
+Thanks,
+Chao
+> Reasons below:
+> 1. only memfd is supported in this patch set.
+> 2. qemu/host read/write to those private memslots backing up by devicefd may
+> not cause machine check.
+> 
+> Thanks
+> Yan
+> 
 
