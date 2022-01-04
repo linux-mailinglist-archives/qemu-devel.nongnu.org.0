@@ -2,61 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 654ED484133
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 12:50:32 +0100 (CET)
-Received: from localhost ([::1]:58720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA222484137
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 12:51:27 +0100 (CET)
+Received: from localhost ([::1]:34204 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n4iKl-0007zc-HB
-	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 06:50:31 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38284)
+	id 1n4iLe-00027m-Qu
+	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 06:51:26 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38668)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n4iIB-0005x6-EX
- for qemu-devel@nongnu.org; Tue, 04 Jan 2022 06:47:52 -0500
-Received: from mout.kundenserver.de ([212.227.126.134]:39573)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n4iK1-0000TX-8j
+ for qemu-devel@nongnu.org; Tue, 04 Jan 2022 06:49:45 -0500
+Received: from mout.kundenserver.de ([212.227.126.187]:34561)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n4iI5-0008S3-AP
- for qemu-devel@nongnu.org; Tue, 04 Jan 2022 06:47:47 -0500
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n4iJz-0000B1-Fx
+ for qemu-devel@nongnu.org; Tue, 04 Jan 2022 06:49:44 -0500
 Received: from [192.168.100.1] ([82.142.30.62]) by mrelayeu.kundenserver.de
- (mreue009 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1McY0L-1mX2Ul336b-00cxOK; Tue, 04 Jan 2022 12:47:42 +0100
-Message-ID: <591a5169-06af-3786-69aa-d6efe8a5d2ee@vivier.eu>
-Date: Tue, 4 Jan 2022 12:47:42 +0100
+ (mreue011 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1My2lr-1mBdgw32rP-00zXw0; Tue, 04 Jan 2022 12:49:41 +0100
+Message-ID: <afd0f3f4-eac2-59f5-91db-b55148578f35@vivier.eu>
+Date: Tue, 4 Jan 2022 12:49:40 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.4.0
-Subject: Re: [PATCH v2 6/6] target/sh4: Implement prctl_unalign_sigbus
+Subject: Re: [PATCH] linux-user/signal: Map exit signals in SIGCHLD siginfo_t
 Content-Language: fr
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20211227150127.2659293-1-richard.henderson@linaro.org>
- <20211227150127.2659293-7-richard.henderson@linaro.org>
+To: Matthias Schiffer <mschiffer@universe-factory.net>
+References: <81534fde7cdfc6acea4889d886fbefdd606630fb.1635019124.git.mschiffer@universe-factory.net>
 From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <20211227150127.2659293-7-richard.henderson@linaro.org>
+In-Reply-To: <81534fde7cdfc6acea4889d886fbefdd606630fb.1635019124.git.mschiffer@universe-factory.net>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:eNmLHoRmXRSwtwCE/pBB9myDk47cSxpl0GVEltfEvGmIk9mzypz
- 6T8u3yes/b3+1kGq5hSpDm/x1bGWaTBMH9YaFvnuUpSLRtkbs2VPtuwGq5PG/2PfRKQ8Sfe
- evNdJQ16IWWhfG4HNTSAYFdXthczdk1/B56OpRq/3fEjKKa1AHFF3qmJKavPol2NFU6WFgw
- qLzxqViwrHIubMkUi8GsA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:CIVWada++UE=:PGKHPjOOhMFhBpISOZblXH
- ZwEWFZC/XB+s34uIPcassjm2gaveJLu0lQ+qF4XFPOzSpw2y0tx2aBRubjVGB9rEdswragWy4
- ud4RPPmQlj2m9h4zrVbjv2HDokpusDyehEUO5rvraYLexnwfELvaSf8EfTMhYs0WDWXhK0IVC
- DQXTVXExw5Gswc4zFUabG9KF97Xy67dgvY40yZghFjUYLV0uTzSfe4kMhqRlVi7wyfvp0AzGf
- tiiSR3PeZlNTsF225Ax+cp6LpMpzNYqZEpw2jXDhPP+15jOh2MBjs5V0B+ndZTwuxxrWjsOsi
- G7oSh5rVx03W6rRgjndsQrizV9DYECeyqBIG3SjrgMDhRmpN/hKOrUXc2kUUTBFiO1P+toGNz
- CkhW5VAQ9dpB+Y585vbRO2n/tkXSqxeorvv02MedT+cTklarZGIfSMGDmg3+PoK92O6xkINXv
- 3gOErQa+nu733r1+Fnr/Czncy5/G/DenywLO7UZk19gNIHo4ZQdwoFM2JfWDGF3wLJHRLum//
- GAKfgkmn9nIXlPRegpxsUoQFe20nogsFLPLcm0VksKLZWdyVTiYSx1fyxglm4z3m+lkFzHivn
- PADBEo8CIvMCbfsNe32ZrzQ64EBpKsQ1qiSw6rXeuSKaATtGADpuhrlYxFJ12dVNwk0DxPtBd
- KCz4DcFOfrm/WbkCqBKE6PdlAiJL4hSEZOcB4dQMv6Dzd5+w2CczeeXyGqRT/fFtWG84=
-Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:VzW6OBd5EvFTfPlhiuVbJ01CZPPnc1hWeEZlyTPl9vq6ZZsnTA7
+ zyhdyv3PrSTjVNB3NDo1IBV1vrjHAZMYt9a8s2l3k8/JlF8fmF1Mg/Kcng4g7M/BSY7kRqA
+ 2EGyKvHZIY/O3HDKOOWgQb4hxQ523oeQRnF0gEPGC+ZjEMJB3Ex+1dPBcapPUHGimuW3lxJ
+ l6MEjmfje5uh4m/KCus6Q==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:XcEzMP/f1EI=:dhm/JgBh+Iuu1hg4DLyGxO
+ dvUi/UPR6URERAoBXFMY3gtqWZ8NCN2N67QQqyYzveVuAtmK3pvCIwCmbvoD/6T80olX1P3Mi
+ HOu2xOpm5fI+TdJb8/0aGkYKl1BmpTXlorluFSbu38cjYUAdhkTx13slX3iTipWJunfpUYa33
+ YOtmKtXhFzIt9nb+YxRV6rXNbwgzUjmX4/IZZRbetDuKyMftRq0HlYKDAOrR7N38XCm00oXkt
+ 9bZZVoeqN5Sy84nGefYWCWlNzJ7/p62jH4OS4i+iGNAUJFPm0IgfVwq9xOD4+XvE3SRyg1ylf
+ tvTATFU5lluWagoUUj9dbSfSAUitaWZYTzMT1d9zNeh3tASoF5r1v3zehXfjJ+d56mXIZB4zi
+ vzYErrTn1ADpvCs4uJx1PV2xJHRKc9vI03PrinlFXkni0g4CLhJEVy9RQ2uz9/+HZKoxEp5sp
+ KHYoXfO2+rPc8SNJ6aKqyG4tnt2BU026b99Svovg+dkfgKY9Lntr2GhmdgQLkDIk6GP55lKms
+ T60lZoy+A8eUbvSIN3AYDCl27CK6CeuvtL8AFnuJ6I3qimPUOlvRL7vIUvHMu6JmhBUfQcoNI
+ lfVD6ziHfRXpIinyeg3WJQg4xqh18+yxHPQTQk2pba5wUtsiTGBpCpGEBwV0nGETn6lBZWrxD
+ Y0rhT9j8EmP2ZgaDUio2WU338KSY5BCcaqia4L66xpKSZKlmm4kvMc5KJaz2lZxn3r4A=
+Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -33
 X-Spam_score: -3.4
 X-Spam_bar: ---
 X-Spam_report: (-3.4 / 5.0 requ) NICE_REPLY_A=-3.354,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -69,217 +68,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 27/12/2021 à 16:01, Richard Henderson a écrit :
-> Leave TARGET_ALIGNED_ONLY set, but use the new CPUState
-> flag to set MO_UNALN for the instructions that the kernel
-> handles in the unaligned trap.
+Le 23/10/2021 à 21:59, Matthias Schiffer a écrit :
+> When converting a siginfo_t from waitid(), the interpretation of si_status
+> depends on the value of si_code: For CLD_EXITED, it is an exit code and
+> should be copied verbatim. For other codes, it is a signal number
+> (possibly with additional high bits from ptrace) that should be mapped.
 > 
-> The Linux kernel does not handle all memory operations: no
-> floating-point and no MAC.
+> This code was previously changed in commit 1c3dfb506ea3
+> ("linux-user/signal: Decode waitid si_code"), but the fix was
+> incomplete.
 > 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> Tested with the following test program:
+> 
+>      #include <stdio.h>
+>      #include <stdlib.h>
+>      #include <unistd.h>
+>      #include <sys/wait.h>
+> 
+>      int main() {
+>      	pid_t pid = fork();
+>      	if (pid == 0) {
+>      		exit(12);
+>      	} else {
+>      		siginfo_t siginfo = {};
+>      		waitid(P_PID, pid, &siginfo, WEXITED);
+>      		printf("Code: %d, status: %d\n", (int)siginfo.si_code, (int)siginfo.si_status);
+>      	}
+> 
+>      	pid = fork();
+>      	if (pid == 0) {
+>      		raise(SIGUSR2);
+>      	} else {
+>      		siginfo_t siginfo = {};
+>      		waitid(P_PID, pid, &siginfo, WEXITED);
+>      		printf("Code: %d, status: %d\n", (int)siginfo.si_code, (int)siginfo.si_status);
+>      	}
+>      }
+> 
+> Output with an x86_64 host and mips64el target before 1c3dfb506ea3
+> (incorrect: exit code 12 is translated like a signal):
+> 
+>      Code: 1, status: 17
+>      Code: 2, status: 17
+> 
+> After 1c3dfb506ea3 (incorrect: signal number is not translated):
+> 
+>      Code: 1, status: 12
+>      Code: 2, status: 12
+> 
+> With this patch:
+> 
+>      Code: 1, status: 12
+>      Code: 2, status: 17
+> 
+> Signed-off-by: Matthias Schiffer <mschiffer@universe-factory.net>
 > ---
->   linux-user/sh4/target_prctl.h |  2 +-
->   target/sh4/cpu.h              |  4 +++
->   target/sh4/translate.c        | 50 ++++++++++++++++++++++++-----------
->   3 files changed, 39 insertions(+), 17 deletions(-)
+>   linux-user/signal.c | 7 ++++++-
+>   1 file changed, 6 insertions(+), 1 deletion(-)
 > 
-> diff --git a/linux-user/sh4/target_prctl.h b/linux-user/sh4/target_prctl.h
-> index eb53b31ad5..5629ddbf39 100644
-> --- a/linux-user/sh4/target_prctl.h
-> +++ b/linux-user/sh4/target_prctl.h
-> @@ -1 +1 @@
-> -/* No special prctl support required. */
-> +#include "../generic/target_prctl_unalign.h"
-> diff --git a/target/sh4/cpu.h b/target/sh4/cpu.h
-> index 4cfb109f56..fb9dd9db2f 100644
-> --- a/target/sh4/cpu.h
-> +++ b/target/sh4/cpu.h
-> @@ -83,6 +83,7 @@
->   #define DELAY_SLOT_RTE         (1 << 2)
->   
->   #define TB_FLAG_PENDING_MOVCA  (1 << 3)
-> +#define TB_FLAG_UNALIGN        (1 << 4)
->   
->   #define GUSA_SHIFT             4
->   #ifdef CONFIG_USER_ONLY
-> @@ -373,6 +374,9 @@ static inline void cpu_get_tb_cpu_state(CPUSH4State *env, target_ulong *pc,
->               | (env->sr & ((1u << SR_MD) | (1u << SR_RB)))      /* Bits 29-30 */
->               | (env->sr & (1u << SR_FD))                        /* Bit 15 */
->               | (env->movcal_backup ? TB_FLAG_PENDING_MOVCA : 0); /* Bit 3 */
-> +#ifdef CONFIG_USER_ONLY
-> +    *flags |= TB_FLAG_UNALIGN * !env_cpu(env)->prctl_unalign_sigbus;
-> +#endif
->   }
->   
->   #endif /* SH4_CPU_H */
-> diff --git a/target/sh4/translate.c b/target/sh4/translate.c
-> index ce5d674a52..50493c61ea 100644
-> --- a/target/sh4/translate.c
-> +++ b/target/sh4/translate.c
-> @@ -50,8 +50,10 @@ typedef struct DisasContext {
->   
->   #if defined(CONFIG_USER_ONLY)
->   #define IS_USER(ctx) 1
-> +#define UNALIGN(C)   (ctx->tbflags & TB_FLAG_UNALIGN ? MO_UNALN : MO_ALIGN)
->   #else
->   #define IS_USER(ctx) (!(ctx->tbflags & (1u << SR_MD)))
-> +#define UNALIGN(C)   0
->   #endif
->   
->   /* Target-specific values for ctx->base.is_jmp.  */
-> @@ -495,7 +497,8 @@ static void _decode_opc(DisasContext * ctx)
->   	{
->   	    TCGv addr = tcg_temp_new();
->   	    tcg_gen_addi_i32(addr, REG(B11_8), B3_0 * 4);
-> -            tcg_gen_qemu_st_i32(REG(B7_4), addr, ctx->memidx, MO_TEUL);
-> +            tcg_gen_qemu_st_i32(REG(B7_4), addr, ctx->memidx,
-> +                                MO_TEUL | UNALIGN(ctx));
->   	    tcg_temp_free(addr);
->   	}
->   	return;
-> @@ -503,7 +506,8 @@ static void _decode_opc(DisasContext * ctx)
->   	{
->   	    TCGv addr = tcg_temp_new();
->   	    tcg_gen_addi_i32(addr, REG(B7_4), B3_0 * 4);
-> -            tcg_gen_qemu_ld_i32(REG(B11_8), addr, ctx->memidx, MO_TESL);
-> +            tcg_gen_qemu_ld_i32(REG(B11_8), addr, ctx->memidx,
-> +                                MO_TESL | UNALIGN(ctx));
->   	    tcg_temp_free(addr);
->   	}
->   	return;
-> @@ -558,19 +562,23 @@ static void _decode_opc(DisasContext * ctx)
->           tcg_gen_qemu_st_i32(REG(B7_4), REG(B11_8), ctx->memidx, MO_UB);
->   	return;
->       case 0x2001:		/* mov.w Rm,@Rn */
-> -        tcg_gen_qemu_st_i32(REG(B7_4), REG(B11_8), ctx->memidx, MO_TEUW);
-> +        tcg_gen_qemu_st_i32(REG(B7_4), REG(B11_8), ctx->memidx,
-> +                            MO_TEUW | UNALIGN(ctx));
->   	return;
->       case 0x2002:		/* mov.l Rm,@Rn */
-> -        tcg_gen_qemu_st_i32(REG(B7_4), REG(B11_8), ctx->memidx, MO_TEUL);
-> +        tcg_gen_qemu_st_i32(REG(B7_4), REG(B11_8), ctx->memidx,
-> +                            MO_TEUL | UNALIGN(ctx));
->   	return;
->       case 0x6000:		/* mov.b @Rm,Rn */
->           tcg_gen_qemu_ld_i32(REG(B11_8), REG(B7_4), ctx->memidx, MO_SB);
->   	return;
->       case 0x6001:		/* mov.w @Rm,Rn */
-> -        tcg_gen_qemu_ld_i32(REG(B11_8), REG(B7_4), ctx->memidx, MO_TESW);
-> +        tcg_gen_qemu_ld_i32(REG(B11_8), REG(B7_4), ctx->memidx,
-> +                            MO_TESW | UNALIGN(ctx));
->   	return;
->       case 0x6002:		/* mov.l @Rm,Rn */
-> -        tcg_gen_qemu_ld_i32(REG(B11_8), REG(B7_4), ctx->memidx, MO_TESL);
-> +        tcg_gen_qemu_ld_i32(REG(B11_8), REG(B7_4), ctx->memidx,
-> +                            MO_TESL | UNALIGN(ctx));
->   	return;
->       case 0x2004:		/* mov.b Rm,@-Rn */
->   	{
-> @@ -586,7 +594,8 @@ static void _decode_opc(DisasContext * ctx)
->   	{
->   	    TCGv addr = tcg_temp_new();
->   	    tcg_gen_subi_i32(addr, REG(B11_8), 2);
-> -            tcg_gen_qemu_st_i32(REG(B7_4), addr, ctx->memidx, MO_TEUW);
-> +            tcg_gen_qemu_st_i32(REG(B7_4), addr, ctx->memidx,
-> +                                MO_TEUW | UNALIGN(ctx));
->   	    tcg_gen_mov_i32(REG(B11_8), addr);
->   	    tcg_temp_free(addr);
->   	}
-> @@ -595,7 +604,8 @@ static void _decode_opc(DisasContext * ctx)
->   	{
->   	    TCGv addr = tcg_temp_new();
->   	    tcg_gen_subi_i32(addr, REG(B11_8), 4);
-> -            tcg_gen_qemu_st_i32(REG(B7_4), addr, ctx->memidx, MO_TEUL);
-> +            tcg_gen_qemu_st_i32(REG(B7_4), addr, ctx->memidx,
-> +                                MO_TEUL | UNALIGN(ctx));
->   	    tcg_gen_mov_i32(REG(B11_8), addr);
->           tcg_temp_free(addr);
->   	}
-> @@ -606,12 +616,14 @@ static void _decode_opc(DisasContext * ctx)
->   		tcg_gen_addi_i32(REG(B7_4), REG(B7_4), 1);
->   	return;
->       case 0x6005:		/* mov.w @Rm+,Rn */
-> -        tcg_gen_qemu_ld_i32(REG(B11_8), REG(B7_4), ctx->memidx, MO_TESW);
-> +        tcg_gen_qemu_ld_i32(REG(B11_8), REG(B7_4), ctx->memidx,
-> +                            MO_TESW | UNALIGN(ctx));
->   	if ( B11_8 != B7_4 )
->   		tcg_gen_addi_i32(REG(B7_4), REG(B7_4), 2);
->   	return;
->       case 0x6006:		/* mov.l @Rm+,Rn */
-> -        tcg_gen_qemu_ld_i32(REG(B11_8), REG(B7_4), ctx->memidx, MO_TESL);
-> +        tcg_gen_qemu_ld_i32(REG(B11_8), REG(B7_4), ctx->memidx,
-> +                            MO_TESL | UNALIGN(ctx));
->   	if ( B11_8 != B7_4 )
->   		tcg_gen_addi_i32(REG(B7_4), REG(B7_4), 4);
->   	return;
-> @@ -627,7 +639,8 @@ static void _decode_opc(DisasContext * ctx)
->   	{
->   	    TCGv addr = tcg_temp_new();
->   	    tcg_gen_add_i32(addr, REG(B11_8), REG(0));
-> -            tcg_gen_qemu_st_i32(REG(B7_4), addr, ctx->memidx, MO_TEUW);
-> +            tcg_gen_qemu_st_i32(REG(B7_4), addr, ctx->memidx,
-> +                                MO_TEUW | UNALIGN(ctx));
->   	    tcg_temp_free(addr);
->   	}
->   	return;
-> @@ -635,7 +648,8 @@ static void _decode_opc(DisasContext * ctx)
->   	{
->   	    TCGv addr = tcg_temp_new();
->   	    tcg_gen_add_i32(addr, REG(B11_8), REG(0));
-> -            tcg_gen_qemu_st_i32(REG(B7_4), addr, ctx->memidx, MO_TEUL);
-> +            tcg_gen_qemu_st_i32(REG(B7_4), addr, ctx->memidx,
-> +                                MO_TEUL | UNALIGN(ctx));
->   	    tcg_temp_free(addr);
->   	}
->   	return;
-> @@ -651,7 +665,8 @@ static void _decode_opc(DisasContext * ctx)
->   	{
->   	    TCGv addr = tcg_temp_new();
->   	    tcg_gen_add_i32(addr, REG(B7_4), REG(0));
-> -            tcg_gen_qemu_ld_i32(REG(B11_8), addr, ctx->memidx, MO_TESW);
-> +            tcg_gen_qemu_ld_i32(REG(B11_8), addr, ctx->memidx,
-> +                                MO_TESW | UNALIGN(ctx));
->   	    tcg_temp_free(addr);
->   	}
->   	return;
-> @@ -659,7 +674,8 @@ static void _decode_opc(DisasContext * ctx)
->   	{
->   	    TCGv addr = tcg_temp_new();
->   	    tcg_gen_add_i32(addr, REG(B7_4), REG(0));
-> -            tcg_gen_qemu_ld_i32(REG(B11_8), addr, ctx->memidx, MO_TESL);
-> +            tcg_gen_qemu_ld_i32(REG(B11_8), addr, ctx->memidx,
-> +                                MO_TESL | UNALIGN(ctx));
->   	    tcg_temp_free(addr);
->   	}
->   	return;
-> @@ -1253,7 +1269,8 @@ static void _decode_opc(DisasContext * ctx)
->   	{
->   	    TCGv addr = tcg_temp_new();
->   	    tcg_gen_addi_i32(addr, REG(B7_4), B3_0 * 2);
-> -            tcg_gen_qemu_st_i32(REG(0), addr, ctx->memidx, MO_TEUW);
-> +            tcg_gen_qemu_st_i32(REG(0), addr, ctx->memidx,
-> +                                MO_TEUW | UNALIGN(ctx));
->   	    tcg_temp_free(addr);
->   	}
->   	return;
-> @@ -1269,7 +1286,8 @@ static void _decode_opc(DisasContext * ctx)
->   	{
->   	    TCGv addr = tcg_temp_new();
->   	    tcg_gen_addi_i32(addr, REG(B7_4), B3_0 * 2);
-> -            tcg_gen_qemu_ld_i32(REG(0), addr, ctx->memidx, MO_TESW);
-> +            tcg_gen_qemu_ld_i32(REG(0), addr, ctx->memidx,
-> +                                MO_TESW | UNALIGN(ctx));
->   	    tcg_temp_free(addr);
->   	}
->   	return;
+> diff --git a/linux-user/signal.c b/linux-user/signal.c
+> index 14d8fdfde152..8e3af98ec0a7 100644
+> --- a/linux-user/signal.c
+> +++ b/linux-user/signal.c
+> @@ -403,7 +403,12 @@ static inline void host_to_target_siginfo_noswap(target_siginfo_t *tinfo,
+>           case TARGET_SIGCHLD:
+>               tinfo->_sifields._sigchld._pid = info->si_pid;
+>               tinfo->_sifields._sigchld._uid = info->si_uid;
+> -            tinfo->_sifields._sigchld._status = info->si_status;
+> +            if (si_code == CLD_EXITED)
+> +                tinfo->_sifields._sigchld._status = info->si_status;
+> +            else
+> +                tinfo->_sifields._sigchld._status
+> +                    = host_to_target_signal(info->si_status & 0x7f)
+> +                        | (info->si_status & ~0x7f);
+>               tinfo->_sifields._sigchld._utime = info->si_utime;
+>               tinfo->_sifields._sigchld._stime = info->si_stime;
+>               si_type = QEMU_SI_CHLD;
 
-Applied to my linux-user-for-7.0 branch.
-
-Thanks,
-Laurent
-
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 
