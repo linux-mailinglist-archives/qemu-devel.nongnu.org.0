@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D59FD483D32
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 08:50:16 +0100 (CET)
-Received: from localhost ([::1]:44140 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E82C5483D28
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 08:45:49 +0100 (CET)
+Received: from localhost ([::1]:35424 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n4eaF-0004Cg-UJ
-	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 02:50:15 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43296)
+	id 1n4eVx-0006hC-1r
+	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 02:45:49 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43184)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1n4eIP-0005pr-RL; Tue, 04 Jan 2022 02:31:57 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:3390)
+ id 1n4eIK-0005pd-TT; Tue, 04 Jan 2022 02:31:48 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:51558
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1n4eIM-0008CX-V2; Tue, 04 Jan 2022 02:31:49 -0500
-Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 20438eog001115; 
- Tue, 4 Jan 2022 07:31:30 GMT
+ id 1n4eIH-0008BS-QV; Tue, 04 Jan 2022 02:31:44 -0500
+Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 2043DY6u001503; 
+ Tue, 4 Jan 2022 07:31:31 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3dc8xyyfh2-1
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3dce55ue36-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 04 Jan 2022 07:31:31 +0000
+Received: from m0098413.ppops.net (m0098413.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 2047L9N9013592;
+ Tue, 4 Jan 2022 07:31:30 GMT
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.99])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3dce55ue2t-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Tue, 04 Jan 2022 07:31:30 +0000
-Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 2046wmD0008113;
- Tue, 4 Jan 2022 07:31:30 GMT
-Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.70])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3dc8xyyfgp-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 04 Jan 2022 07:31:29 +0000
-Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
- by ppma01fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2047OAhl011461;
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+ by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2047O29i009531;
  Tue, 4 Jan 2022 07:31:28 GMT
-Received: from b06avi18878370.portsmouth.uk.ibm.com
- (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
- by ppma01fra.de.ibm.com with ESMTP id 3daek96a3x-1
+Received: from b06avi18626390.portsmouth.uk.ibm.com
+ (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
+ by ppma04ams.nl.ibm.com with ESMTP id 3daek9y5h1-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Tue, 04 Jan 2022 07:31:28 +0000
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
- [9.149.105.61])
- by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 2047VPGa25952738
+Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com
+ [9.149.105.60])
+ by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 2047MgH429491646
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 4 Jan 2022 07:31:25 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id A043D11C05C;
- Tue,  4 Jan 2022 07:31:25 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 5D29611C054;
- Tue,  4 Jan 2022 07:31:25 +0000 (GMT)
+ Tue, 4 Jan 2022 07:22:42 GMT
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 520474203F;
+ Tue,  4 Jan 2022 07:31:26 +0000 (GMT)
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 0E28842042;
+ Tue,  4 Jan 2022 07:31:26 +0000 (GMT)
 Received: from smtp.tlslab.ibm.com (unknown [9.101.4.1])
- by d06av25.portsmouth.uk.ibm.com (Postfix) with SMTP;
+ by d06av24.portsmouth.uk.ibm.com (Postfix) with SMTP;
  Tue,  4 Jan 2022 07:31:25 +0000 (GMT)
 Received: from yukon.ibmuc.com (unknown [9.171.33.19])
- by smtp.tlslab.ibm.com (Postfix) with ESMTP id A10912201F1;
- Tue,  4 Jan 2022 08:31:24 +0100 (CET)
+ by smtp.tlslab.ibm.com (Postfix) with ESMTP id 4E58A220144;
+ Tue,  4 Jan 2022 08:31:25 +0100 (CET)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
-Subject: [PULL 03/26] ppc/pnv: Remove the PHB4 "device-id" property
-Date: Tue,  4 Jan 2022 08:30:58 +0100
-Message-Id: <20220104073121.3784280-4-clg@kaod.org>
+Subject: [PULL 04/26] pnv_phb3.c: do not set 'root-bus' as bus name
+Date: Tue,  4 Jan 2022 08:30:59 +0100
+Message-Id: <20220104073121.3784280-5-clg@kaod.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20220104073121.3784280-1-clg@kaod.org>
 References: <20220104073121.3784280-1-clg@kaod.org>
@@ -70,23 +71,24 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: 5AooJZarJ32rQ5AafbvlLIzBy29KdND9
-X-Proofpoint-ORIG-GUID: s6cNfAvGpkzkHZEVDIL1Gac9RcoHZ8ao
+X-Proofpoint-ORIG-GUID: Ga5Fv4pn59-rQrcghpys7ZPkgrumRD__
+X-Proofpoint-GUID: GrdvXnYsCmvLEQ71QWxfl_EbfWuIw3I6
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
  definitions=2022-01-04_04,2022-01-01_01,2021-12-02_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 spamscore=0
- phishscore=0 mlxlogscore=999 priorityscore=1501 clxscore=1034
- impostorscore=0 adultscore=0 bulkscore=0 lowpriorityscore=0 malwarescore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2110150000 definitions=main-2201040049
+ malwarescore=0
+ priorityscore=1501 spamscore=0 phishscore=0 adultscore=0 bulkscore=0
+ clxscore=1034 impostorscore=0 lowpriorityscore=0 suspectscore=0 mlxscore=0
+ mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2110150000 definitions=main-2201040047
 Received-SPF: softfail client-ip=148.163.158.5; envelope-from=clg@kaod.org;
- helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: 7
-X-Spam_score: 0.7
-X-Spam_bar: /
-X-Spam_report: (0.7 / 5.0 requ) RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: 11
+X-Spam_score: 1.1
+X-Spam_bar: +
+X-Spam_report: (1.1 / 5.0 requ) KHOP_HELO_FCRDNS=0.399,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -107,78 +109,76 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It's unused.
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
 
-Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
-Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-Message-Id: <20211222063817.1541058-4-clg@kaod.org>
+All pnv-phb3-root-bus buses are being created as 'root-bus'. This
+makes it impossible to, for example, add a pnv-phb3-root-port in
+a specific root bus, since they all have the same name. By default
+the device will be parented by the pnv-phb3 device that precedeced it in
+the QEMU command line.
+
+Moreover, this doesn't all for custom bus naming. Libvirt, for instance,
+likes to name these buses as 'pcie.N', where 'N' is the index value of
+the controller in the domain XML, by using the 'id' command line
+attribute. At this moment this is also being ignored - the created root
+bus will always be named 'root-bus'.
+
+This patch fixes both scenarios by removing the 'root-bus' name from the
+pci_register_root_bus() call. If an "id" is provided, use that.
+Otherwise use 'NULL' as bus name. The 'NULL' value will be handled in
+qbus_init_internal() and it will defaulted as lowercase bus type + the
+global bus_id value.
+
+After this path we can define the bus name by using the 'id' attribute:
+
+qemu-system-ppc64 -m 4G -machine powernv8,accel=3Dtcg \
+    -device pnv-phb3,chip-id=3D0,index=3D1,id=3Dpcie.0
+
+  dev: pnv-phb3, id "pcie.0"
+    index =3D 1 (0x1)
+    chip-id =3D 0 (0x0)
+    x-config-reg-migration-enabled =3D true
+    bypass-iommu =3D false
+    bus: pcie.0
+      type pnv-phb3-root-bus
+
+And without an 'id' we will have the following default:
+
+qemu-system-ppc64 -m 4G -machine powernv8,accel=3Dtcg \
+    -device pnv-phb3,chip-id=3D0,index=3D1
+
+  dev: pnv-phb3, id ""
+    index =3D 1 (0x1)
+    chip-id =3D 0 (0x0)
+    x-config-reg-migration-enabled =3D true
+    bypass-iommu =3D false
+    bus: pnv-phb3-root-bus.0
+      type pnv-phb3-root-bus
+
+Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
+Message-Id: <20211228193806.1198496-3-danielhb413@gmail.com>
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 ---
- include/hw/pci-host/pnv_phb4.h | 2 --
- hw/pci-host/pnv_phb4.c         | 1 -
- hw/pci-host/pnv_phb4_pec.c     | 3 ---
- 3 files changed, 6 deletions(-)
+ hw/pci-host/pnv_phb3.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/include/hw/pci-host/pnv_phb4.h b/include/hw/pci-host/pnv_phb=
-4.h
-index 60de3031a622..4a19338db35e 100644
---- a/include/hw/pci-host/pnv_phb4.h
-+++ b/include/hw/pci-host/pnv_phb4.h
-@@ -84,7 +84,6 @@ struct PnvPHB4 {
-     uint32_t phb_id;
+diff --git a/hw/pci-host/pnv_phb3.c b/hw/pci-host/pnv_phb3.c
+index c6e7871ecbf1..c78084cce795 100644
+--- a/hw/pci-host/pnv_phb3.c
++++ b/hw/pci-host/pnv_phb3.c
+@@ -1045,7 +1045,8 @@ static void pnv_phb3_realize(DeviceState *dev, Erro=
+r **errp)
+     memory_region_init(&phb->pci_mmio, OBJECT(phb), "pci-mmio",
+                        PCI_MMIO_TOTAL_SIZE);
 =20
-     uint64_t version;
--    uint16_t device_id;
-=20
-     char bus_path[8];
-=20
-@@ -222,7 +221,6 @@ struct PnvPhb4PecClass {
-     const char *stk_compat;
-     int stk_compat_size;
-     uint64_t version;
--    uint64_t device_id;
-     const uint32_t *num_stacks;
- };
-=20
-diff --git a/hw/pci-host/pnv_phb4.c b/hw/pci-host/pnv_phb4.c
-index 2074621405ce..371abda5c6e9 100644
---- a/hw/pci-host/pnv_phb4.c
-+++ b/hw/pci-host/pnv_phb4.c
-@@ -1262,7 +1262,6 @@ static Property pnv_phb4_properties[] =3D {
-         DEFINE_PROP_UINT32("index", PnvPHB4, phb_id, 0),
-         DEFINE_PROP_UINT32("chip-id", PnvPHB4, chip_id, 0),
-         DEFINE_PROP_UINT64("version", PnvPHB4, version, 0),
--        DEFINE_PROP_UINT16("device-id", PnvPHB4, device_id, 0),
-         DEFINE_PROP_LINK("stack", PnvPHB4, stack, TYPE_PNV_PHB4_PEC_STAC=
-K,
-                          PnvPhb4PecStack *),
-         DEFINE_PROP_END_OF_LIST(),
-diff --git a/hw/pci-host/pnv_phb4_pec.c b/hw/pci-host/pnv_phb4_pec.c
-index 24a3adcae326..f3e4fa0c8297 100644
---- a/hw/pci-host/pnv_phb4_pec.c
-+++ b/hw/pci-host/pnv_phb4_pec.c
-@@ -527,7 +527,6 @@ static void pnv_pec_class_init(ObjectClass *klass, vo=
-id *data)
-     pecc->stk_compat =3D stk_compat;
-     pecc->stk_compat_size =3D sizeof(stk_compat);
-     pecc->version =3D PNV_PHB4_VERSION;
--    pecc->device_id =3D PNV_PHB4_DEVICE_ID;
-     pecc->num_stacks =3D pnv_pec_num_stacks;
- }
-=20
-@@ -587,8 +586,6 @@ static void pnv_pec_stk_realize(DeviceState *dev, Err=
-or **errp)
-                             &error_fatal);
-     object_property_set_int(OBJECT(&stack->phb), "version", pecc->versio=
-n,
-                             &error_fatal);
--    object_property_set_int(OBJECT(&stack->phb), "device-id", pecc->devi=
-ce_id,
--                            &error_fatal);
-     object_property_set_link(OBJECT(&stack->phb), "stack", OBJECT(stack)=
-,
-                              &error_abort);
-     if (!sysbus_realize(SYS_BUS_DEVICE(&stack->phb), errp)) {
+-    pci->bus =3D pci_register_root_bus(dev, "root-bus",
++    pci->bus =3D pci_register_root_bus(dev,
++                                     dev->id ? dev->id : NULL,
+                                      pnv_phb3_set_irq, pnv_phb3_map_irq,=
+ phb,
+                                      &phb->pci_mmio, &phb->pci_io,
+                                      0, 4, TYPE_PNV_PHB3_ROOT_BUS);
 --=20
 2.31.1
 
