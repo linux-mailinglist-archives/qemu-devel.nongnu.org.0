@@ -2,60 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94BEB483D26
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 08:45:41 +0100 (CET)
-Received: from localhost ([::1]:35066 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18705483D47
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 08:54:20 +0100 (CET)
+Received: from localhost ([::1]:55440 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n4eVo-0006S0-KV
-	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 02:45:40 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43312)
+	id 1n4eeB-0003O0-59
+	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 02:54:19 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43202)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1n4eIQ-0005pt-5U; Tue, 04 Jan 2022 02:31:58 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:7926)
+ id 1n4eIM-0005pf-U5; Tue, 04 Jan 2022 02:31:53 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:47232
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1n4eIN-0008FJ-0C; Tue, 04 Jan 2022 02:31:49 -0500
-Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 2046hhPY010024; 
+ id 1n4eIJ-0008En-OV; Tue, 04 Jan 2022 02:31:46 -0500
+Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 2045IQvn002447; 
  Tue, 4 Jan 2022 07:31:35 GMT
-Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.98])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3dc7j6gmbp-1
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.102])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3dcfyphuj9-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 04 Jan 2022 07:31:34 +0000
-Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
- by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2047O519030606;
- Tue, 4 Jan 2022 07:31:32 GMT
-Received: from b06cxnps3075.portsmouth.uk.ibm.com
- (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
- by ppma03ams.nl.ibm.com with ESMTP id 3daek9f60b-1
+ Tue, 04 Jan 2022 07:31:35 +0000
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+ by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2047OV7M013483;
+ Tue, 4 Jan 2022 07:31:33 GMT
+Received: from b06avi18878370.portsmouth.uk.ibm.com
+ (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
+ by ppma06ams.nl.ibm.com with ESMTP id 3dae7jq7g7-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 04 Jan 2022 07:31:32 +0000
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
- [9.149.105.58])
- by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 2047VUxV26214860
+ Tue, 04 Jan 2022 07:31:33 +0000
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
+ [9.149.105.59])
+ by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 2047VVtJ36176156
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 4 Jan 2022 07:31:30 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 3E3C64C059;
+ Tue, 4 Jan 2022 07:31:31 GMT
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id EE306A4059;
  Tue,  4 Jan 2022 07:31:30 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id ED8754C044;
- Tue,  4 Jan 2022 07:31:29 +0000 (GMT)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 9EBE6A4051;
+ Tue,  4 Jan 2022 07:31:30 +0000 (GMT)
 Received: from smtp.tlslab.ibm.com (unknown [9.101.4.1])
- by d06av22.portsmouth.uk.ibm.com (Postfix) with SMTP;
- Tue,  4 Jan 2022 07:31:29 +0000 (GMT)
+ by d06av23.portsmouth.uk.ibm.com (Postfix) with SMTP;
+ Tue,  4 Jan 2022 07:31:30 +0000 (GMT)
 Received: from yukon.ibmuc.com (unknown [9.171.33.19])
- by smtp.tlslab.ibm.com (Postfix) with ESMTP id 3D34E220144;
+ by smtp.tlslab.ibm.com (Postfix) with ESMTP id DF5ED2201F1;
  Tue,  4 Jan 2022 08:31:29 +0100 (CET)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
-Subject: [PULL 10/26] ppc/ppc4xx: Convert printfs()
-Date: Tue,  4 Jan 2022 08:31:05 +0100
-Message-Id: <20220104073121.3784280-11-clg@kaod.org>
+Subject: [PULL 11/26] ppc/ppc405: Activate MMU logs
+Date: Tue,  4 Jan 2022 08:31:06 +0100
+Message-Id: <20220104073121.3784280-12-clg@kaod.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20220104073121.3784280-1-clg@kaod.org>
 References: <20220104073121.3784280-1-clg@kaod.org>
@@ -63,23 +64,24 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: RVSFb-gKvAtanhstMwnmSujxlv7IlJU_
-X-Proofpoint-GUID: RVSFb-gKvAtanhstMwnmSujxlv7IlJU_
+X-Proofpoint-ORIG-GUID: 0iueweL7JtN_qFQlTX-GgKhsMPSBhjmf
+X-Proofpoint-GUID: 0iueweL7JtN_qFQlTX-GgKhsMPSBhjmf
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
  definitions=2022-01-04_04,2022-01-01_01,2021-12-02_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0
- priorityscore=1501 impostorscore=0 phishscore=0 spamscore=0 clxscore=1034
- lowpriorityscore=0 suspectscore=0 mlxlogscore=999 mlxscore=0 adultscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ phishscore=0 clxscore=1034
+ mlxscore=0 spamscore=0 malwarescore=0 priorityscore=1501 adultscore=0
+ impostorscore=0 mlxlogscore=999 bulkscore=0 suspectscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2110150000 definitions=main-2201040049
-Received-SPF: softfail client-ip=148.163.156.1; envelope-from=clg@kaod.org;
+Received-SPF: softfail client-ip=148.163.158.5; envelope-from=clg@kaod.org;
  helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: 7
-X-Spam_score: 0.7
-X-Spam_bar: /
-X-Spam_report: (0.7 / 5.0 requ) SPF_HELO_NONE=0.001,
+X-Spam_score_int: 11
+X-Spam_score: 1.1
+X-Spam_bar: +
+X-Spam_report: (1.1 / 5.0 requ) KHOP_HELO_FCRDNS=0.399,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,220 +97,640 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- David Gibson <david@gibson.drobear.id.au>
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use a QEMU log primitive for errors and trace events for debug.
+There is no need to deactivate MMU logging at compile time. Remove all
+use of defines. Only keep DUMP_PAGE_TABLES for another series since
+page tables could be dumped from the monitor.
 
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
-Reviewed-by: David Gibson <david@gibson.drobear.id.au>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20211222064025.1541490-3-clg@kaod.org>
+Message-Id: <20211222064025.1541490-4-clg@kaod.org>
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
-Message-Id: <20220103063441.3424853-4-clg@kaod.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20220103063441.3424853-5-clg@kaod.org>
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 ---
- hw/ppc/mpc8544_guts.c |  9 ++++++---
- hw/ppc/ppc4xx_devs.c  | 39 +++++++++++----------------------------
- hw/ppc/ppc4xx_pci.c   | 11 +++++++----
- hw/ppc/trace-events   |  5 +++++
- 4 files changed, 29 insertions(+), 35 deletions(-)
+ target/ppc/mmu_common.c | 164 +++++++++++++++++++---------------------
+ target/ppc/mmu_helper.c |  97 +++++++++++-------------
+ 2 files changed, 122 insertions(+), 139 deletions(-)
 
-diff --git a/hw/ppc/mpc8544_guts.c b/hw/ppc/mpc8544_guts.c
-index e8d2d51c20c0..a26e83d0484b 100644
---- a/hw/ppc/mpc8544_guts.c
-+++ b/hw/ppc/mpc8544_guts.c
-@@ -19,6 +19,7 @@
+diff --git a/target/ppc/mmu_common.c b/target/ppc/mmu_common.c
+index 4e278365ca55..91270c1f17eb 100644
+--- a/target/ppc/mmu_common.c
++++ b/target/ppc/mmu_common.c
+@@ -34,29 +34,7 @@
+ #include "mmu-book3s-v3.h"
+ #include "mmu-radix64.h"
 =20
- #include "qemu/osdep.h"
- #include "qemu/module.h"
-+#include "qemu/log.h"
- #include "sysemu/runstate.h"
- #include "cpu.h"
- #include "hw/sysbus.h"
-@@ -82,7 +83,9 @@ static uint64_t mpc8544_guts_read(void *opaque, hwaddr =
-addr,
-         value =3D env->spr[SPR_E500_SVR];
-         break;
-     default:
--        fprintf(stderr, "guts: Unknown register read: %x\n", (int)addr);
-+        qemu_log_mask(LOG_GUEST_ERROR,
-+                      "%s: Unknown register 0x%" HWADDR_PRIx "\n",
-+                      __func__, addr);
-         break;
-     }
-=20
-@@ -101,8 +104,8 @@ static void mpc8544_guts_write(void *opaque, hwaddr a=
-ddr,
-         }
-         break;
-     default:
--        fprintf(stderr, "guts: Unknown register write: %x =3D %x\n",
--                (int)addr, (unsigned)value);
-+        qemu_log_mask(LOG_GUEST_ERROR, "%s: Unknown register 0x%" HWADDR=
-_PRIx
-+                       " =3D 0x%" PRIx64 "\n", __func__, addr, value);
-         break;
-     }
- }
-diff --git a/hw/ppc/ppc4xx_devs.c b/hw/ppc/ppc4xx_devs.c
-index 980c48944fc7..e7d82ae5016c 100644
---- a/hw/ppc/ppc4xx_devs.c
-+++ b/hw/ppc/ppc4xx_devs.c
-@@ -35,14 +35,7 @@
- #include "exec/address-spaces.h"
- #include "qemu/error-report.h"
- #include "qapi/error.h"
+-/* #define DEBUG_MMU */
+-/* #define DEBUG_BATS */
+-/* #define DEBUG_SOFTWARE_TLB */
+ /* #define DUMP_PAGE_TABLES */
+-/* #define FLUSH_ALL_TLBS */
 -
--/*#define DEBUG_UIC*/
--
--#ifdef DEBUG_UIC
--#  define LOG_UIC(...) qemu_log_mask(CPU_LOG_INT, ## __VA_ARGS__)
+-#ifdef DEBUG_MMU
+-#  define LOG_MMU_STATE(cpu) log_cpu_state_mask(CPU_LOG_MMU, (cpu), 0)
 -#else
--#  define LOG_UIC(...) do { } while (0)
+-#  define LOG_MMU_STATE(cpu) do { } while (0)
 -#endif
-+#include "trace.h"
+-
+-#ifdef DEBUG_SOFTWARE_TLB
+-#  define LOG_SWTLB(...) qemu_log_mask(CPU_LOG_MMU, __VA_ARGS__)
+-#else
+-#  define LOG_SWTLB(...) do { } while (0)
+-#endif
+-
+-#ifdef DEBUG_BATS
+-#  define LOG_BATS(...) qemu_log_mask(CPU_LOG_MMU, __VA_ARGS__)
+-#else
+-#  define LOG_BATS(...) do { } while (0)
+-#endif
 =20
- static void ppc4xx_reset(void *opaque)
+ void ppc_store_sdr1(CPUPPCState *env, target_ulong value)
  {
-@@ -137,8 +130,9 @@ static uint32_t sdram_bcr (hwaddr ram_base,
-         bcr =3D 0x000C0000;
-         break;
-     default:
--        printf("%s: invalid RAM size " TARGET_FMT_plx "\n", __func__,
--               ram_size);
-+        qemu_log_mask(LOG_GUEST_ERROR,
-+                      "%s: invalid RAM size 0x%" HWADDR_PRIx "\n", __fun=
+@@ -231,18 +209,20 @@ static int ppc6xx_tlb_check(CPUPPCState *env, mmu_c=
+tx_t *ctx,
+         tlb =3D &env->tlb.tlb6[nr];
+         /* This test "emulates" the PTE index match for hardware TLBs */
+         if ((eaddr & TARGET_PAGE_MASK) !=3D tlb->EPN) {
+-            LOG_SWTLB("TLB %d/%d %s [" TARGET_FMT_lx " " TARGET_FMT_lx
+-                      "] <> " TARGET_FMT_lx "\n", nr, env->nb_tlb,
+-                      pte_is_valid(tlb->pte0) ? "valid" : "inval",
+-                      tlb->EPN, tlb->EPN + TARGET_PAGE_SIZE, eaddr);
++            qemu_log_mask(CPU_LOG_MMU, "TLB %d/%d %s [" TARGET_FMT_lx
++                          " " TARGET_FMT_lx "] <> " TARGET_FMT_lx "\n",
++                          nr, env->nb_tlb,
++                          pte_is_valid(tlb->pte0) ? "valid" : "inval",
++                          tlb->EPN, tlb->EPN + TARGET_PAGE_SIZE, eaddr);
+             continue;
+         }
+-        LOG_SWTLB("TLB %d/%d %s " TARGET_FMT_lx " <> " TARGET_FMT_lx " "
+-                  TARGET_FMT_lx " %c %c\n", nr, env->nb_tlb,
+-                  pte_is_valid(tlb->pte0) ? "valid" : "inval",
+-                  tlb->EPN, eaddr, tlb->pte1,
+-                  access_type =3D=3D MMU_DATA_STORE ? 'S' : 'L',
+-                  access_type =3D=3D MMU_INST_FETCH ? 'I' : 'D');
++        qemu_log_mask(CPU_LOG_MMU, "TLB %d/%d %s " TARGET_FMT_lx " <> "
++                      TARGET_FMT_lx " " TARGET_FMT_lx " %c %c\n",
++                      nr, env->nb_tlb,
++                      pte_is_valid(tlb->pte0) ? "valid" : "inval",
++                      tlb->EPN, eaddr, tlb->pte1,
++                      access_type =3D=3D MMU_DATA_STORE ? 'S' : 'L',
++                      access_type =3D=3D MMU_INST_FETCH ? 'I' : 'D');
+         switch (ppc6xx_tlb_pte_check(ctx, tlb->pte0, tlb->pte1,
+                                      0, access_type)) {
+         case -3:
+@@ -272,8 +252,9 @@ static int ppc6xx_tlb_check(CPUPPCState *env, mmu_ctx=
+_t *ctx,
+     }
+     if (best !=3D -1) {
+     done:
+-        LOG_SWTLB("found TLB at addr " TARGET_FMT_plx " prot=3D%01x ret=3D=
+%d\n",
+-                  ctx->raddr & TARGET_PAGE_MASK, ctx->prot, ret);
++        qemu_log_mask(CPU_LOG_MMU, "found TLB at addr " TARGET_FMT_plx
++                      " prot=3D%01x ret=3D%d\n",
++                      ctx->raddr & TARGET_PAGE_MASK, ctx->prot, ret);
+         /* Update page flags */
+         pte_update_flags(ctx, &env->tlb.tlb6[best].pte1, ret, access_typ=
+e);
+     }
+@@ -317,7 +298,7 @@ static int get_bat_6xx_tlb(CPUPPCState *env, mmu_ctx_=
+t *ctx,
+     int ret =3D -1;
+     bool ifetch =3D access_type =3D=3D MMU_INST_FETCH;
+=20
+-    LOG_BATS("%s: %cBAT v " TARGET_FMT_lx "\n", __func__,
++     qemu_log_mask(CPU_LOG_MMU, "%s: %cBAT v " TARGET_FMT_lx "\n", __fun=
 c__,
-+                      ram_size);
-         return 0x00000000;
+              ifetch ? 'I' : 'D', virtual);
+     if (ifetch) {
+         BATlt =3D env->IBAT[1];
+@@ -332,9 +313,9 @@ static int get_bat_6xx_tlb(CPUPPCState *env, mmu_ctx_=
+t *ctx,
+         BEPIu =3D *BATu & 0xF0000000;
+         BEPIl =3D *BATu & 0x0FFE0000;
+         bat_size_prot(env, &bl, &valid, &prot, BATu, BATl);
+-        LOG_BATS("%s: %cBAT%d v " TARGET_FMT_lx " BATu " TARGET_FMT_lx
+-                 " BATl " TARGET_FMT_lx "\n", __func__,
+-                 ifetch ? 'I' : 'D', i, virtual, *BATu, *BATl);
++         qemu_log_mask(CPU_LOG_MMU, "%s: %cBAT%d v " TARGET_FMT_lx " BAT=
+u "
++                       TARGET_FMT_lx " BATl " TARGET_FMT_lx "\n", __func=
+__,
++                       ifetch ? 'I' : 'D', i, virtual, *BATu, *BATl);
+         if ((virtual & 0xF0000000) =3D=3D BEPIu &&
+             ((virtual & 0x0FFE0000) & ~bl) =3D=3D BEPIl) {
+             /* BAT matches */
+@@ -347,32 +328,33 @@ static int get_bat_6xx_tlb(CPUPPCState *env, mmu_ct=
+x_t *ctx,
+                 ctx->prot =3D prot;
+                 ret =3D check_prot(ctx->prot, access_type);
+                 if (ret =3D=3D 0) {
+-                    LOG_BATS("BAT %d match: r " TARGET_FMT_plx " prot=3D=
+%c%c\n",
+-                             i, ctx->raddr, ctx->prot & PAGE_READ ? 'R' =
+: '-',
+-                             ctx->prot & PAGE_WRITE ? 'W' : '-');
++                    qemu_log_mask(CPU_LOG_MMU, "BAT %d match: r " TARGET=
+_FMT_plx
++                                  " prot=3D%c%c\n", i, ctx->raddr,
++                                  ctx->prot & PAGE_READ ? 'R' : '-',
++                                  ctx->prot & PAGE_WRITE ? 'W' : '-');
+                 }
+                 break;
+             }
+         }
      }
-     bcr |=3D ram_base & 0xFF800000;
-@@ -171,10 +165,8 @@ static void sdram_set_bcr(ppc4xx_sdram_t *sdram, int=
- i,
- {
-     if (sdram->bcr[i] & 0x00000001) {
-         /* Unmap RAM */
--#ifdef DEBUG_SDRAM
--        printf("%s: unmap RAM area " TARGET_FMT_plx " " TARGET_FMT_lx "\=
-n",
--               __func__, sdram_base(sdram->bcr[i]), sdram_size(sdram->bc=
-r[i]));
+     if (ret < 0) {
+-#if defined(DEBUG_BATS)
+         if (qemu_log_enabled()) {
+-            LOG_BATS("no BAT match for " TARGET_FMT_lx ":\n", virtual);
++            qemu_log_mask(CPU_LOG_MMU, "no BAT match for "
++                          TARGET_FMT_lx ":\n", virtual);
+             for (i =3D 0; i < 4; i++) {
+                 BATu =3D &BATut[i];
+                 BATl =3D &BATlt[i];
+                 BEPIu =3D *BATu & 0xF0000000;
+                 BEPIl =3D *BATu & 0x0FFE0000;
+                 bl =3D (*BATu & 0x00001FFC) << 15;
+-                LOG_BATS("%s: %cBAT%d v " TARGET_FMT_lx " BATu " TARGET_=
+FMT_lx
+-                         " BATl " TARGET_FMT_lx "\n\t" TARGET_FMT_lx " "
+-                         TARGET_FMT_lx " " TARGET_FMT_lx "\n",
+-                         __func__, ifetch ? 'I' : 'D', i, virtual,
+-                         *BATu, *BATl, BEPIu, BEPIl, bl);
++                 qemu_log_mask(CPU_LOG_MMU, "%s: %cBAT%d v "
++                               TARGET_FMT_lx " BATu " TARGET_FMT_lx
++                               " BATl " TARGET_FMT_lx "\n\t" TARGET_FMT_=
+lx " "
++                               TARGET_FMT_lx " " TARGET_FMT_lx "\n",
++                               __func__, ifetch ? 'I' : 'D', i, virtual,
++                               *BATu, *BATl, BEPIu, BEPIl, bl);
+             }
+         }
 -#endif
-+        trace_ppc4xx_sdram_unmap(sdram_base(sdram->bcr[i]),
-+                                 sdram_size(sdram->bcr[i]));
-         memory_region_del_subregion(get_system_memory(),
-                                     &sdram->containers[i]);
-         memory_region_del_subregion(&sdram->containers[i],
-@@ -183,10 +175,7 @@ static void sdram_set_bcr(ppc4xx_sdram_t *sdram, int=
- i,
      }
-     sdram->bcr[i] =3D bcr & 0xFFDEE001;
-     if (enabled && (bcr & 0x00000001)) {
--#ifdef DEBUG_SDRAM
--        printf("%s: Map RAM area " TARGET_FMT_plx " " TARGET_FMT_lx "\n"=
-,
--               __func__, sdram_base(bcr), sdram_size(bcr));
--#endif
-+        trace_ppc4xx_sdram_unmap(sdram_base(bcr), sdram_size(bcr));
-         memory_region_init(&sdram->containers[i], NULL, "sdram-container=
-s",
-                            sdram_size(bcr));
-         memory_region_add_subregion(&sdram->containers[i], 0,
-@@ -216,10 +205,8 @@ static void sdram_unmap_bcr (ppc4xx_sdram_t *sdram)
-     int i;
+     /* No hit */
+     return ret;
+@@ -401,11 +383,12 @@ static int get_segment_6xx_tlb(CPUPPCState *env, mm=
+u_ctx_t *ctx,
+     vsid =3D sr & 0x00FFFFFF;
+     target_page_bits =3D TARGET_PAGE_BITS;
+     qemu_log_mask(CPU_LOG_MMU,
+-            "Check segment v=3D" TARGET_FMT_lx " %d " TARGET_FMT_lx
+-            " nip=3D" TARGET_FMT_lx " lr=3D" TARGET_FMT_lx
+-            " ir=3D%d dr=3D%d pr=3D%d %d t=3D%d\n",
+-            eaddr, (int)(eaddr >> 28), sr, env->nip, env->lr, (int)msr_i=
+r,
+-            (int)msr_dr, pr !=3D 0 ? 1 : 0, access_type =3D=3D MMU_DATA_=
+STORE, type);
++                  "Check segment v=3D" TARGET_FMT_lx " %d " TARGET_FMT_l=
+x
++                  " nip=3D" TARGET_FMT_lx " lr=3D" TARGET_FMT_lx
++                  " ir=3D%d dr=3D%d pr=3D%d %d t=3D%d\n",
++                  eaddr, (int)(eaddr >> 28), sr, env->nip, env->lr, (int=
+)msr_ir,
++                  (int)msr_dr, pr !=3D 0 ? 1 : 0,
++                  access_type =3D=3D MMU_DATA_STORE, type);
+     pgidx =3D (eaddr & ~SEGMENT_MASK_256M) >> target_page_bits;
+     hash =3D vsid ^ pgidx;
+     ctx->ptem =3D (vsid << 7) | (pgidx >> 10);
+@@ -536,9 +519,10 @@ int ppcemb_tlb_check(CPUPPCState *env, ppcemb_tlb_t =
+*tlb,
+         return -1;
+     }
+     mask =3D ~(tlb->size - 1);
+-    LOG_SWTLB("%s: TLB %d address " TARGET_FMT_lx " PID %u <=3D> " TARGE=
+T_FMT_lx
+-              " " TARGET_FMT_lx " %u %x\n", __func__, i, address, pid, t=
+lb->EPN,
+-              mask, (uint32_t)tlb->PID, tlb->prot);
++    qemu_log_mask(CPU_LOG_MMU, "%s: TLB %d address " TARGET_FMT_lx
++                  " PID %u <=3D> " TARGET_FMT_lx " " TARGET_FMT_lx " %u =
+%x\n",
++                  __func__, i, address, pid, tlb->EPN,
++                  mask, (uint32_t)tlb->PID, tlb->prot);
+     /* Check PID */
+     if (tlb->PID !=3D 0 && tlb->PID !=3D pid) {
+         return -1;
+@@ -575,8 +559,9 @@ static int mmu40x_get_physical_address(CPUPPCState *e=
+nv, mmu_ctx_t *ctx,
+         }
+         zsel =3D (tlb->attr >> 4) & 0xF;
+         zpr =3D (env->spr[SPR_40x_ZPR] >> (30 - (2 * zsel))) & 0x3;
+-        LOG_SWTLB("%s: TLB %d zsel %d zpr %d ty %d attr %08x\n",
+-                    __func__, i, zsel, zpr, access_type, tlb->attr);
++        qemu_log_mask(CPU_LOG_MMU,
++                      "%s: TLB %d zsel %d zpr %d ty %d attr %08x\n",
++                      __func__, i, zsel, zpr, access_type, tlb->attr);
+         /* Check execute enable bit */
+         switch (zpr) {
+         case 0x2:
+@@ -610,14 +595,16 @@ static int mmu40x_get_physical_address(CPUPPCState =
+*env, mmu_ctx_t *ctx,
+         }
+         if (ret >=3D 0) {
+             ctx->raddr =3D raddr;
+-            LOG_SWTLB("%s: access granted " TARGET_FMT_lx " =3D> " TARGE=
+T_FMT_plx
+-                      " %d %d\n", __func__, address, ctx->raddr, ctx->pr=
+ot,
+-                      ret);
++            qemu_log_mask(CPU_LOG_MMU, "%s: access granted " TARGET_FMT_=
+lx
++                          " =3D> " TARGET_FMT_plx
++                          " %d %d\n", __func__, address, ctx->raddr, ctx=
+->prot,
++                          ret);
+             return 0;
+         }
+     }
+-    LOG_SWTLB("%s: access refused " TARGET_FMT_lx " =3D> " TARGET_FMT_pl=
+x
+-              " %d %d\n", __func__, address, raddr, ctx->prot, ret);
++     qemu_log_mask(CPU_LOG_MMU, "%s: access refused " TARGET_FMT_lx
++                   " =3D> " TARGET_FMT_plx
++                   " %d %d\n", __func__, address, raddr, ctx->prot, ret)=
+;
 =20
-     for (i =3D 0; i < sdram->nbanks; i++) {
--#ifdef DEBUG_SDRAM
--        printf("%s: Unmap RAM area " TARGET_FMT_plx " " TARGET_FMT_lx "\=
-n",
--               __func__, sdram_base(sdram->bcr[i]), sdram_size(sdram->bc=
-r[i]));
--#endif
-+        trace_ppc4xx_sdram_unmap(sdram_base(sdram->bcr[i]),
-+                                 sdram_size(sdram->bcr[i]));
-         memory_region_del_subregion(get_system_memory(),
-                                     &sdram->ram_memories[i]);
-     }
-@@ -316,16 +303,12 @@ static void dcr_write_sdram (void *opaque, int dcrn=
-, uint32_t val)
-         case 0x20: /* SDRAM_CFG */
-             val &=3D 0xFFE00000;
-             if (!(sdram->cfg & 0x80000000) && (val & 0x80000000)) {
--#ifdef DEBUG_SDRAM
--                printf("%s: enable SDRAM controller\n", __func__);
--#endif
-+                trace_ppc4xx_sdram_enable("enable");
-                 /* validate all RAM mappings */
-                 sdram_map_bcr(sdram);
-                 sdram->status &=3D ~0x80000000;
-             } else if ((sdram->cfg & 0x80000000) && !(val & 0x80000000))=
- {
--#ifdef DEBUG_SDRAM
--                printf("%s: disable SDRAM controller\n", __func__);
--#endif
-+                trace_ppc4xx_sdram_enable("disable");
-                 /* invalidate all RAM mappings */
-                 sdram_unmap_bcr(sdram);
-                 sdram->status |=3D 0x80000000;
-diff --git a/hw/ppc/ppc4xx_pci.c b/hw/ppc/ppc4xx_pci.c
-index 304a29349c2e..5df97e6d156f 100644
---- a/hw/ppc/ppc4xx_pci.c
-+++ b/hw/ppc/ppc4xx_pci.c
-@@ -20,6 +20,7 @@
-  * 4xx SoCs, such as the 440EP. */
-=20
- #include "qemu/osdep.h"
-+#include "qemu/log.h"
- #include "hw/irq.h"
- #include "hw/ppc/ppc.h"
- #include "hw/ppc/ppc4xx.h"
-@@ -152,8 +153,9 @@ static void ppc4xx_pci_reg_write4(void *opaque, hwadd=
-r offset,
-         break;
-=20
-     default:
--        printf("%s: unhandled PCI internal register 0x%lx\n", __func__,
--               (unsigned long)offset);
-+        qemu_log_mask(LOG_GUEST_ERROR,
-+                     "%s: unhandled PCI internal register 0x%" HWADDR_PR=
-Ix "\n",
-+                     __func__, offset);
-         break;
-     }
+     return ret;
  }
-@@ -218,8 +220,9 @@ static uint64_t ppc4xx_pci_reg_read4(void *opaque, hw=
-addr offset,
-         break;
-=20
-     default:
--        printf("%s: invalid PCI internal register 0x%lx\n", __func__,
--               (unsigned long)offset);
-+        qemu_log_mask(LOG_GUEST_ERROR,
-+                      "%s: invalid PCI internal register 0x%" HWADDR_PRI=
-x "\n",
-+                      __func__, offset);
-         value =3D 0;
+@@ -646,7 +633,7 @@ static int mmubooke_check_tlb(CPUPPCState *env, ppcem=
+b_tlb_t *tlb,
+         goto found_tlb;
      }
 =20
-diff --git a/hw/ppc/trace-events b/hw/ppc/trace-events
-index ada644652d94..0c55aa501471 100644
---- a/hw/ppc/trace-events
-+++ b/hw/ppc/trace-events
-@@ -164,3 +164,8 @@ ppc4xx_gpt_init(uint64_t addr) "offet 0x%" PRIx64
+-    LOG_SWTLB("%s: TLB entry not found\n", __func__);
++     qemu_log_mask(CPU_LOG_MMU, "%s: TLB entry not found\n", __func__);
+     return -1;
 =20
- ppc405ep_clocks_compute(const char *param, uint32_t param2, uint32_t val=
-) "%s 0x%1" PRIx32 " %d"
- ppc405ep_clocks_setup(const char *trace) "%s"
-+
-+# ppc4xx_devs.c
-+ppc4xx_sdram_enable(const char *trace) "%s SDRAM controller"
-+ppc4xx_sdram_unmap(uint64_t addr, uint64_t size) "Unmap RAM area 0x%" PR=
-Ix64 " size 0x%" PRIx64
-+ppc4xx_sdram_map(uint64_t addr, uint64_t size) "Map RAM area 0x%" PRIx64=
- " size 0x%" PRIx64
+ found_tlb:
+@@ -659,17 +646,17 @@ found_tlb:
+=20
+     /* Check the address space */
+     if ((access_type =3D=3D MMU_INST_FETCH ? msr_ir : msr_dr) !=3D (tlb-=
+>attr & 1)) {
+-        LOG_SWTLB("%s: AS doesn't match\n", __func__);
++        qemu_log_mask(CPU_LOG_MMU, "%s: AS doesn't match\n", __func__);
+         return -1;
+     }
+=20
+     *prot =3D prot2;
+     if (prot2 & prot_for_access_type(access_type)) {
+-        LOG_SWTLB("%s: good TLB!\n", __func__);
++        qemu_log_mask(CPU_LOG_MMU, "%s: good TLB!\n", __func__);
+         return 0;
+     }
+=20
+-    LOG_SWTLB("%s: no prot match: %x\n", __func__, prot2);
++    qemu_log_mask(CPU_LOG_MMU, "%s: no prot match: %x\n", __func__, prot=
+2);
+     return access_type =3D=3D MMU_INST_FETCH ? -3 : -2;
+ }
+=20
+@@ -694,12 +681,13 @@ static int mmubooke_get_physical_address(CPUPPCStat=
+e *env, mmu_ctx_t *ctx,
+=20
+     if (ret >=3D 0) {
+         ctx->raddr =3D raddr;
+-        LOG_SWTLB("%s: access granted " TARGET_FMT_lx " =3D> " TARGET_FM=
+T_plx
+-                  " %d %d\n", __func__, address, ctx->raddr, ctx->prot,
+-                  ret);
++        qemu_log_mask(CPU_LOG_MMU, "%s: access granted " TARGET_FMT_lx
++                      " =3D> " TARGET_FMT_plx " %d %d\n", __func__,
++                      address, ctx->raddr, ctx->prot, ret);
+     } else {
+-        LOG_SWTLB("%s: access refused " TARGET_FMT_lx " =3D> " TARGET_FM=
+T_plx
+-                  " %d %d\n", __func__, address, raddr, ctx->prot, ret);
++         qemu_log_mask(CPU_LOG_MMU, "%s: access refused " TARGET_FMT_lx
++                       " =3D> " TARGET_FMT_plx " %d %d\n", __func__,
++                       address, raddr, ctx->prot, ret);
+     }
+=20
+     return ret;
+@@ -734,10 +722,11 @@ int ppcmas_tlb_check(CPUPPCState *env, ppcmas_tlb_t=
+ *tlb,
+     }
+=20
+     mask =3D ~(booke206_tlb_to_page_size(env, tlb) - 1);
+-    LOG_SWTLB("%s: TLB ADDR=3D0x" TARGET_FMT_lx " PID=3D0x%x MAS1=3D0x%x=
+ MAS2=3D0x%"
+-              PRIx64 " mask=3D0x%" HWADDR_PRIx " MAS7_3=3D0x%" PRIx64 " =
+MAS8=3D0x%"
+-              PRIx32 "\n", __func__, address, pid, tlb->mas1, tlb->mas2,=
+ mask,
+-              tlb->mas7_3, tlb->mas8);
++     qemu_log_mask(CPU_LOG_MMU, "%s: TLB ADDR=3D0x" TARGET_FMT_lx
++                   " PID=3D0x%x MAS1=3D0x%x MAS2=3D0x%" PRIx64 " mask=3D=
+0x%"
++                   HWADDR_PRIx " MAS7_3=3D0x%" PRIx64 " MAS8=3D0x%" PRIx=
+32 "\n",
++                   __func__, address, pid, tlb->mas1, tlb->mas2, mask,
++                   tlb->mas7_3, tlb->mas8);
+=20
+     /* Check PID */
+     tlb_pid =3D (tlb->mas1 & MAS1_TID_MASK) >> MAS1_TID_SHIFT;
+@@ -838,7 +827,7 @@ static int mmubooke206_check_tlb(CPUPPCState *env, pp=
+cmas_tlb_t *tlb,
+         }
+     }
+=20
+-    LOG_SWTLB("%s: TLB entry not found\n", __func__);
++     qemu_log_mask(CPU_LOG_MMU, "%s: TLB entry not found\n", __func__);
+     return -1;
+=20
+ found_tlb:
+@@ -873,17 +862,17 @@ found_tlb:
+     }
+=20
+     if (as !=3D ((tlb->mas1 & MAS1_TS) >> MAS1_TS_SHIFT)) {
+-        LOG_SWTLB("%s: AS doesn't match\n", __func__);
++        qemu_log_mask(CPU_LOG_MMU, "%s: AS doesn't match\n", __func__);
+         return -1;
+     }
+=20
+     *prot =3D prot2;
+     if (prot2 & prot_for_access_type(access_type)) {
+-        LOG_SWTLB("%s: good TLB!\n", __func__);
++        qemu_log_mask(CPU_LOG_MMU, "%s: good TLB!\n", __func__);
+         return 0;
+     }
+=20
+-    LOG_SWTLB("%s: no prot match: %x\n", __func__, prot2);
++    qemu_log_mask(CPU_LOG_MMU, "%s: no prot match: %x\n", __func__, prot=
+2);
+     return access_type =3D=3D MMU_INST_FETCH ? -3 : -2;
+ }
+=20
+@@ -919,12 +908,13 @@ found_tlb:
+=20
+     if (ret >=3D 0) {
+         ctx->raddr =3D raddr;
+-        LOG_SWTLB("%s: access granted " TARGET_FMT_lx " =3D> " TARGET_FM=
+T_plx
+-                  " %d %d\n", __func__, address, ctx->raddr, ctx->prot,
+-                  ret);
++         qemu_log_mask(CPU_LOG_MMU, "%s: access granted " TARGET_FMT_lx
++                       " =3D> " TARGET_FMT_plx " %d %d\n", __func__, add=
+ress,
++                       ctx->raddr, ctx->prot, ret);
+     } else {
+-        LOG_SWTLB("%s: access refused " TARGET_FMT_lx " =3D> " TARGET_FM=
+T_plx
+-                  " %d %d\n", __func__, address, raddr, ctx->prot, ret);
++         qemu_log_mask(CPU_LOG_MMU, "%s: access refused " TARGET_FMT_lx
++                       " =3D> " TARGET_FMT_plx " %d %d\n", __func__, add=
+ress,
++                       raddr, ctx->prot, ret);
+     }
+=20
+     return ret;
+@@ -1338,7 +1328,7 @@ static bool ppc_jumbo_xlate(PowerPCCPU *cpu, vaddr =
+eaddr,
+     }
+=20
+     if (guest_visible) {
+-        LOG_MMU_STATE(cs);
++        log_cpu_state_mask(CPU_LOG_MMU, cs, 0);
+         if (type =3D=3D ACCESS_CODE) {
+             switch (ret) {
+             case -1:
+diff --git a/target/ppc/mmu_helper.c b/target/ppc/mmu_helper.c
+index 2ec3d203a081..59df6952aea1 100644
+--- a/target/ppc/mmu_helper.c
++++ b/target/ppc/mmu_helper.c
+@@ -36,23 +36,8 @@
+ #include "exec/helper-proto.h"
+ #include "exec/cpu_ldst.h"
+=20
+-/* #define DEBUG_BATS */
+-/* #define DEBUG_SOFTWARE_TLB */
+-/* #define DUMP_PAGE_TABLES */
+ /* #define FLUSH_ALL_TLBS */
+=20
+-#ifdef DEBUG_SOFTWARE_TLB
+-#  define LOG_SWTLB(...) qemu_log_mask(CPU_LOG_MMU, __VA_ARGS__)
+-#else
+-#  define LOG_SWTLB(...) do { } while (0)
+-#endif
+-
+-#ifdef DEBUG_BATS
+-#  define LOG_BATS(...) qemu_log_mask(CPU_LOG_MMU, __VA_ARGS__)
+-#else
+-#  define LOG_BATS(...) do { } while (0)
+-#endif
+-
+ /***********************************************************************=
+******/
+ /* PowerPC MMU emulation */
+=20
+@@ -89,8 +74,8 @@ static inline void ppc6xx_tlb_invalidate_virt2(CPUPPCSt=
+ate *env,
+         nr =3D ppc6xx_tlb_getnum(env, eaddr, way, is_code);
+         tlb =3D &env->tlb.tlb6[nr];
+         if (pte_is_valid(tlb->pte0) && (match_epn =3D=3D 0 || eaddr =3D=3D=
+ tlb->EPN)) {
+-            LOG_SWTLB("TLB invalidate %d/%d " TARGET_FMT_lx "\n", nr,
+-                      env->nb_tlb, eaddr);
++            qemu_log_mask(CPU_LOG_MMU, "TLB invalidate %d/%d "
++                          TARGET_FMT_lx "\n", nr, env->nb_tlb, eaddr);
+             pte_invalidate(&tlb->pte0);
+             tlb_flush_page(cs, tlb->EPN);
+         }
+@@ -115,8 +100,9 @@ static void ppc6xx_tlb_store(CPUPPCState *env, target=
+_ulong EPN, int way,
+=20
+     nr =3D ppc6xx_tlb_getnum(env, EPN, way, is_code);
+     tlb =3D &env->tlb.tlb6[nr];
+-    LOG_SWTLB("Set TLB %d/%d EPN " TARGET_FMT_lx " PTE0 " TARGET_FMT_lx
+-              " PTE1 " TARGET_FMT_lx "\n", nr, env->nb_tlb, EPN, pte0, p=
+te1);
++    qemu_log_mask(CPU_LOG_MMU, "Set TLB %d/%d EPN " TARGET_FMT_lx " PTE0=
+ "
++                  TARGET_FMT_lx " PTE1 " TARGET_FMT_lx "\n", nr, env->nb=
+_tlb,
++                  EPN, pte0, pte1);
+     /* Invalidate any pending reference in QEMU for this virtual address=
+ */
+     ppc6xx_tlb_invalidate_virt2(env, EPN, is_code, 1);
+     tlb->pte0 =3D pte0;
+@@ -204,25 +190,27 @@ static inline void do_invalidate_BAT(CPUPPCState *e=
+nv, target_ulong BATu,
+     end =3D base + mask + 0x00020000;
+     if (((end - base) >> TARGET_PAGE_BITS) > 1024) {
+         /* Flushing 1024 4K pages is slower than a complete flush */
+-        LOG_BATS("Flush all BATs\n");
++        qemu_log_mask(CPU_LOG_MMU, "Flush all BATs\n");
+         tlb_flush(cs);
+-        LOG_BATS("Flush done\n");
++        qemu_log_mask(CPU_LOG_MMU, "Flush done\n");
+         return;
+     }
+-    LOG_BATS("Flush BAT from " TARGET_FMT_lx " to " TARGET_FMT_lx " ("
+-             TARGET_FMT_lx ")\n", base, end, mask);
++    qemu_log_mask(CPU_LOG_MMU, "Flush BAT from " TARGET_FMT_lx
++                  " to " TARGET_FMT_lx " (" TARGET_FMT_lx ")\n",
++                  base, end, mask);
+     for (page =3D base; page !=3D end; page +=3D TARGET_PAGE_SIZE) {
+         tlb_flush_page(cs, page);
+     }
+-    LOG_BATS("Flush done\n");
++    qemu_log_mask(CPU_LOG_MMU, "Flush done\n");
+ }
+ #endif
+=20
+ static inline void dump_store_bat(CPUPPCState *env, char ID, int ul, int=
+ nr,
+                                   target_ulong value)
+ {
+-    LOG_BATS("Set %cBAT%d%c to " TARGET_FMT_lx " (" TARGET_FMT_lx ")\n",=
+ ID,
+-             nr, ul =3D=3D 0 ? 'u' : 'l', value, env->nip);
++    qemu_log_mask(CPU_LOG_MMU, "Set %cBAT%d%c to " TARGET_FMT_lx " ("
++                  TARGET_FMT_lx ")\n", ID, nr, ul =3D=3D 0 ? 'u' : 'l',
++                  value, env->nip);
+ }
+=20
+ void helper_store_ibatu(CPUPPCState *env, uint32_t nr, target_ulong valu=
+e)
+@@ -550,9 +538,9 @@ static void do_6xx_tlb(CPUPPCState *env, target_ulong=
+ new_EPN, int is_code)
+     }
+     way =3D (env->spr[SPR_SRR1] >> 17) & 1;
+     (void)EPN; /* avoid a compiler warning */
+-    LOG_SWTLB("%s: EPN " TARGET_FMT_lx " " TARGET_FMT_lx " PTE0 " TARGET=
+_FMT_lx
+-              " PTE1 " TARGET_FMT_lx " way %d\n", __func__, new_EPN, EPN=
+, CMP,
+-              RPN, way);
++    qemu_log_mask(CPU_LOG_MMU, "%s: EPN " TARGET_FMT_lx " " TARGET_FMT_l=
+x
++                  " PTE0 " TARGET_FMT_lx " PTE1 " TARGET_FMT_lx " way %d=
+\n",
++                  __func__, new_EPN, EPN, CMP, RPN, way);
+     /* Store this TLB */
+     ppc6xx_tlb_store(env, (uint32_t)(new_EPN & TARGET_PAGE_MASK),
+                      way, is_code, CMP, RPN);
+@@ -721,15 +709,17 @@ void helper_4xx_tlbwe_hi(CPUPPCState *env, target_u=
+long entry,
+     ppcemb_tlb_t *tlb;
+     target_ulong page, end;
+=20
+-    LOG_SWTLB("%s entry %d val " TARGET_FMT_lx "\n", __func__, (int)entr=
+y,
++    qemu_log_mask(CPU_LOG_MMU, "%s entry %d val " TARGET_FMT_lx "\n",
++                  __func__, (int)entry,
+               val);
+     entry &=3D PPC4XX_TLB_ENTRY_MASK;
+     tlb =3D &env->tlb.tlbe[entry];
+     /* Invalidate previous TLB (if it's valid) */
+     if (tlb->prot & PAGE_VALID) {
+         end =3D tlb->EPN + tlb->size;
+-        LOG_SWTLB("%s: invalidate old TLB %d start " TARGET_FMT_lx " end=
+ "
+-                  TARGET_FMT_lx "\n", __func__, (int)entry, tlb->EPN, en=
+d);
++        qemu_log_mask(CPU_LOG_MMU, "%s: invalidate old TLB %d start "
++                      TARGET_FMT_lx " end " TARGET_FMT_lx "\n", __func__=
+,
++                      (int)entry, tlb->EPN, end);
+         for (page =3D tlb->EPN; page < end; page +=3D TARGET_PAGE_SIZE) =
+{
+             tlb_flush_page(cs, page);
+         }
+@@ -758,18 +748,20 @@ void helper_4xx_tlbwe_hi(CPUPPCState *env, target_u=
+long entry,
+         tlb->prot &=3D ~PAGE_VALID;
+     }
+     tlb->PID =3D env->spr[SPR_40x_PID]; /* PID */
+-    LOG_SWTLB("%s: set up TLB %d RPN " TARGET_FMT_plx " EPN " TARGET_FMT=
+_lx
+-              " size " TARGET_FMT_lx " prot %c%c%c%c PID %d\n", __func__=
+,
+-              (int)entry, tlb->RPN, tlb->EPN, tlb->size,
+-              tlb->prot & PAGE_READ ? 'r' : '-',
+-              tlb->prot & PAGE_WRITE ? 'w' : '-',
+-              tlb->prot & PAGE_EXEC ? 'x' : '-',
+-              tlb->prot & PAGE_VALID ? 'v' : '-', (int)tlb->PID);
++    qemu_log_mask(CPU_LOG_MMU, "%s: set up TLB %d RPN " TARGET_FMT_plx
++                  " EPN " TARGET_FMT_lx " size " TARGET_FMT_lx
++                  " prot %c%c%c%c PID %d\n", __func__,
++                  (int)entry, tlb->RPN, tlb->EPN, tlb->size,
++                  tlb->prot & PAGE_READ ? 'r' : '-',
++                  tlb->prot & PAGE_WRITE ? 'w' : '-',
++                  tlb->prot & PAGE_EXEC ? 'x' : '-',
++                  tlb->prot & PAGE_VALID ? 'v' : '-', (int)tlb->PID);
+     /* Invalidate new TLB (if valid) */
+     if (tlb->prot & PAGE_VALID) {
+         end =3D tlb->EPN + tlb->size;
+-        LOG_SWTLB("%s: invalidate TLB %d start " TARGET_FMT_lx " end "
+-                  TARGET_FMT_lx "\n", __func__, (int)entry, tlb->EPN, en=
+d);
++        qemu_log_mask(CPU_LOG_MMU, "%s: invalidate TLB %d start "
++                      TARGET_FMT_lx " end " TARGET_FMT_lx "\n", __func__=
+,
++                      (int)entry, tlb->EPN, end);
+         for (page =3D tlb->EPN; page < end; page +=3D TARGET_PAGE_SIZE) =
+{
+             tlb_flush_page(cs, page);
+         }
+@@ -781,8 +773,8 @@ void helper_4xx_tlbwe_lo(CPUPPCState *env, target_ulo=
+ng entry,
+ {
+     ppcemb_tlb_t *tlb;
+=20
+-    LOG_SWTLB("%s entry %i val " TARGET_FMT_lx "\n", __func__, (int)entr=
+y,
+-              val);
++    qemu_log_mask(CPU_LOG_MMU, "%s entry %i val " TARGET_FMT_lx "\n",
++                  __func__, (int)entry, val);
+     entry &=3D PPC4XX_TLB_ENTRY_MASK;
+     tlb =3D &env->tlb.tlbe[entry];
+     tlb->attr =3D val & PPC4XX_TLBLO_ATTR_MASK;
+@@ -794,13 +786,14 @@ void helper_4xx_tlbwe_lo(CPUPPCState *env, target_u=
+long entry,
+     if (val & PPC4XX_TLBLO_WR) {
+         tlb->prot |=3D PAGE_WRITE;
+     }
+-    LOG_SWTLB("%s: set up TLB %d RPN " TARGET_FMT_plx " EPN " TARGET_FMT=
+_lx
+-              " size " TARGET_FMT_lx " prot %c%c%c%c PID %d\n", __func__=
+,
+-              (int)entry, tlb->RPN, tlb->EPN, tlb->size,
+-              tlb->prot & PAGE_READ ? 'r' : '-',
+-              tlb->prot & PAGE_WRITE ? 'w' : '-',
+-              tlb->prot & PAGE_EXEC ? 'x' : '-',
+-              tlb->prot & PAGE_VALID ? 'v' : '-', (int)tlb->PID);
++    qemu_log_mask(CPU_LOG_MMU, "%s: set up TLB %d RPN " TARGET_FMT_plx
++                  " EPN " TARGET_FMT_lx
++                  " size " TARGET_FMT_lx " prot %c%c%c%c PID %d\n", __fu=
+nc__,
++                  (int)entry, tlb->RPN, tlb->EPN, tlb->size,
++                  tlb->prot & PAGE_READ ? 'r' : '-',
++                  tlb->prot & PAGE_WRITE ? 'w' : '-',
++                  tlb->prot & PAGE_EXEC ? 'x' : '-',
++                  tlb->prot & PAGE_VALID ? 'v' : '-', (int)tlb->PID);
+ }
+=20
+ target_ulong helper_4xx_tlbsx(CPUPPCState *env, target_ulong address)
+@@ -816,8 +809,8 @@ void helper_440_tlbwe(CPUPPCState *env, uint32_t word=
+, target_ulong entry,
+     target_ulong EPN, RPN, size;
+     int do_flush_tlbs;
+=20
+-    LOG_SWTLB("%s word %d entry %d value " TARGET_FMT_lx "\n",
+-              __func__, word, (int)entry, value);
++    qemu_log_mask(CPU_LOG_MMU, "%s word %d entry %d value " TARGET_FMT_l=
+x "\n",
++                  __func__, word, (int)entry, value);
+     do_flush_tlbs =3D 0;
+     entry &=3D 0x3F;
+     tlb =3D &env->tlb.tlbe[entry];
 --=20
 2.31.1
 
