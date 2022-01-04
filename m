@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3866D484466
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 16:16:06 +0100 (CET)
-Received: from localhost ([::1]:44702 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8F2E48444A
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 16:10:48 +0100 (CET)
+Received: from localhost ([::1]:57406 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n4lXg-0006P3-Ka
-	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 10:16:05 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52552)
+	id 1n4lSZ-0005nG-Qj
+	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 10:10:47 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52558)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1n4lGZ-0007BO-US
- for qemu-devel@nongnu.org; Tue, 04 Jan 2022 09:58:23 -0500
-Received: from [2a00:1450:4864:20::530] (port=38657
- helo=mail-ed1-x530.google.com)
+ id 1n4lGa-0007Ch-B3
+ for qemu-devel@nongnu.org; Tue, 04 Jan 2022 09:58:24 -0500
+Received: from [2a00:1450:4864:20::533] (port=33697
+ helo=mail-ed1-x533.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1n4lGW-0004TC-98
- for qemu-devel@nongnu.org; Tue, 04 Jan 2022 09:58:21 -0500
-Received: by mail-ed1-x530.google.com with SMTP id bm14so149555861edb.5
- for <qemu-devel@nongnu.org>; Tue, 04 Jan 2022 06:58:18 -0800 (PST)
+ id 1n4lGX-0004TN-98
+ for qemu-devel@nongnu.org; Tue, 04 Jan 2022 09:58:22 -0500
+Received: by mail-ed1-x533.google.com with SMTP id m21so150743983edc.0
+ for <qemu-devel@nongnu.org>; Tue, 04 Jan 2022 06:58:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ h=sender:from:to:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=3qbqkIQNqeg3P7tq5zzTnKQjNiTPg4hX+5Vl379ivaM=;
- b=UpQKU9eeS/K9v2ETi9WgANOx2H7FuRiwng2evvCm57c9pDfdovNB+fS4ryW2iTSuBr
- w/D/3V8iUO6w9CwcrRghTF10MvOAbeUIV0M+FSA4G+93FINliz9uJvIvzzMPfZ6Y4pn1
- 8BenerqnG/h0sMSEXo1uKuBKG7nvLEtaWOW9FHxlubKllHucSKRfTc1ASgONJeM6zhv1
- tBOvca+v4PWuQ75BxUvlYcnBkBqHAZzSxk2q1wH7+5RW2IeCtzgGQBZiu3EwQY1ZovG8
- rKFxcRqdzKeW1j998vRxzhy+JjdeaEZsvVGJrSS6q3F6Xm7tbE82stvDeurWbNB3b1Mo
- 0BGg==
+ bh=+E66IqNCT2gLnUgFCZeM7BI9JgDWyXcfb0XGm+77LJI=;
+ b=joASk/TOleFA1ufQ0hR+4B/DzUKmHVmqpqQbPnyRicxwrJrERiBnht9NyQkm0Y705n
+ JMW5nCbEMfgYLWl8luiie73o8getgmBf1KhN2wXONJExGHlbsv2PpHUiW1BAohxLfKS+
+ 2pz+t4kQ+ohFKlTrqUSnOfxoZw4vuobYq3ewjurKGz7iL7i7O5KIJ8erVB7EuwaOnZvb
+ mh+hIKgOU34GtXKH+bcWGrqWvefnXANZHw0wTyaH2i/c6SGZ/m4DrL/C6/cp8obcfi1T
+ +TfHh7oyU4VLNp2he+MzW0EKVQ1JEOwjkH3n1SBY8IDGpV82+DklK09S66ImfIYGDfhu
+ 3B1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ h=x-gm-message-state:sender:from:to:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=3qbqkIQNqeg3P7tq5zzTnKQjNiTPg4hX+5Vl379ivaM=;
- b=K0tNLivsFnHfqOlGW/wCFbh3bwrh1Ubm/DNn/6WB4mmP4VQBMfttce/oShrDt5pj+E
- L105gi2LSXvjeGBkRYSnRRs7bF6NcpvUrFn+9VY7TCn0Q5/N48RMVyd8C9oLRS4z/jYM
- GH2g2Egj7Cjr4Afhb/k6xEqQeryk8oICV1bteeZSvC3CTtyBy2yBXikzmTMp1iyi3PjZ
- RIetjh3eFeISOLsJEMF5V8UwIMcvU60jTdqV3oa76kNsYI9tEAzMPqVxIJcq3MFVeZ6q
- xCgsWBcsp+5rbBCZm+RQVV8R8ypZ78u56cg2nFVQ49lGPTMs8nivqc8n22qSuH67Lskj
- 5G3g==
-X-Gm-Message-State: AOAM5318vKgetVSSFRq0AfwqVu0FbPTRMrUR01rV1TbYl7KS9WneFnsP
- //7DsIk121+utgKnfY6jIHK1doGnafA=
-X-Google-Smtp-Source: ABdhPJwofQKnPIFN1e9j31nVzsqG7aZXJjdKYh6/hTLeoo9dUaHunRMDoCB0WczcPKeuHfbx6U0x2g==
-X-Received: by 2002:a17:906:8283:: with SMTP id
- h3mr1247246ejx.608.1641308298029; 
- Tue, 04 Jan 2022 06:58:18 -0800 (PST)
+ bh=+E66IqNCT2gLnUgFCZeM7BI9JgDWyXcfb0XGm+77LJI=;
+ b=kEHq0cGi1vZLH2O/Z3rHfZzM1XBGzhwHfVxhbqm/UFHlE5AXS4kKBNmESTWhZ5ogzh
+ JYLFlRvvY7A8V4ZVTtA07EEXqfYV3NpuKe7ZsmslcRXBU5159esDzH/nUSDm3aZFO6gW
+ FzshbO5bJEFsQoS8zuJnnS7wjRdeqVqA+CBVOJ3rjgPP17KHg9xziHGKlbEgQzan2FfS
+ NOh6t20lYLfw3gdHSMdZ7vT4dHxh2Wjts+YgXu4Bfkyr4vM9isBVd32QrziE+3akS03y
+ DfkxmwDdGge45layESVhlsI3e8FpL5qZMLk1bgEeA1PRqsuwdaDsr0aKASQJgRyVPdER
+ JrmA==
+X-Gm-Message-State: AOAM5318deRhz70REoKkqLWeS+itLDJ7I/tKcVXgd/ecuMmS7VMPmP/w
+ XrIp85oEeJa1TLQ2AP8iiY/D5d42xec=
+X-Google-Smtp-Source: ABdhPJwpm1kSiOB3yt6OqC60izgKcDZ9Dt5RQ0knmIs/bOHdbrtt7HH3GcvY6P0YShP4aH8152LvDA==
+X-Received: by 2002:a17:907:2d12:: with SMTP id
+ gs18mr40136439ejc.198.1641308299805; 
+ Tue, 04 Jan 2022 06:58:19 -0800 (PST)
 Received: from localhost.localdomain ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
- by smtp.gmail.com with ESMTPSA id j21sm11475964ejj.133.2022.01.04.06.58.16
+ by smtp.gmail.com with ESMTPSA id j21sm11475964ejj.133.2022.01.04.06.58.19
+ for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Jan 2022 06:58:17 -0800 (PST)
+ Tue, 04 Jan 2022 06:58:19 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 10/15] meson: build contrib/ executables after generated headers
-Date: Tue,  4 Jan 2022 15:57:44 +0100
-Message-Id: <20220104145749.417387-11-pbonzini@redhat.com>
+Subject: [PULL 11/15] configure, meson: move config-poison.h to meson
+Date: Tue,  4 Jan 2022 15:57:45 +0100
+Message-Id: <20220104145749.417387-12-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20220104145749.417387-1-pbonzini@redhat.com>
 References: <20220104145749.417387-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::530
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::533
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::530;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x530.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::533;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x533.google.com
 X-Spam_score_int: 12
 X-Spam_score: 1.2
 X-Spam_bar: +
@@ -88,66 +88,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This will be needed as soon as config-poison.h moves from configure to
-a meson custom_target (which is built at "ninja" time).
+This ensures that the file is regenerated properly whenever config-target.h
+or config-devices.h files change.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- contrib/elf2dmp/meson.build        | 2 +-
- contrib/ivshmem-client/meson.build | 2 +-
- contrib/ivshmem-server/meson.build | 2 +-
- contrib/rdmacm-mux/meson.build     | 2 +-
- 4 files changed, 4 insertions(+), 4 deletions(-)
+ Makefile                      |  2 +-
+ configure                     | 11 -----------
+ meson.build                   | 12 ++++++++++++
+ scripts/make-config-poison.sh | 16 ++++++++++++++++
+ 4 files changed, 29 insertions(+), 12 deletions(-)
+ create mode 100755 scripts/make-config-poison.sh
 
-diff --git a/contrib/elf2dmp/meson.build b/contrib/elf2dmp/meson.build
-index 4d86cb390a..6707d43c4f 100644
---- a/contrib/elf2dmp/meson.build
-+++ b/contrib/elf2dmp/meson.build
-@@ -1,5 +1,5 @@
- if curl.found()
--  executable('elf2dmp', files('main.c', 'addrspace.c', 'download.c', 'pdb.c', 'qemu_elf.c'),
-+  executable('elf2dmp', files('main.c', 'addrspace.c', 'download.c', 'pdb.c', 'qemu_elf.c'), genh,
-              dependencies: [glib, curl],
-              install: true)
- endif
-diff --git a/contrib/ivshmem-client/meson.build b/contrib/ivshmem-client/meson.build
-index 1b171efb4f..ce8dcca84d 100644
---- a/contrib/ivshmem-client/meson.build
-+++ b/contrib/ivshmem-client/meson.build
-@@ -1,4 +1,4 @@
--executable('ivshmem-client', files('ivshmem-client.c', 'main.c'),
-+executable('ivshmem-client', files('ivshmem-client.c', 'main.c'), genh,
-            dependencies: glib,
-            build_by_default: targetos == 'linux',
-            install: false)
-diff --git a/contrib/ivshmem-server/meson.build b/contrib/ivshmem-server/meson.build
-index 3a53942201..c6c3c82e89 100644
---- a/contrib/ivshmem-server/meson.build
-+++ b/contrib/ivshmem-server/meson.build
-@@ -1,4 +1,4 @@
--executable('ivshmem-server', files('ivshmem-server.c', 'main.c'),
-+executable('ivshmem-server', files('ivshmem-server.c', 'main.c'), genh,
-            dependencies: [qemuutil, rt],
-            build_by_default: targetos == 'linux',
-            install: false)
-diff --git a/contrib/rdmacm-mux/meson.build b/contrib/rdmacm-mux/meson.build
-index 6cc5016747..7674f54cc5 100644
---- a/contrib/rdmacm-mux/meson.build
-+++ b/contrib/rdmacm-mux/meson.build
-@@ -2,7 +2,7 @@ if 'CONFIG_PVRDMA' in config_host
-   # if not found, CONFIG_PVRDMA should not be set
-   # FIXME: broken on big endian architectures
-   libumad = cc.find_library('ibumad', required: true)
--  executable('rdmacm-mux', files('main.c'),
-+  executable('rdmacm-mux', files('main.c'), genh,
-              dependencies: [glib, libumad],
-              build_by_default: false,
-              install: false)
+diff --git a/Makefile b/Makefile
+index 8037f73b35..9e2e3bf004 100644
+--- a/Makefile
++++ b/Makefile
+@@ -221,7 +221,7 @@ qemu-%.tar.bz2:
+ 
+ distclean: clean
+ 	-$(quiet-@)test -f build.ninja && $(NINJA) $(NINJAFLAGS) -t clean -g || :
+-	rm -f config-host.mak config-poison.h
++	rm -f config-host.mak
+ 	rm -f tests/tcg/config-*.mak
+ 	rm -f config.status
+ 	rm -f roms/seabios/config.mak
+diff --git a/configure b/configure
+index e3d603d381..187632c371 100755
+--- a/configure
++++ b/configure
+@@ -3833,17 +3833,6 @@ if test -n "${deprecated_features}"; then
+     echo "  features: ${deprecated_features}"
+ fi
+ 
+-# Create list of config switches that should be poisoned in common code...
+-# but filter out CONFIG_TCG and CONFIG_USER_ONLY which are special.
+-target_configs_h=$(ls *-config-devices.h *-config-target.h 2>/dev/null)
+-if test -n "$target_configs_h" ; then
+-    sed -n -e '/CONFIG_TCG/d' -e '/CONFIG_USER_ONLY/d' \
+-        -e '/^#define / { s///; s/ .*//; s/^/#pragma GCC poison /p; }' \
+-        $target_configs_h | sort -u > config-poison.h
+-else
+-    :> config-poison.h
+-fi
+-
+ # Save the configure command line for later reuse.
+ cat <<EOD >config.status
+ #!/bin/sh
+diff --git a/meson.build b/meson.build
+index 5a57906e98..36fc720ba3 100644
+--- a/meson.build
++++ b/meson.build
+@@ -2028,6 +2028,18 @@ config_all += {
+   'CONFIG_ALL': true,
+ }
+ 
++target_configs_h = []
++foreach target: target_dirs
++  target_configs_h += config_target_h[target]
++  target_configs_h += config_devices_h.get(target, [])
++endforeach
++genh += custom_target('config-poison.h',
++                      input: [target_configs_h],
++                      output: 'config-poison.h',
++                      capture: true,
++                      command: [find_program('scripts/make-config-poison.sh'),
++                                target_configs_h])
++
+ ##############
+ # Submodules #
+ ##############
+diff --git a/scripts/make-config-poison.sh b/scripts/make-config-poison.sh
+new file mode 100755
+index 0000000000..d222a04304
+--- /dev/null
++++ b/scripts/make-config-poison.sh
+@@ -0,0 +1,16 @@
++#! /bin/sh
++
++if test $# = 0; then
++  exit 0
++fi
++
++# Create list of config switches that should be poisoned in common code...
++# but filter out CONFIG_TCG and CONFIG_USER_ONLY which are special.
++exec sed -n \
++  -e' /CONFIG_TCG/d' \
++  -e '/CONFIG_USER_ONLY/d' \
++  -e '/^#define / {' \
++  -e    's///' \
++  -e    's/ .*//' \
++  -e    's/^/#pragma GCC poison /p' \
++  -e '}' "$@"
 -- 
 2.33.1
 
