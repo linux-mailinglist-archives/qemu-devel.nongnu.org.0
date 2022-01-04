@@ -2,84 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 899B14846EA
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 18:22:51 +0100 (CET)
-Received: from localhost ([::1]:45592 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B08CF484705
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 18:34:25 +0100 (CET)
+Received: from localhost ([::1]:58186 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n4nWM-0006Od-NO
-	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 12:22:50 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56990)
+	id 1n4nhY-00072f-SZ
+	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 12:34:24 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58938)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1n4nV7-0005gF-8a
- for qemu-devel@nongnu.org; Tue, 04 Jan 2022 12:21:33 -0500
-Received: from [2a00:1450:4864:20::334] (port=42732
- helo=mail-wm1-x334.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1n4nV4-0001dK-Hx
- for qemu-devel@nongnu.org; Tue, 04 Jan 2022 12:21:32 -0500
-Received: by mail-wm1-x334.google.com with SMTP id
- a83-20020a1c9856000000b00344731e044bso1813658wme.1
- for <qemu-devel@nongnu.org>; Tue, 04 Jan 2022 09:21:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=B8rB0yvugwItT4uEo73x7mua29dKRgkam3dq0SSBwaM=;
- b=LiFH3qqjBWybTqq/4PtpyhUYiVjtlv4F01yhA2CLIrLc4uwTBDdT7U7v4MA/aBslAn
- tlZcyezk4xZApjyiTkCRb6FzsTXKuXLwWcPGNL8PeRKPp2NlklhXdBLDGYugWdf2XUsN
- Dphk9DZNHnm3SsohJ3YyI7w+73g0jwzRvAckALyCBpkJUeuLfTdaevfFfhAGmeQGecGf
- zA5SjuNxynP+IEn0nS9NKzWodxvjJ/0zY+WwVHaAy38bN4PxWhGgZtk4HUyc9C88fjFr
- 20EieHEx/9u9KN/eCix7GASAXGBh5jFj4qE/VIQTKwdF91Uf2VvIhhQRzJSd+8TUPPtc
- MIcg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=B8rB0yvugwItT4uEo73x7mua29dKRgkam3dq0SSBwaM=;
- b=kjy1pKzsjEqgQ2PSXITHBaN5E2pAQSQjq6q1tEJP+KWvH5cIoZFDYWbPh82RPq5K5d
- Y0nXMf1ai67IjDfT5aRcelPQ6hqZpPg4nETYsQtAtNRbvTcJAOQ1cbNrReku0ZtQFUAM
- 82BtK/ThjwwuI+LJ6w//R3L8kJoqFo00bkxj0IwcM6OZXBmkI/CkoLzkn2juRc/fOaUj
- 0u8u9kY5PPsSYWaO1A9nRJMAR+AAJ3MlROrVHwEnrrrXVeL0qo5yhHCUzAQpFwEbKEr9
- GY7airvaeQ6FJFUwIkoJMKKIjlIuoVAWZOSvXzTwxY33/OW1MEgU50EWFmGrjHAVy75J
- cZpg==
-X-Gm-Message-State: AOAM533+Y1fJk9i6xMIWG40S1xlpwHrRwKffmzsvmAU1J2a0l81pIaHt
- o/UCr+MFDFJlZGbfl6GZSBXjTQ==
-X-Google-Smtp-Source: ABdhPJxQlwOzjzdS4wnGQuJBkjxBjDUKwNQHyGu+tUOlSliGWeGIkHBJK8Eyc+fRM5uDBo8pLcNWTQ==
-X-Received: by 2002:a7b:c0ce:: with SMTP id s14mr43407728wmh.135.1641316888635; 
- Tue, 04 Jan 2022 09:21:28 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id n12sm31177500wmq.30.2022.01.04.09.21.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Jan 2022 09:21:27 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 768651FFB7;
- Tue,  4 Jan 2022 17:21:26 +0000 (GMT)
-References: <20211127201846.64187-1-imp@bsdimp.com>
- <CANCZdfpUYJZHfSZCZrk05U3K=gUM8gudFDEHjm3xhZU5bX0ztw@mail.gmail.com>
-User-agent: mu4e 1.7.5; emacs 28.0.90
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Warner Losh <imp@bsdimp.com>
-Subject: Re: [PATCH for 7.0 0/5] bsd-user-smoke: A simple smoke test for
- bsd-user
-Date: Tue, 04 Jan 2022 17:20:24 +0000
-In-reply-to: <CANCZdfpUYJZHfSZCZrk05U3K=gUM8gudFDEHjm3xhZU5bX0ztw@mail.gmail.com>
-Message-ID: <87k0ffl8mh.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1n4ne2-0001np-Bn
+ for qemu-devel@nongnu.org; Tue, 04 Jan 2022 12:30:46 -0500
+Received: from smtpout2.mo529.mail-out.ovh.net ([79.137.123.220]:37579)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1n4ndx-0003CI-Jr
+ for qemu-devel@nongnu.org; Tue, 04 Jan 2022 12:30:46 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.108.1.125])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 8B514D58B51B;
+ Tue,  4 Jan 2022 18:30:38 +0100 (CET)
+Received: from kaod.org (37.59.142.95) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.17; Tue, 4 Jan
+ 2022 18:30:37 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-95G00185534eca-e61e-4eb8-938e-a94e0367f529,
+ DC41CA294A1AC0AE13D8E7EBC58C249E9ADF812E) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <d8769cce-be68-9631-6ff1-f871e7150983@kaod.org>
+Date: Tue, 4 Jan 2022 18:30:34 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::334
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x334.google.com
-X-Spam_score_int: 6
-X-Spam_score: 0.6
-X-Spam_bar: /
-X-Spam_report: (0.6 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH 5/9] target/ppc: Use ppc_interrupts_little_endian in
+ powerpc_excp
+Content-Language: en-US
+To: Fabiano Rosas <farosas@linux.ibm.com>, <qemu-devel@nongnu.org>
+References: <20220103220746.3916246-1-farosas@linux.ibm.com>
+ <20220103220746.3916246-6-farosas@linux.ibm.com>
+ <ca700ead-7cf1-6d8c-12f6-9d03b547d517@kaod.org>
+ <87bl0rh9q2.fsf@linux.ibm.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <87bl0rh9q2.fsf@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.95]
+X-ClientProxiedBy: DAG4EX2.mxp5.local (172.16.2.32) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: a434fc03-42b6-4fff-b430-9fab9e58b9d5
+X-Ovh-Tracer-Id: 9529053864036109094
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrudeffedguddtvdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeigedvffekgeeftedutddttdevudeihfegudffkeeitdekkeetkefhffelveelleenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleehnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepuggrvhhiugesghhisghsohhnrdgurhhophgsvggrrhdrihgurdgruh
+Received-SPF: pass client-ip=79.137.123.220; envelope-from=clg@kaod.org;
+ helo=smtpout2.mo529.mail-out.ovh.net
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) NICE_REPLY_A=-3.354,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,89 +73,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Gleb Popov <arrowd@freebsd.org>, Kyle Evans <kevans@freebsd.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- Philippe =?utf-8?Q?Math?= =?utf-8?Q?ieu-Daud=C3=A9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org, Konrad Witaszczyk <def@freebsd.org>
+Cc: qemu-ppc@nongnu.org, danielhb413@gmail.com, richard.henderson@linaro.org,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 1/4/22 15:11, Fabiano Rosas wrote:
+> Cédric Le Goater <clg@kaod.org> writes:
+> 
+>> On 1/3/22 23:07, Fabiano Rosas wrote:
+>>> The ppc_interrupts_little_endian function is suitable for determining
+>>> the endianness of interrupts for all Book3S CPUs.
+>>>
+>>> (I'm keeping the MSR check for the rest of the CPUs, but it will go
+>>> away in the next patch.)
+>>>
+>>> Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
+>>> ---
+>>>    target/ppc/excp_helper.c | 21 ++-------------------
+>>>    1 file changed, 2 insertions(+), 19 deletions(-)
+>>>
+>>> diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
+>>> index 0dbadc5d07..5d31940426 100644
+>>> --- a/target/ppc/excp_helper.c
+>>> +++ b/target/ppc/excp_helper.c
+>>> @@ -760,25 +760,8 @@ static inline void powerpc_excp(PowerPCCPU *cpu, int excp)
+>>>         * CPU, the HV mode, etc...
+>>>         */
+>>>    #ifdef TARGET_PPC64
+>>> -    if (excp_model == POWERPC_EXCP_POWER7) {
+>>> -        if (!(new_msr & MSR_HVB) && (env->spr[SPR_LPCR] & LPCR_ILE)) {
+>>> -            new_msr |= (target_ulong)1 << MSR_LE;
+>>> -        }
+>>> -    } else if (excp_model == POWERPC_EXCP_POWER8) {
+>>> -        if (new_msr & MSR_HVB) {
+>>> -            if (env->spr[SPR_HID0] & HID0_HILE) {
+>>> -                new_msr |= (target_ulong)1 << MSR_LE;
+>>> -            }
+>>> -        } else if (env->spr[SPR_LPCR] & LPCR_ILE) {
+>>> -            new_msr |= (target_ulong)1 << MSR_LE;
+>>> -        }
+>>> -    } else if (excp_model == POWERPC_EXCP_POWER9 ||
+>>> -               excp_model == POWERPC_EXCP_POWER10) {
+>>> -        if (new_msr & MSR_HVB) {
+>>> -            if (env->spr[SPR_HID0] & HID0_POWER9_HILE) {
+>>> -                new_msr |= (target_ulong)1 << MSR_LE;
+>>> -            }
+>>> -        } else if (env->spr[SPR_LPCR] & LPCR_ILE) {
+>>> +    if (excp_model >= POWERPC_EXCP_970) {
+>>
+>> why include POWERPC_EXCP_970 ? These CPUs do not support Little Endian.
+>>
+> 
+> Because the 970 exception model covers POWER5P as well which has ILE.
+we need to untangle this first.
 
-Warner Losh <imp@bsdimp.com> writes:
+POWERPC_EXCP_970 is checked in dbcz and the HID5 bits are specific to 970.
+May be add a POWERPC_EXCP_POWER5P ?
 
-> PING!
->
-> If anybody (especially the BSD reviewers) could look at these, that would=
- be great!
->
-> It's been suggested I rename bsd-user-smoke to just be bsd-user and we pu=
-t our tests there until we can switch to the more generic tcg
-> tests, so I'll do that and resend in a few days.
+> And looking at cpu_init.c, POWER5 uses a bunch of 970 functions. And
+> POWER7 uses the POWER5 ones. So we kind of have a dependency chain
+> there. That is why I'm always handling ">= 970" as "books".
+> 
 
-That seems reasonable. I'm curious how much of check-tcg runs on BSD at
-the moment?
+This is a mess. We also have is_book3s_arch2x() but it will not apply
+here.
 
->
-> Warner
->
-> On Sat, Nov 27, 2021 at 1:19 PM Warner Losh <imp@bsdimp.com> wrote:
->
->  This series adds a number of simple binaries that FreeBSD's clang can bu=
-ild on
->  any system. I've kept it simple so that there's no extra binaries that n=
-eed to
->  be installed. Given the current state of bsd-user in the project's repo,=
- this
->  likely is as extensive a set of tests that should be done right now. We =
-can load
->  static binaries only (so these are static binaries) and hello world is t=
-he
->  canonical test. I have binaries for all the supported FreeBSD targets, b=
-ut have
->  included only the ones that are in upstream (or in review) at this time.
->
->  In the future, I'll integreate with the tcg tests when there's more in u=
-pstream
->  they can test.  Since that requires putting together FreeBSD sysroots fo=
-r all
->  the supported architectures for multiple versions, I'm going to delay th=
-at for a
->  while. I'll also integrate FreeBSD's 5k system tests when we're much fur=
-ther
->  along with the upstreaming.
->
->  The purpose of this is to give others doing changes in this area a stand=
-ardized
->  way to ensure their changes don't fundamentally break bsd-user. This app=
-roach
->  will work for all setups that do a 'make check' to do their testing.
->
->  Based-on: 20211108035136.43687-1-imp@bsdimp.com
->
->  Warner Losh (5):
->    h.armv7: Simple hello-world test for armv7
->    h.i386: Simple hello-world test for i386
->    h.amd64: Simple hello-world test for x86_64
->    smoke-bsd-user: A test script to run all the FreeBSD binaries
->    bsd-user-smoke: Add to build
->
->   tests/bsd-user-smoke/h.amd64.S      | 28 +++++++++++++++++++++
->   tests/bsd-user-smoke/h.armv7.S      | 37 +++++++++++++++++++++++++++
->   tests/bsd-user-smoke/h.i386.S       | 39 +++++++++++++++++++++++++++++
->   tests/bsd-user-smoke/meson.build    | 31 +++++++++++++++++++++++
->   tests/bsd-user-smoke/smoke-bsd-user | 22 ++++++++++++++++
->   tests/meson.build                   |  1 +
->   6 files changed, 158 insertions(+)
->   create mode 100644 tests/bsd-user-smoke/h.amd64.S
->   create mode 100644 tests/bsd-user-smoke/h.armv7.S
->   create mode 100644 tests/bsd-user-smoke/h.i386.S
->   create mode 100644 tests/bsd-user-smoke/meson.build
->   create mode 100644 tests/bsd-user-smoke/smoke-bsd-user
->
->  --=20
->  2.33.0
-
-
---=20
-Alex Benn=C3=A9e
+C.
 
