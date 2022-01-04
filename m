@@ -2,80 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7046948419E
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 13:22:53 +0100 (CET)
-Received: from localhost ([::1]:40938 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D8474841A3
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 13:26:16 +0100 (CET)
+Received: from localhost ([::1]:45370 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n4iq3-0001B1-Vi
-	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 07:22:52 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43386)
+	id 1n4itL-0004II-2q
+	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 07:26:15 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43934)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1n4ioX-000089-98
- for qemu-devel@nongnu.org; Tue, 04 Jan 2022 07:21:17 -0500
-Received: from [2a00:1450:4864:20::52e] (port=40891
- helo=mail-ed1-x52e.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1n4ioV-0000lu-Mp
- for qemu-devel@nongnu.org; Tue, 04 Jan 2022 07:21:16 -0500
-Received: by mail-ed1-x52e.google.com with SMTP id z29so147747479edl.7
- for <qemu-devel@nongnu.org>; Tue, 04 Jan 2022 04:21:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=USv2v4ZwxE9av5kMenRnP4ydLcxdEXeYFT8WV8bcZA0=;
- b=zfuSzUe+zF4TqAcHTCDtWP0/NlnlGZYJ9hmwMb9HAx7Olos9TvIBlRUU06acKePf4b
- slAfcoDErh9sbbLx5YuUVpSU+Gb7gYg7WdO5pe0wPVlT89ETMs1/OtAWIJ21FyzqrrQ/
- 7+UrIS8AHMVGWpmXBH/DZS5On2K1BiG3x7FZWWADXAMgWsefKAGfKvP0QM+aNKywP2aP
- VaNxRBJODV7q/jbSkD+6HpK+8z988Qw5J3Ij00KwcSKwGZAE+krFmVH6tBsx/VF8bxAz
- tGH7QOc4Zqvls1JoWwqO2k58vXQt6i2PttJG6u50St9Ez08EG2MAdurdNPywV4tpV3O9
- 6c6A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=USv2v4ZwxE9av5kMenRnP4ydLcxdEXeYFT8WV8bcZA0=;
- b=QenqfwEBHi6atmbw6F7IYaJbrRTUROrx9OhKgH1GwXuU48Yxl2VjuNmOghWRCBfIFu
- sv7goP9Amd0qTYG2n1Qp0592QnB7+MmT/PCbA6LkESb9kJ0/qYOeGDR95hY/gU7IFtyd
- IFL6I8eCEx9xEwUwrfofZahQWH00BtUGCOBb7/kEWp4t1pVPXdg1tVxMWyhvtO1htTch
- W4n0LvQzXahP6PHjXdBt+6XwkvRG1TxcFH4UVkx5oRSZig9gKzn9RLFQYiq0us8A3ojH
- NDcU1Ya6O2++n8BSLUL1/8EG0Nmg1OIMHnag90Hgbis5BVddt1d/HF0mfGXHj+Y6bhHR
- 8+MQ==
-X-Gm-Message-State: AOAM531AFDu00VwRkZnMkpB4MRFs/9xqazcWGrMory/QjiG+8r2zRHzq
- F5YiQ1wt4a23Jxo464qeKO9JIw==
-X-Google-Smtp-Source: ABdhPJxDGmdQ9EXQ5t9DpJ2ZaHoXbdvtnVCdH0KAVvgLcCIueQOmbnKkTFxejHHp+IY4gcsWparzkA==
-X-Received: by 2002:a05:6402:27d1:: with SMTP id
- c17mr47212636ede.128.1641298873935; 
- Tue, 04 Jan 2022 04:21:13 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id y13sm14713532edq.77.2022.01.04.04.21.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Jan 2022 04:21:13 -0800 (PST)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 8C3171FFB7;
- Tue,  4 Jan 2022 12:21:12 +0000 (GMT)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [RFC PATCH] tests/avocado: add :avocado: tags for some tests
-Date: Tue,  4 Jan 2022 12:21:04 +0000
-Message-Id: <20220104122104.849084-1-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.30.2
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1n4ir9-0002ej-Sz
+ for qemu-devel@nongnu.org; Tue, 04 Jan 2022 07:23:59 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:52047)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1n4ir6-0001N1-10
+ for qemu-devel@nongnu.org; Tue, 04 Jan 2022 07:23:58 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1641299034;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=5XoS3J1i+TmaZcEd1FD21XD8kABRNBqg8LAxRI+1Hno=;
+ b=K7yJY/CmO2CqyxKckgI5qmkG7Zf1SL9HwVOHp/hexSi1zm8A33Xl+5DRQnMMARfZHZeRSj
+ t4q/3m979aKLA9gYhDIw3exzdsQLc04Cn3Ic10ls5/c28iljGmQgve2fE4bCnqYYIr2mik
+ vn+8ozeg7n/BKeqES2ZnaOMQRkQgMeU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-611-ubnHuZWEPUaiYqLdGAey_w-1; Tue, 04 Jan 2022 07:23:53 -0500
+X-MC-Unique: ubnHuZWEPUaiYqLdGAey_w-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 145FD100CCC0;
+ Tue,  4 Jan 2022 12:23:52 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.39.193.24])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CF9187E641;
+ Tue,  4 Jan 2022 12:23:51 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 25BBB1800091; Tue,  4 Jan 2022 13:23:50 +0100 (CET)
+Date: Tue, 4 Jan 2022 13:23:50 +0100
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Carwyn Ellis <carwynellis@gmail.com>
+Subject: Re: [PATCH 2/2] hw/display/vmware_vga: do not discard screen updates
+Message-ID: <20220104122350.ktsnpqfmtrmwcxrk@sirius.home.kraxel.org>
+References: <20220104091135.61226-1-carwynellis@gmail.com>
+ <20220104091135.61226-3-carwynellis@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52e
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
- envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x52e.google.com
-X-Spam_score_int: 6
-X-Spam_score: 0.6
-X-Spam_bar: /
-X-Spam_report: (0.6 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <20220104091135.61226-3-carwynellis@gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) DKIMWL_WL_HIGH=-0.37, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,96 +79,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Beraldo Leal <bleal@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Cleber Rosa <crosa@redhat.com>
+Cc: qemu-trivial@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This stops a bunch of tests failing because of a lack of
-"./qemu-system-x86-64" in a build directory where you have configured
-only one non-default target. I suspect what we really need is:
+  Hi,
 
-    :avocado: tags=arch:host
+> This change firstly increases the screen update FIFO size to ensure it's
+> large enough to accomodate all updates deferred in a given screen
+> refresh cycle.
 
-to be properly multi-arch safe.
+How do you know it's large enough?
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
----
- tests/avocado/empty_cpu_model.py | 3 +++
- tests/avocado/info_usernet.py    | 3 +++
- tests/avocado/migration.py       | 1 +
- tests/avocado/version.py         | 1 +
- tests/avocado/vnc.py             | 1 +
- 5 files changed, 9 insertions(+)
+> @@ -385,7 +385,14 @@ static inline void vmsvga_update_rect_delayed(struct vmsvga_state_s *s,
+>  {
+>      struct vmsvga_rect_s *rect = &s->redraw_fifo[s->redraw_fifo_last++];
+>  
+> -    s->redraw_fifo_last &= REDRAW_FIFO_LEN - 1;
+> +    if (s->redraw_fifo_last >= REDRAW_FIFO_LEN) {
+> +        VMWARE_VGA_DEBUG("%s: Discarding updates - FIFO length %d exceeded\n",
+> +            "vmsvga_update_rect_delayed",
+> +            REDRAW_FIFO_LEN
 
-diff --git a/tests/avocado/empty_cpu_model.py b/tests/avocado/empty_cpu_model.py
-index 22f504418d..ffe27780a3 100644
---- a/tests/avocado/empty_cpu_model.py
-+++ b/tests/avocado/empty_cpu_model.py
-@@ -11,6 +11,9 @@
- 
- class EmptyCPUModel(QemuSystemTest):
-     def test(self):
-+        """
-+        :avocado: tags=arch:x86_64
-+        """
-         self.vm.add_args('-S', '-display', 'none', '-machine', 'none', '-cpu', '')
-         self.vm.set_qmp_monitor(enabled=False)
-         self.vm.launch()
-diff --git a/tests/avocado/info_usernet.py b/tests/avocado/info_usernet.py
-index dc01f74150..bafbc0e23e 100644
---- a/tests/avocado/info_usernet.py
-+++ b/tests/avocado/info_usernet.py
-@@ -16,6 +16,9 @@
- class InfoUsernet(QemuSystemTest):
- 
-     def test_hostfwd(self):
-+        """
-+        :avocado: tags=arch:x86_64
-+        """
-         self.vm.add_args('-netdev', 'user,id=vnet,hostfwd=:127.0.0.1:0-:22')
-         self.vm.launch()
-         res = self.vm.command('human-monitor-command',
-diff --git a/tests/avocado/migration.py b/tests/avocado/migration.py
-index 584d6ef53f..4e5516f425 100644
---- a/tests/avocado/migration.py
-+++ b/tests/avocado/migration.py
-@@ -22,6 +22,7 @@
- class Migration(QemuSystemTest):
-     """
-     :avocado: tags=migration
-+    :avocado: tags=arch:x86_64
-     """
- 
-     timeout = 10
-diff --git a/tests/avocado/version.py b/tests/avocado/version.py
-index ded7f039c1..be794b9354 100644
---- a/tests/avocado/version.py
-+++ b/tests/avocado/version.py
-@@ -15,6 +15,7 @@
- class Version(QemuSystemTest):
-     """
-     :avocado: tags=quick
-+    :avocado: tags=arch:x86_64
-     """
-     def test_qmp_human_info_version(self):
-         self.vm.add_args('-nodefaults')
-diff --git a/tests/avocado/vnc.py b/tests/avocado/vnc.py
-index 096432988f..1f80647414 100644
---- a/tests/avocado/vnc.py
-+++ b/tests/avocado/vnc.py
-@@ -14,6 +14,7 @@
- class Vnc(QemuSystemTest):
-     """
-     :avocado: tags=vnc,quick
-+    :avocado: tags=arch:x86_64
-     """
-     def test_no_vnc(self):
-         self.vm.add_args('-nodefaults', '-S')
--- 
-2.30.2
+Hmm, apparently you don't know ;)
+
+How about just calling vmsvga_update_rect_flush()
+when the fifo is (almost) full?
+
+Which guest do you use btw?  I'm kind-of surprised this is still being
+used even though it hasn't seen any development (beside fixing a bug now
+and then) for a decade or so and the feature gap to recent vmware is
+huge ...
+
+take care,
+  Gerd
 
 
