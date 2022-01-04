@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBA6E483E27
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 09:33:51 +0100 (CET)
-Received: from localhost ([::1]:44004 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E39DC483E1F
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 09:31:23 +0100 (CET)
+Received: from localhost ([::1]:39566 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n4fGQ-00039x-TG
-	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 03:33:50 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49660)
+	id 1n4fE3-0008VH-1X
+	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 03:31:23 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50674)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1n4eq3-0004g2-RR
- for qemu-devel@nongnu.org; Tue, 04 Jan 2022 03:06:38 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:57110)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1n4euO-000319-2o
+ for qemu-devel@nongnu.org; Tue, 04 Jan 2022 03:11:04 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:32477)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1n4epz-0004X9-Ne
- for qemu-devel@nongnu.org; Tue, 04 Jan 2022 03:06:35 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1n4euM-0005fU-DY
+ for qemu-devel@nongnu.org; Tue, 04 Jan 2022 03:11:03 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641283588;
+ s=mimecast20190719; t=1641283860;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ufkguumP4E1awB84m3xoHWqOGGvobaB7XXqkx+hJsRY=;
- b=WNjBLGmBRv7sy+N2bYModWDtjOnZ+poQBCb8VWMt6Dngu6twkEWw4Kzfd7K6G8WMURI1+/
- 4oweyGU55j929pYjvpPVhNqDGEXSDqVEwiURmZ7XX18mieIUivx/DXBHz/QjwC9T67O0fT
- sFwTVS4y+sFPRw6AgZJ9qcGn5i1fW+Y=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=6B2iiV6eI+sujwMpseBePrcZld45QFA2+OMRsDIDdAE=;
+ b=QrMOKc+6Yj8PA5rr2vMCLfjltd1Qe57hgF5cAoQhtE0GAfBALbSiBulQfWjeH5IqEPFJdK
+ 7ITFotHFv60A/rED3IRKWsOeldmHG35T0IcYUywx6EHblSDHlW/V6qfMnlZ+m9UtDEm113
+ ulRB/ty7VPLWoOuYOFJY7Z/YvS1oGDA=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-621-7ksGW-bVPISaslgTyn2NGg-1; Tue, 04 Jan 2022 03:06:26 -0500
-X-MC-Unique: 7ksGW-bVPISaslgTyn2NGg-1
-Received: by mail-wr1-f70.google.com with SMTP id
- a11-20020adffb8b000000b001a0b0f4afe9so11402813wrr.13
- for <qemu-devel@nongnu.org>; Tue, 04 Jan 2022 00:06:26 -0800 (PST)
+ us-mta-637-Vgg28CT_MFuSNykkArXqPg-1; Tue, 04 Jan 2022 03:10:59 -0500
+X-MC-Unique: Vgg28CT_MFuSNykkArXqPg-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ 144-20020a1c0496000000b003305ac0e03aso17199638wme.8
+ for <qemu-devel@nongnu.org>; Tue, 04 Jan 2022 00:10:59 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:from:to:references:cc:in-reply-to
+ :content-language:to:references:cc:from:in-reply-to
  :content-transfer-encoding;
- bh=ufkguumP4E1awB84m3xoHWqOGGvobaB7XXqkx+hJsRY=;
- b=fXU/P2gfm0uhAjHukDZCRBLwr4FRgRxzuXXzsFBL0Lxgk9NE1KzvggDqLJUdJy7Gq3
- qYVqAbTK1GQ1nAuxigd81Pnb6/rMDxA59fLwo3m2T0+omCPQOcxTicgHpJVtxhqP//L1
- W72+3svrplEy+Bixf7Q8/26zxOheFNA+m62Ai1hjJWrX/Rcd7pPBTeFhyD3ld+aSF+VB
- pdzfygH5eruSliW92jxYwNWFKdQx4R3oW1/zZych/LlORMI8gErnK1ccci863rSvcUxU
- LEgTgbphR21rVDLxGOISRdZcPpQaUvvQ5AhDHG42phb86jGaQZHCz3n51iHY2XZBWyaB
- OEdA==
-X-Gm-Message-State: AOAM531z8nW+oAvL2829HKRdqix4iKyYUaq4HJWG4QaogRCzUNnQ9/26
- MPihl/zdPmNDSHZYUVNUZiLCRCrE73rggsxhbYqU+NqyV1Gn34raCvkVHn1gK97XAZv00CpWR57
- LIyxFZmX3o9PEjpbRdTXuaeJtdg14tzC8SUavC/Kh+ZpoDYw0J4WrFBMoSNBCJkQ=
-X-Received: by 2002:a5d:6c6a:: with SMTP id r10mr41191597wrz.60.1641283585547; 
- Tue, 04 Jan 2022 00:06:25 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzJwSIqAOuS0pqZr6Dwq1ZkN4Ek6697Gl+7i7rjDd/Z1eOFglSQlUOhs1klR4unPNRZ3wAFOA==
-X-Received: by 2002:a5d:6c6a:: with SMTP id r10mr41191572wrz.60.1641283585279; 
- Tue, 04 Jan 2022 00:06:25 -0800 (PST)
+ bh=6B2iiV6eI+sujwMpseBePrcZld45QFA2+OMRsDIDdAE=;
+ b=gd4HNgZpz/14PONHU0NCxY/HGWAM/b+QV3074TZG2in2vr1eIuojqHd7eMSGfKbAHS
+ FCquAIBPMoHR7I+2NlcmRNDfuWabNo7PsXFUfHjTd5+15BOicptdsDcPcI0MI5G8tK/C
+ xaFgPYFLI4TmMhVZ3SYaesbOxWcVrhkHUyrG6nrT+c+RKemLATfFCYD4s6DiY9WLVA8B
+ ep2adPMJvu0VKdRrtqjYuuLWLYXT9VjCck15BuuyF2hA1IHOH2c7APZqS2vqq/R+Mpfk
+ lFyFJ38rGuDiZSvQCLKT1gb8llfRX+K3xFOcJYL5bWHgGci6fBJrqDVxW59nxsXoImhl
+ s4Tg==
+X-Gm-Message-State: AOAM533vikn67JJ3bOG1vkZ4WTUyw1R76MpQ2vxrs/CcsbRi7gfNhwRE
+ kMiUZWFebFiqmC2dG1KrDnVHLh8eiG5clEnBRdxvDrGdIxP8vZQEI355MLZLT/+Vy3KfOSF0FWS
+ 8T86ykMori1G88bE=
+X-Received: by 2002:a05:600c:354c:: with SMTP id
+ i12mr40942842wmq.90.1641283858278; 
+ Tue, 04 Jan 2022 00:10:58 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyc0k10pg8xEv+7JmVhCsuPcnDE/mZ0QEgE3cCAf4m0ffPWzv3F+dWE+VZoHtPlJC+pMoEcQQ==
+X-Received: by 2002:a05:600c:354c:: with SMTP id
+ i12mr40942827wmq.90.1641283858082; 
+ Tue, 04 Jan 2022 00:10:58 -0800 (PST)
 Received: from [192.168.8.100] (tmo-098-68.customers.d1-online.com.
  [80.187.98.68])
- by smtp.gmail.com with ESMTPSA id a20sm31704155wmb.27.2022.01.04.00.06.24
+ by smtp.gmail.com with ESMTPSA id n17sm36549736wmc.32.2022.01.04.00.10.57
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 04 Jan 2022 00:06:24 -0800 (PST)
-Message-ID: <6c2b3fef-6644-37c6-c61c-a17da0de3c7f@redhat.com>
-Date: Tue, 4 Jan 2022 09:06:23 +0100
+ Tue, 04 Jan 2022 00:10:57 -0800 (PST)
+Message-ID: <9ace664b-2396-a338-c59f-35cdbdbde3e3@redhat.com>
+Date: Tue, 4 Jan 2022 09:10:55 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.4.0
-Subject: Re: Something broke "make html" and "make man"
+Subject: Re: [PATCH] docs/sphinx: fix compatibility with sphinx < 1.8
+To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
+References: <20220104074649.1712440-1-marcandre.lureau@redhat.com>
 From: Thomas Huth <thuth@redhat.com>
-To: QEMU Developers <qemu-devel@nongnu.org>,
- Peter Maydell <peter.maydell@linaro.org>, Paolo Bonzini <pbonzini@redhat.com>
-References: <23807667-2b98-60d4-b3f8-dd571e2f5927@redhat.com>
-In-Reply-To: <23807667-2b98-60d4-b3f8-dd571e2f5927@redhat.com>
+In-Reply-To: <20220104074649.1712440-1-marcandre.lureau@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -99,35 +100,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 03/01/2022 21.33, Thomas Huth wrote:
+On 04/01/2022 08.46, marcandre.lureau@redhat.com wrote:
+> From: Marc-André Lureau <marcandre.lureau@redhat.com>
 > 
->   Hi!
+> SphinxDirective was added with sphinx 1.8 (2018-09-13).
 > 
-> "make html" and "make man" do not work anymore:
+> Reported-by: Thomas Huth <thuth@redhat.com>
+> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+> ---
+>   docs/sphinx/fakedbusdoc.py | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> $ make help | grep -B1 html
-> Documentation targets:
->    html man              - Build documentation in specified format
-> $ make html
->    GIT     ui/keycodemapdb meson tests/fp/berkeley-testfloat-3 
-> tests/fp/berkeley-softfloat-3 dtc capstone slirp
-> make: *** No rule to make target 'html'.  Stop.
-> $ make man
->    GIT     ui/keycodemapdb meson tests/fp/berkeley-testfloat-3 
-> tests/fp/berkeley-softfloat-3 dtc capstone slirp
-> make: *** No rule to make target 'man'.  Stop.
-> 
-> Anybody any ideas how to fix it?
+> diff --git a/docs/sphinx/fakedbusdoc.py b/docs/sphinx/fakedbusdoc.py
+> index a680b257547f..d2c507904654 100644
+> --- a/docs/sphinx/fakedbusdoc.py
+> +++ b/docs/sphinx/fakedbusdoc.py
+> @@ -7,12 +7,12 @@
+>   # Author: Marc-André Lureau <marcandre.lureau@redhat.com>
+>   """dbus-doc is a Sphinx extension that provides documentation from D-Bus XML."""
+>   
+> +from docutils.parsers.rst import Directive
+>   from sphinx.application import Sphinx
+> -from sphinx.util.docutils import SphinxDirective
+>   from typing import Any, Dict
+>   
+>   
+> -class FakeDBusDocDirective(SphinxDirective):
+> +class FakeDBusDocDirective(Directive):
+>       has_content = True
+>       required_arguments = 1
 
-Never mind, the problem was this one here:
+Thanks, that fixes my issue, indeed!
 
-https://lists.gnu.org/archive/html/qemu-devel/2022-01/msg00222.html
+Tested-by: Thomas Huth <thuth@redhat.com>
 
-After applying that patch, "make html" works fine for me again.
+I wonder whether we could turn such sphinx warnings during the configure 
+phase into a hard failure so that such bugs would fail in the CI instead of 
+getting merge without notice...?
 
   Thomas
 
