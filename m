@@ -2,99 +2,110 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3B744844B3
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 16:34:02 +0100 (CET)
-Received: from localhost ([::1]:45364 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF1104844E8
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 16:41:48 +0100 (CET)
+Received: from localhost ([::1]:49096 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n4lp2-0000TW-SU
-	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 10:34:00 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60816)
+	id 1n4lwZ-0003WY-I7
+	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 10:41:47 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34046)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1n4lnv-00083e-1f
- for qemu-devel@nongnu.org; Tue, 04 Jan 2022 10:32:51 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:25442)
+ (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
+ id 1n4lv1-0002Rw-0j
+ for qemu-devel@nongnu.org; Tue, 04 Jan 2022 10:40:12 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:18804)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1n4lnq-0005An-S9
- for qemu-devel@nongnu.org; Tue, 04 Jan 2022 10:32:49 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641310365;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=dHb1Dlc/ItOolPMR+Jc0/qUYSK2KoiTzttrdRcxrJcE=;
- b=dyS6Ih0p1wQmSTYdZJhw7vylS5kwUrm+7ef1asegoeWLNWKmOi4ASx/Le4fnqsNt7Z2/J9
- iY6eB5OoFzntFmFZ2RMMpQknfH6UDIhg0MGD72YEVJ7g5xEorIRRj/Q3O+IisRNesaj2X9
- gDafs2r/ofUgodo3zTswx22eYzgnXzg=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-615-RcAyeyLHPEumt-6EyFIJ_Q-1; Tue, 04 Jan 2022 10:31:38 -0500
-X-MC-Unique: RcAyeyLHPEumt-6EyFIJ_Q-1
-Received: by mail-wr1-f72.google.com with SMTP id
- c16-20020adfa310000000b001a2349890e1so11778758wrb.0
- for <qemu-devel@nongnu.org>; Tue, 04 Jan 2022 07:31:38 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:reply-to:subject:to:cc:references:from
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-transfer-encoding:content-language;
- bh=dHb1Dlc/ItOolPMR+Jc0/qUYSK2KoiTzttrdRcxrJcE=;
- b=BBiyyqsefulv4NUxMZgmtJbIDq69Sg6pdRlXaI/qDZgFRDJygCEuclTA3rFY1hjmNB
- gmZ/THg+csGvtalChmHTo12w+ewPS8k2lbxnlK0lqKj3ad3KSZn6eAOyDHpKHXIfq4rs
- Uw9alc8TCZaGVzj76iCztleLejYPrkaOlRMm7lVCIyZE2LMr4RwWtuVoyR7r2csYEyyY
- h6AiHJA1I0dJi8PbraMiQCFK0u7fLhk+4b2zDnxjrhWA315EZtKw2xdIUXWE4xRnhf+q
- OuzKp/GgCZWNVcDSJO+9Gvu/goTqGCxUpQJhAtzoyfwTrzJiHSx3w3vZ78qdDhESeA8H
- xGzg==
-X-Gm-Message-State: AOAM532seIeNSWHAcxB4uzYVSZxZVhyRd0VL2dbT/u0Igg1QfEavoBnr
- /a6pubGNZTJxhQuYPE51RZJbZO/Nf9QzRFwstYcyoH/nMYTsypeLx/q8/V5vxQFIggPWY608YFw
- Rfk0f+TROjJVuS8U=
-X-Received: by 2002:a05:600c:4f83:: with SMTP id
- n3mr41830319wmq.129.1641310295504; 
- Tue, 04 Jan 2022 07:31:35 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwV9IRJ1sEs6RhagLAEfvJinAJ1OWUzplrbq8dl6cI1k7STj6fGh3vl7cyX2z/tYQ7+BP7Pxw==
-X-Received: by 2002:a05:600c:4f83:: with SMTP id
- n3mr41830296wmq.129.1641310295252; 
- Tue, 04 Jan 2022 07:31:35 -0800 (PST)
-Received: from ?IPv6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
- ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
- by smtp.gmail.com with ESMTPSA id ay29sm39635325wmb.13.2022.01.04.07.31.34
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 04 Jan 2022 07:31:34 -0800 (PST)
-Subject: Re: [PATCH v2 1/5] hw/arm/virt: Key enablement of highmem PCIe on
- highmem_ecam
-To: Marc Zyngier <maz@kernel.org>
-References: <20211003164605.3116450-1-maz@kernel.org>
- <20211003164605.3116450-2-maz@kernel.org>
- <dbe883ca-880e-7f2b-1de7-4b2d3361545d@redhat.com>
- <87pmpiyrfw.wl-maz@kernel.org>
-From: Eric Auger <eric.auger@redhat.com>
-Message-ID: <b9031d40-897e-b8c5-4240-fc2936dcbcb9@redhat.com>
-Date: Tue, 4 Jan 2022 16:31:33 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
-MIME-Version: 1.0
-In-Reply-To: <87pmpiyrfw.wl-maz@kernel.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+ (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
+ id 1n4lux-0000nK-63
+ for qemu-devel@nongnu.org; Tue, 04 Jan 2022 10:40:10 -0500
+Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 204EiPTi030049; 
+ Tue, 4 Jan 2022 15:40:04 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ subject : to : cc : references : from : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=Hprc2gWlUbHOHenm+I471Xl4DhEZEoDNDvUjlUDmbno=;
+ b=deXyzqyuQuDHCXNC2Jbl2y1fLZSdcTmojDKeG3JzKdcS0ZIN8pgu90mlZPIgqwcWSEUA
+ UjEBtCVEGnJ8EpEbzKkt6lBthPOeh/PSS7/oZXqCUju3miO3pvuJZmLzOChVitSWYud4
+ ZfN3Qp2tU/4/EijP6iX8FRNycknZdKcQtYk2j/r0xDpEJYsan69pFL77wPGTnp7z1cJi
+ wDksKOhiIOWZmEyyGcSDEeScoE3n8Gj91tw7VWgWS7ZOEz+WMG1XW8trIBNi6kpkwALU
+ rCa4xiMhR5Tt2NMwfRH13NKmspoZuqqGugXVA1LtC3ongCM9S/YZT8jXRpvAAjFMaRjX TQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3dcr91930r-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 04 Jan 2022 15:40:03 +0000
+Received: from m0098393.ppops.net (m0098393.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 204FcKM6004569;
+ Tue, 4 Jan 2022 15:40:03 GMT
+Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
+ [169.63.214.131])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3dcr91930a-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 04 Jan 2022 15:40:03 +0000
+Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
+ by ppma01dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 204FcYFA023875;
+ Tue, 4 Jan 2022 15:40:02 GMT
+Received: from b01cxnp22034.gho.pok.ibm.com (b01cxnp22034.gho.pok.ibm.com
+ [9.57.198.24]) by ppma01dal.us.ibm.com with ESMTP id 3daekarfrt-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 04 Jan 2022 15:40:02 +0000
+Received: from b01ledav001.gho.pok.ibm.com (b01ledav001.gho.pok.ibm.com
+ [9.57.199.106])
+ by b01cxnp22034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 204Fe0GH11141462
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 4 Jan 2022 15:40:00 GMT
+Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id CB6CA28074;
+ Tue,  4 Jan 2022 15:40:00 +0000 (GMT)
+Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id A3ED128064;
+ Tue,  4 Jan 2022 15:40:00 +0000 (GMT)
+Received: from [9.47.158.152] (unknown [9.47.158.152])
+ by b01ledav001.gho.pok.ibm.com (Postfix) with ESMTP;
+ Tue,  4 Jan 2022 15:40:00 +0000 (GMT)
+Message-ID: <1375846d-919d-f841-75c6-3fa48a4833c4@linux.ibm.com>
+Date: Tue, 4 Jan 2022 10:40:00 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH v4 2/3] acpi: tpm: Add missing device identification
+ objects
 Content-Language: en-US
-Received-SPF: pass client-ip=170.10.129.124;
- envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -45
-X-Spam_score: -4.6
-X-Spam_bar: ----
-X-Spam_report: (-4.6 / 5.0 requ) DKIMWL_WL_HIGH=-0.37, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.354,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+To: Ani Sinha <ani@anisinha.ca>
+References: <20211223022310.575496-1-stefanb@linux.ibm.com>
+ <20211223022310.575496-3-stefanb@linux.ibm.com>
+ <20220104105506.17ed9209@redhat.com>
+ <1b32e29a-36fc-7275-e856-97a12585e0a3@linux.ibm.com>
+ <alpine.OSX.2.20.2201042044240.27406@athabasca.local>
+From: Stefan Berger <stefanb@linux.ibm.com>
+In-Reply-To: <alpine.OSX.2.20.2201042044240.27406@athabasca.local>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: Q2IHqAk57AmYvPV2JEQO0mHbFfp_gD9w
+X-Proofpoint-ORIG-GUID: TKVEXdau0iz8qYmtdeolOiQb4i2hSvAf
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2022-01-04_07,2022-01-04_01,2021-12-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 suspectscore=0
+ impostorscore=0 mlxlogscore=999 mlxscore=0 phishscore=0 adultscore=0
+ spamscore=0 lowpriorityscore=0 bulkscore=0 priorityscore=1501
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2110150000 definitions=main-2201040104
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=stefanb@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.354, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -107,94 +118,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: eric.auger@redhat.com
-Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
- kvm@vger.kernel.org, qemu-devel@nongnu.org, kernel-team@android.com,
- kvmarm@lists.cs.columbia.edu
+Cc: Igor Mammedov <imammedo@redhat.com>,
+ Shannon Zhao <shannon.zhaosl@gmail.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ marcandre.lureau@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Marc,
 
-On 12/27/21 4:53 PM, Marc Zyngier wrote:
-> Hi Eric,
+On 1/4/22 10:15, Ani Sinha wrote:
 >
-> Picking this up again after a stupidly long time...
+> On Tue, 4 Jan 2022, Stefan Berger wrote:
 >
-> On Mon, 04 Oct 2021 13:00:21 +0100,
-> Eric Auger <eric.auger@redhat.com> wrote:
->> Hi Marc,
->>
->> On 10/3/21 6:46 PM, Marc Zyngier wrote:
->>> Currently, the highmem PCIe region is oddly keyed on the highmem
->>> attribute instead of highmem_ecam. Move the enablement of this PCIe
->>> region over to highmem_ecam.
+>> On 1/4/22 04:55, Igor Mammedov wrote:
+>>> On Wed, 22 Dec 2021 21:23:09 -0500
+>>> Stefan Berger <stefanb@linux.ibm.com> wrote:
 >>>
->>> Signed-off-by: Marc Zyngier <maz@kernel.org>
->>> ---
->>>  hw/arm/virt-acpi-build.c | 10 ++++------
->>>  hw/arm/virt.c            |  4 ++--
->>>  2 files changed, 6 insertions(+), 8 deletions(-)
->>>
->>> diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
->>> index 037cc1fd82..d7bef0e627 100644
->>> --- a/hw/arm/virt-acpi-build.c
->>> +++ b/hw/arm/virt-acpi-build.c
->>> @@ -157,10 +157,9 @@ static void acpi_dsdt_add_virtio(Aml *scope,
->>>  }
->>>  
->>>  static void acpi_dsdt_add_pci(Aml *scope, const MemMapEntry *memmap,
->>> -                              uint32_t irq, bool use_highmem, bool highmem_ecam,
->>> -                              VirtMachineState *vms)
->>> +                              uint32_t irq, VirtMachineState *vms)
->>>  {
->>> -    int ecam_id = VIRT_ECAM_ID(highmem_ecam);
->>> +    int ecam_id = VIRT_ECAM_ID(vms->highmem_ecam);
->>>      struct GPEXConfig cfg = {
->>>          .mmio32 = memmap[VIRT_PCIE_MMIO],
->>>          .pio    = memmap[VIRT_PCIE_PIO],
->>> @@ -169,7 +168,7 @@ static void acpi_dsdt_add_pci(Aml *scope, const MemMapEntry *memmap,
->>>          .bus    = vms->bus,
->>>      };
->>>  
->>> -    if (use_highmem) {
->>> +    if (vms->highmem_ecam) {
->> highmem_ecam is more restrictive than use_highmem:
->> vms->highmem_ecam &= vms->highmem && (!firmware_loaded || aarch64);
+>>>> Add missing device identification objects _STR and _UID. They will appear
+>>> why, does it break anything or it's just cosmetic?
+>> I don't know about whether any software needs these entries but it's driven by
+>> this:
 >>
->> If I remember correctly there was a problem using highmem ECAM with 32b
->> AAVMF FW.
+>> https://gitlab.com/qemu-project/qemu/-/issues/708
+> Ok so you might want to add
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/708
+>
+> in the commit message. Please see:
+> https://www.qemu.org/docs/master/devel/submitting-a-patch.html#write-a-meaningful-commit-message
+
+
+Ooops, I will change this here to Resolves:
+
+Fixes: https://gitlab.com/qemu-project/qemu/-/issues/708
+
+
+
+>
+>>>> as files 'description' and 'uid' under Linux sysfs.
+>>>>
+>>>> Cc: Shannon Zhao <shannon.zhaosl@gmail.com>
+>>>> Cc: Michael S. Tsirkin <mst@redhat.com>
+>>>> Cc: Igor Mammedov <imammedo@redhat.com>
+>>>> Cc: Ani Sinha <ani@anisinha.ca>
+>>>> Fixes: https://gitlab.com/qemu-project/qemu/-/issues/708
+>>>> Signed-off-by: Stefan Berger <stefanb@linux.ibm.com>
+>>>> Message-id: 20211110133559.3370990-3-stefanb@linux.ibm.com
+>>>> ---
+>>>>    hw/arm/virt-acpi-build.c | 1 +
+>>>>    hw/i386/acpi-build.c     | 8 ++++++++
+>>>>    2 files changed, 9 insertions(+)
+>>>>
+>>>> diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
+>>>> index d0f4867fdf..f2514ce77c 100644
+>>>> --- a/hw/arm/virt-acpi-build.c
+>>>> +++ b/hw/arm/virt-acpi-build.c
+>>>> @@ -229,6 +229,7 @@ static void acpi_dsdt_add_tpm(Aml *scope,
+>>>> VirtMachineState *vms)
+>>>>          Aml *dev = aml_device("TPM0");
+>>>>        aml_append(dev, aml_name_decl("_HID", aml_string("MSFT0101")));
+>>>> +    aml_append(dev, aml_name_decl("_STR", aml_string("TPM 2.0 Device")));
+>>>>        aml_append(dev, aml_name_decl("_UID", aml_int(0)));
+>>>>          Aml *crs = aml_resource_template();
+>>>> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+>>>> index 8383b83ee3..2fb70847cb 100644
+>>>> --- a/hw/i386/acpi-build.c
+>>>> +++ b/hw/i386/acpi-build.c
+>>>> @@ -1812,11 +1812,15 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+>>>>                        dev = aml_device("TPM");
+>>>>                        aml_append(dev, aml_name_decl("_HID",
+>>>>                                                      aml_string("MSFT0101")));
+>>>> +                    aml_append(dev,
+>>>> +                               aml_name_decl("_STR",
+>>>> +                                             aml_string("TPM 2.0
+>>>> Device")));
+>>>>                    } else {
+>>>>                        dev = aml_device("ISA.TPM");
+>>>>                        aml_append(dev, aml_name_decl("_HID",
+>>>>                                                      aml_eisaid("PNP0C31")));
+>>>>                    }
+>>>> +                aml_append(dev, aml_name_decl("_UID", aml_int(1)));
+>>> why it's 1, and not 0 as in virt-arm?
+>> Marc-Andre and I looked at machines with hardware TPMs and that's what we
+>> found there as well, a '1'.
 >>
->> However 5125f9cd2532 ("hw/arm/virt: Add high MMIO PCI region, 512G in
->> size") introduced high MMIO PCI region without this constraint.
-> Then I really don't understand the point of this highmem_ecam. We only
-> register the highmem version if highmem_ecam is set (see the use of
-> VIRT_ECAM_ID() to pick the right ECAM window).
-
-but aren't we talking about different regions? On one hand the [high]
-MMIO region (512GB wide) and the [high] ECAM region (256MB large).
-To me you can enable either independently. High MMIO region is used by
-some devices likes ivshmem/video cards while high ECAM was introduced to
-extend the number of supported buses: 601d626d148a (hw/arm/virt: Add a
-new 256MB ECAM region).
-
-with the above change the high MMIO region won't be set with 32b
-FW+kernel and LPAE whereas it is currently.
-
-high ECAM was not supported by 32b FW, hence the highmem_ecam.
-
-but maybe I miss your point?
-
-Eric
->
-> So keying this on highmem makes it expose a device that may not be
-> there the first place since, as you pointed out that highmem_ecam can
-> be false in cases where highmem is true.
->
->> So to me we should keep vms->highmem here
-> I really must be missing how this is supposed to work.
->
-> 	M.
->
-
+>>
+>>>>                      aml_append(dev, aml_name_decl("_STA", aml_int(0xF)));
+>>>>                    crs = aml_resource_template();
+>>>> @@ -1844,6 +1848,8 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+>>>>        if (TPM_IS_CRB(tpm)) {
+>>>>            dev = aml_device("TPM");
+>>>>            aml_append(dev, aml_name_decl("_HID", aml_string("MSFT0101")));
+>>>> +        aml_append(dev, aml_name_decl("_STR",
+>>>> +                                      aml_string("TPM 2.0 Device")));
+>>>>            crs = aml_resource_template();
+>>>>            aml_append(crs, aml_memory32_fixed(TPM_CRB_ADDR_BASE,
+>>>>                                               TPM_CRB_ADDR_SIZE,
+>>>> AML_READ_WRITE));
+>>>> @@ -1851,6 +1857,8 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+>>>>              aml_append(dev, aml_name_decl("_STA", aml_int(0xf)));
+>>>>
+>>> no necessary ^^^ empty line
+>> fixed
+>>>> +        aml_append(dev, aml_name_decl("_UID", aml_int(1)));
+>>>> +
+>>>>            tpm_build_ppi_acpi(tpm, dev);
+>>>>              aml_append(sb_scope, dev);
 
