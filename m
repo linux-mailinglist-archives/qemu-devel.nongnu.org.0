@@ -2,82 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CD21483C0F
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 07:50:59 +0100 (CET)
-Received: from localhost ([::1]:37304 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B71FE483C7B
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 08:29:33 +0100 (CET)
+Received: from localhost ([::1]:48786 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n4der-0002cY-HE
-	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 01:50:57 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34560)
+	id 1n4eGC-0004AQ-Bb
+	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 02:29:32 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42084)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jim.shu@sifive.com>)
- id 1n4dPa-0000hf-2K
- for qemu-devel@nongnu.org; Tue, 04 Jan 2022 01:35:10 -0500
-Received: from [2607:f8b0:4864:20::62c] (port=39604
- helo=mail-pl1-x62c.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <jim.shu@sifive.com>)
- id 1n4dPX-0002XW-Sq
- for qemu-devel@nongnu.org; Tue, 04 Jan 2022 01:35:09 -0500
-Received: by mail-pl1-x62c.google.com with SMTP id h6so22582720plf.6
- for <qemu-devel@nongnu.org>; Mon, 03 Jan 2022 22:35:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=gkygk7HFkDRQqBR7gPramWeqcVEw4UkCyEe2l45+d4s=;
- b=SnH5pxHJLncjnBkK3NfPVznNU4C+DEBPjgbHB+QzQunwAU/taKFwmHmyapddJfprF3
- mifc6rUWkElhtQQwFFkB6cLQAoWsjUrFydTLP8h2jzVmMB6ijTpCz8Wu3t8dhkihvVGX
- jGI81w4qd+jHMv058V9JbQl1KzjJOpL9udWT0eciQ14qSn3uxXdvwS2fXX0FB5FuFx+E
- XslQcaV+5afg0rBXZVTHsWvpbLN3LPjNJ12obKwjYEA4aPOk6cVqORz8kmGWSfCrRKsu
- SKUzFlUj4Rba5wf2w+IyeK8gL2L9SmXC3zl4f+HTnpadhUxwgGQl5sWykpcAoBL9Vpio
- 35VA==
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1n4eCw-0003Pn-54
+ for qemu-devel@nongnu.org; Tue, 04 Jan 2022 02:26:10 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32812)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1n4eCs-0007Ja-UD
+ for qemu-devel@nongnu.org; Tue, 04 Jan 2022 02:26:08 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1641281165;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=/JLdAwjDTJp7sVDMx/x79697JdW13Yd7WBoM1+jZqjQ=;
+ b=K3/tssT1hDesxJpvVKNwx9TQ4HjCpxwV1eiHNT3mi4/9HCu6EWxJMrDoc9dlFxmkMEn6FY
+ CLqGsEEEwH4FELmbhEWgGfp4viOsd2NTJ8BHki/duxBQbpD+vTQFEBDfKcqBniXtbfuDTq
+ 71mBdNOQG6j/QH4m+giJIKZvtHZQUG0=
+Received: from mail-pg1-f199.google.com (mail-pg1-f199.google.com
+ [209.85.215.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-176-v3MM8YxFNZutJ7deysiApQ-1; Tue, 04 Jan 2022 02:26:05 -0500
+X-MC-Unique: v3MM8YxFNZutJ7deysiApQ-1
+Received: by mail-pg1-f199.google.com with SMTP id
+ l6-20020a633e06000000b0034006440151so19298841pga.23
+ for <qemu-devel@nongnu.org>; Mon, 03 Jan 2022 23:26:04 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=gkygk7HFkDRQqBR7gPramWeqcVEw4UkCyEe2l45+d4s=;
- b=ldiFdXJR5XEpNsUOL+qchRLtuyXRL0LNgNlmDUX63bTBxro56dcCAtT6DPWF3u/UHo
- Pc4ub+Q1IFD+YkeDPPOUgbYCW9+bnOCOxlRqBkoOAwhsbMXmlsZjfNwlQ7oG1wVvKOTq
- cxuWddFQl9/6qkfosakGvZLeucAq5XcvBBXq6aU6bQ1Ram5kiwBdd9ZXTHPzfHjpr7H0
- 2ic1ufqgwEXor+oZwmjGb7SAxKqvICoE3VXhxj21udr4fPsmu9ft8vRQPM021SgzYlFV
- zFr6dpc81XXo60mEYsLfuCG3ouqImR2bEgQPdPoSKI4zN95xdwHU7aVlzMlG3rsg0Fdb
- x17Q==
-X-Gm-Message-State: AOAM5312/8hl08zrYlpy+7X99+4BqqbP1KILqS3bm0SSP1H7RgC0C192
- tb1iGMBriDZOzD5PeVRX8qOMeg==
-X-Google-Smtp-Source: ABdhPJzmMGZPbbVIqmegnGuFfEtplZk88t1NsnxnAEqASyucQ+PWC0Z192QXm2HufXx3lgq6hHG6Ag==
-X-Received: by 2002:a17:902:a584:b0:143:c2e3:c4 with SMTP id
- az4-20020a170902a58400b00143c2e300c4mr48258648plb.69.1641278106711; 
- Mon, 03 Jan 2022 22:35:06 -0800 (PST)
-Received: from jimshu-VirtualBox.internal.sifive.com
- (59-124-168-89.hinet-ip.hinet.net. [59.124.168.89])
- by smtp.gmail.com with ESMTPSA id b65sm39371533pfg.209.2022.01.03.22.35.04
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=/JLdAwjDTJp7sVDMx/x79697JdW13Yd7WBoM1+jZqjQ=;
+ b=MELEuaGJ9EnK5tSU6qu+uG3NZr3LRWiTurquxKLpvAkabQq7m2rNGezh0MjHotH6I6
+ mEmHDq6mzvzvCiSR/Rzry2bb14eMMEhYDhCsEZTu/v3ZIdOD5aoCVSI0S52SNgGPrqTZ
+ DzrbyBpsyAKF06OqEuzbgvMuEHkn09TxZ+TdFnKBK1cfg8IXeQaRqLW9AugVXgeaIoG/
+ 1xEEzcjr+xLteZIefkUgGYqHqIo8pCpjKknUs6q02oMP4KhLHtlMon7wpSciOqPH4GxY
+ F+O3v4Qi5Pjv0pBADLXs37arzaGUmFzAmpCCVFnWd4s9oHh1co3dwNTouEaWLele2oHq
+ RmPw==
+X-Gm-Message-State: AOAM532F8O/E8Kcei2JcnfzyoR9hDjpZcN6SXTFHohPpPdzkimBOPvJ4
+ xq5SQ+tmq4WXOqnYDmpyDQgb1qxxVYav4dl0VLMsa/UVyFdekAtm8Vq4FlZ3ZewnJZ9PoREEr4h
+ ocF2RQLM8mKb003o=
+X-Received: by 2002:a17:90a:b108:: with SMTP id
+ z8mr59109742pjq.99.1641281163839; 
+ Mon, 03 Jan 2022 23:26:03 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwt9+1MVaa5lYT1V4AJhNK2xzUIV1PtGBP02ky91k9AXUoqUd1kHeXjHt2KV3Kpi4o3N6QcNA==
+X-Received: by 2002:a17:90a:b108:: with SMTP id
+ z8mr59109719pjq.99.1641281163560; 
+ Mon, 03 Jan 2022 23:26:03 -0800 (PST)
+Received: from xz-m1.local ([191.101.132.50])
+ by smtp.gmail.com with ESMTPSA id f7sm39602686pfc.141.2022.01.03.23.26.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 03 Jan 2022 22:35:06 -0800 (PST)
-From: Jim Shu <jim.shu@sifive.com>
-To: Alistair.Francis@wdc.com, bin.meng@windriver.com, palmer@dabbelt.com,
- frank.chang@sifive.com, qemu-riscv@nongnu.org, qemu-devel@nongnu.org
-Subject: [PATCH v2 2/2] hw/dma: sifive_pdma: permit 4/8-byte access size of
- PDMA registers
-Date: Tue,  4 Jan 2022 14:34:08 +0800
-Message-Id: <20220104063408.658169-3-jim.shu@sifive.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220104063408.658169-1-jim.shu@sifive.com>
-References: <20220104063408.658169-1-jim.shu@sifive.com>
+ Mon, 03 Jan 2022 23:26:03 -0800 (PST)
+Date: Tue, 4 Jan 2022 15:25:55 +0800
+From: Peter Xu <peterx@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH 3/8] hw/pci: Document pci_dma_map()
+Message-ID: <YdP2g1kKQ7azrwV4@xz-m1.local>
+References: <20211231114901.976937-1-philmd@redhat.com>
+ <20211231114901.976937-4-philmd@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <20211231114901.976937-4-philmd@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62c
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62c;
- envelope-from=jim.shu@sifive.com; helo=mail-pl1-x62c.google.com
-X-Spam_score_int: 6
-X-Spam_score: 0.6
-X-Spam_bar: /
-X-Spam_report: (0.6 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) DKIMWL_WL_HIGH=-0.37, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,43 +98,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bmeng.cn@gmail.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Jim Shu <jim.shu@sifive.com>
+Cc: David Hildenbrand <david@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It's obvious that PDMA supports 64-bit access of 64-bit registers, and
-in previous commit, we confirm that PDMA supports 32-bit access of
-both 32/64-bit registers. Thus, we configure 32/64-bit memory access
-of PDMA registers as valid in general.
+On Fri, Dec 31, 2021 at 12:48:56PM +0100, Philippe Mathieu-Daudé wrote:
+> +/**
+> + * pci_dma_map: Map a physical memory region into a device PCI address space.
 
-Signed-off-by: Jim Shu <jim.shu@sifive.com>
-Reviewed-by: Frank Chang <frank.chang@sifive.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
-Tested-by: Bin Meng <bmeng.cn@gmail.com>
----
- hw/dma/sifive_pdma.c | 4 ++++
- 1 file changed, 4 insertions(+)
+Shouldn't this be: "Map device PCI address space range into host virtual
+address"?
 
-diff --git a/hw/dma/sifive_pdma.c b/hw/dma/sifive_pdma.c
-index f4df16449b..1dd88f3479 100644
---- a/hw/dma/sifive_pdma.c
-+++ b/hw/dma/sifive_pdma.c
-@@ -444,6 +444,10 @@ static const MemoryRegionOps sifive_pdma_ops = {
-     .impl = {
-         .min_access_size = 4,
-         .max_access_size = 8,
-+    },
-+    .valid = {
-+        .min_access_size = 4,
-+        .max_access_size = 8,
-     }
- };
- 
 -- 
-2.25.1
+Peter Xu
 
 
