@@ -2,72 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFFEF483AB9
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 03:58:35 +0100 (CET)
-Received: from localhost ([::1]:53008 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE9EA483AE4
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 04:15:00 +0100 (CET)
+Received: from localhost ([::1]:36936 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n4a1y-00035c-Rg
-	for lists+qemu-devel@lfdr.de; Mon, 03 Jan 2022 21:58:34 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56304)
+	id 1n4aHr-00042H-Jf
+	for lists+qemu-devel@lfdr.de; Mon, 03 Jan 2022 22:14:59 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59898)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1n4a05-00019N-Kw; Mon, 03 Jan 2022 21:56:37 -0500
-Received: from [2607:f8b0:4864:20::b33] (port=39686
- helo=mail-yb1-xb33.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1n4a04-00025r-5H; Mon, 03 Jan 2022 21:56:37 -0500
-Received: by mail-yb1-xb33.google.com with SMTP id d1so83455833ybh.6;
- Mon, 03 Jan 2022 18:56:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=i8Lddyv040IziEPjcOcJtFxp9lsXabJEGaUK/eKyFVo=;
- b=bSq5iryxWmiotP04ecPYRVymVnOkY55gKN0QWXc5Er1NGX6peRLM322dJO2cWfF1Jn
- MLWe678tZI/VCIS+f9SitXAPlDJ/vkngdAdHKLGoPDcbONWYfFKo2mBy1WMQteoZvuqd
- LEBdBJKT6Ihdz5y/6/86e8DMfRhQEzTIjXHZsJ3SbXPMLaeL/ahTMe6/zUw68sljlLhT
- Z625+EedNzrepXyyvXv4i5rzKBFEGjx0lgJrFHggULmIMdK7Zsd8qz7ruIeUtRDmk5sY
- B03PNu55SggNupDWvugB5nFKKJ6uMLif9ynadnRLMj7QaaNILf9eujd7m/7nmdC6Jb3C
- pMbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=i8Lddyv040IziEPjcOcJtFxp9lsXabJEGaUK/eKyFVo=;
- b=eCXZ0SoyRfpbabd3DL/aWuackf1U8e2kCivuj7JFpjQDybHogJqNzsaeCKY06m5y1Z
- HpngwU7s+yaabYK5FR94aqSLT5YdiiFNGRjtGOIU1fJoeWPkgmrqMFKOkMnN5+/dBK4+
- qSjumbM7f507/RWOKN9m1jkcXOqbS1/+9z9Tlh8etGM1mm9q0UFCcESokRxms9ViEqGB
- P1HRl7yFhhdDQQSNVzdcgT06QVfqhVr6hPmMbIvoH/11ybN0jAe3UJU5sZFSnRa1wScs
- K8rVuo0536nR3uP8nnVGw284TKR8RpD5/Go61uz5ATBrjtPU9PUtMZTVFtwXPrIfNeS6
- Tvmw==
-X-Gm-Message-State: AOAM533EFmzWqVlhQczAa5KIi9LtiulMNiKX1SAcuuGgNFwulVw+bbvt
- p9A7os7yhntWBMc+TVT1K32i506Q2khMUkLnfUM=
-X-Google-Smtp-Source: ABdhPJyzgCcYtNERRQS8t6v21BgrrcU0boDfFbrDcPVitJFQDV4kZUwXc7aqAHaOafqtTuENyKPoDsh8Wib8WwhsCRM=
-X-Received: by 2002:a05:6902:681:: with SMTP id
- i1mr50366751ybt.526.1641264995040; 
- Mon, 03 Jan 2022 18:56:35 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <i.qemu@xen0n.name>) id 1n4aGq-0003Lz-4T
+ for qemu-devel@nongnu.org; Mon, 03 Jan 2022 22:13:56 -0500
+Received: from mail.xen0n.name ([115.28.160.31]:42616
+ helo=mailbox.box.xen0n.name)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <i.qemu@xen0n.name>) id 1n4aGn-0001Ba-0A
+ for qemu-devel@nongnu.org; Mon, 03 Jan 2022 22:13:55 -0500
+Received: from [192.168.9.172] (unknown [101.88.31.179])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mailbox.box.xen0n.name (Postfix) with ESMTPSA id BB72460106;
+ Tue,  4 Jan 2022 11:13:40 +0800 (CST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=xen0n.name; s=mail;
+ t=1641266020; bh=+pTygHvSQsDgTljLBJnKu99i/37wMhu0mrVnWv6Wc7Y=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=nTPT+8vcwbvRBfzl4Eq5KiOYNUZlU9b6McXvZB+ArGwaBUN0HrCofmGWjYS5yl1v7
+ oNE81JHPuxy1ZXFLsHhJ4ElSJf2RVcrv5AwQTS3z3hMvGkBtr+FfDWw2tNpBA3oYw5
+ DItt/p89iaralqz+W8oz1PLkK2qGGycm4DSAmXEA=
+Message-ID: <5fbc94b8-070c-9d5d-add7-c55943d9b043@xen0n.name>
+Date: Tue, 4 Jan 2022 11:13:39 +0800
 MIME-Version: 1.0
-References: <20211228005236.415583-1-jim.shu@sifive.com>
- <20211228005236.415583-3-jim.shu@sifive.com>
-In-Reply-To: <20211228005236.415583-3-jim.shu@sifive.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Tue, 4 Jan 2022 10:56:23 +0800
-Message-ID: <CAEUhbmWoXcR0vdV82v7Y+zEpvFtyM7FrKV38v4wrmKCBSEWDKg@mail.gmail.com>
-Subject: Re: [PATCH 2/2] hw/dma: sifive_pdma: permit 4/8-byte access size of
- PDMA registers
-To: Jim Shu <jim.shu@sifive.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b33
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b33;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb33.google.com
-X-Spam_score_int: 6
-X-Spam_score: 0.6
-X-Spam_bar: /
-X-Spam_report: (0.6 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:97.0) Gecko/20100101
+ Thunderbird/97.0a1
+Subject: Re: [PATCH v4 0/7] Unaligned access for user only
+Content-Language: en-US
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20220104021543.396571-1-richard.henderson@linaro.org>
+From: WANG Xuerui <i.qemu@xen0n.name>
+In-Reply-To: <20220104021543.396571-1-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=115.28.160.31; envelope-from=i.qemu@xen0n.name;
+ helo=mailbox.box.xen0n.name
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.354,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,51 +62,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Frank Chang <frank.chang@sifive.com>, Bin Meng <bin.meng@windriver.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <Alistair.Francis@wdc.com>
+Cc: git@xen0n.name, peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Dec 28, 2021 at 8:53 AM Jim Shu <jim.shu@sifive.com> wrote:
+Hi Richard,
+
+On 1/4/22 10:15, Richard Henderson wrote:
+> Version 3 was way back in August:
 >
-> It's obvious that PDMA support 64-bit access of 64-bit registers, and
-
-%s/support/supports
-
-> in previous commit, we confirm that PDMA support 32-bit access of both
-
-%s/support/supports
-
-> 32/64-bit registers. Thus, we configure 32/64-bit memory access of
-> PDMA registers as valid in general.
+> https://lore.kernel.org/qemu-devel/20210818191920.390759-1-richard.henderson@linaro.org/
 >
-> Signed-off-by: Jim Shu <jim.shu@sifive.com>
-> Reviewed-by: Frank Chang <frank.chang@sifive.com>
-> ---
->  hw/dma/sifive_pdma.c | 4 ++++
->  1 file changed, 4 insertions(+)
+> Quite a few of the patches in there have been merged, but not all.
 >
-> diff --git a/hw/dma/sifive_pdma.c b/hw/dma/sifive_pdma.c
-> index b8b198ab4e..731fcdcf89 100644
-> --- a/hw/dma/sifive_pdma.c
-> +++ b/hw/dma/sifive_pdma.c
-> @@ -441,6 +441,10 @@ static const MemoryRegionOps sifive_pdma_ops = {
->      .impl = {
->          .min_access_size = 4,
->          .max_access_size = 8,
-> +    },
-> +    .valid = {
-> +        .min_access_size = 4,
-> +        .max_access_size = 8,
->      }
->  };
+> Based-on: <20211227150127.2659293-1-richard.henderson@linaro.org>
 >
-
-Otherwise,
-
-Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
-Tested-by: Bin Meng <bmeng.cn@gmail.com>
+> There are follow-on patch sets for arm, mips, and sparc, which I
+> will be refreshing soon.  Xuerui, I believe that tcg/loongarch
+> should be as simple as one of these five.
+Thanks for the heads-up; I'll take care of implementing the loongarch64 
+part in this week (or maybe next week in case of $DAY_JOB).
+>
+>
+> r~
+>
+>
+> Richard Henderson (7):
+>    tcg/i386: Support raising sigbus for user-only
+>    tcg/aarch64: Support raising sigbus for user-only
+>    tcg/ppc: Support raising sigbus for user-only
+>    tcg/riscv: Support raising sigbus for user-only
+>    tcg/s390x: Support raising sigbus for user-only
+>    tcg/tci: Support raising sigbus for user-only
+>    tests/tcg/multiarch: Add sigbus.c
+>
+>   tcg/aarch64/tcg-target.h     |   2 -
+>   tcg/i386/tcg-target.h        |   2 -
+>   tcg/ppc/tcg-target.h         |   2 -
+>   tcg/riscv/tcg-target.h       |   2 -
+>   tcg/s390x/tcg-target.h       |   2 -
+>   tcg/tci.c                    |  20 +++++--
+>   tests/tcg/multiarch/sigbus.c |  68 +++++++++++++++++++++++
+>   tcg/aarch64/tcg-target.c.inc |  91 +++++++++++++++++++++++++------
+>   tcg/i386/tcg-target.c.inc    | 103 +++++++++++++++++++++++++++++++++--
+>   tcg/ppc/tcg-target.c.inc     |  98 ++++++++++++++++++++++++++++++---
+>   tcg/riscv/tcg-target.c.inc   |  63 ++++++++++++++++++++-
+>   tcg/s390x/tcg-target.c.inc   |  59 +++++++++++++++++++-
+>   12 files changed, 462 insertions(+), 50 deletions(-)
+>   create mode 100644 tests/tcg/multiarch/sigbus.c
+>
 
