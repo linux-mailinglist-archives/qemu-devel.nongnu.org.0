@@ -2,82 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A57FD48491C
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 21:11:15 +0100 (CET)
-Received: from localhost ([::1]:57292 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3330D484925
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 21:18:11 +0100 (CET)
+Received: from localhost ([::1]:35172 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n4q9K-00085m-9J
-	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 15:11:14 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40398)
+	id 1n4qG1-0004AP-PP
+	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 15:18:09 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42056)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1n4q73-000712-1D
- for qemu-devel@nongnu.org; Tue, 04 Jan 2022 15:08:53 -0500
-Received: from [2a00:1450:4864:20::534] (port=36769
- helo=mail-ed1-x534.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1n4q70-00051d-Qs
- for qemu-devel@nongnu.org; Tue, 04 Jan 2022 15:08:52 -0500
-Received: by mail-ed1-x534.google.com with SMTP id q14so145071515edi.3
- for <qemu-devel@nongnu.org>; Tue, 04 Jan 2022 12:08:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=mr7yqlDkmU7Tg/Vzj3dbohquUeTUBk9e5ESFXebR3J4=;
- b=flLMJjFb1UOjdkH6GAW7fLJrBKEGxO65XkK+WYGj4Ck3PyJ83zCw0VdTMXR9Jc1Arc
- jKFiWLOf3PRYiqplrR1Zqe2YVteW8iERy3pUoiFr5XVkKsGxwl1cT4dPnMelqcMDLPu0
- WBwZUzHXwm6XXgaO8NWeA6DdQv6ZLB9ql7WGhjll8gBvMARZjj1H11ydk9u3ain/TPZi
- sKMEQ4R+LjxVX593fBKUPzfzJt/p5XlKbZeji5sTARbMPh1tBisc+Zr0KISopPJgUSDL
- oQpKpkOsaNzFO0HnEscVfr7jlLrJMrPLYVlsDIlGXqbWToUerewoIeLqD3WE24/NU0g4
- v3qA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=mr7yqlDkmU7Tg/Vzj3dbohquUeTUBk9e5ESFXebR3J4=;
- b=MAmyTMMExPloGI7sAoXracCtGuGcBjNlJHZreJxhNo6QFUgToD+nRgh0MJj5N9ZF1w
- ZsU6+VkEs5BljDNz5wpmKlap5bkLRjNcHuIGqNtaPgnVU7XrTbYzg/PgeNErddQJOg8r
- 0onhorpdNPDw/df059IUvUpypEmI/WhVXJMZW+F1pAkG2oFuzrBMruBH3huUz7LQfR1X
- 3NzpGo5oT6KBkwZZbf+t83glvsJn8lVcAavDFbfJgeKCykzLsXgnS0s/zXcsVBCNgxpD
- C9IRK/UV5UIok/QeU3ZXnubjMTOTNMCfkXb4MBUl+L79xTWQipv2KWF7f00INeR3zfme
- bUew==
-X-Gm-Message-State: AOAM531rMCRSNVwbGY4tfqM7Nak8YwxJQ+i9M/Ce1k9eZsaw2d3rh1lr
- HKB0bJ0K7NWriwJD5u5xKrI3SA==
-X-Google-Smtp-Source: ABdhPJw770SmjyZzqbm7fdF49iz2c3Y6UVGvhz193BOrCtLsYE//8bbbYfKGmbfi/Ge0iGEK+iasrw==
-X-Received: by 2002:a05:6402:2787:: with SMTP id
- b7mr44065239ede.362.1641326929271; 
- Tue, 04 Jan 2022 12:08:49 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id w11sm11858036edd.21.2022.01.04.12.08.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Jan 2022 12:08:48 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 691821FFB7;
- Tue,  4 Jan 2022 20:08:47 +0000 (GMT)
-References: <20211224035541.2159966-1-richard.henderson@linaro.org>
-User-agent: mu4e 1.7.5; emacs 28.0.90
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH 0/2] tests/tcg: Fix float_{convs,madds}
-Date: Tue, 04 Jan 2022 20:08:42 +0000
-In-reply-to: <20211224035541.2159966-1-richard.henderson@linaro.org>
-Message-ID: <87bl0rl0vk.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n4qET-00038I-Da
+ for qemu-devel@nongnu.org; Tue, 04 Jan 2022 15:16:33 -0500
+Received: from mout.kundenserver.de ([212.227.17.13]:50865)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n4qER-0006by-Nq
+ for qemu-devel@nongnu.org; Tue, 04 Jan 2022 15:16:33 -0500
+Received: from [192.168.100.1] ([82.142.30.62]) by mrelayeu.kundenserver.de
+ (mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MDgxt-1nDKgu29fb-00AmLQ; Tue, 04 Jan 2022 21:16:27 +0100
+Message-ID: <93c0bcb7-3064-9450-81b6-7621b68f2e9f@vivier.eu>
+Date: Tue, 4 Jan 2022 21:16:26 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::534
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::534;
- envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x534.google.com
-X-Spam_score_int: 6
-X-Spam_score: 0.6
-X-Spam_bar: /
-X-Spam_report: (0.6 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH] common-user: Fix tail calls to safe_syscall_set_errno_tail
+Content-Language: fr
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20220104190454.542225-1-richard.henderson@linaro.org>
+From: Laurent Vivier <laurent@vivier.eu>
+In-Reply-To: <20220104190454.542225-1-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:6Rb1PImW5FG1BXoZ+y5Ogbic42qnG5+9FHcpB/7QZ+NdfQNPrKb
+ /OQ8NArCysXk8hecM2Kr3bY66Cgz9kyYB58VdcxYrLU23p740tBBtwZ2yTUf/rzb9Q6mU97
+ bnvccXpM+XBVOKME/FVhU2imzWYm4UwqFdNrC/2TdnhMIbs5vyNlBo2v1lIGAHHMqcQFfLY
+ SxZWaQt/lLV5AAV0QtJGA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:uOb4juMIA0c=:YYPwvfu7wX3oztUr3ifvxQ
+ 56VuO+LJXi93fwZTUDR/Bz5VI+OH8RYxuFNP8q9h/emJ14E/6TLg2ZxFeCCZh+rkTeKeS45e1
+ GwUkL9rYBu8WlCkRrdZgt3NPnKWewOjtcjEJUOSATVZaMPbSOaxCNbcVNsJ1VQhPXaKJE8QfV
+ T0j+ij44e5sXatjbiUCET078gruRIO413qzeokKcrkvNV6m7U5Eu401y0j2ySBX2n2LtYSLsa
+ 2YDnfpGPLiI4z4qA7sPhQgOwNJGISyw4Syn39VrZ9xj/vz46DUAAxZnm0fGAAdgMuBxID4k26
+ AZTguIRs2InbMm1f3z57ZtCVY4+9sa8t9aqxtIVynrZdetXYiC+R5D8vfN+WSQGOdN/JOW+qB
+ DA9ioHLqCarWORwDgVTrm5Z3kcTSZ/z05qX21r+X/KRaX6Fabut7aEWotAu4fsVf3Rz5bKgS0
+ 61p7MmKFFMWJzQa4v8nDWWSkxK0hU/wQfSLO7tj7NAME0k42bNScrqA+vE/QhLdx9Wafy05SJ
+ 4E3ZVD9wVGeFpC7DtKfsgFY2tRh+u83xdW9eHmgAH0Z1yTWMJE70a2VzpCcTfjzVrh4AdzZxT
+ zel3l/3DFKkycZo42DrxfsCa44XNbGFtNu6dCP14Y+O+BbNTwj8g1Epxmqk7W5oN0JsR8aq31
+ O1i9r1ibXmcPMtOVkPAg2CpGjixntx9NrQ5Fn2hhCjfEBFaqGiWsw6UDngMb37DV5fZk=
+Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) NICE_REPLY_A=-3.354, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,19 +68,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Le 04/01/2022 à 20:04, Richard Henderson a écrit :
+> For the ABIs in which the syscall return register is not
+> also the first function argument register, move the errno
+> value into the correct place.
+> 
+> Fixes: a3310c0397e2
+> Reported-by: Laurent Vivier <laurent@vivier.eu>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>   common-user/host/i386/safe-syscall.inc.S   | 1 +
+>   common-user/host/mips/safe-syscall.inc.S   | 1 +
+>   common-user/host/x86_64/safe-syscall.inc.S | 1 +
+>   3 files changed, 3 insertions(+)
+> 
 
-Richard Henderson <richard.henderson@linaro.org> writes:
+Tested-by: Laurent Vivier <laurent@vivier.eu>
 
-> We didn't read the fp flags early enough, so we got whatever
-> came out of the guest printf.  With careful review of the
-> hexagon output, we would have seen this long ago.
-
-Queued to testing/next, thanks.
-
---=20
-Alex Benn=C3=A9e
 
