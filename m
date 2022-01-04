@@ -2,75 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15051484A3F
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 22:52:56 +0100 (CET)
-Received: from localhost ([::1]:37334 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14B10484A43
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 22:56:18 +0100 (CET)
+Received: from localhost ([::1]:39686 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n4rjj-0006ZL-5f
-	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 16:52:55 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:32874)
+	id 1n4rmz-0008MN-3l
+	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 16:56:17 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33648)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1n4rhW-0003GA-Cj; Tue, 04 Jan 2022 16:50:40 -0500
-Received: from [2a00:1450:4864:20::429] (port=35647
- helo=mail-wr1-x429.google.com)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1n4rli-0007SV-Ib; Tue, 04 Jan 2022 16:54:58 -0500
+Received: from [2607:f8b0:4864:20::131] (port=37585
+ helo=mail-il1-x131.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1n4rhQ-0004XH-44; Tue, 04 Jan 2022 16:50:34 -0500
-Received: by mail-wr1-x429.google.com with SMTP id j18so78832485wrd.2;
- Tue, 04 Jan 2022 13:50:30 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1n4rlh-0004xv-3T; Tue, 04 Jan 2022 16:54:58 -0500
+Received: by mail-il1-x131.google.com with SMTP id j6so29407961ila.4;
+ Tue, 04 Jan 2022 13:54:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=CKRFGK/nQbJSO9eH4vCzDs3frMk9TG9xrgiou6/dFxQ=;
- b=H+s4xYLBvW4eeeXr3hAw3ptmkPoEOaFbt6nwqLZaPfmfiSzWlg/0kUFzl9tpDVoZI+
- QJCk2IYJO6bWK+fpudq3TAIaFVlQqbBdBrRg9dDh8vZR13vS2vHk4vmvcLKwEEZfNR1l
- UBfQf64EsWqeUrHlGk6r6Xyqj+CgvOJQ7QauYhY4scGakO0XG/fDguFRwhrb3v0mIaKr
- oCvv+IcBRScP3Cduy24r1yAbqZzw3Ow+M8Z2BdocNXsvNfY0hmkeBVWWtL19vvNnMrZ0
- xCS07DZJrKjnzJrrqj/UT7ns3P7ioTPsbIt1JtfF4mpNG41ca63dM26r7rf1kEHiWI6L
- q70g==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=kFetcjpQ9Ll1aOkgtM7OHVrBs0K87hP14vdAxwyNvhg=;
+ b=IXKpoQ42mp9Vsmz5VHFl93XyofEIa9J07OhKqvfP3Hx+w/D/R33o1Md1UNtoid0dtX
+ cc6VkMc9v1kZODaaG+G0a4WI6/AXIGdzzAwRTSUY2nWQpsezu8jWFAmozlUxbjG0k/oa
+ EwlERTejE1zDduEUu7EjhHnlPWWZ840tY9JS5mXgKOsUjCLmqeV8Fn/OnFXIGQD6j6FR
+ GICtuHJgCFx4LKYYMbJAgbOhlzIHpTd4f8EtoPGX9XGqfX9Bq/n4llqs6PETkunvL0FJ
+ 8vpqWL1nequMWsPhBleqofDAIg87Eb50DH0HPdppMuF+f1+jyPASj8BYGd4qAYML7OoD
+ j7dA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=CKRFGK/nQbJSO9eH4vCzDs3frMk9TG9xrgiou6/dFxQ=;
- b=6eHuTscLhAPF7yFRD9W4fSuY6L6IEyxWJea31oPGk4psfBRUdmGarzo+N8q0yINGVV
- +EaC0v+X3WI44+AiRl2IMhQMtVGjNi+txQeKQG3FnMl32IPTrLxwi6FVCj1qJz56bWUF
- FSJ6iF1vZb93N/xAImMf4TJ7Fi/NoAuEa5YjPQCpdFgnfFzbKpZfF5JODMwTUPB+t1xM
- y8LvD8V4zTGYOItWHLS7TVuhANONse++PrUzuq4TknIyHvpuIA28TnFDHUp3E2nW5cCG
- DGXvHstFHMSFfRMzHNY3UgJIYgU01KeRgZ+FN0oPTYHnG85x8XM9/LPKC8m0oAGLSxh/
- hqQQ==
-X-Gm-Message-State: AOAM531kRG7p8kDwEBAxxENNqhWtsxI27phHWgk6dbt3nOx8NRQp73B0
- Q1ArwaTPSZGBKCrmvloxn2EM6A5NoDc=
-X-Google-Smtp-Source: ABdhPJyW7nwCVZE03wLWlyJEoM7FjY+evtSXj/v5so2cyHbLiEjhHb8GHQYEDYG5ZuGN7UZ3kwe5nQ==
-X-Received: by 2002:adf:aac7:: with SMTP id i7mr44556716wrc.537.1641333029395; 
- Tue, 04 Jan 2022 13:50:29 -0800 (PST)
-Received: from x1w.. (83.red-83-50-87.dynamicip.rima-tde.net. [83.50.87.83])
- by smtp.gmail.com with ESMTPSA id y1sm38872710wrm.3.2022.01.04.13.50.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Jan 2022 13:50:29 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2] linux-user: Fix trivial build error on loongarch64 hosts
-Date: Tue,  4 Jan 2022 22:50:27 +0100
-Message-Id: <20220104215027.2180972-1-f4bug@amsat.org>
-X-Mailer: git-send-email 2.33.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=kFetcjpQ9Ll1aOkgtM7OHVrBs0K87hP14vdAxwyNvhg=;
+ b=QdPXaiB4Px/GMB8BT3Thqm437gq9tVi7SXxJQCbtkTbS1n+nZU2zZYQx7JzWPXomt+
+ HrkIz5M33aEfOTmAqRtJSr2mxecNZlsSJdBpG2zqbv2uYKEkrEOSU3BCB6lhf/Bh6oNo
+ e+5s3dy8OtMvhZ/VWkI4UdsF9Hb9SSyQOyPfTUXu8YVoyTd6GmW027frM7B8ffRWrnuN
+ CuL4K1XUsbY1907eB4nmT1/9cMX/dKtfOiCBW0Az8mf7vNZ+igBkU+AJT2lbw9kQQp/b
+ BAT9Bu9gf3MSusqCxhbEdn9PrfO8/P9KbnFAAk7mHZRJINqbPGx+TwBIuCmdVWXFTFnt
+ qo7A==
+X-Gm-Message-State: AOAM530BBydWmc23+aqoOIHLvhi3JZVKlKrneaBK9Y00Mmkoq5BuL/LB
+ oPm71LIOoXSssXd3kVKY9tONUxJe5feveYlsdA4=
+X-Google-Smtp-Source: ABdhPJyN6ckPnSSgYC/ipHB4Z2dsLwJ96AFUjYN5aA5VXf4UpwV1OXIjy130NEg/JwGvdBT4kyN4oWN7xUmawrPa+A4=
+X-Received: by 2002:a05:6e02:1567:: with SMTP id
+ k7mr23228398ilu.46.1641333295799; 
+ Tue, 04 Jan 2022 13:54:55 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::429
+References: <20220104063408.658169-1-jim.shu@sifive.com>
+In-Reply-To: <20220104063408.658169-1-jim.shu@sifive.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Wed, 5 Jan 2022 07:54:29 +1000
+Message-ID: <CAKmqyKMftmh67=nM4Jcre1LOvv9Tf33UuhcOVC-jbdpGkC1XOw@mail.gmail.com>
+Subject: Re: [PATCH v2 0/2] Align SiFive PDMA behavior to real hardware
+To: Jim Shu <jim.shu@sifive.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::131
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x429.google.com
-X-Spam_score_int: 12
-X-Spam_score: 1.2
-X-Spam_bar: +
-X-Spam_report: (1.2 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::131;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x131.google.com
+X-Spam_score_int: 8
+X-Spam_score: 0.8
+X-Spam_bar: /
+X-Spam_report: (0.8 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_ENVFROM_END_DIGIT=0.25,
+ FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,55 +78,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Michael Tokarev <mjt@tls.msk.ru>,
- Laurent Vivier <laurent@vivier.eu>, Song Gao <gaosong@loongson.cn>,
- WANG Xuerui <git@xen0n.name>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Frank Chang <frank.chang@sifive.com>, Bin Meng <bin.meng@windriver.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When building using GCC 8.3.0 on loongarch64 (Loongnix) we get:
+On Tue, Jan 4, 2022 at 4:56 PM Jim Shu <jim.shu@sifive.com> wrote:
+>
+> HiFive Unmatched PDMA supports high/low 32-bit access of 64-bit
+> register, but QEMU emulation supports low part access now. Enhance QEMU
+> emulation to support high 32-bit access.
+>
+> Also, permit 4/8-byte valid access in PDMA as we have verified 32/64-bit
+> accesses of PDMA registers are supported.
+>
+> Changelog:
+>
+> v2:
+>   * Fix high 32-bit write access of 64-bit RO registers
+>   * Fix commit log
+>
+> Jim Shu (2):
+>   hw/dma: sifive_pdma: support high 32-bit access of 64-bit register
+>   hw/dma: sifive_pdma: permit 4/8-byte access size of PDMA registers
 
-  In file included from ../linux-user/signal.c:33:
-  ../linux-user/host/loongarch64/host-signal.h: In function ‘host_signal_write’:
-  ../linux-user/host/loongarch64/host-signal.h:57:9: error: a label can only be part of a statement and a declaration is not a statement
-         uint32_t sel = (insn >> 15) & 0b11111111111;
-         ^~~~~~~~
+Thanks!
 
-We don't use the 'sel' variable more than once, so drop it.
+Applied to riscv-to-apply.next
 
-Meson output for the record:
+Alistair
 
-  Host machine cpu family: loongarch64
-  Host machine cpu: loongarch64
-  C compiler for the host machine: cc (gcc 8.3.0 "cc (Loongnix 8.3.0-6.lnd.vec.27) 8.3.0")
-  C linker for the host machine: cc ld.bfd 2.31.1-system
-
-Fixes: ad812c3bd65 ("linux-user: Implement CPU-specific signal handler for loongarch64 hosts")
-Reported-by: Song Gao <gaosong@loongson.cn>
-Suggested-by: Song Gao <gaosong@loongson.cn>
-Reviewed-by: WANG Xuerui <git@xen0n.name>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- linux-user/host/loongarch64/host-signal.h | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
-
-diff --git a/linux-user/host/loongarch64/host-signal.h b/linux-user/host/loongarch64/host-signal.h
-index 05e2c823717..7effa242515 100644
---- a/linux-user/host/loongarch64/host-signal.h
-+++ b/linux-user/host/loongarch64/host-signal.h
-@@ -54,9 +54,7 @@ static inline bool host_signal_write(siginfo_t *info, ucontext_t *uc)
-         }
-         break;
-     case 0b001110: /* indexed, atomic, bounds-checking memory operations */
--        uint32_t sel = (insn >> 15) & 0b11111111111;
--
--        switch (sel) {
-+        switch ((insn >> 15) & 0b11111111111) {
-         case 0b00000100000: /* stx.b */
-         case 0b00000101000: /* stx.h */
-         case 0b00000110000: /* stx.w */
--- 
-2.33.1
-
+>
+>  hw/dma/sifive_pdma.c | 181 +++++++++++++++++++++++++++++++++++++------
+>  1 file changed, 159 insertions(+), 22 deletions(-)
+>
+> --
+> 2.25.1
+>
+>
 
