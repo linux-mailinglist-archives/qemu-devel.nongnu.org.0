@@ -2,73 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1D504838E5
-	for <lists+qemu-devel@lfdr.de>; Mon,  3 Jan 2022 23:52:20 +0100 (CET)
-Received: from localhost ([::1]:55802 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0230B483989
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 01:50:47 +0100 (CET)
+Received: from localhost ([::1]:50206 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n4WBf-0003wL-TS
-	for lists+qemu-devel@lfdr.de; Mon, 03 Jan 2022 17:52:19 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48496)
+	id 1n4Y2I-0000LZ-K4
+	for lists+qemu-devel@lfdr.de; Mon, 03 Jan 2022 19:50:46 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38924)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1n4W7t-0005Kx-2O; Mon, 03 Jan 2022 17:48:25 -0500
-Received: from [2607:f8b0:4864:20::102b] (port=37675
- helo=mail-pj1-x102b.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1n4W7r-0001IR-Ff; Mon, 03 Jan 2022 17:48:24 -0500
-Received: by mail-pj1-x102b.google.com with SMTP id
- y16-20020a17090a6c9000b001b13ffaa625so38912617pjj.2; 
- Mon, 03 Jan 2022 14:48:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=iWZzEiS5kAjMq93arrDLQMfuajuYgKjAkXInC/TbZNM=;
- b=fk/7guKOb6G9moETs6xDCXMVv8gIX4T4eHZwx9iQwDSFOrK7fV3uEzJgLzX4ri/sKz
- lssBzjXoEsUNvG1BxPLUJISa1wpLNTfnY8OOdzSixCKFXJY78vCOVrX8tE2PFwNgPsXW
- yYLBy2YVgT9B3oNXoC2Nj4atABgb/IsJLAdL/A5IOKxar4v3u9QGZy42FqiZrbDOI9ee
- dmB8CSxETC/sReRLQ5qIuc+PqXjKyg3Uc7THSN8qZfqEZ3v8HepSEqBLxbvJAxyZ3chg
- 2JQigbWbLcebg3s2+VO8uBz6LxFDQ1mva4FQCbnix/ow6li/Ylr0YdNLU68mh5zxSwsL
- kq8g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=iWZzEiS5kAjMq93arrDLQMfuajuYgKjAkXInC/TbZNM=;
- b=5/ZOOwDOyng/d52I2gEmVCFYjrqd5iqD4ubzSZtUBL6xxnaUHP7vQCnGjNsmgBHAQr
- hhGSuc970+Iq8Rn02W6dhls26azBrDVtsCa3/tnB7W9BDIOkKCd2eAC3jXst+1ixcSZQ
- mLgnkvFL4IH+iPVrdiaDcm5IXCF23Bu3dmx0T8T7EqDEYmrhvqhW0xY+agvoAqWdFaWP
- 2Rv/KhFQUhGl+ELY+LywVHVeSkQN5Awox6fTGCbp6pEenJlkiM7KqZGgFB+GoxcqKRia
- 9jVjkmP6cLcyqAQVME6w5fSjWVlJOFMtoTmKW645sP+nUfP1U2WQPnGntWQ5MqqxfnRD
- Jv8w==
-X-Gm-Message-State: AOAM532G6ZtSxG12GK+fOP4gkyZ2C71MsRUuPasFfT8N7/OAStGUQDty
- 1uNkSiewKm39asAfehbfHkvlR2DLIHhi4IfC6Tk=
-X-Google-Smtp-Source: ABdhPJwWMFkGtS5s6WxkatZdCstBaorcBsBN7wgBf/CU6mCKcCEb/5XV0j9cU2+OEWLlQlpuWNMpxEpPThR49FaJhDU=
-X-Received: by 2002:a17:90a:c087:: with SMTP id
- o7mr56934605pjs.91.1641250100719; 
- Mon, 03 Jan 2022 14:48:20 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
+ id 1n4Y0b-000832-BA
+ for qemu-devel@nongnu.org; Mon, 03 Jan 2022 19:49:01 -0500
+Received: from szxga01-in.huawei.com ([45.249.212.187]:3517)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
+ id 1n4Y0Y-0005zw-I2
+ for qemu-devel@nongnu.org; Mon, 03 Jan 2022 19:49:01 -0500
+Received: from dggpemm500024.china.huawei.com (unknown [172.30.72.56])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4JSYmz5H06zZdxm;
+ Tue,  4 Jan 2022 08:45:23 +0800 (CST)
+Received: from dggpemm500006.china.huawei.com (7.185.36.236) by
+ dggpemm500024.china.huawei.com (7.185.36.203) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20; Tue, 4 Jan 2022 08:48:49 +0800
+Received: from dggpeml100016.china.huawei.com (7.185.36.216) by
+ dggpemm500006.china.huawei.com (7.185.36.236) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20; Tue, 4 Jan 2022 08:48:48 +0800
+Received: from dggpeml100016.china.huawei.com ([7.185.36.216]) by
+ dggpeml100016.china.huawei.com ([7.185.36.216]) with mapi id 15.01.2308.020;
+ Tue, 4 Jan 2022 08:48:48 +0800
+To: "pbonzini@redhat.com" <pbonzini@redhat.com>, "alex.williamson@redhat.com"
+ <alex.williamson@redhat.com>, "mst@redhat.com" <mst@redhat.com>,
+ "mtosatti@redhat.com" <mtosatti@redhat.com>
+CC: "kvm@vger.kernel.org" <kvm@vger.kernel.org>, "qemu-devel@nongnu.org"
+ <qemu-devel@nongnu.org>, "Gonglei (Arei)" <arei.gonglei@huawei.com>
+Subject: RE: [PATCH 0/2] kvm/msi: do explicit commit when adding msi routes
+Thread-Topic: [PATCH 0/2] kvm/msi: do explicit commit when adding msi routes
+Thread-Index: AQHX7psu1N6+1Tf/akGsiLQxqZd2LaxSLE7Q
+Date: Tue, 4 Jan 2022 00:48:48 +0000
+Message-ID: <c9eba7e294ae4bc68bf1095ace98fa34@huawei.com>
+References: <20211211142703.1941-1-longpeng2@huawei.com>
+In-Reply-To: <20211211142703.1941-1-longpeng2@huawei.com>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.174.148.223]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-References: <20211224034915.17204-1-liweiwei@iscas.ac.cn>
- <20211224034915.17204-2-liweiwei@iscas.ac.cn>
-In-Reply-To: <20211224034915.17204-2-liweiwei@iscas.ac.cn>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 4 Jan 2022 08:47:54 +1000
-Message-ID: <CAKmqyKM4iTcVEjrezZEXikObm5MuVpcUag+bKYdMaamDdFP6Pg@mail.gmail.com>
-Subject: Re: [PATCH 1/6] target/riscv: add cfg properties for zfinx,
- zdinx and zhinx{min}
-To: liweiwei <liweiwei@iscas.ac.cn>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102b
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
- envelope-from=alistair23@gmail.com; helo=mail-pj1-x102b.google.com
-X-Spam_score_int: 8
-X-Spam_score: 0.8
-X-Spam_bar: /
-X-Spam_report: (0.8 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_ENVFROM_END_DIGIT=0.25,
- FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.187; envelope-from=longpeng2@huawei.com;
+ helo=szxga01-in.huawei.com
+X-Spam_score_int: -22
+X-Spam_score: -2.3
+X-Spam_bar: --
+X-Spam_report: (-2.3 / 5.0 requ) RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,35 +74,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lazyparser@gmail.com, "open list:RISC-V" <qemu-riscv@nongnu.org>,
- wangjunqiang <wangjunqiang@iscas.ac.cn>, Bin Meng <bin.meng@windriver.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>, ardxwe@gmail.com,
- Alistair Francis <alistair.francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  "Longpeng (Mike, Cloud Infrastructure Service Product Dept.)"
+ <longpeng2@huawei.com>
+From: longpeng2--- via <qemu-devel@nongnu.org>
 
-On Fri, Dec 24, 2021 at 1:51 PM liweiwei <liweiwei@iscas.ac.cn> wrote:
->
-> Co-authored-by: ardxwe <ardxwe@gmail.com>
-> Signed-off-by: liweiwei <liweiwei@iscas.ac.cn>
-> Signed-off-by: wangjunqiang <wangjunqiang@iscas.ac.cn>
-> ---
->  roms/SLOF                |  2 +-
->  target/riscv/cpu.c       | 12 ++++++++++++
->  target/riscv/cpu.h       |  4 ++++
->  target/riscv/translate.c |  8 ++++++++
->  4 files changed, 25 insertions(+), 1 deletion(-)
->
-> diff --git a/roms/SLOF b/roms/SLOF
-> index a6906b024c..dd0dcaa1c1 160000
-> --- a/roms/SLOF
-> +++ b/roms/SLOF
-> @@ -1 +1 @@
-> -Subproject commit a6906b024c6cca5a86496f51eb4bfee3a0c36148
-> +Subproject commit dd0dcaa1c1085c159ddab709c7f274b3917be8bd
+Hi guys,
 
-It looks like you accidentally changed a submodule.
+Ping...
 
-Alistair
+> -----Original Message-----
+> From: Longpeng (Mike, Cloud Infrastructure Service Product Dept.)
+> Sent: Saturday, December 11, 2021 10:27 PM
+> To: pbonzini@redhat.com; alex.williamson@redhat.com; mst@redhat.com;
+> mtosatti@redhat.com
+> Cc: kvm@vger.kernel.org; qemu-devel@nongnu.org; Gonglei (Arei)
+> <arei.gonglei@huawei.com>; Longpeng (Mike, Cloud Infrastructure Service
+> Product Dept.) <longpeng2@huawei.com>
+> Subject: [PATCH 0/2] kvm/msi: do explicit commit when adding msi routes
+>=20
+> From: Longpeng <longpeng2@huawei.com>
+>=20
+> This patchset moves the call to kvm_irqchip_commit_routes() out of
+> kvm_irqchip_add_msi_route(). An optimization of vfio migration [1]
+> depends on this changes.
+>=20
+> [1] https://lists.gnu.org/archive/html/qemu-devel/2021-11/msg00968.html
+>=20
+> Longpeng (Mike) (2):
+>   kvm-irqchip: introduce new API to support route change
+>   kvm/msi: do explicit commit when adding msi routes
+>=20
+>  accel/kvm/kvm-all.c    |  7 ++++---
+>  accel/stubs/kvm-stub.c |  2 +-
+>  hw/misc/ivshmem.c      |  5 ++++-
+>  hw/vfio/pci.c          |  5 ++++-
+>  hw/virtio/virtio-pci.c |  4 +++-
+>  include/sysemu/kvm.h   | 23 +++++++++++++++++++++--
+>  target/i386/kvm/kvm.c  |  4 +++-
+>  7 files changed, 40 insertions(+), 10 deletions(-)
+>=20
+> --
+> 2.23.0
+
 
