@@ -2,85 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6812A484A3B
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 22:48:50 +0100 (CET)
-Received: from localhost ([::1]:59478 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1475C484A3C
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 22:52:02 +0100 (CET)
+Received: from localhost ([::1]:34864 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n4rfk-0002Gx-W1
-	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 16:48:49 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60412)
+	id 1n4riq-0004th-SG
+	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 16:52:00 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:32822)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1n4rdg-0000u3-M0
- for qemu-devel@nongnu.org; Tue, 04 Jan 2022 16:46:40 -0500
-Received: from [2607:f8b0:4864:20::102b] (port=54161
- helo=mail-pj1-x102b.google.com)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1n4rhE-0003Dk-QQ; Tue, 04 Jan 2022 16:50:21 -0500
+Received: from [2607:f8b0:4864:20::d30] (port=39486
+ helo=mail-io1-xd30.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1n4rdf-0003oh-5a
- for qemu-devel@nongnu.org; Tue, 04 Jan 2022 16:46:40 -0500
-Received: by mail-pj1-x102b.google.com with SMTP id mj19so32333006pjb.3
- for <qemu-devel@nongnu.org>; Tue, 04 Jan 2022 13:46:37 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1n4rhA-0004NA-2s; Tue, 04 Jan 2022 16:50:17 -0500
+Received: by mail-io1-xd30.google.com with SMTP id y11so40635722iod.6;
+ Tue, 04 Jan 2022 13:50:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=BoFV9Blo576nw3Y1CvG3G0WXqSFK50FDpctKxg5CBT4=;
- b=gzFxdgZTZiyaXvc+xt4ZUY15DJMo8OPrwpDwZQ4/d1JwzjX6GompKVR3tE5MHlXVr9
- kW89D2kJecYfh1MVdRi8cwd/Pblfdh7Jn5x8XL3oi+j7QRAQqPzMX9U3fGK/m2pIGtYV
- hDwR9Wz9/vBsl0SvMWrebqUjYnlTrsiONC9dxEF+kkVoByg7VGR/IxsdWrl6AyGktvwB
- FcmzI9TI0mH+NPvq4DYmk2AQ9xa8CyZ09kFDRNlI7eRdTvouaddX9nzoiFCXpGemX17n
- +yIK4JYA+AHnVIoUOi9G22n5oo9OpWeFcBIyB/xFqqL3kG7ykSbDotQbptp4IoQIowil
- QM1w==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=YH9Leo9srv0mjnG3XtGtDkXI8iCi7ViITDy07e20ir4=;
+ b=oCewEJSOzWWWn2HRrd9stapjDqmltBdBzqElGsdIxLNxIPe4H1381El3NLfuwmgsNr
+ oj+BsHOsMNC5iSLX3GspF7gYoxzcJTDabQF9sfrNEwV7+FUO9CQSpcHloL6mojqHY6RO
+ y2pPdWJmyaWpreHc9+2P9DAIlRHU5rYz1Y/4JAFXc3bhsLoGpQ4zxZ9BB/QdYC6+jky6
+ WrIYrgfaiXjIbLlz/SCU0i76YBoD18nB3nJx43Tf5G6BclOCins7FpLTY9N4tuBb8vKe
+ fHu79ZWe5hHnzkd6ijFAvA5RpJKgWJ6hmeBqYrCi5Ts+soWO8/ZDur83aawI45T2QpBf
+ 5CXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=BoFV9Blo576nw3Y1CvG3G0WXqSFK50FDpctKxg5CBT4=;
- b=1xfFHPMn5bBcOLNZ4135reqx67M0bLF9fCHg1plm91iq66D4CKITTEdThArPH1XEWg
- oXp7DTixFzF7on7X9UzlMbNXoBrE4eBpNG5N+Yml375C/UzprvugSUnJWKJ3EkCzStGX
- Uy4x9ozxQ2sNN5GAqv7NFX9Y0eMUAMKS4yH+u315ncEbBaM/6waKF8vQuGF0lFAq9zSb
- pXyWIVvBEEdB8AG05jm+Ne9CQ+pnhGbc8n/UCKh1LHVkETFE38bxdWeRshxWL803lRmV
- fGnpYQWkLcB3zZIl5yICvFK3mtbbO6FNcEpp9qryNp37K4jj8yXcuHZh+mJAxlsQTejL
- wNew==
-X-Gm-Message-State: AOAM53188hS+0FEONotZ1Tq8Hm9s010UgI1DadGJLoEBHCZN9hD4VTjw
- yGFDcJUCIuLluy2dUUqGEpU=
-X-Google-Smtp-Source: ABdhPJyyEo+C4pXrg9bTJbcO+ujXS0ubSQawW8RQAOYsCv17olpmXqno2L2yTNXTrq+YTkn8J/kHrA==
-X-Received: by 2002:a17:902:ea83:b0:148:95f3:4f4d with SMTP id
- x3-20020a170902ea8300b0014895f34f4dmr51400958plb.54.1641332796085; 
- Tue, 04 Jan 2022 13:46:36 -0800 (PST)
-Received: from [192.168.1.33] (83.red-83-50-87.dynamicip.rima-tde.net.
- [83.50.87.83])
- by smtp.gmail.com with ESMTPSA id j8sm44722153pfc.11.2022.01.04.13.46.34
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 04 Jan 2022 13:46:35 -0800 (PST)
-Message-ID: <0d345d30-9860-568f-7fd9-2fb3ce71408f@amsat.org>
-Date: Tue, 4 Jan 2022 22:46:30 +0100
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=YH9Leo9srv0mjnG3XtGtDkXI8iCi7ViITDy07e20ir4=;
+ b=BeTLbqduKIZP5/BUQV3fZceQkr3k9X5Phu879VMtcezOfx8CH38YC3QKFTBpHuXLvV
+ 4gpFXRrF/U09KzH0AIMmzG4uNKPHDNzYhhdSbSfKzg4b96jIYaCgiRnhmwOI00MccwZ/
+ yURpxOQXCTNEZCrjFeDgU9qqI9tpttbXK0AVIehlhFl4486lA4RuRowkDgeD5g09NpSl
+ FAVVkPz+AjO00GYBRZvXAFvphc4MFYpFX2R0rO0YhRtEpJSX7MTcr7rpxvA/pX7nmQAM
+ q5FquN8P0jYJ4EvFdESlO0hue1sgAEQtxiqNIiQ/neJEeXdc/8URG/lMCuQdX0DSfm9+
+ C8FA==
+X-Gm-Message-State: AOAM533jZvP3M8qK3WB4dd+9WTbxcvqvnjDttHcwVdirLa8djZY4HdpW
+ HxNoqZXhDAH/LLNjUF13BGs4sC3Gdq7EZM8c8kk=
+X-Google-Smtp-Source: ABdhPJyGAmPDm3rs1v8CFgwYLTIXyZsmv1JWOUbDvYrAgTn2hV0xC5Qz+LxKt3hDtB6IY95J4u+BoFe+vfKkrza61Hs=
+X-Received: by 2002:a02:aa8f:: with SMTP id u15mr23735183jai.63.1641333014723; 
+ Tue, 04 Jan 2022 13:50:14 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.4.1
-Subject: Re: [PATCH] net/tap: Set return code on failure
-Content-Language: en-US
-To: Patrick Venture <venture@google.com>, jasowang@redhat.com
-References: <20220104211827.3260431-1-venture@google.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <20220104211827.3260431-1-venture@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102b
+References: <20211229021250.29804-1-frank.chang@sifive.com>
+ <20211229021250.29804-2-frank.chang@sifive.com>
+In-Reply-To: <20211229021250.29804-2-frank.chang@sifive.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Wed, 5 Jan 2022 07:49:48 +1000
+Message-ID: <CAKmqyKPdkj9VLLHN-gL=yEeeK7K3L2mqjrDTgCBRgDpvRbKw4Q@mail.gmail.com>
+Subject: Re: [PATCH 1/3] target/riscv: rvv-1.0: Call the correct RVF/RVD check
+ funtion for widening fp insns
+To: Frank Chang <frank.chang@sifive.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d30
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x102b.google.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-3.354,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d30;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd30.google.com
+X-Spam_score_int: 8
+X-Spam_score: 0.8
+X-Spam_bar: /
+X-Spam_report: (0.8 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_ENVFROM_END_DIGIT=0.25,
+ FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,40 +79,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Peter Foley <pefoley@google.com>, qemu-devel@nongnu.org
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Bin Meng <bin.meng@windriver.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>, LIU Zhiwei <zhiwei_liu@c-sky.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Cc'ing Daniel
+On Wed, Dec 29, 2021 at 12:15 PM <frank.chang@sifive.com> wrote:
+>
+> From: Frank Chang <frank.chang@sifive.com>
+>
+> Vector widening floating-point instructions should use
+> require_scale_rvf() instead of require_rvf() to check whether RVF/RVD is
+> enabled.
 
-On 4/1/22 22:18, Patrick Venture wrote:
-> From: Peter Foley <pefoley@google.com>
-> 
-> Match the other error handling in this function.
-> 
+Missing Signed off by line
 
-Fixes: e7b347d0bf6 ("net: detect errors from probing vnet hdr flag for 
-TAP devices")
+Alistair
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-
-> Signed-off-by: Peter Foley <pefoley@google.com>
 > ---
->   net/tap.c | 1 +
->   1 file changed, 1 insertion(+)
-> 
-> diff --git a/net/tap.c b/net/tap.c
-> index f716be3e3f..c5cbeaa7a2 100644
-> --- a/net/tap.c
-> +++ b/net/tap.c
-> @@ -900,6 +900,7 @@ int net_init_tap(const Netdev *netdev, const char *name,
->               if (i == 0) {
->                   vnet_hdr = tap_probe_vnet_hdr(fd, errp);
->                   if (vnet_hdr < 0) {
-> +                    ret = -1;
->                       goto free_fail;
->                   }
->               } else if (vnet_hdr != tap_probe_vnet_hdr(fd, NULL)) {
-
+>  target/riscv/insn_trans/trans_rvv.c.inc | 12 ++++++++----
+>  1 file changed, 8 insertions(+), 4 deletions(-)
+>
+> diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_trans/trans_rvv.c.inc
+> index 5e3f7fdb77..8d92243f2b 100644
+> --- a/target/riscv/insn_trans/trans_rvv.c.inc
+> +++ b/target/riscv/insn_trans/trans_rvv.c.inc
+> @@ -2254,7 +2254,8 @@ GEN_OPFVF_TRANS(vfrsub_vf,  opfvf_check)
+>  static bool opfvv_widen_check(DisasContext *s, arg_rmrr *a)
+>  {
+>      return require_rvv(s) &&
+> -           require_rvf(s) &&
+> +           require_scale_rvf(s) &&
+> +           (s->sew != MO_8) &&
+>             vext_check_isa_ill(s) &&
+>             vext_check_dss(s, a->rd, a->rs1, a->rs2, a->vm);
+>  }
+> @@ -2292,7 +2293,8 @@ GEN_OPFVV_WIDEN_TRANS(vfwsub_vv, opfvv_widen_check)
+>  static bool opfvf_widen_check(DisasContext *s, arg_rmrr *a)
+>  {
+>      return require_rvv(s) &&
+> -           require_rvf(s) &&
+> +           require_scale_rvf(s) &&
+> +           (s->sew != MO_8) &&
+>             vext_check_isa_ill(s) &&
+>             vext_check_ds(s, a->rd, a->rs2, a->vm);
+>  }
+> @@ -2321,7 +2323,8 @@ GEN_OPFVF_WIDEN_TRANS(vfwsub_vf)
+>  static bool opfwv_widen_check(DisasContext *s, arg_rmrr *a)
+>  {
+>      return require_rvv(s) &&
+> -           require_rvf(s) &&
+> +           require_scale_rvf(s) &&
+> +           (s->sew != MO_8) &&
+>             vext_check_isa_ill(s) &&
+>             vext_check_dds(s, a->rd, a->rs1, a->rs2, a->vm);
+>  }
+> @@ -2359,7 +2362,8 @@ GEN_OPFWV_WIDEN_TRANS(vfwsub_wv)
+>  static bool opfwf_widen_check(DisasContext *s, arg_rmrr *a)
+>  {
+>      return require_rvv(s) &&
+> -           require_rvf(s) &&
+> +           require_scale_rvf(s) &&
+> +           (s->sew != MO_8) &&
+>             vext_check_isa_ill(s) &&
+>             vext_check_dd(s, a->rd, a->rs2, a->vm);
+>  }
+> --
+> 2.31.1
+>
+>
 
