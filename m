@@ -2,67 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF735483D0B
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 08:39:08 +0100 (CET)
-Received: from localhost ([::1]:54992 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F237483D3B
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 08:52:58 +0100 (CET)
+Received: from localhost ([::1]:51564 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n4ePT-0000ZO-5s
-	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 02:39:07 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43180)
+	id 1n4ecq-0000nx-UA
+	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 02:52:56 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43366)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1n4eIK-0005pb-Qf; Tue, 04 Jan 2022 02:31:48 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:56696)
+ id 1n4eIR-0005q0-HH; Tue, 04 Jan 2022 02:31:58 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:11714
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1n4eII-0008DF-GG; Tue, 04 Jan 2022 02:31:44 -0500
-Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 2046pQjf009836; 
+ id 1n4eIO-0008Cj-3Y; Tue, 04 Jan 2022 02:31:50 -0500
+Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 2043DV7M001443; 
  Tue, 4 Jan 2022 07:31:32 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3dc7j6gmb5-1
+Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.108])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3dce55ue3b-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Tue, 04 Jan 2022 07:31:32 +0000
-Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 2047JmX1030847;
- Tue, 4 Jan 2022 07:31:31 GMT
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.102])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3dc7j6gmaj-1
+Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
+ by ppma05fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2047OX4x031719;
+ Tue, 4 Jan 2022 07:31:30 GMT
+Received: from b06cxnps3074.portsmouth.uk.ibm.com
+ (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
+ by ppma05fra.de.ibm.com with ESMTP id 3dbywxcwh0-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 04 Jan 2022 07:31:31 +0000
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
- by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2047OQWY013417;
- Tue, 4 Jan 2022 07:31:29 GMT
-Received: from b06avi18626390.portsmouth.uk.ibm.com
- (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
- by ppma06ams.nl.ibm.com with ESMTP id 3dae7jq7fa-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 04 Jan 2022 07:31:29 +0000
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com
- (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
- by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 2047MgdU36176330
+ Tue, 04 Jan 2022 07:31:30 +0000
+Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
+ [9.149.105.232])
+ by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 2047VR5N44761370
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 4 Jan 2022 07:22:42 GMT
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 00FAAA4054;
+ Tue, 4 Jan 2022 07:31:27 GMT
+Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 8329652059;
  Tue,  4 Jan 2022 07:31:27 +0000 (GMT)
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B21A1A4062;
- Tue,  4 Jan 2022 07:31:26 +0000 (GMT)
 Received: from smtp.tlslab.ibm.com (unknown [9.101.4.1])
- by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with SMTP;
- Tue,  4 Jan 2022 07:31:26 +0000 (GMT)
+ by d06av21.portsmouth.uk.ibm.com (Postfix) with SMTP id 49DDE52052;
+ Tue,  4 Jan 2022 07:31:27 +0000 (GMT)
 Received: from yukon.ibmuc.com (unknown [9.171.33.19])
- by smtp.tlslab.ibm.com (Postfix) with ESMTP id F2F8A2201F1;
- Tue,  4 Jan 2022 08:31:25 +0100 (CET)
+ by smtp.tlslab.ibm.com (Postfix) with ESMTP id A3383220144;
+ Tue,  4 Jan 2022 08:31:26 +0100 (CET)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
-Subject: [PULL 05/26] pnv_phb4.c: do not set 'root-bus' as bus name
-Date: Tue,  4 Jan 2022 08:31:00 +0100
-Message-Id: <20220104073121.3784280-6-clg@kaod.org>
+Subject: [PULL 06/26] target/ppc: Improve logging in Radix MMU
+Date: Tue,  4 Jan 2022 08:31:01 +0100
+Message-Id: <20220104073121.3784280-7-clg@kaod.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20220104073121.3784280-1-clg@kaod.org>
 References: <20220104073121.3784280-1-clg@kaod.org>
@@ -70,23 +61,24 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: yUgSZnDId8KaX9yD5ugSLvxnr_HYbawx
-X-Proofpoint-GUID: -5H2D51YBufkaVJkRcw4q854c6M4eDSg
+X-Proofpoint-ORIG-GUID: JdDVT12ZwsIfYr5lHiYlBYY4o7rpaeOh
+X-Proofpoint-GUID: JdDVT12ZwsIfYr5lHiYlBYY4o7rpaeOh
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
  definitions=2022-01-04_04,2022-01-01_01,2021-12-02_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  malwarescore=0
- priorityscore=1501 impostorscore=0 phishscore=0 spamscore=0 clxscore=1034
- lowpriorityscore=0 suspectscore=0 mlxlogscore=999 mlxscore=0 adultscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2110150000 definitions=main-2201040049
-Received-SPF: softfail client-ip=148.163.156.1; envelope-from=clg@kaod.org;
+ priorityscore=1501 spamscore=0 phishscore=0 adultscore=0 bulkscore=0
+ clxscore=1034 impostorscore=0 lowpriorityscore=0 suspectscore=0 mlxscore=0
+ mlxlogscore=643 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2110150000 definitions=main-2201040047
+Received-SPF: softfail client-ip=148.163.158.5; envelope-from=clg@kaod.org;
  helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: 7
-X-Spam_score: 0.7
-X-Spam_bar: /
-X-Spam_report: (0.7 / 5.0 requ) SPF_HELO_NONE=0.001,
+X-Spam_score_int: 11
+X-Spam_score: 1.1
+X-Spam_bar: +
+X-Spam_report: (1.1 / 5.0 requ) KHOP_HELO_FCRDNS=0.399,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -101,99 +93,139 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Daniel Henrique Barboza <danielhb413@gmail.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-
-This change has the same motivation as the one done for pnv-phb3-root-bus
-buses previously. Defaulting every bus to 'root-bus' makes it impossible =
-to attach
-root ports to specific buses and it doesn't allow for custom bus
-naming because we're ignoring the 'id' value when registering the root
-bus.
-
-After this patch, creating pnv-phb4 devices with 'id' being set will
-result in the following qtree:
-
-qemu-system-ppc64 -m 4G -machine powernv9,accel=3Dtcg \
-   -device pnv-phb4,chip-id=3D0,index=3D0,id=3Dpcie.0 \
-   -device pnv-phb4,chip-id=3D1,index=3D4,id=3Dpcie.1
-
-bus: main-system-bus
-  type System
-  dev: pnv-phb4, id "pcie.1"
-    index =3D 4 (0x4)
-    chip-id =3D 1 (0x1)
-    version =3D 704374636546 (0xa400000002)
-    device-id =3D 1217 (0x4c1)
-    x-config-reg-migration-enabled =3D true
-    bypass-iommu =3D false
-    bus: pcie.1
-      type pnv-phb4-root-bus
-  dev: pnv-phb4, id "pcie.0"
-    index =3D 0 (0x0)
-    chip-id =3D 0 (0x0)
-    version =3D 704374636546 (0xa400000002)
-    device-id =3D 1217 (0x4c1)
-    x-config-reg-migration-enabled =3D true
-    bypass-iommu =3D false
-    bus: pcie.0
-      type pnv-phb4-root-bus
-
-And without setting any ids:
-
-qemu-system-ppc64 -m 4G -machine powernv9,accel=3Dtcg \
-   -device pnv-phb4,chip-id=3D0,index=3D0,id=3Dpcie.0 \
-   -device pnv-phb4,chip-id=3D1,index=3D4,id=3Dpcie.1
-
-bus: main-system-bus
-  type System
-  dev: pnv-phb4, id ""
-    index =3D 4 (0x4)
-    chip-id =3D 1 (0x1)
-    version =3D 704374636546 (0xa400000002)
-    device-id =3D 1217 (0x4c1)
-    x-config-reg-migration-enabled =3D true
-    bypass-iommu =3D false
-    bus: pnv-phb4-root-bus.1
-      type pnv-phb4-root-bus
-  dev: pnv-phb4, id ""
-    index =3D 0 (0x0)
-    chip-id =3D 0 (0x0)
-    version =3D 704374636546 (0xa400000002)
-    device-id =3D 1217 (0x4c1)
-    x-config-reg-migration-enabled =3D true
-    bypass-iommu =3D false
-    bus: pnv-phb4-root-bus.0
-      type pnv-phb4-root-bus
-
-Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
-Message-Id: <20211228193806.1198496-17-danielhb413@gmail.com>
+Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20211222071002.1568894-1-clg@kaod.org>
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 ---
- hw/pci-host/pnv_phb4.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ target/ppc/mmu-radix64.c | 55 +++++++++++++++++++++++++++++++++++++---
+ 1 file changed, 52 insertions(+), 3 deletions(-)
 
-diff --git a/hw/pci-host/pnv_phb4.c b/hw/pci-host/pnv_phb4.c
-index 371abda5c6e9..5ba26e250a1f 100644
---- a/hw/pci-host/pnv_phb4.c
-+++ b/hw/pci-host/pnv_phb4.c
-@@ -1201,7 +1201,7 @@ static void pnv_phb4_realize(DeviceState *dev, Erro=
-r **errp)
-     memory_region_init(&phb->pci_mmio, OBJECT(phb), name,
-                        PCI_MMIO_TOTAL_SIZE);
+diff --git a/target/ppc/mmu-radix64.c b/target/ppc/mmu-radix64.c
+index 5b0e62e676dc..d10ae001d7c9 100644
+--- a/target/ppc/mmu-radix64.c
++++ b/target/ppc/mmu-radix64.c
+@@ -97,12 +97,22 @@ static void ppc_radix64_raise_segi(PowerPCCPU *cpu, M=
+MUAccessType access_type,
+     env->error_code =3D 0;
+ }
 =20
--    pci->bus =3D pci_register_root_bus(dev, "root-bus",
-+    pci->bus =3D pci_register_root_bus(dev, dev->id,
-                                      pnv_phb4_set_irq, pnv_phb4_map_irq,=
- phb,
-                                      &phb->pci_mmio, &phb->pci_io,
-                                      0, 4, TYPE_PNV_PHB4_ROOT_BUS);
++static inline const char *access_str(MMUAccessType access_type)
++{
++    return access_type =3D=3D MMU_DATA_LOAD ? "reading" :
++        (access_type =3D=3D MMU_DATA_STORE ? "writing" : "execute");
++}
++
+ static void ppc_radix64_raise_si(PowerPCCPU *cpu, MMUAccessType access_t=
+ype,
+                                  vaddr eaddr, uint32_t cause)
+ {
+     CPUState *cs =3D CPU(cpu);
+     CPUPPCState *env =3D &cpu->env;
+=20
++    qemu_log_mask(CPU_LOG_MMU, "%s for %s @0x%"VADDR_PRIx" cause %08x\n"=
+,
++                  __func__, access_str(access_type),
++                  eaddr, cause);
++
+     switch (access_type) {
+     case MMU_INST_FETCH:
+         /* Instruction Storage Interrupt */
+@@ -130,6 +140,11 @@ static void ppc_radix64_raise_hsi(PowerPCCPU *cpu, M=
+MUAccessType access_type,
+     CPUState *cs =3D CPU(cpu);
+     CPUPPCState *env =3D &cpu->env;
+=20
++    qemu_log_mask(CPU_LOG_MMU, "%s for %s @0x%"VADDR_PRIx" 0x%"
++                  HWADDR_PRIx" cause %08x\n",
++                  __func__, access_str(access_type),
++                  eaddr, g_raddr, cause);
++
+     switch (access_type) {
+     case MMU_INST_FETCH:
+         /* H Instruction Storage Interrupt */
+@@ -306,6 +321,15 @@ static int ppc_radix64_partition_scoped_xlate(PowerP=
+CCPU *cpu,
+     hwaddr pte_addr;
+     uint64_t pte;
+=20
++    qemu_log_mask(CPU_LOG_MMU, "%s for %s @0x%"VADDR_PRIx
++                  " mmu_idx %u (prot %c%c%c) 0x%"HWADDR_PRIx"\n",
++                  __func__, access_str(access_type),
++                  eaddr, mmu_idx,
++                  *h_prot & PAGE_READ ? 'r' : '-',
++                  *h_prot & PAGE_WRITE ? 'w' : '-',
++                  *h_prot & PAGE_EXEC ? 'x' : '-',
++                  g_raddr);
++
+     *h_page_size =3D PRTBE_R_GET_RTS(pate.dw0);
+     /* No valid pte or access denied due to protection */
+     if (ppc_radix64_walk_tree(CPU(cpu)->as, g_raddr, pate.dw0 & PRTBE_R_=
+RPDB,
+@@ -343,6 +367,11 @@ static int ppc_radix64_process_scoped_xlate(PowerPCC=
+PU *cpu,
+     hwaddr h_raddr, pte_addr;
+     int ret;
+=20
++    qemu_log_mask(CPU_LOG_MMU, "%s for %s @0x%"VADDR_PRIx
++                  " mmu_idx %u pid %"PRIu64"\n",
++                  __func__, access_str(access_type),
++                  eaddr, mmu_idx, pid);
++
+     /* Index Process Table by PID to Find Corresponding Process Table En=
+try */
+     offset =3D pid * sizeof(struct prtb_entry);
+     size =3D 1ULL << ((pate.dw1 & PATE1_R_PRTS) + 12);
+@@ -468,9 +497,10 @@ static int ppc_radix64_process_scoped_xlate(PowerPCC=
+PU *cpu,
+  *              | =3D On        | Process Scoped |    Scoped     |
+  *              +-------------+----------------+---------------+
+  */
+-bool ppc_radix64_xlate(PowerPCCPU *cpu, vaddr eaddr, MMUAccessType acces=
+s_type,
+-                       hwaddr *raddr, int *psizep, int *protp, int mmu_i=
+dx,
+-                       bool guest_visible)
++static bool ppc_radix64_xlate_impl(PowerPCCPU *cpu, vaddr eaddr,
++                                   MMUAccessType access_type, hwaddr *ra=
+ddr,
++                                   int *psizep, int *protp, int mmu_idx,
++                                   bool guest_visible)
+ {
+     CPUPPCState *env =3D &cpu->env;
+     uint64_t lpid, pid;
+@@ -588,3 +618,22 @@ bool ppc_radix64_xlate(PowerPCCPU *cpu, vaddr eaddr,=
+ MMUAccessType access_type,
+=20
+     return true;
+ }
++
++bool ppc_radix64_xlate(PowerPCCPU *cpu, vaddr eaddr, MMUAccessType acces=
+s_type,
++                       hwaddr *raddrp, int *psizep, int *protp, int mmu_=
+idx,
++                       bool guest_visible)
++{
++    bool ret =3D ppc_radix64_xlate_impl(cpu, eaddr, access_type, raddrp,
++                                      psizep, protp, mmu_idx, guest_visi=
+ble);
++
++    qemu_log_mask(CPU_LOG_MMU, "%s for %s @0x%"VADDR_PRIx
++                  " mmu_idx %u (prot %c%c%c) -> 0x%"HWADDR_PRIx"\n",
++                  __func__, access_str(access_type),
++                  eaddr, mmu_idx,
++                  *protp & PAGE_READ ? 'r' : '-',
++                  *protp & PAGE_WRITE ? 'w' : '-',
++                  *protp & PAGE_EXEC ? 'x' : '-',
++                  *raddrp);
++
++    return ret;
++}
 --=20
 2.31.1
 
