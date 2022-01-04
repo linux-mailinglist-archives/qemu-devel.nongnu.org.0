@@ -2,65 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63257483FFA
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 11:36:18 +0100 (CET)
-Received: from localhost ([::1]:45230 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9979484034
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 11:56:36 +0100 (CET)
+Received: from localhost ([::1]:59074 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n4hAs-0001VQ-T6
-	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 05:36:15 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51982)
+	id 1n4hUZ-0003DW-SW
+	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 05:56:35 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56484)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1n4h8f-0008LK-4O
- for qemu-devel@nongnu.org; Tue, 04 Jan 2022 05:33:57 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42926)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1n4h8M-0004Wy-IZ
- for qemu-devel@nongnu.org; Tue, 04 Jan 2022 05:33:55 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641292416;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=ap9PDePh7zBvSaMkUaV2AUuIQWtrJpQnMVCdSik/z/k=;
- b=SqxWk7zMX2qu+J7Gdx8UmwP0UicUhdaQrO7IGaSgN2e8O5OQob/JiZcapkbhi9P+Xb5WxF
- hD1VS4zM/i3zDYYwSwJmzld146y1ULtG4sTHOWZHThe1cBPOlzZy7iVCOzSP3n7cqoMeeR
- sKQTTKb91EKrd11PKJaZx1V/ULf7J2c=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-370-jFvwUvOeNwyFrGq528vQsQ-1; Tue, 04 Jan 2022 05:33:35 -0500
-X-MC-Unique: jFvwUvOeNwyFrGq528vQsQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D19CB344B0
- for <qemu-devel@nongnu.org>; Tue,  4 Jan 2022 10:33:34 +0000 (UTC)
-Received: from thuth.com (unknown [10.39.192.144])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 161E81007607;
- Tue,  4 Jan 2022 10:33:21 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] docs/tools/qemu-trace-stap.rst: Do not hard-code the QEMU
- binary name
-Date: Tue,  4 Jan 2022 11:33:19 +0100
-Message-Id: <20220104103319.179870-1-thuth@redhat.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1n4hSl-0001mr-2b
+ for qemu-devel@nongnu.org; Tue, 04 Jan 2022 05:54:43 -0500
+Received: from [2607:f8b0:4864:20::1032] (port=41844
+ helo=mail-pj1-x1032.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1n4hSj-0000vg-HL
+ for qemu-devel@nongnu.org; Tue, 04 Jan 2022 05:54:42 -0500
+Received: by mail-pj1-x1032.google.com with SMTP id
+ b1-20020a17090a990100b001b14bd47532so2755027pjp.0
+ for <qemu-devel@nongnu.org>; Tue, 04 Jan 2022 02:54:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=WqiznmldmdS+WgbA3Mvn0H7To945cODoGMJVLqM9ggQ=;
+ b=lq1HsZpsQ/Isf72mx1EuAskMkqySXRWzQfdzwMx8F1nz40CM63SKqZhXUk60SmiZq9
+ vbzzbMRJwcApBB6ysi2PjY4pU36sHwc7YmVfWqzYYpy9xH0EUVp86+wF9cnVRS7AizF8
+ ggMNDGVr2+ZnE1DKuMJBYoRqqNVBYXtW7my3sf7eGHZ170pKcC36RiF/OKegqAqLUlZs
+ cksrWbCvd1C5pD9Zj1/pZ+ilM6SK9Sbw2lVJs8YzV3rwM15PqgsmDmE/Aevfjc0ez39E
+ LfcmQIP0xMZmiCBinYPo5ZifukR3q0AmdCFPv7TYgDez4YrOUFk3ECobeXyxqYQ1ndEe
+ b2XA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=WqiznmldmdS+WgbA3Mvn0H7To945cODoGMJVLqM9ggQ=;
+ b=39spgkX6rSAvFxGeXtOKAndrCa9XU9M44PNRL37wE0iE/ANp0rwTsJkuf+E+GJ2i0E
+ wXaIv1ZKx16C2ID+CzD/D7emQqprCyu75iXW23mbG3PdeSzXg5j2sanleMAEt0UQW0L3
+ ZpG6DIaZ8ErEIUoRpbcG5u+OIEXm97ezKbh5QyJ0I0aR16ob1sTcweDtxEFbfzt4Iowv
+ 4iGgU2E0n7YemBz6MmF1fa+ReBJILi7jt6s2Bw4UzYvWrb6lpuHXi+I5rYAexxhnNbbk
+ stopEPLlO+oIJkVUkUq7r7ljpcD2mJ2f8k5UUmSDIeCg35XUAFIek4D4DiNO4y2m9fuL
+ HPdA==
+X-Gm-Message-State: AOAM5309XKAJD3/346PUfmesZEmx1SC71UIZgg0HukU5QG9FJAzStZds
+ 4WwBfPJCE/sazmQY0raIPZw=
+X-Google-Smtp-Source: ABdhPJwD1ph9U37BeKu3kmdekWiGabTyvICG+VKiaZzBklSlcb1D1+GSB3u0kYBw/Up2cF64ZTnrtw==
+X-Received: by 2002:a17:903:24d:b0:149:b68f:579 with SMTP id
+ j13-20020a170903024d00b00149b68f0579mr12818947plh.1.1641293680222; 
+ Tue, 04 Jan 2022 02:54:40 -0800 (PST)
+Received: from [192.168.1.37] (26.red-83-50-86.dynamicip.rima-tde.net.
+ [83.50.86.26])
+ by smtp.gmail.com with ESMTPSA id u6sm41982366pja.32.2022.01.04.02.54.25
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 04 Jan 2022 02:54:39 -0800 (PST)
+Message-ID: <71ef7095-754d-33af-3f84-95713ee03010@amsat.org>
+Date: Tue, 4 Jan 2022 11:54:05 +0100
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.4.1
+Subject: Re: [PATCH] docs/tools/qemu-trace-stap.rst: Do not hard-code the QEMU
+ binary name
+Content-Language: en-US
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+References: <20220104103319.179870-1-thuth@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+In-Reply-To: <20220104103319.179870-1-thuth@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: 2
-X-Spam_score: 0.2
-X-Spam_bar: /
-X-Spam_report: (0.2 / 5.0 requ) DKIM_INVALID=0.1, DKIM_SIGNED=0.1,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1032
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x1032.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-3.354,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,80 +100,16 @@ Cc: Miroslav Rezanina <mrezanin@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In downstream, we want to use a different name for the QEMU binary,
-and some people might also use the docs for non-x86 binaries, that's
-why we already created the |qemu_system| placeholder in the past.
-Use it now in the stap trace doc, too.
+On 4/1/22 11:33, Thomas Huth wrote:
+> In downstream, we want to use a different name for the QEMU binary,
+> and some people might also use the docs for non-x86 binaries, that's
+> why we already created the |qemu_system| placeholder in the past.
+> Use it now in the stap trace doc, too.
+> 
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>   docs/tools/qemu-trace-stap.rst | 24 ++++++++++++------------
+>   1 file changed, 12 insertions(+), 12 deletions(-)
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- docs/tools/qemu-trace-stap.rst | 24 ++++++++++++------------
- 1 file changed, 12 insertions(+), 12 deletions(-)
-
-diff --git a/docs/tools/qemu-trace-stap.rst b/docs/tools/qemu-trace-stap.rst
-index d53073b52b..2169ce5d17 100644
---- a/docs/tools/qemu-trace-stap.rst
-+++ b/docs/tools/qemu-trace-stap.rst
-@@ -46,19 +46,19 @@ The following commands are valid:
-   any of the listed names. If no *PATTERN* is given, the all possible
-   probes will be listed.
- 
--  For example, to list all probes available in the ``qemu-system-x86_64``
-+  For example, to list all probes available in the |qemu_system|
-   binary:
- 
--  ::
-+  .. parsed-literal::
- 
--    $ qemu-trace-stap list qemu-system-x86_64
-+    $ qemu-trace-stap list |qemu_system|
- 
-   To filter the list to only cover probes related to QEMU's cryptographic
-   subsystem, in a binary outside ``$PATH``
- 
--  ::
-+  .. parsed-literal::
- 
--    $ qemu-trace-stap list /opt/qemu/4.0.0/bin/qemu-system-x86_64 'qcrypto*'
-+    $ qemu-trace-stap list /opt/qemu/|version|/bin/|qemu_system| 'qcrypto*'
- 
- .. option:: run OPTIONS BINARY PATTERN...
- 
-@@ -90,26 +90,26 @@ The following commands are valid:
-     Restrict the tracing session so that it only triggers for the process
-     identified by *PID*.
- 
--  For example, to monitor all processes executing ``qemu-system-x86_64``
-+  For example, to monitor all processes executing |qemu_system|
-   as found on ``$PATH``, displaying all I/O related probes:
- 
--  ::
-+  .. parsed-literal::
- 
--    $ qemu-trace-stap run qemu-system-x86_64 'qio*'
-+    $ qemu-trace-stap run |qemu_system| 'qio*'
- 
-   To monitor only the QEMU process with PID 1732
- 
--  ::
-+  .. parsed-literal::
- 
--    $ qemu-trace-stap run --pid=1732 qemu-system-x86_64 'qio*'
-+    $ qemu-trace-stap run --pid=1732 |qemu_system| 'qio*'
- 
-   To monitor QEMU processes running an alternative binary outside of
-   ``$PATH``, displaying verbose information about setup of the
-   tracing environment:
- 
--  ::
-+  .. parsed-literal::
- 
--    $ qemu-trace-stap -v run /opt/qemu/4.0.0/qemu-system-x86_64 'qio*'
-+    $ qemu-trace-stap -v run /opt/qemu/|version|/bin/|qemu_system| 'qio*'
- 
- See also
- --------
--- 
-2.27.0
-
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
