@@ -2,67 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25779483E8A
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 09:57:42 +0100 (CET)
-Received: from localhost ([::1]:37366 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2B19483E8B
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 09:57:45 +0100 (CET)
+Received: from localhost ([::1]:37642 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n4fdV-0001tV-9E
-	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 03:57:41 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59998)
+	id 1n4fdY-00025y-P8
+	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 03:57:44 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60042)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1n4faW-0007ZN-SV; Tue, 04 Jan 2022 03:54:36 -0500
-Received: from [2a00:1450:4864:20::429] (port=39447
- helo=mail-wr1-x429.google.com)
+ id 1n4fab-0007ac-E7; Tue, 04 Jan 2022 03:54:42 -0500
+Received: from [2a00:1450:4864:20::42c] (port=37707
+ helo=mail-wr1-x42c.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1n4faV-0007nI-6q; Tue, 04 Jan 2022 03:54:36 -0500
-Received: by mail-wr1-x429.google.com with SMTP id s1so74689328wra.6;
- Tue, 04 Jan 2022 00:54:34 -0800 (PST)
+ id 1n4faa-0007nm-1C; Tue, 04 Jan 2022 03:54:41 -0500
+Received: by mail-wr1-x42c.google.com with SMTP id t26so74655743wrb.4;
+ Tue, 04 Jan 2022 00:54:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=6b+AzP7QtPC4iYk44vVICIt8IMgGta8unOAFiOt1PK8=;
- b=c57EwDbL1aq4UfIaTJ5g2cnJEpifhScHxIqhPgYX2r97Zbt6Q//b0MoX0+mwiK+agH
- OebGr8KGNed8LbrKBnZpgJkg6GeC6kyNerdOr9xS8raQLZzwzr5SXbTV7O7ZXpPnNawN
- C5aX0WKne3ar8OzQSZLze2Y5CNGGDMmuXm44i2nw4okH20wQhqGTK8vVpkmurbOm92Ca
- qcimJkL+D4ayJavAFKUdO9vJLmI/95fh2lRXknJXkU4ivsvCy5vviCOUttOps3isyZqH
- EtpWpCtDLb+LBC9HIPDvYUnSUIkLkYSxYD+urPEEgFc72536gMxkNONalUnZWZuLudsI
- Meqw==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=TVx+fgekrB7KNu8OcNMrn1VBpuxsrGQHX6JNVgK7TBo=;
+ b=eRxS1U3XBNsoIN9qRZGcptUOPEQ4vqADvezCtG2/pwxRt1gfigWYW6NYR7Fu3qIaPO
+ hNGAgreYRIhYCkIC0GRDOyaqnw4XH6iydSVMe07jpZSHChN7U5p0RZkXolTlHbBTkFSf
+ 3UhOV4z+7UDYpMZDgb+neu9GNRrtWwtrG/6Foqj7v77Pb+9Ug3UjkK16SWUyiLC5eW9l
+ J7GovTuU8KrTwnUKWKoMnykcU9HZB6XOE6HQKi/OkAbEm/leU8e3q4bLRMR5y2+851ta
+ EjYHqebAYeT2+gJ5sSTIRB0Q34/2Ub4oicFFUuoq39vBF17M3lAa8QiRa7YfcUZS94sr
+ PtsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=6b+AzP7QtPC4iYk44vVICIt8IMgGta8unOAFiOt1PK8=;
- b=Qqu5hlxXLMezT0qGqpeU92/bXcgBW1OSMWwPXEjnR0GrMDSWtcv2P4LgW3PJICZ+ij
- O2+3KQauV/ARTRCUS6jjcLlMeKWJEcp5znHoHBsBsq1lLvuRJIIEj0egEZgIAeQYVodp
- bFf3bvOPTbu5bm2qJL3qTe4XI9JEIkJNFmkqucxlx5M3MP2exMPhQvOF2ldujcjNaUAy
- wm3hdlnAKtCWge4WmZbKOZ5vNO6qek+Oab/8+4ZIpNe/89SRdMU9Vnnbmdis7Yb2cglN
- WfGOAg2NgYQjQYh1hDbLltInvtbenPQcMRyh/JC5VXuvXksXh39QodsdROEuldXLJK4e
- OaiQ==
-X-Gm-Message-State: AOAM533snFT+N1YV3PQ8yGUJ8ibc7Us1PemXa95NmnnF5rSy9P4h52Io
- qEWG83g16sgazC2Lz8kb/bOK6QzBZosKTw==
-X-Google-Smtp-Source: ABdhPJxTJmC6bWam5S+efkthT2v/gu0qRx69monBJhttFhexNt/TXmYOHd9fUrxPfCjWM2h1S+9cHQ==
-X-Received: by 2002:a5d:6e8a:: with SMTP id k10mr34621994wrz.113.1641286473209; 
- Tue, 04 Jan 2022 00:54:33 -0800 (PST)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=TVx+fgekrB7KNu8OcNMrn1VBpuxsrGQHX6JNVgK7TBo=;
+ b=QYqLNWjI79PwzU/yZMcOHys7AiJjblk1gF3MDpSV8esKH1dBIsYLWxDEfKtF0TYBjN
+ 9IQ3Ie+hreB5y+mqjCccS8Jp+U5iXxLesfgBvfxKglxvKPQ7ugkxbN75GRBRsQb8+KEq
+ zeX1Gtubmz1PiXGXhg7IXp/vCyKi9OmPKBFaHBoyzIzuz5HbLZDaxMoScQ5P+8TEB4tm
+ ZX3Cio2nwVyF2KsrfxUqX/pt93A+CktUm3h9FzoYsgEyA2SWcruCN3mZmOHUZwT4morc
+ GkKFgWGt7yv/AATDHgbOXUw5OCr2+55ewF99stoTMwPbdR//0uaj/rbQcGJxNA2zYkEK
+ h/zA==
+X-Gm-Message-State: AOAM531YxIcYb+731/Q0Dz55WVOPpMNWSEPIb0pO/l5gasWTMn2mH7+X
+ FaK+bBrv0RzxSwS1bvZAEfs6vkx2WxKjtg==
+X-Google-Smtp-Source: ABdhPJzXqs9RbpdjtbPmBl/iPhxLtwjSqWUU4iHF+OOTXRuEuNs94Si1K8l8hdn5hsZHhFC6RqWIVA==
+X-Received: by 2002:a05:6000:11c3:: with SMTP id
+ i3mr41409063wrx.426.1641286478376; 
+ Tue, 04 Jan 2022 00:54:38 -0800 (PST)
 Received: from x1w.. (26.red-83-50-86.dynamicip.rima-tde.net. [83.50.86.26])
- by smtp.gmail.com with ESMTPSA id b14sm35520421wri.112.2022.01.04.00.54.32
+ by smtp.gmail.com with ESMTPSA id w25sm38652614wmk.20.2022.01.04.00.54.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Jan 2022 00:54:32 -0800 (PST)
+ Tue, 04 Jan 2022 00:54:38 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 0/9] hw/dma: Use dma_addr_t type definition when relevant
-Date: Tue,  4 Jan 2022 09:54:22 +0100
-Message-Id: <20220104085431.2122999-1-f4bug@amsat.org>
+Subject: [PATCH v2 1/9] hw/nvram: Restrict stub to sysemu and tools
+Date: Tue,  4 Jan 2022 09:54:23 +0100
+Message-Id: <20220104085431.2122999-2-f4bug@amsat.org>
 X-Mailer: git-send-email 2.33.1
+In-Reply-To: <20220104085431.2122999-1-f4bug@amsat.org>
+References: <20220104085431.2122999-1-f4bug@amsat.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::429
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42c
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x429.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: 12
 X-Spam_score: 1.2
 X-Spam_bar: +
@@ -85,6 +88,7 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Fam Zheng <fam@euphon.net>, Hannes Reinecke <hare@suse.com>,
  qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  David Hildenbrand <david@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Peter Xu <peterx@redhat.com>, Yuval Shaia <yuval.shaia.ml@gmail.com>,
@@ -93,62 +97,52 @@ Cc: Fam Zheng <fam@euphon.net>, Hannes Reinecke <hare@suse.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since v1:=0D
-- Addressed David review comment (stick to dma_addr_t type)=0D
-- Addressed Peter review comment (incorrect doc string)=0D
-=0D
-Hi,=0D
-=0D
-This series aims to clarify a bit the DMA API, in particular the=0D
-'size' argument which is not clear enough (as we use multiple types=0D
-for it). This helps avoiding build failures on 32-bit host [*] (and=0D
-likely overflows calculation too IMO).=0D
-=0D
-Some units using the DMA API are first removed from user-mode=0D
-emulation to avoid build failure (they shouldn't be there in=0D
-the first place).=0D
-=0D
-Then some variables are renamed for clarity (no functional change).=0D
-=0D
-Finally we replace misuses with dma_addr_t typedef. The previous=0D
-patch which failed on 32-bit host applied on top (not failing anymore).=0D
-=0D
-Regards,=0D
-=0D
-Phil.=0D
-=0D
-[*] https://www.mail-archive.com/qemu-devel@nongnu.org/msg858825.html=0D
-=0D
-Supersedes: <20211231114901.976937-1-philmd@redhat.com>=0D
-=0D
-Philippe Mathieu-Daud=C3=A9 (9):=0D
-  hw/nvram: Restrict stub to sysemu and tools=0D
-  hw/pci: Restrict pci-bus stub to sysemu=0D
-  hw/pci: Document pci_dma_map()=0D
-  hw/dma: Remove CONFIG_USER_ONLY check=0D
-  hw/rdma/rdma_utils: Rename rdma_pci_dma_map 'len' argument=0D
-  hw/scsi: Rename SCSIRequest::resid as 'residual'=0D
-  hw/dma: Fix format string issues using dma_addr_t=0D
-  hw/dma: Use dma_addr_t type definition when relevant=0D
-  hw/dma: Let dma_buf_read() / dma_buf_write() propagate MemTxResult=0D
-=0D
- hw/rdma/rdma_utils.h   |  2 +-=0D
- include/hw/pci/pci.h   | 12 ++++++=0D
- include/hw/scsi/scsi.h |  4 +-=0D
- include/sysemu/dma.h   | 31 ++++++++-------=0D
- hw/ide/ahci.c          | 10 ++---=0D
- hw/nvme/ctrl.c         |  6 +--=0D
- hw/rdma/rdma_utils.c   | 14 +++----=0D
- hw/scsi/megasas.c      | 85 +++++++++++++++++++++++++++++-------------=0D
- hw/scsi/scsi-bus.c     | 12 +++---=0D
- hw/scsi/scsi-disk.c    |  4 +-=0D
- softmmu/dma-helpers.c  | 34 +++++++----------=0D
- hw/nvram/meson.build   |  6 ++-=0D
- hw/rdma/trace-events   |  2 +-=0D
- stubs/meson.build      |  4 +-=0D
- 14 files changed, 134 insertions(+), 92 deletions(-)=0D
-=0D
--- =0D
-2.33.1=0D
-=0D
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
+
+User-mode emulation doesn't need the fw_cfg stub.
+
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ hw/nvram/meson.build | 6 ++++--
+ stubs/meson.build    | 2 +-
+ 2 files changed, 5 insertions(+), 3 deletions(-)
+
+diff --git a/hw/nvram/meson.build b/hw/nvram/meson.build
+index 202a5466e63..f5ee9f6b88c 100644
+--- a/hw/nvram/meson.build
++++ b/hw/nvram/meson.build
+@@ -1,5 +1,7 @@
+-# QOM interfaces must be available anytime QOM is used.
+-qom_ss.add(files('fw_cfg-interface.c'))
++if have_system or have_tools
++  # QOM interfaces must be available anytime QOM is used.
++  qom_ss.add(files('fw_cfg-interface.c'))
++endif
+ 
+ softmmu_ss.add(files('fw_cfg.c'))
+ softmmu_ss.add(when: 'CONFIG_CHRP_NVRAM', if_true: files('chrp_nvram.c'))
+diff --git a/stubs/meson.build b/stubs/meson.build
+index 71469c1d50a..363f6fa785d 100644
+--- a/stubs/meson.build
++++ b/stubs/meson.build
+@@ -11,7 +11,6 @@
+ stub_ss.add(files('dump.c'))
+ stub_ss.add(files('error-printf.c'))
+ stub_ss.add(files('fdset.c'))
+-stub_ss.add(files('fw_cfg.c'))
+ stub_ss.add(files('gdbstub.c'))
+ stub_ss.add(files('get-vm-name.c'))
+ if linux_io_uring.found()
+@@ -51,6 +50,7 @@
+   stub_ss.add(files('replay-tools.c'))
+ endif
+ if have_system
++  stub_ss.add(files('fw_cfg.c'))
+   stub_ss.add(files('semihost.c'))
+   stub_ss.add(files('usb-dev-stub.c'))
+   stub_ss.add(files('xen-hw-stub.c'))
+-- 
+2.33.1
+
 
