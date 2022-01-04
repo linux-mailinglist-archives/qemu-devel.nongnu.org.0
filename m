@@ -2,77 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D79CF4842F3
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 15:03:08 +0100 (CET)
-Received: from localhost ([::1]:58552 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E78248430A
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 15:08:46 +0100 (CET)
+Received: from localhost ([::1]:34828 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n4kP5-000755-Ef
-	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 09:03:07 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35788)
+	id 1n4kUW-0001vO-P2
+	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 09:08:44 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37036)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1n4kNq-0006LO-Kq
- for qemu-devel@nongnu.org; Tue, 04 Jan 2022 09:01:50 -0500
-Received: from [2a00:1450:4864:20::42a] (port=37608
- helo=mail-wr1-x42a.google.com)
+ id 1n4kSp-0000ga-Ks
+ for qemu-devel@nongnu.org; Tue, 04 Jan 2022 09:06:59 -0500
+Received: from [2a00:1450:4864:20::435] (port=38456
+ helo=mail-wr1-x435.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1n4kNp-0004Ea-1u
- for qemu-devel@nongnu.org; Tue, 04 Jan 2022 09:01:50 -0500
-Received: by mail-wr1-x42a.google.com with SMTP id t26so76361806wrb.4
- for <qemu-devel@nongnu.org>; Tue, 04 Jan 2022 06:01:48 -0800 (PST)
+ id 1n4kSo-0007Ej-1Z
+ for qemu-devel@nongnu.org; Tue, 04 Jan 2022 09:06:59 -0500
+Received: by mail-wr1-x435.google.com with SMTP id e5so76406796wrc.5
+ for <qemu-devel@nongnu.org>; Tue, 04 Jan 2022 06:06:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=UoIfNpnB5V0Jh3WE3OHhbOoe+3xtqIYyfBqTVsRsGAo=;
- b=AAPDh0Oz90PUZXvqW+EmE8MdgCJ0885YRlq3GEfMUCH4sQm5nNW6/UwkL8O24XgOvj
- xI8jM8JmifQqEqqkXWVNbgV85ZR8u+ORkAOTpqe0u2Pml7FFLlFHtq6AQISq0pT7QJUj
- jSuzi1GIets9Ii/KCdbiqYOVRndVteShawr+HSOZLnxA6Avv977j6kVX91xU9JYz61Xr
- NFoAuUZ35hRi9FhUb15KrIG5ZY0RYoqGmMhHdPnqglhVsT0OkuNdKVsxOrAbWTxuYbOg
- V5byP3a9tsxqbhqfK6EZf5UD6I27CqqeiyPtpTufT85sgFMWrlpIQ6+oiwPY3T5BmWCl
- 8XXg==
+ bh=5167/CBbe2R6zUOp0WuNIoVmYrzeZJoMse5tZqnnNvA=;
+ b=VdFQXX53JLg0stif2foaYxpg+BhpMXhEJHrZb42zCAmSQNg+UpG0HtJ4grTqyPQT+H
+ 1EdD97GuFygvf8TCcl/zCvxOIeugGNMmAG2x3mHVVgOb3kyw5rpSRX0feByEWnxekQQQ
+ CnF7ysCVF2R/EKsmIxDkTq9i/skkOhhwcFwnlX9wHWERQgsi5Z3aDRIbX+SGRsj3Xr76
+ 4KxgKyevtKbt5CQDyOF9Z2RAvuVDxDwiNnHmMEaPOGdIa1WPp0DHrTlOr3GzByfH65lV
+ AMYfAV+cD3tUD1tr72md9KzK/vQrybmIbZmWQv/DiAcrYC4XqLfkJO+A88W97295iS8l
+ uXMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=UoIfNpnB5V0Jh3WE3OHhbOoe+3xtqIYyfBqTVsRsGAo=;
- b=op3Ezs+WS713cZ6WtHLbfP2toYLYwt5jKDM5bXzkcr953ZSM2tE2z+X9tkFMUIB4Wa
- bIEW75japuNi5z1XjOQA/OdGMqFDGRXgCMB9d75CCLntVfypH72AbfI3Q5Z6iZ8pmwj0
- vojXkeB3fEJY7TanY1gYRT5oZrsJ0tucZFglmoATli0Z1g8tkD76UkzX/faOhqFFN4rS
- wUCPUzhxo9b3yVoVbfFFpSwQWG42sLDBUFEKpcCUdElVpJeN5zHxzgh8pjOmmAShzsd1
- 0IH9qI5spVBbxoBGIE6egZCvbhcekY/Bt5CGdLv2kSX+xaG0yvDoo/ycd0XI2KDhD/HM
- mzFg==
-X-Gm-Message-State: AOAM532vgtM2RkcSGKUI+nuZ3Xk+gv30E31VP5Vc/pSANRlJALCyrG5x
- ShZkRXngxsQYxCCOmiJ48yU=
-X-Google-Smtp-Source: ABdhPJx0/7airZ8vBFxlKxekrzep9nLOsMIPfj7LP6zvJsgX0y1D9hl+XHV5zooTPcki1MeUWvPj6A==
-X-Received: by 2002:adf:aad6:: with SMTP id i22mr41897641wrc.40.1641304907677; 
- Tue, 04 Jan 2022 06:01:47 -0800 (PST)
+ bh=5167/CBbe2R6zUOp0WuNIoVmYrzeZJoMse5tZqnnNvA=;
+ b=0r62WPcFRn4LFpkTHg+30iokF8QsOJ97CE8avbOQQanpqD3Os5GZUbHkdcIFC+UFg4
+ DKZqrxhEjuPtVUG5LMtlANUlty0JkSKTObcBboLPAfIRZXfQAOdohehFuaTEQlSh95eL
+ A0qU/PRQTjctGTmWggxIWUINc1NT2hRkCX/di5dvnjilKekjGXgCAowfxrMNX3auE2Pw
+ ayU7wCXeGzGoR8vS5HCqmvHT+P6csbBsDPLGxyuc2f/9yDYvBLuc/kb7YCQYevdtjOK5
+ 00TNdPhPX7NYfGqwKTTbiEBxue48J2pgSaWKkopMmAjmfZ5g3sk8z9rx/zAUyXxGXc+Q
+ PrUQ==
+X-Gm-Message-State: AOAM5321Ry6K+1tXj+v/6wuE2jZrff30zu9R8JoaUsP45g8mu4F+VVwD
+ JU7REe24yEDzbQbCDglLYQk=
+X-Google-Smtp-Source: ABdhPJx4q2etD5dpfyNDaln+nNG7cqTJULgEHMaoqlilv0DCW01KHXMLo99netrAy1lk5jI+I6NfuQ==
+X-Received: by 2002:a05:6000:1ac7:: with SMTP id
+ i7mr36230273wry.7.1641305216421; 
+ Tue, 04 Jan 2022 06:06:56 -0800 (PST)
 Received: from [192.168.51.187] (static-180-27-86-188.ipcom.comunitel.net.
  [188.86.27.180])
- by smtp.gmail.com with ESMTPSA id u3sm49269449wrs.0.2022.01.04.06.01.45
+ by smtp.gmail.com with ESMTPSA id h204sm38244515wmh.33.2022.01.04.06.06.55
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 04 Jan 2022 06:01:47 -0800 (PST)
-Message-ID: <dda8ad03-8cfd-0ae9-3ee2-9ba9ba7e063a@amsat.org>
-Date: Tue, 4 Jan 2022 15:01:42 +0100
+ Tue, 04 Jan 2022 06:06:56 -0800 (PST)
+Message-ID: <a24b8e9e-2cc0-894b-18eb-ee42a224b890@amsat.org>
+Date: Tue, 4 Jan 2022 15:06:54 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.4.1
-Subject: Re: [PATCH v4 6/7] tcg/tci: Support raising sigbus for user-only
+Subject: Re: [PATCH v4 7/7] tests/tcg/multiarch: Add sigbus.c
 Content-Language: en-US
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20220104021543.396571-1-richard.henderson@linaro.org>
- <20220104021543.396571-7-richard.henderson@linaro.org>
+ <20220104021543.396571-8-richard.henderson@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <20220104021543.396571-7-richard.henderson@linaro.org>
+In-Reply-To: <20220104021543.396571-8-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42a
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::435
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x435.google.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
@@ -98,10 +99,14 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 4/1/22 03:15, Richard Henderson wrote:
+> A mostly generic test for unaligned access raising SIGBUS.
+> 
+> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->   tcg/tci.c | 20 ++++++++++++++------
->   1 file changed, 14 insertions(+), 6 deletions(-)
+>   tests/tcg/multiarch/sigbus.c | 68 ++++++++++++++++++++++++++++++++++++
+>   1 file changed, 68 insertions(+)
+>   create mode 100644 tests/tcg/multiarch/sigbus.c
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
