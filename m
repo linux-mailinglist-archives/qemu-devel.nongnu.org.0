@@ -2,83 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D14B484908
-	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 20:58:17 +0100 (CET)
-Received: from localhost ([::1]:47974 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A215D484916
+	for <lists+qemu-devel@lfdr.de>; Tue,  4 Jan 2022 21:03:51 +0100 (CET)
+Received: from localhost ([::1]:52016 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n4pwl-000124-Kq
-	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 14:58:15 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37758)
+	id 1n4q2A-00047V-3O
+	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 15:03:50 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39052)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1n4pum-0007iZ-HW; Tue, 04 Jan 2022 14:56:12 -0500
-Received: from [2607:f8b0:4864:20::730] (port=43776
- helo=mail-qk1-x730.google.com)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1n4q1H-0003Rh-L5
+ for qemu-devel@nongnu.org; Tue, 04 Jan 2022 15:02:55 -0500
+Received: from [2607:f8b0:4864:20::1033] (port=38440
+ helo=mail-pj1-x1033.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1n4puk-0000Tp-IF; Tue, 04 Jan 2022 14:56:12 -0500
-Received: by mail-qk1-x730.google.com with SMTP id f138so35938789qke.10;
- Tue, 04 Jan 2022 11:56:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=hafsEJfMxFPS4MFMmIHjMn/kFX6/c5BraufvbaJmW6Y=;
- b=mvh2It0nb0AwXsYpDvDGSukhZZzBSCqBngZu2EEga30w3XeUYL9XyJA0YS6Pkx+Rjt
- B2RSg5CA2K/sH2TEOalHL50+liEtxDcKfezqZAXhqWiCnAsy3wL52c0zd31wygPMpSPQ
- 34DgPr+8Jh2kJ1Jm+SS8lMOA0SaTJRC7cDkRXcVaQqw51Ydx826tEel3CSvz9o1KP3l7
- 2TWuNDT7H45hJJ0VNgyy4vDAtFumYPvQgrsRarL/uDBSimHbsFZAbla/MnYPerg92ogJ
- e6hlgqJs7oAl6Z3x8np1BuaZSXKYU49Jc0m+2iJ/e+WXLaErKqyM4L0fyeHv81qlAn8E
- Jjiw==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1n4q1F-0001tk-Vj
+ for qemu-devel@nongnu.org; Tue, 04 Jan 2022 15:02:55 -0500
+Received: by mail-pj1-x1033.google.com with SMTP id
+ l10-20020a17090a384a00b001b22190e075so719750pjf.3
+ for <qemu-devel@nongnu.org>; Tue, 04 Jan 2022 12:02:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=v/En5T7R9oSBf4wmNvryZeBMJZKK6Mvh4vWCZXCd/cM=;
+ b=Ua6TXUCHi93lUNkPG/vIJR8PsH/QpdcfPckGDn0SaT2lbAYfG/IntQWe7yJBkN/djk
+ CIQZ8XdjsiRy/N5t/Xww7qJLH1BzsWXA5WepQTTq9S/kDptbdW5bFev83Sn6NV/hJtsl
+ Vxjmirmz2j7OpYNNx2fLAFIWLO6ZXZ0v9qmzNFgiK8sqmy1sjLoPJLZS6Wqsts8THdxN
+ WWX6zJztgWWk8P2hDCwF0abN9J/rupPrYvM+v5QKy8lU0j3RSC3eEh3+JECAH/etwGfX
+ PrukW8N+36v7qmroShpHnOl7DN6uRByOTxwgCX4bX9zYVe0BKSMX/JhmCoQodo4Di2x0
+ 7/Bw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=hafsEJfMxFPS4MFMmIHjMn/kFX6/c5BraufvbaJmW6Y=;
- b=3se/juhb4lKWwrX5Fyr9saJxzcnI4rHi2Q3vM/ekG58y3i70lPs0hHKyf7uGjraQ1M
- lVo9LRGVHxxwgIqy92L3MZmwCsGXxB4mpsNqDONKM4GVbj6znhMAsBNnJ59dkxqdb1Bq
- gSXsA7LHGKPHL3+6K69gaqr4ve7aKFPYuVvLrpUF7xxpvhISPUfegvAbEdPZpci7xDww
- xPCGinildEKPhYHZTq9LbqZS9K11+BOjGOO5arpX/pZIMaQnC8TNbYkdbu28deis0Vk9
- ExpWpu69j54yk9QPbh/+mMaPfd0ukLhTg8IZ9GypaXSsZijCiE4YWzt1wVqDcKemYmID
- kXfg==
-X-Gm-Message-State: AOAM5303jdPsrHbKJZR1rkKH7Rqjq5xSpkhwmA984yByTcbEW3K66KUu
- e/OVaf/CU/8tYNuqt9vAxvI=
-X-Google-Smtp-Source: ABdhPJxflWoncQHR0bMjE4EuxK3l/xLFZdZSnw+MrDRg9TWn4lwwKpFOX4iLALltrX8YyfDZCurXWA==
-X-Received: by 2002:a05:620a:15ec:: with SMTP id
- p12mr76017qkm.489.1641326169287; 
- Tue, 04 Jan 2022 11:56:09 -0800 (PST)
-Received: from ?IPV6:2804:431:c7c7:f4d8:aa07:335f:99e0:a6e7?
- ([2804:431:c7c7:f4d8:aa07:335f:99e0:a6e7])
- by smtp.gmail.com with ESMTPSA id i6sm32872720qkn.26.2022.01.04.11.56.06
+ bh=v/En5T7R9oSBf4wmNvryZeBMJZKK6Mvh4vWCZXCd/cM=;
+ b=MbpfZSrOVbOia1vLlFVDcQ5/ZN+zYNGp0BbFTtRbKjdHa1m1XNBGrUvYeHJL3dk/ta
+ GDzNAcTaKB9dBPOU/d8wYfIvHCArOdvoc0N5qzr02NZdMCI10zL3xey0199UUvfsr5w5
+ dVUp9b2ZViOahKx6od80zH0vkBFYamXC2MSPboWPvVTwYW4UPM0H+qPYWeJolDmydR6K
+ EYKQcZ4SFZxsC0IuwBP2PT7Slm0wbBSIui2I+d/aHzdUPJYD7LSYyF1RBHqUzWv0O08D
+ m8dZG9BbJ9lvBENNgYGRptHxUxH4+zTO3ffB9aSSLrFV6UW/6AitdrUib2ERJ4xkj5L2
+ ZX0Q==
+X-Gm-Message-State: AOAM530JX/J4IQS0S3mc0zVKowegOBDEKPhIQUI7x/sFCv9SY0Fpu/22
+ L0PIOq8aniSzdbZXz/mvcUHTlA==
+X-Google-Smtp-Source: ABdhPJx9ebN/z+KEmVaYJ/MsRtX/RSqVNcIDDxDXfY8LTo+xVqPujWV3q0URabcMG4nn5Jv/YQCMqA==
+X-Received: by 2002:a17:902:eb44:b0:148:b1ed:1a33 with SMTP id
+ i4-20020a170902eb4400b00148b1ed1a33mr50490678pli.149.1641326571788; 
+ Tue, 04 Jan 2022 12:02:51 -0800 (PST)
+Received: from [192.168.1.13] (174-21-75-75.tukw.qwest.net. [174.21.75.75])
+ by smtp.gmail.com with ESMTPSA id g12sm44037786pfv.136.2022.01.04.12.02.51
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 04 Jan 2022 11:56:09 -0800 (PST)
-Message-ID: <fc7a604b-ca56-510d-e0c9-ec6dee4d0261@gmail.com>
-Date: Tue, 4 Jan 2022 16:56:05 -0300
+ Tue, 04 Jan 2022 12:02:51 -0800 (PST)
+Subject: Re: [PATCH v2] linux-user: don't adjust base of found hole
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20220104113202.766884-1-alex.bennee@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <eab13fa0-8642-cd73-4946-c60a841ffd8e@linaro.org>
+Date: Tue, 4 Jan 2022 12:02:49 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH 0/3] Reorg ppc64 pmu insn counting
+In-Reply-To: <20220104113202.766884-1-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20211223030149.1947418-1-richard.henderson@linaro.org>
- <1b988844-075d-beb3-7fd1-a26f30e9f5dc@gmail.com> <87fsq4dfck.fsf@linaro.org>
- <328302bb-b916-8d13-70e6-e6f88b0745db@gmail.com> <875yqzn56l.fsf@linaro.org>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <875yqzn56l.fsf@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::730
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1033
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::730;
- envelope-from=danielhb413@gmail.com; helo=mail-qk1-x730.google.com
-X-Spam_score_int: -24
-X-Spam_score: -2.5
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1033.google.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_ENVFROM_END_DIGIT=0.25,
- FREEMAIL_FROM=0.001, NICE_REPLY_A=-3.354, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.354,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,157 +92,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org,
- Richard Henderson <richard.henderson@linaro.org>, clg@kaod.org,
- david@gibson.dropbear.id.au
+Cc: Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On 1/4/22 07:32, Alex Bennée wrote:
+On 1/4/22 3:32 AM, Alex Bennée wrote:
+> The pgb_find_hole function goes to the trouble of taking account of
+> both mmap_min_addr and any offset we've applied to decide the starting
+> address of a potential hole. This is especially important for
+> emulating 32bit ARM in a 32bit build as we have applied the offset to
+> ensure there will be space to map the ARM_COMMPAGE bellow the main
+> guest map (using wrapped arithmetic).
 > 
-> Daniel Henrique Barboza <danielhb413@gmail.com> writes:
+> Signed-off-by: Alex Bennée<alex.bennee@linaro.org>
+> Resolves:https://gitlab.com/qemu-project/qemu/-/issues/690
 > 
->> On 1/3/22 12:07, Alex Bennée wrote:
->>> Daniel Henrique Barboza <danielhb413@gmail.com> writes:
->>>
->>>> On 12/23/21 00:01, Richard Henderson wrote:
->>>>> In contrast to Daniel's version, the code stays in power8-pmu.c,
->>>>> but is better organized to not take so much overhead.
->>>>> Before:
->>>>>        32.97%  qemu-system-ppc  qemu-system-ppc64   [.] pmc_get_event
->>>>>        20.22%  qemu-system-ppc  qemu-system-ppc64   [.] helper_insns_inc
->>>>>         4.52%  qemu-system-ppc  qemu-system-ppc64   [.] hreg_compute_hflags_value
->>>>>         3.30%  qemu-system-ppc  qemu-system-ppc64   [.] helper_lookup_tb_ptr
->>>>>         2.68%  qemu-system-ppc  qemu-system-ppc64   [.] tcg_gen_code
->>>>>         2.28%  qemu-system-ppc  qemu-system-ppc64   [.] cpu_exec
->>>>>         1.84%  qemu-system-ppc  qemu-system-ppc64   [.] pmu_insn_cnt_enabled
->>>>> After:
->>>>>         8.42%  qemu-system-ppc  qemu-system-ppc64   [.]
->>>>> hreg_compute_hflags_value
->>>>>         6.65%  qemu-system-ppc  qemu-system-ppc64   [.] cpu_exec
->>>>>         6.63%  qemu-system-ppc  qemu-system-ppc64   [.] helper_insns_inc
->>>>>
->>>>
->>>> Thanks for looking this up. I had no idea the original C code was that slow.
->>>>
->>> <snip>
->>>>
->>>> With that in mind I decided to post a new version of my TCG rework, with less repetition and
->>>> a bit more concise, to have an alternative that can be used upstream to fix the Avocado tests.
->>>> Meanwhile I'll see if I can get your reorg working with all EBB tests we need. All things
->>>> equal - similar performance, all EBB tests passing - I'd rather stay with your C code than my
->>>> TCG rework since yours doesn't rely on TCG Ops knowledge to maintain
->>>> it.
->>> Reading this series did make me wonder if we need a more generic
->>> service
->>> from the TCG for helping with "internal" instrumentation needed for
->>> things like decent PMU emulation. We haven't gone as much for it in ARM
->>> yet but it would be nice to. It would be even nicer if such a facility
->>> could be used by stuff like icount as well so we don't end up doing the
->>> same thing twice.
->>
->> Back in May 2021 when I first starting working on this code I tried to base myself in the
->> ARM PMU code. In fact, the cycle and insn calculation done in the very first version of
->> this work was based on what ARM does in target/arm/helper.c, cycles_get_count() and
->> instructions_get_count(). The cycle calculation got simplified because our PPC64 CPU
->> has a 1Ghz clock so it's easier to just consider 1ns = 1 cycle.
->>
->> For instruction count, aside from my 2-3 weeks of spectacular failures trying to count
->> instructions inside translate.c, I also looked into how TCG plugins work and tried to do
->> something similar to what plugin_gen_tb_end() does at the end of the translator_loop()
->> in accel/tcg/translator.c. For some reason I wasn't able to replicate the same behavior
->> that I would have if I used the TCG plugin framework in the
->> 'canonical' way.
-> 
-> plugin_gen_tb_end is probably overkill because we should already know
-> how many instructions there are in a translated block on account of the
-> insn_start and insn_end ops that mark them. In fact see gen_tb_end()
-> which is where icount updates the value used in the decrement at the
-> start of each block. Assuming no synchronous exceptions occur you could
-> just increment a counter at the end of the block as no async IRQs will
-> occur until we have executed all of those instructions.
-> 
-> Of course it's never quite so simple and when running in full icount
-> mode we have to take into account exceptions that can be triggered by IO
-> accesses. This involves doing a re-translation to ensures the IO
-> instruction is always the last we execute.
-> 
-> I'm guessing for PMU counters to be somewhat correct we would want to
-> ensure updates throughout the block (before each memory op and helper
-> call). This would hopefully avoid the cost of "full" icount support
-> which is only single threaded. However this is the opposite to icount's
-> budget and pre-decrement approach which feels messier than it could be.
+> ---
+> v2
+>    - also make same adjustment to fallback
+> ---
+>   linux-user/elfload.c | 5 ++---
+>   1 file changed, 2 insertions(+), 3 deletions(-)
 
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-What about cycle counting without icount? With icount is a rather simple matter
-of making some assumptions about the CPU freq and relying on the shift parameter
-to have a somewhat good precision. Without icount the cycle count, at least in
-the current implementation in the ppc64 PMU, is erratic.
-
-The problem is that, at least as far as I've read pSeries and powernv code (guest
-and bare metal IBM Power emulation), the CPU freq is a 1Ghz that we write in
-the FDT and do nothing else with it. We do not enforce (or throttle) the CPU freq
-in the emulation. A quick look into ARM code also seems to do similar assumptions:
-
-
-static uint64_t cycles_get_count(CPUARMState *env)
-{
-#ifndef CONFIG_USER_ONLY
-     return muldiv64(qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL),
-                    ARM_CPU_FREQ, NANOSECONDS_PER_SECOND);
-#else
-     return cpu_get_host_ticks();
-#endif
-}
-
-#ifndef CONFIG_USER_ONLY
-static int64_t cycles_ns_per(uint64_t cycles)
-{
-     return (ARM_CPU_FREQ / NANOSECONDS_PER_SECOND) * cycles;
-}
-
-
-$ git grep 'ARM_CPU_FREQ'
-target/arm/helper.c:#define ARM_CPU_FREQ 1000000000 /* FIXME: 1 GHz, should be configurable */
-target/arm/helper.c:                   ARM_CPU_FREQ, NANOSECONDS_PER_SECOND);
-target/arm/helper.c:    return (ARM_CPU_FREQ / NANOSECONDS_PER_SECOND) * cycles;
-
-
-But I digress. Having a generic way of counting instruction across all the boards would
-be a fine improvement. cycle calculation can wait.
-
-
-> 
->> I ended up doing something similar to what instructions_get_count() from ARM does, which
->> relies on icount. Richard then aided me in figuring out that I could count instructions
->> directly by tapping into the end of each TB.
-> 
-> instructions_get_count will also work without icount but is affected by
-> wall clock time distortions in that case.
-> 
->> So, for a generic service of sorts I believe it would be nice to re-use the TCG plugins
->> API in the internal instrumentation (I tried it once, failed, not sure if I messed up
->> or it's not possible ATM). That would be a good start to try to get all this logic in a
->> generic code for internal translate code to use.
-> 
-> Agreed - although the plugin specific stuff is really just focused on
-> our limited visibility API. Unless you are referring to
-> accel/tcg/plugin-gen.c which are just helpers for manipulating the TCG
-> ops after the initial translation.
-
-
-TCG plug-ins came to mind because they operate like generic APIs that can be used across
-multiple archs, but any way of putting generic instrumentation code that can be used internally
-everywhere would do. TCG plug-ins seems to be a good candidate for that since the infrastructure
-is already in place.
-
-
-Thanks,
-
-
-Daniel
-
-> 
+r~
 
