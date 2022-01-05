@@ -2,59 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF314485B46
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 23:06:49 +0100 (CET)
-Received: from localhost ([::1]:55310 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A17A7485B89
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 23:19:03 +0100 (CET)
+Received: from localhost ([::1]:53974 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5EQi-00067I-Qo
-	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 17:06:48 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43164)
+	id 1n5EcY-0007aK-PQ
+	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 17:19:02 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44692)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1n5EOo-00048l-SM; Wed, 05 Jan 2022 17:04:50 -0500
-Received: from [2607:f8b0:4864:20::d36] (port=44711
+ id 1n5EUh-0004cK-Po; Wed, 05 Jan 2022 17:10:55 -0500
+Received: from [2607:f8b0:4864:20::d36] (port=39569
  helo=mail-io1-xd36.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1n5EOm-0006K1-3V; Wed, 05 Jan 2022 17:04:50 -0500
-Received: by mail-io1-xd36.google.com with SMTP id h23so790645iol.11;
- Wed, 05 Jan 2022 14:04:47 -0800 (PST)
+ id 1n5EUf-0003bl-Kt; Wed, 05 Jan 2022 17:10:55 -0500
+Received: by mail-io1-xd36.google.com with SMTP id y11so840553iod.6;
+ Wed, 05 Jan 2022 14:10:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=zm6hq7hdTHha4uq0ZX23dBVJPJI05eLjkVtrtmDeGKU=;
- b=D7AjArZ1OD/OfOcakflZMiChjBF78hJMhN5Kz+SdMcORQM5kz4ZH43poi++XRmaYfw
- 34EzVTrBD3G3SGOQnSpXJrgl9Wruuh6Aa43Gq7qjUk6bukIPukXmNCGNh9JIhiBHRcTN
- UFkBgzMawNH4RI3PFBieMGyiBF2cLLg04ucgFNM+INos1XN6EfxvHaEYI+pQRQRwVeLQ
- hXO++Rqf2gF7NFMKrZLwYDiF8dAmzJSPfq8Psj4FM73toA11ch9ioBDP3AG44kKepmtX
- hjp8+ipHnMrvfabURMhmcKTfFf6dWnHatnjiYiBnoNYq2eNaVEW57HkN2JS0zfJsf0lA
- xTbA==
+ :cc; bh=KyuB6cgvbx47LTafWGeD98t194U7V3pi7OOl+mXsMkU=;
+ b=HW8qzzmLZrWDmjiHRFwd1oh+9YLaimXzS3P5AZFYnDx/8doksy8ALEqVW/JXIe3Cy2
+ BYhpPpnHI9JmdSM0Zh0d5dTaQeX8nqVLPBdDQZRQ5evdiwps8oXgoKc8o2WRFAq0Gi04
+ jOe2mweTVWBXElnb6ZfgjGMHcE1qd116xRRYVIe3KEr5oaif1qbhgvKNAqBIoj3l8q2b
+ jCsysHVX1pu41DkiolUC2xlrPxU1eGLz5e0yfRXiZxPQbbbKQfy2Pc5hGC/tE2U3TAHj
+ q4VLcfDpPDDm7L6k0g5aQ+iXgREMbrVdR1+9L0UtMiBj01Jid/milNQ6/ZEI9MSQuvnq
+ jPZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=zm6hq7hdTHha4uq0ZX23dBVJPJI05eLjkVtrtmDeGKU=;
- b=yqt1q+in3fLbZsbdtJ0853iHX8F4ukBw0Df0UsHsfPoeAIU1hi/iCGSaa6CthcXt9t
- bhx9JmTlTesr5HEwBFWIPcBgxx1voIK4gurCV8Rowks5LtUIlhE89ybJjuzEt+lHCnOv
- 5CW/IQdsZ4Wc2hFcw10v18hdYhWiHWwCEFnbUCUykNvOprqhY3IlZ5OJxVsvY1hfYdDS
- zpEYHqym7633ocC7kmGXNs+JC1dwEfEb22ugMTq0twBfL2FbBBh8f0hq+YVy+PCJ2a7r
- MkZW2T6PAtqamngMT/QYOFNWKoFqXFvSHEBEqw3K9+iZNUrHNKVHMYasgzBvDzt/29Tb
- G7DQ==
-X-Gm-Message-State: AOAM533TlgMQNbk5Nmm+LOywezj9Em9HCJEeFNU/RUHgU0Z/O1qauyhu
- Dthwzv/Ao9/mW/cPMKLpJMrSE+UuSXsXIC0o1Fg=
-X-Google-Smtp-Source: ABdhPJy3d/D66OUGPIk5j3YmZLVa9IC9mu9NfLTOqB44PEuZ0wOMV0+yv9NdUxR2M1BgfOgxXzK53qfgK02BQrW6XzI=
-X-Received: by 2002:a05:6602:1487:: with SMTP id
- a7mr26307777iow.57.1641420286640; 
- Wed, 05 Jan 2022 14:04:46 -0800 (PST)
+ bh=KyuB6cgvbx47LTafWGeD98t194U7V3pi7OOl+mXsMkU=;
+ b=3Q9lwCAd8rUa8cXoeqppAAdkDH9txmM0m7EdLuU9kYUsDzE07a4X6mK9AcC7pI+ZEc
+ nIRoO8AgBnast0DVqzWQjVVVbit8ct4NIJMjMZEP+pA89FP3mWk6cNbP/PfzRycoPj2n
+ wRNN6mHKURYziM851OEqD7ecg5oRc8tgqNoMbfeu/28m+FP39KWYhJoZDP/Nayv3Yjmy
+ PxC63YF9h21dHZ0v0Rdj6tEVOo2wDubUDzdJXhotz5714tY+/JvjEB6+fjFbWLG5Oa/c
+ YEpXG6UwCaVvsB/oSv0M0yamcgF1xywyNd8ZzFN69EsQjVhJKkojKfiEO2t6TYodttSk
+ 4oVA==
+X-Gm-Message-State: AOAM5304GPB7l+1kDcANMYmZnxXYP3TGqJfPsHFy19lQM5Sviw2C0CRR
+ 29BradzHErzBCrQV0Gfvr17ujGXR6gB7msZxY9w=
+X-Google-Smtp-Source: ABdhPJxjH3Zp0UKsJFtPiPHOb+NU7fdX3IdNXLI5VjGFAJUEOziruEeObtWqofCzvBBK5cY1pgMKmOxonVLFcNFYcfg=
+X-Received: by 2002:a5d:8f88:: with SMTP id l8mr26717419iol.91.1641420652505; 
+ Wed, 05 Jan 2022 14:10:52 -0800 (PST)
 MIME-Version: 1.0
 References: <20211220130919.413-1-jiangyifei@huawei.com>
- <20211220130919.413-12-jiangyifei@huawei.com>
-In-Reply-To: <20211220130919.413-12-jiangyifei@huawei.com>
+ <20211220130919.413-13-jiangyifei@huawei.com>
+In-Reply-To: <20211220130919.413-13-jiangyifei@huawei.com>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 6 Jan 2022 08:04:20 +1000
-Message-ID: <CAKmqyKO8qvAY=jPC1BnjXqy5=Lakxg7+OkznGQqBhLAJr4r9FA@mail.gmail.com>
-Subject: Re: [PATCH v3 11/12] target/riscv: Implement virtual time adjusting
- with vm state changing
+Date: Thu, 6 Jan 2022 08:10:26 +1000
+Message-ID: <CAKmqyKNq9WJbx2CWL8qPatg7Gc3BckU=v94p+HgKiJ1W5-YPNg@mail.gmail.com>
+Subject: Re: [PATCH v3 12/12] target/riscv: Support virtual time context
+ synchronization
 To: Yifei Jiang <jiangyifei@huawei.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d36
@@ -92,12 +91,10 @@ Cc: Bin Meng <bin.meng@windriver.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Dec 21, 2021 at 3:45 AM Yifei Jiang via <qemu-devel@nongnu.org> wrote:
+On Tue, Dec 21, 2021 at 2:44 AM Yifei Jiang via <qemu-devel@nongnu.org> wrote:
 >
-> We hope that virtual time adjusts with vm state changing. When a vm
-> is stopped, guest virtual time should stop counting and kvm_timer
-> should be stopped. When the vm is resumed, guest virtual time should
-> continue to count and kvm_timer should be restored.
+> Add virtual time context description to vmstate_kvmtimer. After cpu being
+> loaded, virtual time context is updated to KVM.
 >
 > Signed-off-by: Yifei Jiang <jiangyifei@huawei.com>
 > Signed-off-by: Mingwang Li <limingwang@huawei.com>
@@ -108,48 +105,57 @@ Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Alistair
 
 > ---
->  target/riscv/kvm.c | 14 ++++++++++++++
->  1 file changed, 14 insertions(+)
+>  target/riscv/machine.c | 30 ++++++++++++++++++++++++++++++
+>  1 file changed, 30 insertions(+)
 >
-> diff --git a/target/riscv/kvm.c b/target/riscv/kvm.c
-> index 3c20ec5ad3..6c0306bd2b 100644
-> --- a/target/riscv/kvm.c
-> +++ b/target/riscv/kvm.c
-> @@ -42,6 +42,7 @@
->  #include "chardev/char-fe.h"
->  #include "semihosting/console.h"
->  #include "migration/migration.h"
-> +#include "sysemu/runstate.h"
+> diff --git a/target/riscv/machine.c b/target/riscv/machine.c
+> index ad8248ebfd..95eb82792a 100644
+> --- a/target/riscv/machine.c
+> +++ b/target/riscv/machine.c
+> @@ -164,6 +164,35 @@ static const VMStateDescription vmstate_pointermasking = {
+>      }
+>  };
 >
->  static uint64_t kvm_riscv_reg_id(CPURISCVState *env, uint64_t type, uint64_t idx)
->  {
-> @@ -378,6 +379,17 @@ unsigned long kvm_arch_vcpu_id(CPUState *cpu)
->      return cpu->cpu_index;
->  }
->
-> +static void kvm_riscv_vm_state_change(void *opaque, bool running, RunState state)
+> +static bool kvmtimer_needed(void *opaque)
 > +{
-> +    CPUState *cs = opaque;
-> +
-> +    if (running) {
-> +        kvm_riscv_put_regs_timer(cs);
-> +    } else {
-> +        kvm_riscv_get_regs_timer(cs);
-> +    }
+> +    return kvm_enabled();
 > +}
 > +
->  void kvm_arch_init_irq_routing(KVMState *s)
->  {
->  }
-> @@ -390,6 +402,8 @@ int kvm_arch_init_vcpu(CPUState *cs)
->      CPURISCVState *env = &cpu->env;
->      uint64_t id;
->
-> +    qemu_add_vm_change_state_handler(kvm_riscv_vm_state_change, cs);
+> +static int cpu_post_load(void *opaque, int version_id)
+> +{
+> +    RISCVCPU *cpu = opaque;
+> +    CPURISCVState *env = &cpu->env;
 > +
->      id = kvm_riscv_reg_id(env, KVM_REG_RISCV_CONFIG, KVM_REG_RISCV_CONFIG_REG(isa));
->      ret = kvm_get_one_reg(cs, id, &isa);
->      if (ret) {
+> +    env->kvm_timer_dirty = true;
+> +    return 0;
+> +}
+> +
+> +static const VMStateDescription vmstate_kvmtimer = {
+> +    .name = "cpu/kvmtimer",
+> +    .version_id = 1,
+> +    .minimum_version_id = 1,
+> +    .needed = kvmtimer_needed,
+> +    .post_load = cpu_post_load,
+> +    .fields = (VMStateField[]) {
+> +        VMSTATE_UINT64(env.kvm_timer_time, RISCVCPU),
+> +        VMSTATE_UINT64(env.kvm_timer_compare, RISCVCPU),
+> +        VMSTATE_UINT64(env.kvm_timer_state, RISCVCPU),
+> +
+> +        VMSTATE_END_OF_LIST()
+> +    }
+> +};
+> +
+>  const VMStateDescription vmstate_riscv_cpu = {
+>      .name = "cpu",
+>      .version_id = 3,
+> @@ -218,6 +247,7 @@ const VMStateDescription vmstate_riscv_cpu = {
+>          &vmstate_hyper,
+>          &vmstate_vector,
+>          &vmstate_pointermasking,
+> +        &vmstate_kvmtimer,
+>          NULL
+>      }
+>  };
 > --
 > 2.19.1
 >
