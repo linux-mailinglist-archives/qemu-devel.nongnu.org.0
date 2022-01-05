@@ -2,45 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C45EE4857D2
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 18:59:27 +0100 (CET)
-Received: from localhost ([::1]:43952 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9ADE1485818
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 19:22:39 +0100 (CET)
+Received: from localhost ([::1]:56810 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5AZK-0004SR-F0
-	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 12:59:26 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34432)
+	id 1n5Avl-0006kh-Pe
+	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 13:22:37 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40988)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ale@rev.ng>) id 1n5AXa-0003lN-LP
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 12:57:38 -0500
-Received: from rev.ng ([5.9.113.41]:46331)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ale@rev.ng>) id 1n5AXX-0007MO-Uk
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 12:57:38 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rev.ng;
- s=dkim; h=Content-Type:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Sender
- :Reply-To:Content-Transfer-Encoding:Content-ID:Content-Description:
- Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
- In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=xgHa4LB7ALx+CH/kcPWpZxfzJlkjmY37+wikvrzMnbk=; b=uE9IU92l3KxO0WiRvL5eimC0/y
- tjzdV8VcrIHZ2h0qSfBJMNdeWS/uPKGsiweHfo+vUOVaA0k/mzUmq5PbSOTAwZWCDw0knyGZwpNAc
- 87ZVWiFBbb35EHgtF6vZOP+upOQf0uQQ/XGBMfkrpM1RimrNgQtBSSZjsrpij+owY/dY=;
-Date: Wed, 5 Jan 2022 18:57:20 +0100
-To: Alex =?UTF-8?B?QmVubsOpZQ==?= <alex.bennee@linaro.org>
-Cc: tsimpson@quicinc.com, Anton Johansson via <qemu-devel@nongnu.org>, Brian
- Cain <bcain@quicinc.com>
-Subject: CI for qemu-hexagon
-Message-ID: <20220105185720.0d4fc159@orange>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1n5AuG-00061j-OA
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 13:21:04 -0500
+Received: from [2a00:1450:4864:20::432] (port=41886
+ helo=mail-wr1-x432.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1n5AuE-0006OE-4g
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 13:21:04 -0500
+Received: by mail-wr1-x432.google.com with SMTP id v6so23091993wra.8
+ for <qemu-devel@nongnu.org>; Wed, 05 Jan 2022 10:21:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=user-agent:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=9EgDiNI7k/SuvpHNI3BTwNfdGugtHwDvZ93+BxoOMa8=;
+ b=D3JNot8+TP1ZUnagXRDLDbKJx+o+sKIaKM5PLn+WK6MlAxF6EyXzEzRaqKumXgTlRt
+ GKv9Gm7IuZjA8g1hA9/WyxNeTaNuEqg2ZwQEGFT9nhTMnMeKgPm9gpdHX9EvGNFWXmbS
+ s9+JJIPrT8iawKlqvRQkVCjFO06Y2gsSDavWHmkcrECTJN+jjiPnUJM7vmRs93X/Qb24
+ 5koYa/QlmRnFlAJ4g7cjsnRACVuuqUG2nhJMhblKJqp0lV9M/s8i9qi9Vg3HowTY081s
+ +aA8YMQSH4y2ZV1fUGG+b3Ze6dc9QsNv4KyjicO0xttOJ7VAOVylCqug/lWZ1yZGKmHx
+ iyjA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:user-agent:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=9EgDiNI7k/SuvpHNI3BTwNfdGugtHwDvZ93+BxoOMa8=;
+ b=060WQgkngPcc7z9B4ZamfNNqvXFL0vzO6XjxzOkvWY5ExlPrazuGx3v8o3T3xRUVGq
+ dG6utXpIlgXcJDz6awZjs9RT5RXahXnC3Krlbsp7dOIT4Cv/pnPcY5uIE9E4eY7Mr/Th
+ qlZ/IxBQ4GJCPyVjzC6zQRUUYOwBOtxhj9Ct/XpSj2tJ6sbDrqrdw/oSxfPl8SDAs3Ky
+ NEXGmGmDuvh48DU22Na33AvM4sqYLw95K0CHLz8N1hszxIa3oEjOdP/ex6KMRRwyEIgl
+ 8Nq0pqnbMCE4cymM9rgjAbuU8EX9RJELf0fxXsgpwnXU08G8ep2VbN5wjo05Mq3a+Nnj
+ +2uQ==
+X-Gm-Message-State: AOAM5333i6a11akDttPUUZAOLUF/dVPkoJaW6UqJz3q44/IK+/6gfW1c
+ 1zgnLnnbaTJol3ZyTNJdnZuB8w==
+X-Google-Smtp-Source: ABdhPJxjiG3BwPAYdCu25G4rR7zeHkDOzerV3evj3dGiSa5abiLjDb132IcyIxHbcsKZ7be220mzJQ==
+X-Received: by 2002:adf:e94c:: with SMTP id m12mr47965694wrn.239.1641406860076; 
+ Wed, 05 Jan 2022 10:21:00 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id g5sm42528070wru.48.2022.01.05.10.20.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 05 Jan 2022 10:20:59 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 8CB331FFB7;
+ Wed,  5 Jan 2022 18:20:58 +0000 (GMT)
+User-agent: mu4e 1.7.5; emacs 28.0.90
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Paolo Bonzini <pbonzini@redhat.com>, Daniel P. Berrange
+ <berrange@redhat.com>, Eduardo Habkost <eduardo@habkost.net>
+Subject: Trying to understand QOM object creation and property linking
+Date: Wed, 05 Jan 2022 18:03:46 +0000
+Message-ID: <87czl6jb79.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="MP_/AlCx7/Xy2X4zdVm0RGca5Hy"
-Received-SPF: pass client-ip=5.9.113.41; envelope-from=ale@rev.ng; helo=rev.ng
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::432
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x432.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -53,390 +88,178 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Alessandro Di Federico <ale@rev.ng>
-From:  Alessandro Di Federico via <qemu-devel@nongnu.org>
 
---MP_/AlCx7/Xy2X4zdVm0RGca5Hy
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Content-Disposition: inline
+Hi,
 
-Hi Alex, I hope you enjoyed the holidays!
+I'm having a hell of a time trying to create a new SoC+Board model from
+scratch. The problem comes down to trying to expose some properties to
+the underlying CPU from my board model. So I have:
 
-We're trying to upstream idef-parser (the automatic generator of the
-Hexagon frontend). This introduces new dependencies, specifically flex
-and bison.
+  static const TypeInfo pipico_machine_types[] =3D {
+      {
+          .name           =3D TYPE_PIPICO_MACHINE,
+          .parent         =3D TYPE_MACHINE,
+          .instance_size  =3D sizeof(PiPicoMachineState),
+          .class_size     =3D sizeof(PiPicoMachineClass),
+          .class_init     =3D pipico_machine_class_init,
+      }
+  };
 
-Attached you can find our patch for that.
+and the class init sets:
 
-However the CI fails:
+    MachineClass *mc =3D MACHINE_CLASS(oc);
+    ...
+    mc->desc =3D g_strdup_printf("Raspberry Pi Pico");
+    mc->init =3D pipico_machine_init;
+    ...
 
-    https://gitlab.com/carl.cudig/qemu/-/jobs/1939950230
+and finally when I init the machine I do the following:
 
-AFAIU the Hexagon docker image is "special" since it's the only one
-that needs the cross-compiler to be built from source and, therefore,
-it's a process that needs to be triggered manually.
-Is this correct?
+static void pipico_machine_init(MachineState *machine)
+{
+    PiPicoMachineState *s =3D PIPICO_MACHINE(machine);
+    ...
+    MemoryRegion *system_memory =3D get_system_memory();
 
-If so, what should we do? Make a pull request despite the failure and
-then it will be taken care of, or should I make a separate (preliminary)
-pull request just for that patch?
+    ...
+=20=20=20=20
+    /* initialize external Flash device */
+    memory_region_init_rom(&s->flash, NULL,
+                           "pico.flash0", 256 * KiB, &error_fatal);
+    memory_region_add_subregion(system_memory, 0, &s->flash);
 
--- 
-Alessandro Di Federico
-rev.ng
+    /* Setup the SOC */
+    object_initialize_child(OBJECT(machine), "soc", &s->soc, TYPE_RP2040);
 
---MP_/AlCx7/Xy2X4zdVm0RGca5Hy
-Content-Type: text/x-patch
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: attachment; filename=import-flex-bison.patch
+    /* link properties from machine the SoC needs */
+    object_property_set_link(OBJECT(&s->soc), "memory",
+                             OBJECT(system_memory), &error_fatal);
 
-commit 14e90d55b368b4a56fde668b66311bab6e1a4518
-Author: Paolo Montesel <babush@rev.ng>
-Date:   Thu Dec 9 13:23:06 2021 +0100
+    sysbus_realize(SYS_BUS_DEVICE(&s->soc), &error_fatal);
 
-    target/hexagon: import flex/bison to docker files
-   =20
-    Signed-off-by: Alessandro Di Federico <ale@rev.ng>
-    Signed-off-by: Paolo Montesel <babush@rev.ng>
-    Signed-off-by: Anton Johansson <anjo@rev.ng>
 
-diff --git a/.gitlab-ci.d/windows.yml b/.gitlab-ci.d/windows.yml
-index 309f7e7fb86..2abfe4e91aa 100644
---- a/.gitlab-ci.d/windows.yml
-+++ b/.gitlab-ci.d/windows.yml
-@@ -33,6 +33,7 @@ msys2-64bit:
-   script:
-   - .\msys64\usr\bin\bash -lc "pacman -Sy --noconfirm --needed
-       diffutils git grep make sed
-+      flex bison
-       mingw-w64-x86_64-capstone
-       mingw-w64-x86_64-curl
-       mingw-w64-x86_64-cyrus-sasl
-@@ -68,6 +69,7 @@ msys2-32bit:
-   script:
-   - .\msys64\usr\bin\bash -lc "pacman -Sy --noconfirm --needed
-       diffutils git grep make sed
-+      flex bison
-       mingw-w64-i686-capstone
-       mingw-w64-i686-curl
-       mingw-w64-i686-cyrus-sasl
-diff --git a/tests/docker/dockerfiles/alpine.docker b/tests/docker/dockerfi=
-les/alpine.docker
-index 7e6997e3015..45db55ba55a 100644
---- a/tests/docker/dockerfiles/alpine.docker
-+++ b/tests/docker/dockerfiles/alpine.docker
-@@ -9,9 +9,11 @@ ENV PACKAGES \
- 	alsa-lib-dev \
- 	bash \
- 	binutils \
-+	bison \
- 	ccache \
- 	coreutils \
- 	curl-dev \
-+	flex \
- 	g++ \
- 	gcc \
- 	git \
-diff --git a/tests/docker/dockerfiles/centos8.docker b/tests/docker/dockerf=
-iles/centos8.docker
-index 7f135f8e8c0..d93bbe30026 100644
---- a/tests/docker/dockerfiles/centos8.docker
-+++ b/tests/docker/dockerfiles/centos8.docker
-@@ -5,6 +5,7 @@ ENV PACKAGES \
-     SDL2-devel \
-     alsa-lib-devel \
-     bc \
-+    bison \
-     brlapi-devel \
-     bzip2 \
-     bzip2-devel \
-@@ -19,6 +20,7 @@ ENV PACKAGES \
-     device-mapper-multipath-devel \
-     diffutils \
-     findutils \
-+    flex \
-     gcc \
-     gcc-c++ \
-     genisoimage \
-diff --git a/tests/docker/dockerfiles/debian-amd64.docker b/tests/docker/do=
-ckerfiles/debian-amd64.docker
-index ed546edcd65..805fd6f981d 100644
---- a/tests/docker/dockerfiles/debian-amd64.docker
-+++ b/tests/docker/dockerfiles/debian-amd64.docker
-@@ -14,9 +14,11 @@ RUN apt update && \
- RUN apt update && \
-     DEBIAN_FRONTEND=3Dnoninteractive eatmydata \
-     apt install -y --no-install-recommends \
-+        bison \
-         cscope \
-         genisoimage \
-         exuberant-ctags \
-+        flex \
-         global \
-         libbz2-dev \
-         liblzo2-dev \
-diff --git a/tests/docker/dockerfiles/debian-native.docker b/tests/docker/d=
-ockerfiles/debian-native.docker
-index efd55cb6e0e..02ccaf98fd1 100644
---- a/tests/docker/dockerfiles/debian-native.docker
-+++ b/tests/docker/dockerfiles/debian-native.docker
-@@ -26,13 +26,16 @@ RUN apt update && \
- RUN apt update && \
-     DEBIAN_FRONTEND=3Dnoninteractive eatmydata \
-     apt install -y --no-install-recommends \
-+        bison \
-         cscope \
-         genisoimage \
-         exuberant-ctags \
-+        flex \
-         global \
-         libbz2-dev \
-         liblzo2-dev \
-         libgcrypt20-dev \
-+        libglib2.0-dev \
-         libfdt-dev \
-         librdmacm-dev \
-         libsasl2-dev \
-diff --git a/tests/docker/dockerfiles/debian-riscv64-cross.docker b/tests/d=
-ocker/dockerfiles/debian-riscv64-cross.docker
-index 594d97982c1..f5553afc2e1 100644
---- a/tests/docker/dockerfiles/debian-riscv64-cross.docker
-+++ b/tests/docker/dockerfiles/debian-riscv64-cross.docker
-@@ -17,12 +17,15 @@ RUN apt update && \
- # Install common build utilities
- RUN DEBIAN_FRONTEND=3Dnoninteractive eatmydata apt install -yy \
-     bc \
-+    bison \
-     build-essential \
-     ca-certificates \
-     debian-ports-archive-keyring \
-     dpkg-dev \
-+    flex \
-     gettext \
-     git \
-+    libglib2.0-dev \
-     ninja-build \
-     pkg-config \
-     python3
-diff --git a/tests/docker/dockerfiles/debian-tricore-cross.docker b/tests/d=
-ocker/dockerfiles/debian-tricore-cross.docker
-index d8df2c61170..9191aafc7f3 100644
---- a/tests/docker/dockerfiles/debian-tricore-cross.docker
-+++ b/tests/docker/dockerfiles/debian-tricore-cross.docker
-@@ -16,9 +16,11 @@ MAINTAINER Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
- RUN apt update && \
-     DEBIAN_FRONTEND=3Dnoninteractive apt install -yy eatmydata && \
-     DEBIAN_FRONTEND=3Dnoninteractive eatmydata apt install -yy \
-+       bison \
-        bzip2 \
-        ca-certificates \
-        ccache \
-+       flex \
-        g++ \
-        gcc \
-        git \
-diff --git a/tests/docker/dockerfiles/debian10.docker b/tests/docker/docker=
-files/debian10.docker
-index b414af1b9f7..06b8d9d6b0f 100644
---- a/tests/docker/dockerfiles/debian10.docker
-+++ b/tests/docker/dockerfiles/debian10.docker
-@@ -17,16 +17,19 @@ RUN apt update && \
-     DEBIAN_FRONTEND=3Dnoninteractive apt install -yy eatmydata && \
-     DEBIAN_FRONTEND=3Dnoninteractive eatmydata \
-     apt install -y --no-install-recommends \
-+        bison \
-         bc \
-         build-essential \
-         ca-certificates \
-         ccache \
-         clang \
-         dbus \
-+        flex \
-         gdb-multiarch \
-         gettext \
-         git \
-         libffi-dev \
-+        libglib2.0-dev \
-         libncurses5-dev \
-         ninja-build \
-         pkg-config \
-diff --git a/tests/docker/dockerfiles/fedora-i386-cross.docker b/tests/dock=
-er/dockerfiles/fedora-i386-cross.docker
-index 13328e6081f..ae009a203f5 100644
---- a/tests/docker/dockerfiles/fedora-i386-cross.docker
-+++ b/tests/docker/dockerfiles/fedora-i386-cross.docker
-@@ -1,12 +1,15 @@
- FROM registry.fedoraproject.org/fedora:34
-=20
- ENV PACKAGES \
-+    bison \
-     bzip2 \
-     ccache \
-     diffutils \
-     findutils \
-+    flex \
-     gcc \
-     git \
-+    glib2-devel \
-     libffi-devel.i686 \
-     libselinux-devel.i686 \
-     libtasn1-devel.i686 \
-diff --git a/tests/docker/dockerfiles/fedora-win32-cross.docker b/tests/doc=
-ker/dockerfiles/fedora-win32-cross.docker
-index aad39dd97ff..9ae8eda39f7 100644
---- a/tests/docker/dockerfiles/fedora-win32-cross.docker
-+++ b/tests/docker/dockerfiles/fedora-win32-cross.docker
-@@ -2,14 +2,17 @@ FROM registry.fedoraproject.org/fedora:33
-=20
- # Please keep this list sorted alphabetically
- ENV PACKAGES \
-+    bison \
-     bc \
-     bzip2 \
-     ccache \
-     diffutils \
-     findutils \
-+    flex \
-     gcc \
-     gettext \
-     git \
-+    glib2-devel \
-     hostname \
-     make \
-     meson \
-diff --git a/tests/docker/dockerfiles/fedora-win64-cross.docker b/tests/doc=
-ker/dockerfiles/fedora-win64-cross.docker
-index 9a224a619bd..c59a130d001 100644
---- a/tests/docker/dockerfiles/fedora-win64-cross.docker
-+++ b/tests/docker/dockerfiles/fedora-win64-cross.docker
-@@ -2,13 +2,16 @@ FROM registry.fedoraproject.org/fedora:33
-=20
- # Please keep this list sorted alphabetically
- ENV PACKAGES \
-+    bison \
-     bc \
-     bzip2 \
-     ccache \
-     diffutils \
-     findutils \
-+    flex \
-     gcc \
-     gettext \
-+    glib2-devel \
-     git \
-     hostname \
-     make \
-diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/dockerfi=
-les/fedora.docker
-index c6fd7e1113d..b19ef01bf7d 100644
---- a/tests/docker/dockerfiles/fedora.docker
-+++ b/tests/docker/dockerfiles/fedora.docker
-@@ -2,6 +2,7 @@ FROM registry.fedoraproject.org/fedora:33
-=20
- # Please keep this list sorted alphabetically
- ENV PACKAGES \
-+    bison \
-     SDL2-devel \
-     SDL2_image-devel \
-     alsa-lib-devel \
-@@ -20,6 +21,7 @@ ENV PACKAGES \
-     device-mapper-multipath-devel \
-     diffutils \
-     findutils \
-+    flex \
-     gcc \
-     gcc-c++ \
-     gcovr \
-diff --git a/tests/docker/dockerfiles/opensuse-leap.docker b/tests/docker/d=
-ockerfiles/opensuse-leap.docker
-index 3bbdb67f4fa..b868ca71982 100644
---- a/tests/docker/dockerfiles/opensuse-leap.docker
-+++ b/tests/docker/dockerfiles/opensuse-leap.docker
-@@ -5,6 +5,7 @@ ENV PACKAGES \
-     Mesa-devel \
-     alsa-lib-devel \
-     bc \
-+    bison \
-     brlapi-devel \
-     bzip2 \
-     ca-certificates \
-@@ -15,6 +16,7 @@ ENV PACKAGES \
-     dbus-1 \
-     diffutils \
-     findutils \
-+    flex \
-     gcc \
-     gcc-c++ \
-     gcovr \
-diff --git a/tests/docker/dockerfiles/ubuntu.docker b/tests/docker/dockerfi=
-les/ubuntu.docker
-index f0e0180d215..5667ef592cf 100644
---- a/tests/docker/dockerfiles/ubuntu.docker
-+++ b/tests/docker/dockerfiles/ubuntu.docker
-@@ -11,9 +11,11 @@
-=20
- FROM docker.io/library/ubuntu:20.04
- ENV PACKAGES \
-+    bison \
-     ccache \
-     clang \
-     dbus \
-+    flex \
-     gcc \
-     gettext \
-     git \
-@@ -30,6 +32,7 @@ ENV PACKAGES \
-     libfdt-dev \
-     libffi-dev \
-     libgbm-dev \
-+    libglib2.0-dev \
-     libgnutls28-dev \
-     libgtk-3-dev \
-     libibverbs-dev \
-diff --git a/tests/docker/dockerfiles/ubuntu1804.docker b/tests/docker/dock=
-erfiles/ubuntu1804.docker
-index 450fd06d0d5..ce7d15c03e2 100644
---- a/tests/docker/dockerfiles/ubuntu1804.docker
-+++ b/tests/docker/dockerfiles/ubuntu1804.docker
-@@ -1,6 +1,7 @@
- FROM docker.io/library/ubuntu:18.04
- ENV PACKAGES \
-     bc \
-+    bison \
-     bsdmainutils \
-     bzip2 \
-     ca-certificates \
-@@ -11,6 +12,7 @@ ENV PACKAGES \
-     diffutils \
-     exuberant-ctags \
-     findutils \
-+    flex \
-     g++ \
-     gcc \
-     gcovr \
-diff --git a/tests/docker/dockerfiles/ubuntu2004.docker b/tests/docker/dock=
-erfiles/ubuntu2004.docker
-index 15a026be091..d39d4ea07f2 100644
---- a/tests/docker/dockerfiles/ubuntu2004.docker
-+++ b/tests/docker/dockerfiles/ubuntu2004.docker
-@@ -1,5 +1,6 @@
- FROM docker.io/library/ubuntu:20.04
- ENV PACKAGES \
-+    bison \
-     bc \
-     bsdmainutils \
-     bzip2 \
-@@ -11,6 +12,7 @@ ENV PACKAGES \
-     diffutils \
-     exuberant-ctags \
-     findutils \
-+    flex \
-     g++ \
-     gcc \
-     gcovr \
+The initialisation of the SoC is simple because I can't do much until
+things are realised:
 
---MP_/AlCx7/Xy2X4zdVm0RGca5Hy--
+static void rp2040_init(Object *obj)
+{
+    RP2040State *s =3D RP2040(obj);
+    int n;
+
+    fprintf(stderr, "%s: %p\n", __func__, obj);
+
+    for (n =3D 0; n < RP2040_NCPUS; n++) {
+        object_initialize_child(obj, "cpu[*]", &s->armv7m[n], TYPE_ARMV7M);
+        qdev_prop_set_string(DEVICE(&s->armv7m[n]), "cpu-type",
+                             ARM_CPU_TYPE_NAME("cortex-m0"));
+    }
+}
+
+
+However when I get to realize the SoC itself:
+
+static void rp2040_realize(DeviceState *dev, Error **errp)
+{
+    RP2040State *s =3D RP2040(dev);
+    Object *obj =3D OBJECT(dev);
+    int n;
+
+    if (!s->board_memory) {
+        error_setg(errp, "%s: memory property was not set", __func__);
+        return;
+    }
+
+    /* initialize internal 16 KB internal ROM */
+    memory_region_init_rom(&s->rom, obj, "rp2040.rom0", 16 * KiB, errp);
+    memory_region_add_subregion(s->board_memory, 0, &s->rom);
+
+    /* SRAM (Main 256k bank + two 4k banks)*/
+    memory_region_init_ram(&s->sram03, obj, "rp2040.sram03", 256 * KiB, err=
+p);
+    memory_region_add_subregion(s->board_memory, RP2040_SRAM_BASE, &s->sram=
+03);
+
+    memory_region_init_ram(&s->sram4, obj, "rp2040.sram4", 4 * KiB, errp);
+    memory_region_add_subregion(s->board_memory, RP2040_SRAM4_BASE, &s->sra=
+m4);
+
+    memory_region_init_ram(&s->sram5, obj, "rp2040.sram5", 4 * KiB, errp);
+    memory_region_add_subregion(s->board_memory, RP2040_SRAM5_BASE, &s->sra=
+m5);
+
+    ...
+
+    for (n =3D 0; n < RP2040_NCPUS; n++) {
+        /* DeviceState *cpudev =3D DEVICE(&s->armv7m[i]); */
+        Object *cpuobj =3D OBJECT(&s->armv7m[n]);
+
+        object_property_set_link(cpuobj, "memory",
+                                 OBJECT(&s->board_memory), errp);
+
+And this passing of the link down to the CPU I segfault:
+
+  rp2040_init: 0x555556d08710
+
+  Thread 1 "qemu-system-arm" received signal SIGSEGV, Segmentation fault.
+  object_get_canonical_path_component (obj=3D0x555556d0ea28) at ../../qom/o=
+bject.c:1999
+  1999        g_hash_table_iter_init(&iter, obj->parent->properties);
+  (gdb) bt
+  #0  object_get_canonical_path_component (obj=3D0x555556d0ea28) at ../../q=
+om/object.c:1999
+  #1  0x0000555555fb27ea in object_get_canonical_path (obj=3D0x555556d0ea28=
+) at ../../qom/object.c:2025
+  #2  0x0000555555fb1250 in object_property_set_link (obj=3D0x555556d087a0,=
+ name=3D0x5555563190a2 "memory", value=3D0x555556d0ea28, errp=3D0x7fffffffe=
+0f0) at ../../qom/object.c:1445
+  #3  0x0000555555cf3c23 in rp2040_realize (dev=3D0x555556d08710, errp=3D0x=
+7fffffffe0f0) at ../../hw/arm/rp2040.c:85
+  #4  0x0000555555fa9323 in device_set_realized (obj=3D0x555556d08710, valu=
+e=3Dtrue, errp=3D0x7fffffffe200) at ../../hw/core/qdev.c:532
+  #5  0x0000555555fb300d in property_set_bool (obj=3D0x555556d08710, v=3D0x=
+555556dced10, name=3D0x5555563822b9 "realized", opaque=3D0x555556a3a6d0, er=
+rp=3D0x7fffffffe200) at ../../qom/object.c:2268
+  #6  0x0000555555fb1054 in object_property_set (obj=3D0x555556d08710, name=
+=3D0x5555563822b9 "realized", v=3D0x555556dced10, errp=3D0x7fffffffe200) at=
+ ../../qom/object.c:1403
+  #7  0x0000555555fb53ff in object_property_set_qobject (obj=3D0x555556d087=
+10, name=3D0x5555563822b9 "realized", value=3D0x555556e79bc0, errp=3D0x5555=
+56918de0 <error_fatal>) at ../../qom/qom-qobject.c:28
+  #8  0x0000555555fb13b9 in object_property_set_bool (obj=3D0x555556d08710,=
+ name=3D0x5555563822b9 "realized", value=3Dtrue, errp=3D0x555556918de0 <err=
+or_fatal>) at ../../qom/object.c:1472
+  #9  0x0000555555fa8beb in qdev_realize (dev=3D0x555556d08710, bus=3D0x555=
+556d0f240, errp=3D0x555556918de0 <error_fatal>) at ../../hw/core/qdev.c:334
+  #10 0x00005555559f0e28 in sysbus_realize (dev=3D0x555556d08710, errp=3D0x=
+555556918de0 <error_fatal>) at ../../hw/core/sysbus.c:256
+  #11 0x0000555555cf3f0e in pipico_machine_init (machine=3D0x555556d08600) =
+at ../../hw/arm/raspi_pico.c:74
+  #12 0x00005555559ed71b in machine_run_board_init (machine=3D0x555556d0860=
+0) at ../../hw/core/machine.c:1184
+  #13 0x0000555555e67f2c in qemu_init_board () at ../../softmmu/vl.c:2655
+  #14 0x0000555555e6814a in qmp_x_exit_preconfig (errp=3D0x555556918de0 <er=
+ror_fatal>) at ../../softmmu/vl.c:2743
+  #15 0x0000555555e6a811 in qemu_init (argc=3D3, argv=3D0x7fffffffe6b8, env=
+p=3D0x7fffffffe6d8) at ../../softmmu/vl.c:3778
+  #16 0x0000555555884ebd in main (argc=3D3, argv=3D0x7fffffffe6b8, envp=3D0=
+x7fffffffe6d8) at ../../softmmu/main.c:49
+
+So have I discovered a bug in QOM handling or misunderstood the way
+properties are meant to be shared from the main machine to the
+underlying CPU?
+
+Follow-up questions, does only creating the main memory aliases as part
+of the SoC make sense? My rational is most of the memory is part of the
+SoC not the board. I assume later RP2040 based boards may have different
+flash configs or even external memory.
+
+The current (messy) state of my tree can be seen at:
+
+  https://gitlab.com/stsquad/qemu/-/commits/arm/picopi-rfc
+
+--=20
+Alex Benn=C3=A9e
 
