@@ -2,54 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C46184854B2
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 15:36:45 +0100 (CET)
-Received: from localhost ([::1]:50740 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68B744854B0
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 15:35:05 +0100 (CET)
+Received: from localhost ([::1]:47498 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n57PA-00062i-Lt
-	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 09:36:44 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53228)
+	id 1n57NY-0003qs-6u
+	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 09:35:04 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53288)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1n56sk-0000IE-E6
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 09:03:14 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36977)
+ id 1n56sq-0000ZI-SE
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 09:03:20 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31314)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1n56sa-0007NS-6r
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 09:03:07 -0500
+ id 1n56si-0007Of-UO
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 09:03:20 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641391383;
+ s=mimecast20190719; t=1641391387;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=e6oZW+L+lvCwJy/AK4xp7wKAb/Tfqu+x97oTRYvZuuU=;
- b=Yy92TVDu6IlVxwh40TZZM/k1JB8naW193f6+P1h1wcY0uDg9jPMhjvf6Fsj6YR8vxK8YWb
- OjHefrOwyrgxZBY50tajDBaS+r8lJMdEyw+RO6FQMNSqfLXUMT94624qZft74/TRz+pNPi
- pCa4GMZfPSaWOzdw07XaZfOF+3zq9HQ=
+ bh=bcQQsIScVHFKTqvi0bVDekODfIi9G0VhzNIY05Mxyn4=;
+ b=hfbtpvtOeaFPX6aJbmnhS6gcvqA6GiJdCw0u2JrhkmcnJl9q34rtYKhj1Ia6YTa4b+QrPZ
+ WuBuKnxRMJ6qVa6xj5U3nzhUtFwiSHYntgAIFZewiEdPnUhLbnsnLYMF6J1h4OKeECQLIz
+ +LJo2MxP1OAna7p26WQjwQw/hGzIQKE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-214-Pnrt6Mw7OaaCxs6D8FTgnA-1; Wed, 05 Jan 2022 09:03:02 -0500
-X-MC-Unique: Pnrt6Mw7OaaCxs6D8FTgnA-1
+ us-mta-438-wsOzxX4lMeqmZnYtrw3qdg-1; Wed, 05 Jan 2022 09:02:59 -0500
+X-MC-Unique: wsOzxX4lMeqmZnYtrw3qdg-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 71F3E94DDB;
- Wed,  5 Jan 2022 14:02:55 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9F9B4101AFAB;
+ Wed,  5 Jan 2022 14:02:56 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7B5B62BE77;
- Wed,  5 Jan 2022 14:02:54 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8B65223786;
+ Wed,  5 Jan 2022 14:02:55 +0000 (UTC)
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v3 12/16] jobs: use job locks and helpers also in the unit
- tests
-Date: Wed,  5 Jan 2022 09:02:04 -0500
-Message-Id: <20220105140208.365608-13-eesposit@redhat.com>
+Subject: [PATCH v3 13/16] jobs: add job lock in find_* functions
+Date: Wed,  5 Jan 2022 09:02:05 -0500
+Message-Id: <20220105140208.365608-14-eesposit@redhat.com>
 In-Reply-To: <20220105140208.365608-1-eesposit@redhat.com>
 References: <20220105140208.365608-1-eesposit@redhat.com>
 MIME-Version: 1.0
@@ -62,13 +61,13 @@ Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.372,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -23
+X-Spam_score: -2.4
+X-Spam_bar: --
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
+ DKIM_SIGNED=0.1, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_PASS=-0.001,
+ T_SPF_HELO_TEMPERROR=0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,381 +91,182 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add missing job synchronization in the unit tests, with
-both explicit locks and helpers.
+Both blockdev.c and job-qmp.c have TOC/TOU conditions, because
+they first search for the job and then perform an action on it.
+Therefore, we need to do the search + action under the same
+job mutex critical section.
 
 Note: at this stage, job_{lock/unlock} and job lock guard macros
 are *nop*.
 
 Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 ---
- tests/unit/test-bdrv-drain.c     | 40 +++++++++++-----------
- tests/unit/test-block-iothread.c |  4 +++
- tests/unit/test-blockjob-txn.c   | 10 ++++++
- tests/unit/test-blockjob.c       | 57 +++++++++++++++++++++-----------
- 4 files changed, 72 insertions(+), 39 deletions(-)
+ blockdev.c | 14 +++++++++++++-
+ job-qmp.c  | 13 ++++++++++++-
+ 2 files changed, 25 insertions(+), 2 deletions(-)
 
-diff --git a/tests/unit/test-bdrv-drain.c b/tests/unit/test-bdrv-drain.c
-index 3f344a0d0d..c03560e63d 100644
---- a/tests/unit/test-bdrv-drain.c
-+++ b/tests/unit/test-bdrv-drain.c
-@@ -941,61 +941,63 @@ static void test_blockjob_common_drain_node(enum drain_type drain_type,
-         }
-     }
+diff --git a/blockdev.c b/blockdev.c
+index 099d57e0d2..1fbd9b9e04 100644
+--- a/blockdev.c
++++ b/blockdev.c
+@@ -3305,7 +3305,10 @@ out:
+     aio_context_release(aio_context);
+ }
  
--    g_assert_cmpint(job->job.pause_count, ==, 0);
--    g_assert_false(job->job.paused);
-+    g_assert_cmpint(job_get_pause_count(&job->job), ==, 0);
-+    g_assert_false(job_get_paused(&job->job));
-     g_assert_true(tjob->running);
--    g_assert_true(job->job.busy); /* We're in qemu_co_sleep_ns() */
-+    g_assert_true(job_get_busy(&job->job)); /* We're in qemu_co_sleep_ns() */
+-/* Get a block job using its ID and acquire its AioContext */
++/*
++ * Get a block job using its ID and acquire its AioContext.
++ * Returns with job_lock held on success.
++ */
+ static BlockJob *find_block_job(const char *id, AioContext **aio_context,
+                                 Error **errp)
+ {
+@@ -3314,12 +3317,14 @@ static BlockJob *find_block_job(const char *id, AioContext **aio_context,
+     assert(id != NULL);
  
-     do_drain_begin_unlocked(drain_type, drain_bs);
- 
-     if (drain_type == BDRV_DRAIN_ALL) {
-         /* bdrv_drain_all() drains both src and target */
--        g_assert_cmpint(job->job.pause_count, ==, 2);
-+        g_assert_cmpint(job_get_pause_count(&job->job), ==, 2);
-     } else {
--        g_assert_cmpint(job->job.pause_count, ==, 1);
-+        g_assert_cmpint(job_get_pause_count(&job->job), ==, 1);
-     }
--    g_assert_true(job->job.paused);
--    g_assert_false(job->job.busy); /* The job is paused */
-+    g_assert_true(job_get_paused(&job->job));
-+    g_assert_false(job_get_busy(&job->job)); /* The job is paused */
- 
-     do_drain_end_unlocked(drain_type, drain_bs);
- 
-     if (use_iothread) {
-         /* paused is reset in the I/O thread, wait for it */
--        while (job->job.paused) {
-+        while (job_get_paused(&job->job)) {
-             aio_poll(qemu_get_aio_context(), false);
-         }
-     }
- 
--    g_assert_cmpint(job->job.pause_count, ==, 0);
--    g_assert_false(job->job.paused);
--    g_assert_true(job->job.busy); /* We're in qemu_co_sleep_ns() */
-+    g_assert_cmpint(job_get_pause_count(&job->job), ==, 0);
-+    g_assert_false(job_get_paused(&job->job));
-+    g_assert_true(job_get_busy(&job->job)); /* We're in qemu_co_sleep_ns() */
- 
-     do_drain_begin_unlocked(drain_type, target);
- 
-     if (drain_type == BDRV_DRAIN_ALL) {
-         /* bdrv_drain_all() drains both src and target */
--        g_assert_cmpint(job->job.pause_count, ==, 2);
-+        g_assert_cmpint(job_get_pause_count(&job->job), ==, 2);
-     } else {
--        g_assert_cmpint(job->job.pause_count, ==, 1);
-+        g_assert_cmpint(job_get_pause_count(&job->job), ==, 1);
-     }
--    g_assert_true(job->job.paused);
--    g_assert_false(job->job.busy); /* The job is paused */
-+    g_assert_true(job_get_paused(&job->job));
-+    g_assert_false(job_get_busy(&job->job)); /* The job is paused */
- 
-     do_drain_end_unlocked(drain_type, target);
- 
-     if (use_iothread) {
-         /* paused is reset in the I/O thread, wait for it */
--        while (job->job.paused) {
-+        while (job_get_paused(&job->job)) {
-             aio_poll(qemu_get_aio_context(), false);
-         }
-     }
- 
--    g_assert_cmpint(job->job.pause_count, ==, 0);
--    g_assert_false(job->job.paused);
--    g_assert_true(job->job.busy); /* We're in qemu_co_sleep_ns() */
-+    g_assert_cmpint(job_get_pause_count(&job->job), ==, 0);
-+    g_assert_false(job_get_paused(&job->job));
-+    g_assert_true(job_get_busy(&job->job)); /* We're in qemu_co_sleep_ns() */
- 
-     aio_context_acquire(ctx);
+     *aio_context = NULL;
 +    job_lock();
-     ret = job_complete_sync_locked(&job->job, &error_abort);
-+    job_unlock();
-     g_assert_cmpint(ret, ==, (result == TEST_JOB_SUCCESS ? 0 : -EIO));
  
-     if (use_iothread) {
-diff --git a/tests/unit/test-block-iothread.c b/tests/unit/test-block-iothread.c
-index 7e1b521d61..b9309beec2 100644
---- a/tests/unit/test-block-iothread.c
-+++ b/tests/unit/test-block-iothread.c
-@@ -456,7 +456,9 @@ static void test_attach_blockjob(void)
+     job = block_job_get(id);
+ 
+     if (!job) {
+         error_set(errp, ERROR_CLASS_DEVICE_NOT_ACTIVE,
+                   "Block job '%s' not found", id);
++        job_unlock();
+         return NULL;
      }
  
-     aio_context_acquire(ctx);
-+    job_lock();
-     job_complete_sync_locked(&tjob->common.job, &error_abort);
-+    job_unlock();
-     blk_set_aio_context(blk, qemu_get_aio_context(), &error_abort);
-     aio_context_release(ctx);
+@@ -3340,6 +3345,7 @@ void qmp_block_job_set_speed(const char *device, int64_t speed, Error **errp)
  
-@@ -630,7 +632,9 @@ static void test_propagate_mirror(void)
-                  BLOCKDEV_ON_ERROR_REPORT, BLOCKDEV_ON_ERROR_REPORT,
-                  false, "filter_node", MIRROR_COPY_MODE_BACKGROUND,
-                  &error_abort);
-+    job_lock();
-     job = job_get_locked("job0");
-+    job_unlock();
-     filter = bdrv_find_node("filter_node");
- 
-     /* Change the AioContext of src */
-diff --git a/tests/unit/test-blockjob-txn.c b/tests/unit/test-blockjob-txn.c
-index 5396fcef10..bd69076300 100644
---- a/tests/unit/test-blockjob-txn.c
-+++ b/tests/unit/test-blockjob-txn.c
-@@ -124,16 +124,20 @@ static void test_single_job(int expected)
-     job = test_block_job_start(1, true, expected, &result, txn);
-     job_start(&job->job);
- 
-+    job_lock();
-     if (expected == -ECANCELED) {
-         job_cancel_locked(&job->job, false);
-     }
-+    job_unlock();
- 
-     while (result == -EINPROGRESS) {
-         aio_poll(qemu_get_aio_context(), true);
-     }
-     g_assert_cmpint(result, ==, expected);
- 
-+    job_lock();
-     job_txn_unref_locked(txn);
+     block_job_set_speed(job, speed, errp);
+     aio_context_release(aio_context);
 +    job_unlock();
  }
  
- static void test_single_job_success(void)
-@@ -168,6 +172,7 @@ static void test_pair_jobs(int expected1, int expected2)
-     /* Release our reference now to trigger as many nice
-      * use-after-free bugs as possible.
-      */
-+    job_lock();
-     job_txn_unref_locked(txn);
- 
-     if (expected1 == -ECANCELED) {
-@@ -176,6 +181,7 @@ static void test_pair_jobs(int expected1, int expected2)
-     if (expected2 == -ECANCELED) {
-         job_cancel_locked(&job2->job, false);
-     }
-+    job_unlock();
- 
-     while (result1 == -EINPROGRESS || result2 == -EINPROGRESS) {
-         aio_poll(qemu_get_aio_context(), true);
-@@ -227,7 +233,9 @@ static void test_pair_jobs_fail_cancel_race(void)
-     job_start(&job1->job);
-     job_start(&job2->job);
- 
-+    job_lock();
-     job_cancel_locked(&job1->job, false);
-+    job_unlock();
- 
-     /* Now make job2 finish before the main loop kicks jobs.  This simulates
-      * the race between a pending kick and another job completing.
-@@ -242,7 +250,9 @@ static void test_pair_jobs_fail_cancel_race(void)
-     g_assert_cmpint(result1, ==, -ECANCELED);
-     g_assert_cmpint(result2, ==, -ECANCELED);
- 
-+    job_lock();
-     job_txn_unref_locked(txn);
+ void qmp_block_job_cancel(const char *device,
+@@ -3366,6 +3372,7 @@ void qmp_block_job_cancel(const char *device,
+     job_user_cancel_locked(&job->job, force, errp);
+ out:
+     aio_context_release(aio_context);
 +    job_unlock();
  }
  
- int main(int argc, char **argv)
-diff --git a/tests/unit/test-blockjob.c b/tests/unit/test-blockjob.c
-index 2beed3623e..ec9128dbb5 100644
---- a/tests/unit/test-blockjob.c
-+++ b/tests/unit/test-blockjob.c
-@@ -211,8 +211,11 @@ static CancelJob *create_common(Job **pjob)
-     bjob = mk_job(blk, "Steve", &test_cancel_driver, true,
-                   JOB_MANUAL_FINALIZE | JOB_MANUAL_DISMISS);
-     job = &bjob->job;
-+    job_lock();
-     job_ref_locked(job);
-     assert(job->status == JOB_STATUS_CREATED);
+ void qmp_block_job_pause(const char *device, Error **errp)
+@@ -3380,6 +3387,7 @@ void qmp_block_job_pause(const char *device, Error **errp)
+     trace_qmp_block_job_pause(job);
+     job_user_pause_locked(&job->job, errp);
+     aio_context_release(aio_context);
 +    job_unlock();
-+
-     s = container_of(bjob, CancelJob, common);
-     s->blk = blk;
+ }
  
-@@ -230,6 +233,7 @@ static void cancel_common(CancelJob *s)
-     ctx = job->job.aio_context;
-     aio_context_acquire(ctx);
+ void qmp_block_job_resume(const char *device, Error **errp)
+@@ -3394,6 +3402,7 @@ void qmp_block_job_resume(const char *device, Error **errp)
+     trace_qmp_block_job_resume(job);
+     job_user_resume_locked(&job->job, errp);
+     aio_context_release(aio_context);
++    job_unlock();
+ }
  
-+    job_lock();
-     job_cancel_sync_locked(&job->job, true);
-     if (sts != JOB_STATUS_CREATED && sts != JOB_STATUS_CONCLUDED) {
-         Job *dummy = &job->job;
-@@ -237,6 +241,7 @@ static void cancel_common(CancelJob *s)
-     }
-     assert(job->job.status == JOB_STATUS_NULL);
+ void qmp_block_job_complete(const char *device, Error **errp)
+@@ -3408,6 +3417,7 @@ void qmp_block_job_complete(const char *device, Error **errp)
+     trace_qmp_block_job_complete(job);
+     job_complete_locked(&job->job, errp);
+     aio_context_release(aio_context);
++    job_unlock();
+ }
+ 
+ void qmp_block_job_finalize(const char *id, Error **errp)
+@@ -3431,6 +3441,7 @@ void qmp_block_job_finalize(const char *id, Error **errp)
+     aio_context = blk_get_aio_context(job->blk);
      job_unref_locked(&job->job);
+     aio_context_release(aio_context);
 +    job_unlock();
-     destroy_blk(blk);
- 
-     aio_context_release(ctx);
-@@ -259,7 +264,7 @@ static void test_cancel_running(void)
-     s = create_common(&job);
- 
-     job_start(job);
--    assert(job->status == JOB_STATUS_RUNNING);
-+    assert(job_get_status(job) == JOB_STATUS_RUNNING);
- 
-     cancel_common(s);
  }
-@@ -272,11 +277,13 @@ static void test_cancel_paused(void)
-     s = create_common(&job);
  
-     job_start(job);
--    assert(job->status == JOB_STATUS_RUNNING);
-+    assert(job_get_status(job) == JOB_STATUS_RUNNING);
- 
-+    job_lock();
-     job_user_pause_locked(job, &error_abort);
-+    job_unlock();
-     job_enter(job);
--    assert(job->status == JOB_STATUS_PAUSED);
-+    assert(job_get_status(job) == JOB_STATUS_PAUSED);
- 
-     cancel_common(s);
- }
-@@ -289,11 +296,11 @@ static void test_cancel_ready(void)
-     s = create_common(&job);
- 
-     job_start(job);
--    assert(job->status == JOB_STATUS_RUNNING);
-+    assert(job_get_status(job) == JOB_STATUS_RUNNING);
- 
-     s->should_converge = true;
-     job_enter(job);
--    assert(job->status == JOB_STATUS_READY);
-+    assert(job_get_status(job) == JOB_STATUS_READY);
- 
-     cancel_common(s);
- }
-@@ -306,15 +313,17 @@ static void test_cancel_standby(void)
-     s = create_common(&job);
- 
-     job_start(job);
--    assert(job->status == JOB_STATUS_RUNNING);
-+    assert(job_get_status(job) == JOB_STATUS_RUNNING);
- 
-     s->should_converge = true;
-     job_enter(job);
--    assert(job->status == JOB_STATUS_READY);
-+    assert(job_get_status(job) == JOB_STATUS_READY);
- 
-+    job_lock();
-     job_user_pause_locked(job, &error_abort);
-+    job_unlock();
-     job_enter(job);
--    assert(job->status == JOB_STATUS_STANDBY);
-+    assert(job_get_status(job) == JOB_STATUS_STANDBY);
- 
-     cancel_common(s);
- }
-@@ -327,20 +336,22 @@ static void test_cancel_pending(void)
-     s = create_common(&job);
- 
-     job_start(job);
--    assert(job->status == JOB_STATUS_RUNNING);
-+    assert(job_get_status(job) == JOB_STATUS_RUNNING);
- 
-     s->should_converge = true;
-     job_enter(job);
--    assert(job->status == JOB_STATUS_READY);
-+    assert(job_get_status(job) == JOB_STATUS_READY);
- 
-+    job_lock();
-     job_complete_locked(job, &error_abort);
-+    job_unlock();
-     job_enter(job);
-     while (!job->deferred_to_main_loop) {
-         aio_poll(qemu_get_aio_context(), true);
-     }
--    assert(job->status == JOB_STATUS_READY);
-+    assert(job_get_status(job) == JOB_STATUS_READY);
-     aio_poll(qemu_get_aio_context(), true);
--    assert(job->status == JOB_STATUS_PENDING);
-+    assert(job_get_status(job) == JOB_STATUS_PENDING);
- 
-     cancel_common(s);
- }
-@@ -353,25 +364,29 @@ static void test_cancel_concluded(void)
-     s = create_common(&job);
- 
-     job_start(job);
--    assert(job->status == JOB_STATUS_RUNNING);
-+    assert(job_get_status(job) == JOB_STATUS_RUNNING);
- 
-     s->should_converge = true;
-     job_enter(job);
--    assert(job->status == JOB_STATUS_READY);
-+    assert(job_get_status(job) == JOB_STATUS_READY);
- 
-+    job_lock();
-     job_complete_locked(job, &error_abort);
-+    job_unlock();
-     job_enter(job);
-     while (!job->deferred_to_main_loop) {
-         aio_poll(qemu_get_aio_context(), true);
-     }
--    assert(job->status == JOB_STATUS_READY);
-+    assert(job_get_status(job) == JOB_STATUS_READY);
-     aio_poll(qemu_get_aio_context(), true);
--    assert(job->status == JOB_STATUS_PENDING);
-+    assert(job_get_status(job) == JOB_STATUS_PENDING);
- 
-     aio_context_acquire(job->aio_context);
-+    job_lock();
-     job_finalize_locked(job, &error_abort);
-+    job_unlock();
-     aio_context_release(job->aio_context);
--    assert(job->status == JOB_STATUS_CONCLUDED);
-+    assert(job_get_status(job) == JOB_STATUS_CONCLUDED);
- 
-     cancel_common(s);
- }
-@@ -459,22 +474,23 @@ static void test_complete_in_standby(void)
-     bjob = mk_job(blk, "job", &test_yielding_driver, true,
-                   JOB_MANUAL_FINALIZE | JOB_MANUAL_DISMISS);
+ void qmp_block_job_dismiss(const char *id, Error **errp)
+@@ -3447,6 +3458,7 @@ void qmp_block_job_dismiss(const char *id, Error **errp)
      job = &bjob->job;
--    assert(job->status == JOB_STATUS_CREATED);
-+    assert(job_get_status(job) == JOB_STATUS_CREATED);
- 
-     /* Wait for the job to become READY */
-     job_start(job);
-     aio_context_acquire(ctx);
--    AIO_WAIT_WHILE(ctx, job->status != JOB_STATUS_READY);
-+    AIO_WAIT_WHILE(ctx, job_get_status(job) != JOB_STATUS_READY);
-     aio_context_release(ctx);
- 
-     /* Begin the drained section, pausing the job */
-     bdrv_drain_all_begin();
--    assert(job->status == JOB_STATUS_STANDBY);
-+    assert(job_get_status(job) == JOB_STATUS_STANDBY);
-     /* Lock the IO thread to prevent the job from being run */
-     aio_context_acquire(ctx);
-     /* This will schedule the job to resume it */
-     bdrv_drain_all_end();
- 
-+    job_lock();
-     /* But the job cannot run, so it will remain on standby */
-     assert(job->status == JOB_STATUS_STANDBY);
- 
-@@ -489,6 +505,7 @@ static void test_complete_in_standby(void)
-     assert(job->status == JOB_STATUS_CONCLUDED);
- 
-     job_dismiss_locked(&job, &error_abort);
+     job_dismiss_locked(&job, errp);
+     aio_context_release(aio_context);
 +    job_unlock();
+ }
  
-     destroy_blk(blk);
-     aio_context_release(ctx);
+ void qmp_change_backing_file(const char *device,
+diff --git a/job-qmp.c b/job-qmp.c
+index 9fa14bf761..615e056fc4 100644
+--- a/job-qmp.c
++++ b/job-qmp.c
+@@ -29,16 +29,21 @@
+ #include "qapi/error.h"
+ #include "trace/trace-root.h"
+ 
+-/* Get a job using its ID and acquire its AioContext */
++/*
++ * Get a block job using its ID and acquire its AioContext.
++ * Returns with job_lock held on success.
++ */
+ static Job *find_job(const char *id, AioContext **aio_context, Error **errp)
+ {
+     Job *job;
+ 
+     *aio_context = NULL;
++    job_lock();
+ 
+     job = job_get_locked(id);
+     if (!job) {
+         error_setg(errp, "Job not found");
++        job_unlock();
+         return NULL;
+     }
+ 
+@@ -60,6 +65,7 @@ void qmp_job_cancel(const char *id, Error **errp)
+     trace_qmp_job_cancel(job);
+     job_user_cancel_locked(job, true, errp);
+     aio_context_release(aio_context);
++    job_unlock();
+ }
+ 
+ void qmp_job_pause(const char *id, Error **errp)
+@@ -74,6 +80,7 @@ void qmp_job_pause(const char *id, Error **errp)
+     trace_qmp_job_pause(job);
+     job_user_pause_locked(job, errp);
+     aio_context_release(aio_context);
++    job_unlock();
+ }
+ 
+ void qmp_job_resume(const char *id, Error **errp)
+@@ -88,6 +95,7 @@ void qmp_job_resume(const char *id, Error **errp)
+     trace_qmp_job_resume(job);
+     job_user_resume_locked(job, errp);
+     aio_context_release(aio_context);
++    job_unlock();
+ }
+ 
+ void qmp_job_complete(const char *id, Error **errp)
+@@ -102,6 +110,7 @@ void qmp_job_complete(const char *id, Error **errp)
+     trace_qmp_job_complete(job);
+     job_complete_locked(job, errp);
+     aio_context_release(aio_context);
++    job_unlock();
+ }
+ 
+ void qmp_job_finalize(const char *id, Error **errp)
+@@ -125,6 +134,7 @@ void qmp_job_finalize(const char *id, Error **errp)
+     aio_context = job->aio_context;
+     job_unref_locked(job);
+     aio_context_release(aio_context);
++    job_unlock();
+ }
+ 
+ void qmp_job_dismiss(const char *id, Error **errp)
+@@ -139,6 +149,7 @@ void qmp_job_dismiss(const char *id, Error **errp)
+     trace_qmp_job_dismiss(job);
+     job_dismiss_locked(&job, errp);
+     aio_context_release(aio_context);
++    job_unlock();
+ }
+ 
+ static JobInfo *job_query_single(Job *job, Error **errp)
 -- 
 2.31.1
 
