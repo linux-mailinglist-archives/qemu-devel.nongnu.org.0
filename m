@@ -2,94 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 351B94856A1
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 17:27:07 +0100 (CET)
-Received: from localhost ([::1]:54016 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 217694856BC
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 17:37:03 +0100 (CET)
+Received: from localhost ([::1]:59496 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n597x-00017Y-Tr
-	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 11:27:05 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38564)
+	id 1n59HZ-0005ON-Rc
+	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 11:37:01 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40726)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1n596V-0000M9-HU
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 11:25:35 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22785)
+ (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
+ id 1n59GK-0004hO-S8
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 11:35:45 -0500
+Received: from smtp-relay-services-0.canonical.com ([185.125.188.250]:41016)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1n596S-0003YB-Td
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 11:25:34 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641399930;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=hknNMTwFhbYpQSmz5No5xN0sw1+0JrW2QZ6zSfztptA=;
- b=iOiNEKC3H6LuXA3y9OxW+NVY6NMrGIIXRV/2XAfCKPh9w3IF+YUBSeiX9v/I81A3T0Nl2o
- 5lJXy7molKB4hnDPk0lmNrbZ1juSzhjFQyjn7BvGd6lo9JVwAiV37IvDmwVdT9gCmTADNh
- VgHBf6r7Ta84hu/bFKh9pjxL79OPuC8=
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-402-GljRxsFSPWC1NZGAeSzHrw-1; Wed, 05 Jan 2022 11:25:24 -0500
-X-MC-Unique: GljRxsFSPWC1NZGAeSzHrw-1
-Received: by mail-qv1-f69.google.com with SMTP id
- gf14-20020a056214250e00b00411ba2ba63dso26859514qvb.21
- for <qemu-devel@nongnu.org>; Wed, 05 Jan 2022 08:25:24 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=hknNMTwFhbYpQSmz5No5xN0sw1+0JrW2QZ6zSfztptA=;
- b=jr4hZky6GYo9jEqEsN1t7iDAYdLrCgvm7cVSRDdQGhY1bZIJDZc6Rdlltp/o797XjT
- 1TaCuYONW5XaT2vk88RF2cISKqL4fNaC2VzfEOQUkNds1QS7HUN2cJ59jOvO2KXQqDbU
- J388n9SSO/aXTw2tgudT51Hx9Sy9vlVOOZ09qzaTm8jOzt8N08KhJ/ducQWaQssjD4hm
- aUrEq+BKVIVOQ7N0xkHSqg7NILAfhFUL/oSyXTBGqw4D7v6pLSkxlL4mfZX/znqU8OUq
- tw+b+qao+TFEqui6Eifk4FHI/HJEph8Znv9fZcAdnp6sHR6e8WVAzyVMsdUwPGW6yYFU
- IkNg==
-X-Gm-Message-State: AOAM531yt/VIaho4BhW7FEtx8WRj5lXcHTOeHy1nSU2/gIUcwi/AIToi
- r047FOchPwDkXB/OpU0cfjKbPO5TWSzDT31uAc0D7e+JP5EKybQz963yrloZlU1Ov2Ycynu88pb
- E543ZisyRKZW3FK0=
-X-Received: by 2002:a05:6214:4015:: with SMTP id
- kd21mr51294320qvb.41.1641399924301; 
- Wed, 05 Jan 2022 08:25:24 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwlKHgt/quzEpSNY3x5FQOure6fAVMboTj7d0dDxEXUBGTvUItt4q2D6fkCkEzFQ7R/QFrV9w==
-X-Received: by 2002:a05:6214:4015:: with SMTP id
- kd21mr51294296qvb.41.1641399924089; 
- Wed, 05 Jan 2022 08:25:24 -0800 (PST)
-Received: from gator (nat-pool-brq-u.redhat.com. [213.175.37.12])
- by smtp.gmail.com with ESMTPSA id f12sm34865877qtj.93.2022.01.05.08.25.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Jan 2022 08:25:23 -0800 (PST)
-Date: Wed, 5 Jan 2022 17:25:19 +0100
-From: Andrew Jones <drjones@redhat.com>
-To: Marc Zyngier <maz@kernel.org>
-Subject: Re: [PATCH] hw/arm/virt: KVM: Enable PAuth when supported by the host
-Message-ID: <20220105162519.5kjtkhphv3sdyaw4@gator>
-References: <20211228182347.1025501-1-maz@kernel.org>
- <20220103134601.7cumwbza32wja3ei@gator>
- <878rvwzocq.wl-maz@kernel.org>
+ (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
+ id 1n59GI-0006W1-9U
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 11:35:44 -0500
+Received: from loganberry.canonical.com (loganberry.canonical.com
+ [91.189.90.37])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by smtp-relay-services-0.canonical.com (Postfix) with ESMTPSA id 5DE0A4068C
+ for <qemu-devel@nongnu.org>; Wed,  5 Jan 2022 16:35:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=launchpad.net;
+ s=20210803; t=1641400534;
+ bh=o2qSX3slNabqAmr5+y2w4ETDLdH64dxk9u6ShfFLmto=;
+ h=MIME-Version:Content-Type:Date:From:To:Reply-To:References:
+ Message-Id:Subject;
+ b=gEjMj+kT1hoXWphkdvFDYHfbgxmfhXXKfymQW0CTAo+/8PAeY01Hm4/c/ZaodyPI4
+ MK/VjTO05tOg8600f776eUYDWF922+tY9PxPi+cu6Jt62oZopF8PVKLj4cMlIVDjQ1
+ PugT6nke3/EGusZb9jKb4OobleXsX5bt3l+oiAourKVCFxncgY22dZ0y9W+j1bmX0F
+ cM/gLwHdffiU/1b6QOKFzzmroNi0WsmPoY6bDolQuZXO0XY/eWfPne3vfodul7t6yx
+ Qqpyip2z/ds5za1JaR1c4skxeoPm4BAIVAKIZ1QS2JmMITutT+WV/vjD/12Y4Gs5ga
+ 1K/9tm5dDVTwg==
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 2C67A2E816E
+ for <qemu-devel@nongnu.org>; Wed,  5 Jan 2022 16:35:34 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <878rvwzocq.wl-maz@kernel.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=drjones@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.372,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 05 Jan 2022 16:27:44 -0000
+From: Andrew Scott <1862619@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: ascott1 imapotato2 laurent-vivier pmaydell
+ tebounet th-huth
+X-Launchpad-Bug-Reporter: Thierry Briot (tebounet)
+X-Launchpad-Bug-Modifier: Andrew Scott (ascott1)
+References: <158133547000.19789.14380673630783179726.malonedeb@wampee.canonical.com>
+Message-Id: <164140006416.11158.10666333713269762981.malone@gac.canonical.com>
+Subject: [Bug 1862619] Re: "-serial telnet::xxxx,
+ server" causes "Device 'serial0' is in use"
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="adb364d6a74a28e7b95d51cd30446ec16160de6c"; Instance="production"
+X-Launchpad-Hash: 025594df3cf4d1ad90a4c723103c759207b563c2
+Received-SPF: pass client-ip=185.125.188.250;
+ envelope-from=noreply@launchpad.net; helo=smtp-relay-services-0.canonical.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -98,50 +85,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, kvm@vger.kernel.org,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Eric Auger <eric.auger@redhat.com>, kernel-team@android.com,
- kvmarm@lists.cs.columbia.edu
+Reply-To: Bug 1862619 <1862619@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jan 03, 2022 at 06:05:41PM +0000, Marc Zyngier wrote:
-> Andrew Jones <drjones@redhat.com> wrote:
-> > 
-> > Thanks for considering a documentation update. In this case, though, I
-> > think we should delete the "TCG VCPU Features" pauth paragraph, rather
-> > than add a new "KVM VCPU Features" pauth paragraph. We don't need to
-> > document each CPU feature. We just document complex ones, like sve*,
-> > KVM specific ones (kvm-*), and TCG specific ones (now only pauth-impdef).
-> 
-> Sure, works for me. Do we need to keep a trace of the available
-> options?
+Reporting again. Compiled QEMU from the latest stable Git:
 
-For arm we need to extend target/arm/helper.c:arm_cpu_list() to output
-the possible flags like x86 does. On x86 doing this
+QEMU emulator version 6.2.50 (v6.2.0-529-gfb084237a3)
+Copyright (c) 2003-2021 Fabrice Bellard and the QEMU Project developers
 
-  qemu-system-x86_64 -cpu help
+Exactly as original post, if I place -serial telnet::4441,server ahead
+of -serial mon,stdio on the command line, it dumps core and aborts.
 
-not only gives us a list of cpu types, but also a list of flags we can
-provide to the cpus (although not all flags will work on all cpus...)
-On arm doing this
+if I flip them, it runs... BUT! The vm console output appears in the
+terminal where I launched qemu, I get no output in the telnet session.
+That's backwards. I have no access to the qemu console and can't issue
+commands to do things like change the CDROM.
 
-  qemu-system-aarch64 -cpu help
+full command startup script (this one works but output doesn't happen
+where I expect)
 
-only gives us a list of cpu types.
+#!/bin/sh
+CDROM=3D"-cdrom HP-UX-OE-1.iso"
+QEMU=3D/home/ascott/Documents/hpux/qemu/qemu/build/qemu-system-hppa
+IMAGE=3D/home/ascott/Documents/hpux/hpux.img
+$QEMU -boot d -serial mon:stdio -serial telnet::4441,server -drive if=3Dscs=
+i,bus=3D0,index=3D6,file=3D$IMAGE,format=3Draw -nographic -m 512 -d nochain=
+ $CDROM  -net nic,model=3Dtulip  -net user
 
+This one dumps core with the serial0 error from the originla post:
 
-> I'm not sure how a user is supposed to find out about those
-> (I always end-up grepping through the code base, and something tells
-> me I'm doing it wrong...). The QMP stuff flies way over my head.
->
+#!/bin/sh
+CDROM=3D"-cdrom HP-UX-OE-1.iso"
+QEMU=3D/home/ascott/Documents/hpux/qemu/qemu/build/qemu-system-hppa
+IMAGE=3D/home/ascott/Documents/hpux/hpux.img
+$QEMU -boot d -serial telnet::4441,server -serial mon:stdio -drive if=3Dscs=
+i,bus=3D0,index=3D6,file=3D$IMAGE,format=3Draw -nographic -m 512 -d nochain=
+ $CDROM  -net nic,model=3Dtulip  -net user
 
-Indeed, currently grepping is less awkward than probing with QMP.
-With an extension to target/arm/helper.c:arm_cpu_list() we can
-avoid grepping too. I've just added this to my TODO [again]. It
-was there once already, but fell off the bottom...
+ascott@vmhost01:~/Documents/hpux$ sh ./install-hpux.sh=20
+qemu-system-hppa: -serial telnet::4441,server: info: QEMU waiting for conne=
+ction on: disconnected:telnet:0.0.0.0:4441,server=3Don
+Unexpected error in qemu_chr_fe_init() at ../chardev/char-fe.c:220:
+qemu-system-hppa: Device 'serial0' is in use
+Aborted (core dumped)
 
-Thanks,
-drew
+--=20
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1862619
+
+Title:
+  "-serial telnet::xxxx,server" causes "Device 'serial0' is in use"
+
+Status in QEMU:
+  Fix Released
+
+Bug description:
+  I start qemu version 4.2.50 in a first terminal :
+
+  $ sudo ./qemu-system-hppa -boot d -serial telnet::4441,server -drive
+  if=3Dscsi,bus=3D0,index=3D6,file=3D./hpux.img,format=3Draw -serial mon:st=
+dio -D
+  /tmp/foo -nographic -m 512 -d nochain -cdrom
+  ./HPUX_9.05_Installation_Disc_S700.iso -D /tmp/foo -net
+  nic,model=3Dtulip  -net tap
+
+  qemu-system-hppa: -serial telnet::4441,server: info: QEMU waiting for
+  connection on: disconnected:telnet:0.0.0.0:4441,server
+
+  In another terminal, I launch "telnet localhost 4441"
+
+  And in the qemu window I have the following error:
+
+  Unexpected error in qemu_chr_fe_init() at chardev/char-fe.c:220:
+  qemu-system-hppa: Device 'serial0' is in use
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1862619/+subscriptions
 
 
