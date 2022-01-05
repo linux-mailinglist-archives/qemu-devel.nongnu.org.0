@@ -2,83 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4C20484C99
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 03:56:54 +0100 (CET)
-Received: from localhost ([::1]:54572 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24C77484CAC
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 04:05:25 +0100 (CET)
+Received: from localhost ([::1]:59874 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n4wTt-0005i1-8H
-	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 21:56:53 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57852)
+	id 1n4wc7-0001sw-Lk
+	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 22:05:23 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58810)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1n4wQj-0004mi-4z
- for qemu-devel@nongnu.org; Tue, 04 Jan 2022 21:53:37 -0500
-Received: from [2607:f8b0:4864:20::1035] (port=53776
- helo=mail-pj1-x1035.google.com)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1n4wYX-0007Yr-5E; Tue, 04 Jan 2022 22:01:41 -0500
+Received: from [2607:f8b0:4864:20::532] (port=45760
+ helo=mail-pg1-x532.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1n4wQh-0005pi-Ao
- for qemu-devel@nongnu.org; Tue, 04 Jan 2022 21:53:36 -0500
-Received: by mail-pj1-x1035.google.com with SMTP id m13so442017pji.3
- for <qemu-devel@nongnu.org>; Tue, 04 Jan 2022 18:53:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:from:to:references:message-id:date:user-agent:mime-version
- :in-reply-to:content-language:content-transfer-encoding;
- bh=/mcDnzckIzQIz9pAgpCmqx6UCiZEi8TqofcoW8EL1hI=;
- b=JLhT2s4kLP/6Jpxn82CPTDa+J+2isCWA1l2zoYIH0bXidfo3X4n76K84tZM00tnfnE
- CTSQRAXRtVYWbMGvAwxX94r3GQeldbjUnumqz+aZ2sVbF5YW+BeUGFuRRTBr6Xm9pYKI
- usNv7/FVgntYxhp58Hc2xQ5xbGgU5KjgF5Ndnyj5wBAuxa7j97ptGK/pyXyKFyG4s2Wm
- yLH48j4XDWNkVcopiOxoKtmqsJdWO2kn0fiPNfxdTCZYezVTROFXXUY4YUzU4LS6iFgt
- r5dQMUilfiBKUg19bdtLSXu+Ag8Smu0weHo2D8Ep+WRDk3Gp8EwbEmutrxQVQ23Plx06
- Xx7w==
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1n4wYV-0007OW-G4; Tue, 04 Jan 2022 22:01:40 -0500
+Received: by mail-pg1-x532.google.com with SMTP id f5so4954845pgk.12;
+ Tue, 04 Jan 2022 19:01:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=bwwm7MMG2W9lViBn22omkQyDlbrVWbdFwAfuyNMQXbA=;
+ b=CIiA6Ty2rljP/DXQSKhEe+j5jmN2G5tlb0cf6zIO577jfN69SvEJyoUt10dCp3xAqz
+ BFHDUBs8F/BMAJ4zhOY+ZJQAD/1QhHQ/v10s5gvmeubDp3VivP2aPPJPHxX0FSHW3s5L
+ iwF4AvUveC05LaKbqDzNeiGRiCa5tPvfdFvKyfY4Bvfy3riSquOqns/Rh9U2UX6joAuF
+ 3NOQ/+GXk0YM8G4xvUboXQUZT6BRSjPynrWlul+4TSUZztIrmhCjmCB/1SmXf6dOT3h9
+ A1WqHPcHfWzB1JsO9BX0NeIqVhiOFfR/4yICXeRIf3JE89hnDAZtZk6Fspl0GeW9BTix
+ s/CQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:from:to:references:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=/mcDnzckIzQIz9pAgpCmqx6UCiZEi8TqofcoW8EL1hI=;
- b=3kzueJvafIvlQ0UMprtQuf74AHtL+qRkUcDwpRlZ1XTO6mT3Sqtbp643QjIarbi+DE
- s5jIy/TcziQjtnMgCRMtHB70V3UMJMcIHOBP6EYe+32WPMciyuw6Ru1pbpYOae2Sbmsa
- YFBNVAJhxcI+HDjW6YrdRgOiaVfLYeEwsSM2zg/bJiooyU2OEf5oi9YRNr8kHrasSi3o
- wdnhFnqRZNwXR9KVY0nIc1pOMFK8Tr4fiZXDaWz+qOqRcfsBKJp7HQRxDLtdvSCOQl3s
- seQZFuQwW4Pat08EgcDbp/Xi6eLIoeJPBuBsA/GOWaG7N4wzIVcpqkUwGbKJ0S+gTvoY
- tCNw==
-X-Gm-Message-State: AOAM5321JsUYcnfWVbL3eWYci4338vRjVpFAPyeG8N4GSEL7RQjfzoD4
- hSacG7q+tRSMUneLYRFAjFIqbIvD6K/C3w==
-X-Google-Smtp-Source: ABdhPJzaMz07PjSp0d45nKWYg88ZDbCdMLR86NYN9OwRbrz8bZqqGqKKz/UZ2lyhMYdzAe5unrd9WA==
-X-Received: by 2002:a17:903:41c5:b0:148:a658:8d33 with SMTP id
- u5-20020a17090341c500b00148a6588d33mr51938791ple.153.1641351213640; 
- Tue, 04 Jan 2022 18:53:33 -0800 (PST)
-Received: from [192.168.1.13] (174-21-75-75.tukw.qwest.net. [174.21.75.75])
- by smtp.gmail.com with ESMTPSA id q2sm44558278pfu.66.2022.01.04.18.53.32
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 04 Jan 2022 18:53:33 -0800 (PST)
-Subject: Re: [PULL 0/4] tcg patch queue
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-References: <20220105004054.587588-1-richard.henderson@linaro.org>
-Message-ID: <0813aa61-8e8a-cc05-28a2-7afd3c6f89d4@linaro.org>
-Date: Tue, 4 Jan 2022 18:53:31 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ bh=bwwm7MMG2W9lViBn22omkQyDlbrVWbdFwAfuyNMQXbA=;
+ b=DDwW75OACpW2qIrtU3NLLiDvH9yX4oRRLGJ3jz+i6RBBJHEpJ1hL3xVDllL6QMzHs+
+ OB+luLZEI6lbV5FwHX5ZZXtZOgoBgijf1mFYkCN0lEQfK3v8J7D3a1eKJ3vL8hCtzxO4
+ G9m04OeAbDqxHPdBOULq5V5OZlz2VR0YcSJPIDlKzG+nIpaaJ2n6MzugGos5mE9O1t3Z
+ cFdrVIr2etBytmfKJ7+on0Iv5SxJazbu3zD+M42Y/WryhmkEDwmfnONLKBp4Pwj4Z15D
+ i3czaY4EWNMEqd4vSA0ia5Ec8tf8QkTKeINkHq1r1bm3F+iP2/lso5JisHW7F8YQ14H7
+ cXDw==
+X-Gm-Message-State: AOAM532xXa49kiZbO/wMvoIZNkQK32Q8eT4MPMXUsC+8xP8UqWCPcTJJ
+ GJ/CKjN54JH2WFd3/U72D3A=
+X-Google-Smtp-Source: ABdhPJyqaetU3BlLxAK2h/0uH5eb1/HzI9MTZ3jiBZn8TSbNDVqY0QDL8Y8PyyzW1LxeXXu4AU8YiA==
+X-Received: by 2002:a62:78d3:0:b0:4ba:7141:83e9 with SMTP id
+ t202-20020a6278d3000000b004ba714183e9mr53460961pfc.83.1641351697217; 
+ Tue, 04 Jan 2022 19:01:37 -0800 (PST)
+Received: from pek-vx-bsp2.wrs.com (unknown-176-192.windriver.com.
+ [147.11.176.192])
+ by smtp.gmail.com with ESMTPSA id nu14sm23011pjb.17.2022.01.04.19.01.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 04 Jan 2022 19:01:36 -0800 (PST)
+From: Bin Meng <bmeng.cn@gmail.com>
+X-Google-Original-From: Bin Meng <bin.meng@windriver.com>
+To: Alistair Francis <Alistair.Francis@wdc.com>, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org
+Subject: [PATCH v3 0/7] target/riscv: Initial support for native debug feature
+ via M-mode CSRs
+Date: Wed,  5 Jan 2022 11:01:19 +0800
+Message-Id: <20220105030126.778503-1-bin.meng@windriver.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20220105004054.587588-1-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1035
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::532
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
-X-Spam_score_int: -46
-X-Spam_score: -4.7
-X-Spam_bar: ----
-X-Spam_report: (-4.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.354,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::532;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pg1-x532.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,46 +89,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/4/22 4:40 PM, Richard Henderson wrote:
-> The following changes since commit 67e41fe0cfb62e6cdfa659f0155417d17e5274ea:
-> 
->    Merge tag 'pull-ppc-20220104' of https://github.com/legoater/qemu into staging (2022-01-04 07:23:27 -0800)
-> 
-> are available in the Git repository at:
-> 
->    https://gitlab.com/rth7680/qemu.git tags/pull-tcg-20220104
-> 
-> for you to fetch changes up to d7478d4229f0a2b2817a55487e6b17081099fae4:
-> 
->    common-user: Fix tail calls to safe_syscall_set_errno_tail (2022-01-04 15:41:03 -0800)
-> 
-> ----------------------------------------------------------------
-> Fix for safe_syscall_base.
-> Fix for folding of vector add/sub.
-> Fix build on loongarch64 with gcc 8.
-> Remove decl for qemu_run_machine_init_done_notifiers.
-> 
-> ----------------------------------------------------------------
-> Philippe Mathieu-Daudé (1):
->        linux-user: Fix trivial build error on loongarch64 hosts
-> 
-> Richard Henderson (2):
->        tcg/optimize: Fix folding of vector ops
->        common-user: Fix tail calls to safe_syscall_set_errno_tail
-> 
-> Xiaoyao Li (1):
->        sysemu: Cleanup qemu_run_machine_init_done_notifiers()
-> 
->   include/sysemu/sysemu.h                    |  1 -
->   linux-user/host/loongarch64/host-signal.h  |  4 +--
->   tcg/optimize.c                             | 49 +++++++++++++++++++++++-------
->   common-user/host/i386/safe-syscall.inc.S   |  1 +
->   common-user/host/mips/safe-syscall.inc.S   |  1 +
->   common-user/host/x86_64/safe-syscall.inc.S |  1 +
->   6 files changed, 42 insertions(+), 15 deletions(-)
 
-Applied.
+This adds initial support for the native debug via the Trigger Module,
+as defined in the RISC-V Debug Specification [1].
 
-r~
+Only "Address / Data Match" trigger (type 2) is implemented as of now,
+which is mainly used for hardware breakpoint and watchpoint. The number
+of type 2 triggers implemented is 2, which is the number that we can
+find in the SiFive U54/U74 cores.
+
+[1] https://github.com/riscv/riscv-debug-spec/raw/master/riscv-debug-stable.pdf
+
+Changes in v3:
+- drop riscv_trigger_init(), which will be moved to patch #5
+- add riscv_trigger_init(), moved from patch #1 to this patch
+- enable debug feature by default for all CPUs
+
+Changes in v2:
+- new patch: add debug state description
+- use 0 instead of GETPC()
+- change the config option to 'disabled' by default
+
+Bin Meng (7):
+  target/riscv: Add initial support for native debug
+  target/riscv: machine: Add debug state description
+  target/riscv: debug: Implement debug related TCGCPUOps
+  target/riscv: cpu: Add a config option for native debug
+  target/riscv: csr: Hook debug CSR read/write
+  target/riscv: cpu: Enable native debug feature
+  hw/core: tcg-cpu-ops.h: Update comments of debug_check_watchpoint()
+
+ include/hw/core/tcg-cpu-ops.h |   1 +
+ target/riscv/cpu.h            |   7 +
+ target/riscv/debug.h          | 114 +++++++++
+ target/riscv/cpu.c            |  14 ++
+ target/riscv/csr.c            |  57 +++++
+ target/riscv/debug.c          | 441 ++++++++++++++++++++++++++++++++++
+ target/riscv/machine.c        |  33 +++
+ target/riscv/meson.build      |   1 +
+ 8 files changed, 668 insertions(+)
+ create mode 100644 target/riscv/debug.h
+ create mode 100644 target/riscv/debug.c
+
+-- 
+2.25.1
 
 
