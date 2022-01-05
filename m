@@ -2,173 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A4AA485AEC
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 22:46:18 +0100 (CET)
-Received: from localhost ([::1]:44134 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87043485AEF
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 22:47:00 +0100 (CET)
+Received: from localhost ([::1]:45558 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5E6r-0003Hp-7B
-	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 16:46:17 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36988)
+	id 1n5E7X-0004Wm-KV
+	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 16:46:59 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38100)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1n5E1r-0007mK-Hb
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 16:41:09 -0500
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:60006)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1n5E1m-00047h-R8
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 16:41:06 -0500
-Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 205KNv1C018944; 
- Wed, 5 Jan 2022 21:40:52 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=message-id : date :
- subject : to : cc : references : from : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=corp-2021-07-09;
- bh=iymLcx98kTttKMvqAYJBz76IxwqVvKAhZm30lTuUhwY=;
- b=Cjs+cJtC4l1GyAzkvYbO4YoRx1xYZlWjPKfvfBzLI3Etii5E4aWE/qccitzjdgHWm9iu
- g9Cyw+uzWqZK3ts6ysJuf0McFYstjcDfVKQLL8KeYroRceLHjj92jABbNYJrYTnpsIo4
- 23psM8buuLPVhTY9IohcP74ZFDjSrKr/rr30hvrU7R3bdtFOSFDVZEoJsVZmYpF0tGYX
- ql6L6kj2dfjAZPkB2RDsw9g7Gj9mAsuSdzzUGTIXZJnKaB/2GOzbyqWoVvuU3wqqa2+m
- H+mO5VKunlSu4LV6vZlOtKHc/41M3H812oimZntcF4wvFqNl2AldsXdUfJVZFM/9RlHc UQ== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
- by mx0b-00069f02.pphosted.com with ESMTP id 3dc43ge0nh-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 05 Jan 2022 21:40:51 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
- by userp3030.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 205LVmE9158737;
- Wed, 5 Jan 2022 21:40:50 GMT
-Received: from nam12-bn8-obe.outbound.protection.outlook.com
- (mail-bn8nam12lp2170.outbound.protection.outlook.com [104.47.55.170])
- by userp3030.oracle.com with ESMTP id 3dac302qkc-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 05 Jan 2022 21:40:50 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=LNVLyZxjjiFInjvCwccvy4WTlIsPnMJGku9DtdwfVf4mhTAq8SdkwyMMpGes3vvLlf6bFmWuP7zcHDj2nJZVcJZW5IV6eEOCHpPzZ4gptqAkqolT8oR8ZADih0n7/MUJ4rZCpJmE4nAISrbp2qwRG92GAxlwIoBi02l3aVx+iKvTuIaycrCmyKJ/w0fNPm7+V3nQAe3aLIj2VA9cXsfA7yWS/r1AAGBfogxspyzv+Z6PoPQzYIY2J8AMmJhcVgiDsdJcldvEYyRs4LpOllYcfNRV6mTQMsdpuVk+XX7b4arICSJH4B6c5ukBCV3ccZZCtCHdPdb0x7HisAuKqSD+bg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=iymLcx98kTttKMvqAYJBz76IxwqVvKAhZm30lTuUhwY=;
- b=ebMkT4QsAmY/gRLCt7UoZCDGv6W+2Mki1xQeqyEsAmxcHtjwSptMb0jeAUlxi/4G6lHo5EzN+fXJs2ebjrnhMTatk9rlUvNc5JjJHZc5RlvNmPAY3YVSy2aP3pMOJnJiVjkaSl5Ge89YmwBnpyEKUfbiRG1LMzVibQfmypZL+feAKSATUCtQHmcvWg/lSvrt1hOzNZxaGByDb4AY3vy4FpLHYt157zVp2RDAKXJclnLvUuXpOBgxPUxwlH38rMBKoMLrGD/MQ5l5ACFwENDxaoDhCe7Y+wZkEBREFjGHlCK+P4bV5abf2TZBtMah0M7CpzNWSTX/tFvZeV319fvfFA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=iymLcx98kTttKMvqAYJBz76IxwqVvKAhZm30lTuUhwY=;
- b=hlFa3LDgX6+hU+wh+idYSGeTS8zYrWwBiA7CITgXhg14dzZljQJ/naFamMMEYCo58UWZm7zL0KslfbXRWW0XNkh5Au4KWMrA3Qz+85uiIz6XI+Pl/JTUgDFYI2mQOXlvcn7SEz0QThG+eGqEQYULgeel2LI+bh6nzrSA7zN+9l4=
-Received: from BYAPR10MB3240.namprd10.prod.outlook.com (2603:10b6:a03:155::17)
- by SJ0PR10MB5440.namprd10.prod.outlook.com (2603:10b6:a03:3bb::7)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4844.16; Wed, 5 Jan
- 2022 21:40:48 +0000
-Received: from BYAPR10MB3240.namprd10.prod.outlook.com
- ([fe80::d91d:1a8b:56bd:6623]) by BYAPR10MB3240.namprd10.prod.outlook.com
- ([fe80::d91d:1a8b:56bd:6623%5]) with mapi id 15.20.4844.016; Wed, 5 Jan 2022
- 21:40:48 +0000
-Message-ID: <e95009cf-aea2-7fc7-c049-687c1badc471@oracle.com>
-Date: Wed, 5 Jan 2022 16:40:43 -0500
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.1
-Subject: Re: [PATCH V7 19/29] vfio-pci: cpr part 1 (fd and dma)
-Content-Language: en-US
-To: "Michael S. Tsirkin" <mst@redhat.com>
-References: <1640199934-455149-1-git-send-email-steven.sistare@oracle.com>
- <1640199934-455149-20-git-send-email-steven.sistare@oracle.com>
- <20211222181003-mutt-send-email-mst@kernel.org>
- <f1cadf51-795b-200c-8abb-f8f97b34c228@oracle.com>
- <20220105161046-mutt-send-email-mst@kernel.org>
-From: Steven Sistare <steven.sistare@oracle.com>
-Organization: Oracle Corporation
-In-Reply-To: <20220105161046-mutt-send-email-mst@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BYAPR21CA0018.namprd21.prod.outlook.com
- (2603:10b6:a03:114::28) To BYAPR10MB3240.namprd10.prod.outlook.com
- (2603:10b6:a03:155::17)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1n5E4I-0001yn-1S; Wed, 05 Jan 2022 16:43:38 -0500
+Received: from [2607:f8b0:4864:20::12e] (port=40453
+ helo=mail-il1-x12e.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1n5E4E-0004op-Qt; Wed, 05 Jan 2022 16:43:37 -0500
+Received: by mail-il1-x12e.google.com with SMTP id c4so583963iln.7;
+ Wed, 05 Jan 2022 13:43:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=UQAV4p36/9o9FWtna1Jb17XyCJnZsqH31QaSk+2npfQ=;
+ b=DeqeDweNdH2+T7BhCEppu03/U50M7xKUdtCsP04X9jioayUyFdKbCbcSk7XDzekbt6
+ BqugL1JuLNA+DjLSI/8DUPRMXVywjrOx4SF3+fzUwVgZZh+clr77yJvn9YlJQMi71YzZ
+ +RCXuPmMHw1Hdn+Xw755FDSxvkHqZNxndGTZUutjoGHfyjjiYi7xbWJnBAfEaMsPJ8VO
+ Xkqrxsm1/yRuYobiAsVxqEJ+S98dKSvUZ5E2QQVGt+qK+DhQdyraaL0m+fhz/kuyK1ct
+ 7UY/xotKxOnV5mcYEzXW80Ax1GcceqQ6kYBOo5yKNb+sSiM1lot5SOodWBlxAh7lytMK
+ XYpQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=UQAV4p36/9o9FWtna1Jb17XyCJnZsqH31QaSk+2npfQ=;
+ b=zI9fyl+nik6+/ybFvf61d/Pn7jVDyjMy30x2q8spxrWLL6xqZgxr2Pi7pYe54OzZ8u
+ WDQuEvR3JOfNz/QBFV5wdBFoRpPcaNIGXLiNDzypxPHTC36cqPbULZOULsa4PcgjViwK
+ A92jkViP8P6+x/B4jlPlRk59KBOSQqM18/8obJRdH9CcSnVBQ5J+p105NhjW3Dg1dn91
+ 5gX7yzyetNtjk8jKpsxM8D3yd71Ow9DUK+ucg7XHulSmYe20E8BAPy6HqNPJLJgFp3Ll
+ cBBzwm3r0XA47EYiJTaMtbiJ6WyZ6luKWpgfhGKKJK8OcaY4jHkfJsgog+e4Hfsxj5p+
+ yerA==
+X-Gm-Message-State: AOAM531jraX9k0DU2aRWBt2fc/Kw4TxZi2b0TEbKvNPEq8amFGI7aSWY
+ HhKguS8Ht3g/PgEondxtoTfNrTiQuMys+wASVss=
+X-Google-Smtp-Source: ABdhPJzWe6IaE40Ahm1B/Dvq6I9Hw/CR7rYPWe/oaQNF0kT1RF8GSDFLfT74C3ASVJecSpqRASqcp3/ViT18nxa+jgA=
+X-Received: by 2002:a92:c510:: with SMTP id r16mr1446828ilg.74.1641419012822; 
+ Wed, 05 Jan 2022 13:43:32 -0800 (PST)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: e4e136c6-b1dc-4614-ce51-08d9d094098a
-X-MS-TrafficTypeDiagnostic: SJ0PR10MB5440:EE_
-X-Microsoft-Antispam-PRVS: <SJ0PR10MB5440EA9F051C1742A8ED71B6F94B9@SJ0PR10MB5440.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: G9cXUACJmuTw7JubS6ZtWceiX8+l8LXaw6MaRW/OOUmIFoHOMSXtUGRRXbwPrJkvXbmoXb/Sxg/dnLsdzcyntABuC5cS5C6j4y3zBuK30wHIvSt4EZg+F4NOsQS+0zl1a++7iQMeNfJjXIIdtEGAXdWn93hu09Wbs1neWDNTnVxGSzkpiFOdHxg65fx0t2Ns7u1zmzciD3pUHvEnpWssHschpYr60VfatzpretFnfN7T4WXmVhdM77+FOCORmMmAaDg+8Vqhd6wp3YMYQ1qj/FLAVY5PLZpsTKt9YyHYkAae770eNZOFmk6AnSXP3bRY+nJRhGyj5/OCL8/OOYW8lSYVy/mV6pOSVHJRWrq6smLQX/y5/t0csTOepxBN3aFx0GhzpQ1yQbT0Pf0n8yujiZGPSrYEL/0afUHrqrGIqad7N7QGo4+hpxi7TYcM3vEPNcMYFLoHJR2cVz87xsaqE8rr+N1vaSXdSU2cP8FEHLvfB8DccW6UFVfEAwb9WpkyHFYtAyE1aMjex/YY/nser6hwSDZZk1KNUJYmryez/1vaoz/q0P1Ix6UF1fo2DeupfcLv7KfTvXmttop5SdkOuXFUTysulrncnIAegNsZB9Z7kKtta4ni608pLLjT0n0j/EiG0ciXkKqmTZMOQNPGNFCWKDCfNa1qwRly9YPIhA9fGYrPIqPS4Q8bAYsP7T232nvLcWTJtWm100kK9S82cXXsw2nGkTziACLw10G3a1w=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BYAPR10MB3240.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(366004)(83380400001)(36916002)(2906002)(6486002)(6666004)(6506007)(36756003)(316002)(66476007)(66556008)(66946007)(31686004)(7416002)(8936002)(31696002)(6916009)(54906003)(86362001)(38100700002)(44832011)(186003)(8676002)(107886003)(6512007)(53546011)(508600001)(4326008)(5660300002)(26005)(2616005)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Z1dPRHF2dGZmQlgzaXovbS9lV0hQSndhK0NPWkIzYk13TCtnN25Hc1FFUnIy?=
- =?utf-8?B?MkJncjVyOHNNa25LY0NISWNOSUY2RUNma3JjZ0t6U3RvTWVzYnZWL3pSdmx1?=
- =?utf-8?B?dEc4QTFqdm9NVFd6bW4xWWNra2pKZWVsSzFsRmgyWlFERVpSbnVYazF3UFhp?=
- =?utf-8?B?cjRwWXZtdWJvQWtFbll4bGlIV1BhSkdTQ25IK0NrNXRxK0JlZ2Z2SXJIM1pJ?=
- =?utf-8?B?L2pocFRHQnROU3o5djNEcEpRQjB4Y1pGbnUzV2dsdkxuSXhpSVlKbmpOZ3Zu?=
- =?utf-8?B?cERFQzgrY0hHLzBibGIwTmQ1d2NXTG9ORDF4Q0Z1cTA3ZGMzREJwWUt1NC9i?=
- =?utf-8?B?bUJCbFZaeGhmSTNsWWxIMHZ2K3dwbTJJdkRIYVBZTGtlT0U0MGdtRjNxT3I4?=
- =?utf-8?B?OEZzc2VZY3NFNmxKMkFJTzZZNndrVXJLVFVGWk5aUEVOSDlXSVZhSGhNT0Rl?=
- =?utf-8?B?VEx5L3hIOTFNQ0lQL0FQM3dFaDFjUDhHYWpGRGNYc2R3dGtZOHB1aUJMSDQv?=
- =?utf-8?B?cFZJVmNTT2w0RUJ5MW13dUFhVDB0ZlNHQm1JeTd5UFJvTUVZa1JpbkdkOWgw?=
- =?utf-8?B?blhuR2xhcnRQQjlXSnc5TDZMWmgxbkxBT0ZTWXoxZXJaNU9Rb3FqMTdISWxU?=
- =?utf-8?B?WU9qVzJJek90YktocWh4NEtmYUZWcHVBTyswcGs3ay9LTWJBQnF6NTZDU1Rp?=
- =?utf-8?B?Z00zY1NSdVNrYzVWazFrS2g3SXNFa0RuSGwrYmFNRTBoKzJEL0l6bHRpSEE5?=
- =?utf-8?B?Y3hZcWk2WmFqK1ZjQW1UcTVCWUdkNG1WR1dqaHhya2NvUXpER0xhd3dJT3R0?=
- =?utf-8?B?Y2pGaEhlSXBLbUlIcVJGMVorQ2dBMkhCRjhSKzhNWFFmaGMyLzNaZnplYmVk?=
- =?utf-8?B?bmRNZEtwVk4xZlUveXRpN2VKWHkxWHVlZ3JYTHF5dHNCamgwV0pkbTI2QkJW?=
- =?utf-8?B?dDBsYXpocDVrOW9XU3ZQek9tUHdvM25JUER5b1BXajRGYUM4NThMNTNQR2sr?=
- =?utf-8?B?ZkxVWC9jakRJV3JWeHI2dWw0NDhmSkt2d2JXVGVpU1UxL0VYT0t2M0FmVzNz?=
- =?utf-8?B?MGVMWjEvS1F3SmtSdFB4YWh6eGNRc3duT1R1QjNja01YcWZQY3BJM2hFdEFS?=
- =?utf-8?B?Q2JVZVdJRVhkRExGVDRrMW1YNE9SRDBFaVdpaExGMjBPNHJnbzFhY25Gd2hQ?=
- =?utf-8?B?RDFlVytPOVdsaWZEV2NFazU5eXZ5S3VFQ3JnUWpyakJBU2ZRSXZCc3VFWHdJ?=
- =?utf-8?B?NHJUcmNHanFGeG5uc0RHbjVSK1Q5Tmp1Z2VBWjVsU1RBRXV0Wk9hZmhtdDM4?=
- =?utf-8?B?cHA4aUJFWkN3ZWEvbDdrNTN2bFJnVFhzUElMNUpQeDl3RXpNeWZDbFNlZGll?=
- =?utf-8?B?NHJQV29oTnVrVmp6dGNVS21KMENHY3k5NnAwc2dOM2paR1lndTlHSHh2RmRC?=
- =?utf-8?B?Zmg2RFlpSjB3RGtjQWdQbytieitFZFdFR092TFFqb1pxRjA4ZDByalRnOFB1?=
- =?utf-8?B?T1l3bCs4QWF4YndDSThOczRLSXRMeldtMmw0eEUvRTBXTHAvU3kvTVFyVFBV?=
- =?utf-8?B?WEw4WGZvY2gvZ2d4dWdSMXBkSjhTVGw0TUlPT1g2MHVpMEJXK3NOK3FieG5O?=
- =?utf-8?B?alY5UmN1bzdaT2RSa1dRKzUxNGlXTWRRbnJDbUFxd0NQdHpaVy9zUkV3VS81?=
- =?utf-8?B?d2Q5RnlVMWdXakxPeHdWZktvYnFYR1duV3Z5cTZDYzgvU1hRVm12MXpZZ2No?=
- =?utf-8?B?RUNzaGw1N3JDc3hzZDhOd3hMRDE4a1lvOURWZVN2Slp5OHJoWDVzM21QeFpH?=
- =?utf-8?B?TTJaeHJTRXJ0UnJrM3pUYUZSUXhoTHJDclN1K1VYTHNsalY2aHJrVkcxYUJK?=
- =?utf-8?B?OEJFNVVuMXJzU3NhMGhabnhlMDdCaUhqODBVVFUvMHdOZEROWDlId1hkd2cy?=
- =?utf-8?B?UjUxRHpxU0psdDdBNmVqeHFNRWZ3MjlSWVpBMEx5TW9yL0FUTWF6L2lZTXh1?=
- =?utf-8?B?enhTM0VPZUYxUTEzRWI2RzREc3NwSDlnaTJuNWN6RmJTVThqMGp2UFRmV0hO?=
- =?utf-8?B?MlFrUmcwbHNQOU92aklWUXYreDVUaGJPQVVtd28wOTIxQzh1MEVEN2IrTW1D?=
- =?utf-8?B?bXg0L25CM0RZMTJkMkhDMDNiL0Q1bXpYNG9pdE1WZ0pzUzZCdW9XcUtzMWlJ?=
- =?utf-8?B?ZjR5L3ZMMnBEdG44OC82dml0UUlrVXFBaXlPbzZLRUw1NzU5ODU5T0VmeWM5?=
- =?utf-8?B?eUY2dHlWekhpZzFqN3J2RVNjOFp3PT0=?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e4e136c6-b1dc-4614-ce51-08d9d094098a
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR10MB3240.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jan 2022 21:40:48.5339 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Q7END5oB44CgebMtrVM76aiCq8vS0dquUldbIdzYwWtzShA6VG86zR8S/AMpaArz+/xh2QX0u06UPpmBw3pyy1BuwGiABb3S8OJyXWfkurs=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR10MB5440
-X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10218
- signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
- mlxlogscore=999 mlxscore=0
- suspectscore=0 spamscore=0 phishscore=0 malwarescore=0 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2110150000
- definitions=main-2201050139
-X-Proofpoint-GUID: MOJBfpOr7LlMwVA3wkR9Uup--XUwigKU
-X-Proofpoint-ORIG-GUID: MOJBfpOr7LlMwVA3wkR9Uup--XUwigKU
-Received-SPF: pass client-ip=205.220.177.32;
- envelope-from=steven.sistare@oracle.com; helo=mx0b-00069f02.pphosted.com
-X-Spam_score_int: -38
-X-Spam_score: -3.9
-X-Spam_bar: ---
-X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.057,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20220105015752.752517-1-bmeng.cn@gmail.com>
+In-Reply-To: <20220105015752.752517-1-bmeng.cn@gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Thu, 6 Jan 2022 07:43:06 +1000
+Message-ID: <CAKmqyKMwVnhOAXtFNE=Wt+NjbS+OFojKPdnTri4xjgjTJ9sUPQ@mail.gmail.com>
+Subject: Re: [PATCH] roms/opensbi: Upgrade from v0.9 to v1.0
+To: Bin Meng <bmeng.cn@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::12e
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::12e;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x12e.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -181,156 +78,258 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P. Berrange" <berrange@redhat.com>,
- Juan Quintela <quintela@redhat.com>, Jason Zeng <jason.zeng@linux.intel.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
- Eric Blake <eblake@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Zheng Chuan <zhengchuan@huawei.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/5/2022 4:14 PM, Michael S. Tsirkin wrote:
-> On Wed, Jan 05, 2022 at 12:24:21PM -0500, Steven Sistare wrote:
->> On 12/22/2021 6:15 PM, Michael S. Tsirkin wrote:
->>> On Wed, Dec 22, 2021 at 11:05:24AM -0800, Steve Sistare wrote:
->>>> Enable vfio-pci devices to be saved and restored across an exec restart
->>>> of qemu.
->>>>
->>>> At vfio creation time, save the value of vfio container, group, and device
->>>> descriptors in cpr state.
->>>>
->>>> In cpr-save and cpr-exec, suspend the use of virtual addresses in DMA
->>>> mappings with VFIO_DMA_UNMAP_FLAG_VADDR, because guest ram will be remapped
->>>> at a different VA after exec.  DMA to already-mapped pages continues.  Save
->>>> the msi message area as part of vfio-pci vmstate, save the interrupt and
->>>> notifier eventfd's in cpr state, and clear the close-on-exec flag for the
->>>> vfio descriptors.  The flag is not cleared earlier because the descriptors
->>>> should not persist across miscellaneous fork and exec calls that may be
->>>> performed during normal operation.
->>>>
->>>> On qemu restart, vfio_realize() finds the saved descriptors, uses
->>>> the descriptors, and notes that the device is being reused.  Device and
->>>> iommu state is already configured, so operations in vfio_realize that
->>>> would modify the configuration are skipped for a reused device, including
->>>> vfio ioctl's and writes to PCI configuration space.  The result is that
->>>> vfio_realize constructs qemu data structures that reflect the current
->>>> state of the device.  However, the reconstruction is not complete until
->>>> cpr-load is called. cpr-load loads the msi data and finds eventfds in cpr
->>>> state.  It rebuilds vector data structures and attaches the interrupts to
->>>> the new KVM instance.  cpr-load then invokes the main vfio listener callback,
->>>> which walks the flattened ranges of the vfio_address_spaces and calls
->>>> VFIO_DMA_MAP_FLAG_VADDR to inform the kernel of the new VA's.  Lastly, it
->>>> starts the VM and suppresses vfio pci device reset.
->>>>
->>>> This functionality is delivered by 3 patches for clarity.  Part 1 handles
->>>> device file descriptors and DMA.  Part 2 adds eventfd and MSI/MSI-X vector
->>>> support.  Part 3 adds INTX support.
->>>>
->>>> Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
->>>> ---
->>>>  MAINTAINERS                   |   1 +
->>>>  hw/pci/pci.c                  |  10 ++++
->>>>  hw/vfio/common.c              | 115 ++++++++++++++++++++++++++++++++++++++----
->>>>  hw/vfio/cpr.c                 |  94 ++++++++++++++++++++++++++++++++++
->>>>  hw/vfio/meson.build           |   1 +
->>>>  hw/vfio/pci.c                 |  77 ++++++++++++++++++++++++++++
->>>>  hw/vfio/trace-events          |   1 +
->>>>  include/hw/pci/pci.h          |   1 +
->>>>  include/hw/vfio/vfio-common.h |   8 +++
->>>>  include/migration/cpr.h       |   3 ++
->>>>  migration/cpr.c               |  10 +++-
->>>>  migration/target.c            |  14 +++++
->>>>  12 files changed, 324 insertions(+), 11 deletions(-)
->>>>  create mode 100644 hw/vfio/cpr.c
->>>>
->>>> diff --git a/MAINTAINERS b/MAINTAINERS
->>>> index cfe7480..feed239 100644
->>>> --- a/MAINTAINERS
->>>> +++ b/MAINTAINERS
->>>> @@ -2992,6 +2992,7 @@ CPR
->>>>  M: Steve Sistare <steven.sistare@oracle.com>
->>>>  M: Mark Kanda <mark.kanda@oracle.com>
->>>>  S: Maintained
->>>> +F: hw/vfio/cpr.c
->>>>  F: include/migration/cpr.h
->>>>  F: migration/cpr.c
->>>>  F: qapi/cpr.json
->>>> diff --git a/hw/pci/pci.c b/hw/pci/pci.c
->>>> index 0fd21e1..e35df4f 100644
->>>> --- a/hw/pci/pci.c
->>>> +++ b/hw/pci/pci.c
->>>> @@ -307,6 +307,16 @@ static void pci_do_device_reset(PCIDevice *dev)
->>>>  {
->>>>      int r;
->>>>  
->>>> +    /*
->>>> +     * A reused vfio-pci device is already configured, so do not reset it
->>>> +     * during qemu_system_reset prior to cpr-load, else interrupts may be
->>>> +     * lost.  By contrast, pure-virtual pci devices may be reset here and
->>>> +     * updated with new state in cpr-load with no ill effects.
->>>> +     */
->>>> +    if (dev->reused) {
->>>> +        return;
->>>> +    }
->>>> +
->>>>      pci_device_deassert_intx(dev);
->>>>      assert(dev->irq_state == 0);
->>>>  
->>>
->>>
->>> Hmm that's a weird thing to do. I suspect this works because
->>> "reused" means something like "in the process of being restored"?
->>> Because clearly, we do not want to skip this part e.g. when
->>> guest resets the device.
->>
->> Exactly.  vfio_realize sets the flag if it detects the device is reused during
->> a restart, and vfio_pci_post_load clears the reused flag.
->>
->>> So a better name could be called for, but really I don't
->>> love how vfio gets to poke at internal PCI state.
->>> I'd rather we found a way just not to call this function.
->>> If we can't, maybe an explicit API, and make it
->>> actually say what it's doing?
->>
->> How about:
->>
->> pci_set_restore(PCIDevice *dev) { dev->restore = true; }
->> pci_clr_restore(PCIDevice *dev) { dev->restore = false; }
->>
->> vfio_realize()
->>   pci_set_restore(pdev)
->>
->> vfio_pci_post_load()
->>   pci_clr_restore(pdev)
->>
->> pci_do_device_reset()
->>     if (dev->restore)
->>         return;
->>
->> - Steve
-> 
-> 
-> Not too bad. I'd like a better definition of what dev->restore is
-> exactly and to add them in comments near where it
-> is defined and used.
+On Wed, Jan 5, 2022 at 11:58 AM Bin Meng <bmeng.cn@gmail.com> wrote:
+>
+> Upgrade OpenSBI from v0.9 to v1.0 and the pre-built bios images.
+>
+> The v1.0 release includes the following commits:
+>
+> ec5274b platform: implement K210 system reset
+> 5487cf0 include: sbi: Simplify HSM state define names
+> 8df1f9a lib: sbi: Use SBI_HSM_STATE_xyz defines instead of SBI_STATE_xyz defines
+> 7c867fd lib: sbi: Rename sbi_hsm_hart_started_mask() function
+> 638c948 lib: sbi: Remove redundant sbi_hsm_hart_started() function
+> ca864a9 lib: sbi: Fix error codes returned by HSM start() and stop() functions
+> 6290a22 include: sbi: Add HSM suspend related defines
+> 4b05df6 lib: sbi: Add sbi_hart_reinit() function
+> 807d71c include: sbi: Add hart_suspend() platform callback
+> 7475689 lib: sbi: Implement SBI HSM suspend function
+> b9cf617 include: sbi: Upgrade SBI implementation version to v0.3
+> 50d4fde lib: Remove redundant sbi_platform_ipi_clear() calls
+> ff5bd94 include: sbi: SBI function IDs for RFENCE extension
+> 22d8ee9 firmware: Use lla to access all global symbols
+> 0f20e8a firmware: Support position independent execution
+> ddad02d lib: sbi: illegal CSR 0x306 access in hpm_allowed()
+> bfc85c7 include: headers: Replace __ASSEMBLY__ with __ASSEMBLER__
+> 9190ad1 lib/utils: Support the official clint DT bindings
+> ca3f358 lib/utils: Drop the 'compat' parameter of fdt_plic_fixup()
+> 4edc822 lib/utils: Support fixing up the official DT bindings of PLIC
+> 4ef2f5d firware: optimize the exception exit code
+> 3d8a952 lib: fix csr detect support
+> e71a7c1 firmware: Remove redundant add instruction from trap restore path
+> d4a94ea include: types: Add __aligned(x) to define the minimum alignement
+> d0e406f include: sbi: Allow direct initialization via SPIN_LOCK_INIT()
+> 4d8e2f1 lib: sbi: Replace test-and-set locks by ticket locks
+> 70ffc3e lib: sbi: fix atomic_add_return
+> 27a16b1 docs: fix link to OpenPiton documentation
+> b1df1ac lib: sbi: Domains can be registered only before finalizing domains
+> 7495bce lib: sbi: Add sbi_domain_memregion_init() API
+> 4dc0001 lib: sbi: Add sbi_domain_root_add_memregion() API
+> 8b56980 lib: utils/sys: Add CLINT memregion in the root domain
+> fc37c97 lib: sbi: Make the root domain instance global variable
+> e7e4bcd lib: utils: Copy over restricted root domain memregions to FDT domains
+> f41196a lib: sbi: Make sbi_domain_memregion_initfw() a local function
+> c5d0645 lib: utils: Implement "64bit-mmio" property parsing
+> 49e422c lib: utils: reset: Add T-HEAD sample platform reset driver
+> 0d56293 lib: sbi: Fix sbi_domain_root_add_memregion() for merging memregions
+> bf3ef53 firmware: Enable FW_PIC by default
+> 1db8436 platform: Remove platform/thead
+> 6d1642f docs: generic: Add T-HEAD C9xx series processors
+> a3689db lib: sbi: Remove domains_root_regions() platform callback
+> 068ca08 lib: sbi: Simplify console platform operations
+> 559a8f1 lib: sbi: Simplify timer platform operations
+> dc39c7b lib: sbi: Simplify ipi platform operations
+> 043d088 lib: sbi: Simplify system reset platform operations
+> a84a1dd lib: sbi: Simplify HSM platform operations
+> e9a27ab lib: sbi: Show devices provided by platform in boot prints
+> 632e27b docs/platform: sifive_fu540: Update U-Boot defconfig name
+> 117fb6d lib: utils/serial: Add support for Gaisler APBUART
+> 552f53f docs: platform: Sort platform names
+> d4177e7 docs: platform: Describe sifive_fu540 as supported generic platform
+> 26998f3 platform: Remove sifive/fu540 platform
+> f90c4c2 lib: sbi: Have spinlock checks return bool
+> e822b75 lib: utils/serial: Support Synopsys DesignWare APB UART
+> 6139ab2 Makefile: unconditionally disable SSP
+> c9ef2bc lib: utils: Add strncpy macro to libfdt_env.h
+> ee7c2b2 lib: utils/fdt: Don't use sbi_string functions
+> fe92347 lib: utils/fdt: Replace strcmp with strncmp
+> b2dbbc0 lib: Check region base for merging in sbi_domain_root_add_memregion()
+> 54d7def lib: utils: Try other FDT drivers when we see SBI_ENODEV
+> d9ba653 docs: debugging OpenSBI
+> 66c4fca lib: utils: consider ':' in stdout-path
+> f30b189 lib: sbi_scratch: remove owner from sbi_scratch_alloc_offset
+> a03ea2e platform: andes/ae350: Cosmetic fixes in plicsw.c
+> b32fac4 docs/platform: andes-ae350: Fix missing spaces
+> de446cc platform: andes/ae350: Drop plicsw_get_pending()
+> 434198e platform: andes/ae350: Drop plicsw_ipi_sync()
+> 1da3d80 lib: sbi_scratch: zero out scratch memory on all harts
+> 360ab88 lib: utils: missing initialization in thead_reset_init
+> 79f9b42 lib: sbi: Fix GET_F64_REG inline assembly
+> eb90e0a lib: utils/libfdt: Upgrade to v1.6.1 release
+> cdcf907 lib: sign conflict in sbi_tlb_entry_process()
+> 9901794 lib: sign conflict in wake_coldboot_harts()
+> 11c345f lib: simplify sbi_fifo_inplace_update()
+> 4519e29 lib: utils/timer: Add ACLINT MTIMER library
+> 5a049fe lib: utils/ipi: Add ACLINT MSWI library
+> bd5d208 lib: utils: Add FDT parsing API common for both ACLINT and CLINT
+> 56fc5f7 lib: utils/ipi: Add FDT based ACLINT MSWI IPI driver
+> 03d6bb5 lib: utils/timer: Add FDT based ACLINT MTIMER driver
+> a731c7e platform: Replace CLINT library usage with ACLINT library
+> b7f2cd2 lib: utils: reset: unify naming of 'sifive_test' device
+> 197e089 docs/platform: thead-c9xx: Remove FW_PIC=y
+> 17e23b6 platform: generic: Terminate platform.name with null
+> 3e8b31a docs: Add device tree bindings for SBI PMU extension
+> fde28fa lib: sbi: Detect mcountinihibit support at runtime
+> d3a96cc lib: sbi: Remove stray '\' character
+> 0829f2b lib: sbi: Detect number of bits implemented in mhpmcounter
+> 9c9b4ad lib: sbi: Disable m/scounteren & enable mcountinhibit
+> 41ae63c include: Add a list empty check function
+> fd9116b lib: sbi: Remove redundant boot time print statement
+> 49966db lib: sbi: Use csr_read/write_num to read/update PMU counters
+> e7cc7a3 lib: sbi: Add PMU specific platform hooks
+> 13d40f2 lib: sbi: Add PMU support
+> ae72ec0 utils: fdt: Add fdt helper functions to parse PMU DT nodes
+> 37f9b0f lib: sbi: Implement SBI PMU extension
+> 764a17d lib: sbi: Implement firmware counters
+> ec1b8bb lib: sbi: Improve TLB function naming
+> 0e12aa8 platform: generic: Add PMU support
+> 14c7f71 firmware: Minor optimization in _scratch_init()
+> dafaa0f docs: Correct a typo in platform_guide.md
+> abfce9b docs: Make <xyz> visible in the rendered platform guide
+> dcb756b firmware: Remove the sanity checks in fw_save_info()
+> b88b366 firmware: Define a macro for version of struct fw_dynamic_info
+> a76ac44 lib: sbi: Fix sbi_pmu_exit() for systems not having MCOUNTINHIBIT csr
+> 7f1be8a fw_base: Don't mark fw_platform_init as both global and weak
+> 397afe5 fw_base: Put data in .data rather than .text
+> a3d328a firmware: Explicitly pass -pie to the linker, not just the driver
+> 09ad811 firmware: Only default FW_PIC to y if supported
+> 2942777 Makefile: Support building with Clang and LLVM binutils
+> 17729d4 lib: utils: Drop dependency on libgcc by importing part of FreeBSD's libquad
+> e931f38 lib: utils/fdt: Add fdt_parse_phandle_with_args() API
+> 36b8eff lib: utils/gpio: Add generic GPIO configuration library
+> c14f1fe lib: utils/gpio: Add simple FDT based GPIO framework
+> 4c3df2a lib: utils/gpio: Add minimal SiFive GPIO driver
+> e3d6919 lib: utils/reset: Add generic GPIO reset driver
+> 7210e90 firmware: use __SIZEOF_LONG__ for field offsets in fw_dynamic.h
+> f3a8f60 include: types: Use __builtin_offsetof when supported
+> 8a1475b firmware: Remove the unhelpful alignment codes before fdt relocation
+> a4555e5 docs: Document parameters passed to firmware and alignment requirement
+> 2c74dc3 docs: Document FW_PIC compile time option
+> 81eb708 README: Update toolchain information
+> 9890391 Makefile: Manually forward RELAX_FLAG to the assembler when linking with LLD
+> 74db0ac firmware: use _fw_start for load address
+> 217d5e4 generic: fu740: add workaround for CIP-1200 errata
+> ce03c88 lib: utils: remove unused variable in fdt_reset_init
+> e928472 lib: utils: support both of gpio-poweroff, gpio-reset
+> d244f3d lib: sbi: Fix bug in strncmp function when count is 0
+> 47a4765 lib: utils/fdt: Change addr and size to uint64_t
+> e0d1b9d lib: utils/timer: Allow separate base addresses for MTIME and MTIMECMP
+> 7a3a0cc lib: utils: Extend fdt_get_node_addr_size() for multiple register sets
+> f3a0eb8 lib: utils/fdt: Extend fdt_parse_aclint_node() function
+> b35f782 lib: utils/timer: Allow ACLINT MTIMER supporting only 32-bit MMIO
+> 7aa6c9a lib: utils/timer: Simplify MTIMER synchronization
+> 33eac76 lib: sbi: Fix bug in sbi_ecall_rfence that misses checking
+> ee27437 lib: sbi_trap: Restore redirect for access faults
+> b1d3e91 payloads/test: Add support for SBI v0.2 ecalls
+> bd316e2 lib: sbi: Correct typo in faults delegation CSR name
+> c262306 lib: sbi: protect dprintf output with spinlock
+> 1718b16 lib: sbi: Checking fifo validness in sbi_fifo_is_empty and is_full
+> bd35521 lib: sbi: Refine the way to construct platform features
+> 0274a96 lib: utils/reset: Sort fdt_reset driver list
+> 395ff7e lib: utils/reset: Add a sunxi watchdog reset driver
+> 3477f08 lib: sbi: fix ctz bug
+> 12753d2 lib: sbi: add some macros to detect BUG at runtime
+> 51113fe lib: sbi: Add BUG() macro for csr_read/write_num() and misa_string()
+> 72154f4 lib: utils/fdt: Add fdt_parse_timebase_frequency() function
+> 12e7af9 lib: sbi: Add timer frequency to struct sbi_timer_device
+> 6355155 lib: sbi: Print timer frequency at boot time
+> 9d0ab35 lib: sbi: Add generic timer delay loop function
+> fa59dd3 lib: utils/reset: use sbi_timer_mdelay() in gpio reset driver
+> 754d511 lib: utils: identify supported GPIO reset methods
+> 516161c lib: sbi: convert reset to list
+> 9283d50 lib: sbi: add priority for reset handler
+> c38973e lib: sbi: Save context for all non-retentive suspend types
+> 67cbbcb lib: sbi: system reset with invalid parameters
+> 422eda4 Makefile: Add build time and compiler info string
+> 78c2b19 lib: utils/irqchip: Automatically delegate T-HEAD PLIC access
+> 309e8bd lib: utils/reset: Register separate GPIO system reset devices
+> 723aa88 lib: sbi: Refine addr format in sbi_printf
+> c891acc include: sbi_utils: Introduce an helper to get fdt base address
+> 013ba4e lib: sbi: Fix GPA passed to __sbi_hfence_gvma_xyz() functions
+> 0979ffd lib: utils/gpio: use list for drivers
+> 2fe2f55 lib: sbi: move sbi_boot_print_general()
+> 57f094e platform: generic: move fdt_reset_init to final_init
+> be245ac lib: sbi: error handling in fdt_reset_init()
+> a74daf2 riscv: Add new CSRs introduced by Sscofpmf[1] extension
+> 7084ad9 lib: sbi: Update csr_read/write_num for PMU
+> 867c653 lib: sbi: Detect Sscofpmf extension at run time
+> 9134c36 lib: sbi: Delegate PMU counter overflow interrupt to S mode
+> 730f01b lib: sbi: Support sscofpmf extension in OpenSBI
+> 2363f95 lib: sbi: Always enable access for all counters
+> 0c304b6 lib: sbi: Allow programmable counters to monitor cycle/instret events
+> 1e14732 lib: sbi: Reset the mhpmevent value upon counter reset
+> b628cfd lib: sbi: Counter info width should be zero indexed
+> b28f070 lib: sbi: Enable PMU extension for platforms without mcountinhibit
+> 15906a3 lib: utils: Rename the prefix in PMU DT properties
+> b8845e4 lib: sbi: Fix initial value mask while updating the counters
+> 31fe5a7 lib: sbi: Fix PMP address bits detection
+> 94eba23 lib: utils/reset: add priority to gpio reset
+> 1d462e0 lib: utils/reset: separate driver init func
+> 2c964a2 lib: utils/i2c: Add generic I2C configuration library
+> 6ca6bca lib: utils/i2c: Add simple FDT based I2C framework
+> 13a1158 lib: utils/i2c: Add minimal SiFive I2C driver
+> f374496 platform: sifive_fu740: add platform reset driver
+> d335a17 lib: sbi: clear pmpcfg.A before setting in pmp_set()
+> 52af6e4 lib: utils: Add LiteX UART support
+> 22d556d lib: sbi: Fix spelling of "address" in sbi_domain.c
+> 7a22c78 lib: sbi: Fix missing space
+> 7e77706 lib: sbi: Resolve the uninitialized complaint in sbi_pmu
+> 14faee6 lib: sbi: Improve fatal error handling
+> 2428987 lib: pmu: support the event ID encoded by a bitmap.
+> 66fbcc0 docs/platform: spike: Enhance Spike examples
+> 460041c lib: pmu: check SSCOF before masking
+> 69d7e53 Makefile: Fix -msave-restore compile warning with CLANG-10 (or lower)
+> d249d65 lib: sbi: Fix compile errors using -Os option
+> f270359 Makefile: Improve the method to disable -m(no-)save-restore option
+> 2082153 lib: sbi: simplify pmp_set(), pmp_get()
+> d30bde3 firmware: Move memcpy/memset mapping to fw_base.S
+> 48f91ee include: Bump-up version to 1.0
+>
+> Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
 
-Will do.
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-> E.g. does this mean "device is being restored because of qemu restart"?
-> 
-> Do we need a per device flag for this thing or would a global
-> "qemu restart in progress" flag be enough?
+Alistair
 
-A global flag (or function, which already exists) would suppress reset for all
-PCI devices, not just vfio-pci.  I am concerned that for some devices, vmstate 
-load may implicitly depend on the device having been reset for correctness, by 
-virtue of some fields being initialized in the reset function.
-
-- Steve
+>
+> ---
+> please pull the full contents from https://github.com/lbmeng/qemu/
+> opensbi branch
+>
+>  .../opensbi-riscv32-generic-fw_dynamic.bin    | Bin 78680 -> 108504 bytes
+>  .../opensbi-riscv32-generic-fw_dynamic.elf    | Bin 727464 -> 838904 bytes
+>  .../opensbi-riscv64-generic-fw_dynamic.bin    | Bin 75096 -> 105296 bytes
+>  .../opensbi-riscv64-generic-fw_dynamic.elf    | Bin 781264 -> 934696 bytes
+>  roms/opensbi                                  |   2 +-
+>  5 files changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/pc-bios/opensbi-riscv32-generic-fw_dynamic.bin b/pc-bios/opensbi-riscv32-generic-fw_dynamic.bin
+> index ae651e2993..dba8e8655f 100644
+> Binary files a/pc-bios/opensbi-riscv32-generic-fw_dynamic.bin and b/pc-bios/opensbi-riscv32-generic-fw_dynamic.bin differ
+> diff --git a/pc-bios/opensbi-riscv32-generic-fw_dynamic.elf b/pc-bios/opensbi-riscv32-generic-fw_dynamic.elf
+> index 3250d89408..a19363e27c 100644
+> Binary files a/pc-bios/opensbi-riscv32-generic-fw_dynamic.elf and b/pc-bios/opensbi-riscv32-generic-fw_dynamic.elf differ
+> diff --git a/pc-bios/opensbi-riscv64-generic-fw_dynamic.bin b/pc-bios/opensbi-riscv64-generic-fw_dynamic.bin
+> index f039884483..f223e56991 100644
+> Binary files a/pc-bios/opensbi-riscv64-generic-fw_dynamic.bin and b/pc-bios/opensbi-riscv64-generic-fw_dynamic.bin differ
+> diff --git a/pc-bios/opensbi-riscv64-generic-fw_dynamic.elf b/pc-bios/opensbi-riscv64-generic-fw_dynamic.elf
+> index ef261c98d1..c59573d026 100644
+> Binary files a/pc-bios/opensbi-riscv64-generic-fw_dynamic.elf and b/pc-bios/opensbi-riscv64-generic-fw_dynamic.elf differ
+> diff --git a/roms/opensbi b/roms/opensbi
+> index 234ed8e427..48f91ee9c9 160000
+> --- a/roms/opensbi
+> +++ b/roms/opensbi
+> @@ -1 +1 @@
+> -Subproject commit 234ed8e427f4d92903123199f6590d144e0d9351
+> +Subproject commit 48f91ee9c960f048c4a7d1da4447d31e04931e38
+> --
+> 2.25.1
+>
+>
 
