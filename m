@@ -2,95 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9B5B485566
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 16:06:28 +0100 (CET)
-Received: from localhost ([::1]:54454 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA47A485540
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 16:02:46 +0100 (CET)
+Received: from localhost ([::1]:45964 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n57rv-0006am-T2
-	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 10:06:27 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36158)
+	id 1n57oL-0000Zg-Gn
+	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 10:02:45 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36082)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1n57bV-000131-5r
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 09:49:31 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60937)
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1n57bP-0000w8-L5
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 09:49:23 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:33906)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1n57bN-0004ej-Ct
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 09:49:27 -0500
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1n57bN-0004en-5U
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 09:49:22 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1641394157;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=203XPLtgu56Wjg/pexNuosqGyvEX0Oj8fnyh1FO6hQs=;
- b=Sldh0ICHncjoj3Rc3RRPZY+e3AGLtkoKoAhRNHRGfsQFUlZoedWojupio5SQZGQyqQ3eFe
- pW1BhAiLMTBPdJGH5cnQ995FFAhON+62ioKSdHY7UNVyXEA3a/XsJVjitcFyxSsXfxrE/Z
- c1rnHSrI1YLOzQniFBKQo21bldBMYRY=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=7ysqLclNJzMut443f5x8/Ue0sG0SeYUxnh0PmY3i8bI=;
+ b=Is7EorHQGFo7Jgho/ljXUkUabssGo3BBe41/4/sxAsELaoTGH1Xp/hC/5bQ3Scb8xuJjwj
+ mJasQS1/Ot+vonqZwYdszSZAIM2tJrYpTxobmvtdm07lm1U8ZG35TGZc3Dz3E9mmqDtfkc
+ IGNPa8x/FrQSsEtLE3IjBH/dfJ2/rHM=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-93-ph7EqVz0MBO63xBDjhaPew-1; Wed, 05 Jan 2022 09:49:16 -0500
-X-MC-Unique: ph7EqVz0MBO63xBDjhaPew-1
-Received: by mail-wm1-f70.google.com with SMTP id
- 83-20020a1c0256000000b00346a78f8fd7so1120376wmc.8
- for <qemu-devel@nongnu.org>; Wed, 05 Jan 2022 06:49:15 -0800 (PST)
+ us-mta-21-ibwBS5CXOuae1AiTgGv6pw-1; Wed, 05 Jan 2022 09:49:16 -0500
+X-MC-Unique: ibwBS5CXOuae1AiTgGv6pw-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ r10-20020adfa14a000000b001a375e65e60so4179784wrr.2
+ for <qemu-devel@nongnu.org>; Wed, 05 Jan 2022 06:49:16 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=203XPLtgu56Wjg/pexNuosqGyvEX0Oj8fnyh1FO6hQs=;
- b=gIAGsC2dN3T7xkU8F7SLcQX2VlzLjuJGEjPctFYwkEy1YcSCBs5WKrBUc4AhA8N5Yt
- O0S5PxwADe8phAnEIGISjGFPZdCkUHVABNs9Ne3FolTzZH5A10pYzbXkI0JkIHoRTKIE
- LqLZFXHtwtssu/qwb1dG1J4Nz673nn3M0dSVIKxrciOx9U7hZ/zazBkPA3+SiVbpGOeM
- XRVU7VNI46G7xKDn9O7UHYXPtdpumr4GYVhMwF34toQf8jRwCK2zoFgR77YAhG1ScW14
- y9m+Jz8lJtu6V8G5OGL0gnV0RK6KdhUhJGGoztIg1Y6LnSYc2CigQR43JhyHYKhe+TUd
- 47UQ==
-X-Gm-Message-State: AOAM533Jlm/MfOxoGsJpOkMhyzTlL5s8gmevIBr0frDbUy33R7zh1375
- 4u5o1VNxJ02fc4Rqg8/zNd/JiBhGZFd6MJlIsWLa4lxm+NAh0RmAg9Y7ZaO7trPnCowZXzf4u3G
- XJ+529ogLZXIAmWA=
-X-Received: by 2002:a5d:64a2:: with SMTP id m2mr46927591wrp.102.1641394154830; 
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=7ysqLclNJzMut443f5x8/Ue0sG0SeYUxnh0PmY3i8bI=;
+ b=iDlQ2XI5TPjbhMtkctoe2RrXj09KGz7/vb+N+0VA4l7tdAMgUJYrg+RCACK0v0nel8
+ 0hNTKuT4YvROI7sFzAEzcs9iSJrcCLcpGNoMZwCUmz37pRgZl7o1g2Ix3onf0IV2ixGa
+ KihPUPrDyBJ1CyqQX7MB0ApgEjkel2EcJXwX7QNCMJ5r1xmOBJ92JszqhSJuBZXHNeya
+ V7BDBdcs3vOIAJtTbiefVh6hdGcvQzKCm8esNMcvG1VNI/H5fY1GR1SEjHRvbTvosdm6
+ 0t2G+S2AQk3O6oIlddfAbIMGWEar9S3c/n6utGKTVUmn9c5vwEay+lsMBDCNnK7YtB46
+ S4kg==
+X-Gm-Message-State: AOAM532alUokRnxQdnoKgIyducejiCj5DOSrsRrEoNqgPcwQ4jc52la2
+ GHtC2rAUPUCn+Zm1r9SQsnjcAUafHfV1PDyvAOC+pTbh7xEwfTRrO/WUKlJFTrA9yYmmvff0urF
+ YwAuWFDSw31r4Nak=
+X-Received: by 2002:a5d:4343:: with SMTP id u3mr22236366wrr.504.1641394155332; 
+ Wed, 05 Jan 2022 06:49:15 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzK+c4uuIUmHjP9R/uzqfvlNhQbSKXUXiVv074QlolwC/fancIfcA+LOM/hMfxLJ2AgFIhw4g==
+X-Received: by 2002:a5d:4343:: with SMTP id u3mr22236342wrr.504.1641394155134; 
+ Wed, 05 Jan 2022 06:49:15 -0800 (PST)
+Received: from gator (nat-pool-brq-u.redhat.com. [213.175.37.12])
+ by smtp.gmail.com with ESMTPSA id d5sm19208611wrs.61.2022.01.05.06.49.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 05 Jan 2022 06:49:14 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwahZ+DzJ5fPoskDzLEEQDi+/sSgnhamrQhJaqm2b5sBpWlsehia9EHnc1E2KQ62RSD4894kg==
-X-Received: by 2002:a5d:64a2:: with SMTP id m2mr46927567wrp.102.1641394154576; 
- Wed, 05 Jan 2022 06:49:14 -0800 (PST)
-Received: from [192.168.100.42] ([82.142.12.178])
- by smtp.gmail.com with ESMTPSA id u14sm40459097wrf.39.2022.01.05.06.49.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 05 Jan 2022 06:49:14 -0800 (PST)
-Message-ID: <a2a94c4c-190f-9be6-eadf-bd1404a2e272@redhat.com>
-Date: Wed, 5 Jan 2022 15:49:12 +0100
+Date: Wed, 5 Jan 2022 15:49:13 +0100
+From: Andrew Jones <drjones@redhat.com>
+To: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: Re: [PATCH v1 21/34] hw/arm: add control knob to disable kaslr_seed
+ via DTB
+Message-ID: <20220105144913.2nitpxzmdyucgr7g@gator>
+References: <20220105135009.1584676-1-alex.bennee@linaro.org>
+ <20220105135009.1584676-22-alex.bennee@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH 1/1] softmmu: fix device deletion events with -device JSON
- syntax
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org
-References: <20220105123847.4047954-1-berrange@redhat.com>
- <20220105123847.4047954-2-berrange@redhat.com>
-From: Laurent Vivier <lvivier@redhat.com>
-In-Reply-To: <20220105123847.4047954-2-berrange@redhat.com>
+In-Reply-To: <20220105135009.1584676-22-alex.bennee@linaro.org>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lvivier@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=lvivier@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=drjones@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.372,
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.372,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.057, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ WEIRD_QUOTING=0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,124 +100,136 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
- Thomas Huth <thuth@redhat.com>, Peter Krempa <pkrempa@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Eric Blake <eblake@redhat.com>
+Cc: fam@euphon.net, Peter Maydell <peter.maydell@linaro.org>,
+ berrange@redhat.com, Heinrich Schuchardt <xypron.glpk@gmx.de>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>, qemu-devel@nongnu.org,
+ f4bug@amsat.org, pbonzini@redhat.com, aurelien@aurel32.net,
+ stefanha@redhat.com, crosa@redhat.com, Jerome Forissier <jerome@forissier.org>,
+ "open list:Virt" <qemu-arm@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 05/01/2022 13:38, Daniel P. BerrangÃ© wrote:
-> The -device JSON syntax impl leaks a reference on the created
-> DeviceState instance. As a result when you hot-unplug the
-> device, the device_finalize method won't be called and thus
-> it will fail to emit the required DEVICE_DELETED event.
+On Wed, Jan 05, 2022 at 01:49:56PM +0000, Alex Bennée wrote:
+> Generally a guest needs an external source of randomness to properly
+> enable things like address space randomisation. However in a trusted
+> boot environment where the firmware will cryptographically verify
+> components having random data in the DTB will cause verification to
+> fail. Add a control knob so we can prevent this being added to the
+> system DTB.
 > 
-> A 'json-cli' feature was previously added against the
-> 'device_add' QMP command QAPI schema to indicated to mgmt
-> apps that -device supported JSON syntax. Given the hotplug
-> bug that feature flag is no unusable for its purpose, so
-
-Not sure to understand: do you mean "now unusable"?
-
-> we add a new 'json-cli-hotplug' feature to indicate the
-> -device supports JSON without breaking hotplug.
-> 
-> Fixes: https://gitlab.com/qemu-project/qemu/-/issues/802
-> Signed-off-by: Daniel P. BerrangÃ© <berrange@redhat.com>
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> Tested-by: Heinrich Schuchardt <xypron.glpk@gmx.de>
+> Acked-by: Ilias Apalodimas <ilias.apalodimas@linaro.org>
+> Acked-by: Jerome Forissier <jerome@forissier.org>
+> Message-Id: <20211215120926.1696302-1-alex.bennee@linaro.org>
 > ---
->   qapi/qdev.json                 |  5 ++++-
->   softmmu/vl.c                   |  4 +++-
->   tests/qtest/device-plug-test.c | 19 +++++++++++++++++++
->   3 files changed, 26 insertions(+), 2 deletions(-)
+>  docs/system/arm/virt.rst |  7 +++++++
+>  include/hw/arm/virt.h    |  1 +
+>  hw/arm/virt.c            | 32 ++++++++++++++++++++++++++++++--
+>  3 files changed, 38 insertions(+), 2 deletions(-)
 > 
-> diff --git a/qapi/qdev.json b/qapi/qdev.json
-> index 69656b14df..26cd10106b 100644
-> --- a/qapi/qdev.json
-> +++ b/qapi/qdev.json
-> @@ -44,6 +44,9 @@
->   # @json-cli: If present, the "-device" command line option supports JSON
->   #            syntax with a structure identical to the arguments of this
->   #            command.
-> +# @json-cli-hotplug: If present, the "-device" command line option supports JSON
-> +#                    syntax without the reference counting leak that broke
-> +#                    hot-unplug
->   #
->   # Notes:
->   #
-> @@ -74,7 +77,7 @@
->   { 'command': 'device_add',
->     'data': {'driver': 'str', '*bus': 'str', '*id': 'str'},
->     'gen': false, # so we can get the additional arguments
-> -  'features': ['json-cli'] }
-> +  'features': ['json-cli', 'json-cli-hotplug'] }
->   
->   ##
->   # @device_del:
-> diff --git a/softmmu/vl.c b/softmmu/vl.c
-> index d9e4c619d3..b1fc7da104 100644
-> --- a/softmmu/vl.c
-> +++ b/softmmu/vl.c
-> @@ -2684,6 +2684,7 @@ static void qemu_create_cli_devices(void)
->       qemu_opts_foreach(qemu_find_opts("device"),
->                         device_init_func, NULL, &error_fatal);
->       QTAILQ_FOREACH(opt, &device_opts, next) {
-> +        DeviceState *dev;
->           loc_push_restore(&opt->loc);
->           /*
->            * TODO Eventually we should call qmp_device_add() here to make sure it
-> @@ -2692,7 +2693,8 @@ static void qemu_create_cli_devices(void)
->            * from the start, so call qdev_device_add_from_qdict() directly for
->            * now.
->            */
-> -        qdev_device_add_from_qdict(opt->opts, true, &error_fatal);
-> +        dev = qdev_device_add_from_qdict(opt->opts, true, &error_fatal);
-> +        object_unref(OBJECT(dev));
->           loc_pop(&opt->loc);
->       }
->       rom_reset_order_override();
-> diff --git a/tests/qtest/device-plug-test.c b/tests/qtest/device-plug-test.c
-> index 559d47727a..ad79bd4c14 100644
-> --- a/tests/qtest/device-plug-test.c
-> +++ b/tests/qtest/device-plug-test.c
-> @@ -77,6 +77,23 @@ static void test_pci_unplug_request(void)
->       qtest_quit(qtest);
->   }
->   
-> +static void test_pci_unplug_json_request(void)
+> diff --git a/docs/system/arm/virt.rst b/docs/system/arm/virt.rst
+> index 850787495b..c86a4808df 100644
+> --- a/docs/system/arm/virt.rst
+> +++ b/docs/system/arm/virt.rst
+> @@ -121,6 +121,13 @@ ras
+>    Set ``on``/``off`` to enable/disable reporting host memory errors to a guest
+>    using ACPI and guest external abort exceptions. The default is off.
+>  
+> +kaslr-dtb-seed
+> +  Set ``on``/``off`` to pass a random seed via the guest dtb to use for features
+> +  like address space randomisation. The default is ``on``. You will want
+> +  to disable it if your trusted boot chain will verify the DTB it is
+> +  passed. It would be the responsibility of the firmware to come up
+> +  with a seed and pass it on if it wants to.
+> +
+>  Linux guest kernel configuration
+>  """"""""""""""""""""""""""""""""
+>  
+> diff --git a/include/hw/arm/virt.h b/include/hw/arm/virt.h
+> index dc6b66ffc8..acd0665fe7 100644
+> --- a/include/hw/arm/virt.h
+> +++ b/include/hw/arm/virt.h
+> @@ -148,6 +148,7 @@ struct VirtMachineState {
+>      bool virt;
+>      bool ras;
+>      bool mte;
+> +    bool kaslr_dtb_seed;
+>      OnOffAuto acpi;
+>      VirtGICType gic_version;
+>      VirtIOMMUType iommu;
+> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+> index 6bce595aba..1781e47c76 100644
+> --- a/hw/arm/virt.c
+> +++ b/hw/arm/virt.c
+> @@ -247,11 +247,15 @@ static void create_fdt(VirtMachineState *vms)
+>  
+>      /* /chosen must exist for load_dtb to fill in necessary properties later */
+>      qemu_fdt_add_subnode(fdt, "/chosen");
+> -    create_kaslr_seed(ms, "/chosen");
+> +    if (vms->kaslr_dtb_seed) {
+> +        create_kaslr_seed(ms, "/chosen");
+> +    }
+>  
+>      if (vms->secure) {
+>          qemu_fdt_add_subnode(fdt, "/secure-chosen");
+> -        create_kaslr_seed(ms, "/secure-chosen");
+> +        if (vms->kaslr_dtb_seed) {
+> +            create_kaslr_seed(ms, "/secure-chosen");
+> +        }
+>      }
+>  
+>      /* Clock node, for the benefit of the UART. The kernel device tree
+> @@ -2235,6 +2239,20 @@ static void virt_set_its(Object *obj, bool value, Error **errp)
+>      vms->its = value;
+>  }
+>  
+> +static bool virt_get_kaslr_dtb_seed(Object *obj, Error **errp)
 > +{
-> +    QTestState *qtest = qtest_initf(
-> +        "-device '{\"driver\": \"virtio-mouse-pci\", \"id\": \"dev0\"}'");
+> +    VirtMachineState *vms = VIRT_MACHINE(obj);
 > +
-> +    /*
-> +     * Request device removal. As the guest is not running, the request won't
-> +     * be processed. However during system reset, the removal will be
-> +     * handled, removing the device.
-> +     */
-> +    device_del(qtest, "dev0");
-> +    system_reset(qtest);
-
-You can use qpci_unplug_acpi_device_test() to process the request... but I see this is 
-done like that too in test_pci_unplug_request()
-
-> +    wait_device_deleted_event(qtest, "dev0");
-> +
-> +    qtest_quit(qtest);
+> +    return vms->kaslr_dtb_seed;
 > +}
 > +
->   static void test_ccw_unplug(void)
->   {
->       QTestState *qtest = qtest_initf("-device virtio-balloon-ccw,id=dev0");
-> @@ -145,6 +162,8 @@ int main(int argc, char **argv)
->        */
->       qtest_add_func("/device-plug/pci-unplug-request",
->                      test_pci_unplug_request);
-> +    qtest_add_func("/device-plug/pci-unplug-json-request",
-> +                   test_pci_unplug_json_request);
->   
->       if (!strcmp(arch, "s390x")) {
->           qtest_add_func("/device-plug/ccw-unplug",
+> +static void virt_set_kaslr_dtb_seed(Object *obj, bool value, Error **errp)
+> +{
+> +    VirtMachineState *vms = VIRT_MACHINE(obj);
+> +
+> +    vms->kaslr_dtb_seed = value;
+> +}
+> +
+>  static char *virt_get_oem_id(Object *obj, Error **errp)
+>  {
+>      VirtMachineState *vms = VIRT_MACHINE(obj);
+> @@ -2764,6 +2782,13 @@ static void virt_machine_class_init(ObjectClass *oc, void *data)
+>                                            "Set on/off to enable/disable "
+>                                            "ITS instantiation");
+>  
+> +    object_class_property_add_bool(oc, "kaslr-dtb-seed",
+> +                                   virt_get_kaslr_dtb_seed,
+> +                                   virt_set_kaslr_dtb_seed);
+> +    object_class_property_set_description(oc, "kaslr-dtb-seed",
+> +                                          "Set off to disable passing of kaslr "
+> +                                          "dtb node to guest");
+> +
+>      object_class_property_add_str(oc, "x-oem-id",
+>                                    virt_get_oem_id,
+>                                    virt_set_oem_id);
+> @@ -2828,6 +2853,9 @@ static void virt_instance_init(Object *obj)
+>      /* MTE is disabled by default.  */
+>      vms->mte = false;
+>  
+> +    /* Supply a kaslr-seed by default */
+> +    vms->kaslr_dtb_seed = true;
+> +
+>      vms->irqmap = a15irqmap;
+>  
+>      virt_flash_create(vms);
+> -- 
+> 2.30.2
+> 
+>
 
-Reviewed-by: Laurent Vivier <lvivier@redhat.com>
+Reviewed-by: Andrew Jones <drjones@redhat.com>
 
 
