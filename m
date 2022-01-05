@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E23D485050
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 10:46:56 +0100 (CET)
-Received: from localhost ([::1]:59740 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE7CA485053
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 10:48:10 +0100 (CET)
+Received: from localhost ([::1]:33574 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n52sh-00016E-3R
-	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 04:46:55 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54074)
+	id 1n52tt-0002cc-OZ
+	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 04:48:09 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54588)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1n52qG-0008VD-Lp
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 04:44:25 -0500
-Received: from [2a00:1450:4864:20::330] (port=44868
- helo=mail-wm1-x330.google.com)
+ id 1n52rm-000171-Gi
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 04:45:58 -0500
+Received: from [2a00:1450:4864:20::329] (port=45792
+ helo=mail-wm1-x329.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1n52qF-00029z-2z
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 04:44:24 -0500
-Received: by mail-wm1-x330.google.com with SMTP id
- f134-20020a1c1f8c000000b00345c05bc12dso2965079wmf.3
- for <qemu-devel@nongnu.org>; Wed, 05 Jan 2022 01:44:22 -0800 (PST)
+ id 1n52ra-0002XN-Qo
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 04:45:47 -0500
+Received: by mail-wm1-x329.google.com with SMTP id
+ g191-20020a1c9dc8000000b0032fbf912885so2968721wme.4
+ for <qemu-devel@nongnu.org>; Wed, 05 Jan 2022 01:45:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=references:user-agent:from:to:cc:subject:date:in-reply-to
  :message-id:mime-version:content-transfer-encoding;
- bh=EmRyiPqPT1UbJM3Kj+ZhqJgdhp0FWycF9AbssdgRcyo=;
- b=UowMB6IOq6YzZkjcmodP9gNRmawrJQUE3ewoBHY94Yx/AXb9LQ5F2TfKDRU8prVb13
- 2eCiH83a74ZyRgx7QiISXuOnxJMw4HHJYBd4GHL5mPuTOEecih+NaYHshiJyiZyThOnd
- k3px7wKzmMQKhF4zblQXn0+K2aC3+sGK5/yzn7yCAThD9h8m5aght5UmzeGoYb8J2lWm
- i1pIp7yDVRVp+lTsT2nHAGU+SA1ubuwlUepmptM0IqVb2qzUC5vvbK508rYo33TIvBXm
- 6HvRSePq1BBnBmE5s0uzCzM3L7h5gE6g+SHg6Vlyh6p21LfYmNfN7WThiJ5KZnTNcO05
- xU+Q==
+ bh=fIlHm8r1Sfxa+IDpqtqc4n9OZxvmNHC2w/RCNWD/fuw=;
+ b=pLi3BKwsGUaJl87SpZbbCb/L0hiJZ7jVZS9UGXnaYcaxmzdl1tAKUPUyDF5G7VG2Cu
+ zh25DfjU/qwnKdKugHMm0ZoFDc3rNzanO8QvpiMnHGf4fYaNKBThrXAfZ//QkTx3/cem
+ cNvVmlqMN+XLfH1MpgD4OFMPjxXyRXxNUTEfjZwzeANaPIBp5aCEtUSMj3AU+N25tYas
+ wsabIxshClyz133eTrdEBFsM1YH9C1rvZGLJbC6VmBfjcaoU6KZWk/1qVbBPWQvHOZYI
+ hXMv4youvtCAoi7tZCCX3OHaDWhOQU/Z6ZTZ3oMKui90uqq37V04ziJtGmrsijvUiadi
+ fivw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
  :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=EmRyiPqPT1UbJM3Kj+ZhqJgdhp0FWycF9AbssdgRcyo=;
- b=atx168ld0aNNQFhrro7zEsZPlbGH2cz+F+jVWTPo927SV/iERIs9UGOw/+gA0MdVZQ
- Udo8Hpewp0R83kdvDnS5yFyGQENiRGtHUFWbWga8e2P+jYNTPrsfAiIFJJ0OM7tlckG8
- 5gej0QLoqGnYCF3F9ZJTRiyMrFYeCVIvUSmzI+dj3juv8XguaJ1jZLq5RBi2ZLQpdXF/
- vYjaQYfyskMb4EKqku/Q0yF5chho0poz18Gnr40G2pKlJyoJ3Vy1ov74s/0nj3u+RRth
- XtoecYkAFlfK4VXoOfZH3rnf+/VV+nws8xJ6pvQSM+M1ZQR5CMyweaVmPQA591QPMBJ7
- p9LQ==
-X-Gm-Message-State: AOAM530vefRGDQIiKeo6vt1nyqGste44R0T+CFvqyAdmQshpK0N/7mcW
- dhwAulbf83okS9tjiODQLDEbMg==
-X-Google-Smtp-Source: ABdhPJw+IA48zkPvLIQ7mJFsht40V31LlpMnHHeuLC9iRoKBsZPOjz3Hkx/uOkCu5dYFBxZ4knCqqA==
-X-Received: by 2002:a7b:cc8d:: with SMTP id p13mr1790984wma.6.1641375861584;
- Wed, 05 Jan 2022 01:44:21 -0800 (PST)
+ bh=fIlHm8r1Sfxa+IDpqtqc4n9OZxvmNHC2w/RCNWD/fuw=;
+ b=ZQZYb6Y/x8mh1hq/PQpikBw5+8DpObvfiaUsk3wgU+7QFFpV+SY/ehQqap90oYeuy4
+ C9XKYokts1hHeICYG1UhQxrACpDDV2WQlw2aYz37m4gSF+oQyxvpKMeFjwGu+8lS4N2H
+ hwsZCyusXBMAcIaaq+A3HcaQYuu/kFiJzI0DGEfpmHTyrc2Zv99eoyvqFpW5+/fSphVd
+ Sq4Iqamh/cdyP0uVlh6UGQ9UlZQF9ZkFikbVXgegZeYPz/WKR1vpl54sQ+PraihEVCcK
+ M4wv/iTvhLzDbfiZ33jZrE7M58JQDb3luph8k65Cc1QU+I6swFY1kdKoEvxeYfG1NJZt
+ DSpA==
+X-Gm-Message-State: AOAM531kp6UpZBydE4qqoDCfR0tqJNezayB/64UD/inVDMilgTFgQEDy
+ s08i4TQw57JGlby2et0x4wQcSIkNV5ss6w==
+X-Google-Smtp-Source: ABdhPJwRiKBJj8qqu88rflokPp4YIxf4ryEDYraUW/xJwhUO69cVtrlKvxLT/SfxkmxPXEr+P2Ihmw==
+X-Received: by 2002:a1c:2187:: with SMTP id h129mr2104007wmh.34.1641375943599; 
+ Wed, 05 Jan 2022 01:45:43 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id l2sm42187168wrs.43.2022.01.05.01.44.20
+ by smtp.gmail.com with ESMTPSA id r7sm39456844wrt.77.2022.01.05.01.45.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Jan 2022 01:44:20 -0800 (PST)
+ Wed, 05 Jan 2022 01:45:42 -0800 (PST)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 13EA21FFB7;
- Wed,  5 Jan 2022 09:44:20 +0000 (GMT)
-References: <20220104091240.160867-1-thuth@redhat.com>
+ by zen.linaroharston (Postfix) with ESMTP id 3D2C31FFB7;
+ Wed,  5 Jan 2022 09:45:42 +0000 (GMT)
+References: <20211221111624.352804-1-pbonzini@redhat.com>
 User-agent: mu4e 1.7.5; emacs 28.0.90
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH] gitlab-ci: Enable docs in the centos job
-Date: Wed, 05 Jan 2022 09:44:09 +0000
-In-reply-to: <20220104091240.160867-1-thuth@redhat.com>
-Message-ID: <87y23ujz4b.fsf@linaro.org>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH] docker: include bison in debian-tricore-cross
+Date: Wed, 05 Jan 2022 09:45:37 +0000
+In-reply-to: <20211221111624.352804-1-pbonzini@redhat.com>
+Message-ID: <87tueijz21.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::330
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::329
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x330.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x329.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -90,22 +90,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-Thomas Huth <thuth@redhat.com> writes:
+Paolo Bonzini <pbonzini@redhat.com> writes:
 
-> We just ran into a problem that the docs don't build on RHEL8 / CentOS 8
-> anymore. Seems like these distros are using one of the oldest Sphinx
-> versions that we still have to support. Thus enable the docs build in
-> the CI on CentOS so that such bugs don't slip in so easily again.
+> Binutils sometimes fail to build if bison is not installed:
 >
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
+>   /bin/sh ./ylwrap `test -f arparse.y || echo ./`arparse.y y.tab.c arpars=
+e.c y.tab.h arparse.h y.output arparse.output --  -d
+>   ./ylwrap: 109: ./ylwrap: -d: not found
+>
+> (the correct invocation of ylwrap would have "bison -d" after the double
+> dash).  Work around by installing it in the container.
+>
+> Cc: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 
 Queued to testing/next, thanks.
 
