@@ -2,61 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86744485139
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 11:39:35 +0100 (CET)
-Received: from localhost ([::1]:45088 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20CE9485137
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 11:38:49 +0100 (CET)
+Received: from localhost ([::1]:43724 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n53hd-0007ta-Ho
-	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 05:39:33 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33976)
+	id 1n53gu-0006wR-5S
+	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 05:38:48 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34318)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n53TG-0000dV-6J
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 05:24:43 -0500
-Received: from mout.kundenserver.de ([212.227.17.24]:40487)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n53VM-0003Df-Vy
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 05:26:53 -0500
+Received: from mout.kundenserver.de ([212.227.17.13]:36699)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n53TE-0007YI-Fx
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 05:24:41 -0500
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n53VL-00086p-9W
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 05:26:52 -0500
 Received: from [192.168.100.1] ([82.142.30.62]) by mrelayeu.kundenserver.de
- (mreue107 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MhToz-1mRqyL2oFv-00ecyo; Wed, 05 Jan 2022 11:24:38 +0100
-Message-ID: <07a42eb9-e80e-1671-5a5a-30bee6e57e1a@vivier.eu>
-Date: Wed, 5 Jan 2022 11:24:37 +0100
+ (mreue108 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MqJyX-1macN22G6F-00nPsL; Wed, 05 Jan 2022 11:26:39 +0100
+Message-ID: <94aebec7-0bf7-18b1-a10e-dda5f476f70b@vivier.eu>
+Date: Wed, 5 Jan 2022 11:26:38 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.4.0
-Subject: Re: [PATCH v2 7/7] linux-user/nios2: Use set_sigmask in
- do_rt_sigreturn
+Subject: Re: [PATCH] linux-user/syscall.c: malloc to g_try_malloc
 Content-Language: fr
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20211221025012.1057923-1-richard.henderson@linaro.org>
- <20211221025012.1057923-8-richard.henderson@linaro.org>
+To: Ahmed Abouzied <email@aabouzied.com>, qemu-qemu-trivial@nongnu.org
+References: <20220104143841.25116-1-email@aabouzied.com>
 From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <20211221025012.1057923-8-richard.henderson@linaro.org>
+In-Reply-To: <20220104143841.25116-1-email@aabouzied.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:Sk0g/Nk3dBuLwjyX6HOmj7WZ95O5ERQWFPmPLJ2zoR4599sMfv4
- unnL6uhAvSiqh9N/1djCyi19x/ALbACYccjY5eMt+JYkgJr0mYkUrPVKoNCh+Pdq2f4y9tt
- 4jNX0weXRDN6hZ2RkL+Yxe7ZsCt/1zW1apavmLBA/i3P0rzN+yKA1Pi7P0ry7/lQvfZ1cZN
- gkZ5X5yaSYFvX8eNVpKGg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:iKrXucQ1OTA=:S6FGNfvH1SBY5wJe055YWk
- zoHDQv6u3bsM1LsuNIttS/RhSZ+/7+dPW5PCWhQ+hZJCU5+5xUOuyDUzLyjsFXBPg+a7/pS0s
- Wbq6N3ud2n4VsEo/Xs752HnfB+z7o8rs6fPXTdmMIZEyipeZe8kMau7CEm+vtqiRBGItI9BF1
- 3+cLPcUk2uYfkvxbcXFM8dUkVVdh5+dvDmx0GP7gISJzW4bCV+xCXBOtM7mvow/ikVK+XFJ9Z
- XbXHgoFjOVQlhae6Nr85RGITcurORfKcTWG/7tBH3i0Xsj4AgcjJzS2ain+zG9wwQi+L/d4CI
- BeD5zKVcX5LjHL8LrIdlqoWBeFkO1nXXKatcYgnRUxG/Yu4yAZ+WzWCb42YCnFclPLxleQmEN
- /OJLSifo5dqgt1DD96ICJC7zoDZqxbdss0hyot/PT7s3OpCz6vJ68WkneqPp2oQERaanj6xRD
- DqeHdMyhyGeI0eaQAJURZIiR+xkXg+shV04a4qwphgSEovmbwTjPmZAFz0xXkk5im+qCiLDb6
- Fu3tdQVbOUw/PHkUxGffM4uq8vcG9g5iliQC1iYL/mwMTVaGh9O2wdC+qzAx9KIGoUp7SJz5c
- UrTQxh1xNVjJ8EgddrQXD3rOX5DcLDjes2zc7M83Iu77vxzs28vShOHAVjVEyfM8M8vbG5s6M
- jE1XkwH+vPpFjjOZVKtW0r/RefIps1coUQpdTQWVqNLsh5ek+XmSh526ujcEX8ENpTHE=
-Received-SPF: none client-ip=212.227.17.24; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:qldoOUcdDgXAAtgJW4JhKKwPkV3uRfWOsvJWlMuTt46KZpgfopd
+ nA+NgGvaPfYVHAHN1Nv7Yf6br+lKZBQwcJ+hRUSKbm0Kb2wA490x7rS9bpNcUbLyF+y9WiY
+ RvGM0WaBmiAGg8C9zSlPVltnDxuenCDW9CIkUSWLdsiVtR6pLaMm2pheVe/sCcTKLQ7Oq6d
+ qTIsODCf9m+ZxVHf46/YQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:yQLZhWLlyGc=:Odzhe2vztPbrnOt7kWfHio
+ oFaZvUttglmM+LNCDSp8KhCX1S2tmaODFSSDgc/e9CNxZuVtCDhHAh4ZR9Rd+ENrkAm60bGRx
+ D2yQt5b800pHUu0zjRTWcx8ex9Z+xhgjkmuBOYSuELRvEarTaYgk14hzt4c+8BLUBDRSyeUE8
+ CI3NNQ0TyRajytb7KhIauoEOq9pNPbeaVZQkOwQjnGgpxo0YHSdKFJJKxGGHM7tDkSQf7kNVV
+ ZFZ+H0IAlHDclJh7ATeni+M89xuPhxpRKwsx92LytR86Ios/j2rlqGcEPUWs3AiZsi1WkDSOd
+ O23bdEOjErK402/ykSrbilS+B5LuOMsqF0f4HCddD6HNDDjVaGbWA3ImGtWF19LcYwTOQcTXt
+ Swe+U5mY2n/rFhw9GADrT6e9X+MKCRT2E3A7qNgmzl8J/dlzOo01pK0JhUsDyhWv88X989XTt
+ 0diMiutyCw8l+qsROGsjUbnoC1VDrQ8dvdH0iH+O5iITtIHggRICeE6+V3mzUBwSheVGk8Pls
+ lv0KQLeGObjuy/5Gsshp2iu0REZEnNMoIG/HWNR2NPaXa0BugnpIrsR/YsTZXnCpqp/W5DKkN
+ grkCxF60huQo5Z323PG4nFON22Os7uBeSa7vt0q6ZiIRqSRRggoX5SCF03ExGq0Bg2mFD8XVC
+ SDp/+C6zY8ye7CXUNWlQ7RxYAPCR9sF1OUhtlfuXGuiAcSo7H4D/cv0TmWeR4SaIZraw=
+Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.057,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -70,54 +68,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: jsnow@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 21/12/2021 à 03:50, Richard Henderson a écrit :
-> Using do_sigprocmask directly was incorrect, as it will
-> leave the signal blocked by the outer layers of linux-user.
+Le 04/01/2022 à 15:38, Ahmed Abouzied a écrit :
+> Use g_try_malloc instead of malloc to alocate the target ifconfig.
+> Also replace the corresponding free with g_free.
 > 
-> Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> Signed-off-by: Ahmed Abouzied <email@aabouzied.com>
 > ---
->   linux-user/nios2/signal.c | 2 +-
->   linux-user/signal.c       | 2 --
->   2 files changed, 1 insertion(+), 3 deletions(-)
 > 
-> diff --git a/linux-user/nios2/signal.c b/linux-user/nios2/signal.c
-> index 80e3d42fc9..517cd39270 100644
-> --- a/linux-user/nios2/signal.c
-> +++ b/linux-user/nios2/signal.c
-> @@ -205,7 +205,7 @@ long do_rt_sigreturn(CPUNios2State *env)
+> Hello,
+> 
+> I noticed that there was a `malloc` call in this file. It seems that it
+> was added by the commit 22e4a267 (3 years ago) which was after the commit
+> 0e173b24 (6 years ago) that replaced malloc calls with glib alternative calls.
+> 
+> There is no issue for this on Gitlab. Should I have created an issue
+> first?
+> 
+> Best regards,
+> 
+>   linux-user/syscall.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+> index 56a3e17183..715f9430e1 100644
+> --- a/linux-user/syscall.c
+> +++ b/linux-user/syscall.c
+> @@ -4867,7 +4867,7 @@ static abi_long do_ioctl_ifconf(const IOCTLEntry *ie, uint8_t *buf_temp,
+>                * We can't fit all the extents into the fixed size buffer.
+>                * Allocate one that is large enough and use it instead.
+>                */
+> -            host_ifconf = malloc(outbufsz);
+> +            host_ifconf = g_try_malloc(outbufsz);
+>               if (!host_ifconf) {
+>                   return -TARGET_ENOMEM;
+>               }
+> @@ -4915,7 +4915,7 @@ static abi_long do_ioctl_ifconf(const IOCTLEntry *ie, uint8_t *buf_temp,
 >       }
 >   
->       target_to_host_sigset(&set, &frame->uc.tuc_sigmask);
-> -    do_sigprocmask(SIG_SETMASK, &set, NULL);
-> +    set_sigmask(&set);
+>       if (free_buf) {
+> -        free(host_ifconf);
+> +        g_free(host_ifconf);
+>       }
 >   
->       if (rt_restore_ucontext(env, &frame->uc, &rval)) {
->           goto badframe;
-> diff --git a/linux-user/signal.c b/linux-user/signal.c
-> index 6d5e5b698c..8cb33a351c 100644
-> --- a/linux-user/signal.c
-> +++ b/linux-user/signal.c
-> @@ -258,7 +258,6 @@ int do_sigprocmask(int how, const sigset_t *set, sigset_t *oldset)
->       return 0;
->   }
->   
-> -#if !defined(TARGET_NIOS2)
->   /* Just set the guest's signal mask to the specified value; the
->    * caller is assumed to have called block_signals() already.
->    */
-> @@ -268,7 +267,6 @@ void set_sigmask(const sigset_t *set)
->   
->       ts->signal_mask = *set;
->   }
-> -#endif
->   
->   /* sigaltstack management */
->   
-
+>       return ret;
 
 Applied to my linux-user-for-7.0 branch.
 
