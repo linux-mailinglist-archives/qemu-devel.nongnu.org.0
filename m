@@ -2,86 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D655748585D
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 19:32:07 +0100 (CET)
-Received: from localhost ([::1]:36556 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 501ED485867
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 19:33:34 +0100 (CET)
+Received: from localhost ([::1]:41068 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5B4w-00049p-GS
-	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 13:32:06 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42998)
+	id 1n5B6L-0007Ag-Dn
+	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 13:33:33 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43598)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1n5B1v-0001Wi-26
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 13:28:59 -0500
-Received: from [2607:f8b0:4864:20::62c] (port=35397
- helo=mail-pl1-x62c.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1n5B1t-0000GE-GO
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 13:28:58 -0500
-Received: by mail-pl1-x62c.google.com with SMTP id n16so260980plc.2
- for <qemu-devel@nongnu.org>; Wed, 05 Jan 2022 10:28:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=25I0Gl7pwemVufaHXQWiZ7c+B9mOipshGDUykk3V7Hk=;
- b=pATBtmJSKM3u4zgXlk3pIYDgyJrgLXLsVVNu7f5w6h641lUq6w1p3DN7aTUooeB5aT
- eaMVMmwJd2VYjUQQsGLi2JPGNku+ZaNEOVmAL38E+4oDGvpxTBO9oCgxR2+PLFbkBVt3
- 7EBt6hdyePEeczryuhjILS6SebNmwSvJpw4OfE0PdZ/3n5OfxWjh63RIH+XY/lQoqYsD
- /0bNZrVNH22axUiscnqMTeF6Kfiw91nn9gOW83HVdRcqraiMh0Vtv4nmmMlFzYFB3sq7
- Nog1/BnX4DTcSVBq1938cwIM2CNIhmO+4gTm28Eouepghol/2OMmmsEBKqgeUnVycqKl
- NUTQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=25I0Gl7pwemVufaHXQWiZ7c+B9mOipshGDUykk3V7Hk=;
- b=K38Dzrda8iPzE9tnEGcA2IrD9YsmMWG8iLzi9l4aj8nz+VYVnqfKUvFDPBKHcM0BD9
- hiqSJuRG9w/Vd2b+Jr45URMMsudV2JzH6bo7X9Z0iYzczKB7KVyDwbsHArU1Jf3inkfp
- 8NC8R3BNiI6CmcNz4T6JXzOmStDsj6kSNeGGj0E6FdAzotOU3Kw0KRMaUWLUUWn/DDgf
- VoOYhZ37mUFv5CvIstNu3MDSM/uVpM/Q6/phiLaxPcE2hlWRAGHgtZb3F4x2Av/wH8jV
- GrO0O08jfWZ0O4mg8pedOddgwIRG+oBgfavykUIlg3u1M8Hsb1fUKTlej+irgqEhbqQx
- LxsA==
-X-Gm-Message-State: AOAM530bb2q+4YjQ0igaRDoFSj9JwjQZTikmoCVQdHCtypjLH7X6r7Q/
- Po2x7Wa0Bp/ABENhNvjCHs+ung==
-X-Google-Smtp-Source: ABdhPJxwEOHSt6yGmuyCm71nl6ugNum7cDZ/JPw2qebsBIYdpfbifVcaq1hFCdrp0vuHcxXfTzfkiQ==
-X-Received: by 2002:a17:902:c952:b0:148:e3c6:89ea with SMTP id
- i18-20020a170902c95200b00148e3c689eamr54321133pla.56.1641407328963; 
- Wed, 05 Jan 2022 10:28:48 -0800 (PST)
-Received: from [192.168.1.13] (174-21-75-75.tukw.qwest.net. [174.21.75.75])
- by smtp.gmail.com with ESMTPSA id b65sm44546518pfg.209.2022.01.05.10.28.48
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 05 Jan 2022 10:28:48 -0800 (PST)
-Subject: Re: [PATCH v2 1/2] linux-user/ppc: deliver SIGTRAP on
- POWERPC_EXCP_TRAP
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- matheus.ferst@eldorado.org.br, qemu-devel@nongnu.org, qemu-ppc@nongnu.org
-References: <20220104210015.457468-1-matheus.ferst@eldorado.org.br>
- <20220104210015.457468-2-matheus.ferst@eldorado.org.br>
- <a31423b5-2d76-12a9-5bea-fcc4e608342a@kaod.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <c3d54247-a56c-0657-d94d-5c9b127638e5@linaro.org>
-Date: Wed, 5 Jan 2022 10:28:47 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ (Exim 4.90_1) (envelope-from <gregkh@linuxfoundation.org>)
+ id 1n5B4g-0004xa-Bj
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 13:31:50 -0500
+Received: from dfw.source.kernel.org ([139.178.84.217]:48404)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <gregkh@linuxfoundation.org>)
+ id 1n5B4Y-0001xg-DI
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 13:31:49 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 3B0A0618A3;
+ Wed,  5 Jan 2022 18:31:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EB1A9C36AE3;
+ Wed,  5 Jan 2022 18:31:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1641407496;
+ bh=zE+7ffio+O9uJrwxJfyDIOj3L0z6ifW32qNmwf1FA3U=;
+ h=From:To:Cc:Subject:Date:From;
+ b=eeydPoE84v4MKL6GSE8oBVVlpoXS/9hT0UqM8e+bjRkHeoK8duRTH2+ixq8gepOdd
+ fd324jb4J9onsTE9ZSJGbM655PSF+Ni0odw0MlebHnzdvj7ugY+ov2LN4ce2UfSCWk
+ kGcGOCAbM3fAXiwSL5ekNoVexRit9n770PaTxCXo=
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: linux-kernel@vger.kernel.org
+Subject: [PATCH] qemu_fw_cfg: use default_groups in kobj_type
+Date: Wed,  5 Jan 2022 19:31:33 +0100
+Message-Id: <20220105183133.2812848-1-gregkh@linuxfoundation.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-In-Reply-To: <a31423b5-2d76-12a9-5bea-fcc4e608342a@kaod.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1898; h=from:subject;
+ bh=zE+7ffio+O9uJrwxJfyDIOj3L0z6ifW32qNmwf1FA3U=;
+ b=owGbwMvMwCRo6H6F97bub03G02pJDIlXn7Bed3q+1jA1e/uq2UVeKU9ZnnNHeyp92FnB5DNh3XS2
+ qkvzO2JZGASZGGTFFFm+bOM5ur/ikKKXoe1pmDmsTCBDGLg4BWAiVfcZ5oqZLX4ttOKekBxfXfXaCM
+ evtecXCjEs2HDaSdxTj+m9l0/7wdqlH7fsYmAPAQA=
+X-Developer-Key: i=gregkh@linuxfoundation.org; a=openpgp;
+ fpr=F4B60CC5BF78C2214A313DCB3147D40DDB2DFB29
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62c
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62c.google.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
+Received-SPF: pass client-ip=139.178.84.217;
+ envelope-from=gregkh@linuxfoundation.org; helo=dfw.source.kernel.org
+X-Spam_score_int: -24
+X-Spam_score: -2.5
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.057,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.372,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,40 +68,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: danielhb413@gmail.com, laurent@vivier.eu, david@gibson.dropbear.id.au,
- groug@kaod.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Gabriel Somlo <somlo@cmu.edu>, qemu-devel@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/4/22 10:46 PM, Cédric Le Goater wrote:
-> On 1/4/22 22:00, matheus.ferst@eldorado.org.br wrote:
->> From: Matheus Ferst <matheus.ferst@eldorado.org.br>
->>
->> Handle POWERPC_EXCP_TRAP in cpu_loop to deliver SIGTRAP on tw[i]/td[i].
->> The si_code comes from do_program_check in the kernel source file
->> arch/powerpc/kernel/traps.c
->>
->> Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
->> ---
->>   linux-user/ppc/cpu_loop.c | 3 ++-
->>   1 file changed, 2 insertions(+), 1 deletion(-)
->>
->> diff --git a/linux-user/ppc/cpu_loop.c b/linux-user/ppc/cpu_loop.c
->> index 46e6ffd6d3..6c99feb19b 100644
->> --- a/linux-user/ppc/cpu_loop.c
->> +++ b/linux-user/ppc/cpu_loop.c
->> @@ -188,7 +188,8 @@ void cpu_loop(CPUPPCState *env)
->>                   }
->>                   break;
->>               case POWERPC_EXCP_TRAP:
->> -                cpu_abort(cs, "Tried to call a TRAP\n");
->> +                si_signo = TARGET_SIGTRAP;
->> +                si_code = TARGET_TRAP_BRKPT;
-> 
-> These lack 'info.'
+There are currently 2 ways to create a set of sysfs files for a
+kobj_type, through the default_attrs field, and the default_groups
+field.  Move the firmware qemu_fw_cfg sysfs code to use default_groups
+field which has been the preferred way since aa30f47cf666 ("kobject: Add
+support for default attribute groups to kobj_type") so that we can soon
+get rid of the obsolete default_attrs field.
 
-You missed the Based-on in the cover-letter.
+Cc: Gabriel Somlo <somlo@cmu.edu>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: qemu-devel@nongnu.org
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ drivers/firmware/qemu_fw_cfg.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
+diff --git a/drivers/firmware/qemu_fw_cfg.c b/drivers/firmware/qemu_fw_cfg.c
+index 172c751a4f6c..c62f05420d32 100644
+--- a/drivers/firmware/qemu_fw_cfg.c
++++ b/drivers/firmware/qemu_fw_cfg.c
+@@ -395,7 +395,7 @@ static void fw_cfg_sysfs_cache_cleanup(void)
+ 	}
+ }
+ 
+-/* default_attrs: per-entry attributes and show methods */
++/* per-entry attributes and show methods */
+ 
+ #define FW_CFG_SYSFS_ATTR(_attr) \
+ struct fw_cfg_sysfs_attribute fw_cfg_sysfs_attr_##_attr = { \
+@@ -428,6 +428,7 @@ static struct attribute *fw_cfg_sysfs_entry_attrs[] = {
+ 	&fw_cfg_sysfs_attr_name.attr,
+ 	NULL,
+ };
++ATTRIBUTE_GROUPS(fw_cfg_sysfs_entry);
+ 
+ /* sysfs_ops: find fw_cfg_[entry, attribute] and call appropriate show method */
+ static ssize_t fw_cfg_sysfs_attr_show(struct kobject *kobj, struct attribute *a,
+@@ -454,7 +455,7 @@ static void fw_cfg_sysfs_release_entry(struct kobject *kobj)
+ 
+ /* kobj_type: ties together all properties required to register an entry */
+ static struct kobj_type fw_cfg_sysfs_entry_ktype = {
+-	.default_attrs = fw_cfg_sysfs_entry_attrs,
++	.default_groups = fw_cfg_sysfs_entry_groups,
+ 	.sysfs_ops = &fw_cfg_sysfs_attr_ops,
+ 	.release = fw_cfg_sysfs_release_entry,
+ };
+-- 
+2.34.1
 
-r~
 
