@@ -2,81 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 217694856BC
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 17:37:03 +0100 (CET)
-Received: from localhost ([::1]:59496 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DFCD4856DE
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 17:52:04 +0100 (CET)
+Received: from localhost ([::1]:40158 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n59HZ-0005ON-Rc
-	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 11:37:01 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40726)
+	id 1n59W6-00042M-S7
+	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 11:52:02 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43510)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
- id 1n59GK-0004hO-S8
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 11:35:45 -0500
-Received: from smtp-relay-services-0.canonical.com ([185.125.188.250]:41016)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
- id 1n59GI-0006W1-9U
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 11:35:44 -0500
-Received: from loganberry.canonical.com (loganberry.canonical.com
- [91.189.90.37])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by smtp-relay-services-0.canonical.com (Postfix) with ESMTPSA id 5DE0A4068C
- for <qemu-devel@nongnu.org>; Wed,  5 Jan 2022 16:35:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=launchpad.net;
- s=20210803; t=1641400534;
- bh=o2qSX3slNabqAmr5+y2w4ETDLdH64dxk9u6ShfFLmto=;
- h=MIME-Version:Content-Type:Date:From:To:Reply-To:References:
- Message-Id:Subject;
- b=gEjMj+kT1hoXWphkdvFDYHfbgxmfhXXKfymQW0CTAo+/8PAeY01Hm4/c/ZaodyPI4
- MK/VjTO05tOg8600f776eUYDWF922+tY9PxPi+cu6Jt62oZopF8PVKLj4cMlIVDjQ1
- PugT6nke3/EGusZb9jKb4OobleXsX5bt3l+oiAourKVCFxncgY22dZ0y9W+j1bmX0F
- cM/gLwHdffiU/1b6QOKFzzmroNi0WsmPoY6bDolQuZXO0XY/eWfPne3vfodul7t6yx
- Qqpyip2z/ds5za1JaR1c4skxeoPm4BAIVAKIZ1QS2JmMITutT+WV/vjD/12Y4Gs5ga
- 1K/9tm5dDVTwg==
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 2C67A2E816E
- for <qemu-devel@nongnu.org>; Wed,  5 Jan 2022 16:35:34 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+ (Exim 4.90_1) (envelope-from
+ <3asrVYQcKCmseNWcdaNPXXPUN.LXVZNVd-MNeNUWXWPWd.XaP@flex--venture.bounces.google.com>)
+ id 1n59Uo-0003Kg-5k
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 11:50:42 -0500
+Received: from [2607:f8b0:4864:20::b4a] (port=45630
+ helo=mail-yb1-xb4a.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from
+ <3asrVYQcKCmseNWcdaNPXXPUN.LXVZNVd-MNeNUWXWPWd.XaP@flex--venture.bounces.google.com>)
+ id 1n59Um-0005rk-PJ
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 11:50:41 -0500
+Received: by mail-yb1-xb4a.google.com with SMTP id
+ c132-20020a251c8a000000b0060c39ab7d36so54628539ybc.12
+ for <qemu-devel@nongnu.org>; Wed, 05 Jan 2022 08:50:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=date:message-id:mime-version:subject:from:to:cc
+ :content-transfer-encoding;
+ bh=VuBzE8dIuy1MwqUjC3TAArH5pVL/fBClNJZpGS4Jo1M=;
+ b=AdEoPLmIuK6S3CksQdhqpdcUcF4y0+BTtrvyKtD+nzjFPZMHkRLY2HyOplTfojJ3lP
+ 9vl+M6zKad9mdKf59PvzFL94pecTzH+z5Rak/1AC+pnZHDzrcMfUQmuX4iEGtDZzpYlF
+ 4Ee2E/ZR+Syon4LlHwoZ3UCT7OjYX80oYsRKBP+3gvNtPCU8nLJksxqLx4NyeSKFX1Ai
+ Noc+wM/l2bHam3OZj/kOlYBzteBIvlH1QRFNj05iTJm8P8xjSOylJMkQW7t5O22/4wYe
+ +CdUPugh4j0fn5hdaCwRlBx6Q/q8H9AQEMw2GuNeQgGpSJqjrzkcgQn0K4/8mWpWVf52
+ ilLA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc
+ :content-transfer-encoding;
+ bh=VuBzE8dIuy1MwqUjC3TAArH5pVL/fBClNJZpGS4Jo1M=;
+ b=Nz6RJqqozuCsaBSQDSoHXdMQIIaqySDH3o/c2AJ/S7kMchbqx2HSWbQZDG8ki6gqQo
+ 1jM+/7YM7yaVjf5XrU34/BegoOZtS19+FEdrgETssCHfr28p2pByXtVuYIqY501dVvKu
+ OjQFViyqo2gOX/1cpTe+iGFTAg/rId4yrKOqg2eankNGOaSUzib1SlJLobWyFUY+ORH8
+ /XvMYajeO64yidXV7x3eU03vLNF1rKv0lNEBOTi3SQUgK+oxiQgIPl9kecXBeCDqyY19
+ Chup/jrUqRqA1nxL+BtxP0DW4GxD1DkX+Cv7phD/QoplsLDuCh7zFBNob+E7yTAwVwBM
+ tDJA==
+X-Gm-Message-State: AOAM5334wHATlnQrfvS0+8N8e4xHv3NW25i3eyDZgSoTPczLiFEqrr3h
+ d019XfBRXS/jIGElafUikeZgHfGEBxIr
+X-Google-Smtp-Source: ABdhPJxwQMgDdoK6Z/GFdIns9VNIhlSrGMS5FXRwXsJ3lRSBHxH0kZXuVptODUKQ6gcE/L38PPgkJevtpd7V
+X-Received: from venture.svl.corp.google.com
+ ([2620:15c:2a3:200:9017:ad23:15fc:8efc])
+ (user=venture job=sendgmr) by 2002:a25:bb07:: with SMTP id
+ z7mr32198883ybg.509.1641400938394; Wed, 05 Jan 2022 08:42:18 -0800 (PST)
+Date: Wed,  5 Jan 2022 08:42:14 -0800
+Message-Id: <20220105164214.3381151-1-venture@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.34.1.448.ga2b2bfdf31-goog
+Subject: [PATCH v2] net/tap: Set return code on failure
+From: Patrick Venture <venture@google.com>
+To: f4bug@amsat.org, jasowang@redhat.com, pefoley@google.com
+Cc: qemu-devel@nongnu.org, Patrick Venture <venture@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 05 Jan 2022 16:27:44 -0000
-From: Andrew Scott <1862619@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ascott1 imapotato2 laurent-vivier pmaydell
- tebounet th-huth
-X-Launchpad-Bug-Reporter: Thierry Briot (tebounet)
-X-Launchpad-Bug-Modifier: Andrew Scott (ascott1)
-References: <158133547000.19789.14380673630783179726.malonedeb@wampee.canonical.com>
-Message-Id: <164140006416.11158.10666333713269762981.malone@gac.canonical.com>
-Subject: [Bug 1862619] Re: "-serial telnet::xxxx,
- server" causes "Device 'serial0' is in use"
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="adb364d6a74a28e7b95d51cd30446ec16160de6c"; Instance="production"
-X-Launchpad-Hash: 025594df3cf4d1ad90a4c723103c759207b563c2
-Received-SPF: pass client-ip=185.125.188.250;
- envelope-from=noreply@launchpad.net; helo=smtp-relay-services-0.canonical.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b4a
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b4a;
+ envelope-from=3asrVYQcKCmseNWcdaNPXXPUN.LXVZNVd-MNeNUWXWPWd.XaP@flex--venture.bounces.google.com;
+ helo=mail-yb1-xb4a.google.com
+X-Spam_score_int: -87
+X-Spam_score: -8.8
+X-Spam_bar: --------
+X-Spam_report: (-8.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -85,83 +87,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1862619 <1862619@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Reporting again. Compiled QEMU from the latest stable Git:
+From: Peter Foley <pefoley@google.com>
 
-QEMU emulator version 6.2.50 (v6.2.0-529-gfb084237a3)
-Copyright (c) 2003-2021 Fabrice Bellard and the QEMU Project developers
+Match the other error handling in this function.
 
-Exactly as original post, if I place -serial telnet::4441,server ahead
-of -serial mon,stdio on the command line, it dumps core and aborts.
+Fixes: e7b347d0bf6 ("net: detect errors from probing vnet hdr flag for TAP =
+devices")
 
-if I flip them, it runs... BUT! The vm console output appears in the
-terminal where I launched qemu, I get no output in the telnet session.
-That's backwards. I have no access to the qemu console and can't issue
-commands to do things like change the CDROM.
+Reviewed-by: Patrick Venture <venture@google.com>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+Signed-off-by: Peter Foley <pefoley@google.com>
+---
+v2: Fixed commit titlewq and updated description.
+---
+ net/tap.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-full command startup script (this one works but output doesn't happen
-where I expect)
-
-#!/bin/sh
-CDROM=3D"-cdrom HP-UX-OE-1.iso"
-QEMU=3D/home/ascott/Documents/hpux/qemu/qemu/build/qemu-system-hppa
-IMAGE=3D/home/ascott/Documents/hpux/hpux.img
-$QEMU -boot d -serial mon:stdio -serial telnet::4441,server -drive if=3Dscs=
-i,bus=3D0,index=3D6,file=3D$IMAGE,format=3Draw -nographic -m 512 -d nochain=
- $CDROM  -net nic,model=3Dtulip  -net user
-
-This one dumps core with the serial0 error from the originla post:
-
-#!/bin/sh
-CDROM=3D"-cdrom HP-UX-OE-1.iso"
-QEMU=3D/home/ascott/Documents/hpux/qemu/qemu/build/qemu-system-hppa
-IMAGE=3D/home/ascott/Documents/hpux/hpux.img
-$QEMU -boot d -serial telnet::4441,server -serial mon:stdio -drive if=3Dscs=
-i,bus=3D0,index=3D6,file=3D$IMAGE,format=3Draw -nographic -m 512 -d nochain=
- $CDROM  -net nic,model=3Dtulip  -net user
-
-ascott@vmhost01:~/Documents/hpux$ sh ./install-hpux.sh=20
-qemu-system-hppa: -serial telnet::4441,server: info: QEMU waiting for conne=
-ction on: disconnected:telnet:0.0.0.0:4441,server=3Don
-Unexpected error in qemu_chr_fe_init() at ../chardev/char-fe.c:220:
-qemu-system-hppa: Device 'serial0' is in use
-Aborted (core dumped)
-
+diff --git a/net/tap.c b/net/tap.c
+index f716be3e3f..c5cbeaa7a2 100644
+--- a/net/tap.c
++++ b/net/tap.c
+@@ -900,6 +900,7 @@ int net_init_tap(const Netdev *netdev, const char *name=
+,
+             if (i =3D=3D 0) {
+                 vnet_hdr =3D tap_probe_vnet_hdr(fd, errp);
+                 if (vnet_hdr < 0) {
++                    ret =3D -1;
+                     goto free_fail;
+                 }
+             } else if (vnet_hdr !=3D tap_probe_vnet_hdr(fd, NULL)) {
 --=20
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1862619
-
-Title:
-  "-serial telnet::xxxx,server" causes "Device 'serial0' is in use"
-
-Status in QEMU:
-  Fix Released
-
-Bug description:
-  I start qemu version 4.2.50 in a first terminal :
-
-  $ sudo ./qemu-system-hppa -boot d -serial telnet::4441,server -drive
-  if=3Dscsi,bus=3D0,index=3D6,file=3D./hpux.img,format=3Draw -serial mon:st=
-dio -D
-  /tmp/foo -nographic -m 512 -d nochain -cdrom
-  ./HPUX_9.05_Installation_Disc_S700.iso -D /tmp/foo -net
-  nic,model=3Dtulip  -net tap
-
-  qemu-system-hppa: -serial telnet::4441,server: info: QEMU waiting for
-  connection on: disconnected:telnet:0.0.0.0:4441,server
-
-  In another terminal, I launch "telnet localhost 4441"
-
-  And in the qemu window I have the following error:
-
-  Unexpected error in qemu_chr_fe_init() at chardev/char-fe.c:220:
-  qemu-system-hppa: Device 'serial0' is in use
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1862619/+subscriptions
+2.34.1.448.ga2b2bfdf31-goog
 
 
