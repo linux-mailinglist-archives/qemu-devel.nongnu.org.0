@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9C64485521
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 15:56:36 +0100 (CET)
-Received: from localhost ([::1]:36376 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F2994854D0
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 15:44:01 +0100 (CET)
+Received: from localhost ([::1]:38168 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n57iN-0002DB-Ru
-	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 09:56:35 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52908)
+	id 1n57WC-0008Lf-99
+	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 09:44:00 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53286)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1n56sX-00004w-Hw
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 09:03:02 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36539)
+ id 1n56sq-0000Xx-6y
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 09:03:20 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:31043)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1n56sV-0007Kg-UB
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 09:03:01 -0500
+ id 1n56sZ-0007NC-Ta
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 09:03:19 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641391379;
+ s=mimecast20190719; t=1641391383;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MU05fzFG14Paw6y7UQrLSY8usprd9sJ/d97Uf91xMcU=;
- b=KWPPF8tlZu7xdjYxSkjbyq7/ZSEBU4QKWIG9SIbV2H3ee+FITYZ8wJZX5EwbMmYR2fBF81
- qlDKw5tMhxkgfhmHf1mZnlFx/PVUU50YaO210krSThr8QveBfOK+5koGyCLP/Jp/cjnDWx
- pJjTp0dwL/W4Q0y4EvBh5QP8W+2OQK4=
+ bh=2GFPYF3rd7vEl2S21B2p7zNKVat/lv/1EGml81GNS7s=;
+ b=bWdZ8ZZaSvU8gTE1rY8x17POdDLJdvO9sLveG8mDHb4EOv1qFo1hLFJGa3o7Zju3+Ja31t
+ fDJsrQmffFJL5At8v3DJ+DQUboVALZQxJVZq1InmGTXEJvTDL94G0xjSwUGFRrflZxmKH9
+ ei5MZ826HZ6+yn5ZjYhIX8nHCrUJsP8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-613-LXbujE7bORiy89gI906jPQ-1; Wed, 05 Jan 2022 09:02:58 -0500
-X-MC-Unique: LXbujE7bORiy89gI906jPQ-1
+ us-mta-103-kXvQ09SvOv6Titr6dKBdIQ-1; Wed, 05 Jan 2022 09:03:00 -0500
+X-MC-Unique: kXvQ09SvOv6Titr6dKBdIQ-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CB12F81EE98;
- Wed,  5 Jan 2022 14:02:49 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0E56583DCCA;
+ Wed,  5 Jan 2022 14:02:51 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A4ACB2B4B3;
- Wed,  5 Jan 2022 14:02:48 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E3DEC2C24E;
+ Wed,  5 Jan 2022 14:02:49 +0000 (UTC)
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v3 07/16] job.c: move inner aiocontext lock in callbacks
-Date: Wed,  5 Jan 2022 09:01:59 -0500
-Message-Id: <20220105140208.365608-8-eesposit@redhat.com>
+Subject: [PATCH v3 08/16] aio-wait.h: introduce AIO_WAIT_WHILE_UNLOCKED
+Date: Wed,  5 Jan 2022 09:02:00 -0500
+Message-Id: <20220105140208.365608-9-eesposit@redhat.com>
 In-Reply-To: <20220105140208.365608-1-eesposit@redhat.com>
 References: <20220105140208.365608-1-eesposit@redhat.com>
 MIME-Version: 1.0
@@ -61,13 +61,12 @@ Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=eesposit@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.372,
+X-Spam_score_int: -24
+X-Spam_score: -2.5
+X-Spam_bar: --
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.372,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,85 +90,70 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Instead of having the lock in job_tnx_apply, move it inside
-in the callback. This will be helpful for next commits, when
-we introduce job_lock/unlock pairs.
+Same as AIO_WAIT_WHILE macro, but if we are in the Main loop
+do not release and then acquire ctx_ 's aiocontext.
 
-job_transition_to_pending() and job_needs_finalize() do not
-need to be protected by the aiocontext lock.
-
-No functional change intended.
+Once all Aiocontext locks go away, this macro will replace
+AIO_WAIT_WHILE.
 
 Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 ---
- job.c | 15 +++++++++++----
+ include/block/aio-wait.h | 15 +++++++++++----
  1 file changed, 11 insertions(+), 4 deletions(-)
 
-diff --git a/job.c b/job.c
-index b0dba40728..2ee7233763 100644
---- a/job.c
-+++ b/job.c
-@@ -165,7 +165,6 @@ static void job_txn_del_job(Job *job)
+diff --git a/include/block/aio-wait.h b/include/block/aio-wait.h
+index b39eefb38d..ff27fe4eab 100644
+--- a/include/block/aio-wait.h
++++ b/include/block/aio-wait.h
+@@ -59,10 +59,11 @@ typedef struct {
+ extern AioWait global_aio_wait;
  
- static int job_txn_apply(Job *job, int fn(Job *))
- {
--    AioContext *inner_ctx;
-     Job *other_job, *next;
-     JobTxn *txn = job->txn;
-     int rc = 0;
-@@ -180,10 +179,7 @@ static int job_txn_apply(Job *job, int fn(Job *))
-     aio_context_release(job->aio_context);
+ /**
+- * AIO_WAIT_WHILE:
++ * _AIO_WAIT_WHILE:
+  * @ctx: the aio context, or NULL if multiple aio contexts (for which the
+  *       caller does not hold a lock) are involved in the polling condition.
+  * @cond: wait while this conditional expression is true
++ * @unlock: whether to unlock and then lock again @ctx
+  *
+  * Wait while a condition is true.  Use this to implement synchronous
+  * operations that require event loop activity.
+@@ -75,7 +76,7 @@ extern AioWait global_aio_wait;
+  * wait on conditions between two IOThreads since that could lead to deadlock,
+  * go via the main loop instead.
+  */
+-#define AIO_WAIT_WHILE(ctx, cond) ({                               \
++#define _AIO_WAIT_WHILE(ctx, cond, unlock) ({                      \
+     bool waited_ = false;                                          \
+     AioWait *wait_ = &global_aio_wait;                             \
+     AioContext *ctx_ = (ctx);                                      \
+@@ -90,11 +91,11 @@ extern AioWait global_aio_wait;
+         assert(qemu_get_current_aio_context() ==                   \
+                qemu_get_aio_context());                            \
+         while ((cond)) {                                           \
+-            if (ctx_) {                                            \
++            if (unlock && ctx_) {                                  \
+                 aio_context_release(ctx_);                         \
+             }                                                      \
+             aio_poll(qemu_get_aio_context(), true);                \
+-            if (ctx_) {                                            \
++            if (unlock && ctx_) {                                  \
+                 aio_context_acquire(ctx_);                         \
+             }                                                      \
+             waited_ = true;                                        \
+@@ -103,6 +104,12 @@ extern AioWait global_aio_wait;
+     qatomic_dec(&wait_->num_waiters);                              \
+     waited_; })
  
-     QLIST_FOREACH_SAFE(other_job, &txn->jobs, txn_list, next) {
--        inner_ctx = other_job->aio_context;
--        aio_context_acquire(inner_ctx);
-         rc = fn(other_job);
--        aio_context_release(inner_ctx);
-         if (rc) {
-             break;
-         }
-@@ -796,11 +792,15 @@ static void job_clean(Job *job)
- 
- static int job_finalize_single(Job *job)
- {
-+    AioContext *ctx = job->aio_context;
++#define AIO_WAIT_WHILE(ctx, cond)                                  \
++    _AIO_WAIT_WHILE(ctx, cond, true)
 +
-     assert(job_is_completed_locked(job));
- 
-     /* Ensure abort is called for late-transactional failures */
-     job_update_rc(job);
- 
-+    aio_context_acquire(ctx);
++#define AIO_WAIT_WHILE_UNLOCKED(ctx, cond)                         \
++    _AIO_WAIT_WHILE(ctx, cond, false)
 +
-     if (!job->ret) {
-         job_commit(job);
-     } else {
-@@ -808,6 +808,8 @@ static int job_finalize_single(Job *job)
-     }
-     job_clean(job);
- 
-+    aio_context_release(ctx);
-+
-     if (job->cb) {
-         job->cb(job->opaque, job->ret);
-     }
-@@ -928,11 +930,16 @@ static void job_completed_txn_abort(Job *job)
- 
- static int job_prepare(Job *job)
- {
-+    AioContext *ctx = job->aio_context;
-     assert(qemu_in_main_thread());
-+
-     if (job->ret == 0 && job->driver->prepare) {
-+        aio_context_acquire(ctx);
-         job->ret = job->driver->prepare(job);
-+        aio_context_release(ctx);
-         job_update_rc(job);
-     }
-+
-     return job->ret;
- }
- 
+ /**
+  * aio_wait_kick:
+  * Wake up the main thread if it is waiting on AIO_WAIT_WHILE().  During
 -- 
 2.31.1
 
