@@ -2,70 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A858485A6B
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 22:08:11 +0100 (CET)
-Received: from localhost ([::1]:38292 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37404485A8C
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 22:18:04 +0100 (CET)
+Received: from localhost ([::1]:47980 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5DVx-0000Fi-MO
-	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 16:08:09 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57020)
+	id 1n5DfW-0007VS-Q1
+	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 16:18:02 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58970)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n5DTo-0007B3-8o
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 16:05:56 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:38130)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n5Dc3-0005MV-UB
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 16:14:28 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:46639)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n5DTl-0000U6-7E
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 16:05:55 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n5Dbw-00062F-NI
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 16:14:26 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641416752;
+ s=mimecast20190719; t=1641417259;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=Gt9QfIZN5rnZhKo0ZrWiiBh13c8FjXxFg5EJQO/Iz/Y=;
- b=OC7Qj2EaQy7xnYh+Adg+dsiqoYhn9OFxVZe8TnGrZM5IaqDN52nITHFwl2ZdPAhrPGDZU4
- HBsPjdv4PVXig9u6DdP59u9bmLBR7nM8mNMgWbjf4O3K647S56fYBUI55SdATwYd/NHEi2
- Ixc19D3w7y8oqrkPSGhpPfkLQ3mB4qI=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=ONsG7DRoO6uq1S6/vcW0ccNEbLbV//wEK4iHgyh5ssA=;
+ b=eiHWXh0JPJZh00VNP6B7SdIJI57e+Ii6qrZSDopC5iXU57gC3mXRz/c0dANpf7waAJoVkc
+ fN0iuCeYHi6VBprJtZnbx1yW5QfHk5xeTDG+J/diZH3o2j8n+fXyOATC4a7ji3Ur/KiHMT
+ bemBJflHpdCq5lop3hXQRCCWAvUrxXw=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-551-CoKWPDFZNiyi3zuZRgKRsw-1; Wed, 05 Jan 2022 16:05:50 -0500
-X-MC-Unique: CoKWPDFZNiyi3zuZRgKRsw-1
-Received: by mail-wm1-f71.google.com with SMTP id
- l17-20020a05600c1d1100b00345e7624489so14788wms.9
- for <qemu-devel@nongnu.org>; Wed, 05 Jan 2022 13:05:50 -0800 (PST)
+ us-mta-669-hWMxfR6TNs-1hVHyRfVdAw-1; Wed, 05 Jan 2022 16:14:17 -0500
+X-MC-Unique: hWMxfR6TNs-1hVHyRfVdAw-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ l20-20020a05600c1d1400b003458e02cea0so2384466wms.7
+ for <qemu-devel@nongnu.org>; Wed, 05 Jan 2022 13:14:16 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=Gt9QfIZN5rnZhKo0ZrWiiBh13c8FjXxFg5EJQO/Iz/Y=;
- b=AvItTsxscS3578awrs3npLvypp4kxZQKgsdmPMuws5fuWO4hwTgnOMRJqkFKzBESQ2
- 5/L4b0jggegqw9jcyg9UUClkE5flWtcCH2hwSw7MUlf8fKags/QwYgliXqcK4E8H/tQ5
- K2GzJK8myCUDsCGYZCaF44baYik6KphiD4aYY0JsIUA0QYNc+/9rrdgSUgXdL45PUpNZ
- yvzZVDVLYXMewQYw87hWQJWpBiTTA3X035gOAEaEIraOmEu9hQcQZQNdMi3WyotPaVv1
- jNRdCUaE1XNVtULyoJ6LIi2IfOVV147/tIXRc/B0fTh15/S1N662/b9oMTT4/Cn/Q7Vs
- tgFQ==
-X-Gm-Message-State: AOAM533jS7cocIxW6eLul2AlsHgJK6q3/tHC69i71UL0njM8MDxm45MC
- HO0gtWcEkrUJ3TMlOx7BxKGbjLIXD3gmajQpXQTserlq24wWTXC348cmY8wkxpzlN2nmK+nTLzf
- g5A48R9ZwlyqZfb0=
-X-Received: by 2002:adf:fc02:: with SMTP id i2mr3469022wrr.330.1641416749394; 
- Wed, 05 Jan 2022 13:05:49 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJz6q/CLYIv9kUu063pj8Lyrqt0vPW3gMa1BKQOqKPlsF/ttGKF9choe2PXTxFRT+wdirIla6A==
-X-Received: by 2002:adf:fc02:: with SMTP id i2mr3469009wrr.330.1641416749156; 
- Wed, 05 Jan 2022 13:05:49 -0800 (PST)
+ bh=ONsG7DRoO6uq1S6/vcW0ccNEbLbV//wEK4iHgyh5ssA=;
+ b=dnPUtTNIgp4tZVTRDihkHQn9Ahbq3Y+1G09ACfhcIF4/OulVrWEZd0wEkE+3dhllH1
+ 4HJYb518MQPluSAH9RCeYBA4h6RjGz6YvBjHxc1iI/qUQEsl+M2Ztt13ClQeZ8p5+6IM
+ ED7/0TMCB7xXO4/MxB9DlbHgjhCpf9R4mxMx+4evv7ah7cRyYs5ndnxS5CDN2DEoifTR
+ W4ROwucAXKeH3CudXkz5nXJUckAnGJ4MR90kHmD5o1j7gKMfqT4cijJwFPoBqxXybBwK
+ TzJ1KS0YZ7veMnUvo7oEZSkQZLZmBYr7xlaI1Y83BHLdJpUyLj7o/6L6DuSqVaU8MwOO
+ uiGQ==
+X-Gm-Message-State: AOAM532EjV4kKhglIOEeUfkoTZhTWt/bE4aQvjXwyQjHRyTxucNvgabr
+ Sp4ejNlRuhgyMWtYPxPdjD9feQr6S4Bf6RDYo9Zoh/Nw+acVWflr0D7I1ebi8bvi4TW3NQiAB89
+ x6bskuBhZhAdBeqo=
+X-Received: by 2002:a5d:46d0:: with SMTP id g16mr50564272wrs.624.1641417255771; 
+ Wed, 05 Jan 2022 13:14:15 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyv1+s/Fy8QGDf1RXDpAe4JyRP5OiyK+fWSUvmj4w9MscDfvfOzyXLbfFFNuN8qZXSkgSTnwQ==
+X-Received: by 2002:a5d:46d0:: with SMTP id g16mr50564237wrs.624.1641417255501; 
+ Wed, 05 Jan 2022 13:14:15 -0800 (PST)
 Received: from redhat.com ([2a03:c5c0:207e:991b:6857:5652:b903:a63b])
- by smtp.gmail.com with ESMTPSA id u10sm81749wrs.28.2022.01.05.13.05.47
+ by smtp.gmail.com with ESMTPSA id q8sm87551wrx.59.2022.01.05.13.14.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Jan 2022 13:05:48 -0800 (PST)
-Date: Wed, 5 Jan 2022 16:05:45 -0500
+ Wed, 05 Jan 2022 13:14:14 -0800 (PST)
+Date: Wed, 5 Jan 2022 16:14:09 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Alex Williamson <alex.williamson@redhat.com>
-Subject: Re: [PATCH] vfio/pci: Generate more relevant log messages for reset
- failures
-Message-ID: <20220105160400-mutt-send-email-mst@kernel.org>
-References: <164141259622.4193261.8252690438434562107.stgit@omen>
+To: Steven Sistare <steven.sistare@oracle.com>
+Subject: Re: [PATCH V7 19/29] vfio-pci: cpr part 1 (fd and dma)
+Message-ID: <20220105161046-mutt-send-email-mst@kernel.org>
+References: <1640199934-455149-1-git-send-email-steven.sistare@oracle.com>
+ <1640199934-455149-20-git-send-email-steven.sistare@oracle.com>
+ <20211222181003-mutt-send-email-mst@kernel.org>
+ <f1cadf51-795b-200c-8abb-f8f97b34c228@oracle.com>
 MIME-Version: 1.0
-In-Reply-To: <164141259622.4193261.8252690438434562107.stgit@omen>
+In-Reply-To: <f1cadf51-795b-200c-8abb-f8f97b34c228@oracle.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -93,155 +95,150 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, kraxel@redhat.com
+Cc: "Daniel P. Berrange" <berrange@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, Jason Zeng <jason.zeng@linux.intel.com>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
+ Eric Blake <eblake@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Zheng Chuan <zhengchuan@huawei.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jan 05, 2022 at 12:56:42PM -0700, Alex Williamson wrote:
-> The VFIO_DEVICE_RESET ioctl might be backed by several different reset
-> methods, including a device specific reset (ie. custom reset code in
-> kernel), an ACPI reset (ie. custom reset code in firmware), FLR, PM,
-> and bus resets.  This listing is also the default priority order used
-> by the kernel for trying reset methods.  Traditionally we've had some
-> FUD regarding the PM reset as the extent of a "Soft Reset" is not well
-> defined in the PCI specification.  Therefore we try to guess what type
-> of reset a device might use for the VFIO_DEVICE_RESET and insert a bus
-> reset via the vfio hot reset interface if we think it could be a PM
-> reset.
+On Wed, Jan 05, 2022 at 12:24:21PM -0500, Steven Sistare wrote:
+> On 12/22/2021 6:15 PM, Michael S. Tsirkin wrote:
+> > On Wed, Dec 22, 2021 at 11:05:24AM -0800, Steve Sistare wrote:
+> >> Enable vfio-pci devices to be saved and restored across an exec restart
+> >> of qemu.
+> >>
+> >> At vfio creation time, save the value of vfio container, group, and device
+> >> descriptors in cpr state.
+> >>
+> >> In cpr-save and cpr-exec, suspend the use of virtual addresses in DMA
+> >> mappings with VFIO_DMA_UNMAP_FLAG_VADDR, because guest ram will be remapped
+> >> at a different VA after exec.  DMA to already-mapped pages continues.  Save
+> >> the msi message area as part of vfio-pci vmstate, save the interrupt and
+> >> notifier eventfd's in cpr state, and clear the close-on-exec flag for the
+> >> vfio descriptors.  The flag is not cleared earlier because the descriptors
+> >> should not persist across miscellaneous fork and exec calls that may be
+> >> performed during normal operation.
+> >>
+> >> On qemu restart, vfio_realize() finds the saved descriptors, uses
+> >> the descriptors, and notes that the device is being reused.  Device and
+> >> iommu state is already configured, so operations in vfio_realize that
+> >> would modify the configuration are skipped for a reused device, including
+> >> vfio ioctl's and writes to PCI configuration space.  The result is that
+> >> vfio_realize constructs qemu data structures that reflect the current
+> >> state of the device.  However, the reconstruction is not complete until
+> >> cpr-load is called. cpr-load loads the msi data and finds eventfds in cpr
+> >> state.  It rebuilds vector data structures and attaches the interrupts to
+> >> the new KVM instance.  cpr-load then invokes the main vfio listener callback,
+> >> which walks the flattened ranges of the vfio_address_spaces and calls
+> >> VFIO_DMA_MAP_FLAG_VADDR to inform the kernel of the new VA's.  Lastly, it
+> >> starts the VM and suppresses vfio pci device reset.
+> >>
+> >> This functionality is delivered by 3 patches for clarity.  Part 1 handles
+> >> device file descriptors and DMA.  Part 2 adds eventfd and MSI/MSI-X vector
+> >> support.  Part 3 adds INTX support.
+> >>
+> >> Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
+> >> ---
+> >>  MAINTAINERS                   |   1 +
+> >>  hw/pci/pci.c                  |  10 ++++
+> >>  hw/vfio/common.c              | 115 ++++++++++++++++++++++++++++++++++++++----
+> >>  hw/vfio/cpr.c                 |  94 ++++++++++++++++++++++++++++++++++
+> >>  hw/vfio/meson.build           |   1 +
+> >>  hw/vfio/pci.c                 |  77 ++++++++++++++++++++++++++++
+> >>  hw/vfio/trace-events          |   1 +
+> >>  include/hw/pci/pci.h          |   1 +
+> >>  include/hw/vfio/vfio-common.h |   8 +++
+> >>  include/migration/cpr.h       |   3 ++
+> >>  migration/cpr.c               |  10 +++-
+> >>  migration/target.c            |  14 +++++
+> >>  12 files changed, 324 insertions(+), 11 deletions(-)
+> >>  create mode 100644 hw/vfio/cpr.c
+> >>
+> >> diff --git a/MAINTAINERS b/MAINTAINERS
+> >> index cfe7480..feed239 100644
+> >> --- a/MAINTAINERS
+> >> +++ b/MAINTAINERS
+> >> @@ -2992,6 +2992,7 @@ CPR
+> >>  M: Steve Sistare <steven.sistare@oracle.com>
+> >>  M: Mark Kanda <mark.kanda@oracle.com>
+> >>  S: Maintained
+> >> +F: hw/vfio/cpr.c
+> >>  F: include/migration/cpr.h
+> >>  F: migration/cpr.c
+> >>  F: qapi/cpr.json
+> >> diff --git a/hw/pci/pci.c b/hw/pci/pci.c
+> >> index 0fd21e1..e35df4f 100644
+> >> --- a/hw/pci/pci.c
+> >> +++ b/hw/pci/pci.c
+> >> @@ -307,6 +307,16 @@ static void pci_do_device_reset(PCIDevice *dev)
+> >>  {
+> >>      int r;
+> >>  
+> >> +    /*
+> >> +     * A reused vfio-pci device is already configured, so do not reset it
+> >> +     * during qemu_system_reset prior to cpr-load, else interrupts may be
+> >> +     * lost.  By contrast, pure-virtual pci devices may be reset here and
+> >> +     * updated with new state in cpr-load with no ill effects.
+> >> +     */
+> >> +    if (dev->reused) {
+> >> +        return;
+> >> +    }
+> >> +
+> >>      pci_device_deassert_intx(dev);
+> >>      assert(dev->irq_state == 0);
+> >>  
+> > 
+> > 
+> > Hmm that's a weird thing to do. I suspect this works because
+> > "reused" means something like "in the process of being restored"?
+> > Because clearly, we do not want to skip this part e.g. when
+> > guest resets the device.
 > 
-> This results in a couple odd tests for PM reset in our hot reset code,
-> as we assume if we don't detect has_pm_reset support that we can't
-> reset the device otherwise.  Starting with kernel v5.15, the kernel
-> exposes a sysfs attribute for devices that can tell us the priority
-> order for device resets, so long term (not implemented here) we no
-> longer need to play this guessing game, and if permissions allow we
-> could manipulate the order ourselves so that we don't need to inject
-> our own hot reset.
+> Exactly.  vfio_realize sets the flag if it detects the device is reused during
+> a restart, and vfio_pci_post_load clears the reused flag.
 > 
-> In the shorter term, implemented here, let's not assume we're out of
-> reset methods if we can't perform a hot reset and the device doesn't
-> support PM reset.  We can use reset_works as the authority, which
-> allows us to generate more comprehensible error messages for the case
-> when it actually doesn't work.
+> > So a better name could be called for, but really I don't
+> > love how vfio gets to poke at internal PCI state.
+> > I'd rather we found a way just not to call this function.
+> > If we can't, maybe an explicit API, and make it
+> > actually say what it's doing?
 > 
-> The impetus for this change is a result of commit d5daff7d3126 ("pcie:
-> implement slot power control for pcie root ports"), where powering off
-> a slot now results in a device reset.  If the slot is powered off as a
-> result of qdev_unplug() via the device request event, that device
-> request is potentially the result of an unbind operation in the host.
-> That unbind operation holds the kernel device lock, which causes the
-> VFIO_DEVICE_RESET ioctl to fail (or in the case of some kernels, has
-> cleared the flag indicating support of a device reset function).  We
-> can then end up with an SR-IOV VF device trying to trigger a hot reset,
-> which finds that it needs ownership of the PF group to perform such a
-> reset, resulting in confusing log messages.
+> How about:
 > 
-> Ultimately the above commit still introduces a log message that we
-> didn't have prior on such an unplug, but it's not unjustified to
-> perform such a reset, though it might be considered unnecessary.
-> Arguably failure to reset the device should always generate some sort
-> of meaningful log message.
+> pci_set_restore(PCIDevice *dev) { dev->restore = true; }
+> pci_clr_restore(PCIDevice *dev) { dev->restore = false; }
 > 
-> Signed-off-by: Alex Williamson <alex.williamson@redhat.com>
+> vfio_realize()
+>   pci_set_restore(pdev)
+> 
+> vfio_pci_post_load()
+>   pci_clr_restore(pdev)
+> 
+> pci_do_device_reset()
+>     if (dev->restore)
+>         return;
+> 
+> - Steve
 
-Looks reasonable. Just an extra idea: do we want to maybe validate the
-return code from the ioctl? I assume it's something like EBUSY right?
-In any case better than what we have now:
 
-Acked-by: Michael S. Tsirkin <mst@redhat.com>
+Not too bad. I'd like a better definition of what dev->restore is
+exactly and to add them in comments near where it
+is defined and used.
 
+E.g. does this mean "device is being restored because of qemu restart"?
 
+Do we need a per device flag for this thing or would a global
+"qemu restart in progress" flag be enough?
 
-> ---
->  hw/vfio/pci.c |   44 ++++++++++++++++++++++++++++++++------------
->  1 file changed, 32 insertions(+), 12 deletions(-)
-> 
-> diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
-> index 7b45353ce27f..ea697951556e 100644
-> --- a/hw/vfio/pci.c
-> +++ b/hw/vfio/pci.c
-> @@ -2224,7 +2224,7 @@ static int vfio_pci_hot_reset(VFIOPCIDevice *vdev, bool single)
->      ret = ioctl(vdev->vbasedev.fd, VFIO_DEVICE_GET_PCI_HOT_RESET_INFO, info);
->      if (ret && errno != ENOSPC) {
->          ret = -errno;
-> -        if (!vdev->has_pm_reset) {
-> +        if (!vdev->vbasedev.reset_works) {
->              error_report("vfio: Cannot reset device %s, "
->                           "no available reset mechanism.", vdev->vbasedev.name);
->          }
-> @@ -2270,7 +2270,7 @@ static int vfio_pci_hot_reset(VFIOPCIDevice *vdev, bool single)
->          }
->  
->          if (!group) {
-> -            if (!vdev->has_pm_reset) {
-> +            if (!vdev->vbasedev.reset_works) {
->                  error_report("vfio: Cannot reset device %s, "
->                               "depends on group %d which is not owned.",
->                               vdev->vbasedev.name, devices[i].group_id);
-> @@ -3162,6 +3162,8 @@ static void vfio_exitfn(PCIDevice *pdev)
->  static void vfio_pci_reset(DeviceState *dev)
->  {
->      VFIOPCIDevice *vdev = VFIO_PCI(dev);
-> +    Error *err = NULL;
-> +    int ret;
->  
->      trace_vfio_pci_reset(vdev->vbasedev.name);
->  
-> @@ -3175,26 +3177,44 @@ static void vfio_pci_reset(DeviceState *dev)
->          goto post_reset;
->      }
->  
-> -    if (vdev->vbasedev.reset_works &&
-> -        (vdev->has_flr || !vdev->has_pm_reset) &&
-> -        !ioctl(vdev->vbasedev.fd, VFIO_DEVICE_RESET)) {
-> -        trace_vfio_pci_reset_flr(vdev->vbasedev.name);
-> -        goto post_reset;
-> +    if (vdev->vbasedev.reset_works && (vdev->has_flr || !vdev->has_pm_reset)) {
-> +        if (!ioctl(vdev->vbasedev.fd, VFIO_DEVICE_RESET)) {
-> +            trace_vfio_pci_reset_flr(vdev->vbasedev.name);
-> +            goto post_reset;
-> +        }
-> +
-> +        error_setg_errno(&err, errno, "Unable to reset device");
->      }
->  
->      /* See if we can do our own bus reset */
-> -    if (!vfio_pci_hot_reset_one(vdev)) {
-> +    ret = vfio_pci_hot_reset_one(vdev);
-> +    if (!ret) {
->          goto post_reset;
->      }
->  
-> +    if (!err) {
-> +        error_setg_errno(&err, -ret, "Unable to perform bus reset");
-> +    }
-> +
->      /* If nothing else works and the device supports PM reset, use it */
-> -    if (vdev->vbasedev.reset_works && vdev->has_pm_reset &&
-> -        !ioctl(vdev->vbasedev.fd, VFIO_DEVICE_RESET)) {
-> -        trace_vfio_pci_reset_pm(vdev->vbasedev.name);
-> -        goto post_reset;
-> +    if (vdev->vbasedev.reset_works && vdev->has_pm_reset) {
-> +        /* Prefer to report the ioctl failure mode */
-> +        error_free(err);
-> +        err = NULL;
-> +
-> +        if (!ioctl(vdev->vbasedev.fd, VFIO_DEVICE_RESET)) {
-> +            trace_vfio_pci_reset_pm(vdev->vbasedev.name);
-> +            goto post_reset;
-> +        }
-> +
-> +        error_setg_errno(&err, errno, "Unable to reset device");
->      }
->  
-> +    warn_reportf_err(err, VFIO_MSG_PREFIX, vdev->vbasedev.name);
-> +    err = NULL;
-> +
->  post_reset:
-> +    error_free(err);
->      vfio_pci_post_reset(vdev);
->  }
->  
-> 
+-- 
+MST
 
 
