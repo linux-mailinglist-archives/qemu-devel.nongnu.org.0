@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7BAF485428
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 15:15:01 +0100 (CET)
-Received: from localhost ([::1]:59454 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9C8948540C
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 15:05:58 +0100 (CET)
+Received: from localhost ([::1]:40270 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5748-0006ym-Sz
-	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 09:15:00 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49272)
+	id 1n56vN-0001YU-Na
+	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 09:05:57 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49346)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1n56gN-00088q-KM
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 08:50:27 -0500
-Received: from [2a00:1450:4864:20::531] (port=39874
+ id 1n56gP-0008Bi-L4
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 08:50:32 -0500
+Received: from [2a00:1450:4864:20::531] (port=35478
  helo=mail-ed1-x531.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1n56gL-0004Ce-7A
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 08:50:27 -0500
-Received: by mail-ed1-x531.google.com with SMTP id f5so162331996edq.6
- for <qemu-devel@nongnu.org>; Wed, 05 Jan 2022 05:50:19 -0800 (PST)
+ id 1n56gM-0004Cz-Pd
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 08:50:29 -0500
+Received: by mail-ed1-x531.google.com with SMTP id y22so162351417edq.2
+ for <qemu-devel@nongnu.org>; Wed, 05 Jan 2022 05:50:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=zBLapjuHP/4NWqUOAit+XFTgSQaTQ4+qqPu3fTaeTeI=;
- b=rPnVT2LKYY2oiGYyRB4yUI4LqbL39fkY0viVUtgredCTVnPJsDgj1dFjuoOQ9MdcSZ
- 5/19tzOeNGhLoKgVF2tbG62hclpphpZ6d9cgP5cMRZrs0rrS5Fbvd9yM7a7W9iOwSv1z
- R7bV9LRBy4AON7w5Ze5kB4dtiM/C/NtwJa7bIYjuswlDYlM3imGkmxY/hZ1QpE7N4HHA
- gu2yvcP9XbIJWQeQW6DvNzVGA3bN/oOPuVx4AVdRa5qa2n3E4TX6rWbRpFFnOIpGJswa
- PXLYZSPWUZbb/TvpLitZcP4zyk0EAqxnATz5il0Cdo7n+a7r1Q7CagYsqhJtM3oqpY0u
- WE5A==
+ bh=pvlHLjE3fnhbU53U5VSoe45Ri3wPbhenP/DHGpteIhU=;
+ b=eeidvR3bNR1e7dJTe6XpbxmD6cz2dpExuYdSWQgDj26Km0st24iQbvy/Z7PNxZWDRg
+ sZbhLmc3121fVVd3TjBFl6WpLRARWcW49lxvwKRv7ruCx8sxvcKzYKucFaXawznC2Y8i
+ nTtPDyRaN/84TluKrAsDdNLdewik7ImgztiieC/Y9n4Pxb5w96vf0WNz8tGnOxuEUZd7
+ /Cxkgw9DW3WxOhjOzU0FC96aFq1R1JHtET/qYsJUulDpjcQerqwzGwvlQEGYIcAf7+T0
+ vvZi7YfLzKlZ6/0I2bVY2tF6256+ReyWGZSJMOeqYmnySfFfPNeXdwW/gUCTKwVY+lNX
+ UdBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=zBLapjuHP/4NWqUOAit+XFTgSQaTQ4+qqPu3fTaeTeI=;
- b=XZv50t5EhL9qAN9iwIvdWsi0siihwlTN4kmnyExwThIct0IDNLOlQFl5ctrEmNKb7X
- IxA0UjfB3yBP5GVqL6oFEV+W/JxjuXe7VQVRkL2q03m6Y18eyeTKPAI4L40nDb4U8ckb
- uJ1iu99aybqs7aXDI+kjzVPA5DQNl2JLWh58XdE68Z4W2+IqKDjCgxSIW9DYPx7AwDfn
- jc+keV2vL3i+74ZPe4WOBN3P5xAe0UHSVT6DvvdF/BHHqH5glUAGyRUcNx9koO4H3Icv
- qh/XACypgOLeSbl0Ybb3ZIQfB5Cbu8nERuF28ia9xMPMfILPzqZBqSZIW3SUI7wpEGy0
- +aFQ==
-X-Gm-Message-State: AOAM531EXpn0E5vb+XbX1XQawUABqbdu23UUVKgo2iIbcY1aO7A7scZy
- FtAk7WlngzESSthauUHrwhUL7Q==
-X-Google-Smtp-Source: ABdhPJyKYyYydLOhbXLmZcJdo2bgG3VCtflG2iinGxQ4hbCIKi41MFFGcZ5PZe187r1WCD4cAG/MTg==
-X-Received: by 2002:a05:6402:4311:: with SMTP id
- m17mr53878756edc.110.1641390618263; 
- Wed, 05 Jan 2022 05:50:18 -0800 (PST)
+ bh=pvlHLjE3fnhbU53U5VSoe45Ri3wPbhenP/DHGpteIhU=;
+ b=AAq02gy/8KutA72ksh80mPBiElFmVadSsDApbIsF5+rJyeCBPXyH8uSu9fKh+CkQ3L
+ QjdWh4G+v801ey8yYANrRXu5m3kBjIOm4r/kbdYTtBhW2Xml9VfXPTEFlhTq/LYH2WBu
+ sv9pK9CDMLQjWX3FuDtpAyj6fMIOT9+Hl0yDtD5dAskvmwOAvpU8GHUT6rkNPtGTZjCE
+ vMnJoc6FkGRrZmp/RpQQlF865dzvcpQMTJLOpJvKeKL5+8j13UhS+2+Gffz4UuSJHhp+
+ kb3CYL3qwnq9JZH4Vi5u0XBzxfbteDSsgsqeB40h9rRw6A2WINawVGQ9P16Rca2eQQ1h
+ YmZQ==
+X-Gm-Message-State: AOAM530Jhv9AlAiC6pJRmC3mb+1GKp8Ic8H703MW3NmhV1L8mEaIu3eW
+ m0REbjUmPo3aAxtJhNVA2D2e2A==
+X-Google-Smtp-Source: ABdhPJzSAx5g6njEy9ZQLr1+hKukLH75r33hZLdhjA07H7Ehp0UgrgmySMEpNc2uIQkjGAFeYMmMOA==
+X-Received: by 2002:a05:6402:2142:: with SMTP id
+ bq2mr43607263edb.5.1641390621739; 
+ Wed, 05 Jan 2022 05:50:21 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id y12sm10848874edd.31.2022.01.05.05.50.12
+ by smtp.gmail.com with ESMTPSA id kx8sm9100504ejc.126.2022.01.05.05.50.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 05 Jan 2022 05:50:17 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id CF9371FFC0;
+ by zen.linaroharston (Postfix) with ESMTP id EA8BE1FFC1;
  Wed,  5 Jan 2022 13:50:09 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 08/34] tests/docker: auto-generate centos8.docker with
+Subject: [PATCH v1 09/34] tests/docker: auto-generate fedora.docker with
  lcitool
-Date: Wed,  5 Jan 2022 13:49:43 +0000
-Message-Id: <20220105135009.1584676-9-alex.bennee@linaro.org>
+Date: Wed,  5 Jan 2022 13:49:44 +0000
+Message-Id: <20220105135009.1584676-10-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220105135009.1584676-1-alex.bennee@linaro.org>
 References: <20220105135009.1584676-1-alex.bennee@linaro.org>
@@ -108,27 +108,29 @@ This commit is best examined using the "-b" option to diff.
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20211215141949.3512719-9-berrange@redhat.com>
+Message-Id: <20211215141949.3512719-10-berrange@redhat.com>
 ---
- tests/docker/dockerfiles/centos8.docker | 243 +++++++++++++-----------
- tests/lcitool/refresh                   |   2 +
- 2 files changed, 135 insertions(+), 110 deletions(-)
+ tests/docker/dockerfiles/fedora.docker | 260 ++++++++++++++-----------
+ tests/lcitool/refresh                  |   1 +
+ 2 files changed, 146 insertions(+), 115 deletions(-)
 
-diff --git a/tests/docker/dockerfiles/centos8.docker b/tests/docker/dockerfiles/centos8.docker
-index 7f135f8e8c..3c62b62a99 100644
---- a/tests/docker/dockerfiles/centos8.docker
-+++ b/tests/docker/dockerfiles/centos8.docker
-@@ -1,112 +1,135 @@
--FROM docker.io/centos:8
+diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/dockerfiles/fedora.docker
+index 855aefaac5..6784878b56 100644
+--- a/tests/docker/dockerfiles/fedora.docker
++++ b/tests/docker/dockerfiles/fedora.docker
+@@ -1,118 +1,148 @@
 +# THIS FILE WAS AUTO-GENERATED
 +#
-+#  $ lcitool dockerfile centos-8 qemu
++#  $ lcitool dockerfile fedora-35 qemu
 +#
 +# https://gitlab.com/libvirt/libvirt-ci
++
+ FROM registry.fedoraproject.org/fedora:35
  
--RUN dnf -y update
+-# Please keep this list sorted alphabetically
 -ENV PACKAGES \
 -    SDL2-devel \
+-    SDL2_image-devel \
 -    alsa-lib-devel \
 -    bc \
 -    brlapi-devel \
@@ -147,6 +149,7 @@ index 7f135f8e8c..3c62b62a99 100644
 -    findutils \
 -    gcc \
 -    gcc-c++ \
+-    gcovr \
 -    genisoimage \
 -    gettext \
 -    git \
@@ -183,13 +186,16 @@ index 7f135f8e8c..3c62b62a99 100644
 -    libtasn1-devel \
 -    libubsan \
 -    libudev-devel \
+-    liburing-devel \
 -    libusbx-devel \
 -    libxml2-devel \
 -    libzstd-devel \
 -    llvm \
+-    lttng-ust-devel \
 -    lzo-devel \
 -    make \
 -    mesa-libgbm-devel \
+-    meson \
 -    ncurses-devel \
 -    nettle-devel \
 -    ninja-build \
@@ -197,53 +203,56 @@ index 7f135f8e8c..3c62b62a99 100644
 -    numactl-devel \
 -    openssh-clients \
 -    pam-devel \
--    perl \
 -    perl-Test-Harness \
+-    perl-base \
 -    pixman-devel \
 -    pkgconfig \
 -    pulseaudio-libs-devel \
 -    python3 \
 -    python3-PyYAML \
 -    python3-numpy \
+-    python3-opencv \
 -    python3-pillow \
 -    python3-pip \
--    python3-setuptools \
 -    python3-sphinx \
 -    python3-sphinx_rtd_theme \
 -    python3-virtualenv \
--    python3-wheel \
 -    rdma-core-devel \
 -    rpm \
 -    sed \
 -    snappy-devel \
+-    sparse \
 -    spice-protocol \
 -    spice-server-devel \
 -    systemd-devel \
 -    systemtap-sdt-devel \
 -    tar \
+-    tesseract \
+-    tesseract-langpack-eng \
 -    texinfo \
 -    usbredir-devel \
 -    util-linux \
 -    virglrenderer-devel \
 -    vte291-devel \
 -    which \
+-    xen-devel \
 -    xfsprogs-devel \
 -    zlib-devel
-+FROM docker.io/library/centos:8
- 
--RUN dnf install -y dnf-plugins-core && \
--  dnf config-manager --set-enabled powertools && \
--  dnf install -y centos-release-advanced-virtualization && \
--  dnf install -y epel-release && \
--  dnf install -y $PACKAGES
--RUN rpm -q $PACKAGES | sort > /packages.txt
-+RUN dnf update -y && \
-+    dnf install 'dnf-command(config-manager)' -y && \
-+    dnf config-manager --set-enabled -y powertools && \
-+    dnf install -y centos-release-advanced-virtualization && \
-+    dnf install -y epel-release && \
-+    dnf install -y \
+-ENV QEMU_CONFIGURE_OPTS --python=/usr/bin/python3
++RUN dnf install -y nosync && \
++    echo -e '#!/bin/sh\n\
++if test -d /usr/lib64\n\
++then\n\
++    export LD_PRELOAD=/usr/lib64/nosync/nosync.so\n\
++else\n\
++    export LD_PRELOAD=/usr/lib/nosync/nosync.so\n\
++fi\n\
++exec "$@"' > /usr/bin/nosync && \
++    chmod +x /usr/bin/nosync && \
++    nosync dnf update -y && \
++    nosync dnf install -y \
 +        SDL2-devel \
++        SDL2_image-devel \
 +        alsa-lib-devel \
 +        bash \
 +        bc \
@@ -263,6 +272,7 @@ index 7f135f8e8c..3c62b62a99 100644
 +        findutils \
 +        gcc \
 +        gcc-c++ \
++        gcovr \
 +        genisoimage \
 +        gettext \
 +        git \
@@ -318,14 +328,15 @@ index 7f135f8e8c..3c62b62a99 100644
 +        openssh-clients \
 +        pam-devel \
 +        pcre-static \
-+        perl \
 +        perl-Test-Harness \
++        perl-base \
 +        pixman-devel \
 +        pkgconfig \
 +        pulseaudio-libs-devel \
 +        python3 \
 +        python3-PyYAML \
 +        python3-numpy \
++        python3-opencv \
 +        python3-pillow \
 +        python3-pip \
 +        python3-sphinx \
@@ -335,22 +346,26 @@ index 7f135f8e8c..3c62b62a99 100644
 +        rpm \
 +        sed \
 +        snappy-devel \
++        sparse \
 +        spice-protocol \
 +        spice-server-devel \
 +        systemd-devel \
 +        systemtap-sdt-devel \
 +        tar \
++        tesseract \
++        tesseract-langpack-eng \
 +        texinfo \
 +        usbredir-devel \
 +        util-linux \
 +        virglrenderer-devel \
 +        vte291-devel \
 +        which \
++        xen-devel \
 +        xfsprogs-devel \
 +        zlib-devel \
 +        zlib-static && \
-+    dnf autoremove -y && \
-+    dnf clean all -y && \
++    nosync dnf autoremove -y && \
++    nosync dnf clean all -y && \
 +    rpm -qa | sort > /packages.txt && \
 +    mkdir -p /usr/libexec/ccache-wrappers && \
 +    ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/c++ && \
@@ -358,25 +373,27 @@ index 7f135f8e8c..3c62b62a99 100644
 +    ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/clang && \
 +    ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/g++ && \
 +    ln -s /usr/bin/ccache /usr/libexec/ccache-wrappers/gcc
-+
+ 
+-RUN dnf install -y $PACKAGES
+-RUN rpm -q $PACKAGES | sort > /packages.txt
+-ENV PATH $PATH:/usr/libexec/python3-sphinx/
 +ENV LANG "en_US.UTF-8"
 +ENV MAKE "/usr/bin/make"
 +ENV NINJA "/usr/bin/ninja"
 +ENV PYTHON "/usr/bin/python3"
 +ENV CCACHE_WRAPPERSDIR "/usr/libexec/ccache-wrappers"
 diff --git a/tests/lcitool/refresh b/tests/lcitool/refresh
-index b47e25f64b..824b1c0ef2 100755
+index 824b1c0ef2..d79d2b8c06 100755
 --- a/tests/lcitool/refresh
 +++ b/tests/lcitool/refresh
-@@ -61,6 +61,8 @@ def generate_dockerfile(host, target, cross=None, trailer=None):
-    generate(filename, cmd, trailer)
+@@ -62,6 +62,7 @@ def generate_dockerfile(host, target, cross=None, trailer=None):
  
  try:
-+   generate_dockerfile("centos8", "centos-8")
-+
+    generate_dockerfile("centos8", "centos-8")
++   generate_dockerfile("fedora", "fedora-35")
+ 
     sys.exit(0)
  except Exception as ex:
-    print(str(ex), file=sys.stderr)
 -- 
 2.30.2
 
