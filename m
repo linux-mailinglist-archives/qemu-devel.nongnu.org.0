@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01AF9484DD7
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 06:54:26 +0100 (CET)
-Received: from localhost ([::1]:43440 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4988484E0B
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 07:11:36 +0100 (CET)
+Received: from localhost ([::1]:46012 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n4zFg-0001qN-Ax
-	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 00:54:24 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56672)
+	id 1n4zWJ-0004YA-5Z
+	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 01:11:35 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59418)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
- id 1n4z9m-0000LB-9l
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 00:48:22 -0500
-Received: from szxga08-in.huawei.com ([45.249.212.255]:3259)
+ (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
+ id 1n4zSi-0003o6-0q
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 01:07:53 -0500
+Received: from mga03.intel.com ([134.134.136.65]:54371)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
- id 1n4z9U-0001GX-Pg
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 00:48:07 -0500
-Received: from dggpeml500026.china.huawei.com (unknown [172.30.72.57])
- by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4JTJMb1hYwz1DKNF;
- Wed,  5 Jan 2022 13:44:27 +0800 (CST)
-Received: from dggpeml100016.china.huawei.com (7.185.36.216) by
- dggpeml500026.china.huawei.com (7.185.36.106) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Wed, 5 Jan 2022 13:47:53 +0800
-Received: from dggpeml100016.china.huawei.com ([7.185.36.216]) by
- dggpeml100016.china.huawei.com ([7.185.36.216]) with mapi id 15.01.2308.020;
- Wed, 5 Jan 2022 13:47:53 +0800
-To: Jason Wang <jasowang@redhat.com>
-CC: Stefan Hajnoczi <stefanha@redhat.com>, mst <mst@redhat.com>, "Stefano
- Garzarella" <sgarzare@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- pbonzini <pbonzini@redhat.com>, "Gonglei (Arei)" <arei.gonglei@huawei.com>,
- Yechuan <yechuan@huawei.com>, Huangzhichao <huangzhichao@huawei.com>,
- qemu-devel <qemu-devel@nongnu.org>
-Subject: RE: [RFC 01/10] virtio: get class_id and pci device id by the virtio
- id
-Thread-Topic: [RFC 01/10] virtio: get class_id and pci device id by the virtio
- id
-Thread-Index: AQHYAc9vCeFWPgdrrU+qsnWZQ04FAaxTUiwAgACZmDA=
-Date: Wed, 5 Jan 2022 05:47:53 +0000
-Message-ID: <23a3d3367ef84f2b83b70feda27efccc@huawei.com>
-References: <20220105005900.860-1-longpeng2@huawei.com>
- <20220105005900.860-2-longpeng2@huawei.com>
- <CACGkMEtAJCRvROegCECMkWTgopf30rh4P_sw6gzpF-7Eu32Jzw@mail.gmail.com>
-In-Reply-To: <CACGkMEtAJCRvROegCECMkWTgopf30rh4P_sw6gzpF-7Eu32Jzw@mail.gmail.com>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.174.148.223]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
+ id 1n4zSf-0002MY-F1
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 01:07:51 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1641362869; x=1672898869;
+ h=date:from:to:cc:subject:message-id:reply-to:references:
+ mime-version:in-reply-to;
+ bh=07p9MpW9zMg9Qp6lAa6OCqWxIJ+2lO0bV8d8+HqWdzA=;
+ b=Ws/mM52/omj2Mut3ufcLB7BKQpHPmd+uSgN7vrWld/caCla0qf/tylFB
+ fCpMHojKuJ22QseYnOtMmspct1BMqVluyMc6FmM77A8Dkv+deqgVg5Qt4
+ itLgt05qQReZUuHOghaqClMOXap5hZqyvru+3MY0GycgDSRypvQ/2d/VA
+ dxzAK+FbVza/i2n6464sRBuoTHqiIMSNnkvUK4lmCT1LRSXGgdeOO5mWU
+ 9gT9G4GVzRO+XGhawcW9NMCI58Z+HEumZmVqfv63bkvA+4D69PBYnkLXd
+ q080V+DTPKpq3Yp60Fs0HQtnd4ZdkzTKjvxhl5inc7HSfwJOYJf4VTXT8 Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10217"; a="242334640"
+X-IronPort-AV: E=Sophos;i="5.88,262,1635231600"; d="scan'208";a="242334640"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Jan 2022 22:07:45 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,262,1635231600"; d="scan'208";a="526379627"
+Received: from chaop.bj.intel.com (HELO localhost) ([10.240.192.101])
+ by orsmga008.jf.intel.com with ESMTP; 04 Jan 2022 22:07:38 -0800
+Date: Wed, 5 Jan 2022 14:07:04 +0800
+From: Chao Peng <chao.p.peng@linux.intel.com>
+To: Sean Christopherson <seanjc@google.com>
+Subject: Re: [PATCH v3 kvm/queue 03/16] mm/memfd: Introduce MEMFD_OPS
+Message-ID: <20220105060704.GA25009@chaop.bj.intel.com>
+References: <20211223123011.41044-1-chao.p.peng@linux.intel.com>
+ <20211223123011.41044-4-chao.p.peng@linux.intel.com>
+ <95d13ac7da32aa1530d6883777ef3279e4ad825d.camel@linux.intel.com>
+ <20211231023853.GB7255@chaop.bj.intel.com>
+ <YdSGHnMFV5Mu9vdF@google.com>
 MIME-Version: 1.0
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.255; envelope-from=longpeng2@huawei.com;
- helo=szxga08-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YdSGHnMFV5Mu9vdF@google.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+Received-SPF: none client-ip=134.134.136.65;
+ envelope-from=chao.p.peng@linux.intel.com; helo=mga03.intel.com
+X-Spam_score_int: -46
+X-Spam_score: -4.7
 X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-4.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.372,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -75,121 +75,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
+Cc: Wanpeng Li <wanpengli@tencent.com>, jun.nakajima@intel.com,
+ kvm@vger.kernel.org, david@redhat.com, qemu-devel@nongnu.org,
+ "J . Bruce Fields" <bfields@fieldses.org>, linux-mm@kvack.org,
+ "H . Peter Anvin" <hpa@zytor.com>, ak@linux.intel.com,
+ Jonathan Corbet <corbet@lwn.net>, Joerg Roedel <joro@8bytes.org>,
+ x86@kernel.org, Hugh Dickins <hughd@google.com>,
+ Robert Hoo <robert.hu@linux.intel.com>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, luto@kernel.org,
+ Thomas Gleixner <tglx@linutronix.de>, Vitaly Kuznetsov <vkuznets@redhat.com>,
+ Jim Mattson <jmattson@google.com>, dave.hansen@intel.com, susie.li@intel.com,
+ Jeff Layton <jlayton@kernel.org>, linux-kernel@vger.kernel.org,
+ john.ji@intel.com, Yu Zhang <yu.c.zhang@linux.intel.com>,
+ linux-fsdevel@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  "Longpeng (Mike, Cloud Infrastructure Service Product Dept.)"
- <longpeng2@huawei.com>
-From: longpeng2--- via <qemu-devel@nongnu.org>
 
-DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogSmFzb24gV2FuZyBbbWFp
-bHRvOmphc293YW5nQHJlZGhhdC5jb21dDQo+IFNlbnQ6IFdlZG5lc2RheSwgSmFudWFyeSA1LCAy
-MDIyIDEyOjM4IFBNDQo+IFRvOiBMb25ncGVuZyAoTWlrZSwgQ2xvdWQgSW5mcmFzdHJ1Y3R1cmUg
-U2VydmljZSBQcm9kdWN0IERlcHQuKQ0KPiA8bG9uZ3BlbmcyQGh1YXdlaS5jb20+DQo+IENjOiBT
-dGVmYW4gSGFqbm9jemkgPHN0ZWZhbmhhQHJlZGhhdC5jb20+OyBtc3QgPG1zdEByZWRoYXQuY29t
-PjsgU3RlZmFubw0KPiBHYXJ6YXJlbGxhIDxzZ2FyemFyZUByZWRoYXQuY29tPjsgQ29ybmVsaWEg
-SHVjayA8Y29odWNrQHJlZGhhdC5jb20+OyBwYm9uemluaQ0KPiA8cGJvbnppbmlAcmVkaGF0LmNv
-bT47IEdvbmdsZWkgKEFyZWkpIDxhcmVpLmdvbmdsZWlAaHVhd2VpLmNvbT47IFllY2h1YW4NCj4g
-PHllY2h1YW5AaHVhd2VpLmNvbT47IEh1YW5nemhpY2hhbyA8aHVhbmd6aGljaGFvQGh1YXdlaS5j
-b20+OyBxZW11LWRldmVsDQo+IDxxZW11LWRldmVsQG5vbmdudS5vcmc+DQo+IFN1YmplY3Q6IFJl
-OiBbUkZDIDAxLzEwXSB2aXJ0aW86IGdldCBjbGFzc19pZCBhbmQgcGNpIGRldmljZSBpZCBieSB0
-aGUgdmlydGlvDQo+IGlkDQo+IA0KPiBPbiBXZWQsIEphbiA1LCAyMDIyIGF0IDg6NTkgQU0gTG9u
-Z3BlbmcoTWlrZSkgPGxvbmdwZW5nMkBodWF3ZWkuY29tPiB3cm90ZToNCj4gPg0KPiA+IEZyb206
-IExvbmdwZW5nIDxsb25ncGVuZzJAaHVhd2VpLmNvbT4NCj4gPg0KPiA+IEFkZCBoZWxwZXJzIHRv
-IGdldCB0aGUgIlRyYW5zaXRpb25hbCBQQ0kgRGV2aWNlIElEIiBhbmQgImNsYXNzX2lkIiBvZiB0
-aGUNCj4gPiBkZWl2Y2Ugd2hpY2ggaXMgc3BlY2lmaWNlZCBieSB0aGUgIlZpcnRpbyBEZXZpY2Ug
-SUQiLg0KPiA+DQo+ID4gVGhlc2UgaGVscGVycyB3aWxsIGJlIHVzZWQgdG8gYnVpbGQgdGhlIGdl
-bmVyaWMgdkRQQSBkZXZpY2UgbGF0ZXIuDQo+ID4NCj4gPiBTaWduZWQtb2ZmLWJ5OiBMb25ncGVu
-ZyA8bG9uZ3BlbmcyQGh1YXdlaS5jb20+DQo+ID4gLS0tDQo+ID4gIGh3L3ZpcnRpby92aXJ0aW8t
-cGNpLmMgfCA5MyArKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysNCj4g
-PiAgaHcvdmlydGlvL3ZpcnRpby1wY2kuaCB8ICA0ICsrDQo+ID4gIDIgZmlsZXMgY2hhbmdlZCwg
-OTcgaW5zZXJ0aW9ucygrKQ0KPiA+DQo+ID4gZGlmZiAtLWdpdCBhL2h3L3ZpcnRpby92aXJ0aW8t
-cGNpLmMgYi9ody92aXJ0aW8vdmlydGlvLXBjaS5jDQo+ID4gaW5kZXggNzUwYWE0N2VjMS4uODQz
-MDg1YzRlYSAxMDA2NDQNCj4gPiAtLS0gYS9ody92aXJ0aW8vdmlydGlvLXBjaS5jDQo+ID4gKysr
-IGIvaHcvdmlydGlvL3ZpcnRpby1wY2kuYw0KPiA+IEBAIC0xOSw2ICsxOSw3IEBADQo+ID4NCj4g
-PiAgI2luY2x1ZGUgImV4ZWMvbWVtb3AuaCINCj4gPiAgI2luY2x1ZGUgInN0YW5kYXJkLWhlYWRl
-cnMvbGludXgvdmlydGlvX3BjaS5oIg0KPiA+ICsjaW5jbHVkZSAic3RhbmRhcmQtaGVhZGVycy9s
-aW51eC92aXJ0aW9faWRzLmgiDQo+ID4gICNpbmNsdWRlICJody9ib2FyZHMuaCINCj4gPiAgI2lu
-Y2x1ZGUgImh3L3ZpcnRpby92aXJ0aW8uaCINCj4gPiAgI2luY2x1ZGUgIm1pZ3JhdGlvbi9xZW11
-LWZpbGUtdHlwZXMuaCINCj4gPiBAQCAtMjEzLDYgKzIxNCw5NSBAQCBzdGF0aWMgaW50IHZpcnRp
-b19wY2lfbG9hZF9xdWV1ZShEZXZpY2VTdGF0ZSAqZCwgaW50IG4sDQo+IFFFTVVGaWxlICpmKQ0K
-PiA+ICAgICAgcmV0dXJuIDA7DQo+ID4gIH0NCj4gPg0KPiA+ICt0eXBlZGVmIHN0cnVjdCBWaXJ0
-SU9QQ0lJREluZm8gew0KPiA+ICsgICAgdWludDE2X3QgdmRldl9pZDsgLyogdmlydGlvIGlkICov
-DQo+ID4gKyAgICB1aW50MTZfdCBwZGV2X2lkOyAvKiBwY2kgZGV2aWNlIGlkICovDQo+ID4gKyAg
-ICB1aW50MTZfdCBjbGFzc19pZDsNCj4gPiArfSBWaXJ0SU9QQ0lJREluZm87DQo+ID4gKw0KPiA+
-ICtzdGF0aWMgY29uc3QgVmlydElPUENJSURJbmZvIHZpcnRpb19wY2lfaWRfaW5mb1tdID0gew0K
-PiA+ICsgICAgew0KPiANCj4gQW55IHdheSB0byBnZXQgcmlkIG9mIHRoaXMgYXJyYXk/IEUuZyB1
-c2luZyB0aGUgYWxnb3JpdGhtIHRoYXQgaXMgdXNlZA0KPiBieSB0aGUga2VybmVsIHZpcnRpbyBk
-cml2ZXIuDQo+IA0KDQpGb3IgZGV2aWNlIGlkLCB3ZSBjYW4gdXNlIHRoZSBhbGdvcml0aG0gaWYg
-d2Ugbm8gbmVlZCB0byBzdXBwb3J0DQpUcmFuc2l0aW9uYWwgaWQuIEJ1dCBob3cgdG8gZ2V0IHRo
-ZSBjbGFzcyBpZCA/DQoNCj4gVGhhbmtzDQo+IA0KPiA+ICsgICAgICAgIC52ZGV2X2lkID0gVklS
-VElPX0lEX05FVCwNCj4gPiArICAgICAgICAucGRldl9pZCA9IFBDSV9ERVZJQ0VfSURfVklSVElP
-X05FVCwNCj4gPiArICAgICAgICAuY2xhc3NfaWQgPSBQQ0lfQ0xBU1NfTkVUV09SS19FVEhFUk5F
-VCwNCj4gPiArICAgIH0sDQo+ID4gKyAgICB7DQo+ID4gKyAgICAgICAgLnZkZXZfaWQgPSBWSVJU
-SU9fSURfQkxPQ0ssDQo+ID4gKyAgICAgICAgLnBkZXZfaWQgPSBQQ0lfREVWSUNFX0lEX1ZJUlRJ
-T19CTE9DSywNCj4gPiArICAgICAgICAuY2xhc3NfaWQgPSBQQ0lfQ0xBU1NfU1RPUkFHRV9TQ1NJ
-LA0KPiA+ICsgICAgfSwNCj4gPiArICAgIHsNCj4gPiArICAgICAgICAudmRldl9pZCA9IFZJUlRJ
-T19JRF9DT05TT0xFLA0KPiA+ICsgICAgICAgIC5wZGV2X2lkID0gUENJX0RFVklDRV9JRF9WSVJU
-SU9fQ09OU09MRSwNCj4gPiArICAgICAgICAuY2xhc3NfaWQgPSBQQ0lfQ0xBU1NfQ09NTVVOSUNB
-VElPTl9PVEhFUiwNCj4gPiArICAgIH0sDQo+ID4gKyAgICB7DQo+ID4gKyAgICAgICAgLnZkZXZf
-aWQgPSBWSVJUSU9fSURfU0NTSSwNCj4gPiArICAgICAgICAucGRldl9pZCA9IFBDSV9ERVZJQ0Vf
-SURfVklSVElPX1NDU0ksDQo+ID4gKyAgICAgICAgLmNsYXNzX2lkID0gUENJX0NMQVNTX1NUT1JB
-R0VfU0NTSSwNCj4gPiArICAgIH0sDQo+ID4gKyAgICB7DQo+ID4gKyAgICAgICAgLnZkZXZfaWQg
-PSBWSVJUSU9fSURfOVAsDQo+ID4gKyAgICAgICAgLnBkZXZfaWQgPSBQQ0lfREVWSUNFX0lEX1ZJ
-UlRJT185UCwNCj4gPiArICAgICAgICAuY2xhc3NfaWQgPSBQQ0lfQkFTRV9DTEFTU19ORVRXT1JL
-LA0KPiA+ICsgICAgfSwNCj4gPiArICAgIHsNCj4gPiArICAgICAgICAudmRldl9pZCA9IFZJUlRJ
-T19JRF9WU09DSywNCj4gPiArICAgICAgICAucGRldl9pZCA9IFBDSV9ERVZJQ0VfSURfVklSVElP
-X1ZTT0NLLA0KPiA+ICsgICAgICAgIC5jbGFzc19pZCA9IFBDSV9DTEFTU19DT01NVU5JQ0FUSU9O
-X09USEVSLA0KPiA+ICsgICAgfSwNCj4gPiArICAgIHsNCj4gPiArICAgICAgICAudmRldl9pZCA9
-IFZJUlRJT19JRF9JT01NVSwNCj4gPiArICAgICAgICAucGRldl9pZCA9IFBDSV9ERVZJQ0VfSURf
-VklSVElPX0lPTU1VLA0KPiA+ICsgICAgICAgIC5jbGFzc19pZCA9IFBDSV9DTEFTU19PVEhFUlMs
-DQo+ID4gKyAgICB9LA0KPiA+ICsgICAgew0KPiA+ICsgICAgICAgIC52ZGV2X2lkID0gVklSVElP
-X0lEX01FTSwNCj4gPiArICAgICAgICAucGRldl9pZCA9IFBDSV9ERVZJQ0VfSURfVklSVElPX01F
-TSwNCj4gPiArICAgICAgICAuY2xhc3NfaWQgPSBQQ0lfQ0xBU1NfT1RIRVJTLA0KPiA+ICsgICAg
-fSwNCj4gPiArICAgIHsNCj4gPiArICAgICAgICAudmRldl9pZCA9IFZJUlRJT19JRF9QTUVNLA0K
-PiA+ICsgICAgICAgIC5wZGV2X2lkID0gUENJX0RFVklDRV9JRF9WSVJUSU9fUE1FTSwNCj4gPiAr
-ICAgICAgICAuY2xhc3NfaWQgPSBQQ0lfQ0xBU1NfT1RIRVJTLA0KPiA+ICsgICAgfSwNCj4gPiAr
-ICAgIHsNCj4gPiArICAgICAgICAudmRldl9pZCA9IFZJUlRJT19JRF9STkcsDQo+ID4gKyAgICAg
-ICAgLnBkZXZfaWQgPSBQQ0lfREVWSUNFX0lEX1ZJUlRJT19STkcsDQo+ID4gKyAgICAgICAgLmNs
-YXNzX2lkID0gUENJX0NMQVNTX09USEVSUywNCj4gPiArICAgIH0sDQo+ID4gKyAgICB7DQo+ID4g
-KyAgICAgICAgLnZkZXZfaWQgPSBWSVJUSU9fSURfQkFMTE9PTiwNCj4gPiArICAgICAgICAucGRl
-dl9pZCA9IFBDSV9ERVZJQ0VfSURfVklSVElPX0JBTExPT04sDQo+ID4gKyAgICAgICAgLmNsYXNz
-X2lkID0gUENJX0NMQVNTX09USEVSUywNCj4gPiArICAgIH0sDQo+ID4gK307DQo+ID4gKw0KPiA+
-ICtzdGF0aWMgVmlydElPUENJSURJbmZvIHZpcnRpb19wY2lfZ2V0X2lkX2luZm8odWludDE2X3Qg
-dmRldl9pZCkNCj4gPiArew0KPiA+ICsgICAgVmlydElPUENJSURJbmZvIGluZm8gPSB7fTsNCj4g
-PiArICAgIGludCBpOw0KPiA+ICsNCj4gPiArICAgIGZvciAoaSA9IDA7IGkgPCBBUlJBWV9TSVpF
-KHZpcnRpb19wY2lfaWRfaW5mbyk7IGkrKykgew0KPiA+ICsgICAgICAgIGlmICh2aXJ0aW9fcGNp
-X2lkX2luZm9baV0udmRldl9pZCA9PSB2ZGV2X2lkKSB7DQo+ID4gKyAgICAgICAgICAgIGluZm8g
-PSB2aXJ0aW9fcGNpX2lkX2luZm9baV07DQo+ID4gKyAgICAgICAgICAgIGJyZWFrOw0KPiA+ICsg
-ICAgICAgIH0NCj4gPiArICAgIH0NCj4gPiArDQo+ID4gKyAgICByZXR1cm4gaW5mbzsNCj4gPiAr
-fQ0KPiA+ICsNCj4gPiArdWludDE2X3QgdmlydGlvX3BjaV9nZXRfcGNpX2RldmlkKHVpbnQxNl90
-IGRldmljZV9pZCkNCj4gPiArew0KPiA+ICsgICAgcmV0dXJuIHZpcnRpb19wY2lfZ2V0X2lkX2lu
-Zm8oZGV2aWNlX2lkKS5wZGV2X2lkOw0KPiA+ICt9DQo+ID4gKw0KPiA+ICt1aW50MTZfdCB2aXJ0
-aW9fcGNpX2dldF9jbGFzc19pZCh1aW50MTZfdCBkZXZpY2VfaWQpDQo+ID4gK3sNCj4gPiArICAg
-IHJldHVybiB2aXJ0aW9fcGNpX2dldF9pZF9pbmZvKGRldmljZV9pZCkuY2xhc3NfaWQ7DQo+ID4g
-K30NCj4gPiArDQo+ID4gIHN0YXRpYyBib29sIHZpcnRpb19wY2lfaW9ldmVudGZkX2VuYWJsZWQo
-RGV2aWNlU3RhdGUgKmQpDQo+ID4gIHsNCj4gPiAgICAgIFZpcnRJT1BDSVByb3h5ICpwcm94eSA9
-IHRvX3ZpcnRpb19wY2lfcHJveHkoZCk7DQo+ID4gQEAgLTE2NzQsNiArMTc2NCw5IEBAIHN0YXRp
-YyB2b2lkIHZpcnRpb19wY2lfZGV2aWNlX3BsdWdnZWQoRGV2aWNlU3RhdGUgKmQsDQo+IEVycm9y
-ICoqZXJycCkNCj4gPiAgICAgICAgICAgKiBpcyBzZXQgdG8gUENJX1NVQlZFTkRPUl9JRF9SRURI
-QVRfUVVNUkFORVQgYnkgZGVmYXVsdC4NCj4gPiAgICAgICAgICAgKi8NCj4gPiAgICAgICAgICBw
-Y2lfc2V0X3dvcmQoY29uZmlnICsgUENJX1NVQlNZU1RFTV9JRCwNCj4gdmlydGlvX2J1c19nZXRf
-dmRldl9pZChidXMpKTsNCj4gPiArICAgICAgICBpZiAocHJveHktPnBkZXZfaWQpIHsNCj4gPiAr
-ICAgICAgICAgICAgcGNpX2NvbmZpZ19zZXRfZGV2aWNlX2lkKGNvbmZpZywgcHJveHktPnBkZXZf
-aWQpOw0KPiA+ICsgICAgICAgIH0NCj4gPiAgICAgIH0gZWxzZSB7DQo+ID4gICAgICAgICAgLyog
-cHVyZSB2aXJ0aW8tMS4wICovDQo+ID4gICAgICAgICAgcGNpX3NldF93b3JkKGNvbmZpZyArIFBD
-SV9WRU5ET1JfSUQsDQo+ID4gZGlmZiAtLWdpdCBhL2h3L3ZpcnRpby92aXJ0aW8tcGNpLmggYi9o
-dy92aXJ0aW8vdmlydGlvLXBjaS5oDQo+ID4gaW5kZXggMjQ0NmRjZDlhZS4uMDZhYTU5NDM2ZSAx
-MDA2NDQNCj4gPiAtLS0gYS9ody92aXJ0aW8vdmlydGlvLXBjaS5oDQo+ID4gKysrIGIvaHcvdmly
-dGlvL3ZpcnRpby1wY2kuaA0KPiA+IEBAIC0xNDYsNiArMTQ2LDcgQEAgc3RydWN0IFZpcnRJT1BD
-SVByb3h5IHsNCj4gPiAgICAgIGJvb2wgZGlzYWJsZV9tb2Rlcm47DQo+ID4gICAgICBib29sIGln
-bm9yZV9iYWNrZW5kX2ZlYXR1cmVzOw0KPiA+ICAgICAgT25PZmZBdXRvIGRpc2FibGVfbGVnYWN5
-Ow0KPiA+ICsgICAgdWludDE2X3QgcGRldl9pZDsNCj4gPiAgICAgIHVpbnQzMl90IGNsYXNzX2Nv
-ZGU7DQo+ID4gICAgICB1aW50MzJfdCBudmVjdG9yczsNCj4gPiAgICAgIHVpbnQzMl90IGRmc2Vs
-ZWN0Ow0KPiA+IEBAIC0xNTgsNiArMTU5LDkgQEAgc3RydWN0IFZpcnRJT1BDSVByb3h5IHsNCj4g
-PiAgICAgIFZpcnRpb0J1c1N0YXRlIGJ1czsNCj4gPiAgfTsNCj4gPg0KPiA+ICt1aW50MTZfdCB2
-aXJ0aW9fcGNpX2dldF9wY2lfZGV2aWQodWludDE2X3QgZGV2aWNlX2lkKTsNCj4gPiArdWludDE2
-X3QgdmlydGlvX3BjaV9nZXRfY2xhc3NfaWQodWludDE2X3QgZGV2aWNlX2lkKTsNCj4gPiArDQo+
-ID4gIHN0YXRpYyBpbmxpbmUgYm9vbCB2aXJ0aW9fcGNpX21vZGVybihWaXJ0SU9QQ0lQcm94eSAq
-cHJveHkpDQo+ID4gIHsNCj4gPiAgICAgIHJldHVybiAhcHJveHktPmRpc2FibGVfbW9kZXJuOw0K
-PiA+IC0tDQo+ID4gMi4yMy4wDQo+ID4NCg0K
+On Tue, Jan 04, 2022 at 05:38:38PM +0000, Sean Christopherson wrote:
+> On Fri, Dec 31, 2021, Chao Peng wrote:
+> > On Fri, Dec 24, 2021 at 11:53:15AM +0800, Robert Hoo wrote:
+> > > On Thu, 2021-12-23 at 20:29 +0800, Chao Peng wrote:
+> > > > From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
+> > > >  
+> > > > +static void notify_fallocate(struct inode *inode, pgoff_t start,
+> > > > pgoff_t end)
+> > > > +{
+> > > > +#ifdef CONFIG_MEMFD_OPS
+> > > > +	struct shmem_inode_info *info = SHMEM_I(inode);
+> > > > +	const struct memfd_falloc_notifier *notifier;
+> > > > +	void *owner;
+> > > > +	bool ret;
+> > > > +
+> > > > +	if (!info->falloc_notifier)
+> > > > +		return;
+> > > > +
+> > > > +	spin_lock(&info->lock);
+> > > > +	notifier = info->falloc_notifier;
+> > > > +	if (!notifier) {
+> > > > +		spin_unlock(&info->lock);
+> > > > +		return;
+> > > > +	}
+> > > > +
+> > > > +	owner = info->owner;
+> > > > +	ret = notifier->get_owner(owner);
+> > > > +	spin_unlock(&info->lock);
+> > > > +	if (!ret)
+> > > > +		return;
+> > > > +
+> > > > +	notifier->fallocate(inode, owner, start, end);
+> > > 
+> > > I see notifier->fallocate(), i.e. memfd_fallocate(), discards
+> > > kvm_memfd_fallocate_range()'s return value. Should it be checked?
+> > 
+> > I think we can ignore it, just like how current mmu_notifier does,
+> > the return value of __kvm_handle_hva_range is discarded in
+> > kvm_mmu_notifier_invalidate_range_start(). Even when KVM side failed,
+> > it's not fatal, it should not block the operation in the primary MMU.
+> 
+> If the return value is ignored, it'd be better to have no return value at all so
+> that it's clear fallocate() will continue on regardless of whether or not the
+> secondary MMU callback succeeds.  E.g. if KVM can't handle the fallocate() for
+> whatever reason, then knowing that fallocate() will continue on means KVM should
+> mark the VM as dead so that the broken setup cannot be abused by userspace.
+
+After a close look, kvm_unmap_gfn_range() actually does not return a
+error code, so it's safe to not return in kvm_memfd_handle_range().
+
+Chao
 
