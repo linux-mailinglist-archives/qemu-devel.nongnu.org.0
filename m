@@ -2,59 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F0D148516F
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 11:51:00 +0100 (CET)
-Received: from localhost ([::1]:37490 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5F5C485193
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 12:04:41 +0100 (CET)
+Received: from localhost ([::1]:48486 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n53sh-0005X2-Jx
-	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 05:50:59 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38442)
+	id 1n545w-0005cB-Gh
+	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 06:04:40 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41550)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1n53q2-0003O3-UH
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 05:48:14 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:42556)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1n5438-0004IL-7n
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 06:01:48 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35599)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1n53pz-0001tE-VQ
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 05:48:13 -0500
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1n5434-0004KZ-7C
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 06:01:44 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641379691;
+ s=mimecast20190719; t=1641380491;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=EwxDEJPZvxGs8hf6jwA9E67JWOMILyRAO72wLPXfvvA=;
- b=dSD6aKI3A25I82744b0iU84MvuZg/4A8dl6/rRBoTXHZuLCD6sjzaIiiV/k7LWvhEZ4Nt+
- 1UPi33tfCVY0r+/+O4LhfH7KS61Maks/cHp0BJl0ZUVbylPGf7oF/j0iFIfhrlRipLf92Z
- HW3/hSM1R8kBQL1xSxzd0tHrJ1kVqxk=
+ in-reply-to:in-reply-to:references:references;
+ bh=fHrRPJvUHGgTqaeeCfTGfHIU1KHODGOoimDaCzqZRow=;
+ b=hTowi+g0gmiD8mujeVk1TRVg/POcOELiqkUscLkna3M8LVeO1fZfpVuNRb8lNDRRULYexl
+ qdpEx71ZQNx5lxt7uqf+WWLiqwk9FSDT4GaE3+jRLCcyt99MRo0yASQ4LZCh9Te9nE2RzE
+ ZfDHCHomdjr8rbSuspOKmm/30YmpHTM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-523-HD0GTik-PvSg0man7w5MYg-1; Wed, 05 Jan 2022 05:48:06 -0500
-X-MC-Unique: HD0GTik-PvSg0man7w5MYg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-590-MsoXNxmyM2O_8v9jXyvjZA-1; Wed, 05 Jan 2022 06:01:28 -0500
+X-MC-Unique: MsoXNxmyM2O_8v9jXyvjZA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BB26084E254;
- Wed,  5 Jan 2022 10:48:04 +0000 (UTC)
-Received: from thuth.com (dhcp-192-229.str.redhat.com [10.33.192.229])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 524091F312;
- Wed,  5 Jan 2022 10:48:02 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: Daniel Henrique Barboza <danielhb413@gmail.com>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, qemu-devel@nongnu.org
-Subject: [PATCH] MAINTAINERS: Improve the PowerPC machines section
-Date: Wed,  5 Jan 2022 11:48:00 +0100
-Message-Id: <20220105104800.407570-1-thuth@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 74151824FB0;
+ Wed,  5 Jan 2022 11:01:11 +0000 (UTC)
+Received: from localhost (unknown [10.39.194.143])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0CBBE1079F4D;
+ Wed,  5 Jan 2022 11:00:36 +0000 (UTC)
+Date: Wed, 5 Jan 2022 11:00:35 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Raphael Norwitz <raphael.norwitz@nutanix.com>
+Subject: Re: [RFC 1/5] libvhost-user: Add vu_rem_mem_reg input validation
+Message-ID: <YdV6U/7Lna/rRvVo@stefanha-x1.localdomain>
+References: <20211215222939.24738-1-raphael.norwitz@nutanix.com>
+ <20211215222939.24738-2-raphael.norwitz@nutanix.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <20211215222939.24738-2-raphael.norwitz@nutanix.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="uBiWE6k92EdcxiP3"
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -62,7 +67,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.372,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -75,88 +80,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
- qemu-ppc@nongnu.org, Greg Kurz <groug@kaod.org>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: "marcandre.lureau@redhat.com" <marcandre.lureau@redhat.com>,
+ "david@redhat.com" <david@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "raphael.s.norwitz@gmail.com" <raphael.s.norwitz@gmail.com>,
+ "mst@redhat.com" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add some documentation files to the corresponding machine sections
-and mention the machine names in the section titles where it is
-not so obvious (e.g. that "taihu" is a 405 machine).
+--uBiWE6k92EdcxiP3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- MAINTAINERS | 12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
+On Wed, Dec 15, 2021 at 10:29:48PM +0000, Raphael Norwitz wrote:
+> Signed-off-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
+> ---
+>  subprojects/libvhost-user/libvhost-user.c | 6 ++++++
+>  1 file changed, 6 insertions(+)
+>=20
+> diff --git a/subprojects/libvhost-user/libvhost-user.c b/subprojects/libv=
+host-user/libvhost-user.c
+> index 787f4d2d4f..573212a83b 100644
+> --- a/subprojects/libvhost-user/libvhost-user.c
+> +++ b/subprojects/libvhost-user/libvhost-user.c
+> @@ -801,6 +801,12 @@ vu_rem_mem_reg(VuDev *dev, VhostUserMsg *vmsg) {
+>      VuDevRegion shadow_regions[VHOST_USER_MAX_RAM_SLOTS] =3D {};
+>      VhostUserMemoryRegion m =3D vmsg->payload.memreg.region, *msg_region=
+ =3D &m;
+> =20
+> +    if (vmsg->fd_num !=3D 1 ||
+> +        vmsg->size !=3D sizeof(vmsg->payload.memreg)) {
+> +        vu_panic(dev, "VHOST_USER_REM_MEM_REG received multiple regions"=
+);
+> +        return true;
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index f871d759fd..53cf0fdc00 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1245,7 +1245,7 @@ F: hw/openrisc/openrisc_sim.c
- 
- PowerPC Machines
- ----------------
--405
-+405 (ref405ep and taihu)
- L: qemu-ppc@nongnu.org
- S: Orphan
- F: hw/ppc/ppc405_boards.c
-@@ -1281,6 +1281,7 @@ New World (mac99)
- M: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
- L: qemu-ppc@nongnu.org
- S: Odd Fixes
-+F: docs/system/ppc/powermac.rst
- F: hw/ppc/mac_newworld.c
- F: hw/pci-host/uninorth.c
- F: hw/pci-bridge/dec.[hc]
-@@ -1299,6 +1300,7 @@ Old World (g3beige)
- M: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
- L: qemu-ppc@nongnu.org
- S: Odd Fixes
-+F: docs/system/ppc/powermac.rst
- F: hw/ppc/mac_oldworld.c
- F: hw/pci-host/grackle.c
- F: hw/misc/macio/
-@@ -1312,6 +1314,7 @@ PReP
- M: Hervé Poussineau <hpoussin@reactos.org>
- L: qemu-ppc@nongnu.org
- S: Maintained
-+F: docs/system/ppc/prep.rst
- F: hw/ppc/prep.c
- F: hw/ppc/prep_systemio.c
- F: hw/ppc/rs6000_mc.c
-@@ -1324,7 +1327,7 @@ F: include/hw/isa/pc87312.h
- F: include/hw/rtc/m48t59.h
- F: tests/avocado/ppc_prep_40p.py
- 
--sPAPR
-+sPAPR (pseries)
- M: Cédric Le Goater <clg@kaod.org>
- M: Daniel Henrique Barboza <danielhb413@gmail.com>
- R: David Gibson <david@gibson.dropbear.id.au>
-@@ -1336,8 +1339,8 @@ F: include/hw/*/spapr*
- F: hw/*/xics*
- F: include/hw/*/xics*
- F: pc-bios/slof.bin
--F: docs/specs/ppc-spapr-hcalls.txt
--F: docs/specs/ppc-spapr-hotplug.txt
-+F: docs/system/ppc/pseries.rst
-+F: docs/specs/ppc-spapr-*
- F: tests/qtest/spapr*
- F: tests/qtest/libqos/*spapr*
- F: tests/qtest/rtas*
-@@ -1348,6 +1351,7 @@ PowerNV (Non-Virtualized)
- M: Cédric Le Goater <clg@kaod.org>
- L: qemu-ppc@nongnu.org
- S: Maintained
-+F: docs/system/ppc/powernv.rst
- F: hw/ppc/pnv*
- F: hw/intc/pnv*
- F: hw/intc/xics_pnv.c
--- 
-2.27.0
+Most vu_panic() callers return false to indicate that a reply does not
+need to be sent. When the return value is true vu_dispatch() sends a
+response, which we don't want.
+
+Note that vu_dispatch() returns true (success) when the message handler
+function returns false. The success/failure behavior should probably be
+separated from the reply_requested behavior :(.
+
+Anyway, returning false is probably appropriate here.
+
+Stefan
+
+--uBiWE6k92EdcxiP3
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmHVelMACgkQnKSrs4Gr
+c8jseQf8DXqcfHU8xT4gaysTRoVTgkfUmNPPCZfvgzwyMKUrZOD9Zw7UhyOaD2Ov
+/gO8pmyyaM8q+ltauTNijnd4DWxsFGZMBI+/+ZQh3BdX+/ZcFNdFz3pTopEvshR2
+ht+80qEM/4CpbFzD8atmJ7HZ4qmIg1ruCKfwL4qmlfgsrdq3PkNRGbULe/hkPzF5
+1c2O8Q79QIa6TJL7JS3zYR4kEn1OHjKDlGxYC6viVPD1Y2eo+9PPnCCM53WaX7PF
+zXTWuZZheRyxDDM0pEkSNd6MJ+RrTC9zpIHEjvbBsFPvhM2kcEEYi+BMI1+XiPhz
+CAG/zF7ftERWnM9wPODLBkjvOD38Tg==
+=kimc
+-----END PGP SIGNATURE-----
+
+--uBiWE6k92EdcxiP3--
 
 
