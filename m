@@ -2,74 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAA6A48533E
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 14:09:18 +0100 (CET)
-Received: from localhost ([::1]:50970 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA66A485361
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 14:20:04 +0100 (CET)
+Received: from localhost ([::1]:58700 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n562X-0006Wj-E0
-	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 08:09:17 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36320)
+	id 1n56Cx-0003rF-Iu
+	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 08:20:03 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36438)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1n55lR-0003r3-EV; Wed, 05 Jan 2022 07:51:37 -0500
-Received: from [2607:f8b0:4864:20::82c] (port=41912
- helo=mail-qt1-x82c.google.com)
+ id 1n55mi-0004lk-UE; Wed, 05 Jan 2022 07:52:57 -0500
+Received: from [2607:f8b0:4864:20::82b] (port=35744
+ helo=mail-qt1-x82b.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1n55lP-0003Ic-PH; Wed, 05 Jan 2022 07:51:37 -0500
-Received: by mail-qt1-x82c.google.com with SMTP id v22so37299060qtx.8;
- Wed, 05 Jan 2022 04:51:34 -0800 (PST)
+ id 1n55mh-0003PA-BN; Wed, 05 Jan 2022 07:52:56 -0500
+Received: by mail-qt1-x82b.google.com with SMTP id j17so37417597qtx.2;
+ Wed, 05 Jan 2022 04:52:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=46SYlHwRcLzuTwDpamb/CQp+wIgdUjzqRuPIZ9qNVIg=;
- b=ZoWfxe5VQGBTPsncCzQhnk32Xl3TN0YIx2qAbPiusv/QgPnFhVEv8imcyeB+Gt75Ub
- 3WtFOF5Q2drhvisjfIx57dS36hhtmL2RfMZmxjVFRDZxFdlYD4jJ9WDdm8H+7oRn6+9N
- fmOyg8B0c8aG71MEuO3YfjWB5bwmSVNusqUBR+ZtFEcxq5BwhZ3uX+yYecsDIOi/s+10
- qUgIHvHYKp/1LO8TF7NGItk8+/JSvzjkK+stRlb/T6ueqQ6NqFguklq+ENQ2WJIaQzmD
- 9d/J8RnxLjvd0GFfjVNmYyFDgLg+vEh3qIgMU8jFsCSVa1daHQL8iS5oTBg5hWfn5FPP
- GcWg==
+ bh=OZFySF9LRw3WPL1l8YXZptKl/EvynCXqU6JsWOlLWas=;
+ b=p/LSbMbiOlnlF8DaI3svnEIk+ieZ/53ih9UPFaibTzwe5FfIQkOYm5J+OSzHzBqVV1
+ A6AX/BN6j34oKBLfupsQzuN3LvVnBDLdnT+HsJrri6OP45xnOSvstN6YY3oc3du2Ae9s
+ oVI8qY7YTp9cIfYAcAxCWNw6OHEy034zCrz08HkqRXlqkVf0ufbxm7DM0TG24MrZAy1t
+ m4AKjcm2yzcYxrIGA1PS1mwvhabqs9LKWzUmBdkYxjsUSdSTkEZpaoPKZvz5lj9CkfQo
+ zEIWyJkqD/Vaqmim/QS0iKEOkYEmsiX4i6KN2iR87UcHf66VJ+tzrsapAY0NngoNZbZZ
+ J/6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=46SYlHwRcLzuTwDpamb/CQp+wIgdUjzqRuPIZ9qNVIg=;
- b=2YugCuB4FJfGXWP4dXJ/tQOw6x8ZYayCDNeIIkydJbRYJK1skE3fez/zYo1pIE3XqG
- k51Zmmg9G3iCMYl1KQqCcEbbO9nnCWZ/3cdSohzigAwKQH+op5uBklPRQbemXi3FMWOE
- d84eBJVYjBDKufaaJm/QMjSJMnr0yKfFRr2gOm0ImGHwxmtwRjy33XgqEup6gR03pIDp
- u16rk1S+e+CWMCQVfGLy/z23qv7drIWdkXfyUkwoicxFuK9NgnNByxZNtBC60H18vTOp
- 0DAGt/tcvipPpjyOZ4YhqFX+jKtF8U28TlR0Lkey7A4/hWKVMUVkDjgfhbtWiybdj2uc
- botg==
-X-Gm-Message-State: AOAM532zN0Hg4C2eDtJBmOMR9p03MgQ+LMQbJ+RVp8na4ADWdZP/16vc
- IoIRWeDrciVFIFombB2cdhe1i5sXysE=
-X-Google-Smtp-Source: ABdhPJwlpvY+y3KH/zNSScDhBKBE+2H4/lAcFPNr1uBXXJoWhYG/E5PuVqsbLobjGGnZ4Zx3W/w78A==
-X-Received: by 2002:ac8:5f8e:: with SMTP id j14mr48642474qta.39.1641387094366; 
- Wed, 05 Jan 2022 04:51:34 -0800 (PST)
+ bh=OZFySF9LRw3WPL1l8YXZptKl/EvynCXqU6JsWOlLWas=;
+ b=tqz0i0zyVP7iFPZY2fViOCHEEKDN6n78l65+NibyshOIXmVT55XRceDwHmY2kc+G9R
+ uWNkxM8ZzwhmUc/EBmnmSXGDyVUYGn+dXr7Rdtug7NjmPPhIdsStzzg/zG561exd3yLh
+ bsX/3e1HhGQ+Fea/ZLXYvf+mOFoGzX6VMRzuiNZAjV2Vz26GReZodQVXz9gYOz1bkGLN
+ KVuh1Ry+Qm/FRHW3ix+oUj1/YcY9PXqtvJQqdrCY9eo20JyFqXA8wjTXVyWQBnmqOI8w
+ +SQcI92fy1D7ud3dcyQdF3iNWlJnI/aH/qYdqrv8UhMTprkCPt5xV3LqclId06xPoFZi
+ cm8A==
+X-Gm-Message-State: AOAM531Nlb9mVZ7xK+o5SjgzN42QH/3dleOQRXBfgZo9XBMTLJHJ72PN
+ ZEhjHEjr5lOn9oct9Cl/wJk=
+X-Google-Smtp-Source: ABdhPJxnJXPAiNRueZpEljvonglTpBbuVxmADZ7KDeizdowmZeW7mc1Z5HPt0DX+ZYxuCK295oRubQ==
+X-Received: by 2002:a05:622a:1351:: with SMTP id
+ w17mr47139361qtk.276.1641387174052; 
+ Wed, 05 Jan 2022 04:52:54 -0800 (PST)
 Received: from ?IPV6:2804:431:c7c7:f4d8:aa07:335f:99e0:a6e7?
  ([2804:431:c7c7:f4d8:aa07:335f:99e0:a6e7])
- by smtp.gmail.com with ESMTPSA id j20sm35784826qko.117.2022.01.05.04.51.32
+ by smtp.gmail.com with ESMTPSA id q15sm31784438qkj.108.2022.01.05.04.52.51
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 05 Jan 2022 04:51:34 -0800 (PST)
-Message-ID: <ce60bb33-f62e-133d-6305-8cb3b5201313@gmail.com>
-Date: Wed, 5 Jan 2022 09:51:30 -0300
+ Wed, 05 Jan 2022 04:52:53 -0800 (PST)
+Message-ID: <632f1e2b-a627-7320-21e5-29ada19f184c@gmail.com>
+Date: Wed, 5 Jan 2022 09:52:50 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.4.0
-Subject: Re: [PATCH] MAINTAINERS: Improve the PowerPC machines section
+Subject: Re: [PATCH] docs/system/ppc: Merge the PEF information into the
+ pseries page
 Content-Language: en-US
 To: Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?C=c3=a9dric_Le_Goater?=
  <clg@kaod.org>, qemu-devel@nongnu.org
-References: <20220105104800.407570-1-thuth@redhat.com>
+References: <20220105103232.405204-1-thuth@redhat.com>
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <20220105104800.407570-1-thuth@redhat.com>
+In-Reply-To: <20220105103232.405204-1-thuth@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::82c
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::82b
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::82c;
- envelope-from=danielhb413@gmail.com; helo=mail-qt1-x82c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::82b;
+ envelope-from=danielhb413@gmail.com; helo=mail-qt1-x82b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,90 +92,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>, qemu-ppc@nongnu.org,
+Cc: Leonardo Garcia <lagarcia@br.ibm.com>, qemu-ppc@nongnu.org,
  Greg Kurz <groug@kaod.org>, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 
-On 1/5/22 07:48, Thomas Huth wrote:
-> Add some documentation files to the corresponding machine sections
-> and mention the machine names in the section titles where it is
-> not so obvious (e.g. that "taihu" is a 405 machine).
+On 1/5/22 07:32, Thomas Huth wrote:
+> The Protected Execution Facility is only available with the pseries
+> machine, so let's merge the old ASCII text into the new RST file now.
 > 
 > Signed-off-by: Thomas Huth <thuth@redhat.com>
 > ---
 
+Well observed. Thanks for fixing it.
+
+
 Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 
->   MAINTAINERS | 12 ++++++++----
->   1 file changed, 8 insertions(+), 4 deletions(-)
+
+>   docs/papr-pef.txt           | 30 ------------------------------
+>   docs/system/ppc/pseries.rst | 33 +++++++++++++++++++++++++++++++++
+>   2 files changed, 33 insertions(+), 30 deletions(-)
+>   delete mode 100644 docs/papr-pef.txt
 > 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index f871d759fd..53cf0fdc00 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -1245,7 +1245,7 @@ F: hw/openrisc/openrisc_sim.c
+> diff --git a/docs/papr-pef.txt b/docs/papr-pef.txt
+> deleted file mode 100644
+> index 72550e9bf8..0000000000
+> --- a/docs/papr-pef.txt
+> +++ /dev/null
+> @@ -1,30 +0,0 @@
+> -POWER (PAPR) Protected Execution Facility (PEF)
+> -===============================================
+> -
+> -Protected Execution Facility (PEF), also known as Secure Guest support
+> -is a feature found on IBM POWER9 and POWER10 processors.
+> -
+> -If a suitable firmware including an Ultravisor is installed, it adds
+> -an extra memory protection mode to the CPU.  The ultravisor manages a
+> -pool of secure memory which cannot be accessed by the hypervisor.
+> -
+> -When this feature is enabled in QEMU, a guest can use ultracalls to
+> -enter "secure mode".  This transfers most of its memory to secure
+> -memory, where it cannot be eavesdropped by a compromised hypervisor.
+> -
+> -Launching
+> ----------
+> -
+> -To launch a guest which will be permitted to enter PEF secure mode:
+> -
+> -# ${QEMU} \
+> -    -object pef-guest,id=pef0 \
+> -    -machine confidential-guest-support=pef0 \
+> -    ...
+> -
+> -Live Migration
+> -----------------
+> -
+> -Live migration is not yet implemented for PEF guests.  For
+> -consistency, we currently prevent migration if the PEF feature is
+> -enabled, whether or not the guest has actually entered secure mode.
+> diff --git a/docs/system/ppc/pseries.rst b/docs/system/ppc/pseries.rst
+> index 72e315eff6..16394fa521 100644
+> --- a/docs/system/ppc/pseries.rst
+> +++ b/docs/system/ppc/pseries.rst
+> @@ -230,6 +230,39 @@ nested. Combinations not shown in the table are not available.
 >   
->   PowerPC Machines
->   ----------------
-> -405
-> +405 (ref405ep and taihu)
->   L: qemu-ppc@nongnu.org
->   S: Orphan
->   F: hw/ppc/ppc405_boards.c
-> @@ -1281,6 +1281,7 @@ New World (mac99)
->   M: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
->   L: qemu-ppc@nongnu.org
->   S: Odd Fixes
-> +F: docs/system/ppc/powermac.rst
->   F: hw/ppc/mac_newworld.c
->   F: hw/pci-host/uninorth.c
->   F: hw/pci-bridge/dec.[hc]
-> @@ -1299,6 +1300,7 @@ Old World (g3beige)
->   M: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
->   L: qemu-ppc@nongnu.org
->   S: Odd Fixes
-> +F: docs/system/ppc/powermac.rst
->   F: hw/ppc/mac_oldworld.c
->   F: hw/pci-host/grackle.c
->   F: hw/misc/macio/
-> @@ -1312,6 +1314,7 @@ PReP
->   M: Hervé Poussineau <hpoussin@reactos.org>
->   L: qemu-ppc@nongnu.org
->   S: Maintained
-> +F: docs/system/ppc/prep.rst
->   F: hw/ppc/prep.c
->   F: hw/ppc/prep_systemio.c
->   F: hw/ppc/rs6000_mc.c
-> @@ -1324,7 +1327,7 @@ F: include/hw/isa/pc87312.h
->   F: include/hw/rtc/m48t59.h
->   F: tests/avocado/ppc_prep_40p.py
+>   .. [3] Introduced on Power10 machines.
 >   
-> -sPAPR
-> +sPAPR (pseries)
->   M: Cédric Le Goater <clg@kaod.org>
->   M: Daniel Henrique Barboza <danielhb413@gmail.com>
->   R: David Gibson <david@gibson.dropbear.id.au>
-> @@ -1336,8 +1339,8 @@ F: include/hw/*/spapr*
->   F: hw/*/xics*
->   F: include/hw/*/xics*
->   F: pc-bios/slof.bin
-> -F: docs/specs/ppc-spapr-hcalls.txt
-> -F: docs/specs/ppc-spapr-hotplug.txt
-> +F: docs/system/ppc/pseries.rst
-> +F: docs/specs/ppc-spapr-*
->   F: tests/qtest/spapr*
->   F: tests/qtest/libqos/*spapr*
->   F: tests/qtest/rtas*
-> @@ -1348,6 +1351,7 @@ PowerNV (Non-Virtualized)
->   M: Cédric Le Goater <clg@kaod.org>
->   L: qemu-ppc@nongnu.org
->   S: Maintained
-> +F: docs/system/ppc/powernv.rst
->   F: hw/ppc/pnv*
->   F: hw/intc/pnv*
->   F: hw/intc/xics_pnv.c
+> +
+> +POWER (PAPR) Protected Execution Facility (PEF)
+> +-----------------------------------------------
+> +
+> +Protected Execution Facility (PEF), also known as Secure Guest support
+> +is a feature found on IBM POWER9 and POWER10 processors.
+> +
+> +If a suitable firmware including an Ultravisor is installed, it adds
+> +an extra memory protection mode to the CPU.  The ultravisor manages a
+> +pool of secure memory which cannot be accessed by the hypervisor.
+> +
+> +When this feature is enabled in QEMU, a guest can use ultracalls to
+> +enter "secure mode".  This transfers most of its memory to secure
+> +memory, where it cannot be eavesdropped by a compromised hypervisor.
+> +
+> +Launching
+> +^^^^^^^^^
+> +
+> +To launch a guest which will be permitted to enter PEF secure mode::
+> +
+> +  $ qemu-system-ppc64 \
+> +      -object pef-guest,id=pef0 \
+> +      -machine confidential-guest-support=pef0 \
+> +      ...
+> +
+> +Live Migration
+> +^^^^^^^^^^^^^^
+> +
+> +Live migration is not yet implemented for PEF guests.  For
+> +consistency, QEMU currently prevents migration if the PEF feature is
+> +enabled, whether or not the guest has actually entered secure mode.
+> +
+> +
+>   Maintainer contact information
+>   ------------------------------
+>   
 
