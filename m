@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBE0E485ADE
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 22:40:36 +0100 (CET)
-Received: from localhost ([::1]:35730 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3179C485A9C
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 22:29:52 +0100 (CET)
+Received: from localhost ([::1]:35358 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5E1J-0005SS-OK
-	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 16:40:35 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33184)
+	id 1n5Dqx-0002Gn-9n
+	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 16:29:51 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33214)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1n5Dlf-0002WR-Mo; Wed, 05 Jan 2022 16:24:24 -0500
-Received: from [2607:f8b0:4864:20::935] (port=41770
- helo=mail-ua1-x935.google.com)
+ id 1n5Dlh-0002Y4-S9; Wed, 05 Jan 2022 16:24:26 -0500
+Received: from [2607:f8b0:4864:20::92e] (port=41764
+ helo=mail-ua1-x92e.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1n5Dle-0007vS-7d; Wed, 05 Jan 2022 16:24:23 -0500
-Received: by mail-ua1-x935.google.com with SMTP id p37so822751uae.8;
- Wed, 05 Jan 2022 13:24:21 -0800 (PST)
+ id 1n5Dlg-0007vr-5O; Wed, 05 Jan 2022 16:24:25 -0500
+Received: by mail-ua1-x92e.google.com with SMTP id p37so822896uae.8;
+ Wed, 05 Jan 2022 13:24:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=KmyYqKayCDfuaYPl0j8gBuCk1z2d2eTcKTsmR4s9dIU=;
- b=a5vxxBAuifijk+xjQnRaL2QOlP6nxUk5wwagIOUenXEQNAFRTkt0VXdbSMeCZFWp4q
- EtdF8q5djs/xlVlpmS3SRlhMSYi9mIqNuq3e6ZW0Ok8RH8nwE9AZh3/YlSk1m60YgDAF
- 6sNGpaGlNpAiO/peI8TgjSKHEpx4kjoxy8u74I63vY7amUB1boZekwskrvSZh1+b/fbe
- tBPNHFBEnUQOJ7CEJPi5RsBWAeGv/ZIWzP4zK228jTEbLw2A1w/MRN6b8xYoodXfHVon
- hiVxBilR6byEJE40x6QlCHF52BJO0Ymc99/DKgRnOIwYLoE767SWa35OYoa1aAy1IPrm
- sRRw==
+ bh=W/fcCoHayFBWwy0sLceY20zLZ7XRn7nlbBeVaF2p2vY=;
+ b=Y9gY9rJ/joDkGoZLyzGul0LDTjjJVOszYPqNMCNhBjvHmwXdglkHwkVnhOXW4erBwa
+ +xgc4j810jGlbwFkJDDLgqOXtUZmeIFfNTaJpsUl0YQjY5pwat2GHIkFQStXOABs/wAf
+ Awflz4xwVKt2+8r6vdWeZPxyiZ93yp6E0yw7gFmvdhUBIl7zqmIKEKsjPTxHZNaoxtYd
+ 4fc0BHy9ja37AfNIlpPzO1dIBmUs/wU3RLb60HIJXc6qSCrkNF1W26fybURMH1b1YWPx
+ BRxwLzGIxcO7VmYkTwz+W/5QmKJDCpL0T2HSNffCXc/aBewguHYTl3qzn9xBGsQaxkwm
+ QdbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=KmyYqKayCDfuaYPl0j8gBuCk1z2d2eTcKTsmR4s9dIU=;
- b=fdkN9F4CK8kUF5+Kl6vlJKPBkwqHJ0TuX5yozocUniygvObP5JMgAHzetTNbnIwVGT
- 8pOiPjdwjg193Xo0PPMqljq/ZN2zdF9WBLqoAXM9jcfrL+39oPISOoIIDFymqn1qNF8N
- md4FmAcPlmnrnBpXB9hth8bZX/7FAinvTFkCfPVQL5sJERvo6pl7Dzf35zCEf7fr+POF
- +pPInELWi5BbKnoq8ljnzX4p7LqtzMvPfeIGcePLhgSwAaczvEy6GVIgosA8bLcJPPXR
- cTgHG6WMWuaGqZjvWKEdFn1Mai61tONhX43RaQ8PsNFIdSTxKBXZFyxZ+ocRoEIl8fho
- q74g==
-X-Gm-Message-State: AOAM532iHmhuOTXj8kNFq4qJZmU8YSdYzQKfIQJ4U9jY9Q7kk+iTwuSA
- Vm0OBddwVswugIkfrtkxl8msFZrkr84=
-X-Google-Smtp-Source: ABdhPJzJQUd6fw6ML4zeGq1ixcAq7qV38Tk5OtKeWl7+Ey/A47UV4hJyGj5HIeJgK1tIGKZ8u5m//w==
-X-Received: by 2002:a05:6102:34f5:: with SMTP id
- bi21mr17465252vsb.1.1641417861017; 
- Wed, 05 Jan 2022 13:24:21 -0800 (PST)
+ bh=W/fcCoHayFBWwy0sLceY20zLZ7XRn7nlbBeVaF2p2vY=;
+ b=U2iJMn7kwcaK4bgXgmPHnXy9+5a+6RFwFvrE8Sei187N7wUajLTTWfskl5NjzhtDmj
+ nqT14qYn801NVY0ZynqLlrQ2EaoE/bEGvDcN4iWvbWJoZ6+hFwIev5J18taekpYyKmf0
+ qirrDs3tMZS7uKztkjgr5kj/vPx5YOsHo9YZiJwjOTXpaHuTt5LrTcRAYZNYa+Mbh1Vf
+ mSx5ODLyZUPlDivEbL1V1b99p8HHSLEg+lnmpChQON85XxJTD4QEMM5wuPG9qtZUwKuZ
+ gSUyh+HXZgpaZ9TNtyOiw6Z6N31ruYNtDAVH0vvSqkdjaQoBB3sh6c71TUWDH30eYRli
+ Um1g==
+X-Gm-Message-State: AOAM533mli8luFr+vQN3B32hfRtCCVlMtIiGwedZY06PSYQDx5KegwHM
+ /jLAEIT+5EimuzVKJ6qnlSvVpL3UEiQ=
+X-Google-Smtp-Source: ABdhPJys2xKo8Dtc+KD36BCpHKwMevpNmhA6FUOiAGNgoYckvnPD6/u8SepN+/WbuXQi4DcAdj73kA==
+X-Received: by 2002:ab0:6f8a:: with SMTP id f10mr14105790uav.18.1641417863013; 
+ Wed, 05 Jan 2022 13:24:23 -0800 (PST)
 Received: from rekt.ibmuc.com ([2804:431:c7c7:f4d8:aa07:335f:99e0:a6e7])
- by smtp.gmail.com with ESMTPSA id m5sm65922vke.43.2022.01.05.13.24.19
+ by smtp.gmail.com with ESMTPSA id m5sm65922vke.43.2022.01.05.13.24.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Jan 2022 13:24:20 -0800 (PST)
+ Wed, 05 Jan 2022 13:24:22 -0800 (PST)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 14/18] pnv_phb4.h: turn phb into a pointer in struct
- PnvPhb4PecStack
-Date: Wed,  5 Jan 2022 18:23:34 -0300
-Message-Id: <20220105212338.49899-15-danielhb413@gmail.com>
+Subject: [PATCH v2 15/18] pnv_phb4_pec.c: use 'default_enabled()' to init
+ stack->phb
+Date: Wed,  5 Jan 2022 18:23:35 -0300
+Message-Id: <20220105212338.49899-16-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20220105212338.49899-1-danielhb413@gmail.com>
 References: <20220105212338.49899-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::935
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::92e
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::935;
- envelope-from=danielhb413@gmail.com; helo=mail-ua1-x935.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::92e;
+ envelope-from=danielhb413@gmail.com; helo=mail-ua1-x92e.google.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
@@ -91,80 +90,92 @@ Cc: danielhb413@gmail.com, qemu-ppc@nongnu.org, clg@kaod.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-At this moment, stack->phb is the plain PnvPHB4 device itself instead
-of a pointer to the device. This will present a problem when adding user
-creatable devices because we can't deal with this struct and the
-realize() callback from the user creatable device.
+The next step before enabling user creatable pnv-phb4 devices is to
+decople the init of the stack->phb object from
+pnv_pec_stk_instance_init().
 
-We can't get rid of this attribute, similar to what we did when enabling
-pnv-phb3 user creatable devices, because pnv_phb4_update_regions() needs
-to access stack->phb to do its job. This function is called twice in
-pnv_pec_stk_update_map(), which is one of the nested xscom write
-callbacks (via pnv_pec_stk_nest_xscom_write()). In fact,
-pnv_pec_stk_update_map() code comment is explicit about how the order of
-the unmap/map operations relates with the PHB subregions.
+First, use 'defaults_enabled()' inside pnv_pec_realize() to create the
+stack->phb object, while removing the equivalent object_initiate_child()
+call from stk_instance_init(). Create a new "phb" stack property link so
+we can assign stack->phb in an idiomatic manner.
 
-All of this indicates that this code is tied together in a way that we
-either go on a crusade, featuring lots of refactories and redesign and
-considerable pain, to decouple stack and phb mapping, or we allow stack
-update_map operations to access the associated PHB as it is today even
-after introducing pnv-phb4 user devices.
-
-This patch chooses the latter. Instead of getting rid of stack->phb,
-turn it into a PHB pointer. This will allow us to assign an user created
-PHB to an existing stack later.
+Then we need to handle stack->phb->index assignment. The value is
+retrieved with pnv_phb4_pec_get_phd_id() and, until this patch, this was
+being assigned to a 'phb-id' stack link to phb->index. It is simpler to
+assign this directly given that now we need to interact with the PnvPHB4
+object directly to set its other attributes. Assign phb->index directly
+with the value of pnv_phb4_pec_get_phb_id(), and remove the now unused
+link.
 
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- hw/pci-host/pnv_phb4.c         | 2 +-
- hw/pci-host/pnv_phb4_pec.c     | 2 +-
- include/hw/pci-host/pnv_phb4.h | 7 +++++--
- 3 files changed, 7 insertions(+), 4 deletions(-)
+ hw/pci-host/pnv_phb4_pec.c | 29 +++++++++++++++++++++++------
+ 1 file changed, 23 insertions(+), 6 deletions(-)
 
-diff --git a/hw/pci-host/pnv_phb4.c b/hw/pci-host/pnv_phb4.c
-index 4c785bbe4c..9e670e41d2 100644
---- a/hw/pci-host/pnv_phb4.c
-+++ b/hw/pci-host/pnv_phb4.c
-@@ -1449,7 +1449,7 @@ type_init(pnv_phb4_register_types);
- 
- void pnv_phb4_update_regions(PnvPhb4PecStack *stack)
- {
--    PnvPHB4 *phb = &stack->phb;
-+    PnvPHB4 *phb = stack->phb;
- 
-     /* Unmap first always */
-     if (memory_region_is_mapped(&phb->mr_regs)) {
 diff --git a/hw/pci-host/pnv_phb4_pec.c b/hw/pci-host/pnv_phb4_pec.c
-index 0675fc55bc..be6eefdbb1 100644
+index be6eefdbb1..638691783b 100644
 --- a/hw/pci-host/pnv_phb4_pec.c
 +++ b/hw/pci-host/pnv_phb4_pec.c
-@@ -563,7 +563,7 @@ static void pnv_pec_stk_realize(DeviceState *dev, Error **errp)
-                           PHB4_PEC_PCI_STK_REGS_COUNT);
+@@ -19,6 +19,7 @@
+ #include "hw/pci/pci_bus.h"
+ #include "hw/ppc/pnv.h"
+ #include "hw/qdev-properties.h"
++#include "sysemu/sysemu.h"
  
-     /* PHB pass-through */
--    pnv_phb4_set_stack_phb_props(stack, &stack->phb);
-+    pnv_phb4_set_stack_phb_props(stack, stack->phb);
-     if (!sysbus_realize(SYS_BUS_DEVICE(&stack->phb), errp)) {
-         return;
-     }
-diff --git a/include/hw/pci-host/pnv_phb4.h b/include/hw/pci-host/pnv_phb4.h
-index b2c4a6b263..2fb5e119c4 100644
---- a/include/hw/pci-host/pnv_phb4.h
-+++ b/include/hw/pci-host/pnv_phb4.h
-@@ -178,8 +178,11 @@ struct PnvPhb4PecStack {
-     /* The owner PEC */
-     PnvPhb4PecState *pec;
+ #include <libfdt.h>
  
--    /* The actual PHB */
--    PnvPHB4 phb;
-+    /*
-+     * PHB4 pointer. pnv_phb4_update_regions() needs to access
-+     * the PHB4 via a PnvPhb4PecStack pointer.
-+     */
-+    PnvPHB4 *phb;
+@@ -392,11 +393,29 @@ static void pnv_pec_realize(DeviceState *dev, Error **errp)
+     for (i = 0; i < pec->num_stacks; i++) {
+         PnvPhb4PecStack *stack = &pec->stacks[i];
+         Object *stk_obj = OBJECT(stack);
+-        int phb_id =  pnv_phb4_pec_get_phb_id(pec, i);
+ 
+         object_property_set_int(stk_obj, "stack-no", i, &error_abort);
+-        object_property_set_int(stk_obj, "phb-id", phb_id, &error_abort);
+         object_property_set_link(stk_obj, "pec", OBJECT(pec), &error_abort);
++
++        /* Create and realize the default stack->phb */
++        if (defaults_enabled()) {
++            PnvPHB4 *phb = PNV_PHB4(qdev_new(TYPE_PNV_PHB4));
++            int phb_id = pnv_phb4_pec_get_phb_id(pec, i);
++
++            object_property_set_int(OBJECT(phb), "index",
++                                    phb_id, &error_abort);
++            object_property_set_link(OBJECT(phb), "stack",
++                                     stk_obj, &error_abort);
++
++            pnv_phb4_set_stack_phb_props(stack, phb);
++            if (!sysbus_realize_and_unref(SYS_BUS_DEVICE(phb), errp)) {
++                return;
++            }
++
++            object_property_set_link(stk_obj, "phb", OBJECT(phb),
++                                     &error_abort);
++        }
++
+         if (!qdev_realize(DEVICE(stk_obj), NULL, errp)) {
+             return;
+         }
+@@ -531,10 +550,6 @@ static const TypeInfo pnv_pec_type_info = {
+ 
+ static void pnv_pec_stk_instance_init(Object *obj)
+ {
+-    PnvPhb4PecStack *stack = PNV_PHB4_PEC_STACK(obj);
+-
+-    object_initialize_child(obj, "phb", &stack->phb, TYPE_PNV_PHB4);
+-    object_property_add_alias(obj, "phb-id", OBJECT(&stack->phb), "index");
+ }
+ 
+ static void pnv_pec_stk_realize(DeviceState *dev, Error **errp)
+@@ -588,6 +603,8 @@ static Property pnv_pec_stk_properties[] = {
+         DEFINE_PROP_UINT32("stack-no", PnvPhb4PecStack, stack_no, 0),
+         DEFINE_PROP_LINK("pec", PnvPhb4PecStack, pec, TYPE_PNV_PHB4_PEC,
+                          PnvPhb4PecState *),
++        DEFINE_PROP_LINK("phb", PnvPhb4PecStack, phb, TYPE_PNV_PHB4,
++                         PnvPHB4 *),
+         DEFINE_PROP_END_OF_LIST(),
  };
  
- struct PnvPhb4PecState {
 -- 
 2.33.1
 
