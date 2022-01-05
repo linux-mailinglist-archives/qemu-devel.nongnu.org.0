@@ -2,74 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9A08484FC9
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 10:08:43 +0100 (CET)
-Received: from localhost ([::1]:50260 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1462484FBF
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 10:05:42 +0100 (CET)
+Received: from localhost ([::1]:46252 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n52Hi-0007gg-Kk
-	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 04:08:42 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41988)
+	id 1n52Eo-0004mb-2d
+	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 04:05:42 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42216)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1n52Aq-0002Yn-KP
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 04:01:38 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31712)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1n52Ao-0005kc-LA
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 04:01:36 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641373290;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=LBWRm/zkUGL6rVdZWSTqKU6Me151HLPp74hurqvdR8M=;
- b=dQw4KgAVhLq2BD2q/Hx5iUlVrKrOob18RsD8s+O5MV+xQ+Y37PqKQschx/u6rGmg+zMo9+
- sMh1r6C5fI6XArjBgmAasA9cxn/Kq2qbIJXgzWYJU8Vzbn8GZK9wZRrxd9QdJikuQ/st+L
- FP7Vl7KK6w436W8A4VlgDGewVUzSlNY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-194-vsGyHySzOduT35QLQfQmog-1; Wed, 05 Jan 2022 04:01:21 -0500
-X-MC-Unique: vsGyHySzOduT35QLQfQmog-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 183D3190A7A2;
- Wed,  5 Jan 2022 09:01:20 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.150])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DA29B70D47;
- Wed,  5 Jan 2022 09:00:34 +0000 (UTC)
-Date: Wed, 5 Jan 2022 09:00:30 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1n52Bc-000336-78
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 04:02:24 -0500
+Received: from [2a00:1450:4864:20::52b] (port=34477
+ helo=mail-ed1-x52b.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1n52Ba-0005uM-Gj
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 04:02:23 -0500
+Received: by mail-ed1-x52b.google.com with SMTP id u25so37805241edf.1
+ for <qemu-devel@nongnu.org>; Wed, 05 Jan 2022 01:02:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=cic571afCdenoYIujAwgJbnniDoPB8tOxI+wfTikR5k=;
+ b=l0Qlti2lhtyKC6lgw1uHuSBdFN4fMnoe7Lj7Hi/Xn8CXvtxOyHL4ajOShRJsGbwCar
+ HH0i8PaNVPPWPJ88VbKigQqIinZ47Lg1VnsR5b9KQAkO5JoTNJAFspSvhkbEFIJTZzov
+ vrlRKHpJw0PPUCNe03vGATW3KmpJDsSjEyscsvNjg2GA0xcOu3yYRUg0Q3NKrF46Y6Mp
+ ZjUzyT7OpBuZmFLSoZBL4ZABlUY2lBtiDb9NA96KirBojOQBkZ4ZjXj4QkAg27lj/UCZ
+ f+Fo334VyK2wNq7cKswpAgGHg2tXJQNwDclEMQ1T+URbJ3oIhul/RH8mRC40od9umyLs
+ V8Ig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=cic571afCdenoYIujAwgJbnniDoPB8tOxI+wfTikR5k=;
+ b=oQjs0++SfZE7zX3s9gKtxFmwc5MnV3Pi/T/52y9IXwHThId74RM60m61aoRzb6TIIv
+ 20I3RLuE/bSbhwA0bZCh+WBgSYWonBDwJgyarILuodPJXeXJaRA1aMtSilricFpFkIHo
+ PZqtVlCa++6bQa+YqR3LYciz0MG8NCU6DCd2RUoiohJHDJcONa8gNetrf5DIWPYw9scI
+ cpun3i3yBCn8WkEMHvRFg+KnOARaQCUsIl5txS2sonwSBn+Pjr7kODpIkRpxI249ljQB
+ cYPCX1haw4cPLZjuPjMeAY2xp/6/GMuHo2gFfZBUgephxTiOq3rrbA5O5jU/frBxAaj2
+ KJwA==
+X-Gm-Message-State: AOAM532n0WQHuAqrPzKyjKEAO4C9kz8SkjRiq8tThuNA6yhgW5t1e72V
+ O13XRgwXCEduCQFkSFkky0UYpg==
+X-Google-Smtp-Source: ABdhPJxaOyCXEylrKzYY9NhY6xvmeZw689kVmnOedSlebjGJAU/sDnv0uOogjtOgc3pQat4GZXla+g==
+X-Received: by 2002:a05:6402:2788:: with SMTP id
+ b8mr51355954ede.305.1641373339705; 
+ Wed, 05 Jan 2022 01:02:19 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id p5sm15543368edx.34.2022.01.05.01.02.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 05 Jan 2022 01:02:18 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 1CB191FFB7;
+ Wed,  5 Jan 2022 09:02:18 +0000 (GMT)
+References: <YdUCQLVe5JSWZByQ@humpty.home.comstyle.com>
+User-agent: mu4e 1.7.5; emacs 28.0.90
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: Brad Smith <brad@comstyle.com>
 Subject: Re: [PATCH v2] FreeBSD: Upgrade to 12.3 release
-Message-ID: <YdVeLlXQlp5IoZuo@redhat.com>
-References: <YdUCQLVe5JSWZByQ@humpty.home.comstyle.com>
+Date: Wed, 05 Jan 2022 09:02:12 +0000
+In-reply-to: <YdUCQLVe5JSWZByQ@humpty.home.comstyle.com>
+Message-ID: <877dbelfmt.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <YdUCQLVe5JSWZByQ@humpty.home.comstyle.com>
-User-Agent: Mutt/2.1.3 (2021-09-10)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.372,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52b
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x52b.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,38 +90,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Thomas Huth <thuth@redhat.com>, Beraldo Leal <bleal@redhat.com>,
- Philippe Mathieu-Daud_ <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>, qemu-devel@nongnu.org,
- Alex Benn_e <alex.bennee@linaro.org>
+Cc: Thomas Huth <thuth@redhat.com>, Philippe Mathieu-Daud_ <f4bug@amsat.org>,
+ qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jan 04, 2022 at 09:28:16PM -0500, Brad Smith wrote:
+
+Brad Smith <brad@comstyle.com> writes:
+
 > FreeBSD: Upgrade to 12.3 release
-> 
+>
 > Note, since libtasn1 was fixed in 12.3 [*], this commit re-enables GnuTLS.
-> 
+>
 > [*] https://gitlab.com/gnutls/libtasn1/-/merge_requests/71
-> 
-> 
+>
+>
 > Signed-off-by: Brad Smith <brad@comstyle.com>
 > Tested-by: Thomas Huth <thuth@redhat.com>
 > Reviewed-by: Warner Losh <imp@bsdimp.com>
-> ---
->  .gitlab-ci.d/cirrus.yml | 5 +----
->  tests/vm/freebsd        | 8 +++-----
->  2 files changed, 4 insertions(+), 9 deletions(-)
 
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Queued to testing/next, thanks.
 
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+--=20
+Alex Benn=C3=A9e
 
