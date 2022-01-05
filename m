@@ -2,86 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F10FC4855DC
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 16:28:45 +0100 (CET)
-Received: from localhost ([::1]:45920 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E4C74855E9
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 16:34:11 +0100 (CET)
+Received: from localhost ([::1]:54978 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n58DU-0006a6-D0
-	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 10:28:44 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44790)
+	id 1n58Ig-0004IO-2K
+	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 10:34:09 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47424)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1n588w-0001fP-Bx
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 10:24:02 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48415)
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1n58Gz-0002ps-2M
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 10:32:21 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25550)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1n588u-0001qP-GR
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 10:24:01 -0500
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1n58Gk-0003uc-H2
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 10:32:19 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641396238;
+ s=mimecast20190719; t=1641396724;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/VjYS9b3y0rt4xOLWtLn6uW06loed5zLyzVvJQAutZM=;
- b=eaXv2FFFmRprPFVREFE4FBXKo7mcHdowWCKeutphY7CS0YW9Yae8DjNOm0lSH0wfBgSZnm
- Hy+tk1v4dXm9jrjXquHsMaxW21YXLIwzrkMCyPPDnIqDoiafi52wZqCvDyQOhHBF3740lE
- Tg0O+DM+Z1vMOkN/yQU/gtGUxhVGY+U=
-Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com
- [209.85.215.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=P8QlZq90kt3W2tOghX3fLouV0GSp/oYdhW9GTJqi2lk=;
+ b=aEmj4Jb5smJ0zi3AsGI1iUZwQbjgYbVuA/5zRHcZ8G/1+BKxOCDf4w+EK7JFwibL0PHqOy
+ 1BXD/Uzmy69kPOaQeCAa+3W/bnYX12JYJUK8LHDd/mB0Af5rf7MFx7RvMEAHsCj1GP9Zv8
+ GRC3azaD5PiiYUWaHLCXYMSe+taxz+I=
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-662-lDRVaaneOTiVEy5-tUbhsQ-1; Wed, 05 Jan 2022 10:23:54 -0500
-X-MC-Unique: lDRVaaneOTiVEy5-tUbhsQ-1
-Received: by mail-pg1-f197.google.com with SMTP id
- t28-20020a63955c000000b0033f3b16a931so21542458pgn.4
- for <qemu-devel@nongnu.org>; Wed, 05 Jan 2022 07:23:54 -0800 (PST)
+ us-mta-222-C9NKK-q3MZSZZDuwal_Bpg-1; Wed, 05 Jan 2022 10:32:01 -0500
+X-MC-Unique: C9NKK-q3MZSZZDuwal_Bpg-1
+Received: by mail-qt1-f197.google.com with SMTP id
+ h13-20020ac87d4d000000b002af9c496444so30981648qtb.22
+ for <qemu-devel@nongnu.org>; Wed, 05 Jan 2022 07:32:01 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=/VjYS9b3y0rt4xOLWtLn6uW06loed5zLyzVvJQAutZM=;
- b=7DrXREMPHGGlwnu2/W2/EFF6kdMYzbKzRiuNfqAllBO5kV/QTdkhrIqv77SlnQV42p
- 4HlR0DENAsVZq0lqfJ2WtYEw+4RQTyK+j1jPx3/C8oewacFHMh5xjwj0dSCGmIQj4aig
- QG7JVM/05dWls6eCljun7FORpNzSpBmyeVXoAt4eSgklZVh39HdfxexdVgmBgHLQ5tkn
- BQ0vDGFWOGepQrVXzetcveCDt9OwYRcJT+8pxY1cFbMVf+GK+P3BDqdhZPu3KKpz0D3Q
- /w1WIGXkrmuH0lQRH2Lp2sCcuQ8bePuKwkDSfqTPE9hEL9K7AWf+16b32H35I6YD8RLb
- gw6Q==
-X-Gm-Message-State: AOAM531gjERRHDOdPdnNSGBAqbrjTpq35IsCCQvzpnS7zlQ3WfVkjsXs
- GL2DaQuYLFKjNxkYNc+XtUYRoK7gWDQI0kzFRiiIfSp1EhpbGLyMApZUikTUc7Cv73BPGMTS3k3
- vLOSalicp/T+nR6KKjVdaSWUzManWDBM=
-X-Received: by 2002:a17:902:740a:b0:148:e19c:b467 with SMTP id
- g10-20020a170902740a00b00148e19cb467mr54611524pll.61.1641396233276; 
- Wed, 05 Jan 2022 07:23:53 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzHUYX0K5htIZ+Zq3KUVCQg6uH0sPf7UvIXejnInTP/iKl0eQssEvYW0Gf2oF2KU8CjcAkbigTCXPPnJXssVZc=
-X-Received: by 2002:a17:902:740a:b0:148:e19c:b467 with SMTP id
- g10-20020a170902740a00b00148e19cb467mr54611505pll.61.1641396233007; Wed, 05
- Jan 2022 07:23:53 -0800 (PST)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=P8QlZq90kt3W2tOghX3fLouV0GSp/oYdhW9GTJqi2lk=;
+ b=fDP72Au0/AW6cPBanyyskCZQzHndUJDis0COfcW6XK3qFXnEq3ngJ/UvTkjEuvBUtm
+ dpSchk7r0EsYw2C9xiX7ZouGG49WfQONW+pGuncJxmos7kgDfzDP7MyAVOtma1rnCZ8n
+ uHaR1mAplsuJhGFOfBRXkuYST/8vhjsGQ7Z4Ou68ozDwuX+r7Wkipxfdj1Xk01HZzaUq
+ uJaVxx4UzFAVZgT0Wm6jDgY2Nyt3v+Sr/sOo/FDtxLDplLYwOXemRXABH8s0SJLInhF+
+ jRx84FT7PSsLK4mHoo+iOLKnbbQ/LfUaywRc8ZnkI+s2op73fO3qWjJgjjGHAZCi8RxK
+ 8BqA==
+X-Gm-Message-State: AOAM532eNd/ajoyi+n7AFBH3K+en9WTUIf7xnzqQ0r8mubtcjQ9aKXUN
+ vvLenR+IWDKhijXidQOWIqDvYnTKx1UQDrMLhBEup06bq+yoRx1jlT15b+z+gClxidII/qLr2zm
+ 8r9hQLv1A9oPxYPU=
+X-Received: by 2002:a05:6214:d03:: with SMTP id
+ 3mr37658779qvh.75.1641396720750; 
+ Wed, 05 Jan 2022 07:32:00 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwbwjdZR6pogDND2HD9/lNy/+SmFHAEj1uYHqhOdDVdVNg+F+NixUqAZ/ZfAO1GJUYJKbfz6g==
+X-Received: by 2002:a05:6214:d03:: with SMTP id
+ 3mr37658754qvh.75.1641396720516; 
+ Wed, 05 Jan 2022 07:32:00 -0800 (PST)
+Received: from [192.168.100.42] ([82.142.12.178])
+ by smtp.gmail.com with ESMTPSA id f12sm34743232qtj.93.2022.01.05.07.31.59
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 05 Jan 2022 07:32:00 -0800 (PST)
+Message-ID: <1ae9bb74-11d5-1f7f-7305-cca3c19573bf@redhat.com>
+Date: Wed, 5 Jan 2022 16:31:57 +0100
 MIME-Version: 1.0
-References: <20220105095055.44475-1-kkostiuk@redhat.com>
-In-Reply-To: <20220105095055.44475-1-kkostiuk@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Date: Wed, 5 Jan 2022 19:23:42 +0400
-Message-ID: <CAMxuvazHxsuzh8eF7QSEku4oCfq8B1mXN=YjwVtzM5Xqz3sZEQ@mail.gmail.com>
-Subject: Re: [PATCH] MAINTAINERS: Add entry for QEMU Guest Agent Windows
- components
-To: Kostiantyn Kostiuk <kkostiuk@redhat.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH 1/1] softmmu: fix device deletion events with -device JSON
+ syntax
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <20220105123847.4047954-1-berrange@redhat.com>
+ <20220105123847.4047954-2-berrange@redhat.com>
+ <a2a94c4c-190f-9be6-eadf-bd1404a2e272@redhat.com>
+ <YdWxZ0DYZT0zDuWP@redhat.com>
+ <ef04e0ee-4349-a9cb-a3e7-2abfcc7aaedc@redhat.com>
+ <YdW2qk19K5N7gr9W@redhat.com>
+From: Laurent Vivier <lvivier@redhat.com>
+In-Reply-To: <YdW2qk19K5N7gr9W@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlureau@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lvivier@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mlureau@redhat.com;
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=lvivier@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.372,
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.372,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-1.057, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,45 +108,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Michael Roth <michael.roth@amd.com>, Paolo Bonzini <pbonzini@redhat.com>,
- "Daniel P . Berrange" <berrange@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
+ Thomas Huth <thuth@redhat.com>, Peter Krempa <pkrempa@redhat.com>,
+ qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jan 5, 2022 at 1:51 PM Kostiantyn Kostiuk <kkostiuk@redhat.com> wro=
-te:
->
-> Signed-off-by: Kostiantyn Kostiuk <kkostiuk@redhat.com>
+On 05/01/2022 16:18, Daniel P. Berrangé wrote:
+> On Wed, Jan 05, 2022 at 04:00:54PM +0100, Laurent Vivier wrote:
+>> On 05/01/2022 15:55, Daniel P. Berrangé wrote:
+>>> On Wed, Jan 05, 2022 at 03:49:12PM +0100, Laurent Vivier wrote:
+>>>> On 05/01/2022 13:38, Daniel P. Berrangé wrote:
+>>>>> The -device JSON syntax impl leaks a reference on the created
+>>>>> DeviceState instance. As a result when you hot-unplug the
+>>>>> device, the device_finalize method won't be called and thus
+>>>>> it will fail to emit the required DEVICE_DELETED event.
+>>>>>
+>>>>> A 'json-cli' feature was previously added against the
+>>>>> 'device_add' QMP command QAPI schema to indicated to mgmt
+>>>>> apps that -device supported JSON syntax. Given the hotplug
+>>>>> bug that feature flag is no unusable for its purpose, so
+>>>>
+>>>> Not sure to understand: do you mean "now unusable"?
+>>>
+>>> An application wants to known whether QEMU can support JSON
+>>> syntax with -device. If they look for the 'json-cli' feature
+>>> as a witness, they'll end up using JSON with QEMU 6.2 which
+>>> is giving them broken hotplug. This is unusable for any
+>>> non-trivial use cases. So we need a new witness to indicate
+>>> whether JSON is viable with -device, that only the newly
+>>> fixed QEMU will report.
+>>
+>> I understand that, my problem was with your sentence:
+>>
+>> "Given the hotplug bug that feature flag is no unusable for its purpose"
+> 
+> What's the problem with that ? It is reasonabled to say a -device impl
+> which is broken for hotplug is not usable for non-toy use cases.
 
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+The problem for me is the double negation: "no" and "unusable"
 
-> ---
->  MAINTAINERS | 8 ++++++++
->  1 file changed, 8 insertions(+)
->
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index f871d759fd..1f255ec874 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -2729,6 +2729,14 @@ F: scripts/qemu-guest-agent/
->  F: tests/unit/test-qga.c
->  T: git https://github.com/mdroth/qemu.git qga
->
-> +QEMU Guest Agent Win32
-> +M: Konstantin Kostiuk <kkostiuk@redhat.com>
-> +S: Maintained
-> +F: qga/*win32*
-> +F: qga/vss-win32/
-> +F: qga/installer/
-> +T: git https://github.com/kostyanf14/qemu.git qga-win32
-> +
->  QOM
->  M: Paolo Bonzini <pbonzini@redhat.com>
->  R: Daniel P. Berrange <berrange@redhat.com>
-> --
-> 2.25.1
->
+Thanks,
+Laurent
 
 
