@@ -2,102 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB441485714
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 18:09:02 +0100 (CET)
-Received: from localhost ([::1]:57190 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DE9848571D
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 18:13:39 +0100 (CET)
+Received: from localhost ([::1]:42946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n59mX-0007hk-65
-	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 12:09:01 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46800)
+	id 1n59r0-0007Ux-0B
+	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 12:13:38 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48802)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1n59hU-0003Y6-6F
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 12:03:48 -0500
-Received: from [2607:f8b0:4864:20::1032] (port=44973
- helo=mail-pj1-x1032.google.com)
+ (Exim 4.90_1) (envelope-from <stevie.lavern@gmail.com>)
+ id 1n59nc-0003VP-PL
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 12:10:09 -0500
+Received: from [2607:f8b0:4864:20::d2e] (port=46611
+ helo=mail-io1-xd2e.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1n59hD-00026d-V5
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 12:03:47 -0500
-Received: by mail-pj1-x1032.google.com with SMTP id
- n30-20020a17090a5aa100b001b2b6509685so6840527pji.3
- for <qemu-devel@nongnu.org>; Wed, 05 Jan 2022 09:03:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=20PcXM2SOqh0bhoeFDgkuJ5Ggj44o0SuiK3MzhyRmsU=;
- b=rsVhd0t9UYWasE9JkCnUdxw73v/C1RJiVYZucEuqofNaX7J+c9jjVQkj/bSH9/hzML
- 1AQ45ueMsGZqHhb+ONFIOTRVECck4WDJiLkhJ0dCZbZRd5F9dDTBiVu7r7REZXD9nDtu
- Xwabj8vwZirYN27UmfT+MFejoQWUI9qJwppOAO8SVy7LPqm06bw6Rk+FSk4JnYLfNzKN
- 6FSWMsczvkGo3kv1fgbZktu3eIC0s4j4r+mMRKUgyd5AhelCtF7hT13ZZzUMad8zhHYs
- NsjHcQfwZ6EHDGIT1RaMTzGYfSxfIcJSuUk+//z6aXiUfPd4LC0DhqXQ2LFXonhbNUZK
- 5pzA==
+ (Exim 4.90_1) (envelope-from <stevie.lavern@gmail.com>)
+ id 1n59na-0007pe-Tw
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 12:10:08 -0500
+Received: by mail-io1-xd2e.google.com with SMTP id x6so48962929iol.13
+ for <qemu-devel@nongnu.org>; Wed, 05 Jan 2022 09:10:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:from:date:message-id:subject:to;
+ bh=Eu+tr/OZ1ED3HpoCROwoL3qUvCdgdS6adVCkCL/b4s0=;
+ b=J2pGBCTt38/kho0/7mGm8+eiV86y3RA6+aCxX0IF3kH/5VULUmM5TO1bwdc/b3X5kr
+ yDeHakrVCKKm8Nz/FNWwPwNa26So6zde6myqZ6Y/qXuoGSTVlCPASxEIFBhpWII0DRHg
+ h+2Nm6zFTGaIjm51DT9D2yQsfTZSENstkGaeSC+PwmasCtUzYYwMO3pRUJHcItrMfJOH
+ aGOpYOhXz2tTV2L1W5ho7rLnnj+PxMJIE1DGYnQdUz6e0ZFe9P6n0OC19osdCEJ1WyNx
+ 4LlvSFROaX+0Pf9BD1x2HMlmugq5FztQfWjGKeDRzUgBx/C4QLOC2gNkqFmyucezfmQf
+ I5Ng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=20PcXM2SOqh0bhoeFDgkuJ5Ggj44o0SuiK3MzhyRmsU=;
- b=BL2uFuH/hn/FaQFMxOoRjmelB9XHSUv5ZFEDEzvInwJKA2OYnjCqNtUiU4DVJLZCtI
- ZVCTR0RkXy4zrSsgspyyvskDZ3CGH7DyDwNM1cilNZ1XBbumWRfHVBFphvkNOVWX279O
- oXF/osX4+Kq5tVuGluYbYOKy6l0Es3346Ch1TKhroTk9JyIuT/UMVKDJ1LgtXsbr6suU
- 19ZYdrbMLTLqbp2GduP9uxrtkTnR9Yq2mdgu9Arm3g+FT9J6ZNND0T+R4c5gyrjME8dx
- t1JrODezj1aFQ2iTfn5AUu7/SOe4NEoB4CBivbpIgpvRk8Nk+niICKQrcYi0I1dHLGnm
- JgFg==
-X-Gm-Message-State: AOAM533mGtzOgPagPNnzhsTKGKjMZNyZfK6OTC0OChYRrPwAaJGLxuYZ
- iIyU/xqwbhI9YjoVR/W1qboMFA==
-X-Google-Smtp-Source: ABdhPJxImFHzV2wP+eap8aozdummb4OVmFsl2PXCC7t1JdswItec85C5qV0TEmNNUwSf2xDAMgaO6g==
-X-Received: by 2002:a17:90b:1c86:: with SMTP id
- oo6mr4975265pjb.165.1641402207756; 
- Wed, 05 Jan 2022 09:03:27 -0800 (PST)
-Received: from google.com (157.214.185.35.bc.googleusercontent.com.
- [35.185.214.157])
- by smtp.gmail.com with ESMTPSA id v3sm23315094pgl.64.2022.01.05.09.03.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Jan 2022 09:03:27 -0800 (PST)
-Date: Wed, 5 Jan 2022 17:03:23 +0000
-From: Sean Christopherson <seanjc@google.com>
-To: Chao Peng <chao.p.peng@linux.intel.com>
-Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
- Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
- Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
- Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
- "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
- luto@kernel.org, john.ji@intel.com, susie.li@intel.com,
- jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
- david@redhat.com
-Subject: Re: [PATCH v3 kvm/queue 11/16] KVM: Add kvm_map_gfn_range
-Message-ID: <YdXPW+2hZDsgZD/a@google.com>
-References: <20211223123011.41044-1-chao.p.peng@linux.intel.com>
- <20211223123011.41044-12-chao.p.peng@linux.intel.com>
- <YcS6m9CieYaIGA3F@google.com>
- <20211224041351.GB44042@chaop.bj.intel.com>
- <20211231023334.GA7255@chaop.bj.intel.com>
- <YdSEcknuErGe0gQa@google.com>
- <20220105061410.GA25283@chaop.bj.intel.com>
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=Eu+tr/OZ1ED3HpoCROwoL3qUvCdgdS6adVCkCL/b4s0=;
+ b=R4xbqUcLCkF//x8JpGtwmpjeEqH5+8i5yU15uWZa96lvOvNmQVkxAs+Ut8zIA5EqE1
+ eM3NEKbi8rIlklBCWS3p/sTv1/PC2vVi7tquUF9226bdkhHxk/6M5Lw6kUrvvxTnZmOb
+ K2kielxCGzpvCji443oetOBoj5LFtX/gDZsQ9Nd/7SC8eYGw5r8wJYkmMOLZyltZb9FG
+ FccjgtawtZG24VY8OGR5WcJ30xXkCbxvb+4DZ8X/gssesFbeXM5zFUhwKkJWsA3StGp5
+ QaudteLuzQSW04k8Di8ulR85cYrJ22YBhkSfIaC4Wr7QREiyi9IawhpNgrLGuCAIYFSO
+ 9TxQ==
+X-Gm-Message-State: AOAM531dqRZX3estYSABV8fA7T2e+KBOBEoMdIXfPW0hn1pFfSfz1MLC
+ /VJpOPDkF3I7nzMjCkXoJ3tatRpkxciOpvQz0JNbYNEZiQY=
+X-Google-Smtp-Source: ABdhPJwN0psMKCicf1V5++iG9qt6I7k8UkyGra9oxaxB/G2PodAwvOEsKSMRp5HDvLv7dqV3YWLEG3gCo4slMIKng4Q=
+X-Received: by 2002:a5d:87d8:: with SMTP id q24mr25604186ios.154.1641402605107; 
+ Wed, 05 Jan 2022 09:10:05 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220105061410.GA25283@chaop.bj.intel.com>
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1032
+From: Stevie Lavern <stevie.lavern@gmail.com>
+Date: Wed, 5 Jan 2022 18:09:53 +0100
+Message-ID: <CADV2EAtTPjHP=H7AMAdva7UjydjM5DwK=NDAm3HYM-MHeD9wyg@mail.gmail.com>
+Subject: Rational behind partial AVX support in Qemu
+To: qemu-devel@nongnu.org
+Content-Type: multipart/alternative; boundary="00000000000035fce505d4d8d379"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d2e
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
- envelope-from=seanjc@google.com; helo=mail-pj1-x1032.google.com
-X-Spam_score_int: -167
-X-Spam_score: -16.8
-X-Spam_bar: ----------------
-X-Spam_report: (-16.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, FSL_HELO_FAKE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d2e;
+ envelope-from=stevie.lavern@gmail.com; helo=mail-io1-xd2e.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -113,49 +79,69 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jan 05, 2022, Chao Peng wrote:
-> On Tue, Jan 04, 2022 at 05:31:30PM +0000, Sean Christopherson wrote:
-> > On Fri, Dec 31, 2021, Chao Peng wrote:
-> > > On Fri, Dec 24, 2021 at 12:13:51PM +0800, Chao Peng wrote:
-> > > > On Thu, Dec 23, 2021 at 06:06:19PM +0000, Sean Christopherson wrote:
-> > > > > On Thu, Dec 23, 2021, Chao Peng wrote:
-> > > > > > This new function establishes the mapping in KVM page tables for a
-> > > > > > given gfn range. It can be used in the memory fallocate callback for
-> > > > > > memfd based memory to establish the mapping for KVM secondary MMU when
-> > > > > > the pages are allocated in the memory backend.
-> > > > > 
-> > > > > NAK, under no circumstance should KVM install SPTEs in response to allocating
-> > > > > memory in a file.   The correct thing to do is to invalidate the gfn range
-> > > > > associated with the newly mapped range, i.e. wipe out any shared SPTEs associated
-> > > > > with the memslot.
-> > > > 
-> > > > Right, thanks.
-> > > 
-> > > BTW, I think the current fallocate() callback is just useless as long as
-> > > we don't want to install KVM SPTEs in response to allocating memory in a
-> > > file. The invalidation of the shared SPTEs should be notified through 
-> > > mmu_notifier of the shared memory backend, not memfd_notifier of the
-> > > private memory backend.
-> > 
-> > No, because the private fd is the final source of truth as to whether or not a
-> > GPA is private, e.g. userspace may choose to not unmap the shared backing.
-> > KVM's rule per Paolo's/this proposoal is that a GPA is private if it has a private
-> > memslot and is present in the private backing store.  And the other core rule is
-> > that KVM must never map both the private and shared variants of a GPA into the
-> > guest.
-> 
-> That's true, but I'm wondering if zapping the shared variant can be
-> handled at the time when the private one gets mapped in the KVM page
-> fault. No bothering the backing store to dedicate a callback to tell
-> KVM.
+--00000000000035fce505d4d8d379
+Content-Type: text/plain; charset="UTF-8"
 
-Hmm, I don't think that would work for the TDP MMU due to page faults taking
-mmu_lock for read.  E.g. if two vCPUs concurrently fault in both the shared and
-private variants, a race could exist where the private page fault sees the gfn
-as private and the shared page fault sees it as shared.  In that case, both faults
-will install a SPTE and KVM would end up running with both variants mapped into the
-guest.
+Hello,
+I'm currently testing various binaries under qemu linux user and went into
+a strange bug.
 
-There's also a performance penalty, as KVM would need to walk the shared EPT tree
-on every private page fault.
+Here is the TLDR: is there a reason to allow VEX.L to be 1 when not
+supporting AVX instructions? Crashing with illegal op may save some time
+and headache to users.
+
+And now for some context:
+One of my test binaries had some AVX instructions and crashed in a weird
+way.
+As I understand AVX is not supported, and so a Qemu crash should be
+expected.
+However, in this instance, it's the guest that crashed, long after the
+offending AVX instruction.
+
+The faulty instruction was a `vmovups ymmword ptr [rsp], ymm0`.
+Looking into i386/translate.c, it seems that it is correctly decoded but
+its generation (see 'case 0x111' in `gen_sse`) is invalid.
+
+Indeed, while the VEX prefix is correctly decoded, its VEX.L bit is never
+used during the instruction generation and is always assumed to be 0.
+Therefore, the instruction generated is a `vmovups xmmword ptr [rsp],
+xmm0`, using a 128bits register instead of the orignal one using a 256bits
+register.
+
+My understanding is that the VEX prefix and 256 bits registers where
+introduced by AVX. As Qemu does not support AVX, is there any kind of
+reason not to crash (illegalop) when VEX.L = 1?
+
+Best regards,
+
+Thanks,
+Stevie
+
+--00000000000035fce505d4d8d379
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Hello,<div>I&#39;m currently testing various binaries unde=
+r qemu linux user and went into a strange bug.<br></div><div><br></div><div=
+>Here is the TLDR: is there a reason to allow VEX.L to be 1 when not suppor=
+ting AVX instructions? Crashing with illegal op may save some time and head=
+ache to users.</div><div><br></div><div>And now for some context:</div><div=
+>One of my test binaries had some AVX instructions and crashed in a weird w=
+ay.<br></div><div>As I understand AVX is not supported, and so a Qemu crash=
+ should be expected.</div><div>However, in this instance, it&#39;s the gues=
+t that crashed, long after the offending AVX instruction.<br></div><div><br=
+></div><div>The faulty instruction was a `vmovups ymmword ptr [rsp], ymm0`.=
+</div><div>Looking into i386/translate.c, it seems that it is correctly dec=
+oded but its generation (see &#39;case 0x111&#39; in `gen_sse`) is invalid.=
+<br></div><div><br></div><div>Indeed, while the VEX prefix is correctly dec=
+oded, its VEX.L bit is never used during the instruction generation and is =
+always assumed to be 0.</div><div>Therefore, the instruction generated is a=
+ `vmovups xmmword ptr [rsp], xmm0`, using a 128bits register instead of the=
+ orignal one using a 256bits register.</div><div><br></div><div>My understa=
+nding is that the VEX prefix and 256 bits registers where introduced by AVX=
+. As Qemu does not support AVX, is there any kind of reason not to crash (i=
+llegalop) when VEX.L =3D 1?</div><div><br></div><div>Best regards,</div><di=
+v><br></div><div>Thanks,</div><div>Stevie</div></div>
+
+--00000000000035fce505d4d8d379--
 
