@@ -2,88 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99D25484ECA
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 08:40:33 +0100 (CET)
-Received: from localhost ([::1]:57464 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 843F2484F37
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 09:23:03 +0100 (CET)
+Received: from localhost ([::1]:59602 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n50uO-0002Of-5X
-	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 02:40:32 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43592)
+	id 1n51ZW-0000x8-9K
+	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 03:23:02 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55346)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
- id 1n50iC-0005kk-5J
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 02:28:04 -0500
-Received: from [2607:f8b0:4864:20::1030] (port=45618
- helo=mail-pj1-x1030.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
- id 1n50i6-0002iU-BK
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 02:27:52 -0500
-Received: by mail-pj1-x1030.google.com with SMTP id
- l16-20020a17090a409000b001b2e9628c9cso5566076pjg.4
- for <qemu-devel@nongnu.org>; Tue, 04 Jan 2022 23:27:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bytedance-com.20210112.gappssmtp.com; s=20210112;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=1Xo5IFa149SO4ADvZhXcmMCRRBJ3RIWl6rdxC4KsDkY=;
- b=dk99/dJ4YZuObqkmUXNuJng2XbvWvW75jFRPoeMMCwqCVFnBMTeVckRwc+R6DbUjLS
- 7kYIuVLVwjS1eRKZN6Ktd65cbEDNhQ17ZTWnT5ppx1kcziqgAD2zEuQf15GSU53kY2bg
- t4Yqp8+4LLmod+R3MJJhnBl5W/sHqyYMq5oDQKyk+o6y1uJxZI1GAsbGtgDq24/spokE
- +/QzjyYDwk/G8HtWNVeRcmaklfbPmeIad6JVP/+SZHQ0Ma8o5Leka+Bg4z9/Cfc3XDzV
- HACR7njqmrsKN1HL9WaVDWwRG2ATj9QGl5bBd0T0NnciAEcnzYrGroYhKSGJh8cAmM2k
- xJww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=1Xo5IFa149SO4ADvZhXcmMCRRBJ3RIWl6rdxC4KsDkY=;
- b=Ojm8i7DdcBIFdBZ2pBd0h6dULkpZP6C4nBNy5UqLa5Ph/fV1DifgGqnUiubCCRcvqf
- K5OEFhk07FF07ns7E/JO2I9OH7sqf5dPxrTusa1jbCGZgy0LYP2Mym6+v0B41iTeL/KE
- RU60HhmsMaFlNMOT6qalFpS9AzJSb+RXrUdqKtso/BvMKnd095KL609eJwieUjy5J4Rg
- gzuZ/pxURX00+0NDh5urDHDYjIBjUwOnxgZKzKeJk75HmLutTb/XoRESiHQaOytHgny5
- 6fIo03RX4tnECFnNQ3MuBAmeKv9lLt1R7pkwfcob5wiJ1gT9nwzVwNYRqo1PbKzskEVp
- E+1w==
-X-Gm-Message-State: AOAM533OpkDNMw6Wvr/Eb5/i2Q1iWVdMQHIQtMuFAPrKKH21UK6rEL6c
- 0SuVLGdbiYgypdJsTFGu5YXVV13ou34GWw==
-X-Google-Smtp-Source: ABdhPJx8xs5RI+ehyleKtUV7d5OyZLNt712MXzHPXf26877g789PpJGPs60aWoeuZyfpkelzLL6DNQ==
-X-Received: by 2002:a17:90b:164f:: with SMTP id
- il15mr2598594pjb.155.1641367666266; 
- Tue, 04 Jan 2022 23:27:46 -0800 (PST)
-Received: from [10.76.15.169] ([153.254.110.109])
- by smtp.gmail.com with ESMTPSA id gk13sm1460904pjb.43.2022.01.04.23.27.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 04 Jan 2022 23:27:45 -0800 (PST)
-Subject: Re: Re: [PATCH 4/5] usb: allow max 8192 bytes for desc
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- peter.maydell@linaro.org, richard.henderson@linaro.org, kraxel@redhat.com,
- eblake@redhat.com, pbonzini@redhat.com
-References: <20211227142734.691900-1-pizhenwei@bytedance.com>
- <20211227142734.691900-5-pizhenwei@bytedance.com>
- <222c5015-399d-0ff0-e061-7dd3a947d4d4@amsat.org>
-From: zhenwei pi <pizhenwei@bytedance.com>
-Message-ID: <708c4228-d123-b403-09ff-b7d75bf1bba4@bytedance.com>
-Date: Wed, 5 Jan 2022 15:25:08 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ (Exim 4.90_1) (envelope-from <yan.y.zhao@intel.com>)
+ id 1n51Oq-0003Ag-88
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 03:12:06 -0500
+Received: from mga04.intel.com ([192.55.52.120]:62446)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <yan.y.zhao@intel.com>)
+ id 1n51Oa-0007Hp-9A
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 03:11:59 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1641370304; x=1672906304;
+ h=date:from:to:cc:subject:message-id:reply-to:references:
+ mime-version:in-reply-to;
+ bh=VVpNUBQjFn92mN2xWVrn6+q6FmyXhBeMOJG28wluJ7k=;
+ b=YziPmyIwTBqWnsCECGqwvASzv6Nu3VsVslWfjPh2susY6AsBbfLY6SbJ
+ uO+nREIpJjFX+J0q4Z93UwTGWEs0CVK6tF1x3XgdGiaJEEdE4QAGd7+yz
+ qxJ/sMr9dtcZODCfVr/86ea9fIMmIYCKTfz0DCrq69WEIQCHMZanxYKT0
+ eZbUB3hFYm8o22q8Ev7u49Oudh7CRLjPjmw5LVkfi/Gs8K+h3l/B2wlfQ
+ 5U6P9Cy+eZBKydrRHuBnyVbLsTl6COgHruaSxDWzSe/QYRv5c7Pr3l0tD
+ il/bZN3w6qW0e1t8DGIc3a9dYQeUF7AjJPizQmFBjwEczJoN1q3OUEuii w==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10217"; a="241212427"
+X-IronPort-AV: E=Sophos;i="5.88,262,1635231600"; d="scan'208";a="241212427"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Jan 2022 00:11:34 -0800
+X-IronPort-AV: E=Sophos;i="5.88,262,1635231600"; d="scan'208";a="611379321"
+Received: from yzhao56-desk.sh.intel.com ([10.239.159.43])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Jan 2022 00:11:28 -0800
+Date: Wed, 5 Jan 2022 15:53:56 +0800
+From: Yan Zhao <yan.y.zhao@intel.com>
+To: Chao Peng <chao.p.peng@linux.intel.com>
+Subject: Re: [PATCH v3 kvm/queue 14/16] KVM: Handle page fault for private
+ memory
+Message-ID: <20220105075356.GB19947@yzhao56-desk.sh.intel.com>
+References: <20211223123011.41044-1-chao.p.peng@linux.intel.com>
+ <20211223123011.41044-15-chao.p.peng@linux.intel.com>
+ <20220104014629.GA2330@yzhao56-desk.sh.intel.com>
+ <20220104091008.GA21806@chaop.bj.intel.com>
+ <20220104100612.GA19947@yzhao56-desk.sh.intel.com>
+ <20220105062810.GB25283@chaop.bj.intel.com>
 MIME-Version: 1.0
-In-Reply-To: <222c5015-399d-0ff0-e061-7dd3a947d4d4@amsat.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1030
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
- envelope-from=pizhenwei@bytedance.com; helo=mail-pj1-x1030.google.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, NICE_REPLY_A=-1.057, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220105062810.GB25283@chaop.bj.intel.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+Received-SPF: pass client-ip=192.55.52.120; envelope-from=yan.y.zhao@intel.com;
+ helo=mga04.intel.com
+X-Spam_score_int: -47
+X-Spam_score: -4.8
+X-Spam_bar: ----
+X-Spam_report: (-4.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.372,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,58 +78,123 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Reply-To: Yan Zhao <yan.y.zhao@intel.com>
+Cc: Wanpeng Li <wanpengli@tencent.com>, jun.nakajima@intel.com,
+ kvm@vger.kernel.org, david@redhat.com, qemu-devel@nongnu.org,
+ "J . Bruce Fields" <bfields@fieldses.org>, linux-mm@kvack.org,
+ "H . Peter Anvin" <hpa@zytor.com>, ak@linux.intel.com,
+ Jonathan Corbet <corbet@lwn.net>, Joerg Roedel <joro@8bytes.org>,
+ x86@kernel.org, Hugh Dickins <hughd@google.com>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ luto@kernel.org, Thomas Gleixner <tglx@linutronix.de>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>, Jim Mattson <jmattson@google.com>,
+ dave.hansen@intel.com, Sean Christopherson <seanjc@google.com>,
+ susie.li@intel.com, Jeff Layton <jlayton@kernel.org>,
+ linux-kernel@vger.kernel.org, john.ji@intel.com,
+ Yu Zhang <yu.c.zhang@linux.intel.com>, linux-fsdevel@vger.kernel.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Andrew Morton <akpm@linux-foundation.org>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-On 1/4/22 11:22 PM, Philippe Mathieu-Daudé wrote:
-> On 27/12/21 15:27, zhenwei pi wrote:
->> A device of USB video class usually uses larger desc structure, so
->> use larger buffer to avoid failure.
->>
->> Signed-off-by: zhenwei pi <pizhenwei@bytedance.com>
->> ---
->>   hw/usb/desc.c | 15 ++++++++-------
->>   hw/usb/desc.h |  1 +
->>   2 files changed, 9 insertions(+), 7 deletions(-)
->>
->> diff --git a/hw/usb/desc.c b/hw/usb/desc.c
->> index 8b6eaea407..7f6cc2f99b 100644
->> --- a/hw/usb/desc.c
->> +++ b/hw/usb/desc.c
->> @@ -632,7 +632,8 @@ int usb_desc_get_descriptor(USBDevice *dev, 
->> USBPacket *p,
->>       bool msos = (dev->flags & (1 << USB_DEV_FLAG_MSOS_DESC_IN_USE));
->>       const USBDesc *desc = usb_device_get_usb_desc(dev);
->>       const USBDescDevice *other_dev;
->> -    uint8_t buf[256];
->> +    size_t buflen = USB_DESC_MAX_LEN;
->> +    g_autofree uint8_t *buf = g_malloc(buflen);
+On Wed, Jan 05, 2022 at 02:28:10PM +0800, Chao Peng wrote:
+> On Tue, Jan 04, 2022 at 06:06:12PM +0800, Yan Zhao wrote:
+> > On Tue, Jan 04, 2022 at 05:10:08PM +0800, Chao Peng wrote:
+<...> 
+> > Thanks. So QEMU will re-generate memslots and set KVM_MEM_PRIVATE
+> > accordingly? Will it involve slot deletion and create?
 > 
-> Do we want to have a per-device desc_size (in USBDevice, default to
-> 256, video devices set it to 8K)?
-> 
-> How "hot" is this path? Could we keep 8K on the stack?
-> 
-It's an unlikely code path:
-1, During guest startup, guest tries to probe device.
-2, run 'lsusb' command in guest
+> KVM will not re-generate memslots when do the conversion, instead, it
+> does unmap/map a range on the same memslot. For memslot with tag
+> KVM_MEM_PRIVATE, it always have two mappings (private/shared) but at a
+> time only one is effective. What conversion does is to turn off the
+> existing mapping and turn on the other mapping for specified range in
+> that slot.
+>
+got it. thanks!
 
-Keeping 8K on the stack also seems OK.
-
->> diff --git a/hw/usb/desc.h b/hw/usb/desc.h
->> index 3ac604ecfa..35babdeff6 100644
->> --- a/hw/usb/desc.h
->> +++ b/hw/usb/desc.h
->> @@ -199,6 +199,7 @@ struct USBDesc {
->>       const USBDescMSOS         *msos;
->>   };
->> +#define USB_DESC_MAX_LEN    8192
->>   #define USB_DESC_FLAG_SUPER (1 << 1)
->>   /* little helpers */
+<...>
+> > > > > +static bool kvm_faultin_pfn_private(struct kvm_vcpu *vcpu,
+> > > > > +				    struct kvm_page_fault *fault,
+> > > > > +				    bool *is_private_pfn, int *r)
+> > > > > +{
+> > > > > +	int order;
+> > > > > +	int mem_convert_type;
+> > > > > +	struct kvm_memory_slot *slot = fault->slot;
+> > > > > +	long pfn = kvm_memfd_get_pfn(slot, fault->gfn, &order);
+> > > > For private memory slots, it's possible to have pfns backed by
+> > > > backends other than memfd, e.g. devicefd.
+> > > 
+> > > Surely yes, although this patch only supports memfd, but it's designed
+> > > to be extensible to support other memory backing stores than memfd. There
+> > > is one assumption in this design however: one private memslot can be
+> > > backed by only one type of such memory backing store, e.g. if the
+> > > devicefd you mentioned can independently provide memory for a memslot
+> > > then that's no issue.
+> > > 
+> > > >So is it possible to let those
+> > > > private memslots keep private and use traditional hva-based way?
+> > > 
+> > > Typically this fd-based private memory uses the 'offset' as the
+> > > userspace address to get a pfn from the backing store fd. But I believe
+> > > the current code does not prevent you from using the hva as the
+> > By hva-based way, I mean mmap is required for this fd.
+> > 
+> > > userspace address, as long as your memory backing store understand that
+> > > address and can provide the pfn basing on it. But since you already have
+> > > the hva, you probably already mmap-ed the fd to userspace, that seems
+> > > not this private memory patch can protect you. Probably I didn't quite
+> > Yes, for this fd, though mapped in private memslot, there's no need to
+> > prevent QEMU/host from accessing it as it will not cause the severe machine
+> > check.
+> > 
+> > > understand 'keep private' you mentioned here.
+> > 'keep private' means allow this kind of private memslot which does not
+> > require protection from this private memory patch :)
 > 
+> Then I think such memory can be the shared part of memory of the
+> KVM_MEM_PRIVATE memslot. As said above, this is initially supported :)
+>
+Sorry, maybe I didn't express it clearly.
 
--- 
-zhenwei pi
+As in the kvm_faultin_pfn_private(), 
+static bool kvm_faultin_pfn_private(struct kvm_vcpu *vcpu,
+				    struct kvm_page_fault *fault,
+				    bool *is_private_pfn, int *r)
+{
+	int order;
+	int mem_convert_type;
+	struct kvm_memory_slot *slot = fault->slot;
+	long pfn = kvm_memfd_get_pfn(slot, fault->gfn, &order);
+	...
+}
+Currently, kvm_memfd_get_pfn() is called unconditionally.
+However, if the backend of a private memslot is not memfd, and is device
+fd for example, a different xxx_get_pfn() is required here.
+
+Further, though mapped to a private gfn, it might be ok for QEMU to
+access the device fd in hva-based way (or call it MMU access way, e.g.
+read/write/mmap), it's desired that it could use the traditional to get
+pfn without convert the range to a shared one.
+pfn = __gfn_to_pfn_memslot(slot, fault->gfn, ...)
+	|->addr = __gfn_to_hva_many (slot, gfn,...)
+	|  pfn = hva_to_pfn (addr,...)
+
+
+So, is it possible to recognize such kind of backends in KVM, and to get
+the pfn in traditional way without converting them to shared?
+e.g.
+- specify KVM_MEM_PRIVATE_NONPROTECT to memory regions with such kind
+of backends, or
+- detect the fd type and check if get_pfn is provided. if no, go the
+  traditional way.
+
+Thanks
+Yan
+
+> > > > Reasons below:
+> > > > 1. only memfd is supported in this patch set.
+> > > > 2. qemu/host read/write to those private memslots backing up by devicefd may
+> > > > not cause machine check.
+
 
