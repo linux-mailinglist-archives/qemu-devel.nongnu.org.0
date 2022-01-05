@@ -2,72 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6466484BDE
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 01:48:14 +0100 (CET)
-Received: from localhost ([::1]:38816 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0602484BDF
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 01:48:51 +0100 (CET)
+Received: from localhost ([::1]:39606 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n4uTN-00086k-CX
-	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 19:48:13 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33908)
+	id 1n4uTx-0000Bc-Pd
+	for lists+qemu-devel@lfdr.de; Tue, 04 Jan 2022 19:48:50 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33904)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1n4uMP-0005Cv-Nn
+ id 1n4uMP-0005Cd-Qa
  for qemu-devel@nongnu.org; Tue, 04 Jan 2022 19:41:02 -0500
-Received: from [2607:f8b0:4864:20::629] (port=33649
- helo=mail-pl1-x629.google.com)
+Received: from [2607:f8b0:4864:20::1036] (port=33536
+ helo=mail-pj1-x1036.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1n4uML-0005ez-UW
+ id 1n4uMM-0005fC-Nh
  for qemu-devel@nongnu.org; Tue, 04 Jan 2022 19:41:00 -0500
-Received: by mail-pl1-x629.google.com with SMTP id i6so22144134pla.0
- for <qemu-devel@nongnu.org>; Tue, 04 Jan 2022 16:40:57 -0800 (PST)
+Received: by mail-pj1-x1036.google.com with SMTP id
+ g11-20020a17090a7d0b00b001b2c12c7273so2534929pjl.0
+ for <qemu-devel@nongnu.org>; Tue, 04 Jan 2022 16:40:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=jM9WH4tZn+WozYyxodUMJ3vMf971E4f0f2uwJh5rJpw=;
- b=HRHc4Wzo89vBt/A8Gkis1iMXeE7IqYzDzZBBsSC7Fsnojr7vLv6Zn/dNseocyy+Rjd
- hkfemKB08AXe/3HF1MWnGM/2e6qwYLklWtEQlJvhV3Ri4ukCyhqlXx1Mt+Z+yICtr3Ud
- 1Eup4cVgJaokud6g51p3JvQm25+zapUqDdJpSdWwT2zFDnpsYS1KaRCcYoh0948XYxQ9
- DSbNbcTCP8hwdseI7pZhMXZhnYIC1QxbUKMgyo2lv7QAJmj49M9YNY+fOMBl3vAH47cC
- GLtEBLwKom1BIdelE6Qqyp4LToaTvhugrCBBcobYvhrqqlkkLsL+DP75SrFFggS5OQRN
- ivgg==
+ bh=YcPV3VwSDfshYOTe7weRDXAZxBZo/GP8+IJKpZqZQJU=;
+ b=s2VfolWq3b3H2u0VfbQEvQzNjrQYFtvwehOlgKhi39cHOKCB5gXoyEj3TVV51Ouctc
+ D0JQ85pX3/3ATU7NTTSn1uV5oNhphGWZOAz4EybTFVqRkU7VIWudzcsMYgsd+JqikmQp
+ nWtmE6IVqeXqki6NlG93158i+NMj7ZZWoJxmDlYajN/afwzTJ/75OC4uD4Bc1ALdr/J5
+ 9HSav6dn/XWaCzEowVC18vqtcmtLNRm3rMxJZkHqlOAxIeVp1lsWk/zUMJ7BGLPRi/Mz
+ Jn7fN59LzhDRJIskgS7bYskF/A1j+ZmeCXLM/zusAUb5sBL9Wb0NHjvRWLs2KnwNuDD4
+ FkiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=jM9WH4tZn+WozYyxodUMJ3vMf971E4f0f2uwJh5rJpw=;
- b=kEkztIJVcoWpm7+Xa27WOqVD1bLHMwXTdPLfSU3AypHAUM70Je3clPrTtaiWUaox32
- W56Hsl+VmQuDC4AHDuIvjIQLcMMP9hdAtHxi0UmibklwGeuuO+K41nsYuw3U+zn88Zs6
- oVMyGcodVgIW7iEd8fUE8oUtnuqfuMb6c0rNDKIOx8Qc0FGiaGGwrF/HrKFGc8gzdOGx
- OlKwKOFgP5wxla2BKZp16aOLcbkUrtZhO/qRSbADbTDuzsRDT8P6OTvi3rQ12k/MHFgB
- Fs1Jq7RPbwdl9PBRJz8pGzKDsGiGlq9VuvkUcdv2CVloopSs5wqBLk+yD4b0qip+bXQR
- EKBA==
-X-Gm-Message-State: AOAM530aljfAFqSMRgI0xKyKB8tUYzRMsoqKYV1qv/SuQnflovK+U8Ft
- u/9Ml6phJPXqpM28MB1Bbpyd6AoCJucqjw==
-X-Google-Smtp-Source: ABdhPJwhjjvZR9uzNm4otbcTm2A+I+p2F0mZm/dO++0ICdLpV/Z6nwxmgX+3eBu7v8UqMN1fLvb9fQ==
-X-Received: by 2002:a17:90b:20e:: with SMTP id fy14mr12859pjb.22.1641343256756; 
- Tue, 04 Jan 2022 16:40:56 -0800 (PST)
+ bh=YcPV3VwSDfshYOTe7weRDXAZxBZo/GP8+IJKpZqZQJU=;
+ b=01TQDfRsd8xVG6doOsvIdhbEIWy+DpYIwu2yCBhnW+bu1AzRZMnTqqyT3Y0qJ5JHbJ
+ MR6VhqTjNuKVafkGxzqAps2Qxa+zyiiwNXJi7ms8unh/F9kSUoefD1eVhJ+6GcwhuEqw
+ 6cOs6FUHV+OvwEY4/scgf2+pSoTLHhhoUoo63ODrlbKcV56sBLJIRjJXjP21ZIW0hcWM
+ c0bbVAEWBrxLFA/VXAI0ICez6XnmEsY2Q1uqOkziSmJa4WN5kI+yCmEKJbm+PrfeKuQM
+ U6UVGupe2EB4KE2VwVl90PH+AjeCvNA9IPS+KL/Uw1BBWuM5yHrUErgljFHLwU6aoMRm
+ 6Krg==
+X-Gm-Message-State: AOAM531yFRSupmL3HVYB+iwZUmkZ+fjzdYK+k5mxXUm6urKrryC3Ytfs
+ Kqau/HAad2eZI63vc9Z9GncJxwDJo+7mTw==
+X-Google-Smtp-Source: ABdhPJxkqCmahfY2L1fcYyJZKPzZE9/7UWSjfG2pkj4kDRpxJ4U9C/fFsVijLxbu86gsdBQeoEcnkw==
+X-Received: by 2002:a17:90b:38c1:: with SMTP id
+ nn1mr1132529pjb.65.1641343257374; 
+ Tue, 04 Jan 2022 16:40:57 -0800 (PST)
 Received: from localhost.localdomain (174-21-75-75.tukw.qwest.net.
  [174.21.75.75])
  by smtp.gmail.com with ESMTPSA id k3sm35312356pgq.54.2022.01.04.16.40.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 04 Jan 2022 16:40:56 -0800 (PST)
+ Tue, 04 Jan 2022 16:40:57 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 2/4] linux-user: Fix trivial build error on loongarch64 hosts
-Date: Tue,  4 Jan 2022 16:40:52 -0800
-Message-Id: <20220105004054.587588-3-richard.henderson@linaro.org>
+Subject: [PULL 3/4] sysemu: Cleanup qemu_run_machine_init_done_notifiers()
+Date: Tue,  4 Jan 2022 16:40:53 -0800
+Message-Id: <20220105004054.587588-4-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220105004054.587588-1-richard.henderson@linaro.org>
 References: <20220105004054.587588-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::629
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1036
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x629.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1036.google.com
 X-Spam_score_int: 6
 X-Spam_score: 0.6
 X-Spam_bar: /
@@ -87,58 +89,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: WANG Xuerui <git@xen0n.name>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Song Gao <gaosong@loongson.cn>
+Cc: Xiaoyao Li <xiaoyao.li@intel.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+From: Xiaoyao Li <xiaoyao.li@intel.com>
 
-When building using GCC 8.3.0 on loongarch64 (Loongnix) we get:
+Remove qemu_run_machine_init_done_notifiers() since no implementation
+and user.
 
-  In file included from ../linux-user/signal.c:33:
-  ../linux-user/host/loongarch64/host-signal.h: In function ‘host_signal_write’:
-  ../linux-user/host/loongarch64/host-signal.h:57:9: error: a label can only be part of a statement and a declaration is not a statement
-         uint32_t sel = (insn >> 15) & 0b11111111111;
-         ^~~~~~~~
-
-We don't use the 'sel' variable more than once, so drop it.
-
-Meson output for the record:
-
-  Host machine cpu family: loongarch64
-  Host machine cpu: loongarch64
-  C compiler for the host machine: cc (gcc 8.3.0 "cc (Loongnix 8.3.0-6.lnd.vec.27) 8.3.0")
-  C linker for the host machine: cc ld.bfd 2.31.1-system
-
-Fixes: ad812c3bd65 ("linux-user: Implement CPU-specific signal handler for loongarch64 hosts")
-Reported-by: Song Gao <gaosong@loongson.cn>
-Suggested-by: Song Gao <gaosong@loongson.cn>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: WANG Xuerui <git@xen0n.name>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20220104215027.2180972-1-f4bug@amsat.org>
+Fixes: f66dc8737c9 ("vl: move all generic initialization out of vl.c")
+Signed-off-by: Xiaoyao Li <xiaoyao.li@intel.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <20220104024136.1433545-1-xiaoyao.li@intel.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/host/loongarch64/host-signal.h | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ include/sysemu/sysemu.h | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/linux-user/host/loongarch64/host-signal.h b/linux-user/host/loongarch64/host-signal.h
-index 05e2c82371..7effa24251 100644
---- a/linux-user/host/loongarch64/host-signal.h
-+++ b/linux-user/host/loongarch64/host-signal.h
-@@ -54,9 +54,7 @@ static inline bool host_signal_write(siginfo_t *info, ucontext_t *uc)
-         }
-         break;
-     case 0b001110: /* indexed, atomic, bounds-checking memory operations */
--        uint32_t sel = (insn >> 15) & 0b11111111111;
--
--        switch (sel) {
-+        switch ((insn >> 15) & 0b11111111111) {
-         case 0b00000100000: /* stx.b */
-         case 0b00000101000: /* stx.h */
-         case 0b00000110000: /* stx.w */
+diff --git a/include/sysemu/sysemu.h b/include/sysemu/sysemu.h
+index 8fae667172..b9421e03ff 100644
+--- a/include/sysemu/sysemu.h
++++ b/include/sysemu/sysemu.h
+@@ -16,7 +16,6 @@ extern bool qemu_uuid_set;
+ void qemu_add_exit_notifier(Notifier *notify);
+ void qemu_remove_exit_notifier(Notifier *notify);
+ 
+-void qemu_run_machine_init_done_notifiers(void);
+ void qemu_add_machine_init_done_notifier(Notifier *notify);
+ void qemu_remove_machine_init_done_notifier(Notifier *notify);
+ 
 -- 
 2.25.1
 
