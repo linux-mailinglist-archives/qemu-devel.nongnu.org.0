@@ -2,51 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E8DD485313
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 13:56:32 +0100 (CET)
-Received: from localhost ([::1]:58350 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD57B48530E
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 13:53:22 +0100 (CET)
+Received: from localhost ([::1]:50606 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n55qB-0008At-Os
-	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 07:56:31 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33688)
+	id 1n55n7-0002cg-Ca
+	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 07:53:21 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33746)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1n55XC-0003Pu-DE
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 07:36:54 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:50710)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1n55XK-0003mF-W3
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 07:37:03 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35721)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1n55XA-0000Uh-Tp
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 07:36:54 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1n55XJ-0000VZ-CY
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 07:37:02 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641386212;
+ s=mimecast20190719; t=1641386220;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xsC9iPIOeYNhZ3O5zjjc+CBXKT8A4HmLz0toqFh6Xk4=;
- b=HdwdgITRihKVMAt5990+FrJWh9rfMYZO3GsPg/iZSzWeSYDL5JDBcUB42FiVtd6cO7s7kV
- GwMFftNKhEkrpq2W4C7H31YNtlQ4t96RDd83jdUs0yBaRIeP6Axm6Xivea16RZogEjlFWM
- Jpz7OM7e26f8BJ2FilW70DWpbz5a928=
+ bh=YoeVi7hJSo4tJB5tmaYsxKajMmOGD/F9mjKHQ9ytQPI=;
+ b=CmfnjIvkxmByzAI5LJls/9J++C7CYeVEzkMim57juqUC9vjjK4Ucqgc64DpF24t5kieL8Z
+ SQFbGoIG+V+/z565CFzUZxUlG0i44ZHfKhIh0QoAeTO1gCeFk7zCLnkiGbHvfqe3WCxH6G
+ k3cRfsQ8s/U0gJs1waIVWE58dI0zi9c=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-639-mc1RVpbQPPyc3geVBFmJEw-1; Wed, 05 Jan 2022 07:36:49 -0500
-X-MC-Unique: mc1RVpbQPPyc3geVBFmJEw-1
+ us-mta-553-HWAxuqbWPu68jzkuEfp05Q-1; Wed, 05 Jan 2022 07:36:52 -0500
+X-MC-Unique: HWAxuqbWPu68jzkuEfp05Q-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E9D6C3D98;
- Wed,  5 Jan 2022 12:36:47 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B3BF2801962;
+ Wed,  5 Jan 2022 12:36:51 +0000 (UTC)
 Received: from thuth.com (dhcp-192-229.str.redhat.com [10.33.192.229])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CCDA42376A;
- Wed,  5 Jan 2022 12:36:29 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3C8C222DFF;
+ Wed,  5 Jan 2022 12:36:48 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 4/8] tests/unit/test-util-sockets: Use g_file_open_tmp() to
- create temp file
-Date: Wed,  5 Jan 2022 13:36:08 +0100
-Message-Id: <20220105123612.432038-5-thuth@redhat.com>
+Subject: [PULL 5/8] qemu-options: Remove the deprecated -no-quit option
+Date: Wed,  5 Jan 2022 13:36:09 +0100
+Message-Id: <20220105123612.432038-6-thuth@redhat.com>
 In-Reply-To: <20220105123612.432038-1-thuth@redhat.com>
 References: <20220105123612.432038-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -78,43 +77,108 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>
+Cc: =?UTF-8?q?Michal=20Pr=C3=ADvozn=C3=ADk?= <mprivozn@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+This option was just a wrapper around the -display ...,window-close=off
+parameter, and the name "no-quit" is rather confusing compared to
+"window-close" (since there are still other means to quit the emulator),
+so let's remove this now.
 
-Similarly to commit e63ed64c6d1 ("tests/qtest/virtio-net-failover:
-Use g_file_open_tmp() to create temporary file"), avoid calling
-g_test_rand_int() before g_test_init(): use g_file_open_tmp().
-
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20211224234504.3413370-1-philmd@redhat.com>
+Message-Id: <20211215082417.180735-1-thuth@redhat.com>
+Acked-by: Michal Prívozník <mprivozn@redhat.com>
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/unit/test-util-sockets.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ docs/about/deprecated.rst       | 6 ------
+ docs/about/removed-features.rst | 7 +++++++
+ qemu-options.hx                 | 8 --------
+ softmmu/vl.c                    | 8 +-------
+ 4 files changed, 8 insertions(+), 21 deletions(-)
 
-diff --git a/tests/unit/test-util-sockets.c b/tests/unit/test-util-sockets.c
-index 72b9246529..896247e3ed 100644
---- a/tests/unit/test-util-sockets.c
-+++ b/tests/unit/test-util-sockets.c
-@@ -305,9 +305,11 @@ static void test_socket_unix_abstract(void)
-     };
-     int i;
+diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
+index 5693abb663..e21e07478f 100644
+--- a/docs/about/deprecated.rst
++++ b/docs/about/deprecated.rst
+@@ -134,12 +134,6 @@ specified.
+ Use ``-display sdl,window-close=...`` instead (i.e. with a minus instead of
+ an underscore between "window" and "close").
  
-+    i = g_file_open_tmp("unix-XXXXXX", &addr.u.q_unix.path, NULL);
-+    g_assert_true(i >= 0);
-+    close(i);
+-``-no-quit`` (since 6.1)
+-''''''''''''''''''''''''
+-
+-The ``-no-quit`` is a synonym for ``-display ...,window-close=off`` which
+-should be used instead.
+-
+ ``-alt-grab`` and ``-display sdl,alt_grab=on`` (since 6.2)
+ ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+ 
+diff --git a/docs/about/removed-features.rst b/docs/about/removed-features.rst
+index d42c3341de..4c4da20d0f 100644
+--- a/docs/about/removed-features.rst
++++ b/docs/about/removed-features.rst
+@@ -330,6 +330,13 @@ RISC-V firmware not booted by default (removed in 5.1)
+ QEMU 5.1 changes the default behaviour from ``-bios none`` to ``-bios default``
+ for the RISC-V ``virt`` machine and ``sifive_u`` machine.
+ 
++``-no-quit`` (removed in 7.0)
++'''''''''''''''''''''''''''''
 +
-     addr.type = SOCKET_ADDRESS_TYPE_UNIX;
--    addr.u.q_unix.path = g_strdup_printf("unix-%d-%u",
--                                         getpid(), g_random_int());
-     addr.u.q_unix.has_abstract = true;
-     addr.u.q_unix.abstract = true;
-     addr.u.q_unix.has_tight = false;
++The ``-no-quit`` was a synonym for ``-display ...,window-close=off`` which
++should be used instead.
++
++
+ QEMU Machine Protocol (QMP) commands
+ ------------------------------------
+ 
+diff --git a/qemu-options.hx b/qemu-options.hx
+index fd1f8135fb..ec90505d84 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -2065,14 +2065,6 @@ SRST
+     ``-display sdl,grab-mod=rctrl`` instead.
+ ERST
+ 
+-DEF("no-quit", 0, QEMU_OPTION_no_quit,
+-    "-no-quit        disable SDL/GTK window close capability (deprecated)\n", QEMU_ARCH_ALL)
+-SRST
+-``-no-quit``
+-    Disable window close capability (SDL and GTK only). This option is
+-    deprecated, please use ``-display ...,window-close=off`` instead.
+-ERST
+-
+ DEF("sdl", 0, QEMU_OPTION_sdl,
+     "-sdl            shorthand for -display sdl\n", QEMU_ARCH_ALL)
+ SRST
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index d9e4c619d3..a8cad43691 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -1941,7 +1941,7 @@ static void qemu_create_early_backends(void)
+                      "for SDL, ignoring option");
+     }
+     if (dpy.has_window_close && !use_gtk && !use_sdl) {
+-        error_report("-no-quit is only valid for GTK and SDL, "
++        error_report("window-close is only valid for GTK and SDL, "
+                      "ignoring option");
+     }
+ 
+@@ -3301,12 +3301,6 @@ void qemu_init(int argc, char **argv, char **envp)
+                 warn_report("-ctrl-grab is deprecated, please use "
+                             "-display sdl,grab-mod=rctrl instead.");
+                 break;
+-            case QEMU_OPTION_no_quit:
+-                dpy.has_window_close = true;
+-                dpy.window_close = false;
+-                warn_report("-no-quit is deprecated, please use "
+-                            "-display ...,window-close=off instead.");
+-                break;
+             case QEMU_OPTION_sdl:
+                 warn_report("-sdl is deprecated, use -display sdl instead.");
+ #ifdef CONFIG_SDL
 -- 
 2.27.0
 
