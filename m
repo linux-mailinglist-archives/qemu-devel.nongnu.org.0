@@ -2,96 +2,132 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B6DC485927
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 20:27:55 +0100 (CET)
-Received: from localhost ([::1]:36392 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7FEC48595F
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 20:46:48 +0100 (CET)
+Received: from localhost ([::1]:51132 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5Bww-0003Vh-Af
-	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 14:27:54 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55176)
+	id 1n5CFD-0005uY-Gr
+	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 14:46:47 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:32876)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1n5Bn5-00059U-Ed
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 14:17:43 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:21571)
+ (Exim 4.90_1) (envelope-from <konrad.schwarz@siemens.com>)
+ id 1n5CE5-00058D-4q
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 14:45:37 -0500
+Received: from mail-eopbgr70059.outbound.protection.outlook.com
+ ([40.107.7.59]:48089 helo=EUR04-HE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1n5Bn3-0008CH-3a
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 14:17:42 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641410259;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=fH7IF7pOQsqTwHWpmprJnFGZUojg0QDUC0pGWtPlgZo=;
- b=eFr9hVefi8xmoTFPqIDneATi+nguKb/PNjf+KG1HQM5vXbB+fB7y4D1uDKS4WMWfzmvKB2
- ZHVgXl2hIiXdao9pe5q1eBUp3hQXhRg9jevyFsOD9sMAUvYpBe4XqzQWW2KkIhl5Z4MgGh
- ifya70LkWjZclnKmqh+4OYDZVV7flPE=
-Received: from mail-ot1-f70.google.com (mail-ot1-f70.google.com
- [209.85.210.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-425-rRmJdBvRM8GpXGoUkFSMoQ-1; Wed, 05 Jan 2022 14:17:33 -0500
-X-MC-Unique: rRmJdBvRM8GpXGoUkFSMoQ-1
-Received: by mail-ot1-f70.google.com with SMTP id
- i3-20020a05683033e300b0057a02219a82so229011otu.9
- for <qemu-devel@nongnu.org>; Wed, 05 Jan 2022 11:17:33 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=vzzcEXl9m3Dg59A+yxsxr2yz6T5Er/SCB1GYXMPl6YI=;
- b=petuN9+AG6RZ6NFbiqj+KHp6NtHYyxltYeDA7TWCOj2/S3MsGCVagvT0wFCGM7d2BA
- hR8IlcIqVYNtcmx/OEingzYmBSOSe/mSeesBwpXTAfELfX/fYG4psf0ulTKJ+LAoUwj+
- Gv/4gmZCOlmTU/9dxTiSzap61/1NDwdW0loDHQzyd3tIvtf+YT5mA0PUxMXOYSA3wP1G
- ck5FbgtHxcjvyj7PEjhtKjRrKVzupoIvjgFIWJu+R19CYIyO/NCKAWHN+mNXR0Ai9zZG
- Cx3F1CZBDN/L+AbFZDzR9RgBUPbFb49znpGUWlI9AqW9QXl2isIeiySV+q2Rir8c397j
- cdxA==
-X-Gm-Message-State: AOAM531B2y9QwksNd0QDNRpnl6C5DxeyXShnrddlXS3UiffyYVz9btMh
- CLPP9lUK+yvkZmrC6hc3jN/9lik0bGXKwXxK1y9RxegnzJhZH32C/DkcIzzH2spzAN/uv/ObYCM
- dPysALdksoHJWobQ=
-X-Received: by 2002:aca:ba85:: with SMTP id k127mr3612341oif.169.1641410252282; 
- Wed, 05 Jan 2022 11:17:32 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJweutMK+Fos0zvBC0e5lUdD2nFBwvP7OMm5qCbn4ya6/QkiDGHMseOzuv8NsCi+7+YeYjOBXg==
-X-Received: by 2002:aca:ba85:: with SMTP id k127mr3612324oif.169.1641410251992; 
- Wed, 05 Jan 2022 11:17:31 -0800 (PST)
-Received: from redhat.com ([38.15.36.239])
- by smtp.gmail.com with ESMTPSA id c10sm8994708ots.73.2022.01.05.11.17.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Jan 2022 11:17:31 -0800 (PST)
-Date: Wed, 5 Jan 2022 12:17:30 -0700
-From: Alex Williamson <alex.williamson@redhat.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Subject: Re: [PATCH] pci: Skip power-off reset when pending unplug
-Message-ID: <20220105121730.76fe115c.alex.williamson@redhat.com>
-In-Reply-To: <20211223060931-mutt-send-email-mst@kernel.org>
-References: <164002480875.2328622.7843917444941101286.stgit@omen>
- <20211220174502-mutt-send-email-mst@kernel.org>
- <20211221093656.0d30644e.alex.williamson@redhat.com>
- <20211221183400-mutt-send-email-mst@kernel.org>
- <20211222120809.3f28f44b.alex.williamson@redhat.com>
- <20211222152815-mutt-send-email-mst@kernel.org>
- <20211222161007.27cb7729.alex.williamson@redhat.com>
- <20211223060931-mutt-send-email-mst@kernel.org>
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <konrad.schwarz@siemens.com>)
+ id 1n5CDp-0002iD-GE
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 14:45:36 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=n13xmCysyP6XdnGRzpRE0fEMPwyzmY2njfFgn8PuO8bPwKdel4RE7BHRxtR6yjUp7EHw+WDuVw768rKYkfYwc4Tx84WctGexoYrtpWpBMGLDMLutUihfi2bncrCUjR2sozAZ66K8qziRvxC+CV4xDBNAQ4br4mrEnJhlIW32pt8oOxdzYxAp5upHr/m6xapQFxchIq0LR6+DPaDrPTuseqn842wIIIcQ2xVfQ9MBqtr4ag9bbkBD2u0ySEOqvfqq928v8Y0mprCm6LH0oXPoYaRoF9qNg2OIhmavk9+8+i4ryXlJGBVQLbywP5y8opbCiD0kA0xvge1KX2PeOT3iHw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=STEM96spbrV+KV75UY/fpOIoW8Kswyn/nDlpvXpDV7I=;
+ b=jz4rhyOWfocPIebcmxcQuKXrLALkxMLiiE+tdJG5am2hb5pCD42P7DXqAt8aRIY5IVuIWdCdsPikqDNAEJ7Xdn+aOA+YFFmxXQpJIOMkSOcal7v/Q/KpbGKHYWFe2LUZ9o4zSHYRBlrNKGSDwjgdDLGRtEoiGy73KiPyCUW3bWxSWr51rhbdLKRIPeYawIkPdeJi8mg9oQPZIL3kQdoIk0lsh/sCI0x7rd+2DnbywwoarI0R/hJXbLEtUhtNpHab2R5E6I7o9PT2WocgPPd3LzTITnYKMaLl6f1bv5rpNqzoK1m57QqOa4aY2kdK5kCnAr92CoP6BLf2GAvm4W/bMg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 194.138.21.70) smtp.rcpttodomain=linaro.org smtp.mailfrom=siemens.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=siemens.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=STEM96spbrV+KV75UY/fpOIoW8Kswyn/nDlpvXpDV7I=;
+ b=UWSpluBJ3RR5L0yQvSy9aDJLHWcYjo3sGizLkIrX+TMn0SgRnqCVlBs35DCyZHsM2p9WrT95FEljswBihblsWlw+2SHV3awGItrlUjI7JwqPQReEm8/cK+uzRAq8/1US9peSVcVNT1KOiS8Ey33AelIyUt3ookw41E2CUnEGBP+ge+5zgs897tmMUn0Gh+Sa9hfO0ckVZm9GsKX4YuXFvIqKt3ByxoqQ0bUQjVOK+d0gE2KsN23zykaequc8halkl2o3ECD4cAMZTNFMO7Q0rzTwDdfy2I40hWsXsGcvQmPkqshP5KF4IPJspzOEGvd8RGpfketRnhy8r9DxjzcFrw==
+Received: from AS8PR05CA0017.eurprd05.prod.outlook.com (2603:10a6:20b:311::22)
+ by VI1PR10MB2478.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:803:8a::25)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4844.15; Wed, 5 Jan
+ 2022 19:24:57 +0000
+Received: from VE1EUR01FT005.eop-EUR01.prod.protection.outlook.com
+ (2603:10a6:20b:311:cafe::2b) by AS8PR05CA0017.outlook.office365.com
+ (2603:10a6:20b:311::22) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4867.7 via Frontend
+ Transport; Wed, 5 Jan 2022 19:24:57 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 194.138.21.70)
+ smtp.mailfrom=siemens.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=siemens.com;
+Received-SPF: Pass (protection.outlook.com: domain of siemens.com designates
+ 194.138.21.70 as permitted sender) receiver=protection.outlook.com;
+ client-ip=194.138.21.70; helo=hybrid.siemens.com;
+Received: from hybrid.siemens.com (194.138.21.70) by
+ VE1EUR01FT005.mail.protection.outlook.com (10.152.2.142) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.4867.9 via Frontend Transport; Wed, 5 Jan 2022 19:24:56 +0000
+Received: from DEMCHDC8A0A.ad011.siemens.net (139.25.226.106) by
+ DEMCHDC9SJA.ad011.siemens.net (194.138.21.70) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.17; Wed, 5 Jan 2022 20:24:54 +0100
+Received: from DEMCHDC8A1A.ad011.siemens.net (139.25.226.107) by
+ DEMCHDC8A0A.ad011.siemens.net (139.25.226.106) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.17; Wed, 5 Jan 2022 20:24:53 +0100
+Received: from DEMCHDC8A1A.ad011.siemens.net ([139.25.226.107]) by
+ DEMCHDC8A1A.ad011.siemens.net ([139.25.226.107]) with mapi id 15.01.2375.017; 
+ Wed, 5 Jan 2022 20:24:53 +0100
+From: "Schwarz, Konrad" <konrad.schwarz@siemens.com>
+To: =?utf-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Subject: RE: [PATCH v2 4/5] RISC-V: Typed CSRs in gdbserver
+Thread-Topic: [PATCH v2 4/5] RISC-V: Typed CSRs in gdbserver
+Thread-Index: AQHYAYMLR0Cx5EhjlkWmNt5NhqkcMqxUtH0AgAAZJdA=
+Date: Wed, 5 Jan 2022 19:24:53 +0000
+Message-ID: <58ecc207ca704277a5cf1b259b77f6b0@siemens.com>
+References: <00a79b65-288f-f17c-abe4-fcfd3f7971fd@oth-regensburg.de>
+ <cover.1641309725.git.konrad.schwarz@siemens.com>
+ <79194a3cf9e3bd1df41401eeee901055b8702c7b.1641309725.git.konrad.schwarz@siemens.com>
+ <874k6ij9z4.fsf@linaro.org>
+In-Reply-To: <874k6ij9z4.fsf@linaro.org>
+Accept-Language: en-US, de-DE
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_a59b6cd5-d141-4a33-8bf1-0ca04484304f_Enabled=true;
+ MSIP_Label_a59b6cd5-d141-4a33-8bf1-0ca04484304f_SetDate=2022-01-05T19:24:52Z; 
+ MSIP_Label_a59b6cd5-d141-4a33-8bf1-0ca04484304f_Method=Standard;
+ MSIP_Label_a59b6cd5-d141-4a33-8bf1-0ca04484304f_Name=restricted-default;
+ MSIP_Label_a59b6cd5-d141-4a33-8bf1-0ca04484304f_SiteId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;
+ MSIP_Label_a59b6cd5-d141-4a33-8bf1-0ca04484304f_ActionId=75b727ce-87d6-4a98-ad01-82b0347262ed;
+ MSIP_Label_a59b6cd5-d141-4a33-8bf1-0ca04484304f_ContentBits=0
+document_confidentiality: Restricted
+x-originating-ip: [144.145.220.67]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124;
- envelope-from=alex.williamson@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.372,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: b6726c2c-5994-486f-3148-08d9d0810efc
+X-MS-TrafficTypeDiagnostic: VI1PR10MB2478:EE_
+X-Microsoft-Antispam-PRVS: <VI1PR10MB2478CFFCA210BB57F8F530F78A4B9@VI1PR10MB2478.EURPRD10.PROD.OUTLOOK.COM>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3276;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 7XUNtLvUDZzj6ze/XMPOo5OaIQ/D/TgYct4FNiMc2C2Fq0o2m7MBz0l23CZWQGG1L28M/3gIBhgN64yRUZoJdK8Q8L8lk4zGQE8yyL+tdYr4rHGkzWuq9H9HfO/fJA8r74w9x/YsMUWFN9oFCNp7urHp7reC/tZyQGzBIMYF7EIo2DNOoy8xCPn0kmhw1XgurWWRTKksH7qWF2PzI693t4TcaS43q89f5sW26igMhBRxwHr9bof2HP2riA+BsG8thbh3ienT0BaG0qYklnZW4edHmX+lykp7UrXe4DHHIt7ycaDMoXsrgMi8Qi/EjC06osTj13H6Pw+ECAq9vDAs9W7yV2+er3vJfPhuDQKFQU+kLsqhHR+CWUV79AaMpwv/xdRxjbfgWpG2AYddwanH+lLs671QGK2/oBJr3irHGU3xQUt56YQbKaNBqgGxm4TQWtjsGxvoyYqItXwoPhYcYMaXrFLfDK5I9vVPTui46E3XMkq1K/P/mItP4UwSKiBQP/nvDh3waHEwgiBezGsZ81JVevhujO39k2zRiNzo+FUWYParEjx8xF7RUKVgXWpULSyHCSg29apTW2io8f1sIfJu8UDisWctLH/CCJCYyqfZIYKZaU1WL/BeG90bQHoj4ZmEjBmPMIuoUp8GLAOK5XeeZ5U4rN7Vzz1+zDYfNX/I2E0+6hlW4/J1WgOvWziwHEGZ4HVya3WZXb7lhMwW7zURe3xeeMMsJFRlcEc8GULjRp0o8aqTxC5kHLbB84Qmp2/lwKDW4WrBEtInFRBsIw==
+X-Forefront-Antispam-Report: CIP:194.138.21.70; CTRY:DE; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:hybrid.siemens.com; PTR:hybrid.siemens.com; CAT:NONE;
+ SFS:(4636009)(36840700001)(46966006)(40470700002)(336012)(86362001)(8676002)(508600001)(8936002)(5660300002)(54906003)(108616005)(24736004)(6916009)(356005)(26005)(70586007)(186003)(7636003)(70206006)(7596003)(40460700001)(2906002)(47076005)(4326008)(316002)(36756003)(2616005)(36860700001)(82310400004)(956004)(83380400001)(82960400001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: siemens.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jan 2022 19:24:56.9934 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: b6726c2c-5994-486f-3148-08d9d0810efc
+X-MS-Exchange-CrossTenant-Id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=38ae3bcd-9579-4fd4-adda-b42e1495d55a; Ip=[194.138.21.70];
+ Helo=[hybrid.siemens.com]
+X-MS-Exchange-CrossTenant-AuthSource: VE1EUR01FT005.eop-EUR01.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR10MB2478
+Received-SPF: pass client-ip=40.107.7.59;
+ envelope-from=konrad.schwarz@siemens.com;
+ helo=EUR04-HE1-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,201 +140,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, kraxel@redhat.com
+Cc: Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bin.meng@windriver.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Ralf Ramsauer <ralf.ramsauer@oth-regensburg.de>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 23 Dec 2021 08:33:09 -0500
-"Michael S. Tsirkin" <mst@redhat.com> wrote:
-
-> On Wed, Dec 22, 2021 at 04:10:07PM -0700, Alex Williamson wrote:
-> > On Wed, 22 Dec 2021 15:48:24 -0500
-> > "Michael S. Tsirkin" <mst@redhat.com> wrote:
-> >  =20
-> > > On Wed, Dec 22, 2021 at 12:08:09PM -0700, Alex Williamson wrote: =20
-> > > > On Tue, 21 Dec 2021 18:40:09 -0500
-> > > > "Michael S. Tsirkin" <mst@redhat.com> wrote:
-> > > The reset is actually just an attempt to approximate power off.
-> > > So I'm not sure that is right powering device off and then on
-> > > is just a slow but reasonable way for guests to reset a device. =20
-> >=20
-> > Agree, I don't have a problem with resetting devices in response to the
-> > slot being powered off, just that it's pointless, and in some scenarios
-> > causes us additional grief when it occurs when the device is being
-> > removed anyway.
-> >  =20
-> > > >  In that case we could reorganize things to let the unplug occur
-> > > > before the power transition.   =20
-> > >=20
-> > > Hmm you mean unplug on host immediately when it starts blinking?
-> > > But drivers are not notified at this point, are they? =20
-> >=20
-> > I think this is confusing Attention Indicator and Power Indicator
-> > again. =20
->=20
-> Let's try to clear it up.
->=20
-> Here's text from the SHPC spec, pcie spec is less clear imho but
-> same idea IIUC.
->=20
-> The Power Indicator provides visual feedback to the human operator (if th=
-e system
-> software accepts the request initiated by the Attention Button) by blinki=
-ng. Once the
-> Power Indicator begins blinking, a 5-second abort interval exists during =
-which a second
-> depression of the Attention Button cancels the operation.
->=20
-> Attention Indicator is confusingly unrelated to the Attention Button.
-> Right?
-
-Yeah, I think that's where I was getting confused.  So a qdev_unplug()
-results in "pushing" the attention button, the power indicator starts
-flashing for 5s, during which an additional attention button press
-could cancel the event.  After that 5s period and with the power
-indicator still flashing, the power controller is set to off, followed
-by the power indicator turning off.
-
-> >  The write sequence I noted for the slot control register was as
-> > follows:
-> >=20
-> >     01f1 - > 02f1 -> 06f1 -> 07f1
-> >=20
-> >  01f1:
-> >    Attention Indicator: OFF
-> >    Power Indicator: ON
-> >    Power Controller: ON
-> >=20
-> >  02f1:
-> >    Power Indicator: ON -> BLINK
-> >=20
-> >  06f1:
-> >    Power Controller: ON -> OFF
-> >=20
-> >  07f1:
-> >    Power Indicator: BLINK -> OFF
-> >=20
-> > The device reset currently occurs at 06f1, when the Power Controller
-> > removes power to the slot.  The unplug doesn't occur until 07f1 when
-> > the Power Indicator turns off.  On bare metal, the device power would
-> > be in some indeterminate state between those two writes as the power
-> > drains.  We've chosen to reset the device at the beginning of this
-> > phase, where power is first removed (ie. instantaneous power drain),
-> > but on a physical device it happens somewhere in between. =20
->=20
-> Yes, this is true I think. But I think on bare metal it's guaranteed to
-> happen within 1 second after power is removed, whatever the state of the
-> power indicator.
-> Also, Gerd attempted to add PV code that special cases KVM and
-> removes all the multi-second waiting from unplug path.
-> So I am not sure we should rely on the 1 second wait, either.
-
-Right, if we don't reset when power is removed we're in a guessing game
-of whether the guest is following our assumed transitions.
-
-> >  It therefore
-> > seems valid that it could happen at the moment the Power Indicator
-> > turns off such that we could precede the device reset with any
-> > necessary unplug operations. =20
->=20
-> However the power indicator is merely an indicator for the
-> human operator. My understanding is that driver that does not want to per=
-mit
-> removing the device can turn off power without turning off
-> the power indicator.
-
-Yes, on bare metal there's likely some small window where the device
-power state is indeterminate, but to take advantage of that we'd need
-to do something like setup a 2s timer to reset the device, where that
-timer gets canceled if the power indicator turns off in the meantime.
-It's a lot of heuristics.
-
-> > > >  Of course the original proposal also
-> > > > essentially supports this interpretation, the slot power off reset =
-does
-> > > > not occur for devices with a pending unplug and those devices are
-> > > > removed after the slot transition grace period.   =20
-> > >=20
-> > > Meaning the patch you posted? It relies on guest doing a specific
-> > > thing though, and guest and host states are not synchronized. =20
-> >=20
-> > The proposed patch just means we won't reset the device in response to
-> > slot power if an unplug is pending.  So sure, if it's true that a guest
-> > playing with the Power Controller without using the Power Indicator to
-> > reflect the slot state could skip a device reset, but is that valid
-> > guest behavior? =20
->=20
-> I'm not 100% sure:
-> The Power Indicator in the Off state indicates that insertion or removal =
-of an the adapter is
-> permitted.
->=20
-> but also
->=20
-> =09System software must cause a slot=E2=80=99s Power Indicator to be turn=
-ed off when the slot
-> =09is not powered and/or it is permissible to insert or remove an adapter=
-.
->=20
-> this and/or confuses me, but I think the "or" here is simply misguided.
-> The SHPC spec from which the interface in pcie was inherited just says:
->=20
-> =09When the Power Indicator is off, it means that main power to the slot =
-is off and that
-> =09insertion or removal of an add-in card is permitted.
-
-I think the power indicator is clearly our guideline for when we're
-allowed to insert or remove a device from the slot.  Other than
-resetting when slot power is removed as we do now, the above timer hack
-is the only solution I can think of that guarantees we eventually reset
-the device after power is removed without relying on the power
-indicator transition.  But I'm not sure it's worthwhile.
-
-> > > I think it might work to defer reset if it's blinking until it actual=
-ly
-> > > stops blinking. To me it seems a bit less risky but but again, in the=
-ory
-> > > some guest driver could use the power cycle reset while hotplug plays
-> > > with PIC waiting for the cancel button press. =20
-> >=20
-> > That's essentially my previous suggestion above.  The Power Indicator
-> > blinking tells us the slot power is in transition, the option to press
-> > the attention button to abort has passed.  I understand the abort
-> > window to be governed by the Attention Indicator blinking. =20
->=20
-> what text in the spec gives you that impression?
-
-My misunderstanding of the attention vs power indicators.
-
-> > > E.g. I suspect your patch can be broken just by guest loading/unloadi=
-ng
-> > > driver in a loop while host also triggers plug/unplug. =20
-> >=20
-> > It's not clear to me why that might fail.  Can you elaborate?  All it
-> > does is skip the reset when an unplug is pending, but the actual unplug
-> > finalizes the device and any subsequent plug necessarily uses a new
-> > device, so I don't see what goes wrong. =20
->=20
-> host wants to start unplug
-> meanwhile guest wants to attempt a reset (for its own reasons)
-> we skip the reset to device retains a bunch of state in
-> its registers, the guest attempts to drive it assuming
-> a reset device.
-
-Under the condition of the kernel device lock being held, we can't
-reset the device anyway.  But yes, we don't need to extend that
-vfio-pci limitation to other devices.  Unless you're interested in
-pursuing a timer based solution, which I guess would model a physical
-system with super capacitors on the power rail that will drain
-eventually, or instantly with the power indicator turning off, I think
-the best we can do at the moment is to clean up the error reporting in
-vfio-pci, report that the reset failed, but not some obscure error
-about un-owned groups because we've fallen through to unexpected reset
-methods.  A reasonable error message for this condition can be
-considered a feature rather than a regression.  It's arguably correct
-to try to reset the device here.  I'll post a different patch where we
-clean up the vfio-pci error reporting for this case.  Thanks,
-
-Alex
-
+DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogQWxleCBCZW5uw6llIDxh
+bGV4LmJlbm5lZUBsaW5hcm8ub3JnPg0KDQo+IEtvbnJhZCBTY2h3YXJ6IDxrb25yYWQuc2Nod2Fy
+ekBzaWVtZW5zLmNvbT4gd3JpdGVzOg0KPiANCg0KPiA+ICBzdGF0aWMgaW50IHJpc2N2X2dlbl9k
+eW5hbWljX2Nzcl94bWwoQ1BVU3RhdGUgKmNzLCBpbnQgYmFzZV9yZWcpDQo+ID4gIHsNCj4gPiAg
+ICAgIFJJU0NWQ1BVICpjcHUgPSBSSVNDVl9DUFUoY3MpOw0KPiA+IEBAIC0xNjMsMjEgKzE2Nywz
+MyBAQCBzdGF0aWMgaW50IHJpc2N2X2dlbl9keW5hbWljX2Nzcl94bWwoQ1BVU3RhdGUgKmNzLCBp
+bnQgYmFzZV9yZWcpDQo+ID4gICAgICByaXNjdl9jc3JfcHJlZGljYXRlX2ZuIHByZWRpY2F0ZTsN
+Cj4gPiAgICAgIGludCBiaXRzaXplID0gMTYgPDwgZW52LT5taXNhX214bF9tYXg7DQo+ID4gICAg
+ICBpbnQgaTsNCj4gPiArICAgIHJpc2N2X2Nzcl9vcGVyYXRpb25zICpjc3Jfb3A7DQo+ID4gKyAg
+ICBzdHJ1Y3QgcmlzY3ZfZ2RiX2Nzcl90ZyBjb25zdCAqY3NyX3RnOw0KPiA+DQo+ID4gICAgICBn
+X3N0cmluZ19wcmludGYocywgIjw/eG1sIHZlcnNpb249XCIxLjBcIj8+Iik7DQo+ID4gICAgICBn
+X3N0cmluZ19hcHBlbmRfcHJpbnRmKHMsICI8IURPQ1RZUEUgZmVhdHVyZSBTWVNURU0gXCJnZGIt
+dGFyZ2V0LmR0ZFwiPiIpOw0KPiA+ICAgICAgZ19zdHJpbmdfYXBwZW5kX3ByaW50ZihzLCAiPGZl
+YXR1cmU+ICAgICAgbmFtZT1cIm9yZy5nbnUuZ2RiLnJpc2N2LmNzclwiPiIpOw0KPiANCj4gV2l0
+aCB0aGVzZSBjaGFuZ2VzIGRvZXMgaXQgc3RpbGwgbWF0Y2ggdGhlIG9yZy5nbnUuZ2RiLnJpc2N2
+LmNzcg0KPiByZWdpc3RlciBkZXNjcmlwdGlvbiBpbiBnZGI/IFByZXZpb3VzbHkgZm9yIGN1c3Rv
+bSBYTUwgSSd2ZSB1c2VkIHRoZQ0KPiBvcmcucWVtdS5BUkNILlJFR1MgZm9ybSB0byBkaXN0aW5n
+dWlzaCBiZXR3ZWVuIHNvbWV0aGluZyBHREIgZXhwZWN0cyBhbmQNCj4gc29tZXRoaW5nIHdlIGlu
+dmVudGVkIChjaGFuZ2VkIHNpbmNlIDc5NzkyMGI5NTJlYSkuDQoNCkkgZG9uJ3QgZXhwZWN0IGl0
+IHRvIG1hdGNoIC0tIGJ1dCB3aHkgc2hvdWxkIGl0Pw0KVGhlIHdob2xlIHBvaW50IG9mIHRhcmdl
+dCBkZXNjcmlwdGlvbnMgaXMgZm9yIEdEQnNlcnZlciB0byBpbmZvcm0NCkdEQiBvZiB0aGUgcHJl
+Y2lzZSBzZXQgYW5kIGxheW91dCBvZiBwcmUtZGVmaW5lZCByZWdpc3RlciBjbGFzc2VzLg0KVGhl
+IGNsYXNzIGBvcmcuZ251LmdkYi5yaXNjdi5jc3InIGlzIGtub3duIHRvIGEgUklTQy1WIGNhcGFi
+bGUNCkdEQiBhcyB0aGUgY2xhc3Mgb2YgYWxsIENTUnM7IGEgc3BlY2lmaWMgUklTQy1WIGNvcmUg
+bWlnaHQNCmhhdmUgdmVuZG9yLXNwZWNpZmljIENTUnMsIGJ1dCB0aGV5IHdvdWxkIHN0aWxsIGJl
+IGluY2x1ZGVkDQppbiBgb3JnLmdudS5nZGIucmlzY3YuY3NyJy4NCg0KU2VjdGlvbiBHLjUgaW4g
+dGhlIEdEQiBtYW51YWwgbWFrZXMgdGhpcyBjbGVhcjoNCiJZb3UgY2FuIGFkZCBhZGRpdGlvbmFs
+IHJlZ2lzdGVycyB0byBhbnkgb2YgdGhlIHN0YW5kYXJkIGZlYXR1cmVzIC0tDQpHREIgd2lsbCBk
+aXNwbGF5IHRoZW0ganVzdCBhcyB0aGV5IHdlcmUgYWRkZWQgdG8gYW4NCnVucmVjb2duaXplZCBm
+ZWF0dXJlLiINCg0KLS0NCktvbnJhZA0K
 
