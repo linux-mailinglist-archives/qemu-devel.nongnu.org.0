@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40F0A485444
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 15:23:01 +0100 (CET)
-Received: from localhost ([::1]:48512 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50BE5485458
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 15:26:14 +0100 (CET)
+Received: from localhost ([::1]:54722 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n57Bs-0002Ic-Bv
-	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 09:23:00 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49400)
+	id 1n57Ez-0006PS-BO
+	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 09:26:13 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52014)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1n56gS-0008Cu-OI
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 08:50:32 -0500
-Received: from [2a00:1450:4864:20::531] (port=35481
- helo=mail-ed1-x531.google.com)
+ id 1n56qC-0004g7-Rv
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 09:00:37 -0500
+Received: from [2a00:1450:4864:20::329] (port=42683
+ helo=mail-wm1-x329.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1n56gP-0004FI-Sv
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 08:50:31 -0500
-Received: by mail-ed1-x531.google.com with SMTP id y22so162352652edq.2
- for <qemu-devel@nongnu.org>; Wed, 05 Jan 2022 05:50:29 -0800 (PST)
+ id 1n56qB-0006Uf-8A
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 09:00:36 -0500
+Received: by mail-wm1-x329.google.com with SMTP id
+ a83-20020a1c9856000000b00344731e044bso3369391wme.1
+ for <qemu-devel@nongnu.org>; Wed, 05 Jan 2022 06:00:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Iiin0F2gdfBP+3WieOeIIXXC77W4Mh2yUAoi+dYEGGw=;
- b=qjht3w1s2kv79ei66y44BxuVvN3NTRh29BHV4IJAscJv7BCqeQOkr2Vsw5vag266MH
- VBSh6W59qtELXZ4pDFaXfBOqfh5Bhwu7msfsTm/eAuWi8zlQkGaygsVPhvEek6FYJdNq
- KryIqsgc7h/vYHjAdOYtMYME3jLrbyGQqk0nrDyTbQ7tSCbR8AVYN6iaBwNy4Byi5cvW
- H35VrT4H2VZnm0WevXmjLrn0H2WGLNvRh9wnpMrUjxKBZKLXTeP+rRKri11MhmwRzdZo
- YmBArQOUxi8WNUyo095EzKTR3MFVLq2G32eVkkwg7z8CkefSgDWpgOgqKdQy+Av/LdxK
- AKDQ==
+ bh=abgAXrEfoE7mCKRHtXtuDiEvQ8khYGNpeRC4vW36dHo=;
+ b=XrtDVG4j0A0YqoFjL92WrYSC1Nas3rp6nvCGYRpt2JvEBvNkdDi4ltO/ByzklXPgqO
+ MuILrj9qeCmBQ/0BZyUl65JIDyQA8U193WIV6R26Ir07Vfd6TnKZNydEjx4Nxccr2zDo
+ jfAw4lPUOf3wWnxp1kA28noEa+DZ0ieEtkItnNZPTCBW8G+nBGo4h+mYcx1NzFFyIfgu
+ uQ0gdBFm7vrPtt84tAw/AjbPu+JetFqah896WqVJtD5H5KX4LZXRXplnFHlJDkfA4+2z
+ y4u5LqqwMdbaPV7X+Gjfq/o3FapA+WoMt7I8cOP/Ltx4pQKzQcULxjloUJfxoSOpYL/Z
+ oC/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Iiin0F2gdfBP+3WieOeIIXXC77W4Mh2yUAoi+dYEGGw=;
- b=zsg6gbW+rTlVBUZvUdT0EoXvNAqP8dnJ3IqlVM/zK9eiT4JVVjRFcme/rAvu/sqmjP
- t/svfwMEyPzTkmn9rZgYBQgrkILVtMv88+vmTS59AxrxtecBIoFkSwKuHEvcmYejCpZT
- 6azvoAPPV2mQrAq+vBSV8NDUQEm+/4b/Z9M/a1oZ71YHDS4CeQqUNUkwLV04lR24ENg5
- YOXgXD7w5XSKECvNo0qsSO4JkBCcDvcUBoSetcHiacs0yTSgJe1yN2/mZR4UA0qUHBK2
- 9y8v8GXR/7h93gVA7xINKZPEn+dHLfUIXCVzLrB5RQ9D3a3347roRNm1uOMJz/Ep9iZn
- oSag==
-X-Gm-Message-State: AOAM532KIDBiDOxUzbzsLh+Z9BBiWFJCqsS6g07oTO4mOpUiLuiodsuL
- wR8KAqJoaspWbj5N2LeEDffYJ5qErFYv7A==
-X-Google-Smtp-Source: ABdhPJywlh7d0YSSnjTGFm73b1Wuz5psiYCroTPVpC6hrU2GGiCXyLMvSSuFJ/NrU6qEwm5ZIabcUQ==
-X-Received: by 2002:a05:6402:5214:: with SMTP id
- s20mr38156886edd.13.1641390628618; 
- Wed, 05 Jan 2022 05:50:28 -0800 (PST)
+ bh=abgAXrEfoE7mCKRHtXtuDiEvQ8khYGNpeRC4vW36dHo=;
+ b=42+G1MEiSmAFWncNCNUpRkE9ZYeuxNXvrfgNV3hsyKxHVVgMYL3unIB+wi32RDtTwR
+ taNNtr+NO+k6iF1Wag23uJiUoaAe3tFqS9aO9ikZCn5VMGNFfyH/TnA9rGsU2G3RK1vD
+ bYoNX4SwwQ8inAtig6sQKqkMJG9fz9bqxfDMkdR8Dlb0ETebA9D2dTrk9NE/aDwrAUik
+ YuZR9joLY7nwQNp2nVOuQPR9Bo0LEnPob6NogWyQtCBSoV0FSK6LP9cJg3cPFDYm5PZG
+ hH4XbW+BM+YzGSMtScIAJcieuvhwNoZArdzojCs17AX1aCd9y+6hwx9ZoP1LQUfD8bix
+ kv0w==
+X-Gm-Message-State: AOAM533pCv6168C/nzCc7ReDUIbYpFRDOSEQuAeKMCOGLTVw5iwvriPB
+ 3j4X9hRGwbm4ROS9zzplRKxsjg==
+X-Google-Smtp-Source: ABdhPJybvVHxnOGt7tDJSJLWph8fBn8JbILnjaYS8b6gEUXHJiIPboeixFLXSt2fZckhUKCJfBLB8w==
+X-Received: by 2002:a7b:c087:: with SMTP id r7mr3008130wmh.17.1641391233915;
+ Wed, 05 Jan 2022 06:00:33 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id 16sm12228174ejz.34.2022.01.05.05.50.16
+ by smtp.gmail.com with ESMTPSA id o5sm2605905wmc.39.2022.01.05.06.00.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Jan 2022 05:50:26 -0800 (PST)
+ Wed, 05 Jan 2022 06:00:30 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id CBC081FFCB;
+ by zen.linaroharston (Postfix) with ESMTP id ED5271FFCC;
  Wed,  5 Jan 2022 13:50:10 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v1 19/34] tests/tcg: use CONFIG_LINUX_USER, not CONFIG_LINUX
-Date: Wed,  5 Jan 2022 13:49:54 +0000
-Message-Id: <20220105135009.1584676-20-alex.bennee@linaro.org>
+Subject: [PATCH  v1 20/34] tests/docker: add libfuse3 development headers
+Date: Wed,  5 Jan 2022 13:49:55 +0000
+Message-Id: <20220105135009.1584676-21-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220105135009.1584676-1-alex.bennee@linaro.org>
 References: <20220105135009.1584676-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::531
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::329
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::531;
- envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x531.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x329.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -90,75 +90,111 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, Eduardo Habkost <eduardo@habkost.net>, berrange@redhat.com,
- Richard Henderson <richard.henderson@linaro.org>, f4bug@amsat.org,
+Cc: fam@euphon.net, Thomas Huth <thuth@redhat.com>, berrange@redhat.com,
+ Beraldo Leal <bleal@redhat.com>, f4bug@amsat.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ "Richard W . M . Jones" <rjones@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
  stefanha@redhat.com, crosa@redhat.com, pbonzini@redhat.com,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Paolo Bonzini <pbonzini@redhat.com>
+From: Stefan Hajnoczi <stefanha@redhat.com>
 
-The two more or less overlap, because CONFIG_LINUX is a requirement for Linux
-user-mode emulation.  However, CONFIG_LINUX is technically a host symbol
-that applies even to system emulation.  Defining CONFIG_LINUX_USER, and
-CONFIG_BSD_USER for eventual future use, is cleaner.
+The FUSE exports feature is not built because most container images do
+not have libfuse3 development headers installed. Add the necessary
+packages to the Dockerfiles.
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Hanna Reitz <hreitz@redhat.com>
+Cc: Richard W.M. Jones <rjones@redhat.com>
+Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+Acked-by: Richard W.M. Jones <rjones@redhat.com>
+Reviewed-by: Beraldo Leal <bleal@redhat.com>
+Tested-by: Beraldo Leal <bleal@redhat.com>
+Message-Id: <20211207160025.52466-1-stefanha@redhat.com>
+[AJB: migrate to lcitool qemu.yml and regenerate]
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20211210084836.25202-1-pbonzini@redhat.com>
 ---
- tests/tcg/configure.sh              | 8 +++++++-
- tests/tcg/multiarch/Makefile.target | 2 +-
- tests/tcg/x86_64/Makefile.target    | 2 +-
- 3 files changed, 9 insertions(+), 3 deletions(-)
+ tests/docker/dockerfiles/alpine.docker        | 1 +
+ tests/docker/dockerfiles/centos8.docker       | 1 +
+ tests/docker/dockerfiles/fedora.docker        | 1 +
+ tests/docker/dockerfiles/opensuse-leap.docker | 1 +
+ tests/docker/dockerfiles/ubuntu2004.docker    | 1 +
+ tests/lcitool/projects/qemu.yml               | 1 +
+ 6 files changed, 6 insertions(+)
 
-diff --git a/tests/tcg/configure.sh b/tests/tcg/configure.sh
-index 8eb4287c84..309335a2bd 100755
---- a/tests/tcg/configure.sh
-+++ b/tests/tcg/configure.sh
-@@ -225,8 +225,14 @@ for target in $target_list; do
-   echo "TARGET_NAME=$arch" >> $config_target_mak
-   echo "target=$target" >> $config_target_mak
-   case $target in
--    *-linux-user | *-bsd-user)
-+    *-linux-user)
-       echo "CONFIG_USER_ONLY=y" >> $config_target_mak
-+      echo "CONFIG_LINUX_USER=y" >> $config_target_mak
-+      echo "QEMU=$PWD/qemu-$arch" >> $config_target_mak
-+      ;;
-+    *-bsd-user)
-+      echo "CONFIG_USER_ONLY=y" >> $config_target_mak
-+      echo "CONFIG_BSD_USER=y" >> $config_target_mak
-       echo "QEMU=$PWD/qemu-$arch" >> $config_target_mak
-       ;;
-     *-softmmu)
-diff --git a/tests/tcg/multiarch/Makefile.target b/tests/tcg/multiarch/Makefile.target
-index a83efb4a9d..dec401e67f 100644
---- a/tests/tcg/multiarch/Makefile.target
-+++ b/tests/tcg/multiarch/Makefile.target
-@@ -10,7 +10,7 @@ MULTIARCH_SRC=$(SRC_PATH)/tests/tcg/multiarch
- # Set search path for all sources
- VPATH 	       += $(MULTIARCH_SRC)
- MULTIARCH_SRCS =  $(notdir $(wildcard $(MULTIARCH_SRC)/*.c))
--ifneq ($(CONFIG_LINUX),)
-+ifneq ($(CONFIG_LINUX_USER),)
- VPATH 	       += $(MULTIARCH_SRC)/linux
- MULTIARCH_SRCS += $(notdir $(wildcard $(MULTIARCH_SRC)/linux/*.c))
- endif
-diff --git a/tests/tcg/x86_64/Makefile.target b/tests/tcg/x86_64/Makefile.target
-index d7a7385583..4a8a464c57 100644
---- a/tests/tcg/x86_64/Makefile.target
-+++ b/tests/tcg/x86_64/Makefile.target
-@@ -8,7 +8,7 @@
- 
- include $(SRC_PATH)/tests/tcg/i386/Makefile.target
- 
--ifneq ($(CONFIG_LINUX),)
-+ifneq ($(CONFIG_LINUX_USER),)
- X86_64_TESTS += vsyscall
- TESTS=$(MULTIARCH_TESTS) $(X86_64_TESTS) test-x86_64
- else
+diff --git a/tests/docker/dockerfiles/alpine.docker b/tests/docker/dockerfiles/alpine.docker
+index 97c7a88d1f..eb2251c81c 100644
+--- a/tests/docker/dockerfiles/alpine.docker
++++ b/tests/docker/dockerfiles/alpine.docker
+@@ -29,6 +29,7 @@ RUN apk update && \
+         dtc-dev \
+         eudev-dev \
+         findutils \
++        fuse3-dev \
+         g++ \
+         gcc \
+         gcovr \
+diff --git a/tests/docker/dockerfiles/centos8.docker b/tests/docker/dockerfiles/centos8.docker
+index 3c62b62a99..cbb909d02b 100644
+--- a/tests/docker/dockerfiles/centos8.docker
++++ b/tests/docker/dockerfiles/centos8.docker
+@@ -30,6 +30,7 @@ RUN dnf update -y && \
+         device-mapper-multipath-devel \
+         diffutils \
+         findutils \
++        fuse3-devel \
+         gcc \
+         gcc-c++ \
+         genisoimage \
+diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/dockerfiles/fedora.docker
+index 6784878b56..60207f3da3 100644
+--- a/tests/docker/dockerfiles/fedora.docker
++++ b/tests/docker/dockerfiles/fedora.docker
+@@ -37,6 +37,7 @@ exec "$@"' > /usr/bin/nosync && \
+         device-mapper-multipath-devel \
+         diffutils \
+         findutils \
++        fuse3-devel \
+         gcc \
+         gcc-c++ \
+         gcovr \
+diff --git a/tests/docker/dockerfiles/opensuse-leap.docker b/tests/docker/dockerfiles/opensuse-leap.docker
+index 5510bdf19c..f57d8cfb29 100644
+--- a/tests/docker/dockerfiles/opensuse-leap.docker
++++ b/tests/docker/dockerfiles/opensuse-leap.docker
+@@ -22,6 +22,7 @@ RUN zypper update -y && \
+            dbus-1 \
+            diffutils \
+            findutils \
++           fuse3-devel \
+            gcc \
+            gcc-c++ \
+            gcovr \
+diff --git a/tests/docker/dockerfiles/ubuntu2004.docker b/tests/docker/dockerfiles/ubuntu2004.docker
+index 40402b91fe..4e562dfdcd 100644
+--- a/tests/docker/dockerfiles/ubuntu2004.docker
++++ b/tests/docker/dockerfiles/ubuntu2004.docker
+@@ -46,6 +46,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
+             libepoxy-dev \
+             libfdt-dev \
+             libffi-dev \
++            libfuse3-dev \
+             libgbm-dev \
+             libgcrypt20-dev \
+             libglib2.0-dev \
+diff --git a/tests/lcitool/projects/qemu.yml b/tests/lcitool/projects/qemu.yml
+index 2e2271510e..ed5ab1407a 100644
+--- a/tests/lcitool/projects/qemu.yml
++++ b/tests/lcitool/projects/qemu.yml
+@@ -18,6 +18,7 @@ packages:
+  - diffutils
+  - dtrace
+  - findutils
++ - fuse3
+  - g++
+  - gcc
+  - gcovr
 -- 
 2.30.2
 
