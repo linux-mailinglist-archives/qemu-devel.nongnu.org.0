@@ -2,99 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83F404857F7
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 19:10:40 +0100 (CET)
-Received: from localhost ([::1]:53414 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 683FF4858A9
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 19:48:43 +0100 (CET)
+Received: from localhost ([::1]:49170 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5AkB-0002lx-LI
-	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 13:10:39 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37828)
+	id 1n5BKz-0004r8-9X
+	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 13:48:41 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45974)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lagarcia@linux.ibm.com>)
- id 1n5AiN-0001uP-8C; Wed, 05 Jan 2022 13:08:47 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:59970)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lagarcia@linux.ibm.com>)
- id 1n5AiJ-0002vo-FZ; Wed, 05 Jan 2022 13:08:46 -0500
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 205GaaVG021960; 
- Wed, 5 Jan 2022 18:08:27 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : content-type : content-transfer-encoding :
- mime-version; s=pp1; bh=XEeZGgz9TQsCN+2R1Aubnfjg6Ird96E+s79h0HHlw1k=;
- b=SoAdJVK/R9HjyHiNvE7YNA++qWz2hVl8P7hItswtLO1NKb7PVvaipdzDiUxBZLGOC3Ps
- 1te6i/y40IQw41xBhu1QS6DDGT6+Zr5/3Tduas36ztKeszOqbuGplVmQHUJK/R4JENcr
- Zxevvy2welj06+QiC5yf5JLtQKlIF0i0ecWq08K0gshakoqbgjZzkfQiwFj9cDhga2tF
- UV4WloaXDbqYVueKCgCBL9HMAfwuVc9zqI9O3/W1Tu2G5v8IRoDG8cQPxy0Zg02RDL02
- PRrTIiqeVTotnQxPzEha7rcve11qQAAGEdnDY3kxznjG8q9/dUnbukftpBCuaFK618NU XQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3dck05rjsc-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 05 Jan 2022 18:08:27 +0000
-Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 205HmqT7011561;
- Wed, 5 Jan 2022 18:08:26 GMT
-Received: from ppma03wdc.us.ibm.com (ba.79.3fa9.ip4.static.sl-reverse.com
- [169.63.121.186])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3dck05rjrr-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 05 Jan 2022 18:08:26 +0000
-Received: from pps.filterd (ppma03wdc.us.ibm.com [127.0.0.1])
- by ppma03wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 205I4DID021238;
- Wed, 5 Jan 2022 18:08:25 GMT
-Received: from b03cxnp07028.gho.boulder.ibm.com
- (b03cxnp07028.gho.boulder.ibm.com [9.17.130.15])
- by ppma03wdc.us.ibm.com with ESMTP id 3dcv2raa14-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 05 Jan 2022 18:08:25 +0000
-Received: from b03ledav005.gho.boulder.ibm.com
- (b03ledav005.gho.boulder.ibm.com [9.17.130.236])
- by b03cxnp07028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 205I8Ofa28836112
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 5 Jan 2022 18:08:24 GMT
-Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 05DCFBE05F;
- Wed,  5 Jan 2022 18:08:24 +0000 (GMT)
-Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 0188FBE04F;
- Wed,  5 Jan 2022 18:08:21 +0000 (GMT)
-Received: from lagarcia.br.ibm.com.com (unknown [9.65.79.38])
- by b03ledav005.gho.boulder.ibm.com (Postfix) with ESMTP;
- Wed,  5 Jan 2022 18:08:21 +0000 (GMT)
-From: lagarcia@linux.ibm.com
-To: qemu-ppc@nongnu.org
-Subject: [PATCH] docs: Clarifications and formatting changes in ppc docs.
-Date: Wed,  5 Jan 2022 15:08:06 -0300
-Message-Id: <3b228af4785241c7fb4a2c70f0c495d2a9adea83.1641405872.git.lagarcia@br.ibm.com>
-X-Mailer: git-send-email 2.33.1
-Content-Type: text/plain; charset=UTF-8
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: QOCHXn9NHt3urXnqZqYZDwll7NcLiceL
-X-Proofpoint-GUID: NV6O_vnRlo1EWY0T7Q97Iy6162LvEl4o
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1n5BDH-0002YG-81
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 13:40:46 -0500
+Received: from [2a00:1450:4864:20::536] (port=35530
+ helo=mail-ed1-x536.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1n5BDC-0003Gc-I1
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 13:40:42 -0500
+Received: by mail-ed1-x536.google.com with SMTP id y22so158421edq.2
+ for <qemu-devel@nongnu.org>; Wed, 05 Jan 2022 10:40:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=06w8gqSZR8QU1vtQYPkUBPp49qmn9Gr/dyODiNVOe2Q=;
+ b=ZRq7+MA0JotuMU7I/n4wEGbjDZZH69ZVzh9c6FbbrCPptwWVRRaoXCM9QZWXMaszDM
+ Dih8hwqCg96HRtgrkSD2+/sKF0Y3urIP9IkZz9/gkzt9TWp/TIkLTW4XKzNKCv+un2oa
+ eI4+uXsTvE7eIQiqkk5ZqE0Sch6ntAm2Y14Gs7LjPTIQshsiBVQ3DrmRnGWpqY4sUbuJ
+ V2wNk5bs6ihjDMqvtL6GlmM1Lw4DltbNhgf61TO04KLpurm+IwUlfh2aa+WzUq33rxhF
+ JIPIvOEE/0cpN0epF7NJyK9acMim9Rfdl9aemHsdeYcNwUnbFSiTwLD4aQJlcJpjVYmH
+ bQIA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=06w8gqSZR8QU1vtQYPkUBPp49qmn9Gr/dyODiNVOe2Q=;
+ b=zc+1thIj/4h/MIO11HkqcGSmpzkokClDA0tBmrGOTeNEYcKjh9i5znHQ9vOZw5shnH
+ mKZ2OA4+upsCPAnJ9BvB45Qf6dHQXZG9jotUr1zO8xO3bYoK25zx0PaY1c/DpNc5AglC
+ 4qlio3/VlGDToI5yrGxr3b2kAEYop5N8JnVfUL21KnRJ/YecQTS3F74tT6XBuN78CFvu
+ /Al5+cx4P6w84QH+eLaAbIPqG0F8wK/eH+cqMp1s0r4dqFvVZfUv9LmVxi3jbP66V5xa
+ t+rJqpXaEsAH+0EqJYZQbsngVJZRfkSYlYBs/IkU+PFhi/+ShJ1rHNX5qMLZ59tViVP3
+ hssQ==
+X-Gm-Message-State: AOAM533W2jcO6IKaBjiar7cuo6E+TobVYoj4X8je/M/OSMud3BlNT6/0
+ j35GbHn+pv3/c9iGu+4jaB3uxw==
+X-Google-Smtp-Source: ABdhPJyBVgNAS3O/RM1cZrVqbSwsMS6vVDKrJVwVvhLMO+C11hX7rY5J6j6hZRevI9ERLWnu1kJRFw==
+X-Received: by 2002:a17:906:7305:: with SMTP id
+ di5mr43310566ejc.702.1641408035068; 
+ Wed, 05 Jan 2022 10:40:35 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id z22sm1319003edd.68.2022.01.05.10.40.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 05 Jan 2022 10:40:34 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 65F4C1FFB7;
+ Wed,  5 Jan 2022 18:40:33 +0000 (GMT)
+References: <00a79b65-288f-f17c-abe4-fcfd3f7971fd@oth-regensburg.de>
+ <cover.1641309725.git.konrad.schwarz@siemens.com>
+ <85d02ac883c7cf40fbd54e8747783937e0370eaa.1641309725.git.konrad.schwarz@siemens.com>
+ <18d1fbb3-ddff-6d3c-55a1-cbec27ac9f1e@linaro.org>
+ <9511f23e9cdf42609866bc597f87b97e@siemens.com>
+User-agent: mu4e 1.7.5; emacs 28.0.90
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: "Schwarz, Konrad" <konrad.schwarz@siemens.com>
+Subject: Re: [PATCH v2 1/5] RISC-V: larger and more consistent register set
+ for 'info registers'
+Date: Wed, 05 Jan 2022 18:21:40 +0000
+In-reply-to: <9511f23e9cdf42609866bc597f87b97e@siemens.com>
+Message-ID: <878rvujaam.fsf@linaro.org>
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2022-01-05_05,2022-01-04_01,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- spamscore=0 mlxscore=0 phishscore=0 adultscore=0 clxscore=1011
- malwarescore=0 bulkscore=0 mlxlogscore=999 impostorscore=0 suspectscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2110150000 definitions=main-2201050118
-Received-SPF: pass client-ip=148.163.156.1;
- envelope-from=lagarcia@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::536
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::536;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x536.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -107,206 +95,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: danielhb413@gmail.com, groug@kaod.org, qemu-devel@nongnu.org, clg@kaod.org,
- Leonardo Garcia <lagarcia@br.ibm.com>, david@gibson.dropbear.id.au
+Cc: Bin Meng <bin.meng@windriver.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Ralf Ramsauer <ralf.ramsauer@oth-regensburg.de>, qemu-devel@nongnu.org,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Leonardo Garcia <lagarcia@br.ibm.com>
 
-Signed-off-by: Leonardo Garcia <lagarcia@br.ibm.com>
----
- docs/specs/ppc-spapr-hcalls.rst | 22 ++++++++---------
- docs/system/ppc/pseries.rst     | 43 +++++++++++++++++----------------
- 2 files changed, 33 insertions(+), 32 deletions(-)
+"Schwarz, Konrad" <konrad.schwarz@siemens.com> writes:
 
-diff --git a/docs/specs/ppc-spapr-hcalls.rst b/docs/specs/ppc-spapr-hcalls.rst
-index 28daf9734a..b4a18a01e6 100644
---- a/docs/specs/ppc-spapr-hcalls.rst
-+++ b/docs/specs/ppc-spapr-hcalls.rst
-@@ -1,13 +1,12 @@
-+======================
- sPAPR hypervisor calls
------------------------
-+======================
- 
- When used with the ``pseries`` machine type, ``qemu-system-ppc64`` implements
--a set of hypervisor calls (a.k.a. hcalls) defined in the `Linux on Power
--Architecture Reference document (LoPAR)
--<https://cdn.openpowerfoundation.org/wp-content/uploads/2020/07/LoPAR-20200812.pdf>`_.
--This document is a subset of the Power Architecture Platform Reference (PAPR+)
--specification (IBM internal only), which is what PowerVM, the IBM proprietary
--hypervisor, adheres to.
-+a set of hypervisor calls (a.k.a. hcalls) defined in the Linux on Power
-+Architecture Reference ([LoPAR]_) document. This document is a subset of the
-+Power Architecture Platform Reference (PAPR+) specification (IBM internal only),
-+which is what PowerVM, the IBM proprietary hypervisor, adheres to.
- 
- The subset in LoPAR is selected based on the requirements of Linux as a guest.
- 
-@@ -18,8 +17,8 @@ running in the guest and QEMU.
- All those hypercalls start at hcall number 0xf000 which correspond
- to an implementation specific range in PAPR.
- 
--H_RTAS (0xf000)
--^^^^^^^^^^^^^^^
-+``H_RTAS (0xf000)``
-+===================
- 
- RTAS stands for Run-Time Abstraction Sercies and is a set of runtime services
- generally provided by the firmware inside the guest to the operating system. It
-@@ -44,8 +43,8 @@ Returns:
- 
-   ``H_PARAMETER``: Unknown token.
- 
--H_LOGICAL_MEMOP (0xf001)
--^^^^^^^^^^^^^^^^^^^^^^^^
-+``H_LOGICAL_MEMOP (0xf001)``
-+============================
- 
- When the guest runs in "real mode" (in powerpc terminology this means with MMU
- disabled, i.e. guest effective address equals to guest physical address), it
-@@ -98,3 +97,4 @@ Returns:
-   ``H_SUCCESS``: Success.
- 
-   ``H_PARAMETER``: Invalid argument.
-+
-diff --git a/docs/system/ppc/pseries.rst b/docs/system/ppc/pseries.rst
-index 72e315eff6..ead33e6764 100644
---- a/docs/system/ppc/pseries.rst
-+++ b/docs/system/ppc/pseries.rst
-@@ -1,19 +1,18 @@
-+===================================
- pSeries family boards (``pseries``)
- ===================================
- 
--The Power machine para-virtualized environment described by the `Linux on Power
--Architecture Reference document (LoPAR)
--<https://openpowerfoundation.org/wp-content/uploads/2020/07/LoPAR-20200812.pdf>`_
--is called pSeries. This environment is also known as sPAPR, System p guests, or
--simply Power Linux guests (although it is capable of running other operating
--systems, such as AIX).
-+The Power machine para-virtualized environment described by the Linux on Power
-+Architecture Reference ([LoPAR]_) document is called pSeries. This environment
-+is also known as sPAPR, System p guests, or simply Power Linux guests (although
-+it is capable of running other operating systems, such as AIX).
- 
- Even though pSeries is designed to behave as a guest environment, it is also
- capable of acting as a hypervisor OS, providing, on that role, nested
- virtualization capabilities.
- 
- Supported devices
-------------------
-+=================
- 
-  * Multi processor support for many Power processors generations: POWER7,
-    POWER7+, POWER8, POWER8NVL, POWER9, and Power10. Support for POWER5+ exists,
-@@ -26,12 +25,12 @@ Supported devices
-  * PCIe device pass through.
- 
- Missing devices
-----------------
-+===============
- 
-  * SPICE support.
- 
- Firmware
----------
-+========
- 
- `SLOF <https://github.com/aik/SLOF>`_ (Slimline Open Firmware) is an
- implementation of the `IEEE 1275-1994, Standard for Boot (Initialization
-@@ -42,14 +41,14 @@ QEMU includes a prebuilt image of SLOF which is updated when a more recent
- version is required.
- 
- Build directions
------------------
-+================
- 
- .. code-block:: bash
- 
-   ./configure --target-list=ppc64-softmmu && make
- 
- Running instructions
----------------------
-+====================
- 
- Someone can select the pSeries machine type by running QEMU with the following
- options:
-@@ -59,7 +58,7 @@ options:
-   qemu-system-ppc64 -M pseries <other QEMU arguments>
- 
- sPAPR devices
---------------
-+=============
- 
- The sPAPR specification defines a set of para-virtualized devices, which are
- also supported by the pSeries machine in QEMU and can be instantiated with the
-@@ -102,11 +101,9 @@ device, or specify one with an ID
- NVRAM device with ``-global spapr-nvram.drive=pfid``.
- 
- sPAPR specification
--^^^^^^^^^^^^^^^^^^^
-+-------------------
- 
--The main source of documentation on the sPAPR standard is the `Linux on Power
--Architecture Reference document (LoPAR)
--<https://openpowerfoundation.org/wp-content/uploads/2020/07/LoPAR-20200812.pdf>`_.
-+The main source of documentation on the sPAPR standard is the [LoPAR]_ document.
- However, documentation specific to QEMU's implementation of the specification
- can  also be found in QEMU documentation:
- 
-@@ -124,7 +121,7 @@ Other documentation available in QEMU docs directory:
-   (``/docs/specs/ppc-spapr-uv-hcalls.txt``).
- 
- Switching between the KVM-PR and KVM-HV kernel module
-------------------------------------------------------
-+=====================================================
- 
- Currently, there are two implementations of KVM on Power, ``kvm_hv.ko`` and
- ``kvm_pr.ko``.
-@@ -139,7 +136,7 @@ possible to switch between the two modes with the ``kvm-type`` parameter:
-   instead.
- 
- KVM-PR
--^^^^^^
-+------
- 
- KVM-PR uses the so-called **PR**\ oblem state of the PPC CPUs to run the guests,
- i.e. the virtual machine is run in user mode and all privileged instructions
-@@ -166,7 +163,7 @@ In order to run KVM-PR guests with POWER9 processors, someone will need to start
- QEMU with ``kernel_irqchip=off`` command line option.
- 
- KVM-HV
--^^^^^^
-+------
- 
- KVM-HV uses the hypervisor mode of more recent Power processors, that allow
- access to the bare metal hardware directly. Although POWER7 had this capability,
-@@ -188,7 +185,7 @@ CPUs generations, e.g. you can run a POWER7 guest on a POWER8 host by using
- ``-cpu POWER8,compat=power7`` as parameter to QEMU.
- 
- Modules support
-----------------
-+===============
- 
- As noticed in the sections above, each module can run in a different
- environment. The following table shows with which environment each module can
-@@ -231,8 +228,12 @@ nested. Combinations not shown in the table are not available.
- .. [3] Introduced on Power10 machines.
- 
- Maintainer contact information
--------------------------------
-+==============================
- 
- Cédric Le Goater <clg@kaod.org>
- 
- Daniel Henrique Barboza <danielhb413@gmail.com>
-+
-+.. [LoPAR] `Linux on Power Architecture Reference document (LoPAR) revision
-+   2.9 <https://openpowerfoundation.org/wp-content/uploads/2020/07/LoPAR-20200812.pdf>`_.
-+
--- 
-2.33.1
+>> -----Original Message-----
+>> From: Richard Henderson <richard.henderson@linaro.org>
+>> Sent: Tuesday, January 4, 2022 21:57
+>> Subject: Re: [PATCH v2 1/5] RISC-V: larger and more consistent register =
+set for 'info registers'
+>>=20
+>> On 1/4/22 7:51 AM, Konrad Schwarz wrote:
+>> >           static const int dump_csrs[] =3D {
+>> > +
+>> > +#  if 0
+>> > +            CSR_USTATUS,
+>> > +            CSR_UIE,
+>> > +            CSR_UTVEC,
+>>=20
+>> Adding huge sections of #if 0 code is not acceptable.
+>
+> I'm not sure on how to solve the dilemma of
+>
+> * transgressing on QEMUs coding guidelines on the one side
+>   (large sections of commented out code)
+>
+> * having `info registers' output a huge swath of CSRs,
+>   swamping the user and making the command impractical
+>
+> I feel that providing some control at compile
+> time via `# if' conditional compilation is preferrable to just dumping
+> everything.  I could of course only list the CSRs that
+> are interesting to me, currently, but I thought it
+> would be better to list (almost) all of them and give at least
+> programmers an easy way to enable the blocks of CSRs
+> that are of interest to them.
+>
+> Obviously, the best solution would be to extend the command to
+> add a filter argument, similar to GDB's `info registers'
+> (i.e. info registers XXX), but I don't know how to do that in QEMU and
+> it would work differently from other target architectures.
 
+This is a problem that needs solving not only for "info registers" but
+also things like "-d cpu", gdbserver and (eventually) TCG plugins.
+
+My (so far unrealised) vision is to have a architecture independent
+sub-system that we can register (sic) registers. The frontends would
+replace their existing qemu_log and gdbserver hooks with a group aware
+registering function to the sub-system. For example:
+
+  register_reg("x0", REG_CORE, get_gen_reg, set_gen_reg, offsetof(CPUARMSta=
+te, xregs[0]))
+  register_reg(ri->name, REG_SYSTEM, get_cpreg, set_cpreg, ri);
+
+and so on. This would then provide a common point for the register value
+consumers to request values and sets. So we could have options like:
+
+  (hmp) info registers fpu
+  -d cpu:pc
+  qemu_plugin_get_regset("x0-x7");
+
+and avoid having too much per-architecture special casing. I'd also like
+to get rid of custom gdb XML generation in the frontends (e.g.
+arm_gen_dynamic_svereg_xml) and make that common functionality.
+
+> What would you suggest?
+
+--=20
+Alex Benn=C3=A9e
 
