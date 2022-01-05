@@ -2,48 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33E0048579D
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 18:47:23 +0100 (CET)
-Received: from localhost ([::1]:39894 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C45EE4857D2
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 18:59:27 +0100 (CET)
+Received: from localhost ([::1]:43952 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5ANd-0000fZ-Ow
-	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 12:47:21 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59872)
+	id 1n5AZK-0004SR-F0
+	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 12:59:26 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34432)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <git@xen0n.name>) id 1n5AME-00086f-Er
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 12:45:54 -0500
-Received: from mail.xen0n.name ([115.28.160.31]:35544
- helo=mailbox.box.xen0n.name)
+ (Exim 4.90_1) (envelope-from <ale@rev.ng>) id 1n5AXa-0003lN-LP
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 12:57:38 -0500
+Received: from rev.ng ([5.9.113.41]:46331)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <git@xen0n.name>) id 1n5AM8-0005D1-KO
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 12:45:54 -0500
-Received: from ld50.lan (unknown [101.88.31.179])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (No client certificate requested)
- by mailbox.box.xen0n.name (Postfix) with ESMTPSA id 111E360106;
- Thu,  6 Jan 2022 01:45:38 +0800 (CST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=xen0n.name; s=mail;
- t=1641404738; bh=6Ns06LyUfShyFuwpkrPAACX+l2gs9Hef/pTKeiw/7tM=;
- h=From:To:Cc:Subject:Date:From;
- b=VShreKHMuhYmsOno6xpwv1dTDGS5bQyi++kfQu6cK/92Dykv9Ai7YmrBT9HHEZBC7
- rjHgDdVh7qLf9Iu0brnnp4aEjIGCGZ/6iep5YwmXy4fvvI+TMPHq+cSQFv3O5C7NTV
- jMthDmQrSYlEuxcp0ZSAx1b1oPsT+YUbYAEtnsfI=
-From: WANG Xuerui <git@xen0n.name>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] tcg/loongarch64: Support raising sigbus for user-only
-Date: Thu,  6 Jan 2022 01:44:56 +0800
-Message-Id: <20220105174456.3719220-1-git@xen0n.name>
-X-Mailer: git-send-email 2.34.1
+ (Exim 4.90_1) (envelope-from <ale@rev.ng>) id 1n5AXX-0007MO-Uk
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 12:57:38 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rev.ng;
+ s=dkim; h=Content-Type:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Sender
+ :Reply-To:Content-Transfer-Encoding:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=xgHa4LB7ALx+CH/kcPWpZxfzJlkjmY37+wikvrzMnbk=; b=uE9IU92l3KxO0WiRvL5eimC0/y
+ tjzdV8VcrIHZ2h0qSfBJMNdeWS/uPKGsiweHfo+vUOVaA0k/mzUmq5PbSOTAwZWCDw0knyGZwpNAc
+ 87ZVWiFBbb35EHgtF6vZOP+upOQf0uQQ/XGBMfkrpM1RimrNgQtBSSZjsrpij+owY/dY=;
+Date: Wed, 5 Jan 2022 18:57:20 +0100
+To: Alex =?UTF-8?B?QmVubsOpZQ==?= <alex.bennee@linaro.org>
+Cc: tsimpson@quicinc.com, Anton Johansson via <qemu-devel@nongnu.org>, Brian
+ Cain <bcain@quicinc.com>
+Subject: CI for qemu-hexagon
+Message-ID: <20220105185720.0d4fc159@orange>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=115.28.160.31; envelope-from=git@xen0n.name;
- helo=mailbox.box.xen0n.name
+Content-Type: multipart/mixed; boundary="MP_/AlCx7/Xy2X4zdVm0RGca5Hy"
+Received-SPF: pass client-ip=5.9.113.41; envelope-from=ale@rev.ng; helo=rev.ng
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -57,153 +53,390 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: WANG Xuerui <git@xen0n.name>, Peter Maydell <peter.maydell@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Alessandro Di Federico <ale@rev.ng>
+From:  Alessandro Di Federico via <qemu-devel@nongnu.org>
 
-Based-on: <20220104021543.396571-1-richard.henderson@linaro.org>
+--MP_/AlCx7/Xy2X4zdVm0RGca5Hy
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
-Signed-off-by: WANG Xuerui <git@xen0n.name>
----
- tcg/loongarch64/tcg-target.c.inc | 66 +++++++++++++++++++++++++++++++-
- tcg/loongarch64/tcg-target.h     |  2 -
- 2 files changed, 64 insertions(+), 4 deletions(-)
+Hi Alex, I hope you enjoyed the holidays!
 
-diff --git a/tcg/loongarch64/tcg-target.c.inc b/tcg/loongarch64/tcg-target.c.inc
-index 9cd46c9be3..900ca1ed8b 100644
---- a/tcg/loongarch64/tcg-target.c.inc
-+++ b/tcg/loongarch64/tcg-target.c.inc
-@@ -29,6 +29,8 @@
-  * THE SOFTWARE.
-  */
- 
-+#include "../tcg-ldst.c.inc"
-+
- #ifdef CONFIG_DEBUG_TCG
- static const char * const tcg_target_reg_names[TCG_TARGET_NB_REGS] = {
-     "zero",
-@@ -642,8 +644,6 @@ static bool tcg_out_sti(TCGContext *s, TCGType type, TCGArg val,
-  */
- 
- #if defined(CONFIG_SOFTMMU)
--#include "../tcg-ldst.c.inc"
--
- /*
-  * helper signature: helper_ret_ld_mmu(CPUState *env, target_ulong addr,
-  *                                     MemOpIdx oi, uintptr_t ra)
-@@ -825,6 +825,56 @@ static bool tcg_out_qemu_st_slow_path(TCGContext *s, TCGLabelQemuLdst *l)
- 
-     return tcg_out_goto(s, l->raddr);
- }
-+#else
-+
-+/*
-+ * Alignment helpers for user-mode emulation
-+ */
-+
-+static void tcg_out_test_alignment(TCGContext *s, bool is_ld, TCGReg addr_reg,
-+                                   unsigned a_bits)
-+{
-+    TCGLabelQemuLdst *l = new_ldst_label(s);
-+
-+    l->is_ld = is_ld;
-+    l->addrlo_reg = addr_reg;
-+
-+    tcg_debug_assert(a_bits < TCG_TARGET_REG_BITS);
-+    tcg_out_opc_bstrpick_d(s, TCG_REG_TMP1, addr_reg, 0, a_bits - 1);
-+
-+    l->label_ptr[0] = s->code_ptr;
-+    tcg_out_opc_bne(s, TCG_REG_TMP1, TCG_REG_ZERO, 0);
-+
-+    l->raddr = tcg_splitwx_to_rx(s->code_ptr);
-+}
-+
-+static bool tcg_out_fail_alignment(TCGContext *s, TCGLabelQemuLdst *l)
-+{
-+    /* resolve label address */
-+    if (!reloc_br_sk16(l->label_ptr[0], tcg_splitwx_to_rx(s->code_ptr))) {
-+        return false;
-+    }
-+
-+    tcg_out_mov(s, TCG_TYPE_TL, TCG_REG_A1, l->addrlo_reg);
-+    tcg_out_mov(s, TCG_TYPE_PTR, TCG_REG_A0, TCG_AREG0);
-+
-+    /* tail call, with the return address back inline. */
-+    tcg_out_movi(s, TCG_TYPE_PTR, TCG_REG_RA, (uintptr_t)l->raddr);
-+    tcg_out_call_int(s, (const void *)(l->is_ld ? helper_unaligned_ld
-+                                       : helper_unaligned_st), true);
-+    return true;
-+}
-+
-+static bool tcg_out_qemu_ld_slow_path(TCGContext *s, TCGLabelQemuLdst *l)
-+{
-+    return tcg_out_fail_alignment(s, l);
-+}
-+
-+static bool tcg_out_qemu_st_slow_path(TCGContext *s, TCGLabelQemuLdst *l)
-+{
-+    return tcg_out_fail_alignment(s, l);
-+}
-+
- #endif /* CONFIG_SOFTMMU */
- 
- /*
-@@ -887,6 +937,8 @@ static void tcg_out_qemu_ld(TCGContext *s, const TCGArg *args, TCGType type)
-     MemOp opc;
- #if defined(CONFIG_SOFTMMU)
-     tcg_insn_unit *label_ptr[1];
-+#else
-+    unsigned a_bits;
- #endif
-     TCGReg base;
- 
-@@ -903,6 +955,10 @@ static void tcg_out_qemu_ld(TCGContext *s, const TCGArg *args, TCGType type)
-                         data_regl, addr_regl,
-                         s->code_ptr, label_ptr);
- #else
-+    a_bits = get_alignment_bits(opc);
-+    if (a_bits) {
-+        tcg_out_test_alignment(s, true, addr_regl, a_bits);
-+    }
-     base = tcg_out_zext_addr_if_32_bit(s, addr_regl, TCG_REG_TMP0);
-     TCGReg guest_base_reg = USE_GUEST_BASE ? TCG_GUEST_BASE_REG : TCG_REG_ZERO;
-     tcg_out_qemu_ld_indexed(s, data_regl, base, guest_base_reg, opc, type);
-@@ -941,6 +997,8 @@ static void tcg_out_qemu_st(TCGContext *s, const TCGArg *args)
-     MemOp opc;
- #if defined(CONFIG_SOFTMMU)
-     tcg_insn_unit *label_ptr[1];
-+#else
-+    unsigned a_bits;
- #endif
-     TCGReg base;
- 
-@@ -958,6 +1016,10 @@ static void tcg_out_qemu_st(TCGContext *s, const TCGArg *args)
-                         data_regl, addr_regl,
-                         s->code_ptr, label_ptr);
- #else
-+    a_bits = get_alignment_bits(opc);
-+    if (a_bits) {
-+        tcg_out_test_alignment(s, false, addr_regl, a_bits);
-+    }
-     base = tcg_out_zext_addr_if_32_bit(s, addr_regl, TCG_REG_TMP0);
-     TCGReg guest_base_reg = USE_GUEST_BASE ? TCG_GUEST_BASE_REG : TCG_REG_ZERO;
-     tcg_out_qemu_st_indexed(s, data_regl, base, guest_base_reg, opc);
-diff --git a/tcg/loongarch64/tcg-target.h b/tcg/loongarch64/tcg-target.h
-index 05010805e7..d58a6162f2 100644
---- a/tcg/loongarch64/tcg-target.h
-+++ b/tcg/loongarch64/tcg-target.h
-@@ -171,9 +171,7 @@ void tb_target_set_jmp_target(uintptr_t, uintptr_t, uintptr_t, uintptr_t);
- 
- #define TCG_TARGET_DEFAULT_MO (0)
- 
--#ifdef CONFIG_SOFTMMU
- #define TCG_TARGET_NEED_LDST_LABELS
--#endif
- 
- #define TCG_TARGET_HAS_MEMORY_BSWAP 0
- 
+We're trying to upstream idef-parser (the automatic generator of the
+Hexagon frontend). This introduces new dependencies, specifically flex
+and bison.
+
+Attached you can find our patch for that.
+
+However the CI fails:
+
+    https://gitlab.com/carl.cudig/qemu/-/jobs/1939950230
+
+AFAIU the Hexagon docker image is "special" since it's the only one
+that needs the cross-compiler to be built from source and, therefore,
+it's a process that needs to be triggered manually.
+Is this correct?
+
+If so, what should we do? Make a pull request despite the failure and
+then it will be taken care of, or should I make a separate (preliminary)
+pull request just for that patch?
+
 -- 
-2.34.1
+Alessandro Di Federico
+rev.ng
 
+--MP_/AlCx7/Xy2X4zdVm0RGca5Hy
+Content-Type: text/x-patch
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: attachment; filename=import-flex-bison.patch
+
+commit 14e90d55b368b4a56fde668b66311bab6e1a4518
+Author: Paolo Montesel <babush@rev.ng>
+Date:   Thu Dec 9 13:23:06 2021 +0100
+
+    target/hexagon: import flex/bison to docker files
+   =20
+    Signed-off-by: Alessandro Di Federico <ale@rev.ng>
+    Signed-off-by: Paolo Montesel <babush@rev.ng>
+    Signed-off-by: Anton Johansson <anjo@rev.ng>
+
+diff --git a/.gitlab-ci.d/windows.yml b/.gitlab-ci.d/windows.yml
+index 309f7e7fb86..2abfe4e91aa 100644
+--- a/.gitlab-ci.d/windows.yml
++++ b/.gitlab-ci.d/windows.yml
+@@ -33,6 +33,7 @@ msys2-64bit:
+   script:
+   - .\msys64\usr\bin\bash -lc "pacman -Sy --noconfirm --needed
+       diffutils git grep make sed
++      flex bison
+       mingw-w64-x86_64-capstone
+       mingw-w64-x86_64-curl
+       mingw-w64-x86_64-cyrus-sasl
+@@ -68,6 +69,7 @@ msys2-32bit:
+   script:
+   - .\msys64\usr\bin\bash -lc "pacman -Sy --noconfirm --needed
+       diffutils git grep make sed
++      flex bison
+       mingw-w64-i686-capstone
+       mingw-w64-i686-curl
+       mingw-w64-i686-cyrus-sasl
+diff --git a/tests/docker/dockerfiles/alpine.docker b/tests/docker/dockerfi=
+les/alpine.docker
+index 7e6997e3015..45db55ba55a 100644
+--- a/tests/docker/dockerfiles/alpine.docker
++++ b/tests/docker/dockerfiles/alpine.docker
+@@ -9,9 +9,11 @@ ENV PACKAGES \
+ 	alsa-lib-dev \
+ 	bash \
+ 	binutils \
++	bison \
+ 	ccache \
+ 	coreutils \
+ 	curl-dev \
++	flex \
+ 	g++ \
+ 	gcc \
+ 	git \
+diff --git a/tests/docker/dockerfiles/centos8.docker b/tests/docker/dockerf=
+iles/centos8.docker
+index 7f135f8e8c0..d93bbe30026 100644
+--- a/tests/docker/dockerfiles/centos8.docker
++++ b/tests/docker/dockerfiles/centos8.docker
+@@ -5,6 +5,7 @@ ENV PACKAGES \
+     SDL2-devel \
+     alsa-lib-devel \
+     bc \
++    bison \
+     brlapi-devel \
+     bzip2 \
+     bzip2-devel \
+@@ -19,6 +20,7 @@ ENV PACKAGES \
+     device-mapper-multipath-devel \
+     diffutils \
+     findutils \
++    flex \
+     gcc \
+     gcc-c++ \
+     genisoimage \
+diff --git a/tests/docker/dockerfiles/debian-amd64.docker b/tests/docker/do=
+ckerfiles/debian-amd64.docker
+index ed546edcd65..805fd6f981d 100644
+--- a/tests/docker/dockerfiles/debian-amd64.docker
++++ b/tests/docker/dockerfiles/debian-amd64.docker
+@@ -14,9 +14,11 @@ RUN apt update && \
+ RUN apt update && \
+     DEBIAN_FRONTEND=3Dnoninteractive eatmydata \
+     apt install -y --no-install-recommends \
++        bison \
+         cscope \
+         genisoimage \
+         exuberant-ctags \
++        flex \
+         global \
+         libbz2-dev \
+         liblzo2-dev \
+diff --git a/tests/docker/dockerfiles/debian-native.docker b/tests/docker/d=
+ockerfiles/debian-native.docker
+index efd55cb6e0e..02ccaf98fd1 100644
+--- a/tests/docker/dockerfiles/debian-native.docker
++++ b/tests/docker/dockerfiles/debian-native.docker
+@@ -26,13 +26,16 @@ RUN apt update && \
+ RUN apt update && \
+     DEBIAN_FRONTEND=3Dnoninteractive eatmydata \
+     apt install -y --no-install-recommends \
++        bison \
+         cscope \
+         genisoimage \
+         exuberant-ctags \
++        flex \
+         global \
+         libbz2-dev \
+         liblzo2-dev \
+         libgcrypt20-dev \
++        libglib2.0-dev \
+         libfdt-dev \
+         librdmacm-dev \
+         libsasl2-dev \
+diff --git a/tests/docker/dockerfiles/debian-riscv64-cross.docker b/tests/d=
+ocker/dockerfiles/debian-riscv64-cross.docker
+index 594d97982c1..f5553afc2e1 100644
+--- a/tests/docker/dockerfiles/debian-riscv64-cross.docker
++++ b/tests/docker/dockerfiles/debian-riscv64-cross.docker
+@@ -17,12 +17,15 @@ RUN apt update && \
+ # Install common build utilities
+ RUN DEBIAN_FRONTEND=3Dnoninteractive eatmydata apt install -yy \
+     bc \
++    bison \
+     build-essential \
+     ca-certificates \
+     debian-ports-archive-keyring \
+     dpkg-dev \
++    flex \
+     gettext \
+     git \
++    libglib2.0-dev \
+     ninja-build \
+     pkg-config \
+     python3
+diff --git a/tests/docker/dockerfiles/debian-tricore-cross.docker b/tests/d=
+ocker/dockerfiles/debian-tricore-cross.docker
+index d8df2c61170..9191aafc7f3 100644
+--- a/tests/docker/dockerfiles/debian-tricore-cross.docker
++++ b/tests/docker/dockerfiles/debian-tricore-cross.docker
+@@ -16,9 +16,11 @@ MAINTAINER Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+ RUN apt update && \
+     DEBIAN_FRONTEND=3Dnoninteractive apt install -yy eatmydata && \
+     DEBIAN_FRONTEND=3Dnoninteractive eatmydata apt install -yy \
++       bison \
+        bzip2 \
+        ca-certificates \
+        ccache \
++       flex \
+        g++ \
+        gcc \
+        git \
+diff --git a/tests/docker/dockerfiles/debian10.docker b/tests/docker/docker=
+files/debian10.docker
+index b414af1b9f7..06b8d9d6b0f 100644
+--- a/tests/docker/dockerfiles/debian10.docker
++++ b/tests/docker/dockerfiles/debian10.docker
+@@ -17,16 +17,19 @@ RUN apt update && \
+     DEBIAN_FRONTEND=3Dnoninteractive apt install -yy eatmydata && \
+     DEBIAN_FRONTEND=3Dnoninteractive eatmydata \
+     apt install -y --no-install-recommends \
++        bison \
+         bc \
+         build-essential \
+         ca-certificates \
+         ccache \
+         clang \
+         dbus \
++        flex \
+         gdb-multiarch \
+         gettext \
+         git \
+         libffi-dev \
++        libglib2.0-dev \
+         libncurses5-dev \
+         ninja-build \
+         pkg-config \
+diff --git a/tests/docker/dockerfiles/fedora-i386-cross.docker b/tests/dock=
+er/dockerfiles/fedora-i386-cross.docker
+index 13328e6081f..ae009a203f5 100644
+--- a/tests/docker/dockerfiles/fedora-i386-cross.docker
++++ b/tests/docker/dockerfiles/fedora-i386-cross.docker
+@@ -1,12 +1,15 @@
+ FROM registry.fedoraproject.org/fedora:34
+=20
+ ENV PACKAGES \
++    bison \
+     bzip2 \
+     ccache \
+     diffutils \
+     findutils \
++    flex \
+     gcc \
+     git \
++    glib2-devel \
+     libffi-devel.i686 \
+     libselinux-devel.i686 \
+     libtasn1-devel.i686 \
+diff --git a/tests/docker/dockerfiles/fedora-win32-cross.docker b/tests/doc=
+ker/dockerfiles/fedora-win32-cross.docker
+index aad39dd97ff..9ae8eda39f7 100644
+--- a/tests/docker/dockerfiles/fedora-win32-cross.docker
++++ b/tests/docker/dockerfiles/fedora-win32-cross.docker
+@@ -2,14 +2,17 @@ FROM registry.fedoraproject.org/fedora:33
+=20
+ # Please keep this list sorted alphabetically
+ ENV PACKAGES \
++    bison \
+     bc \
+     bzip2 \
+     ccache \
+     diffutils \
+     findutils \
++    flex \
+     gcc \
+     gettext \
+     git \
++    glib2-devel \
+     hostname \
+     make \
+     meson \
+diff --git a/tests/docker/dockerfiles/fedora-win64-cross.docker b/tests/doc=
+ker/dockerfiles/fedora-win64-cross.docker
+index 9a224a619bd..c59a130d001 100644
+--- a/tests/docker/dockerfiles/fedora-win64-cross.docker
++++ b/tests/docker/dockerfiles/fedora-win64-cross.docker
+@@ -2,13 +2,16 @@ FROM registry.fedoraproject.org/fedora:33
+=20
+ # Please keep this list sorted alphabetically
+ ENV PACKAGES \
++    bison \
+     bc \
+     bzip2 \
+     ccache \
+     diffutils \
+     findutils \
++    flex \
+     gcc \
+     gettext \
++    glib2-devel \
+     git \
+     hostname \
+     make \
+diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/dockerfi=
+les/fedora.docker
+index c6fd7e1113d..b19ef01bf7d 100644
+--- a/tests/docker/dockerfiles/fedora.docker
++++ b/tests/docker/dockerfiles/fedora.docker
+@@ -2,6 +2,7 @@ FROM registry.fedoraproject.org/fedora:33
+=20
+ # Please keep this list sorted alphabetically
+ ENV PACKAGES \
++    bison \
+     SDL2-devel \
+     SDL2_image-devel \
+     alsa-lib-devel \
+@@ -20,6 +21,7 @@ ENV PACKAGES \
+     device-mapper-multipath-devel \
+     diffutils \
+     findutils \
++    flex \
+     gcc \
+     gcc-c++ \
+     gcovr \
+diff --git a/tests/docker/dockerfiles/opensuse-leap.docker b/tests/docker/d=
+ockerfiles/opensuse-leap.docker
+index 3bbdb67f4fa..b868ca71982 100644
+--- a/tests/docker/dockerfiles/opensuse-leap.docker
++++ b/tests/docker/dockerfiles/opensuse-leap.docker
+@@ -5,6 +5,7 @@ ENV PACKAGES \
+     Mesa-devel \
+     alsa-lib-devel \
+     bc \
++    bison \
+     brlapi-devel \
+     bzip2 \
+     ca-certificates \
+@@ -15,6 +16,7 @@ ENV PACKAGES \
+     dbus-1 \
+     diffutils \
+     findutils \
++    flex \
+     gcc \
+     gcc-c++ \
+     gcovr \
+diff --git a/tests/docker/dockerfiles/ubuntu.docker b/tests/docker/dockerfi=
+les/ubuntu.docker
+index f0e0180d215..5667ef592cf 100644
+--- a/tests/docker/dockerfiles/ubuntu.docker
++++ b/tests/docker/dockerfiles/ubuntu.docker
+@@ -11,9 +11,11 @@
+=20
+ FROM docker.io/library/ubuntu:20.04
+ ENV PACKAGES \
++    bison \
+     ccache \
+     clang \
+     dbus \
++    flex \
+     gcc \
+     gettext \
+     git \
+@@ -30,6 +32,7 @@ ENV PACKAGES \
+     libfdt-dev \
+     libffi-dev \
+     libgbm-dev \
++    libglib2.0-dev \
+     libgnutls28-dev \
+     libgtk-3-dev \
+     libibverbs-dev \
+diff --git a/tests/docker/dockerfiles/ubuntu1804.docker b/tests/docker/dock=
+erfiles/ubuntu1804.docker
+index 450fd06d0d5..ce7d15c03e2 100644
+--- a/tests/docker/dockerfiles/ubuntu1804.docker
++++ b/tests/docker/dockerfiles/ubuntu1804.docker
+@@ -1,6 +1,7 @@
+ FROM docker.io/library/ubuntu:18.04
+ ENV PACKAGES \
+     bc \
++    bison \
+     bsdmainutils \
+     bzip2 \
+     ca-certificates \
+@@ -11,6 +12,7 @@ ENV PACKAGES \
+     diffutils \
+     exuberant-ctags \
+     findutils \
++    flex \
+     g++ \
+     gcc \
+     gcovr \
+diff --git a/tests/docker/dockerfiles/ubuntu2004.docker b/tests/docker/dock=
+erfiles/ubuntu2004.docker
+index 15a026be091..d39d4ea07f2 100644
+--- a/tests/docker/dockerfiles/ubuntu2004.docker
++++ b/tests/docker/dockerfiles/ubuntu2004.docker
+@@ -1,5 +1,6 @@
+ FROM docker.io/library/ubuntu:20.04
+ ENV PACKAGES \
++    bison \
+     bc \
+     bsdmainutils \
+     bzip2 \
+@@ -11,6 +12,7 @@ ENV PACKAGES \
+     diffutils \
+     exuberant-ctags \
+     findutils \
++    flex \
+     g++ \
+     gcc \
+     gcovr \
+
+--MP_/AlCx7/Xy2X4zdVm0RGca5Hy--
 
