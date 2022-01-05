@@ -2,72 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4A2D485B42
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 23:04:53 +0100 (CET)
-Received: from localhost ([::1]:50708 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFEF0485A96
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 22:27:19 +0100 (CET)
+Received: from localhost ([::1]:54132 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5EOq-0002xq-Pl
-	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 17:04:52 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59996)
+	id 1n5DoU-0004D6-KZ
+	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 16:27:18 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:32924)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <agarwal.aakarshit13@gmail.com>)
- id 1n5Dg9-0008TS-Iw
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 16:18:41 -0500
-Received: from [2a00:1450:4864:20::22f] (port=42770
- helo=mail-lj1-x22f.google.com)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1n5DlD-00010J-0R; Wed, 05 Jan 2022 16:23:55 -0500
+Received: from [2607:f8b0:4864:20::930] (port=35447
+ helo=mail-ua1-x930.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <agarwal.aakarshit13@gmail.com>)
- id 1n5Dg7-0006x4-HW
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 16:18:41 -0500
-Received: by mail-lj1-x22f.google.com with SMTP id q8so857324ljp.9
- for <qemu-devel@nongnu.org>; Wed, 05 Jan 2022 13:18:38 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1n5DlB-0007pV-6f; Wed, 05 Jan 2022 16:23:54 -0500
+Received: by mail-ua1-x930.google.com with SMTP id o20so879269uat.2;
+ Wed, 05 Jan 2022 13:23:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:from:date:message-id:subject:to;
- bh=SluVmR7Fs/trTBclQLpW3E8eiIEa8he8QqbsNo8wu04=;
- b=Kj8AliP5uGab8ESAXKN/vrnn/KgSo2aGvkXj0wqVbHFZdFtaSXDkMDZOEvkDjeX95T
- 4Iy7AOtS5l0Z6xNezbNPWNnn5mu7/pelNVaBa4yJIjupL70DhhY9JJE4EK7iTpQSkayn
- anypnXn5NzsctzgHZARVn55Gt+ufPwuHv59veeeJgSXlxtlsDbhgq4mtH3Vifbqrdgdw
- ULfY2AQS70Wk3/pwsVocwHFZe+sTHs0aXZ0buCJMSn1CXTYox8jFKGNJf+pawMCWxNRP
- LelWTlQyxXxOds/2P+JSm3IpJIBVqpvGxi4ziaEe1RnKkiX/ho+NXnWzVA+V5vZ82PA9
- BzHA==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=KOXQLeMVOI+HCr/OJP1lcs2Z44BdQW0Tl6se6hCxA6U=;
+ b=gv721oWrXnxxNZJa+XivDb53wcQ32Eg9LnzVrcrLceWqeKAV+zFMZ10RmsBFC8OUYU
+ pk+3B6q9qvBDhROT7Qk41Uy2En9vh3J07amMr5Z2ZOaO/H8jLpsXpvyVPlKyV82QNEqD
+ Lbg7s7qVbz2Bt7X+iB1b3u5SKNxMWfm3fsYExRyimdZx+CGZnUFjnniEvx+lY5BvsQCk
+ mcNtV1tdw82ipIwUqbktAJFh94UKV77Gp1Z/c0QXKzOEJPimHGAKh9HU62tWAAjukiJV
+ p904mAtOHCQCe3Mqu6O+0IIQF+sGwVPV2M2j0yJC8TbAUFKXzzi7ypudd9yW2JE7DKB/
+ PIuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=SluVmR7Fs/trTBclQLpW3E8eiIEa8he8QqbsNo8wu04=;
- b=VMV3I3IAQJSMtIsTHE1SJwWUyBmEe+ib0225IVM/aI7Mytg5AYOkZlAmp9BSGyfl7+
- dsdR/nuoHuXcCedTodgXbOoyV7Avlkv+K52Tvr3nH0Xgczid5AB6N5PPyVRxkYyeVV5i
- NADT06NT+XqgFHN5dC3uwPC6OahTicXIkviaOzZ+Ca1iYX8kLgWMk2RGqvJw3b4/xUG/
- kmz3GzXxuELMGZRoxaGGf0B2vR+4oos532ICS8vO7wNtVhd0LUwCsHayzgVdCOMxvNsF
- iwAIiUgnXw006ttw94N4Bxv6QwCN3rI7m86BnfCJPBdhz3VZq/qBXNgiffgRzLQaKYPq
- FuGw==
-X-Gm-Message-State: AOAM532taIVF0wZETrOpwpOCOLyaXBrCOldKRCzZQ4tMBNTk0NWp1Hd/
- g3DZ2OxMCerm1Q1OixUYxq6p/xy9BV0PfLuNSqeFElFyI7x/fw==
-X-Google-Smtp-Source: ABdhPJxv/sPH12kJ0mVx8X42t/P4Hurpss0X6nh7/+THQWkaTB52UZX5WKOYZkcAuu4IHnA9Av5FUxadezF+GQH4ffM=
-X-Received: by 2002:a2e:9011:: with SMTP id h17mr42315462ljg.528.1641417516340; 
- Wed, 05 Jan 2022 13:18:36 -0800 (PST)
-MIME-Version: 1.0
-From: Aakarshit Agarwal <agarwal.aakarshit13@gmail.com>
-Date: Thu, 6 Jan 2022 02:48:25 +0530
-Message-ID: <CALiXuoZkFzY5hLJoshwH-U=mjLssgnjGsxKOY1tSJE=k-QDhqA@mail.gmail.com>
-Subject: How to get started with contribution for GSOC'22
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=KOXQLeMVOI+HCr/OJP1lcs2Z44BdQW0Tl6se6hCxA6U=;
+ b=dL+65hX03xR29C+gx/fmZv3it3aBzNdjSBi3/3bYJtfQoLxc52KtA31dkdw8HreFsT
+ HvNUXWeooQUTUirMUuTMDUTadxHtbpUjL7zbAetMT3BnLILgv+sfEd1q87K7E3hFbH5I
+ wFKraE4ObQWaEjhY2WA+QWFbpp4mY1m7YX6sfn00912t71UY1/UMrSe75462+I/uHTe6
+ 2pr61F9omti9gZXO0IsgU46jGrDwDg8vfVhcsW8Lt7Hj9WTFtBc8S6B2QD+v95Ec9epS
+ U4r7mYJAm/Dc2Ndz7dcScupHGVZEk6zHgLNRTZ6SiTNqylGk0o1UqSO6hY2ToWvvmMxW
+ ibFw==
+X-Gm-Message-State: AOAM530yVAkO51ObmbS5tqb4hThNzGGBVLnTPTHvY0zpnXfyV3dmU8Hx
+ uTHbRTU442YfUGHXzmbG0uqUg2UCzBY=
+X-Google-Smtp-Source: ABdhPJy9hDUIIa+J3OOx8KxbzIdF5iMnhTK5GxXNS573nMVsOB5SfuqW7kJdiH2lKNYOyLrkQe/+8w==
+X-Received: by 2002:a67:3311:: with SMTP id z17mr17165533vsz.4.1641417831422; 
+ Wed, 05 Jan 2022 13:23:51 -0800 (PST)
+Received: from rekt.ibmuc.com ([2804:431:c7c7:f4d8:aa07:335f:99e0:a6e7])
+ by smtp.gmail.com with ESMTPSA id m5sm65922vke.43.2022.01.05.13.23.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 05 Jan 2022 13:23:51 -0800 (PST)
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Content-Type: multipart/alternative; boundary="000000000000fd659605d4dc4be9"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::22f
+Subject: [PATCH v2 00/18] user creatable pnv-phb3/pnv-phb4 devices 
+Date: Wed,  5 Jan 2022 18:23:20 -0300
+Message-Id: <20220105212338.49899-1-danielhb413@gmail.com>
+X-Mailer: git-send-email 2.33.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::930
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::22f;
- envelope-from=agarwal.aakarshit13@gmail.com; helo=mail-lj1-x22f.google.com
-X-Spam_score_int: 25
-X-Spam_score: 2.5
-X-Spam_bar: ++
-X-Spam_report: (2.5 / 5.0 requ) BAYES_40=-0.001, DKIM_SIGNED=0.1,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::930;
+ envelope-from=danielhb413@gmail.com; helo=mail-ua1-x930.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_IMAGE_ONLY_08=1.651,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_REMOTE_IMAGE=0.01 autolearn=no autolearn_force=no
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Wed, 05 Jan 2022 17:00:05 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,40 +83,130 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: danielhb413@gmail.com, qemu-ppc@nongnu.org, clg@kaod.org,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000fd659605d4dc4be9
-Content-Type: text/plain; charset="UTF-8"
+Hi,
 
-Hello Sir/Ma'am,
+This second version was rebased with upstream and includes fixed/amended
+versions of relevant patches that were sent to the mailing list and aren't
+upstream yet. In this process 4 patches from v1 were discarded, becoming
+either irrelevant or squashed into others.
 
-I am Aakarshit Agarwal, final year student pursuing B.Tech in computer
-science with a specialization in DevOps from UPES Dehradun. I love the
-topic and technologies you used for GSoC'21. I would love to contribute to
-your organization for GSoC'22 and know more about it.
+The patches are organized as follows:
 
-Can you please tell me how to get started?
+- patches 1-4: enable user creatable phb3/phb4 root ports
+- patches 5-10: enable user creatable pnv-phb3 devices
+- patches 11-18: enable user creatable pnv-phb4 devices
 
-Hoping to hear from you soon.
+Here are some examples of what we're able to do with this series:
 
-Regards,
-Aakarshit Agarwal
+* powernv8 machine with -nodefaults,2 pnv-phb3s with 'pcie.N' name,
+one of them with a root port and a netcard:
 
---000000000000fd659605d4dc4be9
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+$ qemu-system-ppc64 -m 4G -machine powernv8,accel=tcg -smp 2,cores=2,threads=1 \
+-bios skiboot.lid  -kernel vmlinux -initrd buildroot.rootfs.cpio \
+-append 'console=hvc0 ro xmon=on' \
+-nodefaults \
+-serial mon:stdio -nographic \
+-device pnv-phb3,chip-id=0,index=0,id=pcie.0 \
+-device pnv-phb3,chip-id=0,index=2,id=pcie.2 \
+-device pnv-phb3-root-port,bus=pcie.2,id=pcie.5 \
+-netdev bridge,helper=/usr/libexec/qemu-bridge-helper,br=virbr0,id=net0 \
+-device e1000e,netdev=net0,mac=C0:ff:EE:00:01:04,bus=pcie.5,addr=0x0
 
-<div dir=3D"ltr">Hello Sir/Ma&#39;am,<div><br></div><div>I am Aakarshit Aga=
-rwal, final year student pursuing B.Tech in computer science with a special=
-ization in DevOps from UPES Dehradun. I love the topic and technologies you=
- used for=C2=A0GSoC&#39;21. I would love to contribute to your organization=
- for GSoC&#39;22 and know more about it.=C2=A0</div><div><br></div><div>Can=
- you please tell me how to get started?</div><div><br></div><div>Hoping=C2=
-=A0to hear from you soon.</div><div><br></div><div>Regards,</div><div>Aakar=
-shit Agarwal</div><br><br><br><img width=3D"0" height=3D"0" class=3D"mailtr=
-ack-img" alt=3D"" style=3D"display:flex" src=3D"https://mailtrack.io/trace/=
-mail/0c38526512abf746d053fb2f251e180aa63b4b9a.png?u=3D8054074"></div>
+* powernv9 machine with -nodefaults, 3 of the available 12 pnv-phb4 devices
+created, 2 root ports, one of the port with a pcie-pci-bridge and
+devices connected in the bridge:
 
---000000000000fd659605d4dc4be9--
+$ qemu-system-ppc64 -m 4G -machine powernv9 \
+-smp 2,sockets=2,cores=1,threads=1 \
+-accel tcg,thread=multi -bios skiboot.lid \
+-kernel vmlinux -initrd buildroot.rootfs.cpio \
+-append 'console=hvc0 ro xmon=on' \
+-nodefaults \
+-serial mon:stdio -nographic \
+-device pnv-phb4,chip-id=0,index=0,id=pcie.0 \
+-device pnv-phb4,chip-id=0,index=4,id=pcie.1 \
+-device pnv-phb4,chip-id=1,index=3,id=pcie.2 \
+-device pnv-phb4-root-port,id=root0,bus=pcie.2 \
+-device pnv-phb4-root-port,id=root1,bus=pcie.1 \
+-device pcie-pci-bridge,id=bridge1,bus=root0,addr=0x0 \
+-device nvme,bus=bridge1,addr=0x1,drive=drive0,serial=1234 \
+-drive file=./simics-disk.raw,if=none,id=drive0,format=raw,cache=none \
+-device e1000e,netdev=net0,mac=C0:ff:EE:00:01:04,bus=bridge1,addr=0x3 \
+-netdev bridge,helper=/usr/libexec/qemu-bridge-helper,br=virbr0,id=net0 \
+-device nec-usb-xhci,bus=bridge1,addr=0x2 
+
+
+* powernv8/9 with default settings can be used as usual. The work done
+in this series didn't change the name of the buses created by the
+default root ports (named pcie.0...N):
+
+$ qemu-system-ppc64 -m 4G \
+-machine powernv9 -smp 2,sockets=2,cores=1,threads=1  \
+-accel tcg,thread=multi -bios skiboot.lid  \
+-kernel vmlinux -initrd buildroot.rootfs.cpio \
+-append 'console=hvc0 ro xmon=on' \
+-serial mon:stdio -nographic \
+-device pcie-pci-bridge,id=bridge1,bus=pcie.0,addr=0x0 \
+-device nvme,bus=bridge1,addr=0x1,drive=drive0,serial=1234  \
+-drive file=./simics-disk.raw,if=none,id=drive0,format=raw,cache=none \
+-device e1000e,netdev=net0,mac=C0:ff:EE:00:01:04,bus=bridge1,addr=0x3 \
+-netdev bridge,helper=/usr/libexec/qemu-bridge-helper,br=virbr0,id=net0 \
+-device nec-usb-xhci,bus=bridge1,addr=0x2 
+
+
+Changes from v1:
+- rebased with upstream at 7d4ae4d497807
+- added relevant patches that aren't upstream yet from "ppc/pnv:
+Preliminary cleanups before user created PHBs" [1] and "ppc/pnv: Add
+support for user created PHB3/PHB4 devices" [2] series
+- renamed phb3/phb4 default buses name to 'pnv-phb3-root' and
+'pnv-phb4-root'
+- renamed pnv_pec_get_phb_id() to pnv_phb4_pec_get_phb_id()
+- patch 'introduce pnv_pec_init_stack_xscom()' moved to patch 16 to
+be closer with patch 17 that uses it
+- v1 link: https://lists.gnu.org/archive/html/qemu-devel/2021-12/msg04427.html
+
+[1] https://lists.gnu.org/archive/html/qemu-devel/2021-12/msg03810.html
+[2] https://lists.gnu.org/archive/html/qemu-devel/2021-12/msg01548.html
+
+
+Cédric Le Goater (5):
+  ppc/pnv: Attach PHB3 root port device when defaults are enabled
+  ppc/pnv: Introduce support for user created PHB3 devices
+  ppc/pnv: Reparent user created PHB3 devices to the PnvChip
+  ppc/pnv: Complete user created PHB3 devices
+  ppc/pnv: Move num_phbs under Pnv8Chip
+
+Daniel Henrique Barboza (13):
+  pnv_phb3.c: add unique chassis and slot for pnv_phb3_root_port
+  pnv_phb4.c: add unique chassis and slot for pnv_phb4_root_port
+  pnv_phb4.c: make pnv-phb4-root-port user creatable
+  pnv_phb4.c: check if root port exists in rc_config functions
+  pnv_phb3.h: change TYPE_PNV_PHB3_ROOT_BUS name
+  pnv_phb4.c: introduce pnv_phb4_set_stack_phb_props()
+  pnv_phb4_pec.c: move pnv_pec_phb_offset() to pnv_phb4.c
+  pnv_phb4_pec: use pnv_phb4_pec_get_phb_id() in pnv_pec_dt_xscom()
+  pnv_phb4.h: turn phb into a pointer in struct PnvPhb4PecStack
+  pnv_phb4_pec.c: use 'default_enabled()' to init stack->phb
+  pnv_phb4.c: introduce pnv_pec_init_stack_xscom()
+  ppc/pnv: Introduce user creatable pnv-phb4 devices
+  pnv_phb4.c: change TYPE_PNV_PHB4_ROOT_BUS name
+
+ hw/pci-host/pnv_phb3.c         |  57 ++++++++--
+ hw/pci-host/pnv_phb4.c         | 193 ++++++++++++++++++++++++++++++---
+ hw/pci-host/pnv_phb4_pec.c     |  86 ++++++---------
+ hw/ppc/pnv.c                   |  55 ++++++++--
+ include/hw/pci-host/pnv_phb3.h |   4 +-
+ include/hw/pci-host/pnv_phb4.h |  15 ++-
+ include/hw/ppc/pnv.h           |   8 +-
+ 7 files changed, 322 insertions(+), 96 deletions(-)
+
+-- 
+2.33.1
+
 
