@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC0634859B1
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 20:58:50 +0100 (CET)
-Received: from localhost ([::1]:57782 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3ECA04859B5
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 21:00:21 +0100 (CET)
+Received: from localhost ([::1]:60806 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5CQr-0002mE-K6
-	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 14:58:49 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35638)
+	id 1n5CSK-0004xF-B9
+	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 15:00:20 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35790)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1n5COc-0001Px-Ve
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 14:56:31 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33764)
+ id 1n5CPE-0001pq-IG
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 14:57:08 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36816)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1n5COZ-0004op-WC
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 14:56:29 -0500
+ id 1n5CPB-0004xQ-ID
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 14:57:06 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641412587;
+ s=mimecast20190719; t=1641412624;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding;
  bh=xinduQ+JDgJIRvz+qrgEapQTR3szJWe1SLpGJIiKWjY=;
- b=i+Y8c2tFdLiTMjym9VT5oxYXJ2Wh5ycmQi4M9rC24dgVfw/ROgdhJpo3WDcQEi0mgiqhjR
- Bt4Fxgkfr1FepshW//EFvzKOcXdOHpUiI2rAAMRP05W1hhPXJALYas9gmBPZZ2ImtYnFPM
- BAkwQx2PVvwY2DUfrPIC9zZQI/XmMwM=
+ b=MH/WokX4vKBExlZ3ZGoNADkcY+oCLVQALvc+WxraaIzmhg3ZYqCo7AimoDuHt10+A0AgfS
+ tI6v5ljEo3EK+mivoeurdnexwDKnFkwCDPMmXUhae1gZB5Pz4j9GtatUOqAsO/4g/x1NeI
+ BaeZQ/R7nOtCLAAqBO3NNIWWvxZTAxk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-470-3R7l7KbkMaqxIQ6m8_CHwQ-1; Wed, 05 Jan 2022 14:56:20 -0500
-X-MC-Unique: 3R7l7KbkMaqxIQ6m8_CHwQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-227-1hG5vrzUN3-37cDSHhdUNA-1; Wed, 05 Jan 2022 14:57:01 -0500
+X-MC-Unique: 1hG5vrzUN3-37cDSHhdUNA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 72C5A81EE64;
- Wed,  5 Jan 2022 19:56:19 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A1B8764083;
+ Wed,  5 Jan 2022 19:57:00 +0000 (UTC)
 Received: from [172.30.41.16] (unknown [10.2.16.255])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A5E181948C;
- Wed,  5 Jan 2022 19:56:03 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7A04D5BE14;
+ Wed,  5 Jan 2022 19:56:43 +0000 (UTC)
 Subject: [PATCH] vfio/pci: Generate more relevant log messages for reset
  failures
 From: Alex Williamson <alex.williamson@redhat.com>
 To: alex.williamson@redhat.com, qemu-devel@nongnu.org
-Date: Wed, 05 Jan 2022 12:56:03 -0700
-Message-ID: <164141253308.4193016.17283187574468953902.stgit@omen>
+Date: Wed, 05 Jan 2022 12:56:42 -0700
+Message-ID: <164141259622.4193261.8252690438434562107.stgit@omen>
 User-Agent: StGit/1.0-8-g6af9-dirty
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124;
+Received-SPF: pass client-ip=170.10.129.124;
  envelope-from=alex.williamson@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
@@ -79,7 +79,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: msg@redhat.com, kraxel@redhat.com
+Cc: kraxel@redhat.com, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
