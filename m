@@ -2,60 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 501ED485867
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 19:33:34 +0100 (CET)
-Received: from localhost ([::1]:41068 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 901A34858B3
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 19:54:19 +0100 (CET)
+Received: from localhost ([::1]:53440 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5B6L-0007Ag-Dn
-	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 13:33:33 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43598)
+	id 1n5BQP-0008Fg-L6
+	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 13:54:17 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47410)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gregkh@linuxfoundation.org>)
- id 1n5B4g-0004xa-Bj
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 13:31:50 -0500
-Received: from dfw.source.kernel.org ([139.178.84.217]:48404)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gregkh@linuxfoundation.org>)
- id 1n5B4Y-0001xg-DI
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 13:31:49 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 3B0A0618A3;
- Wed,  5 Jan 2022 18:31:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EB1A9C36AE3;
- Wed,  5 Jan 2022 18:31:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1641407496;
- bh=zE+7ffio+O9uJrwxJfyDIOj3L0z6ifW32qNmwf1FA3U=;
- h=From:To:Cc:Subject:Date:From;
- b=eeydPoE84v4MKL6GSE8oBVVlpoXS/9hT0UqM8e+bjRkHeoK8duRTH2+ixq8gepOdd
- fd324jb4J9onsTE9ZSJGbM655PSF+Ni0odw0MlebHnzdvj7ugY+ov2LN4ce2UfSCWk
- kGcGOCAbM3fAXiwSL5ekNoVexRit9n770PaTxCXo=
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: linux-kernel@vger.kernel.org
-Subject: [PATCH] qemu_fw_cfg: use default_groups in kobj_type
-Date: Wed,  5 Jan 2022 19:31:33 +0100
-Message-Id: <20220105183133.2812848-1-gregkh@linuxfoundation.org>
-X-Mailer: git-send-email 2.34.1
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1n5BJs-0005fk-Qo
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 13:47:32 -0500
+Received: from [2a00:1450:4864:20::52d] (port=38639
+ helo=mail-ed1-x52d.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1n5BJq-0004S4-IX
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 13:47:31 -0500
+Received: by mail-ed1-x52d.google.com with SMTP id bm14so164946edb.5
+ for <qemu-devel@nongnu.org>; Wed, 05 Jan 2022 10:47:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=o09pkn08ZL1i7wzAD/DipOPmSqldC/4ZdRmQEyf9tdI=;
+ b=BmKidgrWpZHIGpjpFtHryV5Oiqu/52v6bFTQvZcAaOHZzhspTbf5XWCDVBTsll4fiR
+ r/Dzxa/GbQlLCrXGMLojdC462yim2RH7iWBYNGfmMyy1CfwG1v61Y+TrbnK8aGyWGGmx
+ xhmGUbYlDEUQ8CYug8rWA/ioWJKQQbBWXADZmu+YysaIfr5z64jcR9qcIcnWKn1i9Jgc
+ S9hMhtTFf8yhB16+iQ5BI6yup+PuACOZM6G3xT3sjaR3vFEGVqYRoTxKJ80tUBYUt1+Q
+ Gvpfhb8kfCTMTA3sIygYp+7yrHEP0Cl2uVFVbrbEfHJ2yUhFRbEsBy43iT2vNYR1Xz3o
+ kCaA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=o09pkn08ZL1i7wzAD/DipOPmSqldC/4ZdRmQEyf9tdI=;
+ b=oDW9bsX+eowVHRDXU2ibZ0A3x1REfgZeUfaPsK0N0id0X+OLmhnzUiZye/18WyF3c5
+ LScFF7E3vlWYlqrHDAcQabxY3RkCcT2DuRlNx8CBNHXMp603nsOKf0reFgUR1ykPU24T
+ QF643bgfwOoXIZpMzO8W+IXpWIkKOdPTIXjahEHXpCuzNdURoZAv1eRmZzyYxdzW3mCU
+ h/9gWm0xV3NokuYwh2lyACm7XB27JdLE+09SvcriwwZd7dQwk0wWnLSivoFqoSsepy3f
+ CYRBCiIQW3XbuFPkFThenkx4Ea1H5VT2Nz3IYOknOB9aKOXeu7mfnVbv5hZ0ZqjAWyZC
+ 5BiQ==
+X-Gm-Message-State: AOAM533suYnKGzaimA1lhEBSOe7nk5PdjzBd4A7RCXtkWsWJZLStb3cV
+ xvvnz3dU0UINYlAR8vDwWmiVQA==
+X-Google-Smtp-Source: ABdhPJztQeogoMofK65ldvmk98ywdnGwrxiOq5imPOoiSXkLQs6W/sx3F06nj/BKQtGLOj24/irPPQ==
+X-Received: by 2002:a17:906:d553:: with SMTP id
+ cr19mr41883526ejc.400.1641408448958; 
+ Wed, 05 Jan 2022 10:47:28 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id sd5sm12502472ejc.37.2022.01.05.10.47.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 05 Jan 2022 10:47:28 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 5E3F11FFB7;
+ Wed,  5 Jan 2022 18:47:27 +0000 (GMT)
+References: <00a79b65-288f-f17c-abe4-fcfd3f7971fd@oth-regensburg.de>
+ <cover.1641309725.git.konrad.schwarz@siemens.com>
+ <79194a3cf9e3bd1df41401eeee901055b8702c7b.1641309725.git.konrad.schwarz@siemens.com>
+User-agent: mu4e 1.7.5; emacs 28.0.90
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Konrad Schwarz <konrad.schwarz@siemens.com>
+Subject: Re: [PATCH v2 4/5] RISC-V: Typed CSRs in gdbserver
+Date: Wed, 05 Jan 2022 18:43:32 +0000
+In-reply-to: <79194a3cf9e3bd1df41401eeee901055b8702c7b.1641309725.git.konrad.schwarz@siemens.com>
+Message-ID: <874k6ij9z4.fsf@linaro.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1898; h=from:subject;
- bh=zE+7ffio+O9uJrwxJfyDIOj3L0z6ifW32qNmwf1FA3U=;
- b=owGbwMvMwCRo6H6F97bub03G02pJDIlXn7Bed3q+1jA1e/uq2UVeKU9ZnnNHeyp92FnB5DNh3XS2
- qkvzO2JZGASZGGTFFFm+bOM5ur/ikKKXoe1pmDmsTCBDGLg4BWAiVfcZ5oqZLX4ttOKekBxfXfXaCM
- evtecXCjEs2HDaSdxTj+m9l0/7wdqlH7fsYmAPAQA=
-X-Developer-Key: i=gregkh@linuxfoundation.org; a=openpgp;
- fpr=F4B60CC5BF78C2214A313DCB3147D40DDB2DFB29
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=139.178.84.217;
- envelope-from=gregkh@linuxfoundation.org; helo=dfw.source.kernel.org
-X-Spam_score_int: -24
-X-Spam_score: -2.5
-X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.372,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52d
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x52d.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -68,58 +92,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Gabriel Somlo <somlo@cmu.edu>, qemu-devel@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bin.meng@windriver.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Ralf Ramsauer <ralf.ramsauer@oth-regensburg.de>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There are currently 2 ways to create a set of sysfs files for a
-kobj_type, through the default_attrs field, and the default_groups
-field.  Move the firmware qemu_fw_cfg sysfs code to use default_groups
-field which has been the preferred way since aa30f47cf666 ("kobject: Add
-support for default attribute groups to kobj_type") so that we can soon
-get rid of the obsolete default_attrs field.
 
-Cc: Gabriel Somlo <somlo@cmu.edu>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: qemu-devel@nongnu.org
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
----
- drivers/firmware/qemu_fw_cfg.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+Konrad Schwarz <konrad.schwarz@siemens.com> writes:
 
-diff --git a/drivers/firmware/qemu_fw_cfg.c b/drivers/firmware/qemu_fw_cfg.c
-index 172c751a4f6c..c62f05420d32 100644
---- a/drivers/firmware/qemu_fw_cfg.c
-+++ b/drivers/firmware/qemu_fw_cfg.c
-@@ -395,7 +395,7 @@ static void fw_cfg_sysfs_cache_cleanup(void)
- 	}
- }
- 
--/* default_attrs: per-entry attributes and show methods */
-+/* per-entry attributes and show methods */
- 
- #define FW_CFG_SYSFS_ATTR(_attr) \
- struct fw_cfg_sysfs_attribute fw_cfg_sysfs_attr_##_attr = { \
-@@ -428,6 +428,7 @@ static struct attribute *fw_cfg_sysfs_entry_attrs[] = {
- 	&fw_cfg_sysfs_attr_name.attr,
- 	NULL,
- };
-+ATTRIBUTE_GROUPS(fw_cfg_sysfs_entry);
- 
- /* sysfs_ops: find fw_cfg_[entry, attribute] and call appropriate show method */
- static ssize_t fw_cfg_sysfs_attr_show(struct kobject *kobj, struct attribute *a,
-@@ -454,7 +455,7 @@ static void fw_cfg_sysfs_release_entry(struct kobject *kobj)
- 
- /* kobj_type: ties together all properties required to register an entry */
- static struct kobj_type fw_cfg_sysfs_entry_ktype = {
--	.default_attrs = fw_cfg_sysfs_entry_attrs,
-+	.default_groups = fw_cfg_sysfs_entry_groups,
- 	.sysfs_ops = &fw_cfg_sysfs_attr_ops,
- 	.release = fw_cfg_sysfs_release_entry,
- };
--- 
-2.34.1
+> GDB target descriptions support typed registers;
+> such that `info register X' displays not only the hex value of
+> register `X', but also the individual bitfields the register
+> comprises (if any), using textual labels if possible.
+>
+> This patch includes type information for GDB for
+> a large subset of the RISC-V Control and Status Registers (CSRs).
+>
+> Signed-off-by: Konrad Schwarz <konrad.schwarz@siemens.com>
+<snip>
 
+Not withstanding my general comments (wish) to eventually get rid of
+per-arch XML generation:
+
+>  static int riscv_gen_dynamic_csr_xml(CPUState *cs, int base_reg)
+>  {
+>      RISCVCPU *cpu =3D RISCV_CPU(cs);
+> @@ -163,21 +167,33 @@ static int riscv_gen_dynamic_csr_xml(CPUState *cs, =
+int base_reg)
+>      riscv_csr_predicate_fn predicate;
+>      int bitsize =3D 16 << env->misa_mxl_max;
+>      int i;
+> +    riscv_csr_operations *csr_op;
+> +    struct riscv_gdb_csr_tg const *csr_tg;
+>=20=20
+>      g_string_printf(s, "<?xml version=3D\"1.0\"?>");
+>      g_string_append_printf(s, "<!DOCTYPE feature SYSTEM \"gdb-target.dtd=
+\">");
+>      g_string_append_printf(s, "<feature>      name=3D\"org.gnu.gdb.riscv=
+.csr\">");
+
+With these changes does it still match the org.gnu.gdb.riscv.csr
+register description in gdb? Previously for custom XML I've used the
+org.qemu.ARCH.REGS form to distinguish between something GDB expects and
+something we invented (changed since 797920b952ea).
+
+>=20=20
+> -    for (i =3D 0; i < CSR_TABLE_SIZE; i++) {
+> -        predicate =3D csr_ops[i].predicate;
+> +    g_string_append(s, riscv_gdb_csr_types);
+> +
+> +    for (i =3D 0, csr_op =3D csr_ops, csr_tg =3D riscv_gdb_csr_type_grou=
+p;
+> +            i < CSR_TABLE_SIZE; ++csr_op, ++csr_tg, ++i) {
+> +        predicate =3D csr_op->predicate;
+>          if (predicate && (predicate(env, i) =3D=3D RISCV_EXCP_NONE)) {
+> -            if (csr_ops[i].name) {
+> -                g_string_append_printf(s, "<reg name=3D\"%s\"", csr_ops[=
+i].name);
+> +            if (csr_op->name) {
+> +                g_string_append_printf(s, "<reg name=3D\"%s\"", csr_op->=
+name);
+>              } else {
+>                  g_string_append_printf(s, "<reg name=3D\"csr%03x\"", i);
+>              }
+>              g_string_append_printf(s, " bitsize=3D\"%d\"", bitsize);
+> -            g_string_append_printf(s, " regnum=3D\"%d\"/>", base_reg + i=
+);
+> +            g_string_append_printf(s, " regnum=3D\"%d\"", base_reg + i);
+> +            if (csr_tg->gdb_type) {
+> +                g_string_append_printf(s, " type=3D\"%s\"", csr_tg->gdb_=
+type);
+> +            }
+> +            if (csr_tg->gdb_group) {
+> +                g_string_append_printf(s, " group=3D\"%s\"", csr_tg->gdb=
+_group);
+> +            }
+> +            g_string_append(s, " />\n");
+>          }
+>      }
+<snip>
+
+--=20
+Alex Benn=C3=A9e
 
