@@ -2,91 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E5E1485112
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 11:21:55 +0100 (CET)
-Received: from localhost ([::1]:43714 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 639064850EF
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 11:17:37 +0100 (CET)
+Received: from localhost ([::1]:37758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n53QY-0004Aq-On
-	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 05:21:54 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60254)
+	id 1n53MO-000096-4a
+	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 05:17:36 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60244)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1n53Jr-00075f-9g
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 05:15:01 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:25793)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1n53Jd-0004Na-Cx
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n53Jn-00074h-8S
  for qemu-devel@nongnu.org; Wed, 05 Jan 2022 05:14:55 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641377681;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=g8cxZLqsgOsG5cpt/NqS/pb3nncgQ/CIFJQhyArEQmI=;
- b=I5pYiiAyo3i233dWdyNJ8ofCiXn9nK1hmNhI9ZpXM95WR7E4fwxLS6Gf4kuj6UMmjT1LJ3
- jVpMGpxUD5TCos0TImUUp81IfQ6QTkg1qESDThnwdIIKsHI46u6qtuyLH3zCz/VjwOFGk/
- 9+oVwp8wbMwJqJMlNi9K9ghcUuLMK1A=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-673-Q2tcu24cPUiCSEBB4i0_gQ-1; Wed, 05 Jan 2022 05:14:40 -0500
-X-MC-Unique: Q2tcu24cPUiCSEBB4i0_gQ-1
-Received: by mail-wr1-f71.google.com with SMTP id
- e21-20020adf9bd5000000b001a472da8091so135165wrc.17
- for <qemu-devel@nongnu.org>; Wed, 05 Jan 2022 02:14:40 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=g8cxZLqsgOsG5cpt/NqS/pb3nncgQ/CIFJQhyArEQmI=;
- b=G5XBG1GM1WSOc8ECN80dcY4HGhXBRfF88tKQATQOampSCnGGULaRsPwFFPLwlocTo6
- CKgo3GqI5wDLYwrbvmh5/BGznuCU6DAeFdnpgzCWCbwcqE1eN7J1rpSZYgLEnRQjX277
- 6YYyM+lRFabqHpwgMk3YOLSS/d0BX0PNBhmtJoCRlFrcUj4FuyqqGWQ/1KqBUI2fHvwC
- rK1yuX1Dyo6UShFVcUvue45w/a0YSrihRqtNSA1xJWz7LmTHM3Fe85/1UTTxzL6J+jr5
- T5nxjlxqykMd7curoxXno/10+pIJM50AJjezn53S561ip6WXMZTo1diAw1ntqnCaw5Ay
- KHYw==
-X-Gm-Message-State: AOAM531COnDFCf6VCoZX16uXwtd9FoRvLG80rli/Bgmt/MKbxeBw7O8I
- qn1AOQxQAU9RdiWMonUPdSFtVaBm/W5Jqdj0l9cYtVyVF7a8AVUeQqPZmemBkE7LAQMuyNm0fF9
- ZQuSruZFibRDFUL0=
-X-Received: by 2002:adf:ef46:: with SMTP id c6mr47617105wrp.555.1641377679892; 
- Wed, 05 Jan 2022 02:14:39 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxJVVXFaA+zJtaJUlsnNI8saBsA/BDRhibnHCsAzGmvFhwjvLF8IcVyVCZcpgtzRCnDdLnnuw==
-X-Received: by 2002:adf:ef46:: with SMTP id c6mr47617093wrp.555.1641377679726; 
- Wed, 05 Jan 2022 02:14:39 -0800 (PST)
-Received: from [10.33.192.229] (nat-pool-str-t.redhat.com. [149.14.88.106])
- by smtp.gmail.com with ESMTPSA id b1sm45780534wrd.92.2022.01.05.02.14.38
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 05 Jan 2022 02:14:39 -0800 (PST)
-Message-ID: <ef74a520-313c-2705-3a87-aa5697f05f18@redhat.com>
-Date: Wed, 5 Jan 2022 11:14:38 +0100
+Received: from mout.kundenserver.de ([212.227.17.13]:52635)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n53Jl-0004Ng-BN
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 05:14:54 -0500
+Received: from [192.168.100.1] ([82.142.30.62]) by mrelayeu.kundenserver.de
+ (mreue107 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1N64JK-1mKtki0oPY-016NTU; Wed, 05 Jan 2022 11:14:44 +0100
+Message-ID: <cfcb5a41-7c02-8d23-02fd-048fa80d065d@vivier.eu>
+Date: Wed, 5 Jan 2022 11:14:43 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.4.0
-Subject: Re: [PATCH] gitlab-ci: Enable docs in the centos job
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20220104091240.160867-1-thuth@redhat.com>
- <87y23ujz4b.fsf@linaro.org>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <87y23ujz4b.fsf@linaro.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
+Subject: Re: [PATCH v4 2/2] linux-user: call set/getscheduler set/getparam
+ directly
+Content-Language: fr
+To: Tonis Tiigi <tonistiigi@gmail.com>, qemu-devel@nongnu.org
+References: <20220105041819.24160-1-tonistiigi@gmail.com>
+ <20220105041819.24160-3-tonistiigi@gmail.com>
+From: Laurent Vivier <laurent@vivier.eu>
+In-Reply-To: <20220105041819.24160-3-tonistiigi@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.372,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.057, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Provags-ID: V03:K1:RCIM0ADWRrdkGQUxinLL77rYeuUrz/PKyBW8ilhJtIAQ3xAd0SV
+ 0PjGUSIq/sjaQysJOqJazPVuWun855hlmZWFpfuZkSb71vXFFoD/S//f2uvCf181Z6e7T6x
+ eRFCcJXEe2nrwmaIXOjVLwiy96GAxAabI9kKqd2sbVDob8K7U4rGfJf6BDOv9EUALJJGd8y
+ wqQE1XN3PsRKI6mv0A6kw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:FnaHH9CQcN4=:OMjs4i1t0dk2pQhKChdFY4
+ dZzXYUIzv/6Z0Yb8SmvYDuWSf7Cd9N0R6Sn80jKRZtbG5C0tSwKK4+qm72QWmbqlu/1yDGUyZ
+ YC/N8RaB3LS8dJrwDi+qhizrPp51Y2AiFrAVj0yhdGBb66rxM0FbQv0Y3ZFcSg4h/EfBEQ1j2
+ y2o0eQwB4ejjPVcFRMu0gjqjtLDpspK8+PyPLt+WhnWl+40sCYHpy15jppK1t8CCG59RwzroA
+ OmOLVYTGi3PjgnSzaqqdnbFT/I3aQmimnarUzGb5Vt5QeYiLdC/m9/uvwxYL8TzhCITGKcFlQ
+ f3quT9yLiBUR+kvGYRubVyN9cSneNTLyBko9OXG3WCk/wiOMs4mYJrOfl4JL7kg2fveFTGi2o
+ oYyMRADseD4/TL7TgkkFm24tKbf11WLrKMpd+i80fJYU7UDWwJ1+YIy17Z8W7QFxGlsLjp+se
+ Gfn3gj19Sxz9gODDD3wDt+JNWBH2LqrKt3F4VjqNHqRAPP1scXDdATUQLm1Nrf/22+CbURbz8
+ ynwgbAymsReQ8dwkbKrQsEb4CBMO3gigBuJ+oObVHJQkMG0gRtO353uutOHj9xoqOje2WE43w
+ mhPhtI1uHFXctuopB8/p3NrkUeFAWEJwf2fIF9KDCqaOycMrkGgtQ+Pz++RlJuXjNP8gEobHT
+ B7h02/1hZ9xALsGYwiabKYp2xGAMqRhjUVr9e2zxNlHTPKo7iLFg3Y+ASnWydG1RkFs4=
+Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.057,
+ RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,30 +70,121 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 05/01/2022 10.44, Alex Bennée wrote:
+Le 05/01/2022 à 05:18, Tonis Tiigi a écrit :
+> There seems to be difference in syscall and libc definition of these
+> methods and therefore musl does not implement them (1e21e78bf7). Call
+> syscall directly to ensure the behavior of the libc of user application,
+> not the libc that was used to build QEMU.
 > 
-> Thomas Huth <thuth@redhat.com> writes:
+> Signed-off-by: Tonis Tiigi <tonistiigi@gmail.com>
+> ---
+>   linux-user/syscall.c      | 34 ++++++++++++++++++++++++----------
+>   linux-user/syscall_defs.h |  4 ++++
+>   2 files changed, 28 insertions(+), 10 deletions(-)
 > 
->> We just ran into a problem that the docs don't build on RHEL8 / CentOS 8
->> anymore. Seems like these distros are using one of the oldest Sphinx
->> versions that we still have to support. Thus enable the docs build in
->> the CI on CentOS so that such bugs don't slip in so easily again.
->>
->> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> 
-> Queued to testing/next, thanks.
+> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+> index 1b8415c8a3..30962155a6 100644
+> --- a/linux-user/syscall.c
+> +++ b/linux-user/syscall.c
+> @@ -359,6 +359,17 @@ _syscall4(int, sys_sched_getattr, pid_t, pid, struct sched_attr *, attr,
+>   #define __NR_sys_sched_setattr __NR_sched_setattr
+>   _syscall3(int, sys_sched_setattr, pid_t, pid, struct sched_attr *, attr,
+>             unsigned int, flags);
+> +#define __NR_sys_sched_getscheduler __NR_sched_getscheduler
+> +_syscall1(int, sys_sched_getscheduler, pid_t, pid);
+> +#define __NR_sys_sched_setscheduler __NR_sched_setscheduler
+> +_syscall3(int, sys_sched_setscheduler, pid_t, pid, int, policy,
+> +          const struct sched_param *, param);
+> +#define __NR_sys_sched_getparam __NR_sched_getparam
+> +_syscall2(int, sys_sched_getparam, pid_t, pid,
+> +          struct sched_param *, param);
+> +#define __NR_sys_sched_setparam __NR_sched_setparam
+> +_syscall2(int, sys_sched_setparam, pid_t, pid,
+> +          const struct sched_param *, param);
+>   #define __NR_sys_getcpu __NR_getcpu
+>   _syscall3(int, sys_getcpu, unsigned *, cpu, unsigned *, node, void *, tcache);
+>   _syscall4(int, reboot, int, magic1, int, magic2, unsigned int, cmd,
+> @@ -10587,30 +10598,32 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+>           return ret;
+>       case TARGET_NR_sched_setparam:
+>           {
+> -            struct sched_param *target_schp;
+> +            struct target_sched_param *target_schp;
+>               struct sched_param schp;
+>   
+>               if (arg2 == 0) {
+>                   return -TARGET_EINVAL;
+>               }
+> -            if (!lock_user_struct(VERIFY_READ, target_schp, arg2, 1))
+> +            if (!lock_user_struct(VERIFY_READ, target_schp, arg2, 1)) {
+>                   return -TARGET_EFAULT;
+> +            }
+>               schp.sched_priority = tswap32(target_schp->sched_priority);
+>               unlock_user_struct(target_schp, arg2, 0);
+> -            return get_errno(sched_setparam(arg1, &schp));
+> +            return get_errno(sys_sched_setparam(arg1, &schp));
+>           }
+>       case TARGET_NR_sched_getparam:
+>           {
+> -            struct sched_param *target_schp;
+> +            struct target_sched_param *target_schp;
+>               struct sched_param schp;
+>   
+>               if (arg2 == 0) {
+>                   return -TARGET_EINVAL;
+>               }
+> -            ret = get_errno(sched_getparam(arg1, &schp));
+> +            ret = get_errno(sys_sched_getparam(arg1, &schp));
+>               if (!is_error(ret)) {
+> -                if (!lock_user_struct(VERIFY_WRITE, target_schp, arg2, 0))
+> +                if (!lock_user_struct(VERIFY_WRITE, target_schp, arg2, 0)) {
+>                       return -TARGET_EFAULT;
+> +                }
+>                   target_schp->sched_priority = tswap32(schp.sched_priority);
+>                   unlock_user_struct(target_schp, arg2, 1);
+>               }
+> @@ -10618,19 +10631,20 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+>           return ret;
+>       case TARGET_NR_sched_setscheduler:
+>           {
+> -            struct sched_param *target_schp;
+> +            struct target_sched_param *target_schp;
+>               struct sched_param schp;
+>               if (arg3 == 0) {
+>                   return -TARGET_EINVAL;
+>               }
+> -            if (!lock_user_struct(VERIFY_READ, target_schp, arg3, 1))
+> +            if (!lock_user_struct(VERIFY_READ, target_schp, arg3, 1)) {
+>                   return -TARGET_EFAULT;
+> +            }
+>               schp.sched_priority = tswap32(target_schp->sched_priority);
+>               unlock_user_struct(target_schp, arg3, 0);
+> -            return get_errno(sched_setscheduler(arg1, arg2, &schp));
+> +            return get_errno(sys_sched_setscheduler(arg1, arg2, &schp));
+>           }
+>       case TARGET_NR_sched_getscheduler:
+> -        return get_errno(sched_getscheduler(arg1));
+> +        return get_errno(sys_sched_getscheduler(arg1));
+>       case TARGET_NR_sched_getattr:
+>           {
+>               struct target_sched_attr *target_scha;
+> diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
+> index 310d6ce8ad..28b9fe9a47 100644
+> --- a/linux-user/syscall_defs.h
+> +++ b/linux-user/syscall_defs.h
+> @@ -2928,4 +2928,8 @@ struct target_sched_attr {
+>       abi_uint sched_util_max;
+>   };
+>   
+> +struct target_sched_param {
+> +    abi_int sched_priority;
+> +};
+> +
+>   #endif
 
-Note that you need Marc-André's fix first, too. But I'm also planning a pull 
-request with a bunch of misc other patches soon, so I can also stick these 
-two patches in there, too.
-
-  Thomas
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 
 
