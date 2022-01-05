@@ -2,81 +2,106 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61A8F4856F4
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 17:59:30 +0100 (CET)
-Received: from localhost ([::1]:46634 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB441485714
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 18:09:02 +0100 (CET)
+Received: from localhost ([::1]:57190 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n59dI-0000NW-Vx
-	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 11:59:29 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44656)
+	id 1n59mX-0007hk-65
+	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 12:09:01 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46800)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
- id 1n59aP-0007C1-Jp
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 11:56:31 -0500
-Received: from smtp-relay-services-0.canonical.com ([185.125.188.250]:57530)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
- id 1n59a4-0007Dz-6H
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 11:56:11 -0500
-Received: from loganberry.canonical.com (loganberry.canonical.com
- [91.189.90.37])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by smtp-relay-services-0.canonical.com (Postfix) with ESMTPSA id 261DE40422
- for <qemu-devel@nongnu.org>; Wed,  5 Jan 2022 16:56:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=launchpad.net;
- s=20210803; t=1641401765;
- bh=sqymr3mBXyjBX+KyDH0vxoHBtpPpYIJLiFBN9u7SFug=;
- h=MIME-Version:Content-Type:Date:From:To:Reply-To:References:
- Message-Id:Subject;
- b=bC6HspDM8vD+TEnPkyxZ8Ot02M1SqBptoXfg9/ncW83kMCUqA7o33DUJiEjbYvcTU
- B5UUHPuDOHcDxMuMYB6a2aq5axVh/L7FqTuZxL1+DfkkMaMlcvcr+30PLjRVIi9jjF
- ml1q1chgKo3YTJ6JouIWjhSqE9JEQ9Sm3cyDqPHfFzNN/kfOKJheJ7rc3bGH8Vy8vD
- emq8jUjNpt2Hk94re0biuz1ooHZlDTQwUoxdh6IZXm023AJhncz+yMIETuMAZwOQeD
- 80J7BMnpcOUUzcJLXitah8fy0gjbGo8Sa4xyhpbmicg/zYeEXrO1wKvb7ZShjVJmFn
- udkRn6vBSMhjA==
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id E2DA32E82B4
- for <qemu-devel@nongnu.org>; Wed,  5 Jan 2022 16:55:49 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1n59hU-0003Y6-6F
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 12:03:48 -0500
+Received: from [2607:f8b0:4864:20::1032] (port=44973
+ helo=mail-pj1-x1032.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1n59hD-00026d-V5
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 12:03:47 -0500
+Received: by mail-pj1-x1032.google.com with SMTP id
+ n30-20020a17090a5aa100b001b2b6509685so6840527pji.3
+ for <qemu-devel@nongnu.org>; Wed, 05 Jan 2022 09:03:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=20PcXM2SOqh0bhoeFDgkuJ5Ggj44o0SuiK3MzhyRmsU=;
+ b=rsVhd0t9UYWasE9JkCnUdxw73v/C1RJiVYZucEuqofNaX7J+c9jjVQkj/bSH9/hzML
+ 1AQ45ueMsGZqHhb+ONFIOTRVECck4WDJiLkhJ0dCZbZRd5F9dDTBiVu7r7REZXD9nDtu
+ Xwabj8vwZirYN27UmfT+MFejoQWUI9qJwppOAO8SVy7LPqm06bw6Rk+FSk4JnYLfNzKN
+ 6FSWMsczvkGo3kv1fgbZktu3eIC0s4j4r+mMRKUgyd5AhelCtF7hT13ZZzUMad8zhHYs
+ NsjHcQfwZ6EHDGIT1RaMTzGYfSxfIcJSuUk+//z6aXiUfPd4LC0DhqXQ2LFXonhbNUZK
+ 5pzA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=20PcXM2SOqh0bhoeFDgkuJ5Ggj44o0SuiK3MzhyRmsU=;
+ b=BL2uFuH/hn/FaQFMxOoRjmelB9XHSUv5ZFEDEzvInwJKA2OYnjCqNtUiU4DVJLZCtI
+ ZVCTR0RkXy4zrSsgspyyvskDZ3CGH7DyDwNM1cilNZ1XBbumWRfHVBFphvkNOVWX279O
+ oXF/osX4+Kq5tVuGluYbYOKy6l0Es3346Ch1TKhroTk9JyIuT/UMVKDJ1LgtXsbr6suU
+ 19ZYdrbMLTLqbp2GduP9uxrtkTnR9Yq2mdgu9Arm3g+FT9J6ZNND0T+R4c5gyrjME8dx
+ t1JrODezj1aFQ2iTfn5AUu7/SOe4NEoB4CBivbpIgpvRk8Nk+niICKQrcYi0I1dHLGnm
+ JgFg==
+X-Gm-Message-State: AOAM533mGtzOgPagPNnzhsTKGKjMZNyZfK6OTC0OChYRrPwAaJGLxuYZ
+ iIyU/xqwbhI9YjoVR/W1qboMFA==
+X-Google-Smtp-Source: ABdhPJxImFHzV2wP+eap8aozdummb4OVmFsl2PXCC7t1JdswItec85C5qV0TEmNNUwSf2xDAMgaO6g==
+X-Received: by 2002:a17:90b:1c86:: with SMTP id
+ oo6mr4975265pjb.165.1641402207756; 
+ Wed, 05 Jan 2022 09:03:27 -0800 (PST)
+Received: from google.com (157.214.185.35.bc.googleusercontent.com.
+ [35.185.214.157])
+ by smtp.gmail.com with ESMTPSA id v3sm23315094pgl.64.2022.01.05.09.03.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 05 Jan 2022 09:03:27 -0800 (PST)
+Date: Wed, 5 Jan 2022 17:03:23 +0000
+From: Sean Christopherson <seanjc@google.com>
+To: Chao Peng <chao.p.peng@linux.intel.com>
+Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
+ Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+ Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Yu Zhang <yu.c.zhang@linux.intel.com>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+ luto@kernel.org, john.ji@intel.com, susie.li@intel.com,
+ jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
+ david@redhat.com
+Subject: Re: [PATCH v3 kvm/queue 11/16] KVM: Add kvm_map_gfn_range
+Message-ID: <YdXPW+2hZDsgZD/a@google.com>
+References: <20211223123011.41044-1-chao.p.peng@linux.intel.com>
+ <20211223123011.41044-12-chao.p.peng@linux.intel.com>
+ <YcS6m9CieYaIGA3F@google.com>
+ <20211224041351.GB44042@chaop.bj.intel.com>
+ <20211231023334.GA7255@chaop.bj.intel.com>
+ <YdSEcknuErGe0gQa@google.com>
+ <20220105061410.GA25283@chaop.bj.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 05 Jan 2022 16:49:42 -0000
-From: Thomas Huth <1862619@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ascott1 imapotato2 laurent-vivier pmaydell
- tebounet th-huth
-X-Launchpad-Bug-Reporter: Thierry Briot (tebounet)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <158133547000.19789.14380673630783179726.malonedeb@wampee.canonical.com>
-Message-Id: <164140138215.13667.7062924685387559441.malone@wampee.canonical.com>
-Subject: [Bug 1862619] Re: "-serial telnet::xxxx,
- server" causes "Device 'serial0' is in use"
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="adb364d6a74a28e7b95d51cd30446ec16160de6c"; Instance="production"
-X-Launchpad-Hash: 80f74707d31415a748ccf2d6e717e2ca79f5b569
-Received-SPF: pass client-ip=185.125.188.250;
- envelope-from=noreply@launchpad.net; helo=smtp-relay-services-0.canonical.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220105061410.GA25283@chaop.bj.intel.com>
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1032
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
+ envelope-from=seanjc@google.com; helo=mail-pj1-x1032.google.com
+X-Spam_score_int: -167
+X-Spam_score: -16.8
+X-Spam_bar: ----------------
+X-Spam_report: (-16.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ ENV_AND_HDR_SPF_MATCH=-0.5, FSL_HELO_FAKE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -85,46 +110,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1862619 <1862619@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Andrew! The QEMU project does not use this bug tracker anymore -
-could you please open a new issue here: https://gitlab.com/qemu-
-project/qemu/-/issues - Thanks!
+On Wed, Jan 05, 2022, Chao Peng wrote:
+> On Tue, Jan 04, 2022 at 05:31:30PM +0000, Sean Christopherson wrote:
+> > On Fri, Dec 31, 2021, Chao Peng wrote:
+> > > On Fri, Dec 24, 2021 at 12:13:51PM +0800, Chao Peng wrote:
+> > > > On Thu, Dec 23, 2021 at 06:06:19PM +0000, Sean Christopherson wrote:
+> > > > > On Thu, Dec 23, 2021, Chao Peng wrote:
+> > > > > > This new function establishes the mapping in KVM page tables for a
+> > > > > > given gfn range. It can be used in the memory fallocate callback for
+> > > > > > memfd based memory to establish the mapping for KVM secondary MMU when
+> > > > > > the pages are allocated in the memory backend.
+> > > > > 
+> > > > > NAK, under no circumstance should KVM install SPTEs in response to allocating
+> > > > > memory in a file.   The correct thing to do is to invalidate the gfn range
+> > > > > associated with the newly mapped range, i.e. wipe out any shared SPTEs associated
+> > > > > with the memslot.
+> > > > 
+> > > > Right, thanks.
+> > > 
+> > > BTW, I think the current fallocate() callback is just useless as long as
+> > > we don't want to install KVM SPTEs in response to allocating memory in a
+> > > file. The invalidation of the shared SPTEs should be notified through 
+> > > mmu_notifier of the shared memory backend, not memfd_notifier of the
+> > > private memory backend.
+> > 
+> > No, because the private fd is the final source of truth as to whether or not a
+> > GPA is private, e.g. userspace may choose to not unmap the shared backing.
+> > KVM's rule per Paolo's/this proposoal is that a GPA is private if it has a private
+> > memslot and is present in the private backing store.  And the other core rule is
+> > that KVM must never map both the private and shared variants of a GPA into the
+> > guest.
+> 
+> That's true, but I'm wondering if zapping the shared variant can be
+> handled at the time when the private one gets mapped in the KVM page
+> fault. No bothering the backing store to dedicate a callback to tell
+> KVM.
 
---=20
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1862619
+Hmm, I don't think that would work for the TDP MMU due to page faults taking
+mmu_lock for read.  E.g. if two vCPUs concurrently fault in both the shared and
+private variants, a race could exist where the private page fault sees the gfn
+as private and the shared page fault sees it as shared.  In that case, both faults
+will install a SPTE and KVM would end up running with both variants mapped into the
+guest.
 
-Title:
-  "-serial telnet::xxxx,server" causes "Device 'serial0' is in use"
-
-Status in QEMU:
-  Fix Released
-
-Bug description:
-  I start qemu version 4.2.50 in a first terminal :
-
-  $ sudo ./qemu-system-hppa -boot d -serial telnet::4441,server -drive
-  if=3Dscsi,bus=3D0,index=3D6,file=3D./hpux.img,format=3Draw -serial mon:st=
-dio -D
-  /tmp/foo -nographic -m 512 -d nochain -cdrom
-  ./HPUX_9.05_Installation_Disc_S700.iso -D /tmp/foo -net
-  nic,model=3Dtulip  -net tap
-
-  qemu-system-hppa: -serial telnet::4441,server: info: QEMU waiting for
-  connection on: disconnected:telnet:0.0.0.0:4441,server
-
-  In another terminal, I launch "telnet localhost 4441"
-
-  And in the qemu window I have the following error:
-
-  Unexpected error in qemu_chr_fe_init() at chardev/char-fe.c:220:
-  qemu-system-hppa: Device 'serial0' is in use
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1862619/+subscriptions
-
+There's also a performance penalty, as KVM would need to walk the shared EPT tree
+on every private page fault.
 
