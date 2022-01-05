@@ -2,63 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F0254854CC
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 15:43:10 +0100 (CET)
-Received: from localhost ([::1]:36976 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87DBA485524
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 15:58:06 +0100 (CET)
+Received: from localhost ([::1]:39510 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n57VM-0007Ud-KG
-	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 09:43:08 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33956)
+	id 1n57jp-0004TI-4I
+	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 09:58:05 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36492)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jtomko@redhat.com>) id 1n57Rc-0004ft-OS
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 09:39:17 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56153)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1n57cv-0003XX-0w
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 09:50:57 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44043)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jtomko@redhat.com>) id 1n57RZ-0001wf-HC
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 09:39:15 -0500
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1n57ct-0005DT-8h
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 09:50:56 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641393552;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1641394254;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=TAaH369pYS+YHs4nV0osLAwGDPe/OFmbyewHWEfxhmA=;
- b=BmnOwHc1KmtklVTdjPgofjTcYs/gcQFtc5SPVek5gjkrfGqOTQDo+9AooYWJqd1Q+qmKpX
- FxSX1T14aLHz/54l7gTJ9u2i9D5kjgUPLDYZ+ZREfyd+CTBYzhSJnMfBxExINcALtO6loq
- sabEOyFmyC+FZRLFm47Vtg9uOkOVNeU=
+ bh=wvkehBgiwsckRufiecBUsHCUUrgvoa1OYUBkfpGvJ3w=;
+ b=NTrq81saqw7FkOIPid4XbvkoONSyKZ/TU34NCtkbSHGZc0And+4lIhLdWEZnK002Gi+xRa
+ WAqCMjxrKsdksihAb+gLrVVz9cU/l3IUoSKpVAP8hF7MuyH2kiK2TmzGp8+Zq3YJCkeHyZ
+ gBv9K9SGONZ/teuWQpkm+Mb2KDWdCu4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-554--oWKHv-4PTGF1bYvueNozg-1; Wed, 05 Jan 2022 09:39:09 -0500
-X-MC-Unique: -oWKHv-4PTGF1bYvueNozg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-354-iKKgiUIWPqeoFcmF3VkaVw-1; Wed, 05 Jan 2022 09:50:50 -0500
+X-MC-Unique: iKKgiUIWPqeoFcmF3VkaVw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AB6888749A4;
- Wed,  5 Jan 2022 14:39:06 +0000 (UTC)
-Received: from fedora (unknown [10.43.2.72])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2EE015DD1A;
- Wed,  5 Jan 2022 14:37:57 +0000 (UTC)
-Date: Wed, 5 Jan 2022 15:37:54 +0100
-From: =?iso-8859-1?B?SuFu?= Tomko <jtomko@redhat.com>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Subject: Re: [PATCH 1/1] softmmu: fix device deletion events with -device
- JSON syntax
-Message-ID: <YdWtQoOTY0XmZzjt@fedora>
-References: <20220105123847.4047954-1-berrange@redhat.com>
- <20220105123847.4047954-2-berrange@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0DE69190B2A2;
+ Wed,  5 Jan 2022 14:50:49 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.150])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 865577E5A8;
+ Wed,  5 Jan 2022 14:50:46 +0000 (UTC)
+Date: Wed, 5 Jan 2022 14:50:44 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: "Richard W.M. Jones" <rjones@redhat.com>
+Subject: Re: [PATCH  v1 20/34] tests/docker: add libfuse3 development headers
+Message-ID: <YdWwRENg0gA5na4v@redhat.com>
+References: <20220105135009.1584676-1-alex.bennee@linaro.org>
+ <20220105135009.1584676-21-alex.bennee@linaro.org>
+ <20220105142655.GS1127@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20220105123847.4047954-2-berrange@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <20220105142655.GS1127@redhat.com>
+User-Agent: Mutt/2.1.3 (2021-09-10)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jtomko@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="CGxs4C2x5jZIjKgS"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jtomko@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -79,60 +84,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Peter Krempa <pkrempa@redhat.com>,
- qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- Eduardo Habkost <eduardo@habkost.net>, Paolo Bonzini <pbonzini@redhat.com>,
- Eric Blake <eblake@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: fam@euphon.net, Thomas Huth <thuth@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, qemu-devel@nongnu.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>, f4bug@amsat.org,
+ Hanna Reitz <hreitz@redhat.com>, stefanha@redhat.com, crosa@redhat.com,
+ pbonzini@redhat.com, Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---CGxs4C2x5jZIjKgS
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Wed, Jan 05, 2022 at 02:26:55PM +0000, Richard W.M. Jones wrote:
+> On Wed, Jan 05, 2022 at 01:49:55PM +0000, Alex Bennée wrote:
+> > From: Stefan Hajnoczi <stefanha@redhat.com>
+> > 
+> > The FUSE exports feature is not built because most container images do
+> > not have libfuse3 development headers installed. Add the necessary
+> > packages to the Dockerfiles.
+> > 
+> > Cc: Hanna Reitz <hreitz@redhat.com>
+> > Cc: Richard W.M. Jones <rjones@redhat.com>
+> > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> > Acked-by: Richard W.M. Jones <rjones@redhat.com>
+> > Reviewed-by: Beraldo Leal <bleal@redhat.com>
+> > Tested-by: Beraldo Leal <bleal@redhat.com>
+> > Message-Id: <20211207160025.52466-1-stefanha@redhat.com>
+> > [AJB: migrate to lcitool qemu.yml and regenerate]
+> > Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> 
+> 
+> I checked all the package names and they look good, so:
 
-On a Wednesday in 2022, Daniel P. Berrang=E9 wrote:
->The -device JSON syntax impl leaks a reference on the created
->DeviceState instance. As a result when you hot-unplug the
->device, the device_finalize method won't be called and thus
->it will fail to emit the required DEVICE_DELETED event.
->
->A 'json-cli' feature was previously added against the
->'device_add' QMP command QAPI schema to indicated to mgmt
->apps that -device supported JSON syntax. Given the hotplug
->bug that feature flag is no unusable for its purpose, so
->we add a new 'json-cli-hotplug' feature to indicate the
->-device supports JSON without breaking hotplug.
->
->Fixes: https://gitlab.com/qemu-project/qemu/-/issues/802
->Signed-off-by: Daniel P. Berrang=E9 <berrange@redhat.com>
->---
-> qapi/qdev.json                 |  5 ++++-
-> softmmu/vl.c                   |  4 +++-
-> tests/qtest/device-plug-test.c | 19 +++++++++++++++++++
-> 3 files changed, 26 insertions(+), 2 deletions(-)
->
+FYI, the libvirt-ci  CI pipelines validate that all package
+names are correct by creating a job for each distro and
+checking that every package known to libvirt-ci can be
+installed. This catches issues where distros rename or
+drop packages. These are some of the reasons why we'll
+benefit from using libvirt-ci / lcitool for auto-generating
+these dockerfiles in QEMU.
 
-Tested-by: J=E1n Tomko <jtomko@redhat.com>
-
-Jano
-
---CGxs4C2x5jZIjKgS
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEE7DTm0WabvfIr7YZ4Ak1z5KIMl5QFAmHVrT8ACgkQAk1z5KIM
-l5TmWAf/aMr5A2I19ELZguSzgVP7YxIvH8L5Pq9CRT4a5aLeNJy6iBeMxxPUCODf
-jPyoHiKQoLV3MoMngZmL1r4O8TizI5qeCuNcgjc9u0KkEG69re9gYSnlrKQhe41j
-vgdm1NaNIs/reNzDXP30NzGNr2q1/5uYhDapF+O+Pwwir33/nwCChhrplmP1I+ao
-pvdaeNDhEzkMwGUnoDKLJYf+IwoSjBMtFaYGd5qlELTJLW+HDTYHVBR20DP5u/tA
-dxkMTXGGOoBnw8lPK8YBkPvVVEQ+tB6YrjXWWdXz3UH9J2zdyp1U/dFF+3TWwbei
-oCmU4YpMz2EsbTHweHOvIniGhG9bZw==
-=JInF
------END PGP SIGNATURE-----
-
---CGxs4C2x5jZIjKgS--
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
