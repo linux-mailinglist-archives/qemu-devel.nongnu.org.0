@@ -2,93 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 933D7485240
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 13:05:30 +0100 (CET)
-Received: from localhost ([::1]:53284 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A22B48526F
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 13:28:30 +0100 (CET)
+Received: from localhost ([::1]:36970 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n552n-00077B-ED
-	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 07:05:29 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55054)
+	id 1n55P2-0000ZL-TM
+	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 07:28:28 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60220)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1n54zq-0005dC-4q
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 07:02:50 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39209)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n55N4-0008D5-6f
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 07:26:27 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:26367)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1n54zn-0002k2-9E
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 07:02:24 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n55N0-000070-Dl
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 07:26:24 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641384142;
+ s=mimecast20190719; t=1641385580;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Py9B8/1HYVcSMc5+b1ZPgfN+YXDV2tpUtShM5iqoP7I=;
- b=awhzCg/SHgauP/8LFZSBGBC37vNPJbQH1xAIMPSJr2bQK8KCzDUI/u/a6YbyRhnO2bFfGP
- 5cWfiJ1eHmg0pme0T+K+5uVTyMOmdP4gQRRanR44wOOcKK0W60E0gJBXiueZf/w2NBiEDq
- TR7ZZ9mmNVX3pkcMU2QQpPHC6DkeYbg=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=gzlKHFv71rfEm05KVCEhhag7GxHJ8MnKi3KO01O+EvQ=;
+ b=KCqQ3HEVAaiKieTIcL81vrLCVHfGJGW6fGDzoaLai51fWKCgiKADF/fVXoYy+F5NnvV6IL
+ Amgr8tkn38c+QU8jUx22Vi77J3Kgyj5xziw6P6OWeiYglO3I/FGHq3COc2Ddgw6vtNJFc9
+ fRJT4L9yf3hnjpZejl36iSWmV03ndGE=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-166-MJFKh_fuNsKa9dihbPlmOw-1; Wed, 05 Jan 2022 07:02:21 -0500
-X-MC-Unique: MJFKh_fuNsKa9dihbPlmOw-1
-Received: by mail-wr1-f71.google.com with SMTP id
- d6-20020adfa346000000b001a262748c6fso12455556wrb.12
- for <qemu-devel@nongnu.org>; Wed, 05 Jan 2022 04:02:21 -0800 (PST)
+ us-mta-653-9Uf0YNjgMA27GoSiI1cHBw-1; Wed, 05 Jan 2022 07:26:19 -0500
+X-MC-Unique: 9Uf0YNjgMA27GoSiI1cHBw-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ j8-20020a05600c1c0800b00346504f5743so1635034wms.6
+ for <qemu-devel@nongnu.org>; Wed, 05 Jan 2022 04:26:13 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=Py9B8/1HYVcSMc5+b1ZPgfN+YXDV2tpUtShM5iqoP7I=;
- b=hygCpY4HqTcIxFNzlk23QYFoj0HmUZ64T9e+picjCuAj1rxIpu6nWZpN+kkx/WQANR
- YdbaSrZRg+9Os7mM8002MFUVIyzYSnKtQybWTgxZHbn4FGN/0GK3+oCYqcn4Gc2Uu+4G
- z4lI+UUT9vQzRXi/YUxHJSwlLcPUcJAORaSeoWnfkTQ7h+/B3aTLcjUEpDMzA7nXTciQ
- VDDa5ZdJMUlEE7iGv0s3HQysJFtyupbTsq16h1SatBdOpYE6cmQGU5AOoAtEFQHYHWGF
- Mx9fBmRBdNL/raUe3wk9201JhaP7vwR2fnoaFndTFzzfwxyHxteorkXtB3BhmSO/2uLh
- AgOg==
-X-Gm-Message-State: AOAM53132Zn+A7VEet0oBkCOGmWOBH4eCfxrMha280PH+JegUdSz5jU2
- aPa258r/+A0UXLh+9wXoXx/8GIx7ql7s/KBPr5hPRjtEOsc+Bw/yuSJ1VkWB44L97uYd6AWomqi
- e6pY7xqt7kS3h/K0=
-X-Received: by 2002:a05:6000:15c2:: with SMTP id
- y2mr47292536wry.202.1641384140382; 
- Wed, 05 Jan 2022 04:02:20 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyvvEryrqT/j1zc9ZmK+fejayV5WCqzlLhhfnwY5KyoMJRrwQyte+94QcnWHvEmt0qAUl/2Zg==
-X-Received: by 2002:a05:6000:15c2:: with SMTP id
- y2mr47292496wry.202.1641384139850; 
- Wed, 05 Jan 2022 04:02:19 -0800 (PST)
-Received: from [10.33.192.229] (nat-pool-str-t.redhat.com. [149.14.88.106])
- by smtp.gmail.com with ESMTPSA id c7sm46051980wri.21.2022.01.05.04.02.19
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 05 Jan 2022 04:02:19 -0800 (PST)
-Message-ID: <08880339-e513-034e-18d1-651d9f36a8f2@redhat.com>
-Date: Wed, 5 Jan 2022 13:02:18 +0100
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=gzlKHFv71rfEm05KVCEhhag7GxHJ8MnKi3KO01O+EvQ=;
+ b=gX1xyXhPukHs3Y2LHJKIPjGGQysLB2aE7n2c0J4ethpgA2sFwm1l/guNc9ovef1Fkt
+ qZ/1/t0/irPLgSPeKVQaCz3TOlPsExDm914sjVLfjVHhkF26MnXTpjfhh6a8+ik0LHeP
+ lrWszg8mqmGi1uzMMhbvAvOHz6sSA1QPhN5e9D33+O2hLB83LZTvS2y9KoL21hFNT+Us
+ 9hijzVwLaHtgWcQdWdVuGK4DDs9WgWo0pxp229jYHA4qllFJh/jj92to/RcHm9ajQKjL
+ 7E1lX2kVMNoFhTNYvLFbJJcUe77JvdfpIvcZKxjIsrk/xbUnEJCsmhnMt8kgsd4VGkTZ
+ mhhA==
+X-Gm-Message-State: AOAM531r2+yotD6ORheZb+wgvHTAAh+sriINfPVn2V7LIiHmwuLxYlts
+ S3Vk93kyPAeAQDATmOYfmGFX05at7LKmWJMPQPFnhJ5jkmE+uVKNyjHYcIG6do3q2LSpPAPNbNI
+ d/+Fs32+f8WI0dOs=
+X-Received: by 2002:a5d:4563:: with SMTP id a3mr48014365wrc.371.1641385572823; 
+ Wed, 05 Jan 2022 04:26:12 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyEhHK3CgkYasXk6RnYfZSRaupiuRyOOtof1OCcRuB4RqlyV472X9sGtt8GQXt48hkW+Y+BgQ==
+X-Received: by 2002:a5d:4563:: with SMTP id a3mr48014343wrc.371.1641385572555; 
+ Wed, 05 Jan 2022 04:26:12 -0800 (PST)
+Received: from redhat.com ([2.55.4.139])
+ by smtp.gmail.com with ESMTPSA id d22sm2450245wmq.17.2022.01.05.04.26.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 05 Jan 2022 04:26:12 -0800 (PST)
+Date: Wed, 5 Jan 2022 07:26:08 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Jason Wang <jasowang@redhat.com>
+Subject: Re: [RFC 02/10] vhost: add 3 commands for vhost-vdpa
+Message-ID: <20220105072321-mutt-send-email-mst@kernel.org>
+References: <20220105005900.860-1-longpeng2@huawei.com>
+ <20220105005900.860-3-longpeng2@huawei.com>
+ <CACGkMEtL7Qkb65Wj4vw-W9h7Lu1Mh7fWGMEkw+0e=Ce=LfD=FA@mail.gmail.com>
+ <20220105020008-mutt-send-email-mst@kernel.org>
+ <CACGkMEsPqADAR1LhjP=Y4ShhSogdrf2T8O2Km22G7FwGCe+hrQ@mail.gmail.com>
+ <1d157f74fdac49ff8ae734808bd3c518@huawei.com>
+ <CACGkMEukEBFYrmJjj-jXR_UdamFbjrFkj7PbdfQJOGMzekAvSg@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH 5/6] docs/qdev-device-use: Add CanoKey to QDEV devices
- examples
-To: "Hongren (Zenithal) Zheng" <i@zenithal.me>, qemu-devel@nongnu.org
-References: <YcSt+qozrl+J8ool@Sun> <YcSvRf+YjukL8Mlp@Sun>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <YcSvRf+YjukL8Mlp@Sun>
+In-Reply-To: <CACGkMEukEBFYrmJjj-jXR_UdamFbjrFkj7PbdfQJOGMzekAvSg@mail.gmail.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.372,
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.372,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.057, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,31 +98,139 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Gerd Hoffmann <kraxel@redhat.com>, contact@canokeys.org
+Cc: Cornelia Huck <cohuck@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Yechuan <yechuan@huawei.com>, "Gonglei \(Arei\)" <arei.gonglei@huawei.com>,
+ Huangzhichao <huangzhichao@huawei.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ pbonzini <pbonzini@redhat.com>, "Longpeng \(Mike,
+ Cloud Infrastructure Service Product Dept.\)" <longpeng2@huawei.com>,
+ Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 23/12/2021 18.17, Hongren (Zenithal) Zheng wrote:
-> Signed-off-by: Hongren (Zenithal) Zheng <i@zenithal.me>
-> ---
->   docs/qdev-device-use.txt | 1 +
->   1 file changed, 1 insertion(+)
+On Wed, Jan 05, 2022 at 05:09:07PM +0800, Jason Wang wrote:
+> On Wed, Jan 5, 2022 at 4:37 PM Longpeng (Mike, Cloud Infrastructure
+> Service Product Dept.) <longpeng2@huawei.com> wrote:
+> >
+> >
+> >
+> > > -----Original Message-----
+> > > From: Jason Wang [mailto:jasowang@redhat.com]
+> > > Sent: Wednesday, January 5, 2022 3:54 PM
+> > > To: Michael S. Tsirkin <mst@redhat.com>
+> > > Cc: Longpeng (Mike, Cloud Infrastructure Service Product Dept.)
+> > > <longpeng2@huawei.com>; Stefan Hajnoczi <stefanha@redhat.com>; Stefano
+> > > Garzarella <sgarzare@redhat.com>; Cornelia Huck <cohuck@redhat.com>; pbonzini
+> > > <pbonzini@redhat.com>; Gonglei (Arei) <arei.gonglei@huawei.com>; Yechuan
+> > > <yechuan@huawei.com>; Huangzhichao <huangzhichao@huawei.com>; qemu-devel
+> > > <qemu-devel@nongnu.org>
+> > > Subject: Re: [RFC 02/10] vhost: add 3 commands for vhost-vdpa
+> > >
+> > > On Wed, Jan 5, 2022 at 3:02 PM Michael S. Tsirkin <mst@redhat.com> wrote:
+> > > >
+> > > > On Wed, Jan 05, 2022 at 12:35:53PM +0800, Jason Wang wrote:
+> > > > > On Wed, Jan 5, 2022 at 8:59 AM Longpeng(Mike) <longpeng2@huawei.com> wrote:
+> > > > > >
+> > > > > > From: Longpeng <longpeng2@huawei.com>
+> > > > > >
+> > > > > > To support generic vdpa deivce, we need add the following ioctls:
+> > > > > > - GET_VECTORS_NUM: the count of vectors that supported
+> > > > >
+> > > > > Does this mean MSI vectors? If yes, it looks like a layer violation:
+> > > > > vhost is transport independent.
+> > > >
+> > > > Well *guest* needs to know how many vectors device supports.
+> > > > I don't think there's a way around that. Do you?
+> > >
+> > > We have VHOST_SET_VRING/CONFIG_CALL which is per vq. I think we can
+> > > simply assume #vqs + 1?
+> > >
+> > > > Otherwise guests will at best be suboptimal.
+> > > >
+> > > > >  And it reveals device implementation
+> > > > > details which block (cross vendor) migration.
+> > > > >
+> > > > > Thanks
+> > > >
+> > > > Not necessarily, userspace can hide this from guest if it
+> > > > wants to, just validate.
+> > >
+> > > If we can hide it at vhost/uAPI level, it would be even better?
+> > >
+> >
+> > Not only MSI vectors, but also queue-size, #vqs, etc.
 > 
-> diff --git a/docs/qdev-device-use.txt b/docs/qdev-device-use.txt
-> index 2408889334..278fb66c0a 100644
-> --- a/docs/qdev-device-use.txt
-> +++ b/docs/qdev-device-use.txt
-> @@ -342,6 +342,7 @@ The new way is -device DEVNAME,DEV-OPTS...  Details depend on DRIVER:
->   * tablet          -device usb-tablet
->   * wacom-tablet    -device usb-wacom-tablet
->   * u2f             -device u2f-{emulated,passthru}
-> +* canokey         -device canokey
->   * braille         See "Character Devices"
+> MSI is PCI specific, we have non PCI vDPA parent e.g VDUSE/simulator/mlx5
+> 
+> And it's something that is not guaranteed to be not changed. E.g some
+> drivers may choose to allocate MSI during set_status() which can fail
+> for various reasons.
+> 
+> >
+> > Maybe the vhost level could expose the hardware's real capabilities
+> > and let the userspace (QEMU) do the hiding? The userspace know how
+> > to process them.
+> 
+> #MSI vectors is much more easier to be mediated than queue-size and #vqs.
+> 
+> For interrupts, we've already had VHOST_SET_X_KICK, we can keep
+> allocating eventfd based on #MSI vectors to make it work with any
+> number of MSI vectors that the virtual device had.
 
-Please drop this patch. The list here is only about legacy USB device usage 
-with the "-usbdevice" parameter, but since there never was and never will be 
-a "-usbdevice canokey", there is no need to add an entry here.
+Right but if hardware does not support so many then what?
+Just fail? Having a query API would make things somewhat cleaner imho.
 
-  Thomas
+> For queue-size, it's Ok to have a new uAPI but it's not a must, Qemu
+> can simply fail if SET_VRING_NUM fail.
+>
+> For #vqs, it's OK to have a new uAPI since the emulated virtio-pci
+> device requires knowledge the #vqs in the config space. (still not a
+> must, we can enumerate #vqs per device type)
+> 
+> For the config size, it's OK but not a must, technically we can simply
+> relay what guest write to vhost-vdpa. It's just because current Qemu
+> require to have it during virtio device initialization.
+> 
+> Thanks
+
+
+I agree but these ok things make for a cleaner API I think.
+
+> >
+> > > Thanks
+> > >
+> > > >
+> > > >
+> > > > > > - GET_CONFIG_SIZE: the size of the virtio config space
+> > > > > > - GET_VQS_NUM: the count of virtqueues that exported
+> > > > > >
+> > > > > > Signed-off-by: Longpeng <longpeng2@huawei.com>
+> > > > > > ---
+> > > > > >  linux-headers/linux/vhost.h | 10 ++++++++++
+> > > > > >  1 file changed, 10 insertions(+)
+> > > > > >
+> > > > > > diff --git a/linux-headers/linux/vhost.h b/linux-headers/linux/vhost.h
+> > > > > > index c998860d7b..c5edd75d15 100644
+> > > > > > --- a/linux-headers/linux/vhost.h
+> > > > > > +++ b/linux-headers/linux/vhost.h
+> > > > > > @@ -150,4 +150,14 @@
+> > > > > >  /* Get the valid iova range */
+> > > > > >  #define VHOST_VDPA_GET_IOVA_RANGE      _IOR(VHOST_VIRTIO, 0x78, \
+> > > > > >                                              struct vhost_vdpa_iova_range)
+> > > > > > +
+> > > > > > +/* Get the number of vectors */
+> > > > > > +#define VHOST_VDPA_GET_VECTORS_NUM     _IOR(VHOST_VIRTIO, 0x79, int)
+> > > > > > +
+> > > > > > +/* Get the virtio config size */
+> > > > > > +#define VHOST_VDPA_GET_CONFIG_SIZE     _IOR(VHOST_VIRTIO, 0x80, int)
+> > > > > > +
+> > > > > > +/* Get the number of virtqueues */
+> > > > > > +#define VHOST_VDPA_GET_VQS_NUM         _IOR(VHOST_VIRTIO, 0x81, int)
+> > > > > > +
+> > > > > >  #endif
+> > > > > > --
+> > > > > > 2.23.0
+> > > > > >
+> > > >
+> >
 
 
