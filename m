@@ -2,91 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B135485A2B
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 21:43:46 +0100 (CET)
-Received: from localhost ([::1]:38256 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 434FA485A32
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 21:46:02 +0100 (CET)
+Received: from localhost ([::1]:46318 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5D8L-0005WK-9K
-	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 15:43:45 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51834)
+	id 1n5DAX-0002R2-3X
+	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 15:46:01 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51862)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1n5D5d-0002hQ-Me; Wed, 05 Jan 2022 15:40:57 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:46164)
+ id 1n5D5f-0002in-Ra; Wed, 05 Jan 2022 15:40:59 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:54922)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1n5D5c-0000ls-06; Wed, 05 Jan 2022 15:40:57 -0500
-Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 205KLa3G016030; 
- Wed, 5 Jan 2022 20:40:42 GMT
+ id 1n5D5e-00010r-2O; Wed, 05 Jan 2022 15:40:59 -0500
+Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 205IZkRC004481; 
+ Wed, 5 Jan 2022 20:40:46 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
  : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=j3OOvMa+nH1erjPdj44UALePHndYAyeUm+7a5NH0sdQ=;
- b=FYbx2L06gi/Prcpb3sNiJWEiwYhBLPG53r8r0Syu4e+toeNidw3NGgk1GJPdMRXZt4VI
- xgZuSv+U7Thduv9ptkIC9/Ny7BSQZ97QIEXzkoygmblYvHm48WgXteRb+TvcQTwmxqtp
- HluuPheclRCJggh+HBwmH/iH59VQaXQ2kXzn5My0uruiRFZjK1rkOJwBvPGMbDgakMVO
- WAo6lCrg0XOeutCABFD4F2v5MSX3aFz3THqg+eLfAV+SVrbyY7ZvtX9NKZudqFQKL9MD
- He0W6kc36CUvKO+toG+oinjivIjBTCQHkZNS8Q+ffXr7kjT817G/W6egG8Ox98LU4yWG aw== 
+ content-type : content-transfer-encoding; s=pp1;
+ bh=QBlKXURnfafwIUTvfw7jvtZZXBtpSOXu2X6k7IphWOw=;
+ b=DxQluR/tKniGP4yTy+A2HkOdmdeBaA2iARVeoIIpNJY5OV67zHr6fgyLHBFGr9KY2Bgh
+ Xvp/Im9/+eP7riV5qEXzBPdcAqiAYvqPYuIq/tnXJRfwD3scvWbuaaJ+lIPq3bUaSfRZ
+ GFL4SXHeiCRRBnpX3XaOeY43t5HqtLLtMXUFUaJZycTw1wwZhpAE9Cg/GwsaFczOvCJt
+ ZwibwIyV+CsuZoMtmsCkcln9mDNENQX4JjDDiwhKdIotMh2WjJqIRlANnQPz4rzhNtc6
+ Soh9tFJHwnDR/pMz9nVk28HszukZK44QRZdH/QSs+JZRyOuCzzrXjpyubjgZWYIVdLTB Ag== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3dcp4tnmpv-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3dcqcqpcvh-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 05 Jan 2022 20:40:42 +0000
-Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 205KZH3Z006467;
- Wed, 5 Jan 2022 20:40:41 GMT
-Received: from ppma04wdc.us.ibm.com (1a.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.26])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3dcp4tnmpj-1
+ Wed, 05 Jan 2022 20:40:46 +0000
+Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 205KA36N006513;
+ Wed, 5 Jan 2022 20:40:45 GMT
+Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
+ [169.63.214.131])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3dcqcqpcv7-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 05 Jan 2022 20:40:41 +0000
-Received: from pps.filterd (ppma04wdc.us.ibm.com [127.0.0.1])
- by ppma04wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 205KVcpF018763;
- Wed, 5 Jan 2022 20:40:40 GMT
-Received: from b03cxnp07029.gho.boulder.ibm.com
- (b03cxnp07029.gho.boulder.ibm.com [9.17.130.16])
- by ppma04wdc.us.ibm.com with ESMTP id 3daekb5v6g-1
+ Wed, 05 Jan 2022 20:40:45 +0000
+Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
+ by ppma01dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 205KVp0J023623;
+ Wed, 5 Jan 2022 20:40:44 GMT
+Received: from b03cxnp08027.gho.boulder.ibm.com
+ (b03cxnp08027.gho.boulder.ibm.com [9.17.130.19])
+ by ppma01dal.us.ibm.com with ESMTP id 3daekbpq39-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 05 Jan 2022 20:40:40 +0000
+ Wed, 05 Jan 2022 20:40:44 +0000
 Received: from b03ledav004.gho.boulder.ibm.com
  (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
- by b03cxnp07029.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 205Ked1513763044
+ by b03cxnp08027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 205Kef278979102
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 5 Jan 2022 20:40:39 GMT
+ Wed, 5 Jan 2022 20:40:41 GMT
 Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 8FB2C7805E;
- Wed,  5 Jan 2022 20:40:39 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id BB8CB78064;
+ Wed,  5 Jan 2022 20:40:41 +0000 (GMT)
 Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 045FD78063;
- Wed,  5 Jan 2022 20:40:38 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 101BA7805F;
+ Wed,  5 Jan 2022 20:40:40 +0000 (GMT)
 Received: from farosas.linux.ibm.com.com (unknown [9.211.59.200])
  by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTP;
- Wed,  5 Jan 2022 20:40:37 +0000 (GMT)
+ Wed,  5 Jan 2022 20:40:39 +0000 (GMT)
 From: Fabiano Rosas <farosas@linux.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 1/7] target/ppc: powerpc_excp: Extract software TLB logging
- into a function
-Date: Wed,  5 Jan 2022 17:40:23 -0300
-Message-Id: <20220105204029.4058500-2-farosas@linux.ibm.com>
+Subject: [PATCH v2 2/7] target/ppc: powerpc_excp: Keep 60x soft MMU logs active
+Date: Wed,  5 Jan 2022 17:40:24 -0300
+Message-Id: <20220105204029.4058500-3-farosas@linux.ibm.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20220105204029.4058500-1-farosas@linux.ibm.com>
 References: <20220105204029.4058500-1-farosas@linux.ibm.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: NMexwFW_Q_DxznJYc_kNcvBSkv0sCwdv
-X-Proofpoint-GUID: NNTHIZZ_2goHF2BuDEmV7YMfgDy4ofL3
+X-Proofpoint-GUID: wZNSIDFTmleLkkSrMXv2p607fZlIVcEM
+X-Proofpoint-ORIG-GUID: -qM6MD6QqPt9H4DlMJDE4SXMoDO7zrye
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
  definitions=2022-01-05_06,2022-01-04_01,2021-12-02_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 spamscore=0
- clxscore=1015 priorityscore=1501 impostorscore=0 adultscore=0
- mlxlogscore=956 lowpriorityscore=0 mlxscore=0 suspectscore=0 phishscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ lowpriorityscore=0
+ priorityscore=1501 mlxscore=0 adultscore=0 impostorscore=0 phishscore=0
+ bulkscore=0 spamscore=0 mlxlogscore=999 suspectscore=0 malwarescore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2110150000 definitions=main-2201050133
 Received-SPF: pass client-ip=148.163.156.1; envelope-from=farosas@linux.ibm.com;
  helo=mx0a-001b2d01.pphosted.com
@@ -114,93 +114,55 @@ Cc: richard.henderson@linaro.org, danielhb413@gmail.com, qemu-ppc@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Remove the compile time definition and make the logging be controlled
+by the `-d mmu` option in the cmdline.
+
 Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
 ---
- target/ppc/excp_helper.c | 63 +++++++++++++++++++++++-----------------
- 1 file changed, 36 insertions(+), 27 deletions(-)
+ target/ppc/excp_helper.c | 15 ++++++---------
+ 1 file changed, 6 insertions(+), 9 deletions(-)
 
 diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-index a779dc936a..2c5d5470de 100644
+index 2c5d5470de..ce86b2ae37 100644
 --- a/target/ppc/excp_helper.c
 +++ b/target/ppc/excp_helper.c
-@@ -135,6 +135,41 @@ static void dump_hcall(CPUPPCState *env)
-                   env->nip);
+@@ -30,8 +30,6 @@
+ #include "exec/cpu_ldst.h"
+ #endif
+ 
+-/* #define DEBUG_SOFTWARE_TLB */
+-
+ /*****************************************************************************/
+ /* Exception processing */
+ #if !defined(CONFIG_USER_ONLY)
+@@ -137,7 +135,6 @@ static void dump_hcall(CPUPPCState *env)
+ 
+ static void ppc_excp_debug_sw_tlb(CPUPPCState *env, int excp)
+ {
+-#if defined(DEBUG_SOFTWARE_TLB)
+     const char *es;
+     target_ulong *miss, *cmp;
+     int en;
+@@ -161,12 +158,12 @@ static void ppc_excp_debug_sw_tlb(CPUPPCState *env, int excp)
+         miss = &env->spr[SPR_DMISS];
+         cmp = &env->spr[SPR_DCMP];
+     }
+-    qemu_log("6xx %sTLB miss: %cM " TARGET_FMT_lx " %cC "
+-             TARGET_FMT_lx " H1 " TARGET_FMT_lx " H2 "
+-             TARGET_FMT_lx " %08x\n", es, en, *miss, en, *cmp,
+-             env->spr[SPR_HASH1], env->spr[SPR_HASH2],
+-             env->error_code);
+-#endif
++
++    qemu_log_mask(CPU_LOG_MMU, "6xx %sTLB miss: %cM " TARGET_FMT_lx " %cC "
++                  TARGET_FMT_lx " H1 " TARGET_FMT_lx " H2 "
++                  TARGET_FMT_lx " %08x\n", es, en, *miss, en, *cmp,
++                  env->spr[SPR_HASH1], env->spr[SPR_HASH2],
++                  env->error_code);
  }
  
-+static void ppc_excp_debug_sw_tlb(CPUPPCState *env, int excp)
-+{
-+#if defined(DEBUG_SOFTWARE_TLB)
-+    const char *es;
-+    target_ulong *miss, *cmp;
-+    int en;
-+
-+    if (!qemu_log_enabled()) {
-+        return;
-+    }
-+
-+    if (excp == POWERPC_EXCP_IFTLB) {
-+        es = "I";
-+        en = 'I';
-+        miss = &env->spr[SPR_IMISS];
-+        cmp = &env->spr[SPR_ICMP];
-+    } else {
-+        if (excp == POWERPC_EXCP_DLTLB) {
-+            es = "DL";
-+        } else {
-+            es = "DS";
-+        }
-+        en = 'D';
-+        miss = &env->spr[SPR_DMISS];
-+        cmp = &env->spr[SPR_DCMP];
-+    }
-+    qemu_log("6xx %sTLB miss: %cM " TARGET_FMT_lx " %cC "
-+             TARGET_FMT_lx " H1 " TARGET_FMT_lx " H2 "
-+             TARGET_FMT_lx " %08x\n", es, en, *miss, en, *cmp,
-+             env->spr[SPR_HASH1], env->spr[SPR_HASH2],
-+             env->error_code);
-+#endif
-+}
-+
-+
- static int powerpc_reset_wakeup(CPUState *cs, CPUPPCState *env, int excp,
-                                 target_ulong *msr)
- {
-@@ -777,34 +812,8 @@ static void powerpc_excp(PowerPCCPU *cpu, int excp)
-             }
-             /* fall through */
-         case POWERPC_EXCP_7x5:
--#if defined(DEBUG_SOFTWARE_TLB)
--            if (qemu_log_enabled()) {
--                const char *es;
--                target_ulong *miss, *cmp;
--                int en;
-+            ppc_excp_debug_sw_tlb(env, excp);
  
--                if (excp == POWERPC_EXCP_IFTLB) {
--                    es = "I";
--                    en = 'I';
--                    miss = &env->spr[SPR_IMISS];
--                    cmp = &env->spr[SPR_ICMP];
--                } else {
--                    if (excp == POWERPC_EXCP_DLTLB) {
--                        es = "DL";
--                    } else {
--                        es = "DS";
--                    }
--                    en = 'D';
--                    miss = &env->spr[SPR_DMISS];
--                    cmp = &env->spr[SPR_DCMP];
--                }
--                qemu_log("6xx %sTLB miss: %cM " TARGET_FMT_lx " %cC "
--                         TARGET_FMT_lx " H1 " TARGET_FMT_lx " H2 "
--                         TARGET_FMT_lx " %08x\n", es, en, *miss, en, *cmp,
--                         env->spr[SPR_HASH1], env->spr[SPR_HASH2],
--                         env->error_code);
--            }
--#endif
-             msr |= env->crf[0] << 28;
-             msr |= env->error_code; /* key, D/I, S/L bits */
-             /* Set way using a LRU mechanism */
 -- 
 2.33.1
 
