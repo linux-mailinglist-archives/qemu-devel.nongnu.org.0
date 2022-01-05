@@ -2,62 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52F96485120
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 11:29:21 +0100 (CET)
-Received: from localhost ([::1]:55212 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C59848511E
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 11:28:44 +0100 (CET)
+Received: from localhost ([::1]:53700 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n53Xk-0003qq-F8
-	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 05:29:20 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:32922)
+	id 1n53X9-0002mx-7P
+	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 05:28:43 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33496)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n53OQ-0004al-Ur
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 05:19:45 -0500
-Received: from mout.kundenserver.de ([217.72.192.75]:42263)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1n53Ql-0006ps-Vd
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 05:22:07 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31335)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n53OP-0006fa-AD
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 05:19:42 -0500
-Received: from [192.168.100.1] ([82.142.30.62]) by mrelayeu.kundenserver.de
- (mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MsIbU-1mH5P347S6-00tmJ0; Wed, 05 Jan 2022 11:19:36 +0100
-Message-ID: <fb5ae783-c406-3d19-f019-764e02dfcd7b@vivier.eu>
-Date: Wed, 5 Jan 2022 11:19:34 +0100
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1n53Qj-0007Id-Mc
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 05:22:07 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1641378124;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=T//FDeg/dnN7pnc0GCkSCS4sd4IJyI1+y8I64lunVwE=;
+ b=I9PGfdB7UsuUjn6MC4J7kEjW1cgjQAFSSSpKxx/e7j3JceL+42yujqNINX5ASMl8dGUzXw
+ 8p79AInVZZDMHI6seK3BNPWRymNwBhStiYe4MMED7JOEGzlnrkQrrNwVJLfFnxD6fLw7qK
+ PikUFNJpxkTJT3m8Oi5Jd2NbBooKgSw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-120-RW7yivg6Nvqp44StgXrjnA-1; Wed, 05 Jan 2022 05:22:01 -0500
+X-MC-Unique: RW7yivg6Nvqp44StgXrjnA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A931D100C624;
+ Wed,  5 Jan 2022 10:21:59 +0000 (UTC)
+Received: from localhost (unknown [10.39.194.143])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4C5BD5E4B9;
+ Wed,  5 Jan 2022 10:21:45 +0000 (UTC)
+Date: Wed, 5 Jan 2022 10:21:43 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: "Longpeng(Mike)" <longpeng2@huawei.com>
+Subject: Re: [RFC 00/10] add generic vDPA device support
+Message-ID: <YdVxN8+4FXOgxmla@stefanha-x1.localdomain>
+References: <20220105005900.860-1-longpeng2@huawei.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH] linux-user/syscall.c: fix missed flag for shared memory
- in open_self_maps
-Content-Language: fr
-To: Andrey Kazmin <a.kazmin@partner.samsung.com>, qemu-devel@nongnu.org
-References: <CGME20211227125057eucas1p14ebd7c0d73df4a25abc40bfa3fe0c3f2@eucas1p1.samsung.com>
- <20211227125048.22610-1-a.kazmin@partner.samsung.com>
-From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <20211227125048.22610-1-a.kazmin@partner.samsung.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:Hqr/WXmnceHLXBg8RpjODUZLDAku5+G5QqOsduV8nFdjFR0PGof
- Th0NSTDlftGb4EhgtyI6rsQXMrf95N1RqzWNa6nfRJDoDa2rG4eE98JiNUBn8eD+eiJ2ho8
- ruT6aM7b5vKAAlydfSUsMIWzEcKNvRjbUzX9wmJrLpQyzI1c4UHoOB4h4j8NGefb8R9gI3h
- j2uriuNzku3+gk6k5vPeQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:3mIWu1/+FWI=:97bXU4DYljc8dGK+QFXYAx
- vyN0mBpEbMHbUItTQ3UG+Z6/SERoQ1ZdiJ94UUN4hictkmYSL1ckbrbK19BERljkIM9R9B4ne
- aAv/Sx5IkpPeWsrXCsm53SuxqqFk2OXgEGaI0zEFk8oi+zUgVk1WvbFOmSDQTRNc5RQCFEoWJ
- eKAm9uPBd3HGqLo2zoMj4TgVH/ph2P9WNqCxUGvedqAoFPKMipR2KnV4dri395FTdGGer8Ldl
- 9lHLSsIQoagjz0ciHTSYAx+xp/3+JTq7YqdIuaWlhwZ8NzjcBEFQLboOJPSlJngUtmffAgwYB
- Z2Hfo3dtR+uNpnQnOIrSiIYtpnZabLmkAUqlh/RMIZa5xDv3ypIeTRtlElS2MLc6gFNOkLcXM
- 2wlAxQduJRlVEAqFrJadb6PPEIsK1TjQSwEX+uwBgbPM4SAb7WtEhuVxJFEgbgfBq6W5+AQ75
- GzSN2XgRikngMy39pYReMfEo2o3k86PMM3j4azC0Lf091GnEs0Odiw+Zj5EQcWIlVTr3l9CZ5
- n6PVn1+YQs86vr3sAw/5LBHo0XStV1uEbTs4efkBpiPynv4yY8BIrKWxCbVGDtaW8OjqY/sGg
- +skY4S4ZvyQ9W8JVwBZmM4JChDAUwxA/w8o2lu2JzdV+iVeDlvRMOwgzLfoM1eJyLdAHmEUoR
- LSVBvKz6IP02x5NZT4RZ3fYHvFRn1tvemndGEijVtLcVwUCRtfdXiyxKLC29Qs2gooE8=
-Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -29
-X-Spam_score: -3.0
+In-Reply-To: <20220105005900.860-1-longpeng2@huawei.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="x14Tw75JRbDrbZM1"
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
 X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.057,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.372,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -70,37 +79,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: mst@redhat.com, jasowang@redhat.com, cohuck@redhat.com,
+ qemu-devel@nongnu.org, yechuan@huawei.com, arei.gonglei@huawei.com,
+ huangzhichao@huawei.com, pbonzini@redhat.com, sgarzare@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 27/12/2021 à 13:50, Andrey Kazmin a écrit :
-> The possible variants for region type in /proc/self/maps are either
-> private "p" or shared "s". In the current implementation,
-> we mark shared regions as "-". It could break memory mapping parsers
-> such as included into ASan/HWASan sanitizers.
-> 
-> Signed-off-by: Andrey Kazmin <a.kazmin@partner.samsung.com>
-> ---
->   linux-user/syscall.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-> index 56a3e17183..2199a98725 100644
-> --- a/linux-user/syscall.c
-> +++ b/linux-user/syscall.c
-> @@ -7790,7 +7790,7 @@ static int open_self_maps(void *cpu_env, int fd)
->                               (flags & PAGE_READ) ? 'r' : '-',
->                               (flags & PAGE_WRITE_ORG) ? 'w' : '-',
->                               (flags & PAGE_EXEC) ? 'x' : '-',
-> -                            e->is_priv ? 'p' : '-',
-> +                            e->is_priv ? 'p' : 's',
->                               (uint64_t) e->offset, e->dev, e->inode);
->               if (path) {
->                   dprintf(fd, "%*s%s\n", 73 - count, "", path);
+--x14Tw75JRbDrbZM1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Wed, Jan 05, 2022 at 08:58:50AM +0800, Longpeng(Mike) wrote:
+> From: Longpeng <longpeng2@huawei.com>
+>=20
+> Hi guys,
+>=20
+> This patchset tries to support the generic vDPA device, the previous
+> disscussion can be found here [1].
+>=20
+> With the generic vDPA device, QEMU won't need to touch the device
+> types any more, such like vfio.
+>=20
+> We can use the generic vDPA device as follow:
+>   -device vhost-vdpa-device-pci,vdpa-dev=3D/dev/vhost-vdpa-X
+>=20
+> I've done some simple tests on Huawei's offloading card (net, 0.95)
+> and vdpa_sim_blk (1.0);
+>=20
+> Note:
+>   the kernel part does not send out yet, I'll send it as soon as possible=
+.
+>=20
+> [1] https://lore.kernel.org/all/20211208052010.1719-1-longpeng2@huawei.co=
+m/
+>=20
+> Longpeng (Mike) (10):
+>   virtio: get class_id and pci device id by the virtio id
+>   vhost: add 3 commands for vhost-vdpa
+>   vdpa: add the infrastructure of vdpa-dev
+>   vdpa-dev: implement the instance_init/class_init interface
+>   vdpa-dev: implement the realize interface
+>   vdpa-dev: implement the unrealize interface
+>   vdpa-dev: implement the get_config/set_config interface
+>   vdpa-dev: implement the get_features interface
+>   vdpa-dev: implement the set_status interface
+>   vdpa-dev: mark the device as unmigratable
 
-Applied to my linux-user-for-7.0 branch.
+Nice and small.
 
-Thanks,
-Laurent
+Stefan
+
+--x14Tw75JRbDrbZM1
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmHVcTcACgkQnKSrs4Gr
+c8jZ7wf+Ognp/gQ2OHF/aBV9Zktb8d4J6vKLZLi+zGPPB8OaBzyDOcYWqgfyMzmx
+gymkX0y2gKvninC03kwxhHUtyLuBjw9RhD3VNMEU9p9GOdNrXWW4y8W9SVjpHuoR
+x9LqSFLV/o18gU8t6lxNjShP1G5A+CYf3lXYhF+uIk1tuwazjMnm4WiFNMCvylqy
+qem6OQsd90vUnqLB0ISTY5oI6EXg1O016qRcHGASvziXpFmTV5AuPTD1w+/pRzDX
+hTuFLrf7dgT3HD4JRY9LHptUznNq3JFwiKb9rSCXBo+8hs8/RAONF9QUDUXrxA8P
+EDbKJS6BQ6gvVgl2EhLtWzenDRTQQw==
+=hG2y
+-----END PGP SIGNATURE-----
+
+--x14Tw75JRbDrbZM1--
+
 
