@@ -2,82 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E07344851B1
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 12:19:14 +0100 (CET)
-Received: from localhost ([::1]:34888 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61E6B4851B8
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 12:21:09 +0100 (CET)
+Received: from localhost ([::1]:37206 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n54K1-0007vB-Nl
-	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 06:19:13 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45362)
+	id 1n54Ls-0001LC-7e
+	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 06:21:08 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45804)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1n54HI-0006V3-2X
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 06:16:24 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31938)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1n54Jx-0000Df-7o
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 06:19:09 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45379)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1n54HG-0005sb-I0
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 06:16:23 -0500
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1n54Jv-00069J-Nn
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 06:19:08 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641381378;
+ s=mimecast20190719; t=1641381547;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=r9zC7M5WU3HIfYXMrcJMuu9Hb4ElgxiIKFOGc1F5cB4=;
- b=HJ+yKDLXOr5UJtWrpaKc1zHEtEsx9c8UqA1LkG8NfziCAVnQsUcXFHvhH43ktaZ+AaOYrN
- xzUgCOx1xbRt6gK91PYcuM8jgraheyFkOWlKRPwLwkROFDI5ksS8bb6HdJj9lwGz30vEY9
- tdKRHh+GFU3sRjTNKwZvIoMoTVIYsCI=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=0x8HhFhfPnDDaR+VN6cluLYe5EjWqyv/Dhpx+ACL1QY=;
+ b=XSRNmbrv/S5cIld4Irmm9WBu3lVta9+I/HeAdhl2nurVjtE0DhLQ862a7jFNDeQApO7EPK
+ 81Ds5hMqUEPnh0KUcUZbrx9y+z8LfRwm0cMdMHUvAvBZAqGHdBtRomp+Vf3BvqlBIk41OM
+ lVTiJPfkHuu7kS+Hb1ZAe1krjNBzLH8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-102-Ir8T-PUkP0qaHZlaYdspkw-1; Wed, 05 Jan 2022 06:16:17 -0500
-X-MC-Unique: Ir8T-PUkP0qaHZlaYdspkw-1
-Received: by mail-wr1-f71.google.com with SMTP id
- x20-20020adfbb54000000b001a0d044e20fso12542357wrg.11
- for <qemu-devel@nongnu.org>; Wed, 05 Jan 2022 03:16:17 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=r9zC7M5WU3HIfYXMrcJMuu9Hb4ElgxiIKFOGc1F5cB4=;
- b=5KwCXrXmdrsqHYGtvUCt8JenIRFiTBFYu9nsTMF7AuUV1xNm+8AByeIZ2ecjsLsgOd
- iSPo/OfHE/FHrGlBuuvcelOf/SFnx9y7zDw5rNBmfEttBQDMYvaBLqFjuQE6lTR1kyEI
- 7ggSbYGmQaDKQ04gNSKw6+lDryVYXYY0uC925uScWiHIiXKsTkKeECbhn8swClRP9ZP7
- FK8AMVRQtThurTOy8EpegixNjjrCFiGji5Ve4DhK5Sc/+AdY2vy4l5jTP/xiqi9Qc8xy
- vqa2d5Aie0daFrgcwaOapCENmQdQb3Um0shOMmShMEsE0LX6v0GGMWW194ks6D1RMrPt
- AHeg==
-X-Gm-Message-State: AOAM5316LrmncpZ0rEsUmqfZsYkRfBPnMm2uiAKAwzeMEf8duNSzhMVg
- iV4Xe/ocebPghfQa6BsgamGFO8hEwzj1MjDP8vKLw0E6AuwjotJEsQ+yEn4glqSpFyRsLsVXx/y
- 5N4DNwUtYufHI8Hc=
-X-Received: by 2002:a05:6000:1b0c:: with SMTP id
- f12mr1999986wrz.230.1641381376721; 
- Wed, 05 Jan 2022 03:16:16 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzT/JKGHQDn77533b+VWiykJ3o7dLpx4JCwrfUuONMd+Wbd/OtzMqpH9XHDbIsUgUrAtvv1Mg==
-X-Received: by 2002:a05:6000:1b0c:: with SMTP id
- f12mr1999960wrz.230.1641381376515; 
- Wed, 05 Jan 2022 03:16:16 -0800 (PST)
-Received: from steredhat (host-79-51-11-180.retail.telecomitalia.it.
- [79.51.11.180])
- by smtp.gmail.com with ESMTPSA id q8sm40519614wrx.59.2022.01.05.03.16.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Jan 2022 03:16:15 -0800 (PST)
-Date: Wed, 5 Jan 2022 12:16:12 +0100
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: "Longpeng(Mike)" <longpeng2@huawei.com>
-Subject: Re: [RFC 06/10] vdpa-dev: implement the unrealize interface
-Message-ID: <20220105111612.epxi3w3ebsaye5mm@steredhat>
-References: <20220105005900.860-1-longpeng2@huawei.com>
- <20220105005900.860-7-longpeng2@huawei.com>
+ us-mta-574-3Tr0UIGwNs62ryEdfa-CWg-1; Wed, 05 Jan 2022 06:19:03 -0500
+X-MC-Unique: 3Tr0UIGwNs62ryEdfa-CWg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C5834100C661;
+ Wed,  5 Jan 2022 11:19:02 +0000 (UTC)
+Received: from localhost (unknown [10.39.194.143])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8A0AB708D3;
+ Wed,  5 Jan 2022 11:18:53 +0000 (UTC)
+Date: Wed, 5 Jan 2022 11:18:52 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Raphael Norwitz <raphael.norwitz@nutanix.com>
+Subject: Re: [RFC 5/5] libvhost-user: handle removal of identical regions
+Message-ID: <YdV+nMs86IWxEZJN@stefanha-x1.localdomain>
+References: <20211215222939.24738-1-raphael.norwitz@nutanix.com>
+ <20211215222939.24738-6-raphael.norwitz@nutanix.com>
 MIME-Version: 1.0
-In-Reply-To: <20220105005900.860-7-longpeng2@huawei.com>
+In-Reply-To: <20211215222939.24738-6-raphael.norwitz@nutanix.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="+Ql+7nanYcuqCbVI"
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=sgarzare@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -98,69 +80,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mst@redhat.com, jasowang@redhat.com, cohuck@redhat.com,
- qemu-devel@nongnu.org, yechuan@huawei.com, arei.gonglei@huawei.com,
- huangzhichao@huawei.com, stefanha@redhat.com, pbonzini@redhat.com
+Cc: "marcandre.lureau@redhat.com" <marcandre.lureau@redhat.com>,
+ "david@redhat.com" <david@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "raphael.s.norwitz@gmail.com" <raphael.s.norwitz@gmail.com>,
+ "mst@redhat.com" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jan 05, 2022 at 08:58:56AM +0800, Longpeng(Mike) wrote:
->From: Longpeng <longpeng2@huawei.com>
->
->Implements the .unrealize interface.
->
->Signed-off-by: Longpeng <longpeng2@huawei.com>
->---
-> hw/virtio/vdpa-dev.c | 22 +++++++++++++++++++++-
-> 1 file changed, 21 insertions(+), 1 deletion(-)
->
->diff --git a/hw/virtio/vdpa-dev.c b/hw/virtio/vdpa-dev.c
->index 2d534d837a..4e4dd3d201 100644
->--- a/hw/virtio/vdpa-dev.c
->+++ b/hw/virtio/vdpa-dev.c
->@@ -133,9 +133,29 @@ out:
->     close(fd);
-> }
->
->+static void vhost_vdpa_vdev_unrealize(VhostVdpaDevice *s)
->+{
->+    VirtIODevice *vdev = VIRTIO_DEVICE(s);
->+    int i;
->+
->+    for (i = 0; i < s->num_queues; i++) {
-                       ^
-`s->num_queues` seems uninitialized to me, maybe we could just remove 
-the num_queues field from VhostVdpaDevice, and use `s->dev.nvqs` as in 
-vhost_vdpa_device_realize().
+--+Ql+7nanYcuqCbVI
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
->+        virtio_delete_queue(s->virtqs[i]);
->+    }
->+    g_free(s->virtqs);
->+    virtio_cleanup(vdev);
->+
->+    g_free(s->config);
->+}
->+
-> static void vhost_vdpa_device_unrealize(DeviceState *dev)
-> {
->-    return;
->+    VirtIODevice *vdev = VIRTIO_DEVICE(dev);
->+    VhostVdpaDevice *s = VHOST_VDPA_DEVICE(vdev);
->+
->+    virtio_set_status(vdev, 0);
->+    vhost_dev_cleanup(&s->dev);
+On Wed, Dec 15, 2021 at 10:29:55PM +0000, Raphael Norwitz wrote:
+> diff --git a/subprojects/libvhost-user/libvhost-user.c b/subprojects/libv=
+host-user/libvhost-user.c
+> index 74a9980194..2f465a4f0e 100644
+> --- a/subprojects/libvhost-user/libvhost-user.c
+> +++ b/subprojects/libvhost-user/libvhost-user.c
+> @@ -809,6 +809,7 @@ static bool
+>  vu_rem_mem_reg(VuDev *dev, VhostUserMsg *vmsg) {
+>      VhostUserMemoryRegion m =3D vmsg->payload.memreg.region, *msg_region=
+ =3D &m;
+>      int i;
+> +    bool found =3D false;
+> =20
+>      if (vmsg->fd_num !=3D 1 ||
+>          vmsg->size !=3D sizeof(vmsg->payload.memreg)) {
+> @@ -831,25 +832,25 @@ vu_rem_mem_reg(VuDev *dev, VhostUserMsg *vmsg) {
+>              VuDevRegion *r =3D &dev->regions[i];
+>              void *m =3D (void *) (uintptr_t) r->mmap_addr;
+> =20
+> -            if (m) {
+> +            if (m && !found) {
+>                  munmap(m, r->size + r->mmap_offset);
+>              }
 
-If we will use `s->dev.nvqs` in vhost_vdpa_vdev_unrealize(), we should 
-call vhost_dev_cleanup() after it, just before close() as we already do 
-in the error path of vhost_vdpa_device_realize().
+Why is only the first region unmapped? My interpretation of
+vu_add_mem_reg() is that it mmaps duplicate regions to unique mmap_addr
+addresses, so we need to munmap each of them.
 
->+    vhost_vdpa_vdev_unrealize(s);
->+    close(s->vdpa.device_fd);
-> }
->
-> static void
->-- 
->2.23.0
->
+> =20
+> -            break;
+> +            /*
+> +             * Shift all affected entries by 1 to close the hole at inde=
+x i and
+> +             * zero out the last entry.
+> +             */
+> +            memmove(dev->regions + i, dev->regions + i + 1,
+> +                    sizeof(VuDevRegion) * (dev->nregions - i - 1));
+> +            memset(dev->regions + dev->nregions - 1, 0, sizeof(VuDevRegi=
+on));
+> +            DPRINT("Successfully removed a region\n");
+> +            dev->nregions--;
+> +
+> +            found =3D true;
+>          }
+
+i-- is missing. dev->regions[] has been shortened so we need to check
+the same element again.
+
+--+Ql+7nanYcuqCbVI
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmHVfpwACgkQnKSrs4Gr
+c8iETwgAmBfFd4ifH0feW3wUu3qI69+6PBBH674VPtsrXUTl6JxmM6QmUNLtKvDl
+JfwCRntkMpL6sWfKYiBy5Z09iNU6EGM1cO7nndrcTJeG6YMHfA/oE/YR8JlbqPdX
+Ye64ya0SRmDtuS3TIfQ50eqr3IZULAq4DDEFivgtMVd4/6Jw1/L+G3akFFeDpHdO
+63nW4L96GJ79ML1L2c3NWdDJ9Cd2xm/kjc5osgXSG22dp4sKENT1dSshSLlgOmGx
+L96OuYMMCcJZQbVcgY4T+Hc1ShFHP1qC09eOezqm1Fc/eOGEQRxGC/EHF++3UcX0
+vdJil/vDE4/vuzWMPrria3cm5YRx8w==
+=SQme
+-----END PGP SIGNATURE-----
+
+--+Ql+7nanYcuqCbVI--
 
 
