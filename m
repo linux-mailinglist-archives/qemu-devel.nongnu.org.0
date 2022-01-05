@@ -2,58 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4988484E0B
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 07:11:36 +0100 (CET)
-Received: from localhost ([::1]:46012 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B0D2484E10
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 07:14:33 +0100 (CET)
+Received: from localhost ([::1]:48664 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n4zWJ-0004YA-5Z
-	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 01:11:35 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59418)
+	id 1n4zZ9-0006Uj-Nc
+	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 01:14:31 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59824)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1n4zSi-0003o6-0q
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 01:07:53 -0500
-Received: from mga03.intel.com ([134.134.136.65]:54371)
+ id 1n4zUo-0004wh-EG
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 01:10:02 -0500
+Received: from mga03.intel.com ([134.134.136.65]:54507)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1n4zSf-0002MY-F1
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 01:07:51 -0500
+ id 1n4zUm-0002XW-Lp
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 01:10:02 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1641362869; x=1672898869;
+ t=1641363000; x=1672899000;
  h=date:from:to:cc:subject:message-id:reply-to:references:
  mime-version:in-reply-to;
- bh=07p9MpW9zMg9Qp6lAa6OCqWxIJ+2lO0bV8d8+HqWdzA=;
- b=Ws/mM52/omj2Mut3ufcLB7BKQpHPmd+uSgN7vrWld/caCla0qf/tylFB
- fCpMHojKuJ22QseYnOtMmspct1BMqVluyMc6FmM77A8Dkv+deqgVg5Qt4
- itLgt05qQReZUuHOghaqClMOXap5hZqyvru+3MY0GycgDSRypvQ/2d/VA
- dxzAK+FbVza/i2n6464sRBuoTHqiIMSNnkvUK4lmCT1LRSXGgdeOO5mWU
- 9gT9G4GVzRO+XGhawcW9NMCI58Z+HEumZmVqfv63bkvA+4D69PBYnkLXd
- q080V+DTPKpq3Yp60Fs0HQtnd4ZdkzTKjvxhl5inc7HSfwJOYJf4VTXT8 Q==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10217"; a="242334640"
-X-IronPort-AV: E=Sophos;i="5.88,262,1635231600"; d="scan'208";a="242334640"
+ bh=neMYafxOw6RMBRe+E68I7vpqrbUkO5bFR8JYJ2KBVLo=;
+ b=THrx3TOv6tE/Mcm7zYP9VSW0YEKqKVweIHr7MVfkvZc4b/f2e/0FooDr
+ Q+Q+h64ChGXocQagOs825gRG1AOJOWQrDJZCxr/n6whIUsMDbZonvvYQu
+ 6l8H6mkvptkVe3Y8C9HFkWTaaQA9R6YhX6fdZVPVy4Noe0IAcvDZyZfiS
+ DQyXhfbDHlpjNgEL9zz/13InPP3b+xUkeiEhy0U9ead7Y8sKY3Knld8VD
+ /I3DHrCwXcp9tp7KPGk5Vtt9xYOQma+yfYJWmi7FnnbrHYaax6/mOccyD
+ WiYmZnef5uUtP/mg6MncsewPdtBhBzZwEHZJYr9bCbnRr8nMuqbte6eZU A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10217"; a="242334872"
+X-IronPort-AV: E=Sophos;i="5.88,262,1635231600"; d="scan'208";a="242334872"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Jan 2022 22:07:45 -0800
+ 04 Jan 2022 22:09:59 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,262,1635231600"; d="scan'208";a="526379627"
+X-IronPort-AV: E=Sophos;i="5.88,262,1635231600"; d="scan'208";a="526380386"
 Received: from chaop.bj.intel.com (HELO localhost) ([10.240.192.101])
- by orsmga008.jf.intel.com with ESMTP; 04 Jan 2022 22:07:38 -0800
-Date: Wed, 5 Jan 2022 14:07:04 +0800
+ by orsmga008.jf.intel.com with ESMTP; 04 Jan 2022 22:09:52 -0800
+Date: Wed, 5 Jan 2022 14:09:18 +0800
 From: Chao Peng <chao.p.peng@linux.intel.com>
 To: Sean Christopherson <seanjc@google.com>
-Subject: Re: [PATCH v3 kvm/queue 03/16] mm/memfd: Introduce MEMFD_OPS
-Message-ID: <20220105060704.GA25009@chaop.bj.intel.com>
+Subject: Re: [PATCH v3 kvm/queue 05/16] KVM: Maintain ofs_tree for fast
+ memslot lookup by file offset
+Message-ID: <20220105060918.GB25009@chaop.bj.intel.com>
 References: <20211223123011.41044-1-chao.p.peng@linux.intel.com>
- <20211223123011.41044-4-chao.p.peng@linux.intel.com>
- <95d13ac7da32aa1530d6883777ef3279e4ad825d.camel@linux.intel.com>
- <20211231023853.GB7255@chaop.bj.intel.com>
- <YdSGHnMFV5Mu9vdF@google.com>
+ <20211223123011.41044-6-chao.p.peng@linux.intel.com>
+ <YcS5uStTallwRs0G@google.com>
+ <20211224035418.GA43608@chaop.bj.intel.com>
+ <YcuGGCo5pR31GkZE@google.com>
+ <20211231022636.GA7025@chaop.bj.intel.com>
+ <YdSHViDXGkjz5t/Q@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YdSGHnMFV5Mu9vdF@google.com>
+In-Reply-To: <YdSHViDXGkjz5t/Q@google.com>
 User-Agent: Mutt/1.9.4 (2018-02-28)
 Received-SPF: none client-ip=134.134.136.65;
  envelope-from=chao.p.peng@linux.intel.com; helo=mga03.intel.com
@@ -82,67 +85,63 @@ Cc: Wanpeng Li <wanpengli@tencent.com>, jun.nakajima@intel.com,
  "H . Peter Anvin" <hpa@zytor.com>, ak@linux.intel.com,
  Jonathan Corbet <corbet@lwn.net>, Joerg Roedel <joro@8bytes.org>,
  x86@kernel.org, Hugh Dickins <hughd@google.com>,
- Robert Hoo <robert.hu@linux.intel.com>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, luto@kernel.org,
- Thomas Gleixner <tglx@linutronix.de>, Vitaly Kuznetsov <vkuznets@redhat.com>,
- Jim Mattson <jmattson@google.com>, dave.hansen@intel.com, susie.li@intel.com,
- Jeff Layton <jlayton@kernel.org>, linux-kernel@vger.kernel.org,
- john.ji@intel.com, Yu Zhang <yu.c.zhang@linux.intel.com>,
- linux-fsdevel@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
- Andrew Morton <akpm@linux-foundation.org>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ luto@kernel.org, Thomas Gleixner <tglx@linutronix.de>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>, Jim Mattson <jmattson@google.com>,
+ dave.hansen@intel.com, susie.li@intel.com, Jeff Layton <jlayton@kernel.org>,
+ linux-kernel@vger.kernel.org, john.ji@intel.com,
+ Yu Zhang <yu.c.zhang@linux.intel.com>, linux-fsdevel@vger.kernel.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Andrew Morton <akpm@linux-foundation.org>,
  "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jan 04, 2022 at 05:38:38PM +0000, Sean Christopherson wrote:
+On Tue, Jan 04, 2022 at 05:43:50PM +0000, Sean Christopherson wrote:
 > On Fri, Dec 31, 2021, Chao Peng wrote:
-> > On Fri, Dec 24, 2021 at 11:53:15AM +0800, Robert Hoo wrote:
-> > > On Thu, 2021-12-23 at 20:29 +0800, Chao Peng wrote:
-> > > > From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
-> > > >  
-> > > > +static void notify_fallocate(struct inode *inode, pgoff_t start,
-> > > > pgoff_t end)
-> > > > +{
-> > > > +#ifdef CONFIG_MEMFD_OPS
-> > > > +	struct shmem_inode_info *info = SHMEM_I(inode);
-> > > > +	const struct memfd_falloc_notifier *notifier;
-> > > > +	void *owner;
-> > > > +	bool ret;
-> > > > +
-> > > > +	if (!info->falloc_notifier)
-> > > > +		return;
-> > > > +
-> > > > +	spin_lock(&info->lock);
-> > > > +	notifier = info->falloc_notifier;
-> > > > +	if (!notifier) {
-> > > > +		spin_unlock(&info->lock);
-> > > > +		return;
-> > > > +	}
-> > > > +
-> > > > +	owner = info->owner;
-> > > > +	ret = notifier->get_owner(owner);
-> > > > +	spin_unlock(&info->lock);
-> > > > +	if (!ret)
-> > > > +		return;
-> > > > +
-> > > > +	notifier->fallocate(inode, owner, start, end);
+> > On Tue, Dec 28, 2021 at 09:48:08PM +0000, Sean Christopherson wrote:
+> > >KVM handles
+> > > reverse engineering the memslot to get the offset and whatever else it needs.
+> > > notify_fallocate() and other callbacks are unchanged, though they probably can
+> > > drop the inode.
 > > > 
-> > > I see notifier->fallocate(), i.e. memfd_fallocate(), discards
-> > > kvm_memfd_fallocate_range()'s return value. Should it be checked?
+> > > E.g. likely with bad math and handwaving on the overlap detection:
+> > > 
+> > > int kvm_private_fd_fallocate_range(void *owner, pgoff_t start, pgoff_t end)
+> > > {
+> > > 	struct kvm_memory_slot *slot = owner;
+> > > 	struct kvm_gfn_range gfn_range = {
+> > > 		.slot	   = slot,
+> > > 		.start	   = (start - slot->private_offset) >> PAGE_SHIFT,
+> > > 		.end	   = (end - slot->private_offset) >> PAGE_SHIFT,
+> > > 		.may_block = true,
+> > > 	};
+> > > 
+> > > 	if (!has_overlap(slot, start, end))
+> > > 		return 0;
+> > > 
+> > > 	gfn_range.end = min(gfn_range.end, slot->base_gfn + slot->npages);
+> > > 
+> > > 	kvm_unmap_gfn_range(slot->kvm, &gfn_range);
+> > > 	return 0;
+> > > }
 > > 
-> > I think we can ignore it, just like how current mmu_notifier does,
-> > the return value of __kvm_handle_hva_range is discarded in
-> > kvm_mmu_notifier_invalidate_range_start(). Even when KVM side failed,
-> > it's not fatal, it should not block the operation in the primary MMU.
+> > I understand this KVM side handling, but again one fd can have multiple
+> > memslots. How shmem decides to notify which memslot from a list of
+> > memslots when it invokes the notify_fallocate()? Or just notify all
+> > the possible memslots then let KVM to check? 
 > 
-> If the return value is ignored, it'd be better to have no return value at all so
-> that it's clear fallocate() will continue on regardless of whether or not the
-> secondary MMU callback succeeds.  E.g. if KVM can't handle the fallocate() for
-> whatever reason, then knowing that fallocate() will continue on means KVM should
-> mark the VM as dead so that the broken setup cannot be abused by userspace.
+> Heh, yeah, those are the two choices.  :-)
+> 
+> Either the backing store needs to support registering callbacks for specific,
+> arbitrary ranges, or it needs to invoke all registered callbacks.  Invoking all
+> callbacks has my vote; it's much simpler to implement and is unlikely to incur
+> meaningful overhead.  _Something_ has to find the overlapping ranges, that cost
+> doesn't magically go away if it's pushed into the backing store.
+> 
+> Note, invoking all notifiers is also aligned with the mmu_notifier behavior.
 
-After a close look, kvm_unmap_gfn_range() actually does not return a
-error code, so it's safe to not return in kvm_memfd_handle_range().
+Sounds a good reason. Then shmem side only needs to maintain a list of
+users.
 
 Chao
 
