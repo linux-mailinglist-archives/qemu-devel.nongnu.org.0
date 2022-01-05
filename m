@@ -2,91 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BB5D484F36
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 09:22:45 +0100 (CET)
-Received: from localhost ([::1]:58496 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC82A484F72
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 09:39:25 +0100 (CET)
+Received: from localhost ([::1]:35606 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n51ZD-0000DO-I6
-	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 03:22:43 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59466)
+	id 1n51pM-0004fE-G6
+	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 03:39:24 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34898)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1n51Vo-0006Wc-ND
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 03:19:16 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:57106)
+ (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
+ id 1n51ny-0003z5-Se
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 03:37:59 -0500
+Received: from szxga02-in.huawei.com ([45.249.212.188]:5088)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1n51Vk-0000Aj-JV
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 03:19:11 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641370747;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=LqvsDGafEeb6jEuqer8QDiXlsjBwlR9s+p8sUExp4HM=;
- b=hG/6/Iec1xiaxULwfU02WVxT1a3f9Lc73T49DdsmXeLQHLG3Pc6W8/rggXjrOtEKa0Yw8V
- fB5f4sUUHBpKFEcuxU3M0LezqP3vH2YFdrczHuC3jBxpbifyunQxxJ8yO97wniKw3im0Gs
- 4FZTPdaNfMwqun8cGO1le15fQty5fdU=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-613-JM1izReqNsWLjjomTuu3hg-1; Wed, 05 Jan 2022 03:19:06 -0500
-X-MC-Unique: JM1izReqNsWLjjomTuu3hg-1
-Received: by mail-wm1-f69.google.com with SMTP id
- z13-20020a05600c0a0d00b003457d6619f8so799783wmp.1
- for <qemu-devel@nongnu.org>; Wed, 05 Jan 2022 00:19:05 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:from:to:cc:references:in-reply-to
- :content-transfer-encoding;
- bh=LqvsDGafEeb6jEuqer8QDiXlsjBwlR9s+p8sUExp4HM=;
- b=n6D7dDzEAcBGzhorjKJCoLOs8i3bb5RCH62IuNhat5oPAlnu24k8T6i51G+e8oT14X
- VaGEL3cKgZYiZ3dMbJjiEohRH57CIq3OYHveBxsKvAq+ZjM+v7zDWYg8o2mineJpoTd8
- XUiRlTTvgq0YXSSP9PzGsml28wiEbBOqJwZI2u7kY0YsajmgAcbzal92d6A9LQucXnly
- 4uYjxMQURfL8h/Un1YYPS2693kiV2BlkJ6Feblvr3l1l4JjIxXz71WsrM27oRgh41wu9
- qKeJU2fux/LnOTKn5mRAd9z7FRtVoNCQt4XyPOvl/ieyM9wI4C1rbOvgDt3idtd2I/Gp
- fvyQ==
-X-Gm-Message-State: AOAM531cWTzepaOMk2xi2rJN4JaBBT9XqYHWUBUyJTONmSFiKEPIPESw
- lTu7wVMbekfPtbR1Ph3SRdiHOAaSnWdbLaOaojTu6b3WlOD/uZqZc5PyOEamDWO4gDpe/rSo8dN
- ycsQ61aIHnvjIp9Gce6CDrLl7IbDCHLZF3qEby2yEZ+4frahdaKWWl89V8/vVxV4=
-X-Received: by 2002:a05:6000:1a88:: with SMTP id
- f8mr46978505wry.75.1641370744930; 
- Wed, 05 Jan 2022 00:19:04 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJycSbWOMPk5Edylz4ZyWgujte7XpT/9I9MKl+o3SZUxGIUQHzZBo/F9H6W2DhG6Xa/Y8pe9nw==
-X-Received: by 2002:a05:6000:1a88:: with SMTP id
- f8mr46978493wry.75.1641370744724; 
- Wed, 05 Jan 2022 00:19:04 -0800 (PST)
-Received: from [10.33.192.229] (nat-pool-str-t.redhat.com. [149.14.88.106])
- by smtp.gmail.com with ESMTPSA id m5sm1849868wml.14.2022.01.05.00.19.04
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 05 Jan 2022 00:19:04 -0800 (PST)
-Message-ID: <b8696783-8dde-28c1-da80-22b276e99a73@redhat.com>
-Date: Wed, 5 Jan 2022 09:19:03 +0100
+ (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
+ id 1n51nv-0005Ka-Ku
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 03:37:58 -0500
+Received: from dggpeml500025.china.huawei.com (unknown [172.30.72.54])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4JTNBQ1L68z9s05;
+ Wed,  5 Jan 2022 16:36:46 +0800 (CST)
+Received: from dggpeml100016.china.huawei.com (7.185.36.216) by
+ dggpeml500025.china.huawei.com (7.185.36.35) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20; Wed, 5 Jan 2022 16:37:48 +0800
+Received: from dggpeml100016.china.huawei.com ([7.185.36.216]) by
+ dggpeml100016.china.huawei.com ([7.185.36.216]) with mapi id 15.01.2308.020;
+ Wed, 5 Jan 2022 16:37:48 +0800
+To: Jason Wang <jasowang@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
+CC: Stefan Hajnoczi <stefanha@redhat.com>, Stefano Garzarella
+ <sgarzare@redhat.com>, Cornelia Huck <cohuck@redhat.com>, pbonzini
+ <pbonzini@redhat.com>, "Gonglei (Arei)" <arei.gonglei@huawei.com>, Yechuan
+ <yechuan@huawei.com>, Huangzhichao <huangzhichao@huawei.com>, qemu-devel
+ <qemu-devel@nongnu.org>
+Subject: RE: [RFC 02/10] vhost: add 3 commands for vhost-vdpa
+Thread-Topic: [RFC 02/10] vhost: add 3 commands for vhost-vdpa
+Thread-Index: AQHYAc9wPMXmSOXfFU+/REf6MOZJ4KxTUbaAgAAo9wCAAA5zgIAAjrDg
+Date: Wed, 5 Jan 2022 08:37:48 +0000
+Message-ID: <1d157f74fdac49ff8ae734808bd3c518@huawei.com>
+References: <20220105005900.860-1-longpeng2@huawei.com>
+ <20220105005900.860-3-longpeng2@huawei.com>
+ <CACGkMEtL7Qkb65Wj4vw-W9h7Lu1Mh7fWGMEkw+0e=Ce=LfD=FA@mail.gmail.com>
+ <20220105020008-mutt-send-email-mst@kernel.org>
+ <CACGkMEsPqADAR1LhjP=Y4ShhSogdrf2T8O2Km22G7FwGCe+hrQ@mail.gmail.com>
+In-Reply-To: <CACGkMEsPqADAR1LhjP=Y4ShhSogdrf2T8O2Km22G7FwGCe+hrQ@mail.gmail.com>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.174.148.223]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH for-7.0] hw/i386/pc: Add missing property descriptions
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
-References: <20211206134255.94784-1-thuth@redhat.com>
-In-Reply-To: <20211206134255.94784-1-thuth@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.188; envelope-from=longpeng2@huawei.com;
+ helo=szxga02-in.huawei.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.372,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.057, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,54 +75,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>,
- Richard Henderson <richard.henderson@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  "Longpeng (Mike, Cloud Infrastructure Service Product Dept.)"
+ <longpeng2@huawei.com>
+From: longpeng2--- via <qemu-devel@nongnu.org>
 
-On 06/12/2021 14.42, Thomas Huth wrote:
-> When running "qemu-system-x86_64 -M pc,help" I noticed that some
-> properties were still missing their description. Add them now so
-> that users get at least a slightly better idea what they are all
-> about.
-> 
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->   hw/i386/pc.c | 8 ++++++++
->   1 file changed, 8 insertions(+)
-> 
-> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-> index a2ef40ecbc..837f2bff4e 100644
-> --- a/hw/i386/pc.c
-> +++ b/hw/i386/pc.c
-> @@ -1734,15 +1734,23 @@ static void pc_machine_class_init(ObjectClass *oc, void *data)
->   
->       object_class_property_add_bool(oc, PC_MACHINE_SMBUS,
->           pc_machine_get_smbus, pc_machine_set_smbus);
-> +    object_class_property_set_description(oc, PC_MACHINE_SMBUS,
-> +        "Enable/disable system management bus");
->   
->       object_class_property_add_bool(oc, PC_MACHINE_SATA,
->           pc_machine_get_sata, pc_machine_set_sata);
-> +    object_class_property_set_description(oc, PC_MACHINE_SATA,
-> +        "Enable/disable Serial ATA bus");
->   
->       object_class_property_add_bool(oc, PC_MACHINE_PIT,
->           pc_machine_get_pit, pc_machine_set_pit);
-> +    object_class_property_set_description(oc, PC_MACHINE_PIT,
-> +        "Enable/disable Intel 8254 programmable interval timer emulation");
->   
->       object_class_property_add_bool(oc, "hpet",
->           pc_machine_get_hpet, pc_machine_set_hpet);
-> +    object_class_property_set_description(oc, "hpet",
-> +        "Enable/disable high precision event timer emulation");
->   
->       object_class_property_add_bool(oc, "default-bus-bypass-iommu",
->           pc_machine_get_default_bus_bypass_iommu,
-
-Friendly happy new year ping!
-
-  Thomas
-
+DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogSmFzb24gV2FuZyBbbWFp
+bHRvOmphc293YW5nQHJlZGhhdC5jb21dDQo+IFNlbnQ6IFdlZG5lc2RheSwgSmFudWFyeSA1LCAy
+MDIyIDM6NTQgUE0NCj4gVG86IE1pY2hhZWwgUy4gVHNpcmtpbiA8bXN0QHJlZGhhdC5jb20+DQo+
+IENjOiBMb25ncGVuZyAoTWlrZSwgQ2xvdWQgSW5mcmFzdHJ1Y3R1cmUgU2VydmljZSBQcm9kdWN0
+IERlcHQuKQ0KPiA8bG9uZ3BlbmcyQGh1YXdlaS5jb20+OyBTdGVmYW4gSGFqbm9jemkgPHN0ZWZh
+bmhhQHJlZGhhdC5jb20+OyBTdGVmYW5vDQo+IEdhcnphcmVsbGEgPHNnYXJ6YXJlQHJlZGhhdC5j
+b20+OyBDb3JuZWxpYSBIdWNrIDxjb2h1Y2tAcmVkaGF0LmNvbT47IHBib256aW5pDQo+IDxwYm9u
+emluaUByZWRoYXQuY29tPjsgR29uZ2xlaSAoQXJlaSkgPGFyZWkuZ29uZ2xlaUBodWF3ZWkuY29t
+PjsgWWVjaHVhbg0KPiA8eWVjaHVhbkBodWF3ZWkuY29tPjsgSHVhbmd6aGljaGFvIDxodWFuZ3po
+aWNoYW9AaHVhd2VpLmNvbT47IHFlbXUtZGV2ZWwNCj4gPHFlbXUtZGV2ZWxAbm9uZ251Lm9yZz4N
+Cj4gU3ViamVjdDogUmU6IFtSRkMgMDIvMTBdIHZob3N0OiBhZGQgMyBjb21tYW5kcyBmb3Igdmhv
+c3QtdmRwYQ0KPiANCj4gT24gV2VkLCBKYW4gNSwgMjAyMiBhdCAzOjAyIFBNIE1pY2hhZWwgUy4g
+VHNpcmtpbiA8bXN0QHJlZGhhdC5jb20+IHdyb3RlOg0KPiA+DQo+ID4gT24gV2VkLCBKYW4gMDUs
+IDIwMjIgYXQgMTI6MzU6NTNQTSArMDgwMCwgSmFzb24gV2FuZyB3cm90ZToNCj4gPiA+IE9uIFdl
+ZCwgSmFuIDUsIDIwMjIgYXQgODo1OSBBTSBMb25ncGVuZyhNaWtlKSA8bG9uZ3BlbmcyQGh1YXdl
+aS5jb20+IHdyb3RlOg0KPiA+ID4gPg0KPiA+ID4gPiBGcm9tOiBMb25ncGVuZyA8bG9uZ3Blbmcy
+QGh1YXdlaS5jb20+DQo+ID4gPiA+DQo+ID4gPiA+IFRvIHN1cHBvcnQgZ2VuZXJpYyB2ZHBhIGRl
+aXZjZSwgd2UgbmVlZCBhZGQgdGhlIGZvbGxvd2luZyBpb2N0bHM6DQo+ID4gPiA+IC0gR0VUX1ZF
+Q1RPUlNfTlVNOiB0aGUgY291bnQgb2YgdmVjdG9ycyB0aGF0IHN1cHBvcnRlZA0KPiA+ID4NCj4g
+PiA+IERvZXMgdGhpcyBtZWFuIE1TSSB2ZWN0b3JzPyBJZiB5ZXMsIGl0IGxvb2tzIGxpa2UgYSBs
+YXllciB2aW9sYXRpb246DQo+ID4gPiB2aG9zdCBpcyB0cmFuc3BvcnQgaW5kZXBlbmRlbnQuDQo+
+ID4NCj4gPiBXZWxsICpndWVzdCogbmVlZHMgdG8ga25vdyBob3cgbWFueSB2ZWN0b3JzIGRldmlj
+ZSBzdXBwb3J0cy4NCj4gPiBJIGRvbid0IHRoaW5rIHRoZXJlJ3MgYSB3YXkgYXJvdW5kIHRoYXQu
+IERvIHlvdT8NCj4gDQo+IFdlIGhhdmUgVkhPU1RfU0VUX1ZSSU5HL0NPTkZJR19DQUxMIHdoaWNo
+IGlzIHBlciB2cS4gSSB0aGluayB3ZSBjYW4NCj4gc2ltcGx5IGFzc3VtZSAjdnFzICsgMT8NCj4g
+DQo+ID4gT3RoZXJ3aXNlIGd1ZXN0cyB3aWxsIGF0IGJlc3QgYmUgc3Vib3B0aW1hbC4NCj4gPg0K
+PiA+ID4gIEFuZCBpdCByZXZlYWxzIGRldmljZSBpbXBsZW1lbnRhdGlvbg0KPiA+ID4gZGV0YWls
+cyB3aGljaCBibG9jayAoY3Jvc3MgdmVuZG9yKSBtaWdyYXRpb24uDQo+ID4gPg0KPiA+ID4gVGhh
+bmtzDQo+ID4NCj4gPiBOb3QgbmVjZXNzYXJpbHksIHVzZXJzcGFjZSBjYW4gaGlkZSB0aGlzIGZy
+b20gZ3Vlc3QgaWYgaXQNCj4gPiB3YW50cyB0bywganVzdCB2YWxpZGF0ZS4NCj4gDQo+IElmIHdl
+IGNhbiBoaWRlIGl0IGF0IHZob3N0L3VBUEkgbGV2ZWwsIGl0IHdvdWxkIGJlIGV2ZW4gYmV0dGVy
+Pw0KPiANCg0KTm90IG9ubHkgTVNJIHZlY3RvcnMsIGJ1dCBhbHNvIHF1ZXVlLXNpemUsICN2cXMs
+IGV0Yy4NCg0KTWF5YmUgdGhlIHZob3N0IGxldmVsIGNvdWxkIGV4cG9zZSB0aGUgaGFyZHdhcmUn
+cyByZWFsIGNhcGFiaWxpdGllcw0KYW5kIGxldCB0aGUgdXNlcnNwYWNlIChRRU1VKSBkbyB0aGUg
+aGlkaW5nPyBUaGUgdXNlcnNwYWNlIGtub3cgaG93DQp0byBwcm9jZXNzIHRoZW0uDQoNCj4gVGhh
+bmtzDQo+IA0KPiA+DQo+ID4NCj4gPiA+ID4gLSBHRVRfQ09ORklHX1NJWkU6IHRoZSBzaXplIG9m
+IHRoZSB2aXJ0aW8gY29uZmlnIHNwYWNlDQo+ID4gPiA+IC0gR0VUX1ZRU19OVU06IHRoZSBjb3Vu
+dCBvZiB2aXJ0cXVldWVzIHRoYXQgZXhwb3J0ZWQNCj4gPiA+ID4NCj4gPiA+ID4gU2lnbmVkLW9m
+Zi1ieTogTG9uZ3BlbmcgPGxvbmdwZW5nMkBodWF3ZWkuY29tPg0KPiA+ID4gPiAtLS0NCj4gPiA+
+ID4gIGxpbnV4LWhlYWRlcnMvbGludXgvdmhvc3QuaCB8IDEwICsrKysrKysrKysNCj4gPiA+ID4g
+IDEgZmlsZSBjaGFuZ2VkLCAxMCBpbnNlcnRpb25zKCspDQo+ID4gPiA+DQo+ID4gPiA+IGRpZmYg
+LS1naXQgYS9saW51eC1oZWFkZXJzL2xpbnV4L3Zob3N0LmggYi9saW51eC1oZWFkZXJzL2xpbnV4
+L3Zob3N0LmgNCj4gPiA+ID4gaW5kZXggYzk5ODg2MGQ3Yi4uYzVlZGQ3NWQxNSAxMDA2NDQNCj4g
+PiA+ID4gLS0tIGEvbGludXgtaGVhZGVycy9saW51eC92aG9zdC5oDQo+ID4gPiA+ICsrKyBiL2xp
+bnV4LWhlYWRlcnMvbGludXgvdmhvc3QuaA0KPiA+ID4gPiBAQCAtMTUwLDQgKzE1MCwxNCBAQA0K
+PiA+ID4gPiAgLyogR2V0IHRoZSB2YWxpZCBpb3ZhIHJhbmdlICovDQo+ID4gPiA+ICAjZGVmaW5l
+IFZIT1NUX1ZEUEFfR0VUX0lPVkFfUkFOR0UgICAgICBfSU9SKFZIT1NUX1ZJUlRJTywgMHg3OCwg
+XA0KPiA+ID4gPiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBz
+dHJ1Y3Qgdmhvc3RfdmRwYV9pb3ZhX3JhbmdlKQ0KPiA+ID4gPiArDQo+ID4gPiA+ICsvKiBHZXQg
+dGhlIG51bWJlciBvZiB2ZWN0b3JzICovDQo+ID4gPiA+ICsjZGVmaW5lIFZIT1NUX1ZEUEFfR0VU
+X1ZFQ1RPUlNfTlVNICAgICBfSU9SKFZIT1NUX1ZJUlRJTywgMHg3OSwgaW50KQ0KPiA+ID4gPiAr
+DQo+ID4gPiA+ICsvKiBHZXQgdGhlIHZpcnRpbyBjb25maWcgc2l6ZSAqLw0KPiA+ID4gPiArI2Rl
+ZmluZSBWSE9TVF9WRFBBX0dFVF9DT05GSUdfU0laRSAgICAgX0lPUihWSE9TVF9WSVJUSU8sIDB4
+ODAsIGludCkNCj4gPiA+ID4gKw0KPiA+ID4gPiArLyogR2V0IHRoZSBudW1iZXIgb2YgdmlydHF1
+ZXVlcyAqLw0KPiA+ID4gPiArI2RlZmluZSBWSE9TVF9WRFBBX0dFVF9WUVNfTlVNICAgICAgICAg
+X0lPUihWSE9TVF9WSVJUSU8sIDB4ODEsIGludCkNCj4gPiA+ID4gKw0KPiA+ID4gPiAgI2VuZGlm
+DQo+ID4gPiA+IC0tDQo+ID4gPiA+IDIuMjMuMA0KPiA+ID4gPg0KPiA+DQoNCg==
 
