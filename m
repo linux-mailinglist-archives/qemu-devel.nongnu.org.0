@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E91E5485480
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 15:29:18 +0100 (CET)
-Received: from localhost ([::1]:32906 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCE004854AB
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 15:34:48 +0100 (CET)
+Received: from localhost ([::1]:46612 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n57Hy-0002Qm-2F
-	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 09:29:18 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52028)
+	id 1n57NI-0003Gt-0h
+	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 09:34:48 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51834)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1n56qI-0004iE-47
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 09:00:43 -0500
-Received: from [2a00:1450:4864:20::433] (port=35357
- helo=mail-wr1-x433.google.com)
+ id 1n56q3-0004al-QP
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 09:00:32 -0500
+Received: from [2a00:1450:4864:20::430] (port=33487
+ helo=mail-wr1-x430.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1n56qC-0006Uz-3E
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 09:00:41 -0500
-Received: by mail-wr1-x433.google.com with SMTP id j18so83209690wrd.2
- for <qemu-devel@nongnu.org>; Wed, 05 Jan 2022 06:00:35 -0800 (PST)
+ id 1n56q1-0006S8-OV
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 09:00:27 -0500
+Received: by mail-wr1-x430.google.com with SMTP id d9so83302440wrb.0
+ for <qemu-devel@nongnu.org>; Wed, 05 Jan 2022 06:00:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=BvYS7ZpZUxwdx+Q0vezeYELsJBJESCN4l0pR+awTIYY=;
- b=NFtKZ8HcgbE58VCvKvjEgDyJZ5za34FXe1VTtbL8RxDlsEMRuE1wsvP6YfjN95s/1n
- +2yA2qflNejKy+rEcssFc51n8aOeGOmpDua/G3qEcKJ+2a5K0UWdQ0ouxc1N+yig3PRU
- KhVczAMxLfo6239fosnyftbbDJlQO1WvQGa+IBGO/Apa/QIyiagnDyYB+Yvpy3pNkkDu
- Lf1dTV3BWBr013W/BZm9Da+d1/ELwBChnMoHNfUYYj3HKEIzIk5n+CNaZZUz0B/8gp/M
- Re4In2lcJiBRLv4Ij8xgnDQZgLxrCOjeFz/03Nmi+s4FHmBx5L2x5afVhX0UjOHpLPEJ
- /T3g==
+ bh=TtepZHQN5/znWv0868oBdmS5Aai2cc8av1kDEdpWxVg=;
+ b=qQelJAF0dyFj7pORmOwxIFqsU+1mDwSCKrin9LaT9NTe2Ra1cknBvs0nD58IC1wYxo
+ Hwci5DAiaK8I6qjpYZ+0j3zxT3ucKirqFMP3lZOW8G6LHEh30to5ELgMlaQZ1b0iRD6x
+ l/0Mbd4lonp6uSYzSYf3Xe2PCL5NCxVn5yrKl/LOYSHWftenro5f28mCt7Kaf2sloQRq
+ p3+gIbnk6EG9wyKhucnzFe5plJKKGRxvaYN2a1h4yn1W6ExszoKnmZ+5gPVDT7EYN4Ou
+ ic6FSa+Qk8RlqYRezKPoW6FhFzOUQ3WdxY7XGWbGwdyUtVw6kj+gHpiwOr1SUhAT+rbL
+ qjMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=BvYS7ZpZUxwdx+Q0vezeYELsJBJESCN4l0pR+awTIYY=;
- b=AqO5NCmStH7+WzjH+tRsRFu86wfzkpeG4VaqnNePSsifk/8Af7hxXzhObKsULuyOcI
- Ss2djvoggSRCdwsK3rZRELTlPqA4NOAOFrCvsIGZftBFaxNHsYeyVpg1/Xj5mTLITzEo
- nQAt6OP0JVNmoMOqQneTgw6zRDJZ4xU3xv5RlqCh+6ufJjVc7wOGfzE+Q52UukAJVJuj
- lK6e3UPBGL1elbRmeSRCvQJJufd0rJ/c+Q2yROmXdpC5t/bhrJFPqCr0KMywliIFHRiO
- jEJUETx3G36CDO+qQ9wo02/NBhBYSLM+9AFBuxBYH99EZUG32hFN1QzKA4wGBB5W1Bpw
- iICw==
-X-Gm-Message-State: AOAM530dxovY9ZffDVJ8wIzidsw35Z96H2z2VG/ymXTC693WRbeJuzQb
- Q+N4Ia6GG7fr8EO4oYxUDm9lfQ==
-X-Google-Smtp-Source: ABdhPJwYGkSGIhD2KYm/C0yNk57H8rH9IdRgK7gYocnzpnXAYIFLv8miDTKqsSWtv/41oRwS8cEdSQ==
-X-Received: by 2002:adf:f5c7:: with SMTP id k7mr1133672wrp.176.1641391234793; 
- Wed, 05 Jan 2022 06:00:34 -0800 (PST)
+ bh=TtepZHQN5/znWv0868oBdmS5Aai2cc8av1kDEdpWxVg=;
+ b=SCimf28Dg+PKos3yuinI9mGZD8AmPzPa7w8RxJN2PQel93ouI9P73O5AGq98lv/7uX
+ pdHfUaqAV2SCV1iZ5D6q1+o1xinn9Nw+N57ajCPVLrqi6t67FZMkTbZb7pvYtiSAHvRG
+ blQ2mW+uQ+b0dfdvSqjtCtfQzURtk+A3isVXP6PqGjvRPcLj7Xv/3yq15y4VtwOjlpQ8
+ RTn5+J4ws1rVbBgTg1l9d8Tw0IOF4eK1hrLFBSi+x5ZjO82LBTAxNvhL/laOyO1WBf4Q
+ tfx1GUcZj4JjEStPVpWL41BKF0QRqKtWWpVeNmfPCiOB1jmCnk68scl556XP6tdcNbia
+ yANQ==
+X-Gm-Message-State: AOAM533A/y2Cv2Po3jMSkQC9ZiLU3pPTimQhliqcGhKXDgzeWfHM0gxk
+ nZ2Ps3OBwTx5gK89M4wmbvuvy9uMSHiCig==
+X-Google-Smtp-Source: ABdhPJzVSed6zg4pg2c8+s/jBUqt+rh3MU10yZK/D95EcQBx5mnqKHRTT6Ws3oWdDxaXr5HcpkfrDg==
+X-Received: by 2002:a05:6000:545:: with SMTP id
+ b5mr30545153wrf.452.1641391224582; 
+ Wed, 05 Jan 2022 06:00:24 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id 9sm52520147wrz.90.2022.01.05.06.00.21
+ by smtp.gmail.com with ESMTPSA id t15sm18602501wrz.82.2022.01.05.06.00.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Jan 2022 06:00:30 -0800 (PST)
+ Wed, 05 Jan 2022 06:00:19 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id E997F1FFD5;
- Wed,  5 Jan 2022 13:50:11 +0000 (GMT)
+ by zen.linaroharston (Postfix) with ESMTP id 0D8DF1FFB7;
+ Wed,  5 Jan 2022 13:50:12 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH  v1 30/34] FreeBSD: Upgrade to 12.3 release
-Date: Wed,  5 Jan 2022 13:50:05 +0000
-Message-Id: <20220105135009.1584676-31-alex.bennee@linaro.org>
+Subject: [PATCH  v1 31/34] docs/sphinx: fix compatibility with sphinx < 1.8
+Date: Wed,  5 Jan 2022 13:50:06 +0000
+Message-Id: <20220105135009.1584676-32-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220105135009.1584676-1-alex.bennee@linaro.org>
 References: <20220105135009.1584676-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::433
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::430
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x433.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x430.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -89,85 +90,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, Thomas Huth <thuth@redhat.com>, berrange@redhat.com,
- Beraldo Leal <bleal@redhat.com>, f4bug@amsat.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Warner Losh <imp@bsdimp.com>, stefanha@redhat.com, crosa@redhat.com,
- pbonzini@redhat.com, =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- aurelien@aurel32.net, Brad Smith <brad@comstyle.com>
+Cc: fam@euphon.net, Peter Maydell <peter.maydell@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, berrange@redhat.com, f4bug@amsat.org,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ stefanha@redhat.com, crosa@redhat.com, pbonzini@redhat.com,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Brad Smith <brad@comstyle.com>
+From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Note, since libtasn1 was fixed in 12.3 [*], this commit re-enables GnuTLS.
+SphinxDirective was added with sphinx 1.8 (2018-09-13).
 
-[*] https://gitlab.com/gnutls/libtasn1/-/merge_requests/71
-
-Signed-off-by: Brad Smith <brad@comstyle.com>
+Reported-by: Thomas Huth <thuth@redhat.com>
+Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Tested-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Warner Losh <imp@bsdimp.com>
+Message-Id: <20220104074649.1712440-1-marcandre.lureau@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <YdUCQLVe5JSWZByQ@humpty.home.comstyle.com>
 ---
- .gitlab-ci.d/cirrus.yml | 5 +----
- tests/vm/freebsd        | 8 +++-----
- 2 files changed, 4 insertions(+), 9 deletions(-)
+ docs/sphinx/fakedbusdoc.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/.gitlab-ci.d/cirrus.yml b/.gitlab-ci.d/cirrus.yml
-index 19e6c21401..b96b22e269 100644
---- a/.gitlab-ci.d/cirrus.yml
-+++ b/.gitlab-ci.d/cirrus.yml
-@@ -52,14 +52,11 @@ x64-freebsd-12-build:
-     NAME: freebsd-12
-     CIRRUS_VM_INSTANCE_TYPE: freebsd_instance
-     CIRRUS_VM_IMAGE_SELECTOR: image_family
--    CIRRUS_VM_IMAGE_NAME: freebsd-12-2
-+    CIRRUS_VM_IMAGE_NAME: freebsd-12-3
-     CIRRUS_VM_CPUS: 8
-     CIRRUS_VM_RAM: 8G
-     UPDATE_COMMAND: pkg update
-     INSTALL_COMMAND: pkg install -y
--    # TODO: Enable gnutls again once FreeBSD's libtasn1 got fixed
--    # See: https://gitlab.com/gnutls/libtasn1/-/merge_requests/71
--    CONFIGURE_ARGS: --disable-gnutls
-     TEST_TARGETS: check
+diff --git a/docs/sphinx/fakedbusdoc.py b/docs/sphinx/fakedbusdoc.py
+index a680b25754..d2c5079046 100644
+--- a/docs/sphinx/fakedbusdoc.py
++++ b/docs/sphinx/fakedbusdoc.py
+@@ -7,12 +7,12 @@
+ # Author: Marc-André Lureau <marcandre.lureau@redhat.com>
+ """dbus-doc is a Sphinx extension that provides documentation from D-Bus XML."""
  
- x64-freebsd-13-build:
-diff --git a/tests/vm/freebsd b/tests/vm/freebsd
-index 6e20e84322..805db759d6 100755
---- a/tests/vm/freebsd
-+++ b/tests/vm/freebsd
-@@ -28,8 +28,8 @@ class FreeBSDVM(basevm.BaseVM):
-     name = "freebsd"
-     arch = "x86_64"
++from docutils.parsers.rst import Directive
+ from sphinx.application import Sphinx
+-from sphinx.util.docutils import SphinxDirective
+ from typing import Any, Dict
  
--    link = "https://download.freebsd.org/ftp/releases/ISO-IMAGES/12.2/FreeBSD-12.2-RELEASE-amd64-disc1.iso.xz"
--    csum = "a4530246cafbf1dd42a9bd3ea441ca9a78a6a0cd070278cbdf63f3a6f803ecae"
-+    link = "https://download.freebsd.org/ftp/releases/ISO-IMAGES/12.3/FreeBSD-12.3-RELEASE-amd64-disc1.iso.xz"
-+    csum = "36dd0de50f1fe5f0a88e181e94657656de26fb64254412f74e80e128e8b938b4"
-     size = "20G"
-     pkgs = [
-         # build tools
-@@ -65,8 +65,6 @@ class FreeBSDVM(basevm.BaseVM):
-         "zstd",
-     ]
  
--    # TODO: Enable gnutls again once FreeBSD's libtasn1 got fixed
--    # See: https://gitlab.com/gnutls/libtasn1/-/merge_requests/71
-     BUILD_SCRIPT = """
-         set -e;
-         rm -rf /home/qemu/qemu-test.*
-@@ -74,7 +72,7 @@ class FreeBSDVM(basevm.BaseVM):
-         mkdir src build; cd src;
-         tar -xf /dev/vtbd1;
-         cd ../build
--        ../src/configure --python=python3.7 --disable-gnutls {configure_opts};
-+        ../src/configure --python=python3.7 {configure_opts};
-         gmake --output-sync -j{jobs} {target} {verbose};
-     """
+-class FakeDBusDocDirective(SphinxDirective):
++class FakeDBusDocDirective(Directive):
+     has_content = True
+     required_arguments = 1
  
 -- 
 2.30.2
