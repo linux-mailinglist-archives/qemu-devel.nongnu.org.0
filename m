@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CBED485AE7
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 22:43:30 +0100 (CET)
-Received: from localhost ([::1]:40964 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 276BB485AA7
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 22:32:05 +0100 (CET)
+Received: from localhost ([::1]:40484 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5E49-0000jY-Ck
-	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 16:43:29 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33320)
+	id 1n5Dt6-0005ob-6d
+	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 16:32:04 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33318)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1n5Dlr-0002lw-CW; Wed, 05 Jan 2022 16:24:36 -0500
-Received: from [2607:f8b0:4864:20::929] (port=33620
+ id 1n5Dlr-0002lv-CZ; Wed, 05 Jan 2022 16:24:36 -0500
+Received: from [2607:f8b0:4864:20::929] (port=45733
  helo=mail-ua1-x929.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1n5Dlk-0007wi-C4; Wed, 05 Jan 2022 16:24:34 -0500
-Received: by mail-ua1-x929.google.com with SMTP id u6so948913uaq.0;
- Wed, 05 Jan 2022 13:24:26 -0800 (PST)
+ id 1n5Dlk-0007x5-U9; Wed, 05 Jan 2022 16:24:34 -0500
+Received: by mail-ua1-x929.google.com with SMTP id az37so783688uab.12;
+ Wed, 05 Jan 2022 13:24:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=c9B/5k+GlO03SuurIyo65tZHyGVJVMMEC2A/JY1LV/I=;
- b=CmONbOerjoJb/Zr0LP9yy/l1r/zuxeqekKU+jL1dEMyM7HH1cVk2/4LqA9JR6ENsQe
- 689ozmqL+7MAWfXPihZ9xQHYgZlWzF8OcqmADzQFBWoRvVi/IEDFfOWiN1+sAORZDisB
- /vyDLUFg6uZJ/ORLKPfJACXMsy8kdQKWIPZhFN9xp4Alre8VtC+sNl05CtWwyhh8eEtE
- +43Aib8hzCWvafMKr/3NzUDav/QWaugvZhRHdK+s3hEncg5mmDxwnpGuUN1QmytV4WNP
- Ll5rj0SAhnOiWiETbmGQcSWEevhfgyEGe7RXUonwIdx7dcwggAQoP8TfMSUwKdJH0Zhn
- 608A==
+ bh=8J+W4gBJgG6/8YYA5oT/giuQ5hd3QEpiDXE8R+5Jke4=;
+ b=H3PsJhR2Felt64u+otvHouxj6hopiqL4sxw77PV9mfczBAE/pDFauf0hAnKLiz9NzM
+ 92JYfl7Gj9Jn0VCOAxCeFrX7nJF00ME0oac08Tzr7J84IYRhdP5mp3izmbiyMiLrlyP0
+ 1aNO2/SSdBs/vs8xpz2FqTcP6xR274JMxpxCdLseY65EcBrfvXeHfQ8Vw0wJLh2xBBep
+ lVQvtUCKx4hIi5vs0Z6R6uTm6a+rdDzdBGqTLhCMDrE8orBay9QF+E09hyXj3tYIUmHD
+ 8P7KlWbG5utFjCtqPjBy61izzj0ab/WbYyd48W03uMKx2wcG5ElS6ILftaQNTusqzIBv
+ XIiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=c9B/5k+GlO03SuurIyo65tZHyGVJVMMEC2A/JY1LV/I=;
- b=Bd2XCsVxVVGa4p6VjPQBBgliuIelWyNtbwVLpcNYvl0yNaYWYwx2MjuGP0Pc34NFzy
- o1GuMTkL3v/jhJSkJM00roQEBaHzK7b7OzFAenwbL9lqGAK3U3qJB0dh4IuoVJyoOkoc
- CJhJm8B9t2iFKrC0h+k3aQU6fSRPrVbaT9wTqW4LuMyE/rzjrhIrdcHj4ZSC2OC7WZNe
- 2WKp6ugJuywB/TmgLtVLUn5PFToSHbL6+B4MWn0G8rly5iaqCD879Oqa/bOZQYIiiz7B
- 9xIzpVtk0GFYvKjAkNepVxGBJUORUaivubbCqYJ1IRDTcLv/2pmf0qhPDe+gGvNWsclP
- 2nEw==
-X-Gm-Message-State: AOAM532T9d55cyDqEVaufZIzbD9Y8FbfdiTOea4yp48/PT2HFCXxAPLF
- AMhW5Z6TxMXXZidqv3ycPlZuM0jLVrw=
-X-Google-Smtp-Source: ABdhPJyoyZzIBBomiURmeGPOeYI5McvmRTBwBPUfzCIhKyTl4uUQO4ZlqHyszesdK0KUxtcl/rfhMQ==
-X-Received: by 2002:a05:6102:839:: with SMTP id
- k25mr17541401vsb.46.1641417866019; 
- Wed, 05 Jan 2022 13:24:26 -0800 (PST)
+ bh=8J+W4gBJgG6/8YYA5oT/giuQ5hd3QEpiDXE8R+5Jke4=;
+ b=LvdS+JBiaRt0ZitPrZ3R6f1YYxxkW4r5Ku9cuJb6QWsn4oCAuihRxMarYYB7jErW8I
+ 4e+ECcR8w55rYYlLenI4GqZ2oU9nlsUGzEoi3GoIatuAR84WBxXYJ21ZOsxt2BkagLkp
+ d+jLrloXk2mztHyFd/6gRy1+yJUyzJfi1T91IXJCYmwxacItoqc6Thjlgh4FLGYroZ2U
+ I/cTn32nX83mbGLhvaX736CADhR4bk0cHNYUgKgeLb+PMoGuRL1jpGYQ0VNGwU506z4H
+ SZ6jUBWUPpRxM7c4JwLa2anpZN9ecn90J3eFLfmTdbr6mRLgQBueBoHqEAA6SjuHQQhH
+ 3J+Q==
+X-Gm-Message-State: AOAM533IotTo0OZqzoLLt2xPy5Hwh1yFIN2FnZFnm9yLQjw+r96mUFXg
+ y/3T901hxs0nNIgIC2uk3ofGUteDk74=
+X-Google-Smtp-Source: ABdhPJzGbNJdl6q9N47ku0gXa3Hrpo8eSpQ5V3UjHFKjOhMesETQKzC4HpNrgEb9wg+b4cA9+PJxMg==
+X-Received: by 2002:a05:6102:c4a:: with SMTP id
+ y10mr7354137vss.80.1641417867783; 
+ Wed, 05 Jan 2022 13:24:27 -0800 (PST)
 Received: from rekt.ibmuc.com ([2804:431:c7c7:f4d8:aa07:335f:99e0:a6e7])
- by smtp.gmail.com with ESMTPSA id m5sm65922vke.43.2022.01.05.13.24.23
+ by smtp.gmail.com with ESMTPSA id m5sm65922vke.43.2022.01.05.13.24.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Jan 2022 13:24:25 -0800 (PST)
+ Wed, 05 Jan 2022 13:24:27 -0800 (PST)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 16/18] pnv_phb4.c: introduce pnv_pec_init_stack_xscom()
-Date: Wed,  5 Jan 2022 18:23:36 -0300
-Message-Id: <20220105212338.49899-17-danielhb413@gmail.com>
+Subject: [PATCH v2 17/18] ppc/pnv: Introduce user creatable pnv-phb4 devices
+Date: Wed,  5 Jan 2022 18:23:37 -0300
+Message-Id: <20220105212338.49899-18-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20220105212338.49899-1-danielhb413@gmail.com>
 References: <20220105212338.49899-1-danielhb413@gmail.com>
@@ -90,108 +90,187 @@ Cc: danielhb413@gmail.com, qemu-ppc@nongnu.org, clg@kaod.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The XSCOM address space of the stack must be populated after the
-initialization of its associated PHB4 is completed. At this moment this
-is always true because stk_realize() will always succeeds the realize of
-stack->phb, but that will not be the case with user creatable pnv-phb4
-devices.
+This patch introduces pnv-phb4 user creatable devices that are created
+in a similar manner as pnv-phb3 devices, allowing the user to interact
+with the PHBs directly instead of creating PCI Express Controllers that
+will create a certain amount of PHBs per controller index.
 
-Create a helper that can be used later on during pnv-phb4 realize() to
-initialize the xscom address space of its stack.
+First thing we need is to discover which stack will host the created
+PHB, which is done by the new pnv_phb4_get_stack() function. During
+pnv_phb4_realize() we'll inspect phb->stack to see if we're dealing with
+an user creatable device or not. When using default settings, the
+automatically created PHB4 devices will be realized with phb->stack
+already assigned beforehand during PEC realize. In case we're dealing
+with an user device, find its stack, set the PHB attributes based on the
+stack it belongs and assign the PHB to the stack.
+
+The xscom stack initialization takes place in pnv_pec_stk_realize() when
+using default settings, but at that point we aren't aware of any user
+PHB4 devices that will belong to the stack. In that case we'll postpone
+xscom stack init until the the end of pnv_phb4_realize(), after all the
+memory mappings of the PHB are done.
 
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- hw/pci-host/pnv_phb4.c         | 26 ++++++++++++++++++++++++++
- hw/pci-host/pnv_phb4_pec.c     | 19 +------------------
- include/hw/pci-host/pnv_phb4.h |  1 +
- 3 files changed, 28 insertions(+), 18 deletions(-)
+ hw/pci-host/pnv_phb4.c     | 84 +++++++++++++++++++++++++++++++++++++-
+ hw/pci-host/pnv_phb4_pec.c | 12 +++---
+ hw/ppc/pnv.c               |  2 +
+ 3 files changed, 90 insertions(+), 8 deletions(-)
 
 diff --git a/hw/pci-host/pnv_phb4.c b/hw/pci-host/pnv_phb4.c
-index 9e670e41d2..430a5c10f4 100644
+index 430a5c10f4..1c2334d491 100644
 --- a/hw/pci-host/pnv_phb4.c
 +++ b/hw/pci-host/pnv_phb4.c
-@@ -1158,6 +1158,32 @@ static AddressSpace *pnv_phb4_dma_iommu(PCIBus *bus, void *opaque, int devfn)
-     return &ds->dma_as;
+@@ -1236,6 +1236,41 @@ static void pnv_phb4_instance_init(Object *obj)
+     object_initialize_child(obj, "source", &phb->xsrc, TYPE_XIVE_SOURCE);
  }
  
-+/*
-+ * Init the xscom address space of the stack. This must be
-+ * called after the associated stack->phb is defined.
-+ */
-+void pnv_pec_init_stack_xscom(PnvPhb4PecStack *stack)
++static PnvPhb4PecStack *pnv_phb4_get_stack(PnvChip *chip, PnvPHB4 *phb,
++                                           Error **errp)
 +{
-+    PnvPhb4PecState *pec = stack->pec;
-+    PnvPhb4PecClass *pecc = PNV_PHB4_PEC_GET_CLASS(pec);
-+    PnvChip *chip = pec->chip;
-+    uint32_t pec_nest_base = pecc->xscom_nest_base(pec);
-+    uint32_t pec_pci_base = pecc->xscom_pci_base(pec);
++    Pnv9Chip *chip9 = NULL;
++    int chip_id = phb->chip_id;
++    int index = phb->phb_id;
++    int i, j;
 +
++    if (chip->num_pecs == 0) {
++        /* Something weird happened. Bail out */
++        error_setg(errp, "chip id %d has no PCIE controllers", chip_id);
++        return NULL;
++    }
 +
-+    /* Populate the XSCOM address space. */
-+    pnv_xscom_add_subregion(chip,
-+                            pec_nest_base + 0x40 * (stack->stack_no + 1),
-+                            &stack->nest_regs_mr);
-+    pnv_xscom_add_subregion(chip,
-+                            pec_pci_base + 0x40 * (stack->stack_no + 1),
-+                            &stack->pci_regs_mr);
-+    pnv_xscom_add_subregion(chip,
-+                            pec_pci_base + PNV9_XSCOM_PEC_PCI_STK0 +
-+                            0x40 * stack->stack_no,
-+                            &stack->phb_regs_mr);
++    chip9 = PNV9_CHIP(chip);
++
++    for (i = 0; i < chip->num_pecs; i++) {
++        /*
++         * For each PEC, check the amount of stacks it supports
++         * and see if the given phb4 index matches a stack.
++         */
++        PnvPhb4PecState *pec = &chip9->pecs[i];
++
++        for (j = 0; j < pec->num_stacks; j++) {
++            if (index == pnv_phb4_pec_get_phb_id(pec, j)) {
++                return &pec->stacks[j];
++            }
++        }
++    }
++
++    error_setg(errp, "pnv-phb4 index %d didn't match any existing PEC",
++               chip_id);
++    return NULL;
 +}
 +
- /*
-  * Return the index/phb-id of a PHB4 that belongs to a
-  * pec->stacks[stack_index] stack.
+ static void pnv_phb4_realize(DeviceState *dev, Error **errp)
+ {
+     PnvPHB4 *phb = PNV_PHB4(dev);
+@@ -1243,8 +1278,49 @@ static void pnv_phb4_realize(DeviceState *dev, Error **errp)
+     XiveSource *xsrc = &phb->xsrc;
+     int nr_irqs;
+     char name[32];
++    PnvPhb4PecStack *stack = NULL;
++    bool stack_init_xscom = false;
++    Error *local_err = NULL;
+ 
+-    assert(phb->stack);
++    /* User created PHB */
++    if (!phb->stack) {
++        PnvMachineState *pnv = PNV_MACHINE(qdev_get_machine());
++        PnvChip *chip = pnv_get_chip(pnv, phb->chip_id);
++        BusState *s;
++
++        if (!chip) {
++            error_setg(errp, "invalid chip id: %d", phb->chip_id);
++            return;
++        }
++
++        stack = pnv_phb4_get_stack(chip, phb, &local_err);
++        if (local_err) {
++            error_propagate(errp, local_err);
++            return;
++        }
++
++        object_property_set_int(OBJECT(phb), "index",
++                                phb->phb_id, &error_abort);
++
++        pnv_phb4_set_stack_phb_props(stack, phb);
++
++        /* Assign the phb to the stack */
++        stack->phb = phb;
++
++        /*
++         * Reparent user created devices to the chip to build
++         * correctly the device tree.
++         */
++        pnv_chip_parent_fixup(chip, OBJECT(phb), phb->phb_id);
++
++        s = qdev_get_parent_bus(DEVICE(chip));
++        if (!qdev_set_parent_bus(DEVICE(phb), s, &local_err)) {
++            error_propagate(errp, local_err);
++            return;
++        }
++
++        stack_init_xscom = true;
++    }
+ 
+     /* Set the "big_phb" flag */
+     phb->big_phb = phb->phb_id == 0 || phb->phb_id == 3;
+@@ -1298,6 +1374,10 @@ static void pnv_phb4_realize(DeviceState *dev, Error **errp)
+     pnv_phb4_update_xsrc(phb);
+ 
+     phb->qirqs = qemu_allocate_irqs(xive_source_set_irq, xsrc, xsrc->nr_irqs);
++
++    if (stack_init_xscom) {
++        pnv_pec_init_stack_xscom(stack);
++    }
+ }
+ 
+ static const char *pnv_phb4_root_bus_path(PCIHostState *host_bridge,
+@@ -1347,7 +1427,7 @@ static void pnv_phb4_class_init(ObjectClass *klass, void *data)
+     dc->realize         = pnv_phb4_realize;
+     device_class_set_props(dc, pnv_phb4_properties);
+     set_bit(DEVICE_CATEGORY_BRIDGE, dc->categories);
+-    dc->user_creatable  = false;
++    dc->user_creatable  = true;
+ 
+     xfc->notify         = pnv_phb4_xive_notify;
+ }
 diff --git a/hw/pci-host/pnv_phb4_pec.c b/hw/pci-host/pnv_phb4_pec.c
-index 638691783b..41c79d24c4 100644
+index 41c79d24c4..4417beb97d 100644
 --- a/hw/pci-host/pnv_phb4_pec.c
 +++ b/hw/pci-host/pnv_phb4_pec.c
-@@ -556,10 +556,6 @@ static void pnv_pec_stk_realize(DeviceState *dev, Error **errp)
- {
-     PnvPhb4PecStack *stack = PNV_PHB4_PEC_STACK(dev);
-     PnvPhb4PecState *pec = stack->pec;
--    PnvPhb4PecClass *pecc = PNV_PHB4_PEC_GET_CLASS(pec);
--    PnvChip *chip = pec->chip;
--    uint32_t pec_nest_base;
--    uint32_t pec_pci_base;
-     char name[64];
+@@ -573,13 +573,13 @@ static void pnv_pec_stk_realize(DeviceState *dev, Error **errp)
+                           &pnv_pec_stk_pci_xscom_ops, stack, name,
+                           PHB4_PEC_PCI_STK_REGS_COUNT);
  
-     assert(pec);
-@@ -583,20 +579,7 @@ static void pnv_pec_stk_realize(DeviceState *dev, Error **errp)
-         return;
+-    /* PHB pass-through */
+-    pnv_phb4_set_stack_phb_props(stack, stack->phb);
+-    if (!sysbus_realize(SYS_BUS_DEVICE(&stack->phb), errp)) {
+-        return;
++    /*
++     * There is no guarantee that stack->phb will be available
++     * at this point.
++     */
++    if (stack->phb) {
++        pnv_pec_init_stack_xscom(stack);
      }
- 
--    pec_nest_base = pecc->xscom_nest_base(pec);
--    pec_pci_base = pecc->xscom_pci_base(pec);
 -
--    /* Populate the XSCOM address space. */
--    pnv_xscom_add_subregion(chip,
--                            pec_nest_base + 0x40 * (stack->stack_no + 1),
--                            &stack->nest_regs_mr);
--    pnv_xscom_add_subregion(chip,
--                            pec_pci_base + 0x40 * (stack->stack_no + 1),
--                            &stack->pci_regs_mr);
--    pnv_xscom_add_subregion(chip,
--                            pec_pci_base + PNV9_XSCOM_PEC_PCI_STK0 +
--                            0x40 * stack->stack_no,
--                            &stack->phb_regs_mr);
-+    pnv_pec_init_stack_xscom(stack);
+-    pnv_pec_init_stack_xscom(stack);
  }
  
  static Property pnv_pec_stk_properties[] = {
-diff --git a/include/hw/pci-host/pnv_phb4.h b/include/hw/pci-host/pnv_phb4.h
-index 2fb5e119c4..610580a88f 100644
---- a/include/hw/pci-host/pnv_phb4.h
-+++ b/include/hw/pci-host/pnv_phb4.h
-@@ -132,6 +132,7 @@ struct PnvPHB4 {
+diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
+index fe7e67e73a..837146a2fb 100644
+--- a/hw/ppc/pnv.c
++++ b/hw/ppc/pnv.c
+@@ -1960,6 +1960,8 @@ static void pnv_machine_power9_class_init(ObjectClass *oc, void *data)
+     pmc->compat = compat;
+     pmc->compat_size = sizeof(compat);
+     pmc->dt_power_mgt = pnv_dt_power_mgt;
++
++    machine_class_allow_dynamic_sysbus_dev(mc, TYPE_PNV_PHB4);
+ }
  
- void pnv_phb4_pic_print_info(PnvPHB4 *phb, Monitor *mon);
- void pnv_phb4_update_regions(PnvPhb4PecStack *stack);
-+void pnv_pec_init_stack_xscom(PnvPhb4PecStack *stack);
- void pnv_phb4_set_stack_phb_props(PnvPhb4PecStack *stack, PnvPHB4 *phb);
- int pnv_phb4_pec_get_phb_id(PnvPhb4PecState *pec, int stack_index);
- extern const MemoryRegionOps pnv_phb4_xscom_ops;
+ static void pnv_machine_power10_class_init(ObjectClass *oc, void *data)
 -- 
 2.33.1
 
