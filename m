@@ -2,85 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 713ED48553A
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 16:01:52 +0100 (CET)
-Received: from localhost ([::1]:44674 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C948348556E
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 16:07:17 +0100 (CET)
+Received: from localhost ([::1]:58900 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n57nS-00086q-TA
-	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 10:01:51 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37432)
+	id 1n57sh-00019m-He
+	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 10:07:15 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60170)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1n57gJ-0001OJ-HV
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 09:54:27 -0500
-Received: from [2a00:1450:4864:20::430] (port=35658
- helo=mail-wr1-x430.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1n57gH-0005pC-V8
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 09:54:27 -0500
-Received: by mail-wr1-x430.google.com with SMTP id j18so83546479wrd.2
- for <qemu-devel@nongnu.org>; Wed, 05 Jan 2022 06:54:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=VJxEsbv5c7IktayFQaL0NAarm1dXTV29fiUVQhJTaE4=;
- b=caK1Vmf2Z/YubGnS6yYbtJegj1FrWFfQpHG6XYx7OlwvlGhsSF57nCZ/+/SdqMyZhG
- 6ivQddH62Fr/oTGLC72E8MwuknYs33opxKjROF8KOyM7WNGwAo7nfQ0aqwoPYhvrihdb
- Wohv/KPx3zWfw1ACMcvocMUP+5Z+EAE7lrKik5Q+z7bc8ronrBre0bzKa1SIRjxRO4bz
- ecvJo/iFNNPUr7nw5Xycp5w9l34MyO4EIa89sQk6I29LnGqhdG2qr8O1XUVAANNDbsNF
- RdLz3/oadLyUQnazzX3fX3g/RXsSCnhawYk+oDJ9L+ReLxvf4tOyZYSqilAoJd+c0t8U
- 2WcQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=VJxEsbv5c7IktayFQaL0NAarm1dXTV29fiUVQhJTaE4=;
- b=fBoFrkQ8Vl8FglYPWgv41FRC/lQBRtDMyTRez1q7t6qrt61x1XDg7pEQCstimmkXU/
- En2Wv5AetcAf85lOnuVKTwfkxCUc0mcQfmc9focWZFfNJo9iPYdcK9SbRM1bLr9eounS
- yK6xgPaRoFU8GzCNkA46ZZlJ3Q9cq4FsQnFWDmSRo33SkcZC/VhI+0XW+mYOWMe365uz
- 4748qyIuUiIqVEaA8jznxOeDvp9OCzJ4YLJFh2iQHV6Vw4Jp/PEBs/6XZ4Av2kKEMrvN
- dR1rZCsIR6d5R30oZp+iSMmP+ztYgRZUgulLePnD62vngBJvfNjtveZld8ICjiKKVn3X
- TH5Q==
-X-Gm-Message-State: AOAM533VBnY1pnMbSTefflF3rdOwxn+YeImPmkL0OVmjuZKkN/1W5iFv
- nVe4alHqq8OWRRG+VcZKn8UtF8JAH1mePw==
-X-Google-Smtp-Source: ABdhPJzcYvKM3i60OtM9bIrdRpfcbQRmrcszKx3dDSSGR3sURl+sGA6x8HVTb6WNReWGpgxVRoRodw==
-X-Received: by 2002:adf:fc0d:: with SMTP id i13mr46176149wrr.296.1641394463374; 
- Wed, 05 Jan 2022 06:54:23 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id r13sm2057855wmq.28.2022.01.05.06.54.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Jan 2022 06:54:22 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id DB3991FFB7;
- Wed,  5 Jan 2022 14:54:21 +0000 (GMT)
-References: <CGME20211227125057eucas1p14ebd7c0d73df4a25abc40bfa3fe0c3f2@eucas1p1.samsung.com>
- <20211227125048.22610-1-a.kazmin@partner.samsung.com>
- <18882253-9e57-0654-1eb2-870a451a50ce@vivier.eu>
-User-agent: mu4e 1.7.5; emacs 28.0.90
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Laurent Vivier <laurent@vivier.eu>
-Subject: Re: [PATCH] linux-user/syscall.c: fix missed flag for shared memory
- in open_self_maps
-Date: Wed, 05 Jan 2022 14:54:17 +0000
-In-reply-to: <18882253-9e57-0654-1eb2-870a451a50ce@vivier.eu>
-Message-ID: <87h7aijkrm.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <dorian.bourgeoisat@telecom-paris.fr>)
+ id 1n55Mg-0008CB-4y
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 07:26:02 -0500
+Received: from zproxy120.enst.fr ([137.194.2.193]:44212)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dorian.bourgeoisat@telecom-paris.fr>)
+ id 1n55Md-00005L-RV
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 07:26:01 -0500
+Received: from localhost (localhost [IPv6:::1])
+ by zproxy120.enst.fr (Postfix) with ESMTP id 1C7A280EDA;
+ Wed,  5 Jan 2022 13:25:53 +0100 (CET)
+Received: from zproxy120.enst.fr ([IPv6:::1])
+ by localhost (zproxy120.enst.fr [IPv6:::1]) (amavisd-new, port 10032)
+ with ESMTP id EaMwmmlZ7LUE; Wed,  5 Jan 2022 13:25:52 +0100 (CET)
+Received: from localhost (localhost [IPv6:::1])
+ by zproxy120.enst.fr (Postfix) with ESMTP id 0965A80ED7;
+ Wed,  5 Jan 2022 13:25:52 +0100 (CET)
+DKIM-Filter: OpenDKIM Filter v2.10.3 zproxy120.enst.fr 0965A80ED7
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=telecom-paris.fr;
+ s=A35C7578-1106-11E5-A17F-C303FDDA8F2E; t=1641385552;
+ bh=fBy3uWw5dAGXUafOHKO2/i5DX0Ppbgozy0HrqWbnSxw=;
+ h=Message-ID:Date:MIME-Version:From:To;
+ b=ucwjL25AATAo2+7Fyz9lUiSEdygK84yOrrw6fbJo2P9CVUg4YYOnWa7rjrmH1W6b6
+ 1kZn9BDMZq/uaBN2y97jHfmKa4td58Psj0HO7XBV9qTkwc5H76RSoDaGOy8y2wkEKu
+ 8eOTqIQ/jjPv8N8CscqtaqWk7EVUQkas5qvkL6d0=
+X-Virus-Scanned: amavisd-new at zproxy120.enst.fr
+Received: from zproxy120.enst.fr ([IPv6:::1])
+ by localhost (zproxy120.enst.fr [IPv6:::1]) (amavisd-new, port 10026)
+ with ESMTP id IHgZBFsiGeBE; Wed,  5 Jan 2022 13:25:51 +0100 (CET)
+Received: from [192.168.1.213] (rezel-backup.enst.fr [137.194.240.17])
+ by zproxy120.enst.fr (Postfix) with ESMTPSA id D0BC480ED4;
+ Wed,  5 Jan 2022 13:25:51 +0100 (CET)
+Message-ID: <589feb12-5abf-a247-96f7-d8603a35e5ae@telecom-paris.fr>
+Date: Wed, 5 Jan 2022 13:25:51 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::430
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x430.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.1
+From: Dorian Bourgeoisat <dorian.bourgeoisat@telecom-paris.fr>
+Subject: [PATCH] fixed argument order for keymap-get in build
+To: qemu-devel@nongnu.org
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=137.194.2.193;
+ envelope-from=dorian.bourgeoisat@telecom-paris.fr; helo=zproxy120.enst.fr
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Wed, 05 Jan 2022 10:04:51 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,22 +75,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Dorian Bourgeoisat <dorian.bourgeoisat@telecom-paris.fr>,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hello, trying to compile QEMU on the latest ArchLinux update (2022-01-05), I encounter a bug where keymap-gen is called with the wrong argument order.
 
-Laurent Vivier <laurent@vivier.eu> writes:
+$ ../ui/keycodemapdb/tools/keymap-gen code-map --lang glib2 --varname qemu_input_map_linux_to_qcode ../ui/keycodemapdb/data/keymaps.csv linux qcode
+usage: keymap-gen [-h] [--lang LANG] [--varname VARNAME]
+                  {code-map,code-table,name-map,name-table,code-docs,name-docs} ...
+keymap-gen: error: unrecognized arguments: --lang --varname linux qcode
 
-> Le 27/12/2021 =C3=A0 13:50, Andrey Kazmin a =C3=A9crit=C2=A0:
->> The possible variants for region type in /proc/self/maps are either
->> private "p" or shared "s". In the current implementation,
->> we mark shared regions as "-". It could break memory mapping parsers
->> such as included into ASan/HWASan sanitizers.
->> Signed-off-by: Andrey Kazmin <a.kazmin@partner.samsung.com>
+This patch makes the meson build file compliant with the new argument order.
 
-Acked-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+Signed-off-by: Dorian Bourgeoisat <dorian.bourgeoisat@telecom-paris.fr>
+---
+ ui/meson.build | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
---=20
-Alex Benn=C3=A9e
+diff --git a/ui/meson.build b/ui/meson.build
+index 64286ba150..87ecace041 100644
+--- a/ui/meson.build
++++ b/ui/meson.build
+@@ -161,9 +161,9 @@ if have_system or xkbcommon.found()
+                   capture: true,
+                   input: files('keycodemapdb/data/keymaps.csv'),
+                   command: [python, files('keycodemapdb/tools/keymap-gen'),
+-                            'code-map',
+                             '--lang', 'glib2',
+                             '--varname', 'qemu_input_map_@0@_to_@1@'.format(e[0], e[1]),
++                            'code-map',
+                             '@INPUT0@', e[0], e[1]])
+   endforeach
+ endif
+-- 
+2.34.1
+
 
