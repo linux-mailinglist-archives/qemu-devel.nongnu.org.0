@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F6CA485AB0
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 22:32:59 +0100 (CET)
-Received: from localhost ([::1]:43904 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCF96485AC7
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 22:35:40 +0100 (CET)
+Received: from localhost ([::1]:50928 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5Dty-0008GS-LQ
-	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 16:32:58 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33072)
+	id 1n5DwZ-0004t7-SV
+	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 16:35:39 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33096)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1n5DlT-0001wB-VI; Wed, 05 Jan 2022 16:24:11 -0500
-Received: from [2607:f8b0:4864:20::931] (port=41764
- helo=mail-ua1-x931.google.com)
+ id 1n5DlW-00023W-L8; Wed, 05 Jan 2022 16:24:14 -0500
+Received: from [2607:f8b0:4864:20::930] (port=39935
+ helo=mail-ua1-x930.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1n5DlS-0007tb-At; Wed, 05 Jan 2022 16:24:11 -0500
-Received: by mail-ua1-x931.google.com with SMTP id p37so821851uae.8;
- Wed, 05 Jan 2022 13:24:09 -0800 (PST)
+ id 1n5DlT-0007tj-Sx; Wed, 05 Jan 2022 16:24:14 -0500
+Received: by mail-ua1-x930.google.com with SMTP id b26so840669uap.6;
+ Wed, 05 Jan 2022 13:24:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Mr85BSZGGimrDy/SW0VBBvffYUbbNDHjNMiGhOdIIXI=;
- b=Q7GqUAv0IJWWbFkx+P9wknTNG2HQYXAaUM0FFp/bRLpgRzdFKf9bxWBlPzLnfKjw47
- xeMKaGIGdXMVO77zkYMoMBxX6+/yhELwclI0llW3f0V5IHrcDuDgmGtr9QfMtyVp4MBt
- nvfsSYLQUzGmB4QnYEx1pmTPg58glhBhMLT1kclaJD/kXcnK3Y8XHQjrkaA9csT7+Xjk
- SR33PF5EXgK98CeHpl42QWVsmYNDcMBicjyqq6TNCRNGxPA+slo4oLQCDE7jgPAV2ehj
- mtxFBPk+eK69y8NWgXqf+SFr9q7w/BlaGnjzMCqAFjwAzftQB5JTrZW3A+cP9R4xTweR
- 49/g==
+ bh=nwmfNg75tN83aXuM8PjYJWXZYqpjCAofX0A7t9E7AHk=;
+ b=T+UM4v5EH07++VAWfkPKuyKRnVzaj9upoJhdl64nzQHRPzMV29Ey5u/AkD0HPx908/
+ Ng6h3fq+RWxSxesG4DpOjM6ZJ3dI0df/bLhmH/wjv5NpAXDr0cN9X5l2pjskr9hiAG9T
+ h9vaX9VCd3QyaPm9PchxQYh0Ac8gVrdzxvchtKf9QMBIZtN7Og6Zt+uKnc4f77vRvOVL
+ 4oCYluLwDa5Em/Ub2aQSM8/LBnXASO2Sb4AU/t20uVxpimcnixL8F6oR8Nri1eZuck98
+ 4xUAdZQe5opY4HMSmxMLWEwoSL8NEOEX09NSTECqyIxWCDLC1LByxwANGL5b5osUy5Am
+ IIkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Mr85BSZGGimrDy/SW0VBBvffYUbbNDHjNMiGhOdIIXI=;
- b=z6qS9qWIb61tfCqpGrLfClzwDZGtOQD0hiCyz5TAGtIyJ5w+0zOWIT6JTAGEk3tu2i
- iCS8vdlyR1wfi8HlEFvOJNy7junBvUINl8cMHo+63U/65h7Dow310yMCjittA9llZ/zb
- pfd3yn4OXfluGnsCfzcC5yjxECpGpILE/fgvPIwei7wEfXR/exyRBudOsnhnX2syhkIC
- GcK15+lIYowWRK6RYgPRfZ66SZPIJ4X1mDvrk2bkyjZ8W7qOOphjZrqU4CZQYs7Ru2JO
- CNr40f6Ucn8Dtviy9o69voIN33axawSsSJ6u/kRvWhk379VowDjZ4Wq0cU2KzkRibyW/
- PuEg==
-X-Gm-Message-State: AOAM5301LogRLVC+z6o/cVrsSIu0aV/FtymoXis+sxn0JFSZg+opaA27
- KxrZW2WEOI8cwJ/BTYTNV3cYLUxemqA=
-X-Google-Smtp-Source: ABdhPJwASFVjVSUCLZFvt38cJ2fyBc3VMUBfeQAlVlFlj6YO9DSyepf1PAaqT30rjGC9XuoavgFZKw==
-X-Received: by 2002:a67:cc16:: with SMTP id q22mr17117676vsl.39.1641417849182; 
- Wed, 05 Jan 2022 13:24:09 -0800 (PST)
+ bh=nwmfNg75tN83aXuM8PjYJWXZYqpjCAofX0A7t9E7AHk=;
+ b=R+QPQvwJutJM2mXifZj32ET9R7aq6KtNETYOTiaP1+24NA8M2olHJLcAvir8K+Qhz/
+ huk0x4L42HffcijsKJkplkbRIzA03jfXnAxYY92lHfftqWJx+2uzNpDSl1Bv0A9sJK1W
+ uGlCS7om8jKOORpoQUXq/rFUYlypMKe5Ks3EAhgDDRKwzoeEjaH/7yLrTR9f4kfr/ejk
+ pcvOxTek6XxQvmR8PWUUGtScFY1zvOyFuha/5+cTxvJgZT4lBL5ck98JYQ088Sf1CwmE
+ yv0MD7GCuzkvsuE65WS/oEPo7hpBWG2D8e9lOpXNPx9K+caFGIPXlfnKv02iqPSycaWc
+ gr1g==
+X-Gm-Message-State: AOAM533qYY0Or5cNnJp0iVaPrU4o3KGOWLsKKL77DERwsHIOVg/shbSW
+ qHIJwQAPNFM6wsKvet5XxHR2/UZedDM=
+X-Google-Smtp-Source: ABdhPJypQZu/MI6SZOZgYMXG5KwakL6gQq6yfXYDjae/9wwyEknQJc5YgGOllk+ty4wjkL18UNi3eg==
+X-Received: by 2002:a67:e0c6:: with SMTP id m6mr17783521vsl.54.1641417850785; 
+ Wed, 05 Jan 2022 13:24:10 -0800 (PST)
 Received: from rekt.ibmuc.com ([2804:431:c7c7:f4d8:aa07:335f:99e0:a6e7])
- by smtp.gmail.com with ESMTPSA id m5sm65922vke.43.2022.01.05.13.24.07
+ by smtp.gmail.com with ESMTPSA id m5sm65922vke.43.2022.01.05.13.24.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Jan 2022 13:24:08 -0800 (PST)
+ Wed, 05 Jan 2022 13:24:10 -0800 (PST)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 08/18] ppc/pnv: Complete user created PHB3 devices
-Date: Wed,  5 Jan 2022 18:23:28 -0300
-Message-Id: <20220105212338.49899-9-danielhb413@gmail.com>
+Subject: [PATCH v2 09/18] ppc/pnv: Move num_phbs under Pnv8Chip
+Date: Wed,  5 Jan 2022 18:23:29 -0300
+Message-Id: <20220105212338.49899-10-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20220105212338.49899-1-danielhb413@gmail.com>
 References: <20220105212338.49899-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::931
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::930
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::931;
- envelope-from=danielhb413@gmail.com; helo=mail-ua1-x931.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::930;
+ envelope-from=danielhb413@gmail.com; helo=mail-ua1-x930.google.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
@@ -92,56 +92,78 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Cédric Le Goater <clg@kaod.org>
 
-PHB3s ared SysBus devices and should be allowed to be dynamically
-created.
+It is not used elsewhere so that's where it belongs.
 
-Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
 ---
- hw/pci-host/pnv_phb3.c | 9 +++++++++
- hw/ppc/pnv.c           | 2 ++
- 2 files changed, 11 insertions(+)
+ hw/ppc/pnv.c         | 7 +++----
+ include/hw/ppc/pnv.h | 4 ++--
+ 2 files changed, 5 insertions(+), 6 deletions(-)
 
-diff --git a/hw/pci-host/pnv_phb3.c b/hw/pci-host/pnv_phb3.c
-index a52aedcad3..7fb35dc031 100644
---- a/hw/pci-host/pnv_phb3.c
-+++ b/hw/pci-host/pnv_phb3.c
-@@ -993,6 +993,9 @@ static void pnv_phb3_realize(DeviceState *dev, Error **errp)
- 
-     /* User created devices */
-     if (!phb->chip) {
-+        Error *local_err = NULL;
-+        BusState *s;
-+
-         phb->chip = pnv_get_chip(pnv, phb->chip_id);
-         if (!phb->chip) {
-             error_setg(errp, "invalid chip id: %d", phb->chip_id);
-@@ -1004,6 +1007,12 @@ static void pnv_phb3_realize(DeviceState *dev, Error **errp)
-          * correctly the device tree.
-          */
-         pnv_chip_parent_fixup(phb->chip, OBJECT(phb), phb->phb_id);
-+
-+        s = qdev_get_parent_bus(DEVICE(phb->chip));
-+        if (!qdev_set_parent_bus(DEVICE(phb), s, &local_err)) {
-+            error_propagate(errp, local_err);
-+            return;
-+        }
-     }
- 
-     if (phb->phb_id >= PNV_CHIP_GET_CLASS(phb->chip)->num_phbs) {
 diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-index fa5e7bc751..8dc6382357 100644
+index 8dc6382357..fe7e67e73a 100644
 --- a/hw/ppc/pnv.c
 +++ b/hw/ppc/pnv.c
-@@ -1941,6 +1941,8 @@ static void pnv_machine_power8_class_init(ObjectClass *oc, void *data)
+@@ -1099,7 +1099,6 @@ static void pnv_chip_power10_intc_print_info(PnvChip *chip, PowerPCCPU *cpu,
  
-     pmc->compat = compat;
-     pmc->compat_size = sizeof(compat);
-+
-+    machine_class_allow_dynamic_sysbus_dev(mc, TYPE_PNV_PHB3);
- }
+ static void pnv_chip_power8_instance_init(Object *obj)
+ {
+-    PnvChip *chip = PNV_CHIP(obj);
+     Pnv8Chip *chip8 = PNV8_CHIP(obj);
+     PnvChipClass *pcc = PNV_CHIP_GET_CLASS(obj);
+     int i;
+@@ -1118,10 +1117,10 @@ static void pnv_chip_power8_instance_init(Object *obj)
+     object_initialize_child(obj, "homer", &chip8->homer, TYPE_PNV8_HOMER);
  
- static void pnv_machine_power9_class_init(ObjectClass *oc, void *data)
+     if (defaults_enabled()) {
+-        chip->num_phbs = pcc->num_phbs;
++        chip8->num_phbs = pcc->num_phbs;
+     }
+ 
+-    for (i = 0; i < chip->num_phbs; i++) {
++    for (i = 0; i < chip8->num_phbs; i++) {
+         object_initialize_child(obj, "phb[*]", &chip8->phbs[i], TYPE_PNV_PHB3);
+     }
+ 
+@@ -1247,7 +1246,7 @@ static void pnv_chip_power8_realize(DeviceState *dev, Error **errp)
+                                 &chip8->homer.regs);
+ 
+     /* PHB3 controllers */
+-    for (i = 0; i < chip->num_phbs; i++) {
++    for (i = 0; i < chip8->num_phbs; i++) {
+         PnvPHB3 *phb = &chip8->phbs[i];
+ 
+         object_property_set_int(OBJECT(phb), "index", i, &error_fatal);
+diff --git a/include/hw/ppc/pnv.h b/include/hw/ppc/pnv.h
+index f4219da7c5..0e9e16544f 100644
+--- a/include/hw/ppc/pnv.h
++++ b/include/hw/ppc/pnv.h
+@@ -52,7 +52,6 @@ struct PnvChip {
+     uint64_t     cores_mask;
+     PnvCore      **cores;
+ 
+-    uint32_t     num_phbs;
+     uint32_t     num_pecs;
+ 
+     MemoryRegion xscom_mmio;
+@@ -82,6 +81,7 @@ struct Pnv8Chip {
+ 
+ #define PNV8_CHIP_PHB3_MAX 4
+     PnvPHB3      phbs[PNV8_CHIP_PHB3_MAX];
++    uint32_t     num_phbs;
+ 
+     XICSFabric    *xics;
+ };
+@@ -136,8 +136,8 @@ struct PnvChipClass {
+     /*< public >*/
+     uint64_t     chip_cfam_id;
+     uint64_t     cores_mask;
+-    uint32_t     num_phbs;
+     uint32_t     num_pecs;
++    uint32_t     num_phbs;
+ 
+     DeviceRealize parent_realize;
+ 
 -- 
 2.33.1
 
