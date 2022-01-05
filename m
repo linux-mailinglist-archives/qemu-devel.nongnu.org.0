@@ -2,89 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 133BC4859EA
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 21:18:53 +0100 (CET)
-Received: from localhost ([::1]:41962 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39B494859F6
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 21:22:42 +0100 (CET)
+Received: from localhost ([::1]:47942 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5CkF-0003ZD-Gp
-	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 15:18:51 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41162)
+	id 1n5Cnw-0007m0-Sa
+	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 15:22:40 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45160)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n5Chp-0002WN-GO
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 15:16:21 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:50078)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n5Chi-0006Xz-QS
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 15:16:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641413773;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Zt1q7W6nWIs0kq/LK4LG7msHEt3mXuTO1u6v3pe4adU=;
- b=FBn6VezuOes0g/5fiMQnu0eFY79YP1rFkjpvmP2d2EFTVqFoHq6xa0fjupTAZJAaNI100r
- tANqm8N3jlhDjP4qIHRmOpZdMeDSGlnURZrM30fuDFvXFdtip13DvzS555lco8m+0LjDiq
- cRNHtTYbzUv9LfIOb/LassX1MEjD2VY=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-103-qo2Afx8SNmq25nFye8Ek_Q-1; Wed, 05 Jan 2022 15:16:12 -0500
-X-MC-Unique: qo2Afx8SNmq25nFye8Ek_Q-1
-Received: by mail-ed1-f71.google.com with SMTP id
- m8-20020a056402510800b003f9d22c4d48so159357edd.21
- for <qemu-devel@nongnu.org>; Wed, 05 Jan 2022 12:16:12 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1n5Cld-0005wK-2I
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 15:20:19 -0500
+Received: from [2607:f8b0:4864:20::1031] (port=52896
+ helo=mail-pj1-x1031.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1n5Clb-00084j-17
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 15:20:16 -0500
+Received: by mail-pj1-x1031.google.com with SMTP id co15so220514pjb.2
+ for <qemu-devel@nongnu.org>; Wed, 05 Jan 2022 12:20:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=A7R+PaPF52zWl0O8gcrZ0otibH1jNgSWnkOGh5vSpWU=;
+ b=k9wMbbGICt8uN9BTTcGa8EUIXUVzDsviQydikeheRjaNE7j3WMrBn8e1qcFzdSC/6k
+ HVvX+GBhqH/jL0/MC2GLnJe72xSMWciMX6l6j9NOpoKcW8geJ6h7exT9FmNBkY2b6H5G
+ PXNR0NecCRzQEf4Dt3rvYCEoCYkVUbmKuRiQUfDMk8TA5ezB5fJT3PRcjmeUj2zfyyBd
+ FoviYOri6p25UTU10iPgC4uPCAFg5gZ1fyYO0QjuG1VOI3B/DFo//og8QreAwA1dMhKj
+ Wk4Qnf7oDShWMOoAmWp9XNABi1rN64Gdv6khZ6hW3DMo+9jlUTwgHXKjBRtyFbjxiHTd
+ Am9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=Zt1q7W6nWIs0kq/LK4LG7msHEt3mXuTO1u6v3pe4adU=;
- b=gSozIbNOamLQy/BdjqBXrbiLfcWgsf/hNMz4gE1QR11vAEZi5TVLFLYHVVeHaGy3nQ
- wtN4AAZAgAsO93gCDjFlU/RD7M9ucHd7L76AwD0EZxsv0B20rlFF9RkgNRNtU/k2sHH9
- FLRTDrmG3vdI8k0IPP2PHBa5izAWFT8+VpQGdt41d/vO3A9ktaOG/wFFLDK5HwzH9lGw
- 9DZTKo9PCSLDN03lxBfhGO2212POlpKlKsY2ZDCa+7BvQ+dbqpFA7coUKyEl9uBzemJX
- NWKaQDsvcUMryBDMG22hyfSSOEWvlJ53AA/AUFPLJKZrfR8SdtANmrDbtJ/mwOJ2XLwL
- 0idw==
-X-Gm-Message-State: AOAM530iDlI+imeIQoP5RLMufvU+y+8oD2JANCqY5pv+BU0yPSjKunfX
- FB3HMviFNLAwMMn9Mca2aSGww+lM9VrDyobL/nOIM/AUcy+FJQtizGrhT31dVVdt8nKBR1t8p1H
- ZNkYOc8ww0cPUn88=
-X-Received: by 2002:a05:6402:41a:: with SMTP id
- q26mr55136320edv.387.1641413771287; 
- Wed, 05 Jan 2022 12:16:11 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwz5tzqQ7Re9dYSdmhpNq2nzFLcW5DAoiOYESJC7BSkBJEEyJgyF0a78+ileqjrAse+gjok9A==
-X-Received: by 2002:a05:6402:41a:: with SMTP id
- q26mr55136285edv.387.1641413771011; 
- Wed, 05 Jan 2022 12:16:11 -0800 (PST)
-Received: from redhat.com ([2.55.159.137])
- by smtp.gmail.com with ESMTPSA id y12sm11173743edd.31.2022.01.05.12.16.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Jan 2022 12:16:10 -0800 (PST)
-Date: Wed, 5 Jan 2022 15:16:06 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Steven Sistare <steven.sistare@oracle.com>
-Subject: Re: [PATCH V7 17/29] pci: export functions for cpr
-Message-ID: <20220105151427-mutt-send-email-mst@kernel.org>
-References: <1640199934-455149-1-git-send-email-steven.sistare@oracle.com>
- <1640199934-455149-18-git-send-email-steven.sistare@oracle.com>
- <20211222180611-mutt-send-email-mst@kernel.org>
- <02a093fe-b2be-2ecb-7ef7-a95c54443894@oracle.com>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=A7R+PaPF52zWl0O8gcrZ0otibH1jNgSWnkOGh5vSpWU=;
+ b=EDdYbVTzsb1DrhZ+GP7R/MX4jR/UuukcfHao9GVfe/okfPCJE3YHn7EMYqwx1aEQ6o
+ krNhp6YQxjmVO6YopZloCoO8exEdeHiCSeTG4CCUQS9yn3xjwmDQtsOeOe9TEot/Wdts
+ yjC7/XlTO1yetn2QssZHrv7xd1yOQPsdXIsLbVhMlJeJnrZexh42uHZgqM+nvBfbpO1l
+ tjL2i/1gOiG5NssBtacD6cOs4nTc4PYgkSN/Mq+saj9EXBnTpEOB+8WXPLgMP5ujR94Z
+ hzGzLxZyFg1mH99WkFuLB0bOzBDHR25jXWapJa9U3PVNRWjhenbHHe8AJDR3fg4FC+el
+ xNHQ==
+X-Gm-Message-State: AOAM530XqY9i/sH6GHRCxJxJdqVb1CideO7l2Fd2EmwRTHkD5ISyd14i
+ HxxXUh7mGn7/Nl5/qbe7yrI6Ug==
+X-Google-Smtp-Source: ABdhPJybPAi71LKPT/XVhG8aegyz+2CEHMDXOeXGhsTq1CuAWaZcOd1QPY4R4ACSKBZQAQoVestbpQ==
+X-Received: by 2002:a17:90a:4a11:: with SMTP id
+ e17mr1673514pjh.237.1641414013483; 
+ Wed, 05 Jan 2022 12:20:13 -0800 (PST)
+Received: from [192.168.1.13] (174-21-75-75.tukw.qwest.net. [174.21.75.75])
+ by smtp.gmail.com with ESMTPSA id mh3sm3699741pjb.26.2022.01.05.12.20.12
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 05 Jan 2022 12:20:13 -0800 (PST)
+Subject: Re: [PATCH v2 4/5] RISC-V: Typed CSRs in gdbserver
+To: "Schwarz, Konrad" <konrad.schwarz@siemens.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+References: <00a79b65-288f-f17c-abe4-fcfd3f7971fd@oth-regensburg.de>
+ <cover.1641309725.git.konrad.schwarz@siemens.com>
+ <79194a3cf9e3bd1df41401eeee901055b8702c7b.1641309725.git.konrad.schwarz@siemens.com>
+ <676fcd9a-4a1a-2c03-e0c6-60128e3a50ae@linaro.org>
+ <395769321dbe459d803ba78f610eaf3a@siemens.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <1be2c825-c153-1efd-17c5-da9e3928aefc@linaro.org>
+Date: Wed, 5 Jan 2022 12:20:11 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <02a093fe-b2be-2ecb-7ef7-a95c54443894@oracle.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.372,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <395769321dbe459d803ba78f610eaf3a@siemens.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1031
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
+X-Spam_bar: --
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.057,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,165 +95,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P. Berrange" <berrange@redhat.com>,
- Juan Quintela <quintela@redhat.com>, Jason Zeng <jason.zeng@linux.intel.com>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
- Eric Blake <eblake@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Zheng Chuan <zhengchuan@huawei.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
+Cc: Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bin.meng@windriver.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Ralf Ramsauer <ralf.ramsauer@oth-regensburg.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jan 05, 2022 at 12:22:25PM -0500, Steven Sistare wrote:
-> On 12/22/2021 6:07 PM, Michael S. Tsirkin wrote:
-> > On Wed, Dec 22, 2021 at 11:05:22AM -0800, Steve Sistare wrote:
-> >> Export msix_is_pending, msix_init_vector_notifiers, and pci_update_mappings
-> >> for use by cpr.  No functional change.
-> >>
-> >> Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
-> > 
-> > With things like that, I prefer when the API is exported
-> > together with the patch that uses it.
-> > This was I can see why we are exporting these APIs.
-> > Esp wrt pci_update_mappings, it's designed as an
-> > internal API.
-> 
-> Hi Michael, thanks very much for reviewing these patches.
-> 
-> Serendipitously, I stopped calling pci_update_mappings from vfio code earlier
-> in the series.  I will revert its scope.
-> 
-> I would prefer to keep this patch separate from the use of these functions in
-> "vfio-pci cpr part 2 msi", to make the latter smaller and easier to understand.
-> How about if I say more in this commit message? :
-> 
->   Export msix_is_pending and msix_init_vector_notifiers for use in vfio cpr.
->   Both are needed in the vfio-pci post-load function during cpr-load.
->   msix_is_pending is checked to enable the PBA memory region.
->   msix_init_vector_notifiers is called to register notifier callbacks, without
->   the other side effects of msix_set_vector_notifiers.
-> 
-> - Steve
+On 1/5/22 6:04 AM, Schwarz, Konrad wrote:
+> So the problem is that these files are generated -- somewhat ironically
+> via XSLT from complete GDB target descriptions, which are themselves
+> generated from a mixture of AWK and shell scripts that I have in a
+> different project and which you would probably not want to have
+> contributed.  Those scripts generate a variety of other definitions
+> for C and assembly besides the GDB XML target descriptions, so would
+> probably need to be reduced for just QEMU usage.
 
-Well the reason the side effects are there is to avoid losing events,
-no? I'd like to figure out a bit better why we don't need them, and when
-should users call msix_init_vector_notifiers versus
-msix_set_vector_notifiers.
+You may be right that we don't want your original scripts, but that also  implies that the 
+fact your files are generated is irrelevant to us.  Why should we care?  I think it makes 
+more sense to manually edit csr.c and be done with it.
 
-> >> ---
-> >>  hw/pci/msix.c         | 20 ++++++++++++++------
-> >>  hw/pci/pci.c          |  3 +--
-> >>  include/hw/pci/msix.h |  5 +++++
-> >>  include/hw/pci/pci.h  |  1 +
-> >>  4 files changed, 21 insertions(+), 8 deletions(-)
-> >>
-> >> diff --git a/hw/pci/msix.c b/hw/pci/msix.c
-> >> index ae9331c..73f4259 100644
-> >> --- a/hw/pci/msix.c
-> >> +++ b/hw/pci/msix.c
-> >> @@ -64,7 +64,7 @@ static uint8_t *msix_pending_byte(PCIDevice *dev, int vector)
-> >>      return dev->msix_pba + vector / 8;
-> >>  }
-> >>  
-> >> -static int msix_is_pending(PCIDevice *dev, int vector)
-> >> +int msix_is_pending(PCIDevice *dev, unsigned int vector)
-> >>  {
-> >>      return *msix_pending_byte(dev, vector) & msix_pending_mask(vector);
-> >>  }
-> >> @@ -579,6 +579,17 @@ static void msix_unset_notifier_for_vector(PCIDevice *dev, unsigned int vector)
-> >>      dev->msix_vector_release_notifier(dev, vector);
-> >>  }
-> >>  
-> >> +void msix_init_vector_notifiers(PCIDevice *dev,
-> >> +                                MSIVectorUseNotifier use_notifier,
-> >> +                                MSIVectorReleaseNotifier release_notifier,
-> >> +                                MSIVectorPollNotifier poll_notifier)
-> >> +{
-> >> +    assert(use_notifier && release_notifier);
-> >> +    dev->msix_vector_use_notifier = use_notifier;
-> >> +    dev->msix_vector_release_notifier = release_notifier;
-> >> +    dev->msix_vector_poll_notifier = poll_notifier;
-> >> +}
-> >> +
-> >>  int msix_set_vector_notifiers(PCIDevice *dev,
-> >>                                MSIVectorUseNotifier use_notifier,
-> >>                                MSIVectorReleaseNotifier release_notifier,
-> >> @@ -586,11 +597,8 @@ int msix_set_vector_notifiers(PCIDevice *dev,
-> >>  {
-> >>      int vector, ret;
-> >>  
-> >> -    assert(use_notifier && release_notifier);
-> >> -
-> >> -    dev->msix_vector_use_notifier = use_notifier;
-> >> -    dev->msix_vector_release_notifier = release_notifier;
-> >> -    dev->msix_vector_poll_notifier = poll_notifier;
-> >> +    msix_init_vector_notifiers(dev, use_notifier, release_notifier,
-> >> +                               poll_notifier);
-> >>  
-> >>      if ((dev->config[dev->msix_cap + MSIX_CONTROL_OFFSET] &
-> >>          (MSIX_ENABLE_MASK | MSIX_MASKALL_MASK)) == MSIX_ENABLE_MASK) {
-> >> diff --git a/hw/pci/pci.c b/hw/pci/pci.c
-> >> index e5993c1..0fd21e1 100644
-> >> --- a/hw/pci/pci.c
-> >> +++ b/hw/pci/pci.c
-> >> @@ -225,7 +225,6 @@ static const TypeInfo pcie_bus_info = {
-> >>  };
-> >>  
-> >>  static PCIBus *pci_find_bus_nr(PCIBus *bus, int bus_num);
-> >> -static void pci_update_mappings(PCIDevice *d);
-> >>  static void pci_irq_handler(void *opaque, int irq_num, int level);
-> >>  static void pci_add_option_rom(PCIDevice *pdev, bool is_default_rom, Error **);
-> >>  static void pci_del_option_rom(PCIDevice *pdev);
-> >> @@ -1366,7 +1365,7 @@ static pcibus_t pci_bar_address(PCIDevice *d,
-> >>      return new_addr;
-> >>  }
-> >>  
-> >> -static void pci_update_mappings(PCIDevice *d)
-> >> +void pci_update_mappings(PCIDevice *d)
-> >>  {
-> >>      PCIIORegion *r;
-> >>      int i;
-> >> diff --git a/include/hw/pci/msix.h b/include/hw/pci/msix.h
-> >> index 4c4a60c..46606cf 100644
-> >> --- a/include/hw/pci/msix.h
-> >> +++ b/include/hw/pci/msix.h
-> >> @@ -32,6 +32,7 @@ int msix_present(PCIDevice *dev);
-> >>  bool msix_is_masked(PCIDevice *dev, unsigned vector);
-> >>  void msix_set_pending(PCIDevice *dev, unsigned vector);
-> >>  void msix_clr_pending(PCIDevice *dev, int vector);
-> >> +int msix_is_pending(PCIDevice *dev, unsigned vector);
-> >>  
-> >>  int msix_vector_use(PCIDevice *dev, unsigned vector);
-> >>  void msix_vector_unuse(PCIDevice *dev, unsigned vector);
-> >> @@ -41,6 +42,10 @@ void msix_notify(PCIDevice *dev, unsigned vector);
-> >>  
-> >>  void msix_reset(PCIDevice *dev);
-> >>  
-> >> +void msix_init_vector_notifiers(PCIDevice *dev,
-> >> +                                MSIVectorUseNotifier use_notifier,
-> >> +                                MSIVectorReleaseNotifier release_notifier,
-> >> +                                MSIVectorPollNotifier poll_notifier);
-> >>  int msix_set_vector_notifiers(PCIDevice *dev,
-> >>                                MSIVectorUseNotifier use_notifier,
-> >>                                MSIVectorReleaseNotifier release_notifier,
-> >> diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
-> >> index e7cdf2d..cc63dd4 100644
-> >> --- a/include/hw/pci/pci.h
-> >> +++ b/include/hw/pci/pci.h
-> >> @@ -910,5 +910,6 @@ extern const VMStateDescription vmstate_pci_device;
-> >>  
-> >>  MSIMessage pci_get_msi_message(PCIDevice *dev, int vector);
-> >>  void pci_set_power(PCIDevice *pci_dev, bool state);
-> >> +void pci_update_mappings(PCIDevice *d);
-> >>  
-> >>  #endif
-> >> -- 
-> >> 1.8.3.1
-> > 
+>  I tried to
+> work around this by using C99's designated initializer syntax,
+> adding in the new data at the end of the table, and using specific
+> enough initializers to not disturb the existing data.
+> 
+> However, this did not work out: despite using very specific initializers,
+> the previously initialized CSR structures in the csr_ops array
+> were reset to their default values, i.e., 0, breaking the code.
+> This was not the way I expected this feature to work in C99 and
+> my reading of the C99 standard does not support this either.  But
+> that’s what GCC does, at least on my machine.
 
+I'm sure your syntax was incorrect.  You probably used
+
+>>> +  [CSR_CYCLE] { .gdb_type = "uint64", .gdb_group = "user" },
+
+which does indeed overwrite the entire entry in the array.  You could have used
+
+     [CSR_CYCLE].gdb_type = "uint64"
+
+which will just set the one field.
+
+That said, I don't think that we want this distributed initialization.
+
+>> I think you should be able to use "unsigned long" as a proxy for the native register size.
+> 
+> `unsigned long' is not listed in section `G.3 Predefined Target Types'
+> of the GDB manual.
+
+Hmm.  I didn't look at the docs; I looked at gdbtypes.h and saw the existence of 
+builtin_unsigned_long.  I suppose this might not be plumbed into the xml.
+
+In which case, since we're generating everything dynamically anyway, we could just as 
+easily make NULL map to "uint<XLEN>" when generating the xml.  Or instead of a string, 
+perhaps some enum which distinguishes data_ptr/code_ptr/uint<xlen>/uint<min(n,xlen)> which 
+is then filled in during generation.
+
+> I also have to say that GDB does not handle the target descriptions
+> correctly in all cases.  In particular, I suspect a bug when
+> a field crosses a 32-bit boundary: GDB is showing twice the
+> field value.
+
+I wonder if this is an issue of using "uint32" for the field type?  You could, for the 
+moment, drop all of the bitfield descriptions and leave the interpretation to the user. 
+Giving an accurate integral value for the register as a whole is more helpful than giving 
+inaccurate field values.
+
+> As I wrote Alistair, I'm not sure this reasoning is correct.  Even if a 64-bit
+> machine is running in 32-bit mode, the machine itself remains a 64-bit machine,
+> and it's CSRs are so too.
+
+And that's where we're mis-communicating.
+
+We're working toward having exactly one qemu-system-riscv binary, which will emulate both 
+RV32 and RV64 (and RV128) cpus, selected by -cpu foo.  At which point there will be no 
+CONFIG_RISCV32 define at all.  The way to distinguish the three cases is 
+cpu->env.misa_mxl_max.
+
+> We can have the situation of a 64-bit kernel and 32-bit
+> user-mode process; would we want the CSRs to change when switching between the two?
+
+Well ideally yes...
+
+> Even if we did, the GDB remote protocol does not have the ability to say "API change,
+> please reread the target description" (AFAIK).
+
+... but as you rightly note, gdb can't handle it.
+
+
+r~
 
