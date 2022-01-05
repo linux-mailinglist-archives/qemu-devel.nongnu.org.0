@@ -2,83 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05FF5485091
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 11:02:44 +0100 (CET)
-Received: from localhost ([::1]:50124 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E8C2485099
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 11:05:26 +0100 (CET)
+Received: from localhost ([::1]:55522 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n537y-0005th-RL
-	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 05:02:42 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56142)
+	id 1n53Ab-00017r-3z
+	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 05:05:25 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57808)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1n52y8-0007AL-Ot; Wed, 05 Jan 2022 04:52:32 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:4106)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1n536a-0005yO-QR
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 05:01:18 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:30300)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1n52xs-0003gd-8v; Wed, 05 Jan 2022 04:52:18 -0500
-Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 2058IIA0009729; 
- Wed, 5 Jan 2022 09:51:50 GMT
-Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.98])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3dch8313vq-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 05 Jan 2022 09:51:50 +0000
-Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
- by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2059nufF003418;
- Wed, 5 Jan 2022 09:51:48 GMT
-Received: from b06cxnps4075.portsmouth.uk.ibm.com
- (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
- by ppma03ams.nl.ibm.com with ESMTP id 3daek9r9km-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 05 Jan 2022 09:51:48 +0000
-Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
- [9.149.105.232])
- by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 2059pjOD41615868
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 5 Jan 2022 09:51:45 GMT
-Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B04B052057;
- Wed,  5 Jan 2022 09:51:45 +0000 (GMT)
-Received: from smtp.tlslab.ibm.com (unknown [9.101.4.1])
- by d06av21.portsmouth.uk.ibm.com (Postfix) with SMTP id 6E3CD5204F;
- Wed,  5 Jan 2022 09:51:45 +0000 (GMT)
-Received: from yukon.ibmuc.com (unknown [9.171.33.19])
- by smtp.tlslab.ibm.com (Postfix) with ESMTP id B075822011D;
- Wed,  5 Jan 2022 10:51:44 +0100 (CET)
-From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-To: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
-Subject: [PATCH 2/2] spapr: Fix support of POWER5+ processors
-Date: Wed,  5 Jan 2022 10:51:42 +0100
-Message-Id: <20220105095142.3990430-3-clg@kaod.org>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20220105095142.3990430-1-clg@kaod.org>
-References: <20220105095142.3990430-1-clg@kaod.org>
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1n536X-0005EM-ST
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 05:01:15 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1641376872;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=FSd6sN3Lqnzqp6irJquLXJRutlLnPNj3SDsWSg7XOm4=;
+ b=LpJgyIIpmsG5zUDH7XCFkAIpg5/ezqmotb7lvQFY29I88EecgPiex6DlDgGhrVRPhUHNZ8
+ O0VD/1d9nRWFxueeHzTAfwHfBVwFkg4OUkU3NKtX0DL4whvaLq5UlhiI9YPbAj8p7M/QaG
+ 1wRI+3kKTpOVUCpGNA93urA3edyJ2Ow=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-5-SHu6FfStNCiShbPhYvq_DQ-1; Wed, 05 Jan 2022 05:01:09 -0500
+X-MC-Unique: SHu6FfStNCiShbPhYvq_DQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6FDD31006AA9;
+ Wed,  5 Jan 2022 10:01:08 +0000 (UTC)
+Received: from localhost (unknown [10.39.194.143])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9FE747CD64;
+ Wed,  5 Jan 2022 10:00:45 +0000 (UTC)
+Date: Wed, 5 Jan 2022 10:00:44 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: "Longpeng(Mike)" <longpeng2@huawei.com>
+Subject: Re: [RFC 04/10] vdpa-dev: implement the instance_init/class_init
+ interface
+Message-ID: <YdVsTKr7Ceed6nn7@stefanha-x1.localdomain>
+References: <20220105005900.860-1-longpeng2@huawei.com>
+ <20220105005900.860-5-longpeng2@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: uy8r3JrXv3XIi5qd385W4HT_xwZRq2OG
-X-Proofpoint-GUID: uy8r3JrXv3XIi5qd385W4HT_xwZRq2OG
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2022-01-05_02,2022-01-04_01,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 phishscore=0
- mlxscore=0 clxscore=1034 impostorscore=0 spamscore=0 suspectscore=0
- lowpriorityscore=0 adultscore=0 malwarescore=0 priorityscore=1501
- mlxlogscore=736 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2110150000 definitions=main-2201050063
-Received-SPF: softfail client-ip=148.163.156.1; envelope-from=clg@kaod.org;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -11
-X-Spam_score: -1.2
-X-Spam_bar: -
-X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
+In-Reply-To: <20220105005900.860-5-longpeng2@huawei.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="8efvm+iczZEPuuhM"
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.372,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,47 +81,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexey Kardashevskiy <aik@ozlabs.ru>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- Greg Kurz <groug@kaod.org>, David Gibson <david@gibson.dropbear.id.au>
+Cc: mst@redhat.com, jasowang@redhat.com, cohuck@redhat.com,
+ qemu-devel@nongnu.org, yechuan@huawei.com, arei.gonglei@huawei.com,
+ huangzhichao@huawei.com, pbonzini@redhat.com, sgarzare@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-POWER5+ (ISA v2.03) processors are supported by the pseries machine
-but they do not have Altivec instructions. Do not advertise support
-for it in the DT.
+--8efvm+iczZEPuuhM
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-To be noted that this test is in contradiction with the assert in
-cap_vsx_apply().
+On Wed, Jan 05, 2022 at 08:58:54AM +0800, Longpeng(Mike) wrote:
+> From: Longpeng <longpeng2@huawei.com>
+>=20
+> Implements the .instance_init and the .class_init interface.
+>=20
+> Signed-off-by: Longpeng <longpeng2@huawei.com>
+> ---
+>  hw/virtio/vdpa-dev-pci.c     | 80 +++++++++++++++++++++++++++++++++++-
+>  hw/virtio/vdpa-dev.c         | 68 +++++++++++++++++++++++++++++-
+>  include/hw/virtio/vdpa-dev.h |  2 +
+>  3 files changed, 146 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/hw/virtio/vdpa-dev-pci.c b/hw/virtio/vdpa-dev-pci.c
+> index a5a7b528a9..0af54a26d4 100644
+> --- a/hw/virtio/vdpa-dev-pci.c
+> +++ b/hw/virtio/vdpa-dev-pci.c
+> @@ -23,14 +23,90 @@ struct VhostVdpaDevicePCI {
+>      VhostVdpaDevice vdev;
+>  };
+> =20
+> +static uint32_t
+> +vdpa_dev_pci_get_info(const char *name, uint64_t cmd, Error **errp)
 
-Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
----
- hw/ppc/spapr.c | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+vdpa_dev_pci_get_u32() might be a clearer name.
 
-diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index 3b5fd749be89..69c9e1c59f5e 100644
---- a/hw/ppc/spapr.c
-+++ b/hw/ppc/spapr.c
-@@ -723,10 +723,12 @@ static void spapr_dt_cpu(CPUState *cs, void *fdt, i=
-nt offset,
-      *
-      * Only CPUs for which we create core types in spapr_cpu_core.c
-      * are possible, and all of those have VMX */
--    if (spapr_get_cap(spapr, SPAPR_CAP_VSX) !=3D 0) {
--        _FDT((fdt_setprop_cell(fdt, offset, "ibm,vmx", 2)));
--    } else {
--        _FDT((fdt_setprop_cell(fdt, offset, "ibm,vmx", 1)));
-+    if (env->insns_flags & PPC_ALTIVEC) {
-+        if (spapr_get_cap(spapr, SPAPR_CAP_VSX) !=3D 0) {
-+            _FDT((fdt_setprop_cell(fdt, offset, "ibm,vmx", 2)));
-+        } else {
-+            _FDT((fdt_setprop_cell(fdt, offset, "ibm,vmx", 1)));
-+        }
-     }
-=20
-     /* Advertise DFP (Decimal Floating Point) if available
---=20
-2.31.1
+> +{
+> +    int device_fd;
+> +    uint32_t val;
+> +    int ret;
+> +
+> +    device_fd =3D qemu_open(name, O_RDWR, errp);
+> +    if (device_fd =3D=3D -1) {
+> +        return (uint32_t)-1;
+> +    }
+> +
+> +    ret =3D ioctl(device_fd, cmd, &val);
+> +    if (ret < 0) {
+> +        error_setg(errp, "vhost-vdpa-device-pci: cmd 0x%lx failed: %s",
+> +                   cmd, strerror(errno));
+> +        goto out;
+> +    }
+> +
+> +out:
+> +    close(device_fd);
+
+Race conditions are possible if the device node is replaced between
+calls. Why not open the file once and reuse the fd across ioctl calls?
+
+Both VhostVdpaDevicePCI and VhostVdpaDevice need the fd but
+VhostVdpaDevicePCI needs it first. I suggest passing ownership of the fd
+to the VhostVdpaDevice. One way of doing this is using QOM properties so
+that VhostVdpaDevice can use the given fd instead of reopening the file.
+(If fd is -1 then VhostVdpaDevice can try to open the file. That is
+necessary when VhostVdpaDevice is used directly with virtio-mmio because
+there is no proxy object.)
+
+--8efvm+iczZEPuuhM
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmHVbEsACgkQnKSrs4Gr
+c8hibAf5Adh/oWnlL5RvMoyzGGRpO5mnPr1PDhL8pOp+jKmrciwv18SwomWcndbP
+iHIRh3o2EZDP1pb58qW3fO4eqxMYDBKt3uGUT3DaR7wY5OUQ5Cra7kxDO6/LdoU/
+Zt+i33oeZbBn0z94WiH1CDS2HbD9uYG0kSwWR/oM4FL6nRV0DvKF/06bopmTd1er
+LF3rHsAW7ThE/U4WSDLfX2RaR6elfrKGbs0udf01UDt69tgo1bN8ewGTfLW7GD0t
+gsXWW1LRUGzyEh8lkEX6bg7VgJ/FYoa8uSwGZTvbiNvO+vuYzVqqgYhhrs420DGp
+uxH3K1FvGMelYDy9kNkI6PT8SdXEPQ==
+=v/Se
+-----END PGP SIGNATURE-----
+
+--8efvm+iczZEPuuhM--
 
 
