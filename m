@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE747485058
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 10:51:31 +0100 (CET)
-Received: from localhost ([::1]:38454 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB538485073
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 10:55:32 +0100 (CET)
+Received: from localhost ([::1]:42478 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n52x8-0005ui-U4
-	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 04:51:30 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55206)
+	id 1n5311-0000ST-UO
+	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 04:55:31 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56068)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1n52ur-0004eA-H4
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 04:49:10 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45536)
+ (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
+ id 1n52xt-000751-SU
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 04:52:17 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52848)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1n52uo-000300-DY
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 04:49:07 -0500
+ (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
+ id 1n52xs-0003he-9E
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 04:52:17 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641376144;
+ s=mimecast20190719; t=1641376332;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Kb2Af7+ZmaC3F9gLVftuM8Jw7UDHteSljiPjn3+5wg8=;
- b=RCJO33bYexTz45R2n2ttOefAie4Y+WQEviQ9eBMBIOR2CzOKuK1R5ezcs5T07VupcdnkKu
- dGsJknaFHTOAZZaJRXSK75KxnwjA5kQ+YgH35TJ6nWzLdaNspxY1gSZwTSAtFp1E6oy29a
- yxvp8Nork2enL4nCnyzlAEDt3pvirHs=
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=Ygd6Kbim4Zgrn65iytho/Ov4JaUjhHPrPvywQjEpkqE=;
+ b=Incu4B7TE4U0gtK1BGaJLoCs39SohemvrVndGi9/WPE03o0R1OrD2ocOU3UXdfs6MsiNHM
+ CbuuBMmezH/dC0TEZbhcYuWVIqCEQPPIcqg/voleupU9kRBIib/peW+E/6Ilq9MNF/8uX7
+ ZAN2FNcYTo9xx3jdnW3OaTTuagGYif8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-552-5fdpoQ9LMI6uGuvSHTEsEg-1; Wed, 05 Jan 2022 04:49:01 -0500
-X-MC-Unique: 5fdpoQ9LMI6uGuvSHTEsEg-1
+ us-mta-608-KkY2es4oNcOk_Mud3LjwfQ-1; Wed, 05 Jan 2022 04:51:01 -0500
+X-MC-Unique: KkY2es4oNcOk_Mud3LjwfQ-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 45656190B2A0;
- Wed,  5 Jan 2022 09:49:00 +0000 (UTC)
-Received: from localhost (unknown [10.39.194.143])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B5CFB1059146;
- Wed,  5 Jan 2022 09:48:50 +0000 (UTC)
-Date: Wed, 5 Jan 2022 09:48:49 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: "Longpeng(Mike)" <longpeng2@huawei.com>
-Subject: Re: [RFC 03/10] vdpa: add the infrastructure of vdpa-dev
-Message-ID: <YdVpgaq/mFEZQpT7@stefanha-x1.localdomain>
-References: <20220105005900.860-1-longpeng2@huawei.com>
- <20220105005900.860-4-longpeng2@huawei.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5216F1023F4D;
+ Wed,  5 Jan 2022 09:51:00 +0000 (UTC)
+Received: from kostyanf14nb.redhat.com (unknown [10.40.194.231])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4471C1059146;
+ Wed,  5 Jan 2022 09:50:58 +0000 (UTC)
+From: Kostiantyn Kostiuk <kkostiuk@redhat.com>
+To: qemu-devel@nongnu.org, Michael Roth <michael.roth@amd.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ "Daniel P . Berrange" <berrange@redhat.com>
+Subject: [PATCH] MAINTAINERS: Add entry for QEMU Guest Agent Windows components
+Date: Wed,  5 Jan 2022 11:50:55 +0200
+Message-Id: <20220105095055.44475-1-kkostiuk@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20220105005900.860-4-longpeng2@huawei.com>
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kkostiuk@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="qxW7WiH2pDAOI0jd"
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kkostiuk@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -80,44 +80,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mst@redhat.com, jasowang@redhat.com, cohuck@redhat.com,
- qemu-devel@nongnu.org, yechuan@huawei.com, arei.gonglei@huawei.com,
- huangzhichao@huawei.com, pbonzini@redhat.com, sgarzare@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---qxW7WiH2pDAOI0jd
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Signed-off-by: Kostiantyn Kostiuk <kkostiuk@redhat.com>
+---
+ MAINTAINERS | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-On Wed, Jan 05, 2022 at 08:58:53AM +0800, Longpeng(Mike) wrote:
-> +static const VirtioPCIDeviceTypeInfo vhost_vdpa_device_pci_info = {
-> +    .base_name               = TYPE_VHOST_VDPA_DEVICE_PCI,
-> +    .generic_name            = "vhost-vdpa-device-pci",
-> +    .transitional_name       = "vhost-vdpa-device-pci-transitional",
-> +    .non_transitional_name   = "vhost-vdpa-device-pci-non-transitional",
+diff --git a/MAINTAINERS b/MAINTAINERS
+index f871d759fd..1f255ec874 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2729,6 +2729,14 @@ F: scripts/qemu-guest-agent/
+ F: tests/unit/test-qga.c
+ T: git https://github.com/mdroth/qemu.git qga
 
-Does vDPA support Transitional VIRTIO devices?
-
-I expected this device to support Modern devices only.
-
-Stefan
-
---qxW7WiH2pDAOI0jd
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmHVaYAACgkQnKSrs4Gr
-c8hT8QgAiATW5wqOD0JsFE2q6w/Stn6xeCBqf1O/wHDFK1slaRcaL3qg62OEcvjG
-QRGKr6V5Nr33Jw/JJ3GZxejSgtRDOv5KqcIt8oEgEIPySg+aPzKPqvLSXth+1Vig
-RiX/+9ZC3/idNUKuON+0vQi+gwUoSidodcVZlzi9wNuLQe6rwC7QxiDiEwy4BH3D
-PRe9ChdMSrQ4XXSQlQ7THeAzDzWTYqrGWPkU6Q1pKVUHEPMEBsNNHBqlfX7NzLqQ
-DJWofBiAqV8xmfyrxzbLRAeYRt318tRmOQ7VpfGJBkoFrLHzrvEL0ggNtgErM95A
-+JQsghs38us6TD6b+ai74vv8WEO/uw==
-=AwXt
------END PGP SIGNATURE-----
-
---qxW7WiH2pDAOI0jd--
++QEMU Guest Agent Win32
++M: Konstantin Kostiuk <kkostiuk@redhat.com>
++S: Maintained
++F: qga/*win32*
++F: qga/vss-win32/
++F: qga/installer/
++T: git https://github.com/kostyanf14/qemu.git qga-win32
++
+ QOM
+ M: Paolo Bonzini <pbonzini@redhat.com>
+ R: Daniel P. Berrange <berrange@redhat.com>
+--
+2.25.1
 
 
