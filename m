@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF303485B2F
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 22:57:29 +0100 (CET)
-Received: from localhost ([::1]:36608 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15E33485B52
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 23:08:16 +0100 (CET)
+Received: from localhost ([::1]:57888 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5EHg-0001fq-BT
-	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 16:57:28 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39978)
+	id 1n5ES7-0007vM-5v
+	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 17:08:15 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42628)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <atishp@atishpatra.org>)
- id 1n5ECa-00078d-B9
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 16:52:12 -0500
-Received: from [2607:f8b0:4864:20::b2f] (port=46770
- helo=mail-yb1-xb2f.google.com)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1n5EO2-0002jI-I4; Wed, 05 Jan 2022 17:04:02 -0500
+Received: from [2607:f8b0:4864:20::129] (port=47090
+ helo=mail-il1-x129.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <atishp@atishpatra.org>)
- id 1n5ECN-0008NU-KZ
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 16:52:01 -0500
-Received: by mail-yb1-xb2f.google.com with SMTP id w13so1723598ybs.13
- for <qemu-devel@nongnu.org>; Wed, 05 Jan 2022 13:51:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=atishpatra.org; s=google;
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1n5ENz-0006Bp-Sz; Wed, 05 Jan 2022 17:04:02 -0500
+Received: by mail-il1-x129.google.com with SMTP id e8so588563ilm.13;
+ Wed, 05 Jan 2022 14:03:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=thb4+eV1hfcYE0uqhzUe1T9cB2rym8DZDUZu4CWoiOQ=;
- b=Sh/YXshKlqcCV1R/SyvMU45EmgayDpCTXksHbwB3unaMKNRl4j9Xbl1r39M60fSADR
- ys2yACtaC9tP75s6C6liy2RE7RId9CUayxrMsK3LtAQkMxRQ/WdrPp1UVDUOgXw541rG
- eMJiEt5MpJ6YgqqteRkGmD2lM5RY196UccsUg=
+ :cc; bh=0l4CifLn/vQpDug8sVembxTHnVdIt3FA7HaSgzF02kM=;
+ b=G9B9ngw2+C+rrrZ0fNYLacRDsEpoLsAdL+VTtbE6x2GspJh3PUuCng+HZLj4vZELIQ
+ grtdXbgWONl7LDfW2AEdtzMDkpMvFm8VM+zwn3cdjUbmQLNW09KeS/uFZg8X28sfJIPC
+ KXxJCZFRK7/bWmMDPM6OMaBkwy41l2LuROCQ32l9FVM0F8zeOjnCV6GAb79IPlcjkUv6
+ LAWfJmeRxEEYtEnpJ3g1QME7Gx0zdoMocozwHa0aSKESPwxZfFTqzaMSaTqZP5z2d1dw
+ F0NgHDZm/W2ii96YZBhkwNDAxNfJYPoLmHkhL2hKLfqlVJoGA/3ZNLS2Y/Ysy52MHy3M
+ 5RSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=thb4+eV1hfcYE0uqhzUe1T9cB2rym8DZDUZu4CWoiOQ=;
- b=DjHqgd1XwilWi1B/SBGca1YMwuW6bWhNPFHKpPgYrW3J4pNkq2hubRccmZCX6HppXu
- wLQgZPVYWj6XERJUMZnnRKzew/IbvtfgRUyPQRDJgQoLYNBuq1hIGXcsAILtagcehlNC
- a3JP8N8JiUJGl4KZldQtMUJnFjA3TFnZQZuzcId/SjisSgRxjchG5SSbFw69inVH2RUM
- WMZIZolBh2HIC3pBq2GxAwlwvwzoMUGHA/2+V68hdQB/aEUl6Are7WQhfoYHtceuuP/U
- tYqiZZUDCYrFUD0GhuR8WVqi7dEpUISWSmSwQJ6pTndxOAAhdfszUC9y88mEoNb/1RiE
- mH7w==
-X-Gm-Message-State: AOAM530XfeGX5sQmE4m4Ulmm61bkYp3cXddDd59BZjSLx1uT4hGzpCYj
- NaimS9IXL/NtY/WTjk2HLqXzTBk9zYgnN7gIjLGM
-X-Google-Smtp-Source: ABdhPJz8+u8jS2EwFImYm9kaaCWuB2ihXbF7UoXvW9KZjwrRoKWYKPgHq8OXgebEm79HSx3WixndO2+vP47QrVPSfRo=
-X-Received: by 2002:a25:8388:: with SMTP id t8mr53886395ybk.472.1641419516605; 
- Wed, 05 Jan 2022 13:51:56 -0800 (PST)
+ bh=0l4CifLn/vQpDug8sVembxTHnVdIt3FA7HaSgzF02kM=;
+ b=4IIV6MDvx7F/ot7u2zyXuzK1QTOQPiIfTF3vMmSkLg+XgUb4dzuLrnX3ZQQTiYPaVC
+ KsMlaJHsX1Ev23PIYlB/8Iytdxx5icqneE+694gG6EAtd67nQOQ3CypcdZnxGtSbW4II
+ eT4BUU6xMw7DgPhQ2LByf75uMu0JOdXSZmluca2uam0CoVYTUgB26RS9cYSUFGGEyjzG
+ 7QvgIpXVCRPE9RkhW5LIXnQAzUI6/aeNkaw+HlADS2XO6L+Gc8Y6AawZYBKJoan/4D+W
+ W04S4Gaqo7EpB889/HidaSax9ieT23Sb7LMv0oTuAj4UEf9lGAlOSYyayrJqOioiIypC
+ BXMQ==
+X-Gm-Message-State: AOAM532+TN+DGibvspUY4XPskTMOPKe/5LAujG9qUGG2hdut3YWNKYBz
+ 5xc2pA+uZQeQdCbfr5YNoDoV0rl67wbKMWZ341g=
+X-Google-Smtp-Source: ABdhPJxqYlNe0qCnG/rahQ2aNhVsFb61xIb8f3Rr9II4KBnCJ9O6OZXqCDqKEfR8uFAoD4xv5so0pz/zGPhOi/eRlWA=
+X-Received: by 2002:a05:6e02:194b:: with SMTP id
+ x11mr2612704ilu.208.1641420238171; 
+ Wed, 05 Jan 2022 14:03:58 -0800 (PST)
 MIME-Version: 1.0
-References: <20211025195601.245631-1-atish.patra@wdc.com>
- <20211025195601.245631-5-atish.patra@wdc.com>
- <CAEUhbmV0kH8ZG7A0jiWAKTj4j3rhHrTCZY1diDWibPhMgcoiFw@mail.gmail.com>
-In-Reply-To: <CAEUhbmV0kH8ZG7A0jiWAKTj4j3rhHrTCZY1diDWibPhMgcoiFw@mail.gmail.com>
-From: Atish Patra <atishp@atishpatra.org>
-Date: Wed, 5 Jan 2022 13:51:46 -0800
-Message-ID: <CAOnJCU+ykD3suTQQzmy85Pf4nqZvPt+RML7ho+i+5wwh4p8kcA@mail.gmail.com>
-Subject: Re: [ PATCH v3 04/10] target/riscv: pmu: Make number of counters
- configurable
-To: Bin Meng <bmeng.cn@gmail.com>
+References: <20211220130919.413-1-jiangyifei@huawei.com>
+ <20211220130919.413-9-jiangyifei@huawei.com>
+In-Reply-To: <20211220130919.413-9-jiangyifei@huawei.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Thu, 6 Jan 2022 08:03:32 +1000
+Message-ID: <CAKmqyKOtOFmy1_9W785DZiFCc=Us6O_pVpLsBOyXOk32zansnA@mail.gmail.com>
+Subject: Re: [PATCH v3 08/12] target/riscv: Handle KVM_EXIT_RISCV_SBI exit
+To: Yifei Jiang <jiangyifei@huawei.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b2f
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::129
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2f;
- envelope-from=atishp@atishpatra.org; helo=mail-yb1-xb2f.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
+Received-SPF: pass client-ip=2607:f8b0:4864:20::129;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x129.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
 X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
@@ -80,218 +80,184 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Bin Meng <bin.meng@windriver.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Atish Patra <atish.patra@wdc.com>, Alistair Francis <alistair.francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>
+Cc: Bin Meng <bin.meng@windriver.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Mingwang Li <limingwang@huawei.com>, "open list:Overall" <kvm@vger.kernel.org>,
+ libvir-list@redhat.com, Anup Patel <anup.patel@wdc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>, wanbo13@huawei.com,
+ Palmer Dabbelt <palmer@dabbelt.com>, kvm-riscv@lists.infradead.org,
+ wanghaibin.wang@huawei.com, Alistair Francis <Alistair.Francis@wdc.com>,
+ fanliang@huawei.com, "Wubin \(H\)" <wu.wubin@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Nov 4, 2021 at 4:47 AM Bin Meng <bmeng.cn@gmail.com> wrote:
+On Tue, Dec 21, 2021 at 3:41 AM Yifei Jiang via <qemu-devel@nongnu.org> wrote:
 >
-> On Tue, Oct 26, 2021 at 4:41 AM Atish Patra <atish.patra@wdc.com> wrote:
-> >
-> > The RISC-V privilege specification provides flexibility to implement
-> > any number of counters from 29 programmable counters. However, the QEMU
-> > implements all the counters.
-> >
-> > Make it configurable through pmu config parameter which now will indicate
-> > how many programmable counters should be implemented by the cpu.
-> >
-> > Signed-off-by: Atish Patra <atish.patra@wdc.com>
-> > ---
-> >  target/riscv/cpu.c |  2 +-
-> >  target/riscv/cpu.h |  2 +-
-> >  target/riscv/csr.c | 96 ++++++++++++++++++++++++++++++----------------
-> >  3 files changed, 65 insertions(+), 35 deletions(-)
-> >
-> > diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> > index 3b55f5ed0036..aec94101a4c0 100644
-> > --- a/target/riscv/cpu.c
-> > +++ b/target/riscv/cpu.c
-> > @@ -598,7 +598,7 @@ static Property riscv_cpu_properties[] = {
-> >      DEFINE_PROP_BOOL("x-zbs", RISCVCPU, cfg.ext_zbs, false),
-> >      DEFINE_PROP_BOOL("x-h", RISCVCPU, cfg.ext_h, false),
-> >      DEFINE_PROP_BOOL("x-v", RISCVCPU, cfg.ext_v, false),
-> > -    DEFINE_PROP_BOOL("pmu", RISCVCPU, cfg.ext_pmu, true),
-> > +    DEFINE_PROP_UINT8("pmu-num", RISCVCPU, cfg.pmu_num, 16),
-> >      DEFINE_PROP_BOOL("Zifencei", RISCVCPU, cfg.ext_ifencei, true),
-> >      DEFINE_PROP_BOOL("Zicsr", RISCVCPU, cfg.ext_icsr, true),
-> >      DEFINE_PROP_STRING("priv_spec", RISCVCPU, cfg.priv_spec),
-> > diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> > index ebc1a8754032..d0a722e7cbe1 100644
-> > --- a/target/riscv/cpu.h
-> > +++ b/target/riscv/cpu.h
-> > @@ -294,10 +294,10 @@ struct RISCVCPU {
-> >          bool ext_zbb;
-> >          bool ext_zbc;
-> >          bool ext_zbs;
-> > -        bool ext_pmu;
-> >          bool ext_ifencei;
-> >          bool ext_icsr;
-> >
-> > +        uint8_t pmu_num;
-> >          char *priv_spec;
-> >          char *user_spec;
-> >          char *bext_spec;
-> > diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> > index c486eeaffeb8..a7249eaf917f 100644
-> > --- a/target/riscv/csr.c
-> > +++ b/target/riscv/csr.c
-> > @@ -57,15 +57,45 @@ static RISCVException vs(CPURISCVState *env, int csrno)
-> >      return RISCV_EXCP_ILLEGAL_INST;
-> >  }
-> >
-> > +static RISCVException mctr(CPURISCVState *env, int csrno)
-> > +{
-> > +#if !defined(CONFIG_USER_ONLY)
-> > +    CPUState *cs = env_cpu(env);
-> > +    RISCVCPU *cpu = RISCV_CPU(cs);
-> > +    int ctr_index;
-> > +    int base_csrno = CSR_MHPMCOUNTER3;
-> > +
-> > +    if (riscv_cpu_is_32bit(env) && csrno >= CSR_MCYCLEH) {
-> > +        /* Offset for RV32 mhpmcounternh counters */
-> > +        base_csrno += 0x80;
-> > +    }
-> > +    ctr_index = csrno - base_csrno;
-> > +    if (!cpu->cfg.pmu_num || ctr_index >= cpu->cfg.pmu_num) {
-> > +        /* The PMU is not enabled or counter is out of range*/
-> > +        return RISCV_EXCP_ILLEGAL_INST;
-> > +    }
-> > +
-> > +    return RISCV_EXCP_NONE;
-> > +#endif
-> > +}
-> > +
-> >  static RISCVException ctr(CPURISCVState *env, int csrno)
-> >  {
-> >  #if !defined(CONFIG_USER_ONLY)
-> >      CPUState *cs = env_cpu(env);
-> >      RISCVCPU *cpu = RISCV_CPU(cs);
-> >      int ctr_index;
-> > +    int base_csrno = CSR_CYCLE;
+> Use char-fe to handle console sbi call, which implement early
+> console io while apply 'earlycon=sbi' into kernel parameters.
 >
-> Use CSR_HPMCOUNTER3 here, for consistency with the mctr version
+> Signed-off-by: Yifei Jiang <jiangyifei@huawei.com>
+> Signed-off-by: Mingwang Li <limingwang@huawei.com>
+> Reviewed-by: Anup Patel <anup.patel@wdc.com>
+> ---
+>  target/riscv/kvm.c                 | 43 +++++++++++++++++-
+>  target/riscv/sbi_ecall_interface.h | 72 ++++++++++++++++++++++++++++++
+>  2 files changed, 114 insertions(+), 1 deletion(-)
+>  create mode 100644 target/riscv/sbi_ecall_interface.h
+>
+> diff --git a/target/riscv/kvm.c b/target/riscv/kvm.c
+> index 0027f11f45..4d08669c81 100644
+> --- a/target/riscv/kvm.c
+> +++ b/target/riscv/kvm.c
+> @@ -38,6 +38,9 @@
+>  #include "qemu/log.h"
+>  #include "hw/loader.h"
+>  #include "kvm_riscv.h"
+> +#include "sbi_ecall_interface.h"
+> +#include "chardev/char-fe.h"
+> +#include "semihosting/console.h"
+>
+>  static uint64_t kvm_riscv_reg_id(CPURISCVState *env, uint64_t type, uint64_t idx)
+>  {
+> @@ -365,9 +368,47 @@ bool kvm_arch_stop_on_emulation_error(CPUState *cs)
+>      return true;
+>  }
+>
+> +static int kvm_riscv_handle_sbi(CPUState *cs, struct kvm_run *run)
+> +{
+> +    int ret = 0;
+> +    unsigned char ch;
+> +    switch (run->riscv_sbi.extension_id) {
+> +    case SBI_EXT_0_1_CONSOLE_PUTCHAR:
+> +        ch = run->riscv_sbi.args[0];
+> +        qemu_semihosting_log_out((const char *)&ch, sizeof(ch));
 
-ok. Fixed it.
+Hmmm... We print to the semihosting
 
->
-> > +    bool brv32 = riscv_cpu_is_32bit(env);
->
-> nits: the leading 'b' sounds useless. I would use rv32 instead.
->
+> +        break;
+> +    case SBI_EXT_0_1_CONSOLE_GETCHAR:
+> +        ret = qemu_chr_fe_read_all(serial_hd(0)->be, &ch, sizeof(ch));
 
-Sure. Fixed it.
+but then read from the first serial device.
 
-> > +
-> > +    if (brv32 && csrno >= CSR_CYCLEH) {
-> > +        /* Offset for RV32 hpmcounternh counters */
-> > +        base_csrno += 0x80;
-> > +    }
-> > +    ctr_index = csrno - base_csrno;
-> >
-> > -    if (!cpu->cfg.ext_pmu) {
-> > -        /* The Counters extensions is not enabled */
-> > +    if (!cpu->cfg.pmu_num || ctr_index >= (cpu->cfg.pmu_num + 3)) {
->
-> so we can use "ctr_index >= cpu->cfg.pmu_num" here
->
-> > +        /* The PMU is not enabled or counter is out of range */
-> >          return RISCV_EXCP_ILLEGAL_INST;
-> >      }
-> >
-> > @@ -93,7 +123,7 @@ static RISCVException ctr(CPURISCVState *env, int csrno)
-> >              }
-> >              break;
-> >          }
-> > -        if (riscv_cpu_is_32bit(env)) {
-> > +        if (brv32) {
-> >              switch (csrno) {
-> >              case CSR_CYCLEH:
-> >                  if (!get_field(env->mcounteren, COUNTEREN_CY)) {
-> > @@ -148,7 +178,7 @@ static RISCVException ctr(CPURISCVState *env, int csrno)
-> >              }
-> >              break;
-> >          }
-> > -        if (riscv_cpu_is_32bit(env)) {
-> > +        if (brv32) {
-> >              switch (csrno) {
-> >              case CSR_CYCLEH:
-> >                  if (!get_field(env->hcounteren, COUNTEREN_CY) &&
-> > @@ -1720,35 +1750,35 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
-> >      [CSR_HPMCOUNTER30]   = { "hpmcounter30",   ctr,    read_zero },
-> >      [CSR_HPMCOUNTER31]   = { "hpmcounter31",   ctr,    read_zero },
-> >
-> > -    [CSR_MHPMCOUNTER3]   = { "mhpmcounter3",   any,    read_zero },
-> > -    [CSR_MHPMCOUNTER4]   = { "mhpmcounter4",   any,    read_zero },
-> > -    [CSR_MHPMCOUNTER5]   = { "mhpmcounter5",   any,    read_zero },
-> > -    [CSR_MHPMCOUNTER6]   = { "mhpmcounter6",   any,    read_zero },
-> > -    [CSR_MHPMCOUNTER7]   = { "mhpmcounter7",   any,    read_zero },
-> > -    [CSR_MHPMCOUNTER8]   = { "mhpmcounter8",   any,    read_zero },
-> > -    [CSR_MHPMCOUNTER9]   = { "mhpmcounter9",   any,    read_zero },
-> > -    [CSR_MHPMCOUNTER10]  = { "mhpmcounter10",  any,    read_zero },
-> > -    [CSR_MHPMCOUNTER11]  = { "mhpmcounter11",  any,    read_zero },
-> > -    [CSR_MHPMCOUNTER12]  = { "mhpmcounter12",  any,    read_zero },
-> > -    [CSR_MHPMCOUNTER13]  = { "mhpmcounter13",  any,    read_zero },
-> > -    [CSR_MHPMCOUNTER14]  = { "mhpmcounter14",  any,    read_zero },
-> > -    [CSR_MHPMCOUNTER15]  = { "mhpmcounter15",  any,    read_zero },
-> > -    [CSR_MHPMCOUNTER16]  = { "mhpmcounter16",  any,    read_zero },
-> > -    [CSR_MHPMCOUNTER17]  = { "mhpmcounter17",  any,    read_zero },
-> > -    [CSR_MHPMCOUNTER18]  = { "mhpmcounter18",  any,    read_zero },
-> > -    [CSR_MHPMCOUNTER19]  = { "mhpmcounter19",  any,    read_zero },
-> > -    [CSR_MHPMCOUNTER20]  = { "mhpmcounter20",  any,    read_zero },
-> > -    [CSR_MHPMCOUNTER21]  = { "mhpmcounter21",  any,    read_zero },
-> > -    [CSR_MHPMCOUNTER22]  = { "mhpmcounter22",  any,    read_zero },
-> > -    [CSR_MHPMCOUNTER23]  = { "mhpmcounter23",  any,    read_zero },
-> > -    [CSR_MHPMCOUNTER24]  = { "mhpmcounter24",  any,    read_zero },
-> > -    [CSR_MHPMCOUNTER25]  = { "mhpmcounter25",  any,    read_zero },
-> > -    [CSR_MHPMCOUNTER26]  = { "mhpmcounter26",  any,    read_zero },
-> > -    [CSR_MHPMCOUNTER27]  = { "mhpmcounter27",  any,    read_zero },
-> > -    [CSR_MHPMCOUNTER28]  = { "mhpmcounter28",  any,    read_zero },
-> > -    [CSR_MHPMCOUNTER29]  = { "mhpmcounter29",  any,    read_zero },
-> > -    [CSR_MHPMCOUNTER30]  = { "mhpmcounter30",  any,    read_zero },
-> > -    [CSR_MHPMCOUNTER31]  = { "mhpmcounter31",  any,    read_zero },
-> > +    [CSR_MHPMCOUNTER3]   = { "mhpmcounter3",   mctr,   read_zero },
-> > +    [CSR_MHPMCOUNTER4]   = { "mhpmcounter4",   mctr,   read_zero },
-> > +    [CSR_MHPMCOUNTER5]   = { "mhpmcounter5",   mctr,   read_zero },
-> > +    [CSR_MHPMCOUNTER6]   = { "mhpmcounter6",   mctr,   read_zero },
-> > +    [CSR_MHPMCOUNTER7]   = { "mhpmcounter7",   mctr,   read_zero },
-> > +    [CSR_MHPMCOUNTER8]   = { "mhpmcounter8",   mctr,   read_zero },
-> > +    [CSR_MHPMCOUNTER9]   = { "mhpmcounter9",   mctr,   read_zero },
-> > +    [CSR_MHPMCOUNTER10]  = { "mhpmcounter10",  mctr,   read_zero },
-> > +    [CSR_MHPMCOUNTER11]  = { "mhpmcounter11",  mctr,   read_zero },
-> > +    [CSR_MHPMCOUNTER12]  = { "mhpmcounter12",  mctr,   read_zero },
-> > +    [CSR_MHPMCOUNTER13]  = { "mhpmcounter13",  mctr,   read_zero },
-> > +    [CSR_MHPMCOUNTER14]  = { "mhpmcounter14",  mctr,   read_zero },
-> > +    [CSR_MHPMCOUNTER15]  = { "mhpmcounter15",  mctr,   read_zero },
-> > +    [CSR_MHPMCOUNTER16]  = { "mhpmcounter16",  mctr,   read_zero },
-> > +    [CSR_MHPMCOUNTER17]  = { "mhpmcounter17",  mctr,   read_zero },
-> > +    [CSR_MHPMCOUNTER18]  = { "mhpmcounter18",  mctr,   read_zero },
-> > +    [CSR_MHPMCOUNTER19]  = { "mhpmcounter19",  mctr,   read_zero },
-> > +    [CSR_MHPMCOUNTER20]  = { "mhpmcounter20",  mctr,   read_zero },
-> > +    [CSR_MHPMCOUNTER21]  = { "mhpmcounter21",  mctr,   read_zero },
-> > +    [CSR_MHPMCOUNTER22]  = { "mhpmcounter22",  mctr,   read_zero },
-> > +    [CSR_MHPMCOUNTER23]  = { "mhpmcounter23",  mctr,   read_zero },
-> > +    [CSR_MHPMCOUNTER24]  = { "mhpmcounter24",  mctr,   read_zero },
-> > +    [CSR_MHPMCOUNTER25]  = { "mhpmcounter25",  mctr,   read_zero },
-> > +    [CSR_MHPMCOUNTER26]  = { "mhpmcounter26",  mctr,   read_zero },
-> > +    [CSR_MHPMCOUNTER27]  = { "mhpmcounter27",  mctr,   read_zero },
-> > +    [CSR_MHPMCOUNTER28]  = { "mhpmcounter28",  mctr,   read_zero },
-> > +    [CSR_MHPMCOUNTER29]  = { "mhpmcounter29",  mctr,   read_zero },
-> > +    [CSR_MHPMCOUNTER30]  = { "mhpmcounter30",  mctr,   read_zero },
-> > +    [CSR_MHPMCOUNTER31]  = { "mhpmcounter31",  mctr,   read_zero },
-> >
-> >      [CSR_MHPMEVENT3]     = { "mhpmevent3",     any,    read_zero },
-> >      [CSR_MHPMEVENT4]     = { "mhpmevent4",     any,    read_zero },
->
-> Regards,
-> Bin
->
+That seems a little strange. Would it be better to just print to serial as well?
 
+Alistair
 
--- 
-Regards,
-Atish
+> +        if (ret == sizeof(ch)) {
+> +            run->riscv_sbi.args[0] = ch;
+> +        } else {
+> +            run->riscv_sbi.args[0] = -1;
+> +        }
+> +        break;
+> +    default:
+> +        qemu_log_mask(LOG_UNIMP,
+> +                      "%s: un-handled SBI EXIT, specific reasons is %lu\n",
+> +                      __func__, run->riscv_sbi.extension_id);
+> +        ret = -1;
+> +        break;
+> +    }
+> +    return ret;
+> +}
+> +
+>  int kvm_arch_handle_exit(CPUState *cs, struct kvm_run *run)
+>  {
+> -    return 0;
+> +    int ret = 0;
+> +    switch (run->exit_reason) {
+> +    case KVM_EXIT_RISCV_SBI:
+> +        ret = kvm_riscv_handle_sbi(cs, run);
+> +        break;
+> +    default:
+> +        qemu_log_mask(LOG_UNIMP, "%s: un-handled exit reason %d\n",
+> +                      __func__, run->exit_reason);
+> +        ret = -1;
+> +        break;
+> +    }
+> +    return ret;
+>  }
+>
+>  void kvm_riscv_reset_vcpu(RISCVCPU *cpu)
+> diff --git a/target/riscv/sbi_ecall_interface.h b/target/riscv/sbi_ecall_interface.h
+> new file mode 100644
+> index 0000000000..fb1a3fa8f2
+> --- /dev/null
+> +++ b/target/riscv/sbi_ecall_interface.h
+> @@ -0,0 +1,72 @@
+> +/*
+> + * SPDX-License-Identifier: BSD-2-Clause
+> + *
+> + * Copyright (c) 2019 Western Digital Corporation or its affiliates.
+> + *
+> + * Authors:
+> + *   Anup Patel <anup.patel@wdc.com>
+> + */
+> +
+> +#ifndef __SBI_ECALL_INTERFACE_H__
+> +#define __SBI_ECALL_INTERFACE_H__
+> +
+> +/* clang-format off */
+> +
+> +/* SBI Extension IDs */
+> +#define SBI_EXT_0_1_SET_TIMER           0x0
+> +#define SBI_EXT_0_1_CONSOLE_PUTCHAR     0x1
+> +#define SBI_EXT_0_1_CONSOLE_GETCHAR     0x2
+> +#define SBI_EXT_0_1_CLEAR_IPI           0x3
+> +#define SBI_EXT_0_1_SEND_IPI            0x4
+> +#define SBI_EXT_0_1_REMOTE_FENCE_I      0x5
+> +#define SBI_EXT_0_1_REMOTE_SFENCE_VMA   0x6
+> +#define SBI_EXT_0_1_REMOTE_SFENCE_VMA_ASID 0x7
+> +#define SBI_EXT_0_1_SHUTDOWN            0x8
+> +#define SBI_EXT_BASE                    0x10
+> +#define SBI_EXT_TIME                    0x54494D45
+> +#define SBI_EXT_IPI                     0x735049
+> +#define SBI_EXT_RFENCE                  0x52464E43
+> +#define SBI_EXT_HSM                     0x48534D
+> +
+> +/* SBI function IDs for BASE extension*/
+> +#define SBI_EXT_BASE_GET_SPEC_VERSION   0x0
+> +#define SBI_EXT_BASE_GET_IMP_ID         0x1
+> +#define SBI_EXT_BASE_GET_IMP_VERSION    0x2
+> +#define SBI_EXT_BASE_PROBE_EXT          0x3
+> +#define SBI_EXT_BASE_GET_MVENDORID      0x4
+> +#define SBI_EXT_BASE_GET_MARCHID        0x5
+> +#define SBI_EXT_BASE_GET_MIMPID         0x6
+> +
+> +/* SBI function IDs for TIME extension*/
+> +#define SBI_EXT_TIME_SET_TIMER          0x0
+> +
+> +/* SBI function IDs for IPI extension*/
+> +#define SBI_EXT_IPI_SEND_IPI            0x0
+> +
+> +/* SBI function IDs for RFENCE extension*/
+> +#define SBI_EXT_RFENCE_REMOTE_FENCE_I       0x0
+> +#define SBI_EXT_RFENCE_REMOTE_SFENCE_VMA    0x1
+> +#define SBI_EXT_RFENCE_REMOTE_SFENCE_VMA_ASID  0x2
+> +#define SBI_EXT_RFENCE_REMOTE_HFENCE_GVMA   0x3
+> +#define SBI_EXT_RFENCE_REMOTE_HFENCE_GVMA_VMID 0x4
+> +#define SBI_EXT_RFENCE_REMOTE_HFENCE_VVMA   0x5
+> +#define SBI_EXT_RFENCE_REMOTE_HFENCE_VVMA_ASID 0x6
+> +
+> +/* SBI function IDs for HSM extension */
+> +#define SBI_EXT_HSM_HART_START          0x0
+> +#define SBI_EXT_HSM_HART_STOP           0x1
+> +#define SBI_EXT_HSM_HART_GET_STATUS     0x2
+> +
+> +#define SBI_HSM_HART_STATUS_STARTED     0x0
+> +#define SBI_HSM_HART_STATUS_STOPPED     0x1
+> +#define SBI_HSM_HART_STATUS_START_PENDING   0x2
+> +#define SBI_HSM_HART_STATUS_STOP_PENDING    0x3
+> +
+> +#define SBI_SPEC_VERSION_MAJOR_OFFSET   24
+> +#define SBI_SPEC_VERSION_MAJOR_MASK     0x7f
+> +#define SBI_SPEC_VERSION_MINOR_MASK     0xffffff
+> +#define SBI_EXT_VENDOR_START            0x09000000
+> +#define SBI_EXT_VENDOR_END              0x09FFFFFF
+> +/* clang-format on */
+> +
+> +#endif
+> --
+> 2.19.1
+>
+>
 
