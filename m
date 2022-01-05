@@ -2,70 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B960485329
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 14:02:46 +0100 (CET)
-Received: from localhost ([::1]:43886 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE646485340
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 14:10:01 +0100 (CET)
+Received: from localhost ([::1]:51796 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n55wC-0001Kc-R5
-	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 08:02:44 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33810)
+	id 1n563F-00077N-30
+	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 08:10:01 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35946)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1n55XN-0003uw-W4
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 07:37:06 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:33060)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1n55jM-0001QY-Ls
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 07:49:30 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45874)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1n55XM-0000W9-4W
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 07:37:05 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1n55jH-0002j3-5h
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 07:49:25 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641386223;
+ s=mimecast20190719; t=1641386962;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=GFk5HJ9ux/N6KIcTp600+tVkXs6uUnZe2/t4sdasXOU=;
- b=AYXoEmu9ocuY85ktf0o2SZN3Mx6IIhFt31GKNTcqB7cNVi6HYaEapHpMalWezaSm4V3HaK
- kA77zf8sGbLSUNFxxcZpL6ktisYFdKAWu22AT/S22Ag1R/TcPYphIFvQkaP66MZgwm7Fca
- X+z2x0Y+NfYh6sAy2ZUL1aWxCMn1Zbc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=l54upy0xOuvwAUk+b5MHJujTtwZDYexksRC4Aw8uU8M=;
+ b=ax3VRxNYFBWfqIHSffm43A4T+Jxlix7WTgxEI04ewCn4WeyuP1ZHwj50oP8yypE7xfUbLt
+ fDwk/M7frSDVUwZOhLLh9uqQPXjhF/k5qQFvCDB3SSZPs2UYJucidJqdsK1LzeVuOHRkES
+ OFkuWAJDPN6aV7Vp0MznY8Zbriqkks8=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-283-9DRJ-JsZN8iNmcn8wSwLMQ-1; Wed, 05 Jan 2022 07:37:02 -0500
-X-MC-Unique: 9DRJ-JsZN8iNmcn8wSwLMQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 57CE785B660;
- Wed,  5 Jan 2022 12:37:01 +0000 (UTC)
-Received: from thuth.com (dhcp-192-229.str.redhat.com [10.33.192.229])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8A8BC2376B;
- Wed,  5 Jan 2022 12:37:00 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 8/8] docs/tools/qemu-trace-stap.rst: Do not hard-code the QEMU
- binary name
-Date: Wed,  5 Jan 2022 13:36:12 +0100
-Message-Id: <20220105123612.432038-9-thuth@redhat.com>
-In-Reply-To: <20220105123612.432038-1-thuth@redhat.com>
-References: <20220105123612.432038-1-thuth@redhat.com>
+ us-mta-662-AAFYaXuHMryeZ5UIHt4Q2w-1; Wed, 05 Jan 2022 07:49:19 -0500
+X-MC-Unique: AAFYaXuHMryeZ5UIHt4Q2w-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ q2-20020adfab02000000b001a3ed59eb96so488424wrc.20
+ for <qemu-devel@nongnu.org>; Wed, 05 Jan 2022 04:49:18 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=l54upy0xOuvwAUk+b5MHJujTtwZDYexksRC4Aw8uU8M=;
+ b=TtrtW1L21zr/EIudjZvaFkwFon6fcZvcENCg5oy9h4KYv/ah6qMgw0h0ddm1rj/rxz
+ 3YmmpgEBpRvDqZAYWGdDDb+O4qm3h79UXGoSoTJvbxurae7WdbwrFHSwXR57eMSInWF+
+ PvW6Ibv+jdP23DqItmNJ6xPVuUxkNCbR09l7HprnyRwlieYVUnvKUEUDT7pAI+cyj0tR
+ SMSJvnwrY6ghmS0aRPX19DCB6Rw9H8CDWvVY5DkvH977eNjvnVTH+Z/qdxmm6uoLbGMc
+ aJ/rpMjgqmmE6NeDfzdmxAmc+sPEX4ZJ9hrw7AeZ7+FNM8t8zcwXGxOCJwSLLbo8hJul
+ 86Og==
+X-Gm-Message-State: AOAM531dkOaFFC1RQNeXSpI9A4aTQO4m86Pn3rXigRY1ajR27VDFwIvN
+ /Dk46eqRvGFWsUsU6tL9+CbmDsdmP+f4deyf3y6S/w8oPh/uoArbJ2nnT8Ew/V4HSSpB3Kerdmr
+ XnDJ0H3oHGcyIlP0=
+X-Received: by 2002:adf:e291:: with SMTP id v17mr45599884wri.479.1641386958057; 
+ Wed, 05 Jan 2022 04:49:18 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyMjhBy9fLi+fWYAPu/oluJ18SrDqYuvdyV+nFGDS9J0NaXQxeuLn7l/CXTWzL95UZSog5dyw==
+X-Received: by 2002:adf:e291:: with SMTP id v17mr45599868wri.479.1641386957832; 
+ Wed, 05 Jan 2022 04:49:17 -0800 (PST)
+Received: from [10.33.192.229] (nat-pool-str-t.redhat.com. [149.14.88.106])
+ by smtp.gmail.com with ESMTPSA id m35sm5601247wms.1.2022.01.05.04.49.16
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 05 Jan 2022 04:49:17 -0800 (PST)
+Message-ID: <eb6bd2ef-6291-5125-3edf-428d049d9d78@redhat.com>
+Date: Wed, 5 Jan 2022 13:49:16 +0100
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH 1/1] softmmu: fix device deletion events with -device JSON
+ syntax
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20220105123847.4047954-1-berrange@redhat.com>
+ <20220105123847.4047954-2-berrange@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20220105123847.4047954-2-berrange@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.372,
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.372,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-1.057, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,87 +101,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Peter Krempa <pkrempa@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Eduardo Habkost <eduardo@habkost.net>, Paolo Bonzini <pbonzini@redhat.com>,
+ Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In downstream, we want to use a different name for the QEMU binary,
-and some people might also use the docs for non-x86 binaries, that's
-why we already created the |qemu_system| placeholder in the past.
-Use it now in the stap trace doc, too.
+On 05/01/2022 13.38, Daniel P. Berrangé wrote:
+> The -device JSON syntax impl leaks a reference on the created
+> DeviceState instance. As a result when you hot-unplug the
+> device, the device_finalize method won't be called and thus
+> it will fail to emit the required DEVICE_DELETED event.
+> 
+> A 'json-cli' feature was previously added against the
+> 'device_add' QMP command QAPI schema to indicated to mgmt
+> apps that -device supported JSON syntax. Given the hotplug
+> bug that feature flag is no unusable for its purpose, so
+> we add a new 'json-cli-hotplug' feature to indicate the
+> -device supports JSON without breaking hotplug.
+> 
+> Fixes: https://gitlab.com/qemu-project/qemu/-/issues/802
 
-Message-Id: <20220104103319.179870-1-thuth@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- docs/tools/qemu-trace-stap.rst | 24 ++++++++++++------------
- 1 file changed, 12 insertions(+), 12 deletions(-)
+We're mostly using "Fixes:" to refer to previous commit IDs, and "Resolves:" 
+for referring to bugs in the gitlab issue tracker, so in case you respin, 
+I'd suggest to replace it (but both keywords should work to close issues, so 
+it's just a cosmetical thing).
 
-diff --git a/docs/tools/qemu-trace-stap.rst b/docs/tools/qemu-trace-stap.rst
-index d53073b52b..2169ce5d17 100644
---- a/docs/tools/qemu-trace-stap.rst
-+++ b/docs/tools/qemu-trace-stap.rst
-@@ -46,19 +46,19 @@ The following commands are valid:
-   any of the listed names. If no *PATTERN* is given, the all possible
-   probes will be listed.
- 
--  For example, to list all probes available in the ``qemu-system-x86_64``
-+  For example, to list all probes available in the |qemu_system|
-   binary:
- 
--  ::
-+  .. parsed-literal::
- 
--    $ qemu-trace-stap list qemu-system-x86_64
-+    $ qemu-trace-stap list |qemu_system|
- 
-   To filter the list to only cover probes related to QEMU's cryptographic
-   subsystem, in a binary outside ``$PATH``
- 
--  ::
-+  .. parsed-literal::
- 
--    $ qemu-trace-stap list /opt/qemu/4.0.0/bin/qemu-system-x86_64 'qcrypto*'
-+    $ qemu-trace-stap list /opt/qemu/|version|/bin/|qemu_system| 'qcrypto*'
- 
- .. option:: run OPTIONS BINARY PATTERN...
- 
-@@ -90,26 +90,26 @@ The following commands are valid:
-     Restrict the tracing session so that it only triggers for the process
-     identified by *PID*.
- 
--  For example, to monitor all processes executing ``qemu-system-x86_64``
-+  For example, to monitor all processes executing |qemu_system|
-   as found on ``$PATH``, displaying all I/O related probes:
- 
--  ::
-+  .. parsed-literal::
- 
--    $ qemu-trace-stap run qemu-system-x86_64 'qio*'
-+    $ qemu-trace-stap run |qemu_system| 'qio*'
- 
-   To monitor only the QEMU process with PID 1732
- 
--  ::
-+  .. parsed-literal::
- 
--    $ qemu-trace-stap run --pid=1732 qemu-system-x86_64 'qio*'
-+    $ qemu-trace-stap run --pid=1732 |qemu_system| 'qio*'
- 
-   To monitor QEMU processes running an alternative binary outside of
-   ``$PATH``, displaying verbose information about setup of the
-   tracing environment:
- 
--  ::
-+  .. parsed-literal::
- 
--    $ qemu-trace-stap -v run /opt/qemu/4.0.0/qemu-system-x86_64 'qio*'
-+    $ qemu-trace-stap -v run /opt/qemu/|version|/bin/|qemu_system| 'qio*'
- 
- See also
- --------
--- 
-2.27.0
+> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> ---
+>   qapi/qdev.json                 |  5 ++++-
+>   softmmu/vl.c                   |  4 +++-
+>   tests/qtest/device-plug-test.c | 19 +++++++++++++++++++
+>   3 files changed, 26 insertions(+), 2 deletions(-)
+
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
 
