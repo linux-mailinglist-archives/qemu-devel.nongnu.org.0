@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1C4A485492
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 15:31:55 +0100 (CET)
-Received: from localhost ([::1]:38508 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9C64485521
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 15:56:36 +0100 (CET)
+Received: from localhost ([::1]:36376 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n57KV-0006BA-06
-	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 09:31:55 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53214)
+	id 1n57iN-0002DB-Ru
+	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 09:56:35 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52908)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1n56sk-0000Hz-F1
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 09:03:14 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:41702)
+ id 1n56sX-00004w-Hw
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 09:03:02 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36539)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1n56sc-0007Nb-AD
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 09:03:12 -0500
+ id 1n56sV-0007Kg-UB
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 09:03:01 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641391384;
+ s=mimecast20190719; t=1641391379;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=lwE/ply5dtgUjbq/zwhy+8uN2X4Pg7ArB8KuS+5rnt8=;
- b=e0JGxfh6joZaRFrrpr3MiEN3UpGljLmhdgkttXzMVFwNTyNVHEX822hkQ9uRHfDesZEBiZ
- +ObrrHGPykQgl4NHkI2RKZTGuSrGmNWnj4Y6K9WXeK4DcxmKP7jU02TNmXC5+aUs+WtjwV
- rRLLRjx/XhrXRuPE+P97Blwq+NzgVYU=
+ bh=MU05fzFG14Paw6y7UQrLSY8usprd9sJ/d97Uf91xMcU=;
+ b=KWPPF8tlZu7xdjYxSkjbyq7/ZSEBU4QKWIG9SIbV2H3ee+FITYZ8wJZX5EwbMmYR2fBF81
+ qlDKw5tMhxkgfhmHf1mZnlFx/PVUU50YaO210krSThr8QveBfOK+5koGyCLP/Jp/cjnDWx
+ pJjTp0dwL/W4Q0y4EvBh5QP8W+2OQK4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-307-4NQczIrfMXalxsdKdkvh3g-1; Wed, 05 Jan 2022 09:02:55 -0500
-X-MC-Unique: 4NQczIrfMXalxsdKdkvh3g-1
+ us-mta-613-LXbujE7bORiy89gI906jPQ-1; Wed, 05 Jan 2022 09:02:58 -0500
+X-MC-Unique: LXbujE7bORiy89gI906jPQ-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8B4AF1083F83;
- Wed,  5 Jan 2022 14:02:48 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CB12F81EE98;
+ Wed,  5 Jan 2022 14:02:49 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8863F2B4CF;
- Wed,  5 Jan 2022 14:02:47 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A4ACB2B4B3;
+ Wed,  5 Jan 2022 14:02:48 +0000 (UTC)
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v3 06/16] job.c: make job_event_* functions static
-Date: Wed,  5 Jan 2022 09:01:58 -0500
-Message-Id: <20220105140208.365608-7-eesposit@redhat.com>
+Subject: [PATCH v3 07/16] job.c: move inner aiocontext lock in callbacks
+Date: Wed,  5 Jan 2022 09:01:59 -0500
+Message-Id: <20220105140208.365608-8-eesposit@redhat.com>
 In-Reply-To: <20220105140208.365608-1-eesposit@redhat.com>
 References: <20220105140208.365608-1-eesposit@redhat.com>
 MIME-Version: 1.0
@@ -67,7 +67,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.372,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,60 +91,85 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-job_event_* functions can all be static, as they are not used
-outside job.c.
+Instead of having the lock in job_tnx_apply, move it inside
+in the callback. This will be helpful for next commits, when
+we introduce job_lock/unlock pairs.
+
+job_transition_to_pending() and job_needs_finalize() do not
+need to be protected by the aiocontext lock.
+
+No functional change intended.
 
 Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- include/qemu/job.h |  6 ------
- job.c              | 12 ++++++++++--
- 2 files changed, 10 insertions(+), 8 deletions(-)
+ job.c | 15 +++++++++++----
+ 1 file changed, 11 insertions(+), 4 deletions(-)
 
-diff --git a/include/qemu/job.h b/include/qemu/job.h
-index f800b0b881..c95f9fa8d1 100644
---- a/include/qemu/job.h
-+++ b/include/qemu/job.h
-@@ -454,12 +454,6 @@ void job_progress_set_remaining(Job *job, uint64_t remaining);
-  */
- void job_progress_increase_remaining(Job *job, uint64_t delta);
- 
--/** To be called when a cancelled job is finalised. */
--void job_event_cancelled(Job *job);
--
--/** To be called when a successfully completed job is finalised. */
--void job_event_completed(Job *job);
--
- /**
-  * Conditionally enter the job coroutine if the job is ready to run, not
-  * already busy and fn() returns true. fn() is called while under the job_lock
 diff --git a/job.c b/job.c
-index f4e1a56705..b0dba40728 100644
+index b0dba40728..2ee7233763 100644
 --- a/job.c
 +++ b/job.c
-@@ -498,12 +498,20 @@ void job_progress_increase_remaining(Job *job, uint64_t delta)
-     progress_increase_remaining(&job->progress, delta);
+@@ -165,7 +165,6 @@ static void job_txn_del_job(Job *job)
+ 
+ static int job_txn_apply(Job *job, int fn(Job *))
+ {
+-    AioContext *inner_ctx;
+     Job *other_job, *next;
+     JobTxn *txn = job->txn;
+     int rc = 0;
+@@ -180,10 +179,7 @@ static int job_txn_apply(Job *job, int fn(Job *))
+     aio_context_release(job->aio_context);
+ 
+     QLIST_FOREACH_SAFE(other_job, &txn->jobs, txn_list, next) {
+-        inner_ctx = other_job->aio_context;
+-        aio_context_acquire(inner_ctx);
+         rc = fn(other_job);
+-        aio_context_release(inner_ctx);
+         if (rc) {
+             break;
+         }
+@@ -796,11 +792,15 @@ static void job_clean(Job *job)
+ 
+ static int job_finalize_single(Job *job)
+ {
++    AioContext *ctx = job->aio_context;
++
+     assert(job_is_completed_locked(job));
+ 
+     /* Ensure abort is called for late-transactional failures */
+     job_update_rc(job);
+ 
++    aio_context_acquire(ctx);
++
+     if (!job->ret) {
+         job_commit(job);
+     } else {
+@@ -808,6 +808,8 @@ static int job_finalize_single(Job *job)
+     }
+     job_clean(job);
+ 
++    aio_context_release(ctx);
++
+     if (job->cb) {
+         job->cb(job->opaque, job->ret);
+     }
+@@ -928,11 +930,16 @@ static void job_completed_txn_abort(Job *job)
+ 
+ static int job_prepare(Job *job)
+ {
++    AioContext *ctx = job->aio_context;
+     assert(qemu_in_main_thread());
++
+     if (job->ret == 0 && job->driver->prepare) {
++        aio_context_acquire(ctx);
+         job->ret = job->driver->prepare(job);
++        aio_context_release(ctx);
+         job_update_rc(job);
+     }
++
+     return job->ret;
  }
  
--void job_event_cancelled(Job *job)
-+/**
-+ * To be called when a cancelled job is finalised.
-+ * Called with job_mutex held.
-+ */
-+static void job_event_cancelled(Job *job)
- {
-     notifier_list_notify(&job->on_finalize_cancelled, job);
- }
- 
--void job_event_completed(Job *job)
-+/**
-+ * To be called when a successfully completed job is finalised.
-+ * Called with job_mutex held.
-+ */
-+static void job_event_completed(Job *job)
- {
-     notifier_list_notify(&job->on_finalize_completed, job);
- }
 -- 
 2.31.1
 
