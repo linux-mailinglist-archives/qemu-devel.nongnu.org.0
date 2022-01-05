@@ -2,61 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B206F48515D
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 11:47:48 +0100 (CET)
-Received: from localhost ([::1]:60722 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEADB485136
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 11:38:35 +0100 (CET)
+Received: from localhost ([::1]:42582 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n53pb-0001y8-S4
-	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 05:47:47 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34758)
+	id 1n53gg-00069Y-Nr
+	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 05:38:34 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35330)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n53YE-0005kD-FT
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 05:29:50 -0500
-Received: from mout.kundenserver.de ([217.72.192.73]:58359)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1n53b4-00006t-UE
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 05:32:46 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:51850)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n53YB-0008Kg-RE
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 05:29:49 -0500
-Received: from [192.168.100.1] ([82.142.30.62]) by mrelayeu.kundenserver.de
- (mreue107 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MAgMY-1nG1uk0YEy-00B8EF for <qemu-devel@nongnu.org>; Wed, 05 Jan 2022
- 11:29:46 +0100
-Message-ID: <e519748c-781d-304a-8c69-edd164a5d1a6@vivier.eu>
-Date: Wed, 5 Jan 2022 11:29:45 +0100
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1n53b1-0000ZF-6L
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 05:32:45 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1641378762;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=W11lvguwbWqyTIsBOu9WzQYJ9vH7ztTxY0/+TGCRvzo=;
+ b=UywLPPUA/kXTQ3HzmVxXprVPk05xDC5UNatqDdDEbjuLW5SapZCI1zFB0GWJOfupBhVh6C
+ M19g7tr4LP20DWwJPDXfKgG4lxPw8vcoFQEiDIB25SCOZ492gmBslT+N2KztVqMVsDjxU7
+ H9y3BTXbkVV9mShhGxGIulR3EcFLkDo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-595-WyHrH9UfN-qN1mbB-CVMVQ-1; Wed, 05 Jan 2022 05:32:37 -0500
+X-MC-Unique: WyHrH9UfN-qN1mbB-CVMVQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F387B81EE60;
+ Wed,  5 Jan 2022 10:32:35 +0000 (UTC)
+Received: from thuth.com (dhcp-192-229.str.redhat.com [10.33.192.229])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 22C71694D8;
+ Wed,  5 Jan 2022 10:32:33 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: Daniel Henrique Barboza <danielhb413@gmail.com>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, qemu-devel@nongnu.org
+Subject: [PATCH] docs/system/ppc: Merge the PEF information into the pseries
+ page
+Date: Wed,  5 Jan 2022 11:32:32 +0100
+Message-Id: <20220105103232.405204-1-thuth@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH 1/3] linux-user: netlink: update IFLA entries
-Content-Language: fr
-To: qemu-devel@nongnu.org
-References: <20211219154514.2165728-1-laurent@vivier.eu>
-From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <20211219154514.2165728-1-laurent@vivier.eu>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:oT4Vnsxy2MDN7vSoScK8KObfEyFDRLtF34TFiKN3+tXMhVDaV7l
- kc7EMi7+AVX1r7OCg2/2hILVjMre/W/IJ0UFDcln8CaIZheErWyMWO4KDti+7F2zgIbpSI3
- DauX5L/2aDliX3HWFehCqFy+m7PSpK8nf2ytL25F14/CCQpAz2AXG3rSClxPhxVEOxzNnjK
- IX0uTfYBKe7QX6ftM/l1A==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:rn9ScTvRdok=:Rc/tAngoJbmLrCPlorxaHu
- HUAbdcAK/+eO1lLlb9k2wfamA51zKlbtNknWMAEAWKeJR29RitUhFYY0t8zHR9q6/SwU2PimP
- vHHXI1qX7fjnicupzSr0ylblmsbq965lb4HG1En1ANevk7vYjk02I0SxRLYaET+RKcVnMDjYG
- DrExfv7n4zKRPdvmopCdK5LGPle7L+bqr0o/ifFoKGxtq4H0zqig4X9sUqfs1NFxWXuRlasX8
- kPtuSODpc3IkU/MAD0OupEWJU4+OIigzQiWswB8WzpGdAECtV49bHu94Vn6ZB/SHuZdFT7qJN
- aJ6pTZJDJT8M/YBMHdBy7LUk4U23ko/hJP7/bp3Q/dfT0GHZDHvPPcBx7/vRFajKZ8hF930u0
- ZUjB/uzU9tsGSWp/hxFaxgtDifq43yLvkye5PqdR+rarZ1pJxY91JGYXfScPwQPOeY4pK5RKR
- P0FwWi++mxYCLoy7IEWKoqjeDXod4drOdHYRqicknCAxTIsgrG1Obr7vdDu9v++c6uLHrlFqO
- J7+kM7v0TQxyksjjqhf/P5qMrPPfhw5zgqPegRMl+SRgZEy/bL9vfQebVbjeam5aOVUUGZ4fb
- VAy3h12PSxvh+cYuH43ZNXRmy97A8J3pbbZfrj8QCZBk3VwD5VOCAhvaowpmIy8ZW7KCbpMXu
- Le2hjH7dqqaTDhczPBsdNS8CIHA1PV3ZJRz/JOFkVm0RV0tNLBTFrB80jL4KllcOr+Ho=
-Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -29
-X-Spam_score: -3.0
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
 X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.057,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.372,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -69,53 +76,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Leonardo Garcia <lagarcia@br.ibm.com>, qemu-ppc@nongnu.org,
+ Greg Kurz <groug@kaod.org>, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 19/12/2021 à 16:45, Laurent Vivier a écrit :
-> Add IFLA_PHYS_PORT_ID, IFLA_PARENT_DEV_NAME, IFLA_PARENT_DEV_BUS_NAME
-> 
->    # QEMU_LOG=unimp ip a
->    Unknown host QEMU_IFLA type: 56
->    Unknown host QEMU_IFLA type: 57
->    Unknown host QEMU_IFLA type: 34
-> 
-> Signed-off-by: Laurent Vivier <laurent@vivier.eu>
-> ---
->   linux-user/fd-trans.c | 6 ++++++
->   1 file changed, 6 insertions(+)
-> 
-> diff --git a/linux-user/fd-trans.c b/linux-user/fd-trans.c
-> index 69410899590c..14c19a90b2b0 100644
-> --- a/linux-user/fd-trans.c
-> +++ b/linux-user/fd-trans.c
-> @@ -138,6 +138,9 @@ enum {
->       QEMU_IFLA_PROP_LIST,
->       QEMU_IFLA_ALT_IFNAME,
->       QEMU_IFLA_PERM_ADDRESS,
-> +    QEMU_IFLA_PROTO_DOWN_REASON,
-> +    QEMU_IFLA_PARENT_DEV_NAME,
-> +    QEMU_IFLA_PARENT_DEV_BUS_NAME,
->       QEMU___IFLA_MAX
->   };
->   
-> @@ -818,9 +821,12 @@ static abi_long host_to_target_data_link_rtattr(struct rtattr *rtattr)
->       case QEMU_IFLA_ADDRESS:
->       case QEMU_IFLA_BROADCAST:
->       case QEMU_IFLA_PERM_ADDRESS:
-> +    case QEMU_IFLA_PHYS_PORT_ID:
->       /* string */
->       case QEMU_IFLA_IFNAME:
->       case QEMU_IFLA_QDISC:
-> +    case QEMU_IFLA_PARENT_DEV_NAME:
-> +    case QEMU_IFLA_PARENT_DEV_BUS_NAME:
->           break;
->       /* uin8_t */
->       case QEMU_IFLA_OPERSTATE:
+The Protected Execution Facility is only available with the pseries
+machine, so let's merge the old ASCII text into the new RST file now.
 
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ docs/papr-pef.txt           | 30 ------------------------------
+ docs/system/ppc/pseries.rst | 33 +++++++++++++++++++++++++++++++++
+ 2 files changed, 33 insertions(+), 30 deletions(-)
+ delete mode 100644 docs/papr-pef.txt
 
-Applied to my linux-user-for-7.0 branch.
+diff --git a/docs/papr-pef.txt b/docs/papr-pef.txt
+deleted file mode 100644
+index 72550e9bf8..0000000000
+--- a/docs/papr-pef.txt
++++ /dev/null
+@@ -1,30 +0,0 @@
+-POWER (PAPR) Protected Execution Facility (PEF)
+-===============================================
+-
+-Protected Execution Facility (PEF), also known as Secure Guest support
+-is a feature found on IBM POWER9 and POWER10 processors.
+-
+-If a suitable firmware including an Ultravisor is installed, it adds
+-an extra memory protection mode to the CPU.  The ultravisor manages a
+-pool of secure memory which cannot be accessed by the hypervisor.
+-
+-When this feature is enabled in QEMU, a guest can use ultracalls to
+-enter "secure mode".  This transfers most of its memory to secure
+-memory, where it cannot be eavesdropped by a compromised hypervisor.
+-
+-Launching
+----------
+-
+-To launch a guest which will be permitted to enter PEF secure mode:
+-
+-# ${QEMU} \
+-    -object pef-guest,id=pef0 \
+-    -machine confidential-guest-support=pef0 \
+-    ...
+-
+-Live Migration
+-----------------
+-
+-Live migration is not yet implemented for PEF guests.  For
+-consistency, we currently prevent migration if the PEF feature is
+-enabled, whether or not the guest has actually entered secure mode.
+diff --git a/docs/system/ppc/pseries.rst b/docs/system/ppc/pseries.rst
+index 72e315eff6..16394fa521 100644
+--- a/docs/system/ppc/pseries.rst
++++ b/docs/system/ppc/pseries.rst
+@@ -230,6 +230,39 @@ nested. Combinations not shown in the table are not available.
+ 
+ .. [3] Introduced on Power10 machines.
+ 
++
++POWER (PAPR) Protected Execution Facility (PEF)
++-----------------------------------------------
++
++Protected Execution Facility (PEF), also known as Secure Guest support
++is a feature found on IBM POWER9 and POWER10 processors.
++
++If a suitable firmware including an Ultravisor is installed, it adds
++an extra memory protection mode to the CPU.  The ultravisor manages a
++pool of secure memory which cannot be accessed by the hypervisor.
++
++When this feature is enabled in QEMU, a guest can use ultracalls to
++enter "secure mode".  This transfers most of its memory to secure
++memory, where it cannot be eavesdropped by a compromised hypervisor.
++
++Launching
++^^^^^^^^^
++
++To launch a guest which will be permitted to enter PEF secure mode::
++
++  $ qemu-system-ppc64 \
++      -object pef-guest,id=pef0 \
++      -machine confidential-guest-support=pef0 \
++      ...
++
++Live Migration
++^^^^^^^^^^^^^^
++
++Live migration is not yet implemented for PEF guests.  For
++consistency, QEMU currently prevents migration if the PEF feature is
++enabled, whether or not the guest has actually entered secure mode.
++
++
+ Maintainer contact information
+ ------------------------------
+ 
+-- 
+2.27.0
 
-Thanks,
-Laurent
 
