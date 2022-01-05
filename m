@@ -2,89 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6480A48502F
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 10:38:57 +0100 (CET)
-Received: from localhost ([::1]:53760 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A09A48504E
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 10:43:58 +0100 (CET)
+Received: from localhost ([::1]:56706 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n52kx-0005H3-Vi
-	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 04:38:55 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51894)
+	id 1n52pp-0007Qd-PH
+	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 04:43:57 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52850)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1n52j6-0003ey-Gu
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 04:37:00 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41674)
+ id 1n52nR-0006jD-2B
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 04:41:29 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48167)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1n52j3-0003JK-Rt
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 04:36:59 -0500
+ id 1n52nM-0000c4-Cq
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 04:41:25 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641375416;
+ s=mimecast20190719; t=1641375683;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=4WVzA9BJExJuk1ssdVBduOeQo2g6GGK9eFCCncTyilM=;
- b=OgmfTjVHr2zADXmZbM4i8Lldh5wHLpkGlojxl660F5nWXlOS4ZNZNwR+p9fgduEj3DnS2h
- 5quV19noHrxC7lHRl7ybQ5kppQ7zQHJWw+NrVpqjAfJdaEjb2zG3r5Ofj/IswD7LdtPjd1
- g5NdVY9j1t+1IibeBto3mxj0a9jbPao=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=XoueNQR4kEqT+Matt0jgIO5+7tZ5WzGFoeukEV1ezTI=;
+ b=Y1ArslOA0OPBToB7anv0Bto1ZAJEp5qov5rWR2TkYUb/nayRdN+gsrDl09Gim6Y0NPoEEE
+ xv9kIzU3KurWECSAMDpYutvIrTTtpzpbYnNYAAES2jt7eZ0DSh5b19tNXt+uM1Qgt8f+p/
+ XWRGCLNFfMLi2pxqKcFY6gZeaT+d3KU=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-542-eMRRBwmbN0C9sgU5IJfRLQ-1; Wed, 05 Jan 2022 04:36:55 -0500
-X-MC-Unique: eMRRBwmbN0C9sgU5IJfRLQ-1
-Received: by mail-wm1-f69.google.com with SMTP id
- k40-20020a05600c1ca800b00345bf554707so275808wms.4
- for <qemu-devel@nongnu.org>; Wed, 05 Jan 2022 01:36:55 -0800 (PST)
+ us-mta-140-Sy0QvZPZMmWEp8nvvLuUvg-1; Wed, 05 Jan 2022 04:41:22 -0500
+X-MC-Unique: Sy0QvZPZMmWEp8nvvLuUvg-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ 83-20020a1c0256000000b00346a78f8fd7so634054wmc.8
+ for <qemu-devel@nongnu.org>; Wed, 05 Jan 2022 01:41:22 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:from:to:cc:reply-to:references
+ h=x-gm-message-state:reply-to:subject:to:cc:references:from
  :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=4WVzA9BJExJuk1ssdVBduOeQo2g6GGK9eFCCncTyilM=;
- b=BoYMaNNWQ6R2sjf71S8dD1KEUPgo2mqLeLeDupQx8N0E4lkjxt3BV5WnlnjEdzFQfJ
- bW+XELhwYng2o3QcIGn/Aw7UylOIO4U6fOt65qy3643mERs4wMYz+7pNW7IScQfneyqS
- Zb16TVo8mtRwgb0nRMRVYHep/A5jTFVhMpfSRI/OK+XHdYqsir+tvoYDKgof+CroZCBa
- GXj9ugCId8Ra2IKeQIyicb4F3WjXjzFYnK7wMMdzR7jE9fXGtdPGEmcxdkV5ggPhqaxz
- +c2klnwErd40YkfvemEaOFqHnwdcwbdyqx/s9LkyS7ERAhERFFYEVLuG7kSvmnR4qs0o
- +YfA==
-X-Gm-Message-State: AOAM532vYQ5yEOkPi7+Bq7elM6sD52p+iBW1i2OaxUjT5ctsOCFzUyxr
- ATD2dn6cngplqmJf2KMiNVYfrtKov8FYqtqnByU/Re/RaTVxdvq+adUXsknPXPUv0brhxPipCNr
- q4yO7GRPcygsQEjo=
-X-Received: by 2002:a05:600c:1d07:: with SMTP id
- l7mr2134915wms.12.1641375414209; 
- Wed, 05 Jan 2022 01:36:54 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJx+iYJbw7dL4mNA5vHV3pQPLdyhZKPXbHb1/JrvElCtt4s3NbE2JDK7q/xQopwj3NdJaMx++w==
-X-Received: by 2002:a05:600c:1d07:: with SMTP id
- l7mr2134906wms.12.1641375413966; 
- Wed, 05 Jan 2022 01:36:53 -0800 (PST)
+ :content-transfer-encoding:content-language;
+ bh=XoueNQR4kEqT+Matt0jgIO5+7tZ5WzGFoeukEV1ezTI=;
+ b=7tVe53URuol++tGxiuj+PCK/tkdtp+Is54HunLoP7bcoGLndYoUXSSSlhhjnxSAjfE
+ qbYYSAT7xEhVuUOnb9PYmoZxzB3wjgYW7xwRb+8x6LWCJEHOZsC5jSlibpEHbkpysB7+
+ qWgMPxm284zjiirObhDPKQtzOwi4t45AMVyIlgoI+Oyi0EhKmxEbiK3xFVlAfnfuF/hG
+ zDLXFhj4ry8glkPoOAqfdVBk2Fv39KHF2gEVcPJsawWl6PEIEdCJiw9lepOWimpvkaSC
+ Haxk7lMxOy2ejAP6twB4EicgoORU31tKmlWT5fehzg0cNh5VQ04Sm0/YD5tXL9XW/x++
+ oWyA==
+X-Gm-Message-State: AOAM532/ri02Fd9R8OucNV5ZivSo47ZturZk+60HqcZtTbrebAsxB2eM
+ X1C5wLnTnmyvd54US63Mkvi3ODsKaVy7zXvJRoFAeWrRNv4MCMSzNnn0asbuPYr/dlwtoSsJBzr
+ Jp8CGjFQpmtJMiBM=
+X-Received: by 2002:adf:ea0d:: with SMTP id q13mr44299145wrm.597.1641375681296; 
+ Wed, 05 Jan 2022 01:41:21 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJy8VwkzaUkiWk9Ver7jbdWPviFeEGKyfmS9ZKn/BPTA0eFyTMoTynKWTrju9cdQaTpcN6b/EA==
+X-Received: by 2002:adf:ea0d:: with SMTP id q13mr44299120wrm.597.1641375680951; 
+ Wed, 05 Jan 2022 01:41:20 -0800 (PST)
 Received: from ?IPv6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
  ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
- by smtp.gmail.com with ESMTPSA id n1sm43208190wri.46.2022.01.05.01.36.52
+ by smtp.gmail.com with ESMTPSA id 1sm34185991wrb.13.2022.01.05.01.41.20
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 05 Jan 2022 01:36:53 -0800 (PST)
-Subject: Re: [PATCH v3 3/5] hw/arm/virt: Honor highmem setting when computing
- the memory map
+ Wed, 05 Jan 2022 01:41:20 -0800 (PST)
+Subject: Re: [PATCH v2 1/5] hw/arm/virt: Key enablement of highmem PCIe on
+ highmem_ecam
+To: Marc Zyngier <maz@kernel.org>
+References: <20211003164605.3116450-1-maz@kernel.org>
+ <20211003164605.3116450-2-maz@kernel.org>
+ <dbe883ca-880e-7f2b-1de7-4b2d3361545d@redhat.com>
+ <87pmpiyrfw.wl-maz@kernel.org>
+ <b9031d40-897e-b8c5-4240-fc2936dcbcb9@redhat.com>
+ <877dbfywpj.wl-maz@kernel.org>
 From: Eric Auger <eric.auger@redhat.com>
-To: Marc Zyngier <maz@kernel.org>, qemu-devel@nongnu.org
-References: <20211227211642.994461-1-maz@kernel.org>
- <20211227211642.994461-4-maz@kernel.org>
- <ef8b3500-04ab-5434-6a04-0e8b1dcc65d1@redhat.com>
-Message-ID: <70643d20-b954-dcc4-0dee-6457244b64e0@redhat.com>
-Date: Wed, 5 Jan 2022 10:36:52 +0100
+Message-ID: <cb9f6c39-40f8-eea7-73bf-13df1e5dae9d@redhat.com>
+Date: Wed, 5 Jan 2022 10:41:19 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <ef8b3500-04ab-5434-6a04-0e8b1dcc65d1@redhat.com>
+In-Reply-To: <877dbfywpj.wl-maz@kernel.org>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 Received-SPF: pass client-ip=170.10.133.124;
  envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -41
@@ -109,85 +110,136 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Reply-To: eric.auger@redhat.com
 Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
- kernel-team@android.com, kvmarm@lists.cs.columbia.edu, kvm@vger.kernel.org
+ kvm@vger.kernel.org, qemu-devel@nongnu.org, kernel-team@android.com,
+ kvmarm@lists.cs.columbia.edu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Hi Marc,
 
-On 1/5/22 10:22 AM, Eric Auger wrote:
-> Hi Marc,
-> 
-> On 12/27/21 10:16 PM, Marc Zyngier wrote:
->> Even when the VM is configured with highmem=off, the highest_gpa
->> field includes devices that are above the 4GiB limit.
->> Similarily, nothing seem to check that the memory is within
->> the limit set by the highmem=off option.
+On 1/4/22 11:15 PM, Marc Zyngier wrote:
+> Hi Eric,
+>
+> On Tue, 04 Jan 2022 15:31:33 +0000,
+> Eric Auger <eric.auger@redhat.com> wrote:
+>> Hi Marc,
 >>
->> This leads to failures in virt_kvm_type() on systems that have
->> a crippled IPA range, as the reported IPA space is larger than
->> what it should be.
+>> On 12/27/21 4:53 PM, Marc Zyngier wrote:
+>>> Hi Eric,
+>>>
+>>> Picking this up again after a stupidly long time...
+>>>
+>>> On Mon, 04 Oct 2021 13:00:21 +0100,
+>>> Eric Auger <eric.auger@redhat.com> wrote:
+>>>> Hi Marc,
+>>>>
+>>>> On 10/3/21 6:46 PM, Marc Zyngier wrote:
+>>>>> Currently, the highmem PCIe region is oddly keyed on the highmem
+>>>>> attribute instead of highmem_ecam. Move the enablement of this PCIe
+>>>>> region over to highmem_ecam.
+>>>>>
+>>>>> Signed-off-by: Marc Zyngier <maz@kernel.org>
+>>>>> ---
+>>>>>  hw/arm/virt-acpi-build.c | 10 ++++------
+>>>>>  hw/arm/virt.c            |  4 ++--
+>>>>>  2 files changed, 6 insertions(+), 8 deletions(-)
+>>>>>
+>>>>> diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
+>>>>> index 037cc1fd82..d7bef0e627 100644
+>>>>> --- a/hw/arm/virt-acpi-build.c
+>>>>> +++ b/hw/arm/virt-acpi-build.c
+>>>>> @@ -157,10 +157,9 @@ static void acpi_dsdt_add_virtio(Aml *scope,
+>>>>>  }
+>>>>>  
+>>>>>  static void acpi_dsdt_add_pci(Aml *scope, const MemMapEntry *memmap,
+>>>>> -                              uint32_t irq, bool use_highmem, bool highmem_ecam,
+>>>>> -                              VirtMachineState *vms)
+>>>>> +                              uint32_t irq, VirtMachineState *vms)
+>>>>>  {
+>>>>> -    int ecam_id = VIRT_ECAM_ID(highmem_ecam);
+>>>>> +    int ecam_id = VIRT_ECAM_ID(vms->highmem_ecam);
+>>>>>      struct GPEXConfig cfg = {
+>>>>>          .mmio32 = memmap[VIRT_PCIE_MMIO],
+>>>>>          .pio    = memmap[VIRT_PCIE_PIO],
+>>>>> @@ -169,7 +168,7 @@ static void acpi_dsdt_add_pci(Aml *scope, const MemMapEntry *memmap,
+>>>>>          .bus    = vms->bus,
+>>>>>      };
+>>>>>  
+>>>>> -    if (use_highmem) {
+>>>>> +    if (vms->highmem_ecam) {
+>>>> highmem_ecam is more restrictive than use_highmem:
+>>>> vms->highmem_ecam &= vms->highmem && (!firmware_loaded || aarch64);
+>>>>
+>>>> If I remember correctly there was a problem using highmem ECAM with 32b
+>>>> AAVMF FW.
+>>>>
+>>>> However 5125f9cd2532 ("hw/arm/virt: Add high MMIO PCI region, 512G in
+>>>> size") introduced high MMIO PCI region without this constraint.
+>>> Then I really don't understand the point of this highmem_ecam. We only
+>>> register the highmem version if highmem_ecam is set (see the use of
+>>> VIRT_ECAM_ID() to pick the right ECAM window).
+>> but aren't we talking about different regions? On one hand the [high]
+>> MMIO region (512GB wide) and the [high] ECAM region (256MB large).
+>> To me you can enable either independently. High MMIO region is used by
+>> some devices likes ivshmem/video cards while high ECAM was introduced to
+>> extend the number of supported buses: 601d626d148a (hw/arm/virt: Add a
+>> new 256MB ECAM region).
 >>
->> Instead, honor the user-specified limit to only use the devices
->> at the lowest end of the spectrum, and fail if we have memory
->> crossing the 4GiB limit.
+>> with the above change the high MMIO region won't be set with 32b
+>> FW+kernel and LPAE whereas it is currently.
 >>
->> Reviewed-by: Andrew Jones <drjones@redhat.com>
->> Signed-off-by: Marc Zyngier <maz@kernel.org>
->> ---
->>  hw/arm/virt.c | 9 ++++++++-
->>  1 file changed, 8 insertions(+), 1 deletion(-)
+>> high ECAM was not supported by 32b FW, hence the highmem_ecam.
 >>
->> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
->> index 8b600d82c1..84dd3b36fb 100644
->> --- a/hw/arm/virt.c
->> +++ b/hw/arm/virt.c
->> @@ -1678,6 +1678,11 @@ static void virt_set_memmap(VirtMachineState *vms)
->>          exit(EXIT_FAILURE);
->>      }
->>  
->> +    if (!vms->highmem &&
->> +        vms->memmap[VIRT_MEM].base + ms->maxram_size > 4 * GiB) {
->> +        error_report("highmem=off, but memory crosses the 4GiB limit\n");
->> +        exit(EXIT_FAILURE);
-> 
-> The memory is composed of initial memory and device memory.
-> device memory is put after the initial memory but has a 1GB alignment
-> On top of that you have 1G page alignment per device memory slot
-> 
-> so potentially the highest mem address is larger than
-> vms->memmap[VIRT_MEM].base + ms->maxram_size.
-> I would rather do the check on device_memory_base + device_memory_size
->> +    }
->>      /*
->>       * We compute the base of the high IO region depending on the
->>       * amount of initial and device memory. The device memory start/size
->> @@ -1707,7 +1712,9 @@ static void virt_set_memmap(VirtMachineState *vms)
->>          vms->memmap[i].size = size;
->>          base += size;
->>      }
->> -    vms->highest_gpa = base - 1;
->> +    vms->highest_gpa = (vms->highmem ?
->> +                        base :
->> +                        vms->memmap[VIRT_MEM].base + ms->maxram_size) - 1;
-> As per the previous comment this looks wrong to me if !highmem.
-> 
-> If !highmem, if RAM requirements are low we still could get benefit from
-> REDIST2 and HIGH ECAM which could fit within the 4GB limit. But maybe we
-the above assertion is wrong, sorry, as we kept the legacy mem map in
-that situation (HIGH regions always put above 256 GB). So anyway we can
-skip the extended memmap if !highmem.
+>> but maybe I miss your point?
+> There are two issues.
+>
+> First, I have been conflating the ECAM and MMIO ranges, and you only
+> made me realise that they were supposed to be independent.  I still
+> think the keying on highmem is wrong, but the main issue is that the
+> highmem* flags don't quite describe the shape of the platform.
+>
+> All these booleans indicate is whether the feature they describe (the
+> high MMIO range, the high ECAM range, and in one of my patches the
+> high RD range) are *allowed* to live above 4GB, but do not express
+> whether then are actually usable (i.e. fit in the PA range).
+>
+> Maybe we need to be more thorough in the way we describe the extended
+> region in the VirtMachineState structure:
+>
+> - highmem: overall control for anything that *can* live above 4GB
+> - highmem_ecam: Has a PCIe ECAM region above 256GB
+> - highmem_mmio: Has a PCIe MMIO region above 256GB
+> - highmem_redist: Has 512 RDs above 256GB
+>
+> Crucially, the last 3 items must fit in the PA range or be disabled.
+>
+> We have highmem_ecam which is keyed on highmem, but not on the PA
+> range.  highmem_mmio doesn't exist at all (we use highmem instead),
+"highmem_ecam is keyed on highmem but not on the PA range". True but it
+is properly taken into account in highest_gpa computation so eventually
+we make sure it does not overflow the IPA limit. Same for the high mmio
+region which is keyed on highmem.
+> and I'm only introducing highmem_redist.
+>
+> For these 3 ranges, we should have something like
+>
+> vms->highmem_xxx &= (vms->highmem &&
+> 		     (vms->memmap[XXX].base + vms->vms->memmap[XXX].size) < vms->highest_gpa);
+
+couldn't you simply introduce highmem_redist which is truly missing. You
+could set it in virt_set_memmap() in case you skip extended_map overlay
+and use it in virt_gicv3_redist_region_count() as you did?
+In addition to the device memory top address check against the 4GB limit
+if !highmem, we should be fine then?
 
 Eric
-> simply don't care? If we don't, why don't we simply skip the
-> extended_memmap overlay as suggested in v2? I did not get your reply sorry.
-> 
-> Thanks
-> 
-> Eric
->>      if (device_memory_size > 0) {
->>          ms->device_memory = g_malloc0(sizeof(*ms->device_memory));
->>          ms->device_memory->base = device_memory_base;
-> 
+>
+> and treat them as independent entities.  Unless someone shouts, I'm
+> going to go ahead and implement this logic.
+>
+> Thanks,
+>
+> 	M.
+>
 
 
