@@ -2,72 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6E17485BC3
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 23:39:56 +0100 (CET)
-Received: from localhost ([::1]:40828 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DAB1E485BF7
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 23:58:05 +0100 (CET)
+Received: from localhost ([::1]:49818 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5Ewl-0001s4-CG
-	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 17:39:55 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51026)
+	id 1n5FEK-00026f-G4
+	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 17:58:04 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57954)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n5EvR-000146-R4
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 17:38:33 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:43733)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n5FCz-0001Gg-Jm
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 17:56:42 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:31244)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n5EvO-0001bs-R9
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 17:38:32 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n5FCw-0001o4-Ok
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 17:56:40 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641422310;
+ s=mimecast20190719; t=1641423397;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=Q79s+Apd/X4l7c96CchusDLCzayBhpGpJuY1S1arum0=;
- b=DY0SU9riEsCF/kRnKzTO+6P8xktvxDNjIEeB6hCS8ZkyN8q7dSSPkyiqsuosUax2qlz6wH
- cNv4vTCB3UOXbnSqtqZNqmbMZxUYXg9HhYS44a0A7L8tO7uos7J2UBsJkxy0gXf2cJAd+f
- 7+aoYLuhE8wC4oufvgmGIA/kl2bTphY=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=V6m8u3gzEN+5Gs0rFxJGhSiVfAzF8qa8gCDneBudXU0=;
+ b=Ju9voTe1r4JGyzXovTtI6Sc5Zn88p0+tTmmkqqCY0GI1+QstbjPzgKshQgvbOYqWL9KfOb
+ i0Ci+jyea3ZcgCl4tSo+/x3CzyqNwhoUOG6iX4p3ALITMMccf7Jtpr930+KSUAdWegRVJl
+ OnJFigYSna95QbEmw9kPwCBVB/K49gY=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-661-bA7ZWxtfOg2l3EmgJUWDJg-1; Wed, 05 Jan 2022 17:38:29 -0500
-X-MC-Unique: bA7ZWxtfOg2l3EmgJUWDJg-1
-Received: by mail-wm1-f69.google.com with SMTP id
- j18-20020a05600c1c1200b003335872db8dso58027wms.2
- for <qemu-devel@nongnu.org>; Wed, 05 Jan 2022 14:38:28 -0800 (PST)
+ us-mta-319-4QzSLLWPOzyjZ-6qiv5eJw-1; Wed, 05 Jan 2022 17:56:31 -0500
+X-MC-Unique: 4QzSLLWPOzyjZ-6qiv5eJw-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ w25-20020adf8bd9000000b001a255212b7cso308220wra.18
+ for <qemu-devel@nongnu.org>; Wed, 05 Jan 2022 14:56:31 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=Q79s+Apd/X4l7c96CchusDLCzayBhpGpJuY1S1arum0=;
- b=OgtBMr75fTBddJNIkiz3VIQwFSf04vjJD0Qr41Vmjk/zgUEKVU65u/O8rgtgO60MYE
- VOVR+WbzwMNNsF0Nt3qlUxJlvTJqknQl80ygnN8veEVPWsIYq9tUCtf4g9IpwvppY6VP
- 2FVCh5Qh9h24HnWZFXraW2Om3d42nfQF7puQmw9Gel1B182BIm6L5KAjxk6G7A/lHOf7
- Ihu559UjKyCmLLFAJPTe/1uelq3a94Dp3gpZyvAnH4jkRWhojy7yqN3J8kkPxRgPKECP
- ddflVC+NROCkaxLvUadI7wBHswQ+IGscQgYjo5bXee+ABLVoV4+AmlTHIlc4a7uamn/v
- biAg==
-X-Gm-Message-State: AOAM533QRw6drsV4czk0xfthszTvz5jllS0Ei1xfVB2kb1QA6PH2U0/9
- A87KZhftnptWboBn7UtzZaZkiBsXpHIHcl1juu1jkvqJkRm9mrDsFLXNXrw5MyD8KvNH2oKmx61
- iq2c6WcXYfYh2jqE=
-X-Received: by 2002:adf:d843:: with SMTP id k3mr50094882wrl.303.1641422307820; 
- Wed, 05 Jan 2022 14:38:27 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJw11Cu8cnfOY5N/32NJg6PIF86+96vlRLcnYwinSl4g5uc0vOiJdUwK5YqhuaQIX8DrOIc2vg==
-X-Received: by 2002:adf:d843:: with SMTP id k3mr50094872wrl.303.1641422307560; 
- Wed, 05 Jan 2022 14:38:27 -0800 (PST)
+ bh=V6m8u3gzEN+5Gs0rFxJGhSiVfAzF8qa8gCDneBudXU0=;
+ b=D85TK2pLxBRLggj4TAhajLfDnPPDdNMuZ2Lp79xWLBBBzCkod7UfwrWNwbuYSKwH5f
+ 5QZzTFuCyyF2LGdsAds6CIYh0HFYKeE3/S4VgYF1xGmTGzSfVV30rndxPbovM0g8ALUk
+ brzwIXgT7dUSYsKn92/8BlZQ4bP8bRpCJ9Alz4tozsZNWDnCwiljDyx23dOwq2BPThIK
+ llmobyL1QjfFo+IJYGAwklbwy+gVGWvWzuWgmB9d4p9DYPxqw9PYmWXyR73HKb0rSJG6
+ lpUxZ3xKycuNjCvdZ8iFVaZfOgd8ph85QmySTPhgqsAs6bG+QK22NT3rOVUOfgV9jAu7
+ cFzg==
+X-Gm-Message-State: AOAM5319Xw5pq+z7ZHdhljIA+H4v+V49zPfLfHDfNLQCwc33KDNQ8BfP
+ j09HGspYz3IcQBuKJay/yoDll6Ht5ZTprHq5FO1tPUuKnopswR0QOqY/XpBrkgGaSF/F5xosUzX
+ ywfjlJuRgqRWu9N0=
+X-Received: by 2002:a7b:c7d0:: with SMTP id z16mr4740049wmk.76.1641423390246; 
+ Wed, 05 Jan 2022 14:56:30 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJw6GS056LJrsFPlX+DWzR8kOeOYzSJU+SzRdhlUHdc4WnX+EscgIicaxJi8rPTXUjW1xh071w==
+X-Received: by 2002:a7b:c7d0:: with SMTP id z16mr4740039wmk.76.1641423390058; 
+ Wed, 05 Jan 2022 14:56:30 -0800 (PST)
 Received: from redhat.com ([2a03:c5c0:207e:991b:6857:5652:b903:a63b])
- by smtp.gmail.com with ESMTPSA id w4sm128608wmi.40.2022.01.05.14.38.25
+ by smtp.gmail.com with ESMTPSA id r9sm284494wrm.76.2022.01.05.14.56.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Jan 2022 14:38:26 -0800 (PST)
-Date: Wed, 5 Jan 2022 17:38:23 -0500
+ Wed, 05 Jan 2022 14:56:29 -0800 (PST)
+Date: Wed, 5 Jan 2022 17:56:26 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Alex Williamson <alex.williamson@redhat.com>
-Subject: Re: [PATCH] vfio/pci: Generate more relevant log messages for reset
- failures
-Message-ID: <20220105173735-mutt-send-email-mst@kernel.org>
-References: <164141259622.4193261.8252690438434562107.stgit@omen>
- <20220105160400-mutt-send-email-mst@kernel.org>
- <20220105151226.42cf6a06.alex.williamson@redhat.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH] qemu_fw_cfg: use default_groups in kobj_type
+Message-ID: <20220105175546-mutt-send-email-mst@kernel.org>
+References: <20220105183133.2812848-1-gregkh@linuxfoundation.org>
 MIME-Version: 1.0
-In-Reply-To: <20220105151226.42cf6a06.alex.williamson@redhat.com>
+In-Reply-To: <20220105183133.2812848-1-gregkh@linuxfoundation.org>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -95,82 +92,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, kraxel@redhat.com
+Cc: Gabriel Somlo <somlo@cmu.edu>, linux-kernel@vger.kernel.org,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jan 05, 2022 at 03:12:26PM -0700, Alex Williamson wrote:
-> On Wed, 5 Jan 2022 16:05:45 -0500
-> "Michael S. Tsirkin" <mst@redhat.com> wrote:
+On Wed, Jan 05, 2022 at 07:31:33PM +0100, Greg Kroah-Hartman wrote:
+> There are currently 2 ways to create a set of sysfs files for a
+> kobj_type, through the default_attrs field, and the default_groups
+> field.  Move the firmware qemu_fw_cfg sysfs code to use default_groups
+> field which has been the preferred way since aa30f47cf666 ("kobject: Add
+> support for default attribute groups to kobj_type") so that we can soon
+> get rid of the obsolete default_attrs field.
 > 
-> > On Wed, Jan 05, 2022 at 12:56:42PM -0700, Alex Williamson wrote:
-> > > The VFIO_DEVICE_RESET ioctl might be backed by several different reset
-> > > methods, including a device specific reset (ie. custom reset code in
-> > > kernel), an ACPI reset (ie. custom reset code in firmware), FLR, PM,
-> > > and bus resets.  This listing is also the default priority order used
-> > > by the kernel for trying reset methods.  Traditionally we've had some
-> > > FUD regarding the PM reset as the extent of a "Soft Reset" is not well
-> > > defined in the PCI specification.  Therefore we try to guess what type
-> > > of reset a device might use for the VFIO_DEVICE_RESET and insert a bus
-> > > reset via the vfio hot reset interface if we think it could be a PM
-> > > reset.
-> > > 
-> > > This results in a couple odd tests for PM reset in our hot reset code,
-> > > as we assume if we don't detect has_pm_reset support that we can't
-> > > reset the device otherwise.  Starting with kernel v5.15, the kernel
-> > > exposes a sysfs attribute for devices that can tell us the priority
-> > > order for device resets, so long term (not implemented here) we no
-> > > longer need to play this guessing game, and if permissions allow we
-> > > could manipulate the order ourselves so that we don't need to inject
-> > > our own hot reset.
-> > > 
-> > > In the shorter term, implemented here, let's not assume we're out of
-> > > reset methods if we can't perform a hot reset and the device doesn't
-> > > support PM reset.  We can use reset_works as the authority, which
-> > > allows us to generate more comprehensible error messages for the case
-> > > when it actually doesn't work.
-> > > 
-> > > The impetus for this change is a result of commit d5daff7d3126 ("pcie:
-> > > implement slot power control for pcie root ports"), where powering off
-> > > a slot now results in a device reset.  If the slot is powered off as a
-> > > result of qdev_unplug() via the device request event, that device
-> > > request is potentially the result of an unbind operation in the host.
-> > > That unbind operation holds the kernel device lock, which causes the
-> > > VFIO_DEVICE_RESET ioctl to fail (or in the case of some kernels, has
-> > > cleared the flag indicating support of a device reset function).  We
-> > > can then end up with an SR-IOV VF device trying to trigger a hot reset,
-> > > which finds that it needs ownership of the PF group to perform such a
-> > > reset, resulting in confusing log messages.
-> > > 
-> > > Ultimately the above commit still introduces a log message that we
-> > > didn't have prior on such an unplug, but it's not unjustified to
-> > > perform such a reset, though it might be considered unnecessary.
-> > > Arguably failure to reset the device should always generate some sort
-> > > of meaningful log message.
-> > > 
-> > > Signed-off-by: Alex Williamson <alex.williamson@redhat.com>  
-> > 
-> > Looks reasonable. Just an extra idea: do we want to maybe validate the
-> > return code from the ioctl? I assume it's something like EBUSY right?
-> 
-> Ideally it'd be EAGAIN to denote the lock contention,
+> Cc: Gabriel Somlo <somlo@cmu.edu>
+> Cc: "Michael S. Tsirkin" <mst@redhat.com>
+> Cc: qemu-devel@nongnu.org
+> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
-Or EBUSY?
+OK then you know best I guess
 
-> but for some
-> reason there was a recent time when the kernel would clear the
-> pci_dev.reset_fn flag as part of pci_stop_dev() before unbinding the
-> driver from the device, in that case we get an ENOTTY.
+Acked-by: Michael S. Tsirkin <mst@redhat.com>
+
+feel free to queue.
+
+> ---
+>  drivers/firmware/qemu_fw_cfg.c | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
 > 
-> Hmm, I'm remembering now that an issue with this approach to log all
-> device reset failures is that we're going to get false positives every
-> time we reboot a VM where we need a bus reset for multiple devices.  We
-> handle multiple devices via a reset handler but we'll still get a
-> redundant per device reset and we have no way to associate that per
-> device reset to a VM reset where the reset handler multi-device
-> mechanism may have been successful :-\  This would be very common with
-> desktop GPUs.  I'll plug away at this some more.  Thanks,
-> 
-> Alex
+> diff --git a/drivers/firmware/qemu_fw_cfg.c b/drivers/firmware/qemu_fw_cfg.c
+> index 172c751a4f6c..c62f05420d32 100644
+> --- a/drivers/firmware/qemu_fw_cfg.c
+> +++ b/drivers/firmware/qemu_fw_cfg.c
+> @@ -395,7 +395,7 @@ static void fw_cfg_sysfs_cache_cleanup(void)
+>  	}
+>  }
+>  
+> -/* default_attrs: per-entry attributes and show methods */
+> +/* per-entry attributes and show methods */
+>  
+>  #define FW_CFG_SYSFS_ATTR(_attr) \
+>  struct fw_cfg_sysfs_attribute fw_cfg_sysfs_attr_##_attr = { \
+> @@ -428,6 +428,7 @@ static struct attribute *fw_cfg_sysfs_entry_attrs[] = {
+>  	&fw_cfg_sysfs_attr_name.attr,
+>  	NULL,
+>  };
+> +ATTRIBUTE_GROUPS(fw_cfg_sysfs_entry);
+>  
+>  /* sysfs_ops: find fw_cfg_[entry, attribute] and call appropriate show method */
+>  static ssize_t fw_cfg_sysfs_attr_show(struct kobject *kobj, struct attribute *a,
+> @@ -454,7 +455,7 @@ static void fw_cfg_sysfs_release_entry(struct kobject *kobj)
+>  
+>  /* kobj_type: ties together all properties required to register an entry */
+>  static struct kobj_type fw_cfg_sysfs_entry_ktype = {
+> -	.default_attrs = fw_cfg_sysfs_entry_attrs,
+> +	.default_groups = fw_cfg_sysfs_entry_groups,
+>  	.sysfs_ops = &fw_cfg_sysfs_attr_ops,
+>  	.release = fw_cfg_sysfs_release_entry,
+>  };
+> -- 
+> 2.34.1
 
 
