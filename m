@@ -2,93 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 113F84855A1
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 16:16:52 +0100 (CET)
-Received: from localhost ([::1]:49710 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADF194855B5
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 16:20:55 +0100 (CET)
+Received: from localhost ([::1]:57290 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n581z-0006E8-6b
-	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 10:16:51 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42302)
+	id 1n585u-0003Ov-Qp
+	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 10:20:54 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43224)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1n57zQ-0004fp-CN
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 10:14:12 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:40098)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n583J-0000OL-Ci
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 10:18:13 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30337)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1n57zN-00065d-K1
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 10:14:10 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n583E-0007Iq-7O
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 10:18:12 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641395648;
+ s=mimecast20190719; t=1641395885;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MpfrqPKxWtjcKpVc8z4XMlJF3b6JoSe2raKcStT10eM=;
- b=aVMiyXhBhGc5br+rz7b0/ndhUKT+hrZG1P1CF4gsHEXfAaSw0X/XpGz0hxyArjwyrzCn+q
- Ko4W4CZf1qHn6UX9CVLzmp5eCmfuLl6SmakCkMGmH2qOmc1HUPf7uwTAPsAVvsL6ZwWddI
- s1EDn19YfaJDqw8NN37Nm16xT5d2MpA=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=MO2XhhyfkTO8LwKVL5/tkDR+2YGHNiFePYmqj1FZPk4=;
+ b=XwHoTusGyUVU5XGN9EDfPLIzqqYXt4PaGX8i43A+x6mP4if4q2oi7Rz8bai8/PPPy8gz3/
+ gIwWlzVAzRYBNPVXdmGOY3BtIGJKHNa8SY+Q/P5J7LsOZseF9EINL+YyEsZQBctl7K7ll9
+ gwLgyu+Nww2PtyjPYRs9DL+SJmYPLUQ=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-503-pZJGF2q-P7WJ-rnL6uCJWw-1; Wed, 05 Jan 2022 10:14:07 -0500
-X-MC-Unique: pZJGF2q-P7WJ-rnL6uCJWw-1
-Received: by mail-wm1-f71.google.com with SMTP id
- j8-20020a05600c1c0800b00346504f5743so1937083wms.6
- for <qemu-devel@nongnu.org>; Wed, 05 Jan 2022 07:14:07 -0800 (PST)
+ us-mta-564-asBWOlhqNTOoReLs7tDdog-1; Wed, 05 Jan 2022 10:18:04 -0500
+X-MC-Unique: asBWOlhqNTOoReLs7tDdog-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ v1-20020adfc5c1000000b001a37fd2fa2dso3681374wrg.22
+ for <qemu-devel@nongnu.org>; Wed, 05 Jan 2022 07:18:04 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=MpfrqPKxWtjcKpVc8z4XMlJF3b6JoSe2raKcStT10eM=;
- b=6hA8OsdT8PCvpzpyvjpJrK52KctPHo63Iid+ptx1/uMjzPWMvJJruDaCm29U4jtjov
- iqxf8SsiejBYJsUyfZa3N6bQXSAoWi51Gb/zTzAnpivywklJbdktxOAOKLgVJ2DLhw2O
- KIpX71T9/P7FScDvIQYgswTsHvGKYQaTqMtolVVrRjykE6sTvcZRfLs75eWtSbvqSRl+
- pJrp/M5KhDMYwGlFGAmXGZj683+kiCcUmtlAF2iNCcwmX78c86pMhKleuL68XwtBj7EW
- /9OnH/DZPoN1YmcJCncaPxiAN9ldDtOXAisUG89G26TT6JnHFk60ngkq8nYesbXvelDm
- 9MzA==
-X-Gm-Message-State: AOAM532j5EmOXZgGio77fUreeSgh0v9krxJAMeIWnIWaI4tT6Xf40fXm
- kTtrLdGJxi9RMtfllH67gZ3sWltUkUaT+rW/3M+OBuly+6XBoYypMsk4MH4AjsQVCvJcFEz/f6P
- O+2fpvagnmkqOwhI=
-X-Received: by 2002:a1c:3b86:: with SMTP id i128mr3288475wma.50.1641395646209; 
- Wed, 05 Jan 2022 07:14:06 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyLpCyMjRIlq6thK1ouGHxlfmh+SW3CKmaulVtJ1T9G8P//4XFRuPsJmjwJaez++/aMcDyTVQ==
-X-Received: by 2002:a1c:3b86:: with SMTP id i128mr3288461wma.50.1641395645995; 
- Wed, 05 Jan 2022 07:14:05 -0800 (PST)
-Received: from [192.168.8.100] (tmo-098-68.customers.d1-online.com.
- [80.187.98.68])
- by smtp.gmail.com with ESMTPSA id m35sm6233271wms.1.2022.01.05.07.14.04
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 05 Jan 2022 07:14:05 -0800 (PST)
-Message-ID: <644970a9-391f-30b4-2ecd-9a4bf1e27459@redhat.com>
-Date: Wed, 5 Jan 2022 16:14:03 +0100
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=MO2XhhyfkTO8LwKVL5/tkDR+2YGHNiFePYmqj1FZPk4=;
+ b=IDkw7+AAuahKTg61nLDQzQXfzxmJ8MdFt0KCJzZjuqJ+vCVQHiTTi+hWBAzFCxBj7T
+ kRziyz/n/cx+3f9nFZ3yJ2+O69plnTiLgtMh0yOWSuy+YvdmNtu7XjedDqgjuCs/hDar
+ LSY6OiswXXlSRy0lI2hdnVpewToRmbN0D4U6+TXwGm69MMlUg21xb/n5KPP2YDEFpFId
+ UVFsoUYSm0XTOh9PvhAJhBe6MFmFRoffeJ4oIGbA9UTbvup04q+5vAz4HdhS2+22kMXD
+ nL1iWjmJ0KzMiHlm+aroymiWf6R1Qmp4WK9caI+eEgg6qMojyzAdGSaSY/ADXBGiXRbD
+ RaYg==
+X-Gm-Message-State: AOAM532++kp7sqrG1KdR+4VH+JxhSgvg9L8hvyf1xI/gkZ8AamFJ6JkH
+ 7t6UEc0BjwCRVNXhss+YuNx1NweY/TiqBQgzZdZCV8armpl4ynySv0U02yaFx1wUSBoj8OYxJqo
+ 8BlidS76vVgUPRpI=
+X-Received: by 2002:adf:fa87:: with SMTP id h7mr45492900wrr.561.1641395883048; 
+ Wed, 05 Jan 2022 07:18:03 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxS6ISfSouv5ehhqoomJc7qzeCONm8BASyhWvb4VjBzeTZY5w4mkdZsgBpdb1RbJG3+P+2UhQ==
+X-Received: by 2002:adf:fa87:: with SMTP id h7mr45492886wrr.561.1641395882753; 
+ Wed, 05 Jan 2022 07:18:02 -0800 (PST)
+Received: from redhat.com ([2.55.4.139])
+ by smtp.gmail.com with ESMTPSA id l26sm2757647wme.36.2022.01.05.07.18.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 05 Jan 2022 07:18:02 -0800 (PST)
+Date: Wed, 5 Jan 2022 10:17:58 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Laurent Vivier <lvivier@redhat.com>
+Subject: Re: [PATCH] trace-events,pci: unify trace events format
+Message-ID: <20220105101752-mutt-send-email-mst@kernel.org>
+References: <20211105192541.655831-1-lvivier@redhat.com>
+ <20211107033751-mutt-send-email-mst@kernel.org>
+ <e5011077-3285-cb70-9948-27f84b407dba@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH v1 05/34] ci: explicitly skip I/O tests on alpine
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-References: <20220105135009.1584676-1-alex.bennee@linaro.org>
- <20220105135009.1584676-6-alex.bennee@linaro.org>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20220105135009.1584676-6-alex.bennee@linaro.org>
+In-Reply-To: <e5011077-3285-cb70-9948-27f84b407dba@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.372,
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.372,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.057, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,58 +94,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berrange@redhat.com, Beraldo Leal <bleal@redhat.com>,
- f4bug@amsat.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- stefanha@redhat.com, crosa@redhat.com, pbonzini@redhat.com,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- aurelien@aurel32.net
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 05/01/2022 14.49, Alex Bennée wrote:
-> From: Daniel P. Berrangé <berrange@redhat.com>
+On Wed, Dec 15, 2021 at 11:57:58AM +0100, Laurent Vivier wrote:
+> On 07/11/2021 09:38, Michael S. Tsirkin wrote:
+> > On Fri, Nov 05, 2021 at 08:25:41PM +0100, Laurent Vivier wrote:
+> > > Unify format used by trace_pci_update_mappings_del(),
+> > > trace_pci_update_mappings_add(), trace_pci_cfg_write() and
+> > > trace_pci_cfg_read() to print the device name and bus number,
+> > > slot number and function number.
+> > > 
+> > > For instance:
+> > > 
+> > >    pci_cfg_read virtio-net-pci 00:0 @0x20 -> 0xffffc00c
+> > >    pci_cfg_write virtio-net-pci 00:0 @0x20 <- 0xfea0000c
+> > >    pci_update_mappings_del d=0x555810b92330 01:00.0 4,0xffffc000+0x4000
+> > >    pci_update_mappings_add d=0x555810b92330 01:00.0 4,0xfea00000+0x4000
+> > > 
+> > > becomes
+> > > 
+> > >    pci_cfg_read virtio-net-pci 01:00.0 @0x20 -> 0xffffc00c
+> > >    pci_cfg_write virtio-net-pci 01:00.0 @0x20 <- 0xfea0000c
+> > >    pci_update_mappings_del virtio-net-pci 01:00.0 4,0xffffc000+0x4000
+> > >    pci_update_mappings_add virtio-net-pci 01:00.0 4,0xfea00000+0x4000
+> > > 
+> > > Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+> > 
+> > Looks good to me. We are in freeze, will queue. Pls ping after
+> > the release to make sure it's not lost.
 > 
-> The block I/O tests don't work on Alpine because their alternative libc
-> impl emits different strings for errnos, which breaks the expected
-> output matching. e.g.
+> Ping ?
 > 
-> === IO: pattern 102
->   wrote 512/512 bytes at offset 512
->   512 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-> -qemu-img: Error while reading offset 0 of blkdebug:TEST_DIR/blkdebug.conf:TEST_DIR/t.IMGFMT: Input/output error
-> +qemu-img: Error while reading offset 0 of blkdebug:TEST_DIR/blkdebug.conf:TEST_DIR/t.IMGFMT: I/O error
->   4
->   Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1073741824
->   Formatting 'TEST_DIR/t.IMGFMT.2', fmt=IMGFMT size=0
+> Thanks,
 > 
-> Currently the I/O tests are skipped as a side effect of the Alpine image
-> containing a minimal busybox 'sed' binary, rather than GNU sed. This is
-> a fragile assumption that will be invalidated when the dockerfile is
-> changed to be autogenerated from a standardized package list that
-> includes GNU sed.
-> 
-> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> Message-Id: <20211215141949.3512719-6-berrange@redhat.com>
-> ---
->   .gitlab-ci.d/buildtest.yml | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/.gitlab-ci.d/buildtest.yml b/.gitlab-ci.d/buildtest.yml
-> index 7e1cb0b3c2..e77aec873e 100644
-> --- a/.gitlab-ci.d/buildtest.yml
-> +++ b/.gitlab-ci.d/buildtest.yml
-> @@ -24,7 +24,7 @@ check-system-alpine:
->         artifacts: true
->     variables:
->       IMAGE: alpine
-> -    MAKE_CHECK_ARGS: check
-> +    MAKE_CHECK_ARGS: check-unit check-qtest
->   
->   avocado-system-alpine:
->     extends: .avocado_test_job_template
+> Laurent
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+tagged now, thanks!
 
 
