@@ -2,72 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A17A7485B89
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 23:19:03 +0100 (CET)
-Received: from localhost ([::1]:53974 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E7F9485B78
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 23:15:34 +0100 (CET)
+Received: from localhost ([::1]:47622 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5EcY-0007aK-PQ
-	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 17:19:02 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44692)
+	id 1n5EZB-0003Dc-Ht
+	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 17:15:33 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45104)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1n5EUh-0004cK-Po; Wed, 05 Jan 2022 17:10:55 -0500
-Received: from [2607:f8b0:4864:20::d36] (port=39569
- helo=mail-io1-xd36.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1n5EUf-0003bl-Kt; Wed, 05 Jan 2022 17:10:55 -0500
-Received: by mail-io1-xd36.google.com with SMTP id y11so840553iod.6;
- Wed, 05 Jan 2022 14:10:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=KyuB6cgvbx47LTafWGeD98t194U7V3pi7OOl+mXsMkU=;
- b=HW8qzzmLZrWDmjiHRFwd1oh+9YLaimXzS3P5AZFYnDx/8doksy8ALEqVW/JXIe3Cy2
- BYhpPpnHI9JmdSM0Zh0d5dTaQeX8nqVLPBdDQZRQ5evdiwps8oXgoKc8o2WRFAq0Gi04
- jOe2mweTVWBXElnb6ZfgjGMHcE1qd116xRRYVIe3KEr5oaif1qbhgvKNAqBIoj3l8q2b
- jCsysHVX1pu41DkiolUC2xlrPxU1eGLz5e0yfRXiZxPQbbbKQfy2Pc5hGC/tE2U3TAHj
- q4VLcfDpPDDm7L6k0g5aQ+iXgREMbrVdR1+9L0UtMiBj01Jid/milNQ6/ZEI9MSQuvnq
- jPZg==
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1n5EWN-0008S5-6S
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 17:12:40 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46645)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1n5EWE-0003sq-Qv
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 17:12:32 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1641420749;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=nc1eVSjg4JO0qXwK1CBsoMg4DszHu+ivyYQQ9aXbIPg=;
+ b=OxAMjx5Iu5QIeE2yPlwo9cmf+KrKT4xsfwMxFl4RXStNIsPPdamaA3ymTIcW9zuZDg6wnc
+ HTc6+V97Aqz3IjOAGh6ijKhM+1ELjlqpCrkr9/ASICTYUycoKLGlRiOQNpWCUMk1k2qyo1
+ iVsJLQqFb95YwZueNNEqtacP6B6tLjQ=
+Received: from mail-oo1-f69.google.com (mail-oo1-f69.google.com
+ [209.85.161.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-626-pWFCDhOZNLC0Z94R3qe1BQ-1; Wed, 05 Jan 2022 17:12:28 -0500
+X-MC-Unique: pWFCDhOZNLC0Z94R3qe1BQ-1
+Received: by mail-oo1-f69.google.com with SMTP id
+ 68-20020a4a0347000000b002c2ac2c476dso95325ooi.21
+ for <qemu-devel@nongnu.org>; Wed, 05 Jan 2022 14:12:28 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=KyuB6cgvbx47LTafWGeD98t194U7V3pi7OOl+mXsMkU=;
- b=3Q9lwCAd8rUa8cXoeqppAAdkDH9txmM0m7EdLuU9kYUsDzE07a4X6mK9AcC7pI+ZEc
- nIRoO8AgBnast0DVqzWQjVVVbit8ct4NIJMjMZEP+pA89FP3mWk6cNbP/PfzRycoPj2n
- wRNN6mHKURYziM851OEqD7ecg5oRc8tgqNoMbfeu/28m+FP39KWYhJoZDP/Nayv3Yjmy
- PxC63YF9h21dHZ0v0Rdj6tEVOo2wDubUDzdJXhotz5714tY+/JvjEB6+fjFbWLG5Oa/c
- YEpXG6UwCaVvsB/oSv0M0yamcgF1xywyNd8ZzFN69EsQjVhJKkojKfiEO2t6TYodttSk
- 4oVA==
-X-Gm-Message-State: AOAM5304GPB7l+1kDcANMYmZnxXYP3TGqJfPsHFy19lQM5Sviw2C0CRR
- 29BradzHErzBCrQV0Gfvr17ujGXR6gB7msZxY9w=
-X-Google-Smtp-Source: ABdhPJxjH3Zp0UKsJFtPiPHOb+NU7fdX3IdNXLI5VjGFAJUEOziruEeObtWqofCzvBBK5cY1pgMKmOxonVLFcNFYcfg=
-X-Received: by 2002:a5d:8f88:: with SMTP id l8mr26717419iol.91.1641420652505; 
- Wed, 05 Jan 2022 14:10:52 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=nc1eVSjg4JO0qXwK1CBsoMg4DszHu+ivyYQQ9aXbIPg=;
+ b=7uofv6XCA/YUDF+CTXlvBVGKIa4z7oGPyOHJ76PyGzDbmmue9L/OYdWz6/i6HDF5OA
+ 22IIRXXW1Z3/h38I96mASHlKYjCSh769s8mlFLrEUXpH+nbYa/Axm3zMbITmWaKKJXM0
+ KDh12UJ8WBb/x65aWvq/1Zy1vgJTHSd/hWdMP8ktKPZHYS49ENX+7QHeHuIE+YMt4sny
+ WBKGDp3h581GfzpYUb6aUvWzuuQwKx4uBbSEGSm2IJKIH2e3aovexlzu63Br7/WAYD60
+ aMkoLA/CG19JugvfqQJfHzXBfgp3eMwaPzL9MOmRirdZ/HMG472R24LV2In0Iikar2fj
+ C+hg==
+X-Gm-Message-State: AOAM5338k2giblQ0g5Ty/fwumaeJ1XtqsdiyXby82h9h5ldRUG/8ka6h
+ GICHpkSLs2jL3rMqV3p5GysOltVI4WcC42T80P/+K+e4sWT1MK6UjZ5wT3Rr2UbWqxqruJFhVxQ
+ t4C7swPvyjcHpQ/k=
+X-Received: by 2002:aca:34c4:: with SMTP id b187mr4209978oia.108.1641420747629; 
+ Wed, 05 Jan 2022 14:12:27 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJws3T34h7Me9CNVEbX0Rlgdk2m79bNBo0cpcmEgiVV5wlbLELylOu3BXmV9x0LXlMhnXrwIiA==
+X-Received: by 2002:aca:34c4:: with SMTP id b187mr4209966oia.108.1641420747385; 
+ Wed, 05 Jan 2022 14:12:27 -0800 (PST)
+Received: from redhat.com ([38.15.36.239])
+ by smtp.gmail.com with ESMTPSA id 97sm30708otc.10.2022.01.05.14.12.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 05 Jan 2022 14:12:27 -0800 (PST)
+Date: Wed, 5 Jan 2022 15:12:26 -0700
+From: Alex Williamson <alex.williamson@redhat.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Subject: Re: [PATCH] vfio/pci: Generate more relevant log messages for reset
+ failures
+Message-ID: <20220105151226.42cf6a06.alex.williamson@redhat.com>
+In-Reply-To: <20220105160400-mutt-send-email-mst@kernel.org>
+References: <164141259622.4193261.8252690438434562107.stgit@omen>
+ <20220105160400-mutt-send-email-mst@kernel.org>
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20211220130919.413-1-jiangyifei@huawei.com>
- <20211220130919.413-13-jiangyifei@huawei.com>
-In-Reply-To: <20211220130919.413-13-jiangyifei@huawei.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 6 Jan 2022 08:10:26 +1000
-Message-ID: <CAKmqyKNq9WJbx2CWL8qPatg7Gc3BckU=v94p+HgKiJ1W5-YPNg@mail.gmail.com>
-Subject: Re: [PATCH v3 12/12] target/riscv: Support virtual time context
- synchronization
-To: Yifei Jiang <jiangyifei@huawei.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d36
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d36;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd36.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124;
+ envelope-from=alex.williamson@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.372,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,84 +99,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bin.meng@windriver.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Mingwang Li <limingwang@huawei.com>, "open list:Overall" <kvm@vger.kernel.org>,
- libvir-list@redhat.com, Anup Patel <anup.patel@wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>, wanbo13@huawei.com,
- Palmer Dabbelt <palmer@dabbelt.com>, kvm-riscv@lists.infradead.org,
- wanghaibin.wang@huawei.com, Alistair Francis <Alistair.Francis@wdc.com>,
- fanliang@huawei.com, "Wubin \(H\)" <wu.wubin@huawei.com>
+Cc: qemu-devel@nongnu.org, kraxel@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Dec 21, 2021 at 2:44 AM Yifei Jiang via <qemu-devel@nongnu.org> wrote:
->
-> Add virtual time context description to vmstate_kvmtimer. After cpu being
-> loaded, virtual time context is updated to KVM.
->
-> Signed-off-by: Yifei Jiang <jiangyifei@huawei.com>
-> Signed-off-by: Mingwang Li <limingwang@huawei.com>
-> Reviewed-by: Anup Patel <anup.patel@wdc.com>
+On Wed, 5 Jan 2022 16:05:45 -0500
+"Michael S. Tsirkin" <mst@redhat.com> wrote:
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+> On Wed, Jan 05, 2022 at 12:56:42PM -0700, Alex Williamson wrote:
+> > The VFIO_DEVICE_RESET ioctl might be backed by several different reset
+> > methods, including a device specific reset (ie. custom reset code in
+> > kernel), an ACPI reset (ie. custom reset code in firmware), FLR, PM,
+> > and bus resets.  This listing is also the default priority order used
+> > by the kernel for trying reset methods.  Traditionally we've had some
+> > FUD regarding the PM reset as the extent of a "Soft Reset" is not well
+> > defined in the PCI specification.  Therefore we try to guess what type
+> > of reset a device might use for the VFIO_DEVICE_RESET and insert a bus
+> > reset via the vfio hot reset interface if we think it could be a PM
+> > reset.
+> > 
+> > This results in a couple odd tests for PM reset in our hot reset code,
+> > as we assume if we don't detect has_pm_reset support that we can't
+> > reset the device otherwise.  Starting with kernel v5.15, the kernel
+> > exposes a sysfs attribute for devices that can tell us the priority
+> > order for device resets, so long term (not implemented here) we no
+> > longer need to play this guessing game, and if permissions allow we
+> > could manipulate the order ourselves so that we don't need to inject
+> > our own hot reset.
+> > 
+> > In the shorter term, implemented here, let's not assume we're out of
+> > reset methods if we can't perform a hot reset and the device doesn't
+> > support PM reset.  We can use reset_works as the authority, which
+> > allows us to generate more comprehensible error messages for the case
+> > when it actually doesn't work.
+> > 
+> > The impetus for this change is a result of commit d5daff7d3126 ("pcie:
+> > implement slot power control for pcie root ports"), where powering off
+> > a slot now results in a device reset.  If the slot is powered off as a
+> > result of qdev_unplug() via the device request event, that device
+> > request is potentially the result of an unbind operation in the host.
+> > That unbind operation holds the kernel device lock, which causes the
+> > VFIO_DEVICE_RESET ioctl to fail (or in the case of some kernels, has
+> > cleared the flag indicating support of a device reset function).  We
+> > can then end up with an SR-IOV VF device trying to trigger a hot reset,
+> > which finds that it needs ownership of the PF group to perform such a
+> > reset, resulting in confusing log messages.
+> > 
+> > Ultimately the above commit still introduces a log message that we
+> > didn't have prior on such an unplug, but it's not unjustified to
+> > perform such a reset, though it might be considered unnecessary.
+> > Arguably failure to reset the device should always generate some sort
+> > of meaningful log message.
+> > 
+> > Signed-off-by: Alex Williamson <alex.williamson@redhat.com>  
+> 
+> Looks reasonable. Just an extra idea: do we want to maybe validate the
+> return code from the ioctl? I assume it's something like EBUSY right?
 
-Alistair
+Ideally it'd be EAGAIN to denote the lock contention, but for some
+reason there was a recent time when the kernel would clear the
+pci_dev.reset_fn flag as part of pci_stop_dev() before unbinding the
+driver from the device, in that case we get an ENOTTY.
 
-> ---
->  target/riscv/machine.c | 30 ++++++++++++++++++++++++++++++
->  1 file changed, 30 insertions(+)
->
-> diff --git a/target/riscv/machine.c b/target/riscv/machine.c
-> index ad8248ebfd..95eb82792a 100644
-> --- a/target/riscv/machine.c
-> +++ b/target/riscv/machine.c
-> @@ -164,6 +164,35 @@ static const VMStateDescription vmstate_pointermasking = {
->      }
->  };
->
-> +static bool kvmtimer_needed(void *opaque)
-> +{
-> +    return kvm_enabled();
-> +}
-> +
-> +static int cpu_post_load(void *opaque, int version_id)
-> +{
-> +    RISCVCPU *cpu = opaque;
-> +    CPURISCVState *env = &cpu->env;
-> +
-> +    env->kvm_timer_dirty = true;
-> +    return 0;
-> +}
-> +
-> +static const VMStateDescription vmstate_kvmtimer = {
-> +    .name = "cpu/kvmtimer",
-> +    .version_id = 1,
-> +    .minimum_version_id = 1,
-> +    .needed = kvmtimer_needed,
-> +    .post_load = cpu_post_load,
-> +    .fields = (VMStateField[]) {
-> +        VMSTATE_UINT64(env.kvm_timer_time, RISCVCPU),
-> +        VMSTATE_UINT64(env.kvm_timer_compare, RISCVCPU),
-> +        VMSTATE_UINT64(env.kvm_timer_state, RISCVCPU),
-> +
-> +        VMSTATE_END_OF_LIST()
-> +    }
-> +};
-> +
->  const VMStateDescription vmstate_riscv_cpu = {
->      .name = "cpu",
->      .version_id = 3,
-> @@ -218,6 +247,7 @@ const VMStateDescription vmstate_riscv_cpu = {
->          &vmstate_hyper,
->          &vmstate_vector,
->          &vmstate_pointermasking,
-> +        &vmstate_kvmtimer,
->          NULL
->      }
->  };
-> --
-> 2.19.1
->
->
+Hmm, I'm remembering now that an issue with this approach to log all
+device reset failures is that we're going to get false positives every
+time we reboot a VM where we need a bus reset for multiple devices.  We
+handle multiple devices via a reset handler but we'll still get a
+redundant per device reset and we have no way to associate that per
+device reset to a VM reset where the reset handler multi-device
+mechanism may have been successful :-\  This would be very common with
+desktop GPUs.  I'll plug away at this some more.  Thanks,
+
+Alex
+
 
