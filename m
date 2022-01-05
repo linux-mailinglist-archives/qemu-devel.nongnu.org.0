@@ -2,62 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97AA5485134
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 11:37:41 +0100 (CET)
-Received: from localhost ([::1]:41250 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4A93485140
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 11:41:39 +0100 (CET)
+Received: from localhost ([::1]:49600 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n53fo-00054a-Cq
-	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 05:37:40 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33858)
+	id 1n53jd-0002Vd-PT
+	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 05:41:38 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33896)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n53Sg-0000L3-Ky
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 05:24:07 -0500
-Received: from mout.kundenserver.de ([212.227.17.13]:38855)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n53Sx-0000Q8-Ji
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 05:24:25 -0500
+Received: from mout.kundenserver.de ([217.72.192.73]:41619)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n53Se-0007UM-0R
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 05:24:06 -0500
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n53Su-0007V8-O1
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 05:24:22 -0500
 Received: from [192.168.100.1] ([82.142.30.62]) by mrelayeu.kundenserver.de
- (mreue109 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1M8QNy-1n0dcH3mpE-004SqB; Wed, 05 Jan 2022 11:24:02 +0100
-Message-ID: <e83c75a1-a1c0-633e-f6ef-0842e5caaca2@vivier.eu>
-Date: Wed, 5 Jan 2022 11:24:00 +0100
+ (mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MG9wg-1nAW3M0EKi-00GY3d; Wed, 05 Jan 2022 11:24:12 +0100
+Message-ID: <38b13608-ca80-1c5e-bb28-754186d77642@vivier.eu>
+Date: Wed, 5 Jan 2022 11:24:11 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.4.0
-Subject: Re: [PATCH v2 3/7] linux-user/elfload: Rename ARM_COMMPAGE to
- HI_COMMPAGE
+Subject: Re: [PATCH v2 4/7] linux-user/nios2: Map a real kuser page
 Content-Language: fr
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20211221025012.1057923-1-richard.henderson@linaro.org>
- <20211221025012.1057923-4-richard.henderson@linaro.org>
+ <20211221025012.1057923-5-richard.henderson@linaro.org>
 From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <20211221025012.1057923-4-richard.henderson@linaro.org>
+In-Reply-To: <20211221025012.1057923-5-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:lcNIEtq6Uq71qO21QiXj0D8iGOgZ12ETMK+Prt9jfELKI1EyNvv
- TkA5SADCA1eKzQAEZyAevrsUQeCzjr9+NCzA0ye2DzkebDckcl6NLsH9sHLTsmitUb2wskj
- Y8nnkLRnWBqbVwbnFPWTOEUziV34St3Nad3HAu8gMZt1l9++cHXUwUsLA2oznncV7PSP16O
- iDttF9GsAxJipVR6hF6xg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:5k/CMu1Evdw=:vfJnomAkOBXIi3oYDjLnih
- oiwkk+RZYndqN6xp74o0ojA4TT/H4VS825MqkaR9WADBYHgjQhLchXyOeg+U/cnBDDZw10taO
- qfWRYajrRcsZ77faelaGhCr98jE9AcrRRSXV6MvDGQc14fkixsuROYS0/MjCuy33Dy/YIv5Sj
- 4ytSRmE75qu3Mb8hHOV/zT0gMR06yLPJrlmKbXzB2yKxMVZGkA6zFq2OAGJ49hnI5AQABQz+u
- 8ItFGNltZBoDZC2b/QSzGX7tQ8vgO35NE31H6aH4//SkZCpT9DT7AAIYz5EFlaxieg+IDic4n
- zA7uyI7SMrw+YFXNj1njIcHBUfwVr07Ksmk7bbjzlOGfFHCL4VD7aUYK8EN7cJhgjYQDYBrgk
- DeWLNgQ3ZKcsX14mPhDlcjXxtCt1tJ6pVZfDNHqySEe3NLNLcXEWl3P7mXErtzZEzmucKHZmw
- hlZ/3M5NpkFnKJ/jBjUjGb9KqM/QS9gn22N2HmTxusZwbHK+1wdA6Xp2oPYZQL+ZHumTkFT9+
- x5enoLLP1L92pbweAPOFciw8naBHVeFKRJ4zCl7/iAcXpToSuWBZjrmL1qhxWnO+p+5JjdcSX
- bUWklfF8eBBgMEzfnxeSspbWkx2TXV0uaYk67PE7WK2sdZsAWji16F55UFfUhVJtDe+rcxWKU
- SxHDpv0pLbdLIu+Rnk4KEbDP8GR/AIZTIb7uRLgYv9R+frH9vu5QAooBATG8upCBJNy4=
-Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:S8+CvzGDcBWsNQdUbaST/J81YEnGkDPnMACwADqGI0JrdNgabK+
+ /2Gjw19g8ryNl8vhdka9tOv0O2ZQLmWWBkmYJ6riBrsOgpWa/9z7tKqszEP5CrMY5iur857
+ aUUwSyy/zrXaKQVRFx/EFPr0Fw90zJek6I549E0lvqcBMXpYoahFrFBNhTIgO+g66OawHsa
+ +2lrYKWqg97vDNg3qaD8A==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:RYoGKiOGBfo=:8vnqZxkaS4UYztHD0P4KFO
+ mQ26L0JcKB9VJ8+2yd1KsjIcGeuNRz9DEkDlVx1xS3HvnyyJjOQ2tPSE0tfZ2xmTllQIxrQvi
+ NeDXXoG9TReB+NdqdOcHHsdlPE92K+w1xxM0GSIpCVtWmwuWwbxNZNKWkj4oUOls1Ll1VHW5/
+ rNZcVr2Yn3h9visooaAkJ69QZvacjwzm2ZBwHkVXzhUyQIcirEo4rzUBghkmXPRXCt2/RFdhT
+ TKIKbOwMez9TmLdY0qpOJpjScw0luI30Im9iCb7ApFrz26yREtnQpChxOVdJ733cODaLY9WK2
+ pxxdczagQwQkVVZ3KCoTZH9hyzcoBIxIqfw0xiDuvoMovpBuTMZyqBPmV1Q0nh7FU3A1NL71T
+ a30EDo/PSNALQhcbt7Q+VH73G0fejfsZcpJ7fWXJS4dCuZS+qi+9NxXGRxZggBncP3WI4woXD
+ ly6oV2qX41Hi257Hh0l1jYuYTq38ORhGEwhMebJwJ3xkxb+JLjsAYUf1JwMkhJfi9yvBbfXb7
+ V2yQjDEifLpSDUgH+wf+89c+kx+0xIMws8bqMEWPI/GNjeMZbBxeiqDOLw43OHbJjkL6rREIH
+ EqoaisUJyedYKGiu9C1/W6JRMGGtct0x30627xlhZEMAq3P2o+Bq/+wcM0j9bnbyynLtLIgEU
+ SgNif2P2iISsh8Hft6y4k/1GcHSzWWGhXZviKlq2bSGG3bcwQlixvXwQwGaVx3E1GYQ8=
+Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.057,
- RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -74,89 +73,183 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Le 21/12/2021 à 03:50, Richard Henderson a écrit :
-> Arm will no longer be the only target requiring a commpage,
-> but it will continue to be the only target placing the page
-> at the high end of the address space.
+> The first word of page1 is data, so the whole thing
+> can't be implemented with emulation of addresses.
+> Use init_guest_commpage for the allocation.
 > 
-> Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+> Hijack trap number 16 to implement cmpxchg.
+> 
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->   linux-user/elfload.c | 18 +++++++++---------
->   1 file changed, 9 insertions(+), 9 deletions(-)
+>   linux-user/elfload.c        | 50 ++++++++++++++++++++++++++++++++++++-
+>   linux-user/nios2/cpu_loop.c | 50 ++++++++++++++++++++-----------------
+>   target/nios2/translate.c    |  9 -------
+>   3 files changed, 76 insertions(+), 33 deletions(-)
 > 
 > diff --git a/linux-user/elfload.c b/linux-user/elfload.c
-> index 767f54c76d..d34cd4fe43 100644
+> index d34cd4fe43..329b2375ef 100644
 > --- a/linux-user/elfload.c
 > +++ b/linux-user/elfload.c
-> @@ -390,11 +390,11 @@ enum {
+> @@ -1099,6 +1099,47 @@ static void init_thread(struct target_pt_regs *regs, struct image_info *infop)
+>       regs->estatus = 0x3;
+>   }
 >   
->   /* The commpage only exists for 32 bit kernels */
+> +#define LO_COMMPAGE  TARGET_PAGE_SIZE
+> +
+> +static bool init_guest_commpage(void)
+> +{
+> +    static const uint8_t kuser_page[4 + 2 * 64] = {
+> +        /* __kuser_helper_version */
+> +        [0x00] = 0x02, 0x00, 0x00, 0x00,
+> +
+> +        /* __kuser_cmpxchg */
+> +        [0x04] = 0x3a, 0x6c, 0x3b, 0x00,  /* trap 16 */
+> +                 0x3a, 0x28, 0x00, 0xf8,  /* ret */
+> +
+> +        /* __kuser_sigtramp */
+> +        [0x44] = 0xc4, 0x22, 0x80, 0x00,  /* movi r2, __NR_rt_sigreturn */
+> +                 0x3a, 0x68, 0x3b, 0x00,  /* trap 0 */
+> +    };
+> +
+> +    void *want = g2h_untagged(LO_COMMPAGE & -qemu_host_page_size);
+> +    void *addr = mmap(want, qemu_host_page_size, PROT_READ | PROT_WRITE,
+> +                      MAP_ANONYMOUS | MAP_PRIVATE | MAP_FIXED, -1, 0);
+> +
+> +    if (addr == MAP_FAILED) {
+> +        perror("Allocating guest commpage");
+> +        exit(EXIT_FAILURE);
+> +    }
+> +    if (addr != want) {
+> +        return false;
+> +    }
+> +
+> +    memcpy(addr, kuser_page, sizeof(kuser_page));
+> +
+> +    if (mprotect(addr, qemu_host_page_size, PROT_READ)) {
+> +        perror("Protecting guest commpage");
+> +        exit(EXIT_FAILURE);
+> +    }
+> +
+> +    page_set_flags(LO_COMMPAGE, LO_COMMPAGE + TARGET_PAGE_SIZE,
+> +                   PAGE_READ | PAGE_EXEC | PAGE_VALID);
+> +    return true;
+> +}
+> +
+>   #define ELF_EXEC_PAGESIZE        4096
 >   
-> -#define ARM_COMMPAGE (intptr_t)0xffff0f00u
-> +#define HI_COMMPAGE (intptr_t)0xffff0f00u
->   
->   static bool init_guest_commpage(void)
->   {
-> -    void *want = g2h_untagged(ARM_COMMPAGE & -qemu_host_page_size);
-> +    void *want = g2h_untagged(HI_COMMPAGE & -qemu_host_page_size);
->       void *addr = mmap(want, qemu_host_page_size, PROT_READ | PROT_WRITE,
->                         MAP_ANONYMOUS | MAP_PRIVATE | MAP_FIXED, -1, 0);
->   
-> @@ -2160,8 +2160,8 @@ static abi_ulong create_elf_tables(abi_ulong p, int argc, int envc,
+>   #define USE_ELF_CORE_DUMP
+> @@ -2160,8 +2201,13 @@ static abi_ulong create_elf_tables(abi_ulong p, int argc, int envc,
 >       return sp;
 >   }
 >   
-> -#ifndef ARM_COMMPAGE
-> -#define ARM_COMMPAGE 0
-> +#ifndef HI_COMMPAGE
+> -#ifndef HI_COMMPAGE
+> +#if defined(HI_COMMPAGE)
+> +#define LO_COMMPAGE 0
+> +#elif defined(LO_COMMPAGE)
+>   #define HI_COMMPAGE 0
+> +#else
 > +#define HI_COMMPAGE 0
+> +#define LO_COMMPAGE 0
 >   #define init_guest_commpage() true
 >   #endif
 >   
-> @@ -2361,7 +2361,7 @@ static void pgb_static(const char *image_name, abi_ulong orig_loaddr,
->       }
->   
->       loaddr &= -align;
-> -    if (ARM_COMMPAGE) {
-> +    if (HI_COMMPAGE) {
->           /*
->            * Extend the allocation to include the commpage.
->            * For a 64-bit host, this is just 4GiB; for a 32-bit host we
-> @@ -2372,14 +2372,14 @@ static void pgb_static(const char *image_name, abi_ulong orig_loaddr,
->           if (sizeof(uintptr_t) == 8 || loaddr >= 0x80000000u) {
->               hiaddr = (uintptr_t) 4 << 30;
+> @@ -2374,6 +2420,8 @@ static void pgb_static(const char *image_name, abi_ulong orig_loaddr,
 >           } else {
-> -            offset = -(ARM_COMMPAGE & -align);
-> +            offset = -(HI_COMMPAGE & -align);
+>               offset = -(HI_COMMPAGE & -align);
 >           }
+> +    } else if (LO_COMMPAGE) {
+> +        loaddr = MIN(loaddr, LO_COMMPAGE & -align);
 >       }
 >   
 >       addr = pgb_find_hole(loaddr, hiaddr - loaddr, align, offset);
->       if (addr == -1) {
->           /*
-> -         * If ARM_COMMPAGE, there *might* be a non-consecutive allocation
-> +         * If HI_COMMPAGE, there *might* be a non-consecutive allocation
->            * that can satisfy both.  But as the normal arm32 link base address
->            * is ~32k, and we extend down to include the commpage, making the
->            * overhead only ~96k, this is unlikely.
-> @@ -2400,7 +2400,7 @@ static void pgb_dynamic(const char *image_name, long align)
->        * All we need is a commpage that satisfies align.
->        * If we do not need a commpage, leave guest_base == 0.
->        */
-> -    if (ARM_COMMPAGE) {
-> +    if (HI_COMMPAGE) {
->           uintptr_t addr, commpage;
+> diff --git a/linux-user/nios2/cpu_loop.c b/linux-user/nios2/cpu_loop.c
+> index 5c3d01d22d..de0fc63e21 100644
+> --- a/linux-user/nios2/cpu_loop.c
+> +++ b/linux-user/nios2/cpu_loop.c
+> @@ -76,6 +76,32 @@ void cpu_loop(CPUNios2State *env)
+>                   force_sig_fault(TARGET_SIGILL, TARGET_ILL_ILLTRP,
+>                                   env->regs[R_PC]);
+>                   break;
+> +
+> +            case 16: /* QEMU specific, for __kuser_cmpxchg */
+> +                {
+> +                    abi_ptr g = env->regs[4];
+> +                    uint32_t *h, n, o;
+> +
+> +                    if (g & 0x3) {
+> +                        force_sig_fault(TARGET_SIGBUS, TARGET_BUS_ADRALN, g);
+> +                        break;
+> +                    }
+> +                    ret = page_get_flags(g);
+> +                    if (!(ret & PAGE_VALID)) {
+> +                        force_sig_fault(TARGET_SIGSEGV, TARGET_SEGV_MAPERR, g);
+> +                        break;
+> +                    }
+> +                    if (!(ret & PAGE_READ) || !(ret & PAGE_WRITE)) {
+> +                        force_sig_fault(TARGET_SIGSEGV, TARGET_SEGV_ACCERR, g);
+> +                        break;
+> +                    }
+> +                    h = g2h(cs, g);
+> +                    o = env->regs[5];
+> +                    n = env->regs[6];
+> +                    env->regs[2] = qatomic_cmpxchg(h, o, n) - o;
+> +                    env->regs[R_PC] += 4;
+> +                }
+> +                break;
+>               }
+>               break;
 >   
->           /* 64-bit hosts should have used reserved_va. */
-> @@ -2410,7 +2410,7 @@ static void pgb_dynamic(const char *image_name, long align)
->            * By putting the commpage at the first hole, that puts guest_base
->            * just above that, and maximises the positive guest addresses.
->            */
-> -        commpage = ARM_COMMPAGE & -align;
-> +        commpage = HI_COMMPAGE & -align;
->           addr = pgb_find_hole(commpage, -commpage, align, 0);
->           assert(addr != -1);
->           guest_base = addr;
+> @@ -86,29 +112,7 @@ void cpu_loop(CPUNios2State *env)
+>               queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
+>               break;
+>           case 0xaa:
+> -            switch (env->regs[R_PC]) {
+> -            /*case 0x1000:*/  /* TODO:__kuser_helper_version */
+> -            case 0x1004:      /* __kuser_cmpxchg */
+> -                start_exclusive();
+> -                if (env->regs[4] & 0x3) {
+> -                    goto kuser_fail;
+> -                }
+> -                ret = get_user_u32(env->regs[2], env->regs[4]);
+> -                if (ret) {
+> -                    end_exclusive();
+> -                    goto kuser_fail;
+> -                }
+> -                env->regs[2] -= env->regs[5];
+> -                if (env->regs[2] == 0) {
+> -                    put_user_u32(env->regs[6], env->regs[4]);
+> -                }
+> -                end_exclusive();
+> -                env->regs[R_PC] = env->regs[R_RA];
+> -                break;
+> -            /*case 0x1040:*/  /* TODO:__kuser_sigtramp */
+> -            default:
+> -                ;
+> -kuser_fail:
+> +            {
+>                   info.si_signo = TARGET_SIGSEGV;
+>                   info.si_errno = 0;
+>                   /* TODO: check env->error_code */
+> diff --git a/target/nios2/translate.c b/target/nios2/translate.c
+> index a759877519..f9abc2fdd2 100644
+> --- a/target/nios2/translate.c
+> +++ b/target/nios2/translate.c
+> @@ -795,15 +795,6 @@ static void nios2_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
+>       dc->base.pc_next = pc + 4;
+>   
+>       /* Decode an instruction */
+> -
+> -#if defined(CONFIG_USER_ONLY)
+> -    /* FIXME: Is this needed ? */
+> -    if (pc >= 0x1000 && pc < 0x2000) {
+> -        t_gen_helper_raise_exception(dc, 0xaa);
+> -        return;
+> -    }
+> -#endif
+> -
+>       code = cpu_ldl_code(env, pc);
+>       op = get_opcode(code);
+>   
 
 Applied to my linux-user-for-7.0 branch.
 
