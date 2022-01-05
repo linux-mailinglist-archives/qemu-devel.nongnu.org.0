@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DFCD4856DE
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 17:52:04 +0100 (CET)
-Received: from localhost ([::1]:40158 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76BAF4856D4
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 17:47:25 +0100 (CET)
+Received: from localhost ([::1]:34602 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n59W6-00042M-S7
-	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 11:52:02 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43510)
+	id 1n59Rc-0008Jk-0z
+	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 11:47:24 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42402)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
- <3asrVYQcKCmseNWcdaNPXXPUN.LXVZNVd-MNeNUWXWPWd.XaP@flex--venture.bounces.google.com>)
- id 1n59Uo-0003Kg-5k
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 11:50:42 -0500
-Received: from [2607:f8b0:4864:20::b4a] (port=45630
- helo=mail-yb1-xb4a.google.com)
+ <3D8vVYQcKChIDw5BC9wy66y3w.u648w4C-vwDw3565y5C.69y@flex--venture.bounces.google.com>)
+ id 1n59Pk-0007bv-VS
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 11:45:32 -0500
+Received: from [2607:f8b0:4864:20::b49] (port=39859
+ helo=mail-yb1-xb49.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from
- <3asrVYQcKCmseNWcdaNPXXPUN.LXVZNVd-MNeNUWXWPWd.XaP@flex--venture.bounces.google.com>)
- id 1n59Um-0005rk-PJ
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 11:50:41 -0500
-Received: by mail-yb1-xb4a.google.com with SMTP id
- c132-20020a251c8a000000b0060c39ab7d36so54628539ybc.12
- for <qemu-devel@nongnu.org>; Wed, 05 Jan 2022 08:50:39 -0800 (PST)
+ <3D8vVYQcKChIDw5BC9wy66y3w.u648w4C-vwDw3565y5C.69y@flex--venture.bounces.google.com>)
+ id 1n59Ph-0002xb-N5
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 11:45:27 -0500
+Received: by mail-yb1-xb49.google.com with SMTP id
+ k130-20020a255688000000b0060c3dcae580so53300781ybb.6
+ for <qemu-devel@nongnu.org>; Wed, 05 Jan 2022 08:45:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
  h=date:message-id:mime-version:subject:from:to:cc
  :content-transfer-encoding;
  bh=VuBzE8dIuy1MwqUjC3TAArH5pVL/fBClNJZpGS4Jo1M=;
- b=AdEoPLmIuK6S3CksQdhqpdcUcF4y0+BTtrvyKtD+nzjFPZMHkRLY2HyOplTfojJ3lP
- 9vl+M6zKad9mdKf59PvzFL94pecTzH+z5Rak/1AC+pnZHDzrcMfUQmuX4iEGtDZzpYlF
- 4Ee2E/ZR+Syon4LlHwoZ3UCT7OjYX80oYsRKBP+3gvNtPCU8nLJksxqLx4NyeSKFX1Ai
- Noc+wM/l2bHam3OZj/kOlYBzteBIvlH1QRFNj05iTJm8P8xjSOylJMkQW7t5O22/4wYe
- +CdUPugh4j0fn5hdaCwRlBx6Q/q8H9AQEMw2GuNeQgGpSJqjrzkcgQn0K4/8mWpWVf52
- ilLA==
+ b=kJ9m0oHuPSaHBZTczuXTuiV9ifwWPHsR1KfwqFy3L3xKirr2J3UqonkHHw5OmU/Znj
+ YEq7LBl1tXka2NioblDvTGWibsZuCz9iBvP1ve8Qk/aK+Vv5Os4b1twJIMit+40hSuZK
+ 4bhjpoVmPvhGhxUIKikGqyHGzn2uiUqUdAowJy9af5heoOaZU9iif4YRuKfXpHOps2K3
+ DPPl48haYHaUgMWX6Y/nKTLLcdOqncMfjTClLR/xkaZGvRmPQtQUTdk8ONsSqONa7deV
+ Wf994fFZ/15kD11riyVLvgFAR680CIKD/Fq6RtIDh2oDZycSCaYGYLuPn5yFKxfEguLH
+ xFMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc
  :content-transfer-encoding;
  bh=VuBzE8dIuy1MwqUjC3TAArH5pVL/fBClNJZpGS4Jo1M=;
- b=Nz6RJqqozuCsaBSQDSoHXdMQIIaqySDH3o/c2AJ/S7kMchbqx2HSWbQZDG8ki6gqQo
- 1jM+/7YM7yaVjf5XrU34/BegoOZtS19+FEdrgETssCHfr28p2pByXtVuYIqY501dVvKu
- OjQFViyqo2gOX/1cpTe+iGFTAg/rId4yrKOqg2eankNGOaSUzib1SlJLobWyFUY+ORH8
- /XvMYajeO64yidXV7x3eU03vLNF1rKv0lNEBOTi3SQUgK+oxiQgIPl9kecXBeCDqyY19
- Chup/jrUqRqA1nxL+BtxP0DW4GxD1DkX+Cv7phD/QoplsLDuCh7zFBNob+E7yTAwVwBM
- tDJA==
-X-Gm-Message-State: AOAM5334wHATlnQrfvS0+8N8e4xHv3NW25i3eyDZgSoTPczLiFEqrr3h
- d019XfBRXS/jIGElafUikeZgHfGEBxIr
-X-Google-Smtp-Source: ABdhPJxwQMgDdoK6Z/GFdIns9VNIhlSrGMS5FXRwXsJ3lRSBHxH0kZXuVptODUKQ6gcE/L38PPgkJevtpd7V
+ b=lHlrCfoPFO7sjsQjKn8ZjESy5S0F6YDteoZnHZHK0MSUs4MqoiLgektGflhOUMpcB4
+ /Bndhr7I2Le59qzKONV4y8Ei5NQo/lhsiJ2h3KBD/smJSM1numjUrlj60PJYfTPvqV/a
+ gXcBc9QwnmkgYofofv6vEpQGghqcqzj38q3ChCN3/KuCijFGtC38e+dyu2Rfag0MWa49
+ FRiSUNw5pRHdWv0ebBDT6a/hGRQ5EbVUGL51BPyHugmP1zoTX4Xwsyv+lc7Ik93j+hVd
+ +w+ONDSje73fJZAZMTG0fuJ1pC4fMnXTBl4FKHZLI4D0TeuWsECL6VSZVz7llDP8WTuD
+ HTVw==
+X-Gm-Message-State: AOAM532TXpGodcbUNHccTIp3M9AAVNH39OJbR90Dw63Td++2V0REp1t4
+ EP2/0CjQhzgTOeX80BuysGMff4d+ndrd
+X-Google-Smtp-Source: ABdhPJwyg20JHn/7CwNbroWazfNBynzbONNKK9QbLgOfbpDi4rAqgQn0KR049qpLDhdEIpQ1zrve14El2syV
 X-Received: from venture.svl.corp.google.com
  ([2620:15c:2a3:200:9017:ad23:15fc:8efc])
- (user=venture job=sendgmr) by 2002:a25:bb07:: with SMTP id
- z7mr32198883ybg.509.1641400938394; Wed, 05 Jan 2022 08:42:18 -0800 (PST)
-Date: Wed,  5 Jan 2022 08:42:14 -0800
-Message-Id: <20220105164214.3381151-1-venture@google.com>
+ (user=venture job=sendgmr) by 2002:a25:d711:: with SMTP id
+ o17mr53459482ybg.689.1641401103620; Wed, 05 Jan 2022 08:45:03 -0800 (PST)
+Date: Wed,  5 Jan 2022 08:45:00 -0800
+Message-Id: <20220105164500.3381822-1-venture@google.com>
 Mime-Version: 1.0
 X-Mailer: git-send-email 2.34.1.448.ga2b2bfdf31-goog
 Subject: [PATCH v2] net/tap: Set return code on failure
@@ -63,11 +63,11 @@ To: f4bug@amsat.org, jasowang@redhat.com, pefoley@google.com
 Cc: qemu-devel@nongnu.org, Patrick Venture <venture@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b4a
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b49
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b4a;
- envelope-from=3asrVYQcKCmseNWcdaNPXXPUN.LXVZNVd-MNeNUWXWPWd.XaP@flex--venture.bounces.google.com;
- helo=mail-yb1-xb4a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b49;
+ envelope-from=3D8vVYQcKChIDw5BC9wy66y3w.u648w4C-vwDw3565y5C.69y@flex--venture.bounces.google.com;
+ helo=mail-yb1-xb49.google.com
 X-Spam_score_int: -87
 X-Spam_score: -8.8
 X-Spam_bar: --------
