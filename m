@@ -2,76 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87DBA485524
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 15:58:06 +0100 (CET)
-Received: from localhost ([::1]:39510 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 713ED48553A
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 16:01:52 +0100 (CET)
+Received: from localhost ([::1]:44674 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n57jp-0004TI-4I
-	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 09:58:05 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36492)
+	id 1n57nS-00086q-TA
+	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 10:01:51 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37432)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1n57cv-0003XX-0w
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 09:50:57 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44043)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1n57ct-0005DT-8h
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 09:50:56 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641394254;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=wvkehBgiwsckRufiecBUsHCUUrgvoa1OYUBkfpGvJ3w=;
- b=NTrq81saqw7FkOIPid4XbvkoONSyKZ/TU34NCtkbSHGZc0And+4lIhLdWEZnK002Gi+xRa
- WAqCMjxrKsdksihAb+gLrVVz9cU/l3IUoSKpVAP8hF7MuyH2kiK2TmzGp8+Zq3YJCkeHyZ
- gBv9K9SGONZ/teuWQpkm+Mb2KDWdCu4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-354-iKKgiUIWPqeoFcmF3VkaVw-1; Wed, 05 Jan 2022 09:50:50 -0500
-X-MC-Unique: iKKgiUIWPqeoFcmF3VkaVw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0DE69190B2A2;
- Wed,  5 Jan 2022 14:50:49 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.150])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 865577E5A8;
- Wed,  5 Jan 2022 14:50:46 +0000 (UTC)
-Date: Wed, 5 Jan 2022 14:50:44 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: "Richard W.M. Jones" <rjones@redhat.com>
-Subject: Re: [PATCH  v1 20/34] tests/docker: add libfuse3 development headers
-Message-ID: <YdWwRENg0gA5na4v@redhat.com>
-References: <20220105135009.1584676-1-alex.bennee@linaro.org>
- <20220105135009.1584676-21-alex.bennee@linaro.org>
- <20220105142655.GS1127@redhat.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1n57gJ-0001OJ-HV
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 09:54:27 -0500
+Received: from [2a00:1450:4864:20::430] (port=35658
+ helo=mail-wr1-x430.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1n57gH-0005pC-V8
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 09:54:27 -0500
+Received: by mail-wr1-x430.google.com with SMTP id j18so83546479wrd.2
+ for <qemu-devel@nongnu.org>; Wed, 05 Jan 2022 06:54:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=VJxEsbv5c7IktayFQaL0NAarm1dXTV29fiUVQhJTaE4=;
+ b=caK1Vmf2Z/YubGnS6yYbtJegj1FrWFfQpHG6XYx7OlwvlGhsSF57nCZ/+/SdqMyZhG
+ 6ivQddH62Fr/oTGLC72E8MwuknYs33opxKjROF8KOyM7WNGwAo7nfQ0aqwoPYhvrihdb
+ Wohv/KPx3zWfw1ACMcvocMUP+5Z+EAE7lrKik5Q+z7bc8ronrBre0bzKa1SIRjxRO4bz
+ ecvJo/iFNNPUr7nw5Xycp5w9l34MyO4EIa89sQk6I29LnGqhdG2qr8O1XUVAANNDbsNF
+ RdLz3/oadLyUQnazzX3fX3g/RXsSCnhawYk+oDJ9L+ReLxvf4tOyZYSqilAoJd+c0t8U
+ 2WcQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=VJxEsbv5c7IktayFQaL0NAarm1dXTV29fiUVQhJTaE4=;
+ b=fBoFrkQ8Vl8FglYPWgv41FRC/lQBRtDMyTRez1q7t6qrt61x1XDg7pEQCstimmkXU/
+ En2Wv5AetcAf85lOnuVKTwfkxCUc0mcQfmc9focWZFfNJo9iPYdcK9SbRM1bLr9eounS
+ yK6xgPaRoFU8GzCNkA46ZZlJ3Q9cq4FsQnFWDmSRo33SkcZC/VhI+0XW+mYOWMe365uz
+ 4748qyIuUiIqVEaA8jznxOeDvp9OCzJ4YLJFh2iQHV6Vw4Jp/PEBs/6XZ4Av2kKEMrvN
+ dR1rZCsIR6d5R30oZp+iSMmP+ztYgRZUgulLePnD62vngBJvfNjtveZld8ICjiKKVn3X
+ TH5Q==
+X-Gm-Message-State: AOAM533VBnY1pnMbSTefflF3rdOwxn+YeImPmkL0OVmjuZKkN/1W5iFv
+ nVe4alHqq8OWRRG+VcZKn8UtF8JAH1mePw==
+X-Google-Smtp-Source: ABdhPJzcYvKM3i60OtM9bIrdRpfcbQRmrcszKx3dDSSGR3sURl+sGA6x8HVTb6WNReWGpgxVRoRodw==
+X-Received: by 2002:adf:fc0d:: with SMTP id i13mr46176149wrr.296.1641394463374; 
+ Wed, 05 Jan 2022 06:54:23 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id r13sm2057855wmq.28.2022.01.05.06.54.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 05 Jan 2022 06:54:22 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id DB3991FFB7;
+ Wed,  5 Jan 2022 14:54:21 +0000 (GMT)
+References: <CGME20211227125057eucas1p14ebd7c0d73df4a25abc40bfa3fe0c3f2@eucas1p1.samsung.com>
+ <20211227125048.22610-1-a.kazmin@partner.samsung.com>
+ <18882253-9e57-0654-1eb2-870a451a50ce@vivier.eu>
+User-agent: mu4e 1.7.5; emacs 28.0.90
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Laurent Vivier <laurent@vivier.eu>
+Subject: Re: [PATCH] linux-user/syscall.c: fix missed flag for shared memory
+ in open_self_maps
+Date: Wed, 05 Jan 2022 14:54:17 +0000
+In-reply-to: <18882253-9e57-0654-1eb2-870a451a50ce@vivier.eu>
+Message-ID: <87h7aijkrm.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20220105142655.GS1127@redhat.com>
-User-Agent: Mutt/2.1.3 (2021-09-10)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.372,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::430
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x430.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,50 +92,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: fam@euphon.net, Thomas Huth <thuth@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, qemu-devel@nongnu.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>, f4bug@amsat.org,
- Hanna Reitz <hreitz@redhat.com>, stefanha@redhat.com, crosa@redhat.com,
- pbonzini@redhat.com, Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- aurelien@aurel32.net
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jan 05, 2022 at 02:26:55PM +0000, Richard W.M. Jones wrote:
-> On Wed, Jan 05, 2022 at 01:49:55PM +0000, Alex Bennée wrote:
-> > From: Stefan Hajnoczi <stefanha@redhat.com>
-> > 
-> > The FUSE exports feature is not built because most container images do
-> > not have libfuse3 development headers installed. Add the necessary
-> > packages to the Dockerfiles.
-> > 
-> > Cc: Hanna Reitz <hreitz@redhat.com>
-> > Cc: Richard W.M. Jones <rjones@redhat.com>
-> > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> > Acked-by: Richard W.M. Jones <rjones@redhat.com>
-> > Reviewed-by: Beraldo Leal <bleal@redhat.com>
-> > Tested-by: Beraldo Leal <bleal@redhat.com>
-> > Message-Id: <20211207160025.52466-1-stefanha@redhat.com>
-> > [AJB: migrate to lcitool qemu.yml and regenerate]
-> > Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> 
-> 
-> I checked all the package names and they look good, so:
 
-FYI, the libvirt-ci  CI pipelines validate that all package
-names are correct by creating a job for each distro and
-checking that every package known to libvirt-ci can be
-installed. This catches issues where distros rename or
-drop packages. These are some of the reasons why we'll
-benefit from using libvirt-ci / lcitool for auto-generating
-these dockerfiles in QEMU.
+Laurent Vivier <laurent@vivier.eu> writes:
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+> Le 27/12/2021 =C3=A0 13:50, Andrey Kazmin a =C3=A9crit=C2=A0:
+>> The possible variants for region type in /proc/self/maps are either
+>> private "p" or shared "s". In the current implementation,
+>> we mark shared regions as "-". It could break memory mapping parsers
+>> such as included into ASan/HWASan sanitizers.
+>> Signed-off-by: Andrey Kazmin <a.kazmin@partner.samsung.com>
 
+Acked-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
+--=20
+Alex Benn=C3=A9e
 
