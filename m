@@ -2,87 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 683FF4858A9
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 19:48:43 +0100 (CET)
-Received: from localhost ([::1]:49170 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E5D1485842
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 19:30:38 +0100 (CET)
+Received: from localhost ([::1]:33416 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5BKz-0004r8-9X
-	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 13:48:41 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45974)
+	id 1n5B3U-0001xf-L1
+	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 13:30:36 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42564)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1n5BDH-0002YG-81
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 13:40:46 -0500
-Received: from [2a00:1450:4864:20::536] (port=35530
- helo=mail-ed1-x536.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1n5BDC-0003Gc-I1
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 13:40:42 -0500
-Received: by mail-ed1-x536.google.com with SMTP id y22so158421edq.2
- for <qemu-devel@nongnu.org>; Wed, 05 Jan 2022 10:40:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=06w8gqSZR8QU1vtQYPkUBPp49qmn9Gr/dyODiNVOe2Q=;
- b=ZRq7+MA0JotuMU7I/n4wEGbjDZZH69ZVzh9c6FbbrCPptwWVRRaoXCM9QZWXMaszDM
- Dih8hwqCg96HRtgrkSD2+/sKF0Y3urIP9IkZz9/gkzt9TWp/TIkLTW4XKzNKCv+un2oa
- eI4+uXsTvE7eIQiqkk5ZqE0Sch6ntAm2Y14Gs7LjPTIQshsiBVQ3DrmRnGWpqY4sUbuJ
- V2wNk5bs6ihjDMqvtL6GlmM1Lw4DltbNhgf61TO04KLpurm+IwUlfh2aa+WzUq33rxhF
- JIPIvOEE/0cpN0epF7NJyK9acMim9Rfdl9aemHsdeYcNwUnbFSiTwLD4aQJlcJpjVYmH
- bQIA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=06w8gqSZR8QU1vtQYPkUBPp49qmn9Gr/dyODiNVOe2Q=;
- b=zc+1thIj/4h/MIO11HkqcGSmpzkokClDA0tBmrGOTeNEYcKjh9i5znHQ9vOZw5shnH
- mKZ2OA4+upsCPAnJ9BvB45Qf6dHQXZG9jotUr1zO8xO3bYoK25zx0PaY1c/DpNc5AglC
- 4qlio3/VlGDToI5yrGxr3b2kAEYop5N8JnVfUL21KnRJ/YecQTS3F74tT6XBuN78CFvu
- /Al5+cx4P6w84QH+eLaAbIPqG0F8wK/eH+cqMp1s0r4dqFvVZfUv9LmVxi3jbP66V5xa
- t+rJqpXaEsAH+0EqJYZQbsngVJZRfkSYlYBs/IkU+PFhi/+ShJ1rHNX5qMLZ59tViVP3
- hssQ==
-X-Gm-Message-State: AOAM533W2jcO6IKaBjiar7cuo6E+TobVYoj4X8je/M/OSMud3BlNT6/0
- j35GbHn+pv3/c9iGu+4jaB3uxw==
-X-Google-Smtp-Source: ABdhPJyBVgNAS3O/RM1cZrVqbSwsMS6vVDKrJVwVvhLMO+C11hX7rY5J6j6hZRevI9ERLWnu1kJRFw==
-X-Received: by 2002:a17:906:7305:: with SMTP id
- di5mr43310566ejc.702.1641408035068; 
- Wed, 05 Jan 2022 10:40:35 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id z22sm1319003edd.68.2022.01.05.10.40.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Jan 2022 10:40:34 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 65F4C1FFB7;
- Wed,  5 Jan 2022 18:40:33 +0000 (GMT)
-References: <00a79b65-288f-f17c-abe4-fcfd3f7971fd@oth-regensburg.de>
- <cover.1641309725.git.konrad.schwarz@siemens.com>
- <85d02ac883c7cf40fbd54e8747783937e0370eaa.1641309725.git.konrad.schwarz@siemens.com>
- <18d1fbb3-ddff-6d3c-55a1-cbec27ac9f1e@linaro.org>
- <9511f23e9cdf42609866bc597f87b97e@siemens.com>
-User-agent: mu4e 1.7.5; emacs 28.0.90
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: "Schwarz, Konrad" <konrad.schwarz@siemens.com>
-Subject: Re: [PATCH v2 1/5] RISC-V: larger and more consistent register set
- for 'info registers'
-Date: Wed, 05 Jan 2022 18:21:40 +0000
-In-reply-to: <9511f23e9cdf42609866bc597f87b97e@siemens.com>
-Message-ID: <878rvujaam.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <farman@linux.ibm.com>)
+ id 1n5B0J-0000ag-9l; Wed, 05 Jan 2022 13:27:19 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:30692
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <farman@linux.ibm.com>)
+ id 1n5B0B-00006R-Pv; Wed, 05 Jan 2022 13:27:15 -0500
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 205I6bIl014002; 
+ Wed, 5 Jan 2022 18:27:06 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=WxZouKSNZQoELmSuDzMkC41eA5iKkdJTJ/hk36zP1Sc=;
+ b=EpGjN6wt0RqkvfXK6MguAq3RdSXHPQ6mjqM4t91V21IkRbw5bwGpal/mddnuPIFXol6L
+ x+4c1zEySMVc7XxNHu3c2cmuE1ClGDg7a7xE9e8ICiKuPR9PppDNuDDRA0nUQDVCzLAe
+ TKA6QaW22rdN0Fa56UmaS30hBPtRLEYkfOSdD38CevFRVO3vYwOeTjr4CIvcetKf9hl5
+ X/El78YCotAuAHpe0KdXOY/BGSTR6XC5zg86aIuFBvt+Ir9cuvLySHJR+oDBxhezuVUB
+ ANqy9giAizsIEVDsNxsZkyktaYEwWB+p+MFrmDFQ1IdCL5hwZaJCv9il6k7HuKt1XMot EA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3dcpka4crn-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 05 Jan 2022 18:27:06 +0000
+Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 205ICllW007191;
+ Wed, 5 Jan 2022 18:27:05 GMT
+Received: from ppma04wdc.us.ibm.com (1a.90.2fa9.ip4.static.sl-reverse.com
+ [169.47.144.26])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3dcpka4crb-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 05 Jan 2022 18:27:05 +0000
+Received: from pps.filterd (ppma04wdc.us.ibm.com [127.0.0.1])
+ by ppma04wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 205IMqCY006807;
+ Wed, 5 Jan 2022 18:27:05 GMT
+Received: from b01cxnp22035.gho.pok.ibm.com (b01cxnp22035.gho.pok.ibm.com
+ [9.57.198.25]) by ppma04wdc.us.ibm.com with ESMTP id 3daekb3j2q-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 05 Jan 2022 18:27:04 +0000
+Received: from b01ledav005.gho.pok.ibm.com (b01ledav005.gho.pok.ibm.com
+ [9.57.199.110])
+ by b01cxnp22035.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 205IR47s32244018
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 5 Jan 2022 18:27:04 GMT
+Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 2C8DCAE062;
+ Wed,  5 Jan 2022 18:27:04 +0000 (GMT)
+Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id BF17DAE06B;
+ Wed,  5 Jan 2022 18:27:01 +0000 (GMT)
+Received: from farman-thinkpad-t470p (unknown [9.211.71.239])
+ by b01ledav005.gho.pok.ibm.com (Postfix) with ESMTP;
+ Wed,  5 Jan 2022 18:27:01 +0000 (GMT)
+Message-ID: <aa11d65c8cb303b381c4e53aa948818b7b65a228.camel@linux.ibm.com>
+Subject: Re: [PATCH RFC v2] MAINTAINERS: split out s390x sections
+From: Eric Farman <farman@linux.ibm.com>
+To: Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
+ qemu-s390x@nongnu.org
+Date: Wed, 05 Jan 2022 13:27:00 -0500
+In-Reply-To: <20211222105548.356852-1-cohuck@redhat.com>
+References: <20211222105548.356852-1-cohuck@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5 (3.28.5-18.el8) 
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: XUbq-b0pz7EYJAlODGaTfz5frMnZxlJF
+X-Proofpoint-ORIG-GUID: EK3JqBN0rT1JNfu7akf_kKZXg8m3dITh
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::536
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::536;
- envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x536.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2022-01-05_05,2022-01-04_01,2021-12-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxlogscore=999 bulkscore=0
+ spamscore=0 impostorscore=0 adultscore=0 mlxscore=0 clxscore=1015
+ malwarescore=0 suspectscore=0 lowpriorityscore=0 priorityscore=1501
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2110150000 definitions=main-2201050118
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=farman@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,79 +110,198 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bin.meng@windriver.com>,
+Cc: Thomas Huth <thuth@redhat.com>, David Hildenbrand <david@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
- Ralf Ramsauer <ralf.ramsauer@oth-regensburg.de>, qemu-devel@nongnu.org,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Philippe =?ISO-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Wed, 2021-12-22 at 11:55 +0100, Cornelia Huck wrote:
+> Split out some more specialized devices etc., so that we can build
+> smarter lists of people to be put on cc: in the future.
+> 
+> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> Acked-by: David Hildenbrand <david@redhat.com>
+> Acked-by: Christian Borntraeger <borntraeger@de.ibm.com>
+> Acked-by: Thomas Huth <thuth@redhat.com>
+> Acked-by: Halil Pasic <pasic@linux.ibm.com>
+> Signed-off-by: Cornelia Huck <cohuck@redhat.com>
 
-"Schwarz, Konrad" <konrad.schwarz@siemens.com> writes:
+(Late to the party, Happy New Year!) I like the rearrangement:
 
->> -----Original Message-----
->> From: Richard Henderson <richard.henderson@linaro.org>
->> Sent: Tuesday, January 4, 2022 21:57
->> Subject: Re: [PATCH v2 1/5] RISC-V: larger and more consistent register =
-set for 'info registers'
->>=20
->> On 1/4/22 7:51 AM, Konrad Schwarz wrote:
->> >           static const int dump_csrs[] =3D {
->> > +
->> > +#  if 0
->> > +            CSR_USTATUS,
->> > +            CSR_UIE,
->> > +            CSR_UTVEC,
->>=20
->> Adding huge sections of #if 0 code is not acceptable.
->
-> I'm not sure on how to solve the dilemma of
->
-> * transgressing on QEMUs coding guidelines on the one side
->   (large sections of commented out code)
->
-> * having `info registers' output a huge swath of CSRs,
->   swamping the user and making the command impractical
->
-> I feel that providing some control at compile
-> time via `# if' conditional compilation is preferrable to just dumping
-> everything.  I could of course only list the CSRs that
-> are interesting to me, currently, but I thought it
-> would be better to list (almost) all of them and give at least
-> programmers an easy way to enable the blocks of CSRs
-> that are of interest to them.
->
-> Obviously, the best solution would be to extend the command to
-> add a filter argument, similar to GDB's `info registers'
-> (i.e. info registers XXX), but I don't know how to do that in QEMU and
-> it would work differently from other target architectures.
+Acked-by: Eric Farman <farman@linux.ibm.com>
 
-This is a problem that needs solving not only for "info registers" but
-also things like "-d cpu", gdbserver and (eventually) TCG plugins.
+Of course, you also said in v1:
 
-My (so far unrealised) vision is to have a architecture independent
-sub-system that we can register (sic) registers. The frontends would
-replace their existing qemu_log and gdbserver hooks with a group aware
-registering function to the sub-system. For example:
+"""
+- The new sections have inherited the maintainers of the sections
+  they have been split out of (except where people had already
+  volunteered). That's easy to change, obviously, and I hope that
+  the cc: list already contains people who might have interest in
+  volunteering for some sections.
+"""
 
-  register_reg("x0", REG_CORE, get_gen_reg, set_gen_reg, offsetof(CPUARMSta=
-te, xregs[0]))
-  register_reg(ri->name, REG_SYSTEM, get_cpreg, set_cpreg, ri);
+As someone on cc, I could volunteer to help with these sections:
 
-and so on. This would then provide a common point for the register value
-consumers to request values and sets. So we could have options like:
+S390 Machines
+-------------
+S390 Virtio-ccw
+S390 channel subsystem
 
-  (hmp) info registers fpu
-  -d cpu:pc
-  qemu_plugin_get_regset("x0-x7");
+Devices
+-------
+virtio-ccw
 
-and avoid having too much per-architecture special casing. I'd also like
-to get rid of custom gdb XML generation in the frontends (e.g.
-arm_gen_dynamic_svereg_xml) and make that common functionality.
+> ---
+> 
+> v1->v2: move some sections to "Devices", some minor tweaks
+> 
+> I guess that can go with the next set of s390x patches.
+> 
+> ---
+>  MAINTAINERS | 85 ++++++++++++++++++++++++++++++++++++++++++++++-----
+> --
+>  1 file changed, 74 insertions(+), 11 deletions(-)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 5dcefc0d012a..e4d88f7eb2ba 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -297,7 +297,6 @@ M: David Hildenbrand <david@redhat.com>
+>  S: Maintained
+>  F: target/s390x/
+>  F: target/s390x/tcg
+> -F: target/s390x/cpu_models_*.[ch]
+>  F: hw/s390x/
+>  F: disas/s390.c
+>  F: tests/tcg/s390x/
+> @@ -396,16 +395,10 @@ M: Halil Pasic <pasic@linux.ibm.com>
+>  M: Christian Borntraeger <borntraeger@linux.ibm.com>
+>  S: Supported
+>  F: target/s390x/kvm/
+> -F: target/s390x/ioinst.[ch]
+>  F: target/s390x/machine.c
+>  F: target/s390x/sigp.c
+> -F: target/s390x/cpu_features*.[ch]
+> -F: target/s390x/cpu_models.[ch]
+>  F: hw/s390x/pv.c
+>  F: include/hw/s390x/pv.h
+> -F: hw/intc/s390_flic.c
+> -F: hw/intc/s390_flic_kvm.c
+> -F: include/hw/s390x/s390_flic.h
+>  F: gdb-xml/s390*.xml
+>  T: git https://github.com/borntraeger/qemu.git s390-next
+>  L: qemu-s390x@nongnu.org
+> @@ -1529,12 +1522,8 @@ S390 Virtio-ccw
+>  M: Halil Pasic <pasic@linux.ibm.com>
+>  M: Christian Borntraeger <borntraeger@linux.ibm.com>
+>  S: Supported
+> -F: hw/char/sclp*.[hc]
+> -F: hw/char/terminal3270.c
+>  F: hw/s390x/
+>  F: include/hw/s390x/
+> -F: hw/watchdog/wdt_diag288.c
+> -F: include/hw/watchdog/wdt_diag288.h
+>  F: configs/devices/s390x-softmmu/default.mak
+>  F: tests/avocado/machine_s390_ccw_virtio.py
+>  T: git https://github.com/borntraeger/qemu.git s390-next
+> @@ -1559,6 +1548,37 @@ F: hw/s390x/s390-pci*
+>  F: include/hw/s390x/s390-pci*
+>  L: qemu-s390x@nongnu.org
+>  
+> +S390 channel subsystem
+> +M: Halil Pasic <pasic@linux.ibm.com>
+> +M: Christian Borntraeger <borntraeger@linux.ibm.com>
+> +S: Supported
+> +F: hw/s390x/ccw-device.[ch]
+> +F: hw/s390x/css.c
+> +F: hw/s390x/css-bridge.c
+> +F: include/hw/s390x/css.h
+> +F: include/hw/s390x/css-bridge.h
+> +F: include/hw/s390x/ioinst.h
+> +F: target/s390x/ioinst.c
+> +L: qemu-s390x@nongnu.org
+> +
+> +S390 CPU models
+> +M: David Hildenbrand <david@redhat.com>
+> +S: Maintained
+> +F: target/s390x/cpu_features*.[ch]
+> +F: target/s390x/cpu_models.[ch]
+> +L: qemu-s390x@nongnu.org
+> +
+> +S390 SCLP-backed devices
+> +M: Halil Pasic <pasic@linux.ibm.com>
+> +M: Christian Borntraeger <borntraeger@linux.ibm.com>
+> +S: Supported
+> +F: include/hw/s390x/event-facility.h
+> +F: include/hw/s390x/sclp.h
+> +F: hw/char/sclp*.[hc]
+> +F: hw/s390x/event-facility.c
+> +F: hw/s390x/sclp*.c
+> +L: qemu-s390x@nongnu.org
+> +
+>  X86 Machines
+>  ------------
+>  PC
+> @@ -1957,6 +1977,7 @@ M: Halil Pasic <pasic@linux.ibm.com>
+>  S: Supported
+>  F: hw/s390x/virtio-ccw*.[hc]
+>  F: hw/s390x/vhost-vsock-ccw.c
+> +F: hw/s390x/vhost-user-fs-ccw.c
+>  T: git https://gitlab.com/cohuck/qemu.git s390-next
+>  T: git https://github.com/borntraeger/qemu.git s390-next
+>  L: qemu-s390x@nongnu.org
+> @@ -2295,6 +2316,48 @@ F: hw/timer/mips_gictimer.c
+>  F: include/hw/intc/mips_gic.h
+>  F: include/hw/timer/mips_gictimer.h
+>  
+> +S390 3270 device
+> +M: Halil Pasic <pasic@linux.ibm.com>
+> +M: Christian Borntraeger <borntraeger@linux.ibm.com>
+> +S: Odd fixes
+> +F: include/hw/s390x/3270-ccw.h
+> +F: hw/char/terminal3270.c
+> +F: hw/s390x/3270-ccw.c
+> +L: qemu-s390x@nongnu.org
+> +
+> +S390 diag 288 watchdog
+> +M: Halil Pasic <pasic@linux.ibm.com>
+> +M: Christian Borntraeger <borntraeger@linux.ibm.com>
+> +S: Supported
+> +F: hw/watchdog/wdt_diag288.c
+> +F: include/hw/watchdog/wdt_diag288.h
+> +L: qemu-s390x@nongnu.org
+> +
+> +S390 storage key device
+> +M: Halil Pasic <pasic@linux.ibm.com>
+> +M: Christian Borntraeger <borntraeger@linux.ibm.com>
+> +S: Supported
+> +F: hw/s390x/storage-keys.h
+> +F: hw/390x/s390-skeys*.c
+> +L: qemu-s390x@nongnu.org
+> +
+> +S390 storage attribute device
+> +M: Halil Pasic <pasic@linux.ibm.com>
+> +M: Christian Borntraeger <borntraeger@linux.ibm.com>
+> +S: Supported
+> +F: hw/s390x/storage-attributes.h
+> +F: hw/s390/s390-stattrib*.c
+> +L: qemu-s390x@nongnu.org
+> +
+> +S390 floating interrupt controller
+> +M: Halil Pasic <pasic@linux.ibm.com>
+> +M: Christian Borntraeger <borntraeger@linux.ibm.com>
+> +M: David Hildenbrand <david@redhat.com>
+> +S: Supported
+> +F: hw/intc/s390_flic*.c
+> +F: include/hw/s390x/s390_flic.h
+> +L: qemu-s390x@nongnu.org
+> +
+>  Subsystems
+>  ----------
+>  Overall Audio backends
 
-> What would you suggest?
-
---=20
-Alex Benn=C3=A9e
 
