@@ -2,64 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5037E485308
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 13:51:10 +0100 (CET)
-Received: from localhost ([::1]:48202 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B960485329
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 14:02:46 +0100 (CET)
+Received: from localhost ([::1]:43886 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n55kv-0000WW-VV
-	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 07:51:06 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34228)
+	id 1n55wC-0001Kc-R5
+	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 08:02:44 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33810)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1n55ZI-0005ve-GA
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 07:39:06 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37882)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1n55XN-0003uw-W4
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 07:37:06 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:33060)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1n55ZG-0001Ap-Hp
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 07:39:03 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1n55XM-0000W9-4W
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 07:37:05 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641386340;
+ s=mimecast20190719; t=1641386223;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=yZvmcONTeYENbvzhOvUrjpy7NkZ4D9oQWSX1xoocbhI=;
- b=BeOtyTZF64uLgGFgX7ErqklJ4N/+oKgO8XAit2SbPnKPMh4Nd9zMnQnEck4u0fb52j8h3v
- lmqv0bl1vUMhPNvL+v9jeHnNQkD0hEZcLDmZuF1rIbNjNGmViYBOE5/aPwzIW0QEBLLlkF
- bZVKp0JfiRpjjoHvNG5NmkqSQLsLt7g=
+ bh=GFk5HJ9ux/N6KIcTp600+tVkXs6uUnZe2/t4sdasXOU=;
+ b=AYXoEmu9ocuY85ktf0o2SZN3Mx6IIhFt31GKNTcqB7cNVi6HYaEapHpMalWezaSm4V3HaK
+ kA77zf8sGbLSUNFxxcZpL6ktisYFdKAWu22AT/S22Ag1R/TcPYphIFvQkaP66MZgwm7Fca
+ X+z2x0Y+NfYh6sAy2ZUL1aWxCMn1Zbc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-490-iwZWU8V3P_u-UZXDbzknlQ-1; Wed, 05 Jan 2022 07:38:58 -0500
-X-MC-Unique: iwZWU8V3P_u-UZXDbzknlQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-283-9DRJ-JsZN8iNmcn8wSwLMQ-1; Wed, 05 Jan 2022 07:37:02 -0500
+X-MC-Unique: 9DRJ-JsZN8iNmcn8wSwLMQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 13C6E1926DA2;
- Wed,  5 Jan 2022 12:38:58 +0000 (UTC)
-Received: from localhost.localdomain.com (unknown [10.33.36.150])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 13C2A7316B;
- Wed,  5 Jan 2022 12:38:55 +0000 (UTC)
-From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 57CE785B660;
+ Wed,  5 Jan 2022 12:37:01 +0000 (UTC)
+Received: from thuth.com (dhcp-192-229.str.redhat.com [10.33.192.229])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8A8BC2376B;
+ Wed,  5 Jan 2022 12:37:00 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/1] softmmu: fix device deletion events with -device JSON
- syntax
-Date: Wed,  5 Jan 2022 12:38:47 +0000
-Message-Id: <20220105123847.4047954-2-berrange@redhat.com>
-In-Reply-To: <20220105123847.4047954-1-berrange@redhat.com>
-References: <20220105123847.4047954-1-berrange@redhat.com>
+Subject: [PULL 8/8] docs/tools/qemu-trace-stap.rst: Do not hard-code the QEMU
+ binary name
+Date: Wed,  5 Jan 2022 13:36:12 +0100
+Message-Id: <20220105123612.432038-9-thuth@redhat.com>
+In-Reply-To: <20220105123612.432038-1-thuth@redhat.com>
+References: <20220105123612.432038-1-thuth@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -80,117 +78,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Peter Krempa <pkrempa@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
- Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The -device JSON syntax impl leaks a reference on the created
-DeviceState instance. As a result when you hot-unplug the
-device, the device_finalize method won't be called and thus
-it will fail to emit the required DEVICE_DELETED event.
+In downstream, we want to use a different name for the QEMU binary,
+and some people might also use the docs for non-x86 binaries, that's
+why we already created the |qemu_system| placeholder in the past.
+Use it now in the stap trace doc, too.
 
-A 'json-cli' feature was previously added against the
-'device_add' QMP command QAPI schema to indicated to mgmt
-apps that -device supported JSON syntax. Given the hotplug
-bug that feature flag is no unusable for its purpose, so
-we add a new 'json-cli-hotplug' feature to indicate the
--device supports JSON without breaking hotplug.
-
-Fixes: https://gitlab.com/qemu-project/qemu/-/issues/802
-Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+Message-Id: <20220104103319.179870-1-thuth@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- qapi/qdev.json                 |  5 ++++-
- softmmu/vl.c                   |  4 +++-
- tests/qtest/device-plug-test.c | 19 +++++++++++++++++++
- 3 files changed, 26 insertions(+), 2 deletions(-)
+ docs/tools/qemu-trace-stap.rst | 24 ++++++++++++------------
+ 1 file changed, 12 insertions(+), 12 deletions(-)
 
-diff --git a/qapi/qdev.json b/qapi/qdev.json
-index 69656b14df..26cd10106b 100644
---- a/qapi/qdev.json
-+++ b/qapi/qdev.json
-@@ -44,6 +44,9 @@
- # @json-cli: If present, the "-device" command line option supports JSON
- #            syntax with a structure identical to the arguments of this
- #            command.
-+# @json-cli-hotplug: If present, the "-device" command line option supports JSON
-+#                    syntax without the reference counting leak that broke
-+#                    hot-unplug
- #
- # Notes:
- #
-@@ -74,7 +77,7 @@
- { 'command': 'device_add',
-   'data': {'driver': 'str', '*bus': 'str', '*id': 'str'},
-   'gen': false, # so we can get the additional arguments
--  'features': ['json-cli'] }
-+  'features': ['json-cli', 'json-cli-hotplug'] }
+diff --git a/docs/tools/qemu-trace-stap.rst b/docs/tools/qemu-trace-stap.rst
+index d53073b52b..2169ce5d17 100644
+--- a/docs/tools/qemu-trace-stap.rst
++++ b/docs/tools/qemu-trace-stap.rst
+@@ -46,19 +46,19 @@ The following commands are valid:
+   any of the listed names. If no *PATTERN* is given, the all possible
+   probes will be listed.
  
- ##
- # @device_del:
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index d9e4c619d3..b1fc7da104 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -2684,6 +2684,7 @@ static void qemu_create_cli_devices(void)
-     qemu_opts_foreach(qemu_find_opts("device"),
-                       device_init_func, NULL, &error_fatal);
-     QTAILQ_FOREACH(opt, &device_opts, next) {
-+        DeviceState *dev;
-         loc_push_restore(&opt->loc);
-         /*
-          * TODO Eventually we should call qmp_device_add() here to make sure it
-@@ -2692,7 +2693,8 @@ static void qemu_create_cli_devices(void)
-          * from the start, so call qdev_device_add_from_qdict() directly for
-          * now.
-          */
--        qdev_device_add_from_qdict(opt->opts, true, &error_fatal);
-+        dev = qdev_device_add_from_qdict(opt->opts, true, &error_fatal);
-+        object_unref(OBJECT(dev));
-         loc_pop(&opt->loc);
-     }
-     rom_reset_order_override();
-diff --git a/tests/qtest/device-plug-test.c b/tests/qtest/device-plug-test.c
-index 559d47727a..ad79bd4c14 100644
---- a/tests/qtest/device-plug-test.c
-+++ b/tests/qtest/device-plug-test.c
-@@ -77,6 +77,23 @@ static void test_pci_unplug_request(void)
-     qtest_quit(qtest);
- }
+-  For example, to list all probes available in the ``qemu-system-x86_64``
++  For example, to list all probes available in the |qemu_system|
+   binary:
  
-+static void test_pci_unplug_json_request(void)
-+{
-+    QTestState *qtest = qtest_initf(
-+        "-device '{\"driver\": \"virtio-mouse-pci\", \"id\": \"dev0\"}'");
-+
-+    /*
-+     * Request device removal. As the guest is not running, the request won't
-+     * be processed. However during system reset, the removal will be
-+     * handled, removing the device.
-+     */
-+    device_del(qtest, "dev0");
-+    system_reset(qtest);
-+    wait_device_deleted_event(qtest, "dev0");
-+
-+    qtest_quit(qtest);
-+}
-+
- static void test_ccw_unplug(void)
- {
-     QTestState *qtest = qtest_initf("-device virtio-balloon-ccw,id=dev0");
-@@ -145,6 +162,8 @@ int main(int argc, char **argv)
-      */
-     qtest_add_func("/device-plug/pci-unplug-request",
-                    test_pci_unplug_request);
-+    qtest_add_func("/device-plug/pci-unplug-json-request",
-+                   test_pci_unplug_json_request);
+-  ::
++  .. parsed-literal::
  
-     if (!strcmp(arch, "s390x")) {
-         qtest_add_func("/device-plug/ccw-unplug",
+-    $ qemu-trace-stap list qemu-system-x86_64
++    $ qemu-trace-stap list |qemu_system|
+ 
+   To filter the list to only cover probes related to QEMU's cryptographic
+   subsystem, in a binary outside ``$PATH``
+ 
+-  ::
++  .. parsed-literal::
+ 
+-    $ qemu-trace-stap list /opt/qemu/4.0.0/bin/qemu-system-x86_64 'qcrypto*'
++    $ qemu-trace-stap list /opt/qemu/|version|/bin/|qemu_system| 'qcrypto*'
+ 
+ .. option:: run OPTIONS BINARY PATTERN...
+ 
+@@ -90,26 +90,26 @@ The following commands are valid:
+     Restrict the tracing session so that it only triggers for the process
+     identified by *PID*.
+ 
+-  For example, to monitor all processes executing ``qemu-system-x86_64``
++  For example, to monitor all processes executing |qemu_system|
+   as found on ``$PATH``, displaying all I/O related probes:
+ 
+-  ::
++  .. parsed-literal::
+ 
+-    $ qemu-trace-stap run qemu-system-x86_64 'qio*'
++    $ qemu-trace-stap run |qemu_system| 'qio*'
+ 
+   To monitor only the QEMU process with PID 1732
+ 
+-  ::
++  .. parsed-literal::
+ 
+-    $ qemu-trace-stap run --pid=1732 qemu-system-x86_64 'qio*'
++    $ qemu-trace-stap run --pid=1732 |qemu_system| 'qio*'
+ 
+   To monitor QEMU processes running an alternative binary outside of
+   ``$PATH``, displaying verbose information about setup of the
+   tracing environment:
+ 
+-  ::
++  .. parsed-literal::
+ 
+-    $ qemu-trace-stap -v run /opt/qemu/4.0.0/qemu-system-x86_64 'qio*'
++    $ qemu-trace-stap -v run /opt/qemu/|version|/bin/|qemu_system| 'qio*'
+ 
+ See also
+ --------
 -- 
-2.33.1
+2.27.0
 
 
