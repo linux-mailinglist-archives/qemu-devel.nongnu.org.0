@@ -2,82 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28969485A6C
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 22:08:53 +0100 (CET)
-Received: from localhost ([::1]:40200 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A858485A6B
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 22:08:11 +0100 (CET)
+Received: from localhost ([::1]:38292 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5DWd-0001Y9-Fd
-	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 16:08:51 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56956)
+	id 1n5DVx-0000Fi-MO
+	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 16:08:09 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57020)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1n5DTT-0006ns-Oh
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 16:05:36 -0500
-Received: from [2a00:1450:4864:20::329] (port=51006
- helo=mail-wm1-x329.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1n5DTR-0007Zl-7i
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 16:05:35 -0500
-Received: by mail-wm1-x329.google.com with SMTP id m20so531622wmi.0
- for <qemu-devel@nongnu.org>; Wed, 05 Jan 2022 13:05:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=ndeK3Z9FYXsxTm42GFVYASZbFu/PSg504ILRvmsp7bY=;
- b=wEl/wRXLvu/aEk0U6OxsmrRcqDS6DzvafABul2z+Swv4z1OfphE3NsWtzEVxSzDW0G
- 4jKydR7AL0TQiWMsvcLMcUWOuOB1Rr7hlE0v1/ojch2IAwD0Cwc0BtWtG6zylZh6uyij
- 5UX+NrsK3Fdl7O94/d2dU8WRt7mpTVJNMGmrYv74fFXRx0rDl3VZfNadxX/XLrsXdwSN
- iyHhpUAQbZOMtrJJP8EKQTNRNhoOQJ0uZTaJfBsYzQ2kuiuWN/VPTKgivGxR9fVlKfgv
- 1mCP2SNTikAQ+DIkTEph/rtqfi3o5iNmJm0PkI7O0IXSeHuwS37b+nKVhBIWL2UlgpYZ
- VtPQ==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n5DTo-0007B3-8o
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 16:05:56 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:38130)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n5DTl-0000U6-7E
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 16:05:55 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1641416752;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Gt9QfIZN5rnZhKo0ZrWiiBh13c8FjXxFg5EJQO/Iz/Y=;
+ b=OC7Qj2EaQy7xnYh+Adg+dsiqoYhn9OFxVZe8TnGrZM5IaqDN52nITHFwl2ZdPAhrPGDZU4
+ HBsPjdv4PVXig9u6DdP59u9bmLBR7nM8mNMgWbjf4O3K647S56fYBUI55SdATwYd/NHEi2
+ Ixc19D3w7y8oqrkPSGhpPfkLQ3mB4qI=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-551-CoKWPDFZNiyi3zuZRgKRsw-1; Wed, 05 Jan 2022 16:05:50 -0500
+X-MC-Unique: CoKWPDFZNiyi3zuZRgKRsw-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ l17-20020a05600c1d1100b00345e7624489so14788wms.9
+ for <qemu-devel@nongnu.org>; Wed, 05 Jan 2022 13:05:50 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=ndeK3Z9FYXsxTm42GFVYASZbFu/PSg504ILRvmsp7bY=;
- b=lB9aqybPUE1heIlvVId0qYWNe6xdfPHP4IG7jJQNE/ozp4P78nGPUQ6Xf9zBYRCJLd
- wFvbyszWJBREdqY06d/f0Jcj6al+omvpn+idTghJkYoL9+D96zOt+Cu7dO1Nf8twMr2s
- HA+JmFOUnIRomz2aeJMFvS5bQbv+aIJQuxDiT6Uop3xwNuBqEqyehMXR9PzDUZ8UFgpb
- gGDGAWDPYl/SiyMHE4Y+DVzgSt5zDNyLypc0jqry8jGxknY17tF4AH5fEKt4mbiy0GX1
- 2AQ9IelQGDCBRvy9LsEdXRAps/YCQgwWE3exnHX2fOVTkI9lYtzorn4uLomHc24CWZdL
- yjiA==
-X-Gm-Message-State: AOAM533vlju6WAsw14WHF2sBShznF2xwWy2VpPcjtgXbnATOdlUTWJSM
- YKchQYPTA0YUN/VsTvXzTWpmag==
-X-Google-Smtp-Source: ABdhPJz56xheGJzEk6axb7Nd41X0s/CQASQJGT68ac56PBq5XuUFUCLjejmxt3ckjLRhr8aQ/b+KrA==
-X-Received: by 2002:a7b:c92a:: with SMTP id h10mr4391554wml.26.1641416730624; 
- Wed, 05 Jan 2022 13:05:30 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id b5sm78596wrr.19.2022.01.05.13.05.29
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=Gt9QfIZN5rnZhKo0ZrWiiBh13c8FjXxFg5EJQO/Iz/Y=;
+ b=AvItTsxscS3578awrs3npLvypp4kxZQKgsdmPMuws5fuWO4hwTgnOMRJqkFKzBESQ2
+ 5/L4b0jggegqw9jcyg9UUClkE5flWtcCH2hwSw7MUlf8fKags/QwYgliXqcK4E8H/tQ5
+ K2GzJK8myCUDsCGYZCaF44baYik6KphiD4aYY0JsIUA0QYNc+/9rrdgSUgXdL45PUpNZ
+ yvzZVDVLYXMewQYw87hWQJWpBiTTA3X035gOAEaEIraOmEu9hQcQZQNdMi3WyotPaVv1
+ jNRdCUaE1XNVtULyoJ6LIi2IfOVV147/tIXRc/B0fTh15/S1N662/b9oMTT4/Cn/Q7Vs
+ tgFQ==
+X-Gm-Message-State: AOAM533jS7cocIxW6eLul2AlsHgJK6q3/tHC69i71UL0njM8MDxm45MC
+ HO0gtWcEkrUJ3TMlOx7BxKGbjLIXD3gmajQpXQTserlq24wWTXC348cmY8wkxpzlN2nmK+nTLzf
+ g5A48R9ZwlyqZfb0=
+X-Received: by 2002:adf:fc02:: with SMTP id i2mr3469022wrr.330.1641416749394; 
+ Wed, 05 Jan 2022 13:05:49 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJz6q/CLYIv9kUu063pj8Lyrqt0vPW3gMa1BKQOqKPlsF/ttGKF9choe2PXTxFRT+wdirIla6A==
+X-Received: by 2002:adf:fc02:: with SMTP id i2mr3469009wrr.330.1641416749156; 
+ Wed, 05 Jan 2022 13:05:49 -0800 (PST)
+Received: from redhat.com ([2a03:c5c0:207e:991b:6857:5652:b903:a63b])
+ by smtp.gmail.com with ESMTPSA id u10sm81749wrs.28.2022.01.05.13.05.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Jan 2022 13:05:29 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id EDCAE1FFB7;
- Wed,  5 Jan 2022 21:05:28 +0000 (GMT)
-References: <87czl6jb79.fsf@linaro.org>
- <fbc66bb0-2c15-d789-bbaa-f9c3ba6f81e4@amsat.org>
-User-agent: mu4e 1.7.5; emacs 28.0.90
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: Trying to understand QOM object creation and property linking
-Date: Wed, 05 Jan 2022 21:02:25 +0000
-In-reply-to: <fbc66bb0-2c15-d789-bbaa-f9c3ba6f81e4@amsat.org>
-Message-ID: <87r19lj3l3.fsf@linaro.org>
+ Wed, 05 Jan 2022 13:05:48 -0800 (PST)
+Date: Wed, 5 Jan 2022 16:05:45 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Alex Williamson <alex.williamson@redhat.com>
+Subject: Re: [PATCH] vfio/pci: Generate more relevant log messages for reset
+ failures
+Message-ID: <20220105160400-mutt-send-email-mst@kernel.org>
+References: <164141259622.4193261.8252690438434562107.stgit@omen>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::329
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x329.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <164141259622.4193261.8252690438434562107.stgit@omen>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.372,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,127 +93,155 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>, Paolo Bonzini <pbonzini@redhat.com>,
- "Daniel P. Berrange" <berrange@redhat.com>, qemu-devel@nongnu.org,
- Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org, kraxel@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Wed, Jan 05, 2022 at 12:56:42PM -0700, Alex Williamson wrote:
+> The VFIO_DEVICE_RESET ioctl might be backed by several different reset
+> methods, including a device specific reset (ie. custom reset code in
+> kernel), an ACPI reset (ie. custom reset code in firmware), FLR, PM,
+> and bus resets.  This listing is also the default priority order used
+> by the kernel for trying reset methods.  Traditionally we've had some
+> FUD regarding the PM reset as the extent of a "Soft Reset" is not well
+> defined in the PCI specification.  Therefore we try to guess what type
+> of reset a device might use for the VFIO_DEVICE_RESET and insert a bus
+> reset via the vfio hot reset interface if we think it could be a PM
+> reset.
+> 
+> This results in a couple odd tests for PM reset in our hot reset code,
+> as we assume if we don't detect has_pm_reset support that we can't
+> reset the device otherwise.  Starting with kernel v5.15, the kernel
+> exposes a sysfs attribute for devices that can tell us the priority
+> order for device resets, so long term (not implemented here) we no
+> longer need to play this guessing game, and if permissions allow we
+> could manipulate the order ourselves so that we don't need to inject
+> our own hot reset.
+> 
+> In the shorter term, implemented here, let's not assume we're out of
+> reset methods if we can't perform a hot reset and the device doesn't
+> support PM reset.  We can use reset_works as the authority, which
+> allows us to generate more comprehensible error messages for the case
+> when it actually doesn't work.
+> 
+> The impetus for this change is a result of commit d5daff7d3126 ("pcie:
+> implement slot power control for pcie root ports"), where powering off
+> a slot now results in a device reset.  If the slot is powered off as a
+> result of qdev_unplug() via the device request event, that device
+> request is potentially the result of an unbind operation in the host.
+> That unbind operation holds the kernel device lock, which causes the
+> VFIO_DEVICE_RESET ioctl to fail (or in the case of some kernels, has
+> cleared the flag indicating support of a device reset function).  We
+> can then end up with an SR-IOV VF device trying to trigger a hot reset,
+> which finds that it needs ownership of the PF group to perform such a
+> reset, resulting in confusing log messages.
+> 
+> Ultimately the above commit still introduces a log message that we
+> didn't have prior on such an unplug, but it's not unjustified to
+> perform such a reset, though it might be considered unnecessary.
+> Arguably failure to reset the device should always generate some sort
+> of meaningful log message.
+> 
+> Signed-off-by: Alex Williamson <alex.williamson@redhat.com>
 
-Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> writes:
+Looks reasonable. Just an extra idea: do we want to maybe validate the
+return code from the ioctl? I assume it's something like EBUSY right?
+In any case better than what we have now:
 
-> Hi Alex,
->
-> On 5/1/22 19:03, Alex Benn=C3=A9e wrote:
->> Hi,
->> I'm having a hell of a time trying to create a new SoC+Board model
->> from
->> scratch. The problem comes down to trying to expose some properties to
->> the underlying CPU from my board model. So I have:
-<snip>
->> static void pipico_machine_init(MachineState *machine)
->> {
->>      PiPicoMachineState *s =3D PIPICO_MACHINE(machine);
->>      ...
->>      MemoryRegion *system_memory =3D get_system_memory();
-
-Hmm this memory is initialised by memory_region_init() so...
-
->>      ...
->>           /* initialize external Flash device */
->>      memory_region_init_rom(&s->flash, NULL,
->>                             "pico.flash0", 256 * KiB, &error_fatal);
->>      memory_region_add_subregion(system_memory, 0, &s->flash);
->>      /* Setup the SOC */
->>      object_initialize_child(OBJECT(machine), "soc", &s->soc, TYPE_RP204=
-0);
->>      /* link properties from machine the SoC needs */
->>      object_property_set_link(OBJECT(&s->soc), "memory",
->>                               OBJECT(system_memory), &error_fatal);
->>      sysbus_realize(SYS_BUS_DEVICE(&s->soc), &error_fatal);
->> The initialisation of the SoC is simple because I can't do much
->> until
->> things are realised:
->> static void rp2040_init(Object *obj)
->> {
->>      RP2040State *s =3D RP2040(obj);
->>      int n;
->>      fprintf(stderr, "%s: %p\n", __func__, obj);
->>      for (n =3D 0; n < RP2040_NCPUS; n++) {
->>          object_initialize_child(obj, "cpu[*]", &s->armv7m[n], TYPE_ARMV=
-7M);
->>          qdev_prop_set_string(DEVICE(&s->armv7m[n]), "cpu-type",
->>                               ARM_CPU_TYPE_NAME("cortex-m0"));
->
-> Here for each core you need to initialize a MemoryRegion container, ...
->
->>      }
->> }
->> However when I get to realize the SoC itself:
->> static void rp2040_realize(DeviceState *dev, Error **errp)
->> {
->>      RP2040State *s =3D RP2040(dev);
->>      Object *obj =3D OBJECT(dev);
->>      int n;
->>      if (!s->board_memory) {
->>          error_setg(errp, "%s: memory property was not set", __func__);
->>          return;
->>      }
->>      /* initialize internal 16 KB internal ROM */
->>      memory_region_init_rom(&s->rom, obj, "rp2040.rom0", 16 * KiB, errp);
->>      memory_region_add_subregion(s->board_memory, 0, &s->rom);
->>      /* SRAM (Main 256k bank + two 4k banks)*/
->>      memory_region_init_ram(&s->sram03, obj, "rp2040.sram03", 256 * KiB,=
- errp);
->>      memory_region_add_subregion(s->board_memory, RP2040_SRAM_BASE, &s->=
-sram03);
->>      memory_region_init_ram(&s->sram4, obj, "rp2040.sram4", 4 * KiB,
->> errp);
->>      memory_region_add_subregion(s->board_memory, RP2040_SRAM4_BASE, &s-=
->sram4);
->>      memory_region_init_ram(&s->sram5, obj, "rp2040.sram5", 4 * KiB,
->> errp);
->>      memory_region_add_subregion(s->board_memory, RP2040_SRAM5_BASE, &s-=
->sram5);
->>      ...
->>      for (n =3D 0; n < RP2040_NCPUS; n++) {
->>          /* DeviceState *cpudev =3D DEVICE(&s->armv7m[i]); */
->>          Object *cpuobj =3D OBJECT(&s->armv7m[n]);
->
-> then you add the board_memory in the per-CPU container as subregion,
-> ...
-
-Can't be added as a subregion to the container...
-
-  qemu-system-arm: ../../softmmu/memory.c:2538: memory_region_add_subregion=
-_common: Assertion `!subregion->container' failed.
-
->
->>          object_property_set_link(cpuobj, "memory",
->>                                   OBJECT(&s->board_memory), errp);
->
-> and finally each CPU links its container as its memory bus.
-
-So something like:
-
-        object_property_set_link(cpuobj, "memory", OBJECT(s->cpu_mem[n]), e=
-rrp);
-
-so the CPU sees the container with whatever particular set of memory
-regions you want to make visible to that CPU?
-
-<snip>
-
->> Follow-up questions, does only creating the main memory aliases as
->> part
->> of the SoC make sense? My rational is most of the memory is part of the
->> SoC not the board. I assume later RP2040 based boards may have different
->> flash configs or even external memory.
->> The current (messy) state of my tree can be seen at:
->>    https://gitlab.com/stsquad/qemu/-/commits/arm/picopi-rfc
->>=20
+Acked-by: Michael S. Tsirkin <mst@redhat.com>
 
 
---=20
-Alex Benn=C3=A9e
+
+> ---
+>  hw/vfio/pci.c |   44 ++++++++++++++++++++++++++++++++------------
+>  1 file changed, 32 insertions(+), 12 deletions(-)
+> 
+> diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
+> index 7b45353ce27f..ea697951556e 100644
+> --- a/hw/vfio/pci.c
+> +++ b/hw/vfio/pci.c
+> @@ -2224,7 +2224,7 @@ static int vfio_pci_hot_reset(VFIOPCIDevice *vdev, bool single)
+>      ret = ioctl(vdev->vbasedev.fd, VFIO_DEVICE_GET_PCI_HOT_RESET_INFO, info);
+>      if (ret && errno != ENOSPC) {
+>          ret = -errno;
+> -        if (!vdev->has_pm_reset) {
+> +        if (!vdev->vbasedev.reset_works) {
+>              error_report("vfio: Cannot reset device %s, "
+>                           "no available reset mechanism.", vdev->vbasedev.name);
+>          }
+> @@ -2270,7 +2270,7 @@ static int vfio_pci_hot_reset(VFIOPCIDevice *vdev, bool single)
+>          }
+>  
+>          if (!group) {
+> -            if (!vdev->has_pm_reset) {
+> +            if (!vdev->vbasedev.reset_works) {
+>                  error_report("vfio: Cannot reset device %s, "
+>                               "depends on group %d which is not owned.",
+>                               vdev->vbasedev.name, devices[i].group_id);
+> @@ -3162,6 +3162,8 @@ static void vfio_exitfn(PCIDevice *pdev)
+>  static void vfio_pci_reset(DeviceState *dev)
+>  {
+>      VFIOPCIDevice *vdev = VFIO_PCI(dev);
+> +    Error *err = NULL;
+> +    int ret;
+>  
+>      trace_vfio_pci_reset(vdev->vbasedev.name);
+>  
+> @@ -3175,26 +3177,44 @@ static void vfio_pci_reset(DeviceState *dev)
+>          goto post_reset;
+>      }
+>  
+> -    if (vdev->vbasedev.reset_works &&
+> -        (vdev->has_flr || !vdev->has_pm_reset) &&
+> -        !ioctl(vdev->vbasedev.fd, VFIO_DEVICE_RESET)) {
+> -        trace_vfio_pci_reset_flr(vdev->vbasedev.name);
+> -        goto post_reset;
+> +    if (vdev->vbasedev.reset_works && (vdev->has_flr || !vdev->has_pm_reset)) {
+> +        if (!ioctl(vdev->vbasedev.fd, VFIO_DEVICE_RESET)) {
+> +            trace_vfio_pci_reset_flr(vdev->vbasedev.name);
+> +            goto post_reset;
+> +        }
+> +
+> +        error_setg_errno(&err, errno, "Unable to reset device");
+>      }
+>  
+>      /* See if we can do our own bus reset */
+> -    if (!vfio_pci_hot_reset_one(vdev)) {
+> +    ret = vfio_pci_hot_reset_one(vdev);
+> +    if (!ret) {
+>          goto post_reset;
+>      }
+>  
+> +    if (!err) {
+> +        error_setg_errno(&err, -ret, "Unable to perform bus reset");
+> +    }
+> +
+>      /* If nothing else works and the device supports PM reset, use it */
+> -    if (vdev->vbasedev.reset_works && vdev->has_pm_reset &&
+> -        !ioctl(vdev->vbasedev.fd, VFIO_DEVICE_RESET)) {
+> -        trace_vfio_pci_reset_pm(vdev->vbasedev.name);
+> -        goto post_reset;
+> +    if (vdev->vbasedev.reset_works && vdev->has_pm_reset) {
+> +        /* Prefer to report the ioctl failure mode */
+> +        error_free(err);
+> +        err = NULL;
+> +
+> +        if (!ioctl(vdev->vbasedev.fd, VFIO_DEVICE_RESET)) {
+> +            trace_vfio_pci_reset_pm(vdev->vbasedev.name);
+> +            goto post_reset;
+> +        }
+> +
+> +        error_setg_errno(&err, errno, "Unable to reset device");
+>      }
+>  
+> +    warn_reportf_err(err, VFIO_MSG_PREFIX, vdev->vbasedev.name);
+> +    err = NULL;
+> +
+>  post_reset:
+> +    error_free(err);
+>      vfio_pci_post_reset(vdev);
+>  }
+>  
+> 
+
 
