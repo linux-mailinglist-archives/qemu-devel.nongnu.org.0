@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A396E485519
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 15:54:14 +0100 (CET)
-Received: from localhost ([::1]:59108 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCB0A4854C7
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 15:41:55 +0100 (CET)
+Received: from localhost ([::1]:34758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n57g5-0006uM-OF
-	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 09:54:13 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56156)
+	id 1n57UA-0005yu-RX
+	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 09:41:54 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52026)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1n574l-0001J5-BM
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 09:15:42 -0500
-Received: from [2a00:1450:4864:20::432] (port=41913
- helo=mail-wr1-x432.google.com)
+ id 1n56qI-0004iD-3i
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 09:00:43 -0500
+Received: from [2a00:1450:4864:20::42c] (port=38828
+ helo=mail-wr1-x42c.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1n574a-00082I-6E
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 09:15:37 -0500
-Received: by mail-wr1-x432.google.com with SMTP id v6so21612383wra.8
- for <qemu-devel@nongnu.org>; Wed, 05 Jan 2022 06:15:18 -0800 (PST)
+ id 1n56q8-0006TY-4W
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 09:00:38 -0500
+Received: by mail-wr1-x42c.google.com with SMTP id e5so83219665wrc.5
+ for <qemu-devel@nongnu.org>; Wed, 05 Jan 2022 06:00:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=WGLxwgFRPYMKnzIwGeKxONT31IWtB3S7Y1yFhg9IfIs=;
- b=qGuWjA8lT3+yVaZfPYBL5ZjaD2Lw5uPCv3lsOZtk24LURxeDJXmGMOX+0JeVAxjgbx
- OcYD0skv/6Xb24xqHK7DwJGqa1lHdzukgSLw9DzXK4QumrUY3f0xm/6a2lpHR6ois8Ge
- FD7ox54/qrNVKvrQ28ynsDnwrxok56yw1PU86jMzAiEPli99vS6HeZsRGRt9qU7/ktq+
- 3nWVU9Je/qT62WSzTWAi430RrLbXXcI7AeLsOPtZRy+U9+BY6OgwF7gEA/ErxXWLzsim
- n4z8I5ijRTYZjoccDGTj67PnvV0x8kAKZvszsteIX16bwcdomYUd8eIFvlQXi9/cTGhg
- 83VA==
+ bh=xpubTJRH9lTxGw7zAmxBhHX9d2pKsib5VDfaaD1dp9c=;
+ b=vXNwY/8+e4GOjaQueuQfscmRp5J6GTFZA6TqUK/JY6ajeELKh4ALcF+/HWqbR9+4iy
+ IG4Cw/71OX4SxARCX9bx8c5MooXEYkc7LS7w+qilxcM/VIODWfZ/0ymsmcTshU9wr0Ow
+ PyP/Ssbyo4S/GRHrxXLXF0VsFHzib4hBo8vMx2Uhl+QfY7Pe79oHTuBwdlnp5TIFttGt
+ aW7aSeh9eDwAw6sWNBtnXnfSNIdv9jS6V/XS5jKN6yv8dYRukMPEylIcBkN0Mws6jxZd
+ mZhZ7xbkHuJ6CzokBPDDbMLt96UZWcNPNQZzrnBYPToKms0um+6DfIBtT0Pudf5lusUT
+ GoWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=WGLxwgFRPYMKnzIwGeKxONT31IWtB3S7Y1yFhg9IfIs=;
- b=yf/HupUPc2/Fw4hPubTEsoZekgcrhzGXhvWEkfgvyvhnfpLvjNbqSgD1rn+Pj03Csy
- CjzYkBtgraiB40ugMpQU6ZXAfmuzXNkrQ5JFMCsd2ig0vunN/hMu+V1i1vZqAe2mGQK1
- Az4Rja3Uny8dhVhRK1MPCN7EIKLwSkAISL+jGFcokN0rihCsgVURZuxrg/6ViXGNGZXl
- WAyKf5JrhBZ99RHWbpfRNGrIveHwliEbGwNwiS9z5QBPe5Xh4RzceySmLStm1YFhcYlX
- X5hPLT55nJq4nZY/YkJ0KgYIwsvoYumFop80w7L/BHMQzNr857h67MVjpEhDmv1raxDh
- L+kw==
-X-Gm-Message-State: AOAM530zPsyUjzCRB01LNcMmn3tZdt/kpyquG/gv58w2AmmYkVcgaDqw
- JnmFhH6MFAaApJU3nnkYr7Paiw==
-X-Google-Smtp-Source: ABdhPJx9HtQGGyG/JcIuTfUoSweYIWvWuin/h2cP1tSvRBwqy4ZJvjFLU+68sEQ6j83qVNOTwjHUMw==
-X-Received: by 2002:a5d:6049:: with SMTP id j9mr45104476wrt.332.1641392117365; 
- Wed, 05 Jan 2022 06:15:17 -0800 (PST)
+ bh=xpubTJRH9lTxGw7zAmxBhHX9d2pKsib5VDfaaD1dp9c=;
+ b=ZjmkIwaudqtwTJvjdptytJ03Hp1OcalNO4Bt4PiuPmPGk7/2TGSp7L2eniZvVbVx+h
+ i8kf5+NNm/zu2uy0zQUzPZzd8vA0n2G4+bBp0isfrQz9dQcfJHlwesbZ2U4bxxw7tfRN
+ Y8GjlDGqV7xlumvSw1D/bKW0BI4c4izPstUPsTMgMbMIlN8LdAoywkVuzc3brvr9ke6N
+ jNkfT/8MwLsRGDoyhG2MiHARi4GRyCS2wExJpBMRKFvf73U6/d3NjpxGED4vs6Ujvui5
+ qoDyupAk2DT2/MUeNjQV7jRAbQ/yD7kVaMR5+yDXxn3kgDHDe1W/wOiW60fm1J161iRK
+ DcLg==
+X-Gm-Message-State: AOAM53195GpFwOGX/r2oSAfpOCDyg2vd3aq9M5viBbded7o0lwnBbLSc
+ YlVTDSoR0avcWh4edrXdrc+wFQ==
+X-Google-Smtp-Source: ABdhPJycihCLjw2NfYhR8S6ja1iislmAXkfmQD48Vs+sDk4SZ7jLc3BmWYwqlEvBM0SBNCYvX55+xA==
+X-Received: by 2002:a05:6000:1188:: with SMTP id
+ g8mr38357637wrx.134.1641391230244; 
+ Wed, 05 Jan 2022 06:00:30 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id k9sm41049434wro.80.2022.01.05.06.15.13
+ by smtp.gmail.com with ESMTPSA id v13sm579350wmh.45.2022.01.05.06.00.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Jan 2022 06:15:13 -0800 (PST)
+ Wed, 05 Jan 2022 06:00:19 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 89BF91FFC8;
+ by zen.linaroharston (Postfix) with ESMTP id A03591FFC9;
  Wed,  5 Jan 2022 13:50:10 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 16/34] tests/docker: fix sorting of alpine image package
- lists
-Date: Wed,  5 Jan 2022 13:49:51 +0000
-Message-Id: <20220105135009.1584676-17-alex.bennee@linaro.org>
+Subject: [PATCH  v1 17/34] tests/docker: fully expand the alpine package list
+Date: Wed,  5 Jan 2022 13:49:52 +0000
+Message-Id: <20220105135009.1584676-18-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220105135009.1584676-1-alex.bennee@linaro.org>
 References: <20220105135009.1584676-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::432
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42c
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x432.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -102,31 +102,125 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Daniel P. Berrangé <berrange@redhat.com>
 
-"python" sorts alphabetically after "py3-xxxx"
+Add many extra alpine packages to cover the various optional QEMU build
+dependencies pulled in by other dockerfiles.
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20211215141949.3512719-17-berrange@redhat.com>
+Message-Id: <20211215141949.3512719-18-berrange@redhat.com>
 ---
- tests/docker/dockerfiles/alpine.docker | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ tests/docker/dockerfiles/alpine.docker | 58 +++++++++++++++++++++++++-
+ 1 file changed, 57 insertions(+), 1 deletion(-)
 
 diff --git a/tests/docker/dockerfiles/alpine.docker b/tests/docker/dockerfiles/alpine.docker
-index 5a1808726e..ca4b3b58d2 100644
+index ca4b3b58d2..0ac30c8014 100644
 --- a/tests/docker/dockerfiles/alpine.docker
 +++ b/tests/docker/dockerfiles/alpine.docker
-@@ -35,9 +35,9 @@ ENV PACKAGES \
+@@ -7,11 +7,29 @@ RUN apk upgrade
+ # Please keep this list sorted alphabetically
+ ENV PACKAGES \
+ 	alsa-lib-dev \
++	attr-dev \
+ 	bash \
++	bc \
++	bzip2 \
++	bzip2-dev \
++	ca-certificates \
++	capstone-dev \
+ 	ccache \
++	cdrkit \
++	ceph-dev \
++	clang \
++	ctags \
+ 	curl-dev \
++	cyrus-sasl-dev \
++	dbus \
++	diffutils \
++	dtc-dev \
++	eudev-dev \
++	findutils \
+ 	g++ \
+ 	gcc \
++	gcovr \
++	gettext \
+ 	git \
+ 	glib-dev \
+ 	glib-static \
+@@ -20,34 +38,72 @@ ENV PACKAGES \
+ 	libaio-dev \
+ 	libbpf-dev \
+ 	libcap-ng-dev \
++	libdrm-dev \
++	libepoxy-dev \
+ 	libffi-dev \
++	libgcrypt-dev \
+ 	libjpeg-turbo-dev \
+ 	libnfs-dev \
+ 	libpng-dev \
+ 	libseccomp-dev \
++	libselinux-dev \
++	libslirp-dev \
+ 	libssh-dev \
++	libtasn1-dev \
++	liburing-dev \
+ 	libusb-dev \
+ 	libxml2-dev \
++	linux-pam-dev \
++	llvm11 \
++	lttng-ust-dev \
+ 	lzo-dev \
+ 	make \
+ 	mesa-dev \
+ 	meson \
++	multipath-tools \
  	ncurses-dev \
++	ndctl-dev \
++	net-tools \
++	nettle-dev \
++	nmap-ncat \
++	numactl-dev \
++	openssh-client \
++	pcre-dev \
  	perl \
++	perl-test-harness \
++	pixman-dev \
++	pkgconf \
  	pulseaudio-dev \
--	python3 \
++	py3-numpy \
++	py3-pillow \
++	py3-pip \
  	py3-sphinx \
  	py3-sphinx_rtd_theme \
-+	python3 \
++	py3-virtualenv \
++	py3-yaml \
+ 	python3 \
++	rpm2cpio \
  	samurai \
++	sdl2-dev \
++	sdl2_image-dev \
++	sed \
  	snappy-dev \
++	sparse \
  	spice-dev \
++	spice-protocol \
++	tar \
++	tesseract-ocr \
+ 	texinfo \
+ 	usbredir-dev \
++	util-linux \
+ 	vde2-dev \
+ 	virglrenderer-dev \
+ 	vte3-dev \
++	which \
++	xen-dev \
+ 	xfsprogs-dev \
+ 	zlib-dev \
+-	zlib-static
++	zlib-static \
++	zstd-dev
+ 
+ RUN apk add $PACKAGES
 -- 
 2.30.2
 
