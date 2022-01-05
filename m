@@ -2,60 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE0BB48512F
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 11:34:29 +0100 (CET)
-Received: from localhost ([::1]:34994 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97AA5485134
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 11:37:41 +0100 (CET)
+Received: from localhost ([::1]:41250 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n53ci-0000xD-S6
-	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 05:34:28 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33810)
+	id 1n53fo-00054a-Cq
+	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 05:37:40 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33858)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n53Sa-0000Hg-HO
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 05:24:00 -0500
-Received: from mout.kundenserver.de ([212.227.17.10]:59631)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n53Sg-0000L3-Ky
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 05:24:07 -0500
+Received: from mout.kundenserver.de ([212.227.17.13]:38855)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n53SY-0007TI-Ll
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 05:24:00 -0500
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n53Se-0007UM-0R
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 05:24:06 -0500
 Received: from [192.168.100.1] ([82.142.30.62]) by mrelayeu.kundenserver.de
  (mreue109 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1M3lgL-1n5KZY1wjz-000s3W; Wed, 05 Jan 2022 11:23:51 +0100
-Message-ID: <df922ec0-f469-b716-fec8-fb40421cb026@vivier.eu>
-Date: Wed, 5 Jan 2022 11:23:49 +0100
+ 1M8QNy-1n0dcH3mpE-004SqB; Wed, 05 Jan 2022 11:24:02 +0100
+Message-ID: <e83c75a1-a1c0-633e-f6ef-0842e5caaca2@vivier.eu>
+Date: Wed, 5 Jan 2022 11:24:00 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.4.0
-Subject: Re: [PATCH v2 2/7] linux-user/nios2: Fixes for signal frame setup
+Subject: Re: [PATCH v2 3/7] linux-user/elfload: Rename ARM_COMMPAGE to
+ HI_COMMPAGE
 Content-Language: fr
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20211221025012.1057923-1-richard.henderson@linaro.org>
- <20211221025012.1057923-3-richard.henderson@linaro.org>
+ <20211221025012.1057923-4-richard.henderson@linaro.org>
 From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <20211221025012.1057923-3-richard.henderson@linaro.org>
+In-Reply-To: <20211221025012.1057923-4-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:p4KkH9YtLJIiaGhHtr2IswE4c9aU8n7G1eQ0A/wONyT/KNtAbyf
- 51rIamX9TP1iPKDD/desWISF1+UcVrFzQ8QVUSgVgDJwl8Qz480WzTj4/CrIOEbQUpvjDju
- eUK91z0C7Cz0Ci3qvlg86ssEa8lo7cnsN6g6o/omdfHZ7NaMfO9LjnjWcAFdlw8MpZvqXye
- 8HqIitddjLlEvmbDGTA/Q==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:+YxaQ8yibFs=:T5bt8PEOUs7fb7VPNQpCD4
- +iRr7T6FKsf/dTilaazyOxgAavLYrEzASEPtHTbtFZtqlpKZa0ap8u01JDevfAE5hPDYjOGel
- 9xQncg5Jm9B8y1pxyJWr4Rx8uYyYjj//kMKbLTVztaFmdMgWn2Pj+dVvphzrc4TIep55BRdhN
- uM5RpRh5l4gMJJvgldv1dWlrwqQBLAN2szzZcfKFTCV3QIoKUYtBwYU4tPd7jGE8HpkSyOFUD
- DGYiRf2JJCGDTMndZ8p0Jcafhcx6IXy8DRWtvLDVfSkR2R+rC0Vvajglr/yIL/YotrNDib9NX
- aKMMRqcnUn2dmXb5CGyb4Gb4sH0SwC7s7oRr7KY0zKlIhuM0Xlk0U97iMHGsIx/ihts/kqJwa
- 5xHJPG/e3411akS8g53Wfo6Cn7TqJdsHNGdLZw+jiOQosnijiklTeTGl6S8yHZyqmmphv1epq
- lfmjjqORsW5IsJeYfp1O2a6aS0+wjpLgjI4b9WNUatB+edGk3qiY4+zt4iePBfh/dkWWuaBQ8
- wUz1315FGrmkrOoyBkGBx9yGe10taQ6eaoI94AfUSnJr1kWh+1OF7lxHlfzrIdR7ndiPfGl79
- E5WwZwIPJytJp0h4+wd6EusEoBA71TZAnjbvVMVhUXUU6VA7BFbEmmhj1bYeCtAUPwlCvx433
- mOQHbgziFsAG0zoi2iSgBWQ+KNOZh/u7/F4vfUSWsLMBnlaE/AhGxkDjKT0f+mKESSLM=
-Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:lcNIEtq6Uq71qO21QiXj0D8iGOgZ12ETMK+Prt9jfELKI1EyNvv
+ TkA5SADCA1eKzQAEZyAevrsUQeCzjr9+NCzA0ye2DzkebDckcl6NLsH9sHLTsmitUb2wskj
+ Y8nnkLRnWBqbVwbnFPWTOEUziV34St3Nad3HAu8gMZt1l9++cHXUwUsLA2oznncV7PSP16O
+ iDttF9GsAxJipVR6hF6xg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:5k/CMu1Evdw=:vfJnomAkOBXIi3oYDjLnih
+ oiwkk+RZYndqN6xp74o0ojA4TT/H4VS825MqkaR9WADBYHgjQhLchXyOeg+U/cnBDDZw10taO
+ qfWRYajrRcsZ77faelaGhCr98jE9AcrRRSXV6MvDGQc14fkixsuROYS0/MjCuy33Dy/YIv5Sj
+ 4ytSRmE75qu3Mb8hHOV/zT0gMR06yLPJrlmKbXzB2yKxMVZGkA6zFq2OAGJ49hnI5AQABQz+u
+ 8ItFGNltZBoDZC2b/QSzGX7tQ8vgO35NE31H6aH4//SkZCpT9DT7AAIYz5EFlaxieg+IDic4n
+ zA7uyI7SMrw+YFXNj1njIcHBUfwVr07Ksmk7bbjzlOGfFHCL4VD7aUYK8EN7cJhgjYQDYBrgk
+ DeWLNgQ3ZKcsX14mPhDlcjXxtCt1tJ6pVZfDNHqySEe3NLNLcXEWl3P7mXErtzZEzmucKHZmw
+ hlZ/3M5NpkFnKJ/jBjUjGb9KqM/QS9gn22N2HmTxusZwbHK+1wdA6Xp2oPYZQL+ZHumTkFT9+
+ x5enoLLP1L92pbweAPOFciw8naBHVeFKRJ4zCl7/iAcXpToSuWBZjrmL1qhxWnO+p+5JjdcSX
+ bUWklfF8eBBgMEzfnxeSspbWkx2TXV0uaYk67PE7WK2sdZsAWji16F55UFfUhVJtDe+rcxWKU
+ SxHDpv0pLbdLIu+Rnk4KEbDP8GR/AIZTIb7uRLgYv9R+frH9vu5QAooBATG8upCBJNy4=
+Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.057,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -69,137 +70,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Le 21/12/2021 à 03:50, Richard Henderson a écrit :
-> Do not confuse host and guest addresses.  Lock and unlock
-> the target_rt_sigframe structure in setup_rt_sigframe.
+> Arm will no longer be the only target requiring a commpage,
+> but it will continue to be the only target placing the page
+> at the high end of the address space.
 > 
-> Since rt_setup_ucontext always returns 0, drop the return
-> value entirely.  This eliminates the only write to the err
-> variable in setup_rt_sigframe.
-> 
-> Always copy the siginfo structure.
-> 
-> Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+> Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->   linux-user/nios2/signal.c | 49 ++++++++++++++++-----------------------
->   1 file changed, 20 insertions(+), 29 deletions(-)
+>   linux-user/elfload.c | 18 +++++++++---------
+>   1 file changed, 9 insertions(+), 9 deletions(-)
 > 
-> diff --git a/linux-user/nios2/signal.c b/linux-user/nios2/signal.c
-> index a77e8a40f4..adbffe32e3 100644
-> --- a/linux-user/nios2/signal.c
-> +++ b/linux-user/nios2/signal.c
-> @@ -42,7 +42,7 @@ struct target_rt_sigframe {
->       struct target_ucontext uc;
->   };
+> diff --git a/linux-user/elfload.c b/linux-user/elfload.c
+> index 767f54c76d..d34cd4fe43 100644
+> --- a/linux-user/elfload.c
+> +++ b/linux-user/elfload.c
+> @@ -390,11 +390,11 @@ enum {
 >   
-> -static int rt_setup_ucontext(struct target_ucontext *uc, CPUNios2State *env)
-> +static void rt_setup_ucontext(struct target_ucontext *uc, CPUNios2State *env)
+>   /* The commpage only exists for 32 bit kernels */
+>   
+> -#define ARM_COMMPAGE (intptr_t)0xffff0f00u
+> +#define HI_COMMPAGE (intptr_t)0xffff0f00u
+>   
+>   static bool init_guest_commpage(void)
 >   {
->       unsigned long *gregs = uc->tuc_mcontext.gregs;
+> -    void *want = g2h_untagged(ARM_COMMPAGE & -qemu_host_page_size);
+> +    void *want = g2h_untagged(HI_COMMPAGE & -qemu_host_page_size);
+>       void *addr = mmap(want, qemu_host_page_size, PROT_READ | PROT_WRITE,
+>                         MAP_ANONYMOUS | MAP_PRIVATE | MAP_FIXED, -1, 0);
 >   
-> @@ -75,8 +75,6 @@ static int rt_setup_ucontext(struct target_ucontext *uc, CPUNios2State *env)
->       __put_user(env->regs[R_GP], &gregs[25]);
->       __put_user(env->regs[R_EA], &gregs[27]);
->       __put_user(env->regs[R_SP], &gregs[28]);
-> -
-> -    return 0;
+> @@ -2160,8 +2160,8 @@ static abi_ulong create_elf_tables(abi_ulong p, int argc, int envc,
+>       return sp;
 >   }
 >   
->   static int rt_restore_ucontext(CPUNios2State *env, struct target_ucontext *uc,
-> @@ -135,8 +133,8 @@ static int rt_restore_ucontext(CPUNios2State *env, struct target_ucontext *uc,
->       return 0;
->   }
+> -#ifndef ARM_COMMPAGE
+> -#define ARM_COMMPAGE 0
+> +#ifndef HI_COMMPAGE
+> +#define HI_COMMPAGE 0
+>   #define init_guest_commpage() true
+>   #endif
 >   
-> -static void *get_sigframe(struct target_sigaction *ka, CPUNios2State *env,
-> -                          size_t frame_size)
-> +static abi_ptr get_sigframe(struct target_sigaction *ka, CPUNios2State *env,
-> +                            size_t frame_size)
->   {
->       unsigned long usp;
->   
-> @@ -144,7 +142,7 @@ static void *get_sigframe(struct target_sigaction *ka, CPUNios2State *env,
->       usp = target_sigsp(get_sp_from_cpustate(env), ka);
->   
->       /* Verify, is it 32 or 64 bit aligned */
-> -    return (void *)((usp - frame_size) & -8UL);
-> +    return (usp - frame_size) & -8;
->   }
->   
->   void setup_rt_frame(int sig, struct target_sigaction *ka,
-> @@ -153,26 +151,25 @@ void setup_rt_frame(int sig, struct target_sigaction *ka,
->                       CPUNios2State *env)
->   {
->       struct target_rt_sigframe *frame;
-> -    int i, err = 0;
-> +    abi_ptr frame_addr;
-> +    int i;
->   
-> -    frame = get_sigframe(ka, env, sizeof(*frame));
-> -
-> -    if (ka->sa_flags & SA_SIGINFO) {
-> -        tswap_siginfo(&frame->info, info);
-> +    frame_addr = get_sigframe(ka, env, sizeof(*frame));
-> +    if (!lock_user_struct(VERIFY_WRITE, frame, frame_addr, 0)) {
-> +        force_sigsegv(sig);
-> +        return;
+> @@ -2361,7 +2361,7 @@ static void pgb_static(const char *image_name, abi_ulong orig_loaddr,
 >       }
 >   
-> +    tswap_siginfo(&frame->info, info);
-> +
->       /* Create the ucontext.  */
->       __put_user(0, &frame->uc.tuc_flags);
->       __put_user(0, &frame->uc.tuc_link);
->       target_save_altstack(&frame->uc.tuc_stack, env);
-> -    err |= rt_setup_ucontext(&frame->uc, env);
-> +    rt_setup_ucontext(&frame->uc, env);
->       for (i = 0; i < TARGET_NSIG_WORDS; i++) {
->           __put_user((abi_ulong)set->sig[i],
-> -            (abi_ulong *)&frame->uc.tuc_sigmask.sig[i]);
-> -    }
-> -
-> -    if (err) {
-> -        goto give_sigsegv;
-> +                   (abi_ulong *)&frame->uc.tuc_sigmask.sig[i]);
+>       loaddr &= -align;
+> -    if (ARM_COMMPAGE) {
+> +    if (HI_COMMPAGE) {
+>           /*
+>            * Extend the allocation to include the commpage.
+>            * For a 64-bit host, this is just 4GiB; for a 32-bit host we
+> @@ -2372,14 +2372,14 @@ static void pgb_static(const char *image_name, abi_ulong orig_loaddr,
+>           if (sizeof(uintptr_t) == 8 || loaddr >= 0x80000000u) {
+>               hiaddr = (uintptr_t) 4 << 30;
+>           } else {
+> -            offset = -(ARM_COMMPAGE & -align);
+> +            offset = -(HI_COMMPAGE & -align);
+>           }
 >       }
 >   
->       /* Set up to return from userspace; jump to fixed address sigreturn
-> @@ -180,19 +177,13 @@ void setup_rt_frame(int sig, struct target_sigaction *ka,
->       env->regs[R_RA] = (unsigned long) (0x1044);
+>       addr = pgb_find_hole(loaddr, hiaddr - loaddr, align, offset);
+>       if (addr == -1) {
+>           /*
+> -         * If ARM_COMMPAGE, there *might* be a non-consecutive allocation
+> +         * If HI_COMMPAGE, there *might* be a non-consecutive allocation
+>            * that can satisfy both.  But as the normal arm32 link base address
+>            * is ~32k, and we extend down to include the commpage, making the
+>            * overhead only ~96k, this is unlikely.
+> @@ -2400,7 +2400,7 @@ static void pgb_dynamic(const char *image_name, long align)
+>        * All we need is a commpage that satisfies align.
+>        * If we do not need a commpage, leave guest_base == 0.
+>        */
+> -    if (ARM_COMMPAGE) {
+> +    if (HI_COMMPAGE) {
+>           uintptr_t addr, commpage;
 >   
->       /* Set up registers for signal handler */
-> -    env->regs[R_SP] = (unsigned long) frame;
-> -    env->regs[4] = (unsigned long) sig;
-> -    env->regs[5] = (unsigned long) &frame->info;
-> -    env->regs[6] = (unsigned long) &frame->uc;
-> -    env->regs[R_EA] = (unsigned long) ka->_sa_handler;
-> -    return;
-> +    env->regs[R_SP] = frame_addr;
-> +    env->regs[4] = sig;
-> +    env->regs[5] = frame_addr + offsetof(struct target_rt_sigframe, info);
-> +    env->regs[6] = frame_addr + offsetof(struct target_rt_sigframe, uc);
-> +    env->regs[R_EA] = ka->_sa_handler;
->   
-> -give_sigsegv:
-> -    if (sig == TARGET_SIGSEGV) {
-> -        ka->_sa_handler = TARGET_SIG_DFL;
-> -    }
-> -    force_sigsegv(sig);
-> -    return;
-> +    unlock_user_struct(frame, frame_addr, 1);
->   }
->   
->   long do_sigreturn(CPUNios2State *env)
-
+>           /* 64-bit hosts should have used reserved_va. */
+> @@ -2410,7 +2410,7 @@ static void pgb_dynamic(const char *image_name, long align)
+>            * By putting the commpage at the first hole, that puts guest_base
+>            * just above that, and maximises the positive guest addresses.
+>            */
+> -        commpage = ARM_COMMPAGE & -align;
+> +        commpage = HI_COMMPAGE & -align;
+>           addr = pgb_find_hole(commpage, -commpage, align, 0);
+>           assert(addr != -1);
+>           guest_base = addr;
 
 Applied to my linux-user-for-7.0 branch.
 
 Thanks,
 Laurent
+
 
