@@ -2,90 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 791F748523A
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 13:04:53 +0100 (CET)
-Received: from localhost ([::1]:51496 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 933D7485240
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 13:05:30 +0100 (CET)
+Received: from localhost ([::1]:53284 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n552C-0005ra-1V
-	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 07:04:52 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54440)
+	id 1n552n-00077B-ED
+	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 07:05:29 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55054)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1n54y4-0004t2-6I
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 07:00:39 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36932)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1n54zq-0005dC-4q
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 07:02:50 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39209)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1n54xz-0002JK-94
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 07:00:32 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1n54zn-0002k2-9E
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 07:02:24 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641384029;
+ s=mimecast20190719; t=1641384142;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=HdcG1nnwMvh3mt8sV+1CnT/zj4F3MiOiUjlO99Slmmg=;
- b=h2OOfbhbuozGbamWf5jGLmz4haIifSKSkx0KnzVN9w2mK49U6p7MihGtkqr2MAwBPOCkbO
- cE3HwI7dGKpbMKyHCO4fncp9d/19+60RHI1x5FDMNxEITkk4obWuYH0dcIVkalJx5okg7p
- 7jKHWB630Kd9/hrH2APGO2LpwsASwxQ=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Py9B8/1HYVcSMc5+b1ZPgfN+YXDV2tpUtShM5iqoP7I=;
+ b=awhzCg/SHgauP/8LFZSBGBC37vNPJbQH1xAIMPSJr2bQK8KCzDUI/u/a6YbyRhnO2bFfGP
+ 5cWfiJ1eHmg0pme0T+K+5uVTyMOmdP4gQRRanR44wOOcKK0W60E0gJBXiueZf/w2NBiEDq
+ TR7ZZ9mmNVX3pkcMU2QQpPHC6DkeYbg=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-553-qzRDizJ9PmenzNCb6qomRQ-1; Wed, 05 Jan 2022 07:00:28 -0500
-X-MC-Unique: qzRDizJ9PmenzNCb6qomRQ-1
-Received: by mail-wr1-f70.google.com with SMTP id
- v1-20020adfc5c1000000b001a37fd2fa2dso3488794wrg.22
- for <qemu-devel@nongnu.org>; Wed, 05 Jan 2022 04:00:28 -0800 (PST)
+ us-mta-166-MJFKh_fuNsKa9dihbPlmOw-1; Wed, 05 Jan 2022 07:02:21 -0500
+X-MC-Unique: MJFKh_fuNsKa9dihbPlmOw-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ d6-20020adfa346000000b001a262748c6fso12455556wrb.12
+ for <qemu-devel@nongnu.org>; Wed, 05 Jan 2022 04:02:21 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=HdcG1nnwMvh3mt8sV+1CnT/zj4F3MiOiUjlO99Slmmg=;
- b=uUkmuejmERsmbMB1QzGhEuODp2dPp6JCp0YB3vYP74q5M+s36rxCTnap89XOEp9xIR
- r1s6Hcob7LZQGRi1TnbjhA6/LjvmBzSRopPjTuqyErDUV02fzyuHvHZRuFRftEI+w5Me
- CJexNisFAfUcRGgQXTmPdNVjK4v4pRVSAWXRLEa43WVXCt+TmlurLsMdWwcPSpUjYf2h
- ivkRlGI6hs4plnAPyBNMPL/lUaQZkEjZIMfrdBPYAXOEszSBEr84XIT36324WbCbpCW2
- kzDKVcgBqBjape6/NICPOps2+465r81BIT3S8Hpa+9EdX9BLroIzdI7mbrxzkjCdqTX8
- TYSA==
-X-Gm-Message-State: AOAM530Fq/RDw4Ufj5SdSwTWk/jOnrl9yYbwOe4u0vGbVtOdp6/V2a5V
- O4zBZWQxCmDMlLMsweI6UIjzHegZtnPTdcF6YgxTpG1LIVi0c4uyJjS3ukf4rgMBRPMwHwS7B+f
- JLRszQLU6/xRYEG4=
-X-Received: by 2002:adf:e645:: with SMTP id b5mr28216441wrn.462.1641384027693; 
- Wed, 05 Jan 2022 04:00:27 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwQb9LlwtqP/q+qyPowoetQ3Ywp7Y0nu98ldQk8CCIADJg4JqL13aVJcusVzmhK5kSQNQ5uww==
-X-Received: by 2002:adf:e645:: with SMTP id b5mr28216427wrn.462.1641384027526; 
- Wed, 05 Jan 2022 04:00:27 -0800 (PST)
-Received: from steredhat (host-79-51-11-180.retail.telecomitalia.it.
- [79.51.11.180])
- by smtp.gmail.com with ESMTPSA id p15sm2303882wmj.46.2022.01.05.04.00.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Jan 2022 04:00:27 -0800 (PST)
-Date: Wed, 5 Jan 2022 13:00:24 +0100
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: =?utf-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>
-Subject: Re: [PATCH] optionrom: Turn off -fcf-protection
-Message-ID: <20220105120024.eisp4nebq7pqf6ly@steredhat>
-References: <20220103090112.312202-1-bjorn@kernel.org>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=Py9B8/1HYVcSMc5+b1ZPgfN+YXDV2tpUtShM5iqoP7I=;
+ b=hygCpY4HqTcIxFNzlk23QYFoj0HmUZ64T9e+picjCuAj1rxIpu6nWZpN+kkx/WQANR
+ YdbaSrZRg+9Os7mM8002MFUVIyzYSnKtQybWTgxZHbn4FGN/0GK3+oCYqcn4Gc2Uu+4G
+ z4lI+UUT9vQzRXi/YUxHJSwlLcPUcJAORaSeoWnfkTQ7h+/B3aTLcjUEpDMzA7nXTciQ
+ VDDa5ZdJMUlEE7iGv0s3HQysJFtyupbTsq16h1SatBdOpYE6cmQGU5AOoAtEFQHYHWGF
+ Mx9fBmRBdNL/raUe3wk9201JhaP7vwR2fnoaFndTFzzfwxyHxteorkXtB3BhmSO/2uLh
+ AgOg==
+X-Gm-Message-State: AOAM53132Zn+A7VEet0oBkCOGmWOBH4eCfxrMha280PH+JegUdSz5jU2
+ aPa258r/+A0UXLh+9wXoXx/8GIx7ql7s/KBPr5hPRjtEOsc+Bw/yuSJ1VkWB44L97uYd6AWomqi
+ e6pY7xqt7kS3h/K0=
+X-Received: by 2002:a05:6000:15c2:: with SMTP id
+ y2mr47292536wry.202.1641384140382; 
+ Wed, 05 Jan 2022 04:02:20 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyvvEryrqT/j1zc9ZmK+fejayV5WCqzlLhhfnwY5KyoMJRrwQyte+94QcnWHvEmt0qAUl/2Zg==
+X-Received: by 2002:a05:6000:15c2:: with SMTP id
+ y2mr47292496wry.202.1641384139850; 
+ Wed, 05 Jan 2022 04:02:19 -0800 (PST)
+Received: from [10.33.192.229] (nat-pool-str-t.redhat.com. [149.14.88.106])
+ by smtp.gmail.com with ESMTPSA id c7sm46051980wri.21.2022.01.05.04.02.19
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 05 Jan 2022 04:02:19 -0800 (PST)
+Message-ID: <08880339-e513-034e-18d1-651d9f36a8f2@redhat.com>
+Date: Wed, 5 Jan 2022 13:02:18 +0100
 MIME-Version: 1.0
-In-Reply-To: <20220103090112.312202-1-bjorn@kernel.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH 5/6] docs/qdev-device-use: Add CanoKey to QDEV devices
+ examples
+To: "Hongren (Zenithal) Zheng" <i@zenithal.me>, qemu-devel@nongnu.org
+References: <YcSt+qozrl+J8ool@Sun> <YcSvRf+YjukL8Mlp@Sun>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <YcSvRf+YjukL8Mlp@Sun>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=sgarzare@redhat.com;
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.372,
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.372,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-1.057, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,35 +101,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+Cc: Gerd Hoffmann <kraxel@redhat.com>, contact@canokeys.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-CCing Paolo
+On 23/12/2021 18.17, Hongren (Zenithal) Zheng wrote:
+> Signed-off-by: Hongren (Zenithal) Zheng <i@zenithal.me>
+> ---
+>   docs/qdev-device-use.txt | 1 +
+>   1 file changed, 1 insertion(+)
+> 
+> diff --git a/docs/qdev-device-use.txt b/docs/qdev-device-use.txt
+> index 2408889334..278fb66c0a 100644
+> --- a/docs/qdev-device-use.txt
+> +++ b/docs/qdev-device-use.txt
+> @@ -342,6 +342,7 @@ The new way is -device DEVNAME,DEV-OPTS...  Details depend on DRIVER:
+>   * tablet          -device usb-tablet
+>   * wacom-tablet    -device usb-wacom-tablet
+>   * u2f             -device u2f-{emulated,passthru}
+> +* canokey         -device canokey
+>   * braille         See "Character Devices"
 
-On Mon, Jan 03, 2022 at 10:01:12AM +0100, Björn Töpel wrote:
->Ubuntu GCC enables -fcf-protection globally, which is not supported
->for x86 16-bit (realmode). This causes the build to fail.
->
->This commit turns off that option.
->
->Signed-off-by: Björn Töpel <bjorn@kernel.org>
->---
-> pc-bios/optionrom/Makefile | 1 +
-> 1 file changed, 1 insertion(+)
->
->diff --git a/pc-bios/optionrom/Makefile b/pc-bios/optionrom/Makefile
->index 5d55d25acca2..c5f5fa02ef06 100644
->--- a/pc-bios/optionrom/Makefile
->+++ b/pc-bios/optionrom/Makefile
->@@ -21,6 +21,7 @@ override CFLAGS += $(filter -W%, $(QEMU_CFLAGS))
-> override CFLAGS += $(CFLAGS_NOPIE) -ffreestanding -I$(TOPSRC_DIR)/include
-> override CFLAGS += $(call cc-option, -fno-stack-protector)
-> override CFLAGS += $(call cc-option, -m16)
->+override CFLAGS += $(call cc-option, -fcf-protection=none)
+Please drop this patch. The list here is only about legacy USB device usage 
+with the "-usbdevice" parameter, but since there never was and never will be 
+a "-usbdevice canokey", there is no need to add an entry here.
 
-LGTM!
-
-Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
+  Thomas
 
 
