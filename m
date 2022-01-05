@@ -2,88 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37404485A8C
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 22:18:04 +0100 (CET)
-Received: from localhost ([::1]:47980 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4A2D485B42
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 23:04:53 +0100 (CET)
+Received: from localhost ([::1]:50708 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5DfW-0007VS-Q1
-	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 16:18:02 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58970)
+	id 1n5EOq-0002xq-Pl
+	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 17:04:52 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59996)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n5Dc3-0005MV-UB
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 16:14:28 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:46639)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n5Dbw-00062F-NI
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 16:14:26 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641417259;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ONsG7DRoO6uq1S6/vcW0ccNEbLbV//wEK4iHgyh5ssA=;
- b=eiHWXh0JPJZh00VNP6B7SdIJI57e+Ii6qrZSDopC5iXU57gC3mXRz/c0dANpf7waAJoVkc
- fN0iuCeYHi6VBprJtZnbx1yW5QfHk5xeTDG+J/diZH3o2j8n+fXyOATC4a7ji3Ur/KiHMT
- bemBJflHpdCq5lop3hXQRCCWAvUrxXw=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-669-hWMxfR6TNs-1hVHyRfVdAw-1; Wed, 05 Jan 2022 16:14:17 -0500
-X-MC-Unique: hWMxfR6TNs-1hVHyRfVdAw-1
-Received: by mail-wm1-f72.google.com with SMTP id
- l20-20020a05600c1d1400b003458e02cea0so2384466wms.7
- for <qemu-devel@nongnu.org>; Wed, 05 Jan 2022 13:14:16 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <agarwal.aakarshit13@gmail.com>)
+ id 1n5Dg9-0008TS-Iw
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 16:18:41 -0500
+Received: from [2a00:1450:4864:20::22f] (port=42770
+ helo=mail-lj1-x22f.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <agarwal.aakarshit13@gmail.com>)
+ id 1n5Dg7-0006x4-HW
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 16:18:41 -0500
+Received: by mail-lj1-x22f.google.com with SMTP id q8so857324ljp.9
+ for <qemu-devel@nongnu.org>; Wed, 05 Jan 2022 13:18:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:from:date:message-id:subject:to;
+ bh=SluVmR7Fs/trTBclQLpW3E8eiIEa8he8QqbsNo8wu04=;
+ b=Kj8AliP5uGab8ESAXKN/vrnn/KgSo2aGvkXj0wqVbHFZdFtaSXDkMDZOEvkDjeX95T
+ 4Iy7AOtS5l0Z6xNezbNPWNnn5mu7/pelNVaBa4yJIjupL70DhhY9JJE4EK7iTpQSkayn
+ anypnXn5NzsctzgHZARVn55Gt+ufPwuHv59veeeJgSXlxtlsDbhgq4mtH3Vifbqrdgdw
+ ULfY2AQS70Wk3/pwsVocwHFZe+sTHs0aXZ0buCJMSn1CXTYox8jFKGNJf+pawMCWxNRP
+ LelWTlQyxXxOds/2P+JSm3IpJIBVqpvGxi4ziaEe1RnKkiX/ho+NXnWzVA+V5vZ82PA9
+ BzHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=ONsG7DRoO6uq1S6/vcW0ccNEbLbV//wEK4iHgyh5ssA=;
- b=dnPUtTNIgp4tZVTRDihkHQn9Ahbq3Y+1G09ACfhcIF4/OulVrWEZd0wEkE+3dhllH1
- 4HJYb518MQPluSAH9RCeYBA4h6RjGz6YvBjHxc1iI/qUQEsl+M2Ztt13ClQeZ8p5+6IM
- ED7/0TMCB7xXO4/MxB9DlbHgjhCpf9R4mxMx+4evv7ah7cRyYs5ndnxS5CDN2DEoifTR
- W4ROwucAXKeH3CudXkz5nXJUckAnGJ4MR90kHmD5o1j7gKMfqT4cijJwFPoBqxXybBwK
- TzJ1KS0YZ7veMnUvo7oEZSkQZLZmBYr7xlaI1Y83BHLdJpUyLj7o/6L6DuSqVaU8MwOO
- uiGQ==
-X-Gm-Message-State: AOAM532EjV4kKhglIOEeUfkoTZhTWt/bE4aQvjXwyQjHRyTxucNvgabr
- Sp4ejNlRuhgyMWtYPxPdjD9feQr6S4Bf6RDYo9Zoh/Nw+acVWflr0D7I1ebi8bvi4TW3NQiAB89
- x6bskuBhZhAdBeqo=
-X-Received: by 2002:a5d:46d0:: with SMTP id g16mr50564272wrs.624.1641417255771; 
- Wed, 05 Jan 2022 13:14:15 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyv1+s/Fy8QGDf1RXDpAe4JyRP5OiyK+fWSUvmj4w9MscDfvfOzyXLbfFFNuN8qZXSkgSTnwQ==
-X-Received: by 2002:a5d:46d0:: with SMTP id g16mr50564237wrs.624.1641417255501; 
- Wed, 05 Jan 2022 13:14:15 -0800 (PST)
-Received: from redhat.com ([2a03:c5c0:207e:991b:6857:5652:b903:a63b])
- by smtp.gmail.com with ESMTPSA id q8sm87551wrx.59.2022.01.05.13.14.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Jan 2022 13:14:14 -0800 (PST)
-Date: Wed, 5 Jan 2022 16:14:09 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Steven Sistare <steven.sistare@oracle.com>
-Subject: Re: [PATCH V7 19/29] vfio-pci: cpr part 1 (fd and dma)
-Message-ID: <20220105161046-mutt-send-email-mst@kernel.org>
-References: <1640199934-455149-1-git-send-email-steven.sistare@oracle.com>
- <1640199934-455149-20-git-send-email-steven.sistare@oracle.com>
- <20211222181003-mutt-send-email-mst@kernel.org>
- <f1cadf51-795b-200c-8abb-f8f97b34c228@oracle.com>
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=SluVmR7Fs/trTBclQLpW3E8eiIEa8he8QqbsNo8wu04=;
+ b=VMV3I3IAQJSMtIsTHE1SJwWUyBmEe+ib0225IVM/aI7Mytg5AYOkZlAmp9BSGyfl7+
+ dsdR/nuoHuXcCedTodgXbOoyV7Avlkv+K52Tvr3nH0Xgczid5AB6N5PPyVRxkYyeVV5i
+ NADT06NT+XqgFHN5dC3uwPC6OahTicXIkviaOzZ+Ca1iYX8kLgWMk2RGqvJw3b4/xUG/
+ kmz3GzXxuELMGZRoxaGGf0B2vR+4oos532ICS8vO7wNtVhd0LUwCsHayzgVdCOMxvNsF
+ iwAIiUgnXw006ttw94N4Bxv6QwCN3rI7m86BnfCJPBdhz3VZq/qBXNgiffgRzLQaKYPq
+ FuGw==
+X-Gm-Message-State: AOAM532taIVF0wZETrOpwpOCOLyaXBrCOldKRCzZQ4tMBNTk0NWp1Hd/
+ g3DZ2OxMCerm1Q1OixUYxq6p/xy9BV0PfLuNSqeFElFyI7x/fw==
+X-Google-Smtp-Source: ABdhPJxv/sPH12kJ0mVx8X42t/P4Hurpss0X6nh7/+THQWkaTB52UZX5WKOYZkcAuu4IHnA9Av5FUxadezF+GQH4ffM=
+X-Received: by 2002:a2e:9011:: with SMTP id h17mr42315462ljg.528.1641417516340; 
+ Wed, 05 Jan 2022 13:18:36 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <f1cadf51-795b-200c-8abb-f8f97b34c228@oracle.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.372,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+From: Aakarshit Agarwal <agarwal.aakarshit13@gmail.com>
+Date: Thu, 6 Jan 2022 02:48:25 +0530
+Message-ID: <CALiXuoZkFzY5hLJoshwH-U=mjLssgnjGsxKOY1tSJE=k-QDhqA@mail.gmail.com>
+Subject: How to get started with contribution for GSOC'22
+To: qemu-devel@nongnu.org
+Content-Type: multipart/alternative; boundary="000000000000fd659605d4dc4be9"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::22f
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::22f;
+ envelope-from=agarwal.aakarshit13@gmail.com; helo=mail-lj1-x22f.google.com
+X-Spam_score_int: 25
+X-Spam_score: 2.5
+X-Spam_bar: ++
+X-Spam_report: (2.5 / 5.0 requ) BAYES_40=-0.001, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_IMAGE_ONLY_08=1.651,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_REMOTE_IMAGE=0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Wed, 05 Jan 2022 17:00:05 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,150 +79,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P. Berrange" <berrange@redhat.com>,
- Juan Quintela <quintela@redhat.com>, Jason Zeng <jason.zeng@linux.intel.com>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
- Eric Blake <eblake@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Zheng Chuan <zhengchuan@huawei.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jan 05, 2022 at 12:24:21PM -0500, Steven Sistare wrote:
-> On 12/22/2021 6:15 PM, Michael S. Tsirkin wrote:
-> > On Wed, Dec 22, 2021 at 11:05:24AM -0800, Steve Sistare wrote:
-> >> Enable vfio-pci devices to be saved and restored across an exec restart
-> >> of qemu.
-> >>
-> >> At vfio creation time, save the value of vfio container, group, and device
-> >> descriptors in cpr state.
-> >>
-> >> In cpr-save and cpr-exec, suspend the use of virtual addresses in DMA
-> >> mappings with VFIO_DMA_UNMAP_FLAG_VADDR, because guest ram will be remapped
-> >> at a different VA after exec.  DMA to already-mapped pages continues.  Save
-> >> the msi message area as part of vfio-pci vmstate, save the interrupt and
-> >> notifier eventfd's in cpr state, and clear the close-on-exec flag for the
-> >> vfio descriptors.  The flag is not cleared earlier because the descriptors
-> >> should not persist across miscellaneous fork and exec calls that may be
-> >> performed during normal operation.
-> >>
-> >> On qemu restart, vfio_realize() finds the saved descriptors, uses
-> >> the descriptors, and notes that the device is being reused.  Device and
-> >> iommu state is already configured, so operations in vfio_realize that
-> >> would modify the configuration are skipped for a reused device, including
-> >> vfio ioctl's and writes to PCI configuration space.  The result is that
-> >> vfio_realize constructs qemu data structures that reflect the current
-> >> state of the device.  However, the reconstruction is not complete until
-> >> cpr-load is called. cpr-load loads the msi data and finds eventfds in cpr
-> >> state.  It rebuilds vector data structures and attaches the interrupts to
-> >> the new KVM instance.  cpr-load then invokes the main vfio listener callback,
-> >> which walks the flattened ranges of the vfio_address_spaces and calls
-> >> VFIO_DMA_MAP_FLAG_VADDR to inform the kernel of the new VA's.  Lastly, it
-> >> starts the VM and suppresses vfio pci device reset.
-> >>
-> >> This functionality is delivered by 3 patches for clarity.  Part 1 handles
-> >> device file descriptors and DMA.  Part 2 adds eventfd and MSI/MSI-X vector
-> >> support.  Part 3 adds INTX support.
-> >>
-> >> Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
-> >> ---
-> >>  MAINTAINERS                   |   1 +
-> >>  hw/pci/pci.c                  |  10 ++++
-> >>  hw/vfio/common.c              | 115 ++++++++++++++++++++++++++++++++++++++----
-> >>  hw/vfio/cpr.c                 |  94 ++++++++++++++++++++++++++++++++++
-> >>  hw/vfio/meson.build           |   1 +
-> >>  hw/vfio/pci.c                 |  77 ++++++++++++++++++++++++++++
-> >>  hw/vfio/trace-events          |   1 +
-> >>  include/hw/pci/pci.h          |   1 +
-> >>  include/hw/vfio/vfio-common.h |   8 +++
-> >>  include/migration/cpr.h       |   3 ++
-> >>  migration/cpr.c               |  10 +++-
-> >>  migration/target.c            |  14 +++++
-> >>  12 files changed, 324 insertions(+), 11 deletions(-)
-> >>  create mode 100644 hw/vfio/cpr.c
-> >>
-> >> diff --git a/MAINTAINERS b/MAINTAINERS
-> >> index cfe7480..feed239 100644
-> >> --- a/MAINTAINERS
-> >> +++ b/MAINTAINERS
-> >> @@ -2992,6 +2992,7 @@ CPR
-> >>  M: Steve Sistare <steven.sistare@oracle.com>
-> >>  M: Mark Kanda <mark.kanda@oracle.com>
-> >>  S: Maintained
-> >> +F: hw/vfio/cpr.c
-> >>  F: include/migration/cpr.h
-> >>  F: migration/cpr.c
-> >>  F: qapi/cpr.json
-> >> diff --git a/hw/pci/pci.c b/hw/pci/pci.c
-> >> index 0fd21e1..e35df4f 100644
-> >> --- a/hw/pci/pci.c
-> >> +++ b/hw/pci/pci.c
-> >> @@ -307,6 +307,16 @@ static void pci_do_device_reset(PCIDevice *dev)
-> >>  {
-> >>      int r;
-> >>  
-> >> +    /*
-> >> +     * A reused vfio-pci device is already configured, so do not reset it
-> >> +     * during qemu_system_reset prior to cpr-load, else interrupts may be
-> >> +     * lost.  By contrast, pure-virtual pci devices may be reset here and
-> >> +     * updated with new state in cpr-load with no ill effects.
-> >> +     */
-> >> +    if (dev->reused) {
-> >> +        return;
-> >> +    }
-> >> +
-> >>      pci_device_deassert_intx(dev);
-> >>      assert(dev->irq_state == 0);
-> >>  
-> > 
-> > 
-> > Hmm that's a weird thing to do. I suspect this works because
-> > "reused" means something like "in the process of being restored"?
-> > Because clearly, we do not want to skip this part e.g. when
-> > guest resets the device.
-> 
-> Exactly.  vfio_realize sets the flag if it detects the device is reused during
-> a restart, and vfio_pci_post_load clears the reused flag.
-> 
-> > So a better name could be called for, but really I don't
-> > love how vfio gets to poke at internal PCI state.
-> > I'd rather we found a way just not to call this function.
-> > If we can't, maybe an explicit API, and make it
-> > actually say what it's doing?
-> 
-> How about:
-> 
-> pci_set_restore(PCIDevice *dev) { dev->restore = true; }
-> pci_clr_restore(PCIDevice *dev) { dev->restore = false; }
-> 
-> vfio_realize()
->   pci_set_restore(pdev)
-> 
-> vfio_pci_post_load()
->   pci_clr_restore(pdev)
-> 
-> pci_do_device_reset()
->     if (dev->restore)
->         return;
-> 
-> - Steve
+--000000000000fd659605d4dc4be9
+Content-Type: text/plain; charset="UTF-8"
 
+Hello Sir/Ma'am,
 
-Not too bad. I'd like a better definition of what dev->restore is
-exactly and to add them in comments near where it
-is defined and used.
+I am Aakarshit Agarwal, final year student pursuing B.Tech in computer
+science with a specialization in DevOps from UPES Dehradun. I love the
+topic and technologies you used for GSoC'21. I would love to contribute to
+your organization for GSoC'22 and know more about it.
 
-E.g. does this mean "device is being restored because of qemu restart"?
+Can you please tell me how to get started?
 
-Do we need a per device flag for this thing or would a global
-"qemu restart in progress" flag be enough?
+Hoping to hear from you soon.
 
--- 
-MST
+Regards,
+Aakarshit Agarwal
 
+--000000000000fd659605d4dc4be9
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Hello Sir/Ma&#39;am,<div><br></div><div>I am Aakarshit Aga=
+rwal, final year student pursuing B.Tech in computer science with a special=
+ization in DevOps from UPES Dehradun. I love the topic and technologies you=
+ used for=C2=A0GSoC&#39;21. I would love to contribute to your organization=
+ for GSoC&#39;22 and know more about it.=C2=A0</div><div><br></div><div>Can=
+ you please tell me how to get started?</div><div><br></div><div>Hoping=C2=
+=A0to hear from you soon.</div><div><br></div><div>Regards,</div><div>Aakar=
+shit Agarwal</div><br><br><br><img width=3D"0" height=3D"0" class=3D"mailtr=
+ack-img" alt=3D"" style=3D"display:flex" src=3D"https://mailtrack.io/trace/=
+mail/0c38526512abf746d053fb2f251e180aa63b4b9a.png?u=3D8054074"></div>
+
+--000000000000fd659605d4dc4be9--
 
