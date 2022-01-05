@@ -2,72 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3C2B4855C7
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 16:23:46 +0100 (CET)
-Received: from localhost ([::1]:34340 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9B5B485566
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 16:06:28 +0100 (CET)
+Received: from localhost ([::1]:54454 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n588f-00075a-CW
-	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 10:23:45 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58704)
+	id 1n57rv-0006am-T2
+	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 10:06:27 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36158)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1n57Fy-00010Z-0h
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 09:27:16 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:33631)
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1n57bV-000131-5r
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 09:49:31 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60937)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1n57Fv-0001XH-Cv
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 09:27:12 -0500
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1n57bN-0004ej-Ct
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 09:49:27 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641392829;
+ s=mimecast20190719; t=1641394157;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=jgzr176F9gFLOQ+qzvEVllgnP14gFhzn4TQnawrJplg=;
- b=LzVhn2hzQy05xZXOEF3IJeQvyjqVK2HSSvvfboWlcaSLRa9sTz8+EJ5AhSPgdrEYBErCI+
- kKcse7R666O+p8qcXqDIlNlgpMDoNc2ITPixmE+OoyAirqHlV2O0Zr+BUPWEGkN5vlvXp6
- vDLzuA/Vb/G/gE97dhHWNQeBLdQzPbA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=203XPLtgu56Wjg/pexNuosqGyvEX0Oj8fnyh1FO6hQs=;
+ b=Sldh0ICHncjoj3Rc3RRPZY+e3AGLtkoKoAhRNHRGfsQFUlZoedWojupio5SQZGQyqQ3eFe
+ pW1BhAiLMTBPdJGH5cnQ995FFAhON+62ioKSdHY7UNVyXEA3a/XsJVjitcFyxSsXfxrE/Z
+ c1rnHSrI1YLOzQniFBKQo21bldBMYRY=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-169-pTqLyFHgPe2N1c1XU6SiNg-1; Wed, 05 Jan 2022 09:27:05 -0500
-X-MC-Unique: pTqLyFHgPe2N1c1XU6SiNg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 95B59190D340;
- Wed,  5 Jan 2022 14:27:04 +0000 (UTC)
-Received: from localhost (unknown [10.2.17.57])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 859F05DD0D;
- Wed,  5 Jan 2022 14:26:56 +0000 (UTC)
-Date: Wed, 5 Jan 2022 14:26:55 +0000
-From: "Richard W.M. Jones" <rjones@redhat.com>
-To: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
-Subject: Re: [PATCH  v1 20/34] tests/docker: add libfuse3 development headers
-Message-ID: <20220105142655.GS1127@redhat.com>
-References: <20220105135009.1584676-1-alex.bennee@linaro.org>
- <20220105135009.1584676-21-alex.bennee@linaro.org>
+ us-mta-93-ph7EqVz0MBO63xBDjhaPew-1; Wed, 05 Jan 2022 09:49:16 -0500
+X-MC-Unique: ph7EqVz0MBO63xBDjhaPew-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ 83-20020a1c0256000000b00346a78f8fd7so1120376wmc.8
+ for <qemu-devel@nongnu.org>; Wed, 05 Jan 2022 06:49:15 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=203XPLtgu56Wjg/pexNuosqGyvEX0Oj8fnyh1FO6hQs=;
+ b=gIAGsC2dN3T7xkU8F7SLcQX2VlzLjuJGEjPctFYwkEy1YcSCBs5WKrBUc4AhA8N5Yt
+ O0S5PxwADe8phAnEIGISjGFPZdCkUHVABNs9Ne3FolTzZH5A10pYzbXkI0JkIHoRTKIE
+ LqLZFXHtwtssu/qwb1dG1J4Nz673nn3M0dSVIKxrciOx9U7hZ/zazBkPA3+SiVbpGOeM
+ XRVU7VNI46G7xKDn9O7UHYXPtdpumr4GYVhMwF34toQf8jRwCK2zoFgR77YAhG1ScW14
+ y9m+Jz8lJtu6V8G5OGL0gnV0RK6KdhUhJGGoztIg1Y6LnSYc2CigQR43JhyHYKhe+TUd
+ 47UQ==
+X-Gm-Message-State: AOAM533Jlm/MfOxoGsJpOkMhyzTlL5s8gmevIBr0frDbUy33R7zh1375
+ 4u5o1VNxJ02fc4Rqg8/zNd/JiBhGZFd6MJlIsWLa4lxm+NAh0RmAg9Y7ZaO7trPnCowZXzf4u3G
+ XJ+529ogLZXIAmWA=
+X-Received: by 2002:a5d:64a2:: with SMTP id m2mr46927591wrp.102.1641394154830; 
+ Wed, 05 Jan 2022 06:49:14 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwahZ+DzJ5fPoskDzLEEQDi+/sSgnhamrQhJaqm2b5sBpWlsehia9EHnc1E2KQ62RSD4894kg==
+X-Received: by 2002:a5d:64a2:: with SMTP id m2mr46927567wrp.102.1641394154576; 
+ Wed, 05 Jan 2022 06:49:14 -0800 (PST)
+Received: from [192.168.100.42] ([82.142.12.178])
+ by smtp.gmail.com with ESMTPSA id u14sm40459097wrf.39.2022.01.05.06.49.13
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 05 Jan 2022 06:49:14 -0800 (PST)
+Message-ID: <a2a94c4c-190f-9be6-eadf-bd1404a2e272@redhat.com>
+Date: Wed, 5 Jan 2022 15:49:12 +0100
 MIME-Version: 1.0
-In-Reply-To: <20220105135009.1584676-21-alex.bennee@linaro.org>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH 1/1] softmmu: fix device deletion events with -device JSON
+ syntax
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20220105123847.4047954-1-berrange@redhat.com>
+ <20220105123847.4047954-2-berrange@redhat.com>
+From: Laurent Vivier <lvivier@redhat.com>
+In-Reply-To: <20220105123847.4047954-2-berrange@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=rjones@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lvivier@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=rjones@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=lvivier@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.372,
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.372,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-1.057, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,125 +103,124 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, Thomas Huth <thuth@redhat.com>, berrange@redhat.com,
- Beraldo Leal <bleal@redhat.com>, qemu-devel@nongnu.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>, f4bug@amsat.org,
- Hanna Reitz <hreitz@redhat.com>, stefanha@redhat.com, crosa@redhat.com,
- pbonzini@redhat.com, aurelien@aurel32.net
+Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
+ Thomas Huth <thuth@redhat.com>, Peter Krempa <pkrempa@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jan 05, 2022 at 01:49:55PM +0000, Alex Bennée wrote:
-> From: Stefan Hajnoczi <stefanha@redhat.com>
+On 05/01/2022 13:38, Daniel P. BerrangÃ© wrote:
+> The -device JSON syntax impl leaks a reference on the created
+> DeviceState instance. As a result when you hot-unplug the
+> device, the device_finalize method won't be called and thus
+> it will fail to emit the required DEVICE_DELETED event.
 > 
-> The FUSE exports feature is not built because most container images do
-> not have libfuse3 development headers installed. Add the necessary
-> packages to the Dockerfiles.
+> A 'json-cli' feature was previously added against the
+> 'device_add' QMP command QAPI schema to indicated to mgmt
+> apps that -device supported JSON syntax. Given the hotplug
+> bug that feature flag is no unusable for its purpose, so
+
+Not sure to understand: do you mean "now unusable"?
+
+> we add a new 'json-cli-hotplug' feature to indicate the
+> -device supports JSON without breaking hotplug.
 > 
-> Cc: Hanna Reitz <hreitz@redhat.com>
-> Cc: Richard W.M. Jones <rjones@redhat.com>
-> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> Acked-by: Richard W.M. Jones <rjones@redhat.com>
-> Reviewed-by: Beraldo Leal <bleal@redhat.com>
-> Tested-by: Beraldo Leal <bleal@redhat.com>
-> Message-Id: <20211207160025.52466-1-stefanha@redhat.com>
-> [AJB: migrate to lcitool qemu.yml and regenerate]
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-
-
-I checked all the package names and they look good, so:
-
-Reviewed-by: Richard W.M. Jones <rjones@redhat.com>
-
-Rich.
-
->  tests/docker/dockerfiles/alpine.docker        | 1 +
->  tests/docker/dockerfiles/centos8.docker       | 1 +
->  tests/docker/dockerfiles/fedora.docker        | 1 +
->  tests/docker/dockerfiles/opensuse-leap.docker | 1 +
->  tests/docker/dockerfiles/ubuntu2004.docker    | 1 +
->  tests/lcitool/projects/qemu.yml               | 1 +
->  6 files changed, 6 insertions(+)
+> Fixes: https://gitlab.com/qemu-project/qemu/-/issues/802
+> Signed-off-by: Daniel P. BerrangÃ© <berrange@redhat.com>
+> ---
+>   qapi/qdev.json                 |  5 ++++-
+>   softmmu/vl.c                   |  4 +++-
+>   tests/qtest/device-plug-test.c | 19 +++++++++++++++++++
+>   3 files changed, 26 insertions(+), 2 deletions(-)
 > 
-> diff --git a/tests/docker/dockerfiles/alpine.docker b/tests/docker/dockerfiles/alpine.docker
-> index 97c7a88d1f..eb2251c81c 100644
-> --- a/tests/docker/dockerfiles/alpine.docker
-> +++ b/tests/docker/dockerfiles/alpine.docker
-> @@ -29,6 +29,7 @@ RUN apk update && \
->          dtc-dev \
->          eudev-dev \
->          findutils \
-> +        fuse3-dev \
->          g++ \
->          gcc \
->          gcovr \
-> diff --git a/tests/docker/dockerfiles/centos8.docker b/tests/docker/dockerfiles/centos8.docker
-> index 3c62b62a99..cbb909d02b 100644
-> --- a/tests/docker/dockerfiles/centos8.docker
-> +++ b/tests/docker/dockerfiles/centos8.docker
-> @@ -30,6 +30,7 @@ RUN dnf update -y && \
->          device-mapper-multipath-devel \
->          diffutils \
->          findutils \
-> +        fuse3-devel \
->          gcc \
->          gcc-c++ \
->          genisoimage \
-> diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/dockerfiles/fedora.docker
-> index 6784878b56..60207f3da3 100644
-> --- a/tests/docker/dockerfiles/fedora.docker
-> +++ b/tests/docker/dockerfiles/fedora.docker
-> @@ -37,6 +37,7 @@ exec "$@"' > /usr/bin/nosync && \
->          device-mapper-multipath-devel \
->          diffutils \
->          findutils \
-> +        fuse3-devel \
->          gcc \
->          gcc-c++ \
->          gcovr \
-> diff --git a/tests/docker/dockerfiles/opensuse-leap.docker b/tests/docker/dockerfiles/opensuse-leap.docker
-> index 5510bdf19c..f57d8cfb29 100644
-> --- a/tests/docker/dockerfiles/opensuse-leap.docker
-> +++ b/tests/docker/dockerfiles/opensuse-leap.docker
-> @@ -22,6 +22,7 @@ RUN zypper update -y && \
->             dbus-1 \
->             diffutils \
->             findutils \
-> +           fuse3-devel \
->             gcc \
->             gcc-c++ \
->             gcovr \
-> diff --git a/tests/docker/dockerfiles/ubuntu2004.docker b/tests/docker/dockerfiles/ubuntu2004.docker
-> index 40402b91fe..4e562dfdcd 100644
-> --- a/tests/docker/dockerfiles/ubuntu2004.docker
-> +++ b/tests/docker/dockerfiles/ubuntu2004.docker
-> @@ -46,6 +46,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
->              libepoxy-dev \
->              libfdt-dev \
->              libffi-dev \
-> +            libfuse3-dev \
->              libgbm-dev \
->              libgcrypt20-dev \
->              libglib2.0-dev \
-> diff --git a/tests/lcitool/projects/qemu.yml b/tests/lcitool/projects/qemu.yml
-> index 2e2271510e..ed5ab1407a 100644
-> --- a/tests/lcitool/projects/qemu.yml
-> +++ b/tests/lcitool/projects/qemu.yml
-> @@ -18,6 +18,7 @@ packages:
->   - diffutils
->   - dtrace
->   - findutils
-> + - fuse3
->   - g++
->   - gcc
->   - gcovr
-> -- 
-> 2.30.2
+> diff --git a/qapi/qdev.json b/qapi/qdev.json
+> index 69656b14df..26cd10106b 100644
+> --- a/qapi/qdev.json
+> +++ b/qapi/qdev.json
+> @@ -44,6 +44,9 @@
+>   # @json-cli: If present, the "-device" command line option supports JSON
+>   #            syntax with a structure identical to the arguments of this
+>   #            command.
+> +# @json-cli-hotplug: If present, the "-device" command line option supports JSON
+> +#                    syntax without the reference counting leak that broke
+> +#                    hot-unplug
+>   #
+>   # Notes:
+>   #
+> @@ -74,7 +77,7 @@
+>   { 'command': 'device_add',
+>     'data': {'driver': 'str', '*bus': 'str', '*id': 'str'},
+>     'gen': false, # so we can get the additional arguments
+> -  'features': ['json-cli'] }
+> +  'features': ['json-cli', 'json-cli-hotplug'] }
+>   
+>   ##
+>   # @device_del:
+> diff --git a/softmmu/vl.c b/softmmu/vl.c
+> index d9e4c619d3..b1fc7da104 100644
+> --- a/softmmu/vl.c
+> +++ b/softmmu/vl.c
+> @@ -2684,6 +2684,7 @@ static void qemu_create_cli_devices(void)
+>       qemu_opts_foreach(qemu_find_opts("device"),
+>                         device_init_func, NULL, &error_fatal);
+>       QTAILQ_FOREACH(opt, &device_opts, next) {
+> +        DeviceState *dev;
+>           loc_push_restore(&opt->loc);
+>           /*
+>            * TODO Eventually we should call qmp_device_add() here to make sure it
+> @@ -2692,7 +2693,8 @@ static void qemu_create_cli_devices(void)
+>            * from the start, so call qdev_device_add_from_qdict() directly for
+>            * now.
+>            */
+> -        qdev_device_add_from_qdict(opt->opts, true, &error_fatal);
+> +        dev = qdev_device_add_from_qdict(opt->opts, true, &error_fatal);
+> +        object_unref(OBJECT(dev));
+>           loc_pop(&opt->loc);
+>       }
+>       rom_reset_order_override();
+> diff --git a/tests/qtest/device-plug-test.c b/tests/qtest/device-plug-test.c
+> index 559d47727a..ad79bd4c14 100644
+> --- a/tests/qtest/device-plug-test.c
+> +++ b/tests/qtest/device-plug-test.c
+> @@ -77,6 +77,23 @@ static void test_pci_unplug_request(void)
+>       qtest_quit(qtest);
+>   }
+>   
+> +static void test_pci_unplug_json_request(void)
+> +{
+> +    QTestState *qtest = qtest_initf(
+> +        "-device '{\"driver\": \"virtio-mouse-pci\", \"id\": \"dev0\"}'");
+> +
+> +    /*
+> +     * Request device removal. As the guest is not running, the request won't
+> +     * be processed. However during system reset, the removal will be
+> +     * handled, removing the device.
+> +     */
+> +    device_del(qtest, "dev0");
+> +    system_reset(qtest);
 
--- 
-Richard Jones, Virtualization Group, Red Hat http://people.redhat.com/~rjones
-Read my programming and virtualization blog: http://rwmj.wordpress.com
-virt-builder quickly builds VMs from scratch
-http://libguestfs.org/virt-builder.1.html
+You can use qpci_unplug_acpi_device_test() to process the request... but I see this is 
+done like that too in test_pci_unplug_request()
+
+> +    wait_device_deleted_event(qtest, "dev0");
+> +
+> +    qtest_quit(qtest);
+> +}
+> +
+>   static void test_ccw_unplug(void)
+>   {
+>       QTestState *qtest = qtest_initf("-device virtio-balloon-ccw,id=dev0");
+> @@ -145,6 +162,8 @@ int main(int argc, char **argv)
+>        */
+>       qtest_add_func("/device-plug/pci-unplug-request",
+>                      test_pci_unplug_request);
+> +    qtest_add_func("/device-plug/pci-unplug-json-request",
+> +                   test_pci_unplug_json_request);
+>   
+>       if (!strcmp(arch, "s390x")) {
+>           qtest_add_func("/device-plug/ccw-unplug",
+
+Reviewed-by: Laurent Vivier <lvivier@redhat.com>
 
 
