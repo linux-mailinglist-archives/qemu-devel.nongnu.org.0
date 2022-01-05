@@ -2,102 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E5D1485842
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 19:30:38 +0100 (CET)
-Received: from localhost ([::1]:33416 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75E6E485854
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 19:31:23 +0100 (CET)
+Received: from localhost ([::1]:34568 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5B3U-0001xf-L1
-	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 13:30:36 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42564)
+	id 1n5B4E-0002iS-Gd
+	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 13:31:22 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42778)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farman@linux.ibm.com>)
- id 1n5B0J-0000ag-9l; Wed, 05 Jan 2022 13:27:19 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:30692
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farman@linux.ibm.com>)
- id 1n5B0B-00006R-Pv; Wed, 05 Jan 2022 13:27:15 -0500
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 205I6bIl014002; 
- Wed, 5 Jan 2022 18:27:06 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : subject :
- from : to : cc : date : in-reply-to : references : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=WxZouKSNZQoELmSuDzMkC41eA5iKkdJTJ/hk36zP1Sc=;
- b=EpGjN6wt0RqkvfXK6MguAq3RdSXHPQ6mjqM4t91V21IkRbw5bwGpal/mddnuPIFXol6L
- x+4c1zEySMVc7XxNHu3c2cmuE1ClGDg7a7xE9e8ICiKuPR9PppDNuDDRA0nUQDVCzLAe
- TKA6QaW22rdN0Fa56UmaS30hBPtRLEYkfOSdD38CevFRVO3vYwOeTjr4CIvcetKf9hl5
- X/El78YCotAuAHpe0KdXOY/BGSTR6XC5zg86aIuFBvt+Ir9cuvLySHJR+oDBxhezuVUB
- ANqy9giAizsIEVDsNxsZkyktaYEwWB+p+MFrmDFQ1IdCL5hwZaJCv9il6k7HuKt1XMot EA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3dcpka4crn-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 05 Jan 2022 18:27:06 +0000
-Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 205ICllW007191;
- Wed, 5 Jan 2022 18:27:05 GMT
-Received: from ppma04wdc.us.ibm.com (1a.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.26])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3dcpka4crb-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 05 Jan 2022 18:27:05 +0000
-Received: from pps.filterd (ppma04wdc.us.ibm.com [127.0.0.1])
- by ppma04wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 205IMqCY006807;
- Wed, 5 Jan 2022 18:27:05 GMT
-Received: from b01cxnp22035.gho.pok.ibm.com (b01cxnp22035.gho.pok.ibm.com
- [9.57.198.25]) by ppma04wdc.us.ibm.com with ESMTP id 3daekb3j2q-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 05 Jan 2022 18:27:04 +0000
-Received: from b01ledav005.gho.pok.ibm.com (b01ledav005.gho.pok.ibm.com
- [9.57.199.110])
- by b01cxnp22035.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 205IR47s32244018
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 5 Jan 2022 18:27:04 GMT
-Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 2C8DCAE062;
- Wed,  5 Jan 2022 18:27:04 +0000 (GMT)
-Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id BF17DAE06B;
- Wed,  5 Jan 2022 18:27:01 +0000 (GMT)
-Received: from farman-thinkpad-t470p (unknown [9.211.71.239])
- by b01ledav005.gho.pok.ibm.com (Postfix) with ESMTP;
- Wed,  5 Jan 2022 18:27:01 +0000 (GMT)
-Message-ID: <aa11d65c8cb303b381c4e53aa948818b7b65a228.camel@linux.ibm.com>
-Subject: Re: [PATCH RFC v2] MAINTAINERS: split out s390x sections
-From: Eric Farman <farman@linux.ibm.com>
-To: Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
- qemu-s390x@nongnu.org
-Date: Wed, 05 Jan 2022 13:27:00 -0500
-In-Reply-To: <20211222105548.356852-1-cohuck@redhat.com>
-References: <20211222105548.356852-1-cohuck@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5 (3.28.5-18.el8) 
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: XUbq-b0pz7EYJAlODGaTfz5frMnZxlJF
-X-Proofpoint-ORIG-GUID: EK3JqBN0rT1JNfu7akf_kKZXg8m3dITh
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1n5B12-0000xZ-AQ
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 13:28:08 -0500
+Received: from [2607:f8b0:4864:20::433] (port=39581
+ helo=mail-pf1-x433.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1n5B10-0000C0-45
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 13:28:03 -0500
+Received: by mail-pf1-x433.google.com with SMTP id s15so116949pfk.6
+ for <qemu-devel@nongnu.org>; Wed, 05 Jan 2022 10:28:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:from:to:cc:references:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=eMG99Wv41T8f5x8wQXkLcQeR3E6TesGZDcQ9waoHVGk=;
+ b=WjdkjzIPB+PLVBRlxALw8uilhRjpvHraUuRcAL1Xlm2OVBIRozUAyl5Vv3G2zOScWE
+ bB4F+3neHJvroeQQyatyrDy6KNAFVO2YKL3zWcs/0bASLmx/Y/Ze1MLnhyL5sMyfouJb
+ TChZeJRcsEUH39LkoWIDfWjQ9RO2WW5ZhYEsUrym0PQaJ1e9fsWQkoNOUP/IVfrWj9cn
+ uIv5cFGoery8v87HKDt0vLs4WktdkU3CgfNXDXhV/UqwIJFSkGPwiUGL1KifhkfOznhA
+ 4Mx/xQv+JvQYNBAr/Lq+szuZKGXZV8bimIOwtiLa22bOppQ0W1aXM3vS+rbGmtCEO38H
+ YMjQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=eMG99Wv41T8f5x8wQXkLcQeR3E6TesGZDcQ9waoHVGk=;
+ b=46U78zq49k1dIGM4MLgydpwJsiYMRi1w7/0SiR6hsnJL54OKoZIiTjhJTpwUv7KpoT
+ sue4S9P6MUQzSRzxaX6jFHjRprKwEgBHCiZxWVo8vvUhZvsKaSE184EBe5rq4Z7xsChZ
+ 1DKStQ+9Jeu/V+PN44pHjnW1e76Zlo/J0/XMgFpNrZXgqrYiFs308FDq3aljAobIC9kY
+ yKQoc5iXcOQJt7G43WU5d7HXkzVHZnUddAGaLt/PmB4neXGUN8J6/1zUuTa8glRd+t7v
+ FNeUZPaQlqDhLol99Gp11eD206C5NkuBtJWo2tJpr/SMKAMkOkE46XVsAR/FmWtWvVGr
+ Kurw==
+X-Gm-Message-State: AOAM530//Yj0J+DU6QME7VbSPVFIphcV4v/arx/HH1Ywm/aqNaHZufYS
+ uluFXZqorbR+iF3NoDWFkEyBiw==
+X-Google-Smtp-Source: ABdhPJygU2fGhU6XumwFEN+szL7KcNxSYnPHw6tz4FFoQxklLuRh7Nv3rHUK2eM7Ex6tRQSBINvZ9w==
+X-Received: by 2002:a62:cfc5:0:b0:4ba:7a1e:9ae5 with SMTP id
+ b188-20020a62cfc5000000b004ba7a1e9ae5mr56435498pfg.39.1641407280616; 
+ Wed, 05 Jan 2022 10:28:00 -0800 (PST)
+Received: from [192.168.1.13] (174-21-75-75.tukw.qwest.net. [174.21.75.75])
+ by smtp.gmail.com with ESMTPSA id e11sm2356960pjj.49.2022.01.05.10.28.00
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 05 Jan 2022 10:28:00 -0800 (PST)
+Subject: Re: [PATCH v2 1/2] linux-user/ppc: deliver SIGTRAP on
+ POWERPC_EXCP_TRAP
+From: Richard Henderson <richard.henderson@linaro.org>
+To: matheus.ferst@eldorado.org.br, qemu-devel@nongnu.org, qemu-ppc@nongnu.org
+References: <20220104210015.457468-1-matheus.ferst@eldorado.org.br>
+ <20220104210015.457468-2-matheus.ferst@eldorado.org.br>
+ <eebcc0ab-8585-7521-7ddc-b8e85c97aa02@linaro.org>
+Message-ID: <68b994f4-e8e3-aaae-ea22-c3141021754f@linaro.org>
+Date: Wed, 5 Jan 2022 10:27:58 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2022-01-05_05,2022-01-04_01,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=999 bulkscore=0
- spamscore=0 impostorscore=0 adultscore=0 mlxscore=0 clxscore=1015
- malwarescore=0 suspectscore=0 lowpriorityscore=0 priorityscore=1501
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2110150000 definitions=main-2201050118
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=farman@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+In-Reply-To: <eebcc0ab-8585-7521-7ddc-b8e85c97aa02@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::433
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::433;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x433.google.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.057,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -110,198 +93,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, David Hildenbrand <david@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Philippe =?ISO-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Cc: laurent@vivier.eu, groug@kaod.org, danielhb413@gmail.com, clg@kaod.org,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 2021-12-22 at 11:55 +0100, Cornelia Huck wrote:
-> Split out some more specialized devices etc., so that we can build
-> smarter lists of people to be put on cc: in the future.
+On 1/4/22 2:12 PM, Richard Henderson wrote:
+> On 1/4/22 1:00 PM, matheus.ferst@eldorado.org.br wrote:
+>> From: Matheus Ferst<matheus.ferst@eldorado.org.br>
+>>
+>> Handle POWERPC_EXCP_TRAP in cpu_loop to deliver SIGTRAP on tw[i]/td[i].
+>> The si_code comes from do_program_check in the kernel source file
+>> arch/powerpc/kernel/traps.c
+>>
+>> Signed-off-by: Matheus Ferst<matheus.ferst@eldorado.org.br>
+>> ---
+>>   linux-user/ppc/cpu_loop.c | 3 ++-
+>>   1 file changed, 2 insertions(+), 1 deletion(-)
 > 
-> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> Acked-by: David Hildenbrand <david@redhat.com>
-> Acked-by: Christian Borntraeger <borntraeger@de.ibm.com>
-> Acked-by: Thomas Huth <thuth@redhat.com>
-> Acked-by: Halil Pasic <pasic@linux.ibm.com>
-> Signed-off-by: Cornelia Huck <cohuck@redhat.com>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-(Late to the party, Happy New Year!) I like the rearrangement:
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/588
 
-Acked-by: Eric Farman <farman@linux.ibm.com>
 
-Of course, you also said in v1:
-
-"""
-- The new sections have inherited the maintainers of the sections
-  they have been split out of (except where people had already
-  volunteered). That's easy to change, obviously, and I hope that
-  the cc: list already contains people who might have interest in
-  volunteering for some sections.
-"""
-
-As someone on cc, I could volunteer to help with these sections:
-
-S390 Machines
--------------
-S390 Virtio-ccw
-S390 channel subsystem
-
-Devices
--------
-virtio-ccw
-
-> ---
-> 
-> v1->v2: move some sections to "Devices", some minor tweaks
-> 
-> I guess that can go with the next set of s390x patches.
-> 
-> ---
->  MAINTAINERS | 85 ++++++++++++++++++++++++++++++++++++++++++++++-----
-> --
->  1 file changed, 74 insertions(+), 11 deletions(-)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 5dcefc0d012a..e4d88f7eb2ba 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -297,7 +297,6 @@ M: David Hildenbrand <david@redhat.com>
->  S: Maintained
->  F: target/s390x/
->  F: target/s390x/tcg
-> -F: target/s390x/cpu_models_*.[ch]
->  F: hw/s390x/
->  F: disas/s390.c
->  F: tests/tcg/s390x/
-> @@ -396,16 +395,10 @@ M: Halil Pasic <pasic@linux.ibm.com>
->  M: Christian Borntraeger <borntraeger@linux.ibm.com>
->  S: Supported
->  F: target/s390x/kvm/
-> -F: target/s390x/ioinst.[ch]
->  F: target/s390x/machine.c
->  F: target/s390x/sigp.c
-> -F: target/s390x/cpu_features*.[ch]
-> -F: target/s390x/cpu_models.[ch]
->  F: hw/s390x/pv.c
->  F: include/hw/s390x/pv.h
-> -F: hw/intc/s390_flic.c
-> -F: hw/intc/s390_flic_kvm.c
-> -F: include/hw/s390x/s390_flic.h
->  F: gdb-xml/s390*.xml
->  T: git https://github.com/borntraeger/qemu.git s390-next
->  L: qemu-s390x@nongnu.org
-> @@ -1529,12 +1522,8 @@ S390 Virtio-ccw
->  M: Halil Pasic <pasic@linux.ibm.com>
->  M: Christian Borntraeger <borntraeger@linux.ibm.com>
->  S: Supported
-> -F: hw/char/sclp*.[hc]
-> -F: hw/char/terminal3270.c
->  F: hw/s390x/
->  F: include/hw/s390x/
-> -F: hw/watchdog/wdt_diag288.c
-> -F: include/hw/watchdog/wdt_diag288.h
->  F: configs/devices/s390x-softmmu/default.mak
->  F: tests/avocado/machine_s390_ccw_virtio.py
->  T: git https://github.com/borntraeger/qemu.git s390-next
-> @@ -1559,6 +1548,37 @@ F: hw/s390x/s390-pci*
->  F: include/hw/s390x/s390-pci*
->  L: qemu-s390x@nongnu.org
->  
-> +S390 channel subsystem
-> +M: Halil Pasic <pasic@linux.ibm.com>
-> +M: Christian Borntraeger <borntraeger@linux.ibm.com>
-> +S: Supported
-> +F: hw/s390x/ccw-device.[ch]
-> +F: hw/s390x/css.c
-> +F: hw/s390x/css-bridge.c
-> +F: include/hw/s390x/css.h
-> +F: include/hw/s390x/css-bridge.h
-> +F: include/hw/s390x/ioinst.h
-> +F: target/s390x/ioinst.c
-> +L: qemu-s390x@nongnu.org
-> +
-> +S390 CPU models
-> +M: David Hildenbrand <david@redhat.com>
-> +S: Maintained
-> +F: target/s390x/cpu_features*.[ch]
-> +F: target/s390x/cpu_models.[ch]
-> +L: qemu-s390x@nongnu.org
-> +
-> +S390 SCLP-backed devices
-> +M: Halil Pasic <pasic@linux.ibm.com>
-> +M: Christian Borntraeger <borntraeger@linux.ibm.com>
-> +S: Supported
-> +F: include/hw/s390x/event-facility.h
-> +F: include/hw/s390x/sclp.h
-> +F: hw/char/sclp*.[hc]
-> +F: hw/s390x/event-facility.c
-> +F: hw/s390x/sclp*.c
-> +L: qemu-s390x@nongnu.org
-> +
->  X86 Machines
->  ------------
->  PC
-> @@ -1957,6 +1977,7 @@ M: Halil Pasic <pasic@linux.ibm.com>
->  S: Supported
->  F: hw/s390x/virtio-ccw*.[hc]
->  F: hw/s390x/vhost-vsock-ccw.c
-> +F: hw/s390x/vhost-user-fs-ccw.c
->  T: git https://gitlab.com/cohuck/qemu.git s390-next
->  T: git https://github.com/borntraeger/qemu.git s390-next
->  L: qemu-s390x@nongnu.org
-> @@ -2295,6 +2316,48 @@ F: hw/timer/mips_gictimer.c
->  F: include/hw/intc/mips_gic.h
->  F: include/hw/timer/mips_gictimer.h
->  
-> +S390 3270 device
-> +M: Halil Pasic <pasic@linux.ibm.com>
-> +M: Christian Borntraeger <borntraeger@linux.ibm.com>
-> +S: Odd fixes
-> +F: include/hw/s390x/3270-ccw.h
-> +F: hw/char/terminal3270.c
-> +F: hw/s390x/3270-ccw.c
-> +L: qemu-s390x@nongnu.org
-> +
-> +S390 diag 288 watchdog
-> +M: Halil Pasic <pasic@linux.ibm.com>
-> +M: Christian Borntraeger <borntraeger@linux.ibm.com>
-> +S: Supported
-> +F: hw/watchdog/wdt_diag288.c
-> +F: include/hw/watchdog/wdt_diag288.h
-> +L: qemu-s390x@nongnu.org
-> +
-> +S390 storage key device
-> +M: Halil Pasic <pasic@linux.ibm.com>
-> +M: Christian Borntraeger <borntraeger@linux.ibm.com>
-> +S: Supported
-> +F: hw/s390x/storage-keys.h
-> +F: hw/390x/s390-skeys*.c
-> +L: qemu-s390x@nongnu.org
-> +
-> +S390 storage attribute device
-> +M: Halil Pasic <pasic@linux.ibm.com>
-> +M: Christian Borntraeger <borntraeger@linux.ibm.com>
-> +S: Supported
-> +F: hw/s390x/storage-attributes.h
-> +F: hw/s390/s390-stattrib*.c
-> +L: qemu-s390x@nongnu.org
-> +
-> +S390 floating interrupt controller
-> +M: Halil Pasic <pasic@linux.ibm.com>
-> +M: Christian Borntraeger <borntraeger@linux.ibm.com>
-> +M: David Hildenbrand <david@redhat.com>
-> +S: Supported
-> +F: hw/intc/s390_flic*.c
-> +F: include/hw/s390x/s390_flic.h
-> +L: qemu-s390x@nongnu.org
-> +
->  Subsystems
->  ----------
->  Overall Audio backends
-
+r~
 
