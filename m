@@ -2,83 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15D0F4854BB
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 15:37:54 +0100 (CET)
-Received: from localhost ([::1]:56048 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA6494854B1
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 15:36:18 +0100 (CET)
+Received: from localhost ([::1]:49894 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n57QH-0001If-62
-	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 09:37:53 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51884)
+	id 1n57Oj-0005Tz-Vf
+	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 09:36:18 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56162)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1n56q6-0004cn-FX
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 09:00:33 -0500
-Received: from [2a00:1450:4864:20::334] (port=40756
- helo=mail-wm1-x334.google.com)
+ id 1n574l-0001JA-CV
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 09:15:42 -0500
+Received: from [2a00:1450:4864:20::435] (port=36591
+ helo=mail-wr1-x435.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1n56q4-0006Sp-0g
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 09:00:29 -0500
-Received: by mail-wm1-x334.google.com with SMTP id
- m14-20020a7bcb8e000000b00346da381d59so557172wmi.5
- for <qemu-devel@nongnu.org>; Wed, 05 Jan 2022 06:00:27 -0800 (PST)
+ id 1n574a-000824-66
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 09:15:37 -0500
+Received: by mail-wr1-x435.google.com with SMTP id r17so83294180wrc.3
+ for <qemu-devel@nongnu.org>; Wed, 05 Jan 2022 06:15:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=PR+qxQ2shEV/A+tfSEgZk9rUCgVOrjyYAYISimz0Tis=;
- b=GVMFC3O4RlmooLTibiHBxnIbIg+K3MyuA7x/bxsy7tf0c0Ra4rbk+ZJCmHwZyOMmrN
- PBIDHeoMWlDO0GA7cH1ig2rJYOs3fEAzpAvaaEHHO62QoosnZlHqB47MYYNpw/xpR15f
- SmG8x5rNpBxCtJC6NeElcoP9MvWTYiUxKa2nhKW2CCCc7zv45tcphSGaZlTINcEGuiHN
- U7UmZ8iDYyedbYbGf4jipg0hKzjKUKwXwbIJwTy7qgJbjlsIhGKfaTBrBTGmV9UkNZU0
- UgVsSkOkeP6pexvvYIZ3lWIAmo8m1+wt43NF47VXuOTWEkOrPd1qkxp7meUeDEVwtxoF
- EB2w==
+ bh=86Yt5zhC1h3HZ5qW3lGqfRT4JQiaWr3EJLEC/Aa05K4=;
+ b=L+75PvBrURG0dPbKUy6ceyF7tytO2FrQZjoAt3v6p8iOj4OTheJipSALaelz+K7LMl
+ gsUVoLg8/kWnri6BljzKzPHY4bmNIv9mmEiYvocMddDyM/kGrIT5IiYh6wAI/9cJ86Ly
+ B27v4hfSHFm/bcQUEdjYEAkr2WBlGyD6crSRkr/V0GpA/MJefCRu7fb6avDgPtGsEOu4
+ wRXrINjLPx93OcXbIK/SxWdEEnxt1+g1uTyeL15WKryJRUiB4iIDnYmXVHFhjs1RW5b2
+ j2A+VG5+PS0dd3CpBMhugEnMdn8P4B8vG20MqUz8QY6W2pdNDr6AxDlWyUH3zIKuSnHu
+ 6GlQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=PR+qxQ2shEV/A+tfSEgZk9rUCgVOrjyYAYISimz0Tis=;
- b=w3V3Lz7N5bS1uE7o/9Ph7H+JIqh/TKLZDaa1a9MloEnyzFC/DSZPwDJw6EXXYldg+F
- bWa3KXYhyszLsdQxpbxTN1tkODE5K1dDoMflVSAFEUOiKr1KgotkfLuP1FbnCl0BC/Y0
- b4YEaPloDVcWeKNb51mmtRg5758PaoJRFS3ttklwJ2NiW8pLiGR2tqUkNhpgmu+nAQR9
- zBWBLrlwGCQIWDp58nv/tYXWAXnzeN7Y/MmjkFquDRokhm7c0lD/GSnb0i7uA5rPbFZx
- C0J/tWUtqF6MhPR2YjmXjKlA9lce34fUfDcD0JDbAoZEHvTkkvifXOU5NYO7dP5FLe4O
- /8Fg==
-X-Gm-Message-State: AOAM533FseRXzrGx7xqaknLyTHrKt/Vm0BAWosvSZkauD3oLqaAVSZm1
- oI95ljKDh1JL/rkOXUL/C4KfQOTFclhFNA==
-X-Google-Smtp-Source: ABdhPJwktN0qMZpAlrQYWqRxr/OtIhR1x4dqa8RPBpwe9KtKw6E9X+CI3/9avHFaDTwOTtr5bmhHaw==
-X-Received: by 2002:a1c:4d04:: with SMTP id o4mr2898678wmh.161.1641391226634; 
- Wed, 05 Jan 2022 06:00:26 -0800 (PST)
+ bh=86Yt5zhC1h3HZ5qW3lGqfRT4JQiaWr3EJLEC/Aa05K4=;
+ b=ZUO27VmFhtFZq/lJuNhLs8I51/x2HY1K/lsn5pjcwzOHIKBg5Hhc0ukbtU9WdmGV9H
+ lbJgQ85Q/jtn1KrF7Fy63l/qCwA5MX/Q9cBCp3hQpzCiJdin7XdEeAEEpVY2kz4OE4Gq
+ x4IvQ3PrKDx2+stZlXpG0xVjFESQSEvukwtA7ZNOtZoshyS6iHO6uDdqscIYqJkrgytw
+ K4kUJHraphXXUzqrlKY+XgM/TO+aA33ZK4YGF6RiMxNVZ6wi+1olfF/4gBH++J1sCIF2
+ nPTt/TsuSMGZZjgoA+rys8hkMdyzatzB+/UEvE18QpN/5SCMlzse1iiD8Sl+NzbvW4EQ
+ WjLw==
+X-Gm-Message-State: AOAM530VdgBQR/Taap7wnt+u6GjtJws1rX4nhcWC9AQhbhPL6lCYnUZo
+ PaKrZAjiE5BHpqjgGyHoLELeUA==
+X-Google-Smtp-Source: ABdhPJxwfSzesEBqHdLKr3MZIjjPk6xw007t+Cw3vmg0JkQUUIEymawbF7p/34uRroKD7M7nuHvw5g==
+X-Received: by 2002:adf:fb07:: with SMTP id c7mr9563036wrr.608.1641392115321; 
+ Wed, 05 Jan 2022 06:15:15 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id k33sm2765825wms.21.2022.01.05.06.00.16
+ by smtp.gmail.com with ESMTPSA id d10sm44845450wri.57.2022.01.05.06.15.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Jan 2022 06:00:19 -0800 (PST)
+ Wed, 05 Jan 2022 06:15:13 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 0B4571FFCD;
+ by zen.linaroharston (Postfix) with ESMTP id 2A33C1FFBA;
  Wed,  5 Jan 2022 13:50:11 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 21/34] hw/arm: add control knob to disable kaslr_seed via
- DTB
-Date: Wed,  5 Jan 2022 13:49:56 +0000
-Message-Id: <20220105135009.1584676-22-alex.bennee@linaro.org>
+Subject: [PATCH v1 22/34] monitor: move x-query-profile into accel/tcg to fix
+ build
+Date: Wed,  5 Jan 2022 13:49:57 +0000
+Message-Id: <20220105135009.1584676-23-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220105135009.1584676-1-alex.bennee@linaro.org>
 References: <20220105135009.1584676-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::334
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::435
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x334.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x435.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
 X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, WEIRD_QUOTING=0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,130 +90,155 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, Peter Maydell <peter.maydell@linaro.org>,
- berrange@redhat.com, Heinrich Schuchardt <xypron.glpk@gmx.de>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>, f4bug@amsat.org,
- Jerome Forissier <jerome@forissier.org>, stefanha@redhat.com, crosa@redhat.com,
- pbonzini@redhat.com, "open list:Virt" <qemu-arm@nongnu.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, aurelien@aurel32.net
+Cc: fam@euphon.net, Eduardo Habkost <eduardo@habkost.net>, berrange@redhat.com,
+ Markus Armbruster <armbru@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, f4bug@amsat.org,
+ Eric Blake <eblake@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Yanan Wang <wangyanan55@huawei.com>, stefanha@redhat.com, crosa@redhat.com,
+ pbonzini@redhat.com, =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Generally a guest needs an external source of randomness to properly
-enable things like address space randomisation. However in a trusted
-boot environment where the firmware will cryptographically verify
-components having random data in the DTB will cause verification to
-fail. Add a control knob so we can prevent this being added to the
-system DTB.
+As --enable-profiler isn't defended in CI we missed this breakage.
+Move the qmp handler into accel/tcg so we have access to the helpers
+we need. While we are at it ensure we gate the feature on CONFIG_TCG.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Tested-by: Heinrich Schuchardt <xypron.glpk@gmx.de>
-Acked-by: Ilias Apalodimas <ilias.apalodimas@linaro.org>
-Acked-by: Jerome Forissier <jerome@forissier.org>
-Message-Id: <20211215120926.1696302-1-alex.bennee@linaro.org>
----
- docs/system/arm/virt.rst |  7 +++++++
- include/hw/arm/virt.h    |  1 +
- hw/arm/virt.c            | 32 ++++++++++++++++++++++++++++++--
- 3 files changed, 38 insertions(+), 2 deletions(-)
+Suggested-by: Daniel P. Berrangé <berrange@redhat.com>
+Reported-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Fixes: 37087fde0e ("qapi: introduce x-query-profile QMP command")
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/773
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Tested-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <20211214195048.1438209-1-alex.bennee@linaro.org>
 
-diff --git a/docs/system/arm/virt.rst b/docs/system/arm/virt.rst
-index 850787495b..c86a4808df 100644
---- a/docs/system/arm/virt.rst
-+++ b/docs/system/arm/virt.rst
-@@ -121,6 +121,13 @@ ras
-   Set ``on``/``off`` to enable/disable reporting host memory errors to a guest
-   using ACPI and guest external abort exceptions. The default is off.
+---
+v3
+  - also add #ifdef CONFIG_TCG to hmp-commands-info.hx
+---
+ qapi/machine.json    |  1 +
+ accel/tcg/cpu-exec.c | 31 +++++++++++++++++++++++++++++++
+ monitor/qmp-cmds.c   | 31 -------------------------------
+ hmp-commands-info.hx |  2 ++
+ 4 files changed, 34 insertions(+), 31 deletions(-)
+
+diff --git a/qapi/machine.json b/qapi/machine.json
+index 372535b348..91d15b91c3 100644
+--- a/qapi/machine.json
++++ b/qapi/machine.json
+@@ -1503,6 +1503,7 @@
+ ##
+ { 'command': 'x-query-profile',
+   'returns': 'HumanReadableText',
++  'if': 'CONFIG_TCG',
+   'features': [ 'unstable' ] }
  
-+kaslr-dtb-seed
-+  Set ``on``/``off`` to pass a random seed via the guest dtb to use for features
-+  like address space randomisation. The default is ``on``. You will want
-+  to disable it if your trusted boot chain will verify the DTB it is
-+  passed. It would be the responsibility of the firmware to come up
-+  with a seed and pass it on if it wants to.
-+
- Linux guest kernel configuration
- """"""""""""""""""""""""""""""""
- 
-diff --git a/include/hw/arm/virt.h b/include/hw/arm/virt.h
-index dc6b66ffc8..acd0665fe7 100644
---- a/include/hw/arm/virt.h
-+++ b/include/hw/arm/virt.h
-@@ -148,6 +148,7 @@ struct VirtMachineState {
-     bool virt;
-     bool ras;
-     bool mte;
-+    bool kaslr_dtb_seed;
-     OnOffAuto acpi;
-     VirtGICType gic_version;
-     VirtIOMMUType iommu;
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index 6bce595aba..1781e47c76 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -247,11 +247,15 @@ static void create_fdt(VirtMachineState *vms)
- 
-     /* /chosen must exist for load_dtb to fill in necessary properties later */
-     qemu_fdt_add_subnode(fdt, "/chosen");
--    create_kaslr_seed(ms, "/chosen");
-+    if (vms->kaslr_dtb_seed) {
-+        create_kaslr_seed(ms, "/chosen");
-+    }
- 
-     if (vms->secure) {
-         qemu_fdt_add_subnode(fdt, "/secure-chosen");
--        create_kaslr_seed(ms, "/secure-chosen");
-+        if (vms->kaslr_dtb_seed) {
-+            create_kaslr_seed(ms, "/secure-chosen");
-+        }
-     }
- 
-     /* Clock node, for the benefit of the UART. The kernel device tree
-@@ -2235,6 +2239,20 @@ static void virt_set_its(Object *obj, bool value, Error **errp)
-     vms->its = value;
+ ##
+diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
+index 409ec8c38c..8b4cd6c59d 100644
+--- a/accel/tcg/cpu-exec.c
++++ b/accel/tcg/cpu-exec.c
+@@ -1090,4 +1090,35 @@ HumanReadableText *qmp_x_query_opcount(Error **errp)
+     return human_readable_text_from_str(buf);
  }
  
-+static bool virt_get_kaslr_dtb_seed(Object *obj, Error **errp)
++#ifdef CONFIG_PROFILER
++
++int64_t dev_time;
++
++HumanReadableText *qmp_x_query_profile(Error **errp)
 +{
-+    VirtMachineState *vms = VIRT_MACHINE(obj);
++    g_autoptr(GString) buf = g_string_new("");
++    static int64_t last_cpu_exec_time;
++    int64_t cpu_exec_time;
++    int64_t delta;
 +
-+    return vms->kaslr_dtb_seed;
++    cpu_exec_time = tcg_cpu_exec_time();
++    delta = cpu_exec_time - last_cpu_exec_time;
++
++    g_string_append_printf(buf, "async time  %" PRId64 " (%0.3f)\n",
++                           dev_time, dev_time / (double)NANOSECONDS_PER_SECOND);
++    g_string_append_printf(buf, "qemu time   %" PRId64 " (%0.3f)\n",
++                           delta, delta / (double)NANOSECONDS_PER_SECOND);
++    last_cpu_exec_time = cpu_exec_time;
++    dev_time = 0;
++
++    return human_readable_text_from_str(buf);
 +}
-+
-+static void virt_set_kaslr_dtb_seed(Object *obj, bool value, Error **errp)
++#else
++HumanReadableText *qmp_x_query_profile(Error **errp)
 +{
-+    VirtMachineState *vms = VIRT_MACHINE(obj);
-+
-+    vms->kaslr_dtb_seed = value;
++    error_setg(errp, "Internal profiler not compiled");
++    return NULL;
 +}
++#endif
 +
- static char *virt_get_oem_id(Object *obj, Error **errp)
+ #endif /* !CONFIG_USER_ONLY */
+diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
+index 14e3beeaaf..db4d186448 100644
+--- a/monitor/qmp-cmds.c
++++ b/monitor/qmp-cmds.c
+@@ -368,37 +368,6 @@ void qmp_display_reload(DisplayReloadOptions *arg, Error **errp)
+     }
+ }
+ 
+-#ifdef CONFIG_PROFILER
+-
+-int64_t dev_time;
+-
+-HumanReadableText *qmp_x_query_profile(Error **errp)
+-{
+-    g_autoptr(GString) buf = g_string_new("");
+-    static int64_t last_cpu_exec_time;
+-    int64_t cpu_exec_time;
+-    int64_t delta;
+-
+-    cpu_exec_time = tcg_cpu_exec_time();
+-    delta = cpu_exec_time - last_cpu_exec_time;
+-
+-    g_string_append_printf(buf, "async time  %" PRId64 " (%0.3f)\n",
+-                           dev_time, dev_time / (double)NANOSECONDS_PER_SECOND);
+-    g_string_append_printf(buf, "qemu time   %" PRId64 " (%0.3f)\n",
+-                           delta, delta / (double)NANOSECONDS_PER_SECOND);
+-    last_cpu_exec_time = cpu_exec_time;
+-    dev_time = 0;
+-
+-    return human_readable_text_from_str(buf);
+-}
+-#else
+-HumanReadableText *qmp_x_query_profile(Error **errp)
+-{
+-    error_setg(errp, "Internal profiler not compiled");
+-    return NULL;
+-}
+-#endif
+-
+ static int qmp_x_query_rdma_foreach(Object *obj, void *opaque)
  {
-     VirtMachineState *vms = VIRT_MACHINE(obj);
-@@ -2764,6 +2782,13 @@ static void virt_machine_class_init(ObjectClass *oc, void *data)
-                                           "Set on/off to enable/disable "
-                                           "ITS instantiation");
+     RdmaProvider *rdma;
+diff --git a/hmp-commands-info.hx b/hmp-commands-info.hx
+index 407a1da800..e90f20a107 100644
+--- a/hmp-commands-info.hx
++++ b/hmp-commands-info.hx
+@@ -358,6 +358,7 @@ SRST
+     Show host USB devices.
+ ERST
  
-+    object_class_property_add_bool(oc, "kaslr-dtb-seed",
-+                                   virt_get_kaslr_dtb_seed,
-+                                   virt_set_kaslr_dtb_seed);
-+    object_class_property_set_description(oc, "kaslr-dtb-seed",
-+                                          "Set off to disable passing of kaslr "
-+                                          "dtb node to guest");
-+
-     object_class_property_add_str(oc, "x-oem-id",
-                                   virt_get_oem_id,
-                                   virt_set_oem_id);
-@@ -2828,6 +2853,9 @@ static void virt_instance_init(Object *obj)
-     /* MTE is disabled by default.  */
-     vms->mte = false;
++#if defined(CONFIG_TCG)
+     {
+         .name       = "profile",
+         .args_type  = "",
+@@ -365,6 +366,7 @@ ERST
+         .help       = "show profiling information",
+         .cmd_info_hrt = qmp_x_query_profile,
+     },
++#endif
  
-+    /* Supply a kaslr-seed by default */
-+    vms->kaslr_dtb_seed = true;
-+
-     vms->irqmap = a15irqmap;
- 
-     virt_flash_create(vms);
+ SRST
+   ``info profile``
 -- 
 2.30.2
 
