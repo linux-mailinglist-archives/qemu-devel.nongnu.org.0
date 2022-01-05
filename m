@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90071485ACC
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 22:36:54 +0100 (CET)
-Received: from localhost ([::1]:55180 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4956B485A99
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 22:28:57 +0100 (CET)
+Received: from localhost ([::1]:60026 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5Dxl-0007ob-Nb
-	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 16:36:53 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33120)
+	id 1n5Dq4-0008GL-Ce
+	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 16:28:56 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33160)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1n5DlZ-0002BZ-I8; Wed, 05 Jan 2022 16:24:17 -0500
-Received: from [2607:f8b0:4864:20::930] (port=35451
- helo=mail-ua1-x930.google.com)
+ id 1n5Dld-0002Px-3a; Wed, 05 Jan 2022 16:24:21 -0500
+Received: from [2607:f8b0:4864:20::935] (port=45742
+ helo=mail-ua1-x935.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1n5DlX-0007uC-Mb; Wed, 05 Jan 2022 16:24:17 -0500
-Received: by mail-ua1-x930.google.com with SMTP id o20so881038uat.2;
- Wed, 05 Jan 2022 13:24:15 -0800 (PST)
+ id 1n5Dla-0007uo-TB; Wed, 05 Jan 2022 16:24:20 -0500
+Received: by mail-ua1-x935.google.com with SMTP id az37so782968uab.12;
+ Wed, 05 Jan 2022 13:24:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=OiYkqSDKOE1NTw5JW2RxhKqXvhzage1YvtWyJkiZQbs=;
- b=U+KM5SL/+E9RxrAGG5yW+cXiWjI4NiRElzmEIQu9vmUVH4Apvzh96rEDDzZoESfRYY
- zOU8GYTA8capreulqedjw29TsDcHSM9tQc3vDFT9CiwSCBq8oVrTL3Pvl94HcUKtRwcg
- OXTn78jpFWobKCg/LyVw2LHB03Mz2KsRdGOJbQZMbqZ+lnjum7HReNazBxQXauXfJ4c9
- heVXKqHEPXnq+LD3NsWb0enh1KZ7AEvGESd5iW0h79CMkyK4e/W3w/Wl9K5OSqmoXfid
- 54nyCwHYOxukK/WzgRxon7qrug2DP84cokv2TNcQnOeAV/zpk+c1ynOxXmaMzFoNG1nv
- l/iA==
+ bh=mLVm68xgZW+kUY6ipBoQCfy/YJJ5JkKZRWlpPFNiUjE=;
+ b=cawD0sHEGlmZI3bBOxeEct3xyTDzfct+Hg6KW4Fd0p7cBaasqIeeVMztYBqhZtu4Mg
+ xTY5AtLnHvt7UqABzanSraMTsPh9fV6nO7CV1Rgb22iK7LWHtt/JBSRvURsXt0zyG5pS
+ eW7rCG/2uXRuJmr6rQAnZHKKSvXA66T8i0zUGa4jaNQptL+ZNWZw+rdzexuZUjFe+o3V
+ uhsYlLdwGUqRSbJUAqZ1GIOndKRgYcjbgKg7szY5qoVIYS2QX+JevLSb6cKL56MWX1QO
+ eehZqRAZCi++qOANbuef49BYUJH88H4USQDsqo2hgACRWKWPB2bIy97p2e5ReKjXCAK9
+ lDrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=OiYkqSDKOE1NTw5JW2RxhKqXvhzage1YvtWyJkiZQbs=;
- b=iu2F9hVSohwUKhjPVz3J+YO980xI24gVe5+4Awc75K4UnoWbwRDzb5ovofMWv4N+Us
- r6uDTXWGMFPxdCSzV/ju/VAoeg5eTzIwo9ZbATsuJWOZAgs+HlejPL6ELb25gb4jL3cd
- W7roPoBZmLT2q6bshTW5JfmHg1fbUFYVI0oFDVVHk9hxG/yYOhinx7NR/IsfnZH8qPK6
- B2tGYAElKT5hjyP80kRyNRMPZooy052nkm65WuXcXWvq5cnsrNH7YG4BXJvQdq+1chhP
- IZcQbbPm4/AmmGO9mC8Af0uKDEvJP5YWf0Mk0WHj9OmmmbmvGXfmlbQ5cH6MoHaFOpKw
- NsSw==
-X-Gm-Message-State: AOAM53003IuA6WFOF3Ia5lROKPCNtjkMGbH6lhVcFKUyZW7fzIVaO3mS
- BzQe58jYdzfTejmt7W+8D22fsCs8wJ8=
-X-Google-Smtp-Source: ABdhPJx2j/tZmj6SeMArvSnrnmpPztacOPd/l7JewYhLtEYa1Ot6zQFpYhm7n7DNZzcu8qL5cxkxqw==
-X-Received: by 2002:ab0:3b14:: with SMTP id n20mr1665143uaw.64.1641417854535; 
- Wed, 05 Jan 2022 13:24:14 -0800 (PST)
+ bh=mLVm68xgZW+kUY6ipBoQCfy/YJJ5JkKZRWlpPFNiUjE=;
+ b=GXIkWU1u1ZEKvMZIYt0DSe3zW68LQjfh1fOHLV0h/3LyK8BT8DD2FUXUyy35j5fdcS
+ 22cdnyodDwsCcBqYyQ7unA/3qkMkw3S2u7CxQzYh3kYDczjOYu/STtvxUYVMJ2LNscVr
+ hAxXYX1MRCNhnjfwpzNyLHVByfi4UFgRKB3l4WbRL29M2qjMzDUbgrxC2tkOjilbbgZQ
+ AjrHOXzW7rrG7lmpuK08yQQRuGOFnIfYfoU0dV2uoX8MUneRApmD6148tTxgo8RSt9BB
+ +uHW5xlMUEKyoIKaVChApZtY5hrCi8HqXalqDKFEKLMm5vkM3UbOIKgoKNGk8HsLpA9E
+ Rj5g==
+X-Gm-Message-State: AOAM533Wy7RKbXh0J8DWEfRDhCYNOuYni/vNiwSLE2oDVg1lNGTQ1D6d
+ z05UdhpOmL2OKU/lyQLlREPQX4VFcoE=
+X-Google-Smtp-Source: ABdhPJzITYjbVtQkHn4o81KMy/4prVoOsAPKPkWIL/BdhTt29nt/HY+rlZjUXimdQosAZ7o1ZSAnnA==
+X-Received: by 2002:ab0:700e:: with SMTP id k14mr15374116ual.105.1641417857603; 
+ Wed, 05 Jan 2022 13:24:17 -0800 (PST)
 Received: from rekt.ibmuc.com ([2804:431:c7c7:f4d8:aa07:335f:99e0:a6e7])
- by smtp.gmail.com with ESMTPSA id m5sm65922vke.43.2022.01.05.13.24.12
+ by smtp.gmail.com with ESMTPSA id m5sm65922vke.43.2022.01.05.13.24.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Jan 2022 13:24:14 -0800 (PST)
+ Wed, 05 Jan 2022 13:24:17 -0800 (PST)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 11/18] pnv_phb4.c: introduce pnv_phb4_set_stack_phb_props()
-Date: Wed,  5 Jan 2022 18:23:31 -0300
-Message-Id: <20220105212338.49899-12-danielhb413@gmail.com>
+Subject: [PATCH v2 12/18] pnv_phb4_pec.c: move pnv_pec_phb_offset() to
+ pnv_phb4.c
+Date: Wed,  5 Jan 2022 18:23:32 -0300
+Message-Id: <20220105212338.49899-13-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20220105212338.49899-1-danielhb413@gmail.com>
 References: <20220105212338.49899-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::930
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::935
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::930;
- envelope-from=danielhb413@gmail.com; helo=mail-ua1-x930.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::935;
+ envelope-from=danielhb413@gmail.com; helo=mail-ua1-x935.google.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
@@ -89,113 +90,100 @@ Cc: danielhb413@gmail.com, qemu-ppc@nongnu.org, clg@kaod.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We want to be able to support user creatable pnv-phb4 objects to allow
-users to instantiate a powernv9 machine similar to what it is done with
-powernv8.
+The logic inside pnv_pec_phb_offset() will be useful in the next patch
+to determine the stack that should contain a PHB4 device.
 
-The main difference is that pnv-phb3 devs are attached directly to the
-system bus and can be created in the command line. PCI devices such as
-root-ports can be explictly connected to them. This allows users to
-create the phbs, assign a bus name if desired, then connect devices onto
-them.
-
-pnv-phb4 devices on the other hand are created by adding PCI Express
-Controllers (PEC) that will create a certain amount of pnv-phb4 buses
-depending on the PEC index used. Index 0 will create 1 phb, index 1
-creates 2 phbs, index 2 creates 3 phbs. Creating all PECs from the same
-chip will create 6 PHBs. This doesn't users to rename the buses, like it
-is done with pnv-phb3, because there's no user control over how the
-pnv-phb4 are being created - aside from the amount of phbs and in which
-chips they'll reside.
-
-This implicit relationship between PEC devices and available buses can
-be tolerable for users that knows how the hardware works, but it's
-annoying for Libvirt to deal with. Since there's no explicit
-relationship, in the command line, between the created buses and the PCI
-devices that will connect to them, the domain XML needs to make a lot of
-extra assumptions regarding the relationship between regular PCI devices
-and the existing PECs.
-
-The first step to allow for user creatable pnv-phb4 devices is to
-decouple the pvn-phb logic from the pnv-phb4-pec code. This patch adds a
-helper called pnv_phb4_set_stack_phb_props() to remove the code from
-pnv_phb4_pec.c that initiates the object properties of pnv-phb4 devices.
+Move the function to pnv_phb4.c and make it public since there's no
+pnv_phb4_pec.h header. While we're at it, add 'stack_index' as a
+parameter and make the function return 'phb-id' directly. And rename it
+to pnv_phb4_pec_get_phb_id() to be even clearer about the function
+intent.
 
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- hw/pci-host/pnv_phb4.c         | 25 +++++++++++++++++++++++++
- hw/pci-host/pnv_phb4_pec.c     | 12 +-----------
- include/hw/pci-host/pnv_phb4.h |  1 +
- 3 files changed, 27 insertions(+), 11 deletions(-)
+ hw/pci-host/pnv_phb4.c         | 17 +++++++++++++++++
+ hw/pci-host/pnv_phb4_pec.c     | 15 +--------------
+ include/hw/pci-host/pnv_phb4.h |  2 ++
+ 3 files changed, 20 insertions(+), 14 deletions(-)
 
 diff --git a/hw/pci-host/pnv_phb4.c b/hw/pci-host/pnv_phb4.c
-index 83dedc878a..6c1a33bc66 100644
+index 6c1a33bc66..4c785bbe4c 100644
 --- a/hw/pci-host/pnv_phb4.c
 +++ b/hw/pci-host/pnv_phb4.c
-@@ -1158,6 +1158,31 @@ static AddressSpace *pnv_phb4_dma_iommu(PCIBus *bus, void *opaque, int devfn)
+@@ -1158,6 +1158,23 @@ static AddressSpace *pnv_phb4_dma_iommu(PCIBus *bus, void *opaque, int devfn)
      return &ds->dma_as;
  }
  
 +/*
-+ * Set the object properties of a phb in relation with its stack.
-+ *
-+ * Note: stack->pec must not be NULL.
++ * Return the index/phb-id of a PHB4 that belongs to a
++ * pec->stacks[stack_index] stack.
 + */
-+void pnv_phb4_set_stack_phb_props(PnvPhb4PecStack *stack,
-+                                  PnvPHB4 *phb)
++int pnv_phb4_pec_get_phb_id(PnvPhb4PecState *pec, int stack_index)
 +{
-+    PnvPhb4PecState *pec = stack->pec;
 +    PnvPhb4PecClass *pecc = PNV_PHB4_PEC_GET_CLASS(pec);
-+    char name[64];
++    int index = pec->index;
++    int offset = 0;
 +
-+    snprintf(name, sizeof(name), "xscom-pec-%d.%d-pci-stack-%d-phb",
-+             pec->chip_id, pec->index, stack->stack_no);
-+    pnv_xscom_region_init(&stack->phb_regs_mr, OBJECT(phb),
-+                          &pnv_phb4_xscom_ops, phb, name, 0x40);
++    while (index--) {
++        offset += pecc->num_stacks[index];
++    }
 +
-+    object_property_set_int(OBJECT(phb), "chip-id", pec->chip_id,
-+                            &error_fatal);
-+    object_property_set_int(OBJECT(phb), "version", pecc->version,
-+                            &error_fatal);
-+    object_property_set_link(OBJECT(phb), "stack", OBJECT(stack),
-+                             &error_abort);
++    return offset + stack_index;
 +}
 +
- static void pnv_phb4_instance_init(Object *obj)
- {
-     PnvPHB4 *phb = PNV_PHB4(obj);
+ /*
+  * Set the object properties of a phb in relation with its stack.
+  *
 diff --git a/hw/pci-host/pnv_phb4_pec.c b/hw/pci-host/pnv_phb4_pec.c
-index f3e4fa0c82..057d4b07fb 100644
+index 057d4b07fb..e47d19dfff 100644
 --- a/hw/pci-host/pnv_phb4_pec.c
 +++ b/hw/pci-host/pnv_phb4_pec.c
-@@ -577,17 +577,7 @@ static void pnv_pec_stk_realize(DeviceState *dev, Error **errp)
-                           PHB4_PEC_PCI_STK_REGS_COUNT);
- 
-     /* PHB pass-through */
--    snprintf(name, sizeof(name), "xscom-pec-%d.%d-pci-stack-%d-phb",
--             pec->chip_id, pec->index, stack->stack_no);
--    pnv_xscom_region_init(&stack->phb_regs_mr, OBJECT(&stack->phb),
--                          &pnv_phb4_xscom_ops, &stack->phb, name, 0x40);
--
--    object_property_set_int(OBJECT(&stack->phb), "chip-id", pec->chip_id,
--                            &error_fatal);
--    object_property_set_int(OBJECT(&stack->phb), "version", pecc->version,
--                            &error_fatal);
--    object_property_set_link(OBJECT(&stack->phb), "stack", OBJECT(stack),
--                             &error_abort);
-+    pnv_phb4_set_stack_phb_props(stack, &stack->phb);
-     if (!sysbus_realize(SYS_BUS_DEVICE(&stack->phb), errp)) {
-         return;
+@@ -374,19 +374,6 @@ static void pnv_pec_instance_init(Object *obj)
      }
+ }
+ 
+-static int pnv_pec_phb_offset(PnvPhb4PecState *pec)
+-{
+-    PnvPhb4PecClass *pecc = PNV_PHB4_PEC_GET_CLASS(pec);
+-    int index = pec->index;
+-    int offset = 0;
+-
+-    while (index--) {
+-        offset += pecc->num_stacks[index];
+-    }
+-
+-    return offset;
+-}
+-
+ static void pnv_pec_realize(DeviceState *dev, Error **errp)
+ {
+     PnvPhb4PecState *pec = PNV_PHB4_PEC(dev);
+@@ -405,7 +392,7 @@ static void pnv_pec_realize(DeviceState *dev, Error **errp)
+     for (i = 0; i < pec->num_stacks; i++) {
+         PnvPhb4PecStack *stack = &pec->stacks[i];
+         Object *stk_obj = OBJECT(stack);
+-        int phb_id = pnv_pec_phb_offset(pec) + i;
++        int phb_id =  pnv_phb4_pec_get_phb_id(pec, i);
+ 
+         object_property_set_int(stk_obj, "stack-no", i, &error_abort);
+         object_property_set_int(stk_obj, "phb-id", phb_id, &error_abort);
 diff --git a/include/hw/pci-host/pnv_phb4.h b/include/hw/pci-host/pnv_phb4.h
-index ea63df9676..7f5b9cc0ac 100644
+index 7f5b9cc0ac..b2c4a6b263 100644
 --- a/include/hw/pci-host/pnv_phb4.h
 +++ b/include/hw/pci-host/pnv_phb4.h
-@@ -131,6 +131,7 @@ struct PnvPHB4 {
+@@ -15,6 +15,7 @@
+ #include "hw/ppc/xive.h"
+ #include "qom/object.h"
  
++typedef struct PnvPhb4PecState PnvPhb4PecState;
+ typedef struct PnvPhb4PecStack PnvPhb4PecStack;
+ typedef struct PnvPHB4 PnvPHB4;
+ typedef struct PnvChip PnvChip;
+@@ -132,6 +133,7 @@ struct PnvPHB4 {
  void pnv_phb4_pic_print_info(PnvPHB4 *phb, Monitor *mon);
  void pnv_phb4_update_regions(PnvPhb4PecStack *stack);
-+void pnv_phb4_set_stack_phb_props(PnvPhb4PecStack *stack, PnvPHB4 *phb);
+ void pnv_phb4_set_stack_phb_props(PnvPhb4PecStack *stack, PnvPHB4 *phb);
++int pnv_phb4_pec_get_phb_id(PnvPhb4PecState *pec, int stack_index);
  extern const MemoryRegionOps pnv_phb4_xscom_ops;
  
  /*
