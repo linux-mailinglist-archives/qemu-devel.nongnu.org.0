@@ -2,64 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AFCF4851A0
-	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 12:09:21 +0100 (CET)
-Received: from localhost ([::1]:54700 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C5464851B0
+	for <lists+qemu-devel@lfdr.de>; Wed,  5 Jan 2022 12:17:04 +0100 (CET)
+Received: from localhost ([::1]:60760 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n54AS-0001Yg-0A
-	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 06:09:20 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42884)
+	id 1n54Hv-0006GR-9U
+	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 06:17:03 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44414)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1n548H-00006I-PT
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 06:07:05 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50694)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1n54Er-0005Ov-1x
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 06:13:54 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55642)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1n548G-0001SL-CV
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 06:07:05 -0500
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1n54Em-0005FO-LT
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 06:13:51 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641380823;
+ s=mimecast20190719; t=1641381222;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=upVTfo0AeCZS5QDp97HCVnNdSTvivtQOoACEXl1XuaQ=;
- b=QlU3Ga9WWJAkuxUKWzRfv9X48XxWsFlGVk986v0JMM0Elj/+iseEfHMArK0iGCNy7/1/jE
- uQ+FA513z2GOVjUnkTHoHtGiYLaJxRw4O1u0uFnpZS21aKdo1WdRfrbpqlJakJ6HhxSjkT
- DwqdFSlHtWxMenRHuZc0DSpgChj+A0s=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=PcV4/z31xpxd3CmU1VA/AMmHnn6Enevn7v709S61UNo=;
+ b=Pb5HsyTMe+5B1688HcPJKEMElgs3kyVYHDh5SGI2lFGf75ibGbAlEFEmRSWFiiWjYdBMew
+ kDJv8h7dtf7+ZgLbSOhOAGJRcxxrS2CT7hVg2uFt+B0bHJ0INCZDFzDEIV/OB+yjW4sNei
+ d1tZhkRGlZRqzQRg3xlbsCRufRHLBKo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-282-JWcVIcWnO0qXpGb5ZWgS4g-1; Wed, 05 Jan 2022 06:07:00 -0500
-X-MC-Unique: JWcVIcWnO0qXpGb5ZWgS4g-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-134-dAQKbIURPgqvdxL6kFEbcQ-1; Wed, 05 Jan 2022 06:13:41 -0500
+X-MC-Unique: dAQKbIURPgqvdxL6kFEbcQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3DDE510151E4;
- Wed,  5 Jan 2022 11:06:59 +0000 (UTC)
-Received: from localhost (unknown [10.39.194.143])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4480E7AD1C;
- Wed,  5 Jan 2022 11:06:36 +0000 (UTC)
-Date: Wed, 5 Jan 2022 11:06:34 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Raphael Norwitz <raphael.norwitz@nutanix.com>
-Subject: Re: [RFC 4/5] libvhost-user: prevent over-running max RAM slots
-Message-ID: <YdV7unSQACBuniBi@stefanha-x1.localdomain>
-References: <20211215222939.24738-1-raphael.norwitz@nutanix.com>
- <20211215222939.24738-5-raphael.norwitz@nutanix.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3ABA8100C660;
+ Wed,  5 Jan 2022 11:13:40 +0000 (UTC)
+Received: from localhost (unknown [10.39.194.35])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BDA9D1036B4B;
+ Wed,  5 Jan 2022 11:13:39 +0000 (UTC)
+From: Hanna Reitz <hreitz@redhat.com>
+To: qemu-block@nongnu.org
+Subject: [PATCH] ide: Explicitly poll for BHs on cancel
+Date: Wed,  5 Jan 2022 12:13:37 +0100
+Message-Id: <20220105111337.10366-1-hreitz@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20211215222939.24738-5-raphael.norwitz@nutanix.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="5znFJsUPVeFbsjAq"
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -80,67 +74,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "marcandre.lureau@redhat.com" <marcandre.lureau@redhat.com>,
- "david@redhat.com" <david@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "raphael.s.norwitz@gmail.com" <raphael.s.norwitz@gmail.com>,
- "mst@redhat.com" <mst@redhat.com>
+Cc: Hanna Reitz <hreitz@redhat.com>, John Snow <jsnow@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---5znFJsUPVeFbsjAq
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+When we still have an AIOCB registered for DMA operations, we try to
+settle the respective operation by draining the BlockBackend associated
+with the IDE device.
 
-On Wed, Dec 15, 2021 at 10:29:54PM +0000, Raphael Norwitz wrote:
-> When VHOST_USER_PROTOCOL_F_CONFIGURE_MEM_SLOTS support was added to
-> libvhost-user, no guardrails were added to protect against QEMU
-> attempting to hot-add too many RAM slots to a VM with a libvhost-user
-> based backed attached.
->=20
-> This change adds the missing error handling by introducing a check on
-> the number of RAM slots the device has available before proceeding to
-> process the VHOST_USER_ADD_MEM_REG message.
->=20
-> Suggested-by: Stefan Hajnoczi <stefanha@redhat.com>
-> Signed-off-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
-> ---
->  subprojects/libvhost-user/libvhost-user.c | 5 +++++
->  1 file changed, 5 insertions(+)
->=20
-> diff --git a/subprojects/libvhost-user/libvhost-user.c b/subprojects/libv=
-host-user/libvhost-user.c
-> index 714cc7e08b..74a9980194 100644
-> --- a/subprojects/libvhost-user/libvhost-user.c
-> +++ b/subprojects/libvhost-user/libvhost-user.c
-> @@ -690,6 +690,11 @@ vu_add_mem_reg(VuDev *dev, VhostUserMsg *vmsg) {
->      VuDevRegion *dev_region =3D &dev->regions[dev->nregions];
->      void *mmap_addr;
-> =20
-> +    if (dev->nregions =3D=3D VHOST_USER_MAX_RAM_SLOTS) {
-> +        vu_panic(dev, "No free ram slots available");
-> +        return true;
+However, this assumes that every DMA operation is associated with some
+I/O operation on the BlockBackend, and so settling the latter will
+settle the former.  That is not the case; for example, the guest is free
+to issue a zero-length TRIM operation that will not result in any I/O
+operation forwarded to the BlockBackend.  In such a case, blk_drain()
+will be a no-op if no other operations are in flight.
 
-return false
+It is clear that if blk_drain() is a no-op, the value of
+s->bus->dma->aiocb will not change between checking it in the `if`
+condition and asserting that it is NULL after blk_drain().
 
-Stefan
+To settle the DMA operation, we will thus need to explicitly invoke
+aio_poll() ourselves, which will run any outstanding BHs (like
+ide_trim_bh_cb()), until s->bus->dma->aiocb is NULL.  To stop this from
+being an infinite loop, assert that we made progress with every
+aio_poll() call (i.e., invoked some BH).
 
---5znFJsUPVeFbsjAq
-Content-Type: application/pgp-signature; name="signature.asc"
+Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=2029980
+Signed-off-by: Hanna Reitz <hreitz@redhat.com>
+---
+Perhaps for a lack of being aware of all the kinds of tests we have, I
+found it impossible to write a reproducer in any of our current test
+frameworks: From how I understand the issue, to reproduce it, you need
+to issue a TRIM request and immediately cancel it, before
+ide_trim_bh_cb() (scheduled as a BH) can run.
 
------BEGIN PGP SIGNATURE-----
+I wanted to do this via qtest, but that does not work, because every
+port I/O operation is done via a qtest command, and QEMU will happily
+poll the main context between each qtest command, which means that you
+cannot cancel an ongoing IDE request before a BH scheduled by it is run.
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmHVe7oACgkQnKSrs4Gr
-c8g+7wgAlaP0/zdbC8c04PGh8EF4Epdhv+AhNZnVEfDT2gOJinNl0VBzmu1FFFgD
-Jau85n4CDjHMigrtj8m7Wo6e3FhgHTokAEZ4ksQSTFFYUsPKwcQAnc+I2Lgvb3JS
-xx/X6nA08+rKn4Q/TMWNOXk1G00FH/Y/M1npkct5DtQZWS74Apfci9wtnfjctqa3
-JjZYvnD88U+fWgoJ6P/upaTAktK0pDNcqJM7lRyuEKU5cO+TeIs/p3+cCOehcRu5
-VG6nTOXTW9oALI3cg+mk5mB8dAp6QYx42tmt/DgGfeGcGfVvsK8U7PylWzls4QYQ
-3It6keAKkFHHOJUkB8o/pm/tXfVUmQ==
-=RfjX
------END PGP SIGNATURE-----
+Therefore, I wrote an x86 boot sector that sets up a no-op TRIM request
+(i.e. one where all TRIM ranges have length 0) and immediately cancels
+it by setting SRST.  It is attached to the BZ linked above, and can be
+tested as follows:
 
---5znFJsUPVeFbsjAq--
+$ TEST_BIN=test.bin
+$ (sleep 1; echo 'info registers'; echo quit) \
+    | ./qemu-system-x86_64 \
+        -drive if=ide,file=$TEST_BIN,format=raw \
+        -monitor stdio \
+    | grep EIP= \
+    | sed -e 's/ EFL.*//'
+
+The result should be:
+EIP=00007c72
+
+Not:
+qemu-system-x86_64: ../hw/ide/core.c:734: ide_cancel_dma_sync: Assertion
+`s->bus->dma->aiocb == NULL' failed.
+---
+ hw/ide/core.c | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
+
+diff --git a/hw/ide/core.c b/hw/ide/core.c
+index e28f8aad61..c7f7a1016c 100644
+--- a/hw/ide/core.c
++++ b/hw/ide/core.c
+@@ -731,7 +731,17 @@ void ide_cancel_dma_sync(IDEState *s)
+     if (s->bus->dma->aiocb) {
+         trace_ide_cancel_dma_sync_remaining();
+         blk_drain(s->blk);
+-        assert(s->bus->dma->aiocb == NULL);
++
++        /*
++         * Wait for potentially still-scheduled BHs, like ide_trim_bh_cb()
++         * (blk_drain() will only poll if there are in-flight requests on the
++         * BlockBackend, which there may not necessarily be, e.g. when the
++         * guest has issued a zero-length TRIM request)
++         */
++        while (s->bus->dma->aiocb) {
++            bool progress = aio_poll(qemu_get_aio_context(), true);
++            assert(progress);
++        }
+     }
+ }
+ 
+-- 
+2.33.1
 
 
