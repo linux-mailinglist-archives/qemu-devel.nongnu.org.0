@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 645EC4862FA
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 11:35:28 +0100 (CET)
-Received: from localhost ([::1]:34690 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF9BA4862BC
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 11:13:04 +0100 (CET)
+Received: from localhost ([::1]:45944 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5Q7D-0007RW-7j
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 05:35:27 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53278)
+	id 1n5PlX-0006sF-U9
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 05:13:03 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53346)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lizhang@suse.de>) id 1n5Pg4-0007n9-RU
- for qemu-devel@nongnu.org; Thu, 06 Jan 2022 05:07:24 -0500
-Received: from smtp-out2.suse.de ([195.135.220.29]:40392)
+ (Exim 4.90_1) (envelope-from <lizhang@suse.de>) id 1n5PgL-0000Ll-1K
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 05:07:41 -0500
+Received: from smtp-out1.suse.de ([195.135.220.28]:36096)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <lizhang@suse.de>) id 1n5Pg3-00038C-5c
- for qemu-devel@nongnu.org; Thu, 06 Jan 2022 05:07:24 -0500
+ (Exim 4.90_1) (envelope-from <lizhang@suse.de>) id 1n5PgJ-0003A8-Bu
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 05:07:40 -0500
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id E2E081F37D;
- Thu,  6 Jan 2022 10:07:21 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 532222113A
+ for <qemu-devel@nongnu.org>; Thu,  6 Jan 2022 10:07:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1641463641; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
+ t=1641463658; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=RCevC7f4VSIKyQOhY3Sc8axNVvEPfbZSZoBkPYCW+Yo=;
- b=g+1xhiSxLPXO8NeGuuxLKkX+vlcUs/kPX7xgs6jJSKcrVFtqJqUM/fDqzGL5OOgWln4Fuu
- LqqJ807O9zV/TjnU/fNcZQaUMNj5t85hHv+8PBnO0f3OtV0RwT/urYTeyoyz+mDWfcO9bw
- pghJb3/zybU85QzF8r/FQjtjrYRjW6s=
+ bh=wMJvaIz4CpdzVdvMuGKMjld8PKqmpbdAbc3goBrdGG4=;
+ b=pUB5Bsmar8rnv1ltosCdGk7j85Np5KdYjyY+qNX+o/iw7KYo0SWsYsOAOIfyikrDH1MNzN
+ hy1NREfmlXjFo8oALMINqwJsuR1PG4LGrzKELMDkooI6zEek379m9cbmzjHfvAO0Zul8Xs
+ bko16n+taFovAO1aaMNvRG9rkgAR9zY=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1641463641;
+ s=susede2_ed25519; t=1641463658;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
  mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=RCevC7f4VSIKyQOhY3Sc8axNVvEPfbZSZoBkPYCW+Yo=;
- b=j+zj5fet0/9kdyjSJh9pX5W4WbHlBzlDrVoZeC3vBeOTpO0FAAnKdqCQTGYyZPXVxRnPeY
- ZYTfT3wZkG4RqTAw==
+ bh=wMJvaIz4CpdzVdvMuGKMjld8PKqmpbdAbc3goBrdGG4=;
+ b=J5RZRAoudJP/R0yT7tLQK+OxzcxWESxw+5AECQ7MJAJNxXE987UgmxLUoT+EGTozOp0SNr
+ zBmYQ7ol8ZuRtAAA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id B9C2513C1E;
- Thu,  6 Jan 2022 10:07:21 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3F0D613C1E
+ for <qemu-devel@nongnu.org>; Thu,  6 Jan 2022 10:07:38 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id Y0SuK1m/1mFieAAAMHmgww
- (envelope-from <lizhang@suse.de>); Thu, 06 Jan 2022 10:07:21 +0000
-Subject: Re: [PATCH 1/2] multifd: cleanup the function multifd_channel_connect
-To: quintela@redhat.com, dgilbert@redhat.com, cfontana@suse.de,
- qemu-devel@nongnu.org
+ by imap2.suse-dmz.suse.de with ESMTPSA id TWymDWq/1mGFeAAAMHmgww
+ (envelope-from <lizhang@suse.de>)
+ for <qemu-devel@nongnu.org>; Thu, 06 Jan 2022 10:07:38 +0000
+Subject: Re: [PATCH 2/2] multifd: cleanup the function multifd_send_thread
+To: qemu-devel@nongnu.org
 References: <20211222113049.9326-1-lizhang@suse.de>
- <20211222113049.9326-2-lizhang@suse.de>
+ <20211222113049.9326-3-lizhang@suse.de>
 From: Li Zhang <lizhang@suse.de>
-Message-ID: <967884e2-4678-9f64-42ab-18edc4835f96@suse.de>
-Date: Thu, 6 Jan 2022 11:07:21 +0100
+Message-ID: <9385c878-bd71-fc99-a4ab-f66e5ac3f724@suse.de>
+Date: Thu, 6 Jan 2022 11:07:37 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20211222113049.9326-2-lizhang@suse.de>
+In-Reply-To: <20211222113049.9326-3-lizhang@suse.de>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=195.135.220.29; envelope-from=lizhang@suse.de;
- helo=smtp-out2.suse.de
+Received-SPF: pass client-ip=195.135.220.28; envelope-from=lizhang@suse.de;
+ helo=smtp-out1.suse.de
 X-Spam_score_int: -70
 X-Spam_score: -7.1
 X-Spam_bar: -------
@@ -93,75 +93,117 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 ping
 
 On 12/22/21 12:30 PM, Li Zhang wrote:
-> Cleanup multifd_channel_connect
+> Cleanup multifd_send_thread
 > 
 > Signed-off-by: Li Zhang <lizhang@suse.de>
 > ---
->   migration/multifd.c | 49 ++++++++++++++++++++++-----------------------
->   1 file changed, 24 insertions(+), 25 deletions(-)
+>   migration/multifd.c | 82 ++++++++++++++++++++++-----------------------
+>   1 file changed, 41 insertions(+), 41 deletions(-)
 > 
 > diff --git a/migration/multifd.c b/migration/multifd.c
-> index 212be1ed04..4ec40739e0 100644
+> index 4ec40739e0..7888d71bfe 100644
 > --- a/migration/multifd.c
 > +++ b/migration/multifd.c
-> @@ -801,33 +801,32 @@ static bool multifd_channel_connect(MultiFDSendParams *p,
->       trace_multifd_set_outgoing_channel(
->           ioc, object_get_typename(OBJECT(ioc)), p->tls_hostname, error);
->   
-> -    if (!error) {
-> -        if (s->parameters.tls_creds &&
-> -            *s->parameters.tls_creds &&
-> -            !object_dynamic_cast(OBJECT(ioc),
-> -                                 TYPE_QIO_CHANNEL_TLS)) {
-> -            multifd_tls_channel_connect(p, ioc, &error);
-> -            if (!error) {
-> -                /*
-> -                 * tls_channel_connect will call back to this
-> -                 * function after the TLS handshake,
-> -                 * so we mustn't call multifd_send_thread until then
-> -                 */
-> -                return true;
-> -            } else {
-> -                return false;
+> @@ -649,58 +649,58 @@ static void *multifd_send_thread(void *opaque)
+>               break;
+>           }
+>           qemu_mutex_lock(&p->mutex);
+> -
+> -        if (p->pending_job) {
+> -            uint32_t used = p->pages->num;
+> -            uint64_t packet_num = p->packet_num;
+> -            uint32_t flags = p->flags;
+> -
+> -            if (used) {
+> -                ret = multifd_send_state->ops->send_prepare(p, &local_err);
+> -                if (ret != 0) {
+> -                    qemu_mutex_unlock(&p->mutex);
+> -                    break;
+> -                }
 > -            }
+> -            multifd_send_fill_packet(p);
+> -            p->flags = 0;
+> -            p->num_packets++;
+> -            p->num_pages += used;
+> -            p->pages->num = 0;
+> -            p->pages->block = NULL;
+> +        if (!p->quit && !p->pending_job) {
+> +            /* sometimes there are spurious wakeups */
+> +            qemu_mutex_unlock(&p->mutex);
+> +            continue;
+> +        } else if (!p->pending_job) {
+>               qemu_mutex_unlock(&p->mutex);
+> +            break;
+> +        }
+>   
+> -            trace_multifd_send(p->id, packet_num, used, flags,
+> -                               p->next_packet_size);
+> +        uint32_t used = p->pages->num;
+> +        uint64_t packet_num = p->packet_num;
+> +        uint32_t flags = p->flags;
+>   
+> -            ret = qio_channel_write_all(p->c, (void *)p->packet,
+> -                                        p->packet_len, &local_err);
+> +        if (used) {
+> +            ret = multifd_send_state->ops->send_prepare(p, &local_err);
+>               if (ret != 0) {
+> +                qemu_mutex_unlock(&p->mutex);
+>                   break;
+>               }
+> +        }
+> +        multifd_send_fill_packet(p);
+> +        p->flags = 0;
+> +        p->num_packets++;
+> +        p->num_pages += used;
+> +        p->pages->num = 0;
+> +        p->pages->block = NULL;
+> +        qemu_mutex_unlock(&p->mutex);
+>   
+> -            if (used) {
+> -                ret = multifd_send_state->ops->send_write(p, used, &local_err);
+> -                if (ret != 0) {
+> -                    break;
+> -                }
+> -            }
+> +        trace_multifd_send(p->id, packet_num, used, flags,
+> +                           p->next_packet_size);
+>   
+> -            qemu_mutex_lock(&p->mutex);
+> -            p->pending_job--;
+> -            qemu_mutex_unlock(&p->mutex);
+> +        ret = qio_channel_write_all(p->c, (void *)p->packet,
+> +                                    p->packet_len, &local_err);
+> +        if (ret != 0) {
+> +            break;
+> +        }
+>   
+> -            if (flags & MULTIFD_FLAG_SYNC) {
+> -                qemu_sem_post(&p->sem_sync);
+> +        if (used) {
+> +            ret = multifd_send_state->ops->send_write(p, used, &local_err);
+> +            if (ret != 0) {
+> +                break;
+>               }
+> -            qemu_sem_post(&multifd_send_state->channels_ready);
+> -        } else if (p->quit) {
+> -            qemu_mutex_unlock(&p->mutex);
+> -            break;
 > -        } else {
-> -            migration_ioc_register_yank(ioc);
-> -            p->registered_yank = true;
-> -            p->c = ioc;
-> -            qemu_thread_create(&p->thread, p->name, multifd_send_thread, p,
-> -                                   QEMU_THREAD_JOINABLE);
-> -       }
-> -       return true;
-> +    if (error) {
-> +        return false;
+> -            qemu_mutex_unlock(&p->mutex);
+> -            /* sometimes there are spurious wakeups */
+>           }
+> +
+> +        qemu_mutex_lock(&p->mutex);
+> +        p->pending_job--;
+> +        qemu_mutex_unlock(&p->mutex);
+> +
+> +        if (flags & MULTIFD_FLAG_SYNC) {
+> +            qemu_sem_post(&p->sem_sync);
+> +        }
+> +        qemu_sem_post(&multifd_send_state->channels_ready);
 >       }
 >   
-> -    return false;
-> +    if (s->parameters.tls_creds &&
-> +        *s->parameters.tls_creds &&
-> +        !object_dynamic_cast(OBJECT(ioc),
-> +                             TYPE_QIO_CHANNEL_TLS)) {
-> +        multifd_tls_channel_connect(p, ioc, &error);
-> +        if (error) {
-> +            return false;
-> +        }
-> +        /*
-> +         * tls_channel_connect will call back to this
-> +         * function after the TLS handshake,
-> +         * so we mustn't call multifd_send_thread until then
-> +         */
-> +        return true;
-> +    } else {
-> +        migration_ioc_register_yank(ioc);
-> +        p->registered_yank = true;
-> +        p->c = ioc;
-> +        qemu_thread_create(&p->thread, p->name, multifd_send_thread, p,
-> +                               QEMU_THREAD_JOINABLE);
-> +    }
-> +    return true;
->   }
->   
->   static void multifd_new_send_channel_cleanup(MultiFDSendParams *p,
+>   out:
 > 
 
 
