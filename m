@@ -2,65 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89B4D485F2F
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 04:24:36 +0100 (CET)
-Received: from localhost ([::1]:40020 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16EDF485F6B
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 04:57:11 +0100 (CET)
+Received: from localhost ([::1]:46390 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5JOF-0004Z7-4S
-	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 22:24:35 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43380)
+	id 1n5Jtk-0002ne-I2
+	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 22:57:08 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:47734)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
- id 1n5JN2-0003sY-S4
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 22:23:20 -0500
-Received: from szxga01-in.huawei.com ([45.249.212.187]:3522)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
- id 1n5JMv-0003uE-Mv
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 22:23:20 -0500
-Received: from dggpeml500025.china.huawei.com (unknown [172.30.72.57])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4JTs64003TzZdr5;
- Thu,  6 Jan 2022 11:19:39 +0800 (CST)
-Received: from dggpeml100016.china.huawei.com (7.185.36.216) by
- dggpeml500025.china.huawei.com (7.185.36.35) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Thu, 6 Jan 2022 11:23:08 +0800
-Received: from dggpeml100016.china.huawei.com ([7.185.36.216]) by
- dggpeml100016.china.huawei.com ([7.185.36.216]) with mapi id 15.01.2308.020;
- Thu, 6 Jan 2022 11:23:08 +0800
-To: Stefano Garzarella <sgarzare@redhat.com>
-CC: "stefanha@redhat.com" <stefanha@redhat.com>, "mst@redhat.com"
- <mst@redhat.com>, "jasowang@redhat.com" <jasowang@redhat.com>,
- "cohuck@redhat.com" <cohuck@redhat.com>, "pbonzini@redhat.com"
- <pbonzini@redhat.com>, "Gonglei (Arei)" <arei.gonglei@huawei.com>, Yechuan
- <yechuan@huawei.com>, Huangzhichao <huangzhichao@huawei.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Subject: RE: [RFC 06/10] vdpa-dev: implement the unrealize interface
-Thread-Topic: [RFC 06/10] vdpa-dev: implement the unrealize interface
-Thread-Index: AQHYAc9xlWASqyyWWU2vC490mXUhcaxTwY8AgAGPTCA=
-Date: Thu, 6 Jan 2022 03:23:07 +0000
-Message-ID: <6e6f7fbb7db8498d985da9e50e65c324@huawei.com>
-References: <20220105005900.860-1-longpeng2@huawei.com>
- <20220105005900.860-7-longpeng2@huawei.com>
- <20220105111612.epxi3w3ebsaye5mm@steredhat>
-In-Reply-To: <20220105111612.epxi3w3ebsaye5mm@steredhat>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.174.148.223]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1n5Jsc-0001Nn-UB
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 22:55:58 -0500
+Received: from [2607:f8b0:4864:20::635] (port=41982
+ helo=mail-pl1-x635.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1n5Jsb-0005i7-Ao
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 22:55:58 -0500
+Received: by mail-pl1-x635.google.com with SMTP id z3so1604511plg.8
+ for <qemu-devel@nongnu.org>; Wed, 05 Jan 2022 19:55:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=YbzNT/s1mVi4f0CdRjwz7KGLeYKyZkSt4/hZtVr2WaY=;
+ b=UAzPYHxDom2NlSbVmYR57ZoZzyaMRic5ymALzdI8tA6wOMioy6slbpvtZTsHNeYOKt
+ nWdV5uBcIaipZ+hbwERgElhxlX/LOZUTH6Wut3zEDw7A/LezSnU89txt5f/Bs8WLf/Qs
+ DCswxtU0ceWeXLgQzxCHlRFf4JC1k6XnEKw1fKFpyw9aK5Q5ImBX7G1VT2RAVUzF+1sM
+ /co4kpN7ZKlpFK30iT8wrPjClDSmJJMawS0c0jN56P39vEQ/Trwm2FOp2wMBtZb8cUZo
+ owKilbV0pHt4AaY02i4AHtsSl+HQr4LKIZbG09fKEvgj1BovP2hqfVOYbWBHuqM7QzuD
+ FMIw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=YbzNT/s1mVi4f0CdRjwz7KGLeYKyZkSt4/hZtVr2WaY=;
+ b=WpIj4/PmUh/d7g59geGf5Pd/cReQDWOF4+m+4zCZEydgYb6G3YwuPgsZ7VuoyywBkl
+ B5kce/3hlVmyxPuPTQpYEcSZdVnGR4qfB/UEk0zOfB3VN4GqwjEhnt3mptMxLng9I+hJ
+ zDTqoAIs27wEKElFNhuSWT/IdSjC8ZXBctOfGtDTUQ9RgMHVwdUohsH/2KRKZZx2sPS3
+ +OHIwkHq030VEwBw5XDAPKUD5mhxLqxNEiN4i56JSspkb2T9Mreehr5fZs3RGeD72S3n
+ lA4CgDalWr4KTxdKy+Ifh/0v5w6sM92sr2F9UvCbg+Pj+GphJH24j+7WjCryjOb8eSVN
+ lprw==
+X-Gm-Message-State: AOAM533mVHlDQTu+UyNzT1nog4hoL3///9ti9ehc1jsAD7x9wy69KhhV
+ sUWMbIbF7HeAOkgrXbwdcyDUKw==
+X-Google-Smtp-Source: ABdhPJxnVGHGfAyI4h+PLjtD7SlFiDJxxmT8MF51srXIGN664cCfTeRHr/sDYgsQvr1/OaOtnFWoMw==
+X-Received: by 2002:a17:90a:aa86:: with SMTP id
+ l6mr7882777pjq.82.1641441355642; 
+ Wed, 05 Jan 2022 19:55:55 -0800 (PST)
+Received: from [192.168.1.13] (174-21-75-75.tukw.qwest.net. [174.21.75.75])
+ by smtp.gmail.com with ESMTPSA id 72sm513383pfu.70.2022.01.05.19.55.55
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 05 Jan 2022 19:55:55 -0800 (PST)
+Subject: Re: [PATCH] tcg/loongarch64: Support raising sigbus for user-only
+To: WANG Xuerui <git@xen0n.name>, qemu-devel@nongnu.org
+References: <20220105174456.3719220-1-git@xen0n.name>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <f788f664-74af-5247-1351-17e487e8f7a3@linaro.org>
+Date: Wed, 5 Jan 2022 19:55:53 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.187; envelope-from=longpeng2@huawei.com;
- helo=szxga01-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20220105174456.3719220-1-git@xen0n.name>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::635
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x635.google.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
+X-Spam_bar: --
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.057,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -74,94 +90,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  "Longpeng (Mike, Cloud Infrastructure Service Product Dept.)"
- <longpeng2@huawei.com>
-From: longpeng2--- via <qemu-devel@nongnu.org>
+
+On 1/5/22 9:44 AM, WANG Xuerui wrote:
+> +static void tcg_out_test_alignment(TCGContext *s, bool is_ld, TCGReg addr_reg,
+> +                                   unsigned a_bits)
+> +{
+> +    TCGLabelQemuLdst *l = new_ldst_label(s);
+> +
+> +    l->is_ld = is_ld;
+> +    l->addrlo_reg = addr_reg;
+> +
+> +    tcg_debug_assert(a_bits < TCG_TARGET_REG_BITS);
+> +    tcg_out_opc_bstrpick_d(s, TCG_REG_TMP1, addr_reg, 0, a_bits - 1);
+
+Looks good.  My only comment is wrt using bstrpick vs andi.
+I haven't found any pipeline or timing info for loongarch,
+so I don't know if either way is best.
+
+With bstrpick, you can drop the assert.
+
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 
-
-> -----Original Message-----
-> From: Stefano Garzarella [mailto:sgarzare@redhat.com]
-> Sent: Wednesday, January 5, 2022 7:16 PM
-> To: Longpeng (Mike, Cloud Infrastructure Service Product Dept.)
-> <longpeng2@huawei.com>
-> Cc: stefanha@redhat.com; mst@redhat.com; jasowang@redhat.com;
-> cohuck@redhat.com; pbonzini@redhat.com; Gonglei (Arei)
-> <arei.gonglei@huawei.com>; Yechuan <yechuan@huawei.com>; Huangzhichao
-> <huangzhichao@huawei.com>; qemu-devel@nongnu.org
-> Subject: Re: [RFC 06/10] vdpa-dev: implement the unrealize interface
->=20
-> On Wed, Jan 05, 2022 at 08:58:56AM +0800, Longpeng(Mike) wrote:
-> >From: Longpeng <longpeng2@huawei.com>
-> >
-> >Implements the .unrealize interface.
-> >
-> >Signed-off-by: Longpeng <longpeng2@huawei.com>
-> >---
-> > hw/virtio/vdpa-dev.c | 22 +++++++++++++++++++++-
-> > 1 file changed, 21 insertions(+), 1 deletion(-)
-> >
-> >diff --git a/hw/virtio/vdpa-dev.c b/hw/virtio/vdpa-dev.c
-> >index 2d534d837a..4e4dd3d201 100644
-> >--- a/hw/virtio/vdpa-dev.c
-> >+++ b/hw/virtio/vdpa-dev.c
-> >@@ -133,9 +133,29 @@ out:
-> >     close(fd);
-> > }
-> >
-> >+static void vhost_vdpa_vdev_unrealize(VhostVdpaDevice *s)
-> >+{
-> >+    VirtIODevice *vdev =3D VIRTIO_DEVICE(s);
-> >+    int i;
-> >+
-> >+    for (i =3D 0; i < s->num_queues; i++) {
->                        ^
-> `s->num_queues` seems uninitialized to me, maybe we could just remove
-> the num_queues field from VhostVdpaDevice, and use `s->dev.nvqs` as in
-> vhost_vdpa_device_realize().
->=20
-
-Good catch, I'll fix the bug.
-
-But I think we should keep the num_queues field, we need it if we support
-migration in the next step, right?
-
-> >+        virtio_delete_queue(s->virtqs[i]);
-> >+    }
-> >+    g_free(s->virtqs);
-> >+    virtio_cleanup(vdev);
-> >+
-> >+    g_free(s->config);
-> >+}
-> >+
-> > static void vhost_vdpa_device_unrealize(DeviceState *dev)
-> > {
-> >-    return;
-> >+    VirtIODevice *vdev =3D VIRTIO_DEVICE(dev);
-> >+    VhostVdpaDevice *s =3D VHOST_VDPA_DEVICE(vdev);
-> >+
-> >+    virtio_set_status(vdev, 0);
-> >+    vhost_dev_cleanup(&s->dev);
->=20
-> If we will use `s->dev.nvqs` in vhost_vdpa_vdev_unrealize(), we should
-> call vhost_dev_cleanup() after it, just before close() as we already do
-> in the error path of vhost_vdpa_device_realize().
->=20
-
-I'll try to fix the above bug first if you agree that we should keep the
-num_queues field.
-
-I just realize that I forgot to free s->dev.vqs here...
-
-> >+    vhost_vdpa_vdev_unrealize(s);
-> >+    close(s->vdpa.device_fd);
-> > }
-> >
-> > static void
-> >--
-> >2.23.0
-> >
-
+r~
 
