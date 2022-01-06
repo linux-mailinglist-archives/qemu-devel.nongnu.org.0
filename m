@@ -2,75 +2,112 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65CBF486930
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 18:50:24 +0100 (CET)
-Received: from localhost ([::1]:51600 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0ADD9486963
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 19:09:10 +0100 (CET)
+Received: from localhost ([::1]:35164 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5Wu6-000762-Qz
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 12:50:23 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52378)
+	id 1n5XCG-0008UH-Me
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 13:09:08 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57334)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <idryomov@gmail.com>)
- id 1n5Wr8-0004lT-Nj; Thu, 06 Jan 2022 12:47:18 -0500
-Received: from [2607:f8b0:4864:20::936] (port=34788
- helo=mail-ua1-x936.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <idryomov@gmail.com>)
- id 1n5Wr6-0007nI-EK; Thu, 06 Jan 2022 12:47:18 -0500
-Received: by mail-ua1-x936.google.com with SMTP id y4so5812885uad.1;
- Thu, 06 Jan 2022 09:47:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=dJ/rUrzAjzsxkxn5IH1p4BZiZA+AHcuKCPg0V8LUX8Q=;
- b=AuRbvFAVfH8hFGgnZvGft1NLIuCOhRinx3CMME4YGVeQRXUzdfKK5RHBG79XFMsKSr
- 02YyBHgcnnr7qCAD/rvhUeSpA6eOgE33M7E2uCQEsPksHha9p4itSSOcxmPMhEiUn68W
- mBltIDYQi9ZQTzpijOj8vkdDl5z6gTR8WWppIXOVYbZ5qxucS/dr2bJPnERGRoRP6Qfn
- dWGMxR2z5KYpCMTtMTau5P3+7X1iPK4QC4bNgvbE5ipKFwK8rCsyKf8Kca/DglKwKOBh
- PE1JOnxZt7C/sFRkM+RJLG95Pln2QJw3FZ7M4X/G9yvXwNisl7Vx6GUqDnkZJDzGIl18
- 36ZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=dJ/rUrzAjzsxkxn5IH1p4BZiZA+AHcuKCPg0V8LUX8Q=;
- b=0lnCCXJZ2iCcnuCn8HjMspWDUhE5yFi/I5ioxAnH39euG8T2y0pJ26mQWuB92Cokev
- 56k2DCo3t9ATJOLVqESpEa9tgoX57c3gaULcYcO+nxQDV+aNOBFxEaPh9yxmQgPZfIbQ
- rlX4NUayYSr1fA3fzwCP2brwK6yk43OF/bUgEjRZEfa+jjXidRPZc3MgA9H3799bLrmF
- xm0HtUESFqlcCP76Wh3In4N/kXH82R1zxChAe4Tp7d+WKrz/CSrIDg0IBYSUFicBr5X7
- lM628o6YmSnED4npUI9Dni7KgaPq9ZsHYSd78AL1+fqPykF94Tf8XqF8rCMmfr59wpQW
- ZDxA==
-X-Gm-Message-State: AOAM530gxdw8Fst66ZVsMlpbk3s3XytQREzR6+gwdnLgFUyf2zz2JXB0
- d2Ny4W+mQW+3Cw4tEpO/toSAvguABV5pyYET0x+UXrDvdIEKYg==
-X-Google-Smtp-Source: ABdhPJwBbT3xLCAURTdemTrEdPVwkDqXtt+XuHnKs/ykscz6ClnJHKDlJriC/CTpV2gcOMcoO0nH+5tgQ9bwuQm4NKo=
-X-Received: by 2002:ab0:2c17:: with SMTP id l23mr19822087uar.130.1641491235010; 
- Thu, 06 Jan 2022 09:47:15 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
+ id 1n5XB8-0007nT-FI
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 13:07:58 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:59626)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
+ id 1n5XB5-00061n-6q
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 13:07:57 -0500
+Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 206HqTuB011784; 
+ Thu, 6 Jan 2022 18:07:51 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=gBb9xKfzw7vUO4vNhxK5kIm82B1lF1VSEZ+qY1b6Nvs=;
+ b=hbKwm++KfrhM/P+gCuwQyrh/sB41PBxVTMNMzTOgNUD0EH8W5saicC3vHhB32TeLvN3Q
+ ANuXbGjGHNDE0oJPPw0RlIw+x7IJAFUtKGde6541WzlYmeIgl1iVIh6E7DH6sengA+yU
+ 3TBddJYIG8fMnyEniG0Ld0MnYHAs1P8NBAa4Cf7GxSOVh0VDVfJHO09B0cskJG6wkI/A
+ +xQFpAg2ozlEocjlBXi0FMSAorvAHVgsj0rhuJXCntlUUa/fEo4dZKf//IVZFjDEuuJf
+ PPZCm08B4DcRxojYzf6lsSFpsus1DZTrVwQBQj6sWBMb6EzQbASAg7OHUOsk7lRfHxP5 tw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3de576g8tb-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 06 Jan 2022 18:07:51 +0000
+Received: from m0098393.ppops.net (m0098393.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 206Hrejk013904;
+ Thu, 6 Jan 2022 18:07:50 GMT
+Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.11])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3de576g8sx-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 06 Jan 2022 18:07:50 +0000
+Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
+ by ppma03dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 206I39fm030681;
+ Thu, 6 Jan 2022 18:07:49 GMT
+Received: from b03cxnp08025.gho.boulder.ibm.com
+ (b03cxnp08025.gho.boulder.ibm.com [9.17.130.17])
+ by ppma03dal.us.ibm.com with ESMTP id 3de4xf0nr5-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 06 Jan 2022 18:07:49 +0000
+Received: from b03ledav002.gho.boulder.ibm.com
+ (b03ledav002.gho.boulder.ibm.com [9.17.130.233])
+ by b03cxnp08025.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 206I7m1B32702942
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 6 Jan 2022 18:07:48 GMT
+Received: from b03ledav002.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 21503136084;
+ Thu,  6 Jan 2022 18:07:48 +0000 (GMT)
+Received: from b03ledav002.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 54FC1136104;
+ Thu,  6 Jan 2022 18:07:47 +0000 (GMT)
+Received: from [9.47.158.152] (unknown [9.47.158.152])
+ by b03ledav002.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Thu,  6 Jan 2022 18:07:47 +0000 (GMT)
+Message-ID: <c5c979cb-a1f5-c9f1-d3a0-db7e3a289899@linux.ibm.com>
+Date: Thu, 6 Jan 2022 13:07:46 -0500
 MIME-Version: 1.0
-References: <20210916122116.802-1-pl@kamp.de>
- <CAOi1vP8_em_m=orH+5L+164+7EgD+JD_5kmrh=mWBMjZSe79kg@mail.gmail.com>
- <8a6c60cb-ef5b-44a9-1872-27937a3a6967@kamp.de>
- <CAOi1vP84c5zX7319O8xRXBBJGh1baNpCzK2YU7uJp7Zyqmwe+Q@mail.gmail.com>
- <5e4aea9c-131e-c9a0-351b-deeb45774629@kamp.de>
- <CAOi1vP_evZxARUDYBQyBFQSXe4Hc9Y0ra7yNDQ6mXpFR0ThGBg@mail.gmail.com>
- <5c4a091e-a23c-6f64-1798-24731adc53e4@kamp.de>
-In-Reply-To: <5c4a091e-a23c-6f64-1798-24731adc53e4@kamp.de>
-From: Ilya Dryomov <idryomov@gmail.com>
-Date: Thu, 6 Jan 2022 18:47:13 +0100
-Message-ID: <CAOi1vP-f3Di0LAr5ShwU1_1MFCQY22O7r6KwqFvTY=t9o8jCTA@mail.gmail.com>
-Subject: Re: [PATCH V3] block/rbd: implement bdrv_co_block_status
-To: Peter Lieven <pl@kamp.de>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::936
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::936;
- envelope-from=idryomov@gmail.com; helo=mail-ua1-x936.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH v5 2/3] acpi: tpm: Add missing device identification
+ objects
+Content-Language: en-US
+To: Igor Mammedov <imammedo@redhat.com>
+References: <20220104175806.872996-1-stefanb@linux.ibm.com>
+ <20220104175806.872996-3-stefanb@linux.ibm.com>
+ <20220106093636.7fc7755f@redhat.com>
+ <6096f301-4c39-e39c-eb5f-9f7d22ba1260@linux.ibm.com>
+ <20220106085502-mutt-send-email-mst@kernel.org>
+ <bc4b7631-6bf5-ce30-8710-48f0369f688c@linux.ibm.com>
+ <20220106175547.6b5b8639@redhat.com>
+From: Stefan Berger <stefanb@linux.ibm.com>
+In-Reply-To: <20220106175547.6b5b8639@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: dUFHLI-KzUo1tVjXsrLpBCTlcoe5Rfph
+X-Proofpoint-ORIG-GUID: C-ok2s6yjnjTDCmWISDtFRmhKRDNZXOO
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2022-01-06_07,2022-01-06_01,2021-12-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 mlxscore=0
+ priorityscore=1501 suspectscore=0 impostorscore=0 lowpriorityscore=0
+ bulkscore=0 phishscore=0 mlxlogscore=999 clxscore=1015 adultscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2112160000 definitions=main-2201060120
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=stefanb@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -46
+X-Spam_score: -4.7
+X-Spam_bar: ----
+X-Spam_report: (-4.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.691,
+ RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,312 +120,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- qemu-block@nongnu.org, ct@flyingcircus.io, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Max Reitz <mreitz@redhat.com>,
- Jason Dillaman <dillaman@redhat.com>
+Cc: Ani Sinha <ani@anisinha.ca>, marcandre.lureau@redhat.com,
+ Shannon Zhao <shannon.zhaosl@gmail.com>, qemu-devel@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jan 6, 2022 at 5:33 PM Peter Lieven <pl@kamp.de> wrote:
+
+On 1/6/22 11:55, Igor Mammedov wrote:
+> On Thu, 6 Jan 2022 09:01:36 -0500
+> Stefan Berger <stefanb@linux.ibm.com> wrote:
 >
-> Am 06.01.22 um 17:01 schrieb Ilya Dryomov:
-> > On Thu, Jan 6, 2022 at 4:27 PM Peter Lieven <pl@kamp.de> wrote:
-> >> Am 05.10.21 um 10:36 schrieb Ilya Dryomov:
-> >>> On Tue, Oct 5, 2021 at 10:19 AM Peter Lieven <pl@kamp.de> wrote:
-> >>>> Am 05.10.21 um 09:54 schrieb Ilya Dryomov:
-> >>>>> On Thu, Sep 16, 2021 at 2:21 PM Peter Lieven <pl@kamp.de> wrote:
-> >>>>>> the qemu rbd driver currently lacks support for bdrv_co_block_status.
-> >>>>>> This results mainly in incorrect progress during block operations (e.g.
-> >>>>>> qemu-img convert with an rbd image as source).
-> >>>>>>
-> >>>>>> This patch utilizes the rbd_diff_iterate2 call from librbd to detect
-> >>>>>> allocated and unallocated (all zero areas).
-> >>>>>>
-> >>>>>> To avoid querying the ceph OSDs for the answer this is only done if
-> >>>>>> the image has the fast-diff feature which depends on the object-map and
-> >>>>>> exclusive-lock features. In this case it is guaranteed that the information
-> >>>>>> is present in memory in the librbd client and thus very fast.
-> >>>>>>
-> >>>>>> If fast-diff is not available all areas are reported to be allocated
-> >>>>>> which is the current behaviour if bdrv_co_block_status is not implemented.
-> >>>>>>
-> >>>>>> Signed-off-by: Peter Lieven <pl@kamp.de>
-> >>>>>> ---
-> >>>>>> V2->V3:
-> >>>>>> - check rbd_flags every time (they can change during runtime) [Ilya]
-> >>>>>> - also check for fast-diff invalid flag [Ilya]
-> >>>>>> - *map and *file cant be NULL [Ilya]
-> >>>>>> - set ret = BDRV_BLOCK_ZERO | BDRV_BLOCK_OFFSET_VALID in case of an
-> >>>>>>      unallocated area [Ilya]
-> >>>>>> - typo: catched -> caught [Ilya]
-> >>>>>> - changed wording about fast-diff, object-map and exclusive lock in
-> >>>>>>      commit msg [Ilya]
-> >>>>>>
-> >>>>>> V1->V2:
-> >>>>>> - add commit comment [Stefano]
-> >>>>>> - use failed_post_open [Stefano]
-> >>>>>> - remove redundant assert [Stefano]
-> >>>>>> - add macro+comment for the magic -9000 value [Stefano]
-> >>>>>> - always set *file if its non NULL [Stefano]
-> >>>>>>
-> >>>>>>     block/rbd.c | 126 ++++++++++++++++++++++++++++++++++++++++++++++++++++
-> >>>>>>     1 file changed, 126 insertions(+)
-> >>>>>>
-> >>>>>> diff --git a/block/rbd.c b/block/rbd.c
-> >>>>>> index dcf82b15b8..3cb24f9981 100644
-> >>>>>> --- a/block/rbd.c
-> >>>>>> +++ b/block/rbd.c
-> >>>>>> @@ -1259,6 +1259,131 @@ static ImageInfoSpecific *qemu_rbd_get_specific_info(BlockDriverState *bs,
-> >>>>>>         return spec_info;
-> >>>>>>     }
-> >>>>>>
-> >>>>>> +typedef struct rbd_diff_req {
-> >>>>>> +    uint64_t offs;
-> >>>>>> +    uint64_t bytes;
-> >>>>>> +    int exists;
-> >>>>> Hi Peter,
-> >>>>>
-> >>>>> Nit: make exists a bool.  The one in the callback has to be an int
-> >>>>> because of the callback signature but let's not spread that.
-> >>>>>
-> >>>>>> +} rbd_diff_req;
-> >>>>>> +
-> >>>>>> +/*
-> >>>>>> + * rbd_diff_iterate2 allows to interrupt the exection by returning a negative
-> >>>>>> + * value in the callback routine. Choose a value that does not conflict with
-> >>>>>> + * an existing exitcode and return it if we want to prematurely stop the
-> >>>>>> + * execution because we detected a change in the allocation status.
-> >>>>>> + */
-> >>>>>> +#define QEMU_RBD_EXIT_DIFF_ITERATE2 -9000
-> >>>>>> +
-> >>>>>> +static int qemu_rbd_co_block_status_cb(uint64_t offs, size_t len,
-> >>>>>> +                                       int exists, void *opaque)
-> >>>>>> +{
-> >>>>>> +    struct rbd_diff_req *req = opaque;
-> >>>>>> +
-> >>>>>> +    assert(req->offs + req->bytes <= offs);
-> >>>>>> +
-> >>>>>> +    if (req->exists && offs > req->offs + req->bytes) {
-> >>>>>> +        /*
-> >>>>>> +         * we started in an allocated area and jumped over an unallocated area,
-> >>>>>> +         * req->bytes contains the length of the allocated area before the
-> >>>>>> +         * unallocated area. stop further processing.
-> >>>>>> +         */
-> >>>>>> +        return QEMU_RBD_EXIT_DIFF_ITERATE2;
-> >>>>>> +    }
-> >>>>>> +    if (req->exists && !exists) {
-> >>>>>> +        /*
-> >>>>>> +         * we started in an allocated area and reached a hole. req->bytes
-> >>>>>> +         * contains the length of the allocated area before the hole.
-> >>>>>> +         * stop further processing.
-> >>>>>> +         */
-> >>>>>> +        return QEMU_RBD_EXIT_DIFF_ITERATE2;
-> >>>>> Do you have a test case for when this branch is taken?
-> >>>> That would happen if you diff from a snapshot, the question is if it can also happen if the image is a clone from a snapshot?
-> >>>>
-> >>>>
-> >>>>>> +    }
-> >>>>>> +    if (!req->exists && exists && offs > req->offs) {
-> >>>>>> +        /*
-> >>>>>> +         * we started in an unallocated area and hit the first allocated
-> >>>>>> +         * block. req->bytes must be set to the length of the unallocated area
-> >>>>>> +         * before the allocated area. stop further processing.
-> >>>>>> +         */
-> >>>>>> +        req->bytes = offs - req->offs;
-> >>>>>> +        return QEMU_RBD_EXIT_DIFF_ITERATE2;
-> >>>>>> +    }
-> >>>>>> +
-> >>>>>> +    /*
-> >>>>>> +     * assert that we caught all cases above and allocation state has not
-> >>>>>> +     * changed during callbacks.
-> >>>>>> +     */
-> >>>>>> +    assert(exists == req->exists || !req->bytes);
-> >>>>>> +    req->exists = exists;
-> >>>>>> +
-> >>>>>> +    /*
-> >>>>>> +     * assert that we either return an unallocated block or have got callbacks
-> >>>>>> +     * for all allocated blocks present.
-> >>>>>> +     */
-> >>>>>> +    assert(!req->exists || offs == req->offs + req->bytes);
-> >>>>>> +    req->bytes = offs + len - req->offs;
-> >>>>>> +
-> >>>>>> +    return 0;
-> >>>>>> +}
-> >>>>>> +
-> >>>>>> +static int coroutine_fn qemu_rbd_co_block_status(BlockDriverState *bs,
-> >>>>>> +                                                 bool want_zero, int64_t offset,
-> >>>>>> +                                                 int64_t bytes, int64_t *pnum,
-> >>>>>> +                                                 int64_t *map,
-> >>>>>> +                                                 BlockDriverState **file)
-> >>>>>> +{
-> >>>>>> +    BDRVRBDState *s = bs->opaque;
-> >>>>>> +    int ret, r;
-> >>>>> Nit: I would rename ret to status or something like that to make
-> >>>>> it clear(er) that it is an actual value and never an error.  Or,
-> >>>>> even better, drop it entirely and return one of the two bitmasks
-> >>>>> directly.
-> >>>>>
-> >>>>>> +    struct rbd_diff_req req = { .offs = offset };
-> >>>>>> +    uint64_t features, flags;
-> >>>>>> +
-> >>>>>> +    assert(offset + bytes <= s->image_size);
-> >>>>>> +
-> >>>>>> +    /* default to all sectors allocated */
-> >>>>>> +    ret = BDRV_BLOCK_DATA | BDRV_BLOCK_OFFSET_VALID;
-> >>>>>> +    *map = offset;
-> >>>>>> +    *file = bs;
-> >>>>>> +    *pnum = bytes;
-> >>>>>> +
-> >>>>>> +    /* check if RBD image supports fast-diff */
-> >>>>>> +    r = rbd_get_features(s->image, &features);
-> >>>>>> +    if (r < 0) {
-> >>>>>> +        goto out;
-> >>>>>> +    }
-> >>>>>> +    if (!(features & RBD_FEATURE_FAST_DIFF)) {
-> >>>>>> +        goto out;
-> >>>>>> +    }
-> >>>>>> +
-> >>>>>> +    /* check if RBD fast-diff result is valid */
-> >>>>>> +    r = rbd_get_flags(s->image, &flags);
-> >>>>>> +    if (r < 0) {
-> >>>>>> +        goto out;
-> >>>>>> +    }
-> >>>>>> +    if (flags & RBD_FLAG_FAST_DIFF_INVALID) {
-> >>>>>> +        goto out;
-> >>>>> Nit: I'm not a fan of labels that cover just the return statement.
-> >>>>> Feel free to ignore this one but I would get rid of it and replace
-> >>>>> these gotos with returns.
-> >>>> That would be return with the bitmask directly coded in if I also
-> >>>>
-> >>>> drop the ret variable. I can change that, no problem.
-> >>>>
-> >>>>
-> >>>>>> +    }
-> >>>>>> +
-> >>>>>> +    r = rbd_diff_iterate2(s->image, NULL, offset, bytes, true, true,
-> >>>>>> +                          qemu_rbd_co_block_status_cb, &req);
-> >>>>>> +    if (r < 0 && r != QEMU_RBD_EXIT_DIFF_ITERATE2) {
-> >>>>>> +        goto out;
-> >>>>>> +    }
-> >>>>>> +    assert(req.bytes <= bytes);
-> >>>>>> +    if (!req.exists) {
-> >>>>>> +        if (r == 0 && !req.bytes) {
-> >>>>>> +            /*
-> >>>>>> +             * rbd_diff_iterate2 does not invoke callbacks for unallocated areas
-> >>>>>> +             * except for the case where an overlay has a hole where the parent
-> >>>>>> +             * has not. This here catches the case where no callback was
-> >>>>>> +             * invoked at all.
-> >>>>>> +             */
-> >>>>> The above is true in the case of diffing against a snapshot, i.e. when
-> >>>>> the "from" snapshot has some data where the "to" revision (whether HEAD
-> >>>>> or another snapshot) has a hole.  I don't think it is true for child vs
-> >>>>> parent (but it has been a while since I looked at the diff code).  As
-> >>>>> long as NULL is passed for fromsnapname, I would expect the callback to
-> >>>>> be invoked only for allocated areas.  If I'm right, we could simplify
-> >>>>> qemu_rbd_co_block_status_cb() considerably.
-> >>>> See my comment in the callback. Can you look at the diff code or give
-> >>>> me at least a pointer where I can find it. I am not that familiar with
-> >>>> the librbd code yet.
-> >>> I assumed that you added !exists handling because it came up in your
-> >>> testing.  If you don't have a test case then let's proceed under the
-> >>> assumption that it doesn't happen for clones.
-> >>
-> >> Hi Ilya,
-> >>
-> >>
-> >> it seems that our assumption was false. I have an image which shows holes without diffing against
-> >>
-> >> a snapshot. Do you have an idea why?
-> >>
-> >>
-> >> $ rbd --conf /etc/ceph/ceph-dev01.conf --id lieven info dhp-standard/c4ca7ee9-36ce-4fc9-9d3b-ece8a4f8b83e/c1ad11d0-4f6a-4cc1-8aa3-ff3c413c1471.raw
-> >> rbd image 'c1ad11d0-4f6a-4cc1-8aa3-ff3c413c1471.raw':
-> >>       size 20 GiB in 20000 objects
-> >>       order 20 (1 MiB objects)
-> >>       snapshot_count: 2
-> >>       id: 3d6daa102e4d9f
-> >>       block_name_prefix: rbd_data.3d6daa102e4d9f
-> >>       format: 2
-> >>       features: layering, exclusive-lock, object-map, fast-diff, deep-flatten
-> >>       op_features:
-> >>       flags:
-> >>       create_timestamp: Tue Sep 21 14:16:56 2021
-> >>       access_timestamp: Thu Jan  6 15:24:46 2022
-> >>       modify_timestamp: Thu Jan  6 15:45:42 2022
-> >>
-> >>
-> >> $ rbd --conf /etc/ceph/ceph-dev01.conf --id lieven snap ls dhp-standard/c4ca7ee9-36ce-4fc9-9d3b-ece8a4f8b83e/c1ad11d0-4f6a-4cc1-8aa3-ff3c413c1471.raw
-> >> SNAPID  NAME                 SIZE    PROTECTED TIMESTAMP
-> >>    12297  dlp-20210921-144509  20 GiB             Tue Sep 21 14:45:09 2021
-> >>    17745  dlp-20220106-040000  20 GiB             Thu Jan  6 04:00:01 2022
-> >>
-> >>
-> >> $ rbd --conf /etc/ceph/ceph-dev01.conf --id lieven diff --whole-object dhp-standard/c4ca7ee9-36ce-4fc9-9d3b-ece8a4f8b83e/c1ad11d0-4f6a-4cc1-8aa3-ff3c413c1471.raw | grep zero
-> >> 204472320    1048576  zero
-> >> 1114636288   1048576  zero
-> >> 1115684864   1048576  zero
-> >> 1116733440   1048576  zero
-> >> 1117782016   1048576  zero
-> >> 1218445312   1048576  zero
-> >> 1219493888   1048576  zero
-> >> 1220542464   1048576  zero
-> > Hi Peter,
-> >
-> > Yes, I stumbled upon this just yesterday while looking into another
-> > librbd issue surfaced by this patch [1] and was going to email you and
-> > the list after wrapping my head around this behavior.  I see where it
-> > is coming from but I'm not sure what the right fix is.  I would prefer
-> > to patch librbd but that may turn out to be not feasible.  Let me get
-> > back on this next week.
-> >
-> > [1] https://tracker.ceph.com/issues/53784
+>> On 1/6/22 08:56, Michael S. Tsirkin wrote:
+>>> On Thu, Jan 06, 2022 at 08:53:00AM -0500, Stefan Berger wrote:
+>>>> On 1/6/22 03:36, Igor Mammedov wrote:
+>>>>> On Tue,  4 Jan 2022 12:58:05 -0500
+>>>>> Stefan Berger <stefanb@linux.ibm.com> wrote:
+>>>>>   
+>>>>>> Add missing TPM device identification objects _STR and _UID. They will
+>>>>>> appear as files 'description' and 'uid' under Linux sysfs.
+>>>>>>
+>>>>>> Following inspection of sysfs entries for hardware TPMs we chose
+>>>>>> uid '1'.
+>>>>> My guess would be that buy default (in case of missing UID), OSPM
+>>>>> will start enumerate from 0. So I think 0 is more safer choice
+>>>>> when it comes to compatibility.
+>>>>>
+>>>>> Can you smoke test TPM with Windows, and check if adding UID doesn't
+>>>>> break anything if VM actually uses TMP (though I'm not sure how to
+>>>>> check it on Windows, maybe install Windows 11 without this patch
+>>>>> and then see if it still boots pre-installed VM and nothing is broken
+>>>>> after this patch)?
+>>>>>   
+>>>> I smoke tested it with the posted patches applied to v6.2.0 and started 3
+>>>> VMs with it:
+>>>>
+>>>> - Linux shows uid = 1 and the description "TPM 2.0 Device" in sysfs
+>>>>
+>>>> - Win 10 and Win 11 tpm.msc tool are both showing that the TPM is 'ready for
+>>>> use'
+>>>>
+>>>>       Stefan
+>>>>   
+>>> Just to make sure, what Igor was concerned about is issues like
+>>> we had with e.g. network devices, when changing UID makes
+>>> windows think it's a new device and lose configuration
+>>> created on old qemu on boot with a new qemu.
+>>> Not sure what can be configured with a TPM device though ...
+>> The VMs were all created on an old qemu and booted into the patched
+>> qemu. They hadn't seen the new ACPI entries before, for sure not when
+>> they were installed.
+> In that case I would not bother with compat machinery
 >
+> (my stance on APCI and compat knobs haven't changed and it
+> is avoid it if possible, sometimes that backfires but overall
+> keeps code simpler, otherwise it would be unreadable mess
+> (it's already complex enough))
 >
-> Looks like it was a good idea to add all these asserts...
+> Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 >
->
-> The issue I see does occur with a simple qemu-img convert on the given image as source. It triggers the assert(exists) in the cb.
-
-Right, "qemu-img convert" issues a block status request.  Does your
-image have snapshots?  This behavior should be caused by a snapshot
-that contains a discarded object:
-
-$ rbd create --size 16M foo
-$ sudo rbd map foo
-/dev/rbd0
-$ sudo xfs_io -d -c 'pwrite -b 4M 0 16M' /dev/rbd0
-wrote 16777216/16777216 bytes at offset 0
-16 MiB, 4 ops; 0.4607 sec (34.726 MiB/sec and 8.6814 ops/sec)
-$ rbd snap create foo@snap
-Creating snap: 100% complete...done.
-$ rbd diff foo
-Offset    Length   Type
-0         4194304  data
-4194304   4194304  data
-8388608   4194304  data
-12582912  4194304  data
-
-$ blkdiscard -o 4M -l 8M /dev/rbd0
-$ rbd diff foo
-Offset    Length   Type
-0         4194304  data
-4194304   4194304  zero
-8388608   4194304  zero
-12582912  4194304  data
-
-If you remove that snapshot, these "holes" should disappear from the
-report:
-
-$ rbd snap rm foo@snap
-Removing snap: 100% complete...done.
-$ rbd diff foo
-Offset    Length   Type
-0         4194304  data
-12582912  4194304  data
-
-Thanks,
-
-                Ilya
+Another test I did was to remove the TPM 2, boot the win 10 and 11 VMs 
+ran tpm.msc (no TPM there), shut them down, added the TPM 2 and ran 
+tpm.msc again. Same result: TPM is 'ready for use'.
 
