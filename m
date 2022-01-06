@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27AC548633D
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 11:54:26 +0100 (CET)
-Received: from localhost ([::1]:52994 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 658E4486333
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 11:52:47 +0100 (CET)
+Received: from localhost ([::1]:44910 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5QPZ-0005Bl-7Q
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 05:54:25 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:32808)
+	id 1n5QNy-0008HY-E9
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 05:52:46 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:32816)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n5QDb-0007qc-FC
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n5QDb-0007qe-G9
  for qemu-devel@nongnu.org; Thu, 06 Jan 2022 05:42:05 -0500
-Received: from mout.kundenserver.de ([212.227.126.135]:44273)
+Received: from mout.kundenserver.de ([212.227.126.187]:37973)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n5QDS-0004kE-Ob
- for qemu-devel@nongnu.org; Thu, 06 Jan 2022 05:42:01 -0500
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n5QDT-0004kK-1l
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 05:42:02 -0500
 Received: from quad ([82.142.12.178]) by mrelayeu.kundenserver.de (mreue012
- [212.227.15.167]) with ESMTPSA (Nemesis) id 1Mm9NA-1mev9U3GYy-00iCIx; Thu, 06
- Jan 2022 11:41:52 +0100
+ [212.227.15.167]) with ESMTPSA (Nemesis) id 1N1u2b-1mPjeS0iXx-012KWU; Thu, 06
+ Jan 2022 11:41:53 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 22/27] linux-user/nios2: Fix sigmask in setup_rt_frame
-Date: Thu,  6 Jan 2022 11:41:32 +0100
-Message-Id: <20220106104137.732883-23-laurent@vivier.eu>
+Subject: [PULL 23/27] linux-user/nios2: Use set_sigmask in do_rt_sigreturn
+Date: Thu,  6 Jan 2022 11:41:33 +0100
+Message-Id: <20220106104137.732883-24-laurent@vivier.eu>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20220106104137.732883-1-laurent@vivier.eu>
 References: <20220106104137.732883-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:JuM+arCOkuDblzDDdPbSmwupkdklfOxrrbLKq8HEAz63N/0VEJS
- uDBGl357/KcVQNgddT5b0WXO+rdyUZZtw4zNgvUI/e6oNskEaALVFEs0aspnuMFFDVhA1cY
- 8XyulpOyo/oIp05e1oochfwE1LVgJIwvn88ZzI8GirFT7N2qj3/E5Z4+K1hTMk5+VZKzJhN
- NjVBfHSPz7VrSwTyXO0Kg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:yiBBcNyWuDI=:hRj3wpdN8QKgW2ZD6SZAZR
- eB/aG3o62qxX2CtSWAvARo9/THPqhY8f9WQJZsrK2k/RHILqvu5g+wcZBJ4c5yV49emRmzX0f
- uN8qgwx4wMDBv2a7PmsXnis+d01n3zIAbKxq4cLG4w2rLXgz1hSFAXaQUxRFHQmOQsdspILUs
- AkbcrWrQxMsSeTqgx0H6AbNul8LMGfw1bOCL0JwoX6RlUThKqXgNOFAhnkCHX2VkZ4wIBtT5z
- VgaR1E3+mNsUM9NGmQc1ehTw1rcsIDFzSjoroFwC4NWLl8nxK6SEQr00YbpCQQKQtJt9aU/Ix
- EZyYerx/brdLTR6D02QOVJh7mtcua6lePOj14L9Yl8qezWdBJINdfX91BSw8q2mZDo/vHLxAM
- IqL8RbJrLGJMpI4PWKyMBVskHLc5b/fDpJJyV8DqLLt/8UzC6cQPNFppxCXcVVqbAiLDKh0ty
- 9Ojwpvw498iXEKPhL/nke4swp6b5otHnPsQuCHG+ODVRRhgG9JCLtHmNuMXWmQPIkD8Mgd9ZS
- ZE1HMTN79SWTDhht2Q27Oguqvmv7MkogZRVvGYOV/D5TLb3o5G3VpHNgGIAlO21e4+jlOviG+
- b14UNTlWIsj3k8tccndaRzTB+bNpS9EjNfBna+4VM6gV0LIMWiEqjRYp2vKJ8/kCmolIq/k+t
- tyzGhVDogqG/NpcNXvIdJs+FlyPgEjstnH7O9jXALONmPmgT/UBGCgPkVJUsax4/LMQU=
-Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:G1CYcwi24EKj4DBof4R5whAD+q4axTF8BdkqPd4/LM9HETQdRz1
+ p9Qu1FHaQcIfOPszPbz57EuQrtp8LhBkuS19OvWw8ToQKsbbujGblzWqaCkD7XiM38cB3cn
+ I3bnFyBWT4kM4OCtyyO+mw347TV+8cG9Rn5utEFnlCSC/d71M4SyIp2p+5kPXYbyQkIXQwV
+ 1Z7ibGtFFrnBDNKF2gkKg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:kg3W/yigEMI=:lHWSmiuO1Xyi95l9MiNAMI
+ VPPYvKPV6NTdzzRl7eJnJeBt1k1BvuFJY1DgIa6GZIwnxEDt1X88z3f1eydEkgRJ8sW5V7wSC
+ Vci/TpPoviqwA2JlTg7CJLjRhnH7MZi/xxtQUeHzORLnm6VleAEKDa/b5tnfvSCKwvGltV2wb
+ 90n2uKetZUXGPsPXUMKh9JB45isX+rRkR8eZjTS15vk/BlFptK0sc2FlPX36rz97e04uYSebA
+ MBZQ9i1ivt4UJAbqn8I0uLXemSiqK/QcWcdhzUE7b46JMrXOko1deTapqB8t6+K7uLvKX8zKl
+ rpFJci1a6+TE3DZD1v2iLQM1xLht1YQ1jCGyBQrk3eOOigKO0aDo7ErR7xM1n2Xy11PUhB1UQ
+ W6mluu033uD9dMvQFj9J8M5QDkpu7kQAxooERDYSR+1nD9FhRRHJDrYfcxXDUx7JIwX1Md/qW
+ 7ARfb1Is8W6umDKajAgu9wDGCJb+0r4qMRcM2mULaK1hNu06B2cUWU84At7/5EEJqMiItbUEg
+ FTfZYij0FP5rSfaD1Z9a2cRaIvzzYIPEjqO504YTnYwspUKxL80UDxon15ZxPpLxFz/PtFO8y
+ NooZ4j5Rn9dI0cRitAqsyJ0QdrnnS7q3EDbI7QPzWUD3EO+BdhHt760kYxIi3mmfW3E9aP3gy
+ lRlKYVcOKpv3jJIgTvE0CfDZJthCH/Xg9Ea2hAUDtXgUHR5zWEEdDD7SLU4xBM9ShhnQ=
+Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -72,30 +72,51 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-Do not cast the signal mask elements; trust __put_user.
+Using do_sigprocmask directly was incorrect, as it will
+leave the signal blocked by the outer layers of linux-user.
 
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20211221025012.1057923-7-richard.henderson@linaro.org>
+Message-Id: <20211221025012.1057923-8-richard.henderson@linaro.org>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/nios2/signal.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ linux-user/nios2/signal.c | 2 +-
+ linux-user/signal.c       | 2 --
+ 2 files changed, 1 insertion(+), 3 deletions(-)
 
 diff --git a/linux-user/nios2/signal.c b/linux-user/nios2/signal.c
-index 20b65aa06e08..80e3d42fc965 100644
+index 80e3d42fc965..517cd392701c 100644
 --- a/linux-user/nios2/signal.c
 +++ b/linux-user/nios2/signal.c
-@@ -168,8 +168,7 @@ void setup_rt_frame(int sig, struct target_sigaction *ka,
-     target_save_altstack(&frame->uc.tuc_stack, env);
-     rt_setup_ucontext(&frame->uc, env);
-     for (i = 0; i < TARGET_NSIG_WORDS; i++) {
--        __put_user((abi_ulong)set->sig[i],
--                   (abi_ulong *)&frame->uc.tuc_sigmask.sig[i]);
-+        __put_user(set->sig[i], &frame->uc.tuc_sigmask.sig[i]);
+@@ -205,7 +205,7 @@ long do_rt_sigreturn(CPUNios2State *env)
      }
  
-     /* Set up to return from userspace; jump to fixed address sigreturn
+     target_to_host_sigset(&set, &frame->uc.tuc_sigmask);
+-    do_sigprocmask(SIG_SETMASK, &set, NULL);
++    set_sigmask(&set);
+ 
+     if (rt_restore_ucontext(env, &frame->uc, &rval)) {
+         goto badframe;
+diff --git a/linux-user/signal.c b/linux-user/signal.c
+index 1229fecf5cd4..f813b4f18e44 100644
+--- a/linux-user/signal.c
++++ b/linux-user/signal.c
+@@ -258,7 +258,6 @@ int do_sigprocmask(int how, const sigset_t *set, sigset_t *oldset)
+     return 0;
+ }
+ 
+-#if !defined(TARGET_NIOS2)
+ /* Just set the guest's signal mask to the specified value; the
+  * caller is assumed to have called block_signals() already.
+  */
+@@ -268,7 +267,6 @@ void set_sigmask(const sigset_t *set)
+ 
+     ts->signal_mask = *set;
+ }
+-#endif
+ 
+ /* sigaltstack management */
+ 
 -- 
 2.33.1
 
