@@ -2,62 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55D3F486634
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 15:41:09 +0100 (CET)
-Received: from localhost ([::1]:54130 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0703C48663E
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 15:43:33 +0100 (CET)
+Received: from localhost ([::1]:34946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5Twy-0004QR-Ce
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 09:41:08 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:56292)
+	id 1n5TzH-00026d-TS
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 09:43:31 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58972)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1n5Tc3-0000or-Iq
- for qemu-devel@nongnu.org; Thu, 06 Jan 2022 09:19:33 -0500
-Received: from 6.mo548.mail-out.ovh.net ([188.165.58.48]:38487)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1n5Tc0-0002gL-J7
- for qemu-devel@nongnu.org; Thu, 06 Jan 2022 09:19:31 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.108.4.51])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id C1F96211F2;
- Thu,  6 Jan 2022 14:19:23 +0000 (UTC)
-Received: from kaod.org (37.59.142.104) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.17; Thu, 6 Jan
- 2022 15:19:23 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-104R00523795cf3-87bc-43c3-bc4a-63cf9e3353f1,
- 021048AAC49377EB75D2DE2E73CB44671C288654) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <3283f227-14fa-e3bf-1f64-4da8e8fabce8@kaod.org>
-Date: Thu, 6 Jan 2022 15:19:22 +0100
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1n5TjL-0000xG-4o
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 09:27:04 -0500
+Received: from [2a00:1450:4864:20::532] (port=45727
+ helo=mail-ed1-x532.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1n5TjJ-0004cP-Cz
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 09:27:02 -0500
+Received: by mail-ed1-x532.google.com with SMTP id j6so9971185edw.12
+ for <qemu-devel@nongnu.org>; Thu, 06 Jan 2022 06:26:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=YwAhqYMhbnTIDvg7NycAUu/mVi0C+wfJWRSTWyjaHkU=;
+ b=oOahdwTXhfSwAhsVcMVhPL39frKj3+c7WuJ8x3eXw/gK2SpZcM/jc3Ql7ZfGJ+VEY5
+ LHaotZZKCu0no21gYbFAHlpIqSTtXYU+ocFykoWKHoRiCXvPU4JKp4z0ch0mqPd+Comx
+ QKuecQ+S6zBhrHTFQ3OK2N2Vbo94LHZqaMwIJRXx34x+Ph/WRqf6ObxKLhfJgcc/VvgD
+ 6wiG7+68cusHosTVTlZt7GwYQr1Z7GijlghXPd5Xw1aUtJbEIZkQ+jc38fSkB2Iuzh0L
+ RH+d/XeH2MEaznZIVWMyV/FbUn+ku6CseNSvCc1JfvzpKJ1pAZZybNPB1vZPZQogAYWB
+ uLzg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=YwAhqYMhbnTIDvg7NycAUu/mVi0C+wfJWRSTWyjaHkU=;
+ b=usn7dnRZRlQ7K+LaknHx4smtDrR5Q9YsbWhQV4yyDzQpVxDYvr/0GY58OwMtqtOPGE
+ qjMRC/TqlGpgX2lg8vYulZdLhmtswR8yLl/qY5So+aV1s1QNBqK7QzBWaYxT23iPciva
+ WNZGukHGAskCD2a0SfRScW6ODZzE+j5JcqA/HurCLyyKhmxaZ75yPzq8bMjBP/CLPHjL
+ uY/l3IAW+CRHwt+KGExunrE4IChALtgAjJzECLsDJ1iqf8r4mHMH+wgf3b+wLI5Wa/BG
+ Xw+8QtpfJLwU6vf3itkjOUSY9vViXhfoqAML7f9O3HdWf/4Q9zXVFEEp6nHdYFn6su3l
+ YZ7A==
+X-Gm-Message-State: AOAM533Q5gZC2iQRDUkf43BIqTR9430dMvvmDbUfGawBjtLiDmjqSK2x
+ tNgX3OCW15suopHXWxZQvjMRww==
+X-Google-Smtp-Source: ABdhPJxWwGC9FiOcJlCxwtZy88oo3i1VUzWP/gePUKtQ8/yenet6vqOkbRhxrzz18ttda8zlinsBQQ==
+X-Received: by 2002:a05:6402:1755:: with SMTP id
+ v21mr441058edx.202.1641479217106; 
+ Thu, 06 Jan 2022 06:26:57 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id y12sm781747edd.31.2022.01.06.06.26.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 06 Jan 2022 06:26:56 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id B10F11FFB7;
+ Thu,  6 Jan 2022 14:26:55 +0000 (GMT)
+References: <87czl6jb79.fsf@linaro.org>
+ <fbc66bb0-2c15-d789-bbaa-f9c3ba6f81e4@amsat.org>
+ <87r19lj3l3.fsf@linaro.org>
+ <CAFEAcA9XX26RHmNM59Zc13dwvhv83bAnomLp7Yj45Wmf16W66w@mail.gmail.com>
+User-agent: mu4e 1.7.5; emacs 28.0.90
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: Trying to understand QOM object creation and property linking
+Date: Thu, 06 Jan 2022 14:20:32 +0000
+In-reply-to: <CAFEAcA9XX26RHmNM59Zc13dwvhv83bAnomLp7Yj45Wmf16W66w@mail.gmail.com>
+Message-ID: <87iluxhrdc.fsf@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH v2 18/18] pnv_phb4.c: change TYPE_PNV_PHB4_ROOT_BUS name
-Content-Language: en-US
-To: Daniel Henrique Barboza <danielhb413@gmail.com>, <qemu-devel@nongnu.org>
-References: <20220105212338.49899-1-danielhb413@gmail.com>
- <20220105212338.49899-19-danielhb413@gmail.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20220105212338.49899-19-danielhb413@gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.104]
-X-ClientProxiedBy: DAG3EX1.mxp5.local (172.16.2.21) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 4c5a0532-c6cb-4117-ae55-2ccc96ad51a5
-X-Ovh-Tracer-Id: 18044516332387797984
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrudefledgieduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepieegvdffkeegfeetuddttddtveduiefhgeduffekiedtkeekteekhfffleevleelnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepuggrvhhiugesghhisghsohhnrdgurhhophgsvggrrhdrihgurdgruh
-Received-SPF: pass client-ip=188.165.58.48; envelope-from=clg@kaod.org;
- helo=6.mo548.mail-out.ovh.net
-X-Spam_score_int: -45
-X-Spam_score: -4.6
-X-Spam_bar: ----
-X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.691,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::532
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::532;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x532.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -70,100 +93,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, david@gibson.dropbear.id.au
+Cc: Eduardo Habkost <eduardo@habkost.net>, Paolo Bonzini <pbonzini@redhat.com>,
+ "Daniel P. Berrange" <berrange@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/5/22 22:23, Daniel Henrique Barboza wrote:
-> Similar to what was happening with pnv-phb3 buses,
-> TYPE_PNV_PHB4_ROOT_BUS set to "pnv-phb4-root-bus" is a bit too long for
-> a default root bus name. The usual default name for theses buses in QEMU
-> are 'pcie', but we want to make a distinction between pnv-phb4 buses and
-> other PCIE buses, at least as far as default name goes, because not all
-> PCIE devices are attachable to a pnv-phb4 root-bus type.
-> 
-> Changing the default to 'pnv-phb4-root' allow us to have a shorter name
-> while making this bus distinct, and the user can always set its own bus
-> naming via the "id" attribute anyway.
-> 
-> This is the 'info qtree' output after this change, using a powernv9
-> domain with 2 sockets and default settings enabled:
-> 
-> qemu-system-ppc64 -m 4G -machine powernv9,accel=tcg \
->       -smp 2,sockets=2,cores=1,threads=1
-> 
->    dev: pnv-phb4, id ""
->      index = 5 (0x5)
->      chip-id = 1 (0x1)
->      version = 704374636546 (0xa400000002)
->      device-id = 1217 (0x4c1)
->      x-config-reg-migration-enabled = true
->      bypass-iommu = false
->      bus: pnv-phb4-root.11
->        type pnv-phb4-root
->        dev: pnv-phb4-root-port, id ""
-> (...)
->    dev: pnv-phb4, id ""
->      index = 0 (0x0)
->      chip-id = 1 (0x1)
->      version = 704374636546 (0xa400000002)
->      device-id = 1217 (0x4c1)
->      x-config-reg-migration-enabled = true
->      bypass-iommu = false
->      bus: pnv-phb4-root.6
->        type pnv-phb4-root
->        dev: pnv-phb4-root-port, id ""
-> (..)
->    dev: pnv-phb4, id ""
->      index = 5 (0x5)
->      chip-id = 0 (0x0)
->      version = 704374636546 (0xa400000002)
->      device-id = 1217 (0x4c1)
->      x-config-reg-migration-enabled = true
->      bypass-iommu = false
->      bus: pnv-phb4-root.5
->        type pnv-phb4-root
->        dev: pnv-phb4-root-port, id ""
-> (...)
->    dev: pnv-phb4, id ""
->      index = 0 (0x0)
->      chip-id = 0 (0x0)
->      version = 704374636546 (0xa400000002)
->      device-id = 1217 (0x4c1)
->      x-config-reg-migration-enabled = true
->      bypass-iommu = false
->      bus: pnv-phb4-root.0
->        type pnv-phb4-root
->        dev: pnv-phb4-root-port, id ""
-> 
-> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+
+Peter Maydell <peter.maydell@linaro.org> writes:
+
+> On Wed, 5 Jan 2022 at 21:05, Alex Benn=C3=A9e <alex.bennee@linaro.org> wr=
+ote:
+>> Can't be added as a subregion to the container...
+>>
+>>   qemu-system-arm: ../../softmmu/memory.c:2538: memory_region_add_subreg=
+ion_common: Assertion `!subregion->container' failed.
+>
+> This assert means you tried to add the same MemoryRegion
+> as a subregion of more than one parent MR.
+
+Right - that is probably something we should make (more?) explicitly
+clear in the Memory API docs.
+
+> You can either:
+>  * pass all the CPUs the same container as their "memory" link,
+>    if they all see the same view of the world
+
+This should be the case - I don't think the different cores have any
+particular different view of the world. The use of the two 4kb banks I
+think is purely convention.
+
+However trying for a single container shared between both cores fails
+because armv7m_realize adds it's board_memory to another container:
+
+    memory_region_add_subregion_overlap(&s->container, 0, s->board_memory, =
+-1);
+
+So I guess I just have to repeat the creation of the aliases for each
+core. This seems needlessly messy...
+
+>  * if they have different views of the world, you need to
+>    create a container for each CPU to be the "memory" link,
+>    and to populate that container you need to create N-1 alias MRs
+>    of the board_memory MR (CPU 0's container can use the original
+>    board_memory MR; CPU 1, ... use the aliases).
+>
+> Example of option 1: virt board
+> Example of option 2: hw/arm/armsse.c (look at what it does with
+> the s->cpu_container[] and s->container_alias[] arrays)
+>
+> -- PMM
 
 
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
-
-Thanks,
-
-C.
-
-
-
-> ---
->   include/hw/pci-host/pnv_phb4.h | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/include/hw/pci-host/pnv_phb4.h b/include/hw/pci-host/pnv_phb4.h
-> index 610580a88f..0aec495cbf 100644
-> --- a/include/hw/pci-host/pnv_phb4.h
-> +++ b/include/hw/pci-host/pnv_phb4.h
-> @@ -47,7 +47,7 @@ typedef struct PnvPhb4DMASpace {
->   /*
->    * PHB4 PCIe Root port
->    */
-> -#define TYPE_PNV_PHB4_ROOT_BUS "pnv-phb4-root-bus"
-> +#define TYPE_PNV_PHB4_ROOT_BUS "pnv-phb4-root"
->   #define TYPE_PNV_PHB4_ROOT_PORT "pnv-phb4-root-port"
->   
->   typedef struct PnvPHB4RootPort {
-> 
-
+--=20
+Alex Benn=C3=A9e
 
