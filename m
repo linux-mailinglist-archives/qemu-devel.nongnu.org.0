@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14285486D73
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 23:59:26 +0100 (CET)
-Received: from localhost ([::1]:53822 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04E20486D7A
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 00:01:45 +0100 (CET)
+Received: from localhost ([::1]:59168 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5bjB-00073D-5k
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 17:59:25 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59584)
+	id 1n5blP-0002Ec-W5
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 18:01:44 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59606)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1n5bhY-00051A-AK
- for qemu-devel@nongnu.org; Thu, 06 Jan 2022 17:57:44 -0500
-Received: from [2607:f8b0:4864:20::102c] (port=35450
- helo=mail-pj1-x102c.google.com)
+ id 1n5bhj-00055X-9h
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 17:57:55 -0500
+Received: from [2607:f8b0:4864:20::42f] (port=43951
+ helo=mail-pf1-x42f.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1n5bhW-0000Gm-Ij
- for qemu-devel@nongnu.org; Thu, 06 Jan 2022 17:57:43 -0500
-Received: by mail-pj1-x102c.google.com with SMTP id
- r16-20020a17090a0ad000b001b276aa3aabso10222582pje.0
+ id 1n5bhX-0000HR-5n
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 17:57:44 -0500
+Received: by mail-pf1-x42f.google.com with SMTP id 196so3677872pfw.10
  for <qemu-devel@nongnu.org>; Thu, 06 Jan 2022 14:57:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=59sTGIBhkZUxdVU/3Jb3/NHZMJKwGa7GltMG/ts6cC0=;
- b=PLsZ1cv6BZMZLOI2grfrooPyO7FcScA4NoQl9ITpqc9S0v+pk2VfHoYVG3u37xfXeu
- S7Y8w0QMEbf9XaRMt/gQjVRU/BtkemNEN4a1ygtCWaExRPOXlMWPOLLKNlMe8QMe+JLZ
- ym1ZoZtlc8vX7bB04yyyhvkfWKnW8jg589wKpCJnzclu1KTFfQc7Q/JwKCBRCEYB+flW
- zLCOWU/0hEHao1rrrHc7Q1oJhoSWQ3E7rCSeQ6dVWoy02hMG+UOawY35iCrvBxPv2M+8
- nSfCRKG2YnCjEqBsockSAF8KVQzMiJaSo0+Mtn/ZCe0ScBgZeh0fxI35Zsi2GShyRpEW
- kSvg==
+ bh=RKNFvbhviu9dunAjijjleYy70Vtx5VjKsvJ12r8S+Og=;
+ b=ilcGtGPngjgZy3FnhQE9tp8+imvBr9PjsjOPuFbagSsLqo+AU8J/eykxlNo5+N3Vpm
+ dEtjaM5CMRwwP3vM5ZtoB5e5cvvDFUUfGaLB+TTa/c5sz+/g1rKsG1dOUUcubbXpiex6
+ QDhFIbFqs6EBXDhvcbTeHblA8QcPFv1DpI/teBdujk1BndnrX4tnKXYnsCWcfJXtwRAN
+ 28UhBe4bVc5lDcPaybzmiM4/pWYb8+UycrR7QPuShTSnfj4mmEPNzSNA9FCi3sYfa9Nj
+ Jyy5p/kMcEUf5+cNx+lb5dwZOLOI1snUFCegAEJa7S78J33NoFMt/bwtFdK1NtIL+ogR
+ G5lg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=59sTGIBhkZUxdVU/3Jb3/NHZMJKwGa7GltMG/ts6cC0=;
- b=B+zUqnKoXXtk6TskfM/ru1uVp5l5kDBl3MU8tDZzRHtKLDTBLAmVUvw9Z5Iz92ctYo
- 2lHG/W4VNElNJKp1f/UqhPg1LEgFRGc37S6ceZdiOM8v6cwMjHrECOavLb7nCMw2LpAx
- h30iupKQDrzqtiI7CnPpCFKC4OTg3xxEB2V5vqHdnHlmes1IUAqdZuJU2mw4+g+VrWOn
- 9noAI8U/XduUkTE2zHK3GWnDbuSFpOmM24EMd8IKIuQKaqzhTmxlugpZL1hiaB5UZ24P
- kAz9+ddGxo2B0nGNnVwrTNppXjWvsdms5DcyzVpBismWbXBEgemlFdCoDghWYhb3Splo
- LEmQ==
-X-Gm-Message-State: AOAM5310+IDaV79rxVlUjo+tZvN5cSpTtEsnAN17n2r4dp42sMHbtGTE
- x7hr/f7U9SSYPiJnVi8FkX1iJQC/mqzn0Q==
-X-Google-Smtp-Source: ABdhPJy20pwedGkZ4WKZCFpUYXQ2Q0sBAPmksCKJIjXHETwb41Sx2k0l04+tU2cUjpX8i2pqvpwC8A==
-X-Received: by 2002:a17:902:7146:b0:149:537e:e35e with SMTP id
- u6-20020a170902714600b00149537ee35emr59780119plm.55.1641509861285; 
+ bh=RKNFvbhviu9dunAjijjleYy70Vtx5VjKsvJ12r8S+Og=;
+ b=F3qlTvZ6p1IPW8qxNaILZd5RbBl3IPZAuzJg2DB20fZ4WU0F4URTqe/YxtyT3Q+HYX
+ 2HCmUG8znuJ1EvvMbQigOVfGiz9USnOG4LxtQH3Gh8EiOiNhIy/Xq9JJt1xgkYqbC4bJ
+ vbyULBHKXhkzyaVlL/5UseHaTNiBaSNmrSKHuLBnvLJztmiFKoYrj3JEDBJpUvVrksPu
+ Qg6JiHCansCH0UPtSwqlP09SSYLm262XPlCssoYsCR7itAwAMHNjz4w10TQEBURcHJkj
+ //nRymX85Mky4vA7RrPVN7MHw3B0ASddfooHIOFUdkT7dm7tR9RwRUesmmqLh0okhpfg
+ k7RA==
+X-Gm-Message-State: AOAM530IaFBHOa0C3YrD9vqwKt9UNeq579cSiuaagJEVWIdmLUjYcctM
+ D2nVWYpnbKqPSUIe5zwwpx9ZagX1IE2a/g==
+X-Google-Smtp-Source: ABdhPJyUY9XPAI4K4W5m2x6V3+sIk+dHIpQX2KJXSFAJa8XDIcCNR0JhyKSBBMB+nrPzYihpcC5gBg==
+X-Received: by 2002:aa7:91c2:0:b0:4bc:6c97:401 with SMTP id
+ z2-20020aa791c2000000b004bc6c970401mr30914277pfa.17.1641509861899; 
  Thu, 06 Jan 2022 14:57:41 -0800 (PST)
 Received: from localhost.localdomain (174-21-75-75.tukw.qwest.net.
  [174.21.75.75])
- by smtp.gmail.com with ESMTPSA id rj6sm5774687pjb.50.2022.01.06.14.57.40
+ by smtp.gmail.com with ESMTPSA id rj6sm5774687pjb.50.2022.01.06.14.57.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 06 Jan 2022 14:57:41 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 3/4] linux-user: Implement PR_SET_PDEATHSIG
-Date: Thu,  6 Jan 2022 14:57:37 -0800
-Message-Id: <20220106225738.103012-4-richard.henderson@linaro.org>
+Subject: [PATCH 4/4] linux-user: Implement capability prctls
+Date: Thu,  6 Jan 2022 14:57:38 -0800
+Message-Id: <20220106225738.103012-5-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220106225738.103012-1-richard.henderson@linaro.org>
 References: <20220106225738.103012-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102c
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42f
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42f.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -92,25 +91,37 @@ Cc: laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This is PR_CAPBSET_READ, PR_CAPBSET_DROP and the "legacy"
+PR_CAP_AMBIENT PR_GET_SECUREBITS, PR_SET_SECUREBITS.
+
+All of these arguments are integer values only, and do not
+require mapping of values between host and guest.
+
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/syscall.c | 3 +++
- 1 file changed, 3 insertions(+)
+ linux-user/syscall.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
 diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 9eb2fb2bb2..8495f5e08e 100644
+index 8495f5e08e..4711afaf8c 100644
 --- a/linux-user/syscall.c
 +++ b/linux-user/syscall.c
-@@ -6450,6 +6450,9 @@ static abi_long do_prctl(CPUArchState *env, abi_long option, abi_long arg2,
-             }
-             return ret;
-         }
-+    case PR_SET_PDEATHSIG:
-+        return get_errno(prctl(PR_SET_PDEATHSIG, target_to_host_signal(arg2),
-+                               arg3, arg4, arg5));
-     case PR_GET_NAME:
-         {
-             void *name = lock_user(VERIFY_WRITE, arg2, 16, 1);
+@@ -6504,10 +6504,15 @@ static abi_long do_prctl(CPUArchState *env, abi_long option, abi_long arg2,
+     case PR_SET_UNALIGN:
+         return do_prctl_set_unalign(env, arg2);
+ 
++    case PR_CAP_AMBIENT:
++    case PR_CAPBSET_READ:
++    case PR_CAPBSET_DROP:
+     case PR_GET_DUMPABLE:
+     case PR_SET_DUMPABLE:
+     case PR_GET_KEEPCAPS:
+     case PR_SET_KEEPCAPS:
++    case PR_GET_SECUREBITS:
++    case PR_SET_SECUREBITS:
+     case PR_GET_TIMING:
+     case PR_SET_TIMING:
+     case PR_GET_TIMERSLACK:
 -- 
 2.25.1
 
