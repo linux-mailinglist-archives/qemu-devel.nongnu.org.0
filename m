@@ -2,148 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB7AA4860D2
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 08:03:42 +0100 (CET)
-Received: from localhost ([::1]:57118 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 977744860E3
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 08:10:31 +0100 (CET)
+Received: from localhost ([::1]:34912 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5MoI-0001C5-24
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 02:03:42 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41808)
+	id 1n5Mus-0005Wj-LX
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 02:10:30 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41954)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <raphael.norwitz@nutanix.com>)
- id 1n5MYs-0001IY-Hl
- for qemu-devel@nongnu.org; Thu, 06 Jan 2022 01:47:47 -0500
-Received: from mx0a-002c1b01.pphosted.com ([148.163.151.68]:31656)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <raphael.norwitz@nutanix.com>)
- id 1n5MYn-0003V1-PE
- for qemu-devel@nongnu.org; Thu, 06 Jan 2022 01:47:44 -0500
-Received: from pps.filterd (m0127837.ppops.net [127.0.0.1])
- by mx0a-002c1b01.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id 205N5d7l019176;
- Wed, 5 Jan 2022 22:47:38 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
- h=from : to : cc :
- subject : date : message-id : references : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=proofpoint20171006;
- bh=ZrTQuP1eHTblEOoT+tEM5kuaqxctxCDHBQ9CDJqOh44=;
- b=PPJxCig71k7pdQmpum/fUWIAHxZ2ZjgZgqJfpcRGtcZQ8OWRtbxCB/T/1esAvCYY9o6C
- GwRfrowJMIFYS6YdVvE5NfxwX1Wb6GWuJ2PfPeZ2opScZOsw4N6fF95pddgCBkrSHVUJ
- /3FsKyHxI3x8iFMEK+sGdRYKSWZXa+n+j8RSpVO0O2vvJw2KOktAgEvjMtgjghltU2qv
- OUIg3onG4a73V0ulMfi5nRQM/atYK4iXHV6TnRTQsj2do/lK25ejdlLLNEG8GspGyE5X
- vqzozjgS5Dz+jKJ+zfzg2YmpftyoNzSL8Qlf7IKvIzjroAbuR6Lnfi78dIPQVCVFrBxI bw== 
-Received: from nam04-bn8-obe.outbound.protection.outlook.com
- (mail-bn8nam08lp2045.outbound.protection.outlook.com [104.47.74.45])
- by mx0a-002c1b01.pphosted.com (PPS) with ESMTPS id 3ddmq00jfr-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 05 Jan 2022 22:47:37 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Q8aQQRyDnZd9STGQviU1Qrq87VPPVm4lad5dXmMFwJCbxXKLL+qTIM+87Iaw7JJNGGeAyl08NQ6BkbgqERqpRRkdQJQ+u2YcQvX+6B0GPdhLcwPNMowLesO22yx/F50uwm+DocD3JjCT4DUYzcAUsdKRmm8Yx0tU8Qp3vrFHpCHBTCqM3iLaG/xFu6EH/JebFQ2x5+U4XsKNCkfSfGQuu5JJXIXU3CZwKRlqY8tjtkzjXW+k51Vp+xwkdS90bU/kmhdi+ObQmBGCPAO47FRDRD87VmZD383Pj91ZLBT0tqH8RkOTq8MEcBUxarCdW4UuXOMbNEJPVjDSNJfgL8PrSw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ZrTQuP1eHTblEOoT+tEM5kuaqxctxCDHBQ9CDJqOh44=;
- b=QEFKi1qAagCwr8jJaSZuD7lZ9/70Ckweq+9uJbVMF4KSg3tVFMKxay7G5aHtgaUWHS39Evf/PalZHK+ndL1IX2hZuuwLUqBbeeJojn3tLQjjtaVxioDjHjQ/rvY/b9GhBdaobhdiTjnKSBk8dctVyO4AhCxgO4tSKjMnoNkd806OWhV5qGZQxAYQTJzlhUvCw1bNMEnNC/BbLdKi/8X4pCpkUkm5WO85dLBOJUeT6igaUFiK8BxkvK9F4gBGB7NDOA7BlCls8sHJTfwbp71QM+NxH1wwHr4SfUlWq5rwM5xDUk8WjRlK/cpe9euUrpsSs9bvkCw+1dZ1+C4JWatw8w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nutanix.com; dmarc=pass action=none header.from=nutanix.com;
- dkim=pass header.d=nutanix.com; arc=none
-Received: from BL3PR02MB7938.namprd02.prod.outlook.com (2603:10b6:208:355::20)
- by BL0PR02MB6530.namprd02.prod.outlook.com (2603:10b6:208:1c1::22)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4867.7; Thu, 6 Jan
- 2022 06:47:36 +0000
-Received: from BL3PR02MB7938.namprd02.prod.outlook.com
- ([fe80::3c2f:b2dd:a0b5:74da]) by BL3PR02MB7938.namprd02.prod.outlook.com
- ([fe80::3c2f:b2dd:a0b5:74da%6]) with mapi id 15.20.4867.009; Thu, 6 Jan 2022
- 06:47:36 +0000
-From: Raphael Norwitz <raphael.norwitz@nutanix.com>
-To: "stefanha@redhat.com" <stefanha@redhat.com>, "marcandre.lureau@redhat.com"
- <marcandre.lureau@redhat.com>, "mst@redhat.com" <mst@redhat.com>,
- "david@redhat.com" <david@redhat.com>
-Subject: [PATCH v2 5/5] libvhost-user: handle removal of identical regions
-Thread-Topic: [PATCH v2 5/5] libvhost-user: handle removal of identical regions
-Thread-Index: AQHYAslKMYrBF8S8f06BB/viZEFlKA==
-Date: Thu, 6 Jan 2022 06:47:36 +0000
-Message-ID: <20220106064717.7477-6-raphael.norwitz@nutanix.com>
-References: <20220106064717.7477-1-raphael.norwitz@nutanix.com>
-In-Reply-To: <20220106064717.7477-1-raphael.norwitz@nutanix.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: git-send-email 2.20.1
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 03b978db-8063-40c0-7a50-08d9d0e06cc2
-x-ms-traffictypediagnostic: BL0PR02MB6530:EE_
-x-microsoft-antispam-prvs: <BL0PR02MB653044090EFF18CF4F247D3EEA4C9@BL0PR02MB6530.namprd02.prod.outlook.com>
-x-proofpoint-crosstenant: true
-x-ms-oob-tlc-oobclassifiers: OLM:7691;
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: Pw5pouep6/AOUedVSglUWzaVqpS+Ed6kMsxGeBh+uMJMyMpCZhenBrNp3w9eEUE4JbjbTWrchlrxo+KgUUVg1sEOGpFuJXNttuD27pRYETpNtyiLAkVvF2PpzKkOeV98D4gIsQpUXM++QOjnHO8M3x4oHMaerIi5yxZpWdgwP3XR3WhHZkNyUFHZYX5PDciBsOeWFNGR8IeYLlmmGP9URvNEkFmR31fR27FTx1Xwe3Sr06zP6647jPgOtn7A1+dmYb2xweUhgZNuVwyPqa+UGJjQyF6hmUGN49CXGlcMfgLoJ8fVWSsgPA/S2vDvHYCMGhw+BrqRMfwbagQPm1W9IezxVHVde7BesedlMaYcz8Oehm5DRORhegN3yRXVwmhmclJ5mcVAfkJ69AzCnXuogZ4Ussltievn0dY18cf34NMXveAraiNWssYw0vopi71SdK9GDa3p1HjuFhVXGrYzIKUc1sMiRWiSPGPKrevULDsiTu/aJyDY/SSo0PX/gNd930JA0C96xblm7Rv7z5eqV1elIv+Apto2pJypYamJwMMur1K4PWWQ5QJCsq3feokuh6GnHzXxhlHkn6m8oHY0d9P5MoVR5zT75GWk0H8b38Wp0Rti6ZMMIV9yxE88OygW4wdpZmr451wHKDv5ioVjVsZ/3PIkp8WMU1thrdTQGm/OvmQG1rZ+ekVRCysKLohGqnaEzDHPnCg3Nn/3XiveFA==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BL3PR02MB7938.namprd02.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(366004)(6506007)(508600001)(66446008)(4326008)(76116006)(186003)(2906002)(316002)(122000001)(6512007)(66476007)(71200400001)(66556008)(66946007)(5660300002)(91956017)(64756008)(54906003)(6486002)(38070700005)(110136005)(44832011)(36756003)(83380400001)(1076003)(2616005)(38100700002)(86362001)(107886003)(8676002)(26005)(8936002);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?fXUa9lvxLIUS/TFyyWskE1tODQEshw1n3W8DyLf/9nj7An3yx38ujyO04r?=
- =?iso-8859-1?Q?z+/YaYXbR9KHdvzPiu2qQseT8RR4geepgCcEXL2NPmKoRoqoCB3GrGlNo/?=
- =?iso-8859-1?Q?MVAY8dWTRvxUoJdbwjerkowZAsT63QWvD53Lar9gQkq0t//LUosIzeSCca?=
- =?iso-8859-1?Q?pegcOX5JGF1IyTAz2C0MESUm4yDCsDqWf3nfQ97P16IylbwLBjAfWiVnFQ?=
- =?iso-8859-1?Q?z7KCxIGrj4Vu3ogiFmaiNbIgXonumSwJZsyOBOS6/boc53tks72owRFXE1?=
- =?iso-8859-1?Q?2OP+GwWSasm8ZUErHoAXoGy8immSpkt92kNNza8+jwtoOtXb5QjvI1eEFx?=
- =?iso-8859-1?Q?0/sc6fG82RpKvcG/QqTW8SSycGRdhMGzMhcE2h3wz0jI+NQctlRhmWS6Kl?=
- =?iso-8859-1?Q?0J5hN8+qjw2ogKeEdcBL+SdQskr1wv59N8s3csa7ED+AX1ekR0v+kpDAhK?=
- =?iso-8859-1?Q?LHnzTbmP27N4p7s4hHajn3G6NhdTsbW0AFhA2Vid5hnjJW22bs+vpe1Sa2?=
- =?iso-8859-1?Q?NC9PBK/Dl1JCNEqDnsADnIah1f+659nyKDKcswOcFww30iTNWKRQtW93BH?=
- =?iso-8859-1?Q?nyNtuCVRJr9KaSWothvCbFsotj9FiETZC5jeXemYdGOJkXhTxD6jyAjPOY?=
- =?iso-8859-1?Q?IuCG/iiumuxrsLLCapZwvhKilDY9hsOd+uLF8UewPD91m8UlJLuaLg31RS?=
- =?iso-8859-1?Q?T04a9wfNh5zHvB18bCulEmvqObL0NmaAe5t6T9T/JYQbrJsidvNcVviiNw?=
- =?iso-8859-1?Q?danxwz+Z6awChbdIUNPwDmGC8QsCl5WD5XKW7XWeRq9yz/9IHsy6NrmN3S?=
- =?iso-8859-1?Q?tA8k94eHvvSLvr4++enQOvlulxwMefy5dyBnd6WtyNavP4Z8Fs0RYxOuFQ?=
- =?iso-8859-1?Q?8W8EHXnh21aGPw74j0vOZWb73JE7i51ZL3XeQ4o0SxEv9WpJDSpa5OFC7L?=
- =?iso-8859-1?Q?W2kf235QDc5XUIhh+p/Mf7oSAxw4moOG6PSYrVP/6a8j9EwbaBHyaqFKJB?=
- =?iso-8859-1?Q?Q5Ndjjp/5sJn0lWES8V1UHiRXWICrJVqoTk4z11WhQa1K69JisAs6DDcaq?=
- =?iso-8859-1?Q?9SLGoZw99LSQUMX7w+b7VgodsAUEQrc9B060dPCD9Rx7xMLJ5csRD6wddr?=
- =?iso-8859-1?Q?l5eyU3i5PTxHjM2yHkZA2obbeJz8X4sfqSS5LnLZ5wHt22Y77FkyvhJ69F?=
- =?iso-8859-1?Q?+WuOB1Ey1ZpAlZRAcv+HQ/n63Rpyj2F6u/dMtD2mJLA0fiKM0M6Cq07OZV?=
- =?iso-8859-1?Q?/mXTipORxjK53zjJ0YESFnMDsi0DbuGMrE7//vx+SL/3u7+ueCVtvuljem?=
- =?iso-8859-1?Q?giDSRfRjwckd7AAM3EP6AsD13nw+lEPUvQXGW4nQufb8YMkU7p9s52tuoi?=
- =?iso-8859-1?Q?vUCLteBoRDqoSJqtHV9HAy4++8X1igXh3wyizmMk0kIKIMEGz4n3sIOty9?=
- =?iso-8859-1?Q?CaepnW6ihfq6avvMHGvfauEdFbd/2jk88EuaRHAuTu4lB+2uAjFl6GngYh?=
- =?iso-8859-1?Q?jlVFfmtSr1kl0VNHur79h4fO4ipXn1HE2g5eGfkuEQl9KULkZqcDdqJVix?=
- =?iso-8859-1?Q?MonIp9OlEMtgjpG9Fw6QFZUw9aRFP/NchRAGdUfDweYbcykRThexZ3wy2b?=
- =?iso-8859-1?Q?NOsKgxxsyN+N2jh+zU3V6O8yj2ohxdY2fC9RD3h13WbNNDa/Qjor4H4wdM?=
- =?iso-8859-1?Q?r1tZspTIIaiEKYFQJBoOmuB9PdWQAMd7yY4G1cJdqHao+HwvIKjHJVhemn?=
- =?iso-8859-1?Q?qrbkbaJGdr01WFmiV2TQeHANk=3D?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1n5MZj-0001Y8-89; Thu, 06 Jan 2022 01:48:39 -0500
+Received: from [2607:f8b0:4864:20::d2e] (port=40475
+ helo=mail-io1-xd2e.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1n5MZg-0003al-Sr; Thu, 06 Jan 2022 01:48:38 -0500
+Received: by mail-io1-xd2e.google.com with SMTP id q5so1975701ioj.7;
+ Wed, 05 Jan 2022 22:48:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=R+IODdW14SUUsmk3u4dlBPdT56pjyvHBc0NcQcAIrfg=;
+ b=Tr9AFq44C6+aoZcz7Ny53QFywGU2e5SoMsE7R4rQMc6xEc5BE0dI9RVkPXXtd24lIj
+ A9I0sAQ5BAqs5kGYqxnPXv4Y7Y2gXJnor0T6z2Zz8NvafXis4CicFx6Y0sJFS7AZr533
+ M4FJXVG+gX0NpfBoNzfw7TJtAeuA/kETQ07QTVFG/iACDH/9GQ3cQIlXqPIrNgjt2TZr
+ LvgoRjbQgNS7hXDW8LeXUXAG2Ufoa8zji/ZaBSGGzKWXx4QautZTCVtvTzDLEuJfn71y
+ 8/+ju5LOBOK9KlR4axA/K/AnIIvTndWRX+hXMjMWbPaEbB0Vagkv6FuUEMe07/VSVksx
+ XF3w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=R+IODdW14SUUsmk3u4dlBPdT56pjyvHBc0NcQcAIrfg=;
+ b=igqRRB8SEYfkS3rQ3Z3Jv05N9XvNdYGrVvxubDdJK7N+qqd3PQMYMgMrDrtaWfjHjA
+ KrXnpl5n0bgwKda9kK+x65/WXz74fssrWIUzY9iiAUDuhLvQWWVq80REmZRVg4TcnNMO
+ aailHMgzf10zQ+oiV/Fwlwa5PptdtNOj3vMQBHq+BULyzwCuh1Zo3BTTWTH4K4TDTko6
+ iiR4M3GRq3nhJr0FCmeWX6T1WdY4jwSORU8JwgoOOVEdHxy2OtxzuRgHslk8lMTso5ba
+ 8mmbbgPEUfMaiVa8wTVETMm/hdogYtX8HkgYkI3U6QEJKqFXLBJMjUd2KZO+UEh0+BI/
+ 8Lgg==
+X-Gm-Message-State: AOAM533a405i8LptYQKx1JLDEFAcHX7n7qGo11za3I3nl/dOn2AjgPZr
+ XnNLT02DGnSEFvWTWpkI0ufvQlFizv87glh3WX8=
+X-Google-Smtp-Source: ABdhPJxvr/EKm5ROOeuVIoU865qQs1cZ9J7eE6WRnnBMyjr2bTNBoyIEYYzej+G1RspfpQzCplA8LLvOJidviVkBO/A=
+X-Received: by 2002:a05:6602:140c:: with SMTP id
+ t12mr27262710iov.187.1641451715272; 
+ Wed, 05 Jan 2022 22:48:35 -0800 (PST)
 MIME-Version: 1.0
-X-OriginatorOrg: nutanix.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BL3PR02MB7938.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 03b978db-8063-40c0-7a50-08d9d0e06cc2
-X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Jan 2022 06:47:36.4947 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: bb047546-786f-4de1-bd75-24e5b6f79043
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: tHMYcmLKnxLV8fDNZPRrTza7mm0WkOs8pcLIiXFsBCL//6CzlDptRCtNxTC3CM5j4O0pGuEJP3V9P4kRxGE8g5a2OgC4XZW9AwyxBV+cfgs=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR02MB6530
-X-Proofpoint-GUID: nS8F8BA3yL98RDbFgxyETmujc271kkmj
-X-Proofpoint-ORIG-GUID: nS8F8BA3yL98RDbFgxyETmujc271kkmj
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2022-01-06_02,2022-01-04_01,2021-12-02_01
-X-Proofpoint-Spam-Reason: safe
-Received-SPF: pass client-ip=148.163.151.68;
- envelope-from=raphael.norwitz@nutanix.com; helo=mx0a-002c1b01.pphosted.com
-X-Spam_score_int: -24
-X-Spam_score: -2.5
-X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.372,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20211213163834.170504-1-frederic.petrot@univ-grenoble-alpes.fr>
+ <20211213163834.170504-19-frederic.petrot@univ-grenoble-alpes.fr>
+In-Reply-To: <20211213163834.170504-19-frederic.petrot@univ-grenoble-alpes.fr>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Thu, 6 Jan 2022 16:48:08 +1000
+Message-ID: <CAKmqyKPqX0iGJ3T6+PDHvbF+MLHD=n4JqQt3Cs6ORd_sfQ5sxQ@mail.gmail.com>
+Subject: Re: [PATCH v7 18/18] target/riscv: actual functions to realize crs
+ 128-bit insns
+To: =?UTF-8?B?RnLDqWTDqXJpYyBQw6l0cm90?=
+ <frederic.petrot@univ-grenoble-alpes.fr>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d2e
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d2e;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd2e.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -156,78 +84,449 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "raphael.s.norwitz@gmail.com" <raphael.s.norwitz@gmail.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Raphael Norwitz <raphael.norwitz@nutanix.com>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Bin Meng <bin.meng@windriver.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Fabien Portas <fabien.portas@grenoble-inp.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Today if QEMU (or any other VMM) has sent multiple copies of the same
-region to a libvhost-user based backend and then attempts to remove the
-region, only one instance of the region will be removed, leaving stale
-copies of the region in dev->regions[].
+On Tue, Dec 14, 2021 at 3:01 AM Fr=C3=A9d=C3=A9ric P=C3=A9trot
+<frederic.petrot@univ-grenoble-alpes.fr> wrote:
+>
+> The csrs are accessed through function pointers: we add 128-bit read
+> operations in the table for three csrs (writes fallback to the
+> 64-bit version as the upper 64-bit information is handled elsewhere):
+> - misa, as mxl is needed for proper operation,
+> - mstatus and sstatus, to return sd
+> In addition, we also add read and write accesses to the machine and
+> supervisor scratch registers.
+>
+> Signed-off-by: Fr=C3=A9d=C3=A9ric P=C3=A9trot <frederic.petrot@univ-greno=
+ble-alpes.fr>
+> Co-authored-by: Fabien Portas <fabien.portas@grenoble-inp.org>
 
-This change resolves this by having vu_rem_mem_reg() iterate through all
-regions in dev->regions[] and delete all matching regions.
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-Suggested-by: Stefan Hajnoczi <stefanha@redhat.com>
-Signed-off-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
----
- subprojects/libvhost-user/libvhost-user.c | 26 ++++++++++++-----------
- 1 file changed, 14 insertions(+), 12 deletions(-)
+Alistair
 
-diff --git a/subprojects/libvhost-user/libvhost-user.c b/subprojects/libvho=
-st-user/libvhost-user.c
-index 0fe3aa155b..14482484d3 100644
---- a/subprojects/libvhost-user/libvhost-user.c
-+++ b/subprojects/libvhost-user/libvhost-user.c
-@@ -809,6 +809,7 @@ static bool
- vu_rem_mem_reg(VuDev *dev, VhostUserMsg *vmsg) {
-     VhostUserMemoryRegion m =3D vmsg->payload.memreg.region, *msg_region =
-=3D &m;
-     int i;
-+    bool found =3D false;
-=20
-     if (vmsg->fd_num !=3D 1 ||
-         vmsg->size !=3D sizeof(vmsg->payload.memreg)) {
-@@ -835,21 +836,22 @@ vu_rem_mem_reg(VuDev *dev, VhostUserMsg *vmsg) {
-                 munmap(m, r->size + r->mmap_offset);
-             }
-=20
--            break;
-+            /*
-+             * Shift all affected entries by 1 to close the hole at index =
-i and
-+             * zero out the last entry.
-+             */
-+            memmove(dev->regions + i, dev->regions + i + 1,
-+                    sizeof(VuDevRegion) * (dev->nregions - i - 1));
-+            memset(dev->regions + dev->nregions - 1, 0, sizeof(VuDevRegion=
-));
-+            DPRINT("Successfully removed a region\n");
-+            dev->nregions--;
-+            i--;
-+
-+            found =3D true;
-         }
-     }
-=20
--    if (i < dev->nregions) {
--        /*
--         * Shift all affected entries by 1 to close the hole at index i an=
-d
--         * zero out the last entry.
--         */
--        memmove(dev->regions + i, dev->regions + i + 1,
--               sizeof(VuDevRegion) * (dev->nregions - i - 1));
--        memset(dev->regions + dev->nregions - 1, 0,
--               sizeof(VuDevRegion));
--        DPRINT("Successfully removed a region\n");
--        dev->nregions--;
-+    if (found) {
-         vmsg_set_reply_u64(vmsg, 0);
-     } else {
-         vu_panic(dev, "Specified region not found\n");
---=20
-2.20.1
+> ---
+>  target/riscv/cpu.h      |   7 ++
+>  target/riscv/cpu_bits.h |   3 +
+>  target/riscv/csr.c      | 195 +++++++++++++++++++++++++++++++++-------
+>  3 files changed, 175 insertions(+), 30 deletions(-)
+>
+> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+> index 00e5081598..3e770e3d03 100644
+> --- a/target/riscv/cpu.h
+> +++ b/target/riscv/cpu.h
+> @@ -486,12 +486,19 @@ RISCVException riscv_csrrw_i128(CPURISCVState *env,=
+ int csrno,
+>                                  Int128 *ret_value,
+>                                  Int128 new_value, Int128 write_mask);
+>
+> +typedef RISCVException (*riscv_csr_read128_fn)(CPURISCVState *env, int c=
+srno,
+> +                                               Int128 *ret_value);
+> +typedef RISCVException (*riscv_csr_write128_fn)(CPURISCVState *env, int =
+csrno,
+> +                                             Int128 new_value);
+> +
+>  typedef struct {
+>      const char *name;
+>      riscv_csr_predicate_fn predicate;
+>      riscv_csr_read_fn read;
+>      riscv_csr_write_fn write;
+>      riscv_csr_op_fn op;
+> +    riscv_csr_read128_fn read128;
+> +    riscv_csr_write128_fn write128;
+>  } riscv_csr_operations;
+>
+>  /* CSR function table constants */
+> diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
+> index 9913fa9f77..390ba0a52f 100644
+> --- a/target/riscv/cpu_bits.h
+> +++ b/target/riscv/cpu_bits.h
+> @@ -392,6 +392,7 @@
+>
+>  #define MSTATUS32_SD        0x80000000
+>  #define MSTATUS64_SD        0x8000000000000000ULL
+> +#define MSTATUSH128_SD      0x8000000000000000ULL
+>
+>  #define MISA32_MXL          0xC0000000
+>  #define MISA64_MXL          0xC000000000000000ULL
+> @@ -413,6 +414,8 @@ typedef enum {
+>  #define SSTATUS_SUM         0x00040000 /* since: priv-1.10 */
+>  #define SSTATUS_MXR         0x00080000
+>
+> +#define SSTATUS64_UXL       0x0000000300000000ULL
+> +
+>  #define SSTATUS32_SD        0x80000000
+>  #define SSTATUS64_SD        0x8000000000000000ULL
+>
+> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+> index dca9e19a64..404aa2f31d 100644
+> --- a/target/riscv/csr.c
+> +++ b/target/riscv/csr.c
+> @@ -453,7 +453,7 @@ static const target_ulong vs_delegable_excps =3D DELE=
+GABLE_EXCPS &
+>        (1ULL << (RISCV_EXCP_STORE_GUEST_AMO_ACCESS_FAULT)));
+>  static const target_ulong sstatus_v1_10_mask =3D SSTATUS_SIE | SSTATUS_S=
+PIE |
+>      SSTATUS_UIE | SSTATUS_UPIE | SSTATUS_SPP | SSTATUS_FS | SSTATUS_XS |
+> -    SSTATUS_SUM | SSTATUS_MXR;
+> +    SSTATUS_SUM | SSTATUS_MXR | (target_ulong)SSTATUS64_UXL;
+>  static const target_ulong sip_writable_mask =3D SIP_SSIP | MIP_USIP | MI=
+P_UEIP;
+>  static const target_ulong hip_writable_mask =3D MIP_VSSIP;
+>  static const target_ulong hvip_writable_mask =3D MIP_VSSIP | MIP_VSTIP |=
+ MIP_VSEIP;
+> @@ -498,6 +498,8 @@ static uint64_t add_status_sd(RISCVMXL xl, uint64_t s=
+tatus)
+>              return status | MSTATUS32_SD;
+>          case MXL_RV64:
+>              return status | MSTATUS64_SD;
+> +        case MXL_RV128:
+> +            return MSTATUSH128_SD;
+>          default:
+>              g_assert_not_reached();
+>          }
+> @@ -547,10 +549,11 @@ static RISCVException write_mstatus(CPURISCVState *=
+env, int csrno,
+>
+>      mstatus =3D (mstatus & ~mask) | (val & mask);
+>
+> -    if (riscv_cpu_mxl(env) =3D=3D MXL_RV64) {
+> +    RISCVMXL xl =3D riscv_cpu_mxl(env);
+> +    if (xl > MXL_RV32) {
+>          /* SXL and UXL fields are for now read only */
+> -        mstatus =3D set_field(mstatus, MSTATUS64_SXL, MXL_RV64);
+> -        mstatus =3D set_field(mstatus, MSTATUS64_UXL, MXL_RV64);
+> +        mstatus =3D set_field(mstatus, MSTATUS64_SXL, xl);
+> +        mstatus =3D set_field(mstatus, MSTATUS64_UXL, xl);
+>      }
+>      env->mstatus =3D mstatus;
+>
+> @@ -579,6 +582,20 @@ static RISCVException write_mstatush(CPURISCVState *=
+env, int csrno,
+>      return RISCV_EXCP_NONE;
+>  }
+>
+> +static RISCVException read_mstatus_i128(CPURISCVState *env, int csrno,
+> +                                        Int128 *val)
+> +{
+> +    *val =3D int128_make128(env->mstatus, add_status_sd(MXL_RV128, env->=
+mstatus));
+> +    return RISCV_EXCP_NONE;
+> +}
+> +
+> +static RISCVException read_misa_i128(CPURISCVState *env, int csrno,
+> +                                     Int128 *val)
+> +{
+> +    *val =3D int128_make128(env->misa_ext, (uint64_t)MXL_RV128 << 62);
+> +    return RISCV_EXCP_NONE;
+> +}
+> +
+>  static RISCVException read_misa(CPURISCVState *env, int csrno,
+>                                  target_ulong *val)
+>  {
+> @@ -736,6 +753,21 @@ static RISCVException write_mcounteren(CPURISCVState=
+ *env, int csrno,
+>  }
+>
+>  /* Machine Trap Handling */
+> +static RISCVException read_mscratch_i128(CPURISCVState *env, int csrno,
+> +                                         Int128 *val)
+> +{
+> +    *val =3D int128_make128(env->mscratch, env->mscratchh);
+> +    return RISCV_EXCP_NONE;
+> +}
+> +
+> +static RISCVException write_mscratch_i128(CPURISCVState *env, int csrno,
+> +                                          Int128 val)
+> +{
+> +    env->mscratch =3D int128_getlo(val);
+> +    env->mscratchh =3D int128_gethi(val);
+> +    return RISCV_EXCP_NONE;
+> +}
+> +
+>  static RISCVException read_mscratch(CPURISCVState *env, int csrno,
+>                                      target_ulong *val)
+>  {
+> @@ -815,6 +847,16 @@ static RISCVException rmw_mip(CPURISCVState *env, in=
+t csrno,
+>  }
+>
+>  /* Supervisor Trap Setup */
+> +static RISCVException read_sstatus_i128(CPURISCVState *env, int csrno,
+> +                                        Int128 *val)
+> +{
+> +    uint64_t mask =3D sstatus_v1_10_mask;
+> +    uint64_t sstatus =3D env->mstatus & mask;
+> +
+> +    *val =3D int128_make128(sstatus, add_status_sd(MXL_RV128, sstatus));
+> +    return RISCV_EXCP_NONE;
+> +}
+> +
+>  static RISCVException read_sstatus(CPURISCVState *env, int csrno,
+>                                     target_ulong *val)
+>  {
+> @@ -908,6 +950,21 @@ static RISCVException write_scounteren(CPURISCVState=
+ *env, int csrno,
+>  }
+>
+>  /* Supervisor Trap Handling */
+> +static RISCVException read_sscratch_i128(CPURISCVState *env, int csrno,
+> +                                         Int128 *val)
+> +{
+> +    *val =3D int128_make128(env->sscratch, env->sscratchh);
+> +    return RISCV_EXCP_NONE;
+> +}
+> +
+> +static RISCVException write_sscratch_i128(CPURISCVState *env, int csrno,
+> +                                          Int128 val)
+> +{
+> +    env->sscratch =3D int128_getlo(val);
+> +    env->sscratchh =3D int128_gethi(val);
+> +    return RISCV_EXCP_NONE;
+> +}
+> +
+>  static RISCVException read_sscratch(CPURISCVState *env, int csrno,
+>                                      target_ulong *val)
+>  {
+> @@ -1708,16 +1765,13 @@ static RISCVException write_upmbase(CPURISCVState=
+ *env, int csrno,
+>   * csrrc  <->  riscv_csrrw(env, csrno, ret_value, 0, value);
+>   */
+>
+> -RISCVException riscv_csrrw(CPURISCVState *env, int csrno,
+> -                           target_ulong *ret_value,
+> -                           target_ulong new_value, target_ulong write_ma=
+sk)
+> +static inline RISCVException riscv_csrrw_check(CPURISCVState *env,
+> +                                               int csrno,
+> +                                               bool write_mask,
+> +                                               RISCVCPU *cpu)
+>  {
+> -    RISCVException ret;
+> -    target_ulong old_value;
+> -    RISCVCPU *cpu =3D env_archcpu(env);
+> -    int read_only =3D get_field(csrno, 0xC00) =3D=3D 3;
+> -
+>      /* check privileges and return RISCV_EXCP_ILLEGAL_INST if check fail=
+s */
+> +    int read_only =3D get_field(csrno, 0xC00) =3D=3D 3;
+>  #if !defined(CONFIG_USER_ONLY)
+>      int effective_priv =3D env->priv;
+>
+> @@ -1749,10 +1803,17 @@ RISCVException riscv_csrrw(CPURISCVState *env, in=
+t csrno,
+>      if (!csr_ops[csrno].predicate) {
+>          return RISCV_EXCP_ILLEGAL_INST;
+>      }
+> -    ret =3D csr_ops[csrno].predicate(env, csrno);
+> -    if (ret !=3D RISCV_EXCP_NONE) {
+> -        return ret;
+> -    }
+> +
+> +    return csr_ops[csrno].predicate(env, csrno);
+> +}
+> +
+> +static RISCVException riscv_csrrw_do64(CPURISCVState *env, int csrno,
+> +                                       target_ulong *ret_value,
+> +                                       target_ulong new_value,
+> +                                       target_ulong write_mask)
+> +{
+> +    RISCVException ret;
+> +    target_ulong old_value;
+>
+>      /* execute combined read/write operation if it exists */
+>      if (csr_ops[csrno].op) {
+> @@ -1788,20 +1849,89 @@ RISCVException riscv_csrrw(CPURISCVState *env, in=
+t csrno,
+>      return RISCV_EXCP_NONE;
+>  }
+>
+> +RISCVException riscv_csrrw(CPURISCVState *env, int csrno,
+> +                           target_ulong *ret_value,
+> +                           target_ulong new_value, target_ulong write_ma=
+sk)
+> +{
+> +    RISCVCPU *cpu =3D env_archcpu(env);
+> +
+> +    RISCVException ret =3D riscv_csrrw_check(env, csrno, write_mask, cpu=
+);
+> +    if (ret !=3D RISCV_EXCP_NONE) {
+> +        return ret;
+> +    }
+> +
+> +    return riscv_csrrw_do64(env, csrno, ret_value, new_value, write_mask=
+);
+> +}
+> +
+> +static RISCVException riscv_csrrw_do128(CPURISCVState *env, int csrno,
+> +                                        Int128 *ret_value,
+> +                                        Int128 new_value,
+> +                                        Int128 write_mask)
+> +{
+> +    RISCVException ret;
+> +    Int128 old_value;
+> +
+> +    /* read old value */
+> +    ret =3D csr_ops[csrno].read128(env, csrno, &old_value);
+> +    if (ret !=3D RISCV_EXCP_NONE) {
+> +        return ret;
+> +    }
+> +
+> +    /* write value if writable and write mask set, otherwise drop writes=
+ */
+> +    if (int128_nz(write_mask)) {
+> +        new_value =3D int128_or(int128_and(old_value, int128_not(write_m=
+ask)),
+> +                              int128_and(new_value, write_mask));
+> +        if (csr_ops[csrno].write128) {
+> +            ret =3D csr_ops[csrno].write128(env, csrno, new_value);
+> +            if (ret !=3D RISCV_EXCP_NONE) {
+> +                return ret;
+> +            }
+> +        } else if (csr_ops[csrno].write) {
+> +            /* avoids having to write wrappers for all registers */
+> +            ret =3D csr_ops[csrno].write(env, csrno, int128_getlo(new_va=
+lue));
+> +            if (ret !=3D RISCV_EXCP_NONE) {
+> +                return ret;
+> +            }
+> +        }
+> +    }
+> +
+> +    /* return old value */
+> +    if (ret_value) {
+> +        *ret_value =3D old_value;
+> +    }
+> +
+> +    return RISCV_EXCP_NONE;
+> +}
+> +
+>  RISCVException riscv_csrrw_i128(CPURISCVState *env, int csrno,
+> -                               Int128 *ret_value,
+> -                               Int128 new_value, Int128 write_mask)
+> +                                Int128 *ret_value,
+> +                                Int128 new_value, Int128 write_mask)
+>  {
+> -    /* fall back to 64-bit version for now */
+> -    target_ulong ret_64;
+> -    RISCVException ret =3D riscv_csrrw(env, csrno, &ret_64,
+> -                                     int128_getlo(new_value),
+> -                                     int128_getlo(write_mask));
+> +    RISCVException ret;
+> +    RISCVCPU *cpu =3D env_archcpu(env);
+>
+> -    if (ret_value) {
+> -        *ret_value =3D int128_make64(ret_64);
+> +    ret =3D riscv_csrrw_check(env, csrno, int128_nz(write_mask), cpu);
+> +    if (ret !=3D RISCV_EXCP_NONE) {
+> +        return ret;
+>      }
+>
+> +    if (csr_ops[csrno].read128) {
+> +        return riscv_csrrw_do128(env, csrno, ret_value, new_value, write=
+_mask);
+> +    }
+> +
+> +    /*
+> +     * Fall back to 64-bit version for now, if the 128-bit alternative i=
+sn't
+> +     * at all defined.
+> +     * Note, some CSRs don't need to extend to MXLEN (64 upper bits non
+> +     * significant), for those, this fallback is correctly handling the =
+accesses
+> +     */
+> +    target_ulong old_value;
+> +    ret =3D riscv_csrrw_do64(env, csrno, &old_value,
+> +                           int128_getlo(new_value),
+> +                           int128_getlo(write_mask));
+> +    if (ret =3D=3D RISCV_EXCP_NONE && ret_value) {
+> +        *ret_value =3D int128_make64(old_value);
+> +    }
+>      return ret;
+>  }
+>
+> @@ -1864,8 +1994,10 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] =3D {
+>      [CSR_MHARTID]   =3D { "mhartid",   any,   read_mhartid },
+>
+>      /* Machine Trap Setup */
+> -    [CSR_MSTATUS]     =3D { "mstatus",    any,   read_mstatus,     write=
+_mstatus     },
+> -    [CSR_MISA]        =3D { "misa",       any,   read_misa,        write=
+_misa        },
+> +    [CSR_MSTATUS]     =3D { "mstatus",    any,   read_mstatus,     write=
+_mstatus, NULL,
+> +                                               read_mstatus_i128        =
+           },
+> +    [CSR_MISA]        =3D { "misa",       any,   read_misa,        write=
+_misa, NULL,
+> +                                               read_misa_i128           =
+           },
+>      [CSR_MIDELEG]     =3D { "mideleg",    any,   read_mideleg,     write=
+_mideleg     },
+>      [CSR_MEDELEG]     =3D { "medeleg",    any,   read_medeleg,     write=
+_medeleg     },
+>      [CSR_MIE]         =3D { "mie",        any,   read_mie,         write=
+_mie         },
+> @@ -1875,20 +2007,23 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] =3D =
+{
+>      [CSR_MSTATUSH]    =3D { "mstatush",   any32, read_mstatush,    write=
+_mstatush    },
+>
+>      /* Machine Trap Handling */
+> -    [CSR_MSCRATCH] =3D { "mscratch", any,  read_mscratch, write_mscratch=
+ },
+> +    [CSR_MSCRATCH] =3D { "mscratch", any,  read_mscratch,      write_msc=
+ratch, NULL,
+> +                                         read_mscratch_i128, write_mscra=
+tch_i128   },
+>      [CSR_MEPC]     =3D { "mepc",     any,  read_mepc,     write_mepc    =
+ },
+>      [CSR_MCAUSE]   =3D { "mcause",   any,  read_mcause,   write_mcause  =
+ },
+>      [CSR_MTVAL]    =3D { "mtval",    any,  read_mtval,    write_mtval   =
+ },
+>      [CSR_MIP]      =3D { "mip",      any,  NULL,    NULL, rmw_mip       =
+ },
+>
+>      /* Supervisor Trap Setup */
+> -    [CSR_SSTATUS]    =3D { "sstatus",    smode, read_sstatus,    write_s=
+status    },
+> +    [CSR_SSTATUS]    =3D { "sstatus",    smode, read_sstatus,    write_s=
+status, NULL,
+> +                                              read_sstatus_i128         =
+        },
+>      [CSR_SIE]        =3D { "sie",        smode, read_sie,        write_s=
+ie        },
+>      [CSR_STVEC]      =3D { "stvec",      smode, read_stvec,      write_s=
+tvec      },
+>      [CSR_SCOUNTEREN] =3D { "scounteren", smode, read_scounteren, write_s=
+counteren },
+>
+>      /* Supervisor Trap Handling */
+> -    [CSR_SSCRATCH] =3D { "sscratch", smode, read_sscratch, write_sscratc=
+h },
+> +    [CSR_SSCRATCH] =3D { "sscratch", smode, read_sscratch, write_sscratc=
+h, NULL,
+> +                                          read_sscratch_i128, write_sscr=
+atch_i128  },
+>      [CSR_SEPC]     =3D { "sepc",     smode, read_sepc,     write_sepc   =
+  },
+>      [CSR_SCAUSE]   =3D { "scause",   smode, read_scause,   write_scause =
+  },
+>      [CSR_STVAL]    =3D { "stval",    smode, read_stval,   write_stval   =
+},
+> --
+> 2.34.1
+>
+>
 
