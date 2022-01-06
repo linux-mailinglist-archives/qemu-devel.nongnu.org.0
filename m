@@ -2,110 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1EE5486613
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 15:31:29 +0100 (CET)
-Received: from localhost ([::1]:33058 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B56F486628
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 15:37:09 +0100 (CET)
+Received: from localhost ([::1]:43890 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5Tnc-0006kM-Mc
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 09:31:28 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51716)
+	id 1n5Tt6-0005vU-AI
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 09:37:08 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52570)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1n5TKs-0004Ht-Nf
- for qemu-devel@nongnu.org; Thu, 06 Jan 2022 09:01:47 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:45522)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1n5TOW-00024S-8O; Thu, 06 Jan 2022 09:05:32 -0500
+Received: from mout.kundenserver.de ([212.227.126.131]:42737)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
- id 1n5TKp-0003oW-Oh
- for qemu-devel@nongnu.org; Thu, 06 Jan 2022 09:01:45 -0500
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 206DgDHV014278; 
- Thu, 6 Jan 2022 14:01:41 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=2IlaSv3nIJ+Kwuk5hntqVZ/j+r4xhe7Mqq4ivpXhkAI=;
- b=YPIYLU48CkmOD5L0qGLNb2WRIiY0lk/7CIW4oPCDto4M+bTXf1BSd43AKVneEWxtN13P
- z5+u+f0pyEoZlaCDck4+cK2o3s+0HswlgRWGLbPpQi9t50Eo4Icl0Iv47TG+wsAV9Ybu
- M8vzpDanwOGGUF1ggbuAmycqryg5VSyaOiw3m1VOYLCU+knZLMHNpASMz+iKJUWT0MC8
- hnHfUC5q0IUT6LdGDRzBDqz4JC+ON/eAAXtR3bgV6u/uf/+JHkhRWdMVBkgvPv6vUp4D
- dY9wwXVL4HCN1+0ARYZ4NHL/7RD+vZOLAzOmCzgneK3yP2XwuBdjuyBgL5Cqnf4FnyBG Ng== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3de1hj0ch7-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 06 Jan 2022 14:01:40 +0000
-Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 206DwEw0018814;
- Thu, 6 Jan 2022 14:01:40 GMT
-Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.11])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3de1hj0cgs-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 06 Jan 2022 14:01:40 +0000
-Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
- by ppma03dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 206Dv7Kv029073;
- Thu, 6 Jan 2022 14:01:39 GMT
-Received: from b03cxnp08027.gho.boulder.ibm.com
- (b03cxnp08027.gho.boulder.ibm.com [9.17.130.19])
- by ppma03dal.us.ibm.com with ESMTP id 3ddmtkpvxd-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 06 Jan 2022 14:01:39 +0000
-Received: from b03ledav001.gho.boulder.ibm.com
- (b03ledav001.gho.boulder.ibm.com [9.17.130.232])
- by b03cxnp08027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 206E1c4013500714
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 6 Jan 2022 14:01:38 GMT
-Received: from b03ledav001.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 0FD466E072;
- Thu,  6 Jan 2022 14:01:38 +0000 (GMT)
-Received: from b03ledav001.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 08D726E054;
- Thu,  6 Jan 2022 14:01:36 +0000 (GMT)
-Received: from [9.47.158.152] (unknown [9.47.158.152])
- by b03ledav001.gho.boulder.ibm.com (Postfix) with ESMTP;
- Thu,  6 Jan 2022 14:01:36 +0000 (GMT)
-Message-ID: <bc4b7631-6bf5-ce30-8710-48f0369f688c@linux.ibm.com>
-Date: Thu, 6 Jan 2022 09:01:36 -0500
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1n5TOT-0000A4-6M; Thu, 06 Jan 2022 09:05:31 -0500
+Received: from [192.168.100.1] ([82.142.12.178]) by mrelayeu.kundenserver.de
+ (mreue009 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MfHIZ-1mTeSX3mOZ-00gp1K; Thu, 06 Jan 2022 15:05:15 +0100
+Message-ID: <e81ec4c9-9315-bf7f-2e74-65544664f430@vivier.eu>
+Date: Thu, 6 Jan 2022 15:05:13 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH v5 2/3] acpi: tpm: Add missing device identification
- objects
-Content-Language: en-US
-To: "Michael S. Tsirkin" <mst@redhat.com>
-References: <20220104175806.872996-1-stefanb@linux.ibm.com>
- <20220104175806.872996-3-stefanb@linux.ibm.com>
- <20220106093636.7fc7755f@redhat.com>
- <6096f301-4c39-e39c-eb5f-9f7d22ba1260@linux.ibm.com>
- <20220106085502-mutt-send-email-mst@kernel.org>
-From: Stefan Berger <stefanb@linux.ibm.com>
-In-Reply-To: <20220106085502-mutt-send-email-mst@kernel.org>
+ Thunderbird/91.4.0
+Content-Language: fr
+To: Ahmed Abouzied <email@aabouzied.com>
+References: <20220104143841.25116-1-email@aabouzied.com>
+ <94aebec7-0bf7-18b1-a10e-dda5f476f70b@vivier.eu>
+ <CANL98e9RO38rmP8oSmEcoop3Pr_qC741Om91Bw9FQxAZcqf2QQ@mail.gmail.com>
+From: Laurent Vivier <laurent@vivier.eu>
+Subject: Byte Sized task (was Re: [PATCH] linux-user/syscall.c: malloc to
+ g_try_malloc)
+In-Reply-To: <CANL98e9RO38rmP8oSmEcoop3Pr_qC741Om91Bw9FQxAZcqf2QQ@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: P3LVM7905o7D-PhO6iPpLJMo_AAkGOSW
-X-Proofpoint-ORIG-GUID: RWOPmRQpc9GyDlurIHEPLDGfCrh10R26
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2022-01-06_05,2022-01-06_01,2021-12-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=999
- priorityscore=1501 clxscore=1015 adultscore=0 mlxscore=0 bulkscore=0
- malwarescore=0 suspectscore=0 phishscore=0 impostorscore=0 spamscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2112160000 definitions=main-2201060099
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=stefanb@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -46
-X-Spam_score: -4.7
-X-Spam_bar: ----
-X-Spam_report: (-4.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.691,
- RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Provags-ID: V03:K1:XwYw/YGJuQmJY0FNGNfnKM4tSYtrl63OtoX+k4Y01qGyt17gMW8
+ ZiFX1CImreQPKFtjFioVtyeSP/o5Wx7ydbayvYOcq/oZ+BAaZlKJXvZOC2v9kIQ7vFziLnc
+ j+DyCV46qdpnf29c3HFI7dZXXAMeIOMJNFyoqD1nHeV/Zdt5GOw6PWa0RYrxfgLcD2DMMNt
+ HSeIyf/BFawT98z09ST9g==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:Kc8wgchhsck=:0RoW1jMN84f7o3TS7buUYy
+ Poqgd5OXV3F87s861UQyteKYj87a55wdKwktpOQmIeltKBEsf3RIJcPS0dL0kfo7zKB95u4II
+ szbBdKJ+MxZk2FYVy9nCXrJfHXaH0Og3Ys/zaBF7O03RHijXzOhxeyxDAvn8MPOTqhvfa7JMu
+ N0N0IX5+LuXuWifbHLCiBOmODet4DjPt5FvBXP9MzUKw7oCC2xVd8MRLnk1JDLBJGC41mBIRq
+ xTUOo1hKMHMZQXRzi6noKM0jT5OY9iuC+prWUG1QVOSQZMIkw+D4HQsvb7/X+39mY92Nwd36x
+ T8ldoKevGb65hnnOQLt+hm2+1gayza43VzpLs2cUdNX2OKjn1u+lNuA4UhYZMRK1YCKA9xA0H
+ 6HHrk45l/9nMaYccqBGewXpRrGTDYOV2EB+IYLgVOMSm1plF9/sXyZGuo0RHVB4FpRF1P6wFw
+ dSI8S4igINKq+aZi4UQ7etSJSReTLHEP0Y9v/RS1MnV5qiYoFPXSawhfzI0Oun0f22uDXdTtx
+ 3uv2aGeB2R4DN6bFdUzmIYmWpfAX0VBR/Cq+7rttY7bq2yAtk2bVdIEJjy10YnRb6+RUbUSrb
+ ubE61zm3vK3EIDWPAPNmSU649A/tyTpmkYD4uw70m5xhea4tYmQQU+dHwmsBPLIOqy3+iYhC/
+ cbxUm30zX4bNCZ1z6fDhKtCr4WHne/tk3A3P/5FNlIarq9oVUGsSYI9nZJF3yrq+or18=
+Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -118,55 +71,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Ani Sinha <ani@anisinha.ca>, Igor Mammedov <imammedo@redhat.com>,
- Shannon Zhao <shannon.zhaosl@gmail.com>, qemu-devel@nongnu.org,
- marcandre.lureau@redhat.com
+Cc: "qemu-trivial@nongnu.org" <qemu-trivial@nongnu.org>,
+ John Snow <jsnow@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi Ahmed,
 
-On 1/6/22 08:56, Michael S. Tsirkin wrote:
-> On Thu, Jan 06, 2022 at 08:53:00AM -0500, Stefan Berger wrote:
->> On 1/6/22 03:36, Igor Mammedov wrote:
->>> On Tue,  4 Jan 2022 12:58:05 -0500
->>> Stefan Berger <stefanb@linux.ibm.com> wrote:
->>>
->>>> Add missing TPM device identification objects _STR and _UID. They will
->>>> appear as files 'description' and 'uid' under Linux sysfs.
->>>>
->>>> Following inspection of sysfs entries for hardware TPMs we chose
->>>> uid '1'.
->>> My guess would be that buy default (in case of missing UID), OSPM
->>> will start enumerate from 0. So I think 0 is more safer choice
->>> when it comes to compatibility.
->>>
->>> Can you smoke test TPM with Windows, and check if adding UID doesn't
->>> break anything if VM actually uses TMP (though I'm not sure how to
->>> check it on Windows, maybe install Windows 11 without this patch
->>> and then see if it still boots pre-installed VM and nothing is broken
->>> after this patch)?
->>>
->> I smoke tested it with the posted patches applied to v6.2.0 and started 3
->> VMs with it:
->>
->> - Linux shows uid = 1 and the description "TPM 2.0 Device" in sysfs
->>
->> - Win 10 and Win 11 tpm.msc tool are both showing that the TPM is 'ready for
->> use'
->>
->>      Stefan
->>
-> Just to make sure, what Igor was concerned about is issues like
-> we had with e.g. network devices, when changing UID makes
-> windows think it's a new device and lose configuration
-> created on old qemu on boot with a new qemu.
-> Not sure what can be configured with a TPM device though ...
+the email address you use for the trivial ML is broken. I've fixed it for my answer and added 
+qemu-devel.
 
-The VMs were all created on an old qemu and booted into the patched 
-qemu. They hadn't seen the new ACPI entries before, for sure not when 
-they were installed.
+Le 05/01/2022 à 20:09, Ahmed Abouzied a écrit :
+> Hello,
+> 
+> Thanks for the review. I also found some occurrences of "cpu_physical_memor_*" calls that should be 
+> replaced with "address_space_*" around the codebase as mentioned 
+> [here](https://wiki.qemu.org/Contribute/BiteSizedTasks 
+> <https://wiki.qemu.org/Contribute/BiteSizedTasks>) in the API conversion section. The "/hw" 
+> directory for instance. Should I go about replacing those as well? Should I create a Gitlab issue 
+> first to track the changes?
 
 
+According to the wiki, the gitlab issue are already created with the "Byte Sized" label.
 
->
+https://gitlab.com/qemu-project/qemu/-/issues?scope=all&state=opened&label_name[]=Bite%20Sized
+
+But this one is not, I think John can help you for that (added in cc:)
+
+Thanks,
+Laurent
+
+> Best regards,
+> Ahmed
+> 
+> On Wed, 5 Jan 2022 at 12:26, Laurent Vivier <laurent@vivier.eu <mailto:laurent@vivier.eu>> wrote:
+> 
+>     Le 04/01/2022 à 15:38, Ahmed Abouzied a écrit :
+>      > Use g_try_malloc instead of malloc to alocate the target ifconfig.
+>      > Also replace the corresponding free with g_free.
+>      >
+>      > Signed-off-by: Ahmed Abouzied <email@aabouzied.com <mailto:email@aabouzied.com>>
+>      > ---
+>      >
+>      > Hello,
+>      >
+>      > I noticed that there was a `malloc` call in this file. It seems that it
+>      > was added by the commit 22e4a267 (3 years ago) which was after the commit
+>      > 0e173b24 (6 years ago) that replaced malloc calls with glib alternative calls.
+>      >
+>      > There is no issue for this on Gitlab. Should I have created an issue
+>      > first?
+>      >
+>      > Best regards,
+>      >
+>      >   linux-user/syscall.c | 4 ++--
+>      >   1 file changed, 2 insertions(+), 2 deletions(-)
+>      >
+>      > diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+>      > index 56a3e17183..715f9430e1 100644
+>      > --- a/linux-user/syscall.c
+>      > +++ b/linux-user/syscall.c
+>      > @@ -4867,7 +4867,7 @@ static abi_long do_ioctl_ifconf(const IOCTLEntry *ie, uint8_t *buf_temp,
+>      >                * We can't fit all the extents into the fixed size buffer.
+>      >                * Allocate one that is large enough and use it instead.
+>      >                */
+>      > -            host_ifconf = malloc(outbufsz);
+>      > +            host_ifconf = g_try_malloc(outbufsz);
+>      >               if (!host_ifconf) {
+>      >                   return -TARGET_ENOMEM;
+>      >               }
+>      > @@ -4915,7 +4915,7 @@ static abi_long do_ioctl_ifconf(const IOCTLEntry *ie, uint8_t *buf_temp,
+>      >       }
+>      >
+>      >       if (free_buf) {
+>      > -        free(host_ifconf);
+>      > +        g_free(host_ifconf);
+>      >       }
+>      >
+>      >       return ret;
+> 
+>     Applied to my linux-user-for-7.0 branch.
+> 
+>     Thanks,
+>     Laurent
+> 
+
 
