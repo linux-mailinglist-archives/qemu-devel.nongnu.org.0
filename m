@@ -2,70 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3637A486D24
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 23:23:19 +0100 (CET)
-Received: from localhost ([::1]:57842 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8892A486D4F
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 23:42:04 +0100 (CET)
+Received: from localhost ([::1]:34394 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5bAD-0003uI-Rw
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 17:23:17 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51856)
+	id 1n5bSN-0008Vs-43
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 17:42:03 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55870)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1n5b5O-0005LI-7h; Thu, 06 Jan 2022 17:18:18 -0500
-Received: from [2607:f8b0:4864:20::d29] (port=37744
- helo=mail-io1-xd29.google.com)
+ (Exim 4.90_1) (envelope-from
+ <3L27XYQcKCn4xgpvwtgiqqing.eqosgow-fgxgnpqpipw.qti@flex--venture.bounces.google.com>)
+ id 1n5bQn-0007lN-Rp
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 17:40:26 -0500
+Received: from [2607:f8b0:4864:20::349] (port=44976
+ helo=mail-ot1-x349.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1n5b5M-0007fj-Ov; Thu, 06 Jan 2022 17:18:17 -0500
-Received: by mail-io1-xd29.google.com with SMTP id 19so4891770ioz.4;
- Thu, 06 Jan 2022 14:18:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=orP3lgAZmVxYlF8CzUtv2mZyEMf/dTH8Mxa1MVAHRJ4=;
- b=bkBPOKUkro2HglPRBgykVCxQ0u4HAgOh8UZH50c/5VVPXQk3y8U9ZEGK28SeGmc+Ia
- FG1PC4RwOCodsmsQAR66C6FNxuvv9uk5RSlTAMEwtlvdsKpZsXqIpAde4whi7fcffyfM
- PUTGj/m6rZg8tPWygFnaLJiKZlgQStylsAbxSMxQNw4Cz82LVeQzlRa8E7ZUzf0QyG+Z
- IIpeGd4K66gO5YnxCMO1X20uHaQQ6G0v1ry0C0kOGuEI3KNbAWBSv3bu6jEM4qmL+gZA
- udyoxvvOvSVss2yIYe/WNgjUqo3Ej18YoJorvKblugQZHrsqgwF+9CJDAlMOf/hBEImH
- I+qg==
+ (Exim 4.90_1) (envelope-from
+ <3L27XYQcKCn4xgpvwtgiqqing.eqosgow-fgxgnpqpipw.qti@flex--venture.bounces.google.com>)
+ id 1n5bQj-0004AH-FA
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 17:40:22 -0500
+Received: by mail-ot1-x349.google.com with SMTP id
+ c22-20020a9d67d6000000b00567f3716bdbso976568otn.11
+ for <qemu-devel@nongnu.org>; Thu, 06 Jan 2022 14:40:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=date:message-id:mime-version:subject:from:to:cc;
+ bh=F0QDLO0GPf+mFBoIBX3s2DEYPjSNlRaYLj2xMqk8eAE=;
+ b=litDGxXdBuf1dXcQ1RezLbrREnEXdyxERDhNutZ/bvXlbUSl2a7065UEf2Mw7Mzf+P
+ TojWu5hX9oioTMx2uvXUEZpTIzAYepmb8zrBb780kzU35ODAs4IWjyUFNyHV3Ip8s9If
+ i8IXNwgt9GlDfC2HH7Hy44ghs8aqQRnpTiWIIHLWMRjhuQSr20admEk3B18T+ZtSn2RV
+ clVOVqggJfU2WqH8GqauiBm4A2/X0UVWjM+iLVy4hHzyWDHawE6kPl8Zqs96m9asp+R1
+ Snkkw/6EeUm+T3U678pwbMVsbwALY6skt98yLSjFVqBz9v+RNPZNy5b3cj1eJN+Jz+Pn
+ kQcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=orP3lgAZmVxYlF8CzUtv2mZyEMf/dTH8Mxa1MVAHRJ4=;
- b=60CwZ5aIaQr0TKx8zGNMP2DEIIFjlq9XUpZnanpkNRu53IKDzBi/R+EIHM/wK74Qm8
- O27AiD1dkj5mr3Jpfi5JQYWB1HP+rX4Ng2ZzJ6oxzLEgtT8ZCaKGinT/hNOPXvu8Y1G4
- 9CxxF9HouVVTWyW6G37wIKAsOETUuaKYMGInCvS37U20taE1snpiyUkZ8VwVmeCLv+dE
- 33UFRQ9vcClmFzqTA0Y49it6hcJ0he6zwfRSDc+ombH7wA58OxKeQt62c+QpPwkvpP7I
- JV7pticpoid42Brkz9ogbQt6MMee3zE2YeDfLR3X5lY1wpuRx8Ktv4N65Sabe6Fjo+5U
- vmkA==
-X-Gm-Message-State: AOAM533efsUr1zOWVJAbDRs0FkX5KZ1Y7rACL9+xOqD+s46qQseRenF/
- v6hXcCV9Ri3LlKTIZyebLjJ0v6NF1cLtAjF9E4g=
-X-Google-Smtp-Source: ABdhPJwZe+GC7mKkD4S008atjIjKVucbWeCwSrcb9ULviRT6y3x11UjWSSVtb+VNRnTyDKKUH2K+XD+cGkccMm4WduI=
-X-Received: by 2002:a5d:8f88:: with SMTP id l8mr29071785iol.91.1641507493786; 
- Thu, 06 Jan 2022 14:18:13 -0800 (PST)
-MIME-Version: 1.0
-References: <20220106134020.1628889-1-philipp.tomsich@vrull.eu>
-In-Reply-To: <20220106134020.1628889-1-philipp.tomsich@vrull.eu>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 7 Jan 2022 08:17:47 +1000
-Message-ID: <CAKmqyKOTqChXoS7h-dNwMRondvCt14D84urZxmD3SnGwZGTBbg@mail.gmail.com>
-Subject: Re: [PATCH] target/riscv: Fix position of 'experimental' comment
-To: Philipp Tomsich <philipp.tomsich@vrull.eu>
+ h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+ bh=F0QDLO0GPf+mFBoIBX3s2DEYPjSNlRaYLj2xMqk8eAE=;
+ b=1AH0ReHizmG4xaoJIpfg5KdOEu2iGeOIsjZtsVhZIo3uGbqqy0/L8/a8xOtXQ4X19g
+ 0NS1Wm1bS1s7mFwgcVtfWPDI3T0cTDY+VMmB9tEVIApP2ZGZgWUUBsxzikjvYPKBPAEv
+ /DgE1mi1o7SVNw9xxYANJXk38zJBlLiiUfCzVKMcwPnn4D5KsZvO8G9Gwj1PmWzHfjio
+ nKqfIaJuttrIZD7rqWEivdI2sadCsO29lQTlduXJgKC9HhVQvqRMw6bqBVlMy/RhEMQo
+ eQvvRoBkTiW9gySZDb2oZFpN4EZVtVxynrnXbmTAUy3D18UJs33/pLmoY48z3GaRpF+L
+ Pssw==
+X-Gm-Message-State: AOAM531QQqfvpzSQdnQTvGSYyVKTk3hhdDtT0CuCIOSiseX4sQuSoSmo
+ akUYQ26yxu8FYw3HwxCmE6fHoNv1iOSY
+X-Google-Smtp-Source: ABdhPJyDiX3jzUPQ+DQnjFctvSphbKRZQt9B3gSiG2N9G3oetez4me7k96F74esi7cNezUjIDXscwu3+2uim
+X-Received: from venture.svl.corp.google.com
+ ([2620:15c:2a3:200:9986:338a:477f:1df7])
+ (user=venture job=sendgmr) by 2002:a25:f803:: with SMTP id
+ u3mr1355168ybd.38.1641508399966; Thu, 06 Jan 2022 14:33:19 -0800 (PST)
+Date: Thu,  6 Jan 2022 14:33:16 -0800
+Message-Id: <20220106223316.3661625-1-venture@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.34.1.448.ga2b2bfdf31-goog
+Subject: [PATCH] hw/smbios: Add table 4 parameter, "processor-id"
+From: Patrick Venture <venture@google.com>
+To: mst@redhat.com, imammedo@redhat.com, ani@anisinha.ca
+Cc: qemu-devel@nongnu.org, Patrick Venture <venture@google.com>, 
+ Peter Foley <pefoley@google.com>, Titus Rwantare <titusr@google.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d29
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::349
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d29;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd29.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::349;
+ envelope-from=3L27XYQcKCn4xgpvwtgiqqing.eqosgow-fgxgnpqpipw.qti@flex--venture.bounces.google.com;
+ helo=mail-ot1-x349.google.com
+X-Spam_score_int: -87
+X-Spam_score: -8.8
+X-Spam_bar: --------
+X-Spam_report: (-8.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,58 +85,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Bin Meng <bin.meng@windriver.com>, Vineet Gupta <vineetg@rivosinc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <alistair.francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jan 7, 2022 at 12:30 AM Philipp Tomsich
-<philipp.tomsich@vrull.eu> wrote:
->
-> When commit 0643c12e4b dropped the 'x-' prefix for Zb[abcs] and set
-> them to be enabled by default, the comment about experimental
-> extensions was kept in place above them.  This moves it down a few
-> lines to only cover experimental extensions.
->
-> References: 0643c12e4b ("target/riscv: Enable bitmanip Zb[abcs] instructions")
->
-> Signed-off-by: Philipp Tomsich <philipp.tomsich@vrull.eu>
+This parameter is to be used in the processor_id lower 32-bit entry in
+the type 4 table.  The upper 32-bits represent the features for the CPU.
+This patch leaves those as 0 when the lower 32-bits are set.
 
-Thanks!
+This parameter is set as optional and if left will use the values from
+the CPU model.
 
-Applied to riscv-to-apply.next
+This enables hiding the host information from the guest and allowing AMD
+VMs to run pretending to be Intel for some userspace software concerns.
 
-Alistair
+Reviewed-by: Peter Foley <pefoley@google.com>
+Reviewed-by: Titus Rwantare <titusr@google.com>
+Signed-off-by: Patrick Venture <venture@google.com>
+---
+ hw/smbios/smbios.c | 19 ++++++++++++++++---
+ qemu-options.hx    |  1 +
+ 2 files changed, 17 insertions(+), 3 deletions(-)
 
->
-> ---
->
->  target/riscv/cpu.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index 6ef3314bce..e322e729d2 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -640,11 +640,12 @@ static Property riscv_cpu_properties[] = {
->      DEFINE_PROP_UINT16("vlen", RISCVCPU, cfg.vlen, 128),
->      DEFINE_PROP_UINT16("elen", RISCVCPU, cfg.elen, 64),
->
-> -    /* These are experimental so mark with 'x-' */
->      DEFINE_PROP_BOOL("zba", RISCVCPU, cfg.ext_zba, true),
->      DEFINE_PROP_BOOL("zbb", RISCVCPU, cfg.ext_zbb, true),
->      DEFINE_PROP_BOOL("zbc", RISCVCPU, cfg.ext_zbc, true),
->      DEFINE_PROP_BOOL("zbs", RISCVCPU, cfg.ext_zbs, true),
-> +
-> +    /* These are experimental so mark with 'x-' */
->      DEFINE_PROP_BOOL("x-h", RISCVCPU, cfg.ext_h, false),
->      DEFINE_PROP_BOOL("x-j", RISCVCPU, cfg.ext_j, false),
->      /* ePMP 0.9.3 */
-> --
-> 2.33.1
->
->
+diff --git a/hw/smbios/smbios.c b/hw/smbios/smbios.c
+index 7397e56737..0553ee0b17 100644
+--- a/hw/smbios/smbios.c
++++ b/hw/smbios/smbios.c
+@@ -104,9 +104,11 @@ static struct {
+     const char *sock_pfx, *manufacturer, *version, *serial, *asset, *part;
+     uint64_t max_speed;
+     uint64_t current_speed;
++    uint32_t processor_id;
+ } type4 = {
+     .max_speed = DEFAULT_CPU_SPEED,
+-    .current_speed = DEFAULT_CPU_SPEED
++    .current_speed = DEFAULT_CPU_SPEED,
++    .processor_id = 0,
+ };
+ 
+ static struct {
+@@ -327,6 +329,10 @@ static const QemuOptDesc qemu_smbios_type4_opts[] = {
+         .name = "part",
+         .type = QEMU_OPT_STRING,
+         .help = "part number",
++    }, {
++        .name = "processor-id",
++        .type = QEMU_OPT_NUMBER,
++        .help = "processor id",
+     },
+     { /* end of list */ }
+ };
+@@ -669,8 +675,13 @@ static void smbios_build_type_4_table(MachineState *ms, unsigned instance)
+     t->processor_type = 0x03; /* CPU */
+     t->processor_family = 0x01; /* Other */
+     SMBIOS_TABLE_SET_STR(4, processor_manufacturer_str, type4.manufacturer);
+-    t->processor_id[0] = cpu_to_le32(smbios_cpuid_version);
+-    t->processor_id[1] = cpu_to_le32(smbios_cpuid_features);
++    if (type4.processor_id == 0) {
++        t->processor_id[0] = cpu_to_le32(smbios_cpuid_version);
++        t->processor_id[1] = cpu_to_le32(smbios_cpuid_features);
++    } else {
++        t->processor_id[0] = cpu_to_le32(type4.processor_id);
++        t->processor_id[1] = 0;
++    }
+     SMBIOS_TABLE_SET_STR(4, processor_version_str, type4.version);
+     t->voltage = 0;
+     t->external_clock = cpu_to_le16(0); /* Unknown */
+@@ -1292,6 +1303,8 @@ void smbios_entry_add(QemuOpts *opts, Error **errp)
+             save_opt(&type4.serial, opts, "serial");
+             save_opt(&type4.asset, opts, "asset");
+             save_opt(&type4.part, opts, "part");
++            /* If the value is 0, it will take the value from the CPU model. */
++            type4.processor_id = qemu_opt_get_number(opts, "processor-id", 0);
+             type4.max_speed = qemu_opt_get_number(opts, "max-speed",
+                                                   DEFAULT_CPU_SPEED);
+             type4.current_speed = qemu_opt_get_number(opts, "current-speed",
+diff --git a/qemu-options.hx b/qemu-options.hx
+index ec90505d84..3c51b6cf8f 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -2527,6 +2527,7 @@ DEF("smbios", HAS_ARG, QEMU_OPTION_smbios,
+     "                specify SMBIOS type 3 fields\n"
+     "-smbios type=4[,sock_pfx=str][,manufacturer=str][,version=str][,serial=str]\n"
+     "              [,asset=str][,part=str][,max-speed=%d][,current-speed=%d]\n"
++    "              [,processor-id=%d]\n"
+     "                specify SMBIOS type 4 fields\n"
+     "-smbios type=11[,value=str][,path=filename]\n"
+     "                specify SMBIOS type 11 fields\n"
+-- 
+2.34.1.448.ga2b2bfdf31-goog
+
 
