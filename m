@@ -2,63 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1796486651
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 15:52:40 +0100 (CET)
-Received: from localhost ([::1]:50624 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3ABD8486655
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 15:52:54 +0100 (CET)
+Received: from localhost ([::1]:51646 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5U87-0004QT-Q7
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 09:52:39 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37624)
+	id 1n5U8L-00059Z-B8
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 09:52:53 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:37740)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1n5U5V-0001bh-DA
- for qemu-devel@nongnu.org; Thu, 06 Jan 2022 09:49:57 -0500
-Received: from 1.mo548.mail-out.ovh.net ([178.32.121.110]:52271)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1n5U5T-0004j3-7N
- for qemu-devel@nongnu.org; Thu, 06 Jan 2022 09:49:57 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.108.4.141])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id AACFD211E9;
- Thu,  6 Jan 2022 14:49:52 +0000 (UTC)
-Received: from kaod.org (37.59.142.100) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.17; Thu, 6 Jan
- 2022 15:49:52 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-100R003567047cd-c07c-407e-ae0d-6284551dacae,
- 021048AAC49377EB75D2DE2E73CB44671C288654) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <4c3eab1f-e435-b468-96e3-9f3d78430534@kaod.org>
-Date: Thu, 6 Jan 2022 15:49:51 +0100
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1n5U5u-0001sZ-Eu; Thu, 06 Jan 2022 09:50:24 -0500
+Received: from [2607:f8b0:4864:20::b31] (port=41709
+ helo=mail-yb1-xb31.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1n5U5t-0004wC-2H; Thu, 06 Jan 2022 09:50:22 -0500
+Received: by mail-yb1-xb31.google.com with SMTP id y130so8009838ybe.8;
+ Thu, 06 Jan 2022 06:50:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ztRfInFr/BFTEFbI+H+ZdQUEXvNgj36MIMMt9VFoyAU=;
+ b=kQfp/INEu+oZ8jBDVeyGNhiBPnHAKDGYIRmJPhsCa+FjcUSlh+i6pji5WpBB7R3/gv
+ R0FOsxFyQ8CtsimDf+75zJmM4Cf1DuTml4N83KgjLDSrFasaEPFs+TkqLlEsLSKf+I4I
+ pdjcsXxRYAkDqCgb0K47gO8WuePht7YkGm40SXY2cDCnjUpfxWxq09hi1TbsFwin9Dac
+ Yq5NFZb4bkhW51tKLv5sWuooSI2aoI/gMq7Mg00Xk6vjlaqHp2gbVzlkjJa8yMp5y9ik
+ fgJELBJTKn/dE4NdjxY28YPzgUE2XDvKI8eFlKp27hLyvq6n4RZE7GdFneLqNSO3noeg
+ M3MQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ztRfInFr/BFTEFbI+H+ZdQUEXvNgj36MIMMt9VFoyAU=;
+ b=ATC6dKxfcZQO5cTc6raxs21DxvcdwdDWYGbEbQNy/513k6EFw3mw2KCSFr2+uoH/V/
+ ZwPpb+kpcpbzaQUXWK86XV3vCVmg7mZprWAf2RafbxKiulwBjAp2hNjE3+yAJ1OSQtZn
+ 45nGc4RzNoQHKydLbknN2rYHm9y/fa/J56dRwMq74Vkuh43Bwzwp/kBO2qvzttsjmfMp
+ os2yZf3bQYCHL1W2NZ6n3ogFYT4TUZKOsRsinrGHB09uf8VFOpN8vzE0IyxUEQIe19mF
+ rZUjMYZf4/OhjlnsUdaooDbNgUDrGEOL5ftXF+VGjfd2w5Tp1vlDCFG35ajU8+YEhIkd
+ dFEA==
+X-Gm-Message-State: AOAM5320z64FKmGphRfnu/UkuUaB3cgNBXToM2yZSQS/fN2tupiAf1A1
+ /9iU23bW1zmHU0RgdHhsKGKZ76c48MXyTEss5XY=
+X-Google-Smtp-Source: ABdhPJz2Pb6sLfv0ouuSrAJF4aS8sFXmLFJkrX+SkB23jECw/PBOw4oVcPRKtx+sagqvv2mdyUgsTgPZc4V2QMgyzu8=
+X-Received: by 2002:a25:3242:: with SMTP id y63mr61835732yby.670.1641480614248; 
+ Thu, 06 Jan 2022 06:50:14 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH v2 17/18] ppc/pnv: Introduce user creatable pnv-phb4
- devices
-Content-Language: en-US
-To: Daniel Henrique Barboza <danielhb413@gmail.com>, <qemu-devel@nongnu.org>
-References: <20220105212338.49899-1-danielhb413@gmail.com>
- <20220105212338.49899-18-danielhb413@gmail.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20220105212338.49899-18-danielhb413@gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.100]
-X-ClientProxiedBy: DAG7EX1.mxp5.local (172.16.2.61) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 2a2ec581-aedb-4883-93f1-806132a88d05
-X-Ovh-Tracer-Id: 112589993559296992
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrudefledgieekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtjeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhephffhleegueektdetffdvffeuieeugfekkeelheelteeftdfgtefffeehueegleehnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutddtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepuggrvhhiugesghhisghsohhnrdgurhhophgsvggrrhdrihgurdgruh
-Received-SPF: pass client-ip=178.32.121.110; envelope-from=clg@kaod.org;
- helo=1.mo548.mail-out.ovh.net
-X-Spam_score_int: -45
-X-Spam_score: -4.6
-X-Spam_bar: ----
-X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.691,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20220106134020.1628889-1-philipp.tomsich@vrull.eu>
+In-Reply-To: <20220106134020.1628889-1-philipp.tomsich@vrull.eu>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Thu, 6 Jan 2022 22:50:02 +0800
+Message-ID: <CAEUhbmU3Xrj-wYMRzteHmFp_fqmzZPFC_JgmYZq1eVBLxbNgZQ@mail.gmail.com>
+Subject: Re: [PATCH] target/riscv: Fix position of 'experimental' comment
+To: Philipp Tomsich <philipp.tomsich@vrull.eu>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b31
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b31;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb31.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -71,214 +77,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, david@gibson.dropbear.id.au
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Bin Meng <bin.meng@windriver.com>, Vineet Gupta <vineetg@rivosinc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/5/22 22:23, Daniel Henrique Barboza wrote:
-> This patch introduces pnv-phb4 user creatable devices that are created
-> in a similar manner as pnv-phb3 devices, allowing the user to interact
-> with the PHBs directly instead of creating PCI Express Controllers that
-> will create a certain amount of PHBs per controller index.
-> 
-> First thing we need is to discover which stack will host the created
-> PHB, which is done by the new pnv_phb4_get_stack() function. During
-> pnv_phb4_realize() we'll inspect phb->stack to see if we're dealing with
-> an user creatable device or not. When using default settings, the
-> automatically created PHB4 devices will be realized with phb->stack
-> already assigned beforehand during PEC realize. In case we're dealing
-> with an user device, find its stack, set the PHB attributes based on the
-> stack it belongs and assign the PHB to the stack.
-> 
-> The xscom stack initialization takes place in pnv_pec_stk_realize() when
-> using default settings, but at that point we aren't aware of any user
-> PHB4 devices that will belong to the stack. In that case we'll postpone
-> xscom stack init until the the end of pnv_phb4_realize(), after all the
-> memory mappings of the PHB are done.
-> 
-> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+On Thu, Jan 6, 2022 at 10:29 PM Philipp Tomsich
+<philipp.tomsich@vrull.eu> wrote:
+>
+> When commit 0643c12e4b dropped the 'x-' prefix for Zb[abcs] and set
+> them to be enabled by default, the comment about experimental
+> extensions was kept in place above them.  This moves it down a few
+> lines to only cover experimental extensions.
+>
+> References: 0643c12e4b ("target/riscv: Enable bitmanip Zb[abcs] instructions")
+>
+> Signed-off-by: Philipp Tomsich <philipp.tomsich@vrull.eu>
+>
 > ---
->   hw/pci-host/pnv_phb4.c     | 84 +++++++++++++++++++++++++++++++++++++-
->   hw/pci-host/pnv_phb4_pec.c | 12 +++---
->   hw/ppc/pnv.c               |  2 +
->   3 files changed, 90 insertions(+), 8 deletions(-)
-> 
-> diff --git a/hw/pci-host/pnv_phb4.c b/hw/pci-host/pnv_phb4.c
-> index 430a5c10f4..1c2334d491 100644
-> --- a/hw/pci-host/pnv_phb4.c
-> +++ b/hw/pci-host/pnv_phb4.c
-> @@ -1236,6 +1236,41 @@ static void pnv_phb4_instance_init(Object *obj)
->       object_initialize_child(obj, "source", &phb->xsrc, TYPE_XIVE_SOURCE);
->   }
->   
-> +static PnvPhb4PecStack *pnv_phb4_get_stack(PnvChip *chip, PnvPHB4 *phb,
-> +                                           Error **errp)
-> +{
-> +    Pnv9Chip *chip9 = NULL;
-> +    int chip_id = phb->chip_id;
-> +    int index = phb->phb_id;
-> +    int i, j;
-> +
-> +    if (chip->num_pecs == 0) {
+>
+>  target/riscv/cpu.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>
 
-assert() maybe ?
-
-
-> +        /* Something weird happened. Bail out */
-> +        error_setg(errp, "chip id %d has no PCIE controllers", chip_id);
-> +        return NULL;
-> +    }
-> +
-> +    chip9 = PNV9_CHIP(chip);
-> +
-> +    for (i = 0; i < chip->num_pecs; i++) {
-> +        /*
-> +         * For each PEC, check the amount of stacks it supports
-> +         * and see if the given phb4 index matches a stack.
-> +         */
-> +        PnvPhb4PecState *pec = &chip9->pecs[i];
-> +
-> +        for (j = 0; j < pec->num_stacks; j++) {
-> +            if (index == pnv_phb4_pec_get_phb_id(pec, j)) {
-> +                return &pec->stacks[j];
-> +            }
-> +        }
-> +    }
-> +
-> +    error_setg(errp, "pnv-phb4 index %d didn't match any existing PEC",
-> +               chip_id);
-> +    return NULL;
-> +}
-> +
->   static void pnv_phb4_realize(DeviceState *dev, Error **errp)
->   {
->       PnvPHB4 *phb = PNV_PHB4(dev);
-> @@ -1243,8 +1278,49 @@ static void pnv_phb4_realize(DeviceState *dev, Error **errp)
->       XiveSource *xsrc = &phb->xsrc;
->       int nr_irqs;
->       char name[32];
-> +    PnvPhb4PecStack *stack = NULL;
-> +    bool stack_init_xscom = false;
-> +    Error *local_err = NULL;
->   
-> -    assert(phb->stack);
-> +    /* User created PHB */
-> +    if (!phb->stack) {
-> +        PnvMachineState *pnv = PNV_MACHINE(qdev_get_machine());
-> +        PnvChip *chip = pnv_get_chip(pnv, phb->chip_id);
-> +        BusState *s;
-> +
-> +        if (!chip) {
-> +            error_setg(errp, "invalid chip id: %d", phb->chip_id);
-> +            return;
-> +        }
-> +
-> +        stack = pnv_phb4_get_stack(chip, phb, &local_err);
-> +        if (local_err) {
-> +            error_propagate(errp, local_err);
-> +            return;
-> +        }
-> +
-> +        object_property_set_int(OBJECT(phb), "index",
-> +                                phb->phb_id, &error_abort);
-> +
-> +        pnv_phb4_set_stack_phb_props(stack, phb);
-> +
-> +        /* Assign the phb to the stack */
-> +        stack->phb = phb;
-
-The stack object should check the validity of the stack->phb pointer always.
-
-> +
-> +        /*
-> +         * Reparent user created devices to the chip to build
-> +         * correctly the device tree.
-> +         */
-> +        pnv_chip_parent_fixup(chip, OBJECT(phb), phb->phb_id);
-> +
-> +        s = qdev_get_parent_bus(DEVICE(chip));
-> +        if (!qdev_set_parent_bus(DEVICE(phb), s, &local_err)) {
-> +            error_propagate(errp, local_err);
-> +            return;
-> +        }
-> +
-> +        stack_init_xscom = true;
-
-This looks wrong.
-
-> +    }
->   
->       /* Set the "big_phb" flag */
->       phb->big_phb = phb->phb_id == 0 || phb->phb_id == 3;
-> @@ -1298,6 +1374,10 @@ static void pnv_phb4_realize(DeviceState *dev, Error **errp)
->       pnv_phb4_update_xsrc(phb);
->   
->       phb->qirqs = qemu_allocate_irqs(xive_source_set_irq, xsrc, xsrc->nr_irqs);
-> +
-> +    if (stack_init_xscom) {
-> +        pnv_pec_init_stack_xscom(stack);
-> +    }
-
-Isn't it done under the pnv_pec_stk_realize() routine already ?
-
->   }
->   
->   static const char *pnv_phb4_root_bus_path(PCIHostState *host_bridge,
-> @@ -1347,7 +1427,7 @@ static void pnv_phb4_class_init(ObjectClass *klass, void *data)
->       dc->realize         = pnv_phb4_realize;
->       device_class_set_props(dc, pnv_phb4_properties);
->       set_bit(DEVICE_CATEGORY_BRIDGE, dc->categories);
-> -    dc->user_creatable  = false;
-> +    dc->user_creatable  = true;
->   
->       xfc->notify         = pnv_phb4_xive_notify;
->   }
-> diff --git a/hw/pci-host/pnv_phb4_pec.c b/hw/pci-host/pnv_phb4_pec.c
-> index 41c79d24c4..4417beb97d 100644
-> --- a/hw/pci-host/pnv_phb4_pec.c
-> +++ b/hw/pci-host/pnv_phb4_pec.c
-> @@ -573,13 +573,13 @@ static void pnv_pec_stk_realize(DeviceState *dev, Error **errp)
->                             &pnv_pec_stk_pci_xscom_ops, stack, name,
->                             PHB4_PEC_PCI_STK_REGS_COUNT);
->   
-> -    /* PHB pass-through */
-> -    pnv_phb4_set_stack_phb_props(stack, stack->phb);
-> -    if (!sysbus_realize(SYS_BUS_DEVICE(&stack->phb), errp)) {
-> -        return;
-> +    /*
-> +     * There is no guarantee that stack->phb will be available
-> +     * at this point.
-> +     */
-> +    if (stack->phb) {
-> +        pnv_pec_init_stack_xscom(stack);
->       }
-> -
-> -    pnv_pec_init_stack_xscom(stack);
-
-
-This looks wrong also. I don't understand why.
-
-Thanks,
-
-C.
-
-
->   }
->   
->   static Property pnv_pec_stk_properties[] = {
-> diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-> index fe7e67e73a..837146a2fb 100644
-> --- a/hw/ppc/pnv.c
-> +++ b/hw/ppc/pnv.c
-> @@ -1960,6 +1960,8 @@ static void pnv_machine_power9_class_init(ObjectClass *oc, void *data)
->       pmc->compat = compat;
->       pmc->compat_size = sizeof(compat);
->       pmc->dt_power_mgt = pnv_dt_power_mgt;
-> +
-> +    machine_class_allow_dynamic_sysbus_dev(mc, TYPE_PNV_PHB4);
->   }
->   
->   static void pnv_machine_power10_class_init(ObjectClass *oc, void *data)
-> 
-
+Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
 
