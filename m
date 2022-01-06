@@ -2,66 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA6E6486537
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 14:21:56 +0100 (CET)
-Received: from localhost ([::1]:52160 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02C86486535
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 14:21:55 +0100 (CET)
+Received: from localhost ([::1]:51976 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5SiJ-0007oh-UK
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 08:21:55 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41268)
+	id 1n5SiG-0007hb-ME
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 08:21:52 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41286)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n5Scz-0003xi-C8
- for qemu-devel@nongnu.org; Thu, 06 Jan 2022 08:16:26 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24527)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n5Sd1-0003xt-3h
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 08:16:28 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35697)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n5Scx-0000kT-GE
- for qemu-devel@nongnu.org; Thu, 06 Jan 2022 08:16:25 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n5Scy-0000kZ-Fn
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 08:16:26 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641474981;
+ s=mimecast20190719; t=1641474983;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type;
- bh=uOK7z8aDFfRph7yV/8Jchta3k3mGFop5eigjvDQYuvk=;
- b=D03nWDRZRxAEKT7MhQ/AA/HHI1XlS1pdbLWn9FaGmXObBifJ9aYXcOgua4xvML6CtpbUUM
- cal31P+foyoPzEDdEfocXL4yI9wYNSHuTN7xVk+dja8zj7z+i14Sq37cIONpl2qUD0DO2j
- 1m+3mXfWLvyzQZiIHjsnVpPQj77zz9o=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=ZDYUVmJkHemLI5KByv30OJoOAnuNT00GDgLmkQC7+Is=;
+ b=QXB7msUPjLbNqpLHm1Pt0ctuSt17boocXhgd2P8UPux8vB9Znx+hJTBnjS6Iu7/UbZ6G8H
+ Ld6GBZkg67t7s4c7AvQo1dA/FR49j5E/dcw5U0ggMhz6QFjljN4zbiRXkXXq27mql12E1B
+ 4VBJZMEgiGYcp/s795rqyNd+9fugGQc=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-620-LowLUAb6M7CNDGmyUaF6QA-1; Thu, 06 Jan 2022 08:16:20 -0500
-X-MC-Unique: LowLUAb6M7CNDGmyUaF6QA-1
-Received: by mail-wr1-f72.google.com with SMTP id
- i5-20020adfa505000000b001a4b17898acso1047752wrb.12
- for <qemu-devel@nongnu.org>; Thu, 06 Jan 2022 05:16:20 -0800 (PST)
+ us-mta-371-1gTIMxnNPeagePRUgYZrJA-1; Thu, 06 Jan 2022 08:16:22 -0500
+X-MC-Unique: 1gTIMxnNPeagePRUgYZrJA-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ v14-20020adfa1ce000000b001a49d6587ceso1180861wrv.21
+ for <qemu-devel@nongnu.org>; Thu, 06 Jan 2022 05:16:22 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
- :content-disposition;
- bh=uOK7z8aDFfRph7yV/8Jchta3k3mGFop5eigjvDQYuvk=;
- b=sf/nEu2jQBfR/cuUQHI0QhmBt995K+pwAArAkSHKv4PsP38eZ8ovZCDstbuCuoMPZX
- DA+/OSl8nGmym8cO3o1gGik4ZkG0yb1jGIBVK2Rm0m+65VbuSujXp5iXvLzA4PzrP28W
- MuzUf/ldd7tv32fWi32sRb7Dl1We/WL636HEdYBQJCfsNzgoiriBjCK7BolMX8ax4ezm
- EO0fy8nFz/go53ElwSmvHKegKZtNd4MfeGT54Z0R5B4xIWam1t63vwjqLHny4ITz2L58
- dYzTtjw03qQtXbLmxRweiGDJeyz1UyzhwYQ9IzfZfl5SIRwilBm3CQ6cZcylFrEHYgp0
- pklg==
-X-Gm-Message-State: AOAM532gxC+hn7CqPIt/hMTYEjJPcCY0fI/2PyiKNJZbz3CtIyd4ad82
- i2IH8WPFvw3WGJ2P5hr/ZPLo9fTOqwBYfNcMbSojoUGaV6aiasi5+c8TgsNeeC1VmHs0mAdAmk7
- UkPLcYzNPNuT5OcM6F3D3FyVlWs5IBqbvNalpaDKNcUgVdJzu0ubmdQf/lE0L
-X-Received: by 2002:a5d:65c9:: with SMTP id e9mr1811024wrw.661.1641474978777; 
- Thu, 06 Jan 2022 05:16:18 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwJI1RBwCZwwcnoynLuEddFfMfCnODgSBrgcvkbYHMS1464rbMq4BSyFkikADb4+A+ienC3hA==
-X-Received: by 2002:a5d:65c9:: with SMTP id e9mr1810999wrw.661.1641474978425; 
- Thu, 06 Jan 2022 05:16:18 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=ZDYUVmJkHemLI5KByv30OJoOAnuNT00GDgLmkQC7+Is=;
+ b=2oApD/xslSYyIR8xwrBuYXVpcOoNmP3MXoMdlwEV3snNeMEAnbNx1CgW9T0Dq7gwLq
+ YFGIWPRo3VDQa5ORVDsEMLcM1R5OVCiF8ZsMmCiSXPoIIxXfUQMXGv+xLBxxyvHvXnO5
+ 4X6OjyRvmbU/ZhunsVOpMq/uf+S27e94xrV0khe/YGiOD/AAvshpiA178UNSA6schez9
+ WjJpG6rFQUJV7VENTyfjKpD2BiJJzhgTcDLGBDV+e93VliqAuifjfGfAWJ6cRNLCPCdf
+ 0VP1iVjaRUwIQN8jEIteZdDoGtnu8BNBP475mIqtY91r85V0fCj7KlfpAeTXOvsB67DM
+ H5/w==
+X-Gm-Message-State: AOAM533r9O5UFvBylYRcBsbv45Wwf3966medkTSbNrVeWHrMd+hyqbup
+ 4ixnYa1QzKGOmqmyXdiEjcI0nJN1S+pKp9zYy/SnGUNC8UkPA5nyT+UbxwnouKufXxqJafvUViF
+ YJnz3J8tg9VH2X2qV1vqPEzRRmjHBJVXk5Bi/iYE1sjuHeWROqlNWAtJQus/k
+X-Received: by 2002:a7b:c00d:: with SMTP id c13mr7098276wmb.99.1641474981056; 
+ Thu, 06 Jan 2022 05:16:21 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwDrFmdjz6pfz0Ur0h37d34VIiVz04l/+lhIzncN4XfqVaoMrWYOKnYpuVSmrtfc9aiJANAsg==
+X-Received: by 2002:a7b:c00d:: with SMTP id c13mr7098261wmb.99.1641474980818; 
+ Thu, 06 Jan 2022 05:16:20 -0800 (PST)
 Received: from redhat.com ([2a03:c5c0:207e:991b:6857:5652:b903:a63b])
- by smtp.gmail.com with ESMTPSA id e13sm5268488wmq.10.2022.01.06.05.16.17
+ by smtp.gmail.com with ESMTPSA id y1sm2042607wrm.3.2022.01.06.05.16.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Jan 2022 05:16:18 -0800 (PST)
-Date: Thu, 6 Jan 2022 08:16:16 -0500
+ Thu, 06 Jan 2022 05:16:20 -0800 (PST)
+Date: Thu, 6 Jan 2022 08:16:18 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/52] virtio,pci,pc: features,fixes,cleanups
-Message-ID: <20220106131534.423671-1-mst@redhat.com>
+Subject: [PULL 01/52] virtio-mem: Don't skip alignment checks when warning
+ about block size
+Message-ID: <20220106131534.423671-2-mst@redhat.com>
+References: <20220106131534.423671-1-mst@redhat.com>
 MIME-Version: 1.0
+In-Reply-To: <20220106131534.423671-1-mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
 Authentication-Results: relay.mimecast.com;
@@ -70,7 +74,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -91,174 +95,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Big changes that were tagged originally but did not make the cut:
-- SRIOV/nvme (not sure they are my tree material anyway)
-- TPM (blocked over Igor's compat concerns)
-- ACPI ERST (some coding style violations)
+From: David Hildenbrand <david@redhat.com>
 
-The following changes since commit 7d4ae4d4978079d564d3b6354c90a949130409fe:
+If we warn about the block size being smaller than the default, we skip
+some alignment checks.
 
-  Merge tag 'pull-request-2022-01-05' of https://gitlab.com/thuth/qemu into staging (2022-01-05 08:47:18 -0800)
+This can currently only fail on x86-64, when specifying a block size of
+1 MiB, however, we detect the THP size of 2 MiB.
 
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
-
-for you to fetch changes up to 9399c26697e7c9658d082c6390e143319decaef5:
-
-  virtio/vhost-vsock: don't double close vhostfd, remove redundant cleanup (2022-01-06 07:16:25 -0500)
-
-----------------------------------------------------------------
-virtio,pci,pc: features,fixes,cleanups
-
-New virtio mem options.
-A vhost-user cleanup.
-Control over smbios entry point type.
-Config interrupt support for vdpa.
-Fixes, cleanups all over the place.
-
+Fixes: 228957fea3a9 ("virtio-mem: Probe THP size to determine default block size")
+Cc: "Michael S. Tsirkin" <mst@redhat.com>
+Signed-off-by: David Hildenbrand <david@redhat.com>
+Message-Id: <20211011173305.13778-1-david@redhat.com>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+---
+ hw/virtio/virtio-mem.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-----------------------------------------------------------------
-Andy Pei (1):
-      hw/vhost-user-blk: turn on VIRTIO_BLK_F_SIZE_MAX feature for virtio blk device
-
-Ani Sinha (2):
-      MAINTAINERS: Add a separate entry for acpi/VIOT tables
-      acpihp: simplify acpi_pcihp_disable_root_bus
-
-Cindy Lu (10):
-      virtio: introduce macro IRTIO_CONFIG_IRQ_IDX
-      virtio-pci: decouple notifier from interrupt process
-      virtio-pci: decouple the single vector from the interrupt process
-      vhost: introduce new VhostOps vhost_set_config_call
-      vhost-vdpa: add support for config interrupt
-      virtio: add support for configure interrupt
-      vhost: add support for configure interrupt
-      virtio-net: add support for configure interrupt
-      virtio-mmio: add support for configure interrupt
-      virtio-pci: add support for configure interrupt
-
-Daniil Tatianin (3):
-      hw/scsi/vhost-scsi: don't leak vqs on error
-      hw/scsi/vhost-scsi: don't double close vhostfd on error
-      virtio/vhost-vsock: don't double close vhostfd, remove redundant cleanup
-
-David Hildenbrand (12):
-      virtio-mem: Don't skip alignment checks when warning about block size
-      util/oslib-posix: Let touch_all_pages() return an error
-      util/oslib-posix: Support MADV_POPULATE_WRITE for os_mem_prealloc()
-      util/oslib-posix: Introduce and use MemsetContext for touch_all_pages()
-      util/oslib-posix: Don't create too many threads with small memory or little pages
-      util/oslib-posix: Avoid creating a single thread with MADV_POPULATE_WRITE
-      util/oslib-posix: Support concurrent os_mem_prealloc() invocation
-      util/oslib-posix: Forward SIGBUS to MCE handler under Linux
-      virtio-mem: Support "prealloc=on" option
-      linux-headers: sync VIRTIO_MEM_F_UNPLUGGED_INACCESSIBLE
-      virtio-mem: Support VIRTIO_MEM_F_UNPLUGGED_INACCESSIBLE
-      virtio-mem: Set "unplugged-inaccessible=auto" for the 7.0 machine on x86
-
-Eduardo Habkost (3):
-      smbios: Rename SMBIOS_ENTRY_POINT_* enums
-      hw/smbios: Use qapi for SmbiosEntryPointType
-      hw/i386: expose a "smbios-entry-point-type" PC machine property
-
-Frederic Barrat (2):
-      pci: Export the pci_intx() function
-      pcie_aer: Don't trigger a LSI if none are defined
-
-Igor Mammedov (4):
-      acpi: fix QEMU crash when started with SLIC table
-      tests: acpi: whitelist expected blobs before changing them
-      tests: acpi: add SLIC table test
-      tests: acpi: SLIC: update expected blobs
-
-Jason Wang (1):
-      intel-iommu: correctly check passthrough during translation
-
-Laurent Vivier (1):
-      trace-events,pci: unify trace events format
-
-Michael S. Tsirkin (1):
-      acpi: validate hotplug selector on access
-
-Roman Kagan (9):
-      vhost-user-blk: reconnect on any error during realize
-      chardev/char-socket: tcp_chr_recv: don't clobber errno
-      chardev/char-socket: tcp_chr_sync_read: don't clobber errno
-      vhost-backend: avoid overflow on memslots_limit
-      vhost-backend: stick to -errno error return convention
-      vhost-vdpa: stick to -errno error return convention
-      vhost-user: stick to -errno error return convention
-      vhost: stick to -errno error return convention
-      vhost-user-blk: propagate error return from generic vhost
-
-Stefan Hajnoczi (1):
-      virtio: signal after wrapping packed used_idx
-
-Thomas Huth (2):
-      hw/i386/pc: Add missing property descriptions
-      docs: reSTify virtio-balloon-stats documentation and move to docs/interop
-
- qapi/machine.json                                  |  12 +
- hw/virtio/virtio-pci.h                             |   4 +-
- include/hw/firmware/smbios.h                       |  10 +-
- include/hw/i386/pc.h                               |   4 +
- include/hw/pci/pci.h                               |   5 +
- include/hw/virtio/vhost-backend.h                  |   3 +
- include/hw/virtio/vhost.h                          |   4 +
- include/hw/virtio/virtio-mem.h                     |  12 +
- include/hw/virtio/virtio.h                         |   7 +
- include/net/vhost_net.h                            |   2 +
- include/qemu/osdep.h                               |   7 +
- include/standard-headers/linux/virtio_mem.h        |   9 +-
- chardev/char-socket.c                              |  17 +-
- hw/acpi/core.c                                     |   4 +-
- hw/acpi/pcihp.c                                    |  12 +-
- hw/arm/virt.c                                      |   2 +-
- hw/block/vhost-user-blk.c                          |   5 +-
- hw/display/vhost-user-gpu.c                        |   6 +
- hw/i386/acpi-build.c                               |   2 +
- hw/i386/intel_iommu.c                              |  38 +-
- hw/i386/pc.c                                       |  38 +-
- hw/i386/pc_piix.c                                  |   2 +-
- hw/i386/pc_q35.c                                   |   2 +-
- hw/net/vhost_net.c                                 |   9 +
- hw/net/virtio-net.c                                |  10 +-
- hw/pci/pci.c                                       |   9 +-
- hw/pci/pci_host.c                                  |   6 +-
- hw/pci/pcie_aer.c                                  |   4 +-
- hw/scsi/vhost-scsi.c                               |  15 +-
- hw/smbios/smbios.c                                 |   8 +-
- hw/virtio/vhost-backend.c                          |   4 +-
- hw/virtio/vhost-user-fs.c                          |   6 +
- hw/virtio/vhost-user.c                             | 401 ++++++++++++---------
- hw/virtio/vhost-vdpa.c                             |  44 ++-
- hw/virtio/vhost-vsock-common.c                     |   6 +
- hw/virtio/vhost-vsock.c                            |  11 +-
- hw/virtio/vhost.c                                  | 174 ++++++---
- hw/virtio/virtio-crypto.c                          |   6 +
- hw/virtio/virtio-mem.c                             | 105 +++++-
- hw/virtio/virtio-mmio.c                            |  27 ++
- hw/virtio/virtio-pci.c                             | 281 ++++++++++-----
- hw/virtio/virtio.c                                 |  30 ++
- softmmu/cpus.c                                     |   4 +
- tests/qtest/bios-tables-test.c                     |  15 +
- util/oslib-posix.c                                 | 233 +++++++++---
- MAINTAINERS                                        |   8 +
- docs/interop/index.rst                             |   1 +
- .../virtio-balloon-stats.rst}                      |  58 +--
- hw/pci/trace-events                                |   8 +-
- hw/virtio/trace-events                             |   1 +
- tests/data/acpi/q35/FACP.slic                      | Bin 0 -> 244 bytes
- tests/data/acpi/q35/SLIC.slic                      | Bin 0 -> 36 bytes
- 52 files changed, 1191 insertions(+), 500 deletions(-)
- rename docs/{virtio-balloon-stats.txt => interop/virtio-balloon-stats.rst} (66%)
- create mode 100644 tests/data/acpi/q35/FACP.slic
- create mode 100644 tests/data/acpi/q35/SLIC.slic
+diff --git a/hw/virtio/virtio-mem.c b/hw/virtio/virtio-mem.c
+index d5a578142b..341c3fa2c1 100644
+--- a/hw/virtio/virtio-mem.c
++++ b/hw/virtio/virtio-mem.c
+@@ -733,7 +733,8 @@ static void virtio_mem_device_realize(DeviceState *dev, Error **errp)
+         warn_report("'%s' property is smaller than the default block size (%"
+                     PRIx64 " MiB)", VIRTIO_MEM_BLOCK_SIZE_PROP,
+                     virtio_mem_default_block_size(rb) / MiB);
+-    } else if (!QEMU_IS_ALIGNED(vmem->requested_size, vmem->block_size)) {
++    }
++    if (!QEMU_IS_ALIGNED(vmem->requested_size, vmem->block_size)) {
+         error_setg(errp, "'%s' property has to be multiples of '%s' (0x%" PRIx64
+                    ")", VIRTIO_MEM_REQUESTED_SIZE_PROP,
+                    VIRTIO_MEM_BLOCK_SIZE_PROP, vmem->block_size);
+-- 
+MST
 
 
