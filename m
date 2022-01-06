@@ -2,64 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49BAF4864F6
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 14:09:49 +0100 (CET)
-Received: from localhost ([::1]:41442 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75AA84864FE
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 14:11:51 +0100 (CET)
+Received: from localhost ([::1]:43886 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5SWa-0006RD-Dg
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 08:09:48 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38078)
+	id 1n5SYY-0008Fd-KE
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 08:11:50 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38678)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1n5SSE-0004LR-Ot
- for qemu-devel@nongnu.org; Thu, 06 Jan 2022 08:05:20 -0500
-Received: from smtpout4.mo529.mail-out.ovh.net ([217.182.185.173]:36979)
+ (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
+ id 1n5SUR-00060b-8u
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 08:07:35 -0500
+Received: from mga02.intel.com ([134.134.136.20]:52815)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1n5SSC-0005kJ-Sn
- for qemu-devel@nongnu.org; Thu, 06 Jan 2022 08:05:18 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.108.1.31])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 8BCEED5F5F8C;
- Thu,  6 Jan 2022 14:05:11 +0100 (CET)
-Received: from kaod.org (37.59.142.104) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.17; Thu, 6 Jan
- 2022 14:05:10 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-104R00561356933-d5dd-40aa-8e70-a7b9e862d6a5,
- 021048AAC49377EB75D2DE2E73CB44671C288654) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <0be0b54a-e9fd-ac35-1c73-b840d8f34093@kaod.org>
-Date: Thu, 6 Jan 2022 14:05:08 +0100
+ (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
+ id 1n5SUL-0007Ab-9t
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 08:07:32 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1641474449; x=1673010449;
+ h=date:from:to:cc:subject:message-id:reply-to:references:
+ mime-version:in-reply-to;
+ bh=znSuPJrdIfXZBPs+/0Wp7F8ajuSAzZTJWGMLAVEn470=;
+ b=kPVTIttwgVhvQPYGIfxL+xqP7d+J7CKeo4eI8bdS7ZhdER7CEi+EJXxe
+ KEG1/eEWcL8MNT6KZABXR5ligqVZXjTUHx1yNWVy1LIUE/yPezcUkbXGN
+ z/I29qaOh0l+2SqGJWsQzUW0uEJqMIJLlDx7wtmbwW+cGdh0+Q1uwAY2P
+ EoxndN0r6C85lPntjn11aHKdQAJt3DvD0ybnDbN3B7f0/mJyRL2j/x7TY
+ gsjQd91dIVTB67hTj09S10G09Qw4OBrgVN8Zx15FQnJp/OGt5PueChDeD
+ EAG9hniF/Vf4+cQi2E1I81/McwLi8es1MY2xep8rk0NWQkc1B/0SVM6wX A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10217"; a="229980550"
+X-IronPort-AV: E=Sophos;i="5.88,267,1635231600"; d="scan'208";a="229980550"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Jan 2022 05:07:27 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,267,1635231600"; d="scan'208";a="526972284"
+Received: from chaop.bj.intel.com (HELO localhost) ([10.240.192.101])
+ by orsmga008.jf.intel.com with ESMTP; 06 Jan 2022 05:07:19 -0800
+Date: Thu, 6 Jan 2022 21:06:38 +0800
+From: Chao Peng <chao.p.peng@linux.intel.com>
+To: David Hildenbrand <david@redhat.com>
+Subject: Re: [PATCH v3 kvm/queue 01/16] mm/shmem: Introduce F_SEAL_INACCESSIBLE
+Message-ID: <20220106130638.GB43371@chaop.bj.intel.com>
+References: <20211223123011.41044-1-chao.p.peng@linux.intel.com>
+ <20211223123011.41044-2-chao.p.peng@linux.intel.com>
+ <7eb40902-45dd-9193-37f1-efaca381529b@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH v2 4/7] target/ppc: Add HV support to
- ppc_interrupts_little_endian
-Content-Language: en-US
-To: David Gibson <david@gibson.dropbear.id.au>, Fabiano Rosas
- <farosas@linux.ibm.com>
-References: <20220105204029.4058500-1-farosas@linux.ibm.com>
- <20220105204029.4058500-5-farosas@linux.ibm.com> <YdZ+YtvZSUhkFvR/@yekko>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <YdZ+YtvZSUhkFvR/@yekko>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.104]
-X-ClientProxiedBy: DAG3EX1.mxp5.local (172.16.2.21) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: d6b02731-cc80-4559-b6c4-d7ed6b0fd80d
-X-Ovh-Tracer-Id: 16791389737060567846
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrudefledggeejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtjeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhephffhleegueektdetffdvffeuieeugfekkeelheelteeftdfgtefffeehueegleehnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepuggrnhhivghlhhgsgedufeesghhmrghilhdrtghomh
-Received-SPF: pass client-ip=217.182.185.173; envelope-from=clg@kaod.org;
- helo=smtpout4.mo529.mail-out.ovh.net
-X-Spam_score_int: -45
-X-Spam_score: -4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <7eb40902-45dd-9193-37f1-efaca381529b@redhat.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+Received-SPF: none client-ip=134.134.136.20;
+ envelope-from=chao.p.peng@linux.intel.com; helo=mga02.intel.com
+X-Spam_score_int: -46
+X-Spam_score: -4.7
 X-Spam_bar: ----
-X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.691,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-4.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.372,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -72,118 +74,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: richard.henderson@linaro.org, danielhb413@gmail.com, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org
+Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
+Cc: Wanpeng Li <wanpengli@tencent.com>, jun.nakajima@intel.com,
+ kvm@vger.kernel.org, qemu-devel@nongnu.org,
+ "J . Bruce Fields" <bfields@fieldses.org>, linux-mm@kvack.org,
+ "H . Peter Anvin" <hpa@zytor.com>, ak@linux.intel.com,
+ Jonathan Corbet <corbet@lwn.net>, Joerg Roedel <joro@8bytes.org>,
+ x86@kernel.org, Hugh Dickins <hughd@google.com>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ luto@kernel.org, Thomas Gleixner <tglx@linutronix.de>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>, Jim Mattson <jmattson@google.com>,
+ dave.hansen@intel.com, Sean Christopherson <seanjc@google.com>,
+ susie.li@intel.com, Jeff Layton <jlayton@kernel.org>,
+ linux-kernel@vger.kernel.org, john.ji@intel.com,
+ Yu Zhang <yu.c.zhang@linux.intel.com>, linux-fsdevel@vger.kernel.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Andrew Morton <akpm@linux-foundation.org>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/6/22 06:30, David Gibson wrote:
-> On Wed, Jan 05, 2022 at 05:40:26PM -0300, Fabiano Rosas wrote:
->> The ppc_interrupts_little_endian function could be used for interrupts
->> delivered in Hypervisor mode, so add support for powernv8 and powernv9
->> to it.
->>
->> Also drop the comment because it is inaccurate, all CPUs that can run
->> little endian can have interrupts in little endian. The point is
->> whether they can take interrupts in an endianness different from
->> MSR_LE.
->>
->> This change has no functional impact.
->>
->> Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
+On Tue, Jan 04, 2022 at 03:22:07PM +0100, David Hildenbrand wrote:
+> On 23.12.21 13:29, Chao Peng wrote:
+> > From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
+> > 
+> > Introduce a new seal F_SEAL_INACCESSIBLE indicating the content of
+> > the file is inaccessible from userspace in any possible ways like
+> > read(),write() or mmap() etc.
+> > 
+> > It provides semantics required for KVM guest private memory support
+> > that a file descriptor with this seal set is going to be used as the
+> > source of guest memory in confidential computing environments such
+> > as Intel TDX/AMD SEV but may not be accessible from host userspace.
+> > 
+> > At this time only shmem implements this seal.
+> > 
+> > Signed-off-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
+> > Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
+> > ---
+> >  include/uapi/linux/fcntl.h |  1 +
+> >  mm/shmem.c                 | 37 +++++++++++++++++++++++++++++++++++--
+> >  2 files changed, 36 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/include/uapi/linux/fcntl.h b/include/uapi/linux/fcntl.h
+> > index 2f86b2ad6d7e..e2bad051936f 100644
+> > --- a/include/uapi/linux/fcntl.h
+> > +++ b/include/uapi/linux/fcntl.h
+> > @@ -43,6 +43,7 @@
+> >  #define F_SEAL_GROW	0x0004	/* prevent file from growing */
+> >  #define F_SEAL_WRITE	0x0008	/* prevent writes */
+> >  #define F_SEAL_FUTURE_WRITE	0x0010  /* prevent future writes while mapped */
+> > +#define F_SEAL_INACCESSIBLE	0x0020  /* prevent file from accessing */
 > 
-> Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
+> I think this needs more clarification: the file content can still be
+> accessed using in-kernel mechanisms such as MEMFD_OPS for KVM. It
+> effectively disallows traditional access to a file (read/write/mmap)
+> that will result in ordinary MMU access to file content.
 > 
-> With one nit you might want to look at later:
-> 
->> ---
->>   target/ppc/arch_dump.c   |  2 +-
->>   target/ppc/cpu.h         | 23 +++++++++++++++--------
->>   target/ppc/excp_helper.c |  2 +-
->>   3 files changed, 17 insertions(+), 10 deletions(-)
->>
->> diff --git a/target/ppc/arch_dump.c b/target/ppc/arch_dump.c
->> index bb392f6d88..12cde198a3 100644
->> --- a/target/ppc/arch_dump.c
->> +++ b/target/ppc/arch_dump.c
->> @@ -237,7 +237,7 @@ int cpu_get_dump_info(ArchDumpInfo *info,
->>       info->d_machine = PPC_ELF_MACHINE;
->>       info->d_class = ELFCLASS;
->>   
->> -    if (ppc_interrupts_little_endian(cpu)) {
->> +    if (ppc_interrupts_little_endian(cpu, false)) {
-> 
-> I'm wondering if using hv==false here is actually correct, and AFAICT
-> it probably is for spapr, but not for powernv.  So I'm wondering if we
-> should actually test cpu->vhyp here to get the right value for powernv
-> as well.
+> Not sure how to best clarify that: maybe, prevent ordinary MMU access
+> (e.g., read/write/mmap) to file content?
 
-yes. 'cpu->vhyp' or 'env->has_hv_mode' or 'env->msr_mask & MSR_HVB'
+Or: prevent userspace access (e.g., read/write/mmap) to file content?
+> 
+> >  /* (1U << 31) is reserved for signed error codes */
+> >  
+> >  /*
+> > diff --git a/mm/shmem.c b/mm/shmem.c
+> > index 18f93c2d68f1..faa7e9b1b9bc 100644
+> > --- a/mm/shmem.c
+> > +++ b/mm/shmem.c
+> > @@ -1098,6 +1098,10 @@ static int shmem_setattr(struct user_namespace *mnt_userns,
+> >  		    (newsize > oldsize && (info->seals & F_SEAL_GROW)))
+> >  			return -EPERM;
+> >  
+> > +		if ((info->seals & F_SEAL_INACCESSIBLE) &&
+> > +		    (newsize & ~PAGE_MASK))
+> > +			return -EINVAL;
+> > +
+> 
+> What happens when sealing and there are existing mmaps?
 
-The use of 'env->msr_mask & MSR_HVB' would need a cleanup. env->has_hv_mode
-is equivalent. May be a helper to rule them both would be better.
+I think this is similar to ftruncate, in either case we just allow that.
+The existing mmaps will be unmapped and KVM will be notified to
+invalidate the mapping in the secondary MMU as well. This assume we
+trust the userspace even though it can not access the file content.
 
 Thanks,
-
-C.
-
+Chao
 > 
->>           info->d_endian = ELFDATA2LSB;
->>       } else {
->>           info->d_endian = ELFDATA2MSB;
->> diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
->> index f20d4ffa6d..a6fc857ad4 100644
->> --- a/target/ppc/cpu.h
->> +++ b/target/ppc/cpu.h
->> @@ -2728,20 +2728,27 @@ static inline bool ppc_has_spr(PowerPCCPU *cpu, int spr)
->>       return cpu->env.spr_cb[spr].name != NULL;
->>   }
->>   
->> -static inline bool ppc_interrupts_little_endian(PowerPCCPU *cpu)
->> +#if !defined(CONFIG_USER_ONLY)
->> +static inline bool ppc_interrupts_little_endian(PowerPCCPU *cpu, bool hv)
->>   {
->>       PowerPCCPUClass *pcc = POWERPC_CPU_GET_CLASS(cpu);
->> +    CPUPPCState *env = &cpu->env;
->> +    bool ile = false;
->>   
->> -    /*
->> -     * Only models that have an LPCR and know about LPCR_ILE can do little
->> -     * endian.
->> -     */
->> -    if (pcc->lpcr_mask & LPCR_ILE) {
->> -        return !!(cpu->env.spr[SPR_LPCR] & LPCR_ILE);
->> +    if (hv && env->has_hv_mode) {
->> +        if (is_isa300(pcc)) {
->> +            ile = !!(env->spr[SPR_HID0] & HID0_POWER9_HILE);
->> +        } else {
->> +            ile = !!(env->spr[SPR_HID0] & HID0_HILE);
->> +        }
->> +
->> +    } else if (pcc->lpcr_mask & LPCR_ILE) {
->> +        ile = !!(env->spr[SPR_LPCR] & LPCR_ILE);
->>       }
->>   
->> -    return false;
->> +    return ile;
->>   }
->> +#endif
->>   
->>   void dump_mmu(CPUPPCState *env);
->>   
->> diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
->> index fa41f8048d..92953af896 100644
->> --- a/target/ppc/excp_helper.c
->> +++ b/target/ppc/excp_helper.c
->> @@ -1071,7 +1071,7 @@ void ppc_cpu_do_fwnmi_machine_check(CPUState *cs, target_ulong vector)
->>        */
->>       msr = (1ULL << MSR_ME);
->>       msr |= env->msr & (1ULL << MSR_SF);
->> -    if (ppc_interrupts_little_endian(cpu)) {
->> +    if (ppc_interrupts_little_endian(cpu, false)) {
->>           msr |= (1ULL << MSR_LE);
->>       }
->>   
 > 
-
+> -- 
+> Thanks,
+> 
+> David / dhildenb
 
