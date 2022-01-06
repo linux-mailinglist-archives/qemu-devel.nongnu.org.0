@@ -2,48 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C8D54862BF
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 11:15:01 +0100 (CET)
-Received: from localhost ([::1]:53452 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87EB34862E8
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 11:27:05 +0100 (CET)
+Received: from localhost ([::1]:51542 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5PnQ-0003tO-Jt
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 05:15:00 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49322)
+	id 1n5Pz6-0005jk-Iw
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 05:27:04 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50420)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1n5PIM-0001u6-8e
- for qemu-devel@nongnu.org; Thu, 06 Jan 2022 04:42:54 -0500
-Received: from mail.loongson.cn ([114.242.206.163]:57036 helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1n5PIK-0003Vw-6a
- for qemu-devel@nongnu.org; Thu, 06 Jan 2022 04:42:53 -0500
-Received: from localhost.localdomain (unknown [10.2.5.185])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dxz8toudZhmQsAAA--.229S28;
- Thu, 06 Jan 2022 17:42:38 +0800 (CST)
-From: Song Gao <gaosong@loongson.cn>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v14 26/26] scripts: add loongarch64 binfmt config
-Date: Thu,  6 Jan 2022 04:42:00 -0500
-Message-Id: <20220106094200.1801206-27-gaosong@loongson.cn>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20220106094200.1801206-1-gaosong@loongson.cn>
-References: <20220106094200.1801206-1-gaosong@loongson.cn>
+ (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
+ id 1n5PPW-0004pv-Ga
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 04:50:20 -0500
+Received: from mailout03.t-online.de ([194.25.134.81]:33074)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
+ id 1n5PPU-0007Lt-HK
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 04:50:18 -0500
+Received: from fwd75.dcpf.telekom.de (fwd75.aul.t-online.de [10.223.144.101])
+ by mailout03.t-online.de (Postfix) with SMTP id 30B6A849;
+ Thu,  6 Jan 2022 10:48:08 +0100 (CET)
+Received: from [192.168.211.200] ([46.86.48.20]) by fwd75.t-online.de
+ with (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384 encrypted)
+ esmtp id 1n5PNP-3zf0zJ0; Thu, 6 Jan 2022 10:48:07 +0100
+Message-ID: <de8ab0a9-debc-e205-bbc2-7602a704468b@t-online.de>
+Date: Thu, 6 Jan 2022 10:48:07 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.1
+Subject: Re: [PATCH 00/15] reduce audio playback latency
+Content-Language: en-US
+From: =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>
+To: Gerd Hoffmann <kraxel@redhat.com>
+References: <cfcae86f-59c3-a2c5-76cd-1ab5e23e20f3@t-online.de>
+In-Reply-To: <cfcae86f-59c3-a2c5-76cd-1ab5e23e20f3@t-online.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9Dxz8toudZhmQsAAA--.229S28
-X-Coremail-Antispam: 1UD129KBjvJXoW7Zw4xCw4fGw47uw48uFWfXwb_yoW8WFyrpr
- 15A3W8CF4jg3WUA3WkXw13Gr1DJrn0kas7Xr43tr1UAF15tw1rZr1fJr18J3WDJF4UJF1j
- 9Fn5Ja1DJF4IkF7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnUUvcSsGvfC2KfnxnUUI43ZEXa7xR_UUUUUUUUU==
-X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
-Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
- helo=loongson.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-TOI-EXPURGATEID: 150726::1641462487-000184BD-4A155DEC/0/0 CLEAN NORMAL
+X-TOI-MSGID: d1a2d25e-f682-4e81-875e-65153840a834
+Received-SPF: none client-ip=194.25.134.81; envelope-from=vr_qemu@t-online.de;
+ helo=mailout03.t-online.de
+X-Spam_score_int: -45
+X-Spam_score: -4.6
+X-Spam_bar: ----
+X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-2.691, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -56,43 +61,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Xiaojuan Yang <yangxiaojuan@loongson.cn>,
- Richard Henderson <richard.henderson@linaro.org>
+Cc: Thomas Huth <huth@tuxfamily.org>,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Song Gao <gaosong@loongson.cn>
-Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
----
- scripts/qemu-binfmt-conf.sh | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+> This patch series reduces the playback latency for audio backends,
+> in some cases significantly. For PulseAudio, the audio buffer is
+> also moved from the QEMU side to the PulseAudio server side. This
+> improves the drop-out safety for PulseAudio.
+>
 
-diff --git a/scripts/qemu-binfmt-conf.sh b/scripts/qemu-binfmt-conf.sh
-index 7de996d536..da6a937be8 100755
---- a/scripts/qemu-binfmt-conf.sh
-+++ b/scripts/qemu-binfmt-conf.sh
-@@ -4,7 +4,7 @@
- qemu_target_list="i386 i486 alpha arm armeb sparc sparc32plus sparc64 \
- ppc ppc64 ppc64le m68k mips mipsel mipsn32 mipsn32el mips64 mips64el \
- sh4 sh4eb s390x aarch64 aarch64_be hppa riscv32 riscv64 xtensa xtensaeb \
--microblaze microblazeel or1k x86_64 hexagon"
-+microblaze microblazeel or1k x86_64 hexagon loongarch64"
- 
- i386_magic='\x7fELF\x01\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x03\x00'
- i386_mask='\xff\xff\xff\xff\xff\xfe\xfe\x00\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff\xff'
-@@ -140,6 +140,10 @@ hexagon_magic='\x7fELF\x01\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x
- hexagon_mask='\xff\xff\xff\xff\xff\xff\xff\x00\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff\xff'
- hexagon_family=hexagon
- 
-+loongarch64_magic='\x7fELF\x02\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x02\x01'
-+loongarch64_mask='\xff\xff\xff\xff\xff\xff\xff\xfc\x00\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff\xff'
-+loongarch64_family=loongarch
-+
- qemu_get_family() {
-     cpu=${HOST_ARCH:-$(uname -m)}
-     case "$cpu" in
--- 
-2.27.0
+>
+> Volker Rümelin (15):
+>   audio: replace open-coded buffer arithmetic
+>   audio: move function audio_pcm_hw_clip_out()
+>   audio: add function audio_pcm_hw_conv_in()
+>   audio: inline function audio_pcm_sw_get_rpos_in()
+>   paaudio: increase default latency to 46ms
+>   jackaudio: use more jack audio buffers
+>   audio: copy playback stream in sequential order
+>   audio: add pcm_ops function table for capture backend
+>   audio: revert tests for pcm_ops table
+>   audio: restore mixing-engine playback buffer size
+>   paaudio: reduce effective playback buffer size
+>   dsoundaudio: reduce effective playback buffer size
+>   ossaudio: reduce effective playback buffer size
+>   paaudio: fix samples vs. frames mix-up
+>   sdlaudio: fix samples vs. frames mix-up
+>
+>  audio/alsaaudio.c   |   1 +
+>  audio/audio.c       | 194 ++++++++++++++++++++++++--------------------
+>  audio/audio_int.h   |   9 +-
+>  audio/coreaudio.c   |  13 +--
+>  audio/dsoundaudio.c |  30 ++++---
+>  audio/jackaudio.c   |   5 +-
+>  audio/noaudio.c     |   1 +
+>  audio/ossaudio.c    |  17 +++-
+>  audio/paaudio.c     |  49 ++++++-----
+>  audio/sdlaudio.c    |  21 +++--
+>  audio/wavaudio.c    |   1 +
+>  11 files changed, 199 insertions(+), 142 deletions(-)
+>
 
+I used the wrong mail address to send these patches. I'll wait a few 
+days for reviews before I send a version 2 series with the correct address.
+
+With best regards,
+Volker
 
