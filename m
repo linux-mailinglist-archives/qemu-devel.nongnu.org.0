@@ -2,84 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B530F486AB3
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 20:53:29 +0100 (CET)
-Received: from localhost ([::1]:58172 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 433D7486AE7
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 21:12:04 +0100 (CET)
+Received: from localhost ([::1]:40148 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5YpE-0001Eu-J0
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 14:53:28 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51992)
+	id 1n5Z7C-0000yD-No
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 15:12:02 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54756)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1n5Yna-0000H9-Sz; Thu, 06 Jan 2022 14:51:46 -0500
-Received: from [2607:f8b0:4864:20::1030] (port=36557
- helo=mail-pj1-x1030.google.com)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1n5Z3e-0006Jp-U3
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 15:08:23 -0500
+Received: from [2a00:1450:4864:20::434] (port=36462
+ helo=mail-wr1-x434.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1n5YnZ-0001ke-BS; Thu, 06 Jan 2022 14:51:46 -0500
-Received: by mail-pj1-x1030.google.com with SMTP id
- c9-20020a17090a1d0900b001b2b54bd6c5so9768976pjd.1; 
- Thu, 06 Jan 2022 11:51:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=0sCHWHz2FQArWO8NWOc+SMDIT9sNo9CQt7F1jNlLsEo=;
- b=opv2ilykRqYEAQsY63rwH7w00A5CgB9JYyvViS96JRHnYqzzGblGyMQxy344Z5/k/a
- +E5L2vdr+Ltf0izmE5yPOy27r0pGZl20xl8Qf7K1YOQgj/FbxggLrSvm18wySFxTh8NM
- N4w9iXbJZTfSMTq8q/t1ceJzXahkFfyzKlUWl1omtFw9nF3ZPL5shtR16+AWZt4OlNaU
- NSEDIQTfca/tR3sXtoDhjIaSLRhm9Y13kXX3vQATz0iqO5n6j6mQyEy7o0IUJ3PWwNwX
- ySkXap5Fxql3yBB2ieReUAVGOSRax7zyKIiNVpwVKxyGLHIWhOaXrkO6BuGDBw1hZBm+
- 6OFA==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1n5Z3c-0005pS-Lg
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 15:08:22 -0500
+Received: by mail-wr1-x434.google.com with SMTP id r17so7012354wrc.3
+ for <qemu-devel@nongnu.org>; Thu, 06 Jan 2022 12:08:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=NQ+n202f4yOaiox/wKMRYhAZelvUbFTjDjDf+2G5FGU=;
+ b=MpEq41/VeGAn+TJlPdPdxJTveEAXNO3qoj0eMbzNxcO4eNt4pOoDyoxV7Ss8wOuS6G
+ zyMvTzuWfnxDl8cxCR5gMv13TmRJah5zeFsQXY12ZFBOo28MI1LXM6YmtQXkHA9uM4uQ
+ chLBYOjbGXosGzkAJVeJJanOhORweKPnSgVmBBlugXoLXLcPcsnQ74zY+T03ioz//L/d
+ +Z244sJ6/eOzlDF6thIeHi5+6yQjYkX2Ht/h9rF8XK3BK9s0ksqpxl+KkpJ9D7lLtILK
+ AUZ/lbQArbXTSY8fsnhk5FC+RBmAyVgIaQ8Keo1/5dyQxGsyPDiTABosv+O4Z58tfDwB
+ Qjsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=0sCHWHz2FQArWO8NWOc+SMDIT9sNo9CQt7F1jNlLsEo=;
- b=1/yNJQauaBJqXcjf6O9b56pmyLv19NTi8tmL53WmcsTDLimmGqT1BcScvJ7j5li6hk
- o+Z2Ic56dkgcu4XTVVNV7OoZ6Ye1xf24iOkd0x6u39lXgqgDJtsiLDmsHx7dXPs94D9M
- w/m/CvBn+afHb6t6wNNQI6R56lawosw6ltkedjSyYl0qeKlpuBylkhzUKdSDjc0a66G9
- zEAcmlYYWWAgsx0uw8heBJn18iR2tb3dg0RYmnBZVPqun1CwQUytsQWWid3xdNNMt/Mo
- r+X0Ux5cYiAcRbJkjKWUNCNG0j20dARg3EnDC4V/mfPEhexWZVswZbrD0dXhrmX0VmG1
- gebg==
-X-Gm-Message-State: AOAM5324g98pzlKe+ljnAvTROhVhx1u2rLe3b7HXPr9IVZ09hOaqzVCb
- laIW9maQ+/qm/J8HcqtI4bs=
-X-Google-Smtp-Source: ABdhPJyel2/33gja30sx0i9spANbNe8ZhexnQ3NVfJVFBPiEkO6hQgyzqJrVEHqQfl/c4hvTYxB6sg==
-X-Received: by 2002:a17:90a:c401:: with SMTP id
- i1mr11908892pjt.180.1641498703271; 
- Thu, 06 Jan 2022 11:51:43 -0800 (PST)
-Received: from [192.168.1.33] (83.red-83-50-87.dynamicip.rima-tde.net.
- [83.50.87.83])
- by smtp.gmail.com with ESMTPSA id y10sm4494037pjy.24.2022.01.06.11.51.40
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 06 Jan 2022 11:51:42 -0800 (PST)
-Message-ID: <0dc1ae13-f7a8-b042-c724-7d72d0477da7@amsat.org>
-Date: Thu, 6 Jan 2022 20:51:38 +0100
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=NQ+n202f4yOaiox/wKMRYhAZelvUbFTjDjDf+2G5FGU=;
+ b=eoOfN/FZocAuGtwYjaHUxxK5z3eI6YHyLv+KYUywCCmW3Ik2izCmiZK1QZWM2lAxoe
+ FwKl2qnlZ3S5j5OT4ZFI8i2nOESRUTRr0rkW0SPCqBnupkp2i6aiFgpu7FttsP8DfEbC
+ fdRwSzTY5S0y2uHnCVS+gbBcNLg/Hbia1pKDH7NwZayFnesqvWExy763qCShDmixwVfV
+ Mon+TxQGMK84+hPE+rO8x7gsHyj1kJKR8QoPT8McLpZuPQjuKEdFv5YZ/v4c7K228JXD
+ X7YZRxZDt3NKUOqJyX250GSpl0VaF3GxxbHlo3c6lZdmr5PyyGrNx/OnnoOjF8dCmT2P
+ c35w==
+X-Gm-Message-State: AOAM532cUZHum6ofXMla/A9LRlbKq/J062KDTBDuk4I+sa5uISzIgYLs
+ 4GyayW9Y08Mj+2a7MnAKEHXfC1qsKK8DCZRWu683iQ==
+X-Google-Smtp-Source: ABdhPJwivdQWRAbJDkLC55hylYIq5NvP/wLpZ0GGSzviEG99BvMMqEUfFgFpJ7tKkxrAl908uAmO6gky7PfssBKUAJ8=
+X-Received: by 2002:a5d:6986:: with SMTP id g6mr890845wru.172.1641499698534;
+ Thu, 06 Jan 2022 12:08:18 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.4.1
-Subject: Re: [PATCH] target/riscv: Fix position of 'experimental' comment
-Content-Language: en-US
-To: Philipp Tomsich <philipp.tomsich@vrull.eu>, qemu-devel@nongnu.org
-References: <20220106134020.1628889-1-philipp.tomsich@vrull.eu>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <20220106134020.1628889-1-philipp.tomsich@vrull.eu>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1030
+References: <20211208231154.392029-1-richard.henderson@linaro.org>
+ <20211208231154.392029-4-richard.henderson@linaro.org>
+In-Reply-To: <20211208231154.392029-4-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 6 Jan 2022 20:08:07 +0000
+Message-ID: <CAFEAcA-n=g7YMU89PM-4tjZNHqA13wGOWSukGsy8ixxyWKG6OQ@mail.gmail.com>
+Subject: Re: [PATCH 3/6] target/arm: Honor TCR_ELx.{I}PS
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::434
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x1030.google.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-2.691,
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x434.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,50 +80,299 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-riscv@nongnu.org, qemu-trivial@nongnu.org,
- Bin Meng <bin.meng@windriver.com>, Vineet Gupta <vineetg@rivosinc.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Cc'ing qemu-trivial@
-
-On 6/1/22 14:40, Philipp Tomsich wrote:
-> When commit 0643c12e4b dropped the 'x-' prefix for Zb[abcs] and set
-> them to be enabled by default, the comment about experimental
-> extensions was kept in place above them.  This moves it down a few
-> lines to only cover experimental extensions.
-> 
-> References: 0643c12e4b ("target/riscv: Enable bitmanip Zb[abcs] instructions")
-> 
-> Signed-off-by: Philipp Tomsich <philipp.tomsich@vrull.eu>
-
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-
-> 
+On Wed, 8 Dec 2021 at 23:18, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> This field controls the output (intermediate) physical address size
+> of the translation process.  V8 requires to raise an AddressSize
+> fault if the page tables are programmed incorrectly, such that any
+> intermediate descriptor address, or the final translated address,
+> is out of range.
+>
+> Add an outputsize field to ARMVAParameters, and fill it in during
+> aa64_va_parameters.  Pass the value to check_s2_mmu_setup to use
+> instead of the raw PAMax value.  Test the descaddr as extracted
+> from TTBR and from page table entries.
+>
+> Restrict descaddrmask so that we won't raise the fault for v7.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
-> 
->   target/riscv/cpu.c | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index 6ef3314bce..e322e729d2 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -640,11 +640,12 @@ static Property riscv_cpu_properties[] = {
->       DEFINE_PROP_UINT16("vlen", RISCVCPU, cfg.vlen, 128),
->       DEFINE_PROP_UINT16("elen", RISCVCPU, cfg.elen, 64),
->   
-> -    /* These are experimental so mark with 'x-' */
->       DEFINE_PROP_BOOL("zba", RISCVCPU, cfg.ext_zba, true),
->       DEFINE_PROP_BOOL("zbb", RISCVCPU, cfg.ext_zbb, true),
->       DEFINE_PROP_BOOL("zbc", RISCVCPU, cfg.ext_zbc, true),
->       DEFINE_PROP_BOOL("zbs", RISCVCPU, cfg.ext_zbs, true),
+>  target/arm/internals.h |  1 +
+>  target/arm/helper.c    | 92 +++++++++++++++++++++++++++++-------------
+>  2 files changed, 65 insertions(+), 28 deletions(-)
+>
+> diff --git a/target/arm/internals.h b/target/arm/internals.h
+> index 27d2fcd26c..3e801833b4 100644
+> --- a/target/arm/internals.h
+> +++ b/target/arm/internals.h
+> @@ -1032,6 +1032,7 @@ static inline uint32_t aarch64_pstate_valid_mask(const ARMISARegisters *id)
+>   */
+>  typedef struct ARMVAParameters {
+>      unsigned tsz    : 8;
+> +    unsigned ps     : 3;
+>      unsigned select : 1;
+>      bool tbi        : 1;
+>      bool epd        : 1;
+> diff --git a/target/arm/helper.c b/target/arm/helper.c
+> index fab9ee70d8..568914bd42 100644
+> --- a/target/arm/helper.c
+> +++ b/target/arm/helper.c
+> @@ -11003,7 +11003,7 @@ do_fault:
+>   * false otherwise.
+>   */
+>  static bool check_s2_mmu_setup(ARMCPU *cpu, bool is_aa64, int level,
+> -                               int inputsize, int stride)
+> +                               int inputsize, int stride, int outputsize)
+>  {
+>      const int grainsize = stride + 3;
+>      int startsizecheck;
+> @@ -11019,22 +11019,19 @@ static bool check_s2_mmu_setup(ARMCPU *cpu, bool is_aa64, int level,
+>      }
+>
+>      if (is_aa64) {
+> -        CPUARMState *env = &cpu->env;
+> -        unsigned int pamax = arm_pamax(cpu);
+> -
+>          switch (stride) {
+>          case 13: /* 64KB Pages.  */
+> -            if (level == 0 || (level == 1 && pamax <= 42)) {
+> +            if (level == 0 || (level == 1 && outputsize <= 42)) {
+>                  return false;
+>              }
+>              break;
+>          case 11: /* 16KB Pages.  */
+> -            if (level == 0 || (level == 1 && pamax <= 40)) {
+> +            if (level == 0 || (level == 1 && outputsize <= 40)) {
+>                  return false;
+>              }
+>              break;
+>          case 9: /* 4KB Pages.  */
+> -            if (level == 0 && pamax <= 42) {
+> +            if (level == 0 && outputsize <= 42) {
+>                  return false;
+>              }
+>              break;
+> @@ -11043,8 +11040,8 @@ static bool check_s2_mmu_setup(ARMCPU *cpu, bool is_aa64, int level,
+>          }
+>
+>          /* Inputsize checks.  */
+> -        if (inputsize > pamax &&
+> -            (arm_el_is_aa64(env, 1) || inputsize > 40)) {
+> +        if (inputsize > outputsize &&
+> +            (arm_el_is_aa64(&cpu->env, 1) || inputsize > 40)) {
+>              /* This is CONSTRAINED UNPREDICTABLE and we choose to fault.  */
+>              return false;
+>          }
+> @@ -11090,17 +11087,19 @@ static uint8_t convert_stage2_attrs(CPUARMState *env, uint8_t s2attrs)
+>  }
+>  #endif /* !CONFIG_USER_ONLY */
+>
+> +/* This mapping is common between ID_AA64MMFR0.PARANGE and TCR_ELx.{I}PS. */
+> +static const uint8_t pamax_map[] = {
+> +    [0] = 32,
+> +    [1] = 36,
+> +    [2] = 40,
+> +    [3] = 42,
+> +    [4] = 44,
+> +    [5] = 48,
+> +};
 > +
-> +    /* These are experimental so mark with 'x-' */
->       DEFINE_PROP_BOOL("x-h", RISCVCPU, cfg.ext_h, false),
->       DEFINE_PROP_BOOL("x-j", RISCVCPU, cfg.ext_j, false),
->       /* ePMP 0.9.3 */
+>  /* The cpu-specific constant value of PAMax; also used by hw/arm/virt. */
+>  unsigned int arm_pamax(ARMCPU *cpu)
+>  {
+> -    static const unsigned int pamax_map[] = {
+> -        [0] = 32,
+> -        [1] = 36,
+> -        [2] = 40,
+> -        [3] = 42,
+> -        [4] = 44,
+> -        [5] = 48,
+> -    };
+>      unsigned int parange =
+>          FIELD_EX64(cpu->isar.id_aa64mmfr0, ID_AA64MMFR0, PARANGE);
+>
+> @@ -11151,7 +11150,7 @@ ARMVAParameters aa64_va_parameters(CPUARMState *env, uint64_t va,
+>  {
+>      uint64_t tcr = regime_tcr(env, mmu_idx)->raw_tcr;
+>      bool epd, hpd, using16k, using64k;
+> -    int select, tsz, tbi;
+> +    int select, tsz, tbi, ps;
+>
+>      if (!regime_has_2_ranges(mmu_idx)) {
+>          select = 0;
+> @@ -11165,6 +11164,7 @@ ARMVAParameters aa64_va_parameters(CPUARMState *env, uint64_t va,
+>              hpd = extract32(tcr, 24, 1);
+>          }
+>          epd = false;
+> +        ps = extract64(tcr, 16, 3);
+>      } else {
+>          /*
+>           * Bit 55 is always between the two regions, and is canonical for
+> @@ -11185,6 +11185,7 @@ ARMVAParameters aa64_va_parameters(CPUARMState *env, uint64_t va,
+>              epd = extract32(tcr, 23, 1);
+>              hpd = extract64(tcr, 42, 1);
+>          }
+> +        ps = extract64(tcr, 32, 3);
+>      }
+>
+>      /* Present TBI as a composite with TBID.  */
+> @@ -11196,6 +11197,7 @@ ARMVAParameters aa64_va_parameters(CPUARMState *env, uint64_t va,
+>
+>      return (ARMVAParameters) {
+>          .tsz = tsz,
+> +        .ps = ps,
+>          .select = select,
+>          .tbi = tbi,
+>          .epd = epd,
+> @@ -11312,7 +11314,7 @@ static bool get_phys_addr_lpae(CPUARMState *env, uint64_t address,
+>      target_ulong page_size;
+>      uint32_t attrs;
+>      int32_t stride;
+> -    int addrsize, inputsize;
+> +    int addrsize, inputsize, outputsize;
+>      TCR *tcr = regime_tcr(env, mmu_idx);
+>      int ap, ns, xn, pxn;
+>      uint32_t el = regime_el(env, mmu_idx);
+> @@ -11323,6 +11325,7 @@ static bool get_phys_addr_lpae(CPUARMState *env, uint64_t address,
+>      /* TODO: This code does not support shareability levels. */
+>      if (aarch64) {
+>          int min_tsz = 16, max_tsz = 39;  /* TODO: ARMv8.2-LVA  */
+> +        int parange;
+>
+>          param = aa64_va_parameters(env, address, mmu_idx,
+>                                     access_type != MMU_INST_FETCH);
+> @@ -11348,11 +11351,22 @@ static bool get_phys_addr_lpae(CPUARMState *env, uint64_t address,
+>
+>          addrsize = 64 - 8 * param.tbi;
+>          inputsize = 64 - param.tsz;
+> +
+> +        /*
+> +         * Bound PS by PARANGE to find the effective output address size.
+> +         * ID_AA64MMFR0 is a read-only register so values outside of the
+> +         * supported mappings can be considered an implementation error.
+> +         */
+> +        parange = FIELD_EX64(cpu->isar.id_aa64mmfr0, ID_AA64MMFR0, PARANGE);
+> +        parange = MIN(parange, param.ps);
+> +        assert(parange < ARRAY_SIZE(pamax_map));
+> +        outputsize = pamax_map[parange];
+>      } else {
+>          param = aa32_va_parameters(env, address, mmu_idx);
+>          level = 1;
+>          addrsize = (mmu_idx == ARMMMUIdx_Stage2 ? 40 : 32);
+>          inputsize = addrsize - param.tsz;
+> +        outputsize = 40;
+>      }
+>
+>      /*
+> @@ -11437,7 +11451,7 @@ static bool get_phys_addr_lpae(CPUARMState *env, uint64_t address,
+>
+>          /* Check that the starting level is valid. */
+>          ok = check_s2_mmu_setup(cpu, aarch64, startlevel,
+> -                                inputsize, stride);
+> +                                inputsize, stride, outputsize);
+>          if (!ok) {
+>              fault_type = ARMFault_Translation;
+>              goto do_fault;
+> @@ -11445,24 +11459,41 @@ static bool get_phys_addr_lpae(CPUARMState *env, uint64_t address,
+>          level = startlevel;
+>      }
+>
+> -    indexmask_grainsize = (1ULL << (stride + 3)) - 1;
+> -    indexmask = (1ULL << (inputsize - (stride * (4 - level)))) - 1;
+> +    indexmask_grainsize = MAKE_64BIT_MASK(0, stride + 3);
+> +    indexmask = MAKE_64BIT_MASK(0, inputsize - (stride * (4 - level)));
 
+This is just a refactoring to use MAKE_64BIT_MASK, right? Could
+you keep that kind of thing in its own patch, please?
+
+>
+>      /* Now we can extract the actual base address from the TTBR */
+>      descaddr = extract64(ttbr, 0, 48);
+> +
+> +    /*
+> +     * If the base address is out of range, raise AddressSizeFault.
+> +     * In the pseudocode, this is !IsZero(baseregister<47:outputsize>),
+> +     * but we've just cleared the bits above 47, so simplify the test.
+> +     */
+> +    if (descaddr >> outputsize) {
+> +        level = 0;
+> +        fault_type = ARMFault_AddressSize;
+> +        goto do_fault;
+> +    }
+> +
+>      /*
+>       * We rely on this masking to clear the RES0 bits at the bottom of the TTBR
+>       * and also to mask out CnP (bit 0) which could validly be non-zero.
+>       */
+>      descaddr &= ~indexmask;
+>
+> -    /* The address field in the descriptor goes up to bit 39 for ARMv7
+> -     * but up to bit 47 for ARMv8, but we use the descaddrmask
+> -     * up to bit 39 for AArch32, because we don't need other bits in that case
+> -     * to construct next descriptor address (anyway they should be all zeroes).
+> +    /*
+> +     * The address field in the descriptor goes up to bit 39 for ARMv7
+> +     * but up to bit 47 for ARMv8.  In ARMv7, those middle bits are SBZP,
+> +     * but in ARMv8 they are checked for zero and an AddressSize fault
+> +     * is raised if they are not.
+
+This text seems a bit confused about whether it wants to talk about
+v7 vs v8 or AArch64 vs AArch32. For both v7 and v8 the table address
+goes only up to 39 for AArch32; the difference is that in v8 the
+SBZ (not SBZP) bits [47:40] must be 0 to avoid an Address size fault.
+Maybe:
+
+ /*
+  * For AArch32, the address field in the descriptor goes up to bit 39
+  * in both v7 and v8. However, for v8 the SBZ bits [47:40] must be 0
+  * or an AddressSize fault is raised. So for v8 we extract those SBZ
+  * bits as part of the address too.
+  * For AArch64 the address field always goes up to bit 47 (ignoring
+  * the case of FEAT_LPA's 52-bit output addresses, which we don't
+  * yet implement). AArch64 always implies v8.
+  */
+
+(feel free to tweak that last bit, I haven't read the second half
+of this patchset yet.)
+
+>       */
+> -    descaddrmask = ((1ull << (aarch64 ? 48 : 40)) - 1) &
+> -                   ~indexmask_grainsize;
+> +    if (aarch64 || arm_feature(env, ARM_FEATURE_V8)) {
+
+Why are we testing both of these ? If aarch64 is true then we
+must have ARM_FEATURE_V8 set, so we could just test that.
+(This then matches what the comment text says we're checking.)
+
+> +        descaddrmask = MAKE_64BIT_MASK(0, 48);
+> +    } else {
+> +        descaddrmask = MAKE_64BIT_MASK(0, 40);
+> +    }
+> +    descaddrmask &= ~indexmask_grainsize;
+>
+>      /* Secure accesses start with the page table in secure memory and
+>       * can be downgraded to non-secure at any step. Non-secure accesses
+> @@ -11487,7 +11518,12 @@ static bool get_phys_addr_lpae(CPUARMState *env, uint64_t address,
+>              /* Invalid, or the Reserved level 3 encoding */
+>              goto do_fault;
+>          }
+> +
+>          descaddr = descriptor & descaddrmask;
+> +        if (descaddr >> outputsize) {
+> +            fault_type = ARMFault_AddressSize;
+> +            goto do_fault;
+> +        }
+>
+>          if ((descriptor & 2) && (level < 3)) {
+>              /* Table entry. The top five bits are attributes which may
+> --
+> 2.25.1
+
+thanks
+-- PMM
 
