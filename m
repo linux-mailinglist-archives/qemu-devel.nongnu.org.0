@@ -2,53 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AD91486A98
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 20:42:17 +0100 (CET)
-Received: from localhost ([::1]:45576 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B6BA486A9A
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 20:44:20 +0100 (CET)
+Received: from localhost ([::1]:48886 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5YeL-0000gO-Hj
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 14:42:13 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49886)
+	id 1n5YgN-00031K-Hd
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 14:44:19 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50332)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pl@kamp.de>)
- id 1n5Ybs-0007yt-O5; Thu, 06 Jan 2022 14:39:41 -0500
-Received: from kerio.kamp.de ([195.62.97.192]:43718)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pl@kamp.de>)
- id 1n5Ybq-00084l-3v; Thu, 06 Jan 2022 14:39:40 -0500
-X-Footer: a2FtcC5kZQ==
-Received: from [172.20.250.68] ([172.20.250.68])
- (authenticated user pl@kamp.de) by kerio.kamp.de with ESMTPSA
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits));
- Thu, 6 Jan 2022 20:39:32 +0100
-Subject: Re: [PATCH V3] block/rbd: implement bdrv_co_block_status
-To: Ilya Dryomov <idryomov@gmail.com>
-References: <20210916122116.802-1-pl@kamp.de>
- <CAOi1vP8_em_m=orH+5L+164+7EgD+JD_5kmrh=mWBMjZSe79kg@mail.gmail.com>
- <8a6c60cb-ef5b-44a9-1872-27937a3a6967@kamp.de>
- <CAOi1vP84c5zX7319O8xRXBBJGh1baNpCzK2YU7uJp7Zyqmwe+Q@mail.gmail.com>
- <5e4aea9c-131e-c9a0-351b-deeb45774629@kamp.de>
- <CAOi1vP_evZxARUDYBQyBFQSXe4Hc9Y0ra7yNDQ6mXpFR0ThGBg@mail.gmail.com>
- <5c4a091e-a23c-6f64-1798-24731adc53e4@kamp.de>
- <CAOi1vP-f3Di0LAr5ShwU1_1MFCQY22O7r6KwqFvTY=t9o8jCTA@mail.gmail.com>
-From: Peter Lieven <pl@kamp.de>
-Message-ID: <f099f4fe-fa9f-139d-b8d5-07254cab2576@kamp.de>
-Date: Thu, 6 Jan 2022 20:39:32 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1n5YeE-0001U7-Et
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 14:42:06 -0500
+Received: from [2607:f8b0:4864:20::42e] (port=42626
+ helo=mail-pf1-x42e.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1n5YeC-0000DV-UR
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 14:42:06 -0500
+Received: by mail-pf1-x42e.google.com with SMTP id t19so3351177pfg.9
+ for <qemu-devel@nongnu.org>; Thu, 06 Jan 2022 11:42:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=zi7qxpDJHqV6x4BCP4hPIMM237a+gpZhMq66QNiSxOs=;
+ b=s6OCLqfEfwHFlF2SYCRQayAFKQ0Wm3hLrTVMt7dkWtgcSKGV10dd8SdpWbPnUJSuym
+ fc4ftZ78enzSd+zT8/7Z4KXF8pDa6a48c0PPnCwUcZJzHVVLydSrG96Nxs+USqwYwibM
+ 41VcbgzNRBhKilDhV5auLW2iGU5LxS6ud7/Mtfr+yCPSngLU5Hb8Dkhxh2stCZ6MLUjo
+ iWap5MZObZkfwloCVS7Hs0UPf0scicKoWHtEILgNcdKRJjj7F6UFatQPE6pVGkR2bJIc
+ JSJnAKNBVWBsnz5+oHwIo85M+R7fwnjMewiCyD4OwlehgitVmnHxyR1oWT3CGVyyzhGm
+ 6pSA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=zi7qxpDJHqV6x4BCP4hPIMM237a+gpZhMq66QNiSxOs=;
+ b=mDqPpD5tqu1zKCmPZavTHZtZnaiCa8TFmXGq82wZ3eTeJhq/adG2MmGXPgAspjlNDE
+ oc4loVDtguuMRIC5tKr0mNWx6i+rKmSj6kOIPtuU8tvxY1P+4UAQqhBD2MN5yyPSKonV
+ 0eMnF5O062JeXEIfDqvMXgVIXAKL1Sxpr6sP1zD4OlvrmolQ+cQnDQdhlwrQtOI/LNVw
+ iWz0x3u3nmk1Znmv8Ht3EajAOL4BBqp2Mo4bG3CgqMvrxwdhwjZwDzFLTx3yA70rwXjN
+ xMGG5cRMSKbZvp4ZZiF49KVO/vf7/ogixzICgQ8zhEt15sDyvfblIUuASGKQ+i3jq5cv
+ n53w==
+X-Gm-Message-State: AOAM530W9uVmXOWuB95vCLvNvGz8SrPawbmFInDcZlOTBgTsg6a9Vlj2
+ cllfR8Y7MUo2vSM08qIL2p6O7g==
+X-Google-Smtp-Source: ABdhPJzcDafGdtxYIvNvG3h8pD7cG/jbIbHYit0bnYqi616Ahdn3TWounhiymK4rWZT3uLH1LmxXmw==
+X-Received: by 2002:a05:6a00:2189:b0:4bc:3def:b662 with SMTP id
+ h9-20020a056a00218900b004bc3defb662mr37228426pfi.5.1641498123564; 
+ Thu, 06 Jan 2022 11:42:03 -0800 (PST)
+Received: from [192.168.1.13] (174-21-75-75.tukw.qwest.net. [174.21.75.75])
+ by smtp.gmail.com with ESMTPSA id j190sm2664189pge.70.2022.01.06.11.42.03
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 06 Jan 2022 11:42:03 -0800 (PST)
+Subject: Re: [PATCH v2] tcg/loongarch64: Support raising sigbus for user-only
+To: WANG Xuerui <git@xen0n.name>, qemu-devel@nongnu.org
+References: <20220106134238.3936163-1-git@xen0n.name>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <a3e3476b-0692-48ac-c1fb-502af8c351f1@linaro.org>
+Date: Thu, 6 Jan 2022 11:42:01 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <CAOi1vP-f3Di0LAr5ShwU1_1MFCQY22O7r6KwqFvTY=t9o8jCTA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <20220106134238.3936163-1-git@xen0n.name>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Received-SPF: pass client-ip=195.62.97.192; envelope-from=pl@kamp.de;
- helo=kerio.kamp.de
-X-Spam_score_int: -45
-X-Spam_score: -4.6
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42e
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42e.google.com
+X-Spam_score_int: -39
+X-Spam_score: -4.0
 X-Spam_bar: ----
-X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.691,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.691,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -61,333 +90,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-block@nongnu.org, ct@flyingcircus.io, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Max Reitz <mreitz@redhat.com>,
- Jason Dillaman <dillaman@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 06.01.22 um 18:47 schrieb Ilya Dryomov:
-> On Thu, Jan 6, 2022 at 5:33 PM Peter Lieven <pl@kamp.de> wrote:
->> Am 06.01.22 um 17:01 schrieb Ilya Dryomov:
->>> On Thu, Jan 6, 2022 at 4:27 PM Peter Lieven <pl@kamp.de> wrote:
->>>> Am 05.10.21 um 10:36 schrieb Ilya Dryomov:
->>>>> On Tue, Oct 5, 2021 at 10:19 AM Peter Lieven <pl@kamp.de> wrote:
->>>>>> Am 05.10.21 um 09:54 schrieb Ilya Dryomov:
->>>>>>> On Thu, Sep 16, 2021 at 2:21 PM Peter Lieven <pl@kamp.de> wrote:
->>>>>>>> the qemu rbd driver currently lacks support for bdrv_co_block_status.
->>>>>>>> This results mainly in incorrect progress during block operations (e.g.
->>>>>>>> qemu-img convert with an rbd image as source).
->>>>>>>>
->>>>>>>> This patch utilizes the rbd_diff_iterate2 call from librbd to detect
->>>>>>>> allocated and unallocated (all zero areas).
->>>>>>>>
->>>>>>>> To avoid querying the ceph OSDs for the answer this is only done if
->>>>>>>> the image has the fast-diff feature which depends on the object-map and
->>>>>>>> exclusive-lock features. In this case it is guaranteed that the information
->>>>>>>> is present in memory in the librbd client and thus very fast.
->>>>>>>>
->>>>>>>> If fast-diff is not available all areas are reported to be allocated
->>>>>>>> which is the current behaviour if bdrv_co_block_status is not implemented.
->>>>>>>>
->>>>>>>> Signed-off-by: Peter Lieven <pl@kamp.de>
->>>>>>>> ---
->>>>>>>> V2->V3:
->>>>>>>> - check rbd_flags every time (they can change during runtime) [Ilya]
->>>>>>>> - also check for fast-diff invalid flag [Ilya]
->>>>>>>> - *map and *file cant be NULL [Ilya]
->>>>>>>> - set ret = BDRV_BLOCK_ZERO | BDRV_BLOCK_OFFSET_VALID in case of an
->>>>>>>>      unallocated area [Ilya]
->>>>>>>> - typo: catched -> caught [Ilya]
->>>>>>>> - changed wording about fast-diff, object-map and exclusive lock in
->>>>>>>>      commit msg [Ilya]
->>>>>>>>
->>>>>>>> V1->V2:
->>>>>>>> - add commit comment [Stefano]
->>>>>>>> - use failed_post_open [Stefano]
->>>>>>>> - remove redundant assert [Stefano]
->>>>>>>> - add macro+comment for the magic -9000 value [Stefano]
->>>>>>>> - always set *file if its non NULL [Stefano]
->>>>>>>>
->>>>>>>>     block/rbd.c | 126 ++++++++++++++++++++++++++++++++++++++++++++++++++++
->>>>>>>>     1 file changed, 126 insertions(+)
->>>>>>>>
->>>>>>>> diff --git a/block/rbd.c b/block/rbd.c
->>>>>>>> index dcf82b15b8..3cb24f9981 100644
->>>>>>>> --- a/block/rbd.c
->>>>>>>> +++ b/block/rbd.c
->>>>>>>> @@ -1259,6 +1259,131 @@ static ImageInfoSpecific *qemu_rbd_get_specific_info(BlockDriverState *bs,
->>>>>>>>         return spec_info;
->>>>>>>>     }
->>>>>>>>
->>>>>>>> +typedef struct rbd_diff_req {
->>>>>>>> +    uint64_t offs;
->>>>>>>> +    uint64_t bytes;
->>>>>>>> +    int exists;
->>>>>>> Hi Peter,
->>>>>>>
->>>>>>> Nit: make exists a bool.  The one in the callback has to be an int
->>>>>>> because of the callback signature but let's not spread that.
->>>>>>>
->>>>>>>> +} rbd_diff_req;
->>>>>>>> +
->>>>>>>> +/*
->>>>>>>> + * rbd_diff_iterate2 allows to interrupt the exection by returning a negative
->>>>>>>> + * value in the callback routine. Choose a value that does not conflict with
->>>>>>>> + * an existing exitcode and return it if we want to prematurely stop the
->>>>>>>> + * execution because we detected a change in the allocation status.
->>>>>>>> + */
->>>>>>>> +#define QEMU_RBD_EXIT_DIFF_ITERATE2 -9000
->>>>>>>> +
->>>>>>>> +static int qemu_rbd_co_block_status_cb(uint64_t offs, size_t len,
->>>>>>>> +                                       int exists, void *opaque)
->>>>>>>> +{
->>>>>>>> +    struct rbd_diff_req *req = opaque;
->>>>>>>> +
->>>>>>>> +    assert(req->offs + req->bytes <= offs);
->>>>>>>> +
->>>>>>>> +    if (req->exists && offs > req->offs + req->bytes) {
->>>>>>>> +        /*
->>>>>>>> +         * we started in an allocated area and jumped over an unallocated area,
->>>>>>>> +         * req->bytes contains the length of the allocated area before the
->>>>>>>> +         * unallocated area. stop further processing.
->>>>>>>> +         */
->>>>>>>> +        return QEMU_RBD_EXIT_DIFF_ITERATE2;
->>>>>>>> +    }
->>>>>>>> +    if (req->exists && !exists) {
->>>>>>>> +        /*
->>>>>>>> +         * we started in an allocated area and reached a hole. req->bytes
->>>>>>>> +         * contains the length of the allocated area before the hole.
->>>>>>>> +         * stop further processing.
->>>>>>>> +         */
->>>>>>>> +        return QEMU_RBD_EXIT_DIFF_ITERATE2;
->>>>>>> Do you have a test case for when this branch is taken?
->>>>>> That would happen if you diff from a snapshot, the question is if it can also happen if the image is a clone from a snapshot?
->>>>>>
->>>>>>
->>>>>>>> +    }
->>>>>>>> +    if (!req->exists && exists && offs > req->offs) {
->>>>>>>> +        /*
->>>>>>>> +         * we started in an unallocated area and hit the first allocated
->>>>>>>> +         * block. req->bytes must be set to the length of the unallocated area
->>>>>>>> +         * before the allocated area. stop further processing.
->>>>>>>> +         */
->>>>>>>> +        req->bytes = offs - req->offs;
->>>>>>>> +        return QEMU_RBD_EXIT_DIFF_ITERATE2;
->>>>>>>> +    }
->>>>>>>> +
->>>>>>>> +    /*
->>>>>>>> +     * assert that we caught all cases above and allocation state has not
->>>>>>>> +     * changed during callbacks.
->>>>>>>> +     */
->>>>>>>> +    assert(exists == req->exists || !req->bytes);
->>>>>>>> +    req->exists = exists;
->>>>>>>> +
->>>>>>>> +    /*
->>>>>>>> +     * assert that we either return an unallocated block or have got callbacks
->>>>>>>> +     * for all allocated blocks present.
->>>>>>>> +     */
->>>>>>>> +    assert(!req->exists || offs == req->offs + req->bytes);
->>>>>>>> +    req->bytes = offs + len - req->offs;
->>>>>>>> +
->>>>>>>> +    return 0;
->>>>>>>> +}
->>>>>>>> +
->>>>>>>> +static int coroutine_fn qemu_rbd_co_block_status(BlockDriverState *bs,
->>>>>>>> +                                                 bool want_zero, int64_t offset,
->>>>>>>> +                                                 int64_t bytes, int64_t *pnum,
->>>>>>>> +                                                 int64_t *map,
->>>>>>>> +                                                 BlockDriverState **file)
->>>>>>>> +{
->>>>>>>> +    BDRVRBDState *s = bs->opaque;
->>>>>>>> +    int ret, r;
->>>>>>> Nit: I would rename ret to status or something like that to make
->>>>>>> it clear(er) that it is an actual value and never an error.  Or,
->>>>>>> even better, drop it entirely and return one of the two bitmasks
->>>>>>> directly.
->>>>>>>
->>>>>>>> +    struct rbd_diff_req req = { .offs = offset };
->>>>>>>> +    uint64_t features, flags;
->>>>>>>> +
->>>>>>>> +    assert(offset + bytes <= s->image_size);
->>>>>>>> +
->>>>>>>> +    /* default to all sectors allocated */
->>>>>>>> +    ret = BDRV_BLOCK_DATA | BDRV_BLOCK_OFFSET_VALID;
->>>>>>>> +    *map = offset;
->>>>>>>> +    *file = bs;
->>>>>>>> +    *pnum = bytes;
->>>>>>>> +
->>>>>>>> +    /* check if RBD image supports fast-diff */
->>>>>>>> +    r = rbd_get_features(s->image, &features);
->>>>>>>> +    if (r < 0) {
->>>>>>>> +        goto out;
->>>>>>>> +    }
->>>>>>>> +    if (!(features & RBD_FEATURE_FAST_DIFF)) {
->>>>>>>> +        goto out;
->>>>>>>> +    }
->>>>>>>> +
->>>>>>>> +    /* check if RBD fast-diff result is valid */
->>>>>>>> +    r = rbd_get_flags(s->image, &flags);
->>>>>>>> +    if (r < 0) {
->>>>>>>> +        goto out;
->>>>>>>> +    }
->>>>>>>> +    if (flags & RBD_FLAG_FAST_DIFF_INVALID) {
->>>>>>>> +        goto out;
->>>>>>> Nit: I'm not a fan of labels that cover just the return statement.
->>>>>>> Feel free to ignore this one but I would get rid of it and replace
->>>>>>> these gotos with returns.
->>>>>> That would be return with the bitmask directly coded in if I also
->>>>>>
->>>>>> drop the ret variable. I can change that, no problem.
->>>>>>
->>>>>>
->>>>>>>> +    }
->>>>>>>> +
->>>>>>>> +    r = rbd_diff_iterate2(s->image, NULL, offset, bytes, true, true,
->>>>>>>> +                          qemu_rbd_co_block_status_cb, &req);
->>>>>>>> +    if (r < 0 && r != QEMU_RBD_EXIT_DIFF_ITERATE2) {
->>>>>>>> +        goto out;
->>>>>>>> +    }
->>>>>>>> +    assert(req.bytes <= bytes);
->>>>>>>> +    if (!req.exists) {
->>>>>>>> +        if (r == 0 && !req.bytes) {
->>>>>>>> +            /*
->>>>>>>> +             * rbd_diff_iterate2 does not invoke callbacks for unallocated areas
->>>>>>>> +             * except for the case where an overlay has a hole where the parent
->>>>>>>> +             * has not. This here catches the case where no callback was
->>>>>>>> +             * invoked at all.
->>>>>>>> +             */
->>>>>>> The above is true in the case of diffing against a snapshot, i.e. when
->>>>>>> the "from" snapshot has some data where the "to" revision (whether HEAD
->>>>>>> or another snapshot) has a hole.  I don't think it is true for child vs
->>>>>>> parent (but it has been a while since I looked at the diff code).  As
->>>>>>> long as NULL is passed for fromsnapname, I would expect the callback to
->>>>>>> be invoked only for allocated areas.  If I'm right, we could simplify
->>>>>>> qemu_rbd_co_block_status_cb() considerably.
->>>>>> See my comment in the callback. Can you look at the diff code or give
->>>>>> me at least a pointer where I can find it. I am not that familiar with
->>>>>> the librbd code yet.
->>>>> I assumed that you added !exists handling because it came up in your
->>>>> testing.  If you don't have a test case then let's proceed under the
->>>>> assumption that it doesn't happen for clones.
->>>> Hi Ilya,
->>>>
->>>>
->>>> it seems that our assumption was false. I have an image which shows holes without diffing against
->>>>
->>>> a snapshot. Do you have an idea why?
->>>>
->>>>
->>>> $ rbd --conf /etc/ceph/ceph-dev01.conf --id lieven info dhp-standard/c4ca7ee9-36ce-4fc9-9d3b-ece8a4f8b83e/c1ad11d0-4f6a-4cc1-8aa3-ff3c413c1471.raw
->>>> rbd image 'c1ad11d0-4f6a-4cc1-8aa3-ff3c413c1471.raw':
->>>>       size 20 GiB in 20000 objects
->>>>       order 20 (1 MiB objects)
->>>>       snapshot_count: 2
->>>>       id: 3d6daa102e4d9f
->>>>       block_name_prefix: rbd_data.3d6daa102e4d9f
->>>>       format: 2
->>>>       features: layering, exclusive-lock, object-map, fast-diff, deep-flatten
->>>>       op_features:
->>>>       flags:
->>>>       create_timestamp: Tue Sep 21 14:16:56 2021
->>>>       access_timestamp: Thu Jan  6 15:24:46 2022
->>>>       modify_timestamp: Thu Jan  6 15:45:42 2022
->>>>
->>>>
->>>> $ rbd --conf /etc/ceph/ceph-dev01.conf --id lieven snap ls dhp-standard/c4ca7ee9-36ce-4fc9-9d3b-ece8a4f8b83e/c1ad11d0-4f6a-4cc1-8aa3-ff3c413c1471.raw
->>>> SNAPID  NAME                 SIZE    PROTECTED TIMESTAMP
->>>>    12297  dlp-20210921-144509  20 GiB             Tue Sep 21 14:45:09 2021
->>>>    17745  dlp-20220106-040000  20 GiB             Thu Jan  6 04:00:01 2022
->>>>
->>>>
->>>> $ rbd --conf /etc/ceph/ceph-dev01.conf --id lieven diff --whole-object dhp-standard/c4ca7ee9-36ce-4fc9-9d3b-ece8a4f8b83e/c1ad11d0-4f6a-4cc1-8aa3-ff3c413c1471.raw | grep zero
->>>> 204472320    1048576  zero
->>>> 1114636288   1048576  zero
->>>> 1115684864   1048576  zero
->>>> 1116733440   1048576  zero
->>>> 1117782016   1048576  zero
->>>> 1218445312   1048576  zero
->>>> 1219493888   1048576  zero
->>>> 1220542464   1048576  zero
->>> Hi Peter,
->>>
->>> Yes, I stumbled upon this just yesterday while looking into another
->>> librbd issue surfaced by this patch [1] and was going to email you and
->>> the list after wrapping my head around this behavior.  I see where it
->>> is coming from but I'm not sure what the right fix is.  I would prefer
->>> to patch librbd but that may turn out to be not feasible.  Let me get
->>> back on this next week.
->>>
->>> [1] https://tracker.ceph.com/issues/53784
->>
->> Looks like it was a good idea to add all these asserts...
->>
->>
->> The issue I see does occur with a simple qemu-img convert on the given image as source. It triggers the assert(exists) in the cb.
-> Right, "qemu-img convert" issues a block status request.  Does your
-> image have snapshots?  This behavior should be caused by a snapshot
-> that contains a discarded object:
->
-> $ rbd create --size 16M foo
-> $ sudo rbd map foo
-> /dev/rbd0
-> $ sudo xfs_io -d -c 'pwrite -b 4M 0 16M' /dev/rbd0
-> wrote 16777216/16777216 bytes at offset 0
-> 16 MiB, 4 ops; 0.4607 sec (34.726 MiB/sec and 8.6814 ops/sec)
-> $ rbd snap create foo@snap
-> Creating snap: 100% complete...done.
-> $ rbd diff foo
-> Offset    Length   Type
-> 0         4194304  data
-> 4194304   4194304  data
-> 8388608   4194304  data
-> 12582912  4194304  data
->
-> $ blkdiscard -o 4M -l 8M /dev/rbd0
-> $ rbd diff foo
-> Offset    Length   Type
-> 0         4194304  data
-> 4194304   4194304  zero
-> 8388608   4194304  zero
-> 12582912  4194304  data
->
-> If you remove that snapshot, these "holes" should disappear from the
-> report:
->
-> $ rbd snap rm foo@snap
-> Removing snap: 100% complete...done.
-> $ rbd diff foo
-> Offset    Length   Type
-> 0         4194304  data
-> 12582912  4194304  data
->
-> Thanks,
->
->                 Ilya
+On 1/6/22 5:42 AM, WANG Xuerui wrote:
+> Based-on:<20220104021543.396571-1-richard.henderson@linaro.org>
+> 
+> Reviewed-by: Richard Henderson<richard.henderson@linaro.org>
+> Signed-off-by: WANG Xuerui<git@xen0n.name>
+> ---
+> 
+> v2 -> v1:
+> 
+> - Dropped assert and added comment documenting reason to choose
+>    bstrpick.d over andi for the masking operation
+> - Collected R-b tag
+> 
+>   tcg/loongarch64/tcg-target.c.inc | 71 +++++++++++++++++++++++++++++++-
+>   tcg/loongarch64/tcg-target.h     |  2 -
+>   2 files changed, 69 insertions(+), 4 deletions(-)
+
+Thanks.  Queued to my unaligned-user branch.
 
 
-So we have 2 different issues:
-
-
-1) For the holes that we did not expect we should use the original version of my patch which was able to handle holes properly.
-
-2) For issue #53784 the right would be to fix the issue in librbd. We could discuss if we try to "detect" this issue, report a warning once and
-
-then disable the get_block_status functionality for the session. The question is, is it possible to "detect" the issue? If thats not possible
-
-should we patch qemu to report unaligned requests as allocated for affected librbd versions?
-
-
-Best,
-
-Peter
-
-
-
-
-
-
-
+r~
 
