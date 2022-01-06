@@ -2,68 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E715486506
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 14:14:13 +0100 (CET)
-Received: from localhost ([::1]:46472 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA6E6486537
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 14:21:56 +0100 (CET)
+Received: from localhost ([::1]:52160 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5Saq-0001jU-LH
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 08:14:12 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39906)
+	id 1n5SiJ-0007oh-UK
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 08:21:55 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41268)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1n5SY2-00006z-5M
- for qemu-devel@nongnu.org; Thu, 06 Jan 2022 08:11:18 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:29549)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n5Scz-0003xi-C8
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 08:16:26 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24527)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1n5SXw-000848-Ec
- for qemu-devel@nongnu.org; Thu, 06 Jan 2022 08:11:16 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n5Scx-0000kT-GE
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 08:16:25 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641474669;
+ s=mimecast20190719; t=1641474981;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=oD/3zU+RZx8/majnC7BhEaYJ2jXOyCS+zHXfLhHxx5o=;
- b=WifTX6a8lfqqjAfrYOuqeYwkVvdqC1CdRXrErGeiT0XVPk7JRjVdWcc1QtRwzI/InhzPpd
- lJqfqqlyn9YsUjuDGyf1wHL1OuxC6pWAkWloggVhSyPuJwpna/IaLyCEj/DLLhTUJClTEQ
- Xdi/QLJUnVjHx6zooGPlXI17qGSddaY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+ bh=uOK7z8aDFfRph7yV/8Jchta3k3mGFop5eigjvDQYuvk=;
+ b=D03nWDRZRxAEKT7MhQ/AA/HHI1XlS1pdbLWn9FaGmXObBifJ9aYXcOgua4xvML6CtpbUUM
+ cal31P+foyoPzEDdEfocXL4yI9wYNSHuTN7xVk+dja8zj7z+i14Sq37cIONpl2qUD0DO2j
+ 1m+3mXfWLvyzQZiIHjsnVpPQj77zz9o=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-19-hHvIX3xzNR6iuvAu-g9Gyg-1; Thu, 06 Jan 2022 08:11:06 -0500
-X-MC-Unique: hHvIX3xzNR6iuvAu-g9Gyg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5C9D11006AA5;
- Thu,  6 Jan 2022 13:11:04 +0000 (UTC)
-Received: from localhost (unknown [10.39.193.158])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5CE347D3E9;
- Thu,  6 Jan 2022 13:10:52 +0000 (UTC)
-Date: Thu, 6 Jan 2022 13:10:51 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Jag Raman <jag.raman@oracle.com>
-Subject: Re: [PATCH v4 11/14] vfio-user: IOMMU support for remote device
-Message-ID: <YdbqW465lBlM//FD@stefanha-x1.localdomain>
-References: <cover.1639549843.git.jag.raman@oracle.com>
- <acae079dec4261d762311b86a0e699ba9ad79737.1639549843.git.jag.raman@oracle.com>
- <YbtP2eaBnptogQDf@stefanha-x1.localdomain>
- <A2ABC44E-0EDA-4FDB-B3A4-64CE1AA84560@oracle.com>
- <YcCVBLdd/WtLR49h@stefanha-x1.localdomain>
- <D9E0A4CC-83E9-460F-BBB9-D5DABBA9ED19@oracle.com>
+ us-mta-620-LowLUAb6M7CNDGmyUaF6QA-1; Thu, 06 Jan 2022 08:16:20 -0500
+X-MC-Unique: LowLUAb6M7CNDGmyUaF6QA-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ i5-20020adfa505000000b001a4b17898acso1047752wrb.12
+ for <qemu-devel@nongnu.org>; Thu, 06 Jan 2022 05:16:20 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+ :content-disposition;
+ bh=uOK7z8aDFfRph7yV/8Jchta3k3mGFop5eigjvDQYuvk=;
+ b=sf/nEu2jQBfR/cuUQHI0QhmBt995K+pwAArAkSHKv4PsP38eZ8ovZCDstbuCuoMPZX
+ DA+/OSl8nGmym8cO3o1gGik4ZkG0yb1jGIBVK2Rm0m+65VbuSujXp5iXvLzA4PzrP28W
+ MuzUf/ldd7tv32fWi32sRb7Dl1We/WL636HEdYBQJCfsNzgoiriBjCK7BolMX8ax4ezm
+ EO0fy8nFz/go53ElwSmvHKegKZtNd4MfeGT54Z0R5B4xIWam1t63vwjqLHny4ITz2L58
+ dYzTtjw03qQtXbLmxRweiGDJeyz1UyzhwYQ9IzfZfl5SIRwilBm3CQ6cZcylFrEHYgp0
+ pklg==
+X-Gm-Message-State: AOAM532gxC+hn7CqPIt/hMTYEjJPcCY0fI/2PyiKNJZbz3CtIyd4ad82
+ i2IH8WPFvw3WGJ2P5hr/ZPLo9fTOqwBYfNcMbSojoUGaV6aiasi5+c8TgsNeeC1VmHs0mAdAmk7
+ UkPLcYzNPNuT5OcM6F3D3FyVlWs5IBqbvNalpaDKNcUgVdJzu0ubmdQf/lE0L
+X-Received: by 2002:a5d:65c9:: with SMTP id e9mr1811024wrw.661.1641474978777; 
+ Thu, 06 Jan 2022 05:16:18 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwJI1RBwCZwwcnoynLuEddFfMfCnODgSBrgcvkbYHMS1464rbMq4BSyFkikADb4+A+ienC3hA==
+X-Received: by 2002:a5d:65c9:: with SMTP id e9mr1810999wrw.661.1641474978425; 
+ Thu, 06 Jan 2022 05:16:18 -0800 (PST)
+Received: from redhat.com ([2a03:c5c0:207e:991b:6857:5652:b903:a63b])
+ by smtp.gmail.com with ESMTPSA id e13sm5268488wmq.10.2022.01.06.05.16.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 06 Jan 2022 05:16:18 -0800 (PST)
+Date: Thu, 6 Jan 2022 08:16:16 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/52] virtio,pci,pc: features,fixes,cleanups
+Message-ID: <20220106131534.423671-1-mst@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <D9E0A4CC-83E9-460F-BBB9-D5DABBA9ED19@oracle.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
+X-Mutt-Fcc: =sent
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="GvyaacAVcwl9i0No"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -84,98 +91,174 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
- John Johnson <john.g.johnson@oracle.com>,
- "thuth@redhat.com" <thuth@redhat.com>, "bleal@redhat.com" <bleal@redhat.com>,
- "swapnil.ingle@nutanix.com" <swapnil.ingle@nutanix.com>,
- "john.levon@nutanix.com" <john.levon@nutanix.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>,
- "wainersm@redhat.com" <wainersm@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- "thanos.makatos@nutanix.com" <thanos.makatos@nutanix.com>,
- =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@gmail.com>,
- "crosa@redhat.com" <crosa@redhat.com>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>,
- "alex.bennee@linaro.org" <alex.bennee@linaro.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---GvyaacAVcwl9i0No
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Big changes that were tagged originally but did not make the cut:
+- SRIOV/nvme (not sure they are my tree material anyway)
+- TPM (blocked over Igor's compat concerns)
+- ACPI ERST (some coding style violations)
 
-On Tue, Dec 21, 2021 at 04:32:05AM +0000, Jag Raman wrote:
-> > On Dec 20, 2021, at 9:36 AM, Stefan Hajnoczi <stefanha@redhat.com> wrot=
-e:
-> > On Fri, Dec 17, 2021 at 08:00:35PM +0000, Jag Raman wrote:
-> >>> On Dec 16, 2021, at 9:40 AM, Stefan Hajnoczi <stefanha@redhat.com> wr=
-ote:
-> >>> On Wed, Dec 15, 2021 at 10:35:35AM -0500, Jagannathan Raman wrote:
-> >>> Also, why is PCI Memory Space isolated via VFUIOMMU but PCI IO Space =
-is
-> >>> not?
-> >>=20
-> >> If I understand correctly, the IO address space translates sysmem addr=
-ess to
-> >> direct device access (such as I2C). Once we are inside a device, we al=
-ready
-> >> have access to all parts of the device (unlike RAM which sits outside =
-the device).
-> >> So didn=E2=80=99t think device would go via IOMMU to access IO. Also d=
-idn=E2=80=99t see any
-> >> other IOMMU translating IO address space accesses.
-> >=20
-> > I reviewed how BARs are configured with VFIO:
-> >=20
-> > 1. When the guest writes to the vfio-pci PCIDevice's Configuration Spac=
-e
-> >   the write is forwarded to the VFIO device (i.e. vfio-user or VFIO
-> >   kernel ioctl).
-> >=20
-> > 2. The vfio-user server receives the Configuration Space write and
-> >   forwards it to pci_dev (the PCIDevice we're serving up). BAR mappings
-> >   are updated in the vfio-user server so the BAR MemoryRegions are
-> >   mapped/unmapped at the locations given by the guest.
-> >=20
-> > This applies for both Memory and IO Space accesses.
-> >=20
-> > Because this patch series does not isolate IO Space between VfuObject
-> > instances the MemoryRegions will collide when two guests map IO Space
-> > BARs of different devices at the same IO Space address. In other words,
-> > vfu_object_bar_rw() uses the global address_space_io and that means
-> > collisions can occur.
->=20
-> I agree that collision could occur from the CPU end. But I'm not if IOMMU
-> needs to translate IO space.
+The following changes since commit 7d4ae4d4978079d564d3b6354c90a949130409fe:
 
-QEMU's IOMMUs do not translate IO Space addresses AFAIK.
+  Merge tag 'pull-request-2022-01-05' of https://gitlab.com/thuth/qemu into staging (2022-01-05 08:47:18 -0800)
 
-IO Space just needs to be isolated between vfio-user server instances so
-there is no collision when one client maps an IO Space BAR to the same
-address as another client.
+are available in the Git repository at:
 
-I think the cleanest way of achieving that is by creating a
-per-vfio-user server PCI bus with an address_space_io MemoryRegion.
+  git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
 
-Stefan
+for you to fetch changes up to 9399c26697e7c9658d082c6390e143319decaef5:
 
---GvyaacAVcwl9i0No
-Content-Type: application/pgp-signature; name="signature.asc"
+  virtio/vhost-vsock: don't double close vhostfd, remove redundant cleanup (2022-01-06 07:16:25 -0500)
 
------BEGIN PGP SIGNATURE-----
+----------------------------------------------------------------
+virtio,pci,pc: features,fixes,cleanups
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmHW6loACgkQnKSrs4Gr
-c8ii8gf+KI5O3FaNM5iyoVuERTzxOReiWISGTCYZH/kUmY8U5q0eXRjfSeyPspLp
-qiQ3JSz3GVy6FkiidNDzXtP7XHg8GEZpDPzUBcE3TU+CPnjYhHzevZCYI+ZmqfRz
-jNJDYwn7tO8ljo1mlJZzrNNMztiizu8ABRjeAK8o3FrSmvmzGMPsuz9heX18J8Od
-s/h2urCMUoM9oQWfIqpeKBQ+DQODkPpQG7RKOJlXMxhhVi4IARv3zMRJIyz2nHhk
-bdhIQmBzpIbqqSBFa3zz8VxUHBsFnfD+E4dKSpmCCDDM2sTop4ZZPWO2u3cYARP1
-OY3Pt4pm7L/n6dYlbp9G50dsPXP7lg==
-=Bji2
------END PGP SIGNATURE-----
+New virtio mem options.
+A vhost-user cleanup.
+Control over smbios entry point type.
+Config interrupt support for vdpa.
+Fixes, cleanups all over the place.
 
---GvyaacAVcwl9i0No--
+Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+
+----------------------------------------------------------------
+Andy Pei (1):
+      hw/vhost-user-blk: turn on VIRTIO_BLK_F_SIZE_MAX feature for virtio blk device
+
+Ani Sinha (2):
+      MAINTAINERS: Add a separate entry for acpi/VIOT tables
+      acpihp: simplify acpi_pcihp_disable_root_bus
+
+Cindy Lu (10):
+      virtio: introduce macro IRTIO_CONFIG_IRQ_IDX
+      virtio-pci: decouple notifier from interrupt process
+      virtio-pci: decouple the single vector from the interrupt process
+      vhost: introduce new VhostOps vhost_set_config_call
+      vhost-vdpa: add support for config interrupt
+      virtio: add support for configure interrupt
+      vhost: add support for configure interrupt
+      virtio-net: add support for configure interrupt
+      virtio-mmio: add support for configure interrupt
+      virtio-pci: add support for configure interrupt
+
+Daniil Tatianin (3):
+      hw/scsi/vhost-scsi: don't leak vqs on error
+      hw/scsi/vhost-scsi: don't double close vhostfd on error
+      virtio/vhost-vsock: don't double close vhostfd, remove redundant cleanup
+
+David Hildenbrand (12):
+      virtio-mem: Don't skip alignment checks when warning about block size
+      util/oslib-posix: Let touch_all_pages() return an error
+      util/oslib-posix: Support MADV_POPULATE_WRITE for os_mem_prealloc()
+      util/oslib-posix: Introduce and use MemsetContext for touch_all_pages()
+      util/oslib-posix: Don't create too many threads with small memory or little pages
+      util/oslib-posix: Avoid creating a single thread with MADV_POPULATE_WRITE
+      util/oslib-posix: Support concurrent os_mem_prealloc() invocation
+      util/oslib-posix: Forward SIGBUS to MCE handler under Linux
+      virtio-mem: Support "prealloc=on" option
+      linux-headers: sync VIRTIO_MEM_F_UNPLUGGED_INACCESSIBLE
+      virtio-mem: Support VIRTIO_MEM_F_UNPLUGGED_INACCESSIBLE
+      virtio-mem: Set "unplugged-inaccessible=auto" for the 7.0 machine on x86
+
+Eduardo Habkost (3):
+      smbios: Rename SMBIOS_ENTRY_POINT_* enums
+      hw/smbios: Use qapi for SmbiosEntryPointType
+      hw/i386: expose a "smbios-entry-point-type" PC machine property
+
+Frederic Barrat (2):
+      pci: Export the pci_intx() function
+      pcie_aer: Don't trigger a LSI if none are defined
+
+Igor Mammedov (4):
+      acpi: fix QEMU crash when started with SLIC table
+      tests: acpi: whitelist expected blobs before changing them
+      tests: acpi: add SLIC table test
+      tests: acpi: SLIC: update expected blobs
+
+Jason Wang (1):
+      intel-iommu: correctly check passthrough during translation
+
+Laurent Vivier (1):
+      trace-events,pci: unify trace events format
+
+Michael S. Tsirkin (1):
+      acpi: validate hotplug selector on access
+
+Roman Kagan (9):
+      vhost-user-blk: reconnect on any error during realize
+      chardev/char-socket: tcp_chr_recv: don't clobber errno
+      chardev/char-socket: tcp_chr_sync_read: don't clobber errno
+      vhost-backend: avoid overflow on memslots_limit
+      vhost-backend: stick to -errno error return convention
+      vhost-vdpa: stick to -errno error return convention
+      vhost-user: stick to -errno error return convention
+      vhost: stick to -errno error return convention
+      vhost-user-blk: propagate error return from generic vhost
+
+Stefan Hajnoczi (1):
+      virtio: signal after wrapping packed used_idx
+
+Thomas Huth (2):
+      hw/i386/pc: Add missing property descriptions
+      docs: reSTify virtio-balloon-stats documentation and move to docs/interop
+
+ qapi/machine.json                                  |  12 +
+ hw/virtio/virtio-pci.h                             |   4 +-
+ include/hw/firmware/smbios.h                       |  10 +-
+ include/hw/i386/pc.h                               |   4 +
+ include/hw/pci/pci.h                               |   5 +
+ include/hw/virtio/vhost-backend.h                  |   3 +
+ include/hw/virtio/vhost.h                          |   4 +
+ include/hw/virtio/virtio-mem.h                     |  12 +
+ include/hw/virtio/virtio.h                         |   7 +
+ include/net/vhost_net.h                            |   2 +
+ include/qemu/osdep.h                               |   7 +
+ include/standard-headers/linux/virtio_mem.h        |   9 +-
+ chardev/char-socket.c                              |  17 +-
+ hw/acpi/core.c                                     |   4 +-
+ hw/acpi/pcihp.c                                    |  12 +-
+ hw/arm/virt.c                                      |   2 +-
+ hw/block/vhost-user-blk.c                          |   5 +-
+ hw/display/vhost-user-gpu.c                        |   6 +
+ hw/i386/acpi-build.c                               |   2 +
+ hw/i386/intel_iommu.c                              |  38 +-
+ hw/i386/pc.c                                       |  38 +-
+ hw/i386/pc_piix.c                                  |   2 +-
+ hw/i386/pc_q35.c                                   |   2 +-
+ hw/net/vhost_net.c                                 |   9 +
+ hw/net/virtio-net.c                                |  10 +-
+ hw/pci/pci.c                                       |   9 +-
+ hw/pci/pci_host.c                                  |   6 +-
+ hw/pci/pcie_aer.c                                  |   4 +-
+ hw/scsi/vhost-scsi.c                               |  15 +-
+ hw/smbios/smbios.c                                 |   8 +-
+ hw/virtio/vhost-backend.c                          |   4 +-
+ hw/virtio/vhost-user-fs.c                          |   6 +
+ hw/virtio/vhost-user.c                             | 401 ++++++++++++---------
+ hw/virtio/vhost-vdpa.c                             |  44 ++-
+ hw/virtio/vhost-vsock-common.c                     |   6 +
+ hw/virtio/vhost-vsock.c                            |  11 +-
+ hw/virtio/vhost.c                                  | 174 ++++++---
+ hw/virtio/virtio-crypto.c                          |   6 +
+ hw/virtio/virtio-mem.c                             | 105 +++++-
+ hw/virtio/virtio-mmio.c                            |  27 ++
+ hw/virtio/virtio-pci.c                             | 281 ++++++++++-----
+ hw/virtio/virtio.c                                 |  30 ++
+ softmmu/cpus.c                                     |   4 +
+ tests/qtest/bios-tables-test.c                     |  15 +
+ util/oslib-posix.c                                 | 233 +++++++++---
+ MAINTAINERS                                        |   8 +
+ docs/interop/index.rst                             |   1 +
+ .../virtio-balloon-stats.rst}                      |  58 +--
+ hw/pci/trace-events                                |   8 +-
+ hw/virtio/trace-events                             |   1 +
+ tests/data/acpi/q35/FACP.slic                      | Bin 0 -> 244 bytes
+ tests/data/acpi/q35/SLIC.slic                      | Bin 0 -> 36 bytes
+ 52 files changed, 1191 insertions(+), 500 deletions(-)
+ rename docs/{virtio-balloon-stats.txt => interop/virtio-balloon-stats.rst} (66%)
+ create mode 100644 tests/data/acpi/q35/FACP.slic
+ create mode 100644 tests/data/acpi/q35/SLIC.slic
 
 
