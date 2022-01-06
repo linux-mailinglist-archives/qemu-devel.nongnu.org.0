@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCD1248668B
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 16:11:03 +0100 (CET)
-Received: from localhost ([::1]:54216 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 005474866A0
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 16:19:56 +0100 (CET)
+Received: from localhost ([::1]:51280 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5UPu-00037f-Ix
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 10:11:02 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45148)
+	id 1n5UYV-0003bd-Ta
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 10:19:55 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45936)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
- id 1n5Ozw-0005Y2-I5
- for qemu-devel@nongnu.org; Thu, 06 Jan 2022 04:23:52 -0500
-Received: from mailout08.t-online.de ([194.25.134.20]:53722)
+ id 1n5P2Q-00063i-Br
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 04:26:26 -0500
+Received: from mailout07.t-online.de ([194.25.134.83]:49290)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
- id 1n5Ozv-0006R6-47
- for qemu-devel@nongnu.org; Thu, 06 Jan 2022 04:23:52 -0500
-Received: from fwd83.dcpf.telekom.de (fwd83.aul.t-online.de [10.223.144.109])
- by mailout08.t-online.de (Postfix) with SMTP id CB92391F9;
- Thu,  6 Jan 2022 10:23:46 +0100 (CET)
-Received: from linpower.localnet ([46.86.48.20]) by fwd83.t-online.de
+ id 1n5P2K-00074m-FT
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 04:26:22 -0500
+Received: from fwd88.dcpf.telekom.de (fwd88.aul.t-online.de [10.223.144.114])
+ by mailout07.t-online.de (Postfix) with SMTP id 6EED2CC86;
+ Thu,  6 Jan 2022 10:23:49 +0100 (CET)
+Received: from linpower.localnet ([46.86.48.20]) by fwd88.t-online.de
  with (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384 encrypted)
- esmtp id 1n5Ozq-4K7me90; Thu, 6 Jan 2022 10:23:46 +0100
+ esmtp id 1n5Ozs-0w4LLN0; Thu, 6 Jan 2022 10:23:49 +0100
 Received: by linpower.localnet (Postfix, from userid 1000)
- id DA777200626; Thu,  6 Jan 2022 10:23:32 +0100 (CET)
+ id DCD7A200627; Thu,  6 Jan 2022 10:23:32 +0100 (CET)
 From: =?UTF-8?q?Volker=20R=C3=BCmelin?= <volker.ruemelin@t-online.de>
 To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: [PATCH 06/15] jackaudio: use more jack audio buffers
-Date: Thu,  6 Jan 2022 10:23:23 +0100
-Message-Id: <20220106092332.7223-6-volker.ruemelin@t-online.de>
+Subject: [PATCH 07/15] audio: copy playback stream in sequential order
+Date: Thu,  6 Jan 2022 10:23:24 +0100
+Message-Id: <20220106092332.7223-7-volker.ruemelin@t-online.de>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cfcae86f-59c3-a2c5-76cd-1ab5e23e20f3@t-online.de>
 References: <cfcae86f-59c3-a2c5-76cd-1ab5e23e20f3@t-online.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-TOI-EXPURGATEID: 150726::1641461026-0000EDC4-442821A5/0/0 CLEAN NORMAL
-X-TOI-MSGID: e159b3b6-9498-4f3a-9ed5-28a1de6ef652
-Received-SPF: none client-ip=194.25.134.20;
- envelope-from=volker.ruemelin@t-online.de; helo=mailout08.t-online.de
+X-TOI-EXPURGATEID: 150726::1641461029-00013579-8CB58DE5/0/0 CLEAN NORMAL
+X-TOI-MSGID: 2eb07e8c-9816-4a19-b980-842675530181
+Received-SPF: none client-ip=194.25.134.83;
+ envelope-from=volker.ruemelin@t-online.de; helo=mailout07.t-online.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Thu, 06 Jan 2022 10:04:59 -0500
+X-Mailman-Approved-At: Thu, 06 Jan 2022 10:05:02 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,33 +67,103 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Volker Rümelin <vr_qemu@t-online.de>
 
-The next patch reduces the effective qemu playback buffer size
-by timer-period. Increase the number of jack audio buffers by
-one to preserve the total effective buffer size. The size of one
-jack audio buffer is 512 samples. With audio defaults that's
-512 samples / 44100 samples/s = 11.6 ms and only slightly larger
-than the timer-period of 10 ms.
+Change the code to copy the playback stream in sequential order.
+The advantage can be seen in the next patches where the stream
+copy operation effectively becomes a write through operation.
+
+The following diagram shows the average buffer fill level and
+the stream copy sequence. ### represents a timer_period sized
+chunk. The rest of the buffer sizes are not to scale.
+
+With current code:
+         |--------| |#####111| |---#####|
+          sw->buf    mix_buf    backend buffer
+  1. clip
+         |--------| |---#####| |111##222|
+          sw->buf    mix_buf    backend buffer
+  2. write to audio device
+  333 -> |--------| |---#####| |---111##| -> 222
+          sw->buf    mix_buf    backend buffer
+  3a. sw device write
+         |-----333| |---#####| |---111##|
+          sw->buf    mix_buf    backend buffer
+  3b. resample and mix
+         |--------| |333#####| |---111##|
+          sw->buf    mix_buf    backend buffer
+
+With this patch:
+  111 -> |--------| |---#####| |---#####|
+          sw->buf    mix_buf    backend buffer
+  1a: sw device write
+         |-----111| |---#####| |---#####|
+          sw->buf    mix_buf    backend buffer
+  1b. resample and mix
+         |--------| |111##222| |---#####|
+          sw->buf    mix_buf    backend buffer
+  2. clip
+         |--------| |---111##| |222##333|
+          sw->buf    mix_buf    backend buffer
+  3. write to audio device
+         |--------| |---111##| |---222##| -> 333
+          sw->buf    mix_buf    backend buffer
+
+The effective total playback buffer size is reduced by
+timer_period.
 
 Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
 ---
- audio/jackaudio.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ audio/audio.c | 24 +++++++++---------------
+ 1 file changed, 9 insertions(+), 15 deletions(-)
 
-diff --git a/audio/jackaudio.c b/audio/jackaudio.c
-index e7de6d5433..fe4d9d54c6 100644
---- a/audio/jackaudio.c
-+++ b/audio/jackaudio.c
-@@ -483,8 +483,8 @@ static int qjack_client_init(QJackClient *c)
-         c->buffersize = 512;
+diff --git a/audio/audio.c b/audio/audio.c
+index 35437986d9..9e2d7fb209 100644
+--- a/audio/audio.c
++++ b/audio/audio.c
+@@ -1134,6 +1134,15 @@ static void audio_run_out (AudioState *s)
+         size_t played, live, prev_rpos, free;
+         int nb_live;
+ 
++        for (sw = hw->sw_head.lh_first; sw; sw = sw->entries.le_next) {
++            if (sw->active) {
++                free = audio_get_free(sw);
++                if (free > 0) {
++                    sw->callback.fn(sw->callback.opaque, free);
++                }
++            }
++        }
++
+         live = audio_pcm_hw_get_live_out (hw, &nb_live);
+         if (!nb_live) {
+             live = 0;
+@@ -1162,14 +1171,6 @@ static void audio_run_out (AudioState *s)
+         }
+ 
+         if (!live) {
+-            for (sw = hw->sw_head.lh_first; sw; sw = sw->entries.le_next) {
+-                if (sw->active) {
+-                    free = audio_get_free (sw);
+-                    if (free > 0) {
+-                        sw->callback.fn (sw->callback.opaque, free);
+-                    }
+-                }
+-            }
+             if (hw->pcm_ops->run_buffer_out) {
+                 hw->pcm_ops->run_buffer_out(hw);
+             }
+@@ -1210,13 +1211,6 @@ static void audio_run_out (AudioState *s)
+             if (!sw->total_hw_samples_mixed) {
+                 sw->empty = 1;
+             }
+-
+-            if (sw->active) {
+-                free = audio_get_free (sw);
+-                if (free > 0) {
+-                    sw->callback.fn (sw->callback.opaque, free);
+-                }
+-            }
+         }
      }
- 
--    /* create a 2 period buffer */
--    qjack_buffer_create(&c->fifo, c->nchannels, c->buffersize * 2);
-+    /* create a 3 period buffer */
-+    qjack_buffer_create(&c->fifo, c->nchannels, c->buffersize * 3);
- 
-     qjack_client_connect_ports(c);
-     c->state = QJACK_STATE_RUNNING;
+ }
 -- 
 2.31.1
 
