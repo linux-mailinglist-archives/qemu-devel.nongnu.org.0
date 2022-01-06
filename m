@@ -2,60 +2,131 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8B6D48615A
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 09:21:49 +0100 (CET)
-Received: from localhost ([::1]:59696 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A90F48615D
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 09:23:47 +0100 (CET)
+Received: from localhost ([::1]:36418 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5O1q-00024J-QR
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 03:21:46 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60494)
+	id 1n5O3m-0005XJ-96
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 03:23:46 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:32862)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1n5NzC-0006yO-Ev
- for qemu-devel@nongnu.org; Thu, 06 Jan 2022 03:19:02 -0500
-Received: from 9.mo548.mail-out.ovh.net ([46.105.48.137]:48497)
+ (Exim 4.90_1) (envelope-from <hnarukaw@yahoo-corp.jp>)
+ id 1n5O1p-0003Wt-Hm
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 03:21:46 -0500
+Received: from corp-ob09.yahoo-corp.jp ([182.22.125.216]:59162)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1n5Nz9-0001sf-W8
- for qemu-devel@nongnu.org; Thu, 06 Jan 2022 03:19:02 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.109.146.208])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id DD59C20AB0;
- Thu,  6 Jan 2022 08:18:57 +0000 (UTC)
-Received: from kaod.org (37.59.142.106) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.17; Thu, 6 Jan
- 2022 09:18:57 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-106R00690c6a133-3a6f-4969-bb92-8fc5fb3a8438,
- 021048AAC49377EB75D2DE2E73CB44671C288654) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <9d3401ac-70d5-7635-0bce-15f7346eb8a1@kaod.org>
-Date: Thu, 6 Jan 2022 09:18:49 +0100
+ (Exim 4.90_1) (envelope-from <hnarukaw@yahoo-corp.jp>)
+ id 1n5O1l-0002dm-WE
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 03:21:44 -0500
+Received: from JPN01-TYC-obe.outbound.protection.outlook.com
+ (mail-tycjpn01lp2171.outbound.protection.outlook.com [104.47.23.171])
+ by corp-ob09.yahoo-corp.jp (Postfix) with ESMTPS id 5AEA719FAD48
+ for <qemu-devel@nongnu.org>; Thu,  6 Jan 2022 17:21:36 +0900 (JST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo-corp.jp;
+ s=default; t=1641457296;
+ bh=PxpLL8f0OU/rSfSL9sjVgKz3AmTndvHhgGAM2eI5KVE=;
+ h=From:To:Cc:Subject:Date;
+ b=pyO8xsJG1p2k6ysPpdUeEdp7xzAX/9c77jk+QXzb43u2og5O7zpLMlX4UU8MabLuJ
+ kpXk1cM6D0uNBUA9VEtwkM2Q5qh7VKiPvyncLWkcc1dfd9/epP07hU6CZluP9p9AoJ
+ TbCmRoUTmaz+MciPEaKErDSQ9Bo3HIYfuVrowxI8=
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=MYy6xacbdamIsWK8qTxV/vwcNT9hfSoBiRrh6INaublR1nl14lDZeVdTnloIc3E1gEongbHVuoaIECrFTPxLb9VJ13ZN+LZqFRBhgwXKX9GAFvj7wA+eOXfbCpkfclt+jshPAH6Hrf8c1Ew133TIHTxqy46+AiKFP7lwrapsSaQZQWENRFOdRAve+jJtlMnnRoLAXPd+XgA+aIuZDQn9+UY1hIhodDhvo3HmngcofZ2HagAFC49NXde1V2vjD8pE6tY3q04ZNvpwGRSeneTU9bYS0oc6N5zikZvXrdBrLUCPhnh4VQtQgR97aKssvUJoY3BcXFv+4O3G+Ql1vk4wPQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=PxpLL8f0OU/rSfSL9sjVgKz3AmTndvHhgGAM2eI5KVE=;
+ b=SQtn/IoIXJ5hl/pw2UKtQHTo2hY3kRRDKUPiMCxY93jw6jZXJW14iegsXkEAl3Zhe8hIcW+GLvnFMvgjfdiBeeb+DV9iR5K2L+EUKTcv4QgGlXEDLiGKelB2UhYIW4RVfhDvS5uemiawO0bAJXNJmXfbiZz2dmXD5eDBH99wKjz8CI5Q4tCbNq7BUmFzcc8FiHv9hf5yW7kx7KqDW2q6Bmyg0qoyKV5cLBbrbx8qae9VjaObK0f1+Qv4xz1w83AmN4Tsylo8rYGR3Utlio+oFfigl77H0EOMTOHeeuAxcGCFpeEdq8VeHgM87KbKYiol/pPQ52Ju80iR0YjD6jx5Ww==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=yahoo-corp.jp; dmarc=pass action=none
+ header.from=yahoo-corp.jp; dkim=pass header.d=yahoo-corp.jp; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=yjcorp.onmicrosoft.com; s=selector1-yjcorp-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=PxpLL8f0OU/rSfSL9sjVgKz3AmTndvHhgGAM2eI5KVE=;
+ b=cjhLoc7eXUZOaqnvU5xz0jqcI+8n+OuOaRYf2YFoYiDDzdjWCUNElRDPSy/0P4XdPRhYyIbOgC47reVzT4k+V9Hs53XmBneWLENNle3INXRySzZHrO1n6A9FdM0otrnb0lkQlfqjgYvJ2RqEapQpC+Dwk66mtxpb0Mzq4lKizEY=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=yahoo-corp.jp;
+Received: from TYCPR01MB8357.jpnprd01.prod.outlook.com (2603:1096:400:15f::12)
+ by TYCPR01MB7412.jpnprd01.prod.outlook.com (2603:1096:400:f5::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4867.9; Thu, 6 Jan
+ 2022 08:21:35 +0000
+Received: from TYCPR01MB8357.jpnprd01.prod.outlook.com
+ ([fe80::c0df:298:f41f:49fc]) by TYCPR01MB8357.jpnprd01.prod.outlook.com
+ ([fe80::c0df:298:f41f:49fc%6]) with mapi id 15.20.4823.018; Thu, 6 Jan 2022
+ 08:21:35 +0000
+From: Hiroki Narukawa <hnarukaw@yahoo-corp.jp>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/1] Patch to adjust coroutine pool size adaptively
+Date: Thu,  6 Jan 2022 17:20:56 +0900
+Message-Id: <20220106082057.968-1-hnarukaw@yahoo-corp.jp>
+X-Mailer: git-send-email 2.17.1
+Content-Type: text/plain
+X-ClientProxiedBy: TY2PR02CA0022.apcprd02.prod.outlook.com
+ (2603:1096:404:56::34) To TYCPR01MB8357.jpnprd01.prod.outlook.com
+ (2603:1096:400:15f::12)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH v2 00/18] user creatable pnv-phb3/pnv-phb4 devices
-Content-Language: en-US
-To: Daniel Henrique Barboza <danielhb413@gmail.com>, <qemu-devel@nongnu.org>
-References: <20220105212338.49899-1-danielhb413@gmail.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20220105212338.49899-1-danielhb413@gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.106]
-X-ClientProxiedBy: DAG1EX1.mxp5.local (172.16.2.1) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 587b5e39-99e8-4086-a8a0-aa8c6f54e9db
-X-Ovh-Tracer-Id: 11957338489815010272
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrudefkedgfeeiucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepjeeuheelfeevheehtdefvdevvdfggfekueekheffjeevhfevudevveeljeethfeunecuffhomhgrihhnpehgnhhurdhorhhgnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepuggrvhhiugesghhisghsohhnrdgurhhophgsvggrrhdrihgurdgruh
-Received-SPF: pass client-ip=46.105.48.137; envelope-from=clg@kaod.org;
- helo=9.mo548.mail-out.ovh.net
-X-Spam_score_int: -45
-X-Spam_score: -4.6
-X-Spam_bar: ----
-X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.691,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 4e9e15fb-1dfb-4711-8ffc-08d9d0ed8d94
+X-MS-TrafficTypeDiagnostic: TYCPR01MB7412:EE_
+X-Microsoft-Antispam-PRVS: <TYCPR01MB7412EC5C438338F431046453804C9@TYCPR01MB7412.jpnprd01.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2399;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: ckMAcWxORSyx/K/oKTS1Rg5hnXqF9HwPjseuy9PYGNZwC/pjcz69u8Ltb7wer9zJoS/OWHtXQ98DuGGUuUXowiQNb2bexE9uV79LoviGzLJt78OqXulN+fF4tzXc286xYsfcGmNfcK3Jut7Nj5735LfLg/wZkL7D0zAe6BvDpgxSifcOP10Kfn52R0xUhcFs7Ml13rqt5/TL9OAQ7TcndZA+h7LUciLoVXKnE1qUtn7tBTrjIZ8uAr9Dzl3lRnWoV4xKyE8Tfn1Pv/zTerpcwPdp0ko9Ksexb13PhTONcFrj4DRbEqEseFMzBySv+nqKHObb1zTX4eDU9H3J4ECGKakhmDyngc7Z9v8ikv+2yFqCcPdb31FfK9HSNpgi9VIUxuNLPKwcgFhAUzioUhXvWOZStXE9s3Z6xWj868KtQx49UDB11P//qVgIL0MTEUSTecPk48rWgZFiEns5+gKoM5UvDMxldSg5QpzuY2Sbg5StOfOCuviyBwfCwQLLWq2vvdsBpY+w8LEFMlsBnCUyw7JX9W6jb6JNMRrBK+tfQnQ/Zaqi6hlmfE+PLF4rPFLB8A9YlAC8Vs+BOpQsC8VQbiRF47WymWbDvFsDLy57OauF58EERGYIxOywC+ge3SC2PEyGcQca1DnLCfeO3z7eAf+3hxoJhftaapIpMM8+0veG7LOaPm2a5Z28lXrJwzdTX6Qb57P62/zLrqun/33/Zg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:TYCPR01MB8357.jpnprd01.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(8936002)(8676002)(83380400001)(5660300002)(508600001)(52116002)(66556008)(66946007)(66476007)(186003)(38100700002)(6916009)(4326008)(86362001)(2616005)(6506007)(4744005)(1076003)(26005)(6666004)(2906002)(107886003)(316002)(82960400001)(6486002)(38350700002)(36756003)(6512007);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?MIHYpbOyttCN+VThbtdTSe1Xx5NVw+jeV8yBOqSvIHnGk8wEYrUCuZ3T9a4E?=
+ =?us-ascii?Q?zk8ukvP5gLiwiEfIk11xsiyMyaNRaeghqTIMkOn7zPJ6NuHl2WdTRAjcnupD?=
+ =?us-ascii?Q?n0suOdM8w//FZ3WuWbwsUNq2Txuy7PwK0QsHjL6pOCZUHMvVcTbcg3AgokN8?=
+ =?us-ascii?Q?nPYPJAtNexMQ8A5Jm5PR1q8peg2wTGPvX4Kh7gV3+HjTfo3QdgMwME+BMX9b?=
+ =?us-ascii?Q?LSik+2a/d3jKJt2gIiAhRb48lUCvRv45TjweRd8FHGqFFgcF2Y6ul64t6Fk/?=
+ =?us-ascii?Q?VZc3JepR6UBdOAwUvfKe3pimsTDTUGFS2vLO4uEZ8bKAF0tP5lpCZgJ4Uu11?=
+ =?us-ascii?Q?QAhUPnJYoWu42KopWcxSTvknmBKDM4913nBGJmhgr4y8l1PtrSjHWO2QJFKx?=
+ =?us-ascii?Q?0fFcLfEuD0Npb+8s231FwvWCqhIIBRJ8IDnYT446NmshM4860r4Z3e5sGdaR?=
+ =?us-ascii?Q?E7csqSpWtci7lOxahEKDmFCctIXTY/JyoiDGHrqUA/lVxNFeEjNDC+EXkwt9?=
+ =?us-ascii?Q?cuUmXoldQ9eLiRKpBFEsFXQNS/Gu7qnwNKhxNuji3/2WHuvyf4XGPjs4X6y7?=
+ =?us-ascii?Q?uW5ctV47HhS4kT9jMx+/+L7njqtcurz6AP0kN/PUx3EBntgIbTq/DC16Dyhr?=
+ =?us-ascii?Q?D1jeorWYaKwxgxVCriXXXRkgtMxHC/o/95+0BpMuF69muX2uhuupf+gfq6vt?=
+ =?us-ascii?Q?sb/9/iI4nFPnqJdnmdx99LTk3iugr7+U0S/2ZtdiqZ1p3ZnTLRhCW0dHExfd?=
+ =?us-ascii?Q?xac7AxjOXV57ClzweYMe1y9DaLnMk9WDJNzg25u9ARwC/BKi53PG5Chy2gm9?=
+ =?us-ascii?Q?sQW/+DsqwKFOEsDW7QyQLrxuiQENVffRPkisjdgQUIAN4u6F5f98I13jb7Xp?=
+ =?us-ascii?Q?quDBdonW2WN+mSnvgyWhiwebjXBy2E6mCN2fzn9f7sIxiE5ZX2rBg6GV+Fwt?=
+ =?us-ascii?Q?nLFTvm7+KzcOR40Fb0kvYk1KX9f0R7/ofxs7HCJ5g7kmugP29IvIVgDLJMEO?=
+ =?us-ascii?Q?nhvz0LoxE/7XqJvOXqQH9geRmLhSA8oV1xzDuDpnVpq29OE6TQIcbS3Hrwl9?=
+ =?us-ascii?Q?bvRCrCjN4tbnphw8rerEteRty14Eg9Xfe8G15LcYyS9JAbqVhw206FBBuUcB?=
+ =?us-ascii?Q?xH7wkKWC0Y7lU7hP70bYVYf7fcs8I4EtQecvcgsHswF1r3s8TwzK3NKIY/eK?=
+ =?us-ascii?Q?bVugNKB+97xmuzZ5+v3e+rgpVc7KSzjKmfthMJk1uCzrF8Fqgyj1XSwbFIiM?=
+ =?us-ascii?Q?XQhBrN5mYMLoLVLtKOUUg49nN9e5gwqb/CvG7YdQTQ0blGrZZObo4kyYolsB?=
+ =?us-ascii?Q?Ph9tfPlxGcTfnhrMyCLd+RSCipaTxCqqCF9uAYBxWim0A2ohJ8UBSB0jC16E?=
+ =?us-ascii?Q?SyayQxLTo27c6QAO7DTd1YcYhx64noqbe3Jjv9LRFJxGahkiswKTIdzLb/Vr?=
+ =?us-ascii?Q?DlfZu1I47B3A727EhgorPah3UbuvybFegq01lJ9r+FCxKmZ8qqbnFwpPE+kq?=
+ =?us-ascii?Q?c0Y9qCoF/fL/rp8aCVw9uWWclDWcj0S97e/WziW6yjXM/hUBigp+YdcrgdRv?=
+ =?us-ascii?Q?xImDiMupbfoIJK4LGMZ+csq8J35WmTd0GoyTLfBQitgmNu8f+dQxkKmB8OAW?=
+ =?us-ascii?Q?cOf10mgUt6zjuM0VDUEFlM0=3D?=
+X-OriginatorOrg: yahoo-corp.jp
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4e9e15fb-1dfb-4711-8ffc-08d9d0ed8d94
+X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB8357.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jan 2022 08:21:35.1791 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: a208d369-cd4e-4f87-b119-98eaf31df2c3
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: z8gAuTkDTARyIwLQeRGHzzNzHOJ7zZJm2PECWAfqQzu9CGBkx/tNYcfj7PzMWUG5qmPSHPbpiMDSQ36AeLHpYQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB7412
+Received-SPF: pass client-ip=182.22.125.216;
+ envelope-from=hnarukaw@yahoo-corp.jp; helo=corp-ob09.yahoo-corp.jp
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -69,141 +140,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, david@gibson.dropbear.id.au
+Cc: aoiwa@yahoo-corp.jp, Hiroki Narukawa <hnarukaw@yahoo-corp.jp>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/5/22 22:23, Daniel Henrique Barboza wrote:
-> Hi,
-> 
-> This second version was rebased with upstream and includes fixed/amended
-> versions of relevant patches that were sent to the mailing list and aren't
-> upstream yet. In this process 4 patches from v1 were discarded, becoming
-> either irrelevant or squashed into others.
-> 
-> The patches are organized as follows:
-> 
-> - patches 1-4: enable user creatable phb3/phb4 root ports
+We encountered random disk IO performance drop since qemu-5.0.0, and this patch fixes it.
 
-Looking closer at models and domain files in libvirt, aren't user
-creatable phb3/phb4 root ports enough ? Do we really need the
-pnv-phb3/pnv-phb4 devices to be user created also ?
+Commit message in c740ad92 implied to adjust coroutine pool size adaptively, so I tried to implement this.
 
+Could you review this patch?
 
-That said, I am no expert in libvirt,
+Hiroki Narukawa (1):
+  util: adjust coroutine pool size to virtio block queue
 
-Thanks,
+ hw/block/virtio-blk.c    |  3 +++
+ include/qemu/coroutine.h |  5 +++++
+ util/qemu-coroutine.c    | 15 +++++++++++----
+ 3 files changed, 19 insertions(+), 4 deletions(-)
 
-C.
-
-
-> - patches 5-10: enable user creatable pnv-phb3 devices
-> - patches 11-18: enable user creatable pnv-phb4 devices
-> 
-> Here are some examples of what we're able to do with this series:
-> 
-> * powernv8 machine with -nodefaults,2 pnv-phb3s with 'pcie.N' name,
-> one of them with a root port and a netcard:
-> 
-> $ qemu-system-ppc64 -m 4G -machine powernv8,accel=tcg -smp 2,cores=2,threads=1 \
-> -bios skiboot.lid  -kernel vmlinux -initrd buildroot.rootfs.cpio \
-> -append 'console=hvc0 ro xmon=on' \
-> -nodefaults \
-> -serial mon:stdio -nographic \
-> -device pnv-phb3,chip-id=0,index=0,id=pcie.0 \
-> -device pnv-phb3,chip-id=0,index=2,id=pcie.2 \
-> -device pnv-phb3-root-port,bus=pcie.2,id=pcie.5 \
-> -netdev bridge,helper=/usr/libexec/qemu-bridge-helper,br=virbr0,id=net0 \
-> -device e1000e,netdev=net0,mac=C0:ff:EE:00:01:04,bus=pcie.5,addr=0x0
-> 
-> * powernv9 machine with -nodefaults, 3 of the available 12 pnv-phb4 devices
-> created, 2 root ports, one of the port with a pcie-pci-bridge and
-> devices connected in the bridge:
-> 
-> $ qemu-system-ppc64 -m 4G -machine powernv9 \
-> -smp 2,sockets=2,cores=1,threads=1 \
-> -accel tcg,thread=multi -bios skiboot.lid \
-> -kernel vmlinux -initrd buildroot.rootfs.cpio \
-> -append 'console=hvc0 ro xmon=on' \
-> -nodefaults \
-> -serial mon:stdio -nographic \
-> -device pnv-phb4,chip-id=0,index=0,id=pcie.0 \
-> -device pnv-phb4,chip-id=0,index=4,id=pcie.1 \
-> -device pnv-phb4,chip-id=1,index=3,id=pcie.2 \
-> -device pnv-phb4-root-port,id=root0,bus=pcie.2 \
-> -device pnv-phb4-root-port,id=root1,bus=pcie.1 \
-> -device pcie-pci-bridge,id=bridge1,bus=root0,addr=0x0 \
-> -device nvme,bus=bridge1,addr=0x1,drive=drive0,serial=1234 \
-> -drive file=./simics-disk.raw,if=none,id=drive0,format=raw,cache=none \
-> -device e1000e,netdev=net0,mac=C0:ff:EE:00:01:04,bus=bridge1,addr=0x3 \
-> -netdev bridge,helper=/usr/libexec/qemu-bridge-helper,br=virbr0,id=net0 \
-> -device nec-usb-xhci,bus=bridge1,addr=0x2
-> 
-> 
-> * powernv8/9 with default settings can be used as usual. The work done
-> in this series didn't change the name of the buses created by the
-> default root ports (named pcie.0...N):
-> 
-> $ qemu-system-ppc64 -m 4G \
-> -machine powernv9 -smp 2,sockets=2,cores=1,threads=1  \
-> -accel tcg,thread=multi -bios skiboot.lid  \
-> -kernel vmlinux -initrd buildroot.rootfs.cpio \
-> -append 'console=hvc0 ro xmon=on' \
-> -serial mon:stdio -nographic \
-> -device pcie-pci-bridge,id=bridge1,bus=pcie.0,addr=0x0 \
-> -device nvme,bus=bridge1,addr=0x1,drive=drive0,serial=1234  \
-> -drive file=./simics-disk.raw,if=none,id=drive0,format=raw,cache=none \
-> -device e1000e,netdev=net0,mac=C0:ff:EE:00:01:04,bus=bridge1,addr=0x3 \
-> -netdev bridge,helper=/usr/libexec/qemu-bridge-helper,br=virbr0,id=net0 \
-> -device nec-usb-xhci,bus=bridge1,addr=0x2
-> 
-> 
-> Changes from v1:
-> - rebased with upstream at 7d4ae4d497807
-> - added relevant patches that aren't upstream yet from "ppc/pnv:
-> Preliminary cleanups before user created PHBs" [1] and "ppc/pnv: Add
-> support for user created PHB3/PHB4 devices" [2] series
-> - renamed phb3/phb4 default buses name to 'pnv-phb3-root' and
-> 'pnv-phb4-root'
-> - renamed pnv_pec_get_phb_id() to pnv_phb4_pec_get_phb_id()
-> - patch 'introduce pnv_pec_init_stack_xscom()' moved to patch 16 to
-> be closer with patch 17 that uses it
-> - v1 link: https://lists.gnu.org/archive/html/qemu-devel/2021-12/msg04427.html
-> 
-> [1] https://lists.gnu.org/archive/html/qemu-devel/2021-12/msg03810.html
-> [2] https://lists.gnu.org/archive/html/qemu-devel/2021-12/msg01548.html
-> 
-> 
-> Cédric Le Goater (5):
->    ppc/pnv: Attach PHB3 root port device when defaults are enabled
->    ppc/pnv: Introduce support for user created PHB3 devices
->    ppc/pnv: Reparent user created PHB3 devices to the PnvChip
->    ppc/pnv: Complete user created PHB3 devices
->    ppc/pnv: Move num_phbs under Pnv8Chip
-> 
-> Daniel Henrique Barboza (13):
->    pnv_phb3.c: add unique chassis and slot for pnv_phb3_root_port
->    pnv_phb4.c: add unique chassis and slot for pnv_phb4_root_port
->    pnv_phb4.c: make pnv-phb4-root-port user creatable
->    pnv_phb4.c: check if root port exists in rc_config functions
->    pnv_phb3.h: change TYPE_PNV_PHB3_ROOT_BUS name
->    pnv_phb4.c: introduce pnv_phb4_set_stack_phb_props()
->    pnv_phb4_pec.c: move pnv_pec_phb_offset() to pnv_phb4.c
->    pnv_phb4_pec: use pnv_phb4_pec_get_phb_id() in pnv_pec_dt_xscom()
->    pnv_phb4.h: turn phb into a pointer in struct PnvPhb4PecStack
->    pnv_phb4_pec.c: use 'default_enabled()' to init stack->phb
->    pnv_phb4.c: introduce pnv_pec_init_stack_xscom()
->    ppc/pnv: Introduce user creatable pnv-phb4 devices
->    pnv_phb4.c: change TYPE_PNV_PHB4_ROOT_BUS name
-> 
->   hw/pci-host/pnv_phb3.c         |  57 ++++++++--
->   hw/pci-host/pnv_phb4.c         | 193 ++++++++++++++++++++++++++++++---
->   hw/pci-host/pnv_phb4_pec.c     |  86 ++++++---------
->   hw/ppc/pnv.c                   |  55 ++++++++--
->   include/hw/pci-host/pnv_phb3.h |   4 +-
->   include/hw/pci-host/pnv_phb4.h |  15 ++-
->   include/hw/ppc/pnv.h           |   8 +-
->   7 files changed, 322 insertions(+), 96 deletions(-)
-> 
+-- 
+2.17.1
 
 
