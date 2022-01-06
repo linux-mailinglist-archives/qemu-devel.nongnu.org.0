@@ -2,79 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B2A9486BAF
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 22:12:31 +0100 (CET)
-Received: from localhost ([::1]:60714 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3243F486B8D
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 22:03:28 +0100 (CET)
+Received: from localhost ([::1]:41190 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5a3i-0000tb-Db
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 16:12:30 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52370)
+	id 1n5Zuw-0004ZQ-OU
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 16:03:26 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36112)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pefoley@google.com>)
- id 1n5YqY-000329-90
- for qemu-devel@nongnu.org; Thu, 06 Jan 2022 14:54:50 -0500
-Received: from [2607:f8b0:4864:20::d2f] (port=37803
- helo=mail-io1-xd2f.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <pefoley@google.com>)
- id 1n5YqV-0001zC-Cz
- for qemu-devel@nongnu.org; Thu, 06 Jan 2022 14:54:49 -0500
-Received: by mail-io1-xd2f.google.com with SMTP id 19so4468805ioz.4
- for <qemu-devel@nongnu.org>; Thu, 06 Jan 2022 11:54:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=kxPLrxmi0+61vuum5Pr4pf9TDvl6V2FUfsvtU4EgOiA=;
- b=CRPqUnM5C10yaOCq29YN6Y+JwXMxARh6iNttz3Cdl12fTaD3z0rtwDIuK3Tjn9N7Le
- YgDLR/0Ykpt6mkTpS0dfimW/DnQyGRgDXF0XJ+THhGGwH93NQYi3Q/d8q7QISLooLmve
- U7TpulkPt//q1LJ0fySvuY4pODiXUtVEaC8/lEhIOMQMVceJBAn2TKcyh62OyCQ6PfH/
- e5r8C27l7J2k/9bMYVLqB6q6sV1EN9nERuNLhp3horhTfGequiiqrdPoJ9x/qx/MESRo
- eZg6ckqfUa80AIguw7zHjLKQ9kxpfswn2p/46o/880ZqIpcZwiqv30VlWB3OsZFU5Qhv
- Fdcw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=kxPLrxmi0+61vuum5Pr4pf9TDvl6V2FUfsvtU4EgOiA=;
- b=M9gSW8fugmZosrlm/gvomrgWOwo5xM8x64j67s8uxYXIA0bLDWImstm5pLfxR2N1Dz
- 1CdFRYKCOMx5g9MUnP4Ji945C8Vy08JZ/PsAQw2MI6c96j4VhqYOPaote2/8r4CFPsbn
- 9JPlb2dIqTLIz5PkgkghvgZViNFXkyDIvkKGKNi5u4ev0LMyg2iPE5A61qWFF6zWVMB9
- 43m2a7+Q1YZ+/MhpOMhNpme5l0FOdvBERLRLYc55CmPxbQcubJODS3+Pek/1xnJniNMM
- MRTY53mLDwtixZdrAfNb7tAUWz6rQgNF+iF/iNALc/d41xW5qi39RLqrLfHB+PSsAUgL
- 1VQA==
-X-Gm-Message-State: AOAM5309/H0ffQi5HbP9L6KgvNVIn44NgXUi3m+Zj04SpzJ7p6DyzDMj
- w91CgV+MZ1nCXp+0qFaXNMDT9+tVyDC2eDISdyPI8Q==
-X-Google-Smtp-Source: ABdhPJxJ10teKfD1PFCjdqAKMJk27f93b/ubpbogKo6qf41QxBvNrty5mYbFbur67hjuTpnbJIpueyd1Jb+1UnC632c=
-X-Received: by 2002:a05:6638:2615:: with SMTP id
- m21mr26748307jat.271.1641498884583; 
- Thu, 06 Jan 2022 11:54:44 -0800 (PST)
+ (Exim 4.90_1)
+ (envelope-from <frederic.petrot@univ-grenoble-alpes.fr>)
+ id 1n5Zt0-0001pT-9p; Thu, 06 Jan 2022 16:01:26 -0500
+Received: from zm-mta-out-3.u-ga.fr ([152.77.200.56]:56118)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <frederic.petrot@univ-grenoble-alpes.fr>)
+ id 1n5Zsy-0002e0-2v; Thu, 06 Jan 2022 16:01:25 -0500
+Received: from mailhost.u-ga.fr (mailhost2.u-ga.fr [129.88.177.242])
+ by zm-mta-out-3.u-ga.fr (Postfix) with ESMTP id E97FA4039A;
+ Thu,  6 Jan 2022 22:01:20 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=univ-grenoble-alpes.fr; s=2020; t=1641502880;
+ bh=YXW/wCoNFNr2Fbr4a4HOS8omqz2TUxlWpUb/DNZLFts=;
+ h=From:To:Cc:Subject:Date:From;
+ b=sC3vr9taeSFy9pASBowDRUVGv8bzTGZxAecxLSBylbgYtjweLhILke93mQLDWrYUG
+ AeDh0smG14kWvn8oq5s1I0/Xwj7huIMXw750BsPX/DErqEvmTUlu2iDx56aqRLIRbJ
+ m6lwnvhdWNUyt95rBMAhKPxhOwscMkGujOKP52WaAVoIAbOeF129ebblJOLWJZZaep
+ HKQTppfqZ47XaoS7o+WOA4qdaEEf8hGE9XzbkYDs9PjmrbiK2VJhMH1vYbUrR2wC3V
+ V1+T4jeb1An4Vk9YAdh1cmHL24zRD7F98S0WYbQvwWdbHTtqB1846i6yrLxod53nyz
+ J6lVWN1gYjfMg==
+Received: from smtps.univ-grenoble-alpes.fr (smtps2.u-ga.fr [152.77.18.2])
+ by mailhost.u-ga.fr (Postfix) with ESMTP id CF1826005B;
+ Thu,  6 Jan 2022 22:01:20 +0100 (CET)
+Received: from palmier.tima.u-ga.fr (35.201.90.79.rev.sfr.net [79.90.201.35])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ (Authenticated sender: petrotf@univ-grenoble-alpes.fr)
+ by smtps.univ-grenoble-alpes.fr (Postfix) with ESMTPSA id 1C9F414007F;
+ Thu,  6 Jan 2022 22:01:19 +0100 (CET)
+From: =?UTF-8?q?Fr=C3=A9d=C3=A9ric=20P=C3=A9trot?=
+ <frederic.petrot@univ-grenoble-alpes.fr>
+To: qemu-devel@nongnu.org,
+	qemu-riscv@nongnu.org
+Subject: [PATCH v8 00/18]   Adding partial support for 128-bit riscv target
+Date: Thu,  6 Jan 2022 22:00:50 +0100
+Message-Id: <20220106210108.138226-1-frederic.petrot@univ-grenoble-alpes.fr>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20220106182851.3583896-1-venture@google.com>
- <051681aa-5a02-d096-f5e2-be828407face@amsat.org>
-In-Reply-To: <051681aa-5a02-d096-f5e2-be828407face@amsat.org>
-From: Peter Foley <pefoley@google.com>
-Date: Thu, 6 Jan 2022 14:54:34 -0500
-Message-ID: <CAAAKUPPLsu_z04ospHCe+F8+kJQHogOz06Od1QvriO9=S5r9kw@mail.gmail.com>
-Subject: Re: [PATCH] net: Fix uninitialized data usage
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Cc: Patrick Venture <venture@google.com>, jasowang@redhat.com,
- qemu-devel@nongnu.org, Hao Wu <wuhaotsh@google.com>
-Content-Type: multipart/alternative; boundary="000000000000ea983e05d4ef3d16"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d2f
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d2f;
- envelope-from=pefoley@google.com; helo=mail-io1-xd2f.google.com
-X-Spam_score_int: -167
-X-Spam_score: -16.8
-X-Spam_bar: ----------------
-X-Spam_report: (-16.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Greylist: Whitelist-UGA SMTP Authentifie (petrotf@univ-grenoble-alpes.fr)
+ via submission-587 ACL (42)
+X-Greylist: Whitelist-UGA MAILHOST (SMTP non authentifie) depuis 152.77.18.2
+Received-SPF: pass client-ip=152.77.200.56;
+ envelope-from=frederic.petrot@univ-grenoble-alpes.fr;
+ helo=zm-mta-out-3.u-ga.fr
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Thu, 06 Jan 2022 16:06:01 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,310 +78,156 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: bin.meng@windriver.com, richard.henderson@linaro.org, f4bug@amsat.org,
+ palmer@dabbelt.com, fabien.portas@grenoble-inp.org, alistair.francis@wdc.com,
+ =?UTF-8?q?Fr=C3=A9d=C3=A9ric=20P=C3=A9trot?=
+ <frederic.petrot@univ-grenoble-alpes.fr>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000ea983e05d4ef3d16
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+This series of patches provides partial 128-bit support for the riscv
+target architecture, namely RVI and RVM, with minimal csr support.
 
-Yeah, but this same pattern is used elsewhere in the file, so I went with
-being consistent.
+Thanks for the reviews and advices.
 
-On Thu, Jan 6, 2022, 2:44 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> =
-wrote:
+v8:
+- rebase on riscv-to-apply.next
 
-> On 6/1/22 19:28, Patrick Venture wrote:
-> > From: Peter Foley <pefoley@google.com>
-> >
-> > e.g.
-> > 1109 15:16:20.151506 Uninitialized bytes in ioctl_common_pre at offset =
-0
-> inside [0x7ffc516af9b8, 4)
-> >   1109 15:16:20.151659 =3D=3D588974=3D=3DWARNING: MemorySanitizer:
-> use-of-uninitialized-value
-> >   1109 15:16:20.312923     #0 0x5639b88acb21 in tap_probe_vnet_hdr_len
-> third_party/qemu/net/tap-linux.c:183:9
-> >   1109 15:16:20.312952     #1 0x5639b88afd66 in net_tap_fd_init
-> third_party/qemu/net/tap.c:409:9
-> >   1109 15:16:20.312954     #2 0x5639b88b2d1b in net_init_tap_one
-> third_party/qemu/net/tap.c:681:19
-> >   1109 15:16:20.312956     #3 0x5639b88b16a8 in net_init_tap
-> third_party/qemu/net/tap.c:912:13
-> >   1109 15:16:20.312957     #4 0x5639b8890175 in net_client_init1
-> third_party/qemu/net/net.c:1110:9
-> >   1109 15:16:20.312958     #5 0x5639b888f912 in net_client_init
-> third_party/qemu/net/net.c:1208:15
-> >   1109 15:16:20.312960     #6 0x5639b8894aa5 in net_param_nic
-> third_party/qemu/net/net.c:1588:11
-> >   1109 15:16:20.312961     #7 0x5639b900cd18 in qemu_opts_foreach
-> third_party/qemu/util/qemu-option.c:1135:14
-> >   1109 15:16:20.312962     #8 0x5639b889393c in net_init_clients
-> third_party/qemu/net/net.c:1612:9
-> >   1109 15:16:20.312964     #9 0x5639b717aaf3 in
-> qemu_create_late_backends third_party/qemu/softmmu/vl.c:1962:5
-> >   1109 15:16:20.312965     #10 0x5639b717aaf3 in qemu_init
-> third_party/qemu/softmmu/vl.c:3694:5
-> >   1109 15:16:20.312967     #11 0x5639b71083b8 in main
-> third_party/qemu/softmmu/main.c:49:5
-> >   1109 15:16:20.312968     #12 0x7f464de1d8d2 in __libc_start_main
-> (/usr/grte/v5/lib64/libc.so.6+0x628d2)
-> >   1109 15:16:20.312969     #13 0x5639b6bbd389 in _start
-> /usr/grte/v5/debug-src/src/csu/../sysdeps/x86_64/start.S:120
-> >   1109 15:16:20.312970
-> >   1109 15:16:20.312975   Uninitialized value was stored to memory at
-> >   1109 15:16:20.313393     #0 0x5639b88acbee in tap_probe_vnet_hdr_len
-> third_party/qemu/net/tap-linux.c
-> >   1109 15:16:20.313396     #1 0x5639b88afd66 in net_tap_fd_init
-> third_party/qemu/net/tap.c:409:9
-> >   1109 15:16:20.313398     #2 0x5639b88b2d1b in net_init_tap_one
-> third_party/qemu/net/tap.c:681:19
-> >   1109 15:16:20.313399     #3 0x5639b88b16a8 in net_init_tap
-> third_party/qemu/net/tap.c:912:13
-> >   1109 15:16:20.313400     #4 0x5639b8890175 in net_client_init1
-> third_party/qemu/net/net.c:1110:9
-> >   1109 15:16:20.313401     #5 0x5639b888f912 in net_client_init
-> third_party/qemu/net/net.c:1208:15
-> >   1109 15:16:20.313403     #6 0x5639b8894aa5 in net_param_nic
-> third_party/qemu/net/net.c:1588:11
-> >   1109 15:16:20.313404     #7 0x5639b900cd18 in qemu_opts_foreach
-> third_party/qemu/util/qemu-option.c:1135:14
-> >   1109 15:16:20.313405     #8 0x5639b889393c in net_init_clients
-> third_party/qemu/net/net.c:1612:9
-> >   1109 15:16:20.313407     #9 0x5639b717aaf3 in
-> qemu_create_late_backends third_party/qemu/softmmu/vl.c:1962:5
-> >   1109 15:16:20.313408     #10 0x5639b717aaf3 in qemu_init
-> third_party/qemu/softmmu/vl.c:3694:5
-> >   1109 15:16:20.313409     #11 0x5639b71083b8 in main
-> third_party/qemu/softmmu/main.c:49:5
-> >   1109 15:16:20.313410     #12 0x7f464de1d8d2 in __libc_start_main
-> (/usr/grte/v5/lib64/libc.so.6+0x628d2)
-> >   1109 15:16:20.313412     #13 0x5639b6bbd389 in _start
-> /usr/grte/v5/debug-src/src/csu/../sysdeps/x86_64/start.S:120
-> >   1109 15:16:20.313413
-> >   1109 15:16:20.313417   Uninitialized value was stored to memory at
-> >   1109 15:16:20.313791     #0 0x5639b88affbd in net_tap_fd_init
-> third_party/qemu/net/tap.c:400:26
-> >   1109 15:16:20.313826     #1 0x5639b88b2d1b in net_init_tap_one
-> third_party/qemu/net/tap.c:681:19
-> >   1109 15:16:20.313829     #2 0x5639b88b16a8 in net_init_tap
-> third_party/qemu/net/tap.c:912:13
-> >   1109 15:16:20.313831     #3 0x5639b8890175 in net_client_init1
-> third_party/qemu/net/net.c:1110:9
-> >   1109 15:16:20.313836     #4 0x5639b888f912 in net_client_init
-> third_party/qemu/net/net.c:1208:15
-> >   1109 15:16:20.313838     #5 0x5639b8894aa5 in net_param_nic
-> third_party/qemu/net/net.c:1588:11
-> >   1109 15:16:20.313839     #6 0x5639b900cd18 in qemu_opts_foreach
-> third_party/qemu/util/qemu-option.c:1135:14
-> >   1109 15:16:20.313841     #7 0x5639b889393c in net_init_clients
-> third_party/qemu/net/net.c:1612:9
-> >   1109 15:16:20.313843     #8 0x5639b717aaf3 in
-> qemu_create_late_backends third_party/qemu/softmmu/vl.c:1962:5
-> >   1109 15:16:20.313844     #9 0x5639b717aaf3 in qemu_init
-> third_party/qemu/softmmu/vl.c:3694:5
-> >   1109 15:16:20.313845     #10 0x5639b71083b8 in main
-> third_party/qemu/softmmu/main.c:49:5
-> >   1109 15:16:20.313846     #11 0x7f464de1d8d2 in __libc_start_main
-> (/usr/grte/v5/lib64/libc.so.6+0x628d2)
-> >   1109 15:16:20.313847     #12 0x5639b6bbd389 in _start
-> /usr/grte/v5/debug-src/src/csu/../sysdeps/x86_64/start.S:120
-> >   1109 15:16:20.313849
-> >   1109 15:16:20.313851   Uninitialized value was created by an
-> allocation of 'ifr' in the stack frame of function 'tap_probe_vnet_hdr'
-> >   1109 15:16:20.313855     #0 0x5639b88ac680 in tap_probe_vnet_hdr
-> third_party/qemu/net/tap-linux.c:151
-> >   1109 15:16:20.313856
-> >   1109 15:16:20.313878 SUMMARY: MemorySanitizer:
-> use-of-uninitialized-value third_party/qemu/net/tap-linux.c:183:9 in
-> tap_probe_vnet_hdr_len
-> >
-> > Fixes: dc69004c7d8 ("net: move tap_probe_vnet_hdr() to tap-linux.c")
-> > Reviewed-by: Hao Wu <wuhaotsh@google.com>
-> > Reviewed-by: Patrick Venture <venture@google.com>
-> > Signed-off-by: Peter Foley <pefoley@google.com>
-> > ---
-> >   net/tap-linux.c | 1 +
-> >   1 file changed, 1 insertion(+)
-> >
-> > diff --git a/net/tap-linux.c b/net/tap-linux.c
-> > index 9584769740..5e70b93037 100644
-> > --- a/net/tap-linux.c
-> > +++ b/net/tap-linux.c
-> > @@ -150,6 +150,7 @@ void tap_set_sndbuf(int fd, const NetdevTapOptions
-> *tap, Error **errp)
-> >   int tap_probe_vnet_hdr(int fd, Error **errp)
-> >   {
-> >       struct ifreq ifr;
-> > +    memset(&ifr, 0, sizeof(ifr));
->
-> Or:
->
->         struct ifreq ifr =3D { };
->
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
->
-> >
-> >       if (ioctl(fd, TUNGETIFF, &ifr) !=3D 0) {
-> >           /* TUNGETIFF is available since kernel v2.6.27 */
->
->
+v7:
+- code motion following reviews
+- correction of a bug preventing riscv{32,64}-linux-user to compile
+- sync with master
+- Note that 'make check' fails for 5 qemu-iotests cases, namely
+  040, 041, 127, 256, and 267, but they also fail with
+  qemu-system-riscv{32,64} from current master
 
---000000000000ea983e05d4ef3d16
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+v6:
+- support for '-cpu rv128' in qemu-system-riscv64 to handle 128-bit
+  executables (no more qemu-system-riscv128)
+- remove useless (and buggy) big-endian support in lq/sq
 
-<div dir=3D"auto">Yeah, but this same pattern is used elsewhere in the file=
-, so I went with being consistent.</div><br><div class=3D"gmail_quote"><div=
- dir=3D"ltr" class=3D"gmail_attr">On Thu, Jan 6, 2022, 2:44 PM Philippe Mat=
-hieu-Daud=C3=A9 &lt;<a href=3D"mailto:f4bug@amsat.org">f4bug@amsat.org</a>&=
-gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0=
- .8ex;border-left:1px #ccc solid;padding-left:1ex">On 6/1/22 19:28, Patrick=
- Venture wrote:<br>
-&gt; From: Peter Foley &lt;<a href=3D"mailto:pefoley@google.com" target=3D"=
-_blank" rel=3D"noreferrer">pefoley@google.com</a>&gt;<br>
-&gt; <br>
-&gt; e.g.<br>
-&gt; 1109 15:16:20.151506 Uninitialized bytes in ioctl_common_pre at offset=
- 0 inside [0x7ffc516af9b8, 4)<br>
-&gt;=C2=A0 =C2=A01109 15:16:20.151659 =3D=3D588974=3D=3DWARNING: MemorySani=
-tizer: use-of-uninitialized-value<br>
-&gt;=C2=A0 =C2=A01109 15:16:20.312923=C2=A0 =C2=A0 =C2=A0#0 0x5639b88acb21 =
-in tap_probe_vnet_hdr_len third_party/qemu/net/tap-linux.c:183:9<br>
-&gt;=C2=A0 =C2=A01109 15:16:20.312952=C2=A0 =C2=A0 =C2=A0#1 0x5639b88afd66 =
-in net_tap_fd_init third_party/qemu/net/tap.c:409:9<br>
-&gt;=C2=A0 =C2=A01109 15:16:20.312954=C2=A0 =C2=A0 =C2=A0#2 0x5639b88b2d1b =
-in net_init_tap_one third_party/qemu/net/tap.c:681:19<br>
-&gt;=C2=A0 =C2=A01109 15:16:20.312956=C2=A0 =C2=A0 =C2=A0#3 0x5639b88b16a8 =
-in net_init_tap third_party/qemu/net/tap.c:912:13<br>
-&gt;=C2=A0 =C2=A01109 15:16:20.312957=C2=A0 =C2=A0 =C2=A0#4 0x5639b8890175 =
-in net_client_init1 third_party/qemu/net/net.c:1110:9<br>
-&gt;=C2=A0 =C2=A01109 15:16:20.312958=C2=A0 =C2=A0 =C2=A0#5 0x5639b888f912 =
-in net_client_init third_party/qemu/net/net.c:1208:15<br>
-&gt;=C2=A0 =C2=A01109 15:16:20.312960=C2=A0 =C2=A0 =C2=A0#6 0x5639b8894aa5 =
-in net_param_nic third_party/qemu/net/net.c:1588:11<br>
-&gt;=C2=A0 =C2=A01109 15:16:20.312961=C2=A0 =C2=A0 =C2=A0#7 0x5639b900cd18 =
-in qemu_opts_foreach third_party/qemu/util/qemu-option.c:1135:14<br>
-&gt;=C2=A0 =C2=A01109 15:16:20.312962=C2=A0 =C2=A0 =C2=A0#8 0x5639b889393c =
-in net_init_clients third_party/qemu/net/net.c:1612:9<br>
-&gt;=C2=A0 =C2=A01109 15:16:20.312964=C2=A0 =C2=A0 =C2=A0#9 0x5639b717aaf3 =
-in qemu_create_late_backends third_party/qemu/softmmu/vl.c:1962:5<br>
-&gt;=C2=A0 =C2=A01109 15:16:20.312965=C2=A0 =C2=A0 =C2=A0#10 0x5639b717aaf3=
- in qemu_init third_party/qemu/softmmu/vl.c:3694:5<br>
-&gt;=C2=A0 =C2=A01109 15:16:20.312967=C2=A0 =C2=A0 =C2=A0#11 0x5639b71083b8=
- in main third_party/qemu/softmmu/main.c:49:5<br>
-&gt;=C2=A0 =C2=A01109 15:16:20.312968=C2=A0 =C2=A0 =C2=A0#12 0x7f464de1d8d2=
- in __libc_start_main (/usr/grte/v5/lib64/libc.so.6+0x628d2)<br>
-&gt;=C2=A0 =C2=A01109 15:16:20.312969=C2=A0 =C2=A0 =C2=A0#13 0x5639b6bbd389=
- in _start /usr/grte/v5/debug-src/src/csu/../sysdeps/x86_64/start.S:120<br>
-&gt;=C2=A0 =C2=A01109 15:16:20.312970<br>
-&gt;=C2=A0 =C2=A01109 15:16:20.312975=C2=A0 =C2=A0Uninitialized value was s=
-tored to memory at<br>
-&gt;=C2=A0 =C2=A01109 15:16:20.313393=C2=A0 =C2=A0 =C2=A0#0 0x5639b88acbee =
-in tap_probe_vnet_hdr_len third_party/qemu/net/tap-linux.c<br>
-&gt;=C2=A0 =C2=A01109 15:16:20.313396=C2=A0 =C2=A0 =C2=A0#1 0x5639b88afd66 =
-in net_tap_fd_init third_party/qemu/net/tap.c:409:9<br>
-&gt;=C2=A0 =C2=A01109 15:16:20.313398=C2=A0 =C2=A0 =C2=A0#2 0x5639b88b2d1b =
-in net_init_tap_one third_party/qemu/net/tap.c:681:19<br>
-&gt;=C2=A0 =C2=A01109 15:16:20.313399=C2=A0 =C2=A0 =C2=A0#3 0x5639b88b16a8 =
-in net_init_tap third_party/qemu/net/tap.c:912:13<br>
-&gt;=C2=A0 =C2=A01109 15:16:20.313400=C2=A0 =C2=A0 =C2=A0#4 0x5639b8890175 =
-in net_client_init1 third_party/qemu/net/net.c:1110:9<br>
-&gt;=C2=A0 =C2=A01109 15:16:20.313401=C2=A0 =C2=A0 =C2=A0#5 0x5639b888f912 =
-in net_client_init third_party/qemu/net/net.c:1208:15<br>
-&gt;=C2=A0 =C2=A01109 15:16:20.313403=C2=A0 =C2=A0 =C2=A0#6 0x5639b8894aa5 =
-in net_param_nic third_party/qemu/net/net.c:1588:11<br>
-&gt;=C2=A0 =C2=A01109 15:16:20.313404=C2=A0 =C2=A0 =C2=A0#7 0x5639b900cd18 =
-in qemu_opts_foreach third_party/qemu/util/qemu-option.c:1135:14<br>
-&gt;=C2=A0 =C2=A01109 15:16:20.313405=C2=A0 =C2=A0 =C2=A0#8 0x5639b889393c =
-in net_init_clients third_party/qemu/net/net.c:1612:9<br>
-&gt;=C2=A0 =C2=A01109 15:16:20.313407=C2=A0 =C2=A0 =C2=A0#9 0x5639b717aaf3 =
-in qemu_create_late_backends third_party/qemu/softmmu/vl.c:1962:5<br>
-&gt;=C2=A0 =C2=A01109 15:16:20.313408=C2=A0 =C2=A0 =C2=A0#10 0x5639b717aaf3=
- in qemu_init third_party/qemu/softmmu/vl.c:3694:5<br>
-&gt;=C2=A0 =C2=A01109 15:16:20.313409=C2=A0 =C2=A0 =C2=A0#11 0x5639b71083b8=
- in main third_party/qemu/softmmu/main.c:49:5<br>
-&gt;=C2=A0 =C2=A01109 15:16:20.313410=C2=A0 =C2=A0 =C2=A0#12 0x7f464de1d8d2=
- in __libc_start_main (/usr/grte/v5/lib64/libc.so.6+0x628d2)<br>
-&gt;=C2=A0 =C2=A01109 15:16:20.313412=C2=A0 =C2=A0 =C2=A0#13 0x5639b6bbd389=
- in _start /usr/grte/v5/debug-src/src/csu/../sysdeps/x86_64/start.S:120<br>
-&gt;=C2=A0 =C2=A01109 15:16:20.313413<br>
-&gt;=C2=A0 =C2=A01109 15:16:20.313417=C2=A0 =C2=A0Uninitialized value was s=
-tored to memory at<br>
-&gt;=C2=A0 =C2=A01109 15:16:20.313791=C2=A0 =C2=A0 =C2=A0#0 0x5639b88affbd =
-in net_tap_fd_init third_party/qemu/net/tap.c:400:26<br>
-&gt;=C2=A0 =C2=A01109 15:16:20.313826=C2=A0 =C2=A0 =C2=A0#1 0x5639b88b2d1b =
-in net_init_tap_one third_party/qemu/net/tap.c:681:19<br>
-&gt;=C2=A0 =C2=A01109 15:16:20.313829=C2=A0 =C2=A0 =C2=A0#2 0x5639b88b16a8 =
-in net_init_tap third_party/qemu/net/tap.c:912:13<br>
-&gt;=C2=A0 =C2=A01109 15:16:20.313831=C2=A0 =C2=A0 =C2=A0#3 0x5639b8890175 =
-in net_client_init1 third_party/qemu/net/net.c:1110:9<br>
-&gt;=C2=A0 =C2=A01109 15:16:20.313836=C2=A0 =C2=A0 =C2=A0#4 0x5639b888f912 =
-in net_client_init third_party/qemu/net/net.c:1208:15<br>
-&gt;=C2=A0 =C2=A01109 15:16:20.313838=C2=A0 =C2=A0 =C2=A0#5 0x5639b8894aa5 =
-in net_param_nic third_party/qemu/net/net.c:1588:11<br>
-&gt;=C2=A0 =C2=A01109 15:16:20.313839=C2=A0 =C2=A0 =C2=A0#6 0x5639b900cd18 =
-in qemu_opts_foreach third_party/qemu/util/qemu-option.c:1135:14<br>
-&gt;=C2=A0 =C2=A01109 15:16:20.313841=C2=A0 =C2=A0 =C2=A0#7 0x5639b889393c =
-in net_init_clients third_party/qemu/net/net.c:1612:9<br>
-&gt;=C2=A0 =C2=A01109 15:16:20.313843=C2=A0 =C2=A0 =C2=A0#8 0x5639b717aaf3 =
-in qemu_create_late_backends third_party/qemu/softmmu/vl.c:1962:5<br>
-&gt;=C2=A0 =C2=A01109 15:16:20.313844=C2=A0 =C2=A0 =C2=A0#9 0x5639b717aaf3 =
-in qemu_init third_party/qemu/softmmu/vl.c:3694:5<br>
-&gt;=C2=A0 =C2=A01109 15:16:20.313845=C2=A0 =C2=A0 =C2=A0#10 0x5639b71083b8=
- in main third_party/qemu/softmmu/main.c:49:5<br>
-&gt;=C2=A0 =C2=A01109 15:16:20.313846=C2=A0 =C2=A0 =C2=A0#11 0x7f464de1d8d2=
- in __libc_start_main (/usr/grte/v5/lib64/libc.so.6+0x628d2)<br>
-&gt;=C2=A0 =C2=A01109 15:16:20.313847=C2=A0 =C2=A0 =C2=A0#12 0x5639b6bbd389=
- in _start /usr/grte/v5/debug-src/src/csu/../sysdeps/x86_64/start.S:120<br>
-&gt;=C2=A0 =C2=A01109 15:16:20.313849<br>
-&gt;=C2=A0 =C2=A01109 15:16:20.313851=C2=A0 =C2=A0Uninitialized value was c=
-reated by an allocation of &#39;ifr&#39; in the stack frame of function &#3=
-9;tap_probe_vnet_hdr&#39;<br>
-&gt;=C2=A0 =C2=A01109 15:16:20.313855=C2=A0 =C2=A0 =C2=A0#0 0x5639b88ac680 =
-in tap_probe_vnet_hdr third_party/qemu/net/tap-linux.c:151<br>
-&gt;=C2=A0 =C2=A01109 15:16:20.313856<br>
-&gt;=C2=A0 =C2=A01109 15:16:20.313878 SUMMARY: MemorySanitizer: use-of-unin=
-itialized-value third_party/qemu/net/tap-linux.c:183:9 in tap_probe_vnet_hd=
-r_len<br>
-&gt; <br>
-&gt; Fixes: dc69004c7d8 (&quot;net: move tap_probe_vnet_hdr() to tap-linux.=
-c&quot;)<br>
-&gt; Reviewed-by: Hao Wu &lt;<a href=3D"mailto:wuhaotsh@google.com" target=
-=3D"_blank" rel=3D"noreferrer">wuhaotsh@google.com</a>&gt;<br>
-&gt; Reviewed-by: Patrick Venture &lt;<a href=3D"mailto:venture@google.com"=
- target=3D"_blank" rel=3D"noreferrer">venture@google.com</a>&gt;<br>
-&gt; Signed-off-by: Peter Foley &lt;<a href=3D"mailto:pefoley@google.com" t=
-arget=3D"_blank" rel=3D"noreferrer">pefoley@google.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 =C2=A0net/tap-linux.c | 1 +<br>
-&gt;=C2=A0 =C2=A01 file changed, 1 insertion(+)<br>
-&gt; <br>
-&gt; diff --git a/net/tap-linux.c b/net/tap-linux.c<br>
-&gt; index 9584769740..5e70b93037 100644<br>
-&gt; --- a/net/tap-linux.c<br>
-&gt; +++ b/net/tap-linux.c<br>
-&gt; @@ -150,6 +150,7 @@ void tap_set_sndbuf(int fd, const NetdevTapOptions=
- *tap, Error **errp)<br>
-&gt;=C2=A0 =C2=A0int tap_probe_vnet_hdr(int fd, Error **errp)<br>
-&gt;=C2=A0 =C2=A0{<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0struct ifreq ifr;<br>
-&gt; +=C2=A0 =C2=A0 memset(&amp;ifr, 0, sizeof(ifr));<br>
-<br>
-Or:<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 struct ifreq ifr =3D { };<br>
-<br>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:f4bug@amsat.=
-org" target=3D"_blank" rel=3D"noreferrer">f4bug@amsat.org</a>&gt;<br>
-<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0if (ioctl(fd, TUNGETIFF, &amp;ifr) !=3D 0) {=
-<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* TUNGETIFF is available sinc=
-e kernel v2.6.27 */<br>
-<br>
-</blockquote></div>
+v5:
+- split the memop define renaming and addition in two patches
+- 128-bit div/rem operations using host-utils functions
+- removed useless rv128 tests at various places
+- refactoring the slt/bxx part so as to share the comparison part
+- refactoring the 128-bit csr handling to share code more largely
+  Also forwarding writes to the 64-bit version when not 128-bit version
+  exists, as a vast majority of the csrs does not use the upper 64-bits
 
---000000000000ea983e05d4ef3d16--
+v4: 
+- safer and cleaner access to the gpr upper part
+- locals for load/store/div/rem helpers
+- cleans out the 128-bit div/rem code
+- corrects numerous bugs and performs optimizations on shifts and mults
+- withdraws the change in page size and the vm schemes we introduced
+
+v3:
+- v2 refactored following Richard's xl patch changes
+
+v2:
+- load and store making use of new memop.h sizes
+- use of the existing Int128 computations in helpers, and addition of
+  a few more operations there, in particular division and remainder
+- refactoring of the calls to the code generation helpers
+- split of the patch in smaller pieces
+
+v1:
+- introducing support for rv128 for basic integer and M extension insns
+
+
+Frédéric Pétrot (18):
+  exec/memop: Adding signedness to quad definitions
+  exec/memop: Adding signed quad and octo defines
+  qemu/int128: addition of div/rem 128-bit operations
+  target/riscv: additional macros to check instruction support
+  target/riscv: separation of bitwise logic and arithmetic helpers
+  target/riscv: array for the 64 upper bits of 128-bit registers
+  target/riscv: setup everything for rv64 to support rv128 execution
+  target/riscv: moving some insns close to similar insns
+  target/riscv: accessors to registers upper part and 128-bit load/store
+  target/riscv: support for 128-bit bitwise instructions
+  target/riscv: support for 128-bit U-type instructions
+  target/riscv: support for 128-bit shift instructions
+  target/riscv: support for 128-bit arithmetic instructions
+  target/riscv: support for 128-bit M extension
+  target/riscv: adding high part of some csrs
+  target/riscv: helper functions to wrap calls to 128-bit csr insns
+  target/riscv: modification of the trans_csrxx for 128-bit support
+  target/riscv: actual functions to realize crs 128-bit insns
+
+ include/disas/dis-asm.h                    |   1 +
+ include/exec/memop.h                       |  15 +-
+ include/qemu/int128.h                      |  27 +
+ include/tcg/tcg-op.h                       |   4 +-
+ target/arm/translate-a32.h                 |   4 +-
+ target/riscv/cpu.h                         |  22 +
+ target/riscv/cpu_bits.h                    |   3 +
+ target/riscv/helper.h                      |   9 +
+ target/riscv/insn16.decode                 |  27 +-
+ target/riscv/insn32.decode                 |  25 +
+ accel/tcg/cputlb.c                         |  30 +-
+ accel/tcg/user-exec.c                      |   8 +-
+ disas/riscv.c                              |   5 +
+ target/alpha/translate.c                   |  32 +-
+ target/arm/helper-a64.c                    |   8 +-
+ target/arm/translate-a64.c                 |   8 +-
+ target/arm/translate-neon.c                |   6 +-
+ target/arm/translate-sve.c                 |  10 +-
+ target/arm/translate-vfp.c                 |   8 +-
+ target/arm/translate.c                     |   2 +-
+ target/cris/translate.c                    |   2 +-
+ target/hppa/translate.c                    |   4 +-
+ target/i386/tcg/mem_helper.c               |   2 +-
+ target/i386/tcg/translate.c                |  36 +-
+ target/m68k/op_helper.c                    |   2 +-
+ target/mips/tcg/translate.c                |  58 +-
+ target/mips/tcg/tx79_translate.c           |   8 +-
+ target/ppc/translate.c                     |  32 +-
+ target/riscv/cpu.c                         |  29 +
+ target/riscv/csr.c                         | 194 +++++-
+ target/riscv/gdbstub.c                     |   5 +
+ target/riscv/m128_helper.c                 | 109 +++
+ target/riscv/machine.c                     |  22 +
+ target/riscv/op_helper.c                   |  44 ++
+ target/riscv/translate.c                   | 252 ++++++-
+ target/s390x/tcg/mem_helper.c              |   8 +-
+ target/s390x/tcg/translate.c               |   8 +-
+ target/sh4/translate.c                     |  12 +-
+ target/sparc/translate.c                   |  36 +-
+ target/tricore/translate.c                 |   4 +-
+ target/xtensa/translate.c                  |   4 +-
+ tcg/tcg.c                                  |   4 +-
+ tcg/tci.c                                  |  16 +-
+ util/int128.c                              | 147 +++++
+ accel/tcg/ldst_common.c.inc                |   8 +-
+ target/mips/tcg/micromips_translate.c.inc  |  10 +-
+ target/ppc/translate/fixedpoint-impl.c.inc |  22 +-
+ target/ppc/translate/fp-impl.c.inc         |   4 +-
+ target/ppc/translate/vsx-impl.c.inc        |  42 +-
+ target/riscv/insn_trans/trans_rva.c.inc    |  22 +-
+ target/riscv/insn_trans/trans_rvb.c.inc    |  48 +-
+ target/riscv/insn_trans/trans_rvd.c.inc    |   4 +-
+ target/riscv/insn_trans/trans_rvh.c.inc    |   4 +-
+ target/riscv/insn_trans/trans_rvi.c.inc    | 730 ++++++++++++++++++---
+ target/riscv/insn_trans/trans_rvm.c.inc    | 192 +++++-
+ target/s390x/tcg/translate_vx.c.inc        |  18 +-
+ tcg/aarch64/tcg-target.c.inc               |   2 +-
+ tcg/arm/tcg-target.c.inc                   |  10 +-
+ tcg/i386/tcg-target.c.inc                  |  12 +-
+ tcg/mips/tcg-target.c.inc                  |  12 +-
+ tcg/ppc/tcg-target.c.inc                   |  16 +-
+ tcg/riscv/tcg-target.c.inc                 |   6 +-
+ tcg/s390x/tcg-target.c.inc                 |  18 +-
+ tcg/sparc/tcg-target.c.inc                 |  16 +-
+ target/riscv/meson.build                   |   1 +
+ target/s390x/tcg/insn-data.def             |  28 +-
+ util/meson.build                           |   1 +
+ 67 files changed, 2006 insertions(+), 512 deletions(-)
+ create mode 100644 target/riscv/m128_helper.c
+ create mode 100644 util/int128.c
+
+-- 
+2.34.1
+
 
