@@ -2,71 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 015C1486BE8
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 22:31:46 +0100 (CET)
-Received: from localhost ([::1]:46344 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F483486D0F
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 23:08:02 +0100 (CET)
+Received: from localhost ([::1]:60964 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5aML-0005ou-4L
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 16:31:45 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42030)
+	id 1n5avR-0002JK-1y
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 17:08:01 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49552)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1n5aLM-0004zJ-PN; Thu, 06 Jan 2022 16:30:44 -0500
-Received: from [2607:f8b0:4864:20::133] (port=41865
- helo=mail-il1-x133.google.com)
+ (Exim 4.90_1) (envelope-from
+ <3imbXYQcKCskAt2896tv33v0t.r315t19-stAt0232v29.36v@flex--venture.bounces.google.com>)
+ id 1n5auQ-0001cy-6P
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 17:06:58 -0500
+Received: from [2607:f8b0:4864:20::b4a] (port=52895
+ helo=mail-yb1-xb4a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1n5aLL-0002Dj-61; Thu, 06 Jan 2022 16:30:44 -0500
-Received: by mail-il1-x133.google.com with SMTP id r16so1413997ile.8;
- Thu, 06 Jan 2022 13:30:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=EHDqSzQq9d5rvs/fWBJCpGh6zHf8jrG5WwPdUWwMyXM=;
- b=dqG2cIO6KptW68YgjwqyNheBcixS50kBIoKw6NVVLubxJJXa/J+Rp7CpAujHoDxYjR
- pwh64gzjlHjRwFi1Ank2C69RA5WV79Jx4zTvE/8cj7290dDM0Aic09JhiYUIMQjFxSX8
- hdhmPRZIbZl/WFmxe4Bo1R0eTSYXKqIS3hiub7VnIUaYAU2kaEnu2NRVfSKS4Q3h35NH
- iWltrX4DLKKrI/xgzUXWHiVO5A9Z+BuXBAoxGs9NZ4G9oN/KwP6bVy2aW2I79JmEo7BI
- 82cCl214HAqWb7wSKV14OviqXd/MfrIRVGLav/kyNl1AJyurd1g+K4nRFfmbyzMHnUJk
- y36A==
+ (Exim 4.90_1) (envelope-from
+ <3imbXYQcKCskAt2896tv33v0t.r315t19-stAt0232v29.36v@flex--venture.bounces.google.com>)
+ id 1n5auO-0004IU-J8
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 17:06:57 -0500
+Received: by mail-yb1-xb4a.google.com with SMTP id
+ u130-20020a254788000000b0060a9645f781so7612976yba.19
+ for <qemu-devel@nongnu.org>; Thu, 06 Jan 2022 14:06:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=date:message-id:mime-version:subject:from:to:cc;
+ bh=5IlEkjJ+ofJj0s6IViJPQp6sFty9w8jzIZpJGSxhSHM=;
+ b=P/8tnCznF5ncUi1FaT6Hl5/UTWqvO7VUfhc/bkpuNH5aZjTYBt9aJZ90LsIVS0TNRh
+ sSwWUdAQe7UwDneyEX2SftJq3w/uV1yY8Dna8zhzApbHYokdY/N0QZrhGc0Jt6fNbJHK
+ 6UKKkhWISex+cbbzYJYyUzOj+a0c028mgx9IfT3PaxkrYLT9yD3RUalt219TCoZWcscE
+ 2n0kWDKvnCzufkGLuhjHzXuljNZcG7UqxuR8A5eF/NU/XfUpvkttDBblozDf/URCfyWj
+ 9zegMiu6UWXqRwiTvOGunZ+xxT37InTs10ojXjHT7DdbZsOmQsX4BV3WsuOL7SaLBjdb
+ dyOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=EHDqSzQq9d5rvs/fWBJCpGh6zHf8jrG5WwPdUWwMyXM=;
- b=5f6Hs5YuRaR1ICbSQuQyCtSE9FRZLTGpWkkVTXXntSqy0GWSAR/5gbs1iK3tD4JfGq
- gdjSDsjQVmFu8R62NdBayfCKWtUlZjQm3NM4IliwBcSZVDXjhS5rrk4o7hQYksxveTGt
- Gu/vx6sAaORM0rgyyoECrntl1YwxfoKVhxtmqpqsc3fm5n4Gz4tPPtFsZUY8qDVGzi+Q
- Es/jFA3y+SCNGzF4L12XsxZ3pggKMrtNWrsJHSYs3pk9pTkWaMKvg09N+ShbBpoDDQeG
- LUbiYPbFSyk/IFu8ddXX5GHB7oyJXx6x3c+CtIgL212wwYVbYuQAFOVoXmwahfj2v0ge
- eO2A==
-X-Gm-Message-State: AOAM533DFCwqVjLPN7sgYsbQMKWd6q2d9Bw0xnlozTluaoRa90/vllv/
- Neyxs0hxeRfFqdTWMfqO4GQnDeRKS7yBvUcg9vQ=
-X-Google-Smtp-Source: ABdhPJwA9SCEbsMGgMzmgIY0dWI2keuo7ceaxVTH3TYQ38WzVu67+6kVddsLI1FO55nxKZtgi8RpJo5fifKouluXSUA=
-X-Received: by 2002:a05:6e02:1569:: with SMTP id
- k9mr27251063ilu.290.1641504641577; 
- Thu, 06 Jan 2022 13:30:41 -0800 (PST)
-MIME-Version: 1.0
-References: <20220106134020.1628889-1-philipp.tomsich@vrull.eu>
-In-Reply-To: <20220106134020.1628889-1-philipp.tomsich@vrull.eu>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 7 Jan 2022 07:30:15 +1000
-Message-ID: <CAKmqyKPcYRPsvLvCUs-kL6f+4YJPZBgcL02Eoegrmv=HLiAUrg@mail.gmail.com>
-Subject: Re: [PATCH] target/riscv: Fix position of 'experimental' comment
-To: Philipp Tomsich <philipp.tomsich@vrull.eu>
+ h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+ bh=5IlEkjJ+ofJj0s6IViJPQp6sFty9w8jzIZpJGSxhSHM=;
+ b=CwNv4m5f6LeNZ8Hqf+PQVkG1JwG43Y+kZg2OERwAmwlwUfUXeWI8fG1ucvQQ4M8WPI
+ LLgeh4kLiG4KCHdSZA/syag5bhx/lOD/L7JPvJldwF0iO/cWsZR2kcZPq6crzUhJ5b5l
+ MkVl4eEUpSQYh1Y11ZXaJ6FUu42UVssBLa6ao14eJQMB0ffSST8QJwshD4djdhQOaJKh
+ ff1v8+PfNx5N7QL0B49UurSi9u+NWzrsjOpMn2K20cs4V2bNBm3N60WqZc+VS+OvMNRo
+ J5eirModlQEWF4baagTecoGFfFhYln0EdRHYcRxO7nvGrUF4n8RrSdW0nyz/iC+1WkjZ
+ NzYQ==
+X-Gm-Message-State: AOAM532kdvyzty+J3EYhYlYxpNuqFF+E1qE11vcFn4G+JEDKnMHiWQGc
+ SYZyjWCxJhmVmXNf3aCFTdJPeuB2zsdW
+X-Google-Smtp-Source: ABdhPJzTYsWBUGdK72VvINl7XaD0PKLJ71mjf+qeZuZNJdzndAMby8QNmSvqOW5KMKvoINhM7keokK5HEni1
+X-Received: from venture.svl.corp.google.com
+ ([2620:15c:2a3:200:9986:338a:477f:1df7])
+ (user=venture job=sendgmr) by 2002:a05:6902:154d:: with SMTP id
+ r13mr43465529ybu.314.1641506442894; Thu, 06 Jan 2022 14:00:42 -0800 (PST)
+Date: Thu,  6 Jan 2022 14:00:38 -0800
+Message-Id: <20220106220038.3658586-1-venture@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.34.1.448.ga2b2bfdf31-goog
+Subject: [PATCH] linux-user: rt_sigprocmask, check read perms first
+From: Patrick Venture <venture@google.com>
+To: laurent@vivier.eu
+Cc: qemu-devel@nongnu.org, Shu-Chun Weng <scw@google.com>, 
+ Patrick Venture <venture@google.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::133
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b4a
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::133;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x133.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b4a;
+ envelope-from=3imbXYQcKCskAt2896tv33v0t.r315t19-stAt0232v29.36v@flex--venture.bounces.google.com;
+ helo=mail-yb1-xb4a.google.com
+X-Spam_score_int: -87
+X-Spam_score: -8.8
+X-Spam_bar: --------
+X-Spam_report: (-8.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,56 +85,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Bin Meng <bin.meng@windriver.com>, Vineet Gupta <vineetg@rivosinc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <alistair.francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jan 7, 2022 at 12:30 AM Philipp Tomsich
-<philipp.tomsich@vrull.eu> wrote:
->
-> When commit 0643c12e4b dropped the 'x-' prefix for Zb[abcs] and set
-> them to be enabled by default, the comment about experimental
-> extensions was kept in place above them.  This moves it down a few
-> lines to only cover experimental extensions.
->
-> References: 0643c12e4b ("target/riscv: Enable bitmanip Zb[abcs] instructions")
->
-> Signed-off-by: Philipp Tomsich <philipp.tomsich@vrull.eu>
+From: Shu-Chun Weng <scw@google.com>
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Linux kernel does it this way (checks read permission before validating `how`)
+and the latest version of ABSL's `AddressIsReadable()` depends on this
+behavior.
 
-Alistair
+c.f.  https://github.com/torvalds/linux/blob/9539ba4308ad5bdca6cb41c7b73cbb9f796dcdd7/kernel/signal.c#L3147
+Reviewed-by: Patrick Venture <venture@google.com>
+Signed-off-by: Shu-Chun Weng <scw@google.com>
+---
+ linux-user/syscall.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
->
-> ---
->
->  target/riscv/cpu.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index 6ef3314bce..e322e729d2 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -640,11 +640,12 @@ static Property riscv_cpu_properties[] = {
->      DEFINE_PROP_UINT16("vlen", RISCVCPU, cfg.vlen, 128),
->      DEFINE_PROP_UINT16("elen", RISCVCPU, cfg.elen, 64),
->
-> -    /* These are experimental so mark with 'x-' */
->      DEFINE_PROP_BOOL("zba", RISCVCPU, cfg.ext_zba, true),
->      DEFINE_PROP_BOOL("zbb", RISCVCPU, cfg.ext_zbb, true),
->      DEFINE_PROP_BOOL("zbc", RISCVCPU, cfg.ext_zbc, true),
->      DEFINE_PROP_BOOL("zbs", RISCVCPU, cfg.ext_zbs, true),
-> +
-> +    /* These are experimental so mark with 'x-' */
->      DEFINE_PROP_BOOL("x-h", RISCVCPU, cfg.ext_h, false),
->      DEFINE_PROP_BOOL("x-j", RISCVCPU, cfg.ext_j, false),
->      /* ePMP 0.9.3 */
-> --
-> 2.33.1
->
->
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index ce9d64896c..3070d31f34 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -9491,6 +9491,11 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+             }
+ 
+             if (arg2) {
++                if (!(p = lock_user(VERIFY_READ, arg2, sizeof(target_sigset_t), 1)))
++                    return -TARGET_EFAULT;
++                target_to_host_sigset(&set, p);
++                unlock_user(p, arg2, 0);
++                set_ptr = &set;
+                 switch(how) {
+                 case TARGET_SIG_BLOCK:
+                     how = SIG_BLOCK;
+@@ -9504,11 +9509,6 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+                 default:
+                     return -TARGET_EINVAL;
+                 }
+-                if (!(p = lock_user(VERIFY_READ, arg2, sizeof(target_sigset_t), 1)))
+-                    return -TARGET_EFAULT;
+-                target_to_host_sigset(&set, p);
+-                unlock_user(p, arg2, 0);
+-                set_ptr = &set;
+             } else {
+                 how = 0;
+                 set_ptr = NULL;
+-- 
+2.34.1.448.ga2b2bfdf31-goog
+
 
