@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 429F0486135
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 08:59:44 +0100 (CET)
-Received: from localhost ([::1]:44988 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31247486136
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 09:00:09 +0100 (CET)
+Received: from localhost ([::1]:46390 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5NgV-00014s-9s
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 02:59:43 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51794)
+	id 1n5Ngu-0002Py-6f
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 03:00:08 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51832)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1n5NU0-00054o-2u
- for qemu-devel@nongnu.org; Thu, 06 Jan 2022 02:46:48 -0500
-Received: from mail.loongson.cn ([114.242.206.163]:54304 helo=loongson.cn)
+ id 1n5NUv-0005Oy-VJ
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 02:47:47 -0500
+Received: from mail.loongson.cn ([114.242.206.163]:1024 helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1n5NTx-0006U5-Cv
- for qemu-devel@nongnu.org; Thu, 06 Jan 2022 02:46:47 -0500
+ (envelope-from <gaosong@loongson.cn>) id 1n5NUt-0006Xr-5p
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 02:47:44 -0500
 Received: from localhost.localdomain (unknown [10.2.5.185])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dx38tVntZhiAMAAA--.63S2;
- Thu, 06 Jan 2022 15:46:29 +0800 (CST)
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dx_8ucntZhlwMAAA--.61S2;
+ Thu, 06 Jan 2022 15:47:40 +0800 (CST)
 From: Song Gao <gaosong@loongson.cn>
 To: qemu-devel@nongnu.org
 Subject: [PATCH v3 0/3] Move target_signal.h generic definitions to
  generic/signal.h
-Date: Thu,  6 Jan 2022 02:46:26 -0500
-Message-Id: <20220106074629.1754559-1-gaosong@loongson.cn>
+Date: Thu,  6 Jan 2022 02:47:37 -0500
+Message-Id: <20220106074740.1754661-1-gaosong@loongson.cn>
 X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9Dx38tVntZhiAMAAA--.63S2
+X-CM-TRANSID: AQAAf9Dx_8ucntZhlwMAAA--.61S2
 X-Coremail-Antispam: 1UD129KBjvJXoW7CF4kKryUCrWxXr4UKFW7urg_yoW5JF15pa
  yfJ3s7Jr1xJrW8G347Jw17Xa48Xa4UGr1DC3Zaq34kJ34SvFWrWw1DCF4rG345XF95GFs0
- gFWDAr1DKrWUWFDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ gFWDAr1DKrWUWFDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
  9KBjDU0xBIdaVrnUUvcSsGvfC2KfnxnUUI43ZEXa7xR_UUUUUUUUU==
 X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
 Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
@@ -56,6 +56,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: gaosong@loongson.cn
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
