@@ -2,76 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E839486BDF
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 22:27:39 +0100 (CET)
-Received: from localhost ([::1]:37162 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54196486BE6
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 22:30:35 +0100 (CET)
+Received: from localhost ([::1]:43650 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5aIM-00080Z-1X
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 16:27:38 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40638)
+	id 1n5aLB-0003tz-7x
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 16:30:33 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41092)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1n5aFO-0005MJ-DF; Thu, 06 Jan 2022 16:24:35 -0500
-Received: from [2607:f8b0:4864:20::136] (port=43723
- helo=mail-il1-x136.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1n5aFM-0000yB-Pv; Thu, 06 Jan 2022 16:24:34 -0500
-Received: by mail-il1-x136.google.com with SMTP id d3so3079336ilr.10;
- Thu, 06 Jan 2022 13:24:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=3ZZgx1lKmfGR5UTPfUfTNyFikZXD7nhlz4qKMhxLYms=;
- b=m13fEMSpbueSylh5H7jt1K3JnvfAxlx4L3Um96fQBhijUccwjD4EnNO0DYZaL5g4gj
- gd5lzOcCmloTcWB0JceV997A2WE95g7N86m8GeGjEAbnqXp6MCdlO0w8RazAa+6h37dR
- wViv74/Qky7guBdt8BPGobAZX1TEFsW1KFN+sForRw9up0kahaarvnUZ0UzoyFPivAQp
- apqcWWofSurpmbwY3XiV8sifLgZVvGVM2yggWL0BQ9A1khZ4U6uKEi8KRne2t8hoYVfp
- 2dQdcqEhsiArRw/I0SLu0kuLLpQ2eIo28ldvMJn1MJnY21TSIh5WtUoL5ZrsCu69PMxk
- UM+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=3ZZgx1lKmfGR5UTPfUfTNyFikZXD7nhlz4qKMhxLYms=;
- b=yl4P3AXJhJQIn4kQ+Gof80/u1tPWcHSQzL6FrRkK9LqI64CC6ydOcyBCgETdV0SUgi
- eqU1AW+lzPT+2nWsthGFzuWjdMYIo9zueHuLiP0hvfKKNO56uq+F1BIKf24yYHNIGeO4
- Ms9tGDXajjj0PeIC3RQ6KEYICiKSeYCZOKov7QAk3cwzJwpiM5kgJU2/TAcDBiLff1x/
- Hlhfp29X3K8ulyXMmOGOvwQDdVTjoHAah4d6GDOnN6SyDzDRKUyb3VOJOfMbA9Sh+dcE
- 23bK1Wsn8rl9igJ+F6h3m93uZ5bCoJXWFn1MY5pOGwFTAoh72Gikbi5+GIB3SrJqlghN
- 21AQ==
-X-Gm-Message-State: AOAM533HVd4lz2z79s9eCun9ZN0dRQNXu59b067dvcelGq6S9tev1C4b
- GmfO9cFlP33ootikK8vNIGN50A0G1cRZkHdCms8=
-X-Google-Smtp-Source: ABdhPJxFNfpYAT2VmuyGYA2JbNrcKkEYxHnXSRgWehxa5g5y98YyAC6mzyzYxQAslJ8kn93Y/xuXUXM4f1qAeYfzaRE=
-X-Received: by 2002:a05:6e02:1569:: with SMTP id
- k9mr27242941ilu.290.1641504271157; 
- Thu, 06 Jan 2022 13:24:31 -0800 (PST)
-MIME-Version: 1.0
-References: <20220106210108.138226-1-frederic.petrot@univ-grenoble-alpes.fr>
- <20220106210108.138226-8-frederic.petrot@univ-grenoble-alpes.fr>
-In-Reply-To: <20220106210108.138226-8-frederic.petrot@univ-grenoble-alpes.fr>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 7 Jan 2022 07:24:05 +1000
-Message-ID: <CAKmqyKMB-zZKNf-HRz-=RR+wtM7UHFo4wCJUiCwF0nJrH4OzOg@mail.gmail.com>
-Subject: Re: [PATCH v8 07/18] target/riscv: setup everything for rv64 to
- support rv128 execution
-To: =?UTF-8?B?RnLDqWTDqXJpYyBQw6l0cm90?=
- <frederic.petrot@univ-grenoble-alpes.fr>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::136
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::136;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x136.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ (Exim 4.90_1) (envelope-from <maz@kernel.org>) id 1n5aHb-0007r4-Fg
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 16:26:51 -0500
+Received: from ams.source.kernel.org ([145.40.68.75]:37108)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <maz@kernel.org>) id 1n5aHV-0001XJ-Qe
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 16:26:47 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 4DDC8B8240E;
+ Thu,  6 Jan 2022 21:26:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0923DC36AE3;
+ Thu,  6 Jan 2022 21:26:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1641504397;
+ bh=O4xI8X4Ahapcy6SScuecm/AabsQ3pVKDC7fpb6BqBfM=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=ftGNL2kfWkhDTXSIo3L/n3wsqKYvVeVGvVHNC29WfVkpdNBEjBGzewHy9UHSA4xcf
+ AF27elnCSEwratleb5efXi/TmBu5MhzCrFrpRJdidXfPbeKA5QV+kvHtW6Acp+LiO7
+ L4zSuGkuxnCwJ/Vl1oxA0aud2HZtBFKYTFPnNlTlcAV4dG7DWFFBSIdZHlWh/kZ4WO
+ jkgjZafVD1gG6ETkaEjVyoNBqxID+J5MkEA/T14xtzIC3pO13PKSXUfmyhelVP1qn6
+ uvPj8up1K+AZ7VkE2C7SWko84dTsz7lZ9fUMrR+M7IT5gOAt92S47EaYLCTCN/swp1
+ eXeWT0OT+RkkA==
+Received: from sofa.misterjones.org ([185.219.108.64]
+ helo=wait-a-minute.misterjones.org)
+ by disco-boy.misterjones.org with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <maz@kernel.org>)
+ id 1n5aHL-00GRDk-5L; Thu, 06 Jan 2022 21:26:35 +0000
+Date: Thu, 06 Jan 2022 21:26:34 +0000
+Message-ID: <871r1kzhbp.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: eric.auger@redhat.com
+Subject: Re: [PATCH v3 3/5] hw/arm/virt: Honor highmem setting when computing
+ the memory map
+In-Reply-To: <ef8b3500-04ab-5434-6a04-0e8b1dcc65d1@redhat.com>
+References: <20211227211642.994461-1-maz@kernel.org>
+ <20211227211642.994461-4-maz@kernel.org>
+ <ef8b3500-04ab-5434-6a04-0e8b1dcc65d1@redhat.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
+ (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: eric.auger@redhat.com, qemu-devel@nongnu.org,
+ drjones@redhat.com, peter.maydell@linaro.org, kvmarm@lists.cs.columbia.edu,
+ kvm@vger.kernel.org, kernel-team@android.com
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org);
+ SAEximRunCond expanded to false
+Received-SPF: pass client-ip=145.40.68.75; envelope-from=maz@kernel.org;
+ helo=ams.source.kernel.org
+X-Spam_score_int: -24
+X-Spam_score: -2.5
+X-Spam_bar: --
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.372,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,66 +82,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Bin Meng <bin.meng@windriver.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Fabien Portas <fabien.portas@grenoble-inp.org>,
- Alistair Francis <alistair.francis@wdc.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
+ kvm@vger.kernel.org, qemu-devel@nongnu.org, kernel-team@android.com,
+ kvmarm@lists.cs.columbia.edu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jan 7, 2022 at 7:04 AM Fr=C3=A9d=C3=A9ric P=C3=A9trot
-<frederic.petrot@univ-grenoble-alpes.fr> wrote:
->
-> This patch adds the support of the '-cpu rv128' option to
-> qemu-system-riscv64 so that we can indicate that we want to run rv128
-> executables.
-> Still, there is no support for 128-bit insns at that stage so qemu fails
-> miserably (as expected) if launched with this option.
->
-> Signed-off-by: Fr=C3=A9d=C3=A9ric P=C3=A9trot <frederic.petrot@univ-greno=
-ble-alpes.fr>
-> Co-authored-by: Fabien Portas <fabien.portas@grenoble-inp.org>
-> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-> ---
->  include/disas/dis-asm.h |  1 +
->  target/riscv/cpu.h      |  1 +
->  disas/riscv.c           |  5 +++++
->  target/riscv/cpu.c      | 20 ++++++++++++++++++++
->  target/riscv/gdbstub.c  |  5 +++++
->  5 files changed, 32 insertions(+)
->
-> diff --git a/include/disas/dis-asm.h b/include/disas/dis-asm.h
-> index 08e1beec85..102a1e7f50 100644
-> --- a/include/disas/dis-asm.h
-> +++ b/include/disas/dis-asm.h
-> @@ -459,6 +459,7 @@ int print_insn_nios2(bfd_vma, disassemble_info*);
->  int print_insn_xtensa           (bfd_vma, disassemble_info*);
->  int print_insn_riscv32          (bfd_vma, disassemble_info*);
->  int print_insn_riscv64          (bfd_vma, disassemble_info*);
-> +int print_insn_riscv128         (bfd_vma, disassemble_info*);
->  int print_insn_rx(bfd_vma, disassemble_info *);
->  int print_insn_hexagon(bfd_vma, disassemble_info *);
->
-> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> index fa5d238530..efe481f5fb 100644
-> --- a/target/riscv/cpu.h
-> +++ b/target/riscv/cpu.h
-> @@ -38,6 +38,7 @@
->  #define TYPE_RISCV_CPU_ANY              RISCV_CPU_TYPE_NAME("any")
->  #define TYPE_RISCV_CPU_BASE32           RISCV_CPU_TYPE_NAME("rv32")
->  #define TYPE_RISCV_CPU_BASE64           RISCV_CPU_TYPE_NAME("rv64")
-> +#define TYPE_RISCV_CPU_BASE128          RISCV_CPU_TYPE_NAME("rv128")
+On Wed, 05 Jan 2022 09:22:39 +0000,
+Eric Auger <eric.auger@redhat.com> wrote:
+> 
+> Hi Marc,
+> 
+> On 12/27/21 10:16 PM, Marc Zyngier wrote:
+> > Even when the VM is configured with highmem=off, the highest_gpa
+> > field includes devices that are above the 4GiB limit.
+> > Similarily, nothing seem to check that the memory is within
+> > the limit set by the highmem=off option.
+> >
+> > This leads to failures in virt_kvm_type() on systems that have
+> > a crippled IPA range, as the reported IPA space is larger than
+> > what it should be.
+> >
+> > Instead, honor the user-specified limit to only use the devices
+> > at the lowest end of the spectrum, and fail if we have memory
+> > crossing the 4GiB limit.
+> >
+> > Reviewed-by: Andrew Jones <drjones@redhat.com>
+> > Signed-off-by: Marc Zyngier <maz@kernel.org>
+> > ---
+> >  hw/arm/virt.c | 9 ++++++++-
+> >  1 file changed, 8 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+> > index 8b600d82c1..84dd3b36fb 100644
+> > --- a/hw/arm/virt.c
+> > +++ b/hw/arm/virt.c
+> > @@ -1678,6 +1678,11 @@ static void virt_set_memmap(VirtMachineState *vms)
+> >          exit(EXIT_FAILURE);
+> >      }
+> >  
+> > +    if (!vms->highmem &&
+> > +        vms->memmap[VIRT_MEM].base + ms->maxram_size > 4 * GiB) {
+> > +        error_report("highmem=off, but memory crosses the 4GiB limit\n");
+> > +        exit(EXIT_FAILURE);
+> 
+> The memory is composed of initial memory and device memory.
+> device memory is put after the initial memory but has a 1GB alignment
+> On top of that you have 1G page alignment per device memory slot
+> 
+> so potentially the highest mem address is larger than
+> vms->memmap[VIRT_MEM].base + ms->maxram_size.
+> I would rather do the check on device_memory_base + device_memory_size
 
-As this series only adds partial support for 128-bit support, I think
-we should probably change this to "x-rv128". That way we indicate to
-users that it is experimental. That allows us more flexibility in the
-future to have breaking changes and will hopefully avoid confusion
-about the current state. What do you think? I can just make the change
-when I apply the patches.
+Yup, that's a good point.
 
-Alistair
+There is also a corner case in one of the later patches where I check
+this limit against the PA using the rounded-up device_memory_size.
+This could result in returning an error if the last memory slot would
+still fit in the PA space, but the rounded-up quantity wouldn't. I
+don't think it matters much, but I'll fix it anyway.
+
+> > +    }
+> >      /*
+> >       * We compute the base of the high IO region depending on the
+> >       * amount of initial and device memory. The device memory start/size
+> > @@ -1707,7 +1712,9 @@ static void virt_set_memmap(VirtMachineState *vms)
+> >          vms->memmap[i].size = size;
+> >          base += size;
+> >      }
+> > -    vms->highest_gpa = base - 1;
+> > +    vms->highest_gpa = (vms->highmem ?
+> > +                        base :
+> > +                        vms->memmap[VIRT_MEM].base + ms->maxram_size) - 1;
+> As per the previous comment this looks wrong to me if !highmem.
+
+Agreed.
+
+> If !highmem, if RAM requirements are low we still could get benefit from
+> REDIST2 and HIGH ECAM which could fit within the 4GB limit. But maybe we
+> simply don't care?
+
+I don't see how. These devices live at a minimum of 256GB, which
+contradicts the very meaning of !highmem being a 4GB limit.
+
+> If we don't, why don't we simply skip the extended_memmap overlay as
+> suggested in v2? I did not get your reply sorry.
+
+Because although this makes sense if you only care about a 32bit
+limit, we eventually want to check against an arbitrary PA limit and
+enable the individual devices that do fit in that space.
+
+In order to do that, we need to compute the base addresses for these
+extra devices. Also, computing 3 base addresses isn't going to be
+massively expensive.
+
+Thanks,
+
+	M.
+
+-- 
+Without deviation from the norm, progress is not possible.
 
