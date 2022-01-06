@@ -2,87 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BACA486246
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 10:43:25 +0100 (CET)
-Received: from localhost ([::1]:35674 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AB6D48624A
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 10:45:55 +0100 (CET)
+Received: from localhost ([::1]:39842 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5PIq-0000sZ-7N
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 04:43:24 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48742)
+	id 1n5PLG-0003sV-51
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 04:45:54 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48910)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n5PGj-00077W-LY
- for qemu-devel@nongnu.org; Thu, 06 Jan 2022 04:41:14 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:33724)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n5PGf-0003Fc-KC
- for qemu-devel@nongnu.org; Thu, 06 Jan 2022 04:41:12 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641462068;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Ct25VWke8niF1od2fL6v6PPtwxFWW0SPYS9d0vceNmk=;
- b=bjqqesS0CbIwoYw+h8r2eaCVzc5VFWlQguetKkVBlz57BYXeoUhl+7Un5Eu8jsO9BY61bX
- 8gUCQCCWBWfikgEVf2AkTJIw9qz9RmECZrJxOt1zPonugnDQfVWbSmjWc5VsU9pfcrNMhO
- jPKS6/jrc7h0z2TKyYvhO1Qfkq/6mLs=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-361-ZCfEbYklPfWPSEVqvoX-Fw-1; Thu, 06 Jan 2022 04:41:06 -0500
-X-MC-Unique: ZCfEbYklPfWPSEVqvoX-Fw-1
-Received: by mail-ed1-f70.google.com with SMTP id
- y10-20020a056402358a00b003f88b132849so1589028edc.0
- for <qemu-devel@nongnu.org>; Thu, 06 Jan 2022 01:41:06 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=Ct25VWke8niF1od2fL6v6PPtwxFWW0SPYS9d0vceNmk=;
- b=x9df1rlkzzWxp0TdCFYTmbsfw0MSN05uug0UMZ6Xt1UoJrS+q8C9Jfxar5Oq+H5v2+
- VSOwHbjSEX2hwUDfnDNrzFmHjLQVKw9LD7Aop2j3ePL5N/fkMUkLnY6uWyqijr4EBh0/
- hyc4uRJOBLIP/45RNRtuLuHD9mVgOolu+a2lp/qf6CeIPXH3BfMKYARzmge5dZxa7e3D
- 8gcB8FUQVwXO8UquYbWYLcBYzG+v6Poao7qpbklK2FluVKe6IPFEBg/JAVo59fOIq7h0
- gvvQD9GXhYw96DWkqpR/Jsk7mYkHWpyEecjBbmI0di+YtkDo0xdLvIuUjjR+RfdLjTBT
- toxQ==
-X-Gm-Message-State: AOAM5300bCevN5U5R9mg6QQOu87tRM3DW1cClc4zgjNVUHsIYWA5W2QQ
- JdVUXFQgBIJCbV0ePEDoiGc9rQnGYdPJEjzZsVKhR0OskBnPMwzSZvGEiq0uVL8Xd5rrZFNRg9u
- RHP0M1d2T3gAm0BU=
-X-Received: by 2002:a17:906:4918:: with SMTP id
- b24mr44723467ejq.466.1641462065749; 
- Thu, 06 Jan 2022 01:41:05 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxcrYmJBueeAKgCCvZZ2hepk6woU5H5oow21aZJO1stHWJV6J0SScyuo2KmJqvw5QEtitCKyA==
-X-Received: by 2002:a17:906:4918:: with SMTP id
- b24mr44723456ejq.466.1641462065521; 
- Thu, 06 Jan 2022 01:41:05 -0800 (PST)
-Received: from redhat.com ([2a03:c5c0:207e:991b:6857:5652:b903:a63b])
- by smtp.gmail.com with ESMTPSA id l10sm364044ejh.102.2022.01.06.01.41.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Jan 2022 01:41:04 -0800 (PST)
-Date: Thu, 6 Jan 2022 04:41:02 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Antonio Caggiano <antonio.caggiano@collabora.com>
-Subject: Re: [PATCH 1/2] virtio-gpu: hostmem
-Message-ID: <20220106043549-mutt-send-email-mst@kernel.org>
-References: <20211110164220.273641-1-antonio.caggiano@collabora.com>
- <20211110164220.273641-2-antonio.caggiano@collabora.com>
+ (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
+ id 1n5PHk-0008RZ-0p
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 04:42:16 -0500
+Received: from mail.loongson.cn ([114.242.206.163]:56582 helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <gaosong@loongson.cn>) id 1n5PHe-0003Qr-EE
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 04:42:13 -0500
+Received: from localhost.localdomain (unknown [10.2.5.185])
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dxz8toudZhmQsAAA--.229S2;
+ Thu, 06 Jan 2022 17:42:00 +0800 (CST)
+From: Song Gao <gaosong@loongson.cn>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v14 00/26] Add LoongArch linux-user emulation support
+Date: Thu,  6 Jan 2022 04:41:34 -0500
+Message-Id: <20220106094200.1801206-1-gaosong@loongson.cn>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-In-Reply-To: <20211110164220.273641-2-antonio.caggiano@collabora.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.372,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf9Dxz8toudZhmQsAAA--.229S2
+X-Coremail-Antispam: 1UD129KBjvJXoW3Ww45Ar1rCFy5Xw43Ar47urg_yoWxZr1xpr
+ W3ur15Kw48GrZ7Jrs2qay5ZryrXa1xGr4293WSq3s5CrWIvryfZF1kK3sxKFy3X3W0gry0
+ qFnYkw1UWF4UXaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnUUvcSsGvfC2KfnxnUUI43ZEXa7xR_UUUUUUUUU==
+X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
+Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
+ helo=loongson.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,143 +55,153 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Nov 10, 2021 at 05:42:19PM +0100, Antonio Caggiano wrote:
-> From: Gerd Hoffmann <kraxel@redhat.com>
-> 
-> Use VIRTIO_GPU_SHM_ID_HOST_VISIBLE as id for virtio-gpu.
-> 
-> Signed-off-by: Antonio Caggiano <antonio.caggiano@collabora.com>
+Based-on: <20220106074740.1754661-1-gaosong@loongson.cn>
 
-I guess Gerd can apply this as appropriate.
+Hi all,
 
-Acked-by: Michael S. Tsirkin <mst@redhat.com>
+This series only support linux-user emulation.
+More about LoongArch at: https://github.com/loongson/
 
-> ---
->  hw/display/virtio-gpu-pci.c    | 14 ++++++++++++++
->  hw/display/virtio-gpu.c        |  1 +
->  hw/display/virtio-vga.c        | 32 +++++++++++++++++++++++---------
->  include/hw/virtio/virtio-gpu.h |  5 +++++
->  4 files changed, 43 insertions(+), 9 deletions(-)
-> 
-> diff --git a/hw/display/virtio-gpu-pci.c b/hw/display/virtio-gpu-pci.c
-> index e36eee0c40..a79bd751b2 100644
-> --- a/hw/display/virtio-gpu-pci.c
-> +++ b/hw/display/virtio-gpu-pci.c
-> @@ -33,6 +33,20 @@ static void virtio_gpu_pci_base_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
->      DeviceState *vdev = DEVICE(g);
->      int i;
->  
-> +    if (virtio_gpu_hostmem_enabled(g->conf)) {
-> +        vpci_dev->msix_bar_idx = 1;
-> +        vpci_dev->modern_mem_bar_idx = 2;
-> +        memory_region_init(&g->hostmem, OBJECT(g), "virtio-gpu-hostmem",
-> +                           g->conf.hostmem);
-> +        pci_register_bar(&vpci_dev->pci_dev, 4,
-> +                         PCI_BASE_ADDRESS_SPACE_MEMORY |
-> +                         PCI_BASE_ADDRESS_MEM_PREFETCH |
-> +                         PCI_BASE_ADDRESS_MEM_TYPE_64,
-> +                         &g->hostmem);
-> +        virtio_pci_add_shm_cap(vpci_dev, 4, 0, g->conf.hostmem, VIRTIO_GPU_SHM_ID_HOST_VISIBLE);
-> +    }
-> +
-> +    qdev_set_parent_bus(vdev, BUS(&vpci_dev->bus), errp);
->      virtio_pci_force_virtio_1(vpci_dev);
->      if (!qdev_realize(vdev, BUS(&vpci_dev->bus), errp)) {
->          return;
-> diff --git a/hw/display/virtio-gpu.c b/hw/display/virtio-gpu.c
-> index d78b9700c7..1cfcb81c1b 100644
-> --- a/hw/display/virtio-gpu.c
-> +++ b/hw/display/virtio-gpu.c
-> @@ -1418,6 +1418,7 @@ static Property virtio_gpu_properties[] = {
->                       256 * MiB),
->      DEFINE_PROP_BIT("blob", VirtIOGPU, parent_obj.conf.flags,
->                      VIRTIO_GPU_FLAG_BLOB_ENABLED, false),
-> +    DEFINE_PROP_SIZE("hostmem", VirtIOGPU, parent_obj.conf.hostmem, 0),
->      DEFINE_PROP_END_OF_LIST(),
->  };
->  
-> diff --git a/hw/display/virtio-vga.c b/hw/display/virtio-vga.c
-> index 9e57f61e9e..ca841a0799 100644
-> --- a/hw/display/virtio-vga.c
-> +++ b/hw/display/virtio-vga.c
-> @@ -125,16 +125,30 @@ static void virtio_vga_base_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
->      pci_register_bar(&vpci_dev->pci_dev, 0,
->                       PCI_BASE_ADDRESS_MEM_PREFETCH, &vga->vram);
->  
-> -    /*
-> -     * Configure virtio bar and regions
-> -     *
-> -     * We use bar #2 for the mmio regions, to be compatible with stdvga.
-> -     * virtio regions are moved to the end of bar #2, to make room for
-> -     * the stdvga mmio registers at the start of bar #2.
-> -     */
-> -    vpci_dev->modern_mem_bar_idx = 2;
-> -    vpci_dev->msix_bar_idx = 4;
->      vpci_dev->modern_io_bar_idx = 5;
-> +  
-> +    if (!virtio_gpu_hostmem_enabled(g->conf)) {
-> +        /*
-> +        * Configure virtio bar and regions
-> +        *
-> +        * We use bar #2 for the mmio regions, to be compatible with stdvga.
-> +        * virtio regions are moved to the end of bar #2, to make room for
-> +        * the stdvga mmio registers at the start of bar #2.
-> +        */
-> +        vpci_dev->modern_mem_bar_idx = 2;
-> +        vpci_dev->msix_bar_idx = 4;
-> +    } else {
-> +        vpci_dev->msix_bar_idx = 1;
-> +        vpci_dev->modern_mem_bar_idx = 2;
-> +        memory_region_init(&g->hostmem, OBJECT(g), "virtio-gpu-hostmem",
-> +                           g->conf.hostmem);
-> +        pci_register_bar(&vpci_dev->pci_dev, 4,
-> +                         PCI_BASE_ADDRESS_SPACE_MEMORY |
-> +                         PCI_BASE_ADDRESS_MEM_PREFETCH |
-> +                         PCI_BASE_ADDRESS_MEM_TYPE_64,
-> +                         &g->hostmem);
-> +        virtio_pci_add_shm_cap(vpci_dev, 4, 0, g->conf.hostmem, VIRTIO_GPU_SHM_ID_HOST_VISIBLE);
-> +    }
->  
->      if (!(vpci_dev->flags & VIRTIO_PCI_FLAG_PAGE_PER_VQ)) {
->          /*
-> diff --git a/include/hw/virtio/virtio-gpu.h b/include/hw/virtio/virtio-gpu.h
-> index acfba7c76c..3963cb4f86 100644
-> --- a/include/hw/virtio/virtio-gpu.h
-> +++ b/include/hw/virtio/virtio-gpu.h
-> @@ -102,12 +102,15 @@ enum virtio_gpu_base_conf_flags {
->      (_cfg.flags & (1 << VIRTIO_GPU_FLAG_DMABUF_ENABLED))
->  #define virtio_gpu_blob_enabled(_cfg) \
->      (_cfg.flags & (1 << VIRTIO_GPU_FLAG_BLOB_ENABLED))
-> +#define virtio_gpu_hostmem_enabled(_cfg) \
-> +    (_cfg.hostmem > 0)
->  
+The latest kernel:
+  * https://github.com/loongson/linux/tree/loongarch-next
 
-Don't much like the lower-case macro here, but I guess it's
-consistent with rest of the code.
+Patches need review:
+  * 0018-linux-user-Add-LoongArch-specific-structures.patch
+  * 0019-linux-user-Add-LoongArch-signal-support.patch
 
->  struct virtio_gpu_base_conf {
->      uint32_t max_outputs;
->      uint32_t flags;
->      uint32_t xres;
->      uint32_t yres;
-> +    uint64_t hostmem;
->  };
->  
->  struct virtio_gpu_ctrl_command {
-> @@ -131,6 +134,8 @@ struct VirtIOGPUBase {
->      int renderer_blocked;
->      int enable;
->  
-> +    MemoryRegion hostmem;
-> +
->      struct virtio_gpu_scanout scanout[VIRTIO_GPU_MAX_SCANOUTS];
->  
->      int enabled_output_bitmask;
-> -- 
-> 2.32.0
+Changes for v14:
+  * Rebase;
+  * Update README, use new clfs-system/cross-tools test.
+
+V13:
+https://patchew.org/QEMU/1638610165-15036-1-git-send-email-gaosong@loongson.cn/
+
+Please review! Thanks.
+
+Song Gao (26):
+  target/loongarch: Add README
+  target/loongarch: Add core definition
+  target/loongarch: Add main translation routines
+  target/loongarch: Add fixed point arithmetic instruction translation
+  target/loongarch: Add fixed point shift instruction translation
+  target/loongarch: Add fixed point bit instruction translation
+  target/loongarch: Add fixed point load/store instruction translation
+  target/loongarch: Add fixed point atomic instruction translation
+  target/loongarch: Add fixed point extra instruction translation
+  target/loongarch: Add floating point arithmetic instruction
+    translation
+  target/loongarch: Add floating point comparison instruction
+    translation
+  target/loongarch: Add floating point conversion instruction
+    translation
+  target/loongarch: Add floating point move instruction translation
+  target/loongarch: Add floating point load/store instruction
+    translation
+  target/loongarch: Add branch instruction translation
+  target/loongarch: Add disassembler
+  linux-user: Add LoongArch generic header files
+  linux-user: Add LoongArch specific structures
+  linux-user: Add LoongArch signal support
+  linux-user: Add LoongArch elf support
+  linux-user: Add LoongArch syscall support
+  linux-user: Add LoongArch cpu_loop support
+  default-configs: Add loongarch linux-user support
+  target/loongarch: Add target build suport
+  target/loongarch: 'make check-tcg' support
+  scripts: add loongarch64 binfmt config
+
+ MAINTAINERS                                   |   5 +
+ configs/targets/loongarch64-linux-user.mak    |   3 +
+ configure                                     |   3 +
+ include/disas/dis-asm.h                       |   2 +
+ linux-user/elfload.c                          |  53 ++
+ linux-user/loongarch64/cpu_loop.c             |  94 ++
+ linux-user/loongarch64/signal.c               | 198 ++++
+ linux-user/loongarch64/sockbits.h             |  11 +
+ linux-user/loongarch64/syscall_nr.h           | 313 +++++++
+ linux-user/loongarch64/target_cpu.h           |  34 +
+ linux-user/loongarch64/target_elf.h           |  12 +
+ linux-user/loongarch64/target_errno_defs.h    |  12 +
+ linux-user/loongarch64/target_fcntl.h         |  11 +
+ linux-user/loongarch64/target_signal.h        |  13 +
+ linux-user/loongarch64/target_structs.h       |  47 +
+ linux-user/loongarch64/target_syscall.h       |  48 +
+ linux-user/loongarch64/termbits.h             |  11 +
+ linux-user/syscall_defs.h                     |  10 +-
+ meson.build                                   |   1 +
+ scripts/gensyscalls.sh                        |   1 +
+ scripts/qemu-binfmt-conf.sh                   |   6 +-
+ target/loongarch/README                       |  77 ++
+ target/loongarch/cpu-param.h                  |  18 +
+ target/loongarch/cpu.c                        | 315 +++++++
+ target/loongarch/cpu.h                        | 252 +++++
+ target/loongarch/disas.c                      | 612 +++++++++++++
+ target/loongarch/fpu_helper.c                 | 862 ++++++++++++++++++
+ target/loongarch/helper.h                     |  94 ++
+ target/loongarch/insn_trans/trans_arith.c.inc | 304 ++++++
+ .../loongarch/insn_trans/trans_atomic.c.inc   | 114 +++
+ target/loongarch/insn_trans/trans_bit.c.inc   | 212 +++++
+ .../loongarch/insn_trans/trans_branch.c.inc   |  83 ++
+ target/loongarch/insn_trans/trans_extra.c.inc |  86 ++
+ .../loongarch/insn_trans/trans_farith.c.inc   | 105 +++
+ target/loongarch/insn_trans/trans_fcmp.c.inc  |  56 ++
+ target/loongarch/insn_trans/trans_fcnv.c.inc  |  33 +
+ .../loongarch/insn_trans/trans_fmemory.c.inc  | 153 ++++
+ target/loongarch/insn_trans/trans_fmov.c.inc  | 157 ++++
+ .../loongarch/insn_trans/trans_memory.c.inc   | 229 +++++
+ target/loongarch/insn_trans/trans_shift.c.inc | 106 +++
+ target/loongarch/insns.decode                 | 442 +++++++++
+ target/loongarch/internals.h                  |  28 +
+ target/loongarch/meson.build                  |  19 +
+ target/loongarch/op_helper.c                  |  85 ++
+ target/loongarch/translate.c                  | 268 ++++++
+ target/loongarch/translate.h                  |  45 +
+ target/meson.build                            |   1 +
+ tests/tcg/configure.sh                        |   1 +
+ 48 files changed, 5640 insertions(+), 5 deletions(-)
+ create mode 100644 configs/targets/loongarch64-linux-user.mak
+ create mode 100644 linux-user/loongarch64/cpu_loop.c
+ create mode 100644 linux-user/loongarch64/signal.c
+ create mode 100644 linux-user/loongarch64/sockbits.h
+ create mode 100644 linux-user/loongarch64/syscall_nr.h
+ create mode 100644 linux-user/loongarch64/target_cpu.h
+ create mode 100644 linux-user/loongarch64/target_elf.h
+ create mode 100644 linux-user/loongarch64/target_errno_defs.h
+ create mode 100644 linux-user/loongarch64/target_fcntl.h
+ create mode 100644 linux-user/loongarch64/target_signal.h
+ create mode 100644 linux-user/loongarch64/target_structs.h
+ create mode 100644 linux-user/loongarch64/target_syscall.h
+ create mode 100644 linux-user/loongarch64/termbits.h
+ create mode 100644 target/loongarch/README
+ create mode 100644 target/loongarch/cpu-param.h
+ create mode 100644 target/loongarch/cpu.c
+ create mode 100644 target/loongarch/cpu.h
+ create mode 100644 target/loongarch/disas.c
+ create mode 100644 target/loongarch/fpu_helper.c
+ create mode 100644 target/loongarch/helper.h
+ create mode 100644 target/loongarch/insn_trans/trans_arith.c.inc
+ create mode 100644 target/loongarch/insn_trans/trans_atomic.c.inc
+ create mode 100644 target/loongarch/insn_trans/trans_bit.c.inc
+ create mode 100644 target/loongarch/insn_trans/trans_branch.c.inc
+ create mode 100644 target/loongarch/insn_trans/trans_extra.c.inc
+ create mode 100644 target/loongarch/insn_trans/trans_farith.c.inc
+ create mode 100644 target/loongarch/insn_trans/trans_fcmp.c.inc
+ create mode 100644 target/loongarch/insn_trans/trans_fcnv.c.inc
+ create mode 100644 target/loongarch/insn_trans/trans_fmemory.c.inc
+ create mode 100644 target/loongarch/insn_trans/trans_fmov.c.inc
+ create mode 100644 target/loongarch/insn_trans/trans_memory.c.inc
+ create mode 100644 target/loongarch/insn_trans/trans_shift.c.inc
+ create mode 100644 target/loongarch/insns.decode
+ create mode 100644 target/loongarch/internals.h
+ create mode 100644 target/loongarch/meson.build
+ create mode 100644 target/loongarch/op_helper.c
+ create mode 100644 target/loongarch/translate.c
+ create mode 100644 target/loongarch/translate.h
+
+-- 
+2.27.0
 
 
