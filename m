@@ -2,91 +2,110 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FBD1486603
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 15:27:54 +0100 (CET)
-Received: from localhost ([::1]:51500 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1EE5486613
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 15:31:29 +0100 (CET)
+Received: from localhost ([::1]:33058 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5Tk9-0008Ov-Jj
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 09:27:53 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50612)
+	id 1n5Tnc-0006kM-Mc
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 09:31:28 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51716)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n5TGJ-0004hB-Bs
- for qemu-devel@nongnu.org; Thu, 06 Jan 2022 08:57:04 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:55481)
+ (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
+ id 1n5TKs-0004Ht-Nf
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 09:01:47 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:45522)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n5TGH-0002Qo-Ju
- for qemu-devel@nongnu.org; Thu, 06 Jan 2022 08:57:02 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641477419;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=UncPi/vrDQTvd0vKZfvdjxNQGeZZla6kywlULdA2M8M=;
- b=DVW3weEd+tyvZf4pwUz23PmklMY5OdxX05Xdo8cjGXYq2kSZRw4IHbq/zFWa14mMbL3ZdC
- eE5NXfwy35FNNIw06v0dVOO6r045oHtTAaOoLds7ORlP8fg42n1L5bnreit+a96hswx3E2
- Nm9kXHd2Bpm4o0B+HfZQuxi4TWhh6Jo=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-79-O6NbDqYTMzCIdVNZqvBluw-1; Thu, 06 Jan 2022 08:56:51 -0500
-X-MC-Unique: O6NbDqYTMzCIdVNZqvBluw-1
-Received: by mail-wr1-f72.google.com with SMTP id
- s30-20020adfa29e000000b001a25caee635so1282349wra.19
- for <qemu-devel@nongnu.org>; Thu, 06 Jan 2022 05:56:51 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=UncPi/vrDQTvd0vKZfvdjxNQGeZZla6kywlULdA2M8M=;
- b=ia8cEPxrRhloMYsr3szPT/s9sIuI06K+VKZV3GZvZaXpvl0RFnMY8hGgEoUjo4wEeI
- 32Mjc7oL+mATVhCARYAp70e9xOsYvaB0E8esu4WO+pjKur0mcOh+dumZKk9o2cocZIdv
- 2eXbOyCTDz3VuOVMPK8/Uh5G+LUasuG3yXVdoSoO32y2OlddLPfcl9Y+rpUV0icGaznh
- 5lzY1FnPwJrVm1MAoAzQgdcKiwuByq021dsJJZvXhOjt/3QXG7mOmLiAw60R/XRvfcHY
- LqAsWWQ6HOQiaae5GzVlKr1DUUdrLWeAQDuCxb5BShZh2BqVTPOrElbTdBtLE9z7jCir
- cjOg==
-X-Gm-Message-State: AOAM530eDsH13KKrNjDFnd3xLEqNnXtMmjLhhXoL2zD7qBzntiz4gTRY
- sP7+x/NDZP5yLDRkOy6uCa6nOVhg7MiiROyBgbJXJfy31NTDMh8xXzyEhdqgnlQCymgTkGJPhOG
- aCz9g6Joc8El6GBM=
-X-Received: by 2002:a5d:64aa:: with SMTP id m10mr52594841wrp.500.1641477410244; 
- Thu, 06 Jan 2022 05:56:50 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwo01iIVyFQqTkaqgCeGeHf0StfUq2nsos1SSWPAGX8JUrxb9hMDKP13PjX3K5OCO1L0/N3Kw==
-X-Received: by 2002:a5d:64aa:: with SMTP id m10mr52594831wrp.500.1641477410044; 
- Thu, 06 Jan 2022 05:56:50 -0800 (PST)
-Received: from redhat.com ([2a03:c5c0:207e:991b:6857:5652:b903:a63b])
- by smtp.gmail.com with ESMTPSA id q14sm2105165wro.58.2022.01.06.05.56.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Jan 2022 05:56:49 -0800 (PST)
-Date: Thu, 6 Jan 2022 08:56:46 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Stefan Berger <stefanb@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <stefanb@linux.ibm.com>)
+ id 1n5TKp-0003oW-Oh
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 09:01:45 -0500
+Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 206DgDHV014278; 
+ Thu, 6 Jan 2022 14:01:41 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=2IlaSv3nIJ+Kwuk5hntqVZ/j+r4xhe7Mqq4ivpXhkAI=;
+ b=YPIYLU48CkmOD5L0qGLNb2WRIiY0lk/7CIW4oPCDto4M+bTXf1BSd43AKVneEWxtN13P
+ z5+u+f0pyEoZlaCDck4+cK2o3s+0HswlgRWGLbPpQi9t50Eo4Icl0Iv47TG+wsAV9Ybu
+ M8vzpDanwOGGUF1ggbuAmycqryg5VSyaOiw3m1VOYLCU+knZLMHNpASMz+iKJUWT0MC8
+ hnHfUC5q0IUT6LdGDRzBDqz4JC+ON/eAAXtR3bgV6u/uf/+JHkhRWdMVBkgvPv6vUp4D
+ dY9wwXVL4HCN1+0ARYZ4NHL/7RD+vZOLAzOmCzgneK3yP2XwuBdjuyBgL5Cqnf4FnyBG Ng== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3de1hj0ch7-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 06 Jan 2022 14:01:40 +0000
+Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 206DwEw0018814;
+ Thu, 6 Jan 2022 14:01:40 GMT
+Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.11])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3de1hj0cgs-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 06 Jan 2022 14:01:40 +0000
+Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
+ by ppma03dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 206Dv7Kv029073;
+ Thu, 6 Jan 2022 14:01:39 GMT
+Received: from b03cxnp08027.gho.boulder.ibm.com
+ (b03cxnp08027.gho.boulder.ibm.com [9.17.130.19])
+ by ppma03dal.us.ibm.com with ESMTP id 3ddmtkpvxd-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 06 Jan 2022 14:01:39 +0000
+Received: from b03ledav001.gho.boulder.ibm.com
+ (b03ledav001.gho.boulder.ibm.com [9.17.130.232])
+ by b03cxnp08027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 206E1c4013500714
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 6 Jan 2022 14:01:38 GMT
+Received: from b03ledav001.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 0FD466E072;
+ Thu,  6 Jan 2022 14:01:38 +0000 (GMT)
+Received: from b03ledav001.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 08D726E054;
+ Thu,  6 Jan 2022 14:01:36 +0000 (GMT)
+Received: from [9.47.158.152] (unknown [9.47.158.152])
+ by b03ledav001.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Thu,  6 Jan 2022 14:01:36 +0000 (GMT)
+Message-ID: <bc4b7631-6bf5-ce30-8710-48f0369f688c@linux.ibm.com>
+Date: Thu, 6 Jan 2022 09:01:36 -0500
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
 Subject: Re: [PATCH v5 2/3] acpi: tpm: Add missing device identification
  objects
-Message-ID: <20220106085502-mutt-send-email-mst@kernel.org>
+Content-Language: en-US
+To: "Michael S. Tsirkin" <mst@redhat.com>
 References: <20220104175806.872996-1-stefanb@linux.ibm.com>
  <20220104175806.872996-3-stefanb@linux.ibm.com>
  <20220106093636.7fc7755f@redhat.com>
  <6096f301-4c39-e39c-eb5f-9f7d22ba1260@linux.ibm.com>
-MIME-Version: 1.0
-In-Reply-To: <6096f301-4c39-e39c-eb5f-9f7d22ba1260@linux.ibm.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+ <20220106085502-mutt-send-email-mst@kernel.org>
+From: Stefan Berger <stefanb@linux.ibm.com>
+In-Reply-To: <20220106085502-mutt-send-email-mst@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.372,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: P3LVM7905o7D-PhO6iPpLJMo_AAkGOSW
+X-Proofpoint-ORIG-GUID: RWOPmRQpc9GyDlurIHEPLDGfCrh10R26
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
+ definitions=2022-01-06_05,2022-01-06_01,2021-12-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxlogscore=999
+ priorityscore=1501 clxscore=1015 adultscore=0 mlxscore=0 bulkscore=0
+ malwarescore=0 suspectscore=0 phishscore=0 impostorscore=0 spamscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2112160000 definitions=main-2201060099
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=stefanb@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -46
+X-Spam_score: -4.7
+X-Spam_bar: ----
+X-Spam_report: (-4.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.691,
+ RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,45 +124,49 @@ Cc: Ani Sinha <ani@anisinha.ca>, Igor Mammedov <imammedo@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jan 06, 2022 at 08:53:00AM -0500, Stefan Berger wrote:
-> 
-> On 1/6/22 03:36, Igor Mammedov wrote:
-> > On Tue,  4 Jan 2022 12:58:05 -0500
-> > Stefan Berger <stefanb@linux.ibm.com> wrote:
-> > 
-> > > Add missing TPM device identification objects _STR and _UID. They will
-> > > appear as files 'description' and 'uid' under Linux sysfs.
-> > > 
-> > > Following inspection of sysfs entries for hardware TPMs we chose
-> > > uid '1'.
-> > My guess would be that buy default (in case of missing UID), OSPM
-> > will start enumerate from 0. So I think 0 is more safer choice
-> > when it comes to compatibility.
-> > 
-> > Can you smoke test TPM with Windows, and check if adding UID doesn't
-> > break anything if VM actually uses TMP (though I'm not sure how to
-> > check it on Windows, maybe install Windows 11 without this patch
-> > and then see if it still boots pre-installed VM and nothing is broken
-> > after this patch)?
-> > 
-> I smoke tested it with the posted patches applied to v6.2.0 and started 3
-> VMs with it:
-> 
-> - Linux shows uid = 1 and the description "TPM 2.0 Device" in sysfs
-> 
-> - Win 10 and Win 11 tpm.msc tool are both showing that the TPM is 'ready for
-> use'
-> 
->     Stefan
-> 
 
-Just to make sure, what Igor was concerned about is issues like
-we had with e.g. network devices, when changing UID makes
-windows think it's a new device and lose configuration
-created on old qemu on boot with a new qemu.
-Not sure what can be configured with a TPM device though ...
+On 1/6/22 08:56, Michael S. Tsirkin wrote:
+> On Thu, Jan 06, 2022 at 08:53:00AM -0500, Stefan Berger wrote:
+>> On 1/6/22 03:36, Igor Mammedov wrote:
+>>> On Tue,  4 Jan 2022 12:58:05 -0500
+>>> Stefan Berger <stefanb@linux.ibm.com> wrote:
+>>>
+>>>> Add missing TPM device identification objects _STR and _UID. They will
+>>>> appear as files 'description' and 'uid' under Linux sysfs.
+>>>>
+>>>> Following inspection of sysfs entries for hardware TPMs we chose
+>>>> uid '1'.
+>>> My guess would be that buy default (in case of missing UID), OSPM
+>>> will start enumerate from 0. So I think 0 is more safer choice
+>>> when it comes to compatibility.
+>>>
+>>> Can you smoke test TPM with Windows, and check if adding UID doesn't
+>>> break anything if VM actually uses TMP (though I'm not sure how to
+>>> check it on Windows, maybe install Windows 11 without this patch
+>>> and then see if it still boots pre-installed VM and nothing is broken
+>>> after this patch)?
+>>>
+>> I smoke tested it with the posted patches applied to v6.2.0 and started 3
+>> VMs with it:
+>>
+>> - Linux shows uid = 1 and the description "TPM 2.0 Device" in sysfs
+>>
+>> - Win 10 and Win 11 tpm.msc tool are both showing that the TPM is 'ready for
+>> use'
+>>
+>>  Â Â Â  Stefan
+>>
+> Just to make sure, what Igor was concerned about is issues like
+> we had with e.g. network devices, when changing UID makes
+> windows think it's a new device and lose configuration
+> created on old qemu on boot with a new qemu.
+> Not sure what can be configured with a TPM device though ...
 
--- 
-MST
+The VMs were all created on an old qemu and booted into the patched 
+qemu. They hadn't seen the new ACPI entries before, for sure not when 
+they were installed.
 
+
+
+>
 
