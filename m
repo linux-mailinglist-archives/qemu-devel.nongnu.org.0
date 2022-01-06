@@ -2,72 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADA7E486BD6
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 22:23:37 +0100 (CET)
-Received: from localhost ([::1]:57214 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D909486BE4
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 22:29:25 +0100 (CET)
+Received: from localhost ([::1]:40776 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5aER-0002Gk-8W
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 16:23:35 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36472)
+	id 1n5aK4-0001xN-9K
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 16:29:24 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:38990)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <frederic.petrot@univ-grenoble-alpes.fr>)
- id 1n5ZtU-0002YL-G8; Thu, 06 Jan 2022 16:01:57 -0500
-Received: from zm-mta-out-3.u-ga.fr ([152.77.200.56]:56458)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <frederic.petrot@univ-grenoble-alpes.fr>)
- id 1n5ZtQ-0002ks-Ki; Thu, 06 Jan 2022 16:01:56 -0500
-Received: from mailhost.u-ga.fr (mailhost1.u-ga.fr [152.77.1.10])
- by zm-mta-out-3.u-ga.fr (Postfix) with ESMTP id 551A240443;
- Thu,  6 Jan 2022 22:01:25 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=univ-grenoble-alpes.fr; s=2020; t=1641502885;
- bh=DCh7CsMxkKWK3fW6w3a7uNXAMN2QblFSeUJQB9vvuh4=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=nyX8xIjVqc35bd7gjwLuLc45ynVjHi6HTwUpKBeDI4vKj6+19zwRW6hWlJCUuBf03
- 3w4c49FBxTFL9RYwVJ36Vjz0MVVF1sELNR465nwH+cKlZebkBLNjyAuJEY6bL7ahC3
- isXTVure+doS2YOn7ne6SMCnKKnv4u/ZGCxM27xlta9UW/zY4KLi3u4tNCbAAHqXhs
- socZIWzuLnvUGnxYdmf1Bz+aD2m2YOr3z98Dkm3j+dg8kg8sDkkRGffYofgSY5g5Sn
- PIlrbwVynrUgq7/oElhi1Tr6u4PYBYVTNaHjRlUMb24GlVllhOi+6KTAGRd2Uuj8+V
- Z3CC3uDhoTPqQ==
-Received: from smtps.univ-grenoble-alpes.fr (smtps2.u-ga.fr [152.77.18.2])
- by mailhost.u-ga.fr (Postfix) with ESMTP id 3FB0260074;
- Thu,  6 Jan 2022 22:01:25 +0100 (CET)
-Received: from palmier.tima.u-ga.fr (35.201.90.79.rev.sfr.net [79.90.201.35])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- (Authenticated sender: petrotf@univ-grenoble-alpes.fr)
- by smtps.univ-grenoble-alpes.fr (Postfix) with ESMTPSA id 0A30214007F;
- Thu,  6 Jan 2022 22:01:25 +0100 (CET)
-From: =?UTF-8?q?Fr=C3=A9d=C3=A9ric=20P=C3=A9trot?=
- <frederic.petrot@univ-grenoble-alpes.fr>
-To: qemu-devel@nongnu.org,
-	qemu-riscv@nongnu.org
-Subject: [PATCH v8 18/18] target/riscv: actual functions to realize crs
- 128-bit insns
-Date: Thu,  6 Jan 2022 22:01:08 +0100
-Message-Id: <20220106210108.138226-19-frederic.petrot@univ-grenoble-alpes.fr>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220106210108.138226-1-frederic.petrot@univ-grenoble-alpes.fr>
-References: <20220106210108.138226-1-frederic.petrot@univ-grenoble-alpes.fr>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1n5a6T-0008Mm-24
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 16:15:22 -0500
+Received: from [2607:f8b0:4864:20::534] (port=43847
+ helo=mail-pg1-x534.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1n5a6N-00084V-SR
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 16:15:18 -0500
+Received: by mail-pg1-x534.google.com with SMTP id 8so3655281pgc.10
+ for <qemu-devel@nongnu.org>; Thu, 06 Jan 2022 13:15:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:references:from:message-id:date:user-agent:mime-version
+ :in-reply-to:content-language:content-transfer-encoding;
+ bh=PbblvKE89Ps02MIvy62YDLj76oHV2ovedH316jVKUz0=;
+ b=uicu9nX1Z79E+GLHBgLgJPRQCtAQFlyMV9XF2inocsCPdmCalov2ILCWJG5sz61GSr
+ Hh6jQJqSQ/GOhpRF/ACjeIbHHtcBmb8dD/8cBwRtOXNLnpmm8pLEk9JZpWgaZlcZDsij
+ qfvZX6C+fIkDsvf/lr/Zpz1m9I+IuWZqyY6tuWv+FuEspvVcO3MraRZnBswA3I1VPNYf
+ KxK9FuY6oocfCQJiSPvtJAdDcW50gxFqXyJIEcZeU1MRfTGubWr9Dpbf5mlKAO9+hJ/X
+ FAjv+Dp36xyh42d7zNVaxG6y1kPeyCHGxDj9v6u86J1oVp5KHfOjI5+zs7sdUqp6/W+8
+ p3aA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=PbblvKE89Ps02MIvy62YDLj76oHV2ovedH316jVKUz0=;
+ b=nzMinWE98VoKd4jJ7snAuoiT+Hv4DAAnbaSDbWw557zuRI1GJKYGJnFvVHVM9rXd9y
+ aVUIqeQej+RM7RU7ZrR7MnpkzZZCyRk/qRn9jKe/q/uNFNhZjZdDayFU2PNHXxSmmRCC
+ jvc3KiS+Iny62zS0NcVIfV4Ov7fG7pmY6u69GIBznPmvDNDKzLxuSDPDJq2xAz3paBe+
+ UZq9q2r6VvyiEA/SHGrfhGTJ8a826eLM6F1oxoVjSiO87zwdzFXbT/Hf4/pliqOuI89e
+ kviyyeJa/OvjCtL+ltL+IeXonROgf6rlVWZcZjzPtxmpvhU0vJP3qwuKV1j+2I+Ov8lb
+ HwZw==
+X-Gm-Message-State: AOAM5322cO0zDiRrZ2NjiMGx7k7WdzJwS4hNiwkm5qNYVfgwK4Dq/XCe
+ X5yKjs6ozPj7Wrgm+PYQo3bx1qLE63VqBw==
+X-Google-Smtp-Source: ABdhPJwoxDQobw+DZIky82RGOyXISniAzpETay+vZoNr50mt6egSk2IixIiIn+4uTb9lRg4/jQ4O+w==
+X-Received: by 2002:a63:ab4a:: with SMTP id k10mr52600601pgp.105.1641503713868; 
+ Thu, 06 Jan 2022 13:15:13 -0800 (PST)
+Received: from [192.168.1.13] (174-21-75-75.tukw.qwest.net. [174.21.75.75])
+ by smtp.gmail.com with ESMTPSA id k3sm6249pjt.39.2022.01.06.13.15.13
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 06 Jan 2022 13:15:13 -0800 (PST)
+Subject: Re: [PULL 00/27] Linux user for 7.0 patches
+To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
+References: <20220106104137.732883-1-laurent@vivier.eu>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <d71343e5-c1f6-d433-393b-4ce0cc9e5527@linaro.org>
+Date: Thu, 6 Jan 2022 13:15:12 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <20220106104137.732883-1-laurent@vivier.eu>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-Greylist: Whitelist-UGA SMTP Authentifie (petrotf@univ-grenoble-alpes.fr)
- via submission-587 ACL (42)
-X-Greylist: Whitelist-UGA MAILHOST (SMTP non authentifie) depuis 152.77.18.2
-Received-SPF: pass client-ip=152.77.200.56;
- envelope-from=frederic.petrot@univ-grenoble-alpes.fr;
- helo=zm-mta-out-3.u-ga.fr
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::534
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::534;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x534.google.com
+X-Spam_score_int: -39
+X-Spam_score: -4.0
+X-Spam_bar: ----
+X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.691,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,378 +89,185 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: bin.meng@windriver.com, richard.henderson@linaro.org, f4bug@amsat.org,
- palmer@dabbelt.com, fabien.portas@grenoble-inp.org, alistair.francis@wdc.com,
- =?UTF-8?q?Fr=C3=A9d=C3=A9ric=20P=C3=A9trot?=
- <frederic.petrot@univ-grenoble-alpes.fr>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The csrs are accessed through function pointers: we add 128-bit read
-operations in the table for three csrs (writes fallback to the
-64-bit version as the upper 64-bit information is handled elsewhere):
-- misa, as mxl is needed for proper operation,
-- mstatus and sstatus, to return sd
-In addition, we also add read and write accesses to the machine and
-supervisor scratch registers.
+On 1/6/22 2:41 AM, Laurent Vivier wrote:
+> The following changes since commit fb084237a3b78b20fd9d888dffd673b6656ea3be:
+> 
+>    common-user: Really fix i386 calls to safe_syscall_set_errno_tail (2022-01-04 21:14:23 -0800)
+> 
+> are available in the Git repository at:
+> 
+>    https://gitlab.com/laurent_vivier/qemu.git tags/linux-user-for-7.0-pull-request
+> 
+> for you to fetch changes up to f0effdbc2a5b43422bc4c9c22641ef9dafa0c7ae:
+> 
+>    linux-user: netlink: update IFLA_BRPORT entries (2022-01-06 11:40:53 +0100)
+> 
+> ----------------------------------------------------------------
+> linux-user pull request 20220106
+> 
+> update netlink entries
+> nios2 fixes
+> /proc/self/maps fixes
+> set/getscheduler update
+> prctl cleanup and fixes
+> target_signal.h cleanup
+> and some trivial fixes
+> 
+> ----------------------------------------------------------------
+> 
+> Ahmed Abouzied (1):
+>    linux-user/syscall.c: malloc to g_try_malloc
+> 
+> Andrey Kazmin (1):
+>    linux-user/syscall.c: fix missed flag for shared memory in
+>      open_self_maps
+> 
+> Laurent Vivier (3):
+>    linux-user: netlink: update IFLA entries
+>    linux-user: netlink: Add IFLA_VFINFO_LIST
+>    linux-user: netlink: update IFLA_BRPORT entries
+> 
+> Martin Wilck (1):
+>    qemu-binfmt-conf.sh: fix -F option
+> 
+> Matthias Schiffer (1):
+>    linux-user/signal: Map exit signals in SIGCHLD siginfo_t
+> 
+> Philippe Mathieu-Daudé (2):
+>    linux-user/hexagon: Use generic target_stat64 structure
+>    linux-user: Mark cpu_loop() with noreturn attribute
+> 
+> Richard Henderson (13):
+>    linux-user: Split out do_prctl and subroutines
+>    linux-user: Disable more prctl subcodes
+>    linux-user: Add code for PR_GET/SET_UNALIGN
+>    target/alpha: Implement prctl_unalign_sigbus
+>    target/hppa: Implement prctl_unalign_sigbus
+>    target/sh4: Implement prctl_unalign_sigbus
+>    linux-user/nios2: Properly emulate EXCP_TRAP
+>    linux-user/nios2: Fixes for signal frame setup
+>    linux-user/elfload: Rename ARM_COMMPAGE to HI_COMMPAGE
+>    linux-user/nios2: Map a real kuser page
+>    linux-user/nios2: Fix EA vs PC confusion
+>    linux-user/nios2: Fix sigmask in setup_rt_frame
+>    linux-user/nios2: Use set_sigmask in do_rt_sigreturn
+> 
+> Song Gao (3):
+>    linux-user: Move target_signal.h generic definitions to
+>      generic/signal.h
+>    linux-user: target_syscall.h remove definition TARGET_MINSIGSTKSZ
+>    linux-user: Remove TARGET_SIGSTKSZ
+> 
+> Tonis Tiigi (2):
+>    linux-user: add sched_getattr support
+>    linux-user: call set/getscheduler set/getparam directly
+> 
+>   cpu.c                                     |  20 +-
+>   include/hw/core/cpu.h                     |   3 +
+>   linux-user/aarch64/target_prctl.h         | 160 ++++++
+>   linux-user/aarch64/target_signal.h        |  18 -
+>   linux-user/aarch64/target_syscall.h       |  24 -
+>   linux-user/alpha/target_prctl.h           |   1 +
+>   linux-user/alpha/target_signal.h          |   1 -
+>   linux-user/alpha/target_syscall.h         |   1 -
+>   linux-user/arm/target_prctl.h             |   1 +
+>   linux-user/arm/target_signal.h            |  18 -
+>   linux-user/arm/target_syscall.h           |   1 -
+>   linux-user/cris/target_prctl.h            |   1 +
+>   linux-user/cris/target_signal.h           |  18 -
+>   linux-user/cris/target_syscall.h          |   1 -
+>   linux-user/elfload.c                      |  66 ++-
+>   linux-user/fd-trans.c                     | 184 ++++++
+>   linux-user/generic/signal.h               |  15 +
+>   linux-user/generic/target_prctl_unalign.h |  27 +
+>   linux-user/hexagon/target_prctl.h         |   1 +
+>   linux-user/hexagon/target_signal.h        |  11 -
+>   linux-user/hppa/target_prctl.h            |   1 +
+>   linux-user/hppa/target_signal.h           |   1 -
+>   linux-user/hppa/target_syscall.h          |   1 -
+>   linux-user/i386/target_prctl.h            |   1 +
+>   linux-user/i386/target_signal.h           |  18 -
+>   linux-user/i386/target_syscall.h          |   1 -
+>   linux-user/m68k/target_prctl.h            |   1 +
+>   linux-user/m68k/target_signal.h           |  18 -
+>   linux-user/m68k/target_syscall.h          |   1 -
+>   linux-user/microblaze/target_prctl.h      |   1 +
+>   linux-user/microblaze/target_signal.h     |  18 -
+>   linux-user/microblaze/target_syscall.h    |   1 -
+>   linux-user/mips/target_prctl.h            |  88 +++
+>   linux-user/mips/target_signal.h           |   1 -
+>   linux-user/mips/target_syscall.h          |   7 -
+>   linux-user/mips64/target_prctl.h          |   1 +
+>   linux-user/mips64/target_signal.h         |   1 -
+>   linux-user/mips64/target_syscall.h        |   7 -
+>   linux-user/nios2/cpu_loop.c               |  93 +--
+>   linux-user/nios2/signal.c                 |  58 +-
+>   linux-user/nios2/target_prctl.h           |   1 +
+>   linux-user/nios2/target_signal.h          |  16 -
+>   linux-user/nios2/target_syscall.h         |   1 -
+>   linux-user/openrisc/target_prctl.h        |   1 +
+>   linux-user/openrisc/target_signal.h       |  23 -
+>   linux-user/openrisc/target_syscall.h      |   1 -
+>   linux-user/ppc/target_prctl.h             |   1 +
+>   linux-user/ppc/target_signal.h            |  18 -
+>   linux-user/ppc/target_syscall.h           |   1 -
+>   linux-user/riscv/target_prctl.h           |   1 +
+>   linux-user/riscv/target_signal.h          |  12 -
+>   linux-user/riscv/target_syscall.h         |   1 -
+>   linux-user/s390x/target_prctl.h           |   1 +
+>   linux-user/s390x/target_signal.h          |  15 -
+>   linux-user/s390x/target_syscall.h         |   1 -
+>   linux-user/sh4/target_prctl.h             |   1 +
+>   linux-user/sh4/target_signal.h            |  18 -
+>   linux-user/sh4/target_syscall.h           |   1 -
+>   linux-user/signal.c                       |   9 +-
+>   linux-user/sparc/target_prctl.h           |   1 +
+>   linux-user/sparc/target_signal.h          |   1 -
+>   linux-user/sparc/target_syscall.h         |   1 -
+>   linux-user/syscall.c                      | 657 ++++++++++++----------
+>   linux-user/syscall_defs.h                 |  46 +-
+>   linux-user/user-internals.h               |   2 +-
+>   linux-user/x86_64/target_prctl.h          |   1 +
+>   linux-user/x86_64/target_signal.h         |  18 -
+>   linux-user/x86_64/target_syscall.h        |   1 -
+>   linux-user/xtensa/target_prctl.h          |   1 +
+>   linux-user/xtensa/target_signal.h         |  17 -
+>   scripts/qemu-binfmt-conf.sh               |   4 +-
+>   target/alpha/cpu.h                        |   5 +
+>   target/alpha/translate.c                  |  31 +-
+>   target/hppa/cpu.h                         |   5 +-
+>   target/hppa/translate.c                   |  19 +-
+>   target/nios2/cpu.h                        |   2 +-
+>   target/nios2/translate.c                  |  26 +-
+>   target/sh4/cpu.h                          |   4 +
+>   target/sh4/translate.c                    |  50 +-
+>   79 files changed, 1130 insertions(+), 776 deletions(-)
+>   create mode 100644 linux-user/aarch64/target_prctl.h
+>   create mode 100644 linux-user/alpha/target_prctl.h
+>   create mode 100644 linux-user/arm/target_prctl.h
+>   create mode 100644 linux-user/cris/target_prctl.h
+>   create mode 100644 linux-user/generic/target_prctl_unalign.h
+>   create mode 100644 linux-user/hexagon/target_prctl.h
+>   create mode 100644 linux-user/hppa/target_prctl.h
+>   create mode 100644 linux-user/i386/target_prctl.h
+>   create mode 100644 linux-user/m68k/target_prctl.h
+>   create mode 100644 linux-user/microblaze/target_prctl.h
+>   create mode 100644 linux-user/mips/target_prctl.h
+>   create mode 100644 linux-user/mips64/target_prctl.h
+>   create mode 100644 linux-user/nios2/target_prctl.h
+>   create mode 100644 linux-user/openrisc/target_prctl.h
+>   create mode 100644 linux-user/ppc/target_prctl.h
+>   create mode 100644 linux-user/riscv/target_prctl.h
+>   create mode 100644 linux-user/s390x/target_prctl.h
+>   create mode 100644 linux-user/sh4/target_prctl.h
+>   create mode 100644 linux-user/sparc/target_prctl.h
+>   create mode 100644 linux-user/x86_64/target_prctl.h
+>   create mode 100644 linux-user/xtensa/target_prctl.h
 
-Signed-off-by: Frédéric Pétrot <frederic.petrot@univ-grenoble-alpes.fr>
-Co-authored-by: Fabien Portas <fabien.portas@grenoble-inp.org>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
----
- target/riscv/cpu.h      |   7 ++
- target/riscv/cpu_bits.h |   3 +
- target/riscv/csr.c      | 195 +++++++++++++++++++++++++++++++++-------
- 3 files changed, 175 insertions(+), 30 deletions(-)
+Applied, thanks.
 
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index edc7de7b17..a19c65bc1d 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -505,12 +505,19 @@ RISCVException riscv_csrrw_i128(CPURISCVState *env, int csrno,
-                                 Int128 *ret_value,
-                                 Int128 new_value, Int128 write_mask);
- 
-+typedef RISCVException (*riscv_csr_read128_fn)(CPURISCVState *env, int csrno,
-+                                               Int128 *ret_value);
-+typedef RISCVException (*riscv_csr_write128_fn)(CPURISCVState *env, int csrno,
-+                                             Int128 new_value);
-+
- typedef struct {
-     const char *name;
-     riscv_csr_predicate_fn predicate;
-     riscv_csr_read_fn read;
-     riscv_csr_write_fn write;
-     riscv_csr_op_fn op;
-+    riscv_csr_read128_fn read128;
-+    riscv_csr_write128_fn write128;
- } riscv_csr_operations;
- 
- /* CSR function table constants */
-diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
-index 1e31f4d35f..5a6d49aa64 100644
---- a/target/riscv/cpu_bits.h
-+++ b/target/riscv/cpu_bits.h
-@@ -401,6 +401,7 @@
- 
- #define MSTATUS32_SD        0x80000000
- #define MSTATUS64_SD        0x8000000000000000ULL
-+#define MSTATUSH128_SD      0x8000000000000000ULL
- 
- #define MISA32_MXL          0xC0000000
- #define MISA64_MXL          0xC000000000000000ULL
-@@ -423,6 +424,8 @@ typedef enum {
- #define SSTATUS_SUM         0x00040000 /* since: priv-1.10 */
- #define SSTATUS_MXR         0x00080000
- 
-+#define SSTATUS64_UXL       0x0000000300000000ULL
-+
- #define SSTATUS32_SD        0x80000000
- #define SSTATUS64_SD        0x8000000000000000ULL
- 
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index 4c6a44c0b8..adb3d4381d 100644
---- a/target/riscv/csr.c
-+++ b/target/riscv/csr.c
-@@ -481,7 +481,7 @@ static const target_ulong vs_delegable_excps = DELEGABLE_EXCPS &
-       (1ULL << (RISCV_EXCP_STORE_GUEST_AMO_ACCESS_FAULT)));
- static const target_ulong sstatus_v1_10_mask = SSTATUS_SIE | SSTATUS_SPIE |
-     SSTATUS_UIE | SSTATUS_UPIE | SSTATUS_SPP | SSTATUS_FS | SSTATUS_XS |
--    SSTATUS_SUM | SSTATUS_MXR | SSTATUS_VS;
-+    SSTATUS_SUM | SSTATUS_MXR | SSTATUS_VS | (target_ulong)SSTATUS64_UXL;
- static const target_ulong sip_writable_mask = SIP_SSIP | MIP_USIP | MIP_UEIP;
- static const target_ulong hip_writable_mask = MIP_VSSIP;
- static const target_ulong hvip_writable_mask = MIP_VSSIP | MIP_VSTIP | MIP_VSEIP;
-@@ -527,6 +527,8 @@ static uint64_t add_status_sd(RISCVMXL xl, uint64_t status)
-             return status | MSTATUS32_SD;
-         case MXL_RV64:
-             return status | MSTATUS64_SD;
-+        case MXL_RV128:
-+            return MSTATUSH128_SD;
-         default:
-             g_assert_not_reached();
-         }
-@@ -576,10 +578,11 @@ static RISCVException write_mstatus(CPURISCVState *env, int csrno,
- 
-     mstatus = (mstatus & ~mask) | (val & mask);
- 
--    if (riscv_cpu_mxl(env) == MXL_RV64) {
-+    RISCVMXL xl = riscv_cpu_mxl(env);
-+    if (xl > MXL_RV32) {
-         /* SXL and UXL fields are for now read only */
--        mstatus = set_field(mstatus, MSTATUS64_SXL, MXL_RV64);
--        mstatus = set_field(mstatus, MSTATUS64_UXL, MXL_RV64);
-+        mstatus = set_field(mstatus, MSTATUS64_SXL, xl);
-+        mstatus = set_field(mstatus, MSTATUS64_UXL, xl);
-     }
-     env->mstatus = mstatus;
- 
-@@ -608,6 +611,20 @@ static RISCVException write_mstatush(CPURISCVState *env, int csrno,
-     return RISCV_EXCP_NONE;
- }
- 
-+static RISCVException read_mstatus_i128(CPURISCVState *env, int csrno,
-+                                        Int128 *val)
-+{
-+    *val = int128_make128(env->mstatus, add_status_sd(MXL_RV128, env->mstatus));
-+    return RISCV_EXCP_NONE;
-+}
-+
-+static RISCVException read_misa_i128(CPURISCVState *env, int csrno,
-+                                     Int128 *val)
-+{
-+    *val = int128_make128(env->misa_ext, (uint64_t)MXL_RV128 << 62);
-+    return RISCV_EXCP_NONE;
-+}
-+
- static RISCVException read_misa(CPURISCVState *env, int csrno,
-                                 target_ulong *val)
- {
-@@ -765,6 +782,21 @@ static RISCVException write_mcounteren(CPURISCVState *env, int csrno,
- }
- 
- /* Machine Trap Handling */
-+static RISCVException read_mscratch_i128(CPURISCVState *env, int csrno,
-+                                         Int128 *val)
-+{
-+    *val = int128_make128(env->mscratch, env->mscratchh);
-+    return RISCV_EXCP_NONE;
-+}
-+
-+static RISCVException write_mscratch_i128(CPURISCVState *env, int csrno,
-+                                          Int128 val)
-+{
-+    env->mscratch = int128_getlo(val);
-+    env->mscratchh = int128_gethi(val);
-+    return RISCV_EXCP_NONE;
-+}
-+
- static RISCVException read_mscratch(CPURISCVState *env, int csrno,
-                                     target_ulong *val)
- {
-@@ -844,6 +876,16 @@ static RISCVException rmw_mip(CPURISCVState *env, int csrno,
- }
- 
- /* Supervisor Trap Setup */
-+static RISCVException read_sstatus_i128(CPURISCVState *env, int csrno,
-+                                        Int128 *val)
-+{
-+    uint64_t mask = sstatus_v1_10_mask;
-+    uint64_t sstatus = env->mstatus & mask;
-+
-+    *val = int128_make128(sstatus, add_status_sd(MXL_RV128, sstatus));
-+    return RISCV_EXCP_NONE;
-+}
-+
- static RISCVException read_sstatus(CPURISCVState *env, int csrno,
-                                    target_ulong *val)
- {
-@@ -937,6 +979,21 @@ static RISCVException write_scounteren(CPURISCVState *env, int csrno,
- }
- 
- /* Supervisor Trap Handling */
-+static RISCVException read_sscratch_i128(CPURISCVState *env, int csrno,
-+                                         Int128 *val)
-+{
-+    *val = int128_make128(env->sscratch, env->sscratchh);
-+    return RISCV_EXCP_NONE;
-+}
-+
-+static RISCVException write_sscratch_i128(CPURISCVState *env, int csrno,
-+                                          Int128 val)
-+{
-+    env->sscratch = int128_getlo(val);
-+    env->sscratchh = int128_gethi(val);
-+    return RISCV_EXCP_NONE;
-+}
-+
- static RISCVException read_sscratch(CPURISCVState *env, int csrno,
-                                     target_ulong *val)
- {
-@@ -1737,16 +1794,13 @@ static RISCVException write_upmbase(CPURISCVState *env, int csrno,
-  * csrrc  <->  riscv_csrrw(env, csrno, ret_value, 0, value);
-  */
- 
--RISCVException riscv_csrrw(CPURISCVState *env, int csrno,
--                           target_ulong *ret_value,
--                           target_ulong new_value, target_ulong write_mask)
-+static inline RISCVException riscv_csrrw_check(CPURISCVState *env,
-+                                               int csrno,
-+                                               bool write_mask,
-+                                               RISCVCPU *cpu)
- {
--    RISCVException ret;
--    target_ulong old_value;
--    RISCVCPU *cpu = env_archcpu(env);
--    int read_only = get_field(csrno, 0xC00) == 3;
--
-     /* check privileges and return RISCV_EXCP_ILLEGAL_INST if check fails */
-+    int read_only = get_field(csrno, 0xC00) == 3;
- #if !defined(CONFIG_USER_ONLY)
-     int effective_priv = env->priv;
- 
-@@ -1778,10 +1832,17 @@ RISCVException riscv_csrrw(CPURISCVState *env, int csrno,
-     if (!csr_ops[csrno].predicate) {
-         return RISCV_EXCP_ILLEGAL_INST;
-     }
--    ret = csr_ops[csrno].predicate(env, csrno);
--    if (ret != RISCV_EXCP_NONE) {
--        return ret;
--    }
-+
-+    return csr_ops[csrno].predicate(env, csrno);
-+}
-+
-+static RISCVException riscv_csrrw_do64(CPURISCVState *env, int csrno,
-+                                       target_ulong *ret_value,
-+                                       target_ulong new_value,
-+                                       target_ulong write_mask)
-+{
-+    RISCVException ret;
-+    target_ulong old_value;
- 
-     /* execute combined read/write operation if it exists */
-     if (csr_ops[csrno].op) {
-@@ -1817,20 +1878,89 @@ RISCVException riscv_csrrw(CPURISCVState *env, int csrno,
-     return RISCV_EXCP_NONE;
- }
- 
-+RISCVException riscv_csrrw(CPURISCVState *env, int csrno,
-+                           target_ulong *ret_value,
-+                           target_ulong new_value, target_ulong write_mask)
-+{
-+    RISCVCPU *cpu = env_archcpu(env);
-+
-+    RISCVException ret = riscv_csrrw_check(env, csrno, write_mask, cpu);
-+    if (ret != RISCV_EXCP_NONE) {
-+        return ret;
-+    }
-+
-+    return riscv_csrrw_do64(env, csrno, ret_value, new_value, write_mask);
-+}
-+
-+static RISCVException riscv_csrrw_do128(CPURISCVState *env, int csrno,
-+                                        Int128 *ret_value,
-+                                        Int128 new_value,
-+                                        Int128 write_mask)
-+{
-+    RISCVException ret;
-+    Int128 old_value;
-+
-+    /* read old value */
-+    ret = csr_ops[csrno].read128(env, csrno, &old_value);
-+    if (ret != RISCV_EXCP_NONE) {
-+        return ret;
-+    }
-+
-+    /* write value if writable and write mask set, otherwise drop writes */
-+    if (int128_nz(write_mask)) {
-+        new_value = int128_or(int128_and(old_value, int128_not(write_mask)),
-+                              int128_and(new_value, write_mask));
-+        if (csr_ops[csrno].write128) {
-+            ret = csr_ops[csrno].write128(env, csrno, new_value);
-+            if (ret != RISCV_EXCP_NONE) {
-+                return ret;
-+            }
-+        } else if (csr_ops[csrno].write) {
-+            /* avoids having to write wrappers for all registers */
-+            ret = csr_ops[csrno].write(env, csrno, int128_getlo(new_value));
-+            if (ret != RISCV_EXCP_NONE) {
-+                return ret;
-+            }
-+        }
-+    }
-+
-+    /* return old value */
-+    if (ret_value) {
-+        *ret_value = old_value;
-+    }
-+
-+    return RISCV_EXCP_NONE;
-+}
-+
- RISCVException riscv_csrrw_i128(CPURISCVState *env, int csrno,
--                               Int128 *ret_value,
--                               Int128 new_value, Int128 write_mask)
-+                                Int128 *ret_value,
-+                                Int128 new_value, Int128 write_mask)
- {
--    /* fall back to 64-bit version for now */
--    target_ulong ret_64;
--    RISCVException ret = riscv_csrrw(env, csrno, &ret_64,
--                                     int128_getlo(new_value),
--                                     int128_getlo(write_mask));
-+    RISCVException ret;
-+    RISCVCPU *cpu = env_archcpu(env);
- 
--    if (ret_value) {
--        *ret_value = int128_make64(ret_64);
-+    ret = riscv_csrrw_check(env, csrno, int128_nz(write_mask), cpu);
-+    if (ret != RISCV_EXCP_NONE) {
-+        return ret;
-     }
- 
-+    if (csr_ops[csrno].read128) {
-+        return riscv_csrrw_do128(env, csrno, ret_value, new_value, write_mask);
-+    }
-+
-+    /*
-+     * Fall back to 64-bit version for now, if the 128-bit alternative isn't
-+     * at all defined.
-+     * Note, some CSRs don't need to extend to MXLEN (64 upper bits non
-+     * significant), for those, this fallback is correctly handling the accesses
-+     */
-+    target_ulong old_value;
-+    ret = riscv_csrrw_do64(env, csrno, &old_value,
-+                           int128_getlo(new_value),
-+                           int128_getlo(write_mask));
-+    if (ret == RISCV_EXCP_NONE && ret_value) {
-+        *ret_value = int128_make64(old_value);
-+    }
-     return ret;
- }
- 
-@@ -1895,8 +2025,10 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
-     [CSR_MHARTID]   = { "mhartid",   any,   read_mhartid },
- 
-     /* Machine Trap Setup */
--    [CSR_MSTATUS]     = { "mstatus",    any,   read_mstatus,     write_mstatus     },
--    [CSR_MISA]        = { "misa",       any,   read_misa,        write_misa        },
-+    [CSR_MSTATUS]     = { "mstatus",    any,   read_mstatus,     write_mstatus, NULL,
-+                                               read_mstatus_i128                   },
-+    [CSR_MISA]        = { "misa",       any,   read_misa,        write_misa, NULL,
-+                                               read_misa_i128                      },
-     [CSR_MIDELEG]     = { "mideleg",    any,   read_mideleg,     write_mideleg     },
-     [CSR_MEDELEG]     = { "medeleg",    any,   read_medeleg,     write_medeleg     },
-     [CSR_MIE]         = { "mie",        any,   read_mie,         write_mie         },
-@@ -1906,20 +2038,23 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
-     [CSR_MSTATUSH]    = { "mstatush",   any32, read_mstatush,    write_mstatush    },
- 
-     /* Machine Trap Handling */
--    [CSR_MSCRATCH] = { "mscratch", any,  read_mscratch, write_mscratch },
-+    [CSR_MSCRATCH] = { "mscratch", any,  read_mscratch,      write_mscratch, NULL,
-+                                         read_mscratch_i128, write_mscratch_i128   },
-     [CSR_MEPC]     = { "mepc",     any,  read_mepc,     write_mepc     },
-     [CSR_MCAUSE]   = { "mcause",   any,  read_mcause,   write_mcause   },
-     [CSR_MTVAL]    = { "mtval",    any,  read_mtval,    write_mtval    },
-     [CSR_MIP]      = { "mip",      any,  NULL,    NULL, rmw_mip        },
- 
-     /* Supervisor Trap Setup */
--    [CSR_SSTATUS]    = { "sstatus",    smode, read_sstatus,    write_sstatus    },
-+    [CSR_SSTATUS]    = { "sstatus",    smode, read_sstatus,    write_sstatus, NULL,
-+                                              read_sstatus_i128                 },
-     [CSR_SIE]        = { "sie",        smode, read_sie,        write_sie        },
-     [CSR_STVEC]      = { "stvec",      smode, read_stvec,      write_stvec      },
-     [CSR_SCOUNTEREN] = { "scounteren", smode, read_scounteren, write_scounteren },
- 
-     /* Supervisor Trap Handling */
--    [CSR_SSCRATCH] = { "sscratch", smode, read_sscratch, write_sscratch },
-+    [CSR_SSCRATCH] = { "sscratch", smode, read_sscratch, write_sscratch, NULL,
-+                                          read_sscratch_i128, write_sscratch_i128  },
-     [CSR_SEPC]     = { "sepc",     smode, read_sepc,     write_sepc     },
-     [CSR_SCAUSE]   = { "scause",   smode, read_scause,   write_scause   },
-     [CSR_STVAL]    = { "stval",    smode, read_stval,   write_stval   },
--- 
-2.34.1
-
+r~
 
