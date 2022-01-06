@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0EA04860CB
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 07:58:58 +0100 (CET)
-Received: from localhost ([::1]:50158 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 795294860DB
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 08:06:17 +0100 (CET)
+Received: from localhost ([::1]:59218 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5Mjh-0004vH-Fc
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 01:58:57 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41810)
+	id 1n5Mqm-0002iY-FN
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 02:06:16 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41806)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <raphael.norwitz@nutanix.com>)
- id 1n5MYs-0001IZ-H0
+ id 1n5MYs-0001IW-HJ
  for qemu-devel@nongnu.org; Thu, 06 Jan 2022 01:47:47 -0500
-Received: from mx0a-002c1b01.pphosted.com ([148.163.151.68]:1098)
+Received: from mx0a-002c1b01.pphosted.com ([148.163.151.68]:19576)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <raphael.norwitz@nutanix.com>)
- id 1n5MYn-0003Uw-2P
- for qemu-devel@nongnu.org; Thu, 06 Jan 2022 01:47:43 -0500
+ id 1n5MYk-0003Us-Gd
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 01:47:42 -0500
 Received: from pps.filterd (m0127840.ppops.net [127.0.0.1])
- by mx0a-002c1b01.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id 205N628a016432;
- Wed, 5 Jan 2022 22:47:36 -0800
+ by mx0a-002c1b01.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id 205N628Z016432;
+ Wed, 5 Jan 2022 22:47:35 -0800
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
  h=from : to : cc :
  subject : date : message-id : references : in-reply-to : content-type :
  content-transfer-encoding : mime-version; s=proofpoint20171006;
- bh=MEZI3WWwaeRzhGLs5aY3IKOUbNaBKGQl8ojrvdWtvOA=;
- b=PS8dkQxDJWeUBfueYIFFN2rQSAmqyBAclzQGWQ0XoNZQ8bIVPx9txyT7rHjyER4v7Zul
- eHi0OO4yd1ANn68sDW1IHApTwEegU9f7UT+ParQbXNptTf0g8Axb53CF7tzBUOYR4VLi
- ZoTrCL/RQhdEp2JH/QZ5KL5yKp0MgUa1pHWtt51IMK0UemCM1X/DOZV+UayNcLnzn46D
- 9N2x+RVbP1U8DmB5aG3nLQCjCLF7o74W69D9sauoggMMND1y5iVXKCIB4ZzWutV6JBCc
- 8nYhvI8fgNXPQnHJdsme2QW4ee8ubwG7Wf+IlWPrX4DA4tLJM/V5+NnIhcaPLT6e6yyr sg== 
+ bh=zyXPgW+0qzttbT91NqCoOCa9/f2y2Xi7NjmTjYqCXGQ=;
+ b=TQw1AMdAcUHSY4l5kydAh/T01Pq7ZU8QCTRvixd8VBiScipkYxKQpTd0yJEI6lCzlbRj
+ oBe5RgJh37hGBIwxevLptbFZxpBZ+xYLngIoVISGbxk6KfHfUuz6JG6hLSiGctZIrU2g
+ NEi/5bOQYnbaIpgD+I8q90STDGma/QNpGu+W4hfydtVwBSm8fzCSAvZGNhMOsMs3fHEy
+ 0aYQYYmXYwclJUGW13Vkk/AZtL+vnT9xiBRIWwL3aHiIRgn5w9hCu8yin21ow+gsDUYJ
+ hZbjtBP5R1AzWtTIVcL40xwVpuPOo0Pme5qvhRUtaWXR4NeR/9KoNxklwWa2seJC7QTd Zw== 
 Received: from nam04-bn8-obe.outbound.protection.outlook.com
  (mail-bn8nam08lp2047.outbound.protection.outlook.com [104.47.74.47])
- by mx0a-002c1b01.pphosted.com (PPS) with ESMTPS id 3ddmq0rjs8-2
+ by mx0a-002c1b01.pphosted.com (PPS) with ESMTPS id 3ddmq0rjs8-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 05 Jan 2022 22:47:36 -0800
+ Wed, 05 Jan 2022 22:47:35 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=QI1dFhzhfJ8AMkMKKCrf2IyVIr9spDq6c9efxW0WeoV3vAhnjEKu6mzuJZ9xiPa4dp2rF4pcOyj6+dmRTAmYmKR0hX8vkzYh2ZfFL9IgSBe3BQ4OCPG9GYCjjCqCPn/pe6WW3HxzpS5f5xYaYYeSznnqbb9cKXAmZrRZ1dXvxCJkaGxsanKqB1uyNfhT18x34PFA7zV/4ZlZC+auu6ndeGhzPQ57GBFOSGq6K1csb49Ddjv+A6ExLR7tGW5oE+IhQBDyyWd2ja6GZ5xcs5Djn3X8SD5UbW5Jizf7TKm0B/5uyOvVKf0Xh2mGAU9/z4snoV2pJYZhjCVtAjvGi4QD3A==
+ b=G7PuFfnNNvr4WWhKovBmL28tj289Jg2AM5hcgfiyQOvXjrvZI7GP/ok2WI3NL8Wopy57syNqpFwIe/5/buij0Q5zZgXAGEO7WPh2Zd8MUBbTT+cFnN4RxsaDkZAYmm1Ja+f9dSwJXnj7Dw5x3CObpLk5hhNM75Tbr6s9lqtolE+agB7v2WReRvXiabBVaVadOaK3s6i+Y5nLShIEdMaD0JyRC/nAHtjTvqPDviSh3S52PKadz5Kanv/OmrsOU49NteeAQpG87xdb8aWGXJDdF+TPm3DfZLjmNGXBdSnJ4zLsA/3snhvtrONe6b9m3Xbg61G+seJb17od0wzqEvo8/Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=MEZI3WWwaeRzhGLs5aY3IKOUbNaBKGQl8ojrvdWtvOA=;
- b=hiWTHFokE7MotXS9WXtyHIxJmFIDvSxOiqQXIjaOGmmR30DeuZ+jf4GZGHQe8yA7jviSfMkJi388Fue9RtfbdwkLIGM3LDXriEx6BQScYkVfuv2V28pMHT+6mlpmrGGhB+m4GQSCHFROn1yLq1NKJcNvjboBcz+mzZe+ZRjk67eTT8EonqwrCApWZmomV4iT1ox/Qk17//lDz1cjak+cV422HhtJpiiWEccuylNJ2KFcrVbgETbQzMUsuY6fIR5bG3g+jBiX1XbnYJiwE9+AghqySn8JVoSmIJMANh2nS41AHfPhPywBPYXmMy1hA185LH4st00IUs1eBReoEdV/MA==
+ bh=zyXPgW+0qzttbT91NqCoOCa9/f2y2Xi7NjmTjYqCXGQ=;
+ b=lTRYYqAgMsZ+hvqdNKvyiL1JJiNGEM59JUb5qEgyr3I8W+72vj1zpG6sPafGpv4EcZY0EAKziTJ77EdpauuQ7csbnBEMJ2k4wJfZM18W3RkGWBIfjaUQUkrniyXyyNu7xK/xF3xewdPcdb3VerT3P+/+xgItnNHcLGEEqf3hKzMepVuWb92JEpnyX1jvqjY5rH09b93ArBJ0x2CtkSzPx4XpCQZa+L3ibDWPariTaqBCCR2aAE2hPhaF2vbkSwe+GYaKGuaQZ6wQXvd0K3z+NQ2gaPVf9Y2J1wzOBRBOAewKGToSicJVupN8ZnFUrdl5hA92JE5Td5YykrW9LDqy+g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nutanix.com; dmarc=pass action=none header.from=nutanix.com;
  dkim=pass header.d=nutanix.com; arc=none
@@ -51,20 +51,20 @@ Received: from BL3PR02MB7938.namprd02.prod.outlook.com (2603:10b6:208:355::20)
  by BL0PR02MB6530.namprd02.prod.outlook.com (2603:10b6:208:1c1::22)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4867.7; Thu, 6 Jan
- 2022 06:47:35 +0000
+ 2022 06:47:33 +0000
 Received: from BL3PR02MB7938.namprd02.prod.outlook.com
  ([fe80::3c2f:b2dd:a0b5:74da]) by BL3PR02MB7938.namprd02.prod.outlook.com
  ([fe80::3c2f:b2dd:a0b5:74da%6]) with mapi id 15.20.4867.009; Thu, 6 Jan 2022
- 06:47:35 +0000
+ 06:47:33 +0000
 From: Raphael Norwitz <raphael.norwitz@nutanix.com>
 To: "stefanha@redhat.com" <stefanha@redhat.com>, "marcandre.lureau@redhat.com"
  <marcandre.lureau@redhat.com>, "mst@redhat.com" <mst@redhat.com>,
  "david@redhat.com" <david@redhat.com>
-Subject: [PATCH v2 4/5] libvhost-user: prevent over-running max RAM slots
-Thread-Topic: [PATCH v2 4/5] libvhost-user: prevent over-running max RAM slots
-Thread-Index: AQHYAslJrasaFPyjv0K0XNFW9OKltQ==
-Date: Thu, 6 Jan 2022 06:47:35 +0000
-Message-ID: <20220106064717.7477-5-raphael.norwitz@nutanix.com>
+Subject: [PATCH v2 3/5] libvhost-user: Simplify VHOST_USER_REM_MEM_REG
+Thread-Topic: [PATCH v2 3/5] libvhost-user: Simplify VHOST_USER_REM_MEM_REG
+Thread-Index: AQHYAslImWaDAIu9xEeLpLVwuoQw7Q==
+Date: Thu, 6 Jan 2022 06:47:33 +0000
+Message-ID: <20220106064717.7477-4-raphael.norwitz@nutanix.com>
 References: <20220106064717.7477-1-raphael.norwitz@nutanix.com>
 In-Reply-To: <20220106064717.7477-1-raphael.norwitz@nutanix.com>
 Accept-Language: en-US
@@ -73,65 +73,65 @@ X-MS-Has-Attach:
 X-MS-TNEF-Correlator: 
 x-mailer: git-send-email 2.20.1
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: ba1ae7a6-2685-4aa4-a0af-08d9d0e06c03
+x-ms-office365-filtering-correlation-id: f430a195-4789-4361-2377-08d9d0e06b21
 x-ms-traffictypediagnostic: BL0PR02MB6530:EE_
-x-microsoft-antispam-prvs: <BL0PR02MB653021A24A0E9AA394DFC1B2EA4C9@BL0PR02MB6530.namprd02.prod.outlook.com>
+x-microsoft-antispam-prvs: <BL0PR02MB6530E9E49E94B1EE1871B1CEEA4C9@BL0PR02MB6530.namprd02.prod.outlook.com>
 x-proofpoint-crosstenant: true
-x-ms-oob-tlc-oobclassifiers: OLM:2733;
+x-ms-oob-tlc-oobclassifiers: OLM:5236;
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: RzC4y1ognNOu+iS9MJRSZDZ3Cv3zXwqZ1KjaCu/SiMs3h9fuqFmTb60a/gDV0PTDoAUKv+F/QDJqxqSEh4BHpdAcLhrMgBkMBPJH8MmvgqeGbr0XtDD1Q1UGV7Bns5KIWBOLdsPsk0sNaYtH6zDbytw6ncOA/j5iJ97LvJuKgOJXjalMQwQVQdbvvq36TXw1Km2KpX+zRkhj/zW14BL+2vaujhEMwneRp9YiIrX4jF0e9ncHnBt6lygNBhG2HpTHjrOFKW6gRokYC2tfeK5ILT4Y4bL9ib0x5e22qyAghHZOACLWURBV6gUOq3Cmt39kWkMlppp3Hv2srXZfLr2nHDmOx+XWWjBzLyk1YBZyRw3y0owNHIz/s0H4sx8hVaeHIC4Dv39hKacNJiuV4qfHiBwpBlqUOqAKqYEXbd5uPRTDhseNJTv8bP1MKA1TSjVH37hsZMktb/MxeJyFCGdxjE5MTahHtclWRSPAxAtlHWYSn3XRoJoHbDfTZibOhLRu6ioL3TcUSQQD7kk39f1h3iA5E0KXNEhk35+JVlrIJ1YZidsEt4WS92IlfS7gs+pkLLqMyquWruIwaNZM3GRzKG5uLXj06PV/Zd4ZMFiXQgAtNsVRpfP7fUuxEJ+caKCCa+uhM+YpiS39G3DHTqFGEf0WjfJXSh+3qrM6rqlaTV/EgZlmK9iPnu7sJKcJ5vVIwecFKaiUzOkIEooIbxkkMQ==
+x-microsoft-antispam-message-info: GkCzXC2BShy331s79JCKXFkD0WZr+MvGQ4e2J0rft/sqqsG1RA5WNpYQF/MGhMDlpYnCxCvs1xGxRmoesmzDXJIzNbpfYVTJ9eIYuhD8+qTG/sljlyJJ4DYnUt+MPzsnv5bCQtpP6CYc96n19ym16Han48hobnCXqNOdscCvT7bNDi/WFLp/4I7ZxjcKRX2/K0VZB2cYZ7+6VTZcccNCp1OIZFWPEgB/5p2K4hIqhYQ+m2mILrSR1K+1C6d/ggIJYWZ88Jq1401LqtjzqA10p3zKfovzckfZl49ATO8rI7ibtQbrL53tbaOnmP9xqoEnq/KJUO93gA9bIOyh5D51g0pLlFuxpatQuP7o0zSITrk5RuJCDy9LGTZ19N3K21KFycqCpGeHWdcHeKWN7PqrJR3tkATKpKAEqfbSF3EBHAWkTJGz67iR/CHaEKQbzdH2/TBFQT040tliQV2f8QRFm/pwGS0UMoF1MoJ8X4CLCDLXkw14fh6qE+6HbtVhaYMo/B0nLHlzcI+U5z6+ftoDpY+DcMqy0RYkgZCfGbhr+xBzr1QcVmVbmlYDQa28PxXP1ojpur0Ua/Q4Xok1c1DlmeXyy/hBTLmXJcgCO5sHWr4dt+xFPQcXSROwLswXHyB8xAX7MqrpSmO+f/sQaJptH7V7V4+YzBaa3wozcQRUFwPHADhTY+L6yfcGwhFIVluWTyo7ipPMNUnRn6jp98YS9Q==
 x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BL3PR02MB7938.namprd02.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(366004)(6506007)(508600001)(66446008)(4326008)(76116006)(186003)(2906002)(316002)(122000001)(6512007)(66476007)(71200400001)(66556008)(66946007)(5660300002)(91956017)(64756008)(54906003)(6486002)(38070700005)(110136005)(44832011)(36756003)(83380400001)(1076003)(2616005)(38100700002)(86362001)(107886003)(8676002)(26005)(8936002);
  DIR:OUT; SFP:1102; 
 x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?k8vm5GNXAv/JcUAV2SJVS5UEJBqxiFrpqBKsdXom+YsqjeNP4A4zWo6cx+?=
- =?iso-8859-1?Q?E9eXU9h3UUwvB7ohCcg/pXato9ISOEukM1xyAq3c+aPoHZ4qGPYhzqx3Y/?=
- =?iso-8859-1?Q?XyXP26FSHOOgZQOSmxw7ER1HT6/MI8uNAfd3ICY2bbxAi0yG8G3oUmMAq8?=
- =?iso-8859-1?Q?RSagTE6ZzVRdyemV5QQA4NWB1r+VrJIFcev/M08BDyP4CPVHiE0q32NImQ?=
- =?iso-8859-1?Q?fVZaIj9LpDxGjunOWTB8Yx/Xg4tnTcy1QHaaNeNnyjfY7d4LNzJulp3Awn?=
- =?iso-8859-1?Q?opHjV9eMqahUE83cj3ZJnblxTFMan0hgQujzXbuAznyqmpw0/gGELW8FzV?=
- =?iso-8859-1?Q?PZQDW+z/pJA5lrwTuhk/oQdqKW4DD4DkUmDzXCsYQK0uo3rcRNN0b62MEB?=
- =?iso-8859-1?Q?TZrgmEYNjcFga+MzHk1GKETk0CfKS3zbMH9fAuTXS+FhV+MTfkUXAzxvKy?=
- =?iso-8859-1?Q?zBGCbhGmj55272W143Xn0pN9G2pQL4uaKr+NrXtKL3YXWU0nOST+MbWlCy?=
- =?iso-8859-1?Q?TOOYKZpn+oyGI+Yi+Q3Dv7C7WaxMGGtHkkHc84SUlDovvTE7Kb4kvVom2n?=
- =?iso-8859-1?Q?gXZURul+JdqJa/MlhN40v+UUJUYSdX2zOydW10TGKfVPbz+GSBnwvVWxti?=
- =?iso-8859-1?Q?yx2PIDNVRyaOepFENR4C5gaZ7Cszz9ThP/oZuhPlVHgxOo2VW1L/Yx6xON?=
- =?iso-8859-1?Q?96U9+kzIEqS6djUHLb2QqkfLfyNVXol77ziVJQs9w92UmE04GY9RGg7naZ?=
- =?iso-8859-1?Q?Vl9zD6raQ4nniE9JYB3Y2RhjUSVmugvdPCe60SoDyrYa5IfzrDLiyZRars?=
- =?iso-8859-1?Q?tFGG+8a0MAL+v2f2jRWtieyNM1+w3xhXsJoHdjJ005a0E5LvMqa/2he2IK?=
- =?iso-8859-1?Q?p3HaQP5oMTGQ7N/kWdR9MonATviDRFAYh8rRg17bLu5IxnqLlZ8ZzaU5Th?=
- =?iso-8859-1?Q?fwAKQrc+xSXtRCR7kpWlRHwC5gf283pr/xx/HPajdwFXTPAwkHWRhi4rud?=
- =?iso-8859-1?Q?aOtkiZxlvBrW1NvzIxnvX6Dq5XHeATtQt+9sUV1/q0pYbDyTGYHx/mhN+3?=
- =?iso-8859-1?Q?MXtW4tY4nJ8Cr3VfhIyfotHOvLyxXsqMGnNzrLylcZ7yo6ppGg7aAjhFiN?=
- =?iso-8859-1?Q?jhgyJcaiNJgfupl6YJXLTYUYXjj0QYWkijFaIDkEsyRPuvu4eadNp8bEg7?=
- =?iso-8859-1?Q?VrMTZn4d0PIMVDAvlJHu6DeOMuRnxTR/Y1q5Ic8g30wF/eGOT0m+lWtv2u?=
- =?iso-8859-1?Q?DQMPOa257Dv8UycJT5tYJ1LK/N3OhNl3lwFPe128VOIs7+yjy/bQIaC1vQ?=
- =?iso-8859-1?Q?0DSjD55U4o7SJB1+KrZiC69VYEXJPMmtIlJbSwqBr5+ANs6DWKFQlzcCLN?=
- =?iso-8859-1?Q?zhBspcbXjJt1z5GD7+omN3nTOP1hAQe6dA539Xjj6i8nqy6zpILksdRE0W?=
- =?iso-8859-1?Q?qNeY04UhzTgvw5+ieeZXWUxUc5RTIN1I/CPW6GnHCmhnFumRBMbUg4yLtm?=
- =?iso-8859-1?Q?JhjgbwesOp3r/PMqU67P/2XNQD+rn9FED34M+w1f8pbCBqdUs2nGWP/Hoe?=
- =?iso-8859-1?Q?Sog16dcUj1Gp9QB9pKqD3yqNWjkONS88YbjvMEiaxIfQuv5O0kZfTq4iV3?=
- =?iso-8859-1?Q?UFEEURLy8+34bwk/XXmoEI6/aug2eaqsqTTYuYTV6QFCCfgwL+Qx6lEPOW?=
- =?iso-8859-1?Q?Zw/zACTAK1k6NLBhFsHVNaEW8Mi7QoP3Fhfe03kaVFsxLMgdvTfOz+Izib?=
- =?iso-8859-1?Q?o8jL9qn4YnGf7+eyKtq8Wy6dc=3D?=
+x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?E5oWJux5Jh9yGddWbD7Jm6J5wNA28Vzu52v4LNyiNgWs4bwH1H9sp4k8GA?=
+ =?iso-8859-1?Q?IOqyZTMFZyJpWJUmQMYK9x5xvTDDg+izvXfZQNzfJl24SEJ1v5lDbC8xhs?=
+ =?iso-8859-1?Q?Ry+sOFw0F8e81oiz49zDmAmgTiO60M7ZGYw+TSNKJz9otkn+5BfuNDsFUM?=
+ =?iso-8859-1?Q?I47AgphtEuNGANPsborV7r9SftNSvG1qCsnPIxLD22aZOmSKBf8cT083rX?=
+ =?iso-8859-1?Q?Q6LwHSK0CqylGNPMnP9+A812uvqUotWbS/dnIUNm/BBuVGoJisSt/B/nXT?=
+ =?iso-8859-1?Q?x/TgA7Az9HcftpjSK4hLMFT5aqZrvm+UhET/yOpaY0vjC0jbCxGvYDtx/U?=
+ =?iso-8859-1?Q?SUngn0Kry+fshIZ6gI4/5G6eRmxBSFyWGvkestcsvf+EaCdikj+x46jRV1?=
+ =?iso-8859-1?Q?4GkldvN9u2EMAJ1bdVMQC8oIpNms101zSbRrwLQsg++8o7bLaATTzUY2oT?=
+ =?iso-8859-1?Q?Ts75+jZp33lT9/THG+WFQDinAcMVv0RFyzFLY3d1FeX7npd5sGLHGLUZtg?=
+ =?iso-8859-1?Q?zGQRA8PuLnv1uo6QHNHWG/YarQGsbtLJfMPwJ0PISFFSzX9TxaACNAcs3d?=
+ =?iso-8859-1?Q?IJSAo5CcbooJpsMSywvdmTjnd6XRcBoPiXASy522kQxxsZ/YbmLoY6MTb/?=
+ =?iso-8859-1?Q?ZAERWOlki3brLZrFmbjB/LJY9TLm6a3blSU6vlSWpy/j9PYLIb0IvwnXmj?=
+ =?iso-8859-1?Q?cDSJ7Q+v/o9MoQi7tY2ZeKev9rxrR2R1bjraBmKYDzc2yVlf/+MLmLrWdX?=
+ =?iso-8859-1?Q?hKBiLcUaOQ+sz4mCyvYJ8L2o3awuFAPdmpqcAH94AhW6veTW4nIgeEW8KF?=
+ =?iso-8859-1?Q?WleIjhaOwXYi0c5j6eUY7MG1mLlrQkY0h9IA5Q8qHuBihYXPGmGd+9K4Uz?=
+ =?iso-8859-1?Q?53T67vYTs2wK9aGdtxdgGSPlJVPwbDbAhEtGF+4TVwil5qLPxmSqlm1o4l?=
+ =?iso-8859-1?Q?rtXk/jVeDPysxa9EhfwhAy93XTRk/P9aHyEBoVxApGQ+qu09DAJV+Q22Lz?=
+ =?iso-8859-1?Q?a3GqrBW0JP1bGqqVH7Az5cJ+pW6YMmWamURQGSp8hx1UnjS4E928hS6z+I?=
+ =?iso-8859-1?Q?GxPpGJjzLYv2kzjp5t9JtVN74Pt4mJ1XxL6kRUZfxTrUPv7kD2uyifFpV3?=
+ =?iso-8859-1?Q?ZKK02jCEi7uVg9TMzz0LxvabZc8tt0uMs16w01BaamFd+xvhbd8zkT0tSf?=
+ =?iso-8859-1?Q?DUOCSu86PYA9dW0AblHcHIUYX2LcBxUtl4S6m4xO4OWVo3vlrDZx0wMwYg?=
+ =?iso-8859-1?Q?0N/X+vZhdU35SmtN8t43/bcdunYwz4i1IPsDH592OfV4Ao2ydKwg3Il7R6?=
+ =?iso-8859-1?Q?ThfRxu4GLlVuu1PIX6W8MguUXcyxbck4DG0zdZ314zpBsisNq841USvkAZ?=
+ =?iso-8859-1?Q?3wRdVbGfx6ndzonwD/HQOz5Q3GoFLaPrUco5/1Vxs6D4E/5vjau6cRBvTb?=
+ =?iso-8859-1?Q?/8sYude7XKQo448L1gDWr85UEx2H0/lDWXxDUWbfGqWiGUcYGZirwuJOgo?=
+ =?iso-8859-1?Q?qWKj+/mRBKSydruAseqL9/WoMEPWOK7c8a6gABmb8hQMa5c0x+tr2K6o8o?=
+ =?iso-8859-1?Q?AimjUrgBL0+gQ9TtHpBsMaSKFj35zZwH0Xj2vQ9yw01xwIyxZMAkujiXmj?=
+ =?iso-8859-1?Q?6sVziUjKcTRJ9O7J8k5/B7xLMirkb8KwBXpVyEkGgkFz9Do37yIJwCwLuu?=
+ =?iso-8859-1?Q?LrzVsHGsr1gqxOTOw5hdZUOcsjsaSCBI99N7EkpOT7ER6VXhbLJLje+U+b?=
+ =?iso-8859-1?Q?Of9Jhp1mgcHqYBIzGotMqEJpc=3D?=
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-OriginatorOrg: nutanix.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: BL3PR02MB7938.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ba1ae7a6-2685-4aa4-a0af-08d9d0e06c03
-X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Jan 2022 06:47:35.2284 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: f430a195-4789-4361-2377-08d9d0e06b21
+X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Jan 2022 06:47:33.7596 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: bb047546-786f-4de1-bd75-24e5b6f79043
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Uz+jsgBm3WytbvA59QJMb2VLGcFNzifcZgtTiLmlFEjMqvUhMSijqpwcu8AxXVYPHWPN32QHLsU5ZDQZQgzVOl1kXQz/zcCddvTIwS9zmKI=
+X-MS-Exchange-CrossTenant-userprincipalname: cHEKnzoFvwD09XeVC0oUUk3phd++SAfvroTvXYeUTrPSWdqUuYCxth6/LnRtw6yVQB1SEW4xeeeDQ7sxiStWvsDhKygS1mQl1NY98rhuBwo=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR02MB6530
-X-Proofpoint-GUID: N4uW55kKUwVJOOv5Hg74LTrYFJw63MDG
-X-Proofpoint-ORIG-GUID: N4uW55kKUwVJOOv5Hg74LTrYFJw63MDG
+X-Proofpoint-GUID: h5e3Lsygg2uWh2Kf1J5bc_KliICcavY1
+X-Proofpoint-ORIG-GUID: h5e3Lsygg2uWh2Kf1J5bc_KliICcavY1
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
  definitions=2022-01-06_02,2022-01-04_01,2021-12-02_01
@@ -162,38 +162,80 @@ Cc: "raphael.s.norwitz@gmail.com" <raphael.s.norwitz@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When VHOST_USER_PROTOCOL_F_CONFIGURE_MEM_SLOTS support was added to
-libvhost-user, no guardrails were added to protect against QEMU
-attempting to hot-add too many RAM slots to a VM with a libvhost-user
-based backed attached.
+From: David Hildenbrand <david@redhat.com>
 
-This change adds the missing error handling by introducing a check on
-the number of RAM slots the device has available before proceeding to
-process the VHOST_USER_ADD_MEM_REG message.
+Let's avoid having to manually copy all elements. Copy only the ones
+necessary to close the hole and perform the operation in-place without
+a second array.
 
-Suggested-by: Stefan Hajnoczi <stefanha@redhat.com>
+Signed-off-by: David Hildenbrand <david@redhat.com>
 Signed-off-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- subprojects/libvhost-user/libvhost-user.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ subprojects/libvhost-user/libvhost-user.c | 30 +++++++++++------------
+ 1 file changed, 14 insertions(+), 16 deletions(-)
 
 diff --git a/subprojects/libvhost-user/libvhost-user.c b/subprojects/libvho=
 st-user/libvhost-user.c
-index 77ddc96ddf..0fe3aa155b 100644
+index d61285e991..77ddc96ddf 100644
 --- a/subprojects/libvhost-user/libvhost-user.c
 +++ b/subprojects/libvhost-user/libvhost-user.c
-@@ -690,6 +690,11 @@ vu_add_mem_reg(VuDev *dev, VhostUserMsg *vmsg) {
-     VuDevRegion *dev_region =3D &dev->regions[dev->nregions];
-     void *mmap_addr;
+@@ -802,10 +802,8 @@ static inline bool reg_equal(VuDevRegion *vudev_reg,
 =20
-+    if (dev->nregions =3D=3D VHOST_USER_MAX_RAM_SLOTS) {
-+        vu_panic(dev, "No free ram slots available");
-+        return false;
-+    }
-+
+ static bool
+ vu_rem_mem_reg(VuDev *dev, VhostUserMsg *vmsg) {
+-    int i, j;
+-    bool found =3D false;
+-    VuDevRegion shadow_regions[VHOST_USER_MAX_RAM_SLOTS] =3D {};
+     VhostUserMemoryRegion m =3D vmsg->payload.memreg.region, *msg_region =
+=3D &m;
++    int i;
+=20
      if (vmsg->fd_num !=3D 1 ||
          vmsg->size !=3D sizeof(vmsg->payload.memreg)) {
-         vu_panic(dev, "VHOST_USER_REM_MEM_REG received multiple regions");
+@@ -823,28 +821,28 @@ vu_rem_mem_reg(VuDev *dev, VhostUserMsg *vmsg) {
+     DPRINT("    mmap_offset      0x%016"PRIx64"\n",
+            msg_region->mmap_offset);
+=20
+-    for (i =3D 0, j =3D 0; i < dev->nregions; i++) {
+-        if (!reg_equal(&dev->regions[i], msg_region)) {
+-            shadow_regions[j].gpa =3D dev->regions[i].gpa;
+-            shadow_regions[j].size =3D dev->regions[i].size;
+-            shadow_regions[j].qva =3D dev->regions[i].qva;
+-            shadow_regions[j].mmap_addr =3D dev->regions[i].mmap_addr;
+-            shadow_regions[j].mmap_offset =3D dev->regions[i].mmap_offset;
+-            j++;
+-        } else {
+-            found =3D true;
++    for (i =3D 0; i < dev->nregions; i++) {
++        if (reg_equal(&dev->regions[i], msg_region)) {
+             VuDevRegion *r =3D &dev->regions[i];
+             void *m =3D (void *) (uintptr_t) r->mmap_addr;
+=20
+             if (m) {
+                 munmap(m, r->size + r->mmap_offset);
+             }
++
++            break;
+         }
+     }
+=20
+-    if (found) {
+-        memcpy(dev->regions, shadow_regions,
+-               sizeof(VuDevRegion) * VHOST_USER_MAX_RAM_SLOTS);
++    if (i < dev->nregions) {
++        /*
++         * Shift all affected entries by 1 to close the hole at index i an=
+d
++         * zero out the last entry.
++         */
++        memmove(dev->regions + i, dev->regions + i + 1,
++               sizeof(VuDevRegion) * (dev->nregions - i - 1));
++        memset(dev->regions + dev->nregions - 1, 0,
++               sizeof(VuDevRegion));
+         DPRINT("Successfully removed a region\n");
+         dev->nregions--;
+         vmsg_set_reply_u64(vmsg, 0);
 --=20
 2.20.1
 
