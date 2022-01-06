@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 658E4486333
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 11:52:47 +0100 (CET)
-Received: from localhost ([::1]:44910 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCD9A48635E
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 12:01:12 +0100 (CET)
+Received: from localhost ([::1]:41620 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5QNy-0008HY-E9
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 05:52:46 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:32816)
+	id 1n5QW8-0000DD-1D
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 06:01:12 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:32854)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n5QDb-0007qe-G9
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n5QDc-0007r4-Kq
  for qemu-devel@nongnu.org; Thu, 06 Jan 2022 05:42:05 -0500
-Received: from mout.kundenserver.de ([212.227.126.187]:37973)
+Received: from mout.kundenserver.de ([212.227.126.134]:32915)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n5QDT-0004kK-1l
- for qemu-devel@nongnu.org; Thu, 06 Jan 2022 05:42:02 -0500
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n5QDb-0004nf-52
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 05:42:04 -0500
 Received: from quad ([82.142.12.178]) by mrelayeu.kundenserver.de (mreue012
- [212.227.15.167]) with ESMTPSA (Nemesis) id 1N1u2b-1mPjeS0iXx-012KWU; Thu, 06
+ [212.227.15.167]) with ESMTPSA (Nemesis) id 1MGQ85-1nBFd62gJB-00GoZu; Thu, 06
  Jan 2022 11:41:53 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 23/27] linux-user/nios2: Use set_sigmask in do_rt_sigreturn
-Date: Thu,  6 Jan 2022 11:41:33 +0100
-Message-Id: <20220106104137.732883-24-laurent@vivier.eu>
+Subject: [PULL 24/27] linux-user/syscall.c: malloc to g_try_malloc
+Date: Thu,  6 Jan 2022 11:41:34 +0100
+Message-Id: <20220106104137.732883-25-laurent@vivier.eu>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20220106104137.732883-1-laurent@vivier.eu>
 References: <20220106104137.732883-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:G1CYcwi24EKj4DBof4R5whAD+q4axTF8BdkqPd4/LM9HETQdRz1
- p9Qu1FHaQcIfOPszPbz57EuQrtp8LhBkuS19OvWw8ToQKsbbujGblzWqaCkD7XiM38cB3cn
- I3bnFyBWT4kM4OCtyyO+mw347TV+8cG9Rn5utEFnlCSC/d71M4SyIp2p+5kPXYbyQkIXQwV
- 1Z7ibGtFFrnBDNKF2gkKg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:kg3W/yigEMI=:lHWSmiuO1Xyi95l9MiNAMI
- VPPYvKPV6NTdzzRl7eJnJeBt1k1BvuFJY1DgIa6GZIwnxEDt1X88z3f1eydEkgRJ8sW5V7wSC
- Vci/TpPoviqwA2JlTg7CJLjRhnH7MZi/xxtQUeHzORLnm6VleAEKDa/b5tnfvSCKwvGltV2wb
- 90n2uKetZUXGPsPXUMKh9JB45isX+rRkR8eZjTS15vk/BlFptK0sc2FlPX36rz97e04uYSebA
- MBZQ9i1ivt4UJAbqn8I0uLXemSiqK/QcWcdhzUE7b46JMrXOko1deTapqB8t6+K7uLvKX8zKl
- rpFJci1a6+TE3DZD1v2iLQM1xLht1YQ1jCGyBQrk3eOOigKO0aDo7ErR7xM1n2Xy11PUhB1UQ
- W6mluu033uD9dMvQFj9J8M5QDkpu7kQAxooERDYSR+1nD9FhRRHJDrYfcxXDUx7JIwX1Md/qW
- 7ARfb1Is8W6umDKajAgu9wDGCJb+0r4qMRcM2mULaK1hNu06B2cUWU84At7/5EEJqMiItbUEg
- FTfZYij0FP5rSfaD1Z9a2cRaIvzzYIPEjqO504YTnYwspUKxL80UDxon15ZxPpLxFz/PtFO8y
- NooZ4j5Rn9dI0cRitAqsyJ0QdrnnS7q3EDbI7QPzWUD3EO+BdhHt760kYxIi3mmfW3E9aP3gy
- lRlKYVcOKpv3jJIgTvE0CfDZJthCH/Xg9Ea2hAUDtXgUHR5zWEEdDD7SLU4xBM9ShhnQ=
-Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:qtp+GW+R7zQfcw4EWrY/8LmY2s+BahHnM2ggoGxSvKVds44RRoy
+ r5vOeXpvlmLzLMJ+c9192Z7GGFvAD+itFbQ7seC/YKc68RWNqFhY1R4AtAP+WQWC86RCkEj
+ pegUYkxk9ZBgSpP1ruf9WqUzpJ8AHLsIi0nfhR6IQ8n3VFcET8pE6pQP2uC+dhiTt1ejGUA
+ Ip4re/f+2mA/0V2Ucmd1Q==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:9WymBe0aqcw=:kMgAKhxSsB0oQkyR/d69AE
+ RI+kiCo+etYGQxlSYm08C9FTw6Iaa+VrkEKjJ3bGw4eHZsa4i8puCAaNoY/xoX8c/65mn2Qtb
+ jytA2dQ5npYe4XC+9xDehnQjHdgqKS86kk79dGZ7QRzbwAZb9KwOj1M5ma2J3OetXSkniQYiy
+ dUPl1h58VUUGRYx2G1gkAu21ynyjpojO2Ig3o7jw8gn/KDp9RXjLOl16u+hCFdiOtFmSRwBn9
+ WEvdhG7LHuO0sSf8nu5/peIbbktmy/uugMu35hokA9hRvfsD0mQtqDB130l35IP3HYGGM78d9
+ 3aS3agOsSh4g0Ur+J8aEXHvCWwHxxrmrrfs/5+fuqh+yAUyfmUx4B3C6ZL36g2k1fRSYM9JaW
+ tTKV22yXH4tKrBuJlyflyrVhy6eRnck4dpTXGs4yJ59N7Ihq97Oe7bPkgiPeEoaLhnEO7lM3w
+ DGKf/lbhyyQm/zTDGyx3+YG/tGu3nvykrx5TiDldK2AtwfQWuVVquYiaL/qRIHyKOHFjIghlb
+ 9qwJRAHTxvEqyrjs7hypg+vCpvQMi3qNjFN8x+wUjDLZ5Quu5Bt8lDFhbzYrMi7mxg/ano1DZ
+ LeE1B3Hpc6IwOyY4mipnHqsNt9GiNo+i3uI7kvbL1o7yHgsemSVLgVxmrAT/53R6Ki7flyfe3
+ 0jh4okNzpeudnQqK1RQwo5e8TJ6aLHrGTbXnHHfmhcOemPvFnlFDuLukhZxfG/GuUcys=
+Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -65,58 +65,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>
+Cc: Ahmed Abouzied <email@aabouzied.com>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Richard Henderson <richard.henderson@linaro.org>
+From: Ahmed Abouzied <email@aabouzied.com>
 
-Using do_sigprocmask directly was incorrect, as it will
-leave the signal blocked by the outer layers of linux-user.
+Use g_try_malloc instead of malloc to alocate the target ifconfig.
+Also replace the corresponding free with g_free.
 
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20211221025012.1057923-8-richard.henderson@linaro.org>
+Signed-off-by: Ahmed Abouzied <email@aabouzied.com>
+Message-Id: <20220104143841.25116-1-email@aabouzied.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/nios2/signal.c | 2 +-
- linux-user/signal.c       | 2 --
- 2 files changed, 1 insertion(+), 3 deletions(-)
+ linux-user/syscall.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/linux-user/nios2/signal.c b/linux-user/nios2/signal.c
-index 80e3d42fc965..517cd392701c 100644
---- a/linux-user/nios2/signal.c
-+++ b/linux-user/nios2/signal.c
-@@ -205,7 +205,7 @@ long do_rt_sigreturn(CPUNios2State *env)
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index 3160d77154b5..ce9d64896cb8 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -4915,7 +4915,7 @@ static abi_long do_ioctl_ifconf(const IOCTLEntry *ie, uint8_t *buf_temp,
+              * We can't fit all the extents into the fixed size buffer.
+              * Allocate one that is large enough and use it instead.
+              */
+-            host_ifconf = malloc(outbufsz);
++            host_ifconf = g_try_malloc(outbufsz);
+             if (!host_ifconf) {
+                 return -TARGET_ENOMEM;
+             }
+@@ -4963,7 +4963,7 @@ static abi_long do_ioctl_ifconf(const IOCTLEntry *ie, uint8_t *buf_temp,
      }
  
-     target_to_host_sigset(&set, &frame->uc.tuc_sigmask);
--    do_sigprocmask(SIG_SETMASK, &set, NULL);
-+    set_sigmask(&set);
+     if (free_buf) {
+-        free(host_ifconf);
++        g_free(host_ifconf);
+     }
  
-     if (rt_restore_ucontext(env, &frame->uc, &rval)) {
-         goto badframe;
-diff --git a/linux-user/signal.c b/linux-user/signal.c
-index 1229fecf5cd4..f813b4f18e44 100644
---- a/linux-user/signal.c
-+++ b/linux-user/signal.c
-@@ -258,7 +258,6 @@ int do_sigprocmask(int how, const sigset_t *set, sigset_t *oldset)
-     return 0;
- }
- 
--#if !defined(TARGET_NIOS2)
- /* Just set the guest's signal mask to the specified value; the
-  * caller is assumed to have called block_signals() already.
-  */
-@@ -268,7 +267,6 @@ void set_sigmask(const sigset_t *set)
- 
-     ts->signal_mask = *set;
- }
--#endif
- 
- /* sigaltstack management */
- 
+     return ret;
 -- 
 2.33.1
 
