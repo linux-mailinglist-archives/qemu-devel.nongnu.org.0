@@ -2,67 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CA89486819
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 18:05:30 +0100 (CET)
-Received: from localhost ([::1]:53050 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97BD648682E
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 18:13:23 +0100 (CET)
+Received: from localhost ([::1]:41456 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5WCe-0006n0-PH
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 12:05:28 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40042)
+	id 1n5WKI-0001wk-8a
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 12:13:22 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42458)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1n5W5H-0002I9-Ju
- for qemu-devel@nongnu.org; Thu, 06 Jan 2022 11:57:51 -0500
-Received: from [2a00:1450:4864:20::333] (port=33344
- helo=mail-wm1-x333.google.com)
+ id 1n5WGc-00088s-G4
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 12:09:34 -0500
+Received: from [2a00:1450:4864:20::42d] (port=42813
+ helo=mail-wr1-x42d.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1n5W5F-0000Rl-BL
- for qemu-devel@nongnu.org; Thu, 06 Jan 2022 11:57:50 -0500
-Received: by mail-wm1-x333.google.com with SMTP id
- az31-20020a05600c601f00b003475c3c3d03so347748wmb.0
- for <qemu-devel@nongnu.org>; Thu, 06 Jan 2022 08:57:47 -0800 (PST)
+ id 1n5WGa-0003Xb-SL
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 12:09:34 -0500
+Received: by mail-wr1-x42d.google.com with SMTP id w20so6065050wra.9
+ for <qemu-devel@nongnu.org>; Thu, 06 Jan 2022 09:09:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=DiWpVTbQB8LMgHupaDBBXjjcIZsZaVwessQthDQ0hto=;
- b=clSWMJCsubQYkI9ZgqD/GB1zPV7l0SvKClRx5GAHwPZ/s1Hd/EadtcfVBnEYvJ01gl
- Xpd9UU4SLrJpgJCo1RrJN/HqpBf6T9u4+mBJdbzezXBGAEwFkIA+a/v4iPOw0LMfDLo3
- 72KYJsvAQ3aud2EhY8TQEpE1zXOQj2Arlmyk/4xliuFWNpIBbJqhi5QO9cMQ24wal/AB
- uJ/XnqasJFnQiIeboaEOHXrvCJGXKYk2NcDnTyNvnJMchvOWgAQ+ZUaP6v4g3HGYVFHE
- gTBoVAsi+AC8+SWGScasL7+kRTAbph7HxKqfPjseeotSntxmX230Ai/JQJsMoW4vA0G+
- M52Q==
+ :cc; bh=y517ROAQ+WoqOqCqznk9PvgkBh5YXmtnWDssJqGGdeM=;
+ b=t6bGQ1i02ZC5yrHaPQ2+hQsjZzCAYpxohMr9I7l2PCk/IK0TTxEro+KctlwptpGc2g
+ 4vm3FebadPdDOcviBljyBZectHuMX+ckBQTJPRtareXqLqW2L4PlAEDO/a/PQWiNclzJ
+ rVfNR4zGdRTCe9brXkDKxJlC8MYdsh1dZc20HndWRM1WPOr2v2OC+CK9sd5AZNwZ6EJ5
+ AEiSUJMbOiNooq/HL2IZ57loGpYB9mvxF8OisJBFYudIH6hCpoAwH9RTSqrKoEoY3nt+
+ 25VT2gFG7LV6WxbvfDwwa60HamHwRN0eZunU4h/FBN/DDgu4Qb7bn3Wi13lZd1mrg812
+ /ZjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=DiWpVTbQB8LMgHupaDBBXjjcIZsZaVwessQthDQ0hto=;
- b=P8h/HNCAqZtfA5wNSuDNPkqZaT/1+P7MfhXiL0/M6XF+kQWrJCqynU8Nt1ryX20MNq
- OYDN0iAiae2JgCFXlgVi3vSib3w2lCz9teIelnFnSQbGVVw7L8KYu0FyOdlmXavir4Tt
- Bb7Zo7v1bdbdinhIrJ3zXGiOcLaqw6yK7Uv9IPWPmvIpdLq8V6CgfQ6AOmHTrYhjtzTI
- sUYZXRGCr14AHf+MccjT7V9mg6gOSG7+xZso79BBSvE+pu6oGt9i1LBqPvRk/qUAn8OU
- hLl0uHGsIlRIphwI/+8qx5b4lqwfQ2Vp1HhYsR0zTrFOwFWlcZAfRJDurfLLrUvkpD22
- Uavg==
-X-Gm-Message-State: AOAM532sGHy9LxxN0OZ5LoQ/rLwh3HKl95f2kO4omAgBCgjgK+0pl3/i
- bixqTeqgOOFyChADjN4zIHLQ5m6vIr/gr4DadGa9Rg==
-X-Google-Smtp-Source: ABdhPJxyhzo7rLHDwPG7j+ilnB8V+YnVyjJ9M/njoXAB3IQTVEY1g0ZCLIj3zonkt5t8gYKvgIb7aDPyatLFnPPRWYE=
-X-Received: by 2002:a05:600c:154e:: with SMTP id
- f14mr8145886wmg.126.1641488266021; 
- Thu, 06 Jan 2022 08:57:46 -0800 (PST)
+ bh=y517ROAQ+WoqOqCqznk9PvgkBh5YXmtnWDssJqGGdeM=;
+ b=dScEbMfHYOCzrxY2/PN/g5AZIYJF8Ib71D0tBsbdPxXF1vVwesFFjdsDbiBkl6u+IO
+ WPjVkJqsdLUDJI45wYMwwRWVLz6OJihF39jB6fn46g6aO8dCWxlVr/P574Nlz8eH0rNe
+ SI8ql0Y7pO+te9TnEQC5AQIsqVJMuCw6fWeCdD3PTKGcXekuCJ+vgLv1yVAPmauSkYnz
+ X1FlnMG65m5zZo4ZyQWe45zLUIj/Wod2G8z0/wb+qR0MRwLPnAJU+bVVw6UHOG5X2fQ5
+ xJHgIPQwOiFBqSoYL5+Yv3M+vmyK5MjAtO6eIxzv2H/cT+l8psDcIvS+/hGNyRKZrUg2
+ qK6Q==
+X-Gm-Message-State: AOAM530+ow+K6FsmQVyr0kts0xSSnmywdwsbd5Z7odLMsBQOZeNLTWjT
+ L62knuv4b7VFTLrMkvB+2hgVMQSdcP/oLOXZUsUtzA==
+X-Google-Smtp-Source: ABdhPJzaW/QuR8YvEcjAb2xTxW8dMOunzHFJTk966KfUibQ2O5UtvV79Wjc05/+YT+XdpP2iF4miNoJQ83suf9qtfFc=
+X-Received: by 2002:a5d:64c3:: with SMTP id f3mr50360389wri.295.1641488965742; 
+ Thu, 06 Jan 2022 09:09:25 -0800 (PST)
 MIME-Version: 1.0
-References: <20211216064820.61342-1-bslathi19@gmail.com>
- <20211216064820.61342-2-bslathi19@gmail.com>
-In-Reply-To: <20211216064820.61342-2-bslathi19@gmail.com>
+References: <CAOG2ctwLQhtezS80vKWZOJQs5k4qr3PsD2UK+cx8Ce+Sa_HRww@mail.gmail.com>
+In-Reply-To: <CAOG2ctwLQhtezS80vKWZOJQs5k4qr3PsD2UK+cx8Ce+Sa_HRww@mail.gmail.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 6 Jan 2022 16:57:34 +0000
-Message-ID: <CAFEAcA_gy6dbA2X8BsvKkzdnny40hd-OHNYr1+cBFrUuZk8g4A@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] target/arm: Implement Cortex-A5
-To: Byron Lathi <bslathi19@gmail.com>
+Date: Thu, 6 Jan 2022 17:09:14 +0000
+Message-ID: <CAFEAcA-67WPBrZsnOE10UmrEq3ce5LvuiL3VT9TfSffnM-_UaQ@mail.gmail.com>
+Subject: Re: New arm alignment issue with 6.2.0 - bisected to single revision
+To: Mark Watson <scrameta@googlemail.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::333
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42d
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x333.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42d.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -82,133 +79,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: bslathi19@gmail.org, qemu-arm@nongnu.org, qemu-devel@nongnu.org
+Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 16 Dec 2021 at 06:48, Byron Lathi <bslathi19@gmail.com> wrote:
+On Wed, 29 Dec 2021 at 20:15, Mark Watson <scrameta@googlemail.com> wrote:
+> I'm seeing a repeatable alignment exception running m68k system mode on armv7l (arm cortex a9) following this commit:
+> "fa947a667fceab02f9f85fc99f54aebcc9ae6b51 is the first bad commit
+> commit fa947a667fceab02f9f85fc99f54aebcc9ae6b51
+> Author: Richard Henderson <richard.henderson@linaro.org>
+> Date: Thu Jul 29 10:45:10 2021 -1000
 >
-> Add support for the Cortex-A5. These changes are based off of the A7 and
-> A9 Init functions, using the appropriate values from the technical
-> reference manual for the A5.
+> hw/core: Make do_unaligned_access noreturn
+
+
+cc'ing Richard as this was his commit. Do you have a repro case
+(QEMU command line, any necessary files/images, etc) ?
+
 >
-> Signed-off-by: Byron Lathi <bslathi19@gmail.com>
-> ---
->  target/arm/cpu_tcg.c | 36 ++++++++++++++++++++++++++++++++++++
->  1 file changed, 36 insertions(+)
+> While we may have had some thought of allowing system-mode
+> to return from this hook, we have no guests that require this.
+> "
+> With this included I see this in the kernel dmesg log:
+> [10621.993234] Alignment trap: not handling instruction f843b004 at [<b677bb2e>]
+> [10622.000479] 8<--- cut here ---
+> [10622.003609] Unhandled fault: alignment exception (0x811) at 0xb13eed96
+> [10622.010162] pgd = 45acdb93
+> [10622.012941] [b13eed96] *pgd=0557a831, *pte=c01ee743, *ppte=c01eec33
 >
-> diff --git a/target/arm/cpu_tcg.c b/target/arm/cpu_tcg.c
-> index 13d0e9b195..2b54fb618b 100644
-> --- a/target/arm/cpu_tcg.c
-> +++ b/target/arm/cpu_tcg.c
-> @@ -304,6 +304,41 @@ static void cortex_a8_initfn(Object *obj)
->      define_arm_cp_regs(cpu, cortexa8_cp_reginfo);
->  }
+> As well as bisecting I've verified it is this revision by checking out clean HEAD then reverting just this revision (+ fixing conflicts).
 >
-> +static void cortex_a5_initfn(Object *obj)
-> +{
-> +    ARMCPU *cpu = ARM_CPU(obj);
-> +
-> +    cpu->dtb_compatible = "arm,cortex-a5";
-> +    set_feature(&cpu->env, ARM_FEATURE_V7);
-> +    set_feature(&cpu->env, ARM_FEATURE_NEON);
-> +    set_feature(&cpu->env, ARM_FEATURE_THUMB2EE);
-> +    set_feature(&cpu->env, ARM_FEATURE_DUMMY_C15_REGS);
-
-We should avoid using the DUMMY_C15_REGS feature where we
-can for new cores. It's a legacy thing where we just RAZ/WI
-the whole cp15 crn=15 space. For new CPU definitions we
-should define the actual coprocessor registers they have in
-this space, typically just as NOP/RAZ registers. You can see
-how that's done for the Cortex-A9 with the
-cortexa9_cp_reginfo[] array. The A5's registers are slightly
-different but they are documented in the TRM:
-https://developer.arm.com/documentation/ddi0433/c/system-control/register-summary/c15-summary-table?lang=en
-
-Of those, the CBAR we handle with a feature bit (see below);
-the others you can make ARM_CP_NOP for the WO ones and
-ARM_CP_CONST with value 0 for the RO and RW ones. Make
-sure you get the .access field right: these are all
-available only frome secure mode, so should use
-.access = PL3_RW / PL3_R / PL3_W for RW/RO/WO.
-
-> +    set_feature(&cpu->env, ARM_FEATURE_PMU);
-
-Missing ARM_FEATURE_EL3.
-Missing ARM_FEATURE_CBAR_RO.
-Missing ARM_FEATURE_V7MP.
-
-> +    cpu->midr = 0x410fc0f1;
-
-As you note, this is the A9 MIDR. A5 is 0x410fc051.
-
-> +    cpu->reset_fpsid = 0x41023051;
-> +    cpu->isar.mvfr0 = 0x10110221;
-
-0x10110222
-
-> +    cpu->isar.mvfr1 = 0x11000011;
-
-0x11111111
-
-These numbers are in the Cortex-A5 NEON Media Processing
-Engine TRM:
-https://developer.arm.com/documentation/ddi0450/b/Programmers-Model/Register-summary
-
-and indicate the A5's VFPv4 support, among other things.
-(QEMU drives its insn enablement off these ID register
-values, so if we get them wrong then some guest code that
-works on a real A5 will UNDEF on QEMU.)
-
-> +    cpu->ctr = 0x83338003;
-> +    cpu->reset_sctlr = 0x00c50078;
-> +    cpu->isar.id_pfr0 = 0x00001231;
-> +    cpu->isar.id_pfr1 = 0x00000011;
-> +    cpu->isar.id_dfr0 = 0x02010444;
-> +    cpu->id_afr0 = 0x00000000;
-> +    cpu->isar.id_mmfr0 = 0x00100103;
-
-0x00100003
-
-> +    cpu->isar.id_mmfr1 = 0x40000000;
-> +    cpu->isar.id_mmfr2 = 0x01230000;
-> +    cpu->isar.id_mmfr3 = 0x00102211;
-> +    cpu->isar.id_isar0 = 0x00101111;
-> +    cpu->isar.id_isar1 = 0x13112111;
-> +    cpu->isar.id_isar2 = 0x21232041;
-> +    cpu->isar.id_isar3 = 0x11112131;
-> +    cpu->isar.id_isar4 = 0x00011142;
-> +    cpu->isar.dbgdidr = 0x1203f001;
-> +    cpu->clidr = 0x09200003;
-> +    cpu->ccsidr[0] = 0x701fe00a;
-> +    cpu->ccsidr[1] = 0x203fe00a;
-
-These don't match what the A5 TRM says are valid values for the
-CCSIDR fields: specifically the associativity and linesize
-fields don't match what the TRM says are the mandated values.
-Where did you get your values from?
-
-Following the TRM fields and using 32KB for each would be:
-
-  cpu->ccsidr[0] = 0x701fe019; /* dcache: 32KB 4-way, 8 words/line */
-  cpu->ccsidr[1] = 0x203fe009; /* icache: 32KB 2-way, 8 words/line */
-
-> +}
-> +
->  static const ARMCPRegInfo cortexa9_cp_reginfo[] = {
->      /*
->       * power_control should be set to maximum latency. Again,
-> @@ -1019,6 +1054,7 @@ static const ARMCPUInfo arm_tcg_cpus[] = {
->      { .name = "arm1136",     .initfn = arm1136_initfn },
->      { .name = "arm1176",     .initfn = arm1176_initfn },
->      { .name = "arm11mpcore", .initfn = arm11mpcore_initfn },
-> +    { .name = "cortex-a5",  .initfn = cortex_a5_initfn },
->      { .name = "cortex-a7",   .initfn = cortex_a7_initfn },
->      { .name = "cortex-a8",   .initfn = cortex_a8_initfn },
->      { .name = "cortex-a9",   .initfn = cortex_a9_initfn },
-> --
-> 2.30.2
+> The patch itself just seems to be adding QEMU_NORETURN (aka '__attribute__ ((__noreturn__))') which I'd expect to be benign, so I'm not really sure what is going on.
 >
+> I cross-compiled it on Ubuntu using gcc/g++ (Ubuntu 9.3.0-17ubuntu1~20.04) 9.3.0.
+>
+
 
 thanks
 -- PMM
