@@ -2,71 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC9CB4863BC
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 12:29:14 +0100 (CET)
-Received: from localhost ([::1]:51970 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 878194863C2
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 12:33:42 +0100 (CET)
+Received: from localhost ([::1]:59388 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5QxF-0002QX-T6
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 06:29:14 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42590)
+	id 1n5R1Z-000847-LT
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 06:33:41 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42988)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.burton@greensocs.com>)
- id 1n5QqU-0000w7-Qd
- for qemu-devel@nongnu.org; Thu, 06 Jan 2022 06:22:15 -0500
-Received: from beetle.greensocs.com ([5.135.226.135]:46752)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.burton@greensocs.com>)
- id 1n5QqR-0003fH-Bx
- for qemu-devel@nongnu.org; Thu, 06 Jan 2022 06:22:14 -0500
-Received: from smtpclient.apple (unknown [54.37.16.242])
- by beetle.greensocs.com (Postfix) with ESMTPSA id A753C20785;
- Thu,  6 Jan 2022 11:22:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1641468125;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=yym0w6QX7BKHUcPMs0Hgk/yOMtZ/yaPGS64FVzKLhEY=;
- b=aFkTOY+uLZ5PdPTTIzqXeo+ut+Oxjf3bqG53/T5w53navjfOqWrHQBE9PdNTNvnSSC2Fih
- 2+vL7/rq5ERh1EMiiqpFTR0BqGZJkogK7FpKkBUIYMJ4rIs6tX63mgwrnI/aysfXDa4+/L
- 6pFiMNiAeO+WIUrGL01p7zzNmrNSKgs=
-From: Mark Burton <mark.burton@greensocs.com>
-Content-Type: multipart/alternative;
- boundary="Apple-Mail=_1108A576-F24F-46B4-9F2D-4F8BFEE7D793"
-Mime-Version: 1.0 (Mac OS X Mail 15.0 \(3693.40.0.1.81\))
-Subject: "Startup" meeting (was Re: Meeting today?)
-Date: Thu, 6 Jan 2022 12:21:56 +0100
-References: <YbJU5vVdesoGuug9@redhat.com> <87mtl88t0j.fsf@dusky.pond.sub.org>
- <a31201bb-78de-e926-1476-b48b008745c1@redhat.com>
- <878rwozfqm.fsf@dusky.pond.sub.org>
- <16cd5683-4f97-d24c-dd19-24febcab7ba8@redhat.com>
- <YbeL7EjoTtrUrGa2@redhat.com>
- <e33c3d09-b507-798c-b18e-df684ec797e2@redhat.com>
- <YbeWxAn6Zw7rH+5K@redhat.com>
- <CC132B60-3F08-4F03-B328-4C33407BB944@greensocs.com>
- <87lf0nto1k.fsf@dusky.pond.sub.org> <YbiS8Zc7fcoeoSyC@redhat.com>
- <87bl1jqm1a.fsf@dusky.pond.sub.org>
- <CAJy5ezofpy09ZOtVHFofGTzt3U8MEA_ddpBHifuF50sVDFXULA@mail.gmail.com>
-To: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Markus Armbruster <armbru@redhat.com>,
- =?utf-8?B?IkRhbmllbCBQLiBCZXJyYW5nw6ki?= <berrange@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Damien Hedde <damien.hedde@greensocs.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Mirela Grujic <mirela.grujic@greensocs.com>,
- =?utf-8?Q?Marc-Andr=C3=A9_Lureau?= <marcandre.lureau@redhat.com>
-In-Reply-To: <CAJy5ezofpy09ZOtVHFofGTzt3U8MEA_ddpBHifuF50sVDFXULA@mail.gmail.com>
-Message-Id: <73955990-9FD1-42CD-B476-F2AD95C219E9@greensocs.com>
-X-Mailer: Apple Mail (2.3693.40.0.1.81)
-Received-SPF: pass client-ip=5.135.226.135;
- envelope-from=mark.burton@greensocs.com; helo=beetle.greensocs.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <victor.colombo@eldorado.org.br>)
+ id 1n5Qt1-0002IZ-SL; Thu, 06 Jan 2022 06:24:51 -0500
+Received: from [201.28.113.2] (port=35082 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <victor.colombo@eldorado.org.br>)
+ id 1n5Qsy-0003tB-OH; Thu, 06 Jan 2022 06:24:51 -0500
+Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
+ secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
+ Thu, 6 Jan 2022 08:24:44 -0300
+Received: from eldorado.org.br (unknown [10.10.70.45])
+ by p9ibm (Postfix) with ESMTP id 187AF8001D5;
+ Thu,  6 Jan 2022 08:24:44 -0300 (-03)
+From: =?UTF-8?q?V=C3=ADctor=20Colombo?= <victor.colombo@eldorado.org.br>
+To: qemu-devel@nongnu.org,
+	qemu-ppc@nongnu.org
+Subject: [RFC PATCH] target/ppc: Remove xscmpnedp instruction
+Date: Thu,  6 Jan 2022 08:23:18 -0300
+Message-Id: <20220106112318.13864-1-victor.colombo@eldorado.org.br>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-OriginalArrivalTime: 06 Jan 2022 11:24:44.0515 (UTC)
+ FILETIME=[01547B30:01D802F0]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
+Received-SPF: pass client-ip=201.28.113.2;
+ envelope-from=victor.colombo@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,108 +55,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: danielhb413@gmail.com, groug@kaod.org, victor.colombo@eldorado.org.br,
+ clg@kaod.org, matheus.ferst@eldorado.org.br, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+xscmpnedp was added in ISA v3.0 but removed in v3.0B. This patch
+removes this instruction as it was not in the final version of v3.0.
 
---Apple-Mail=_1108A576-F24F-46B4-9F2D-4F8BFEE7D793
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=utf-8
+RFC to know if you think this is the correct approach.
 
-Can we confirm the 11th for this meeting?
+Signed-off-by: Víctor Colombo <victor.colombo@eldorado.org.br>
+---
+ target/ppc/fpu_helper.c             | 1 -
+ target/ppc/helper.h                 | 1 -
+ target/ppc/translate/vsx-impl.c.inc | 1 -
+ target/ppc/translate/vsx-ops.c.inc  | 1 -
+ 4 files changed, 4 deletions(-)
 
-Cheers
-Mark.
+diff --git a/target/ppc/fpu_helper.c b/target/ppc/fpu_helper.c
+index e5c29b53b8..f030858cf9 100644
+--- a/target/ppc/fpu_helper.c
++++ b/target/ppc/fpu_helper.c
+@@ -2270,7 +2270,6 @@ void helper_##op(CPUPPCState *env, ppc_vsr_t *xt,                             \
+ VSX_SCALAR_CMP_DP(xscmpeqdp, eq, 1, 0)
+ VSX_SCALAR_CMP_DP(xscmpgedp, le, 1, 1)
+ VSX_SCALAR_CMP_DP(xscmpgtdp, lt, 1, 1)
+-VSX_SCALAR_CMP_DP(xscmpnedp, eq, 0, 0)
+ 
+ void helper_xscmpexpdp(CPUPPCState *env, uint32_t opcode,
+                        ppc_vsr_t *xa, ppc_vsr_t *xb)
+diff --git a/target/ppc/helper.h b/target/ppc/helper.h
+index f9c72dcd50..8f02cabaf5 100644
+--- a/target/ppc/helper.h
++++ b/target/ppc/helper.h
+@@ -400,7 +400,6 @@ DEF_HELPER_5(xsnmsubdp, void, env, vsr, vsr, vsr, vsr)
+ DEF_HELPER_4(xscmpeqdp, void, env, vsr, vsr, vsr)
+ DEF_HELPER_4(xscmpgtdp, void, env, vsr, vsr, vsr)
+ DEF_HELPER_4(xscmpgedp, void, env, vsr, vsr, vsr)
+-DEF_HELPER_4(xscmpnedp, void, env, vsr, vsr, vsr)
+ DEF_HELPER_4(xscmpexpdp, void, env, i32, vsr, vsr)
+ DEF_HELPER_4(xscmpexpqp, void, env, i32, vsr, vsr)
+ DEF_HELPER_4(xscmpodp, void, env, i32, vsr, vsr)
+diff --git a/target/ppc/translate/vsx-impl.c.inc b/target/ppc/translate/vsx-impl.c.inc
+index c08185e857..fbef496257 100644
+--- a/target/ppc/translate/vsx-impl.c.inc
++++ b/target/ppc/translate/vsx-impl.c.inc
+@@ -1092,7 +1092,6 @@ GEN_VSX_HELPER_X1(xstsqrtdp, 0x14, 0x06, 0, PPC2_VSX)
+ GEN_VSX_HELPER_X3(xscmpeqdp, 0x0C, 0x00, 0, PPC2_ISA300)
+ GEN_VSX_HELPER_X3(xscmpgtdp, 0x0C, 0x01, 0, PPC2_ISA300)
+ GEN_VSX_HELPER_X3(xscmpgedp, 0x0C, 0x02, 0, PPC2_ISA300)
+-GEN_VSX_HELPER_X3(xscmpnedp, 0x0C, 0x03, 0, PPC2_ISA300)
+ GEN_VSX_HELPER_X2_AB(xscmpexpdp, 0x0C, 0x07, 0, PPC2_ISA300)
+ GEN_VSX_HELPER_R2_AB(xscmpexpqp, 0x04, 0x05, 0, PPC2_ISA300)
+ GEN_VSX_HELPER_X2_AB(xscmpodp, 0x0C, 0x05, 0, PPC2_VSX)
+diff --git a/target/ppc/translate/vsx-ops.c.inc b/target/ppc/translate/vsx-ops.c.inc
+index c974324c4c..67fa7b2e41 100644
+--- a/target/ppc/translate/vsx-ops.c.inc
++++ b/target/ppc/translate/vsx-ops.c.inc
+@@ -197,7 +197,6 @@ GEN_XX3FORM_NAME(xsnmsubdp, "xsnmsubmdp", 0x04, 0x17, PPC2_VSX),
+ GEN_XX3FORM(xscmpeqdp, 0x0C, 0x00, PPC2_ISA300),
+ GEN_XX3FORM(xscmpgtdp, 0x0C, 0x01, PPC2_ISA300),
+ GEN_XX3FORM(xscmpgedp, 0x0C, 0x02, PPC2_ISA300),
+-GEN_XX3FORM(xscmpnedp, 0x0C, 0x03, PPC2_ISA300),
+ GEN_XX3FORM(xscmpexpdp, 0x0C, 0x07, PPC2_ISA300),
+ GEN_VSX_XFORM_300(xscmpexpqp, 0x04, 0x05, 0x00600001),
+ GEN_XX2IFORM(xscmpodp,  0x0C, 0x05, PPC2_VSX),
+-- 
+2.25.1
 
-
-> On 4 Jan 2022, at 10:29, Edgar E. Iglesias <edgar.iglesias@gmail.com> =
-wrote:
->=20
->=20
->=20
-> On Tue, Dec 14, 2021 at 3:49 PM Markus Armbruster <armbru@redhat.com =
-<mailto:armbru@redhat.com>> wrote:
-> Daniel P. Berrang=C3=A9 <berrange@redhat.com =
-<mailto:berrange@redhat.com>> writes:
->=20
-> > On Tue, Dec 14, 2021 at 12:37:43PM +0100, Markus Armbruster wrote:
-> >> Mark Burton <mark.burton@greensocs.com =
-<mailto:mark.burton@greensocs.com>> writes:
-> >>=20
-> >> > I realise it=E2=80=99s very short notice, but what about having a =
-discussion today at 15:00 ?
-> >>=20
-> >> I have a conflict today.  I could try to reschedule, but I'd prefer =
-to
-> >> talk next week instead.  Less stress, better prep.
-> >
-> > I fear we've run out of time for this year if we want all interested
-> > parties to be able to attend.  I'll be off on PTO from end of this
-> > week until the new year, and I know alot of folk are doing similar.
->=20
-> Right.  I'll be off from Dec 23 to Jan 9.  Can we all make Jan 11?
->=20
-> Jan 11th works for me!
->=20
-> Thanks,
-> Edgar
-
-
---Apple-Mail=_1108A576-F24F-46B4-9F2D-4F8BFEE7D793
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/html;
-	charset=utf-8
-
-<html><head><meta http-equiv=3D"Content-Type" content=3D"text/html; =
-charset=3Dutf-8"></head><body style=3D"word-wrap: break-word; =
--webkit-nbsp-mode: space; line-break: after-white-space;" class=3D"">Can =
-we confirm the 11th for this meeting?<div class=3D""><br =
-class=3D""></div><div class=3D"">Cheers</div><div =
-class=3D"">Mark.</div><div class=3D""><br class=3D""><div><br =
-class=3D""><blockquote type=3D"cite" class=3D""><div class=3D"">On 4 Jan =
-2022, at 10:29, Edgar E. Iglesias &lt;<a =
-href=3D"mailto:edgar.iglesias@gmail.com" =
-class=3D"">edgar.iglesias@gmail.com</a>&gt; wrote:</div><br =
-class=3D"Apple-interchange-newline"><div class=3D""><div dir=3D"ltr" =
-class=3D""><div dir=3D"ltr" class=3D""><br class=3D""></div><br =
-class=3D""><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">On Tue, Dec 14, 2021 at 3:49 PM Markus Armbruster =
-&lt;<a href=3D"mailto:armbru@redhat.com" =
-class=3D"">armbru@redhat.com</a>&gt; wrote:<br =
-class=3D""></div><blockquote class=3D"gmail_quote" style=3D"margin:0px =
-0px 0px 0.8ex;border-left:1px solid =
-rgb(204,204,204);padding-left:1ex">Daniel P. Berrang=C3=A9 &lt;<a =
-href=3D"mailto:berrange@redhat.com" target=3D"_blank" =
-class=3D"">berrange@redhat.com</a>&gt; writes:<br class=3D"">
-<br class=3D"">
-&gt; On Tue, Dec 14, 2021 at 12:37:43PM +0100, Markus Armbruster =
-wrote:<br class=3D"">
-&gt;&gt; Mark Burton &lt;<a href=3D"mailto:mark.burton@greensocs.com" =
-target=3D"_blank" class=3D"">mark.burton@greensocs.com</a>&gt; =
-writes:<br class=3D"">
-&gt;&gt; <br class=3D"">
-&gt;&gt; &gt; I realise it=E2=80=99s very short notice, but what about =
-having a discussion today at 15:00 ?<br class=3D"">
-&gt;&gt; <br class=3D"">
-&gt;&gt; I have a conflict today.&nbsp; I could try to reschedule, but =
-I'd prefer to<br class=3D"">
-&gt;&gt; talk next week instead.&nbsp; Less stress, better prep.<br =
-class=3D"">
-&gt;<br class=3D"">
-&gt; I fear we've run out of time for this year if we want all =
-interested<br class=3D"">
-&gt; parties to be able to attend.&nbsp; I'll be off on PTO from end of =
-this<br class=3D"">
-&gt; week until the new year, and I know alot of folk are doing =
-similar.<br class=3D"">
-<br class=3D"">
-Right.&nbsp; I'll be off from Dec 23 to Jan 9.&nbsp; Can we all make Jan =
-11?<br class=3D""></blockquote><div class=3D""><br class=3D""></div><div =
-class=3D"">Jan 11th works for me!</div><div class=3D""><br =
-class=3D""></div><div class=3D"">Thanks,</div><div class=3D"">Edgar<br =
-class=3D""></div></div></div>
-</div></blockquote></div><br class=3D""></div></body></html>=
-
---Apple-Mail=_1108A576-F24F-46B4-9F2D-4F8BFEE7D793--
 
