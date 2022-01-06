@@ -2,40 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBED1486296
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 11:02:34 +0100 (CET)
-Received: from localhost ([::1]:50512 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D92E24862BB
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 11:12:53 +0100 (CET)
+Received: from localhost ([::1]:45026 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5PbN-0006vm-SL
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 05:02:33 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49308)
+	id 1n5PlM-00069j-Km
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 05:12:52 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49240)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1n5PIL-0001sD-JJ
- for qemu-devel@nongnu.org; Thu, 06 Jan 2022 04:42:53 -0500
-Received: from mail.loongson.cn ([114.242.206.163]:57002 helo=loongson.cn)
+ id 1n5PII-0001dV-2D
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 04:42:50 -0500
+Received: from mail.loongson.cn ([114.242.206.163]:56930 helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1n5PIJ-0003Vf-Bc
- for qemu-devel@nongnu.org; Thu, 06 Jan 2022 04:42:53 -0500
+ (envelope-from <gaosong@loongson.cn>) id 1n5PIE-0003Ud-MA
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 04:42:49 -0500
 Received: from localhost.localdomain (unknown [10.2.5.185])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dxz8toudZhmQsAAA--.229S19;
- Thu, 06 Jan 2022 17:42:33 +0800 (CST)
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dxz8toudZhmQsAAA--.229S20;
+ Thu, 06 Jan 2022 17:42:34 +0800 (CST)
 From: Song Gao <gaosong@loongson.cn>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v14 17/26] linux-user: Add LoongArch generic header files
-Date: Thu,  6 Jan 2022 04:41:51 -0500
-Message-Id: <20220106094200.1801206-18-gaosong@loongson.cn>
+Subject: [PATCH v14 18/26] linux-user: Add LoongArch specific structures
+Date: Thu,  6 Jan 2022 04:41:52 -0500
+Message-Id: <20220106094200.1801206-19-gaosong@loongson.cn>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20220106094200.1801206-1-gaosong@loongson.cn>
 References: <20220106094200.1801206-1-gaosong@loongson.cn>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9Dxz8toudZhmQsAAA--.229S19
-X-Coremail-Antispam: 1UD129KBjvJXoWxXrWUGr48ur1rZryDCr4Uurg_yoW5Ar13pF
- Wfur1fGr48JrWxt3s8XFy5ZF15Xa1v9F17uayxWry8Jr97A348ZwnrKrykWay7Xw1jkFW0
- 9r90ka1jkF48XaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+X-CM-TRANSID: AQAAf9Dxz8toudZhmQsAAA--.229S20
+X-Coremail-Antispam: 1UD129KBjvJXoW7Zw4xCw4DXrWDKr4rXr43Jrb_yoW8Cw1fpF
+ 4rA3Z8Aw43JrWIq3sxKryUXry3XF18uFW3Za4Ikry8A3yxt3yrZF1UKrZxAasxWw1UCrW3
+ ZFWktr1UCa1UGFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
  9KBjDU0xBIdaVrnUUvcSsGvfC2KfnxnUUI43ZEXa7xR_UUUUUUUUU==
 X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
 Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
@@ -57,100 +56,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Xiaojuan Yang <yangxiaojuan@loongson.cn>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This includes:
-- sockbits.h
-- target_errno_defs.h
-- target_fcntl.h
-- termbits.h
-
 Signed-off-by: Song Gao <gaosong@loongson.cn>
 Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- linux-user/loongarch64/sockbits.h          | 11 +++++++++++
- linux-user/loongarch64/target_errno_defs.h | 12 ++++++++++++
- linux-user/loongarch64/target_fcntl.h      | 11 +++++++++++
- linux-user/loongarch64/termbits.h          | 11 +++++++++++
- 4 files changed, 45 insertions(+)
- create mode 100644 linux-user/loongarch64/sockbits.h
- create mode 100644 linux-user/loongarch64/target_errno_defs.h
- create mode 100644 linux-user/loongarch64/target_fcntl.h
- create mode 100644 linux-user/loongarch64/termbits.h
+ linux-user/loongarch64/target_structs.h | 47 +++++++++++++++++++++++++
+ 1 file changed, 47 insertions(+)
+ create mode 100644 linux-user/loongarch64/target_structs.h
 
-diff --git a/linux-user/loongarch64/sockbits.h b/linux-user/loongarch64/sockbits.h
+diff --git a/linux-user/loongarch64/target_structs.h b/linux-user/loongarch64/target_structs.h
 new file mode 100644
-index 0000000000..1cffcae120
+index 0000000000..8be3609fe8
 --- /dev/null
-+++ b/linux-user/loongarch64/sockbits.h
-@@ -0,0 +1,11 @@
++++ b/linux-user/loongarch64/target_structs.h
+@@ -0,0 +1,47 @@
 +/* SPDX-License-Identifier: GPL-2.0-or-later */
 +/*
++ * LoongArch specific structures for linux-user
++ *
 + * Copyright (c) 2021 Loongson Technology Corporation Limited
 + */
 +
-+#ifndef LOONGARCH_TARGET_SOCKBITS_H
-+#define LOONGARCH_TARGET_SOCKBITS_H
++#ifndef LOONGARCH_TARGET_STRUCTS_H
++#define LOONGARCH_TARGET_STRUCTS_H
 +
-+#include "../generic/sockbits.h"
++struct target_ipc_perm {
++    abi_int __key;                      /* Key.  */
++    abi_uint uid;                       /* Owner's user ID.  */
++    abi_uint gid;                       /* Owner's group ID.  */
++    abi_uint cuid;                      /* Creator's user ID.  */
++    abi_uint cgid;                      /* Creator's group ID.  */
++    abi_ushort mode;                    /* Read/write permission.  */
++    abi_ushort __pad1;
++    abi_ushort __seq;                   /* Sequence number.  */
++    abi_ushort __pad2;
++    abi_ulong __unused1;
++    abi_ulong __unused2;
++};
 +
++struct target_shmid_ds {
++    struct target_ipc_perm shm_perm;    /* operation permission struct */
++    abi_long shm_segsz;                 /* size of segment in bytes */
++    abi_ulong shm_atime;                /* time of last shmat() */
++#if TARGET_ABI_BITS == 32
++    abi_ulong __unused1;
 +#endif
-diff --git a/linux-user/loongarch64/target_errno_defs.h b/linux-user/loongarch64/target_errno_defs.h
-new file mode 100644
-index 0000000000..c198b8aca9
---- /dev/null
-+++ b/linux-user/loongarch64/target_errno_defs.h
-@@ -0,0 +1,12 @@
-+/* SPDX-License-Identifier: GPL-2.0-or-later */
-+/*
-+ * Copyright (c) 2021 Loongson Technology Corporation Limited
-+ */
-+
-+#ifndef LOONGARCH_TARGET_ERRNO_DEFS_H
-+#define LOONGARCH_TARGET_ERRNO_DEFS_H
-+
-+/* Target uses generic errno */
-+#include "../generic/target_errno_defs.h"
-+
++    abi_ulong shm_dtime;                /* time of last shmdt() */
++#if TARGET_ABI_BITS == 32
++    abi_ulong __unused2;
 +#endif
-diff --git a/linux-user/loongarch64/target_fcntl.h b/linux-user/loongarch64/target_fcntl.h
-new file mode 100644
-index 0000000000..99bf586854
---- /dev/null
-+++ b/linux-user/loongarch64/target_fcntl.h
-@@ -0,0 +1,11 @@
-+/* SPDX-License-Identifier: GPL-2.0-or-later */
-+/*
-+ * Copyright (c) 2021 Loongson Technology Corporation Limited
-+ */
-+
-+#ifndef LOONGARCH_TARGET_FCNTL_H
-+#define LOONGARCH_TARGET_FCNTL_H
-+
-+#include "../generic/fcntl.h"
-+
++    abi_ulong shm_ctime;                /* time of last change by shmctl() */
++#if TARGET_ABI_BITS == 32
++    abi_ulong __unused3;
 +#endif
-diff --git a/linux-user/loongarch64/termbits.h b/linux-user/loongarch64/termbits.h
-new file mode 100644
-index 0000000000..d425db8748
---- /dev/null
-+++ b/linux-user/loongarch64/termbits.h
-@@ -0,0 +1,11 @@
-+/* SPDX-License-Identifier: GPL-2.0-or-later */
-+/*
-+ * Copyright (c) 2021 Loongson Technology Corporation Limited
-+ */
-+
-+#ifndef LOONGARCH_TARGET_TERMBITS_H
-+#define LOONGARCH_TARGET_TERMBITS_H
-+
-+#include "../generic/termbits.h"
++    abi_int shm_cpid;                   /* pid of creator */
++    abi_int shm_lpid;                   /* pid of last shmop */
++    abi_ulong shm_nattch;               /* number of current attaches */
++    abi_ulong __unused4;
++    abi_ulong __unused5;
++};
 +
 +#endif
 -- 
