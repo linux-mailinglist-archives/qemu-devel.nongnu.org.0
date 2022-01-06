@@ -2,73 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74FE6485CB3
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 00:57:47 +0100 (CET)
-Received: from localhost ([::1]:43978 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63106485CF8
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 01:12:37 +0100 (CET)
+Received: from localhost ([::1]:46928 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5GA6-0004Kl-2o
-	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 18:57:46 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40094)
+	id 1n5GOR-0007KF-UG
+	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 19:12:35 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42592)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1n5G8e-0003dz-Dj; Wed, 05 Jan 2022 18:56:16 -0500
-Received: from [2a00:1450:4864:20::436] (port=34619
- helo=mail-wr1-x436.google.com)
+ id 1n5GNR-0006Ss-JE; Wed, 05 Jan 2022 19:11:33 -0500
+Received: from [2607:f8b0:4864:20::635] (port=38736
+ helo=mail-pl1-x635.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1n5G8Z-0007PW-D0; Wed, 05 Jan 2022 18:56:12 -0500
-Received: by mail-wr1-x436.google.com with SMTP id h23so1440855wrc.1;
- Wed, 05 Jan 2022 15:56:10 -0800 (PST)
+ id 1n5GNP-0006mA-MV; Wed, 05 Jan 2022 19:11:33 -0500
+Received: by mail-pl1-x635.google.com with SMTP id c3so916036pls.5;
+ Wed, 05 Jan 2022 16:11:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:mime-version
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=kDAd1vBFe4hWcDSW7xvS8jiBEbdnQnlbGBH8BB1Tmfs=;
- b=V+c8OinRWYAjTW6KB+8RdbV512v5LNgHRx0zl+XbEAlJmBwFGO3qPOOSW1ngAeCero
- HcMomX0Ey/p2nXOPzwcdBRAuxpJI7oQaw00BiFZjKNAmDY/QA427vd+FwPziUjVRxZ9L
- EBYUSfvewi8YeLiKxwfomFS6is+3EB8E8qYc8EKweq3arW06R9/+XOniTft5jFWA5rYo
- SJn/IjRV2OSPJjXPSu8T2ZFTGZWOuyspKl1GExX0es+Ll6ZAHPg9PTmL89wgsomDAONz
- TsSjZWntTgNGMjOC0IGiN67UiaXbXUXlpn5t+UGmRRr4gctlmyYYyVrsXo0fGtt8FAcK
- eJ1A==
+ bh=JMe2nxqegEVujllqHoEalDyViUQfVCgRqA7Md8LAjWE=;
+ b=S5tOti/NG+rtjPUi7tTNVBE2nBVVtTaePwPAvm8g+4vSvT7RnqNKSx8CMvBqItcoUS
+ Zg+oodtqkNTGAjr4zYWwbRHrdvrPs2uzaz1JC5gY4BoTkdERg6cmGRiHQJnICpUvQJPc
+ HFFdpnlCx518DCdIcyeYGX6maLC8smYNgOfju2MOfVpK2SIrqfVryKtJIOZIgdW8Yoka
+ MpG50b9is8F2VlOP0w02DIfUicqn+aDTqGUE79JV+172bIqQpGDjSUHsiTu2tO+pk0MR
+ dCLUZwMDfc2AF2171XetYOA4Lhg7WtZ3nGFPgLBa3p3s3GGfD3ZB7a6YkssFOz0/NOnM
+ 1/Sw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=kDAd1vBFe4hWcDSW7xvS8jiBEbdnQnlbGBH8BB1Tmfs=;
- b=KKPRYLcC3ut+/2sBd6Zd62LDEg3Jiwn/8rxay3E4pKdhXK+XPi5xf8JeDReHv5+YFQ
- RZe5UcTdah8Ny7m97evaz47Kj+TEPNmzwD+jndZapIRnSBmm8GyU8Ng5ECjp7ysJ/vSy
- tOMcl716QmfpqBW22isVXvqb0D2JNFGEWtjPC/LcgIPcsZMJ1zvDPJlNu5zwdh3E02xs
- AZZvBhc5gyF8l5ezf92qonvanJhq4Uyz9B/AHj4wUe0i/aWSPd6/hn5Ztm6ypAZeJNcv
- ybkXRcYzbAWraP+EQyK23Tg+ImxPRfd21fRk47Ji5yXjHq36hLF0dwBjlgbSTtfvvDTy
- qNTg==
-X-Gm-Message-State: AOAM5307V1BHQoPkMj0Mqmq2PBzvJVplRzcuwof1r3cRPjdyoETxjv46
- ff1rVXlgyygK5zJsJLPzzt4WcSPm6VEFwQ==
-X-Google-Smtp-Source: ABdhPJwP5wLUgXGNEEesWLDz5U3tShhLNWYdTYEJV60jgLVFBr1+RzIL/UqUuU4tA8WLVB+sIi8niw==
-X-Received: by 2002:a5d:598c:: with SMTP id n12mr50398456wri.541.1641426969292; 
- Wed, 05 Jan 2022 15:56:09 -0800 (PST)
-Received: from nuc.. (83.red-83-50-87.dynamicip.rima-tde.net. [83.50.87.83])
- by smtp.gmail.com with ESMTPSA id ba18sm395903wrb.40.2022.01.05.15.56.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 05 Jan 2022 15:56:08 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [RFC PATCH] block/file-posix: Remove a deprecation warning on macOS 12
-Date: Thu,  6 Jan 2022 00:56:07 +0100
-Message-Id: <20220105235607.212848-1-f4bug@amsat.org>
-X-Mailer: git-send-email 2.33.1
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=JMe2nxqegEVujllqHoEalDyViUQfVCgRqA7Md8LAjWE=;
+ b=XgZ72l7C0tLRgoHQrdzCPKtIPyjc0Cx49F8RyIZsNP5Q/+yT0/o0/o7Azb5HGhv+CC
+ pJtGRGaKPUOsRqOcxqKM+6uGRQ8BXRqClbjOhDu0IsubF9WRvaqCCJ0gRgO5vkQl/P6j
+ XKX3hRG3qxJ3+RnjJx26IjmwhrSUYfvtI2aKMsESeKNE8rxjQxL0dkTokih6e//YusCT
+ vUjiy/LArGZOipbRC+SlcfMxV6nRoCRR4aqMXBbSVt77LXb0CVvd/Fqg1Q2g29AxVD/q
+ 8cvczSVRK5qF6yyPvXZwuLCXqAIx2EtEBW/nu6f7hGZ/o8dlo5Eys5g3GNQY5gUFjIKC
+ bqsg==
+X-Gm-Message-State: AOAM532A8l3nFRzCk3/3veIlHJa3/PtzzDAYXUT3pZfoaqmvddEIKub1
+ qKIQDhwvEGbBBMi/NrTW4TA=
+X-Google-Smtp-Source: ABdhPJx9g+SqkxTkMhoFUFwXzOPOyso6N8GpMJXVlxFYpd66CWh3hB7vNdUEOR0QahhE+qJYKmYnTQ==
+X-Received: by 2002:a17:903:1c7:b0:149:7cab:6d7f with SMTP id
+ e7-20020a17090301c700b001497cab6d7fmr44955586plh.101.1641427889706; 
+ Wed, 05 Jan 2022 16:11:29 -0800 (PST)
+Received: from [192.168.1.33] (83.red-83-50-87.dynamicip.rima-tde.net.
+ [83.50.87.83])
+ by smtp.gmail.com with ESMTPSA id mw8sm123180pjb.42.2022.01.05.16.11.27
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 05 Jan 2022 16:11:29 -0800 (PST)
+Message-ID: <428615ed-de30-4859-76c7-ab310c4fcf76@amsat.org>
+Date: Thu, 6 Jan 2022 01:11:25 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.4.1
+Subject: Re: [PATCH] ide: Explicitly poll for BHs on cancel
+Content-Language: en-US
+To: Hanna Reitz <hreitz@redhat.com>, qemu-block@nongnu.org
+References: <20220105111337.10366-1-hreitz@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+In-Reply-To: <20220105111337.10366-1-hreitz@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::436
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::635
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x436.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x635.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-1.057,
  RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
@@ -83,69 +91,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- qemu-block@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- John Arbuckle <programmingkidx@gmail.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, Joelle van Dyne <j@getutm.app>
+Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When building on macOS 12 we get:
+Cc'ing Mark for macio which seems to have the same issue.
 
-  ../block/file-posix.c:3335:18: warning: 'IOMasterPort' is deprecated: first deprecated in macOS 12.0 [-Wdeprecated-declarations]
-      kernResult = IOMasterPort( MACH_PORT_NULL, &masterPort );
-                   ^~~~~~~~~~~~
-                   IOMainPort
+On 5/1/22 12:13, Hanna Reitz wrote:
+> When we still have an AIOCB registered for DMA operations, we try to
+> settle the respective operation by draining the BlockBackend associated
+> with the IDE device.
+> 
+> However, this assumes that every DMA operation is associated with some
+> I/O operation on the BlockBackend, and so settling the latter will
+> settle the former.  That is not the case; for example, the guest is free
+> to issue a zero-length TRIM operation that will not result in any I/O
+> operation forwarded to the BlockBackend.  In such a case, blk_drain()
+> will be a no-op if no other operations are in flight.
+> 
+> It is clear that if blk_drain() is a no-op, the value of
+> s->bus->dma->aiocb will not change between checking it in the `if`
+> condition and asserting that it is NULL after blk_drain().
+> 
+> To settle the DMA operation, we will thus need to explicitly invoke
+> aio_poll() ourselves, which will run any outstanding BHs (like
+> ide_trim_bh_cb()), until s->bus->dma->aiocb is NULL.  To stop this from
+> being an infinite loop, assert that we made progress with every
+> aio_poll() call (i.e., invoked some BH).
+> 
+> Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=2029980
+> Signed-off-by: Hanna Reitz <hreitz@redhat.com>
 
-Use IOMainPort (define it to IOMasterPort on macOS < 12),
-and replace 'master' by 'main' in a variable name.
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- block/file-posix.c | 13 +++++++++----
- 1 file changed, 9 insertions(+), 4 deletions(-)
-
-diff --git a/block/file-posix.c b/block/file-posix.c
-index b283093e5b..0dcfce1856 100644
---- a/block/file-posix.c
-+++ b/block/file-posix.c
-@@ -3324,17 +3324,22 @@ BlockDriver bdrv_file = {
- #if defined(__APPLE__) && defined(__MACH__)
- static kern_return_t GetBSDPath(io_iterator_t mediaIterator, char *bsdPath,
-                                 CFIndex maxPathSize, int flags);
-+
-+#if !defined(MAC_OS_VERSION_12_0)
-+#define IOMainPort IOMasterPort
-+#endif
-+
- static char *FindEjectableOpticalMedia(io_iterator_t *mediaIterator)
- {
-     kern_return_t kernResult = KERN_FAILURE;
--    mach_port_t     masterPort;
-+    mach_port_t mainPort;
-     CFMutableDictionaryRef  classesToMatch;
-     const char *matching_array[] = {kIODVDMediaClass, kIOCDMediaClass};
-     char *mediaType = NULL;
- 
--    kernResult = IOMasterPort( MACH_PORT_NULL, &masterPort );
-+    kernResult = IOMainPort(MACH_PORT_NULL, &mainPort);
-     if ( KERN_SUCCESS != kernResult ) {
--        printf( "IOMasterPort returned %d\n", kernResult );
-+        printf("IOMainPort returned %d\n", kernResult);
-     }
- 
-     int index;
-@@ -3347,7 +3352,7 @@ static char *FindEjectableOpticalMedia(io_iterator_t *mediaIterator)
-         }
-         CFDictionarySetValue(classesToMatch, CFSTR(kIOMediaEjectableKey),
-                              kCFBooleanTrue);
--        kernResult = IOServiceGetMatchingServices(masterPort, classesToMatch,
-+        kernResult = IOServiceGetMatchingServices(mainPort, classesToMatch,
-                                                   mediaIterator);
-         if (kernResult != KERN_SUCCESS) {
-             error_report("Note: IOServiceGetMatchingServices returned %d",
--- 
-2.33.1
+> ---
+> Perhaps for a lack of being aware of all the kinds of tests we have, I
+> found it impossible to write a reproducer in any of our current test
+> frameworks: From how I understand the issue, to reproduce it, you need
+> to issue a TRIM request and immediately cancel it, before
+> ide_trim_bh_cb() (scheduled as a BH) can run.
+> 
+> I wanted to do this via qtest, but that does not work, because every
+> port I/O operation is done via a qtest command, and QEMU will happily
+> poll the main context between each qtest command, which means that you
+> cannot cancel an ongoing IDE request before a BH scheduled by it is run.
+> 
+> Therefore, I wrote an x86 boot sector that sets up a no-op TRIM request
+> (i.e. one where all TRIM ranges have length 0) and immediately cancels
+> it by setting SRST.  It is attached to the BZ linked above, and can be
+> tested as follows:
+> 
+> $ TEST_BIN=test.bin
+> $ (sleep 1; echo 'info registers'; echo quit) \
+>      | ./qemu-system-x86_64 \
+>          -drive if=ide,file=$TEST_BIN,format=raw \
+>          -monitor stdio \
+>      | grep EIP= \
+>      | sed -e 's/ EFL.*//'
+> 
+> The result should be:
+> EIP=00007c72
+> 
+> Not:
+> qemu-system-x86_64: ../hw/ide/core.c:734: ide_cancel_dma_sync: Assertion
+> `s->bus->dma->aiocb == NULL' failed.
+> ---
+>   hw/ide/core.c | 12 +++++++++++-
+>   1 file changed, 11 insertions(+), 1 deletion(-)
+> 
+> diff --git a/hw/ide/core.c b/hw/ide/core.c
+> index e28f8aad61..c7f7a1016c 100644
+> --- a/hw/ide/core.c
+> +++ b/hw/ide/core.c
+> @@ -731,7 +731,17 @@ void ide_cancel_dma_sync(IDEState *s)
+>       if (s->bus->dma->aiocb) {
+>           trace_ide_cancel_dma_sync_remaining();
+>           blk_drain(s->blk);
+> -        assert(s->bus->dma->aiocb == NULL);
+> +
+> +        /*
+> +         * Wait for potentially still-scheduled BHs, like ide_trim_bh_cb()
+> +         * (blk_drain() will only poll if there are in-flight requests on the
+> +         * BlockBackend, which there may not necessarily be, e.g. when the
+> +         * guest has issued a zero-length TRIM request)
+> +         */
+> +        while (s->bus->dma->aiocb) {
+> +            bool progress = aio_poll(qemu_get_aio_context(), true);
+> +            assert(progress);
+> +        }
+>       }
+>   }
+>   
 
 
