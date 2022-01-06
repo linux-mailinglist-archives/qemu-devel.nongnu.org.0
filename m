@@ -2,71 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 368074865A6
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 14:58:51 +0100 (CET)
-Received: from localhost ([::1]:44916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 547034865C4
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 15:04:53 +0100 (CET)
+Received: from localhost ([::1]:60446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5TI2-0005bs-Am
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 08:58:50 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42134)
+	id 1n5TNs-0007oi-Bv
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 09:04:52 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42176)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n5Seh-0005ER-SN
- for qemu-devel@nongnu.org; Thu, 06 Jan 2022 08:18:11 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42125)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n5Sei-0005HZ-Vc
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 08:18:13 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:31944)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n5See-0000yj-Jn
- for qemu-devel@nongnu.org; Thu, 06 Jan 2022 08:18:11 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n5Seg-0000z9-0K
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 08:18:12 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641475082;
+ s=mimecast20190719; t=1641475084;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kgzqJC25sNjBn6Va784JQ0lgK8k1CWrkfr62QAcjXXk=;
- b=AvoZFaNgz9kcS+0kk1XOlPe+idWzOnpD/dzNWLSWdzBBb8ygd3isc6Jx+U2XMtYGo3QtHs
- S4EWcNtbYkPO71IfFda1qCUJ4pl7+7QyNNN5BbiuvrI3BuHgE9wPgsyVQ4fjO4x0gFrRh1
- yOtp8pWavF0e2iRLIDCGARZxGodvbZI=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=E8cVuTw3WnQz2PCB6BKnsgn/gSst2XbDgCGG/3vh9UE=;
+ b=TFgihAcLUNcvMrQKwwkd3/C316hKPGpM3aHHUo+itgTrzoPY8uaCFg8IetNMhNfJ2mkjUS
+ bFZ/W985hnjhZErmRWh9rdpGS2VSAK9gdPnQowNceVei42oisaFdSj/g5RjNcLeebjtKMe
+ OM+nqz+/JP+23m3NX6eIbPVBtjhLkjE=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-232-8tcRaFtENTm9_pwzR2wg0w-1; Thu, 06 Jan 2022 08:18:00 -0500
-X-MC-Unique: 8tcRaFtENTm9_pwzR2wg0w-1
-Received: by mail-ed1-f72.google.com with SMTP id
- i5-20020a05640242c500b003f84839a8c3so1939578edc.6
- for <qemu-devel@nongnu.org>; Thu, 06 Jan 2022 05:18:00 -0800 (PST)
+ us-mta-269-uEGEdwzeO-2HTgphdNYYTw-1; Thu, 06 Jan 2022 08:18:03 -0500
+X-MC-Unique: uEGEdwzeO-2HTgphdNYYTw-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ g11-20020a056402090b00b003f8fd1ac475so1950479edz.1
+ for <qemu-devel@nongnu.org>; Thu, 06 Jan 2022 05:18:03 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=kgzqJC25sNjBn6Va784JQ0lgK8k1CWrkfr62QAcjXXk=;
- b=kZOuM6BAxsQjX9sz/clovrqqvgBPD4nMXawowXgXAdQuOWy8nU2wM/srj1HhTvIOAi
- OfucBZTnS8YooNW4VUxmiksxn+GAAjmHk32E2gy8Pg5au15e6ps3gLjj3PcfmbZ66bGq
- bblsobz/3u2Gb8PRj0K9KUMogNPY7bzOhLSPOjXHBDKwlLkSiPRSmr8tFGgfK7cCH87Q
- 9pNpf9DWtD2za0zCKDSDeQIntu/ZCKor8ZuOeJriK/KRmOWqzB/v7xYykYeZzWGElgC/
- HI4qVDGoIrZeiE1YXp43DOQH9ClUEmIDcaN4Yz4a4tB34lu3niA7qeSzIlZQ3Ou/JZ2j
- 0aFg==
-X-Gm-Message-State: AOAM532qvQJmh73qHFHe5riyvI/TzLaWTZmiQp35UwsPMR+GMW8iAcT6
- 5PEgq+dmt13yMWjmFi5lnsH7+tesmuGHEBDSjwgqGg+e30YLx7AgkMVb8+P6Y9vBURxaD6Ic7nq
- 4H0RdCo0VmhLmhmKYu/QztoFWEFxKsc4tqSQkdg2gJOMzK8PDAgsyuTymVSFW
-X-Received: by 2002:a05:6402:3d9:: with SMTP id
- t25mr53473508edw.70.1641475079225; 
- Thu, 06 Jan 2022 05:17:59 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxPjMR5AVkYJgRCzkgs/UpOzT+Y5C8c8UQDOdFvfOBAiAVQLeAWYxQvEORf0FD4woHmtGJNQg==
-X-Received: by 2002:a05:6402:3d9:: with SMTP id
- t25mr53473480edw.70.1641475078900; 
- Thu, 06 Jan 2022 05:17:58 -0800 (PST)
+ :mime-version:content-disposition:in-reply-to;
+ bh=E8cVuTw3WnQz2PCB6BKnsgn/gSst2XbDgCGG/3vh9UE=;
+ b=QxZKjdeyHOAzBUnkmNN3B/7AohLfDA1FwkT/KY4L/fRHKn8F7S5r84uki8dWVu/F+N
+ 75j1pmsqbRmWzAjpD8NpZugmtCGVtJCHfgQ16XuwYjrrZOZUf70DJy9oR/KPokwf4fQV
+ EUvpVRhvtSIFBJ4axdfOdwxqNpNsWiu8+Inr9i9I06SUqR487XLRbL00QmVJtr2m/UAj
+ 4gwlNJY3TYzqrr3Dbj+SpMYveoCWdpQbKhEALF3EEdHk4zWeYBA4JNkscTv0ra8ya74l
+ 14jgkLUDsIxUf/3AXO1ZeffGoeXpo7oICwL6NqJ2+tX+7/O4CeKA6QBHTnAy7C/UpqEf
+ iP5g==
+X-Gm-Message-State: AOAM530x1lbtFOX/dMGKs7vTO8NW6tLPMMYewKoxzcqE/RSqCJjZjhJq
+ xdSgG+RshKLWpRNc5mxeCySGTAyoSb6IMwD8TlL/WYUYgIoG+Yox+Xl7/jvAgYPQwhA1q5+SvpW
+ Qjiw17KB67/7zsWCIySeEq9x+dbluff6FnTVIthRlnbIvN1vnuvSk4xgQE8tD
+X-Received: by 2002:a17:907:9810:: with SMTP id
+ ji16mr44576245ejc.601.1641475081879; 
+ Thu, 06 Jan 2022 05:18:01 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwv/1mrShMtoH/JqlZzcUU6mgtQxhF+LCX8o5t9HQMs1Rs5GUac7JtM7HaSfWSIHqOjEfh5ow==
+X-Received: by 2002:a17:907:9810:: with SMTP id
+ ji16mr44576229ejc.601.1641475081622; 
+ Thu, 06 Jan 2022 05:18:01 -0800 (PST)
 Received: from redhat.com ([2a03:c5c0:207e:991b:6857:5652:b903:a63b])
- by smtp.gmail.com with ESMTPSA id 19sm485624ejv.207.2022.01.06.05.17.56
+ by smtp.gmail.com with ESMTPSA id q18sm23146eds.11.2022.01.06.05.18.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Jan 2022 05:17:58 -0800 (PST)
-Date: Thu, 6 Jan 2022 08:17:55 -0500
+ Thu, 06 Jan 2022 05:18:01 -0800 (PST)
+Date: Thu, 6 Jan 2022 08:17:59 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 35/52] util/oslib-posix: Forward SIGBUS to MCE handler under
- Linux
-Message-ID: <20220106131534.423671-36-mst@redhat.com>
+Subject: [PULL 36/52] virtio-mem: Support "prealloc=on" option
+Message-ID: <20220106131534.423671-37-mst@redhat.com>
 References: <20220106131534.423671-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20220106131534.423671-1-mst@redhat.com>
@@ -76,10 +73,9 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -100,139 +96,128 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Daniel P =?utf-8?B?LiBCZXJyYW5nw6k=?= <berrange@redhat.com>,
- David Hildenbrand <david@redhat.com>, Michal Privoznik <mprivozn@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Michal Privoznik <mprivozn@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: David Hildenbrand <david@redhat.com>
 
-Temporarily modifying the SIGBUS handler is really nasty, as we might be
-unlucky and receive an MCE SIGBUS while having our handler registered.
-Unfortunately, there is no way around messing with SIGBUS when
-MADV_POPULATE_WRITE is not applicable or not around.
+For scarce memory resources, such as hugetlb, we want to be able to
+prealloc such memory resources in order to not crash later on access. On
+simple user errors we could otherwise easily run out of memory resources
+an crash the VM -- pretty much undesired.
 
-Let's forward SIGBUS that don't belong to us to the already registered
-handler and document the situation.
+For ordinary memory devices, such as DIMMs, we preallocate memory via the
+memory backend for such use cases; however, with virtio-mem we're dealing
+with sparse memory backends; preallocating the whole memory backend
+destroys the whole purpose of virtio-mem.
 
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Instead, we want to preallocate memory when actually exposing memory to the
+VM dynamically, and fail plugging memory gracefully + warn the user in case
+preallocation fails.
+
+A common use case for hugetlb will be using "reserve=off,prealloc=off" for
+the memory backend and "prealloc=on" for the virtio-mem device. This
+way, no huge pages will be reserved for the process, but we can recover
+if there are no actual huge pages when plugging memory. Libvirt is
+already prepared for this.
+
+Note that preallocation cannot protect from the OOM killer -- which
+holds true for any kind of preallocation in QEMU. It's primarily useful
+only for scarce memory resources such as hugetlb, or shared file-backed
+memory. It's of little use for ordinary anonymous memory that can be
+swapped, KSM merged, ... but we won't forbid it.
+
 Reviewed-by: Michal Privoznik <mprivozn@redhat.com>
 Signed-off-by: David Hildenbrand <david@redhat.com>
-Message-Id: <20211217134611.31172-8-david@redhat.com>
+Message-Id: <20211217134611.31172-9-david@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- softmmu/cpus.c     |  4 ++++
- util/oslib-posix.c | 36 +++++++++++++++++++++++++++++++++---
- 2 files changed, 37 insertions(+), 3 deletions(-)
+ include/hw/virtio/virtio-mem.h |  4 ++++
+ hw/virtio/virtio-mem.c         | 39 ++++++++++++++++++++++++++++++----
+ 2 files changed, 39 insertions(+), 4 deletions(-)
 
-diff --git a/softmmu/cpus.c b/softmmu/cpus.c
-index 071085f840..23bca46b07 100644
---- a/softmmu/cpus.c
-+++ b/softmmu/cpus.c
-@@ -352,6 +352,10 @@ static void qemu_init_sigbus(void)
- {
-     struct sigaction action;
+diff --git a/include/hw/virtio/virtio-mem.h b/include/hw/virtio/virtio-mem.h
+index a5dd6a493b..0ac7bcb3b6 100644
+--- a/include/hw/virtio/virtio-mem.h
++++ b/include/hw/virtio/virtio-mem.h
+@@ -30,6 +30,7 @@ OBJECT_DECLARE_TYPE(VirtIOMEM, VirtIOMEMClass,
+ #define VIRTIO_MEM_REQUESTED_SIZE_PROP "requested-size"
+ #define VIRTIO_MEM_BLOCK_SIZE_PROP "block-size"
+ #define VIRTIO_MEM_ADDR_PROP "memaddr"
++#define VIRTIO_MEM_PREALLOC_PROP "prealloc"
  
-+    /*
-+     * ALERT: when modifying this, take care that SIGBUS forwarding in
-+     * os_mem_prealloc() will continue working as expected.
-+     */
-     memset(&action, 0, sizeof(action));
-     action.sa_flags = SA_SIGINFO;
-     action.sa_sigaction = sigbus_handler;
-diff --git a/util/oslib-posix.c b/util/oslib-posix.c
-index 9829149e4b..5c47aa9cb7 100644
---- a/util/oslib-posix.c
-+++ b/util/oslib-posix.c
-@@ -95,6 +95,7 @@ typedef struct MemsetThread MemsetThread;
+ struct VirtIOMEM {
+     VirtIODevice parent_obj;
+@@ -62,6 +63,9 @@ struct VirtIOMEM {
+     /* block size and alignment */
+     uint64_t block_size;
  
- /* used by sigbus_handler() */
- static MemsetContext *sigbus_memset_context;
-+struct sigaction sigbus_oldact;
- static QemuMutex sigbus_mutex;
- 
- static QemuMutex page_mutex;
-@@ -446,7 +447,11 @@ const char *qemu_get_exec_dir(void)
-     return exec_dir;
- }
- 
-+#ifdef CONFIG_LINUX
-+static void sigbus_handler(int signal, siginfo_t *siginfo, void *ctx)
-+#else /* CONFIG_LINUX */
- static void sigbus_handler(int signal)
-+#endif /* CONFIG_LINUX */
- {
-     int i;
- 
-@@ -459,6 +464,26 @@ static void sigbus_handler(int signal)
-             }
-         }
-     }
++    /* whether to prealloc memory when plugging new blocks */
++    bool prealloc;
 +
-+#ifdef CONFIG_LINUX
-+    /*
-+     * We assume that the MCE SIGBUS handler could have been registered. We
-+     * should never receive BUS_MCEERR_AO on any of our threads, but only on
-+     * the main thread registered for PR_MCE_KILL_EARLY. Further, we should not
-+     * receive BUS_MCEERR_AR triggered by action of other threads on one of
-+     * our threads. So, no need to check for unrelated SIGBUS when seeing one
-+     * for our threads.
-+     *
-+     * We will forward to the MCE handler, which will either handle the SIGBUS
-+     * or reinstall the default SIGBUS handler and reraise the SIGBUS. The
-+     * default SIGBUS handler will crash the process, so we don't care.
-+     */
-+    if (sigbus_oldact.sa_flags & SA_SIGINFO) {
-+        sigbus_oldact.sa_sigaction(signal, siginfo, ctx);
-+        return;
-+    }
-+#endif /* CONFIG_LINUX */
-+    warn_report("os_mem_prealloc: unrelated SIGBUS detected and ignored");
- }
+     /* notifiers to notify when "size" changes */
+     NotifierList size_change_notifiers;
  
- static void *do_touch_pages(void *arg)
-@@ -628,10 +653,10 @@ void os_mem_prealloc(int fd, char *area, size_t memory, int smp_cpus,
- {
-     static gsize initialized;
-     int ret;
--    struct sigaction act, oldact;
-     size_t hpagesize = qemu_fd_getpagesize(fd);
-     size_t numpages = DIV_ROUND_UP(memory, hpagesize);
-     bool use_madv_populate_write;
-+    struct sigaction act;
- 
-     /*
-      * Sense on every invocation, as MADV_POPULATE_WRITE cannot be used for
-@@ -647,10 +672,15 @@ void os_mem_prealloc(int fd, char *area, size_t memory, int smp_cpus,
- 
-         qemu_mutex_lock(&sigbus_mutex);
-         memset(&act, 0, sizeof(act));
-+#ifdef CONFIG_LINUX
-+        act.sa_sigaction = &sigbus_handler;
-+        act.sa_flags = SA_SIGINFO;
-+#else /* CONFIG_LINUX */
-         act.sa_handler = &sigbus_handler;
-         act.sa_flags = 0;
-+#endif /* CONFIG_LINUX */
- 
--        ret = sigaction(SIGBUS, &act, &oldact);
-+        ret = sigaction(SIGBUS, &act, &sigbus_oldact);
-         if (ret) {
-             error_setg_errno(errp, errno,
-                 "os_mem_prealloc: failed to install signal handler");
-@@ -667,7 +697,7 @@ void os_mem_prealloc(int fd, char *area, size_t memory, int smp_cpus,
+diff --git a/hw/virtio/virtio-mem.c b/hw/virtio/virtio-mem.c
+index 341c3fa2c1..ab975ff566 100644
+--- a/hw/virtio/virtio-mem.c
++++ b/hw/virtio/virtio-mem.c
+@@ -429,10 +429,40 @@ static int virtio_mem_set_block_state(VirtIOMEM *vmem, uint64_t start_gpa,
+             return -EBUSY;
+         }
+         virtio_mem_notify_unplug(vmem, offset, size);
+-    } else if (virtio_mem_notify_plug(vmem, offset, size)) {
+-        /* Could be a mapping attempt resulted in memory getting populated. */
+-        ram_block_discard_range(vmem->memdev->mr.ram_block, offset, size);
+-        return -EBUSY;
++    } else {
++        int ret = 0;
++
++        if (vmem->prealloc) {
++            void *area = memory_region_get_ram_ptr(&vmem->memdev->mr) + offset;
++            int fd = memory_region_get_fd(&vmem->memdev->mr);
++            Error *local_err = NULL;
++
++            os_mem_prealloc(fd, area, size, 1, &local_err);
++            if (local_err) {
++                static bool warned;
++
++                /*
++                 * Warn only once, we don't want to fill the log with these
++                 * warnings.
++                 */
++                if (!warned) {
++                    warn_report_err(local_err);
++                    warned = true;
++                } else {
++                    error_free(local_err);
++                }
++                ret = -EBUSY;
++            }
++        }
++        if (!ret) {
++            ret = virtio_mem_notify_plug(vmem, offset, size);
++        }
++
++        if (ret) {
++            /* Could be preallocation or a notifier populated memory. */
++            ram_block_discard_range(vmem->memdev->mr.ram_block, offset, size);
++            return -EBUSY;
++        }
      }
- 
-     if (!use_madv_populate_write) {
--        ret = sigaction(SIGBUS, &oldact, NULL);
-+        ret = sigaction(SIGBUS, &sigbus_oldact, NULL);
-         if (ret) {
-             /* Terminate QEMU since it can't recover from error */
-             perror("os_mem_prealloc: failed to reinstall signal handler");
+     virtio_mem_set_bitmap(vmem, start_gpa, size, plug);
+     return 0;
+@@ -1108,6 +1138,7 @@ static void virtio_mem_instance_init(Object *obj)
+ static Property virtio_mem_properties[] = {
+     DEFINE_PROP_UINT64(VIRTIO_MEM_ADDR_PROP, VirtIOMEM, addr, 0),
+     DEFINE_PROP_UINT32(VIRTIO_MEM_NODE_PROP, VirtIOMEM, node, 0),
++    DEFINE_PROP_BOOL(VIRTIO_MEM_PREALLOC_PROP, VirtIOMEM, prealloc, false),
+     DEFINE_PROP_LINK(VIRTIO_MEM_MEMDEV_PROP, VirtIOMEM, memdev,
+                      TYPE_MEMORY_BACKEND, HostMemoryBackend *),
+     DEFINE_PROP_END_OF_LIST(),
 -- 
 MST
 
