@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F23CD48654F
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 14:34:17 +0100 (CET)
-Received: from localhost ([::1]:41058 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42E07486549
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 14:28:27 +0100 (CET)
+Received: from localhost ([::1]:32876 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5SuH-0004qB-1p
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 08:34:17 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41376)
+	id 1n5Soc-0007YH-CX
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 08:28:26 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41408)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n5SdD-000430-Gm
- for qemu-devel@nongnu.org; Thu, 06 Jan 2022 08:16:39 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22421)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n5SdH-00043z-6B
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 08:16:43 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:32167)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n5SdB-0000nf-PF
- for qemu-devel@nongnu.org; Thu, 06 Jan 2022 08:16:39 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n5SdF-0000oH-HI
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 08:16:42 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641474996;
+ s=mimecast20190719; t=1641475000;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=873JIwL0Ssx4x2GI9hqUqv8te9fEzO/xVfFKyB9oXJQ=;
- b=MFf4jo2oVapJinEjfccQ+NqcgGaEzMenvoIiFVDe7rVZ/FRT3JdWtuFFv1WOxURzW3MBje
- rdooXoOH6vDRXO0hmoUY8SUzS2zpudLMRm4pWwjkQ3ZOk9Ux3tV7q84rff4oJG5rzfVfCC
- gZAOslFIA/bbUNrqXxVGnwJ7shRelr4=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Gv52akJFHQiv170C8mObbPapN00kjPRMbnaS61dDiXs=;
+ b=F9DmEmHx2VRwo2Ax7XNEL3WJoN/DMfVBQH+qM8SLMdZyD7IOs88KmfS2+gSP3/komQiNd9
+ GaDeLUA02RWTmgGzWA6CxKqK1Q28nXXgcXQxuuG8AYpAoJ3WfBf9t6c69WY0NFSqBvap5F
+ jqFEjIw82MEjV4eEfX+O/G4y+aoTuYI=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-50-yVP_dRDDMQKmsxkLWZPihw-1; Thu, 06 Jan 2022 08:16:35 -0500
-X-MC-Unique: yVP_dRDDMQKmsxkLWZPihw-1
-Received: by mail-wr1-f72.google.com with SMTP id
- g6-20020adfbc86000000b001a2d62be244so1226491wrh.23
- for <qemu-devel@nongnu.org>; Thu, 06 Jan 2022 05:16:35 -0800 (PST)
+ us-mta-139-gpyPDDBEMBq5g9kOojNQ7A-1; Thu, 06 Jan 2022 08:16:39 -0500
+X-MC-Unique: gpyPDDBEMBq5g9kOojNQ7A-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ m21-20020a7bcf35000000b00346ddc490efso179127wmg.8
+ for <qemu-devel@nongnu.org>; Thu, 06 Jan 2022 05:16:39 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=873JIwL0Ssx4x2GI9hqUqv8te9fEzO/xVfFKyB9oXJQ=;
- b=tJ1tq/KENY8peugxEUrXYFrsDtyKamN9vg4TXrD+tPEH4I/kGKmVT7SizhLnH5Cqzh
- Jt0a3Xg5maqwX4EQaZTDXUCvH4lLZx3I3mDGZmjpL/cckOQaTogW03S9ghduKUDBgUWh
- ImRizv7obTMKI9uJ6nV4S5R/a0EWHWoILGwn/jtVIv5NSX2rTpnIXUKiTThEK3gPRhsp
- eZjRqSF4mGhUT8P3U29jvQgzAAghnhEnmTSGbRszEfHrztFqXajedFf9oLNvmvIE36/I
- OgFARi+xY6P3Uh1a1UvaBP+KyAypKjPTXjri1P/nY8qTZ4yc8FGschcoXuyhxOgJsvge
- WBwQ==
-X-Gm-Message-State: AOAM531POadlnK0tW63eYfw6m6R1IHLFxE1AiuC5hQmi6wvtVL4V9Jo/
- Pl8LILAzpv5UB9zgMGbgYIg2t06kaMa9juXt77b1o0g3GIh0Tpts0xRL+0acPoxCJUnhbKkFFHC
- ZkAGOadWzfSUwDgnV/gsXZktrRTQ+2WxJKA6+bX8ALW4Phh4keVj63wxT4WtY
-X-Received: by 2002:a5d:698c:: with SMTP id g12mr1997027wru.69.1641474994382; 
- Thu, 06 Jan 2022 05:16:34 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwat/pZUfiX15cypImFWbngHmZHLilyyUZLSLa80u9Yxs2xgbghz+82ojbMJDgArIMKZxgmGg==
-X-Received: by 2002:a5d:698c:: with SMTP id g12mr1997006wru.69.1641474994129; 
- Thu, 06 Jan 2022 05:16:34 -0800 (PST)
+ bh=Gv52akJFHQiv170C8mObbPapN00kjPRMbnaS61dDiXs=;
+ b=k5Reir9nJxztTMoM41OGNV8noNkn+ZA97gPGq7KSyYYl1Ci0u8KbwNe+N2kg/T6kCe
+ W4muQsnDQsTVzKmDO3f8bu1rj3Vogf/X+MxG2NlRXV8YT3kMNDz3WPNHfYMw468UxC51
+ K3h0HJOlZ/a6chqmoiri/9Ou3J4zE43op3d9m949QLXkQO99jpCjcjFMBLDkzaH6nvfZ
+ uJSxauqTq5eIVgzY1yREvOURwlt4iCyxnYyuEdhVLw643ZPIn+eTDWRGVdnfXhWOS69P
+ MfgtICOMHf70fwFXES77q+k+fDTYepFbDdlL78n9xkbKsorKt8aSL9KsbiDOwfHZ7QCk
+ PB5g==
+X-Gm-Message-State: AOAM533YKn9T3mpWTJLcKFs7JVlpLmtWexm5tCdfZM67mrXARkpajyY6
+ Yw3tCTOpV8CdvwcdIUxWymGI985UlDkhaRf2ruR0jydo8kzmaIh2xxUhax6SiZzcnPTgEZinMUM
+ WMvEOZT6qBXibiL5rQu2V4XLqVgUJVYuojxfsSBlQZaWZaj+Ft+PgoedFM8/F
+X-Received: by 2002:adf:f5d2:: with SMTP id k18mr3323647wrp.567.1641474997046; 
+ Thu, 06 Jan 2022 05:16:37 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxZcp1AUNLDR2xl0TbDGORZI7yH31u+XB5AZ/vo0D5rE9cofxpSa7Lmr9RjwzuUMpPR1gPxhg==
+X-Received: by 2002:adf:f5d2:: with SMTP id k18mr3323624wrp.567.1641474996809; 
+ Thu, 06 Jan 2022 05:16:36 -0800 (PST)
 Received: from redhat.com ([2a03:c5c0:207e:991b:6857:5652:b903:a63b])
- by smtp.gmail.com with ESMTPSA id u3sm2591977wrs.0.2022.01.06.05.16.32
+ by smtp.gmail.com with ESMTPSA id z22sm6117302wmp.40.2022.01.06.05.16.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Jan 2022 05:16:33 -0800 (PST)
-Date: Thu, 6 Jan 2022 08:16:31 -0500
+ Thu, 06 Jan 2022 05:16:36 -0800 (PST)
+Date: Thu, 6 Jan 2022 08:16:34 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 06/52] vhost: introduce new VhostOps vhost_set_config_call
-Message-ID: <20220106131534.423671-7-mst@redhat.com>
+Subject: [PULL 07/52] vhost-vdpa: add support for config interrupt
+Message-ID: <20220106131534.423671-8-mst@redhat.com>
 References: <20220106131534.423671-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20220106131534.423671-1-mst@redhat.com>
@@ -73,7 +73,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -100,38 +100,54 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Cindy Lu <lulu@redhat.com>
 
-This patch introduces new VhostOps vhost_set_config_call. This function allows the
-vhost to set the event fd to kernel
+Add new call back function in vhost-vdpa, this function will
+set the event fd to kernel. This function will be called
+in the vhost_dev_start and vhost_dev_stop
 
 Signed-off-by: Cindy Lu <lulu@redhat.com>
-Message-Id: <20211104164827.21911-5-lulu@redhat.com>
+Message-Id: <20211104164827.21911-6-lulu@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- include/hw/virtio/vhost-backend.h | 3 +++
- 1 file changed, 3 insertions(+)
+ hw/virtio/vhost-vdpa.c | 7 +++++++
+ hw/virtio/trace-events | 1 +
+ 2 files changed, 8 insertions(+)
 
-diff --git a/include/hw/virtio/vhost-backend.h b/include/hw/virtio/vhost-backend.h
-index 81bf3109f8..ff34eb7c8a 100644
---- a/include/hw/virtio/vhost-backend.h
-+++ b/include/hw/virtio/vhost-backend.h
-@@ -126,6 +126,8 @@ typedef int (*vhost_get_device_id_op)(struct vhost_dev *dev, uint32_t *dev_id);
+diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+index bcaf00e09f..0a4a83713c 100644
+--- a/hw/virtio/vhost-vdpa.c
++++ b/hw/virtio/vhost-vdpa.c
+@@ -725,6 +725,12 @@ static int vhost_vdpa_set_vring_call(struct vhost_dev *dev,
+     trace_vhost_vdpa_set_vring_call(dev, file->index, file->fd);
+     return vhost_vdpa_call(dev, VHOST_SET_VRING_CALL, file);
+ }
++static int vhost_vdpa_set_config_call(struct vhost_dev *dev,
++                                       int fd)
++{
++    trace_vhost_vdpa_set_config_call(dev, fd);
++    return vhost_vdpa_call(dev, VHOST_VDPA_SET_CONFIG_CALL, &fd);
++}
  
- typedef bool (*vhost_force_iommu_op)(struct vhost_dev *dev);
+ static int vhost_vdpa_get_features(struct vhost_dev *dev,
+                                      uint64_t *features)
+@@ -795,4 +801,5 @@ const VhostOps vdpa_ops = {
+         .vhost_get_device_id = vhost_vdpa_get_device_id,
+         .vhost_vq_get_addr = vhost_vdpa_vq_get_addr,
+         .vhost_force_iommu = vhost_vdpa_force_iommu,
++        .vhost_set_config_call = vhost_vdpa_set_config_call,
+ };
+diff --git a/hw/virtio/trace-events b/hw/virtio/trace-events
+index f7ad6be5fb..595ce015ff 100644
+--- a/hw/virtio/trace-events
++++ b/hw/virtio/trace-events
+@@ -53,6 +53,7 @@ vhost_vdpa_get_features(void *dev, uint64_t features) "dev: %p features: 0x%"PRI
+ vhost_vdpa_set_owner(void *dev) "dev: %p"
+ vhost_vdpa_vq_get_addr(void *dev, void *vq, uint64_t desc_user_addr, uint64_t avail_user_addr, uint64_t used_user_addr) "dev: %p vq: %p desc_user_addr: 0x%"PRIx64" avail_user_addr: 0x%"PRIx64" used_user_addr: 0x%"PRIx64
+ vhost_vdpa_get_iova_range(void *dev, uint64_t first, uint64_t last) "dev: %p first: 0x%"PRIx64" last: 0x%"PRIx64
++vhost_vdpa_set_config_call(void *dev, int fd)"dev: %p fd: %d"
  
-+typedef int (*vhost_set_config_call_op)(struct vhost_dev *dev,
-+                                       int fd);
- typedef struct VhostOps {
-     VhostBackendType backend_type;
-     vhost_backend_init vhost_backend_init;
-@@ -171,6 +173,7 @@ typedef struct VhostOps {
-     vhost_vq_get_addr_op  vhost_vq_get_addr;
-     vhost_get_device_id_op vhost_get_device_id;
-     vhost_force_iommu_op vhost_force_iommu;
-+    vhost_set_config_call_op vhost_set_config_call;
- } VhostOps;
- 
- int vhost_backend_update_device_iotlb(struct vhost_dev *dev,
+ # virtio.c
+ virtqueue_alloc_element(void *elem, size_t sz, unsigned in_num, unsigned out_num) "elem %p size %zd in_num %u out_num %u"
 -- 
 MST
 
