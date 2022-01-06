@@ -2,74 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EB0E48617C
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 09:35:29 +0100 (CET)
-Received: from localhost ([::1]:45452 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 750AD48617F
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 09:37:57 +0100 (CET)
+Received: from localhost ([::1]:47660 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5OF5-0003m0-IV
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 03:35:27 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35200)
+	id 1n5OHU-0005Q3-7z
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 03:37:56 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35606)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1n5ODV-0002z1-Cc; Thu, 06 Jan 2022 03:33:50 -0500
-Received: from [2607:f8b0:4864:20::12d] (port=34725
- helo=mail-il1-x12d.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1n5ODT-0005Oe-Kq; Thu, 06 Jan 2022 03:33:49 -0500
-Received: by mail-il1-x12d.google.com with SMTP id d14so1563939ila.1;
- Thu, 06 Jan 2022 00:33:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=+20Jk4BIpCSccG46Mua2Pahpidr/Wmod4eO3mnfxAP0=;
- b=kYiwkeg3uns6BVOFNrj7PRyBTQryfsQBKpjQ+IWTT7l9SlrltTH8/IwzRpGJzm6zTy
- amCNGbii/N52d5oKPpfWFML72sbX6ZksClUTLbLZKZlHBF/H+37WmlZH7NtFGu6rufk+
- 3+H86RPGt/GPRCtwhbGuBidakwO/eP/Lt7I/3LbX0qvD4rdfSNYTaLlbPWhH3j9OP9/8
- Gv5okyysD7HifF+B2RVml0q/oLj83l/g1odiz1XAmTBIzPN4lnIXna10OaTzBgrpGubv
- vyzz9jgG+jn1/O30d6ouyGm2WLBycliwyiDs+teliXXWWi4sHL2uDyqlW71d+st3ArnH
- HDGg==
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1n5OGK-0004hr-PE
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 03:36:44 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:32469)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1n5OGH-000809-6C
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 03:36:43 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1641458199;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=uTKs8FL/9Tqb9RWNF75ByktxZey553eU5AHV5oEvpLU=;
+ b=cv1QMZ2Uzr+Y4ZhGpPzlJfA3isCrJeSoPm3RwyiUDq2mLHs3s/t0tUG/yTxzg8B3ophY76
+ NP0veO0kljjDFwG+F2OgPpbEjjleJklHgDVYlQuvcQWFK7Pw9nmNrxrB5w/R77xLKDpDKs
+ WHndymvgMnt+6xsfalde0aAdAIPbvO4=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-271-GJSIf0L1ODWfN1GICb2QSA-1; Thu, 06 Jan 2022 03:36:38 -0500
+X-MC-Unique: GJSIf0L1ODWfN1GICb2QSA-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ z3-20020a05640240c300b003f9154816ffso1409480edb.9
+ for <qemu-devel@nongnu.org>; Thu, 06 Jan 2022 00:36:38 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=+20Jk4BIpCSccG46Mua2Pahpidr/Wmod4eO3mnfxAP0=;
- b=r5MBCybkK5zngHIF2he84WkVGj8zc476Dsnb5mTZSYBwDQPhBxGKBUiO9oWxsLqfPg
- TsaBc5E+WaCv9oviDzkJjMYp1/rJj+kSU/V1Z9YfXTbZ7kbBKbLGAK2doM/CFhuPGstU
- BMgQF9+88uB8f+vfQjVU9CgsuxIWd4XQ3n8OdH5+wtHVfQyBuBGpROTG2Xde7zD0Xf24
- upx+cJE31HGjZrZb5132ttlt1TjYwVUif1L9M8SQlnjE096ZgKNa1QtuLYC3i40raxUC
- HMxswIk8iWafhYbHq244eWjFla98hNTHaKi2w/0WfaeDwueh24Tjk05eli1drLbQda7X
- +7QQ==
-X-Gm-Message-State: AOAM532bzLp/oQdZhwOH9ndGDnEzu6DtNhoYOeqw7FnoQmB/jjpBmTPm
- o1OsN6gHAsSLbMuFLkXroZaOSi1D8t/kB9swcZk=
-X-Google-Smtp-Source: ABdhPJyai4ISXF0lO9mEDc9Fv8DjJulvEWFS6gIN0uCgMMwPcFDQ2t4VxQmZCy7HxLezCXrYMmbJ+VKVsFQ1+sVaiRM=
-X-Received: by 2002:a05:6e02:1806:: with SMTP id
- a6mr24581674ilv.221.1641458026117; 
- Thu, 06 Jan 2022 00:33:46 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=uTKs8FL/9Tqb9RWNF75ByktxZey553eU5AHV5oEvpLU=;
+ b=kvlIg2wSGc4gaKC7HsjrXsDiGkEB6yU+c7649+hNyWhqJgouqh6DgrB65DLzmk9mxO
+ fgZGPpYVzTYN4IGzldIbjT12WsryBCOdGmOat6ZzdvhpqTg+M7qpODjeo3MyhLLAxjeJ
+ SpecKe9yauZpW2Ni64/5VQDDXapw9RCW+ZaKUDN3QPPoo2MTVukwjYZzIN0muxWIhtiW
+ z9FwxMkvIJTnrde9QN4yZusyEwm+4W3O8b1JtbeBI5TFmMsMwmq7Mnch0XC+NJmWzj3v
+ ovfiT+i/GNaCC/yKIOl9Ocf32leeyJoGPIkH0eMRwJMloi8f/MNh44HzspNGeOwMVdxx
+ +8LA==
+X-Gm-Message-State: AOAM532qWWfd1NwezZBlwRyst7Czhs6Okrxfq1CjemMznQTvN+ab/aGP
+ cUXd5Lxwa3q/wo+2X/IodAanQNbUOKQA3N3RGeQwCJcmJ3k10rvKyZM6cDrx38doq/nwfrdtZMi
+ qsvVkwBT8sKdBWOg=
+X-Received: by 2002:a17:907:7d86:: with SMTP id
+ oz6mr43728961ejc.312.1641458197645; 
+ Thu, 06 Jan 2022 00:36:37 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwuMlV6YiNDJKoF3djv5ybOIRa46m3BHUg5Gmhb/KwIfqce+n1z0brw0JITNams+VKlCDTkVg==
+X-Received: by 2002:a17:907:7d86:: with SMTP id
+ oz6mr43728945ejc.312.1641458197454; 
+ Thu, 06 Jan 2022 00:36:37 -0800 (PST)
+Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ by smtp.gmail.com with ESMTPSA id p3sm326060ejo.61.2022.01.06.00.36.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 06 Jan 2022 00:36:36 -0800 (PST)
+Date: Thu, 6 Jan 2022 09:36:36 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Stefan Berger <stefanb@linux.ibm.com>
+Subject: Re: [PATCH v5 2/3] acpi: tpm: Add missing device identification
+ objects
+Message-ID: <20220106093636.7fc7755f@redhat.com>
+In-Reply-To: <20220104175806.872996-3-stefanb@linux.ibm.com>
+References: <20220104175806.872996-1-stefanb@linux.ibm.com>
+ <20220104175806.872996-3-stefanb@linux.ibm.com>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20211213163834.170504-1-frederic.petrot@univ-grenoble-alpes.fr>
-In-Reply-To: <20211213163834.170504-1-frederic.petrot@univ-grenoble-alpes.fr>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 6 Jan 2022 18:33:19 +1000
-Message-ID: <CAKmqyKPTa3sOJa403rgPhL=Us=+c-QhT1fRvj-arm9HkPhKZnA@mail.gmail.com>
-Subject: Re: [PATCH v7 00/18] Adding partial support for 128-bit riscv target
-To: =?UTF-8?B?RnLDqWTDqXJpYyBQw6l0cm90?=
- <frederic.petrot@univ-grenoble-alpes.fr>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::12d
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::12d;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x12d.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.372,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,167 +100,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Bin Meng <bin.meng@windriver.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <alistair.francis@wdc.com>,
- Fabien Portas <fabien.portas@grenoble-inp.org>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Cc: Ani Sinha <ani@anisinha.ca>, marcandre.lureau@redhat.com,
+ "Michael S . Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ Shannon Zhao <shannon.zhaosl@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Dec 14, 2021 at 2:39 AM Fr=C3=A9d=C3=A9ric P=C3=A9trot
-<frederic.petrot@univ-grenoble-alpes.fr> wrote:
->
-> This series of patches provides partial 128-bit support for the riscv
-> target architecture, namely RVI and RVM, with minimal csr support.
->
-> Thanks again for the reviews and advices.
+On Tue,  4 Jan 2022 12:58:05 -0500
+Stefan Berger <stefanb@linux.ibm.com> wrote:
 
-I think this is all reviewed now. I was getting an error when trying
-to apply it though, do you mind rebasing on
-https://github.com/alistair23/qemu/tree/riscv-to-apply.next ?
+> Add missing TPM device identification objects _STR and _UID. They will
+> appear as files 'description' and 'uid' under Linux sysfs.
+> 
+> Following inspection of sysfs entries for hardware TPMs we chose
+> uid '1'.
 
-Alistair
+My guess would be that buy default (in case of missing UID), OSPM
+will start enumerate from 0. So I think 0 is more safer choice
+when it comes to compatibility.
 
->
-> v7:
-> - code motion following reviews
-> - correction of a bug preventing riscv{32,64}-linux-user to compile
-> - sync with master
-> - Note that 'make check' fails for 5 qemu-iotests cases, namely
->   040, 041, 127, 256, and 267, but they also fail with
->   qemu-system-riscv{32,64} from current master
->
-> v6:
-> - support for '-cpu rv128' in qemu-system-riscv64 to handle 128-bit
->   executables (no more qemu-system-riscv128)
-> - remove useless (and buggy) big-endian support in lq/sq
->
-> v5:
-> - split the memop define renaming and addition in two patches
-> - 128-bit div/rem operations using host-utils functions
-> - removed useless rv128 tests at various places
-> - refactoring the slt/bxx part so as to share the comparison part
-> - refactoring the 128-bit csr handling to share code more largely
->   Also forwarding writes to the 64-bit version when not 128-bit version
->   exists, as a vast majority of the csrs does not use the upper 64-bits
->
-> v4:
-> - safer and cleaner access to the gpr upper part
-> - locals for load/store/div/rem helpers
-> - cleans out the 128-bit div/rem code
-> - corrects numerous bugs and performs optimizations on shifts and mults
-> - withdraws the change in page size and the vm schemes we introduced
->
-> v3:
-> - v2 refactored following Richard's xl patch changes
->
-> v2:
-> - load and store making use of new memop.h sizes
-> - use of the existing Int128 computations in helpers, and addition of
->   a few more operations there, in particular division and remainder
-> - refactoring of the calls to the code generation helpers
-> - split of the patch in smaller pieces
->
-> v1:
-> - introducing support for rv128 for basic integer and M extension insns
->
-> Fr=C3=A9d=C3=A9ric P=C3=A9trot (18):
->   exec/memop: Adding signedness to quad definitions
->   exec/memop: Adding signed quad and octo defines
->   qemu/int128: addition of div/rem 128-bit operations
->   target/riscv: additional macros to check instruction support
->   target/riscv: separation of bitwise logic and arithmetic helpers
->   target/riscv: array for the 64 upper bits of 128-bit registers
->   target/riscv: setup everything for rv64 to support rv128 execution
->   target/riscv: moving some insns close to similar insns
->   target/riscv: accessors to registers upper part and 128-bit load/store
->   target/riscv: support for 128-bit bitwise instructions
->   target/riscv: support for 128-bit U-type instructions
->   target/riscv: support for 128-bit shift instructions
->   target/riscv: support for 128-bit arithmetic instructions
->   target/riscv: support for 128-bit M extension
->   target/riscv: adding high part of some csrs
->   target/riscv: helper functions to wrap calls to 128-bit csr insns
->   target/riscv: modification of the trans_csrxx for 128-bit support
->   target/riscv: actual functions to realize crs 128-bit insns
->
->  include/disas/dis-asm.h                    |   1 +
->  include/exec/memop.h                       |  15 +-
->  include/qemu/int128.h                      |  27 +
->  include/tcg/tcg-op.h                       |   4 +-
->  target/arm/translate-a32.h                 |   4 +-
->  target/riscv/cpu.h                         |  22 +
->  target/riscv/cpu_bits.h                    |   3 +
->  target/riscv/helper.h                      |   9 +
->  target/riscv/insn16.decode                 |  27 +-
->  target/riscv/insn32.decode                 |  25 +
->  accel/tcg/cputlb.c                         |  30 +-
->  accel/tcg/user-exec.c                      |   8 +-
->  disas/riscv.c                              |   5 +
->  target/alpha/translate.c                   |  32 +-
->  target/arm/helper-a64.c                    |   8 +-
->  target/arm/translate-a64.c                 |   8 +-
->  target/arm/translate-neon.c                |   6 +-
->  target/arm/translate-sve.c                 |  10 +-
->  target/arm/translate-vfp.c                 |   8 +-
->  target/arm/translate.c                     |   2 +-
->  target/cris/translate.c                    |   2 +-
->  target/hppa/translate.c                    |   4 +-
->  target/i386/tcg/mem_helper.c               |   2 +-
->  target/i386/tcg/translate.c                |  36 +-
->  target/m68k/op_helper.c                    |   2 +-
->  target/mips/tcg/translate.c                |  58 +-
->  target/mips/tcg/tx79_translate.c           |   8 +-
->  target/ppc/translate.c                     |  32 +-
->  target/riscv/cpu.c                         |  29 +
->  target/riscv/csr.c                         | 194 +++++-
->  target/riscv/gdbstub.c                     |   5 +
->  target/riscv/m128_helper.c                 | 109 +++
->  target/riscv/machine.c                     |  22 +
->  target/riscv/op_helper.c                   |  44 ++
->  target/riscv/translate.c                   | 252 ++++++-
->  target/s390x/tcg/mem_helper.c              |   8 +-
->  target/s390x/tcg/translate.c               |   8 +-
->  target/sh4/translate.c                     |  12 +-
->  target/sparc/translate.c                   |  36 +-
->  target/tricore/translate.c                 |   4 +-
->  target/xtensa/translate.c                  |   4 +-
->  tcg/tcg.c                                  |   4 +-
->  tcg/tci.c                                  |  16 +-
->  util/int128.c                              | 147 +++++
->  accel/tcg/ldst_common.c.inc                |   8 +-
->  target/mips/tcg/micromips_translate.c.inc  |  10 +-
->  target/ppc/translate/fixedpoint-impl.c.inc |  22 +-
->  target/ppc/translate/fp-impl.c.inc         |   4 +-
->  target/ppc/translate/vsx-impl.c.inc        |  42 +-
->  target/riscv/insn_trans/trans_rva.c.inc    |  22 +-
->  target/riscv/insn_trans/trans_rvb.c.inc    |  48 +-
->  target/riscv/insn_trans/trans_rvd.c.inc    |   4 +-
->  target/riscv/insn_trans/trans_rvh.c.inc    |   4 +-
->  target/riscv/insn_trans/trans_rvi.c.inc    | 730 ++++++++++++++++++---
->  target/riscv/insn_trans/trans_rvm.c.inc    | 192 +++++-
->  target/s390x/tcg/translate_vx.c.inc        |  18 +-
->  tcg/aarch64/tcg-target.c.inc               |   2 +-
->  tcg/arm/tcg-target.c.inc                   |  10 +-
->  tcg/i386/tcg-target.c.inc                  |  12 +-
->  tcg/mips/tcg-target.c.inc                  |  12 +-
->  tcg/ppc/tcg-target.c.inc                   |  16 +-
->  tcg/riscv/tcg-target.c.inc                 |   6 +-
->  tcg/s390x/tcg-target.c.inc                 |  18 +-
->  tcg/sparc/tcg-target.c.inc                 |  16 +-
->  target/riscv/meson.build                   |   1 +
->  target/s390x/tcg/insn-data.def             |  28 +-
->  util/meson.build                           |   1 +
->  67 files changed, 2006 insertions(+), 512 deletions(-)
->  create mode 100644 target/riscv/m128_helper.c
->  create mode 100644 util/int128.c
->
-> --
-> 2.34.1
->
->
+Can you smoke test TPM with Windows, and check if adding UID doesn't
+break anything if VM actually uses TMP (though I'm not sure how to
+check it on Windows, maybe install Windows 11 without this patch
+and then see if it still boots pre-installed VM and nothing is broken
+after this patch)?
+
+
+> Cc: Shannon Zhao <shannon.zhaosl@gmail.com>
+> Cc: Michael S. Tsirkin <mst@redhat.com>
+> Cc: Igor Mammedov <imammedo@redhat.com>
+> Cc: Ani Sinha <ani@anisinha.ca>
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/708
+> Signed-off-by: Stefan Berger <stefanb@linux.ibm.com>
+> Reviewed-by: Ani Sinha <ani@anisinha.ca>
+> Reviewed-by: Shannon Zhao <shannon.zhaosl@gmail.com>
+> Message-id: 20211223022310.575496-3-stefanb@linux.ibm.com
+> ---
+>  hw/arm/virt-acpi-build.c | 1 +
+>  hw/i386/acpi-build.c     | 7 +++++++
+>  2 files changed, 8 insertions(+)
+> 
+> diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
+> index d0f4867fdf..f2514ce77c 100644
+> --- a/hw/arm/virt-acpi-build.c
+> +++ b/hw/arm/virt-acpi-build.c
+> @@ -229,6 +229,7 @@ static void acpi_dsdt_add_tpm(Aml *scope, VirtMachineState *vms)
+>  
+>      Aml *dev = aml_device("TPM0");
+>      aml_append(dev, aml_name_decl("_HID", aml_string("MSFT0101")));
+> +    aml_append(dev, aml_name_decl("_STR", aml_string("TPM 2.0 Device")));
+>      aml_append(dev, aml_name_decl("_UID", aml_int(0)));
+>  
+>      Aml *crs = aml_resource_template();
+> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+> index 8383b83ee3..05740b7f15 100644
+> --- a/hw/i386/acpi-build.c
+> +++ b/hw/i386/acpi-build.c
+> @@ -1812,11 +1812,15 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+>                      dev = aml_device("TPM");
+>                      aml_append(dev, aml_name_decl("_HID",
+>                                                    aml_string("MSFT0101")));
+> +                    aml_append(dev,
+> +                               aml_name_decl("_STR",
+> +                                             aml_string("TPM 2.0 Device")));
+>                  } else {
+>                      dev = aml_device("ISA.TPM");
+>                      aml_append(dev, aml_name_decl("_HID",
+>                                                    aml_eisaid("PNP0C31")));
+>                  }
+> +                aml_append(dev, aml_name_decl("_UID", aml_int(1)));
+>  
+>                  aml_append(dev, aml_name_decl("_STA", aml_int(0xF)));
+>                  crs = aml_resource_template();
+> @@ -1844,12 +1848,15 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+>      if (TPM_IS_CRB(tpm)) {
+>          dev = aml_device("TPM");
+>          aml_append(dev, aml_name_decl("_HID", aml_string("MSFT0101")));
+> +        aml_append(dev, aml_name_decl("_STR",
+> +                                      aml_string("TPM 2.0 Device")));
+>          crs = aml_resource_template();
+>          aml_append(crs, aml_memory32_fixed(TPM_CRB_ADDR_BASE,
+>                                             TPM_CRB_ADDR_SIZE, AML_READ_WRITE));
+>          aml_append(dev, aml_name_decl("_CRS", crs));
+>  
+>          aml_append(dev, aml_name_decl("_STA", aml_int(0xf)));
+> +        aml_append(dev, aml_name_decl("_UID", aml_int(1)));
+>  
+>          tpm_build_ppi_acpi(tpm, dev);
+>  
+
 
