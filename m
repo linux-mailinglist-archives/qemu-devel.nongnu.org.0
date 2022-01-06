@@ -2,92 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A56F486632
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 15:40:45 +0100 (CET)
-Received: from localhost ([::1]:53456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6E16486648
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 15:46:41 +0100 (CET)
+Received: from localhost ([::1]:39018 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5TwY-0003wK-OE
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 09:40:42 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53598)
+	id 1n5U2K-0004r8-QI
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 09:46:40 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55918)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n5TSQ-0000Ra-Ju
- for qemu-devel@nongnu.org; Thu, 06 Jan 2022 09:09:34 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:27355)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1n5Tb1-0006rT-MT
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 09:18:27 -0500
+Received: from smtpout3.mo529.mail-out.ovh.net ([46.105.54.81]:42941)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n5TSM-0000aJ-F5
- for qemu-devel@nongnu.org; Thu, 06 Jan 2022 09:09:32 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641478168;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=hL+s3HOlALFxOmkmC3Gcq2viD8TCBnvFlSwR7YA3N3k=;
- b=gD6IYHh1MctGV79DBEPe8m8WxGmy+PyDMc8tImz3gpJRy8iHvdrvynx01SP5Kd7IZkW67z
- TXXcM+vD5mXQkg8tjUjZfdEVsBa+SJSsGD3BimRvbGcS70qt0rJq+2dGid5wuQbc+MCOfO
- JUKwBww7qdAv87V09DCxZrJ18o8rLUA=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-553-R1Ofj6gkOnyI8Nn8rOCxIw-1; Thu, 06 Jan 2022 09:09:27 -0500
-X-MC-Unique: R1Ofj6gkOnyI8Nn8rOCxIw-1
-Received: by mail-wr1-f69.google.com with SMTP id
- h24-20020adfaa98000000b001a4dbe0c51fso980254wrc.0
- for <qemu-devel@nongnu.org>; Thu, 06 Jan 2022 06:09:27 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=hL+s3HOlALFxOmkmC3Gcq2viD8TCBnvFlSwR7YA3N3k=;
- b=dM4MRQnJzqIxr+hJVeaFLOMwud80g7LzsLP2H28hUw+V+IFMIFoGfXCxrS1DJ+yq6L
- fAMpj6YTut0uFOGip53lOjorjghEL1YmkE+7VKTS+AnzScyuVza47moFOYD82+ESTm91
- /f1ZPuf++aHsEkWCr8DzVl7hmXPYiMSKOuf4yt8oWo/eP2u4zuO/kTSnhuFvsJ6igMt5
- f5fzudrje5xaSl/VvQJHb2MSEvQkQiGE2sXt/L9FN7NsMXhSiiHO82ewPPBAMaU38B+W
- zLxceesAfHisedR4KgmMgvjgzlxPY69SMtZ6NxQmeRY9ACXJiQQmQvyLBLGRuzXV1xM1
- Fngg==
-X-Gm-Message-State: AOAM532fjxJe+piKfHlFgNsr6bdmH3k2GvOv8sM3Cmou6Hj2jX9HJluC
- gLH/l4YjfHtEIKyennXFkYvWK35H950YN/pg3KD6Qp/vdFld8O9iY+i/AsLUXwFJ4do8HCF39q+
- 05oMlq2K8Wq24sQ8=
-X-Received: by 2002:a5d:424c:: with SMTP id s12mr50035169wrr.465.1641478166519; 
- Thu, 06 Jan 2022 06:09:26 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzmNJfPX04e7WTceUS/MD5aeBv/8RglLJVnJ0PT/096/xhbFeyrlA3irICd16OmB+x/n4XUGA==
-X-Received: by 2002:a5d:424c:: with SMTP id s12mr50035141wrr.465.1641478166281; 
- Thu, 06 Jan 2022 06:09:26 -0800 (PST)
-Received: from redhat.com ([2a03:c5c0:207e:991b:6857:5652:b903:a63b])
- by smtp.gmail.com with ESMTPSA id t12sm2586505wrs.72.2022.01.06.06.09.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Jan 2022 06:09:25 -0800 (PST)
-Date: Thu, 6 Jan 2022 09:09:22 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Jason Wang <jasowang@redhat.com>
-Subject: Re: [RFC 02/10] vhost: add 3 commands for vhost-vdpa
-Message-ID: <20220106090804-mutt-send-email-mst@kernel.org>
-References: <20220105005900.860-1-longpeng2@huawei.com>
- <20220105005900.860-3-longpeng2@huawei.com>
- <CACGkMEtL7Qkb65Wj4vw-W9h7Lu1Mh7fWGMEkw+0e=Ce=LfD=FA@mail.gmail.com>
- <20220105020008-mutt-send-email-mst@kernel.org>
- <CACGkMEsPqADAR1LhjP=Y4ShhSogdrf2T8O2Km22G7FwGCe+hrQ@mail.gmail.com>
- <1d157f74fdac49ff8ae734808bd3c518@huawei.com>
- <CACGkMEukEBFYrmJjj-jXR_UdamFbjrFkj7PbdfQJOGMzekAvSg@mail.gmail.com>
- <20220105072321-mutt-send-email-mst@kernel.org>
- <CACGkMEt+A5-rSq20qTbideO39q-rZ5RKoK8H77OihFQ8VDgUfw@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1n5Tay-0002Vj-Ak
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 09:18:26 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.109.146.194])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 404CFD5FB1DF;
+ Thu,  6 Jan 2022 15:18:21 +0100 (CET)
+Received: from kaod.org (37.59.142.96) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.17; Thu, 6 Jan
+ 2022 15:18:20 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-96R001a50991db-a1f9-437e-b2c1-cee460ffa917,
+ 49C0EA974A1AE1209641D977CC9A370E508CB387) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <f68548d7-8a95-f1cd-eaf5-38431a05dfd7@kaod.org>
+Date: Thu, 6 Jan 2022 15:18:16 +0100
 MIME-Version: 1.0
-In-Reply-To: <CACGkMEt+A5-rSq20qTbideO39q-rZ5RKoK8H77OihFQ8VDgUfw@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.372,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH v2 11/18] pnv_phb4.c: introduce
+ pnv_phb4_set_stack_phb_props()
+Content-Language: en-US
+To: Daniel Henrique Barboza <danielhb413@gmail.com>, <qemu-devel@nongnu.org>
+References: <20220105212338.49899-1-danielhb413@gmail.com>
+ <20220105212338.49899-12-danielhb413@gmail.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20220105212338.49899-12-danielhb413@gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.96]
+X-ClientProxiedBy: DAG7EX1.mxp5.local (172.16.2.61) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 1ef09423-d911-40c5-b086-cd55b4ef9d1d
+X-Ovh-Tracer-Id: 18027064885849263072
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrudefledgieduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepieegvdffkeegfeetuddttddtveduiefhgeduffekiedtkeekteekhfffleevleelnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopegurghvihgusehgihgsshhonhdrughrohhpsggvrghrrdhiugdrrghu
+Received-SPF: pass client-ip=46.105.54.81; envelope-from=clg@kaod.org;
+ helo=smtpout3.mo529.mail-out.ovh.net
+X-Spam_score_int: -45
+X-Spam_score: -4.6
+X-Spam_bar: ----
+X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.691,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,163 +71,128 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Cornelia Huck <cohuck@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Yechuan <yechuan@huawei.com>, "Gonglei \(Arei\)" <arei.gonglei@huawei.com>,
- Huangzhichao <huangzhichao@huawei.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- pbonzini <pbonzini@redhat.com>, "Longpeng \(Mike,
- Cloud Infrastructure Service Product Dept.\)" <longpeng2@huawei.com>,
- Stefano Garzarella <sgarzare@redhat.com>
+Cc: qemu-ppc@nongnu.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jan 06, 2022 at 10:34:20AM +0800, Jason Wang wrote:
-> On Wed, Jan 5, 2022 at 8:26 PM Michael S. Tsirkin <mst@redhat.com> wrote:
-> >
-> > On Wed, Jan 05, 2022 at 05:09:07PM +0800, Jason Wang wrote:
-> > > On Wed, Jan 5, 2022 at 4:37 PM Longpeng (Mike, Cloud Infrastructure
-> > > Service Product Dept.) <longpeng2@huawei.com> wrote:
-> > > >
-> > > >
-> > > >
-> > > > > -----Original Message-----
-> > > > > From: Jason Wang [mailto:jasowang@redhat.com]
-> > > > > Sent: Wednesday, January 5, 2022 3:54 PM
-> > > > > To: Michael S. Tsirkin <mst@redhat.com>
-> > > > > Cc: Longpeng (Mike, Cloud Infrastructure Service Product Dept.)
-> > > > > <longpeng2@huawei.com>; Stefan Hajnoczi <stefanha@redhat.com>; Stefano
-> > > > > Garzarella <sgarzare@redhat.com>; Cornelia Huck <cohuck@redhat.com>; pbonzini
-> > > > > <pbonzini@redhat.com>; Gonglei (Arei) <arei.gonglei@huawei.com>; Yechuan
-> > > > > <yechuan@huawei.com>; Huangzhichao <huangzhichao@huawei.com>; qemu-devel
-> > > > > <qemu-devel@nongnu.org>
-> > > > > Subject: Re: [RFC 02/10] vhost: add 3 commands for vhost-vdpa
-> > > > >
-> > > > > On Wed, Jan 5, 2022 at 3:02 PM Michael S. Tsirkin <mst@redhat.com> wrote:
-> > > > > >
-> > > > > > On Wed, Jan 05, 2022 at 12:35:53PM +0800, Jason Wang wrote:
-> > > > > > > On Wed, Jan 5, 2022 at 8:59 AM Longpeng(Mike) <longpeng2@huawei.com> wrote:
-> > > > > > > >
-> > > > > > > > From: Longpeng <longpeng2@huawei.com>
-> > > > > > > >
-> > > > > > > > To support generic vdpa deivce, we need add the following ioctls:
-> > > > > > > > - GET_VECTORS_NUM: the count of vectors that supported
-> > > > > > >
-> > > > > > > Does this mean MSI vectors? If yes, it looks like a layer violation:
-> > > > > > > vhost is transport independent.
-> > > > > >
-> > > > > > Well *guest* needs to know how many vectors device supports.
-> > > > > > I don't think there's a way around that. Do you?
-> > > > >
-> > > > > We have VHOST_SET_VRING/CONFIG_CALL which is per vq. I think we can
-> > > > > simply assume #vqs + 1?
-> > > > >
-> > > > > > Otherwise guests will at best be suboptimal.
-> > > > > >
-> > > > > > >  And it reveals device implementation
-> > > > > > > details which block (cross vendor) migration.
-> > > > > > >
-> > > > > > > Thanks
-> > > > > >
-> > > > > > Not necessarily, userspace can hide this from guest if it
-> > > > > > wants to, just validate.
-> > > > >
-> > > > > If we can hide it at vhost/uAPI level, it would be even better?
-> > > > >
-> > > >
-> > > > Not only MSI vectors, but also queue-size, #vqs, etc.
-> > >
-> > > MSI is PCI specific, we have non PCI vDPA parent e.g VDUSE/simulator/mlx5
-> > >
-> > > And it's something that is not guaranteed to be not changed. E.g some
-> > > drivers may choose to allocate MSI during set_status() which can fail
-> > > for various reasons.
-> > >
-> > > >
-> > > > Maybe the vhost level could expose the hardware's real capabilities
-> > > > and let the userspace (QEMU) do the hiding? The userspace know how
-> > > > to process them.
-> > >
-> > > #MSI vectors is much more easier to be mediated than queue-size and #vqs.
-> > >
-> > > For interrupts, we've already had VHOST_SET_X_KICK, we can keep
-> > > allocating eventfd based on #MSI vectors to make it work with any
-> > > number of MSI vectors that the virtual device had.
-> >
-> > Right but if hardware does not support so many then what?
-> > Just fail?
+On 1/5/22 22:23, Daniel Henrique Barboza wrote:
+> We want to be able to support user creatable pnv-phb4 objects to allow
+> users to instantiate a powernv9 machine similar to what it is done with
+> powernv8.
 > 
-> Or just trigger the callback of vqs that shares the vector.
-
-
-Right but we want userspace to be able to report this to guest accurately
-if it wants to. Guest can then configure itself correctly.
-
-
-> > Having a query API would make things somewhat cleaner imho.
+> The main difference is that pnv-phb3 devs are attached directly to the
+> system bus and can be created in the command line. PCI devices such as
+> root-ports can be explictly connected to them. This allows users to
+> create the phbs, assign a bus name if desired, then connect devices onto
+> them.
 > 
-> I may miss something,  even if we know #vectors, we still don't know
-> the associated virtqueues for a dedicated vector?
+> pnv-phb4 devices on the other hand are created by adding PCI Express
+> Controllers (PEC) that will create a certain amount of pnv-phb4 buses
+> depending on the PEC index used. Index 0 will create 1 phb, index 1
+> creates 2 phbs, index 2 creates 3 phbs. Creating all PECs from the same
+> chip will create 6 PHBs. This doesn't users to rename the buses, like it
+> is done with pnv-phb3, because there's no user control over how the
+> pnv-phb4 are being created - aside from the amount of phbs and in which
+> chips they'll reside.
+> 
+> This implicit relationship between PEC devices and available buses can
+> be tolerable for users that knows how the hardware works, but it's
+> annoying for Libvirt to deal with. Since there's no explicit
+> relationship, in the command line, between the created buses and the PCI
+> devices that will connect to them, the domain XML needs to make a lot of
+> extra assumptions regarding the relationship between regular PCI devices
+> and the existing PECs.
+> 
+> The first step to allow for user creatable pnv-phb4 devices is to
+> decouple the pvn-phb logic from the pnv-phb4-pec code. This patch adds a
+> helper called pnv_phb4_set_stack_phb_props() to remove the code from
+> pnv_phb4_pec.c that initiates the object properties of pnv-phb4 devices.
+> 
+> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 
-This is up to the guest.
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
 
-> >
-> > > For queue-size, it's Ok to have a new uAPI but it's not a must, Qemu
-> > > can simply fail if SET_VRING_NUM fail.
-> > >
-> > > For #vqs, it's OK to have a new uAPI since the emulated virtio-pci
-> > > device requires knowledge the #vqs in the config space. (still not a
-> > > must, we can enumerate #vqs per device type)
-> > >
-> > > For the config size, it's OK but not a must, technically we can simply
-> > > relay what guest write to vhost-vdpa. It's just because current Qemu
-> > > require to have it during virtio device initialization.
-> > >
-> > > Thanks
-> >
-> >
-> > I agree but these ok things make for a cleaner API I think.
+Thanks,
+
+C.
+
+> ---
+>   hw/pci-host/pnv_phb4.c         | 25 +++++++++++++++++++++++++
+>   hw/pci-host/pnv_phb4_pec.c     | 12 +-----------
+>   include/hw/pci-host/pnv_phb4.h |  1 +
+>   3 files changed, 27 insertions(+), 11 deletions(-)
 > 
-> Right.
+> diff --git a/hw/pci-host/pnv_phb4.c b/hw/pci-host/pnv_phb4.c
+> index 83dedc878a..6c1a33bc66 100644
+> --- a/hw/pci-host/pnv_phb4.c
+> +++ b/hw/pci-host/pnv_phb4.c
+> @@ -1158,6 +1158,31 @@ static AddressSpace *pnv_phb4_dma_iommu(PCIBus *bus, void *opaque, int devfn)
+>       return &ds->dma_as;
+>   }
+>   
+> +/*
+> + * Set the object properties of a phb in relation with its stack.
+> + *
+> + * Note: stack->pec must not be NULL.
+> + */
+> +void pnv_phb4_set_stack_phb_props(PnvPhb4PecStack *stack,
+> +                                  PnvPHB4 *phb)
+> +{
+> +    PnvPhb4PecState *pec = stack->pec;
+> +    PnvPhb4PecClass *pecc = PNV_PHB4_PEC_GET_CLASS(pec);
+> +    char name[64];
+> +
+> +    snprintf(name, sizeof(name), "xscom-pec-%d.%d-pci-stack-%d-phb",
+> +             pec->chip_id, pec->index, stack->stack_no);
+> +    pnv_xscom_region_init(&stack->phb_regs_mr, OBJECT(phb),
+> +                          &pnv_phb4_xscom_ops, phb, name, 0x40);
+> +
+> +    object_property_set_int(OBJECT(phb), "chip-id", pec->chip_id,
+> +                            &error_fatal);
+> +    object_property_set_int(OBJECT(phb), "version", pecc->version,
+> +                            &error_fatal);
+> +    object_property_set_link(OBJECT(phb), "stack", OBJECT(stack),
+> +                             &error_abort);
+> +}
+> +
+>   static void pnv_phb4_instance_init(Object *obj)
+>   {
+>       PnvPHB4 *phb = PNV_PHB4(obj);
+> diff --git a/hw/pci-host/pnv_phb4_pec.c b/hw/pci-host/pnv_phb4_pec.c
+> index f3e4fa0c82..057d4b07fb 100644
+> --- a/hw/pci-host/pnv_phb4_pec.c
+> +++ b/hw/pci-host/pnv_phb4_pec.c
+> @@ -577,17 +577,7 @@ static void pnv_pec_stk_realize(DeviceState *dev, Error **errp)
+>                             PHB4_PEC_PCI_STK_REGS_COUNT);
+>   
+>       /* PHB pass-through */
+> -    snprintf(name, sizeof(name), "xscom-pec-%d.%d-pci-stack-%d-phb",
+> -             pec->chip_id, pec->index, stack->stack_no);
+> -    pnv_xscom_region_init(&stack->phb_regs_mr, OBJECT(&stack->phb),
+> -                          &pnv_phb4_xscom_ops, &stack->phb, name, 0x40);
+> -
+> -    object_property_set_int(OBJECT(&stack->phb), "chip-id", pec->chip_id,
+> -                            &error_fatal);
+> -    object_property_set_int(OBJECT(&stack->phb), "version", pecc->version,
+> -                            &error_fatal);
+> -    object_property_set_link(OBJECT(&stack->phb), "stack", OBJECT(stack),
+> -                             &error_abort);
+> +    pnv_phb4_set_stack_phb_props(stack, &stack->phb);
+>       if (!sysbus_realize(SYS_BUS_DEVICE(&stack->phb), errp)) {
+>           return;
+>       }
+> diff --git a/include/hw/pci-host/pnv_phb4.h b/include/hw/pci-host/pnv_phb4.h
+> index ea63df9676..7f5b9cc0ac 100644
+> --- a/include/hw/pci-host/pnv_phb4.h
+> +++ b/include/hw/pci-host/pnv_phb4.h
+> @@ -131,6 +131,7 @@ struct PnvPHB4 {
+>   
+>   void pnv_phb4_pic_print_info(PnvPHB4 *phb, Monitor *mon);
+>   void pnv_phb4_update_regions(PnvPhb4PecStack *stack);
+> +void pnv_phb4_set_stack_phb_props(PnvPhb4PecStack *stack, PnvPHB4 *phb);
+>   extern const MemoryRegionOps pnv_phb4_xscom_ops;
+>   
+>   /*
 > 
-> Thanks
-> 
-> >
-> > > >
-> > > > > Thanks
-> > > > >
-> > > > > >
-> > > > > >
-> > > > > > > > - GET_CONFIG_SIZE: the size of the virtio config space
-> > > > > > > > - GET_VQS_NUM: the count of virtqueues that exported
-> > > > > > > >
-> > > > > > > > Signed-off-by: Longpeng <longpeng2@huawei.com>
-> > > > > > > > ---
-> > > > > > > >  linux-headers/linux/vhost.h | 10 ++++++++++
-> > > > > > > >  1 file changed, 10 insertions(+)
-> > > > > > > >
-> > > > > > > > diff --git a/linux-headers/linux/vhost.h b/linux-headers/linux/vhost.h
-> > > > > > > > index c998860d7b..c5edd75d15 100644
-> > > > > > > > --- a/linux-headers/linux/vhost.h
-> > > > > > > > +++ b/linux-headers/linux/vhost.h
-> > > > > > > > @@ -150,4 +150,14 @@
-> > > > > > > >  /* Get the valid iova range */
-> > > > > > > >  #define VHOST_VDPA_GET_IOVA_RANGE      _IOR(VHOST_VIRTIO, 0x78, \
-> > > > > > > >                                              struct vhost_vdpa_iova_range)
-> > > > > > > > +
-> > > > > > > > +/* Get the number of vectors */
-> > > > > > > > +#define VHOST_VDPA_GET_VECTORS_NUM     _IOR(VHOST_VIRTIO, 0x79, int)
-> > > > > > > > +
-> > > > > > > > +/* Get the virtio config size */
-> > > > > > > > +#define VHOST_VDPA_GET_CONFIG_SIZE     _IOR(VHOST_VIRTIO, 0x80, int)
-> > > > > > > > +
-> > > > > > > > +/* Get the number of virtqueues */
-> > > > > > > > +#define VHOST_VDPA_GET_VQS_NUM         _IOR(VHOST_VIRTIO, 0x81, int)
-> > > > > > > > +
-> > > > > > > >  #endif
-> > > > > > > > --
-> > > > > > > > 2.23.0
-> > > > > > > >
-> > > > > >
-> > > >
-> >
 
 
