@@ -2,90 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9053948615B
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 09:22:01 +0100 (CET)
-Received: from localhost ([::1]:60820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8B6D48615A
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 09:21:49 +0100 (CET)
+Received: from localhost ([::1]:59696 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5O24-0002wT-K5
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 03:22:00 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57500)
+	id 1n5O1q-00024J-QR
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 03:21:46 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60494)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1n5Nqr-0007AT-Vq
- for qemu-devel@nongnu.org; Thu, 06 Jan 2022 03:10:27 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32361)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1n5NzC-0006yO-Ev
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 03:19:02 -0500
+Received: from 9.mo548.mail-out.ovh.net ([46.105.48.137]:48497)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1n5Nqp-0004eD-7z
- for qemu-devel@nongnu.org; Thu, 06 Jan 2022 03:10:24 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641456621;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=VQYWkDgVUZL4YkbSHHNimLszyM82MDxGbpDpB+wW8hU=;
- b=MROx2Q+YwbkWBpD3Yc2T+vj1R2AS+buEiRZDLBuYiLCqTB4iuSyMFQaKzdw/9iKSeXNYVF
- Iemex00OOI+PpsYaklzqZDboLA6Jt37HGGVVr4aFKEVtxkZ0FgPxNATxRWmS47rVtR3F/k
- mzfYZQgdFmXY27v11rDaL4kjHLxwNYk=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-320-zpJvstv3N26_CRp4hXqUhw-1; Thu, 06 Jan 2022 03:10:20 -0500
-X-MC-Unique: zpJvstv3N26_CRp4hXqUhw-1
-Received: by mail-ed1-f72.google.com with SMTP id
- g2-20020a056402424200b003f8ee03207eso1377997edb.7
- for <qemu-devel@nongnu.org>; Thu, 06 Jan 2022 00:10:20 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=VQYWkDgVUZL4YkbSHHNimLszyM82MDxGbpDpB+wW8hU=;
- b=bz1KNSorUfdWVQ3JgjovvgELEluy+9HnWdjcgbGL+J2+R2uIf821tj3uzIe4hyHaya
- 5UQpKSTbXQ5E65fbtBt2WVlinThdlpixQr13/Q1LBMDqI72kNZxf9gP+GcMBCAlBRlFb
- fFErKQdy+4vK9VxYy2cm4cWodbvUwkTjDRwEvwrn+lcZXF1RGL3d5prBdhltWDCjNOpT
- Jr4E5gNN37yc0GVl7e7/JvGzEUSTVuYs37RsjdDYxR0cryToIHYTiu31UMx2KQT9fXzu
- Z95oKaWDtrsuTgA83n5LtIfsVftQj8MV/dcBYTxQ7aUm0nH/k0gdDp85d3qA22EP6SbZ
- wIkw==
-X-Gm-Message-State: AOAM5307/AlHf+bR+5S17ZUhXUMWQCJWw1oGOs0l4EEiNbnA/SFr+I9C
- txbCgxo/Fjwp2VDRl1X6jizDJejO2ibO7QNbYsKox4gbo2KqI0CYpMrt92/Qak3hPLsOznvK5QJ
- XrR3sejcHmeYhHxQ=
-X-Received: by 2002:a05:6402:70e:: with SMTP id
- w14mr57538131edx.325.1641456619115; 
- Thu, 06 Jan 2022 00:10:19 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxMIAcqbzaEw4MUXrpAJuHy5skHnvw/hiDh4lfloj6DManYRmk0azDbUEquvcXoBZR4LJP7vQ==
-X-Received: by 2002:a05:6402:70e:: with SMTP id
- w14mr57538116edx.325.1641456618916; 
- Thu, 06 Jan 2022 00:10:18 -0800 (PST)
-Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
- by smtp.gmail.com with ESMTPSA id gn11sm306797ejc.67.2022.01.06.00.10.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Jan 2022 00:10:18 -0800 (PST)
-Date: Thu, 6 Jan 2022 09:10:17 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH for-7.0] hw/i386/pc: Add missing property descriptions
-Message-ID: <20220106091017.6e7ce1af@redhat.com>
-In-Reply-To: <20211206134255.94784-1-thuth@redhat.com>
-References: <20211206134255.94784-1-thuth@redhat.com>
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1n5Nz9-0001sf-W8
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 03:19:02 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.109.146.208])
+ by mo548.mail-out.ovh.net (Postfix) with ESMTPS id DD59C20AB0;
+ Thu,  6 Jan 2022 08:18:57 +0000 (UTC)
+Received: from kaod.org (37.59.142.106) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.17; Thu, 6 Jan
+ 2022 09:18:57 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-106R00690c6a133-3a6f-4969-bb92-8fc5fb3a8438,
+ 021048AAC49377EB75D2DE2E73CB44671C288654) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <9d3401ac-70d5-7635-0bce-15f7346eb8a1@kaod.org>
+Date: Thu, 6 Jan 2022 09:18:49 +0100
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.372,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH v2 00/18] user creatable pnv-phb3/pnv-phb4 devices
+Content-Language: en-US
+To: Daniel Henrique Barboza <danielhb413@gmail.com>, <qemu-devel@nongnu.org>
+References: <20220105212338.49899-1-danielhb413@gmail.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20220105212338.49899-1-danielhb413@gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.106]
+X-ClientProxiedBy: DAG1EX1.mxp5.local (172.16.2.1) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 587b5e39-99e8-4086-a8a0-aa8c6f54e9db
+X-Ovh-Tracer-Id: 11957338489815010272
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrudefkedgfeeiucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepjeeuheelfeevheehtdefvdevvdfggfekueekheffjeevhfevudevveeljeethfeunecuffhomhgrihhnpehgnhhurdhorhhgnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepuggrvhhiugesghhisghsohhnrdgurhhophgsvggrrhdrihgurdgruh
+Received-SPF: pass client-ip=46.105.48.137; envelope-from=clg@kaod.org;
+ helo=9.mo548.mail-out.ovh.net
+X-Spam_score_int: -45
+X-Spam_score: -4.6
+X-Spam_bar: ----
+X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.691,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,55 +69,141 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>, Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: qemu-ppc@nongnu.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon,  6 Dec 2021 14:42:55 +0100
-Thomas Huth <thuth@redhat.com> wrote:
-
-> When running "qemu-system-x86_64 -M pc,help" I noticed that some
-> properties were still missing their description. Add them now so
-> that users get at least a slightly better idea what they are all
-> about.
+On 1/5/22 22:23, Daniel Henrique Barboza wrote:
+> Hi,
 > 
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
-
-> ---
->  hw/i386/pc.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
+> This second version was rebased with upstream and includes fixed/amended
+> versions of relevant patches that were sent to the mailing list and aren't
+> upstream yet. In this process 4 patches from v1 were discarded, becoming
+> either irrelevant or squashed into others.
 > 
-> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-> index a2ef40ecbc..837f2bff4e 100644
-> --- a/hw/i386/pc.c
-> +++ b/hw/i386/pc.c
-> @@ -1734,15 +1734,23 @@ static void pc_machine_class_init(ObjectClass *oc, void *data)
->  
->      object_class_property_add_bool(oc, PC_MACHINE_SMBUS,
->          pc_machine_get_smbus, pc_machine_set_smbus);
-> +    object_class_property_set_description(oc, PC_MACHINE_SMBUS,
-> +        "Enable/disable system management bus");
->  
->      object_class_property_add_bool(oc, PC_MACHINE_SATA,
->          pc_machine_get_sata, pc_machine_set_sata);
-> +    object_class_property_set_description(oc, PC_MACHINE_SATA,
-> +        "Enable/disable Serial ATA bus");
->  
->      object_class_property_add_bool(oc, PC_MACHINE_PIT,
->          pc_machine_get_pit, pc_machine_set_pit);
-> +    object_class_property_set_description(oc, PC_MACHINE_PIT,
-> +        "Enable/disable Intel 8254 programmable interval timer emulation");
->  
->      object_class_property_add_bool(oc, "hpet",
->          pc_machine_get_hpet, pc_machine_set_hpet);
-> +    object_class_property_set_description(oc, "hpet",
-> +        "Enable/disable high precision event timer emulation");
->  
->      object_class_property_add_bool(oc, "default-bus-bypass-iommu",
->          pc_machine_get_default_bus_bypass_iommu,
+> The patches are organized as follows:
+> 
+> - patches 1-4: enable user creatable phb3/phb4 root ports
+
+Looking closer at models and domain files in libvirt, aren't user
+creatable phb3/phb4 root ports enough ? Do we really need the
+pnv-phb3/pnv-phb4 devices to be user created also ?
+
+
+That said, I am no expert in libvirt,
+
+Thanks,
+
+C.
+
+
+> - patches 5-10: enable user creatable pnv-phb3 devices
+> - patches 11-18: enable user creatable pnv-phb4 devices
+> 
+> Here are some examples of what we're able to do with this series:
+> 
+> * powernv8 machine with -nodefaults,2 pnv-phb3s with 'pcie.N' name,
+> one of them with a root port and a netcard:
+> 
+> $ qemu-system-ppc64 -m 4G -machine powernv8,accel=tcg -smp 2,cores=2,threads=1 \
+> -bios skiboot.lid  -kernel vmlinux -initrd buildroot.rootfs.cpio \
+> -append 'console=hvc0 ro xmon=on' \
+> -nodefaults \
+> -serial mon:stdio -nographic \
+> -device pnv-phb3,chip-id=0,index=0,id=pcie.0 \
+> -device pnv-phb3,chip-id=0,index=2,id=pcie.2 \
+> -device pnv-phb3-root-port,bus=pcie.2,id=pcie.5 \
+> -netdev bridge,helper=/usr/libexec/qemu-bridge-helper,br=virbr0,id=net0 \
+> -device e1000e,netdev=net0,mac=C0:ff:EE:00:01:04,bus=pcie.5,addr=0x0
+> 
+> * powernv9 machine with -nodefaults, 3 of the available 12 pnv-phb4 devices
+> created, 2 root ports, one of the port with a pcie-pci-bridge and
+> devices connected in the bridge:
+> 
+> $ qemu-system-ppc64 -m 4G -machine powernv9 \
+> -smp 2,sockets=2,cores=1,threads=1 \
+> -accel tcg,thread=multi -bios skiboot.lid \
+> -kernel vmlinux -initrd buildroot.rootfs.cpio \
+> -append 'console=hvc0 ro xmon=on' \
+> -nodefaults \
+> -serial mon:stdio -nographic \
+> -device pnv-phb4,chip-id=0,index=0,id=pcie.0 \
+> -device pnv-phb4,chip-id=0,index=4,id=pcie.1 \
+> -device pnv-phb4,chip-id=1,index=3,id=pcie.2 \
+> -device pnv-phb4-root-port,id=root0,bus=pcie.2 \
+> -device pnv-phb4-root-port,id=root1,bus=pcie.1 \
+> -device pcie-pci-bridge,id=bridge1,bus=root0,addr=0x0 \
+> -device nvme,bus=bridge1,addr=0x1,drive=drive0,serial=1234 \
+> -drive file=./simics-disk.raw,if=none,id=drive0,format=raw,cache=none \
+> -device e1000e,netdev=net0,mac=C0:ff:EE:00:01:04,bus=bridge1,addr=0x3 \
+> -netdev bridge,helper=/usr/libexec/qemu-bridge-helper,br=virbr0,id=net0 \
+> -device nec-usb-xhci,bus=bridge1,addr=0x2
+> 
+> 
+> * powernv8/9 with default settings can be used as usual. The work done
+> in this series didn't change the name of the buses created by the
+> default root ports (named pcie.0...N):
+> 
+> $ qemu-system-ppc64 -m 4G \
+> -machine powernv9 -smp 2,sockets=2,cores=1,threads=1  \
+> -accel tcg,thread=multi -bios skiboot.lid  \
+> -kernel vmlinux -initrd buildroot.rootfs.cpio \
+> -append 'console=hvc0 ro xmon=on' \
+> -serial mon:stdio -nographic \
+> -device pcie-pci-bridge,id=bridge1,bus=pcie.0,addr=0x0 \
+> -device nvme,bus=bridge1,addr=0x1,drive=drive0,serial=1234  \
+> -drive file=./simics-disk.raw,if=none,id=drive0,format=raw,cache=none \
+> -device e1000e,netdev=net0,mac=C0:ff:EE:00:01:04,bus=bridge1,addr=0x3 \
+> -netdev bridge,helper=/usr/libexec/qemu-bridge-helper,br=virbr0,id=net0 \
+> -device nec-usb-xhci,bus=bridge1,addr=0x2
+> 
+> 
+> Changes from v1:
+> - rebased with upstream at 7d4ae4d497807
+> - added relevant patches that aren't upstream yet from "ppc/pnv:
+> Preliminary cleanups before user created PHBs" [1] and "ppc/pnv: Add
+> support for user created PHB3/PHB4 devices" [2] series
+> - renamed phb3/phb4 default buses name to 'pnv-phb3-root' and
+> 'pnv-phb4-root'
+> - renamed pnv_pec_get_phb_id() to pnv_phb4_pec_get_phb_id()
+> - patch 'introduce pnv_pec_init_stack_xscom()' moved to patch 16 to
+> be closer with patch 17 that uses it
+> - v1 link: https://lists.gnu.org/archive/html/qemu-devel/2021-12/msg04427.html
+> 
+> [1] https://lists.gnu.org/archive/html/qemu-devel/2021-12/msg03810.html
+> [2] https://lists.gnu.org/archive/html/qemu-devel/2021-12/msg01548.html
+> 
+> 
+> Cédric Le Goater (5):
+>    ppc/pnv: Attach PHB3 root port device when defaults are enabled
+>    ppc/pnv: Introduce support for user created PHB3 devices
+>    ppc/pnv: Reparent user created PHB3 devices to the PnvChip
+>    ppc/pnv: Complete user created PHB3 devices
+>    ppc/pnv: Move num_phbs under Pnv8Chip
+> 
+> Daniel Henrique Barboza (13):
+>    pnv_phb3.c: add unique chassis and slot for pnv_phb3_root_port
+>    pnv_phb4.c: add unique chassis and slot for pnv_phb4_root_port
+>    pnv_phb4.c: make pnv-phb4-root-port user creatable
+>    pnv_phb4.c: check if root port exists in rc_config functions
+>    pnv_phb3.h: change TYPE_PNV_PHB3_ROOT_BUS name
+>    pnv_phb4.c: introduce pnv_phb4_set_stack_phb_props()
+>    pnv_phb4_pec.c: move pnv_pec_phb_offset() to pnv_phb4.c
+>    pnv_phb4_pec: use pnv_phb4_pec_get_phb_id() in pnv_pec_dt_xscom()
+>    pnv_phb4.h: turn phb into a pointer in struct PnvPhb4PecStack
+>    pnv_phb4_pec.c: use 'default_enabled()' to init stack->phb
+>    pnv_phb4.c: introduce pnv_pec_init_stack_xscom()
+>    ppc/pnv: Introduce user creatable pnv-phb4 devices
+>    pnv_phb4.c: change TYPE_PNV_PHB4_ROOT_BUS name
+> 
+>   hw/pci-host/pnv_phb3.c         |  57 ++++++++--
+>   hw/pci-host/pnv_phb4.c         | 193 ++++++++++++++++++++++++++++++---
+>   hw/pci-host/pnv_phb4_pec.c     |  86 ++++++---------
+>   hw/ppc/pnv.c                   |  55 ++++++++--
+>   include/hw/pci-host/pnv_phb3.h |   4 +-
+>   include/hw/pci-host/pnv_phb4.h |  15 ++-
+>   include/hw/ppc/pnv.h           |   8 +-
+>   7 files changed, 322 insertions(+), 96 deletions(-)
+> 
 
 
