@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97BD648682E
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 18:13:23 +0100 (CET)
-Received: from localhost ([::1]:41456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68D54486834
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 18:14:20 +0100 (CET)
+Received: from localhost ([::1]:44052 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5WKI-0001wk-8a
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 12:13:22 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42458)
+	id 1n5WLD-0003hD-Ie
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 12:14:19 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43128)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1n5WGc-00088s-G4
- for qemu-devel@nongnu.org; Thu, 06 Jan 2022 12:09:34 -0500
-Received: from [2a00:1450:4864:20::42d] (port=42813
- helo=mail-wr1-x42d.google.com)
+ id 1n5WJc-0002H2-G9
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 12:12:41 -0500
+Received: from [2a00:1450:4864:20::42a] (port=35708
+ helo=mail-wr1-x42a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1n5WGa-0003Xb-SL
- for qemu-devel@nongnu.org; Thu, 06 Jan 2022 12:09:34 -0500
-Received: by mail-wr1-x42d.google.com with SMTP id w20so6065050wra.9
- for <qemu-devel@nongnu.org>; Thu, 06 Jan 2022 09:09:26 -0800 (PST)
+ id 1n5WJa-0004oq-N1
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 12:12:39 -0500
+Received: by mail-wr1-x42a.google.com with SMTP id e9so4591628wra.2
+ for <qemu-devel@nongnu.org>; Thu, 06 Jan 2022 09:12:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=y517ROAQ+WoqOqCqznk9PvgkBh5YXmtnWDssJqGGdeM=;
- b=t6bGQ1i02ZC5yrHaPQ2+hQsjZzCAYpxohMr9I7l2PCk/IK0TTxEro+KctlwptpGc2g
- 4vm3FebadPdDOcviBljyBZectHuMX+ckBQTJPRtareXqLqW2L4PlAEDO/a/PQWiNclzJ
- rVfNR4zGdRTCe9brXkDKxJlC8MYdsh1dZc20HndWRM1WPOr2v2OC+CK9sd5AZNwZ6EJ5
- AEiSUJMbOiNooq/HL2IZ57loGpYB9mvxF8OisJBFYudIH6hCpoAwH9RTSqrKoEoY3nt+
- 25VT2gFG7LV6WxbvfDwwa60HamHwRN0eZunU4h/FBN/DDgu4Qb7bn3Wi13lZd1mrg812
- /ZjQ==
+ :cc; bh=StgXQvORcJ4Z6gzB5bdMTTg68pZ84lrFD+qKNVNlRXA=;
+ b=sAtu4mbTZ01a643Nn/eseFbTLLfm1Tj972iSv2PyT0kbRF7cgfqElD8z43kBeOx+T7
+ sDpk4YI3qphXfY2kgFRQbaVXe5pw9aKbzkM/tVIgUQ2RIfdvGF+khM9j+POTtSN9qpCm
+ g3JJsS2j4+wpvTyFDTZvgiDN7Zv6YSOiW8uCRZ4jdkZj9KUENTevfcoWyy3lgxSPzi/j
+ IfHYCvQ1ISdZNVIBv1T20fqjs7RtaEv1viTt2J7VRc8C1azkiiSlNdyaR6BQu0RCDj7u
+ q+QbRJFS/yuU/YiIAetgBJ7TULpufDJpwpw7fVNJtgwp+tnFY/9IVeDGak1e2u01aA4W
+ NMtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=y517ROAQ+WoqOqCqznk9PvgkBh5YXmtnWDssJqGGdeM=;
- b=dScEbMfHYOCzrxY2/PN/g5AZIYJF8Ib71D0tBsbdPxXF1vVwesFFjdsDbiBkl6u+IO
- WPjVkJqsdLUDJI45wYMwwRWVLz6OJihF39jB6fn46g6aO8dCWxlVr/P574Nlz8eH0rNe
- SI8ql0Y7pO+te9TnEQC5AQIsqVJMuCw6fWeCdD3PTKGcXekuCJ+vgLv1yVAPmauSkYnz
- X1FlnMG65m5zZo4ZyQWe45zLUIj/Wod2G8z0/wb+qR0MRwLPnAJU+bVVw6UHOG5X2fQ5
- xJHgIPQwOiFBqSoYL5+Yv3M+vmyK5MjAtO6eIxzv2H/cT+l8psDcIvS+/hGNyRKZrUg2
- qK6Q==
-X-Gm-Message-State: AOAM530+ow+K6FsmQVyr0kts0xSSnmywdwsbd5Z7odLMsBQOZeNLTWjT
- L62knuv4b7VFTLrMkvB+2hgVMQSdcP/oLOXZUsUtzA==
-X-Google-Smtp-Source: ABdhPJzaW/QuR8YvEcjAb2xTxW8dMOunzHFJTk966KfUibQ2O5UtvV79Wjc05/+YT+XdpP2iF4miNoJQ83suf9qtfFc=
-X-Received: by 2002:a5d:64c3:: with SMTP id f3mr50360389wri.295.1641488965742; 
- Thu, 06 Jan 2022 09:09:25 -0800 (PST)
+ bh=StgXQvORcJ4Z6gzB5bdMTTg68pZ84lrFD+qKNVNlRXA=;
+ b=MTVU1SfBt39VWb9p9G1vml0qlZZRziv7jOYNSkbejRVyNOXtMOZqNStL/C7CoyvZuq
+ gm4FaVpIqQvxhMy8w4k+kPUFiR+5CjOfdexmyOpCotIud1UcY6C5iHvI1ZQz0rnUGRKq
+ 4B6I2x9SBZQ3P79SaCsnAAryR2RDIjWzo2+f5U0HjpfPMChfBSQQvbUjE38Ju+nnQCvt
+ edJ/bAEOJ2RaDtN9+ebNwNwfsZypW2fD9h4AUadQvRdOh/Cym61n/VY2/I3jHRv8dbKu
+ Sgr0tvcz1UQ0ecf/BvjhJLSpcvzkILCfIvbTRMU1FdN/nXZuqYl9GHpZ0GH+2bd6ofOU
+ TVAQ==
+X-Gm-Message-State: AOAM531d+hcAD5Fddf59DT55fSP2AVKHtKuggvrYMkq90xQqtsLCZ0Lb
+ nJPUFnrPiwr7++ht6QVTatTBXm/ecmgLlp2hlRxbZA==
+X-Google-Smtp-Source: ABdhPJzXwFjjliNcN1hYI/EaIYeCqeLSjLu33MTapW4oSUuAxOg9EHQIKp3JJWtUlowYQGpZryE1O0yoDNLhLHnvKjc=
+X-Received: by 2002:a5d:6986:: with SMTP id g6mr387583wru.172.1641489156288;
+ Thu, 06 Jan 2022 09:12:36 -0800 (PST)
 MIME-Version: 1.0
-References: <CAOG2ctwLQhtezS80vKWZOJQs5k4qr3PsD2UK+cx8Ce+Sa_HRww@mail.gmail.com>
-In-Reply-To: <CAOG2ctwLQhtezS80vKWZOJQs5k4qr3PsD2UK+cx8Ce+Sa_HRww@mail.gmail.com>
+References: <20211231103928.1455657-1-idan.horowitz@gmail.com>
+In-Reply-To: <20211231103928.1455657-1-idan.horowitz@gmail.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 6 Jan 2022 17:09:14 +0000
-Message-ID: <CAFEAcA-67WPBrZsnOE10UmrEq3ce5LvuiL3VT9TfSffnM-_UaQ@mail.gmail.com>
-Subject: Re: New arm alignment issue with 6.2.0 - bisected to single revision
-To: Mark Watson <scrameta@googlemail.com>
+Date: Thu, 6 Jan 2022 17:12:25 +0000
+Message-ID: <CAFEAcA-gw6aZ0F3S1qAf=XNgH1iT+zyEvqoPp3AFQgTU4CvX7g@mail.gmail.com>
+Subject: Re: [PATCH] target/arm: Add missing FEAT_TLBIOS instructions
+To: Idan Horowitz <idan.horowitz@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42d
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42a
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42a.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -79,41 +79,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 29 Dec 2021 at 20:15, Mark Watson <scrameta@googlemail.com> wrote:
-> I'm seeing a repeatable alignment exception running m68k system mode on armv7l (arm cortex a9) following this commit:
-> "fa947a667fceab02f9f85fc99f54aebcc9ae6b51 is the first bad commit
-> commit fa947a667fceab02f9f85fc99f54aebcc9ae6b51
-> Author: Richard Henderson <richard.henderson@linaro.org>
-> Date: Thu Jul 29 10:45:10 2021 -1000
+On Fri, 31 Dec 2021 at 10:40, Idan Horowitz <idan.horowitz@gmail.com> wrote:
 >
-> hw/core: Make do_unaligned_access noreturn
+> Some of the instructions added by the FEAT_TLBIOS extension were forgotten
+> when the extension was originally added to QEMU.
+>
+> Fixes: 7113d618505b ("target/arm: Add support for FEAT_TLBIOS")
+> Signed-off-by: Idan Horowitz <idan.horowitz@gmail.com>
+> --
 
-
-cc'ing Richard as this was his commit. Do you have a repro case
-(QEMU command line, any necessary files/images, etc) ?
-
->
-> While we may have had some thought of allowing system-mode
-> to return from this hook, we have no guests that require this.
-> "
-> With this included I see this in the kernel dmesg log:
-> [10621.993234] Alignment trap: not handling instruction f843b004 at [<b677bb2e>]
-> [10622.000479] 8<--- cut here ---
-> [10622.003609] Unhandled fault: alignment exception (0x811) at 0xb13eed96
-> [10622.010162] pgd = 45acdb93
-> [10622.012941] [b13eed96] *pgd=0557a831, *pte=c01ee743, *ppte=c01eec33
->
-> As well as bisecting I've verified it is this revision by checking out clean HEAD then reverting just this revision (+ fixing conflicts).
->
-> The patch itself just seems to be adding QEMU_NORETURN (aka '__attribute__ ((__noreturn__))') which I'd expect to be benign, so I'm not really sure what is going on.
->
-> I cross-compiled it on Ubuntu using gcc/g++ (Ubuntu 9.3.0-17ubuntu1~20.04) 9.3.0.
->
-
+Richard, you reviewed the original FEAT_TLBIOS patch -- could you
+have a look at this one, please?
 
 thanks
 -- PMM
