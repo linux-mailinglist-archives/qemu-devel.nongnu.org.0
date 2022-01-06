@@ -2,75 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D57D64869B3
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 19:23:16 +0100 (CET)
-Received: from localhost ([::1]:39068 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 200C44869EE
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 19:30:46 +0100 (CET)
+Received: from localhost ([::1]:49692 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5XPv-0005Lh-Du
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 13:23:15 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60316)
+	id 1n5XXB-0004d7-6s
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 13:30:45 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:32854)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1n5XOr-0004fK-61
- for qemu-devel@nongnu.org; Thu, 06 Jan 2022 13:22:09 -0500
-Received: from [2607:f8b0:4864:20::42d] (port=46875
- helo=mail-pf1-x42d.google.com)
+ id 1n5XT8-0008Ii-2y
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 13:26:34 -0500
+Received: from [2607:f8b0:4864:20::1030] (port=41507
+ helo=mail-pj1-x1030.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1n5XOn-0000IR-Pz
- for qemu-devel@nongnu.org; Thu, 06 Jan 2022 13:22:08 -0500
-Received: by mail-pf1-x42d.google.com with SMTP id t123so3174353pfc.13
- for <qemu-devel@nongnu.org>; Thu, 06 Jan 2022 10:22:05 -0800 (PST)
+ id 1n5XT6-00019w-5F
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 13:26:33 -0500
+Received: by mail-pj1-x1030.google.com with SMTP id
+ b1-20020a17090a990100b001b14bd47532so4081487pjp.0
+ for <qemu-devel@nongnu.org>; Thu, 06 Jan 2022 10:26:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=7eXX71Ug7zvoEqvEtuNGTgfhVpJHoUu8gN9EEmTJeak=;
- b=nZWj2O8Kr8uzI5iEdxHsdxJP+zoF6M5SPBaGkbcajqIkZj9U+RJDNhmyoN04j2oHbX
- BSQq6XB/lZC4jID2SVKoJpOGYMcvS/NM3un9ILXXeUTtJCPdsGNBE1jHYMeLzZDNz6Pi
- c5N+4Zzw1b2AuTe0U9DeiXk3MmoieghMejh2xkooqbd8W4CNIskPQPXwH8hAN4TlRZLd
- vVJlhRcNRUg4jcviJrzCxBCZ9MDS9g1jenQLJ0UsUfKKQzVX7E6wvL2Aw5vOgI3RG164
- tzSvM8X0CZNNOb92AIsPVK7SifA/56LP/ui1FxsXwT4NpA7rhVswcAGGMoe+ET6AFOas
- PELA==
+ bh=HlaWOyLJWUxC/fcMDwyvfjC8xT8OixmJxKEiGSjvP78=;
+ b=wnYu2Su9FUNALxqI5H57lVrouxwCAxjS9z9uEp0cHC5tBU9whcr8F+OGJwvsPlpB1c
+ k0tlBUjFz2sOB95QW9wG2x3zBrquvqrafRV4ZkIkrk7JYXTKrRFdpUU12s84soPbOmwj
+ wusCLLM5bU/UrpBMtNmJD1pknx6bc4ytVUxW//VVKqjZP3lZ840xYsfEEsmsE66OwnFl
+ IUKqtEDsGGC89wRoLwE972yS+Yt/8aYGHJDswJxBt+QU9oHR2O7tDplNFVyvtErZKpGc
+ mcGyO4buYHutNvSG9+Osf1VGUVgt0ywDZGZkJxfu7y2+lpd/ETIrYa6Qhj/lGlo00rDp
+ A8zQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=7eXX71Ug7zvoEqvEtuNGTgfhVpJHoUu8gN9EEmTJeak=;
- b=k2AZwZpnxtEEAuPI+mH4IMYzKjcdv/nfMo9v/Uo9hkz+cJm8pY8xVYOOL7wtS3OOIs
- TEQHNMXybA9Wql6SQCkG0rzN9xvMmEkx+q2PjXBMeqlD9XFVoHi6Wp1ze9lO+1AU+f/G
- X2+gSN9mR+rvYwsd8oFJYY4PnFJ8Op4bi0MHqbB6/juJ4HYjUxaI+kaWWQVpwDaNPArK
- DXyehX4j35/l4C27mm004mk0/MdYLfDtLT0a8Md1ay3voECptRSJ0cY177jHQACSnFAo
- 4CN5QubeTOvelo34bHzvk6gLpytsCPdXMf6b2jsLR6I1FuLd0qZchTeeefGC8P1FMpCf
- iiEQ==
-X-Gm-Message-State: AOAM530PUb2AD1Yz6z9GlN5pp7lZqT7zrSQHTgY4547K4VEWFb2qu9nR
- 3b7z1JuYLbOrVvXbnlDwchuVBA==
-X-Google-Smtp-Source: ABdhPJxONJpCGIIXqLn5lD7aAYroMAAgGSbk1nDxzOpyxl3NYtvOHiCXRV2ic8emAcVev8cyfC5mCA==
-X-Received: by 2002:a63:b30b:: with SMTP id i11mr18224999pgf.457.1641493324024; 
- Thu, 06 Jan 2022 10:22:04 -0800 (PST)
+ bh=HlaWOyLJWUxC/fcMDwyvfjC8xT8OixmJxKEiGSjvP78=;
+ b=7P48rocJs9QwEovi6nzPB6ffsz+r6nLpGzS0SOLoaCIZWY+JPf5bHQUcGywEDvkxTf
+ G8h93qt7rYAjGjBkRY/AKHijgz4qc36j3Zkol75uGJ2rtEtBHNoiV35Ou8v6LWKYjAFw
+ KWmzvVHZlE2IEQDca2KaQmV0UR/1MlZpvZ0DG9XB9yQEVsod3vPFRvQBWZ5x0Fwx+NCK
+ Gly+hV73l6mp9Nj91CyCaKDipDVdvAys19LwzSvTJWZ7wvqeyWvPgbImBk1AdyZoL1G7
+ sY3p7OcjU0JB0jXvx0icgGCMRwvipBteZIS7Z/0Z5vzekvDVobFm6KDSfVW4CfYrYahB
+ zs/w==
+X-Gm-Message-State: AOAM530azkZZbcspAq/E/pIqqi79AYq6aog8zyxq7ArjAw3rlPYiC4wU
+ 5P95zsth6JnVhetrl6ff/uzsL9U4VnhVIQ==
+X-Google-Smtp-Source: ABdhPJxoQ3eVXISS6TugVeDxoCB53qQ/yNRF/WUAW9yzPhsSj1SmdwcZJEgtVSWbLiTQugXVAbFPpA==
+X-Received: by 2002:a17:90a:f316:: with SMTP id
+ ca22mr11527272pjb.171.1641493590872; 
+ Thu, 06 Jan 2022 10:26:30 -0800 (PST)
 Received: from [192.168.1.13] (174-21-75-75.tukw.qwest.net. [174.21.75.75])
- by smtp.gmail.com with ESMTPSA id na9sm7343611pjb.0.2022.01.06.10.22.03
+ by smtp.gmail.com with ESMTPSA id 72sm3129138pfu.70.2022.01.06.10.26.30
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 06 Jan 2022 10:22:03 -0800 (PST)
-Subject: Re: [PATCH] i386/tcg: generate an illegal op when translating AVX
- instructions
-To: Stevie Lavern <stevie.lavern@gmail.com>, qemu-devel@nongnu.org
-References: <CADV2EAuttJSjXMc1CHmyJ9ApjOFLJ8CKxa81LLQp3DAYn2A2ZA@mail.gmail.com>
+ Thu, 06 Jan 2022 10:26:30 -0800 (PST)
+Subject: Re: [PATCH v2] hw/arm/virt: KVM: Enable PAuth when supported by the
+ host
+To: Marc Zyngier <maz@kernel.org>
+References: <20220103180507.2190429-1-maz@kernel.org>
+ <c5bedb8e-55e3-877f-31aa-92d59e5aba34@linaro.org>
+ <87czl5usvb.wl-maz@kernel.org>
+ <3db95713-2f05-3c70-82b1-7e12c579d3e2@linaro.org>
+ <875yqwvkm1.wl-maz@kernel.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <29eeda88-97d1-417f-0287-bdda016ab9a1@linaro.org>
-Date: Thu, 6 Jan 2022 10:22:02 -0800
+Message-ID: <364fc879-4b13-cf37-53e0-628a843c7bfa@linaro.org>
+Date: Thu, 6 Jan 2022 10:26:29 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <CADV2EAuttJSjXMc1CHmyJ9ApjOFLJ8CKxa81LLQp3DAYn2A2ZA@mail.gmail.com>
+In-Reply-To: <875yqwvkm1.wl-maz@kernel.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42d
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1030
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1030.google.com
 X-Spam_score_int: -39
 X-Spam_score: -4.0
 X-Spam_bar: ----
@@ -90,45 +96,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: eduardo@habkost.net, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
+ kvm@vger.kernel.org, qemu-devel@nongnu.org, Eric Auger <eric.auger@redhat.com>,
+ kernel-team@android.com, kvmarm@lists.cs.columbia.edu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/6/22 2:35 AM, Stevie Lavern wrote:
-> The AVX instruction set is not supported by Qemu.
-> However, some AVX instructions are properly decoded and emulated as their
-> legacy SSE version.
-> This patch prevent this by generating an illegal_op instead of a bogus SSE
-> instruction.
+On 1/6/22 9:29 AM, Marc Zyngier wrote:
+> On Thu, 06 Jan 2022 17:20:33 +0000,
+> Richard Henderson <richard.henderson@linaro.org> wrote:
+>>
+>> On 1/6/22 1:16 AM, Marc Zyngier wrote:
+>>>>> +static bool kvm_arm_pauth_supported(void)
+>>>>> +{
+>>>>> +    return (kvm_check_extension(kvm_state, KVM_CAP_ARM_PTRAUTH_ADDRESS) &&
+>>>>> +            kvm_check_extension(kvm_state, KVM_CAP_ARM_PTRAUTH_GENERIC));
+>>>>> +}
+>>>>
+>>>> Do we really need to have them both set to play the game?  Given that
+>>>> the only thing that happens is that we disable whatever host support
+>>>> exists, can we have "pauth enabled" mean whatever subset the host has?
+>>>
+>>> The host will always expose either both features or none, and that's
+>>> part of the ABI. From the bit of kernel documentation located in
+>>> Documentation/virt/kvm/api.rst:
+>>>
+>>> <quote>
+>>> 4.82 KVM_ARM_VCPU_INIT
+>>> ----------------------
+>>> [...]
+>>>           - KVM_ARM_VCPU_PTRAUTH_ADDRESS: Enables Address Pointer authentication
+>>>             for arm64 only.
+>>>             Depends on KVM_CAP_ARM_PTRAUTH_ADDRESS.
+>>>             If KVM_CAP_ARM_PTRAUTH_ADDRESS and KVM_CAP_ARM_PTRAUTH_GENERIC are
+>>>             both present, then both KVM_ARM_VCPU_PTRAUTH_ADDRESS and
+>>>             KVM_ARM_VCPU_PTRAUTH_GENERIC must be requested or neither must be
+>>>             requested.
+>>>
+>>>           - KVM_ARM_VCPU_PTRAUTH_GENERIC: Enables Generic Pointer authentication
+>>>             for arm64 only.
+>>>             Depends on KVM_CAP_ARM_PTRAUTH_GENERIC.
+>>>             If KVM_CAP_ARM_PTRAUTH_ADDRESS and KVM_CAP_ARM_PTRAUTH_GENERIC are
+>>>             both present, then both KVM_ARM_VCPU_PTRAUTH_ADDRESS and
+>>>             KVM_ARM_VCPU_PTRAUTH_GENERIC must be requested or neither must be
+>>>             requested.
+>>> </quote>
+>>>
+>>> KVM will reject the initialisation if only one of the features is
+>>> requested, so checking and enabling both makes sense to me.
+>>
+>> Well, no, that's not what that says.  It says that *if* both host
+>> flags are set, then both guest flags must be set or both unset.
 > 
-> Signed-off-by: Stevie Lavern <stevie.lavern@gmail.com <mailto:stevie.lavern@gmail.com>>
-> ---
->   target/i386/tcg/translate.c | 5 +++++
->   1 file changed, 5 insertions(+)
-> 
-> diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
-> index 05f9336c9b..996fce65b2 100644
-> --- a/target/i386/tcg/translate.c
-> +++ b/target/i386/tcg/translate.c
-> @@ -4706,6 +4706,11 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
->           }
->       }
-> 
-> +    if (s->vex_l & 1) {
+> Indeed. But KVM never returns just one flag. It only exposes both or
+> none.
 
-The whole value should be 0, not only bit 0.
-
-> +        /* If set, registers are 256bits.
-> +           Fail as AVX extension is not supported. */
-
-checkpatch.pl should have complained about the comment formatting:
-
-     /*
-      * multi line
-      * comment
-      */
-
-Otherwise it looks good.
+Mm.  It does beg the question of why KVM exposes multiple bits.  If they must be tied, 
+then it only serves to make the interface more complicated than necessary.  We would be 
+better served to have a single bit to control all of PAuth.
 
 
 r~
