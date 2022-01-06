@@ -2,77 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A4D848639C
+	by mail.lfdr.de (Postfix) with ESMTPS id A657148639D
 	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 12:19:34 +0100 (CET)
-Received: from localhost ([::1]:45114 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:45220 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5Qnt-0005XS-6i
+	id 1n5Qnt-0005bW-Fy
 	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 06:19:33 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41680)
+Received: from eggs.gnu.org ([209.51.188.92]:41730)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1n5QlI-0003HG-E4
- for qemu-devel@nongnu.org; Thu, 06 Jan 2022 06:16:54 -0500
-Received: from [2a00:1450:4864:20::32c] (port=46743
- helo=mail-wm1-x32c.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1n5QlG-0002gf-2r
- for qemu-devel@nongnu.org; Thu, 06 Jan 2022 06:16:51 -0500
-Received: by mail-wm1-x32c.google.com with SMTP id
- d187-20020a1c1dc4000000b003474b4b7ebcso325500wmd.5
- for <qemu-devel@nongnu.org>; Thu, 06 Jan 2022 03:16:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=WkFddHeiADyeDwdjOSgYjOcHfU0JFc9gAV+rc7sij4U=;
- b=cM7U4SxQTEVSH3NE52d366HdLTVuVHCH6zBQ0WH8tU5ftgA/GcxARRZbsXAnlk9Zi3
- FtN82v06M5Pl6wNdNYLfTOhJb3y/pZXzcy7Y9TOOC1+iqFgqgqUCUVGpaDYSJccOXSB0
- Nu4GRJZOBf1/ji/ktz+HKe5fQtj5bPOMuuu7+ck6H8sLof9HU0uvTygI3ViFkV42C+yL
- qFh7KKa5gkuwEriuQW22LEzevA6m6zR2MEMmcXm2TjBGQBeODeFzCY7L36cwaET7yysB
- e0iTBQ0CPnOl3Urmc2NRQZokJnbBHgI+PfHnYDcp9aNeWKSOK2wpyvjUbKkFMiF03TUo
- EOYg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=WkFddHeiADyeDwdjOSgYjOcHfU0JFc9gAV+rc7sij4U=;
- b=DkW2dW4jiVLNJSZquaCMnrp0r+x2Uo9sTmJ8q9QTc/z/vTL4DiXJ6nVPtNOyWIhNx6
- yqcd8DjrLSIY/WjWQn9aODbwkH53TcyfoLTfySl9dkI2lA+532kJjkS2HAdkqv9OWQDd
- Gy6nhaoxqIbHgmaTWHTE7JK2uS5QjnPsj/V39pc7Xmsc+4SSV9/vLtPvsqmrsNkrbJL5
- tKTO+4VIWhKVYxTzQOIuYwo9dC4Wa8A5a7cly6zAG6POFAusXNtKKJgW0i7SMsZl0kF3
- pXjwU/Yt5qbF5eWaJmBC43m4TqM0JRdpkzJenPTIjdpKSa8b+pwRGTpt8nmbmJ+S0IkO
- xCxA==
-X-Gm-Message-State: AOAM531vbt8Y8FO8UQe/76WYGEKn9JviQsGvUNkn9sN38xp0FW+U0t7r
- ArSho9ZCaHOkgRepWslCIz/JoY6AVK7i5v6MeNsYRQ==
-X-Google-Smtp-Source: ABdhPJyrvKJ1yV8H8YUnTGt9Hlm2vRKy4P3VdaDWhK0nOzXrNk3kcwf6anjZKKnp8nkJXBQg5rREeH6Xx8LXKAov2fI=
-X-Received: by 2002:a05:600c:1991:: with SMTP id
- t17mr6662712wmq.21.1641467808449; 
- Thu, 06 Jan 2022 03:16:48 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <chenxiang66@hisilicon.com>)
+ id 1n5QlX-0003Nv-TQ; Thu, 06 Jan 2022 06:17:07 -0500
+Received: from szxga02-in.huawei.com ([45.249.212.188]:3069)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <chenxiang66@hisilicon.com>)
+ id 1n5QlU-0002hG-J1; Thu, 06 Jan 2022 06:17:07 -0500
+Received: from dggeme756-chm.china.huawei.com (unknown [172.30.72.56])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4JV3h457gNzbjkY;
+ Thu,  6 Jan 2022 19:16:20 +0800 (CST)
+Received: from [10.40.193.166] (10.40.193.166) by
+ dggeme756-chm.china.huawei.com (10.3.19.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2308.20; Thu, 6 Jan 2022 19:16:55 +0800
+Subject: Re: [RFC v2 1/2] hw/pci-host/gpex: Allow to generate preserve boot
+ config DSM #5
+To: <eric.auger@redhat.com>
+References: <20211005085313.493858-1-eric.auger@redhat.com>
+ <20211005085313.493858-2-eric.auger@redhat.com>
+ <97906621-e6e1-67ec-a3a2-26e5fd07f1a6@hisilicon.com>
+ <2cf469c6-2876-803d-049a-7500f067a0fb@redhat.com>
+CC: <eric.auger.pro@gmail.com>, <imammedo@redhat.com>, <philmd@redhat.com>,
+ <peter.maydell@linaro.org>, <shannon.zhaosl@gmail.com>,
+ <shameerali.kolothum.thodi@huawei.com>, <ardb@kernel.org>,
+ <jean-philippe@linaro.org>, <qemu-arm@nongnu.org>, <qemu-devel@nongnu.org>,
+ <drjones@redhat.com>, <gshan@redhat.com>, "linuxarm@huawei.com"
+ <linuxarm@huawei.com>
+Message-ID: <8aef8ea2-fb76-65e1-8f83-e1477bfbe827@hisilicon.com>
+Date: Thu, 6 Jan 2022 19:16:42 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
+ Thunderbird/45.2.0
 MIME-Version: 1.0
-References: <87czl6jb79.fsf@linaro.org>
- <fbc66bb0-2c15-d789-bbaa-f9c3ba6f81e4@amsat.org>
- <87r19lj3l3.fsf@linaro.org>
-In-Reply-To: <87r19lj3l3.fsf@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 6 Jan 2022 11:16:37 +0000
-Message-ID: <CAFEAcA9XX26RHmNM59Zc13dwvhv83bAnomLp7Yj45Wmf16W66w@mail.gmail.com>
-Subject: Re: Trying to understand QOM object creation and property linking
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32c
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32c.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <2cf469c6-2876-803d-049a-7500f067a0fb@redhat.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.40.193.166]
+X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
+ dggeme756-chm.china.huawei.com (10.3.19.102)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.188;
+ envelope-from=chenxiang66@hisilicon.com; helo=szxga02-in.huawei.com
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.691,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,35 +69,134 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>, Paolo Bonzini <pbonzini@redhat.com>,
- "Daniel P. Berrange" <berrange@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  "chenxiang (M)" <chenxiang66@hisilicon.com>
+From:  "chenxiang (M)" via <qemu-devel@nongnu.org>
 
-On Wed, 5 Jan 2022 at 21:05, Alex Benn=C3=A9e <alex.bennee@linaro.org> wrot=
-e:
-> Can't be added as a subregion to the container...
+
+
+在 2022/1/6 19:00, Eric Auger 写道:
+> Hi CHenxiangn
 >
->   qemu-system-arm: ../../softmmu/memory.c:2538: memory_region_add_subregi=
-on_common: Assertion `!subregion->container' failed.
+> On 12/29/21 8:13 AM, chenxiang (M) via wrote:
+>> Hi Eric,
+>>
+>>
+>> 在 2021/10/5 16:53, Eric Auger 写道:
+>>> Add a 'preserve_config' field in struct GPEXConfig and
+>>> if set generate the DSM #5 for preserving PCI boot configurations.
+>>> The DSM presence is needed to expose RMRs.
+>>>
+>>> At the moment the DSM generation is not yet enabled.
+>>>
+>>> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+>>> ---
+>>>    include/hw/pci-host/gpex.h |  1 +
+>>>    hw/pci-host/gpex-acpi.c    | 12 ++++++++++++
+>>>    2 files changed, 13 insertions(+)
+>>>
+>>> diff --git a/include/hw/pci-host/gpex.h b/include/hw/pci-host/gpex.h
+>>> index fcf8b63820..3f8f8ec38d 100644
+>>> --- a/include/hw/pci-host/gpex.h
+>>> +++ b/include/hw/pci-host/gpex.h
+>>> @@ -64,6 +64,7 @@ struct GPEXConfig {
+>>>        MemMapEntry pio;
+>>>        int         irq;
+>>>        PCIBus      *bus;
+>>> +    bool        preserve_config;
+>>>    };
+>>>      int gpex_set_irq_num(GPEXHost *s, int index, int gsi);
+>>> diff --git a/hw/pci-host/gpex-acpi.c b/hw/pci-host/gpex-acpi.c
+>>> index e7e162a00a..7dab259379 100644
+>>> --- a/hw/pci-host/gpex-acpi.c
+>>> +++ b/hw/pci-host/gpex-acpi.c
+>>> @@ -164,6 +164,12 @@ void acpi_dsdt_add_gpex(Aml *scope, struct
+>>> GPEXConfig *cfg)
+>>>                    aml_append(dev, aml_name_decl("_PXM",
+>>> aml_int(numa_node)));
+>>>                }
+>>>    +            if (cfg->preserve_config) {
+>>> +                method = aml_method("_DSM", 5, AML_SERIALIZED);
+>> I notice there is a ACPI BIOS Error when booting virtual machine which
+>> seems be caused by this patch as I add this patchset in my branch to
+>> test the function of vsmmu.
+>> It seems that it requires only 4 parameter for method _DSM, but use 5
+>> parameters here.
+>> The error log is as following:
+> Thank you for the heads up. Yes the problem was reported by Igor too in
+> https://www.mail-archive.com/qemu-devel@nongnu.org/msg842972.html.
+>
+> At the moment the RMRR ACPI situation has not progressed on spec side or
+> kernel if I have not missed anything but sure I will take this into
+> account in my next respin.
 
-This assert means you tried to add the same MemoryRegion
-as a subregion of more than one parent MR.
+Ok, thanks.
 
-You can either:
- * pass all the CPUs the same container as their "memory" link,
-   if they all see the same view of the world
- * if they have different views of the world, you need to
-   create a container for each CPU to be the "memory" link,
-   and to populate that container you need to create N-1 alias MRs
-   of the board_memory MR (CPU 0's container can use the original
-   board_memory MR; CPU 1, ... use the aliases).
+>
+> Thanks!
+>
+> Eric
+>> [    2.355459] ACPI BIOS Error (bug): Failure creating named object
+>> [\_SB.PCI0._DSM], AE_ALREADY_EXISTS (20210930/dswload2-327)
+>> [    2.355467] ACPI Error: AE_ALREADY_EXISTS, During name
+>> lookup/catalog (20210930/psobject-221)
+>> [    2.355470] ACPI: Skipping parse of AML opcode: OpcodeName
+>> unavailable (0x0014)
+>> [    2.355657] ACPI: 1 ACPI AML tables successfully acquired and loaded
+>> [    2.356321] ACPI: Interpreter enabled
+>> [    2.356323] ACPI: Using GIC for interrupt routing
+>> [    2.356333] ACPI: MCFG table detected, 1 entries
+>> [    2.361359] ARMH0011:00: ttyAMA0 at MMIO 0x9000000 (irq = 16,
+>> base_baud = 0) is a SBSA
+>> [    2.619805] printk: console [ttyAMA0] enabled
+>> [    2.622114] ACPI: PCI Root Bridge [PCI0] (domain 0000 [bus 00-ff])
+>> [    2.622788] acpi PNP0A08:00: _OSC: OS supports [ExtendedConfig ASPM
+>> ClockPM Segments MSI HPX-Type3]
+>> [    2.623776] acpi PNP0A08:00: _OSC: platform does not support [LTR]
+>> [    2.624600] acpi PNP0A08:00: _OSC: OS now controls [PCIeHotplug PME
+>> AER PCIeCapability]
+>> [    2.625721] acpi PNP0A08:00: ECAM area [mem
+>> 0x4010000000-0x401fffffff] reserved by PNP0C02:00
+>> [    2.626645] acpi PNP0A08:00: ECAM at [mem
+>> 0x4010000000-0x401fffffff] for [bus 00-ff]
+>> [    2.627450] ACPI: Remapped I/O 0x000000003eff0000 to [io
+>> 0x0000-0xffff window]
+>> [    2.628229] ACPI BIOS Error (bug): \_SB.PCI0._DSM: Excess arguments
+>> - ASL declared 5, ACPI requires 4 (20210930/nsarguments-166)
+>> [    2.629576] PCI host bridge to bus 0000:00
+>> [    2.630008] pci_bus 0000:00: root bus resource [mem
+>> 0x10000000-0x3efeffff window]
+>> [    2.630747] pci_bus 0000:00: root bus resource [io  0x0000-0xffff
+>> window]
+>> [    2.631405] pci_bus 0000:00: root bus resource [mem
+>> 0x8000000000-0xffffffffff window]
+>> [    2.632177] pci_bus 0000:00: root bus resource [bus 00-ff]
+>> [    2.632731] ACPI BIOS Error (bug): \_SB.PCI0._DSM: Excess arguments
+>> - ASL declared 5, ACPI requires 4 (20210930/nsarguments-166)
+>>
+>>
+>>> +                aml_append(method, aml_return(aml_int(0)));
+>>> +                aml_append(dev, method);
+>>> +            }
+>>> +
+>>>                acpi_dsdt_add_pci_route_table(dev, cfg->irq);
+>>>                  /*
+>>> @@ -191,6 +197,12 @@ void acpi_dsdt_add_gpex(Aml *scope, struct
+>>> GPEXConfig *cfg)
+>>>        aml_append(dev, aml_name_decl("_STR", aml_unicode("PCIe 0
+>>> Device")));
+>>>        aml_append(dev, aml_name_decl("_CCA", aml_int(1)));
+>>>    +    if (cfg->preserve_config) {
+>>> +        method = aml_method("_DSM", 5, AML_SERIALIZED);
+>>> +        aml_append(method, aml_return(aml_int(0)));
+>>> +        aml_append(dev, method);
+>>> +    }
+>>> +
+>>>        acpi_dsdt_add_pci_route_table(dev, cfg->irq);
+>>>          method = aml_method("_CBA", 0, AML_NOTSERIALIZED);
+>>
+> .
+>
 
-Example of option 1: virt board
-Example of option 2: hw/arm/armsse.c (look at what it does with
-the s->cpu_container[] and s->container_alias[] arrays)
-
--- PMM
 
