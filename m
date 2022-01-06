@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8043B4862A1
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 11:03:55 +0100 (CET)
-Received: from localhost ([::1]:54578 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDD4E4862B0
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 11:08:54 +0100 (CET)
+Received: from localhost ([::1]:37120 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5Pcf-0001QN-J6
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 05:03:53 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50156)
+	id 1n5PhW-0000ko-3R
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 05:08:54 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51484)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n5PO3-0002LX-C2
- for qemu-devel@nongnu.org; Thu, 06 Jan 2022 04:48:48 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:39932)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n5PX1-0000u8-RU
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 04:58:03 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:32335)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n5PO1-00071c-RH
- for qemu-devel@nongnu.org; Thu, 06 Jan 2022 04:48:47 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n5PWy-0008TS-2J
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 04:58:03 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641462525;
+ s=mimecast20190719; t=1641463079;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=T86Aa10GIdZo+iVInMWZF1Y/sIUkwx3UYu2Q7BLvmTA=;
- b=MW52XC1NxLdTN3239kiGoOEO2DRj8Sqjn0cMxq0AC2gcjZXMhLQD2lss5El3+/N/1rNcxp
- ZF6kZrAp2CV1nB/ALrpz8rdxTqxhO1V4H8PJjZScaHPnCRk57WkbVgFexnBEHZByS6lmJ/
- COexZl9162G+rH6IWRYt7jPKkdZfk6o=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=KS3ww/0+jFmstvI0O6USjQ0BSTqwW1wcRUooJFJq1ts=;
+ b=bSZLKIdmIaWhRVdWTT2TcEyMym/8IZEx4oPTfgUraLWnAARVs0cqKX/SEkiajowGxy+vq8
+ kujYlBiE0V4i37VZKs7SsZBRfHVFK0zaO986i5l5VmfT7VNjJSGaHD7p6l4Z70yTT9b/4l
+ OFQ/Uc1GjXuOPY5wDGOMMfP7NJIz/Pk=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-287-TG0GGI_3NQyI3WlQYnWQSg-1; Thu, 06 Jan 2022 04:48:42 -0500
-X-MC-Unique: TG0GGI_3NQyI3WlQYnWQSg-1
-Received: by mail-wm1-f72.google.com with SMTP id
- a68-20020a1c9847000000b00346939a2d7cso712756wme.1
- for <qemu-devel@nongnu.org>; Thu, 06 Jan 2022 01:48:42 -0800 (PST)
+ us-mta-365-G7T1kRj_MBO5L1LCvyjfvA-1; Thu, 06 Jan 2022 04:57:58 -0500
+X-MC-Unique: G7T1kRj_MBO5L1LCvyjfvA-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ m9-20020a05600c4f4900b0034644da3525so139546wmq.3
+ for <qemu-devel@nongnu.org>; Thu, 06 Jan 2022 01:57:57 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=T86Aa10GIdZo+iVInMWZF1Y/sIUkwx3UYu2Q7BLvmTA=;
- b=QEbncp4wH8d/QTWAcuE4gVFr78S2px/3YwuvOYvMD+GIidhk+WjqsJdV9PekJ6uBUm
- WuozL5FTqN6xAtkVOeyLlup3C8MHTNtpklyBEsp3H2BXGmhUjt4n99K+NycrC0pjRxDL
- Cr+yD+SFhfIE4XeVPxtE+0F9Z1sbxA3v5kUtZBfuIzG0AZ9XXgg3un1WWHb95YOMcKSW
- i0qCJCbgyv485kx6fplM/b/mPd3Y/XNMmajIMllFVkIjskKrgTfZxYgZtF7fhzWsPZwL
- /sP3+G6p/MLQQ9sJRWfxgIpP1vyWtF4p3IniLA8MYIPHuWnqsjLUM0R+mLDUwTwS2NiZ
- vclQ==
-X-Gm-Message-State: AOAM531jAgiZwt760UJGRSBwOPePnqgF+DVQUrQRPppQs27zzjCMAuP1
- oN/pQTVC00j13mRT2MqZX5a5cPTz7g/MI83QPar5hbCybS7uvYncSm30m2GTcH8WOWfprm1LQge
- gPYJ7/MXbdP2FCXs=
-X-Received: by 2002:a5d:6d0a:: with SMTP id e10mr50078157wrq.65.1641462521175; 
- Thu, 06 Jan 2022 01:48:41 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzLB0xD8+wjzjGIDj0zHGwgVLeRVbM3Ez/h7oQvHLt8+7EcC2m7f1/f8htues9wpqHh92yA1Q==
-X-Received: by 2002:a5d:6d0a:: with SMTP id e10mr50078141wrq.65.1641462520919; 
- Thu, 06 Jan 2022 01:48:40 -0800 (PST)
+ bh=KS3ww/0+jFmstvI0O6USjQ0BSTqwW1wcRUooJFJq1ts=;
+ b=h+pP6AndjP+rKD6OUM96IE/faSzraOgW/kpqS1H2ePsecNQwxeoepcNhjDV3peY4bC
+ LXnhznZrIo33JuVCyojZZaYTv/R8lyzXbmr9NX19clnytsJ9+6z2RJQmKnNN2TyrT77r
+ pyBIYveR3IK5L7Ytmh5+JpW80DoE/qShufF0W2v6OqfNV/pKwRbF6Cs9hG6k2x2AP5vM
+ U+RCeHzB5nfBQWU3MHLUOCh0SXounHv65koDuHctzguaoUpGYB3N+v9O0pT67ZlPrv05
+ g+7WLqqosd2OyffWm62uIRj/RqsSajNr3MiI4EQOlR3dqAV9nQgEOExpvwm1dcAzxV8+
+ h5NA==
+X-Gm-Message-State: AOAM530FcGx5oxIgoZJzHik0jn9E99ZLS4bYrANZou/HdtIfNpMq8hCG
+ GAyBKhuOkM74T0drEdyCwOxBRwrdzboE7RkqVD30VgcbRIPMd356+O0aeH3e/YIIKLkGxp+7wZJ
+ s6k17jkb8qtFFbig=
+X-Received: by 2002:a7b:cbda:: with SMTP id n26mr185684wmi.191.1641463076873; 
+ Thu, 06 Jan 2022 01:57:56 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyyZEBHZGL9tk2ZEtdngAW1Qbuv3iL9ImWkfSuc4jc64mkvwuzMg2i0wqcGNUT4cr5FNHP4bw==
+X-Received: by 2002:a7b:cbda:: with SMTP id n26mr185666wmi.191.1641463076667; 
+ Thu, 06 Jan 2022 01:57:56 -0800 (PST)
 Received: from redhat.com ([2a03:c5c0:207e:991b:6857:5652:b903:a63b])
- by smtp.gmail.com with ESMTPSA id d10sm1772305wri.57.2022.01.06.01.48.39
+ by smtp.gmail.com with ESMTPSA id x20sm4761921wmi.43.2022.01.06.01.57.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Jan 2022 01:48:40 -0800 (PST)
-Date: Thu, 6 Jan 2022 04:48:37 -0500
+ Thu, 06 Jan 2022 01:57:55 -0800 (PST)
+Date: Thu, 6 Jan 2022 04:57:52 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Antonio Caggiano <antonio.caggiano@collabora.com>
-Subject: Re: [PATCH 2/2] virtio: Add shared memory capability
-Message-ID: <20220106044116-mutt-send-email-mst@kernel.org>
-References: <20211110164220.273641-1-antonio.caggiano@collabora.com>
- <20211110164220.273641-3-antonio.caggiano@collabora.com>
+To: Roman Kagan <rvkagan@yandex-team.ru>
+Subject: Re: [PATCH 00/10] vhost: stick to -errno error return convention
+Message-ID: <20220106045718-mutt-send-email-mst@kernel.org>
+References: <20211111153354.18807-1-rvkagan@yandex-team.ru>
 MIME-Version: 1.0
-In-Reply-To: <20211110164220.273641-3-antonio.caggiano@collabora.com>
+In-Reply-To: <20211111153354.18807-1-rvkagan@yandex-team.ru>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -93,87 +92,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org, qemu-devel@nongnu.org,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>, Hanna Reitz <hreitz@redhat.com>,
+ yc-core@yandex-team.ru,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Nov 10, 2021 at 05:42:20PM +0100, Antonio Caggiano wrote:
-> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+On Thu, Nov 11, 2021 at 06:33:44PM +0300, Roman Kagan wrote:
+> Error propagation between the generic vhost code and the specific backends is
+> not quite consistent: some places follow "return -1 and set errno" convention,
+> while others assume "return negated errno".  Furthermore, not enough care is
+> taken not to clobber errno.
 > 
-> Define a new capability type 'VIRTIO_PCI_CAP_SHARED_MEMORY_CFG'
-> and the data structure 'virtio_pci_shm_cap' to go with it.
-> They allow defining shared memory regions with sizes and offsets
-> of 2^32 and more.
-> Multiple instances of the capability are allowed and distinguished
-> by a device-specific 'id'.
+> As a result, on certain code paths the errno resulting from a failure may get
+> overridden by another function call, and then that zero errno inidicating
+> success is propagated up the stack, leading to failures being lost.  In
+> particular, we've seen errors in the communication with a vhost-user-blk slave
+> not trigger an immediate connection drop and reconnection, leaving it in a
+> broken state.
 > 
-> v2: Remove virtio_pci_shm_cap as virtio_pci_cap64 is used instead.
+> Rework error propagation to always return negated errno on errors and
+> correctly pass it up the stack.
 > 
-> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> (cherry picked from commit a5d628a3a3c5e60b98b15ffff197c36a77056115)
+> Roman Kagan (10):
+>   vhost-user-blk: reconnect on any error during realize
+>   chardev/char-socket: tcp_chr_recv: don't clobber errno
+>   chardev/char-socket: tcp_chr_sync_read: don't clobber errno
+>   chardev/char-fe: don't allow EAGAIN from blocking read
 
-Where's that commit? I think we should drop this, right?
+So I dropped this one. If you are so inclined, pls work on
+this separately.
 
-> Signed-off-by: Antonio Caggiano <antonio.caggiano@collabora.com>
-> ---
->  hw/virtio/virtio-pci.c | 19 +++++++++++++++++++
->  hw/virtio/virtio-pci.h |  4 ++++
->  2 files changed, 23 insertions(+)
+>   vhost-backend: avoid overflow on memslots_limit
+>   vhost-backend: stick to -errno error return convention
+>   vhost-vdpa: stick to -errno error return convention
+>   vhost-user: stick to -errno error return convention
+>   vhost: stick to -errno error return convention
+>   vhost-user-blk: propagate error return from generic vhost
 > 
-> diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
-> index 750aa47ec1..8152d3c1b3 100644
-> --- a/hw/virtio/virtio-pci.c
-> +++ b/hw/virtio/virtio-pci.c
-> @@ -1162,6 +1162,25 @@ static int virtio_pci_add_mem_cap(VirtIOPCIProxy *proxy,
->      return offset;
->  }
->  
-> +int virtio_pci_add_shm_cap(VirtIOPCIProxy *proxy,
-> +                           uint8_t bar, uint64_t offset, uint64_t length,
-> +                           uint8_t id)
-> +{
-> +    struct virtio_pci_cap64 cap = {
-> +        .cap.cap_len = sizeof cap,
-> +        .cap.cfg_type = VIRTIO_PCI_CAP_SHARED_MEMORY_CFG,
-> +    };
-> +    uint32_t mask32 = ~0;
-> +
-> +    cap.cap.bar = bar;
-> +    cap.cap.length = cpu_to_le32(length & mask32);
-> +    cap.length_hi = cpu_to_le32((length >> 32) & mask32);
-> +    cap.cap.offset = cpu_to_le32(offset & mask32);
-> +    cap.offset_hi = cpu_to_le32((offset >> 32) & mask32);
-> +    cap.cap.id = id;
-> +    return virtio_pci_add_mem_cap(proxy, &cap.cap);
-
-
-You don't need & mask32 I think. cpu_to_le32 will truncate
-the value.
-
-
-> +}
-> +
->  static uint64_t virtio_pci_common_read(void *opaque, hwaddr addr,
->                                         unsigned size)
->  {
-> diff --git a/hw/virtio/virtio-pci.h b/hw/virtio/virtio-pci.h
-> index 2446dcd9ae..5e5c4a4c6d 100644
-> --- a/hw/virtio/virtio-pci.h
-> +++ b/hw/virtio/virtio-pci.h
-> @@ -252,4 +252,8 @@ void virtio_pci_types_register(const VirtioPCIDeviceTypeInfo *t);
->   */
->  unsigned virtio_pci_optimal_num_queues(unsigned fixed_queues);
->  
-> +int virtio_pci_add_shm_cap(VirtIOPCIProxy *proxy,
-> +                           uint8_t bar, uint64_t offset, uint64_t length,
-> +                           uint8_t id);
-> +
->  #endif
-
-So it's a new API, but where's the user?
-I guess just include this patch with where-ever it's actually used.
-
+>  chardev/char-fe.c         |   7 +-
+>  chardev/char-socket.c     |  17 +-
+>  hw/block/vhost-user-blk.c |   4 +-
+>  hw/virtio/vhost-backend.c |   4 +-
+>  hw/virtio/vhost-user.c    | 401 +++++++++++++++++++++-----------------
+>  hw/virtio/vhost-vdpa.c    |  37 ++--
+>  hw/virtio/vhost.c         |  98 +++++-----
+>  7 files changed, 307 insertions(+), 261 deletions(-)
+> 
 > -- 
-> 2.32.0
+> 2.33.1
+> 
 
 
