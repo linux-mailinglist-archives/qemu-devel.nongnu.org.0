@@ -2,85 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DCC448630B
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 11:40:56 +0100 (CET)
-Received: from localhost ([::1]:41458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1D61486318
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 11:44:28 +0100 (CET)
+Received: from localhost ([::1]:46460 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5QCV-0004Wf-52
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 05:40:55 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59688)
+	id 1n5QFw-0001xD-2G
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 05:44:28 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60232)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n5QAE-0002l2-PR
- for qemu-devel@nongnu.org; Thu, 06 Jan 2022 05:38:35 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55428)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n5QA1-0003wN-C5
- for qemu-devel@nongnu.org; Thu, 06 Jan 2022 05:38:32 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641465498;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=NUC0YRXeoKXluzQDQIK/Y3whFFHC8651FZ8FvN0u72g=;
- b=BXeU8/yBHqrE1nv/617NEE+K3MeD/jEY3fqwOkBrQppxQMukf7lkIExyaX0TC942mh3AKj
- GEQje78Kj3KSWf4M+miVsznB8R5dpQLw+9jzEw6XL6PQvR/zUZ8n9NplnMflfTQR0vV5+c
- DrdSR5kJyK01z8FS/bfx5YI1zf4rDOc=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-222-l2CBYDMTMkG6s7YmAUpRCw-1; Thu, 06 Jan 2022 05:38:17 -0500
-X-MC-Unique: l2CBYDMTMkG6s7YmAUpRCw-1
-Received: by mail-wr1-f71.google.com with SMTP id
- g6-20020adfbc86000000b001a2d62be244so1049044wrh.23
- for <qemu-devel@nongnu.org>; Thu, 06 Jan 2022 02:38:16 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1n5QCS-0005bC-PQ
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 05:40:52 -0500
+Received: from [2a00:1450:4864:20::336] (port=43889
+ helo=mail-wm1-x336.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1n5QCQ-0004aS-UA
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 05:40:52 -0500
+Received: by mail-wm1-x336.google.com with SMTP id
+ k66-20020a1ca145000000b00345fa984108so944187wme.2
+ for <qemu-devel@nongnu.org>; Thu, 06 Jan 2022 02:40:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=LIlJS/YxRhbJ/QRCEVgeZ84BEuLwttI+2hSvOD6DTgk=;
+ b=z1vsnkWmGMv+CIl3G0lqwvNyh1jV58YgHrMBDe03TSTJfUYpH3woL+1FUWt4CzyILT
+ tdtZYgj/t3tDOU9sZY+8IGbA5BMrXvXzQRm3mEFvILg6m+HasohDimAkCfBIr9xINUbc
+ M8Okq9FteTziHmB7UAVxCFAgeLK1P2cF6+UhDmP+b+2agi/G9MRDSpmjQmqgP+XMGfGS
+ k9VMAyvdFYHQhNzEdFtHBIzn9eT32X6v30lcTGcCHLuhRLbxlEddo18djpiM4cUpnLM7
+ ZR1RnL6J+vjXhz4qHMZqR+zLOZPJflRkmLICXFLJSevP5rVn3p/S/Rs20BZn9NkO87Fo
+ Od8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=NUC0YRXeoKXluzQDQIK/Y3whFFHC8651FZ8FvN0u72g=;
- b=DRUefCa/XAMFaSYW/8NlOPseO5VGjBslm5oM3YrBjFC/5b1orktEABQgbTIjYBcpL1
- HUUOxmK0OxMTsnPrfQ7I/SPBmsQU+jdJ4QTlHYlY4hxHxUfWV2KjlDLFnV3UDdP0gEYs
- Oi99ty3d7ZU0r/sj9knAir39O3iI37FbsUYth5Iyj/+zRFORnkkI1cvO3rKzG9FfCWX3
- hQQTyoR79FuVux83BAP9UuBbPAfGSqiEuXckp379WkHdlSWAq4/a61Trnk/M8GwgbTO9
- 9v7+DxFTAU7eRVi4OM3w+W8fYNiVO7nqNWL/JbPX9J7+x4hv8OBP2vUByDigDHzikPcE
- iXlQ==
-X-Gm-Message-State: AOAM531TISHDcBOayVQMKoxlMV8tB6pIs5pO6BFiXFAzAW56rT7mGX+G
- /efYirARtU8ar0+yiWWHlY3cJdRBu4zIDREFoZNBWyux80uKz68a8dHm3B67xsnZWxI4/Uioe5Z
- xEEjcopgpzSlVCXU=
-X-Received: by 2002:adf:aad6:: with SMTP id i22mr49298217wrc.40.1641465493930; 
- Thu, 06 Jan 2022 02:38:13 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJylk1pKCInzHxlwir57G4ozARZhGjfPcmXqX5THgVgQPPCTisQYurqlosTA2gbzoBHgK50UAA==
-X-Received: by 2002:adf:aad6:: with SMTP id i22mr49298191wrc.40.1641465493683; 
- Thu, 06 Jan 2022 02:38:13 -0800 (PST)
-Received: from redhat.com ([2a03:c5c0:207e:991b:6857:5652:b903:a63b])
- by smtp.gmail.com with ESMTPSA id u3sm2125228wrs.0.2022.01.06.02.38.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Jan 2022 02:38:12 -0800 (PST)
-Date: Thu, 6 Jan 2022 05:38:09 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: David Woodhouse <dwmw2@infradead.org>
-Subject: Re: [PATCH v2 1/4] target/i386: Fix sanity check on max APIC ID /
- X2APIC enablement
-Message-ID: <20220106053739-mutt-send-email-mst@kernel.org>
-References: <20211209220840.14889-1-dwmw2@infradead.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=LIlJS/YxRhbJ/QRCEVgeZ84BEuLwttI+2hSvOD6DTgk=;
+ b=7aNCl2CzG0XvCGJVDAiEkzfHQyaB1FY75OOtFr44uaH+N1oWUVMhGF6oUkR8TlSr1G
+ CXh4BohlRLsMq5Bx4HcP6mh/PMBTbAHGpaa4G7g1dZ5YNon/H4JkxpyMzbaHXYh2fZG5
+ o2U40Hs+OSjl4LRmy1pacmq6YVuNgPZm2Ch/tY/AQP81Kw2K96JgrLXz8itsBX+oMC8d
+ AQg3h0OqcdprI2K5J1tw851h2NXf7zQbWgCSE2NLyUivxx3xNUhhVLBRt7G22Cfoo+oT
+ GooF+b6Wz+zQsMqxib8yx7yivOZBFeVoH6MHWJYUK/GxRs1p6DIfVEpEDM7CjHdoH/5O
+ wYLw==
+X-Gm-Message-State: AOAM530g6iGPXD3cBhyjAFhCmCXZEXJeboRLVawr4xtUyz8HeDrz8I+h
+ 64idL6r371EvlXUm3U7LlmEuGmdjjx8FH291Usy0Ar4gd9A=
+X-Google-Smtp-Source: ABdhPJxJjvdsvayzXJu/bscy6jv/vlsoe7x6eo+pr2wR/TxF8pGe88vZfUkFe35K6LAGuu7XW0WGWwGK0vc4irgmBiE=
+X-Received: by 2002:a05:600c:1991:: with SMTP id
+ t17mr6532594wmq.21.1641465649383; 
+ Thu, 06 Jan 2022 02:40:49 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20211209220840.14889-1-dwmw2@infradead.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.372,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <PA4PR09MB4880FF47C3A6E249E55B80E2EB769@PA4PR09MB4880.eurprd09.prod.outlook.com>
+ <CAFEAcA8m0M2+=ZuBAXcRmyGMzjHdjCYWM+_KzFK_eoPdwX-vpA@mail.gmail.com>
+ <c2efa7d0-906b-21bc-bcee-d9f79a2e2064@amsat.org>
+In-Reply-To: <c2efa7d0-906b-21bc-bcee-d9f79a2e2064@amsat.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 6 Jan 2022 10:40:38 +0000
+Message-ID: <CAFEAcA__Vn11Wy42RyG6uk7aO-Y6O10-jrcJkAkg7_-KV1BgAA@mail.gmail.com>
+Subject: Re: Building QEMU as a shared library
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::336
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x336.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,104 +85,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>, kvm@vger.kernel.org,
- Jason Wang <jasowang@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Peter Xu <peterx@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Amir Gonnen <amir.gonnen@neuroblade.ai>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "stefanha@redhat.com" <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Dec 09, 2021 at 10:08:37PM +0000, David Woodhouse wrote:
-> The check on x86ms->apic_id_limit in pc_machine_done() had two problems.
-> 
-> Firstly, we need KVM to support the X2APIC API in order to allow IRQ
-> delivery to APICs >= 255. So we need to call/check kvm_enable_x2apic(),
-> which was done elsewhere in *some* cases but not all.
-> 
-> Secondly, microvm needs the same check. So move it from pc_machine_done()
-> to x86_cpus_init() where it will work for both.
-> 
-> The check in kvm_cpu_instance_init() is now redundant and can be dropped.
-> 
-> Signed-off-by: David Woodhouse <dwmw2@infradead.org>
-> Acked-by: Claudio Fontana <cfontana@suse.de>
+On Thu, 23 Dec 2021 at 09:49, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
+ wrote:
+>
+> Hi Peter,
+>
+> On 12/15/21 11:10, Peter Maydell wrote:
+> > On Wed, 15 Dec 2021 at 08:18, Amir Gonnen <amir.gonnen@neuroblade.ai> w=
+rote:
+> >> My goal is to simulate a mixed architecture system.
+> >>
+> >> Today QEMU strongly assumes that the simulated system is a *single arc=
+hitecture*.
+> >> Changing this assumption and supporting mixed architecture in QEMU pro=
+ved to be
+> >> non-trivial and may require significant development effort. Common cod=
+e such as
+> >> TCG and others explicitly include architecture specific header files, =
+for example.
+> >
+> > Yeah. This is definitely something we'd like to fix some day. It's
+> > the approach I would prefer for getting multi-architecture machines.
+>
+> Am I understanding correctly your preference would be *not* using shared
+> libraries, but having a monolithic process able to use any configuration
+> of heterogeneous architectures?
 
-Could I get an ack from KVM maintainers on this one please?
-Thanks!
+That would be my preference, yes. On the other hand I know there's
+a lot of work in trying to get there, so I don't want to rule out the
+idea that maybe pragmatically we do something else instead.
 
-> ---
->  hw/i386/pc.c              |  8 --------
->  hw/i386/x86.c             | 16 ++++++++++++++++
->  target/i386/kvm/kvm-cpu.c |  2 +-
->  3 files changed, 17 insertions(+), 9 deletions(-)
-> 
-> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-> index a2ef40ecbc..9959f93216 100644
-> --- a/hw/i386/pc.c
-> +++ b/hw/i386/pc.c
-> @@ -736,14 +736,6 @@ void pc_machine_done(Notifier *notifier, void *data)
->          /* update FW_CFG_NB_CPUS to account for -device added CPUs */
->          fw_cfg_modify_i16(x86ms->fw_cfg, FW_CFG_NB_CPUS, x86ms->boot_cpus);
->      }
-> -
-> -
-> -    if (x86ms->apic_id_limit > 255 && !xen_enabled() &&
-> -        !kvm_irqchip_in_kernel()) {
-> -        error_report("current -smp configuration requires kernel "
-> -                     "irqchip support.");
-> -        exit(EXIT_FAILURE);
-> -    }
->  }
->  
->  void pc_guest_info_init(PCMachineState *pcms)
-> diff --git a/hw/i386/x86.c b/hw/i386/x86.c
-> index b84840a1bb..f64639b873 100644
-> --- a/hw/i386/x86.c
-> +++ b/hw/i386/x86.c
-> @@ -39,6 +39,7 @@
->  #include "sysemu/replay.h"
->  #include "sysemu/sysemu.h"
->  #include "sysemu/cpu-timers.h"
-> +#include "sysemu/xen.h"
->  #include "trace.h"
->  
->  #include "hw/i386/x86.h"
-> @@ -136,6 +137,21 @@ void x86_cpus_init(X86MachineState *x86ms, int default_cpu_version)
->       */
->      x86ms->apic_id_limit = x86_cpu_apic_id_from_index(x86ms,
->                                                        ms->smp.max_cpus - 1) + 1;
-> +
-> +    /*
-> +     * Can we support APIC ID 255 or higher?
-> +     *
-> +     * Under Xen: yes.
-> +     * With userspace emulated lapic: no
-> +     * With KVM's in-kernel lapic: only if X2APIC API is enabled.
-> +     */
-> +    if (x86ms->apic_id_limit > 255 && !xen_enabled() &&
-> +        (!kvm_irqchip_in_kernel() || !kvm_enable_x2apic())) {
-> +        error_report("current -smp configuration requires kernel "
-> +                     "irqchip and X2APIC API support.");
-> +        exit(EXIT_FAILURE);
-> +    }
-> +
->      possible_cpus = mc->possible_cpu_arch_ids(ms);
->      for (i = 0; i < ms->smp.cpus; i++) {
->          x86_cpu_new(x86ms, possible_cpus->cpus[i].arch_id, &error_fatal);
-> diff --git a/target/i386/kvm/kvm-cpu.c b/target/i386/kvm/kvm-cpu.c
-> index d95028018e..c60cb2dafb 100644
-> --- a/target/i386/kvm/kvm-cpu.c
-> +++ b/target/i386/kvm/kvm-cpu.c
-> @@ -165,7 +165,7 @@ static void kvm_cpu_instance_init(CPUState *cs)
->          /* only applies to builtin_x86_defs cpus */
->          if (!kvm_irqchip_in_kernel()) {
->              x86_cpu_change_kvm_default("x2apic", "off");
-> -        } else if (kvm_irqchip_is_split() && kvm_enable_x2apic()) {
-> +        } else if (kvm_irqchip_is_split()) {
->              x86_cpu_change_kvm_default("kvm-msi-ext-dest-id", "on");
->          }
->  
-> -- 
-> 2.31.1
+> What are your thoughts on Daniel idea to where (IIUC) cores can are
+> external processes wired via vhost-user.
 
+It sounds a bit awkward to me -- you end up with a system where
+QEMU's scheduler between vCPUs is no longer the only thing deciding
+what gets to run. (eg, how do you emulate atomic accesses? currently
+we do those by "stop all other CPUs, do the thing, restart" for the
+cases where we can't rely on the host's atomic insns.)
+The multiple-host-processes model can certainly be made to work,
+though -- AIUI this is how Xilinx's out-of-tree stuff works.
+
+-- PMM
 
