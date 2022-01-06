@@ -2,72 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30638486200
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 10:20:07 +0100 (CET)
-Received: from localhost ([::1]:43260 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D29E4861F9
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 10:18:22 +0100 (CET)
+Received: from localhost ([::1]:39664 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5OwI-0002P0-0B
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 04:20:06 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43586)
+	id 1n5Oub-0008Nj-8H
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 04:18:21 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43956)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stevie.lavern@gmail.com>)
- id 1n5Oqp-0004er-Ci
- for qemu-devel@nongnu.org; Thu, 06 Jan 2022 04:14:28 -0500
-Received: from [2607:f8b0:4864:20::12e] (port=36376
- helo=mail-il1-x12e.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stevie.lavern@gmail.com>)
- id 1n5Oqi-0004ug-TU
- for qemu-devel@nongnu.org; Thu, 06 Jan 2022 04:14:22 -0500
-Received: by mail-il1-x12e.google.com with SMTP id v10so1609392ilj.3
- for <qemu-devel@nongnu.org>; Thu, 06 Jan 2022 01:14:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=clJXU0/4IGDjVKOcqFQTBC2xDOHpb5MdN5qNHxRfmxo=;
- b=FH1+cjphDdhwoZUM5cmtxTGrn7s+xVFbzP07a8jVoP/XKCdADUUqn/DAjeGfEWMbbW
- WVLfL2vkn+FiGXjHj8Iunsu7b7GimBtIwq7bv965FNcUTXy28jOkzG44m3AVqts2KPQ+
- 3H6Nj2XcOaztqPm9Gi864PcJGdQ5Q6RLTZq7A1ISsKRQtSUNg0fiVqwRRK4ojZfTl52S
- 7o/WBMlME2Faqfb06LowBL/w72U9Asl7w0y0LeoQL3fW753jzIAHXNVM3PwWOYEQrGVq
- nz1Nb0mDoi+715zQkICYyOn6HFFwnS9t4pgijVIj33SNGxeP44tKqjWgBcqxAbEJctRq
- Ob4Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=clJXU0/4IGDjVKOcqFQTBC2xDOHpb5MdN5qNHxRfmxo=;
- b=gNOz4SgMrlhhAZuHqncs4N5SDCVTJHlXKwUW5KsJNkWZYEX4gVVr+mHU1a0woGhcrS
- 9o3ysbeFTnsHioOjg+lZ0oFEhb1JSx1d9cDTyLAJcvpV528J03lWPjeD5N7wZ2ALpZU8
- T+f1wYqgYt7xcSB2mfcwT0UITsLi/KIvAXj5fSA+z8wrixrwupc8AKtUCdeasO93dXAF
- Q2xUQ+QE8ZQx6DLO2S1sqUByBPyoHP+ddTLE+ACls1Gpdlff5i7wICQvAfD6JUSMc1v2
- DsURd+AGDuFOyT+QXvhePUs9DC5QmpkCipx/4q2LFlGA3JspB0/Miy/sQZxxmVzCJUby
- hvbQ==
-X-Gm-Message-State: AOAM531mODXvT5hjRAP7HOF4Eo5azQdFuQx3vzCtpwiJfIhfuIY3iIUX
- Z5MtcoMCVOhhdrsMHxPHS16AZCTTBCcG/DmrkoM=
-X-Google-Smtp-Source: ABdhPJzI7TmDnRtHahunR+mjMDChs41JjTYQCpx18IIH8tDxZ77V9XxDaVqIz/Ti39U6WIUrfV5dNZa888zrTHS0cQI=
-X-Received: by 2002:a92:dc8c:: with SMTP id c12mr25416304iln.43.1641460459815; 
- Thu, 06 Jan 2022 01:14:19 -0800 (PST)
-MIME-Version: 1.0
-References: <CADV2EAtTPjHP=H7AMAdva7UjydjM5DwK=NDAm3HYM-MHeD9wyg@mail.gmail.com>
- <49a5b6c6-8618-a9fc-2cec-ef60b8b59d62@linaro.org>
-In-Reply-To: <49a5b6c6-8618-a9fc-2cec-ef60b8b59d62@linaro.org>
-From: Stevie Lavern <stevie.lavern@gmail.com>
-Date: Thu, 6 Jan 2022 10:14:08 +0100
-Message-ID: <CADV2EAvZ_=AJbQNr4vnFFY5W9HmZjDw8kVm3ubaQ=mvsG37=Vw@mail.gmail.com>
-Subject: Re: Rational behind partial AVX support in Qemu
+ (Exim 4.90_1) (envelope-from <maz@kernel.org>) id 1n5Osn-0006uB-1p
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 04:16:29 -0500
+Received: from [2604:1380:4641:c500::1] (port=33430 helo=dfw.source.kernel.org)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <maz@kernel.org>) id 1n5Osk-0005Jx-BH
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 04:16:28 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id D187161AD8;
+ Thu,  6 Jan 2022 09:16:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 468B4C36AE5;
+ Thu,  6 Jan 2022 09:16:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1641460575;
+ bh=mdH8wLVZw9IC0axvrDBOf6u/F9++nH65H2Vt9jCeYSw=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=SQjF2ZDmhHDLNU8PSy++u2GW+aV5bYBZIvBxoyy64NK/p1qEKEZS/h+XSTUIQc+6f
+ o/NRsYCnzIAA5VFr6oPA4RVEI7Gfl1n2uoVb8ttjuFAyVRZFVm3kR9/v+Ryl4UPY77
+ nfRqyeUuULHcuDdR7uq2AcSfTIHhLoSQeKmaWw24CtOnMPBxd57odRQ6U78/P+oLFP
+ E3uDVxRESpx4SIBCr1z96gI8+upvhVGQeuQZw2+jWxdciYe2ilxWBfapj5quTT1qqS
+ cafpQWWJln0aRWs+G/qJgURciNlHE2w6owB7qYAG0LEy0IfOmGSZycO96G5Jym9Je0
+ K50GjjtSua87w==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=why.misterjones.org)
+ by disco-boy.misterjones.org with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <maz@kernel.org>)
+ id 1n5OsW-00GJrc-Rh; Thu, 06 Jan 2022 09:16:12 +0000
+Date: Thu, 06 Jan 2022 09:16:08 +0000
+Message-ID: <87czl5usvb.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
 To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: multipart/alternative; boundary="0000000000009ec7f305d4e64b25"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::12e
+Subject: Re: [PATCH v2] hw/arm/virt: KVM: Enable PAuth when supported by the
+ host
+In-Reply-To: <c5bedb8e-55e3-877f-31aa-92d59e5aba34@linaro.org>
+References: <20220103180507.2190429-1-maz@kernel.org>
+ <c5bedb8e-55e3-877f-31aa-92d59e5aba34@linaro.org>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
+ (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: richard.henderson@linaro.org, qemu-devel@nongnu.org,
+ kvmarm@lists.cs.columbia.edu, kvm@vger.kernel.org, kernel-team@android.com,
+ eric.auger@redhat.com, drjones@redhat.com, peter.maydell@linaro.org
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org);
+ SAEximRunCond expanded to false
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2604:1380:4641:c500::1
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::12e;
- envelope-from=stevie.lavern@gmail.com; helo=mail-il1-x12e.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
+Received-SPF: pass client-ip=2604:1380:4641:c500::1;
+ envelope-from=maz@kernel.org; helo=dfw.source.kernel.org
+X-Spam_score_int: -16
+X-Spam_score: -1.7
 X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.372,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,75 +83,111 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
+ kvm@vger.kernel.org, qemu-devel@nongnu.org, Eric Auger <eric.auger@redhat.com>,
+ kernel-team@android.com, kvmarm@lists.cs.columbia.edu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000009ec7f305d4e64b25
-Content-Type: text/plain; charset="UTF-8"
+Hi Richard,
 
-Hello,
+On Wed, 05 Jan 2022 21:36:55 +0000,
+Richard Henderson <richard.henderson@linaro.org> wrote:
+> 
+> On 1/3/22 10:05 AM, Marc Zyngier wrote:
+> > -        /*
+> > -         * KVM does not support modifications to this feature.
+> > -         * We have not registered the cpu properties when KVM
+> > -         * is in use, so the user will not be able to set them.
+> > -         */
+> > -        if (!kvm_enabled()) {
+> > -            arm_cpu_pauth_finalize(cpu, &local_err);
+> > -            if (local_err != NULL) {
+> > +	arm_cpu_pauth_finalize(cpu, &local_err);
+> > +	if (local_err != NULL) {
+> >                   error_propagate(errp, local_err);
+> >                   return;
+> > -            }
+> > -        }
+> > +	}
+> 
+> Looks like the indentation is off?
 
-Thanks for you answer!
-I may put together a patch to crash if VEX.L is 1 (shouldn't be hard) and
-submit it to the patch list.
-Do you think it qualifies as "trivial patch" or should i go on with the
-full patch submission process?
+Most probably. I only just discovered how to use the QEMU style for
+Emacs, and was indenting things by hand before that (yes, pretty
+painful and likely to lead to issues (there is a TAB instead of a set
+of spaces there...).
 
+> 
+> > +static bool kvm_arm_pauth_supported(void)
+> > +{
+> > +    return (kvm_check_extension(kvm_state, KVM_CAP_ARM_PTRAUTH_ADDRESS) &&
+> > +            kvm_check_extension(kvm_state, KVM_CAP_ARM_PTRAUTH_GENERIC));
+> > +}
+> 
+> Do we really need to have them both set to play the game?  Given that
+> the only thing that happens is that we disable whatever host support
+> exists, can we have "pauth enabled" mean whatever subset the host has?
 
-On Thu, Jan 6, 2022 at 3:45 AM Richard Henderson <
-richard.henderson@linaro.org> wrote:
+The host will always expose either both features or none, and that's
+part of the ABI. From the bit of kernel documentation located in
+Documentation/virt/kvm/api.rst:
 
-> On 1/5/22 9:09 AM, Stevie Lavern wrote:
-> > Hello,
-> > I'm currently testing various binaries under qemu linux user and went
-> into a strange bug.
-> >
-> > Here is the TLDR: is there a reason to allow VEX.L to be 1 when not
-> supporting AVX
-> > instructions?
->
-> There are some integer instructions that use vex encoding, e.g. andn, and
-> we support some
-> of those, thus any support for VEX at all.  But you're probably correct
-> that we could
-> usefully filter VEX.L = 1 early.
->
->
-> r~
->
+<quote>
+4.82 KVM_ARM_VCPU_INIT
+----------------------
+[...]
+        - KVM_ARM_VCPU_PTRAUTH_ADDRESS: Enables Address Pointer authentication
+          for arm64 only.
+          Depends on KVM_CAP_ARM_PTRAUTH_ADDRESS.
+          If KVM_CAP_ARM_PTRAUTH_ADDRESS and KVM_CAP_ARM_PTRAUTH_GENERIC are
+          both present, then both KVM_ARM_VCPU_PTRAUTH_ADDRESS and
+          KVM_ARM_VCPU_PTRAUTH_GENERIC must be requested or neither must be
+          requested.
 
---0000000000009ec7f305d4e64b25
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        - KVM_ARM_VCPU_PTRAUTH_GENERIC: Enables Generic Pointer authentication
+          for arm64 only.
+          Depends on KVM_CAP_ARM_PTRAUTH_GENERIC.
+          If KVM_CAP_ARM_PTRAUTH_ADDRESS and KVM_CAP_ARM_PTRAUTH_GENERIC are
+          both present, then both KVM_ARM_VCPU_PTRAUTH_ADDRESS and
+          KVM_ARM_VCPU_PTRAUTH_GENERIC must be requested or neither must be
+          requested.
+</quote>
 
-<div dir=3D"ltr">Hello,<div><br></div><div>Thanks for you answer!</div><div=
->I may put together a patch to crash if VEX.L is 1 (shouldn&#39;t be hard) =
-and submit it to the patch list.</div><div>Do you think it qualifies as &qu=
-ot;trivial patch&quot; or should i go on with the full patch submission pro=
-cess?=C2=A0</div><div><br></div></div><br><div class=3D"gmail_quote"><div d=
-ir=3D"ltr" class=3D"gmail_attr">On Thu, Jan 6, 2022 at 3:45 AM Richard Hend=
-erson &lt;<a href=3D"mailto:richard.henderson@linaro.org">richard.henderson=
-@linaro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
--left:1ex">On 1/5/22 9:09 AM, Stevie Lavern wrote:<br>
-&gt; Hello,<br>
-&gt; I&#39;m currently testing various binaries under qemu linux user and w=
-ent into a strange bug.<br>
-&gt; <br>
-&gt; Here is the TLDR: is there a reason to allow VEX.L to be 1 when not su=
-pporting AVX <br>
-&gt; instructions?<br>
-<br>
-There are some integer instructions that use vex encoding, e.g. andn, and w=
-e support some <br>
-of those, thus any support for VEX at all.=C2=A0 But you&#39;re probably co=
-rrect that we could <br>
-usefully filter VEX.L =3D 1 early.<br>
-<br>
-<br>
-r~<br>
-</blockquote></div>
+KVM will reject the initialisation if only one of the features is
+requested, so checking and enabling both makes sense to me.
 
---0000000000009ec7f305d4e64b25--
+> 
+> > @@ -521,6 +527,17 @@ bool kvm_arm_get_host_cpu_features(ARMHostCPUFeatures *ahcf)
+> >        */
+> >       struct kvm_vcpu_init init = { .target = -1, };
+> >   +    /*
+> > +     * Ask for Pointer Authentication if supported. We can't play the
+> > +     * SVE trick of synthetising the ID reg as KVM won't tell us
+> 
+> synthesizing
+
+Yup.
+
+> 
+> > +     * whether we have the architected or IMPDEF version of PAuth, so
+> > +     * we have to use the actual ID regs.
+> > +     */
+> > +    if (kvm_arm_pauth_supported()) {
+> > +        init.features[0] |= (1 << KVM_ARM_VCPU_PTRAUTH_ADDRESS |
+> > +			     1 << KVM_ARM_VCPU_PTRAUTH_GENERIC);
+> 
+> Align the two 1's.
+
+Gah, another of these... Will fix.
+
+> 
+> Otherwise, it looks good.
+
+Thanks,
+
+	M.
+
+-- 
+Without deviation from the norm, progress is not possible.
 
