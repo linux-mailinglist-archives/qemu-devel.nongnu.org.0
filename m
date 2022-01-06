@@ -2,82 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19148485EEE
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 03:46:16 +0100 (CET)
-Received: from localhost ([::1]:32924 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62611485F11
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 04:03:57 +0100 (CET)
+Received: from localhost ([::1]:35292 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5In9-000595-7W
-	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 21:46:15 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37250)
+	id 1n5J4F-0008EQ-K0
+	for lists+qemu-devel@lfdr.de; Wed, 05 Jan 2022 22:03:55 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40060)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1n5ImE-0004Oq-JS
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 21:45:18 -0500
-Received: from [2607:f8b0:4864:20::1034] (port=45740
- helo=mail-pj1-x1034.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1n5ImD-00010w-0w
- for qemu-devel@nongnu.org; Wed, 05 Jan 2022 21:45:18 -0500
-Received: by mail-pj1-x1034.google.com with SMTP id
- l16-20020a17090a409000b001b2e9628c9cso1682032pjg.4
- for <qemu-devel@nongnu.org>; Wed, 05 Jan 2022 18:45:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:references:from:message-id:date:user-agent:mime-version
- :in-reply-to:content-language:content-transfer-encoding;
- bh=pY9Bf06NJv038JMTthdLrQI6cumr+tyhnWMWMCqd/uA=;
- b=Ccev9JLcWVubaN0ih3czVz000A8SiLmQomW6WMx7lFQL1avnvbgPs/ayeWR06uMTp5
- UW5vQ/gEwqvNIrrlSdWjE0LrSjk4bj8OmF5Eu0h5ruvagg6W4ahyMW07fXSUQrKN0GdX
- m0YeFHIN2AxVGO9BMXA4qCEEFIbtCLbMpCsMM31QRi2nHxBWagVlJ2nyY8XC5D0+g750
- S5ryQkUKnaUW5YtRmnVdQvwunzU7iP8QvxdL4vXbm2PUjUTgd3u1JiktCjRDpcD+2TYj
- J3v7gPBj5ThbdMp0twvn1rRYMkJApH14NAEaMJwB5ALfjcZ/VnHi+8XxwjRhx4FVrf/y
- XDOA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=pY9Bf06NJv038JMTthdLrQI6cumr+tyhnWMWMCqd/uA=;
- b=h5Etui71cM9zD9dXBhrIOWGtFxycP7mxDMJ9urq3BsaVyn3SxNv3sgrq2ey6oAwB4+
- jYfhQKkFLuJoZWc3Jht/et4a059CZechXWEFeV+a48uq324wucn+mBHOwi/Mq0sWS5KV
- F1zObypwaNEOZRwcwgIG1nmAHl3ZQgfFabtfL+l/sxQfJVJd48r/iE8ZMKzQqZ62bWTM
- WCdiYm2BvuFK3Oo2kUiLka9xu+MD8leHvcbbAdxGeaNZZ6Djhr5DZz/UDKeOxr0N2QAk
- Wia8xOcbOF2mWuUazNCGTG7x+AUnfUH9eOkT1rJAbNZB1X0UGHSLGl1LctxKXwkYSZM2
- FoFg==
-X-Gm-Message-State: AOAM531vm/OEHjFDB49ASoHQXdcObyjl5a4RtK2cGcvYCh40D79s4wY2
- MOLC8u69cmjTYNlmzwxQU0XijhiEVEwBmw==
-X-Google-Smtp-Source: ABdhPJzU5mlSxzNbztCjfG6iCAKfBEzxXNS/nA0qkMQkacj/Gq26k5L3bhNN+cENi6EXdSa5jBQntA==
-X-Received: by 2002:a17:90a:b103:: with SMTP id
- z3mr7698111pjq.23.1641437115435; 
- Wed, 05 Jan 2022 18:45:15 -0800 (PST)
-Received: from [192.168.1.13] (174-21-75-75.tukw.qwest.net. [174.21.75.75])
- by smtp.gmail.com with ESMTPSA id gk13sm3834838pjb.43.2022.01.05.18.45.14
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 05 Jan 2022 18:45:14 -0800 (PST)
-Subject: Re: Rational behind partial AVX support in Qemu
-To: Stevie Lavern <stevie.lavern@gmail.com>, qemu-devel@nongnu.org
-References: <CADV2EAtTPjHP=H7AMAdva7UjydjM5DwK=NDAm3HYM-MHeD9wyg@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <49a5b6c6-8618-a9fc-2cec-ef60b8b59d62@linaro.org>
-Date: Wed, 5 Jan 2022 18:45:13 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
+ id 1n5J3G-0007Yl-3x
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 22:02:54 -0500
+Received: from szxga08-in.huawei.com ([45.249.212.255]:3261)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
+ id 1n5J3B-0003cS-S1
+ for qemu-devel@nongnu.org; Wed, 05 Jan 2022 22:02:53 -0500
+Received: from dggpeml500025.china.huawei.com (unknown [172.30.72.55])
+ by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4JTrfQ2Nsxz1DKSr;
+ Thu,  6 Jan 2022 10:59:10 +0800 (CST)
+Received: from dggpeml100016.china.huawei.com (7.185.36.216) by
+ dggpeml500025.china.huawei.com (7.185.36.35) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.20; Thu, 6 Jan 2022 11:02:38 +0800
+Received: from dggpeml100016.china.huawei.com ([7.185.36.216]) by
+ dggpeml100016.china.huawei.com ([7.185.36.216]) with mapi id 15.01.2308.020;
+ Thu, 6 Jan 2022 11:02:38 +0800
+To: Stefan Hajnoczi <stefanha@redhat.com>
+CC: "mst@redhat.com" <mst@redhat.com>, "jasowang@redhat.com"
+ <jasowang@redhat.com>, "sgarzare@redhat.com" <sgarzare@redhat.com>,
+ "cohuck@redhat.com" <cohuck@redhat.com>, "pbonzini@redhat.com"
+ <pbonzini@redhat.com>, "Gonglei (Arei)" <arei.gonglei@huawei.com>, Yechuan
+ <yechuan@huawei.com>, Huangzhichao <huangzhichao@huawei.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Subject: RE: [RFC 05/10] vdpa-dev: implement the realize interface
+Thread-Topic: [RFC 05/10] vdpa-dev: implement the realize interface
+Thread-Index: AQHYAc9x2eZeGsh4c02Kkb+31MnmdqxTsSqAgAGZVyA=
+Date: Thu, 6 Jan 2022 03:02:37 +0000
+Message-ID: <8abbe9c2599247599aec2d0d7ff01c32@huawei.com>
+References: <20220105005900.860-1-longpeng2@huawei.com>
+ <20220105005900.860-6-longpeng2@huawei.com>
+ <YdVwOwVuEOgrRuBm@stefanha-x1.localdomain>
+In-Reply-To: <YdVwOwVuEOgrRuBm@stefanha-x1.localdomain>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.174.148.223]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-In-Reply-To: <CADV2EAtTPjHP=H7AMAdva7UjydjM5DwK=NDAm3HYM-MHeD9wyg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1034
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
-X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.057,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.255; envelope-from=longpeng2@huawei.com;
+ helo=szxga08-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,18 +76,168 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-
-On 1/5/22 9:09 AM, Stevie Lavern wrote:
-> Hello,
-> I'm currently testing various binaries under qemu linux user and went into a strange bug.
-> 
-> Here is the TLDR: is there a reason to allow VEX.L to be 1 when not supporting AVX 
-> instructions?
-
-There are some integer instructions that use vex encoding, e.g. andn, and we support some 
-of those, thus any support for VEX at all.  But you're probably correct that we could 
-usefully filter VEX.L = 1 early.
+Reply-to:  "Longpeng (Mike, Cloud Infrastructure Service Product Dept.)"
+ <longpeng2@huawei.com>
+From: longpeng2--- via <qemu-devel@nongnu.org>
 
 
-r~
+
+> -----Original Message-----
+> From: Stefan Hajnoczi [mailto:stefanha@redhat.com]
+> Sent: Wednesday, January 5, 2022 6:18 PM
+> To: Longpeng (Mike, Cloud Infrastructure Service Product Dept.)
+> <longpeng2@huawei.com>
+> Cc: mst@redhat.com; jasowang@redhat.com; sgarzare@redhat.com;
+> cohuck@redhat.com; pbonzini@redhat.com; Gonglei (Arei)
+> <arei.gonglei@huawei.com>; Yechuan <yechuan@huawei.com>; Huangzhichao
+> <huangzhichao@huawei.com>; qemu-devel@nongnu.org
+> Subject: Re: [RFC 05/10] vdpa-dev: implement the realize interface
+>=20
+> On Wed, Jan 05, 2022 at 08:58:55AM +0800, Longpeng(Mike) wrote:
+> > From: Longpeng <longpeng2@huawei.com>
+> >
+> > Implements the .realize interface.
+> >
+> > Signed-off-by: Longpeng <longpeng2@huawei.com>
+> > ---
+> >  hw/virtio/vdpa-dev.c         | 114 +++++++++++++++++++++++++++++++++++
+> >  include/hw/virtio/vdpa-dev.h |   8 +++
+> >  2 files changed, 122 insertions(+)
+> >
+> > diff --git a/hw/virtio/vdpa-dev.c b/hw/virtio/vdpa-dev.c
+> > index 790117fb3b..2d534d837a 100644
+> > --- a/hw/virtio/vdpa-dev.c
+> > +++ b/hw/virtio/vdpa-dev.c
+> > @@ -15,9 +15,122 @@
+> >  #include "sysemu/sysemu.h"
+> >  #include "sysemu/runstate.h"
+> >
+> > +static void
+> > +vhost_vdpa_device_dummy_handle_output(VirtIODevice *vdev, VirtQueue *v=
+q)
+> > +{
+> > +    /* Nothing to do */
+> > +}
+> > +
+> > +static int vdpa_dev_get_info_by_fd(int fd, uint64_t cmd, Error **errp)
+>=20
+> This looks similar to the helper function in a previous patch but this
+> time the return value type is int instead of uint32_t. Please make the
+> types consistent.
+>=20
+
+OK.
+
+> > +{
+> > +    int val;
+> > +
+> > +    if (ioctl(fd, cmd, &val) < 0) {
+> > +        error_setg(errp, "vhost-vdpa-device: cmd 0x%lx failed: %s",
+> > +                   cmd, strerror(errno));
+> > +        return -1;
+> > +    }
+> > +
+> > +    return val;
+> > +}
+> > +
+> > +static inline int vdpa_dev_get_queue_size(int fd, Error **errp)
+> > +{
+> > +    return vdpa_dev_get_info_by_fd(fd, VHOST_VDPA_GET_VRING_NUM, errp)=
+;
+> > +}
+> > +
+> > +static inline int vdpa_dev_get_vqs_num(int fd, Error **errp)
+> > +{
+> > +    return vdpa_dev_get_info_by_fd(fd, VHOST_VDPA_GET_VQS_NUM, errp);
+> > +}
+> > +
+> > +static inline int vdpa_dev_get_config_size(int fd, Error **errp)
+> > +{
+> > +    return vdpa_dev_get_info_by_fd(fd, VHOST_VDPA_GET_CONFIG_SIZE, err=
+p);
+> > +}
+> > +
+> >  static void vhost_vdpa_device_realize(DeviceState *dev, Error **errp)
+> >  {
+> > +    VirtIODevice *vdev =3D VIRTIO_DEVICE(dev);
+> > +    VhostVdpaDevice *s =3D VHOST_VDPA_DEVICE(vdev);
+> > +    uint32_t device_id;
+> > +    int max_queue_size;
+> > +    int fd;
+> > +    int i, ret;
+> > +
+> > +    fd =3D qemu_open(s->vdpa_dev, O_RDWR, errp);
+> > +    if (fd =3D=3D -1) {
+> > +        return;
+> > +    }
+> > +    s->vdpa.device_fd =3D fd;
+>=20
+> This is the field I suggest exposing as a QOM property so it can be set
+> from the proxy object (e.g. when the PCI proxy opens the vdpa device
+> before our .realize() function is called).
+>=20
+
+OK.
+
+> > +
+> > +    max_queue_size =3D vdpa_dev_get_queue_size(fd, errp);
+> > +    if (*errp) {
+> > +        goto out;
+> > +    }
+> > +
+> > +    if (s->queue_size > max_queue_size) {
+> > +        error_setg(errp, "vhost-vdpa-device: invalid queue_size: %d
+> (max:%d)",
+> > +                   s->queue_size, max_queue_size);
+> > +        goto out;
+> > +    } else if (!s->queue_size) {
+> > +        s->queue_size =3D max_queue_size;
+> > +    }
+> > +
+> > +    ret =3D vdpa_dev_get_vqs_num(fd, errp);
+> > +    if (*errp) {
+> > +        goto out;
+> > +    }
+> > +
+> > +    s->dev.nvqs =3D ret;
+>=20
+> There is no input validation because we trust the kernel vDPA return
+> values. That seems okay for now but if there is a vhost-user version of
+> this in the future then input validation will be necessary to achieve
+> isolation between QEMU and the vhost-user processes. I suggest including
+> input validation code right away because it's harder to audit the code
+> and fix missing input validation later on.
+>=20
+
+Make sense!
+
+Should we only need to validate the upper boundary (e.g. <VIRTIO_QUEUE_MAX)=
+?
+
+> > +    s->dev.vqs =3D g_new0(struct vhost_virtqueue, s->dev.nvqs);
+> > +    s->dev.vq_index =3D 0;
+> > +    s->dev.vq_index_end =3D s->dev.nvqs;
+> > +    s->dev.backend_features =3D 0;
+> > +    s->started =3D false;
+> > +
+> > +    ret =3D vhost_dev_init(&s->dev, &s->vdpa, VHOST_BACKEND_TYPE_VDPA,=
+ 0,
+> NULL);
+> > +    if (ret < 0) {
+> > +        error_setg(errp, "vhost-vdpa-device: vhost initialization
+> failed: %s",
+> > +                   strerror(-ret));
+> > +        goto out;
+> > +    }
+> > +
+> > +    ret =3D s->dev.vhost_ops->vhost_get_device_id(&s->dev, &device_id)=
+;
+>=20
+> The vhost_*() API abstracts the ioctl calls but this source file and the
+> PCI proxy have ioctl calls. I wonder if it's possible to move the ioctls
+> calls into the vhost_*() API? That would be cleaner and also make it
+> easier to add vhost-user vDPA support in the future.
+
+We need these ioctls calls because we need invoke them before the vhost-dev
+object is initialized.
 
