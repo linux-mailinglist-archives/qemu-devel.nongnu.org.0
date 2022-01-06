@@ -2,101 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2F6648638B
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 12:13:16 +0100 (CET)
-Received: from localhost ([::1]:35882 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBAFF48638D
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 12:14:45 +0100 (CET)
+Received: from localhost ([::1]:38784 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5Qhn-0007I0-S1
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 06:13:15 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:37958)
+	id 1n5QjE-0000qa-O8
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 06:14:44 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39876)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1n5QVZ-00019F-M8
- for qemu-devel@nongnu.org; Thu, 06 Jan 2022 06:00:37 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:58704)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n5QdW-0004AV-R6
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 06:08:54 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24524)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1n5QVW-0002wZ-P3
- for qemu-devel@nongnu.org; Thu, 06 Jan 2022 06:00:36 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n5QdU-0000wj-1f
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 06:08:50 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641466833;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ s=mimecast20190719; t=1641467326;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=d78zgnEtStxz0oNorpZ5StadWScfSAsLTnylGQQWHPs=;
- b=JdN3+VFSnyAk6+TuhJ7MEUXsIU+YcE5ChWJiZeQqXf0HT5OazmAPmMhKAYVUlwz8SMNbe0
- lRIXCwwyX3KzYnPhLPTdqKlUnaq2F38Njb8PfHbypihNQf9fKhXiMJmWyqCfps3lPb1YMk
- TweYR314+QgwPp79+nDJqM6rpU1Hq4k=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=AO2j0ocrJGrXS+8IYw/yQyr2Y7C92jPHb6OD0Mb39YI=;
+ b=Ewv6iehgNoisq+2R5jEVQ1X9IdRKsBe2PKDllwjk9zRouBFEHB6p9wYTrM4kqEo/trOxp8
+ nPDJGvcwel43mi4lHJJYywR2mrSDrJcJEmBSaM7RMGXhau3UVxKP1Q49Lp2qIjVKqMDqkg
+ tRFLfXOU+J//C/7U1JtxtQn+H32QiL0=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-395-dleeLw1DPDefBCglQa3p1g-1; Thu, 06 Jan 2022 06:00:31 -0500
-X-MC-Unique: dleeLw1DPDefBCglQa3p1g-1
-Received: by mail-wm1-f69.google.com with SMTP id
- a68-20020a1c9847000000b00346939a2d7cso736645wme.1
- for <qemu-devel@nongnu.org>; Thu, 06 Jan 2022 03:00:31 -0800 (PST)
+ us-mta-640-vEJpMLxEPwmLRxQNWnxKag-1; Thu, 06 Jan 2022 06:08:44 -0500
+X-MC-Unique: vEJpMLxEPwmLRxQNWnxKag-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ q2-20020adfab02000000b001a3ed59eb96so1090908wrc.20
+ for <qemu-devel@nongnu.org>; Thu, 06 Jan 2022 03:08:44 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:reply-to:subject:to:cc:references:from
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-transfer-encoding:content-language;
- bh=d78zgnEtStxz0oNorpZ5StadWScfSAsLTnylGQQWHPs=;
- b=vqimCxSGTVsiIRypAzA8GubSwb0kAwwR2vhSxXzzBpBd3YLfE3W6vsdN4BjLDo5Zae
- WFdHTi/SOa06H9O4BqLOnWPvhHt95WStIHV4BF/uYgqrXzwFaQv8Cg5rO1U+44xfSYon
- E07gfEkFAPDs6DsRaIJnF6k6IDyuNTou1U4zWXS7NHcmEOy4Gy0QcjKRG8kg4JXONcMd
- N6yepk7bbdyyxoSjzTvyr9E8ltytCSXWtg62WAPZfGhIviFrep6hD8BMVIVeIKBw0bxN
- 9UwCASzGzqgMJAzFMIpG2biywTJ57pt8R5lZNXQJLXHuk+yHjQdjYARkg814Qys6AUI1
- dTFg==
-X-Gm-Message-State: AOAM533jwURHWVhSMSG7otUvgPtrIYZPZla/DPCRbZUZeuYR3iRKHQ5+
- xgQyclOFHXpqWkSX2jhAk8gLDFPEwV8bOhsqJE5EsCoBPHQRWOMn8/AsE5ijyVxOifz/V/91OsK
- UmqV1o2iLVShA7ms=
-X-Received: by 2002:a1c:1b15:: with SMTP id b21mr6617342wmb.174.1641466830233; 
- Thu, 06 Jan 2022 03:00:30 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwLLMFI/dyabiArjAotU5uaF+VrEpG8bdcnAvmmnWTgiqOAKJ8ZZ2gMvVFhlEo8US7u0tzGlw==
-X-Received: by 2002:a1c:1b15:: with SMTP id b21mr6617301wmb.174.1641466829849; 
- Thu, 06 Jan 2022 03:00:29 -0800 (PST)
-Received: from ?IPv6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
- ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
- by smtp.gmail.com with ESMTPSA id z9sm1902317wmk.0.2022.01.06.03.00.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 06 Jan 2022 03:00:28 -0800 (PST)
-Subject: Re: [RFC v2 1/2] hw/pci-host/gpex: Allow to generate preserve boot
- config DSM #5
-To: "chenxiang (M)" <chenxiang66@hisilicon.com>, eric.auger.pro@gmail.com,
- imammedo@redhat.com, philmd@redhat.com, peter.maydell@linaro.org,
- shannon.zhaosl@gmail.com, shameerali.kolothum.thodi@huawei.com,
- ardb@kernel.org, jean-philippe@linaro.org, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org, drjones@redhat.com
-References: <20211005085313.493858-1-eric.auger@redhat.com>
- <20211005085313.493858-2-eric.auger@redhat.com>
- <97906621-e6e1-67ec-a3a2-26e5fd07f1a6@hisilicon.com>
-From: Eric Auger <eric.auger@redhat.com>
-Message-ID: <2cf469c6-2876-803d-049a-7500f067a0fb@redhat.com>
-Date: Thu, 6 Jan 2022 12:00:27 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=AO2j0ocrJGrXS+8IYw/yQyr2Y7C92jPHb6OD0Mb39YI=;
+ b=zeldUPxw/rWZ+b3EMdXkCat82hsZKPZ2YWlZ9vkhroKzYQnaiJfbGimxn8xsx76nnI
+ +xSxOay3dglMOprA6BlFlTY7bGJcIjUSZ8EdL/AzABiUs1lbHXoN14DE8ySr6HvPW684
+ BfI4MlP0l091qZoRh2AyNCNvJNZLyJfS4cmftYTO/8yPLH2FhMbG+BXNCsoSvOnaV9zB
+ NgRABwI8fZt+5o89P4lqce1jzgPIRLbckXuVR+CZvsVlEbkBcPWte3KAEQpNGGqN3z2+
+ c585YtdRugbdnriUxbn9C9LY766rs0fAMAkKDq2R3lfk+g9WbvTQfwYxmVtFWBpSEz6B
+ 9gDg==
+X-Gm-Message-State: AOAM530dUAnWTSSXFNyAitYHFb/JVU6T68Pixsbu6bhOcEmwr37WEL0f
+ rvmPWnDLYIUemtrLJ41rtRuQmvDbegI3bERbgmV6bMOSUAc7PkNtcq1FJGIHdFEj+zs7+47TW5s
+ vs1bg7YqvN7sjVoI=
+X-Received: by 2002:a05:600c:2150:: with SMTP id
+ v16mr6586431wml.10.1641467323449; 
+ Thu, 06 Jan 2022 03:08:43 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwOkqgAnKN48diKfYzJ/LN9hEM3B2RLyrfJtAEpjd0sePT51WKvN18WGffGciEyCmHzem/1sA==
+X-Received: by 2002:a05:600c:2150:: with SMTP id
+ v16mr6586401wml.10.1641467323198; 
+ Thu, 06 Jan 2022 03:08:43 -0800 (PST)
+Received: from redhat.com ([2a03:c5c0:207e:991b:6857:5652:b903:a63b])
+ by smtp.gmail.com with ESMTPSA id l12sm5915975wmq.2.2022.01.06.03.08.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 06 Jan 2022 03:08:42 -0800 (PST)
+Date: Thu, 6 Jan 2022 06:08:37 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
+Subject: Re: [PATCH v2 0/9] hw/dma: Use dma_addr_t type definition when
+ relevant
+Message-ID: <20220106060800-mutt-send-email-mst@kernel.org>
+References: <20220104085431.2122999-1-f4bug@amsat.org>
 MIME-Version: 1.0
-In-Reply-To: <97906621-e6e1-67ec-a3a2-26e5fd07f1a6@hisilicon.com>
+In-Reply-To: <20220104085431.2122999-1-f4bug@amsat.org>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=170.10.129.124;
- envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -58
-X-Spam_score: -5.9
-X-Spam_bar: -----
-X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.372,
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.372,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.691, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -109,130 +98,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: eric.auger@redhat.com
-Cc: gshan@redhat.com, "linuxarm@huawei.com" <linuxarm@huawei.com>
+Cc: Fam Zheng <fam@euphon.net>, Hannes Reinecke <hare@suse.com>,
+ qemu-block@nongnu.org, David Hildenbrand <david@redhat.com>,
+ qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>,
+ Yuval Shaia <yuval.shaia.ml@gmail.com>, Klaus Jensen <its@irrelevant.dk>,
+ Keith Busch <kbusch@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>,
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi CHenxiangn
+On Tue, Jan 04, 2022 at 09:54:22AM +0100, Philippe Mathieu-Daud� wrote:
+> Since v1:
+> - Addressed David review comment (stick to dma_addr_t type)
+> - Addressed Peter review comment (incorrect doc string)
 
-On 12/29/21 8:13 AM, chenxiang (M) via wrote:
-> Hi Eric,
->
->
-> 在 2021/10/5 16:53, Eric Auger 写道:
->> Add a 'preserve_config' field in struct GPEXConfig and
->> if set generate the DSM #5 for preserving PCI boot configurations.
->> The DSM presence is needed to expose RMRs.
->>
->> At the moment the DSM generation is not yet enabled.
->>
->> Signed-off-by: Eric Auger <eric.auger@redhat.com>
->> ---
->>   include/hw/pci-host/gpex.h |  1 +
->>   hw/pci-host/gpex-acpi.c    | 12 ++++++++++++
->>   2 files changed, 13 insertions(+)
->>
->> diff --git a/include/hw/pci-host/gpex.h b/include/hw/pci-host/gpex.h
->> index fcf8b63820..3f8f8ec38d 100644
->> --- a/include/hw/pci-host/gpex.h
->> +++ b/include/hw/pci-host/gpex.h
->> @@ -64,6 +64,7 @@ struct GPEXConfig {
->>       MemMapEntry pio;
->>       int         irq;
->>       PCIBus      *bus;
->> +    bool        preserve_config;
->>   };
->>     int gpex_set_irq_num(GPEXHost *s, int index, int gsi);
->> diff --git a/hw/pci-host/gpex-acpi.c b/hw/pci-host/gpex-acpi.c
->> index e7e162a00a..7dab259379 100644
->> --- a/hw/pci-host/gpex-acpi.c
->> +++ b/hw/pci-host/gpex-acpi.c
->> @@ -164,6 +164,12 @@ void acpi_dsdt_add_gpex(Aml *scope, struct
->> GPEXConfig *cfg)
->>                   aml_append(dev, aml_name_decl("_PXM",
->> aml_int(numa_node)));
->>               }
->>   +            if (cfg->preserve_config) {
->> +                method = aml_method("_DSM", 5, AML_SERIALIZED);
->
-> I notice there is a ACPI BIOS Error when booting virtual machine which
-> seems be caused by this patch as I add this patchset in my branch to
-> test the function of vsmmu.
-> It seems that it requires only 4 parameter for method _DSM, but use 5
-> parameters here.
-> The error log is as following:
 
-Thank you for the heads up. Yes the problem was reported by Igor too in
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg842972.html.
+PCI things:
 
-At the moment the RMRR ACPI situation has not progressed on spec side or
-kernel if I have not missed anything but sure I will take this into
-account in my next respin.
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 
-Thanks!
+who's merging all this? Yourself?
 
-Eric
->
-> [    2.355459] ACPI BIOS Error (bug): Failure creating named object
-> [\_SB.PCI0._DSM], AE_ALREADY_EXISTS (20210930/dswload2-327)
-> [    2.355467] ACPI Error: AE_ALREADY_EXISTS, During name
-> lookup/catalog (20210930/psobject-221)
-> [    2.355470] ACPI: Skipping parse of AML opcode: OpcodeName
-> unavailable (0x0014)
-> [    2.355657] ACPI: 1 ACPI AML tables successfully acquired and loaded
-> [    2.356321] ACPI: Interpreter enabled
-> [    2.356323] ACPI: Using GIC for interrupt routing
-> [    2.356333] ACPI: MCFG table detected, 1 entries
-> [    2.361359] ARMH0011:00: ttyAMA0 at MMIO 0x9000000 (irq = 16,
-> base_baud = 0) is a SBSA
-> [    2.619805] printk: console [ttyAMA0] enabled
-> [    2.622114] ACPI: PCI Root Bridge [PCI0] (domain 0000 [bus 00-ff])
-> [    2.622788] acpi PNP0A08:00: _OSC: OS supports [ExtendedConfig ASPM
-> ClockPM Segments MSI HPX-Type3]
-> [    2.623776] acpi PNP0A08:00: _OSC: platform does not support [LTR]
-> [    2.624600] acpi PNP0A08:00: _OSC: OS now controls [PCIeHotplug PME
-> AER PCIeCapability]
-> [    2.625721] acpi PNP0A08:00: ECAM area [mem
-> 0x4010000000-0x401fffffff] reserved by PNP0C02:00
-> [    2.626645] acpi PNP0A08:00: ECAM at [mem
-> 0x4010000000-0x401fffffff] for [bus 00-ff]
-> [    2.627450] ACPI: Remapped I/O 0x000000003eff0000 to [io
-> 0x0000-0xffff window]
-> [    2.628229] ACPI BIOS Error (bug): \_SB.PCI0._DSM: Excess arguments
-> - ASL declared 5, ACPI requires 4 (20210930/nsarguments-166)
-> [    2.629576] PCI host bridge to bus 0000:00
-> [    2.630008] pci_bus 0000:00: root bus resource [mem
-> 0x10000000-0x3efeffff window]
-> [    2.630747] pci_bus 0000:00: root bus resource [io  0x0000-0xffff
-> window]
-> [    2.631405] pci_bus 0000:00: root bus resource [mem
-> 0x8000000000-0xffffffffff window]
-> [    2.632177] pci_bus 0000:00: root bus resource [bus 00-ff]
-> [    2.632731] ACPI BIOS Error (bug): \_SB.PCI0._DSM: Excess arguments
-> - ASL declared 5, ACPI requires 4 (20210930/nsarguments-166)
->
->
->> +                aml_append(method, aml_return(aml_int(0)));
->> +                aml_append(dev, method);
->> +            }
->> +
->>               acpi_dsdt_add_pci_route_table(dev, cfg->irq);
->>                 /*
->> @@ -191,6 +197,12 @@ void acpi_dsdt_add_gpex(Aml *scope, struct
->> GPEXConfig *cfg)
->>       aml_append(dev, aml_name_decl("_STR", aml_unicode("PCIe 0
->> Device")));
->>       aml_append(dev, aml_name_decl("_CCA", aml_int(1)));
->>   +    if (cfg->preserve_config) {
->> +        method = aml_method("_DSM", 5, AML_SERIALIZED);
->> +        aml_append(method, aml_return(aml_int(0)));
->> +        aml_append(dev, method);
->> +    }
->> +
->>       acpi_dsdt_add_pci_route_table(dev, cfg->irq);
->>         method = aml_method("_CBA", 0, AML_NOTSERIALIZED);
->
->
+> Hi,
+> 
+> This series aims to clarify a bit the DMA API, in particular the
+> 'size' argument which is not clear enough (as we use multiple types
+> for it). This helps avoiding build failures on 32-bit host [*] (and
+> likely overflows calculation too IMO).
+> 
+> Some units using the DMA API are first removed from user-mode
+> emulation to avoid build failure (they shouldn't be there in
+> the first place).
+> 
+> Then some variables are renamed for clarity (no functional change).
+> 
+> Finally we replace misuses with dma_addr_t typedef. The previous
+> patch which failed on 32-bit host applied on top (not failing anymore).
+> 
+> Regards,
+> 
+> Phil.
+> 
+> [*] https://www.mail-archive.com/qemu-devel@nongnu.org/msg858825.html
+> 
+> Supersedes: <20211231114901.976937-1-philmd@redhat.com>
+> 
+> Philippe Mathieu-Daud� (9):
+>   hw/nvram: Restrict stub to sysemu and tools
+>   hw/pci: Restrict pci-bus stub to sysemu
+>   hw/pci: Document pci_dma_map()
+>   hw/dma: Remove CONFIG_USER_ONLY check
+>   hw/rdma/rdma_utils: Rename rdma_pci_dma_map 'len' argument
+>   hw/scsi: Rename SCSIRequest::resid as 'residual'
+>   hw/dma: Fix format string issues using dma_addr_t
+>   hw/dma: Use dma_addr_t type definition when relevant
+>   hw/dma: Let dma_buf_read() / dma_buf_write() propagate MemTxResult
+> 
+>  hw/rdma/rdma_utils.h   |  2 +-
+>  include/hw/pci/pci.h   | 12 ++++++
+>  include/hw/scsi/scsi.h |  4 +-
+>  include/sysemu/dma.h   | 31 ++++++++-------
+>  hw/ide/ahci.c          | 10 ++---
+>  hw/nvme/ctrl.c         |  6 +--
+>  hw/rdma/rdma_utils.c   | 14 +++----
+>  hw/scsi/megasas.c      | 85 +++++++++++++++++++++++++++++-------------
+>  hw/scsi/scsi-bus.c     | 12 +++---
+>  hw/scsi/scsi-disk.c    |  4 +-
+>  softmmu/dma-helpers.c  | 34 +++++++----------
+>  hw/nvram/meson.build   |  6 ++-
+>  hw/rdma/trace-events   |  2 +-
+>  stubs/meson.build      |  4 +-
+>  14 files changed, 134 insertions(+), 92 deletions(-)
+> 
+> -- 
+> 2.33.1
+> 
 
 
