@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50D4F48635F
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 12:01:49 +0100 (CET)
-Received: from localhost ([::1]:42388 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27AC548633D
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 11:54:26 +0100 (CET)
+Received: from localhost ([::1]:52994 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5QWi-0000jn-34
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 06:01:48 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:32804)
+	id 1n5QPZ-0005Bl-7Q
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 05:54:25 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:32808)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n5QDb-0007qa-Eb
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n5QDb-0007qc-FC
  for qemu-devel@nongnu.org; Thu, 06 Jan 2022 05:42:05 -0500
-Received: from mout.kundenserver.de ([212.227.126.134]:36477)
+Received: from mout.kundenserver.de ([212.227.126.135]:44273)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n5QDS-0004k7-9w
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n5QDS-0004kE-Ob
  for qemu-devel@nongnu.org; Thu, 06 Jan 2022 05:42:01 -0500
 Received: from quad ([82.142.12.178]) by mrelayeu.kundenserver.de (mreue012
- [212.227.15.167]) with ESMTPSA (Nemesis) id 1MgiPE-1mSoCy1N5I-00h2dv; Thu, 06
+ [212.227.15.167]) with ESMTPSA (Nemesis) id 1Mm9NA-1mev9U3GYy-00iCIx; Thu, 06
  Jan 2022 11:41:52 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 21/27] linux-user/nios2: Fix EA vs PC confusion
-Date: Thu,  6 Jan 2022 11:41:31 +0100
-Message-Id: <20220106104137.732883-22-laurent@vivier.eu>
+Subject: [PULL 22/27] linux-user/nios2: Fix sigmask in setup_rt_frame
+Date: Thu,  6 Jan 2022 11:41:32 +0100
+Message-Id: <20220106104137.732883-23-laurent@vivier.eu>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20220106104137.732883-1-laurent@vivier.eu>
 References: <20220106104137.732883-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:fpma7rgrQfMkXeh/gmxujbOIZZ+gON8IEBva0thvttFJabWTRgz
- AmoD1gUIwMuMBRE9ZqtYOYoMHOvnKy8K0LmMAepdPM2VoIlcc8qOq0s5yDjs9hyPp9H/TjE
- j2smxwB4W0SdbFH0ntiWcQdJ35t9Dp8k0F07t5S3H9CcqRo84/j6y8iR38ybqzBoI5k9Sts
- 4EwQeBHT9SbabDo1pQS8Q==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:Q+38r0NksW0=:1tS/clRubEgF3TQxL3cesn
- 9krz+O1NahMe+fxec3/9zevP8aXsG7SnyUIKOV7Ccxtsv064ZCmncFfzyYeBma8IKarZh8vW5
- oMe8fXjHAbc2wpIfogqYskdK7bzWVPur2w4dWNR5rmLLQdo1KmyvrzaTclQitur+ijbCIJsA2
- l8kiE5ZY7IeP5DWu8wAs5Kfsq1SwUTb0XVmUnjW+NqKnRqbzfSRPXnMELRxkDN3Qh0PbPhdvo
- zAbvAwX/BTZxZxYl8/1B/gA+uqXh/wa+0DWbVfRROu4MwjWFXTB0UW4NIhdWj37GIP25qF5qK
- T+yffcczYSHEGSmISLi++0RSqVw1JM8FK2fhphaNN4bQpF1wqCHXVCqDxUpZLfNUbhw33X+sW
- JdybWTAaMkkxeOzftkculPPmQJcruQ/5yjMaKHo8mNOPqHr9OUSuvI0EPkjyXkWFTkEWa4ORV
- 1fOm91EnPOHWk0+ypNGPETrrMiD++v0N3mIcidu26wQxYlfyZdAvFJyQ7bVVaTWRy1IIvTimu
- UfGzsJMiwvgkGMIATpwgtc7c2xde81TfWQNEPgRCM6dKqn6OLGLpy3reicuUOct4eh0vwr7CG
- j3ZIse0Tj7Bc5ACyCuA8lHPn3UnCBFXYvj3FfJruyn8guPfTjE6Zw/zX4svib9Km6cdCLumKc
- duYNqNdmKWh+H70NRnkIgtLtf5K3X1DG5F0u5kysq2ez1iWSzawnxGIpzXup4VAfo7pg=
-Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:JuM+arCOkuDblzDDdPbSmwupkdklfOxrrbLKq8HEAz63N/0VEJS
+ uDBGl357/KcVQNgddT5b0WXO+rdyUZZtw4zNgvUI/e6oNskEaALVFEs0aspnuMFFDVhA1cY
+ 8XyulpOyo/oIp05e1oochfwE1LVgJIwvn88ZzI8GirFT7N2qj3/E5Z4+K1hTMk5+VZKzJhN
+ NjVBfHSPz7VrSwTyXO0Kg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:yiBBcNyWuDI=:hRj3wpdN8QKgW2ZD6SZAZR
+ eB/aG3o62qxX2CtSWAvARo9/THPqhY8f9WQJZsrK2k/RHILqvu5g+wcZBJ4c5yV49emRmzX0f
+ uN8qgwx4wMDBv2a7PmsXnis+d01n3zIAbKxq4cLG4w2rLXgz1hSFAXaQUxRFHQmOQsdspILUs
+ AkbcrWrQxMsSeTqgx0H6AbNul8LMGfw1bOCL0JwoX6RlUThKqXgNOFAhnkCHX2VkZ4wIBtT5z
+ VgaR1E3+mNsUM9NGmQc1ehTw1rcsIDFzSjoroFwC4NWLl8nxK6SEQr00YbpCQQKQtJt9aU/Ix
+ EZyYerx/brdLTR6D02QOVJh7mtcua6lePOj14L9Yl8qezWdBJINdfX91BSw8q2mZDo/vHLxAM
+ IqL8RbJrLGJMpI4PWKyMBVskHLc5b/fDpJJyV8DqLLt/8UzC6cQPNFppxCXcVVqbAiLDKh0ty
+ 9Ojwpvw498iXEKPhL/nke4swp6b5otHnPsQuCHG+ODVRRhgG9JCLtHmNuMXWmQPIkD8Mgd9ZS
+ ZE1HMTN79SWTDhht2Q27Oguqvmv7MkogZRVvGYOV/D5TLb3o5G3VpHNgGIAlO21e4+jlOviG+
+ b14UNTlWIsj3k8tccndaRzTB+bNpS9EjNfBna+4VM6gV0LIMWiEqjRYp2vKJ8/kCmolIq/k+t
+ tyzGhVDogqG/NpcNXvIdJs+FlyPgEjstnH7O9jXALONmPmgT/UBGCgPkVJUsax4/LMQU=
+Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -72,70 +72,30 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-The real kernel will talk about the user PC as EA,
-because that's where the hardware will have copied it,
-and where it expects to put it to then use ERET.
-But qemu does not emulate all of the exception stuff
-while emulating user-only.  Manipulate PC directly.
+Do not cast the signal mask elements; trust __put_user.
 
-This fixes signal entry and return, and eliminates
-some slight confusion from target_cpu_copy_regs.
-
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20211221025012.1057923-6-richard.henderson@linaro.org>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20211221025012.1057923-7-richard.henderson@linaro.org>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/nios2/cpu_loop.c | 5 +----
- linux-user/nios2/signal.c   | 6 +++---
- 2 files changed, 4 insertions(+), 7 deletions(-)
+ linux-user/nios2/signal.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/linux-user/nios2/cpu_loop.c b/linux-user/nios2/cpu_loop.c
-index de0fc63e2196..1e93ef34e649 100644
---- a/linux-user/nios2/cpu_loop.c
-+++ b/linux-user/nios2/cpu_loop.c
-@@ -155,9 +155,6 @@ void target_cpu_copy_regs(CPUArchState *env, struct target_pt_regs *regs)
-     env->regs[R_SP] = regs->sp;
-     env->regs[R_GP] = regs->gp;
-     env->regs[CR_ESTATUS] = regs->estatus;
--    env->regs[R_EA] = regs->ea;
--    /* TODO: unsigned long  orig_r7; */
--
--    /* Emulate eret when starting thread. */
-     env->regs[R_PC] = regs->ea;
-+    /* TODO: unsigned long  orig_r7; */
- }
 diff --git a/linux-user/nios2/signal.c b/linux-user/nios2/signal.c
-index adbffe32e3c8..20b65aa06e08 100644
+index 20b65aa06e08..80e3d42fc965 100644
 --- a/linux-user/nios2/signal.c
 +++ b/linux-user/nios2/signal.c
-@@ -73,7 +73,7 @@ static void rt_setup_ucontext(struct target_ucontext *uc, CPUNios2State *env)
-     __put_user(env->regs[R_RA], &gregs[23]);
-     __put_user(env->regs[R_FP], &gregs[24]);
-     __put_user(env->regs[R_GP], &gregs[25]);
--    __put_user(env->regs[R_EA], &gregs[27]);
-+    __put_user(env->regs[R_PC], &gregs[27]);
-     __put_user(env->regs[R_SP], &gregs[28]);
- }
+@@ -168,8 +168,7 @@ void setup_rt_frame(int sig, struct target_sigaction *ka,
+     target_save_altstack(&frame->uc.tuc_stack, env);
+     rt_setup_ucontext(&frame->uc, env);
+     for (i = 0; i < TARGET_NSIG_WORDS; i++) {
+-        __put_user((abi_ulong)set->sig[i],
+-                   (abi_ulong *)&frame->uc.tuc_sigmask.sig[i]);
++        __put_user(set->sig[i], &frame->uc.tuc_sigmask.sig[i]);
+     }
  
-@@ -122,7 +122,7 @@ static int rt_restore_ucontext(CPUNios2State *env, struct target_ucontext *uc,
-     __get_user(env->regs[R_GP], &gregs[25]);
-     /* Not really necessary no user settable bits */
-     __get_user(temp, &gregs[26]);
--    __get_user(env->regs[R_EA], &gregs[27]);
-+    __get_user(env->regs[R_PC], &gregs[27]);
- 
-     __get_user(env->regs[R_RA], &gregs[23]);
-     __get_user(env->regs[R_SP], &gregs[28]);
-@@ -181,7 +181,7 @@ void setup_rt_frame(int sig, struct target_sigaction *ka,
-     env->regs[4] = sig;
-     env->regs[5] = frame_addr + offsetof(struct target_rt_sigframe, info);
-     env->regs[6] = frame_addr + offsetof(struct target_rt_sigframe, uc);
--    env->regs[R_EA] = ka->_sa_handler;
-+    env->regs[R_PC] = ka->_sa_handler;
- 
-     unlock_user_struct(frame, frame_addr, 1);
- }
+     /* Set up to return from userspace; jump to fixed address sigreturn
 -- 
 2.33.1
 
