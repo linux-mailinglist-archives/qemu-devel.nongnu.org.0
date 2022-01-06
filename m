@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D5644865BD
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 15:02:59 +0100 (CET)
-Received: from localhost ([::1]:53908 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D0204865AA
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 14:59:21 +0100 (CET)
+Received: from localhost ([::1]:47982 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5TM2-0003F6-N2
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 09:02:58 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42542)
+	id 1n5TIW-0007eS-7I
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 08:59:20 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42564)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n5SfA-0005hb-NQ
- for qemu-devel@nongnu.org; Thu, 06 Jan 2022 08:18:40 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30555)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n5SfE-0005rq-9p
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 08:18:45 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:51694)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n5Sf9-00015o-5g
- for qemu-devel@nongnu.org; Thu, 06 Jan 2022 08:18:40 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n5SfC-000169-Le
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 08:18:43 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641475118;
+ s=mimecast20190719; t=1641475122;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=xrm8CIGRgPpnhTX6j94BNeJt2bCzqkKY9MsNy4P9oQo=;
- b=IuOslyxdPz2+ggLOizNnYUjgah65GTs1sZmlIeEhHkPBS/BB5bBUCpyuCjdxIyuC4V+KqH
- eOuNwbnNupbbggt6mcqNESqfA17OpduDG6aHEZBriob1SrVsc7oBqtVH1vcZdgZH2jSGBy
- O1JuwrWLZ/uqC0sQuzEaXgFfp+7Uuzs=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=LvT4ppWsVTNHwP1QDeBfIbJrLtF0WPUv8XlijE9OykM=;
+ b=HOosF8/wMpflCeuNtBBkhXP6IEwM3ryGmF14L4TM31VpMlSn+nO1vAia/x6cpEkQwJP1sF
+ PSaR1xRUl24p4Xc5fsavdBr790h60B2mzPYwMahhUvQJVF2GSe7x9k5396fzxZj4mU5VtK
+ ACoHDg1ENKNA9P3P8tBt0zxl+qTzC2s=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-504-2eoWaVxtOGC2ENdDGGQilw-1; Thu, 06 Jan 2022 08:18:37 -0500
-X-MC-Unique: 2eoWaVxtOGC2ENdDGGQilw-1
-Received: by mail-ed1-f69.google.com with SMTP id
- d7-20020aa7ce07000000b003f84e9b9c2fso1936701edv.3
- for <qemu-devel@nongnu.org>; Thu, 06 Jan 2022 05:18:37 -0800 (PST)
+ us-mta-103-D2o7fGFcPxGfMws7W_kq5g-1; Thu, 06 Jan 2022 08:18:41 -0500
+X-MC-Unique: D2o7fGFcPxGfMws7W_kq5g-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ l14-20020aa7cace000000b003f7f8e1cbbdso1896530edt.20
+ for <qemu-devel@nongnu.org>; Thu, 06 Jan 2022 05:18:41 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=xrm8CIGRgPpnhTX6j94BNeJt2bCzqkKY9MsNy4P9oQo=;
- b=BzlKVI/7bVWjDHy+/Y1n4Jly/2KdHAUXvFnB8JckmVh+qCocI5faK1lJKyzh0GIYAE
- va+2M5Ewytur6kdMrrnFFky9LfZsB3RpbgKM6Sw/HX9q8Y+exhT3z5BpZxjh8cyW7Z9w
- V3hfTsqQS3xOvI6o1VZXNM+sG2JPzYoW0aojW24Ss1FyCeZixzqIHBmSJuGBJ2je14NS
- uQkMaq5AbJJqAi4ZtCVADBp58lqot08ASqJCHCRuVrqzxP/e/pjooThiHEsgHNo9fbK+
- TEQS8c5H6nBdBw60rsxmptLnlV3Jz5e3OIJDhup4H0t4STLUKVyeRdtYupI19m1HgYg/
- wnXw==
-X-Gm-Message-State: AOAM533ZDbparVpJlq1lSzJ7BW4EMfBMOO+wwNucvrv26I1cXgFwzr/c
- ucqxEEg7zcppnUxhSGJHXhX3MffLDjy3MfPqaDmF/AI4KWNeBJ5z0InwZrroF6EVPEKzPj26xUa
- eorlPH9m8liK7IIcQe5jVJVkD/jaqx/hTTtmUvMbn/SHibK3pRN/Y9PpbIkMV
-X-Received: by 2002:a17:907:7289:: with SMTP id
- dt9mr37530517ejc.545.1641475116091; 
- Thu, 06 Jan 2022 05:18:36 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyO+/xtQynjQQ88wDSi0wD7OJFaS1QKkNrcOCrIiaCdyUJWwmvVGb467lpN7xPyICUWYi/lVQ==
-X-Received: by 2002:a17:907:7289:: with SMTP id
- dt9mr37530497ejc.545.1641475115861; 
- Thu, 06 Jan 2022 05:18:35 -0800 (PST)
+ bh=LvT4ppWsVTNHwP1QDeBfIbJrLtF0WPUv8XlijE9OykM=;
+ b=VmRFvS5m9oyA+gCAzdON+wrGVprEK5uVwevgda5w7+XEsdEPjdSDNyeREltv/Yda5K
+ D4ZX555vUPeYjuDlTgEzDK3R3CyKxOKULo/Q+BM2/WL29y00sV2gU3pCTJa0qy93ETjK
+ eATxT5raftIUad+myeL1HudVN5d+X63q60KbwiDJFFhOzH73ZLGbQM0Hx57ulsGyAy2U
+ oBjH4Jo3jDChvAbOJdlYL2QnwClYGWd+Fib+4qGUS5H4C1w0ynzIOmj1HreUeLpXkMwv
+ pVU8Vgz+7ZsZ7vHAS1waoFTORPBOR/52RR92PFc8/5qQwuT8rOQVKtBJ6sputhgUxxqc
+ bSoA==
+X-Gm-Message-State: AOAM530to0idcrkXSdqzZkB0hgS3hV1s1B8Q5XDYXyntDUOBiesM9d8m
+ ycBgB51Q2mT3ZpCX8L12/Agb90mPd/b1VCEefxdM0CfRsUEmb4F7Oeq0X5g+Dly/FNMXhAtnaWs
+ l1ObNZbWZphG+SScWj/FwMLuZUj57d/hkSzcYwtfqyroExpF3fcSm0u5bMJFP
+X-Received: by 2002:a17:906:bc56:: with SMTP id
+ s22mr1691504ejv.760.1641475119232; 
+ Thu, 06 Jan 2022 05:18:39 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJz/lqiSHjZAbh82+6Xt1SuftNhJlMkiJYGqL0+XMk6mx9vkxk9qNPKL8bwmVi07lJv+aRVwNQ==
+X-Received: by 2002:a17:906:bc56:: with SMTP id
+ s22mr1691485ejv.760.1641475118999; 
+ Thu, 06 Jan 2022 05:18:38 -0800 (PST)
 Received: from redhat.com ([2a03:c5c0:207e:991b:6857:5652:b903:a63b])
- by smtp.gmail.com with ESMTPSA id f18sm178941edf.95.2022.01.06.05.18.34
+ by smtp.gmail.com with ESMTPSA id p5sm709870edx.34.2022.01.06.05.18.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Jan 2022 05:18:35 -0800 (PST)
-Date: Thu, 6 Jan 2022 08:18:33 -0500
+ Thu, 06 Jan 2022 05:18:38 -0800 (PST)
+Date: Thu, 6 Jan 2022 08:18:35 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 47/52] acpihp: simplify acpi_pcihp_disable_root_bus
-Message-ID: <20220106131534.423671-48-mst@redhat.com>
+Subject: [PULL 48/52] hw/i386/pc: Add missing property descriptions
+Message-ID: <20220106131534.423671-49-mst@redhat.com>
 References: <20220106131534.423671-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20220106131534.423671-1-mst@redhat.com>
@@ -75,7 +75,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -96,53 +96,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Ani Sinha <ani@anisinha.ca>, Peter Maydell <peter.maydell@linaro.org>,
- Igor Mammedov <imammedo@redhat.com>
+Cc: Eduardo Habkost <eduardo@habkost.net>,
+ Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Ani Sinha <ani@anisinha.ca>
+From: Thomas Huth <thuth@redhat.com>
 
-Get rid of the static variable that keeps track of whether hotplug has been
-disabled on the root pci bus. Simply use qbus_is_hotpluggable() api to
-perform the same check. This eliminates additional if conditional and
-simplifies the function.
+When running "qemu-system-x86_64 -M pc,help" I noticed that some
+properties were still missing their description. Add them now so
+that users get at least a slightly better idea what they are all
+about.
 
-Signed-off-by: Ani Sinha <ani@anisinha.ca>
-Message-Id: <1640764674-7784-1-git-send-email-ani@anirban.org>
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+Message-Id: <20211206134255.94784-1-thuth@redhat.com>
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/acpi/pcihp.c | 9 ++-------
- 1 file changed, 2 insertions(+), 7 deletions(-)
+ hw/i386/pc.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/hw/acpi/pcihp.c b/hw/acpi/pcihp.c
-index a5e182dd3a..6befd23e16 100644
---- a/hw/acpi/pcihp.c
-+++ b/hw/acpi/pcihp.c
-@@ -128,20 +128,15 @@ static void acpi_set_pci_info(void)
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index 718ab81ba8..c8696ac01e 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -1759,15 +1759,23 @@ static void pc_machine_class_init(ObjectClass *oc, void *data)
  
- static void acpi_pcihp_disable_root_bus(void)
- {
--    static bool root_hp_disabled;
-     Object *host = acpi_get_i386_pci_host();
-     PCIBus *bus;
+     object_class_property_add_bool(oc, PC_MACHINE_SMBUS,
+         pc_machine_get_smbus, pc_machine_set_smbus);
++    object_class_property_set_description(oc, PC_MACHINE_SMBUS,
++        "Enable/disable system management bus");
  
--    if (root_hp_disabled) {
--        return;
--    }
--
-     bus = PCI_HOST_BRIDGE(host)->bus;
--    if (bus) {
-+    if (bus && qbus_is_hotpluggable(BUS(bus))) {
-         /* setting the hotplug handler to NULL makes the bus non-hotpluggable */
-         qbus_set_hotplug_handler(BUS(bus), NULL);
-     }
--    root_hp_disabled = true;
-+
-     return;
- }
+     object_class_property_add_bool(oc, PC_MACHINE_SATA,
+         pc_machine_get_sata, pc_machine_set_sata);
++    object_class_property_set_description(oc, PC_MACHINE_SATA,
++        "Enable/disable Serial ATA bus");
  
+     object_class_property_add_bool(oc, PC_MACHINE_PIT,
+         pc_machine_get_pit, pc_machine_set_pit);
++    object_class_property_set_description(oc, PC_MACHINE_PIT,
++        "Enable/disable Intel 8254 programmable interval timer emulation");
+ 
+     object_class_property_add_bool(oc, "hpet",
+         pc_machine_get_hpet, pc_machine_set_hpet);
++    object_class_property_set_description(oc, "hpet",
++        "Enable/disable high precision event timer emulation");
+ 
+     object_class_property_add_bool(oc, "default-bus-bypass-iommu",
+         pc_machine_get_default_bus_bypass_iommu,
 -- 
 MST
 
