@@ -2,72 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB97E4869FD
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 19:32:55 +0100 (CET)
-Received: from localhost ([::1]:55104 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEBB5486A16
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 19:44:34 +0100 (CET)
+Received: from localhost ([::1]:34564 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5XZG-0007ga-Cx
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 13:32:54 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33304)
+	id 1n5XkX-0004vJ-9B
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 13:44:33 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35590)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1n5XTz-0001kA-Av
- for qemu-devel@nongnu.org; Thu, 06 Jan 2022 13:27:27 -0500
-Received: from [2a00:1450:4864:20::335] (port=54108
- helo=mail-wm1-x335.google.com)
+ (Exim 4.90_1) (envelope-from
+ <35zTXYQcKCsI3mv12zmowwotm.kwuymu2-lm3mtvwvov2.wzo@flex--venture.bounces.google.com>)
+ id 1n5XdY-00035E-33
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 13:37:25 -0500
+Received: from [2607:f8b0:4864:20::34a] (port=35783
+ helo=mail-ot1-x34a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1n5XTx-0001Qs-PK
- for qemu-devel@nongnu.org; Thu, 06 Jan 2022 13:27:26 -0500
-Received: by mail-wm1-x335.google.com with SMTP id l4so2426986wmq.3
- for <qemu-devel@nongnu.org>; Thu, 06 Jan 2022 10:27:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=6BIAfslVCCuxA0GOYR1JatBFelzrqEg6gBdCXC1uEp4=;
- b=TTtNi9GKO60bgOuBPV6w68dLkkDHIfm8cMevthyVUGvmusWrYTCPKYe7WCWvU84Ngl
- hlYgFsnCIZ4lAAEivWBwPLG7Z/j1fvio9wA+aLtUwPVZ03+dmQZhYAUwN4BO1DanF74e
- 60sBNyyJwa57kyC8ihHP87gn6L8NyG3HKRmiqg2yCjIoRSSZxoEEh1DCNVBlJPuD32LQ
- OCJACMTAVJeeQbV7f8+dRqYJXm5UAazDVJ23rB48hMIWvrHiRmVY4tpQtDEyIyWYI5j5
- 3yDK+Su6nZBDRKSxf/O4YuT9H7Edb0fzSMa/kNkJFA+ihtBCX2xd/QJB5SNWKKBN/XZZ
- EWfg==
+ (Exim 4.90_1) (envelope-from
+ <35zTXYQcKCsI3mv12zmowwotm.kwuymu2-lm3mtvwvov2.wzo@flex--venture.bounces.google.com>)
+ id 1n5XdS-0006pP-Bg
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 13:37:15 -0500
+Received: by mail-ot1-x34a.google.com with SMTP id
+ 100-20020a9d08ed000000b0058f1b3acf6eso893705otf.2
+ for <qemu-devel@nongnu.org>; Thu, 06 Jan 2022 10:37:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=date:message-id:mime-version:subject:from:to:cc;
+ bh=/AzMEpoNYNeU2/S2JWMtbuGiTrA3Gy9xclxq8W0oQxI=;
+ b=j08v8kFVCQbaUoIPsTlORQb9USXA3Hd11arpBTh/AoBqlNNXFmT404QmTpiBA38xIX
+ jNKTXd4NvIfM+l9V24rP0bM2DUjcpwsz2DXVcQl+z0iegMZX+STyIydgRwFIRR//9445
+ dqlEEw0gjq38ljvr2X2p2NDScU7FXXWGOSWKBlbevfYHMxaKG+Afjj8acOgkpbtn0sO/
+ K2iJetJcfRXuyOn3aGtpOGzI4UV7VKWoCkaWOwWkyR/u6CR8S0mizxk1qI4Pn0CPcTg4
+ 61VBW2jHVGXwcrAiNp3QRfWs/hMKcGrGSUcsWCl9pzHVqga2XkW/Gx1WJcXqeW0OaFui
+ A4mA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=6BIAfslVCCuxA0GOYR1JatBFelzrqEg6gBdCXC1uEp4=;
- b=ZFPZitgaZayZWhYWu8+HFnYBWivumxD12JlbLAgnPYM8H/bPvDBg6r9wc5JxsUMLa5
- jrm3t2S9nTJCzp6CdflIeiv3ck/hFqXhosLCwlcTzqeUSqD2t14h/NVYEb+CFQn+42Et
- pxs6MPJAQO/CmeFdQjDTxoa/tMv/rWBsdLWYGRU4BPh8ccwHsRby8Rm0ZZeLDyRJYpHy
- 2htElBmcyjQXA9ejjBroavW6SMPhVP7Yg7DiCj4P9yYpRVfLw7BTEs9UELf8jU7JIuTu
- YXDOUFZ9Eu/27k3LaJDKmSdjyL4nIhF6ficn37co8zU5gSc6c6+jW/ggqGQG8SzOQbBX
- ei5w==
-X-Gm-Message-State: AOAM530DBlKw8aHjSbkFPLLg7zQET947lO/P/KlFSBe6nYP0I9KmKWRf
- 19A0ikz0sIYm7Z1xPwMwHJ4XcPraS5iB1dLkyl6J1g==
-X-Google-Smtp-Source: ABdhPJx/nHvbqCVxmCTHrgdCgqGDyFvjKwunIREb9U+IkhGWTZGsMBD34vWrm+M7fdF4D3c9lu59o9RnEkDyfIwRYlY=
-X-Received: by 2002:a1c:f70d:: with SMTP id v13mr8040354wmh.133.1641493644136; 
- Thu, 06 Jan 2022 10:27:24 -0800 (PST)
-MIME-Version: 1.0
-References: <20211208231154.392029-1-richard.henderson@linaro.org>
- <20211208231154.392029-2-richard.henderson@linaro.org>
-In-Reply-To: <20211208231154.392029-2-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 6 Jan 2022 18:27:13 +0000
-Message-ID: <CAFEAcA_rUX9pU7mZQviGcxUAnNUib-ZzfKzzLe-3NMfACg-5MQ@mail.gmail.com>
-Subject: Re: [PATCH 1/6] target/arm: Fault on invalid TCR_ELx.TxSZ
-To: Richard Henderson <richard.henderson@linaro.org>
+ h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+ bh=/AzMEpoNYNeU2/S2JWMtbuGiTrA3Gy9xclxq8W0oQxI=;
+ b=gQUIkQb50uLGDv5VLESoTe6rIYe/dkKvSQe2irmI5vIKjpyTLBR5CkB6mIHMuubj55
+ quWGops7WTppi0WTTs9NkAacCnoDHkfBfRhLzFPkveZT8kXKl9kk/iu2FNcYlIkA9PWx
+ xuv/YdNb9919nefJSkbV6Bpn+bAvM8yqkK+ynzeUHbSlu1ekMx4MeTttqnIzKneKnAd1
+ +9kXLp9NiYAfPJ5KbkqPMXY4PMensOhLvzS6oui12SUa6hYb/+drZakpwUfhT6LqjgZ9
+ csg9EPQVz1O1SCHstYJlcBNXHGb6Dub1hNNB27aruVFqxOtmlJJPWYG8I7MKjeWNke9d
+ 8mrg==
+X-Gm-Message-State: AOAM533Y2GiOAdv7TiDOuPp4FDwCJuGJnO0WIydnD+dTcH00lic6VBmQ
+ V2FeTOLFn7J5o3RFw+sX/RQlvZoOsqIF
+X-Google-Smtp-Source: ABdhPJxTZuLyroftuZnhOrDuwqNumT9dtIvqkB2Ztipj7FIYg5JvoWjiM+eYBtBoC2zumUfaCuLwIWZnwACF
+X-Received: from venture.svl.corp.google.com
+ ([2620:15c:2a3:200:9986:338a:477f:1df7])
+ (user=venture job=sendgmr) by 2002:a25:b082:: with SMTP id
+ f2mr72471898ybj.316.1641493735203; Thu, 06 Jan 2022 10:28:55 -0800 (PST)
+Date: Thu,  6 Jan 2022 10:28:51 -0800
+Message-Id: <20220106182851.3583896-1-venture@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.34.1.448.ga2b2bfdf31-goog
+Subject: [PATCH] net: Fix uninitialized data usage
+From: Patrick Venture <venture@google.com>
+To: jasowang@redhat.com
+Cc: qemu-devel@nongnu.org, Peter Foley <pefoley@google.com>,
+ Hao Wu <wuhaotsh@google.com>, Patrick Venture <venture@google.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::335
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::34a
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x335.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::34a;
+ envelope-from=35zTXYQcKCsI3mv12zmowwotm.kwuymu2-lm3mtvwvov2.wzo@flex--venture.bounces.google.com;
+ helo=mail-ot1-x34a.google.com
+X-Spam_score_int: -87
+X-Spam_score: -8.8
+X-Spam_bar: --------
+X-Spam_report: (-8.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,69 +85,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 8 Dec 2021 at 23:16, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> Without FEAT_LVA, the behaviour of programming an invalid value
-> is IMPLEMENTATION DEFINED.  With FEAT_LVA, programming an invalid
-> minimum value requires a Translation fault.
->
-> It is most self-consistent to choose to generate the fault always.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  target/arm/helper.c | 32 ++++++++++++++++++++++----------
->  1 file changed, 22 insertions(+), 10 deletions(-)
->
-> diff --git a/target/arm/helper.c b/target/arm/helper.c
-> index 9b317899a6..575723d62c 100644
-> --- a/target/arm/helper.c
-> +++ b/target/arm/helper.c
-> @@ -11129,7 +11129,7 @@ ARMVAParameters aa64_va_parameters(CPUARMState *env, uint64_t va,
->  {
->      uint64_t tcr = regime_tcr(env, mmu_idx)->raw_tcr;
->      bool epd, hpd, using16k, using64k;
-> -    int select, tsz, tbi, max_tsz;
-> +    int select, tsz, tbi;
->
->      if (!regime_has_2_ranges(mmu_idx)) {
->          select = 0;
-> @@ -11165,15 +11165,6 @@ ARMVAParameters aa64_va_parameters(CPUARMState *env, uint64_t va,
->          }
->      }
->
-> -    if (cpu_isar_feature(aa64_st, env_archcpu(env))) {
-> -        max_tsz = 48 - using64k;
-> -    } else {
-> -        max_tsz = 39;
-> -    }
-> -
-> -    tsz = MIN(tsz, max_tsz);
-> -    tsz = MAX(tsz, 16);  /* TODO: ARMv8.2-LVA  */
-> -
+From: Peter Foley <pefoley@google.com>
 
-These changes are OK in themselves, but we also use the
-aa64_va_parameters() calculated tsz value in the
-pointer-auth code to work out the bottom bit of the
-pointer auth field:
+e.g.
+1109 15:16:20.151506 Uninitialized bytes in ioctl_common_pre at offset 0 inside [0x7ffc516af9b8, 4)
+ 1109 15:16:20.151659 ==588974==WARNING: MemorySanitizer: use-of-uninitialized-value
+ 1109 15:16:20.312923     #0 0x5639b88acb21 in tap_probe_vnet_hdr_len third_party/qemu/net/tap-linux.c:183:9
+ 1109 15:16:20.312952     #1 0x5639b88afd66 in net_tap_fd_init third_party/qemu/net/tap.c:409:9
+ 1109 15:16:20.312954     #2 0x5639b88b2d1b in net_init_tap_one third_party/qemu/net/tap.c:681:19
+ 1109 15:16:20.312956     #3 0x5639b88b16a8 in net_init_tap third_party/qemu/net/tap.c:912:13
+ 1109 15:16:20.312957     #4 0x5639b8890175 in net_client_init1 third_party/qemu/net/net.c:1110:9
+ 1109 15:16:20.312958     #5 0x5639b888f912 in net_client_init third_party/qemu/net/net.c:1208:15
+ 1109 15:16:20.312960     #6 0x5639b8894aa5 in net_param_nic third_party/qemu/net/net.c:1588:11
+ 1109 15:16:20.312961     #7 0x5639b900cd18 in qemu_opts_foreach third_party/qemu/util/qemu-option.c:1135:14
+ 1109 15:16:20.312962     #8 0x5639b889393c in net_init_clients third_party/qemu/net/net.c:1612:9
+ 1109 15:16:20.312964     #9 0x5639b717aaf3 in qemu_create_late_backends third_party/qemu/softmmu/vl.c:1962:5
+ 1109 15:16:20.312965     #10 0x5639b717aaf3 in qemu_init third_party/qemu/softmmu/vl.c:3694:5
+ 1109 15:16:20.312967     #11 0x5639b71083b8 in main third_party/qemu/softmmu/main.c:49:5
+ 1109 15:16:20.312968     #12 0x7f464de1d8d2 in __libc_start_main (/usr/grte/v5/lib64/libc.so.6+0x628d2)
+ 1109 15:16:20.312969     #13 0x5639b6bbd389 in _start /usr/grte/v5/debug-src/src/csu/../sysdeps/x86_64/start.S:120
+ 1109 15:16:20.312970
+ 1109 15:16:20.312975   Uninitialized value was stored to memory at
+ 1109 15:16:20.313393     #0 0x5639b88acbee in tap_probe_vnet_hdr_len third_party/qemu/net/tap-linux.c
+ 1109 15:16:20.313396     #1 0x5639b88afd66 in net_tap_fd_init third_party/qemu/net/tap.c:409:9
+ 1109 15:16:20.313398     #2 0x5639b88b2d1b in net_init_tap_one third_party/qemu/net/tap.c:681:19
+ 1109 15:16:20.313399     #3 0x5639b88b16a8 in net_init_tap third_party/qemu/net/tap.c:912:13
+ 1109 15:16:20.313400     #4 0x5639b8890175 in net_client_init1 third_party/qemu/net/net.c:1110:9
+ 1109 15:16:20.313401     #5 0x5639b888f912 in net_client_init third_party/qemu/net/net.c:1208:15
+ 1109 15:16:20.313403     #6 0x5639b8894aa5 in net_param_nic third_party/qemu/net/net.c:1588:11
+ 1109 15:16:20.313404     #7 0x5639b900cd18 in qemu_opts_foreach third_party/qemu/util/qemu-option.c:1135:14
+ 1109 15:16:20.313405     #8 0x5639b889393c in net_init_clients third_party/qemu/net/net.c:1612:9
+ 1109 15:16:20.313407     #9 0x5639b717aaf3 in qemu_create_late_backends third_party/qemu/softmmu/vl.c:1962:5
+ 1109 15:16:20.313408     #10 0x5639b717aaf3 in qemu_init third_party/qemu/softmmu/vl.c:3694:5
+ 1109 15:16:20.313409     #11 0x5639b71083b8 in main third_party/qemu/softmmu/main.c:49:5
+ 1109 15:16:20.313410     #12 0x7f464de1d8d2 in __libc_start_main (/usr/grte/v5/lib64/libc.so.6+0x628d2)
+ 1109 15:16:20.313412     #13 0x5639b6bbd389 in _start /usr/grte/v5/debug-src/src/csu/../sysdeps/x86_64/start.S:120
+ 1109 15:16:20.313413
+ 1109 15:16:20.313417   Uninitialized value was stored to memory at
+ 1109 15:16:20.313791     #0 0x5639b88affbd in net_tap_fd_init third_party/qemu/net/tap.c:400:26
+ 1109 15:16:20.313826     #1 0x5639b88b2d1b in net_init_tap_one third_party/qemu/net/tap.c:681:19
+ 1109 15:16:20.313829     #2 0x5639b88b16a8 in net_init_tap third_party/qemu/net/tap.c:912:13
+ 1109 15:16:20.313831     #3 0x5639b8890175 in net_client_init1 third_party/qemu/net/net.c:1110:9
+ 1109 15:16:20.313836     #4 0x5639b888f912 in net_client_init third_party/qemu/net/net.c:1208:15
+ 1109 15:16:20.313838     #5 0x5639b8894aa5 in net_param_nic third_party/qemu/net/net.c:1588:11
+ 1109 15:16:20.313839     #6 0x5639b900cd18 in qemu_opts_foreach third_party/qemu/util/qemu-option.c:1135:14
+ 1109 15:16:20.313841     #7 0x5639b889393c in net_init_clients third_party/qemu/net/net.c:1612:9
+ 1109 15:16:20.313843     #8 0x5639b717aaf3 in qemu_create_late_backends third_party/qemu/softmmu/vl.c:1962:5
+ 1109 15:16:20.313844     #9 0x5639b717aaf3 in qemu_init third_party/qemu/softmmu/vl.c:3694:5
+ 1109 15:16:20.313845     #10 0x5639b71083b8 in main third_party/qemu/softmmu/main.c:49:5
+ 1109 15:16:20.313846     #11 0x7f464de1d8d2 in __libc_start_main (/usr/grte/v5/lib64/libc.so.6+0x628d2)
+ 1109 15:16:20.313847     #12 0x5639b6bbd389 in _start /usr/grte/v5/debug-src/src/csu/../sysdeps/x86_64/start.S:120
+ 1109 15:16:20.313849
+ 1109 15:16:20.313851   Uninitialized value was created by an allocation of 'ifr' in the stack frame of function 'tap_probe_vnet_hdr'
+ 1109 15:16:20.313855     #0 0x5639b88ac680 in tap_probe_vnet_hdr third_party/qemu/net/tap-linux.c:151
+ 1109 15:16:20.313856
+ 1109 15:16:20.313878 SUMMARY: MemorySanitizer: use-of-uninitialized-value third_party/qemu/net/tap-linux.c:183:9 in tap_probe_vnet_hdr_len
 
-    bot_bit = 64 - param.tsz;
-    top_bit = 64 - 8 * param.tbi;
+Fixes: dc69004c7d8 ("net: move tap_probe_vnet_hdr() to tap-linux.c")
+Reviewed-by: Hao Wu <wuhaotsh@google.com>
+Reviewed-by: Patrick Venture <venture@google.com>
+Signed-off-by: Peter Foley <pefoley@google.com>
+---
+ net/tap-linux.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-Without the clamping of param.tsz to the valid range,
-the guest can now program it to a value that will cause
-us to have bot_bit > top_bit (eg tsz = 0). We don't
-guard against that and as a result code like
-extract64(test, bot_bit, top_bit - bot_bit)
-will assert on the bogus length value.
+diff --git a/net/tap-linux.c b/net/tap-linux.c
+index 9584769740..5e70b93037 100644
+--- a/net/tap-linux.c
++++ b/net/tap-linux.c
+@@ -150,6 +150,7 @@ void tap_set_sndbuf(int fd, const NetdevTapOptions *tap, Error **errp)
+ int tap_probe_vnet_hdr(int fd, Error **errp)
+ {
+     struct ifreq ifr;
++    memset(&ifr, 0, sizeof(ifr));
+ 
+     if (ioctl(fd, TUNGETIFF, &ifr) != 0) {
+         /* TUNGETIFF is available since kernel v2.6.27 */
+-- 
+2.34.1.448.ga2b2bfdf31-goog
 
-(Section D5.1.5 says what the pauth code is allowed to do
-if the TnSZ field is out-of-limits: it can use the value as-is,
-or it can clamp it to the limit.)
-
--- PMM
 
