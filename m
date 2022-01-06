@@ -2,85 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F4D8486855
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 18:22:08 +0100 (CET)
-Received: from localhost ([::1]:51812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A933648685C
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 18:23:26 +0100 (CET)
+Received: from localhost ([::1]:54998 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5WSk-0001Js-5d
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 12:22:06 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45364)
+	id 1n5WU1-0003iD-Ki
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 12:23:25 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45732)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1n5WRM-00085F-Nf
- for qemu-devel@nongnu.org; Thu, 06 Jan 2022 12:20:40 -0500
-Received: from [2607:f8b0:4864:20::62c] (port=45615
- helo=mail-pl1-x62c.google.com)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1n5WSD-0001XV-JM
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 12:21:33 -0500
+Received: from [2a00:1450:4864:20::435] (port=46063
+ helo=mail-wr1-x435.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1n5WRI-000802-T8
- for qemu-devel@nongnu.org; Thu, 06 Jan 2022 12:20:38 -0500
-Received: by mail-pl1-x62c.google.com with SMTP id s15so2905376plg.12
- for <qemu-devel@nongnu.org>; Thu, 06 Jan 2022 09:20:36 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1n5WSB-0008D5-NI
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 12:21:33 -0500
+Received: by mail-wr1-x435.google.com with SMTP id q8so6105921wra.12
+ for <qemu-devel@nongnu.org>; Thu, 06 Jan 2022 09:21:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=UboDS31gi+6ezClBOANA8GrTYVa4ZNE97bilfoocy74=;
- b=n8ND/Yh2Aeh4upIOJUX6ItnoxdWH4/Fia63ZyKT+f9mMggMYBq+9LfDPbDYY6p6hKX
- zHSrMN2J9ulhYOs6eohgALG0aYLSdzT0x4fN0iTgAuxPFmeiJSW05vwzDiLtmUyDsz9C
- yCWEvtTzuR1o22D1y7a+jpQdXW5LsIpvs3bgtkWYLR6wwLr+p9FDdUDr99Wm984tpH7x
- 0ATdeQQYJq/2e/0/o3sYf2qNZtTpVyGUn3jV8kFjk/c7SUjbPtaqt3XosRDBGK9Hp0Hr
- 8q3I2+rE3Et28u7+6BdinfGw7WG70PnKcoJy/odrOJJ73K/AeulTRHnqjLQ3PUvXTeHm
- Givw==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=o9TN8PffARdFKUreCcj6V8Ev1eYnWuOCBWna3DEzGZc=;
+ b=exeaDta3GCjiVb7YOAg7oUZiQaZn+il7cS1RTIm4fJXnoKxihM9HRL70Af1pyrI5bO
+ fWY4e9sd4IzB61VhnFBf7BxPEhVi32+im5UCxmz0PSyIYp2FoKDmpIH7LhWjGflN8Vlj
+ iLunB03JgAq/wWBLdK4OfMgUJ6s2t3vGuhNs2JUxtfJC+LdtT30DCMV920YZ3WfQJ8sm
+ Uahpo/T6z+vv2eG+I6RWm6scsuMq4Joj5vKuKlFuLC6hkaBWF6nCyq2lORG/uuGJG+1h
+ mu77/fMqiT03HchxRPTRQr/VC65qqQz0eZSE1OcnmTxaEmdEtRur/WQTMN/ys0EoNOw+
+ +Svg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=UboDS31gi+6ezClBOANA8GrTYVa4ZNE97bilfoocy74=;
- b=qjZzX6BcujZmGtkFq86NI+3tl59hosflA1F+t/EXuYfD3QDbGqImc1Cjj0xbGFV093
- S+e7mPa4MZcv23Ku9m9qNT4JTSnrFWvb6ExsE6LRMMHeaxsXZbhkkABi7NlKTxECZE/6
- nxq8arAUmlLQO4XKmzsEoOSaKgKPbuumlr4CrLpV1ZV+DqT/DnVL6ztdO/YyUWMK+E3t
- nb7r58aew4hg0ELoYII/lzL+fvOK6Vq7Qv9VsXzKVyPtBQ/nwinQSacjFoDGcegjfhl8
- mpQV11leW0RetWGRQ1I1UlQ1pqY1xN6wMzt6WblQC3uEOLGYqQ5zxc4HmnK4WluhLO9Q
- f4DQ==
-X-Gm-Message-State: AOAM533bTpLYRDpYP31PCq27aIXAt8C4Cly7BK5mIkQC7bpvNcgk49Yf
- c9sW5zLfEHTFrfsYL7nZdfDNvA==
-X-Google-Smtp-Source: ABdhPJzlaKrZaIdz6LGH8kAr0gek22yp7m1zrUEHpl6K7zWOYBVHmwMbe6AvXQgA3sBeLh2fKPBozQ==
-X-Received: by 2002:a17:90b:198d:: with SMTP id
- mv13mr11366930pjb.182.1641489635507; 
- Thu, 06 Jan 2022 09:20:35 -0800 (PST)
-Received: from [192.168.1.13] (174-21-75-75.tukw.qwest.net. [174.21.75.75])
- by smtp.gmail.com with ESMTPSA id y3sm2890860pju.37.2022.01.06.09.20.34
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 06 Jan 2022 09:20:35 -0800 (PST)
-Subject: Re: [PATCH v2] hw/arm/virt: KVM: Enable PAuth when supported by the
- host
-To: Marc Zyngier <maz@kernel.org>
-References: <20220103180507.2190429-1-maz@kernel.org>
- <c5bedb8e-55e3-877f-31aa-92d59e5aba34@linaro.org>
- <87czl5usvb.wl-maz@kernel.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <3db95713-2f05-3c70-82b1-7e12c579d3e2@linaro.org>
-Date: Thu, 6 Jan 2022 09:20:33 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=o9TN8PffARdFKUreCcj6V8Ev1eYnWuOCBWna3DEzGZc=;
+ b=yJS5Y6+mXKcgJHrnCMn4aveONzc/yiAyhwoGje8iGCbgwGoVHEzhnEcpjFOdtCgDmi
+ Usq0eH1JhCABHJmApqjrQcftYRU70kwR7m46QLfwSu6EkYpFeyBRJ0cdap1Dr556nabU
+ cpLsCx7vnvE0KKLigPSo8U6wUMbGuje6ZXLtt5+yVmH+4IwwzF2ur+9ISREh8bhuk1d+
+ SXwAYmWwfQYXWK0S+O+HuFnOXBZE4CInCphxppsgkwFf+KXipJ1/bDDh9J19RkBBzyWi
+ SHsA5b+5AfPuobyYs2V7pFrbb672zQAmdk9vLWUaJyyOZd9f0bLIoWU/Ur0XODjtzMOd
+ K4mw==
+X-Gm-Message-State: AOAM531HSObyIdAFVv8mhl6yx3FerToOwESlgM6TizLftOCI1QP8Ci+1
+ CsaUz/Ua9yfKE23ZgMlJfm9IsNNA/dTr2NV4qzBgGQ==
+X-Google-Smtp-Source: ABdhPJygGwcXtlw0w2snWzwx/m1GZEqRTBmS4x2nvyS/rdIx7Nx5zrch+MVqI5+QKqmiXY+r00qZVxSFU8r3lMtvjZA=
+X-Received: by 2002:a5d:52c4:: with SMTP id r4mr30136904wrv.521.1641489690180; 
+ Thu, 06 Jan 2022 09:21:30 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <87czl5usvb.wl-maz@kernel.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62c
+References: <20220105135009.1584676-1-alex.bennee@linaro.org>
+ <20220105135009.1584676-22-alex.bennee@linaro.org>
+In-Reply-To: <20220105135009.1584676-22-alex.bennee@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 6 Jan 2022 17:21:19 +0000
+Message-ID: <CAFEAcA8p69Ws5F+LP9bNYCcw2xpfdHJNh2a-_Cg+KmRr9rthjg@mail.gmail.com>
+Subject: Re: [PATCH v1 21/34] hw/arm: add control knob to disable kaslr_seed
+ via DTB
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::435
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62c.google.com
-X-Spam_score_int: -39
-X-Spam_score: -4.0
-X-Spam_bar: ----
-X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.691,
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x435.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001, WEIRD_QUOTING=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,57 +83,144 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
- kvm@vger.kernel.org, qemu-devel@nongnu.org, Eric Auger <eric.auger@redhat.com>,
- kernel-team@android.com, kvmarm@lists.cs.columbia.edu
+Cc: fam@euphon.net, berrange@redhat.com,
+ Heinrich Schuchardt <xypron.glpk@gmx.de>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>, qemu-devel@nongnu.org,
+ f4bug@amsat.org, Jerome Forissier <jerome@forissier.org>, stefanha@redhat.com,
+ crosa@redhat.com, pbonzini@redhat.com, "open list:Virt" <qemu-arm@nongnu.org>,
+ aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/6/22 1:16 AM, Marc Zyngier wrote:
->>> +static bool kvm_arm_pauth_supported(void)
->>> +{
->>> +    return (kvm_check_extension(kvm_state, KVM_CAP_ARM_PTRAUTH_ADDRESS) &&
->>> +            kvm_check_extension(kvm_state, KVM_CAP_ARM_PTRAUTH_GENERIC));
->>> +}
->>
->> Do we really need to have them both set to play the game?  Given that
->> the only thing that happens is that we disable whatever host support
->> exists, can we have "pauth enabled" mean whatever subset the host has?
-> 
-> The host will always expose either both features or none, and that's
-> part of the ABI. From the bit of kernel documentation located in
-> Documentation/virt/kvm/api.rst:
-> 
-> <quote>
-> 4.82 KVM_ARM_VCPU_INIT
-> ----------------------
-> [...]
->          - KVM_ARM_VCPU_PTRAUTH_ADDRESS: Enables Address Pointer authentication
->            for arm64 only.
->            Depends on KVM_CAP_ARM_PTRAUTH_ADDRESS.
->            If KVM_CAP_ARM_PTRAUTH_ADDRESS and KVM_CAP_ARM_PTRAUTH_GENERIC are
->            both present, then both KVM_ARM_VCPU_PTRAUTH_ADDRESS and
->            KVM_ARM_VCPU_PTRAUTH_GENERIC must be requested or neither must be
->            requested.
-> 
->          - KVM_ARM_VCPU_PTRAUTH_GENERIC: Enables Generic Pointer authentication
->            for arm64 only.
->            Depends on KVM_CAP_ARM_PTRAUTH_GENERIC.
->            If KVM_CAP_ARM_PTRAUTH_ADDRESS and KVM_CAP_ARM_PTRAUTH_GENERIC are
->            both present, then both KVM_ARM_VCPU_PTRAUTH_ADDRESS and
->            KVM_ARM_VCPU_PTRAUTH_GENERIC must be requested or neither must be
->            requested.
-> </quote>
-> 
-> KVM will reject the initialisation if only one of the features is
-> requested, so checking and enabling both makes sense to me.
+On Wed, 5 Jan 2022 at 14:00, Alex Benn=C3=A9e <alex.bennee@linaro.org> wrot=
+e:
+>
+> Generally a guest needs an external source of randomness to properly
+> enable things like address space randomisation. However in a trusted
+> boot environment where the firmware will cryptographically verify
+> components having random data in the DTB will cause verification to
+> fail. Add a control knob so we can prevent this being added to the
+> system DTB.
+>
+> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> Tested-by: Heinrich Schuchardt <xypron.glpk@gmx.de>
+> Acked-by: Ilias Apalodimas <ilias.apalodimas@linaro.org>
+> Acked-by: Jerome Forissier <jerome@forissier.org>
+> Message-Id: <20211215120926.1696302-1-alex.bennee@linaro.org>
+> ---
+>  docs/system/arm/virt.rst |  7 +++++++
+>  include/hw/arm/virt.h    |  1 +
+>  hw/arm/virt.c            | 32 ++++++++++++++++++++++++++++++--
+>  3 files changed, 38 insertions(+), 2 deletions(-)
+>
+> diff --git a/docs/system/arm/virt.rst b/docs/system/arm/virt.rst
+> index 850787495b..c86a4808df 100644
+> --- a/docs/system/arm/virt.rst
+> +++ b/docs/system/arm/virt.rst
+> @@ -121,6 +121,13 @@ ras
+>    Set ``on``/``off`` to enable/disable reporting host memory errors to a=
+ guest
+>    using ACPI and guest external abort exceptions. The default is off.
+>
+> +kaslr-dtb-seed
+> +  Set ``on``/``off`` to pass a random seed via the guest dtb to use for =
+features
+> +  like address space randomisation. The default is ``on``. You will want
+> +  to disable it if your trusted boot chain will verify the DTB it is
+> +  passed. It would be the responsibility of the firmware to come up
+> +  with a seed and pass it on if it wants to.
 
-Well, no, that's not what that says.  It says that *if* both host flags are set, then both 
-guest flags must be set or both unset.
+We should say what the name of the DTB node is here: it is "kaslr-seed"
+(in the "/chosen" and /secure-chosen nodes, if we want to get that
+specific).
 
-It's probably all academic anyway, because I can't actually imagine a vendor implementing 
-ADDR and not GENERIC, but in theory we ought to be able to support a host with only ADDR.
+Side note: it's odd that in naming this proporty we've inserted "dtb" into
+the middle of the node name we're controlling the creation of. Maybe
+use "dtb-kaslr-seed" ?
 
+> +
+>  Linux guest kernel configuration
+>  """"""""""""""""""""""""""""""""
+>
+> diff --git a/include/hw/arm/virt.h b/include/hw/arm/virt.h
+> index dc6b66ffc8..acd0665fe7 100644
+> --- a/include/hw/arm/virt.h
+> +++ b/include/hw/arm/virt.h
+> @@ -148,6 +148,7 @@ struct VirtMachineState {
+>      bool virt;
+>      bool ras;
+>      bool mte;
+> +    bool kaslr_dtb_seed;
+>      OnOffAuto acpi;
+>      VirtGICType gic_version;
+>      VirtIOMMUType iommu;
+> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+> index 6bce595aba..1781e47c76 100644
+> --- a/hw/arm/virt.c
+> +++ b/hw/arm/virt.c
+> @@ -247,11 +247,15 @@ static void create_fdt(VirtMachineState *vms)
+>
+>      /* /chosen must exist for load_dtb to fill in necessary properties l=
+ater */
+>      qemu_fdt_add_subnode(fdt, "/chosen");
+> -    create_kaslr_seed(ms, "/chosen");
+> +    if (vms->kaslr_dtb_seed) {
+> +        create_kaslr_seed(ms, "/chosen");
+> +    }
+>
+>      if (vms->secure) {
+>          qemu_fdt_add_subnode(fdt, "/secure-chosen");
+> -        create_kaslr_seed(ms, "/secure-chosen");
+> +        if (vms->kaslr_dtb_seed) {
+> +            create_kaslr_seed(ms, "/secure-chosen");
+> +        }
+>      }
+>
+>      /* Clock node, for the benefit of the UART. The kernel device tree
+> @@ -2235,6 +2239,20 @@ static void virt_set_its(Object *obj, bool value, =
+Error **errp)
+>      vms->its =3D value;
+>  }
+>
+> +static bool virt_get_kaslr_dtb_seed(Object *obj, Error **errp)
+> +{
+> +    VirtMachineState *vms =3D VIRT_MACHINE(obj);
+> +
+> +    return vms->kaslr_dtb_seed;
+> +}
+> +
+> +static void virt_set_kaslr_dtb_seed(Object *obj, bool value, Error **err=
+p)
+> +{
+> +    VirtMachineState *vms =3D VIRT_MACHINE(obj);
+> +
+> +    vms->kaslr_dtb_seed =3D value;
+> +}
+> +
+>  static char *virt_get_oem_id(Object *obj, Error **errp)
+>  {
+>      VirtMachineState *vms =3D VIRT_MACHINE(obj);
+> @@ -2764,6 +2782,13 @@ static void virt_machine_class_init(ObjectClass *o=
+c, void *data)
+>                                            "Set on/off to enable/disable =
+"
+>                                            "ITS instantiation");
+>
+> +    object_class_property_add_bool(oc, "kaslr-dtb-seed",
+> +                                   virt_get_kaslr_dtb_seed,
+> +                                   virt_set_kaslr_dtb_seed);
+> +    object_class_property_set_description(oc, "kaslr-dtb-seed",
+> +                                          "Set off to disable passing of=
+ kaslr "
 
-r~
+"kaslr-seed", not just "kaslr".
+
+> +                                          "dtb node to guest");
+> +
+>      object_class_property_add_str(oc, "x-oem-id",
+>                                    virt_get_oem_id,
+>                                    virt_set_oem_id);
+> @@ -2828,6 +2853,9 @@ static void virt_instance_init(Object *obj)
+
+-- PMM
 
