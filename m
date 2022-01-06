@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A13B486581
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 14:49:11 +0100 (CET)
-Received: from localhost ([::1]:47614 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75C1C48656A
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 14:42:29 +0100 (CET)
+Received: from localhost ([::1]:32968 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5T8g-0004XT-Hm
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 08:49:10 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41900)
+	id 1n5T2C-0001wo-Ia
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 08:42:28 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41924)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n5Se7-00052Z-3d
- for qemu-devel@nongnu.org; Thu, 06 Jan 2022 08:17:39 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:38889)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n5SeB-00053L-Hu
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 08:17:57 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:27420)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n5Se5-0000vc-5f
- for qemu-devel@nongnu.org; Thu, 06 Jan 2022 08:17:34 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n5Se8-0000wa-Ox
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 08:17:38 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641475052;
+ s=mimecast20190719; t=1641475056;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Cur9SUZpW8iaVGB6IQWM8uAhUApOuqbaIkx16EmO6Y0=;
- b=HN9w9rFldkBNpCALZtYKcWKqhe/KMI6H2E8BAn50viBgPC/aqezuboNIyIuR1ynDJBQMml
- ZzkzWpPKUTy5URfxH691JwHUP3X1NZKAyJ835DRwT5M36BeuhSuEZhQTulwtQG4BSvdTdR
- aL6j0Bv7Vn4o62yyClDkqifssjfV3bk=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=EtPfDvFmE3YguG6jVHreVpLhjGHZGLUGaDiekrm7E4k=;
+ b=Bx6084BLXgGtjH6n0SKGcbcOhnkfcJtNx6JWEYQ/bER/YtP8+I1E6zHvfC2W0hKm/29F8e
+ 4GexGeOg9xibdDAOhlsSBQI5+HLS8qWZwFfe9H7Ghie/5DoI5Q5pUs7vjqQJVt1yUBOXax
+ pkKdhdjazoBIBdMdjqxMy+Kgyw72vuI=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-619-FQ7PjI_qMg-6rYhwzyiuJA-1; Thu, 06 Jan 2022 08:17:31 -0500
-X-MC-Unique: FQ7PjI_qMg-6rYhwzyiuJA-1
-Received: by mail-ed1-f69.google.com with SMTP id
- b8-20020a056402350800b003f8f42a883dso1904688edd.16
- for <qemu-devel@nongnu.org>; Thu, 06 Jan 2022 05:17:31 -0800 (PST)
+ us-mta-597-_monbUxSNJmGfDrFjs3L6A-1; Thu, 06 Jan 2022 08:17:35 -0500
+X-MC-Unique: _monbUxSNJmGfDrFjs3L6A-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ y10-20020a056402358a00b003f88b132849so1973176edc.0
+ for <qemu-devel@nongnu.org>; Thu, 06 Jan 2022 05:17:35 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=Cur9SUZpW8iaVGB6IQWM8uAhUApOuqbaIkx16EmO6Y0=;
- b=IUu69Xv56yRjJjgbDQ6GgTxGIV25hHXI1FiDdzO8gGZOUd+NBIHphBk5wOtGWI0K6s
- 6cBSFsTPF1yuCjZ2P+E2smxbGl1LBVhOaBvEIb42Z9kXQnyc+xJmNa4DJsDinK3gG62c
- yn9jWnkL+d3kSUKnzjPk5bgvr4Or4Kl8ZXd9y2q/oZuOEwOcXQrbeB7Z4L5kqr8Vukpk
- tksEuYp5HlRiUbhnvZK/8+TymbZGjXuvYlxLYk4SpxWQIlHk7PC/qgNRDR0lP8DaDzcC
- QDAQWGp3rnXcZVg4x5Ow3jfEMn2QxkuJWIvPJc0rFlENkR3VE8USvc54JhJXIYyj69Y4
- pSfQ==
-X-Gm-Message-State: AOAM532ZzHLyql7RFb393Ff0FHLgzp1tuDAR9MYgVstCW70Fxs8x0eYE
- +W1K+QxuyHBQKB3sQyR9n6uZwrj2PN6fPxUFGg16V+aWCGuxSvRnAFU5hCf+vs8rEyrhKOHcyxO
- vCvw8sI5poJjzWTJ76YK4KLcmQPl48Nl/E7eGLigw/l7VXMwsV68Q3h/SJZ4o
-X-Received: by 2002:a17:906:bc97:: with SMTP id
- lv23mr45060567ejb.506.1641475050268; 
- Thu, 06 Jan 2022 05:17:30 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJx+Hn/7ZeI/If3xYJYvlzDChL/AjbhekgBqj05UyrrIc72c73ZLCeVMAP8yb4BkAbyvfay0Fg==
-X-Received: by 2002:a17:906:bc97:: with SMTP id
- lv23mr45060536ejb.506.1641475049935; 
- Thu, 06 Jan 2022 05:17:29 -0800 (PST)
+ bh=EtPfDvFmE3YguG6jVHreVpLhjGHZGLUGaDiekrm7E4k=;
+ b=te+v7qpBaA7oztlUFnMadlxA2skbyJzC4IgkDy/QDY/eE6hdSuH7kr5mZEk+p+QJ5U
+ hUi/+YjCpPzkfj/+a6breY/OgmRgT1Zvzbf6vA8w6NJK59q7F0v6mgPCjt9L10mk92ra
+ FORD4X/FVQGVQB85vSH1Nw4LCEj7JoBjY8vsH7kAwacp1haPB+eEuLKEysovYc7+1Gtw
+ xtQCDVOdc7g3g7XjCEOFO4KHDDhQ0S28XwpMv23Yqela4AyXGTxiS4Xb9HfuGCc2PTPI
+ 0zs5qI/JZWzb1rH0mKdZbE41yXA/xXy6hJxdWzTQvlpFZbEp1XCRFGVQiYw0X5Z9X86w
+ V9mA==
+X-Gm-Message-State: AOAM531z2ZW0cDuqv8wi80R7p5g9tzu3yWjnjH2vtbKjg5rQi1H64Kcl
+ N++N2zcrLlh5I4uDHV8KXWE0NjDMiy6XsqfHdl8wuP8ATSFafnrz3vBrTRX5uxEx7nUJQ7qc9Dk
+ ouFGUT7lYh9pylzTdkqytHznih6BvTg00tn2ni7Sb1LCjxe7XMnTLqiHCSlhe
+X-Received: by 2002:a17:906:36d8:: with SMTP id
+ b24mr13256026ejc.342.1641475053669; 
+ Thu, 06 Jan 2022 05:17:33 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxrkTth4wyPkFVFdSfuH11WtRajdP6C296BnUsZtML1sqhzXGZ9YB3aGgkNWp0flf1Kr889/Q==
+X-Received: by 2002:a17:906:36d8:: with SMTP id
+ b24mr13256004ejc.342.1641475053402; 
+ Thu, 06 Jan 2022 05:17:33 -0800 (PST)
 Received: from redhat.com ([2a03:c5c0:207e:991b:6857:5652:b903:a63b])
- by smtp.gmail.com with ESMTPSA id e6sm719782edz.54.2022.01.06.05.17.27
+ by smtp.gmail.com with ESMTPSA id ga37sm488331ejc.65.2022.01.06.05.17.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Jan 2022 05:17:29 -0800 (PST)
-Date: Thu, 6 Jan 2022 08:17:26 -0500
+ Thu, 06 Jan 2022 05:17:32 -0800 (PST)
+Date: Thu, 6 Jan 2022 08:17:30 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 26/52] hw/smbios: Use qapi for SmbiosEntryPointType
-Message-ID: <20220106131534.423671-27-mst@redhat.com>
+Subject: [PULL 27/52] hw/i386: expose a "smbios-entry-point-type" PC machine
+ property
+Message-ID: <20220106131534.423671-28-mst@redhat.com>
 References: <20220106131534.423671-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20220106131534.423671-1-mst@redhat.com>
@@ -102,82 +103,155 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Eduardo Habkost <eduardo@habkost.net>,
  Peter Maydell <peter.maydell@linaro.org>,
  Daniel P =?utf-8?B?LiBCZXJyYW5nw6k=?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Eric Blake <eblake@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Yanan Wang <wangyanan55@huawei.com>, Ani Sinha <ani@anisinha.ca>,
- Igor Mammedov <imammedo@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
  Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Eduardo Habkost <ehabkost@redhat.com>
 
-This prepares for exposing the SMBIOS entry point type as a
-machine property on x86.
+The i440fx and Q35 machine types are both hardcoded to use the
+legacy SMBIOS 2.1 (32-bit) entry point. This is a sensible
+conservative choice because SeaBIOS only supports SMBIOS 2.1
 
-Based on a patch from Daniel P. Berrangé.
+EDK2, however, can also support SMBIOS 3.0 (64-bit) entry points,
+and QEMU already uses this on the ARM virt machine type.
+
+This adds a property to allow the choice of SMBIOS entry point
+versions For example to opt in to 64-bit SMBIOS entry point:
+
+   $QEMU -machine q35,smbios-entry-point-type=64
+
+Based on a patch submitted by Daniel Berrangé.
 
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
-Message-Id: <20211026151100.1691925-3-ehabkost@redhat.com>
+Message-Id: <20211026151100.1691925-4-ehabkost@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Acked-by: Markus Armbruster <armbru@redhat.com>
 ---
- qapi/machine.json            | 12 ++++++++++++
- include/hw/firmware/smbios.h | 10 ++--------
- 2 files changed, 14 insertions(+), 8 deletions(-)
+ include/hw/i386/pc.h |  4 ++++
+ hw/i386/pc.c         | 26 ++++++++++++++++++++++++++
+ hw/i386/pc_piix.c    |  2 +-
+ hw/i386/pc_q35.c     |  2 +-
+ 4 files changed, 32 insertions(+), 2 deletions(-)
 
-diff --git a/qapi/machine.json b/qapi/machine.json
-index 372535b348..b6a37e17c4 100644
---- a/qapi/machine.json
-+++ b/qapi/machine.json
-@@ -1568,3 +1568,15 @@
- { 'command': 'x-query-usb',
-   'returns': 'HumanReadableText',
-   'features': [ 'unstable' ] }
-+
-+##
-+# @SmbiosEntryPointType:
-+#
-+# @32: SMBIOS version 2.1 (32-bit) Entry Point
-+#
-+# @64: SMBIOS version 3.0 (64-bit) Entry Point
-+#
-+# Since: 7.0
-+##
-+{ 'enum': 'SmbiosEntryPointType',
-+  'data': [ '32', '64' ] }
-diff --git a/include/hw/firmware/smbios.h b/include/hw/firmware/smbios.h
-index d916baed6a..4b7ad77a44 100644
---- a/include/hw/firmware/smbios.h
-+++ b/include/hw/firmware/smbios.h
-@@ -1,6 +1,8 @@
- #ifndef QEMU_SMBIOS_H
- #define QEMU_SMBIOS_H
+diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
+index b38947c224..9c9f4ac748 100644
+--- a/include/hw/i386/pc.h
++++ b/include/hw/i386/pc.h
+@@ -13,6 +13,7 @@
+ #include "hw/hotplug.h"
+ #include "qom/object.h"
+ #include "hw/i386/sgx-epc.h"
++#include "hw/firmware/smbios.h"
  
-+#include "qapi/qapi-types-machine.h"
+ #define HPET_INTCAP "hpet-intcap"
+ 
+@@ -40,6 +41,7 @@ typedef struct PCMachineState {
+     /* Configuration options: */
+     uint64_t max_ram_below_4g;
+     OnOffAuto vmport;
++    SmbiosEntryPointType smbios_entry_point_type;
+ 
+     bool acpi_build_enabled;
+     bool smbus_enabled;
+@@ -63,6 +65,8 @@ typedef struct PCMachineState {
+ #define PC_MACHINE_SATA             "sata"
+ #define PC_MACHINE_PIT              "pit"
+ #define PC_MACHINE_MAX_FW_SIZE      "max-fw-size"
++#define PC_MACHINE_SMBIOS_EP        "smbios-entry-point-type"
 +
- /*
-  * SMBIOS Support
+ /**
+  * PCMachineClass:
   *
-@@ -23,14 +25,6 @@ struct smbios_phys_mem_area {
-     uint64_t length;
- };
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index fccde2ef39..959efa5b3f 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -77,6 +77,7 @@
+ #include "hw/mem/nvdimm.h"
+ #include "qapi/error.h"
+ #include "qapi/qapi-visit-common.h"
++#include "qapi/qapi-visit-machine.h"
+ #include "qapi/visitor.h"
+ #include "hw/core/cpu.h"
+ #include "hw/usb.h"
+@@ -1524,6 +1525,23 @@ static void pc_machine_set_default_bus_bypass_iommu(Object *obj, bool value,
+     pcms->default_bus_bypass_iommu = value;
+ }
  
--/*
-- * SMBIOS spec defined tables
-- */
--typedef enum SmbiosEntryPointType {
--    SMBIOS_ENTRY_POINT_TYPE_32,
--    SMBIOS_ENTRY_POINT_TYPE_64,
--} SmbiosEntryPointType;
--
- /* SMBIOS Entry Point
-  * There are two types of entry points defined in the SMBIOS specification
-  * (see below). BIOS must place the entry point(s) at a 16-byte-aligned
++static void pc_machine_get_smbios_ep(Object *obj, Visitor *v, const char *name,
++                                     void *opaque, Error **errp)
++{
++    PCMachineState *pcms = PC_MACHINE(obj);
++    SmbiosEntryPointType smbios_entry_point_type = pcms->smbios_entry_point_type;
++
++    visit_type_SmbiosEntryPointType(v, name, &smbios_entry_point_type, errp);
++}
++
++static void pc_machine_set_smbios_ep(Object *obj, Visitor *v, const char *name,
++                                     void *opaque, Error **errp)
++{
++    PCMachineState *pcms = PC_MACHINE(obj);
++
++    visit_type_SmbiosEntryPointType(v, name, &pcms->smbios_entry_point_type, errp);
++}
++
+ static void pc_machine_get_max_ram_below_4g(Object *obj, Visitor *v,
+                                             const char *name, void *opaque,
+                                             Error **errp)
+@@ -1614,6 +1632,8 @@ static void pc_machine_initfn(Object *obj)
+     pcms->vmport = ON_OFF_AUTO_OFF;
+ #endif /* CONFIG_VMPORT */
+     pcms->max_ram_below_4g = 0; /* use default */
++    pcms->smbios_entry_point_type = SMBIOS_ENTRY_POINT_TYPE_32;
++
+     /* acpi build is enabled by default if machine supports it */
+     pcms->acpi_build_enabled = PC_MACHINE_GET_CLASS(pcms)->has_acpi_build;
+     pcms->smbus_enabled = true;
+@@ -1756,6 +1776,12 @@ static void pc_machine_class_init(ObjectClass *oc, void *data)
+         NULL, NULL);
+     object_class_property_set_description(oc, PC_MACHINE_MAX_FW_SIZE,
+         "Maximum combined firmware size");
++
++    object_class_property_add(oc, PC_MACHINE_SMBIOS_EP, "str",
++        pc_machine_get_smbios_ep, pc_machine_set_smbios_ep,
++        NULL, NULL);
++    object_class_property_set_description(oc, PC_MACHINE_SMBIOS_EP,
++        "SMBIOS Entry Point type [32, 64]");
+ }
+ 
+ static const TypeInfo pc_machine_info = {
+diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
+index 25f918b609..7c7790a5ce 100644
+--- a/hw/i386/pc_piix.c
++++ b/hw/i386/pc_piix.c
+@@ -177,7 +177,7 @@ static void pc_init1(MachineState *machine,
+         smbios_set_defaults("QEMU", "Standard PC (i440FX + PIIX, 1996)",
+                             mc->name, pcmc->smbios_legacy_mode,
+                             pcmc->smbios_uuid_encoded,
+-                            SMBIOS_ENTRY_POINT_TYPE_32);
++                            pcms->smbios_entry_point_type);
+     }
+ 
+     /* allocate ram and load rom/bios */
+diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
+index 1103fbcd90..1780f79bc1 100644
+--- a/hw/i386/pc_q35.c
++++ b/hw/i386/pc_q35.c
+@@ -200,7 +200,7 @@ static void pc_q35_init(MachineState *machine)
+         smbios_set_defaults("QEMU", "Standard PC (Q35 + ICH9, 2009)",
+                             mc->name, pcmc->smbios_legacy_mode,
+                             pcmc->smbios_uuid_encoded,
+-                            SMBIOS_ENTRY_POINT_TYPE_32);
++                            pcms->smbios_entry_point_type);
+     }
+ 
+     /* allocate ram and load rom/bios */
 -- 
 MST
 
