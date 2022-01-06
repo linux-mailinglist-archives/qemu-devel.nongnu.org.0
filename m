@@ -2,66 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75AA84864FE
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 14:11:51 +0100 (CET)
-Received: from localhost ([::1]:43886 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E715486506
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 14:14:13 +0100 (CET)
+Received: from localhost ([::1]:46472 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5SYY-0008Fd-KE
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 08:11:50 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38678)
+	id 1n5Saq-0001jU-LH
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 08:14:12 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39906)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1n5SUR-00060b-8u
- for qemu-devel@nongnu.org; Thu, 06 Jan 2022 08:07:35 -0500
-Received: from mga02.intel.com ([134.134.136.20]:52815)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1n5SY2-00006z-5M
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 08:11:18 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:29549)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1n5SUL-0007Ab-9t
- for qemu-devel@nongnu.org; Thu, 06 Jan 2022 08:07:32 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1641474449; x=1673010449;
- h=date:from:to:cc:subject:message-id:reply-to:references:
- mime-version:in-reply-to;
- bh=znSuPJrdIfXZBPs+/0Wp7F8ajuSAzZTJWGMLAVEn470=;
- b=kPVTIttwgVhvQPYGIfxL+xqP7d+J7CKeo4eI8bdS7ZhdER7CEi+EJXxe
- KEG1/eEWcL8MNT6KZABXR5ligqVZXjTUHx1yNWVy1LIUE/yPezcUkbXGN
- z/I29qaOh0l+2SqGJWsQzUW0uEJqMIJLlDx7wtmbwW+cGdh0+Q1uwAY2P
- EoxndN0r6C85lPntjn11aHKdQAJt3DvD0ybnDbN3B7f0/mJyRL2j/x7TY
- gsjQd91dIVTB67hTj09S10G09Qw4OBrgVN8Zx15FQnJp/OGt5PueChDeD
- EAG9hniF/Vf4+cQi2E1I81/McwLi8es1MY2xep8rk0NWQkc1B/0SVM6wX A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10217"; a="229980550"
-X-IronPort-AV: E=Sophos;i="5.88,267,1635231600"; d="scan'208";a="229980550"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Jan 2022 05:07:27 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,267,1635231600"; d="scan'208";a="526972284"
-Received: from chaop.bj.intel.com (HELO localhost) ([10.240.192.101])
- by orsmga008.jf.intel.com with ESMTP; 06 Jan 2022 05:07:19 -0800
-Date: Thu, 6 Jan 2022 21:06:38 +0800
-From: Chao Peng <chao.p.peng@linux.intel.com>
-To: David Hildenbrand <david@redhat.com>
-Subject: Re: [PATCH v3 kvm/queue 01/16] mm/shmem: Introduce F_SEAL_INACCESSIBLE
-Message-ID: <20220106130638.GB43371@chaop.bj.intel.com>
-References: <20211223123011.41044-1-chao.p.peng@linux.intel.com>
- <20211223123011.41044-2-chao.p.peng@linux.intel.com>
- <7eb40902-45dd-9193-37f1-efaca381529b@redhat.com>
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1n5SXw-000848-Ec
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 08:11:16 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1641474669;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=oD/3zU+RZx8/majnC7BhEaYJ2jXOyCS+zHXfLhHxx5o=;
+ b=WifTX6a8lfqqjAfrYOuqeYwkVvdqC1CdRXrErGeiT0XVPk7JRjVdWcc1QtRwzI/InhzPpd
+ lJqfqqlyn9YsUjuDGyf1wHL1OuxC6pWAkWloggVhSyPuJwpna/IaLyCEj/DLLhTUJClTEQ
+ Xdi/QLJUnVjHx6zooGPlXI17qGSddaY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-19-hHvIX3xzNR6iuvAu-g9Gyg-1; Thu, 06 Jan 2022 08:11:06 -0500
+X-MC-Unique: hHvIX3xzNR6iuvAu-g9Gyg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5C9D11006AA5;
+ Thu,  6 Jan 2022 13:11:04 +0000 (UTC)
+Received: from localhost (unknown [10.39.193.158])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5CE347D3E9;
+ Thu,  6 Jan 2022 13:10:52 +0000 (UTC)
+Date: Thu, 6 Jan 2022 13:10:51 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Jag Raman <jag.raman@oracle.com>
+Subject: Re: [PATCH v4 11/14] vfio-user: IOMMU support for remote device
+Message-ID: <YdbqW465lBlM//FD@stefanha-x1.localdomain>
+References: <cover.1639549843.git.jag.raman@oracle.com>
+ <acae079dec4261d762311b86a0e699ba9ad79737.1639549843.git.jag.raman@oracle.com>
+ <YbtP2eaBnptogQDf@stefanha-x1.localdomain>
+ <A2ABC44E-0EDA-4FDB-B3A4-64CE1AA84560@oracle.com>
+ <YcCVBLdd/WtLR49h@stefanha-x1.localdomain>
+ <D9E0A4CC-83E9-460F-BBB9-D5DABBA9ED19@oracle.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+In-Reply-To: <D9E0A4CC-83E9-460F-BBB9-D5DABBA9ED19@oracle.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="GvyaacAVcwl9i0No"
 Content-Disposition: inline
-In-Reply-To: <7eb40902-45dd-9193-37f1-efaca381529b@redhat.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-Received-SPF: none client-ip=134.134.136.20;
- envelope-from=chao.p.peng@linux.intel.com; helo=mga02.intel.com
-X-Spam_score_int: -46
-X-Spam_score: -4.7
-X-Spam_bar: ----
-X-Spam_report: (-4.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.372,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.372,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -74,96 +84,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
-Cc: Wanpeng Li <wanpengli@tencent.com>, jun.nakajima@intel.com,
- kvm@vger.kernel.org, qemu-devel@nongnu.org,
- "J . Bruce Fields" <bfields@fieldses.org>, linux-mm@kvack.org,
- "H . Peter Anvin" <hpa@zytor.com>, ak@linux.intel.com,
- Jonathan Corbet <corbet@lwn.net>, Joerg Roedel <joro@8bytes.org>,
- x86@kernel.org, Hugh Dickins <hughd@google.com>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- luto@kernel.org, Thomas Gleixner <tglx@linutronix.de>,
- Vitaly Kuznetsov <vkuznets@redhat.com>, Jim Mattson <jmattson@google.com>,
- dave.hansen@intel.com, Sean Christopherson <seanjc@google.com>,
- susie.li@intel.com, Jeff Layton <jlayton@kernel.org>,
- linux-kernel@vger.kernel.org, john.ji@intel.com,
- Yu Zhang <yu.c.zhang@linux.intel.com>, linux-fsdevel@vger.kernel.org,
- Paolo Bonzini <pbonzini@redhat.com>, Andrew Morton <akpm@linux-foundation.org>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
+Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ John Johnson <john.g.johnson@oracle.com>,
+ "thuth@redhat.com" <thuth@redhat.com>, "bleal@redhat.com" <bleal@redhat.com>,
+ "swapnil.ingle@nutanix.com" <swapnil.ingle@nutanix.com>,
+ "john.levon@nutanix.com" <john.levon@nutanix.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>,
+ "wainersm@redhat.com" <wainersm@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ "thanos.makatos@nutanix.com" <thanos.makatos@nutanix.com>,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@gmail.com>,
+ "crosa@redhat.com" <crosa@redhat.com>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>,
+ "alex.bennee@linaro.org" <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jan 04, 2022 at 03:22:07PM +0100, David Hildenbrand wrote:
-> On 23.12.21 13:29, Chao Peng wrote:
-> > From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
-> > 
-> > Introduce a new seal F_SEAL_INACCESSIBLE indicating the content of
-> > the file is inaccessible from userspace in any possible ways like
-> > read(),write() or mmap() etc.
-> > 
-> > It provides semantics required for KVM guest private memory support
-> > that a file descriptor with this seal set is going to be used as the
-> > source of guest memory in confidential computing environments such
-> > as Intel TDX/AMD SEV but may not be accessible from host userspace.
-> > 
-> > At this time only shmem implements this seal.
-> > 
-> > Signed-off-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
-> > Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
-> > ---
-> >  include/uapi/linux/fcntl.h |  1 +
-> >  mm/shmem.c                 | 37 +++++++++++++++++++++++++++++++++++--
-> >  2 files changed, 36 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/include/uapi/linux/fcntl.h b/include/uapi/linux/fcntl.h
-> > index 2f86b2ad6d7e..e2bad051936f 100644
-> > --- a/include/uapi/linux/fcntl.h
-> > +++ b/include/uapi/linux/fcntl.h
-> > @@ -43,6 +43,7 @@
-> >  #define F_SEAL_GROW	0x0004	/* prevent file from growing */
-> >  #define F_SEAL_WRITE	0x0008	/* prevent writes */
-> >  #define F_SEAL_FUTURE_WRITE	0x0010  /* prevent future writes while mapped */
-> > +#define F_SEAL_INACCESSIBLE	0x0020  /* prevent file from accessing */
-> 
-> I think this needs more clarification: the file content can still be
-> accessed using in-kernel mechanisms such as MEMFD_OPS for KVM. It
-> effectively disallows traditional access to a file (read/write/mmap)
-> that will result in ordinary MMU access to file content.
-> 
-> Not sure how to best clarify that: maybe, prevent ordinary MMU access
-> (e.g., read/write/mmap) to file content?
+--GvyaacAVcwl9i0No
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Or: prevent userspace access (e.g., read/write/mmap) to file content?
-> 
-> >  /* (1U << 31) is reserved for signed error codes */
-> >  
-> >  /*
-> > diff --git a/mm/shmem.c b/mm/shmem.c
-> > index 18f93c2d68f1..faa7e9b1b9bc 100644
-> > --- a/mm/shmem.c
-> > +++ b/mm/shmem.c
-> > @@ -1098,6 +1098,10 @@ static int shmem_setattr(struct user_namespace *mnt_userns,
-> >  		    (newsize > oldsize && (info->seals & F_SEAL_GROW)))
-> >  			return -EPERM;
-> >  
-> > +		if ((info->seals & F_SEAL_INACCESSIBLE) &&
-> > +		    (newsize & ~PAGE_MASK))
-> > +			return -EINVAL;
-> > +
-> 
-> What happens when sealing and there are existing mmaps?
+On Tue, Dec 21, 2021 at 04:32:05AM +0000, Jag Raman wrote:
+> > On Dec 20, 2021, at 9:36 AM, Stefan Hajnoczi <stefanha@redhat.com> wrot=
+e:
+> > On Fri, Dec 17, 2021 at 08:00:35PM +0000, Jag Raman wrote:
+> >>> On Dec 16, 2021, at 9:40 AM, Stefan Hajnoczi <stefanha@redhat.com> wr=
+ote:
+> >>> On Wed, Dec 15, 2021 at 10:35:35AM -0500, Jagannathan Raman wrote:
+> >>> Also, why is PCI Memory Space isolated via VFUIOMMU but PCI IO Space =
+is
+> >>> not?
+> >>=20
+> >> If I understand correctly, the IO address space translates sysmem addr=
+ess to
+> >> direct device access (such as I2C). Once we are inside a device, we al=
+ready
+> >> have access to all parts of the device (unlike RAM which sits outside =
+the device).
+> >> So didn=E2=80=99t think device would go via IOMMU to access IO. Also d=
+idn=E2=80=99t see any
+> >> other IOMMU translating IO address space accesses.
+> >=20
+> > I reviewed how BARs are configured with VFIO:
+> >=20
+> > 1. When the guest writes to the vfio-pci PCIDevice's Configuration Spac=
+e
+> >   the write is forwarded to the VFIO device (i.e. vfio-user or VFIO
+> >   kernel ioctl).
+> >=20
+> > 2. The vfio-user server receives the Configuration Space write and
+> >   forwards it to pci_dev (the PCIDevice we're serving up). BAR mappings
+> >   are updated in the vfio-user server so the BAR MemoryRegions are
+> >   mapped/unmapped at the locations given by the guest.
+> >=20
+> > This applies for both Memory and IO Space accesses.
+> >=20
+> > Because this patch series does not isolate IO Space between VfuObject
+> > instances the MemoryRegions will collide when two guests map IO Space
+> > BARs of different devices at the same IO Space address. In other words,
+> > vfu_object_bar_rw() uses the global address_space_io and that means
+> > collisions can occur.
+>=20
+> I agree that collision could occur from the CPU end. But I'm not if IOMMU
+> needs to translate IO space.
 
-I think this is similar to ftruncate, in either case we just allow that.
-The existing mmaps will be unmapped and KVM will be notified to
-invalidate the mapping in the secondary MMU as well. This assume we
-trust the userspace even though it can not access the file content.
+QEMU's IOMMUs do not translate IO Space addresses AFAIK.
 
-Thanks,
-Chao
-> 
-> 
-> -- 
-> Thanks,
-> 
-> David / dhildenb
+IO Space just needs to be isolated between vfio-user server instances so
+there is no collision when one client maps an IO Space BAR to the same
+address as another client.
+
+I think the cleanest way of achieving that is by creating a
+per-vfio-user server PCI bus with an address_space_io MemoryRegion.
+
+Stefan
+
+--GvyaacAVcwl9i0No
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmHW6loACgkQnKSrs4Gr
+c8ii8gf+KI5O3FaNM5iyoVuERTzxOReiWISGTCYZH/kUmY8U5q0eXRjfSeyPspLp
+qiQ3JSz3GVy6FkiidNDzXtP7XHg8GEZpDPzUBcE3TU+CPnjYhHzevZCYI+ZmqfRz
+jNJDYwn7tO8ljo1mlJZzrNNMztiizu8ABRjeAK8o3FrSmvmzGMPsuz9heX18J8Od
+s/h2urCMUoM9oQWfIqpeKBQ+DQODkPpQG7RKOJlXMxhhVi4IARv3zMRJIyz2nHhk
+bdhIQmBzpIbqqSBFa3zz8VxUHBsFnfD+E4dKSpmCCDDM2sTop4ZZPWO2u3cYARP1
+OY3Pt4pm7L/n6dYlbp9G50dsPXP7lg==
+=Bji2
+-----END PGP SIGNATURE-----
+
+--GvyaacAVcwl9i0No--
+
 
