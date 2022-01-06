@@ -2,63 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9D304868BA
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 18:37:16 +0100 (CET)
-Received: from localhost ([::1]:37320 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21E8B48691D
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 18:49:06 +0100 (CET)
+Received: from localhost ([::1]:49096 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5WhQ-0003km-0h
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 12:37:16 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49328)
+	id 1n5Wsq-0005G5-MJ
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 12:49:04 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51126)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1n5Wfq-0002oQ-5j
- for qemu-devel@nongnu.org; Thu, 06 Jan 2022 12:35:38 -0500
-Received: from smtpout4.mo529.mail-out.ovh.net ([217.182.185.173]:58479)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1n5Wfn-000394-Ai
- for qemu-devel@nongnu.org; Thu, 06 Jan 2022 12:35:37 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.109.138.132])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 7B4BAD607BE9;
- Thu,  6 Jan 2022 18:35:30 +0100 (CET)
-Received: from kaod.org (37.59.142.98) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.17; Thu, 6 Jan
- 2022 18:35:30 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-98R002498fcceb-6131-455a-a34b-6ee59158ad18,
- 49C0EA974A1AE1209641D977CC9A370E508CB387) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <7c2672ec-59b6-6c97-96f7-725359ee0446@kaod.org>
-Date: Thu, 6 Jan 2022 18:35:29 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH v2 00/18] user creatable pnv-phb3/pnv-phb4 devices
-Content-Language: en-US
-To: Daniel Henrique Barboza <danielhb413@gmail.com>, <qemu-devel@nongnu.org>
-References: <20220105212338.49899-1-danielhb413@gmail.com>
- <9d3401ac-70d5-7635-0bce-15f7346eb8a1@kaod.org>
- <ab938e99-5937-daa9-c57e-d17adaa928d4@gmail.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <ab938e99-5937-daa9-c57e-d17adaa928d4@gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.98]
-X-ClientProxiedBy: DAG8EX2.mxp5.local (172.16.2.72) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 40be2827-b52c-4492-bc09-f0de84ed6105
-X-Ovh-Tracer-Id: 2909888312579558368
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrudefledguddtudcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeigedvffekgeeftedutddttdevudeihfegudffkeeitdekkeetkefhffelveelleenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepuggrvhhiugesghhisghsohhnrdgurhhophgsvggrrhdrihgurdgruh
-Received-SPF: pass client-ip=217.182.185.173; envelope-from=clg@kaod.org;
- helo=smtpout4.mo529.mail-out.ovh.net
-X-Spam_score_int: -45
-X-Spam_score: -4.6
-X-Spam_bar: ----
-X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.691,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ (Exim 4.90_1) (envelope-from
+ <3CinXYQcKCs0Ex6CDAxz77z4x.v759x5D-wxEx4676z6D.7Az@flex--venture.bounces.google.com>)
+ id 1n5Wnc-0001hk-7u
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 12:43:40 -0500
+Received: from [2607:f8b0:4864:20::b4a] (port=43620
+ helo=mail-yb1-xb4a.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from
+ <3CinXYQcKCs0Ex6CDAxz77z4x.v759x5D-wxEx4676z6D.7Az@flex--venture.bounces.google.com>)
+ id 1n5WnT-0006pd-15
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 12:43:33 -0500
+Received: by mail-yb1-xb4a.google.com with SMTP id
+ 66-20020a251245000000b0060d05da9c4eso6252917ybs.10
+ for <qemu-devel@nongnu.org>; Thu, 06 Jan 2022 09:43:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=date:message-id:mime-version:subject:from:to:cc;
+ bh=WtSFX+ktM8sOR4JoroSKrO/7dLHndbwnIyityhKTkG8=;
+ b=FVY3YpKkvT/I5N154Hd4J+LupmmCudJ7Ieo2vkDOkcNWp9M7xfRNwyPOac17GoqyeG
+ VRffjWk+m4uFdttAMJAVJpjuFgXKWhdDkowlWxC4RLSt/Bj5CwIJsHjJNgaesuzpW3Fb
+ tgaugqgFCx590JM5b4aXesl6Ab+OICo0VZrgzJmzSwchQXlD3Tqlcf0ONIIQxVda1q2x
+ RDgXc7fVzIqwCtG/vtMKw+KBZvy/ZGeGGkvUPBTQLSd/irkWzlvDtEYAgDQvaG4+F6K7
+ 3QF8hzcyj9ey9/QcybZ0Td6TB3Cg2KCx1NbypMw7r2qPdGYw4GcL9I42l/qPcX53EYgV
+ NOnw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+ bh=WtSFX+ktM8sOR4JoroSKrO/7dLHndbwnIyityhKTkG8=;
+ b=LqzdUq94VzAS40j1COfZKWMureNfcs4BWamdF+k3ozWZkInG/NQPtesM+dHg6OuUHJ
+ bJ+N7qEXJWPQZSr+HDG8Qq8HqivqDbHcvwFRzxAbFM/YrX2MojMj1kDxnQ6SmfjLjB4R
+ 9P+hDaqEPQE8ZcoqK6gsa9pY5DFOQz/AZeyAEeUDW6BdJIS2ZbhbmHQTLJyQHfORHZ+n
+ BuwNyBdnez55zHgZk2To1glfAJR5EXkKAvOsLpmutd87CF1PC6NfRvMwtEnJKpvmTjF5
+ 8KtKPnTwilfAggmoX3cSmEoKumhQXREgSgO8BFMdDWg2pHjae93cKQgOgvpG1VcIDtjE
+ d0kA==
+X-Gm-Message-State: AOAM533lhUdefOl6nI4S35b4amP5WcREWM6CW/eZNMDIvywE2OVJX7ix
+ CHQrAnuHXCkAwTm29xKZftC1WCVylxPc
+X-Google-Smtp-Source: ABdhPJzr3scMl1jxeLvWF1t54ZvW3tHkYMErenTPS9M1CYvJxdDYNzTYW12iMQomNDEh7k5Hmdyl48+c+KPK
+X-Received: from venture.svl.corp.google.com
+ ([2620:15c:2a3:200:9986:338a:477f:1df7])
+ (user=venture job=sendgmr) by 2002:a25:361d:: with SMTP id
+ d29mr74378923yba.270.1641490698008; Thu, 06 Jan 2022 09:38:18 -0800 (PST)
+Date: Thu,  6 Jan 2022 09:38:14 -0800
+Message-Id: <20220106173814.3580141-1-venture@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.34.1.448.ga2b2bfdf31-goog
+Subject: [PATCH] hw/sensor: enable setting adm1272 temperature with qmp
+From: Patrick Venture <venture@google.com>
+To: thuth@redhat.com, lvivier@redhat.com, pbonzini@redhat.com, 
+ cminyard@mvista.com
+Cc: qemu-devel@nongnu.org, Titus Rwantare <titusr@google.com>, 
+ Patrick Venture <venture@google.com>, Chris Rauer <crauer@google.com>,
+ Hao Wu <wuhaotsh@google.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b4a
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b4a;
+ envelope-from=3CinXYQcKCs0Ex6CDAxz77z4x.v759x5D-wxEx4676z6D.7Az@flex--venture.bounces.google.com;
+ helo=mail-yb1-xb4a.google.com
+X-Spam_score_int: -87
+X-Spam_score: -8.8
+X-Spam_bar: --------
+X-Spam_report: (-8.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -71,187 +87,154 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/6/22 13:36, Daniel Henrique Barboza wrote:
-> 
-> 
-> On 1/6/22 05:18, Cédric Le Goater wrote:
->> On 1/5/22 22:23, Daniel Henrique Barboza wrote:
->>> Hi,
->>>
->>> This second version was rebased with upstream and includes fixed/amended
->>> versions of relevant patches that were sent to the mailing list and aren't
->>> upstream yet. In this process 4 patches from v1 were discarded, becoming
->>> either irrelevant or squashed into others.
->>>
->>> The patches are organized as follows:
->>>
->>> - patches 1-4: enable user creatable phb3/phb4 root ports
->>
->> Looking closer at models and domain files in libvirt, aren't user
->> creatable phb3/phb4 root ports enough ? Do we really need the
->> pnv-phb3/pnv-phb4 devices to be user created also ?
-> 
-> We need user creatable phbs for a handful of reasons.
-> 
-> Let's suppose we go this route and all PHBs are available all the time and user just
-> adds root-ports. Using spapr-phb as the closest example of a default PHB that's always
-> available, we would need to express the PHBs in the XML. For a 4 socket powernv9 domain
-> we would have 24 PHBs in the XML.
-> 
-> No, hiding them is not an option because it would break assumptions Libvirt makes where all
-> PCI controllers are expressed in the XML, and the controller relationship via controller
-> indexes are awlays explicit. Having "ghost PHBs" that exists but aren't visible in the
-> XML was something that I was having to deal with with user creatable PEC controllers and
-> it's both complex to do and and has a good chance of getting NACKed by the community
-> because it's too hard to use. So having these default PHBs expressed in the XML would be a
-> must.
-> 
-> So right off the bat, for a 1 socket powernv9 machine, we'll have 6 phbs that will need
-> to be in the XML regardless of being used or not. And for each socket added/remove we'll
-> have to add/remove default PHBs available in the domain XML. So if the user starts with
-> 1 sockets, and then adds a root port, the XML can look similar to this:
-> 
->      <controller type='pci' index='0' model='pcie-root'/>
->      <controller type='pci' index='1' model='pcie-root'/>
->      <controller type='pci' index='2' model='pcie-root'/>
->      <controller type='pci' index='3' model='pcie-root'/>
->      <controller type='pci' index='4' model='pcie-root'/>
->      <controller type='pci' index='5' model='pcie-root'/>
->      <controller type='pci' index='6' model='pcie-root-port'/>
->      (... user adds more controllers with index=7,8 ...)
-> 
-> Now if the user adds another socket we have a problem. The root ports and other devices will
-> be using controller indexes that the default PHBs would use. The user did a CPU topology
-> change and now will have to adjust PCI topology as a result. Similar complications will
-> happen if the user then removes a socket from the domain.
-> 
-> Now, with user creatable PHBs, the situation above will be expressed like:
-> 
-> 
->      <controller type='pci' index='0' model='pcie-root'/>
->        <model name='pnv-phb4'/>
->        <target index='4' chip-id='0'/>
->      </controller>
->      <controller type='pci' index='1' model='pcie-root-port'/>
->      (... user adds more controllers with index=2,3 ...)
-> 
-> If the user adds 4 sockets this doesn't change because Libvirt is creating a single PHB and
-> renaming it to 'pcie.0' to be consistent. If the user decides, in a 2 socket pnv9 domain, to use
-> the PHB that belongs to the second chip, the only change is the chip-id element:
-> 
-> 
->      <controller type='pci' index='0' model='pcie-root'/>
->        <model name='pnv-phb4'/>
->        <target index='4' chip-id='1'/>
->      </controller>
->      <controller type='pci' index='1' model='pcie-root-port'/>
->      (... user adds more controllers with index=2,3 ...)
-> 
-> If the user then removes the socket the domain will error out when starting because you're creating a
-> PHB with a wrong chip-id. A simple matter of changing the chip-id value while retaining the PCI topology
-> as is, without needing to reassign controller indexes all over again.
-> 
-> Another big deal is to able to rename buses. Libvirt uses 'pcie.N' with these controllers,
-> we're using 'pnv-phb3/4-root-bus'. Without user creatable PHBs we would be signing a contract
-> with Libvirt that we will never rename these buses in QEMU side again, once Libvirt starts
-> support it, because now Libvirt is counting on this info to correctly assign the root ports to
-> the specific PHBs. Being able to rename the buses is also crucial for the PCI topology
-> consistency I commented above.
-> 
-> There's also a good argument about long term extensibility. We're doing a lot of work in the
-> QEMU side but we'll be able to later on the road, for instance, support multiple root-ports in
-> the same PHB, or even devices other than root-ports in PHBs, device hotplug and so on with
-> minimal - and most important, backward friendly - Libvirt changes. Having default PHBs appearing
-> all the time will force us to make several assumptions that we wouldn't be able to break later on,
-> and probably will break older domains that were created before the changes.
-> 
-> 
-> I am probably forgetting more problems that this would cause in Libvirt. But at last, but definitely
-> not the least for the implementation of the Libvirt side, we (in this case, I) would need to make lots
-> and lots of code to support default PHBs that can be added/removed via SMP changes, while trying to
-> keep existing PCI topologies minimally consistent, with lots of documentation explaining why are we
-> adding/removing default PHBs due to SMP changes, and in the end the user experience would still
-> be awkward.
-> 
-> 
-> Enabling user creatable pnv-phb3/phb4 is the way for Libvirt support, and I daresay it also makes
-> for an improved QEMU experience as well. If I want a -nodefaults machine with 4 sockets but only 2 PHBs
-> I can do that after this series. Decopling SMP from PCI topology has advantages outside of Libvirt
-> support.
-Thanks for this detailed explanation. I am convinced !
-> - patches 5-10: enable user creatable pnv-phb3 devices
+From: Titus Rwantare <titusr@google.com>
 
-These are fine. No need to resend.
+Reviewed-by: Patrick Venture <venture@google.com>
+Reviewed-by: Chris Rauer <crauer@google.com>
+Reviewed-by: Hao Wu <wuhaotsh@google.com>
+Signed-off-by: Titus Rwantare <titusr@google.com>
+---
+ hw/sensor/adm1272.c        | 27 ++++++++++++++++++++++++++-
+ tests/qtest/adm1272-test.c | 28 +++++++++++++++++++++++++++-
+ 2 files changed, 53 insertions(+), 2 deletions(-)
 
-> - patches 11-18: enable user creatable pnv-phb4 devices
+diff --git a/hw/sensor/adm1272.c b/hw/sensor/adm1272.c
+index 7310c769be..77a3d8eccf 100644
+--- a/hw/sensor/adm1272.c
++++ b/hw/sensor/adm1272.c
+@@ -66,6 +66,7 @@
+ #define ADM1272_VOLTAGE_COEFF_DEFAULT   1
+ #define ADM1272_CURRENT_COEFF_DEFAULT   3
+ #define ADM1272_PWR_COEFF_DEFAULT       7
++#define ADM1272_TEMP_COEFF_DEFAULT      8
+ #define ADM1272_IOUT_OFFSET             0x5000
+ #define ADM1272_IOUT_OFFSET             0x5000
+ 
+@@ -186,6 +187,22 @@ static uint32_t adm1272_direct_to_watts(uint16_t value)
+     return pmbus_direct_mode2data(c, value);
+ }
+ 
++static uint16_t adm1272_millidegrees_to_direct(uint32_t value)
++{
++    PMBusCoefficients c = adm1272_coefficients[ADM1272_TEMP_COEFF_DEFAULT];
++    c.b = c.b * 1000;
++    c.R = c.R - 3;
++    return pmbus_data2direct_mode(c, value);
++}
++
++static uint32_t adm1272_direct_to_millidegrees(uint16_t value)
++{
++    PMBusCoefficients c = adm1272_coefficients[ADM1272_TEMP_COEFF_DEFAULT];
++    c.b = c.b * 1000;
++    c.R = c.R - 3;
++    return pmbus_direct_mode2data(c, value);
++}
++
+ static void adm1272_exit_reset(Object *obj)
+ {
+     ADM1272State *s = ADM1272(obj);
+@@ -220,7 +237,7 @@ static void adm1272_exit_reset(Object *obj)
+         = adm1272_millivolts_to_direct(ADM1272_VOLT_DEFAULT);
+     pmdev->pages[0].read_iout
+         = adm1272_milliamps_to_direct(ADM1272_IOUT_DEFAULT);
+-    pmdev->pages[0].read_temperature_1 = 0;
++    pmdev->pages[0].read_temperature_1 = adm1272_millidegrees_to_direct(30000);
+     pmdev->pages[0].read_pin = adm1272_watts_to_direct(ADM1272_PWR_DEFAULT);
+     pmdev->pages[0].revision = ADM1272_PMBUS_REVISION_DEFAULT;
+     pmdev->pages[0].mfr_id = ADM1272_MFR_ID_DEFAULT;
+@@ -423,6 +440,8 @@ static void adm1272_get(Object *obj, Visitor *v, const char *name, void *opaque,
+         value = adm1272_direct_to_milliamps(*(uint16_t *)opaque);
+     } else if (strcmp(name, "pin") == 0) {
+         value = adm1272_direct_to_watts(*(uint16_t *)opaque);
++    } else if (strcmp(name, "temperature") == 0) {
++        value = adm1272_direct_to_millidegrees(*(uint16_t *)opaque);
+     } else {
+         value = *(uint16_t *)opaque;
+     }
+@@ -447,6 +466,8 @@ static void adm1272_set(Object *obj, Visitor *v, const char *name, void *opaque,
+         *internal = adm1272_milliamps_to_direct(value);
+     } else if (strcmp(name, "pin") == 0) {
+         *internal = adm1272_watts_to_direct(value);
++    } else if (strcmp(name, "temperature") == 0) {
++        *internal = adm1272_millidegrees_to_direct(value);
+     } else {
+         *internal = value;
+     }
+@@ -510,6 +531,10 @@ static void adm1272_init(Object *obj)
+                         adm1272_get,
+                         adm1272_set, NULL, &pmdev->pages[0].read_pin);
+ 
++    object_property_add(obj, "temperature", "uint16",
++                        adm1272_get,
++                        adm1272_set, NULL, &pmdev->pages[0].read_temperature_1);
++
+ }
+ 
+ static void adm1272_class_init(ObjectClass *klass, void *data)
+diff --git a/tests/qtest/adm1272-test.c b/tests/qtest/adm1272-test.c
+index 63f8514801..98134aabd2 100644
+--- a/tests/qtest/adm1272-test.c
++++ b/tests/qtest/adm1272-test.c
+@@ -65,6 +65,7 @@
+ #define ADM1272_VOLTAGE_COEFF_DEFAULT   1
+ #define ADM1272_CURRENT_COEFF_DEFAULT   3
+ #define ADM1272_PWR_COEFF_DEFAULT       7
++#define ADM1272_TEMP_COEFF_DEFAULT      8
+ #define ADM1272_IOUT_OFFSET             0x5000
+ #define ADM1272_IOUT_OFFSET             0x5000
+ 
+@@ -144,6 +145,22 @@ static uint32_t adm1272_direct_to_watts(uint16_t value)
+     return pmbus_direct_mode2data(c, value);
+ }
+ 
++static uint16_t adm1272_millidegrees_to_direct(uint32_t value)
++{
++    PMBusCoefficients c = adm1272_coefficients[ADM1272_TEMP_COEFF_DEFAULT];
++    c.b = c.b * 1000;
++    c.R = c.R - 3;
++    return pmbus_data2direct_mode(c, value);
++}
++
++static uint32_t adm1272_direct_to_millidegrees(uint16_t value)
++{
++    PMBusCoefficients c = adm1272_coefficients[ADM1272_TEMP_COEFF_DEFAULT];
++    c.b = c.b * 1000;
++    c.R = c.R - 3;
++    return pmbus_direct_mode2data(c, value);
++}
++
+ static uint16_t qmp_adm1272_get(const char *id, const char *property)
+ {
+     QDict *response;
+@@ -248,7 +265,7 @@ static void test_defaults(void *obj, void *data, QGuestAllocator *alloc)
+ /* test qmp access */
+ static void test_tx_rx(void *obj, void *data, QGuestAllocator *alloc)
+ {
+-    uint16_t i2c_value, value, i2c_voltage, i2c_pwr, lossy_value;
++    uint16_t i2c_value, value, i2c_voltage, i2c_pwr, i2c_temp, lossy_value;
+     QI2CDevice *i2cdev = (QI2CDevice *)obj;
+ 
+     /* converting to direct mode is lossy - we generate the same loss here */
+@@ -287,6 +304,15 @@ static void test_tx_rx(void *obj, void *data, QGuestAllocator *alloc)
+     i2c_pwr = adm1272_direct_to_watts(i2c_value);
+     g_assert_cmphex(value, ==, i2c_pwr);
+     g_assert_cmphex(i2c_pwr, ==, lossy_value);
++
++    lossy_value =
++        adm1272_direct_to_millidegrees(adm1272_millidegrees_to_direct(25000));
++    qmp_adm1272_set(TEST_ID, "temperature", 25000);
++    value = qmp_adm1272_get(TEST_ID, "temperature");
++    i2c_value = adm1272_i2c_get16(i2cdev, PMBUS_READ_TEMPERATURE_1);
++    i2c_temp = adm1272_direct_to_millidegrees(i2c_value);
++    g_assert_cmphex(value, ==, i2c_temp);
++    g_assert_cmphex(i2c_temp, ==, lossy_value);
+ }
+ 
+ /* test r/w registers */
+-- 
+2.34.1.448.ga2b2bfdf31-goog
 
-patches 11-17 need some care. 18 is fine.
-
->>> Here are some examples of what we're able to do with this series:
->>>
->>> * powernv8 machine with -nodefaults,2 pnv-phb3s with 'pcie.N' name,
->>> one of them with a root port and a netcard:
->>>
->>> $ qemu-system-ppc64 -m 4G -machine powernv8,accel=tcg -smp 2,cores=2,threads=1 \
->>> -bios skiboot.lid  -kernel vmlinux -initrd buildroot.rootfs.cpio \
->>> -append 'console=hvc0 ro xmon=on' \
->>> -nodefaults \
->>> -serial mon:stdio -nographic \
->>> -device pnv-phb3,chip-id=0,index=0,id=pcie.0 \
->>> -device pnv-phb3,chip-id=0,index=2,id=pcie.2 \
->>> -device pnv-phb3-root-port,bus=pcie.2,id=pcie.5 \
->>> -netdev bridge,helper=/usr/libexec/qemu-bridge-helper,br=virbr0,id=net0 \
->>> -device e1000e,netdev=net0,mac=C0:ff:EE:00:01:04,bus=pcie.5,addr=0x0
->>>
->>> * powernv9 machine with -nodefaults, 3 of the available 12 pnv-phb4 devices
->>> created, 2 root ports, one of the port with a pcie-pci-bridge and
->>> devices connected in the bridge:
->>>
->>> $ qemu-system-ppc64 -m 4G -machine powernv9 \
->>> -smp 2,sockets=2,cores=1,threads=1 \
->>> -accel tcg,thread=multi -bios skiboot.lid \
->>> -kernel vmlinux -initrd buildroot.rootfs.cpio \
->>> -append 'console=hvc0 ro xmon=on' \
->>> -nodefaults \
->>> -serial mon:stdio -nographic \
->>> -device pnv-phb4,chip-id=0,index=0,id=pcie.0 \
->>> -device pnv-phb4,chip-id=0,index=4,id=pcie.1 \
->>> -device pnv-phb4,chip-id=1,index=3,id=pcie.2 \
->>> -device pnv-phb4-root-port,id=root0,bus=pcie.2 \
->>> -device pnv-phb4-root-port,id=root1,bus=pcie.1 \
->>> -device pcie-pci-bridge,id=bridge1,bus=root0,addr=0x0 \
->>> -device nvme,bus=bridge1,addr=0x1,drive=drive0,serial=1234 \
->>> -drive file=./simics-disk.raw,if=none,id=drive0,format=raw,cache=none \
->>> -device e1000e,netdev=net0,mac=C0:ff:EE:00:01:04,bus=bridge1,addr=0x3 \
->>> -netdev bridge,helper=/usr/libexec/qemu-bridge-helper,br=virbr0,id=net0 \
->>> -device nec-usb-xhci,bus=bridge1,addr=0x2
->>>
->>>
->>> * powernv8/9 with default settings can be used as usual. The work done
->>> in this series didn't change the name of the buses created by the
->>> default root ports (named pcie.0...N):
->>>
->>> $ qemu-system-ppc64 -m 4G \
->>> -machine powernv9 -smp 2,sockets=2,cores=1,threads=1  \
->>> -accel tcg,thread=multi -bios skiboot.lid  \
->>> -kernel vmlinux -initrd buildroot.rootfs.cpio \
->>> -append 'console=hvc0 ro xmon=on' \
->>> -serial mon:stdio -nographic \
->>> -device pcie-pci-bridge,id=bridge1,bus=pcie.0,addr=0x0 \
->>> -device nvme,bus=bridge1,addr=0x1,drive=drive0,serial=1234  \
->>> -drive file=./simics-disk.raw,if=none,id=drive0,format=raw,cache=none \
->>> -device e1000e,netdev=net0,mac=C0:ff:EE:00:01:04,bus=bridge1,addr=0x3 \
->>> -netdev bridge,helper=/usr/libexec/qemu-bridge-helper,br=virbr0,id=net0 \
->>> -device nec-usb-xhci,bus=bridge1,addr=0x2
-
-Could we capture some of these command lines in the documentation ? with some
-of the details above ?
-
-Thanks,
-
-C.
 
