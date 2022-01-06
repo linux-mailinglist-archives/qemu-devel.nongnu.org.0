@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26B48486689
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 16:11:01 +0100 (CET)
-Received: from localhost ([::1]:54074 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5132648667F
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 16:08:26 +0100 (CET)
+Received: from localhost ([::1]:45360 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5UPs-00032Q-7s
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 10:11:00 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45370)
+	id 1n5UNM-0005f5-UJ
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 10:08:24 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45366)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
- id 1n5P12-0005sB-E7
+ id 1n5P12-0005sA-A6
  for qemu-devel@nongnu.org; Thu, 06 Jan 2022 04:25:03 -0500
-Received: from mailout05.t-online.de ([194.25.134.82]:40032)
+Received: from mailout05.t-online.de ([194.25.134.82]:40106)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
- id 1n5P10-0006XC-JV
+ id 1n5P10-0006XE-K1
  for qemu-devel@nongnu.org; Thu, 06 Jan 2022 04:25:00 -0500
-Received: from fwd75.dcpf.telekom.de (fwd75.aul.t-online.de [10.223.144.101])
- by mailout05.t-online.de (Postfix) with SMTP id CCBB1104B3;
- Thu,  6 Jan 2022 10:23:33 +0100 (CET)
-Received: from linpower.localnet ([46.86.48.20]) by fwd75.t-online.de
+Received: from fwd71.dcpf.telekom.de (fwd71.aul.t-online.de [10.223.144.97])
+ by mailout05.t-online.de (Postfix) with SMTP id 2F6D144D3;
+ Thu,  6 Jan 2022 10:23:36 +0100 (CET)
+Received: from linpower.localnet ([46.86.48.20]) by fwd71.t-online.de
  with (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384 encrypted)
- esmtp id 1n5Ozd-2IWHab0; Thu, 6 Jan 2022 10:23:33 +0100
+ esmtp id 1n5Ozf-2A3cH30; Thu, 6 Jan 2022 10:23:35 +0100
 Received: by linpower.localnet (Postfix, from userid 1000)
- id D07DA200619; Thu,  6 Jan 2022 10:23:32 +0100 (CET)
+ id D2512200620; Thu,  6 Jan 2022 10:23:32 +0100 (CET)
 From: =?UTF-8?q?Volker=20R=C3=BCmelin?= <volker.ruemelin@t-online.de>
 To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: [PATCH 01/15] audio: replace open-coded buffer arithmetic
-Date: Thu,  6 Jan 2022 10:23:18 +0100
-Message-Id: <20220106092332.7223-1-volker.ruemelin@t-online.de>
+Subject: [PATCH 02/15] audio: move function audio_pcm_hw_clip_out()
+Date: Thu,  6 Jan 2022 10:23:19 +0100
+Message-Id: <20220106092332.7223-2-volker.ruemelin@t-online.de>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <cfcae86f-59c3-a2c5-76cd-1ab5e23e20f3@t-online.de>
 References: <cfcae86f-59c3-a2c5-76cd-1ab5e23e20f3@t-online.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-TOI-EXPURGATEID: 150726::1641461013-000184BD-37F24861/0/0 CLEAN NORMAL
-X-TOI-MSGID: 52318789-439f-4264-bb62-5fee4067c6dc
+X-TOI-EXPURGATEID: 150726::1641461016-00001674-F5712C01/0/0 CLEAN NORMAL
+X-TOI-MSGID: 4ddef1b4-3e23-429e-9b59-3c61dd31af1c
 Received-SPF: none client-ip=194.25.134.82;
  envelope-from=volker.ruemelin@t-online.de; helo=mailout05.t-online.de
 X-Spam_score_int: -18
@@ -61,141 +61,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <huth@tuxfamily.org>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Volker Rümelin <vr_qemu@t-online.de>
 
-Replace open-coded buffer arithmetic with the available function
-audio_ring_dist(). Because the name audio_ring_dist implies it
-calculates the distance between two points, define the alias
-function name audio_ring_posb. That's the position in backward
-direction of a given point at a given distance.
+Move the function audio_pcm_hw_clip_out() into the correct
+section 'Hard voice (playback)'.
 
 Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
 ---
- audio/audio.c     | 25 +++++++------------------
- audio/audio_int.h |  2 ++
- audio/coreaudio.c | 10 ++++------
- audio/sdlaudio.c  | 11 +++++------
- 4 files changed, 18 insertions(+), 30 deletions(-)
+ audio/audio.c | 38 +++++++++++++++++++-------------------
+ 1 file changed, 19 insertions(+), 19 deletions(-)
 
 diff --git a/audio/audio.c b/audio/audio.c
-index dc28685d22..e7a139e289 100644
+index e7a139e289..dfd32912da 100644
 --- a/audio/audio.c
 +++ b/audio/audio.c
-@@ -574,19 +574,13 @@ static size_t audio_pcm_sw_get_rpos_in(SWVoiceIn *sw)
- {
-     HWVoiceIn *hw = sw->hw;
-     ssize_t live = hw->total_samples_captured - sw->total_hw_samples_acquired;
--    ssize_t rpos;
- 
-     if (audio_bug(__func__, live < 0 || live > hw->conv_buf->size)) {
-         dolog("live=%zu hw->conv_buf->size=%zu\n", live, hw->conv_buf->size);
-         return 0;
-     }
- 
--    rpos = hw->conv_buf->pos - live;
--    if (rpos >= 0) {
--        return rpos;
--    } else {
--        return hw->conv_buf->size + rpos;
--    }
-+    return audio_ring_posb(hw->conv_buf->pos, live, hw->conv_buf->size);
+@@ -548,25 +548,6 @@ static size_t audio_pcm_hw_get_live_in(HWVoiceIn *hw)
+     return live;
  }
  
- static size_t audio_pcm_sw_read(SWVoiceIn *sw, void *buf, size_t size)
-@@ -1394,12 +1388,10 @@ void audio_generic_run_buffer_in(HWVoiceIn *hw)
- 
- void *audio_generic_get_buffer_in(HWVoiceIn *hw, size_t *size)
- {
--    ssize_t start = (ssize_t)hw->pos_emul - hw->pending_emul;
-+    size_t start;
- 
--    if (start < 0) {
--        start += hw->size_emul;
+-static void audio_pcm_hw_clip_out(HWVoiceOut *hw, void *pcm_buf, size_t len)
+-{
+-    size_t clipped = 0;
+-    size_t pos = hw->mix_buf->pos;
+-
+-    while (len) {
+-        st_sample *src = hw->mix_buf->samples + pos;
+-        uint8_t *dst = advance(pcm_buf, clipped * hw->info.bytes_per_frame);
+-        size_t samples_till_end_of_buf = hw->mix_buf->size - pos;
+-        size_t samples_to_clip = MIN(len, samples_till_end_of_buf);
+-
+-        hw->clip(dst, src, samples_to_clip);
+-
+-        pos = (pos + samples_to_clip) % hw->mix_buf->size;
+-        len -= samples_to_clip;
+-        clipped += samples_to_clip;
 -    }
--    assert(start >= 0 && start < hw->size_emul);
-+    start = audio_ring_posb(hw->pos_emul, hw->pending_emul, hw->size_emul);
-+    assert(start < hw->size_emul);
- 
-     *size = MIN(*size, hw->pending_emul);
-     *size = MIN(*size, hw->size_emul - start);
-@@ -1415,13 +1407,10 @@ void audio_generic_put_buffer_in(HWVoiceIn *hw, void *buf, size_t size)
- void audio_generic_run_buffer_out(HWVoiceOut *hw)
- {
-     while (hw->pending_emul) {
--        size_t write_len, written;
--        ssize_t start = ((ssize_t) hw->pos_emul) - hw->pending_emul;
-+        size_t write_len, written, start;
- 
--        if (start < 0) {
--            start += hw->size_emul;
--        }
--        assert(start >= 0 && start < hw->size_emul);
-+        start = audio_ring_posb(hw->pos_emul, hw->pending_emul, hw->size_emul);
-+        assert(start < hw->size_emul);
- 
-         write_len = MIN(hw->pending_emul, hw->size_emul - start);
- 
-diff --git a/audio/audio_int.h b/audio/audio_int.h
-index 428a091d05..928d8e107e 100644
---- a/audio/audio_int.h
-+++ b/audio/audio_int.h
-@@ -266,6 +266,8 @@ static inline size_t audio_ring_dist(size_t dst, size_t src, size_t len)
-     return (dst >= src) ? (dst - src) : (len - src + dst);
+-}
+-
+ /*
+  * Soft voice (capture)
+  */
+@@ -677,6 +658,25 @@ static size_t audio_pcm_hw_get_live_out (HWVoiceOut *hw, int *nb_live)
+     return 0;
  }
  
-+#define audio_ring_posb(pos, dist, len) audio_ring_dist(pos, dist, len)
++static void audio_pcm_hw_clip_out(HWVoiceOut *hw, void *pcm_buf, size_t len)
++{
++    size_t clipped = 0;
++    size_t pos = hw->mix_buf->pos;
 +
- #define dolog(fmt, ...) AUD_log(AUDIO_CAP, fmt, ## __VA_ARGS__)
- 
- #ifdef DEBUG
-diff --git a/audio/coreaudio.c b/audio/coreaudio.c
-index d8a21d3e50..1fdd1d4b14 100644
---- a/audio/coreaudio.c
-+++ b/audio/coreaudio.c
-@@ -333,12 +333,10 @@ static OSStatus audioDeviceIOProc(
- 
-     len = frameCount * hw->info.bytes_per_frame;
-     while (len) {
--        size_t write_len;
--        ssize_t start = ((ssize_t) hw->pos_emul) - hw->pending_emul;
--        if (start < 0) {
--            start += hw->size_emul;
--        }
--        assert(start >= 0 && start < hw->size_emul);
-+        size_t write_len, start;
++    while (len) {
++        st_sample *src = hw->mix_buf->samples + pos;
++        uint8_t *dst = advance(pcm_buf, clipped * hw->info.bytes_per_frame);
++        size_t samples_till_end_of_buf = hw->mix_buf->size - pos;
++        size_t samples_to_clip = MIN(len, samples_till_end_of_buf);
 +
-+        start = audio_ring_posb(hw->pos_emul, hw->pending_emul, hw->size_emul);
-+        assert(start < hw->size_emul);
- 
-         write_len = MIN(MIN(hw->pending_emul, len),
-                         hw->size_emul - start);
-diff --git a/audio/sdlaudio.c b/audio/sdlaudio.c
-index c68c62a3e4..d6f3aa1a9a 100644
---- a/audio/sdlaudio.c
-+++ b/audio/sdlaudio.c
-@@ -224,12 +224,11 @@ static void sdl_callback_out(void *opaque, Uint8 *buf, int len)
-         /* dolog("callback_out: len=%d avail=%zu\n", len, hw->pending_emul); */
- 
-         while (hw->pending_emul && len) {
--            size_t write_len;
--            ssize_t start = (ssize_t)hw->pos_emul - hw->pending_emul;
--            if (start < 0) {
--                start += hw->size_emul;
--            }
--            assert(start >= 0 && start < hw->size_emul);
-+            size_t write_len, start;
++        hw->clip(dst, src, samples_to_clip);
 +
-+            start = audio_ring_posb(hw->pos_emul, hw->pending_emul,
-+                                    hw->size_emul);
-+            assert(start < hw->size_emul);
- 
-             write_len = MIN(MIN(hw->pending_emul, len),
-                             hw->size_emul - start);
++        pos = (pos + samples_to_clip) % hw->mix_buf->size;
++        len -= samples_to_clip;
++        clipped += samples_to_clip;
++    }
++}
++
+ /*
+  * Soft voice (playback)
+  */
 -- 
 2.31.1
 
