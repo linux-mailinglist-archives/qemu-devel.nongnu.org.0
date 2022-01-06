@@ -2,74 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A99A486663
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 15:58:39 +0100 (CET)
-Received: from localhost ([::1]:34966 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26B48486689
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 16:11:01 +0100 (CET)
+Received: from localhost ([::1]:54074 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5UDu-0005da-PI
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 09:58:38 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40202)
+	id 1n5UPs-00032Q-7s
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 10:11:00 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45370)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1n5UCS-0003jd-N2
- for qemu-devel@nongnu.org; Thu, 06 Jan 2022 09:57:08 -0500
-Received: from [2a00:1450:4864:20::42b] (port=40926
- helo=mail-wr1-x42b.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1n5UCP-0006QL-Ns
- for qemu-devel@nongnu.org; Thu, 06 Jan 2022 09:57:08 -0500
-Received: by mail-wr1-x42b.google.com with SMTP id l10so5284323wrh.7
- for <qemu-devel@nongnu.org>; Thu, 06 Jan 2022 06:57:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=C1KWiuro5yW4XPrGSKh0APssAzNtgml64Q3JDHHCffc=;
- b=kl/Q5b03dHU51hv6kSA+sCaTJq6wa/tmTcZQFY0pqYg44UDjGsuZhuW3PVGko6ydWv
- LZQy0tNJ9ZbrkzFsLU9Jj5c8DWQPy3pia6nXn6Yn1JjdN/e1fs6ozPIbUTmDblDCSR0U
- v2VnpPElwluCU/ajsZvs0QFB1Nk3h8+XsE1+B5WnAvTvxviCS8nihSAhTayFOx2d1Ihl
- nNh7Q9uH2597X6lNnoCsz8WcNQSmNle+jO0ds/u7363kYlVmHATn818ZbVyQVwCLjmQy
- 7FsikOVpraiX3tkiN2uSrha362bfRjZXxS4LBVxKin7B+b3nN2h5WYU+rSxdx6cCPlj/
- 6jLQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=C1KWiuro5yW4XPrGSKh0APssAzNtgml64Q3JDHHCffc=;
- b=D74XuisOKJwuc43N37V1agUX5DBmfoIab2im0sXuNV/UGdsHUnU+SvBQ7npjumchy8
- vmmnWhby+aL2rYeQdnuHcrvLKL3fTTZ4sRI/hHP1HgVu4C7gjSi7MezvFhTfgDCJsFI+
- QQ4rYgHx5kyHA85wI0sW+HSDS0yxD4FfrfIrAtGzkRLax2r9wF1ONAixuxQPFSfAah3N
- ACINfAG5253LrlunPbdMqcyIhPjCIAJZrY4agb8PkpJvauPzMAqgULxzQm/ole7MhfpA
- QArnfcfNRttfoue///f50KIr0yM/PeSWdHkoiaMCQHfs1/5Ey969xDj0bZrDer3otDz6
- YxVQ==
-X-Gm-Message-State: AOAM532KdL0BmPeN+SLmhXyeMQxJ9Ylxbg9RmW0Q1J8eea5wWfyuCvEE
- Piqu9DS1+gff5Sj6bIe9OCRX9l0ogLNDYpewnfceaQ==
-X-Google-Smtp-Source: ABdhPJy4ZINlFh21YC4Iz29V0KJ8E4aj/VPOIai+i5Qbj+GXuyvaGcDafXXkjDuBrjPGHQWQ0oKPbN7a/V0fKmAuFb0=
-X-Received: by 2002:a5d:52c4:: with SMTP id r4mr29652400wrv.521.1641481024296; 
- Thu, 06 Jan 2022 06:57:04 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
+ id 1n5P12-0005sB-E7
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 04:25:03 -0500
+Received: from mailout05.t-online.de ([194.25.134.82]:40032)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
+ id 1n5P10-0006XC-JV
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 04:25:00 -0500
+Received: from fwd75.dcpf.telekom.de (fwd75.aul.t-online.de [10.223.144.101])
+ by mailout05.t-online.de (Postfix) with SMTP id CCBB1104B3;
+ Thu,  6 Jan 2022 10:23:33 +0100 (CET)
+Received: from linpower.localnet ([46.86.48.20]) by fwd75.t-online.de
+ with (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384 encrypted)
+ esmtp id 1n5Ozd-2IWHab0; Thu, 6 Jan 2022 10:23:33 +0100
+Received: by linpower.localnet (Postfix, from userid 1000)
+ id D07DA200619; Thu,  6 Jan 2022 10:23:32 +0100 (CET)
+From: =?UTF-8?q?Volker=20R=C3=BCmelin?= <volker.ruemelin@t-online.de>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Subject: [PATCH 01/15] audio: replace open-coded buffer arithmetic
+Date: Thu,  6 Jan 2022 10:23:18 +0100
+Message-Id: <20220106092332.7223-1-volker.ruemelin@t-online.de>
+X-Mailer: git-send-email 2.31.1
+In-Reply-To: <cfcae86f-59c3-a2c5-76cd-1ab5e23e20f3@t-online.de>
+References: <cfcae86f-59c3-a2c5-76cd-1ab5e23e20f3@t-online.de>
 MIME-Version: 1.0
-References: <20211122104831.1052063-1-f4bug@amsat.org>
-In-Reply-To: <20211122104831.1052063-1-f4bug@amsat.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 6 Jan 2022 14:56:53 +0000
-Message-ID: <CAFEAcA9PiJfG9gLr7cGs2n-a9TojfKi+QHN20kNw_efO6Gkw5Q@mail.gmail.com>
-Subject: Re: [PATCH] hw/misc/auxbus: Improve aux_bus_init() docstring
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42b
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42b.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-TOI-EXPURGATEID: 150726::1641461013-000184BD-37F24861/0/0 CLEAN NORMAL
+X-TOI-MSGID: 52318789-439f-4264-bb62-5fee4067c6dc
+Received-SPF: none client-ip=194.25.134.82;
+ envelope-from=volker.ruemelin@t-online.de; helo=mailout05.t-online.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Thu, 06 Jan 2022 10:04:59 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,95 +61,142 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>
+Cc: Thomas Huth <huth@tuxfamily.org>,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 22 Nov 2021 at 11:11, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
- wrote:
->
-> Mention in aux_bus_init() docstring that the AUXBus
-> is not simply initialized, it is also allocated.
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> ---
->  include/hw/misc/auxbus.h | 12 +++++++-----
->  1 file changed, 7 insertions(+), 5 deletions(-)
->
-> diff --git a/include/hw/misc/auxbus.h b/include/hw/misc/auxbus.h
-> index b05799d2f7a..bd8612018a7 100644
-> --- a/include/hw/misc/auxbus.h
-> +++ b/include/hw/misc/auxbus.h
-> @@ -85,7 +85,8 @@ struct AUXSlave {
->  };
->
->  /**
-> - * aux_bus_init: Initialize an AUX bus.
-> + * aux_bus_init:
-> + * Create an AUX bus on the heap.
->   *
->   * Returns the new AUX bus created.
->   *
-> @@ -101,7 +102,7 @@ AUXBus *aux_bus_init(DeviceState *parent, const char =
-*name);
->   */
->  void aux_bus_realize(AUXBus *bus);
->
-> -/*
-> +/**
->   * aux_request: Make a request on the bus.
->   *
->   * Returns the reply of the request.
-> @@ -115,7 +116,7 @@ void aux_bus_realize(AUXBus *bus);
->  AUXReply aux_request(AUXBus *bus, AUXCommand cmd, uint32_t address,
->                                uint8_t len, uint8_t *data);
->
-> -/*
-> +/**
->   * aux_get_i2c_bus: Get the i2c bus for I2C over AUX command.
->   *
->   * Returns the i2c bus associated to this AUX bus.
-> @@ -124,7 +125,7 @@ AUXReply aux_request(AUXBus *bus, AUXCommand cmd, uin=
-t32_t address,
->   */
->  I2CBus *aux_get_i2c_bus(AUXBus *bus);
->
-> -/*
-> +/**
->   * aux_init_mmio: Init an mmio for an AUX slave.
->   *
->   * @aux_slave The AUX slave.
-> @@ -132,7 +133,8 @@ I2CBus *aux_get_i2c_bus(AUXBus *bus);
->   */
->  void aux_init_mmio(AUXSlave *aux_slave, MemoryRegion *mmio);
->
-> -/* aux_map_slave: Map the mmio for an AUX slave on the bus.
-> +/**
-> + * aux_map_slave: Map the mmio for an AUX slave on the bus.
->   *
->   * @dev The AUX slave.
->   * @addr The address for the slave's mmio.
+From: Volker Rümelin <vr_qemu@t-online.de>
 
-If you want to turn these into /**-introduced kerneldoc-comment
-comments, then they need to be rearranged to have all the elements
-in the required order:
+Replace open-coded buffer arithmetic with the available function
+audio_ring_dist(). Because the name audio_ring_dist implies it
+calculates the distance between two points, define the alias
+function name audio_ring_posb. That's the position in backward
+direction of a given point at a given distance.
 
-/**
- * function_name - brief description
- * @arg1: Description of argument
- * @arg2: Description of argument
- *
- * Longer description paragraph if required.
- *
- * Return: Describe return value
- */
+Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
+---
+ audio/audio.c     | 25 +++++++------------------
+ audio/audio_int.h |  2 ++
+ audio/coreaudio.c | 10 ++++------
+ audio/sdlaudio.c  | 11 +++++------
+ 4 files changed, 18 insertions(+), 30 deletions(-)
 
-https://www.kernel.org/doc/html/latest/doc-guide/kernel-doc.html#function-d=
-ocumentation
+diff --git a/audio/audio.c b/audio/audio.c
+index dc28685d22..e7a139e289 100644
+--- a/audio/audio.c
++++ b/audio/audio.c
+@@ -574,19 +574,13 @@ static size_t audio_pcm_sw_get_rpos_in(SWVoiceIn *sw)
+ {
+     HWVoiceIn *hw = sw->hw;
+     ssize_t live = hw->total_samples_captured - sw->total_hw_samples_acquired;
+-    ssize_t rpos;
+ 
+     if (audio_bug(__func__, live < 0 || live > hw->conv_buf->size)) {
+         dolog("live=%zu hw->conv_buf->size=%zu\n", live, hw->conv_buf->size);
+         return 0;
+     }
+ 
+-    rpos = hw->conv_buf->pos - live;
+-    if (rpos >= 0) {
+-        return rpos;
+-    } else {
+-        return hw->conv_buf->size + rpos;
+-    }
++    return audio_ring_posb(hw->conv_buf->pos, live, hw->conv_buf->size);
+ }
+ 
+ static size_t audio_pcm_sw_read(SWVoiceIn *sw, void *buf, size_t size)
+@@ -1394,12 +1388,10 @@ void audio_generic_run_buffer_in(HWVoiceIn *hw)
+ 
+ void *audio_generic_get_buffer_in(HWVoiceIn *hw, size_t *size)
+ {
+-    ssize_t start = (ssize_t)hw->pos_emul - hw->pending_emul;
++    size_t start;
+ 
+-    if (start < 0) {
+-        start += hw->size_emul;
+-    }
+-    assert(start >= 0 && start < hw->size_emul);
++    start = audio_ring_posb(hw->pos_emul, hw->pending_emul, hw->size_emul);
++    assert(start < hw->size_emul);
+ 
+     *size = MIN(*size, hw->pending_emul);
+     *size = MIN(*size, hw->size_emul - start);
+@@ -1415,13 +1407,10 @@ void audio_generic_put_buffer_in(HWVoiceIn *hw, void *buf, size_t size)
+ void audio_generic_run_buffer_out(HWVoiceOut *hw)
+ {
+     while (hw->pending_emul) {
+-        size_t write_len, written;
+-        ssize_t start = ((ssize_t) hw->pos_emul) - hw->pending_emul;
++        size_t write_len, written, start;
+ 
+-        if (start < 0) {
+-            start += hw->size_emul;
+-        }
+-        assert(start >= 0 && start < hw->size_emul);
++        start = audio_ring_posb(hw->pos_emul, hw->pending_emul, hw->size_emul);
++        assert(start < hw->size_emul);
+ 
+         write_len = MIN(hw->pending_emul, hw->size_emul - start);
+ 
+diff --git a/audio/audio_int.h b/audio/audio_int.h
+index 428a091d05..928d8e107e 100644
+--- a/audio/audio_int.h
++++ b/audio/audio_int.h
+@@ -266,6 +266,8 @@ static inline size_t audio_ring_dist(size_t dst, size_t src, size_t len)
+     return (dst >= src) ? (dst - src) : (len - src + dst);
+ }
+ 
++#define audio_ring_posb(pos, dist, len) audio_ring_dist(pos, dist, len)
++
+ #define dolog(fmt, ...) AUD_log(AUDIO_CAP, fmt, ## __VA_ARGS__)
+ 
+ #ifdef DEBUG
+diff --git a/audio/coreaudio.c b/audio/coreaudio.c
+index d8a21d3e50..1fdd1d4b14 100644
+--- a/audio/coreaudio.c
++++ b/audio/coreaudio.c
+@@ -333,12 +333,10 @@ static OSStatus audioDeviceIOProc(
+ 
+     len = frameCount * hw->info.bytes_per_frame;
+     while (len) {
+-        size_t write_len;
+-        ssize_t start = ((ssize_t) hw->pos_emul) - hw->pending_emul;
+-        if (start < 0) {
+-            start += hw->size_emul;
+-        }
+-        assert(start >= 0 && start < hw->size_emul);
++        size_t write_len, start;
++
++        start = audio_ring_posb(hw->pos_emul, hw->pending_emul, hw->size_emul);
++        assert(start < hw->size_emul);
+ 
+         write_len = MIN(MIN(hw->pending_emul, len),
+                         hw->size_emul - start);
+diff --git a/audio/sdlaudio.c b/audio/sdlaudio.c
+index c68c62a3e4..d6f3aa1a9a 100644
+--- a/audio/sdlaudio.c
++++ b/audio/sdlaudio.c
+@@ -224,12 +224,11 @@ static void sdl_callback_out(void *opaque, Uint8 *buf, int len)
+         /* dolog("callback_out: len=%d avail=%zu\n", len, hw->pending_emul); */
+ 
+         while (hw->pending_emul && len) {
+-            size_t write_len;
+-            ssize_t start = (ssize_t)hw->pos_emul - hw->pending_emul;
+-            if (start < 0) {
+-                start += hw->size_emul;
+-            }
+-            assert(start >= 0 && start < hw->size_emul);
++            size_t write_len, start;
++
++            start = audio_ring_posb(hw->pos_emul, hw->pending_emul,
++                                    hw->size_emul);
++            assert(start < hw->size_emul);
+ 
+             write_len = MIN(MIN(hw->pending_emul, len),
+                             hw->size_emul - start);
+-- 
+2.31.1
 
-This might be better done as a separate commit from fixing the
-comment text for aux_bus_init().
-
--- PMM
 
