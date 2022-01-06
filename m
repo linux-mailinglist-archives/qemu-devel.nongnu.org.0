@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F4674865CF
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 15:08:34 +0100 (CET)
-Received: from localhost ([::1]:40686 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C9F14865D8
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 15:12:44 +0100 (CET)
+Received: from localhost ([::1]:49272 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5TRR-0005Cz-H1
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 09:08:33 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42254)
+	id 1n5TVT-00035E-Bg
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 09:12:43 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42234)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n5Sel-0005Ly-2x
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n5Sek-0005KH-MP
  for qemu-devel@nongnu.org; Thu, 06 Jan 2022 08:18:15 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24302)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37694)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n5Seh-0000y1-6B
- for qemu-devel@nongnu.org; Thu, 06 Jan 2022 08:18:14 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n5Seg-0000xx-MY
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 08:18:13 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641475073;
+ s=mimecast20190719; t=1641475072;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=g64Nj4WV+Irx5qvL3Yea9s2X356RYx1CceDWXAsokho=;
- b=SJG/vUWvYrP2OVXHr58DWwDiqBtqNoV0NWjgFbrFBGfSUCB/u8Loe7GIUR1x/uLyl0H6Wf
- IiVmgOUM3zCoM8y1zskDm6QNHWZhVaBsNZ/oPWxgTue630bnxBkeeqFHbG6kl2m1wLWYYe
- 9lWCwAG2aK16yv/vv8jPrewGuvZw8Vc=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=4akHXGYHIwd7HNeqwa3gMQKaZ7VYtAKPZ8TAtHqI2Gc=;
+ b=MDIUKBX+9iDv8lADjowhdJFpMS7Luz9ms6FAtGL2ukoBxb7hwZhEQerOUExMaQOfereClz
+ zlKxcKmALaF1RemyNNn9Aa2sFJDBf6XDlGAFSeE9ct2Ytx30sO4JQ7RU2+mTxtu5JUTZC/
+ dpOgJfsOv0I/Q9Hflm9jBosT501y0Wg=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-628-yU0i45FxP9WXVASnIzULgQ-1; Thu, 06 Jan 2022 08:17:47 -0500
-X-MC-Unique: yU0i45FxP9WXVASnIzULgQ-1
-Received: by mail-ed1-f72.google.com with SMTP id
- g2-20020a056402424200b003f8ee03207eso1937988edb.7
- for <qemu-devel@nongnu.org>; Thu, 06 Jan 2022 05:17:47 -0800 (PST)
+ us-mta-88-moZtS6feOFiot9BTuS9TJA-1; Thu, 06 Jan 2022 08:17:51 -0500
+X-MC-Unique: moZtS6feOFiot9BTuS9TJA-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ g11-20020a056402090b00b003f8fd1ac475so1950105edz.1
+ for <qemu-devel@nongnu.org>; Thu, 06 Jan 2022 05:17:51 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=g64Nj4WV+Irx5qvL3Yea9s2X356RYx1CceDWXAsokho=;
- b=fkavEZ6nKa2/IfmikVHvZ95s3b66GiB2g9/B3xK6+lOCMJIDDE1SdJUtxzb5nj0VAk
- NkE/v6U49M/KhjmEJCZCgoLVeYnKRX0vawPZnn/qDABXLSO910UG1ucm3NTa+UfJ99db
- lnw4ZK2yo2BCyxo5p8WBKvgLLiWrbDRv9n/V9/2sykd1sbXUdxk4IGENFURoA0LDCtjI
- fuLAT4caZ7cmYRp3YFFAL3NWX5jG6c+H4LWJqP5RKytpknHy1wKXFAzJzZhRfwUxvecR
- ndgOwcvzFTE6Vqoou/s0F4jveN/AQk5scZq5FrJgrgac8cEemJIFie5aJztQnu31gElB
- 0zdQ==
-X-Gm-Message-State: AOAM532Kr2j8xRMTf/wTvBsMWwsut3V5KfZ2VY1+F5zO4IJRvTFvxhwX
- hc/xxjM3sn6iZ1vaMNV7WHCW97x6Xzd7cD+o96l/bKATjkSz79axIZe4WdeBV4X6WrmNI7YYi9A
- 3WpyfdUDE9iJcnimmLImQ2hCRRSPNsYTDvYE3KS98GLWsERXPv1U8XQIDtvIZ
-X-Received: by 2002:a17:907:6da2:: with SMTP id
- sb34mr45961670ejc.309.1641475065506; 
- Thu, 06 Jan 2022 05:17:45 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyclM1Fo9+Ne5S7PpD6Pgf+Ijxxc1OxYBZvrpHHOcerN9SJGqgE1t06uBih96hhzO7x0+E0Iw==
-X-Received: by 2002:a17:907:6da2:: with SMTP id
- sb34mr45961648ejc.309.1641475065226; 
- Thu, 06 Jan 2022 05:17:45 -0800 (PST)
+ bh=4akHXGYHIwd7HNeqwa3gMQKaZ7VYtAKPZ8TAtHqI2Gc=;
+ b=KYgH8mbdh4VcrM2hOSAY0VzpUDwZrsGnYASK6KQncdbIbmbWEecOEWBtHDHTOl0rya
+ 4C+A9EtIN20jDG5AEG/N5Y32yaDIibXmOy95vxasoQjqXQerS63b60/HomAb2dZ8uwbM
+ XDsiS7drhQJVsd+VqmL3rfSY0JCrWOGXUK0cK0p962zYNmwt1lsPVPnmpHKAOtv/RG0d
+ tezbaAV6fyqo+EuYDhRb3jF9FPjKCddSw2wrb6Ir5DaXkCr9AZlasX+4K5AzF9iOXfWh
+ cLm938lygNn5kUcY87AeMHsiiMSbqzysKe1YE3JOk4KcTGYduq1SWcj/3xa56XDbBgqq
+ G1Ig==
+X-Gm-Message-State: AOAM533a9fYfw9xs7ElDO0109T3JuS1Zq6/6L9H9+WRUhUOKA5BB/olQ
+ uLZOsOfsge3Cn+1BRtLdk/Q//LCnGQnmBd2K7NIcNHxkwFRHJnjFkSc0N7lAAg1jQ/XwKUwq3Bn
+ UAp3Ecv+Wh/kvZEsAt59v4vjLdUFcOb4FDN+BCUALFJ1WMJGQADAmSNXXgOE1
+X-Received: by 2002:a17:907:6d20:: with SMTP id
+ sa32mr47862757ejc.35.1641475068715; 
+ Thu, 06 Jan 2022 05:17:48 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwf0s9I5636gvk8wvszIwThJZ2kamXAkNntU11D8XvCCs40iQHj+DVLFyuPlYJKnXdydjH5NA==
+X-Received: by 2002:a17:907:6d20:: with SMTP id
+ sa32mr47862735ejc.35.1641475068439; 
+ Thu, 06 Jan 2022 05:17:48 -0800 (PST)
 Received: from redhat.com ([2a03:c5c0:207e:991b:6857:5652:b903:a63b])
- by smtp.gmail.com with ESMTPSA id oz31sm488170ejc.35.2022.01.06.05.17.43
+ by smtp.gmail.com with ESMTPSA id dz8sm717935edb.29.2022.01.06.05.17.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Jan 2022 05:17:44 -0800 (PST)
-Date: Thu, 6 Jan 2022 08:17:42 -0500
+ Thu, 06 Jan 2022 05:17:48 -0800 (PST)
+Date: Thu, 6 Jan 2022 08:17:45 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 31/52] util/oslib-posix: Introduce and use MemsetContext for
- touch_all_pages()
-Message-ID: <20220106131534.423671-32-mst@redhat.com>
+Subject: [PULL 32/52] util/oslib-posix: Don't create too many threads with
+ small memory or little pages
+Message-ID: <20220106131534.423671-33-mst@redhat.com>
 References: <20220106131534.423671-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20220106131534.423671-1-mst@redhat.com>
@@ -100,176 +100,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Michal Privoznik <mprivozn@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Paolo Bonzini <pbonzini@redhat.com>,
+Cc: Peter Maydell <peter.maydell@linaro.org>,
  Daniel P =?utf-8?B?LiBCZXJyYW5nw6k=?= <berrange@redhat.com>,
- David Hildenbrand <david@redhat.com>
+ David Hildenbrand <david@redhat.com>, Michal Privoznik <mprivozn@redhat.com>,
+ Pankaj Gupta <pankaj.gupta@ionos.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: David Hildenbrand <david@redhat.com>
 
-Let's minimize the number of global variables to prepare for
-os_mem_prealloc() getting called concurrently and make the code a bit
-easier to read.
+Let's limit the number of threads to something sane, especially that
+- We don't have more threads than the number of pages we have
+- We don't have threads that initialize small (< 64 MiB) memory
 
-The only consumer that really needs a global variable is the sigbus
-handler, which will require protection via a mutex in the future either way
-as we cannot concurrently mess with the SIGBUS handler.
-
+Reviewed-by: Pankaj Gupta <pankaj.gupta@ionos.com>
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 Reviewed-by: Michal Privoznik <mprivozn@redhat.com>
 Signed-off-by: David Hildenbrand <david@redhat.com>
-Message-Id: <20211217134611.31172-4-david@redhat.com>
+Message-Id: <20211217134611.31172-5-david@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- util/oslib-posix.c | 73 +++++++++++++++++++++++++++++-----------------
- 1 file changed, 47 insertions(+), 26 deletions(-)
+ util/oslib-posix.c | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
 
 diff --git a/util/oslib-posix.c b/util/oslib-posix.c
-index cb89e07770..cf2ead54ad 100644
+index cf2ead54ad..67c08a425e 100644
 --- a/util/oslib-posix.c
 +++ b/util/oslib-posix.c
-@@ -73,21 +73,30 @@
+@@ -40,6 +40,7 @@
+ #include <libgen.h>
+ #include "qemu/cutils.h"
+ #include "qemu/compiler.h"
++#include "qemu/units.h"
  
- #define MAX_MEM_PREALLOC_THREAD_COUNT 16
+ #ifdef CONFIG_LINUX
+ #include <sys/syscall.h>
+@@ -525,7 +526,8 @@ static void *do_madv_populate_write_pages(void *arg)
+     return (void *)(uintptr_t)ret;
+ }
  
-+struct MemsetThread;
-+
-+typedef struct MemsetContext {
-+    bool all_threads_created;
-+    bool any_thread_failed;
-+    struct MemsetThread *threads;
-+    int num_threads;
-+} MemsetContext;
-+
- struct MemsetThread {
-     char *addr;
-     size_t numpages;
-     size_t hpagesize;
-     QemuThread pgthread;
-     sigjmp_buf env;
-+    MemsetContext *context;
- };
- typedef struct MemsetThread MemsetThread;
- 
--static MemsetThread *memset_thread;
--static int memset_num_threads;
-+/* used by sigbus_handler() */
-+static MemsetContext *sigbus_memset_context;
- 
- static QemuMutex page_mutex;
- static QemuCond page_cond;
--static bool threads_created_flag;
- 
- int qemu_get_thread_id(void)
+-static inline int get_memset_num_threads(int smp_cpus)
++static inline int get_memset_num_threads(size_t hpagesize, size_t numpages,
++                                         int smp_cpus)
  {
-@@ -438,10 +447,13 @@ const char *qemu_get_exec_dir(void)
- static void sigbus_handler(int signal)
- {
-     int i;
--    if (memset_thread) {
--        for (i = 0; i < memset_num_threads; i++) {
--            if (qemu_thread_is_self(&memset_thread[i].pgthread)) {
--                siglongjmp(memset_thread[i].env, 1);
+     long host_procs = sysconf(_SC_NPROCESSORS_ONLN);
+     int ret = 1;
+@@ -533,6 +535,12 @@ static inline int get_memset_num_threads(int smp_cpus)
+     if (host_procs > 0) {
+         ret = MIN(MIN(host_procs, MAX_MEM_PREALLOC_THREAD_COUNT), smp_cpus);
+     }
 +
-+    if (sigbus_memset_context) {
-+        for (i = 0; i < sigbus_memset_context->num_threads; i++) {
-+            MemsetThread *thread = &sigbus_memset_context->threads[i];
++    /* Especially with gigantic pages, don't create more threads than pages. */
++    ret = MIN(ret, numpages);
++    /* Don't start threads to prealloc comparatively little memory. */
++    ret = MIN(ret, MAX(1, hpagesize * numpages / (64 * MiB)));
 +
-+            if (qemu_thread_is_self(&thread->pgthread)) {
-+                siglongjmp(thread->env, 1);
-             }
-         }
-     }
-@@ -459,7 +471,7 @@ static void *do_touch_pages(void *arg)
-      * clearing until all threads have been created.
-      */
-     qemu_mutex_lock(&page_mutex);
--    while(!threads_created_flag){
-+    while (!memset_args->context->all_threads_created) {
-         qemu_cond_wait(&page_cond, &page_mutex);
-     }
-     qemu_mutex_unlock(&page_mutex);
-@@ -502,7 +514,7 @@ static void *do_madv_populate_write_pages(void *arg)
- 
-     /* See do_touch_pages(). */
-     qemu_mutex_lock(&page_mutex);
--    while (!threads_created_flag) {
-+    while (!memset_args->context->all_threads_created) {
-         qemu_cond_wait(&page_cond, &page_mutex);
-     }
-     qemu_mutex_unlock(&page_mutex);
-@@ -529,6 +541,9 @@ static int touch_all_pages(char *area, size_t hpagesize, size_t numpages,
-                            int smp_cpus, bool use_madv_populate_write)
- {
-     static gsize initialized = 0;
-+    MemsetContext context = {
-+        .num_threads = get_memset_num_threads(smp_cpus),
-+    };
-     size_t numpages_per_thread, leftover;
-     void *(*touch_fn)(void *);
-     int ret = 0, i = 0;
-@@ -546,35 +561,41 @@ static int touch_all_pages(char *area, size_t hpagesize, size_t numpages,
-         touch_fn = do_touch_pages;
-     }
- 
--    threads_created_flag = false;
--    memset_num_threads = get_memset_num_threads(smp_cpus);
--    memset_thread = g_new0(MemsetThread, memset_num_threads);
--    numpages_per_thread = numpages / memset_num_threads;
--    leftover = numpages % memset_num_threads;
--    for (i = 0; i < memset_num_threads; i++) {
--        memset_thread[i].addr = addr;
--        memset_thread[i].numpages = numpages_per_thread + (i < leftover);
--        memset_thread[i].hpagesize = hpagesize;
--        qemu_thread_create(&memset_thread[i].pgthread, "touch_pages",
--                           touch_fn, &memset_thread[i],
-+    context.threads = g_new0(MemsetThread, context.num_threads);
-+    numpages_per_thread = numpages / context.num_threads;
-+    leftover = numpages % context.num_threads;
-+    for (i = 0; i < context.num_threads; i++) {
-+        context.threads[i].addr = addr;
-+        context.threads[i].numpages = numpages_per_thread + (i < leftover);
-+        context.threads[i].hpagesize = hpagesize;
-+        context.threads[i].context = &context;
-+        qemu_thread_create(&context.threads[i].pgthread, "touch_pages",
-+                           touch_fn, &context.threads[i],
-                            QEMU_THREAD_JOINABLE);
--        addr += memset_thread[i].numpages * hpagesize;
-+        addr += context.threads[i].numpages * hpagesize;
-+    }
-+
-+    if (!use_madv_populate_write) {
-+        sigbus_memset_context = &context;
-     }
- 
-     qemu_mutex_lock(&page_mutex);
--    threads_created_flag = true;
-+    context.all_threads_created = true;
-     qemu_cond_broadcast(&page_cond);
-     qemu_mutex_unlock(&page_mutex);
- 
--    for (i = 0; i < memset_num_threads; i++) {
--        int tmp = (uintptr_t)qemu_thread_join(&memset_thread[i].pgthread);
-+    for (i = 0; i < context.num_threads; i++) {
-+        int tmp = (uintptr_t)qemu_thread_join(&context.threads[i].pgthread);
- 
-         if (tmp) {
-             ret = tmp;
-         }
-     }
--    g_free(memset_thread);
--    memset_thread = NULL;
-+
-+    if (!use_madv_populate_write) {
-+        sigbus_memset_context = NULL;
-+    }
-+    g_free(context.threads);
- 
+     /* In case sysconf() fails, we fall back to single threaded */
      return ret;
  }
+@@ -542,7 +550,7 @@ static int touch_all_pages(char *area, size_t hpagesize, size_t numpages,
+ {
+     static gsize initialized = 0;
+     MemsetContext context = {
+-        .num_threads = get_memset_num_threads(smp_cpus),
++        .num_threads = get_memset_num_threads(hpagesize, numpages, smp_cpus),
+     };
+     size_t numpages_per_thread, leftover;
+     void *(*touch_fn)(void *);
 -- 
 MST
 
