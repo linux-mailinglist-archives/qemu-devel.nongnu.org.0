@@ -2,57 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D67748636A
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 12:04:40 +0100 (CET)
-Received: from localhost ([::1]:49162 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E12D48636C
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 12:06:10 +0100 (CET)
+Received: from localhost ([::1]:51994 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5QZT-0005N1-7V
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 06:04:39 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:32820)
+	id 1n5Qav-0007Fe-Jg
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 06:06:09 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33648)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n5QDb-0007qg-H1
- for qemu-devel@nongnu.org; Thu, 06 Jan 2022 05:42:05 -0500
-Received: from mout.kundenserver.de ([212.227.126.133]:48667)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n5QHA-0001uY-5c
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 05:45:44 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:47224)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n5QDU-0004kg-IM
- for qemu-devel@nongnu.org; Thu, 06 Jan 2022 05:42:03 -0500
-Received: from quad ([82.142.12.178]) by mrelayeu.kundenserver.de (mreue012
- [212.227.15.167]) with ESMTPSA (Nemesis) id 1MLAZe-1mnCZk2A0g-00IFBl; Thu, 06
- Jan 2022 11:41:54 +0100
-From: Laurent Vivier <laurent@vivier.eu>
-To: qemu-devel@nongnu.org
-Subject: [PULL 26/27] linux-user: netlink: Add IFLA_VFINFO_LIST
-Date: Thu,  6 Jan 2022 11:41:36 +0100
-Message-Id: <20220106104137.732883-27-laurent@vivier.eu>
-X-Mailer: git-send-email 2.33.1
-In-Reply-To: <20220106104137.732883-1-laurent@vivier.eu>
-References: <20220106104137.732883-1-laurent@vivier.eu>
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n5QH6-0005oe-Hq
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 05:45:42 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1641465939;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=bGpqslBPPyh5/QNheh2puQM/dcTR1gVC5pBq0YvpW2Y=;
+ b=gwTso+drpiKwJ1keSvhqoeerewRkUK6lx+ugwSIcpF8cTvbIV7+5qpIkXYAMLDBMyZXQzB
+ ZuTvlNWgIhd9EG9TrMAnb8IhhLz6+res9wGWUWHwf1xpmRy3iuHJeD/DRMu6e3R8IgMIvk
+ YxAGAb827p1y6nKngAQ8rsVF4e96QiI=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-443-SRadFnXwPXG-n5xbAAxTxA-1; Thu, 06 Jan 2022 05:45:36 -0500
+X-MC-Unique: SRadFnXwPXG-n5xbAAxTxA-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ c5-20020a1c3505000000b00345c92c27c6so2894817wma.2
+ for <qemu-devel@nongnu.org>; Thu, 06 Jan 2022 02:45:36 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=bGpqslBPPyh5/QNheh2puQM/dcTR1gVC5pBq0YvpW2Y=;
+ b=q2IMLbCPjf8sV3diCN0+t0BmG/zBYd8cyi+VSLJ/bmLpS2fpPyeh1x65fsg0UpmvPE
+ VAd2074IdVBw66gvz/0KFhkOY597GcoOJcWk1efWDotpCVNGnikRVC8Hcn0Q04s7cXhI
+ d56xTj3F+Sprkkb6e/Mm7iAnuc0bYlWA+CbqEHqvAcUIhms8ryFLEA38Mr9ts8w2qg+o
+ MCS+i2SHvJM1875tGPEn5XtjWWqv8Zzn3poJ6u6wt5L0x9zgpArX4hlT6I1cyod/BSp+
+ eITMMy+68ll7IIpG5RqWxY1zP6w0ew/7gbHfSRJzDbB1trXecEDkD9ka+KCK8yMYglHl
+ H+Xw==
+X-Gm-Message-State: AOAM532pULjIWtfXhBOtXUBY+dQfmY0Y9l0LJXKQj5fNa5BSTswq8yyl
+ 66bq+I/MaNw1iXkvc7+1+sydmC1VPZOaY5DhyaD+rQ6Uhek85z5Fe1r3QiyBSU3TU631sBJaYg5
+ H1snEGEVhQTGZFNU=
+X-Received: by 2002:a05:600c:a03:: with SMTP id
+ z3mr6491920wmp.73.1641465935573; 
+ Thu, 06 Jan 2022 02:45:35 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxGVvkrewFc4l+6KCgNH+KrSlYJDeFH/C38qQ/CfmRmzVA4rY8NLVNH8GvR70j9adbGnce9lw==
+X-Received: by 2002:a05:600c:a03:: with SMTP id
+ z3mr6491895wmp.73.1641465935364; 
+ Thu, 06 Jan 2022 02:45:35 -0800 (PST)
+Received: from redhat.com ([2a03:c5c0:207e:991b:6857:5652:b903:a63b])
+ by smtp.gmail.com with ESMTPSA id l19sm1211129wme.33.2022.01.06.02.45.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 06 Jan 2022 02:45:34 -0800 (PST)
+Date: Thu, 6 Jan 2022 05:45:31 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Eric DeVolder <eric.devolder@oracle.com>
+Subject: Re: [PATCH v11 06/10] ACPI ERST: build the ACPI ERST table
+Message-ID: <20220106054104-mutt-send-email-mst@kernel.org>
+References: <1639582695-7328-1-git-send-email-eric.devolder@oracle.com>
+ <1639582695-7328-7-git-send-email-eric.devolder@oracle.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:eiifYzr1qyRugzBiB+78b5FMYMIzG3SEyquWuxy/9ot7TWf2OKv
- IhbTVWs7bxWOIQDceYyu+TLIMqYgrol+voLRt77ObRwV5IAEx4K167yUR7C1mJa78MNHUu+
- zr5Uby//1ZJlLwF4TE75ocQ62kCUN0oxgCVeO1KxjH4tGz2IL3McwZat244WQLTIQBYwHP3
- 5pb0CUejCfLn2O+NiPrbA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:+mExXe28UlI=:YECONTIK4j+wbdNUt2zPwH
- POGE1f/r8JzHf1rFXIulXIakFxcCiQ7FmwStwwmcDCZkOeSdqia1gEM7qDr8GpVkCw4yDpWB2
- ygf3lF/haHuzWKIpacq+2F6SazZ5cTjaFSP683BH6DnP+jpAV5J75tgbRLjuPkoXn15tGKckG
- 86SVHY3/ZfBLo4dtQZXtotNDel3Aq+WSSazwBZU+QStlgksc5EFOi7QaIYnramZJutRivdSxK
- RQS+RaL5gfTsHo5BsrwPTy2b17XPr4Bxh5g4Qccd3CTUA+qeyVsGKR/nUYrmqsI9yEcj0PCJI
- 9yOm8Lu/dTvZiGxYL1sHNY4gow5/53o3ObwZavuZk0K0R5K6vvUnBWLD705teU3BznTkIrNZJ
- xscfWfZsfbVF4QF8G6kfVsrBzGzT7/HikZEdJmS7+yIPqwGq39AM+OJBniqflC9bbQcQQaWQq
- HoUlM1C7n/QRJ6kDGXbhbxWag1ZqX7+/zm8gN/emRrk687tthpsDQ+KRdQBQG1YDmgaEUAMV9
- X6Kf+YafTljKKY3WWlY8XY1vcZXWPrEet38K13fC6TFqkFcFZT/tv3diRqW0tRDE4fyubi+Zh
- hHit0DYncqZTVVQwNxuvKFZoVUD3MGNdaXyTnv3vlZHVz38UnPnQXdBNS0sMmmtL4fq0RppEn
- 72tiAdedXX0HZEIExq9VPSCOGi1xGTrqZyyV6JG6GX5/0/eI6Z+titMz5az8XY+gutbg=
-Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <1639582695-7328-7-git-send-email-eric.devolder@oracle.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.372,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -65,222 +95,234 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>
+Cc: berrange@redhat.com, ehabkost@redhat.com, konrad.wilk@oracle.com,
+ qemu-devel@nongnu.org, pbonzini@redhat.com, ani@anisinha.ca,
+ imammedo@redhat.com, boris.ostrovsky@oracle.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-# QEMU_LOG=unimp ip a
-  Unknown host QEMU_IFLA type: 22
+On Wed, Dec 15, 2021 at 10:38:11AM -0500, Eric DeVolder wrote:
+> This builds the ACPI ERST table to inform OSPM how to communicate
+> with the acpi-erst device.
+> 
+> Signed-off-by: Eric DeVolder <eric.devolder@oracle.com>
+> ---
+>  hw/acpi/erst.c | 188 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 188 insertions(+)
+> 
+> diff --git a/hw/acpi/erst.c b/hw/acpi/erst.c
+> index bb6cad4..05177b3 100644
+> --- a/hw/acpi/erst.c
+> +++ b/hw/acpi/erst.c
+> @@ -59,6 +59,27 @@
+>  #define STATUS_RECORD_STORE_EMPTY     0x04
+>  #define STATUS_RECORD_NOT_FOUND       0x05
+>  
+> +/* ACPI 4.0: Table 17-19 Serialization Instructions */
+> +#define INST_READ_REGISTER                 0x00
+> +#define INST_READ_REGISTER_VALUE           0x01
+> +#define INST_WRITE_REGISTER                0x02
+> +#define INST_WRITE_REGISTER_VALUE          0x03
+> +#define INST_NOOP                          0x04
+> +#define INST_LOAD_VAR1                     0x05
+> +#define INST_LOAD_VAR2                     0x06
+> +#define INST_STORE_VAR1                    0x07
+> +#define INST_ADD                           0x08
+> +#define INST_SUBTRACT                      0x09
+> +#define INST_ADD_VALUE                     0x0A
+> +#define INST_SUBTRACT_VALUE                0x0B
+> +#define INST_STALL                         0x0C
+> +#define INST_STALL_WHILE_TRUE              0x0D
+> +#define INST_SKIP_NEXT_INSTRUCTION_IF_TRUE 0x0E
+> +#define INST_GOTO                          0x0F
+> +#define INST_SET_SRC_ADDRESS_BASE          0x10
+> +#define INST_SET_DST_ADDRESS_BASE          0x11
+> +#define INST_MOVE_DATA                     0x12
+> +
+>  /* UEFI 2.1: Appendix N Common Platform Error Record */
+>  #define UEFI_CPER_RECORD_MIN_SIZE 128U
+>  #define UEFI_CPER_RECORD_LENGTH_OFFSET 20U
+> @@ -172,6 +193,173 @@ typedef struct {
+>  
+>  /*******************************************************************/
+>  /*******************************************************************/
+> +
+> +/* ACPI 4.0: 17.4.1.2 Serialization Instruction Entries */
+> +static void build_serialization_instruction_entry(GArray *table_data,
+> +    uint8_t serialization_action,
+> +    uint8_t instruction,
+> +    uint8_t flags,
+> +    uint8_t register_bit_width,
+> +    uint64_t register_address,
+> +    uint64_t value)
+> +{
+> +    /* ACPI 4.0: Table 17-18 Serialization Instruction Entry */
+> +    struct AcpiGenericAddress gas;
+> +    uint64_t mask;
+> +
+> +    /* Serialization Action */
+> +    build_append_int_noprefix(table_data, serialization_action, 1);
+> +    /* Instruction */
+> +    build_append_int_noprefix(table_data, instruction         , 1);
+> +    /* Flags */
+> +    build_append_int_noprefix(table_data, flags               , 1);
+> +    /* Reserved */
+> +    build_append_int_noprefix(table_data, 0                   , 1);
+> +    /* Register Region */
+> +    gas.space_id = AML_SYSTEM_MEMORY;
+> +    gas.bit_width = register_bit_width;
+> +    gas.bit_offset = 0;
+> +    gas.access_width = ctz32(register_bit_width) - 2;
+> +    gas.address = register_address;
+> +    build_append_gas_from_struct(table_data, &gas);
+> +    /* Value */
+> +    build_append_int_noprefix(table_data, value  , 8);
+> +    /* Mask */
+> +    mask = (1ULL << (register_bit_width - 1) << 1) - 1;
+> +    build_append_int_noprefix(table_data, mask  , 8);
+> +}
+> +
+> +/* ACPI 4.0: 17.4.1 Serialization Action Table */
+> +void build_erst(GArray *table_data, BIOSLinker *linker, Object *erst_dev,
+> +    const char *oem_id, const char *oem_table_id)
+> +{
+> +    GArray *table_instruction_data;
+> +    unsigned action;
+> +    pcibus_t bar0 = pci_get_bar_addr(PCI_DEVICE(erst_dev), 0);
+> +    AcpiTable table = { .sig = "ERST", .rev = 1, .oem_id = oem_id,
+> +                        .oem_table_id = oem_table_id };
+> +
+> +    trace_acpi_erst_pci_bar_0(bar0);
+> +
+> +    /*
+> +     * Serialization Action Table
+> +     * The serialization action table must be generated first
+> +     * so that its size can be known in order to populate the
+> +     * Instruction Entry Count field.
+> +     */
+> +    table_instruction_data = g_array_new(FALSE, FALSE, sizeof(char));
+> +
+> +    /*
+> +     * Macros for use with construction of the action instructions
+> +     */
+> +#define build_read_register(action, width_in_bits, reg) \
+> +    build_serialization_instruction_entry(table_instruction_data, \
+> +        action, INST_READ_REGISTER, 0, width_in_bits, \
+> +        bar0 + reg, 0)
+> +
+> +#define build_read_register_value(action, width_in_bits, reg, value) \
+> +    build_serialization_instruction_entry(table_instruction_data, \
+> +        action, INST_READ_REGISTER_VALUE, 0, width_in_bits, \
+> +        bar0 + reg, value)
+> +
+> +#define build_write_register(action, width_in_bits, reg, value) \
+> +    build_serialization_instruction_entry(table_instruction_data, \
+> +        action, INST_WRITE_REGISTER, 0, width_in_bits, \
+> +        bar0 + reg, value)
+> +
+> +#define build_write_register_value(action, width_in_bits, reg, value) \
+> +    build_serialization_instruction_entry(table_instruction_data, \
+> +        action, INST_WRITE_REGISTER_VALUE, 0, width_in_bits, \
+> +        bar0 + reg, value)
 
-Signed-off-by: Laurent Vivier <laurent@vivier.eu>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20211219154514.2165728-2-laurent@vivier.eu>
-Signed-off-by: Laurent Vivier <laurent@vivier.eu>
----
- linux-user/fd-trans.c | 174 ++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 174 insertions(+)
+I'm not sure why these are macros not functions.
+But assuming it's preferable this way, pls make them
+use ALL_CAPS as per QEMU coding style.
 
-diff --git a/linux-user/fd-trans.c b/linux-user/fd-trans.c
-index 14c19a90b2b0..36e4a4c2aae8 100644
---- a/linux-user/fd-trans.c
-+++ b/linux-user/fd-trans.c
-@@ -271,6 +271,37 @@ enum {
-     QEMU___RTA_MAX
- };
- 
-+enum {
-+    QEMU_IFLA_VF_STATS_RX_PACKETS,
-+    QEMU_IFLA_VF_STATS_TX_PACKETS,
-+    QEMU_IFLA_VF_STATS_RX_BYTES,
-+    QEMU_IFLA_VF_STATS_TX_BYTES,
-+    QEMU_IFLA_VF_STATS_BROADCAST,
-+    QEMU_IFLA_VF_STATS_MULTICAST,
-+    QEMU_IFLA_VF_STATS_PAD,
-+    QEMU_IFLA_VF_STATS_RX_DROPPED,
-+    QEMU_IFLA_VF_STATS_TX_DROPPED,
-+    QEMU__IFLA_VF_STATS_MAX,
-+};
-+
-+enum {
-+    QEMU_IFLA_VF_UNSPEC,
-+    QEMU_IFLA_VF_MAC,
-+    QEMU_IFLA_VF_VLAN,
-+    QEMU_IFLA_VF_TX_RATE,
-+    QEMU_IFLA_VF_SPOOFCHK,
-+    QEMU_IFLA_VF_LINK_STATE,
-+    QEMU_IFLA_VF_RATE,
-+    QEMU_IFLA_VF_RSS_QUERY_EN,
-+    QEMU_IFLA_VF_STATS,
-+    QEMU_IFLA_VF_TRUST,
-+    QEMU_IFLA_VF_IB_NODE_GUID,
-+    QEMU_IFLA_VF_IB_PORT_GUID,
-+    QEMU_IFLA_VF_VLAN_LIST,
-+    QEMU_IFLA_VF_BROADCAST,
-+    QEMU__IFLA_VF_MAX,
-+};
-+
- TargetFdTrans **target_fd_trans;
- QemuMutex target_fd_trans_lock;
- unsigned int target_fd_max;
-@@ -808,6 +839,145 @@ static abi_long host_to_target_data_xdp_nlattr(struct nlattr *nlattr,
-     return 0;
- }
- 
-+static abi_long host_to_target_data_vlan_list_nlattr(struct nlattr *nlattr,
-+                                                     void *context)
-+{
-+    struct ifla_vf_vlan_info *vlan_info;
-+
-+    switch (nlattr->nla_type) {
-+    /* struct ifla_vf_vlan_info */
-+    case IFLA_VF_VLAN_INFO:
-+        vlan_info = NLA_DATA(nlattr);
-+        vlan_info->vf = tswap32(vlan_info->vf);
-+        vlan_info->vlan = tswap32(vlan_info->vlan);
-+        vlan_info->qos = tswap32(vlan_info->qos);
-+        break;
-+    default:
-+        qemu_log_mask(LOG_UNIMP, "Unknown host VLAN LIST type: %d\n",
-+                      nlattr->nla_type);
-+        break;
-+    }
-+    return 0;
-+}
-+
-+static abi_long host_to_target_data_vf_stats_nlattr(struct nlattr *nlattr,
-+                                                    void *context)
-+{
-+    uint64_t *u64;
-+
-+    switch (nlattr->nla_type) {
-+    /* uint64_t */
-+    case QEMU_IFLA_VF_STATS_RX_PACKETS:
-+    case QEMU_IFLA_VF_STATS_TX_PACKETS:
-+    case QEMU_IFLA_VF_STATS_RX_BYTES:
-+    case QEMU_IFLA_VF_STATS_TX_BYTES:
-+    case QEMU_IFLA_VF_STATS_BROADCAST:
-+    case QEMU_IFLA_VF_STATS_MULTICAST:
-+    case QEMU_IFLA_VF_STATS_PAD:
-+    case QEMU_IFLA_VF_STATS_RX_DROPPED:
-+    case QEMU_IFLA_VF_STATS_TX_DROPPED:
-+        u64 = NLA_DATA(nlattr);
-+        *u64 = tswap64(*u64);
-+        break;
-+    default:
-+        qemu_log_mask(LOG_UNIMP, "Unknown host VF STATS type: %d\n",
-+                      nlattr->nla_type);
-+        break;
-+    }
-+    return 0;
-+}
-+
-+static abi_long host_to_target_data_vfinfo_nlattr(struct nlattr *nlattr,
-+                                                  void *context)
-+{
-+    struct ifla_vf_mac *mac;
-+    struct ifla_vf_vlan *vlan;
-+    struct ifla_vf_vlan_info *vlan_info;
-+    struct ifla_vf_spoofchk *spoofchk;
-+    struct ifla_vf_rate *rate;
-+    struct ifla_vf_link_state *link_state;
-+    struct ifla_vf_rss_query_en *rss_query_en;
-+    struct ifla_vf_trust *trust;
-+    struct ifla_vf_guid *guid;
-+
-+    switch (nlattr->nla_type) {
-+    /* struct ifla_vf_mac */
-+    case QEMU_IFLA_VF_MAC:
-+        mac = NLA_DATA(nlattr);
-+        mac->vf = tswap32(mac->vf);
-+        break;
-+    /* struct ifla_vf_broadcast */
-+    case QEMU_IFLA_VF_BROADCAST:
-+        break;
-+    /* struct struct ifla_vf_vlan */
-+    case QEMU_IFLA_VF_VLAN:
-+        vlan = NLA_DATA(nlattr);
-+        vlan->vf = tswap32(vlan->vf);
-+        vlan->vlan = tswap32(vlan->vlan);
-+        vlan->qos = tswap32(vlan->qos);
-+        break;
-+    /* struct ifla_vf_vlan_info */
-+    case QEMU_IFLA_VF_TX_RATE:
-+        vlan_info = NLA_DATA(nlattr);
-+        vlan_info->vf = tswap32(vlan_info->vf);
-+        vlan_info->vlan = tswap32(vlan_info->vlan);
-+        vlan_info->qos = tswap32(vlan_info->qos);
-+        break;
-+    /* struct ifla_vf_spoofchk */
-+    case QEMU_IFLA_VF_SPOOFCHK:
-+        spoofchk = NLA_DATA(nlattr);
-+        spoofchk->vf = tswap32(spoofchk->vf);
-+        spoofchk->setting = tswap32(spoofchk->setting);
-+        break;
-+    /* struct ifla_vf_rate */
-+    case QEMU_IFLA_VF_RATE:
-+        rate = NLA_DATA(nlattr);
-+        rate->vf = tswap32(rate->vf);
-+        rate->min_tx_rate = tswap32(rate->min_tx_rate);
-+        rate->max_tx_rate = tswap32(rate->max_tx_rate);
-+        break;
-+    /* struct ifla_vf_link_state */
-+    case QEMU_IFLA_VF_LINK_STATE:
-+        link_state = NLA_DATA(nlattr);
-+        link_state->vf = tswap32(link_state->vf);
-+        link_state->link_state = tswap32(link_state->link_state);
-+        break;
-+    /* struct ifla_vf_rss_query_en */
-+    case QEMU_IFLA_VF_RSS_QUERY_EN:
-+        rss_query_en = NLA_DATA(nlattr);
-+        rss_query_en->vf = tswap32(rss_query_en->vf);
-+        rss_query_en->setting = tswap32(rss_query_en->setting);
-+        break;
-+    /* struct ifla_vf_trust */
-+    case QEMU_IFLA_VF_TRUST:
-+        trust = NLA_DATA(nlattr);
-+        trust->vf = tswap32(trust->vf);
-+        trust->setting = tswap32(trust->setting);
-+        break;
-+    /* struct ifla_vf_guid  */
-+    case QEMU_IFLA_VF_IB_NODE_GUID:
-+    case QEMU_IFLA_VF_IB_PORT_GUID:
-+        guid = NLA_DATA(nlattr);
-+        guid->vf = tswap32(guid->vf);
-+        guid->guid = tswap32(guid->guid);
-+        break;
-+    /* nested */
-+    case QEMU_IFLA_VF_VLAN_LIST:
-+        return host_to_target_for_each_nlattr(RTA_DATA(nlattr), nlattr->nla_len,
-+                                              NULL,
-+                                          host_to_target_data_vlan_list_nlattr);
-+    case QEMU_IFLA_VF_STATS:
-+        return host_to_target_for_each_nlattr(RTA_DATA(nlattr), nlattr->nla_len,
-+                                              NULL,
-+                                           host_to_target_data_vf_stats_nlattr);
-+    default:
-+        qemu_log_mask(LOG_UNIMP, "Unknown host VFINFO type: %d\n",
-+                      nlattr->nla_type);
-+        break;
-+    }
-+    return 0;
-+}
-+
- static abi_long host_to_target_data_link_rtattr(struct rtattr *rtattr)
- {
-     uint32_t *u32;
-@@ -945,6 +1115,10 @@ static abi_long host_to_target_data_link_rtattr(struct rtattr *rtattr)
-         return host_to_target_for_each_nlattr(RTA_DATA(rtattr), rtattr->rta_len,
-                                               NULL,
-                                                 host_to_target_data_xdp_nlattr);
-+    case QEMU_IFLA_VFINFO_LIST:
-+        return host_to_target_for_each_nlattr(RTA_DATA(rtattr), rtattr->rta_len,
-+                                              NULL,
-+                                             host_to_target_data_vfinfo_nlattr);
-     default:
-         qemu_log_mask(LOG_UNIMP, "Unknown host QEMU_IFLA type: %d\n",
-                       rtattr->rta_type);
--- 
-2.33.1
+
+> +
+> +    /* Serialization Instruction Entries */
+> +    action = ACTION_BEGIN_WRITE_OPERATION;
+> +    build_write_register_value(action, 32, ERST_ACTION_OFFSET, action);
+> +
+> +    action = ACTION_BEGIN_READ_OPERATION;
+> +    build_write_register_value(action, 32, ERST_ACTION_OFFSET, action);
+> +
+> +    action = ACTION_BEGIN_CLEAR_OPERATION;
+> +    build_write_register_value(action, 32, ERST_ACTION_OFFSET, action);
+> +
+> +    action = ACTION_END_OPERATION;
+> +    build_write_register_value(action, 32, ERST_ACTION_OFFSET, action);
+> +
+> +    action = ACTION_SET_RECORD_OFFSET;
+> +    build_write_register(action, 32, ERST_VALUE_OFFSET, 0);
+> +    build_write_register_value(action, 32, ERST_ACTION_OFFSET, action);
+> +
+> +    action = ACTION_EXECUTE_OPERATION;
+> +    build_write_register_value(action, 32, ERST_VALUE_OFFSET,
+> +        ERST_EXECUTE_OPERATION_MAGIC);
+> +    build_write_register_value(action, 32, ERST_ACTION_OFFSET, action);
+> +
+> +    action = ACTION_CHECK_BUSY_STATUS;
+> +    build_write_register_value(action, 32, ERST_ACTION_OFFSET, action);
+> +    build_read_register_value(action, 32, ERST_VALUE_OFFSET, 0x01);
+> +
+> +    action = ACTION_GET_COMMAND_STATUS;
+> +    build_write_register_value(action, 32, ERST_ACTION_OFFSET, action);
+> +    build_read_register(action, 32, ERST_VALUE_OFFSET);
+> +
+> +    action = ACTION_GET_RECORD_IDENTIFIER;
+> +    build_write_register_value(action, 32, ERST_ACTION_OFFSET, action);
+> +    build_read_register(action, 64, ERST_VALUE_OFFSET);
+> +
+> +    action = ACTION_SET_RECORD_IDENTIFIER;
+> +    build_write_register(action, 64, ERST_VALUE_OFFSET, 0);
+> +    build_write_register_value(action, 32, ERST_ACTION_OFFSET, action);
+> +
+> +    action = ACTION_GET_RECORD_COUNT;
+> +    build_write_register_value(action, 32, ERST_ACTION_OFFSET, action);
+> +    build_read_register(action, 32, ERST_VALUE_OFFSET);
+> +
+> +    action = ACTION_BEGIN_DUMMY_WRITE_OPERATION;
+> +    build_write_register_value(action, 32, ERST_ACTION_OFFSET, action);
+> +
+> +    action = ACTION_GET_ERROR_LOG_ADDRESS_RANGE;
+> +    build_write_register_value(action, 32, ERST_ACTION_OFFSET, action);
+> +    build_read_register(action, 64, ERST_VALUE_OFFSET);
+> +
+> +    action = ACTION_GET_ERROR_LOG_ADDRESS_LENGTH;
+> +    build_write_register_value(action, 32, ERST_ACTION_OFFSET, action);
+> +    build_read_register(action, 64, ERST_VALUE_OFFSET);
+> +
+> +    action = ACTION_GET_ERROR_LOG_ADDRESS_RANGE_ATTRIBUTES;
+> +    build_write_register_value(action, 32, ERST_ACTION_OFFSET, action);
+> +    build_read_register(action, 32, ERST_VALUE_OFFSET);
+> +
+> +    action = ACTION_GET_EXECUTE_OPERATION_TIMINGS;
+> +    build_write_register_value(action, 32, ERST_ACTION_OFFSET, action);
+> +    build_read_register(action, 64, ERST_VALUE_OFFSET);
+> +
+> +    /* Serialization Header */
+> +    acpi_table_begin(&table, table_data);
+> +
+> +    /* Serialization Header Size */
+> +    build_append_int_noprefix(table_data, 48, 4);
+> +
+> +    /* Reserved */
+> +    build_append_int_noprefix(table_data,  0, 4);
+> +
+> +    /*
+> +     * Instruction Entry Count
+> +     * Each instruction entry is 32 bytes
+> +     */
+> +    g_assert((table_instruction_data->len) % 32 == 0);
+> +    build_append_int_noprefix(table_data,
+> +        (table_instruction_data->len / 32), 4);
+> +
+> +    /* Serialization Instruction Entries */
+> +    g_array_append_vals(table_data, table_instruction_data->data,
+> +        table_instruction_data->len);
+> +    g_array_free(table_instruction_data, TRUE);
+> +
+> +    acpi_table_end(linker, &table);
+> +}
+> +
+> +/*******************************************************************/
+> +/*******************************************************************/
+>  static uint8_t *get_nvram_ptr_by_index(ERSTDeviceState *s, unsigned index)
+>  {
+>      uint8_t *rc = NULL;
+> -- 
+> 1.8.3.1
 
 
