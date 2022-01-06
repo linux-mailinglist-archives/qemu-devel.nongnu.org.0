@@ -2,79 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21E8B48691D
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 18:49:06 +0100 (CET)
-Received: from localhost ([::1]:49096 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 449664868C4
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 18:40:21 +0100 (CET)
+Received: from localhost ([::1]:39656 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5Wsq-0005G5-MJ
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 12:49:04 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51126)
+	id 1n5WkO-0005nj-4D
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 12:40:20 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49910)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <3CinXYQcKCs0Ex6CDAxz77z4x.v759x5D-wxEx4676z6D.7Az@flex--venture.bounces.google.com>)
- id 1n5Wnc-0001hk-7u
- for qemu-devel@nongnu.org; Thu, 06 Jan 2022 12:43:40 -0500
-Received: from [2607:f8b0:4864:20::b4a] (port=43620
- helo=mail-yb1-xb4a.google.com)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1n5Wim-00050l-D1
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 12:38:40 -0500
+Received: from [2a00:1450:4864:20::534] (port=42626
+ helo=mail-ed1-x534.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from
- <3CinXYQcKCs0Ex6CDAxz77z4x.v759x5D-wxEx4676z6D.7Az@flex--venture.bounces.google.com>)
- id 1n5WnT-0006pd-15
- for qemu-devel@nongnu.org; Thu, 06 Jan 2022 12:43:33 -0500
-Received: by mail-yb1-xb4a.google.com with SMTP id
- 66-20020a251245000000b0060d05da9c4eso6252917ybs.10
- for <qemu-devel@nongnu.org>; Thu, 06 Jan 2022 09:43:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=date:message-id:mime-version:subject:from:to:cc;
- bh=WtSFX+ktM8sOR4JoroSKrO/7dLHndbwnIyityhKTkG8=;
- b=FVY3YpKkvT/I5N154Hd4J+LupmmCudJ7Ieo2vkDOkcNWp9M7xfRNwyPOac17GoqyeG
- VRffjWk+m4uFdttAMJAVJpjuFgXKWhdDkowlWxC4RLSt/Bj5CwIJsHjJNgaesuzpW3Fb
- tgaugqgFCx590JM5b4aXesl6Ab+OICo0VZrgzJmzSwchQXlD3Tqlcf0ONIIQxVda1q2x
- RDgXc7fVzIqwCtG/vtMKw+KBZvy/ZGeGGkvUPBTQLSd/irkWzlvDtEYAgDQvaG4+F6K7
- 3QF8hzcyj9ey9/QcybZ0Td6TB3Cg2KCx1NbypMw7r2qPdGYw4GcL9I42l/qPcX53EYgV
- NOnw==
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1n5Wik-0004ae-Jl
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 12:38:40 -0500
+Received: by mail-ed1-x534.google.com with SMTP id j21so12241584edt.9
+ for <qemu-devel@nongnu.org>; Thu, 06 Jan 2022 09:38:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=RQEoOk2CbgL5aXDfT1Q7RZMGBc3hKaGKSmRNehPDbyo=;
+ b=NQ3EGw4K6udDC45BphqbpMGeTDaP/khZnXWzeoWn+u5MSnQxr1lfib8f9a4yruJ/Jh
+ VGrOHfVhLQb8FxUXgFYQUWKuWeJut7NMgsY18LNhxhA+RZ/pDHYZCDwUIaJQVjKXG0AP
+ dSjKkT4y6w1aMXMiJIN9+wIIYXVqezlRIPRq7kClXDNoQ1InPrczmf4zqHDNlG4A0XnY
+ SrT7eMNGqc4BW8x47PzxqtMoaCJZAXIU8+u38Bh8iN5BI8BQIiUAV3P5ADvhjigUqiHR
+ XGAYqgqMpFyQJc+VUC5FolLdr4pSZK9UkypVGRjHA62LUAAxMM8VNPwig3x159+D30tU
+ 9NGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
- bh=WtSFX+ktM8sOR4JoroSKrO/7dLHndbwnIyityhKTkG8=;
- b=LqzdUq94VzAS40j1COfZKWMureNfcs4BWamdF+k3ozWZkInG/NQPtesM+dHg6OuUHJ
- bJ+N7qEXJWPQZSr+HDG8Qq8HqivqDbHcvwFRzxAbFM/YrX2MojMj1kDxnQ6SmfjLjB4R
- 9P+hDaqEPQE8ZcoqK6gsa9pY5DFOQz/AZeyAEeUDW6BdJIS2ZbhbmHQTLJyQHfORHZ+n
- BuwNyBdnez55zHgZk2To1glfAJR5EXkKAvOsLpmutd87CF1PC6NfRvMwtEnJKpvmTjF5
- 8KtKPnTwilfAggmoX3cSmEoKumhQXREgSgO8BFMdDWg2pHjae93cKQgOgvpG1VcIDtjE
- d0kA==
-X-Gm-Message-State: AOAM533lhUdefOl6nI4S35b4amP5WcREWM6CW/eZNMDIvywE2OVJX7ix
- CHQrAnuHXCkAwTm29xKZftC1WCVylxPc
-X-Google-Smtp-Source: ABdhPJzr3scMl1jxeLvWF1t54ZvW3tHkYMErenTPS9M1CYvJxdDYNzTYW12iMQomNDEh7k5Hmdyl48+c+KPK
-X-Received: from venture.svl.corp.google.com
- ([2620:15c:2a3:200:9986:338a:477f:1df7])
- (user=venture job=sendgmr) by 2002:a25:361d:: with SMTP id
- d29mr74378923yba.270.1641490698008; Thu, 06 Jan 2022 09:38:18 -0800 (PST)
-Date: Thu,  6 Jan 2022 09:38:14 -0800
-Message-Id: <20220106173814.3580141-1-venture@google.com>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.34.1.448.ga2b2bfdf31-goog
-Subject: [PATCH] hw/sensor: enable setting adm1272 temperature with qmp
-From: Patrick Venture <venture@google.com>
-To: thuth@redhat.com, lvivier@redhat.com, pbonzini@redhat.com, 
- cminyard@mvista.com
-Cc: qemu-devel@nongnu.org, Titus Rwantare <titusr@google.com>, 
- Patrick Venture <venture@google.com>, Chris Rauer <crauer@google.com>,
- Hao Wu <wuhaotsh@google.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b4a
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=RQEoOk2CbgL5aXDfT1Q7RZMGBc3hKaGKSmRNehPDbyo=;
+ b=h3+gtJH93gv7fb9Rm9uQjafcbA+RmUQi4U7tFgO/MPNJYP+9iA80K1UUbKqy5aFMlV
+ Zqo8GAlnbsJ/1ADbP6ja5m1cevsjSsjusAIfnVlXKnDfSiEnu0EpwklQM+LFVY6GWwAm
+ XBOgGbKLvarswfUqzLcj9feZyLeDXxzJiwIr/vcQfq8+/bq244GbyBah3aoTtnnNbhgD
+ GD2I54hZ8wJZICQKqTcvmgSjug603lQNVoGWTribQLjPtYvhoh0UDH5xtaGqJBcQI+eD
+ JzsjML7jaBud+IQNMznJd1NsfAFKZolv3IJDB8iIZneeXef1kLlOOVlqh1KBhoCystp8
+ Sc1g==
+X-Gm-Message-State: AOAM5323jsYX36MjG+I8vAYstSqNUAAYkQ3KJndtBQFEwEYLa5e5O4zy
+ xRIlp5oKC1wsWul8rOzCSysajAmyhaAlc+gTWX8/0g==
+X-Google-Smtp-Source: ABdhPJz798Px4vqi6LqYp91pCgLqUrtTMv8JnzYHvvLLUa5xSeLRlZ5Yi+tl1eLU4NIPLdTsVW+OdfaUkL1uLlfLcfE=
+X-Received: by 2002:a17:906:715:: with SMTP id
+ y21mr5480610ejb.51.1641490709170; 
+ Thu, 06 Jan 2022 09:38:29 -0800 (PST)
+MIME-Version: 1.0
+References: <20220104175806.872996-1-stefanb@linux.ibm.com>
+ <20220104175806.872996-3-stefanb@linux.ibm.com>
+ <20220106093636.7fc7755f@redhat.com>
+ <6096f301-4c39-e39c-eb5f-9f7d22ba1260@linux.ibm.com>
+ <20220106085502-mutt-send-email-mst@kernel.org>
+ <bc4b7631-6bf5-ce30-8710-48f0369f688c@linux.ibm.com>
+In-Reply-To: <bc4b7631-6bf5-ce30-8710-48f0369f688c@linux.ibm.com>
+From: Ani Sinha <ani@anisinha.ca>
+Date: Thu, 6 Jan 2022 23:08:17 +0530
+Message-ID: <CAARzgwwL4VbocntvZqe657RwuUf2SNSGM3wnXptnUuPRW4OkLQ@mail.gmail.com>
+Subject: Re: [PATCH v5 2/3] acpi: tpm: Add missing device identification
+ objects
+To: Stefan Berger <stefanb@linux.ibm.com>
+Content-Type: multipart/alternative; boundary="0000000000009f9f2e05d4ed56de"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::534
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b4a;
- envelope-from=3CinXYQcKCs0Ex6CDAxz77z4x.v759x5D-wxEx4676z6D.7Az@flex--venture.bounces.google.com;
- helo=mail-yb1-xb4a.google.com
-X-Spam_score_int: -87
-X-Spam_score: -8.8
-X-Spam_bar: --------
-X-Spam_report: (-8.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5 autolearn=no autolearn_force=no
+Received-SPF: none client-ip=2a00:1450:4864:20::534;
+ envelope-from=ani@anisinha.ca; helo=mail-ed1-x534.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,154 +85,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Igor Mammedov <imammedo@redhat.com>,
+ Shannon Zhao <shannon.zhaosl@gmail.com>, qemu-devel@nongnu.org,
+ marcandre.lureau@redhat.com, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Titus Rwantare <titusr@google.com>
+--0000000000009f9f2e05d4ed56de
+Content-Type: text/plain; charset="UTF-8"
 
-Reviewed-by: Patrick Venture <venture@google.com>
-Reviewed-by: Chris Rauer <crauer@google.com>
-Reviewed-by: Hao Wu <wuhaotsh@google.com>
-Signed-off-by: Titus Rwantare <titusr@google.com>
----
- hw/sensor/adm1272.c        | 27 ++++++++++++++++++++++++++-
- tests/qtest/adm1272-test.c | 28 +++++++++++++++++++++++++++-
- 2 files changed, 53 insertions(+), 2 deletions(-)
+On Thu, Jan 6, 2022 at 19:31 Stefan Berger <stefanb@linux.ibm.com> wrote:
 
-diff --git a/hw/sensor/adm1272.c b/hw/sensor/adm1272.c
-index 7310c769be..77a3d8eccf 100644
---- a/hw/sensor/adm1272.c
-+++ b/hw/sensor/adm1272.c
-@@ -66,6 +66,7 @@
- #define ADM1272_VOLTAGE_COEFF_DEFAULT   1
- #define ADM1272_CURRENT_COEFF_DEFAULT   3
- #define ADM1272_PWR_COEFF_DEFAULT       7
-+#define ADM1272_TEMP_COEFF_DEFAULT      8
- #define ADM1272_IOUT_OFFSET             0x5000
- #define ADM1272_IOUT_OFFSET             0x5000
- 
-@@ -186,6 +187,22 @@ static uint32_t adm1272_direct_to_watts(uint16_t value)
-     return pmbus_direct_mode2data(c, value);
- }
- 
-+static uint16_t adm1272_millidegrees_to_direct(uint32_t value)
-+{
-+    PMBusCoefficients c = adm1272_coefficients[ADM1272_TEMP_COEFF_DEFAULT];
-+    c.b = c.b * 1000;
-+    c.R = c.R - 3;
-+    return pmbus_data2direct_mode(c, value);
-+}
-+
-+static uint32_t adm1272_direct_to_millidegrees(uint16_t value)
-+{
-+    PMBusCoefficients c = adm1272_coefficients[ADM1272_TEMP_COEFF_DEFAULT];
-+    c.b = c.b * 1000;
-+    c.R = c.R - 3;
-+    return pmbus_direct_mode2data(c, value);
-+}
-+
- static void adm1272_exit_reset(Object *obj)
- {
-     ADM1272State *s = ADM1272(obj);
-@@ -220,7 +237,7 @@ static void adm1272_exit_reset(Object *obj)
-         = adm1272_millivolts_to_direct(ADM1272_VOLT_DEFAULT);
-     pmdev->pages[0].read_iout
-         = adm1272_milliamps_to_direct(ADM1272_IOUT_DEFAULT);
--    pmdev->pages[0].read_temperature_1 = 0;
-+    pmdev->pages[0].read_temperature_1 = adm1272_millidegrees_to_direct(30000);
-     pmdev->pages[0].read_pin = adm1272_watts_to_direct(ADM1272_PWR_DEFAULT);
-     pmdev->pages[0].revision = ADM1272_PMBUS_REVISION_DEFAULT;
-     pmdev->pages[0].mfr_id = ADM1272_MFR_ID_DEFAULT;
-@@ -423,6 +440,8 @@ static void adm1272_get(Object *obj, Visitor *v, const char *name, void *opaque,
-         value = adm1272_direct_to_milliamps(*(uint16_t *)opaque);
-     } else if (strcmp(name, "pin") == 0) {
-         value = adm1272_direct_to_watts(*(uint16_t *)opaque);
-+    } else if (strcmp(name, "temperature") == 0) {
-+        value = adm1272_direct_to_millidegrees(*(uint16_t *)opaque);
-     } else {
-         value = *(uint16_t *)opaque;
-     }
-@@ -447,6 +466,8 @@ static void adm1272_set(Object *obj, Visitor *v, const char *name, void *opaque,
-         *internal = adm1272_milliamps_to_direct(value);
-     } else if (strcmp(name, "pin") == 0) {
-         *internal = adm1272_watts_to_direct(value);
-+    } else if (strcmp(name, "temperature") == 0) {
-+        *internal = adm1272_millidegrees_to_direct(value);
-     } else {
-         *internal = value;
-     }
-@@ -510,6 +531,10 @@ static void adm1272_init(Object *obj)
-                         adm1272_get,
-                         adm1272_set, NULL, &pmdev->pages[0].read_pin);
- 
-+    object_property_add(obj, "temperature", "uint16",
-+                        adm1272_get,
-+                        adm1272_set, NULL, &pmdev->pages[0].read_temperature_1);
-+
- }
- 
- static void adm1272_class_init(ObjectClass *klass, void *data)
-diff --git a/tests/qtest/adm1272-test.c b/tests/qtest/adm1272-test.c
-index 63f8514801..98134aabd2 100644
---- a/tests/qtest/adm1272-test.c
-+++ b/tests/qtest/adm1272-test.c
-@@ -65,6 +65,7 @@
- #define ADM1272_VOLTAGE_COEFF_DEFAULT   1
- #define ADM1272_CURRENT_COEFF_DEFAULT   3
- #define ADM1272_PWR_COEFF_DEFAULT       7
-+#define ADM1272_TEMP_COEFF_DEFAULT      8
- #define ADM1272_IOUT_OFFSET             0x5000
- #define ADM1272_IOUT_OFFSET             0x5000
- 
-@@ -144,6 +145,22 @@ static uint32_t adm1272_direct_to_watts(uint16_t value)
-     return pmbus_direct_mode2data(c, value);
- }
- 
-+static uint16_t adm1272_millidegrees_to_direct(uint32_t value)
-+{
-+    PMBusCoefficients c = adm1272_coefficients[ADM1272_TEMP_COEFF_DEFAULT];
-+    c.b = c.b * 1000;
-+    c.R = c.R - 3;
-+    return pmbus_data2direct_mode(c, value);
-+}
-+
-+static uint32_t adm1272_direct_to_millidegrees(uint16_t value)
-+{
-+    PMBusCoefficients c = adm1272_coefficients[ADM1272_TEMP_COEFF_DEFAULT];
-+    c.b = c.b * 1000;
-+    c.R = c.R - 3;
-+    return pmbus_direct_mode2data(c, value);
-+}
-+
- static uint16_t qmp_adm1272_get(const char *id, const char *property)
- {
-     QDict *response;
-@@ -248,7 +265,7 @@ static void test_defaults(void *obj, void *data, QGuestAllocator *alloc)
- /* test qmp access */
- static void test_tx_rx(void *obj, void *data, QGuestAllocator *alloc)
- {
--    uint16_t i2c_value, value, i2c_voltage, i2c_pwr, lossy_value;
-+    uint16_t i2c_value, value, i2c_voltage, i2c_pwr, i2c_temp, lossy_value;
-     QI2CDevice *i2cdev = (QI2CDevice *)obj;
- 
-     /* converting to direct mode is lossy - we generate the same loss here */
-@@ -287,6 +304,15 @@ static void test_tx_rx(void *obj, void *data, QGuestAllocator *alloc)
-     i2c_pwr = adm1272_direct_to_watts(i2c_value);
-     g_assert_cmphex(value, ==, i2c_pwr);
-     g_assert_cmphex(i2c_pwr, ==, lossy_value);
-+
-+    lossy_value =
-+        adm1272_direct_to_millidegrees(adm1272_millidegrees_to_direct(25000));
-+    qmp_adm1272_set(TEST_ID, "temperature", 25000);
-+    value = qmp_adm1272_get(TEST_ID, "temperature");
-+    i2c_value = adm1272_i2c_get16(i2cdev, PMBUS_READ_TEMPERATURE_1);
-+    i2c_temp = adm1272_direct_to_millidegrees(i2c_value);
-+    g_assert_cmphex(value, ==, i2c_temp);
-+    g_assert_cmphex(i2c_temp, ==, lossy_value);
- }
- 
- /* test r/w registers */
--- 
-2.34.1.448.ga2b2bfdf31-goog
+>
+> >>> Can you smoke test TPM with Windows, and check if adding UID doesn't
+> >>> break anything if VM actually uses TMP (though I'm not sure how to
+> >>> check it on Windows, maybe install Windows 11 without this patch
+> >>> and then see if it still boots pre-installed VM and nothing is broken
+> >>> after this patch)?
+>
+>
+> The VMs were all created on an old qemu and booted into the patched
+> qemu.
 
+
+Stupid question - should we also check the other way as well? Install on
+patches qemu and try to boot on the old unpatched qemu?
+
+--0000000000009f9f2e05d4ed56de
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">On Thu, Jan 6, 2022 at 19:31 Stefan Berger &lt;<a href=3D"m=
+ailto:stefanb@linux.ibm.com">stefanb@linux.ibm.com</a>&gt; wrote:<br></div>=
+<blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-=
+left-width:1px;border-left-style:solid;padding-left:1ex;border-left-color:r=
+gb(204,204,204)" dir=3D"auto"><br>&gt;&gt;&gt; Can you smoke test TPM with =
+Windows, and check if adding UID doesn&#39;t<br>
+&gt;&gt;&gt; break anything if VM actually uses TMP (though I&#39;m not sur=
+e how to<br>
+&gt;&gt;&gt; check it on Windows, maybe install Windows 11 without this pat=
+ch<br>
+&gt;&gt;&gt; and then see if it still boots pre-installed VM and nothing is=
+ broken<br>
+&gt;&gt;&gt; after this patch)?<br><br>
+<br>
+The VMs were all created on an old qemu and booted into the patched <br>
+qemu. </blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">Stupid que=
+stion - should we also check the other way as well? Install on patches qemu=
+ and try to boot on the old unpatched qemu?</div></div></div>
+
+--0000000000009f9f2e05d4ed56de--
 
