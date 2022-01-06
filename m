@@ -2,51 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8F35486052
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 06:37:19 +0100 (CET)
-Received: from localhost ([::1]:52338 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C56CD486055
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 06:38:31 +0100 (CET)
+Received: from localhost ([::1]:53652 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5LSf-0006uo-LQ
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 00:37:17 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:32970)
+	id 1n5LTq-0007rp-QE
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 00:38:30 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:32978)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1n5LNy-0004nK-0b; Thu, 06 Jan 2022 00:32:26 -0500
-Received: from gandalf.ozlabs.org ([150.107.74.76]:32985)
+ id 1n5LNx-0004nO-Sn; Thu, 06 Jan 2022 00:32:25 -0500
+Received: from [2404:9400:2:0:216:3eff:fee2:21ea] (port=46423
+ helo=gandalf.ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1n5LNo-0002Wu-Rk; Thu, 06 Jan 2022 00:32:19 -0500
+ id 1n5LNp-0002Wr-AX; Thu, 06 Jan 2022 00:32:23 -0500
 Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
- id 4JTw2z6slvz4y46; Thu,  6 Jan 2022 16:32:11 +1100 (AEDT)
+ id 4JTw2z707Tz4y48; Thu,  6 Jan 2022 16:32:11 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gibson.dropbear.id.au; s=201602; t=1641447131;
- bh=swCFS6Me2MY50uQoAyKtIuCiWcDhLW/QZDnkC9crnrw=;
+ bh=bF4/WXXDVz1l4ZWq3fbP2vN+PUtyUAnkBRF+eEqB3PM=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=M85UHRVcEMlQ/sdwL9YWlc3Vt0Hg25S0A+SwXQtYapWHzwr8h/pJZUYv3irObWt1b
- GdEpcgLAQDZvtrtV63RbpGxQ4vYi2PD7brWKYlEC8/V7uDdH5Sbg1zQg5TWPF+4BIR
- usLWZiDJvAr0KzK8qHzLZPJUF7vReVeT8CxWHwTI=
-Date: Thu, 6 Jan 2022 16:30:10 +1100
+ b=emqHKgVo2Ghtqf0ZHT+7Biu019w9F/+gHAnOFISOb3inPgZaeVWQP9uEZkwyjAT8Z
+ F5SR5xkaN5HXyOoKOQdNwlK1CGRYXjNZEPJP2KeSS0/L70Ok0UeSawmQIuCJnGXTQR
+ 87PAXFwrzpow1JweM4jmZsLE7PyyvAEwjYnxeKlk=
+Date: Thu, 6 Jan 2022 16:30:48 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Fabiano Rosas <farosas@linux.ibm.com>
-Subject: Re: [PATCH v2 4/7] target/ppc: Add HV support to
+Subject: Re: [PATCH v2 5/7] target/ppc: Add MSR_ILE support to
  ppc_interrupts_little_endian
-Message-ID: <YdZ+YtvZSUhkFvR/@yekko>
+Message-ID: <YdZ+iCCCcqrA1EBs@yekko>
 References: <20220105204029.4058500-1-farosas@linux.ibm.com>
- <20220105204029.4058500-5-farosas@linux.ibm.com>
+ <20220105204029.4058500-6-farosas@linux.ibm.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="QWfmp0ede1fqG0EG"
+ protocol="application/pgp-signature"; boundary="TjbtGtnU1b9l4ePh"
 Content-Disposition: inline
-In-Reply-To: <20220105204029.4058500-5-farosas@linux.ibm.com>
-Received-SPF: pass client-ip=150.107.74.76;
+In-Reply-To: <20220105204029.4058500-6-farosas@linux.ibm.com>
+X-Host-Lookup-Failed: Reverse DNS lookup failed for
+ 2404:9400:2:0:216:3eff:fee2:21ea (failed)
+Received-SPF: pass client-ip=2404:9400:2:0:216:3eff:fee2:21ea;
  envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
-X-Spam_score_int: -17
-X-Spam_score: -1.8
+X-Spam_score_int: -9
+X-Spam_score: -1.0
 X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-1.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ RDNS_NONE=0.793, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -65,20 +69,15 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---QWfmp0ede1fqG0EG
+--TjbtGtnU1b9l4ePh
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jan 05, 2022 at 05:40:26PM -0300, Fabiano Rosas wrote:
-> The ppc_interrupts_little_endian function could be used for interrupts
-> delivered in Hypervisor mode, so add support for powernv8 and powernv9
-> to it.
->=20
-> Also drop the comment because it is inaccurate, all CPUs that can run
-> little endian can have interrupts in little endian. The point is
-> whether they can take interrupts in an endianness different from
-> MSR_LE.
+On Wed, Jan 05, 2022 at 05:40:27PM -0300, Fabiano Rosas wrote:
+> Some CPUs set ILE via an MSR bit. We can make
+> ppc_interrupts_little_endian handle that case as well. Now we have a
+> centralized way of determining the endianness of interrupts.
 >=20
 > This change has no functional impact.
 >=20
@@ -86,89 +85,34 @@ On Wed, Jan 05, 2022 at 05:40:26PM -0300, Fabiano Rosas wrote:
 
 Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
 
-With one nit you might want to look at later:
-
 > ---
->  target/ppc/arch_dump.c   |  2 +-
->  target/ppc/cpu.h         | 23 +++++++++++++++--------
->  target/ppc/excp_helper.c |  2 +-
->  3 files changed, 17 insertions(+), 10 deletions(-)
+>  target/ppc/cpu.h | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
 >=20
-> diff --git a/target/ppc/arch_dump.c b/target/ppc/arch_dump.c
-> index bb392f6d88..12cde198a3 100644
-> --- a/target/ppc/arch_dump.c
-> +++ b/target/ppc/arch_dump.c
-> @@ -237,7 +237,7 @@ int cpu_get_dump_info(ArchDumpInfo *info,
->      info->d_machine =3D PPC_ELF_MACHINE;
->      info->d_class =3D ELFCLASS;
-> =20
-> -    if (ppc_interrupts_little_endian(cpu)) {
-> +    if (ppc_interrupts_little_endian(cpu, false)) {
-
-I'm wondering if using hv=3D=3Dfalse here is actually correct, and AFAICT
-it probably is for spapr, but not for powernv.  So I'm wondering if we
-should actually test cpu->vhyp here to get the right value for powernv
-as well.
-
->          info->d_endian =3D ELFDATA2LSB;
->      } else {
->          info->d_endian =3D ELFDATA2MSB;
 > diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-> index f20d4ffa6d..a6fc857ad4 100644
+> index a6fc857ad4..f99cd0ea92 100644
 > --- a/target/ppc/cpu.h
 > +++ b/target/ppc/cpu.h
-> @@ -2728,20 +2728,27 @@ static inline bool ppc_has_spr(PowerPCCPU *cpu, i=
-nt spr)
->      return cpu->env.spr_cb[spr].name !=3D NULL;
->  }
-> =20
-> -static inline bool ppc_interrupts_little_endian(PowerPCCPU *cpu)
-> +#if !defined(CONFIG_USER_ONLY)
-> +static inline bool ppc_interrupts_little_endian(PowerPCCPU *cpu, bool hv)
+> @@ -2733,7 +2733,7 @@ static inline bool ppc_interrupts_little_endian(Pow=
+erPCCPU *cpu, bool hv)
 >  {
 >      PowerPCCPUClass *pcc =3D POWERPC_CPU_GET_CLASS(cpu);
-> +    CPUPPCState *env =3D &cpu->env;
-> +    bool ile =3D false;
+>      CPUPPCState *env =3D &cpu->env;
+> -    bool ile =3D false;
+> +    bool ile;
 > =20
-> -    /*
-> -     * Only models that have an LPCR and know about LPCR_ILE can do litt=
-le
-> -     * endian.
-> -     */
-> -    if (pcc->lpcr_mask & LPCR_ILE) {
-> -        return !!(cpu->env.spr[SPR_LPCR] & LPCR_ILE);
-> +    if (hv && env->has_hv_mode) {
-> +        if (is_isa300(pcc)) {
-> +            ile =3D !!(env->spr[SPR_HID0] & HID0_POWER9_HILE);
-> +        } else {
-> +            ile =3D !!(env->spr[SPR_HID0] & HID0_HILE);
-> +        }
-> +
-> +    } else if (pcc->lpcr_mask & LPCR_ILE) {
-> +        ile =3D !!(env->spr[SPR_LPCR] & LPCR_ILE);
+>      if (hv && env->has_hv_mode) {
+>          if (is_isa300(pcc)) {
+> @@ -2744,6 +2744,8 @@ static inline bool ppc_interrupts_little_endian(Pow=
+erPCCPU *cpu, bool hv)
+> =20
+>      } else if (pcc->lpcr_mask & LPCR_ILE) {
+>          ile =3D !!(env->spr[SPR_LPCR] & LPCR_ILE);
+> +    } else {
+> +        ile =3D !!(msr_ile);
 >      }
 > =20
-> -    return false;
-> +    return ile;
->  }
-> +#endif
-> =20
->  void dump_mmu(CPUPPCState *env);
-> =20
-> diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-> index fa41f8048d..92953af896 100644
-> --- a/target/ppc/excp_helper.c
-> +++ b/target/ppc/excp_helper.c
-> @@ -1071,7 +1071,7 @@ void ppc_cpu_do_fwnmi_machine_check(CPUState *cs, t=
-arget_ulong vector)
->       */
->      msr =3D (1ULL << MSR_ME);
->      msr |=3D env->msr & (1ULL << MSR_SF);
-> -    if (ppc_interrupts_little_endian(cpu)) {
-> +    if (ppc_interrupts_little_endian(cpu, false)) {
->          msr |=3D (1ULL << MSR_LE);
->      }
-> =20
+>      return ile;
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -176,25 +120,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---QWfmp0ede1fqG0EG
+--TjbtGtnU1b9l4ePh
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmHWfmIACgkQbDjKyiDZ
-s5KXABAAkI+G+Y3IdvIDp/FKAH7lKVqlf45mbfQX4lWcrgfXwoQgu+R5M0MU5aU6
-BWbvYNS2y55K4YQ+2rzcj8DVNwC/4eT2pda2pPJLqkgEQp58PyCfBoEw+aiKCeQ7
-uH2twyJHTEN3Wqev8xGE6zIWofrxabIUZEPiLY8Q8LUABDYrFjfRldYRQhWgpDBt
-qOntSkNP/8BpMqDrrFtrDF34i26A2SktVsM0NlCGJf7N6Fdhx/Qu2XWHtbEXiaBV
-uI5X/r705s+IF3rgB80ON//VbjKhxwnZ0290vM6hXEy74+gqQEceAt7oQPpfLTrZ
-PZnGFyMttXFf827VTul9OI9hRaBNVM5bLse1BsZhY37aD2nn7QI9wNU7nYHQLxWi
-qJ438Zwz8BOxwBzsYKhVgnfrhxJidquys9aSmJ3Dfy1Cz9reKgt+/WGYxq8vcE7e
-mMK7r6luZCk8msVv5fSF2sZ0gS8BZ+O8T9qEXne7geOAA6/6tvB9pglBuxRYB9V7
-+93lQOqWv+p0OkGRvF+afucLpR9kFL3ck4lWuXFNJTOOZ/WFUXq4upq+vTV1syHU
-5Fv2CwC28SxHXMunqRz24ASR2LYb1KDT8d+v7MyTtu6XDDLArYE+mC2YX1rmQe3w
-Y513CRY/ljyNsEgCfYXoUhctX0mDZFTwp705zonjpNbchQeQ4XE=
-=Pt80
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmHWfogACgkQbDjKyiDZ
+s5JLqA/+KvX++mNCV9ceeWieoDrldMkftpKlHrY4lCfPDsr7kfdfEYXHSwq+nsRA
+6buvAlgBonJCW3VH6LpaZXndekHbTBBcOsarNbA4VPv/LgV4Kp9auicwG4xPbxGS
+EsiSQdsVHjSUwh5SOQ9euO0GgZy/gjv5k71qz57F3PtsNeA6RteuzIaYQX0YqjQn
+9gELdUPTBIviZbbBE6kbhe/Vv14EmdrhcemEl2kzUuPv9cqOdQWQS3mzaX4Xo1hr
+S7mJ4BgacqQUfLdZz+JiASfcW6gH9vNRQE2lFjiCPUnI6uRejL1tRo+RNYTSWHRa
+lrNnTKxtv+GBPnba5hsZjhRIautttgZo0R9cXd92LddRrTEudNwQgvLmov49jppr
+pkr1BjUd21EUYKA9LrUbElw8wmbe2aVgitDiZscu6QvLdcvRxaa1I8CFXnJVmC1V
+Fd/8r+F6a6cK+O3z7GZwsI6ChEcmUgN0UBbKi8nEnAyKRcI0x2QBwXmRVq/HPAVb
+D1HSx21HIFm4WVx/FuzRXObhXg2niptef8G+8QFc7xBedgaVaoOGGuFaZj2aLbDd
+vUVlbO411dslt6eZnIG8YwNEVUuG4d55mCbmccBmcvsA25+CEOaZmRJOAT1ueIoD
+Z9i0BMKZcomQ5ZsuMWVE5JsKWnVjGaCmGsTRAcohNsH5u6n7nYI=
+=ZBf1
 -----END PGP SIGNATURE-----
 
---QWfmp0ede1fqG0EG--
+--TjbtGtnU1b9l4ePh--
 
