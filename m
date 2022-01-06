@@ -2,86 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B81E9486707
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 16:47:56 +0100 (CET)
-Received: from localhost ([::1]:41908 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EAE0C486711
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 16:51:24 +0100 (CET)
+Received: from localhost ([::1]:46846 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5Uzb-0006mU-AV
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 10:47:55 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52678)
+	id 1n5V2x-0001pW-K9
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 10:51:23 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52756)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1n5Uxa-00040M-4m
- for qemu-devel@nongnu.org; Thu, 06 Jan 2022 10:45:50 -0500
-Received: from [2a00:1450:4864:20::42c] (port=40554
- helo=mail-wr1-x42c.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1n5UxY-0006HS-Ax
- for qemu-devel@nongnu.org; Thu, 06 Jan 2022 10:45:49 -0500
-Received: by mail-wr1-x42c.google.com with SMTP id l10so5584236wrh.7
- for <qemu-devel@nongnu.org>; Thu, 06 Jan 2022 07:45:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=pEazYAoRMEwL4YV9glyOqPPutbLmy69RG6P/hJ4o3J0=;
- b=rTztsQdpWoMe57cr7FTbB3CtTigGVP6eFZ+t1FmIrhvDjjkZ4Bg92DVNa9N9Q10IsI
- YDqG5x07tD0GmYtMDfDxfpoTIWM+2qPEqw+qOV01EjiER+eOq98IzS0jXYOAp+3u4ohl
- 67mw41g1iwfmsvRMAgEbytsk+rfEvxmWKQJnaRmCoWIhNjTWHgQHXOlvgU1l9dcTfG54
- Mw9JNyfzN57Vu1R035wN+haX9WSUbJYGNLxU/27csbIKj3pIZmFG8VktQeAzxsqgIyEG
- k4NUMV2l3Oai5OvTu5M2oWe7LvNXE/CQfAzbV26+TUdDb8nhf8pDS1u4dPCfv6In6Olg
- d5mg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=pEazYAoRMEwL4YV9glyOqPPutbLmy69RG6P/hJ4o3J0=;
- b=fTD1CHl6e535f43SOmZ9VoY+OtQX0N52Ml8BgqpnQHnpqcGO6/pvP+AuWfA46robN8
- SJZUko/Qyl4jYFJlZiiUW8jIGkL/htmIdzo0EddoEd+cTlSOJEe62y5YbAw8+yeXz5sG
- hQDih1s3HeRM1k2jxk2jSBLEBMe9VGKKSSR9/MLxc0iqQeueju8RcfhBBR4FBcAoy9aW
- sOWFbKXnqTHBJcjtlDsR2jqHVzL59FgPzySxyVS3nqYCBFTASYg7nDPypQImkzULUsCB
- u7+asj8fuHye6w7frSrWH9DatKCLd2Bkl23gm9ligjXpoDmv3HNLqxxJlW1GCexEXgxN
- r4Sw==
-X-Gm-Message-State: AOAM531TdLI9W5rmW3Wu4JLEmQQFMLHoSQ0FVxSfcQkEQeBcF0JxV8hl
- A2GVlNCJN9m9JcV54hPOHmcPXA==
-X-Google-Smtp-Source: ABdhPJztdCQ82+C2fnV3K2yzH9DZCFfMViAqAhGrFFxH7rO1JEoDGSixF5ozKvaNJaDiHenKm1TPJw==
-X-Received: by 2002:a5d:66d2:: with SMTP id k18mr51725499wrw.430.1641483946377; 
- Thu, 06 Jan 2022 07:45:46 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id g8sm1991344wmh.17.2022.01.06.07.45.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Jan 2022 07:45:45 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id A40131FFB7;
- Thu,  6 Jan 2022 15:45:44 +0000 (GMT)
-References: <87czl6jb79.fsf@linaro.org>
- <fbc66bb0-2c15-d789-bbaa-f9c3ba6f81e4@amsat.org>
- <87r19lj3l3.fsf@linaro.org>
- <CAFEAcA9XX26RHmNM59Zc13dwvhv83bAnomLp7Yj45Wmf16W66w@mail.gmail.com>
- <87iluxhrdc.fsf@linaro.org>
- <CAFEAcA_yg=FVCadEa7BBaudvyoZ+VgAppG5cT=T4MoKmYhGaQA@mail.gmail.com>
-User-agent: mu4e 1.7.5; emacs 28.0.90
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: Trying to understand QOM object creation and property linking
-Date: Thu, 06 Jan 2022 15:44:26 +0000
-In-reply-to: <CAFEAcA_yg=FVCadEa7BBaudvyoZ+VgAppG5cT=T4MoKmYhGaQA@mail.gmail.com>
-Message-ID: <87a6g8j2af.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <antonio.caggiano@collabora.com>)
+ id 1n5Uxq-0004wE-Dn
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 10:46:07 -0500
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:32910)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <antonio.caggiano@collabora.com>)
+ id 1n5Uxh-0006In-6t
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 10:46:00 -0500
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: fahien) with ESMTPSA id D23521F45A11
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+ s=mail; t=1641483948;
+ bh=JL7VfCNIBpoFc4q6Wx+M2uasVHaY5d+lIyDD3UNfN68=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=V/nTTekqdxoC6iWukHiAEJchWRF6+yjFV8JiHcCTtNJ/4KQdYARw3Ya2YwdhYY+Ao
+ 2JGPHVGF8MWa80Zw3EE3J3gKKGb3OmY6Cda3uDkRcqj5X68tEEt0VCTiOy9E1cbegX
+ Aq9yn1hN7iJ61wsdirALr9l8y9buQDHH7YE4Q2DNCvNeD49F7OYHGQdXtHZUDaNEi/
+ y4UA/oetj63B1PJkUnwATkUrHoOMvYvAGyFjdPO8+r289my38StUtUpvh5hFsoyzt/
+ WlBH9RYYrVobLLNfe7ByjC+xvvhiUaj2Z8MISrgWwlX5KMiHW0K/xAKehGcOXjIEdK
+ yJl8BE/usVVNA==
+Message-ID: <7efae1b2-354b-e937-e478-1d757295dde0@collabora.com>
+Date: Thu, 6 Jan 2022 16:45:45 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42c
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42c.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.1
+Subject: Re: [PATCH 2/2] virtio: Add shared memory capability
+Content-Language: en-US
+To: "Michael S. Tsirkin" <mst@redhat.com>
+References: <20211110164220.273641-1-antonio.caggiano@collabora.com>
+ <20211110164220.273641-3-antonio.caggiano@collabora.com>
+ <20220106044116-mutt-send-email-mst@kernel.org>
+From: Antonio Caggiano <antonio.caggiano@collabora.com>
+In-Reply-To: <20220106044116-mutt-send-email-mst@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=46.235.227.227;
+ envelope-from=antonio.caggiano@collabora.com; helo=bhuna.collabora.co.uk
+X-Spam_score_int: -47
+X-Spam_score: -4.8
+X-Spam_bar: ----
+X-Spam_report: (-4.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.691,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,65 +67,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>, Paolo Bonzini <pbonzini@redhat.com>,
- "Daniel P. Berrange" <berrange@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+> Where's that commit? I think we should drop this, right? 
 
-Peter Maydell <peter.maydell@linaro.org> writes:
+Yes, I will submit another version without that line.
 
-> On Thu, 6 Jan 2022 at 14:26, Alex Benn=C3=A9e <alex.bennee@linaro.org> wr=
-ote:
->>
->>
->> Peter Maydell <peter.maydell@linaro.org> writes:
->>
->> > On Wed, 5 Jan 2022 at 21:05, Alex Benn=C3=A9e <alex.bennee@linaro.org>=
- wrote:
->> >> Can't be added as a subregion to the container...
->> >>
->> >>   qemu-system-arm: ../../softmmu/memory.c:2538: memory_region_add_sub=
-region_common: Assertion `!subregion->container' failed.
->> >
->> > This assert means you tried to add the same MemoryRegion
->> > as a subregion of more than one parent MR.
->>
->> Right - that is probably something we should make (more?) explicitly
->> clear in the Memory API docs.
->
-> The doc comment does document the requirement:
->  * [...] A region
->  * may only be added once as a subregion (unless removed with
->  * memory_region_del_subregion()); use memory_region_init_alias() if you
->  * want a region to be a subregion in multiple locations.
->
-> One of the deficiencies of C assert() is the lack of an
-> explanatory text message to go along with the raw expression.
->
->> > You can either:
->> >  * pass all the CPUs the same container as their "memory" link,
->> >    if they all see the same view of the world
->>
->> This should be the case - I don't think the different cores have any
->> particular different view of the world. The use of the two 4kb banks I
->> think is purely convention.
->>
->> However trying for a single container shared between both cores fails
->> because armv7m_realize adds it's board_memory to another container:
->>
->>     memory_region_add_subregion_overlap(&s->container, 0, s->board_memor=
-y, -1);
->
-> Yeah, that trick only works for the real CPU object, not for
-> passing to SoC or SoC-like objects.
+> You don't need & mask32 I think. cpu_to_le32 will truncate
+> the value.
 
-Hmm I wonder if I should be instantiating the underlying CPU object?
-AIUI the cores are cortex-m0+ so I assume that comes with the gic/irq
-wiring up that armv7m does?
+Makes sense, will be fixed in next version.
 
---=20
-Alex Benn=C3=A9e
+> So it's a new API, but where's the user?
+> I guess just include this patch with where-ever it's actually used.
+
+The user of virtio_pci_add_shm_cap is in the previous commits.
+
+
+
+My original patch [0] was actually a squash of the current two commits, 
+but Dr. David Alan Gilbert explicitly asked me [1] to split them in 
+order to preserve his original virtio-pci patch [2]. I could squash 
+these two commits together again, but we will be back to square one [1].
+
+
+
+[0] https://www.mail-archive.com/qemu-devel@nongnu.org/msg826814.html
+
+[1] https://www.mail-archive.com/qemu-devel@nongnu.org/msg826890.html
+
+[2] 
+https://gitlab.freedesktop.org/virgl/qemu/-/commit/7fa847fde7143ca2ef5b0a2a13c5f669d3beb195
 
