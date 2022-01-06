@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 815B94861C7
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 10:03:50 +0100 (CET)
-Received: from localhost ([::1]:42216 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92B064861D4
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 10:09:41 +0100 (CET)
+Received: from localhost ([::1]:52062 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5OgX-0006yX-1E
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 04:03:49 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39272)
+	id 1n5OmC-0005nI-Hx
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 04:09:40 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39282)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
- id 1n5OXN-0005kw-U5
- for qemu-devel@nongnu.org; Thu, 06 Jan 2022 03:54:21 -0500
-Received: from [2607:f8b0:4864:20::62b] (port=42612
- helo=mail-pl1-x62b.google.com)
+ id 1n5OXO-0005lF-BH
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 03:54:22 -0500
+Received: from [2607:f8b0:4864:20::52b] (port=36402
+ helo=mail-pg1-x52b.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
- id 1n5OXH-0004mq-NM
- for qemu-devel@nongnu.org; Thu, 06 Jan 2022 03:54:19 -0500
-Received: by mail-pl1-x62b.google.com with SMTP id u16so2042853plg.9
- for <qemu-devel@nongnu.org>; Thu, 06 Jan 2022 00:54:15 -0800 (PST)
+ id 1n5OXL-0004n0-5E
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 03:54:21 -0500
+Received: by mail-pg1-x52b.google.com with SMTP id 200so2031459pgg.3
+ for <qemu-devel@nongnu.org>; Thu, 06 Jan 2022 00:54:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bytedance-com.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=pJK8j/kvZjiWuU9nm61442mEbAU8udnfvRwzuy3xvqw=;
- b=QHtHjk1zQl8pcnMSYe53Pe4rCmH7RLukBwKOND1RUygiy5sKQ3snMtax5zieCGShP8
- l8KTcHddDXryR9Au7lNk3KTnTn5xgTf3shTRRqpo+9Mg0i+tIRh8SPlm69P4BVVf+DHn
- BAHIH4urA8b1ttcfRWsf72o5TJGv/R+eRCR6LkyF5240bqSvoMV/ZnP97H8AtzWeXxwL
- TEHnRcxRYXF+ZwYXt4Lyvmg3YcFIFSV0G9CDxnUjZC42zOgh1GX6zR2ztQhQ7mKnPGRH
- imiU8YhSOz6FEYoFlnCjlMSjXvYCrKZBwXII0W0VYscQPopP76MHgIL0h7Wu3a+HhxL5
- tHBA==
+ bh=XAjikOxmx33T46UFaieExUuxe+tuqxaaPcO/VN3/LAQ=;
+ b=5+k97uGWwyj+UFeGvDmDqPOyO4ha6HJ03vebpm/X5NezesLsg3GcslYamK/2grRN/D
+ n/0U0VjLzhjsYriwsmgfjdEHkqX/beN3IZYKBgfAYf9qw0V9BDx68UHEoGQa0UJL+hcN
+ DXQ8MyU20hZqPb2jkH3gdpOro9MxQIH/M72hIaPph7ube7nDcpUt0PbGQbA9bdRd8EF/
+ 2fXANMzSbQpkd4TZeGu2lm6PxcMNeyDFoN3QWKAZswnfJoa0umHrBeB7T7tqmh0NQ8ix
+ VJPyNBw7I1hLQdjpSJHAScTG7D2LCskZ3ToAid2EGSFD/3IHWk3tNcIIyJyM5CRX4QvZ
+ IwMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=pJK8j/kvZjiWuU9nm61442mEbAU8udnfvRwzuy3xvqw=;
- b=LYJ+qOu/hP8CcaEMoI3UnjDU8NDIYkx17smYqew4mDs0HmFvpn1TDwa7sVf/GxUJZs
- nZbHZpcg7Bx9+ofdqJLWAkQp1//2n6jW4awQhvBsVO4OJvadHdJTimWAY+DEv36tdFmB
- tkuKXLJ9DJSmiCkJlCTJMyo1zm2rHDtCCA/GDJAJN0J0XcysAItD+81pqDdjaskv3LjI
- Mnd149eNpowK2KS2ulLfxlesf/9Q+TeSEfpJJgA7ALOhk4rJeHrpaV1VtuPL+FPwYqxX
- PpFbsyanaDlT+P70I05YuvF5Hv+umDxeONscuNXVRaBEXb0+e4vzXZsaNGvt67ysXzWC
- EoxA==
-X-Gm-Message-State: AOAM533VQMDrN70x6voX67G/owWx2iIkoktZvB6gPonPHExAQPS/DhN1
- toYqV4MWaVx+dAIPWVVXCi2VKw==
-X-Google-Smtp-Source: ABdhPJwZOK8DnQ2ghlWH50Z+0hmDFHFtto3sB/tNnpw4fAwHqfsjs+4ioUQKTGjr64SO9k6MRFUp7Q==
-X-Received: by 2002:a17:90a:d585:: with SMTP id
- v5mr6104429pju.124.1641459254167; 
- Thu, 06 Jan 2022 00:54:14 -0800 (PST)
+ bh=XAjikOxmx33T46UFaieExUuxe+tuqxaaPcO/VN3/LAQ=;
+ b=u4nH1qxkFYk7+DQNsXaUsKTpWxlJlQpw7+nlxEqbcgY4Gkkk0Xz0wSvWyNyCiMdCFc
+ X71//1fiANb19pkK3rpepnYyXhs7f+4b/HHq0rBA9jxU3l6Sku+ghRciNHKizX2Gd+7t
+ AJXTXt+RFK+v3FECG+8KYq/hGSj+AFDNGoHPoqJcSoJGA7imUvY5pkjrxx2V+54RnBUp
+ 4qqrkEYuQAER7ATYvuN+xapguQKa2SixCGGrdvf6N6dZmzcsrRKdZ0JEpKb83G+5wjqz
+ 08xFbN+K0LuTa+6wsBUc8JQ0B88NWSVa1T6Wa4T9LOkEHv0HQSNSA6J2hA2LbPZe0esj
+ XB/w==
+X-Gm-Message-State: AOAM533sPVqF0PJJWmvqI3qB2XVGSKA3D/fPVJQJabnOf18rcYrCLAWY
+ Oln6mq1kYj2nkx22VIo7ivEbXA==
+X-Google-Smtp-Source: ABdhPJzSt7PLDzxiJtY2qi6qMmcf+3uz4So/rIWa8iq6V/JLN3QQBRuHpYMS50GlS0ZiBfbb0qgvtQ==
+X-Received: by 2002:a63:8f02:: with SMTP id n2mr53380925pgd.270.1641459257742; 
+ Thu, 06 Jan 2022 00:54:17 -0800 (PST)
 Received: from libai.bytedance.net ([61.120.150.72])
- by smtp.gmail.com with ESMTPSA id o11sm1474355pjs.9.2022.01.06.00.54.10
+ by smtp.gmail.com with ESMTPSA id o11sm1474355pjs.9.2022.01.06.00.54.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Jan 2022 00:54:13 -0800 (PST)
+ Thu, 06 Jan 2022 00:54:17 -0800 (PST)
 From: zhenwei pi <pizhenwei@bytedance.com>
 To: peter.maydell@linaro.org, richard.henderson@linaro.org, eblake@redhat.com,
  pbonzini@redhat.com, berrange@redhat.com, kraxel@redhat.com
-Subject: [PATCH v2 1/2] camera: Introduce camera subsystem and builtin driver
-Date: Thu,  6 Jan 2022 16:53:03 +0800
-Message-Id: <20220106085304.795010-2-pizhenwei@bytedance.com>
+Subject: [PATCH v2 2/2] camera: v4l2: Introduce v4l2 camera driver
+Date: Thu,  6 Jan 2022 16:53:04 +0800
+Message-Id: <20220106085304.795010-3-pizhenwei@bytedance.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220106085304.795010-1-pizhenwei@bytedance.com>
 References: <20220106085304.795010-1-pizhenwei@bytedance.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62b
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::52b
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
- envelope-from=pizhenwei@bytedance.com; helo=mail-pl1-x62b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52b;
+ envelope-from=pizhenwei@bytedance.com; helo=mail-pg1-x52b.google.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
@@ -91,97 +90,69 @@ Cc: qemu-devel@nongnu.org, zhenwei pi <pizhenwei@bytedance.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Web camera is an important port of a desktop instance, QEMU supports
-USB passthrough and USB redirect to support for general cases.
-Several problems we have hit:
-  1, the heavy bandwidth of network. a 1080*720@30FPS(MJPEG) uses
-     ~5MB/s.
-  2, Issues of USB passthrough, Ex USB reset from guest side triggers
-     wrong state of host side.
-  3, extention features, Ex to limit FPS/width&height of a camera
-     device by hypervisor.
-  ...
+On a Linux platform, user process could accesses /dev/videoX to
+capture video frames.
 
-So introduce camera subsystem to QEMU, abstruct basic API to operate
-a camera device. Also introduce a builtin driver which draws pure
-color, rainbow and digital rain background, and shows information for
-guest side to debug by libcairo.
+We can run QEMU like this:
+   qemu-system-x86_64 ... -cameradev v4l2,path=/dev/video0,id=camera0
 
-To add a cameradev for a VM:
- ~# qemu-system-x86_64 ... -cameradev builtin,bgcolor=digital-rain,id=camera0
+To test a /dev/videoX device support video capture, install v4l-utils
+package and run command:
+ ~# v4l2-ctl --info -d /dev/video0
+ ...
+    Device Caps      : 0x04200001
+            Video Capture
+ ...
 
-The camera would work with hardware camera emulation, Ex USB video(
-implemented in following patch) together.
-
-The full picture of QEMU camera subsystem works like this:
-
-   +----------+       +------------+     +---------------+
-   |UVC(ready)|       |virtio(TODO)|     |other HW device|
-   +----------+       +------------+     +---------------+
-         |                 |                     |
-         |            +--------+                 |
-	 +------------+ Camera +-----------------+
-                      +----+---+
-                           |
-         +-----------------+---------------------+
-         |                 |                     |
-     +---+---+       +-----+-----+        +-------------+
-     |builtin|       |v4l2(ready)|        |other drivers|
-     +-------+       +-----------+        +-------------+
+The basic logic of v4l2 driver:
+   stream on -> qbuf -> dqbuf(drive by POLLIN event) -> qbuf -> dqbuf
+     ... -> stream off
 
 Signed-off-by: zhenwei pi <pizhenwei@bytedance.com>
 ---
- MAINTAINERS             |   7 +
- camera/builtin.c        | 717 ++++++++++++++++++++++++++++++++++++++++
- camera/camera-int.h     |  19 ++
- camera/camera.c         | 522 +++++++++++++++++++++++++++++
- camera/meson.build      |  16 +
- camera/trace-events     |  24 ++
- camera/trace.h          |   1 +
- include/camera/camera.h | 238 +++++++++++++
- meson.build             |  20 +-
- meson_options.txt       |   3 +
- qapi/camera.json        |  84 +++++
- qapi/meson.build        |   1 +
- qapi/qapi-schema.json   |   1 +
- qemu-options.hx         |  10 +
- softmmu/vl.c            |   4 +
- 15 files changed, 1666 insertions(+), 1 deletion(-)
- create mode 100644 camera/builtin.c
- create mode 100644 camera/camera-int.h
- create mode 100644 camera/camera.c
- create mode 100644 camera/meson.build
- create mode 100644 camera/trace-events
- create mode 100644 camera/trace.h
- create mode 100644 include/camera/camera.h
- create mode 100644 qapi/camera.json
+ camera/meson.build  |   4 +
+ camera/trace-events |   4 +
+ camera/v4l2.c       | 637 ++++++++++++++++++++++++++++++++++++++++++++
+ qapi/camera.json    |  21 +-
+ qemu-options.hx     |   3 +
+ 5 files changed, 667 insertions(+), 2 deletions(-)
+ create mode 100644 camera/v4l2.c
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 5456536805..d9e6c32567 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -3077,6 +3077,13 @@ F: hw/core/clock-vmstate.c
- F: hw/core/qdev-clock.c
- F: docs/devel/clocks.rst
+diff --git a/camera/meson.build b/camera/meson.build
+index d50ee5ebf7..6e7aeb5ebd 100644
+--- a/camera/meson.build
++++ b/camera/meson.build
+@@ -2,6 +2,10 @@ camera_ss.add([files(
+   'camera.c',
+ )])
  
-+Camera Subsystem
-+M: zhenwei pi <pizhenwei@bytedance.com>
-+S: Maintained
-+F: include/camera
-+F: camera
-+F: qapi/camera.json
++camera_ss.add(when: 'CONFIG_LINUX', if_true: files(
++  'v4l2.c',
++))
 +
- Usermode Emulation
- ------------------
- Overall usermode emulation
-diff --git a/camera/builtin.c b/camera/builtin.c
+ camera_modules = {}
+ foreach m : [
+   ['builtin', cairo, files('builtin.c')],
+diff --git a/camera/trace-events b/camera/trace-events
+index 2f4d93e924..4527303d58 100644
+--- a/camera/trace-events
++++ b/camera/trace-events
+@@ -22,3 +22,7 @@ qemu_camera_enum_control_ret(const char *dev, int ret) "%s: ret %d"
+ 
+ # builtin.c
+ camera_builtin_timer(const char *dev) "%s: new image"
++
++# v4l2.c
++camera_v4l2_qbuf(const char *dev, uint32_t index) "%s: qbuf index %u"
++camera_v4l2_dqbuf(const char *dev, uint32_t index) "%s: qbuf index %u"
+diff --git a/camera/v4l2.c b/camera/v4l2.c
 new file mode 100644
-index 0000000000..18ae073160
+index 0000000000..075ddafc16
 --- /dev/null
-+++ b/camera/builtin.c
-@@ -0,0 +1,717 @@
++++ b/camera/v4l2.c
+@@ -0,0 +1,637 @@
 +/*
-+ * Builtin camera backend implemention
++ * V4L2 camera backend implemention
 + *
 + * Copyright 2021-2022 Bytedance, Inc.
 + *
@@ -202,1795 +173,678 @@ index 0000000000..18ae073160
 +#include "camera/camera.h"
 +#include "camera-int.h"
 +#include "trace.h"
++#include <linux/videodev2.h>
++#include <sys/ioctl.h>
 +
-+#ifdef CONFIG_VNC_JPEG /* TODO shoud it rename to CONFIG_LIB_JPEG? */
-+#include <jpeglib.h>
-+#endif
++#define TYPE_CAMERA_V4L2 TYPE_CAMERADEV"-v4l2"
 +
-+#include <cairo/cairo.h>
++#define CAMERA_V4L2_BUFFER_MAX 16
++#define CAMERA_V4L2_BUFFER_DEF 2
 +
-+#define TYPE_CAMERA_BUILTIN TYPE_CAMERADEV"-builtin"
++typedef struct CameraV4l2Buffer {
++    unsigned char *addr;
++    uint32_t length;
++} CameraV4l2Buffer;
 +
-+#define CAMERA_BUILTIN_DEF_WIDTH 640
-+#define CAMERA_BUILTIN_MAX_WIDTH 3840
-+#define CAMERA_BUILTIN_MIN_WIDTH 160
-+#define CAMERA_BUILTIN_DEF_HEIGHT 480
-+#define CAMERA_BUILTIN_MAX_HEIGHT 2880
-+#define CAMERA_BUILTIN_MIN_HEIGHT 120
-+#define CAMERA_BUILTIN_DEF_FPS 10
-+#define CAMERA_BUILTIN_MAX_FPS 60
-+#define CAMERA_BUILTIN_MIN_FPS 1
-+
-+/* mjpeg, yuv, rgb565 */
-+#define CAMERA_BUILTIN_MAX_PIXFMT 3
-+
-+enum AttributeIndex {
-+    ATTRIBUTE_DEF,
-+    ATTRIBUTE_MIN,
-+    ATTRIBUTE_MAX,
-+    ATTRIBUTE_CUR,
-+    ATTRIBUTE_STEP,
-+
-+    ATTRIBUTE_ALL
-+};
-+
-+typedef struct CameraBuiltin {
++typedef struct CameraV4l2 {
 +    QEMUCamera parent;
 +
-+    /* opts */
-+    uint16_t width;
-+    uint16_t height;
-+    uint16_t fps;
-+    bool debug;
-+    bool mjpeg;
-+    bool yuv;
-+    bool rgb565;
-+    ColorType bgcolor;
++    int devfd;
++    size_t sizeimage;
++    uint8_t nbuffers;
++    CameraV4l2Buffer buffers[CAMERA_V4L2_BUFFER_MAX];
++} CameraV4l2;
 +
-+    /* state */
-+    QEMUTimer *frame_timer;
-+    cairo_surface_t *surface;
-+    cairo_t *cr;
-+    size_t image_size;
-+    uint8_t *image;
-+    uint8_t pixbytes;
-+    uint8_t npixfmts;
-+    uint32_t pixfmts[CAMERA_BUILTIN_MAX_PIXFMT];
-+    uint32_t pixfmt; /* current in use */
-+    void *opaque; /* used by driver itself */
++DECLARE_INSTANCE_CHECKER(CameraV4l2, CAMERA_V4L2_DEV, TYPE_CAMERA_V4L2)
 +
-+    /* debug infomations */
-+    uint32_t sequence;
-+    int32_t ctrl[QEMUCameraControlMax][ATTRIBUTE_ALL];
-+} CameraBuiltin;
++typedef struct CameraV4l2Ctrl {
++    QEMUCameraControlType q;
++    uint32_t v;
++} CameraV4l2Ctrl;
 +
-+DECLARE_INSTANCE_CHECKER(CameraBuiltin, CAMERA_BUILTIN_DEV, TYPE_CAMERA_BUILTIN)
++static CameraV4l2Ctrl camera_v4l2_ctrl_table[] = {
++    { .q = QEMUCameraBrightness,
++      .v = V4L2_CID_BRIGHTNESS },
++    { .q = QEMUCameraContrast,
++      .v = V4L2_CID_CONTRAST },
++    { .q = QEMUCameraGain,
++      .v = V4L2_CID_GAIN },
++    { .q = QEMUCameraGamma,
++      .v = V4L2_CID_GAMMA },
++    { .q = QEMUCameraHue,
++      .v = V4L2_CID_HUE },
++    { .q = QEMUCameraHueAuto,
++      .v = V4L2_CID_HUE_AUTO },
++    { .q = QEMUCameraSaturation,
++      .v = V4L2_CID_SATURATION },
++    { .q = QEMUCameraSharpness,
++      .v = V4L2_CID_SHARPNESS },
++    { .q = QEMUCameraWhiteBalanceTemperature,
++      .v = V4L2_CID_WHITE_BALANCE_TEMPERATURE },
++};
 +
-+static inline uint8_t pixel_clip(int x)
++static QEMUCameraControlType camera_v4l2_control_to_qemu(uint32_t id)
 +{
-+    if (x > 255) {
-+        return 255;
-+    } else if (x < 0) {
-+        return 0;
-+    }
++    CameraV4l2Ctrl *ctrl;
++    int i;
 +
-+    return x;
-+}
-+
-+static void camera_builtin_rgb24_to_yuyv(uint8_t *rgb, uint8_t *yuv, int width,
-+                                         int height, uint8_t pixbytes)
-+{
-+    int r1, g1, b1, r2, g2, b2, y1, u1, y2, v1;
-+    int x, y;
-+    uint8_t *dst, *src;
-+    uint32_t val;
-+
-+    for (x = 0; x < height; x++) {
-+        for (y = 0; y < width / 2; y++) {
-+            src = rgb + x * width * pixbytes + y * pixbytes * 2;
-+            val = le32_to_cpu(*(uint32_t *)src);
-+            r1 = (val >> 16) & 0xff;
-+            g1 = (val >> 8) & 0xff;
-+            b1 = val & 0xff;
-+            val = le32_to_cpu(*(uint32_t *)(src + pixbytes));
-+            r2 = (val >> 16) & 0xff;
-+            g2 = (val >> 8) & 0xff;
-+            b2 = val & 0xff;
-+
-+            y1 = pixel_clip(((66 * r1 + 129 * g1 + 25 * b1 + 128) >> 8) + 16);
-+            u1 = pixel_clip((((-38 * r1 - 74 * g1 + 112 * b1 + 128) >> 8)
-+                            + ((-38 * r2 - 74 * g2 + 112 * b2 + 128) >> 8)) / 2
-+                            + 128);
-+            y2 = pixel_clip(((66 * r2 + 129 * g2 + 25 * b2 + 128) >> 8) + 16);
-+            v1 = pixel_clip((((112 * r1 - 94 * g1 - 18 * b1 + 128) >> 8)
-+                            + ((112 * r2 - 94 * g2 - 18 * b2 + 128) >> 8)) / 2
-+                            + 128);
-+            dst = yuv + x * width * 2 + y * 4;
-+            *dst++ = y1;
-+            *dst++ = u1;
-+            *dst++ = y2;
-+            *dst = v1;
++    for (i = 0; i < ARRAY_SIZE(camera_v4l2_ctrl_table); i++) {
++        ctrl = &camera_v4l2_ctrl_table[i];
++        if (ctrl->v == id) {
++            return ctrl->q;
 +        }
 +    }
++
++    return QEMUCameraControlMax;
 +}
 +
-+static void camera_builtin_draw_info(QEMUCamera *camera)
++static uint32_t camera_qemu_control_to_v4l2(QEMUCameraControlType type)
 +{
-+    CameraBuiltin *builtin = CAMERA_BUILTIN_DEV(camera);
-+    char text[32];
-+    uint16_t fontsize = 20;
-+    uint16_t y = fontsize;
-+    QEMUCameraControlType t;
++    CameraV4l2Ctrl *ctrl;
++    int i;
 +
-+    cairo_set_source_rgb(builtin->cr, 1, 1, 1);
-+    cairo_select_font_face(builtin->cr, "Georgia", CAIRO_FONT_SLANT_NORMAL,
-+                           CAIRO_FONT_WEIGHT_BOLD);
-+
-+    cairo_set_font_size(builtin->cr, fontsize);
-+    cairo_move_to(builtin->cr, 0, y);
-+    sprintf(text, "Sequence %d", builtin->sequence++);
-+    cairo_show_text(builtin->cr, text);
-+
-+    for (t = 0; (t < QEMUCameraControlMax)&&(y <= builtin->height); t++) {
-+        y += fontsize;
-+        cairo_move_to(builtin->cr, 0, y);
-+        sprintf(text, "%s %d", QEMUCameraControlTypeString(t),
-+                builtin->ctrl[t][ATTRIBUTE_CUR]);
-+        cairo_show_text(builtin->cr, text);
-+    }
-+}
-+
-+static void camera_builtin_draw_pure_color(QEMUCamera *camera, ColorType color)
-+{
-+    CameraBuiltin *builtin = CAMERA_BUILTIN_DEV(camera);
-+    uint8_t r = 0, g = 0, b = 0;
-+
-+    switch ((int)color) {
-+    case COLOR_TYPE_RED:
-+        r = 1;
-+        break;
-+    case COLOR_TYPE_GREEN:
-+        g = 1;
-+        break;
-+    case COLOR_TYPE_BLUE:
-+        b = 1;
-+        break;
-+    }
-+
-+    cairo_move_to(builtin->cr, 0, 0);
-+    cairo_set_source_rgb(builtin->cr, r, g, b);
-+    cairo_rectangle(builtin->cr, 0, 0, builtin->width, builtin->height);
-+    cairo_fill(builtin->cr);
-+}
-+
-+static void camera_builtin_draw_rainbow(QEMUCamera *camera)
-+{
-+    CameraBuiltin *builtin = CAMERA_BUILTIN_DEV(camera);
-+    uint16_t colors;
-+    uint16_t lines = builtin->height / 7;
-+    uint8_t rainbow[7][3] = {
-+        {0xff, 0x00, 0x00}, /* red */
-+        {0xff, 0xa5, 0x00}, /* orange */
-+        {0xff, 0xff, 0x00}, /* yellow */
-+        {0x00, 0x80, 0x00}, /* green */
-+        {0x00, 0x00, 0xff}, /* blue */
-+        {0x4b, 0x00, 0x82}, /* indigo */
-+        {0xee, 0x82, 0xee}, /* violet */
-+    };
-+    uint8_t *addr;
-+
-+    for (colors = 0 ; colors < 7; colors++) {
-+        cairo_move_to(builtin->cr, 0, lines * colors);
-+        addr = rainbow[colors];
-+        cairo_set_source_rgb(builtin->cr, addr[0] / (float)255,
-+                             addr[1] / (float)255, addr[2] / (float)255);
-+        cairo_rectangle(builtin->cr, 0, lines * colors, builtin->width, lines);
-+        cairo_fill(builtin->cr);
-+    }
-+}
-+
-+static void camera_builtin_draw_digital_rain(QEMUCamera *camera)
-+{
-+#define DIGITAL_RAIN_FONT 20
-+    CameraBuiltin *builtin = CAMERA_BUILTIN_DEV(camera);
-+    int rain_rows = builtin->width / 2 / DIGITAL_RAIN_FONT;
-+    int rain_len = builtin->height * 2 / DIGITAL_RAIN_FONT;
-+    int i, j, x, y, asterisks, first, last;
-+    char *addr, *base;
-+    char text[2] = {0};
-+    int len = rain_len / 2;
-+
-+    if (!builtin->opaque) {
-+        builtin->opaque = g_malloc(rain_rows * rain_len);
-+        memset(builtin->opaque, '*', rain_rows * rain_len);
-+    }
-+
-+    base = builtin->opaque;
-+
-+    cairo_set_source_rgb(builtin->cr, 0, 0, 0);
-+    cairo_rectangle(builtin->cr, 0, 0, builtin->width, builtin->height);
-+    cairo_fill(builtin->cr);
-+
-+    cairo_select_font_face(builtin->cr, "Georgia", CAIRO_FONT_SLANT_NORMAL,
-+                           CAIRO_FONT_WEIGHT_BOLD);
-+    cairo_set_font_size(builtin->cr, DIGITAL_RAIN_FONT);
-+    for (i = 0; i < rain_rows; i++) {
-+        addr = base + i * rain_len + len;
-+        asterisks = 0;
-+
-+        for (j = 0; (j < len) && (addr[j] == '*'); j++) {
-+            asterisks++;
++    for (i = 0; i < ARRAY_SIZE(camera_v4l2_ctrl_table); i++) {
++        ctrl = &camera_v4l2_ctrl_table[i];
++        if (ctrl->q == type) {
++            return ctrl->v;
 +        }
-+
-+        if (asterisks == len) {
-+rerandom:
-+            first = random() % len;
-+            last = random() % len;
-+            if ((first + len / 4) >= last) {
-+                goto rerandom;
-+            }
-+
-+            for (j = first; j < last; j++) {
-+                *(addr + j) = random() % 26 + 'A' + (random() % 2) * 32;
-+            }
-+        }
-+
-+        addr = base + i * rain_len;
-+
-+        for (j = 0; (j < len) && (addr[j] == '*'); ) {
-+            j++;
-+        }
-+
-+        if (j == len) {
-+            goto update_frame;
-+        }
-+
-+        cairo_set_source_rgb(builtin->cr, 1, 1, 1); /* first char of row */
-+        x = DIGITAL_RAIN_FONT * i * 2;
-+        y = DIGITAL_RAIN_FONT * (len - j);
-+        cairo_move_to(builtin->cr, x, y);
-+        sprintf(text, "%c", addr[j]);
-+        cairo_show_text(builtin->cr, text);
-+
-+        for (j++; j < len; j++) {
-+            if (addr[j] == '*') {
-+                continue;
-+            }
-+            x = DIGITAL_RAIN_FONT * i * 2;
-+            y = DIGITAL_RAIN_FONT * (len - j);
-+            cairo_set_source_rgb(builtin->cr, 0, 1, 0);
-+            cairo_move_to(builtin->cr, x, y);
-+
-+            sprintf(text, "%c", addr[j]);
-+            cairo_show_text(builtin->cr, text);
-+        }
-+
-+update_frame:
-+        addr = base + i * rain_len;
-+        memmove(addr, addr + 1, 2 * len - 1);
-+        addr[2 * len - 1] = '*';
-+    }
-+}
-+
-+#ifdef CONFIG_VNC_JPEG
-+static void camera_builtin_jpeg_init_destination(j_compress_ptr cinfo)
-+{
-+    CameraBuiltin *builtin = cinfo->client_data;
-+
-+    cinfo->dest->next_output_byte = builtin->image;
-+    cinfo->dest->free_in_buffer = builtin->image_size;
-+}
-+
-+static void camera_builtin_jpeg_term_destination(j_compress_ptr cinfo)
-+{
-+    /* nothing to do, but avoid libjpeg to crash! */
-+}
-+
-+static void camera_builtin_rgb24_to_jpeg_line(uint8_t *rgb, uint8_t *jpeg,
-+                                              uint16_t width, uint8_t pixbytes)
-+{
-+    uint16_t x;
-+    uint32_t val;
-+    uint8_t *dst, *src;
-+
-+    for (x = 0; x < width; x++) {
-+        src = rgb + x * pixbytes;
-+        val = le32_to_cpu(*(uint32_t *)src);
-+        dst = jpeg + 3 * x;
-+        *(dst++) = (val >> 16) & 0xff; /* R */
-+        *(dst++) = (val >> 8) & 0xff; /* G */
-+        *dst = val & 0xff; /* B */
-+    }
-+}
-+
-+static size_t camera_builtin_rgb24_to_jpeg(QEMUCamera *camera, uint8_t *rgb,
-+                                           uint8_t *jpeg, uint16_t width,
-+                                           int height, uint8_t pixbytes)
-+{
-+    CameraBuiltin *builtin = CAMERA_BUILTIN_DEV(camera);
-+    struct jpeg_compress_struct cinfo;
-+    struct jpeg_error_mgr jerr;
-+    struct jpeg_destination_mgr manager = {0};
-+    JSAMPROW row_pointer[1];
-+    g_autofree uint8_t *linebuf = g_malloc(width * 3);
-+    uint8_t *addr;
-+    int quality = 50;
-+
-+    cinfo.err = jpeg_std_error(&jerr);
-+    jpeg_create_compress(&cinfo);
-+    cinfo.client_data = builtin;
-+    cinfo.image_width = builtin->width;
-+    cinfo.image_height = builtin->height;
-+    cinfo.input_components = 3;
-+    cinfo.in_color_space = JCS_RGB;
-+    jpeg_set_defaults(&cinfo);
-+    jpeg_set_quality(&cinfo, quality, TRUE);
-+    manager.init_destination = camera_builtin_jpeg_init_destination;
-+    manager.term_destination = camera_builtin_jpeg_term_destination;
-+    cinfo.dest = &manager;
-+    row_pointer[0] = linebuf;
-+
-+    jpeg_start_compress(&cinfo, true);
-+
-+    while (cinfo.next_scanline < cinfo.image_height) {
-+        addr = rgb + cinfo.next_scanline * width * pixbytes;
-+        camera_builtin_rgb24_to_jpeg_line(addr, linebuf, width, pixbytes);
-+        jpeg_write_scanlines(&cinfo, row_pointer, 1);
 +    }
 +
-+    jpeg_finish_compress(&cinfo);
-+    jpeg_destroy_compress(&cinfo);
-+
-+    return builtin->image_size - cinfo.dest->free_in_buffer;
-+}
-+#else
-+static size_t camera_builtin_rgb24_to_jpeg(QEMUCamera *camera, uint8_t *rgb,
-+                                           uint8_t *jpeg, uint16_t width,
-+                                           int height, uint8_t pixbytes)
-+{
-+    return -1;
-+}
-+#endif
-+
-+static void camera_builtin_frame_timer(void *opaque)
-+{
-+    QEMUCamera *camera = opaque;
-+    CameraBuiltin *builtin = CAMERA_BUILTIN_DEV(camera);
-+    uint8_t *image_addr = cairo_image_surface_get_data(builtin->surface);
-+    size_t image_bytes = 0;
-+    uint16_t w = builtin->width, h = builtin->height;
-+
-+    /* 1, draw a frame by cairo */
-+    switch (builtin->bgcolor) {
-+    case COLOR_TYPE_BLUE:
-+    case COLOR_TYPE_GREEN:
-+    case COLOR_TYPE_RED:
-+        camera_builtin_draw_pure_color(camera, builtin->bgcolor);
-+        break;
-+
-+    case COLOR_TYPE_RAINBOW:
-+        camera_builtin_draw_rainbow(camera);
-+        break;
-+
-+    case COLOR_TYPE_DIGITAL_RAIN:
-+        camera_builtin_draw_digital_rain(camera);
-+        break;
-+
-+    case COLOR_TYPE__MAX:
-+    default:
-+        return;
-+    }
-+
-+    if (builtin->debug) {
-+        camera_builtin_draw_info(camera);
-+    }
-+
-+    /* 2, convert to a suitable format */
-+    switch (builtin->pixfmt) {
-+    case QEMU_CAMERA_PIX_FMT_MJPEG:
-+        image_bytes = camera_builtin_rgb24_to_jpeg(camera, image_addr,
-+                          builtin->image, w, h, builtin->pixbytes);
-+        image_addr = builtin->image;
-+        break;
-+    case QEMU_CAMERA_PIX_FMT_YUYV:
-+        camera_builtin_rgb24_to_yuyv(image_addr, builtin->image, w, h,
-+                                     builtin->pixbytes);
-+        image_bytes = w * h * 2;
-+        image_addr = builtin->image;
-+        break;
-+    case QEMU_CAMERA_PIX_FMT_RGB565:
-+        /* no need to convert, just put builtin->surface to uplayer */
-+        image_bytes = w * h * 2;
-+        break;
-+    }
-+
-+    /* 3, delivery to uplayer */
-+    qemu_camera_new_image(camera, image_addr, image_bytes);
-+
-+    /* 4, modify timer for next frame */
-+    timer_mod(builtin->frame_timer, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL)
-+              + NANOSECONDS_PER_SECOND / builtin->fps);
-+
-+    trace_camera_builtin_timer(qemu_camera_id(camera));
++    return 0;
 +}
 +
-+static int camera_builtin_enum_pixel_format(QEMUCamera *camera,
-+                                            uint32_t *pixfmts, int npixfmt,
-+                                            Error **errp)
++static int camera_v4l2_enum_pixel_format(QEMUCamera *camera, uint32_t *pixfmts,
++                                         int npixfmt, Error **errp)
 +{
-+    CameraBuiltin *builtin = CAMERA_BUILTIN_DEV(camera);
++    CameraV4l2 *v4l2 = CAMERA_V4L2_DEV(camera);
++    CameraV4l2Options *v4l2opts = &camera->dev->u.v4l2;
++    struct v4l2_fmtdesc v4l2_fmt;
 +    int index, total = 0;
 +
-+    for (index = 0; index < MIN(npixfmt, builtin->npixfmts); index++) {
-+        pixfmts[total++] = builtin->pixfmts[index];
++    for (index = 0; total < npixfmt; index++) {
++        v4l2_fmt.index = index;
++        v4l2_fmt.type = V4L2_CAP_VIDEO_CAPTURE;
++        if (ioctl(v4l2->devfd, VIDIOC_ENUM_FMT, &v4l2_fmt) < 0) {
++            if (errno == EINVAL) {
++                break; /* the last one */
++            }
++
++            error_setg(errp, "%s: enum fmt on device %s failed, %s",
++                       TYPE_CAMERA_V4L2, v4l2opts->path, strerror(errno));
++            return -errno;
++        }
++
++        if (!qemu_camera_pixel_supported(v4l2_fmt.pixelformat)) {
++            continue;
++        }
++
++        pixfmts[total++] = v4l2_fmt.pixelformat;
 +    }
 +
 +    return total;
 +}
 +
-+static int camera_builtin_enum_frame_size(QEMUCamera *camera, uint32_t pixfmt,
-+                                          QEMUCameraFrameSize *frmszs,
-+                                          int nfrmsz, Error **errp)
++static int camera_v4l2_enum_frame_size(QEMUCamera *camera, uint32_t pixfmt,
++                                       QEMUCameraFrameSize *frmszs, int nfrmsz,
++                                       Error **errp)
 +{
-+    CameraBuiltin *builtin = CAMERA_BUILTIN_DEV(camera);
++    CameraV4l2 *v4l2 = CAMERA_V4L2_DEV(camera);
++    CameraV4l2Options *v4l2opts = &camera->dev->u.v4l2;
 +    QEMUCameraFrameSize *frmsz;
++    struct v4l2_frmsizeenum v4l2_frmsz;
++    int index, total = 0;
 +
-+    if (nfrmsz < 1) {
-+        return 0;
++    if (!qemu_camera_pixel_supported(pixfmt)) {
++        return -EINVAL;
 +    }
 +
-+    frmsz = frmszs;
-+    frmsz->pixel_format = pixfmt;
-+    frmsz->type = QEMU_CAMERA_FRMSIZE_TYPE_DISCRETE;
-+    frmsz->d.width = builtin->width;
-+    frmsz->d.height = builtin->height;
++    for (index = 0; total < nfrmsz; index++) {
++        v4l2_frmsz.index = index;
++        v4l2_frmsz.pixel_format = pixfmt;
++        if (ioctl(v4l2->devfd, VIDIOC_ENUM_FRAMESIZES, &v4l2_frmsz) < 0) {
++            if (errno == EINVAL) {
++                break; /* the last one */
++            }
 +
-+    return 1;
++            error_setg(errp, "%s: enum frame size device %s failed, %s",
++                       TYPE_CAMERA_V4L2, v4l2opts->path, strerror(errno));
++            return -errno;
++        }
++
++        if (v4l2_frmsz.type != V4L2_FRMSIZE_TYPE_DISCRETE) {
++            continue; /* TODO stepwise support in future*/
++        }
++
++        frmsz = frmszs + total++;
++        frmsz->pixel_format = v4l2_frmsz.pixel_format;
++        frmsz->type = QEMU_CAMERA_FRMSIZE_TYPE_DISCRETE;
++        frmsz->d.width = v4l2_frmsz.discrete.width;
++        frmsz->d.height = v4l2_frmsz.discrete.height;
++    }
++
++    return total;
 +}
 +
-+static int camera_builtin_enum_frame_interval(QEMUCamera *camera,
-+                                              const QEMUCameraFormat *format,
-+                                              QEMUCameraFrameInterval *frmivals,
-+                                              int nfrmival, Error **errp)
++static int camera_v4l2_enum_frame_interval(QEMUCamera *camera,
++                                           const QEMUCameraFormat *format,
++                                           QEMUCameraFrameInterval *frmivals,
++                                           int nfrmival, Error **errp)
 +{
-+    CameraBuiltin *builtin = CAMERA_BUILTIN_DEV(camera);
++    CameraV4l2 *v4l2 = CAMERA_V4L2_DEV(camera);
++    CameraV4l2Options *v4l2opts = &camera->dev->u.v4l2;
 +    QEMUCameraFrameInterval *frmival;
++    struct v4l2_frmivalenum v4l2_frmival;
++    int index, total = 0;
 +
-+    if (nfrmival < 1) {
-+        return 0;
++    for (index = 0; total < nfrmival; index++) {
++        v4l2_frmival.index = index;
++        v4l2_frmival.pixel_format = format->pixel_format;
++        v4l2_frmival.width = format->width;
++        v4l2_frmival.height = format->height;
++        if (ioctl(v4l2->devfd, VIDIOC_ENUM_FRAMEINTERVALS, &v4l2_frmival) < 0) {
++            if (errno == EINVAL) {
++                break; /* the last one */
++            }
++
++            error_setg(errp, "%s: enum frame intervals on device %s failed, %s",
++                       TYPE_CAMERA_V4L2, v4l2opts->path, strerror(errno));
++            return -errno;
++        }
++
++        if (v4l2_frmival.type != V4L2_FRMIVAL_TYPE_DISCRETE) {
++            continue; /* TODO stepwise support in future*/
++        }
++
++        frmival = frmivals + total++;
++        frmival->pixel_format = v4l2_frmival.pixel_format;
++        frmival->type = QEMU_CAMERA_FRMIVAL_TYPE_DISCRETE;
++        frmival->width = v4l2_frmival.width;
++        frmival->height = v4l2_frmival.height;
++        frmival->d.numerator = v4l2_frmival.discrete.numerator;
++        frmival->d.denominator = v4l2_frmival.discrete.denominator;
 +    }
 +
-+    if (format->width != builtin->width || format->height != builtin->height) {
-+        error_setg(errp, "%s: enum frame interval unsupported mismatched "
-+                   "width(%d)/height(%d)", TYPE_CAMERA_BUILTIN, format->width,
-+                   format->height);
-+        return 0;
-+    }
-+
-+    frmival = frmivals;
-+    frmival->pixel_format = format->pixel_format;
-+    frmival->width = format->width;
-+    frmival->height = format->height;
-+    frmival->type = QEMU_CAMERA_FRMIVAL_TYPE_DISCRETE;
-+    frmival->d.numerator = 1;
-+    frmival->d.denominator = builtin->fps;
-+
-+    return 1;
++    return total;
 +}
 +
-+static int camera_builtin_set_frame_interval(QEMUCamera *camera,
++static int camera_v4l2_get_format(QEMUCamera *camera, QEMUCameraFormat *format,
++                                  Error **errp)
++{
++    CameraV4l2 *v4l2 = CAMERA_V4L2_DEV(camera);
++    CameraV4l2Options *v4l2opts = &camera->dev->u.v4l2;
++    struct v4l2_format v4l2_fmt = {.type = V4L2_BUF_TYPE_VIDEO_CAPTURE};
++    struct v4l2_pix_format *v4l2_pix = &v4l2_fmt.fmt.pix;
++
++    if (ioctl(v4l2->devfd, VIDIOC_G_FMT, &v4l2_fmt) < 0) {
++        error_setg(errp, "%s: get fmt on device %s failed, %s",
++                   TYPE_CAMERA_V4L2, v4l2opts->path, strerror(errno));
++        return -errno;
++    }
++
++    if (format) {
++        format->pixel_format = v4l2_pix->pixelformat;
++        format->width = v4l2_pix->width;
++        format->height = v4l2_pix->height;
++    }
++
++    v4l2->sizeimage = v4l2_pix->sizeimage;
++
++    return 0;
++}
++
++static int camera_v4l2_set_format(QEMUCamera *camera,
++                                  const QEMUCameraFormat *format, Error **errp)
++{
++    CameraV4l2 *v4l2 = CAMERA_V4L2_DEV(camera);
++    CameraV4l2Options *v4l2opts = &camera->dev->u.v4l2;
++    struct v4l2_format v4l2_fmt = {0};
++    struct v4l2_pix_format *v4l2_pix;
++
++    v4l2_fmt.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
++    v4l2_pix = &v4l2_fmt.fmt.pix;
++    v4l2_pix->pixelformat = format->pixel_format;
++    v4l2_pix->width = format->width;
++    v4l2_pix->height = format->height;
++    if (ioctl(v4l2->devfd, VIDIOC_S_FMT, &v4l2_fmt) < 0) {
++        error_setg(errp, "%s: set fmt on device %s failed, %s",
++                   TYPE_CAMERA_V4L2, v4l2opts->path, strerror(errno));
++        return -errno;
++    }
++
++    v4l2->sizeimage = v4l2_pix->sizeimage;
++
++    return 0;
++}
++
++static int camera_v4l2_set_frame_interval(QEMUCamera *camera,
 +               const QEMUCameraFrameInterval *frmival, Error **errp)
 +{
-+    CameraBuiltin *builtin = CAMERA_BUILTIN_DEV(camera);
++    CameraV4l2 *v4l2 = CAMERA_V4L2_DEV(camera);
++    CameraV4l2Options *v4l2opts = &camera->dev->u.v4l2;
++    QEMUCameraFormat fmt;
++    struct v4l2_streamparm streamparm;
++    struct v4l2_captureparm *capture;
++    int ret;
 +
-+    if (frmival->width != builtin->width
-+        || frmival->height != builtin->height) {
-+        error_setg(errp, "%s: set frame interval unsupported mismatched "
-+                   "width(%d)/height(%d)", TYPE_CAMERA_BUILTIN, frmival->width,
-+                   frmival->height);
-+        return 0;
++    if (frmival->type != QEMU_CAMERA_FRMIVAL_TYPE_DISCRETE) {
++        error_setg(errp, "%s: only support discrete mode", TYPE_CAMERA_V4L2);
++        return -ENOTSUP;
 +    }
 +
-+    builtin->pixfmt = frmival->pixel_format;
++    fmt.pixel_format = frmival->pixel_format;
++    fmt.width = frmival->width;
++    fmt.height = frmival->height;
++    ret = camera_v4l2_set_format(camera, &fmt, errp);
++    if (ret) {
++        return ret;
++    }
++
++    streamparm.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
++    capture = &streamparm.parm.capture;
++    capture->timeperframe.numerator = frmival->d.numerator;
++    capture->timeperframe.denominator = frmival->d.denominator;
++    if (ioctl(v4l2->devfd, VIDIOC_S_PARM, &streamparm) < 0) {
++        error_setg(errp, "%s: set stream parm on device %s failed, %s",
++                   TYPE_CAMERA_V4L2, v4l2opts->path, strerror(errno));
++        return -errno;
++    }
 +
 +    return 0;
 +}
 +
-+static int camera_builtin_enum_control(QEMUCamera *camera,
++static int camera_v4l2_enum_control(QEMUCamera *camera,
 +               QEMUCameraControl *controls, int ncontrols, Error **errp)
 +{
-+    CameraBuiltin *builtin = CAMERA_BUILTIN_DEV(camera);
++    CameraV4l2 *v4l2 = CAMERA_V4L2_DEV(camera);
++    CameraV4l2Options *v4l2opts = &camera->dev->u.v4l2;
 +    QEMUCameraControl *control;
-+    QEMUCameraControlType t;
++    struct v4l2_queryctrl v4l2_ctrl = {0};
++    QEMUCameraControlType type;
++    int index, total = 0;
 +
-+    for (t = 0; t < QEMUCameraControlMax; t++) {
-+        control = controls + t;
-+        control->type = t;
-+        control->cur = builtin->ctrl[t][ATTRIBUTE_CUR];
-+        control->def = builtin->ctrl[t][ATTRIBUTE_DEF];
-+        control->min = builtin->ctrl[t][ATTRIBUTE_MIN];
-+        control->max = builtin->ctrl[t][ATTRIBUTE_MAX];
-+        control->step = builtin->ctrl[t][ATTRIBUTE_STEP];
++    for (index = 0; total < ncontrols; index++) {
++        v4l2_ctrl.id |= V4L2_CTRL_FLAG_NEXT_CTRL;
++        if (ioctl(v4l2->devfd, VIDIOC_QUERYCTRL, &v4l2_ctrl) < 0) {
++            if (errno == EINVAL) {
++                break; /* the last one */
++            }
++
++            error_setg(errp, "%s: enum control on device %s failed, %s",
++                       TYPE_CAMERA_V4L2, v4l2opts->path, strerror(errno));
++            return -errno;
++        }
++
++        if (v4l2_ctrl.flags & V4L2_CTRL_FLAG_INACTIVE) {
++            continue;
++        }
++
++        type = camera_v4l2_control_to_qemu(v4l2_ctrl.id);
++        if (type == QEMUCameraControlMax) {
++            continue;
++        }
++
++        control = controls + total++;
++        control->type = type;
++        control->def = v4l2_ctrl.default_value;
++        control->min = v4l2_ctrl.minimum;
++        control->max = v4l2_ctrl.maximum;
++        control->step = v4l2_ctrl.step;
 +    }
 +
-+    return t;
++    return total;
 +}
 +
-+static int camera_builtin_set_control(QEMUCamera *camera,
++static int camera_v4l2_set_control(QEMUCamera *camera,
 +               const QEMUCameraControl *control, Error **errp)
 +{
-+    CameraBuiltin *builtin = CAMERA_BUILTIN_DEV(camera);
++    CameraV4l2 *v4l2 = CAMERA_V4L2_DEV(camera);
++    CameraV4l2Options *v4l2opts = &camera->dev->u.v4l2;
++    struct v4l2_control v4l2_ctrl;
++    uint32_t cid;
 +
-+    builtin->ctrl[control->type][ATTRIBUTE_CUR] = control->cur;
++    cid = camera_qemu_control_to_v4l2(control->type);
++    if (!cid) {
++        error_setg(errp, "%s: unsupported control type %d",
++                   TYPE_CAMERA_V4L2, control->type);
++        return -EINVAL;
++    }
++
++    v4l2_ctrl.id = cid;
++    v4l2_ctrl.value = control->cur;
++    if (ioctl(v4l2->devfd, VIDIOC_S_CTRL, &v4l2_ctrl) < 0) {
++        error_setg(errp, "%s: set ctrl on device %s failed, %s",
++                   TYPE_CAMERA_V4L2, v4l2opts->path, strerror(errno));
++        return -errno;
++    }
 +
 +    return 0;
 +}
 +
-+#define CHECK_AND_GET_OPTS(x, y)                               \
-+    do {                                                       \
-+        if (builtinopts->has_##x) {                            \
-+            if (builtinopts->x > CAMERA_BUILTIN_MAX_##y        \
-+               || builtinopts->x < CAMERA_BUILTIN_MIN_##y) {   \
-+                error_setg(errp, "%s: unsupported %s(%d, %d)", \
-+                           TYPE_CAMERA_BUILTIN, #x,            \
-+                           CAMERA_BUILTIN_MIN_##y,             \
-+                           CAMERA_BUILTIN_MAX_##y);            \
-+                return;                                        \
-+            }                                                  \
-+            builtin->x = builtinopts->x;                       \
-+        } else {                                               \
-+            builtin->x = CAMERA_BUILTIN_DEF_##y;               \
-+        }                                                      \
-+    } while (0)
-+
-+#define CHECK_AND_GET_VAL(x, def)                              \
-+    do {                                                       \
-+        if (builtinopts->has_##x) {                            \
-+            builtin->x = builtinopts->x;                       \
-+        } else {                                               \
-+            builtin->x = def;                                  \
-+        }                                                      \
-+    } while (0)
-+
-+static void camera_builtin_open(QEMUCamera *camera, Error **errp)
++static int camera_v4l2_qbuf(QEMUCamera *camera, int index)
 +{
-+    CameraBuiltin *builtin = CAMERA_BUILTIN_DEV(camera);
-+    CameraBuiltinOptions *builtinopts = &camera->dev->u.builtin;
++    CameraV4l2 *v4l2 = CAMERA_V4L2_DEV(camera);
++    struct v4l2_buffer buffer = {0};
 +
-+    CHECK_AND_GET_OPTS(width, WIDTH);
-+    CHECK_AND_GET_OPTS(height, HEIGHT);
-+    CHECK_AND_GET_OPTS(fps, FPS);
-+    CHECK_AND_GET_VAL(bgcolor, COLOR_TYPE_BLUE);
-+    CHECK_AND_GET_VAL(debug, false);
-+    CHECK_AND_GET_VAL(yuv, true);
-+    CHECK_AND_GET_VAL(rgb565, true);
-+#ifdef CONFIG_VNC_JPEG
-+    CHECK_AND_GET_VAL(mjpeg, true);
-+#else
-+    if (builtinopts->has_mjpeg && builtinopts->mjpeg) {
-+        error_setg(errp, "%s: no libjpeg supported", TYPE_CAMERA_BUILTIN);
++    trace_camera_v4l2_qbuf(qemu_camera_id(camera), index);
++
++    buffer.index = index;
++    buffer.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
++    buffer.field = V4L2_FIELD_ANY;
++    buffer.memory = V4L2_MEMORY_MMAP;
++
++    return ioctl(v4l2->devfd, VIDIOC_QBUF, &buffer);
++}
++
++static int camera_v4l2_dqbuf(QEMUCamera *camera)
++{
++    CameraV4l2 *v4l2 = CAMERA_V4L2_DEV(camera);
++    struct v4l2_buffer buffer;
++
++    buffer.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
++    buffer.memory = V4L2_MEMORY_MMAP;
++
++    if (ioctl(v4l2->devfd, VIDIOC_DQBUF, &buffer) < 0) {
++        return -errno;
++    }
++
++    trace_camera_v4l2_dqbuf(qemu_camera_id(camera), buffer.index);
++
++    return buffer.index;
++}
++
++static void camera_v4l2_free_buffers(QEMUCamera *camera)
++{
++    CameraV4l2 *v4l2 = CAMERA_V4L2_DEV(camera);
++    struct v4l2_requestbuffers v4l2_reqbufs = {0};
++    CameraV4l2Buffer *buffer;
++    int index;
++
++    /* 1, try to dequeue all buffers */
++    for (index = 0; index < v4l2->nbuffers; index++) {
++        camera_v4l2_dqbuf(camera);
++    }
++
++    /* 2, try to unmap all buffers */
++    for (index = 0; index < v4l2->nbuffers; index++) {
++        buffer = &v4l2->buffers[index];
++        if (buffer->addr) {
++            munmap(buffer->addr, buffer->length);
++            buffer->addr = NULL;
++            buffer->length = 0;
++        }
++    }
++
++    /* 3, free all the v4l2 reqbufs */
++    v4l2_reqbufs.count = 0;
++    v4l2_reqbufs.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
++    v4l2_reqbufs.memory = V4L2_MEMORY_MMAP;
++    ioctl(v4l2->devfd, VIDIOC_REQBUFS, &v4l2_reqbufs);
++}
++
++static int camera_v4l2_request_buffers(QEMUCamera *camera, Error **errp)
++{
++    CameraV4l2 *v4l2 = CAMERA_V4L2_DEV(camera);
++    struct v4l2_requestbuffers v4l2_reqbufs = {0};
++    struct v4l2_buffer v4l2_buf;
++    CameraV4l2Buffer *buffer;
++    void *addr;
++    int index;
++
++    v4l2_reqbufs.count = v4l2->nbuffers;
++    v4l2_reqbufs.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
++    v4l2_reqbufs.memory = V4L2_MEMORY_MMAP;
++    if (ioctl(v4l2->devfd, VIDIOC_REQBUFS, &v4l2_reqbufs) < 0) {
++        return -errno;
++    }
++
++    for (index = 0; index < v4l2->nbuffers; index++) {
++        v4l2_buf.index = index;
++        v4l2_buf.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
++        v4l2_buf.memory = V4L2_MEMORY_MMAP;
++        v4l2_buf.length = 0;
++        if (ioctl(v4l2->devfd, VIDIOC_QUERYBUF, &v4l2_buf) < 0) {
++            goto error;
++        }
++
++        if (v4l2_buf.type != V4L2_BUF_TYPE_VIDEO_CAPTURE) {
++            continue; /* TODO V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE support */
++        }
++
++        addr = mmap(NULL, v4l2_buf.length, PROT_READ | PROT_WRITE, MAP_SHARED,
++                    v4l2->devfd, v4l2_buf.m.offset);
++        if (addr == MAP_FAILED) {
++            goto error;
++        }
++
++        if (camera_v4l2_qbuf(camera, index) < 0) {
++            goto error;
++        }
++
++        buffer = &v4l2->buffers[index];
++        buffer->addr = addr;
++        buffer->length = v4l2_buf.length;
++    }
++
++    return 0;
++
++error:
++    camera_v4l2_free_buffers(camera);
++
++    return -errno;
++}
++
++static void camera_v4l2_open(QEMUCamera *camera, Error **errp)
++{
++    CameraV4l2 *v4l2 = CAMERA_V4L2_DEV(camera);
++    CameraV4l2Options *v4l2opts = &camera->dev->u.v4l2;
++    struct v4l2_capability v4l2_cap = {0};
++
++    if (v4l2opts->has_buffers) {
++        if (!v4l2opts->buffers || v4l2opts->buffers > CAMERA_V4L2_BUFFER_MAX) {
++            error_setg(errp, "%s: zero buffers or too large(max %d)",
++                       TYPE_CAMERA_V4L2, CAMERA_V4L2_BUFFER_MAX);
++            return;
++        }
++
++        v4l2->nbuffers = v4l2opts->buffers;
++    } else {
++        v4l2->nbuffers = CAMERA_V4L2_BUFFER_DEF;
++    }
++
++    if (!v4l2opts->has_path) {
++        error_setg(errp, "%s: missing device path", TYPE_CAMERA_V4L2);
 +        return;
 +    }
-+#endif
 +
-+    if (builtin->mjpeg) {
-+        builtin->pixfmts[builtin->npixfmts++] = QEMU_CAMERA_PIX_FMT_MJPEG;
++    v4l2->devfd = open(v4l2opts->path, O_RDWR | O_NONBLOCK);
++    if (v4l2->devfd == -1) {
++        error_setg(errp, "%s: open device %s failed, %s",
++                   TYPE_CAMERA_V4L2, v4l2opts->path, strerror(errno));
++        return;
 +    }
 +
-+    if (builtin->yuv) {
-+        builtin->pixfmts[builtin->npixfmts++] = QEMU_CAMERA_PIX_FMT_YUYV;
++    if (ioctl(v4l2->devfd, VIDIOC_QUERYCAP, &v4l2_cap) < 0) {
++        error_setg(errp, "%s: query device %s failed, %s",
++                   TYPE_CAMERA_V4L2, v4l2opts->path, strerror(errno));
++        goto error;
 +    }
 +
-+    if (builtin->rgb565) {
-+        builtin->pixfmts[builtin->npixfmts++] = QEMU_CAMERA_PIX_FMT_RGB565;
++    if (!(v4l2_cap.capabilities & V4L2_CAP_VIDEO_CAPTURE) ||
++        !(v4l2_cap.device_caps & V4L2_CAP_VIDEO_CAPTURE)) {
++        error_setg(errp, "%s: %s is not a video capture device",
++                   TYPE_CAMERA_V4L2, v4l2opts->path);
++        goto error;
 +    }
 +
-+    if (!builtin->npixfmts) {
-+        error_setg(errp, "%s: all formats disabled", TYPE_CAMERA_BUILTIN);
++    if (camera_v4l2_get_format(camera, NULL, errp) < 0) {
++        goto error;
++    }
++
++    return;
++
++error:
++    if (v4l2->devfd > 0) {
++        close(v4l2->devfd);
 +    }
 +}
 +
-+static void camera_builtin_stream_on(QEMUCamera *camera, Error **errp)
++static void camera_v4l2_read_handler(void *opaque)
 +{
-+    CameraBuiltin *builtin = CAMERA_BUILTIN_DEV(camera);
-+    cairo_format_t cairofmt;
-+    size_t imagesize;
++    QEMUCamera *camera = (QEMUCamera *)opaque;
++    CameraV4l2 *v4l2 = CAMERA_V4L2_DEV(camera);
++    CameraV4l2Buffer *buffer;
++    int index;
 +
-+    imagesize = builtin->height * builtin->width * 2;
-+    if (builtin->pixfmt == QEMU_CAMERA_PIX_FMT_RGB565) {
-+        cairofmt = CAIRO_FORMAT_RGB16_565;
-+        builtin->pixbytes = 2;
-+    } else {
-+        cairofmt = CAIRO_FORMAT_RGB24;
-+        builtin->pixbytes = 4; /* see enum cairo_format_t in cairo.h */
++    index = camera_v4l2_dqbuf(camera);
++    if (index < 0) {
++        return;
 +    }
-+    builtin->surface = cairo_image_surface_create(cairofmt, builtin->width,
-+                                                  builtin->height);
-+    builtin->cr = cairo_create(builtin->surface);
-+    qemu_camera_alloc_image(camera, imagesize, errp);
-+    builtin->image_size = imagesize;
-+    builtin->image = g_malloc(imagesize);
 +
-+    builtin->frame_timer = timer_new_ns(QEMU_CLOCK_VIRTUAL,
-+                               camera_builtin_frame_timer, camera);
-+    timer_mod(builtin->frame_timer, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL)
-+              + NANOSECONDS_PER_SECOND / builtin->fps);
++    buffer = &v4l2->buffers[index];
++    qemu_camera_new_image(camera, buffer->addr, buffer->length);
++
++    camera_v4l2_qbuf(camera, index);
 +}
 +
-+static void camera_builtin_stream_off(QEMUCamera *camera, Error **errp)
++static void camera_v4l2_stream_on(QEMUCamera *camera, Error **errp)
 +{
-+    CameraBuiltin *builtin = CAMERA_BUILTIN_DEV(camera);
++    CameraV4l2 *v4l2 = CAMERA_V4L2_DEV(camera);
++    CameraV4l2Options *v4l2opts = &camera->dev->u.v4l2;
++    int type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
 +
-+    timer_free(builtin->frame_timer);
++    qemu_camera_alloc_image(camera, v4l2->sizeimage, errp);
++
++    if (camera_v4l2_request_buffers(camera, errp)) {
++        return;
++    }
++
++    if (ioctl(v4l2->devfd, VIDIOC_STREAMON, &type) < 0) {
++        error_setg(errp, "%s: stream on failed on %s",
++                   TYPE_CAMERA_V4L2, v4l2opts->path);
++        camera_v4l2_free_buffers(camera);
++        return;
++    }
++
++    qemu_set_fd_handler(v4l2->devfd, camera_v4l2_read_handler, NULL, camera);
++}
++
++static void camera_v4l2_stream_off(QEMUCamera *camera, Error **errp)
++{
++    CameraV4l2 *v4l2 = CAMERA_V4L2_DEV(camera);
++    CameraV4l2Options *v4l2opts = &camera->dev->u.v4l2;
++    int type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
++
++    qemu_set_fd_handler(v4l2->devfd, NULL, NULL, camera);
++
++    if (ioctl(v4l2->devfd, VIDIOC_STREAMOFF, &type) < 0) {
++        error_setg(errp, "%s: stream off failed on %s",
++                   TYPE_CAMERA_V4L2, v4l2opts->path);
++    }
++
++    camera_v4l2_free_buffers(camera);
 +
 +    qemu_camera_free_image(camera);
-+    g_free(builtin->image);
-+    builtin->image = NULL;
-+    builtin->sequence = 0;
-+
-+    cairo_destroy(builtin->cr);
-+    cairo_surface_destroy(builtin->surface);
-+
-+    g_free(builtin->opaque);
-+    builtin->opaque = NULL;
 +}
 +
-+
-+static void camera_builtin_init(Object *obj)
++static void camera_v4l2_init(Object *obj)
 +{
-+    QEMUCamera *camera = CAMERADEV(obj);
-+    CameraBuiltin *builtin = CAMERA_BUILTIN_DEV(camera);
-+    int i;
-+
-+    /*
-+     * Because builtin camera is designed for debug purpose only, so this table
-+     * does't keep align with the read camera, just to make the code easy.
-+     */
-+    for (i = 0; i < QEMUCameraControlMax; i++) {
-+        builtin->ctrl[i][ATTRIBUTE_DEF] = 0x7f;
-+        builtin->ctrl[i][ATTRIBUTE_MIN] = 0;
-+        builtin->ctrl[i][ATTRIBUTE_MAX] = 0xff;
-+        builtin->ctrl[i][ATTRIBUTE_CUR] = 0;
-+        builtin->ctrl[i][ATTRIBUTE_STEP] = 1;
-+    }
-+
-+    builtin->ctrl[QEMUCameraHueAuto][ATTRIBUTE_DEF] = 0;
-+    builtin->ctrl[QEMUCameraHueAuto][ATTRIBUTE_MIN] = 0;
-+    builtin->ctrl[QEMUCameraHueAuto][ATTRIBUTE_MAX] = 1;
 +}
 +
-+static void camera_builtin_finalize(Object *obj)
++static void camera_v4l2_finalize(Object *obj)
 +{
 +    QEMUCamera *camera = CAMERADEV(obj);
 +    Error *local_err = NULL;
 +
-+    camera_builtin_stream_off(camera, &local_err);
++    camera_v4l2_stream_off(camera, &local_err);
 +}
 +
-+static void camera_builtin_class_init(ObjectClass *oc, void *data)
++static void camera_v4l2_class_init(ObjectClass *oc, void *data)
 +{
 +    QEMUCameraClass *klass = CAMERADEV_CLASS(oc);
 +
-+    klass->open = camera_builtin_open;
-+    klass->stream_on = camera_builtin_stream_on;
-+    klass->stream_off = camera_builtin_stream_off;
-+    klass->enum_pixel_format = camera_builtin_enum_pixel_format;
-+    klass->enum_frame_size = camera_builtin_enum_frame_size;
-+    klass->enum_frame_interval = camera_builtin_enum_frame_interval;
-+    klass->set_frame_interval = camera_builtin_set_frame_interval;
-+    klass->enum_control = camera_builtin_enum_control;
-+    klass->set_control = camera_builtin_set_control;
++    klass->open = camera_v4l2_open;
++    klass->stream_on = camera_v4l2_stream_on;
++    klass->stream_off = camera_v4l2_stream_off;
++    klass->enum_pixel_format = camera_v4l2_enum_pixel_format;
++    klass->enum_frame_size = camera_v4l2_enum_frame_size;
++    klass->enum_frame_interval = camera_v4l2_enum_frame_interval;
++    klass->set_frame_interval = camera_v4l2_set_frame_interval;
++    klass->enum_control = camera_v4l2_enum_control;
++    klass->set_control = camera_v4l2_set_control;
 +}
 +
-+static const TypeInfo camera_builtin_type_info = {
-+    .name = TYPE_CAMERA_BUILTIN,
++static const TypeInfo camera_v4l2_type_info = {
++    .name = TYPE_CAMERA_V4L2,
 +    .parent = TYPE_CAMERADEV,
-+    .instance_size = sizeof(CameraBuiltin),
-+    .instance_init = camera_builtin_init,
-+    .instance_finalize = camera_builtin_finalize,
-+    .class_init = camera_builtin_class_init,
++    .instance_size = sizeof(CameraV4l2),
++    .instance_init = camera_v4l2_init,
++    .instance_finalize = camera_v4l2_finalize,
++    .class_init = camera_v4l2_class_init,
 +};
 +
 +static void register_types(void)
 +{
-+    type_register_static(&camera_builtin_type_info);
++    type_register_static(&camera_v4l2_type_info);
 +}
 +
 +type_init(register_types);
-diff --git a/camera/camera-int.h b/camera/camera-int.h
-new file mode 100644
-index 0000000000..bca6ae7c44
---- /dev/null
-+++ b/camera/camera-int.h
-@@ -0,0 +1,19 @@
-+/*
-+ * QEMU Camera subsystem internal API header file
-+ *
-+ * Copyright 2021-2022 Bytedance, Inc.
-+ *
-+ * Authors:
-+ *   zhenwei pi <pizhenwei@bytedance.com>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ */
-+#ifndef QEMU_CAMERA_INT_H
-+#define QEMU_CAMERA_INT_H
-+
-+void qemu_camera_alloc_image(QEMUCamera *camera, size_t size, Error **errp);
-+void qemu_camera_free_image(QEMUCamera *camera);
-+void qemu_camera_new_image(QEMUCamera *camera, const void *addr, size_t size);
-+
-+#endif /* QEMU_CAMERA_INT_H */
-diff --git a/camera/camera.c b/camera/camera.c
-new file mode 100644
-index 0000000000..258a3db532
---- /dev/null
-+++ b/camera/camera.c
-@@ -0,0 +1,522 @@
-+/*
-+ * QEMU camera subsystem
-+ *
-+ * Copyright 2021-2022 Bytedance, Inc.
-+ *
-+ * Authors:
-+ *   zhenwei pi <pizhenwei@bytedance.com>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ */
-+#include "qemu/osdep.h"
-+#include "qemu/help_option.h"
-+#include "qemu/iov.h"
-+#include "qemu/log.h"
-+#include "qemu/module.h"
-+#include "qemu/qemu-print.h"
-+#include "qom/object.h"
-+#include "qapi/error.h"
-+#include "qapi/visitor.h"
-+#include "qapi/qobject-input-visitor.h"
-+#include "qapi/qapi-visit-camera.h"
-+#include "camera/camera.h"
-+#include "camera-int.h"
-+#include "trace.h"
-+
-+static QLIST_HEAD(, QEMUCamera) qemu_cameras;
-+
-+const char *qemu_camera_id(QEMUCamera *camera)
-+{
-+    if (camera->dev && camera->dev->id) {
-+        return camera->dev->id;
-+    }
-+
-+    return "";
-+}
-+
-+QEMUCamera *qemu_camera_by_id(const char *id)
-+{
-+    QEMUCamera *camera;
-+
-+    if (!id) {
-+        return NULL;
-+    }
-+
-+    QLIST_FOREACH(camera, &qemu_cameras, list) {
-+        if (!strcmp(qemu_camera_id(camera), id)) {
-+            return camera;
-+        }
-+    }
-+
-+    return NULL;
-+}
-+
-+static const QEMUCameraClass *camera_get_class(const char *typename,
-+                                               Error **errp)
-+{
-+    ObjectClass *oc;
-+
-+    oc = module_object_class_by_name(typename);
-+
-+    if (!object_class_dynamic_cast(oc, TYPE_CAMERADEV)) {
-+        error_setg(errp, "%s: missing %s implementation",
-+                   TYPE_CAMERADEV, typename);
-+        return NULL;
-+    }
-+
-+    if (object_class_is_abstract(oc)) {
-+        error_setg(errp, "%s: %s is abstract type", TYPE_CAMERADEV, typename);
-+        return NULL;
-+    }
-+
-+    return CAMERADEV_CLASS(oc);
-+}
-+
-+static QEMUCamera *qemu_camera_new(Cameradev *dev, Error **errp)
-+{
-+    Object *obj;
-+    QEMUCamera *camera = NULL;
-+    g_autofree char *typename = NULL;
-+    Error *local_err = NULL;
-+    QEMUCameraClass *klass;
-+    const char *driver = CameradevDriver_str(dev->driver);
-+
-+    typename = g_strdup_printf("%s-%s", TYPE_CAMERADEV, driver);
-+    if (!camera_get_class(typename, errp)) {
-+        return NULL;
-+    }
-+
-+    obj = object_new(typename);
-+    if (!obj) {
-+        return NULL;
-+    }
-+
-+    camera = CAMERADEV(obj);
-+    camera->dev = dev;
-+
-+    klass = CAMERADEV_GET_CLASS(camera);
-+    if (klass->open) {
-+        klass->open(camera, &local_err);
-+        if (local_err) {
-+            error_propagate(errp, local_err);
-+            goto error;
-+        }
-+    }
-+
-+    QLIST_INSERT_HEAD(&qemu_cameras, camera, list);
-+    trace_qemu_camera_new(qemu_camera_id(camera), typename);
-+
-+    return camera;
-+
-+error:
-+    if (obj) {
-+        object_unref(obj);
-+    }
-+
-+    return NULL;
-+}
-+
-+typedef struct CameradevClassFE {
-+    void (*fn)(const char *name, void *opaque);
-+    void *opaque;
-+} CameradevClassFE;
-+
-+static void cameradev_class_foreach(ObjectClass *klass, void *opaque)
-+{
-+    CameradevClassFE *fe = opaque;
-+
-+    assert(g_str_has_prefix(object_class_get_name(klass), TYPE_CAMERADEV"-"));
-+    fe->fn(object_class_get_name(klass) + 10, fe->opaque);
-+}
-+
-+static void cameradev_name_foreach(void (*fn)(const char *name, void *opaque),
-+                                   void *opaque)
-+{
-+    CameradevClassFE fe = { .fn = fn, .opaque = opaque };
-+
-+    object_class_foreach(cameradev_class_foreach, TYPE_CAMERADEV, false, &fe);
-+}
-+
-+static void help_string_append(const char *name, void *opaque)
-+{
-+    GString *str = opaque;
-+
-+    g_string_append_printf(str, "\n  %s", name);
-+}
-+
-+void qemu_camera_new_from_opts(const char *opt)
-+{
-+    Cameradev *dev;
-+
-+    if (opt && is_help_option(opt)) {
-+        GString *str = g_string_new("");
-+
-+        cameradev_name_foreach(help_string_append, str);
-+
-+        qemu_printf("Available cameradev backend types: %s\n", str->str);
-+        g_string_free(str, true);
-+        return;
-+    }
-+
-+    Visitor *v = qobject_input_visitor_new_str(opt, "driver", &error_fatal);
-+    visit_type_Cameradev(v, NULL, &dev, &error_fatal);
-+    visit_free(v);
-+
-+    if (qemu_camera_by_id(dev->id)) {
-+        error_setg(&error_fatal, "%s: id %s already existed",
-+                   TYPE_CAMERADEV, dev->id);
-+    }
-+
-+    if (!qemu_camera_new(dev, &error_fatal)) {
-+        qapi_free_Cameradev(dev);
-+    }
-+}
-+
-+void qemu_camera_del(QEMUCamera *camera)
-+{
-+    Error *local_err = NULL;
-+
-+    trace_qemu_camera_del(qemu_camera_id(camera));
-+
-+    qemu_camera_stream_off(camera, &local_err);
-+    QLIST_REMOVE(camera, list);
-+    qapi_free_Cameradev(camera->dev);
-+    object_unref(camera);
-+}
-+
-+int qemu_camera_enum_pixel_format(QEMUCamera *camera, uint32_t *pixfmts,
-+                                  int npixfmt, Error **errp)
-+{
-+    QEMUCameraClass *klass = CAMERADEV_GET_CLASS(camera);
-+    int ret, i;
-+
-+    if (!klass->enum_pixel_format) {
-+        error_setg(errp, "%s: %s missing enum pixel format implementation",
-+                   TYPE_CAMERADEV, qemu_camera_id(camera));
-+        return -ENOTSUP;
-+    }
-+
-+    ret = klass->enum_pixel_format(camera, pixfmts, npixfmt, errp);
-+    if (ret > 0) {
-+        for (i = 0; i < ret; i++) {
-+            trace_qemu_camera_enum_pixel_format(qemu_camera_id(camera),
-+                pixfmts[i]);
-+        }
-+    } else {
-+        trace_qemu_camera_enum_pixel_format_ret(qemu_camera_id(camera), ret);
-+    }
-+
-+    return ret;
-+}
-+
-+int qemu_camera_enum_frame_size(QEMUCamera *camera, uint32_t pixfmt,
-+                                QEMUCameraFrameSize *frmszs, int nfrmsz,
-+                                Error **errp)
-+{
-+    QEMUCameraClass *klass = CAMERADEV_GET_CLASS(camera);
-+    int ret, i;
-+
-+    if (!klass->enum_frame_size) {
-+        error_setg(errp, "%s: %s missing enum frame size implementation",
-+                   TYPE_CAMERADEV, qemu_camera_id(camera));
-+        return -ENOTSUP;
-+    }
-+
-+    ret = klass->enum_frame_size(camera, pixfmt, frmszs, nfrmsz, errp);
-+    if (ret > 0) {
-+        QEMUCameraFrameSize *frmsz;
-+
-+        for (i = 0; i < ret; i++) {
-+            frmsz = frmszs + i;
-+            if (frmsz->type == QEMU_CAMERA_FRMSIZE_TYPE_DISCRETE)
-+                trace_qemu_camera_enum_frame_size_d(qemu_camera_id(camera),
-+                    frmsz->pixel_format, frmsz->d.width, frmsz->d.height);
-+            }
-+    } else {
-+        trace_qemu_camera_enum_frame_size_ret(qemu_camera_id(camera), ret);
-+    }
-+
-+    return ret;
-+}
-+
-+int qemu_camera_enum_frame_interval(QEMUCamera *camera,
-+                                    const QEMUCameraFormat *format,
-+                                    QEMUCameraFrameInterval *frmivals,
-+                                    int nfrmival, Error **errp)
-+{
-+    QEMUCameraClass *klass = CAMERADEV_GET_CLASS(camera);
-+    int ret, i;
-+
-+    if (!klass->enum_frame_interval) {
-+        error_setg(errp, "%s: %s missing enum frame interval implementation",
-+                   TYPE_CAMERADEV, qemu_camera_id(camera));
-+        return -ENOTSUP;
-+    }
-+
-+    ret = klass->enum_frame_interval(camera, format, frmivals, nfrmival, errp);
-+    if (ret > 0) {
-+        QEMUCameraFrameInterval *frmival;
-+
-+        for (i = 0; i < ret; i++) {
-+            frmival = frmivals + i;
-+            if (frmival->type == QEMU_CAMERA_FRMIVAL_TYPE_DISCRETE) {
-+                trace_qemu_camera_enum_frame_interval_d(qemu_camera_id(camera),
-+                    frmival->pixel_format, frmival->width, frmival->height,
-+                    frmival->d.numerator, frmival->d.denominator);
-+            }
-+        }
-+    } else {
-+        trace_qemu_camera_enum_frame_interval_ret(qemu_camera_id(camera), ret);
-+    }
-+
-+    return ret;
-+}
-+
-+int qemu_camera_set_frame_interval(QEMUCamera *camera,
-+                                   const QEMUCameraFrameInterval *frmival,
-+                                   Error **errp)
-+{
-+    QEMUCameraClass *klass = CAMERADEV_GET_CLASS(camera);
-+    int ret;
-+
-+    if (!klass->set_frame_interval) {
-+        error_setg(errp, "%s: %s missing set frame interval implementation",
-+                   TYPE_CAMERADEV, qemu_camera_id(camera));
-+        return -ENOTSUP;
-+    }
-+
-+    ret = klass->set_frame_interval(camera, frmival, errp);
-+    if (frmival->type == QEMU_CAMERA_FRMIVAL_TYPE_DISCRETE) {
-+        trace_qemu_camera_set_frame_interval(qemu_camera_id(camera),
-+            frmival->pixel_format, frmival->width, frmival->height,
-+            frmival->d.numerator, frmival->d.denominator, ret);
-+    }
-+
-+    return ret;
-+}
-+
-+int qemu_camera_enum_control(QEMUCamera *camera, QEMUCameraControl *controls,
-+                             int ncontrols, Error **errp)
-+{
-+    QEMUCameraClass *klass = CAMERADEV_GET_CLASS(camera);
-+    int ret, i;
-+
-+    if (!klass->enum_control) {
-+        error_setg(errp, "%s: %s missing enum control implementation",
-+                   TYPE_CAMERADEV, qemu_camera_id(camera));
-+        return -ENOTSUP;
-+    }
-+
-+    ret = klass->enum_control(camera, controls, ncontrols, errp);
-+    if (ret > 0) {
-+        QEMUCameraControl *control;
-+
-+        for (i = 0; i < ret; i++) {
-+            control = controls + i;
-+            trace_qemu_camera_enum_control(qemu_camera_id(camera),
-+                QEMUCameraControlTypeString(control->type), control->def,
-+                control->min, control->max, control->step);
-+        }
-+    } else {
-+        trace_qemu_camera_enum_control_ret(qemu_camera_id(camera), ret);
-+    }
-+
-+    return ret;
-+}
-+
-+int qemu_camera_set_control(QEMUCamera *camera,
-+                            const QEMUCameraControl *control, Error **errp)
-+{
-+    QEMUCameraClass *klass = CAMERADEV_GET_CLASS(camera);
-+
-+    if (!klass->set_control) {
-+        error_setg(errp, "%s: %s missing set control implementation",
-+                   TYPE_CAMERADEV, qemu_camera_id(camera));
-+        return -ENOTSUP;
-+    }
-+
-+    trace_qemu_camera_set_control(qemu_camera_id(camera),
-+        QEMUCameraControlTypeString(control->type), control->cur);
-+
-+    return klass->set_control(camera, control, errp);
-+}
-+
-+void qemu_camera_stream_on(QEMUCamera *camera, qemu_camera_image_cb cb,
-+                           void *opaque, Error **errp)
-+{
-+    QEMUCameraClass *klass = CAMERADEV_GET_CLASS(camera);
-+
-+    if (!klass->stream_on) {
-+        error_setg(errp, "%s: %s missing stream on implementation",
-+                   TYPE_CAMERADEV, qemu_camera_id(camera));
-+        return;
-+    }
-+
-+    qemu_mutex_lock(&camera->image_lock);
-+    camera->cb_fn = cb;
-+    camera->cb_opaque = opaque;
-+    qemu_mutex_unlock(&camera->image_lock);
-+
-+    klass->stream_on(camera, errp);
-+    assert(camera->image_addr);
-+    assert(camera->image_size);
-+
-+    trace_qemu_camera_stream_on(qemu_camera_id(camera));
-+}
-+
-+void qemu_camera_stream_off(QEMUCamera *camera, Error **errp)
-+{
-+    QEMUCameraClass *klass = CAMERADEV_GET_CLASS(camera);
-+
-+    if (!klass->stream_off) {
-+        error_setg(errp, "%s: %s missing stream off implementation",
-+                   TYPE_CAMERADEV, qemu_camera_id(camera));
-+        return;
-+    }
-+
-+    qemu_mutex_lock(&camera->image_lock);
-+    camera->cb_fn = NULL;
-+    camera->cb_opaque = NULL;
-+    qemu_mutex_unlock(&camera->image_lock);
-+
-+    klass->stream_off(camera, errp);
-+
-+    trace_qemu_camera_stream_off(qemu_camera_id(camera));
-+}
-+
-+size_t qemu_camera_stream_length(QEMUCamera *camera)
-+{
-+    size_t length = 0;
-+
-+    qemu_mutex_lock(&camera->image_lock);
-+    assert(camera->image_pos <= camera->image_bytes);
-+    length = camera->image_bytes - camera->image_pos;
-+    qemu_mutex_unlock(&camera->image_lock);
-+
-+    return length;
-+}
-+
-+size_t qemu_camera_stream_read(QEMUCamera *camera, const struct iovec *iov,
-+                               const uint32_t iov_cnt, size_t offset,
-+                               size_t size)
-+{
-+    size_t length = 0;
-+    void *addr;
-+
-+    qemu_mutex_lock(&camera->image_lock);
-+
-+    assert(camera->image_pos <= camera->image_bytes);
-+    length = camera->image_bytes - camera->image_pos;
-+    length = MIN(size, length);
-+    if (!length) {
-+        goto out;
-+    }
-+
-+    addr = camera->image_addr + camera->image_pos;
-+    iov_from_buf(iov, iov_cnt, offset, addr, size);
-+    camera->image_pos += length;
-+    if (camera->image_pos == camera->image_bytes) {
-+        /* previous frame already fully read*/
-+        camera->image_frames = camera->image_sequence;
-+        camera->image_pos = 0;
-+        camera->image_bytes = 0;
-+    }
-+
-+out:
-+    qemu_mutex_unlock(&camera->image_lock);
-+
-+    trace_qemu_camera_stream_read(qemu_camera_id(camera), length);
-+
-+    return length;
-+}
-+
-+
-+static void camera_init(Object *obj)
-+{
-+    QEMUCamera *camera = CAMERADEV(obj);
-+
-+    qemu_mutex_init(&camera->image_lock);
-+}
-+
-+static void camera_finalize(Object *obj)
-+{
-+    QEMUCamera *camera = CAMERADEV(obj);
-+
-+    qemu_mutex_destroy(&camera->image_lock);
-+}
-+
-+static const TypeInfo camera_type_info = {
-+    .name = TYPE_CAMERADEV,
-+    .parent = TYPE_OBJECT,
-+    .instance_size = sizeof(QEMUCamera),
-+    .instance_init = camera_init,
-+    .instance_finalize = camera_finalize,
-+    .abstract = true,
-+    .class_size = sizeof(QEMUCameraClass),
-+};
-+
-+static void register_types(void)
-+{
-+    type_register_static(&camera_type_info);
-+}
-+
-+type_init(register_types);
-+
-+/* internal functions, declared in camera-int.h */
-+
-+void qemu_camera_alloc_image(QEMUCamera *camera, size_t size, Error **errp)
-+{
-+    trace_qemu_camera_alloc_image(qemu_camera_id(camera), size);
-+
-+    qemu_mutex_lock(&camera->image_lock);
-+    if (camera->image_size == size) {
-+        /* no need to re-allocate the same size image buffer */
-+        goto out;
-+    }
-+
-+    g_free(camera->image_addr);
-+    camera->image_addr = g_malloc0(size);
-+    camera->image_size = size;
-+    camera->image_pos = 0;
-+    camera->image_bytes = 0;
-+
-+out:
-+    qemu_mutex_unlock(&camera->image_lock);
-+}
-+
-+void qemu_camera_free_image(QEMUCamera *camera)
-+{
-+    trace_qemu_camera_free_image(qemu_camera_id(camera));
-+
-+    qemu_mutex_lock(&camera->image_lock);
-+    g_free(camera->image_addr);
-+    camera->image_addr = NULL;
-+    camera->image_size = 0;
-+    camera->image_pos = 0;
-+    camera->image_bytes = 0;
-+    qemu_mutex_unlock(&camera->image_lock);
-+}
-+
-+void qemu_camera_new_image(QEMUCamera *camera, const void *addr, size_t size)
-+{
-+    trace_qemu_camera_new_image(qemu_camera_id(camera), camera->image_sequence,
-+                                size);
-+    qemu_mutex_lock(&camera->image_lock);
-+
-+    assert(camera->image_addr);
-+    assert(size <= camera->image_size);
-+
-+    camera->image_sequence++;
-+
-+    if (camera->image_pos) {
-+        /* previous frame in process */
-+        goto out;
-+    }
-+
-+    memcpy(camera->image_addr, addr, size);
-+    camera->image_bytes = size;
-+
-+out:
-+    qemu_mutex_unlock(&camera->image_lock);
-+}
-diff --git a/camera/meson.build b/camera/meson.build
-new file mode 100644
-index 0000000000..d50ee5ebf7
---- /dev/null
-+++ b/camera/meson.build
-@@ -0,0 +1,16 @@
-+camera_ss.add([files(
-+  'camera.c',
-+)])
-+
-+camera_modules = {}
-+foreach m : [
-+  ['builtin', cairo, files('builtin.c')],
-+]
-+  if m[1].found()
-+    module_ss = ss.source_set()
-+    module_ss.add(m[1], m[2])
-+    camera_modules += {m[0] : module_ss}
-+  endif
-+endforeach
-+
-+modules += {'camera': camera_modules}
-diff --git a/camera/trace-events b/camera/trace-events
-new file mode 100644
-index 0000000000..2f4d93e924
---- /dev/null
-+++ b/camera/trace-events
-@@ -0,0 +1,24 @@
-+# See docs/devel/tracing.rst for syntax documentation.
-+
-+# camera.c
-+qemu_camera_new(const char *dev, char *typename) "%s: new camera with type %s"
-+qemu_camera_del(const char *dev) "%s: delete camera"
-+qemu_camera_set_control(const char *dev, const char *type, int value) "%s: set control type %s, value %d"
-+qemu_camera_stream_on(const char *dev) "%s: stream on"
-+qemu_camera_stream_off(const char *dev) "%s: stream off"
-+qemu_camera_stream_read(const char *dev, size_t length) "%s: stream read length %ld"
-+qemu_camera_alloc_image(const char *dev, size_t size) "%s: alloc image size %ld"
-+qemu_camera_free_image(const char *dev) "%s: free image size"
-+qemu_camera_new_image(const char *dev, uint32_t seq, size_t size) "%s: new image sequence %u, size %ld"
-+qemu_camera_enum_pixel_format(const char *dev, uint32_t pixfmt) "%s: pixfmt 0x%x"
-+qemu_camera_enum_pixel_format_ret(const char *dev, int ret) "%s: ret %d"
-+qemu_camera_enum_frame_size_d(const char *dev, uint32_t pixfmt, uint32_t w, uint32_t h) "%s: pixfmt 0x%x, discrete width %u, height %u"
-+qemu_camera_enum_frame_size_ret(const char *dev, int ret) "%s: ret %d"
-+qemu_camera_enum_frame_interval_d(const char *dev, uint32_t pixfmt, uint32_t w, uint32_t h, uint32_t n, uint32_t d) "%s: pixfmt 0x%x, width %u, height %u, discrete numerator %u, denominator %u"
-+qemu_camera_enum_frame_interval_ret(const char *dev, int ret) "%s: ret %d"
-+qemu_camera_set_frame_interval(const char *dev, uint32_t pixfmt, uint32_t w, uint32_t h, uint32_t n, uint32_t d, int ret) "%s: pixfmt 0x%x, width %u, height %u, discrete numerator %u, denominator %u, retval %d"
-+qemu_camera_enum_control(const char *dev, const char *type, int def, int min, int max, int step) "%s: type %s, def %d, min %d, max %d, step %d"
-+qemu_camera_enum_control_ret(const char *dev, int ret) "%s: ret %d"
-+
-+# builtin.c
-+camera_builtin_timer(const char *dev) "%s: new image"
-diff --git a/camera/trace.h b/camera/trace.h
-new file mode 100644
-index 0000000000..f248af5c9b
---- /dev/null
-+++ b/camera/trace.h
-@@ -0,0 +1 @@
-+#include "trace/trace-camera.h"
-diff --git a/include/camera/camera.h b/include/camera/camera.h
-new file mode 100644
-index 0000000000..dfd2905de4
---- /dev/null
-+++ b/include/camera/camera.h
-@@ -0,0 +1,238 @@
-+/*
-+ * QEMU Camera subsystem
-+ *
-+ * Copyright 2021-2022 Bytedance, Inc.
-+ *
-+ * Authors:
-+ *   zhenwei pi <pizhenwei@bytedance.com>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ */
-+#ifndef QEMU_CAMERA_H
-+#define QEMU_CAMERA_H
-+
-+#include "hw/qdev-properties.h"
-+#include "hw/qdev-properties-system.h"
-+#include "qapi/qapi-types-camera.h"
-+#include "qemu/queue.h"
-+
-+#define camera_fourcc_code(a, b, c, d) \
-+                          ((uint32_t)(a) | ((uint32_t)(b) << 8) | \
-+                          ((uint32_t)(c) << 16) | ((uint32_t)(d) << 24))
-+
-+#define QEMU_CAMERA_PIX_FMT_MJPEG  camera_fourcc_code('M', 'J', 'P', 'G')
-+#define QEMU_CAMERA_PIX_FMT_YUYV   camera_fourcc_code('Y', 'U', 'Y', 'V')
-+#define QEMU_CAMERA_PIX_FMT_RGB565 camera_fourcc_code('R', 'G', 'B', 'P')
-+
-+static inline bool qemu_camera_pixel_supported(uint32_t pixfmt)
-+{
-+    /* only process MJPEG & YUYV, may support others in future */
-+    if ((pixfmt == QEMU_CAMERA_PIX_FMT_MJPEG)
-+        || (pixfmt == QEMU_CAMERA_PIX_FMT_YUYV)
-+        || (pixfmt == QEMU_CAMERA_PIX_FMT_RGB565)) {
-+        return true;
-+    }
-+
-+    return false;
-+}
-+
-+#define QEMU_CAMERA_FRMSIZE_TYPE_DISCRETE 0x00
-+#define QEMU_CAMERA_FRMSIZE_TYPE_STEPWISE 0x01
-+
-+typedef struct QEMUCameraFrameSize {
-+    uint32_t pixel_format;
-+
-+    uint32_t type;
-+    union {
-+        struct FrameSizeDiscrete {
-+            uint32_t width;
-+            uint32_t height;
-+        } d;
-+
-+        struct FrameSizeStepwise {
-+            uint32_t min_width;
-+            uint32_t max_width;
-+            uint32_t step_width;
-+            uint32_t min_height;
-+            uint32_t max_height;
-+            uint32_t step_height;
-+        } s;
-+    };
-+} QEMUCameraFrameSize;
-+
-+typedef struct QEMUCameraFormat {
-+    uint32_t pixel_format;
-+    uint32_t width;
-+    uint32_t height;
-+} QEMUCameraFormat;
-+
-+#define QEMU_CAMERA_FRMIVAL_TYPE_DISCRETE 0x00
-+#define QEMU_CAMERA_FRMIVAL_TYPE_STEPWISE 0x01
-+
-+typedef struct QEMUCameraFrameInterval {
-+    uint32_t pixel_format;
-+    uint32_t width;
-+    uint32_t height;
-+
-+    uint32_t type;
-+    union {
-+        struct FrameIntervalDiscrete {
-+            uint32_t numerator;
-+            uint32_t denominator;
-+        } d;
-+
-+        struct FrameIntervalStepwise {
-+            struct FrameIntervalDiscrete min;
-+            struct FrameIntervalDiscrete max;
-+            struct FrameIntervalDiscrete step;
-+        } s;
-+    };
-+} QEMUCameraFrameInterval;
-+
-+typedef enum QEMUCameraControlType {
-+    QEMUCameraBrightness,
-+    QEMUCameraContrast,
-+    QEMUCameraGain,
-+    QEMUCameraGamma,
-+    QEMUCameraHue,
-+    QEMUCameraHueAuto,
-+    QEMUCameraSaturation,
-+    QEMUCameraSharpness,
-+    QEMUCameraWhiteBalanceTemperature,
-+    QEMUCameraControlMax
-+} QEMUCameraControlType;
-+
-+static const char *QEMUCameraControlTypeStr[] = {
-+    "Brightness",
-+    "Contrast",
-+    "Gain",
-+    "Gamma",
-+    "Hue",
-+    "HueAuto",
-+    "Saturation",
-+    "Sharpness",
-+    "WhiteBalanceTemperature",
-+    "Max",
-+};
-+
-+static inline const char *QEMUCameraControlTypeString(QEMUCameraControlType t)
-+{
-+    if (t > QEMUCameraControlMax) {
-+        return "";
-+    }
-+
-+    return QEMUCameraControlTypeStr[t];
-+}
-+
-+typedef struct QEMUCameraControl {
-+    QEMUCameraControlType type;
-+    int32_t cur;
-+    int32_t def;
-+    int32_t min;
-+    int32_t max;
-+    int32_t step;
-+} QEMUCameraControl;
-+
-+#define TYPE_CAMERADEV "cameradev"
-+
-+typedef void (*qemu_camera_image_cb) (void *opaque, void *buf, ssize_t avail);
-+
-+struct QEMUCamera {
-+    Object parent_obj;
-+
-+    char *model;
-+    Cameradev *dev;
-+
-+    /* camera image buffer to store recent frame */
-+    QemuMutex image_lock;
-+    /* sequence number generated by driver */
-+    uint32_t image_sequence;
-+    /* frame sequence number currently work on */
-+    uint32_t image_frames;
-+    unsigned char *image_addr;
-+    /* size of buffer */
-+    ssize_t image_size;
-+    /* real size of this frame, clear to zero after fully read*/
-+    ssize_t image_bytes;
-+    /* offset already read, clear to zero after fully read */
-+    ssize_t image_pos;
-+    qemu_camera_image_cb cb_fn;
-+    void *cb_opaque;
-+
-+    QLIST_ENTRY(QEMUCamera) list;
-+};
-+
-+OBJECT_DECLARE_TYPE(QEMUCamera, QEMUCameraClass, CAMERADEV)
-+
-+struct QEMUCameraClass {
-+    ObjectClass parent_class;
-+
-+    void (*open)(QEMUCamera *camera, Error **errp);
-+
-+    void (*stream_on)(QEMUCamera *camera, Error **errp);
-+
-+    void (*stream_off)(QEMUCamera *camera, Error **errp);
-+
-+    int (*enum_pixel_format)(QEMUCamera *camera, uint32_t *pixfmts,
-+                             int npixfmt, Error **errp);
-+
-+    int (*enum_frame_size)(QEMUCamera *camera, uint32_t pixfmt,
-+                           QEMUCameraFrameSize *frmszs, int nfrmsz,
-+                           Error **errp);
-+
-+    int (*enum_frame_interval)(QEMUCamera *camera,
-+                               const QEMUCameraFormat *format,
-+                               QEMUCameraFrameInterval *frmivals, int nfrmival,
-+                               Error **errp);
-+
-+    int (*set_frame_interval)(QEMUCamera *camera,
-+                              const QEMUCameraFrameInterval *frmival,
-+                              Error **errp);
-+
-+    int (*enum_control)(QEMUCamera *camera, QEMUCameraControl *controls,
-+                        int ncontrols, Error **errp);
-+
-+    int (*set_control)(QEMUCamera *camera, const QEMUCameraControl *control,
-+                       Error **errp);
-+};
-+
-+void qemu_camera_new_from_opts(const char *opt);
-+void qemu_camera_del(QEMUCamera *camera);
-+const char *qemu_camera_id(QEMUCamera *camera);
-+QEMUCamera *qemu_camera_by_id(const char *id);
-+
-+int qemu_camera_enum_pixel_format(QEMUCamera *camera, uint32_t *pixfmts,
-+                                  int npixfmt, Error **errp);
-+
-+int qemu_camera_enum_frame_size(QEMUCamera *camera, uint32_t pixfmt,
-+                                QEMUCameraFrameSize *frmszs, int nfrmsz,
-+                                Error **errp);
-+
-+int qemu_camera_enum_frame_interval(QEMUCamera *camera,
-+                                    const QEMUCameraFormat *format,
-+                                    QEMUCameraFrameInterval *frmivals,
-+                                    int nfrmival, Error **errp);
-+
-+int qemu_camera_set_frame_interval(QEMUCamera *camera,
-+                                   const QEMUCameraFrameInterval *frmival,
-+                                   Error **errp);
-+
-+int qemu_camera_enum_control(QEMUCamera *camera, QEMUCameraControl *controls,
-+                             int ncontrols, Error **errp);
-+
-+int qemu_camera_set_control(QEMUCamera *camera,
-+                            const QEMUCameraControl *control, Error **errp);
-+
-+void qemu_camera_stream_on(QEMUCamera *camera, qemu_camera_image_cb cb,
-+                           void *opaque, Error **errp);
-+
-+void qemu_camera_stream_off(QEMUCamera *camera, Error **errp);
-+
-+size_t qemu_camera_stream_length(QEMUCamera *camera);
-+
-+size_t qemu_camera_stream_read(QEMUCamera *camera, const struct iovec *iov,
-+                               const uint32_t iov_cnt, size_t offset,
-+                               size_t size);
-+
-+#endif /* QEMU_CAMERA_H */
-diff --git a/meson.build b/meson.build
-index 886f0a9343..f0b51a0861 100644
---- a/meson.build
-+++ b/meson.build
-@@ -423,6 +423,13 @@ if 'ust' in get_option('trace_backends')
-   lttng = dependency('lttng-ust', required: true, method: 'pkg-config',
-                      kwargs: static_kwargs)
- endif
-+
-+cairo = not_found
-+if have_system
-+  cairo = dependency('cairo', required: have_system,
-+                     method: 'pkg-config', kwargs: static_kwargs)
-+endif
-+
- pixman = not_found
- if have_system or have_tools
-   pixman = dependency('pixman-1', required: have_system, version:'>=0.21.8',
-@@ -1452,6 +1459,7 @@ config_host_data.set('HOST_' + host_arch.to_upper(), 1)
- 
- config_host_data.set('CONFIG_ATTR', libattr.found())
- config_host_data.set('CONFIG_BRLAPI', brlapi.found())
-+config_host_data.set('CONFIG_CAIRO', cairo.found())
- config_host_data.set('CONFIG_COCOA', cocoa.found())
- config_host_data.set('CONFIG_FUZZ', get_option('fuzzing'))
- config_host_data.set('CONFIG_GCOV', get_option('b_coverage'))
-@@ -2395,6 +2403,7 @@ genh += hxdep
- authz_ss = ss.source_set()
- blockdev_ss = ss.source_set()
- block_ss = ss.source_set()
-+camera_ss = ss.source_set()
- chardev_ss = ss.source_set()
- common_ss = ss.source_set()
- common_user_ss = ss.source_set()
-@@ -2453,6 +2462,7 @@ if have_system
-     'audio',
-     'backends',
-     'backends/tpm',
-+    'camera',
-     'chardev',
-     'ebpf',
-     'hw/9pfs',
-@@ -2572,6 +2582,7 @@ endif
- 
- subdir('audio')
- subdir('io')
-+subdir('camera')
- subdir('chardev')
- subdir('fsdev')
- subdir('dump')
-@@ -2848,6 +2859,13 @@ libchardev = static_library('chardev', chardev_ss.sources() + genh,
- 
- chardev = declare_dependency(link_whole: libchardev)
- 
-+camera_ss = camera_ss.apply(config_host, strict: false)
-+libcamera = static_library('camera', camera_ss.sources() + genh,
-+                           name_suffix: 'fa',
-+                           build_by_default: false)
-+
-+camera = declare_dependency(link_whole: libcamera)
-+
- hwcore_ss = hwcore_ss.apply(config_host, strict: false)
- libhwcore = static_library('hwcore', sources: hwcore_ss.sources() + genh,
-                            name_suffix: 'fa',
-@@ -2867,7 +2885,7 @@ foreach m : block_mods + softmmu_mods
-                 install_dir: qemu_moddir)
- endforeach
- 
--softmmu_ss.add(authz, blockdev, chardev, crypto, io, qmp)
-+softmmu_ss.add(authz, blockdev, camera, chardev, crypto, io, qmp)
- common_ss.add(qom, qemuutil)
- 
- common_ss.add_all(when: 'CONFIG_SOFTMMU', if_true: [softmmu_ss])
-diff --git a/meson_options.txt b/meson_options.txt
-index 921967eddb..d51729441a 100644
---- a/meson_options.txt
-+++ b/meson_options.txt
-@@ -208,3 +208,6 @@ option('fdt', type: 'combo', value: 'auto',
- 
- option('selinux', type: 'feature', value: 'auto',
-        description: 'SELinux support in qemu-nbd')
-+
-+option('camera', type: 'feature', value: 'auto',
-+       description: 'Camera subsystem support')
 diff --git a/qapi/camera.json b/qapi/camera.json
-new file mode 100644
-index 0000000000..6d189637f9
---- /dev/null
+index 6d189637f9..513bbb465e 100644
+--- a/qapi/camera.json
 +++ b/qapi/camera.json
-@@ -0,0 +1,84 @@
-+# -*- mode: python -*-
-+#
-+# Copyright (C) 2021-2022 zhenwei pi<pizhenwei@bytedance.com>
-+#
-+# This work is licensed under the terms of the GNU GPL, version 2 or later.
-+# See the COPYING file in the top-level directory.
-+
+@@ -9,6 +9,22 @@
+ # = Camera
+ ##
+ 
 +##
-+# = Camera
-+##
-+
-+##
-+# @ColorType:
++# @CameraV4l2Options:
 +#
-+# An enumeration of color type.
++# Options of the v4l2 camera.
++#
++# @path: video capture device path
++#
++# @buffers: buffer count of v4l2 driver
 +#
 +# Since: 6.3
 +##
-+{ 'enum': 'ColorType',
-+  'data': [ 'blue', 'green', 'red', 'rainbow', 'digital-rain' ] }
-+
-+##
-+# @CameraBuiltinOptions:
-+#
-+# Options of the builtin camera.
-+#
-+# @debug: enable/disable debug information in camera video
-+#
-+# @fps: the FPS of builtin camera
-+#
-+# @width: the width of frame
-+#
-+# @height: the height of frame
-+#
-+# @mjpeg: enable/disable mjpeg format
-+#
-+# @yuv: enable/disable yuv format
-+#
-+# @rgb565: enable/disable rgb565 format
-+#
-+# @bgcolor: background color of camera
-+#
-+# Since: 6.3
-+##
-+{ 'struct': 'CameraBuiltinOptions',
++{ 'struct': 'CameraV4l2Options',
 +  'data': {
-+    '*debug': 'bool',
-+    '*fps': 'uint32',
-+    '*width': 'uint32',
-+    '*height': 'uint32',
-+    '*mjpeg': 'bool',
-+    '*yuv': 'bool',
-+    '*rgb565': 'bool',
-+    '*bgcolor': 'ColorType' } }
++    '*path': 'str',
++    '*buffers': 'uint32' } }
 +
-+
-+##
-+# @CameradevDriver:
-+#
-+# An enumeration of possible camera backend drivers.
-+#
-+# Since: 6.3
-+##
-+{ 'enum': 'CameradevDriver',
-+  'data': [ 'builtin' ] }
-+
-+##
-+# @Cameradev:
-+#
-+# Options of an camera backend.
-+#
-+# @id: identifier of the backend
-+#
-+# @driver: the backend driver to use
-+#
-+# Since: 6.3
-+##
-+{ 'union': 'Cameradev',
-+  'base': {
-+    'id':          'str',
-+    'driver':      'CameradevDriver'},
-+  'discriminator': 'driver',
-+  'data': {
-+    'builtin':     'CameraBuiltinOptions' } }
-diff --git a/qapi/meson.build b/qapi/meson.build
-index c0c49c15e4..404eb2e573 100644
---- a/qapi/meson.build
-+++ b/qapi/meson.build
-@@ -59,6 +59,7 @@ if have_system
-     'rdma',
-     'rocker',
-     'tpm',
-+    'camera',
-   ]
- endif
- if have_system or have_tools
-diff --git a/qapi/qapi-schema.json b/qapi/qapi-schema.json
-index 4912b9744e..58afb77639 100644
---- a/qapi/qapi-schema.json
-+++ b/qapi/qapi-schema.json
-@@ -93,3 +93,4 @@
- { 'include': 'audio.json' }
- { 'include': 'acpi.json' }
- { 'include': 'pci.json' }
-+{ 'include': 'camera.json' }
+ ##
+ # @ColorType:
+ #
+@@ -62,7 +78,7 @@
+ # Since: 6.3
+ ##
+ { 'enum': 'CameradevDriver',
+-  'data': [ 'builtin' ] }
++  'data': [ 'builtin', 'v4l2' ] }
+ 
+ ##
+ # @Cameradev:
+@@ -81,4 +97,5 @@
+     'driver':      'CameradevDriver'},
+   'discriminator': 'driver',
+   'data': {
+-    'builtin':     'CameraBuiltinOptions' } }
++    'builtin':     'CameraBuiltinOptions',
++    'v4l2':        'CameraV4l2Options' } }
 diff --git a/qemu-options.hx b/qemu-options.hx
-index 7d47510947..fa439134dc 100644
+index fa439134dc..60975d6c3d 100644
 --- a/qemu-options.hx
 +++ b/qemu-options.hx
-@@ -3529,6 +3529,16 @@ The available backends are:
-     traffic identified by a name (preferably a fqdn).
- ERST
- 
-+DEFHEADING(Camera device options:)
-+
-+DEF("cameradev", HAS_ARG, QEMU_OPTION_cameradev,
-+    "-cameradev help\n"
-+#ifdef CONFIG_CAIRO
-+    "-cameradev builtin,id=id[,debug=true|false][,fps=FPS][,width=WIDTH][,height=HEIGHT][,mjpeg=true|false][,yuv=true|false][,rgb565=true|false][,bgcolor=blue|gree|red|rainbow|digital-rain]\n"
+@@ -3535,6 +3535,9 @@ DEF("cameradev", HAS_ARG, QEMU_OPTION_cameradev,
+     "-cameradev help\n"
+ #ifdef CONFIG_CAIRO
+     "-cameradev builtin,id=id[,debug=true|false][,fps=FPS][,width=WIDTH][,height=HEIGHT][,mjpeg=true|false][,yuv=true|false][,rgb565=true|false][,bgcolor=blue|gree|red|rainbow|digital-rain]\n"
 +#endif
-+    , QEMU_ARCH_ALL
-+)
-+
- DEFHEADING()
- 
- #ifdef CONFIG_TPM
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index 620a1f1367..3c5f483355 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -94,6 +94,7 @@
- #ifdef CONFIG_VIRTFS
- #include "fsdev/qemu-fsdev.h"
++#ifdef CONFIG_LINUX
++    "-cameradev v4l2,id=id[,path=PATH][,buffers=COUNT]\n"
  #endif
-+#include "camera/camera.h"
- #include "sysemu/qtest.h"
- 
- #include "disas/disas.h"
-@@ -3244,6 +3245,9 @@ void qemu_init(int argc, char **argv, char **envp)
-                              qemu_opt_get(opts, "mount_tag"), &error_abort);
-                 break;
-             }
-+            case QEMU_OPTION_cameradev:
-+                qemu_camera_new_from_opts(optarg);
-+                break;
-             case QEMU_OPTION_serial:
-                 add_device_config(DEV_SERIAL, optarg);
-                 default_serial = 0;
+     , QEMU_ARCH_ALL
+ )
 -- 
 2.25.1
 
