@@ -2,75 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 764F54862F4
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 11:31:13 +0100 (CET)
-Received: from localhost ([::1]:57602 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E18A1486309
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 11:39:18 +0100 (CET)
+Received: from localhost ([::1]:38600 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5Q36-0002qZ-08
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 05:31:12 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57422)
+	id 1n5QAw-0002DT-0q
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 05:39:18 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58974)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1n5Pzv-00084q-V3
- for qemu-devel@nongnu.org; Thu, 06 Jan 2022 05:28:00 -0500
-Received: from [2a00:1450:4864:20::432] (port=46945
- helo=mail-wr1-x432.google.com)
+ (Exim 4.90_1) (envelope-from <stevie.lavern@gmail.com>)
+ id 1n5Q7g-0008KN-OM
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 05:35:56 -0500
+Received: from [2607:f8b0:4864:20::12a] (port=36752
+ helo=mail-il1-x12a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1n5Pzt-0001Tt-OK
- for qemu-devel@nongnu.org; Thu, 06 Jan 2022 05:27:54 -0500
-Received: by mail-wr1-x432.google.com with SMTP id i22so3784833wrb.13
- for <qemu-devel@nongnu.org>; Thu, 06 Jan 2022 02:27:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=7TFE6r6ex+XFQhIq3/ScCBEbuKclp5BFPpqSR1CJP4U=;
- b=xYJ0qB9OAH1UUvck7Z78qsJUI8uJJC+OLlb+ZDPJwvfxUNuqGTsIrZ7OJpIyQXpUXI
- HArtahn7h3fESJyb7+uqBeADFNLzpz6owREQVx+kZ/Ay7zQ9QLaNpUmCeQd5huTixmQa
- Up+uxM1upqyXnBqwETj2uEB7dDdeYNRswX6YKTF6htbzMNH8JK30/rSRvemLzm99hX4U
- U9FKtexOSEQx3x0ZBjR+8bWm1PFl35mUP6PNZdMIYlzzorlEGQw/dtr/mRvYy81OUNcE
- kkT8nIx6c+rRgNj+/PBzyKhutNyWg2LTxKCubF3mnSpPWyV4buOP1wxIgU/0mHZCmef0
- Ek7g==
+ (Exim 4.90_1) (envelope-from <stevie.lavern@gmail.com>)
+ id 1n5Q7f-0003K1-7b
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 05:35:56 -0500
+Received: by mail-il1-x12a.google.com with SMTP id v10so1731132ilj.3
+ for <qemu-devel@nongnu.org>; Thu, 06 Jan 2022 02:35:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:from:date:message-id:subject:to:cc;
+ bh=oLE7Y5HZPNOSCx7gzcgnu+XUl+njQJZs9Mxh4w2QmXo=;
+ b=PghNGt9KDyTEdAiAdZvj2xs5tlDHlPJ9sJhdaBfj1pfLaGOOVz7GewcRFSQ+BQM1Bi
+ 9ljpO/PvNcrZv2ZZnpRPj0zZLgPAgDGM+gkFfpmqjk6Z9P0JPnGSlJwpmyzFojH27O4M
+ bVzCTz844LrwMD3l7rKSWt5LEDAB6xQ8J8Ge6P4Xr3ryw4RZ4iPqQ9HuejTgWzA85c1L
+ 2qR+hMvORTEpCV0TBYbOZcoaUOBvh+FOxYFOcajSo+uMek2vMnyQjsbQfDktpBIKmkUa
+ +cOx+Ljt7h1N4BzUatquPy4mLT7VodX2IBFitp+8Xf6cIxC4+7Hmpp+hZxTpDbLLTxqe
+ nNsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=7TFE6r6ex+XFQhIq3/ScCBEbuKclp5BFPpqSR1CJP4U=;
- b=UGE3POB14O02Kxw3GjxboM6p9vzxzWsoWrgsij59oC5Wnus5TCaa4fUCaeNYS6hUaX
- CLLBraqRTsMJIlI3O6YnkOsg/YchE5bIgZfF/vuK3h1K7zsCCIWqpUerV1pm3x17ycu2
- 1ehFnkhZhJDv54jNO43TuFvd7rzbVCbmiXtDAErH90he3wJQjYHB+A/azXZuuC5YPXk+
- GC7QPadtTlT0dVOKbZYMya0bV2I7RIJVjj4741lctgV7aPE4qTnZWD2hCipmHpFnnxKO
- 4eNfe9TOse9WbScPV1Tmhds/+c6HTTaTzLB/69jhQlqZsbt3IHo25iNGbveL1pk3qVnv
- 8K1Q==
-X-Gm-Message-State: AOAM533WNl6mGmzvYPe4K19WVeIFvXh51VbfFvapJcFhYxE16w9Q/Mz8
- o80AYYMnmxJR9Gpm+He1InKpgSukKm096pJWc1lKHw==
-X-Google-Smtp-Source: ABdhPJyP8uoCImRNImIiYTJfj2f6XwS67iB0BvcRQE82COkzOPVPLcHQgMLPU1XVQdOmP7T7lhjyjlFvhfNYFgsKkBU=
-X-Received: by 2002:a5d:52c4:: with SMTP id r4mr28734669wrv.521.1641464871531; 
- Thu, 06 Jan 2022 02:27:51 -0800 (PST)
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=oLE7Y5HZPNOSCx7gzcgnu+XUl+njQJZs9Mxh4w2QmXo=;
+ b=FCRh2cB9eD/L93l52hd1g8O3q1UL7zBGJWxLiUveIizFecuaqIMtZYytg4K7BJZOWQ
+ +iDo+JzpU2s7n43wlPGABlQh3JM5OFP/5t/y8pjrBmc37o+nufaqDhDpiHaRbu+osjuN
+ ER1SaiZ5HtireSoaUO2dCpXr13kbmNqMVu80O9EEOqIfq2z/oSCk8o5ZHbq0Hb7n3qVx
+ 0QRV8d3xGphWLJ31AMHxF8+7HBtpXPTEf9C4BVVSmo4I6NGUoEtQ/m19bm0zsBFyj5qK
+ VnBd/fYF55Ih2U6WCRHI3Bje2PYrJO+xv9LA+XlfRkSKYGbzxUIJ2ie0g7XQOxkR0AUh
+ H3ng==
+X-Gm-Message-State: AOAM532K/xG7O5Vs2uWO8wo7NW0y46cHSlzbqkcRznkBwGyJXa4VSZyV
+ fWuzFJ3yvPB8ziEsC2cOhMK3j7A2WbMKEMs8tK4F3cbJWpY=
+X-Google-Smtp-Source: ABdhPJyXp+nzbaIiSmLby0Zw5FEzheXhoF/8h/BWUbTR8IZ1W29Kn2o4xa4ZUXgx8e46McSrwIjW19ArAlkHi9ZSO/k=
+X-Received: by 2002:a92:1e0a:: with SMTP id e10mr27981318ile.28.1641465353984; 
+ Thu, 06 Jan 2022 02:35:53 -0800 (PST)
 MIME-Version: 1.0
-References: <CAP4GjT2fC_bTkoNd=21MrdoC1hKk_jejDBdc8KiNvr86aOyAwA@mail.gmail.com>
- <0f468714-96bd-1e5a-0e40-b7fd5f920964@redhat.com>
- <CAP4GjT0a+eROFs6w1X=WTLsGkVsaTO2QC6f4wq96X386xpNW0g@mail.gmail.com>
- <CAP4GjT2LryD0fUSwCygxwGK3Z5u_yvacm5kKqRWtDGbZEmLbCg@mail.gmail.com>
- <CAP4GjT2ZK0Yc3did19XOr+V89poyemNV-bKh2g=8e4cCJ0qbHA@mail.gmail.com>
-In-Reply-To: <CAP4GjT2ZK0Yc3did19XOr+V89poyemNV-bKh2g=8e4cCJ0qbHA@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 6 Jan 2022 10:27:40 +0000
-Message-ID: <CAFEAcA_rO9WbV77F1fXZONfRi8wiqudw_t+jo5CjhwaHJMvwsA@mail.gmail.com>
-Subject: Re: QOM
-To: abhijeet inamdar <abhijeetinamdar3005@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::432
+From: Stevie Lavern <stevie.lavern@gmail.com>
+Date: Thu, 6 Jan 2022 11:35:42 +0100
+Message-ID: <CADV2EAuttJSjXMc1CHmyJ9ApjOFLJ8CKxa81LLQp3DAYn2A2ZA@mail.gmail.com>
+Subject: [PATCH] i386/tcg: generate an illegal op when translating AVX
+ instructions
+To: qemu-devel@nongnu.org
+Content-Type: multipart/alternative; boundary="00000000000055dfa305d4e76f9b"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::12a
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x432.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::12a;
+ envelope-from=stevie.lavern@gmail.com; helo=mail-il1-x12a.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
 X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,26 +77,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, qemu-discuss <qemu-discuss@nongnu.org>
+Cc: eduardo@habkost.net, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, stevie.lavern@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 21 Dec 2021 at 16:23, abhijeet inamdar
-<abhijeetinamdar3005@gmail.com> wrote:
-> How did we decide the NUM_IRQ_LINES 64 for stellaris?
+--00000000000055dfa305d4e76f9b
+Content-Type: text/plain; charset="UTF-8"
 
-Either:
-(a) we looked at the documentation for the hardware, which told us
-that this SoC is built with its Cortex-M core configured with
-that many interrupt lines
+The AVX instruction set is not supported by Qemu.
+However, some AVX instructions are properly decoded and emulated as their
+legacy SSE version.
+This patch prevent this by generating an illegal_op instead of a bogus SSE
+instruction.
 
-Or:
-(b) this is for legacy reasons a bogus setting which happens to
-work because it's too big rather than too small
+Signed-off-by: Stevie Lavern <stevie.lavern@gmail.com>
+---
+ target/i386/tcg/translate.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-For a new SoC, you need to follow course (a), ie look at what
-the hardware is and model that.
+diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
+index 05f9336c9b..996fce65b2 100644
+--- a/target/i386/tcg/translate.c
++++ b/target/i386/tcg/translate.c
+@@ -4706,6 +4706,11 @@ static target_ulong disas_insn(DisasContext *s,
+CPUState *cpu)
+         }
+     }
 
--- PMM
++    if (s->vex_l & 1) {
++        /* If set, registers are 256bits.
++           Fail as AVX extension is not supported. */
++        goto illegal_op;
++    }
+     s->prefix = prefixes;
+     s->aflag = aflag;
+     s->dflag = dflag;
+--
+
+--00000000000055dfa305d4e76f9b
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">The AVX instruction set is not supported by Qemu.<br>Howev=
+er, some AVX instructions are properly decoded and emulated as their<br>leg=
+acy SSE version.<br>This patch prevent this by generating an illegal_op ins=
+tead of a bogus SSE<br>instruction.<br><br>Signed-off-by: Stevie Lavern &lt=
+;<a href=3D"mailto:stevie.lavern@gmail.com">stevie.lavern@gmail.com</a>&gt;=
+<br>---<br>=C2=A0target/i386/tcg/translate.c | 5 +++++<br>=C2=A01 file chan=
+ged, 5 insertions(+)<br><br>diff --git a/target/i386/tcg/translate.c b/targ=
+et/i386/tcg/translate.c<br>index 05f9336c9b..996fce65b2 100644<br>--- a/tar=
+get/i386/tcg/translate.c<br>+++ b/target/i386/tcg/translate.c<br>@@ -4706,6=
+ +4706,11 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)=
+<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>=C2=A0 =C2=A0 =C2=A0}<br>=C2=A0<=
+br>+ =C2=A0 =C2=A0if (s-&gt;vex_l &amp; 1) {<br>+ =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0/* If set, registers are 256bits.<br>+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 Fail as AVX extension is not supported. */<br>+ =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0goto illegal_op;<br>+ =C2=A0 =C2=A0}<br>=C2=A0 =C2=A0 =C2=A0s-&gt;pre=
+fix =3D prefixes;<br>=C2=A0 =C2=A0 =C2=A0s-&gt;aflag =3D aflag;<br>=C2=A0 =
+=C2=A0 =C2=A0s-&gt;dflag =3D dflag;<br>--=C2=A0<br></div>
+
+--00000000000055dfa305d4e76f9b--
 
