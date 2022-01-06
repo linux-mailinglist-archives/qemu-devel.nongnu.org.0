@@ -2,77 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 449664868C4
-	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 18:40:21 +0100 (CET)
-Received: from localhost ([::1]:39656 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF7AD486900
+	for <lists+qemu-devel@lfdr.de>; Thu,  6 Jan 2022 18:44:41 +0100 (CET)
+Received: from localhost ([::1]:43428 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5WkO-0005nj-4D
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 12:40:20 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49910)
+	id 1n5Woa-0000wB-VB
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 12:44:41 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50634)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1n5Wim-00050l-D1
- for qemu-devel@nongnu.org; Thu, 06 Jan 2022 12:38:40 -0500
-Received: from [2a00:1450:4864:20::534] (port=42626
- helo=mail-ed1-x534.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1n5Wik-0004ae-Jl
- for qemu-devel@nongnu.org; Thu, 06 Jan 2022 12:38:40 -0500
-Received: by mail-ed1-x534.google.com with SMTP id j21so12241584edt.9
- for <qemu-devel@nongnu.org>; Thu, 06 Jan 2022 09:38:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=RQEoOk2CbgL5aXDfT1Q7RZMGBc3hKaGKSmRNehPDbyo=;
- b=NQ3EGw4K6udDC45BphqbpMGeTDaP/khZnXWzeoWn+u5MSnQxr1lfib8f9a4yruJ/Jh
- VGrOHfVhLQb8FxUXgFYQUWKuWeJut7NMgsY18LNhxhA+RZ/pDHYZCDwUIaJQVjKXG0AP
- dSjKkT4y6w1aMXMiJIN9+wIIYXVqezlRIPRq7kClXDNoQ1InPrczmf4zqHDNlG4A0XnY
- SrT7eMNGqc4BW8x47PzxqtMoaCJZAXIU8+u38Bh8iN5BI8BQIiUAV3P5ADvhjigUqiHR
- XGAYqgqMpFyQJc+VUC5FolLdr4pSZK9UkypVGRjHA62LUAAxMM8VNPwig3x159+D30tU
- 9NGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=RQEoOk2CbgL5aXDfT1Q7RZMGBc3hKaGKSmRNehPDbyo=;
- b=h3+gtJH93gv7fb9Rm9uQjafcbA+RmUQi4U7tFgO/MPNJYP+9iA80K1UUbKqy5aFMlV
- Zqo8GAlnbsJ/1ADbP6ja5m1cevsjSsjusAIfnVlXKnDfSiEnu0EpwklQM+LFVY6GWwAm
- XBOgGbKLvarswfUqzLcj9feZyLeDXxzJiwIr/vcQfq8+/bq244GbyBah3aoTtnnNbhgD
- GD2I54hZ8wJZICQKqTcvmgSjug603lQNVoGWTribQLjPtYvhoh0UDH5xtaGqJBcQI+eD
- JzsjML7jaBud+IQNMznJd1NsfAFKZolv3IJDB8iIZneeXef1kLlOOVlqh1KBhoCystp8
- Sc1g==
-X-Gm-Message-State: AOAM5323jsYX36MjG+I8vAYstSqNUAAYkQ3KJndtBQFEwEYLa5e5O4zy
- xRIlp5oKC1wsWul8rOzCSysajAmyhaAlc+gTWX8/0g==
-X-Google-Smtp-Source: ABdhPJz798Px4vqi6LqYp91pCgLqUrtTMv8JnzYHvvLLUa5xSeLRlZ5Yi+tl1eLU4NIPLdTsVW+OdfaUkL1uLlfLcfE=
-X-Received: by 2002:a17:906:715:: with SMTP id
- y21mr5480610ejb.51.1641490709170; 
- Thu, 06 Jan 2022 09:38:29 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1n5WlV-0007TW-Td
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 12:41:29 -0500
+Received: from 4.mo548.mail-out.ovh.net ([188.165.42.229]:50059)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1n5WlS-0005yj-Ue
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 12:41:29 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.108.4.253])
+ by mo548.mail-out.ovh.net (Postfix) with ESMTPS id C51F7216B2;
+ Thu,  6 Jan 2022 17:41:21 +0000 (UTC)
+Received: from kaod.org (37.59.142.106) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.17; Thu, 6 Jan
+ 2022 18:41:21 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-106R0064e252dd4-e48f-4065-ac65-986dd5352956,
+ 021048AAC49377EB75D2DE2E73CB44671C288654) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <bd2b3654-2468-d1aa-8968-4475b59e223e@kaod.org>
+Date: Thu, 6 Jan 2022 18:41:20 +0100
 MIME-Version: 1.0
-References: <20220104175806.872996-1-stefanb@linux.ibm.com>
- <20220104175806.872996-3-stefanb@linux.ibm.com>
- <20220106093636.7fc7755f@redhat.com>
- <6096f301-4c39-e39c-eb5f-9f7d22ba1260@linux.ibm.com>
- <20220106085502-mutt-send-email-mst@kernel.org>
- <bc4b7631-6bf5-ce30-8710-48f0369f688c@linux.ibm.com>
-In-Reply-To: <bc4b7631-6bf5-ce30-8710-48f0369f688c@linux.ibm.com>
-From: Ani Sinha <ani@anisinha.ca>
-Date: Thu, 6 Jan 2022 23:08:17 +0530
-Message-ID: <CAARzgwwL4VbocntvZqe657RwuUf2SNSGM3wnXptnUuPRW4OkLQ@mail.gmail.com>
-Subject: Re: [PATCH v5 2/3] acpi: tpm: Add missing device identification
- objects
-To: Stefan Berger <stefanb@linux.ibm.com>
-Content-Type: multipart/alternative; boundary="0000000000009f9f2e05d4ed56de"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::534
- (failed)
-Received-SPF: none client-ip=2a00:1450:4864:20::534;
- envelope-from=ani@anisinha.ca; helo=mail-ed1-x534.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH] docs: Clarifications and formatting changes in ppc docs.
+Content-Language: en-US
+To: <lagarcia@linux.ibm.com>, <qemu-ppc@nongnu.org>
+References: <3b228af4785241c7fb4a2c70f0c495d2a9adea83.1641405872.git.lagarcia@br.ibm.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <3b228af4785241c7fb4a2c70f0c495d2a9adea83.1641405872.git.lagarcia@br.ibm.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.106]
+X-ClientProxiedBy: DAG6EX2.mxp5.local (172.16.2.52) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 7a65b30c-ee17-41c9-aa6c-5c1aa3ca1f33
+X-Ovh-Tracer-Id: 3008686028829461353
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrudefledguddtvdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeekteekveeufefgfeefvdeuteefudeggffhjefhieeffefhgffhfeeuueffvdelieenucffohhmrghinhepohhpvghnphhofigvrhhfohhunhgurghtihhonhdrohhrghdpghhithhhuhgsrdgtohhmnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepghhrohhugheskhgrohgurdhorhhg
+Received-SPF: pass client-ip=188.165.42.229; envelope-from=clg@kaod.org;
+ helo=4.mo548.mail-out.ovh.net
+X-Spam_score_int: -45
+X-Spam_score: -4.6
+X-Spam_bar: ----
+X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.691,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,55 +69,222 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mammedov <imammedo@redhat.com>,
- Shannon Zhao <shannon.zhaosl@gmail.com>, qemu-devel@nongnu.org,
- marcandre.lureau@redhat.com, "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Leonardo Garcia <lagarcia@br.ibm.com>, groug@kaod.org,
+ danielhb413@gmail.com, qemu-devel@nongnu.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000009f9f2e05d4ed56de
-Content-Type: text/plain; charset="UTF-8"
-
-On Thu, Jan 6, 2022 at 19:31 Stefan Berger <stefanb@linux.ibm.com> wrote:
-
->
-> >>> Can you smoke test TPM with Windows, and check if adding UID doesn't
-> >>> break anything if VM actually uses TMP (though I'm not sure how to
-> >>> check it on Windows, maybe install Windows 11 without this patch
-> >>> and then see if it still boots pre-installed VM and nothing is broken
-> >>> after this patch)?
->
->
-> The VMs were all created on an old qemu and booted into the patched
-> qemu.
+On 1/5/22 19:08, lagarcia@linux.ibm.com wrote:
+> From: Leonardo Garcia <lagarcia@br.ibm.com>
+> 
+> Signed-off-by: Leonardo Garcia <lagarcia@br.ibm.com>
 
 
-Stupid question - should we also check the other way as well? Install on
-patches qemu and try to boot on the old unpatched qemu?
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
 
---0000000000009f9f2e05d4ed56de
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+One comment below.
 
-<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Thu, Jan 6, 2022 at 19:31 Stefan Berger &lt;<a href=3D"m=
-ailto:stefanb@linux.ibm.com">stefanb@linux.ibm.com</a>&gt; wrote:<br></div>=
-<blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-=
-left-width:1px;border-left-style:solid;padding-left:1ex;border-left-color:r=
-gb(204,204,204)" dir=3D"auto"><br>&gt;&gt;&gt; Can you smoke test TPM with =
-Windows, and check if adding UID doesn&#39;t<br>
-&gt;&gt;&gt; break anything if VM actually uses TMP (though I&#39;m not sur=
-e how to<br>
-&gt;&gt;&gt; check it on Windows, maybe install Windows 11 without this pat=
-ch<br>
-&gt;&gt;&gt; and then see if it still boots pre-installed VM and nothing is=
- broken<br>
-&gt;&gt;&gt; after this patch)?<br><br>
-<br>
-The VMs were all created on an old qemu and booted into the patched <br>
-qemu. </blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">Stupid que=
-stion - should we also check the other way as well? Install on patches qemu=
- and try to boot on the old unpatched qemu?</div></div></div>
+Thanks,
 
---0000000000009f9f2e05d4ed56de--
+C.
+
+
+> ---
+>   docs/specs/ppc-spapr-hcalls.rst | 22 ++++++++---------
+>   docs/system/ppc/pseries.rst     | 43 +++++++++++++++++----------------
+>   2 files changed, 33 insertions(+), 32 deletions(-)
+> 
+> diff --git a/docs/specs/ppc-spapr-hcalls.rst b/docs/specs/ppc-spapr-hcalls.rst
+> index 28daf9734a..b4a18a01e6 100644
+> --- a/docs/specs/ppc-spapr-hcalls.rst
+> +++ b/docs/specs/ppc-spapr-hcalls.rst
+> @@ -1,13 +1,12 @@
+> +======================
+>   sPAPR hypervisor calls
+> -----------------------
+> +======================
+>   
+>   When used with the ``pseries`` machine type, ``qemu-system-ppc64`` implements
+> -a set of hypervisor calls (a.k.a. hcalls) defined in the `Linux on Power
+> -Architecture Reference document (LoPAR)
+> -<https://cdn.openpowerfoundation.org/wp-content/uploads/2020/07/LoPAR-20200812.pdf>`_.
+> -This document is a subset of the Power Architecture Platform Reference (PAPR+)
+> -specification (IBM internal only), which is what PowerVM, the IBM proprietary
+> -hypervisor, adheres to.
+> +a set of hypervisor calls (a.k.a. hcalls) defined in the Linux on Power
+> +Architecture Reference ([LoPAR]_) document. This document is a subset of the
+> +Power Architecture Platform Reference (PAPR+) specification (IBM internal only),
+> +which is what PowerVM, the IBM proprietary hypervisor, adheres to.
+>   
+>   The subset in LoPAR is selected based on the requirements of Linux as a guest.
+>   
+> @@ -18,8 +17,8 @@ running in the guest and QEMU.
+>   All those hypercalls start at hcall number 0xf000 which correspond
+>   to an implementation specific range in PAPR.
+>   
+> -H_RTAS (0xf000)
+> -^^^^^^^^^^^^^^^
+> +``H_RTAS (0xf000)``
+> +===================
+>   
+>   RTAS stands for Run-Time Abstraction Sercies and is a set of runtime services
+>   generally provided by the firmware inside the guest to the operating system. It
+> @@ -44,8 +43,8 @@ Returns:
+>   
+>     ``H_PARAMETER``: Unknown token.
+>   
+> -H_LOGICAL_MEMOP (0xf001)
+> -^^^^^^^^^^^^^^^^^^^^^^^^
+> +``H_LOGICAL_MEMOP (0xf001)``
+> +============================
+>   
+>   When the guest runs in "real mode" (in powerpc terminology this means with MMU
+>   disabled, i.e. guest effective address equals to guest physical address), it
+> @@ -98,3 +97,4 @@ Returns:
+>     ``H_SUCCESS``: Success.
+>   
+>     ``H_PARAMETER``: Invalid argument.
+> +
+> diff --git a/docs/system/ppc/pseries.rst b/docs/system/ppc/pseries.rst
+> index 72e315eff6..ead33e6764 100644
+> --- a/docs/system/ppc/pseries.rst
+> +++ b/docs/system/ppc/pseries.rst
+> @@ -1,19 +1,18 @@
+> +===================================
+>   pSeries family boards (``pseries``)
+>   ===================================
+>   
+> -The Power machine para-virtualized environment described by the `Linux on Power
+> -Architecture Reference document (LoPAR)
+> -<https://openpowerfoundation.org/wp-content/uploads/2020/07/LoPAR-20200812.pdf>`_
+> -is called pSeries. This environment is also known as sPAPR, System p guests, or
+> -simply Power Linux guests (although it is capable of running other operating
+> -systems, such as AIX).
+> +The Power machine para-virtualized environment described by the Linux on Power
+> +Architecture Reference ([LoPAR]_) document is called pSeries. This environment
+> +is also known as sPAPR, System p guests, or simply Power Linux guests (although
+> +it is capable of running other operating systems, such as AIX).
+>   
+>   Even though pSeries is designed to behave as a guest environment, it is also
+>   capable of acting as a hypervisor OS, providing, on that role, nested
+>   virtualization capabilities.
+>   
+>   Supported devices
+> ------------------
+> +=================
+>   
+>    * Multi processor support for many Power processors generations: POWER7,
+>      POWER7+, POWER8, POWER8NVL, POWER9, and Power10. Support for POWER5+ exists,
+
+pseries with 970, 970MP, POWER5+ CPUs are supported now (TCG only).
+
+POWER7 on KVM has an uncertain status.
+
+> @@ -26,12 +25,12 @@ Supported devices
+>    * PCIe device pass through.
+>   
+>   Missing devices
+> ----------------
+> +===============
+>   
+>    * SPICE support.
+>   
+>   Firmware
+> ---------
+> +========
+>   
+>   `SLOF <https://github.com/aik/SLOF>`_ (Slimline Open Firmware) is an
+>   implementation of the `IEEE 1275-1994, Standard for Boot (Initialization
+> @@ -42,14 +41,14 @@ QEMU includes a prebuilt image of SLOF which is updated when a more recent
+>   version is required.
+>   
+>   Build directions
+> -----------------
+> +================
+>   
+>   .. code-block:: bash
+>   
+>     ./configure --target-list=ppc64-softmmu && make
+>   
+>   Running instructions
+> ---------------------
+> +====================
+>   
+>   Someone can select the pSeries machine type by running QEMU with the following
+>   options:
+> @@ -59,7 +58,7 @@ options:
+>     qemu-system-ppc64 -M pseries <other QEMU arguments>
+>   
+>   sPAPR devices
+> --------------
+> +=============
+>   
+>   The sPAPR specification defines a set of para-virtualized devices, which are
+>   also supported by the pSeries machine in QEMU and can be instantiated with the
+> @@ -102,11 +101,9 @@ device, or specify one with an ID
+>   NVRAM device with ``-global spapr-nvram.drive=pfid``.
+>   
+>   sPAPR specification
+> -^^^^^^^^^^^^^^^^^^^
+> +-------------------
+>   
+> -The main source of documentation on the sPAPR standard is the `Linux on Power
+> -Architecture Reference document (LoPAR)
+> -<https://openpowerfoundation.org/wp-content/uploads/2020/07/LoPAR-20200812.pdf>`_.
+> +The main source of documentation on the sPAPR standard is the [LoPAR]_ document.
+>   However, documentation specific to QEMU's implementation of the specification
+>   can  also be found in QEMU documentation:
+>   
+> @@ -124,7 +121,7 @@ Other documentation available in QEMU docs directory:
+>     (``/docs/specs/ppc-spapr-uv-hcalls.txt``).
+>   
+>   Switching between the KVM-PR and KVM-HV kernel module
+> ------------------------------------------------------
+> +=====================================================
+>   
+>   Currently, there are two implementations of KVM on Power, ``kvm_hv.ko`` and
+>   ``kvm_pr.ko``.
+> @@ -139,7 +136,7 @@ possible to switch between the two modes with the ``kvm-type`` parameter:
+>     instead.
+>   
+>   KVM-PR
+> -^^^^^^
+> +------
+>   
+>   KVM-PR uses the so-called **PR**\ oblem state of the PPC CPUs to run the guests,
+>   i.e. the virtual machine is run in user mode and all privileged instructions
+> @@ -166,7 +163,7 @@ In order to run KVM-PR guests with POWER9 processors, someone will need to start
+>   QEMU with ``kernel_irqchip=off`` command line option.
+>   
+>   KVM-HV
+> -^^^^^^
+> +------
+>   
+>   KVM-HV uses the hypervisor mode of more recent Power processors, that allow
+>   access to the bare metal hardware directly. Although POWER7 had this capability,
+> @@ -188,7 +185,7 @@ CPUs generations, e.g. you can run a POWER7 guest on a POWER8 host by using
+>   ``-cpu POWER8,compat=power7`` as parameter to QEMU.
+>   
+>   Modules support
+> ----------------
+> +===============
+>   
+>   As noticed in the sections above, each module can run in a different
+>   environment. The following table shows with which environment each module can
+> @@ -231,8 +228,12 @@ nested. Combinations not shown in the table are not available.
+>   .. [3] Introduced on Power10 machines.
+>   
+>   Maintainer contact information
+> -------------------------------
+> +==============================
+>   
+>   Cédric Le Goater <clg@kaod.org>
+>   
+>   Daniel Henrique Barboza <danielhb413@gmail.com>
+> +
+> +.. [LoPAR] `Linux on Power Architecture Reference document (LoPAR) revision
+> +   2.9 <https://openpowerfoundation.org/wp-content/uploads/2020/07/LoPAR-20200812.pdf>`_.
+> +
+> 
+
 
