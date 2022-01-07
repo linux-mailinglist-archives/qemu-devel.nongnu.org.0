@@ -2,78 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0482A487337
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 07:56:45 +0100 (CET)
-Received: from localhost ([::1]:44200 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 594ED48735A
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 08:12:33 +0100 (CET)
+Received: from localhost ([::1]:57146 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5jB1-0005Gk-JT
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 01:56:39 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52192)
+	id 1n5jQN-000649-T1
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 02:12:31 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55906)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1n5j2g-0001Dx-Sq; Fri, 07 Jan 2022 01:48:03 -0500
-Received: from [2607:f8b0:4864:20::12d] (port=39631
- helo=mail-il1-x12d.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1n5j2e-0004o6-FO; Fri, 07 Jan 2022 01:48:02 -0500
-Received: by mail-il1-x12d.google.com with SMTP id o1so3755161ilo.6;
- Thu, 06 Jan 2022 22:47:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=VnNlJZYVenpeODCmJjVglP4+XGpD5fvApG4/3jOz1TU=;
- b=bGrvFptUX5K2wXsQKp0BkCGTllgEloqx18hMc7Eac2sRt6GJg9kPSJ7c9SS6MzmH2H
- Bq+uGQiWu8Txjf+DqJEMQ0//4XfzA2vXG9F2ngAoecNRIodF141o4KHVXispL8v1eKWT
- PE1oW3jOToZ0KV/ej3i0ei30qJ/1xlks7ItpbSAtHXtLR6XD86JUWzQz4ZYFJbJ6PbyS
- svl5Px6EV/jrhvppcMbEcrqfyTLK9wgI+qtMKXXzuv7h0001hR8rFtOgs+0IPnB4MD7z
- Ti0naKKe9YvBVduK7o8iB6/4Rol+eCX5t6/IecxiQCE7i084lHkjtoah7FNNGcld2b++
- 7TWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=VnNlJZYVenpeODCmJjVglP4+XGpD5fvApG4/3jOz1TU=;
- b=HfrPlCVFC0GKR2iUMFVv34+YMjir1EOBA+xloa24CCbJ5fKT8fiYFtt4tI5kY4fQj5
- 3BD+pIEK5OlGoTqcxAv3MPQ2GDrJsK8UyzwuBdOoaD1Cdt5qQ8GVSADPDMuzwAIxkrwC
- ruKtpYpigNOkaM6NW4ac2Pfu3/C8x57D+15kpUIaGA8r8/nYz6nOgZaA+3gi6Ws8MwCX
- 5k0BEpR01g76FTscZJRHXTqPe883HmiPZwVm63un2O2mvMuL24+J9+HAKcRbqeYT54YF
- AWhuR09VgyRAxIK09/wWnbGCCmkGoxKhuIOEWnBPLbuyd9qWGna3kDNpf7/OA4eh7VDF
- GHWQ==
-X-Gm-Message-State: AOAM5311YIfwfmp2C+zhaM/qgHKHR8/YM+JyAL0VhlEknqXU+r9UfJFC
- CkSFPNY6Q5GlbjyeasEWZCjmtqdrg6nMcDX5T4c=
-X-Google-Smtp-Source: ABdhPJwlC9RxCHSfMPJQioY7cMKuTsWm4R755f2MPU8dCBO1C5fHFMme+yUTZywnD51heB7aMz3RbrrA8qoN2yYrab0=
-X-Received: by 2002:a05:6e02:194b:: with SMTP id
- x11mr5669514ilu.208.1641538072179; 
- Thu, 06 Jan 2022 22:47:52 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
+ id 1n5jKH-000426-Ny
+ for qemu-devel@nongnu.org; Fri, 07 Jan 2022 02:06:13 -0500
+Received: from mga11.intel.com ([192.55.52.93]:18399)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
+ id 1n5jKD-0000Ac-6N
+ for qemu-devel@nongnu.org; Fri, 07 Jan 2022 02:06:12 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1641539169; x=1673075169;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=Dcir3Ffal0vUADpdNEqrL/soZai/8Aq4FsqiXQdZrkw=;
+ b=PsneFX4y6G4pwcKnfSM+HC398aQkYoGx/hrVAXBhDpNzwl5IHf7DH4La
+ kEe6QPe2mBAxB6MmD7Qa0rJZO9XfMf7N2lvHHi99KrL1vPRn9rEbrFFX3
+ kWrxyIemLIs8uoT6PheOJCNarOMrVzB29mZYR1ndteSrhrE12nnwjTa7G
+ LhtIQhgwfuyUmchP8YR8cbleEyoimKgkHyexNzWV1bKWyrXGCPQnW7ggK
+ iwmEK/maKcM3nE3PoaDMJy3NCMbOBaB8sS54v0X4TZiW4NwM73bHnG2sY
+ OzMewcxB9U/z4kl/va1PSzuQPu6epiVJMc7vUrQtTrpSCfkcC+r3TD1+Z g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10219"; a="240373203"
+X-IronPort-AV: E=Sophos;i="5.88,268,1635231600"; d="scan'208";a="240373203"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Jan 2022 23:06:04 -0800
+X-IronPort-AV: E=Sophos;i="5.88,268,1635231600"; d="scan'208";a="621813370"
+Received: from xiaoyaol-mobl.ccr.corp.intel.com (HELO [10.255.31.145])
+ ([10.255.31.145])
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Jan 2022 23:05:59 -0800
+Message-ID: <e74fcb88-3add-4bb7-4508-742db44fa3c8@intel.com>
+Date: Fri, 7 Jan 2022 15:05:56 +0800
 MIME-Version: 1.0
-References: <20220106210108.138226-1-frederic.petrot@univ-grenoble-alpes.fr>
- <20220106210108.138226-8-frederic.petrot@univ-grenoble-alpes.fr>
- <CAKmqyKMB-zZKNf-HRz-=RR+wtM7UHFo4wCJUiCwF0nJrH4OzOg@mail.gmail.com>
- <cb76d285-7071-c70d-3cb7-ad2978f400dd@univ-grenoble-alpes.fr>
-In-Reply-To: <cb76d285-7071-c70d-3cb7-ad2978f400dd@univ-grenoble-alpes.fr>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 7 Jan 2022 16:47:26 +1000
-Message-ID: <CAKmqyKNd77rb9gSqriv_gykfBT_G+9hVKZVKp-JB2A3d9sXkrg@mail.gmail.com>
-Subject: Re: [PATCH v8 07/18] target/riscv: setup everything for rv64 to
- support rv128 execution
-To: =?UTF-8?B?RnLDqWTDqXJpYyBQw6l0cm90?=
- <frederic.petrot@univ-grenoble-alpes.fr>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::12d
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::12d;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x12d.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Firefox/91.0 Thunderbird/91.4.1
+Subject: Re: [RFC PATCH v2 20/44] i386/tdx: Parse tdx metadata and store the
+ result into TdxGuestState
+Content-Language: en-US
+To: Laszlo Ersek <lersek@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ isaku.yamahata@gmail.com
+References: <cover.1625704980.git.isaku.yamahata@intel.com>
+ <acaf651389c3f407a9d6d0a2e943daf0a85bb5fc.1625704981.git.isaku.yamahata@intel.com>
+ <20210826111838.fgbp6v6gd5wzbnho@sirius.home.kraxel.org>
+ <a97a75ad-9d1c-a09f-281b-d6b0a7652e78@intel.com>
+ <4eb6a628-0af6-409b-7e42-52787ee3e69d@redhat.com>
+From: Xiaoyao Li <xiaoyao.li@intel.com>
+In-Reply-To: <4eb6a628-0af6-409b-7e42-52787ee3e69d@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=192.55.52.93; envelope-from=xiaoyao.li@intel.com;
+ helo=mga11.intel.com
+X-Spam_score_int: -81
+X-Spam_score: -8.2
+X-Spam_bar: --------
+X-Spam_report: (-8.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.372,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HK_RANDOM_ENVFROM=1, HK_RANDOM_FROM=0.999, NICE_REPLY_A=-2.691,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,102 +82,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Bin Meng <bin.meng@windriver.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Fabien Portas <fabien.portas@grenoble-inp.org>,
- Alistair Francis <alistair.francis@wdc.com>
+Cc: isaku.yamahata@intel.com, cohuck@redhat.com, ehabkost@redhat.com,
+ kvm@vger.kernel.org, mst@redhat.com, seanjc@google.com, alistair@alistair23.me,
+ qemu-devel@nongnu.org, mtosatti@redhat.com, "Min M . Xu" <min.m.xu@intel.com>,
+ erdemaktas@google.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jan 7, 2022 at 4:23 PM Fr=C3=A9d=C3=A9ric P=C3=A9trot
-<frederic.petrot@univ-grenoble-alpes.fr> wrote:
->
-> On 06/01/2022 22:24, Alistair Francis wrote:
-> > On Fri, Jan 7, 2022 at 7:04 AM Fr=C3=A9d=C3=A9ric P=C3=A9trot
-> > <frederic.petrot@univ-grenoble-alpes.fr> wrote:
-> >>
-> >> This patch adds the support of the '-cpu rv128' option to
-> >> qemu-system-riscv64 so that we can indicate that we want to run rv128
-> >> executables.
-> >> Still, there is no support for 128-bit insns at that stage so qemu fai=
-ls
-> >> miserably (as expected) if launched with this option.
-> >>
-> >> Signed-off-by: Fr=C3=A9d=C3=A9ric P=C3=A9trot <frederic.petrot@univ-gr=
-enoble-alpes.fr>
-> >> Co-authored-by: Fabien Portas <fabien.portas@grenoble-inp.org>
-> >> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-> >> ---
-> >>   include/disas/dis-asm.h |  1 +
-> >>   target/riscv/cpu.h      |  1 +
-> >>   disas/riscv.c           |  5 +++++
-> >>   target/riscv/cpu.c      | 20 ++++++++++++++++++++
-> >>   target/riscv/gdbstub.c  |  5 +++++
-> >>   5 files changed, 32 insertions(+)
-> >>
-> >> diff --git a/include/disas/dis-asm.h b/include/disas/dis-asm.h
-> >> index 08e1beec85..102a1e7f50 100644
-> >> --- a/include/disas/dis-asm.h
-> >> +++ b/include/disas/dis-asm.h
-> >> @@ -459,6 +459,7 @@ int print_insn_nios2(bfd_vma, disassemble_info*);
-> >>   int print_insn_xtensa           (bfd_vma, disassemble_info*);
-> >>   int print_insn_riscv32          (bfd_vma, disassemble_info*);
-> >>   int print_insn_riscv64          (bfd_vma, disassemble_info*);
-> >> +int print_insn_riscv128         (bfd_vma, disassemble_info*);
-> >>   int print_insn_rx(bfd_vma, disassemble_info *);
-> >>   int print_insn_hexagon(bfd_vma, disassemble_info *);
-> >>
-> >> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> >> index fa5d238530..efe481f5fb 100644
-> >> --- a/target/riscv/cpu.h
-> >> +++ b/target/riscv/cpu.h
-> >> @@ -38,6 +38,7 @@
-> >>   #define TYPE_RISCV_CPU_ANY              RISCV_CPU_TYPE_NAME("any")
-> >>   #define TYPE_RISCV_CPU_BASE32           RISCV_CPU_TYPE_NAME("rv32")
-> >>   #define TYPE_RISCV_CPU_BASE64           RISCV_CPU_TYPE_NAME("rv64")
-> >> +#define TYPE_RISCV_CPU_BASE128          RISCV_CPU_TYPE_NAME("rv128")
-> >
-> > As this series only adds partial support for 128-bit support, I think
-> > we should probably change this to "x-rv128". That way we indicate to
-> > users that it is experimental. That allows us more flexibility in the
-> > future to have breaking changes and will hopefully avoid confusion
-> > about the current state. What do you think? I can just make the change
-> > when I apply the patches.
->
->    Sure, this is clearly experimental (the spec is a draft) and should be
->    marked so, I totally agree. Please make the change as you suggest,
+On 1/7/2022 12:06 AM, Laszlo Ersek wrote:
+> On 01/04/22 14:08, Xiaoyao Li wrote:
+> 
+>> + Laszlo,
+>>
+>> Regarding laoding TDVF as pflash, I have some questions:
+>>
+>> - pflash requires KVM to support readonly mmeory. However, for TDX, it
+>> doesn't support readonly memory. Is it a must? or we can make an
+>> exception for TDX?
+>>
+>> - I saw from
+>> https://lists.gnu.org/archive/html/qemu-discuss/2018-04/msg00045.html,
+>> you said when load OVMF as pflash, it's MMIO. But for TDVF, it's treated
+>> as private memory. I'm not sure whether it will cause some potential
+>> problem if loading TDVF with pflash.
+>>
+>> Anyway I tried changing the existing pflash approach to load TDVF. It
+>> can boot a TDX VM and no issue.
+> 
+> I have no comments on whether TDX should or should not use pflash.
+> 
+> If you go without pflash, then you likely will not have a
+> standards-conformant UEFI variable store. (Unless you reimplement the
+> variable arch protocols in edk2 on top of something else than the Fault
+> Tolerant Write and Firmware Volume Block protocols.) Whether a
+> conformant UEFI varstore matters to you (or to TDX in general) is
+> something I can't comment on.
 
-Great!
+Thanks for your reply! Laszlo
 
-Applied to riscv-to-apply.next
+regarding "standards-conformant UEFI variable store", I guess you mean 
+the change to UEFI non-volatile variables needs to be synced back to the 
+OVMF_VARS.fd file. right?
 
-If you want to make sure my change didn't break anything you can test
-the tree here: https://github.com/alistair23/qemu/tree/riscv-to-apply.next
+If so, I need to sync with internal folks who are upstreaming TDVF 
+support into OVMF.
 
-I'll send a PR this weekend or next week.
+> (I've generally stopped commenting on confidential computing topics, but
+> this message allows for comments on just pflash, and how it impacts OVMF.)
+> 
+> Regarding pflash itself, the read-only KVM memslot is required for it.
+> Otherwise pflash cannot work as a "ROMD device" (= you can't flip it
+> back and forth between ROM mode and programming (MMIO) mode).
 
-Alistair
+We don't need Read-only mode for TDVF so far. If for this purpose, is it 
+acceptable that allowing a pflash without KVM readonly memslot support 
+if read-only is not required for the specific pflash device?
 
->
->    Thanks,
->    Fr=C3=A9d=C3=A9ric
->
-> >
-> > Alistair
->
-> --
-> +------------------------------------------------------------------------=
----+
-> | Fr=C3=A9d=C3=A9ric P=C3=A9trot, Pr. Grenoble INP-Ensimag/TIMA,   Ensima=
-g deputy director |
-> | Mob/Pho: +33 6 74 57 99 65/+33 4 76 57 48 70      Ad augusta  per angus=
-ta |
-> | http://tima.univ-grenoble-alpes.fr frederic.petrot@univ-grenoble-alpes.=
-fr |
-> +------------------------------------------------------------------------=
----+
+We are trying to follow the existing usage of OVMF for TDX, since TDVF 
+support will be landed in OVMF instead of a new separate binary.
+
+> Thanks
+> Laszlo
+> 
+
 
