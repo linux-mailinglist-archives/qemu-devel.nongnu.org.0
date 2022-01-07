@@ -2,84 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1598486EBC
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 01:25:33 +0100 (CET)
-Received: from localhost ([::1]:47618 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E47A486EC3
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 01:28:17 +0100 (CET)
+Received: from localhost ([::1]:52382 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5d4X-0007eW-0U
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 19:25:33 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44578)
+	id 1n5d7A-0002Ux-8K
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 19:28:16 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44696)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1n5d0F-0002HI-16
- for qemu-devel@nongnu.org; Thu, 06 Jan 2022 19:21:07 -0500
-Received: from [2607:f8b0:4864:20::52b] (port=34494
- helo=mail-pg1-x52b.google.com)
+ id 1n5d0h-0002hc-Jb
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 19:21:35 -0500
+Received: from [2607:f8b0:4864:20::62f] (port=36535
+ helo=mail-pl1-x62f.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1n5d0B-0004dt-14
- for qemu-devel@nongnu.org; Thu, 06 Jan 2022 19:21:06 -0500
-Received: by mail-pg1-x52b.google.com with SMTP id g22so4011059pgn.1
- for <qemu-devel@nongnu.org>; Thu, 06 Jan 2022 16:21:02 -0800 (PST)
+ id 1n5d0g-0004k1-02
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 19:21:35 -0500
+Received: by mail-pl1-x62f.google.com with SMTP id p14so3638562plf.3
+ for <qemu-devel@nongnu.org>; Thu, 06 Jan 2022 16:21:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=0tS2qXixoLPtsZb2dfxChQEiI64mUkERXoUjHixx/bc=;
- b=Yc2nrTbYtUOIj4li9yBcm6o91/6nINoqQeSt+Zt0jyXi3cECdsXlFj72gTBuX6RPOJ
- kSwxzGrBZkECiC2+pVpZdvq5nF2BDyKoHozg4e6Hw/uEHxQwdWG2TMHDt/Wv/VtqQy5F
- LH7S3LnMKCfvwlO46v7OpfNXUEwujf8ZUsTvzbSOTQZBPuM/lWBt7E41GDEfoUir51eQ
- JFywj9L3IxsbNy2nzDm9axr4xlGyIHae2jMmop1N5SbQrHMEsefoI1JyklfWeRF+kvRy
- P611zScJbZLop9mhiBoojFdlNoxx/+mSZ5gFLVveCWWX1Th0kuGimYrTgXIj+9KoebwJ
- 4u0Q==
+ bh=4i3R5XvZDqNA7FDFL1iY88dsu4G7gFpNhlbrIfWmoYw=;
+ b=ZVFdfvefvbpghnEwacJxBCMezU97glFSf9l2cn35d+qiqC02ngwTOM5uE3eLchY380
+ UHyU6x3gdqTswy3ag2LGybyLIccxpHU/w7aQ5pfI1WIf9gJHbQdotezykpdLCFiS8BX7
+ voFW6uo11TljDLrOoonTQPj5DP4NqBHkFL3C4uvqJeBses4Rsrv2cIsbj5ukTula7nEj
+ cTgPKWfRJKgf6HFGh9Ex2CC3gQDwPxSENJTVOe1qbkA4WbCeXw26ZtmTi0Ff2GHSi6Fg
+ sb/sKdJITpTPgeFOjQRhN+jKTyaU0QONDVMw5cZMATOaqAYSU/EhL3LFEmdD80iJ8m2N
+ M/tg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=0tS2qXixoLPtsZb2dfxChQEiI64mUkERXoUjHixx/bc=;
- b=CddxOm3uXZrXMHLP+/jk/5sdYFiD4fSAzYsLM2ATJ5BDB0ZSdcx/lT7snm9RtKdezM
- 6P9QRGP9GfwE3Z5rg6G+uIrN0OXqCYD6hwsyWizYr7kwmyYF69crTwurPlD4UjXKRXmU
- HPDttZ4gqUcnY55QXz9e+u40vhFmFxZIUBwQ6WIe0nw7L/RflEImVMXXb4crav32h5sr
- 1AsM/5oACt2KHFaHmojqFY3/C4Fakc51K2t1RRYMWH+3L1V/I2nfcescR52sjaGSKuwX
- vnE3VPwvhDdwYhYaZPZQqMrIeQje4kDefMj6wlQ7iMNUwzN0NMwfhvxhsH4E+JaDhGb/
- NFkg==
-X-Gm-Message-State: AOAM532x8aQJCFCLDEbyAOusLKwJk+3TSIWwL0GGMBOYwgNG1GhiZNow
- tb5t5f2OcakTnHSGdHbrS5Y+WA==
-X-Google-Smtp-Source: ABdhPJwr0yDjcMeFKLULTm+nwHaJ+RhXz7cCsJlU8sgIlM6pJ9/nd6F97GTZsqe9eFMpu6qncnd74w==
-X-Received: by 2002:a62:1b0e:0:b0:4bb:68f4:26e2 with SMTP id
- b14-20020a621b0e000000b004bb68f426e2mr62727094pfb.34.1641514861753; 
- Thu, 06 Jan 2022 16:21:01 -0800 (PST)
+ bh=4i3R5XvZDqNA7FDFL1iY88dsu4G7gFpNhlbrIfWmoYw=;
+ b=S/35mwhIx6/ndir8gGTz0S7Uj48W0YdfFv/zXTZGGvPF720O+K8Hh63+wFayMRPf+Z
+ sT4Kg6uLY6XNJ6ivERqEwUwB5h0lC9Eyzqc5O7RRpA0B5hXaex+3Aq11dZ0MVP3NSLsw
+ LoXzKA7abZpC6zQ/S50iMbKpmDRaoSOsd34s/lfpc5NROPUSVn9masObayybHuos7TQl
+ blK1EfYCKWHB6AZyLBXPdTxqK0NY64UhMBbCm6z+jByAPOlWTO6gUHw6lzClsAwtxzZL
+ hcnOHcOj8nWK9r2wBiJ75nqQtvjuc5JSqVHunAtMk27c0N7mWGqWeOKNaPb6QC288kaJ
+ EHZw==
+X-Gm-Message-State: AOAM531f3vMcenHXVq2jbiuOWcEcY+ca4yAR9gs9+JPEtyOQwWb+UhDi
+ eJItiCC6V38UEHqY9rtZawcrWg==
+X-Google-Smtp-Source: ABdhPJw+mu2YBApEUuxJEXLBRBIcMKDdVicHtjGx0qXBVZAwWIuK0BruaNndl0y+4HYGwTarlPzDUg==
+X-Received: by 2002:a17:90b:3ec3:: with SMTP id
+ rm3mr12619636pjb.31.1641514892066; 
+ Thu, 06 Jan 2022 16:21:32 -0800 (PST)
 Received: from [192.168.1.13] (174-21-75-75.tukw.qwest.net. [174.21.75.75])
- by smtp.gmail.com with ESMTPSA id r10sm3612926pff.120.2022.01.06.16.21.01
+ by smtp.gmail.com with ESMTPSA id k20sm3419698pfk.111.2022.01.06.16.21.31
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 06 Jan 2022 16:21:01 -0800 (PST)
-Subject: Re: [PATCH v2 4/9] hw/dma: Remove CONFIG_USER_ONLY check
+ Thu, 06 Jan 2022 16:21:31 -0800 (PST)
+Subject: Re: [PATCH v2 5/9] hw/rdma/rdma_utils: Rename rdma_pci_dma_map 'len'
+ argument
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org
 References: <20220104085431.2122999-1-f4bug@amsat.org>
- <20220104085431.2122999-5-f4bug@amsat.org>
+ <20220104085431.2122999-6-f4bug@amsat.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <d2282448-55c2-88fe-2e0c-c6ff969205af@linaro.org>
-Date: Thu, 6 Jan 2022 16:20:59 -0800
+Message-ID: <f9381985-75a3-a9a0-0e07-d3689eaa815b@linaro.org>
+Date: Thu, 6 Jan 2022 16:21:30 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <20220104085431.2122999-5-f4bug@amsat.org>
+In-Reply-To: <20220104085431.2122999-6-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::52b
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62f
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62f.google.com
 X-Spam_score_int: -39
 X-Spam_score: -4.0
 X-Spam_bar: ----
 X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.691,
  RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,14 +106,17 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On 1/4/22 12:54 AM, Philippe Mathieu-Daudé wrote:
 > From: Philippe Mathieu-Daudé<philmd@redhat.com>
 > 
-> DMA API should not be included in user-mode emulation.
-> If so, build should fail. Remove the CONFIG_USER_ONLY check.
+> Various APIs use 'pval' naming for 'pointer to val'.
+> rdma_pci_dma_map() uses 'plen' for 'PCI length', but since
+> 'PCI' is already explicit in the function name, simplify
+> and rename the argument 'len'. No logical change.
 > 
 > Signed-off-by: Philippe Mathieu-Daudé<philmd@redhat.com>
 > Signed-off-by: Philippe Mathieu-Daudé<f4bug@amsat.org>
 > ---
->   include/sysemu/dma.h | 3 ---
->   1 file changed, 3 deletions(-)
+>   hw/rdma/rdma_utils.h |  2 +-
+>   hw/rdma/rdma_utils.c | 14 +++++++-------
+>   2 files changed, 8 insertions(+), 8 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
