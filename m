@@ -2,73 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D143487E58
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 22:36:10 +0100 (CET)
-Received: from localhost ([::1]:42570 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45BD0487E60
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 22:39:04 +0100 (CET)
+Received: from localhost ([::1]:50668 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5wu9-00084p-Nf
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 16:36:09 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42460)
+	id 1n5wwx-0005Mv-6T
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 16:39:03 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42484)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1n5wqy-00058Z-1M
- for qemu-devel@nongnu.org; Fri, 07 Jan 2022 16:32:52 -0500
-Received: from [2607:f8b0:4864:20::42b] (port=41496
- helo=mail-pf1-x42b.google.com)
+ id 1n5wqy-00059E-P7
+ for qemu-devel@nongnu.org; Fri, 07 Jan 2022 16:32:54 -0500
+Received: from [2607:f8b0:4864:20::52a] (port=38466
+ helo=mail-pg1-x52a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1n5wqw-0007oA-Jl
- for qemu-devel@nongnu.org; Fri, 07 Jan 2022 16:32:51 -0500
-Received: by mail-pf1-x42b.google.com with SMTP id m1so6162400pfk.8
+ id 1n5wqx-0007oM-77
+ for qemu-devel@nongnu.org; Fri, 07 Jan 2022 16:32:52 -0500
+Received: by mail-pg1-x52a.google.com with SMTP id s1so6506399pga.5
  for <qemu-devel@nongnu.org>; Fri, 07 Jan 2022 13:32:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=cHQ4X7rzXaJnYCapLrO4HAeSSTSF3ady3e3gQlLak+8=;
- b=jxeRwy+9RJikNHfgZ7IOqYmx/l7HGCuOPcW9CPWAjpTJrvPj03bwk+UtERwFQLRSTo
- 2hSsZz5P7t+/MWAr+3CUKzBKeDD2hSIPOm0kQrvkvQh4Enj2nYcEQ+7IKIRX31MvbJeY
- jnI7LS+CRMR5Ne4eKQqHKdRntwNn2GZoz0WAneKuAmcnnBPMCGGD/wRRe4U+dWRPq4IV
- JQ8Usa37IwFNM0Rqkp964616FoOrSeYH45WljzvkICUSvMyFNaewXXvQ336YbAAfba92
- n2vdB0q0tv7Rvu6BM1vKjihYDYOK0Vh9kZZykpEd6GOPE7eNAurMqVBEyqNW1kUN4hbU
- tRlA==
+ bh=zWx3T0Y8jTkfIXWJVpZHCL/Mjwf+W/c1urCpeZvmP0U=;
+ b=Lx9Q+eLgKtnz2EBi/v+NCf2KWdwa1gMmPRd2GsVnBPhlAlepEoCVidKGp73rUy+Zre
+ 2fj3DF5ldiFs1ZEhMWmJO3tdRvyz3TM6ALcakGOEOi1CAxzuDlIyGSNNZcam0j5xgbtU
+ xwsuFm+vW0joaHMl/WEFubMBVgPJ8PcMLonMW3q85kJhDIvpVGzT/94O+8USmOfBlyag
+ 8LvwWmuXNZo/lvyyuJYHknoKM2O3ycX/xBgHxZ9f/lfBNFgMSG8BA4dzYITtbfrnjiBK
+ C1nZOcM2UW3VfM+kCU3YZlF4hTduSTXSEo6sWpUw5PZlX1HwE8LdcEJOHSnuipsBrT//
+ /7ww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=cHQ4X7rzXaJnYCapLrO4HAeSSTSF3ady3e3gQlLak+8=;
- b=Gm1LVczYoOu3b1ol9BmE/wCFyL4vPgFIXZxpTqYy0jvv9fioB/O0vf8I1MVGF54b+4
- +H/pMSzsKu5aWiq9cAh2lkimqIzx6mvdJ2yaleMSVDj4wKPnZShWOmyBUBlCGyK7LoQM
- IKljuHVcn5oKUtZI7n4BHcso9l3x5i0UC7jALQTSa9sNAnkyLAPvWSAv9ay+tNcsHErT
- KZJ+FezTttzmJjQPXXeHTC8vFi7dTU2/KXuDYNvLDfes0PAnJZaDxdpGjjdRiJKpG87C
- gNIB2br4p3HJnyyazn4Z+wcjfA0dDxU8FotuGT/BlrKV+R7UaFJaRxFwRyGPHaT2oM3h
- mvCw==
-X-Gm-Message-State: AOAM531IdTWghmc3Yk9b3Vze59msHjoWCUU+s5vQ5WhDcwFFzViba2p1
- rc1dwyPl3bnDdFwyLowYEzX4MILPqIZZEA==
-X-Google-Smtp-Source: ABdhPJzNySXbTvMGzFzTyqMzgeyZZIXAKUQBbeXBapG+px1m3MKxmTEaxGckBawJMjGnaYHG/l4ZFA==
-X-Received: by 2002:a05:6a00:1484:b0:4bb:86a:c061 with SMTP id
- v4-20020a056a00148400b004bb086ac061mr65951263pfu.36.1641591169399; 
+ bh=zWx3T0Y8jTkfIXWJVpZHCL/Mjwf+W/c1urCpeZvmP0U=;
+ b=EyJpCNO+i63isnEXDQp4p2nnCnIf63ZK6XZ838Gv3QExHY6u4I8kHRXCnJfx/4F5DX
+ T0zgToqCcywN5CF/gZ0EEx6TsVU8Lt1wjUy19Wo1OcuGq5J/nopk/UagBmgCMvlYKqSY
+ 72HFK4QrqDi9iExRLzDAFH5k+A2tRHddtbTANt4wi8EWJSd8VxGaB2F3JtBXLoUs3ElP
+ dtO5tL1qn37fb6ogM3VaasDQKO0d/RHIlTLzuMeaWk0IqHQT29Wcq0+CwTNUcSUI3UXp
+ Gk/ZgdOcmPLoOLh8yL+SyNdhH/g+b6iGgDzMcAhDhl3JqC2HGCHTa8DiCI+pI45GAbhG
+ g5Xg==
+X-Gm-Message-State: AOAM531akECLZ5aaaBezRkTbosArG6zQXFdnY96ZNEyrwnfaQuVlEOWP
+ GZz7TTHrDyg0GGWiFxd1TjVqR0hTaGtXZA==
+X-Google-Smtp-Source: ABdhPJy3kuekguY7ddzqFQHO6s5d7Wg8K2Hl9emLfGKcTA5CljdQMkI+A8R3qoFMOLjLLHwZum51sQ==
+X-Received: by 2002:a63:7d58:: with SMTP id m24mr4059575pgn.24.1641591169948; 
  Fri, 07 Jan 2022 13:32:49 -0800 (PST)
 Received: from localhost.localdomain (174-21-75-75.tukw.qwest.net.
  [174.21.75.75])
- by smtp.gmail.com with ESMTPSA id y11sm6633030pfi.80.2022.01.07.13.32.48
+ by smtp.gmail.com with ESMTPSA id y11sm6633030pfi.80.2022.01.07.13.32.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 07 Jan 2022 13:32:49 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 08/24] linux-user/hppa: Set FPE_CONDTRAP for COND
-Date: Fri,  7 Jan 2022 13:32:27 -0800
-Message-Id: <20220107213243.212806-9-richard.henderson@linaro.org>
+Subject: [PATCH v5 09/24] linux-user/i386: Split out maybe_handle_vm86_trap
+Date: Fri,  7 Jan 2022 13:32:28 -0800
+Message-Id: <20220107213243.212806-10-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220107213243.212806-1-richard.henderson@linaro.org>
 References: <20220107213243.212806-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::42b
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::52a
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52a.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -88,45 +86,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: laurent@vivier.eu,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This si_code was changed in 75abf64287cab, for linux 4.17.
+Reduce the number of ifdefs within cpu_loop().
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/syscall_defs.h  | 1 +
- linux-user/hppa/cpu_loop.c | 2 ++
- 2 files changed, 3 insertions(+)
+ linux-user/i386/cpu_loop.c | 31 +++++++++++++++----------------
+ 1 file changed, 15 insertions(+), 16 deletions(-)
 
-diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
-index 510a8c1ab5..f23f0a2178 100644
---- a/linux-user/syscall_defs.h
-+++ b/linux-user/syscall_defs.h
-@@ -688,6 +688,7 @@ typedef struct target_siginfo {
- #define TARGET_FPE_FLTINV      (7)  /* floating point invalid operation */
- #define TARGET_FPE_FLTSUB      (8)  /* subscript out of range */
- #define TARGET_FPE_FLTUNK      (14) /* undiagnosed fp exception */
-+#define TARGET_FPE_CONDTRAP    (15) /* trap on condition */
+diff --git a/linux-user/i386/cpu_loop.c b/linux-user/i386/cpu_loop.c
+index 9aaae93e2f..ac0f4e3211 100644
+--- a/linux-user/i386/cpu_loop.c
++++ b/linux-user/i386/cpu_loop.c
+@@ -198,6 +198,17 @@ static void emulate_vsyscall(CPUX86State *env)
+ }
+ #endif
  
- /*
-  * SIGSEGV si_codes
-diff --git a/linux-user/hppa/cpu_loop.c b/linux-user/hppa/cpu_loop.c
-index a65e1571a0..a576d1a249 100644
---- a/linux-user/hppa/cpu_loop.c
-+++ b/linux-user/hppa/cpu_loop.c
-@@ -156,6 +156,8 @@ void cpu_loop(CPUHPPAState *env)
-             force_sig_fault(TARGET_SIGFPE, TARGET_FPE_INTOVF, env->iaoq_f);
++static bool maybe_handle_vm86_trap(CPUX86State *env, int trapnr)
++{
++#ifndef TARGET_X86_64
++    if (env->eflags & VM_MASK) {
++        handle_vm86_trap(env, trapnr);
++        return true;
++    }
++#endif
++    return false;
++}
++
+ void cpu_loop(CPUX86State *env)
+ {
+     CPUState *cs = env_cpu(env);
+@@ -259,12 +270,9 @@ void cpu_loop(CPUX86State *env)
              break;
-         case EXCP_COND:
-+            force_sig_fault(TARGET_SIGFPE, TARGET_FPE_CONDTRAP, env->iaoq_f);
-+            break;
-         case EXCP_ASSIST:
-             force_sig_fault(TARGET_SIGFPE, 0, env->iaoq_f);
+         case EXCP0D_GPF:
+             /* XXX: potential problem if ABI32 */
+-#ifndef TARGET_X86_64
+-            if (env->eflags & VM_MASK) {
+-                handle_vm86_fault(env);
++            if (maybe_handle_vm86_trap(env, trapnr)) {
+                 break;
+             }
+-#endif
+             gen_signal(env, TARGET_SIGSEGV, TARGET_SI_KERNEL, 0);
              break;
+         case EXCP0E_PAGE:
+@@ -274,22 +282,16 @@ void cpu_loop(CPUX86State *env)
+                        env->cr[2]);
+             break;
+         case EXCP00_DIVZ:
+-#ifndef TARGET_X86_64
+-            if (env->eflags & VM_MASK) {
+-                handle_vm86_trap(env, trapnr);
++            if (maybe_handle_vm86_trap(env, trapnr)) {
+                 break;
+             }
+-#endif
+             gen_signal(env, TARGET_SIGFPE, TARGET_FPE_INTDIV, env->eip);
+             break;
+         case EXCP01_DB:
+         case EXCP03_INT3:
+-#ifndef TARGET_X86_64
+-            if (env->eflags & VM_MASK) {
+-                handle_vm86_trap(env, trapnr);
++            if (maybe_handle_vm86_trap(env, trapnr)) {
+                 break;
+             }
+-#endif
+             if (trapnr == EXCP01_DB) {
+                 gen_signal(env, TARGET_SIGTRAP, TARGET_TRAP_BRKPT, env->eip);
+             } else {
+@@ -298,12 +300,9 @@ void cpu_loop(CPUX86State *env)
+             break;
+         case EXCP04_INTO:
+         case EXCP05_BOUND:
+-#ifndef TARGET_X86_64
+-            if (env->eflags & VM_MASK) {
+-                handle_vm86_trap(env, trapnr);
++            if (maybe_handle_vm86_trap(env, trapnr)) {
+                 break;
+             }
+-#endif
+             gen_signal(env, TARGET_SIGSEGV, TARGET_SI_KERNEL, 0);
+             break;
+         case EXCP06_ILLOP:
 -- 
 2.25.1
 
