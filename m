@@ -2,62 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1E49487746
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 13:01:40 +0100 (CET)
-Received: from localhost ([::1]:48300 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58753487726
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 12:56:26 +0100 (CET)
+Received: from localhost ([::1]:39188 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5nwB-0003hb-Tn
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 07:01:39 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49846)
+	id 1n5nr7-0005nX-FX
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 06:56:25 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52878)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1n5nPy-0004sG-G3; Fri, 07 Jan 2022 06:28:22 -0500
-Received: from smtp23.cstnet.cn ([159.226.251.23]:54282 helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liweiwei@iscas.ac.cn>)
- id 1n5nPu-0006Vh-1o; Fri, 07 Jan 2022 06:28:22 -0500
-Received: from localhost.localdomain (unknown [180.156.147.178])
- by APP-03 (Coremail) with SMTP id rQCowAB3fS3CI9hh_s5CBQ--.4982S8;
- Fri, 07 Jan 2022 19:28:07 +0800 (CST)
-From: Weiwei Li <liweiwei@iscas.ac.cn>
-To: richard.henderson@linaro.org, palmer@dabbelt.com, alistair.francis@wdc.com,
- bin.meng@windriver.com, qemu-riscv@nongnu.org, qemu-devel@nongnu.org
-Subject: [PATCH v3 6/6] target/riscv: expose zfinx, zdinx,
- zhinx{min} properties
-Date: Fri,  7 Jan 2022 19:27:49 +0800
-Message-Id: <20220107112749.981-7-liweiwei@iscas.ac.cn>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20220107112749.981-1-liweiwei@iscas.ac.cn>
-References: <20220107112749.981-1-liweiwei@iscas.ac.cn>
-X-CM-TRANSID: rQCowAB3fS3CI9hh_s5CBQ--.4982S8
-X-Coremail-Antispam: 1UD129KBjvdXoW7GFyrJF43Ww4xXrW7Cry7GFg_yoWkXwc_Jr
- y093Wvya4UZFy29r4DAw1UKrW0krW0qan0gF4ayay7GFWkWFn0yw1vkw4fGF1UGr13CF4f
- AFyfJrZ7G39IvjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUIcSsGvfJTRUUUbDAFF20E14v26rWj6s0DM7CY07I20VC2zVCF04k26cxKx2IYs7xG
- 6rWj6s0DM7CIcVAFz4kK6r1j6r18M28IrcIa0xkI8VA2jI8067AKxVWUAVCq3wA2048vs2
- IY020Ec7CjxVAFwI0_Xr0E3s1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28E
- F7xvwVC0I7IYx2IY67AKxVW8JVW5JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8Jr0_Cr
- 1UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s0D
- M2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjx
- v20xvE14v26r106r15McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1l
- F7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E8cxan2
- IY04v7MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAF
- wI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc4
- 0Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r4j6ryUMIIF0xvE2Ix0cI8IcVCY1x0267AK
- xVWxJVW8Jr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r4j6F
- 4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUArcfU
- UUUU=
-X-Originating-IP: [180.156.147.178]
-X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
-Received-SPF: pass client-ip=159.226.251.23; envelope-from=liweiwei@iscas.ac.cn;
- helo=cstnet.cn
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_BL=0.001, RCVD_IN_MSPIKE_L4=0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <abologna@redhat.com>)
+ id 1n5ng9-0002KK-4y
+ for qemu-devel@nongnu.org; Fri, 07 Jan 2022 06:45:05 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47480)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <abologna@redhat.com>)
+ id 1n5ng6-0002BJ-Be
+ for qemu-devel@nongnu.org; Fri, 07 Jan 2022 06:45:04 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1641555901;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=QMIUwK5i6AIv9W6T+MR9FN0b969IFfmEYBE6RxI08FY=;
+ b=Zvl6NwwPeIPXJdxW47wbFMBETQvaupkAww2kObuQQeWYnzL4FShYQ7KXyonZ8cXq+3+yyI
+ lOZM6Z6B+ru+nO16GIwmb5JZictBMgiUCmhOEp+9D5Lbx9w0j9KD9F9nYQN/QX03HJXMxg
+ 2iDMQKqwsXP127g/oPpeOPgu1FN2lfs=
+Received: from mail-yb1-f198.google.com (mail-yb1-f198.google.com
+ [209.85.219.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-480-qYCGG5fXOkGA5HnvVQ7E8Q-1; Fri, 07 Jan 2022 06:43:45 -0500
+X-MC-Unique: qYCGG5fXOkGA5HnvVQ7E8Q-1
+Received: by mail-yb1-f198.google.com with SMTP id
+ g4-20020a256b04000000b00610898ff989so1477044ybc.19
+ for <qemu-devel@nongnu.org>; Fri, 07 Jan 2022 03:43:45 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:references:mime-version:in-reply-to:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=QMIUwK5i6AIv9W6T+MR9FN0b969IFfmEYBE6RxI08FY=;
+ b=Nfwt7NZsfeU3pdEeJMOvwOgTGxvUoAmPPUgE2emoHgAysuC6i0pYnd2PgyLSymQmwC
+ FSEbjviNHr2mhFV2VNdCJFFTVfqZoE5etYTYkwOU5JRzT66eSufFxl7agSCM2dRkHOAQ
+ 1TSSa0Wz4GWcbg5QR8XR0Fz8Hw1Dn1DiFfgSromvwFzDlzEPXvxye9Ak/Zy3/7/PDnnY
+ VYgCx1cKeGRoPhJnbaNev6CjRlUkEblObtb4Xd/r8IJaQLgqHuqtd70OlTVsVrn72pHf
+ etJa91Bq2NmeloUpC5wT81wFZwwFTZwRnaUO+ah8Gu0q6RihxVyrj5zb6HBH0IhoKDgP
+ /aJQ==
+X-Gm-Message-State: AOAM531H+MmbEu1HvDwLUJC2nwV7nCGKBS3654aYMOa0vhYmBJmHooF1
+ /iYdfUZX6m0oWabyk7BdGrKlboMebCVafFFrlhy2/37BvxV6sHjWg6dMraMRIfIRESuL6Wao1PS
+ XezydduXivuM2+TLKv+90OSKT1wc+l9U=
+X-Received: by 2002:a25:2cd0:: with SMTP id
+ s199mr67568905ybs.234.1641555825256; 
+ Fri, 07 Jan 2022 03:43:45 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwAagxOk8eel0oVH6v7Q6+ZJBzuWs841000Pap7lkPlYXRYMMpB4f2JJ9X17rMLxoZBYjScwTJTkYO1h3LXJRY=
+X-Received: by 2002:a25:2cd0:: with SMTP id
+ s199mr67568896ybs.234.1641555825066; 
+ Fri, 07 Jan 2022 03:43:45 -0800 (PST)
+Received: from 744723338238 named unknown by gmailapi.google.com with
+ HTTPREST; Fri, 7 Jan 2022 03:43:44 -0800
+From: Andrea Bolognani <abologna@redhat.com>
+References: <1567068782-371028-1-git-send-email-zhe.he@windriver.com>
+ <20190829091505.GB17141@redhat.com>
+MIME-Version: 1.0
+In-Reply-To: <20190829091505.GB17141@redhat.com>
+Date: Fri, 7 Jan 2022 03:43:44 -0800
+Message-ID: <CABJz62M1o7Vof3LSG0BNY506jEdB1S110mMOVbu-ZpQfPJCWfQ@mail.gmail.com>
+Subject: Re: [Qemu-devel] [PATCH] configure: Add pkg-config handling for
+ libgcrypt
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=abologna@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=abologna@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.372,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -70,35 +97,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: wangjunqiang@iscas.ac.cn, Weiwei Li <liweiwei@iscas.ac.cn>,
- lazyparser@gmail.com, ardxwe@gmail.com
+Cc: thuth@redhat.com, zhe.he@windriver.com, laurent@vivier.eu,
+ qemu-devel@nongnu.org, pbonzini@redhat.com, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Co-authored-by: ardxwe <ardxwe@gmail.com>
-Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
-Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/riscv/cpu.c | 4 ++++
- 1 file changed, 4 insertions(+)
+On Thu, Aug 29, 2019 at 10:15:05AM +0100, Daniel P. Berrang=C3=A9 wrote:
+> On Thu, Aug 29, 2019 at 04:53:02PM +0800, zhe.he@windriver.com wrote:
+> > libgcrypt may also be controlled by pkg-config, this patch adds pkg-con=
+fig
+> > handling for libgcrypt.
+>
+> Where are you seeing pkg-config files for libgcrypt ?
+>
+> The upstream project has (frustratingly) been hostile to any proposal to
+> add pkg-config support saying people should stick with their custom
+> libgcrypt-config tool
+>
+>    https://dev.gnupg.org/T2037
+>
+> Even if this is something added by some distro downstream, what is the
+> benefit in using it, compared with libgcrypt-confg which should already
+> work & is portable.
 
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index d9ea005724..9e4fa87aa8 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -657,6 +657,10 @@ static Property riscv_cpu_properties[] = {
-     DEFINE_PROP_BOOL("zbb", RISCVCPU, cfg.ext_zbb, true),
-     DEFINE_PROP_BOOL("zbc", RISCVCPU, cfg.ext_zbc, true),
-     DEFINE_PROP_BOOL("zbs", RISCVCPU, cfg.ext_zbs, true),
-+    DEFINE_PROP_BOOL("Zdinx", RISCVCPU, cfg.ext_zdinx, false),
-+    DEFINE_PROP_BOOL("Zfinx", RISCVCPU, cfg.ext_zfinx, false),
-+    DEFINE_PROP_BOOL("Zhinx", RISCVCPU, cfg.ext_zhinx, false),
-+    DEFINE_PROP_BOOL("Zhinxmin", RISCVCPU, cfg.ext_zhinxmin, false),
-     DEFINE_PROP_BOOL("x-h", RISCVCPU, cfg.ext_h, false),
-     DEFINE_PROP_BOOL("x-j", RISCVCPU, cfg.ext_j, false),
-     /* ePMP 0.9.3 */
--- 
-2.17.1
+Resurrecting an old thread to point out that the upstream stance
+seems to have changed since that discussion:
+
+  https://git.gnupg.org/cgi-bin/gitweb.cgi?p=3Dlibgcrypt.git;a=3Dcommit;h=
+=3D97194b422bc89a6137f4e218d4cdee118c63e96e
+
+libgcrypt 1.9.0, released almost exactly a year ago, comes with a
+pkg-config file out of the box. With that in mind, I think it would
+make sense to re-evaluate this patch for inclusion.
+
+--=20
+Andrea Bolognani / Red Hat / Virtualization
 
 
