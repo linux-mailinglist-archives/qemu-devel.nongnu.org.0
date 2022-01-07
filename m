@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAE04487A07
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 16:58:50 +0100 (CET)
-Received: from localhost ([::1]:35998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E05944879FB
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 16:56:11 +0100 (CET)
+Received: from localhost ([::1]:57764 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5rdi-0004n8-1B
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 10:58:50 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52120)
+	id 1n5rb8-0008JV-QE
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 10:56:10 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52226)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1n5rWG-00047f-Fy
- for qemu-devel@nongnu.org; Fri, 07 Jan 2022 10:51:08 -0500
-Received: from [2a00:1450:4864:20::42b] (port=35634
- helo=mail-wr1-x42b.google.com)
+ id 1n5rXC-0005GD-9Y
+ for qemu-devel@nongnu.org; Fri, 07 Jan 2022 10:52:06 -0500
+Received: from [2a00:1450:4864:20::430] (port=37662
+ helo=mail-wr1-x430.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1n5rWB-0006j6-To
- for qemu-devel@nongnu.org; Fri, 07 Jan 2022 10:51:08 -0500
-Received: by mail-wr1-x42b.google.com with SMTP id e9so10339696wra.2
- for <qemu-devel@nongnu.org>; Fri, 07 Jan 2022 07:51:02 -0800 (PST)
+ id 1n5rX8-0006u9-1m
+ for qemu-devel@nongnu.org; Fri, 07 Jan 2022 10:52:03 -0500
+Received: by mail-wr1-x430.google.com with SMTP id t28so5082535wrb.4
+ for <qemu-devel@nongnu.org>; Fri, 07 Jan 2022 07:51:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=DzSu9K7g1ox0AMjcvjJaldxShUbK/oaE7du71xebS9E=;
- b=CwKX4qlDYIlE3XOaRmBzM2RvLU+9NzGeHF6vFDjzv2SZEFUuQXIyN0l79Rv9kN3M93
- galYKrYwV7NU95UTFuw5vVQD0Nj+/NmM0pyNTdY9xhP1nxb/d5i2lWFXBMNh5NpqF7Db
- s/qGxjCtS6tg8bQi2TIWCucgNV7kYJENDv+zxxgWwwcqeS9+B3BWEzwT/2wJAE1nnY5A
- SWgJTO2FtPvZbicqUpR3RqAiE+5QqMvDxMxT8xb4EhLoZacPHy+zNjOh1DrUOUct3cDz
- uEe6s1xgDuSUPQJKEstM6DMW9T35OW3OdUZlZddOjWtrOm6c9TBismngZ8qPrc4LKPmX
- UX5g==
+ :cc; bh=pCIuiETVkwzHH2HyMAOKEe29sJPkHGYEVRaaAemOwWk=;
+ b=pO8XK1bxPViF+U+AC3DxXF6kaSkwCkmrae+vbeVGcyvBMPTNEysf8Yj5NN8wvpwKJH
+ 6bth6srkdgZhK5VhQmFGVddsEUZuDX0HFQTIoPsgUrvDERiCIwY0Cjv2sIatFpHTUE3+
+ Mdzq7d3Yt+s/1rPRN16CCpRWdD2gEHxB8XlvHeR/91+7BrrqmOdn2vSVEK17IqyRkr5m
+ FdyvJMOR9PHA+rEySakk1Xvdqvgn+X17PcEj4VHFkID/gg1GEOVK3LpI4DjfbNkY6JFo
+ krtR6EwlLUsSoC/V+6S6LCeO6VxuEWkXvnZx90F5lXdL/p5O9pRLcnim8ggqDn844rTt
+ Dq8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=DzSu9K7g1ox0AMjcvjJaldxShUbK/oaE7du71xebS9E=;
- b=bn3QUiVnJ5h5B4dQRdvf11SOXpWjbTu7xl3zVUE5Ui4dlIUDYf0aEr6rCGCTZUa+dN
- a4vX6kN7S120NWodUnmAhf+/aKElSkV0VzoonIS/vCzFI75XdZwXDkplwNDNhZMJq7mK
- 2/CWl85WO5wEuLWGf+g+9SY2yWUxBepSPCOF8WVM+wYjOnGBLYSz35Renw/4h2Mqs6Ah
- ufBIWsuInmZWvF6J8Iep1irZYFk0PpodK39cdpI4yuigWSQYksk6V4mA1jAiFkbUTWJh
- ylJjTeDWcpsjbUw1eWly/DGYBjSNx4ioUPw3t1YW3/ziqOhDdNjyGV1Jnm/BnsZpmwW4
- pcYQ==
-X-Gm-Message-State: AOAM533aVruJT64WNIl5Bl0+WyJZuhhoAwiSu4yhV9z+UyKf0qTjPv/j
- aVIn/IzSloOkdROup2fE3ArBGDQqv2zIdAjfpwKTkw==
-X-Google-Smtp-Source: ABdhPJwAvD7RYXEag83LeFeWtfmDJgVLhrCvbkBv5+WYYGVE6GthT1gTZi2SpKa+yQcJ2vcW6URtIbhcLQmUF302m0A=
-X-Received: by 2002:a5d:64c3:: with SMTP id f3mr53807580wri.295.1641570659068; 
- Fri, 07 Jan 2022 07:50:59 -0800 (PST)
+ bh=pCIuiETVkwzHH2HyMAOKEe29sJPkHGYEVRaaAemOwWk=;
+ b=gz3q8/M8skFHmT1WXgURahuBbvjDjOnPt4FTUeLViIQCMFNwhW7KsReiBbMms2iShh
+ +lYYaNb255RKZSoBW+7OeNDVDHPTqlwdKex5iAA50UOa+Hg2sLWHsaIpJNHODvht9JPb
+ TQGHDtb1M6OoIRE7Rt1rxYcbunsJm0ipGE2tk9ou2T83jPnWFG4kcXEuu1jGgnGuGcz2
+ BxDZDfme/tzjeWl5mfCutg56HDyf1CqU05FCO6m4gcC7kwZVSQbx508WsIe+BDBc2lkW
+ bOwdfSh3mmGVgRWxWKND3g/GmebjrLPY6HUQvEB0OFzLLAd5miWd4WLDY18pa+RSyCva
+ G3WQ==
+X-Gm-Message-State: AOAM533oTjsoBxLuYti+mCp3W022qL+FxQtYSs/FIzWYshYce5zsTiHB
+ r616txxDj4Fi6Og74rd3W4ygP/OLfRIqrCsSpnL1afzO150=
+X-Google-Smtp-Source: ABdhPJyPQDYVluqVEc4VqBiVJqldttJpJfMY/AAikQ5J88jCfK7gfYND+Bd9hi4lZGeqmLdY+0evfoDbH15IczbCyHE=
+X-Received: by 2002:a5d:6986:: with SMTP id g6mr3930567wru.172.1641570718640; 
+ Fri, 07 Jan 2022 07:51:58 -0800 (PST)
 MIME-Version: 1.0
 References: <20211214110354.21816-1-francisco.iglesias@xilinx.com>
- <20211214110354.21816-2-francisco.iglesias@xilinx.com>
-In-Reply-To: <20211214110354.21816-2-francisco.iglesias@xilinx.com>
+ <20211214110354.21816-3-francisco.iglesias@xilinx.com>
+In-Reply-To: <20211214110354.21816-3-francisco.iglesias@xilinx.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 7 Jan 2022 15:50:48 +0000
-Message-ID: <CAFEAcA_yeCU4+jbXxGObmQt5yruiR0KVManaCOsRTBXN=d29gQ@mail.gmail.com>
-Subject: Re: [PATCH v5 01/12] hw/misc: Add a model of Versal's PMC SLCR
+Date: Fri, 7 Jan 2022 15:51:47 +0000
+Message-ID: <CAFEAcA9W_70aYSO8bHB488D7kp1cKykqTbDw0ZhLW4OMbw8T+A@mail.gmail.com>
+Subject: Re: [PATCH v5 02/12] hw/arm/xlnx-versal: 'Or' the interrupts from the
+ BBRAM and RTC models
 To: Francisco Iglesias <francisco.iglesias@xilinx.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42b
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::430
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x430.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -89,18 +90,10 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On Tue, 14 Dec 2021 at 11:04, Francisco Iglesias
 <francisco.iglesias@xilinx.com> wrote:
 >
-> Add a model of Versal's PMC SLCR (system-level control registers).
+> Add an orgate and 'or' the interrupts from the BBRAM and RTC models.
 >
 > Signed-off-by: Francisco Iglesias <francisco.iglesias@xilinx.com>
-> Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 > ---
->  hw/misc/meson.build                        |    5 +-
->  hw/misc/xlnx-versal-pmc-iou-slcr.c         | 1446 ++++++++++++++++++++++++++++
->  include/hw/misc/xlnx-versal-pmc-iou-slcr.h |   78 ++
->  3 files changed, 1528 insertions(+), 1 deletion(-)
->  create mode 100644 hw/misc/xlnx-versal-pmc-iou-slcr.c
->  create mode 100644 include/hw/misc/xlnx-versal-pmc-iou-slcr.h
-
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
