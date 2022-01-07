@@ -2,74 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1ADB5487A25
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 17:11:12 +0100 (CET)
-Received: from localhost ([::1]:53380 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8311487A19
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 17:03:51 +0100 (CET)
+Received: from localhost ([::1]:43522 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5rpf-0000om-7E
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 11:11:11 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54500)
+	id 1n5riX-00029s-S0
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 11:03:49 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54510)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1n5rgV-0008M9-F5
- for qemu-devel@nongnu.org; Fri, 07 Jan 2022 11:01:43 -0500
-Received: from [2a00:1450:4864:20::42d] (port=43651
- helo=mail-wr1-x42d.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1n5rgG-00005n-U2
- for qemu-devel@nongnu.org; Fri, 07 Jan 2022 11:01:43 -0500
-Received: by mail-wr1-x42d.google.com with SMTP id o3so11864486wrh.10
- for <qemu-devel@nongnu.org>; Fri, 07 Jan 2022 08:01:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=YNZqSV7L8mwkpOxrKpsXfbTaQM6MC67Npt1FKUxdoCk=;
- b=A9Muwutoeey8MdBe1YkfOhvLLrzoh43tPqSnhVz1uUb6bH8qfjLgl2wsahgHIkeOYV
- DeFvXhI+2z0QGWZahJ4iDubiuo8RWZRdZ2oKJlpnLBFBkEE7WOfKpnrRl1hz+6XO0hak
- ZXx2t9R3DXXHzolSJOIfA3wah9pNJozypMhAzCvOG3FGJ1TzKC+ANremT2qHcmObURW+
- IJkypnxFOM09f+kK/Ozx8bbsyEwIgN1XZ2jhI3QNH7OgvPxpSOjkMPStqsuvLm7KpOSm
- +q0/qWKJA9V1yKr3U8daUZ4VltO3gRtzQLsA2Z/DAreoH+Xn8BkPzX4qCFET7pmaSh1P
- bJdA==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1n5rgX-0008Pv-HX
+ for qemu-devel@nongnu.org; Fri, 07 Jan 2022 11:01:45 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:46556)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1n5rgU-00007h-Fu
+ for qemu-devel@nongnu.org; Fri, 07 Jan 2022 11:01:44 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1641571301;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=+jnGcLDqXNkfGetGLqSj7a6Y6sd/mYxkZbz8QO/4Grs=;
+ b=OXDLfqgerLai7Y+9O9/hEamgIPucmAq/epPj4NqbPEZ2F0Sd+o9UHXlF+qDAtRKBGE+dha
+ j17ETlOIitrnS1U547x2DBbkHFMggtWBAreIPlm1DMQ4RcHZ7S2aPaNMCEfGgyBdD02lqZ
+ z+Jd7PF3rOqeuWFKeZvISrTdZfoH//o=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-135-9BAP-u9EOhmfYSHatk9rdw-1; Fri, 07 Jan 2022 11:01:40 -0500
+X-MC-Unique: 9BAP-u9EOhmfYSHatk9rdw-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ j18-20020a05600c1c1200b003335872db8dso1036650wms.2
+ for <qemu-devel@nongnu.org>; Fri, 07 Jan 2022 08:01:39 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=YNZqSV7L8mwkpOxrKpsXfbTaQM6MC67Npt1FKUxdoCk=;
- b=iZuUWHylYssLdjSOrwkV+ciTyu5gC37y22SBLNdusVKEw/+zJ1Y69ZEh6ttpq7Olh3
- 9Tr9yGOLYCUxW86mKR3YtoZM4lQnY/9BNSP52HFpPTSkotnzmu9y2sQ6XwEuGlckB2Pd
- TQR5rkwg4c7FwK37Q6FtT4Danwxpqd1gkr7OFzcffONdehdDjKS9cFmmNOdFl0zLfavA
- A3MTe3RyhlnkTBDgDLj55ue7tZ4pb5v+XKxTI0r30ng3+/GjP8qMfVDhe/4DIOb1naZJ
- 0OhdDONHbl0QxHQ/IIJJ3/+BMZGzeXRoYE5YSTph1HSLuqc4d085R6pKA/Kj7zQJV2w5
- GSxA==
-X-Gm-Message-State: AOAM532ProvDcagpK+MFscXL4Sbszom0ySI7qvOo3BPo5+5JSEqm3Tml
- n/UmhgL9+ga85duI5xPVpFfyEkmIEaHYGTJKDhpHrA==
-X-Google-Smtp-Source: ABdhPJzT6CS71JtZq97ClXbqjZCxNJFyMRjKG9ohR5DSikCnC0uADOb6EeZ3QRkJ+CCEzNbzC7vQZK7+OGVHnVs51G4=
-X-Received: by 2002:a05:6000:1141:: with SMTP id
- d1mr56948034wrx.2.1641571280231; 
- Fri, 07 Jan 2022 08:01:20 -0800 (PST)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent
+ :content-language:to:cc:from:subject:content-transfer-encoding;
+ bh=+jnGcLDqXNkfGetGLqSj7a6Y6sd/mYxkZbz8QO/4Grs=;
+ b=oygrme+UMLO9UaszZWDq3e7t0aGUpKi0zTsLEirIbbHgENhi++S0wwB96Q9JowlANt
+ ASZ1ZBXD4JZN/aa7V1yBXRix0rlZzUKub8iIt+hRlqsfHiaUPTrh1mx85ppNToOqPsTR
+ DixvuszLB9Q3MY4R6Sqr8LBDpJZUmFzZ4MVUYJhDIn2Jg8HIq4l/XziG1VjpjQMs+qdT
+ tmzIQLok1yXXTrj+WiiPA5aW2SXgJg3lX9a9nJwtrO7MhHD0kPNkDpJVYurHJKNETYJz
+ 3Xv7HlP0Xf+kRMnqhSJYPaKZRxDWebtH2yB8UILLjJL+yWc62Pb7YUraIwAeC4yVa5uI
+ 7oJw==
+X-Gm-Message-State: AOAM5323jIlEqH/VeHX/yuHROm5+IAFeAK/rcOo4U64aCAn0uwidU3B3
+ DCtjHyUV6sMNgmY6rZnnmobBTmn44hxSZlmSai8WO3FhJXAj1eukR5T9yOK6OK42oc60g1+/PNC
+ jGkNyg2gP2YFBWaU=
+X-Received: by 2002:a05:6000:15c6:: with SMTP id
+ y6mr53480426wry.20.1641571298908; 
+ Fri, 07 Jan 2022 08:01:38 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwCuSpn+EFA45Ph5LdUxLi81mJ8fS7pIxNeBxVDS+x4SbgFY7JZLvWKIbIoAm5JaW/Z4pa0Lg==
+X-Received: by 2002:a05:6000:15c6:: with SMTP id
+ y6mr53480420wry.20.1641571298746; 
+ Fri, 07 Jan 2022 08:01:38 -0800 (PST)
+Received: from [192.168.8.100] (tmo-098-68.customers.d1-online.com.
+ [80.187.98.68])
+ by smtp.gmail.com with ESMTPSA id o10sm5128683wmq.31.2022.01.07.08.01.37
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 07 Jan 2022 08:01:37 -0800 (PST)
+Message-ID: <9d84ab18-72a6-4913-4c56-ffd02ff386ed@redhat.com>
+Date: Fri, 7 Jan 2022 17:01:36 +0100
 MIME-Version: 1.0
-References: <20211214110354.21816-1-francisco.iglesias@xilinx.com>
- <20211214110354.21816-8-francisco.iglesias@xilinx.com>
-In-Reply-To: <20211214110354.21816-8-francisco.iglesias@xilinx.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 7 Jan 2022 16:01:09 +0000
-Message-ID: <CAFEAcA-XVR9aXvYyN4qNREyW1mKVN7q8fv2WXjCo-B=RgWKhTg@mail.gmail.com>
-Subject: Re: [PATCH v5 07/12] hw/ssi: Add a model of Xilinx Versal's OSPI
- flash memory controller
-To: Francisco Iglesias <francisco.iglesias@xilinx.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42d
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42d.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_PASS=-0.001,
- T_SPF_HELO_TEMPERROR=0.01 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+To: John Snow <jsnow@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Subject: test_isa_retry_flush() in ide-test.c
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.372,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,22 +96,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: edgar.iglesias@xilinx.com, frasse.iglesias@gmail.com,
- alistair@alistair23.me, qemu-devel@nongnu.org, alistair23@gmail.com,
- philmd@redhat.com
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 14 Dec 2021 at 11:04, Francisco Iglesias
-<francisco.iglesias@xilinx.com> wrote:
->
-> Add a model of Xilinx Versal's OSPI flash memory controller.
->
-> Signed-off-by: Francisco Iglesias <francisco.iglesias@xilinx.com>
-> ---
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+  Hi John!
 
-thanks
--- PMM
+I just notice that test_isa_retry_flush() is not doing anything useful 
+anymore: It likely was supposed to run the test_retry_flush() function with 
+the "isapc" machine type, but actually test_retry_flush() ignores the 
+machine option parameter completely and always uses PCI accessor functions 
+nowadays (since commit 9c268f8ae84ae186).
+Question is: Is it worth the effort to try to restore the original intended 
+behavior for the ISA test here, or shall we rather simply remove it instead 
+to save some testing cycles?
+
+  Thomas
+
 
