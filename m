@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E003487B67
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 18:29:28 +0100 (CET)
-Received: from localhost ([::1]:52198 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03813487B85
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 18:37:25 +0100 (CET)
+Received: from localhost ([::1]:43964 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5t3P-0005fA-Dg
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 12:29:27 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49140)
+	id 1n5tB5-0003ES-GU
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 12:37:23 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49180)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1n5swB-0005G7-8T
- for qemu-devel@nongnu.org; Fri, 07 Jan 2022 12:21:59 -0500
-Received: from [2a00:1450:4864:20::434] (port=44964
- helo=mail-wr1-x434.google.com)
+ id 1n5swD-0005O3-GZ
+ for qemu-devel@nongnu.org; Fri, 07 Jan 2022 12:22:01 -0500
+Received: from [2a00:1450:4864:20::42f] (port=36573
+ helo=mail-wr1-x42f.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1n5sw9-0007v8-NP
- for qemu-devel@nongnu.org; Fri, 07 Jan 2022 12:21:58 -0500
-Received: by mail-wr1-x434.google.com with SMTP id k18so12290810wrg.11
- for <qemu-devel@nongnu.org>; Fri, 07 Jan 2022 09:21:55 -0800 (PST)
+ id 1n5sw9-0007vB-P2
+ for qemu-devel@nongnu.org; Fri, 07 Jan 2022 12:22:00 -0500
+Received: by mail-wr1-x42f.google.com with SMTP id r10so4677391wrc.3
+ for <qemu-devel@nongnu.org>; Fri, 07 Jan 2022 09:21:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=DrLtR+BUheQSY3OxzKhmjxErO+2Tcnsj0fXYlPgSiDU=;
- b=yN2kdQXyuG0WIZD4cwUtfPTpvxpQOtVC78CrjkUW3nFoIvB642QTzV8tRVS/1K0HNT
- hYYtMPXOxdaFW71vc4grbHy+TGeOFTNNUEec4b1vW82WlsflU4SS6ygwKS1O4gLFW7ja
- NvNlngij6SGdsXkaJzvqdCteNP84V8apYd1eYQrfZhuLxvq98cSKORQrO0Ejc2aaMO9j
- f02h9BrlbxukfN7L7rYeU89Rr/BGpOOX9TmbgGbn93ZWL6M63LI/iIySjn1fOeiHNtQx
- 6frsEwNeXN25spIi2tClJLsbiAjXPb5YqigVHzIGTjq8dG1bQAHai3fHV0KYNeSP2gJV
- wQ/g==
+ bh=zVmLLkxt4dOpZmfYQzdKuBSvUHMgb75r8FoddgZXA8c=;
+ b=uNqeurAStmDBvFC/CcvPCQDpJGAHhiDliXAH3w3goDFgce8CseOFGKlb/m1LXqhslQ
+ p90KJnM6R8rB4dIpuPzyPUEFHJDdoE46CDMjqtuQIxRLFQnRL6dlFYjK2qkiTmYODWAY
+ rGaS946EMjnNCPnLE8R+zkwJobMoVPqu5J4CSlok5Jc5iSI4JnQFHU78LnfCJNwvKXFe
+ uCN1EeE6rkrrjIPd/95fQFlC+8A8oAM/helChZVqYURNmYct29YWB+D7xA79yEby0yA9
+ 706QceWd96d2/lEaxf1Q4aUpo7nOOO57BoGw9gxdFzs7CyntHek7YXaCujBpr4FQxj1v
+ 7+fQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=DrLtR+BUheQSY3OxzKhmjxErO+2Tcnsj0fXYlPgSiDU=;
- b=vAd//jFMdY+F05a3GMwSmWI6IJbwncBzw6tl3s2DMsJlnwlU1VNogAUc8RUxxOvcnK
- BSKJLxjNMPCKKtHDQVTfRxYmuKoq8NmLBIykaFmEuE57fa+P7nr++Dm/QYTBYPgS+BGr
- LqlKyEZ+S/RNHzIK+v4xE/E0W9aNgJzfHsT0GagyxLKJs/svuU0SCrGRVdljaHr2i77a
- TDc/scXrVwoAhunJZJdftyDvllehTcXCK+KA0DFOvMzSpoTh7KDoSGv8zt2YFVgump9F
- eK9WP72Wj2WwE4l72wEsPb9/9Ut+fJoLzmHh0gPUVBO6ciRPyMhJSiwgQTUAu8qacwgS
- 5kDw==
-X-Gm-Message-State: AOAM532ddN2N8L8t2URiL1CE1eCWiXtF3EgOuJta/1bfHWIaJKVXmy+n
- 8ykyNNhi1+OzgLSKek/ZQK+NHnr0idAGIw==
-X-Google-Smtp-Source: ABdhPJwLWJ/OS43rfueG4yXXBfRaxJlB32NMPTZtZgZmLyezytzBu2FyEf288u19QQCNEi9fkiiqyg==
-X-Received: by 2002:a5d:64ad:: with SMTP id m13mr56225026wrp.714.1641576114642; 
- Fri, 07 Jan 2022 09:21:54 -0800 (PST)
+ bh=zVmLLkxt4dOpZmfYQzdKuBSvUHMgb75r8FoddgZXA8c=;
+ b=s0bPxTRkoEkS83SVXAqNZWrMQXokNsM5+P5lG2wRpeQdm1Df/Dsk7rd21Fuoc91ftJ
+ PjdMkv/aXCB5Vmqo0Yde3wRfEg3MnNK7IGb0v47U01RAVJQ55yqK4TqNZwne3RgARNjm
+ 7hWwj3gXc3+e0uA+897EWF8T2JfTkLV1R3v8JQLtsYDK7qS7U9ZFCvcTF9joKLHqml3d
+ dv2+FbFNtWjEBf2Hlxq2Zxyna7Px9LIQA/6pbbQ14pzwpKm+3ER5MyDGiHhJpse63UYo
+ YzUdwCAYUSno3XjoC7V3bPO3+NUGa9gc7okMEgA3youAwOnSwkoOrfEcxkTjz4bSkkfx
+ ryRw==
+X-Gm-Message-State: AOAM533czoPN0Tnzu9MUvGvE6c9TToxR2lhPjxmhkPuNigR/hq0fRwb4
+ ur9ifVRpEOTH7DdricFYl2KnPC8tzMlNBQ==
+X-Google-Smtp-Source: ABdhPJzeiGMmNhS3mhIWreS0PiJod9hHBArMDrj6iJYGhaUmqCYFVhKrIaC5ws920UO2eAjJY1F3sA==
+X-Received: by 2002:a5d:5142:: with SMTP id u2mr186016wrt.395.1641576115187;
+ Fri, 07 Jan 2022 09:21:55 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id i6sm6060219wrf.79.2022.01.07.09.21.54
  for <qemu-devel@nongnu.org>
@@ -55,19 +55,19 @@ Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  Fri, 07 Jan 2022 09:21:54 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 18/19] hw/arm: add i2c muxes to kudo-bmc
-Date: Fri,  7 Jan 2022 17:21:41 +0000
-Message-Id: <20220107172142.2651911-19-peter.maydell@linaro.org>
+Subject: [PULL 19/19] hw/arm: kudo add lm75s on bus 13
+Date: Fri,  7 Jan 2022 17:21:42 +0000
+Message-Id: <20220107172142.2651911-20-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220107172142.2651911-1-peter.maydell@linaro.org>
 References: <20220107172142.2651911-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::434
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42f
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42f.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -92,36 +92,54 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Patrick Venture <venture@google.com>
 
+Add the four lm75s behind the mux on bus 13.
+
+Tested by booting the firmware:
+lm75 42-0048: hwmon0: sensor 'lm75'
+lm75 43-0049: supply vs not found, using dummy regulator
+lm75 43-0049: hwmon1: sensor 'lm75'
+lm75 44-0048: supply vs not found, using dummy regulator
+lm75 44-0048: hwmon2: sensor 'lm75'
+lm75 45-0049: supply vs not found, using dummy regulator
+lm75 45-0049: hwmon3: sensor 'lm75'
+
 Signed-off-by: Patrick Venture <venture@google.com>
-Reviewed-by: Hao Wu <wuhaotsh@google.com>
+Reviewed-by: Titus Rwantare <titusr@google.com>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-id: 20220102215844.2888833-4-venture@google.com
+Message-id: 20220102215844.2888833-5-venture@google.com
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/arm/npcm7xx_boards.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ hw/arm/npcm7xx_boards.c | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
 
 diff --git a/hw/arm/npcm7xx_boards.c b/hw/arm/npcm7xx_boards.c
-index 257bf638fd5..4cd58972c56 100644
+index 4cd58972c56..7d0f3148be0 100644
 --- a/hw/arm/npcm7xx_boards.c
 +++ b/hw/arm/npcm7xx_boards.c
-@@ -330,8 +330,17 @@ static void quanta_gbs_i2c_init(NPCM7xxState *soc)
+@@ -330,6 +330,8 @@ static void quanta_gbs_i2c_init(NPCM7xxState *soc)
  
  static void kudo_bmc_i2c_init(NPCM7xxState *soc)
  {
-+    i2c_slave_create_simple(npcm7xx_i2c_get_bus(soc, 1), TYPE_PCA9548, 0x75);
-+    i2c_slave_create_simple(npcm7xx_i2c_get_bus(soc, 1), TYPE_PCA9548, 0x77);
++    I2CSlave *i2c_mux;
 +
-+    i2c_slave_create_simple(npcm7xx_i2c_get_bus(soc, 4), TYPE_PCA9548, 0x77);
-+
+     i2c_slave_create_simple(npcm7xx_i2c_get_bus(soc, 1), TYPE_PCA9548, 0x75);
+     i2c_slave_create_simple(npcm7xx_i2c_get_bus(soc, 1), TYPE_PCA9548, 0x77);
+ 
+@@ -337,7 +339,14 @@ static void kudo_bmc_i2c_init(NPCM7xxState *soc)
+ 
      at24c_eeprom_init(soc, 4, 0x50, 8192); /* mbfru */
+ 
+-    i2c_slave_create_simple(npcm7xx_i2c_get_bus(soc, 13), TYPE_PCA9548, 0x77);
++    i2c_mux = i2c_slave_create_simple(npcm7xx_i2c_get_bus(soc, 13),
++                                      TYPE_PCA9548, 0x77);
 +
-+    i2c_slave_create_simple(npcm7xx_i2c_get_bus(soc, 13), TYPE_PCA9548, 0x77);
-+
++    /* tmp105 is compatible with the lm75 */
++    i2c_slave_create_simple(pca954x_i2c_get_bus(i2c_mux, 2), "tmp105", 0x48);
++    i2c_slave_create_simple(pca954x_i2c_get_bus(i2c_mux, 3), "tmp105", 0x49);
++    i2c_slave_create_simple(pca954x_i2c_get_bus(i2c_mux, 4), "tmp105", 0x48);
++    i2c_slave_create_simple(pca954x_i2c_get_bus(i2c_mux, 5), "tmp105", 0x49);
+ 
      at24c_eeprom_init(soc, 14, 0x55, 8192); /* bmcfru */
-+
-     /* TODO: Add remaining i2c devices. */
- }
  
 -- 
 2.25.1
