@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3230D48767A
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 12:28:32 +0100 (CET)
-Received: from localhost ([::1]:53370 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28CB04876AF
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 12:44:14 +0100 (CET)
+Received: from localhost ([::1]:60554 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5nQ7-000244-7p
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 06:28:31 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45152)
+	id 1n5nfJ-00066Q-7s
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 06:44:13 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45188)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n5n2h-0000M1-Hp
- for qemu-devel@nongnu.org; Fri, 07 Jan 2022 06:04:19 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:59369)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n5n2l-0000ST-0i
+ for qemu-devel@nongnu.org; Fri, 07 Jan 2022 06:04:23 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23759)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n5n2f-0001tQ-V8
- for qemu-devel@nongnu.org; Fri, 07 Jan 2022 06:04:19 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n5n2i-0001u3-VL
+ for qemu-devel@nongnu.org; Fri, 07 Jan 2022 06:04:22 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641553457;
+ s=mimecast20190719; t=1641553460;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=J3xpoxaSN5NdlrS8+eCK2NDrLznN6O18Ki1VxrmK5/M=;
- b=N+7aXXaJH7XTrgnQ7lb6hvPkd97KUJTs/NXLxIy65DdSrtfNowPfwk0MxgN8ORxu7d26zr
- SNXmqgHxVP5zLXDQoUixJdlBoU9iFahqRIzJX0hmQftzTFxd5D7Hoox6uaLklNoYXl087a
- +Yvo151M/5034oyCqHto+oPJLdL73QI=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=uWTwMV+ZCbV0IF1/mOnNkd5ZGkoC7/f6dcJ4TuYv4Y0=;
+ b=Kk3MqQAJLxznjyExNDQgHmEpXz+qXvBlbjLEcua0PlQGTF9nYZfmS4O2OsUkk8QuGIH1LM
+ FwE10dKmuUwkTyWdH/I7nauJNqEU+j3OkMD7lKjOlFFh2L58If3iLuh06A4j6f2FG68xf0
+ +UxAKZF9YQns08wqON1JGikL+C0ZaQU=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-547-CRz9_MpQNKuLjYY9st1TPQ-1; Fri, 07 Jan 2022 06:04:16 -0500
-X-MC-Unique: CRz9_MpQNKuLjYY9st1TPQ-1
-Received: by mail-wm1-f72.google.com with SMTP id
- b20-20020a05600c4e1400b003457da1c91eso698448wmq.4
- for <qemu-devel@nongnu.org>; Fri, 07 Jan 2022 03:04:16 -0800 (PST)
+ us-mta-606-RKFozgvJNBKkFv5WPRNXyA-1; Fri, 07 Jan 2022 06:04:19 -0500
+X-MC-Unique: RKFozgvJNBKkFv5WPRNXyA-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ z13-20020a05600c0a0d00b003457d6619f8so1353363wmp.1
+ for <qemu-devel@nongnu.org>; Fri, 07 Jan 2022 03:04:19 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=J3xpoxaSN5NdlrS8+eCK2NDrLznN6O18Ki1VxrmK5/M=;
- b=dys9pmn7c320dmiaUkcQOg9owpzlkJ/TLhM5/27atyk5AtRF+2jM/XhtCigU9hVXia
- BKXpIE1wr0Z7mtlQIesTwXiPzOLVfMZWS001XIEttTWz+HcBlcitvBp78VmR5Yw65ZM2
- 6dJ06UFtT38zlFjKD9+xu95yN+Ll2F1EyeKGGSwJE26KBWag3ERrVG1w8rns1lUrR6Tv
- e+vxdFS3ihgTiudjhlHsQWK6b1fIAC5r2MtxjOTrmdiF0ZvbnWcGxRXlszhecCpVjZ5m
- 7hkoy7FKS8JS4wVbWesfrBylR2p2A2Q4Hnrotovm8BggWZ7lVbmSBA+S3YcC7jChOwdL
- 6XCg==
-X-Gm-Message-State: AOAM5327RF8dshCIXgv27zsl2r8zo/YJFDwLs3+k3Uf/jlGXNVQJyGsk
- Vn946pNzJSjfUlDjD69TJHvoGYbK2w2rFT+2xrO+O54nqB0792YRi/Nj0m6wr7RZJgYsQSdyQ3u
- bTEIHJB366A5rbgCRjnv2BocnASAMdCjtsdO1/K82UBjuEsDsc96sukHFl6Mp
-X-Received: by 2002:a7b:ce01:: with SMTP id m1mr10230061wmc.115.1641553455229; 
- Fri, 07 Jan 2022 03:04:15 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwtS2e+I6TXBt9Zjd6KpBtpU7cRWblWQfvLJvyMt57gFvQK1EUszdo4aA9GaikXXrv2tJEACw==
-X-Received: by 2002:a7b:ce01:: with SMTP id m1mr10230042wmc.115.1641553454947; 
- Fri, 07 Jan 2022 03:04:14 -0800 (PST)
+ bh=uWTwMV+ZCbV0IF1/mOnNkd5ZGkoC7/f6dcJ4TuYv4Y0=;
+ b=yP3Ww6Pb5sF6zBH8hJOsiQWI/t1k/G6gk6Z3QDm3G7mJgyZvFn0CvZ0Dun66tBfCSY
+ 40fClWsCLK3m2uUzXKRVJWgQ+7QOmUTAn/osfwoXafW8y7hnOSRdz1h3K923cNPcWTrY
+ LQxQvzcT0UzwIZryhdZAkHVKqfxxKcIE1h/vwB4ofb3UA9IJuzN0A7Wc1RPkcj4vHj3l
+ ehRgZUdv2vru1nWrZMPErP2kSgp9GEMZ9EQMIKD7lHULL0IMDpChE32+Mw/XIvhwF+D3
+ 4cWa8dmzc9o9hyil5TTlo8lobUygbca+qiwADeZ43fE9F6Z/k4JDz6UX68qInC1dvkB2
+ 6IRg==
+X-Gm-Message-State: AOAM530gXABxqlgjjKqF33FlI0UiZqwIZnJotv4M96OryJ9kPFsqgajz
+ iTqJpF/d4S0vienZ/l3I5lUAqbErHLlFrLi7KehGlKAa+2bDQeKkwVMNKpZttBrjCm++7qNf/vn
+ wVWj+XOe7EduZBAOsm5wTz3RJp3G4hGpgQmJvC5gByX4s+aKljKezZWrlJrOl
+X-Received: by 2002:adf:f7d2:: with SMTP id a18mr55383676wrq.354.1641553458098; 
+ Fri, 07 Jan 2022 03:04:18 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzxkoCtlvxDLaZCiG53kRr/4Xn9ScxVsRDZpYpfXwBmATSNaUI/pywQIvgO/8klEPYjC6PVVw==
+X-Received: by 2002:adf:f7d2:: with SMTP id a18mr55383654wrq.354.1641553457834; 
+ Fri, 07 Jan 2022 03:04:17 -0800 (PST)
 Received: from redhat.com ([2.55.16.192])
- by smtp.gmail.com with ESMTPSA id t6sm1978007wry.84.2022.01.07.03.04.13
+ by smtp.gmail.com with ESMTPSA id c8sm4588220wmq.34.2022.01.07.03.04.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 Jan 2022 03:04:14 -0800 (PST)
-Date: Fri, 7 Jan 2022 06:04:12 -0500
+ Fri, 07 Jan 2022 03:04:17 -0800 (PST)
+Date: Fri, 7 Jan 2022 06:04:15 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 23/55] pci: Export the pci_intx() function
-Message-ID: <20220107102526.39238-24-mst@redhat.com>
+Subject: [PULL v2 24/55] pcie_aer: Don't trigger a LSI if none are defined
+Message-ID: <20220107102526.39238-25-mst@redhat.com>
 References: <20220107102526.39238-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20220107102526.39238-1-mst@redhat.com>
@@ -76,7 +76,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -105,51 +105,34 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Frederic Barrat <fbarrat@linux.ibm.com>
 
-Move the pci_intx() definition to the PCI header file, so that it can
-be called from other PCI files. It is used by the next patch.
+Skip triggering an LSI when the AER root error status is updated if no
+LSI is defined for the device. We can have a root bridge with no LSI,
+MSI and MSI-X defined, for example on POWER systems.
 
 Signed-off-by: Frederic Barrat <fbarrat@linux.ibm.com>
-Message-Id: <20211116170133.724751-3-fbarrat@linux.ibm.com>
+Message-Id: <20211116170133.724751-4-fbarrat@linux.ibm.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 Reviewed-by: Cédric Le Goater <clg@kaod.org>
 ---
- include/hw/pci/pci.h | 5 +++++
- hw/pci/pci.c         | 5 -----
- 2 files changed, 5 insertions(+), 5 deletions(-)
+ hw/pci/pcie_aer.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
-index 5b36334a28..483d5c7c72 100644
---- a/include/hw/pci/pci.h
-+++ b/include/hw/pci/pci.h
-@@ -735,6 +735,11 @@ void lsi53c8xx_handle_legacy_cmdline(DeviceState *lsi_dev);
- qemu_irq pci_allocate_irq(PCIDevice *pci_dev);
- void pci_set_irq(PCIDevice *pci_dev, int level);
+diff --git a/hw/pci/pcie_aer.c b/hw/pci/pcie_aer.c
+index 27f9cc56af..e1a8a88c8c 100644
+--- a/hw/pci/pcie_aer.c
++++ b/hw/pci/pcie_aer.c
+@@ -774,7 +774,9 @@ void pcie_aer_root_write_config(PCIDevice *dev,
+     uint32_t root_cmd = pci_get_long(aer_cap + PCI_ERR_ROOT_COMMAND);
+     /* 6.2.4.1.2 Interrupt Generation */
+     if (!msix_enabled(dev) && !msi_enabled(dev)) {
+-        pci_set_irq(dev, !!(root_cmd & enabled_cmd));
++        if (pci_intx(dev) != -1) {
++            pci_set_irq(dev, !!(root_cmd & enabled_cmd));
++        }
+         return;
+     }
  
-+static inline int pci_intx(PCIDevice *pci_dev)
-+{
-+    return pci_get_byte(pci_dev->config + PCI_INTERRUPT_PIN) - 1;
-+}
-+
- static inline void pci_irq_assert(PCIDevice *pci_dev)
- {
-     pci_set_irq(pci_dev, 1);
-diff --git a/hw/pci/pci.c b/hw/pci/pci.c
-index 322ba450e7..5d30f9ca60 100644
---- a/hw/pci/pci.c
-+++ b/hw/pci/pci.c
-@@ -1497,11 +1497,6 @@ static void pci_irq_handler(void *opaque, int irq_num, int level)
-     pci_change_irq_level(pci_dev, irq_num, change);
- }
- 
--static inline int pci_intx(PCIDevice *pci_dev)
--{
--    return pci_get_byte(pci_dev->config + PCI_INTERRUPT_PIN) - 1;
--}
--
- qemu_irq pci_allocate_irq(PCIDevice *pci_dev)
- {
-     int intx = pci_intx(pci_dev);
 -- 
 MST
 
