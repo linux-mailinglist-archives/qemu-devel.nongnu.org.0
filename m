@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2604048763D
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 12:08:00 +0100 (CET)
-Received: from localhost ([::1]:35556 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 082C2487630
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 12:07:07 +0100 (CET)
+Received: from localhost ([::1]:33308 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5n6F-0002T2-6D
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 06:07:59 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44532)
+	id 1n5n5N-0000Zo-Tu
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 06:07:05 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44564)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n5n1h-00062c-Th
- for qemu-devel@nongnu.org; Fri, 07 Jan 2022 06:03:17 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46192)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n5n1i-00065D-Ue
+ for qemu-devel@nongnu.org; Fri, 07 Jan 2022 06:03:19 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:52166)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n5n1e-0001gp-HK
- for qemu-devel@nongnu.org; Fri, 07 Jan 2022 06:03:15 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n5n1h-0001hF-5q
+ for qemu-devel@nongnu.org; Fri, 07 Jan 2022 06:03:18 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641553393;
+ s=mimecast20190719; t=1641553396;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZDYUVmJkHemLI5KByv30OJoOAnuNT00GDgLmkQC7+Is=;
- b=BrGWvxQegRnvTmamb3wxz0wu/igfM1epoTmfH7D3z8dTP+bSnEUsrULJLB/m/oYYlmMsf9
- ZXTQ8VagvZXjOOm4JcmwNiZCQ6DOZVww5IHFRxI0sI8bFGZ/OEE/HoM3zq3+q9JxKR0dZl
- MNJYJI9+GGYKsi0Gvxn+L9zYDQuQnnU=
+ bh=vpoC0+6a4IT38j+kX8wAPq8AuzqmXiw7PFqYGYauyfQ=;
+ b=SE/swSDjKqr6uL3nGTH8d1uhgr8Xkva8+QoycUk0oCrYDVcQDEXtt7d+2KRqVExFfYvC+8
+ wXb+HgIIKPrpGFQQOMbilCoiOxVlcI7MhLtd4Rxe59zb05rEbXXLx8htEFN+H8yCY9HIlK
+ FVQRNAvCk/G5rb6Kz5cb8eLcKCcEGPE=
 Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
  [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-44-kfVXy5ffOsW2EZUmGLWLbg-1; Fri, 07 Jan 2022 06:03:13 -0500
-X-MC-Unique: kfVXy5ffOsW2EZUmGLWLbg-1
+ us-mta-633-mfBLoZkzMX-I78owkm1B-g-1; Fri, 07 Jan 2022 06:03:15 -0500
+X-MC-Unique: mfBLoZkzMX-I78owkm1B-g-1
 Received: by mail-wr1-f70.google.com with SMTP id
- g6-20020adfbc86000000b001a2d62be244so2087054wrh.23
- for <qemu-devel@nongnu.org>; Fri, 07 Jan 2022 03:03:12 -0800 (PST)
+ g6-20020adfbc86000000b001a2d62be244so2087116wrh.23
+ for <qemu-devel@nongnu.org>; Fri, 07 Jan 2022 03:03:15 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=ZDYUVmJkHemLI5KByv30OJoOAnuNT00GDgLmkQC7+Is=;
- b=XN7YpoBDkU8lCuy2Dpw9gWJsIODUgNm7GxUxc2rv3YxbXpdo/Ak6O0AlqMxYruCA4g
- S6tFPeOsso2rpilv2ZDsxYOCSfRnZGKtwKWYiBUuXwa/5lbaTImg8KNd27uBCRi1sB9m
- zKQmn50IaEQtCPMRSYwKLOb7Nhtp3WIbQFCxdBjQUCrF1+8NqEjx/4B5tUIx1OUvGKgk
- a2tTfuBSMLVmF2AehIIJynf/i5Cp0O295RQM76NwkwNDvfEo5Zh/LbN92BxP7RkdR/3K
- GeCknr9FuFopuKD72ZT4BDCoRvrzvxHrdzwg1CHb+grh1Uq7GuftVpbbU7IMGL80/6w8
- CraQ==
-X-Gm-Message-State: AOAM5326PpWbQ7/ihGvtWGiyabc9h0FMDozGbRU0AtyM3otDHrtX4oxU
- TsAc8sWTCI+zkn6C7blhaGyNFXFuKIxzvQnplM/3Sz3NFNgClrwAFwOif+hMTI9em4iXY3I+pBx
- OQFnEEOx6glOkBFgmrvzj/8mNY5FvVa2/zAoDIHWffEgMDawlC8yu/a32O7Os
-X-Received: by 2002:a05:6000:1048:: with SMTP id
- c8mr55719120wrx.508.1641553391402; 
- Fri, 07 Jan 2022 03:03:11 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzFc9WD93lq+eefOIuAYubneC1d9o+bk5vQO59LhPdPg+ud/HFeAmltB0aejxJbV+EIDZQECA==
-X-Received: by 2002:a05:6000:1048:: with SMTP id
- c8mr55719101wrx.508.1641553391124; 
- Fri, 07 Jan 2022 03:03:11 -0800 (PST)
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=vpoC0+6a4IT38j+kX8wAPq8AuzqmXiw7PFqYGYauyfQ=;
+ b=2mebqXq1/+9ZunxoXB4pa1Cpyi3u0v8xRLmHW4bE2iyRqAoAqFAB4Pw1swggkNqiv1
+ 0YXwseo124BnKC9CX+5yL568dBXXcoEY8Ef4EOg6Ng8+tGJMVTEQSLXQXo8JXts3OiAD
+ JlstAn2JKjknQrnYxU3oMoBRUm2I/UopOecm52zpKOuLLj11JzAPWykT7YD7LBMKIynE
+ 47ynJTK+DCiagZ3gTWgCSykwWihpD4ibZmivEDGYXuSqmQxkGVKxNkFoPYClj9MDDnuB
+ 76ivi1thdA+D2oQTuir8c2AzEMU4QvWSiyrfM2gTGpd28+tOV9fKRvtSrWAqJthvJJg6
+ Ot6g==
+X-Gm-Message-State: AOAM5328OItTsjV1np0ViH6/IGc5NE91tpbrSJkCv+2/thpKc3kQ1m+8
+ dXsnQRHxI0wmzNHeeUZa55ny/eOeECxsQ7Ltq8EFuDwQ67cNQFjOoywlOMgIi0mbg3DQQb0MqrP
+ TTcGs0R8BfYyTDHHHSqhchsFFVTGOuQX28D87h7PDY43CUv4UjsREQHf3+P5r
+X-Received: by 2002:a5d:5984:: with SMTP id n4mr48177001wri.562.1641553394203; 
+ Fri, 07 Jan 2022 03:03:14 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJybpI/nPg1+rg56pgpdbl0Gnrzd9F7EQ+9//9nU6pv9ZJV7NUwewhiPoPtVMS8dspyn7r7pYA==
+X-Received: by 2002:a5d:5984:: with SMTP id n4mr48176976wri.562.1641553393962; 
+ Fri, 07 Jan 2022 03:03:13 -0800 (PST)
 Received: from redhat.com ([2.55.16.192])
- by smtp.gmail.com with ESMTPSA id u11sm4324946wmq.2.2022.01.07.03.03.09
+ by smtp.gmail.com with ESMTPSA id n4sm4400383wrc.1.2022.01.07.03.03.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 Jan 2022 03:03:10 -0800 (PST)
-Date: Fri, 7 Jan 2022 06:03:08 -0500
+ Fri, 07 Jan 2022 03:03:13 -0800 (PST)
+Date: Fri, 7 Jan 2022 06:03:11 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 01/55] virtio-mem: Don't skip alignment checks when warning
- about block size
-Message-ID: <20220107102526.39238-2-mst@redhat.com>
+Subject: [PULL v2 02/55] acpi: validate hotplug selector on access
+Message-ID: <20220107102526.39238-3-mst@redhat.com>
 References: <20220107102526.39238-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20220107102526.39238-1-mst@redhat.com>
@@ -74,9 +73,10 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -97,43 +97,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- David Hildenbrand <david@redhat.com>
+Cc: Ani Sinha <ani@anisinha.ca>, Peter Maydell <peter.maydell@linaro.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: David Hildenbrand <david@redhat.com>
+When bus is looked up on a pci write, we didn't
+validate that the lookup succeeded.
+Fuzzers thus can trigger QEMU crash by dereferencing the NULL
+bus pointer.
 
-If we warn about the block size being smaller than the default, we skip
-some alignment checks.
-
-This can currently only fail on x86-64, when specifying a block size of
-1 MiB, however, we detect the THP size of 2 MiB.
-
-Fixes: 228957fea3a9 ("virtio-mem: Probe THP size to determine default block size")
-Cc: "Michael S. Tsirkin" <mst@redhat.com>
-Signed-off-by: David Hildenbrand <david@redhat.com>
-Message-Id: <20211011173305.13778-1-david@redhat.com>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+Fixes: b32bd763a1 ("pci: introduce acpi-index property for PCI device")
+Fixes: CVE-2021-4158
+Cc: "Igor Mammedov" <imammedo@redhat.com>
+Fixes: https://gitlab.com/qemu-project/qemu/-/issues/770
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Ani Sinha <ani@anisinha.ca>
 ---
- hw/virtio/virtio-mem.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ hw/acpi/pcihp.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/hw/virtio/virtio-mem.c b/hw/virtio/virtio-mem.c
-index d5a578142b..341c3fa2c1 100644
---- a/hw/virtio/virtio-mem.c
-+++ b/hw/virtio/virtio-mem.c
-@@ -733,7 +733,8 @@ static void virtio_mem_device_realize(DeviceState *dev, Error **errp)
-         warn_report("'%s' property is smaller than the default block size (%"
-                     PRIx64 " MiB)", VIRTIO_MEM_BLOCK_SIZE_PROP,
-                     virtio_mem_default_block_size(rb) / MiB);
--    } else if (!QEMU_IS_ALIGNED(vmem->requested_size, vmem->block_size)) {
-+    }
-+    if (!QEMU_IS_ALIGNED(vmem->requested_size, vmem->block_size)) {
-         error_setg(errp, "'%s' property has to be multiples of '%s' (0x%" PRIx64
-                    ")", VIRTIO_MEM_REQUESTED_SIZE_PROP,
-                    VIRTIO_MEM_BLOCK_SIZE_PROP, vmem->block_size);
+diff --git a/hw/acpi/pcihp.c b/hw/acpi/pcihp.c
+index 30405b5113..a5e182dd3a 100644
+--- a/hw/acpi/pcihp.c
++++ b/hw/acpi/pcihp.c
+@@ -491,6 +491,9 @@ static void pci_write(void *opaque, hwaddr addr, uint64_t data,
+         }
+ 
+         bus = acpi_pcihp_find_hotplug_bus(s, s->hotplug_select);
++        if (!bus) {
++            break;
++        }
+         QTAILQ_FOREACH_SAFE(kid, &bus->qbus.children, sibling, next) {
+             Object *o = OBJECT(kid->child);
+             PCIDevice *dev = PCI_DEVICE(o);
 -- 
 MST
 
