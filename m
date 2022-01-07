@@ -2,74 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C6FD487A9D
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 17:43:42 +0100 (CET)
-Received: from localhost ([::1]:55258 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 821A5487AB4
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 17:49:14 +0100 (CET)
+Received: from localhost ([::1]:35414 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5sL7-0007iE-Gp
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 11:43:41 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36896)
+	id 1n5sQT-0005Ez-6Q
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 11:49:13 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39138)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1n5sIF-0004xl-2z
- for qemu-devel@nongnu.org; Fri, 07 Jan 2022 11:40:43 -0500
-Received: from [2a00:1450:4864:20::332] (port=39783
- helo=mail-wm1-x332.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1n5sIC-00080j-Qv
- for qemu-devel@nongnu.org; Fri, 07 Jan 2022 11:40:42 -0500
-Received: by mail-wm1-x332.google.com with SMTP id
- x18-20020a7bc212000000b00347cc83ec07so952692wmi.4
- for <qemu-devel@nongnu.org>; Fri, 07 Jan 2022 08:40:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=iwupqIhAgwXeYrZdlU0UxwaeRSvcvKJs4B3CEOkpu/g=;
- b=Gjkk1TU3CVQ/+fqUZkZ0k39KAiM7/xeLytCV3eBRHfm1OcMHzvXBo5HaA/8Eam4sQ2
- SxvOfcyIi5S15ZItpPgM3W159UvWsp6nl2uCzcYgAI89VjEmdy+CC2lHMV8Z7bJmdV0W
- unyUHgLEa8iMttjRB591HEl0f3Tzw1tG7QQk6P/NkskoW2fXm0JnMUZ8P3zVnA95Jxdo
- lvWcnklKMSlqq/MNjRGfI+wBIawh4GtkruZDBRnJG8WHF29xcCvRdN1K0tTdVDIi7PAF
- 1bJYtycKzQ9V08LbFsIl5+dtakAYNAQnCieglBi2JmFUslEvcZbBfuC7mypdG6swi5c6
- NpqA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=iwupqIhAgwXeYrZdlU0UxwaeRSvcvKJs4B3CEOkpu/g=;
- b=Vo+RfONeNW3flsUXFoSlXiccXoIHItPf/oiyY9zB4i9tgztG1UNCj5dRwObd1pjOZr
- h0qFlinOiB72Y3/b91UIeDf7RJBwWZJnhSR68MCwT5e3GC9CejHxpgmaRZgf6mzs+eRN
- kBsuNVFux30WsDFwTBcyegQQ+eGzRq7Gc6mreBoEO74bufn7QL5bbxa146ZXanwdzO8T
- 0Qh5T2c+nvOZWrY55YdlHULIvJWzAOZQFnUN53ZR1KlC4GqB/V3YD7BitGY7w5oC2sJ6
- s2gUD7cHqHbsXDsJVvW0NVP7FWs6vmo0i/vEYX2yVXjll7FbAt5ZXdu6R2w29tZ3z6bO
- O9tQ==
-X-Gm-Message-State: AOAM530fSzgMrMlZjgI78U3JU1sMzD6xX/A4ejxPCaFPmV9OnNWDc3l6
- ZiZHxGbU406YKfyxAcs2xebJu1eD7hQVA+WJi29Ylw==
-X-Google-Smtp-Source: ABdhPJwjjYnndagt1C61PWKOjdwIOznuRiw/IvL1WLHxwkTObltPKyAZyWsIWF1MKlQm4rbPw+piZCd9XuH+uoOoKkc=
-X-Received: by 2002:a05:600c:3ac5:: with SMTP id
- d5mr11796144wms.32.1641573634033; 
- Fri, 07 Jan 2022 08:40:34 -0800 (PST)
+ (Exim 4.90_1)
+ (envelope-from <frederic.petrot@univ-grenoble-alpes.fr>)
+ id 1n5sNh-0002xx-Ns; Fri, 07 Jan 2022 11:46:24 -0500
+Received: from zm-mta-out-3.u-ga.fr ([152.77.200.56]:35632)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <frederic.petrot@univ-grenoble-alpes.fr>)
+ id 1n5sNZ-0000gt-HM; Fri, 07 Jan 2022 11:46:21 -0500
+Received: from mailhost.u-ga.fr (mailhost2.u-ga.fr [129.88.177.242])
+ by zm-mta-out-3.u-ga.fr (Postfix) with ESMTP id DF40540260;
+ Fri,  7 Jan 2022 17:46:07 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=univ-grenoble-alpes.fr; s=2020; t=1641573967;
+ bh=sE5Zpkf7aFnS9rQsSMDYcrXKflWzBT5NFmD2eZq2w04=;
+ h=Date:To:Cc:References:From:Subject:In-Reply-To:From;
+ b=Ke8YTHqLnNOfPIH1H6A+c7p8MbA+WSGX2267LMasx2XdDxB3dZdHaYIa3tEQfC4D5
+ QVZ3NDEXZvUpdFkJhQbi6AvemMMSMfQyJv/EgoSNQRJm80c7vN7inUnYgpsEpvkLv2
+ bkw+lsc4BxPx9av8YOlMKxvNe/XCsm+14rGpNH7j47FVTh3V/YrgrL09n2T81jhawb
+ 5+m7UP/CcA8Ox7ekAZq+/wS9Qh7ECoTuI+577OXnj0PsolhCC9GB1bqIsFDlG/d+ky
+ 37hp1SBVwvsAuHw2LVzSix68xltiJIHerbASSE8aY+hlHomlsvsi5xwWSa75cj6rp3
+ +vsqE8QKXnXew==
+Received: from smtps.univ-grenoble-alpes.fr (smtps2.u-ga.fr [152.77.18.2])
+ by mailhost.u-ga.fr (Postfix) with ESMTP id CB1646005B;
+ Fri,  7 Jan 2022 17:46:07 +0100 (CET)
+Received: from [147.171.132.208] (palmier.tima.u-ga.fr [147.171.132.208])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (No client certificate requested)
+ (Authenticated sender: petrotf@univ-grenoble-alpes.fr)
+ by smtps.univ-grenoble-alpes.fr (Postfix) with ESMTPSA id D537914005C;
+ Fri,  7 Jan 2022 17:46:06 +0100 (CET)
+Message-ID: <674625c4-dd38-20d3-fc10-3f6dffb940ae@univ-grenoble-alpes.fr>
+Date: Fri, 7 Jan 2022 17:46:06 +0100
 MIME-Version: 1.0
-References: <20211203233404.37313-1-gshan@redhat.com>
- <20211203233404.37313-3-gshan@redhat.com>
-In-Reply-To: <20211203233404.37313-3-gshan@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 7 Jan 2022 16:40:23 +0000
-Message-ID: <CAFEAcA8hd000vwp8A602uw4yueea4uU0xttELcC8sn34X+N5-A@mail.gmail.com>
-Subject: Re: [PATCH v3 2/2] hw/arm/virt: Support for virtio-mem-pci
-To: Gavin Shan <gshan@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::332
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x332.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.1
+Content-Language: fr
+To: Alistair Francis <alistair23@gmail.com>
+References: <20220106210108.138226-1-frederic.petrot@univ-grenoble-alpes.fr>
+ <20220106210108.138226-8-frederic.petrot@univ-grenoble-alpes.fr>
+ <CAKmqyKMB-zZKNf-HRz-=RR+wtM7UHFo4wCJUiCwF0nJrH4OzOg@mail.gmail.com>
+ <cb76d285-7071-c70d-3cb7-ad2978f400dd@univ-grenoble-alpes.fr>
+ <CAKmqyKNd77rb9gSqriv_gykfBT_G+9hVKZVKp-JB2A3d9sXkrg@mail.gmail.com>
+From: =?UTF-8?B?RnLDqWTDqXJpYyBQw6l0cm90?=
+ <frederic.petrot@univ-grenoble-alpes.fr>
+Subject: Re: [PATCH v8 07/18] target/riscv: setup everything for rv64 to
+ support rv128 execution
+In-Reply-To: <CAKmqyKNd77rb9gSqriv_gykfBT_G+9hVKZVKp-JB2A3d9sXkrg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Greylist: Whitelist-UGA SMTP Authentifie (petrotf@univ-grenoble-alpes.fr)
+ via submission-587 ACL (42)
+X-Greylist: Whitelist-UGA MAILHOST (SMTP non authentifie) depuis 152.77.18.2
+Received-SPF: pass client-ip=152.77.200.56;
+ envelope-from=frederic.petrot@univ-grenoble-alpes.fr;
+ helo=zm-mta-out-3.u-ga.fr
+X-Spam_score_int: -47
+X-Spam_score: -4.8
+X-Spam_bar: ----
+X-Spam_report: (-4.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.691,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,96 +86,108 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: drjones@redhat.com, david@redhat.com, richard.henderson@linaro.org,
- qemu-devel@nongnu.org, eric.auger@redhat.com, qemu-arm@nongnu.org,
- shan.gavin@gmail.com, jonathan.cameron@huawei.com, imammedo@redhat.com
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Bin Meng <bin.meng@windriver.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Fabien Portas <fabien.portas@grenoble-inp.org>,
+ Alistair Francis <alistair.francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 3 Dec 2021 at 23:34, Gavin Shan <gshan@redhat.com> wrote:
->
-> This supports virtio-mem-pci device on "virt" platform, by simply
-> following the implementation on x86.
->
->    * This implements the hotplug handlers to support virtio-mem-pci
->      device hot-add, while the hot-remove isn't supported as we have
->      on x86.
->
->    * The block size is 512MB on ARM64 instead of 128MB on x86.
->
->    * It has been passing the tests with various combinations like 64KB
->      and 4KB page sizes on host and guest, different memory device
->      backends like normal, transparent huge page and HugeTLB, plus
->      migration.
->
-> Co-developed-by: David Hildenbrand <david@redhat.com>
-> Co-developed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> Signed-off-by: Gavin Shan <gshan@redhat.com>
-> Reviewed-by: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-> Reviewed-by: David Hildenbrand <david@redhat.com>
+On 07/01/2022 07:47, Alistair Francis wrote:
+> On Fri, Jan 7, 2022 at 4:23 PM Frédéric Pétrot
+> <frederic.petrot@univ-grenoble-alpes.fr> wrote:
+>>
+>> On 06/01/2022 22:24, Alistair Francis wrote:
+>>> On Fri, Jan 7, 2022 at 7:04 AM Frédéric Pétrot
+>>> <frederic.petrot@univ-grenoble-alpes.fr> wrote:
+>>>>
+>>>> This patch adds the support of the '-cpu rv128' option to
+>>>> qemu-system-riscv64 so that we can indicate that we want to run rv128
+>>>> executables.
+>>>> Still, there is no support for 128-bit insns at that stage so qemu fails
+>>>> miserably (as expected) if launched with this option.
+>>>>
+>>>> Signed-off-by: Frédéric Pétrot <frederic.petrot@univ-grenoble-alpes.fr>
+>>>> Co-authored-by: Fabien Portas <fabien.portas@grenoble-inp.org>
+>>>> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+>>>> ---
+>>>>    include/disas/dis-asm.h |  1 +
+>>>>    target/riscv/cpu.h      |  1 +
+>>>>    disas/riscv.c           |  5 +++++
+>>>>    target/riscv/cpu.c      | 20 ++++++++++++++++++++
+>>>>    target/riscv/gdbstub.c  |  5 +++++
+>>>>    5 files changed, 32 insertions(+)
+>>>>
+>>>> diff --git a/include/disas/dis-asm.h b/include/disas/dis-asm.h
+>>>> index 08e1beec85..102a1e7f50 100644
+>>>> --- a/include/disas/dis-asm.h
+>>>> +++ b/include/disas/dis-asm.h
+>>>> @@ -459,6 +459,7 @@ int print_insn_nios2(bfd_vma, disassemble_info*);
+>>>>    int print_insn_xtensa           (bfd_vma, disassemble_info*);
+>>>>    int print_insn_riscv32          (bfd_vma, disassemble_info*);
+>>>>    int print_insn_riscv64          (bfd_vma, disassemble_info*);
+>>>> +int print_insn_riscv128         (bfd_vma, disassemble_info*);
+>>>>    int print_insn_rx(bfd_vma, disassemble_info *);
+>>>>    int print_insn_hexagon(bfd_vma, disassemble_info *);
+>>>>
+>>>> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+>>>> index fa5d238530..efe481f5fb 100644
+>>>> --- a/target/riscv/cpu.h
+>>>> +++ b/target/riscv/cpu.h
+>>>> @@ -38,6 +38,7 @@
+>>>>    #define TYPE_RISCV_CPU_ANY              RISCV_CPU_TYPE_NAME("any")
+>>>>    #define TYPE_RISCV_CPU_BASE32           RISCV_CPU_TYPE_NAME("rv32")
+>>>>    #define TYPE_RISCV_CPU_BASE64           RISCV_CPU_TYPE_NAME("rv64")
+>>>> +#define TYPE_RISCV_CPU_BASE128          RISCV_CPU_TYPE_NAME("rv128")
+>>>
+>>> As this series only adds partial support for 128-bit support, I think
+>>> we should probably change this to "x-rv128". That way we indicate to
+>>> users that it is experimental. That allows us more flexibility in the
+>>> future to have breaking changes and will hopefully avoid confusion
+>>> about the current state. What do you think? I can just make the change
+>>> when I apply the patches.
+>>
+>>     Sure, this is clearly experimental (the spec is a draft) and should be
+>>     marked so, I totally agree. Please make the change as you suggest,
+> 
+> Great!
+> 
+> Applied to riscv-to-apply.next
+> 
+> If you want to make sure my change didn't break anything you can test
+> the tree here: https://github.com/alistair23/qemu/tree/riscv-to-apply.next
 
+   Works like a charm !
+   Thanks,
+   Frédéric
 
-> +static void virt_virtio_md_pci_pre_plug(HotplugHandler *hotplug_dev,
-> +                                        DeviceState *dev, Error **errp)
-> +{
-> +    HotplugHandler *hotplug_dev2 = qdev_get_bus_hotplug_handler(dev);
-> +    Error *local_err = NULL;
-> +
-> +    if (!hotplug_dev2 && dev->hotplugged) {
-> +        /*
-> +         * Without a bus hotplug handler, we cannot control the plug/unplug
-> +         * order. We should never reach this point when hotplugging on x86,
-> +         * however, better add a safety net.
-> +         */
+> 
+> I'll send a PR this weekend or next week.
+> 
+> Alistair
+> 
+>>
+>>     Thanks,
+>>     Frédéric
+>>
+>>>
+>>> Alistair
+>>
+>> --
+>> +---------------------------------------------------------------------------+
+>> | Frédéric Pétrot, Pr. Grenoble INP-Ensimag/TIMA,   Ensimag deputy director |
+>> | Mob/Pho: +33 6 74 57 99 65/+33 4 76 57 48 70      Ad augusta  per angusta |
+>> | http://tima.univ-grenoble-alpes.fr frederic.petrot@univ-grenoble-alpes.fr |
+>> +---------------------------------------------------------------------------+
 
-This comment looks like it was cut-n-pasted from x86 -- is whatever
-it is that prevents us from reaching this point also true for arm ?
-(What is the thing that prevents us reaching this point?)
-
-> +        error_setg(errp, "hotplug of virtio based memory devices not supported"
-> +                   " on this bus.");
-> +        return;
-> +    }
-> +    /*
-> +     * First, see if we can plug this memory device at all. If that
-> +     * succeeds, branch of to the actual hotplug handler.
-> +     */
-> +    memory_device_pre_plug(MEMORY_DEVICE(dev), MACHINE(hotplug_dev), NULL,
-> +                           &local_err);
-> +    if (!local_err && hotplug_dev2) {
-> +        hotplug_handler_pre_plug(hotplug_dev2, dev, &local_err);
-> +    }
-> +    error_propagate(errp, local_err);
-> +}
-
-
-
-> diff --git a/hw/virtio/virtio-mem.c b/hw/virtio/virtio-mem.c
-> index b20595a496..21e4d572ab 100644
-> --- a/hw/virtio/virtio-mem.c
-> +++ b/hw/virtio/virtio-mem.c
-> @@ -125,7 +125,7 @@ static uint64_t virtio_mem_default_block_size(RAMBlock *rb)
->   * The memory block size corresponds mostly to the section size.
->   *
->   * This allows e.g., to add 20MB with a section size of 128MB on x86_64, and
-> - * a section size of 1GB on arm64 (as long as the start address is properly
-> + * a section size of 512MB on arm64 (as long as the start address is properly
->   * aligned, similar to ordinary DIMMs).
->   *
->   * We can change this at any time and maybe even make it configurable if
-> @@ -134,6 +134,8 @@ static uint64_t virtio_mem_default_block_size(RAMBlock *rb)
->   */
->  #if defined(TARGET_X86_64) || defined(TARGET_I386)
->  #define VIRTIO_MEM_USABLE_EXTENT (2 * (128 * MiB))
-> +#elif defined(TARGET_ARM)
-> +#define VIRTIO_MEM_USABLE_EXTENT (2 * (512 * MiB))
->  #else
->  #error VIRTIO_MEM_USABLE_EXTENT not defined
->  #endif
-
-Could this comment explain where the 128MB and 512MB come from
-and why the value is different for different architectures ?
-
-thanks
--- PMM
+-- 
++---------------------------------------------------------------------------+
+| Frédéric Pétrot, Pr. Grenoble INP-Ensimag/TIMA,   Ensimag deputy director |
+| Mob/Pho: +33 6 74 57 99 65/+33 4 76 57 48 70      Ad augusta  per angusta |
+| http://tima.univ-grenoble-alpes.fr frederic.petrot@univ-grenoble-alpes.fr |
++---------------------------------------------------------------------------+
 
