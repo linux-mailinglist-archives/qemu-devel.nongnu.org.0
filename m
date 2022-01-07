@@ -2,78 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 821A5487AB4
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 17:49:14 +0100 (CET)
-Received: from localhost ([::1]:35414 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E35E487B0E
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 18:10:58 +0100 (CET)
+Received: from localhost ([::1]:50950 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5sQT-0005Ez-6Q
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 11:49:13 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39138)
+	id 1n5slT-0001Ez-9i
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 12:10:55 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44126)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <frederic.petrot@univ-grenoble-alpes.fr>)
- id 1n5sNh-0002xx-Ns; Fri, 07 Jan 2022 11:46:24 -0500
-Received: from zm-mta-out-3.u-ga.fr ([152.77.200.56]:35632)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <frederic.petrot@univ-grenoble-alpes.fr>)
- id 1n5sNZ-0000gt-HM; Fri, 07 Jan 2022 11:46:21 -0500
-Received: from mailhost.u-ga.fr (mailhost2.u-ga.fr [129.88.177.242])
- by zm-mta-out-3.u-ga.fr (Postfix) with ESMTP id DF40540260;
- Fri,  7 Jan 2022 17:46:07 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=univ-grenoble-alpes.fr; s=2020; t=1641573967;
- bh=sE5Zpkf7aFnS9rQsSMDYcrXKflWzBT5NFmD2eZq2w04=;
- h=Date:To:Cc:References:From:Subject:In-Reply-To:From;
- b=Ke8YTHqLnNOfPIH1H6A+c7p8MbA+WSGX2267LMasx2XdDxB3dZdHaYIa3tEQfC4D5
- QVZ3NDEXZvUpdFkJhQbi6AvemMMSMfQyJv/EgoSNQRJm80c7vN7inUnYgpsEpvkLv2
- bkw+lsc4BxPx9av8YOlMKxvNe/XCsm+14rGpNH7j47FVTh3V/YrgrL09n2T81jhawb
- 5+m7UP/CcA8Ox7ekAZq+/wS9Qh7ECoTuI+577OXnj0PsolhCC9GB1bqIsFDlG/d+ky
- 37hp1SBVwvsAuHw2LVzSix68xltiJIHerbASSE8aY+hlHomlsvsi5xwWSa75cj6rp3
- +vsqE8QKXnXew==
-Received: from smtps.univ-grenoble-alpes.fr (smtps2.u-ga.fr [152.77.18.2])
- by mailhost.u-ga.fr (Postfix) with ESMTP id CB1646005B;
- Fri,  7 Jan 2022 17:46:07 +0100 (CET)
-Received: from [147.171.132.208] (palmier.tima.u-ga.fr [147.171.132.208])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- (Authenticated sender: petrotf@univ-grenoble-alpes.fr)
- by smtps.univ-grenoble-alpes.fr (Postfix) with ESMTPSA id D537914005C;
- Fri,  7 Jan 2022 17:46:06 +0100 (CET)
-Message-ID: <674625c4-dd38-20d3-fc10-3f6dffb940ae@univ-grenoble-alpes.fr>
-Date: Fri, 7 Jan 2022 17:46:06 +0100
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1n5se9-0003Y6-Ie
+ for qemu-devel@nongnu.org; Fri, 07 Jan 2022 12:03:21 -0500
+Received: from [2a00:1450:4864:20::432] (port=43889
+ helo=mail-wr1-x432.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1n5se6-00043c-PP
+ for qemu-devel@nongnu.org; Fri, 07 Jan 2022 12:03:21 -0500
+Received: by mail-wr1-x432.google.com with SMTP id o3so12211084wrh.10
+ for <qemu-devel@nongnu.org>; Fri, 07 Jan 2022 09:03:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=0nZyFVRLRM6IRGy6cUUpenOMXwoZRgiGiU7K35XPPuA=;
+ b=DmSs+sFFvOQ99bXVVtrq+++GFYF9JlJ59Nh/iJCLbSWoDYZnkmPWkZ6TVpotRWx0pd
+ /eb+hfIYLI9yAW44uohyHJMniR682LZRZ1avAIAHXxYPqX0SJfFmZUr9qChfi/izQmBI
+ T+y47gb90p4x3MwSk6WDHCcDIcpcCZpiTbVqy0kDW6bycqyxk22SWM2Is/1Ynrun19m+
+ 98LJ4oNK7L78txd9Fr1ldnsoKL6pLkGYGll+cZTZMTEkbqznzKbuifidbc+g9qSb9Hth
+ XbFnueCfh6tY3u+ZwV2sr4mGyo7Qiv8F5QA1tbNgLHjIKyC2yfJ3ZIW39ZEUpxlS7ck9
+ PTpQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=0nZyFVRLRM6IRGy6cUUpenOMXwoZRgiGiU7K35XPPuA=;
+ b=3KwbJTMAxpd36TsAliVEbCykMpBtIu6VT1jaZditk+vRKabWhdfID1Hj3KHzA87uSN
+ /qCHxiHMfhWJtvHLpGcvIjeNqWnA7k7+j7Sg4V6ub7VrN61FNR5EFfujGZdsrFft8evi
+ X63+MZ3RGrg99AA6qtKI5FywojA1vV1Mtv7O6XjoQKqwqLB2mI1kZzA017jNxdRJ6TVT
+ ff3HskJ4YHDMVyfqK2n8M9J2opT+FJqTkHKd80r2ER3YJxGdcoXFbG2TRUg5/Vvq3emf
+ biM7Uuvy+dxqZ1s+CBmmf9s2Mp19ILeJvE4OphdaFce9FR579+s9BvwK9SWxW7RMFxNR
+ JlSA==
+X-Gm-Message-State: AOAM533PiLg/4zXa2rYeclmPQLQ+7bCsT5z8ub6huw2B74HgGRJnEUZE
+ vgWZ69wDODZ0vFZMStAPePM0HEoWiKsZuElLppAo+g==
+X-Google-Smtp-Source: ABdhPJx6xhkgwnGRPAUwDxOlVw8gEHWp4rMdcOtwCGpAjGFMrAym5hCzg7aP9QineR3RgFnduo/KWt4cA//lYUXqccY=
+X-Received: by 2002:a5d:64c3:: with SMTP id f3mr54018359wri.295.1641574996901; 
+ Fri, 07 Jan 2022 09:03:16 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.1
-Content-Language: fr
-To: Alistair Francis <alistair23@gmail.com>
-References: <20220106210108.138226-1-frederic.petrot@univ-grenoble-alpes.fr>
- <20220106210108.138226-8-frederic.petrot@univ-grenoble-alpes.fr>
- <CAKmqyKMB-zZKNf-HRz-=RR+wtM7UHFo4wCJUiCwF0nJrH4OzOg@mail.gmail.com>
- <cb76d285-7071-c70d-3cb7-ad2978f400dd@univ-grenoble-alpes.fr>
- <CAKmqyKNd77rb9gSqriv_gykfBT_G+9hVKZVKp-JB2A3d9sXkrg@mail.gmail.com>
-From: =?UTF-8?B?RnLDqWTDqXJpYyBQw6l0cm90?=
- <frederic.petrot@univ-grenoble-alpes.fr>
-Subject: Re: [PATCH v8 07/18] target/riscv: setup everything for rv64 to
- support rv128 execution
-In-Reply-To: <CAKmqyKNd77rb9gSqriv_gykfBT_G+9hVKZVKp-JB2A3d9sXkrg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Greylist: Whitelist-UGA SMTP Authentifie (petrotf@univ-grenoble-alpes.fr)
- via submission-587 ACL (42)
-X-Greylist: Whitelist-UGA MAILHOST (SMTP non authentifie) depuis 152.77.18.2
-Received-SPF: pass client-ip=152.77.200.56;
- envelope-from=frederic.petrot@univ-grenoble-alpes.fr;
- helo=zm-mta-out-3.u-ga.fr
-X-Spam_score_int: -47
-X-Spam_score: -4.8
-X-Spam_bar: ----
-X-Spam_report: (-4.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.691,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <771c599a-3ea5-8d59-909a-05f127c8ff0e@suse.com>
+In-Reply-To: <771c599a-3ea5-8d59-909a-05f127c8ff0e@suse.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 7 Jan 2022 17:03:05 +0000
+Message-ID: <CAFEAcA_kjSbgdG=iNaDJV26ZEZT4HR9P-dhEQSs2izG510H3YQ@mail.gmail.com>
+Subject: Re: [PATCH] hw/intc/arm_gic: Allow reset of the running priority
+To: Petr Pavlu <petr.pavlu@suse.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::432
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x432.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,108 +79,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Bin Meng <bin.meng@windriver.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Fabien Portas <fabien.portas@grenoble-inp.org>,
- Alistair Francis <alistair.francis@wdc.com>
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 07/01/2022 07:47, Alistair Francis wrote:
-> On Fri, Jan 7, 2022 at 4:23 PM Frédéric Pétrot
-> <frederic.petrot@univ-grenoble-alpes.fr> wrote:
->>
->> On 06/01/2022 22:24, Alistair Francis wrote:
->>> On Fri, Jan 7, 2022 at 7:04 AM Frédéric Pétrot
->>> <frederic.petrot@univ-grenoble-alpes.fr> wrote:
->>>>
->>>> This patch adds the support of the '-cpu rv128' option to
->>>> qemu-system-riscv64 so that we can indicate that we want to run rv128
->>>> executables.
->>>> Still, there is no support for 128-bit insns at that stage so qemu fails
->>>> miserably (as expected) if launched with this option.
->>>>
->>>> Signed-off-by: Frédéric Pétrot <frederic.petrot@univ-grenoble-alpes.fr>
->>>> Co-authored-by: Fabien Portas <fabien.portas@grenoble-inp.org>
->>>> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
->>>> ---
->>>>    include/disas/dis-asm.h |  1 +
->>>>    target/riscv/cpu.h      |  1 +
->>>>    disas/riscv.c           |  5 +++++
->>>>    target/riscv/cpu.c      | 20 ++++++++++++++++++++
->>>>    target/riscv/gdbstub.c  |  5 +++++
->>>>    5 files changed, 32 insertions(+)
->>>>
->>>> diff --git a/include/disas/dis-asm.h b/include/disas/dis-asm.h
->>>> index 08e1beec85..102a1e7f50 100644
->>>> --- a/include/disas/dis-asm.h
->>>> +++ b/include/disas/dis-asm.h
->>>> @@ -459,6 +459,7 @@ int print_insn_nios2(bfd_vma, disassemble_info*);
->>>>    int print_insn_xtensa           (bfd_vma, disassemble_info*);
->>>>    int print_insn_riscv32          (bfd_vma, disassemble_info*);
->>>>    int print_insn_riscv64          (bfd_vma, disassemble_info*);
->>>> +int print_insn_riscv128         (bfd_vma, disassemble_info*);
->>>>    int print_insn_rx(bfd_vma, disassemble_info *);
->>>>    int print_insn_hexagon(bfd_vma, disassemble_info *);
->>>>
->>>> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
->>>> index fa5d238530..efe481f5fb 100644
->>>> --- a/target/riscv/cpu.h
->>>> +++ b/target/riscv/cpu.h
->>>> @@ -38,6 +38,7 @@
->>>>    #define TYPE_RISCV_CPU_ANY              RISCV_CPU_TYPE_NAME("any")
->>>>    #define TYPE_RISCV_CPU_BASE32           RISCV_CPU_TYPE_NAME("rv32")
->>>>    #define TYPE_RISCV_CPU_BASE64           RISCV_CPU_TYPE_NAME("rv64")
->>>> +#define TYPE_RISCV_CPU_BASE128          RISCV_CPU_TYPE_NAME("rv128")
->>>
->>> As this series only adds partial support for 128-bit support, I think
->>> we should probably change this to "x-rv128". That way we indicate to
->>> users that it is experimental. That allows us more flexibility in the
->>> future to have breaking changes and will hopefully avoid confusion
->>> about the current state. What do you think? I can just make the change
->>> when I apply the patches.
->>
->>     Sure, this is clearly experimental (the spec is a draft) and should be
->>     marked so, I totally agree. Please make the change as you suggest,
-> 
-> Great!
-> 
-> Applied to riscv-to-apply.next
-> 
-> If you want to make sure my change didn't break anything you can test
-> the tree here: https://github.com/alistair23/qemu/tree/riscv-to-apply.next
+On Tue, 14 Dec 2021 at 17:28, Petr Pavlu <petr.pavlu@suse.com> wrote:
+> When running Linux on a machine with GICv2, the kernel can crash while
+> processing an interrupt and can subsequently start a kdump kernel from
+> the active interrupt handler. In such a case, the crashed kernel might
+> not gracefully signal the end of interrupt to the GICv2 hardware. The
+> kdump kernel will however try to reset the GIC state on startup to get
+> the controller into a sane state, in particular the kernel writes ones
+> to GICD_ICACTIVERn and wipes out GICC_APRn to make sure that no
+> interrupt is active.
+>
+> The patch makes sure that this reset works for the GICv2 emulation in
+> QEMU too and the kdump kernel starts receiving interrupts. It adds
+> a logic to recalculate the running priority when GICC_APRn/GICC_NSAPRn
+> is written and implements read of GICC_IIDR so the kernel can recognize
+> that the GICv2 with GICC_APRn is present.
+>
+> The described scenario can be reproduced on an AArch64 QEMU virt machine
+> with a kdump-enabled Linux system by using the softdog module. The kdump
+> kernel will hang at some point because QEMU still thinks the running
+> priority is that of the timer interrupt and asserts no new interrupts to
+> the system:
+> $ modprobe softdog soft_margin=10 soft_panic=1
+> $ cat > /dev/watchdog
+> [Press Enter to start the watchdog, wait for its timeout and observe
+> that the kdump kernel hangs on startup.]
 
-   Works like a charm !
-   Thanks,
-   Frédéric
+Hi; thanks for this patch and sorry I haven't got to it earlier
+(I've been on holiday). Both the mishandling of the cached
+priority and the failure to implement GICC_IIDR are definitely bugs,
+but I think they are distinct bugs. Could you split this into a two
+patch series, please ? (If you don't have time to do the respin,
+let me know and I can do it at this end.)
 
-> 
-> I'll send a PR this weekend or next week.
-> 
-> Alistair
-> 
->>
->>     Thanks,
->>     Frédéric
->>
->>>
->>> Alistair
->>
->> --
->> +---------------------------------------------------------------------------+
->> | Frédéric Pétrot, Pr. Grenoble INP-Ensimag/TIMA,   Ensimag deputy director |
->> | Mob/Pho: +33 6 74 57 99 65/+33 4 76 57 48 70      Ad augusta  per angusta |
->> | http://tima.univ-grenoble-alpes.fr frederic.petrot@univ-grenoble-alpes.fr |
->> +---------------------------------------------------------------------------+
+> Signed-off-by: Petr Pavlu <petr.pavlu@suse.com>
+> ---
+>  hw/intc/arm_gic.c | 6 ++++++
+>  1 file changed, 6 insertions(+)
+>
+> diff --git a/hw/intc/arm_gic.c b/hw/intc/arm_gic.c
+> index a994b1f024..2edbc4cb46 100644
+> --- a/hw/intc/arm_gic.c
+> +++ b/hw/intc/arm_gic.c
+> @@ -1662,6 +1662,10 @@ static MemTxResult gic_cpu_read(GICState *s, int cpu, int offset,
+>          }
+>          break;
+>      }
+> +    case 0xfc:
+> +        /* GICv1/2, ARM implementation */
+> +        *data = (s->revision << 16) + 0x43b;
 
--- 
-+---------------------------------------------------------------------------+
-| Frédéric Pétrot, Pr. Grenoble INP-Ensimag/TIMA,   Ensimag deputy director |
-| Mob/Pho: +33 6 74 57 99 65/+33 4 76 57 48 70      Ad augusta  per angusta |
-| http://tima.univ-grenoble-alpes.fr frederic.petrot@univ-grenoble-alpes.fr |
-+---------------------------------------------------------------------------+
+This is correct for GICv1 and GICv2, but not for 11MPCore, whose
+interrupt controller has no GICC_IIDR:
+
+https://developer.arm.com/documentation/ddi0360/e/mpcore-distributed-interrupt-controller/cpu-interface-registers-definition?lang=en
+
+So this should be
+
+    if (s->revision == REV_11MPCORE) {
+        /* Reserved on 11MPCore */
+        *data = 0;
+    } else {
+        /* GICv1 or v2; Arm implementation */
+        *data = (s->revision << 16) | 0x43b;
+    }
+
+(also using '|' rather than '+' since we're assembling a value
+as a bunch of bit operations, not doing arithmetic on it. The
+end result is the same but I think '|' is clearer stylistically.)
+
+> +        break;
+>      default:
+>          qemu_log_mask(LOG_GUEST_ERROR,
+>                        "gic_cpu_read: Bad offset %x\n", (int)offset);
+> @@ -1727,6 +1731,7 @@ static MemTxResult gic_cpu_write(GICState *s, int cpu, int offset,
+>          } else {
+>              s->apr[regno][cpu] = value;
+>          }
+> +        s->running_priority[cpu] = gic_get_prio_from_apr_bits(s, cpu);
+>          break;
+>      }
+>      case 0xe0: case 0xe4: case 0xe8: case 0xec:
+> @@ -1743,6 +1748,7 @@ static MemTxResult gic_cpu_write(GICState *s, int cpu, int offset,
+>              return MEMTX_OK;
+>          }
+>          s->nsapr[regno][cpu] = value;
+> +        s->running_priority[cpu] = gic_get_prio_from_apr_bits(s, cpu);
+>          break;
+>      }
+>      case 0x1000:
+
+These parts are correct and just need to be in their own patch.
+
+thanks
+-- PMM
 
