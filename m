@@ -2,77 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50CCE487D68
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 21:01:23 +0100 (CET)
-Received: from localhost ([::1]:47022 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62F6E487DAB
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 21:24:23 +0100 (CET)
+Received: from localhost ([::1]:38080 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5uTe-0002ef-91
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 14:00:38 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36620)
+	id 1n5uPY-0002d7-AL
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 13:56:24 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36686)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1n5uI2-0007q5-QM
- for qemu-devel@nongnu.org; Fri, 07 Jan 2022 13:48:38 -0500
-Received: from [2a00:1450:4864:20::433] (port=43995
- helo=mail-wr1-x433.google.com)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1n5uIl-00085F-Ap
+ for qemu-devel@nongnu.org; Fri, 07 Jan 2022 13:49:27 -0500
+Received: from [2a00:1450:4864:20::535] (port=39582
+ helo=mail-ed1-x535.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1n5uHs-0005TP-Vk
- for qemu-devel@nongnu.org; Fri, 07 Jan 2022 13:48:38 -0500
-Received: by mail-wr1-x433.google.com with SMTP id o3so12721086wrh.10
- for <qemu-devel@nongnu.org>; Fri, 07 Jan 2022 10:48:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=raftlsgfS0DQzuOTvWNeZTfeD+RimU34KWwkH9tPzXs=;
- b=NbTWi5M8MEUi0BMTcfYbnzqyj+f5aYFWoCxMXQurA9exrgDjgLVAbGS+vN0aZiDYI+
- 1IRQc1VOo4NukUiZql4qunI9YKvTBUesEeqQkYh01nkestt8s8wPyNhE4B9UuBq652zj
- 6mBQaM4bY+JlzD0ZwhnawuXxUVaJllVSTx2bNHQXbszLB2O1wiy0Qzi6tHOTxL/kUdbt
- 1ZQNNfqV8ePvLwNVxEBZ0kzLTz1varW700B07QaJCeUTv64LmtUvragToRP5fvHeSan9
- 0opvPRk+00khMAQRIRzwT7qQjZfPRz+Wc4QM5UUsXWMtSEvV+uf9Ws7IWSrkQhZjtFJB
- 0W5Q==
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1n5uIY-0005Wy-Ef
+ for qemu-devel@nongnu.org; Fri, 07 Jan 2022 13:49:23 -0500
+Received: by mail-ed1-x535.google.com with SMTP id c71so13998939edf.6
+ for <qemu-devel@nongnu.org>; Fri, 07 Jan 2022 10:49:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=jML/Da5MbArYq8VlU7uRAi+6d0BJMTIKS9L8QAwg8gY=;
+ b=Xw5uG7MMyQI9O2Z1L64SCA8wUhiQo9b01jo7DRSwsFzZhgV2yD+a5SWUxdE6UQJxqI
+ y25PTPUc6b4B+BVlISjAEWMNNi//NToryk0efCTkVHlHH8O7OKTjTYNkEOiUSNSESfLt
+ rO118zu1ADEoYVRTSd9vu3+e8fJACuo0OPiBEfC2+AasMyuU9fWHO/HtqngGumThPuou
+ MhIa99G9cOgAz85flSa6NttGnIee0baBTJadaTvgIn2hFowTIvKQHpQw68wsIrwOOuaz
+ ToJJ2CCXQl7GdcT7X2IGWTPNW/YqPqPV59OJfnKsZtunL1Z19Kllu4IIzY6echrxfIpM
+ iVdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=raftlsgfS0DQzuOTvWNeZTfeD+RimU34KWwkH9tPzXs=;
- b=ppUOG/m+C8EMkmlaJP+TUUPcvXF70bsMrkQkJZLV1nIGa2UevEf4mr11aafknboG8l
- KBkqbpV7h7ace6XeYWgqiTMBWKAg2l4jUUqzHkos3qoJcdWQiEnt3QUxIszDF2/patSz
- 3Ds+5wg4Gi4whhppBI0cVI2tD1fif38G9BTy9n8wCk96kW/UYkL5fwe4J6GB5wShZCEd
- xfWFWfjTJBhsHk+8CrEnWCe5yV1vtlPE28r5CwuYhCcIS41Lu2XKNESnVJ4vw3O3ReJQ
- pyHjmpb/QXHecoxp/yt8EgEzztbsFGQyF2o/nLWu7Qvp8CzoA0LVJAWk6fYSRmCNxtHQ
- b9ww==
-X-Gm-Message-State: AOAM530CVpnm4r62s82htiqpSw7tnBDncbl4jxn9u2Wa+kbCPIWh8OzY
- e2M0WhBrx49CFXT7J+kGr9tdHRt/A2AMOPq8SHjtwUVA/QY=
-X-Google-Smtp-Source: ABdhPJxSrCyrEJr1EOWUT8XHqQX7+3cJ1ZfTXpm2LDTyfxkzeXIDtwiHj6P1/dInVJ97Wnu5CZ4/oDt3wl8O0HKcwDM=
-X-Received: by 2002:a5d:52c4:: with SMTP id r4mr34251380wrv.521.1641581307149; 
- Fri, 07 Jan 2022 10:48:27 -0800 (PST)
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=jML/Da5MbArYq8VlU7uRAi+6d0BJMTIKS9L8QAwg8gY=;
+ b=RkS6n8a60/Kr2TIosPzoi4Qd71jh88PLICw5dwsnsJJY1tHgxDp4DlpnYZWdjAE1G6
+ P7FsIGm1CGun4gnYoL3QmyRS2mzJzg9JkQmykk9EQxQinNPvwGNBLdfMYIG107/42oSw
+ rzcsvukK8i1ESIk4PKFdrgvD5FWGP/i6GpwmfxB951p4RpnXqdwNHf2tLYNGkuPdlJxy
+ O0IXjE77prFqtnUstrQtD66tD1gBt40i41YTINk4nXzDkPRcnv+Togpw/G3yzCe8V4Vb
+ uLZiOs716jshIlr+lz/2hxGahgtKMwkRyBTQl7KNs00kAuzExtRwxjzp5LEYvYZlye2I
+ wQ/w==
+X-Gm-Message-State: AOAM531O74tQdD3r5yP/AWInuzSgmJ3ytauT30xkeldVFwk0oeUF+2t7
+ QhmExuF5PFH/eYDlJP7wZVA=
+X-Google-Smtp-Source: ABdhPJyIm/J+IiUryqGrHUoKPeGcw9BgokbQkCqyWb6wT5V+pFG3j5d0ix1WgSVOP8qDQM198VZ1BA==
+X-Received: by 2002:a17:906:1405:: with SMTP id
+ p5mr1620196ejc.113.1641581349139; 
+ Fri, 07 Jan 2022 10:49:09 -0800 (PST)
+Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.googlemail.com with ESMTPSA id j13sm2460626edw.89.2022.01.07.10.49.08
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 07 Jan 2022 10:49:08 -0800 (PST)
+Message-ID: <c91e2193-1d38-9c66-5dd8-d1f1d340a9bd@redhat.com>
+Date: Fri, 7 Jan 2022 19:49:07 +0100
 MIME-Version: 1.0
-References: <20211227211642.994461-1-maz@kernel.org>
- <20211227211642.994461-4-maz@kernel.org>
- <ef8b3500-04ab-5434-6a04-0e8b1dcc65d1@redhat.com>
- <871r1kzhbp.wl-maz@kernel.org>
- <d330de15-b452-1f9c-14fa-906b88a8b4c4@redhat.com>
- <87y23rtnny.wl-maz@kernel.org>
-In-Reply-To: <87y23rtnny.wl-maz@kernel.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 7 Jan 2022 18:48:16 +0000
-Message-ID: <CAFEAcA8KCZFfiYA_AAxA-ChfN5vZd7EF1jGcFxmcpq=fi4ToeQ@mail.gmail.com>
-Subject: Re: [PATCH v3 3/5] hw/arm/virt: Honor highmem setting when computing
- the memory map
-To: Marc Zyngier <maz@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::433
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH] meson: reenable filemonitor-inotify compilation
+Content-Language: en-US
+To: =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>
+References: <20220107133514.7785-1-vr_qemu@t-online.de>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <20220107133514.7785-1-vr_qemu@t-online.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::535
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x433.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+Received-SPF: pass client-ip=2a00:1450:4864:20::535;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x535.google.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-2.691,
  RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,31 +93,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jones <drjones@redhat.com>, kvm@vger.kernel.org,
- qemu-devel@nongnu.org, eric.auger@redhat.com, kernel-team@android.com,
- kvmarm@lists.cs.columbia.edu
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 7 Jan 2022 at 18:18, Marc Zyngier <maz@kernel.org> wrote:
-> This is a chicken and egg problem: you need the IPA size to compute
-> the memory map, and you need the memory map to compute the IPA
-> size. Fun, isn't it?
->
-> At the moment, virt_set_memmap() doesn't know about the IPA space,
-> generates a highest_gpa that may not work, and we end-up failing
-> because the resulting VM type is out of bound.
->
-> My solution to that is to feed the *maximum* IPA size to
-> virt_set_memmap(), compute the memory map there, and then use
-> highest_gpa to compute the actual IPA size that is used to create the
-> VM. By knowing the IPA limit in virt_set_memmap(), I'm able to keep it
-> in check and avoid generating an unusable memory map.
+On 1/7/22 14:35, Volker Rümelin wrote:
+> Reenable util/filemonitor-inotify compilation. Compilation was
+> disabled when commit a620fbe9ac ("configure: convert compiler tests
+> to meson, part 5") moved CONFIG_INOTIFY1 from config-host.mak to
+> config-host.h.
+> 
+> This fixes the usb-mtp device and reenables test-util-filemonitor.
+> 
+> Fixes: a620fbe9ac ("configure: convert compiler tests to meson, part 5")
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/800
+> Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
+> ---
+>   tests/unit/meson.build | 2 +-
+>   util/meson.build       | 7 +++++--
+>   2 files changed, 6 insertions(+), 3 deletions(-)
+> 
+> diff --git a/tests/unit/meson.build b/tests/unit/meson.build
+> index 90acf5b0da..64a5e7bfde 100644
+> --- a/tests/unit/meson.build
+> +++ b/tests/unit/meson.build
+> @@ -129,7 +129,7 @@ if have_system
+>       'test-vmstate': [migration, io],
+>       'test-yank': ['socket-helpers.c', qom, io, chardev]
+>     }
+> -  if 'CONFIG_INOTIFY1' in config_host
+> +  if config_host_data.get('CONFIG_INOTIFY1')
+>       tests += {'test-util-filemonitor': []}
+>     endif
+>   
+> diff --git a/util/meson.build b/util/meson.build
+> index 05b593055a..71543e1a85 100644
+> --- a/util/meson.build
+> +++ b/util/meson.build
+> @@ -83,7 +83,10 @@ if have_block
+>     util_ss.add(files('readline.c'))
+>     util_ss.add(files('throttle.c'))
+>     util_ss.add(files('timed-average.c'))
+> -  util_ss.add(when: 'CONFIG_INOTIFY1', if_true: files('filemonitor-inotify.c'),
+> -                                        if_false: files('filemonitor-stub.c'))
+> +  if config_host_data.get('CONFIG_INOTIFY1')
+> +    util_ss.add(files('filemonitor-inotify.c'))
+> +  else
+> +    util_ss.add(files('filemonitor-stub.c'))
+> +  endif
+>     util_ss.add(when: 'CONFIG_LINUX', if_true: files('vfio-helpers.c'))
+>   endif
 
-Is there any reason not to just always create the VM with the
-maximum supported IPA size, rather than trying to create it
-with the smallest IPA size that will work? (ie skip the last
-step of computing the IPA size to create the VM with)
+Queued, thanks.
 
--- PMM
+Paolo
 
