@@ -2,66 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9670C4876A7
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 12:40:57 +0100 (CET)
-Received: from localhost ([::1]:53556 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBF064876B0
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 12:44:20 +0100 (CET)
+Received: from localhost ([::1]:60912 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5nc8-0000KB-OF
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 06:40:56 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45566)
+	id 1n5nfP-0006LO-Ot
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 06:44:19 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45820)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n5n3o-0001MH-6u
- for qemu-devel@nongnu.org; Fri, 07 Jan 2022 06:05:30 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:58367)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n5n41-0001Vt-SS
+ for qemu-devel@nongnu.org; Fri, 07 Jan 2022 06:05:42 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:38992)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n5n3S-0001zt-O6
- for qemu-devel@nongnu.org; Fri, 07 Jan 2022 06:05:25 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n5n3y-00020e-7h
+ for qemu-devel@nongnu.org; Fri, 07 Jan 2022 06:05:41 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641553497;
+ s=mimecast20190719; t=1641553504;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=E8cVuTw3WnQz2PCB6BKnsgn/gSst2XbDgCGG/3vh9UE=;
- b=hRtmdPJOavgOzOZbw9KEdFISrs+D6lvn0VWMD3ZHL2rs4oWAgVFU+SRRFiV/edsqqJVThe
- RzSXisirak8rsMwk65RFoREiJZP/k147j/HX8/3KQK3uYQ/i24bMpYMUVZsz3AP2WR9X4Y
- y0nxMhd/Zyr8I6BJYUSvR5wGtKqkoBI=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=1bYEz3aJ2ZVHIKx33NW8o1kl0YJwc2D4eOCg251Ckdk=;
+ b=huEsxj6YjeXui86SRucB8k6jR5wleGhaOx0xLx83B83/mcXAA6cnE9NTH6G9PJmJJflPhH
+ BTCQwlmiPGvzng9+vh4FpXSw8sFh4Dczku9WSzksNki6uFJOxi18v9MNyMIjnLgjy3IjjQ
+ FYhadA5K7hpdRCXuvj58FdDzIVO+k3g=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-589-vWbQ2kHqM-SocpLVUPgM6g-1; Fri, 07 Jan 2022 06:04:56 -0500
-X-MC-Unique: vWbQ2kHqM-SocpLVUPgM6g-1
-Received: by mail-wm1-f70.google.com with SMTP id
- ay41-20020a05600c1e2900b00345a568e6b2so1349403wmb.4
- for <qemu-devel@nongnu.org>; Fri, 07 Jan 2022 03:04:56 -0800 (PST)
+ us-mta-653-noVLQ__UOWyU9CWObJzoeA-1; Fri, 07 Jan 2022 06:05:00 -0500
+X-MC-Unique: noVLQ__UOWyU9CWObJzoeA-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ h26-20020adfa4da000000b001a652d52d8eso135134wrb.16
+ for <qemu-devel@nongnu.org>; Fri, 07 Jan 2022 03:05:00 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=E8cVuTw3WnQz2PCB6BKnsgn/gSst2XbDgCGG/3vh9UE=;
- b=ZrYcoVn7wRUwF9PqASisQhhAMGQWt8rZdEqH1m8lpTVg/iCbnogwkuEpghQL5t83+u
- ixK7O8zgGV9qu8IJOtyZlffFvP5SqsN0kZNiId+c2kXYD49eNYceqmla2tF3Kgs/SxmV
- pyvMOvZ9+MeVNj6nRrgKk2tLxw9NZKOvbRSmO0injvjqshUChXJzi90ZU4+0T+Tke+7x
- 4u6QdUp+8co/dI1bgCkL6EyPv8qAmy8GVMJClmi9BkvkUJglqMs+Q6B9BTvlLOh/buWt
- Wq/Q+tiivaq6+I58XZ3MXT73H1edblyavunqR98E+CpRw/AC1sfm2JjZqHfvZfNBBckN
- xFAw==
-X-Gm-Message-State: AOAM530SX9pAKFwDoD5W9780GMIRVpFjlpI1D2aB0C1qdxf6rJieXoJK
- VjXSFdwB49jx8+P0yzAjqTeclSlKunHA8P0ArKzjpPCt2qTtoTArzgAY4TclmVdXMixi+I1WiJ4
- x4IdnJo29MIlssx4cUQpMB4nAgEbZckhCNtLPQfy/cZRWJ9NXFSk2WrA/mNoZ
-X-Received: by 2002:adf:e6c9:: with SMTP id y9mr54814288wrm.697.1641553495302; 
- Fri, 07 Jan 2022 03:04:55 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyv1otFjcMO2kvieKXtfeDd7Thwcu1osmBdw7J2P4B/imBSllzNsgOEok5DqXCO9KJx0yhcwg==
-X-Received: by 2002:adf:e6c9:: with SMTP id y9mr54814263wrm.697.1641553494975; 
- Fri, 07 Jan 2022 03:04:54 -0800 (PST)
+ bh=1bYEz3aJ2ZVHIKx33NW8o1kl0YJwc2D4eOCg251Ckdk=;
+ b=p9PPqfnPEMDN7r3pSh9qh2En+HZaAk92y1F6vwH9ueI0/SpL2CxqBOf4OS3ClnWS0G
+ Mu5WRO0AJ1gbNP3GSDZPA1UlwnZ3ajl9HiaBQxHIQ89BJXSiG4QaQNOGWCb/IuJl+geZ
+ KfkFKJFgu4na7A33VlnffK7/TdXoXkLCkD4NW3HKk+mda9ZhW1K4gWrWJ/XsBPYjJHk/
+ HKKgFeV0FRBESPCDXMF4c/msBuDCyfWqPewN+x7ABT8otz6dwcEoShnxpSjgON+rDi+B
+ q64YzgPWiGnhd8pXQSujal+US3Nz/naX0couNfMK0MdXfm39t1kyHpWLotOPd9QA81TQ
+ e6MQ==
+X-Gm-Message-State: AOAM532uT3ZPv7UD/Cfx/Fj1N3/Vy0O4EcIoJb45hQrq/F++uL5gVyKE
+ q1No+nn97Vh+ihyAndivellSYMeapftO74Vv6bTrpDC4fh334CRwOH7G+s4MOMGbJHpvrc5GIi/
+ xIRb7qLrtRxK8zeHO4XF7fYCxtLo0ATSSpFQhSQ1TNhNW8RyQ96y2PUU+296V
+X-Received: by 2002:a05:600c:1548:: with SMTP id
+ f8mr10557834wmg.24.1641553498175; 
+ Fri, 07 Jan 2022 03:04:58 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyabaXJmYSlhs0P5o02ebeHmjAcdRwzJNN8U1eMRQenXPx2u/h7J6Drwde4onzitCH2AJnETg==
+X-Received: by 2002:a05:600c:1548:: with SMTP id
+ f8mr10557817wmg.24.1641553497978; 
+ Fri, 07 Jan 2022 03:04:57 -0800 (PST)
 Received: from redhat.com ([2.55.16.192])
- by smtp.gmail.com with ESMTPSA id j11sm5380370wmq.23.2022.01.07.03.04.53
+ by smtp.gmail.com with ESMTPSA id n14sm4748307wrf.107.2022.01.07.03.04.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 Jan 2022 03:04:54 -0800 (PST)
-Date: Fri, 7 Jan 2022 06:04:52 -0500
+ Fri, 07 Jan 2022 03:04:57 -0800 (PST)
+Date: Fri, 7 Jan 2022 06:04:55 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 36/55] virtio-mem: Support "prealloc=on" option
-Message-ID: <20220107102526.39238-37-mst@redhat.com>
+Subject: [PULL v2 37/55] virtio: signal after wrapping packed used_idx
+Message-ID: <20220107102526.39238-38-mst@redhat.com>
 References: <20220107102526.39238-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20220107102526.39238-1-mst@redhat.com>
@@ -94,128 +96,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Michal Privoznik <mprivozn@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, David Hildenbrand <david@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
+ Tiwei Bie <tiwei.bie@intel.com>, Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: David Hildenbrand <david@redhat.com>
+From: Stefan Hajnoczi <stefanha@redhat.com>
 
-For scarce memory resources, such as hugetlb, we want to be able to
-prealloc such memory resources in order to not crash later on access. On
-simple user errors we could otherwise easily run out of memory resources
-an crash the VM -- pretty much undesired.
+Packed Virtqueues wrap used_idx instead of letting it run freely like
+Split Virtqueues do. If the used ring wraps more than once there is no
+way to compare vq->signalled_used and vq->used_idx in
+virtio_packed_should_notify() since they are modulo vq->vring.num.
 
-For ordinary memory devices, such as DIMMs, we preallocate memory via the
-memory backend for such use cases; however, with virtio-mem we're dealing
-with sparse memory backends; preallocating the whole memory backend
-destroys the whole purpose of virtio-mem.
+This causes the device to stop sending used buffer notifications when
+when virtio_packed_should_notify() is called less than once each time
+around the used ring.
 
-Instead, we want to preallocate memory when actually exposing memory to the
-VM dynamically, and fail plugging memory gracefully + warn the user in case
-preallocation fails.
+It is possible to trigger this with virtio-blk's dataplane
+notify_guest_bh() irq coalescing optimization. The call to
+virtio_notify_irqfd() (and virtio_packed_should_notify()) is deferred to
+a BH. If the guest driver is polling it can complete and submit more
+requests before the BH executes, causing the used ring to wrap more than
+once. The result is that the virtio-blk device ceases to raise
+interrupts and I/O hangs.
 
-A common use case for hugetlb will be using "reserve=off,prealloc=off" for
-the memory backend and "prealloc=on" for the virtio-mem device. This
-way, no huge pages will be reserved for the process, but we can recover
-if there are no actual huge pages when plugging memory. Libvirt is
-already prepared for this.
-
-Note that preallocation cannot protect from the OOM killer -- which
-holds true for any kind of preallocation in QEMU. It's primarily useful
-only for scarce memory resources such as hugetlb, or shared file-backed
-memory. It's of little use for ordinary anonymous memory that can be
-swapped, KSM merged, ... but we won't forbid it.
-
-Reviewed-by: Michal Privoznik <mprivozn@redhat.com>
-Signed-off-by: David Hildenbrand <david@redhat.com>
-Message-Id: <20211217134611.31172-9-david@redhat.com>
+Cc: Tiwei Bie <tiwei.bie@intel.com>
+Cc: Jason Wang <jasowang@redhat.com>
+Cc: Michael S. Tsirkin <mst@redhat.com>
+Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+Message-Id: <20211130134510.267382-1-stefanha@redhat.com>
+Fixes: 86044b24e865fb9596ed77a4d0f3af8b90a088a1 ("virtio: basic packed virtqueue support")
+Acked-by: Jason Wang <jasowang@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- include/hw/virtio/virtio-mem.h |  4 ++++
- hw/virtio/virtio-mem.c         | 39 ++++++++++++++++++++++++++++++----
- 2 files changed, 39 insertions(+), 4 deletions(-)
+ hw/virtio/virtio.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/include/hw/virtio/virtio-mem.h b/include/hw/virtio/virtio-mem.h
-index a5dd6a493b..0ac7bcb3b6 100644
---- a/include/hw/virtio/virtio-mem.h
-+++ b/include/hw/virtio/virtio-mem.h
-@@ -30,6 +30,7 @@ OBJECT_DECLARE_TYPE(VirtIOMEM, VirtIOMEMClass,
- #define VIRTIO_MEM_REQUESTED_SIZE_PROP "requested-size"
- #define VIRTIO_MEM_BLOCK_SIZE_PROP "block-size"
- #define VIRTIO_MEM_ADDR_PROP "memaddr"
-+#define VIRTIO_MEM_PREALLOC_PROP "prealloc"
- 
- struct VirtIOMEM {
-     VirtIODevice parent_obj;
-@@ -62,6 +63,9 @@ struct VirtIOMEM {
-     /* block size and alignment */
-     uint64_t block_size;
- 
-+    /* whether to prealloc memory when plugging new blocks */
-+    bool prealloc;
-+
-     /* notifiers to notify when "size" changes */
-     NotifierList size_change_notifiers;
- 
-diff --git a/hw/virtio/virtio-mem.c b/hw/virtio/virtio-mem.c
-index 341c3fa2c1..ab975ff566 100644
---- a/hw/virtio/virtio-mem.c
-+++ b/hw/virtio/virtio-mem.c
-@@ -429,10 +429,40 @@ static int virtio_mem_set_block_state(VirtIOMEM *vmem, uint64_t start_gpa,
-             return -EBUSY;
-         }
-         virtio_mem_notify_unplug(vmem, offset, size);
--    } else if (virtio_mem_notify_plug(vmem, offset, size)) {
--        /* Could be a mapping attempt resulted in memory getting populated. */
--        ram_block_discard_range(vmem->memdev->mr.ram_block, offset, size);
--        return -EBUSY;
-+    } else {
-+        int ret = 0;
-+
-+        if (vmem->prealloc) {
-+            void *area = memory_region_get_ram_ptr(&vmem->memdev->mr) + offset;
-+            int fd = memory_region_get_fd(&vmem->memdev->mr);
-+            Error *local_err = NULL;
-+
-+            os_mem_prealloc(fd, area, size, 1, &local_err);
-+            if (local_err) {
-+                static bool warned;
-+
-+                /*
-+                 * Warn only once, we don't want to fill the log with these
-+                 * warnings.
-+                 */
-+                if (!warned) {
-+                    warn_report_err(local_err);
-+                    warned = true;
-+                } else {
-+                    error_free(local_err);
-+                }
-+                ret = -EBUSY;
-+            }
-+        }
-+        if (!ret) {
-+            ret = virtio_mem_notify_plug(vmem, offset, size);
-+        }
-+
-+        if (ret) {
-+            /* Could be preallocation or a notifier populated memory. */
-+            ram_block_discard_range(vmem->memdev->mr.ram_block, offset, size);
-+            return -EBUSY;
-+        }
+diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
+index 36edb1dad5..971e59a663 100644
+--- a/hw/virtio/virtio.c
++++ b/hw/virtio/virtio.c
+@@ -885,6 +885,7 @@ static void virtqueue_packed_flush(VirtQueue *vq, unsigned int count)
+     if (vq->used_idx >= vq->vring.num) {
+         vq->used_idx -= vq->vring.num;
+         vq->used_wrap_counter ^= 1;
++        vq->signalled_used_valid = false;
      }
-     virtio_mem_set_bitmap(vmem, start_gpa, size, plug);
-     return 0;
-@@ -1108,6 +1138,7 @@ static void virtio_mem_instance_init(Object *obj)
- static Property virtio_mem_properties[] = {
-     DEFINE_PROP_UINT64(VIRTIO_MEM_ADDR_PROP, VirtIOMEM, addr, 0),
-     DEFINE_PROP_UINT32(VIRTIO_MEM_NODE_PROP, VirtIOMEM, node, 0),
-+    DEFINE_PROP_BOOL(VIRTIO_MEM_PREALLOC_PROP, VirtIOMEM, prealloc, false),
-     DEFINE_PROP_LINK(VIRTIO_MEM_MEMDEV_PROP, VirtIOMEM, memdev,
-                      TYPE_MEMORY_BACKEND, HostMemoryBackend *),
-     DEFINE_PROP_END_OF_LIST(),
+ }
+ 
 -- 
 MST
 
