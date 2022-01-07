@@ -2,82 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA05B4871E3
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 05:52:00 +0100 (CET)
-Received: from localhost ([::1]:38442 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 323F64871EB
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 05:59:43 +0100 (CET)
+Received: from localhost ([::1]:42116 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5hEN-00055F-VD
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 23:51:59 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60830)
+	id 1n5hLq-0007yk-Af
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 23:59:42 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34346)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1n5h9R-0001GE-Cr
- for qemu-devel@nongnu.org; Thu, 06 Jan 2022 23:46:53 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:45701)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1n5h9E-00022W-PI
- for qemu-devel@nongnu.org; Thu, 06 Jan 2022 23:46:51 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641530798;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=/OJQRlvXPny9DOOenFvbs7x/rl51iZpQkOJgsROINJs=;
- b=Il31IZTsJWKu0nFQY1MOD7xoM1KqZ+210nAyLvAOKaskHKdVxxMYuJK5ImqqQZabRC4nbn
- GKnl9+SndCKADt0qdA9F/mRj49QvSjeq6MTXOitoy+vA472Km3ft+LIzu47BKzpUAM9SOo
- 7IGNtXy+4OtuhbmNveSLmW5LxrFjwkw=
-Received: from mail-lf1-f71.google.com (mail-lf1-f71.google.com
- [209.85.167.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-349-oQDKZsYpP8CjF27Q6Mirpw-1; Thu, 06 Jan 2022 23:46:32 -0500
-X-MC-Unique: oQDKZsYpP8CjF27Q6Mirpw-1
-Received: by mail-lf1-f71.google.com with SMTP id
- g2-20020a19e042000000b00425cfac0e67so1489814lfj.10
- for <qemu-devel@nongnu.org>; Thu, 06 Jan 2022 20:46:32 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1n5hKZ-0007HV-Sq
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 23:58:23 -0500
+Received: from [2607:f8b0:4864:20::634] (port=37585
+ helo=mail-pl1-x634.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1n5hKY-0004On-DO
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 23:58:23 -0500
+Received: by mail-pl1-x634.google.com with SMTP id q14so4045752plx.4
+ for <qemu-devel@nongnu.org>; Thu, 06 Jan 2022 20:58:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=FjC96+RTrBYu7tRgQY+hC1x8DNXqjnRJUtbljvajRfU=;
+ b=hVMc3Tof984umopVU5qioSpsRYp2bwuj3IOTNQbePPacF0KRpbFaxvGYvTzOGRvWfC
+ YeLCHUeUS2SlUPUCBTUQAWgrAeLIDkBnMc4kUP79QH2A6Ba+Jo/DSgKC25htGn1h/Oi5
+ wJO8/665Ck9FtMk6ua2CTt7Yzu67uvhIPqH3pATlCEfMVsCVGTn/TfKXlmDxao0zn1Wy
+ eRLhJM3Y/6zn8ysj2BOZrtGpmkmKq1K5l12gJC5YgfeWxIpseBEhVWzHbG7jUz4tjAII
+ C2DG9Oeq3c02OnvMO1fBkg6KGMov6vNAGo33c8585gyROIGoPfSKkI8IVlyxpu7kaxjF
+ jHDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=/OJQRlvXPny9DOOenFvbs7x/rl51iZpQkOJgsROINJs=;
- b=h/KEQFGryUeQ5R4IcLDs3F/ogN2CPYx0x1KE+vzPyfSDDrQ/GPZqo9HUcpDEaNTbK7
- +UZohBJ0cPVG7mMUQqbFRbxu3gLq3VwtkCacL1j1S6BHZgemG4xc+9Oj4OePRHayNCu8
- QN5XxiLpmevBAUZQvPJ0k4oeQLxTXl16Nf7q4zewmM0yGnht4krF19dw88w9q9YqHbDJ
- H2f0lq7c3IQe75k9HJhr1+D5OGsRiVhKnBpLGTTFMwYRhdk8e1Ck/pUcmtYY0g9Jjevc
- cWokHoFnhWJqXnaUtFpQl4fnvej7wHy51vbu7avzaEQ+2eTT51VMZf6jccflN3gTgvXy
- TtSQ==
-X-Gm-Message-State: AOAM533Ee2Hx0grdi2L0tmcM+58Rbo4N2+QlXigguW2nAsh7HoEZM678
- X4IWdnHUCStebi7ydapB8mDMSbQGPTQLt68fCI2BspHXa0wH7I+04FZvtLstMaXfYRsIrL8OVDo
- CVfMvfrUIWwVHXyV3+UC5e8oNK5SCs44=
-X-Received: by 2002:a2e:9183:: with SMTP id f3mr49577731ljg.277.1641530790833; 
- Thu, 06 Jan 2022 20:46:30 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwaMInlKDhKDE2OTWkXVAzpDLCEkFwcEKnnuKHim+Ftk7TtNJ7OvoAh4nYu7Z/pOXrKrkDx7yCNRB5HALkAZfQ=
-X-Received: by 2002:a2e:9183:: with SMTP id f3mr49577726ljg.277.1641530790687; 
- Thu, 06 Jan 2022 20:46:30 -0800 (PST)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=FjC96+RTrBYu7tRgQY+hC1x8DNXqjnRJUtbljvajRfU=;
+ b=1tcM1BVwqxWp7hhmMaUra8onEh4Y8I7SctrZE8yl7I+5jKbhii405hDNkpchlyrPpv
+ oxTezvRimo27Nxmx8wOWu0ZF6k4h6N/g8EbTHMXMkoBhZxIujYP14VIZS2Ho2WS6vYtD
+ AZOTWyMc8bNDwDcpIZj0JewJDicVPfsGHJY0fzErox0ApwpOEVlJzbyJJpEi+E+hV9mD
+ d0Q8+ZuJxIu7bwXgREVmaGRzTKhCWAFxXlSa8gzocbx+1hHEhLOHN3KojcsQ1KDDJDYc
+ QLSo1W5EAaYrnPZ3aVGNuoDNpDUCNkFkxvmyaN1sA6R6FYWtxW6Ob7cSyQON+s6F7Hhq
+ AZNQ==
+X-Gm-Message-State: AOAM531CgucH0Q+E0GqKilmzTU4dcYr6AmEbAy8VHKdc5WUA/B/KGZdC
+ CZdbhdb1Xsrp8U+eV0ndo2romWtEdRtnUA==
+X-Google-Smtp-Source: ABdhPJx2us5y41J5W5AVY0c93Hy15FVtUtbmjPjkuD0X+mVmF6DNL8tFrazLn1ac0lR2Qvr2uo9FIA==
+X-Received: by 2002:a17:90b:3810:: with SMTP id
+ mq16mr13615219pjb.190.1641531500895; 
+ Thu, 06 Jan 2022 20:58:20 -0800 (PST)
+Received: from [192.168.1.13] (174-21-75-75.tukw.qwest.net. [174.21.75.75])
+ by smtp.gmail.com with ESMTPSA id g5sm4356756pfj.143.2022.01.06.20.58.20
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 06 Jan 2022 20:58:20 -0800 (PST)
+Subject: Re: [PATCH v14 19/26] linux-user: Add LoongArch signal support
+To: Song Gao <gaosong@loongson.cn>, qemu-devel@nongnu.org
+References: <20220106094200.1801206-1-gaosong@loongson.cn>
+ <20220106094200.1801206-20-gaosong@loongson.cn>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <3892269b-1c27-cf6d-ee69-ce48f93b6b35@linaro.org>
+Date: Thu, 6 Jan 2022 20:58:19 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-References: <20211220010603.1443843-1-chen.zhang@intel.com>
- <20211220010603.1443843-2-chen.zhang@intel.com>
-In-Reply-To: <20211220010603.1443843-2-chen.zhang@intel.com>
-From: Jason Wang <jasowang@redhat.com>
-Date: Fri, 7 Jan 2022 12:46:19 +0800
-Message-ID: <CACGkMEvvqQ4wQ2ZdaEu-Ji=-=meWj=DPwr3yrgfTeepo_36GBQ@mail.gmail.com>
-Subject: Re: [PATCH 2/2] net/colo-compare.c: Update the default value comments
-To: Zhang Chen <chen.zhang@intel.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.372,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20220106094200.1801206-20-gaosong@loongson.cn>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::634
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x634.google.com
+X-Spam_score_int: -39
+X-Spam_score: -4.0
+X-Spam_bar: ----
+X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.691,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,39 +91,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-dev <qemu-devel@nongnu.org>, Li Zhijian <lizhijian@cn.fujitsu.com>
+Cc: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Dec 20, 2021 at 9:17 AM Zhang Chen <chen.zhang@intel.com> wrote:
->
-> Make the comments consistent with the REGULAR_PACKET_CHECK_MS.
->
-> Signed-off-by: Zhang Chen <chen.zhang@intel.com>
+On 1/6/22 1:41 AM, Song Gao wrote:
+> +struct target_sigcontext {
+> +    uint64_t sc_pc;
+> +    uint64_t sc_regs[32];
+> +    uint32_t sc_flags;
+> +    uint32_t sc_fcsr;
+> +    uint32_t sc_vcsr;
+> +    uint64_t sc_fcc;
+> +    uint64_t sc_scr[4];
+> +    union fpureg sc_fpregs[32] __attribute__((aligned(32)));
+> +    uint8_t sc_reserved[4096] __attribute__((aligned(16)));
+> +};
 
-Applied.
+Does not match the current (December 31) kernel source.
 
-Thanks
+> +static inline void setup_sigcontext(CPULoongArchState *env,
+> +                                    struct target_sigcontext *sc)
 
-> ---
->  net/colo-compare.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/net/colo-compare.c b/net/colo-compare.c
-> index 216de5a12b..62554b5b3c 100644
-> --- a/net/colo-compare.c
-> +++ b/net/colo-compare.c
-> @@ -1267,7 +1267,7 @@ static void colo_compare_complete(UserCreatable *uc, Error **errp)
->      }
->
->      if (!s->expired_scan_cycle) {
-> -        /* Set default value to 3000 MS */
-> +        /* Set default value to 1000 MS */
->          s->expired_scan_cycle = REGULAR_PACKET_CHECK_MS;
->      }
->
-> --
-> 2.25.1
->
+Don't bother with inline markers anywhere in this file.  Let the compiler decide.
 
+> +restore_sigcontext(CPULoongArchState *env, struct target_sigcontext *sc)
+> +{
+> +    int i;
+> +
+> +    __get_user(env->pc, &sc->sc_pc);
+> +    __get_user(env->fcsr0, &sc->sc_fcsr);
+
+You need to call restore_fp_status after this assignment, somewhere before the end of the 
+function.
+
+Otherwise this looks ok.
+
+
+r~
 
