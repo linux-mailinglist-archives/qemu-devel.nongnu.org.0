@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8F81487A16
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 17:02:58 +0100 (CET)
-Received: from localhost ([::1]:41758 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 202C6487A1E
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 17:07:49 +0100 (CET)
+Received: from localhost ([::1]:47950 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5rhh-0000uc-T4
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 11:02:57 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53174)
+	id 1n5rmO-0005Mc-70
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 11:07:48 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53728)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1n5raT-0000gi-M1
- for qemu-devel@nongnu.org; Fri, 07 Jan 2022 10:55:29 -0500
-Received: from [2a00:1450:4864:20::430] (port=38711
+ id 1n5rd4-0004f2-KV
+ for qemu-devel@nongnu.org; Fri, 07 Jan 2022 10:58:10 -0500
+Received: from [2a00:1450:4864:20::430] (port=38748
  helo=mail-wr1-x430.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1n5raS-0007Vv-6U
- for qemu-devel@nongnu.org; Fri, 07 Jan 2022 10:55:29 -0500
-Received: by mail-wr1-x430.google.com with SMTP id a5so7905946wrh.5
- for <qemu-devel@nongnu.org>; Fri, 07 Jan 2022 07:55:27 -0800 (PST)
+ id 1n5rd3-0007t9-4R
+ for qemu-devel@nongnu.org; Fri, 07 Jan 2022 10:58:10 -0500
+Received: by mail-wr1-x430.google.com with SMTP id a5so7922461wrh.5
+ for <qemu-devel@nongnu.org>; Fri, 07 Jan 2022 07:58:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=jrx8XDZefQLWmHLLKbzHUif28LpXTEXVJs6kvhsvkrE=;
- b=a5cy8GLq6A/n914f0YS9rB/ZkW0ziJq/631bNyMhEApHpAnjA6XOmOhO71eP9otLLl
- oUdt1BaTe9O0G5kj/oWAiEf99RK8r6tpCUfk/UQPguZM5AYpJU8PP10pdTuu44g3sl8k
- AU3DYEGpFhqzA7haIF0Osf1ehrOqm4x0ELyOFTgdYbMzRaq7n/zxSSlHNzR1m9W/w6gW
- /9PykYX80tg4znb3QcUa83RFkM2OpAATySo0MJnti0jSuGkQTSHJPtJQ1v9S53ToG1eu
- WdXVcENBr04DWRgxyZvAQTXCxeFBmbXZkSYKm1Oklwrt/mZ6IUqnI3O9/9MZAqwmz2MX
- +zTA==
+ :cc; bh=4syfPp3cklBn9VRROsmx43lvL9a1ymULfDifrwYZLhc=;
+ b=aAwQKSVfVO6fMxyms4u7x+wP7OPPcqjPDVCBXORiGOzsqKsBGIiyEP32gK5s8ZvGPZ
+ bY3ADtVSCcgaUjMwi1Vgdgvn3TzrvQhWJjJDs1QmXGI93GO88DzxHvzx7KbPMB73Xrb5
+ uQq9yj+8YHwGpluDZhZWJ8Y6ot2Zoq1D2WFWdJwEWux8jrRKevacIW7J51iOBqjyY1Q7
+ CcDYGvWccuXn4bZmjpWX6SoHhVVkyW0f+Sv/pleG9neYtAWs7vjc1BIHIm3K1xijpUYj
+ +yGXxxeTqEbOjeIqGh12TxfnHJaSSN184Xu/opRwPnsdyFDdxq4d+7LA2P+l28kWCxbE
+ BN4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=jrx8XDZefQLWmHLLKbzHUif28LpXTEXVJs6kvhsvkrE=;
- b=5LKCyr2F+nVfgY6BNIc4JcaZ7/SKRl3c+mI0jkLub9ZhtmGHzCOHsvqxMKVrDoH6/z
- xXRmoSPANTIz22fQeuWWa15mYDFflauskPn0RSNPbQt7fgay6KSFGJ5ucxnSTLqCccVo
- T04ZlRenRGXqF0nk4eVt9aUqa651cLo5mr+4dQRJAOOoqn9pZ6JDSXP5ZIuYqOK08Qqv
- sdnaH5oSUTHFPqjnkVYWf+CnWORC+c4kZErBMbipwjQQv31YLFau/q2BJqsdVYxHiSP+
- qrn8v+3q2Ni1Xoiq5beilqPA6Fj9KdGB1U4EwOlq7imhBQ4v5WugIwEeArcOk+DgSzkn
- SbYw==
-X-Gm-Message-State: AOAM533QRtpmh+dtztLRKSne4V640jmuPLiYc7+37MKeul02SGW4giZT
- /5M1//5T4JmJoe5w1esLQgFzhuI4+22KM6ATTYuVEA==
-X-Google-Smtp-Source: ABdhPJwwbj9QpZ+w8Ve6YzusAdXGoBuIL1UqWUKN8ipNTgqNYo2+N/YMgs9EMvyK81CHiG84IpnWMmwYGxGDdQxcKJE=
-X-Received: by 2002:a05:6000:1141:: with SMTP id
- d1mr56930838wrx.2.1641570926512; 
- Fri, 07 Jan 2022 07:55:26 -0800 (PST)
+ bh=4syfPp3cklBn9VRROsmx43lvL9a1ymULfDifrwYZLhc=;
+ b=1DqdAj71CXBilIHGgJycL1yzWotMGOlZPt+0jZPKCyGX4lb3Axth/KZgULVP9i5rHo
+ I4ywHZuaR6V4fy2d6bXk+4tcTSuZlj+ShYeaxL5Dbaukibar2uNMw+GzAIma6k/VC/O+
+ k+264lLhZrnflU/8zwyr+GzDpcCCHBY7n2x5Kj5D1rt5Ah/U9uMcVzvHL61jBlHTIKFY
+ aqqlG0u6Z4Qgxw4FicAjmVMP21pWK4v0LIbhZQayhusxkZdGoA/zJhpjGNv1n2u3a0b+
+ JNvaE5Q5jeS2pfdt8kblkGKAQOfNGR4Q+Ekxa+6kPDu26EPSn4XGGKQHJ9D2gY8KSl7m
+ YYjA==
+X-Gm-Message-State: AOAM532VKdnk7xuZk0lydttB4Rb4ACtoJDfeOHiJnAzgMiMwJBnKjI9Z
+ 6VlK323a/sKjGv6CgJ2TDX+lVmXQDGA/kSeMt6/+iA==
+X-Google-Smtp-Source: ABdhPJyxCFJA16HcgQqzz+TW7vqbIV0hDccbMsrq0NgSIa1VJj0ZP7vgT3I/rOaErflt5i/HsMv5Ip2fPLaO2d7OeEs=
+X-Received: by 2002:a5d:6986:: with SMTP id g6mr3947317wru.172.1641571087849; 
+ Fri, 07 Jan 2022 07:58:07 -0800 (PST)
 MIME-Version: 1.0
 References: <20211214110354.21816-1-francisco.iglesias@xilinx.com>
- <20211214110354.21816-4-francisco.iglesias@xilinx.com>
-In-Reply-To: <20211214110354.21816-4-francisco.iglesias@xilinx.com>
+ <20211214110354.21816-9-francisco.iglesias@xilinx.com>
+In-Reply-To: <20211214110354.21816-9-francisco.iglesias@xilinx.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 7 Jan 2022 15:55:15 +0000
-Message-ID: <CAFEAcA--G02_ja5nDmjUtx5rAB0jNpr61sNWBGuqNFZq+TVwAA@mail.gmail.com>
-Subject: Re: [PATCH v5 03/12] hw/arm/xlnx-versal: Connect Versal's PMC SLCR
+Date: Fri, 7 Jan 2022 15:57:56 +0000
+Message-ID: <CAFEAcA-nier8F5MZBNX2g=G+UKd=Cq5mKke7OuE2HZfh8=BzAQ@mail.gmail.com>
+Subject: Re: [PATCH v5 08/12] hw/arm/xlnx-versal: Connect the OSPI flash
+ memory controller model
 To: Francisco Iglesias <francisco.iglesias@xilinx.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::430
@@ -90,38 +90,11 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On Tue, 14 Dec 2021 at 11:04, Francisco Iglesias
 <francisco.iglesias@xilinx.com> wrote:
 >
-> Connect Versal's PMC SLCR (system-level control registers) model.
+> Connect the OSPI flash memory controller model (including the source and
+> destination DMA).
 >
 > Signed-off-by: Francisco Iglesias <francisco.iglesias@xilinx.com>
-> ---
->  hw/arm/xlnx-versal.c         | 71 +++++++++++++++++++++++++++++++++++++++++++-
->  include/hw/arm/xlnx-versal.h |  5 ++++
->  2 files changed, 75 insertions(+), 1 deletion(-)
 
-> +static void versal_unimp_sd_emmc_sel(void *opaque, int n, int level)
-> +{
-> +    qemu_log_mask(LOG_UNIMP,
-> +                  "Selecting between enabling SD mode or eMMC mode on "
-> +                  "controller %d is not yet unimplemented\n", n);
-> +}
-> +
-> +static void versal_unimp_qspi_ospi_mux_sel(void *opaque, int n, int level)
-> +{
-> +    qemu_log_mask(LOG_UNIMP,
-> +                  "Selecting between enabling the QSPI or OSPI linear address "
-> +                  "region is not yet unimplemented\n");
-> +}
-> +
-> +static void versal_unimp_irq_parity_imr(void *opaque, int n, int level)
-> +{
-> +    qemu_log_mask(LOG_UNIMP,
-> +                  "PMC SLCR parity interrupt behaviour "
-> +                  "is not yet unimplemented\n");
-> +}
-
-These should all say "not yet implemented".
-
-Otherwise
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
 thanks
