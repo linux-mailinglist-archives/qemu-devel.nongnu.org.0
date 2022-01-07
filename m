@@ -2,73 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E05944879FB
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 16:56:11 +0100 (CET)
-Received: from localhost ([::1]:57764 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76405487A10
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 17:02:00 +0100 (CET)
+Received: from localhost ([::1]:39260 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5rb8-0008JV-QE
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 10:56:10 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52226)
+	id 1n5rgl-0007Jc-AZ
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 11:01:59 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52890)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1n5rXC-0005GD-9Y
- for qemu-devel@nongnu.org; Fri, 07 Jan 2022 10:52:06 -0500
-Received: from [2a00:1450:4864:20::430] (port=37662
- helo=mail-wr1-x430.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1n5rX8-0006u9-1m
- for qemu-devel@nongnu.org; Fri, 07 Jan 2022 10:52:03 -0500
-Received: by mail-wr1-x430.google.com with SMTP id t28so5082535wrb.4
- for <qemu-devel@nongnu.org>; Fri, 07 Jan 2022 07:51:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=pCIuiETVkwzHH2HyMAOKEe29sJPkHGYEVRaaAemOwWk=;
- b=pO8XK1bxPViF+U+AC3DxXF6kaSkwCkmrae+vbeVGcyvBMPTNEysf8Yj5NN8wvpwKJH
- 6bth6srkdgZhK5VhQmFGVddsEUZuDX0HFQTIoPsgUrvDERiCIwY0Cjv2sIatFpHTUE3+
- Mdzq7d3Yt+s/1rPRN16CCpRWdD2gEHxB8XlvHeR/91+7BrrqmOdn2vSVEK17IqyRkr5m
- FdyvJMOR9PHA+rEySakk1Xvdqvgn+X17PcEj4VHFkID/gg1GEOVK3LpI4DjfbNkY6JFo
- krtR6EwlLUsSoC/V+6S6LCeO6VxuEWkXvnZx90F5lXdL/p5O9pRLcnim8ggqDn844rTt
- Dq8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=pCIuiETVkwzHH2HyMAOKEe29sJPkHGYEVRaaAemOwWk=;
- b=gz3q8/M8skFHmT1WXgURahuBbvjDjOnPt4FTUeLViIQCMFNwhW7KsReiBbMms2iShh
- +lYYaNb255RKZSoBW+7OeNDVDHPTqlwdKex5iAA50UOa+Hg2sLWHsaIpJNHODvht9JPb
- TQGHDtb1M6OoIRE7Rt1rxYcbunsJm0ipGE2tk9ou2T83jPnWFG4kcXEuu1jGgnGuGcz2
- BxDZDfme/tzjeWl5mfCutg56HDyf1CqU05FCO6m4gcC7kwZVSQbx508WsIe+BDBc2lkW
- bOwdfSh3mmGVgRWxWKND3g/GmebjrLPY6HUQvEB0OFzLLAd5miWd4WLDY18pa+RSyCva
- G3WQ==
-X-Gm-Message-State: AOAM533oTjsoBxLuYti+mCp3W022qL+FxQtYSs/FIzWYshYce5zsTiHB
- r616txxDj4Fi6Og74rd3W4ygP/OLfRIqrCsSpnL1afzO150=
-X-Google-Smtp-Source: ABdhPJyPQDYVluqVEc4VqBiVJqldttJpJfMY/AAikQ5J88jCfK7gfYND+Bd9hi4lZGeqmLdY+0evfoDbH15IczbCyHE=
-X-Received: by 2002:a5d:6986:: with SMTP id g6mr3930567wru.172.1641570718640; 
- Fri, 07 Jan 2022 07:51:58 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <ardb@kernel.org>)
+ id 1n5rZY-0008FH-Om; Fri, 07 Jan 2022 10:54:33 -0500
+Received: from ams.source.kernel.org ([145.40.68.75]:56762)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <ardb@kernel.org>)
+ id 1n5rZU-00079O-O6; Fri, 07 Jan 2022 10:54:32 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 1B70FB8265C;
+ Fri,  7 Jan 2022 15:54:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8AC64C36AEB;
+ Fri,  7 Jan 2022 15:54:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1641570852;
+ bh=lcWmzJBWTzN6IZGJco59IDlCHLecdqfcdN120DHVA9c=;
+ h=From:To:Cc:Subject:Date:From;
+ b=AGErxC5FWsuML0PXbOLrPOgoELhOX653fvjjKh1NZfOfhq4KZ5ZXUv1iJz83lffra
+ rroHTQ/oxDbEAezLphhkcacEBevgCZWGUda1lBBCcplbRnOI13wZJHYajavhGgUCN9
+ Uxs2BPVgaFUSBitkAf4jibj54ky/6hEKPkOmepYBXp0zvBe84k/27BuktvqcZVfPY1
+ aVXyk+iJDAzf6M0j7IR/0ovbO4lmNToBXXzn3NCE+Zbjil6MmrVNP1QKIfeSG4vC80
+ E78fQxMj3FRow4TQPaOHb9PZxiUNB1APscPfAOuXKqLfF/dE+lU/K3D8jpWazz3VT0
+ CxMa/gE3qYRdA==
+From: Ard Biesheuvel <ardb@kernel.org>
+To: qemu-arm@nongnu.org
+Subject: [PATCH] target/arm/cpu64: Use 32-bit GDBstub when running in 32-bit
+ KVM mode
+Date: Fri,  7 Jan 2022 16:54:06 +0100
+Message-Id: <20220107155406.344273-1-ardb@kernel.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-References: <20211214110354.21816-1-francisco.iglesias@xilinx.com>
- <20211214110354.21816-3-francisco.iglesias@xilinx.com>
-In-Reply-To: <20211214110354.21816-3-francisco.iglesias@xilinx.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 7 Jan 2022 15:51:47 +0000
-Message-ID: <CAFEAcA9W_70aYSO8bHB488D7kp1cKykqTbDw0ZhLW4OMbw8T+A@mail.gmail.com>
-Subject: Re: [PATCH v5 02/12] hw/arm/xlnx-versal: 'Or' the interrupts from the
- BBRAM and RTC models
-To: Francisco Iglesias <francisco.iglesias@xilinx.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::430
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x430.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=145.40.68.75; envelope-from=ardb@kernel.org;
+ helo=ams.source.kernel.org
+X-Spam_score_int: -24
+X-Spam_score: -2.5
+X-Spam_bar: --
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.372,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,22 +63,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: edgar.iglesias@xilinx.com, frasse.iglesias@gmail.com,
- alistair@alistair23.me, qemu-devel@nongnu.org, alistair23@gmail.com,
- philmd@redhat.com
+Cc: Alex Bennee <alex.bennee@linaro.org>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Ard Biesheuvel <ardb@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 14 Dec 2021 at 11:04, Francisco Iglesias
-<francisco.iglesias@xilinx.com> wrote:
->
-> Add an orgate and 'or' the interrupts from the BBRAM and RTC models.
->
-> Signed-off-by: Francisco Iglesias <francisco.iglesias@xilinx.com>
-> ---
+When running under KVM, we may decide to run the CPU in 32-bit mode, by
+setting the 'aarch64=off' CPU option. In this case, we need to switch to
+the 32-bit version of the GDB stub too, so that GDB has the correct view
+of the CPU state. Without this, GDB debugging does not work at all, and
+errors out upon connecting to the target with a mysterious 'g' packet
+length error.
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Cc: Richard Henderson <richard.henderson@linaro.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: Alex Bennee <alex.bennee@linaro.org>
+Signed-off-by: Ard Biesheuvel <ardb@kernel.org>
+---
+ target/arm/cpu64.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-thanks
--- PMM
+diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
+index 15245a60a8c7..3dede9e2ec31 100644
+--- a/target/arm/cpu64.c
++++ b/target/arm/cpu64.c
+@@ -903,9 +903,15 @@ static bool aarch64_cpu_get_aarch64(Object *obj, Error **errp)
+     return arm_feature(&cpu->env, ARM_FEATURE_AARCH64);
+ }
+ 
++static gchar *arm_gdb_arch_name(CPUState *cs)
++{
++    return g_strdup("arm");
++}
++
+ static void aarch64_cpu_set_aarch64(Object *obj, bool value, Error **errp)
+ {
+     ARMCPU *cpu = ARM_CPU(obj);
++    CPUClass *cc = CPU_GET_CLASS(obj);
+ 
+     /* At this time, this property is only allowed if KVM is enabled.  This
+      * restriction allows us to avoid fixing up functionality that assumes a
+@@ -919,6 +925,12 @@ static void aarch64_cpu_set_aarch64(Object *obj, bool value, Error **errp)
+             return;
+         }
+         unset_feature(&cpu->env, ARM_FEATURE_AARCH64);
++
++        cc->gdb_read_register = arm_cpu_gdb_read_register;
++        cc->gdb_write_register = arm_cpu_gdb_write_register;
++        cc->gdb_num_core_regs = 26;
++        cc->gdb_core_xml_file = "arm-core.xml";
++        cc->gdb_arch_name = arm_gdb_arch_name;
+     } else {
+         set_feature(&cpu->env, ARM_FEATURE_AARCH64);
+     }
+-- 
+2.30.2
+
 
