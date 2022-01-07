@@ -2,75 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9289A487785
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 13:16:52 +0100 (CET)
-Received: from localhost ([::1]:44138 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06D1A487788
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 13:19:47 +0100 (CET)
+Received: from localhost ([::1]:49982 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5oAs-0004wv-BQ
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 07:16:50 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55806)
+	id 1n5oDi-0000y9-3K
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 07:19:46 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:56342)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1n5nwT-0005yU-Ll
- for qemu-devel@nongnu.org; Fri, 07 Jan 2022 07:02:01 -0500
-Received: from [2a00:1450:4864:20::52e] (port=37846
- helo=mail-ed1-x52e.google.com)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1n5nyj-0007h1-NR
+ for qemu-devel@nongnu.org; Fri, 07 Jan 2022 07:04:18 -0500
+Received: from [2a00:1450:4864:20::436] (port=46843
+ helo=mail-wr1-x436.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1n5nwR-00059z-Ma
- for qemu-devel@nongnu.org; Fri, 07 Jan 2022 07:01:57 -0500
-Received: by mail-ed1-x52e.google.com with SMTP id o6so21311885edc.4
- for <qemu-devel@nongnu.org>; Fri, 07 Jan 2022 04:01:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=xOp66BTPLCh5HYAFBG7r4bQF7i+AcGWZvd+puB1plOM=;
- b=ROqj7bXcD88O9QRtzl/W44Hr9aD7ekiGRFpypXp/3ENEhc0UtQ6ZPRzP0VhYq6CsUY
- Cl3XLxFm3qlrKlXMJhCE3CoKjBjdraf6U/St/PInVgQCWfrb1FqMGRncfeoTYrsd/Y6T
- GKOoqujw9cFEQAqfuhuT+LUdKiUZxtlBf3r5hAr8RR4iazGrN6tioiexPSgPrdNdK9Ly
- iPXLCGBiv4t7HcwMRLD1Hle4En+pEq29HeI3ALvWBViVw67PQE89K84wDp8ypj066ZVT
- 9/fTHNm7Pshr18n8uZPKsLrLo4PMaLs/uJ4o1j6GoBqm54qtXsuc5fXsJiNDM96wwkVQ
- +3qQ==
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1n5nyg-0005gD-Qd
+ for qemu-devel@nongnu.org; Fri, 07 Jan 2022 07:04:17 -0500
+Received: by mail-wr1-x436.google.com with SMTP id i22so10617962wrb.13
+ for <qemu-devel@nongnu.org>; Fri, 07 Jan 2022 04:04:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=Kp+rQ8JeDhlE8IYarTkFyiZBP10VXhJRbnfrhVycLGs=;
+ b=XvuQJ27Buh04jaV/WT6r5fXe78XlyKFbR0B5ubuQR9v9PoGu1Bp3642LYpqysVQvII
+ m1hR5vSDjlctXyk3hLutJiFlRAckEDmK9j9zuxkBqR9odvgQSwnHZJktzhVptB1RSdI5
+ 0lxRsBhAO31vqF/vUASWWdc9Z0RMmBftu7xgYkH0L+9mIUCYWmS+qLoVDnGSTG7EA4Ls
+ +CHttOx6+3DUxVqVTQM/y/iXNB1HgvyF0tlPCH422m8F1DHS0wxoMvUsgirOtBGUZXKj
+ o0UCT0+0YbfyXHEafKJe5pziNAMl90L94CIs8LklS7o4GMxQxU3XA6Riij/+D5W2uT0M
+ YYtA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=xOp66BTPLCh5HYAFBG7r4bQF7i+AcGWZvd+puB1plOM=;
- b=2dtC7ZmjCCx4NKsXx/8eLzsgJR3aEuv8hW8hpe2H22OiiLZ2drqPWM47nq1aajbvl/
- SDncCN3mQ2o+h+8W+gfX9oQ8hnN3DyYdLB//wV+JcrUCkcoLP/Y/fE4dLqdDdAaZps/N
- fHkEsOncNbJnYsCyZQgDh/sJLFjvyCzv67rUvHhQ5zOtgmF/ljj0a8h01SKPrq0ea90y
- bw351e1IuZom+E+CP+uUt1PiY53imPnz5C2rwA9OaoxaBaWzzLKnWvqEea9KL8BdXkBd
- DtsrK85+fWOF048vozXGUwR95tOm/BQsWyVKOiuYRnN/OBvMP2fto6jDayrTo4WvjPts
- dVUA==
-X-Gm-Message-State: AOAM532i5yadAsRSeuGaHprgF95Qnz9Qna933fe7ZVFgqo6VqsFptLsY
- XgHj790GwOzrVZC7gu7LGrdRHEzEhuM=
-X-Google-Smtp-Source: ABdhPJwDhBaSPmL+rM5BWHY/0MI4MyYkClLJMBtglHrSxUPkgnGYTP2vXWw+Bf1blDsHKp32+pJWhw==
-X-Received: by 2002:a17:907:2ce3:: with SMTP id
- hz3mr48682205ejc.737.1641556912251; 
- Fri, 07 Jan 2022 04:01:52 -0800 (PST)
-Received: from localhost.localdomain ([2001:b07:6468:f312::224])
- by smtp.gmail.com with ESMTPSA id gs17sm1325180ejc.116.2022.01.07.04.01.51
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=Kp+rQ8JeDhlE8IYarTkFyiZBP10VXhJRbnfrhVycLGs=;
+ b=y+ZImr/LYQ5Jp7z94tymK91XE/s9OJiHuoImienywJktlBxzJwZtxxsEzms+d7SGMG
+ rEv0NspbbTh/6t5OALFbBLH1G91OWMH2y1Vu4ZLmtCobhweqgDvYoFcX6sgHn13GIvIS
+ VIFmlkw3QIfMbftdkwkDXD6ndjB1WLVwux09Y3Pjl28u7kzTvap8hwsp1vi2VfgG2fLA
+ hcr5wbnfL2Cm3025nzzyK3BA3v//Kh/DcEbnPdDJrFQeg7kUZzN6zL0aSuyiwVba3lsT
+ 6JPpzDXnMBYgR3bgOs2w0YIvCVQQ3kuuwhooTYiQzT+rDttOvRIhZrwWCnhDPaHEcAiL
+ BuBw==
+X-Gm-Message-State: AOAM532WVrzz0zusBn7dsKBQ0kVj8boaQki0WLywAzILH6Xi6h4wPmi2
+ 8tuR4za/r3/gBXUE1kvPb1QHUVH55EU8Dg==
+X-Google-Smtp-Source: ABdhPJySC1tPskuALWFc8D0gEz+ZOsOam6SuasdW5AQux7tHzMUJK0glrKT5r2GgYCuT6iRJ5jR7hg==
+X-Received: by 2002:a05:6000:118a:: with SMTP id
+ g10mr52388558wrx.533.1641557049861; 
+ Fri, 07 Jan 2022 04:04:09 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id r1sm5224828wrz.30.2022.01.07.04.04.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 Jan 2022 04:01:51 -0800 (PST)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] meson: build all modules by default
-Date: Fri,  7 Jan 2022 13:01:43 +0100
-Message-Id: <20220107120143.522834-1-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.33.1
+ Fri, 07 Jan 2022 04:04:09 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 44E111FFB7;
+ Fri,  7 Jan 2022 12:04:08 +0000 (GMT)
+References: <20220104021543.396571-1-richard.henderson@linaro.org>
+ <20220104021543.396571-8-richard.henderson@linaro.org>
+User-agent: mu4e 1.7.5; emacs 28.0.90
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH v4 7/7] tests/tcg/multiarch: Add sigbus.c
+Date: Fri, 07 Jan 2022 12:04:03 +0000
+In-reply-to: <20220104021543.396571-8-richard.henderson@linaro.org>
+Message-ID: <87pmp3hhvr.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52e
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::436
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52e.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x436.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
@@ -85,57 +91,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com
+Cc: git@xen0n.name, peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-With more recent versions of Meson, the build.ninja file is more selective
-as to what is built by default, and not building the modules results in test
-failures.
 
-Mark the modules as built-by-default and, to make the dependencies more
-precise, also require them to be up-to-date before running tests.
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/801
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- meson.build             | 4 +++-
- tests/qtest/meson.build | 3 +--
- 2 files changed, 4 insertions(+), 3 deletions(-)
+> A mostly generic test for unaligned access raising SIGBUS.
+>
+> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-diff --git a/meson.build b/meson.build
-index 6489ff8425..703eefea13 100644
---- a/meson.build
-+++ b/meson.build
-@@ -2866,8 +2866,10 @@ common_ss.add(hwcore)
- # Targets #
- ###########
- 
-+emulator_modules = []
- foreach m : block_mods + softmmu_mods
--  shared_module(m.name(),
-+  emulator_modules += shared_module(m.name(),
-+                build_by_default: true,
-                 name_prefix: '',
-                 link_whole: m,
-                 install: true,
-diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
-index 37e1eaa449..26937deb6d 100644
---- a/tests/qtest/meson.build
-+++ b/tests/qtest/meson.build
-@@ -335,10 +335,9 @@ foreach dir : target_dirs
-         test: executable(test, src, dependencies: deps)
-       }
-     endif
--    # FIXME: missing dependency on the emulator binary and qemu-img
-     test('qtest-@0@/@1@'.format(target_base, test),
-          qtest_executables[test],
--         depends: [test_deps, qtest_emulator],
-+         depends: [test_deps, qtest_emulator, emulator_modules],
-          env: qtest_env,
-          args: ['--tap', '-k'],
-          protocol: 'tap',
--- 
-2.33.1
+Acked-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
+--=20
+Alex Benn=C3=A9e
 
