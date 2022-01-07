@@ -2,54 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B36A487EB6
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 22:59:18 +0100 (CET)
-Received: from localhost ([::1]:36656 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08310487E89
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 22:51:10 +0100 (CET)
+Received: from localhost ([::1]:42668 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5xGX-00045e-8j
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 16:59:17 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42668)
+	id 1n5x8e-0004a2-F2
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 16:51:08 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42690)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1n5wr7-0005H4-KF
+ id 1n5wr8-0005H9-Ci
  for qemu-devel@nongnu.org; Fri, 07 Jan 2022 16:33:02 -0500
-Received: from [2607:f8b0:4864:20::102a] (port=40748
- helo=mail-pj1-x102a.google.com)
+Received: from [2607:f8b0:4864:20::629] (port=45974
+ helo=mail-pl1-x629.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1n5wr4-0007r0-QT
- for qemu-devel@nongnu.org; Fri, 07 Jan 2022 16:33:00 -0500
-Received: by mail-pj1-x102a.google.com with SMTP id
- 59-20020a17090a09c100b001b34a13745eso5905616pjo.5
- for <qemu-devel@nongnu.org>; Fri, 07 Jan 2022 13:32:57 -0800 (PST)
+ id 1n5wr4-0007rB-Qu
+ for qemu-devel@nongnu.org; Fri, 07 Jan 2022 16:33:01 -0500
+Received: by mail-pl1-x629.google.com with SMTP id s15so5798903plg.12
+ for <qemu-devel@nongnu.org>; Fri, 07 Jan 2022 13:32:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=iJB67htN9cbgKBCPEjsPU66VMJ8WI8q4gXhnM+e3yvM=;
- b=fRwcVV4sq1ZJ6dBkJqmoKb7VH1al7xZ20N3SHQtLbAvFG63t0cpIS/SVKVjB4phcXY
- nUUT9MTpqOUbgymv8WjsI8uCEHB2g+eFBve7cn6dmJMWwpwzzaG7mi/kZXFslnUEAwRR
- XjR9d42TG+AKWH1I5GYrRcqdfJ5/RGjmFklUAiUNJ101Esevp529uINdvJRqdOAXy+50
- BNV8yKySoo7gtdaZS+5pkpYXfegLSZ8EcZML6EP0sCaEA3NSSMaDUqfz5cSQb7cfTYjZ
- Xi1ilO2GPMiX/EsBGxx/N2IH+eD1Xjzsy5TuUo4/y781WKRJRxwI9M0VihP3wP/YDQjL
- wjdA==
+ bh=cnMeOOraRx16biZwob4YbW7EgejpJCPvW6/8VciOXdw=;
+ b=kyaRAgQXiyyfIucWjuzbblrCRLD55HuseGXdt4uRjjnbA4m7zeJm9afBwDqu5zz5K2
+ WWuDMQySO4d6ax9EdreMzyANaG/WMOkKpp4xkG4gzZ+SAts9cF547/W68DDP3h3471KV
+ xCnyyQVXeyG6/u02h1SKLot+Ni1HJqP/jm1Wq47T04Jmhc/lu1UO2YpfxxU3g7XW8eZL
+ qEaqgxFvpv4W81nseiq/4hY5VMkY5/96l8EPDNZoFw/PYWF4Qio9APCsMHBmN0tAJdcQ
+ s0dvZMYwKjMmwOWpvfAngDHD2LfA59g5HATOsvBDDGKaVvpgxLyjY37i30j1rzjCGQWv
+ I5qQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=iJB67htN9cbgKBCPEjsPU66VMJ8WI8q4gXhnM+e3yvM=;
- b=SQk6Uj4upMpAl2MYHOpKX5Q9yr76AyFUI2+pOOcVDdsjBOHrnTwpiUjCRkMXlJcowl
- wgu3/Zeeep4jAgFuwDVFWNHMPflfRbEiHywlPOiPbGo6oPTo5a31yoMTgL0cDRDeyTfS
- 7odghYoqGGl569lBjzzJTzJMXu7eEXMX50co8FqRHDrKY1DosMv7skdH3ZJeExwzYO7G
- 3lNC1UJbeJfvbtQQitM7aDyz03gxD+hlruuL8pYzGI++lDnBTzpYrQpbbHbVs9TlFM8q
- qjEYFmdQkSiMrS1XZ4+N9CgV6oG/75baDGYCqBT5jmisuUzp6b71EwAjSCIjjcxIwEbq
- eljA==
-X-Gm-Message-State: AOAM532QcdGupuG+AH306xe87VrI91Tb7fNB5bfYqI6gYPVfqX34cIsq
- kjNMYFBToi68aQIJAJdq6j8WhosSY1N4rA==
-X-Google-Smtp-Source: ABdhPJwJscWPigymoABbJ/crLHhCPLpBY9TbhXJoRgr1FoYPJp/e/DXKwKKBeiasp9jxV2bBeYwoxQ==
-X-Received: by 2002:a17:90b:388d:: with SMTP id
- mu13mr6465604pjb.193.1641591176736; 
- Fri, 07 Jan 2022 13:32:56 -0800 (PST)
+ bh=cnMeOOraRx16biZwob4YbW7EgejpJCPvW6/8VciOXdw=;
+ b=wju+2194XV+EgljQFr4m3XKu5FGpgPwLudFzxFUWpMugdaVNOBt1vq1fmKrJmRUoA5
+ WLoJMUR0zhtyEzv5mC1Rh9R2sEIp/NQsD/TVaAzKfz2/aYzs4ioohPJtiITnuLwJOLPO
+ tR4pyH8VRGyhmwuP/nj0DYnUScwScOYw+wxbOjZg9MqPKvqfCkYMup4ibaHD421nW0X8
+ ME7Ov/dlv7M8tRVWUv9uhOuyr4stPBT0jV7PySIN2u1lQsTz2ixNFuZZc1SWctIg6h9o
+ ofJy5KxHqhrqA4pY0HcQeC4kLrVLRs3Z6OH1okpQQFPN1dC5ZW3rxd1fAKQ1b8ec/iAa
+ P+JA==
+X-Gm-Message-State: AOAM533mdrKjGh8FGzVofDkQRDgNCv9ToDfhoFyv5l1srclJWPHisehx
+ 81FfkUklQ6fv0XOZA5uEBPICWD7xVzdUmQ==
+X-Google-Smtp-Source: ABdhPJxvFSTBo+zUVyJY+CIOOoYZayrqPQ6fd3J/jNVt5frpWK5AKR1NxZPYlbYyMQ38LBXfqkQ8hQ==
+X-Received: by 2002:a17:90b:1e07:: with SMTP id
+ pg7mr17726418pjb.109.1641591177362; 
+ Fri, 07 Jan 2022 13:32:57 -0800 (PST)
 Received: from localhost.localdomain (174-21-75-75.tukw.qwest.net.
  [174.21.75.75])
  by smtp.gmail.com with ESMTPSA id y11sm6633030pfi.80.2022.01.07.13.32.56
@@ -57,18 +56,18 @@ Received: from localhost.localdomain (174-21-75-75.tukw.qwest.net.
  Fri, 07 Jan 2022 13:32:56 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 20/24] linux-user/riscv: Use force_sig_fault
-Date: Fri,  7 Jan 2022 13:32:39 -0800
-Message-Id: <20220107213243.212806-21-richard.henderson@linaro.org>
+Subject: [PATCH v5 21/24] linux-user/s390x: Use force_sig_fault
+Date: Fri,  7 Jan 2022 13:32:40 -0800
+Message-Id: <20220107213243.212806-22-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220107213243.212806-1-richard.henderson@linaro.org>
 References: <20220107213243.212806-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102a
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::629
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x629.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -93,84 +92,39 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Use the new function instead of setting up a target_siginfo_t
-and calling queue_signal.  Fix missing PC from EXCP_DEBUG by
-merging the case with EXCP_BREAKPOINT.
+and calling queue_signal.
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/riscv/cpu_loop.c | 31 +++++--------------------------
- 1 file changed, 5 insertions(+), 26 deletions(-)
+ linux-user/s390x/cpu_loop.c | 7 +------
+ 1 file changed, 1 insertion(+), 6 deletions(-)
 
-diff --git a/linux-user/riscv/cpu_loop.c b/linux-user/riscv/cpu_loop.c
-index 0cd8985cb8..26d446f323 100644
---- a/linux-user/riscv/cpu_loop.c
-+++ b/linux-user/riscv/cpu_loop.c
-@@ -30,8 +30,7 @@
- void cpu_loop(CPURISCVState *env)
+diff --git a/linux-user/s390x/cpu_loop.c b/linux-user/s390x/cpu_loop.c
+index ad0c3cd263..7901dfe6f5 100644
+--- a/linux-user/s390x/cpu_loop.c
++++ b/linux-user/s390x/cpu_loop.c
+@@ -58,7 +58,6 @@ void cpu_loop(CPUS390XState *env)
  {
      CPUState *cs = env_cpu(env);
--    int trapnr, signum, sigcode;
--    target_ulong sigaddr;
-+    int trapnr;
-     target_ulong ret;
+     int trapnr, n, sig;
+-    target_siginfo_t info;
+     target_ulong addr;
+     abi_long ret;
  
-     for (;;) {
-@@ -40,10 +39,6 @@ void cpu_loop(CPURISCVState *env)
-         cpu_exec_end(cs);
-         process_queued_cpu_work(cs);
- 
--        signum = 0;
--        sigcode = 0;
--        sigaddr = 0;
--
-         switch (trapnr) {
-         case EXCP_INTERRUPT:
-             /* just indicate that signals should be handled asap */
-@@ -79,39 +74,23 @@ void cpu_loop(CPURISCVState *env)
-             }
-             break;
-         case RISCV_EXCP_ILLEGAL_INST:
--            signum = TARGET_SIGILL;
--            sigcode = TARGET_ILL_ILLOPC;
-+            force_sig_fault(TARGET_SIGILL, TARGET_ILL_ILLOPC, env->pc);
-             break;
-         case RISCV_EXCP_BREAKPOINT:
--            signum = TARGET_SIGTRAP;
--            sigcode = TARGET_TRAP_BRKPT;
--            sigaddr = env->pc;
-+        case EXCP_DEBUG:
-+        gdbstep:
-+            force_sig_fault(TARGET_SIGTRAP, TARGET_TRAP_BRKPT, env->pc);
-             break;
-         case RISCV_EXCP_SEMIHOST:
-             env->gpr[xA0] = do_common_semihosting(cs);
-             env->pc += 4;
-             break;
--        case EXCP_DEBUG:
--        gdbstep:
--            signum = TARGET_SIGTRAP;
--            sigcode = TARGET_TRAP_BRKPT;
--            break;
-         default:
-             EXCP_DUMP(env, "\nqemu: unhandled CPU exception %#x - aborting\n",
-                      trapnr);
-             exit(EXIT_FAILURE);
-         }
- 
--        if (signum) {
--            target_siginfo_t info = {
--                .si_signo = signum,
--                .si_errno = 0,
--                .si_code = sigcode,
--                ._sifields._sigfault._addr = sigaddr
--            };
+@@ -158,11 +157,7 @@ void cpu_loop(CPUS390XState *env)
+              */
+             env->psw.addr += env->int_pgm_ilen;
+         do_signal:
+-            info.si_signo = sig;
+-            info.si_errno = 0;
+-            info.si_code = n;
+-            info._sifields._sigfault._addr = addr;
 -            queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
--        }
--
-         process_pending_signals(env);
-     }
- }
++            force_sig_fault(sig, n, addr);
+             break;
+ 
+         case EXCP_ATOMIC:
 -- 
 2.25.1
 
