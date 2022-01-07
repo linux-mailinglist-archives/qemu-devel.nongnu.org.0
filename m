@@ -2,54 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6896B487434
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 09:40:52 +0100 (CET)
-Received: from localhost ([::1]:51636 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96778487448
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 09:50:55 +0100 (CET)
+Received: from localhost ([::1]:42104 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5knr-0000na-HW
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 03:40:51 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40788)
+	id 1n5kxa-0005Tx-8l
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 03:50:54 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43286)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1n5kg4-0000Pi-SI; Fri, 07 Jan 2022 03:32:48 -0500
-Received: from szxga01-in.huawei.com ([45.249.212.187]:3443)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1n5kg2-0001fV-7V; Fri, 07 Jan 2022 03:32:48 -0500
-Received: from dggpemm500023.china.huawei.com (unknown [172.30.72.54])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4JVc060NvWzccKD;
- Fri,  7 Jan 2022 16:32:06 +0800 (CST)
-Received: from DESKTOP-TMVL5KK.china.huawei.com (10.174.187.128) by
- dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.20; Fri, 7 Jan 2022 16:32:40 +0800
-To: <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>
-CC: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones
- <drjones@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>, Igor Mammedov
- <imammedo@redhat.com>, Shannon Zhao <shannon.zhaosl@gmail.com>, Ani Sinha
- <ani@anisinha.ca>, Eric Auger <eauger@redhat.com>,
- <wanghaibin.wang@huawei.com>, Yanan Wang <wangyanan55@huawei.com>
-Subject: [PATCH v7 6/6] tests/acpi/bios-table-test: Update expected virt/PPTT
- file
-Date: Fri, 7 Jan 2022 16:32:32 +0800
-Message-ID: <20220107083232.16256-7-wangyanan55@huawei.com>
-X-Mailer: git-send-email 2.8.4.windows.1
-In-Reply-To: <20220107083232.16256-1-wangyanan55@huawei.com>
-References: <20220107083232.16256-1-wangyanan55@huawei.com>
+ (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
+ id 1n5kts-0002hU-7A
+ for qemu-devel@nongnu.org; Fri, 07 Jan 2022 03:47:06 -0500
+Received: from mail.loongson.cn ([114.242.206.163]:54360 helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <gaosong@loongson.cn>) id 1n5ktn-0005ga-Hb
+ for qemu-devel@nongnu.org; Fri, 07 Jan 2022 03:47:01 -0500
+Received: from [10.20.42.193] (unknown [10.20.42.193])
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dxv8v9_ddhamsAAA--.1900S3;
+ Fri, 07 Jan 2022 16:46:53 +0800 (CST)
+Subject: Re: [PATCH 0/6] linux-user: prctl improvements
+To: Laurent Vivier <laurent@vivier.eu>
+References: <20211220214135.189157-1-richard.henderson@linaro.org>
+ <10eb36e7-0d95-602e-fc07-16394efc26f8@vivier.eu>
+From: gaosong <gaosong@loongson.cn>
+Message-ID: <f9533da4-f674-2c31-3c18-ce29698e4711@loongson.cn>
+Date: Fri, 7 Jan 2022 16:46:53 +0800
+User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.174.187.128]
-X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
- dggpemm500023.china.huawei.com (7.185.36.83)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.187;
- envelope-from=wangyanan55@huawei.com; helo=szxga01-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
+In-Reply-To: <10eb36e7-0d95-602e-fc07-16394efc26f8@vivier.eu>
+Content-Type: multipart/alternative;
+ boundary="------------3A47A4B475151D09815CAE03"
+Content-Language: en-US
+X-CM-TRANSID: AQAAf9Dxv8v9_ddhamsAAA--.1900S3
+X-Coremail-Antispam: 1UD129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73
+ VFW2AGmfu7bjvjm3AaLaJ3UjIYCTnIWjp_UUUY-7k0a2IF6FyUM7kC6x804xWl1xkIjI8I
+ 6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM2
+ 8CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVW5JVW7JwA2z4x0Y4vE2Ix0
+ cI8IcVCY1x0267AKxVWxJVW8Jr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4
+ A2jsIEc7CjxVAFwI0_GcCE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAv7VC0I7IYx2IY
+ 67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y4
+ 8IcVAKI48JMx8GjcxK6IxK0xIIj40E5I8CrwCYjI0SjxkI62AI1cAE67vIY487MxkIecxE
+ wVCm-wCF04k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv6cx26ryrJr1UJwCFx2IqxVCFs4
+ IE7xkEbVWUJVW8JwC20s026c02F40E14v26r106r1rMI8I3I0E7480Y4vE14v26r106r1r
+ MI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJV
+ WUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6rWU
+ JVWrZr1UMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr
+ 1UYxBIdaVFxhVjvjDU0xZFpf9x07jjnmiUUUUU=
+X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
+Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
+ helo=loongson.cn
+X-Spam_score_int: -45
+X-Spam_score: -4.6
 X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
+ NICE_REPLY_A=-2.691, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -63,121 +71,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Yanan Wang <wangyanan55@huawei.com>
-From:  Yanan Wang via <qemu-devel@nongnu.org>
 
-Run ./tests/data/acpi/rebuild-expected-aml.sh from build directory
-to update PPTT binary. Also empty bios-tables-test-allowed-diff.h.
+This is a multi-part message in MIME format.
+--------------3A47A4B475151D09815CAE03
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-The disassembled differences between actual and expected PPTT:
+Hi Laurent,
 
- /*
-  * Intel ACPI Component Architecture
-  * AML/ASL+ Disassembler version 20200528 (64-bit version)
-  * Copyright (c) 2000 - 2020 Intel Corporation
-  *
-- * Disassembly of tests/data/acpi/virt/PPTT, Tue Jan  4 12:51:11 2022
-+ * Disassembly of /tmp/aml-2ZGOF1, Tue Jan  4 12:51:11 2022
-  *
-  * ACPI Data Table [PPTT]
-  *
-  * Format: [HexOffset DecimalOffset ByteLength]  FieldName : FieldValue
-  */
+On 2022/1/6 下午6:46, Laurent Vivier wrote:
+> make the LTP testsuite (20200930) happy again (capset02, prctl01, 
+> prctl02, prctl03)? 
 
- [000h 0000   4]                    Signature : "PPTT"    [Processor Properties Topology Table]
--[004h 0004   4]                 Table Length : 0000004C
-+[004h 0004   4]                 Table Length : 00000060
- [008h 0008   1]                     Revision : 02
--[009h 0009   1]                     Checksum : A8
-+[009h 0009   1]                     Checksum : 48
- [00Ah 0010   6]                       Oem ID : "BOCHS "
- [010h 0016   8]                 Oem Table ID : "BXPC    "
- [018h 0024   4]                 Oem Revision : 00000001
- [01Ch 0028   4]              Asl Compiler ID : "BXPC"
- [020h 0032   4]        Asl Compiler Revision : 00000001
+Do we have LTP test documents?   or What test methods do we have for linux-user?
 
- [024h 0036   1]                Subtable Type : 00 [Processor Hierarchy Node]
- [025h 0037   1]                       Length : 14
- [026h 0038   2]                     Reserved : 0000
- [028h 0040   4]        Flags (decoded below) : 00000001
-                             Physical package : 1
-                      ACPI Processor ID valid : 0
-                        Processor is a thread : 0
-                               Node is a leaf : 0
-                     Identical Implementation : 0
- [02Ch 0044   4]                       Parent : 00000000
- [030h 0048   4]            ACPI Processor ID : 00000000
- [034h 0052   4]      Private Resource Number : 00000000
+As for far, I konw 'make check ' ,'make check-tcg'.  and some testcases on tests/tcg/$Arch.
 
- [038h 0056   1]                Subtable Type : 00 [Processor Hierarchy Node]
- [039h 0057   1]                       Length : 14
- [03Ah 0058   2]                     Reserved : 0000
--[03Ch 0060   4]        Flags (decoded below) : 0000000A
-+[03Ch 0060   4]        Flags (decoded below) : 00000000
-                             Physical package : 0
--                     ACPI Processor ID valid : 1
-+                     ACPI Processor ID valid : 0
-                        Processor is a thread : 0
--                              Node is a leaf : 1
-+                              Node is a leaf : 0
-                     Identical Implementation : 0
- [040h 0064   4]                       Parent : 00000024
- [044h 0068   4]            ACPI Processor ID : 00000000
- [048h 0072   4]      Private Resource Number : 00000000
+Thanks
+Song
 
--Raw Table Data: Length 76 (0x4C)
-+[04Ch 0076   1]                Subtable Type : 00 [Processor Hierarchy Node]
-+[04Dh 0077   1]                       Length : 14
-+[04Eh 0078   2]                     Reserved : 0000
-+[050h 0080   4]        Flags (decoded below) : 0000000A
-+                            Physical package : 0
-+                     ACPI Processor ID valid : 1
-+                       Processor is a thread : 0
-+                              Node is a leaf : 1
-+                    Identical Implementation : 0
-+[054h 0084   4]                       Parent : 00000038
-+[058h 0088   4]            ACPI Processor ID : 00000000
-+[05Ch 0092   4]      Private Resource Number : 00000000
-+
-+Raw Table Data: Length 96 (0x60)
 
--    0000: 50 50 54 54 4C 00 00 00 02 A8 42 4F 43 48 53 20  // PPTTL.....BOCHS
-+    0000: 50 50 54 54 60 00 00 00 02 48 42 4F 43 48 53 20  // PPTT`....HBOCHS
-     0010: 42 58 50 43 20 20 20 20 01 00 00 00 42 58 50 43  // BXPC    ....BXPC
-     0020: 01 00 00 00 00 14 00 00 01 00 00 00 00 00 00 00  // ................
--    0030: 00 00 00 00 00 00 00 00 00 14 00 00 0A 00 00 00  // ................
--    0040: 24 00 00 00 00 00 00 00 00 00 00 00              // $...........
-+    0030: 00 00 00 00 00 00 00 00 00 14 00 00 00 00 00 00  // ................
-+    0040: 24 00 00 00 00 00 00 00 00 00 00 00 00 14 00 00  // $...............
-+    0050: 0A 00 00 00 38 00 00 00 00 00 00 00 00 00 00 00  // ....8...........
+--------------3A47A4B475151D09815CAE03
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 8bit
 
-Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
-Reviewed-by: Ani Sinha <ani@anisinha.ca>
----
- tests/data/acpi/virt/PPTT                   | Bin 76 -> 96 bytes
- tests/qtest/bios-tables-test-allowed-diff.h |   1 -
- 2 files changed, 1 deletion(-)
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p>Hi Laurent,
+    </p>
+    <div class="moz-cite-prefix">On 2022/1/6 下午6:46, Laurent Vivier
+      wrote:<br>
+    </div>
+    <blockquote type="cite"
+      cite="mid:10eb36e7-0d95-602e-fc07-16394efc26f8@vivier.eu">make the
+      LTP testsuite (20200930) happy again (capset02, prctl01, prctl02,
+      prctl03)?
+    </blockquote>
+    <pre>Do we have LTP test documents?   or What test methods do we have for linux-user?</pre>
+    <pre>As for far, I konw 'make check ' ,'make check-tcg'.  and some testcases on tests/tcg/$Arch.
 
-diff --git a/tests/data/acpi/virt/PPTT b/tests/data/acpi/virt/PPTT
-index 7a1258ecf123555b24462c98ccbb76b4ac1d0c2b..f56ea63b369a604877374ad696c396e796ab1c83 100644
-GIT binary patch
-delta 53
-zcmV-50LuSNU<y!BR8(L90006=kqR;-00000Bme*a000000000002BZK3IG5AH~;_u
-L0000000000uCW9Z
+Thanks
+Song
+</pre>
+  </body>
+</html>
 
-delta 32
-qcmV+*0N?*$ObSp?R8&j=00080kqR=APy`Gl00000000000001OcLdh}
-
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index cb143a55a6..dfb8523c8b 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1,2 +1 @@
- /* List of comma-separated changed AML files to ignore */
--"tests/data/acpi/virt/PPTT",
--- 
-2.27.0
+--------------3A47A4B475151D09815CAE03--
 
 
