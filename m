@@ -2,83 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 641E9486FB6
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 02:28:10 +0100 (CET)
-Received: from localhost ([::1]:50998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 889F3486FBF
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 02:39:49 +0100 (CET)
+Received: from localhost ([::1]:56688 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5e37-0008JT-3o
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 20:28:09 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58156)
+	id 1n5eEM-0005Ri-T6
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 20:39:48 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60390)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1n5e0m-0007Kp-Ee
- for qemu-devel@nongnu.org; Thu, 06 Jan 2022 20:25:44 -0500
-Received: from [2607:f8b0:4864:20::1034] (port=36677
- helo=mail-pj1-x1034.google.com)
+ id 1n5eCS-0004MJ-J5
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 20:37:48 -0500
+Received: from [2607:f8b0:4864:20::102f] (port=39804
+ helo=mail-pj1-x102f.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1n5e0k-0004B1-QB
- for qemu-devel@nongnu.org; Thu, 06 Jan 2022 20:25:43 -0500
-Received: by mail-pj1-x1034.google.com with SMTP id
- c9-20020a17090a1d0900b001b2b54bd6c5so10440850pjd.1
- for <qemu-devel@nongnu.org>; Thu, 06 Jan 2022 17:25:42 -0800 (PST)
+ id 1n5eCR-0007Nh-2f
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 20:37:48 -0500
+Received: by mail-pj1-x102f.google.com with SMTP id
+ c14-20020a17090a674e00b001b31e16749cso8953146pjm.4
+ for <qemu-devel@nongnu.org>; Thu, 06 Jan 2022 17:37:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=5DocmTehJBloY7vDxORMh33IoGBmiNc2Xu9fT6rggcc=;
- b=nMfSag1yMn5gs2JijKAxm/7lwU3pDQKdjMetz0t9ZObZcGORYxK/n0Obs2QxbmClDQ
- vRoWHfIbkdAKZVr2v5yt47Z3mDD0ncjjUNArBmlIVh2snhUG3Es4tTjX+r/iTnL31BJL
- 9zPUQqnwWE7DGuuIdlXMznyy1fqEm9rzj0/kqaexJAgGJ8gAuDqtavmW+UyRQB/TiIBu
- Uz7+mJOKS7NxvugU68el6sljN9uFmvctzzSwSmYghnWrmG5fBnTzkrDOeMFa8kIXH0vc
- Yhhji+9nCcfKxwKHb/wKIg6u0SLiYhCoK6h6h/drLEux7vO8dJNWKvtSqCTBYO/jaYRg
- cOfA==
+ bh=j4zZ0sgD3zfmvR+R75RLirx1u1AWNR7jFVos5MAwEfs=;
+ b=UE2SI8A/wTvcFzXHrP8tjRm2XA+KjR/Ome5YQSX+SMzWuXffB8nhlbdkmFcRLF33Fr
+ oZ7yd1xaC5ucc3zzKVHlBr/pGr8Rkzqh/kWidpvfd0J6pCFzqUjtkpR3g53cdFjYQsLT
+ Z/1+5SY9U67KOHwa9wNTN8g0SI9yxsIbQtfNLJTqfcKZH361ZV1pfCMTpOdPlHjQuwn3
+ xknr6BVf43tK9Jri/HNJ/HmnW+Ank6HQ/ilEkP8yHwrBrjo8W7bWWKlgk5wh7VvAVDAt
+ bO6EdOTA6ura+IzzgI+Pb7rErVEef13agOcpHE6SFCpfPts/iPUbNJ4PHtNH/4pMR785
+ UeGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=5DocmTehJBloY7vDxORMh33IoGBmiNc2Xu9fT6rggcc=;
- b=4uqsivCLMmb/Cxs1FAYTybHugQsjh7Dq0bt1eLzX3ONBsYZnM6ORO/X7KXH30Mjor4
- Vk6fCOCKFa1dRYD2VvkIXBeVJNOwhXsvBAoQtr79FA/CmlqJVQcaCOHa+90sp48NQ0J/
- NQT/VPBN89EG8NMxV3liuTfXR4Cl0OeKRVMeBGpX45FE4/U9w/YI2JfU61z0U4qXhA4D
- d6NIT+orpOliS0LRNJRFJJJeVMujNNL8SN5RNjob0mZE2qC6niImuiWGfk8ggJors2DJ
- E9XWvKE1I7NTIBx+MzVfYVqlnjdck+FuKb9iZ4afIGVHsWDJ3GZzaOimtW2zwuo9a86M
- UDtw==
-X-Gm-Message-State: AOAM530aPd90jJAEM4tiUTNndkCj6tXLR2Vf/EVU432ULXWmZOshRhtO
- KfB48x0PvC3lBeybPaiRvTXabingikApDA==
-X-Google-Smtp-Source: ABdhPJyqsPsOZzMDrDfRB3sQPfCoAIsZaXCeWwx7zYut4XiRRO31XD26KkNFmmwRTSDtfgyVF4Z6ng==
-X-Received: by 2002:a17:903:1110:b0:149:a428:19f1 with SMTP id
- n16-20020a170903111000b00149a42819f1mr35122216plh.120.1641518741235; 
- Thu, 06 Jan 2022 17:25:41 -0800 (PST)
+ bh=j4zZ0sgD3zfmvR+R75RLirx1u1AWNR7jFVos5MAwEfs=;
+ b=3RI60R14M51HbaNXUj42BsB6/j3TxTXb87hPnHJvw6fJdexiAyuFXNrwFiEC5eKBBT
+ JwuybngHMO0y4WNJTJWT2+8Dy+J29GmnTLr3KA/9uQDtW55OgYoDCfZEoF24cyEPLUsZ
+ omW3y5cFzokAVqdjyGgVZ9KkfRyYBk8TqnqrvfOAI9ofWVAzg4qDuTEboswQ/O4wNtii
+ JZKP+IrOXM13jZvR6gpaXDAoSef0kpVslSCIN0BgfzHRYGwxPbE6zSG0nwPwRif4SX66
+ kLYbUexgduFzGO95NNJn9KYiITKLg8yqTFaUAptxNRrOFktkclH6j9gj/YQGIbwepTV0
+ laeA==
+X-Gm-Message-State: AOAM533bd2AAN3FAQzupiQgko9akJR2XryMr6gA603auURKFe9kHzGhS
+ wfETs26sfBSH+HkizT8WwIJnYg==
+X-Google-Smtp-Source: ABdhPJxrcTZQLvh5/T81fBDIUrslWzsDsz+Hfb0h4J0LILfd/JQkh/PDzXhe8J5rjlPCGAUy/lROKg==
+X-Received: by 2002:a17:902:c10d:b0:149:8b16:ee0e with SMTP id
+ 13-20020a170902c10d00b001498b16ee0emr45657890pli.107.1641519465279; 
+ Thu, 06 Jan 2022 17:37:45 -0800 (PST)
 Received: from [192.168.1.13] (174-21-75-75.tukw.qwest.net. [174.21.75.75])
- by smtp.gmail.com with ESMTPSA id e16sm3464535pfd.38.2022.01.06.17.25.40
+ by smtp.gmail.com with ESMTPSA id f12sm3735267pfe.127.2022.01.06.17.37.44
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 06 Jan 2022 17:25:40 -0800 (PST)
-Subject: Re: [PATCH] target/arm: Add missing FEAT_TLBIOS instructions
-To: Idan Horowitz <idan.horowitz@gmail.com>, qemu-arm@nongnu.org
-References: <20211231103928.1455657-1-idan.horowitz@gmail.com>
+ Thu, 06 Jan 2022 17:37:44 -0800 (PST)
+Subject: Re: [PATCH v2 1/7] target/ppc: powerpc_excp: Extract software TLB
+ logging into a function
+To: Fabiano Rosas <farosas@linux.ibm.com>, qemu-devel@nongnu.org
+References: <20220105204029.4058500-1-farosas@linux.ibm.com>
+ <20220105204029.4058500-2-farosas@linux.ibm.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <0570193f-7a2b-9fd2-ac4e-76aeb671f2e9@linaro.org>
-Date: Thu, 6 Jan 2022 17:25:38 -0800
+Message-ID: <967e2323-934d-dc37-cd65-5ecddb1bfffb@linaro.org>
+Date: Thu, 6 Jan 2022 17:37:43 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <20211231103928.1455657-1-idan.horowitz@gmail.com>
+In-Reply-To: <20220105204029.4058500-2-farosas@linux.ibm.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1034
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102f
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
 X-Spam_score_int: -39
 X-Spam_score: -4.0
 X-Spam_bar: ----
 X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.691,
  RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,21 +93,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org
+Cc: danielhb413@gmail.com, qemu-ppc@nongnu.org, clg@kaod.org,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/31/21 2:39 AM, Idan Horowitz wrote:
-> Some of the instructions added by the FEAT_TLBIOS extension were forgotten
-> when the extension was originally added to QEMU.
-> 
-> Fixes: 7113d618505b ("target/arm: Add support for FEAT_TLBIOS")
-> Signed-off-by: Idan Horowitz<idan.horowitz@gmail.com>
+On 1/5/22 12:40 PM, Fabiano Rosas wrote:
+> Signed-off-by: Fabiano Rosas<farosas@linux.ibm.com>
 > ---
->   target/arm/helper.c | 32 ++++++++++++++++++++++++++++++++
->   1 file changed, 32 insertions(+)
+>   target/ppc/excp_helper.c | 63 +++++++++++++++++++++++-----------------
+>   1 file changed, 36 insertions(+), 27 deletions(-)
+> 
+> diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
+> index a779dc936a..2c5d5470de 100644
+> --- a/target/ppc/excp_helper.c
+> +++ b/target/ppc/excp_helper.c
+> @@ -135,6 +135,41 @@ static void dump_hcall(CPUPPCState *env)
+>                     env->nip);
+>   }
+>   
+> +static void ppc_excp_debug_sw_tlb(CPUPPCState *env, int excp)
+> +{
+> +#if defined(DEBUG_SOFTWARE_TLB)
+> +    const char *es;
+> +    target_ulong *miss, *cmp;
+> +    int en;
+> +
+> +    if (!qemu_log_enabled()) {
+> +        return;
+> +    }
+> +
 
+Because code movement,
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
+Better is qemu_loglevel_mask(CPU_LOG_MMU)
+and perhaps then you can remove the ifdef.
 
 
 r~
