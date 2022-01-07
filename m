@@ -2,94 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4947A4871F7
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 06:04:50 +0100 (CET)
-Received: from localhost ([::1]:46846 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C7A748730C
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 07:24:23 +0100 (CET)
+Received: from localhost ([::1]:60574 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5hQn-00030r-DE
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 00:04:49 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35112)
+	id 1n5ifl-00032k-E7
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 01:24:21 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48800)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1n5hPH-0001Zx-VQ
- for qemu-devel@nongnu.org; Fri, 07 Jan 2022 00:03:15 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:27523)
+ (Exim 4.90_1)
+ (envelope-from <frederic.petrot@univ-grenoble-alpes.fr>)
+ id 1n5ieb-0002GF-9A; Fri, 07 Jan 2022 01:23:09 -0500
+Received: from zm-mta-out-3.u-ga.fr ([152.77.200.56]:37132)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1n5hPD-0005Vg-Gw
- for qemu-devel@nongnu.org; Fri, 07 Jan 2022 00:03:13 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641531789;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=VgI4UIzGA8YuP/zN8RgWeyP3XY5gpvw1FEqiKFmHBVE=;
- b=FfoOnVHHwXZZmdqKQ1RosuBpZ2yhIj2nrWFMhy9OzlkNDPwxp1kXR7DGElObxokN65vSxx
- WXckSzr1LRYQu5J5iC65CcSGE1ngjIi6fKtuPwe4PCsMSaReFZ++/iHysFU/9P0+xL+a+y
- ONz8Ii1HWVTJE0Wx8TrZB/KkBM8yvcg=
-Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com
- [209.85.210.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-543--jDcvl3zPTizINMWm08y9w-1; Fri, 07 Jan 2022 00:03:04 -0500
-X-MC-Unique: -jDcvl3zPTizINMWm08y9w-1
-Received: by mail-pf1-f197.google.com with SMTP id
- b17-20020aa78ed1000000b004badf95ccd9so3103744pfr.8
- for <qemu-devel@nongnu.org>; Thu, 06 Jan 2022 21:03:04 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:from:to:cc:references:in-reply-to
- :content-transfer-encoding;
- bh=VgI4UIzGA8YuP/zN8RgWeyP3XY5gpvw1FEqiKFmHBVE=;
- b=H+99Xg9uTjlpowdkJgwkApY7miVY/GO3wR03bCnP6zQJBq5LWVWOcKaFOkzCVcyOk9
- /r4/quE1DwZs/LjzIW6OHel4gqfuWVy7qyI5D+KYhZCXNdJae88q1gBYDu+iaOP6v2+L
- pKbxQNs0IWrGUXtitlaIejKKLj0qWl81mrJzNEtvPBFi0ZCiiNBUPJBZQVNAPmUojPD5
- NFW8s7zNSQiy/wqastJdj2uYhBsAaqmCjnSQJiFkQquE2YgKpcY4hf3F8PuPar8vzaAg
- ve13EIJjsYm3pz3ghQJmQ2lCxMqGMIlCLx5c7kj4pC37keNGDEOPvxm36j0MlPTN9I6c
- 5WPA==
-X-Gm-Message-State: AOAM533vCeq5gJews94i8paw1W+afXPCBCQOBsIXqP/XFS/etkHdIWZR
- IOuMeXI0FqQGG5sygD2mlj4ptC4ROY8j4Ux3qELH+ztMITvQHPzcx+MLdviFKCvMo7wNwI4VAJ1
- UFanqBZ9+5hnN2Jg=
-X-Received: by 2002:a05:6a00:1509:b0:4ba:f004:e3af with SMTP id
- q9-20020a056a00150900b004baf004e3afmr63581503pfu.32.1641531783374; 
- Thu, 06 Jan 2022 21:03:03 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJz+F0n93OZ+/HdgH/fA8PtoHYagZPMhy6YTvaZCJ+yIwBj5xTChepID6jnkVz/8M+hHlqUTMQ==
-X-Received: by 2002:a05:6a00:1509:b0:4ba:f004:e3af with SMTP id
- q9-20020a056a00150900b004baf004e3afmr63581483pfu.32.1641531783078; 
- Thu, 06 Jan 2022 21:03:03 -0800 (PST)
-Received: from [10.72.13.245] ([209.132.188.80])
- by smtp.gmail.com with ESMTPSA id o11sm3317124pgk.36.2022.01.06.21.02.59
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 06 Jan 2022 21:03:02 -0800 (PST)
-Message-ID: <cf5dc700-e0ae-6de9-f4c3-53ce5528accf@redhat.com>
-Date: Fri, 7 Jan 2022 13:02:57 +0800
+ (Exim 4.90_1)
+ (envelope-from <frederic.petrot@univ-grenoble-alpes.fr>)
+ id 1n5ieY-0007U9-Kd; Fri, 07 Jan 2022 01:23:09 -0500
+Received: from mailhost.u-ga.fr (mailhost2.u-ga.fr [129.88.177.242])
+ by zm-mta-out-3.u-ga.fr (Postfix) with ESMTP id 7666740486;
+ Fri,  7 Jan 2022 07:23:03 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=univ-grenoble-alpes.fr; s=2020; t=1641536583;
+ bh=YcGmGIbeq/uu/H8/jqqrP/yP04ZopTr2P/xbaAFRbAw=;
+ h=Date:To:Cc:References:From:Subject:In-Reply-To:From;
+ b=oLMfKOO5B9y1+yYMFRKtLNff6ZBVwhjTWGIvrCp/ZGJXPCQtvuSMyy8eisPvH5n3P
+ HqB7TmYUajTd++7lCJPHNtu+RmTOmPgj5noZYg9FUnh9MvXJv1xci8W4I7WI4KGGyo
+ nhiW0Yyy5Z174ekUVokA7zOnY6GWai6QPbUiKiEERFKH4SkNGyceweBymGsJAOZTk9
+ rlVYThWAMz6s6trkdqNUjw464Rwah8VjAvayCyIRoIT1we9aO0UfRSOjBSFqU+2d/4
+ x2NYmbI+a18G1s9l3Nc5GZN+1E42b+hiTOQD91HHxXUEVmdHYsJuN40Tl0DEM11oB+
+ 8UWC4yUeIvlkQ==
+Received: from smtps.univ-grenoble-alpes.fr (smtps3.u-ga.fr [195.83.24.62])
+ by mailhost.u-ga.fr (Postfix) with ESMTP id 640D96005B;
+ Fri,  7 Jan 2022 07:23:03 +0100 (CET)
+Received: from [192.168.1.64] (35.201.90.79.rev.sfr.net [79.90.201.35])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ (Authenticated sender: petrotf@univ-grenoble-alpes.fr)
+ by smtps.univ-grenoble-alpes.fr (Postfix) with ESMTPSA id 639D040069;
+ Fri,  7 Jan 2022 07:23:02 +0100 (CET)
+Message-ID: <cb76d285-7071-c70d-3cb7-ad2978f400dd@univ-grenoble-alpes.fr>
+Date: Fri, 7 Jan 2022 07:23:01 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.4.1
-Subject: Re: [PATCH v8 0/7] Add vmnet.framework based network backend
-From: Jason Wang <jasowang@redhat.com>
-To: Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>, qemu-devel@nongnu.org
-References: <20211211104413.50524-1-yaroshchuk2000@gmail.com>
- <89b1a68f-7eae-30a6-dba0-ed86e6638ce9@redhat.com>
-In-Reply-To: <89b1a68f-7eae-30a6-dba0-ed86e6638ce9@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.1
+Content-Language: fr
+To: Alistair Francis <alistair23@gmail.com>
+References: <20220106210108.138226-1-frederic.petrot@univ-grenoble-alpes.fr>
+ <20220106210108.138226-8-frederic.petrot@univ-grenoble-alpes.fr>
+ <CAKmqyKMB-zZKNf-HRz-=RR+wtM7UHFo4wCJUiCwF0nJrH4OzOg@mail.gmail.com>
+From: =?UTF-8?B?RnLDqWTDqXJpYyBQw6l0cm90?=
+ <frederic.petrot@univ-grenoble-alpes.fr>
+Subject: Re: [PATCH v8 07/18] target/riscv: setup everything for rv64 to
+ support rv128 execution
+In-Reply-To: <CAKmqyKMB-zZKNf-HRz-=RR+wtM7UHFo4wCJUiCwF0nJrH4OzOg@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -58
-X-Spam_score: -5.9
-X-Spam_bar: -----
-X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.372,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.691, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Greylist: Whitelist-UGA SMTP Authentifie (petrotf@univ-grenoble-alpes.fr)
+ via submission-587 ACL (41)
+X-Greylist: Whitelist-UGA MAILHOST (SMTP non authentifie) depuis 195.83.24.62
+Received-SPF: pass client-ip=152.77.200.56;
+ envelope-from=frederic.petrot@univ-grenoble-alpes.fr;
+ helo=zm-mta-out-3.u-ga.fr
+X-Spam_score_int: -47
+X-Spam_score: -4.8
+X-Spam_bar: ----
+X-Spam_report: (-4.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.691,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -103,105 +84,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: phillip.ennen@gmail.com, armbru@redhat.com, r.bolshakov@yadro.com,
- phillip@axleos.com, akihiko.odaki@gmail.com, hsp.cat7@gmail.com, hello@adns.io,
- eblake@redhat.com
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Bin Meng <bin.meng@windriver.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Fabien Portas <fabien.portas@grenoble-inp.org>,
+ Alistair Francis <alistair.francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 06/01/2022 22:24, Alistair Francis wrote:
+> On Fri, Jan 7, 2022 at 7:04 AM Frédéric Pétrot
+> <frederic.petrot@univ-grenoble-alpes.fr> wrote:
+>>
+>> This patch adds the support of the '-cpu rv128' option to
+>> qemu-system-riscv64 so that we can indicate that we want to run rv128
+>> executables.
+>> Still, there is no support for 128-bit insns at that stage so qemu fails
+>> miserably (as expected) if launched with this option.
+>>
+>> Signed-off-by: Frédéric Pétrot <frederic.petrot@univ-grenoble-alpes.fr>
+>> Co-authored-by: Fabien Portas <fabien.portas@grenoble-inp.org>
+>> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+>> ---
+>>   include/disas/dis-asm.h |  1 +
+>>   target/riscv/cpu.h      |  1 +
+>>   disas/riscv.c           |  5 +++++
+>>   target/riscv/cpu.c      | 20 ++++++++++++++++++++
+>>   target/riscv/gdbstub.c  |  5 +++++
+>>   5 files changed, 32 insertions(+)
+>>
+>> diff --git a/include/disas/dis-asm.h b/include/disas/dis-asm.h
+>> index 08e1beec85..102a1e7f50 100644
+>> --- a/include/disas/dis-asm.h
+>> +++ b/include/disas/dis-asm.h
+>> @@ -459,6 +459,7 @@ int print_insn_nios2(bfd_vma, disassemble_info*);
+>>   int print_insn_xtensa           (bfd_vma, disassemble_info*);
+>>   int print_insn_riscv32          (bfd_vma, disassemble_info*);
+>>   int print_insn_riscv64          (bfd_vma, disassemble_info*);
+>> +int print_insn_riscv128         (bfd_vma, disassemble_info*);
+>>   int print_insn_rx(bfd_vma, disassemble_info *);
+>>   int print_insn_hexagon(bfd_vma, disassemble_info *);
+>>
+>> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+>> index fa5d238530..efe481f5fb 100644
+>> --- a/target/riscv/cpu.h
+>> +++ b/target/riscv/cpu.h
+>> @@ -38,6 +38,7 @@
+>>   #define TYPE_RISCV_CPU_ANY              RISCV_CPU_TYPE_NAME("any")
+>>   #define TYPE_RISCV_CPU_BASE32           RISCV_CPU_TYPE_NAME("rv32")
+>>   #define TYPE_RISCV_CPU_BASE64           RISCV_CPU_TYPE_NAME("rv64")
+>> +#define TYPE_RISCV_CPU_BASE128          RISCV_CPU_TYPE_NAME("rv128")
+> 
+> As this series only adds partial support for 128-bit support, I think
+> we should probably change this to "x-rv128". That way we indicate to
+> users that it is experimental. That allows us more flexibility in the
+> future to have breaking changes and will hopefully avoid confusion
+> about the current state. What do you think? I can just make the change
+> when I apply the patches.
 
-在 2022/1/6 下午12:18, Jason Wang 写道:
->
-> 在 2021/12/11 下午6:44, Vladislav Yaroshchuk 写道:
->> macOS provides networking API for VMs called 'vmnet.framework':
->> https://developer.apple.com/documentation/vmnet
->>
->> We can provide its support as the new QEMU network backends which
->> represent three different vmnet.framework interface usage modes:
->>
->>    * `vmnet-shared`:
->>      allows the guest to communicate with other guests in shared mode 
->> and
->>      also with external network (Internet) via NAT. Has (macOS-provided)
->>      DHCP server; subnet mask and IP range can be configured;
->>
->>    * `vmnet-host`:
->>      allows the guest to communicate with other guests in host mode.
->>      By default has enabled DHCP as `vmnet-shared`, but providing
->>      network unique id (uuid) can make `vmnet-host` interfaces isolated
->>      from each other and also disables DHCP.
->>
->>    * `vmnet-bridged`:
->>      bridges the guest with a physical network interface.
->>
->> This backends cannot work on macOS Catalina 10.15 cause we use
->> vmnet.framework API provided only with macOS 11 and newer. Seems
->> that it is not a problem, because QEMU guarantees to work on two most
->> recent versions of macOS which now are Big Sur (11) and Monterey (12).
->>
->> Also, we have one inconvenient restriction: vmnet.framework interfaces
->> can create only privileged user:
->> `$ sudo qemu-system-x86_64 -nic vmnet-shared`
->>
->> Attempt of `vmnet-*` netdev creation being unprivileged user fails with
->> vmnet's 'general failure'.
->>
->> This happens because vmnet.framework requires `com.apple.vm.networking`
->> entitlement which is: "restricted to developers of virtualization 
->> software.
->> To request this entitlement, contact your Apple representative." as 
->> Apple
->> documentation says:
->> https://developer.apple.com/documentation/bundleresources/entitlements/com_apple_vm_networking 
->>
->>
->> One more note: we still have quite useful but not supported
->> 'vmnet.framework' features as creating port forwarding rules, IPv6
->> NAT prefix specifying and so on.
->>
->> Nevertheless, new backends work fine and tested within 
->> `qemu-system-x86-64`
->> on macOS Bir Sur 11.5.2 host with such nic models:
->>    * e1000-82545em
->>    * virtio-net-pci
->>    * vmxnet3
->>
->> The guests were:
->>    * macOS 10.15.7
->>    * Ubuntu Bionic (server cloudimg)
->>
->>
->> This series partially reuses patches by Phillip Tennen:
->> https://patchew.org/QEMU/20210218134947.1860-1-phillip.ennen@gmail.com/
->> So I included them signed-off line into one of the commit messages and
->> also here.
->
->
-> Applied.
->
-> Thanks
+   Sure, this is clearly experimental (the spec is a draft) and should be
+   marked so, I totally agree. Please make the change as you suggest,
 
+   Thanks,
+   Frédéric
 
-Reverted actually, though it can be built on macos but not Linux. I see 
-thing like:
+> 
+> Alistair
 
-In file included from qapi/qapi-types-net.c:15:
-qapi/qapi-types-net.h:411:9: error: unknown type name 
-‘NetdevVmnetHostOptions’
-   411 |         NetdevVmnetHostOptions vmnet_host;
-       |         ^~~~~~~~~~~~~~~~~~~~~~
-qapi/qapi-types-net.h:412:9: error: unknown type name 
-‘NetdevVmnetSharedOptions’
-   412 |         NetdevVmnetSharedOptions vmnet_shared;
-       |         ^~~~~~~~~~~~~~~~~~~~~~~~
-qapi/qapi-types-net.h:413:9: error: unknown type name 
-‘NetdevVmnetBridgedOptions’
-   413 |         NetdevVmnetBridgedOptions vmnet_bridged;
-       |         ^~~~~~~~~~~~~~~~~~~~~~~~~
-
-....
-
-Thanks
-
-
+-- 
++---------------------------------------------------------------------------+
+| Frédéric Pétrot, Pr. Grenoble INP-Ensimag/TIMA,   Ensimag deputy director |
+| Mob/Pho: +33 6 74 57 99 65/+33 4 76 57 48 70      Ad augusta  per angusta |
+| http://tima.univ-grenoble-alpes.fr frederic.petrot@univ-grenoble-alpes.fr |
++---------------------------------------------------------------------------+
 
