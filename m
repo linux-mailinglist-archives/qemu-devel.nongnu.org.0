@@ -2,86 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F661487927
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 15:42:16 +0100 (CET)
-Received: from localhost ([::1]:41318 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E53B487851
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 14:38:33 +0100 (CET)
+Received: from localhost ([::1]:33590 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5qRZ-0007u7-Nd
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 09:42:13 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35700)
+	id 1n5pRw-0006b9-7S
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 08:38:32 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49080)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1n5qMG-0005Uk-Uw
- for qemu-devel@nongnu.org; Fri, 07 Jan 2022 09:36:44 -0500
-Received: from [2a00:1450:4864:20::42c] (port=39696
- helo=mail-wr1-x42c.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1n5qMF-0008Uh-DQ
- for qemu-devel@nongnu.org; Fri, 07 Jan 2022 09:36:44 -0500
-Received: by mail-wr1-x42c.google.com with SMTP id s1so11449234wra.6
- for <qemu-devel@nongnu.org>; Fri, 07 Jan 2022 06:36:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=GSASAOqaOEhIMjby0Ml6ixWzKvI0bGUvRfq6/JCTR/w=;
- b=hu857Yx0DTSr4jRYc42kvFf0AR6za8FBc+vgR8aZ6eKc7pcYVAfndBPc3pvazBE7B4
- hzhaRaS1Tz/jlzTveHQxTFLE+zqxQJchPS+g3EG3N0EnagJg4HImgG1IoetMm/H4ijZN
- B08Xs2Rt6KPg83aFuMRS+ohWteqIeIy8ojroaje5Bg9x+as/uBVqLx3w8s9n8Ht2L7jA
- V9NegGY8bwP4hEdFQ1txC2hiIY5RzZUuxVbFHfUQKC3LOODcYQtI+r+JPBmPcE9IDX9R
- W5nZm3HuWV2HidD6WDu51V5DgLlqIWgENZZu2T5a73/yLMSRukwcHE6whyQBaabjx0hV
- NRQg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=GSASAOqaOEhIMjby0Ml6ixWzKvI0bGUvRfq6/JCTR/w=;
- b=tqBX97Q+3Gm75lChh/gLNagT8SEBhml5FmrL7vKiuKHoEjplV9JOsJOygu0InIbkb7
- E/vSgdd+5Sn8tTZi8FUoOmrUZcYmzSCHy9KvE5La2NLNXZxvupSzq2fLZ5RDtg8FBMfC
- DLcVL8Evom94j/6qeC3IkY5YT+367UxdU6s2RnG0+7/H6VPAPaFuJRgOUh16WJZG0I44
- YZgVxWBRsrCsRAkYqXNGflwyDF5sq7t7NWFuHNrEQKed3vjGbJFgp5RbAuZu0QvICu/3
- 3iEGAQeMlwXyMInafL1UaU5BXzyAAMTjprPUUqp0LQRbAN0eBksYi9ZUxBPirZxlvvEu
- C2zA==
-X-Gm-Message-State: AOAM532lNPM8feyCzodCnHGd6yNAHG5RY06X9/7TRU2sGq9+gtewtWHs
- ldcI7s2PzUxerp/EWqfX8uY=
-X-Google-Smtp-Source: ABdhPJx8R6Yiotds7KJLUJajGjSeqwLvNZKEawkCk81ayk7/2fhEKh5bE8cUj1eB7eMJICb4ZhnZjw==
-X-Received: by 2002:a5d:5348:: with SMTP id t8mr54548030wrv.439.1641566199364; 
- Fri, 07 Jan 2022 06:36:39 -0800 (PST)
-Received: from [192.168.1.33] (83.red-83-50-87.dynamicip.rima-tde.net.
- [83.50.87.83])
- by smtp.gmail.com with ESMTPSA id l8sm4984995wrv.25.2022.01.07.06.36.38
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 07 Jan 2022 06:36:38 -0800 (PST)
-Message-ID: <132c4a62-d56c-45ce-8c2e-03dfc6faacb7@amsat.org>
-Date: Fri, 7 Jan 2022 14:30:11 +0100
+ (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
+ id 1n5pP5-0005mY-Ss
+ for qemu-devel@nongnu.org; Fri, 07 Jan 2022 08:35:40 -0500
+Received: from mailout01.t-online.de ([194.25.134.80]:46760)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
+ id 1n5pP2-000380-GA
+ for qemu-devel@nongnu.org; Fri, 07 Jan 2022 08:35:34 -0500
+Received: from fwd82.dcpf.telekom.de (fwd82.aul.t-online.de [10.223.144.108])
+ by mailout01.t-online.de (Postfix) with SMTP id 1161B7CB5;
+ Fri,  7 Jan 2022 14:35:15 +0100 (CET)
+Received: from linpower.localnet ([46.86.48.20]) by fwd82.t-online.de
+ with (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384 encrypted)
+ esmtp id 1n5pOk-1NTBUf0; Fri, 7 Jan 2022 14:35:14 +0100
+Received: by linpower.localnet (Postfix, from userid 1000)
+ id 4C37E200610; Fri,  7 Jan 2022 14:35:14 +0100 (CET)
+From: =?UTF-8?q?Volker=20R=C3=BCmelin?= <vr_qemu@t-online.de>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: [PATCH] meson: reenable filemonitor-inotify compilation
+Date: Fri,  7 Jan 2022 14:35:14 +0100
+Message-Id: <20220107133514.7785-1-vr_qemu@t-online.de>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.4.1
-Subject: Re: [PATCH 02/15] audio: move function audio_pcm_hw_clip_out()
-Content-Language: en-US
-To: =?UTF-8?Q?Volker_R=c3=bcmelin?= <volker.ruemelin@t-online.de>,
- Gerd Hoffmann <kraxel@redhat.com>
-References: <cfcae86f-59c3-a2c5-76cd-1ab5e23e20f3@t-online.de>
- <20220106092332.7223-2-volker.ruemelin@t-online.de>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <20220106092332.7223-2-volker.ruemelin@t-online.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42c
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42c.google.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-2.691,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-TOI-EXPURGATEID: 150726::1641562514-0000B8A1-478E3C88/0/0 CLEAN NORMAL
+X-TOI-MSGID: 4527c995-e8de-44d6-abf9-20820f43ccd5
+Received-SPF: none client-ip=194.25.134.80;
+ envelope-from=volker.ruemelin@t-online.de; helo=mailout01.t-online.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,16 +62,52 @@ Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/1/22 10:23, Volker Rümelin wrote:
-> From: Volker Rümelin <vr_qemu@t-online.de>
-> 
-> Move the function audio_pcm_hw_clip_out() into the correct
-> section 'Hard voice (playback)'.
-> 
-> Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
-> ---
->   audio/audio.c | 38 +++++++++++++++++++-------------------
->   1 file changed, 19 insertions(+), 19 deletions(-)
+Reenable util/filemonitor-inotify compilation. Compilation was
+disabled when commit a620fbe9ac ("configure: convert compiler tests
+to meson, part 5") moved CONFIG_INOTIFY1 from config-host.mak to
+config-host.h.
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+This fixes the usb-mtp device and reenables test-util-filemonitor.
+
+Fixes: a620fbe9ac ("configure: convert compiler tests to meson, part 5")
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/800
+Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
+---
+ tests/unit/meson.build | 2 +-
+ util/meson.build       | 7 +++++--
+ 2 files changed, 6 insertions(+), 3 deletions(-)
+
+diff --git a/tests/unit/meson.build b/tests/unit/meson.build
+index 90acf5b0da..64a5e7bfde 100644
+--- a/tests/unit/meson.build
++++ b/tests/unit/meson.build
+@@ -129,7 +129,7 @@ if have_system
+     'test-vmstate': [migration, io],
+     'test-yank': ['socket-helpers.c', qom, io, chardev]
+   }
+-  if 'CONFIG_INOTIFY1' in config_host
++  if config_host_data.get('CONFIG_INOTIFY1')
+     tests += {'test-util-filemonitor': []}
+   endif
+ 
+diff --git a/util/meson.build b/util/meson.build
+index 05b593055a..71543e1a85 100644
+--- a/util/meson.build
++++ b/util/meson.build
+@@ -83,7 +83,10 @@ if have_block
+   util_ss.add(files('readline.c'))
+   util_ss.add(files('throttle.c'))
+   util_ss.add(files('timed-average.c'))
+-  util_ss.add(when: 'CONFIG_INOTIFY1', if_true: files('filemonitor-inotify.c'),
+-                                        if_false: files('filemonitor-stub.c'))
++  if config_host_data.get('CONFIG_INOTIFY1')
++    util_ss.add(files('filemonitor-inotify.c'))
++  else
++    util_ss.add(files('filemonitor-stub.c'))
++  endif
+   util_ss.add(when: 'CONFIG_LINUX', if_true: files('vfio-helpers.c'))
+ endif
+-- 
+2.31.1
+
 
