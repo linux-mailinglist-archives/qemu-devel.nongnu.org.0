@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF8FF487614
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 12:01:01 +0100 (CET)
-Received: from localhost ([::1]:53254 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5562487622
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 12:03:33 +0100 (CET)
+Received: from localhost ([::1]:56008 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5mzU-0002v2-VG
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 06:01:00 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42376)
+	id 1n5n1w-0004xJ-Nk
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 06:03:32 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42434)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1n5mtJ-0003WR-9F; Fri, 07 Jan 2022 05:54:37 -0500
-Received: from [2a00:1450:4864:20::32a] (port=56185
- helo=mail-wm1-x32a.google.com)
+ id 1n5mtQ-0003hU-9x; Fri, 07 Jan 2022 05:54:44 -0500
+Received: from [2a00:1450:4864:20::32c] (port=54087
+ helo=mail-wm1-x32c.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1n5mtF-0008M7-I5; Fri, 07 Jan 2022 05:54:36 -0500
-Received: by mail-wm1-x32a.google.com with SMTP id c66so3617600wma.5;
- Fri, 07 Jan 2022 02:54:32 -0800 (PST)
+ id 1n5mtK-0008Mg-7m; Fri, 07 Jan 2022 05:54:43 -0500
+Received: by mail-wm1-x32c.google.com with SMTP id l4so3636032wmq.3;
+ Fri, 07 Jan 2022 02:54:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=/ow3SZqynToXpYuYefz018ZnoAMd3khg8ReRtVnTvO0=;
- b=YV6B7z3YnN+CO8N6OI8j4BFDuIr4brqE9b5Q62CdiDuPYcjqZEpmOEjqs7gr4vJRt4
- 0GbeF1Ypjuh3SRb78APDSGtNKvAukxH0mCSKAD7uCX+SwbDAYhcwGwPU/8Gor1R5XGwu
- WUn9SD2zyj32qi9RITMpCQL27XReHNSE3DGeHOEPtuwCDPR6DQzhYyP6PTGXyJ3Qt/7+
- sHlCHIbTrHuHHKtlAsWeETT/Eepudnk3u2bDmMMWvXdD06x7qxygEp5poG02CEZrOmh/
- Llvof+5afhk17j0X1A2b36wzSzNYztbwMTxxETU7ntInte7TIAS+QzY4Ua5rX2vbV3n2
- a3oA==
+ bh=pRt1ZQeTh5X10hpoQU2/jHbFxikau/BmnLWyXQMXPG8=;
+ b=breiJyJCjJdM8/ZoQxm/OE+LnLAIyCDERWzPDsbVHSjr5glfhB5jYXVy0k4q1BgYvZ
+ qthNPf3Iiv7+J1ww8PxmZCTr/I1UhMqgE919Uqwr4mSPiWDuTBgB5Rla73NmXvE7tw7G
+ Yb8fnBd3zO1ttumHDvRkvCc4tHdbc5Kv4HWA4PaHu+wLAK003NxQav7B4CcaFR9FImR3
+ Dgcgbjep9gcbjc8vMiMWVGNA7ArlNVDpTiqA/LRTCDvAEk9hBSlez2baZETEujHFgi0X
+ fa7ueM3BahFRTH5K/T03Bs/69vhbVq1riLwaw1C+ZseQiF3DqUWvKcmnI9c+hCtXHEVT
+ jdGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=/ow3SZqynToXpYuYefz018ZnoAMd3khg8ReRtVnTvO0=;
- b=vPGq158Hp1xyPsspveDSYLpz2OK1pPlH7epgy1KohQxMcxxB49N24cN5yiPvfvAtmj
- Nm1lJLS9j8fUnMtGRK0jhoX3XnY+bUNpvfmeoy2twQ6Gj7frc/pwTK1+/y5mN9JrTgLd
- 4XSgEJneMhZmmuCUUdYVVDzh8TNEP7gnpkW8xwXYC3KPQWTfALCJne+4A9TZxHKozuY4
- l7ifZAcD3ZSZr4+pFl5+BsGezFDqFjtGBjW1pPVV4YTKn9qR67K4YSR/vaT4tj4ks2v7
- 2sVoDfM8BOVFXJQ23ZGLPHw7s+AmLHXzKlY2D0V3oxCFnRM69PZMmOuHPGGgqlSxchLd
- INxQ==
-X-Gm-Message-State: AOAM531cZp1tpFepv8HnT1gvhWOzHUjwGZS723opG6vCx0vQ+nj+exQW
- im2/1XgKokf9M6RRHrgawavqkabHUVTzwA==
-X-Google-Smtp-Source: ABdhPJzFSoJE908mysCrf4VxJuy1jBtMBu13vgSvlrt8sEqy1ApX/Le/tB2bZqT+ZNJUBaMdj8USWg==
-X-Received: by 2002:a7b:cf33:: with SMTP id m19mr4836106wmg.30.1641552871663; 
- Fri, 07 Jan 2022 02:54:31 -0800 (PST)
+ bh=pRt1ZQeTh5X10hpoQU2/jHbFxikau/BmnLWyXQMXPG8=;
+ b=GYX9XxDTpPxdtBZcAf9l4jleoxCSm4shmdHcb0g0SyWQHAhsrtuaPNS7SPZbblAHeB
+ ic9Lv3nnDHG84IX9262Rd0/Jz6UAs1Qn0wMSGXmHkze77DAD5ZQxcYyrGt1+XW0IjdCr
+ y3jS5Q2Z6tX2wi72Iws0C3IwFDjoXDwmnH5rSNYalRrKR+Y9BqKCcjvHzQ9KzudHy84F
+ L9ew8L0dAlHmqLuxlcJWjtZlZB3J8jIaXKf9FAnHr/yb1L29l5pwb2RCOO/FMEsNlcGQ
+ In56nJm9CkR3/lD11VcaP1AZQTS0zNXCBtSommUizdFua+HTfBIrBBPZktneP4iS6cje
+ ED4g==
+X-Gm-Message-State: AOAM5303spsyMDpSn0fK/8xRMiUGUPXFt134pvJNcpgGaZNpLm0J9vmm
+ rSH/1bEYlodqLMhPhlCS7S0xFYJ4D8hRwQ==
+X-Google-Smtp-Source: ABdhPJwTMasOAzaXAAtmqkCaQl73LrHm3bplXAks+gJJk8WCU54X+Gu5yiCfkR6yWkaHqoEKstZ8bA==
+X-Received: by 2002:a7b:c397:: with SMTP id s23mr10763937wmj.162.1641552876396; 
+ Fri, 07 Jan 2022 02:54:36 -0800 (PST)
 Received: from nuc.. (83.red-83-50-87.dynamicip.rima-tde.net. [83.50.87.83])
- by smtp.gmail.com with ESMTPSA id a3sm4302398wrm.52.2022.01.07.02.54.30
+ by smtp.gmail.com with ESMTPSA id 1sm5056239wry.33.2022.01.07.02.54.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 Jan 2022 02:54:31 -0800 (PST)
+ Fri, 07 Jan 2022 02:54:36 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 2/3] qemu-storage-daemon: Add vhost-user-blk help
-Date: Fri,  7 Jan 2022 11:54:19 +0100
-Message-Id: <20220107105420.395011-3-f4bug@amsat.org>
+Subject: [PATCH v3 3/3] qapi/block: Restrict vhost-user-blk to
+ CONFIG_VHOST_USER_BLK_SERVER
+Date: Fri,  7 Jan 2022 11:54:20 +0100
+Message-Id: <20220107105420.395011-4-f4bug@amsat.org>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20220107105420.395011-1-f4bug@amsat.org>
 References: <20220107105420.395011-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32a
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32c
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32c.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -85,9 +86,8 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Qing Wang <qinwang@redhat.com>,
- qemu-block@nongnu.org, Eric Blake <eblake@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
@@ -95,57 +95,68 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Add missing vhost-user-blk help:
+When building QEMU with --disable-vhost-user and using introspection,
+query-qmp-schema lists vhost-user-blk even though it's not actually
+available:
 
-  $ qemu-storage-daemon -h
-  ...
-    --export [type=]vhost-user-blk,id=<id>,node-name=<node-name>,
-             addr.type=unix,addr.path=<socket-path>[,writable=on|off]
-             [,logical-block-size=<block-size>][,num-queues=<num-queues>]
-                           export the specified block node as a
-                           vhosts-user-blk device over UNIX domain socket
-    --export [type=]vhost-user-blk,id=<id>,node-name=<node-name>,
-             fd,addr.str=<fd>[,writable=on|off]
-             [,logical-block-size=<block-size>][,num-queues=<num-queues>]
-                           export the specified block node as a
-                           vhosts-user-blk device over file descriptor
-  ...
+  { "execute": "query-qmp-schema" }
+  {
+      "return": [
+          ...
+          {
+              "name": "312",
+              "members": [
+                  {
+                      "name": "nbd"
+                  },
+                  {
+                      "name": "vhost-user-blk"
+                  }
+              ],
+              "meta-type": "enum",
+              "values": [
+                  "nbd",
+                  "vhost-user-blk"
+              ]
+          },
+
+Restrict vhost-user-blk in BlockExportType when
+CONFIG_VHOST_USER_BLK_SERVER is disabled, so it
+doesn't end listed by query-qmp-schema.
 
 Fixes: 90fc91d50b7 ("convert vhost-user-blk server to block export API")
-Reported-by: Qing Wang <qinwang@redhat.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
-v3: Fix 'vhost-user-blk' spelling (eblake)
+v2: Reword + restrict BlockExportOptions union (armbru)
 ---
- storage-daemon/qemu-storage-daemon.c | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ qapi/block-export.json | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/storage-daemon/qemu-storage-daemon.c b/storage-daemon/qemu-storage-daemon.c
-index 52cf17e8ace..9d76d1114d4 100644
---- a/storage-daemon/qemu-storage-daemon.c
-+++ b/storage-daemon/qemu-storage-daemon.c
-@@ -104,6 +104,19 @@ static void help(void)
- "                         export the specified block node over FUSE\n"
- "\n"
- #endif /* CONFIG_FUSE */
-+#ifdef CONFIG_VHOST_USER_BLK_SERVER
-+"  --export [type=]vhost-user-blk,id=<id>,node-name=<node-name>,\n"
-+"           addr.type=unix,addr.path=<socket-path>[,writable=on|off]\n"
-+"           [,logical-block-size=<block-size>][,num-queues=<num-queues>]\n"
-+"                         export the specified block node as a\n"
-+"                         vhost-user-blk device over UNIX domain socket\n"
-+"  --export [type=]vhost-user-blk,id=<id>,node-name=<node-name>,\n"
-+"           fd,addr.str=<fd>[,writable=on|off]\n"
-+"           [,logical-block-size=<block-size>][,num-queues=<num-queues>]\n"
-+"                         export the specified block node as a\n"
-+"                         vhost-user-blk device over file descriptor\n"
-+"\n"
-+#endif /* CONFIG_VHOST_USER_BLK_SERVER */
- "  --monitor [chardev=]name[,mode=control][,pretty[=on|off]]\n"
- "                         configure a QMP monitor\n"
- "\n"
+diff --git a/qapi/block-export.json b/qapi/block-export.json
+index c1b92ce1c1c..f9ce79a974b 100644
+--- a/qapi/block-export.json
++++ b/qapi/block-export.json
+@@ -277,7 +277,8 @@
+ # Since: 4.2
+ ##
+ { 'enum': 'BlockExportType',
+-  'data': [ 'nbd', 'vhost-user-blk',
++  'data': [ 'nbd',
++            { 'name': 'vhost-user-blk', 'if': 'CONFIG_VHOST_USER_BLK_SERVER' },
+             { 'name': 'fuse', 'if': 'CONFIG_FUSE' } ] }
+ 
+ ##
+@@ -319,7 +320,8 @@
+   'discriminator': 'type',
+   'data': {
+       'nbd': 'BlockExportOptionsNbd',
+-      'vhost-user-blk': 'BlockExportOptionsVhostUserBlk',
++      'vhost-user-blk': { 'type': 'BlockExportOptionsVhostUserBlk',
++                          'if': 'CONFIG_VHOST_USER_BLK_SERVER' },
+       'fuse': { 'type': 'BlockExportOptionsFuse',
+                 'if': 'CONFIG_FUSE' }
+    } }
 -- 
 2.33.1
 
