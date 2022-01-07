@@ -2,84 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8229E486FC5
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 02:43:59 +0100 (CET)
-Received: from localhost ([::1]:60236 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A920B486FF2
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 02:53:36 +0100 (CET)
+Received: from localhost ([::1]:36228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5eIQ-0008I8-C0
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 20:43:58 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60828)
+	id 1n5eRj-0004Zh-9A
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 20:53:35 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34496)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1n5eFL-0007NZ-2D
- for qemu-devel@nongnu.org; Thu, 06 Jan 2022 20:40:50 -0500
-Received: from [2607:f8b0:4864:20::62b] (port=40481
- helo=mail-pl1-x62b.google.com)
+ (Exim 4.90_1) (envelope-from <leetroy@gmail.com>)
+ id 1n5eQH-0003bS-MV; Thu, 06 Jan 2022 20:52:10 -0500
+Received: from [2607:f8b0:4864:20::32f] (port=35531
+ helo=mail-ot1-x32f.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1n5eFJ-000857-BN
- for qemu-devel@nongnu.org; Thu, 06 Jan 2022 20:40:46 -0500
-Received: by mail-pl1-x62b.google.com with SMTP id l15so3731461pls.7
- for <qemu-devel@nongnu.org>; Thu, 06 Jan 2022 17:40:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=LArM2BUUSdfzT60+Ek3SeKQsYuBK31bsT9OZBjKTr5k=;
- b=HiytYiRKYvAACZWv85GJIs/swrWwYTrwjr0xBpyWaMl/v0Wzc8YL4Yu34lFAq40yOa
- 0ll4x2xF82U604gihm0nRDDR9PxLj1TCgX6pZhmrpWYVkyq3sl4qBiQUN/uEG/cHmjJH
- 7ST6u8JjQ+oWqYn3cTe2Ab1YQfTh2GLKL6alnU2mcqxNdeT23vI2j5h6C2vyneDCyTgT
- uK1/F5kuMj3Jh82SZPk3SvUF83rHkD+jCkj8nNi192TLjWmMno7VxCbk4+rNSaKe7t6H
- tSNq0HlgUikoMFj0eViZlRZaemYk/NjmGJfIv+hKTR/6fc7w1MhCmn2gquwMNvh/Mxry
- L4Nw==
+ (Exim 4.90_1) (envelope-from <leetroy@gmail.com>)
+ id 1n5eQF-0002g6-CI; Thu, 06 Jan 2022 20:52:04 -0500
+Received: by mail-ot1-x32f.google.com with SMTP id
+ g79-20020a9d12d5000000b0058f08f31338so5122757otg.2; 
+ Thu, 06 Jan 2022 17:51:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=dVuV6toNMvIlJy4N1RyIyfWYrIjckL0H3MK4xtydwgM=;
+ b=GQsNxo8pxK9Q5fDVeeuHkZ9+CGa6rqENtyLIoS6OzvH/EZ/nVfZ2z78OXbNTO2842j
+ viIHiqcAFspmtiYCLYuB8Ufpzium8LmrAB3AR4gAvQ1BbgF3QVcisl2ZjEAiN16DMgxG
+ ZAw807SmXouhwq69CUqb8gq9DHKP8lSaaH8at6FAtxT7sz0NhYuc4Vl8OE1sClpjxErd
+ ZU/XC5cXiDl7B0bMiI/llH204HxDp2BrO9GaxNWfVvP/ICnDgl8a1NEywoMhqGmN1Mv8
+ eHCC50NbHXF7DDwKprt8UMjsQqSZZHFHpZU9GarpY93lR3k4M9gyfw1niKt+7gZuPp6K
+ BxSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=LArM2BUUSdfzT60+Ek3SeKQsYuBK31bsT9OZBjKTr5k=;
- b=1a3ce+6pXiIQ3Gwk+ROalH4b0rZ48iZod2pTcM3ZjjQbqq8uUAtQJQTkgL0Up7UUs0
- valPx8+JVbeqC2bBbWwLE6myWZ0pHs4O5pRIJvPV2NiUJDTA4+m6RznOgbs2oGKjTTGd
- Bwcm63Soja8bLCYDV38foE8KLLWpl3uw9Baw8BJmLEMTH9mNyyJ+CbK7EL7LmjYDtWsA
- 6ZVOlI3+0a6Ukv8qVBrRCXOoIeaWXKj5v1IvhwjT3UQ9B4lE1TlhupBtUFuhX4o0Bxfc
- I8L7mC+v65p8fWiAgsaS9FknZX/cjLmTm+PJ4/HObz0T31JHqLNy9UUtkgsXMyHzVbiX
- jo5Q==
-X-Gm-Message-State: AOAM533JxqIQ3mCbhjRCYlrLLN0zIFdKkIWpieDpnDlfhlVxdnN50ZOh
- Z68XyrDMypakb8fX2y6bLRFToQ==
-X-Google-Smtp-Source: ABdhPJyOMgmU9/OmlgxZ9NToUZkJhn3bJD56WGx3p7N98hCciD5t7qIxMMNd7Z9XQK283YZm/AxxDQ==
-X-Received: by 2002:a17:902:6544:b0:149:8222:4b62 with SMTP id
- d4-20020a170902654400b0014982224b62mr47309819pln.114.1641519637780; 
- Thu, 06 Jan 2022 17:40:37 -0800 (PST)
-Received: from [192.168.1.13] (174-21-75-75.tukw.qwest.net. [174.21.75.75])
- by smtp.gmail.com with ESMTPSA id y129sm3500456pfy.164.2022.01.06.17.40.37
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 06 Jan 2022 17:40:37 -0800 (PST)
-Subject: Re: [PATCH v2 2/7] target/ppc: powerpc_excp: Keep 60x soft MMU logs
- active
-To: Fabiano Rosas <farosas@linux.ibm.com>, qemu-devel@nongnu.org
-References: <20220105204029.4058500-1-farosas@linux.ibm.com>
- <20220105204029.4058500-3-farosas@linux.ibm.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <f45eaf7a-ee77-259b-d38b-ff969b0e3a97@linaro.org>
-Date: Thu, 6 Jan 2022 17:40:36 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=dVuV6toNMvIlJy4N1RyIyfWYrIjckL0H3MK4xtydwgM=;
+ b=rP5OTxjXbzgd0mNKmWibWuDPf3eWTjdww9AMIr7gBQdVfy+kuzLuBb9raD9hvg2aoe
+ J6My0by7T/ZTBFzV5HIYDv8uRRHMLapJyttICe9454pH77p20cMIf29OMPuc2WgnBffG
+ HLv88RcgJuJNb7ZWBdzq34MNVmScR43j9h5Il2PaUYDUxIIScu3LeUWwdRwjJ0Rt6JMg
+ xOKFZAbKWmRJoa/ZFXdgQPzfij7Fz+ENFNgRBCUOTdJGWnz8TTp+3Fz2MCmFQDyJdWbO
+ kHdylklj8vJqgKw0JACBVOfv3a3X2XBOdU1dg8uIBC3sboOx19gEu3yr/JFj07gltmTv
+ npbA==
+X-Gm-Message-State: AOAM532arC+VI9x6eDDqX8Tacxqn57/B2Q/NrE71jopjdgoyLpf0B/xG
+ uM1DDy1B3Qj3q+6tXsx5BxHyz3UlbKDiCr8RpSVlQLY3zTs=
+X-Google-Smtp-Source: ABdhPJwQDh1ncciESrBxjvcu19KTdo0YjI/xmSoJ/F3GyB3Z+psUWOGamHeH8YE6rMQjYTmRZiFNgApmyMq8GMwjbfk=
+X-Received: by 2002:a4a:dcd6:: with SMTP id h22mr3980808oou.42.1641520009595; 
+ Thu, 06 Jan 2022 17:46:49 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20220105204029.4058500-3-farosas@linux.ibm.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62b
+References: <20211222022231.231575-1-troy_lee@aspeedtech.com>
+ <8df385c9-b25c-80bb-fb27-88f774eb44c6@kaod.org>
+ <CAJOFXWgEqYTAL59Z2CPzQTedYqN9pWuyiEt7jbG1ENZinNj=2w@mail.gmail.com>
+ <CAN9Jwz3gv5V2jPvW0mp7f_XKW=d3UtE9ROMcg4wLBR7D67+KiQ@mail.gmail.com>
+ <CAFEAcA9b-JBPRt4oQkb-=ewcHY9TWJ46_xtRuW1qk6mnq-cBMw@mail.gmail.com>
+In-Reply-To: <CAFEAcA9b-JBPRt4oQkb-=ewcHY9TWJ46_xtRuW1qk6mnq-cBMw@mail.gmail.com>
+From: Troy Lee <leetroy@gmail.com>
+Date: Fri, 7 Jan 2022 09:46:41 +0800
+Message-ID: <CAN9Jwz32qQQDWi4jYYzwJ0JDQ6kp3Ph-wENUtPn7c6E0LxkmSg@mail.gmail.com>
+Subject: Re: [PATCH] Supporting AST2600 HACE engine accumulative mode
+To: Peter Maydell <peter.maydell@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::32f
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62b.google.com
-X-Spam_score_int: -39
-X-Spam_score: -4.0
-X-Spam_bar: ----
-X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.691,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::32f;
+ envelope-from=leetroy@gmail.com; helo=mail-ot1-x32f.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,62 +84,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: danielhb413@gmail.com, qemu-ppc@nongnu.org, clg@kaod.org,
- david@gibson.dropbear.id.au
+Cc: Andrew Jeffery <andrew@aj.id.au>, Troy Lee <troy_lee@aspeedtech.com>,
+ qemu-devel@nongnu.org, "open list:ASPEED BMCs" <qemu-arm@nongnu.org>,
+ Joel Stanley <joel@jms.id.au>, Klaus Heinrich Kiwi <klaus@klauskiwi.com>,
+ =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/5/22 12:40 PM, Fabiano Rosas wrote:
-> Remove the compile time definition and make the logging be controlled
-> by the `-d mmu` option in the cmdline.
-> 
-> Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
-> Reviewed-by: Cédric Le Goater <clg@kaod.org>
-> ---
->   target/ppc/excp_helper.c | 15 ++++++---------
->   1 file changed, 6 insertions(+), 9 deletions(-)
-> 
-> diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-> index 2c5d5470de..ce86b2ae37 100644
-> --- a/target/ppc/excp_helper.c
-> +++ b/target/ppc/excp_helper.c
-> @@ -30,8 +30,6 @@
->   #include "exec/cpu_ldst.h"
->   #endif
->   
-> -/* #define DEBUG_SOFTWARE_TLB */
-> -
->   /*****************************************************************************/
->   /* Exception processing */
->   #if !defined(CONFIG_USER_ONLY)
-> @@ -137,7 +135,6 @@ static void dump_hcall(CPUPPCState *env)
->   
->   static void ppc_excp_debug_sw_tlb(CPUPPCState *env, int excp)
->   {
-> -#if defined(DEBUG_SOFTWARE_TLB)
->       const char *es;
->       target_ulong *miss, *cmp;
->       int en;
-> @@ -161,12 +158,12 @@ static void ppc_excp_debug_sw_tlb(CPUPPCState *env, int excp)
->           miss = &env->spr[SPR_DMISS];
->           cmp = &env->spr[SPR_DCMP];
->       }
-> -    qemu_log("6xx %sTLB miss: %cM " TARGET_FMT_lx " %cC "
-> -             TARGET_FMT_lx " H1 " TARGET_FMT_lx " H2 "
-> -             TARGET_FMT_lx " %08x\n", es, en, *miss, en, *cmp,
-> -             env->spr[SPR_HASH1], env->spr[SPR_HASH2],
-> -             env->error_code);
-> -#endif
-> +
-> +    qemu_log_mask(CPU_LOG_MMU, "6xx %sTLB miss: %cM " TARGET_FMT_lx " %cC "
-> +                  TARGET_FMT_lx " H1 " TARGET_FMT_lx " H2 "
-> +                  TARGET_FMT_lx " %08x\n", es, en, *miss, en, *cmp,
-> +                  env->spr[SPR_HASH1], env->spr[SPR_HASH2],
-> +                  env->error_code);
+On Thu, Jan 6, 2022 at 11:27 PM Peter Maydell <peter.maydell@linaro.org> wr=
+ote:
+>
+> On Tue, 28 Dec 2021 at 03:34, Troy Lee <leetroy@gmail.com> wrote:
+> >
+> > Hi Klaus,
+> >
+> > On Thu, Dec 23, 2021 at 11:57 PM Klaus Heinrich Kiwi
+> > <klaus@klauskiwi.com> wrote:
+> > >
+> > > Em qui., 23 de dez. de 2021 =C3=A0s 09:54, C=C3=A9dric Le Goater <clg=
+@kaod.org> escreveu:
+> > > >
+> > > > [ Adding Klaus ]
+> > >
+> > > Thanks Cedric. It's been a while since I've looked at this but I'll d=
+o my best..
+> > >
+> > > >
+> > > > On 12/22/21 03:22, Troy Lee wrote:
+>
+>
+> > > > > +                /*
+> > > > > +                 * Read the message length in bit from last 64/1=
+28 bits
+> > > > > +                 * and tear the padding bits from iov
+> > > > > +                 */
+> > > > > +                uint64_t stream_len;
+> > > > > +
+> > > > > +                memcpy(&stream_len, iov[i].iov_base + iov[i].iov=
+_len - 8, 8);
+> > > > > +                stream_len =3D __bswap_64(stream_len) / 8;
+> > > > > +
+> > >
+> > > I no longer have access to the aspeed workbook I guess, but what is
+> > > the actual specification here? is the message length 64 or 128 bits?
+> > > and bswap seems arch-dependent - you probably want to be explicit if
+> > > this is big or little-endian and use the appropriate conversion
+> > > function.
+> > The message length is described in RFC4634:
+> > - SHA224 or SHA256 should be 64-bit.
+> > - SHA384 or SHA512 should be 128-bit.
+> > And it should be in big-endian.
+>
+> You can read a 64-bit BE value with
+>  uint64_t val =3D ldq_be_p(iov[i].iov_base + iov[i].iov_len - 8);
+> or similar. (We don't have a similar function for 128 bits because
+> there's no fully-portable native C data type for that.)
+>
+> -- PMM
 
-Ah, then my comment wrt patch 1 applies to this one -- use the proper filter function at 
-the top of this one, before all of the data collection for the actual logging.
-
-
-r~
+Thanks for the suggestion!
+Troy Lee
 
