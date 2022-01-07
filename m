@@ -2,52 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B520C487B59
+	by mail.lfdr.de (Postfix) with ESMTPS id B1EAF487B58
 	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 18:25:29 +0100 (CET)
-Received: from localhost ([::1]:43530 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:43570 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5szY-0007pE-98
+	id 1n5szY-0007qJ-Dk
 	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 12:25:28 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48878)
+Received: from eggs.gnu.org ([209.51.188.92]:48918)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1n5sw0-000542-Ud
+ id 1n5sw1-00054W-NQ
  for qemu-devel@nongnu.org; Fri, 07 Jan 2022 12:21:49 -0500
-Received: from [2a00:1450:4864:20::429] (port=34326
- helo=mail-wr1-x429.google.com)
+Received: from [2a00:1450:4864:20::434] (port=40685
+ helo=mail-wr1-x434.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1n5svy-0007s3-Mi
- for qemu-devel@nongnu.org; Fri, 07 Jan 2022 12:21:48 -0500
-Received: by mail-wr1-x429.google.com with SMTP id h10so2184778wrb.1
+ id 1n5svz-0007sD-6l
+ for qemu-devel@nongnu.org; Fri, 07 Jan 2022 12:21:49 -0500
+Received: by mail-wr1-x434.google.com with SMTP id l10so12334365wrh.7
  for <qemu-devel@nongnu.org>; Fri, 07 Jan 2022 09:21:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=p0bFkZNomX7Q5MaA4fGopx5oG80cnusqXxawnRuyq4M=;
- b=XHJtFzZlA1DAaYgvG0kPPrbNAFhNldhOJ8N2flQgdyHuIjVOgzrhL+x4QSaGHpyBAY
- oNdBehRWxhRxSRog3StFLiolx5QjJiL8w7aXPjnP5QTLE22n6BEnvY2p5KDk8s2WixzG
- CXRfKltqXou13gmVsP1J5AszTnoz9g/HeZ6H+Mpc/PRVEXwWbaOKPmSVGQZiC/rp/QRf
- JFz0CsBNomp95904+YCwrsRxgGuLUltO8Ru4ToDOWiP/a3A15Dl2gOYfDJmBDZqysCTg
- ZbJnqepZr7BnAA0EB128FIOTS12XspdDTEBDleFy2POKwANGdX7o/TqfTykIthsqJOcs
- zUBg==
+ bh=tgkzP59zZKWcqPqvUogulF/C72GjNGTYYxCx3zJL2W0=;
+ b=Cqh04E0XAWpZ8NT8XhD/+5TeTqnYTDolHnnMqtlda59eUXRwUudlwjH1WxQhU/vOK1
+ yQOcUhX25KklBrVdZ3s8IhyxrOaAOBa01QE1Pb1mW9b0ek7SRSbJMphUbcEdOolvMbRW
+ ur9PKvF/qK2PmB86uW/VqfPkljsAxVoahKvHf2c0jSt559ogRsxDB+Q9EHyupnYmONVu
+ vYXVCiRJ0zMfpQwvV48KkvtB9ZM6q5Avcp5vVjQAhAXU8RJGtUrHVoriioh5He0YOmwE
+ BgQ2FlMybLN5pUVLAjTZ2Bxg5OB5TX9H1vEpb1JDLddm6asOMgy+ZUqM8W8HXg5Z0p9d
+ Z/qQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=p0bFkZNomX7Q5MaA4fGopx5oG80cnusqXxawnRuyq4M=;
- b=PAq74QeIbvE/gMVjXKRbqhVFETH2Q30Z24kmv8qCUcCBMxZ+FX0GjtmKGN+AGdnfl7
- JkD3qQTpvqDkSzpRk00SPi4YRQ0AE5QZ0Bo8gjVBA89p5QAGJHTdgN3PxzS5470f2HgE
- 95zaWjmlBboA7J+cLL3t02QIiujTIlKAypDmLn7iqGYZvA8RaDpbLU9LUsKXCGyZvwoP
- 6bUEenOpIBYPcmLaQWXGg3dYZVZfL9IHUvvpt9ZLaizcScLykZ25sExv8iJSC9wp2kIx
- 0c7zexXdsbguAGWsMGDkcgWQ0CrRCcYAD6NiRwLXhfBG7U8jZbm7CFia2xbWZx6w2OrE
- QQOQ==
-X-Gm-Message-State: AOAM5316Iw2fammDAHAEdn0hNDZsVppQoLpbMXCksRwQenkjyGWoIfvx
- c454ezM5zDdAtszjZuwW7DD5vPqvBNlFpw==
-X-Google-Smtp-Source: ABdhPJzQkjbVT7X57KmZ6ErnuGWpN267ss0LcaSElFvtqQ0etKKu/jqzACWoibYU1yrVXeUg97YgaQ==
-X-Received: by 2002:a05:6000:1684:: with SMTP id
- y4mr53409025wrd.26.1641576105421; 
+ bh=tgkzP59zZKWcqPqvUogulF/C72GjNGTYYxCx3zJL2W0=;
+ b=jXIP+3DD6SSOa22vi0mU9hxim2Us8V6BrTJCmqh6qfqDIIPrQKrlrOI9CCGhxhw2CS
+ TJ/TLYMPuTa3C4cYE8rSuHZQEOYrb4jvC9c9e7iWmQLi2T0Gjl7oqcfuR1tiYGONIbnH
+ nhsgbvdvczAzdbobnHy/Vvs7nsIfZUQ8Iz4UtjJz4XTH28aKtmeAjnNy2hXoUhafXYp6
+ ggb6wYUYO0t/1Gpg9130+SzRqrWMxYtFhmPGu2w5EZR6NH7y0Yjf9MG4YIwpPhhmplH5
+ wps9nWW3en+xVpX8sswCnFlou7SJCyXgefUMOrxY0qEqFk0af1+n/IlUY51SFHB88VvO
+ ICYg==
+X-Gm-Message-State: AOAM532jJS7AOO2eEoPDSsN+kvN7JASbL8RtvzbCNC1jL2xp+W+K20FC
+ yGZr0IhAtNUGukJ9T/B9GtKOf2fsMbitWw==
+X-Google-Smtp-Source: ABdhPJyhBVychQnxhj4YWBCrO+Z0k4rfRMEKEfGDM4wlsy32H9r1QrngIAvMFBinnKVGGWmKRB8Ccg==
+X-Received: by 2002:a5d:64ad:: with SMTP id m13mr56224636wrp.714.1641576105954; 
  Fri, 07 Jan 2022 09:21:45 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id i6sm6060219wrf.79.2022.01.07.09.21.45
@@ -56,19 +55,18 @@ Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  Fri, 07 Jan 2022 09:21:45 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 01/19] Add dummy Aspeed AST2600 Display Port MCU (DPMCU)
-Date: Fri,  7 Jan 2022 17:21:24 +0000
-Message-Id: <20220107172142.2651911-2-peter.maydell@linaro.org>
+Subject: [PULL 02/19] target/arm: Add missing FEAT_TLBIOS instructions
+Date: Fri,  7 Jan 2022 17:21:25 +0000
+Message-Id: <20220107172142.2651911-3-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220107172142.2651911-1-peter.maydell@linaro.org>
 References: <20220107172142.2651911-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::429
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::434
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x429.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -91,78 +89,82 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Troy Lee <troy_lee@aspeedtech.com>
+From: Idan Horowitz <idan.horowitz@gmail.com>
 
-AST2600 Display Port MCU introduces 0x18000000~0x1803FFFF as it's memory
-and io address. If guest machine try to access DPMCU memory, it will
-cause a fatal error.
+Some of the instructions added by the FEAT_TLBIOS extension were forgotten
+when the extension was originally added to QEMU.
 
-Signed-off-by: Troy Lee <troy_lee@aspeedtech.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
-Message-id: 20211210083034.726610-1-troy_lee@aspeedtech.com
+Fixes: 7113d618505b ("target/arm: Add support for FEAT_TLBIOS")
+Signed-off-by: Idan Horowitz <idan.horowitz@gmail.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-id: 20211231103928.1455657-1-idan.horowitz@gmail.com
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/hw/arm/aspeed_soc.h | 2 ++
- hw/arm/aspeed_ast2600.c     | 8 ++++++++
- 2 files changed, 10 insertions(+)
+ target/arm/helper.c | 32 ++++++++++++++++++++++++++++++++
+ 1 file changed, 32 insertions(+)
 
-diff --git a/include/hw/arm/aspeed_soc.h b/include/hw/arm/aspeed_soc.h
-index 8139358549d..18fb7eed461 100644
---- a/include/hw/arm/aspeed_soc.h
-+++ b/include/hw/arm/aspeed_soc.h
-@@ -139,6 +139,8 @@ enum {
-     ASPEED_DEV_EMMC,
-     ASPEED_DEV_KCS,
-     ASPEED_DEV_HACE,
-+    ASPEED_DEV_DPMCU,
-+    ASPEED_DEV_DP,
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index db837d53bd9..cfca0f5ba6d 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -6964,18 +6964,42 @@ static const ARMCPRegInfo tlbios_reginfo[] = {
+       .opc0 = 1, .opc1 = 0, .crn = 8, .crm = 1, .opc2 = 0,
+       .access = PL1_W, .type = ARM_CP_NO_RAW,
+       .writefn = tlbi_aa64_vmalle1is_write },
++    { .name = "TLBI_VAE1OS", .state = ARM_CP_STATE_AA64,
++      .opc0 = 1, .opc1 = 0, .crn = 8, .crm = 1, .opc2 = 1,
++      .access = PL1_W, .type = ARM_CP_NO_RAW,
++      .writefn = tlbi_aa64_vae1is_write },
+     { .name = "TLBI_ASIDE1OS", .state = ARM_CP_STATE_AA64,
+       .opc0 = 1, .opc1 = 0, .crn = 8, .crm = 1, .opc2 = 2,
+       .access = PL1_W, .type = ARM_CP_NO_RAW,
+       .writefn = tlbi_aa64_vmalle1is_write },
++    { .name = "TLBI_VAAE1OS", .state = ARM_CP_STATE_AA64,
++      .opc0 = 1, .opc1 = 0, .crn = 8, .crm = 1, .opc2 = 3,
++      .access = PL1_W, .type = ARM_CP_NO_RAW,
++      .writefn = tlbi_aa64_vae1is_write },
++    { .name = "TLBI_VALE1OS", .state = ARM_CP_STATE_AA64,
++      .opc0 = 1, .opc1 = 0, .crn = 8, .crm = 1, .opc2 = 5,
++      .access = PL1_W, .type = ARM_CP_NO_RAW,
++      .writefn = tlbi_aa64_vae1is_write },
++    { .name = "TLBI_VAALE1OS", .state = ARM_CP_STATE_AA64,
++      .opc0 = 1, .opc1 = 0, .crn = 8, .crm = 1, .opc2 = 7,
++      .access = PL1_W, .type = ARM_CP_NO_RAW,
++      .writefn = tlbi_aa64_vae1is_write },
+     { .name = "TLBI_ALLE2OS", .state = ARM_CP_STATE_AA64,
+       .opc0 = 1, .opc1 = 4, .crn = 8, .crm = 1, .opc2 = 0,
+       .access = PL2_W, .type = ARM_CP_NO_RAW,
+       .writefn = tlbi_aa64_alle2is_write },
++    { .name = "TLBI_VAE2OS", .state = ARM_CP_STATE_AA64,
++      .opc0 = 1, .opc1 = 4, .crn = 8, .crm = 1, .opc2 = 1,
++      .access = PL2_W, .type = ARM_CP_NO_RAW,
++      .writefn = tlbi_aa64_vae2is_write },
+    { .name = "TLBI_ALLE1OS", .state = ARM_CP_STATE_AA64,
+       .opc0 = 1, .opc1 = 4, .crn = 8, .crm = 1, .opc2 = 4,
+       .access = PL2_W, .type = ARM_CP_NO_RAW,
+       .writefn = tlbi_aa64_alle1is_write },
++    { .name = "TLBI_VALE2OS", .state = ARM_CP_STATE_AA64,
++      .opc0 = 1, .opc1 = 4, .crn = 8, .crm = 1, .opc2 = 5,
++      .access = PL2_W, .type = ARM_CP_NO_RAW,
++      .writefn = tlbi_aa64_vae2is_write },
+     { .name = "TLBI_VMALLS12E1OS", .state = ARM_CP_STATE_AA64,
+       .opc0 = 1, .opc1 = 4, .crn = 8, .crm = 1, .opc2 = 6,
+       .access = PL2_W, .type = ARM_CP_NO_RAW,
+@@ -6996,6 +7020,14 @@ static const ARMCPRegInfo tlbios_reginfo[] = {
+       .opc0 = 1, .opc1 = 6, .crn = 8, .crm = 1, .opc2 = 0,
+       .access = PL3_W, .type = ARM_CP_NO_RAW,
+       .writefn = tlbi_aa64_alle3is_write },
++    { .name = "TLBI_VAE3OS", .state = ARM_CP_STATE_AA64,
++      .opc0 = 1, .opc1 = 6, .crn = 8, .crm = 1, .opc2 = 1,
++      .access = PL3_W, .type = ARM_CP_NO_RAW,
++      .writefn = tlbi_aa64_vae3is_write },
++    { .name = "TLBI_VALE3OS", .state = ARM_CP_STATE_AA64,
++      .opc0 = 1, .opc1 = 6, .crn = 8, .crm = 1, .opc2 = 5,
++      .access = PL3_W, .type = ARM_CP_NO_RAW,
++      .writefn = tlbi_aa64_vae3is_write },
+     REGINFO_SENTINEL
  };
  
- #endif /* ASPEED_SOC_H */
-diff --git a/hw/arm/aspeed_ast2600.c b/hw/arm/aspeed_ast2600.c
-index 0384357a951..e33483fb5dd 100644
---- a/hw/arm/aspeed_ast2600.c
-+++ b/hw/arm/aspeed_ast2600.c
-@@ -19,9 +19,11 @@
- #include "sysemu/sysemu.h"
- 
- #define ASPEED_SOC_IOMEM_SIZE       0x00200000
-+#define ASPEED_SOC_DPMCU_SIZE       0x00040000
- 
- static const hwaddr aspeed_soc_ast2600_memmap[] = {
-     [ASPEED_DEV_SRAM]      = 0x10000000,
-+    [ASPEED_DEV_DPMCU]     = 0x18000000,
-     /* 0x16000000     0x17FFFFFF : AHB BUS do LPC Bus bridge */
-     [ASPEED_DEV_IOMEM]     = 0x1E600000,
-     [ASPEED_DEV_PWM]       = 0x1E610000,
-@@ -44,6 +46,7 @@ static const hwaddr aspeed_soc_ast2600_memmap[] = {
-     [ASPEED_DEV_SCU]       = 0x1E6E2000,
-     [ASPEED_DEV_XDMA]      = 0x1E6E7000,
-     [ASPEED_DEV_ADC]       = 0x1E6E9000,
-+    [ASPEED_DEV_DP]        = 0x1E6EB000,
-     [ASPEED_DEV_VIDEO]     = 0x1E700000,
-     [ASPEED_DEV_SDHCI]     = 0x1E740000,
-     [ASPEED_DEV_EMMC]      = 0x1E750000,
-@@ -104,6 +107,7 @@ static const int aspeed_soc_ast2600_irqmap[] = {
-     [ASPEED_DEV_ETH3]      = 32,
-     [ASPEED_DEV_ETH4]      = 33,
-     [ASPEED_DEV_KCS]       = 138,   /* 138 -> 142 */
-+    [ASPEED_DEV_DP]        = 62,
- };
- 
- static qemu_irq aspeed_soc_get_irq(AspeedSoCState *s, int ctrl)
-@@ -298,6 +302,10 @@ static void aspeed_soc_ast2600_realize(DeviceState *dev, Error **errp)
-     memory_region_add_subregion(get_system_memory(),
-                                 sc->memmap[ASPEED_DEV_SRAM], &s->sram);
- 
-+    /* DPMCU */
-+    create_unimplemented_device("aspeed.dpmcu", sc->memmap[ASPEED_DEV_DPMCU],
-+                                ASPEED_SOC_DPMCU_SIZE);
-+
-     /* SCU */
-     if (!sysbus_realize(SYS_BUS_DEVICE(&s->scu), errp)) {
-         return;
 -- 
 2.25.1
 
