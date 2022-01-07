@@ -2,71 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3BDF487727
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 12:56:28 +0100 (CET)
-Received: from localhost ([::1]:39436 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 301B9487684
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 12:31:06 +0100 (CET)
+Received: from localhost ([::1]:60794 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5nrA-0005xO-45
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 06:56:28 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45424)
+	id 1n5nSb-0008Kd-8M
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 06:31:05 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45512)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n5n3B-0001Cq-Dy
- for qemu-devel@nongnu.org; Fri, 07 Jan 2022 06:04:49 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:54316)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n5n3l-0001JC-1e
+ for qemu-devel@nongnu.org; Fri, 07 Jan 2022 06:05:25 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:59636)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n5n38-0001zI-W5
- for qemu-devel@nongnu.org; Fri, 07 Jan 2022 06:04:48 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n5n3D-0001zX-70
+ for qemu-devel@nongnu.org; Fri, 07 Jan 2022 06:05:05 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641553486;
+ s=mimecast20190719; t=1641553489;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=4akHXGYHIwd7HNeqwa3gMQKaZ7VYtAKPZ8TAtHqI2Gc=;
- b=GOjeRGz987bpStcYJr1GDItKayqAaFVNXR8hTA7Qc5YY1IQUYPWHtzDq8Co25jeT5R1jfe
- qrzhJN2CyyCR008QlhTeM+OxOedZe3/k4IuhBIyJ2dCWF84kH+BnUNuF6Lnugq5OYEKUQS
- 2jodqpGBUmURpDqgH6X8OXUfNTE2/cI=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=TnGOLm7lT8LwKDlvBDBF9jJhmbOnmc0+Fq8lIxyOVLg=;
+ b=WI4TdFTH+eWAwSt92vLD0FK9psmXGzfEZIhsJmYjwFTQvdYe/25aCRMd9A8Rv+y8ch4Q52
+ 0wxTnNLo6r/HNOGPP5SIk0/NlCDOFZ0NJcOQ/lbypvWrc3VFNL/iC4lsOKZHprG7LaUPZ/
+ 0OHMqksppzuMo15E60JuuTWpaV4laMQ=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-77-_kuNyE-XPvOMWk9xyiBZfA-1; Fri, 07 Jan 2022 06:04:45 -0500
-X-MC-Unique: _kuNyE-XPvOMWk9xyiBZfA-1
-Received: by mail-wr1-f71.google.com with SMTP id
- h24-20020adfaa98000000b001a4dbe0c51fso1780929wrc.0
- for <qemu-devel@nongnu.org>; Fri, 07 Jan 2022 03:04:44 -0800 (PST)
+ us-mta-445-8IBhRD90NM2646DvbdCoYw-1; Fri, 07 Jan 2022 06:04:48 -0500
+X-MC-Unique: 8IBhRD90NM2646DvbdCoYw-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ e19-20020a05600c4e5300b003458be97976so1354103wmq.7
+ for <qemu-devel@nongnu.org>; Fri, 07 Jan 2022 03:04:47 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=4akHXGYHIwd7HNeqwa3gMQKaZ7VYtAKPZ8TAtHqI2Gc=;
- b=5tc77OTzpPVLzezSSi9bmN8fO4ph06e++qv5mcn+lL+D1yVST7/9OVnaYcNHJuOoJa
- t5xxOCrx3Ozzkiy9KBS+AMrVw5W33IElOdQzH82BLjPnNE3Yl3ybotoTcqkSds4vQaaF
- SUaaveMPkSPFiMKFo8UcTzEI93z7IG14pmOokWlv0q4qHWTtUT0qGyAcNReUEGiNIPJe
- Kx+Hysw0+8Q/GlXyI3ExbhKbaL/X/yjjCysbLkKc33b6UsrIdA9sp3HKMUgOoeuwomwn
- iKj686m6zaAVFwYY9hIR18NXTjtdNBCp5q9ExCzZl97Fv6AWKj6oQ/4FOFKoIOd4so5J
- PZSQ==
-X-Gm-Message-State: AOAM533aiayKZ5xTmobjFflkCRfz03qhFohFcu7QqCnNkgQzjSekVtyF
- iFwoAkxZyusj8TFzTVWjI6m8FOhy6BVwaPGzd3UVh51mmaMvciJBXEEdjK3Mul92glTnv2huy4j
- NwYnorxkskiyEk6KnpGvMEwLLD+0VjwEZcHSjLBaFM4aO5n3WoKsM1kZGuZqB
-X-Received: by 2002:a05:6000:1002:: with SMTP id
- a2mr4282113wrx.501.1641553483370; 
- Fri, 07 Jan 2022 03:04:43 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyidQzH+XJ35C0heg3oKG7uTqtYjFBlwa1atKvBNMCzOEKYFB5D24yDb3KC3Ki+U0gw8RdcNg==
-X-Received: by 2002:a05:6000:1002:: with SMTP id
- a2mr4282095wrx.501.1641553483184; 
- Fri, 07 Jan 2022 03:04:43 -0800 (PST)
+ bh=TnGOLm7lT8LwKDlvBDBF9jJhmbOnmc0+Fq8lIxyOVLg=;
+ b=yg1q+vRUIqzZ4pcVoR5PiP7ElCNE1MzIP6dw2m8emRPrfwj/kXTnm+Y4lNpnGPqqX6
+ oS3yRsnEAdjg0Ae4rj4JkUbawypTTSBfMVXQCGoYZZ/ogz9GnQcqDSdUg/GxqAhRXWYc
+ 7WjmPZ/kUQgJheW3rFCb08u9LdCFj4P/z4L6n0jjdbirW1RyyQkcf7MQBwBz3ptyy4QG
+ 8bQQuG4AfQnK91ORoqMfUI8lW5Gf0qRl5hILDkZxvvhOv0+qpik6RhrHXmLuaWAxXUJL
+ Do0U2ZpKxkbAPMZFf0MSbcgVVEWcLfKqIae2y3JLjRkdSbm/Nb07hPcrUyxXRVg8ssa3
+ b2hg==
+X-Gm-Message-State: AOAM531sfyQuL0aivSpZHzZWWUd7tAJCxkam9CyhSkGlCwdj47ZYZmZX
+ mJazddcuepvpPr5FGkbLunixIULBNZAVRxqTnV79rnEAW4aWl7FMnH8WfYKc8RcZOXAqglEyxLM
+ ncuT3soceVuIHHfhhhLl0c5JtCrlgN9TxYa1O6c6ZaBYdq+iPEp2k4iXcFHid
+X-Received: by 2002:adf:a1d0:: with SMTP id v16mr8068660wrv.622.1641553486474; 
+ Fri, 07 Jan 2022 03:04:46 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyqUIXu61xSeOgWuQwjH7xYxk2x16Ctjya88vmdqXWu3lF7D2UGeq4M659cDbLa6uy9a/gJtg==
+X-Received: by 2002:adf:a1d0:: with SMTP id v16mr8068640wrv.622.1641553486199; 
+ Fri, 07 Jan 2022 03:04:46 -0800 (PST)
 Received: from redhat.com ([2.55.16.192])
- by smtp.gmail.com with ESMTPSA id q6sm4426000wrr.88.2022.01.07.03.04.41
+ by smtp.gmail.com with ESMTPSA id r9sm4616859wrm.76.2022.01.07.03.04.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 Jan 2022 03:04:42 -0800 (PST)
-Date: Fri, 7 Jan 2022 06:04:40 -0500
+ Fri, 07 Jan 2022 03:04:45 -0800 (PST)
+Date: Fri, 7 Jan 2022 06:04:43 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 32/55] util/oslib-posix: Don't create too many threads with
- small memory or little pages
-Message-ID: <20220107102526.39238-33-mst@redhat.com>
+Subject: [PULL v2 33/55] util/oslib-posix: Avoid creating a single thread
+ with MADV_POPULATE_WRITE
+Message-ID: <20220107102526.39238-34-mst@redhat.com>
 References: <20220107102526.39238-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20220107102526.39238-1-mst@redhat.com>
@@ -103,74 +101,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Daniel P =?utf-8?B?LiBCZXJyYW5nw6k=?= <berrange@redhat.com>,
  David Hildenbrand <david@redhat.com>, Michal Privoznik <mprivozn@redhat.com>,
- Pankaj Gupta <pankaj.gupta@ionos.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+ Pankaj Gupta <pankaj.gupta@ionos.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: David Hildenbrand <david@redhat.com>
 
-Let's limit the number of threads to something sane, especially that
-- We don't have more threads than the number of pages we have
-- We don't have threads that initialize small (< 64 MiB) memory
+Let's simplify the case when we only want a single thread and don't have
+to mess with signal handlers.
 
 Reviewed-by: Pankaj Gupta <pankaj.gupta@ionos.com>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 Reviewed-by: Michal Privoznik <mprivozn@redhat.com>
 Signed-off-by: David Hildenbrand <david@redhat.com>
-Message-Id: <20211217134611.31172-5-david@redhat.com>
+Message-Id: <20211217134611.31172-6-david@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- util/oslib-posix.c | 12 ++++++++++--
- 1 file changed, 10 insertions(+), 2 deletions(-)
+ util/oslib-posix.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
 diff --git a/util/oslib-posix.c b/util/oslib-posix.c
-index cf2ead54ad..67c08a425e 100644
+index 67c08a425e..efa4f96d56 100644
 --- a/util/oslib-posix.c
 +++ b/util/oslib-posix.c
-@@ -40,6 +40,7 @@
- #include <libgen.h>
- #include "qemu/cutils.h"
- #include "qemu/compiler.h"
-+#include "qemu/units.h"
- 
- #ifdef CONFIG_LINUX
- #include <sys/syscall.h>
-@@ -525,7 +526,8 @@ static void *do_madv_populate_write_pages(void *arg)
-     return (void *)(uintptr_t)ret;
- }
- 
--static inline int get_memset_num_threads(int smp_cpus)
-+static inline int get_memset_num_threads(size_t hpagesize, size_t numpages,
-+                                         int smp_cpus)
- {
-     long host_procs = sysconf(_SC_NPROCESSORS_ONLN);
-     int ret = 1;
-@@ -533,6 +535,12 @@ static inline int get_memset_num_threads(int smp_cpus)
-     if (host_procs > 0) {
-         ret = MIN(MIN(host_procs, MAX_MEM_PREALLOC_THREAD_COUNT), smp_cpus);
+@@ -564,6 +564,14 @@ static int touch_all_pages(char *area, size_t hpagesize, size_t numpages,
      }
-+
-+    /* Especially with gigantic pages, don't create more threads than pages. */
-+    ret = MIN(ret, numpages);
-+    /* Don't start threads to prealloc comparatively little memory. */
-+    ret = MIN(ret, MAX(1, hpagesize * numpages / (64 * MiB)));
-+
-     /* In case sysconf() fails, we fall back to single threaded */
-     return ret;
- }
-@@ -542,7 +550,7 @@ static int touch_all_pages(char *area, size_t hpagesize, size_t numpages,
- {
-     static gsize initialized = 0;
-     MemsetContext context = {
--        .num_threads = get_memset_num_threads(smp_cpus),
-+        .num_threads = get_memset_num_threads(hpagesize, numpages, smp_cpus),
-     };
-     size_t numpages_per_thread, leftover;
-     void *(*touch_fn)(void *);
+ 
+     if (use_madv_populate_write) {
++        /* Avoid creating a single thread for MADV_POPULATE_WRITE */
++        if (context.num_threads == 1) {
++            if (qemu_madvise(area, hpagesize * numpages,
++                             QEMU_MADV_POPULATE_WRITE)) {
++                return -errno;
++            }
++            return 0;
++        }
+         touch_fn = do_madv_populate_write_pages;
+     } else {
+         touch_fn = do_touch_pages;
 -- 
 MST
 
