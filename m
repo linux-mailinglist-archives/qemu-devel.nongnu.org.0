@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60B30487E62
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 22:39:16 +0100 (CET)
-Received: from localhost ([::1]:51320 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B81E9487E57
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 22:35:48 +0100 (CET)
+Received: from localhost ([::1]:42596 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5wx9-0005nG-1x
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 16:39:15 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42362)
+	id 1n5wtn-00085i-Lz
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 16:35:47 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42368)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1n5wqu-00057p-PF
+ id 1n5wqu-00057q-VY
  for qemu-devel@nongnu.org; Fri, 07 Jan 2022 16:32:50 -0500
-Received: from [2607:f8b0:4864:20::52b] (port=43679
- helo=mail-pg1-x52b.google.com)
+Received: from [2607:f8b0:4864:20::635] (port=40494
+ helo=mail-pl1-x635.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1n5wqs-0007lf-Lw
+ id 1n5wqt-0007lm-5E
  for qemu-devel@nongnu.org; Fri, 07 Jan 2022 16:32:48 -0500
-Received: by mail-pg1-x52b.google.com with SMTP id 8so6481096pgc.10
+Received: by mail-pl1-x635.google.com with SMTP id l15so5819796pls.7
  for <qemu-devel@nongnu.org>; Fri, 07 Jan 2022 13:32:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=fwWk0WZDtoCdr/BQ+wy5whxmME6fmMq51sJIQEkG8UQ=;
- b=DUK9d69HZDkSgCk+JMnw4frbTHSlpGqbY7ulCAFmucA3TUpJcXkOIevnB+BO3cPmSi
- oY2V8gWMpVqBpT+pnNBsOtfO3oFCcQpUYv3TrA29VnLa8o88LXoZvlCwoFzKxH52bTcH
- bynz106HUykw7/JkMUMqWS+zP+yOD7pU/lkQdLoxL9xf4+uYCl2ZBsjiIGrFEMYTQuMH
- 9c3YAilc0ElDefGWykKg9PV5oDxJvew+VeX1WbJ2J/v7IQdaQQ2tNEP73zcQGiTH0IrD
- 2C7jAi0NMiep08/GEFN6Gnamh9PH1TNmJnvyornGKglq3ZDvTKVgJLsFMb7eLTnDmN9+
- wN8Q==
+ bh=U/9jwibW8tpqJgzwOdU5uVnM75VsccZMKM1jZSwFQWw=;
+ b=yBRP8ghuGGCYWIEhCksVtxmsOAVCIRAj0i/mNBr/xTVZhzq1YU91sg/tFUa1qmDUmt
+ jAcN+N0nf8bkwiJPdmdQOyoKn6OsLHysTc1itGNoe+IxCuVz8Z569e3I9ZuQmGLld46R
+ xrXTBjy52BPqjtrtxFzaiYC1ep87xYLTkKoAR2dq7ceuFjmE2OnOq2Mv8P2oc8vidYcy
+ BnWmZ+1VUaGl9LlTk2KwiCtn+8G7vTKlvGdqXMAfnVo72Ema7WLt0JzDHdVYmNgFL6Xp
+ nMtXQaiXn5F3022ViysPN63zAa/uCfXqGqfsi5c2425LUgexdZIltvRcMKmDFwd15GZj
+ NsMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=fwWk0WZDtoCdr/BQ+wy5whxmME6fmMq51sJIQEkG8UQ=;
- b=CLmllXt2OJew+idq61rUhX9ft2j4lAOBP/RXwwgBaO9TNO0vE25R/6ha8pDh6FSf4A
- 5BepId4q03gFmCiNQDws5WdINxTEyp6ZPcrQrvtXbsyDNwdctxC3HWbwyMItqVZ9fMYq
- +qle1TUs49glXyGkMzMmWilkyuaeMXR99ktmO0UzrC5HRO7rzYZlWHol8RdRK8+yrc3w
- 0wqYqZ7dWPGl7h/LXytnm//GLmd/1Y/Iozwa/7do5FE+wfd1Y3RH/3UuaYYU9h9I7Rgj
- cQOcV7fDUNb8+4A+yruqhNPlxMjb2A6wGGnTs85OSBdIg/D64HzgvOW9CV8bF0aTsoO8
- Rpcg==
-X-Gm-Message-State: AOAM5321UJKoN6PdClTszQFTLQuVEaV8rew8tMr3AZOzpL67pieu5WgD
- Oiw0t/hviE9fS4Uxby4tfdhmMquh6Vy4TA==
-X-Google-Smtp-Source: ABdhPJw+mWchQGnmPFMUqoRaX3GMxoc6+fCAKO9ZUDBCS5MS50UqYZMbjtc3hweEj2crfj0RfCUaVQ==
-X-Received: by 2002:a63:6945:: with SMTP id e66mr57320935pgc.237.1641591165392; 
+ bh=U/9jwibW8tpqJgzwOdU5uVnM75VsccZMKM1jZSwFQWw=;
+ b=7AC1ug22Ga+dSgCGlSDtZ47aOLB5SxxcBB4/rCYxd+BPqRdjYq/fT6jek44We5me0P
+ 9DV7o6mgxnaXQrHnAvjSNiddpxKlls9Gcqvn/ZemV2ki1ibG/gzwtiQunMNvxQg0VmDz
+ e+p9fxcdsDVCca6M+gzZVw7I2noWiLQVvOnMJ4puAnIoMUYAMRcZWj7DCrnf0RqnUwj1
+ OczRKcghPNSHg8wDjOW3QgyFLAE5ctiSYwrmGA5jeaV6YFhxJnNErodI69bpxCFpE0Gt
+ MUTSsAuCKQ3DDeHcs/kcF6AoZ6hJdbrKlGhyrrTq+J11CrkKf01j+BgQruwjciU60WE+
+ aOuA==
+X-Gm-Message-State: AOAM533jSDEjCorpSFmg+kFF+DtLd801qAyker6eG/eVxBPLTcqJOdVn
+ 9NVKKYtVsPhWw43RMNawQ/XF1IVDykbuGA==
+X-Google-Smtp-Source: ABdhPJwWslpQsQ160O24mN3KBkCFVgEhfwcF60t28hJq7Z+lT1+JF2vRMlMlqQpR4QmkpUHPA3Tr7A==
+X-Received: by 2002:a17:90b:3b49:: with SMTP id
+ ot9mr17887317pjb.110.1641591165919; 
  Fri, 07 Jan 2022 13:32:45 -0800 (PST)
 Received: from localhost.localdomain (174-21-75-75.tukw.qwest.net.
  [174.21.75.75])
- by smtp.gmail.com with ESMTPSA id y11sm6633030pfi.80.2022.01.07.13.32.44
+ by smtp.gmail.com with ESMTPSA id y11sm6633030pfi.80.2022.01.07.13.32.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 07 Jan 2022 13:32:45 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 01/24] linux-user/alpha: Set TRAP_UNK for bugchk and
- unknown gentrap
-Date: Fri,  7 Jan 2022 13:32:20 -0800
-Message-Id: <20220107213243.212806-2-richard.henderson@linaro.org>
+Subject: [PATCH v5 02/24] linux-user/alpha: Set FPE_FLTUNK for gentrap ROPRAND
+Date: Fri,  7 Jan 2022 13:32:21 -0800
+Message-Id: <20220107213243.212806-3-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220107213243.212806-1-richard.henderson@linaro.org>
 References: <20220107213243.212806-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::52b
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::635
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x635.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -91,49 +91,27 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These si_codes were changed in 535906c684fca, for linux 4.17.
+This si_code was changed in 4cc13e4f6d441, for linux 4.17.
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/syscall_defs.h   | 1 +
- linux-user/alpha/cpu_loop.c | 4 ++--
- 2 files changed, 3 insertions(+), 2 deletions(-)
+ linux-user/alpha/cpu_loop.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
-index cca561f622..18bed558fe 100644
---- a/linux-user/syscall_defs.h
-+++ b/linux-user/syscall_defs.h
-@@ -715,6 +715,7 @@ typedef struct target_siginfo {
- #define TARGET_TRAP_TRACE	(2)	/* process trace trap */
- #define TARGET_TRAP_BRANCH      (3)     /* process taken branch trap */
- #define TARGET_TRAP_HWBKPT      (4)     /* hardware breakpoint/watchpoint */
-+#define TARGET_TRAP_UNK         (5)     /* undiagnosed trap */
- 
- struct target_rlimit {
-         abi_ulong   rlim_cur;
 diff --git a/linux-user/alpha/cpu_loop.c b/linux-user/alpha/cpu_loop.c
-index 37c33f0ccd..96466b23f9 100644
+index 96466b23f9..caeea97b9d 100644
 --- a/linux-user/alpha/cpu_loop.c
 +++ b/linux-user/alpha/cpu_loop.c
-@@ -86,7 +86,7 @@ void cpu_loop(CPUAlphaState *env)
-                 /* BUGCHK */
-                 info.si_signo = TARGET_SIGTRAP;
-                 info.si_errno = 0;
--                info.si_code = 0;
-+                info.si_code = TARGET_TRAP_UNK;
-                 info._sifields._sigfault._addr = env->pc;
-                 queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
-                 break;
-@@ -155,7 +155,7 @@ void cpu_loop(CPUAlphaState *env)
+@@ -151,7 +151,7 @@ void cpu_loop(CPUAlphaState *env)
+                     info.si_code = TARGET_FPE_FLTRES;
+                     break;
+                 case TARGET_GEN_ROPRAND:
+-                    info.si_code = 0;
++                    info.si_code = TARGET_FPE_FLTUNK;
                      break;
                  default:
                      info.si_signo = TARGET_SIGTRAP;
--                    info.si_code = 0;
-+                    info.si_code = TARGET_TRAP_UNK;
-                     break;
-                 }
-                 info.si_errno = 0;
 -- 
 2.25.1
 
