@@ -2,78 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D5FA486E5B
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 01:12:48 +0100 (CET)
-Received: from localhost ([::1]:60624 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF35B486E98
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 01:20:17 +0100 (CET)
+Received: from localhost ([::1]:36194 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5csA-0003tA-Oj
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 19:12:46 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42878)
+	id 1n5czQ-0008KT-BB
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 19:20:16 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43862)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1n5cqu-0002lu-W5
- for qemu-devel@nongnu.org; Thu, 06 Jan 2022 19:11:29 -0500
-Received: from [2607:f8b0:4864:20::629] (port=33330
- helo=mail-pl1-x629.google.com)
+ id 1n5cxH-0006jS-Qk
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 19:18:03 -0500
+Received: from [2607:f8b0:4864:20::536] (port=46636
+ helo=mail-pg1-x536.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1n5cqq-00039g-Sk
- for qemu-devel@nongnu.org; Thu, 06 Jan 2022 19:11:28 -0500
-Received: by mail-pl1-x629.google.com with SMTP id i6so3661448pla.0
- for <qemu-devel@nongnu.org>; Thu, 06 Jan 2022 16:11:07 -0800 (PST)
+ id 1n5cxG-00046G-Ae
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 19:18:03 -0500
+Received: by mail-pg1-x536.google.com with SMTP id i8so3974445pgt.13
+ for <qemu-devel@nongnu.org>; Thu, 06 Jan 2022 16:18:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=MMhQRMURxQ6dRd8cznX2pon+Jf9ANoYtJL1KrVsghWM=;
- b=PRJpRKM7U8WrStgJlZAAVb1KbkmY3fu7hxkFbu6CPAyuqZWNu2/HP2s/seVA7KUfAB
- XAA9SAq10916DIqciutXo9a/1jqnAp3/1KjTdcjsnvokITXAVB/VXuMBaVF/2JW8G+OX
- 4nHNtgw+OHVerGJTdWtiHssBtycWAN8tWWZGHJZfU+xnBnIVrr6hlVxxR0LMZjVpp0af
- 21U70pYn/aDQWQQ5Sr1kcPcDlciOTSv1lxeUjmYCVr0/cd/KkrT8nXqQ2JAxMZI5S5Ka
- AanGH5+KLOtnTZnYMSmqEOpe8fz050IrE3C8qIx1H7TlCmmCv3gbke7vBlz8bGgwgUiz
- Ty7A==
+ bh=/4otum0EcPD7/zXhHyUY7QmwN9HdtAwjzyk3tG4GLqk=;
+ b=wu1+Zhqxr60dusNkKUMKVgUeT/2zMYiofU7rSXGJ9Wn59Ynro/Q1QoDASstLXBOSq6
+ Lxmg+qMA0PI7vB0xJ0cm3VlLWMqOkLcYuaVDz1oqKCh4VdTmdVhAKySf6LLAfofAvzZ/
+ dTBgFtBQuiwUg7XSfJnygv8VVQgLsoVEs7ET8upNSevmMRuvDb1Z/12LafspYLOcGzET
+ cMii5jrVsCWXgHPFeSmvTRjRJ4xwWeJh5ubcQInxsSlT7Z+Yq9Ehj71lypo9uo5AZjHh
+ zyFHWcpyZDA7IIuYlYORoGrJdlkTkLHwHf+tLYPwz+7WqjFhB3czfRL6rsuYq3Ra1bty
+ Gr+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=MMhQRMURxQ6dRd8cznX2pon+Jf9ANoYtJL1KrVsghWM=;
- b=V61D63TtjhDjHsyBf+BRV1YkAU1JUp8b4BZ3fpyS1kt+P+6MZXQI+aGiogpAsaVuvK
- vZOPouDA+HKebb7lAtMd3DnqIidphKkJ1j7VY3aFIfid0IIMnGa6opID2omp58te3jGM
- UqJvcdzTKgutge6lnj63WJBzmmvZgz1VOG67C+EzNF5LLf3C54aMZcXVAN49Ozn+og84
- 6VKgHXOtezsHjtHJgq0x/C4PqK4nLw6M75iI2Jd4Ic1778tV4r+lsNBZsE1puQN5a4cs
- q79CsWJjgEjTk1azGp3/NNqAXZLCcEKC8vWxLlJREDtufRABI7ok4xPQdEL7w96lLmKn
- ufPg==
-X-Gm-Message-State: AOAM532GUvA3mvejlQBxpz60WRnsvwZC4bE71v+FLT8mfULxAmdd2bTM
- dtuCZZFHSRFIsTBfXbJ0pZ1ysg==
-X-Google-Smtp-Source: ABdhPJxnyKl658y1jrJNztPFIpELRTOQdiIT7Qbk7s8ug4GsnZ7KR4jci78sXqqC8TReySaAF6bVsw==
-X-Received: by 2002:a17:902:cecb:b0:149:3fe9:12f3 with SMTP id
- d11-20020a170902cecb00b001493fe912f3mr61095982plg.24.1641514266247; 
- Thu, 06 Jan 2022 16:11:06 -0800 (PST)
+ bh=/4otum0EcPD7/zXhHyUY7QmwN9HdtAwjzyk3tG4GLqk=;
+ b=vQKntTfV6SGDKcv9eaF1mGverZIQ1AdJnXF31SnNV74f7fSbvGoxQUJo/6nRTpVF1u
+ NSz7sepaR6iAGUTe8sWi9tyHP21QlyEAv27G8+KcjVwqdbZA7saVjVQgTUYuBMoJfcpO
+ Fy8FOkPi31LJPbYJ5iNQ3PVeMMeke+q+NSv6imEhwX7qDuft2X/Ljp2tDwZ8Z+ZixP6W
+ iOprr8qD1J4TF0C9RSbG57/aLFNAqahoo3NwPISrYADRIPgQ78Seqokq5RnyrLUpFGvT
+ WH5hXzF69+7RnVKyFg74EA5DNSB1LQSw6ztC+o8gpOVs3UcBcm6xzpGMZz0JTosmPXxR
+ dynw==
+X-Gm-Message-State: AOAM532MmCrvjR/Y/kFe5dUQdSo9Z1Eb7TNOwFJWX4MDpCSGTmICBZv3
+ KtbXguTt8YN9MzAoGW0y45U/bw==
+X-Google-Smtp-Source: ABdhPJw3yzxTYJ8q/Fmngmzi8L3HQBV2w5on4Jyy4oRDTb62ZOAcOf+dvrUPMT1UytvzE0/O+cscEQ==
+X-Received: by 2002:a63:da17:: with SMTP id c23mr55737713pgh.622.1641514680716; 
+ Thu, 06 Jan 2022 16:18:00 -0800 (PST)
 Received: from [192.168.1.13] (174-21-75-75.tukw.qwest.net. [174.21.75.75])
- by smtp.gmail.com with ESMTPSA id s35sm3474411pfw.193.2022.01.06.16.11.05
+ by smtp.gmail.com with ESMTPSA id nk13sm3359646pjb.36.2022.01.06.16.18.00
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 06 Jan 2022 16:11:05 -0800 (PST)
-Subject: Re: [PATCH v1 25/34] linux-user/elfload: add extra logging for hole
- finding
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Thu, 06 Jan 2022 16:18:00 -0800 (PST)
+Subject: Re: [PATCH v2 1/9] hw/nvram: Restrict stub to sysemu and tools
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org
-References: <20220105135009.1584676-1-alex.bennee@linaro.org>
- <20220105135009.1584676-26-alex.bennee@linaro.org>
+References: <20220104085431.2122999-1-f4bug@amsat.org>
+ <20220104085431.2122999-2-f4bug@amsat.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <94486079-71cc-e1de-ae77-c612d5e90033@linaro.org>
-Date: Thu, 6 Jan 2022 16:11:04 -0800
+Message-ID: <62eee9e9-62bf-039d-8bc5-c12c0d8468b6@linaro.org>
+Date: Thu, 6 Jan 2022 16:17:58 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <20220105135009.1584676-26-alex.bennee@linaro.org>
+In-Reply-To: <20220104085431.2122999-2-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::629
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::536
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x629.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::536;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x536.google.com
 X-Spam_score_int: -39
 X-Spam_score: -4.0
 X-Spam_bar: ----
@@ -93,23 +91,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org,
- Laurent Vivier <laurent@vivier.eu>, stefanha@redhat.com, crosa@redhat.com,
- pbonzini@redhat.com, aurelien@aurel32.net
+Cc: Fam Zheng <fam@euphon.net>, Hannes Reinecke <hare@suse.com>,
+ qemu-block@nongnu.org, David Hildenbrand <david@redhat.com>,
+ John Snow <jsnow@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Yuval Shaia <yuval.shaia.ml@gmail.com>, Peter Xu <peterx@redhat.com>,
+ Keith Busch <kbusch@kernel.org>, Klaus Jensen <its@irrelevant.dk>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/5/22 5:50 AM, Alex Bennée wrote:
-> The various approaches to finding memory holes are quite complicated
-> to follow especially at a distance. Improve the logging so we can see
-> exactly what method found the space for the guest memory.
-> 
-> Signed-off-by: Alex Bennée<alex.bennee@linaro.org>
-> ---
->   linux-user/elfload.c | 18 ++++++++++++++++++
->   1 file changed, 18 insertions(+)
+On 1/4/22 12:54 AM, Philippe Mathieu-Daudé wrote:
+> +if have_system or have_tools
+...
+>   if have_system
+> +  stub_ss.add(files('fw_cfg.c'))
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Disconnect in tests?
+
 
 r~
 
