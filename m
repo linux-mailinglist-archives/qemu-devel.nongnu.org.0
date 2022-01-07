@@ -2,80 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A51E0487E97
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 22:54:04 +0100 (CET)
-Received: from localhost ([::1]:51262 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEE8B487EA4
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 22:56:36 +0100 (CET)
+Received: from localhost ([::1]:57114 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5xBT-0003KW-Ow
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 16:54:03 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42718)
+	id 1n5xDv-0007DC-RI
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 16:56:35 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44584)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1n5wrA-0005LH-5I
- for qemu-devel@nongnu.org; Fri, 07 Jan 2022 16:33:04 -0500
-Received: from [2607:f8b0:4864:20::102e] (port=41882
- helo=mail-pj1-x102e.google.com)
+ (Exim 4.90_1) (envelope-from <ilg@livius.net>) id 1n5x4f-0000A3-1O
+ for qemu-devel@nongnu.org; Fri, 07 Jan 2022 16:47:02 -0500
+Received: from [2a00:1450:4864:20::531] (port=44589
+ helo=mail-ed1-x531.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1n5wr8-0007rs-4i
- for qemu-devel@nongnu.org; Fri, 07 Jan 2022 16:33:03 -0500
-Received: by mail-pj1-x102e.google.com with SMTP id
- b1-20020a17090a990100b001b14bd47532so7635375pjp.0
- for <qemu-devel@nongnu.org>; Fri, 07 Jan 2022 13:33:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=Y7IWt5TJpvIuMjQ2ZoKSDzqbrC2a4qCP2oWszVzq9gw=;
- b=ru9I+D9JMi63GzrYSwMY7LHzN2JQACOxaFfcI4CfVigxlkFqOlrLHLGoVlf588Os+s
- umDno+vLBqvXxqOMWhqMo5kXRy/sFy04/QcWxfMLSc9q11TeKqBUAbzwxBEddtM+kX1X
- cwoTi5LVRlWtYbaQW8HfwxsA4ShsByTLfZIkD42hx1cuHLSR9x9n59cXOCEICeKTu+cD
- +0gMgjIit1hTLVawdFhW3E86iMXV0Cl5NFQeIHdGcMSaLddt6q7RV3421Q7pbRbFzgKA
- a93E0+IaXcbVHicJlhGC/K+3gJTwaT+7haJoxgMPqSf9sD20ZWSf+f1KE2i7a6QtrQaB
- KKdQ==
+ (Exim 4.90_1) (envelope-from <ilg@livius.net>) id 1n5x4c-0001JM-G9
+ for qemu-devel@nongnu.org; Fri, 07 Jan 2022 16:47:00 -0500
+Received: by mail-ed1-x531.google.com with SMTP id w16so26961826edc.11
+ for <qemu-devel@nongnu.org>; Fri, 07 Jan 2022 13:46:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=livius-net.20210112.gappssmtp.com; s=20210112;
+ h=from:content-transfer-encoding:mime-version:subject:message-id:date
+ :to; bh=rV1A8XCmOAHVXgIXQWWWcC+9jJc+YOa/WqET0V+lom8=;
+ b=mKIEr+6kK4I0s8DGhNibZqZKZDkFTvmrp5DP4vQYum1+dW2gHjmwidmr73s/6B/ntV
+ wn7KhxOTglyBegFExlkKEVii/k45sMoIkskUuoebTAFKxTlKWcPN6u85aFk0oX4Kxko+
+ pnKNzDaFv/Ij1gqHFPoM5h8/ufwB4LBFeZBz8V5A9FBcH3AmnL5C/au4PSNTpUrlr1d1
+ HpghLlPnHoCxDA+FXxRRt1Sf5cwEa1BM/SpLz/AeV4Q7e1cEJuB/rgp1mga532Oj0gvO
+ b+rXI2wRuwS+T7VvMKchBy8+zhZ6tbm2OubJI0Yj9V/WeFzlx8FfaIoe1MAJCSYYy9AZ
+ Pcrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=Y7IWt5TJpvIuMjQ2ZoKSDzqbrC2a4qCP2oWszVzq9gw=;
- b=p3bbDXwiCov0ZDdQFqZO+GGxydYE6szXHmyaPxBTgebll4EGRdtFNI8R2xtHzl1JRC
- W3Sc6CvQ0kDkdOun+W7dRPxW4vw3X3LHG1WVz281qh232vpF2c3tqmZKSMSc3JUSMHcg
- mQ0jQAMY8gUN+JmtBpozDErOrmTZyXKH+k1nlvq/EyL+OAd12NlH3MIY+EkVYbRX0JQe
- EWigFbM0SbYMnT5f49Z2rDMgMrC9YRWpOqpp2mq/r9YLTEEce3HG0doF07MwoFa/XNeg
- 5gHqC2uuxp/kky+En8hm/YupX+NFc+fBvBUp0tvQcwYJhBHuI1xeoIpHl+JXhf8nSFTW
- zzUg==
-X-Gm-Message-State: AOAM5303qNZAVYcVtbkWVrpKL3Nu14d3n+Myq2QO7zYftF30upa8/y1r
- 0vp8Moz6aiGBQH7IZLxCXMKMlpMt08QuAw==
-X-Google-Smtp-Source: ABdhPJw3yqot5nOurnDPRSRLXC0zY7x3hWemRguO0CjrHhFWSwevD8dRmsn8VjnMSTjC6sGzZXm2sA==
-X-Received: by 2002:a17:90b:1c88:: with SMTP id
- oo8mr16986428pjb.212.1641591179208; 
- Fri, 07 Jan 2022 13:32:59 -0800 (PST)
-Received: from localhost.localdomain (174-21-75-75.tukw.qwest.net.
- [174.21.75.75])
- by smtp.gmail.com with ESMTPSA id y11sm6633030pfi.80.2022.01.07.13.32.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 Jan 2022 13:32:58 -0800 (PST)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v5 24/24] linux-user/xtensa: Use force_sig_fault
-Date: Fri,  7 Jan 2022 13:32:43 -0800
-Message-Id: <20220107213243.212806-25-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220107213243.212806-1-richard.henderson@linaro.org>
-References: <20220107213243.212806-1-richard.henderson@linaro.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102e
+ h=x-gm-message-state:from:content-transfer-encoding:mime-version
+ :subject:message-id:date:to;
+ bh=rV1A8XCmOAHVXgIXQWWWcC+9jJc+YOa/WqET0V+lom8=;
+ b=FWhqcI4WDC4H26QltDqYEMdoMxjt5RK4lLrtxErsTJVmkEeC2sAYCGmIZwipet6LZq
+ KVAmUDVNM5IWVzVzpYLemCpVoy6SD74KC9mnHihJZU+Pb3SJUosTEnKGA9KRhnzBraZO
+ LFEJy0ZvGBVK7uiFoiCS+YCu5ncMVlc4M1ZtMATpHPZqn7kb53e/jLuwcEbwGn45zFxR
+ wydQf9htsNyB1qPMbj2+16a7KtKzZw4aFaoqEbXll3McLdKYjQFrEeAL8qcU+RRzRHxo
+ Li2zwXI7nmLshCnJKNbrGO5bGBPacKmkTb73QBtSdXcxyr9UOpwXrnhgN1hYU+GzyMKG
+ KGCw==
+X-Gm-Message-State: AOAM531556g8A0CJHMGWHtBCSWYHrLaVDYSwPOb6xIlcyZy0Cf7YxqIy
+ NMWE9uNs1iyhM/BMQ6pSRjoUj2QJgpIZHnJW
+X-Google-Smtp-Source: ABdhPJy/vX/RJLSEJVYNDj1pnGilavCjKLXsHU9Ioaopefqcfpk8QL5asTDFiGVIL8PPjOnipNxvjQ==
+X-Received: by 2002:aa7:d546:: with SMTP id u6mr63534158edr.311.1641592016294; 
+ Fri, 07 Jan 2022 13:46:56 -0800 (PST)
+Received: from smtpclient.apple ([79.115.178.1])
+ by smtp.gmail.com with ESMTPSA id o22sm2590318edw.50.2022.01.07.13.46.55
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Fri, 07 Jan 2022 13:46:55 -0800 (PST)
+From: Liviu Ionescu <ilg@livius.net>
+Content-Type: text/plain;
+	charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
+Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.120.0.1.13\))
+Subject: ui/cocoa.m compile error
+Message-Id: <586FEC07-844C-4E1B-88E0-93B97FFC9010@livius.net>
+Date: Fri, 7 Jan 2022 23:46:54 +0200
+To: QEMU Developers <qemu-devel@nongnu.org>
+X-Mailer: Apple Mail (2.3654.120.0.1.13)
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::531
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102e.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
+Received-SPF: none client-ip=2a00:1450:4864:20::531;
+ envelope-from=ilg@livius.net; helo=mail-ed1-x531.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
 X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,79 +83,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use the new function instead of setting up a target_siginfo_t
-and calling queue_signal. Fill in the missing PC for SIGTRAP.
+Hi,
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- linux-user/xtensa/cpu_loop.c | 26 +++++++++-----------------
- 1 file changed, 9 insertions(+), 17 deletions(-)
+I'm building 6.2.0 on macOS, and on a recent macOS 11.6 with Apple =
+Silicon the build passes, but on a slightly older macOS 10.13, which is =
+my base platform for Intel macOS builds, compiling ui/cocoa.m fails:
 
-diff --git a/linux-user/xtensa/cpu_loop.c b/linux-user/xtensa/cpu_loop.c
-index 6bc6d6dee6..d51ce05392 100644
---- a/linux-user/xtensa/cpu_loop.c
-+++ b/linux-user/xtensa/cpu_loop.c
-@@ -126,7 +126,6 @@ static void xtensa_underflow12(CPUXtensaState *env)
- void cpu_loop(CPUXtensaState *env)
- {
-     CPUState *cs = env_cpu(env);
--    target_siginfo_t info;
-     abi_ulong ret;
-     int trapnr;
- 
-@@ -163,14 +162,12 @@ void cpu_loop(CPUXtensaState *env)
-         case EXC_USER:
-             switch (env->sregs[EXCCAUSE]) {
-             case ILLEGAL_INSTRUCTION_CAUSE:
-+                force_sig_fault(TARGET_SIGILL, TARGET_ILL_ILLOPC,
-+                                env->sregs[EPC1]);
-+                break;
-             case PRIVILEGED_CAUSE:
--                info.si_signo = TARGET_SIGILL;
--                info.si_errno = 0;
--                info.si_code =
--                    env->sregs[EXCCAUSE] == ILLEGAL_INSTRUCTION_CAUSE ?
--                    TARGET_ILL_ILLOPC : TARGET_ILL_PRVOPC;
--                info._sifields._sigfault._addr = env->sregs[EPC1];
--                queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
-+                force_sig_fault(TARGET_SIGILL, TARGET_ILL_PRVOPC,
-+                                env->sregs[EPC1]);
-                 break;
- 
-             case SYSCALL_CAUSE:
-@@ -219,11 +216,8 @@ void cpu_loop(CPUXtensaState *env)
-                 break;
- 
-             case INTEGER_DIVIDE_BY_ZERO_CAUSE:
--                info.si_signo = TARGET_SIGFPE;
--                info.si_errno = 0;
--                info.si_code = TARGET_FPE_INTDIV;
--                info._sifields._sigfault._addr = env->sregs[EPC1];
--                queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
-+                force_sig_fault(TARGET_SIGFPE, TARGET_FPE_INTDIV,
-+                                env->sregs[EPC1]);
-                 break;
- 
-             default:
-@@ -232,10 +226,8 @@ void cpu_loop(CPUXtensaState *env)
-             }
-             break;
-         case EXCP_DEBUG:
--            info.si_signo = TARGET_SIGTRAP;
--            info.si_errno = 0;
--            info.si_code = TARGET_TRAP_BRKPT;
--            queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
-+            force_sig_fault(TARGET_SIGTRAP, TARGET_TRAP_BRKPT,
-+                            env->sregs[EPC1]);
-             break;
-         case EXC_DEBUG:
-         default:
--- 
-2.25.1
+```
+../../sources/qemu-6.2.0.git/ui/cocoa.m:1766:52: error: unknown type =
+name 'NSPasteboardTypeOwner'; did you mean 'NSPasteboardType'?
+
+@interface QemuCocoaPasteboardTypeOwner : =
+NSObject<NSPasteboardTypeOwner>
+                                                   ^~~~~~~~~~~~~~~~~~~~~
+                                                   NSPasteboardType
+
+=
+/System/Library/Frameworks/AppKit.framework/Headers/NSPasteboard.h:22:20: =
+note: 'NSPasteboardType' declared here
+typedef NSString * NSPasteboardType NS_EXTENSIBLE_STRING_ENUM;
+                   ^
+../../sources/qemu-6.2.0.git/ui/cocoa.m:1766:43: error: type arguments =
+cannot be applied to non-parameterized class 'NSObject'
+
+@interface QemuCocoaPasteboardTypeOwner : =
+NSObject<NSPasteboardTypeOwner>
+                                          ^       =
+~~~~~~~~~~~~~~~~~~~~~~~
+
+3 warnings and 2 errors generated.
+```
+
+I checked the Git history and the cocoa.m:1766 line is part of commit =
+7e3e20d8 from 23 Jun 2021:
+
+- =
+https://github.com/xpack-dev-tools/qemu/commit/7e3e20d89129614f4a7b2451fe3=
+21cc6ccca3b76
+
+I don't have experience with Cocoa programming, but apparently this =
+recent change is not compatible with older Macs.
+
+Any suggestions on how to approach this?
+
+Thank you,
+
+Liviu
 
 
