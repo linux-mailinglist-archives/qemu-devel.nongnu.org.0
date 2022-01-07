@@ -2,78 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 889F3486FBF
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 02:39:49 +0100 (CET)
-Received: from localhost ([::1]:56688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8229E486FC5
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 02:43:59 +0100 (CET)
+Received: from localhost ([::1]:60236 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5eEM-0005Ri-T6
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 20:39:48 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60390)
+	id 1n5eIQ-0008I8-C0
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 20:43:58 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60828)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1n5eCS-0004MJ-J5
- for qemu-devel@nongnu.org; Thu, 06 Jan 2022 20:37:48 -0500
-Received: from [2607:f8b0:4864:20::102f] (port=39804
- helo=mail-pj1-x102f.google.com)
+ id 1n5eFL-0007NZ-2D
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 20:40:50 -0500
+Received: from [2607:f8b0:4864:20::62b] (port=40481
+ helo=mail-pl1-x62b.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1n5eCR-0007Nh-2f
- for qemu-devel@nongnu.org; Thu, 06 Jan 2022 20:37:48 -0500
-Received: by mail-pj1-x102f.google.com with SMTP id
- c14-20020a17090a674e00b001b31e16749cso8953146pjm.4
- for <qemu-devel@nongnu.org>; Thu, 06 Jan 2022 17:37:46 -0800 (PST)
+ id 1n5eFJ-000857-BN
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 20:40:46 -0500
+Received: by mail-pl1-x62b.google.com with SMTP id l15so3731461pls.7
+ for <qemu-devel@nongnu.org>; Thu, 06 Jan 2022 17:40:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=j4zZ0sgD3zfmvR+R75RLirx1u1AWNR7jFVos5MAwEfs=;
- b=UE2SI8A/wTvcFzXHrP8tjRm2XA+KjR/Ome5YQSX+SMzWuXffB8nhlbdkmFcRLF33Fr
- oZ7yd1xaC5ucc3zzKVHlBr/pGr8Rkzqh/kWidpvfd0J6pCFzqUjtkpR3g53cdFjYQsLT
- Z/1+5SY9U67KOHwa9wNTN8g0SI9yxsIbQtfNLJTqfcKZH361ZV1pfCMTpOdPlHjQuwn3
- xknr6BVf43tK9Jri/HNJ/HmnW+Ank6HQ/ilEkP8yHwrBrjo8W7bWWKlgk5wh7VvAVDAt
- bO6EdOTA6ura+IzzgI+Pb7rErVEef13agOcpHE6SFCpfPts/iPUbNJ4PHtNH/4pMR785
- UeGg==
+ bh=LArM2BUUSdfzT60+Ek3SeKQsYuBK31bsT9OZBjKTr5k=;
+ b=HiytYiRKYvAACZWv85GJIs/swrWwYTrwjr0xBpyWaMl/v0Wzc8YL4Yu34lFAq40yOa
+ 0ll4x2xF82U604gihm0nRDDR9PxLj1TCgX6pZhmrpWYVkyq3sl4qBiQUN/uEG/cHmjJH
+ 7ST6u8JjQ+oWqYn3cTe2Ab1YQfTh2GLKL6alnU2mcqxNdeT23vI2j5h6C2vyneDCyTgT
+ uK1/F5kuMj3Jh82SZPk3SvUF83rHkD+jCkj8nNi192TLjWmMno7VxCbk4+rNSaKe7t6H
+ tSNq0HlgUikoMFj0eViZlRZaemYk/NjmGJfIv+hKTR/6fc7w1MhCmn2gquwMNvh/Mxry
+ L4Nw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=j4zZ0sgD3zfmvR+R75RLirx1u1AWNR7jFVos5MAwEfs=;
- b=3RI60R14M51HbaNXUj42BsB6/j3TxTXb87hPnHJvw6fJdexiAyuFXNrwFiEC5eKBBT
- JwuybngHMO0y4WNJTJWT2+8Dy+J29GmnTLr3KA/9uQDtW55OgYoDCfZEoF24cyEPLUsZ
- omW3y5cFzokAVqdjyGgVZ9KkfRyYBk8TqnqrvfOAI9ofWVAzg4qDuTEboswQ/O4wNtii
- JZKP+IrOXM13jZvR6gpaXDAoSef0kpVslSCIN0BgfzHRYGwxPbE6zSG0nwPwRif4SX66
- kLYbUexgduFzGO95NNJn9KYiITKLg8yqTFaUAptxNRrOFktkclH6j9gj/YQGIbwepTV0
- laeA==
-X-Gm-Message-State: AOAM533bd2AAN3FAQzupiQgko9akJR2XryMr6gA603auURKFe9kHzGhS
- wfETs26sfBSH+HkizT8WwIJnYg==
-X-Google-Smtp-Source: ABdhPJxrcTZQLvh5/T81fBDIUrslWzsDsz+Hfb0h4J0LILfd/JQkh/PDzXhe8J5rjlPCGAUy/lROKg==
-X-Received: by 2002:a17:902:c10d:b0:149:8b16:ee0e with SMTP id
- 13-20020a170902c10d00b001498b16ee0emr45657890pli.107.1641519465279; 
- Thu, 06 Jan 2022 17:37:45 -0800 (PST)
+ bh=LArM2BUUSdfzT60+Ek3SeKQsYuBK31bsT9OZBjKTr5k=;
+ b=1a3ce+6pXiIQ3Gwk+ROalH4b0rZ48iZod2pTcM3ZjjQbqq8uUAtQJQTkgL0Up7UUs0
+ valPx8+JVbeqC2bBbWwLE6myWZ0pHs4O5pRIJvPV2NiUJDTA4+m6RznOgbs2oGKjTTGd
+ Bwcm63Soja8bLCYDV38foE8KLLWpl3uw9Baw8BJmLEMTH9mNyyJ+CbK7EL7LmjYDtWsA
+ 6ZVOlI3+0a6Ukv8qVBrRCXOoIeaWXKj5v1IvhwjT3UQ9B4lE1TlhupBtUFuhX4o0Bxfc
+ I8L7mC+v65p8fWiAgsaS9FknZX/cjLmTm+PJ4/HObz0T31JHqLNy9UUtkgsXMyHzVbiX
+ jo5Q==
+X-Gm-Message-State: AOAM533JxqIQ3mCbhjRCYlrLLN0zIFdKkIWpieDpnDlfhlVxdnN50ZOh
+ Z68XyrDMypakb8fX2y6bLRFToQ==
+X-Google-Smtp-Source: ABdhPJyOMgmU9/OmlgxZ9NToUZkJhn3bJD56WGx3p7N98hCciD5t7qIxMMNd7Z9XQK283YZm/AxxDQ==
+X-Received: by 2002:a17:902:6544:b0:149:8222:4b62 with SMTP id
+ d4-20020a170902654400b0014982224b62mr47309819pln.114.1641519637780; 
+ Thu, 06 Jan 2022 17:40:37 -0800 (PST)
 Received: from [192.168.1.13] (174-21-75-75.tukw.qwest.net. [174.21.75.75])
- by smtp.gmail.com with ESMTPSA id f12sm3735267pfe.127.2022.01.06.17.37.44
+ by smtp.gmail.com with ESMTPSA id y129sm3500456pfy.164.2022.01.06.17.40.37
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 06 Jan 2022 17:37:44 -0800 (PST)
-Subject: Re: [PATCH v2 1/7] target/ppc: powerpc_excp: Extract software TLB
- logging into a function
+ Thu, 06 Jan 2022 17:40:37 -0800 (PST)
+Subject: Re: [PATCH v2 2/7] target/ppc: powerpc_excp: Keep 60x soft MMU logs
+ active
 To: Fabiano Rosas <farosas@linux.ibm.com>, qemu-devel@nongnu.org
 References: <20220105204029.4058500-1-farosas@linux.ibm.com>
- <20220105204029.4058500-2-farosas@linux.ibm.com>
+ <20220105204029.4058500-3-farosas@linux.ibm.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <967e2323-934d-dc37-cd65-5ecddb1bfffb@linaro.org>
-Date: Thu, 6 Jan 2022 17:37:43 -0800
+Message-ID: <f45eaf7a-ee77-259b-d38b-ff969b0e3a97@linaro.org>
+Date: Thu, 6 Jan 2022 17:40:36 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <20220105204029.4058500-2-farosas@linux.ibm.com>
+In-Reply-To: <20220105204029.4058500-3-farosas@linux.ibm.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102f
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::62b
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62b.google.com
 X-Spam_score_int: -39
 X-Spam_score: -4.0
 X-Spam_bar: ----
@@ -99,36 +98,55 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 1/5/22 12:40 PM, Fabiano Rosas wrote:
-> Signed-off-by: Fabiano Rosas<farosas@linux.ibm.com>
+> Remove the compile time definition and make the logging be controlled
+> by the `-d mmu` option in the cmdline.
+> 
+> Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
+> Reviewed-by: Cédric Le Goater <clg@kaod.org>
 > ---
->   target/ppc/excp_helper.c | 63 +++++++++++++++++++++++-----------------
->   1 file changed, 36 insertions(+), 27 deletions(-)
+>   target/ppc/excp_helper.c | 15 ++++++---------
+>   1 file changed, 6 insertions(+), 9 deletions(-)
 > 
 > diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-> index a779dc936a..2c5d5470de 100644
+> index 2c5d5470de..ce86b2ae37 100644
 > --- a/target/ppc/excp_helper.c
 > +++ b/target/ppc/excp_helper.c
-> @@ -135,6 +135,41 @@ static void dump_hcall(CPUPPCState *env)
->                     env->nip);
->   }
+> @@ -30,8 +30,6 @@
+>   #include "exec/cpu_ldst.h"
+>   #endif
 >   
-> +static void ppc_excp_debug_sw_tlb(CPUPPCState *env, int excp)
-> +{
-> +#if defined(DEBUG_SOFTWARE_TLB)
-> +    const char *es;
-> +    target_ulong *miss, *cmp;
-> +    int en;
+> -/* #define DEBUG_SOFTWARE_TLB */
+> -
+>   /*****************************************************************************/
+>   /* Exception processing */
+>   #if !defined(CONFIG_USER_ONLY)
+> @@ -137,7 +135,6 @@ static void dump_hcall(CPUPPCState *env)
+>   
+>   static void ppc_excp_debug_sw_tlb(CPUPPCState *env, int excp)
+>   {
+> -#if defined(DEBUG_SOFTWARE_TLB)
+>       const char *es;
+>       target_ulong *miss, *cmp;
+>       int en;
+> @@ -161,12 +158,12 @@ static void ppc_excp_debug_sw_tlb(CPUPPCState *env, int excp)
+>           miss = &env->spr[SPR_DMISS];
+>           cmp = &env->spr[SPR_DCMP];
+>       }
+> -    qemu_log("6xx %sTLB miss: %cM " TARGET_FMT_lx " %cC "
+> -             TARGET_FMT_lx " H1 " TARGET_FMT_lx " H2 "
+> -             TARGET_FMT_lx " %08x\n", es, en, *miss, en, *cmp,
+> -             env->spr[SPR_HASH1], env->spr[SPR_HASH2],
+> -             env->error_code);
+> -#endif
 > +
-> +    if (!qemu_log_enabled()) {
-> +        return;
-> +    }
-> +
+> +    qemu_log_mask(CPU_LOG_MMU, "6xx %sTLB miss: %cM " TARGET_FMT_lx " %cC "
+> +                  TARGET_FMT_lx " H1 " TARGET_FMT_lx " H2 "
+> +                  TARGET_FMT_lx " %08x\n", es, en, *miss, en, *cmp,
+> +                  env->spr[SPR_HASH1], env->spr[SPR_HASH2],
+> +                  env->error_code);
 
-Because code movement,
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-
-Better is qemu_loglevel_mask(CPU_LOG_MMU)
-and perhaps then you can remove the ifdef.
+Ah, then my comment wrt patch 1 applies to this one -- use the proper filter function at 
+the top of this one, before all of the data collection for the actual logging.
 
 
 r~
