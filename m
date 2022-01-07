@@ -2,86 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 438DA4877A1
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 13:33:31 +0100 (CET)
-Received: from localhost ([::1]:46326 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26D364877D8
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 13:55:12 +0100 (CET)
+Received: from localhost ([::1]:57254 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5oQz-0001bJ-Q9
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 07:33:29 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46152)
+	id 1n5oly-0003wS-PL
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 07:55:10 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49848)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n5n4N-0002Ic-RE
- for qemu-devel@nongnu.org; Fri, 07 Jan 2022 06:06:06 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:33038)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n5n4I-0002cY-BL
- for qemu-devel@nongnu.org; Fri, 07 Jan 2022 06:06:03 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641553557;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=IyIX4Y52IesbNq4lnMucnk8E/SfIhuYQ0BGXFbD8E9s=;
- b=U+DVlHPvFqWPnQeqz9DB1CP1pDfCu2ISQyuhO2ZRvX1OBtQLNMbzs4AHv2TJreHgUODIXS
- fqrUjsl5tcxJCi6zXXKnAQ8H/rNz7aBWRPliAyGkorRI9fkaSp6EXx6VKh/rEWtPHECSHf
- m4r5OjxBG90uXG5DDsN/fgLKL+a2sBw=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-421-GATO9yNONkuP39yBDieWJg-1; Fri, 07 Jan 2022 06:05:53 -0500
-X-MC-Unique: GATO9yNONkuP39yBDieWJg-1
-Received: by mail-wr1-f70.google.com with SMTP id
- o28-20020adfa11c000000b001a60fd79c21so428282wro.19
- for <qemu-devel@nongnu.org>; Fri, 07 Jan 2022 03:05:53 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=IyIX4Y52IesbNq4lnMucnk8E/SfIhuYQ0BGXFbD8E9s=;
- b=jJ85x9FDGhtuutAMbCrIuabtmognW/yMTTRR9Y0TaytOPR+LicpexuRkgRV0Lyf95M
- XeJM8qMcgwC2Jwk0ssw4xMQlv9jXmr/FQsrjrdWcHFizTCSWYgwr169Hll9v/dcWBVB2
- XZ4AKp06X1XHuyGKSUkTbAraIX35Zrj2+ynRfLcc/fI38Slp6S3H83aoAkisMYCUduE3
- xux3KLQSeJCHeU8+Ow+b951G2hro8OZ3z6wRo5nbMWH+oeFv2j+QkuV8yEwMB7Whh+CD
- YuHbN12PgwFChZdWMx7N4JyTsE5hIyi1529IJY1r0bFMLYwzDbwi/jqwzuS/6x3s3N+v
- frIA==
-X-Gm-Message-State: AOAM532fldD0x5+peqqFC/huGag0iWU/ehuSd6IIbQyHeYCSceNpysjv
- nZtY2gpZEAOfLBSHM/omnabhb9DeorZSenfEL/+pwzhcIQVuqFQZJAT0HgQnHieyyyxIPVXkXad
- KXV1GIxI8dkcJfO5zvcNI7H5MFiWunHhFPTIBBZ4jrLyI11x5T/rsRUsdftWP
-X-Received: by 2002:a5d:64e2:: with SMTP id g2mr23944143wri.690.1641553551838; 
- Fri, 07 Jan 2022 03:05:51 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyjQQjaCY2XpEPUdHpwZkTWkbX7rXsoRa87IP5Mla8GX3U+T9XCaIcSLL6quRTO6+hhtxmz2w==
-X-Received: by 2002:a5d:64e2:: with SMTP id g2mr23944127wri.690.1641553551618; 
- Fri, 07 Jan 2022 03:05:51 -0800 (PST)
-Received: from redhat.com ([2.55.16.192])
- by smtp.gmail.com with ESMTPSA id o13sm1323386wrc.111.2022.01.07.03.05.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 Jan 2022 03:05:51 -0800 (PST)
-Date: Fri, 7 Jan 2022 06:05:49 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL v2 55/55] tests: acpi: Add updated TPM related tables
-Message-ID: <20220107102526.39238-56-mst@redhat.com>
-References: <20220107102526.39238-1-mst@redhat.com>
-MIME-Version: 1.0
-In-Reply-To: <20220107102526.39238-1-mst@redhat.com>
-X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
-X-Mutt-Fcc: =sent
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.372,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1n5nPy-0004sY-JC; Fri, 07 Jan 2022 06:28:22 -0500
+Received: from smtp23.cstnet.cn ([159.226.251.23]:54262 helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1n5nPu-0006V9-1k; Fri, 07 Jan 2022 06:28:22 -0500
+Received: from localhost.localdomain (unknown [180.156.147.178])
+ by APP-03 (Coremail) with SMTP id rQCowAB3fS3CI9hh_s5CBQ--.4982S2;
+ Fri, 07 Jan 2022 19:28:02 +0800 (CST)
+From: Weiwei Li <liweiwei@iscas.ac.cn>
+To: richard.henderson@linaro.org, palmer@dabbelt.com, alistair.francis@wdc.com,
+ bin.meng@windriver.com, qemu-riscv@nongnu.org, qemu-devel@nongnu.org
+Subject: [PATCH v3 0/6] support subsets of Float-Point in Integer Registers
+ extensions
+Date: Fri,  7 Jan 2022 19:27:43 +0800
+Message-Id: <20220107112749.981-1-liweiwei@iscas.ac.cn>
+X-Mailer: git-send-email 2.17.1
+X-CM-TRANSID: rQCowAB3fS3CI9hh_s5CBQ--.4982S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7uFW3tryfCrW5CrW8Ar1fWFg_yoW8Zr4kpF
+ 4rGw43KrZ5JFWfXw4ftF1qyw45XF4rW3yjywn7Jwn7Aa13ArW5JFnrKw1fW3W8Jay8Wry2
+ 93WUAr13ur4UAFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUv014x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+ 6F4UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
+ 0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xII
+ jxv20xvE14v26r106r15McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr
+ 1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E8cxa
+ n2IY04v7MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrV
+ AFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCI
+ c40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1I6r4UMIIF0xvE2Ix0cI8IcVCY1x0267
+ AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Wr1j6rW3Jr1lIxAIcVC2z280aVAFwI0_
+ Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VU1
+ a9aPUUUUU==
+X-Originating-IP: [180.156.147.178]
+X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
+Received-SPF: pass client-ip=159.226.251.23; envelope-from=liweiwei@iscas.ac.cn;
+ helo=cstnet.cn
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_BL=0.001, RCVD_IN_MSPIKE_L4=0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,69 +67,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Ani Sinha <ani@anisinha.ca>, Peter Maydell <peter.maydell@linaro.org>,
- Igor Mammedov <imammedo@redhat.com>, Stefan Berger <stefanb@linux.ibm.com>
+Cc: wangjunqiang@iscas.ac.cn, Weiwei Li <liweiwei@iscas.ac.cn>,
+ lazyparser@gmail.com, ardxwe@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Stefan Berger <stefanb@linux.ibm.com>
+This patchset implements RISC-V Float-Point in Integer Registers extensions(Version 1.0.0-rc), which includes Zfinx, Zdinx, Zhinx and Zhinxmin extension. 
 
-The updated TPM related tables have the following additions:
+Specification:
+https://github.com/riscv/riscv-zfinx/blob/main/zfinx-1.0.0-rc.pdf
 
-   Device (TPM)
-   {
-       Name (_HID, "MSFT0101" /* TPM 2.0 Security Device */)  // _HID: Hardware ID
-+      Name (_STR, "TPM 2.0 Device")  // _STR: Description String
-+      Name (_UID, One)  // _UID: Unique ID
-       Name (_STA, 0x0F)  // _STA: Status
-       Name (_CRS, ResourceTemplate ()  // _CRS: Current Resource Settings
+The port is available here:
+https://github.com/plctlab/plct-qemu/tree/plct-zfinx-upstream-v3
 
-Cc: Michael S. Tsirkin <mst@redhat.com>
-Cc: Igor Mammedov <imammedo@redhat.com>
-Cc: Ani Sinha <ani@anisinha.ca>
-Signed-off-by: Stefan Berger <stefanb@linux.ibm.com>
-Acked-by: Ani Sinha <ani@anisinha.ca>
-Message-id: 20211223022310.575496-4-stefanb@linux.ibm.com
-Message-Id: <20220104175806.872996-4-stefanb@linux.ibm.com>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
----
- tests/qtest/bios-tables-test-allowed-diff.h |   2 --
- tests/data/acpi/q35/DSDT.tis.tpm12          | Bin 8894 -> 8900 bytes
- tests/data/acpi/q35/DSDT.tis.tpm2           | Bin 8894 -> 8921 bytes
- 3 files changed, 2 deletions(-)
+To test this implementation, specify cpu argument with 'Zfinx =true,Zdinx=true,Zhinx=true,Zhinxmin=true' with 'g=false,f=false,d=false,Zfh=false,Zfhmin=false'
+This implementation can pass gcc tests, ci result can be found in https://ci.rvperf.org/job/plct-qemu-zfinx-upstream/.
 
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index 5d80e408d4..dfb8523c8b 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1,3 +1 @@
- /* List of comma-separated changed AML files to ignore */
--"tests/data/acpi/q35/DSDT.tis.tpm12",
--"tests/data/acpi/q35/DSDT.tis.tpm2",
-diff --git a/tests/data/acpi/q35/DSDT.tis.tpm12 b/tests/data/acpi/q35/DSDT.tis.tpm12
-index 0ebdf6fbd77967f1ab5d5337b7b1fed314cfaca8..fb9dd1f0599afd6b555ea570ecd00a3bb227aa84 100644
-GIT binary patch
-delta 50
-zcmdnzdc>8>CD<k8h!O(><KvB7q6(a@S~2m#PVoZ1lQk6FnOs#T7b=LdgnGI#Zf;Sq
-GVgdkr91X<)
+v3:
+* delete unused reset for mstatus.FS
+* use positive test for RVF instead of negative test for ZFINX
+* replace get_ol with get_xl
+* use tcg_gen_concat_tl_i64 to unify tcg_gen_concat_i32_i64 and tcg_gen_deposit_i64
 
-delta 45
-zcmX@&y3du%CD<iopArKDqxwcJQ3Xza&6xOLr+5MP$r=joO#Uj93l&5+_b6B}0RSYz
-B3@!iw
+v2:
+* hardwire mstatus.FS to zero when enable zfinx
+* do register-pair check at the begin of translation
+* optimize partial implemention as suggested
 
-diff --git a/tests/data/acpi/q35/DSDT.tis.tpm2 b/tests/data/acpi/q35/DSDT.tis.tpm2
-index dcbb7f0af377425db53130e8ba1c62c09c22e006..00d732e46f5d9d056e557bd026fa30f9db3b8c30 100644
-GIT binary patch
-delta 70
-zcmdnzdefE5CD<k8rV;}KBgaNAQ3Wn9?U?vrr+5J;?a7)7ZcJWklM5BZ#e;Z50(=#W
-a^b8bSQp+-vQyDnoLp@y>H@7HQF#!OXcoHoD
+Weiwei Li (6):
+  target/riscv: add cfg properties for zfinx, zdinx and zhinx{min}
+  target/riscv: hardwire mstatus.FS to zero when enable zfinx
+  target/riscv: add support for zfinx
+  target/riscv: add support for zdinx
+  target/riscv: add support for zhinx/zhinxmin
+  target/riscv: expose zfinx, zdinx, zhinx{min} properties
 
-delta 46
-zcmccVy3du%CD<iopArKD<D-pSq6%F8nlbUgPVoZnnv*pZ+?f1TCKoD*Z(gim#smOL
-C=M6sq
+ target/riscv/cpu.c                        |  16 ++
+ target/riscv/cpu.h                        |   4 +
+ target/riscv/cpu_helper.c                 |   6 +-
+ target/riscv/csr.c                        |  21 +-
+ target/riscv/fpu_helper.c                 | 178 ++++++------
+ target/riscv/helper.h                     |   4 +-
+ target/riscv/insn_trans/trans_rvd.c.inc   | 319 ++++++++++++++++-----
+ target/riscv/insn_trans/trans_rvf.c.inc   | 314 +++++++++++++-------
+ target/riscv/insn_trans/trans_rvzfh.c.inc | 332 +++++++++++++++-------
+ target/riscv/internals.h                  |  32 ++-
+ target/riscv/translate.c                  | 155 ++++++++++
+ 11 files changed, 1010 insertions(+), 371 deletions(-)
 
 -- 
-MST
+2.17.1
 
 
