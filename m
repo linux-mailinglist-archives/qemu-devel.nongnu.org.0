@@ -2,72 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1CE14871C1
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 05:28:47 +0100 (CET)
-Received: from localhost ([::1]:45070 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3AA04871C2
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 05:30:08 +0100 (CET)
+Received: from localhost ([::1]:47668 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5gru-0006BQ-C1
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 23:28:46 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57240)
+	id 1n5gtD-0007zf-Tg
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 23:30:07 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57262)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1n5gpK-00041H-1T
- for qemu-devel@nongnu.org; Thu, 06 Jan 2022 23:26:06 -0500
-Received: from [2607:f8b0:4864:20::1036] (port=45723
- helo=mail-pj1-x1036.google.com)
+ id 1n5gpM-00048q-Vc
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 23:26:09 -0500
+Received: from [2607:f8b0:4864:20::102c] (port=36483
+ helo=mail-pj1-x102c.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1n5gpG-0005PK-TD
- for qemu-devel@nongnu.org; Thu, 06 Jan 2022 23:26:05 -0500
-Received: by mail-pj1-x1036.google.com with SMTP id
- l16-20020a17090a409000b001b2e9628c9cso5280564pjg.4
- for <qemu-devel@nongnu.org>; Thu, 06 Jan 2022 20:26:02 -0800 (PST)
+ id 1n5gpH-0005PU-En
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 23:26:08 -0500
+Received: by mail-pj1-x102c.google.com with SMTP id
+ c9-20020a17090a1d0900b001b2b54bd6c5so10778686pjd.1
+ for <qemu-devel@nongnu.org>; Thu, 06 Jan 2022 20:26:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=4hBJw4MxHRGrfALzzhY8NB/B5fMDA3bRMuaqM5UfqGY=;
- b=wggx86G7PL291dcO76qfgbXcWBZx0D81uqRvyl6pm4+3MVY4SG+AcMRA7OJ/Cnteaa
- FvbjYdKZtjvyXsGiDS6Xt8+k6HMHKNtj/UOCPadYsSvjtKzzPXbPBQzxaoMeZThKsuET
- nDfmnA6wJmujPUJ9x5pQ6AhfQvySwMfYtJpx+wQQ45Wa6txNzNWlrwMvQfNkkemUgx22
- t4+5iGyWRwSV2ZOPXCbhhU+rJwawlwjaD/XjgSjXpImSLyvl9lLUyaJGBadaRtde5MDf
- evv5XER2CXXtyCozNTHk0qIbcB+67hN1wDl27ZFUGC21zBKuD+Qqu0rNZtcgDyk3Deoc
- KFQQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=22dZO2BY6p2NKeW0++NNOfZ5ea4EcJKmG2/pGJig100=;
+ b=bvj51drLCM6F3xP+PgHHFU3EQNqhCkABvsiVNp1e8s168Ke24aK768qnBuzykCaBZA
+ t5dzNS4VH9C2H/fHVpaVVv96ac3JA8G40uUb3+7ZjZhX+bvoHBRc5Ki+nA1IERLV0EMp
+ kJ3Y+ifpjfHK59KyC0YgdXH5X104rJYOEbDdZiS9dqT+OeeyzrFb1XuZgLi0p/AbaeE3
+ aUFhL0g2p261zVbKQdrdXOt1KdoUFNjPxYPMemsJQ6Tbn/f49NBUP1neFH7MzNJIa7/H
+ w/rbNgSMmKxVFFWB0bsRR/Oo+/WNSJGpOwMtxxxM1wmgNDKO9pC2/p4aj3uI5LHrIgO0
+ PGeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=4hBJw4MxHRGrfALzzhY8NB/B5fMDA3bRMuaqM5UfqGY=;
- b=JWgwPduMXyciIMjeEgDpAm/Bcf+pq7v+d5PDom/3ndMgD5Wlbk9PRC9HRv/vlO2rBD
- oI2ga1bjO/XQjpkey2a9JUg/xnQP1BWQvp5wR6QbBwP7e2FHEwfWmgt9fBywNPkkpZj9
- wNUOkEOR0FSvHOYWbh7DypVWaa8sgYdALasZN7yvkFwTawJ31+cjGPJ867VfUf+2QN1e
- R91MVA+xFKosUQ90q1qg8xDbh87fEp/R7E7PgXwNetzWv9n1IH/t+WCmHoW8AxFA/FI+
- mBwSYwe4X5D5zdKV8sgpGei7kXyrPBDjW2ChmR+eB9PhZAoaxJTPQlyF1+/vdNl04x07
- vrPw==
-X-Gm-Message-State: AOAM5300nxU66Vrmcfo0vhW8OPpHCEE79AWhp6yKSHt+oNiJ7rp6tDhx
- n2wUEVwu+/ojkWQ8laUQyTHTKQJZ2Lmwlg==
-X-Google-Smtp-Source: ABdhPJy0jNNCAVuGCYjgxi2ude5SoyoKyk82/PS0QMjkcsV6IbsAnq2TacA1nCImxYcDvovTzicuLw==
-X-Received: by 2002:a17:902:f24b:b0:149:d634:d92f with SMTP id
- j11-20020a170902f24b00b00149d634d92fmr10451979plc.88.1641529561359; 
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=22dZO2BY6p2NKeW0++NNOfZ5ea4EcJKmG2/pGJig100=;
+ b=uOLKVpMM9YYM89bAkKnL4uuNoql7lfPHhQwP3pA0qRvjKom48fxQKYUWQk11LB/2uB
+ RafU1zCk3x+i8pbNCaam2q3ssnWFJI73KRhFhw8a8JZ8GjRTcndRnZewwRKRILo9SWrZ
+ shbUgXIAAh+7VKjR63ERWCsAbjAWi9Ky99wTPUEiQVwxZ8RRNXCkFZwfnDYSW+iKCBU3
+ zZ0FFRj8xXAfYS3M74LWBzeQDNxotUhcTsn7CtMjnr2y7M14keIOD6LEhYwJsPCWa8NR
+ LpRAeOHL9SpCHauNyO70Wq2+tUrF0AZRsFrwei4X5ykeMu2WiAwSsXFp7s12CG+WS/QS
+ 7XIw==
+X-Gm-Message-State: AOAM533+J72gvurm/RgX93FRAqXfMfAgnlc8fnCFoF3B2YHO3jflt+YD
+ FPax4wpOExoMe7MM8ldTziEMuQYDTGNJ9w==
+X-Google-Smtp-Source: ABdhPJyBJVBJIvOTekjPUajollOnF+0RrIE5bADi26E6nOs+4TPBQBCeTnkFS787anotlFN8oy0DjQ==
+X-Received: by 2002:a17:90a:ec08:: with SMTP id
+ l8mr942535pjy.103.1641529561979; 
  Thu, 06 Jan 2022 20:26:01 -0800 (PST)
 Received: from localhost.localdomain (174-21-75-75.tukw.qwest.net.
  [174.21.75.75])
- by smtp.gmail.com with ESMTPSA id e4sm1396862pjr.40.2022.01.06.20.26.00
+ by smtp.gmail.com with ESMTPSA id e4sm1396862pjr.40.2022.01.06.20.26.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 06 Jan 2022 20:26:00 -0800 (PST)
+ Thu, 06 Jan 2022 20:26:01 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/2] linux-user: Move target_struct.h generic definitions to
- generic/
-Date: Thu,  6 Jan 2022 20:25:58 -0800
-Message-Id: <20220107042600.149852-1-richard.henderson@linaro.org>
+Subject: [PATCH 1/2] linux-user/arm: Move target_oabi_flock64 out of
+ target_structs.h
+Date: Thu,  6 Jan 2022 20:25:59 -0800
+Message-Id: <20220107042600.149852-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220107042600.149852-1-richard.henderson@linaro.org>
+References: <20220107042600.149852-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1036
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102c
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1036.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102c.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -91,31 +93,52 @@ Cc: gaosong@loongson.cn, laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I noticed this while reviewing loongarch64.
+Place it next to copy_from/to_user_oabi_flock64, the only users,
+inside the existing target-specific ifdef.  This leaves only
+generic ipc structs in target_structs.h.
 
-r~
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ linux-user/arm/target_structs.h | 8 --------
+ linux-user/syscall.c            | 8 ++++++++
+ 2 files changed, 8 insertions(+), 8 deletions(-)
 
-Richard Henderson (2):
-  linux-user/arm: Move target_oabi_flock64 out of target_structs.h
-  linux-user: Move target_struct.h generic definitions to generic/
-
- linux-user/aarch64/target_structs.h    | 59 +------------------------
- linux-user/arm/target_structs.h        | 60 +-------------------------
- linux-user/cris/target_structs.h       | 59 +------------------------
- linux-user/generic/target_structs.h    | 58 +++++++++++++++++++++++++
- linux-user/hexagon/target_structs.h    | 55 +----------------------
- linux-user/i386/target_structs.h       | 59 +------------------------
- linux-user/m68k/target_structs.h       | 59 +------------------------
- linux-user/microblaze/target_structs.h | 59 +------------------------
- linux-user/nios2/target_structs.h      | 59 +------------------------
- linux-user/openrisc/target_structs.h   | 59 +------------------------
- linux-user/riscv/target_structs.h      | 47 +-------------------
- linux-user/sh4/target_structs.h        | 59 +------------------------
- linux-user/x86_64/target_structs.h     | 36 +---------------
- linux-user/syscall.c                   |  8 ++++
- 14 files changed, 78 insertions(+), 658 deletions(-)
- create mode 100644 linux-user/generic/target_structs.h
-
+diff --git a/linux-user/arm/target_structs.h b/linux-user/arm/target_structs.h
+index 339b070bf1..25bf8dd3a5 100644
+--- a/linux-user/arm/target_structs.h
++++ b/linux-user/arm/target_structs.h
+@@ -48,12 +48,4 @@ struct target_shmid_ds {
+     abi_ulong __unused4;
+     abi_ulong __unused5;
+ };
+-
+-struct target_oabi_flock64 {
+-    abi_short l_type;
+-    abi_short l_whence;
+-    abi_llong l_start;
+-    abi_llong l_len;
+-    abi_int   l_pid;
+-} QEMU_PACKED;
+ #endif
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index ce9d64896c..ca6e0b8fb0 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -6927,6 +6927,14 @@ typedef abi_long from_flock64_fn(struct flock64 *fl, abi_ulong target_addr);
+ typedef abi_long to_flock64_fn(abi_ulong target_addr, const struct flock64 *fl);
+ 
+ #if defined(TARGET_ARM) && TARGET_ABI_BITS == 32
++struct target_oabi_flock64 {
++    abi_short l_type;
++    abi_short l_whence;
++    abi_llong l_start;
++    abi_llong l_len;
++    abi_int   l_pid;
++} QEMU_PACKED;
++
+ static inline abi_long copy_from_user_oabi_flock64(struct flock64 *fl,
+                                                    abi_ulong target_flock_addr)
+ {
 -- 
 2.25.1
 
