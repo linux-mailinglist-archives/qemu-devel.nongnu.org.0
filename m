@@ -2,80 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EE184875FC
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 11:57:55 +0100 (CET)
-Received: from localhost ([::1]:46942 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E94F4875F8
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 11:57:15 +0100 (CET)
+Received: from localhost ([::1]:45276 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5mwT-0006tr-TT
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 05:57:53 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42584)
+	id 1n5mvq-0005p5-6J
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 05:57:14 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42296)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1n5mtw-0003zC-CA
- for qemu-devel@nongnu.org; Fri, 07 Jan 2022 05:55:16 -0500
-Received: from [2a00:1450:4864:20::529] (port=36520
- helo=mail-ed1-x529.google.com)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1n5mt7-0002xR-OG; Fri, 07 Jan 2022 05:54:25 -0500
+Received: from [2a00:1450:4864:20::42e] (port=36360
+ helo=mail-wr1-x42e.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1n5mts-0008Qt-6b
- for qemu-devel@nongnu.org; Fri, 07 Jan 2022 05:55:14 -0500
-Received: by mail-ed1-x529.google.com with SMTP id 30so18997083edv.3
- for <qemu-devel@nongnu.org>; Fri, 07 Jan 2022 02:55:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=UX3AQB3xG7P12z6eX0sa26fKs725urrDYOOfFY10LKs=;
- b=wA29GbLkNojodhrkRKI+YG4xTBiStDdCxzsIlyLBmT04OCEjEsAfA8tLQeZ3rMIMb6
- sxAzcl3ylRGDHPBD449exBSynd+Kesv5wW237UZNBub0gC08z+M90CFn1wDmfwpYeR0x
- ZfJu8xZvUCo5BDRo41oWgtY9iheItHORRpoT/NNKTrw3DIc0BUyDxaKqv/OT1clEJUAE
- I5teIoL66RjgXJDqJaWnPzIF8cwpWBtJ4vWCrMZ0GcoZ0ErsNNW46p1QlWu2hYq2/+5C
- 68dlh612Y+JdY1FKr/5RalQ956W6m/U6fu8poTWzGQXZ0FpMgP79UUPwYHj1dXMuJ6Pi
- GkUQ==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1n5mt6-0008Ku-80; Fri, 07 Jan 2022 05:54:25 -0500
+Received: by mail-wr1-x42e.google.com with SMTP id r10so2642235wrc.3;
+ Fri, 07 Jan 2022 02:54:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=iauCTE/Qc3gGKTbzj1Gz0Ier6cmWvJeJVpgEvvuIJwU=;
+ b=BCB6J1J/D3f/muWX+h8hWk1U7O5TXdP0CMAjk1/MVVTjWnId3QeaEYHeL3SADNaoXl
+ nImDLgwNwqtzDX5SjHo11sjX/qd6MIoLaQJc8z7K9o2q5sUYm1bi0GEyiluY/fEBXJiV
+ KU5XNUyF2l2O2ZrwnPBxB89yL46idAGfGo0HlhZJE++IfgH1OAG3+8WBGruglHkF+N7z
+ jPi1QBYGtOZP5wkM4HWieS6EZmCdBYWUOJmm5Ho16qg/T8iMncpioXzHNTk+zDK0N+CZ
+ TgHwfe/R0sB6cB4dvSCsn7EQ2TbbaU6w+ousDfBzDUGEFwD2Q97OTVqP8zwu1gGPmqX7
+ ctkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=UX3AQB3xG7P12z6eX0sa26fKs725urrDYOOfFY10LKs=;
- b=zHBdJWC+cSuGZA9qDv3dw0I4aLSfgu29oGBnxpdNbaB+mOA1Qqg9n1IKob5PpGWSNL
- 7lMtOq0lDSzDYGHWKGODFVefm+Tw3p9gQAUNZKdNf0Wdwwvkkd0scX2RjEMnBRXMf7uA
- t3xGqJ87goRDOCFU4GBsl3NSMfdluKjhLnN35EDmI2PTiYDTy7ezJIPpZwRg4NTlUI9V
- TWo+7+Z8bcL3LRQUXBHzlHvJ58rLebq5B0RrfNUFV63IdanJEfdAxlgwchGs1VvX6X7g
- Qlmo0d0PrCyB6vUBXc+Lev/uTRp6dvo2wc+fPYQcaMN2rCjBzrVI4nX6FQzEAaoco3F1
- Szvg==
-X-Gm-Message-State: AOAM530i708sX3nAGvmtE4E3AbI6VDrXYdTJJOPE7cOktaCnktwqBoPV
- 1anwPREAj5SnDA7X/j//+YP1nA==
-X-Google-Smtp-Source: ABdhPJyMyzUVoUTa5MZVB2QVQinebaSdxjZp5sZ45tlNhh1Mls+2uh6+R1iwVGcDIc6MPgGp8hL+Ag==
-X-Received: by 2002:aa7:df05:: with SMTP id c5mr9040217edy.208.1641552906013; 
- Fri, 07 Jan 2022 02:55:06 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id n26sm1899117edy.96.2022.01.07.02.55.04
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=iauCTE/Qc3gGKTbzj1Gz0Ier6cmWvJeJVpgEvvuIJwU=;
+ b=Vf6ovOq5nCkAt0b/PQ17dIs642/QIZLZH0K5pei7eMxXyb8Go57g3Vl3g8nusDlNQy
+ GPMlNpbzC/OCjB0aeecmybuDsrbbK0BPUj4LcwpHlUBbKU8g83YA27uBjTcWx+XF96FI
+ z6+5u5qSaaUedZmKzJsawSbpsucwc479WuDspa9Y5Twb4TZWYhGWNvOzE/PmX/I+ynWL
+ x6CcKoiahBtVrVXILK+KGIPKPvmqgxR19iO/WmvA8E5m3wo2h31w5AfQ5tREayJo8Nyx
+ CmfG3Ss/+pkXALfmXaIKM0aUO7+91KMm2V5yZPofeFa9230dQFAxYYf/9AF6EilyOZLp
+ 4SNw==
+X-Gm-Message-State: AOAM530iX5GcJ4cQgb8UrAwKErA7uVndwynIoTsHxWQNeVjWVMhSLvx9
+ dONb1hx3JQ1IrtcITBAigvVg4bDrJKcM6g==
+X-Google-Smtp-Source: ABdhPJx95XHZ7+uSRGgPmRiE+5TT3UgXM0nCBuiqvBHA72h5l2rASxmqNZP/hqbZSlES6MQeJO5e3Q==
+X-Received: by 2002:adf:dcc6:: with SMTP id x6mr54254495wrm.607.1641552862132; 
+ Fri, 07 Jan 2022 02:54:22 -0800 (PST)
+Received: from nuc.. (83.red-83-50-87.dynamicip.rima-tde.net. [83.50.87.83])
+ by smtp.gmail.com with ESMTPSA id f10sm4554707wmg.43.2022.01.07.02.54.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 Jan 2022 02:55:04 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id C6F061FFB7;
- Fri,  7 Jan 2022 10:55:03 +0000 (GMT)
-References: <20220104132022.2146857-1-f4bug@amsat.org>
- <4874e40b-19b3-cf4f-65cc-5991afdb5153@loongson.cn>
-User-agent: mu4e 1.7.5; emacs 28.0.90
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: gaosong <gaosong@loongson.cn>
-Subject: Re: [PATCH] tests/tcg/loongson64: Add float reference files
-Date: Fri, 07 Jan 2022 10:54:08 +0000
-In-reply-to: <4874e40b-19b3-cf4f-65cc-5991afdb5153@loongson.cn>
-Message-ID: <8735lziznc.fsf@linaro.org>
+ Fri, 07 Jan 2022 02:54:21 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 0/3] block: Minor vhost-user-blk fixes
+Date: Fri,  7 Jan 2022 11:54:17 +0100
+Message-Id: <20220107105420.395011-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.33.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::529
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42e
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::529;
- envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x529.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42e.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
  RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
@@ -90,41 +83,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: WANG Xuerui <git@xen0n.name>,
- Richard Henderson <richard.henderson@linaro.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Eric Blake <eblake@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, qemu-block@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-gaosong <gaosong@loongson.cn> writes:
-
-> Hi Philippe,
->
-> On 2022/1/4 =E4=B8=8B=E5=8D=889:20, Philippe Mathieu-Daud=C3=A9 wrote:
->
->  Generated on Loongson-3A5000 (CPU revision 0x0014c011).
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> ---
->  tests/tcg/loongson64/float_convs.ref | 748 ++++++++++++++++++++++++++
->  tests/tcg/loongson64/float_madds.ref | 768 +++++++++++++++++++++++++++
->
-> Maybe 'loongarch64' is more suitable.
->
-> Add this patch,  run 'make check-tcg' , test failed.
-> Have you tested it?  I think it's our translation problem. We'll
-> correct it.
-
-It will fail because we iterate through tests/tcg via ARCH - I'm
-surprised it even saw the reference files.
-
->
-> Thanks
-> Song=20
-
-
---=20
-Alex Benn=C3=A9e
+- Add vhost-user-blk help to qemu-storage-daemon,=0D
+- Do not list vhost-user-blk in BlockExportType when=0D
+  CONFIG_VHOST_USER_BLK_SERVER is disabled.=0D
+=0D
+Since v2:=0D
+- Fix typo (Eric)=0D
+=0D
+Since v1:=0D
+- Reword patch 2 description (Markus)=0D
+- Fix BlockExportOptions enum build failure (Markus)=0D
+=0D
+Philippe Mathieu-Daud=C3=A9 (3):=0D
+  docs: Correct 'vhost-user-blk' spelling=0D
+  qemu-storage-daemon: Add vhost-user-blk help=0D
+  qapi/block: Restrict vhost-user-blk to CONFIG_VHOST_USER_BLK_SERVER=0D
+=0D
+ docs/tools/qemu-storage-daemon.rst   |  2 +-=0D
+ qapi/block-export.json               |  6 ++++--=0D
+ storage-daemon/qemu-storage-daemon.c | 13 +++++++++++++=0D
+ 3 files changed, 18 insertions(+), 3 deletions(-)=0D
+=0D
+-- =0D
+2.33.1=0D
+=0D
 
