@@ -2,50 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8524C4874D9
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 10:37:39 +0100 (CET)
-Received: from localhost ([::1]:60876 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA5FE4874C3
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 10:35:18 +0100 (CET)
+Received: from localhost ([::1]:54982 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5lgo-0003ft-CW
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 04:37:38 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53294)
+	id 1n5leX-00084D-KF
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 04:35:17 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53320)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1n5lbK-0005wu-L2
+ id 1n5lbM-0005x2-Sy
  for qemu-devel@nongnu.org; Fri, 07 Jan 2022 04:32:02 -0500
 Received: from mga05.intel.com ([192.55.52.43]:22251)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
- id 1n5lbH-00077l-IF
- for qemu-devel@nongnu.org; Fri, 07 Jan 2022 04:31:58 -0500
+ id 1n5lbK-00077l-SZ
+ for qemu-devel@nongnu.org; Fri, 07 Jan 2022 04:32:00 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1641547915; x=1673083915;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=EqCmNFZK2aUWjq5baKwN7Cf9hlTO2Dlb4RVf8oPwhEA=;
- b=n+rQKok7tmM/faindBCTYB/k6m+qnzYU4QXRfRVDRyUUKSdhjfj2hhpc
- UJFd8SUUomcIbujaKK9aKTe6JzpEn5XmIMziRQfQ3p3KvVk4GSe2P/rn5
- 6z5UxoH65qvOWtSIwgumoDf00OntFq5tq24/1fpR1wQMUZzH8M49mjih3
- ACt0JGB8m5FEZME4NjGXWJuoG4+dnk+DupXQxxVM5GWkbznNvfGs3EeoO
- ZNxmRuPWTTsEjYqj+M2U9IcOEzNkmTWcep2tIxaHNspgRCBshPQmaa1wI
- TmoLxeqMTAInhm+ZPzN4EQ7hm9x/JvmNR/+ZVIu2FqeeNXIVRK2ne4rRG A==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10219"; a="329184199"
-X-IronPort-AV: E=Sophos;i="5.88,269,1635231600"; d="scan'208";a="329184199"
+ t=1641547918; x=1673083918;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=PnButU9Q6Pc0MQ22Fe1AaP0ULZ2IvO0f1IXWwo02ztk=;
+ b=OOC4/zTcAxwX64wmkjWoAq98cm+lVXYqDgL6LrqAQGaQu51kT8vLc4Y9
+ GDe5QQBzXBgcdIYCJD82tdB4QZ7z8iuEa59EHKf+J3AkPH6GJzjk1aGEi
+ 15lUHaaQCBCBWO4a+tT2bbZskmKBwbO7bEd8PFTELjyjXufWDsXPrnE/H
+ DDeRTXbWWTqAregiOI8BAGMatWQSGxxvYgvgvRwzuQi4D/zPydY3QNiyk
+ UDL2A/48a6XEyWbmOF7fHdAe6J1MG1DHMPXsZcBwUbm91TWZ5WYP/AMXh
+ cMsFZ5KDGErE6uO164/strk1pZtn++j6kXJRLtlE//zAkdE/J+Jimvi6X Q==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10219"; a="329184201"
+X-IronPort-AV: E=Sophos;i="5.88,269,1635231600"; d="scan'208";a="329184201"
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  07 Jan 2022 01:31:44 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.88,269,1635231600"; d="scan'208";a="527239097"
+X-IronPort-AV: E=Sophos;i="5.88,269,1635231600"; d="scan'208";a="527239099"
 Received: from 984fee00bf64.jf.intel.com ([10.165.54.77])
- by fmsmga007.fm.intel.com with ESMTP; 07 Jan 2022 01:31:41 -0800
+ by fmsmga007.fm.intel.com with ESMTP; 07 Jan 2022 01:31:42 -0800
 From: Yang Zhong <yang.zhong@intel.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 0/7] AMX support in Qemu
-Date: Fri,  7 Jan 2022 01:31:27 -0800
-Message-Id: <20220107093134.136441-1-yang.zhong@intel.com>
+Subject: [RFC PATCH 1/7] x86: Fix the 64-byte boundary enumeration for
+ extended state
+Date: Fri,  7 Jan 2022 01:31:28 -0800
+Message-Id: <20220107093134.136441-2-yang.zhong@intel.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220107093134.136441-1-yang.zhong@intel.com>
+References: <20220107093134.136441-1-yang.zhong@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=192.55.52.43; envelope-from=yang.zhong@intel.com;
@@ -75,62 +78,63 @@ Cc: yang.zhong@intel.com, kevin.tian@intel.com, seanjc@google.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Intel introduces Advanced Matrix Extensions (AMX) [1] feature that
-consists of configurable two-dimensional "TILE" registers and new
-accelerator instructions that operate on them. TMUL (Tile matrix
-MULtiply) is the first accelerator instruction set to use the new
-registers.
+From: Jing Liu <jing2.liu@intel.com>
 
-This series is based on the AMX KVM series [2] and exposes AMX feature
-to guest (The detailed design discussions can be found in [3]).
+The extended state subleaves (EAX=0Dh, ECX=n, n>1).ECX[1]
+are all zero, while spec actually introduces that bit 01
+should indicate if the extended state component locates
+on the next 64-byte boundary following the preceding state
+component when the compacted format of an XSAVE area is
+used.
 
-According to the KVM design, the userspace VMM (e.g. Qemu) is expected
-to request guest permission for the dynamically-enabled XSAVE features
-only once when the first vCPU is created, and KVM checks guest permission
-in KVM_SET_CPUID2.
+Fix the subleaves value according to the host supported
+cpuid. The upcoming AMX feature would be the first one
+using it.
 
-Intel AMX is XSAVE supported and XSAVE enabled. Those extended features
-has large state while current kvm_xsave only allows 4KB. The AMX KVM has
-extended struct kvm_xsave to meet this requirenment and added one extra
-KVM_GET_XSAVE2 ioctl to handle extended features. From our test, the AMX
-live migration work well.
+Signed-off-by: Jing Liu <jing2.liu@intel.com>
+Signed-off-by: Yang Zhong <yang.zhong@intel.com>
+---
+ target/i386/cpu.h         | 1 +
+ target/i386/cpu.c         | 1 +
+ target/i386/kvm/kvm-cpu.c | 3 +++
+ 3 files changed, 5 insertions(+)
 
-Notice: This version still includes some definitions in the linux-headers,
-once AMX KVM is merged and Qemu sync those linux-headers, I will remove
-those definitions. So please ignore those changes.
-
-[1] Intel Architecture Instruction Set Extension Programming Reference
-    https://software.intel.com/content/dam/develop/external/us/en/documents/\
-    architecture-instruction-set-extensions-programming-reference.pdf
-[2] https://www.spinics.net/lists/kvm/msg263577.html
-[3] https://www.spinics.net/lists/kvm/msg259015.html
-
-Thanks,
-Yang
-----
-
-Jing Liu (5):
-  x86: Fix the 64-byte boundary enumeration for extended state
-  x86: Add AMX XTILECFG and XTILEDATA components
-  x86: Add XFD faulting bit for state components
-  x86: Add AMX CPUIDs enumeration
-  x86: Use new XSAVE ioctls handling
-
-Yang Zhong (1):
-  x86: Grant AMX permission for guest
-
-Zeng Guang (1):
-  x86: Support XFD and AMX xsave data migration
-
- linux-headers/asm-x86/kvm.h | 14 ++++++++
- linux-headers/linux/kvm.h   |  2 ++
- target/i386/cpu.h           | 40 ++++++++++++++++++++++-
- hw/i386/x86.c               | 28 ++++++++++++++++
- target/i386/cpu.c           | 64 +++++++++++++++++++++++++++++++++++--
- target/i386/kvm/kvm-cpu.c   |  4 +++
- target/i386/kvm/kvm.c       | 37 +++++++++++++++++++--
- target/i386/machine.c       | 42 ++++++++++++++++++++++++
- target/i386/xsave_helper.c  | 35 ++++++++++++++++++++
- 9 files changed, 259 insertions(+), 7 deletions(-)
-
+diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+index 04f2b790c9..7f9700544f 100644
+--- a/target/i386/cpu.h
++++ b/target/i386/cpu.h
+@@ -1354,6 +1354,7 @@ QEMU_BUILD_BUG_ON(sizeof(XSavePKRU) != 0x8);
+ typedef struct ExtSaveArea {
+     uint32_t feature, bits;
+     uint32_t offset, size;
++    uint32_t need_align;
+ } ExtSaveArea;
+ 
+ #define XSAVE_STATE_AREA_COUNT (XSTATE_PKRU_BIT + 1)
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index aa9e636800..47bc4d5c1a 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -5487,6 +5487,7 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
+                 const ExtSaveArea *esa = &x86_ext_save_areas[count];
+                 *eax = esa->size;
+                 *ebx = esa->offset;
++                *ecx = esa->need_align << 1;
+             }
+         }
+         break;
+diff --git a/target/i386/kvm/kvm-cpu.c b/target/i386/kvm/kvm-cpu.c
+index d95028018e..6c4c1c6f9d 100644
+--- a/target/i386/kvm/kvm-cpu.c
++++ b/target/i386/kvm/kvm-cpu.c
+@@ -105,6 +105,9 @@ static void kvm_cpu_xsave_init(void)
+                 assert(esa->size == sz);
+                 esa->offset = kvm_arch_get_supported_cpuid(s, 0xd, i, R_EBX);
+             }
++
++            uint32_t ecx = kvm_arch_get_supported_cpuid(s, 0xd, i, R_ECX);
++            esa->need_align = ecx & (1u << 1) ? 1 : 0;
+         }
+     }
+ }
 
