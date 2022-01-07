@@ -2,92 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05654487F0A
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 23:41:43 +0100 (CET)
-Received: from localhost ([::1]:54636 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C8D3487EEE
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 23:31:02 +0100 (CET)
+Received: from localhost ([::1]:58648 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5xva-0005J6-5c
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 17:41:42 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49934)
+	id 1n5xlD-0005ZZ-EQ
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 17:30:59 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49878)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1n5xh3-0002hU-4F; Fri, 07 Jan 2022 17:26:41 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:62278)
+ id 1n5xgx-0002c5-Uv; Fri, 07 Jan 2022 17:26:38 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:34756)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <farosas@linux.ibm.com>)
- id 1n5xh1-0006ik-Ja; Fri, 07 Jan 2022 17:26:40 -0500
-Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 207M7WxN008102; 
- Fri, 7 Jan 2022 22:26:25 GMT
+ id 1n5xgw-0006hy-Ep; Fri, 07 Jan 2022 17:26:35 -0500
+Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 207L8K0I004801; 
+ Fri, 7 Jan 2022 22:26:27 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
  : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding; s=pp1;
- bh=fgcqP2+spGFib+e2n1p58RXG6hZI3lTa1DErVa5FmIM=;
- b=PXxj3CFxcvpe51xbB4PKiAkq/Jvpr++o8jRfa3FqEa0oIVKPqqIv4g1f/74BU4gr3Bxp
- Dbz0xeFGW1yBHI6VELYzVeS0/AkCXnQYZcoE6KECpacUWC4p6Q6Y/W7WHUwZ5fyu5uWt
- i0qR4tG44r6TCgVVBkhzojnkEpwVChzacc/gulhZI47CG1UILdLeBUOHkyWj4oZxTL8O
- 7tCpFVOpuC/AdGaiixlihg6PNbUayQCA/ZlYzWTkt3UFoaifp1QJRAo8SW2ljg1OwGgF
- y11a5bZM6bt1BLPWIvd/fh9tT+QBfo2lq8R/1d26arndTxh8c7wwX68Fg6YcX6XWC6cU nQ== 
+ bh=MQm0irrciSUvgcTV7MxrF33sFf+KFykZugBjeCHb7x8=;
+ b=D/2/qDCcfprSA2to7zB4sXwwhqSDBY3SRMARvsWghd7fV7Jl4N8mNtC6ooKf1I9hwz2i
+ iLouU0xs30PyUs9AnnttTP5ET7rDKioMhkIfcibuTJfiqPOuNmsctv+WVqokPNfCI9jF
+ JbC8G+78qEzFR0t/vVC/OiKqrC5pi6sWMvCbJcO3R8Ayr2gHr0do6O1sPUSVj/RG0wj4
+ mZIeIHFQyHzdkDIvXW6D8AyX+9bkRGy/XESNZPDlqSYJfpT1ugLwwpVkM/SJEEWYhrc2
+ rdApjWHtTCyNLtMlqurcpkzgSSbjWZCw174nWeoag7oKOyP6tiCnU7SWTganM/v9Tmkc Yg== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3de4wgb2x3-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3de59tjfct-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 07 Jan 2022 22:26:24 +0000
-Received: from m0098394.ppops.net (m0098394.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 207MQOAt007373;
- Fri, 7 Jan 2022 22:26:24 GMT
-Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com
- [169.55.91.170])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3de4wgb2wn-1
+ Fri, 07 Jan 2022 22:26:26 +0000
+Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 207MCvHk007290;
+ Fri, 7 Jan 2022 22:26:26 GMT
+Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
+ [169.63.214.131])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3de59tjfch-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 07 Jan 2022 22:26:24 +0000
-Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
- by ppma02wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 207MHsUi002437;
- Fri, 7 Jan 2022 22:26:22 GMT
-Received: from b03cxnp08026.gho.boulder.ibm.com
- (b03cxnp08026.gho.boulder.ibm.com [9.17.130.18])
- by ppma02wdc.us.ibm.com with ESMTP id 3de5rq7tsw-1
+ Fri, 07 Jan 2022 22:26:26 +0000
+Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
+ by ppma01dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 207MIFYF010141;
+ Fri, 7 Jan 2022 22:26:25 GMT
+Received: from b03cxnp08028.gho.boulder.ibm.com
+ (b03cxnp08028.gho.boulder.ibm.com [9.17.130.20])
+ by ppma01dal.us.ibm.com with ESMTP id 3de5fqdyf9-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 07 Jan 2022 22:26:22 +0000
+ Fri, 07 Jan 2022 22:26:25 +0000
 Received: from b03ledav005.gho.boulder.ibm.com
  (b03ledav005.gho.boulder.ibm.com [9.17.130.236])
- by b03cxnp08026.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 207MQMsg34603464
+ by b03cxnp08028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 207MQOWP34799904
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 7 Jan 2022 22:26:22 GMT
+ Fri, 7 Jan 2022 22:26:24 GMT
 Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 165E6BE05D;
+ by IMSVA (Postfix) with ESMTP id 3AA1ABE05B;
+ Fri,  7 Jan 2022 22:26:24 +0000 (GMT)
+Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 84041BE058;
  Fri,  7 Jan 2022 22:26:22 +0000 (GMT)
-Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 5F173BE056;
- Fri,  7 Jan 2022 22:26:20 +0000 (GMT)
 Received: from farosas.linux.ibm.com.com (unknown [9.211.59.174])
  by b03ledav005.gho.boulder.ibm.com (Postfix) with ESMTP;
- Fri,  7 Jan 2022 22:26:20 +0000 (GMT)
+ Fri,  7 Jan 2022 22:26:22 +0000 (GMT)
 From: Fabiano Rosas <farosas@linux.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 6/8] target/ppc: Use ppc_interrupts_little_endian in
- powerpc_excp
-Date: Fri,  7 Jan 2022 19:25:59 -0300
-Message-Id: <20220107222601.4101511-7-farosas@linux.ibm.com>
+Subject: [PATCH v3 7/8] target/ppc: Introduce a wrapper for powerpc_excp
+Date: Fri,  7 Jan 2022 19:26:00 -0300
+Message-Id: <20220107222601.4101511-8-farosas@linux.ibm.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20220107222601.4101511-1-farosas@linux.ibm.com>
 References: <20220107222601.4101511-1-farosas@linux.ibm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: 6tMJcMMXlPtBKmW1dJ6ATsYB886K1QJX
-X-Proofpoint-GUID: uuHnsb_kfO5xPolQ8RiJFb2Q7lIL2BNS
+X-Proofpoint-GUID: Zix4CrnrHHAFpj6Rp6idnuM_hPSpcaAt
+X-Proofpoint-ORIG-GUID: jLkML2UP8wmA2IQAXkxeQVoQWF_pCSku
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.11.62.513
- definitions=2022-01-07_10,2022-01-07_01,2021-12-02_01
+ definitions=2022-01-07_09,2022-01-07_01,2021-12-02_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 mlxscore=0
- adultscore=0 suspectscore=0 lowpriorityscore=0 phishscore=0
- impostorscore=0 clxscore=1015 mlxlogscore=806 priorityscore=1501
- bulkscore=0 malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2110150000 definitions=main-2201070130
+ clxscore=1015 phishscore=0
+ priorityscore=1501 malwarescore=0 mlxscore=0 bulkscore=0 adultscore=0
+ lowpriorityscore=0 impostorscore=0 mlxlogscore=999 spamscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2110150000 definitions=main-2201070129
 Received-SPF: pass client-ip=148.163.156.1; envelope-from=farosas@linux.ibm.com;
  helo=mx0a-001b2d01.pphosted.com
 X-Spam_score_int: -19
@@ -114,57 +113,45 @@ Cc: richard.henderson@linaro.org, danielhb413@gmail.com, qemu-ppc@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The ppc_interrupts_little_endian function is now suitable for
-determining the endianness of interrupts for all CPUs.
+Next patches will split powerpc_excp in multiple family specific
+handlers. This patch adds a wrapper to make the transition clearer.
 
 Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
 Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- target/ppc/excp_helper.c | 29 +----------------------------
- 1 file changed, 1 insertion(+), 28 deletions(-)
+ target/ppc/excp_helper.c | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
 
 diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-index 3a430f23d6..3b4123bc65 100644
+index 3b4123bc65..bc646c67a0 100644
 --- a/target/ppc/excp_helper.c
 +++ b/target/ppc/excp_helper.c
-@@ -832,36 +832,9 @@ static void powerpc_excp(PowerPCCPU *cpu, int excp)
-      * Sort out endianness of interrupt, this differs depending on the
-      * CPU, the HV mode, etc...
-      */
--#ifdef TARGET_PPC64
--    if (excp_model == POWERPC_EXCP_POWER7) {
--        if (!(new_msr & MSR_HVB) && (env->spr[SPR_LPCR] & LPCR_ILE)) {
--            new_msr |= (target_ulong)1 << MSR_LE;
--        }
--    } else if (excp_model == POWERPC_EXCP_POWER8) {
--        if (new_msr & MSR_HVB) {
--            if (env->spr[SPR_HID0] & HID0_HILE) {
--                new_msr |= (target_ulong)1 << MSR_LE;
--            }
--        } else if (env->spr[SPR_LPCR] & LPCR_ILE) {
--            new_msr |= (target_ulong)1 << MSR_LE;
--        }
--    } else if (excp_model == POWERPC_EXCP_POWER9 ||
--               excp_model == POWERPC_EXCP_POWER10) {
--        if (new_msr & MSR_HVB) {
--            if (env->spr[SPR_HID0] & HID0_POWER9_HILE) {
--                new_msr |= (target_ulong)1 << MSR_LE;
--            }
--        } else if (env->spr[SPR_LPCR] & LPCR_ILE) {
--            new_msr |= (target_ulong)1 << MSR_LE;
--        }
--    } else if (msr_ile) {
-+    if (ppc_interrupts_little_endian(cpu, !!(new_msr & MSR_HVB))) {
-         new_msr |= (target_ulong)1 << MSR_LE;
-     }
--#else
--    if (msr_ile) {
--        new_msr |= (target_ulong)1 << MSR_LE;
--    }
--#endif
+@@ -396,7 +396,7 @@ static void powerpc_set_excp_state(PowerPCCPU *cpu,
+  * Note that this function should be greatly optimized when called
+  * with a constant excp, from ppc_hw_interrupt
+  */
+-static void powerpc_excp(PowerPCCPU *cpu, int excp)
++static inline void powerpc_excp_legacy(PowerPCCPU *cpu, int excp)
+ {
+     CPUState *cs = CPU(cpu);
+     CPUPPCState *env = &cpu->env;
+@@ -867,6 +867,16 @@ static void powerpc_excp(PowerPCCPU *cpu, int excp)
+     powerpc_set_excp_state(cpu, vector, new_msr);
+ }
  
- #if defined(TARGET_PPC64)
-     if (excp_model == POWERPC_EXCP_BOOKE) {
++static void powerpc_excp(PowerPCCPU *cpu, int excp)
++{
++    CPUPPCState *env = &cpu->env;
++
++    switch (env->excp_model) {
++    default:
++        powerpc_excp_legacy(cpu, excp);
++    }
++}
++
+ void ppc_cpu_do_interrupt(CPUState *cs)
+ {
+     PowerPCCPU *cpu = POWERPC_CPU(cs);
 -- 
 2.33.1
 
