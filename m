@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B80F6487B5A
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 18:25:29 +0100 (CET)
-Received: from localhost ([::1]:43500 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BAADC487B83
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 18:36:12 +0100 (CET)
+Received: from localhost ([::1]:41334 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5szX-0007oA-Ua
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 12:25:28 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49012)
+	id 1n5t9v-0000vM-QH
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 12:36:11 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49114)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1n5sw4-00056g-Vx
- for qemu-devel@nongnu.org; Fri, 07 Jan 2022 12:21:53 -0500
-Received: from [2a00:1450:4864:20::331] (port=44640
+ id 1n5swA-0005Bh-50
+ for qemu-devel@nongnu.org; Fri, 07 Jan 2022 12:21:58 -0500
+Received: from [2a00:1450:4864:20::331] (port=36496
  helo=mail-wm1-x331.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1n5sw2-0007tL-Ib
- for qemu-devel@nongnu.org; Fri, 07 Jan 2022 12:21:52 -0500
+ id 1n5sw3-0007tc-4L
+ for qemu-devel@nongnu.org; Fri, 07 Jan 2022 12:21:57 -0500
 Received: by mail-wm1-x331.google.com with SMTP id
- f189-20020a1c1fc6000000b00347ac5ccf6cso1248150wmf.3
+ n19-20020a7bc5d3000000b003466ef16375so5836021wmk.1
  for <qemu-devel@nongnu.org>; Fri, 07 Jan 2022 09:21:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=Q5OaLs830Ox8Bfylb1X2zHy5rJRr7MHpRwjdBpXLrtw=;
- b=m5Yn572xDBOFXtoMV4O40kBs4+7nVZywJ7KHoFoqcLmqtiiWs3Im0hNTEfr7ar3HN9
- 8QQeQaHzaQrLi1JrxU3DPUEMu98wgtNLlI+dFZhyqCo21K5SJEEtBU7S+/BFt5aTokDs
- 4yK7lqjXiJ3mJ/FuYgwJSLVYzStLJkNW8TikbM+ORGsVnDlrjhIXbDgnt1TF+sm+fOxP
- 1kiabEHux0C+fgnZhSDeGa2WM0bQRO7XCgb6/I8EbLprdceCCd7ReDxDrtsvDQC376UO
- iOCzPblz7lQdClElDmJWWJsqYNLeEeDzUPf7fT4MzWedX8J1qhrkqdZzNsYVy7Ok5Yl3
- gzzA==
+ bh=QPaQb/WJdcDDdEPvSwDWxqflQibLtPJdH7ehjP+AciI=;
+ b=eOzFPvENla0g605TcpIcJssUwJvVl7aP2WYuOaJ0m7kAnlbNlKtZlp5TWancrsYsrC
+ Cx9Sd2laXxbi0j7onhec1lBDdwYa+bb7XlTTaldUY8SBtSQ1RhHfNeAM0D0bUW8R4wDn
+ QDZQKM66XFZ06JyTvwD1IhLMc8Q9Sd4DSLB/BSv2d9v7f1Z9qYGNzqtzJFAX1amJ9oTv
+ gjgq2/+OQbPBZ3/lb9Yj08izmzE7UbT0rIqHITE6ANk4ijuNqg5Zl1CRdzt2JfKBDXCz
+ EyfZtG8KbapWEtMLyyVhDJVlnQx+90CQwYqfvu9NYPa0t0cHvuP0EsmFSnqOEnSLMbhY
+ EBjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Q5OaLs830Ox8Bfylb1X2zHy5rJRr7MHpRwjdBpXLrtw=;
- b=1EMw7yvoVhokvfPqjm7S8D/83uHR+jEQwB/EVLgKQ+fHmCOCbTpujVcY6S1WRwyXRl
- r6/977OERB6fOOglBX1X3sqCTQYgz7BqtSkp/77WuDGch9ifG/W/JXLeqEuyottX54Yr
- YKrwZZNO+N2KUsuAo/RlcV0P+hTkxuAbS31lV9wNCNq52f2Ns6+6GyYzZj+R+pA3ySi5
- IMDLtU36wIPiODUD4lVQEGLhdkSqeV/Ri8JC+GNLl7dFZPALLKamutOf2LZ+WJ5OIJuH
- FAEXh+XzPtGGmV72Q6aHR/ftPBcGL9f6gs3hVYu3PkQLBh0opcjfM2aMZNLcLJWkRhe1
- Zhbg==
-X-Gm-Message-State: AOAM533igOSkkBfFkhExfgf3WCAYiSFFvouheW4NC00O0GxG5cWqNzfU
- HeGFG3rs6L8dMgfAgdKg47RMHGeRxI0qMg==
-X-Google-Smtp-Source: ABdhPJwyV5GIWZavHC49s5TBaJQU+X9NFwVy87b0YJjT4HICIcuklFnQuUk1u6J98Sv1zWrraKLYxQ==
-X-Received: by 2002:a05:600c:4e88:: with SMTP id
- f8mr11938696wmq.45.1641576109361; 
+ bh=QPaQb/WJdcDDdEPvSwDWxqflQibLtPJdH7ehjP+AciI=;
+ b=jevM0uZWh1xxYfCjkWFQMYawVwYiu7E01jhlMmIwdd6LqtVDMIVNb1XHruVtks5Ajt
+ Jo8QL+9ga4YTZqJ6RaRuvcIRp0Zo2BIxEYWya+8RG66vwvn+VwVEJ75r926vzUpJCr1a
+ L9Ssnp0ffkRUUnuGgUYlTljVi5YfYg9h4RFXwyIhmAPq8VHhzynJZjlOCiazxE7Mtk1v
+ JixBJm2fzSudHISWcYKXUsmmqTUUOs6lxF2MMWRNTvDgoqGMbPvmMUEjirWJhZ9PdHwH
+ /tLu0aLrq7kTmM835IG3R3pkeGQ1VOYTljl38t0krcu0IqIQOUFDoidO02uPxwYxYntp
+ imDg==
+X-Gm-Message-State: AOAM5338hlOoJw/AKhaN2fev4ahNN5tZ2i0jAq3ggD8l1D1QnDadlQ0U
+ ySAvmkOKp1eNjCI1Cp2Mcrqzyt4eEOtssg==
+X-Google-Smtp-Source: ABdhPJwqJ50xmmgLMcG53JGnzWe4PM2iT6WDKaQSfkO6EaBKMnt8NCMxMI69Wocvyz9qIXpT0MBXIA==
+X-Received: by 2002:a1c:7214:: with SMTP id n20mr11982566wmc.118.1641576109910; 
  Fri, 07 Jan 2022 09:21:49 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id i6sm6060219wrf.79.2022.01.07.09.21.48
+ by smtp.gmail.com with ESMTPSA id i6sm6060219wrf.79.2022.01.07.09.21.49
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 07 Jan 2022 09:21:49 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 08/19] hw/intc/arm_gicv3_its: Correct setting of TableDesc
- entry_sz
-Date: Fri,  7 Jan 2022 17:21:31 +0000
-Message-Id: <20220107172142.2651911-9-peter.maydell@linaro.org>
+Subject: [PULL 09/19] hw/intc/arm_gicv3_its: Don't misuse GITS_TYPE_PHYSICAL
+ define
+Date: Fri,  7 Jan 2022 17:21:32 +0000
+Message-Id: <20220107172142.2651911-10-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220107172142.2651911-1-peter.maydell@linaro.org>
 References: <20220107172142.2651911-1-peter.maydell@linaro.org>
@@ -93,44 +92,154 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We set the TableDesc entry_sz field from the appropriate
-GITS_BASER.ENTRYSIZE field.  That ID register field specifies the
-number of bytes per table entry minus one.  However when we use
-td->entry_sz we assume it to be the number of bytes per table entry
-(for instance we calculate the number of entries in a page by
-dividing the page size by the entry size).
+The GITS_TYPE_PHYSICAL define is the value we set the
+GITS_TYPER.Physical field to -- this is 1 to indicate that we support
+physical LPIs.  (Support for virtual LPIs is the GITS_TYPER.Virtual
+field.) We also use this define as the *value* that we write into an
+interrupt translation table entry's INTTYPE field, which should be 1
+for a physical interrupt and 0 for a virtual interrupt.  Finally, we
+use it as a *mask* when we read the interrupt translation table entry
+INTTYPE field.
 
-The effects of this bug are:
- * we miscalculate the maximum number of entries in the table,
-   so our checks on guest index values are wrong (too lax)
- * when looking up an entry in the second level of an indirect
-   table, we calculate an incorrect index into the L2 table.
-   Because we make the same incorrect calculation on both
-   reads and writes of the L2 table, the guest won't notice
-   unless it's unlucky enough to use an index value that
-   causes us to index off the end of the L2 table page and
-   cause guest memory corruption in whatever follows
+Untangle this confusion: define an ITE_INTTYPE_VIRTUAL and
+ITE_INTTYPE_PHYSICAL to be the valid values of the ITE INTTYPE
+field, and replace the ad-hoc collection of ITE_ENTRY_* defines with
+use of the FIELD() macro to define the fields of an ITE and the
+FIELD_EX64() and FIELD_DP64() macros to read and write them.
+We use ITE in the new setup, rather than ITE_ENTRY, because
+ITE stands for "Interrupt translation entry" and so the extra
+"entry" would be redundant.
+
+We take the opportunity to correct the name of the field that holds
+the GICv4 'doorbell' interrupt ID (this is always the value 1023 in a
+GICv3, which is why we were calling it the 'spurious' field).
+
+The GITS_TYPE_PHYSICAL define is then used in only one place, where
+we set the initial GITS_TYPER value.  Since GITS_TYPER.Physical is
+essentially a boolean, hiding the '1' value behind a macro is more
+confusing than helpful, so expand out the macro there and remove the
+define entirely.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- hw/intc/arm_gicv3_its.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/intc/gicv3_internal.h | 26 ++++++++++++++------------
+ hw/intc/arm_gicv3_its.c  | 30 +++++++++++++-----------------
+ 2 files changed, 27 insertions(+), 29 deletions(-)
 
+diff --git a/hw/intc/gicv3_internal.h b/hw/intc/gicv3_internal.h
+index 63de8667c61..5a63e9ed5ce 100644
+--- a/hw/intc/gicv3_internal.h
++++ b/hw/intc/gicv3_internal.h
+@@ -354,28 +354,30 @@ FIELD(MAPC, RDBASE, 16, 32)
+ #define L2_TABLE_VALID_MASK       CMD_FIELD_VALID_MASK
+ #define TABLE_ENTRY_VALID_MASK    (1ULL << 0)
+ 
+-/**
+- * Default features advertised by this version of ITS
+- */
+-/* Physical LPIs supported */
+-#define GITS_TYPE_PHYSICAL           (1U << 0)
+-
+ /*
+  * 12 bytes Interrupt translation Table Entry size
+  * as per Table 5.3 in GICv3 spec
+  * ITE Lower 8 Bytes
+  *   Bits:    | 49 ... 26 | 25 ... 2 |   1     |   0    |
+- *   Values:  |    1023   |  IntNum  | IntType |  Valid |
++ *   Values:  |  Doorbell |  IntNum  | IntType |  Valid |
+  * ITE Higher 4 Bytes
+  *   Bits:    | 31 ... 16 | 15 ...0 |
+  *   Values:  |  vPEID    |  ICID   |
++ * (When Doorbell is unused, as it always is in GICv3, it is 1023)
+  */
+ #define ITS_ITT_ENTRY_SIZE            0xC
+-#define ITE_ENTRY_INTTYPE_SHIFT        1
+-#define ITE_ENTRY_INTID_SHIFT          2
+-#define ITE_ENTRY_INTID_MASK         MAKE_64BIT_MASK(2, 24)
+-#define ITE_ENTRY_INTSP_SHIFT          26
+-#define ITE_ENTRY_ICID_MASK          MAKE_64BIT_MASK(0, 16)
++
++FIELD(ITE_L, VALID, 0, 1)
++FIELD(ITE_L, INTTYPE, 1, 1)
++FIELD(ITE_L, INTID, 2, 24)
++FIELD(ITE_L, DOORBELL, 26, 24)
++
++FIELD(ITE_H, ICID, 0, 16)
++FIELD(ITE_H, VPEID, 16, 16)
++
++/* Possible values for ITE_L INTTYPE */
++#define ITE_INTTYPE_VIRTUAL 0
++#define ITE_INTTYPE_PHYSICAL 1
+ 
+ /* 16 bits EventId */
+ #define ITS_IDBITS                   GICD_TYPER_IDBITS
 diff --git a/hw/intc/arm_gicv3_its.c b/hw/intc/arm_gicv3_its.c
-index 84808b1e298..88f4d730999 100644
+index 88f4d730999..15eb72a0a15 100644
 --- a/hw/intc/arm_gicv3_its.c
 +++ b/hw/intc/arm_gicv3_its.c
-@@ -829,7 +829,7 @@ static void extract_table_params(GICv3ITSState *s)
+@@ -156,12 +156,11 @@ static bool get_ite(GICv3ITSState *s, uint32_t eventid, uint64_t dte,
+                                         MEMTXATTRS_UNSPECIFIED, res);
+ 
+         if (*res == MEMTX_OK) {
+-            if (ite.itel & TABLE_ENTRY_VALID_MASK) {
+-                if ((ite.itel >> ITE_ENTRY_INTTYPE_SHIFT) &
+-                    GITS_TYPE_PHYSICAL) {
+-                    *pIntid = (ite.itel & ITE_ENTRY_INTID_MASK) >>
+-                               ITE_ENTRY_INTID_SHIFT;
+-                    *icid = ite.iteh & ITE_ENTRY_ICID_MASK;
++            if (FIELD_EX64(ite.itel, ITE_L, VALID)) {
++                int inttype = FIELD_EX64(ite.itel, ITE_L, INTTYPE);
++                if (inttype == ITE_INTTYPE_PHYSICAL) {
++                    *pIntid = FIELD_EX64(ite.itel, ITE_L, INTID);
++                    *icid = FIELD_EX32(ite.iteh, ITE_H, ICID);
+                     status = true;
+                 }
+             }
+@@ -342,8 +341,6 @@ static bool process_mapti(GICv3ITSState *s, uint64_t value, uint32_t offset,
+     MemTxResult res = MEMTX_OK;
+     uint16_t icid = 0;
+     uint64_t dte = 0;
+-    IteEntry ite;
+-    uint32_t int_spurious = INTID_SPURIOUS;
+     bool result = false;
+ 
+     devid = ((value & DEVID_MASK) >> DEVID_SHIFT);
+@@ -400,16 +397,16 @@ static bool process_mapti(GICv3ITSState *s, uint64_t value, uint32_t offset,
+          */
+     } else {
+         /* add ite entry to interrupt translation table */
+-        ite.itel = (dte_valid & TABLE_ENTRY_VALID_MASK) |
+-                    (GITS_TYPE_PHYSICAL << ITE_ENTRY_INTTYPE_SHIFT);
+-
++        IteEntry ite = {};
++        ite.itel = FIELD_DP64(ite.itel, ITE_L, VALID, dte_valid);
++        ite.itel = FIELD_DP64(ite.itel, ITE_L, INTTYPE, ITE_INTTYPE_PHYSICAL);
+         if (ignore_pInt) {
+-            ite.itel |= (eventid << ITE_ENTRY_INTID_SHIFT);
++            ite.itel = FIELD_DP64(ite.itel, ITE_L, INTID, eventid);
+         } else {
+-            ite.itel |= (pIntid << ITE_ENTRY_INTID_SHIFT);
++            ite.itel = FIELD_DP64(ite.itel, ITE_L, INTID, pIntid);
          }
-         td->page_sz = page_sz;
-         td->indirect = FIELD_EX64(value, GITS_BASER, INDIRECT);
--        td->entry_sz = FIELD_EX64(value, GITS_BASER, ENTRYSIZE);
-+        td->entry_sz = FIELD_EX64(value, GITS_BASER, ENTRYSIZE) + 1;
-         td->base_addr = baser_base_addr(value, page_sz);
-         if (!td->indirect) {
-             td->max_entries = (num_pages * page_sz) / td->entry_sz;
+-        ite.itel |= (int_spurious << ITE_ENTRY_INTSP_SHIFT);
+-        ite.iteh = icid;
++        ite.itel = FIELD_DP64(ite.itel, ITE_L, DOORBELL, INTID_SPURIOUS);
++        ite.iteh = FIELD_DP32(ite.iteh, ITE_H, ICID, icid);
+ 
+         result = update_ite(s, eventid, dte, ite);
+     }
+@@ -1237,8 +1234,7 @@ static void gicv3_arm_its_realize(DeviceState *dev, Error **errp)
+                        "gicv3-its-sysmem");
+ 
+     /* set the ITS default features supported */
+-    s->typer = FIELD_DP64(s->typer, GITS_TYPER, PHYSICAL,
+-                          GITS_TYPE_PHYSICAL);
++    s->typer = FIELD_DP64(s->typer, GITS_TYPER, PHYSICAL, 1);
+     s->typer = FIELD_DP64(s->typer, GITS_TYPER, ITT_ENTRY_SIZE,
+                           ITS_ITT_ENTRY_SIZE - 1);
+     s->typer = FIELD_DP64(s->typer, GITS_TYPER, IDBITS, ITS_IDBITS);
 -- 
 2.25.1
 
