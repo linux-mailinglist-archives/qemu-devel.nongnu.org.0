@@ -2,41 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8332487CDA
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 20:13:27 +0100 (CET)
-Received: from localhost ([::1]:35170 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79C68487CD4
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 20:11:13 +0100 (CET)
+Received: from localhost ([::1]:32986 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5ug2-00075g-Sa
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 14:13:27 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39640)
+	id 1n5udp-0005UL-1X
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 14:11:09 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39690)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1n5uQy-0008Qs-Nj; Fri, 07 Jan 2022 13:57:52 -0500
-Received: from [201.28.113.2] (port=11770 helo=outlook.eldorado.org.br)
+ id 1n5uR0-00008u-U6; Fri, 07 Jan 2022 13:57:54 -0500
+Received: from [201.28.113.2] (port=2396 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1n5uQx-0007Do-45; Fri, 07 Jan 2022 13:57:52 -0500
+ id 1n5uQz-0007H4-6D; Fri, 07 Jan 2022 13:57:54 -0500
 Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
  secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
- Fri, 7 Jan 2022 15:57:38 -0300
+ Fri, 7 Jan 2022 15:57:39 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id 6847E800473;
+ by p9ibm (Postfix) with ESMTP id 9F6608001D1;
  Fri,  7 Jan 2022 15:57:38 -0300 (-03)
 From: matheus.ferst@eldorado.org.br
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
-Subject: [PATCH 05/37] target/ppc: Implement vmsumcud instruction
-Date: Fri,  7 Jan 2022 15:56:21 -0300
-Message-Id: <20220107185653.1609775-6-matheus.ferst@eldorado.org.br>
+Subject: [PATCH 06/37] target/ppc: Implement vmsumudm instruction
+Date: Fri,  7 Jan 2022 15:56:22 -0300
+Message-Id: <20220107185653.1609775-7-matheus.ferst@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220107185653.1609775-1-matheus.ferst@eldorado.org.br>
 References: <20220107185653.1609775-1-matheus.ferst@eldorado.org.br>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 07 Jan 2022 18:57:38.0740 (UTC)
- FILETIME=[70D7E740:01D803F8]
+X-OriginalArrivalTime: 07 Jan 2022 18:57:39.0005 (UTC)
+ FILETIME=[710056D0:01D803F8]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
 Received-SPF: pass client-ip=201.28.113.2;
  envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -74,89 +74,67 @@ into master.
 Signed-off-by: Víctor Colombo <victor.colombo@eldorado.org.br>
 Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
 ---
- target/ppc/insn32.decode            |  4 +++
- target/ppc/translate/vmx-impl.c.inc | 53 +++++++++++++++++++++++++++++
- 2 files changed, 57 insertions(+)
+ target/ppc/insn32.decode            |  1 +
+ target/ppc/translate/vmx-impl.c.inc | 34 +++++++++++++++++++++++++++++
+ 2 files changed, 35 insertions(+)
 
 diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
-index 4774548b3d..0ec64cb4f4 100644
+index 0ec64cb4f4..c4796260b6 100644
 --- a/target/ppc/insn32.decode
 +++ b/target/ppc/insn32.decode
-@@ -440,6 +440,10 @@ VEXTRACTWM      000100 ..... 01010 ..... 11001000010    @VX_tb
- VEXTRACTDM      000100 ..... 01011 ..... 11001000010    @VX_tb
- VEXTRACTQM      000100 ..... 01100 ..... 11001000010    @VX_tb
+@@ -443,6 +443,7 @@ VEXTRACTQM      000100 ..... 01100 ..... 11001000010    @VX_tb
+ ## Vector Multiply-Sum Instructions
  
-+## Vector Multiply-Sum Instructions
-+
-+VMSUMCUD        000100 ..... ..... ..... ..... 010111   @VA
-+
+ VMSUMCUD        000100 ..... ..... ..... ..... 010111   @VA
++VMSUMUDM        000100 ..... ..... ..... ..... 100011   @VA
+ 
  # VSX Load/Store Instructions
  
- LXV             111101 ..... ..... ............ . 001   @DQ_TSX
 diff --git a/target/ppc/translate/vmx-impl.c.inc b/target/ppc/translate/vmx-impl.c.inc
-index bed8df81c4..694da75448 100644
+index 694da75448..b7559cf94c 100644
 --- a/target/ppc/translate/vmx-impl.c.inc
 +++ b/target/ppc/translate/vmx-impl.c.inc
-@@ -2081,6 +2081,59 @@ static bool trans_VPEXTD(DisasContext *ctx, arg_VX *a)
+@@ -2081,6 +2081,40 @@ static bool trans_VPEXTD(DisasContext *ctx, arg_VX *a)
      return true;
  }
  
-+static bool trans_VMSUMCUD(DisasContext *ctx, arg_VA *a)
++static bool trans_VMSUMUDM(DisasContext *ctx, arg_VA *a)
 +{
-+    TCGv_i64 tmp0, tmp1, prod1h, prod1l, prod0h, prod0l, zero;
++    TCGv_i64 rl, rh, src1, src2;
++    int dw;
 +
-+    REQUIRE_INSNS_FLAGS2(ctx, ISA310);
++    REQUIRE_INSNS_FLAGS2(ctx, ISA300);
 +    REQUIRE_VECTOR(ctx);
 +
-+    tmp0 = tcg_temp_new_i64();
-+    tmp1 = tcg_temp_new_i64();
-+    prod1h = tcg_temp_new_i64();
-+    prod1l = tcg_temp_new_i64();
-+    prod0h = tcg_temp_new_i64();
-+    prod0l = tcg_temp_new_i64();
-+    zero = tcg_constant_i64(0);
++    rh = tcg_temp_new_i64();
++    rl = tcg_temp_new_i64();
++    src1 = tcg_temp_new_i64();
++    src2 = tcg_temp_new_i64();
 +
-+    /* prod1 = vsr[vra+32].dw[1] * vsr[vrb+32].dw[1] */
-+    get_avr64(tmp0, a->vra, false);
-+    get_avr64(tmp1, a->vrb, false);
-+    tcg_gen_mulu2_i64(prod1l, prod1h, tmp0, tmp1);
++    get_avr64(rl, a->rc, false);
++    get_avr64(rh, a->rc, true);
 +
-+    /* prod0 = vsr[vra+32].dw[0] * vsr[vrb+32].dw[0] */
-+    get_avr64(tmp0, a->vra, true);
-+    get_avr64(tmp1, a->vrb, true);
-+    tcg_gen_mulu2_i64(prod0l, prod0h, tmp0, tmp1);
++    for (dw = 0; dw < 2; dw++) {
++        get_avr64(src1, a->vra, dw);
++        get_avr64(src2, a->vrb, dw);
++        tcg_gen_mulu2_i64(src1, src2, src1, src2);
++        tcg_gen_add2_i64(rl, rh, rl, rh, src1, src2);
++    }
 +
-+    /* Sum lower 64-bits elements */
-+    get_avr64(tmp1, a->rc, false);
-+    tcg_gen_add2_i64(tmp1, tmp0, tmp1, zero, prod1l, zero);
-+    tcg_gen_add2_i64(tmp1, tmp0, tmp1, tmp0, prod0l, zero);
++    set_avr64(a->vrt, rl, false);
++    set_avr64(a->vrt, rh, true);
 +
-+    /*
-+     * Discard lower 64-bits, leaving the carry into bit 64.
-+     * Then sum the higher 64-bit elements.
-+     */
-+    tcg_gen_mov_i64(tmp1, tmp0);
-+    get_avr64(tmp0, a->rc, true);
-+    tcg_gen_add2_i64(tmp1, tmp0, tmp0, zero, prod1h, zero);
-+    tcg_gen_add2_i64(tmp1, tmp0, tmp1, tmp0, prod0h, zero);
-+
-+    /* Discard 64 more bits to complete the CHOP128(temp >> 128) */
-+    set_avr64(a->vrt, tmp0, false);
-+    set_avr64(a->vrt, zero, true);
-+
-+    tcg_temp_free_i64(tmp0);
-+    tcg_temp_free_i64(tmp1);
-+    tcg_temp_free_i64(prod1h);
-+    tcg_temp_free_i64(prod1l);
-+    tcg_temp_free_i64(prod0h);
-+    tcg_temp_free_i64(prod0l);
++    tcg_temp_free_i64(rl);
++    tcg_temp_free_i64(rh);
++    tcg_temp_free_i64(src1);
++    tcg_temp_free_i64(src2);
 +
 +    return true;
 +}
 +
- static bool do_vx_helper(DisasContext *ctx, arg_VX *a,
-                          void (*gen_helper) (TCGv_ptr, TCGv_ptr, TCGv_ptr))
+ static bool trans_VMSUMCUD(DisasContext *ctx, arg_VA *a)
  {
+     TCGv_i64 tmp0, tmp1, prod1h, prod1l, prod0h, prod0l, zero;
 -- 
 2.25.1
 
