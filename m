@@ -2,89 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12E0E487537
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 11:07:38 +0100 (CET)
-Received: from localhost ([::1]:42444 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85FDF48756B
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 11:23:30 +0100 (CET)
+Received: from localhost ([::1]:52366 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5m9o-0005JC-V1
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 05:07:37 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60412)
+	id 1n5mPA-0004SM-D5
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 05:23:28 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35568)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n5m6O-0001qE-UN
- for qemu-devel@nongnu.org; Fri, 07 Jan 2022 05:04:05 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:41678)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n5m6L-0005wJ-Jz
- for qemu-devel@nongnu.org; Fri, 07 Jan 2022 05:04:03 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641549833;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=uTSLmTYh+CF8+MFAdILk6LlSUrdjAClKISndAR+Xk/w=;
- b=bgqm31agEbtZvZszIifSGIPFiWiKAiuGijkcVGz785cm04iNKRgzOmUcrePzBb2M6HZJF5
- pBAEf37Aj5O3rHYdD2Uj+MtMBRrbK3Qky+wimrFs+YZ8Ibdi3IGjg+UzyyaVhxfhalpdJy
- 41nxBqETLDu9xk7PBH3dBc5ov8RFd9Y=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-231-AhSrJt-BMkWtuTbvNFSrgg-1; Fri, 07 Jan 2022 05:03:52 -0500
-X-MC-Unique: AhSrJt-BMkWtuTbvNFSrgg-1
-Received: by mail-wm1-f70.google.com with SMTP id
- j18-20020a05600c1c1200b003335872db8dso688331wms.2
- for <qemu-devel@nongnu.org>; Fri, 07 Jan 2022 02:03:52 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <yaroshchuk2000@gmail.com>)
+ id 1n5mMj-0001nP-Nq
+ for qemu-devel@nongnu.org; Fri, 07 Jan 2022 05:20:57 -0500
+Received: from [2a00:1450:4864:20::12e] (port=39783
+ helo=mail-lf1-x12e.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <yaroshchuk2000@gmail.com>)
+ id 1n5mMh-0001da-Sx
+ for qemu-devel@nongnu.org; Fri, 07 Jan 2022 05:20:57 -0500
+Received: by mail-lf1-x12e.google.com with SMTP id bp20so13877786lfb.6
+ for <qemu-devel@nongnu.org>; Fri, 07 Jan 2022 02:20:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=0ecvFV1Ro6Ufc2MykuNLjI5Lb5gbbXa3tn5cczgVVa0=;
+ b=Ngr2ggC4rTDJwmaLgY/bRrME80fIqA7kih1rlklejNYMOATlZQj9lreCwCzWgfu6km
+ toUrqmRAlkk1nbdBWEkTX2HkVqVXbNLf4dYmUZ9C3VUVX4zhbPmPop0K6rCZpWcRSG0k
+ XpNYkSUDpUMIVClTsKsfePXCBfNGM42Feg49qZM3hlYP+vRe1sbqPEbXxAO6VEB8LpKT
+ Xqcbhc3/cvJ2LekrsIKuvdg3Cd974U0LvFpGW/2ecvhFEQ1mewQySfVPfTJqDZOubYP0
+ OQtrHtjRH1VfG3LwAEUO1uRQMKv7ocyKrPurH21G2fo/IxPsXoILbtnsOZwsm9673i3Q
+ nkxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=uTSLmTYh+CF8+MFAdILk6LlSUrdjAClKISndAR+Xk/w=;
- b=BwKHlmR01RscEmG3eVAQcImrpjMvGclh/qKOJFtqsfxQfxFcIABpGHg7kFYSeiFIWE
- sdX/lk0JGKi4vlSVyUegxjNnIWCeIFigQqObRV6H0LwXnTTpRxahbN7tM5A0XJavqKZ2
- HVH88PqH2etXh4Y9oVfaTR8N69a4IhfnxmrM0zyQ7A3fnEilU+rHOms0JAAX0BRHckzO
- PVYAI5Ph5RDXz64q+ZoU7HWsnk0ldDgb/kckk05BoIkvrxrvWY6FrbhuPIzLz+kvk9V1
- rcC88V5gMEzHBl2CjbxhRwXTFQNb93yuhlWZnDTjtsnqi+mMRp44+APQ+r92r+86Hj1a
- 7PLg==
-X-Gm-Message-State: AOAM530k2QvQCpPVeAw4ktPQROETKAf4hlGpS0AEMvkrFLt2C+MSxRQX
- F4qYrNPAYtFuJ4PzaoQxSRbeJX542s3hHC2QFEQHakpUFSi6lYcsCHIfo+a83d7huxKdHCeWqdR
- 73hMBZBn4QchOv6g=
-X-Received: by 2002:a7b:ce01:: with SMTP id m1mr10021763wmc.115.1641549830965; 
- Fri, 07 Jan 2022 02:03:50 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxkBp6EbpzYzq0vCApiUOVGpyCuFNjZfFH8/83e9CZwHafUT+aa/EF/gOHf23T5psywihGZKA==
-X-Received: by 2002:a7b:ce01:: with SMTP id m1mr10021727wmc.115.1641549830668; 
- Fri, 07 Jan 2022 02:03:50 -0800 (PST)
-Received: from redhat.com ([2.55.16.192])
- by smtp.gmail.com with ESMTPSA id t6sm1829246wry.84.2022.01.07.02.03.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 Jan 2022 02:03:49 -0800 (PST)
-Date: Fri, 7 Jan 2022 05:03:45 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Steven Sistare <steven.sistare@oracle.com>
-Subject: Re: [PATCH V7 17/29] pci: export functions for cpr
-Message-ID: <20220107050334-mutt-send-email-mst@kernel.org>
-References: <1640199934-455149-1-git-send-email-steven.sistare@oracle.com>
- <1640199934-455149-18-git-send-email-steven.sistare@oracle.com>
- <20211222180611-mutt-send-email-mst@kernel.org>
- <02a093fe-b2be-2ecb-7ef7-a95c54443894@oracle.com>
- <20220105151427-mutt-send-email-mst@kernel.org>
- <145d70f9-94a5-6693-83cd-02169ee46a8d@oracle.com>
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=0ecvFV1Ro6Ufc2MykuNLjI5Lb5gbbXa3tn5cczgVVa0=;
+ b=SKlrUzzY8G+q8qrW9VhFKivmuzb2tLzfufJdldU9Yi7EyA5XGSemUnFlWoT9nV9MJ5
+ 4k75HuRXs9doBktl9Bu4VYSELVzQyMQ2d/Lcm7qfTu2FV5mUwc0pPWdk2rLgfYlE4HIQ
+ DI9NkBxugEoGIJK7QTU3x0VaFhN0HbM3/btli7YQztCK18cYO/UMD/isVuhxi+LmA0rJ
+ rA/ktZ3AXvnipELH1zXGw1uKvfWmjPBKrtcu9ajDAWy4iOJQ2ZMRrYJ5KpP5g90WQYHx
+ MC4MeZ1ebHVPzmlU3IYwLiG7nDt0wwGv+LVFBysHO5D8nvUjopSTBFMcdh+9S39bRu2Q
+ rFfw==
+X-Gm-Message-State: AOAM5312Hmu4xFBBBgLoI6CTaer/LXu6wreTa6SGtxZXEWvNa+9Axd3W
+ AsBN3RYKBjU6TY3L+XXAdcE7LDPgZAI=
+X-Google-Smtp-Source: ABdhPJxG5Bxf9/C89U3d+isXPIyFCC+7HG7seydXhKgpp5Uxsk1Mlczv9hBzYITg96luKGHLVWd2BA==
+X-Received: by 2002:a2e:8416:: with SMTP id z22mr17907740ljg.403.1641550853411; 
+ Fri, 07 Jan 2022 02:20:53 -0800 (PST)
+Received: from localhost.localdomain ([62.140.238.4])
+ by smtp.gmail.com with ESMTPSA id p15sm524259lfd.69.2022.01.07.02.20.52
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Fri, 07 Jan 2022 02:20:52 -0800 (PST)
+From: Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v9 0/7] Add vmnet.framework based network backend
+Date: Fri,  7 Jan 2022 13:20:12 +0300
+Message-Id: <20220107102019.37013-1-yaroshchuk2000@gmail.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-In-Reply-To: <145d70f9-94a5-6693-83cd-02169ee46a8d@oracle.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.372,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::12e
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::12e;
+ envelope-from=yaroshchuk2000@gmail.com; helo=mail-lf1-x12e.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,189 +84,133 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P. Berrange" <berrange@redhat.com>,
- Juan Quintela <quintela@redhat.com>, Jason Zeng <jason.zeng@linux.intel.com>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
- Eric Blake <eblake@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Zheng Chuan <zhengchuan@huawei.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
+Cc: Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>, jasowang@redhat.com,
+ phillip.ennen@gmail.com, armbru@redhat.com, r.bolshakov@yadro.com,
+ phillip@axleos.com, akihiko.odaki@gmail.com, hsp.cat7@gmail.com, hello@adns.io,
+ eblake@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jan 06, 2022 at 05:48:28PM -0500, Steven Sistare wrote:
-> On 1/5/2022 3:16 PM, Michael S. Tsirkin wrote:
-> > On Wed, Jan 05, 2022 at 12:22:25PM -0500, Steven Sistare wrote:
-> >> On 12/22/2021 6:07 PM, Michael S. Tsirkin wrote:
-> >>> On Wed, Dec 22, 2021 at 11:05:22AM -0800, Steve Sistare wrote:
-> >>>> Export msix_is_pending, msix_init_vector_notifiers, and pci_update_mappings
-> >>>> for use by cpr.  No functional change.
-> >>>>
-> >>>> Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
-> >>>
-> >>> With things like that, I prefer when the API is exported
-> >>> together with the patch that uses it.
-> >>> This was I can see why we are exporting these APIs.
-> >>> Esp wrt pci_update_mappings, it's designed as an
-> >>> internal API.
-> >>
-> >> Hi Michael, thanks very much for reviewing these patches.
-> >>
-> >> Serendipitously, I stopped calling pci_update_mappings from vfio code earlier
-> >> in the series.  I will revert its scope.
-> >>
-> >> I would prefer to keep this patch separate from the use of these functions in
-> >> "vfio-pci cpr part 2 msi", to make the latter smaller and easier to understand.
-> >> How about if I say more in this commit message? :
-> >>
-> >>   Export msix_is_pending and msix_init_vector_notifiers for use in vfio cpr.
-> >>   Both are needed in the vfio-pci post-load function during cpr-load.
-> >>   msix_is_pending is checked to enable the PBA memory region.
-> >>   msix_init_vector_notifiers is called to register notifier callbacks, without
-> >>   the other side effects of msix_set_vector_notifiers.
-> >>
-> >> - Steve
-> > 
-> > Well the reason the side effects are there is to avoid losing events,
-> > no? I'd like to figure out a bit better why we don't need them,
-> 
-> Currently I do not call vfio_msix_vector_do_use during resume, but
-> instead execute a subset of its actions in vfio_claim_vectors, which is
-> defined in vfio-cpr: cpr part 2.
-> 
-> > and when should users call msix_init_vector_notifiers versus
-> > msix_set_vector_notifiers.
-> 
-> If I call msix_set_vector_notifiers, it calls the use notifier
-> vfio_msix_vector_use, which calls vfio_msix_vector_do_use.  The latter
-> gets confused and breaks the vectors because vector-related fields are
-> only partially initialized.  The details are unimportant, because --
-> 
-> Instead of adding msix_init_vector_notifiers, I will call
-> msix_set_vector_notifiers, but bail from vfio_msix_vector_do_use if resuming.
-> Tested and works.
-> 
-> Thus this patch becomes simply "pci: export msix_is_pending".  I can keep it,
-> or fold it into "vfio-pci: cpr part 2 (msi)".  Your call.
-> 
-> - Steve
+macOS provides networking API for VMs called 'vmnet.framework':
+https://developer.apple.com/documentation/vmnet
 
-Keep it, it's ok.
+We can provide its support as the new QEMU network backends which
+represent three different vmnet.framework interface usage modes:
 
-> >>>> ---
-> >>>>  hw/pci/msix.c         | 20 ++++++++++++++------
-> >>>>  hw/pci/pci.c          |  3 +--
-> >>>>  include/hw/pci/msix.h |  5 +++++
-> >>>>  include/hw/pci/pci.h  |  1 +
-> >>>>  4 files changed, 21 insertions(+), 8 deletions(-)
-> >>>>
-> >>>> diff --git a/hw/pci/msix.c b/hw/pci/msix.c
-> >>>> index ae9331c..73f4259 100644
-> >>>> --- a/hw/pci/msix.c
-> >>>> +++ b/hw/pci/msix.c
-> >>>> @@ -64,7 +64,7 @@ static uint8_t *msix_pending_byte(PCIDevice *dev, int vector)
-> >>>>      return dev->msix_pba + vector / 8;
-> >>>>  }
-> >>>>  
-> >>>> -static int msix_is_pending(PCIDevice *dev, int vector)
-> >>>> +int msix_is_pending(PCIDevice *dev, unsigned int vector)
-> >>>>  {
-> >>>>      return *msix_pending_byte(dev, vector) & msix_pending_mask(vector);
-> >>>>  }
-> >>>> @@ -579,6 +579,17 @@ static void msix_unset_notifier_for_vector(PCIDevice *dev, unsigned int vector)
-> >>>>      dev->msix_vector_release_notifier(dev, vector);
-> >>>>  }
-> >>>>  
-> >>>> +void msix_init_vector_notifiers(PCIDevice *dev,
-> >>>> +                                MSIVectorUseNotifier use_notifier,
-> >>>> +                                MSIVectorReleaseNotifier release_notifier,
-> >>>> +                                MSIVectorPollNotifier poll_notifier)
-> >>>> +{
-> >>>> +    assert(use_notifier && release_notifier);
-> >>>> +    dev->msix_vector_use_notifier = use_notifier;
-> >>>> +    dev->msix_vector_release_notifier = release_notifier;
-> >>>> +    dev->msix_vector_poll_notifier = poll_notifier;
-> >>>> +}
-> >>>> +
-> >>>>  int msix_set_vector_notifiers(PCIDevice *dev,
-> >>>>                                MSIVectorUseNotifier use_notifier,
-> >>>>                                MSIVectorReleaseNotifier release_notifier,
-> >>>> @@ -586,11 +597,8 @@ int msix_set_vector_notifiers(PCIDevice *dev,
-> >>>>  {
-> >>>>      int vector, ret;
-> >>>>  
-> >>>> -    assert(use_notifier && release_notifier);
-> >>>> -
-> >>>> -    dev->msix_vector_use_notifier = use_notifier;
-> >>>> -    dev->msix_vector_release_notifier = release_notifier;
-> >>>> -    dev->msix_vector_poll_notifier = poll_notifier;
-> >>>> +    msix_init_vector_notifiers(dev, use_notifier, release_notifier,
-> >>>> +                               poll_notifier);
-> >>>>  
-> >>>>      if ((dev->config[dev->msix_cap + MSIX_CONTROL_OFFSET] &
-> >>>>          (MSIX_ENABLE_MASK | MSIX_MASKALL_MASK)) == MSIX_ENABLE_MASK) {
-> >>>> diff --git a/hw/pci/pci.c b/hw/pci/pci.c
-> >>>> index e5993c1..0fd21e1 100644
-> >>>> --- a/hw/pci/pci.c
-> >>>> +++ b/hw/pci/pci.c
-> >>>> @@ -225,7 +225,6 @@ static const TypeInfo pcie_bus_info = {
-> >>>>  };
-> >>>>  
-> >>>>  static PCIBus *pci_find_bus_nr(PCIBus *bus, int bus_num);
-> >>>> -static void pci_update_mappings(PCIDevice *d);
-> >>>>  static void pci_irq_handler(void *opaque, int irq_num, int level);
-> >>>>  static void pci_add_option_rom(PCIDevice *pdev, bool is_default_rom, Error **);
-> >>>>  static void pci_del_option_rom(PCIDevice *pdev);
-> >>>> @@ -1366,7 +1365,7 @@ static pcibus_t pci_bar_address(PCIDevice *d,
-> >>>>      return new_addr;
-> >>>>  }
-> >>>>  
-> >>>> -static void pci_update_mappings(PCIDevice *d)
-> >>>> +void pci_update_mappings(PCIDevice *d)
-> >>>>  {
-> >>>>      PCIIORegion *r;
-> >>>>      int i;
-> >>>> diff --git a/include/hw/pci/msix.h b/include/hw/pci/msix.h
-> >>>> index 4c4a60c..46606cf 100644
-> >>>> --- a/include/hw/pci/msix.h
-> >>>> +++ b/include/hw/pci/msix.h
-> >>>> @@ -32,6 +32,7 @@ int msix_present(PCIDevice *dev);
-> >>>>  bool msix_is_masked(PCIDevice *dev, unsigned vector);
-> >>>>  void msix_set_pending(PCIDevice *dev, unsigned vector);
-> >>>>  void msix_clr_pending(PCIDevice *dev, int vector);
-> >>>> +int msix_is_pending(PCIDevice *dev, unsigned vector);
-> >>>>  
-> >>>>  int msix_vector_use(PCIDevice *dev, unsigned vector);
-> >>>>  void msix_vector_unuse(PCIDevice *dev, unsigned vector);
-> >>>> @@ -41,6 +42,10 @@ void msix_notify(PCIDevice *dev, unsigned vector);
-> >>>>  
-> >>>>  void msix_reset(PCIDevice *dev);
-> >>>>  
-> >>>> +void msix_init_vector_notifiers(PCIDevice *dev,
-> >>>> +                                MSIVectorUseNotifier use_notifier,
-> >>>> +                                MSIVectorReleaseNotifier release_notifier,
-> >>>> +                                MSIVectorPollNotifier poll_notifier);
-> >>>>  int msix_set_vector_notifiers(PCIDevice *dev,
-> >>>>                                MSIVectorUseNotifier use_notifier,
-> >>>>                                MSIVectorReleaseNotifier release_notifier,
-> >>>> diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
-> >>>> index e7cdf2d..cc63dd4 100644
-> >>>> --- a/include/hw/pci/pci.h
-> >>>> +++ b/include/hw/pci/pci.h
-> >>>> @@ -910,5 +910,6 @@ extern const VMStateDescription vmstate_pci_device;
-> >>>>  
-> >>>>  MSIMessage pci_get_msi_message(PCIDevice *dev, int vector);
-> >>>>  void pci_set_power(PCIDevice *pci_dev, bool state);
-> >>>> +void pci_update_mappings(PCIDevice *d);
-> >>>>  
-> >>>>  #endif
-> >>>> -- 
-> >>>> 1.8.3.1
-> >>>
-> > 
+  * `vmnet-shared`:
+    allows the guest to communicate with other guests in shared mode and
+    also with external network (Internet) via NAT. Has (macOS-provided)
+    DHCP server; subnet mask and IP range can be configured;
+
+  * `vmnet-host`:
+    allows the guest to communicate with other guests in host mode.
+    By default has enabled DHCP as `vmnet-shared`, but providing
+    network unique id (uuid) can make `vmnet-host` interfaces isolated
+    from each other and also disables DHCP.
+
+  * `vmnet-bridged`:
+    bridges the guest with a physical network interface.
+
+This backends cannot work on macOS Catalina 10.15 cause we use
+vmnet.framework API provided only with macOS 11 and newer. Seems
+that it is not a problem, because QEMU guarantees to work on two most
+recent versions of macOS which now are Big Sur (11) and Monterey (12).
+
+Also, we have one inconvenient restriction: vmnet.framework interfaces
+can create only privileged user:
+`$ sudo qemu-system-x86_64 -nic vmnet-shared`
+
+Attempt of `vmnet-*` netdev creation being unprivileged user fails with
+vmnet's 'general failure'.
+
+This happens because vmnet.framework requires `com.apple.vm.networking`
+entitlement which is: "restricted to developers of virtualization software.
+To request this entitlement, contact your Apple representative." as Apple
+documentation says:
+https://developer.apple.com/documentation/bundleresources/entitlements/com_apple_vm_networking
+
+One more note: we still have quite useful but not supported
+'vmnet.framework' features as creating port forwarding rules, IPv6
+NAT prefix specifying and so on.
+
+Nevertheless, new backends work fine and tested within `qemu-system-x86-64`
+on macOS Bir Sur 11.5.2 host with such nic models:
+  * e1000-82545em
+  * virtio-net-pci
+  * vmxnet3
+
+The guests were:
+  * macOS 10.15.7
+  * Ubuntu Bionic (server cloudimg)
+
+
+This series partially reuses patches by Phillip Tennen:
+https://patchew.org/QEMU/20210218134947.1860-1-phillip.ennen@gmail.com/
+So I included them signed-off line into one of the commit messages and
+also here.
+
+v1 -> v2:
+ Since v1 minor typos were fixed, patches rebased onto latest master,
+ redundant changes removed (small commits squashed)
+v2 -> v3:
+ - QAPI style fixes
+ - Typos fixes in comments
+ - `#include`'s updated to be in sync with recent master
+v3 -> v4:
+ - Support vmnet interfaces isolation feature
+ - Support vmnet-host network uuid setting feature
+ - Refactored sources a bit
+v4 -> v5:
+ - Missed 6.2 boat, now 7.0 candidate
+ - Fix qapi netdev descriptions and styles
+   (@subnetmask -> @subnet-mask)
+ - Support vmnet-shared IPv6 prefix setting feature
+v5 -> v6
+ - provide detailed commit messages for commits of
+   many changes
+ - rename properties @dhcpstart and @dhcpend to
+   @start-address and @end-address
+ - improve qapi documentation about isolation
+   features (@isolated, @net-uuid)
+v6 -> v7:
+ - update MAINTAINERS list
+v7 -> v8
+ - QAPI code style fixes
+v8 -> v9
+ - Fix building on Linux: add missing qapi
+   `'if': 'CONFIG_VMNET'` statement to Netdev union
+
+Vladislav Yaroshchuk (7):
+  net/vmnet: add vmnet dependency and customizable option
+  net/vmnet: add vmnet backends to qapi/net
+  net/vmnet: implement shared mode (vmnet-shared)
+  net/vmnet: implement host mode (vmnet-host)
+  net/vmnet: implement bridged mode (vmnet-bridged)
+  net/vmnet: update qemu-options.hx
+  net/vmnet: update MAINTAINERS list
+
+ MAINTAINERS                   |   5 +
+ meson.build                   |   4 +
+ meson_options.txt             |   2 +
+ net/clients.h                 |  11 ++
+ net/meson.build               |   7 +
+ net/net.c                     |  10 ++
+ net/vmnet-bridged.m           | 111 ++++++++++++
+ net/vmnet-common.m            | 330 ++++++++++++++++++++++++++++++++++
+ net/vmnet-host.c              | 105 +++++++++++
+ net/vmnet-shared.c            |  92 ++++++++++
+ net/vmnet_int.h               |  48 +++++
+ qapi/net.json                 | 132 +++++++++++++-
+ qemu-options.hx               |  25 +++
+ scripts/meson-buildoptions.sh |   3 +
+ 14 files changed, 883 insertions(+), 2 deletions(-)
+ create mode 100644 net/vmnet-bridged.m
+ create mode 100644 net/vmnet-common.m
+ create mode 100644 net/vmnet-host.c
+ create mode 100644 net/vmnet-shared.c
+ create mode 100644 net/vmnet_int.h
+
+-- 
+2.23.0
 
 
