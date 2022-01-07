@@ -2,76 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B1E4487060
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 03:28:43 +0100 (CET)
-Received: from localhost ([::1]:38560 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43E4748708C
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 03:37:02 +0100 (CET)
+Received: from localhost ([::1]:46396 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5ezi-0002pa-Dr
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 21:28:42 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:39334)
+	id 1n5f7l-0008N1-Dn
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 21:37:01 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:40830)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1n5ett-00051C-La
- for qemu-devel@nongnu.org; Thu, 06 Jan 2022 21:22:41 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:26304)
+ id 1n5f5n-0007cg-35
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 21:34:59 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:56666)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1n5etq-0001PS-AM
- for qemu-devel@nongnu.org; Thu, 06 Jan 2022 21:22:40 -0500
+ id 1n5f5l-0002zt-9q
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 21:34:58 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641522157;
+ s=mimecast20190719; t=1641522896;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ta2YfgxmDIy+92ovE4Whq1V49+hjKqppKmX72/kr0no=;
- b=YOR7AT5iClASBlztut1CABx682HmUAzB/pFaodKZeZkPQc5qunX2KW0VM9FWWL+ritstWM
- C/EwyTLcthKw3Ljld4DB6ky/AB2mb6wzZMVdK+daSlRQMSchtx+jCDPuoZxCD7QsJROggX
- dEe3ZmWsw2olPkCi9DV2WBu35mcQlEE=
-Received: from mail-lf1-f72.google.com (mail-lf1-f72.google.com
- [209.85.167.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=VnCqH7jHmzZVYeDE/nR0XLA8sI5I0pCVo9/9fbGi3CE=;
+ b=MpqjlAkPDnmhzh4xlUXtm0KwvZTNuMVhxXczOce3AlIlzyO786ObJ1nAGbJC9cKQuwdVWY
+ DaQjj44/t3gI6nnBEGaHAj5jpnxvuGlmH+1umJzkTLU1f799m2gSlqHKacksooelqhID8+
+ uuf4jLPm4K6YZNYR19Qd5PBvIxyTta4=
+Received: from mail-lf1-f69.google.com (mail-lf1-f69.google.com
+ [209.85.167.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-571-4q0zgWJoOyOG-_Cq1uNYXA-1; Thu, 06 Jan 2022 21:22:35 -0500
-X-MC-Unique: 4q0zgWJoOyOG-_Cq1uNYXA-1
-Received: by mail-lf1-f72.google.com with SMTP id
- u4-20020a056512128400b0042abc4f4f9aso1281062lfs.15
- for <qemu-devel@nongnu.org>; Thu, 06 Jan 2022 18:22:35 -0800 (PST)
+ us-mta-203-6bIdi97MO2-KeoJXxLvfsg-1; Thu, 06 Jan 2022 21:34:55 -0500
+X-MC-Unique: 6bIdi97MO2-KeoJXxLvfsg-1
+Received: by mail-lf1-f69.google.com with SMTP id
+ g2-20020a19e042000000b00425cfac0e67so1318473lfj.10
+ for <qemu-devel@nongnu.org>; Thu, 06 Jan 2022 18:34:55 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ta2YfgxmDIy+92ovE4Whq1V49+hjKqppKmX72/kr0no=;
- b=WG91fyMIcFdKr7OaxqtJYdKLBGkP++romu0ha3lvGik7t5sXep7Hjxky+Tt6j4P381
- TuOC1OokJbqhoBG+cxnQ36zWMbSAFuJsoEjQkE5+xxdTywlD7/tzweLduXHuRhs39NfC
- ruOE0Q0UGh7DO8JcGuH3BU2P9p5vQDKg87TOMKEKPqrqbKtsvcDwiNEo+j/F/lD8rfQP
- Xit5q8QehDNwSd6e1Tv2xEroQCC2srozdD5jE2rbaDvdMW9eHPmmyzCch36ZBbBu67Yk
- rxRN14DbLPLWZWrs7vdqyXIwMGtRTcidZIib/7TEiD6369YxVw8rC+Ni1BC/Fi8Vjbqb
- fhqQ==
-X-Gm-Message-State: AOAM5330zIsAbh8fvYxl0oa5+kbC+sSywWIPi4Guln9kXrjidT4HipKM
- q9CwtuPt0GeWe3V9wqe/XJuCGf3L91PZdkjh2q1p0dsw7Bjsk1UAF0ahIzWnbfZtW0Obk6yhBPU
- marMyuRbSuqAF0nCbjBtfOzqTU92zWzI=
-X-Received: by 2002:a2e:9183:: with SMTP id f3mr49316298ljg.277.1641522154213; 
- Thu, 06 Jan 2022 18:22:34 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwmbyqWSAGJlyhyVfz9Un6ZqeQ2nVXesKL8rwHfjU+NlPf+OSeIBByXhtv7A023HIJZyHpPppX7wyrMztRpuwQ=
-X-Received: by 2002:a2e:9183:: with SMTP id f3mr49316276ljg.277.1641522153992; 
- Thu, 06 Jan 2022 18:22:33 -0800 (PST)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=VnCqH7jHmzZVYeDE/nR0XLA8sI5I0pCVo9/9fbGi3CE=;
+ b=jz1PDOLf8ZjVbsdGefvx+XGwLirjzMUiDiHPvsW8Xc+wf6pwRIGAuGNbVARHSGcAsa
+ WmxkDuVQXXE+KyJYlm1130+DxIHLP7NAvatlSmSilPCg78ct9/4ZKtIS6Fq8sepjp61d
+ 8jACgHhaZylJgKO0SOg83Tkrc65JvNbAgxoWeULDrkjecvSFJb2cKzIUeYz5t0XUMtNq
+ 9WB6GxVeSpw4SC23aQLOLo66w2bFgsCRJpRDLjgZJWEFGZ93PCOTewzAihKptWtwCHCJ
+ pqW6QPRKUyI7PPJYtAcBjeYWRJ17rzFhRkSPhpmmuXWkdbhfPhUf1yAyWf71G4mgxWJq
+ mBjg==
+X-Gm-Message-State: AOAM5335NFr27k3EykdenebTCDGRSLQhnbHoxQK74sTUmA1j9cNYrLui
+ IwxA2iEZbdrfcIdEZkkn/N9dIRvAe/E4YByT6cC8tmivDPFnO/nHDqScGQfqSeK+UMyGSwngFbo
+ R5VHtqau5aMr42zZda6huFR2/6ZXxrlE=
+X-Received: by 2002:a05:6512:22d6:: with SMTP id
+ g22mr54340514lfu.199.1641522892723; 
+ Thu, 06 Jan 2022 18:34:52 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwBR1Rvj1OOju9BfrE17kVL0CaaK7aynPHshrolE9P4SgPa4vXLIGFaxU1CWSaBcnLWCrwEfTazx+B9S5XgHik=
+X-Received: by 2002:a05:6512:22d6:: with SMTP id
+ g22mr54340500lfu.199.1641522892446; 
+ Thu, 06 Jan 2022 18:34:52 -0800 (PST)
 MIME-Version: 1.0
-References: <20220105005900.860-1-longpeng2@huawei.com>
- <20220105005900.860-4-longpeng2@huawei.com>
- <YdVpgaq/mFEZQpT7@stefanha-x1.localdomain>
- <21147b9ccec84deabbd1dcf32f19f05e@huawei.com>
- <YdbRmqnh1GYDtCR8@stefanha-x1.localdomain>
-In-Reply-To: <YdbRmqnh1GYDtCR8@stefanha-x1.localdomain>
+References: <20220106182851.3583896-1-venture@google.com>
+ <051681aa-5a02-d096-f5e2-be828407face@amsat.org>
+In-Reply-To: <051681aa-5a02-d096-f5e2-be828407face@amsat.org>
 From: Jason Wang <jasowang@redhat.com>
-Date: Fri, 7 Jan 2022 10:22:23 +0800
-Message-ID: <CACGkMEvOzu368OexsNdhEZhPx8cXq+2_hFXGL5g8_bBWB8hRFA@mail.gmail.com>
-Subject: Re: [RFC 03/10] vdpa: add the infrastructure of vdpa-dev
-To: Stefan Hajnoczi <stefanha@redhat.com>
+Date: Fri, 7 Jan 2022 10:34:41 +0800
+Message-ID: <CACGkMEtsC67+MC_7vffu8=JxDXy6y0tkGWnObHQEVPDQmrDOsQ@mail.gmail.com>
+Subject: Re: [PATCH] net: Fix uninitialized data usage
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
@@ -93,57 +94,150 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "mst@redhat.com" <mst@redhat.com>, "cohuck@redhat.com" <cohuck@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, Yechuan <yechuan@huawei.com>,
- "Gonglei \(Arei\)" <arei.gonglei@huawei.com>,
- Huangzhichao <huangzhichao@huawei.com>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>, "Longpeng \(Mike,
- Cloud Infrastructure Service Product Dept.\)" <longpeng2@huawei.com>,
- "sgarzare@redhat.com" <sgarzare@redhat.com>
+Cc: Hao Wu <wuhaotsh@google.com>, Patrick Venture <venture@google.com>,
+ Peter Foley <pefoley@google.com>, qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jan 6, 2022 at 7:25 PM Stefan Hajnoczi <stefanha@redhat.com> wrote:
+On Fri, Jan 7, 2022 at 3:44 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org=
+> wrote:
 >
-> On Thu, Jan 06, 2022 at 01:22:19AM +0000, Longpeng (Mike, Cloud Infrastructure Service Product Dept.) wrote:
+> On 6/1/22 19:28, Patrick Venture wrote:
+> > From: Peter Foley <pefoley@google.com>
 > >
+> > e.g.
+> > 1109 15:16:20.151506 Uninitialized bytes in ioctl_common_pre at offset =
+0 inside [0x7ffc516af9b8, 4)
+> >   1109 15:16:20.151659 =3D=3D588974=3D=3DWARNING: MemorySanitizer: use-=
+of-uninitialized-value
+> >   1109 15:16:20.312923     #0 0x5639b88acb21 in tap_probe_vnet_hdr_len =
+third_party/qemu/net/tap-linux.c:183:9
+> >   1109 15:16:20.312952     #1 0x5639b88afd66 in net_tap_fd_init third_p=
+arty/qemu/net/tap.c:409:9
+> >   1109 15:16:20.312954     #2 0x5639b88b2d1b in net_init_tap_one third_=
+party/qemu/net/tap.c:681:19
+> >   1109 15:16:20.312956     #3 0x5639b88b16a8 in net_init_tap third_part=
+y/qemu/net/tap.c:912:13
+> >   1109 15:16:20.312957     #4 0x5639b8890175 in net_client_init1 third_=
+party/qemu/net/net.c:1110:9
+> >   1109 15:16:20.312958     #5 0x5639b888f912 in net_client_init third_p=
+arty/qemu/net/net.c:1208:15
+> >   1109 15:16:20.312960     #6 0x5639b8894aa5 in net_param_nic third_par=
+ty/qemu/net/net.c:1588:11
+> >   1109 15:16:20.312961     #7 0x5639b900cd18 in qemu_opts_foreach third=
+_party/qemu/util/qemu-option.c:1135:14
+> >   1109 15:16:20.312962     #8 0x5639b889393c in net_init_clients third_=
+party/qemu/net/net.c:1612:9
+> >   1109 15:16:20.312964     #9 0x5639b717aaf3 in qemu_create_late_backen=
+ds third_party/qemu/softmmu/vl.c:1962:5
+> >   1109 15:16:20.312965     #10 0x5639b717aaf3 in qemu_init third_party/=
+qemu/softmmu/vl.c:3694:5
+> >   1109 15:16:20.312967     #11 0x5639b71083b8 in main third_party/qemu/=
+softmmu/main.c:49:5
+> >   1109 15:16:20.312968     #12 0x7f464de1d8d2 in __libc_start_main (/us=
+r/grte/v5/lib64/libc.so.6+0x628d2)
+> >   1109 15:16:20.312969     #13 0x5639b6bbd389 in _start /usr/grte/v5/de=
+bug-src/src/csu/../sysdeps/x86_64/start.S:120
+> >   1109 15:16:20.312970
+> >   1109 15:16:20.312975   Uninitialized value was stored to memory at
+> >   1109 15:16:20.313393     #0 0x5639b88acbee in tap_probe_vnet_hdr_len =
+third_party/qemu/net/tap-linux.c
+> >   1109 15:16:20.313396     #1 0x5639b88afd66 in net_tap_fd_init third_p=
+arty/qemu/net/tap.c:409:9
+> >   1109 15:16:20.313398     #2 0x5639b88b2d1b in net_init_tap_one third_=
+party/qemu/net/tap.c:681:19
+> >   1109 15:16:20.313399     #3 0x5639b88b16a8 in net_init_tap third_part=
+y/qemu/net/tap.c:912:13
+> >   1109 15:16:20.313400     #4 0x5639b8890175 in net_client_init1 third_=
+party/qemu/net/net.c:1110:9
+> >   1109 15:16:20.313401     #5 0x5639b888f912 in net_client_init third_p=
+arty/qemu/net/net.c:1208:15
+> >   1109 15:16:20.313403     #6 0x5639b8894aa5 in net_param_nic third_par=
+ty/qemu/net/net.c:1588:11
+> >   1109 15:16:20.313404     #7 0x5639b900cd18 in qemu_opts_foreach third=
+_party/qemu/util/qemu-option.c:1135:14
+> >   1109 15:16:20.313405     #8 0x5639b889393c in net_init_clients third_=
+party/qemu/net/net.c:1612:9
+> >   1109 15:16:20.313407     #9 0x5639b717aaf3 in qemu_create_late_backen=
+ds third_party/qemu/softmmu/vl.c:1962:5
+> >   1109 15:16:20.313408     #10 0x5639b717aaf3 in qemu_init third_party/=
+qemu/softmmu/vl.c:3694:5
+> >   1109 15:16:20.313409     #11 0x5639b71083b8 in main third_party/qemu/=
+softmmu/main.c:49:5
+> >   1109 15:16:20.313410     #12 0x7f464de1d8d2 in __libc_start_main (/us=
+r/grte/v5/lib64/libc.so.6+0x628d2)
+> >   1109 15:16:20.313412     #13 0x5639b6bbd389 in _start /usr/grte/v5/de=
+bug-src/src/csu/../sysdeps/x86_64/start.S:120
+> >   1109 15:16:20.313413
+> >   1109 15:16:20.313417   Uninitialized value was stored to memory at
+> >   1109 15:16:20.313791     #0 0x5639b88affbd in net_tap_fd_init third_p=
+arty/qemu/net/tap.c:400:26
+> >   1109 15:16:20.313826     #1 0x5639b88b2d1b in net_init_tap_one third_=
+party/qemu/net/tap.c:681:19
+> >   1109 15:16:20.313829     #2 0x5639b88b16a8 in net_init_tap third_part=
+y/qemu/net/tap.c:912:13
+> >   1109 15:16:20.313831     #3 0x5639b8890175 in net_client_init1 third_=
+party/qemu/net/net.c:1110:9
+> >   1109 15:16:20.313836     #4 0x5639b888f912 in net_client_init third_p=
+arty/qemu/net/net.c:1208:15
+> >   1109 15:16:20.313838     #5 0x5639b8894aa5 in net_param_nic third_par=
+ty/qemu/net/net.c:1588:11
+> >   1109 15:16:20.313839     #6 0x5639b900cd18 in qemu_opts_foreach third=
+_party/qemu/util/qemu-option.c:1135:14
+> >   1109 15:16:20.313841     #7 0x5639b889393c in net_init_clients third_=
+party/qemu/net/net.c:1612:9
+> >   1109 15:16:20.313843     #8 0x5639b717aaf3 in qemu_create_late_backen=
+ds third_party/qemu/softmmu/vl.c:1962:5
+> >   1109 15:16:20.313844     #9 0x5639b717aaf3 in qemu_init third_party/q=
+emu/softmmu/vl.c:3694:5
+> >   1109 15:16:20.313845     #10 0x5639b71083b8 in main third_party/qemu/=
+softmmu/main.c:49:5
+> >   1109 15:16:20.313846     #11 0x7f464de1d8d2 in __libc_start_main (/us=
+r/grte/v5/lib64/libc.so.6+0x628d2)
+> >   1109 15:16:20.313847     #12 0x5639b6bbd389 in _start /usr/grte/v5/de=
+bug-src/src/csu/../sysdeps/x86_64/start.S:120
+> >   1109 15:16:20.313849
+> >   1109 15:16:20.313851   Uninitialized value was created by an allocati=
+on of 'ifr' in the stack frame of function 'tap_probe_vnet_hdr'
+> >   1109 15:16:20.313855     #0 0x5639b88ac680 in tap_probe_vnet_hdr thir=
+d_party/qemu/net/tap-linux.c:151
+> >   1109 15:16:20.313856
+> >   1109 15:16:20.313878 SUMMARY: MemorySanitizer: use-of-uninitialized-v=
+alue third_party/qemu/net/tap-linux.c:183:9 in tap_probe_vnet_hdr_len
 > >
-> > > -----Original Message-----
-> > > From: Stefan Hajnoczi [mailto:stefanha@redhat.com]
-> > > Sent: Wednesday, January 5, 2022 5:49 PM
-> > > To: Longpeng (Mike, Cloud Infrastructure Service Product Dept.)
-> > > <longpeng2@huawei.com>
-> > > Cc: mst@redhat.com; jasowang@redhat.com; sgarzare@redhat.com;
-> > > cohuck@redhat.com; pbonzini@redhat.com; Gonglei (Arei)
-> > > <arei.gonglei@huawei.com>; Yechuan <yechuan@huawei.com>; Huangzhichao
-> > > <huangzhichao@huawei.com>; qemu-devel@nongnu.org
-> > > Subject: Re: [RFC 03/10] vdpa: add the infrastructure of vdpa-dev
-> > >
-> > > On Wed, Jan 05, 2022 at 08:58:53AM +0800, Longpeng(Mike) wrote:
-> > > > +static const VirtioPCIDeviceTypeInfo vhost_vdpa_device_pci_info = {
-> > > > +    .base_name               = TYPE_VHOST_VDPA_DEVICE_PCI,
-> > > > +    .generic_name            = "vhost-vdpa-device-pci",
-> > > > +    .transitional_name       = "vhost-vdpa-device-pci-transitional",
-> > > > +    .non_transitional_name   = "vhost-vdpa-device-pci-non-transitional",
-> > >
-> > > Does vDPA support Transitional VIRTIO devices?
-> > >
-> > > I expected this device to support Modern devices only.
-> > >
+> > Fixes: dc69004c7d8 ("net: move tap_probe_vnet_hdr() to tap-linux.c")
+> > Reviewed-by: Hao Wu <wuhaotsh@google.com>
+> > Reviewed-by: Patrick Venture <venture@google.com>
+> > Signed-off-by: Peter Foley <pefoley@google.com>
+> > ---
+> >   net/tap-linux.c | 1 +
+> >   1 file changed, 1 insertion(+)
 > >
-> > There's already a 0.95 vdpa driver (Alibaba ENI) in the kernel source and
-> > supporting 0.95 devices is necessary for some older GuestOS.
-> >
-> > I'm OK if other guys also approve of supporting 1.0+ devices only :)
+> > diff --git a/net/tap-linux.c b/net/tap-linux.c
+> > index 9584769740..5e70b93037 100644
+> > --- a/net/tap-linux.c
+> > +++ b/net/tap-linux.c
+> > @@ -150,6 +150,7 @@ void tap_set_sndbuf(int fd, const NetdevTapOptions =
+*tap, Error **errp)
+> >   int tap_probe_vnet_hdr(int fd, Error **errp)
+> >   {
+> >       struct ifreq ifr;
+> > +    memset(&ifr, 0, sizeof(ifr));
 >
-> If vDPA supports Transitional VIRTIO devices then it's fine to keep this
-> code unchanged in this patch series.
+> Or:
+>
+>         struct ifreq ifr =3D { };
+>
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
-Right, and I think that's the plan.
+Applied.
 
 Thanks
 
 >
-> Stefan
+> >
+> >       if (ioctl(fd, TUNGETIFF, &ifr) !=3D 0) {
+> >           /* TUNGETIFF is available since kernel v2.6.27 */
+>
 
 
