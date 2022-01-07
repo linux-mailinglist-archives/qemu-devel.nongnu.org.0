@@ -2,71 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64EB3487891
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 14:52:37 +0100 (CET)
-Received: from localhost ([::1]:44840 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4BAF48793B
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 15:49:40 +0100 (CET)
+Received: from localhost ([::1]:51066 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5pfW-0002rr-6K
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 08:52:34 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52400)
+	id 1n5qYl-0000L1-Qw
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 09:49:39 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35746)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1n5peJ-00027I-78; Fri, 07 Jan 2022 08:51:19 -0500
-Received: from smtpout2.mo529.mail-out.ovh.net ([79.137.123.220]:40927)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1n5peH-0006BK-Bm; Fri, 07 Jan 2022 08:51:18 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.109.156.44])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 08A53D637B45;
- Fri,  7 Jan 2022 14:51:06 +0100 (CET)
-Received: from kaod.org (37.59.142.96) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.17; Fri, 7 Jan
- 2022 14:51:05 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-96R001db1e300a-843e-41ad-a39e-161e63350281,
- E4C71DB801AC3DC5DDDF9E65DF3DCE2B5FFF0C93) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <a8be8541-22a7-80aa-0f01-fe2865e6de21@kaod.org>
-Date: Fri, 7 Jan 2022 14:51:04 +0100
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1n5qMK-0005Y1-KD; Fri, 07 Jan 2022 09:36:48 -0500
+Received: from [2a00:1450:4864:20::431] (port=43633
+ helo=mail-wr1-x431.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1n5qMJ-0008WP-5c; Fri, 07 Jan 2022 09:36:48 -0500
+Received: by mail-wr1-x431.google.com with SMTP id o3so11394029wrh.10;
+ Fri, 07 Jan 2022 06:36:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=+3Nc6zEdR43z3razwv1XE8PU4kQ0+jJ55RCBwOavKuA=;
+ b=jApoJ9XGqXm3hOEhdShp1rGvr94Yt6XizpCBLgn8FCzTw66TsZOoYtVySLcKLOtafL
+ SH3p6btCdNYcFDJg5EXpS8vNfckMgqQVLGFeSDEpUI3N/e5OG0Nwn7xiAzbov964kEea
+ L8loS5iHOTYjm1qrWICIwODU29bMDEfQnpvClQrj4vqIsndxW3YsaBXa5JMxbivqNjGr
+ u3TP32j3msHZnt6b7ToUh1uv6y9KAH5IHYUBwgMRLvLbnIjiB8cFqM7NIBjHQ6nrwJpV
+ g13IioVx1R525HVACDWbT3/QTkDW26FTVeeWPk0iblKDSPna8o1p94trVE35hGhofsAp
+ cOaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=+3Nc6zEdR43z3razwv1XE8PU4kQ0+jJ55RCBwOavKuA=;
+ b=RdwAe/DZ6sYQnZfSz6XJsc3x8uxgv+ujc5StjY3yzL1By5z33kCBqfqoGofZD7APH8
+ C/GHdW3EcpuV8+S/d01T+qOln5pJ/Fxt82GmEPzclqnpHZCYn/NcMpwCU37/aheq3ly6
+ kyDKIEN0lLVTKW7WCpC/wMjxHxXMYkObjiKU9MrcbkRfOTkvwr8OMI8WlcEN0ktoZYd5
+ VHb3wASAQQASbo/DuM1+pJUztwJjH6AalonA65wXlLUHOhdIGuH60l3yVV9kPP2QB+3t
+ 7e+fhnDUhjtEqEeGjAfPsirS0+ZBbSwvieUmByqDMHJpfBW9eaDN3S63rKucqw6TK9k1
+ 13AA==
+X-Gm-Message-State: AOAM532I3cwGzLj/Z+sWcNC10MbMj1N3AJoCOEyVXK9yjQGwQfTfo8i6
+ 5N0fwb0MC1uYZf5RqhgftrxIENXFTxo/+A==
+X-Google-Smtp-Source: ABdhPJxHODe4fb/rT3lPIHwubYbtgR/QsnnvRLSNMKU03+ATwD3Z8EkNtp3XG3dy6+NN7vt9d4gYNA==
+X-Received: by 2002:adf:f5cd:: with SMTP id k13mr175266wrp.673.1641566205287; 
+ Fri, 07 Jan 2022 06:36:45 -0800 (PST)
+Received: from [192.168.1.33] (83.red-83-50-87.dynamicip.rima-tde.net.
+ [83.50.87.83])
+ by smtp.gmail.com with ESMTPSA id e12sm5346255wrg.110.2022.01.07.06.36.44
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 07 Jan 2022 06:36:44 -0800 (PST)
+Message-ID: <9c8adbbf-e80a-894f-48e5-cf8f35093d4f@amsat.org>
+Date: Fri, 7 Jan 2022 14:51:58 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [RFC PATCH 0/2] QEMU/openbios: PPC Software TLB support in the G4
- family
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.4.1
+Subject: Re: [PATCH v4 11/11] hw/riscv: virt: Add PMU DT node to the device
+ tree
 Content-Language: en-US
-To: Fabiano Rosas <farosas@linux.ibm.com>, Mark Cave-Ayland
- <mark.cave-ayland@ilande.co.uk>, <qemu-devel@nongnu.org>
-References: <20211119134431.406753-1-farosas@linux.ibm.com>
- <87pmqpqknn.fsf@linux.ibm.com>
- <4fe55b44-6549-04d7-b381-aee88499d6a3@ilande.co.uk>
- <115484b4-63ff-a40f-050a-931ba988688e@kaod.org>
- <c60ce410-d9d2-c245-ab19-1af638babd63@ilande.co.uk>
- <87ilwfqesw.fsf@linux.ibm.com>
- <095292e8-f715-309d-67dc-3dc290a59d95@kaod.org>
- <874k7vq8ug.fsf@linux.ibm.com>
- <0dbc9805-e08b-2190-8c1b-2a9e4081c02e@kaod.org>
- <877dbb3cqc.fsf@linux.ibm.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <877dbb3cqc.fsf@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+To: Atish Patra <atishp@rivosinc.com>, qemu-devel@nongnu.org
+References: <20220107004846.378859-1-atishp@rivosinc.com>
+ <20220107004846.378859-12-atishp@rivosinc.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+In-Reply-To: <20220107004846.378859-12-atishp@rivosinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.96]
-X-ClientProxiedBy: DAG3EX1.mxp5.local (172.16.2.21) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 68724c82-dbd4-4d1a-a103-9603fd9391e9
-X-Ovh-Tracer-Id: 4992521665847266153
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrudegvddgfeefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfhisehtjeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhephffhleegueektdetffdvffeuieeugfekkeelheelteeftdfgtefffeehueegleehnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopegurghvihgusehgihgsshhonhdrughrohhpsggvrghrrdhiugdrrghu
-Received-SPF: pass client-ip=79.137.123.220; envelope-from=clg@kaod.org;
- helo=smtpout2.mo529.mail-out.ovh.net
-X-Spam_score_int: -45
-X-Spam_score: -4.6
-X-Spam_bar: ----
-X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.691,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::431
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x431.google.com
+X-Spam_score_int: -33
+X-Spam_score: -3.4
+X-Spam_bar: ---
+X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-2.691,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,37 +92,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: openbios@openbios.org, danielhb413@gmail.com, qemu-ppc@nongnu.org,
- david@gibson.dropbear.id.au
+Cc: Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bin.meng@windriver.com>,
+ Alistair Francis <alistair.francis@wdc.com>, qemu-riscv@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
->> Hello,
->>
->> a quick status on how QEMU has evolved regarding this topic.
->>
->> We have merged :
->>
->>     a09410ed1fb8 ("target/ppc: Remove the software TLB model of 7450 CPUs")
->>
->> and switched MMU model to POWERPC_MMU_32B in :
->>
->>     1da666cd8e79 ("target/ppc: Disable software TLB for the 7450 family")
->>
->> With the two patches of this series, we can boot the latest linux on all
->> 7450 CPUs. With an extra small fix on the CPU table, 7448 boots.
+On 7/1/22 01:48, Atish Patra wrote:
+> Qemu virt machine can support few cache events and cycle/instret counters.
+> It also supports counter overflow for these events.
 > 
-> A small correction, we only need OpenBIOS to include patch 2: "ppc: Add
-> PVRs for the MPC7450 family".
+> Add a DT node so that OpenSBI/Linux kernel is aware of the virt machine
+> capabilities. There are some dummy nodes added for testing as well.
+> 
+> Signed-off-by: Atish Patra <atish.patra@wdc.com>
+> Signed-off-by: Atish Patra <atishp@rivosinc.com>
+> ---
+>   hw/riscv/virt.c    | 38 ++++++++++++++++++++++++++++++++++++++
+>   target/riscv/pmu.c | 45 +++++++++++++++++++++++++++++++++++++++++++++
+>   target/riscv/pmu.h |  1 +
+>   3 files changed, 84 insertions(+)
 
-Yep we don't need the vectors anymore. But I think I remember Mark
-saying it would be nice to keep the implementation.
+> +static void create_fdt_socket_pmu(RISCVVirtState *s,
+> +                                  int socket, uint32_t *phandle,
+> +                                  uint32_t *intc_phandles)
+> +{
+> +    int cpu;
+> +    char *pmu_name;
+> +    uint32_t *pmu_cells;
+> +    MachineState *mc = MACHINE(s);
+> +    RISCVCPU hart = s->soc[socket].harts[0];
+> +
+> +    pmu_cells = g_new0(uint32_t, s->soc[socket].num_harts * 2);
+> +
+> +    for (cpu = 0; cpu < s->soc[socket].num_harts; cpu++) {
+> +        pmu_cells[cpu * 2 + 0] = cpu_to_be32(intc_phandles[cpu]);
+> +        pmu_cells[cpu * 2 + 1] = cpu_to_be32(IRQ_PMU_OVF);
+> +    }
+> +
+> +    pmu_name = g_strdup_printf("/soc/pmu");
+> +    qemu_fdt_add_subnode(mc->fdt, pmu_name);
+> +    qemu_fdt_setprop_string(mc->fdt, pmu_name, "compatible", "riscv,pmu");
+> +    riscv_pmu_generate_fdt_node(mc->fdt, hart.cfg.pmu_num, pmu_name);
 
-I have an extra patch for 7448 tough.
+pmu_cells[] is not consumed...
 
-Thanks,
-
-C.
-  
+> +
+> +    g_free(pmu_name);
+> +    g_free(pmu_cells);
+> +}
 
 
