@@ -2,84 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAC1B487D9A
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 21:20:55 +0100 (CET)
-Received: from localhost ([::1]:54224 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29513487DBE
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 21:29:10 +0100 (CET)
+Received: from localhost ([::1]:39182 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5vjK-0004kw-Ne
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 15:20:54 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:57604)
+	id 1n5vrJ-0006Ur-AG
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 15:29:09 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57932)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1n5vgs-0002pf-Jr
- for qemu-devel@nongnu.org; Fri, 07 Jan 2022 15:18:22 -0500
-Received: from [2607:f8b0:4864:20::536] (port=34522
- helo=mail-pg1-x536.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1n5vgr-0004pc-4P
- for qemu-devel@nongnu.org; Fri, 07 Jan 2022 15:18:22 -0500
-Received: by mail-pg1-x536.google.com with SMTP id g22so6357648pgn.1
- for <qemu-devel@nongnu.org>; Fri, 07 Jan 2022 12:18:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=H/I3ku4vsffsSeA5K0YyXrYX/tBYelSxhAOG8t1TM48=;
- b=sr2hB0CRGHwm6TnUlGSJL1Y8BxN/Vdu+rFUTTrUKOuuuY3oJYyTpcWrGpqIY+XFG6d
- BnRTUJ8Y8MS4U0fo53emVvL0txzYPPmxUWvucoX8EjzuqoxQtbv+4Qqv39buXEeF6WyA
- D3wTzjI47cedkFrurGaLmhldMXgod8c5VF246AzNdI7FolGkcD7CYP0K4rEB7RNlLTQb
- 8luWid0Nm39yYZQiL2uQ4O5n6C7Xi+lpA0cjWBM+1+hWl9VxPims2EIfoYc+BnvvJx4+
- TtbrEekx7lXDfBz7DFqGLexZXS2nMhFipzZ8u9Gar2xP00OHmrKiYr08oYMaJvSWJjoU
- er3A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=H/I3ku4vsffsSeA5K0YyXrYX/tBYelSxhAOG8t1TM48=;
- b=L1WqNA3kE78OFd+/4jwPWlkKauh1TGjW93kWLxaIwMl0pEy6+fPeXVPsVSCJ9DZ+Rc
- NyCP2nxhCHM28BYt1sMOSMfmyvLYcThZHW+M50CSZtZQc3y0cusWA18l/aTh29IB3HKr
- 5cTVxbnlyXn/Gf+M9C3RL7mfBcVjgac+dAN8Cec8hXeIQMjCcdZISBptbFJoaXviSUdX
- /+EW3bLsCkUcfMhbDbP3T2sZ4aWAUkoX8RUY79g6gVKnNyAQHhcTvpQvO41Srq2WuUbp
- QAvF6ExXfUJt8MxtnNbkLqHZtEEHpbr1HJrt7SCwn8bce5eIMgWdw4R0vNcKHxaHo+rH
- INhA==
-X-Gm-Message-State: AOAM531VSXWOME7tvyDz89pTiJQCdCO2/NHGV2J6QHziiNYb953Mz3wv
- lO743BbeQgl59DEZM+0yYf2dCQ==
-X-Google-Smtp-Source: ABdhPJxkATvUTuARJTbEuulCWoSCJJ55iHOBRNWIdbBf2Ni43JpvrFT4ToveYbSPAYVYWfV/eBkEtg==
-X-Received: by 2002:a05:6a00:1254:b0:4bb:68cc:58b1 with SMTP id
- u20-20020a056a00125400b004bb68cc58b1mr66274933pfi.19.1641586699834; 
- Fri, 07 Jan 2022 12:18:19 -0800 (PST)
-Received: from [192.168.1.13] (174-21-75-75.tukw.qwest.net. [174.21.75.75])
- by smtp.gmail.com with ESMTPSA id o184sm6479783pfb.90.2022.01.07.12.18.19
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 07 Jan 2022 12:18:19 -0800 (PST)
-Subject: Re: [PATCH] softmmu/device_tree: Silence compiler warning with
- --enable-sanitizers
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- Alistair Francis <alistair.francis@wdc.com>
-References: <20220107133844.145039-1-thuth@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <4aa47d06-ba24-fb92-c2e0-cd207f7d17b5@linaro.org>
-Date: Fri, 7 Jan 2022 12:18:18 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1n5vi9-0004vr-OT
+ for qemu-devel@nongnu.org; Fri, 07 Jan 2022 15:19:42 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58600)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1n5vi6-0004yO-EG
+ for qemu-devel@nongnu.org; Fri, 07 Jan 2022 15:19:40 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1641586777;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=fK0I5rc4NfnGdOoKswQky2Steqcm4EW7BavYxUQm3pY=;
+ b=Nn3x3SJRzToUoiArwLp8QAvYgIRjsmj53cUHhfOwPefo5AV0H9b2ujrpjFHqVYj7pLFQ5y
+ nGLPEhAC2MeMdtyjtE95H9Kn68NKgZGSRmXQ6oZ1R5U9ybx9YNn7ZRYeDEn5RQKi+goLHE
+ ueHYrygFocMtcWL0Esf/4SXUW7DuprY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-124-hE-0ewzoOwi-gSmazAfSsg-1; Fri, 07 Jan 2022 15:19:19 -0500
+X-MC-Unique: hE-0ewzoOwi-gSmazAfSsg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1C7818710FE;
+ Fri,  7 Jan 2022 20:19:18 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.192.143])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D92B15C25D;
+ Fri,  7 Jan 2022 20:19:03 +0000 (UTC)
+Date: Fri, 7 Jan 2022 20:18:59 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Dov Murik <dovmurik@linux.ibm.com>
+Subject: Re: [PATCH] docs: Add measurement calculation details to
+ amd-memory-encryption.txt
+Message-ID: <YdigM5W8AnBt2HM4@redhat.com>
+References: <20211214135910.2732101-1-dovmurik@linux.ibm.com>
+ <Ybjk6XJUNIyC/LX5@redhat.com>
+ <336cbad3-06da-f11c-8cd1-ca058dd9c6b0@linux.ibm.com>
+ <YbtkzdpERCnODpft@redhat.com>
+ <1c972953-a7b0-f06c-7d78-0e5fbf13b00e@linux.ibm.com>
 MIME-Version: 1.0
-In-Reply-To: <20220107133844.145039-1-thuth@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::536
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::536;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x536.google.com
-X-Spam_score_int: -39
-X-Spam_score: -4.0
-X-Spam_bar: ----
-X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.691,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <1c972953-a7b0-f06c-7d78-0e5fbf13b00e@linux.ibm.com>
+User-Agent: Mutt/2.1.3 (2021-09-10)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.372,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,37 +87,111 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yanan Wang <wangyanan55@huawei.com>, qemu-trivial@nongnu.org,
- Andrew Jones <drjones@redhat.com>, David Gibson <david@gibson.dropbear.id.au>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Tom Lendacky <thomas.lendacky@amd.com>, Ashish Kalra <ashish.kalra@amd.com>,
+ Brijesh Singh <brijesh.singh@amd.com>, James Bottomley <jejb@linux.ibm.com>,
+ Marcelo Tosatti <mtosatti@redhat.com>, qemu-devel@nongnu.org,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Tobin Feldman-Fitzthum <tobin@linux.ibm.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/7/22 5:38 AM, Thomas Huth wrote:
-> diff --git a/softmmu/device_tree.c b/softmmu/device_tree.c
-> index 3965c834ca..9e96f5ecd5 100644
-> --- a/softmmu/device_tree.c
-> +++ b/softmmu/device_tree.c
-> @@ -564,7 +564,7 @@ int qemu_fdt_add_path(void *fdt, const char *path)
->           return -1;
->       }
->   
-> -    while (p) {
-> +    do {
->           name = p + 1;
->           p = strchr(name, '/');
->           namelen = p != NULL ? p - name : strlen(name);
-> @@ -584,7 +584,7 @@ int qemu_fdt_add_path(void *fdt, const char *path)
->           }
->   
->           parent = retval;
-> -    }
-> +    } while (p);
+On Thu, Dec 16, 2021 at 11:41:27PM +0200, Dov Murik wrote:
+> 
+> 
+> On 16/12/2021 18:09, Daniel P. Berrangé wrote:
+> > On Thu, Dec 16, 2021 at 12:38:34PM +0200, Dov Murik wrote:
+> >>
+> >>
+> >> On 14/12/2021 20:39, Daniel P. Berrangé wrote:
+> >>> Is there any practical guidance we can give apps on the way the VMSAs
+> >>> can be expected to be initialized ? eg can they assume essentially
+> >>> all fields in vmcb_save_area are 0 initialized except for certain
+> >>> ones ? Is initialization likely to vary at all across KVM or EDK2
+> >>> vesions or something ?
+> >>
+> >> From my own experience, the VMSA of vcpu0 doesn't change; it is basically what QEMU
+> >> sets up in x86_cpu_reset() (which is mostly zeros but not all).  I don't know if it
+> >> may change in newer QEMU (machine types?) or kvm.  As for vcpu1+, in SEV-ES the
+> >> CS:EIP for the APs is taken from a GUIDed table at the end of the OVMF image, and has
+> >> actually changed a few months ago when the memory layout changed to support both TDX
+> >> and SEV.
+> > 
+> > That is an unplesantly large number of moving parts that could
+> > potentially impact the expected state :-(  I think we need to
+> > be careful to avoid gratuitous changes, to avoid creating a
+> > combinatorial expansion in the number of possibly valid VMSA
+> > blocks.
+> > 
+> > It makes me wonder if we need to think about defining some
+> > standard approach for distro vendors (and/or cloud vendors)
+> > to publish the expected contents for various combinations
+> > of their software pieces.
+> > 
+> >>
+> >>
+> >> Here are the VMSAs for my 2-vcpu SEV-ES VM:
+> >>
+> >>
+> >> $ hd vmsa/vmsa_cpu0.bin
+> > 
+> > ...snipp...
+> > 
+> > was there a nice approach / tool you used to capture
+> > this initial state ?
+> > 
+> 
+> I wouldn't qualify this as nice: I ended up modifying my
+> host kernel's kvm (see patch below).  Later I wrote a
+> script to parse that hex dump from the kernel log into
+> proper 4096-byte binary VMSA files.
+> 
+> 
+> 
+> diff --git a/arch/x86/kvm/svm/sev.c b/arch/x86/kvm/svm/sev.c
+> index 7fbce342eec4..4e45fe37b93d 100644
+> --- a/arch/x86/kvm/svm/sev.c
+> +++ b/arch/x86/kvm/svm/sev.c
+> @@ -624,6 +624,12 @@ static int sev_launch_update_vmsa(struct kvm *kvm, struct kvm_sev_cmd *argp)
+>                  */
+>                 clflush_cache_range(svm->vmsa, PAGE_SIZE);
+> 
+> +                /* dubek */
+> +                pr_info("DEBUG_VMSA - cpu %d START ---------------\n", i);
+> +                print_hex_dump(KERN_INFO, "DEBUG_VMSA", DUMP_PREFIX_OFFSET, 16, 1, svm->vmsa, PAGE_SIZE, true);
+> +                pr_info("DEBUG_VMSA - cpu %d END ---------------\n", i);
+> +                /* ----- */
+> +
+>                 vmsa.handle = sev->handle;
+>                 vmsa.address = __sme_pa(svm->vmsa);
+>                 vmsa.len = PAGE_SIZE;
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+FWIW, I made a 1% less hacky solution by writing a systemtap
+script. It will require changing to set the line number for
+every single kernel version, but at least it doesn't require
+building a custom kernel
 
-In addition, the copy between 'path' and 'p' is unnecessary -- one of the variables should 
-be removed.  Either rename the parameter to 'p', or rename all uses to 'path'.
+$ cat sev-vmsa.stp 
+function dump_vmsa(addr:long) {
+  printf("VMSA\n")
+  for (i = 0; i < 4096 ; i+= 64) {
+    printf("%.64M\n", addr + i);
+  }
+}
 
+probe module("kvm_amd").statement("__sev_launch_update_vmsa@arch/x86/kvm/svm/sev.c:618") {
+  dump_vmsa($svm->vmsa)
+}
 
-r~
+the line number is that of the 'vmsa.handle = sev->handle' assignment
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
