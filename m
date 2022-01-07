@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDA664876BE
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 12:48:06 +0100 (CET)
-Received: from localhost ([::1]:42446 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7806C487698
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 12:34:42 +0100 (CET)
+Received: from localhost ([::1]:41176 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5nj3-0005WD-Pr
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 06:48:05 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45882)
+	id 1n5nW5-0008J6-IG
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 06:34:41 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45690)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n5n43-0001ZB-80
- for qemu-devel@nongnu.org; Fri, 07 Jan 2022 06:05:43 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:32570)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n5n3z-0001RG-21
+ for qemu-devel@nongnu.org; Fri, 07 Jan 2022 06:05:39 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:27311)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n5n3z-0002Gq-N3
- for qemu-devel@nongnu.org; Fri, 07 Jan 2022 06:05:42 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n5n3o-0002Iw-Sj
+ for qemu-devel@nongnu.org; Fri, 07 Jan 2022 06:05:31 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641553523;
+ s=mimecast20190719; t=1641553526;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=x73NwhE1Jj1XHK61J5GDiGXpI7lT6xn6KSYOADx705c=;
- b=XxSQWEwUBnHieqEsevALqKmBbZhMc/mgMw6VpFq9Ip+MgCfpHTchxwYW+d2pIk0U+nZR/C
- XCeQWKPd4ui7OmZ07VbD5mydAqfKAu2ypyFyAMD5iblzY6OEuZL5rO09lzSXtrSv9IPIjF
- udm6Dg19th3ekztx+EozQL9/DvLLWlU=
+ bh=UtXyrtn+0H59zIz1wAsdY62sOCwJtY4CRpesWdrs1nM=;
+ b=EFxuBTwmEq6lSyVlWRVelbI4nTwsCANgfar/Y79RceSMWKIdwoIdPYBefgnM4A8aP0eoa/
+ 20FsBivO9Ww8BIBdK0pGTOit8URMXKE5/DVYxq1lhnMxcJ1whhG6TWUOOpUaRi3Re/2Buu
+ vLlGcGfn8WjlNpCZ6i7elL9uNn0vaPI=
 Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
  [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-117-CpSYg9u4MVyzG3W_ApdhTA-1; Fri, 07 Jan 2022 06:05:22 -0500
-X-MC-Unique: CpSYg9u4MVyzG3W_ApdhTA-1
+ us-mta-457-5k3g6RYSNLaiGHJ7MMtcVA-1; Fri, 07 Jan 2022 06:05:25 -0500
+X-MC-Unique: 5k3g6RYSNLaiGHJ7MMtcVA-1
 Received: by mail-wr1-f72.google.com with SMTP id
- i23-20020adfaad7000000b001a6320b66b9so264056wrc.15
- for <qemu-devel@nongnu.org>; Fri, 07 Jan 2022 03:05:22 -0800 (PST)
+ i23-20020adfaad7000000b001a6320b66b9so264104wrc.15
+ for <qemu-devel@nongnu.org>; Fri, 07 Jan 2022 03:05:24 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=x73NwhE1Jj1XHK61J5GDiGXpI7lT6xn6KSYOADx705c=;
- b=UZUF7k6qK+IJBW+/uHBK5sUHYgtbJR9hlxF7bXY2mYFrP6I+d/dtceoJ56b6jsp69q
- hEWbkEzPlEGANf7UX/WPP2i2o4SV0kqp8Y+iqmBlBs7SGc6ee/GO7siijcnCcw0/zicY
- 3RBDbIJcDVo1TKTcVsS9qaoriqHlyMt3whZUdkQrgHEofYf/C2uoLM89eW+srNyQbTrV
- T+thwXEyYIa7soiPESEQZWzHfyqBrY/QY40krRlXo68row3GIrpqBEvtMWoWebrLFLwA
- UOSdn5jCsuLrEAzsp093OE165vDfAzAJrERItKyee5AcZE4DF6Al2YJ7bD6WYHsdY630
- Z3Sw==
-X-Gm-Message-State: AOAM530uzGDqN2FKF2Vkn8PUmAavrqUzQ0St1oUzcV9MJNELH5ihhCdC
- 8K+v9sDdgIMENNa22zgQPQ/hgeOPXLIod+jO8+x+HHk7tbPuw08b3JHH3hQcAI2AkPbGUSiDH7N
- S0VpF9oIxSWMaoKJtd31S/BAivDL0i3S8j0KOE2LXo/BcbZn2Y2xR+qG/im/o
-X-Received: by 2002:a05:6000:10d2:: with SMTP id
- b18mr53719296wrx.193.1641553520785; 
- Fri, 07 Jan 2022 03:05:20 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwzN5isByyhjq9dB1ToplghQcw4P6X2HMoszgUJKktTnXWlxnHYO9ed+cLvF9oqB6rCx72BTw==
-X-Received: by 2002:a05:6000:10d2:: with SMTP id
- b18mr53719276wrx.193.1641553520537; 
- Fri, 07 Jan 2022 03:05:20 -0800 (PST)
+ bh=UtXyrtn+0H59zIz1wAsdY62sOCwJtY4CRpesWdrs1nM=;
+ b=w++Q93cFTCXHM4d0ChmtV/lNdngVAq+jg8zPTVkPPO2a7g+Wgkd+oJqVTfSLRXF0e7
+ 7+P2txYoqMRRIiQrYGY4+IDcc7spGuqs0/Vkyf981+dFGNrjk1EOEP28S9ViK5vbr1S7
+ sTMhluMIoIOGxbTKAyO8tTk+w03+pSGtW2nPY/kGNtpB7rUIjIj4DGOGBcvvN+Q7YQf3
+ F8bXtB3I3EqYMC+45qxRv54xoi/gL5/o4WrXs6s2Z6tlAiyEJ360eOfUwqhDmHqf5jEw
+ DMhJDpr8JzNF+Ij2tOcKWSOXoXUofQcfyxuilu6ZNvqOYmjSwB4dEKZ5zPjtjvPWxbOk
+ Py/g==
+X-Gm-Message-State: AOAM5330I5gX4qDz6mLGcvokE6k4y3lv0Q31zd/ONlOnQxCE7fI0O3Xr
+ b/tyjYecoOwQS8pd0misxEPeDFThjAF9U2O6SiFMQgVR5Hsrh/kecXvI+dJZyvvkHl2rgDC7pLB
+ zDGR6plmfQXrmq7/xVkTrveoAS5PVdBSliaVbnHxaHyn8Xuscjtcphq4/rmcA
+X-Received: by 2002:a05:6000:1688:: with SMTP id
+ y8mr52105919wrd.682.1641553523485; 
+ Fri, 07 Jan 2022 03:05:23 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyBfMJcfM2q2+DgDB5jTDuSg3MIZ1AbCe40L2yCL3W0+YnKn+viP8sOIYgS6gQ2ud4YYlu+kA==
+X-Received: by 2002:a05:6000:1688:: with SMTP id
+ y8mr52105893wrd.682.1641553523232; 
+ Fri, 07 Jan 2022 03:05:23 -0800 (PST)
 Received: from redhat.com ([2.55.16.192])
- by smtp.gmail.com with ESMTPSA id h204sm4052428wmh.33.2022.01.07.03.05.18
+ by smtp.gmail.com with ESMTPSA id w6sm3768536wro.114.2022.01.07.03.05.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 Jan 2022 03:05:20 -0800 (PST)
-Date: Fri, 7 Jan 2022 06:05:17 -0500
+ Fri, 07 Jan 2022 03:05:22 -0800 (PST)
+Date: Fri, 7 Jan 2022 06:05:21 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 44/55] tests: acpi: whitelist expected blobs before
- changing them
-Message-ID: <20220107102526.39238-45-mst@redhat.com>
+Subject: [PULL v2 45/55] tests: acpi: add SLIC table test
+Message-ID: <20220107102526.39238-46-mst@redhat.com>
 References: <20220107102526.39238-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20220107102526.39238-1-mst@redhat.com>
@@ -104,41 +103,53 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Igor Mammedov <imammedo@redhat.com>
 
+When user uses '-acpitable' to add SLIC table, some ACPI
+tables (FADT) will change its 'Oem ID'/'Oem Table ID' fields to
+match that of SLIC. Test makes sure thati QEMU handles
+those fields correctly when SLIC table is added with
+'-acpitable' option.
+
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Message-Id: <20211227193120.1084176-3-imammedo@redhat.com>
+Message-Id: <20211227193120.1084176-4-imammedo@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- tests/qtest/bios-tables-test-allowed-diff.h |   2 ++
- tests/data/acpi/q35/FACP.slic               | Bin 0 -> 244 bytes
- tests/data/acpi/q35/SLIC.slic               |   0
- 3 files changed, 2 insertions(+)
- create mode 100644 tests/data/acpi/q35/FACP.slic
- create mode 100644 tests/data/acpi/q35/SLIC.slic
+ tests/qtest/bios-tables-test.c | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index dfb8523c8b..49dbf8fa3e 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1 +1,3 @@
- /* List of comma-separated changed AML files to ignore */
-+"tests/data/acpi/q35/FACP.slic",
-+"tests/data/acpi/q35/SLIC.slic",
-diff --git a/tests/data/acpi/q35/FACP.slic b/tests/data/acpi/q35/FACP.slic
-new file mode 100644
-index 0000000000000000000000000000000000000000..f6a864cc863c7763f6c09d3814ad184a658fa0a0
-GIT binary patch
-literal 244
-zcmZ>BbPo8!z`($~)5+i2BUr&HBEVSz2pEB4AU24G0Y(N+hD|^Y6El!tgNU*~X%LSC
-z$X0-fGcm9T0LA|E|L2FOWMD7?GM2V5Ffej3F#P0!h{7ddihwku0+2v57svwxMxcSn
-X_QAxFX+{NzJ3wNL4G8yu_%Hwf>-7!+
-
-literal 0
-HcmV?d00001
-
-diff --git a/tests/data/acpi/q35/SLIC.slic b/tests/data/acpi/q35/SLIC.slic
-new file mode 100644
-index 0000000000..e69de29bb2
+diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
+index 9a468e29eb..e6b72d9026 100644
+--- a/tests/qtest/bios-tables-test.c
++++ b/tests/qtest/bios-tables-test.c
+@@ -1502,6 +1502,20 @@ static void test_acpi_virt_viot(void)
+     free_test_data(&data);
+ }
+ 
++static void test_acpi_q35_slic(void)
++{
++    test_data data = {
++        .machine = MACHINE_Q35,
++        .variant = ".slic",
++    };
++
++    test_acpi_one("-acpitable sig=SLIC,oem_id='CRASH ',oem_table_id='ME',"
++                  "oem_rev=00002210,asl_compiler_id='qemu',"
++                  "asl_compiler_rev=00000000,data=/dev/null",
++                  &data);
++    free_test_data(&data);
++}
++
+ static void test_oem_fields(test_data *data)
+ {
+     int i;
+@@ -1677,6 +1691,7 @@ int main(int argc, char *argv[])
+             qtest_add_func("acpi/q35/kvm/dmar", test_acpi_q35_kvm_dmar);
+         }
+         qtest_add_func("acpi/q35/viot", test_acpi_q35_viot);
++        qtest_add_func("acpi/q35/slic", test_acpi_q35_slic);
+     } else if (strcmp(arch, "aarch64") == 0) {
+         if (has_tcg) {
+             qtest_add_func("acpi/virt", test_acpi_virt_tcg);
 -- 
 MST
 
