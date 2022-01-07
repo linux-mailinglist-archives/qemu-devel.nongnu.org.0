@@ -2,61 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3235C487457
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 09:57:35 +0100 (CET)
-Received: from localhost ([::1]:49648 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6473B48745A
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 09:58:06 +0100 (CET)
+Received: from localhost ([::1]:51644 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5l42-0002yF-72
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 03:57:34 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44720)
+	id 1n5l4X-0004Ja-HQ
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 03:58:05 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44944)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n5l28-0001x7-HU
- for qemu-devel@nongnu.org; Fri, 07 Jan 2022 03:55:40 -0500
-Received: from mout.kundenserver.de ([212.227.126.135]:49155)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n5l1s-000755-Su
- for qemu-devel@nongnu.org; Fri, 07 Jan 2022 03:55:25 -0500
-Received: from [192.168.100.1] ([82.142.12.178]) by mrelayeu.kundenserver.de
- (mreue011 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MvazO-1mD66c0ffq-00sf9Z; Fri, 07 Jan 2022 09:55:08 +0100
-Message-ID: <58171f63-7599-edd2-020e-69586ae0d7c8@vivier.eu>
-Date: Fri, 7 Jan 2022 09:55:07 +0100
+ (Exim 4.90_1) (envelope-from <stevie.lavern@gmail.com>)
+ id 1n5l3Z-0002uG-2c
+ for qemu-devel@nongnu.org; Fri, 07 Jan 2022 03:57:05 -0500
+Received: from [2607:f8b0:4864:20::d34] (port=34492
+ helo=mail-io1-xd34.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <stevie.lavern@gmail.com>)
+ id 1n5l3X-0007Pb-EE
+ for qemu-devel@nongnu.org; Fri, 07 Jan 2022 03:57:04 -0500
+Received: by mail-io1-xd34.google.com with SMTP id e128so6320244iof.1
+ for <qemu-devel@nongnu.org>; Fri, 07 Jan 2022 00:57:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=mityUOsj7Da/4FCmnX4F4YtZwNwZJH8/aBkpjY9qGYg=;
+ b=Ec17GInKW27tau8wjHOZN9YU1kTjPZv50NZAfDrU3sNKXjAN89eq04ZMopD2nBCYPI
+ z8V76OAmmZTVX8SIBhGvSaQiopyZ9cC391SgT1uP1K5o0r2V0qxtE/khPZZW1fEXzsC+
+ P4x4KvbWAL+Bopd8Fz+cDUBNQBgf6uLv8BfX7w+pnfj0tW3Wwy1C/G53zPAZ9M3mJxJH
+ SNN7CWMgdf0F+8p4k9RPkUsY1F0JIscOZ6eTEa+BO054tdoRWQDLntabfuRnCVA+Md8j
+ JSCgnYjhjCwS5hpwkI8N77PfD9nd4q5j24fjrQVliPyzuMwweN8vFCOhLMzRnxZP3ZdT
+ gyoQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=mityUOsj7Da/4FCmnX4F4YtZwNwZJH8/aBkpjY9qGYg=;
+ b=FviD+w/fcF4djhDWYODuAdNDbrT34JnPVPHuolG+S8Yjjw8afP0MYDislYiFKXAEte
+ gIkpG4/FvmfuPvlLd8wzFN+S0ThlM8Qn6Taym6dpeeo4yZtJPP8coFe6Ug2/m7WAqcdM
+ grWYblQFjJD+lUfpaNDeMPa3/OdW8TQKsHChObyfJShAvLBemkmPBbhZYJufMre2RA0H
+ YxjekvCvC46PVvh49JJpo8/vzAXcLGU0MGNjp7QPvthvXd62SHNdtM5TLzy35HWx46D2
+ NXA5jSd4+EB8MLY/ADtWnvkE/BnAuelooOJjpl07inyv1xZXu4x/fkIG4ZMo6zHvLqEi
+ AqnQ==
+X-Gm-Message-State: AOAM532uRn+04ghGLEEnhosVi91T0l2EvqoPt8lR0gnoLs0OgtNdZPts
+ 0GdO8vlGoB1f9Kr0rmporDFm6Bq5mIPbOYqsrPI=
+X-Google-Smtp-Source: ABdhPJy620jJrTrRLj25su0+KlPN6gF9yIMRVKi0TT6eeg3pNXgiQr4Qmc7Aj2PU703wtMmIB+OWcoi9Fb4FBZUH3nU=
+X-Received: by 2002:a02:cb0b:: with SMTP id j11mr27342744jap.190.1641545822037; 
+ Fri, 07 Jan 2022 00:57:02 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Content-Language: en-GB
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org
-References: <20220106122247.771454-1-laurent@vivier.eu>
- <11cea729-2dc1-6985-0c17-8dca37618002@ilande.co.uk>
-From: Laurent Vivier <laurent@vivier.eu>
-Subject: Re: [PATCH] q800: fix segfault with invalid MacROM
-In-Reply-To: <11cea729-2dc1-6985-0c17-8dca37618002@ilande.co.uk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:np6daZUJnBzpbqRwfVL1F3e89UWBnw2i2RNgku+K9YjbH7FrgV8
- TvSXBRZW5Xk3zttn0PVDa5mhX1WgRrOeUOiiilFKNdyJo0EbAU/FBVEwkJMsU7LUjPZXkSE
- XQbt9tDBN6WtPcKFXT5rkg1vgYtr3XV7BJwkV5iQtTiJJzuRXRga6PgxzRnBkHmFNQigSJd
- Y9vOaK5izrq5r7YjFlDRA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:PHJy+BM5nvU=:vSsQ9ThF5egL50pZ1l5hWm
- v5p9/yquehamDoj14xSIevI8OSUK3R06dp3QoIiqyjYjakj8TKXSYuiCJADAxh12SYP/hNPxd
- sl1/0iqKQ7YgF/3zkWJ0338UKDpPgN0zRtW/jQNfuBl7QXYlSkQlTYpVAW6fwk2S1EECW5YH9
- 4XDF3QqrKAwKdUXpnWHxKO3Vw2mCxzz0XbgoaAaxumCvazZqDn5mlDfULkDyVl46PsxEQtFwv
- NmyOdmHNHEOzndb/XrR1xM9eHBJYzjTHudRgOwb5qkLk8g58/95IJt0RiiX8vdNt8HXeiyfc+
- eXoNwumJb1bWnPSpLnK49V1twOAU6FZs6l246KnX27GtpV62PT27sjKTHMQxde9Ri1S3j8Q87
- QUb4HM0IZAty1xK8YB2peqiDYTkrjNR5eDF1r/mApTVWOFkVvyo9z7az8e7OXDzhuvmwZ3qIX
- alGJmdbqKhaY5wqBp3g23trbbkbMLc2WgDgNZ4a/yiTA6hqaopPlDyoX/2Sn8Dq3IC6Ee82+N
- FR64IFFVonFREpL6pt90dFjYwBFFXKjMSDHLPkF/HKRfsH0lF+XyjBybrzXVXmMb1+Lbw9c+n
- bVqzff025A5adFPuB/QKUQrPawPTwptDbXTzPP7ar4dxlJ4HeJ0oz3lL3m5BucDYyUv+Oyc71
- r8OPLrjjS5LlWPEfUe5+9ncJVcNjUA167c8RthTXXp8NZ8kFp3cL0isNqdN3yxVh9ZWQ=
-Received-SPF: none client-ip=212.227.126.135; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -45
-X-Spam_score: -4.6
-X-Spam_bar: ----
-X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.691,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <CADV2EAtTPjHP=H7AMAdva7UjydjM5DwK=NDAm3HYM-MHeD9wyg@mail.gmail.com>
+ <49a5b6c6-8618-a9fc-2cec-ef60b8b59d62@linaro.org>
+ <CADV2EAvZ_=AJbQNr4vnFFY5W9HmZjDw8kVm3ubaQ=mvsG37=Vw@mail.gmail.com>
+ <5bfc479e-5929-20eb-2e94-8e0818c7f6fd@linaro.org>
+In-Reply-To: <5bfc479e-5929-20eb-2e94-8e0818c7f6fd@linaro.org>
+From: Stevie Lavern <stevie.lavern@gmail.com>
+Date: Fri, 7 Jan 2022 09:56:50 +0100
+Message-ID: <CADV2EAs4NdPQkXYf2PPhMO+_DEX1qJnENLEdAT2fxir=5=u4dQ@mail.gmail.com>
+Subject: Re: Rational behind partial AVX support in Qemu
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: multipart/alternative; boundary="0000000000009ae9c405d4fa2b84"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d34
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d34;
+ envelope-from=stevie.lavern@gmail.com; helo=mail-io1-xd34.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -69,59 +82,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 07/01/2022 à 09:15, Mark Cave-Ayland a écrit :
-> On 06/01/2022 12:22, Laurent Vivier wrote:
-> 
->> "qemu-system-m68k -M q800 -bios /dev/null" crahses with a segfault
->> in q800_init().
->> This happens because the code doesn't check that rom_ptr() returned
->> a non-NULL pointer .
->>
->> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/756
->> Reported-by: Peter Maydell <peter.maydell@linaro.org>
->> Signed-off-by: Laurent Vivier <laurent@vivier.eu>
->> ---
->>   hw/m68k/q800.c | 8 +++++++-
->>   1 file changed, 7 insertions(+), 1 deletion(-)
->>
->> diff --git a/hw/m68k/q800.c b/hw/m68k/q800.c
->> index e4c7c9b88ad0..6261716c8f7e 100644
->> --- a/hw/m68k/q800.c
->> +++ b/hw/m68k/q800.c
->> @@ -672,10 +672,16 @@ static void q800_init(MachineState *machine)
->>           /* Remove qtest_enabled() check once firmware files are in the tree */
->>           if (!qtest_enabled()) {
->> -            if (bios_size < 0 || bios_size > MACROM_SIZE) {
->> +            if (bios_size == -1) {
->>                   error_report("could not load MacROM '%s'", bios_name);
->>                   exit(1);
->>               }
->> +            if (bios_size != MACROM_SIZE) {
->> +                error_report("Invalid size for MacROM '%s': %d bytes,"
->> +                             " expected %d bytes", bios_name, bios_size,
->> +                             MACROM_SIZE);
->> +                exit(1);
->> +            }
->>               ptr = rom_ptr(MACROM_ADDR, MACROM_SIZE);
->>               stl_phys(cs->as, 0, ldl_p(ptr));    /* reset initial SP */
-> 
-> The patch does fix the issue, but it seems a little odd that you can't use -bios path/to/m68k-binary 
-> to boot with an arbitrary sized binary which could be useful for reproducers such as 
-> https://gitlab.com/qemu-project/qemu/-/issues/360.
-> 
-> How easy would it be to add the extra rom_ptr() NULL check instead?
-> 
+--0000000000009ae9c405d4fa2b84
+Content-Type: text/plain; charset="UTF-8"
 
-I was thinking that a smaller binary can be padded to 1 MB for use because on a real hardware the 
-size of the ROM cannot be arbitrary.
+Indeed, my bad, i was thinking about the "trivial patch" submission process.
 
-But it seems reasonable to check only for the NULL pointer rather than the size, I'm going to send a v2.
+For reference, the submitted patch can be found here
+https://lists.nongnu.org/archive/html/qemu-devel/2022-01/msg00822.html
 
 Thanks,
-Laurent
+Stevie
+
+On Thu, Jan 6, 2022 at 5:29 PM Richard Henderson <
+richard.henderson@linaro.org> wrote:
+
+> On 1/6/22 1:14 AM, Stevie Lavern wrote:
+> > Do you think it qualifies as "trivial patch" or should i go on with the
+> full patch
+> > submission process?
+>
+> There is no "short" patch submission process.
+>
+>
+> r~
+>
+
+--0000000000009ae9c405d4fa2b84
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Indeed, my bad, i was thinking about the &quot;trivial pat=
+ch&quot; submission process.<div><br></div><div>For reference, the submitte=
+d patch can be found here=C2=A0<a href=3D"https://lists.nongnu.org/archive/=
+html/qemu-devel/2022-01/msg00822.html">https://lists.nongnu.org/archive/htm=
+l/qemu-devel/2022-01/msg00822.html</a></div><div><br></div><div>Thanks,</di=
+v><div>Stevie</div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" cl=
+ass=3D"gmail_attr">On Thu, Jan 6, 2022 at 5:29 PM Richard Henderson &lt;<a =
+href=3D"mailto:richard.henderson@linaro.org">richard.henderson@linaro.org</=
+a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0p=
+x 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On=
+ 1/6/22 1:14 AM, Stevie Lavern wrote:<br>
+&gt; Do you think it qualifies as &quot;trivial patch&quot; or should i go =
+on with the full patch <br>
+&gt; submission process?<br>
+<br>
+There is no &quot;short&quot; patch submission process.<br>
+<br>
+<br>
+r~<br>
+</blockquote></div>
+
+--0000000000009ae9c405d4fa2b84--
 
