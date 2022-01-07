@@ -2,71 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1EAF487B58
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 18:25:29 +0100 (CET)
-Received: from localhost ([::1]:43570 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0A74487B76
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 18:32:24 +0100 (CET)
+Received: from localhost ([::1]:60764 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5szY-0007qJ-Dk
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 12:25:28 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48918)
+	id 1n5t6F-00039Y-Qq
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 12:32:23 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48932)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1n5sw1-00054W-NQ
- for qemu-devel@nongnu.org; Fri, 07 Jan 2022 12:21:49 -0500
-Received: from [2a00:1450:4864:20::434] (port=40685
- helo=mail-wr1-x434.google.com)
+ id 1n5sw2-000554-4I
+ for qemu-devel@nongnu.org; Fri, 07 Jan 2022 12:21:50 -0500
+Received: from [2a00:1450:4864:20::332] (port=46630
+ helo=mail-wm1-x332.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1n5svz-0007sD-6l
+ id 1n5sw0-0007sN-LB
  for qemu-devel@nongnu.org; Fri, 07 Jan 2022 12:21:49 -0500
-Received: by mail-wr1-x434.google.com with SMTP id l10so12334365wrh.7
- for <qemu-devel@nongnu.org>; Fri, 07 Jan 2022 09:21:46 -0800 (PST)
+Received: by mail-wm1-x332.google.com with SMTP id
+ d187-20020a1c1dc4000000b003474b4b7ebcso2628878wmd.5
+ for <qemu-devel@nongnu.org>; Fri, 07 Jan 2022 09:21:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=tgkzP59zZKWcqPqvUogulF/C72GjNGTYYxCx3zJL2W0=;
- b=Cqh04E0XAWpZ8NT8XhD/+5TeTqnYTDolHnnMqtlda59eUXRwUudlwjH1WxQhU/vOK1
- yQOcUhX25KklBrVdZ3s8IhyxrOaAOBa01QE1Pb1mW9b0ek7SRSbJMphUbcEdOolvMbRW
- ur9PKvF/qK2PmB86uW/VqfPkljsAxVoahKvHf2c0jSt559ogRsxDB+Q9EHyupnYmONVu
- vYXVCiRJ0zMfpQwvV48KkvtB9ZM6q5Avcp5vVjQAhAXU8RJGtUrHVoriioh5He0YOmwE
- BgQ2FlMybLN5pUVLAjTZ2Bxg5OB5TX9H1vEpb1JDLddm6asOMgy+ZUqM8W8HXg5Z0p9d
- Z/qQ==
+ bh=3lysZ/JZGCb/W/vOgl/A8X+COK6e6bD0XOz6b5zqsvo=;
+ b=BNGaJOMmOPpu4gfzJDediJ0AqsvJbC1LzNZr2rPZAUE+UyHBnJj35eqHOnxu2rFcGD
+ fww27ar51yS7PO5I5TwRn0v9sScuvZOdsvMXwK4KVkstmUoOsZQFDpw9TrrNWSNLS7pN
+ OQAKv65KqkGe/bp2k/azraXvwqek8GIUcN7YHL/ayjJnsN9UULitl4sAPBx1PAYEbbt/
+ tnUdLiSJWWJ48jOdA6LtVxPH189VVnDkDRIfKzvecgh3Lon9idnGycbsM8+TwvrqpTBG
+ C7PPEGRle0hpfpl/olIbktigUMFWQJ3oQwoQlde+g+uZVZxb9b1ild+Boz9YToDi7NAU
+ UMng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=tgkzP59zZKWcqPqvUogulF/C72GjNGTYYxCx3zJL2W0=;
- b=jXIP+3DD6SSOa22vi0mU9hxim2Us8V6BrTJCmqh6qfqDIIPrQKrlrOI9CCGhxhw2CS
- TJ/TLYMPuTa3C4cYE8rSuHZQEOYrb4jvC9c9e7iWmQLi2T0Gjl7oqcfuR1tiYGONIbnH
- nhsgbvdvczAzdbobnHy/Vvs7nsIfZUQ8Iz4UtjJz4XTH28aKtmeAjnNy2hXoUhafXYp6
- ggb6wYUYO0t/1Gpg9130+SzRqrWMxYtFhmPGu2w5EZR6NH7y0Yjf9MG4YIwpPhhmplH5
- wps9nWW3en+xVpX8sswCnFlou7SJCyXgefUMOrxY0qEqFk0af1+n/IlUY51SFHB88VvO
- ICYg==
-X-Gm-Message-State: AOAM532jJS7AOO2eEoPDSsN+kvN7JASbL8RtvzbCNC1jL2xp+W+K20FC
- yGZr0IhAtNUGukJ9T/B9GtKOf2fsMbitWw==
-X-Google-Smtp-Source: ABdhPJyhBVychQnxhj4YWBCrO+Z0k4rfRMEKEfGDM4wlsy32H9r1QrngIAvMFBinnKVGGWmKRB8Ccg==
-X-Received: by 2002:a5d:64ad:: with SMTP id m13mr56224636wrp.714.1641576105954; 
- Fri, 07 Jan 2022 09:21:45 -0800 (PST)
+ bh=3lysZ/JZGCb/W/vOgl/A8X+COK6e6bD0XOz6b5zqsvo=;
+ b=SWBg/J8CQrvPqyjnPK6cKkTYEIZtrTkaQmxOBublZTxnGWDqS8e1yGzPn8Wf/oJfRl
+ 031CYTqN6A5OMR9dGhUEDYQQIU0lDuKE0iAcLTRsumOmwK5TZvgOuhYdPdRtPR2JFm5j
+ HzQdCDWkCz0JjIJe6Jd1Q36CW4xYnLZ17VlYfIUt/i1xzL7JRbkhIzWntJe8LJ60SxIw
+ p6VwC7Zm5I+niavAICc/xgvlXg79mwwabhsgPPfOyBS4rZtlhtxcq8p+rcSMW7IDrkHk
+ 5/C+AqHOgCr/9whR0CThU5rs+MOo1xnz3L6vJWglqJ8oTCrgYXj5sDRT4TYRs7J1XNeZ
+ IC2A==
+X-Gm-Message-State: AOAM533Mt1pME0fcsEDtKl1s3cQ8c1GIEfNPCRpa3s+1xI4h8Buh6oFP
+ 4+DP0sy8n1qsNrwJOTssSCSVMz0iTlSlAg==
+X-Google-Smtp-Source: ABdhPJx2TVSMYEgLM6aFX/JWLy9FyScJzEDX1hilai8NeoU+rMm+soZHfQYXEUawWLU7oKyeGddSzw==
+X-Received: by 2002:a7b:c0ce:: with SMTP id s14mr11971621wmh.135.1641576106493; 
+ Fri, 07 Jan 2022 09:21:46 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id i6sm6060219wrf.79.2022.01.07.09.21.45
+ by smtp.gmail.com with ESMTPSA id i6sm6060219wrf.79.2022.01.07.09.21.46
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 Jan 2022 09:21:45 -0800 (PST)
+ Fri, 07 Jan 2022 09:21:46 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 02/19] target/arm: Add missing FEAT_TLBIOS instructions
-Date: Fri,  7 Jan 2022 17:21:25 +0000
-Message-Id: <20220107172142.2651911-3-peter.maydell@linaro.org>
+Subject: [PULL 03/19] hw/intc/arm_gicv3_its: Correct off-by-one bounds check
+ on rdbase
+Date: Fri,  7 Jan 2022 17:21:26 +0000
+Message-Id: <20220107172142.2651911-4-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220107172142.2651911-1-peter.maydell@linaro.org>
 References: <20220107172142.2651911-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::434
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::332
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x332.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -89,82 +92,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Idan Horowitz <idan.horowitz@gmail.com>
+The checks in the ITS on the rdbase values in guest commands are
+off-by-one: they permit the guest to pass us a value equal to
+s->gicv3->num_cpu, but the valid values are 0...num_cpu-1.  This
+meant the guest could cause us to index off the end of the
+s->gicv3->cpu[] array when calling gicv3_redist_process_lpi(), and we
+would probably crash.
 
-Some of the instructions added by the FEAT_TLBIOS extension were forgotten
-when the extension was originally added to QEMU.
+(This is not a security bug, because this code is only usable
+with emulation, not with KVM.)
 
-Fixes: 7113d618505b ("target/arm: Add support for FEAT_TLBIOS")
-Signed-off-by: Idan Horowitz <idan.horowitz@gmail.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20211231103928.1455657-1-idan.horowitz@gmail.com
+Cc: qemu-stable@nongnu.org
+Fixes: 17fb5e36aabd4b ("hw/intc: GICv3 redistributor ITS processing")
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/helper.c | 32 ++++++++++++++++++++++++++++++++
- 1 file changed, 32 insertions(+)
+ hw/intc/arm_gicv3_its.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index db837d53bd9..cfca0f5ba6d 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -6964,18 +6964,42 @@ static const ARMCPRegInfo tlbios_reginfo[] = {
-       .opc0 = 1, .opc1 = 0, .crn = 8, .crm = 1, .opc2 = 0,
-       .access = PL1_W, .type = ARM_CP_NO_RAW,
-       .writefn = tlbi_aa64_vmalle1is_write },
-+    { .name = "TLBI_VAE1OS", .state = ARM_CP_STATE_AA64,
-+      .opc0 = 1, .opc1 = 0, .crn = 8, .crm = 1, .opc2 = 1,
-+      .access = PL1_W, .type = ARM_CP_NO_RAW,
-+      .writefn = tlbi_aa64_vae1is_write },
-     { .name = "TLBI_ASIDE1OS", .state = ARM_CP_STATE_AA64,
-       .opc0 = 1, .opc1 = 0, .crn = 8, .crm = 1, .opc2 = 2,
-       .access = PL1_W, .type = ARM_CP_NO_RAW,
-       .writefn = tlbi_aa64_vmalle1is_write },
-+    { .name = "TLBI_VAAE1OS", .state = ARM_CP_STATE_AA64,
-+      .opc0 = 1, .opc1 = 0, .crn = 8, .crm = 1, .opc2 = 3,
-+      .access = PL1_W, .type = ARM_CP_NO_RAW,
-+      .writefn = tlbi_aa64_vae1is_write },
-+    { .name = "TLBI_VALE1OS", .state = ARM_CP_STATE_AA64,
-+      .opc0 = 1, .opc1 = 0, .crn = 8, .crm = 1, .opc2 = 5,
-+      .access = PL1_W, .type = ARM_CP_NO_RAW,
-+      .writefn = tlbi_aa64_vae1is_write },
-+    { .name = "TLBI_VAALE1OS", .state = ARM_CP_STATE_AA64,
-+      .opc0 = 1, .opc1 = 0, .crn = 8, .crm = 1, .opc2 = 7,
-+      .access = PL1_W, .type = ARM_CP_NO_RAW,
-+      .writefn = tlbi_aa64_vae1is_write },
-     { .name = "TLBI_ALLE2OS", .state = ARM_CP_STATE_AA64,
-       .opc0 = 1, .opc1 = 4, .crn = 8, .crm = 1, .opc2 = 0,
-       .access = PL2_W, .type = ARM_CP_NO_RAW,
-       .writefn = tlbi_aa64_alle2is_write },
-+    { .name = "TLBI_VAE2OS", .state = ARM_CP_STATE_AA64,
-+      .opc0 = 1, .opc1 = 4, .crn = 8, .crm = 1, .opc2 = 1,
-+      .access = PL2_W, .type = ARM_CP_NO_RAW,
-+      .writefn = tlbi_aa64_vae2is_write },
-    { .name = "TLBI_ALLE1OS", .state = ARM_CP_STATE_AA64,
-       .opc0 = 1, .opc1 = 4, .crn = 8, .crm = 1, .opc2 = 4,
-       .access = PL2_W, .type = ARM_CP_NO_RAW,
-       .writefn = tlbi_aa64_alle1is_write },
-+    { .name = "TLBI_VALE2OS", .state = ARM_CP_STATE_AA64,
-+      .opc0 = 1, .opc1 = 4, .crn = 8, .crm = 1, .opc2 = 5,
-+      .access = PL2_W, .type = ARM_CP_NO_RAW,
-+      .writefn = tlbi_aa64_vae2is_write },
-     { .name = "TLBI_VMALLS12E1OS", .state = ARM_CP_STATE_AA64,
-       .opc0 = 1, .opc1 = 4, .crn = 8, .crm = 1, .opc2 = 6,
-       .access = PL2_W, .type = ARM_CP_NO_RAW,
-@@ -6996,6 +7020,14 @@ static const ARMCPRegInfo tlbios_reginfo[] = {
-       .opc0 = 1, .opc1 = 6, .crn = 8, .crm = 1, .opc2 = 0,
-       .access = PL3_W, .type = ARM_CP_NO_RAW,
-       .writefn = tlbi_aa64_alle3is_write },
-+    { .name = "TLBI_VAE3OS", .state = ARM_CP_STATE_AA64,
-+      .opc0 = 1, .opc1 = 6, .crn = 8, .crm = 1, .opc2 = 1,
-+      .access = PL3_W, .type = ARM_CP_NO_RAW,
-+      .writefn = tlbi_aa64_vae3is_write },
-+    { .name = "TLBI_VALE3OS", .state = ARM_CP_STATE_AA64,
-+      .opc0 = 1, .opc1 = 6, .crn = 8, .crm = 1, .opc2 = 5,
-+      .access = PL3_W, .type = ARM_CP_NO_RAW,
-+      .writefn = tlbi_aa64_vae3is_write },
-     REGINFO_SENTINEL
- };
+diff --git a/hw/intc/arm_gicv3_its.c b/hw/intc/arm_gicv3_its.c
+index b99e63d58f7..677b96dfe23 100644
+--- a/hw/intc/arm_gicv3_its.c
++++ b/hw/intc/arm_gicv3_its.c
+@@ -311,7 +311,7 @@ static bool process_its_cmd(GICv3ITSState *s, uint64_t value, uint32_t offset,
+          */
+         rdbase = (cte & GITS_CTE_RDBASE_PROCNUM_MASK) >> 1U;
  
+-        if (rdbase > s->gicv3->num_cpu) {
++        if (rdbase >= s->gicv3->num_cpu) {
+             return result;
+         }
+ 
+@@ -505,7 +505,7 @@ static bool process_mapc(GICv3ITSState *s, uint32_t offset)
+ 
+     valid = (value & CMD_FIELD_VALID_MASK);
+ 
+-    if ((icid > s->ct.maxids.max_collids) || (rdbase > s->gicv3->num_cpu)) {
++    if ((icid > s->ct.maxids.max_collids) || (rdbase >= s->gicv3->num_cpu)) {
+         qemu_log_mask(LOG_GUEST_ERROR,
+                       "ITS MAPC: invalid collection table attributes "
+                       "icid %d rdbase %" PRIu64 "\n",  icid, rdbase);
 -- 
 2.25.1
 
