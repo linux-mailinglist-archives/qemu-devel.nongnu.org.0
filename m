@@ -2,77 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82744487B9B
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 18:44:55 +0100 (CET)
-Received: from localhost ([::1]:32792 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41A57487B88
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 18:39:10 +0100 (CET)
+Received: from localhost ([::1]:51206 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5tIM-0006v0-Ln
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 12:44:54 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50434)
+	id 1n5tCn-0008UC-Bp
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 12:39:09 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50514)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1n5t1n-0005Rg-9e
- for qemu-devel@nongnu.org; Fri, 07 Jan 2022 12:27:47 -0500
-Received: from [2a00:1450:4864:20::52f] (port=44615
- helo=mail-ed1-x52f.google.com)
+ id 1n5t2J-0006NP-RM
+ for qemu-devel@nongnu.org; Fri, 07 Jan 2022 12:28:20 -0500
+Received: from [2a00:1450:4864:20::52a] (port=33344
+ helo=mail-ed1-x52a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1n5t1l-0000JZ-Le
- for qemu-devel@nongnu.org; Fri, 07 Jan 2022 12:27:46 -0500
-Received: by mail-ed1-x52f.google.com with SMTP id w16so24667458edc.11
- for <qemu-devel@nongnu.org>; Fri, 07 Jan 2022 09:27:45 -0800 (PST)
+ id 1n5t2E-0000Ln-0t
+ for qemu-devel@nongnu.org; Fri, 07 Jan 2022 12:28:19 -0500
+Received: by mail-ed1-x52a.google.com with SMTP id m21so24971867edc.0
+ for <qemu-devel@nongnu.org>; Fri, 07 Jan 2022 09:28:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=+4YBjwqY0uJRu5eoPUm0lGfpgZPC3Jr5Ow6kMpqpJxY=;
- b=lVX0BncU5V1P6jvgetSkpS76khmypjdhKxgdLCvRKnJLlYpn105WA7jr5IhYXLesy6
- tg6+iXZN+jiWuDPHZwV96NbtHRiV5dPCBC2sUxRCad9njTTR+HR8nBbjgyDTdgrNbOrT
- 8FP12tiAcFFvKNy22CGilxBivvC4isbN0OLzgUx0syr7/GtGDGki5vXGcj5h9oZN4wQl
- 33LAxTj+qckjdFZ9F0uJughTsn3tWIQWAOpJRWCCACiCbIKix16z+QB94hW+ZrS3vr6d
- 6EhPHgADm72fQwQne97KH47zdI77U9jX1UmcjcsaFJf5nzWaBVBZwVaoI/kU7N7BEfvt
- 0AGA==
+ bh=bbV3VrpUKkBj5EuDsPvigSeYAPe/cdU7ftbWEpcua4U=;
+ b=Gw98SCUtPS1QQEjXvlwW/zEJpkNOMxaebO0um/2k91nGwW8Brzm3JeFfo/aSISw+xQ
+ 9ovgCrIStUmFdcyGEMhoL2aRfQ3XVM7K8aXLEVMtQp366HcLxj/J0VVOddzaYatIRFY6
+ vOnQob8rYC0sfrsqgeIHOQg/mO6Ej3l/+rF1eM2gsF0uPszQk585xm07F6dS4fUDU/C9
+ IGqgL2JN7XXAGjLuEvNiZnZ0QnV3JbhKrtVYgTzMVAdkEUOovdHkTayKwr6uOuUyBKxy
+ zVC5dTunUa0aqkh8c6wtyiLH2GVTJ9r1X4eFCk/Yw4O+/uV1A2gTv73T1/1yFlT1hoTF
+ zyvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=+4YBjwqY0uJRu5eoPUm0lGfpgZPC3Jr5Ow6kMpqpJxY=;
- b=Md9qi2QEqrJlLuw9JyuymhTooy5l3B9z+5eITav0g56j+7hCf/XVBpiN5GLiv/xDLr
- Ew1fuEq2n3VxGmuYDbFsEBpuy2xLui85hrwuhL/IdDUrXZS+4DQ+PHk3x+Qcq1GoRdnK
- s0VPcMKSe7VS/Ms6eD5U3mHQRW7amhgGA/wqGcPsAjTzwfLRDdBwQ5kDcC3Hoq+4gTRd
- kuHxHgfyOc3FUnQemboU3VFHQbDNLv1g6p2n3etoZfzl5ZraKX47HhVYxNTr9K4FKOLr
- ZWlrk5vgpEn82V6gjSs5qwwcMAWNWO1gG5a5y0aiC7ThzL/boAU2HRFfabbWloaNaAKL
- D2AQ==
-X-Gm-Message-State: AOAM532TfaWgwbpW7LwzR62NSnov8cjY/+lnAtgzP/l6m1vRMcw4xwBv
- rNbLK9hPfBI7bqSzx89IQTw=
-X-Google-Smtp-Source: ABdhPJzfMDStzPop/QWsWnwDoHjurEJO8igtV37SuannQqzz/v8mY4Rr3kcanI+9diCo0TibJu+g/Q==
-X-Received: by 2002:a17:907:760b:: with SMTP id
- jx11mr44376109ejc.99.1641576464159; 
- Fri, 07 Jan 2022 09:27:44 -0800 (PST)
+ bh=bbV3VrpUKkBj5EuDsPvigSeYAPe/cdU7ftbWEpcua4U=;
+ b=L6QIQSKtSxi8WNdZRKMjyhTNZFfPKhji7bepeHgVLnMhnyZqaDr9PulL9m6/hNRqiM
+ rsiB0X/Lr9fJxzR5/8aINhZt3+wGdJSEtOVct8aTaFIKxQZbRzryzywjCCv6HdHgyfXn
+ k8c2KrHaRH2J9uXjil31Q7GIPFDkizNdNxXxrg1u/tnHs+mheRM3n5XCBVOEfQ3YZpWJ
+ CxhEP6cauhoWt+OjTMHI3EcbQaOcnIFrF7NYANRJ2zigfn7Q1TEiOJZpjBHY3bXNwUfz
+ W6n29xRlrUgUhoCJF2tVh0oIK/U+7i71sGLjHht1jCRP9cASJTfj9S611F9NLkaTn2G7
+ rzZQ==
+X-Gm-Message-State: AOAM5330bo73318oHfuXFFGOeKS3TIwszAWQpv7wr3RyGdpruZujHDYe
+ eSk1oQJ+s8BQBJSEfTbRmF0=
+X-Google-Smtp-Source: ABdhPJy8mGJJnYEhAzZ4wUja0tkokBtTPp4NYuUEDQ/BPV5DAX96gCWXqLTqKmrrJabUOY7gB+Zh8Q==
+X-Received: by 2002:a05:6402:4312:: with SMTP id
+ m18mr56923866edc.354.1641576492616; 
+ Fri, 07 Jan 2022 09:28:12 -0800 (PST)
 Received: from ?IPV6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
  ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.googlemail.com with ESMTPSA id 24sm1572477ejg.47.2022.01.07.09.27.43
+ by smtp.googlemail.com with ESMTPSA id da26sm2305528edb.26.2022.01.07.09.28.11
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 07 Jan 2022 09:27:43 -0800 (PST)
-Message-ID: <4e54ef7d-ac0a-e2b2-faee-fddeaeac422b@redhat.com>
-Date: Fri, 7 Jan 2022 18:27:43 +0100
+ Fri, 07 Jan 2022 09:28:12 -0800 (PST)
+Message-ID: <0452d24b-c14f-14d9-f145-2013a3be72d6@redhat.com>
+Date: Fri, 7 Jan 2022 18:28:11 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.4.0
-Subject: Re: test_isa_retry_flush() in ide-test.c
+Subject: Re: [PATCH] hw/i386: Add the possibility to disable the 'isapc'
+ machine
 Content-Language: en-US
-To: Thomas Huth <thuth@redhat.com>, John Snow <jsnow@redhat.com>
-References: <9d84ab18-72a6-4913-4c56-ffd02ff386ed@redhat.com>
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+References: <20220107160713.235918-1-thuth@redhat.com>
 From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <9d84ab18-72a6-4913-4c56-ffd02ff386ed@redhat.com>
+In-Reply-To: <20220107160713.235918-1-thuth@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52f
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52a
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52a.google.com
 X-Spam_score_int: -33
 X-Spam_score: -3.4
 X-Spam_bar: ---
@@ -93,25 +96,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Laurent Vivier <lvivier@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
+ John Snow <jsnow@redhat.com>, Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/7/22 17:01, Thomas Huth wrote:
->   Hi John!
+On 1/7/22 17:07, Thomas Huth wrote:
+> We already have a CONFIG_ISAPC switch - but we're not using it yet.
+> Add some "#ifdefs" to make it possible to disable this machine now.
 > 
-> I just notice that test_isa_retry_flush() is not doing anything useful 
-> anymore: It likely was supposed to run the test_retry_flush() function 
-> with the "isapc" machine type, but actually test_retry_flush() ignores 
-> the machine option parameter completely and always uses PCI accessor 
-> functions nowadays (since commit 9c268f8ae84ae186).
-> Question is: Is it worth the effort to try to restore the original 
-> intended behavior for the ISA test here, or shall we rather simply 
-> remove it instead to save some testing cycles?
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>   hw/i386/pc_piix.c        | 5 ++++-
+>   tests/qtest/cdrom-test.c | 2 +-
+>   2 files changed, 5 insertions(+), 2 deletions(-)
+> 
+> diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
+> index 1999190276..5147e1ee74 100644
+> --- a/hw/i386/pc_piix.c
+> +++ b/hw/i386/pc_piix.c
+> @@ -357,10 +357,12 @@ static void pc_compat_1_4_fn(MachineState *machine)
+>       pc_compat_1_5_fn(machine);
+>   }
+>   
+> +#ifdef CONFIG_ISAPC
+>   static void pc_init_isa(MachineState *machine)
+>   {
+>       pc_init1(machine, TYPE_I440FX_PCI_HOST_BRIDGE, TYPE_I440FX_PCI_DEVICE);
+>   }
+> +#endif
+>   
+>   #ifdef CONFIG_XEN
+>   static void pc_xen_hvm_init_pci(MachineState *machine)
+> @@ -916,6 +918,7 @@ void igd_passthrough_isa_bridge_create(PCIBus *bus, uint16_t gpu_dev_id)
+>       pci_config_set_revision(bridge_dev->config, pch_rev_id);
+>   }
+>   
+> +#ifdef CONFIG_ISAPC
+>   static void isapc_machine_options(MachineClass *m)
+>   {
+>       PCMachineClass *pcmc = PC_MACHINE_CLASS(m);
+> @@ -935,7 +938,7 @@ static void isapc_machine_options(MachineClass *m)
+>   
+>   DEFINE_PC_MACHINE(isapc, "isapc", pc_init_isa,
+>                     isapc_machine_options);
+> -
+> +#endif
+>   
+>   #ifdef CONFIG_XEN
+>   static void xenfv_4_2_machine_options(MachineClass *m)
+> diff --git a/tests/qtest/cdrom-test.c b/tests/qtest/cdrom-test.c
+> index cfca24fa94..fdd889a487 100644
+> --- a/tests/qtest/cdrom-test.c
+> +++ b/tests/qtest/cdrom-test.c
+> @@ -138,7 +138,7 @@ static void add_x86_tests(void)
+>        * Unstable CI test under load
+>        * See https://lists.gnu.org/archive/html/qemu-devel/2019-02/msg05509.html
+>        */
+> -    if (g_test_slow()) {
+> +    if (g_test_slow() && qtest_has_machine("isapc")) {
+>           qtest_add_data_func("cdrom/boot/isapc", "-M isapc "
+>                               "-drive if=ide,media=cdrom,file=", test_cdboot);
+>       }
 
-The right way to fix it would be to use qgraph.  Second best option is 
-to nuke it, because the conversion to qgraph would give the test back 
-for free without writing more code.
-
-Paolo
+Acked-by: Paolo Bonzini <pbonzini@redhat.com>
 
