@@ -2,75 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEE8B487EA4
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 22:56:36 +0100 (CET)
-Received: from localhost ([::1]:57114 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D870487EDF
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 23:18:10 +0100 (CET)
+Received: from localhost ([::1]:51162 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5xDv-0007DC-RI
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 16:56:35 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44584)
+	id 1n5xYn-000626-6y
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 17:18:09 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:48512)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ilg@livius.net>) id 1n5x4f-0000A3-1O
- for qemu-devel@nongnu.org; Fri, 07 Jan 2022 16:47:02 -0500
-Received: from [2a00:1450:4864:20::531] (port=44589
- helo=mail-ed1-x531.google.com)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1n5xX3-0004AM-8c
+ for qemu-devel@nongnu.org; Fri, 07 Jan 2022 17:16:21 -0500
+Received: from [2a00:1450:4864:20::436] (port=40501
+ helo=mail-wr1-x436.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ilg@livius.net>) id 1n5x4c-0001JM-G9
- for qemu-devel@nongnu.org; Fri, 07 Jan 2022 16:47:00 -0500
-Received: by mail-ed1-x531.google.com with SMTP id w16so26961826edc.11
- for <qemu-devel@nongnu.org>; Fri, 07 Jan 2022 13:46:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=livius-net.20210112.gappssmtp.com; s=20210112;
- h=from:content-transfer-encoding:mime-version:subject:message-id:date
- :to; bh=rV1A8XCmOAHVXgIXQWWWcC+9jJc+YOa/WqET0V+lom8=;
- b=mKIEr+6kK4I0s8DGhNibZqZKZDkFTvmrp5DP4vQYum1+dW2gHjmwidmr73s/6B/ntV
- wn7KhxOTglyBegFExlkKEVii/k45sMoIkskUuoebTAFKxTlKWcPN6u85aFk0oX4Kxko+
- pnKNzDaFv/Ij1gqHFPoM5h8/ufwB4LBFeZBz8V5A9FBcH3AmnL5C/au4PSNTpUrlr1d1
- HpghLlPnHoCxDA+FXxRRt1Sf5cwEa1BM/SpLz/AeV4Q7e1cEJuB/rgp1mga532Oj0gvO
- b+rXI2wRuwS+T7VvMKchBy8+zhZ6tbm2OubJI0Yj9V/WeFzlx8FfaIoe1MAJCSYYy9AZ
- Pcrg==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1n5xX1-0005E2-EL
+ for qemu-devel@nongnu.org; Fri, 07 Jan 2022 17:16:20 -0500
+Received: by mail-wr1-x436.google.com with SMTP id l10so13594504wrh.7
+ for <qemu-devel@nongnu.org>; Fri, 07 Jan 2022 14:16:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=1dXXtOKFPd4GmZet+XCDy89qfZ2jKYr2nhEK5Y6/CT4=;
+ b=StGWAR4lz7Of3I26r0UAklosJLirf8/5coprZk0Vd3YftwZGNHMCQah5hCzdy0OC3K
+ DaEetW2MMlUJC99AiCL4rgNdSDtrCZ428acyUfmvyb93ENpuzvO5YmZAk+5PPHA71t8i
+ /LR7mlA39mytyI7aJ+3O0Uzq+LG0X2rzKTGALmrrpk7pkvOkuIiTBjR2LWXa9qYLQhf9
+ DsWRQg+yNP9v8Bccymih0vqCULEEuV7oCrMqwRtkSRTcQwYA4AVSwHE/fiOrYpIp+HED
+ +7pWle0a2dSBVFOzbJAwFUmoWafqOWT65hGZBDIzYu1Q1CYuUKln64OYkwzWGz8sLhT/
+ KBJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:content-transfer-encoding:mime-version
- :subject:message-id:date:to;
- bh=rV1A8XCmOAHVXgIXQWWWcC+9jJc+YOa/WqET0V+lom8=;
- b=FWhqcI4WDC4H26QltDqYEMdoMxjt5RK4lLrtxErsTJVmkEeC2sAYCGmIZwipet6LZq
- KVAmUDVNM5IWVzVzpYLemCpVoy6SD74KC9mnHihJZU+Pb3SJUosTEnKGA9KRhnzBraZO
- LFEJy0ZvGBVK7uiFoiCS+YCu5ncMVlc4M1ZtMATpHPZqn7kb53e/jLuwcEbwGn45zFxR
- wydQf9htsNyB1qPMbj2+16a7KtKzZw4aFaoqEbXll3McLdKYjQFrEeAL8qcU+RRzRHxo
- Li2zwXI7nmLshCnJKNbrGO5bGBPacKmkTb73QBtSdXcxyr9UOpwXrnhgN1hYU+GzyMKG
- KGCw==
-X-Gm-Message-State: AOAM531556g8A0CJHMGWHtBCSWYHrLaVDYSwPOb6xIlcyZy0Cf7YxqIy
- NMWE9uNs1iyhM/BMQ6pSRjoUj2QJgpIZHnJW
-X-Google-Smtp-Source: ABdhPJy/vX/RJLSEJVYNDj1pnGilavCjKLXsHU9Ioaopefqcfpk8QL5asTDFiGVIL8PPjOnipNxvjQ==
-X-Received: by 2002:aa7:d546:: with SMTP id u6mr63534158edr.311.1641592016294; 
- Fri, 07 Jan 2022 13:46:56 -0800 (PST)
-Received: from smtpclient.apple ([79.115.178.1])
- by smtp.gmail.com with ESMTPSA id o22sm2590318edw.50.2022.01.07.13.46.55
- for <qemu-devel@nongnu.org>
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 07 Jan 2022 13:46:55 -0800 (PST)
-From: Liviu Ionescu <ilg@livius.net>
-Content-Type: text/plain;
-	charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
-Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.120.0.1.13\))
-Subject: ui/cocoa.m compile error
-Message-Id: <586FEC07-844C-4E1B-88E0-93B97FFC9010@livius.net>
-Date: Fri, 7 Jan 2022 23:46:54 +0200
-To: QEMU Developers <qemu-devel@nongnu.org>
-X-Mailer: Apple Mail (2.3654.120.0.1.13)
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::531
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=1dXXtOKFPd4GmZet+XCDy89qfZ2jKYr2nhEK5Y6/CT4=;
+ b=yE5qtfZK55EFHZFY51lXdz5VHpq53QPQMsfmsW+533XyeKHh0QArSxTuOE1X9MR12O
+ W3dl7fcheBIR/Y/9hk0GNZanQxzgPA1Fsznih2hDOjNdLQCu+/hNRIT/LT7yxf7Ii1QX
+ KLTz17kvMRVZiDCIvvNRj72FOXn6Qd5qVG/pPr9RvhhWHkpoQkayvXHoiNZwWuKGe1hB
+ 2VtMFD6kVuYPiNEGXh9nLqW4r5pcd7QOVsqaiMjBy7nPALCCKy7BnWZX5sK6EGzuoubM
+ o4BqYO/FSfqb8QvN6WEpZ42HdxEUaGxFwFRZQOi6iYwYehjwNtgaApFfI+NSBRKVJLW5
+ jkMw==
+X-Gm-Message-State: AOAM533LsTDFZ2xi+D7q+JWwGPg80lig4ZoR3wC6A64DWKorzVU5mt5a
+ fUWVDOwm+qKmz34kFmoKI2/L59t1OZ+zZKVR7PoRHA==
+X-Google-Smtp-Source: ABdhPJz1qC4ttGoykZ5nnVuR+OBOgWMCkbbOyhcSm7eap3hCLJU7LXHBQ17Ed3kNievzG/chn6h5ZHtlG6UJEcBd8+8=
+X-Received: by 2002:a5d:52c4:: with SMTP id r4mr34718585wrv.521.1641593777511; 
+ Fri, 07 Jan 2022 14:16:17 -0800 (PST)
+MIME-Version: 1.0
+References: <586FEC07-844C-4E1B-88E0-93B97FFC9010@livius.net>
+In-Reply-To: <586FEC07-844C-4E1B-88E0-93B97FFC9010@livius.net>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 7 Jan 2022 22:16:06 +0000
+Message-ID: <CAFEAcA_=jn1G==9R1=LuU7GF0=LWPz92f1Qx9xO7w+m+TqL1Tw@mail.gmail.com>
+Subject: Re: ui/cocoa.m compile error
+To: Liviu Ionescu <ilg@livius.net>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::436
  (failed)
-Received-SPF: none client-ip=2a00:1450:4864:20::531;
- envelope-from=ilg@livius.net; helo=mail-ed1-x531.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x436.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
 X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,54 +79,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+On Fri, 7 Jan 2022 at 21:56, Liviu Ionescu <ilg@livius.net> wrote:
+> I'm building 6.2.0 on macOS, and on a recent macOS 11.6 with
+> Apple Silicon the build passes, but on a slightly older macOS
+> 10.13, which is my base platform for Intel macOS builds,
+> compiling ui/cocoa.m fails
 
-I'm building 6.2.0 on macOS, and on a recent macOS 11.6 with Apple =
-Silicon the build passes, but on a slightly older macOS 10.13, which is =
-my base platform for Intel macOS builds, compiling ui/cocoa.m fails:
+QEMU's supported-hosts policy
+https://www.qemu.org/docs/master/about/build-platforms.html
+is that we support the most recent version of macOS, and also
+the previous version until 2 years after the new version
+is released. Currently that means Monterey and Big Sur and
+(since Monterey is only just out) Catalina.
 
-```
-../../sources/qemu-6.2.0.git/ui/cocoa.m:1766:52: error: unknown type =
-name 'NSPasteboardTypeOwner'; did you mean 'NSPasteboardType'?
+Apple's APIs have quite a lot of churn, and there are
+regular deprecations and new APIs, so while macOS versions
+older than our officially supported set sometimes will be
+able to build QEMU, they often won't. (Also from time to
+time we remove back-compatibility ifdefs that are only needed
+for building on older no-longer-supported macOS.) In this
+specific case, NSPasteboardTypeOwner seems to be part of
+an API introduced in 10.14 (Mojave).
 
-@interface QemuCocoaPasteboardTypeOwner : =
-NSObject<NSPasteboardTypeOwner>
-                                                   ^~~~~~~~~~~~~~~~~~~~~
-                                                   NSPasteboardType
+So the upstream answer, I'm afraid, is that you should
+upgrade to a newer macOS version.
 
-=
-/System/Library/Frameworks/AppKit.framework/Headers/NSPasteboard.h:22:20: =
-note: 'NSPasteboardType' declared here
-typedef NSString * NSPasteboardType NS_EXTENSIBLE_STRING_ENUM;
-                   ^
-../../sources/qemu-6.2.0.git/ui/cocoa.m:1766:43: error: type arguments =
-cannot be applied to non-parameterized class 'NSObject'
-
-@interface QemuCocoaPasteboardTypeOwner : =
-NSObject<NSPasteboardTypeOwner>
-                                          ^       =
-~~~~~~~~~~~~~~~~~~~~~~~
-
-3 warnings and 2 errors generated.
-```
-
-I checked the Git history and the cocoa.m:1766 line is part of commit =
-7e3e20d8 from 23 Jun 2021:
-
-- =
-https://github.com/xpack-dev-tools/qemu/commit/7e3e20d89129614f4a7b2451fe3=
-21cc6ccca3b76
-
-I don't have experience with Cocoa programming, but apparently this =
-recent change is not compatible with older Macs.
-
-Any suggestions on how to approach this?
-
-Thank you,
-
-Liviu
-
+-- PMM
 
