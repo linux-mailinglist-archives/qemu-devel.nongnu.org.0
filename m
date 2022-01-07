@@ -2,84 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76D03487956
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 15:55:57 +0100 (CET)
-Received: from localhost ([::1]:33750 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D0E948797C
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 16:04:06 +0100 (CET)
+Received: from localhost ([::1]:43390 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5qep-00089H-VI
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 09:55:55 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38276)
+	id 1n5qmi-0006b2-Mo
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 10:04:04 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42010)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1n5qXA-0001Gz-2N; Fri, 07 Jan 2022 09:48:00 -0500
-Received: from [2a00:1450:4864:20::42b] (port=42513
- helo=mail-wr1-x42b.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1n5qX8-0002ZP-J3; Fri, 07 Jan 2022 09:47:59 -0500
-Received: by mail-wr1-x42b.google.com with SMTP id w20so11472760wra.9;
- Fri, 07 Jan 2022 06:47:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=2ervEO8ZIHqf+L4Yfh5ajSBCvEXICbY0zqrMkvsVgwY=;
- b=mucB0sZt++x82inuvK+G9dmBga6vokoMsYeg2vVuGHNHaLDBVTpF9F1jPGRAnYHWsM
- vfpV6pl8QkQaPOGxmSmsRwjq04ynNJBK3waX7pr/sQK8Gfs7QpVpvGYYIJ0ZDA8bbO6+
- DSZKO44f3Ls9Vp2mui8fx3HpWF9lAEjj2KVD4qFtnBXbwaRjr4AlAHglf1v9SbJENOSL
- M18Ua1EoF9+JkJPdkCPQvBBs+X2eZi1kWCTEyr/xsnYHtwf6jBAn6GRoFLo3ZbSSP1YB
- vXE4KQl0KGm5W3kcH8Z8NgYC+uE9LqfIg25/i9hGh3R2buDqAEdQgWwVCVbImPJ3kjlS
- 3JUA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=2ervEO8ZIHqf+L4Yfh5ajSBCvEXICbY0zqrMkvsVgwY=;
- b=4Z2HzBOjtpULnXHaRpvd88oobf3KADo6PX6jeJE86m120c75ZPaxMFMp64xJVI4j5Y
- /Vym8OSFQJ6bmfZt53Mh5j9X5zlYBlAbej2IoN9x5Prvd1hQNFy9DV63WH4JYLv6wUJM
- TChFCi9bIERTzOB8SofnVuJlsETjnkI1qiwGucaltkO7DNb6dCP3qL8JoFWtU1yR+foB
- 4/l8+ACjvnndtXz4f4c+KURKyoIORDZMHfMSqaWW9He60UIwP8eYlUBSHP6RR8gg4tiS
- +rv+WC0YlIMJvYyAnNwuWzy4z9MLFRZY5V5Oa1lVxjBKgHPJQVboIcTMdUswVvK+diPE
- 6fLg==
-X-Gm-Message-State: AOAM532TRMuptvR4iMnz9VUN8w9y1Buaw0buZpGIsVYpN49MOITVgwik
- b80g2e5QrlADZ+Hj5oT3EkY=
-X-Google-Smtp-Source: ABdhPJxSBRFyq7rfT2x1mSrOpspyKETv5pe6jHlNyOsDvuKZgMC2bo99wcWv+/5MXlo/1ISWwp24zg==
-X-Received: by 2002:adf:f0c2:: with SMTP id x2mr31136209wro.367.1641566876871; 
- Fri, 07 Jan 2022 06:47:56 -0800 (PST)
-Received: from [192.168.1.33] (83.red-83-50-87.dynamicip.rima-tde.net.
- [83.50.87.83])
- by smtp.gmail.com with ESMTPSA id o38sm4685261wms.11.2022.01.07.06.47.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 07 Jan 2022 06:47:56 -0800 (PST)
-Message-ID: <69832841-76d6-8a40-abd3-56df88a8351d@amsat.org>
-Date: Fri, 7 Jan 2022 15:47:55 +0100
+ (Exim 4.90_1) (envelope-from <maz@kernel.org>) id 1n5ql4-0004vY-2P
+ for qemu-devel@nongnu.org; Fri, 07 Jan 2022 10:02:22 -0500
+Received: from [2604:1380:4601:e00::1] (port=48274 helo=ams.source.kernel.org)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <maz@kernel.org>) id 1n5ql1-0005Q1-Gc
+ for qemu-devel@nongnu.org; Fri, 07 Jan 2022 10:02:21 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 1D97AB8262C;
+ Fri,  7 Jan 2022 15:02:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CBDB6C36AE0;
+ Fri,  7 Jan 2022 15:02:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1641567728;
+ bh=7NHsKVAMuyk9dhDUt91qsiKk7LasvTxrchXkr0tpsNE=;
+ h=From:To:Cc:Subject:Date:From;
+ b=i5LS4mPauCjpjtWJG42IRhGbI5zj+XgQxS8k/Whf0QllJ9LPSZtDS4Y1EkI8EH2lP
+ 2veJ3Hs1EXBfOWa36BILQODa0jNDpUw3B8wyNoB9GoqCiOj5iby24m8IQa1bkbriTP
+ CnnPt2/MjqKnCKRHZ9Hzb95FDto5y/w6GnZyeWa8OphXgLxIZHPtu8o8ACPjoSymlB
+ UKK88X0eFyGmwlcRfYYybSJu2Km/dO1akzR/XsBggVLg0rauBJCjcAvY+ULcXBhcax
+ rIsEBeQd2UDZ/gWeVNQxYeRHmxU2mzXjG9e9Wype7gDCkLy2YAncegnBTcnp2MFjdi
+ fEKw7E7fE1nbg==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=hot-poop.lan)
+ by disco-boy.misterjones.org with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <maz@kernel.org>)
+ id 1n5qko-00Gatv-Be; Fri, 07 Jan 2022 15:02:06 +0000
+From: Marc Zyngier <maz@kernel.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3] hw/arm/virt: KVM: Enable PAuth when supported by the host
+Date: Fri,  7 Jan 2022 15:01:54 +0000
+Message-Id: <20220107150154.2490308-1-maz@kernel.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.4.1
-Subject: Re: [PATCH] softmmu/device_tree: Silence compiler warning with
- --enable-sanitizers
-Content-Language: en-US
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- Alistair Francis <alistair.francis@wdc.com>
-References: <20220107133844.145039-1-thuth@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <20220107133844.145039-1-thuth@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42b
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: qemu-devel@nongnu.org, kvmarm@lists.cs.columbia.edu,
+ kvm@vger.kernel.org, kernel-team@android.com, eric.auger@redhat.com,
+ richard.henderson@linaro.org, peter.maydell@linaro.org, drjones@redhat.com
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org);
+ SAEximRunCond expanded to false
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2604:1380:4601:e00::1
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42b.google.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-2.691,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2604:1380:4601:e00::1;
+ envelope-from=maz@kernel.org; helo=ams.source.kernel.org
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.372,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,30 +77,208 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yanan Wang <wangyanan55@huawei.com>, qemu-trivial@nongnu.org,
- Andrew Jones <drjones@redhat.com>, David Gibson <david@gibson.dropbear.id.au>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
+ kvm@vger.kernel.org, Richard Henderson <richard.henderson@linaro.org>,
+ Eric Auger <eric.auger@redhat.com>, kernel-team@android.com,
+ kvmarm@lists.cs.columbia.edu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/1/22 14:38, Thomas Huth wrote:
-> If I configure my build with --enable-sanitizers, my GCC (v8.5.0)
-> complains:
-> 
-> .../softmmu/device_tree.c: In function ‘qemu_fdt_add_path’:
-> .../softmmu/device_tree.c:560:18: error: ‘retval’ may be used uninitialized
->   in this function [-Werror=maybe-uninitialized]
->       int namelen, retval;
->                    ^~~~~~
-> 
-> It's a false warning since the while loop is always executed at least
-> once (p has to be non-NULL, otherwise the derefence in the if-statement
-> earlier will crash). Thus let's switch to a do-while loop here instead
-> to make the compiler happy in all cases.
-> 
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->   softmmu/device_tree.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
+Add basic support for Pointer Authentication when running a KVM
+guest and that the host supports it, loosely based on the SVE
+support.
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Although the feature is enabled by default when the host advertises
+it, it is possible to disable it by setting the 'pauth=off' CPU
+property. The 'pauth' comment is removed from cpu-features.rst,
+as it is now common to both TCG and KVM.
+
+Tested on an Apple M1 running 5.16-rc6.
+
+Cc: Eric Auger <eric.auger@redhat.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Andrew Jones <drjones@redhat.com>
+Signed-off-by: Marc Zyngier <maz@kernel.org>
+---
+* From v2:
+  - Fixed indentation and spelling
+  - Slightly reworked the KVM handling in arm_cpu_pauth_finalize
+    (no functional changes)
+  - Picked Andrew's RB tag
+
+ docs/system/arm/cpu-features.rst |  4 ----
+ target/arm/cpu.c                 | 12 +++---------
+ target/arm/cpu.h                 |  1 +
+ target/arm/cpu64.c               | 31 +++++++++++++++++++++++++++----
+ target/arm/kvm64.c               | 21 +++++++++++++++++++++
+ 5 files changed, 52 insertions(+), 17 deletions(-)
+
+diff --git a/docs/system/arm/cpu-features.rst b/docs/system/arm/cpu-features.rst
+index 584eb17097..3e626c4b68 100644
+--- a/docs/system/arm/cpu-features.rst
++++ b/docs/system/arm/cpu-features.rst
+@@ -217,10 +217,6 @@ TCG VCPU Features
+ TCG VCPU features are CPU features that are specific to TCG.
+ Below is the list of TCG VCPU features and their descriptions.
+ 
+-  pauth                    Enable or disable ``FEAT_Pauth``, pointer
+-                           authentication.  By default, the feature is
+-                           enabled with ``-cpu max``.
+-
+   pauth-impdef             When ``FEAT_Pauth`` is enabled, either the
+                            *impdef* (Implementation Defined) algorithm
+                            is enabled or the *architected* QARMA algorithm
+diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+index a211804fd3..f3c09931e4 100644
+--- a/target/arm/cpu.c
++++ b/target/arm/cpu.c
+@@ -1380,17 +1380,10 @@ void arm_cpu_finalize_features(ARMCPU *cpu, Error **errp)
+             return;
+         }
+ 
+-        /*
+-         * KVM does not support modifications to this feature.
+-         * We have not registered the cpu properties when KVM
+-         * is in use, so the user will not be able to set them.
+-         */
+-        if (!kvm_enabled()) {
+-            arm_cpu_pauth_finalize(cpu, &local_err);
+-            if (local_err != NULL) {
++        arm_cpu_pauth_finalize(cpu, &local_err);
++        if (local_err != NULL) {
+                 error_propagate(errp, local_err);
+                 return;
+-            }
+         }
+     }
+ 
+@@ -2091,6 +2084,7 @@ static void arm_host_initfn(Object *obj)
+     kvm_arm_set_cpu_features_from_host(cpu);
+     if (arm_feature(&cpu->env, ARM_FEATURE_AARCH64)) {
+         aarch64_add_sve_properties(obj);
++        aarch64_add_pauth_properties(obj);
+     }
+ #else
+     hvf_arm_set_cpu_features_from_host(cpu);
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index e33f37b70a..c6a4d50e82 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -1076,6 +1076,7 @@ void aarch64_sve_narrow_vq(CPUARMState *env, unsigned vq);
+ void aarch64_sve_change_el(CPUARMState *env, int old_el,
+                            int new_el, bool el0_a64);
+ void aarch64_add_sve_properties(Object *obj);
++void aarch64_add_pauth_properties(Object *obj);
+ 
+ /*
+  * SVE registers are encoded in KVM's memory in an endianness-invariant format.
+diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
+index 15245a60a8..8786be7783 100644
+--- a/target/arm/cpu64.c
++++ b/target/arm/cpu64.c
+@@ -630,6 +630,15 @@ void arm_cpu_pauth_finalize(ARMCPU *cpu, Error **errp)
+     int arch_val = 0, impdef_val = 0;
+     uint64_t t;
+ 
++    /* Exit early if PAuth is enabled, and fall through to disable it */
++    if (kvm_enabled() && cpu->prop_pauth) {
++        if (!cpu_isar_feature(aa64_pauth, cpu)) {
++            error_setg(errp, "'pauth' feature not supported by KVM on this host");
++        }
++
++        return;
++    }
++
+     /* TODO: Handle HaveEnhancedPAC, HaveEnhancedPAC2, HaveFPAC. */
+     if (cpu->prop_pauth) {
+         if (cpu->prop_pauth_impdef) {
+@@ -655,6 +664,23 @@ static Property arm_cpu_pauth_property =
+ static Property arm_cpu_pauth_impdef_property =
+     DEFINE_PROP_BOOL("pauth-impdef", ARMCPU, prop_pauth_impdef, false);
+ 
++void aarch64_add_pauth_properties(Object *obj)
++{
++    ARMCPU *cpu = ARM_CPU(obj);
++
++    /* Default to PAUTH on, with the architected algorithm on TCG. */
++    qdev_property_add_static(DEVICE(obj), &arm_cpu_pauth_property);
++    if (kvm_enabled()) {
++        /*
++         * Mirror PAuth support from the probed sysregs back into the
++         * property for KVM. Is it just a bit backward? Yes it is!
++         */
++        cpu->prop_pauth = cpu_isar_feature(aa64_pauth, cpu);
++    } else {
++        qdev_property_add_static(DEVICE(obj), &arm_cpu_pauth_impdef_property);
++    }
++}
++
+ /* -cpu max: if KVM is enabled, like -cpu host (best possible with this host);
+  * otherwise, a CPU with as many features enabled as our emulation supports.
+  * The version of '-cpu max' for qemu-system-arm is defined in cpu.c;
+@@ -829,13 +855,10 @@ static void aarch64_max_initfn(Object *obj)
+         cpu->dcz_blocksize = 7; /*  512 bytes */
+ #endif
+ 
+-        /* Default to PAUTH on, with the architected algorithm. */
+-        qdev_property_add_static(DEVICE(obj), &arm_cpu_pauth_property);
+-        qdev_property_add_static(DEVICE(obj), &arm_cpu_pauth_impdef_property);
+-
+         bitmap_fill(cpu->sve_vq_supported, ARM_MAX_VQ);
+     }
+ 
++    aarch64_add_pauth_properties(obj);
+     aarch64_add_sve_properties(obj);
+     object_property_add(obj, "sve-max-vq", "uint32", cpu_max_get_sve_max_vq,
+                         cpu_max_set_sve_max_vq, NULL, NULL);
+diff --git a/target/arm/kvm64.c b/target/arm/kvm64.c
+index e790d6c9a5..71c3ca6971 100644
+--- a/target/arm/kvm64.c
++++ b/target/arm/kvm64.c
+@@ -491,6 +491,12 @@ static int read_sys_reg64(int fd, uint64_t *pret, uint64_t id)
+     return ioctl(fd, KVM_GET_ONE_REG, &idreg);
+ }
+ 
++static bool kvm_arm_pauth_supported(void)
++{
++    return (kvm_check_extension(kvm_state, KVM_CAP_ARM_PTRAUTH_ADDRESS) &&
++            kvm_check_extension(kvm_state, KVM_CAP_ARM_PTRAUTH_GENERIC));
++}
++
+ bool kvm_arm_get_host_cpu_features(ARMHostCPUFeatures *ahcf)
+ {
+     /* Identify the feature bits corresponding to the host CPU, and
+@@ -521,6 +527,17 @@ bool kvm_arm_get_host_cpu_features(ARMHostCPUFeatures *ahcf)
+      */
+     struct kvm_vcpu_init init = { .target = -1, };
+ 
++    /*
++     * Ask for Pointer Authentication if supported. We can't play the
++     * SVE trick of synthesising the ID reg as KVM won't tell us
++     * whether we have the architected or IMPDEF version of PAuth, so
++     * we have to use the actual ID regs.
++     */
++    if (kvm_arm_pauth_supported()) {
++        init.features[0] |= (1 << KVM_ARM_VCPU_PTRAUTH_ADDRESS |
++                             1 << KVM_ARM_VCPU_PTRAUTH_GENERIC);
++    }
++
+     if (!kvm_arm_create_scratch_host_vcpu(cpus_to_try, fdarray, &init)) {
+         return false;
+     }
+@@ -865,6 +882,10 @@ int kvm_arch_init_vcpu(CPUState *cs)
+         assert(kvm_arm_sve_supported());
+         cpu->kvm_init_features[0] |= 1 << KVM_ARM_VCPU_SVE;
+     }
++    if (cpu_isar_feature(aa64_pauth, cpu)) {
++        cpu->kvm_init_features[0] |= (1 << KVM_ARM_VCPU_PTRAUTH_ADDRESS |
++                                      1 << KVM_ARM_VCPU_PTRAUTH_GENERIC);
++    }
+ 
+     /* Do KVM_ARM_VCPU_INIT ioctl */
+     ret = kvm_arm_vcpu_init(cs);
+-- 
+2.30.2
+
 
