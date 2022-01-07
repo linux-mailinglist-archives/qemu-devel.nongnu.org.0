@@ -2,75 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AF57487D4C
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 20:49:03 +0100 (CET)
-Received: from localhost ([::1]:47450 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 971C7487DBF
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 21:29:16 +0100 (CET)
+Received: from localhost ([::1]:44914 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5tuW-0003CO-Q3
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 13:24:20 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59880)
+	id 1n5tq5-0000UN-Nn
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 13:19:45 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59050)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <venture@google.com>)
- id 1n5trk-0001jE-Ps
- for qemu-devel@nongnu.org; Fri, 07 Jan 2022 13:21:29 -0500
-Received: from [2607:f8b0:4864:20::92c] (port=43763
- helo=mail-ua1-x92c.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <venture@google.com>)
- id 1n5trh-0000A3-DX
- for qemu-devel@nongnu.org; Fri, 07 Jan 2022 13:21:28 -0500
-Received: by mail-ua1-x92c.google.com with SMTP id i5so11663821uaq.10
- for <qemu-devel@nongnu.org>; Fri, 07 Jan 2022 10:17:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=MlxL/GBcszhMRn3qmb03Bt+/NeSGGUVZRbFgP49uahI=;
- b=BLpV0PzMgaPzDCTflsxwOhX6leWF+T4g4B3/HqtsS+uxlRu3+cXNpRsZdlQOwdV6ry
- 5B4hOojzir26fnR8Qr5sStb1Wllhrvr5Hz6A7wSbBBQ1ziRauSebkXuLVr52+zWz3a2o
- f3+TKToG56At5FYMaXODk/354ovpBGA2IBgbLNmOJlogmYVDyhfT/EV2wbmAQ15Rxthv
- ldnexqg6v5Syx8+cAycNqxN+F2X85GehI0wHfR05BL2bKKFKFcrxz/uzgdOLNReiJPI2
- xqKsjfpzp4miPVURhTXxvsFd4VoIQqV9NxYswZif35B9gaNxSwPyLJtCjC9sKpv1AGFN
- k3dw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=MlxL/GBcszhMRn3qmb03Bt+/NeSGGUVZRbFgP49uahI=;
- b=6zHyHu3u1r4yOzE0hScC441TeZ6cx2sJJJYX2R3g4VNOjqwoROkJghCnABbHjiRLLC
- 4EbEhTsvY0PWcWe7yJSJWtklJ76AW8aMMVK4bxSTSl3rEj9r2928CcSTFZENKTZgbISA
- Pk7EnxM8jJlYcr2eSGRPiiFrdoUJj1p+CFlP3Cq5F8wAtlvZwJU6GnB/e6T51gmoex2a
- whyp59VMfy0wFB96zIcqVWH7mVrJWf/c00yglQxSLG77ppX1hXvBzNfvigyhVHMNkwb2
- KNWIqv8PLHOZ5PmqYaa4qISc3m6TTLlsBFHLySabHxjtIJUmFnyT6SmZDXrLEV4wH7nM
- kMAA==
-X-Gm-Message-State: AOAM533xgW/d2IUNBYzQhvavWmM8NgyJgJdsJSI7MhsrwPtXvXaNhIOH
- 75BHyBjaLFxobnvQLaaOvRRjdtC6acXimTU8e7hnd5yMxCw=
-X-Google-Smtp-Source: ABdhPJz4w10+5WIUMPxDB1PPrkniiKMXp+58nyOX6XxULvtqkjMPzykQ7ddTZzKJboD8FDlb+7THd1W71blY6lSCuSc=
-X-Received: by 2002:a9f:31cc:: with SMTP id w12mr6301105uad.46.1641579443264; 
- Fri, 07 Jan 2022 10:17:23 -0800 (PST)
-MIME-Version: 1.0
-References: <20220106173814.3580141-1-venture@google.com>
- <07207168-0940-a3de-c188-d676658603e8@redhat.com>
-In-Reply-To: <07207168-0940-a3de-c188-d676658603e8@redhat.com>
-From: Patrick Venture <venture@google.com>
-Date: Fri, 7 Jan 2022 10:17:12 -0800
-Message-ID: <CAO=noty0WCnPqYgwAHVB3wPnfQ6+HxLhT82GjRKSk1yMnbrr+A@mail.gmail.com>
-Subject: Re: [PATCH] hw/sensor: enable setting adm1272 temperature with qmp
-To: Thomas Huth <thuth@redhat.com>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: multipart/alternative; boundary="0000000000009689b105d501ff27"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::92c
+ (Exim 4.90_1) (envelope-from <maz@kernel.org>) id 1n5toy-0008FD-1a
+ for qemu-devel@nongnu.org; Fri, 07 Jan 2022 13:18:36 -0500
+Received: from [2604:1380:4601:e00::1] (port=49774 helo=ams.source.kernel.org)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <maz@kernel.org>) id 1n5tov-0000HE-W0
+ for qemu-devel@nongnu.org; Fri, 07 Jan 2022 13:18:35 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 1532BB82699;
+ Fri,  7 Jan 2022 18:18:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C8318C36AE9;
+ Fri,  7 Jan 2022 18:18:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1641579507;
+ bh=cAh/1ukCeNr4ljylsYNoFGLIbakq3LEf6JKqjDyyNVk=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=N6GNW9TipkwfsVP0anEBua8YoApQratKn//cWadkH6KX41NT88vBgMoiNSJZelYE3
+ z7zxuaPWZJu8LTvbxPrTQKHw5JLYkJy4ujEHhxPFQGPw8H3V8H70tfp/mxnn+K+KKr
+ TcRdGwbrridGXBVR4BlJ5l4FFHzwE0tvGxSLNsFhkojbNfVcTNgDoSWe0Nd4yiZS2+
+ mzBaneUvhUR+H23i2BzuUmeN6TaLwcbs785Pb9BlPGFLw8oCTS+bkH0gFgOiwqaa14
+ L7fe3vTjvUusnNQVj5o2KABlrPZ+IVbG5recQhB6aJxevugYnbRFw9yWaFdcus+6OT
+ WWf8m4PMLA9xw==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=why.misterjones.org)
+ by disco-boy.misterjones.org with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <maz@kernel.org>)
+ id 1n5ton-00GcuU-LF; Fri, 07 Jan 2022 18:18:25 +0000
+Date: Fri, 07 Jan 2022 18:18:25 +0000
+Message-ID: <87y23rtnny.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: eric.auger@redhat.com
+Subject: Re: [PATCH v3 3/5] hw/arm/virt: Honor highmem setting when computing
+ the memory map
+In-Reply-To: <d330de15-b452-1f9c-14fa-906b88a8b4c4@redhat.com>
+References: <20211227211642.994461-1-maz@kernel.org>
+ <20211227211642.994461-4-maz@kernel.org>
+ <ef8b3500-04ab-5434-6a04-0e8b1dcc65d1@redhat.com>
+ <871r1kzhbp.wl-maz@kernel.org>
+ <d330de15-b452-1f9c-14fa-906b88a8b4c4@redhat.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
+ (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: eric.auger@redhat.com, qemu-devel@nongnu.org,
+ drjones@redhat.com, peter.maydell@linaro.org, kvmarm@lists.cs.columbia.edu,
+ kvm@vger.kernel.org, kernel-team@android.com
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org);
+ SAEximRunCond expanded to false
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2604:1380:4601:e00::1
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::92c;
- envelope-from=venture@google.com; helo=mail-ua1-x92c.google.com
-X-Spam_score_int: -167
-X-Spam_score: -16.8
-X-Spam_bar: ----------------
-X-Spam_report: (-16.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+Received-SPF: pass client-ip=2604:1380:4601:e00::1;
+ envelope-from=maz@kernel.org; helo=ams.source.kernel.org
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.372,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=no autolearn_force=no
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,403 +86,124 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
+ kvm@vger.kernel.org, qemu-devel@nongnu.org, kernel-team@android.com,
+ kvmarm@lists.cs.columbia.edu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000009689b105d501ff27
-Content-Type: text/plain; charset="UTF-8"
+Hi Eric,
 
-On Fri, Jan 7, 2022 at 5:24 AM Thomas Huth <thuth@redhat.com> wrote:
+On Fri, 07 Jan 2022 17:15:19 +0000,
+Eric Auger <eric.auger@redhat.com> wrote:
+> 
+> Hi Marc,
+> 
+> On 1/6/22 10:26 PM, Marc Zyngier wrote:
+> > On Wed, 05 Jan 2022 09:22:39 +0000,
+> > Eric Auger <eric.auger@redhat.com> wrote:
+> >> Hi Marc,
+> >>
+> >> On 12/27/21 10:16 PM, Marc Zyngier wrote:
+> >>> Even when the VM is configured with highmem=off, the highest_gpa
+> >>> field includes devices that are above the 4GiB limit.
+> >>> Similarily, nothing seem to check that the memory is within
+> >>> the limit set by the highmem=off option.
+> >>>
+> >>> This leads to failures in virt_kvm_type() on systems that have
+> >>> a crippled IPA range, as the reported IPA space is larger than
+> >>> what it should be.
+> >>>
+> >>> Instead, honor the user-specified limit to only use the devices
+> >>> at the lowest end of the spectrum, and fail if we have memory
+> >>> crossing the 4GiB limit.
+> >>>
+> >>> Reviewed-by: Andrew Jones <drjones@redhat.com>
+> >>> Signed-off-by: Marc Zyngier <maz@kernel.org>
+> >>> ---
+> >>>  hw/arm/virt.c | 9 ++++++++-
+> >>>  1 file changed, 8 insertions(+), 1 deletion(-)
+> >>>
+> >>> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+> >>> index 8b600d82c1..84dd3b36fb 100644
+> >>> --- a/hw/arm/virt.c
+> >>> +++ b/hw/arm/virt.c
+> >>> @@ -1678,6 +1678,11 @@ static void virt_set_memmap(VirtMachineState *vms)
+> >>>          exit(EXIT_FAILURE);
+> >>>      }
+> >>>  
+> >>> +    if (!vms->highmem &&
+> >>> +        vms->memmap[VIRT_MEM].base + ms->maxram_size > 4 * GiB) {
+> >>> +        error_report("highmem=off, but memory crosses the 4GiB limit\n");
+> >>> +        exit(EXIT_FAILURE);
+> >> The memory is composed of initial memory and device memory.
+> >> device memory is put after the initial memory but has a 1GB alignment
+> >> On top of that you have 1G page alignment per device memory slot
+> >>
+> >> so potentially the highest mem address is larger than
+> >> vms->memmap[VIRT_MEM].base + ms->maxram_size.
+> >> I would rather do the check on device_memory_base + device_memory_size
+> > Yup, that's a good point.
+> >
+> > There is also a corner case in one of the later patches where I check
+> > this limit against the PA using the rounded-up device_memory_size.
+> > This could result in returning an error if the last memory slot would
+> > still fit in the PA space, but the rounded-up quantity wouldn't. I
+> > don't think it matters much, but I'll fix it anyway.
+> >
+> >>> +    }
+> >>>      /*
+> >>>       * We compute the base of the high IO region depending on the
+> >>>       * amount of initial and device memory. The device memory start/size
+> >>> @@ -1707,7 +1712,9 @@ static void virt_set_memmap(VirtMachineState *vms)
+> >>>          vms->memmap[i].size = size;
+> >>>          base += size;
+> >>>      }
+> >>> -    vms->highest_gpa = base - 1;
+> >>> +    vms->highest_gpa = (vms->highmem ?
+> >>> +                        base :
+> >>> +                        vms->memmap[VIRT_MEM].base + ms->maxram_size) - 1;
+> >> As per the previous comment this looks wrong to me if !highmem.
+> > Agreed.
+> >
+> >> If !highmem, if RAM requirements are low we still could get benefit from
+> >> REDIST2 and HIGH ECAM which could fit within the 4GB limit. But maybe we
+> >> simply don't care?
+> > I don't see how. These devices live at a minimum of 256GB, which
+> > contradicts the very meaning of !highmem being a 4GB limit.
+> Yes I corrected the above statement afterwards, sorry for the noise.
+> >
+> >> If we don't, why don't we simply skip the extended_memmap overlay as
+> >> suggested in v2? I did not get your reply sorry.
+> > Because although this makes sense if you only care about a 32bit
+> > limit, we eventually want to check against an arbitrary PA limit and
+> > enable the individual devices that do fit in that space.
+> 
+> In my understanding that is what virt_kvm_type() was supposed to do by
+> testing the result of kvm_arm_get_max_vm_ipa_size and requested_pa_size
+> (which accounted the high regions) and exiting if they were
+> incompatible. But I must miss something.
 
-> On 06/01/2022 18.38, Patrick Venture wrote:
-> > From: Titus Rwantare <titusr@google.com>
-> >
-> > Reviewed-by: Patrick Venture <venture@google.com>
-> > Reviewed-by: Chris Rauer <crauer@google.com>
-> > Reviewed-by: Hao Wu <wuhaotsh@google.com>
-> > Signed-off-by: Titus Rwantare <titusr@google.com>
-> > ---
-> >   hw/sensor/adm1272.c        | 27 ++++++++++++++++++++++++++-
-> >   tests/qtest/adm1272-test.c | 28 +++++++++++++++++++++++++++-
-> >   2 files changed, 53 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/hw/sensor/adm1272.c b/hw/sensor/adm1272.c
-> > index 7310c769be..77a3d8eccf 100644
-> > --- a/hw/sensor/adm1272.c
-> > +++ b/hw/sensor/adm1272.c
-> > @@ -66,6 +66,7 @@
-> >   #define ADM1272_VOLTAGE_COEFF_DEFAULT   1
-> >   #define ADM1272_CURRENT_COEFF_DEFAULT   3
-> >   #define ADM1272_PWR_COEFF_DEFAULT       7
-> > +#define ADM1272_TEMP_COEFF_DEFAULT      8
-> >   #define ADM1272_IOUT_OFFSET             0x5000
-> >   #define ADM1272_IOUT_OFFSET             0x5000
-> >
-> > @@ -186,6 +187,22 @@ static uint32_t adm1272_direct_to_watts(uint16_t
-> value)
-> >       return pmbus_direct_mode2data(c, value);
-> >   }
-> >
-> > +static uint16_t adm1272_millidegrees_to_direct(uint32_t value)
-> > +{
-> > +    PMBusCoefficients c =
-> adm1272_coefficients[ADM1272_TEMP_COEFF_DEFAULT];
-> > +    c.b = c.b * 1000;
-> > +    c.R = c.R - 3;
-> > +    return pmbus_data2direct_mode(c, value);
-> > +}
-> > +
-> > +static uint32_t adm1272_direct_to_millidegrees(uint16_t value)
-> > +{
-> > +    PMBusCoefficients c =
-> adm1272_coefficients[ADM1272_TEMP_COEFF_DEFAULT];
-> > +    c.b = c.b * 1000;
-> > +    c.R = c.R - 3;
-> > +    return pmbus_direct_mode2data(c, value);
-> > +}
-> > +
-> >   static void adm1272_exit_reset(Object *obj)
-> >   {
-> >       ADM1272State *s = ADM1272(obj);
-> > @@ -220,7 +237,7 @@ static void adm1272_exit_reset(Object *obj)
-> >           = adm1272_millivolts_to_direct(ADM1272_VOLT_DEFAULT);
-> >       pmdev->pages[0].read_iout
-> >           = adm1272_milliamps_to_direct(ADM1272_IOUT_DEFAULT);
-> > -    pmdev->pages[0].read_temperature_1 = 0;
-> > +    pmdev->pages[0].read_temperature_1 =
-> adm1272_millidegrees_to_direct(30000);
-> >       pmdev->pages[0].read_pin =
-> adm1272_watts_to_direct(ADM1272_PWR_DEFAULT);
-> >       pmdev->pages[0].revision = ADM1272_PMBUS_REVISION_DEFAULT;
-> >       pmdev->pages[0].mfr_id = ADM1272_MFR_ID_DEFAULT;
-> > @@ -423,6 +440,8 @@ static void adm1272_get(Object *obj, Visitor *v,
-> const char *name, void *opaque,
-> >           value = adm1272_direct_to_milliamps(*(uint16_t *)opaque);
-> >       } else if (strcmp(name, "pin") == 0) {
-> >           value = adm1272_direct_to_watts(*(uint16_t *)opaque);
-> > +    } else if (strcmp(name, "temperature") == 0) {
-> > +        value = adm1272_direct_to_millidegrees(*(uint16_t *)opaque);
-> >       } else {
-> >           value = *(uint16_t *)opaque;
-> >       }
-> > @@ -447,6 +466,8 @@ static void adm1272_set(Object *obj, Visitor *v,
-> const char *name, void *opaque,
-> >           *internal = adm1272_milliamps_to_direct(value);
-> >       } else if (strcmp(name, "pin") == 0) {
-> >           *internal = adm1272_watts_to_direct(value);
-> > +    } else if (strcmp(name, "temperature") == 0) {
-> > +        *internal = adm1272_millidegrees_to_direct(value);
-> >       } else {
-> >           *internal = value;
-> >       }
-> > @@ -510,6 +531,10 @@ static void adm1272_init(Object *obj)
-> >                           adm1272_get,
-> >                           adm1272_set, NULL, &pmdev->pages[0].read_pin);
-> >
-> > +    object_property_add(obj, "temperature", "uint16",
-> > +                        adm1272_get,
-> > +                        adm1272_set, NULL,
-> &pmdev->pages[0].read_temperature_1);
-> > +
-> >   }
-> >
-> >   static void adm1272_class_init(ObjectClass *klass, void *data)
-> > diff --git a/tests/qtest/adm1272-test.c b/tests/qtest/adm1272-test.c
-> > index 63f8514801..98134aabd2 100644
-> > --- a/tests/qtest/adm1272-test.c
-> > +++ b/tests/qtest/adm1272-test.c
-> > @@ -65,6 +65,7 @@
-> >   #define ADM1272_VOLTAGE_COEFF_DEFAULT   1
-> >   #define ADM1272_CURRENT_COEFF_DEFAULT   3
-> >   #define ADM1272_PWR_COEFF_DEFAULT       7
-> > +#define ADM1272_TEMP_COEFF_DEFAULT      8
-> >   #define ADM1272_IOUT_OFFSET             0x5000
-> >   #define ADM1272_IOUT_OFFSET             0x5000
-> >
-> > @@ -144,6 +145,22 @@ static uint32_t adm1272_direct_to_watts(uint16_t
-> value)
-> >       return pmbus_direct_mode2data(c, value);
-> >   }
-> >
-> > +static uint16_t adm1272_millidegrees_to_direct(uint32_t value)
-> > +{
-> > +    PMBusCoefficients c =
-> adm1272_coefficients[ADM1272_TEMP_COEFF_DEFAULT];
-> > +    c.b = c.b * 1000;
-> > +    c.R = c.R - 3;
-> > +    return pmbus_data2direct_mode(c, value);
-> > +}
-> > +
-> > +static uint32_t adm1272_direct_to_millidegrees(uint16_t value)
-> > +{
-> > +    PMBusCoefficients c =
-> adm1272_coefficients[ADM1272_TEMP_COEFF_DEFAULT];
-> > +    c.b = c.b * 1000;
-> > +    c.R = c.R - 3;
-> > +    return pmbus_direct_mode2data(c, value);
-> > +}
-> > +
-> >   static uint16_t qmp_adm1272_get(const char *id, const char *property)
-> >   {
-> >       QDict *response;
-> > @@ -248,7 +265,7 @@ static void test_defaults(void *obj, void *data,
-> QGuestAllocator *alloc)
-> >   /* test qmp access */
-> >   static void test_tx_rx(void *obj, void *data, QGuestAllocator *alloc)
-> >   {
-> > -    uint16_t i2c_value, value, i2c_voltage, i2c_pwr, lossy_value;
-> > +    uint16_t i2c_value, value, i2c_voltage, i2c_pwr, i2c_temp,
-> lossy_value;
-> >       QI2CDevice *i2cdev = (QI2CDevice *)obj;
-> >
-> >       /* converting to direct mode is lossy - we generate the same loss
-> here */
-> > @@ -287,6 +304,15 @@ static void test_tx_rx(void *obj, void *data,
-> QGuestAllocator *alloc)
-> >       i2c_pwr = adm1272_direct_to_watts(i2c_value);
-> >       g_assert_cmphex(value, ==, i2c_pwr);
-> >       g_assert_cmphex(i2c_pwr, ==, lossy_value);
-> > +
-> > +    lossy_value =
-> > +
-> adm1272_direct_to_millidegrees(adm1272_millidegrees_to_direct(25000));
-> > +    qmp_adm1272_set(TEST_ID, "temperature", 25000);
-> > +    value = qmp_adm1272_get(TEST_ID, "temperature");
-> > +    i2c_value = adm1272_i2c_get16(i2cdev, PMBUS_READ_TEMPERATURE_1);
-> > +    i2c_temp = adm1272_direct_to_millidegrees(i2c_value);
-> > +    g_assert_cmphex(value, ==, i2c_temp);
-> > +    g_assert_cmphex(i2c_temp, ==, lossy_value);
-> >   }
-> >
-> >   /* test r/w registers */
->
-> qtest part:
-> Acked-by: Thomas Huth <thuth@redhat.com>
->
+This is a chicken and egg problem: you need the IPA size to compute
+the memory map, and you need the memory map to compute the IPA
+size. Fun, isn't it?
 
-Adding your Ack to the mailing list version.
+At the moment, virt_set_memmap() doesn't know about the IPA space,
+generates a highest_gpa that may not work, and we end-up failing
+because the resulting VM type is out of bound.
 
---0000000000009689b105d501ff27
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+My solution to that is to feed the *maximum* IPA size to
+virt_set_memmap(), compute the memory map there, and then use
+highest_gpa to compute the actual IPA size that is used to create the
+VM. By knowing the IPA limit in virt_set_memmap(), I'm able to keep it
+in check and avoid generating an unusable memory map.
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Fri, Jan 7, 2022 at 5:24 AM Thomas=
- Huth &lt;<a href=3D"mailto:thuth@redhat.com">thuth@redhat.com</a>&gt; wrot=
-e:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
-.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On 06/01/2022=
- 18.38, Patrick Venture wrote:<br>
-&gt; From: Titus Rwantare &lt;<a href=3D"mailto:titusr@google.com" target=
-=3D"_blank">titusr@google.com</a>&gt;<br>
-&gt; <br>
-&gt; Reviewed-by: Patrick Venture &lt;<a href=3D"mailto:venture@google.com"=
- target=3D"_blank">venture@google.com</a>&gt;<br>
-&gt; Reviewed-by: Chris Rauer &lt;<a href=3D"mailto:crauer@google.com" targ=
-et=3D"_blank">crauer@google.com</a>&gt;<br>
-&gt; Reviewed-by: Hao Wu &lt;<a href=3D"mailto:wuhaotsh@google.com" target=
-=3D"_blank">wuhaotsh@google.com</a>&gt;<br>
-&gt; Signed-off-by: Titus Rwantare &lt;<a href=3D"mailto:titusr@google.com"=
- target=3D"_blank">titusr@google.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 =C2=A0hw/sensor/adm1272.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 | 27 ++++++=
-++++++++++++++++++++-<br>
-&gt;=C2=A0 =C2=A0tests/qtest/adm1272-test.c | 28 ++++++++++++++++++++++++++=
-+-<br>
-&gt;=C2=A0 =C2=A02 files changed, 53 insertions(+), 2 deletions(-)<br>
-&gt; <br>
-&gt; diff --git a/hw/sensor/adm1272.c b/hw/sensor/adm1272.c<br>
-&gt; index 7310c769be..77a3d8eccf 100644<br>
-&gt; --- a/hw/sensor/adm1272.c<br>
-&gt; +++ b/hw/sensor/adm1272.c<br>
-&gt; @@ -66,6 +66,7 @@<br>
-&gt;=C2=A0 =C2=A0#define ADM1272_VOLTAGE_COEFF_DEFAULT=C2=A0 =C2=A01<br>
-&gt;=C2=A0 =C2=A0#define ADM1272_CURRENT_COEFF_DEFAULT=C2=A0 =C2=A03<br>
-&gt;=C2=A0 =C2=A0#define ADM1272_PWR_COEFF_DEFAULT=C2=A0 =C2=A0 =C2=A0 =C2=
-=A07<br>
-&gt; +#define ADM1272_TEMP_COEFF_DEFAULT=C2=A0 =C2=A0 =C2=A0 8<br>
-&gt;=C2=A0 =C2=A0#define ADM1272_IOUT_OFFSET=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A00x5000<br>
-&gt;=C2=A0 =C2=A0#define ADM1272_IOUT_OFFSET=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A00x5000<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt; @@ -186,6 +187,22 @@ static uint32_t adm1272_direct_to_watts(uint16_t =
-value)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0return pmbus_direct_mode2data(c, value);<br>
-&gt;=C2=A0 =C2=A0}<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt; +static uint16_t adm1272_millidegrees_to_direct(uint32_t value)<br>
-&gt; +{<br>
-&gt; +=C2=A0 =C2=A0 PMBusCoefficients c =3D adm1272_coefficients[ADM1272_TE=
-MP_COEFF_DEFAULT];<br>
-&gt; +=C2=A0 =C2=A0 c.b =3D c.b * 1000;<br>
-&gt; +=C2=A0 =C2=A0 c.R =3D c.R - 3;<br>
-&gt; +=C2=A0 =C2=A0 return pmbus_data2direct_mode(c, value);<br>
-&gt; +}<br>
-&gt; +<br>
-&gt; +static uint32_t adm1272_direct_to_millidegrees(uint16_t value)<br>
-&gt; +{<br>
-&gt; +=C2=A0 =C2=A0 PMBusCoefficients c =3D adm1272_coefficients[ADM1272_TE=
-MP_COEFF_DEFAULT];<br>
-&gt; +=C2=A0 =C2=A0 c.b =3D c.b * 1000;<br>
-&gt; +=C2=A0 =C2=A0 c.R =3D c.R - 3;<br>
-&gt; +=C2=A0 =C2=A0 return pmbus_direct_mode2data(c, value);<br>
-&gt; +}<br>
-&gt; +<br>
-&gt;=C2=A0 =C2=A0static void adm1272_exit_reset(Object *obj)<br>
-&gt;=C2=A0 =C2=A0{<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0ADM1272State *s =3D ADM1272(obj);<br>
-&gt; @@ -220,7 +237,7 @@ static void adm1272_exit_reset(Object *obj)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D adm1272_millivolts_to_dire=
-ct(ADM1272_VOLT_DEFAULT);<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0pmdev-&gt;pages[0].read_iout<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D adm1272_milliamps_to_direc=
-t(ADM1272_IOUT_DEFAULT);<br>
-&gt; -=C2=A0 =C2=A0 pmdev-&gt;pages[0].read_temperature_1 =3D 0;<br>
-&gt; +=C2=A0 =C2=A0 pmdev-&gt;pages[0].read_temperature_1 =3D adm1272_milli=
-degrees_to_direct(30000);<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0pmdev-&gt;pages[0].read_pin =3D adm1272_watt=
-s_to_direct(ADM1272_PWR_DEFAULT);<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0pmdev-&gt;pages[0].revision =3D ADM1272_PMBU=
-S_REVISION_DEFAULT;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0pmdev-&gt;pages[0].mfr_id =3D ADM1272_MFR_ID=
-_DEFAULT;<br>
-&gt; @@ -423,6 +440,8 @@ static void adm1272_get(Object *obj, Visitor *v, c=
-onst char *name, void *opaque,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0value =3D adm1272_direct_to_mi=
-lliamps(*(uint16_t *)opaque);<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0} else if (strcmp(name, &quot;pin&quot;) =3D=
-=3D 0) {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0value =3D adm1272_direct_to_wa=
-tts(*(uint16_t *)opaque);<br>
-&gt; +=C2=A0 =C2=A0 } else if (strcmp(name, &quot;temperature&quot;) =3D=3D=
- 0) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 value =3D adm1272_direct_to_millidegrees(=
-*(uint16_t *)opaque);<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0} else {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0value =3D *(uint16_t *)opaque;=
-<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-&gt; @@ -447,6 +466,8 @@ static void adm1272_set(Object *obj, Visitor *v, c=
-onst char *name, void *opaque,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*internal =3D adm1272_milliamp=
-s_to_direct(value);<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0} else if (strcmp(name, &quot;pin&quot;) =3D=
-=3D 0) {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*internal =3D adm1272_watts_to=
-_direct(value);<br>
-&gt; +=C2=A0 =C2=A0 } else if (strcmp(name, &quot;temperature&quot;) =3D=3D=
- 0) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 *internal =3D adm1272_millidegrees_to_dir=
-ect(value);<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0} else {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*internal =3D value;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-&gt; @@ -510,6 +531,10 @@ static void adm1272_init(Object *obj)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0adm1272_get,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0adm1272_set, NULL, &amp;pmdev-&gt;pages[0].read_=
-pin);<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt; +=C2=A0 =C2=A0 object_property_add(obj, &quot;temperature&quot;, &quot=
-;uint16&quot;,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 adm1272_get,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 adm1272_set, NULL, &amp;pmdev-&gt;pages[0].read_temperature_=
-1);<br>
-&gt; +<br>
-&gt;=C2=A0 =C2=A0}<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt;=C2=A0 =C2=A0static void adm1272_class_init(ObjectClass *klass, void *d=
-ata)<br>
-&gt; diff --git a/tests/qtest/adm1272-test.c b/tests/qtest/adm1272-test.c<b=
-r>
-&gt; index 63f8514801..98134aabd2 100644<br>
-&gt; --- a/tests/qtest/adm1272-test.c<br>
-&gt; +++ b/tests/qtest/adm1272-test.c<br>
-&gt; @@ -65,6 +65,7 @@<br>
-&gt;=C2=A0 =C2=A0#define ADM1272_VOLTAGE_COEFF_DEFAULT=C2=A0 =C2=A01<br>
-&gt;=C2=A0 =C2=A0#define ADM1272_CURRENT_COEFF_DEFAULT=C2=A0 =C2=A03<br>
-&gt;=C2=A0 =C2=A0#define ADM1272_PWR_COEFF_DEFAULT=C2=A0 =C2=A0 =C2=A0 =C2=
-=A07<br>
-&gt; +#define ADM1272_TEMP_COEFF_DEFAULT=C2=A0 =C2=A0 =C2=A0 8<br>
-&gt;=C2=A0 =C2=A0#define ADM1272_IOUT_OFFSET=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A00x5000<br>
-&gt;=C2=A0 =C2=A0#define ADM1272_IOUT_OFFSET=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A00x5000<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt; @@ -144,6 +145,22 @@ static uint32_t adm1272_direct_to_watts(uint16_t =
-value)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0return pmbus_direct_mode2data(c, value);<br>
-&gt;=C2=A0 =C2=A0}<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt; +static uint16_t adm1272_millidegrees_to_direct(uint32_t value)<br>
-&gt; +{<br>
-&gt; +=C2=A0 =C2=A0 PMBusCoefficients c =3D adm1272_coefficients[ADM1272_TE=
-MP_COEFF_DEFAULT];<br>
-&gt; +=C2=A0 =C2=A0 c.b =3D c.b * 1000;<br>
-&gt; +=C2=A0 =C2=A0 c.R =3D c.R - 3;<br>
-&gt; +=C2=A0 =C2=A0 return pmbus_data2direct_mode(c, value);<br>
-&gt; +}<br>
-&gt; +<br>
-&gt; +static uint32_t adm1272_direct_to_millidegrees(uint16_t value)<br>
-&gt; +{<br>
-&gt; +=C2=A0 =C2=A0 PMBusCoefficients c =3D adm1272_coefficients[ADM1272_TE=
-MP_COEFF_DEFAULT];<br>
-&gt; +=C2=A0 =C2=A0 c.b =3D c.b * 1000;<br>
-&gt; +=C2=A0 =C2=A0 c.R =3D c.R - 3;<br>
-&gt; +=C2=A0 =C2=A0 return pmbus_direct_mode2data(c, value);<br>
-&gt; +}<br>
-&gt; +<br>
-&gt;=C2=A0 =C2=A0static uint16_t qmp_adm1272_get(const char *id, const char=
- *property)<br>
-&gt;=C2=A0 =C2=A0{<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0QDict *response;<br>
-&gt; @@ -248,7 +265,7 @@ static void test_defaults(void *obj, void *data, Q=
-GuestAllocator *alloc)<br>
-&gt;=C2=A0 =C2=A0/* test qmp access */<br>
-&gt;=C2=A0 =C2=A0static void test_tx_rx(void *obj, void *data, QGuestAlloca=
-tor *alloc)<br>
-&gt;=C2=A0 =C2=A0{<br>
-&gt; -=C2=A0 =C2=A0 uint16_t i2c_value, value, i2c_voltage, i2c_pwr, lossy_=
-value;<br>
-&gt; +=C2=A0 =C2=A0 uint16_t i2c_value, value, i2c_voltage, i2c_pwr, i2c_te=
-mp, lossy_value;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0QI2CDevice *i2cdev =3D (QI2CDevice *)obj;<br=
->
-&gt;=C2=A0 =C2=A0<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0/* converting to direct mode is lossy - we g=
-enerate the same loss here */<br>
-&gt; @@ -287,6 +304,15 @@ static void test_tx_rx(void *obj, void *data, QGu=
-estAllocator *alloc)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0i2c_pwr =3D adm1272_direct_to_watts(i2c_valu=
-e);<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0g_assert_cmphex(value, =3D=3D, i2c_pwr);<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0g_assert_cmphex(i2c_pwr, =3D=3D, lossy_value=
-);<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 lossy_value =3D<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 adm1272_direct_to_millidegrees(adm1272_mi=
-llidegrees_to_direct(25000));<br>
-&gt; +=C2=A0 =C2=A0 qmp_adm1272_set(TEST_ID, &quot;temperature&quot;, 25000=
-);<br>
-&gt; +=C2=A0 =C2=A0 value =3D qmp_adm1272_get(TEST_ID, &quot;temperature&qu=
-ot;);<br>
-&gt; +=C2=A0 =C2=A0 i2c_value =3D adm1272_i2c_get16(i2cdev, PMBUS_READ_TEMP=
-ERATURE_1);<br>
-&gt; +=C2=A0 =C2=A0 i2c_temp =3D adm1272_direct_to_millidegrees(i2c_value);=
-<br>
-&gt; +=C2=A0 =C2=A0 g_assert_cmphex(value, =3D=3D, i2c_temp);<br>
-&gt; +=C2=A0 =C2=A0 g_assert_cmphex(i2c_temp, =3D=3D, lossy_value);<br>
-&gt;=C2=A0 =C2=A0}<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt;=C2=A0 =C2=A0/* test r/w registers */<br>
-<br>
-qtest part:<br>
-Acked-by: Thomas Huth &lt;<a href=3D"mailto:thuth@redhat.com" target=3D"_bl=
-ank">thuth@redhat.com</a>&gt;<br></blockquote><div><br></div><div>Adding yo=
-ur Ack to the mailing list version.=C2=A0</div></div></div>
+I've tried to make that clearer in my v4. Hopefully I succeeded.
 
---0000000000009689b105d501ff27--
+Thanks,
+
+	M.
+
+-- 
+Without deviation from the norm, progress is not possible.
 
