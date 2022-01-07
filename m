@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AD8048764F
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 12:15:44 +0100 (CET)
-Received: from localhost ([::1]:59408 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38C42487678
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 12:28:13 +0100 (CET)
+Received: from localhost ([::1]:52436 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5nDj-0002Ae-Lq
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 06:15:43 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44860)
+	id 1n5nPo-0001Ek-8d
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 06:28:12 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44876)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n5n26-00071s-JR
- for qemu-devel@nongnu.org; Fri, 07 Jan 2022 06:03:42 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:41644)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n5n29-0007BF-3H
+ for qemu-devel@nongnu.org; Fri, 07 Jan 2022 06:03:45 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:58786)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n5n24-0001nH-So
- for qemu-devel@nongnu.org; Fri, 07 Jan 2022 06:03:42 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n5n27-0001om-JN
+ for qemu-devel@nongnu.org; Fri, 07 Jan 2022 06:03:44 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641553420;
+ s=mimecast20190719; t=1641553423;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=u6l62xg/lkH7hFw614JZRm2EiTHVevsZtQYv0uk5SXM=;
- b=iu7NvsrbNxu684ZOaI0soXicc1sL84+IjLPlu2DwgbkdZntwcvccNQ12U44N9vt2aQGfbk
- byvfvsWi/FxOZtXJ4bt1DfnWn4wZ6Iymtc2CJMFHtuij5+ECAKgnZ4qZxobb+703I3z80M
- U3iIhuwkQc63XUgYNY0b/w70xl/8ALo=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=cSicCZD+rdT4rp9zVpF4X3HF/ofaRyPJFH9NwIHYGDo=;
+ b=GbOi6NlNu4rJOH+8ANVcSt1KmklYTTj4Fh3xupFEdXRrTHfpiWhbnkaq+X4S6OeSrOtdsx
+ JhrLDMhT/E6vxCfNL+wq0aZ3v/MieXPvEt+YIHJ6geVNpyIEdthrJw2mIUshhfkg3jjZw8
+ ibeos7UgbjxjsdjxYnhglwtZ3rfukqI=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-597-m0MnKWlEMzS4VXakiy780w-1; Fri, 07 Jan 2022 06:03:39 -0500
-X-MC-Unique: m0MnKWlEMzS4VXakiy780w-1
-Received: by mail-wm1-f72.google.com with SMTP id
- c5-20020a1c3505000000b00345c92c27c6so4498679wma.2
- for <qemu-devel@nongnu.org>; Fri, 07 Jan 2022 03:03:39 -0800 (PST)
+ us-mta-223-B-htt01kPN-9QbUCKb606A-1; Fri, 07 Jan 2022 06:03:42 -0500
+X-MC-Unique: B-htt01kPN-9QbUCKb606A-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ a11-20020adffb8b000000b001a0b0f4afe9so2112553wrr.13
+ for <qemu-devel@nongnu.org>; Fri, 07 Jan 2022 03:03:41 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=u6l62xg/lkH7hFw614JZRm2EiTHVevsZtQYv0uk5SXM=;
- b=OCItcmhOdf6ZDW5dJGLcP08r6tnCEjrOgrGzpRVvFKNK0ERWh+pXuNjPAjqv3n5dIS
- LSHJ93K4PWEPtSlhmbbTUCui/nklZQjSr3pTosD9RdPcNZAZpgDL7nK9a44g7Yi9Hoja
- rsRpYQ3q0hAN3Y9Sf2WnfgC+I4ugz9GnfJFhhRao87sxKh5HkjI8UsvW1nhZ2QDsRb3+
- 3oSymxArGMzKCXix+Tb0GdWQ3PvA5leEBqXHS8DRLtjs863bkSlHJ1P52coTt50qKmM4
- mX2sTx4rYLbl5B7h4+Q4dAmdpy/xOLa4+dMalULy2QmvKnvp9KUwvVCFIlaegiLtTYaD
- BvGA==
-X-Gm-Message-State: AOAM533VHyNmhntETHuQZ89eOd6uCPwAG6iQVxLAchyog+oBmxugnFxE
- rxlEaHrIDplUedc8O8lfZ/BBCRR93CuKj4F6A/8OMOO/wYLnxem0QRcoAN1XwK9T9ABv/IQeFTB
- ZAi7iyoNhLPjXrsxjPIIJAQzuFaXscjzqMs3ue9gPMLkG43qSvAuoEQzs/455
-X-Received: by 2002:adf:c606:: with SMTP id n6mr43439627wrg.481.1641553417889; 
- Fri, 07 Jan 2022 03:03:37 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzCgDpHxGOcJNsK6PbZCp8W9Bjx8Buyjfpe9QEfqbzliR2BIfuvxB77pAR+C3exn27u3fQhPA==
-X-Received: by 2002:adf:c606:: with SMTP id n6mr43439605wrg.481.1641553417664; 
- Fri, 07 Jan 2022 03:03:37 -0800 (PST)
+ bh=cSicCZD+rdT4rp9zVpF4X3HF/ofaRyPJFH9NwIHYGDo=;
+ b=DxfFMAmPNDanNrhWTLT9kb8ZPN0TJUATGxP2bkw9nPcGEFI+2u5pw5WI7bYoqJc4DE
+ fDuieXmA4TscdiRTNos2cJEB+VINciGVTbCsczsRHB8ojqc5tAi+qEaRQUA6vNIr/Vmr
+ nv3ah6BYa9a/okgiqdYsMRLVYLoO7iydbjA4bqeY5uRsJRtbG+zEfkYvFdy4kqGTVt8f
+ SROnAR4FoNqJ9KPt/GYGfHUc4bR67OTdGmdWWGB8KM20fhhUKmg6nS7kwS//CGmhrshz
+ A0btezTkAV9dMrQsJkaBCD9EOtUPihvZjRF2pKlejFrhTMaOBtpM+gdOwhrc4N4Gvo/H
+ KP6A==
+X-Gm-Message-State: AOAM533PDeqHlLcJ1HFidwkM5ylE+k3+kbeOVRZ0194OX5raVB3XZR1W
+ An1bL5e+RB0uGTSrxLNv7nzLiYzPyqBCWoYW3IpF/SxNEsDh/KJcE7M2NqY+H/3zwhX9e7EHZew
+ T5A3a7jZhyBcoboxNSwUgfNb4UrK3alLBR8CHMLDLyTGutM7MGFQRNOwsvKav
+X-Received: by 2002:a5d:6d4f:: with SMTP id k15mr40361673wri.345.1641553420536; 
+ Fri, 07 Jan 2022 03:03:40 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwolG/GAeijGo9GawYLWpzhB9mAbJLtWnIEoxWO1MfjSBQsjnXhhDruhTmX4mS7LXgRdi6j3Q==
+X-Received: by 2002:a5d:6d4f:: with SMTP id k15mr40361646wri.345.1641553420203; 
+ Fri, 07 Jan 2022 03:03:40 -0800 (PST)
 Received: from redhat.com ([2.55.16.192])
- by smtp.gmail.com with ESMTPSA id q3sm4553652wrr.55.2022.01.07.03.03.36
+ by smtp.gmail.com with ESMTPSA id g18sm8826020wmq.5.2022.01.07.03.03.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 Jan 2022 03:03:37 -0800 (PST)
-Date: Fri, 7 Jan 2022 06:03:35 -0500
+ Fri, 07 Jan 2022 03:03:39 -0800 (PST)
+Date: Fri, 7 Jan 2022 06:03:37 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 10/55] virtio-net: add support for configure interrupt
-Message-ID: <20220107102526.39238-11-mst@redhat.com>
+Subject: [PULL v2 11/55] virtio-mmio: add support for configure interrupt
+Message-ID: <20220107102526.39238-12-mst@redhat.com>
 References: <20220107102526.39238-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20220107102526.39238-1-mst@redhat.com>
@@ -94,102 +94,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
- Cindy Lu <lulu@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Cindy Lu <lulu@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Cindy Lu <lulu@redhat.com>
 
-Add functions to support configure interrupt in virtio_net
-The functions are config_pending and config_mask, while
-this input idx is VIRTIO_CONFIG_IRQ_IDX will check the
-function of configure interrupt.
+Add configure interrupt support for virtio-mmio bus. This
+interrupt will be working while the backend is vhost-vdpa
 
 Signed-off-by: Cindy Lu <lulu@redhat.com>
-Message-Id: <20211104164827.21911-9-lulu@redhat.com>
+Message-Id: <20211104164827.21911-10-lulu@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- include/net/vhost_net.h | 2 ++
- hw/net/vhost_net-stub.c | 9 +++++++++
- hw/net/vhost_net.c      | 9 +++++++++
- hw/net/virtio-net.c     | 4 ++--
- 4 files changed, 22 insertions(+), 2 deletions(-)
+ hw/virtio/virtio-mmio.c | 27 +++++++++++++++++++++++++++
+ 1 file changed, 27 insertions(+)
 
-diff --git a/include/net/vhost_net.h b/include/net/vhost_net.h
-index 387e913e4e..fc37498550 100644
---- a/include/net/vhost_net.h
-+++ b/include/net/vhost_net.h
-@@ -39,6 +39,8 @@ int vhost_net_set_config(struct vhost_net *net, const uint8_t *data,
- bool vhost_net_virtqueue_pending(VHostNetState *net, int n);
- void vhost_net_virtqueue_mask(VHostNetState *net, VirtIODevice *dev,
-                               int idx, bool mask);
-+bool vhost_net_config_pending(VHostNetState *net);
-+void vhost_net_config_mask(VHostNetState *net, VirtIODevice *dev, bool mask);
- int vhost_net_notify_migration_done(VHostNetState *net, char* mac_addr);
- VHostNetState *get_vhost_net(NetClientState *nc);
+diff --git a/hw/virtio/virtio-mmio.c b/hw/virtio/virtio-mmio.c
+index 72da12fea5..809132018b 100644
+--- a/hw/virtio/virtio-mmio.c
++++ b/hw/virtio/virtio-mmio.c
+@@ -673,7 +673,30 @@ static int virtio_mmio_set_guest_notifier(DeviceState *d, int n, bool assign,
  
-diff --git a/hw/net/vhost_net-stub.c b/hw/net/vhost_net-stub.c
-index 89d71cfb8e..126ee35b70 100644
---- a/hw/net/vhost_net-stub.c
-+++ b/hw/net/vhost_net-stub.c
-@@ -101,3 +101,12 @@ int vhost_net_set_mtu(struct vhost_net *net, uint16_t mtu)
- {
      return 0;
  }
-+
-+bool vhost_net_config_pending(VHostNetState *net)
++static int virtio_mmio_set_config_guest_notifier(DeviceState *d, bool assign)
 +{
-+    return false;
-+}
-+
-+void vhost_net_config_mask(VHostNetState *net, VirtIODevice *dev, bool mask)
-+{
-+}
-diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
-index 30379d2ca4..9c9fd0a73f 100644
---- a/hw/net/vhost_net.c
-+++ b/hw/net/vhost_net.c
-@@ -457,6 +457,15 @@ void vhost_net_virtqueue_mask(VHostNetState *net, VirtIODevice *dev,
-     vhost_virtqueue_mask(&net->dev, dev, idx, mask);
- }
++    VirtIOMMIOProxy *proxy = VIRTIO_MMIO(d);
++    VirtIODevice *vdev = virtio_bus_get_device(&proxy->bus);
++    VirtioDeviceClass *vdc = VIRTIO_DEVICE_GET_CLASS(vdev);
++    bool with_irqfd = false;
++    EventNotifier *notifier = virtio_config_get_guest_notifier(vdev);
++    int r = 0;
  
-+bool vhost_net_config_pending(VHostNetState *net)
-+{
-+    return vhost_config_pending(&net->dev);
++    if (assign) {
++        r = event_notifier_init(notifier, 0);
++        if (r < 0) {
++            return r;
++        }
++        virtio_config_set_guest_notifier_fd_handler(vdev, assign, with_irqfd);
++    } else {
++        virtio_config_set_guest_notifier_fd_handler(vdev, assign, with_irqfd);
++        event_notifier_cleanup(notifier);
++    }
++    if (vdc->guest_notifier_mask && vdev->use_guest_notifier_mask) {
++        vdc->guest_notifier_mask(vdev, VIRTIO_CONFIG_IRQ_IDX, !assign);
++    }
++    return r;
 +}
-+
-+void vhost_net_config_mask(VHostNetState *net, VirtIODevice *dev, bool mask)
-+{
-+    vhost_config_mask(&net->dev, dev, mask);
-+}
- VHostNetState *get_vhost_net(NetClientState *nc)
+ static int virtio_mmio_set_guest_notifiers(DeviceState *d, int nvqs,
+                                            bool assign)
  {
-     VHostNetState *vhost_net = 0;
-diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-index 5e03c0dd14..5806a50c8d 100644
---- a/hw/net/virtio-net.c
-+++ b/hw/net/virtio-net.c
-@@ -3169,7 +3169,7 @@ static bool virtio_net_guest_notifier_pending(VirtIODevice *vdev, int idx)
-     NetClientState *nc = qemu_get_subqueue(n->nic, vq2q(idx));
-     assert(n->vhost_started);
-     if (idx == VIRTIO_CONFIG_IRQ_IDX) {
--        return false;
-+        return vhost_net_config_pending(get_vhost_net(nc->peer));
+@@ -695,6 +718,10 @@ static int virtio_mmio_set_guest_notifiers(DeviceState *d, int nvqs,
+             goto assign_error;
+         }
      }
-     return vhost_net_virtqueue_pending(get_vhost_net(nc->peer), idx);
- }
-@@ -3181,9 +3181,9 @@ static void virtio_net_guest_notifier_mask(VirtIODevice *vdev, int idx,
-     NetClientState *nc = qemu_get_subqueue(n->nic, vq2q(idx));
-     assert(n->vhost_started);
-     if (idx == VIRTIO_CONFIG_IRQ_IDX) {
-+        vhost_net_config_mask(get_vhost_net(nc->peer), vdev, mask);
-         return;
-     }
--
-     vhost_net_virtqueue_mask(get_vhost_net(nc->peer), vdev, idx, mask);
- }
++    r = virtio_mmio_set_config_guest_notifier(d, assign);
++    if (r < 0) {
++        goto assign_error;
++    }
+ 
+     return 0;
  
 -- 
 MST
