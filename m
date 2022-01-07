@@ -2,91 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42D5B487754
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 13:06:04 +0100 (CET)
-Received: from localhost ([::1]:52792 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9289A487785
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 13:16:52 +0100 (CET)
+Received: from localhost ([::1]:44138 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5o0Q-00077J-TX
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 07:06:02 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:55356)
+	id 1n5oAs-0004wv-BQ
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 07:16:50 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:55806)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1n5nuc-0004LF-Uz
- for qemu-devel@nongnu.org; Fri, 07 Jan 2022 07:00:02 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33464)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1n5nub-0004cb-75
- for qemu-devel@nongnu.org; Fri, 07 Jan 2022 07:00:02 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641556800;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Yat/Qsy2FZlmD3f4lls8Zub2EBCLL2GaAVY4ykhLn98=;
- b=M8jdXo4JrpmL5nOmctxZex6rLe9w4axG8dRjhjiGiMtpleDEQB+cI0g/0g3j2zkiuWY/tL
- PRyPneppcMy2v2z78SOtWBTWEUBNfTa2wjOZXdcix7NuGR9rq3H1oKC9YNHR+QpB2DJdS1
- QHcFCvmiOhl8V1/xSCjaT5Uhp96tRcU=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-590-xWCtQnNeMp-MqBPoae9jGw-1; Fri, 07 Jan 2022 06:59:57 -0500
-X-MC-Unique: xWCtQnNeMp-MqBPoae9jGw-1
-Received: by mail-wm1-f69.google.com with SMTP id
- j8-20020a05600c1c0800b00346504f5743so4544736wms.6
- for <qemu-devel@nongnu.org>; Fri, 07 Jan 2022 03:59:57 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1n5nwT-0005yU-Ll
+ for qemu-devel@nongnu.org; Fri, 07 Jan 2022 07:02:01 -0500
+Received: from [2a00:1450:4864:20::52e] (port=37846
+ helo=mail-ed1-x52e.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1n5nwR-00059z-Ma
+ for qemu-devel@nongnu.org; Fri, 07 Jan 2022 07:01:57 -0500
+Received: by mail-ed1-x52e.google.com with SMTP id o6so21311885edc.4
+ for <qemu-devel@nongnu.org>; Fri, 07 Jan 2022 04:01:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=xOp66BTPLCh5HYAFBG7r4bQF7i+AcGWZvd+puB1plOM=;
+ b=ROqj7bXcD88O9QRtzl/W44Hr9aD7ekiGRFpypXp/3ENEhc0UtQ6ZPRzP0VhYq6CsUY
+ Cl3XLxFm3qlrKlXMJhCE3CoKjBjdraf6U/St/PInVgQCWfrb1FqMGRncfeoTYrsd/Y6T
+ GKOoqujw9cFEQAqfuhuT+LUdKiUZxtlBf3r5hAr8RR4iazGrN6tioiexPSgPrdNdK9Ly
+ iPXLCGBiv4t7HcwMRLD1Hle4En+pEq29HeI3ALvWBViVw67PQE89K84wDp8ypj066ZVT
+ 9/fTHNm7Pshr18n8uZPKsLrLo4PMaLs/uJ4o1j6GoBqm54qtXsuc5fXsJiNDM96wwkVQ
+ +3qQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:from:to:cc:references:in-reply-to
- :content-transfer-encoding;
- bh=Yat/Qsy2FZlmD3f4lls8Zub2EBCLL2GaAVY4ykhLn98=;
- b=rm9QqR47aDkYq8glVAk2KIqH1GabKqq5Wvhxqc2UEXSeGYet9RWYGfm2VSLchew+RJ
- D5qtNvhKi2qLJreo48P8MEkmfvsHV2H5l6VclOje28gLx4FXYrD7pHZG5AJonD/WtZm2
- ftTNJsKirg9BM+Tu3X5AbWbg5kCn6oQ9BmaijX189jcLd2T+KU4LIg8PCPbScKzkC45F
- ukErbyMLo0PGfK5r8EJv55BMmdfiXk6tQJD88bCW4L7dgW4yLpaWnL6J9uPbbxY1k9Zn
- zzdvsrELEfwyYulV3qBU2IF2wHunPbtETRHlqiQ3eGx1ZG18fXL7Y3gXjvQaBt0qkxNW
- BDsg==
-X-Gm-Message-State: AOAM530rZZHWeV2kqo2fArP1ZJGxXKejhmBfwefrpYSECzPYousInihO
- 8aXoTANpeus86x1UNJ1eszR3jOwm5Dx4Fj68lk3daum5XAh8J22rUr5/6WmzvRjvqnHcqJ+szqG
- RE03/0plUSeeMPOr4TlY/KnVCBooFAYKMudDTBlfuzNMsGeFlDFfjwH0FfgtYamI=
-X-Received: by 2002:adf:f14b:: with SMTP id y11mr51898478wro.493.1641556796160; 
- Fri, 07 Jan 2022 03:59:56 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxXtfZh3AKHQeuTZFSgJQOz28emXWn8v60WvbU0KGs3HT0yLDvkshD1zoJwcadLVHKEj6G+zA==
-X-Received: by 2002:adf:f14b:: with SMTP id y11mr51898462wro.493.1641556795967; 
- Fri, 07 Jan 2022 03:59:55 -0800 (PST)
-Received: from [192.168.8.100] (tmo-098-68.customers.d1-online.com.
- [80.187.98.68])
- by smtp.gmail.com with ESMTPSA id az1sm1632135wrb.104.2022.01.07.03.59.55
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 07 Jan 2022 03:59:55 -0800 (PST)
-Message-ID: <1b6fa831-f99e-3693-d2d4-48bc271c9d46@redhat.com>
-Date: Fri, 7 Jan 2022 12:59:54 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH] meson.build: Print gtk version in the summary info
-From: Thomas Huth <thuth@redhat.com>
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=xOp66BTPLCh5HYAFBG7r4bQF7i+AcGWZvd+puB1plOM=;
+ b=2dtC7ZmjCCx4NKsXx/8eLzsgJR3aEuv8hW8hpe2H22OiiLZ2drqPWM47nq1aajbvl/
+ SDncCN3mQ2o+h+8W+gfX9oQ8hnN3DyYdLB//wV+JcrUCkcoLP/Y/fE4dLqdDdAaZps/N
+ fHkEsOncNbJnYsCyZQgDh/sJLFjvyCzv67rUvHhQ5zOtgmF/ljj0a8h01SKPrq0ea90y
+ bw351e1IuZom+E+CP+uUt1PiY53imPnz5C2rwA9OaoxaBaWzzLKnWvqEea9KL8BdXkBd
+ DtsrK85+fWOF048vozXGUwR95tOm/BQsWyVKOiuYRnN/OBvMP2fto6jDayrTo4WvjPts
+ dVUA==
+X-Gm-Message-State: AOAM532i5yadAsRSeuGaHprgF95Qnz9Qna933fe7ZVFgqo6VqsFptLsY
+ XgHj790GwOzrVZC7gu7LGrdRHEzEhuM=
+X-Google-Smtp-Source: ABdhPJwDhBaSPmL+rM5BWHY/0MI4MyYkClLJMBtglHrSxUPkgnGYTP2vXWw+Bf1blDsHKp32+pJWhw==
+X-Received: by 2002:a17:907:2ce3:: with SMTP id
+ hz3mr48682205ejc.737.1641556912251; 
+ Fri, 07 Jan 2022 04:01:52 -0800 (PST)
+Received: from localhost.localdomain ([2001:b07:6468:f312::224])
+ by smtp.gmail.com with ESMTPSA id gs17sm1325180ejc.116.2022.01.07.04.01.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 07 Jan 2022 04:01:51 -0800 (PST)
+From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-References: <20220105190804.649316-1-thuth@redhat.com>
-In-Reply-To: <20220105190804.649316-1-thuth@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -58
-X-Spam_score: -5.9
-X-Spam_bar: -----
-X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.372,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.691, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Subject: [PATCH] meson: build all modules by default
+Date: Fri,  7 Jan 2022 13:01:43 +0100
+Message-Id: <20220107120143.522834-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.33.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52e
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52e.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,56 +85,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
+Cc: thuth@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 05/01/2022 20.08, Thomas Huth wrote:
-> The "gtk" variable is re-declared as "dependencies: [gtk, gtkx11]",
-> so there is just a "YES" in the summary info if gtk has been found.
-> Let's use the info from the library detection instead so that the
-> library version is printed in the summary instead.
-> 
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->   meson.build | 12 ++++++------
->   1 file changed, 6 insertions(+), 6 deletions(-)
-> 
-> diff --git a/meson.build b/meson.build
-> index 82769749db..798811dfbb 100644
-> --- a/meson.build
-> +++ b/meson.build
-> @@ -1058,11 +1058,11 @@ gtk = not_found
->   gtkx11 = not_found
->   vte = not_found
+With more recent versions of Meson, the build.ninja file is more selective
+as to what is built by default, and not building the modules results in test
+failures.
 
-Drat, I'm missing a "libgtk = not_found" here ... I'll send a v2.
+Mark the modules as built-by-default and, to make the dependencies more
+precise, also require them to be up-to-date before running tests.
 
-  Thomas
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/801
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ meson.build             | 4 +++-
+ tests/qtest/meson.build | 3 +--
+ 2 files changed, 4 insertions(+), 3 deletions(-)
 
-
->   if not get_option('gtk').auto() or (have_system and not cocoa.found())
-> -  gtk = dependency('gtk+-3.0', version: '>=3.22.0',
-> -                   method: 'pkg-config',
-> -                   required: get_option('gtk'),
-> -                   kwargs: static_kwargs)
-> -  if gtk.found()
-> +  libgtk = dependency('gtk+-3.0', version: '>=3.22.0',
-> +                      method: 'pkg-config',
-> +                      required: get_option('gtk'),
-> +                      kwargs: static_kwargs)
-> +  if libgtk.found()
->       gtkx11 = dependency('gtk+-x11-3.0', version: '>=3.22.0',
->                           method: 'pkg-config',
->                           required: false,
-> @@ -3410,7 +3410,7 @@ if targetos == 'darwin'
->   endif
->   summary_info += {'SDL support':       sdl}
->   summary_info += {'SDL image support': sdl_image}
-> -summary_info += {'GTK support':       gtk}
-> +summary_info += {'GTK support':       libgtk}
->   summary_info += {'pixman':            pixman}
->   summary_info += {'VTE support':       vte}
->   summary_info += {'slirp support':     slirp_opt == 'internal' ? slirp_opt : slirp}
+diff --git a/meson.build b/meson.build
+index 6489ff8425..703eefea13 100644
+--- a/meson.build
++++ b/meson.build
+@@ -2866,8 +2866,10 @@ common_ss.add(hwcore)
+ # Targets #
+ ###########
+ 
++emulator_modules = []
+ foreach m : block_mods + softmmu_mods
+-  shared_module(m.name(),
++  emulator_modules += shared_module(m.name(),
++                build_by_default: true,
+                 name_prefix: '',
+                 link_whole: m,
+                 install: true,
+diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
+index 37e1eaa449..26937deb6d 100644
+--- a/tests/qtest/meson.build
++++ b/tests/qtest/meson.build
+@@ -335,10 +335,9 @@ foreach dir : target_dirs
+         test: executable(test, src, dependencies: deps)
+       }
+     endif
+-    # FIXME: missing dependency on the emulator binary and qemu-img
+     test('qtest-@0@/@1@'.format(target_base, test),
+          qtest_executables[test],
+-         depends: [test_deps, qtest_emulator],
++         depends: [test_deps, qtest_emulator, emulator_modules],
+          env: qtest_env,
+          args: ['--tap', '-k'],
+          protocol: 'tap',
+-- 
+2.33.1
 
 
