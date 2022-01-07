@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 301B9487684
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 12:31:06 +0100 (CET)
-Received: from localhost ([::1]:60794 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18D57487677
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 12:27:59 +0100 (CET)
+Received: from localhost ([::1]:52056 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5nSb-0008Kd-8M
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 06:31:05 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45512)
+	id 1n5nPV-0000sl-7Q
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 06:27:53 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45522)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n5n3l-0001JC-1e
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n5n3l-0001JF-7q
  for qemu-devel@nongnu.org; Fri, 07 Jan 2022 06:05:25 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:59636)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:33589)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n5n3D-0001zX-70
- for qemu-devel@nongnu.org; Fri, 07 Jan 2022 06:05:05 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n5n3Q-0001zc-Cs
+ for qemu-devel@nongnu.org; Fri, 07 Jan 2022 06:05:09 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641553489;
+ s=mimecast20190719; t=1641553492;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=TnGOLm7lT8LwKDlvBDBF9jJhmbOnmc0+Fq8lIxyOVLg=;
- b=WI4TdFTH+eWAwSt92vLD0FK9psmXGzfEZIhsJmYjwFTQvdYe/25aCRMd9A8Rv+y8ch4Q52
- 0wxTnNLo6r/HNOGPP5SIk0/NlCDOFZ0NJcOQ/lbypvWrc3VFNL/iC4lsOKZHprG7LaUPZ/
- 0OHMqksppzuMo15E60JuuTWpaV4laMQ=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=9LQElm98aHXjiuFao5xnlm6/WpTSh3F0rFcwVGDak2Y=;
+ b=boZVSPzzqwwTrW5p6cd7U3NIKN5zz5adlfCyHCJQNoEzPcI04hzKYQhp/1NGERDntDCcQQ
+ g6FR4E/Y6qkynjkz+Zut44DfE1AXcoDmgc1Ep7TwQXYdTsdWjFlHgk/RKOMflGLMwERTrb
+ xsGQU3NZg5x6GYl3/GI4Jkp00NRvR/I=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-445-8IBhRD90NM2646DvbdCoYw-1; Fri, 07 Jan 2022 06:04:48 -0500
-X-MC-Unique: 8IBhRD90NM2646DvbdCoYw-1
-Received: by mail-wm1-f69.google.com with SMTP id
- e19-20020a05600c4e5300b003458be97976so1354103wmq.7
- for <qemu-devel@nongnu.org>; Fri, 07 Jan 2022 03:04:47 -0800 (PST)
+ us-mta-455-L3E51C9rOR2TvEYEIGfYOA-1; Fri, 07 Jan 2022 06:04:51 -0500
+X-MC-Unique: L3E51C9rOR2TvEYEIGfYOA-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ i81-20020a1c3b54000000b003467c58cbddso4119472wma.5
+ for <qemu-devel@nongnu.org>; Fri, 07 Jan 2022 03:04:50 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=TnGOLm7lT8LwKDlvBDBF9jJhmbOnmc0+Fq8lIxyOVLg=;
- b=yg1q+vRUIqzZ4pcVoR5PiP7ElCNE1MzIP6dw2m8emRPrfwj/kXTnm+Y4lNpnGPqqX6
- oS3yRsnEAdjg0Ae4rj4JkUbawypTTSBfMVXQCGoYZZ/ogz9GnQcqDSdUg/GxqAhRXWYc
- 7WjmPZ/kUQgJheW3rFCb08u9LdCFj4P/z4L6n0jjdbirW1RyyQkcf7MQBwBz3ptyy4QG
- 8bQQuG4AfQnK91ORoqMfUI8lW5Gf0qRl5hILDkZxvvhOv0+qpik6RhrHXmLuaWAxXUJL
- Do0U2ZpKxkbAPMZFf0MSbcgVVEWcLfKqIae2y3JLjRkdSbm/Nb07hPcrUyxXRVg8ssa3
- b2hg==
-X-Gm-Message-State: AOAM531sfyQuL0aivSpZHzZWWUd7tAJCxkam9CyhSkGlCwdj47ZYZmZX
- mJazddcuepvpPr5FGkbLunixIULBNZAVRxqTnV79rnEAW4aWl7FMnH8WfYKc8RcZOXAqglEyxLM
- ncuT3soceVuIHHfhhhLl0c5JtCrlgN9TxYa1O6c6ZaBYdq+iPEp2k4iXcFHid
-X-Received: by 2002:adf:a1d0:: with SMTP id v16mr8068660wrv.622.1641553486474; 
- Fri, 07 Jan 2022 03:04:46 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyqUIXu61xSeOgWuQwjH7xYxk2x16Ctjya88vmdqXWu3lF7D2UGeq4M659cDbLa6uy9a/gJtg==
-X-Received: by 2002:adf:a1d0:: with SMTP id v16mr8068640wrv.622.1641553486199; 
- Fri, 07 Jan 2022 03:04:46 -0800 (PST)
+ bh=9LQElm98aHXjiuFao5xnlm6/WpTSh3F0rFcwVGDak2Y=;
+ b=6VakFfTqcwJ5NYPNH7u0k+UUDUl6GD1aSvX3k79+EpwqkfERHzj9rORDH1HaTcrwOz
+ 218gr4d60BxeDcKAwlvwjv0t71M9dgdOSQqg1G/fORyAdT/chRpNPyZtnYlriFPbsxqP
+ 8nIEMq9ibD6UMEQFqZq3LRZtMda6VhVS/RS2tNBX1jCGygyUOjh6AT5Lhr4iTu5bbokP
+ ydkjMLcXUplTBFboYk7PxH9sakgRQLgUg59jaLxCoI/grA+qx5orhdIM3jvoVtWykN7Z
+ Ro76GpGoP2n1dZ4xO4iSwJOZFwx9YedyqPlU8XV0oGuYYeU3x9ziYSatAO0botUIhgh+
+ dOuQ==
+X-Gm-Message-State: AOAM530Vq+8xkkpok/Fr5DYU0e6ry7ZBun4p9PY5Ez/O/aZi64O+ShB4
+ TN3bii8SOJL0ZOTrfQYluDHIH+9PlWjG6b9rXDhQf88DcimvOQ66K72Wp2G4W344f6DBBOmJK7m
+ 8K01FEkZrPcFGOQcR3dviPudtmp42l6KSZExzDElgzTd/Peie5AlWnY4fOOm2
+X-Received: by 2002:a05:6000:545:: with SMTP id
+ b5mr37829626wrf.452.1641553489403; 
+ Fri, 07 Jan 2022 03:04:49 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxN+/jroDqJZumZsHVbpVTzxlseVKLoXCKklUzLQQSZhiNaVTNg7bkBskCL2Bi4tmj/9Mbs8Q==
+X-Received: by 2002:a05:6000:545:: with SMTP id
+ b5mr37829600wrf.452.1641553489166; 
+ Fri, 07 Jan 2022 03:04:49 -0800 (PST)
 Received: from redhat.com ([2.55.16.192])
- by smtp.gmail.com with ESMTPSA id r9sm4616859wrm.76.2022.01.07.03.04.44
+ by smtp.gmail.com with ESMTPSA id d11sm4796099wri.101.2022.01.07.03.04.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 Jan 2022 03:04:45 -0800 (PST)
-Date: Fri, 7 Jan 2022 06:04:43 -0500
+ Fri, 07 Jan 2022 03:04:48 -0800 (PST)
+Date: Fri, 7 Jan 2022 06:04:46 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 33/55] util/oslib-posix: Avoid creating a single thread
- with MADV_POPULATE_WRITE
-Message-ID: <20220107102526.39238-34-mst@redhat.com>
+Subject: [PULL v2 34/55] util/oslib-posix: Support concurrent
+ os_mem_prealloc() invocation
+Message-ID: <20220107102526.39238-35-mst@redhat.com>
 References: <20220107102526.39238-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20220107102526.39238-1-mst@redhat.com>
@@ -107,39 +109,70 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: David Hildenbrand <david@redhat.com>
 
-Let's simplify the case when we only want a single thread and don't have
-to mess with signal handlers.
+Add a mutex to protect the SIGBUS case, as we cannot mess concurrently
+with the sigbus handler and we have to manage the global variable
+sigbus_memset_context. The MADV_POPULATE_WRITE path can run
+concurrently.
+
+Note that page_mutex and page_cond are shared between concurrent
+invocations, which shouldn't be a problem.
+
+This is a preparation for future virtio-mem prealloc code, which will call
+os_mem_prealloc() asynchronously from an iothread when handling guest
+requests.
 
 Reviewed-by: Pankaj Gupta <pankaj.gupta@ionos.com>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 Reviewed-by: Michal Privoznik <mprivozn@redhat.com>
 Signed-off-by: David Hildenbrand <david@redhat.com>
-Message-Id: <20211217134611.31172-6-david@redhat.com>
+Message-Id: <20211217134611.31172-7-david@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- util/oslib-posix.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ util/oslib-posix.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
 diff --git a/util/oslib-posix.c b/util/oslib-posix.c
-index 67c08a425e..efa4f96d56 100644
+index efa4f96d56..9829149e4b 100644
 --- a/util/oslib-posix.c
 +++ b/util/oslib-posix.c
-@@ -564,6 +564,14 @@ static int touch_all_pages(char *area, size_t hpagesize, size_t numpages,
-     }
+@@ -95,6 +95,7 @@ typedef struct MemsetThread MemsetThread;
  
-     if (use_madv_populate_write) {
-+        /* Avoid creating a single thread for MADV_POPULATE_WRITE */
-+        if (context.num_threads == 1) {
-+            if (qemu_madvise(area, hpagesize * numpages,
-+                             QEMU_MADV_POPULATE_WRITE)) {
-+                return -errno;
-+            }
-+            return 0;
+ /* used by sigbus_handler() */
+ static MemsetContext *sigbus_memset_context;
++static QemuMutex sigbus_mutex;
+ 
+ static QemuMutex page_mutex;
+ static QemuCond page_cond;
+@@ -625,6 +626,7 @@ static bool madv_populate_write_possible(char *area, size_t pagesize)
+ void os_mem_prealloc(int fd, char *area, size_t memory, int smp_cpus,
+                      Error **errp)
+ {
++    static gsize initialized;
+     int ret;
+     struct sigaction act, oldact;
+     size_t hpagesize = qemu_fd_getpagesize(fd);
+@@ -638,6 +640,12 @@ void os_mem_prealloc(int fd, char *area, size_t memory, int smp_cpus,
+     use_madv_populate_write = madv_populate_write_possible(area, hpagesize);
+ 
+     if (!use_madv_populate_write) {
++        if (g_once_init_enter(&initialized)) {
++            qemu_mutex_init(&sigbus_mutex);
++            g_once_init_leave(&initialized, 1);
 +        }
-         touch_fn = do_madv_populate_write_pages;
-     } else {
-         touch_fn = do_touch_pages;
++
++        qemu_mutex_lock(&sigbus_mutex);
+         memset(&act, 0, sizeof(act));
+         act.sa_handler = &sigbus_handler;
+         act.sa_flags = 0;
+@@ -665,6 +673,7 @@ void os_mem_prealloc(int fd, char *area, size_t memory, int smp_cpus,
+             perror("os_mem_prealloc: failed to reinstall signal handler");
+             exit(1);
+         }
++        qemu_mutex_unlock(&sigbus_mutex);
+     }
+ }
+ 
 -- 
 MST
 
