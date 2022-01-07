@@ -2,88 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD29F487D86
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 21:11:25 +0100 (CET)
-Received: from localhost ([::1]:41408 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 206F7487DB7
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 21:27:19 +0100 (CET)
+Received: from localhost ([::1]:49570 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5uQr-00068L-Di
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 13:57:45 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38032)
+	id 1n5uVM-0004ft-Sb
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 14:02:24 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:39512)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1n5uNc-0002q8-UV
- for qemu-devel@nongnu.org; Fri, 07 Jan 2022 13:54:24 -0500
-Received: from [2a00:1450:4864:20::435] (port=36541
- helo=mail-wr1-x435.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1n5uNQ-0006Qk-5I
- for qemu-devel@nongnu.org; Fri, 07 Jan 2022 13:54:18 -0500
-Received: by mail-wr1-x435.google.com with SMTP id r10so5118080wrc.3
- for <qemu-devel@nongnu.org>; Fri, 07 Jan 2022 10:54:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=dYBDfftgUsNYbWOuJgD5yryzn7gsmRdbY5L1+f7SCv0=;
- b=gBnszpnZfAVHmLljTtc30gPgM2KKxfHJi+vL9L/HomzzZiV52mHvY7glTsGra+KC69
- UxDHj+X/J0JBK0VsLdM1UlKzD/KYTGr9J8nIwUUE+O1Af9G/wHI6t+UIS3HgwUFJ5ycq
- cAmv9q9gOGN6kteBmBMzuLLqsIWA2L57dwF2u5F/lcrQw6AgKoxiDDaoziCapppOM+6W
- Z5DogQvGhsljUX1OjJt006HDPkVZV1WoisGZzOYNLTP0XIxDhNKWcnSjyOMQ8AP4MRiQ
- ZJYIamU1f87ior1gNkfj66OhMacawiDPvPBP6iZLC5MGyJk0FhCWGArAZ4OuPQrbTjp8
- 6h/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=dYBDfftgUsNYbWOuJgD5yryzn7gsmRdbY5L1+f7SCv0=;
- b=fBQgU3Y6uEGtu9YBJm7rNnDxEWWq6y6YrmoATdJGd4u5AlmSeteJpYtm03ya3c5/v/
- IvrEexVmRPKFA4Nb4ATsYXqGypqOQ8a2O64v4+Z69E1MVMK23+7H6jbeEwxflfzOVv5Z
- mE5yrYqHqi5PpMk+ST1v8nLjU1uv9IYjaxOrCvKLtYQl6Oe0ofnEGaXgSJVDoAwzan2Y
- 0TXTQ8vBmexlyM2vOxejjbVuV7FLb+qQ2i+ABYPY0sfIWxYf328nZ/x2s8pFGfRDpboW
- FIKFJSBulvoBc5UXKfPd1OLl/OsXcPn8Cp2YKIVveoF9gZjjGExUFDqYm+QO0SSjHrsg
- FoAg==
-X-Gm-Message-State: AOAM531NqYmjXezILXK+U7EL7CRmJvetcnTPJiOcRERuZ0LE14MN3W7a
- gMXLSYqX6wrjEoypQr+O5FY=
-X-Google-Smtp-Source: ABdhPJwlpJ9IQy+6Ip6cAVAR6WICC5HpH+qC3fQKHcTUv+TpG+OiB3bg0CsVypzUgz6qBt+h3lcENQ==
-X-Received: by 2002:a5d:5849:: with SMTP id i9mr54663697wrf.148.1641581649052; 
- Fri, 07 Jan 2022 10:54:09 -0800 (PST)
-Received: from [192.168.1.40] (83.red-83-50-87.dynamicip.rima-tde.net.
- [83.50.87.83])
- by smtp.gmail.com with ESMTPSA id t6sm3022599wry.84.2022.01.07.10.54.07
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 07 Jan 2022 10:54:08 -0800 (PST)
-Message-ID: <280cccf6-7d6d-56da-4b5f-ddb4facfed7e@amsat.org>
-Date: Fri, 7 Jan 2022 19:54:06 +0100
+ (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
+ id 1n5uQq-000804-Mu; Fri, 07 Jan 2022 13:57:44 -0500
+Received: from [201.28.113.2] (port=11770 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <matheus.ferst@eldorado.org.br>)
+ id 1n5uQo-0007Do-BN; Fri, 07 Jan 2022 13:57:44 -0500
+Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
+ secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
+ Fri, 7 Jan 2022 15:57:37 -0300
+Received: from eldorado.org.br (unknown [10.10.70.45])
+ by p9ibm (Postfix) with ESMTP id 096E38001D1;
+ Fri,  7 Jan 2022 15:57:37 -0300 (-03)
+From: matheus.ferst@eldorado.org.br
+To: qemu-devel@nongnu.org,
+	qemu-ppc@nongnu.org
+Subject: [PATCH 00/37] target/ppc: PowerISA Vector/VSX instruction batch
+Date: Fri,  7 Jan 2022 15:56:16 -0300
+Message-Id: <20220107185653.1609775-1-matheus.ferst@eldorado.org.br>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH] hw/i386: Add the possibility to disable the 'isapc'
- machine
-Content-Language: en-US
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>
-References: <20220107160713.235918-1-thuth@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <20220107160713.235918-1-thuth@redhat.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::435
- (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x435.google.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-2.691,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-OriginalArrivalTime: 07 Jan 2022 18:57:37.0488 (UTC)
+ FILETIME=[7018DD00:01D803F8]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
+Received-SPF: pass client-ip=201.28.113.2;
+ envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,57 +55,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
- John Snow <jsnow@redhat.com>, Richard Henderson <richard.henderson@linaro.org>
+Cc: danielhb413@gmail.com, richard.henderson@linaro.org, groug@kaod.org,
+ clg@kaod.org, Matheus Ferst <matheus.ferst@eldorado.org.br>,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/7/22 17:07, Thomas Huth wrote:
-> We already have a CONFIG_ISAPC switch - but we're not using it yet.
-> Add some "#ifdefs" to make it possible to disable this machine now.
-> 
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->  hw/i386/pc_piix.c        | 5 ++++-
->  tests/qtest/cdrom-test.c | 2 +-
->  2 files changed, 5 insertions(+), 2 deletions(-)
-> 
-> diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-> index 1999190276..5147e1ee74 100644
-> --- a/hw/i386/pc_piix.c
-> +++ b/hw/i386/pc_piix.c
-> @@ -357,10 +357,12 @@ static void pc_compat_1_4_fn(MachineState *machine)
->      pc_compat_1_5_fn(machine);
->  }
->  
-> +#ifdef CONFIG_ISAPC
->  static void pc_init_isa(MachineState *machine)
->  {
->      pc_init1(machine, TYPE_I440FX_PCI_HOST_BRIDGE, TYPE_I440FX_PCI_DEVICE);
->  }
-> +#endif
->  
->  #ifdef CONFIG_XEN
->  static void pc_xen_hvm_init_pci(MachineState *machine)
-> @@ -916,6 +918,7 @@ void igd_passthrough_isa_bridge_create(PCIBus *bus, uint16_t gpu_dev_id)
->      pci_config_set_revision(bridge_dev->config, pch_rev_id);
->  }
->  
-> +#ifdef CONFIG_ISAPC
->  static void isapc_machine_options(MachineClass *m)
->  {
->      PCMachineClass *pcmc = PC_MACHINE_CLASS(m);
-> @@ -935,7 +938,7 @@ static void isapc_machine_options(MachineClass *m)
->  
->  DEFINE_PC_MACHINE(isapc, "isapc", pc_init_isa,
->                    isapc_machine_options);
-> -
-> +#endif
+From: Matheus Ferst <matheus.ferst@eldorado.org.br>
 
-Wouldn't it be cleaner to extract the isapc machine to a new C unit
-(after renaming/declaring pc_init1 public)? Anyway this is what is
-done for Xen, so why not...
+This patch series implements 5 missing instructions from PowerISA v3.0
+and 40 new instructions from PowerISA v3.1, moving 62 other instructions
+to decodetree along the way.
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Lucas Coutinho (2):
+  target/ppc: Move vexts[bhw]2[wd] to decodetree
+  target/ppc: Implement vextsd2q
+
+Lucas Mateus Castro (alqotel) (3):
+  target/ppc: moved vector even and odd multiplication to decodetree
+  target/ppc: Moved vector multiply high and low to decodetree
+  target/ppc: vmulh* instructions use gvec
+
+Luis Pires (1):
+  target/ppc: Introduce TRANS*FLAGS macros
+
+Matheus Ferst (20):
+  target/ppc: Move Vector Compare Equal/Not Equal/Greater Than to
+    decodetree
+  target/ppc: Move Vector Compare Not Equal or Zero to decodetree
+  target/ppc: Implement Vector Compare Equal Quadword
+  target/ppc: Implement Vector Compare Greater Than Quadword
+  target/ppc: Implement Vector Compare Quadword
+  target/ppc: implement vstri[bh][lr]
+  target/ppc: implement vclrlb
+  target/ppc: implement vclrrb
+  target/ppc: implement vcntmb[bhwd]
+  target/ppc: implement vgnb
+  target/ppc: Move vsel and vperm/vpermr to decodetree
+  target/ppc: Move xxsel to decodetree
+  target/ppc: move xxperm/xxpermr to decodetree
+  target/ppc: Move xxpermdi to decodetree
+  target/ppc: Implement xxpermx instruction
+  tcg/tcg-op-gvec.c: Introduce tcg_gen_gvec_4i
+  target/ppc: Implement xxeval
+  target/ppc: Implement xxgenpcv[bhwd]m instruction
+  target/ppc: move xs[n]madd[am][ds]p/xs[n]msub[am][ds]p to decodetree
+  target/ppc: implement xs[n]maddqp[o]/xs[n]msubqp[o]
+
+Victor Colombo (6):
+  target/ppc: Implement xvtlsbb instruction
+  target/ppc: Refactor VSX_SCALAR_CMP_DP
+  target/ppc: Implement xscmp{eq,ge,gt}qp
+  target/ppc: Move xscmp{eq,ge,gt,ne}dp to decodetree
+  target/ppc: Refactor VSX_MAX_MINC helper
+  target/ppc: Implement xs{max,min}cqp
+
+Víctor Colombo (5):
+  target/ppc: Implement vmsumcud instruction
+  target/ppc: Implement vmsumudm instruction
+  target/ppc: Implement do_helper_XX3 and move xxperm* to use it
+  target/ppc: Move xs{max,min}[cj]dp to use do_helper_XX3
+  target/ppc: Implement xvcvbf16spn and xvcvspbf16 instructions
+
+ include/tcg/tcg-op-gvec.h           |  22 +
+ target/ppc/fpu_helper.c             | 172 ++++--
+ target/ppc/helper.h                 | 144 ++---
+ target/ppc/insn32.decode            | 189 +++++-
+ target/ppc/insn64.decode            |  40 +-
+ target/ppc/int_helper.c             | 354 ++++++-----
+ target/ppc/translate.c              |  19 +
+ target/ppc/translate/vmx-impl.c.inc | 894 +++++++++++++++++++++++++---
+ target/ppc/translate/vmx-ops.c.inc  |  41 +-
+ target/ppc/translate/vsx-impl.c.inc | 516 ++++++++++++----
+ target/ppc/translate/vsx-ops.c.inc  |  67 ---
+ tcg/ppc/tcg-target.c.inc            |   6 +
+ tcg/tcg-op-gvec.c                   | 146 +++++
+ 13 files changed, 2037 insertions(+), 573 deletions(-)
+
+-- 
+2.25.1
 
 
