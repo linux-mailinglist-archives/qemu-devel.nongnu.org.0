@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCB2E487E5F
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 22:38:45 +0100 (CET)
-Received: from localhost ([::1]:50638 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBD89487E6A
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 22:44:26 +0100 (CET)
+Received: from localhost ([::1]:59242 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5wwe-0005Lp-HE
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 16:38:44 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42382)
+	id 1n5x29-0003Oe-Ay
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 16:44:25 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42396)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1n5wqv-00057s-B9
+ id 1n5wqv-00057t-Pe
  for qemu-devel@nongnu.org; Fri, 07 Jan 2022 16:32:50 -0500
-Received: from [2607:f8b0:4864:20::430] (port=43909
- helo=mail-pf1-x430.google.com)
+Received: from [2607:f8b0:4864:20::629] (port=36796
+ helo=mail-pl1-x629.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1n5wqt-0007lq-Nl
+ id 1n5wqu-0007ms-9w
  for qemu-devel@nongnu.org; Fri, 07 Jan 2022 16:32:49 -0500
-Received: by mail-pf1-x430.google.com with SMTP id 196so6161752pfw.10
+Received: by mail-pl1-x629.google.com with SMTP id p14so5838972plf.3
  for <qemu-devel@nongnu.org>; Fri, 07 Jan 2022 13:32:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=T3SR4ipsMMycJcvIjccSrjD9V54L86dgx4hN5og06FQ=;
- b=zIy6o1PWZB+fHqMSzzCyc1g8lk8/IsvQjpNIojNd/5CLEWCmaxgC3CUsl/fVQS3BJw
- h9Z0TGKKWHAoGtbYZTS/mLCg6DMig0CRwT0BO/h9P2OZxkRBJ0RBeuatmuZIdBieYR90
- sBTlo512uiBLJORBr/Tqrx6dO6DJKdfzZTzFgF7vaAQidMnaftsmEx5mUkB/x6rxIY+l
- d8vrqbQiTkbXTrtu47EpQNjGqnQ7xxpJJ4rWQHr4zkNpV6IIx+xk2dhRzSJkfFh3h4r5
- xgW8Cb5PumGNs9Rp3+eYuKLxpOy+nSk5IOV+IowBPSLQ3UQJT3i0nM5ViYVKcyQI+lFC
- 9hoA==
+ bh=mv1fuUpltIxjjPECtR2wMWMWUuHJti3WH2udOrlkbEI=;
+ b=v9Cl+2jIU0v2IuH8d1zjMn1RluwrjZVp3m5Yc3e0nPGI50mPHLlLWdhSt/pq/g3VkA
+ Q/zLjyU+4QqdlhNKW4tf7zsKVATs1hEOuxlDYSwhcYRm9okzAF8Cl2za2er8TLfq7PUa
+ fALFcKYi1f8LmkNdgumwfaBkz0O0wKu4kKTkPMQ8HfqcsbC942Eems0c4OqybVKxgUWv
+ 43UhWSGOkKc5ZfOfIWOt+pgIRy5NZllkkNEcyt/yab9AvlMiSMasUfDLLHfp7sjOq9ny
+ e+cZz3Vl5UU+MsB/avtjrBQGfucv2j/wumdOXUP7hot8RN4S6R85NCXlCZ4IhLPKibuS
+ TlJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=T3SR4ipsMMycJcvIjccSrjD9V54L86dgx4hN5og06FQ=;
- b=T00SowtD0SC1R0VFHldda9MDy/4Qd+dlaYVYZjsyME7D76sJuxrM+q9zkjSMsIKopC
- byu+gfq9ckj8Unoi+FaQsYkjck6yMICvm/Fgpxwl0fD94SujPZtxUcRYg0Yl148Jdka0
- W9uHB5xZsOnsDHLEr0StMJWNFvaje8wOMA62UY/n9ekxIqnppxcZV2bxIi23gTF5mmO1
- o27dqdkKLPrAAqcF5LkUlmG2fkb6P5zRhrf2zOqia2Z4E4eFjWNfqPXragVjzOxpfOyZ
- 24KdDA0DCYvyrwpGu15WytnBxQIdd7A+IxPruEnw18hWjcKnh5mgyzj64HICBxVBCrVn
- akIA==
-X-Gm-Message-State: AOAM5336FvGA7QjY5TAgl3ooRlhLKXCxT4B4fu/Ypsx9/7nvWAm5mUgJ
- aDN+AS+uzqF2FXbMa7Ex4kEE09fPvl23Ng==
-X-Google-Smtp-Source: ABdhPJxSLUXXiNXqZw/FR9K4n6xjYogzW9otxBPMl0h41JcEI5Tb26IszMSOvQQsdyz05sEL6TEtUQ==
-X-Received: by 2002:a63:6b01:: with SMTP id g1mr4178340pgc.53.1641591166503;
- Fri, 07 Jan 2022 13:32:46 -0800 (PST)
+ bh=mv1fuUpltIxjjPECtR2wMWMWUuHJti3WH2udOrlkbEI=;
+ b=y5XFGvqxs6eSEyzcs3BQfxJjicjVr2rv/06Tu/z1rIUiHBxLMQoQYgBZ0Qg6UNs58r
+ 77Ichr36muz1cVNHuSY7nGFc7J9esEHQQ6qywiAwKaYP2rqLauVlWI+bw1alRg6Uy9ZZ
+ OBlPz6lxQQrHqPweBPxjPVYaMKulzc2AemBAGQrZOLeu2bLPGr9w0VGb3l7sYMcAQcA+
+ KPe5l8DaItb6tCTMXYVVhJHcYqNRtxfSOI8xQPxnw0ewvWTlVn74CmDWNcrBPcGUos2y
+ oYfa5XmSHx5ZjFqXRrot4DZt6CxPd9iYT4oP9mMC+EybtnCG14NTktOJUm2vHdTo681O
+ WAFg==
+X-Gm-Message-State: AOAM532VX2aEgelUFXrKA6EsIn/mtEgWJozbrYWu4n72MQIrN0ZrB/Ph
+ pQoZdKNu0rtafnzSSK3tMnSTsvK/xLce1g==
+X-Google-Smtp-Source: ABdhPJxnZw+OC/yEflre1M6AhPwkmOlGZlAFXW4S2/PeYMk0lPnBXYoy6ittGKyFQFHx+U2jF2TK0Q==
+X-Received: by 2002:a17:902:b082:b0:149:f81f:a29c with SMTP id
+ p2-20020a170902b08200b00149f81fa29cmr7719384plr.39.1641591167100; 
+ Fri, 07 Jan 2022 13:32:47 -0800 (PST)
 Received: from localhost.localdomain (174-21-75-75.tukw.qwest.net.
  [174.21.75.75])
  by smtp.gmail.com with ESMTPSA id y11sm6633030pfi.80.2022.01.07.13.32.46
@@ -55,18 +56,18 @@ Received: from localhost.localdomain (174-21-75-75.tukw.qwest.net.
  Fri, 07 Jan 2022 13:32:46 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 03/24] linux-user/alpha: Use force_sig_fault
-Date: Fri,  7 Jan 2022 13:32:22 -0800
-Message-Id: <20220107213243.212806-4-richard.henderson@linaro.org>
+Subject: [PATCH v5 04/24] linux-user/cris: Use force_sig_fault
+Date: Fri,  7 Jan 2022 13:32:23 -0800
+Message-Id: <20220107213243.212806-5-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220107213243.212806-1-richard.henderson@linaro.org>
 References: <20220107213243.212806-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::430
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::629
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::430;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x430.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x629.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -91,119 +92,40 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Use the new function instead of setting up a target_siginfo_t
-and calling queue_signal.
+and calling queue_signal.  Fill in the missing PC for SIGTRAP.
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/alpha/cpu_loop.c | 61 ++++++++++++-------------------------
- 1 file changed, 19 insertions(+), 42 deletions(-)
+ linux-user/cris/cpu_loop.c | 12 ++++--------
+ 1 file changed, 4 insertions(+), 8 deletions(-)
 
-diff --git a/linux-user/alpha/cpu_loop.c b/linux-user/alpha/cpu_loop.c
-index caeea97b9d..de6e0c901c 100644
---- a/linux-user/alpha/cpu_loop.c
-+++ b/linux-user/alpha/cpu_loop.c
-@@ -27,8 +27,7 @@
- void cpu_loop(CPUAlphaState *env)
+diff --git a/linux-user/cris/cpu_loop.c b/linux-user/cris/cpu_loop.c
+index 5213aebf55..0f46b3c1a8 100644
+--- a/linux-user/cris/cpu_loop.c
++++ b/linux-user/cris/cpu_loop.c
+@@ -28,8 +28,7 @@ void cpu_loop(CPUCRISState *env)
  {
      CPUState *cs = env_cpu(env);
--    int trapnr;
+     int trapnr, ret;
 -    target_siginfo_t info;
-+    int trapnr, si_code;
-     abi_long sysret;
- 
+-    
++
      while (1) {
-@@ -56,18 +55,10 @@ void cpu_loop(CPUAlphaState *env)
-             break;
-         case EXCP_OPCDEC:
-         do_sigill:
--            info.si_signo = TARGET_SIGILL;
--            info.si_errno = 0;
--            info.si_code = TARGET_ILL_ILLOPC;
--            info._sifields._sigfault._addr = env->pc;
--            queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
-+            force_sig_fault(TARGET_SIGILL, TARGET_ILL_ILLOPC, env->pc);
-             break;
-         case EXCP_ARITH:
--            info.si_signo = TARGET_SIGFPE;
--            info.si_errno = 0;
--            info.si_code = TARGET_FPE_FLTINV;
--            info._sifields._sigfault._addr = env->pc;
--            queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
-+            force_sig_fault(TARGET_SIGFPE, TARGET_FPE_FLTINV, env->pc);
-             break;
-         case EXCP_FEN:
-             /* No-op.  Linux simply re-enables the FPU.  */
-@@ -76,20 +67,10 @@ void cpu_loop(CPUAlphaState *env)
-             switch (env->error_code) {
-             case 0x80:
-                 /* BPT */
--                info.si_signo = TARGET_SIGTRAP;
--                info.si_errno = 0;
--                info.si_code = TARGET_TRAP_BRKPT;
--                info._sifields._sigfault._addr = env->pc;
--                queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
--                break;
-+                goto do_sigtrap_brkpt;
-             case 0x81:
-                 /* BUGCHK */
--                info.si_signo = TARGET_SIGTRAP;
--                info.si_errno = 0;
--                info.si_code = TARGET_TRAP_UNK;
--                info._sifields._sigfault._addr = env->pc;
--                queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
--                break;
-+                goto do_sigtrap_unk;
-             case 0x83:
-                 /* CALLSYS */
-                 trapnr = env->ir[IR_V0];
-@@ -130,47 +111,43 @@ void cpu_loop(CPUAlphaState *env)
-                 abort();
-             case 0xAA:
-                 /* GENTRAP */
--                info.si_signo = TARGET_SIGFPE;
-                 switch (env->ir[IR_A0]) {
-                 case TARGET_GEN_INTOVF:
--                    info.si_code = TARGET_FPE_INTOVF;
-+                    si_code = TARGET_FPE_INTOVF;
-                     break;
-                 case TARGET_GEN_INTDIV:
--                    info.si_code = TARGET_FPE_INTDIV;
-+                    si_code = TARGET_FPE_INTDIV;
-                     break;
-                 case TARGET_GEN_FLTOVF:
--                    info.si_code = TARGET_FPE_FLTOVF;
-+                    si_code = TARGET_FPE_FLTOVF;
-                     break;
-                 case TARGET_GEN_FLTUND:
--                    info.si_code = TARGET_FPE_FLTUND;
-+                    si_code = TARGET_FPE_FLTUND;
-                     break;
-                 case TARGET_GEN_FLTINV:
--                    info.si_code = TARGET_FPE_FLTINV;
-+                    si_code = TARGET_FPE_FLTINV;
-                     break;
-                 case TARGET_GEN_FLTINE:
--                    info.si_code = TARGET_FPE_FLTRES;
-+                    si_code = TARGET_FPE_FLTRES;
-                     break;
-                 case TARGET_GEN_ROPRAND:
--                    info.si_code = TARGET_FPE_FLTUNK;
-+                    si_code = TARGET_FPE_FLTUNK;
-                     break;
-                 default:
--                    info.si_signo = TARGET_SIGTRAP;
--                    info.si_code = TARGET_TRAP_UNK;
--                    break;
-+                    goto do_sigtrap_unk;
-                 }
--                info.si_errno = 0;
--                info._sifields._sigfault._addr = env->pc;
--                queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
-+                force_sig_fault(TARGET_SIGFPE, si_code, env->pc);
-                 break;
-             default:
-                 goto do_sigill;
+         cpu_exec_start(cs);
+         trapnr = cpu_exec(cs);
+@@ -38,8 +37,8 @@ void cpu_loop(CPUCRISState *env)
+ 
+         switch (trapnr) {
+         case EXCP_INTERRUPT:
+-          /* just indicate that signals should be handled asap */
+-          break;
++            /* just indicate that signals should be handled asap */
++            break;
+         case EXCP_BREAK:
+             ret = do_syscall(env, 
+                              env->regs[9], 
+@@ -57,10 +56,7 @@ void cpu_loop(CPUCRISState *env)
              }
              break;
          case EXCP_DEBUG:
@@ -211,14 +133,10 @@ index caeea97b9d..de6e0c901c 100644
 -            info.si_errno = 0;
 -            info.si_code = TARGET_TRAP_BRKPT;
 -            queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
-+        do_sigtrap_brkpt:
 +            force_sig_fault(TARGET_SIGTRAP, TARGET_TRAP_BRKPT, env->pc);
-+            break;
-+        do_sigtrap_unk:
-+            force_sig_fault(TARGET_SIGTRAP, TARGET_TRAP_UNK, env->pc);
              break;
-         case EXCP_INTERRUPT:
-             /* Just indicate that signals should be handled asap.  */
+         case EXCP_ATOMIC:
+             cpu_exec_step_atomic(cs);
 -- 
 2.25.1
 
