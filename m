@@ -2,41 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43744487D5A
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 20:55:30 +0100 (CET)
-Received: from localhost ([::1]:39060 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE634487D6C
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 21:02:30 +0100 (CET)
+Received: from localhost ([::1]:48636 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5vKh-0007zV-4g
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 14:55:27 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41382)
+	id 1n5vRW-0006LP-0s
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 15:02:30 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41402)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1n5uV6-0006lP-Oc; Fri, 07 Jan 2022 14:02:08 -0500
+ id 1n5uV9-0006t2-G2; Fri, 07 Jan 2022 14:02:11 -0500
 Received: from [201.28.113.2] (port=59912 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1n5uV5-0008Dy-4Q; Fri, 07 Jan 2022 14:02:08 -0500
+ id 1n5uV7-0008Dy-RF; Fri, 07 Jan 2022 14:02:11 -0500
 Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
  secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
  Fri, 7 Jan 2022 15:57:44 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id 6007A8001D1;
+ by p9ibm (Postfix) with ESMTP id 961EF800473;
  Fri,  7 Jan 2022 15:57:44 -0300 (-03)
 From: matheus.ferst@eldorado.org.br
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
-Subject: [PATCH 30/37] target/ppc: Refactor VSX_SCALAR_CMP_DP
-Date: Fri,  7 Jan 2022 15:56:46 -0300
-Message-Id: <20220107185653.1609775-31-matheus.ferst@eldorado.org.br>
+Subject: [PATCH 31/37] target/ppc: Implement xscmp{eq,ge,gt}qp
+Date: Fri,  7 Jan 2022 15:56:47 -0300
+Message-Id: <20220107185653.1609775-32-matheus.ferst@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220107185653.1609775-1-matheus.ferst@eldorado.org.br>
 References: <20220107185653.1609775-1-matheus.ferst@eldorado.org.br>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 07 Jan 2022 18:57:44.0685 (UTC)
- FILETIME=[746309D0:01D803F8]
+X-OriginalArrivalTime: 07 Jan 2022 18:57:44.0919 (UTC)
+ FILETIME=[7486BE70:01D803F8]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
 Received-SPF: pass client-ip=201.28.113.2;
  envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -65,87 +65,100 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Victor Colombo <victor.colombo@eldorado.org.br>
 
-Refactor VSX_SCALAR_CMP_DP, changing its name to VSX_SCALAR_CMP and
-prepare the helper to be used for quadword comparisons.
-
 Signed-off-by: Víctor Colombo <victor.colombo@eldorado.org.br>
 Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
 ---
- target/ppc/fpu_helper.c | 33 +++++++++++++++------------------
- 1 file changed, 15 insertions(+), 18 deletions(-)
+ target/ppc/fpu_helper.c             |  4 ++++
+ target/ppc/helper.h                 |  3 +++
+ target/ppc/insn32.decode            |  3 +++
+ target/ppc/translate/vsx-impl.c.inc | 31 +++++++++++++++++++++++++++++
+ 4 files changed, 41 insertions(+)
 
 diff --git a/target/ppc/fpu_helper.c b/target/ppc/fpu_helper.c
-index cd4e07ed5b..7c9fd1ac02 100644
+index 7c9fd1ac02..7d5420c550 100644
 --- a/target/ppc/fpu_helper.c
 +++ b/target/ppc/fpu_helper.c
-@@ -2265,28 +2265,30 @@ VSX_MADDQ(XSNMSUBQP, NMSUB_FLGS, 0)
- VSX_MADDQ(XSNMSUBQPO, NMSUB_FLGS, 0)
+@@ -2312,6 +2312,10 @@ VSX_SCALAR_CMP(xscmpgedp, float64, le, VsrD(0), 1, 1)
+ VSX_SCALAR_CMP(xscmpgtdp, float64, lt, VsrD(0), 1, 1)
+ VSX_SCALAR_CMP(xscmpnedp, float64, eq, VsrD(0), 0, 1)
  
- /*
-- * VSX_SCALAR_CMP_DP - VSX scalar floating point compare double precision
-+ * VSX_SCALAR_CMP - VSX scalar floating point compare
-  *   op    - instruction mnemonic
-+ *   tp    - type
-  *   cmp   - comparison operation
-  *   exp   - expected result of comparison
-+ *   fld   - vsr_t field
-  *   svxvc - set VXVC bit
-  */
--#define VSX_SCALAR_CMP_DP(op, cmp, exp, svxvc)                                \
-+#define VSX_SCALAR_CMP(op, tp, cmp, fld, exp, svxvc)                          \
- void helper_##op(CPUPPCState *env, ppc_vsr_t *xt,                             \
-                  ppc_vsr_t *xa, ppc_vsr_t *xb)                                \
- {                                                                             \
--    ppc_vsr_t t = *xt;                                                        \
-+    ppc_vsr_t t = { };                                                        \
-     bool vxsnan_flag = false, vxvc_flag = false, vex_flag = false;            \
-                                                                               \
--    if (float64_is_signaling_nan(xa->VsrD(0), &env->fp_status) ||             \
--        float64_is_signaling_nan(xb->VsrD(0), &env->fp_status)) {             \
-+    if (tp##_is_signaling_nan(xa->fld, &env->fp_status) ||                    \
-+        tp##_is_signaling_nan(xb->fld, &env->fp_status)) {                    \
-         vxsnan_flag = true;                                                   \
-         if (fpscr_ve == 0 && svxvc) {                                         \
-             vxvc_flag = true;                                                 \
-         }                                                                     \
-     } else if (svxvc) {                                                       \
--        vxvc_flag = float64_is_quiet_nan(xa->VsrD(0), &env->fp_status) ||     \
--            float64_is_quiet_nan(xb->VsrD(0), &env->fp_status);               \
-+        vxvc_flag = tp##_is_quiet_nan(xa->fld, &env->fp_status) ||            \
-+            tp##_is_quiet_nan(xb->fld, &env->fp_status);                      \
-     }                                                                         \
-     if (vxsnan_flag) {                                                        \
-         float_invalid_op_vxsnan(env, GETPC());                                \
-@@ -2297,23 +2299,18 @@ void helper_##op(CPUPPCState *env, ppc_vsr_t *xt,                             \
-     vex_flag = fpscr_ve && (vxvc_flag || vxsnan_flag);                        \
-                                                                               \
-     if (!vex_flag) {                                                          \
--        if (float64_##cmp(xb->VsrD(0), xa->VsrD(0),                           \
--                          &env->fp_status) == exp) {                          \
--            t.VsrD(0) = -1;                                                   \
--            t.VsrD(1) = 0;                                                    \
--        } else {                                                              \
--            t.VsrD(0) = 0;                                                    \
--            t.VsrD(1) = 0;                                                    \
-+        if (tp##_##cmp(xb->fld, xa->fld, &env->fp_status) == exp) {           \
-+            memset(&t.fld, 0xFF, sizeof(t.fld));                              \
-         }                                                                     \
-     }                                                                         \
-     *xt = t;                                                                  \
-     do_float_check_status(env, GETPC());                                      \
- }
- 
--VSX_SCALAR_CMP_DP(xscmpeqdp, eq, 1, 0)
--VSX_SCALAR_CMP_DP(xscmpgedp, le, 1, 1)
--VSX_SCALAR_CMP_DP(xscmpgtdp, lt, 1, 1)
--VSX_SCALAR_CMP_DP(xscmpnedp, eq, 0, 0)
-+VSX_SCALAR_CMP(xscmpeqdp, float64, eq, VsrD(0), 1, 0)
-+VSX_SCALAR_CMP(xscmpgedp, float64, le, VsrD(0), 1, 1)
-+VSX_SCALAR_CMP(xscmpgtdp, float64, lt, VsrD(0), 1, 1)
-+VSX_SCALAR_CMP(xscmpnedp, float64, eq, VsrD(0), 0, 1)
- 
++VSX_SCALAR_CMP(XSCMPEQQP, float128, eq, f128, 1, 0)
++VSX_SCALAR_CMP(XSCMPGEQP, float128, le, f128, 1, 1)
++VSX_SCALAR_CMP(XSCMPGTQP, float128, lt, f128, 1, 1)
++
  void helper_xscmpexpdp(CPUPPCState *env, uint32_t opcode,
                         ppc_vsr_t *xa, ppc_vsr_t *xb)
+ {
+diff --git a/target/ppc/helper.h b/target/ppc/helper.h
+index b4eef14511..abcc51ae06 100644
+--- a/target/ppc/helper.h
++++ b/target/ppc/helper.h
+@@ -370,6 +370,9 @@ DEF_HELPER_4(xscmpeqdp, void, env, vsr, vsr, vsr)
+ DEF_HELPER_4(xscmpgtdp, void, env, vsr, vsr, vsr)
+ DEF_HELPER_4(xscmpgedp, void, env, vsr, vsr, vsr)
+ DEF_HELPER_4(xscmpnedp, void, env, vsr, vsr, vsr)
++DEF_HELPER_4(XSCMPEQQP, void, env, vsr, vsr, vsr)
++DEF_HELPER_4(XSCMPGTQP, void, env, vsr, vsr, vsr)
++DEF_HELPER_4(XSCMPGEQP, void, env, vsr, vsr, vsr)
+ DEF_HELPER_4(xscmpexpdp, void, env, i32, vsr, vsr)
+ DEF_HELPER_4(xscmpexpqp, void, env, i32, vsr, vsr)
+ DEF_HELPER_4(xscmpodp, void, env, i32, vsr, vsr)
+diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
+index ea575822e5..113aab0028 100644
+--- a/target/ppc/insn32.decode
++++ b/target/ppc/insn32.decode
+@@ -602,6 +602,9 @@ XSMAXCDP        111100 ..... ..... ..... 10000000 ...   @XX3
+ XSMINCDP        111100 ..... ..... ..... 10001000 ...   @XX3
+ XSMAXJDP        111100 ..... ..... ..... 10010000 ...   @XX3
+ XSMINJDP        111100 ..... ..... ..... 10011000 ...   @XX3
++XSCMPEQQP       111111 ..... ..... ..... 0001000100 -   @X
++XSCMPGEQP       111111 ..... ..... ..... 0011000100 -   @X
++XSCMPGTQP       111111 ..... ..... ..... 0011100100 -   @X
+ 
+ ## VSX Binary Floating-Point Convert Instructions
+ 
+diff --git a/target/ppc/translate/vsx-impl.c.inc b/target/ppc/translate/vsx-impl.c.inc
+index 602fdfc632..69bfa742b7 100644
+--- a/target/ppc/translate/vsx-impl.c.inc
++++ b/target/ppc/translate/vsx-impl.c.inc
+@@ -2498,6 +2498,37 @@ TRANS(XSMINCDP, do_xsmaxmincjdp, gen_helper_xsmincdp)
+ TRANS(XSMAXJDP, do_xsmaxmincjdp, gen_helper_xsmaxjdp)
+ TRANS(XSMINJDP, do_xsmaxmincjdp, gen_helper_xsminjdp)
+ 
++static bool do_helper_X(arg_X *a,
++    void (*helper)(TCGv_ptr, TCGv_ptr, TCGv_ptr, TCGv_ptr))
++{
++    TCGv_ptr rt, ra, rb;
++
++    rt = gen_avr_ptr(a->rt);
++    ra = gen_avr_ptr(a->ra);
++    rb = gen_avr_ptr(a->rb);
++
++    helper(cpu_env, rt, ra, rb);
++
++    tcg_temp_free_ptr(rt);
++    tcg_temp_free_ptr(ra);
++    tcg_temp_free_ptr(rb);
++
++    return true;
++}
++
++static bool do_xscmpqp(DisasContext *ctx, arg_X *a,
++    void (*helper)(TCGv_ptr, TCGv_ptr, TCGv_ptr, TCGv_ptr))
++{
++    REQUIRE_INSNS_FLAGS2(ctx, ISA310);
++    REQUIRE_VSX(ctx);
++
++    return do_helper_X(a, helper);
++}
++
++TRANS(XSCMPEQQP, do_xscmpqp, gen_helper_XSCMPEQQP)
++TRANS(XSCMPGEQP, do_xscmpqp, gen_helper_XSCMPGEQP)
++TRANS(XSCMPGTQP, do_xscmpqp, gen_helper_XSCMPGTQP)
++
+ #undef GEN_XX2FORM
+ #undef GEN_XX3FORM
+ #undef GEN_XX2IFORM
 -- 
 2.25.1
 
