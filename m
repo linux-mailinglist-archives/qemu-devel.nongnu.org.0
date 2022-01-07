@@ -2,74 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6473B48745A
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 09:58:06 +0100 (CET)
-Received: from localhost ([::1]:51644 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4A474874B1
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 10:30:58 +0100 (CET)
+Received: from localhost ([::1]:50412 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5l4X-0004Ja-HQ
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 03:58:05 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44944)
+	id 1n5laL-0004iM-3U
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 04:30:57 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52384)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stevie.lavern@gmail.com>)
- id 1n5l3Z-0002uG-2c
- for qemu-devel@nongnu.org; Fri, 07 Jan 2022 03:57:05 -0500
-Received: from [2607:f8b0:4864:20::d34] (port=34492
- helo=mail-io1-xd34.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stevie.lavern@gmail.com>)
- id 1n5l3X-0007Pb-EE
- for qemu-devel@nongnu.org; Fri, 07 Jan 2022 03:57:04 -0500
-Received: by mail-io1-xd34.google.com with SMTP id e128so6320244iof.1
- for <qemu-devel@nongnu.org>; Fri, 07 Jan 2022 00:57:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=mityUOsj7Da/4FCmnX4F4YtZwNwZJH8/aBkpjY9qGYg=;
- b=Ec17GInKW27tau8wjHOZN9YU1kTjPZv50NZAfDrU3sNKXjAN89eq04ZMopD2nBCYPI
- z8V76OAmmZTVX8SIBhGvSaQiopyZ9cC391SgT1uP1K5o0r2V0qxtE/khPZZW1fEXzsC+
- P4x4KvbWAL+Bopd8Fz+cDUBNQBgf6uLv8BfX7w+pnfj0tW3Wwy1C/G53zPAZ9M3mJxJH
- SNN7CWMgdf0F+8p4k9RPkUsY1F0JIscOZ6eTEa+BO054tdoRWQDLntabfuRnCVA+Md8j
- JSCgnYjhjCwS5hpwkI8N77PfD9nd4q5j24fjrQVliPyzuMwweN8vFCOhLMzRnxZP3ZdT
- gyoQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=mityUOsj7Da/4FCmnX4F4YtZwNwZJH8/aBkpjY9qGYg=;
- b=FviD+w/fcF4djhDWYODuAdNDbrT34JnPVPHuolG+S8Yjjw8afP0MYDislYiFKXAEte
- gIkpG4/FvmfuPvlLd8wzFN+S0ThlM8Qn6Taym6dpeeo4yZtJPP8coFe6Ug2/m7WAqcdM
- grWYblQFjJD+lUfpaNDeMPa3/OdW8TQKsHChObyfJShAvLBemkmPBbhZYJufMre2RA0H
- YxjekvCvC46PVvh49JJpo8/vzAXcLGU0MGNjp7QPvthvXd62SHNdtM5TLzy35HWx46D2
- NXA5jSd4+EB8MLY/ADtWnvkE/BnAuelooOJjpl07inyv1xZXu4x/fkIG4ZMo6zHvLqEi
- AqnQ==
-X-Gm-Message-State: AOAM532uRn+04ghGLEEnhosVi91T0l2EvqoPt8lR0gnoLs0OgtNdZPts
- 0GdO8vlGoB1f9Kr0rmporDFm6Bq5mIPbOYqsrPI=
-X-Google-Smtp-Source: ABdhPJy620jJrTrRLj25su0+KlPN6gF9yIMRVKi0TT6eeg3pNXgiQr4Qmc7Aj2PU703wtMmIB+OWcoi9Fb4FBZUH3nU=
-X-Received: by 2002:a02:cb0b:: with SMTP id j11mr27342744jap.190.1641545822037; 
- Fri, 07 Jan 2022 00:57:02 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n5lXS-0003to-MB
+ for qemu-devel@nongnu.org; Fri, 07 Jan 2022 04:27:58 -0500
+Received: from mout.kundenserver.de ([212.227.126.134]:39119)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n5lXP-0006MM-3k
+ for qemu-devel@nongnu.org; Fri, 07 Jan 2022 04:27:56 -0500
+Received: from [192.168.100.1] ([82.142.12.178]) by mrelayeu.kundenserver.de
+ (mreue011 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MIxJq-1mmamn09sI-00KQFQ; Fri, 07 Jan 2022 10:27:39 +0100
+Message-ID: <670ca57b-370f-f20d-5684-65191084920e@vivier.eu>
+Date: Fri, 7 Jan 2022 10:27:36 +0100
 MIME-Version: 1.0
-References: <CADV2EAtTPjHP=H7AMAdva7UjydjM5DwK=NDAm3HYM-MHeD9wyg@mail.gmail.com>
- <49a5b6c6-8618-a9fc-2cec-ef60b8b59d62@linaro.org>
- <CADV2EAvZ_=AJbQNr4vnFFY5W9HmZjDw8kVm3ubaQ=mvsG37=Vw@mail.gmail.com>
- <5bfc479e-5929-20eb-2e94-8e0818c7f6fd@linaro.org>
-In-Reply-To: <5bfc479e-5929-20eb-2e94-8e0818c7f6fd@linaro.org>
-From: Stevie Lavern <stevie.lavern@gmail.com>
-Date: Fri, 7 Jan 2022 09:56:50 +0100
-Message-ID: <CADV2EAs4NdPQkXYf2PPhMO+_DEX1qJnENLEdAT2fxir=5=u4dQ@mail.gmail.com>
-Subject: Re: Rational behind partial AVX support in Qemu
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: multipart/alternative; boundary="0000000000009ae9c405d4fa2b84"
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d34
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d34;
- envelope-from=stevie.lavern@gmail.com; helo=mail-io1-xd34.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Content-Language: en-US
+To: gaosong <gaosong@loongson.cn>
+References: <20211220214135.189157-1-richard.henderson@linaro.org>
+ <10eb36e7-0d95-602e-fc07-16394efc26f8@vivier.eu>
+ <f9533da4-f674-2c31-3c18-ce29698e4711@loongson.cn>
+From: Laurent Vivier <laurent@vivier.eu>
+Subject: Re: [PATCH 0/6] linux-user: prctl improvements
+In-Reply-To: <f9533da4-f674-2c31-3c18-ce29698e4711@loongson.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:FJ+Hfp60LUwUZM6mXl7OYmw3kGW4XmjFc7Nx+Eiz73vIzyvTrCi
+ YKl83Ix2UXUQoOLn5Jl6zFtqHdL2QT+HOXcrCR+vvuh7U66znpCql3UdO1+0tCqqXrE3hmm
+ lRaDczBQxG34+us0vHz6gmMm4cPkLq7x+kWvFYiGlCsUsLXVU0k0TfUIbp0uJiStXXv5l+l
+ RgyLt8iWeKheWg7JZBGPA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:eanOgFpquXI=:IRhMFW3Z+2PgVej1Unti9D
+ 9qcfMfd/6dCaPI8ej4d9u/7tN60FKW3EV2C7ERDLnraE6VJzScmBNK5R2CR6x98MTXGEljWAJ
+ QaJIUTx3wRK7aRkZ4qYFzpfiWL9DQvHya8GQs7zhyxnmUSNPX7qYxKXtz/tHrz+X6PsQ6SXIm
+ +e8NcpfZP4uCYJwfk16SulcWgRuu27tpxAKvkySiaIUqGGfQ1mdjCMpRpKj+txxUWTpoQVcuT
+ hRhzio9Lis18M6QHcoN1BJPXz9xhsgdVYrnkgH6LWXYcN/BinkKTDUQGqoQL8M9uTdRN3v9JJ
+ WQTav23itPMnlAtOuDByjBPQu92zn2rt+uXsVbSfstVieWv3zDjpfTWqBBimECXsVsDI36akM
+ 6vP29FqZX+Zh6uDzjTR5RzMnc4qMxvC5DBkdSZttcLz4HV/3cAA8t76Xjovcg66uBY+4umrMs
+ YFvMukiXFoiW4+jNyqh2LgwO+6m5dHBYoHv6aCiI35aD8wUlYQfkHO+lkvONuCrVMRwpFY54A
+ dEq4YYHJSgYOkpgJPbhtMMHxpOEtmbKIsNltRiZEKNEYnxSwoBbWUF50J3aDEwMd73jXV7c06
+ 89r5Qg4A7lCPDXl/M73fz4en1oBEue22JYW/bAiMabVz9nv41pKlASaE7PE1rgzvWsrmIk5rX
+ uK+IpZ3ICt8rgMUxhq6oLXQujSXJRJFbtKKoXF2/dhEpXpxnJVh4KCfLG3iTL/DY1+aw=
+Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -45
+X-Spam_score: -4.6
+X-Spam_bar: ----
+X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.691,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,59 +70,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000009ae9c405d4fa2b84
-Content-Type: text/plain; charset="UTF-8"
 
-Indeed, my bad, i was thinking about the "trivial patch" submission process.
+Hi Gaosong,
 
-For reference, the submitted patch can be found here
-https://lists.nongnu.org/archive/html/qemu-devel/2022-01/msg00822.html
+Le 07/01/2022 à 09:46, gaosong a écrit :
+> Hi Laurent,
+> 
+> On 2022/1/6 下午6:46, Laurent Vivier wrote:
+>> make the LTP testsuite (20200930) happy again (capset02, prctl01, prctl02, prctl03)? 
+> 
+> Do we have LTP test documents?   or What test methods do we have for linux-user?
+
+I run the Linux Test Project test suite in a container (unshare command) using binfmt_misc:
+
+https://linux-test-project.github.io/
+
+I have some scripts to automatically create debian chroots and build/run the suite inside:
+
+https://github.com/vivier/linux-user-test-scrips
+
+My top script is "run_all.sh" that creates the chroots and run the ltp_test.
+
+The list of the targets I test is in targets.conf:
+
+etch="m68k"
+stretch="s390x ppc64le mipsel mips64el mips arm aarch64"
+jessie="ppc"
+wheezy="sparc32plus"
+lenny="hppa alpha"
+sid="m68k ppc64 sh4 riscv64 alpha aarch64 s390x hppa sparc64"
+trusty="aarch64 ppc ppc64le"
+bionic="aarch64 arm ppc64le s390x"
+
+Than I compare the results with the previous run using diff_ltp.sh
+
+This means I don't test architectures that don't have debian support, and only test on x86_64 host.
 
 Thanks,
-Stevie
-
-On Thu, Jan 6, 2022 at 5:29 PM Richard Henderson <
-richard.henderson@linaro.org> wrote:
-
-> On 1/6/22 1:14 AM, Stevie Lavern wrote:
-> > Do you think it qualifies as "trivial patch" or should i go on with the
-> full patch
-> > submission process?
->
-> There is no "short" patch submission process.
->
->
-> r~
->
-
---0000000000009ae9c405d4fa2b84
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Indeed, my bad, i was thinking about the &quot;trivial pat=
-ch&quot; submission process.<div><br></div><div>For reference, the submitte=
-d patch can be found here=C2=A0<a href=3D"https://lists.nongnu.org/archive/=
-html/qemu-devel/2022-01/msg00822.html">https://lists.nongnu.org/archive/htm=
-l/qemu-devel/2022-01/msg00822.html</a></div><div><br></div><div>Thanks,</di=
-v><div>Stevie</div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" cl=
-ass=3D"gmail_attr">On Thu, Jan 6, 2022 at 5:29 PM Richard Henderson &lt;<a =
-href=3D"mailto:richard.henderson@linaro.org">richard.henderson@linaro.org</=
-a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0p=
-x 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On=
- 1/6/22 1:14 AM, Stevie Lavern wrote:<br>
-&gt; Do you think it qualifies as &quot;trivial patch&quot; or should i go =
-on with the full patch <br>
-&gt; submission process?<br>
-<br>
-There is no &quot;short&quot; patch submission process.<br>
-<br>
-<br>
-r~<br>
-</blockquote></div>
-
---0000000000009ae9c405d4fa2b84--
+Laurent
 
