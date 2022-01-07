@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EED48487609
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 11:59:46 +0100 (CET)
-Received: from localhost ([::1]:51118 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF8FF487614
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 12:01:01 +0100 (CET)
+Received: from localhost ([::1]:53254 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5myI-0001Mm-2m
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 05:59:46 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:42310)
+	id 1n5mzU-0002v2-VG
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 06:01:00 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:42376)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1n5mtC-00034Y-5A; Fri, 07 Jan 2022 05:54:30 -0500
-Received: from [2a00:1450:4864:20::42b] (port=46975
- helo=mail-wr1-x42b.google.com)
+ id 1n5mtJ-0003WR-9F; Fri, 07 Jan 2022 05:54:37 -0500
+Received: from [2a00:1450:4864:20::32a] (port=56185
+ helo=mail-wm1-x32a.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1n5mtA-0008LR-L7; Fri, 07 Jan 2022 05:54:29 -0500
-Received: by mail-wr1-x42b.google.com with SMTP id i22so10260714wrb.13;
- Fri, 07 Jan 2022 02:54:28 -0800 (PST)
+ id 1n5mtF-0008M7-I5; Fri, 07 Jan 2022 05:54:36 -0500
+Received: by mail-wm1-x32a.google.com with SMTP id c66so3617600wma.5;
+ Fri, 07 Jan 2022 02:54:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=MeEm7h+236b3jz3HgakFoX/GMcHt60JKsq8f9Y3JC/Q=;
- b=JZS1nCmjzBJ3Fo64wGbMf2AyJEz9gH1dvbGJuYkgHsygOi1TZWnmAcj4hfO/rlOVS/
- fjaDjlGzC3k4kYIqKnOQWSq90liAKQrRQ3zJT7HiDbg9gvt71TllKgH63qaZn7/WrOY9
- zIoXS5dN/TMXgKu0GJL0KMNVkLNq4uArWHljgEJFAEJoDOuyzH7UnEXsYRRR5YhbDcrh
- RfgMWkR5n08i90URpBjgm9I7fQbC9UpabWOslOdsEiceZoZHLkIxXTxcHr9wlHZGGCHz
- 1Zqi2Ar/hDYYHVNRp+1q9pNrFutmoLofzrZaU/vr+1Ac+IjlC3kWZ4hIivmRhFtYK5QA
- 3Qqw==
+ bh=/ow3SZqynToXpYuYefz018ZnoAMd3khg8ReRtVnTvO0=;
+ b=YV6B7z3YnN+CO8N6OI8j4BFDuIr4brqE9b5Q62CdiDuPYcjqZEpmOEjqs7gr4vJRt4
+ 0GbeF1Ypjuh3SRb78APDSGtNKvAukxH0mCSKAD7uCX+SwbDAYhcwGwPU/8Gor1R5XGwu
+ WUn9SD2zyj32qi9RITMpCQL27XReHNSE3DGeHOEPtuwCDPR6DQzhYyP6PTGXyJ3Qt/7+
+ sHlCHIbTrHuHHKtlAsWeETT/Eepudnk3u2bDmMMWvXdD06x7qxygEp5poG02CEZrOmh/
+ Llvof+5afhk17j0X1A2b36wzSzNYztbwMTxxETU7ntInte7TIAS+QzY4Ua5rX2vbV3n2
+ a3oA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=MeEm7h+236b3jz3HgakFoX/GMcHt60JKsq8f9Y3JC/Q=;
- b=6DroZSW0kEaulqVXsuyKcxnZxNA7dHObPQApff5LNln4PeKChYO+LkwDsq7Jc8xyQU
- uRTtJ9Z8KzBPW3MUONZRkV5PzFEjctByqVCQCEiwY4G/XKOYObZAHvlY4qWrsFz74vR4
- VItV89/HkJfQZlCSXuq11fqpEEb7NGQhQhO/p7xehMdCPPL60lbAVETAJHpx22g+RhvP
- x+lC7HsLcbeB8s2wCKpTOK0FoXj26eanhZXgGN2FtYqqmSYv6AEjHuZU9r18jgxCJhbZ
- QKFfXf5cGju7D8vE90p6qYJLPRagyLhJonmfm1SrKml3M6u1fozKGgtxQ3yh7yypffyZ
- lxlg==
-X-Gm-Message-State: AOAM533wjhENu7N7bBp1rutSSAjPvFvGLMZx0LVzYa89F77w4g1wEZYD
- Hp7xFkZIL1PNSNxqSa/53GpKYio7brk1fA==
-X-Google-Smtp-Source: ABdhPJzZRnWDGjPQnWJbEi3ltwEjYEA91hsss2H6Ml09R3fuClqArdn22OAKTd6fmxBazffVap0eAw==
-X-Received: by 2002:a05:6000:144d:: with SMTP id
- v13mr55408646wrx.411.1641552866892; 
- Fri, 07 Jan 2022 02:54:26 -0800 (PST)
+ bh=/ow3SZqynToXpYuYefz018ZnoAMd3khg8ReRtVnTvO0=;
+ b=vPGq158Hp1xyPsspveDSYLpz2OK1pPlH7epgy1KohQxMcxxB49N24cN5yiPvfvAtmj
+ Nm1lJLS9j8fUnMtGRK0jhoX3XnY+bUNpvfmeoy2twQ6Gj7frc/pwTK1+/y5mN9JrTgLd
+ 4XSgEJneMhZmmuCUUdYVVDzh8TNEP7gnpkW8xwXYC3KPQWTfALCJne+4A9TZxHKozuY4
+ l7ifZAcD3ZSZr4+pFl5+BsGezFDqFjtGBjW1pPVV4YTKn9qR67K4YSR/vaT4tj4ks2v7
+ 2sVoDfM8BOVFXJQ23ZGLPHw7s+AmLHXzKlY2D0V3oxCFnRM69PZMmOuHPGGgqlSxchLd
+ INxQ==
+X-Gm-Message-State: AOAM531cZp1tpFepv8HnT1gvhWOzHUjwGZS723opG6vCx0vQ+nj+exQW
+ im2/1XgKokf9M6RRHrgawavqkabHUVTzwA==
+X-Google-Smtp-Source: ABdhPJzFSoJE908mysCrf4VxJuy1jBtMBu13vgSvlrt8sEqy1ApX/Le/tB2bZqT+ZNJUBaMdj8USWg==
+X-Received: by 2002:a7b:cf33:: with SMTP id m19mr4836106wmg.30.1641552871663; 
+ Fri, 07 Jan 2022 02:54:31 -0800 (PST)
 Received: from nuc.. (83.red-83-50-87.dynamicip.rima-tde.net. [83.50.87.83])
- by smtp.gmail.com with ESMTPSA id az1sm1488090wrb.104.2022.01.07.02.54.26
+ by smtp.gmail.com with ESMTPSA id a3sm4302398wrm.52.2022.01.07.02.54.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 Jan 2022 02:54:26 -0800 (PST)
+ Fri, 07 Jan 2022 02:54:31 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 1/3] docs: Correct 'vhost-user-blk' spelling
-Date: Fri,  7 Jan 2022 11:54:18 +0100
-Message-Id: <20220107105420.395011-2-f4bug@amsat.org>
+Subject: [PATCH v3 2/3] qemu-storage-daemon: Add vhost-user-blk help
+Date: Fri,  7 Jan 2022 11:54:19 +0100
+Message-Id: <20220107105420.395011-3-f4bug@amsat.org>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20220107105420.395011-1-f4bug@amsat.org>
 References: <20220107105420.395011-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42b
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32a
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32a.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -86,31 +85,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Eric Blake <eblake@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, qemu-block@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Qing Wang <qinwang@redhat.com>,
+ qemu-block@nongnu.org, Eric Blake <eblake@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Reported-by: Eric Blake <eblake@redhat.com>
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
+
+Add missing vhost-user-blk help:
+
+  $ qemu-storage-daemon -h
+  ...
+    --export [type=]vhost-user-blk,id=<id>,node-name=<node-name>,
+             addr.type=unix,addr.path=<socket-path>[,writable=on|off]
+             [,logical-block-size=<block-size>][,num-queues=<num-queues>]
+                           export the specified block node as a
+                           vhosts-user-blk device over UNIX domain socket
+    --export [type=]vhost-user-blk,id=<id>,node-name=<node-name>,
+             fd,addr.str=<fd>[,writable=on|off]
+             [,logical-block-size=<block-size>][,num-queues=<num-queues>]
+                           export the specified block node as a
+                           vhosts-user-blk device over file descriptor
+  ...
+
+Fixes: 90fc91d50b7 ("convert vhost-user-blk server to block export API")
+Reported-by: Qing Wang <qinwang@redhat.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- docs/tools/qemu-storage-daemon.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+v3: Fix 'vhost-user-blk' spelling (eblake)
+---
+ storage-daemon/qemu-storage-daemon.c | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-diff --git a/docs/tools/qemu-storage-daemon.rst b/docs/tools/qemu-storage-daemon.rst
-index 3e5a9dc0320..9b0eaba6e5c 100644
---- a/docs/tools/qemu-storage-daemon.rst
-+++ b/docs/tools/qemu-storage-daemon.rst
-@@ -201,7 +201,7 @@ Export raw image file ``disk.img`` over NBD UNIX domain socket ``nbd.sock``::
-       --nbd-server addr.type=unix,addr.path=nbd.sock \
-       --export type=nbd,id=export,node-name=disk,writable=on
- 
--Export a qcow2 image file ``disk.qcow2`` as a vhosts-user-blk device over UNIX
-+Export a qcow2 image file ``disk.qcow2`` as a vhost-user-blk device over UNIX
- domain socket ``vhost-user-blk.sock``::
- 
-   $ qemu-storage-daemon \
+diff --git a/storage-daemon/qemu-storage-daemon.c b/storage-daemon/qemu-storage-daemon.c
+index 52cf17e8ace..9d76d1114d4 100644
+--- a/storage-daemon/qemu-storage-daemon.c
++++ b/storage-daemon/qemu-storage-daemon.c
+@@ -104,6 +104,19 @@ static void help(void)
+ "                         export the specified block node over FUSE\n"
+ "\n"
+ #endif /* CONFIG_FUSE */
++#ifdef CONFIG_VHOST_USER_BLK_SERVER
++"  --export [type=]vhost-user-blk,id=<id>,node-name=<node-name>,\n"
++"           addr.type=unix,addr.path=<socket-path>[,writable=on|off]\n"
++"           [,logical-block-size=<block-size>][,num-queues=<num-queues>]\n"
++"                         export the specified block node as a\n"
++"                         vhost-user-blk device over UNIX domain socket\n"
++"  --export [type=]vhost-user-blk,id=<id>,node-name=<node-name>,\n"
++"           fd,addr.str=<fd>[,writable=on|off]\n"
++"           [,logical-block-size=<block-size>][,num-queues=<num-queues>]\n"
++"                         export the specified block node as a\n"
++"                         vhost-user-blk device over file descriptor\n"
++"\n"
++#endif /* CONFIG_VHOST_USER_BLK_SERVER */
+ "  --monitor [chardev=]name[,mode=control][,pretty[=on|off]]\n"
+ "                         configure a QMP monitor\n"
+ "\n"
 -- 
 2.33.1
 
