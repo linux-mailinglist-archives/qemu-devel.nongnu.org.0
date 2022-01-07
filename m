@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9B004876E0
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 12:54:08 +0100 (CET)
-Received: from localhost ([::1]:59828 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5A264876CC
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 12:50:43 +0100 (CET)
+Received: from localhost ([::1]:51082 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5not-0000ho-Pc
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 06:54:07 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45972)
+	id 1n5nla-00038H-EK
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 06:50:42 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:46016)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n5n4B-0001p8-EK
- for qemu-devel@nongnu.org; Fri, 07 Jan 2022 06:05:51 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36819)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n5n4G-00021A-0M
+ for qemu-devel@nongnu.org; Fri, 07 Jan 2022 06:05:56 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34933)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n5n49-0002b3-VY
- for qemu-devel@nongnu.org; Fri, 07 Jan 2022 06:05:51 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n5n4D-0002bj-9B
+ for qemu-devel@nongnu.org; Fri, 07 Jan 2022 06:05:55 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641553549;
+ s=mimecast20190719; t=1641553552;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=whKn0pctPclugSGgiuj/6VncPkuXJJFQ5IPPduaKEoY=;
- b=X/LHfR4r+G4P1SnL2VtloigR1gBcYuaMkG03rQcMhtduAFZc/l11nUdn09H2ymgeSI+VA6
- xk1Yq1lnHn8xv7iCtjaZJr0kunorC8FHluHsNPK3P7jHOvlKtuzK4ytzmyA7EgoaWUSjTG
- iK8jWmOBpplfVpdh7G8ZAmjNISQhsD4=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=HOsqJqrBMIM1qexMOBxqQCQ/OVZSIyFbpDvHp5LI3u0=;
+ b=Mlxc9ibKq4aXvsp1UPx1im2T9Z8HqfCgL88Q3O22ZiQU5c+2hl+LY3EA3R2BEDZ1h677aO
+ 83m9rLx4T895AHxurHHEimMzwivro6KzOFCVYKfdd3MK/+x/Sr2Z2xjO0OQ8z3xXcNKg9N
+ iuaxx1Zt5z1G0H7izr+ir60iKfAkG0U=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-54-c-8q1UyFNYeS4xYI_-seEw-1; Fri, 07 Jan 2022 06:05:47 -0500
-X-MC-Unique: c-8q1UyFNYeS4xYI_-seEw-1
-Received: by mail-wm1-f69.google.com with SMTP id
- m9-20020a05600c4f4900b0034644da3525so1353261wmq.3
- for <qemu-devel@nongnu.org>; Fri, 07 Jan 2022 03:05:47 -0800 (PST)
+ us-mta-166-0-2fg12YMUqoGkcDLMzfOQ-1; Fri, 07 Jan 2022 06:05:50 -0500
+X-MC-Unique: 0-2fg12YMUqoGkcDLMzfOQ-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ q2-20020adfab02000000b001a3ed59eb96so2100619wrc.20
+ for <qemu-devel@nongnu.org>; Fri, 07 Jan 2022 03:05:50 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=whKn0pctPclugSGgiuj/6VncPkuXJJFQ5IPPduaKEoY=;
- b=fNpn84BtA8SsqaMcKzNyvaf46kjqPEZgVM/AiLahke6krnKcUXO3zCd2mAg+SPFcDP
- CG4MBLOT/n2YRkJCO7TUnRyrv4DExOeDEK2FlqjFT1wc3p2PjXm3Pm98Mdre3H2+EKq3
- uBDACegIccMhK/XdnGXwkiklHWrlEuhlNJOEqCb9/y+ZjgQOL2RoUOrIbUxolNZevLH8
- xzQagALoEKWBuJgBoLtzajH6fhvAYbpCGZNwO71Czc8fxWiaeaGKslrzgelTLcFzo9iM
- B9DwthFZVUOZ3AcytfyplQ8K1FuPhi/svKNaHiHLUsw+dlC4/1PxKN1+rCwvQb3QNooF
- pjYA==
-X-Gm-Message-State: AOAM531V6b5wJsj9sZcVFN6dfglAlusOWvq94gJPmj413FsLi6zTmRjB
- X5ch+orRz336SAkkp5qdQFbaWVlM+J8HKpWWKlzOJdZlq0xndCtUryJF1kXdo41kKlFY4H5BBW4
- 3ae5ufo23TbPWufR5X+neZR7NenXOQcATOwmhgqnwAotISJGF+heoRJ9S0iph
-X-Received: by 2002:a05:6000:1ac9:: with SMTP id
- i9mr52688559wry.531.1641553546059; 
- Fri, 07 Jan 2022 03:05:46 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxkv4X58l2gxFiHbgi+DUAIVSsaB6Mq8NapEC3gtq6C2nnZtvQ9e3YFQZ2L8La6q3T4UaPSpw==
-X-Received: by 2002:a05:6000:1ac9:: with SMTP id
- i9mr52688535wry.531.1641553545682; 
- Fri, 07 Jan 2022 03:05:45 -0800 (PST)
+ bh=HOsqJqrBMIM1qexMOBxqQCQ/OVZSIyFbpDvHp5LI3u0=;
+ b=z9hVpAh19cq9oOat3FUr+t2LjqeJKEQL7qtHAhmEd0T0Y+eCssbjsjkl8l/Ywb4OvU
+ wvG2GuGquy7NKe7C1yKl4c2NFbp3X+/QN9OiUhdttz3R3EcwzVFiV5vdkx9YdzvyScke
+ 5SazM3f0vyphnke/DZWyrLHq3mnYSaLr7XnES0ybHO1Py6lu4EwBoo0VjZjmKjmFEiE9
+ i/o4SDZJHA2uOHnnCQcwHzsadAt16GWCExLvR6W44EeVesMIDtwVQ+3KMYVq8ugg9lDK
+ C6Yi3qqVDgE6BwBGdVpbtQ42ACOWVMJZNvxKMclDiCSBlCfyo3O3yE83OKYW4UlTYk/O
+ tIiQ==
+X-Gm-Message-State: AOAM533rBu4ubQt9CaHKI492gjQfMNfR7zBMwHsemujoEy/ucVQ/k6l5
+ 8de4FJy/GNPX1QxL4FYJmPoIiWuzoQKVNXPXTUCjD6gGojf0j00J50dnTEWxZ5Z2WpcT+XT76gw
+ AdgN3q8r6lman/pWuNLF+whzSIKNfBwgtHKCquvY8XScnnyGd/LpmHfp0GIWy
+X-Received: by 2002:a05:6000:1886:: with SMTP id
+ a6mr55414163wri.614.1641553549019; 
+ Fri, 07 Jan 2022 03:05:49 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxaZH0bfhn22vbSn2E0wl+tTt22LFG4/guLqpF5EnUDKte/OtoFDrOt7+FGzE2mvLRZLl7wtQ==
+X-Received: by 2002:a05:6000:1886:: with SMTP id
+ a6mr55414140wri.614.1641553548836; 
+ Fri, 07 Jan 2022 03:05:48 -0800 (PST)
 Received: from redhat.com ([2.55.16.192])
- by smtp.gmail.com with ESMTPSA id u11sm8579138wmq.41.2022.01.07.03.05.44
+ by smtp.gmail.com with ESMTPSA id j13sm8315918wmq.11.2022.01.07.03.05.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 Jan 2022 03:05:45 -0800 (PST)
-Date: Fri, 7 Jan 2022 06:05:43 -0500
+ Fri, 07 Jan 2022 03:05:48 -0800 (PST)
+Date: Fri, 7 Jan 2022 06:05:46 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 53/55] tests: acpi: prepare for updated TPM related tables
-Message-ID: <20220107102526.39238-54-mst@redhat.com>
+Subject: [PULL v2 54/55] acpi: tpm: Add missing device identification objects
+Message-ID: <20220107102526.39238-55-mst@redhat.com>
 References: <20220107102526.39238-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20220107102526.39238-1-mst@redhat.com>
@@ -83,7 +83,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.372,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,38 +96,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Ani Sinha <ani@anisinha.ca>, Peter Maydell <peter.maydell@linaro.org>,
+Cc: Eduardo Habkost <eduardo@habkost.net>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Shannon Zhao <shannon.zhaosl@gmail.com>, qemu-arm@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Ani Sinha <ani@anisinha.ca>,
  Igor Mammedov <imammedo@redhat.com>, Stefan Berger <stefanb@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Stefan Berger <stefanb@linux.ibm.com>
 
-Replace existing TPM related tables, that are about to change, with
-empty files.
+Add missing TPM device identification objects _STR and _UID. They will
+appear as files 'description' and 'uid' under Linux sysfs.
 
+Following inspection of sysfs entries for hardware TPMs we chose
+uid '1'.
+
+Cc: Shannon Zhao <shannon.zhaosl@gmail.com>
 Cc: Michael S. Tsirkin <mst@redhat.com>
 Cc: Igor Mammedov <imammedo@redhat.com>
 Cc: Ani Sinha <ani@anisinha.ca>
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/708
 Signed-off-by: Stefan Berger <stefanb@linux.ibm.com>
-Acked-by: Ani Sinha <ani@anisinha.ca>
-Message-id: 20211223022310.575496-2-stefanb@linux.ibm.com
-Message-Id: <20220104175806.872996-2-stefanb@linux.ibm.com>
+Reviewed-by: Ani Sinha <ani@anisinha.ca>
+Reviewed-by: Shannon Zhao <shannon.zhaosl@gmail.com>
+Message-id: 20211223022310.575496-3-stefanb@linux.ibm.com
+Message-Id: <20220104175806.872996-3-stefanb@linux.ibm.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-Acked-by: Igor Mammedov <imammedo@redhat.com>
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 ---
- tests/qtest/bios-tables-test-allowed-diff.h | 2 ++
- 1 file changed, 2 insertions(+)
+ hw/arm/virt-acpi-build.c | 1 +
+ hw/i386/acpi-build.c     | 7 +++++++
+ 2 files changed, 8 insertions(+)
 
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index dfb8523c8b..5d80e408d4 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1 +1,3 @@
- /* List of comma-separated changed AML files to ignore */
-+"tests/data/acpi/q35/DSDT.tis.tpm12",
-+"tests/data/acpi/q35/DSDT.tis.tpm2",
+diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
+index d0f4867fdf..f2514ce77c 100644
+--- a/hw/arm/virt-acpi-build.c
++++ b/hw/arm/virt-acpi-build.c
+@@ -229,6 +229,7 @@ static void acpi_dsdt_add_tpm(Aml *scope, VirtMachineState *vms)
+ 
+     Aml *dev = aml_device("TPM0");
+     aml_append(dev, aml_name_decl("_HID", aml_string("MSFT0101")));
++    aml_append(dev, aml_name_decl("_STR", aml_string("TPM 2.0 Device")));
+     aml_append(dev, aml_name_decl("_UID", aml_int(0)));
+ 
+     Aml *crs = aml_resource_template();
+diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+index 0234fe7588..ce823e8fcb 100644
+--- a/hw/i386/acpi-build.c
++++ b/hw/i386/acpi-build.c
+@@ -1812,11 +1812,15 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+                     dev = aml_device("TPM");
+                     aml_append(dev, aml_name_decl("_HID",
+                                                   aml_string("MSFT0101")));
++                    aml_append(dev,
++                               aml_name_decl("_STR",
++                                             aml_string("TPM 2.0 Device")));
+                 } else {
+                     dev = aml_device("ISA.TPM");
+                     aml_append(dev, aml_name_decl("_HID",
+                                                   aml_eisaid("PNP0C31")));
+                 }
++                aml_append(dev, aml_name_decl("_UID", aml_int(1)));
+ 
+                 aml_append(dev, aml_name_decl("_STA", aml_int(0xF)));
+                 crs = aml_resource_template();
+@@ -1844,12 +1848,15 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+     if (TPM_IS_CRB(tpm)) {
+         dev = aml_device("TPM");
+         aml_append(dev, aml_name_decl("_HID", aml_string("MSFT0101")));
++        aml_append(dev, aml_name_decl("_STR",
++                                      aml_string("TPM 2.0 Device")));
+         crs = aml_resource_template();
+         aml_append(crs, aml_memory32_fixed(TPM_CRB_ADDR_BASE,
+                                            TPM_CRB_ADDR_SIZE, AML_READ_WRITE));
+         aml_append(dev, aml_name_decl("_CRS", crs));
+ 
+         aml_append(dev, aml_name_decl("_STA", aml_int(0xf)));
++        aml_append(dev, aml_name_decl("_UID", aml_int(1)));
+ 
+         tpm_build_ppi_acpi(tpm, dev);
+ 
 -- 
 MST
 
