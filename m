@@ -2,76 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F787487389
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 08:26:53 +0100 (CET)
-Received: from localhost ([::1]:42190 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22B7448738C
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 08:28:51 +0100 (CET)
+Received: from localhost ([::1]:44084 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5jeF-0000jA-ON
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 02:26:51 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58000)
+	id 1n5jgA-000276-3A
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 02:28:50 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58422)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1n5jXj-0006Tp-Uv
- for qemu-devel@nongnu.org; Fri, 07 Jan 2022 02:20:10 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:31562)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1n5jbL-0008Ec-DA
+ for qemu-devel@nongnu.org; Fri, 07 Jan 2022 02:23:52 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:47476)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1n5jXe-0003Of-UT
- for qemu-devel@nongnu.org; Fri, 07 Jan 2022 02:20:06 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1n5jbI-00047J-LE
+ for qemu-devel@nongnu.org; Fri, 07 Jan 2022 02:23:49 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641539999;
+ s=mimecast20190719; t=1641540228;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=V4X9I6cir+umJGRyQiHhLsquyt9RsFgwpmHz7Lkv3Hc=;
- b=ICgAigXXpN1BYq8m0K0f4kmNkncSse6PboeP1mxa8pkpwQODDrfoQDU/iIjMBuW4uPBtWx
- DID0W2qjxSVTRsnZ+SLNznrUQC4hGpT3lrRDYHhdYrLcKEF36Oz/Vz38RrjaW413J73kjm
- YN5ryJNANoCJPgVKAFFIxH7fO6dhv8I=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=q9676BDKdccMogxRre8rixWMoyOp+zbe9lBHjBXmmOM=;
+ b=COMu+80s3m6niu9ZAJbqMSgyJYcCn/6eU7y7yYh9AwSsgas7f2JkY2FPWJPlIV+6DpaD09
+ YxdXMJgiFGcnKeVzm3WkxvF2mxyhxo8zF36n57/RUK/vW8zn3q5N5CUkk8s2/o7CfDcEzP
+ J8KA0LjkrLOiJ7lPKtujApfHeX8UewQ=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-15-ZFetg2n4M_qoekNOIJOEFQ-1; Fri, 07 Jan 2022 02:19:29 -0500
-X-MC-Unique: ZFetg2n4M_qoekNOIJOEFQ-1
-Received: by mail-wm1-f72.google.com with SMTP id
- az9-20020a05600c600900b0034692565ca8so3207679wmb.9
- for <qemu-devel@nongnu.org>; Thu, 06 Jan 2022 23:19:29 -0800 (PST)
+ us-mta-557-D_4ab0X8MU-vRZJgh-7Q8w-1; Fri, 07 Jan 2022 02:23:46 -0500
+X-MC-Unique: D_4ab0X8MU-vRZJgh-7Q8w-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ k4-20020adfc704000000b001a32d86a772so1915434wrg.5
+ for <qemu-devel@nongnu.org>; Thu, 06 Jan 2022 23:23:46 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=V4X9I6cir+umJGRyQiHhLsquyt9RsFgwpmHz7Lkv3Hc=;
- b=UJZHRKonmqoE52blqDdNz/FDhHkq4e83c9eQbzz9bmsqaPSKFp+sUcXp72q1x4j/s0
- V4JWwNL9bKpRIBdbEec4ybWcO9U87CLOFd3bOXTRJU+PDr9mEpJcSKgTmo5DV1ZB6xtX
- ABDHBEBV4Zc3b+5TdJNYhMMY5Q2P7nQrAmWOu5VBt8z4ALNMMgtPYGs+YOczARyQG/oU
- 57qtcBTAiBJLzyDWQdXFd0TLtwaE4VxQN2yY5P6p/fzBF3lsfC390rilEQeJY+rm7t/v
- pDUaTcaTGR42xKIrOCBgzqOtxSJXjPDReOa8xMIbZRqWWc+uRQbSn+9UHIvZ3l7sOTZn
- VSVA==
-X-Gm-Message-State: AOAM531mDF/3h4cD5kvoVfP6YS6XfcLYOldwWygG/xF7IP6lTlCRbTm2
- hE8oXkG4CcRh5+QptDuWwJFbbX89XxtriiYV/JA7H6JmbSYa0qOOcdv+TFegF63K7v7jcPiS6Sn
- qCWnvcuFbJ5ojG88=
-X-Received: by 2002:a5d:64eb:: with SMTP id g11mr23059169wri.135.1641539968594; 
- Thu, 06 Jan 2022 23:19:28 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyTK+nfEC63JX56CVKGlZo7XXnX0xa0T9pgslVTpRlbdSKOrokF946k0dwB+OeAV1jC6VDJxA==
-X-Received: by 2002:a5d:64eb:: with SMTP id g11mr23059156wri.135.1641539968409; 
- Thu, 06 Jan 2022 23:19:28 -0800 (PST)
+ bh=q9676BDKdccMogxRre8rixWMoyOp+zbe9lBHjBXmmOM=;
+ b=dCLASyGBC8Ehwvu1YYo5JOvluli37IiqiTPRnvXl9Fp71laDwdjZe3s2wP1LV25u6z
+ ta9tmfm7W/eihT7qJi4NUtdgV/CjqLeExnCysjCtWlHQl/EP/5rDbua3MNSBbef3OcPe
+ rZvU7zsraAaFRdqN0iTCSeuWBzaepn9PFFvC+JNWVdBq0d17JWkMFEgWi2nm8To5Qxm0
+ kdE3qk0t9EpJxfRjowQjAFQx1WKQKU8qA+Rm8eciwjdWAO9Dhypixs5qosO1WHZETQB5
+ 4euCl7yjgvXabQQQgh0PzObVQmUS9baJLixOWu8y8ICDdDsTgpPzRlgyeTFoKq6V1QhG
+ J0Ug==
+X-Gm-Message-State: AOAM531Qb1jpkw1PecOUYijJ+JY/qVvODGizvzUN33rb2ymjUcBEMlDC
+ gdeHKBcaof1EJwUWywookdldVmN/AR/eW1QmP4awbVLcHJNjeZhjf03p/0PKneyX20ux0MKcq9p
+ JT/UDtHaqet2jLHQ=
+X-Received: by 2002:a7b:ce16:: with SMTP id m22mr9937487wmc.149.1641540225835; 
+ Thu, 06 Jan 2022 23:23:45 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzLk+q2VK5yrelC99o2ejsrQ5SzN619r748ZyNX5AQpeBLXOSP9o3vWq2xA/NArH7upL3maWQ==
+X-Received: by 2002:a7b:ce16:: with SMTP id m22mr9937476wmc.149.1641540225673; 
+ Thu, 06 Jan 2022 23:23:45 -0800 (PST)
 Received: from [192.168.8.100] (tmo-098-68.customers.d1-online.com.
  [80.187.98.68])
- by smtp.gmail.com with ESMTPSA id j13sm7778168wmq.11.2022.01.06.23.19.27
+ by smtp.gmail.com with ESMTPSA id m6sm4866075wrp.34.2022.01.06.23.23.44
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 06 Jan 2022 23:19:27 -0800 (PST)
-Message-ID: <f46243a7-dca7-00d5-9cd6-991dca3b1522@redhat.com>
-Date: Fri, 7 Jan 2022 08:19:25 +0100
+ Thu, 06 Jan 2022 23:23:45 -0800 (PST)
+Message-ID: <d086db31-a64c-40d3-3a2d-bd5d6a7ef5bb@redhat.com>
+Date: Fri, 7 Jan 2022 08:23:43 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.4.0
-Subject: Re: [PATCH] docs/can: convert to restructuredText
-To: Lucas Ramage <lucas.ramage@infinite-omicron.com>
-References: <20211217212146.2573-1-oxr463@gmx.us>
- <9311d288-22bc-fb94-ad64-ddbd1c5e32f8@redhat.com>
- <UzkASXLpdM1kPkwP0fy-YM9n_cqQD5FJcSpZLwil4YCIZNm8XXWF8D18XU4cxjiOwfDf4oDILe-HmF3WcLKaifLTuT4Lq9V5cF-8LBQJ5MM=@infinite-omicron.com>
+Subject: Re: [PATCH] q800: fix segfault with invalid MacROM
+To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
+References: <20220106122247.771454-1-laurent@vivier.eu>
 From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <UzkASXLpdM1kPkwP0fy-YM9n_cqQD5FJcSpZLwil4YCIZNm8XXWF8D18XU4cxjiOwfDf4oDILe-HmF3WcLKaifLTuT4Lq9V5cF-8LBQJ5MM=@infinite-omicron.com>
+In-Reply-To: <20220106122247.771454-1-laurent@vivier.eu>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -101,23 +99,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: oxr463@gmx.us, qemu-devel@nongnu.org, peter.maydell@linaro.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 05/01/2022 20.52, Lucas Ramage wrote:
-> Hi Thomas,
+On 06/01/2022 13.22, Laurent Vivier wrote:
+> "qemu-system-m68k -M q800 -bios /dev/null" crahses with a segfault
+> in q800_init().
+> This happens because the code doesn't check that rom_ptr() returned
+> a non-NULL pointer .
 > 
-> I intentionally sent the email via my gmx address. But I want my commit under the infinite-omicron email address.
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/756
+> Reported-by: Peter Maydell <peter.maydell@linaro.org>
+> Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+> ---
+>   hw/m68k/q800.c | 8 +++++++-
+>   1 file changed, 7 insertions(+), 1 deletion(-)
 > 
-> I had a few warnings on my end, but it builds fine with Sphinx v3.4.3 on Debian Bullseye. I can clean up the warnings in the new patch.
+> diff --git a/hw/m68k/q800.c b/hw/m68k/q800.c
+> index e4c7c9b88ad0..6261716c8f7e 100644
+> --- a/hw/m68k/q800.c
+> +++ b/hw/m68k/q800.c
+> @@ -672,10 +672,16 @@ static void q800_init(MachineState *machine)
+>   
+>           /* Remove qtest_enabled() check once firmware files are in the tree */
+>           if (!qtest_enabled()) {
+> -            if (bios_size < 0 || bios_size > MACROM_SIZE) {
+> +            if (bios_size == -1) {
+>                   error_report("could not load MacROM '%s'", bios_name);
+>                   exit(1);
+>               }
+> +            if (bios_size != MACROM_SIZE) {
+> +                error_report("Invalid size for MacROM '%s': %d bytes,"
+> +                             " expected %d bytes", bios_name, bios_size,
+> +                             MACROM_SIZE);
+> +                exit(1);
+> +            }
+>   
+>               ptr = rom_ptr(MACROM_ADDR, MACROM_SIZE);
+>               stl_phys(cs->as, 0, ldl_p(ptr));    /* reset initial SP */
 
-Yes, please do so. If you add "--enable-werror" to your "configure" options, 
-the warnings should be turned into errors as well - and that's what we do in 
-our CI, so the warnings have to be fixed first before this patch can be 
-included.
-
-  Thanks,
-   Thomas
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
 
