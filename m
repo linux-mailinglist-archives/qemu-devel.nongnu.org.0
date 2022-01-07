@@ -2,68 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F075148779C
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 13:29:24 +0100 (CET)
-Received: from localhost ([::1]:42022 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34D624877DE
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 13:58:30 +0100 (CET)
+Received: from localhost ([::1]:57874 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5oN1-0006yn-Qb
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 07:29:23 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59096)
+	id 1n5opA-0004VY-FM
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 07:58:28 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36170)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1n5oAE-0006Hk-TO
- for qemu-devel@nongnu.org; Fri, 07 Jan 2022 07:16:21 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:50065)
+ (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
+ id 1n5oaR-0007Xu-H8; Fri, 07 Jan 2022 07:43:16 -0500
+Received: from gandalf.ozlabs.org ([150.107.74.76]:35657)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1n5oAA-0000LF-RO
- for qemu-devel@nongnu.org; Fri, 07 Jan 2022 07:16:09 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641557765;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=bSavMfmMBQ6mnhxLaWHxczAmJyr/ikZ7HFUUxi0XBt8=;
- b=GzqyRt+nT7s7eld2q9794vtf0aos3xIqDYrZYsvQGPGqFNp6+XDtmRspmyx71uyDKXwHir
- U5ytppWNw/bEYaRLN1hDgudZN/MKREAZ8eoBf9mCbcWVtjzx1Jt7Cmf/bUg+fuZPcy5nlS
- P5hkeYu+Gp2A2XKkb6psoZa6l0TlO/U=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-411-XJ1N0PYAMT2NAbyqVPhQug-1; Fri, 07 Jan 2022 07:16:04 -0500
-X-MC-Unique: XJ1N0PYAMT2NAbyqVPhQug-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6E31518460E5
- for <qemu-devel@nongnu.org>; Fri,  7 Jan 2022 12:16:03 +0000 (UTC)
-Received: from thuth.com (unknown [10.39.192.171])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0F8EE76108;
- Fri,  7 Jan 2022 12:15:42 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org,
-	Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH] configure: Silence warnings about missing roms/seabios
- directory
-Date: Fri,  7 Jan 2022 13:15:40 +0100
-Message-Id: <20220107121540.80895-1-thuth@redhat.com>
+ (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
+ id 1n5oaJ-0006iV-Lw; Fri, 07 Jan 2022 07:43:15 -0500
+Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
+ id 4JVjYZ1WQ5z4xsl; Fri,  7 Jan 2022 23:42:58 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gibson.dropbear.id.au; s=201602; t=1641559378;
+ bh=LCL0bMUMv+sRe7PPfMCxCqr1fPz4xGWuZAmLJxbi7k8=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=foCZvJsNuRCCD/MdlO5J6tWoFcVV5GhH4PRK/Wt1YfjOe31ehpHxdG9OPyzsUbarV
+ L4bKeKWnctiJ3HoaHgrrxh/r/PA1931pdNvAPaLT+TquKfpy3fC/wIfKJFKS+dzukU
+ MbLDkLDm+81sgYexPJQKKph3rJnBfeIhPS7nKF8U=
+Date: Fri, 7 Jan 2022 23:19:03 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Greg Kurz <groug@kaod.org>
+Subject: Re: [PATCH qemu] spapr: Force 32bit when resetting a core
+Message-ID: <Ydgvt0VwFUP0MD5h@yekko>
+References: <20220107072423.2278113-1-aik@ozlabs.ru>
+ <20220107125747.7ddfd3a0@bahia>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.372,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="oB/IwnUxNJgkZ4nW"
+Content-Disposition: inline
+In-Reply-To: <20220107125747.7ddfd3a0@bahia>
+Received-SPF: pass client-ip=150.107.74.76;
+ envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,48 +58,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+Cc: Alexey Kardashevskiy <aik@ozlabs.ru>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org, =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The configure script tries to always create a config.mak file
-in the roms/seabios/ subdirectory. However, since commit
-5dce7b8d8ce6 ("configure: remove DIRS"), this subdirectory is not
-created anymore if the git submodule hasn't been checked out.
-Thus let's properly check for the existance of the folder first
-now to get rid of the warnings.
 
-Fixes: 5dce7b8d8ce6 ("configure: remove DIRS")
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- configure | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+--oB/IwnUxNJgkZ4nW
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/configure b/configure
-index c798e48faf..51b13b273c 100755
---- a/configure
-+++ b/configure
-@@ -3773,8 +3773,8 @@ export target_list source_path use_containers cpu
- $source_path/tests/tcg/configure.sh)
- 
- # temporary config to build submodules
--for rom in seabios; do
--    config_mak=roms/$rom/config.mak
-+if test -d roms/seabios ; then
-+    config_mak=roms/seabios/config.mak
-     echo "# Automatically generated by configure - do not modify" > $config_mak
-     echo "SRC_PATH=$source_path/roms/$rom" >> $config_mak
-     echo "AS=$as" >> $config_mak
-@@ -3786,7 +3786,7 @@ for rom in seabios; do
-     echo "IASL=$iasl" >> $config_mak
-     echo "LD=$ld" >> $config_mak
-     echo "RANLIB=$ranlib" >> $config_mak
--done
-+fi
- 
- config_mak=pc-bios/optionrom/config.mak
- echo "# Automatically generated by configure - do not modify" > $config_mak
--- 
-2.27.0
+On Fri, Jan 07, 2022 at 12:57:47PM +0100, Greg Kurz wrote:
+> On Fri, 7 Jan 2022 18:24:23 +1100
+> Alexey Kardashevskiy <aik@ozlabs.ru> wrote:
+>=20
+> > "PowerPC Processor binding to IEEE 1275" says in
+> > "8.2.1. Initial Register Values" that the initial state is defined as
+> > 32bit so do it for both SLOF and VOF.
+> >=20
+> > This should not cause behavioral change as SLOF switches to 64bit very
+> > early anyway.=20
+>=20
+> Only one CPU goes through SLOF. What about the other ones, including
+> hot plugged CPUs ?
 
+Those will be started by the start-cpu RTAS call which has its own
+semantics.
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--oB/IwnUxNJgkZ4nW
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmHYL7UACgkQbDjKyiDZ
+s5KjwhAAtkCKnBCpltEHsdrGxCM7akwmuEpcZTO9yvKFMb3oIWkbAvxFVwR3LVpe
+/99oCNccc3ZubrxpoHaHZ3ebLi0C/rCN/F0PYbX+4JxDtDgkIqpDA0C2lj2LIi92
+CiyU1QhzG+3l33dZuvr/HibLj5NhnJnwBGCULxc7g35ZdrH3BwHBg1f6QNasdo3y
+tAdHsqnT7+nuo8n6JB3Oryx7Hg35oqmXvYAIFVETFF9gy00G+cPAGwJ35RkgIVA9
+ONOH2wxQM5MeyBdvtv/mQc5WRFo4xWhgkGkkxWNKIl/nxlE0OA5KDk5KBr9sImrU
+7zT5/6bMQYkTEXHlFv+juxUm/10BTOhCl0Zm1kR4WefDL83hjhQbn4FvZ/DFRNFl
+r+AGKqJMTeAATd+BTNEJXsfDSSRKc7v4eT/FPKgY6SHAdlhIdvm1whvsL1MkNDH6
+a9Qw0IFsV+R6XNJvzDLC5fIVPFihG60fKAbMXo5XtuBmNV5app1ImKXvkV0tdDEM
+bClk1G23AAvtYIQ0GinUmwloqtZguqD2C7psQk2jzCwuO3JFOdR5hmCfZv6Ya2++
+Uu7Rsl8athEsRmqm6h1blRCoTSiy40ylqlzKTgiHVY/7r45nBULarCD/QqOD/KM1
+5QvtUR9OdRHho97diIP3enH//PsD2Sl095Faydr/+NfvLCOcQwk=
+=pWi3
+-----END PGP SIGNATURE-----
+
+--oB/IwnUxNJgkZ4nW--
 
