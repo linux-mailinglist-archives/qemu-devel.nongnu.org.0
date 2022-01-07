@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBF064876B0
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 12:44:20 +0100 (CET)
-Received: from localhost ([::1]:60912 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C219E4876C4
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 12:48:37 +0100 (CET)
+Received: from localhost ([::1]:44038 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5nfP-0006LO-Ot
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 06:44:19 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45820)
+	id 1n5njY-0006gp-T0
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 06:48:36 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:45894)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n5n41-0001Vt-SS
- for qemu-devel@nongnu.org; Fri, 07 Jan 2022 06:05:42 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:38992)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n5n43-0001ZX-OI
+ for qemu-devel@nongnu.org; Fri, 07 Jan 2022 06:05:44 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59095)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n5n3y-00020e-7h
- for qemu-devel@nongnu.org; Fri, 07 Jan 2022 06:05:41 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n5n3z-00020i-Nb
+ for qemu-devel@nongnu.org; Fri, 07 Jan 2022 06:05:42 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1641553504;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=1bYEz3aJ2ZVHIKx33NW8o1kl0YJwc2D4eOCg251Ckdk=;
- b=huEsxj6YjeXui86SRucB8k6jR5wleGhaOx0xLx83B83/mcXAA6cnE9NTH6G9PJmJJflPhH
- BTCQwlmiPGvzng9+vh4FpXSw8sFh4Dczku9WSzksNki6uFJOxi18v9MNyMIjnLgjy3IjjQ
- FYhadA5K7hpdRCXuvj58FdDzIVO+k3g=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=U+s/eLBlC/CuoqRVZrYGYrsH9EkPsepN+hS3IAf50OQ=;
+ b=GJo4FeF7vqbGbf5zZOoo77ZR5slTuynP/J0a0OMiCRHXd83tKXrkwP/x62JqOOaA6v75Dh
+ /og/eHD8Q1w60h1AlgeHTVoyvZC5OVcpIvp/+uBKVDgjM3xavGuHGzTaRVAH1MXVUdZcnH
+ xCkC4aBy8ZClfL2ek+xLnjmS/q6w3qU=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-653-noVLQ__UOWyU9CWObJzoeA-1; Fri, 07 Jan 2022 06:05:00 -0500
-X-MC-Unique: noVLQ__UOWyU9CWObJzoeA-1
-Received: by mail-wr1-f70.google.com with SMTP id
- h26-20020adfa4da000000b001a652d52d8eso135134wrb.16
- for <qemu-devel@nongnu.org>; Fri, 07 Jan 2022 03:05:00 -0800 (PST)
+ us-mta-604-3lcd0yl7M4yrdlY9LUOXMQ-1; Fri, 07 Jan 2022 06:05:03 -0500
+X-MC-Unique: 3lcd0yl7M4yrdlY9LUOXMQ-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ d14-20020adfa34e000000b001a631cb3ab5so377471wrb.12
+ for <qemu-devel@nongnu.org>; Fri, 07 Jan 2022 03:05:03 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=1bYEz3aJ2ZVHIKx33NW8o1kl0YJwc2D4eOCg251Ckdk=;
- b=p9PPqfnPEMDN7r3pSh9qh2En+HZaAk92y1F6vwH9ueI0/SpL2CxqBOf4OS3ClnWS0G
- Mu5WRO0AJ1gbNP3GSDZPA1UlwnZ3ajl9HiaBQxHIQ89BJXSiG4QaQNOGWCb/IuJl+geZ
- KfkFKJFgu4na7A33VlnffK7/TdXoXkLCkD4NW3HKk+mda9ZhW1K4gWrWJ/XsBPYjJHk/
- HKKgFeV0FRBESPCDXMF4c/msBuDCyfWqPewN+x7ABT8otz6dwcEoShnxpSjgON+rDi+B
- q64YzgPWiGnhd8pXQSujal+US3Nz/naX0couNfMK0MdXfm39t1kyHpWLotOPd9QA81TQ
- e6MQ==
-X-Gm-Message-State: AOAM532uT3ZPv7UD/Cfx/Fj1N3/Vy0O4EcIoJb45hQrq/F++uL5gVyKE
- q1No+nn97Vh+ihyAndivellSYMeapftO74Vv6bTrpDC4fh334CRwOH7G+s4MOMGbJHpvrc5GIi/
- xIRb7qLrtRxK8zeHO4XF7fYCxtLo0ATSSpFQhSQ1TNhNW8RyQ96y2PUU+296V
-X-Received: by 2002:a05:600c:1548:: with SMTP id
- f8mr10557834wmg.24.1641553498175; 
- Fri, 07 Jan 2022 03:04:58 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyabaXJmYSlhs0P5o02ebeHmjAcdRwzJNN8U1eMRQenXPx2u/h7J6Drwde4onzitCH2AJnETg==
-X-Received: by 2002:a05:600c:1548:: with SMTP id
- f8mr10557817wmg.24.1641553497978; 
- Fri, 07 Jan 2022 03:04:57 -0800 (PST)
+ bh=U+s/eLBlC/CuoqRVZrYGYrsH9EkPsepN+hS3IAf50OQ=;
+ b=BQ8lEo9bMEIMMFN2A/xDmNQyIXLV9incqnrlLqUlwwF0ciEOA0evb5xqurVwn+sOP0
+ nJnXNK5/NYDCqnJWE1Ifk22N7s/tEFhdp3UfxLNmvXUJf8QunpRsnrLABnUb12yQx7cy
+ VxRHguHrKo2lp4ZptUolq25WjC07DbqZhkWlr8bgIFuAhX3/OXJDVhSMJQWlBWGhY7t1
+ uXQsmEU+YOoLfR0bgFg8i7t9dm9oeAeqyXjlD7xp69WdQOWMnTXwwqklJCVFSYf9tM21
+ 4oIVukNH/XHS+Vm4XKSwDW5/x0fdO1xDMGfLX2noxeqCq+zmM77Xdg3s0s4Q24qdOztt
+ jXuA==
+X-Gm-Message-State: AOAM5339pd1mgDDP2y5NZ+x8TWly1G/VZsmgACuuse+Gs0tE4xpCiCtJ
+ bphMAABxMCVnqwkuigcKzzaKe93AyaYsd7F0q7EROh3saAT86Ylq4CkZxr2OxlqP5SIY9MVRpWE
+ 6sB63DIM+xoQs+Yhdmmru5YUuV9ijZIU5xcuFuBZpe45yD2+BlPpwWooOug17
+X-Received: by 2002:a05:6000:1543:: with SMTP id
+ 3mr55023108wry.140.1641553501771; 
+ Fri, 07 Jan 2022 03:05:01 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxDKZyPDSWMleIOUwctyjnZGPpC4yZMQKatzwnlIvREXKJ3FIKI2KOIQPefMqbul9lBXryvbQ==
+X-Received: by 2002:a05:6000:1543:: with SMTP id
+ 3mr55023082wry.140.1641553501468; 
+ Fri, 07 Jan 2022 03:05:01 -0800 (PST)
 Received: from redhat.com ([2.55.16.192])
- by smtp.gmail.com with ESMTPSA id n14sm4748307wrf.107.2022.01.07.03.04.56
+ by smtp.gmail.com with ESMTPSA id a13sm3551740wrt.87.2022.01.07.03.04.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 Jan 2022 03:04:57 -0800 (PST)
-Date: Fri, 7 Jan 2022 06:04:55 -0500
+ Fri, 07 Jan 2022 03:05:01 -0800 (PST)
+Date: Fri, 7 Jan 2022 06:04:58 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 37/55] virtio: signal after wrapping packed used_idx
-Message-ID: <20220107102526.39238-38-mst@redhat.com>
+Subject: [PULL v2 38/55] MAINTAINERS: Add a separate entry for acpi/VIOT tables
+Message-ID: <20220107102526.39238-39-mst@redhat.com>
 References: <20220107102526.39238-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20220107102526.39238-1-mst@redhat.com>
@@ -75,7 +75,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -96,55 +96,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
- Tiwei Bie <tiwei.bie@intel.com>, Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Jean-Philippe Brucker <jean-philippe@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Ani Sinha <ani@anisinha.ca>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Stefan Hajnoczi <stefanha@redhat.com>
+From: Ani Sinha <ani@anisinha.ca>
 
-Packed Virtqueues wrap used_idx instead of letting it run freely like
-Split Virtqueues do. If the used ring wraps more than once there is no
-way to compare vq->signalled_used and vq->used_idx in
-virtio_packed_should_notify() since they are modulo vq->vring.num.
+All work related to VIOT tables are being done by Jean. Adding him as the
+maintainer for acpi VIOT table code in qemu.
 
-This causes the device to stop sending used buffer notifications when
-when virtio_packed_should_notify() is called less than once each time
-around the used ring.
-
-It is possible to trigger this with virtio-blk's dataplane
-notify_guest_bh() irq coalescing optimization. The call to
-virtio_notify_irqfd() (and virtio_packed_should_notify()) is deferred to
-a BH. If the guest driver is polling it can complete and submit more
-requests before the BH executes, causing the used ring to wrap more than
-once. The result is that the virtio-blk device ceases to raise
-interrupts and I/O hangs.
-
-Cc: Tiwei Bie <tiwei.bie@intel.com>
-Cc: Jason Wang <jasowang@redhat.com>
-Cc: Michael S. Tsirkin <mst@redhat.com>
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-Message-Id: <20211130134510.267382-1-stefanha@redhat.com>
-Fixes: 86044b24e865fb9596ed77a4d0f3af8b90a088a1 ("virtio: basic packed virtqueue support")
-Acked-by: Jason Wang <jasowang@redhat.com>
+Signed-off-by: Ani Sinha <ani@anisinha.ca>
+Message-Id: <20211213045924.344214-1-ani@anisinha.ca>
+Acked-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/virtio/virtio.c | 1 +
- 1 file changed, 1 insertion(+)
+ MAINTAINERS | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-index 36edb1dad5..971e59a663 100644
---- a/hw/virtio/virtio.c
-+++ b/hw/virtio/virtio.c
-@@ -885,6 +885,7 @@ static void virtqueue_packed_flush(VirtQueue *vq, unsigned int count)
-     if (vq->used_idx >= vq->vring.num) {
-         vq->used_idx -= vq->vring.num;
-         vq->used_wrap_counter ^= 1;
-+        vq->signalled_used_valid = false;
-     }
- }
+diff --git a/MAINTAINERS b/MAINTAINERS
+index f871d759fd..6aa0335560 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1777,6 +1777,13 @@ F: docs/specs/acpi_mem_hotplug.rst
+ F: docs/specs/acpi_pci_hotplug.rst
+ F: docs/specs/acpi_hw_reduced_hotplug.rst
  
++ACPI/VIOT
++M: Jean-Philippe Brucker <jean-philippe@linaro.org>
++R: Ani Sinha <ani@anisinha.ca>
++S: Supported
++F: hw/acpi/viot.c
++F: hw/acpi/viot.h
++
+ ACPI/HEST/GHES
+ R: Dongjiu Geng <gengdongjiu1@gmail.com>
+ L: qemu-arm@nongnu.org
 -- 
 MST
 
