@@ -2,75 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B60FF487D9C
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 21:22:17 +0100 (CET)
-Received: from localhost ([::1]:50682 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 143BB487D6E
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 21:02:53 +0100 (CET)
+Received: from localhost ([::1]:54896 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5tz0-0006o5-7a
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 13:28:58 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60290)
+	id 1n5u6e-0002Jy-DV
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 13:36:52 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34528)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1n5ttq-0003cL-I0; Fri, 07 Jan 2022 13:23:38 -0500
-Received: from [2a00:1450:4864:20::42d] (port=35348
- helo=mail-wr1-x42d.google.com)
+ id 1n5u55-0001Ux-Ma; Fri, 07 Jan 2022 13:35:15 -0500
+Received: from [2a00:1450:4864:20::32b] (port=44886
+ helo=mail-wm1-x32b.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1n5tto-00015S-QW; Fri, 07 Jan 2022 13:23:38 -0500
-Received: by mail-wr1-x42d.google.com with SMTP id e9so11139012wra.2;
- Fri, 07 Jan 2022 10:23:35 -0800 (PST)
+ id 1n5u4t-0003BA-NR; Fri, 07 Jan 2022 13:35:09 -0500
+Received: by mail-wm1-x32b.google.com with SMTP id
+ f189-20020a1c1fc6000000b00347ac5ccf6cso1349358wmf.3; 
+ Fri, 07 Jan 2022 10:35:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=r/61UO2M8uKpBF9iK8crNZAzwXGD+NkoTW1VO8VeSwA=;
- b=lgwda55neFwHIIDXPsgBMDaBj1NSRJmM+HX28O74XTVoJ7A3cZFerrHIhwmAVf0aw9
- OukEGgaMzd6nnSDJz70JmFf23fjGDvoeg7RMzedRbWj1IWR/qZmo89d46d8yd2WlSGpf
- ZpprWqIsEPeK6Y/G3GYoUzqwSnYvZ1Z1e5FRqT6RFFVXMqVH13/TS7uYGmHBET7ghlQw
- PiV2NsE2NpZVzaB4AaPXhws4LaXd7uxNH9pl4ItP6zd+ZVONYVaNpkVogofNAswhwaho
- +5et4XMH6JejCgL1YX3Up9ODXZLuNIz9kPHWpoIZLK1ZAZ4/Xmq8HgzXqkRvdzBO6Cc3
- oYVQ==
+ bh=qaLs6zK5La4IUOABtoqN2EdVeyNCpgAC9Cb9y6Rl9lI=;
+ b=Lr15k4MjQwJIuCDN8R1P+jpDC//KhnvIbrMoh07VcBeT8F+c8q5eIzqPnnjN/6KuDD
+ jWjVLhh4eQoShNZSEavl4exp0xzfjv2N/QRJxOe+xDSQyNEQTtCq4AV8peQ+kk5ZjjkL
+ ubECfUcIj/YdrHMkyGjjaNT3Zl/W68PBYA/Fea9trhQkHcD4MpfbDIww/htu3GttTwzq
+ jC0cIrhPHzkg5Ct2SYSfGMWAVVibmY9Ktyoq8tg2rc+j056xIDmU6HXN3qaE2iikHReq
+ 8O5Pcuhp8pyJngx0xQO52xKXxORstOHw090SlUhDq7zOJPQMlDvHo+6FGx5yhRBIM/yT
+ Vg7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=r/61UO2M8uKpBF9iK8crNZAzwXGD+NkoTW1VO8VeSwA=;
- b=4jKVGGJ+uMW2IY0TBRi7G7hdlLA3MTakzxHC3F5mVYrWrfsYcLEnXA0hbnhfv6hjmM
- OrejZAnppy+DkRIr7gFvde5Y5sQ7jW/y/F4Yvw+UnNvaiQNu0tbdCBDGNNvWdwtm6J5H
- BTK7KvbHpCaHujQd7clkaKfoqxYHd+7dBMERa9WO7WqHxdnjHMQiVagbxb5+T7P5rI/G
- HVjWAebP43gab8RIrPxNbZvdJ1SKPPDSgVeDXgKUX5aAMAvi6JFTP0NhyVZBU1SM6qaL
- mqzUAO7DzGcq6uwk5iimHL5N2PFGCkFc6Krw2+16YQLGru83+MK8gTxDRJ/WIqZgJfd0
- 7Y/Q==
-X-Gm-Message-State: AOAM530N9T/Jfo2Hc0X7TQMhHPbwLg8gb+fw6uHvtflzBhCAGDVVnoo3
- EbreLNYjw1jiiVcPeune/+s=
-X-Google-Smtp-Source: ABdhPJxMWpvvsmcrboZgzBX/OsC7h3vcPgI1GosrMTWp9GjSJWIFspHPO1L600Sa2XGeSbBHACTPkA==
-X-Received: by 2002:a05:6000:1ac7:: with SMTP id
- i7mr48785584wry.7.1641579814095; 
- Fri, 07 Jan 2022 10:23:34 -0800 (PST)
+ bh=qaLs6zK5La4IUOABtoqN2EdVeyNCpgAC9Cb9y6Rl9lI=;
+ b=S22nJ7go801+pB3uprtUkHF7/WXg98iRronqcQByHh7S5/6OGqIDek+M99mjSoEPAs
+ ipqZ4qeZWGVWYMaBqpCrQuRzQ7Ne3K0vxW7S5W0Qj00bYD0LauSZYCm+7mb2R9pITYNZ
+ CcE3MABw2KFU5h0+bOv626vhze4lEddOlgQEKD7t/25EYhEpxR/a9tFZStOARTIvEFRc
+ lsCUKVSOi7Ee8d8jL65S4c5i1/5+AoeZ2/rrJTWahM5f5jCHsR8HDODgIX7YMYVEfmMF
+ KQB0pYXQ3yOBkcumS+3xfkvZi0RhRnoG0T9Ce07WE3w8DKg4jyBnWaKL0kqaCSX9UbOU
+ kamg==
+X-Gm-Message-State: AOAM530oPYOjWNCkTp1xdTAWO9OTvaQqkPqwe+H9tTjLj214qYxVMPHA
+ WSLDQHHjPsC9Y1OFDL7eP9k=
+X-Google-Smtp-Source: ABdhPJzYLkLxjXNlrFEFwOhH4pV810UNMN/XgGZK00Mm0i7+Xj7OoUB7cxSqsp0tFYNwwLXcwfVIeg==
+X-Received: by 2002:a05:600c:a54:: with SMTP id
+ c20mr11904726wmq.48.1641580501936; 
+ Fri, 07 Jan 2022 10:35:01 -0800 (PST)
 Received: from [192.168.1.40] (83.red-83-50-87.dynamicip.rima-tde.net.
  [83.50.87.83])
- by smtp.gmail.com with ESMTPSA id h2sm5618187wmq.20.2022.01.07.10.23.33
+ by smtp.gmail.com with ESMTPSA id n15sm2684184wmc.0.2022.01.07.10.35.00
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 07 Jan 2022 10:23:33 -0800 (PST)
-Message-ID: <63f40c85-4770-31c7-2903-687acb7bbd27@amsat.org>
-Date: Fri, 7 Jan 2022 19:23:32 +0100
+ Fri, 07 Jan 2022 10:35:01 -0800 (PST)
+Message-ID: <12401764-0fff-3605-1022-b85091425f37@amsat.org>
+Date: Fri, 7 Jan 2022 19:34:59 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.4.0
-Subject: Re: [PATCH] simplebench: Fix Python syntax error (reported by LGTM)
+Subject: Re: [PATCH v3 0/3] hw/net: Move MV88W8618 network device out of
+ hw/arm/ directory
 Content-Language: en-US
-To: Stefan Weil <sw@weilnetz.de>, qemu-devel@nongnu.org
-References: <20220107153019.504124-1-sw@weilnetz.de>
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20211217233006.1466747-1-f4bug@amsat.org>
+ <CAFEAcA-__Z06M-r9VhfkGh4QKxenFizcO+U+0EM+oPHJQho-Dg@mail.gmail.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-In-Reply-To: <20220107153019.504124-1-sw@weilnetz.de>
+In-Reply-To: <CAFEAcA-__Z06M-r9VhfkGh4QKxenFizcO+U+0EM+oPHJQho-Dg@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::42d
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32b
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32b.google.com
 X-Spam_score_int: -33
 X-Spam_score: -3.4
 X-Spam_bar: ---
@@ -91,32 +94,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- John Snow <jsnow@redhat.com>
+Cc: Jason Wang <jasowang@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ qemu-arm@nongnu.org, Jan Kiszka <jan.kiszka@web.de>,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/7/22 16:30, Stefan Weil wrote:
-> Signed-off-by: Stefan Weil <sw@weilnetz.de>
-> ---
->  scripts/simplebench/bench-example.py | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+On 1/6/22 15:48, Peter Maydell wrote:
+> On Fri, 17 Dec 2021 at 23:30, Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
+>>
+>> This series simply extract the MV88W8618 device from the ARM
+>> machine in hw/arm/ and move it to hw/net/.
+>>
+>> Since v2:
+>> - declare MARVELL_88W8618 in hw/arm/Kconfig
+>> - use MARVELL_88W8618 Kconfig (rth)
+>>
+>> Since v1:
+>> - update (c) notice
 > 
-> diff --git a/scripts/simplebench/bench-example.py b/scripts/simplebench/bench-example.py
-> index 4864435f39..fc370691e0 100644
-> --- a/scripts/simplebench/bench-example.py
-> +++ b/scripts/simplebench/bench-example.py
-> @@ -25,7 +25,7 @@
->  
->  def bench_func(env, case):
->      """ Handle one "cell" of benchmarking table. """
-> -    return bench_block_copy(env['qemu_binary'], env['cmd'], {}
-> +    return bench_block_copy(env['qemu_binary'], env['cmd'], {},
->                              case['source'], case['target'])
->  
->  
+> Looks like the code-movement in this patchset has a clash with
+> your other series that's now in master that changed the signature
+> of dma_memory_read/dma_memory_write; could I ask you to respin,
+> please?
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-
+Oops I didn't notice, sorry. Sure, will respin.
 
