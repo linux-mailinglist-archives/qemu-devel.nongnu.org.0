@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7ED45487B90
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 18:41:00 +0100 (CET)
-Received: from localhost ([::1]:55142 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CB89487B84
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 18:37:09 +0100 (CET)
+Received: from localhost ([::1]:42820 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5tEY-0002j2-Ka
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 12:40:58 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:49110)
+	id 1n5tAp-0002P6-Sg
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 12:37:07 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:49112)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1n5swA-0005BM-1E
+ id 1n5swA-0005Bg-56
  for qemu-devel@nongnu.org; Fri, 07 Jan 2022 12:21:58 -0500
-Received: from [2a00:1450:4864:20::435] (port=43588
- helo=mail-wr1-x435.google.com)
+Received: from [2a00:1450:4864:20::32f] (port=37601
+ helo=mail-wm1-x32f.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1n5sw5-0007uC-47
+ id 1n5sw5-0007uN-OW
  for qemu-devel@nongnu.org; Fri, 07 Jan 2022 12:21:57 -0500
-Received: by mail-wr1-x435.google.com with SMTP id o3so12307210wrh.10
- for <qemu-devel@nongnu.org>; Fri, 07 Jan 2022 09:21:52 -0800 (PST)
+Received: by mail-wm1-x32f.google.com with SMTP id
+ l12-20020a7bc34c000000b003467c58cbdfso5371799wmj.2
+ for <qemu-devel@nongnu.org>; Fri, 07 Jan 2022 09:21:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=LupUZiFadISWRd6OfQvtso37hN2ZXDsa2I1Sv18LqPg=;
- b=Sn9XcJ3XNZA1IrsSZ4LTTd6YlPIrBFzTGmnhhAfDroP4MZsv0lmc4/Y8B6/q1hi1hV
- +iOBczyRBmR7bgPvFKT8LkN37ZWcFmfhEsDUM1DiIuWSI28rP6ER6BTreGOGDyPIqnnX
- MXhpfh/zZNkR6rczl31u0fMjQLj2E+2U+7PFQ1wQ/iEQoIi9wWV7clef1af/3Mp/y7+z
- 2GkPYB5/FIkAV+lkOkXomidIYt02IJVTDYFa/wOGV+JjQYNmCKz2/UTiijnDSHL+89a9
- Q0cuYIDZiPwZAho/AsORzR/uQkEDHFV/EkyWER1DVkHZXTiA3Ensfp/KovwcmszSxr40
- u5Aw==
+ bh=IOcivYbyX4NfWdoqeMZpWI7m9+0DcpfUF9sALZg+RZI=;
+ b=byiu143i/mTE9fe+mDcP/cic0iI3cFVfqJxRgKEJA0n/K6MDOCTFcCMksPZZy1wxHM
+ 8BUgGRE4sy3McNjLPKNJj8uhToq+cioD+ltCj31PLRoCRH8FJZ07aAHQ74DNgg4tJbBC
+ T8tCZZ9RVNAOr2+GcG/MsBMrswReeZk6CuM1yCi0L+nngcgJn4aAMYEPaPgdmNYfIk3o
+ LbPNOYGbE/uRz1KFm43urFArU4ptDHxVOaX+fjWpp7+jA+byUb5iN/czyy/W98YQ0Pso
+ S+g+ImVah5nbzUjso7Ru6gD14mzv3U1aPAtWcWb5w74cK/9az6eBZOZFi9CNJ32+RxaV
+ ls/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=LupUZiFadISWRd6OfQvtso37hN2ZXDsa2I1Sv18LqPg=;
- b=Htr78c4RPyCzCQExDlPEB9Fgu0XNWhipbip2QfOG/LGB6FjXPK76U6MNfcq9LV+JCV
- itvBUXTW0qJ5QB7DQCpK2mRAV+kV9j6CZ3m3UB4nBWmK1/IT4GSKvY47cz3tO5kEg1/j
- FKKeEXXcWITG4n3oJLWX/ubV38q3WI8BrHBflnTpUlzAJFn/LXAlBqZPAG6EPcXITxGA
- hdhRVFbluvVLYqsEtZBcdubl80EN70CYCTO9jeNsJ6ZpL1hywXQURIQc+QQj6fZiqjnL
- 3K2tQHjVVFBjc46/UOd8+bti0LyhP5oKL/Aw/BvcbNdzA0k15AY/pG2M303LwRyt58gX
- Mmhw==
-X-Gm-Message-State: AOAM53269uS7807wFxODRcO0NFJDTT8Yhgce9hXm8t+9Bv+kz/2Qfyg1
- a6ohV1A0dIAaQOIMHtPBivVZDTB3x2ek6A==
-X-Google-Smtp-Source: ABdhPJyEHrTvJeCr9kGzEYYjVA2Y4pEwPx5DFcPOjJRv6KzmTuubMj5UZIDlsTmmo+blD/YmydGULg==
-X-Received: by 2002:a05:6000:c:: with SMTP id
- h12mr8008573wrx.474.1641576111907; 
- Fri, 07 Jan 2022 09:21:51 -0800 (PST)
+ bh=IOcivYbyX4NfWdoqeMZpWI7m9+0DcpfUF9sALZg+RZI=;
+ b=Qg2SPM7DTdduNsW5Hdi8ifDyYJZ83ynDe9eucue1IAY5V0CLFd6+sYTZ4WpKN10us4
+ fO1bjeyqzaBztkfIHwVKsrIvh6nlfgCqgLUAWyZLsaYg3NT7oAvgYA/0cUmRWHzmM6cP
+ dz9yDQmnCZcl0sfqTdwsZu2bTc0AfjeE4mUDCx1ydqp2YgynIpBQSZTFtcTeojcIuAR5
+ xHDK4lGPPb8RHbojv5ZcBKjftDiPrl1Waba+MCBzT0QplvlMXIz4bZo0THK8SMSw5+Nb
+ CZ10uHnvdwt3+TunI0oemNzahky5Zm4bIi6ifpZMWAjQKwi3qKTjyda7Uq9vJmUvNPXl
+ uutA==
+X-Gm-Message-State: AOAM530plamfhdVT5Mg0W9fsqVRvaqx6hzpSkoA6ErPaexN0Xh0PLcW3
+ FjQrzyQBYJgE7bofVUTf1LodTx6PkzocUg==
+X-Google-Smtp-Source: ABdhPJx5ykrpF/zkTA6Xapy/j6tM29vnX4h46qUvCF1bsSAaeZnipqMafdzhF3fx9pZrCnQ9ctZ1Dg==
+X-Received: by 2002:a7b:c763:: with SMTP id x3mr6593624wmk.49.1641576112556;
+ Fri, 07 Jan 2022 09:21:52 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id i6sm6060219wrf.79.2022.01.07.09.21.51
+ by smtp.gmail.com with ESMTPSA id i6sm6060219wrf.79.2022.01.07.09.21.52
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 Jan 2022 09:21:51 -0800 (PST)
+ Fri, 07 Jan 2022 09:21:52 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 13/19] hw/intc/arm_gicv3_its: Use FIELD macros for CTEs
-Date: Fri,  7 Jan 2022 17:21:36 +0000
-Message-Id: <20220107172142.2651911-14-peter.maydell@linaro.org>
+Subject: [PULL 14/19] hw/intc/arm_gicv3_its: Fix various off-by-one errors
+Date: Fri,  7 Jan 2022 17:21:37 +0000
+Message-Id: <20220107172142.2651911-15-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220107172142.2651911-1-peter.maydell@linaro.org>
 References: <20220107172142.2651911-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::435
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32f
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x435.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32f.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -91,62 +91,165 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use FIELD macros to handle CTEs, rather than ad-hoc mask-and-shift.
+The ITS code has to check whether various parameters passed in
+commands are in-bounds, where the limit is defined in terms of the
+number of bits that are available for the parameter.  (For example,
+the GITS_TYPER.Devbits ID register field specifies the number of
+DeviceID bits minus 1, and device IDs passed in the MAPTI and MAPD
+command packets must fit in that many bits.)
+
+Currently we have off-by-one bugs in many of these bounds checks.
+The typical problem is that we define a max_foo as 1 << n. In
+the Devbits example, we set
+  s->dt.max_ids = 1UL << (GITS_TYPER.Devbits + 1).
+However later when we do the bounds check we write
+  if (devid > s->dt.max_ids) { /* command error */ }
+which incorrectly permits a devid of 1 << n.
+
+These bugs will not cause QEMU crashes because the ID values being
+checked are only used for accesses into tables held in guest memory
+which we access with address_space_*() functions, but they are
+incorrect behaviour of our emulation.
+
+Fix them by standardizing on this pattern:
+ * bounds limits are named num_foos and are the 2^n value
+   (equal to the number of valid foo values)
+ * bounds checks are either
+   if (fooid < num_foos) { good }
+   or
+   if (fooid >= num_foos) { bad }
+
+In this commit we fix the handling of the number of IDs
+in the device table and the collection table, and the number
+of commands that will fit in the command queue.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- hw/intc/gicv3_internal.h | 3 ++-
- hw/intc/arm_gicv3_its.c  | 7 ++++---
- 2 files changed, 6 insertions(+), 4 deletions(-)
+ include/hw/intc/arm_gicv3_its_common.h |  6 +++---
+ hw/intc/arm_gicv3_its.c                | 26 +++++++++++++-------------
+ 2 files changed, 16 insertions(+), 16 deletions(-)
 
-diff --git a/hw/intc/gicv3_internal.h b/hw/intc/gicv3_internal.h
-index 14e8ef68e02..1eeb99035da 100644
---- a/hw/intc/gicv3_internal.h
-+++ b/hw/intc/gicv3_internal.h
-@@ -403,7 +403,8 @@ FIELD(DTE, ITTADDR, 6, 44)
-  * Valid = 1 bit, RDBase = 16 bits
-  */
- #define GITS_CTE_SIZE                 (0x8ULL)
--#define GITS_CTE_RDBASE_PROCNUM_MASK  MAKE_64BIT_MASK(1, RDBASE_PROCNUM_LENGTH)
-+FIELD(CTE, VALID, 0, 1)
-+FIELD(CTE, RDBASE, 1, RDBASE_PROCNUM_LENGTH)
+diff --git a/include/hw/intc/arm_gicv3_its_common.h b/include/hw/intc/arm_gicv3_its_common.h
+index 85a144b0e49..b32c697207f 100644
+--- a/include/hw/intc/arm_gicv3_its_common.h
++++ b/include/hw/intc/arm_gicv3_its_common.h
+@@ -46,14 +46,14 @@ typedef struct {
+     bool indirect;
+     uint16_t entry_sz;
+     uint32_t page_sz;
+-    uint32_t max_entries;
+-    uint32_t max_ids;
++    uint32_t num_entries;
++    uint32_t num_ids;
+     uint64_t base_addr;
+ } TableDesc;
  
- /* Special interrupt IDs */
- #define INTID_SECURE 1020
+ typedef struct {
+     bool valid;
+-    uint32_t max_entries;
++    uint32_t num_entries;
+     uint64_t base_addr;
+ } CmdQDesc;
+ 
 diff --git a/hw/intc/arm_gicv3_its.c b/hw/intc/arm_gicv3_its.c
-index 7a217b00f89..2949157df34 100644
+index 2949157df34..95c1914eb32 100644
 --- a/hw/intc/arm_gicv3_its.c
 +++ b/hw/intc/arm_gicv3_its.c
-@@ -104,7 +104,7 @@ static bool get_cte(GICv3ITSState *s, uint16_t icid, uint64_t *cte,
-                                       MEMTXATTRS_UNSPECIFIED, res);
-     }
+@@ -286,10 +286,10 @@ static bool process_its_cmd(GICv3ITSState *s, uint64_t value, uint32_t offset,
+      * In this implementation, in case of guest errors we ignore the
+      * command and move onto the next command in the queue.
+      */
+-    if (devid > s->dt.max_ids) {
++    if (devid >= s->dt.num_ids) {
+         qemu_log_mask(LOG_GUEST_ERROR,
+-                      "%s: invalid command attributes: devid %d>%d",
+-                      __func__, devid, s->dt.max_ids);
++                      "%s: invalid command attributes: devid %d>=%d",
++                      __func__, devid, s->dt.num_ids);
  
--    return (*cte & TABLE_ENTRY_VALID_MASK) != 0;
-+    return FIELD_EX64(*cte, CTE, VALID);
+     } else if (!dte_valid || !ite_valid || !cte_valid) {
+         qemu_log_mask(LOG_GUEST_ERROR,
+@@ -379,7 +379,7 @@ static bool process_mapti(GICv3ITSState *s, uint64_t value, uint32_t offset,
+     max_eventid = 1UL << (FIELD_EX64(dte, DTE, SIZE) + 1);
+     max_Intid = (1ULL << (GICD_TYPER_IDBITS + 1)) - 1;
+ 
+-    if ((devid > s->dt.max_ids) || (icid > s->ct.max_ids)
++    if ((devid >= s->dt.num_ids) || (icid >= s->ct.num_ids)
+             || !dte_valid || (eventid > max_eventid) ||
+             (((pIntid < GICV3_LPI_INTID_START) || (pIntid > max_Intid)) &&
+              (pIntid != INTID_SPURIOUS))) {
+@@ -497,7 +497,7 @@ static bool process_mapc(GICv3ITSState *s, uint32_t offset)
+ 
+     valid = (value & CMD_FIELD_VALID_MASK);
+ 
+-    if ((icid > s->ct.max_ids) || (rdbase >= s->gicv3->num_cpu)) {
++    if ((icid >= s->ct.num_ids) || (rdbase >= s->gicv3->num_cpu)) {
+         qemu_log_mask(LOG_GUEST_ERROR,
+                       "ITS MAPC: invalid collection table attributes "
+                       "icid %d rdbase %" PRIu64 "\n",  icid, rdbase);
+@@ -610,7 +610,7 @@ static bool process_mapd(GICv3ITSState *s, uint64_t value, uint32_t offset)
+ 
+     valid = (value & CMD_FIELD_VALID_MASK);
+ 
+-    if ((devid > s->dt.max_ids) ||
++    if ((devid >= s->dt.num_ids) ||
+         (size > FIELD_EX64(s->typer, GITS_TYPER, IDBITS))) {
+         qemu_log_mask(LOG_GUEST_ERROR,
+                       "ITS MAPD: invalid device table attributes "
+@@ -649,7 +649,7 @@ static void process_cmdq(GICv3ITSState *s)
+ 
+     wr_offset = FIELD_EX64(s->cwriter, GITS_CWRITER, OFFSET);
+ 
+-    if (wr_offset > s->cq.max_entries) {
++    if (wr_offset >= s->cq.num_entries) {
+         qemu_log_mask(LOG_GUEST_ERROR,
+                       "%s: invalid write offset "
+                       "%d\n", __func__, wr_offset);
+@@ -658,7 +658,7 @@ static void process_cmdq(GICv3ITSState *s)
+ 
+     rd_offset = FIELD_EX64(s->creadr, GITS_CREADR, OFFSET);
+ 
+-    if (rd_offset > s->cq.max_entries) {
++    if (rd_offset >= s->cq.num_entries) {
+         qemu_log_mask(LOG_GUEST_ERROR,
+                       "%s: invalid read offset "
+                       "%d\n", __func__, rd_offset);
+@@ -721,7 +721,7 @@ static void process_cmdq(GICv3ITSState *s)
+         }
+         if (result) {
+             rd_offset++;
+-            rd_offset %= s->cq.max_entries;
++            rd_offset %= s->cq.num_entries;
+             s->creadr = FIELD_DP64(s->creadr, GITS_CREADR, OFFSET, rd_offset);
+         } else {
+             /*
+@@ -824,13 +824,13 @@ static void extract_table_params(GICv3ITSState *s)
+         td->entry_sz = FIELD_EX64(value, GITS_BASER, ENTRYSIZE) + 1;
+         td->base_addr = baser_base_addr(value, page_sz);
+         if (!td->indirect) {
+-            td->max_entries = (num_pages * page_sz) / td->entry_sz;
++            td->num_entries = (num_pages * page_sz) / td->entry_sz;
+         } else {
+-            td->max_entries = (((num_pages * page_sz) /
++            td->num_entries = (((num_pages * page_sz) /
+                                   L1TABLE_ENTRY_SIZE) *
+                                  (page_sz / td->entry_sz));
+         }
+-        td->max_ids = 1ULL << idbits;
++        td->num_ids = 1ULL << idbits;
+     }
  }
  
- static bool update_ite(GICv3ITSState *s, uint32_t eventid, uint64_t dte,
-@@ -308,7 +308,7 @@ static bool process_its_cmd(GICv3ITSState *s, uint64_t value, uint32_t offset,
-          * Current implementation only supports rdbase == procnum
-          * Hence rdbase physical address is ignored
-          */
--        rdbase = (cte & GITS_CTE_RDBASE_PROCNUM_MASK) >> 1U;
-+        rdbase = FIELD_EX64(cte, CTE, RDBASE);
+@@ -845,7 +845,7 @@ static void extract_cmdq_params(GICv3ITSState *s)
+     s->cq.valid = FIELD_EX64(value, GITS_CBASER, VALID);
  
-         if (rdbase >= s->gicv3->num_cpu) {
-             return result;
-@@ -426,7 +426,8 @@ static bool update_cte(GICv3ITSState *s, uint16_t icid, bool valid,
- 
-     if (valid) {
-         /* add mapping entry to collection table */
--        cte = (valid & TABLE_ENTRY_VALID_MASK) | (rdbase << 1ULL);
-+        cte = FIELD_DP64(cte, CTE, VALID, 1);
-+        cte = FIELD_DP64(cte, CTE, RDBASE, rdbase);
-     }
- 
-     /*
+     if (s->cq.valid) {
+-        s->cq.max_entries = (num_pages * GITS_PAGE_SIZE_4K) /
++        s->cq.num_entries = (num_pages * GITS_PAGE_SIZE_4K) /
+                              GITS_CMDQ_ENTRY_SIZE;
+         s->cq.base_addr = FIELD_EX64(value, GITS_CBASER, PHYADDR);
+         s->cq.base_addr <<= R_GITS_CBASER_PHYADDR_SHIFT;
 -- 
 2.25.1
 
