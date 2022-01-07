@@ -2,57 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD2A94873C3
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 08:53:30 +0100 (CET)
-Received: from localhost ([::1]:58828 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 137AA4873C9
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 08:54:34 +0100 (CET)
+Received: from localhost ([::1]:59788 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5k41-0005Hu-JC
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 02:53:29 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:34224)
+	id 1n5k52-0005vz-Sj
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 02:54:32 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34336)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1n5k17-0003tU-Lq; Fri, 07 Jan 2022 02:50:30 -0500
-Received: from [2001:41c9:1:41f::167] (port=38236
- helo=mail.default.ilande.bv.iomart.io)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1n5k13-0001l8-8d; Fri, 07 Jan 2022 02:50:27 -0500
-Received: from [2a00:23c4:8ba0:4900:614:7796:ec2b:4f88]
- by mail.default.ilande.bv.iomart.io with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1n5k0V-00011q-4M; Fri, 07 Jan 2022 07:49:55 +0000
-Message-ID: <5a63cdca-51bd-4a9f-7963-afb7305bd2e9@ilande.co.uk>
-Date: Fri, 7 Jan 2022 07:50:05 +0000
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1n5k1k-0004PH-7T; Fri, 07 Jan 2022 02:51:08 -0500
+Received: from [2607:f8b0:4864:20::b2b] (port=41503
+ helo=mail-yb1-xb2b.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1n5k1i-0001u9-Ix; Fri, 07 Jan 2022 02:51:07 -0500
+Received: by mail-yb1-xb2b.google.com with SMTP id y130so14504064ybe.8;
+ Thu, 06 Jan 2022 23:51:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=FRBYGbDtzfwoRZcR7Y3lNak+EdqBpY4b6aDYpv2M2YY=;
+ b=juTHa9FmfysEapvSy5pUVvLv0VhFNDzi8vwuorysNuA2tghWfkbznBZYHHqHZ9Fbv+
+ KsWdsFo1hM2UcUh/VQuRwH4AoOE7IEz6EHk/EEW1gglVZG0nghNJ45mox4bH5smkJlwO
+ EvX6E+ZaWuV0FA1iIil2TUvzdOHsk1WnZy3sRPzOB7GPBrWagmPQ/sSlB4T2OASkjahu
+ TmqbA24dpHJtE6GaNJtQ4oSdgawNSyW9bA79sdE6k5V1/RoDUkMMLLGMWmI+7uGN3zxw
+ 8TWGGAo8GeS+5ys1RtrQ54C02hy2+yL+nW0BCl4UkLWuZVs8Ul5omeOcbGuaNWnXipMD
+ f0vw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=FRBYGbDtzfwoRZcR7Y3lNak+EdqBpY4b6aDYpv2M2YY=;
+ b=El01VslvcTMarT7rpsQClkD0ta7V1NQW7UuU6n319sRewtOvtUdIkjZIj1ZKcj/r0U
+ KJOd7TiCMim9NXi29cK1rJINY4hWMrN3l+4Z3GGwt8I50dz9LU5ELHddtBciogAOTp9c
+ 2m4O95cnTcXo02EcR4m/KPx1omU0KbO/iLf5WgmehcRh36yzBGmvWFjCpvEq2A5MnhFb
+ 82lolg6zcBYXFKiOCotUHbplT989Lcp8mj71tOm9MzzhHkWCV8NjiyVdMXfYoKynnQt+
+ vzJV8zEWPJrvRv4xdsL2KBuQ6uJ0113t74TnkC1Le8Jc60zZ7/qU7UmRnoXurWb3m3yC
+ IdkQ==
+X-Gm-Message-State: AOAM5315Kp9S5Kvy+Md/6gHiXqC57N3aN5C9za5UzlJOMDXsfJslbfRl
+ 02c33jWhUHjVp2taBuSsPCdMdi2UK67Hk61VXTs=
+X-Google-Smtp-Source: ABdhPJzUYsKniKMGzMkacAwuSDG7eYeaG1MRKLs7jG/lRGOu6qHA+F2CcSWGKfwUki7qMF+Tto2f+OyAiTR4XORwKng=
+X-Received: by 2002:a25:bcc3:: with SMTP id l3mr52816738ybm.148.1641541865133; 
+ Thu, 06 Jan 2022 23:51:05 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.1
-Content-Language: en-US
-To: Thomas Huth <thuth@redhat.com>,
- Daniel Henrique Barboza <danielhb413@gmail.com>,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-devel@nongnu.org
-References: <20220105104800.407570-1-thuth@redhat.com>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <20220105104800.407570-1-thuth@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a00:23c4:8ba0:4900:614:7796:ec2b:4f88
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH] MAINTAINERS: Improve the PowerPC machines section
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:41c9:1:41f::167
+References: <20220107004846.378859-1-atishp@rivosinc.com>
+ <20220107004846.378859-3-atishp@rivosinc.com>
+In-Reply-To: <20220107004846.378859-3-atishp@rivosinc.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Fri, 7 Jan 2022 15:50:53 +0800
+Message-ID: <CAEUhbmWSY_Tv09uNhyghvKmTYvFWjRdAF=f4PDriRFhh4MCNjw@mail.gmail.com>
+Subject: Re: [PATCH v4 02/11] target/riscv: Implement PMU CSR predicate
+ function for S-mode
+To: Atish Patra <atishp@rivosinc.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::b2b
  (failed)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk;
- helo=mail.default.ilande.bv.iomart.io
-X-Spam_score_int: -37
-X-Spam_score: -3.8
-X-Spam_bar: ---
-X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.691,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2b;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb2b.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -65,95 +79,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org,
- =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
- Greg Kurz <groug@kaod.org>, David Gibson <david@gibson.dropbear.id.au>
+Cc: Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bin.meng@windriver.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 05/01/2022 10:48, Thomas Huth wrote:
-
-> Add some documentation files to the corresponding machine sections
-> and mention the machine names in the section titles where it is
-> not so obvious (e.g. that "taihu" is a 405 machine).
-> 
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
+On Fri, Jan 7, 2022 at 10:14 AM Atish Patra <atishp@rivosinc.com> wrote:
+>
+> From: Atish Patra <atish.patra@wdc.com>
+>
+> Currently, the predicate function for PMU related CSRs only works if
+> virtualization is enabled. It also does not check mcounteren bits before
+> before cycle/minstret/hpmcounterx access.
+>
+> Support supervisor mode access in the predicate function as well.
+>
+> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+> Signed-off-by: Atish Patra <atish.patra@wdc.com>
+> Signed-off-by: Atish Patra <atishp@rivosinc.com>
 > ---
->   MAINTAINERS | 12 ++++++++----
->   1 file changed, 8 insertions(+), 4 deletions(-)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index f871d759fd..53cf0fdc00 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -1245,7 +1245,7 @@ F: hw/openrisc/openrisc_sim.c
->   
->   PowerPC Machines
->   ----------------
-> -405
-> +405 (ref405ep and taihu)
->   L: qemu-ppc@nongnu.org
->   S: Orphan
->   F: hw/ppc/ppc405_boards.c
-> @@ -1281,6 +1281,7 @@ New World (mac99)
->   M: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
->   L: qemu-ppc@nongnu.org
->   S: Odd Fixes
-> +F: docs/system/ppc/powermac.rst
->   F: hw/ppc/mac_newworld.c
->   F: hw/pci-host/uninorth.c
->   F: hw/pci-bridge/dec.[hc]
-> @@ -1299,6 +1300,7 @@ Old World (g3beige)
->   M: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
->   L: qemu-ppc@nongnu.org
->   S: Odd Fixes
-> +F: docs/system/ppc/powermac.rst
->   F: hw/ppc/mac_oldworld.c
->   F: hw/pci-host/grackle.c
->   F: hw/misc/macio/
-> @@ -1312,6 +1314,7 @@ PReP
->   M: Hervé Poussineau <hpoussin@reactos.org>
->   L: qemu-ppc@nongnu.org
->   S: Maintained
-> +F: docs/system/ppc/prep.rst
->   F: hw/ppc/prep.c
->   F: hw/ppc/prep_systemio.c
->   F: hw/ppc/rs6000_mc.c
-> @@ -1324,7 +1327,7 @@ F: include/hw/isa/pc87312.h
->   F: include/hw/rtc/m48t59.h
->   F: tests/avocado/ppc_prep_40p.py
->   
-> -sPAPR
-> +sPAPR (pseries)
->   M: Cédric Le Goater <clg@kaod.org>
->   M: Daniel Henrique Barboza <danielhb413@gmail.com>
->   R: David Gibson <david@gibson.dropbear.id.au>
-> @@ -1336,8 +1339,8 @@ F: include/hw/*/spapr*
->   F: hw/*/xics*
->   F: include/hw/*/xics*
->   F: pc-bios/slof.bin
-> -F: docs/specs/ppc-spapr-hcalls.txt
-> -F: docs/specs/ppc-spapr-hotplug.txt
-> +F: docs/system/ppc/pseries.rst
-> +F: docs/specs/ppc-spapr-*
->   F: tests/qtest/spapr*
->   F: tests/qtest/libqos/*spapr*
->   F: tests/qtest/rtas*
-> @@ -1348,6 +1351,7 @@ PowerNV (Non-Virtualized)
->   M: Cédric Le Goater <clg@kaod.org>
->   L: qemu-ppc@nongnu.org
->   S: Maintained
-> +F: docs/system/ppc/powernv.rst
->   F: hw/ppc/pnv*
->   F: hw/intc/pnv*
->   F: hw/intc/xics_pnv.c
+>  target/riscv/csr.c | 52 ++++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 52 insertions(+)
+>
 
-For the New World and Old World machines:
-
-Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-
-
-ATB,
-
-Mark.
+Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
 
