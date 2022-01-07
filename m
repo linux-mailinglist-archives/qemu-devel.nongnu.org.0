@@ -2,51 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29BCA487027
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 03:08:34 +0100 (CET)
-Received: from localhost ([::1]:38952 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 641E9486FB6
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 02:28:10 +0100 (CET)
+Received: from localhost ([::1]:50998 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5egC-00075p-Lb
-	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 21:08:32 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36548)
+	id 1n5e37-0008JT-3o
+	for lists+qemu-devel@lfdr.de; Thu, 06 Jan 2022 20:28:09 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:58156)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1n5ebp-0006FL-9E; Thu, 06 Jan 2022 21:04:01 -0500
-Received: from gandalf.ozlabs.org ([150.107.74.76]:52157)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@gandalf.ozlabs.org>)
- id 1n5ebl-0005p6-FC; Thu, 06 Jan 2022 21:04:01 -0500
-Received: by gandalf.ozlabs.org (Postfix, from userid 1007)
- id 4JVRN65RYhz4xts; Fri,  7 Jan 2022 13:03:50 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gibson.dropbear.id.au; s=201602; t=1641521030;
- bh=SRtx+kmuCmuJMXElb3K2OzTFiY1XHP174HDFa9hZiFs=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Abc8rnG5Ibka73v3A1508K1wkVZZO2WKfJz3xIxoiQRoN6IAL1AywNErpwmd8G0kA
- Pac+1l7eNpgiqFo/jqI/6Bq68XsxT3zhpkPN273mwryd+l1sSgVaa+D/xOlxgK76mL
- NA0xcJ6EdQuEX215TcMOOqx8HQRq5h6gA8BQpiwo=
-Date: Fri, 7 Jan 2022 12:06:18 +1100
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Greg Kurz <groug@kaod.org>
-Subject: Re: [RFC PATCH] target/ppc: Remove xscmpnedp instruction
-Message-ID: <YdeSCktdUYcyb+bh@yekko>
-References: <20220106112318.13864-1-victor.colombo@eldorado.org.br>
- <722ded34-a09a-b94a-3182-64686ad0150c@kaod.org>
- <20220106140201.5237cb05@bahia>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1n5e0m-0007Kp-Ee
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 20:25:44 -0500
+Received: from [2607:f8b0:4864:20::1034] (port=36677
+ helo=mail-pj1-x1034.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1n5e0k-0004B1-QB
+ for qemu-devel@nongnu.org; Thu, 06 Jan 2022 20:25:43 -0500
+Received: by mail-pj1-x1034.google.com with SMTP id
+ c9-20020a17090a1d0900b001b2b54bd6c5so10440850pjd.1
+ for <qemu-devel@nongnu.org>; Thu, 06 Jan 2022 17:25:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=5DocmTehJBloY7vDxORMh33IoGBmiNc2Xu9fT6rggcc=;
+ b=nMfSag1yMn5gs2JijKAxm/7lwU3pDQKdjMetz0t9ZObZcGORYxK/n0Obs2QxbmClDQ
+ vRoWHfIbkdAKZVr2v5yt47Z3mDD0ncjjUNArBmlIVh2snhUG3Es4tTjX+r/iTnL31BJL
+ 9zPUQqnwWE7DGuuIdlXMznyy1fqEm9rzj0/kqaexJAgGJ8gAuDqtavmW+UyRQB/TiIBu
+ Uz7+mJOKS7NxvugU68el6sljN9uFmvctzzSwSmYghnWrmG5fBnTzkrDOeMFa8kIXH0vc
+ Yhhji+9nCcfKxwKHb/wKIg6u0SLiYhCoK6h6h/drLEux7vO8dJNWKvtSqCTBYO/jaYRg
+ cOfA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=5DocmTehJBloY7vDxORMh33IoGBmiNc2Xu9fT6rggcc=;
+ b=4uqsivCLMmb/Cxs1FAYTybHugQsjh7Dq0bt1eLzX3ONBsYZnM6ORO/X7KXH30Mjor4
+ Vk6fCOCKFa1dRYD2VvkIXBeVJNOwhXsvBAoQtr79FA/CmlqJVQcaCOHa+90sp48NQ0J/
+ NQT/VPBN89EG8NMxV3liuTfXR4Cl0OeKRVMeBGpX45FE4/U9w/YI2JfU61z0U4qXhA4D
+ d6NIT+orpOliS0LRNJRFJJJeVMujNNL8SN5RNjob0mZE2qC6niImuiWGfk8ggJors2DJ
+ E9XWvKE1I7NTIBx+MzVfYVqlnjdck+FuKb9iZ4afIGVHsWDJ3GZzaOimtW2zwuo9a86M
+ UDtw==
+X-Gm-Message-State: AOAM530aPd90jJAEM4tiUTNndkCj6tXLR2Vf/EVU432ULXWmZOshRhtO
+ KfB48x0PvC3lBeybPaiRvTXabingikApDA==
+X-Google-Smtp-Source: ABdhPJyqsPsOZzMDrDfRB3sQPfCoAIsZaXCeWwx7zYut4XiRRO31XD26KkNFmmwRTSDtfgyVF4Z6ng==
+X-Received: by 2002:a17:903:1110:b0:149:a428:19f1 with SMTP id
+ n16-20020a170903111000b00149a42819f1mr35122216plh.120.1641518741235; 
+ Thu, 06 Jan 2022 17:25:41 -0800 (PST)
+Received: from [192.168.1.13] (174-21-75-75.tukw.qwest.net. [174.21.75.75])
+ by smtp.gmail.com with ESMTPSA id e16sm3464535pfd.38.2022.01.06.17.25.40
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 06 Jan 2022 17:25:40 -0800 (PST)
+Subject: Re: [PATCH] target/arm: Add missing FEAT_TLBIOS instructions
+To: Idan Horowitz <idan.horowitz@gmail.com>, qemu-arm@nongnu.org
+References: <20211231103928.1455657-1-idan.horowitz@gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <0570193f-7a2b-9fd2-ac4e-76aeb671f2e9@linaro.org>
+Date: Thu, 6 Jan 2022 17:25:38 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="Y8uKIQFwS3i8Ojwl"
-Content-Disposition: inline
-In-Reply-To: <20220106140201.5237cb05@bahia>
-Received-SPF: pass client-ip=150.107.74.76;
- envelope-from=dgibson@gandalf.ozlabs.org; helo=gandalf.ozlabs.org
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <20211231103928.1455657-1-idan.horowitz@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1034
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
+X-Spam_score_int: -39
+X-Spam_score: -4.0
+X-Spam_bar: ----
+X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.691,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -59,146 +91,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: danielhb413@gmail.com, qemu-devel@nongnu.org,
- =?iso-8859-1?Q?V=EDctor?= Colombo <victor.colombo@eldorado.org.br>,
- qemu-ppc@nongnu.org, =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
- matheus.ferst@eldorado.org.br
+Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 12/31/21 2:39 AM, Idan Horowitz wrote:
+> Some of the instructions added by the FEAT_TLBIOS extension were forgotten
+> when the extension was originally added to QEMU.
+> 
+> Fixes: 7113d618505b ("target/arm: Add support for FEAT_TLBIOS")
+> Signed-off-by: Idan Horowitz<idan.horowitz@gmail.com>
+> ---
+>   target/arm/helper.c | 32 ++++++++++++++++++++++++++++++++
+>   1 file changed, 32 insertions(+)
 
---Y8uKIQFwS3i8Ojwl
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-On Thu, Jan 06, 2022 at 02:02:01PM +0100, Greg Kurz wrote:
-> On Thu, 6 Jan 2022 13:21:46 +0100
-> C=E9dric Le Goater <clg@kaod.org> wrote:
->=20
-> > On 1/6/22 12:23, V=EDctor Colombo wrote:
-> > > xscmpnedp was added in ISA v3.0 but removed in v3.0B. This patch
-> > > removes this instruction as it was not in the final version of v3.0.
-> > >=20
-> > > RFC to know if you think this is the correct approach.
-> >=20
-> > Usually we deprecate a feature for a minimum of two releases before
-> > removing it. It might be overkill for this case since the P9 processor
-> > implementation is based on v3.0B.
-> >=20
-> > I would simply remove the instruction since it never existed on any
-> > supported HW. I will wait for some more feedback.
-> >=20
->=20
-> I don't think it makes sense to keep this instruction if it only
-> existed in pre-GA HW.
 
-I agree.  If we have a vistigial POWER9 DD1 in the cpu table we should
-probably remove that anyway.
-
-> Acked-by: Greg Kurz <groug@kaod.org>
-
-Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-
->=20
-> > Reviewed-by: C=E9dric Le Goater <clg@kaod.org>
-> >=20
-> > Thanks,
-> >=20
-> > C.
-> >=20
-> >=20
-> > > Signed-off-by: V=EDctor Colombo <victor.colombo@eldorado.org.br>
-> > > ---
-> > >   target/ppc/fpu_helper.c             | 1 -
-> > >   target/ppc/helper.h                 | 1 -
-> > >   target/ppc/translate/vsx-impl.c.inc | 1 -
-> > >   target/ppc/translate/vsx-ops.c.inc  | 1 -
-> > >   4 files changed, 4 deletions(-)
-> > >=20
-> > > diff --git a/target/ppc/fpu_helper.c b/target/ppc/fpu_helper.c
-> > > index e5c29b53b8..f030858cf9 100644
-> > > --- a/target/ppc/fpu_helper.c
-> > > +++ b/target/ppc/fpu_helper.c
-> > > @@ -2270,7 +2270,6 @@ void helper_##op(CPUPPCState *env, ppc_vsr_t *x=
-t,                             \
-> > >   VSX_SCALAR_CMP_DP(xscmpeqdp, eq, 1, 0)
-> > >   VSX_SCALAR_CMP_DP(xscmpgedp, le, 1, 1)
-> > >   VSX_SCALAR_CMP_DP(xscmpgtdp, lt, 1, 1)
-> > > -VSX_SCALAR_CMP_DP(xscmpnedp, eq, 0, 0)
-> > >  =20
-> > >   void helper_xscmpexpdp(CPUPPCState *env, uint32_t opcode,
-> > >                          ppc_vsr_t *xa, ppc_vsr_t *xb)
-> > > diff --git a/target/ppc/helper.h b/target/ppc/helper.h
-> > > index f9c72dcd50..8f02cabaf5 100644
-> > > --- a/target/ppc/helper.h
-> > > +++ b/target/ppc/helper.h
-> > > @@ -400,7 +400,6 @@ DEF_HELPER_5(xsnmsubdp, void, env, vsr, vsr, vsr,=
- vsr)
-> > >   DEF_HELPER_4(xscmpeqdp, void, env, vsr, vsr, vsr)
-> > >   DEF_HELPER_4(xscmpgtdp, void, env, vsr, vsr, vsr)
-> > >   DEF_HELPER_4(xscmpgedp, void, env, vsr, vsr, vsr)
-> > > -DEF_HELPER_4(xscmpnedp, void, env, vsr, vsr, vsr)
-> > >   DEF_HELPER_4(xscmpexpdp, void, env, i32, vsr, vsr)
-> > >   DEF_HELPER_4(xscmpexpqp, void, env, i32, vsr, vsr)
-> > >   DEF_HELPER_4(xscmpodp, void, env, i32, vsr, vsr)
-> > > diff --git a/target/ppc/translate/vsx-impl.c.inc b/target/ppc/transla=
-te/vsx-impl.c.inc
-> > > index c08185e857..fbef496257 100644
-> > > --- a/target/ppc/translate/vsx-impl.c.inc
-> > > +++ b/target/ppc/translate/vsx-impl.c.inc
-> > > @@ -1092,7 +1092,6 @@ GEN_VSX_HELPER_X1(xstsqrtdp, 0x14, 0x06, 0, PPC=
-2_VSX)
-> > >   GEN_VSX_HELPER_X3(xscmpeqdp, 0x0C, 0x00, 0, PPC2_ISA300)
-> > >   GEN_VSX_HELPER_X3(xscmpgtdp, 0x0C, 0x01, 0, PPC2_ISA300)
-> > >   GEN_VSX_HELPER_X3(xscmpgedp, 0x0C, 0x02, 0, PPC2_ISA300)
-> > > -GEN_VSX_HELPER_X3(xscmpnedp, 0x0C, 0x03, 0, PPC2_ISA300)
-> > >   GEN_VSX_HELPER_X2_AB(xscmpexpdp, 0x0C, 0x07, 0, PPC2_ISA300)
-> > >   GEN_VSX_HELPER_R2_AB(xscmpexpqp, 0x04, 0x05, 0, PPC2_ISA300)
-> > >   GEN_VSX_HELPER_X2_AB(xscmpodp, 0x0C, 0x05, 0, PPC2_VSX)
-> > > diff --git a/target/ppc/translate/vsx-ops.c.inc b/target/ppc/translat=
-e/vsx-ops.c.inc
-> > > index c974324c4c..67fa7b2e41 100644
-> > > --- a/target/ppc/translate/vsx-ops.c.inc
-> > > +++ b/target/ppc/translate/vsx-ops.c.inc
-> > > @@ -197,7 +197,6 @@ GEN_XX3FORM_NAME(xsnmsubdp, "xsnmsubmdp", 0x04, 0=
-x17, PPC2_VSX),
-> > >   GEN_XX3FORM(xscmpeqdp, 0x0C, 0x00, PPC2_ISA300),
-> > >   GEN_XX3FORM(xscmpgtdp, 0x0C, 0x01, PPC2_ISA300),
-> > >   GEN_XX3FORM(xscmpgedp, 0x0C, 0x02, PPC2_ISA300),
-> > > -GEN_XX3FORM(xscmpnedp, 0x0C, 0x03, PPC2_ISA300),
-> > >   GEN_XX3FORM(xscmpexpdp, 0x0C, 0x07, PPC2_ISA300),
-> > >   GEN_VSX_XFORM_300(xscmpexpqp, 0x04, 0x05, 0x00600001),
-> > >   GEN_XX2IFORM(xscmpodp,  0x0C, 0x05, PPC2_VSX),
-> > >=20
-> >=20
->=20
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---Y8uKIQFwS3i8Ojwl
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmHXkggACgkQbDjKyiDZ
-s5IemxAAvJVztY+2/fyW//Z+e6yS7uWKov6EmWUyQkRE+/Q1muPcUk1SMFpqzolX
-0JgwH1h7lAJrIDWqqKi0zdfzYJI83tvhqpQalafmSHKro8now1rlFJ5xnB8HYdj0
-dPqiK5U9EhpOUpuka15eZimyPcsMadAEjOqBw8UWh4H5zn3qY6DhH+ij9oSkmv4E
-6b2mkZdBKp0/8FLy5BWGxFUd5QpZe+udxlT91mm1aqr1CgYKTuGFFr6ZZzDY8Dnn
-G5ahDG8zAVdkAkkA84QlRMbfQgGGHOrgWniS9Fb8ktPHs30YHEkVkHvlmy2Bvv8I
-5Qv9AW1Z3L2Gd17xSBGlsg2rOX/3hVPYZgrz5i3BzLns+bzGMpXdk9i/ZlS5qlw2
-0L0/vC1OoZGAVQA2B9TIZLfHDxkhlI8imnXI+h+hDLhyIyz37Cn41v+rlBRwFKY9
-MczBZp1cVUhY4/ay67vT+YiRfZueR9+OMuONyeu/wl2/+up107pL7MVOlMmqLL6i
-C63H7YhoIBPs9l6Jtd7Wsf+xSDXSYXN8/PlCsYes79T5AB1cQdjYx7I2I0kr5z3k
-Ae/+q92pjj9epMc6P0rErQZow3EjKH8kqAwGVPNQSd+7WjcYoU5SsDAHjsSBM9ex
-EWoChM7n9m8TMLU8Lukg0Ia4MyGFwap05dK+KuNbYvynFv7eD7s=
-=jQ+G
------END PGP SIGNATURE-----
-
---Y8uKIQFwS3i8Ojwl--
+r~
 
