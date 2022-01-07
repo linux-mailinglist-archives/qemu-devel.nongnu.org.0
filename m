@@ -2,89 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58753487726
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 12:56:26 +0100 (CET)
-Received: from localhost ([::1]:39188 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F003A4876E9
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 12:54:51 +0100 (CET)
+Received: from localhost ([::1]:34820 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5nr7-0005nX-FX
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 06:56:25 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52878)
+	id 1n5npb-0002t6-0o
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 06:54:51 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53266)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <abologna@redhat.com>)
- id 1n5ng9-0002KK-4y
- for qemu-devel@nongnu.org; Fri, 07 Jan 2022 06:45:05 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47480)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <abologna@redhat.com>)
- id 1n5ng6-0002BJ-Be
- for qemu-devel@nongnu.org; Fri, 07 Jan 2022 06:45:04 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641555901;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=QMIUwK5i6AIv9W6T+MR9FN0b969IFfmEYBE6RxI08FY=;
- b=Zvl6NwwPeIPXJdxW47wbFMBETQvaupkAww2kObuQQeWYnzL4FShYQ7KXyonZ8cXq+3+yyI
- lOZM6Z6B+ru+nO16GIwmb5JZictBMgiUCmhOEp+9D5Lbx9w0j9KD9F9nYQN/QX03HJXMxg
- 2iDMQKqwsXP127g/oPpeOPgu1FN2lfs=
-Received: from mail-yb1-f198.google.com (mail-yb1-f198.google.com
- [209.85.219.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-480-qYCGG5fXOkGA5HnvVQ7E8Q-1; Fri, 07 Jan 2022 06:43:45 -0500
-X-MC-Unique: qYCGG5fXOkGA5HnvVQ7E8Q-1
-Received: by mail-yb1-f198.google.com with SMTP id
- g4-20020a256b04000000b00610898ff989so1477044ybc.19
- for <qemu-devel@nongnu.org>; Fri, 07 Jan 2022 03:43:45 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1n5niM-0006ZO-SE
+ for qemu-devel@nongnu.org; Fri, 07 Jan 2022 06:47:22 -0500
+Received: from [2a00:1450:4864:20::536] (port=37506
+ helo=mail-ed1-x536.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1n5niL-0002hj-9M
+ for qemu-devel@nongnu.org; Fri, 07 Jan 2022 06:47:22 -0500
+Received: by mail-ed1-x536.google.com with SMTP id o6so21167915edc.4
+ for <qemu-devel@nongnu.org>; Fri, 07 Jan 2022 03:47:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=J8eMnnyABy7XSBsmUrNoL+ReTiqaDOWtN2nCCVFhCqs=;
+ b=gBHXKxW/DfnzS/reDZNLPyw6GwuXj5cNKEdFsAn2oosqu4SKIEyWZhjZZ3+3FIVYOj
+ Ar1t7yPj/o+cDjV8cBF0pSGctTTDAnluWSzuwm9Af8y2fnJEKDne+zIawoY/ee+kzQt8
+ 9gBBPn9e3ViXDezpfWwQGHKlzLyaWfgJrfgW6dcltBxIooHHG5PE8/VuT7kh+9fsHJaM
+ craKmVJMCiaUBPMh24N8fQ54aYP+s7ASamTtJbZGZGr3GcV4Gv19HzN3eKpxWACg5qBC
+ SjZy+suvLKegsNzC7oHKTEn7NNB6YMipGU1c3skx+ls6StgZclnJFcLYGd0YtnvuUtrq
+ bbIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:references:mime-version:in-reply-to:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=QMIUwK5i6AIv9W6T+MR9FN0b969IFfmEYBE6RxI08FY=;
- b=Nfwt7NZsfeU3pdEeJMOvwOgTGxvUoAmPPUgE2emoHgAysuC6i0pYnd2PgyLSymQmwC
- FSEbjviNHr2mhFV2VNdCJFFTVfqZoE5etYTYkwOU5JRzT66eSufFxl7agSCM2dRkHOAQ
- 1TSSa0Wz4GWcbg5QR8XR0Fz8Hw1Dn1DiFfgSromvwFzDlzEPXvxye9Ak/Zy3/7/PDnnY
- VYgCx1cKeGRoPhJnbaNev6CjRlUkEblObtb4Xd/r8IJaQLgqHuqtd70OlTVsVrn72pHf
- etJa91Bq2NmeloUpC5wT81wFZwwFTZwRnaUO+ah8Gu0q6RihxVyrj5zb6HBH0IhoKDgP
- /aJQ==
-X-Gm-Message-State: AOAM531H+MmbEu1HvDwLUJC2nwV7nCGKBS3654aYMOa0vhYmBJmHooF1
- /iYdfUZX6m0oWabyk7BdGrKlboMebCVafFFrlhy2/37BvxV6sHjWg6dMraMRIfIRESuL6Wao1PS
- XezydduXivuM2+TLKv+90OSKT1wc+l9U=
-X-Received: by 2002:a25:2cd0:: with SMTP id
- s199mr67568905ybs.234.1641555825256; 
- Fri, 07 Jan 2022 03:43:45 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwAagxOk8eel0oVH6v7Q6+ZJBzuWs841000Pap7lkPlYXRYMMpB4f2JJ9X17rMLxoZBYjScwTJTkYO1h3LXJRY=
-X-Received: by 2002:a25:2cd0:: with SMTP id
- s199mr67568896ybs.234.1641555825066; 
- Fri, 07 Jan 2022 03:43:45 -0800 (PST)
-Received: from 744723338238 named unknown by gmailapi.google.com with
- HTTPREST; Fri, 7 Jan 2022 03:43:44 -0800
-From: Andrea Bolognani <abologna@redhat.com>
-References: <1567068782-371028-1-git-send-email-zhe.he@windriver.com>
- <20190829091505.GB17141@redhat.com>
+ h=x-gm-message-state:sender:from:to:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=J8eMnnyABy7XSBsmUrNoL+ReTiqaDOWtN2nCCVFhCqs=;
+ b=iR1zKRq57BCwjUuaMuOD+QRusa0Q+7Dqh2ddd4mUUisy7Hb/rXB2iiKJWEBzG8uKOw
+ YL7iZlmLAxlUfJFuYOl8iEDYeQojX/JWNkDSug0wsTd+3xvhMgpkHukT8OQS/2DO9zzP
+ vNgdYQruQKuTl8xOZXS2OtcsSXeblrUfifZIk5WvEe54nOtPlH/TrqGf5R8iozOGR4L7
+ /ogT6pJB8sj3FZU1ePVaQ5GAFx593btsKBbZbBzJCWMWVmE3U5LgN3uxvWjcLRtbgLBM
+ 1aEdlcQxRnYGhdMHh9QgB+0ruUkQw1FVfpyZRuLSD3QKKdSwrqOgMLLvxSMkCYTlRyY9
+ Ne2A==
+X-Gm-Message-State: AOAM532ii3/qnIC3TW0aEUztoifzSbOQ0BmsITIMfeYWAF7wAA5bHzOo
+ iY2snRjXKywdYE6PWeoJe0gCD9WgyPU=
+X-Google-Smtp-Source: ABdhPJzPdYjkZ4ryuAK7Qop5ojPaBKI/scz3x4re72qvuixK+MNhWZS8qUy7RYkj17eHfIEDsM0Lqg==
+X-Received: by 2002:a17:906:4c1:: with SMTP id
+ g1mr2063496eja.148.1641556039082; 
+ Fri, 07 Jan 2022 03:47:19 -0800 (PST)
+Received: from avogadro.lan ([2001:b07:6468:f312::224])
+ by smtp.gmail.com with ESMTPSA id ht15sm1330729ejc.122.2022.01.07.03.47.18
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 07 Jan 2022 03:47:18 -0800 (PST)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] configure: do not create roms/seabios/config.mak if SeaBIOS
+ not present
+Date: Fri,  7 Jan 2022 12:47:17 +0100
+Message-Id: <20220107114717.509665-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.33.1
 MIME-Version: 1.0
-In-Reply-To: <20190829091505.GB17141@redhat.com>
-Date: Fri, 7 Jan 2022 03:43:44 -0800
-Message-ID: <CABJz62M1o7Vof3LSG0BNY506jEdB1S110mMOVbu-ZpQfPJCWfQ@mail.gmail.com>
-Subject: Re: [Qemu-devel] [PATCH] configure: Add pkg-config handling for
- libgcrypt
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=abologna@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=abologna@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.372,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::536
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::536;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x536.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,40 +87,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, zhe.he@windriver.com, laurent@vivier.eu,
- qemu-devel@nongnu.org, pbonzini@redhat.com, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Aug 29, 2019 at 10:15:05AM +0100, Daniel P. Berrang=C3=A9 wrote:
-> On Thu, Aug 29, 2019 at 04:53:02PM +0800, zhe.he@windriver.com wrote:
-> > libgcrypt may also be controlled by pkg-config, this patch adds pkg-con=
-fig
-> > handling for libgcrypt.
->
-> Where are you seeing pkg-config files for libgcrypt ?
->
-> The upstream project has (frustratingly) been hostile to any proposal to
-> add pkg-config support saying people should stick with their custom
-> libgcrypt-config tool
->
->    https://dev.gnupg.org/T2037
->
-> Even if this is something added by some distro downstream, what is the
-> benefit in using it, compared with libgcrypt-confg which should already
-> work & is portable.
+If roms/seabios/Makefile is not present, the configure script
+is not creating the roms/seabios directory anymore (commit
+5dce7b8d8c, "configure: remove DIRS", 2021-12-18); thus, creating
+roms/seabios/config.mak fails.
 
-Resurrecting an old thread to point out that the upstream stance
-seems to have changed since that discussion:
+The easiest thing to do is to not create the file, since it will not
+be used.
 
-  https://git.gnupg.org/cgi-bin/gitweb.cgi?p=3Dlibgcrypt.git;a=3Dcommit;h=
-=3D97194b422bc89a6137f4e218d4cdee118c63e96e
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ configure | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-libgcrypt 1.9.0, released almost exactly a year ago, comes with a
-pkg-config file out of the box. With that in mind, I think it would
-make sense to re-evaluate this patch for inclusion.
-
---=20
-Andrea Bolognani / Red Hat / Virtualization
+diff --git a/configure b/configure
+index 0026388343..e1a31fb332 100755
+--- a/configure
++++ b/configure
+@@ -3704,7 +3704,8 @@ export target_list source_path use_containers cpu
+ $source_path/tests/tcg/configure.sh)
+ 
+ # temporary config to build submodules
+-for rom in seabios; do
++if test -f $source_path/roms/seabios/Makefile; then
++  for rom in seabios; do
+     config_mak=roms/$rom/config.mak
+     echo "# Automatically generated by configure - do not modify" > $config_mak
+     echo "SRC_PATH=$source_path/roms/$rom" >> $config_mak
+@@ -3717,7 +3718,8 @@ for rom in seabios; do
+     echo "IASL=$iasl" >> $config_mak
+     echo "LD=$ld" >> $config_mak
+     echo "RANLIB=$ranlib" >> $config_mak
+-done
++  done
++fi
+ 
+ config_mak=pc-bios/optionrom/config.mak
+ echo "# Automatically generated by configure - do not modify" > $config_mak
+-- 
+2.33.1
 
 
