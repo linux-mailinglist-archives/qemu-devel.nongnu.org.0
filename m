@@ -2,60 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F32894873BF
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 08:49:37 +0100 (CET)
-Received: from localhost ([::1]:55262 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD2A94873C3
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 08:53:30 +0100 (CET)
+Received: from localhost ([::1]:58828 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5k0F-0002iF-LA
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 02:49:35 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33620)
+	id 1n5k41-0005Hu-JC
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 02:53:29 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:34224)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1n5jwF-0000bn-Sr
- for qemu-devel@nongnu.org; Fri, 07 Jan 2022 02:45:28 -0500
-Received: from 4.mo552.mail-out.ovh.net ([178.33.43.201]:44987)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1n5k17-0003tU-Lq; Fri, 07 Jan 2022 02:50:30 -0500
+Received: from [2001:41c9:1:41f::167] (port=38236
+ helo=mail.default.ilande.bv.iomart.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1n5jwD-00017N-HG
- for qemu-devel@nongnu.org; Fri, 07 Jan 2022 02:45:27 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.109.143.174])
- by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 3C5EA22B5D;
- Fri,  7 Jan 2022 07:45:22 +0000 (UTC)
-Received: from kaod.org (37.59.142.98) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.17; Fri, 7 Jan
- 2022 08:45:21 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-98R0021b7c78c2-6a3c-48a3-9f93-587fdf864d44,
- E4C71DB801AC3DC5DDDF9E65DF3DCE2B5FFF0C93) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <ae56a714-4626-f218-60b1-f163f0920c1e@kaod.org>
-Date: Fri, 7 Jan 2022 08:45:21 +0100
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1n5k13-0001l8-8d; Fri, 07 Jan 2022 02:50:27 -0500
+Received: from [2a00:23c4:8ba0:4900:614:7796:ec2b:4f88]
+ by mail.default.ilande.bv.iomart.io with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1n5k0V-00011q-4M; Fri, 07 Jan 2022 07:49:55 +0000
+Message-ID: <5a63cdca-51bd-4a9f-7963-afb7305bd2e9@ilande.co.uk>
+Date: Fri, 7 Jan 2022 07:50:05 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH qemu] spapr: Force 32bit when resetting a core
+ Thunderbird/91.4.1
 Content-Language: en-US
-To: Alexey Kardashevskiy <aik@ozlabs.ru>, <qemu-ppc@nongnu.org>
-References: <20220107072423.2278113-1-aik@ozlabs.ru>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20220107072423.2278113-1-aik@ozlabs.ru>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.98]
-X-ClientProxiedBy: DAG6EX2.mxp5.local (172.16.2.52) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: cff65d20-3bbd-4491-9ee1-357383fc174f
-X-Ovh-Tracer-Id: 17262860322700626793
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvuddrudegtddguddtjecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfhfhfgjtgfgihesthejredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpefhhfelgeeukedtteffvdffueeiuefgkeekleehleetfedtgfetffefheeugeelheenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepghhrohhugheskhgrohgurdhorhhg
-Received-SPF: pass client-ip=178.33.43.201; envelope-from=clg@kaod.org;
- helo=4.mo552.mail-out.ovh.net
-X-Spam_score_int: -45
-X-Spam_score: -4.6
-X-Spam_bar: ----
-X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.691,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+To: Thomas Huth <thuth@redhat.com>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-devel@nongnu.org
+References: <20220105104800.407570-1-thuth@redhat.com>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <20220105104800.407570-1-thuth@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a00:23c4:8ba0:4900:614:7796:ec2b:4f88
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH] MAINTAINERS: Improve the PowerPC machines section
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:41c9:1:41f::167
+ (failed)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk;
+ helo=mail.default.ilande.bv.iomart.io
+X-Spam_score_int: -37
+X-Spam_score: -3.8
+X-Spam_bar: ---
+X-Spam_report: (-3.8 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.691,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -69,69 +65,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org,
- David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>
+Cc: qemu-ppc@nongnu.org,
+ =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
+ Greg Kurz <groug@kaod.org>, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/7/22 08:24, Alexey Kardashevskiy wrote:
-> "PowerPC Processor binding to IEEE 1275" says in
-> "8.2.1. Initial Register Values" that the initial state is defined as
-> 32bit so do it for both SLOF and VOF.
+On 05/01/2022 10:48, Thomas Huth wrote:
+
+> Add some documentation files to the corresponding machine sections
+> and mention the machine names in the section titles where it is
+> not so obvious (e.g. that "taihu" is a 405 machine).
 > 
-> This should not cause behavioral change as SLOF switches to 64bit very
-> early anyway. As nothing enforces LE anywhere, this drops it for VOF.
-> 
-> The goal is to make VOF work with TCG as otherwise it barfs with
-> qemu: fatal: TCG hflags mismatch (current:0x6c000004 rebuilt:0x6c000000)
-> 
-> Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
 > ---
->   hw/ppc/spapr_cpu_core.c | 5 +++++
->   hw/ppc/spapr_vof.c      | 2 --
->   2 files changed, 5 insertions(+), 2 deletions(-)
+>   MAINTAINERS | 12 ++++++++----
+>   1 file changed, 8 insertions(+), 4 deletions(-)
 > 
-> diff --git a/hw/ppc/spapr_cpu_core.c b/hw/ppc/spapr_cpu_core.c
-> index a57ba70a8781..a781e97f8d1d 100644
-> --- a/hw/ppc/spapr_cpu_core.c
-> +++ b/hw/ppc/spapr_cpu_core.c
-> @@ -37,6 +37,11 @@ static void spapr_reset_vcpu(PowerPCCPU *cpu)
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index f871d759fd..53cf0fdc00 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -1245,7 +1245,7 @@ F: hw/openrisc/openrisc_sim.c
 >   
->       cpu_reset(cs);
+>   PowerPC Machines
+>   ----------------
+> -405
+> +405 (ref405ep and taihu)
+>   L: qemu-ppc@nongnu.org
+>   S: Orphan
+>   F: hw/ppc/ppc405_boards.c
+> @@ -1281,6 +1281,7 @@ New World (mac99)
+>   M: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+>   L: qemu-ppc@nongnu.org
+>   S: Odd Fixes
+> +F: docs/system/ppc/powermac.rst
+>   F: hw/ppc/mac_newworld.c
+>   F: hw/pci-host/uninorth.c
+>   F: hw/pci-bridge/dec.[hc]
+> @@ -1299,6 +1300,7 @@ Old World (g3beige)
+>   M: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+>   L: qemu-ppc@nongnu.org
+>   S: Odd Fixes
+> +F: docs/system/ppc/powermac.rst
+>   F: hw/ppc/mac_oldworld.c
+>   F: hw/pci-host/grackle.c
+>   F: hw/misc/macio/
+> @@ -1312,6 +1314,7 @@ PReP
+>   M: Hervé Poussineau <hpoussin@reactos.org>
+>   L: qemu-ppc@nongnu.org
+>   S: Maintained
+> +F: docs/system/ppc/prep.rst
+>   F: hw/ppc/prep.c
+>   F: hw/ppc/prep_systemio.c
+>   F: hw/ppc/rs6000_mc.c
+> @@ -1324,7 +1327,7 @@ F: include/hw/isa/pc87312.h
+>   F: include/hw/rtc/m48t59.h
+>   F: tests/avocado/ppc_prep_40p.py
 >   
-> +    /*
-> +     * "PowerPC Processor binding to IEEE 1275" defines the initial MSR state
-> +     * as 32bit (MSR_SF=0) in "8.2.1. Initial Register Values".
-> +     */
+> -sPAPR
+> +sPAPR (pseries)
+>   M: Cédric Le Goater <clg@kaod.org>
+>   M: Daniel Henrique Barboza <danielhb413@gmail.com>
+>   R: David Gibson <david@gibson.dropbear.id.au>
+> @@ -1336,8 +1339,8 @@ F: include/hw/*/spapr*
+>   F: hw/*/xics*
+>   F: include/hw/*/xics*
+>   F: pc-bios/slof.bin
+> -F: docs/specs/ppc-spapr-hcalls.txt
+> -F: docs/specs/ppc-spapr-hotplug.txt
+> +F: docs/system/ppc/pseries.rst
+> +F: docs/specs/ppc-spapr-*
+>   F: tests/qtest/spapr*
+>   F: tests/qtest/libqos/*spapr*
+>   F: tests/qtest/rtas*
+> @@ -1348,6 +1351,7 @@ PowerNV (Non-Virtualized)
+>   M: Cédric Le Goater <clg@kaod.org>
+>   L: qemu-ppc@nongnu.org
+>   S: Maintained
+> +F: docs/system/ppc/powernv.rst
+>   F: hw/ppc/pnv*
+>   F: hw/intc/pnv*
+>   F: hw/intc/xics_pnv.c
 
-Indeed but this seems to contradict 8b9f2118ca40 ("ppc64: set MSR_SF bit").
+For the New World and Old World machines:
 
-Laurent, would you remember the reason for forcing 64bit ? It's been a while
-since.
-
-Thanks,
-
-C.
+Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 
 
-> +    env->msr &= ~(1ULL << MSR_SF);
->       env->spr[SPR_HIOR] = 0;
->   
->       lpcr = env->spr[SPR_LPCR];
-> diff --git a/hw/ppc/spapr_vof.c b/hw/ppc/spapr_vof.c
-> index 40ce8fe0037c..a33f940c32bb 100644
-> --- a/hw/ppc/spapr_vof.c
-> +++ b/hw/ppc/spapr_vof.c
-> @@ -88,8 +88,6 @@ void spapr_vof_reset(SpaprMachineState *spapr, void *fdt, Error **errp)
->       spapr_cpu_set_entry_state(first_ppc_cpu, SPAPR_ENTRY_POINT,
->                                 stack_ptr, spapr->initrd_base,
->                                 spapr->initrd_size);
-> -    /* VOF is 32bit BE so enforce MSR here */
-> -    first_ppc_cpu->env.msr &= ~((1ULL << MSR_SF) | (1ULL << MSR_LE));
->   
->       /*
->        * At this point the expected allocation map is:
-> 
+ATB,
 
+Mark.
 
