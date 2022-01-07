@@ -2,62 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4A474874B1
-	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 10:30:58 +0100 (CET)
-Received: from localhost ([::1]:50412 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8524C4874D9
+	for <lists+qemu-devel@lfdr.de>; Fri,  7 Jan 2022 10:37:39 +0100 (CET)
+Received: from localhost ([::1]:60876 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n5laL-0004iM-3U
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 04:30:57 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52384)
+	id 1n5lgo-0003ft-CW
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 04:37:38 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53294)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n5lXS-0003to-MB
- for qemu-devel@nongnu.org; Fri, 07 Jan 2022 04:27:58 -0500
-Received: from mout.kundenserver.de ([212.227.126.134]:39119)
+ (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
+ id 1n5lbK-0005wu-L2
+ for qemu-devel@nongnu.org; Fri, 07 Jan 2022 04:32:02 -0500
+Received: from mga05.intel.com ([192.55.52.43]:22251)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n5lXP-0006MM-3k
- for qemu-devel@nongnu.org; Fri, 07 Jan 2022 04:27:56 -0500
-Received: from [192.168.100.1] ([82.142.12.178]) by mrelayeu.kundenserver.de
- (mreue011 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MIxJq-1mmamn09sI-00KQFQ; Fri, 07 Jan 2022 10:27:39 +0100
-Message-ID: <670ca57b-370f-f20d-5684-65191084920e@vivier.eu>
-Date: Fri, 7 Jan 2022 10:27:36 +0100
+ (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
+ id 1n5lbH-00077l-IF
+ for qemu-devel@nongnu.org; Fri, 07 Jan 2022 04:31:58 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1641547915; x=1673083915;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=EqCmNFZK2aUWjq5baKwN7Cf9hlTO2Dlb4RVf8oPwhEA=;
+ b=n+rQKok7tmM/faindBCTYB/k6m+qnzYU4QXRfRVDRyUUKSdhjfj2hhpc
+ UJFd8SUUomcIbujaKK9aKTe6JzpEn5XmIMziRQfQ3p3KvVk4GSe2P/rn5
+ 6z5UxoH65qvOWtSIwgumoDf00OntFq5tq24/1fpR1wQMUZzH8M49mjih3
+ ACt0JGB8m5FEZME4NjGXWJuoG4+dnk+DupXQxxVM5GWkbznNvfGs3EeoO
+ ZNxmRuPWTTsEjYqj+M2U9IcOEzNkmTWcep2tIxaHNspgRCBshPQmaa1wI
+ TmoLxeqMTAInhm+ZPzN4EQ7hm9x/JvmNR/+ZVIu2FqeeNXIVRK2ne4rRG A==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10219"; a="329184199"
+X-IronPort-AV: E=Sophos;i="5.88,269,1635231600"; d="scan'208";a="329184199"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Jan 2022 01:31:44 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.88,269,1635231600"; d="scan'208";a="527239097"
+Received: from 984fee00bf64.jf.intel.com ([10.165.54.77])
+ by fmsmga007.fm.intel.com with ESMTP; 07 Jan 2022 01:31:41 -0800
+From: Yang Zhong <yang.zhong@intel.com>
+To: qemu-devel@nongnu.org
+Subject: [RFC PATCH 0/7] AMX support in Qemu
+Date: Fri,  7 Jan 2022 01:31:27 -0800
+Message-Id: <20220107093134.136441-1-yang.zhong@intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Content-Language: en-US
-To: gaosong <gaosong@loongson.cn>
-References: <20211220214135.189157-1-richard.henderson@linaro.org>
- <10eb36e7-0d95-602e-fc07-16394efc26f8@vivier.eu>
- <f9533da4-f674-2c31-3c18-ce29698e4711@loongson.cn>
-From: Laurent Vivier <laurent@vivier.eu>
-Subject: Re: [PATCH 0/6] linux-user: prctl improvements
-In-Reply-To: <f9533da4-f674-2c31-3c18-ce29698e4711@loongson.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:FJ+Hfp60LUwUZM6mXl7OYmw3kGW4XmjFc7Nx+Eiz73vIzyvTrCi
- YKl83Ix2UXUQoOLn5Jl6zFtqHdL2QT+HOXcrCR+vvuh7U66znpCql3UdO1+0tCqqXrE3hmm
- lRaDczBQxG34+us0vHz6gmMm4cPkLq7x+kWvFYiGlCsUsLXVU0k0TfUIbp0uJiStXXv5l+l
- RgyLt8iWeKheWg7JZBGPA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:eanOgFpquXI=:IRhMFW3Z+2PgVej1Unti9D
- 9qcfMfd/6dCaPI8ej4d9u/7tN60FKW3EV2C7ERDLnraE6VJzScmBNK5R2CR6x98MTXGEljWAJ
- QaJIUTx3wRK7aRkZ4qYFzpfiWL9DQvHya8GQs7zhyxnmUSNPX7qYxKXtz/tHrz+X6PsQ6SXIm
- +e8NcpfZP4uCYJwfk16SulcWgRuu27tpxAKvkySiaIUqGGfQ1mdjCMpRpKj+txxUWTpoQVcuT
- hRhzio9Lis18M6QHcoN1BJPXz9xhsgdVYrnkgH6LWXYcN/BinkKTDUQGqoQL8M9uTdRN3v9JJ
- WQTav23itPMnlAtOuDByjBPQu92zn2rt+uXsVbSfstVieWv3zDjpfTWqBBimECXsVsDI36akM
- 6vP29FqZX+Zh6uDzjTR5RzMnc4qMxvC5DBkdSZttcLz4HV/3cAA8t76Xjovcg66uBY+4umrMs
- YFvMukiXFoiW4+jNyqh2LgwO+6m5dHBYoHv6aCiI35aD8wUlYQfkHO+lkvONuCrVMRwpFY54A
- dEq4YYHJSgYOkpgJPbhtMMHxpOEtmbKIsNltRiZEKNEYnxSwoBbWUF50J3aDEwMd73jXV7c06
- 89r5Qg4A7lCPDXl/M73fz4en1oBEue22JYW/bAiMabVz9nv41pKlASaE7PE1rgzvWsrmIk5rX
- uK+IpZ3ICt8rgMUxhq6oLXQujSXJRJFbtKKoXF2/dhEpXpxnJVh4KCfLG3iTL/DY1+aw=
-Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -45
-X-Spam_score: -4.6
+Received-SPF: pass client-ip=192.55.52.43; envelope-from=yang.zhong@intel.com;
+ helo=mga05.intel.com
+X-Spam_score_int: -47
+X-Spam_score: -4.8
 X-Spam_bar: ----
-X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.691,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-4.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.372,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -70,48 +69,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Cc: yang.zhong@intel.com, kevin.tian@intel.com, seanjc@google.com,
+ jing2.liu@linux.intel.com, wei.w.wang@intel.com, guang.zeng@intel.com,
+ pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Intel introduces Advanced Matrix Extensions (AMX) [1] feature that
+consists of configurable two-dimensional "TILE" registers and new
+accelerator instructions that operate on them. TMUL (Tile matrix
+MULtiply) is the first accelerator instruction set to use the new
+registers.
 
-Hi Gaosong,
+This series is based on the AMX KVM series [2] and exposes AMX feature
+to guest (The detailed design discussions can be found in [3]).
 
-Le 07/01/2022 à 09:46, gaosong a écrit :
-> Hi Laurent,
-> 
-> On 2022/1/6 下午6:46, Laurent Vivier wrote:
->> make the LTP testsuite (20200930) happy again (capset02, prctl01, prctl02, prctl03)? 
-> 
-> Do we have LTP test documents?   or What test methods do we have for linux-user?
+According to the KVM design, the userspace VMM (e.g. Qemu) is expected
+to request guest permission for the dynamically-enabled XSAVE features
+only once when the first vCPU is created, and KVM checks guest permission
+in KVM_SET_CPUID2.
 
-I run the Linux Test Project test suite in a container (unshare command) using binfmt_misc:
+Intel AMX is XSAVE supported and XSAVE enabled. Those extended features
+has large state while current kvm_xsave only allows 4KB. The AMX KVM has
+extended struct kvm_xsave to meet this requirenment and added one extra
+KVM_GET_XSAVE2 ioctl to handle extended features. From our test, the AMX
+live migration work well.
 
-https://linux-test-project.github.io/
+Notice: This version still includes some definitions in the linux-headers,
+once AMX KVM is merged and Qemu sync those linux-headers, I will remove
+those definitions. So please ignore those changes.
 
-I have some scripts to automatically create debian chroots and build/run the suite inside:
-
-https://github.com/vivier/linux-user-test-scrips
-
-My top script is "run_all.sh" that creates the chroots and run the ltp_test.
-
-The list of the targets I test is in targets.conf:
-
-etch="m68k"
-stretch="s390x ppc64le mipsel mips64el mips arm aarch64"
-jessie="ppc"
-wheezy="sparc32plus"
-lenny="hppa alpha"
-sid="m68k ppc64 sh4 riscv64 alpha aarch64 s390x hppa sparc64"
-trusty="aarch64 ppc ppc64le"
-bionic="aarch64 arm ppc64le s390x"
-
-Than I compare the results with the previous run using diff_ltp.sh
-
-This means I don't test architectures that don't have debian support, and only test on x86_64 host.
+[1] Intel Architecture Instruction Set Extension Programming Reference
+    https://software.intel.com/content/dam/develop/external/us/en/documents/\
+    architecture-instruction-set-extensions-programming-reference.pdf
+[2] https://www.spinics.net/lists/kvm/msg263577.html
+[3] https://www.spinics.net/lists/kvm/msg259015.html
 
 Thanks,
-Laurent
+Yang
+----
+
+Jing Liu (5):
+  x86: Fix the 64-byte boundary enumeration for extended state
+  x86: Add AMX XTILECFG and XTILEDATA components
+  x86: Add XFD faulting bit for state components
+  x86: Add AMX CPUIDs enumeration
+  x86: Use new XSAVE ioctls handling
+
+Yang Zhong (1):
+  x86: Grant AMX permission for guest
+
+Zeng Guang (1):
+  x86: Support XFD and AMX xsave data migration
+
+ linux-headers/asm-x86/kvm.h | 14 ++++++++
+ linux-headers/linux/kvm.h   |  2 ++
+ target/i386/cpu.h           | 40 ++++++++++++++++++++++-
+ hw/i386/x86.c               | 28 ++++++++++++++++
+ target/i386/cpu.c           | 64 +++++++++++++++++++++++++++++++++++--
+ target/i386/kvm/kvm-cpu.c   |  4 +++
+ target/i386/kvm/kvm.c       | 37 +++++++++++++++++++--
+ target/i386/machine.c       | 42 ++++++++++++++++++++++++
+ target/i386/xsave_helper.c  | 35 ++++++++++++++++++++
+ 9 files changed, 259 insertions(+), 7 deletions(-)
+
 
