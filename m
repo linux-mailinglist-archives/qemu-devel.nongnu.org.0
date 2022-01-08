@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C06AB488442
-	for <lists+qemu-devel@lfdr.de>; Sat,  8 Jan 2022 16:42:19 +0100 (CET)
-Received: from localhost ([::1]:49300 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29BC5488446
+	for <lists+qemu-devel@lfdr.de>; Sat,  8 Jan 2022 16:43:55 +0100 (CET)
+Received: from localhost ([::1]:54968 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n6DrF-0000L7-J6
-	for lists+qemu-devel@lfdr.de; Sat, 08 Jan 2022 10:42:18 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52408)
+	id 1n6Dso-0005CW-9z
+	for lists+qemu-devel@lfdr.de; Sat, 08 Jan 2022 10:43:54 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52458)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dpetroff@gmail.com>)
- id 1n6Dou-0006gj-2d
- for qemu-devel@nongnu.org; Sat, 08 Jan 2022 10:39:52 -0500
-Received: from [2a00:1450:4864:20::535] (port=34748
- helo=mail-ed1-x535.google.com)
+ id 1n6Dov-0006gz-8z
+ for qemu-devel@nongnu.org; Sat, 08 Jan 2022 10:39:53 -0500
+Received: from [2a00:1450:4864:20::52c] (port=40790
+ helo=mail-ed1-x52c.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <dpetroff@gmail.com>)
- id 1n6Dos-0006oK-FR
- for qemu-devel@nongnu.org; Sat, 08 Jan 2022 10:39:51 -0500
-Received: by mail-ed1-x535.google.com with SMTP id u25so34495894edf.1
- for <qemu-devel@nongnu.org>; Sat, 08 Jan 2022 07:39:49 -0800 (PST)
+ id 1n6Dos-0006oN-Gv
+ for qemu-devel@nongnu.org; Sat, 08 Jan 2022 10:39:53 -0500
+Received: by mail-ed1-x52c.google.com with SMTP id a18so33405826edj.7
+ for <qemu-devel@nongnu.org>; Sat, 08 Jan 2022 07:39:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=Xpyd2QrX9R5y5Ib/uEM0qbhGdn+eYDLESu72a+hgXE0=;
- b=loiXXuo0otR6f5gMLR4Frh0F2Ix0rS8DDiIzG3SFMMpaYa3Y+teCn/0eLX6gaU30yf
- MNYfozlX4Iqydjw0hcIfqbdExAxMA0emO7prfR6bmgXqeUV1TkVnk8qy5P8Mk3Iklo8C
- NtZndfiPogtvJNzjZPPSWkD6Kju/prJVbgG1RIHK9OQuq8EJWaKBw1slVCFWmBq1/8CR
- rbwTo/j5zc0tq7zsYH4v7fVUmrtiHmIEMjKzh+Fjeh0mDoyz99Ar9ApBq6EqMcIzOUQb
- jjCXbQAJ7btGF8gPtcPSmC/Luf2xmmlqYwRMxiSxNxChfP0lYWso/2TKlCev0zpptE+2
- kIOw==
+ bh=4EPIBLrqcRPkiBCNNhoa74v92YzeCHZQl+O4E+MXoyk=;
+ b=VXM1xowV2piSnsvd/n27zA5fBwd0y273k6IfLmli1wYmWzSYp5C1RB5uQZPSFkfpxa
+ TxX3lSxbLiG2R7nkvOnGGzINqsnQwSkBiwAa36qJTxTd2uereLDDlAl/GRZUfMMrxZAc
+ fUnQeMc9iEUc6MSCOsGwGmAymPrxiiuqFquFJc3ImDJ6lJSdsfVE/PVJ+AQTJjWAsykg
+ 2iKpUFaXglGtD19mtRNpXYXWLoC93zcH7+SW8KY/MfTWtCYd9FCtsOboOFnz2/Pvo+Zu
+ mG7+YkAIz+ObvuOJ1IgW10EIrC2/Og3tuXk/odlLt8JxM/phiNlaU0lnFbzDk8HBcaOP
+ 9fkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Xpyd2QrX9R5y5Ib/uEM0qbhGdn+eYDLESu72a+hgXE0=;
- b=y5tiM2CfBT5oxkM01CaeWlpKXXjRmNlBMudAVsIXNOO0c9KdhRuW7DDIjwFkf3kSBS
- 8q3WiABZFvKofd+n03ielkU5A3wOqUuCTyciefv8Y+PYzqFCA6rC5q1qjlLF4hSirA2v
- +ttGbjeHtqwCzk/2zn7TuXCJ56fReWYMF9qspzl79z27iKy8cN1JQc0YXJIDycyCRvcQ
- R+jtq2m3/DsPtb8WS016gdsaK85mjvgORBP9wNMtDDMRQMymvs8B5uaYkd0liBFjri+E
- JwS5nmS/5SEziQozFKlWfWv+LgvQhI9iDly9SIXMfh4ifMrawlpeJBMkIMgWbL61/4uq
- 8pyg==
-X-Gm-Message-State: AOAM533Sg47gBf9bcXeZEYRlMA2c/OS7Zqt7h6eJF9LGnQxpw2kIwg+r
- AnZXcrdr0+y/yWiymY39GPek0Eyd1x4=
-X-Google-Smtp-Source: ABdhPJxFTzyoI3QSjOR+8MoLRn5/eS6Bmu0aBH9UNwlVlk6nflFdaeRExEa7t+/CdZ3KPIXoW5RqnA==
-X-Received: by 2002:a17:906:4fd6:: with SMTP id
- i22mr52538225ejw.484.1641656388479; 
- Sat, 08 Jan 2022 07:39:48 -0800 (PST)
+ bh=4EPIBLrqcRPkiBCNNhoa74v92YzeCHZQl+O4E+MXoyk=;
+ b=J4tixb79hHkXEbub/1YWBtUGf28Giwad3XrcmmsdDDVuM70xpA2mnDEK3fjBRYXSgB
+ GgZL5wn/bFsaTxxt+ZrZ4vS6NOfbATqSQ+Dmg9VHRyeCotdIlNIRw8/78x36oTQi3Z35
+ EK23p14W4fQDwkrjl6pballhdP87UePIjymSux531qt/dOoRsi8Fa6WoUIDsfN0vF1zf
+ vXUwBOV1UTCg8EVm49rHiFIUPG7NZ6tuGb+Xa7fjiJ9ejRajvYPFAenWg5oJ+grOWKc7
+ MBa/M5XEG0X1Rt/4JtfobvwIzL+MfuozFxTnRa1YwjDZADh6Ypu0zMeHgvZ+rK1WCGVh
+ 1lEg==
+X-Gm-Message-State: AOAM530sJt58BfbaFIm+Y9e9SujCVgdGAqPOvsPHzBMe/co4ZGoKi/Zl
+ scQZZTIVNeEHpggwW3Mm6uLAtnY7yvU=
+X-Google-Smtp-Source: ABdhPJwegRGwg12jkyzhd4j23qJ/dB6iVf2E9cFj1E3Y3h1TX9tA4UxH/fo3XSqzr1hb8YYV2c3huw==
+X-Received: by 2002:a05:6402:1351:: with SMTP id
+ y17mr2641794edw.401.1641656389136; 
+ Sat, 08 Jan 2022 07:39:49 -0800 (PST)
 Received: from localhost.localdomain ([2a02:a467:f77d:1:78f2:78aa:23a7:b824])
  by smtp.gmail.com with ESMTPSA id
  24sm599840ejg.47.2022.01.08.07.39.48
@@ -57,18 +57,19 @@ Received: from localhost.localdomain ([2a02:a467:f77d:1:78f2:78aa:23a7:b824])
 From: Dmitry Petrov <dpetroff@gmail.com>
 To: qemu-devel@nongnu.org,
 	dpetroff@gmail.com
-Subject: [PATCH v4 1/5] ps2: Initial horizontal scroll support
-Date: Sat,  8 Jan 2022 16:39:43 +0100
-Message-Id: <20220108153947.171861-2-dpetroff@gmail.com>
+Subject: [PATCH v4 2/5] ui/cocoa: pass horizontal scroll information to the
+ device code
+Date: Sat,  8 Jan 2022 16:39:44 +0100
+Message-Id: <20220108153947.171861-3-dpetroff@gmail.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220108153947.171861-1-dpetroff@gmail.com>
 References: <20220108153947.171861-1-dpetroff@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::535
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::52c
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::535;
- envelope-from=dpetroff@gmail.com; helo=mail-ed1-x535.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
+ envelope-from=dpetroff@gmail.com; helo=mail-ed1-x52c.google.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
 X-Spam_bar: -
@@ -91,156 +92,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This change adds support for horizontal scroll to ps/2 mouse device
-code. The code is implemented to match the logic of linux kernel
-which is used as a reference.
-
 Signed-off-by: Dmitry Petrov <dpetroff@gmail.com>
 ---
- hw/input/ps2.c | 57 +++++++++++++++++++++++++++++++++++++++++++-------
- qapi/ui.json   |  2 +-
- 2 files changed, 50 insertions(+), 9 deletions(-)
+ ui/cocoa.m | 18 ++++++++++++------
+ 1 file changed, 12 insertions(+), 6 deletions(-)
 
-diff --git a/hw/input/ps2.c b/hw/input/ps2.c
-index 9376a8f4ce..6236711e1b 100644
---- a/hw/input/ps2.c
-+++ b/hw/input/ps2.c
-@@ -123,6 +123,7 @@ typedef struct {
-     int mouse_dx; /* current values, needed for 'poll' mode */
-     int mouse_dy;
-     int mouse_dz;
-+    int mouse_dw;
-     uint8_t mouse_buttons;
- } PS2MouseState;
+diff --git a/ui/cocoa.m b/ui/cocoa.m
+index 69745c483b..ac18e14ce0 100644
+--- a/ui/cocoa.m
++++ b/ui/cocoa.m
+@@ -970,21 +970,27 @@ QemuCocoaView *cocoaView;
+              */
  
-@@ -715,7 +716,7 @@ static int ps2_mouse_send_packet(PS2MouseState *s)
-     /* IMPS/2 and IMEX send 4 bytes, PS2 sends 3 bytes */
-     const int needed = s->mouse_type ? 4 : 3;
-     unsigned int b;
--    int dx1, dy1, dz1;
-+    int dx1, dy1, dz1, dw1;
- 
-     if (PS2_QUEUE_SIZE - s->common.queue.count < needed) {
-         return 0;
-@@ -724,6 +725,7 @@ static int ps2_mouse_send_packet(PS2MouseState *s)
-     dx1 = s->mouse_dx;
-     dy1 = s->mouse_dy;
-     dz1 = s->mouse_dz;
-+    dw1 = s->mouse_dw;
-     /* XXX: increase range to 8 bits ? */
-     if (dx1 > 127)
-         dx1 = 127;
-@@ -740,6 +742,9 @@ static int ps2_mouse_send_packet(PS2MouseState *s)
-     /* extra byte for IMPS/2 or IMEX */
-     switch(s->mouse_type) {
-     default:
-+        /* Just ignore the wheels if not supported */
-+        s->mouse_dz = 0;
-+        s->mouse_dw = 0;
-         break;
-     case 3:
-         if (dz1 > 127)
-@@ -747,13 +752,41 @@ static int ps2_mouse_send_packet(PS2MouseState *s)
-         else if (dz1 < -127)
-                 dz1 = -127;
-         ps2_queue_noirq(&s->common, dz1 & 0xff);
-+        s->mouse_dz -= dz1;
-+        s->mouse_dw = 0;
-         break;
-     case 4:
--        if (dz1 > 7)
--            dz1 = 7;
--        else if (dz1 < -7)
--            dz1 = -7;
--        b = (dz1 & 0x0f) | ((s->mouse_buttons & 0x18) << 1);
-+        /*
-+         * This matches what the Linux kernel expects for exps/2 in
-+         * drivers/input/mouse/psmouse-base.c. Note, if you happen to
-+         * press/release the 4th or 5th buttons at the same moment as a
-+         * horizontal wheel scroll, those button presses will get lost. I'm not
-+         * sure what to do about that, since by this point we don't know
-+         * whether those buttons actually changed state.
-+         */
-+        if (dw1 != 0) {
-+            if (dw1 > 31) {
-+                dw1 = 31;
-+            } else if (dw1 < -31) {
-+                dw1 = -31;
-+            }
+             /*
+-             * When deltaY is zero, it means that this scrolling event was
+-             * either horizontal, or so fine that it only appears in
+-             * scrollingDeltaY. So we drop the event.
++             * We shouldn't have got a scroll event when deltaY and delta Y
++             * are zero, hence no harm in dropping the event
+              */
+-            if ([event deltaY] != 0) {
++            if ([event deltaY] != 0 || [event deltaX] != 0) {
+             /* Determine if this is a scroll up or scroll down event */
+-                buttons = ([event deltaY] > 0) ?
++                if ([event deltaY] != 0) {
++                  buttons = ([event deltaY] > 0) ?
+                     INPUT_BUTTON_WHEEL_UP : INPUT_BUTTON_WHEEL_DOWN;
++                } else if ([event deltaX] != 0) {
++                  buttons = ([event deltaX] > 0) ?
++                    INPUT_BUTTON_WHEEL_LEFT : INPUT_BUTTON_WHEEL_RIGHT;
++                }
 +
-+            /*
-+             * linux kernel expects first 6 bits to represent the value
-+             * for horizontal scroll
-+             */
-+            b = (dw1 & 0x3f) | 0x40;
-+            s->mouse_dw -= dw1;
-+        } else {
-+            if (dz1 > 7) {
-+                dz1 = 7;
-+            } else if (dz1 < -7) {
-+                dz1 = -7;
-+            }
-+
-+            b = (dz1 & 0x0f) | ((s->mouse_buttons & 0x18) << 1);
-+            s->mouse_dz -= dz1;
-+        }
-         ps2_queue_noirq(&s->common, b);
-         break;
-     }
-@@ -764,7 +797,6 @@ static int ps2_mouse_send_packet(PS2MouseState *s)
-     /* update deltas */
-     s->mouse_dx -= dx1;
-     s->mouse_dy -= dy1;
--    s->mouse_dz -= dz1;
- 
-     return 1;
- }
-@@ -806,6 +838,12 @@ static void ps2_mouse_event(DeviceState *dev, QemuConsole *src,
-             } else if (btn->button == INPUT_BUTTON_WHEEL_DOWN) {
-                 s->mouse_dz++;
+                 qemu_input_queue_btn(dcl.con, buttons, true);
+                 qemu_input_event_sync();
+                 qemu_input_queue_btn(dcl.con, buttons, false);
+                 qemu_input_event_sync();
              }
 +
-+            if (btn->button == INPUT_BUTTON_WHEEL_RIGHT) {
-+                s->mouse_dw--;
-+            } else if (btn->button == INPUT_BUTTON_WHEEL_LEFT) {
-+                s->mouse_dw++;
-+            }
-         } else {
-             s->mouse_buttons &= ~bmap[btn->button];
-         }
-@@ -833,8 +871,10 @@ static void ps2_mouse_sync(DeviceState *dev)
-         /* if not remote, send event. Multiple events are sent if
-            too big deltas */
-         while (ps2_mouse_send_packet(s)) {
--            if (s->mouse_dx == 0 && s->mouse_dy == 0 && s->mouse_dz == 0)
-+            if (s->mouse_dx == 0 && s->mouse_dy == 0
-+                    && s->mouse_dz == 0 && s->mouse_dw == 0) {
-                 break;
-+            }
-         }
-     }
- }
-@@ -1036,6 +1076,7 @@ static void ps2_mouse_reset(void *opaque)
-     s->mouse_dx = 0;
-     s->mouse_dy = 0;
-     s->mouse_dz = 0;
-+    s->mouse_dw = 0;
-     s->mouse_buttons = 0;
- }
- 
-diff --git a/qapi/ui.json b/qapi/ui.json
-index 2b4371da37..9354f4c467 100644
---- a/qapi/ui.json
-+++ b/qapi/ui.json
-@@ -905,7 +905,7 @@
- ##
- { 'enum'  : 'InputButton',
-   'data'  : [ 'left', 'middle', 'right', 'wheel-up', 'wheel-down', 'side',
--  'extra' ] }
-+  'extra', 'wheel-left', 'wheel-right' ] }
- 
- ##
- # @InputAxis:
+             /*
+-             * Since deltaY also reports scroll wheel events we prevent mouse
++             * Since deltaX/deltaY also report scroll wheel events we prevent mouse
+              * movement code from executing.
+              */
+             mouse_event = false;
 -- 
 2.32.0
 
