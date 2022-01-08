@@ -2,61 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF80B4884E6
-	for <lists+qemu-devel@lfdr.de>; Sat,  8 Jan 2022 18:17:28 +0100 (CET)
-Received: from localhost ([::1]:37848 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B64A4884E7
+	for <lists+qemu-devel@lfdr.de>; Sat,  8 Jan 2022 18:17:55 +0100 (CET)
+Received: from localhost ([::1]:39030 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n6FLL-0003Q4-Vy
-	for lists+qemu-devel@lfdr.de; Sat, 08 Jan 2022 12:17:28 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:41882)
+	id 1n6FLl-0004Ci-GB
+	for lists+qemu-devel@lfdr.de; Sat, 08 Jan 2022 12:17:54 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41922)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n6FJU-0002OU-9w
- for qemu-devel@nongnu.org; Sat, 08 Jan 2022 12:15:35 -0500
-Received: from mout.kundenserver.de ([212.227.17.24]:39429)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1n6FJv-0002nw-14
+ for qemu-devel@nongnu.org; Sat, 08 Jan 2022 12:15:59 -0500
+Received: from [2001:41c9:1:41f::167] (port=40330
+ helo=mail.default.ilande.bv.iomart.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n6FJQ-0003kh-0j
- for qemu-devel@nongnu.org; Sat, 08 Jan 2022 12:15:31 -0500
-Received: from [192.168.100.1] ([82.142.12.178]) by mrelayeu.kundenserver.de
- (mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1M6EKU-1mzfjp1e6C-006bmi; Sat, 08 Jan 2022 18:15:25 +0100
-Message-ID: <5d567ccd-d149-e519-4a9b-e11c3d8e34b8@vivier.eu>
-Date: Sat, 8 Jan 2022 18:15:24 +0100
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1n6FJt-0003rM-DH
+ for qemu-devel@nongnu.org; Sat, 08 Jan 2022 12:15:58 -0500
+Received: from [2a00:23c4:8ba0:4900:614:7796:ec2b:4f88]
+ by mail.default.ilande.bv.iomart.io with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1n6FJT-0009qB-G9; Sat, 08 Jan 2022 17:15:35 +0000
+Message-ID: <48dfc1f0-4a83-2bbb-4c5e-f973b9b7e0b3@ilande.co.uk>
+Date: Sat, 8 Jan 2022 17:15:49 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH 3/4] linux-user: Implement PR_SET_PDEATHSIG
-Content-Language: fr
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20220106225738.103012-1-richard.henderson@linaro.org>
- <20220106225738.103012-4-richard.henderson@linaro.org>
-From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <20220106225738.103012-4-richard.henderson@linaro.org>
+ Thunderbird/91.4.1
+Content-Language: en-US
+To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
+References: <20220108164147.30813-1-mark.cave-ayland@ilande.co.uk>
+ <af5ad708-bdef-af6c-bb38-500f0c62e92a@vivier.eu>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <af5ad708-bdef-af6c-bb38-500f0c62e92a@vivier.eu>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:ziOaW4nn8X7ZHxdqGAIVMXa4Fvm3v+UGKfKd2XwHLJQ8bl3byfR
- qwKSZShM6/misgEE0uMdaTFsts4ENT8G6zPUBnvoljiMDSQX5Dlqaf9kSu0Y3G7eaLFegtK
- IraJnW6pCOywftNZq/LbThuBE/heQzHtlVYZ8jJgc0sA7wj0SVN2IUeCt8WMn7yHR2BryoB
- sBdrO3p8pe7Iy5KfiwkZA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:Xb4/zkF5CuM=:fZQBnDZ6OHGjZTaf+3aUDA
- 2t5kRfUsv1/rMNpLbhmYRwdmir4g4d0eq6kmZVZBqYed9Iwd5wsvu/zXGcL2XBN4nwOLtwVNT
- c2I+VVGxbk1lodGJb6LRir7/Wce7zvuoTsDbHPqmcJvd2xREjSkujowvRjYGkXEJe8IPDdPDo
- t4ZvQAkWAut249o/b9/XmZ8GikRPrxdrGs1YK1rj0o1bT9lm/E5tPv38b7xpMgotgWIWjJqny
- aeOmmpfasfS/LW0VOBPyaevyJGngYL/qM4dHLPgOqhyb0JCfBO14kXw4UzEH+h0q18oL8SlwZ
- 9wztSl90srCx8SB/EpboLSzBTo/S8T+vOeCbUgkaaj1vvSFfer7daFA8QW1g/ebem9hI0vQdE
- Th5Gq1dN1IEDy63iEDNXKZTgtPduL0tGdt2yV2ZybUphxKOBlYZCcBhl8LHMaMEQrYu1Y9n3R
- z3thwYioTCcCi39D1acih+lZy8rUKcrLWg8OFrRmXH50bIrB38rcdLGYL1FN62v2K3I1cSa/l
- O4cbo13BjhwtqY2V6i/c4j9f1aJDlFGi9YlmkKF21/a3GQIe7p9NOHPRMuqkqRTDF7aks/H8R
- 6nfr8q43eU2XfZs4f5hvEcAvddG3XNxyYk4ggfx4QyKhiYIiCQAgy9cHQq53ytLZfMzTd5rGt
- pT+0f7bhNspBu8tTv/GCuyAYHlics3+TpoAs1W6oo9DX4GfyLscK5x5oWYQu6th+feCg=
-Received-SPF: none client-ip=212.227.17.24; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -60
-X-Spam_score: -6.1
-X-Spam_bar: ------
-X-Spam_report: (-6.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-4.199,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-SA-Exim-Connect-IP: 2a00:23c4:8ba0:4900:614:7796:ec2b:4f88
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH] macfb: fix VRAM dirty memory region logging
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2001:41c9:1:41f::167
+ (failed)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk;
+ helo=mail.default.ilande.bv.iomart.io
+X-Spam_score_int: -52
+X-Spam_score: -5.3
+X-Spam_bar: -----
+X-Spam_report: (-5.3 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-4.199,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -72,26 +69,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 06/01/2022 à 23:57, Richard Henderson a écrit :
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->   linux-user/syscall.c | 3 +++
->   1 file changed, 3 insertions(+)
-> 
-> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-> index 9eb2fb2bb2..8495f5e08e 100644
-> --- a/linux-user/syscall.c
-> +++ b/linux-user/syscall.c
-> @@ -6450,6 +6450,9 @@ static abi_long do_prctl(CPUArchState *env, abi_long option, abi_long arg2,
->               }
->               return ret;
->           }
-> +    case PR_SET_PDEATHSIG:
-> +        return get_errno(prctl(PR_SET_PDEATHSIG, target_to_host_signal(arg2),
-> +                               arg3, arg4, arg5));
->       case PR_GET_NAME:
->           {
->               void *name = lock_user(VERIFY_WRITE, arg2, 16, 1);
+On 08/01/2022 16:53, Laurent Vivier wrote:
 
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+> Le 08/01/2022 à 17:41, Mark Cave-Ayland a écrit :
+>> The macfb VRAM memory region was configured with coalescing rather than dirty
+>> memory logging enabled, causing some areas of the screen not to redraw after
+>> a full screen update.
+>>
+>> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+>> Fixes: 8ac919a065 ("hw/m68k: add Nubus macfb video card")
+>> ---
+>>   hw/display/macfb.c | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/hw/display/macfb.c b/hw/display/macfb.c
+>> index 277d3e6633..4bd7c3ad6a 100644
+>> --- a/hw/display/macfb.c
+>> +++ b/hw/display/macfb.c
+>> @@ -661,9 +661,9 @@ static bool macfb_common_realize(DeviceState *dev, MacfbState 
+>> *s, Error **errp)
+>>       memory_region_init_ram(&s->mem_vram, OBJECT(dev), "macfb-vram",
+>>                              MACFB_VRAM_SIZE, &error_abort);
+>> +    memory_region_set_log(&s->mem_vram, true, DIRTY_MEMORY_VGA);
+>>       s->vram = memory_region_get_ram_ptr(&s->mem_vram);
+>>       s->vram_bit_mask = MACFB_VRAM_SIZE - 1;
+>> -    memory_region_set_coalescing(&s->mem_vram);
+>>       s->vbl_timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, macfb_vbl_timer, s);
+>>       macfb_update_mode(s);
+> 
+> I understant why you add memory_region_set_log() but I don't understand why you 
+> remove memory_region_set_coalescing().
+
+Looking at the other display devices, only VGA and cirrus use 
+memory_region_set_coalescing() and that's on the IO ports rather than the VRAM.
+
+Based upon this my suspicion is that this is mainly a vmexit optimisation when using 
+KVM which isn't relevant here for macfb.
+
+
+ATB,
+
+Mark.
 
