@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C44BF488287
-	for <lists+qemu-devel@lfdr.de>; Sat,  8 Jan 2022 09:42:40 +0100 (CET)
-Received: from localhost ([::1]:53320 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8913D48824C
+	for <lists+qemu-devel@lfdr.de>; Sat,  8 Jan 2022 09:27:18 +0100 (CET)
+Received: from localhost ([::1]:56008 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n66q5-0001xh-6p
-	for lists+qemu-devel@lfdr.de; Sat, 08 Jan 2022 03:12:37 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35740)
+	id 1n674H-0007GR-FB
+	for lists+qemu-devel@lfdr.de; Sat, 08 Jan 2022 03:27:17 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35842)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1n66Ie-0005Jx-HU
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1n66Ih-0005K6-W8
  for qemu-devel@nongnu.org; Sat, 08 Jan 2022 02:38:11 -0500
-Received: from [2607:f8b0:4864:20::d2a] (port=36580
- helo=mail-io1-xd2a.google.com)
+Received: from [2607:f8b0:4864:20::12e] (port=39663
+ helo=mail-il1-x12e.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1n66Ia-0003OG-DA
- for qemu-devel@nongnu.org; Sat, 08 Jan 2022 02:38:02 -0500
-Received: by mail-io1-xd2a.google.com with SMTP id p65so10131350iof.3
- for <qemu-devel@nongnu.org>; Fri, 07 Jan 2022 23:37:59 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1n66Ic-0003OP-9L
+ for qemu-devel@nongnu.org; Sat, 08 Jan 2022 02:38:05 -0500
+Received: by mail-il1-x12e.google.com with SMTP id o1so6332785ilo.6
+ for <qemu-devel@nongnu.org>; Fri, 07 Jan 2022 23:38:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=gArjWzJ2yPQBZYD392wz0jyhocYmDAdMk+rJb0d1s7I=;
- b=LjC4ZTWgJnRR454lFakfKma0IZHlA7ZFYTa0sHMXYoJVOcJT5I1qOU5yRe3oYkDj7G
- a0DiaVZ7RMsU/Ee8THxEYbI8kb1RYa/c4YsEeDFFXbGCCakoiZqWEleOH1wgWPCe4lH8
- cGxxdhbl8tIIwCJmezXR6KhkoO8Cn4lzx1z6ARntnH/Td37X862IfnR39CLk0h4dlSwc
- psy7HMks98jgQA4fZbsAooqEF0ZcGIEEf+n79at3wDh7ssiSToW07R7hJvxz9iDzG1ja
- ShDWlj2vgdbJrvuEg8YNi/wL/7NApxlnpnsu0fJXeDwQHxTcpEmLdNns05V4P8QcOnXL
- +tIQ==
+ bh=3nePtE5ZTuo2h1AKS5faGNz7Ftuxfg1QV7jdqmeDiQY=;
+ b=l5hvCeEfckp2u2f1C1KhtD/tVLhthtkiJnRex4IvEMCWPmTJOQ1QYqa+s0fr7bwfWt
+ 5KwpqEzjQNT42WxQ9kyaoPFRDfB4YY0wxRPUraeTU0CBuifNoq6ag6+mRatnjLrcEN0T
+ PSEDWLVkygwVDTNKwYImHn/DV7oUG4RHwXPJ3E2DoybezGLuYobmrQIdVbCQKcm2qOtw
+ lO3tkU1I/tLCR3usanRW8oYaTSK/EMLJhvxLJJ5h3+DCpsRDPgqN6pBL2hzN4ZCnNrZC
+ 2TkgGnGxiB7B7ckvIPTRCiVR/WL2LTjgWE2kdR7O2DQXb5BH6QuTLOvvaN/VlXGFIxY5
+ gyEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=gArjWzJ2yPQBZYD392wz0jyhocYmDAdMk+rJb0d1s7I=;
- b=jshfZpZG3lbaf+zj9NJVQKQvqwe18xnrO1vWUVQQBk5hNNM0MX+n4GhTjI8fETiBOG
- qQSDX3geMJNVnRzeCVKtCPlOuBChcqsQauMKdyFyzN1n6H+LRC9wOBM51LjBlSHhzrMv
- 1wia37jc87nwzvXu/0NJca6YJkgeyEogReN7aVdGJxzFEqgNP2SGgPmnaFb97zR8f5s8
- iFaN7RFsdsd4gjcCN3dS+UoBVciXS80b/r6VdIgE71fpLB0aBX8z/aya7aMICpXIcUvF
- hksB6y1toZHN2ZbQHx42zOojBzke0fkY+CGnFKRQ2oB/KBIrFgduvoRM+hU7zoVB8uKN
- BdLA==
-X-Gm-Message-State: AOAM531ogdocJ0oVHIfR9CaOVkhUDx8+cZ5TlPu2ibL4jg2AiWxoSkpF
- lgTZx5uDTyLOJDalmQ3e+PtArRnCg/zhZ4LV
-X-Google-Smtp-Source: ABdhPJxTNLnXB1dH12MSXGZ1+E2Vr2ubDEWSPvMcoQYiBGVXWJUh3vOQu7pNxVLj5Wo+FyXEB/p/MQ==
-X-Received: by 2002:a05:6638:d9:: with SMTP id
- w25mr31278007jao.123.1641627478702; 
- Fri, 07 Jan 2022 23:37:58 -0800 (PST)
+ bh=3nePtE5ZTuo2h1AKS5faGNz7Ftuxfg1QV7jdqmeDiQY=;
+ b=mkcYxjgQni3LdAMIZlxz9XeuqLkOwyNrgZ1FSDG7T+uF+DKuWU3gswxinVhvOLIwcb
+ oIDlVPWhFGzqAwgC/3DuDhYMykbGCSnpN6Arn+hyTlZowINtzkCqWUOO1XW4q7ThufeW
+ gqUCk9OKxfHT+/jir0DR3asOYy7mANs17vVCIJjSSn+LtxrC3u708OJXp32o4AXzqi7A
+ DcCCs4rHk3B4RbBI4r0/uvMgv5HmrzX984ovSGrlXcqk7l/7lpV5oi6UqS42ZAp/7trG
+ 8SYdAR+Hqiz9/h9xw62e5RAfNB/C33d2VGyqsJ0xj38CyVHLY+RkIakk3qVFJJTAVGaE
+ extg==
+X-Gm-Message-State: AOAM530HIlI2dWe09XQozK7+vEFrVvJpOw1KE3v1goQoTxyhGtUO+Awr
+ cTDFaLxOMDB5Zy96X/QOehEZ8lVL2poPPgak
+X-Google-Smtp-Source: ABdhPJxAAUoHezTAirx/IiF37/gjwNMuD7KauWfOuz9Bb+WoCg2PQZcqp2cOlHtLPDo3KkrVUsmVCQ==
+X-Received: by 2002:a05:6e02:1d92:: with SMTP id
+ h18mr30648155ila.314.1641627479588; 
+ Fri, 07 Jan 2022 23:37:59 -0800 (PST)
 Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id w19sm613022iov.12.2022.01.07.23.37.57
+ by smtp.gmail.com with ESMTPSA id w19sm613022iov.12.2022.01.07.23.37.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 Jan 2022 23:37:58 -0800 (PST)
+ Fri, 07 Jan 2022 23:37:59 -0800 (PST)
 From: Warner Losh <imp@bsdimp.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 16/37] bsd-user/arm/target_arch_cpu.h: CPU Loop definitions
-Date: Sat,  8 Jan 2022 00:37:16 -0700
-Message-Id: <20220108073737.5959-17-imp@bsdimp.com>
+Subject: [PULL 17/37] bsd-user/arm/target_arch_cpu.h: Implement
+ target_cpu_clone_regs
+Date: Sat,  8 Jan 2022 00:37:17 -0700
+Message-Id: <20220108073737.5959-18-imp@bsdimp.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20220108073737.5959-1-imp@bsdimp.com>
 References: <20220108073737.5959-1-imp@bsdimp.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d2a
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::12e
  (failed)
-Received-SPF: none client-ip=2607:f8b0:4864:20::d2a;
- envelope-from=imp@bsdimp.com; helo=mail-io1-xd2a.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::12e;
+ envelope-from=imp@bsdimp.com; helo=mail-il1-x12e.google.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
@@ -89,73 +90,39 @@ Cc: Stacey Son <sson@FreeBSD.org>, qemu-trivial@nongnu.org,
  Kyle Evans <kevans@FreeBSD.org>, Michael Tokarev <mjt@tls.msk.ru>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Laurent Vivier <laurent@vivier.eu>,
- Richard Henderson <richard.henderson@linaro.org>,
- Olivier Houchard <cognet@ci0.org>, Warner Losh <imp@bsdimp.com>
+ Richard Henderson <richard.henderson@linaro.org>, Warner Losh <imp@bsdimp.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-target_arch_cpu.h is for CPU loop definitions. Create the file and
-define target_cpu_init and target_cpu_reset for arm.
+Implement target_cpu_clone_regs to clone the resister state on a fork.
 
-Signed-off-by: Olivier Houchard <cognet@ci0.org>
 Signed-off-by: Stacey Son <sson@FreeBSD.org>
 Signed-off-by: Warner Losh <imp@bsdimp.com>
 Reviewed-by: Kyle Evans <kevans@FreeBSD.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- bsd-user/arm/target_arch_cpu.h | 43 ++++++++++++++++++++++++++++++++++
- 1 file changed, 43 insertions(+)
- create mode 100644 bsd-user/arm/target_arch_cpu.h
+ bsd-user/arm/target_arch_cpu.h | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
 diff --git a/bsd-user/arm/target_arch_cpu.h b/bsd-user/arm/target_arch_cpu.h
-new file mode 100644
-index 00000000000..66215684d6f
---- /dev/null
+index 66215684d6f..fa45d9335d6 100644
+--- a/bsd-user/arm/target_arch_cpu.h
 +++ b/bsd-user/arm/target_arch_cpu.h
-@@ -0,0 +1,43 @@
-+/*
-+ *  arm cpu init and loop
-+ *
-+ *  Copyright (c) 2013 Stacey D. Son
-+ *
-+ *  This program is free software; you can redistribute it and/or modify
-+ *  it under the terms of the GNU General Public License as published by
-+ *  the Free Software Foundation; either version 2 of the License, or
-+ *  (at your option) any later version.
-+ *
-+ *  This program is distributed in the hope that it will be useful,
-+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+ *  GNU General Public License for more details.
-+ *
-+ *  You should have received a copy of the GNU General Public License
-+ *  along with this program; if not, see <http://www.gnu.org/licenses/>.
-+ */
-+
-+#ifndef _TARGET_ARCH_CPU_H_
-+#define _TARGET_ARCH_CPU_H_
-+
-+#include "target_arch.h"
-+
-+#define TARGET_DEFAULT_CPU_MODEL "any"
-+
-+static inline void target_cpu_init(CPUARMState *env,
-+        struct target_pt_regs *regs)
+@@ -36,6 +36,14 @@ static inline void target_cpu_init(CPUARMState *env,
+     }
+ }
+ 
++static inline void target_cpu_clone_regs(CPUARMState *env, target_ulong newsp)
 +{
-+    int i;
-+
-+    cpsr_write(env, regs->uregs[16], CPSR_USER | CPSR_EXEC,
-+               CPSRWriteByInstr);
-+    for (i = 0; i < 16; i++) {
-+        env->regs[i] = regs->uregs[i];
++    if (newsp) {
++        env->regs[13] = newsp;
 +    }
++    env->regs[0] = 0;
 +}
 +
-+static inline void target_cpu_reset(CPUArchState *cpu)
-+{
-+}
-+
-+#endif /* !_TARGET_ARCH_CPU_H */
+ static inline void target_cpu_reset(CPUArchState *cpu)
+ {
+ }
 -- 
 2.33.1
 
