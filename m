@@ -2,77 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C95F64882AD
-	for <lists+qemu-devel@lfdr.de>; Sat,  8 Jan 2022 10:04:08 +0100 (CET)
-Received: from localhost ([::1]:53280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 045AF4882B7
+	for <lists+qemu-devel@lfdr.de>; Sat,  8 Jan 2022 10:16:54 +0100 (CET)
+Received: from localhost ([::1]:47108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n673k-0005R0-O7
-	for lists+qemu-devel@lfdr.de; Sat, 08 Jan 2022 03:26:44 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35600)
+	id 1n67qG-0006Dh-Ia
+	for lists+qemu-devel@lfdr.de; Sat, 08 Jan 2022 04:16:52 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50200)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1n66Ia-0005JW-MY
- for qemu-devel@nongnu.org; Sat, 08 Jan 2022 02:38:02 -0500
-Received: from [2607:f8b0:4864:20::d2a] (port=34394
- helo=mail-io1-xd2a.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1n66IU-0003L2-0U
- for qemu-devel@nongnu.org; Sat, 08 Jan 2022 02:37:57 -0500
-Received: by mail-io1-xd2a.google.com with SMTP id j1so207546iob.1
- for <qemu-devel@nongnu.org>; Fri, 07 Jan 2022 23:37:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=V+Cl1Da8qxWzFQYHoMpffHhzKgcajhVImOHitRup9JU=;
- b=pg/Ci6EsstG96xupGGV3+iK2w1vcfeS9/iq9RYv6RuEzprptHmrIHvQ6T5xuprooaR
- X5ovHKCIQTdf19Qr/TBeHwUVX9pghvq75ryoguZNXkX6O3QZcCfXCT0LuXMVfO0a+bqj
- pqk+Bq/fS+/jvUXFoMq6LcNEEFY0V9Xy6CKpYxFoK4T42c85SaEI5yR2oorPxsWQHHOH
- cMRZDWo8L1iXTTaleL0I74uqNHH4szwYGOl94OpMHx60Mw2X8mvPuvKcklVHjfPiA+XN
- 58CFUTihVaS9L6U+zt51xXUSxDGfuYs2BujEzp7a4w4nIwBlaRvjgkaWQ2PyR2+FAY1e
- 3nxg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=V+Cl1Da8qxWzFQYHoMpffHhzKgcajhVImOHitRup9JU=;
- b=pUGRVGPmwxvmrdH8ktWp65m7nBP7+1H/T82eBwKNsdYWz5cCGblahhjVwJTBBg5wj8
- 1vlcI06lUnm16VJMlGKDKHBlVxu/mTebiDASHw1fINPSiJFt/ZeSSw9LQoPH8omAnaXg
- fwHpmlXVTbgOQkmXthEU0hN51va7RQ0ovYCoVZ+rEY4qoC4U8bYT+q7RBXPzgRxZkiN/
- Ukg+/Kj7kyQFJlwhUme0PJiH78OF0Uml0p1f4CjwYU6X9lQN+TERwV0HIjvfvRLHGCUh
- KWHqjWAV1kTY3kyDv0Y3xLPmfPSqz6MMu/fnN+talc/gJYD1cnTuHl9PX63k9JGq7+qO
- N4Qg==
-X-Gm-Message-State: AOAM531E3ohX+NDz0iU0oaph6koi4I6vmxjSeMCwJQ+JavudFs+2W/x0
- WgbVZqos/gxcbdacCl9yHyAtlCfxW6J9lvZ4
-X-Google-Smtp-Source: ABdhPJzVDaaR1rMWpVrLyKeeLbB0+UUocqL0UgMMMUQUZMKr3mmWrW5Fuq2xBw+ILG/lKnV23ofjZQ==
-X-Received: by 2002:a05:6602:2e11:: with SMTP id
- o17mr32004168iow.172.1641627469902; 
- Fri, 07 Jan 2022 23:37:49 -0800 (PST)
-Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
- [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id w19sm613022iov.12.2022.01.07.23.37.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 Jan 2022 23:37:49 -0800 (PST)
-From: Warner Losh <imp@bsdimp.com>
+ (Exim 4.90_1) (envelope-from <yangxiaojuan@loongson.cn>)
+ id 1n67oE-0003fI-OL
+ for qemu-devel@nongnu.org; Sat, 08 Jan 2022 04:14:46 -0500
+Received: from mail.loongson.cn ([114.242.206.163]:38750 helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <yangxiaojuan@loongson.cn>) id 1n67oB-0000qO-M5
+ for qemu-devel@nongnu.org; Sat, 08 Jan 2022 04:14:46 -0500
+Received: from localhost.localdomain (unknown [10.2.5.185])
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxKMrrVdlhvLMAAA--.1341S2;
+ Sat, 08 Jan 2022 17:14:19 +0800 (CST)
+From: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 To: qemu-devel@nongnu.org
-Subject: [PULL 07/37] bsd-user/i386: Move the inlines into signal.c
-Date: Sat,  8 Jan 2022 00:37:07 -0700
-Message-Id: <20220108073737.5959-8-imp@bsdimp.com>
-X-Mailer: git-send-email 2.33.1
-In-Reply-To: <20220108073737.5959-1-imp@bsdimp.com>
-References: <20220108073737.5959-1-imp@bsdimp.com>
+Subject: [RFC PATCH v4 00/30] Add LoongArch softmmu support. 
+Date: Sat,  8 Jan 2022 04:13:49 -0500
+Message-Id: <20220108091419.2027710-1-yangxiaojuan@loongson.cn>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d2a
- (failed)
-Received-SPF: none client-ip=2607:f8b0:4864:20::d2a;
- envelope-from=imp@bsdimp.com; helo=mail-io1-xd2a.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
+X-CM-TRANSID: AQAAf9DxKMrrVdlhvLMAAA--.1341S2
+X-Coremail-Antispam: 1UD129KBjvJXoW3JryDCF13XFyUZr15CrW8tFb_yoW3Zr13pr
+ W7uwn8Kr48GFZrJrsYqa45Wr98XFn7Gr4293WSqry8CrWIvryUZrn5K3sxXFy3Jay8Gry0
+ qr1Fkw1UWa17JaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnUUvcSsGvfC2KfnxnUUI43ZEXa7xR_UUUUUUUUU==
+X-CM-SenderInfo: p1dqw5xldry3tdq6z05rqj20fqof0/
+Received-SPF: pass client-ip=114.242.206.163;
+ envelope-from=yangxiaojuan@loongson.cn; helo=loongson.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,138 +54,196 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, kevans@freebsd.org,
- Michael Tokarev <mjt@tls.msk.ru>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Laurent Vivier <laurent@vivier.eu>,
- Richard Henderson <richard.henderson@linaro.org>, Warner Losh <imp@bsdimp.com>
+Cc: philmd@redhat.com, mark.cave-ayland@ilande.co.uk,
+ richard.henderson@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Move the (now stubbed out) inlines into bsd-user/i386/signal.c.
+This series patch add softmmu support for LoongArch.
+Base on the linux-user emulation support V14 patch.
+  * https://patchew.org/QEMU/20220106094200.1801206-1-gaosong@loongson.cn/
+The latest kernel:
+  * https://github.com/loongson/linux/tree/loongarch-next
+The latest uefi:
+  * https://github.com/loongson/edk2
+  * https://github.com/loongson/edk2-platforms
+The manual:
+  * https://github.com/loongson/LoongArch-Documentation/releases/tag/2021.10.11
 
-Signed-off-by: Warner Losh <imp@bsdimp.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
----
- bsd-user/i386/signal.c             | 56 +++++++++++++++++++++++++++++-
- bsd-user/i386/target_arch_signal.h | 43 +++++------------------
- 2 files changed, 63 insertions(+), 36 deletions(-)
 
-diff --git a/bsd-user/i386/signal.c b/bsd-user/i386/signal.c
-index ac903233653..2939d32400c 100644
---- a/bsd-user/i386/signal.c
-+++ b/bsd-user/i386/signal.c
-@@ -1 +1,55 @@
--/* Placeholder for signal.c */
-+/*
-+ *  i386 dependent signal definitions
-+ *
-+ *  Copyright (c) 2013 Stacey D. Son
-+ *
-+ *  This program is free software; you can redistribute it and/or modify
-+ *  it under the terms of the GNU General Public License as published by
-+ *  the Free Software Foundation; either version 2 of the License, or
-+ *  (at your option) any later version.
-+ *
-+ *  This program is distributed in the hope that it will be useful,
-+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+ *  GNU General Public License for more details.
-+ *
-+ *  You should have received a copy of the GNU General Public License
-+ *  along with this program; if not, see <http://www.gnu.org/licenses/>.
-+ */
-+
-+#include "qemu.h"
-+
-+/*
-+ * Compare to i386/i386/machdep.c sendsig()
-+ * Assumes that target stack frame memory is locked.
-+ */
-+abi_long set_sigtramp_args(CPUX86State *env, int sig,
-+                           struct target_sigframe *frame,
-+                           abi_ulong frame_addr,
-+                           struct target_sigaction *ka)
-+{
-+    /* XXX return -TARGET_EOPNOTSUPP; */
-+    return 0;
-+}
-+
-+/* Compare to i386/i386/machdep.c get_mcontext() */
-+abi_long get_mcontext(CPUX86State *regs, target_mcontext_t *mcp, int flags)
-+{
-+    /* XXX */
-+    return -TARGET_EOPNOTSUPP;
-+}
-+
-+/* Compare to i386/i386/machdep.c set_mcontext() */
-+abi_long set_mcontext(CPUX86State *regs, target_mcontext_t *mcp, int srflag)
-+{
-+    /* XXX */
-+    return -TARGET_EOPNOTSUPP;
-+}
-+
-+abi_long get_ucontext_sigreturn(CPUX86State *regs, abi_ulong target_sf,
-+                                abi_ulong *target_uc)
-+{
-+    /* XXX */
-+    *target_uc = 0;
-+    return -TARGET_EOPNOTSUPP;
-+}
-diff --git a/bsd-user/i386/target_arch_signal.h b/bsd-user/i386/target_arch_signal.h
-index 701c6f964f8..982c7035c75 100644
---- a/bsd-user/i386/target_arch_signal.h
-+++ b/bsd-user/i386/target_arch_signal.h
-@@ -88,40 +88,13 @@ struct target_sigframe {
-     uint32_t    __spare__[2];
- };
- 
--/*
-- * Compare to i386/i386/machdep.c sendsig()
-- * Assumes that target stack frame memory is locked.
-- */
--static inline abi_long set_sigtramp_args(CPUX86State *regs,
--        int sig, struct target_sigframe *frame, abi_ulong frame_addr,
--        struct target_sigaction *ka)
--{
--    /* XXX return -TARGET_EOPNOTSUPP; */
--    return 0;
--}
--
--/* Compare to i386/i386/machdep.c get_mcontext() */
--static inline abi_long get_mcontext(CPUX86State *regs,
--        target_mcontext_t *mcp, int flags)
--{
--    /* XXX */
--    return -TARGET_EOPNOTSUPP;
--}
--
--/* Compare to i386/i386/machdep.c set_mcontext() */
--static inline abi_long set_mcontext(CPUX86State *regs,
--        target_mcontext_t *mcp, int srflag)
--{
--    /* XXX */
--    return -TARGET_EOPNOTSUPP;
--}
--
--static inline abi_long get_ucontext_sigreturn(CPUX86State *regs,
--                        abi_ulong target_sf, abi_ulong *target_uc)
--{
--    /* XXX */
--    *target_uc = 0;
--    return -TARGET_EOPNOTSUPP;
--}
-+abi_long set_sigtramp_args(CPUX86State *env, int sig,
-+                           struct target_sigframe *frame,
-+                           abi_ulong frame_addr,
-+                           struct target_sigaction *ka);
-+abi_long get_mcontext(CPUX86State *regs, target_mcontext_t *mcp, int flags);
-+abi_long set_mcontext(CPUX86State *regs, target_mcontext_t *mcp, int srflag);
-+abi_long get_ucontext_sigreturn(CPUX86State *regs, abi_ulong target_sf,
-+                                abi_ulong *target_uc);
- 
- #endif /* TARGET_ARCH_SIGNAL_H */
+Changes for v4:
+1. Uefi code is open and add some fdt interface to pass info between qemu and uefi. 
+2. Use a per cpu address space for iocsr.
+3. Modify the tlb emulation.
+4. Machine and board code mainly follow Mark's advice.
+5. Adjust pci host space map.
+6. Use more memregion to simplify the interrupt controller's emulate.
+
+
+Changes for v3:
+1.Target code mainly follow Richard's code review comments.
+2.Put the csr and iocsr read/write instruction emulate into 2 different patch.
+3.Simply the tlb emulation.
+4.Delete some unused csr registers defintion.
+5.Machine and board code mainly follow Mark's advice, discard the obsolete interface.
+6.NUMA function is removed for it is not completed.
+7.Adjust some format problem and the Naming problem 
+
+
+Changes for v2:
+1.Combine patch 2 and 3 into one.
+2.Adjust the order of the patch.
+3.Put all the binaries on the github.
+4.Modify some emulate errors when use the kernel from the github.
+5.Adjust some format problem and the Naming problem 
+6.Others mainly follow Richard's code review comments.
+
+Please help review!
+
+Thanks
+
+Xiaojuan Yang (30):
+  target/loongarch: Update README
+  target/loongarch: Add CSR registers definition
+  target/loongarch: Add basic vmstate description of CPU.
+  target/loongarch: Implement qmp_query_cpu_definitions()
+  target/loongarch: Add constant timer support
+  target/loongarch: Add MMU support for LoongArch CPU.
+  target/loongarch: Add LoongArch CSR instruction
+  target/loongarch: Add LoongArch IOCSR instruction
+  target/loongarch: Add TLB instruction support
+  target/loongarch: Add other core instructions support
+  target/loongarch: Add LoongArch interrupt and exception handle
+  target/loongarch: Add timer related instructions support.
+  target/loongarch: Add gdb support.
+  hw/pci-host: Add ls7a1000 PCIe Host bridge support for Loongson3
+    Platform
+  hw/loongarch: Add support loongson3-ls7a machine type.
+  hw/loongarch: Add LoongArch cpu interrupt support(CPUINTC)
+  hw/loongarch: Add LoongArch ipi interrupt support(IPI)
+  hw/intc: Add LoongArch ls7a interrupt controller support(PCH-PIC)
+  hw/intc: Add LoongArch ls7a msi interrupt controller support(PCH-MSI)
+  hw/intc: Add LoongArch extioi interrupt controller(EIOINTC)
+  hw/loongarch: Add irq hierarchy for the system
+  Enable common virtio pci support for LoongArch
+  hw/loongarch: Add some devices support for 3A5000.
+  hw/loongarch: Add LoongArch ls7a rtc device support
+  hw/loongarch: Add default bios startup support.
+  hw/loongarch: Add -kernel and -initrd options support
+  hw/loongarch: Add LoongArch smbios support
+  hw/loongarch: Add LoongArch acpi support
+  hw/loongarch: Add fdt support.
+  tests/tcg/loongarch64: Add hello/memory test in loongarch64 system
+
+ .../devices/loongarch64-softmmu/default.mak   |   3 +
+ configs/targets/loongarch64-softmmu.mak       |   4 +
+ gdb-xml/loongarch-base64.xml                  |  43 +
+ gdb-xml/loongarch-fpu64.xml                   |  57 ++
+ hw/Kconfig                                    |   1 +
+ hw/acpi/Kconfig                               |   4 +
+ hw/acpi/ls7a.c                                | 374 +++++++++
+ hw/acpi/meson.build                           |   1 +
+ hw/intc/Kconfig                               |  15 +
+ hw/intc/loongarch_extioi.c                    | 376 +++++++++
+ hw/intc/loongarch_ipi.c                       | 164 ++++
+ hw/intc/loongarch_pch_msi.c                   |  75 ++
+ hw/intc/loongarch_pch_pic.c                   | 428 ++++++++++
+ hw/intc/meson.build                           |   4 +
+ hw/intc/trace-events                          |  25 +
+ hw/loongarch/Kconfig                          |  22 +
+ hw/loongarch/acpi-build.c                     | 636 ++++++++++++++
+ hw/loongarch/fw_cfg.c                         |  33 +
+ hw/loongarch/fw_cfg.h                         |  15 +
+ hw/loongarch/loongson3.c                      | 685 +++++++++++++++
+ hw/loongarch/meson.build                      |   6 +
+ hw/meson.build                                |   1 +
+ hw/pci-host/Kconfig                           |   4 +
+ hw/pci-host/ls7a.c                            | 218 +++++
+ hw/pci-host/meson.build                       |   1 +
+ hw/rtc/Kconfig                                |   3 +
+ hw/rtc/ls7a_rtc.c                             | 322 ++++++++
+ hw/rtc/meson.build                            |   1 +
+ include/exec/poison.h                         |   2 +
+ include/hw/acpi/ls7a.h                        |  53 ++
+ include/hw/intc/loongarch_extioi.h            |  69 ++
+ include/hw/intc/loongarch_ipi.h               |  48 ++
+ include/hw/intc/loongarch_pch_msi.h           |  21 +
+ include/hw/intc/loongarch_pch_pic.h           |  74 ++
+ include/hw/loongarch/loongarch.h              |  75 ++
+ include/hw/pci-host/ls7a.h                    |  79 ++
+ include/hw/pci/pci_ids.h                      |   3 +
+ include/sysemu/arch_init.h                    |   1 +
+ linux-user/loongarch64/cpu_loop.c             |   8 +-
+ qapi/machine-target.json                      |   6 +-
+ qapi/machine.json                             |   2 +-
+ softmmu/qdev-monitor.c                        |   3 +-
+ target/Kconfig                                |   1 +
+ target/loongarch/Kconfig                      |   2 +
+ target/loongarch/README                       |  25 +
+ target/loongarch/constant_timer.c             |  63 ++
+ target/loongarch/cpu-csr.h                    | 236 ++++++
+ target/loongarch/cpu-param.h                  |   2 +-
+ target/loongarch/cpu.c                        | 377 ++++++++-
+ target/loongarch/cpu.h                        | 220 ++++-
+ target/loongarch/csr_helper.c                 | 112 +++
+ target/loongarch/disas.c                      |  57 ++
+ target/loongarch/fpu_helper.c                 |   2 +-
+ target/loongarch/gdbstub.c                    |  97 +++
+ target/loongarch/helper.h                     |  26 +
+ target/loongarch/insn_trans/trans_core.c.inc  | 412 ++++++++++
+ target/loongarch/insn_trans/trans_extra.c.inc |  36 +-
+ target/loongarch/insns.decode                 |  44 +
+ target/loongarch/internals.h                  |  29 +
+ target/loongarch/iocsr_helper.c               | 120 +++
+ target/loongarch/machine.c                    | 101 +++
+ target/loongarch/meson.build                  |  11 +
+ target/loongarch/op_helper.c                  |  57 ++
+ target/loongarch/tlb_helper.c                 | 777 ++++++++++++++++++
+ target/loongarch/translate.c                  |   9 +-
+ tests/tcg/loongarch64/Makefile.softmmu-target |  33 +
+ tests/tcg/loongarch64/system/boot.S           |  58 ++
+ tests/tcg/loongarch64/system/kernel.ld        |  30 +
+ tests/tcg/loongarch64/system/regdef.h         |  86 ++
+ 69 files changed, 6958 insertions(+), 30 deletions(-)
+ create mode 100644 configs/devices/loongarch64-softmmu/default.mak
+ create mode 100644 configs/targets/loongarch64-softmmu.mak
+ create mode 100644 gdb-xml/loongarch-base64.xml
+ create mode 100644 gdb-xml/loongarch-fpu64.xml
+ create mode 100644 hw/acpi/ls7a.c
+ create mode 100644 hw/intc/loongarch_extioi.c
+ create mode 100644 hw/intc/loongarch_ipi.c
+ create mode 100644 hw/intc/loongarch_pch_msi.c
+ create mode 100644 hw/intc/loongarch_pch_pic.c
+ create mode 100644 hw/loongarch/Kconfig
+ create mode 100644 hw/loongarch/acpi-build.c
+ create mode 100644 hw/loongarch/fw_cfg.c
+ create mode 100644 hw/loongarch/fw_cfg.h
+ create mode 100644 hw/loongarch/loongson3.c
+ create mode 100644 hw/loongarch/meson.build
+ create mode 100644 hw/pci-host/ls7a.c
+ create mode 100644 hw/rtc/ls7a_rtc.c
+ create mode 100644 include/hw/acpi/ls7a.h
+ create mode 100644 include/hw/intc/loongarch_extioi.h
+ create mode 100644 include/hw/intc/loongarch_ipi.h
+ create mode 100644 include/hw/intc/loongarch_pch_msi.h
+ create mode 100644 include/hw/intc/loongarch_pch_pic.h
+ create mode 100644 include/hw/loongarch/loongarch.h
+ create mode 100644 include/hw/pci-host/ls7a.h
+ create mode 100644 target/loongarch/Kconfig
+ create mode 100644 target/loongarch/constant_timer.c
+ create mode 100644 target/loongarch/cpu-csr.h
+ create mode 100644 target/loongarch/csr_helper.c
+ create mode 100644 target/loongarch/gdbstub.c
+ create mode 100644 target/loongarch/insn_trans/trans_core.c.inc
+ create mode 100644 target/loongarch/iocsr_helper.c
+ create mode 100644 target/loongarch/machine.c
+ create mode 100644 target/loongarch/tlb_helper.c
+ create mode 100644 tests/tcg/loongarch64/Makefile.softmmu-target
+ create mode 100644 tests/tcg/loongarch64/system/boot.S
+ create mode 100644 tests/tcg/loongarch64/system/kernel.ld
+ create mode 100644 tests/tcg/loongarch64/system/regdef.h
+
 -- 
-2.33.1
+2.27.0
 
 
