@@ -2,76 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D443C488278
-	for <lists+qemu-devel@lfdr.de>; Sat,  8 Jan 2022 09:41:47 +0100 (CET)
-Received: from localhost ([::1]:44196 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 197D1488296
+	for <lists+qemu-devel@lfdr.de>; Sat,  8 Jan 2022 09:48:47 +0100 (CET)
+Received: from localhost ([::1]:45678 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n66UB-0008VV-Pq
-	for lists+qemu-devel@lfdr.de; Sat, 08 Jan 2022 02:49:59 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:33720)
+	id 1n66lh-0004om-4t
+	for lists+qemu-devel@lfdr.de; Sat, 08 Jan 2022 03:08:05 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35336)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1n663b-0004nj-Ca
- for qemu-devel@nongnu.org; Sat, 08 Jan 2022 02:22:33 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50560)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1n663Y-0001EO-JH
- for qemu-devel@nongnu.org; Sat, 08 Jan 2022 02:22:30 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641626541;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=3aAuBCQ76B33BLPIgV+cai7XyGwp4iZUzPCfoL/rVg4=;
- b=VQDJPaa+EvOhKbJku6OfJCcUNlQWfa4cvNK8uoPtFJaNbAYpnpTzTQqYzrEGVrysqz14Uu
- BRpeoIl1/StCQYS+DL7v3mcYNRCIjN+eNXRHgB5FKYQ05YJTyqKnnWCiYH4D4Wc1jGVslK
- Owwk2XVsKV0s4kde9x91GPPUUzAxfyU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-590-LlMXwC5jM5CYvdhckKB84w-1; Sat, 08 Jan 2022 02:22:18 -0500
-X-MC-Unique: LlMXwC5jM5CYvdhckKB84w-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B38A9180FD60;
- Sat,  8 Jan 2022 07:22:16 +0000 (UTC)
-Received: from [10.72.13.57] (ovpn-13-57.pek2.redhat.com [10.72.13.57])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 504BC7A22E;
- Sat,  8 Jan 2022 07:21:57 +0000 (UTC)
-Subject: Re: [PATCH v3 2/2] hw/arm/virt: Support for virtio-mem-pci
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20211203233404.37313-1-gshan@redhat.com>
- <20211203233404.37313-3-gshan@redhat.com>
- <CAFEAcA8hd000vwp8A602uw4yueea4uU0xttELcC8sn34X+N5-A@mail.gmail.com>
-From: Gavin Shan <gshan@redhat.com>
-Message-ID: <3528fa8b-bfa6-2127-dfe6-4135b3b0989f@redhat.com>
-Date: Sat, 8 Jan 2022 15:21:55 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.0
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1n66IQ-0005Hp-DQ
+ for qemu-devel@nongnu.org; Sat, 08 Jan 2022 02:37:56 -0500
+Received: from [2607:f8b0:4864:20::d33] (port=43846
+ helo=mail-io1-xd33.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1n66IL-0003Jk-6j
+ for qemu-devel@nongnu.org; Sat, 08 Jan 2022 02:37:48 -0500
+Received: by mail-io1-xd33.google.com with SMTP id l3so10038023iol.10
+ for <qemu-devel@nongnu.org>; Fri, 07 Jan 2022 23:37:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=KGsTvM8y9NLcTQj3zPOMQgGUhhAudJAW7AN5jbbUbhw=;
+ b=GCD1MBThHEOVXHlWkXx4vlEk1jc5RbfUV9e3dz2nQtQ/TfpsI+yp/7KNbA7uZ2CEgm
+ npKVdLF3/KL87GY9sLyXqoX9g5QO53CO3DmfC5ye1xrfPDKXQuwH76SpK1X1/EO2GSQN
+ 29PzGj0Jsl1V+19GWwBILc8HXJkVzVaiPViJIKRWqq+4kIVRRHsi06cuh9wGVQkrG2Wr
+ YqvQ+rXjzyf7ViAL8LKmpM2RaQ0KhmwKehYtD5cctsCYeVV3WKhSXgS36tGs/f3iXg8S
+ gfK4/+I9dLEloJv+NUdBBdkZ4R1xrKOnLN8HWYCqplPzYQJelm4w3QZUOVa9cjjwDLc/
+ tVRg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=KGsTvM8y9NLcTQj3zPOMQgGUhhAudJAW7AN5jbbUbhw=;
+ b=LhaW3WIf7wgNsGuVsm1i1S5Do6E4SKRWCKr8tTnpxYMTCmZO6ZzWSpQLzvoqitiC++
+ tzLYZtGj2uIS5z9Am5DV7hfgnQ36O6Z+dhE1IIAnMkC4IdFAqEXr5l286JdxMN7xZ3iG
+ bo3F4gJGOs3V7HIgbbT5tLM8pA8uveHS2SjgJlDQ0P4+FZfEW6cIQeWtZ2sjZvBa/+eA
+ K+DL8W5ZxyVFn0VNeUEwVg9L8IwlhhAFuCGc3uMRFV2cn3I9f/3EJYoIxuWNUQijanF6
+ lYHBghc3RQXwZ6WobWBajhvkubqMG4ZiVWEfjuMpZJ7qWkgm4hFefS+yEjTfOll8zbCI
+ sbCQ==
+X-Gm-Message-State: AOAM5300jupBfjBtRx6aRDM9WcJQT8oD2uhxsHmZf7krpVUOURdyzAsR
+ 3f0hbsNxf/BaGQpZpvVXt5aw4vALDkDMffvw
+X-Google-Smtp-Source: ABdhPJzRpo8Hq6j9cF8aO3qZIYOegXtlsbRQdfhIFL/zqvLczG9y3b0b4xnbhB8zAkq35SA8SNI3bQ==
+X-Received: by 2002:a02:cf23:: with SMTP id s3mr30101444jar.201.1641627462843; 
+ Fri, 07 Jan 2022 23:37:42 -0800 (PST)
+Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
+ [50.253.99.174])
+ by smtp.gmail.com with ESMTPSA id w19sm613022iov.12.2022.01.07.23.37.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 07 Jan 2022 23:37:42 -0800 (PST)
+From: Warner Losh <imp@bsdimp.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/37] Bsd user arm patches
+Date: Sat,  8 Jan 2022 00:37:00 -0700
+Message-Id: <20220108073737.5959-1-imp@bsdimp.com>
+X-Mailer: git-send-email 2.33.1
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA8hd000vwp8A602uw4yueea4uU0xttELcC8sn34X+N5-A@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=gshan@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=gshan@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -73
-X-Spam_score: -7.4
-X-Spam_bar: -------
-X-Spam_report: (-7.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.372,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-4.199, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d33
+ (failed)
+Received-SPF: none client-ip=2607:f8b0:4864:20::d33;
+ envelope-from=imp@bsdimp.com; helo=mail-io1-xd33.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,147 +83,145 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Gavin Shan <gshan@redhat.com>
-Cc: drjones@redhat.com, david@redhat.com, richard.henderson@linaro.org,
- qemu-devel@nongnu.org, eric.auger@redhat.com, qemu-arm@nongnu.org,
- shan.gavin@gmail.com, jonathan.cameron@huawei.com, imammedo@redhat.com
+Cc: qemu-trivial@nongnu.org, kevans@freebsd.org,
+ Michael Tokarev <mjt@tls.msk.ru>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Laurent Vivier <laurent@vivier.eu>,
+ Richard Henderson <richard.henderson@linaro.org>, Warner Losh <imp@bsdimp.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Peter,
+The following changes since commit 7d4ae4d4978079d564d3b6354c90a949130409fe:
 
-On 1/8/22 12:40 AM, Peter Maydell wrote:
-> On Fri, 3 Dec 2021 at 23:34, Gavin Shan <gshan@redhat.com> wrote:
->>
->> This supports virtio-mem-pci device on "virt" platform, by simply
->> following the implementation on x86.
->>
->>     * This implements the hotplug handlers to support virtio-mem-pci
->>       device hot-add, while the hot-remove isn't supported as we have
->>       on x86.
->>
->>     * The block size is 512MB on ARM64 instead of 128MB on x86.
->>
->>     * It has been passing the tests with various combinations like 64KB
->>       and 4KB page sizes on host and guest, different memory device
->>       backends like normal, transparent huge page and HugeTLB, plus
->>       migration.
->>
->> Co-developed-by: David Hildenbrand <david@redhat.com>
->> Co-developed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
->> Signed-off-by: Gavin Shan <gshan@redhat.com>
->> Reviewed-by: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
->> Reviewed-by: David Hildenbrand <david@redhat.com>
-> 
-> 
->> +static void virt_virtio_md_pci_pre_plug(HotplugHandler *hotplug_dev,
->> +                                        DeviceState *dev, Error **errp)
->> +{
->> +    HotplugHandler *hotplug_dev2 = qdev_get_bus_hotplug_handler(dev);
->> +    Error *local_err = NULL;
->> +
->> +    if (!hotplug_dev2 && dev->hotplugged) {
->> +        /*
->> +         * Without a bus hotplug handler, we cannot control the plug/unplug
->> +         * order. We should never reach this point when hotplugging on x86,
->> +         * however, better add a safety net.
->> +         */
-> 
-> This comment looks like it was cut-n-pasted from x86 -- is whatever
-> it is that prevents us from reaching this point also true for arm ?
-> (What is the thing that prevents us reaching this point?)
-> 
+  Merge tag 'pull-request-2022-01-05' of https://gitlab.com/thuth/qemu into staging (2022-01-05 08:47:18 -0800)
 
-Yeah, the comment was copied from x86. It's also true for ARM as a hotplug
-controller on the parent bus is required for virtio-mem-pci device hot-add,
-according to the following commit log.
+are available in the Git repository at:
 
-commit a0a49813f7f2fc23bfe8a4fc6760e2a60c9a3e59
-Author: David Hildenbrand <david@redhat.com>
-Date:   Wed Jun 19 15:19:07 2019 +0530
+  git@gitlab.com:bsdimp/qemu.git tags/bsd-user-arm-pull-request
 
-     pc: Support for virtio-pmem-pci
-     
-     Override the device hotplug handler to properly handle the memory device
-     part via virtio-pmem-pci callbacks from the machine hotplug handler and
-     forward to the actual PCI bus hotplug handler.
-     
-     As PCI hotplug has not been properly factored out into hotplug handlers,
-     most magic is performed in the (un)realize functions. Also some PCI host
-     buses don't have a PCI hotplug handler at all yet, just to be sure that
-     we alway have a hotplug handler on x86, add a simple error check.
-     
-     Unlocking virtio-pmem will unlock virtio-pmem-pci.
-     
-     Signed-off-by: David Hildenbrand <david@redhat.com>
+for you to fetch changes up to 18fe5d99f27fa7458724aa367e3c6784c36d5771:
 
-However, I don't think the comment we have for ARM is precise enough because
-it's irrelevant to x86. I will change it something like below in v4:
+  bsd-user: add arm target build (2022-01-07 22:58:51 -0700)
 
-	/*
-	 * Without a bus hotplug handler, we cannot control the plug/unplug
-	 * order. We should never reach this point when hotplugging on ARM.
-	 * However, it's nice to add a safety net, similar to what we have
-          * on x86.
-	 */
+----------------------------------------------------------------
+bsd-user: arm (32-bit) support
 
+This series of patches brings in 32-bit arm support for bsd-user.  It implements
+all the bits needed to do image activation, signal handling, stack management
+and threading. This allows us to get to the "Hello World" level. The arm and x86
+code are now the same as in the bsd-user fork. For full context, the fork is at
+https://github.com/qemu-bsd-user/qemu-bsd-user/tree/blitz (though the the recent
+sig{bus,segv} needed updates are incomplete).
 
->> +        error_setg(errp, "hotplug of virtio based memory devices not supported"
->> +                   " on this bus.");
->> +        return;
->> +    }
->> +    /*
->> +     * First, see if we can plug this memory device at all. If that
->> +     * succeeds, branch of to the actual hotplug handler.
->> +     */
->> +    memory_device_pre_plug(MEMORY_DEVICE(dev), MACHINE(hotplug_dev), NULL,
->> +                           &local_err);
->> +    if (!local_err && hotplug_dev2) {
->> +        hotplug_handler_pre_plug(hotplug_dev2, dev, &local_err);
->> +    }
->> +    error_propagate(errp, local_err);
->> +}
-> 
-> 
-> 
->> diff --git a/hw/virtio/virtio-mem.c b/hw/virtio/virtio-mem.c
->> index b20595a496..21e4d572ab 100644
->> --- a/hw/virtio/virtio-mem.c
->> +++ b/hw/virtio/virtio-mem.c
->> @@ -125,7 +125,7 @@ static uint64_t virtio_mem_default_block_size(RAMBlock *rb)
->>    * The memory block size corresponds mostly to the section size.
->>    *
->>    * This allows e.g., to add 20MB with a section size of 128MB on x86_64, and
->> - * a section size of 1GB on arm64 (as long as the start address is properly
->> + * a section size of 512MB on arm64 (as long as the start address is properly
->>    * aligned, similar to ordinary DIMMs).
->>    *
->>    * We can change this at any time and maybe even make it configurable if
->> @@ -134,6 +134,8 @@ static uint64_t virtio_mem_default_block_size(RAMBlock *rb)
->>    */
->>   #if defined(TARGET_X86_64) || defined(TARGET_I386)
->>   #define VIRTIO_MEM_USABLE_EXTENT (2 * (128 * MiB))
->> +#elif defined(TARGET_ARM)
->> +#define VIRTIO_MEM_USABLE_EXTENT (2 * (512 * MiB))
->>   #else
->>   #error VIRTIO_MEM_USABLE_EXTENT not defined
->>   #endif
-> 
-> Could this comment explain where the 128MB and 512MB come from
-> and why the value is different for different architectures ?
-> 
+v5 changes:
+   o Moved to using the CPUArchState typedef and move
+     set_sigtramp_args, get_mcontext, set_mcontext, and
+     get_ucontext_sigreturn prototypes to
+     bsd-user/freebsd/target_os_ucontext.h
+   o Fix issues with arm's set_mcontext related to masking
+     and remove an unnecessary check.
 
-Yes, the comment already explained it by "section size", which is the
-minimal hotpluggable unit. It's defined by the linux guest kernel as
-below. On ARM64, we pick the larger section size without considering
-the base page size. Besides, the virtio-mem is/will-be enabled on
-x86_64 and ARM64 guest kernel only.
+We're down to only one hunk needing review:
+    bsd-user/arm/target_arch_signal.c: arm set_mcontext
 
-#define SECTION_SIZE_BITS  29      /* ARM:    64KB base page size        */
-#define SECTION_SIZE_BITS  27      /* ARM:    16KB or 4KB base page size */
-#define SECTION_SIZE_BITS  27      /* x86_64                             */
+Warnings that should be ignored:
+   o make checkpatch has a couple of complaints about the comments for the
+     signal trampoline, since it's a false positive IMHO.
+WARNING: Block comments use a leading /* on a separate line
++    /* 8 */ sys_sigreturn,
+WARNING: Block comments use a leading /* on a separate line
++    /* 9 */ sys_exit
 
-Thanks,
-Gavin
+----------------------------------------------------------------
+
+Warner Losh (37):
+  bsd-user/mips*: Remove mips support
+  bsd-user/freebsd: Create common target_os_ucontext.h file
+  bsd-user: create a per-arch signal.c file
+  bsd-user/i386/target_arch_signal.h: Remove target_sigcontext
+  bsd-user/i386/target_arch_signal.h: use new target_os_ucontext.h
+  bsd-user/i386/target_arch_signal.h: Update mcontext_t to match FreeBSD
+  bsd-user/i386: Move the inlines into signal.c
+  bsd-user/x86_64/target_arch_signal.h: Remove target_sigcontext
+  bsd-user/x86_64/target_arch_signal.h: use new target_os_ucontext.h
+  bsd-user/x86_64/target_arch_signal.h: Fill in mcontext_t
+  bsd-user/x86_64: Move functions into signal.c
+  bsd-user/target_os_signal.h: Move signal prototypes to
+    target_os_ucontext.h
+  bsd-user/arm/target_arch_sysarch.h: Use consistent include guards
+  bsd-user/arm/target_syscall.h: Add copyright and update name
+  bsd-user/arm/target_arch_cpu.c: Target specific TLS routines
+  bsd-user/arm/target_arch_cpu.h: CPU Loop definitions
+  bsd-user/arm/target_arch_cpu.h: Implement target_cpu_clone_regs
+  bsd-user/arm/target_arch_cpu.h: Dummy target_cpu_loop implementation
+  bsd-user/arm/target_arch_cpu.h: Implement trivial EXCP exceptions
+  bsd-user/arm/target_arch_cpu.h: Implement data abort exceptions
+  bsd-user/arm/target_arch_cpu.h: Implement system call dispatch
+  bsd-user/arm/target_arch_reg.h: Implement core dump register copying
+  bsd-user/arm/target_arch_vmparam.h: Parameters for arm address space
+  bsd-user/arm/target_arch_sigtramp.h: Signal Trampoline for arm
+  bsd-user/arm/target_arch_thread.h: Routines to create and switch to a
+    thread
+  bsd-user/arm/target_arch_elf.h: arm defines for ELF
+  bsd-user/arm/target_arch_elf.h: arm get hwcap
+  bsd-user/arm/target_arch_elf.h: arm get_hwcap2 impl
+  bsd-user/arm/target_arch_signal.h: arm specific signal registers and
+    stack
+  bsd-user/arm/target_arch_signal.h: arm machine context and trapframe
+    for signals
+  bsd-user/arm/target_arch_signal.h: Define size of *context_t
+  bsd-user/arm/signal.c: arm set_sigtramp_args
+  bsd-user/arm/signal.c: arm get_mcontext
+  bsd-user/arm/signal.c: arm set_mcontext
+  bsd-user/arm/signal.c: arm get_ucontext_sigreturn
+  bsd-user/freebsd/target_os_ucontext.h: Require TARGET_*CONTEXT_SIZE
+  bsd-user: add arm target build
+
+ bsd-user/arm/signal.c                 | 196 ++++++++++++++++++++++++
+ bsd-user/arm/target_arch.h            |  28 ++++
+ bsd-user/arm/target_arch_cpu.c        |  39 +++++
+ bsd-user/arm/target_arch_cpu.h        | 211 ++++++++++++++++++++++++++
+ bsd-user/arm/target_arch_elf.h        | 128 ++++++++++++++++
+ bsd-user/arm/target_arch_reg.h        |  60 ++++++++
+ bsd-user/arm/target_arch_signal.h     |  88 +++++++++++
+ bsd-user/arm/target_arch_sigtramp.h   |  49 ++++++
+ bsd-user/arm/target_arch_sysarch.h    |   6 +-
+ bsd-user/arm/target_arch_thread.h     |  82 ++++++++++
+ bsd-user/arm/target_arch_vmparam.h    |  48 ++++++
+ bsd-user/arm/target_syscall.h         |  27 +++-
+ bsd-user/freebsd/target_os_signal.h   |   3 -
+ bsd-user/freebsd/target_os_ucontext.h |  44 ++++++
+ bsd-user/i386/signal.c                |  55 +++++++
+ bsd-user/i386/target_arch_signal.h    |  95 ++++++------
+ bsd-user/mips/target_arch_sysarch.h   |  69 ---------
+ bsd-user/mips/target_syscall.h        |  52 -------
+ bsd-user/mips64/target_arch_sysarch.h |  69 ---------
+ bsd-user/mips64/target_syscall.h      |  53 -------
+ bsd-user/x86_64/signal.c              |  55 +++++++
+ bsd-user/x86_64/target_arch_signal.h  | 103 +++++++------
+ configs/targets/arm-bsd-user.mak      |   2 +
+ meson.build                           |   2 +-
+ 24 files changed, 1214 insertions(+), 350 deletions(-)
+ create mode 100644 bsd-user/arm/signal.c
+ create mode 100644 bsd-user/arm/target_arch.h
+ create mode 100644 bsd-user/arm/target_arch_cpu.c
+ create mode 100644 bsd-user/arm/target_arch_cpu.h
+ create mode 100644 bsd-user/arm/target_arch_elf.h
+ create mode 100644 bsd-user/arm/target_arch_reg.h
+ create mode 100644 bsd-user/arm/target_arch_signal.h
+ create mode 100644 bsd-user/arm/target_arch_sigtramp.h
+ create mode 100644 bsd-user/arm/target_arch_thread.h
+ create mode 100644 bsd-user/arm/target_arch_vmparam.h
+ create mode 100644 bsd-user/freebsd/target_os_ucontext.h
+ create mode 100644 bsd-user/i386/signal.c
+ delete mode 100644 bsd-user/mips/target_arch_sysarch.h
+ delete mode 100644 bsd-user/mips/target_syscall.h
+ delete mode 100644 bsd-user/mips64/target_arch_sysarch.h
+ delete mode 100644 bsd-user/mips64/target_syscall.h
+ create mode 100644 bsd-user/x86_64/signal.c
+ create mode 100644 configs/targets/arm-bsd-user.mak
+
+-- 
+2.33.1
 
 
