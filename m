@@ -2,69 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0222E4880A7
-	for <lists+qemu-devel@lfdr.de>; Sat,  8 Jan 2022 02:44:23 +0100 (CET)
-Received: from localhost ([::1]:50202 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F7B14880B3
+	for <lists+qemu-devel@lfdr.de>; Sat,  8 Jan 2022 02:51:57 +0100 (CET)
+Received: from localhost ([::1]:40886 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n60mM-0007n3-4T
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 20:44:22 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44464)
+	id 1n60tg-0004cq-LA
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 20:51:56 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44526)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n60B9-0005Yo-6a
- for qemu-devel@nongnu.org; Fri, 07 Jan 2022 20:05:56 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:25731)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n60BE-0005cM-Ck
+ for qemu-devel@nongnu.org; Fri, 07 Jan 2022 20:06:00 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43946)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n60B7-0002lT-JV
- for qemu-devel@nongnu.org; Fri, 07 Jan 2022 20:05:54 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n60BC-0002mB-PK
+ for qemu-devel@nongnu.org; Fri, 07 Jan 2022 20:06:00 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641603953;
+ s=mimecast20190719; t=1641603958;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=DFg4dF0zL+6DjrQEApY58jy53XB520+11YNtoCyrIVs=;
- b=FrMQhnYdkyWN6R1MoXEQOTmy1zcsylSVz7puSj7PVHAC4iaFiULVPrGkpYyrSZCFsEZ2em
- FPQ7sRCeJjZyNzmNpA5GRk+bNc9fTseiNMtHF9UkMdYU/UbAnBIV70tlX0gru8NwCKWBUq
- drE0WgYzvSbLUYJNKQegr9v2IQbINpk=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=0ZXDQGGu0GtQDGXbNWl1ocN1Tqho3+nSq7/StQ09538=;
+ b=AaMjepXGXdaUMZ7cSUg2xnlI8fADpTuMGHBURoEmPWf+MJtnhg+cc/OIl4FXy8xUZcBgyj
+ 2jM8EMwsEkQsUehpTk3asAdmXNyzJo3D94q19GWbkil8nsmgDKRMm9r45b87za5FT7eIDH
+ JXKdRksqKSY4AMAqeGiU0X74A7KQBLs=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-643-eTwWkwSBNW2TIZ7LPIIXEg-1; Fri, 07 Jan 2022 20:05:52 -0500
-X-MC-Unique: eTwWkwSBNW2TIZ7LPIIXEg-1
-Received: by mail-wm1-f71.google.com with SMTP id
- az9-20020a05600c600900b0034692565ca8so4587799wmb.9
- for <qemu-devel@nongnu.org>; Fri, 07 Jan 2022 17:05:51 -0800 (PST)
+ us-mta-526-QMhkAie9O7iipMXFrip1pQ-1; Fri, 07 Jan 2022 20:05:57 -0500
+X-MC-Unique: QMhkAie9O7iipMXFrip1pQ-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ m9-20020a05600c4f4900b0034644da3525so2501056wmq.3
+ for <qemu-devel@nongnu.org>; Fri, 07 Jan 2022 17:05:57 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=DFg4dF0zL+6DjrQEApY58jy53XB520+11YNtoCyrIVs=;
- b=hzU3oTjK6b72JV/JqvsAJX5l0JwGspCEwgSOJy+Ljndt6z2Cp3xKUgiqW2JKh8nY3z
- aguOx5GrZXacRE8aTswkxdm9I65aGv0BRPLL1m2Xz0m9aCLAIyfb3q0BQEqSBTKeKcpE
- 8GGMgq9FYOKeYbf5s/9I/lKaNH1dv4cpttvr3JtWlsZzAMi09zKimVtK9Joeg24xsf6X
- 0FlDbFczTy6Yd/A0W4jmbQ/OHU5PUN9asVks9wEU/8pD7PXuYodn6bV57mZegancXAvt
- +WZKdnjGeMBNkAX6NQopqnIBCyMjnd2wXnlA9dNbnGTFfUCSWtq2yOuWiZGCfvtYHgJ3
- k1/w==
-X-Gm-Message-State: AOAM530TqzigYv0nNuEx+lnCyETsFjzHJThpOBm0e1mWmXbFdoGdVplc
- CJte/6VSx6GB++ME3lryFbp6j9hw3cgnTtNGjMWmDAtV6VVPYhpQQvAzXdW/k8II9XCWF3br4br
- O9Sj8y54POOuJoI3bMo5VZN5X0VcSIe5vi5NTc37JpKv4BSD9Sp74mJMHkMu5
-X-Received: by 2002:a05:600c:22ca:: with SMTP id
- 10mr10072395wmg.114.1641603950330; 
- Fri, 07 Jan 2022 17:05:50 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzkm+/2HkLGFbwU6O4tbnHh1sy7L1Q5/tlRqpzudP42W9q+cxzaw15FdJYIiHs+xi9tjtv2Sg==
-X-Received: by 2002:a05:600c:22ca:: with SMTP id
- 10mr10072377wmg.114.1641603950046; 
- Fri, 07 Jan 2022 17:05:50 -0800 (PST)
+ bh=0ZXDQGGu0GtQDGXbNWl1ocN1Tqho3+nSq7/StQ09538=;
+ b=v/iiGYzxPJI73W+QobJOnwZXk9JmsKcXMS4Rl6M/Dcomt6rIl5dzyfqmsjj2duPm9y
+ HpC/mCo//OxgPfU+R7xo2UibB/m4eOoUSfbiaLr4C85tF0Gpw9fO+Wq++HaQjmjQ87br
+ MhD7bgLTTRVR6cmz1LgbpNr34u7DCq7U9uIPOn6xMXLImle4AENx0ipzyNCa830rqYz8
+ mQqFhtsXL8df41aM/pmJQHqYGAthEBq4ENxkR+vQxu3lrUJVmKhxDSaR2aToXzWin4so
+ YsE1IsDr3U75WmhfUyKjQSrV5OmNS0LhGn2lP66kM3Q5qLXsN+d6zocfU8+HWDST1MG4
+ OzRQ==
+X-Gm-Message-State: AOAM531jWFRx5OkKHYbvFexFgjVVNnIbN94gEHV4zimZPfVy5TBOTDUa
+ ahRypN+nWrKJAfeGr5YgRgXWQ6/ChTpohzdURMmcky8BCdAPLu5EIp/dA6egyKAWYw5mHIjbr4P
+ 6F/OEwYEit6mqyNcKUK22hAeA8efmVDXp/wyueK4jRuwktZxdYwf0jKFF7NVz
+X-Received: by 2002:adf:f40e:: with SMTP id g14mr2564303wro.515.1641603954681; 
+ Fri, 07 Jan 2022 17:05:54 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzI72KYkd8wzumBSpwbapsLBzR1G6vE5PKvmewv2jWumsEkMwwVEvmzVrVyVXvGFy45MdaqCw==
+X-Received: by 2002:adf:f40e:: with SMTP id g14mr2564284wro.515.1641603954435; 
+ Fri, 07 Jan 2022 17:05:54 -0800 (PST)
 Received: from redhat.com ([147.161.13.99])
- by smtp.gmail.com with ESMTPSA id l10sm86596wmq.7.2022.01.07.17.05.48
+ by smtp.gmail.com with ESMTPSA id l10sm86655wmq.7.2022.01.07.17.05.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 Jan 2022 17:05:49 -0800 (PST)
-Date: Fri, 7 Jan 2022 20:05:46 -0500
+ Fri, 07 Jan 2022 17:05:53 -0800 (PST)
+Date: Fri, 7 Jan 2022 20:05:50 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v3 41/55] virtio-mem: Set "unplugged-inaccessible=auto" for
- the 7.0 machine on x86
-Message-ID: <20220108003423.15830-42-mst@redhat.com>
+Subject: [PULL v3 42/55] intel-iommu: correctly check passthrough during
+ translation
+Message-ID: <20220108003423.15830-43-mst@redhat.com>
 References: <20220108003423.15830-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20220108003423.15830-1-mst@redhat.com>
@@ -76,7 +74,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -98,57 +96,101 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Eduardo Habkost <eduardo@habkost.net>,
- Peter Maydell <peter.maydell@linaro.org>, David Hildenbrand <david@redhat.com>,
- Michal Privoznik <mprivozn@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Pankaj Gupta <pankaj.gupta@ionos.com>, Paolo Bonzini <pbonzini@redhat.com>
+ Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, Peter Xu <peterx@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: David Hildenbrand <david@redhat.com>
+From: Jason Wang <jasowang@redhat.com>
 
-Set the new default to "auto", keeping it set to "off" for compat
-machines. This property is only available for x86 targets.
+When scalable mode is enabled, the passthrough more is not determined
+by the context entry but PASID entry, so switch to use the logic of
+vtd_dev_pt_enabled() to determine the passthrough mode in
+vtd_do_iommu_translate().
 
-Reviewed-by: Michal Privoznik <mprivozn@redhat.com>
-Reviewed-by: Pankaj Gupta <pankaj.gupta@ionos.com>
-Signed-off-by: David Hildenbrand <david@redhat.com>
-Message-Id: <20211217134039.29670-4-david@redhat.com>
+Signed-off-by: Jason Wang <jasowang@redhat.com>
+Message-Id: <20220105041945.13459-2-jasowang@redhat.com>
+Reviewed-by: Peter Xu <peterx@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/i386/pc.c           | 4 +++-
- hw/virtio/virtio-mem.c | 2 +-
- 2 files changed, 4 insertions(+), 2 deletions(-)
+ hw/i386/intel_iommu.c | 38 +++++++++++++++++++++++---------------
+ 1 file changed, 23 insertions(+), 15 deletions(-)
 
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 959efa5b3f..718ab81ba8 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -95,7 +95,9 @@
- #include "trace.h"
- #include CONFIG_DEVICES
+diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
+index 5b865ac08c..4c6c016388 100644
+--- a/hw/i386/intel_iommu.c
++++ b/hw/i386/intel_iommu.c
+@@ -1516,11 +1516,29 @@ static int vtd_sync_shadow_page_table(VTDAddressSpace *vtd_as)
+  * 1st-level translation or 2nd-level translation, it depends
+  * on PGTT setting.
+  */
+-static bool vtd_dev_pt_enabled(VTDAddressSpace *as)
++static bool vtd_dev_pt_enabled(IntelIOMMUState *s, VTDContextEntry *ce)
++{
++    VTDPASIDEntry pe;
++    int ret;
++
++    if (s->root_scalable) {
++        ret = vtd_ce_get_rid2pasid_entry(s, ce, &pe);
++        if (ret) {
++            error_report_once("%s: vtd_ce_get_rid2pasid_entry error: %"PRId32,
++                              __func__, ret);
++            return false;
++        }
++        return (VTD_PE_GET_TYPE(&pe) == VTD_SM_PASID_ENTRY_PT);
++    }
++
++    return (vtd_ce_get_type(ce) == VTD_CONTEXT_TT_PASS_THROUGH);
++
++}
++
++static bool vtd_as_pt_enabled(VTDAddressSpace *as)
+ {
+     IntelIOMMUState *s;
+     VTDContextEntry ce;
+-    VTDPASIDEntry pe;
+     int ret;
  
--GlobalProperty pc_compat_6_2[] = {};
-+GlobalProperty pc_compat_6_2[] = {
-+    { "virtio-mem", "unplugged-inaccessible", "off" },
-+};
- const size_t pc_compat_6_2_len = G_N_ELEMENTS(pc_compat_6_2);
+     assert(as);
+@@ -1538,17 +1556,7 @@ static bool vtd_dev_pt_enabled(VTDAddressSpace *as)
+         return false;
+     }
  
- GlobalProperty pc_compat_6_1[] = {
-diff --git a/hw/virtio/virtio-mem.c b/hw/virtio/virtio-mem.c
-index fb6687d4c7..04c223b0c9 100644
---- a/hw/virtio/virtio-mem.c
-+++ b/hw/virtio/virtio-mem.c
-@@ -1201,7 +1201,7 @@ static Property virtio_mem_properties[] = {
-                      TYPE_MEMORY_BACKEND, HostMemoryBackend *),
- #if defined(VIRTIO_MEM_HAS_LEGACY_GUESTS)
-     DEFINE_PROP_ON_OFF_AUTO(VIRTIO_MEM_UNPLUGGED_INACCESSIBLE_PROP, VirtIOMEM,
--                            unplugged_inaccessible, ON_OFF_AUTO_OFF),
-+                            unplugged_inaccessible, ON_OFF_AUTO_AUTO),
- #endif
-     DEFINE_PROP_END_OF_LIST(),
- };
+-    if (s->root_scalable) {
+-        ret = vtd_ce_get_rid2pasid_entry(s, &ce, &pe);
+-        if (ret) {
+-            error_report_once("%s: vtd_ce_get_rid2pasid_entry error: %"PRId32,
+-                              __func__, ret);
+-            return false;
+-        }
+-        return (VTD_PE_GET_TYPE(&pe) == VTD_SM_PASID_ENTRY_PT);
+-    }
+-
+-    return (vtd_ce_get_type(&ce) == VTD_CONTEXT_TT_PASS_THROUGH);
++    return vtd_dev_pt_enabled(s, &ce);
+ }
+ 
+ /* Return whether the device is using IOMMU translation. */
+@@ -1560,7 +1568,7 @@ static bool vtd_switch_address_space(VTDAddressSpace *as)
+ 
+     assert(as);
+ 
+-    use_iommu = as->iommu_state->dmar_enabled && !vtd_dev_pt_enabled(as);
++    use_iommu = as->iommu_state->dmar_enabled && !vtd_as_pt_enabled(as);
+ 
+     trace_vtd_switch_address_space(pci_bus_num(as->bus),
+                                    VTD_PCI_SLOT(as->devfn),
+@@ -1753,7 +1761,7 @@ static bool vtd_do_iommu_translate(VTDAddressSpace *vtd_as, PCIBus *bus,
+      * We don't need to translate for pass-through context entries.
+      * Also, let's ignore IOTLB caching as well for PT devices.
+      */
+-    if (vtd_ce_get_type(&ce) == VTD_CONTEXT_TT_PASS_THROUGH) {
++    if (vtd_dev_pt_enabled(s, &ce)) {
+         entry->iova = addr & VTD_PAGE_MASK_4K;
+         entry->translated_addr = entry->iova;
+         entry->addr_mask = ~VTD_PAGE_MASK_4K;
 -- 
 MST
 
