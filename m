@@ -2,82 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 330674881AC
-	for <lists+qemu-devel@lfdr.de>; Sat,  8 Jan 2022 06:34:32 +0100 (CET)
-Received: from localhost ([::1]:47852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9B844881B8
+	for <lists+qemu-devel@lfdr.de>; Sat,  8 Jan 2022 06:56:54 +0100 (CET)
+Received: from localhost ([::1]:55402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n64N4-00027h-QS
-	for lists+qemu-devel@lfdr.de; Sat, 08 Jan 2022 00:34:30 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50050)
+	id 1n64ij-00026J-8o
+	for lists+qemu-devel@lfdr.de; Sat, 08 Jan 2022 00:56:53 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51414)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1n64L5-0001Rn-IE
- for qemu-devel@nongnu.org; Sat, 08 Jan 2022 00:32:28 -0500
-Received: from [2607:f8b0:4864:20::102b] (port=45618
- helo=mail-pj1-x102b.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1n64L3-0004Os-Hq
- for qemu-devel@nongnu.org; Sat, 08 Jan 2022 00:32:27 -0500
-Received: by mail-pj1-x102b.google.com with SMTP id
- l16-20020a17090a409000b001b2e9628c9cso8798802pjg.4
- for <qemu-devel@nongnu.org>; Fri, 07 Jan 2022 21:32:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=JJLbIOqnAuj0hVCXIxELNpEEpSUfeg8jJLsMUvEeIxc=;
- b=Km0i9cLaWVOTnQoO5uHSe4CSYEvkW9iuAneSVMlOJYDdh56RvgMoFxaL19eesBxArn
- d1tayVCCyfjSAAwl6WtLO9TnIwMCQBzPg3Vs/AGMc6BFrjO9EJ6Rs2yAxfjcZG6bBSTl
- UxtQqG76Q3KdYKjxl9s9T00QkCgxvpQ3pD9R/4ituUid6ttgL74Qnxdf2PHg09dTkL2l
- Zyo7hIjF7t8gxdbxyTAxktvz1rVvTaRjLFVpcyPz7ZOL3VymejK7XTTpPpLYCWHmzbhG
- H4jZXPp5F7/msre89o8USm4piebqd6EH5dQENEVxUFg/ycRU4R811UxMfkR1lUZECQBj
- dAVQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=JJLbIOqnAuj0hVCXIxELNpEEpSUfeg8jJLsMUvEeIxc=;
- b=ftqBk/K00s/aCREzMfMs3iE+IJDSR9XsGjYn4MR9y2V9rMq5Z8u7+7NzOIjdOK8FuG
- JYffS8XipS9/FB4Cx6y5/XoxLvMNtABAoOsNbpCs5azS1uCtvVGhkEGte//SZEnb1voc
- BN3WkZZsVjpJBp/QXS/0yIwq/mRca9AWe6b50f2E/qXLr/HE3fuOjIvfr2umD2oasNPc
- ufjCBnU7cIjC7bSNQVzykdKt279jRcJ0ghyFJj6NsuejI20RTP6MyUu1008x5prdjqj/
- J1WdBbL0kV3BCrdAqqSDR0WP/TtgWNscAj/4OhkoClQHRcjEQDTKcySUj11kU1+ZxFMm
- cbdQ==
-X-Gm-Message-State: AOAM533mi4P4aMgtgRjtoqdqk8EyHFDyUnJDhqNm4sMYy+yxVGPphPAg
- VLsRJFzmg+dS9i67yT81RJBgTg==
-X-Google-Smtp-Source: ABdhPJy3mBulrf3T0KYGKfR/F/smbuPC06WW0aw36TDhjdxbN/6BFdPEbQC1dHFdc52gBql/1gW02g==
-X-Received: by 2002:a17:90b:1bc9:: with SMTP id
- oa9mr19119201pjb.241.1641619943955; 
- Fri, 07 Jan 2022 21:32:23 -0800 (PST)
-Received: from [192.168.1.13] (174-21-75-75.tukw.qwest.net. [174.21.75.75])
- by smtp.gmail.com with ESMTPSA id m19sm590854pfk.218.2022.01.07.21.32.18
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 07 Jan 2022 21:32:20 -0800 (PST)
-Subject: Re: [PULL v3 00/55] virtio,pci,pc: features,fixes,cleanups
-To: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org
-References: <20220108003423.15830-1-mst@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <0e2956ca-8338-8c2d-c1d9-03f75081c8c5@linaro.org>
-Date: Fri, 7 Jan 2022 21:32:16 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ (Exim 4.90_1)
+ (envelope-from <prvs=000118587=alistair.francis@opensource.wdc.com>)
+ id 1n64dH-0007od-4u
+ for qemu-devel@nongnu.org; Sat, 08 Jan 2022 00:51:15 -0500
+Received: from esa3.hgst.iphmx.com ([216.71.153.141]:10162)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <prvs=000118587=alistair.francis@opensource.wdc.com>)
+ id 1n64dE-0006il-78
+ for qemu-devel@nongnu.org; Sat, 08 Jan 2022 00:51:14 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1641621070; x=1673157070;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=uTfM3GUde/NvVvQU3RI1tNtZB2axXu1miltqA3wtEpA=;
+ b=GxOFAfcqvtpwHalmeCxkeBoxO5QUcz/sc2ra/EskppRWAFwgjBIR524n
+ B4279ZuV8WboOU/dg2JeMluOxVpqNEYpv8YD3rQvyWZmQ37q84vzEAHFy
+ Zn4DBxpoYlbVhSUpNOs9GCQ4RzgNMktSE1P6LZtLfw3tYADr+nZ3zoldB
+ w0Lrjp5aeQtQx/dfoss5XTAXvkYG+r+b6uFrfdcTDVvjbViCYjiGELxPa
+ goDjjOGixUI+cucpmtbA1N1pX+pj1fRlCZESbkyRyEFq8smSTL3Z/Ym8W
+ /522uv3JgiF1KTu+gyuvCLdY6ZsEOoPQjOsRpxikMO9DF2rJo65Q0BNz8 Q==;
+X-IronPort-AV: E=Sophos;i="5.88,272,1635177600"; d="scan'208";a="194779697"
+Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
+ ([199.255.45.14])
+ by ob1.hgst.iphmx.com with ESMTP; 08 Jan 2022 13:51:06 +0800
+IronPort-SDR: GquWVs9O/mzptLKcHCdPV9hgEKXPwHKAEguE5ru4kmiOprYaEuXYyzKlRqIwkfkFRwcDBJovp6
+ pg0AvS6Y2gefiftsYIadXF/QAoyPjMGkR9RuMsQdNGhDeaJqpq7cVR1nZNilHPqlBmic53GBxK
+ YfQaoVfIs7ic5kkJekhs9aBuQBo1AKAwoCrhSJRDg5uib8mI6r+T3zYfYqJEusT0K+lIuT6SCu
+ pt5sZZEMzsjnX/lKlws+V/eFkcs2WqjQnxzi0XMKJkNp7O9YxHMQxNr2wiOhgzOmoNtm5QH6yi
+ 0P7OL7zEJ4tkaQDkyIw53KfO
+Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
+ by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Jan 2022 21:24:55 -0800
+IronPort-SDR: XoPzoPU68N8PXojmN5bIdNDUA+8ZDyvQbF/pRFEAXLa2YMmO95oQZwljNmDUL6ZzF63EyIN1B7
+ Ik008fJDYErrh6d7UICC3ve+706JXceRaZ7Xbb7XYP7XZiYkFy8cEMKwielPNo/dFmDlAQ0oIu
+ zIBNz3ub1iuL2Qtr9uOqCM+riqKG+OSP9F5YGJQ4X5eTDXkVPe/tANtaez+WwldSbrMjRaSVOc
+ GQ6iz615ZDHjp+hgh3EYPcXlFz1KREZ9x853Df4OQ1Ww1Vor1RCRUUJR/Z7zUboVY7kHAO1pUG
+ nQs=
+WDCIronportException: Internal
+Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
+ by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Jan 2022 21:51:08 -0800
+Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4JW8Mv3WD3z1VSkY
+ for <qemu-devel@nongnu.org>; Fri,  7 Jan 2022 21:51:07 -0800 (PST)
+Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
+ reason="pass (just generated, assumed good)"
+ header.d=opensource.wdc.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
+ opensource.wdc.com; h=content-transfer-encoding:content-type
+ :mime-version:x-mailer:message-id:date:subject:to:from; s=dkim;
+ t=1641621067; x=1644213068; bh=uTfM3GUde/NvVvQU3RI1tNtZB2axXu1m
+ iltqA3wtEpA=; b=Qga2/Z8VfAqgOGWTDgP7ZrkPffxGRUZm4zszkd+zz6c+ELEz
+ J4Moh2dpchkS+zHcbJ82Gspc2w3WD9DVl8iXpl/A5U27f8IELk6ninAsBLOccG7m
+ qmlPNiXnJX/ALD3GliF7U01kv0Uc66WrqB/NFhyj/s+OXApcSxKzIWHJ22ndWjoh
+ egwzFOQmHRxLoI8cOFXuwye6808Pe9lPzni22dQWiT96Hku6cIporBe4z0jF7L9e
+ w+pnCDAYcNOxIGn8WxMSZ1F2JnI+sVIMIUzjy1hRYtrfpJVaMz01Fm6mDtmEN5Ol
+ X9wTWm8TB4M9ymqI11Kr61f0QRrBnH2jcXFO7Q==
+X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
+Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
+ by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
+ port 10026) with ESMTP id kkX6hYbCtG71 for <qemu-devel@nongnu.org>;
+ Fri,  7 Jan 2022 21:51:07 -0800 (PST)
+Received: from toolbox.alistair23.me (unknown [10.225.165.74])
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4JW8Mr0lbsz1VSkV;
+ Fri,  7 Jan 2022 21:51:03 -0800 (PST)
+From: Alistair Francis <alistair.francis@opensource.wdc.com>
+To: qemu-devel@nongnu.org
+Cc: alistair23@gmail.com,
+	Alistair Francis <alistair.francis@wdc.com>
+Subject: [PULL 00/37] riscv-to-apply queue
+Date: Sat,  8 Jan 2022 15:50:11 +1000
+Message-Id: <20220108055048.3512645-1-alistair.francis@opensource.wdc.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-In-Reply-To: <20220108003423.15830-1-mst@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::102b
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102b.google.com
-X-Spam_score_int: -39
-X-Spam_score: -4.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.71.153.141;
+ envelope-from=prvs=000118587=alistair.francis@opensource.wdc.com;
+ helo=esa3.hgst.iphmx.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
 X-Spam_bar: ----
-X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.691,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,196 +111,182 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/7/22 5:03 PM, Michael S. Tsirkin wrote:
-> Changes from v2:
-> - fix fallout from attempts to fix up virtio mem prealloc patches
-> 
-> Changes from v1:
-> - mingw build fixes
-> - added TPM patches which got acks meanwhile
-> 
-> Big changes that were tagged originally but did not make the cut:
-> - SRIOV/nvme (not sure they are my tree material anyway)
-> - ACPI ERST (some coding style violations)
-> 
-> 
-> 
-> The following changes since commit 7d4ae4d4978079d564d3b6354c90a949130409fe:
-> 
->    Merge tag 'pull-request-2022-01-05' of https://gitlab.com/thuth/qemu into staging (2022-01-05 08:47:18 -0800)
-> 
-> are available in the Git repository at:
-> 
->    git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
-> 
-> for you to fetch changes up to ca745d2277496464b54fd832c15c45d0227325bb:
-> 
->    tests: acpi: Add updated TPM related tables (2022-01-07 19:30:13 -0500)
-> 
-> ----------------------------------------------------------------
-> virtio,pci,pc: features,fixes,cleanups
-> 
-> New virtio mem options.
-> A vhost-user cleanup.
-> Control over smbios entry point type.
-> Config interrupt support for vdpa.
-> Fixes, cleanups all over the place.
-> 
-> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-> 
-> ----------------------------------------------------------------
-> Andy Pei (1):
->        hw/vhost-user-blk: turn on VIRTIO_BLK_F_SIZE_MAX feature for virtio blk device
-> 
-> Ani Sinha (2):
->        MAINTAINERS: Add a separate entry for acpi/VIOT tables
->        acpihp: simplify acpi_pcihp_disable_root_bus
-> 
-> Cindy Lu (10):
->        virtio: introduce macro IRTIO_CONFIG_IRQ_IDX
->        virtio-pci: decouple notifier from interrupt process
->        virtio-pci: decouple the single vector from the interrupt process
->        vhost: introduce new VhostOps vhost_set_config_call
->        vhost-vdpa: add support for config interrupt
->        virtio: add support for configure interrupt
->        vhost: add support for configure interrupt
->        virtio-net: add support for configure interrupt
->        virtio-mmio: add support for configure interrupt
->        virtio-pci: add support for configure interrupt
-> 
-> Daniil Tatianin (3):
->        hw/scsi/vhost-scsi: don't leak vqs on error
->        hw/scsi/vhost-scsi: don't double close vhostfd on error
->        virtio/vhost-vsock: don't double close vhostfd, remove redundant cleanup
-> 
-> David Hildenbrand (12):
->        virtio-mem: Don't skip alignment checks when warning about block size
->        util/oslib-posix: Let touch_all_pages() return an error
->        util/oslib-posix: Support MADV_POPULATE_WRITE for os_mem_prealloc()
->        util/oslib-posix: Introduce and use MemsetContext for touch_all_pages()
->        util/oslib-posix: Don't create too many threads with small memory or little pages
->        util/oslib-posix: Avoid creating a single thread with MADV_POPULATE_WRITE
->        util/oslib-posix: Support concurrent os_mem_prealloc() invocation
->        util/oslib-posix: Forward SIGBUS to MCE handler under Linux
->        virtio-mem: Support "prealloc=on" option
->        linux-headers: sync VIRTIO_MEM_F_UNPLUGGED_INACCESSIBLE
->        virtio-mem: Support VIRTIO_MEM_F_UNPLUGGED_INACCESSIBLE
->        virtio-mem: Set "unplugged-inaccessible=auto" for the 7.0 machine on x86
-> 
-> Eduardo Habkost (3):
->        smbios: Rename SMBIOS_ENTRY_POINT_* enums
->        hw/smbios: Use qapi for SmbiosEntryPointType
->        hw/i386: expose a "smbios-entry-point-type" PC machine property
-> 
-> Frederic Barrat (2):
->        pci: Export the pci_intx() function
->        pcie_aer: Don't trigger a LSI if none are defined
-> 
-> Igor Mammedov (4):
->        acpi: fix QEMU crash when started with SLIC table
->        tests: acpi: whitelist expected blobs before changing them
->        tests: acpi: add SLIC table test
->        tests: acpi: SLIC: update expected blobs
-> 
-> Jason Wang (1):
->        intel-iommu: correctly check passthrough during translation
-> 
-> Laurent Vivier (1):
->        trace-events,pci: unify trace events format
-> 
-> Michael S. Tsirkin (1):
->        acpi: validate hotplug selector on access
-> 
-> Roman Kagan (9):
->        vhost-user-blk: reconnect on any error during realize
->        chardev/char-socket: tcp_chr_recv: don't clobber errno
->        chardev/char-socket: tcp_chr_sync_read: don't clobber errno
->        vhost-backend: avoid overflow on memslots_limit
->        vhost-backend: stick to -errno error return convention
->        vhost-vdpa: stick to -errno error return convention
->        vhost-user: stick to -errno error return convention
->        vhost: stick to -errno error return convention
->        vhost-user-blk: propagate error return from generic vhost
-> 
-> Stefan Berger (3):
->        tests: acpi: prepare for updated TPM related tables
->        acpi: tpm: Add missing device identification objects
->        tests: acpi: Add updated TPM related tables
-> 
-> Stefan Hajnoczi (1):
->        virtio: signal after wrapping packed used_idx
-> 
-> Thomas Huth (2):
->        hw/i386/pc: Add missing property descriptions
->        docs: reSTify virtio-balloon-stats documentation and move to docs/interop
-> 
->   qapi/machine.json                                  |  12 +
->   hw/virtio/virtio-pci.h                             |   4 +-
->   include/hw/firmware/smbios.h                       |  10 +-
->   include/hw/i386/pc.h                               |   4 +
->   include/hw/pci/pci.h                               |   5 +
->   include/hw/virtio/vhost-backend.h                  |   3 +
->   include/hw/virtio/vhost.h                          |   4 +
->   include/hw/virtio/virtio-mem.h                     |  12 +
->   include/hw/virtio/virtio.h                         |   7 +
->   include/net/vhost_net.h                            |   2 +
->   include/qemu/osdep.h                               |   7 +
->   include/standard-headers/linux/virtio_mem.h        |   9 +-
->   chardev/char-socket.c                              |  17 +-
->   hw/acpi/core.c                                     |   4 +-
->   hw/acpi/pcihp.c                                    |  12 +-
->   hw/arm/virt-acpi-build.c                           |   1 +
->   hw/arm/virt.c                                      |   2 +-
->   hw/block/vhost-user-blk.c                          |   5 +-
->   hw/display/vhost-user-gpu.c                        |   6 +
->   hw/i386/acpi-build.c                               |   9 +
->   hw/i386/intel_iommu.c                              |  38 +-
->   hw/i386/pc.c                                       |  38 +-
->   hw/i386/pc_piix.c                                  |   2 +-
->   hw/i386/pc_q35.c                                   |   2 +-
->   hw/net/vhost_net-stub.c                            |   9 +
->   hw/net/vhost_net.c                                 |   9 +
->   hw/net/virtio-net.c                                |  10 +-
->   hw/pci/pci.c                                       |   9 +-
->   hw/pci/pci_host.c                                  |   6 +-
->   hw/pci/pcie_aer.c                                  |   4 +-
->   hw/scsi/vhost-scsi.c                               |  15 +-
->   hw/smbios/smbios.c                                 |   8 +-
->   hw/virtio/vhost-backend.c                          |   4 +-
->   hw/virtio/vhost-user-fs.c                          |   6 +
->   hw/virtio/vhost-user.c                             | 401 ++++++++++++---------
->   hw/virtio/vhost-vdpa.c                             |  44 ++-
->   hw/virtio/vhost-vsock-common.c                     |   6 +
->   hw/virtio/vhost-vsock.c                            |  11 +-
->   hw/virtio/vhost.c                                  | 174 ++++++---
->   hw/virtio/virtio-crypto.c                          |   6 +
->   hw/virtio/virtio-mem.c                             | 105 +++++-
->   hw/virtio/virtio-mmio.c                            |  27 ++
->   hw/virtio/virtio-pci.c                             | 281 ++++++++++-----
->   hw/virtio/virtio.c                                 |  30 ++
->   softmmu/cpus.c                                     |   4 +
->   tests/qtest/bios-tables-test.c                     |  15 +
->   util/oslib-posix.c                                 | 234 +++++++++---
->   MAINTAINERS                                        |   8 +
->   docs/interop/index.rst                             |   1 +
->   .../virtio-balloon-stats.rst}                      |  58 +--
->   hw/pci/trace-events                                |   8 +-
->   hw/virtio/trace-events                             |   1 +
->   tests/data/acpi/q35/DSDT.tis.tpm12                 | Bin 8894 -> 8900 bytes
->   tests/data/acpi/q35/DSDT.tis.tpm2                  | Bin 8894 -> 8921 bytes
->   tests/data/acpi/q35/FACP.slic                      | Bin 0 -> 244 bytes
->   tests/data/acpi/q35/SLIC.slic                      | Bin 0 -> 36 bytes
->   56 files changed, 1209 insertions(+), 500 deletions(-)
->   rename docs/{virtio-balloon-stats.txt => interop/virtio-balloon-stats.rst} (66%)
->   create mode 100644 tests/data/acpi/q35/FACP.slic
->   create mode 100644 tests/data/acpi/q35/SLIC.slic
+From: Alistair Francis <alistair.francis@wdc.com>
 
-Applied, thanks.
+The following changes since commit d70075373af51b6aa1d637962c962120e201fc=
+98:
 
+  Merge tag 'for_upstream' of git://git.kernel.org/pub/scm/virt/kvm/mst/q=
+emu into staging (2022-01-07 17:24:24 -0800)
 
-r~
+are available in the Git repository at:
+
+  git@github.com:alistair23/qemu.git tags/pull-riscv-to-apply-20220108
+
+for you to fetch changes up to 48eaeb56debf91817dea00a2cd9c1f6c986eb531:
+
+  target/riscv: Implement the stval/mtval illegal instruction (2022-01-08=
+ 15:46:10 +1000)
+
+----------------------------------------------------------------
+Second RISC-V PR for QEMU 7.0
+
+ - Fix illegal instruction when PMP is disabled
+ - SiFive PDMA 64-bit support
+ - SiFive PLIC cleanups
+ - Mark Hypervisor extension as non experimental
+ - Enable Hypervisor extension by default
+ - Support 32 cores on the virt machine
+ - Corrections for the Vector extension
+ - Experimental support for 128-bit CPUs
+ - stval and mtval support for illegal instructions
+
+----------------------------------------------------------------
+Alistair Francis (11):
+      hw/intc: sifive_plic: Add a reset function
+      hw/intc: sifive_plic: Cleanup the write function
+      hw/intc: sifive_plic: Cleanup the read function
+      hw/intc: sifive_plic: Cleanup remaining functions
+      target/riscv: Mark the Hypervisor extension as non experimental
+      target/riscv: Enable the Hypervisor extension by default
+      hw/riscv: Use error_fatal for SoC realisation
+      hw/riscv: virt: Allow support for 32 cores
+      target/riscv: Set the opcode in DisasContext
+      target/riscv: Fixup setting GVA
+      target/riscv: Implement the stval/mtval illegal instruction
+
+Bin Meng (1):
+      roms/opensbi: Upgrade from v0.9 to v1.0
+
+Frank Chang (3):
+      target/riscv: rvv-1.0: Call the correct RVF/RVD check function for =
+widening fp insns
+      target/riscv: rvv-1.0: Call the correct RVF/RVD check function for =
+widening fp/int type-convert insns
+      target/riscv: rvv-1.0: Call the correct RVF/RVD check function for =
+narrowing fp/int type-convert insns
+
+Fr=C3=A9d=C3=A9ric P=C3=A9trot (18):
+      exec/memop: Adding signedness to quad definitions
+      exec/memop: Adding signed quad and octo defines
+      qemu/int128: addition of div/rem 128-bit operations
+      target/riscv: additional macros to check instruction support
+      target/riscv: separation of bitwise logic and arithmetic helpers
+      target/riscv: array for the 64 upper bits of 128-bit registers
+      target/riscv: setup everything for rv64 to support rv128 execution
+      target/riscv: moving some insns close to similar insns
+      target/riscv: accessors to registers upper part and 128-bit load/st=
+ore
+      target/riscv: support for 128-bit bitwise instructions
+      target/riscv: support for 128-bit U-type instructions
+      target/riscv: support for 128-bit shift instructions
+      target/riscv: support for 128-bit arithmetic instructions
+      target/riscv: support for 128-bit M extension
+      target/riscv: adding high part of some csrs
+      target/riscv: helper functions to wrap calls to 128-bit csr insns
+      target/riscv: modification of the trans_csrxx for 128-bit support
+      target/riscv: actual functions to realize crs 128-bit insns
+
+Jim Shu (2):
+      hw/dma: sifive_pdma: support high 32-bit access of 64-bit register
+      hw/dma: sifive_pdma: permit 4/8-byte access size of PDMA registers
+
+Nikita Shubin (1):
+      target/riscv/pmp: fix no pmp illegal intrs
+
+Philipp Tomsich (1):
+      target/riscv: Fix position of 'experimental' comment
+
+ include/disas/dis-asm.h                        |   1 +
+ include/exec/memop.h                           |  15 +-
+ include/hw/riscv/virt.h                        |   2 +-
+ include/qemu/int128.h                          |  27 +
+ include/tcg/tcg-op.h                           |   4 +-
+ target/arm/translate-a32.h                     |   4 +-
+ target/riscv/cpu.h                             |  24 +
+ target/riscv/cpu_bits.h                        |   3 +
+ target/riscv/helper.h                          |   9 +
+ target/riscv/insn16.decode                     |  27 +-
+ target/riscv/insn32.decode                     |  25 +
+ accel/tcg/cputlb.c                             |  30 +-
+ accel/tcg/user-exec.c                          |   8 +-
+ disas/riscv.c                                  |   5 +
+ hw/dma/sifive_pdma.c                           | 181 ++++++-
+ hw/intc/sifive_plic.c                          | 254 +++------
+ hw/riscv/microchip_pfsoc.c                     |   2 +-
+ hw/riscv/opentitan.c                           |   2 +-
+ hw/riscv/sifive_e.c                            |   2 +-
+ hw/riscv/sifive_u.c                            |   2 +-
+ target/alpha/translate.c                       |  32 +-
+ target/arm/helper-a64.c                        |   8 +-
+ target/arm/translate-a64.c                     |   8 +-
+ target/arm/translate-neon.c                    |   6 +-
+ target/arm/translate-sve.c                     |  10 +-
+ target/arm/translate-vfp.c                     |   8 +-
+ target/arm/translate.c                         |   2 +-
+ target/cris/translate.c                        |   2 +-
+ target/hppa/translate.c                        |   4 +-
+ target/i386/tcg/mem_helper.c                   |   2 +-
+ target/i386/tcg/translate.c                    |  36 +-
+ target/m68k/op_helper.c                        |   2 +-
+ target/mips/tcg/translate.c                    |  58 +-
+ target/mips/tcg/tx79_translate.c               |   8 +-
+ target/ppc/translate.c                         |  32 +-
+ target/riscv/cpu.c                             |  34 +-
+ target/riscv/cpu_helper.c                      |  24 +-
+ target/riscv/csr.c                             | 194 ++++++-
+ target/riscv/gdbstub.c                         |   5 +
+ target/riscv/m128_helper.c                     | 109 ++++
+ target/riscv/machine.c                         |  22 +
+ target/riscv/op_helper.c                       |  47 +-
+ target/riscv/translate.c                       | 257 +++++++--
+ target/s390x/tcg/mem_helper.c                  |   8 +-
+ target/s390x/tcg/translate.c                   |   8 +-
+ target/sh4/translate.c                         |  12 +-
+ target/sparc/translate.c                       |  36 +-
+ target/tricore/translate.c                     |   4 +-
+ target/xtensa/translate.c                      |   4 +-
+ tcg/tcg.c                                      |   4 +-
+ tcg/tci.c                                      |  16 +-
+ util/int128.c                                  | 147 +++++
+ accel/tcg/ldst_common.c.inc                    |   8 +-
+ target/mips/tcg/micromips_translate.c.inc      |  10 +-
+ target/ppc/translate/fixedpoint-impl.c.inc     |  22 +-
+ target/ppc/translate/fp-impl.c.inc             |   4 +-
+ target/ppc/translate/vsx-impl.c.inc            |  42 +-
+ target/riscv/insn_trans/trans_rva.c.inc        |  22 +-
+ target/riscv/insn_trans/trans_rvb.c.inc        |  48 +-
+ target/riscv/insn_trans/trans_rvd.c.inc        |   4 +-
+ target/riscv/insn_trans/trans_rvh.c.inc        |   4 +-
+ target/riscv/insn_trans/trans_rvi.c.inc        | 716 +++++++++++++++++++=
+++----
+ target/riscv/insn_trans/trans_rvm.c.inc        | 192 ++++++-
+ target/riscv/insn_trans/trans_rvv.c.inc        |  78 ++-
+ target/s390x/tcg/translate_vx.c.inc            |  18 +-
+ tcg/aarch64/tcg-target.c.inc                   |   2 +-
+ tcg/arm/tcg-target.c.inc                       |  10 +-
+ tcg/i386/tcg-target.c.inc                      |  12 +-
+ tcg/mips/tcg-target.c.inc                      |  12 +-
+ tcg/ppc/tcg-target.c.inc                       |  16 +-
+ tcg/riscv/tcg-target.c.inc                     |   6 +-
+ tcg/s390x/tcg-target.c.inc                     |  18 +-
+ tcg/sparc/tcg-target.c.inc                     |  16 +-
+ pc-bios/opensbi-riscv32-generic-fw_dynamic.bin | Bin 78680 -> 108504 byt=
+es
+ pc-bios/opensbi-riscv32-generic-fw_dynamic.elf | Bin 727464 -> 838904 by=
+tes
+ pc-bios/opensbi-riscv64-generic-fw_dynamic.bin | Bin 75096 -> 105296 byt=
+es
+ pc-bios/opensbi-riscv64-generic-fw_dynamic.elf | Bin 781264 -> 934696 by=
+tes
+ roms/opensbi                                   |   2 +-
+ target/riscv/meson.build                       |   1 +
+ target/s390x/tcg/insn-data.def                 |  28 +-
+ util/meson.build                               |   1 +
+ 81 files changed, 2318 insertions(+), 750 deletions(-)
+ create mode 100644 target/riscv/m128_helper.c
+ create mode 100644 util/int128.c
 
