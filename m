@@ -2,72 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC194488263
-	for <lists+qemu-devel@lfdr.de>; Sat,  8 Jan 2022 09:33:24 +0100 (CET)
-Received: from localhost ([::1]:42756 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F9174882A0
+	for <lists+qemu-devel@lfdr.de>; Sat,  8 Jan 2022 09:52:40 +0100 (CET)
+Received: from localhost ([::1]:52634 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n67AB-00012x-WE
-	for lists+qemu-devel@lfdr.de; Sat, 08 Jan 2022 03:33:24 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36342)
+	id 1n67Sp-0004Ri-F2
+	for lists+qemu-devel@lfdr.de; Sat, 08 Jan 2022 03:52:39 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36350)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1n66Iu-0005VZ-UG
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1n66Iv-0005Vc-OP
  for qemu-devel@nongnu.org; Sat, 08 Jan 2022 02:38:21 -0500
-Received: from [2607:f8b0:4864:20::d33] (port=40610
- helo=mail-io1-xd33.google.com)
+Received: from [2607:f8b0:4864:20::d36] (port=35711
+ helo=mail-io1-xd36.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1n66It-0003Wl-In
- for qemu-devel@nongnu.org; Sat, 08 Jan 2022 02:38:20 -0500
-Received: by mail-io1-xd33.google.com with SMTP id q5so10092783ioj.7
- for <qemu-devel@nongnu.org>; Fri, 07 Jan 2022 23:38:18 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1n66Iu-0003X3-4b
+ for qemu-devel@nongnu.org; Sat, 08 Jan 2022 02:38:21 -0500
+Received: by mail-io1-xd36.google.com with SMTP id y70so10125472iof.2
+ for <qemu-devel@nongnu.org>; Fri, 07 Jan 2022 23:38:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=zYfRV6dnf6d+zAIFlxvvp/6sxyAwR3ew/6aIDkWKGyA=;
- b=DmGcah70KXaUCMaNvepb0vXbtdz0FsDVaFoK3DxxNu0CawLQKkB6jXljWQnYwY35Y3
- BUI+h4CrYthOdiVYcBo0T3dwxaD7O0bB/THFi0fQUW+atoa60gkwL4iKk02R6pGI/YrP
- nkdV+U3LusIeSx6jJd+ryWDTqI0lt0Ph5+mMeBZKok9LC5OR01TR+I/t/klPoTE4IqYL
- n4ctyIoU4qnqpNd2aQa6bvknyxVMP+hFyQvQLVRv0N7aobJfIJ0URenHNaE6KTKSggQS
- /xr7scqCsXVB4RxjCh566SINZhPqbev69LrW0lchuvtz1wLwW3uIilQqiezv4m/EEDA4
- OSjg==
+ bh=GioDY4nXC7yuWDiwWaq62PITdulW8xkFyjlazyzw9XU=;
+ b=rru1w7eBKWXhreoaZEqlbA2dTXFPSQu7FWyAFtG/VLg24WKVmc99AnOf9V5ECAzR62
+ Xi6DUVqAGddIQMW5ccms5NP45ZfF3UbLTtfHHn8vKfjGwqCheJmgb7SR+po7PbRbww2J
+ gIDUbxfqhuHv1/fy7AoXYSy/q2fUp9vD7XD5aM3/UknDISpTqO7xAkUO9pSu+9h2idvh
+ 4NBIFOwhHt+W4mU/oW8of3hD+xUXWgDv1FCYX3xgXe1k1GGNm5R6Y0YRGWeoXoRw5Osq
+ RATbSx4NmmuoLjIklY4gdh1Hdn9h780oMn3GLCiur7nNhd5/7Sratpyrg0iYLEspZs3s
+ 7UqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=zYfRV6dnf6d+zAIFlxvvp/6sxyAwR3ew/6aIDkWKGyA=;
- b=hPQIlZDqkdqi61mls75Sm/4Ic+ZdHwdshC9USB1pP2Iyb7kWSw6ZJl9V75zZ5bL48R
- fYybDnltZ7EpuDsfMS0M9dvLWe/hzxHUqQJS7hmex5LKlZBBiyy4NT/inx1Iqo4W4ezv
- OaUPyILmbztLRjOKihkvKyjOnjTir+GlqeuUo15cmVY6rHZTQWZOv4wX2nJnteRqOfpC
- xqFqmWV2VHI947CRJYceLGlFN/s4tVa+RPzDV0SF3WSvgsiE2E9p431hDA8XKb8lM0Bd
- AwPfs1xL6URB7AU5Z3ylTW+oGUYot93DyXNggTLyTXfUES3D1XkSD6jSTtmSWktVdPDB
- BKqQ==
-X-Gm-Message-State: AOAM533eNKKHa68z5kxarZ8zhz5Bpf6Td2HXulEwLc9Lu1WbS3cIn0l7
- OACQ11fmvgy15VfB9upwYYzacF9wD+hLsSaO
-X-Google-Smtp-Source: ABdhPJwl2buk8ATQk86GdhbbCHAe3AfusOFMNZx5AB325hJ5oLzWTvSIh4ckif8uIf8Psb6/UGsuVQ==
-X-Received: by 2002:a05:6638:3009:: with SMTP id
- r9mr30896197jak.261.1641627498002; 
+ bh=GioDY4nXC7yuWDiwWaq62PITdulW8xkFyjlazyzw9XU=;
+ b=IRD9xfZOjn1zu0TTXnnWcup6CG3975x3qu8IHuPkuTbktdkzBaGMBXRuyxQwAzn+j7
+ eS1lOpuJMSnqrmXDPxctlmErXrfy4HkS0vuoOz1s2k/p5+QQoOvGnak1lZBrY5/4al8P
+ 30yZxzkOHh7CFDVCqf0jg75mkDZ/jXuv80UhwRYmrTuT02PwMkxfVk4sS8TSTyEI8Gjg
+ NJrDUkjjCIeMeg4ijxzAGU5cwlrkmezDkSHv26V7Ss8Ji7GCUwXygU5XTwMorSFzwZDy
+ x+uLU5WMjllkbjzQQWhIqdL1RLd+wBjBEnU9gUPuA+iVGnefiDDo14SUcfQlljU2pSp0
+ 6WHA==
+X-Gm-Message-State: AOAM532tOSMJfI3p7yN87F40LQvoVMeuoWJX5BXhAPT4go/5IKVDfapA
+ f9tCPLJvcFH5JcFXIFcdFPMlSvoRfjfsAiQE
+X-Google-Smtp-Source: ABdhPJxwXYe89r2T56E7Y97q3T/NDImQxG2h2OBNPyBAfjyxwzf/8hRtLzs6QprWhiyN4eUnxJDsSg==
+X-Received: by 2002:a02:ca02:: with SMTP id i2mr32443596jak.42.1641627498884; 
  Fri, 07 Jan 2022 23:38:18 -0800 (PST)
 Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id w19sm613022iov.12.2022.01.07.23.38.17
+ by smtp.gmail.com with ESMTPSA id w19sm613022iov.12.2022.01.07.23.38.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 Jan 2022 23:38:17 -0800 (PST)
+ Fri, 07 Jan 2022 23:38:18 -0800 (PST)
 From: Warner Losh <imp@bsdimp.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 36/37] bsd-user/freebsd/target_os_ucontext.h: Require
- TARGET_*CONTEXT_SIZE
-Date: Sat,  8 Jan 2022 00:37:36 -0700
-Message-Id: <20220108073737.5959-37-imp@bsdimp.com>
+Subject: [PULL 37/37] bsd-user: add arm target build
+Date: Sat,  8 Jan 2022 00:37:37 -0700
+Message-Id: <20220108073737.5959-38-imp@bsdimp.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20220108073737.5959-1-imp@bsdimp.com>
 References: <20220108073737.5959-1-imp@bsdimp.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d33
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d36
  (failed)
-Received-SPF: none client-ip=2607:f8b0:4864:20::d33;
- envelope-from=imp@bsdimp.com; helo=mail-io1-xd33.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::d36;
+ envelope-from=imp@bsdimp.com; helo=mail-io1-xd36.google.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
@@ -86,39 +84,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, kevans@freebsd.org,
+Cc: qemu-trivial@nongnu.org, Kyle Evans <kevans@FreeBSD.org>,
  Michael Tokarev <mjt@tls.msk.ru>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Laurent Vivier <laurent@vivier.eu>,
+ Laurent Vivier <laurent@vivier.eu>, Paolo Bonzini <pbonzini@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>, Warner Losh <imp@bsdimp.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now that all architecutres define TARGET_[MU]CONTEXT_SIZE, enforce
-requiring them and always check the sizeof target_{u,m}context_t
-sizes.
-
+CC: Paolo Bonzini <pbonzini@redhat.com>
 Signed-off-by: Warner Losh <imp@bsdimp.com>
+Acked-by: Kyle Evans <kevans@FreeBSD.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- bsd-user/freebsd/target_os_ucontext.h | 2 --
- 1 file changed, 2 deletions(-)
+ configs/targets/arm-bsd-user.mak | 2 ++
+ 1 file changed, 2 insertions(+)
+ create mode 100644 configs/targets/arm-bsd-user.mak
 
-diff --git a/bsd-user/freebsd/target_os_ucontext.h b/bsd-user/freebsd/target_os_ucontext.h
-index dd61aec7cce..41b28b2c150 100644
---- a/bsd-user/freebsd/target_os_ucontext.h
-+++ b/bsd-user/freebsd/target_os_ucontext.h
-@@ -27,10 +27,8 @@ typedef struct target_ucontext {
-     int32_t             __spare__[4];
- } target_ucontext_t;
- 
--#ifdef TARGET_MCONTEXT_SIZE
- G_STATIC_ASSERT(TARGET_MCONTEXT_SIZE == sizeof(target_mcontext_t));
- G_STATIC_ASSERT(TARGET_UCONTEXT_SIZE == sizeof(target_ucontext_t));
--#endif /* TARGET_MCONTEXT_SIZE */
- 
- struct target_sigframe;
- 
+diff --git a/configs/targets/arm-bsd-user.mak b/configs/targets/arm-bsd-user.mak
+new file mode 100644
+index 00000000000..cb143e6426a
+--- /dev/null
++++ b/configs/targets/arm-bsd-user.mak
+@@ -0,0 +1,2 @@
++TARGET_ARCH=arm
++TARGET_XML_FILES= gdb-xml/arm-core.xml gdb-xml/arm-vfp.xml gdb-xml/arm-vfp3.xml gdb-xml/arm-vfp-sysregs.xml gdb-xml/arm-neon.xml gdb-xml/arm-m-profile.xml gdb-xml/arm-m-profile-mve.xml
 -- 
 2.33.1
 
