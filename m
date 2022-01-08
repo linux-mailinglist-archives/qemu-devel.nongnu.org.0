@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 197D1488296
-	for <lists+qemu-devel@lfdr.de>; Sat,  8 Jan 2022 09:48:47 +0100 (CET)
-Received: from localhost ([::1]:45678 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9ABF648829E
+	for <lists+qemu-devel@lfdr.de>; Sat,  8 Jan 2022 09:51:18 +0100 (CET)
+Received: from localhost ([::1]:37164 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n66lh-0004om-4t
-	for lists+qemu-devel@lfdr.de; Sat, 08 Jan 2022 03:08:05 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35336)
+	id 1n66gS-0007S6-Sy
+	for lists+qemu-devel@lfdr.de; Sat, 08 Jan 2022 03:02:40 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35346)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1n66IQ-0005Hp-DQ
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1n66IQ-0005Hs-Vo
  for qemu-devel@nongnu.org; Sat, 08 Jan 2022 02:37:56 -0500
-Received: from [2607:f8b0:4864:20::d33] (port=43846
- helo=mail-io1-xd33.google.com)
+Received: from [2607:f8b0:4864:20::d31] (port=42727
+ helo=mail-io1-xd31.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1n66IL-0003Jk-6j
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1n66IL-0003Js-FX
  for qemu-devel@nongnu.org; Sat, 08 Jan 2022 02:37:48 -0500
-Received: by mail-io1-xd33.google.com with SMTP id l3so10038023iol.10
- for <qemu-devel@nongnu.org>; Fri, 07 Jan 2022 23:37:43 -0800 (PST)
+Received: by mail-io1-xd31.google.com with SMTP id o7so10063314ioo.9
+ for <qemu-devel@nongnu.org>; Fri, 07 Jan 2022 23:37:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=KGsTvM8y9NLcTQj3zPOMQgGUhhAudJAW7AN5jbbUbhw=;
- b=GCD1MBThHEOVXHlWkXx4vlEk1jc5RbfUV9e3dz2nQtQ/TfpsI+yp/7KNbA7uZ2CEgm
- npKVdLF3/KL87GY9sLyXqoX9g5QO53CO3DmfC5ye1xrfPDKXQuwH76SpK1X1/EO2GSQN
- 29PzGj0Jsl1V+19GWwBILc8HXJkVzVaiPViJIKRWqq+4kIVRRHsi06cuh9wGVQkrG2Wr
- YqvQ+rXjzyf7ViAL8LKmpM2RaQ0KhmwKehYtD5cctsCYeVV3WKhSXgS36tGs/f3iXg8S
- gfK4/+I9dLEloJv+NUdBBdkZ4R1xrKOnLN8HWYCqplPzYQJelm4w3QZUOVa9cjjwDLc/
- tVRg==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=zybZPjB8nKU1WribOLJ/TrFoY2QK+pom/GELtkI+EXk=;
+ b=MIKQBWRAOLTcjTYsIGUsn6z0jZpSiei9pliaseQhXcYhQHcfJT5C2LbHbGQYwnbgVL
+ 58LfzwT+UTLshI9JDiJUDFdIr/wbYqOZ3rsxF0ZAVCXXCGWT7dTUuT0CAJxLtqGDhyge
+ SoUKWA7a3autQPq0TRWXsb9BvUTeoX55nBYAi8R01o5vtE3l80lPs1Yq1dq5tH0bjiQB
+ odOzXPjfm1IO5ZnCJXlxnrJ3sggH/zYqBwOQX4yyK4RL132iuLAVRg60qq28Ifp6kUEJ
+ C3X0CHIyNTwZBrSyScy1OWnDsE++wyjdWm8cLXIparjs57dBQmbPzcf1r5i7k5upOYay
+ SKRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=KGsTvM8y9NLcTQj3zPOMQgGUhhAudJAW7AN5jbbUbhw=;
- b=LhaW3WIf7wgNsGuVsm1i1S5Do6E4SKRWCKr8tTnpxYMTCmZO6ZzWSpQLzvoqitiC++
- tzLYZtGj2uIS5z9Am5DV7hfgnQ36O6Z+dhE1IIAnMkC4IdFAqEXr5l286JdxMN7xZ3iG
- bo3F4gJGOs3V7HIgbbT5tLM8pA8uveHS2SjgJlDQ0P4+FZfEW6cIQeWtZ2sjZvBa/+eA
- K+DL8W5ZxyVFn0VNeUEwVg9L8IwlhhAFuCGc3uMRFV2cn3I9f/3EJYoIxuWNUQijanF6
- lYHBghc3RQXwZ6WobWBajhvkubqMG4ZiVWEfjuMpZJ7qWkgm4hFefS+yEjTfOll8zbCI
- sbCQ==
-X-Gm-Message-State: AOAM5300jupBfjBtRx6aRDM9WcJQT8oD2uhxsHmZf7krpVUOURdyzAsR
- 3f0hbsNxf/BaGQpZpvVXt5aw4vALDkDMffvw
-X-Google-Smtp-Source: ABdhPJzRpo8Hq6j9cF8aO3qZIYOegXtlsbRQdfhIFL/zqvLczG9y3b0b4xnbhB8zAkq35SA8SNI3bQ==
-X-Received: by 2002:a02:cf23:: with SMTP id s3mr30101444jar.201.1641627462843; 
- Fri, 07 Jan 2022 23:37:42 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=zybZPjB8nKU1WribOLJ/TrFoY2QK+pom/GELtkI+EXk=;
+ b=Iq6DOvicAG1vIW+I55pRObr0ryXZFLQY8vC3YWsFsZ+DtixVkGGZlFnMUnwtlwQvQ3
+ Jz2YY3QWATQJ+je1ngsJRfsjPCf1GsmadntmuMwSrbRAqW4bRofjDUWauOjNwBVzxYpd
+ N/E2zZ9d235XGZT5egcY7T35gncr2Jv7u3iJM2NAsYDpydBYeVpBWAKaeE1B14dvcyUf
+ xlAMTnrZaKZWipOvo9Yt73VfqABhylMfBTCaHDmDaoJeJAtYipIIJCtIdCK6IA6Ysj8D
+ EcudPsN0OMqT6S6EnLQLGz6WLoxa4Y6pDCtPNcyKHrWyKqzXq5rSZbXSdGuKw/Rql+u8
+ XdXg==
+X-Gm-Message-State: AOAM533zn/AnEXNfGAGTOUaQRTjjXf3K72+x4Tye40EpSkACtRYkaAEr
+ 0+50NDId+9VuogEsy243fSBQrR0/SLCsfRJR
+X-Google-Smtp-Source: ABdhPJwAuZ+H+KGwkPwod1D1275UtD34caBoTTLl0SD02m5azU0xSZl9ppSgthKRGeb8rkVwfMniRw==
+X-Received: by 2002:a05:6602:13c4:: with SMTP id
+ o4mr32584418iov.152.1641627463714; 
+ Fri, 07 Jan 2022 23:37:43 -0800 (PST)
 Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id w19sm613022iov.12.2022.01.07.23.37.41
+ by smtp.gmail.com with ESMTPSA id w19sm613022iov.12.2022.01.07.23.37.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 Jan 2022 23:37:42 -0800 (PST)
+ Fri, 07 Jan 2022 23:37:43 -0800 (PST)
 From: Warner Losh <imp@bsdimp.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/37] Bsd user arm patches
-Date: Sat,  8 Jan 2022 00:37:00 -0700
-Message-Id: <20220108073737.5959-1-imp@bsdimp.com>
+Subject: [PULL 01/37] bsd-user/mips*: Remove mips support
+Date: Sat,  8 Jan 2022 00:37:01 -0700
+Message-Id: <20220108073737.5959-2-imp@bsdimp.com>
 X-Mailer: git-send-email 2.33.1
+In-Reply-To: <20220108073737.5959-1-imp@bsdimp.com>
+References: <20220108073737.5959-1-imp@bsdimp.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d33
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d31
  (failed)
-Received-SPF: none client-ip=2607:f8b0:4864:20::d33;
- envelope-from=imp@bsdimp.com; helo=mail-io1-xd33.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::d31;
+ envelope-from=imp@bsdimp.com; helo=mail-io1-xd31.google.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
@@ -91,136 +93,291 @@ Cc: qemu-trivial@nongnu.org, kevans@freebsd.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 7d4ae4d4978079d564d3b6354c90a949130409fe:
+FreeBSD is dropping support for mips starting with FreeBSD 14. mips
+support has been removed from the bsd-user fork because updating it for
+new signal requirements will take too much time. Remove it here since it
+is a distraction.
 
-  Merge tag 'pull-request-2022-01-05' of https://gitlab.com/thuth/qemu into staging (2022-01-05 08:47:18 -0800)
-
-are available in the Git repository at:
-
-  git@gitlab.com:bsdimp/qemu.git tags/bsd-user-arm-pull-request
-
-for you to fetch changes up to 18fe5d99f27fa7458724aa367e3c6784c36d5771:
-
-  bsd-user: add arm target build (2022-01-07 22:58:51 -0700)
-
-----------------------------------------------------------------
-bsd-user: arm (32-bit) support
-
-This series of patches brings in 32-bit arm support for bsd-user.  It implements
-all the bits needed to do image activation, signal handling, stack management
-and threading. This allows us to get to the "Hello World" level. The arm and x86
-code are now the same as in the bsd-user fork. For full context, the fork is at
-https://github.com/qemu-bsd-user/qemu-bsd-user/tree/blitz (though the the recent
-sig{bus,segv} needed updates are incomplete).
-
-v5 changes:
-   o Moved to using the CPUArchState typedef and move
-     set_sigtramp_args, get_mcontext, set_mcontext, and
-     get_ucontext_sigreturn prototypes to
-     bsd-user/freebsd/target_os_ucontext.h
-   o Fix issues with arm's set_mcontext related to masking
-     and remove an unnecessary check.
-
-We're down to only one hunk needing review:
-    bsd-user/arm/target_arch_signal.c: arm set_mcontext
-
-Warnings that should be ignored:
-   o make checkpatch has a couple of complaints about the comments for the
-     signal trampoline, since it's a false positive IMHO.
-WARNING: Block comments use a leading /* on a separate line
-+    /* 8 */ sys_sigreturn,
-WARNING: Block comments use a leading /* on a separate line
-+    /* 9 */ sys_exit
-
-----------------------------------------------------------------
-
-Warner Losh (37):
-  bsd-user/mips*: Remove mips support
-  bsd-user/freebsd: Create common target_os_ucontext.h file
-  bsd-user: create a per-arch signal.c file
-  bsd-user/i386/target_arch_signal.h: Remove target_sigcontext
-  bsd-user/i386/target_arch_signal.h: use new target_os_ucontext.h
-  bsd-user/i386/target_arch_signal.h: Update mcontext_t to match FreeBSD
-  bsd-user/i386: Move the inlines into signal.c
-  bsd-user/x86_64/target_arch_signal.h: Remove target_sigcontext
-  bsd-user/x86_64/target_arch_signal.h: use new target_os_ucontext.h
-  bsd-user/x86_64/target_arch_signal.h: Fill in mcontext_t
-  bsd-user/x86_64: Move functions into signal.c
-  bsd-user/target_os_signal.h: Move signal prototypes to
-    target_os_ucontext.h
-  bsd-user/arm/target_arch_sysarch.h: Use consistent include guards
-  bsd-user/arm/target_syscall.h: Add copyright and update name
-  bsd-user/arm/target_arch_cpu.c: Target specific TLS routines
-  bsd-user/arm/target_arch_cpu.h: CPU Loop definitions
-  bsd-user/arm/target_arch_cpu.h: Implement target_cpu_clone_regs
-  bsd-user/arm/target_arch_cpu.h: Dummy target_cpu_loop implementation
-  bsd-user/arm/target_arch_cpu.h: Implement trivial EXCP exceptions
-  bsd-user/arm/target_arch_cpu.h: Implement data abort exceptions
-  bsd-user/arm/target_arch_cpu.h: Implement system call dispatch
-  bsd-user/arm/target_arch_reg.h: Implement core dump register copying
-  bsd-user/arm/target_arch_vmparam.h: Parameters for arm address space
-  bsd-user/arm/target_arch_sigtramp.h: Signal Trampoline for arm
-  bsd-user/arm/target_arch_thread.h: Routines to create and switch to a
-    thread
-  bsd-user/arm/target_arch_elf.h: arm defines for ELF
-  bsd-user/arm/target_arch_elf.h: arm get hwcap
-  bsd-user/arm/target_arch_elf.h: arm get_hwcap2 impl
-  bsd-user/arm/target_arch_signal.h: arm specific signal registers and
-    stack
-  bsd-user/arm/target_arch_signal.h: arm machine context and trapframe
-    for signals
-  bsd-user/arm/target_arch_signal.h: Define size of *context_t
-  bsd-user/arm/signal.c: arm set_sigtramp_args
-  bsd-user/arm/signal.c: arm get_mcontext
-  bsd-user/arm/signal.c: arm set_mcontext
-  bsd-user/arm/signal.c: arm get_ucontext_sigreturn
-  bsd-user/freebsd/target_os_ucontext.h: Require TARGET_*CONTEXT_SIZE
-  bsd-user: add arm target build
-
- bsd-user/arm/signal.c                 | 196 ++++++++++++++++++++++++
- bsd-user/arm/target_arch.h            |  28 ++++
- bsd-user/arm/target_arch_cpu.c        |  39 +++++
- bsd-user/arm/target_arch_cpu.h        | 211 ++++++++++++++++++++++++++
- bsd-user/arm/target_arch_elf.h        | 128 ++++++++++++++++
- bsd-user/arm/target_arch_reg.h        |  60 ++++++++
- bsd-user/arm/target_arch_signal.h     |  88 +++++++++++
- bsd-user/arm/target_arch_sigtramp.h   |  49 ++++++
- bsd-user/arm/target_arch_sysarch.h    |   6 +-
- bsd-user/arm/target_arch_thread.h     |  82 ++++++++++
- bsd-user/arm/target_arch_vmparam.h    |  48 ++++++
- bsd-user/arm/target_syscall.h         |  27 +++-
- bsd-user/freebsd/target_os_signal.h   |   3 -
- bsd-user/freebsd/target_os_ucontext.h |  44 ++++++
- bsd-user/i386/signal.c                |  55 +++++++
- bsd-user/i386/target_arch_signal.h    |  95 ++++++------
- bsd-user/mips/target_arch_sysarch.h   |  69 ---------
- bsd-user/mips/target_syscall.h        |  52 -------
- bsd-user/mips64/target_arch_sysarch.h |  69 ---------
- bsd-user/mips64/target_syscall.h      |  53 -------
- bsd-user/x86_64/signal.c              |  55 +++++++
- bsd-user/x86_64/target_arch_signal.h  | 103 +++++++------
- configs/targets/arm-bsd-user.mak      |   2 +
- meson.build                           |   2 +-
- 24 files changed, 1214 insertions(+), 350 deletions(-)
- create mode 100644 bsd-user/arm/signal.c
- create mode 100644 bsd-user/arm/target_arch.h
- create mode 100644 bsd-user/arm/target_arch_cpu.c
- create mode 100644 bsd-user/arm/target_arch_cpu.h
- create mode 100644 bsd-user/arm/target_arch_elf.h
- create mode 100644 bsd-user/arm/target_arch_reg.h
- create mode 100644 bsd-user/arm/target_arch_signal.h
- create mode 100644 bsd-user/arm/target_arch_sigtramp.h
- create mode 100644 bsd-user/arm/target_arch_thread.h
- create mode 100644 bsd-user/arm/target_arch_vmparam.h
- create mode 100644 bsd-user/freebsd/target_os_ucontext.h
- create mode 100644 bsd-user/i386/signal.c
+Signed-off-by: Warner Losh <imp@bsdimp.com>
+Acked-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ bsd-user/mips/target_arch_sysarch.h   | 69 ---------------------------
+ bsd-user/mips/target_syscall.h        | 52 --------------------
+ bsd-user/mips64/target_arch_sysarch.h | 69 ---------------------------
+ bsd-user/mips64/target_syscall.h      | 53 --------------------
+ 4 files changed, 243 deletions(-)
  delete mode 100644 bsd-user/mips/target_arch_sysarch.h
  delete mode 100644 bsd-user/mips/target_syscall.h
  delete mode 100644 bsd-user/mips64/target_arch_sysarch.h
  delete mode 100644 bsd-user/mips64/target_syscall.h
- create mode 100644 bsd-user/x86_64/signal.c
- create mode 100644 configs/targets/arm-bsd-user.mak
 
+diff --git a/bsd-user/mips/target_arch_sysarch.h b/bsd-user/mips/target_arch_sysarch.h
+deleted file mode 100644
+index 6da803a408e..00000000000
+--- a/bsd-user/mips/target_arch_sysarch.h
++++ /dev/null
+@@ -1,69 +0,0 @@
+-/*
+- *  mips sysarch() system call emulation
+- *
+- *  Copyright (c) 2013 Stacey D. Son
+- *
+- *  This program is free software; you can redistribute it and/or modify
+- *  it under the terms of the GNU General Public License as published by
+- *  the Free Software Foundation; either version 2 of the License, or
+- *  (at your option) any later version.
+- *
+- *  This program is distributed in the hope that it will be useful,
+- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+- *  GNU General Public License for more details.
+- *
+- *  You should have received a copy of the GNU General Public License
+- *  along with this program; if not, see <http://www.gnu.org/licenses/>.
+- */
+-
+-#ifndef BSD_USER_ARCH_SYSARCH_H_
+-#define BSD_USER_ARCH_SYSARCH_H_
+-
+-#include "target_syscall.h"
+-#include "target_arch.h"
+-
+-static inline abi_long do_freebsd_arch_sysarch(CPUMIPSState *env, int op,
+-        abi_ulong parms)
+-{
+-    int ret = 0;
+-
+-    switch (op) {
+-    case TARGET_MIPS_SET_TLS:
+-        target_cpu_set_tls(env, parms);
+-        break;
+-
+-    case TARGET_MIPS_GET_TLS:
+-        if (put_user(target_cpu_get_tls(env), parms, abi_ulong)) {
+-            ret = -TARGET_EFAULT;
+-        }
+-        break;
+-
+-    default:
+-        ret = -TARGET_EINVAL;
+-        break;
+-    }
+-
+-    return ret;
+-}
+-
+-static inline void do_freebsd_arch_print_sysarch(
+-        const struct syscallname *name, abi_long arg1, abi_long arg2,
+-        abi_long arg3, abi_long arg4, abi_long arg5, abi_long arg6)
+-{
+-
+-    switch (arg1) {
+-    case TARGET_MIPS_SET_TLS:
+-        gemu_log("%s(SET_TLS, 0x" TARGET_ABI_FMT_lx ")", name->name, arg2);
+-        break;
+-
+-    case TARGET_MIPS_GET_TLS:
+-        gemu_log("%s(GET_TLS, 0x" TARGET_ABI_FMT_lx ")", name->name, arg2);
+-        break;
+-
+-    default:
+-        gemu_log("UNKNOWN OP: %d, " TARGET_ABI_FMT_lx ")", (int)arg1, arg2);
+-    }
+-}
+-
+-#endif /*!BSD_USER_ARCH_SYSARCH_H_ */
+diff --git a/bsd-user/mips/target_syscall.h b/bsd-user/mips/target_syscall.h
+deleted file mode 100644
+index aacc6ddf9fc..00000000000
+--- a/bsd-user/mips/target_syscall.h
++++ /dev/null
+@@ -1,52 +0,0 @@
+-/*
+- *  mips system call definitions
+- *
+- *
+- *  This program is free software; you can redistribute it and/or modify
+- *  it under the terms of the GNU General Public License as published by
+- *  the Free Software Foundation; either version 2 of the License, or
+- *  (at your option) any later version.
+- *
+- *  This program is distributed in the hope that it will be useful,
+- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+- *  GNU General Public License for more details.
+- *
+- *  You should have received a copy of the GNU General Public License
+- *  along with this program; if not, see <http://www.gnu.org/licenses/>.
+- */
+-#ifndef _MIPS_SYSCALL_H_
+-#define _MIPS_SYSCALL_H_
+-
+-/*
+- * struct target_pt_regs defines the way the registers are stored on the stack
+- * during a system call.
+- */
+-
+-struct target_pt_regs {
+-    /* Saved main processor registers. */
+-    abi_ulong regs[32];
+-
+-    /* Saved special registers. */
+-    abi_ulong cp0_status;
+-    abi_ulong lo;
+-    abi_ulong hi;
+-    abi_ulong cp0_badvaddr;
+-    abi_ulong cp0_cause;
+-    abi_ulong cp0_epc;
+-};
+-
+-#if defined(TARGET_WORDS_BIGENDIAN)
+-#define UNAME_MACHINE "mips"
+-#else
+-#define UNAME_MACHINE "mipsel"
+-#endif
+-
+-#define TARGET_HW_MACHINE       "mips"
+-#define TARGET_HW_MACHINE_ARCH   UNAME_MACHINE
+-
+-/* sysarch() commands */
+-#define TARGET_MIPS_SET_TLS     1
+-#define TARGET_MIPS_GET_TLS     2
+-
+-#endif /* !_MIPS_SYSCALL_H_ */
+diff --git a/bsd-user/mips64/target_arch_sysarch.h b/bsd-user/mips64/target_arch_sysarch.h
+deleted file mode 100644
+index e6f9c00d5f6..00000000000
+--- a/bsd-user/mips64/target_arch_sysarch.h
++++ /dev/null
+@@ -1,69 +0,0 @@
+-/*
+- *  mips64 sysarch() system call emulation
+- *
+- *  Copyright (c) 2013 Stacey D. Son
+- *
+- *  This program is free software; you can redistribute it and/or modify
+- *  it under the terms of the GNU General Public License as published by
+- *  the Free Software Foundation; either version 2 of the License, or
+- *  (at your option) any later version.
+- *
+- *  This program is distributed in the hope that it will be useful,
+- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+- *  GNU General Public License for more details.
+- *
+- *  You should have received a copy of the GNU General Public License
+- *  along with this program; if not, see <http://www.gnu.org/licenses/>.
+- */
+-
+-#ifndef BSD_USER_ARCH_SYSARCH_H_
+-#define BSD_USER_ARCH_SYSARCH_H_
+-
+-#include "target_syscall.h"
+-#include "target_arch.h"
+-
+-static inline abi_long do_freebsd_arch_sysarch(CPUMIPSState *env, int op,
+-        abi_ulong parms)
+-{
+-    int ret = 0;
+-
+-    switch (op) {
+-    case TARGET_MIPS_SET_TLS:
+-        target_cpu_set_tls(env, parms);
+-        break;
+-
+-    case TARGET_MIPS_GET_TLS:
+-        if (put_user(target_cpu_get_tls(env), parms, abi_ulong)) {
+-            ret = -TARGET_EFAULT;
+-        }
+-        break;
+-
+-    default:
+-        ret = -TARGET_EINVAL;
+-        break;
+-    }
+-
+-    return ret;
+-}
+-
+-static inline void do_freebsd_arch_print_sysarch(
+-        const struct syscallname *name, abi_long arg1, abi_long arg2,
+-        abi_long arg3, abi_long arg4, abi_long arg5, abi_long arg6)
+-{
+-
+-    switch (arg1) {
+-    case TARGET_MIPS_SET_TLS:
+-        gemu_log("%s(SET_TLS, 0x" TARGET_ABI_FMT_lx ")", name->name, arg2);
+-        break;
+-
+-    case TARGET_MIPS_GET_TLS:
+-        gemu_log("%s(GET_TLS, 0x" TARGET_ABI_FMT_lx ")", name->name, arg2);
+-        break;
+-
+-    default:
+-        gemu_log("UNKNOWN OP: %d, " TARGET_ABI_FMT_lx ")", (int)arg1, arg2);
+-    }
+-}
+-
+-#endif /*!BSD_USER_ARCH_SYSARCH_H_ */
+diff --git a/bsd-user/mips64/target_syscall.h b/bsd-user/mips64/target_syscall.h
+deleted file mode 100644
+index bf4c598b136..00000000000
+--- a/bsd-user/mips64/target_syscall.h
++++ /dev/null
+@@ -1,53 +0,0 @@
+-/*
+- *  mips64 system call definitions
+- *
+- *
+- *  This program is free software; you can redistribute it and/or modify
+- *  it under the terms of the GNU General Public License as published by
+- *  the Free Software Foundation; either version 2 of the License, or
+- *  (at your option) any later version.
+- *
+- *  This program is distributed in the hope that it will be useful,
+- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+- *  GNU General Public License for more details.
+- *
+- *  You should have received a copy of the GNU General Public License
+- *  along with this program; if not, see <http://www.gnu.org/licenses/>.
+- */
+-#ifndef _MIPS64_SYSCALL_H_
+-#define _MIPS64_SYSCALL_H_
+-
+-/*
+- * struct target_pt_regs defines the way the registers are stored on the stack
+- * during a system call.
+- */
+-
+-struct target_pt_regs {
+-    /* Saved main processor registers. */
+-    abi_ulong regs[32];
+-
+-    /* Saved special registers. */
+-    abi_ulong cp0_status;
+-    abi_ulong lo;
+-    abi_ulong hi;
+-    abi_ulong cp0_badvaddr;
+-    abi_ulong cp0_cause;
+-    abi_ulong cp0_epc;
+-};
+-
+-
+-#if defined(TARGET_WORDS_BIGENDIAN)
+-#define UNAME_MACHINE "mips64"
+-#else
+-#define UNAME_MACHINE "mips64el"
+-#endif
+-
+-#define TARGET_HW_MACHINE       "mips"
+-#define TARGET_HW_MACHINE_ARCH  UNAME_MACHINE
+-
+-/* sysarch() commands */
+-#define TARGET_MIPS_SET_TLS     1
+-#define TARGET_MIPS_GET_TLS     2
+-
+-#endif /* !_MIPS64_SYSCALL_H_ */
 -- 
 2.33.1
 
