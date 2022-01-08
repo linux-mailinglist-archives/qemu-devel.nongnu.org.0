@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88D41488257
-	for <lists+qemu-devel@lfdr.de>; Sat,  8 Jan 2022 09:29:40 +0100 (CET)
-Received: from localhost ([::1]:36418 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E204E488265
+	for <lists+qemu-devel@lfdr.de>; Sat,  8 Jan 2022 09:35:00 +0100 (CET)
+Received: from localhost ([::1]:45232 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n676Z-0004gC-JQ
-	for lists+qemu-devel@lfdr.de; Sat, 08 Jan 2022 03:29:39 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36232)
+	id 1n67Bj-0002mD-A6
+	for lists+qemu-devel@lfdr.de; Sat, 08 Jan 2022 03:35:00 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36268)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1n66Is-0005Tl-6W
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1n66Is-0005Tn-Rc
  for qemu-devel@nongnu.org; Sat, 08 Jan 2022 02:38:19 -0500
-Received: from [2607:f8b0:4864:20::12a] (port=39660
- helo=mail-il1-x12a.google.com)
+Received: from [2607:f8b0:4864:20::d2c] (port=38513
+ helo=mail-io1-xd2c.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1n66Ip-0003Uo-Lp
- for qemu-devel@nongnu.org; Sat, 08 Jan 2022 02:38:17 -0500
-Received: by mail-il1-x12a.google.com with SMTP id o1so6333081ilo.6
- for <qemu-devel@nongnu.org>; Fri, 07 Jan 2022 23:38:15 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1n66Iq-0003VI-V3
+ for qemu-devel@nongnu.org; Sat, 08 Jan 2022 02:38:18 -0500
+Received: by mail-io1-xd2c.google.com with SMTP id u8so10107361iol.5
+ for <qemu-devel@nongnu.org>; Fri, 07 Jan 2022 23:38:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=6Tbj1RmkZBzQdNFdHL2tew5V0kLNAuFym+h5lDLGqms=;
- b=WhELXPmxDVTzpR5TGLSMd4L2qaQkeImklEW7v9bUfNR37+ve0eKhd6GiZjZWnHsPXF
- OGaBBnXLdo5+umw+WMf48ATI+8H7RYot+AsNuZbrfoOE9Z7m6b2GjkeJU/X8n9xOIlxh
- LcpuGNG+DrF3bHnTA8XbXYXpIyZ3nSxZ3+fk/wgSaiOQFXcIsV3cti7YYCNQvCdTsVhL
- 8THKRIO7WPoZtNftKhS+aOhujhXUmzNQ8PhNzQi0vL/zD9fhIDn+iNyYc+ZSfzHOatiM
- qEjEwuz7U0dXgFO0kSLSaNHpBoyvZ6duK/0NN2ri6YH8iI35Awtt8pcTD8bN3yeKS2KI
- VP/Q==
+ bh=siiQROmFkgoyoci8mg+ev58BNz0SLHU/+j4/Xsy7h34=;
+ b=o6Wthbmf9+gsuhvkJSA4DXYAhvjS7ynqhw6hv6P1PHN1GxKlqx21CB2GkxqAxGexMm
+ uOlkjS2rHNI4FdMMmepBmeODOPDGyC0+r5kqlo7YzLqW/rlAJHb548Qa3tailb/AOWx8
+ 9Io0HRUHlfQHvENLvjxklBXyDG4YWhFVUhaChU2CDOLWF6GtwQQQ7seC8OzqF3CnLWZD
+ 8odHNispijxADcQTtFONsXph+FU5GD+DIBn//yjKM82uBxgN8R5CZJaM6w7RS3Nny8aS
+ QPPjt7Tf0BsFBhcexJAtJnUNFipsIdX3SJRK0cnXMSSaDzJWZjjcDaBYdhAk/8G3XDEf
+ O1Rw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=6Tbj1RmkZBzQdNFdHL2tew5V0kLNAuFym+h5lDLGqms=;
- b=baHDe0wH3IMRR8p6zjfExBMGAMX3NPOE+3ep4vJmR7nWaZ2MD1CRbd1912SPDHLn7Z
- oaIGvkDA1/wSwPZW/EtCcuurPj2CxYjI5187X/BXP97YPkvW6rYGEzEzr+RLBmOG0lCS
- Ybtd/OMirSk+r/Arwijwsel3/dnW3cUG3CJCuCGSNEOz22XjGm3M0/An6yysPtS6oVuG
- 2L/4Kzal2aALdE2N2ceioiAoeTDWbeIC80D7GadpCw23MSXeo/9WKpCKpeLTARMbVH04
- ojKJd5cmAlrxcyg1a49jTGab4fL2U+OUcP947AI32EAMS7AlzLfKlR5zDG+axMMlWgDf
- hiHw==
-X-Gm-Message-State: AOAM530YMi2vfutINhsgGAokgVtEILTNt7p+MHYi01QMXAIMWIWGtwHu
- noN4XJ9DxzlboRmuaGJpir0p39+XAu+nd+b2
-X-Google-Smtp-Source: ABdhPJza8BXEKY4YkjRdXPXdXHzpaBDkxsbJ6ye/76HNaZ11BRTfX22/MzAA2anbW+xy0W17F77f5Q==
-X-Received: by 2002:a05:6e02:1ba6:: with SMTP id
- n6mr32992516ili.296.1641627494351; 
- Fri, 07 Jan 2022 23:38:14 -0800 (PST)
+ bh=siiQROmFkgoyoci8mg+ev58BNz0SLHU/+j4/Xsy7h34=;
+ b=z3apfUWI0RWodLHHkiD3bTtUCuTVC3kSdZtbNQXxNkhqraOayBUi0MfdiDsHFK3rDn
+ rdZrUVIWUF+9+y0lgTVriPqah6je+OWBXAGUcu5bMHNddJPI3TWpjmy7e48+TxhY00nf
+ bwiw99UoUL3ADuG8NnA4xGrJsheilMBNrPuRfmEHr9gwOZto6SUfDWO9JRqZ4pp6/kB9
+ /69GlJnanNCuGoa2LznwlPxdx2sOWfKaP+hmoYugwouCFsAv3PhFSG7mxaMelWTS77GO
+ paS2njS2A/cg3wyudg8BGhzDBLdW7RCMO9KErkItZm9ptMWxrOGn17Z5end9DH7EwR36
+ xcrw==
+X-Gm-Message-State: AOAM5309TMivAJ30keORe74FiFRbdOKDwyZCagropL4nZmTwsxF+qoKX
+ 7+uXTSu1ITwEbXbtYIM0HXTROZ1DETmYCKSq
+X-Google-Smtp-Source: ABdhPJx93hmzAsdzhG/Tc6Kq1VwakhGEGSKTT/qw8EBaC1MN/TdmucVhZmzbUS3npWOGb4ws6q50Ig==
+X-Received: by 2002:a05:6638:2688:: with SMTP id
+ o8mr30059038jat.118.1641627495227; 
+ Fri, 07 Jan 2022 23:38:15 -0800 (PST)
 Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id w19sm613022iov.12.2022.01.07.23.38.13
+ by smtp.gmail.com with ESMTPSA id w19sm613022iov.12.2022.01.07.23.38.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 07 Jan 2022 23:38:14 -0800 (PST)
 From: Warner Losh <imp@bsdimp.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 32/37] bsd-user/arm/signal.c: arm set_sigtramp_args
-Date: Sat,  8 Jan 2022 00:37:32 -0700
-Message-Id: <20220108073737.5959-33-imp@bsdimp.com>
+Subject: [PULL 33/37] bsd-user/arm/signal.c: arm get_mcontext
+Date: Sat,  8 Jan 2022 00:37:33 -0700
+Message-Id: <20220108073737.5959-34-imp@bsdimp.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20220108073737.5959-1-imp@bsdimp.com>
 References: <20220108073737.5959-1-imp@bsdimp.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::12a
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d2c
  (failed)
-Received-SPF: none client-ip=2607:f8b0:4864:20::12a;
- envelope-from=imp@bsdimp.com; helo=mail-il1-x12a.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::d2c;
+ envelope-from=imp@bsdimp.com; helo=mail-io1-xd2c.google.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
@@ -85,90 +85,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stacey Son <sson@FreeBSD.org>, qemu-trivial@nongnu.org, kevans@freebsd.org,
- Michael Tokarev <mjt@tls.msk.ru>,
+Cc: Stacey Son <sson@FreeBSD.org>, qemu-trivial@nongnu.org,
+ Kyle Evans <kevans@FreeBSD.org>, Michael Tokarev <mjt@tls.msk.ru>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Laurent Vivier <laurent@vivier.eu>,
  Richard Henderson <richard.henderson@linaro.org>, Warner Losh <imp@bsdimp.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Implement set_sigtramp_args to setup the arguments to the sigtramp
-calls.
+Get the machine context from the CPU state.
 
 Signed-off-by: Stacey Son <sson@FreeBSD.org>
+Signed-off-by: Kyle Evans <kevans@FreeBSD.org>
 Signed-off-by: Warner Losh <imp@bsdimp.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- bsd-user/arm/signal.c | 60 +++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 60 insertions(+)
- create mode 100644 bsd-user/arm/signal.c
+ bsd-user/arm/signal.c | 51 +++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 51 insertions(+)
 
 diff --git a/bsd-user/arm/signal.c b/bsd-user/arm/signal.c
-new file mode 100644
-index 00000000000..3c0db30a85e
---- /dev/null
+index 3c0db30a85e..93c9bfc0d37 100644
+--- a/bsd-user/arm/signal.c
 +++ b/bsd-user/arm/signal.c
-@@ -0,0 +1,60 @@
-+/*
-+ *  arm signal functions
-+ *
-+ *  Copyright (c) 2013 Stacey D. Son
-+ *
-+ *  This program is free software; you can redistribute it and/or modify
-+ *  it under the terms of the GNU General Public License as published by
-+ *  the Free Software Foundation; either version 2 of the License, or
-+ *  (at your option) any later version.
-+ *
-+ *  This program is distributed in the hope that it will be useful,
-+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+ *  GNU General Public License for more details.
-+ *
-+ *  You should have received a copy of the GNU General Public License
-+ *  along with this program; if not, see <http://www.gnu.org/licenses/>.
-+ */
-+
-+#include "qemu.h"
+@@ -58,3 +58,54 @@ abi_long set_sigtramp_args(CPUARMState *env, int sig,
+ 
+     return 0;
+ }
 +
 +/*
-+ * Compare to arm/arm/machdep.c sendsig()
-+ * Assumes that target stack frame memory is locked.
++ * Compare to arm/arm/machdep.c get_mcontext()
++ * Assumes that the memory is locked if mcp points to user memory.
 + */
-+abi_long set_sigtramp_args(CPUARMState *env, int sig,
-+                           struct target_sigframe *frame,
-+                           abi_ulong frame_addr,
-+                           struct target_sigaction *ka)
++abi_long get_mcontext(CPUARMState *env, target_mcontext_t *mcp, int flags)
 +{
-+    /*
-+     * Arguments to signal handler:
-+     *  r0 = signal number
-+     *  r1 = siginfo pointer
-+     *  r2 = ucontext pointer
-+     *  r5 = ucontext pointer
-+     *  pc = signal handler pointer
-+     *  sp = sigframe struct pointer
-+     *  lr = sigtramp at base of user stack
-+     */
++    int err = 0;
++    uint32_t *gr = mcp->__gregs;
 +
-+    env->regs[0] = sig;
-+    env->regs[1] = frame_addr +
-+        offsetof(struct target_sigframe, sf_si);
-+    env->regs[2] = frame_addr +
-+        offsetof(struct target_sigframe, sf_uc);
++    if (mcp->mc_vfp_size != 0 && mcp->mc_vfp_size != sizeof(target_mcontext_vfp_t)) {
++        return -TARGET_EINVAL;
++    }
 +
-+    /* the trampoline uses r5 as the uc address */
-+    env->regs[5] = frame_addr +
-+        offsetof(struct target_sigframe, sf_uc);
-+    env->regs[TARGET_REG_PC] = ka->_sa_handler & ~1;
-+    env->regs[TARGET_REG_SP] = frame_addr;
-+    env->regs[TARGET_REG_LR] = TARGET_PS_STRINGS - TARGET_SZSIGCODE;
-+    /*
-+     * Low bit indicates whether or not we're entering thumb mode.
-+     */
-+    cpsr_write(env, (ka->_sa_handler & 1) * CPSR_T, CPSR_T, CPSRWriteByInstr);
++    gr[TARGET_REG_CPSR] = tswap32(cpsr_read(env));
++    if (flags & TARGET_MC_GET_CLEAR_RET) {
++        gr[TARGET_REG_R0] = 0;
++        gr[TARGET_REG_CPSR] &= ~CPSR_C;
++    } else {
++        gr[TARGET_REG_R0] = tswap32(env->regs[0]);
++    }
 +
-+    return 0;
++    gr[TARGET_REG_R1] = tswap32(env->regs[1]);
++    gr[TARGET_REG_R2] = tswap32(env->regs[2]);
++    gr[TARGET_REG_R3] = tswap32(env->regs[3]);
++    gr[TARGET_REG_R4] = tswap32(env->regs[4]);
++    gr[TARGET_REG_R5] = tswap32(env->regs[5]);
++    gr[TARGET_REG_R6] = tswap32(env->regs[6]);
++    gr[TARGET_REG_R7] = tswap32(env->regs[7]);
++    gr[TARGET_REG_R8] = tswap32(env->regs[8]);
++    gr[TARGET_REG_R9] = tswap32(env->regs[9]);
++    gr[TARGET_REG_R10] = tswap32(env->regs[10]);
++    gr[TARGET_REG_R11] = tswap32(env->regs[11]);
++    gr[TARGET_REG_R12] = tswap32(env->regs[12]);
++
++    gr[TARGET_REG_SP] = tswap32(env->regs[13]);
++    gr[TARGET_REG_LR] = tswap32(env->regs[14]);
++    gr[TARGET_REG_PC] = tswap32(env->regs[15]);
++
++    if (mcp->mc_vfp_size != 0 && mcp->mc_vfp_ptr != 0) {
++        /* see get_vfpcontext in sys/arm/arm/exec_machdep.c */
++        target_mcontext_vfp_t *vfp;
++        vfp = lock_user(VERIFY_WRITE, mcp->mc_vfp_ptr, sizeof(*vfp), 0);
++        for (int i = 0; i < 32; i++) {
++            vfp->mcv_reg[i] = tswap64(*aa32_vfp_dreg(env, i));
++        }
++        vfp->mcv_fpscr = tswap32(vfp_get_fpscr(env));
++        unlock_user(vfp, mcp->mc_vfp_ptr, sizeof(*vfp));
++    }
++    return err;
 +}
 -- 
 2.33.1
