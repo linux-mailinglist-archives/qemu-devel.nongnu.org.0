@@ -2,66 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E2F0488065
-	for <lists+qemu-devel@lfdr.de>; Sat,  8 Jan 2022 02:20:51 +0100 (CET)
-Received: from localhost ([::1]:37872 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2CE748807D
+	for <lists+qemu-devel@lfdr.de>; Sat,  8 Jan 2022 02:25:47 +0100 (CET)
+Received: from localhost ([::1]:46634 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n60PZ-0002ho-Q6
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 20:20:50 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43838)
+	id 1n60UM-0000Rh-Va
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 20:25:47 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43852)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n609Y-0003sH-Qm
- for qemu-devel@nongnu.org; Fri, 07 Jan 2022 20:04:18 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29164)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n609c-0003sw-1f
+ for qemu-devel@nongnu.org; Fri, 07 Jan 2022 20:04:20 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41265)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n609X-0002Le-0f
- for qemu-devel@nongnu.org; Fri, 07 Jan 2022 20:04:16 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n609Z-0002Ln-TL
+ for qemu-devel@nongnu.org; Fri, 07 Jan 2022 20:04:19 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641603854;
+ s=mimecast20190719; t=1641603857;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5QxedhqdIVW/4TN1ei0pMq/CHa5wdqs2AGGdB1TxsBA=;
- b=ZGh5j/w8qImUlkFBhXwG7D4/wNv5fuXKewZv3ywHGiyoIfU1EJJvwgY0qZ3kY869wJTwdC
- h2XjeH/+8ooHdlbLXERG6awkCWUSntAkG8PqY+q+DkuWpM0TfcEHwg7O0R7zFIaDphcjfI
- /3FdvQMB5A4jMiKmAb1bYotjluKrFHs=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=n1iLjx4SHThqUNpgxKUlFJfbmdTeh8ixg5DBOW9i3IU=;
+ b=Wy40wOrEjvmdNt9b18RiONwnGxtffifLK8y89+pMzlLJ34o7rcFqK+szdfTN58/Gr2TlAO
+ 5+JkYCuEMN+/XHeLFunpiMphO0P9tcBXPAf+p9/7vIg9ujzeFjuDXnkB8VK0Q1LIYXbGDx
+ PN9RVCKNzfn7/PstHa5rX1FhJfp5n2c=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-582-1tMKqXjvOXiGtrNk2gtHcQ-1; Fri, 07 Jan 2022 20:04:13 -0500
-X-MC-Unique: 1tMKqXjvOXiGtrNk2gtHcQ-1
-Received: by mail-wm1-f71.google.com with SMTP id
- s190-20020a1ca9c7000000b00347c6c39d9aso1456485wme.5
- for <qemu-devel@nongnu.org>; Fri, 07 Jan 2022 17:04:13 -0800 (PST)
+ us-mta-614-fBjs4rqFNSyAponLElPqMg-1; Fri, 07 Jan 2022 20:04:16 -0500
+X-MC-Unique: fBjs4rqFNSyAponLElPqMg-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ j8-20020a05600c1c0800b00346504f5743so5603467wms.6
+ for <qemu-devel@nongnu.org>; Fri, 07 Jan 2022 17:04:16 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=5QxedhqdIVW/4TN1ei0pMq/CHa5wdqs2AGGdB1TxsBA=;
- b=7PFkWmu1IqarQUqC1i4XPEsYphSDRvkvZzV8enQkm9X7Ah0gr351VIYxpqETP7ere4
- Nj942XDM4aOQSS1/nTXboBoyU5ARddlk/AIUPWLPVrjDt5BHvZGfrFbfC84rYGGFCHFa
- BEFb5jfHI8Ud7exGkdzdF9XhosdamtX42tm3b562g1ZNJH6GsZJVCAQv2/RLvll8pZma
- dMprtRc3IrvUWo10ibu61pkZA0m4XreO+NqI33UiSs+0s7EszDwy2mDiAnocv2a1aOkG
- QWM5uUdvq1j49E3cZDQS2vjcmOEYECNeo2rhocxwmDea7c1FkgvKR52jSuPzOEX4+HhZ
- 5L/Q==
-X-Gm-Message-State: AOAM532g2wPiVXP2l89j114KLMIp3j0GpdAOF9D2NSEsldqC3Her0p2h
- 5VauLTPrmIL4Xp38j5fsI9lHEYx0SesA8z1cocCNQNyvvy2/UeGzO/CigGv61I6p10x3ogH5dvO
- BCAA3Q5tV04MJjt5ZnSsPrEslWcdiMGYwCxNquqKz7R5Hbi8mN2hKERHldDQD
-X-Received: by 2002:a5d:4d11:: with SMTP id z17mr11106152wrt.182.1641603852113; 
- Fri, 07 Jan 2022 17:04:12 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJx8PnSzVgVt/Le4pFL3hQApIZwW3i6XtWhzuEDWta2IPjKLaoPEF6t4xZAmBJpCRwmsiW3aMg==
-X-Received: by 2002:a5d:4d11:: with SMTP id z17mr11106136wrt.182.1641603851762; 
- Fri, 07 Jan 2022 17:04:11 -0800 (PST)
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=n1iLjx4SHThqUNpgxKUlFJfbmdTeh8ixg5DBOW9i3IU=;
+ b=NZLg+t4abDN9Q/Yurktw6UbLuwRGUZuCfZ9pYna575LDPRg5q0akiqgV3XumnMIqUQ
+ 9n2DwUB9UETiYQqccxJqPHbPkD6+NC6IK7GSaJEdM6LjXx7fODy8HYuyU95YggeDCaxa
+ elZBsXuEB+m2YUdAEraNyxmPdhGrcdxbpjsyH3rs3yEIfEIJ0+hOpL1h1NBFMh8zp6Ha
+ 0egCTmzf2eq2YgLRVLa5pBmWeGXqaiX4nN6PXeMO3kxeOrsYmV0up0prM3QbBILgAzmb
+ ZYc3GHlj5R9v+WfwCcf0NJtO8cEkmwUVodqMaJIoeF4rvW7aSr01RyM+e5PuwqYqbt9M
+ 5IXA==
+X-Gm-Message-State: AOAM533vfpudGKlDxWJ4VlpB45aq9o8r2HZANTjz/SIsZYFGMkjggbrx
+ r40fW0JrlfxrdI7Vpbv9uj2nvi3hHFN/mATn738fz3WVUEmu1yN0TivUtcSh7mUss4JhA7T5MRb
+ SLKjY9q3czsVglChF0odRaBGU9v/9AZMJl6a7mxFNkibUUCA+ANOKyIcWwkNA
+X-Received: by 2002:adf:f5d2:: with SMTP id k18mr8927969wrp.567.1641603854753; 
+ Fri, 07 Jan 2022 17:04:14 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxUXPY6FxrS3t2uqWP1nKFeFGFBr8k0VTgLtrO+e28j2goNFT6BmsfmLvUeQbfzXSK5EdE3YQ==
+X-Received: by 2002:adf:f5d2:: with SMTP id k18mr8927957wrp.567.1641603854501; 
+ Fri, 07 Jan 2022 17:04:14 -0800 (PST)
 Received: from redhat.com ([147.161.13.99])
- by smtp.gmail.com with ESMTPSA id g9sm81262wmq.22.2022.01.07.17.04.10
+ by smtp.gmail.com with ESMTPSA id i15sm247158wrf.6.2022.01.07.17.04.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 Jan 2022 17:04:11 -0800 (PST)
-Date: Fri, 7 Jan 2022 20:04:08 -0500
+ Fri, 07 Jan 2022 17:04:14 -0800 (PST)
+Date: Fri, 7 Jan 2022 20:04:11 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v3 12/55] virtio-pci: add support for configure interrupt
-Message-ID: <20220108003423.15830-13-mst@redhat.com>
+Subject: [PULL v3 13/55] trace-events,pci: unify trace events format
+Message-ID: <20220108003423.15830-14-mst@redhat.com>
 References: <20220108003423.15830-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20220108003423.15830-1-mst@redhat.com>
@@ -71,8 +73,9 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
@@ -94,221 +97,112 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Cindy Lu <lulu@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Yanan Wang <wangyanan55@huawei.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Cindy Lu <lulu@redhat.com>
+From: Laurent Vivier <lvivier@redhat.com>
 
-Add support for configure interrupt, The process is used kvm_irqfd_assign
-to set the gsi to kernel. When the configure notifier was signal by
-host, qemu will inject a msix interrupt to guest
+Unify format used by trace_pci_update_mappings_del(),
+trace_pci_update_mappings_add(), trace_pci_cfg_write() and
+trace_pci_cfg_read() to print the device name and bus number,
+slot number and function number.
 
-Signed-off-by: Cindy Lu <lulu@redhat.com>
-Message-Id: <20211104164827.21911-11-lulu@redhat.com>
+For instance:
+
+  pci_cfg_read virtio-net-pci 00:0 @0x20 -> 0xffffc00c
+  pci_cfg_write virtio-net-pci 00:0 @0x20 <- 0xfea0000c
+  pci_update_mappings_del d=0x555810b92330 01:00.0 4,0xffffc000+0x4000
+  pci_update_mappings_add d=0x555810b92330 01:00.0 4,0xfea00000+0x4000
+
+becomes
+
+  pci_cfg_read virtio-net-pci 01:00.0 @0x20 -> 0xffffc00c
+  pci_cfg_write virtio-net-pci 01:00.0 @0x20 <- 0xfea0000c
+  pci_update_mappings_del virtio-net-pci 01:00.0 4,0xffffc000+0x4000
+  pci_update_mappings_add virtio-net-pci 01:00.0 4,0xfea00000+0x4000
+
+Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+Message-Id: <20211105192541.655831-1-lvivier@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Yanan Wang <wangyanan55@huawei.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/virtio/virtio-pci.h |  4 +-
- hw/virtio/virtio-pci.c | 92 ++++++++++++++++++++++++++++++++++++------
- 2 files changed, 83 insertions(+), 13 deletions(-)
+ hw/pci/pci.c        | 4 ++--
+ hw/pci/pci_host.c   | 6 ++++--
+ hw/pci/trace-events | 8 ++++----
+ 3 files changed, 10 insertions(+), 8 deletions(-)
 
-diff --git a/hw/virtio/virtio-pci.h b/hw/virtio/virtio-pci.h
-index 2446dcd9ae..b704acc5a8 100644
---- a/hw/virtio/virtio-pci.h
-+++ b/hw/virtio/virtio-pci.h
-@@ -251,5 +251,7 @@ void virtio_pci_types_register(const VirtioPCIDeviceTypeInfo *t);
-  * @fixed_queues.
-  */
- unsigned virtio_pci_optimal_num_queues(unsigned fixed_queues);
--
-+void virtio_pci_set_guest_notifier_fd_handler(VirtIODevice *vdev, VirtQueue *vq,
-+                                              int n, bool assign,
-+                                              bool with_irqfd);
- #endif
-diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
-index 7201cf3dc1..98fb5493ae 100644
---- a/hw/virtio/virtio-pci.c
-+++ b/hw/virtio/virtio-pci.c
-@@ -727,7 +727,8 @@ static int virtio_pci_get_notifier(VirtIOPCIProxy *proxy, int queue_no,
-     VirtQueue *vq;
+diff --git a/hw/pci/pci.c b/hw/pci/pci.c
+index e5993c1ef5..322ba450e7 100644
+--- a/hw/pci/pci.c
++++ b/hw/pci/pci.c
+@@ -1390,7 +1390,7 @@ static void pci_update_mappings(PCIDevice *d)
  
-     if (queue_no == VIRTIO_CONFIG_IRQ_IDX) {
--        return -1;
-+        *n = virtio_config_get_guest_notifier(vdev);
-+        *vector = vdev->config_vector;
-     } else {
-         if (!virtio_queue_get_num(vdev, queue_no)) {
-             return -1;
-@@ -802,6 +803,10 @@ static int kvm_virtio_pci_vector_use(VirtIOPCIProxy *proxy, int nvqs)
+         /* now do the real mapping */
+         if (r->addr != PCI_BAR_UNMAPPED) {
+-            trace_pci_update_mappings_del(d, pci_dev_bus_num(d),
++            trace_pci_update_mappings_del(d->name, pci_dev_bus_num(d),
+                                           PCI_SLOT(d->devfn),
+                                           PCI_FUNC(d->devfn),
+                                           i, r->addr, r->size);
+@@ -1398,7 +1398,7 @@ static void pci_update_mappings(PCIDevice *d)
+         }
+         r->addr = new_addr;
+         if (r->addr != PCI_BAR_UNMAPPED) {
+-            trace_pci_update_mappings_add(d, pci_dev_bus_num(d),
++            trace_pci_update_mappings_add(d->name, pci_dev_bus_num(d),
+                                           PCI_SLOT(d->devfn),
+                                           PCI_FUNC(d->devfn),
+                                           i, r->addr, r->size);
+diff --git a/hw/pci/pci_host.c b/hw/pci/pci_host.c
+index 7beafd40a8..eaf217ff55 100644
+--- a/hw/pci/pci_host.c
++++ b/hw/pci/pci_host.c
+@@ -79,7 +79,8 @@ void pci_host_config_write_common(PCIDevice *pci_dev, uint32_t addr,
+         return;
+     }
+ 
+-    trace_pci_cfg_write(pci_dev->name, PCI_SLOT(pci_dev->devfn),
++    trace_pci_cfg_write(pci_dev->name, pci_dev_bus_num(pci_dev),
++                        PCI_SLOT(pci_dev->devfn),
+                         PCI_FUNC(pci_dev->devfn), addr, val);
+     pci_dev->config_write(pci_dev, addr, val, MIN(len, limit - addr));
+ }
+@@ -104,7 +105,8 @@ uint32_t pci_host_config_read_common(PCIDevice *pci_dev, uint32_t addr,
+     }
+ 
+     ret = pci_dev->config_read(pci_dev, addr, MIN(len, limit - addr));
+-    trace_pci_cfg_read(pci_dev->name, PCI_SLOT(pci_dev->devfn),
++    trace_pci_cfg_read(pci_dev->name, pci_dev_bus_num(pci_dev),
++                       PCI_SLOT(pci_dev->devfn),
+                        PCI_FUNC(pci_dev->devfn), addr, ret);
+ 
      return ret;
- }
+diff --git a/hw/pci/trace-events b/hw/pci/trace-events
+index fc777d0b5e..7570752c40 100644
+--- a/hw/pci/trace-events
++++ b/hw/pci/trace-events
+@@ -1,12 +1,12 @@
+ # See docs/devel/tracing.rst for syntax documentation.
  
-+static int kvm_virtio_pci_vector_config_use(VirtIOPCIProxy *proxy)
-+{
-+    return kvm_virtio_pci_vector_use_one(proxy, VIRTIO_CONFIG_IRQ_IDX);
-+}
+ # pci.c
+-pci_update_mappings_del(void *d, uint32_t bus, uint32_t slot, uint32_t func, int bar, uint64_t addr, uint64_t size) "d=%p %02x:%02x.%x %d,0x%"PRIx64"+0x%"PRIx64
+-pci_update_mappings_add(void *d, uint32_t bus, uint32_t slot, uint32_t func, int bar, uint64_t addr, uint64_t size) "d=%p %02x:%02x.%x %d,0x%"PRIx64"+0x%"PRIx64
++pci_update_mappings_del(const char *dev, uint32_t bus, uint32_t slot, uint32_t func, int bar, uint64_t addr, uint64_t size) "%s %02x:%02x.%x %d,0x%"PRIx64"+0x%"PRIx64
++pci_update_mappings_add(const char *dev, uint32_t bus, uint32_t slot, uint32_t func, int bar, uint64_t addr, uint64_t size) "%s %02x:%02x.%x %d,0x%"PRIx64"+0x%"PRIx64
  
- static void kvm_virtio_pci_vector_release_one(VirtIOPCIProxy *proxy,
-                                               int queue_no)
-@@ -839,6 +844,11 @@ static void kvm_virtio_pci_vector_release(VirtIOPCIProxy *proxy, int nvqs)
-     }
- }
+ # pci_host.c
+-pci_cfg_read(const char *dev, unsigned devid, unsigned fnid, unsigned offs, unsigned val) "%s %02u:%u @0x%x -> 0x%x"
+-pci_cfg_write(const char *dev, unsigned devid, unsigned fnid, unsigned offs, unsigned val) "%s %02u:%u @0x%x <- 0x%x"
++pci_cfg_read(const char *dev, uint32_t bus, uint32_t slot, uint32_t func, unsigned offs, unsigned val) "%s %02x:%02x.%x @0x%x -> 0x%x"
++pci_cfg_write(const char *dev, uint32_t bus, uint32_t slot, uint32_t func, unsigned offs, unsigned val) "%s %02x:%02x.%x @0x%x <- 0x%x"
  
-+static void kvm_virtio_pci_vector_config_release(VirtIOPCIProxy *proxy)
-+{
-+    kvm_virtio_pci_vector_release_one(proxy, VIRTIO_CONFIG_IRQ_IDX);
-+}
-+
- static int virtio_pci_one_vector_unmask(VirtIOPCIProxy *proxy,
-                                        unsigned int queue_no,
-                                        unsigned int vector,
-@@ -920,9 +930,17 @@ static int virtio_pci_vector_unmask(PCIDevice *dev, unsigned vector,
-         }
-         vq = virtio_vector_next_queue(vq);
-     }
--
-+    /* unmask config intr */
-+    n = virtio_config_get_guest_notifier(vdev);
-+    ret = virtio_pci_one_vector_unmask(proxy, VIRTIO_CONFIG_IRQ_IDX, vector,
-+                                       msg, n);
-+    if (ret < 0) {
-+        goto undo_config;
-+    }
-     return 0;
--
-+undo_config:
-+    n = virtio_config_get_guest_notifier(vdev);
-+    virtio_pci_one_vector_mask(proxy, VIRTIO_CONFIG_IRQ_IDX, vector, n);
- undo:
-     vq = virtio_vector_first_queue(vdev, vector);
-     while (vq && unmasked >= 0) {
-@@ -956,6 +974,8 @@ static void virtio_pci_vector_mask(PCIDevice *dev, unsigned vector)
-         }
-         vq = virtio_vector_next_queue(vq);
-     }
-+    n = virtio_config_get_guest_notifier(vdev);
-+    virtio_pci_one_vector_mask(proxy, VIRTIO_CONFIG_IRQ_IDX, vector, n);
- }
- 
- static void virtio_pci_vector_poll(PCIDevice *dev,
-@@ -987,6 +1007,34 @@ static void virtio_pci_vector_poll(PCIDevice *dev,
-             msix_set_pending(dev, vector);
-         }
-     }
-+    /* poll the config intr */
-+    ret = virtio_pci_get_notifier(proxy, VIRTIO_CONFIG_IRQ_IDX, &notifier,
-+                                  &vector);
-+    if (ret < 0) {
-+        return;
-+    }
-+    if (vector < vector_start || vector >= vector_end ||
-+        !msix_is_masked(dev, vector)) {
-+        return;
-+    }
-+    if (k->guest_notifier_pending) {
-+        if (k->guest_notifier_pending(vdev, VIRTIO_CONFIG_IRQ_IDX)) {
-+            msix_set_pending(dev, vector);
-+        }
-+    } else if (event_notifier_test_and_clear(notifier)) {
-+        msix_set_pending(dev, vector);
-+    }
-+}
-+
-+void virtio_pci_set_guest_notifier_fd_handler(VirtIODevice *vdev, VirtQueue *vq,
-+                                              int n, bool assign,
-+                                              bool with_irqfd)
-+{
-+    if (n == VIRTIO_CONFIG_IRQ_IDX) {
-+        virtio_config_set_guest_notifier_fd_handler(vdev, assign, with_irqfd);
-+    } else {
-+        virtio_queue_set_guest_notifier_fd_handler(vq, assign, with_irqfd);
-+    }
- }
- 
- static int virtio_pci_set_guest_notifier(DeviceState *d, int n, bool assign,
-@@ -995,17 +1043,25 @@ static int virtio_pci_set_guest_notifier(DeviceState *d, int n, bool assign,
-     VirtIOPCIProxy *proxy = to_virtio_pci_proxy(d);
-     VirtIODevice *vdev = virtio_bus_get_device(&proxy->bus);
-     VirtioDeviceClass *vdc = VIRTIO_DEVICE_GET_CLASS(vdev);
--    VirtQueue *vq = virtio_get_queue(vdev, n);
--    EventNotifier *notifier = virtio_queue_get_guest_notifier(vq);
-+    VirtQueue *vq = NULL;
-+    EventNotifier *notifier = NULL;
-+
-+    if (n == VIRTIO_CONFIG_IRQ_IDX) {
-+        notifier = virtio_config_get_guest_notifier(vdev);
-+    } else {
-+        vq = virtio_get_queue(vdev, n);
-+        notifier = virtio_queue_get_guest_notifier(vq);
-+    }
- 
-     if (assign) {
-         int r = event_notifier_init(notifier, 0);
-         if (r < 0) {
-             return r;
-         }
--        virtio_queue_set_guest_notifier_fd_handler(vq, true, with_irqfd);
-+        virtio_pci_set_guest_notifier_fd_handler(vdev, vq, n, true, with_irqfd);
-     } else {
--        virtio_queue_set_guest_notifier_fd_handler(vq, false, with_irqfd);
-+        virtio_pci_set_guest_notifier_fd_handler(vdev, vq, n, false,
-+                                                 with_irqfd);
-         event_notifier_cleanup(notifier);
-     }
- 
-@@ -1047,6 +1103,7 @@ static int virtio_pci_set_guest_notifiers(DeviceState *d, int nvqs, bool assign)
-         msix_unset_vector_notifiers(&proxy->pci_dev);
-         if (proxy->vector_irqfd) {
-             kvm_virtio_pci_vector_release(proxy, nvqs);
-+            kvm_virtio_pci_vector_config_release(proxy);
-             g_free(proxy->vector_irqfd);
-             proxy->vector_irqfd = NULL;
-         }
-@@ -1062,7 +1119,11 @@ static int virtio_pci_set_guest_notifiers(DeviceState *d, int nvqs, bool assign)
-             goto assign_error;
-         }
-     }
--
-+    r = virtio_pci_set_guest_notifier(d, VIRTIO_CONFIG_IRQ_IDX, assign,
-+                                      with_irqfd);
-+    if (r < 0) {
-+        goto config_assign_error;
-+    }
-     /* Must set vector notifier after guest notifier has been assigned */
-     if ((with_irqfd || k->guest_notifier_mask) && assign) {
-         if (with_irqfd) {
-@@ -1071,11 +1132,14 @@ static int virtio_pci_set_guest_notifiers(DeviceState *d, int nvqs, bool assign)
-                           msix_nr_vectors_allocated(&proxy->pci_dev));
-             r = kvm_virtio_pci_vector_use(proxy, nvqs);
-             if (r < 0) {
--                goto assign_error;
-+                goto config_assign_error;
-             }
-         }
--        r = msix_set_vector_notifiers(&proxy->pci_dev,
--                                      virtio_pci_vector_unmask,
-+        r = kvm_virtio_pci_vector_config_use(proxy);
-+        if (r < 0) {
-+            goto config_error;
-+        }
-+        r = msix_set_vector_notifiers(&proxy->pci_dev, virtio_pci_vector_unmask,
-                                       virtio_pci_vector_mask,
-                                       virtio_pci_vector_poll);
-         if (r < 0) {
-@@ -1090,7 +1154,11 @@ notifiers_error:
-         assert(assign);
-         kvm_virtio_pci_vector_release(proxy, nvqs);
-     }
--
-+config_error:
-+    kvm_virtio_pci_vector_config_release(proxy);
-+config_assign_error:
-+    virtio_pci_set_guest_notifier(d, VIRTIO_CONFIG_IRQ_IDX, !assign,
-+                                  with_irqfd);
- assign_error:
-     /* We get here on assignment failure. Recover by undoing for VQs 0 .. n. */
-     assert(assign);
+ # msix.c
+ msix_write_config(char *name, bool enabled, bool masked) "dev %s enabled %d masked %d"
 -- 
 MST
 
