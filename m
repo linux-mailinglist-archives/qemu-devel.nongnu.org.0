@@ -2,105 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E8B04881EF
-	for <lists+qemu-devel@lfdr.de>; Sat,  8 Jan 2022 07:57:06 +0100 (CET)
-Received: from localhost ([::1]:40760 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76FDB4881DF
+	for <lists+qemu-devel@lfdr.de>; Sat,  8 Jan 2022 07:36:45 +0100 (CET)
+Received: from localhost ([::1]:58522 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n65ez-00050a-IY
-	for lists+qemu-devel@lfdr.de; Sat, 08 Jan 2022 01:57:05 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52180)
+	id 1n65LH-0003Sr-Fz
+	for lists+qemu-devel@lfdr.de; Sat, 08 Jan 2022 01:36:44 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57672)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=000118587=alistair.francis@opensource.wdc.com>)
- id 1n64ff-0001xw-EE
- for qemu-devel@nongnu.org; Sat, 08 Jan 2022 00:53:43 -0500
-Received: from esa5.hgst.iphmx.com ([216.71.153.144]:63935)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=000118587=alistair.francis@opensource.wdc.com>)
- id 1n64fd-0006wZ-LB
- for qemu-devel@nongnu.org; Sat, 08 Jan 2022 00:53:43 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1641621220; x=1673157220;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=qVkg6EiEys5+GJnqtJMWTSCahOKNvfw7Nr5w8GhyC+o=;
- b=nkANDy/f6OiG3h+LuTRzXJpCXCRXdLIeX3aydrzILDfvWrueoJXKcCdE
- wDjLUbha+fU1vaB4k3/jz8BNLv+N8hkPAfzdzLFME5r6RfBPsOjvZklpA
- 0A3+KwVjrrHSB/73u/bV2w5l3OkvbATONe2Am9oZDumYq/1eZW57PmpfM
- 7oTzjb3oD/IeQwldvMtkrlXH9riuYcN+dBqb9f6F+ue4eyPhxiB29h9gl
- 2t2IJeCcpoIAR0MQXciAmbzxB20AMeRNQDNM28RaCkgdMb1H5xzEV/VV9
- AKeKHrAwumjn0flailL6JuAGinxkZeCkFxXt9glJreXw3xbo8kf+aoF9M g==;
-X-IronPort-AV: E=Sophos;i="5.88,272,1635177600"; d="scan'208";a="189984962"
-Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
- ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 08 Jan 2022 13:53:39 +0800
-IronPort-SDR: Rnei2yiYyRjCF4eQ8AUEcFtSzaF5+c3CeNXit5y3F8ww0TTVbOn1MyHoYLJS1G8PJZeFc7j3YS
- CTJM+cxFDsrdCCa/mCTOnvlL0VpvF5ijkycTv/ihNN78NWNXZwcmBZ3CcjIsvCKqZGAOOuTSNF
- nNzBuD3hxH1Nrj8I2m3DQX4WzEvLu1/9X6q8oocjWpHEZPJwGbtF0WLexH7Nkm5wvpv1BKZ3QI
- VBb7l1PBDCPba0WTgzxYeo4ivyCGlj29GI8yi9iOIgTqB8JCBQjzIyDafh+W4xpb/tBdWJ6KMr
- c48ee8CxDdwhQsVzUwMXWWQl
-Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
- by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Jan 2022 21:26:07 -0800
-IronPort-SDR: xPEUpQO+99eS5E5u7IgSVa2ROJFTdpWmZzzFY3S3nLWOPvCX1ei4BJqv21BYE3cUbJkHFO6iyH
- B9VnEpDgBtTDknLPN4uqx+9I1bZkc5YKPBqtRljnfI/NxrvwUQJIfIMi4/zgyPIDZ4WcgUkDUM
- VUW14CxHpUC5xiJrgqxrXJziFBWlrcIS+tLjdC2Wt/cL4rmxkKiy7O1J/Cznyu21ORcxU7cPjj
- oEcQL2LjDMOr1YJXA4H5M3b1hm3w4QckJ/QfgbJ1Qr3T/o2h1P5kZd3MvLccEigWUyGI2NdZV7
- wfQ=
-WDCIronportException: Internal
-Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
- by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Jan 2022 21:53:42 -0800
-Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4JW8Qr4JXXz1VSkf
- for <qemu-devel@nongnu.org>; Fri,  7 Jan 2022 21:53:40 -0800 (PST)
-Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
- reason="pass (just generated, assumed good)"
- header.d=opensource.wdc.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
- opensource.wdc.com; h=content-transfer-encoding:mime-version
- :references:in-reply-to:x-mailer:message-id:date:subject:to
- :from; s=dkim; t=1641621220; x=1644213221; bh=qVkg6EiEys5+GJnqtJ
- MWTSCahOKNvfw7Nr5w8GhyC+o=; b=bn69SVEec0zd8/bf5nVsKLPb0GeJUuDomm
- bmbXoek5X2woU5gJmrak+0jLt/s63+2Y/IMRNLKDvQDUHbB2RMaKUQkSPB90xHJI
- nGxqbbiFRzmpjKnxUMu8Um9pyNHccgzDzwqPMC2/DLPRxDR87MgZuX85EJ8x/lWr
- /lP2/w5d16G9nm2rgbZ99Ie3J9lMalPQEv58/IypS10DyQtr4IstTlc+HRKHivb3
- mRJlncPPM95GtJFESvfk6y73l1EDPh1JoTBWa++mkRqfeEhUPuPHD6z8LS4M8oqH
- 35a6RqLhtkMVKzKaMDut0ivBm3CK0CEnU8t0vhReylbVeOr+iGYg==
-X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
-Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
- by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id r4FbnVaYOwpk for <qemu-devel@nongnu.org>;
- Fri,  7 Jan 2022 21:53:40 -0800 (PST)
-Received: from toolbox.alistair23.me (unknown [10.225.165.74])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4JW8Qm5P64z1VSkY;
- Fri,  7 Jan 2022 21:53:36 -0800 (PST)
-From: Alistair Francis <alistair.francis@opensource.wdc.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1n65I3-0001Lr-Ie
+ for qemu-devel@nongnu.org; Sat, 08 Jan 2022 01:33:30 -0500
+Received: from [2607:f8b0:4864:20::534] (port=43629
+ helo=mail-pg1-x534.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1n65Hy-0003bu-NN
+ for qemu-devel@nongnu.org; Sat, 08 Jan 2022 01:33:19 -0500
+Received: by mail-pg1-x534.google.com with SMTP id 8so7653523pgc.10
+ for <qemu-devel@nongnu.org>; Fri, 07 Jan 2022 22:33:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=z+1Bpm5gmuPz16kiapG0JjFHPuZTPa8QQ9sXQBalCt4=;
+ b=taCLNPZqfDZPzzGQ/xcgCYXhgB+pxau+4e5jumxUni3F2Rb4BbGyeIf3UhgNKtmMc4
+ cz88TyX5OQdJdDQ7tZdbu7HQL5Br1ceF38OwkQSakoTVJHJ0V5fgKbeYGsblD0Eo9ho2
+ KHykZspD4GlgkrKGNRLlP/KHGq+2F9oB1Fv0tbPJ3tazU5+QXV6FnLvmxB2+zyzhBOkO
+ NKHEi4TmbrAq1tacu1qOyd7oztaZkQmT6IErIxpdDbGROPi8CAgByUQAh5na0E8gWuZU
+ pHaV8OcsCpFXU5mRfxEFXWjvb8y7FHwMzDTFuvLRtkdLfiDabjRxIaFhAd8UwpHbRnx0
+ XNUg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=z+1Bpm5gmuPz16kiapG0JjFHPuZTPa8QQ9sXQBalCt4=;
+ b=C/Sw7YgFfzZG5DkU7grArIHP81Xj3bjLQbWWPthwnSluHzTJSSPJ/zoKMqrfbrU2Ed
+ z+JJOPlNE8AGNIbSDmTqFnRLX/4MWn0tdLOEszelwQLF3LWOnHcMpkQeTNskTeHBJQFh
+ 3fz0y87a63mBCNUgzjbGKrhM/g4N4UxbirQFJe7r3PBNcV0u3yg968sJ2Y9aSxL8WOml
+ GQD1mS6j9HO3hmguyYAbMlqIgl2FN1nDZTgVobiOQTJKPve9foWrBGh/JNRuiRzIH8rI
+ 9wSE9qGZ4yyyVICBITNACXdmkiILHAUDQM5D4xzuYlPpbuygjL36O9kCM2mfGCDKeU4n
+ 7LgA==
+X-Gm-Message-State: AOAM530yfEkobVMy3i4gFt6tjEAEE8eSVZZLWZ0hsBbaOtMkIdkRb8hS
+ OtAnQE0nZcOnHv9+3wHacPgDTjYTQpwNuA==
+X-Google-Smtp-Source: ABdhPJx6r+ciPyH6Y6YsISdufQvH3+TJUYwcbEpiC2tSf3GjFVpFpxy63nBsWgUgY9xX6etkkEBLkQ==
+X-Received: by 2002:a63:905:: with SMTP id 5mr59709924pgj.485.1641623597268;
+ Fri, 07 Jan 2022 22:33:17 -0800 (PST)
+Received: from localhost.localdomain (174-21-75-75.tukw.qwest.net.
+ [174.21.75.75])
+ by smtp.gmail.com with ESMTPSA id s7sm834760pfu.133.2022.01.07.22.33.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 07 Jan 2022 22:33:16 -0800 (PST)
+From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: alistair23@gmail.com, Alistair Francis <alistair.francis@wdc.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Bin Meng <bmeng.cn@gmail.com>
-Subject: [PULL 35/37] target/riscv: Set the opcode in DisasContext
-Date: Sat,  8 Jan 2022 15:50:46 +1000
-Message-Id: <20220108055048.3512645-36-alistair.francis@opensource.wdc.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20220108055048.3512645-1-alistair.francis@opensource.wdc.com>
-References: <20220108055048.3512645-1-alistair.francis@opensource.wdc.com>
+Subject: [PATCH v4 1/7] tcg/arm: Drop support for armv4 and armv5 hosts
+Date: Fri,  7 Jan 2022 22:33:07 -0800
+Message-Id: <20220108063313.477784-2-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220108063313.477784-1-richard.henderson@linaro.org>
+References: <20220108063313.477784-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.71.153.144;
- envelope-from=prvs=000118587=alistair.francis@opensource.wdc.com;
- helo=esa5.hgst.iphmx.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::534
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::534;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x534.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -113,42 +86,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Alistair Francis <alistair.francis@wdc.com>
+Support for unaligned accesses is difficult for pre-v6 hosts.
+While debian still builds for armv4, we cannot use a compile
+time test, so test the architecture at runtime and error out.
 
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
-Message-id: 20211220064916.107241-2-alistair.francis@opensource.wdc.com
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/riscv/translate.c | 2 ++
- 1 file changed, 2 insertions(+)
+ tcg/arm/tcg-target.c.inc | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-index 4ae4345691..9e4f9c3342 100644
---- a/target/riscv/translate.c
-+++ b/target/riscv/translate.c
-@@ -846,6 +846,7 @@ static void decode_opc(CPURISCVState *env, DisasConte=
-xt *ctx, uint16_t opcode)
-         if (!has_ext(ctx, RVC)) {
-             gen_exception_illegal(ctx);
-         } else {
-+            ctx->opcode =3D opcode;
-             ctx->pc_succ_insn =3D ctx->base.pc_next + 2;
-             if (!decode_insn16(ctx, opcode)) {
-                 gen_exception_illegal(ctx);
-@@ -856,6 +857,7 @@ static void decode_opc(CPURISCVState *env, DisasConte=
-xt *ctx, uint16_t opcode)
-         opcode32 =3D deposit32(opcode32, 16, 16,
-                              translator_lduw(env, &ctx->base,
-                                              ctx->base.pc_next + 2));
-+        ctx->opcode =3D opcode32;
-         ctx->pc_succ_insn =3D ctx->base.pc_next + 4;
-         if (!decode_insn32(ctx, opcode32)) {
-             gen_exception_illegal(ctx);
---=20
-2.31.1
+diff --git a/tcg/arm/tcg-target.c.inc b/tcg/arm/tcg-target.c.inc
+index 9d322cdba6..72b384cc28 100644
+--- a/tcg/arm/tcg-target.c.inc
++++ b/tcg/arm/tcg-target.c.inc
+@@ -2474,6 +2474,11 @@ static void tcg_target_init(TCGContext *s)
+         if (pl != NULL && pl[0] == 'v' && pl[1] >= '4' && pl[1] <= '9') {
+             arm_arch = pl[1] - '0';
+         }
++
++        if (arm_arch < 6) {
++            error_report("TCG: ARMv%d is unsupported; exiting", arm_arch);
++            exit(EXIT_FAILURE);
++        }
+     }
+ 
+     tcg_target_available_regs[TCG_TYPE_I32] = ALL_GENERAL_REGS;
+-- 
+2.25.1
 
 
