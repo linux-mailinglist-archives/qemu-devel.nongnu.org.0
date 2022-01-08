@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CE9E4880AE
-	for <lists+qemu-devel@lfdr.de>; Sat,  8 Jan 2022 02:49:18 +0100 (CET)
-Received: from localhost ([::1]:33274 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47D2A4880B9
+	for <lists+qemu-devel@lfdr.de>; Sat,  8 Jan 2022 02:53:33 +0100 (CET)
+Received: from localhost ([::1]:43834 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n60r7-0007CA-Eb
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 20:49:17 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44204)
+	id 1n60vE-0006cP-Dg
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 20:53:32 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44198)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n60Af-0004iE-De
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n60Af-0004iC-FV
  for qemu-devel@nongnu.org; Fri, 07 Jan 2022 20:05:28 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:41376)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:27081)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n60AO-0002am-5y
- for qemu-devel@nongnu.org; Fri, 07 Jan 2022 20:05:12 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n60AS-0002b9-JG
+ for qemu-devel@nongnu.org; Fri, 07 Jan 2022 20:05:23 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641603906;
+ s=mimecast20190719; t=1641603910;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0yWWiwVH77KlZ9OPEUiCyLgKjq9lYAjmwlptCwnsdb0=;
- b=Zk6pGgITjxapkycE9QoL2vxbk77pBHyO0hm4iXGaZALAilBdWRGnZf/AVIp8hjvLh3FDrS
- FddeGPNwPdPcPka/deugrQwHChLaY3CQCUYq1BLiwEzQ2580rg1VODX4qGmZLwJ0kcsB7p
- BBR6eNp40wWiCCigWeZQaBqqziV/OHs=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=BkGrOZuaN+sKQzXuSFchNjulrxzkzkS5BeUisZ+6J2Q=;
+ b=i0jphpazxUUMgspUREMO/u8tnO2Z98xM4WG+v10pzjPSUeHEDJSHQgaxXkJC0Qb7d3kGMZ
+ u37r0+9ZLS7am9U5CWYydiDPfB9uAAGKFxpNHoPQO2HWekQzPLUhJfgenpcZQV5c1rNxaI
+ MVRcYESGQuk0skdxR7f+WkcKbAtLbVw=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-641-eYXsFJGuPIaIjNI-FGawbA-1; Fri, 07 Jan 2022 20:05:05 -0500
-X-MC-Unique: eYXsFJGuPIaIjNI-FGawbA-1
-Received: by mail-wm1-f71.google.com with SMTP id
- i81-20020a1c3b54000000b003467c58cbddso5246943wma.5
- for <qemu-devel@nongnu.org>; Fri, 07 Jan 2022 17:05:05 -0800 (PST)
+ us-mta-629-lZZHY6tYNz-mMdD4QYndEw-1; Fri, 07 Jan 2022 20:05:09 -0500
+X-MC-Unique: lZZHY6tYNz-mMdD4QYndEw-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ l20-20020a05600c1d1400b003458e02cea0so5614894wms.7
+ for <qemu-devel@nongnu.org>; Fri, 07 Jan 2022 17:05:09 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=0yWWiwVH77KlZ9OPEUiCyLgKjq9lYAjmwlptCwnsdb0=;
- b=F2XWzMxqXjIPl/EfqZX2r4eg1belAaNfZi1S7MH7kezNLZT2QxyImuVkmYQtK2YUSY
- 1WTMXWdctAdYmUxGGebr9thgVAERBBizRwGgFuGxGPe4kgWLCxyBGv3HwmzFRK70eEtY
- 6OEHgIj9o4IfvOu8XCeyQdeAowoYsH+7cXeQpIyLEI8SjFK3CF4hLYo8I85Ztirf+8mF
- rd/nlEZcQxatXRyd6Ddh39zqK1ycxLGOKwr5qdcxCN20qt/nOJjb6KkIzfzwV1q8bf/V
- +dUt0+hlaBiREsgsdwNmwt/K4h207AvSBRAC/K/1kZ3I6NNOasCDqTLF1oMJlBHEUFMi
- WIjQ==
-X-Gm-Message-State: AOAM5323cfsmisglFemiqXjJ4pm+d9TJlHABnsMV3qGFCn2YYbqF4Bkc
- b9SftOAypwM5xQUdUGJbLPNts/cFzjycSnue19iRB6iNXPHQrBQiTLIIVg0Qbgb/bHRvZcwGWNA
- Wk+bHNwu8H9NKMzvujLajx7DmJXCl94I6Sf2FqFWDCTwjVZJBBZRR2wVbWKHe
-X-Received: by 2002:a5d:47cb:: with SMTP id o11mr55952178wrc.686.1641603904195; 
- Fri, 07 Jan 2022 17:05:04 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxtRfq868kL7IlvevxdR8GgcgGkym94qEP/Gkur8wdqBumDJwT71+BBfvLbrb9kZiDJsBpBPQ==
-X-Received: by 2002:a5d:47cb:: with SMTP id o11mr55952165wrc.686.1641603904007; 
- Fri, 07 Jan 2022 17:05:04 -0800 (PST)
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=BkGrOZuaN+sKQzXuSFchNjulrxzkzkS5BeUisZ+6J2Q=;
+ b=arK8XJY7IXXPl5afiUjzkhVHO6hzMyZPKMUFROmO1yCivOPk9h/8OqzFRSAtKltDLn
+ 6ybQL9lexDo18wrFkJt3eLAGKcdyKFLsb9elZeCIcCBy1+lhb6iH4kRxUn7WLzslmxNW
+ KgdRd5QJkbpwMSMzpidUv3uYOQQJHhtX6hW4MbuMBAnPYS7sMr7DExfOvyc1dxa1ZQAg
+ BmoStfIKnjg/aUAkL2+OQH9uSdwXTTg7/mVbWe2xjVRehDDetrs+3NPgGdXHJt1VJ2Y4
+ GZSO9EezdHqz8HxqOrSiQ3Tu7KrBclQs1H1/cSPRumnIuMuoQIsBfWih1trIsfpLjfgl
+ mRfQ==
+X-Gm-Message-State: AOAM533ECjYebejTnqSprOEizw6Sh1aLEW3TJxa/dTmlS4n5xEpO9DAj
+ vXOoxKBBBzqmCCzsrKSm9d2BqlBDfuHVlmDHy9k/PEmjfH1fFGjzrc9H6qT3mjqhMVCcxI2rmFz
+ LHOJtdi+3LdD9lgbdOn7Thhoa9uG/YPW2zQjZd7BiuOjQagbKEh/mXjIw3jA8
+X-Received: by 2002:a5d:6c6c:: with SMTP id r12mr56912067wrz.706.1641603907672; 
+ Fri, 07 Jan 2022 17:05:07 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJytNYK0Cm4y3+RwQyx4ZY56lvioBZGa765nJGA1Sxj54TmCM8/HNooqHNSqaKXhbWQq15ccuA==
+X-Received: by 2002:a5d:6c6c:: with SMTP id r12mr56912050wrz.706.1641603907492; 
+ Fri, 07 Jan 2022 17:05:07 -0800 (PST)
 Received: from redhat.com ([147.161.13.99])
- by smtp.gmail.com with ESMTPSA id w8sm218933wrs.41.2022.01.07.17.05.02
+ by smtp.gmail.com with ESMTPSA id i8sm251156wry.108.2022.01.07.17.05.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 Jan 2022 17:05:03 -0800 (PST)
-Date: Fri, 7 Jan 2022 20:05:00 -0500
+ Fri, 07 Jan 2022 17:05:07 -0800 (PST)
+Date: Fri, 7 Jan 2022 20:05:04 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v3 28/55] hw/vhost-user-blk: turn on VIRTIO_BLK_F_SIZE_MAX
- feature for virtio blk device
-Message-ID: <20220108003423.15830-29-mst@redhat.com>
+Subject: [PULL v3 29/55] util/oslib-posix: Let touch_all_pages() return an
+ error
+Message-ID: <20220108003423.15830-30-mst@redhat.com>
 References: <20220108003423.15830-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20220108003423.15830-1-mst@redhat.com>
@@ -72,8 +74,9 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
@@ -95,38 +98,129 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- qemu-block@nongnu.org, Raphael Norwitz <raphael.norwitz@nutanix.com>,
- Hanna Reitz <hreitz@redhat.com>, Andy Pei <andy.pei@intel.com>
+Cc: Michal Privoznik <mprivozn@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Paolo Bonzini <pbonzini@redhat.com>,
+ Daniel P =?utf-8?B?LiBCZXJyYW5nw6k=?= <berrange@redhat.com>,
+ David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Andy Pei <andy.pei@intel.com>
+From: David Hildenbrand <david@redhat.com>
 
-Turn on pre-defined feature VIRTIO_BLK_F_SIZE_MAX for virtio blk device to
-avoid guest DMA request sizes which are too large for hardware spec.
+Let's prepare touch_all_pages() for returning differing errors. Return
+an error from the thread and report the last processed error.
 
-Signed-off-by: Andy Pei <andy.pei@intel.com>
-Message-Id: <1641202092-149677-1-git-send-email-andy.pei@intel.com>
+Translate SIGBUS to -EFAULT, as a SIGBUS can mean all different kind of
+things (memory error, read error, out of memory). When allocating memory
+fails via the current SIGBUS-based mechanism, we'll get:
+    os_mem_prealloc: preallocating memory failed: Bad address
+
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Reviewed-by: Michal Privoznik <mprivozn@redhat.com>
+Signed-off-by: David Hildenbrand <david@redhat.com>
+Message-Id: <20211217134611.31172-2-david@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-Acked-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
 ---
- hw/block/vhost-user-blk.c | 1 +
- 1 file changed, 1 insertion(+)
+ util/oslib-posix.c | 28 ++++++++++++++++------------
+ 1 file changed, 16 insertions(+), 12 deletions(-)
 
-diff --git a/hw/block/vhost-user-blk.c b/hw/block/vhost-user-blk.c
-index ab11ce8252..1a42ae9187 100644
---- a/hw/block/vhost-user-blk.c
-+++ b/hw/block/vhost-user-blk.c
-@@ -252,6 +252,7 @@ static uint64_t vhost_user_blk_get_features(VirtIODevice *vdev,
-     VHostUserBlk *s = VHOST_USER_BLK(vdev);
+diff --git a/util/oslib-posix.c b/util/oslib-posix.c
+index e8bdb02e1d..b146beef78 100644
+--- a/util/oslib-posix.c
++++ b/util/oslib-posix.c
+@@ -84,7 +84,6 @@ typedef struct MemsetThread MemsetThread;
  
-     /* Turn on pre-defined features */
-+    virtio_add_feature(&features, VIRTIO_BLK_F_SIZE_MAX);
-     virtio_add_feature(&features, VIRTIO_BLK_F_SEG_MAX);
-     virtio_add_feature(&features, VIRTIO_BLK_F_GEOMETRY);
-     virtio_add_feature(&features, VIRTIO_BLK_F_TOPOLOGY);
+ static MemsetThread *memset_thread;
+ static int memset_num_threads;
+-static bool memset_thread_failed;
+ 
+ static QemuMutex page_mutex;
+ static QemuCond page_cond;
+@@ -452,6 +451,7 @@ static void *do_touch_pages(void *arg)
+ {
+     MemsetThread *memset_args = (MemsetThread *)arg;
+     sigset_t set, oldset;
++    int ret = 0;
+ 
+     /*
+      * On Linux, the page faults from the loop below can cause mmap_sem
+@@ -470,7 +470,7 @@ static void *do_touch_pages(void *arg)
+     pthread_sigmask(SIG_UNBLOCK, &set, &oldset);
+ 
+     if (sigsetjmp(memset_args->env, 1)) {
+-        memset_thread_failed = true;
++        ret = -EFAULT;
+     } else {
+         char *addr = memset_args->addr;
+         size_t numpages = memset_args->numpages;
+@@ -494,7 +494,7 @@ static void *do_touch_pages(void *arg)
+         }
+     }
+     pthread_sigmask(SIG_SETMASK, &oldset, NULL);
+-    return NULL;
++    return (void *)(uintptr_t)ret;
+ }
+ 
+ static inline int get_memset_num_threads(int smp_cpus)
+@@ -509,13 +509,13 @@ static inline int get_memset_num_threads(int smp_cpus)
+     return ret;
+ }
+ 
+-static bool touch_all_pages(char *area, size_t hpagesize, size_t numpages,
+-                            int smp_cpus)
++static int touch_all_pages(char *area, size_t hpagesize, size_t numpages,
++                           int smp_cpus)
+ {
+     static gsize initialized = 0;
+     size_t numpages_per_thread, leftover;
++    int ret = 0, i = 0;
+     char *addr = area;
+-    int i = 0;
+ 
+     if (g_once_init_enter(&initialized)) {
+         qemu_mutex_init(&page_mutex);
+@@ -523,7 +523,6 @@ static bool touch_all_pages(char *area, size_t hpagesize, size_t numpages,
+         g_once_init_leave(&initialized, 1);
+     }
+ 
+-    memset_thread_failed = false;
+     threads_created_flag = false;
+     memset_num_threads = get_memset_num_threads(smp_cpus);
+     memset_thread = g_new0(MemsetThread, memset_num_threads);
+@@ -545,12 +544,16 @@ static bool touch_all_pages(char *area, size_t hpagesize, size_t numpages,
+     qemu_mutex_unlock(&page_mutex);
+ 
+     for (i = 0; i < memset_num_threads; i++) {
+-        qemu_thread_join(&memset_thread[i].pgthread);
++        int tmp = (uintptr_t)qemu_thread_join(&memset_thread[i].pgthread);
++
++        if (tmp) {
++            ret = tmp;
++        }
+     }
+     g_free(memset_thread);
+     memset_thread = NULL;
+ 
+-    return memset_thread_failed;
++    return ret;
+ }
+ 
+ void os_mem_prealloc(int fd, char *area, size_t memory, int smp_cpus,
+@@ -573,9 +576,10 @@ void os_mem_prealloc(int fd, char *area, size_t memory, int smp_cpus,
+     }
+ 
+     /* touch pages simultaneously */
+-    if (touch_all_pages(area, hpagesize, numpages, smp_cpus)) {
+-        error_setg(errp, "os_mem_prealloc: Insufficient free host memory "
+-            "pages available to allocate guest RAM");
++    ret = touch_all_pages(area, hpagesize, numpages, smp_cpus);
++    if (ret) {
++        error_setg_errno(errp, -ret,
++                         "os_mem_prealloc: preallocating memory failed");
+     }
+ 
+     ret = sigaction(SIGBUS, &oldact, NULL);
 -- 
 MST
 
