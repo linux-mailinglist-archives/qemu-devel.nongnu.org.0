@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C85014880AD
-	for <lists+qemu-devel@lfdr.de>; Sat,  8 Jan 2022 02:48:50 +0100 (CET)
-Received: from localhost ([::1]:60230 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0222E4880A7
+	for <lists+qemu-devel@lfdr.de>; Sat,  8 Jan 2022 02:44:23 +0100 (CET)
+Received: from localhost ([::1]:50202 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n60qf-0006Js-HV
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 20:48:49 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44424)
+	id 1n60mM-0007n3-4T
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 20:44:22 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44464)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n60B6-0005Vy-Ad
- for qemu-devel@nongnu.org; Fri, 07 Jan 2022 20:05:53 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53436)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n60B9-0005Yo-6a
+ for qemu-devel@nongnu.org; Fri, 07 Jan 2022 20:05:56 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:25731)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n60B4-0002k5-GW
- for qemu-devel@nongnu.org; Fri, 07 Jan 2022 20:05:52 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n60B7-0002lT-JV
+ for qemu-devel@nongnu.org; Fri, 07 Jan 2022 20:05:54 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641603949;
+ s=mimecast20190719; t=1641603953;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=hs67YvZIvahNXlhwkP8umtVyFMBTNC8kSLZ1qlqLMz4=;
- b=JCzdainoHAKDH48ZIm3XNIErcOHkNfTwqTgc5crA/AlqI2HVvxLjKPACLhlhgiLiRjvRyw
- S9WNFldgx+/LeYqmHVL04djYXris5XhrCGNq3PxkBQrPy6YM8U8hTqIGi789ne9kwdBq0h
- OpkHQ1Qd8HYoPmAQCHWplg5Z2pXlCYI=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=DFg4dF0zL+6DjrQEApY58jy53XB520+11YNtoCyrIVs=;
+ b=FrMQhnYdkyWN6R1MoXEQOTmy1zcsylSVz7puSj7PVHAC4iaFiULVPrGkpYyrSZCFsEZ2em
+ FPQ7sRCeJjZyNzmNpA5GRk+bNc9fTseiNMtHF9UkMdYU/UbAnBIV70tlX0gru8NwCKWBUq
+ drE0WgYzvSbLUYJNKQegr9v2IQbINpk=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-52-HR531qslNIaT5obVj-yWkQ-1; Fri, 07 Jan 2022 20:05:48 -0500
-X-MC-Unique: HR531qslNIaT5obVj-yWkQ-1
-Received: by mail-wm1-f72.google.com with SMTP id
- e19-20020a05600c4e5300b003458be97976so2504738wmq.7
- for <qemu-devel@nongnu.org>; Fri, 07 Jan 2022 17:05:48 -0800 (PST)
+ us-mta-643-eTwWkwSBNW2TIZ7LPIIXEg-1; Fri, 07 Jan 2022 20:05:52 -0500
+X-MC-Unique: eTwWkwSBNW2TIZ7LPIIXEg-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ az9-20020a05600c600900b0034692565ca8so4587799wmb.9
+ for <qemu-devel@nongnu.org>; Fri, 07 Jan 2022 17:05:51 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=hs67YvZIvahNXlhwkP8umtVyFMBTNC8kSLZ1qlqLMz4=;
- b=NRJSH64n8RHkVLqGMhbCGUZvja12pPHF8ZjIYjYAFNaUwS99FoBgekuEdc8XAYMhJT
- ZM/qmblf6MJzICHmXMA5oSdefh1d6o7MQlKzeb+8HuHTnDjlOsJv/PFaLsHoEKPW8D4u
- twc45ACxdogS1OUnqTBJ3TZ3NwRt1eklmswv9BtxKFzQdw+nzjv8lzgERS3SFUs0mxTI
- 4ms7I7C2bmpHpnUGusgEmFyB2H5zkTueC82tH7ZDHHEGvJeYUjxTL/0kul9//puMtHYt
- /cxxACsc4Se8JCIwz+zhocSbM5yEDIZPNUi8Pc6gS/joRN+ABTJRlui3X0F17t3dSSVK
- +nbg==
-X-Gm-Message-State: AOAM5330ln7zu3YTHQHmp4P1bY6gHq1CtDches49bXNBJ+WK1aLj/AUZ
- DiWg9aYQM3gs/oAsFIZ/xPpnjEMap6Y933SeVYVUa0DDH1d3Fit7RyxZTGFuRn/MqiAGKVQjnTo
- Yjvu84VZeb3k0e4myH/tecXkKcMw8NFkqhDSw3IJdV41wV76arAHtzlNElO4h
-X-Received: by 2002:a5d:430e:: with SMTP id h14mr33707857wrq.99.1641603947003; 
- Fri, 07 Jan 2022 17:05:47 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxOgIYZvO3f5+uzi8XEwbWOTue6arU9iElmYTRYLU+MLajsiz5edKL3tgACYWMb+mO0WaVkYA==
-X-Received: by 2002:a5d:430e:: with SMTP id h14mr33707843wrq.99.1641603946730; 
- Fri, 07 Jan 2022 17:05:46 -0800 (PST)
+ bh=DFg4dF0zL+6DjrQEApY58jy53XB520+11YNtoCyrIVs=;
+ b=hzU3oTjK6b72JV/JqvsAJX5l0JwGspCEwgSOJy+Ljndt6z2Cp3xKUgiqW2JKh8nY3z
+ aguOx5GrZXacRE8aTswkxdm9I65aGv0BRPLL1m2Xz0m9aCLAIyfb3q0BQEqSBTKeKcpE
+ 8GGMgq9FYOKeYbf5s/9I/lKaNH1dv4cpttvr3JtWlsZzAMi09zKimVtK9Joeg24xsf6X
+ 0FlDbFczTy6Yd/A0W4jmbQ/OHU5PUN9asVks9wEU/8pD7PXuYodn6bV57mZegancXAvt
+ +WZKdnjGeMBNkAX6NQopqnIBCyMjnd2wXnlA9dNbnGTFfUCSWtq2yOuWiZGCfvtYHgJ3
+ k1/w==
+X-Gm-Message-State: AOAM530TqzigYv0nNuEx+lnCyETsFjzHJThpOBm0e1mWmXbFdoGdVplc
+ CJte/6VSx6GB++ME3lryFbp6j9hw3cgnTtNGjMWmDAtV6VVPYhpQQvAzXdW/k8II9XCWF3br4br
+ O9Sj8y54POOuJoI3bMo5VZN5X0VcSIe5vi5NTc37JpKv4BSD9Sp74mJMHkMu5
+X-Received: by 2002:a05:600c:22ca:: with SMTP id
+ 10mr10072395wmg.114.1641603950330; 
+ Fri, 07 Jan 2022 17:05:50 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzkm+/2HkLGFbwU6O4tbnHh1sy7L1Q5/tlRqpzudP42W9q+cxzaw15FdJYIiHs+xi9tjtv2Sg==
+X-Received: by 2002:a05:600c:22ca:: with SMTP id
+ 10mr10072377wmg.114.1641603950046; 
+ Fri, 07 Jan 2022 17:05:50 -0800 (PST)
 Received: from redhat.com ([147.161.13.99])
- by smtp.gmail.com with ESMTPSA id bg12sm110044wmb.5.2022.01.07.17.05.45
+ by smtp.gmail.com with ESMTPSA id l10sm86596wmq.7.2022.01.07.17.05.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 Jan 2022 17:05:46 -0800 (PST)
-Date: Fri, 7 Jan 2022 20:05:43 -0500
+ Fri, 07 Jan 2022 17:05:49 -0800 (PST)
+Date: Fri, 7 Jan 2022 20:05:46 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v3 40/55] virtio-mem: Support
- VIRTIO_MEM_F_UNPLUGGED_INACCESSIBLE
-Message-ID: <20220108003423.15830-41-mst@redhat.com>
+Subject: [PULL v3 41/55] virtio-mem: Set "unplugged-inaccessible=auto" for
+ the 7.0 machine on x86
+Message-ID: <20220108003423.15830-42-mst@redhat.com>
 References: <20220108003423.15830-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20220108003423.15830-1-mst@redhat.com>
@@ -74,7 +76,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -95,216 +97,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Michal Privoznik <mprivozn@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, David Hildenbrand <david@redhat.com>
+Cc: Eduardo Habkost <eduardo@habkost.net>,
+ Peter Maydell <peter.maydell@linaro.org>, David Hildenbrand <david@redhat.com>,
+ Michal Privoznik <mprivozn@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Pankaj Gupta <pankaj.gupta@ionos.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: David Hildenbrand <david@redhat.com>
 
-With VIRTIO_MEM_F_UNPLUGGED_INACCESSIBLE, we signal the VM that reading
-unplugged memory is not supported. We have to fail feature negotiation
-in case the guest does not support VIRTIO_MEM_F_UNPLUGGED_INACCESSIBLE.
-
-First, VIRTIO_MEM_F_UNPLUGGED_INACCESSIBLE is required to properly handle
-memory backends (or architectures) without support for the shared zeropage
-in the hypervisor cleanly. Without the shared zeropage, even reading an
-unpopulated virtual memory location can populate real memory and
-consequently consume memory in the hypervisor. We have a guaranteed shared
-zeropage only on MAP_PRIVATE anonymous memory.
-
-Second, we want VIRTIO_MEM_F_UNPLUGGED_INACCESSIBLE to be the default
-long-term as even populating the shared zeropage can be problematic: for
-example, without THP support (possible) or without support for the shared
-huge zeropage with THP (unlikely), the PTE page tables to hold the shared
-zeropage entries can consume quite some memory that cannot be reclaimed
-easily.
-
-Third, there are other optimizations+features (e.g., protection of
-unplugged memory, reducing the total memory slot size and bitmap sizes)
-that will require VIRTIO_MEM_F_UNPLUGGED_INACCESSIBLE.
-
-We really only support x86 targets with virtio-mem for now (and
-Linux similarly only support x86), but that might change soon, so prepare
-for different targets already.
-
-Add a new "unplugged-inaccessible" tristate property for x86 targets:
-- "off" will keep VIRTIO_MEM_F_UNPLUGGED_INACCESSIBLE unset and legacy
-  guests working.
-- "on" will set VIRTIO_MEM_F_UNPLUGGED_INACCESSIBLE and stop legacy guests
-  from using the device.
-- "auto" selects the default based on support for the shared zeropage.
-
-Warn in case the property is set to "off" and we don't have support for the
-shared zeropage.
-
-For existing compat machines, the property will default to "off", to
-not change the behavior but eventually warn about a problematic setup.
-Short-term, we'll set the property default to "auto" for new QEMU machines.
-Mid-term, we'll set the property default to "on" for new QEMU machines.
-Long-term, we'll deprecate the parameter and disallow legacy
-guests completely.
-
-The property has to match on the migration source and destination. "auto"
-will result in the same VIRTIO_MEM_F_UNPLUGGED_INACCESSIBLE setting as long
-as the qemu command line (esp. memdev) match -- so "auto" is good enough
-for migration purposes and the parameter doesn't have to be migrated
-explicitly.
+Set the new default to "auto", keeping it set to "off" for compat
+machines. This property is only available for x86 targets.
 
 Reviewed-by: Michal Privoznik <mprivozn@redhat.com>
+Reviewed-by: Pankaj Gupta <pankaj.gupta@ionos.com>
 Signed-off-by: David Hildenbrand <david@redhat.com>
-Message-Id: <20211217134039.29670-3-david@redhat.com>
+Message-Id: <20211217134039.29670-4-david@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- include/hw/virtio/virtio-mem.h |  8 +++++
- hw/virtio/virtio-mem.c         | 63 ++++++++++++++++++++++++++++++++++
- 2 files changed, 71 insertions(+)
+ hw/i386/pc.c           | 4 +++-
+ hw/virtio/virtio-mem.c | 2 +-
+ 2 files changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/include/hw/virtio/virtio-mem.h b/include/hw/virtio/virtio-mem.h
-index 0ac7bcb3b6..7745cfc1a3 100644
---- a/include/hw/virtio/virtio-mem.h
-+++ b/include/hw/virtio/virtio-mem.h
-@@ -30,6 +30,7 @@ OBJECT_DECLARE_TYPE(VirtIOMEM, VirtIOMEMClass,
- #define VIRTIO_MEM_REQUESTED_SIZE_PROP "requested-size"
- #define VIRTIO_MEM_BLOCK_SIZE_PROP "block-size"
- #define VIRTIO_MEM_ADDR_PROP "memaddr"
-+#define VIRTIO_MEM_UNPLUGGED_INACCESSIBLE_PROP "unplugged-inaccessible"
- #define VIRTIO_MEM_PREALLOC_PROP "prealloc"
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index 959efa5b3f..718ab81ba8 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -95,7 +95,9 @@
+ #include "trace.h"
+ #include CONFIG_DEVICES
  
- struct VirtIOMEM {
-@@ -63,6 +64,13 @@ struct VirtIOMEM {
-     /* block size and alignment */
-     uint64_t block_size;
+-GlobalProperty pc_compat_6_2[] = {};
++GlobalProperty pc_compat_6_2[] = {
++    { "virtio-mem", "unplugged-inaccessible", "off" },
++};
+ const size_t pc_compat_6_2_len = G_N_ELEMENTS(pc_compat_6_2);
  
-+    /*
-+     * Whether we indicate VIRTIO_MEM_F_UNPLUGGED_INACCESSIBLE to the guest.
-+     * For !x86 targets this will always be "on" and consequently indicate
-+     * VIRTIO_MEM_F_UNPLUGGED_INACCESSIBLE.
-+     */
-+    OnOffAuto unplugged_inaccessible;
-+
-     /* whether to prealloc memory when plugging new blocks */
-     bool prealloc;
- 
+ GlobalProperty pc_compat_6_1[] = {
 diff --git a/hw/virtio/virtio-mem.c b/hw/virtio/virtio-mem.c
-index ab975ff566..fb6687d4c7 100644
+index fb6687d4c7..04c223b0c9 100644
 --- a/hw/virtio/virtio-mem.c
 +++ b/hw/virtio/virtio-mem.c
-@@ -32,6 +32,14 @@
- #include CONFIG_DEVICES
- #include "trace.h"
- 
-+/*
-+ * We only had legacy x86 guests that did not support
-+ * VIRTIO_MEM_F_UNPLUGGED_INACCESSIBLE. Other targets don't have legacy guests.
-+ */
-+#if defined(TARGET_X86_64) || defined(TARGET_I386)
-+#define VIRTIO_MEM_HAS_LEGACY_GUESTS
-+#endif
-+
- /*
-  * Let's not allow blocks smaller than 1 MiB, for example, to keep the tracking
-  * bitmap small.
-@@ -110,6 +118,19 @@ static uint64_t virtio_mem_default_block_size(RAMBlock *rb)
-     return MAX(page_size, VIRTIO_MEM_MIN_BLOCK_SIZE);
- }
- 
-+#if defined(VIRTIO_MEM_HAS_LEGACY_GUESTS)
-+static bool virtio_mem_has_shared_zeropage(RAMBlock *rb)
-+{
-+    /*
-+     * We only have a guaranteed shared zeropage on ordinary MAP_PRIVATE
-+     * anonymous RAM. In any other case, reading unplugged *can* populate a
-+     * fresh page, consuming actual memory.
-+     */
-+    return !qemu_ram_is_shared(rb) && rb->fd < 0 &&
-+           qemu_ram_pagesize(rb) == qemu_real_host_page_size;
-+}
-+#endif /* VIRTIO_MEM_HAS_LEGACY_GUESTS */
-+
- /*
-  * Size the usable region bigger than the requested size if possible. Esp.
-  * Linux guests will only add (aligned) memory blocks in case they fully
-@@ -683,15 +704,29 @@ static uint64_t virtio_mem_get_features(VirtIODevice *vdev, uint64_t features,
-                                         Error **errp)
- {
-     MachineState *ms = MACHINE(qdev_get_machine());
-+    VirtIOMEM *vmem = VIRTIO_MEM(vdev);
- 
-     if (ms->numa_state) {
- #if defined(CONFIG_ACPI)
-         virtio_add_feature(&features, VIRTIO_MEM_F_ACPI_PXM);
- #endif
-     }
-+    assert(vmem->unplugged_inaccessible != ON_OFF_AUTO_AUTO);
-+    if (vmem->unplugged_inaccessible == ON_OFF_AUTO_ON) {
-+        virtio_add_feature(&features, VIRTIO_MEM_F_UNPLUGGED_INACCESSIBLE);
-+    }
-     return features;
- }
- 
-+static int virtio_mem_validate_features(VirtIODevice *vdev)
-+{
-+    if (virtio_host_has_feature(vdev, VIRTIO_MEM_F_UNPLUGGED_INACCESSIBLE) &&
-+        !virtio_vdev_has_feature(vdev, VIRTIO_MEM_F_UNPLUGGED_INACCESSIBLE)) {
-+        return -EFAULT;
-+    }
-+    return 0;
-+}
-+
- static void virtio_mem_system_reset(void *opaque)
- {
-     VirtIOMEM *vmem = VIRTIO_MEM(opaque);
-@@ -746,6 +781,29 @@ static void virtio_mem_device_realize(DeviceState *dev, Error **errp)
-     rb = vmem->memdev->mr.ram_block;
-     page_size = qemu_ram_pagesize(rb);
- 
-+#if defined(VIRTIO_MEM_HAS_LEGACY_GUESTS)
-+    switch (vmem->unplugged_inaccessible) {
-+    case ON_OFF_AUTO_AUTO:
-+        if (virtio_mem_has_shared_zeropage(rb)) {
-+            vmem->unplugged_inaccessible = ON_OFF_AUTO_OFF;
-+        } else {
-+            vmem->unplugged_inaccessible = ON_OFF_AUTO_ON;
-+        }
-+        break;
-+    case ON_OFF_AUTO_OFF:
-+        if (!virtio_mem_has_shared_zeropage(rb)) {
-+            warn_report("'%s' property set to 'off' with a memdev that does"
-+                        " not support the shared zeropage.",
-+                        VIRTIO_MEM_UNPLUGGED_INACCESSIBLE_PROP);
-+        }
-+        break;
-+    default:
-+        break;
-+    }
-+#else /* VIRTIO_MEM_HAS_LEGACY_GUESTS */
-+    vmem->unplugged_inaccessible = ON_OFF_AUTO_ON;
-+#endif /* VIRTIO_MEM_HAS_LEGACY_GUESTS */
-+
-     /*
-      * If the block size wasn't configured by the user, use a sane default. This
-      * allows using hugetlbfs backends of any page size without manual
-@@ -1141,6 +1199,10 @@ static Property virtio_mem_properties[] = {
-     DEFINE_PROP_BOOL(VIRTIO_MEM_PREALLOC_PROP, VirtIOMEM, prealloc, false),
-     DEFINE_PROP_LINK(VIRTIO_MEM_MEMDEV_PROP, VirtIOMEM, memdev,
+@@ -1201,7 +1201,7 @@ static Property virtio_mem_properties[] = {
                       TYPE_MEMORY_BACKEND, HostMemoryBackend *),
-+#if defined(VIRTIO_MEM_HAS_LEGACY_GUESTS)
-+    DEFINE_PROP_ON_OFF_AUTO(VIRTIO_MEM_UNPLUGGED_INACCESSIBLE_PROP, VirtIOMEM,
-+                            unplugged_inaccessible, ON_OFF_AUTO_OFF),
-+#endif
+ #if defined(VIRTIO_MEM_HAS_LEGACY_GUESTS)
+     DEFINE_PROP_ON_OFF_AUTO(VIRTIO_MEM_UNPLUGGED_INACCESSIBLE_PROP, VirtIOMEM,
+-                            unplugged_inaccessible, ON_OFF_AUTO_OFF),
++                            unplugged_inaccessible, ON_OFF_AUTO_AUTO),
+ #endif
      DEFINE_PROP_END_OF_LIST(),
  };
- 
-@@ -1279,6 +1341,7 @@ static void virtio_mem_class_init(ObjectClass *klass, void *data)
-     vdc->unrealize = virtio_mem_device_unrealize;
-     vdc->get_config = virtio_mem_get_config;
-     vdc->get_features = virtio_mem_get_features;
-+    vdc->validate_features = virtio_mem_validate_features;
-     vdc->vmsd = &vmstate_virtio_mem_device;
- 
-     vmc->fill_device_info = virtio_mem_fill_device_info;
 -- 
 MST
 
