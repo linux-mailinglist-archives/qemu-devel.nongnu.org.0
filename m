@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E204E488265
-	for <lists+qemu-devel@lfdr.de>; Sat,  8 Jan 2022 09:35:00 +0100 (CET)
-Received: from localhost ([::1]:45232 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F79E488299
+	for <lists+qemu-devel@lfdr.de>; Sat,  8 Jan 2022 09:49:35 +0100 (CET)
+Received: from localhost ([::1]:45920 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n67Bj-0002mD-A6
-	for lists+qemu-devel@lfdr.de; Sat, 08 Jan 2022 03:35:00 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36268)
+	id 1n67Pq-0006x2-MG
+	for lists+qemu-devel@lfdr.de; Sat, 08 Jan 2022 03:49:34 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36292)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1n66Is-0005Tn-Rc
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1n66It-0005Tp-SV
  for qemu-devel@nongnu.org; Sat, 08 Jan 2022 02:38:19 -0500
-Received: from [2607:f8b0:4864:20::d2c] (port=38513
- helo=mail-io1-xd2c.google.com)
+Received: from [2607:f8b0:4864:20::d30] (port=40607
+ helo=mail-io1-xd30.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1n66Iq-0003VI-V3
- for qemu-devel@nongnu.org; Sat, 08 Jan 2022 02:38:18 -0500
-Received: by mail-io1-xd2c.google.com with SMTP id u8so10107361iol.5
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1n66Ir-0003Vw-Tk
+ for qemu-devel@nongnu.org; Sat, 08 Jan 2022 02:38:19 -0500
+Received: by mail-io1-xd30.google.com with SMTP id q5so10092729ioj.7
  for <qemu-devel@nongnu.org>; Fri, 07 Jan 2022 23:38:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=siiQROmFkgoyoci8mg+ev58BNz0SLHU/+j4/Xsy7h34=;
- b=o6Wthbmf9+gsuhvkJSA4DXYAhvjS7ynqhw6hv6P1PHN1GxKlqx21CB2GkxqAxGexMm
- uOlkjS2rHNI4FdMMmepBmeODOPDGyC0+r5kqlo7YzLqW/rlAJHb548Qa3tailb/AOWx8
- 9Io0HRUHlfQHvENLvjxklBXyDG4YWhFVUhaChU2CDOLWF6GtwQQQ7seC8OzqF3CnLWZD
- 8odHNispijxADcQTtFONsXph+FU5GD+DIBn//yjKM82uBxgN8R5CZJaM6w7RS3Nny8aS
- QPPjt7Tf0BsFBhcexJAtJnUNFipsIdX3SJRK0cnXMSSaDzJWZjjcDaBYdhAk/8G3XDEf
- O1Rw==
+ bh=xVAeEhWfPUcbULInn573PJBxHu7QnmbFB7C8wstKchQ=;
+ b=ad1ljQig2DoGzbg0U9BOdq8ltQ2YNp541/0boMK5ZnMN804GFAQ8cWQxRDiErRiIr/
+ PqGSX+vM4FgXibcAgMwqeliPfZ/UWM/kx7zUSZKjnn0yMWMVDC4khv8kPY+kBJy5ZXkp
+ GqJmsO/hcAM6KxPZyi/sgqJVUJxYw0h62qcsMGgbZ7+HfYxB6H5H1rKwrnOCGTDtyGW8
+ Wx7pzbYdedRwTtI/zlszV+7e5oxXJ+ygwIUTIv0iLzafpJ7hnq9LudpymNnpBrD9Ha1M
+ sdhUFygSn5GQqVVT4tYgRGNwjchsgIbLdXcGn4/OecCFuwVLHHLfT7TgxoODjbUAC5zn
+ 9PHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=siiQROmFkgoyoci8mg+ev58BNz0SLHU/+j4/Xsy7h34=;
- b=z3apfUWI0RWodLHHkiD3bTtUCuTVC3kSdZtbNQXxNkhqraOayBUi0MfdiDsHFK3rDn
- rdZrUVIWUF+9+y0lgTVriPqah6je+OWBXAGUcu5bMHNddJPI3TWpjmy7e48+TxhY00nf
- bwiw99UoUL3ADuG8NnA4xGrJsheilMBNrPuRfmEHr9gwOZto6SUfDWO9JRqZ4pp6/kB9
- /69GlJnanNCuGoa2LznwlPxdx2sOWfKaP+hmoYugwouCFsAv3PhFSG7mxaMelWTS77GO
- paS2njS2A/cg3wyudg8BGhzDBLdW7RCMO9KErkItZm9ptMWxrOGn17Z5end9DH7EwR36
- xcrw==
-X-Gm-Message-State: AOAM5309TMivAJ30keORe74FiFRbdOKDwyZCagropL4nZmTwsxF+qoKX
- 7+uXTSu1ITwEbXbtYIM0HXTROZ1DETmYCKSq
-X-Google-Smtp-Source: ABdhPJx93hmzAsdzhG/Tc6Kq1VwakhGEGSKTT/qw8EBaC1MN/TdmucVhZmzbUS3npWOGb4ws6q50Ig==
-X-Received: by 2002:a05:6638:2688:: with SMTP id
- o8mr30059038jat.118.1641627495227; 
- Fri, 07 Jan 2022 23:38:15 -0800 (PST)
+ bh=xVAeEhWfPUcbULInn573PJBxHu7QnmbFB7C8wstKchQ=;
+ b=kOs36YpCuL2ZDlay+kd1Aa+Vy64CZpndtCZaQZgogz2gZlRlcv5veecmy1NiQV9r7m
+ A4vr8Dq9/oYlSgPXvuAB+RPbQecoYNH2Qve4tEY5T0Bmt/+WLSoDJQC4Nykr/ftCcid7
+ foh7t4il2z2WK66akNkEX1wK0trN3sYlROg5a+7vFAeN/ug0FJ0BBo7q3iWHhqBncHLH
+ 8dNxF4YSyHDT3Dw1uz15QQ8NZp5LmmlCKPoqw1wly51Q7QQ1CFt5xGfZCyzzmjejElF8
+ rqnsoESarSGx/UgfNLfGOkCi3axPYy4E2dykheC71wAQIYIAnNbMT0JqDsYHQiFa7Mhx
+ jf3Q==
+X-Gm-Message-State: AOAM531p0L30U2okHR2U771tamI8un6fZ5/vVNgUsaD8tQk+zD6BrTav
+ k/rlwfFWQaYFmVZJVGqCsziAuFEt2C37UAnU
+X-Google-Smtp-Source: ABdhPJzARJozL5Pp11oO2PvzUYPf7Ti5WesGVYzDbFOtu+8XS7WcKyarsIIXulK1Qn3tapHTH2xa2Q==
+X-Received: by 2002:a02:ba8b:: with SMTP id g11mr30459453jao.20.1641627496074; 
+ Fri, 07 Jan 2022 23:38:16 -0800 (PST)
 Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id w19sm613022iov.12.2022.01.07.23.38.14
+ by smtp.gmail.com with ESMTPSA id w19sm613022iov.12.2022.01.07.23.38.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 Jan 2022 23:38:14 -0800 (PST)
+ Fri, 07 Jan 2022 23:38:15 -0800 (PST)
 From: Warner Losh <imp@bsdimp.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 33/37] bsd-user/arm/signal.c: arm get_mcontext
-Date: Sat,  8 Jan 2022 00:37:33 -0700
-Message-Id: <20220108073737.5959-34-imp@bsdimp.com>
+Subject: [PULL 34/37] bsd-user/arm/signal.c: arm set_mcontext
+Date: Sat,  8 Jan 2022 00:37:34 -0700
+Message-Id: <20220108073737.5959-35-imp@bsdimp.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20220108073737.5959-1-imp@bsdimp.com>
 References: <20220108073737.5959-1-imp@bsdimp.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d2c
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d30
  (failed)
-Received-SPF: none client-ip=2607:f8b0:4864:20::d2c;
- envelope-from=imp@bsdimp.com; helo=mail-io1-xd2c.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::d30;
+ envelope-from=imp@bsdimp.com; helo=mail-io1-xd30.google.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
@@ -93,73 +92,98 @@ Cc: Stacey Son <sson@FreeBSD.org>, qemu-trivial@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Get the machine context from the CPU state.
+Move the machine context to the CPU state.
 
 Signed-off-by: Stacey Son <sson@FreeBSD.org>
 Signed-off-by: Kyle Evans <kevans@FreeBSD.org>
 Signed-off-by: Warner Losh <imp@bsdimp.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- bsd-user/arm/signal.c | 51 +++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 51 insertions(+)
+ bsd-user/arm/signal.c | 76 +++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 76 insertions(+)
 
 diff --git a/bsd-user/arm/signal.c b/bsd-user/arm/signal.c
-index 3c0db30a85e..93c9bfc0d37 100644
+index 93c9bfc0d37..fb6228db6cf 100644
 --- a/bsd-user/arm/signal.c
 +++ b/bsd-user/arm/signal.c
-@@ -58,3 +58,54 @@ abi_long set_sigtramp_args(CPUARMState *env, int sig,
- 
-     return 0;
+@@ -109,3 +109,79 @@ abi_long get_mcontext(CPUARMState *env, target_mcontext_t *mcp, int flags)
+     }
+     return err;
  }
 +
-+/*
-+ * Compare to arm/arm/machdep.c get_mcontext()
-+ * Assumes that the memory is locked if mcp points to user memory.
-+ */
-+abi_long get_mcontext(CPUARMState *env, target_mcontext_t *mcp, int flags)
++/* Compare to arm/arm/exec_machdep.c set_mcontext() */
++abi_long set_mcontext(CPUARMState *env, target_mcontext_t *mcp, int srflag)
 +{
 +    int err = 0;
-+    uint32_t *gr = mcp->__gregs;
++    const uint32_t *gr = mcp->__gregs;
++    uint32_t cpsr, ccpsr = cpsr_read(env);
++    uint32_t fpscr, mask;
 +
++    cpsr = tswap32(gr[TARGET_REG_CPSR]);
++    /*
++     * Only allow certain bits to change, reject attempted changes to non-user
++     * bits. In addition, make sure we're headed for user mode and none of the
++     * interrupt bits are set.
++     */
++    if ((ccpsr & ~CPSR_USER) != (cpsr & ~CPSR_USER)) {
++        return -TARGET_EINVAL;
++    }
++    if ((cpsr & CPSR_M) != ARM_CPU_MODE_USR ||
++        (cpsr & (CPSR_I | CPSR_F)) != 0) {
++        return -TARGET_EINVAL;
++    }
++
++    /*
++     * The movs pc,lr instruction that implements the return to userland masks
++     * these bits out.
++     */
++    mask = cpsr & CPSR_T ? 0x1 : 0x3;
++
++    /*
++     * Make sure that we either have no vfp, or it's the correct size.
++     * FreeBSD just ignores it, though, so maybe we'll need to adjust
++     * things below instead.
++     */
 +    if (mcp->mc_vfp_size != 0 && mcp->mc_vfp_size != sizeof(target_mcontext_vfp_t)) {
 +        return -TARGET_EINVAL;
 +    }
 +
-+    gr[TARGET_REG_CPSR] = tswap32(cpsr_read(env));
-+    if (flags & TARGET_MC_GET_CLEAR_RET) {
-+        gr[TARGET_REG_R0] = 0;
-+        gr[TARGET_REG_CPSR] &= ~CPSR_C;
-+    } else {
-+        gr[TARGET_REG_R0] = tswap32(env->regs[0]);
-+    }
++    env->regs[0] = tswap32(gr[TARGET_REG_R0]);
++    env->regs[1] = tswap32(gr[TARGET_REG_R1]);
++    env->regs[2] = tswap32(gr[TARGET_REG_R2]);
++    env->regs[3] = tswap32(gr[TARGET_REG_R3]);
++    env->regs[4] = tswap32(gr[TARGET_REG_R4]);
++    env->regs[5] = tswap32(gr[TARGET_REG_R5]);
++    env->regs[6] = tswap32(gr[TARGET_REG_R6]);
++    env->regs[7] = tswap32(gr[TARGET_REG_R7]);
++    env->regs[8] = tswap32(gr[TARGET_REG_R8]);
++    env->regs[9] = tswap32(gr[TARGET_REG_R9]);
++    env->regs[10] = tswap32(gr[TARGET_REG_R10]);
++    env->regs[11] = tswap32(gr[TARGET_REG_R11]);
++    env->regs[12] = tswap32(gr[TARGET_REG_R12]);
 +
-+    gr[TARGET_REG_R1] = tswap32(env->regs[1]);
-+    gr[TARGET_REG_R2] = tswap32(env->regs[2]);
-+    gr[TARGET_REG_R3] = tswap32(env->regs[3]);
-+    gr[TARGET_REG_R4] = tswap32(env->regs[4]);
-+    gr[TARGET_REG_R5] = tswap32(env->regs[5]);
-+    gr[TARGET_REG_R6] = tswap32(env->regs[6]);
-+    gr[TARGET_REG_R7] = tswap32(env->regs[7]);
-+    gr[TARGET_REG_R8] = tswap32(env->regs[8]);
-+    gr[TARGET_REG_R9] = tswap32(env->regs[9]);
-+    gr[TARGET_REG_R10] = tswap32(env->regs[10]);
-+    gr[TARGET_REG_R11] = tswap32(env->regs[11]);
-+    gr[TARGET_REG_R12] = tswap32(env->regs[12]);
-+
-+    gr[TARGET_REG_SP] = tswap32(env->regs[13]);
-+    gr[TARGET_REG_LR] = tswap32(env->regs[14]);
-+    gr[TARGET_REG_PC] = tswap32(env->regs[15]);
-+
++    env->regs[13] = tswap32(gr[TARGET_REG_SP]);
++    env->regs[14] = tswap32(gr[TARGET_REG_LR]);
++    env->regs[15] = tswap32(gr[TARGET_REG_PC] & ~mask);
 +    if (mcp->mc_vfp_size != 0 && mcp->mc_vfp_ptr != 0) {
-+        /* see get_vfpcontext in sys/arm/arm/exec_machdep.c */
++        /* see set_vfpcontext in sys/arm/arm/exec_machdep.c */
 +        target_mcontext_vfp_t *vfp;
-+        vfp = lock_user(VERIFY_WRITE, mcp->mc_vfp_ptr, sizeof(*vfp), 0);
++
++        vfp = lock_user(VERIFY_READ, mcp->mc_vfp_ptr, sizeof(*vfp), 1);
 +        for (int i = 0; i < 32; i++) {
-+            vfp->mcv_reg[i] = tswap64(*aa32_vfp_dreg(env, i));
++            __get_user(*aa32_vfp_dreg(env, i), &vfp->mcv_reg[i]);
 +        }
-+        vfp->mcv_fpscr = tswap32(vfp_get_fpscr(env));
-+        unlock_user(vfp, mcp->mc_vfp_ptr, sizeof(*vfp));
++        __get_user(fpscr, &vfp->mcv_fpscr);
++        vfp_set_fpscr(env, fpscr);
++        unlock_user(vfp, mcp->mc_vfp_ptr, sizeof(target_ucontext_t));
++
++        /*
++         * linux-user sets fpexc, fpinst and fpinst2, but these aren't in
++         * FreeBSD's mcontext, what to do?
++         */
 +    }
++    cpsr_write(env, cpsr, CPSR_USER | CPSR_EXEC, CPSRWriteByInstr);
++
 +    return err;
 +}
 -- 
