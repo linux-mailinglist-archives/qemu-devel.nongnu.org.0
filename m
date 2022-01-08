@@ -2,40 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C73E94882D1
-	for <lists+qemu-devel@lfdr.de>; Sat,  8 Jan 2022 10:29:23 +0100 (CET)
-Received: from localhost ([::1]:45812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDF314882BB
+	for <lists+qemu-devel@lfdr.de>; Sat,  8 Jan 2022 10:17:05 +0100 (CET)
+Received: from localhost ([::1]:48400 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n682M-0007sY-TP
-	for lists+qemu-devel@lfdr.de; Sat, 08 Jan 2022 04:29:22 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51130)
+	id 1n67qS-00075p-US
+	for lists+qemu-devel@lfdr.de; Sat, 08 Jan 2022 04:17:04 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50354)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yangxiaojuan@loongson.cn>)
- id 1n67tb-0005az-2M
- for qemu-devel@nongnu.org; Sat, 08 Jan 2022 04:20:20 -0500
-Received: from mail.loongson.cn ([114.242.206.163]:40642 helo=loongson.cn)
+ id 1n67oQ-000437-8j
+ for qemu-devel@nongnu.org; Sat, 08 Jan 2022 04:14:58 -0500
+Received: from mail.loongson.cn ([114.242.206.163]:39088 helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yangxiaojuan@loongson.cn>) id 1n67tN-0001Vi-St
- for qemu-devel@nongnu.org; Sat, 08 Jan 2022 04:20:10 -0500
+ (envelope-from <yangxiaojuan@loongson.cn>) id 1n67oN-0000ra-UR
+ for qemu-devel@nongnu.org; Sat, 08 Jan 2022 04:14:57 -0500
 Received: from localhost.localdomain (unknown [10.2.5.185])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxKMrrVdlhvLMAAA--.1341S18; 
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxKMrrVdlhvLMAAA--.1341S19; 
  Sat, 08 Jan 2022 17:14:42 +0800 (CST)
 From: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v4 16/30] hw/loongarch: Add LoongArch cpu interrupt
- support(CPUINTC)
-Date: Sat,  8 Jan 2022 04:14:05 -0500
-Message-Id: <20220108091419.2027710-17-yangxiaojuan@loongson.cn>
+Subject: [RFC PATCH v4 17/30] hw/loongarch: Add LoongArch ipi interrupt
+ support(IPI)
+Date: Sat,  8 Jan 2022 04:14:06 -0500
+Message-Id: <20220108091419.2027710-18-yangxiaojuan@loongson.cn>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20220108091419.2027710-1-yangxiaojuan@loongson.cn>
 References: <20220108091419.2027710-1-yangxiaojuan@loongson.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9DxKMrrVdlhvLMAAA--.1341S18
-X-Coremail-Antispam: 1UD129KBjvJXoWxJr4ftrW8ZF1UKr1rAr1DZFb_yoW8KFW3pr
- y3ur13XF4UJFnxXws8J345Xr15Crn3GwsFvF4IyryxuF9rAwn8Ww18JFykAFyDC348XFWU
- XFyrGw1UW3WUGrJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+X-CM-TRANSID: AQAAf9DxKMrrVdlhvLMAAA--.1341S19
+X-Coremail-Antispam: 1UD129KBjvJXoW3GF1xZFy8Kw15Aw4rtr1DZFb_yoW3ZrW5pF
+ 9ruF15Kr48GF47WrZ3Ja45XFn8G3Z7WFy2vF4a9a4IkF47Xw1FvF97tr9rZFyUC3yDJFyY
+ vas3WF1jgF17Xw7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
  9KBjDU0xBIdaVrnUUvcSsGvfC2KfnxnUUI43ZEXa7xR_UUUUUUUUU==
 X-CM-SenderInfo: p1dqw5xldry3tdq6z05rqj20fqof0/
 Received-SPF: pass client-ip=114.242.206.163;
@@ -62,88 +62,286 @@ Cc: philmd@redhat.com, mark.cave-ayland@ilande.co.uk,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Loongson-3A5000 support 14 interrupts from 64 - 77(Timer->75 IPI->76)
-Loongson-3A5000 and ls7a form a legacy model and extended model irq
-hierarchy.Tcg mode emulate a simplified extended model which
-has no Legacy I/O Interrupt Controller(LIOINTC) and LPC.
-e.g:
-
- |    +-----+    +---------+     +-------+             |
- |    | IPI |--> | CPUINTC | <-- | Timer |             |
- |    +-----+    +---------+     +-------+             |
- |                    ^                                |
- |                    |                                |
- |               +---------+
- |               | EIOINTC |
- |               +---------+
- |                ^       ^                            |
- |                |       |                            |
- |         +---------+ +---------+                     |
- |         | PCH-PIC | | PCH-MSI |                     |
- |         +---------+ +---------+                     |
- |           ^     ^           ^                       |
- |           |     |           |                       |
- |   +---------+ +---------+ +---------+               |
- |   | UARTs | | Devices | | Devices |                 |
- |   +---------+ +---------+ +---------+               |
- |        ^                                            |
-
-The following series patch will realize the interrupt
-controller in this model.
-
-More detailed info can be found at the kernel doc or manual
-1.https://git.kernel.org/pub/scm/linux/kernel/git/chenhuacai/
-linux-loongson.git/tree/Documentation/loongarch?h=loongarch-next
-2.https://github.com/loongson/LoongArch-Documentation
+This patch realize the IPI interrupt controller.
 
 Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 Signed-off-by: Song Gao <gaosong@loongson.cn>
 ---
- hw/loongarch/loongson3.c | 24 ++++++++++++++++++++++++
- 1 file changed, 24 insertions(+)
+ hw/intc/Kconfig                 |   3 +
+ hw/intc/loongarch_ipi.c         | 164 ++++++++++++++++++++++++++++++++
+ hw/intc/meson.build             |   1 +
+ hw/intc/trace-events            |   4 +
+ hw/loongarch/Kconfig            |   1 +
+ include/hw/intc/loongarch_ipi.h |  48 ++++++++++
+ 6 files changed, 221 insertions(+)
+ create mode 100644 hw/intc/loongarch_ipi.c
+ create mode 100644 include/hw/intc/loongarch_ipi.h
 
-diff --git a/hw/loongarch/loongson3.c b/hw/loongarch/loongson3.c
-index 3e72c1666c..6e796c2c08 100644
---- a/hw/loongarch/loongson3.c
-+++ b/hw/loongarch/loongson3.c
-@@ -70,6 +70,29 @@ static const MemoryRegionOps loongarch_qemu_ops = {
-     },
- };
+diff --git a/hw/intc/Kconfig b/hw/intc/Kconfig
+index 010ded7eae..9f5aaffb6f 100644
+--- a/hw/intc/Kconfig
++++ b/hw/intc/Kconfig
+@@ -78,3 +78,6 @@ config GOLDFISH_PIC
  
-+static void loongarch_cpu_set_irq(void *opaque, int irq, int level)
+ config M68K_IRQC
+     bool
++
++config LOONGARCH_IPI
++    bool
+diff --git a/hw/intc/loongarch_ipi.c b/hw/intc/loongarch_ipi.c
+new file mode 100644
+index 0000000000..b358ac68e5
+--- /dev/null
++++ b/hw/intc/loongarch_ipi.c
+@@ -0,0 +1,164 @@
++/* SPDX-License-Identifier: GPL-2.0-or-later */
++/*
++ * LoongArch ipi interrupt support
++ *
++ * Copyright (C) 2021 Loongson Technology Corporation Limited
++ */
++
++#include "qemu/osdep.h"
++#include "hw/sysbus.h"
++#include "hw/intc/loongarch_ipi.h"
++#include "hw/irq.h"
++#include "qapi/error.h"
++#include "qemu/log.h"
++#include "exec/address-spaces.h"
++#include "hw/loongarch/loongarch.h"
++#include "migration/vmstate.h"
++#include "trace.h"
++
++static uint64_t loongarch_ipi_readl(void *opaque, hwaddr addr, unsigned size)
 +{
-+    LoongArchCPU *cpu = opaque;
-+    CPULoongArchState *env = &cpu->env;
-+    CPUState *cs = CPU(cpu);
++    IPICore *s = opaque;
++    uint64_t ret = 0;
++    int index = 0;
 +
-+    if (irq < 0 || irq > N_IRQS) {
-+        return;
++    addr &= 0xff;
++    switch (addr) {
++    case CORE_STATUS_OFF:
++        ret = s->status;
++        break;
++    case CORE_EN_OFF:
++        ret = s->en;
++        break;
++    case CORE_SET_OFF:
++        ret = 0;
++        break;
++    case CORE_CLEAR_OFF:
++        ret = 0;
++        break;
++    case CORE_BUF_20 ... CORE_BUF_38 + 4:
++        index = (addr - CORE_BUF_20) >> 2;
++        ret = s->buf[index];
++        break;
++    case IOCSR_IPI_SEND:
++        ret = s->status;
++        break;
++    default:
++        qemu_log_mask(LOG_UNIMP, "invalid read: %x", (uint32_t)addr);
++        break;
 +    }
 +
-+    if (level) {
-+        env->CSR_ESTAT |= 1 << irq;
-+    } else {
-+        env->CSR_ESTAT &= ~(1 << irq);
-+    }
++    trace_loongarch_ipi_read(size, (uint64_t)addr, ret);
++    return ret;
++}
 +
-+    if (FIELD_EX64(env->CSR_ESTAT, CSR_ESTAT, IS)) {
-+        cpu_interrupt(cs, CPU_INTERRUPT_HARD);
-+    } else {
-+        cpu_reset_interrupt(cs, CPU_INTERRUPT_HARD);
++static void loongarch_ipi_writel(void *opaque, hwaddr addr, uint64_t val,
++                                 unsigned size)
++{
++    IPICore *s = opaque;
++    int index = 0;
++
++    addr &= 0xff;
++    trace_loongarch_ipi_write(size, (uint64_t)addr, val);
++    switch (addr) {
++    case CORE_STATUS_OFF:
++        qemu_log_mask(LOG_GUEST_ERROR, "can not be written");
++        break;
++    case CORE_EN_OFF:
++        s->en = val;
++        break;
++    case CORE_SET_OFF:
++        s->status |= val;
++        if (s->status != 0) {
++            qemu_irq_raise(s->irq);
++        }
++        break;
++    case CORE_CLEAR_OFF:
++        s->status ^= val;
++        if (s->status == 0) {
++            qemu_irq_lower(s->irq);
++        }
++        break;
++    case CORE_BUF_20 ... CORE_BUF_38 + 4:
++        index = (addr - CORE_BUF_20) >> 2;
++        s->buf[index] = val;
++        break;
++    case IOCSR_IPI_SEND:
++        s->status |= val;
++        break;
++    default:
++        qemu_log_mask(LOG_UNIMP, "invalid write: %x", (uint32_t)addr);
++        break;
 +    }
 +}
 +
- static void loongarch_init(MachineState *machine)
- {
-     const char *cpu_model = machine->cpu_type;
-@@ -94,6 +117,7 @@ static void loongarch_init(MachineState *machine)
-     /* Init CPUs */
-     for (i = 0; i < machine->smp.cpus; i++) {
-         la_cpu = LOONGARCH_CPU(cpu_create(machine->cpu_type));
-+        qdev_init_gpio_in(DEVICE(la_cpu), loongarch_cpu_set_irq, N_IRQS);
- 
-         qemu_register_reset(loongarch_cpu_reset, la_cpu);
- 
++static const MemoryRegionOps loongarch_ipi_ops = {
++    .read = loongarch_ipi_readl,
++    .write = loongarch_ipi_writel,
++    .impl.min_access_size = 4,
++    .impl.max_access_size = 4,
++    .valid.min_access_size = 4,
++    .valid.max_access_size = 8,
++    .endianness = DEVICE_LITTLE_ENDIAN,
++};
++
++static void loongarch_ipi_init(Object *obj)
++{
++    LoongArchIPI *s = LOONGARCH_IPI(obj);
++    SysBusDevice *sbd = SYS_BUS_DEVICE(obj);
++    int cpu;
++
++    for (cpu = 0; cpu < MACHINE(qdev_get_machine())->smp.cpus; cpu++) {
++        memory_region_init_io(&s->ipi_mmio[cpu], obj, &loongarch_ipi_ops,
++                              &s->core[cpu], "loongarch_ipi", 0x100);
++        sysbus_init_mmio(sbd, &s->ipi_mmio[cpu]);
++        qdev_init_gpio_out(DEVICE(obj), &s->core[cpu].irq, 1);
++   }
++}
++
++static const VMStateDescription vmstate_ipi_core = {
++    .name = "ipi-single",
++    .version_id = 0,
++    .minimum_version_id = 0,
++    .fields = (VMStateField[]) {
++        VMSTATE_UINT32(status, IPICore),
++        VMSTATE_UINT32(en, IPICore),
++        VMSTATE_UINT32(set, IPICore),
++        VMSTATE_UINT32(clear, IPICore),
++        VMSTATE_UINT32_ARRAY(buf, IPICore, MAX_IPI_MBX_NUM * 2),
++        VMSTATE_END_OF_LIST()
++    }
++};
++
++static const VMStateDescription vmstate_loongarch_ipi = {
++    .name = TYPE_LOONGARCH_IPI,
++    .version_id = 0,
++    .minimum_version_id = 0,
++    .fields = (VMStateField[]) {
++        VMSTATE_STRUCT_ARRAY(core, LoongArchIPI, MAX_IPI_CORE_NUM, 0,
++                             vmstate_ipi_core, IPICore),
++        VMSTATE_END_OF_LIST()
++    }
++};
++
++static void loongarch_ipi_class_init(ObjectClass *klass, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(klass);
++
++    dc->vmsd = &vmstate_loongarch_ipi;
++}
++
++static const TypeInfo loongarch_ipi_info = {
++    .name          = TYPE_LOONGARCH_IPI,
++    .parent        = TYPE_SYS_BUS_DEVICE,
++    .instance_size = sizeof(LoongArchIPI),
++    .instance_init = loongarch_ipi_init,
++    .class_init    = loongarch_ipi_class_init,
++};
++
++static void loongarch_ipi_register_types(void)
++{
++    type_register_static(&loongarch_ipi_info);
++}
++
++type_init(loongarch_ipi_register_types)
+diff --git a/hw/intc/meson.build b/hw/intc/meson.build
+index 70080bc161..14c0834c67 100644
+--- a/hw/intc/meson.build
++++ b/hw/intc/meson.build
+@@ -60,3 +60,4 @@ specific_ss.add(when: ['CONFIG_KVM', 'CONFIG_XIVE'],
+ 		if_true: files('spapr_xive_kvm.c'))
+ specific_ss.add(when: 'CONFIG_GOLDFISH_PIC', if_true: files('goldfish_pic.c'))
+ specific_ss.add(when: 'CONFIG_M68K_IRQC', if_true: files('m68k_irqc.c'))
++specific_ss.add(when: 'CONFIG_LOONGARCH_IPI', if_true: files('loongarch_ipi.c'))
+diff --git a/hw/intc/trace-events b/hw/intc/trace-events
+index 9aba7e3a7a..55f2f3a8b6 100644
+--- a/hw/intc/trace-events
++++ b/hw/intc/trace-events
+@@ -246,3 +246,7 @@ sh_intc_register(const char *s, int id, unsigned short v, int c, int m) "%s %u -
+ sh_intc_read(unsigned size, uint64_t offset, unsigned long val) "size %u 0x%" PRIx64 " -> 0x%lx"
+ sh_intc_write(unsigned size, uint64_t offset, unsigned long val) "size %u 0x%" PRIx64 " <- 0x%lx"
+ sh_intc_set(int id, int enable) "setting interrupt group %d to %d"
++
++# loongarch_ipi.c
++loongarch_ipi_read(unsigned size, uint64_t addr, unsigned long val) "size: %u addr: 0x%"PRIx64 "val: 0x%"PRIx64
++loongarch_ipi_write(unsigned size, uint64_t addr, unsigned long val) "size: %u addr: 0x%"PRIx64 "val: 0x%"PRIx64
+diff --git a/hw/loongarch/Kconfig b/hw/loongarch/Kconfig
+index ae8498de6a..1591574397 100644
+--- a/hw/loongarch/Kconfig
++++ b/hw/loongarch/Kconfig
+@@ -1,3 +1,4 @@
+ config LOONGSON3_LS7A
+     bool
+     select PCI_EXPRESS_7A
++    select LOONGARCH_IPI
+diff --git a/include/hw/intc/loongarch_ipi.h b/include/hw/intc/loongarch_ipi.h
+new file mode 100644
+index 0000000000..78e676db2c
+--- /dev/null
++++ b/include/hw/intc/loongarch_ipi.h
+@@ -0,0 +1,48 @@
++/* SPDX-License-Identifier: GPL-2.0-or-later */
++/*
++ * LoongArch ipi interrupt header files
++ *
++ * Copyright (C) 2021 Loongson Technology Corporation Limited
++ */
++
++#ifndef HW_LOONGARCH_IPI_H
++#define HW_LOONGARCH_IPI_H
++
++#include "hw/sysbus.h"
++
++/* Mainy used by iocsr read and write */
++#define SMP_IPI_MAILBOX      0x1000ULL
++#define CORE_STATUS_OFF       0x0
++#define CORE_EN_OFF           0x4
++#define CORE_SET_OFF          0x8
++#define CORE_CLEAR_OFF        0xc
++#define CORE_BUF_20           0x20
++#define CORE_BUF_28           0x28
++#define CORE_BUF_30           0x30
++#define CORE_BUF_38           0x38
++#define IOCSR_IPI_SEND        0x40
++
++#define MAX_IPI_CORE_NUM      16
++#define MAX_IPI_MBX_NUM       4
++
++#define TYPE_LOONGARCH_IPI "loongarch_ipi"
++DECLARE_INSTANCE_CHECKER(struct LoongArchIPI, LOONGARCH_IPI,
++                         TYPE_LOONGARCH_IPI)
++
++typedef struct IPICore {
++    uint32_t status;
++    uint32_t en;
++    uint32_t set;
++    uint32_t clear;
++    /* 64bit buf divide into 2 32bit buf */
++    uint32_t buf[MAX_IPI_MBX_NUM * 2];
++    qemu_irq irq;
++} IPICore;
++
++typedef struct LoongArchIPI {
++    SysBusDevice parent_obj;
++    IPICore core[MAX_IPI_CORE_NUM];
++    MemoryRegion ipi_mmio[MAX_IPI_CORE_NUM];
++} LoongArchIPI;
++
++#endif
 -- 
 2.27.0
 
