@@ -2,69 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABCD34880BF
-	for <lists+qemu-devel@lfdr.de>; Sat,  8 Jan 2022 02:57:38 +0100 (CET)
-Received: from localhost ([::1]:56158 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CF0B4880C7
+	for <lists+qemu-devel@lfdr.de>; Sat,  8 Jan 2022 03:01:11 +0100 (CET)
+Received: from localhost ([::1]:36422 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n60zB-0007RK-Pn
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 20:57:37 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44752)
+	id 1n612c-0004qo-Lj
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 21:01:10 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44766)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n60Bl-0006ec-Ai
- for qemu-devel@nongnu.org; Fri, 07 Jan 2022 20:06:33 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51440)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n60Bo-0006jS-3d
+ for qemu-devel@nongnu.org; Fri, 07 Jan 2022 20:06:36 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32002)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n60Bj-0002uv-Sw
- for qemu-devel@nongnu.org; Fri, 07 Jan 2022 20:06:33 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n60Bm-0002vG-Ma
+ for qemu-devel@nongnu.org; Fri, 07 Jan 2022 20:06:35 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641603991;
+ s=mimecast20190719; t=1641603994;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=sZKl68SrJVJX9J/g8uBNG773VeE63EY7yyNvoTLPOxc=;
- b=XpF4LdFbyJPXPSuMyFuiVnLP1d6NDPWobcJ47xCOQ/Y5CQ+wYL2/BMR9VIrBOwZwBcP9Ha
- RxrP47KQ22siIP+KwdvbQ6e04W+4XPsV95PRsnwW0mubrZPjhWcm1/JL4IgeargdvGw2Jp
- Rj1dnt596ZafwdMwSK4SJtDHve5cA2k=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=whKn0pctPclugSGgiuj/6VncPkuXJJFQ5IPPduaKEoY=;
+ b=VKnnzFZnLTmDeirZN7osZPbB/pW9bhyGSyMEFm1fl2iza5MNcprGpPobQl7XY1kTYznpC6
+ BbXYnHo/d7zbrfMxhXxoOHU1YQcxFHJEGRVlRjjDDG1x5fn3gSKkw/uJQGOeM9CR2Fe+/z
+ UdPHHCFtC/X8krhNxURIk6FLv9nU+VY=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-516--JDPA-g1ME6V9XRtP0bVRw-1; Fri, 07 Jan 2022 20:06:30 -0500
-X-MC-Unique: -JDPA-g1ME6V9XRtP0bVRw-1
-Received: by mail-wm1-f70.google.com with SMTP id
- n3-20020a05600c3b8300b00345c3fc40b0so5619305wms.3
- for <qemu-devel@nongnu.org>; Fri, 07 Jan 2022 17:06:30 -0800 (PST)
+ us-mta-490-Joamngb2OZyM-EsnqftntA-1; Fri, 07 Jan 2022 20:06:33 -0500
+X-MC-Unique: Joamngb2OZyM-EsnqftntA-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ s190-20020a1ca9c7000000b00347c6c39d9aso1459020wme.5
+ for <qemu-devel@nongnu.org>; Fri, 07 Jan 2022 17:06:33 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=sZKl68SrJVJX9J/g8uBNG773VeE63EY7yyNvoTLPOxc=;
- b=gi3yCjJAAgk/LOBTXoEbbh67nuLwoA/XtMoANvVrznkNujCSlGUc4w5TKGdBmfovzi
- mCwLnBbo7InB17a7qSJ44O8IUUf0A1Xp7sBxNuxa/hczp4PFayg6pL6ZpMRQvvx886p8
- cfstes5Vs5WX5cppFc74X1QUzuJErEM5q9zwL1XaD1Wjy6iycnsUcQLnSiEnzFN2Hqqd
- tQUsusj7v8EHUIzGJKXQ8mYJsKb9ZTulhjhwi0Sm7zsbPlC39bcaM45Z4N7/7RkzrttO
- q2WnmHVYBY+EHQzQ+kkDs7t81qGVFfBk0LFTlXSdxWB0wFZip7OtSBanKGBTGae7KdQ9
- CUzg==
-X-Gm-Message-State: AOAM533M0cNFw3jP/VVMNdXRTNZ2xG0RXvo+BQXAxbxMqriYV28Q4YoG
- 8ea/JFgtqhc4pdU8RrwELllq3a9+AYBOEmF+acMCEYxOYd5SIVg8FF2aRFIOs2IqJMY+EzDmkGm
- uZDDOKga8rcNJq8KahbeC4iElhAzIh1BYDB82TGOgScrX8+JKgwAxo3amZbij
-X-Received: by 2002:a05:6000:24b:: with SMTP id
- m11mr11149219wrz.122.1641603988910; 
- Fri, 07 Jan 2022 17:06:28 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzy4bEN0GjhnFWAgKXrwL+MNoBVoD/YQXdyhjY8biuSauI0FXZQgLryuVb7B/RD6FcGnUpn7Q==
-X-Received: by 2002:a05:6000:24b:: with SMTP id
- m11mr11149206wrz.122.1641603988656; 
- Fri, 07 Jan 2022 17:06:28 -0800 (PST)
+ bh=whKn0pctPclugSGgiuj/6VncPkuXJJFQ5IPPduaKEoY=;
+ b=PP7tuSgf4fH7VNA0CMyPJ/l7XcQUQSVvUZvZFnd6vGU0STYCUXyo4jQ9665jZKo/xr
+ hajSBVpAEiubELOQTq/7cIFRfReYo8NM5Zj3jOQnvxj7b0H7mmJGuWsuWOX2gV0NLzZB
+ /yM5cYCjkCvl711DBoxBUDpiWaEoT4dpEgNCbqNJL1kIxubKfn8EsJ3zZx2JqAum3OAo
+ MwESIKn7MwWgsiQmOt/4HcEDqUYEBLDSU2kjWOkfczlgknfwc4pXMIIju+xbD1Nui9dz
+ XMLFH5bpNCc0NeY3FUkQHzcafghzIP9SssavPfUsOEG0W/XQ/1wzG2vAKFdKRULi0HZt
+ zoTw==
+X-Gm-Message-State: AOAM532cx7CUzgwYWiVEPU4dcNylZCdMuHa+vqKBEs24nlUrmhz7MuBm
+ YMBiag42W4TwboNRp3iVABUdwJGzsRyTFpFGPVsCnkr287AQNl3wFt1Rxml6Et57Todr+i+mTzg
+ PBCEOp4IgR6rbTL/HvoOWl4ttzzDR4GcMS7ClYjlnfQGI63WuQrS8JthceLuv
+X-Received: by 2002:a5d:698c:: with SMTP id g12mr7460303wru.69.1641603991782; 
+ Fri, 07 Jan 2022 17:06:31 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxf3ru2KbanISBA/tqpJSYCveRo81Kbyi4mL4pmD1b9mKQ5xHBVZ84ApAtlUqltArJEJZNdew==
+X-Received: by 2002:a5d:698c:: with SMTP id g12mr7460293wru.69.1641603991613; 
+ Fri, 07 Jan 2022 17:06:31 -0800 (PST)
 Received: from redhat.com ([147.161.13.99])
- by smtp.gmail.com with ESMTPSA id b10sm74399wmj.42.2022.01.07.17.06.26
+ by smtp.gmail.com with ESMTPSA id u16sm226107wrn.24.2022.01.07.17.06.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 Jan 2022 17:06:28 -0800 (PST)
-Date: Fri, 7 Jan 2022 20:06:25 -0500
+ Fri, 07 Jan 2022 17:06:31 -0800 (PST)
+Date: Fri, 7 Jan 2022 20:06:28 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v3 52/55] virtio/vhost-vsock: don't double close vhostfd,
- remove redundant cleanup
-Message-ID: <20220108003423.15830-53-mst@redhat.com>
+Subject: [PULL v3 53/55] tests: acpi: prepare for updated TPM related tables
+Message-ID: <20220108003423.15830-54-mst@redhat.com>
 References: <20220108003423.15830-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20220108003423.15830-1-mst@redhat.com>
@@ -97,59 +94,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Daniil Tatianin <d-tatianin@yandex-team.ru>,
- Stefano Garzarella <sgarzare@redhat.com>
+Cc: Ani Sinha <ani@anisinha.ca>, Peter Maydell <peter.maydell@linaro.org>,
+ Igor Mammedov <imammedo@redhat.com>, Stefan Berger <stefanb@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Daniil Tatianin <d-tatianin@yandex-team.ru>
+From: Stefan Berger <stefanb@linux.ibm.com>
 
-In case of an error during initialization in vhost_dev_init, vhostfd is
-closed in vhost_dev_cleanup. Remove close from err_virtio as it's both
-redundant and causes a double close on vhostfd.
+Replace existing TPM related tables, that are about to change, with
+empty files.
 
-Signed-off-by: Daniil Tatianin <d-tatianin@yandex-team.ru>
-Message-Id: <20211129125204.1108088-1-d-tatianin@yandex-team.ru>
-Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
+Cc: Michael S. Tsirkin <mst@redhat.com>
+Cc: Igor Mammedov <imammedo@redhat.com>
+Cc: Ani Sinha <ani@anisinha.ca>
+Signed-off-by: Stefan Berger <stefanb@linux.ibm.com>
+Acked-by: Ani Sinha <ani@anisinha.ca>
+Message-id: 20211223022310.575496-2-stefanb@linux.ibm.com
+Message-Id: <20220104175806.872996-2-stefanb@linux.ibm.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+Acked-by: Igor Mammedov <imammedo@redhat.com>
 ---
- hw/virtio/vhost-vsock.c | 11 +++++------
- 1 file changed, 5 insertions(+), 6 deletions(-)
+ tests/qtest/bios-tables-test-allowed-diff.h | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/hw/virtio/vhost-vsock.c b/hw/virtio/vhost-vsock.c
-index 478c0c9a87..433d42d897 100644
---- a/hw/virtio/vhost-vsock.c
-+++ b/hw/virtio/vhost-vsock.c
-@@ -171,6 +171,10 @@ static void vhost_vsock_device_realize(DeviceState *dev, Error **errp)
-     ret = vhost_dev_init(&vvc->vhost_dev, (void *)(uintptr_t)vhostfd,
-                          VHOST_BACKEND_TYPE_KERNEL, 0, errp);
-     if (ret < 0) {
-+        /*
-+         * vhostfd is closed by vhost_dev_cleanup, which is called
-+         * by vhost_dev_init on initialization error.
-+         */
-         goto err_virtio;
-     }
- 
-@@ -183,15 +187,10 @@ static void vhost_vsock_device_realize(DeviceState *dev, Error **errp)
-     return;
- 
- err_vhost_dev:
--    vhost_dev_cleanup(&vvc->vhost_dev);
-     /* vhost_dev_cleanup() closes the vhostfd passed to vhost_dev_init() */
--    vhostfd = -1;
-+    vhost_dev_cleanup(&vvc->vhost_dev);
- err_virtio:
-     vhost_vsock_common_unrealize(vdev);
--    if (vhostfd >= 0) {
--        close(vhostfd);
--    }
--    return;
- }
- 
- static void vhost_vsock_device_unrealize(DeviceState *dev)
+diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
+index dfb8523c8b..5d80e408d4 100644
+--- a/tests/qtest/bios-tables-test-allowed-diff.h
++++ b/tests/qtest/bios-tables-test-allowed-diff.h
+@@ -1 +1,3 @@
+ /* List of comma-separated changed AML files to ignore */
++"tests/data/acpi/q35/DSDT.tis.tpm12",
++"tests/data/acpi/q35/DSDT.tis.tpm2",
 -- 
 MST
 
