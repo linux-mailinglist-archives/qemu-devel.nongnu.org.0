@@ -2,55 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED870488423
-	for <lists+qemu-devel@lfdr.de>; Sat,  8 Jan 2022 16:12:16 +0100 (CET)
-Received: from localhost ([::1]:35374 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B027488441
+	for <lists+qemu-devel@lfdr.de>; Sat,  8 Jan 2022 16:42:18 +0100 (CET)
+Received: from localhost ([::1]:49378 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n6DOB-0003y8-Gb
-	for lists+qemu-devel@lfdr.de; Sat, 08 Jan 2022 10:12:15 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:48408)
+	id 1n6DrE-0000OM-7g
+	for lists+qemu-devel@lfdr.de; Sat, 08 Jan 2022 10:42:16 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:52410)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ardb@kernel.org>)
- id 1n6DME-0002VC-Fq; Sat, 08 Jan 2022 10:10:14 -0500
-Received: from dfw.source.kernel.org ([139.178.84.217]:40620)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ardb@kernel.org>)
- id 1n6DM7-0003Dg-Cz; Sat, 08 Jan 2022 10:10:12 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id CFDD160BCB;
- Sat,  8 Jan 2022 15:10:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CD685C36AEF;
- Sat,  8 Jan 2022 15:10:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1641654602;
- bh=p9cA6hHTu7BoB3BC5S1lTAOtIKToutjhOTgjSPoxQYs=;
- h=From:To:Cc:Subject:Date:From;
- b=bEfz4QDpGdkrwq2mszFlle0eblBBZ7CsGHABH68QxiaOvuSAB0+zsd7JtVCKuy003
- oVyZFHBvg9zZZHbXxnWpV8NzyZiv1tY/HMHrRUGjvOdB5y4YWj1inKRzRT7kLftST0
- n32H1b9V+45XMpFgvrWpYK4TEFcnoIOPgDR50tuQlO39JEPNes4LdJkj4LdaKReOIf
- CwQh/cYAf8ZFc2MiDVZYUkWozyHLGVS5NRG1k3GD4ktci4fClYm2s/nCngozA3EK1t
- X7uLvcwPvb7RQHlvwgHdHkp5V2Osw1cAnAVcAieonTHGH59Z7hDIxUXgViM0Xl4Mz8
- PAsHrrDgiAkyw==
-From: Ard Biesheuvel <ardb@kernel.org>
-To: qemu-arm@nongnu.org
-Subject: [PATCH v2] target/arm/cpu64: Use 32-bit GDBstub when running in
- 32-bit KVM mode
-Date: Sat,  8 Jan 2022 16:09:52 +0100
-Message-Id: <20220108150952.1483911-1-ardb@kernel.org>
-X-Mailer: git-send-email 2.30.2
+ (Exim 4.90_1) (envelope-from <dpetroff@gmail.com>)
+ id 1n6Dou-0006gk-2w
+ for qemu-devel@nongnu.org; Sat, 08 Jan 2022 10:39:52 -0500
+Received: from [2a00:1450:4864:20::530] (port=35621
+ helo=mail-ed1-x530.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <dpetroff@gmail.com>)
+ id 1n6Dos-0006oJ-FK
+ for qemu-devel@nongnu.org; Sat, 08 Jan 2022 10:39:51 -0500
+Received: by mail-ed1-x530.google.com with SMTP id q25so25805709edb.2
+ for <qemu-devel@nongnu.org>; Sat, 08 Jan 2022 07:39:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=PanwFLUdI10ODYldtXK1jrMoM3JIKVqhyfXZOS1TzpA=;
+ b=KEF8O1SipUd3fTnZpmNyP2we3F8OhrS+6p4oO3P63YAc0zd9nVofWiKuMRpoeG+aDY
+ yVS1e7ah3U9Om4/fNHYLWmNNRZlfQf2JsU5puacqDhh83jnnT/ZdmkI5+rWAXGChMiZK
+ iDeFq3qu6TVB7sUVojLWvVhvPQWh7rFecl/vcriNL2B3gQz8u9RQp2KGJgRF90Xj8vJr
+ bHJ4nLDby2owOIcLASI6s+bfin7GOT5A90rUy1CScmQYG0gdUWDG0Alm2yHcpVqApeH9
+ ZQz7r6yMHqpDBwS2U2zPdo5AKkoM4vcDaIGb7ALRhzomVKohMQTE7ENaA8bUxpKF+7OS
+ LCNw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=PanwFLUdI10ODYldtXK1jrMoM3JIKVqhyfXZOS1TzpA=;
+ b=fYEUFhV0SXI5+0PERrY3GMUGQleHR0NiumL+uWmxvTmyEK6RilFVujJaeRP7h9wPBY
+ wgqXEKmD60ggJ39Vu0zSI/Ike5/y8FlXiwuU+r6dhvKyqtwXyw+pitPBTpN8LeKSoBlc
+ Vko1exPELybRoP4jujgNJk4TVZ9J2Tl5JWmkfYoqy0jzA+E6khwPEEEWoMz80nljaX+h
+ YfSQB4htLPJLf5yzD4T2QvsDn+2vFcTPBcJG8//nLkwGry79DgKzLhfTWhv1f+uU9ku5
+ gMiNmvfMM8aAxZcrSDBKZdVX4BJoSyNfrQ5vm8zkmtZtw/Z94Nid0AjBSejR13tKuxdi
+ NNsg==
+X-Gm-Message-State: AOAM531DHkSpfrnbDnj9EeJLZdfSC3TJxhGqfc4ExbcV79kjBIQMKMR9
+ UhkwWnj8LtfTKYb5eLuphefu8Q79eBY=
+X-Google-Smtp-Source: ABdhPJw1fO1qklsWwW+KytTUyyVPQ9olfx8UytN0UNbTf6EWEJls/xULHzgMwOrYX5nzdurylpr6lA==
+X-Received: by 2002:a17:906:59b:: with SMTP id
+ 27mr27587095ejn.294.1641656388042; 
+ Sat, 08 Jan 2022 07:39:48 -0800 (PST)
+Received: from localhost.localdomain ([2a02:a467:f77d:1:78f2:78aa:23a7:b824])
+ by smtp.gmail.com with ESMTPSA id
+ 24sm599840ejg.47.2022.01.08.07.39.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 08 Jan 2022 07:39:47 -0800 (PST)
+From: Dmitry Petrov <dpetroff@gmail.com>
+To: qemu-devel@nongnu.org,
+	dpetroff@gmail.com
+Subject: [PATCH v4 0/5] Add horizontal mouse scroll support
+Date: Sat,  8 Jan 2022 16:39:42 +0100
+Message-Id: <20220108153947.171861-1-dpetroff@gmail.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=139.178.84.217; envelope-from=ardb@kernel.org;
- helo=dfw.source.kernel.org
-X-Spam_score_int: -24
-X-Spam_score: -2.5
-X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.372,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::530
+ (failed)
+Received-SPF: pass client-ip=2a00:1450:4864:20::530;
+ envelope-from=dpetroff@gmail.com; helo=mail-ed1-x530.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -63,109 +86,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alex Bennee <alex.bennee@linaro.org>,
- Peter Maydell <peter.maydell@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Ard Biesheuvel <ardb@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When running under KVM, we may decide to run the CPU in 32-bit mode, by
-setting the 'aarch64=off' CPU option. In this case, we need to switch to
-the 32-bit version of the GDB stub too, so that GDB has the correct view
-of the CPU state. Without this, GDB debugging does not work at all, and
-errors out upon connecting to the target with a mysterious 'g' packet
-length error.
+This patchset adds implements passing horizontal scroll
+events from the host system to guest systems via ps/2
+mouse device.
 
-Cc: Richard Henderson <richard.henderson@linaro.org>
-Cc: Peter Maydell <peter.maydell@linaro.org>
-Cc: Alex Bennee <alex.bennee@linaro.org>
-Signed-off-by: Ard Biesheuvel <ardb@kernel.org>
----
-v2: refactor existing CPUClass::gdb_... member assignments for the
-    32-bit code so we can reuse it for the 64-bit code
+This is useful during testing horizontal scroll behaviour
+in guest operating systems as well as using it in case it
+provides any benefits for a particular application.
 
- target/arm/cpu.c   | 16 +++++++++++-----
- target/arm/cpu.h   |  2 ++
- target/arm/cpu64.c |  3 +++
- 3 files changed, 16 insertions(+), 5 deletions(-)
+The patch is based on the previous work by Brad Jorsch done
+in 2010 but never merged, see
+https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=579968
 
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index a211804fd3df..ae8e78fc1472 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -2049,6 +2049,15 @@ static const struct TCGCPUOps arm_tcg_ops = {
- };
- #endif /* CONFIG_TCG */
- 
-+void arm_cpu_class_gdb_init(CPUClass *cc)
-+{
-+    cc->gdb_read_register = arm_cpu_gdb_read_register;
-+    cc->gdb_write_register = arm_cpu_gdb_write_register;
-+    cc->gdb_num_core_regs = 26;
-+    cc->gdb_core_xml_file = "arm-core.xml";
-+    cc->gdb_arch_name = arm_gdb_arch_name;
-+}
-+
- static void arm_cpu_class_init(ObjectClass *oc, void *data)
- {
-     ARMCPUClass *acc = ARM_CPU_CLASS(oc);
-@@ -2061,18 +2070,15 @@ static void arm_cpu_class_init(ObjectClass *oc, void *data)
-     device_class_set_props(dc, arm_cpu_properties);
-     device_class_set_parent_reset(dc, arm_cpu_reset, &acc->parent_reset);
- 
-+    arm_cpu_class_gdb_init(cc);
-+
-     cc->class_by_name = arm_cpu_class_by_name;
-     cc->has_work = arm_cpu_has_work;
-     cc->dump_state = arm_cpu_dump_state;
-     cc->set_pc = arm_cpu_set_pc;
--    cc->gdb_read_register = arm_cpu_gdb_read_register;
--    cc->gdb_write_register = arm_cpu_gdb_write_register;
- #ifndef CONFIG_USER_ONLY
-     cc->sysemu_ops = &arm_sysemu_ops;
- #endif
--    cc->gdb_num_core_regs = 26;
--    cc->gdb_core_xml_file = "arm-core.xml";
--    cc->gdb_arch_name = arm_gdb_arch_name;
-     cc->gdb_get_dynamic_xml = arm_gdb_get_dynamic_xml;
-     cc->gdb_stop_before_watchpoint = true;
-     cc->disas_set_info = arm_disas_set_info;
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index e33f37b70ada..208da8e35697 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -1064,6 +1064,8 @@ int arm_gen_dynamic_svereg_xml(CPUState *cpu, int base_reg);
-  */
- const char *arm_gdb_get_dynamic_xml(CPUState *cpu, const char *xmlname);
- 
-+void arm_cpu_class_gdb_init(CPUClass *cc);
-+
- int arm_cpu_write_elf64_note(WriteCoreDumpFunction f, CPUState *cs,
-                              int cpuid, void *opaque);
- int arm_cpu_write_elf32_note(WriteCoreDumpFunction f, CPUState *cs,
-diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-index 15245a60a8c7..df7667864e11 100644
---- a/target/arm/cpu64.c
-+++ b/target/arm/cpu64.c
-@@ -906,6 +906,7 @@ static bool aarch64_cpu_get_aarch64(Object *obj, Error **errp)
- static void aarch64_cpu_set_aarch64(Object *obj, bool value, Error **errp)
- {
-     ARMCPU *cpu = ARM_CPU(obj);
-+    CPUClass *cc = CPU_GET_CLASS(obj);
- 
-     /* At this time, this property is only allowed if KVM is enabled.  This
-      * restriction allows us to avoid fixing up functionality that assumes a
-@@ -919,6 +920,8 @@ static void aarch64_cpu_set_aarch64(Object *obj, bool value, Error **errp)
-             return;
-         }
-         unset_feature(&cpu->env, ARM_FEATURE_AARCH64);
-+
-+        arm_cpu_class_gdb_init(cc)
-     } else {
-         set_feature(&cpu->env, ARM_FEATURE_AARCH64);
-     }
+Original submission: https://lists.gnu.org/archive/html/qemu-devel/2010-05/msg00223.html
+
+Changes from V1 to V2:
+  - Patch is split into a sequence
+  - Value is clamped to 31 for horizontal scroll in the device code
+
+Changes from V2 to V3:
+  - Cover letter
+  - Removed unnecessary log line
+
+Changes from V3 to V4:
+  - Added a link to the original submission by Brad
+
+Dmitry Petrov (5):
+  ps2: Initial horizontal scroll support
+  ui/cocoa: pass horizontal scroll information to the device code
+  ui/gtk: pass horizontal scroll information to the device code
+  ui/sdl2: pass horizontal scroll information to the device code
+  ui/input-legacy: pass horizontal scroll information
+
+ hw/input/ps2.c    | 57 ++++++++++++++++++++++++++++++++++++++++-------
+ qapi/ui.json      |  2 +-
+ ui/cocoa.m        | 18 ++++++++++-----
+ ui/gtk.c          | 54 ++++++++++++++++++++++++++++++++++----------
+ ui/input-legacy.c | 15 +++++++++++++
+ ui/sdl2.c         |  5 +++++
+ 6 files changed, 124 insertions(+), 27 deletions(-)
+
 -- 
-2.30.2
+2.32.0
 
 
