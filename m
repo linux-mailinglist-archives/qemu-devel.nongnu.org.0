@@ -2,60 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8E53488555
-	for <lists+qemu-devel@lfdr.de>; Sat,  8 Jan 2022 19:18:41 +0100 (CET)
-Received: from localhost ([::1]:55350 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DF97488565
+	for <lists+qemu-devel@lfdr.de>; Sat,  8 Jan 2022 19:52:15 +0100 (CET)
+Received: from localhost ([::1]:52452 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n6GIa-0007cB-UI
-	for lists+qemu-devel@lfdr.de; Sat, 08 Jan 2022 13:18:40 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:52156)
+	id 1n6Gp4-0004MX-5n
+	for lists+qemu-devel@lfdr.de; Sat, 08 Jan 2022 13:52:14 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:57622)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n6GGd-0006oD-B3
- for qemu-devel@nongnu.org; Sat, 08 Jan 2022 13:16:39 -0500
-Received: from mout.kundenserver.de ([217.72.192.73]:40603)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n6GGX-0003gO-PE
- for qemu-devel@nongnu.org; Sat, 08 Jan 2022 13:16:35 -0500
-Received: from [192.168.100.1] ([82.142.12.178]) by mrelayeu.kundenserver.de
- (mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MqJZl-1mbcWz2Id9-00nOrO; Sat, 08 Jan 2022 19:16:30 +0100
-Message-ID: <3d44e8ff-6adc-8c52-5449-1c3ef4355786@vivier.eu>
-Date: Sat, 8 Jan 2022 19:16:29 +0100
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1n6GdW-00005m-Fq
+ for qemu-devel@nongnu.org; Sat, 08 Jan 2022 13:40:18 -0500
+Received: from [2607:f8b0:4864:20::1030] (port=55890
+ helo=mail-pj1-x1030.google.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1n6GdI-0007B7-8s
+ for qemu-devel@nongnu.org; Sat, 08 Jan 2022 13:40:08 -0500
+Received: by mail-pj1-x1030.google.com with SMTP id hv15so1921281pjb.5
+ for <qemu-devel@nongnu.org>; Sat, 08 Jan 2022 10:39:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=qB/NZ1C1Y+NFG1J3bxjVFbXXmP/TbmzDAOLXYfqEkwY=;
+ b=p5uNfowFjvbcU7QSPaXerO4+TBev57HpGGShd+cLagkMefxUlJHpoLt8sl/h8EA6N6
+ 6n5IT/ei/68CMWpodRpDFnfM64N8xsM0/xGXQUdGvUDQKWs1NcH7fshcZDvmy3BmwnQs
+ FNydGFLpsCm0YKH2Zw2M063jRA/KWeUz6lEtsH41iIIDiIXdpSCgWmJHUmLWUyZhWOIU
+ sv/84vL8wr71/6e1IyYj6hEunbXgVSPDtLQK2U4KIMcg98lprAO2iAFiu0fQOx/6R8KL
+ Rs1GRxi3+6/Dqx37eTAWlXgM2A+145TMjKIIl6elGW2JKXGAzA2FuGjsgAlptFzbnwyQ
+ lgVQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=qB/NZ1C1Y+NFG1J3bxjVFbXXmP/TbmzDAOLXYfqEkwY=;
+ b=fCALxmrNZIXubAffvMOeMUSiK1xLS604xrH+oGd5F+LjSFin5sIZnbmqZCzkHS8ySh
+ cIgTnPK2ieTvkVPl95mAGjY1/6S+oJCRad7vFP8FLlgD3VagIjCBw7ILhP26VAPFCuHM
+ SA/9vEfx3Yrz8H8zUZWjhLjg9+zp0c0lW3uZJUTnqwzLQQvRkfNJuzpIQFJ0uHbdRhZM
+ Eh1rlXaFa4YhtQFasVSiU1j38YcTgoWQu1cGSRjzr31g9hxR0eLO4GkUc6A3Hi7CQdlD
+ DxAdzr9ftJrF8SFhXcWCDZlxNNwgkkpqUD5/M0BHLxpASFoyQQv5aFtmSnTxNcNjZ+YA
+ V8ig==
+X-Gm-Message-State: AOAM533KFjsBdUBcdKh5qgqA+IKgYY/9zHsFZ/I5iz2IWJ081+uOWk+F
+ w/W62kOdgUiZc/C/sLw6lMICag==
+X-Google-Smtp-Source: ABdhPJxY7botuxnhf+jcGYMwB2shbyGFUqus04na8RhuCKeWW50MVoiB6dF1Hfymj+3BySmmW2eQ/w==
+X-Received: by 2002:a17:902:8b89:b0:149:9c7d:2fb6 with SMTP id
+ ay9-20020a1709028b8900b001499c7d2fb6mr45834040plb.68.1641667164484; 
+ Sat, 08 Jan 2022 10:39:24 -0800 (PST)
+Received: from [192.168.1.13] (174-21-75-75.tukw.qwest.net. [174.21.75.75])
+ by smtp.gmail.com with ESMTPSA id np1sm2719425pjb.42.2022.01.08.10.39.23
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 08 Jan 2022 10:39:24 -0800 (PST)
+Subject: Re: [PATCH v2] target/arm/cpu64: Use 32-bit GDBstub when running in
+ 32-bit KVM mode
+To: Ard Biesheuvel <ardb@kernel.org>, qemu-arm@nongnu.org
+References: <20220108150952.1483911-1-ardb@kernel.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <ff1fd702-957b-5ba1-9e31-3e58819d8774@linaro.org>
+Date: Sat, 8 Jan 2022 10:39:22 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH] linux-user: rt_sigprocmask, check read perms first
+In-Reply-To: <20220108150952.1483911-1-ardb@kernel.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-To: Patrick Venture <venture@google.com>
-References: <20220106220038.3658586-1-venture@google.com>
-From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <20220106220038.3658586-1-venture@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:V1DCjJ3cBQjswCZFfgsTiTK/7TGZQWY6aO5WoqYO+2fW1+WVCC3
- OgKX3gH+cjjVe5iQInINhnNuBjJgxVBYU93PSOh04XjuGduFAmnWJEtM9SHWTjoeGJTI+RD
- PDyEgMJnrp9UMgmClA7LfwfPuYzRF+bPJHptw7RoOduoKKG40VI9S7m0IU09FesbGptlwHl
- rFKd76NVwvSi5zTPB/BJw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:HGJIddqNdK4=:L1S9b9l9eIcfUeVvbW5+c5
- BJhBKtPeOltEiP4teiEI8WSisNnUQ2mTYBTFsr46I2k2Dffvn3cumhL9zeAcsKrcltj3jXUR7
- ruCXxfEwVoEuVzpUTcd7vb+3zIx84H+j+EtwlJKcItDCXO70b6i1RNQ4iME/KNgajzzx5jfxs
- MqHY0iYaBimlTZdV4etNXds2lDrW3KzG3ya4bu17PWKWF34uJ7IFVQNhhoJ0BcUspegbscR8b
- wKZn8FNTdtYBZZWJYCSDbV3ftjTy6qaEU+1bIugQ4m2mqz/xEqtQJ3ZhNrO3SRzG1PaHB4+uV
- zrctZdNyYX9U2w6GNEJzZRq23MXcYY5vh4JTnCw/VyhBiAroVtDVHoj1lfdVEhtLPzJup6Mpf
- /SKhbkqrNrKsavhR0Wx3M1ZonQlT9pJ/R1zbv1nbaQIZMNeE2G2f4uvij4uAHvTga7znXrhIt
- 6sz0biQAlmAHWJt/m7aD4qvdZZmAb4ojeK5LG5ouR98t2mwmV1p+iYySmnj7PNTmEGlnXWFg2
- EExdWU9SgDhwKoXN4CYke1/aGuW5DCsX/71iYDT3yrCSScN1lmVGpAhgIfdOu9R9qxO0842NS
- EWm/J1PX5R9FtiW4VppWrFXDLAa4X5TkQgp2iq26vH3HhxeWOqzPbUMV1y23+U/7NKKYrUVnY
- p2d8fyqmRA7KjMhbe5WZnRfgTx1IHXCdcJiFGxu0x+sjHkb9f05mSPewDveX+/kvXLjk=
-Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -60
-X-Spam_score: -6.1
-X-Spam_bar: ------
-X-Spam_report: (-6.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-4.199,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 7bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1030
+ (failed)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1030.google.com
+X-Spam_score_int: -54
+X-Spam_score: -5.5
+X-Spam_bar: -----
+X-Spam_report: (-5.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-4.199,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -68,59 +91,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Shu-Chun Weng <scw@google.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Alex Bennee <alex.bennee@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 06/01/2022 à 23:00, Patrick Venture a écrit :
-> From: Shu-Chun Weng <scw@google.com>
+On 1/8/22 7:09 AM, Ard Biesheuvel wrote:
+> When running under KVM, we may decide to run the CPU in 32-bit mode, by
+> setting the 'aarch64=off' CPU option. In this case, we need to switch to
+> the 32-bit version of the GDB stub too, so that GDB has the correct view
+> of the CPU state. Without this, GDB debugging does not work at all, and
+> errors out upon connecting to the target with a mysterious 'g' packet
+> length error.
 > 
-> Linux kernel does it this way (checks read permission before validating `how`)
-> and the latest version of ABSL's `AddressIsReadable()` depends on this
-> behavior.
-> 
-> c.f.  https://github.com/torvalds/linux/blob/9539ba4308ad5bdca6cb41c7b73cbb9f796dcdd7/kernel/signal.c#L3147
-> Reviewed-by: Patrick Venture <venture@google.com>
-> Signed-off-by: Shu-Chun Weng <scw@google.com>
+> Cc: Richard Henderson<richard.henderson@linaro.org>
+> Cc: Peter Maydell<peter.maydell@linaro.org>
+> Cc: Alex Bennee<alex.bennee@linaro.org>
+> Signed-off-by: Ard Biesheuvel<ardb@kernel.org>
 > ---
->   linux-user/syscall.c | 10 +++++-----
->   1 file changed, 5 insertions(+), 5 deletions(-)
+> v2: refactor existing CPUClass::gdb_... member assignments for the
+>      32-bit code so we can reuse it for the 64-bit code
 > 
-> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-> index ce9d64896c..3070d31f34 100644
-> --- a/linux-user/syscall.c
-> +++ b/linux-user/syscall.c
-> @@ -9491,6 +9491,11 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
->               }
->   
->               if (arg2) {
-> +                if (!(p = lock_user(VERIFY_READ, arg2, sizeof(target_sigset_t), 1)))
-> +                    return -TARGET_EFAULT;
-> +                target_to_host_sigset(&set, p);
-> +                unlock_user(p, arg2, 0);
-> +                set_ptr = &set;
->                   switch(how) {
->                   case TARGET_SIG_BLOCK:
->                       how = SIG_BLOCK;
-> @@ -9504,11 +9509,6 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
->                   default:
->                       return -TARGET_EINVAL;
->                   }
-> -                if (!(p = lock_user(VERIFY_READ, arg2, sizeof(target_sigset_t), 1)))
-> -                    return -TARGET_EFAULT;
-> -                target_to_host_sigset(&set, p);
-> -                unlock_user(p, arg2, 0);
-> -                set_ptr = &set;
->               } else {
->                   how = 0;
->                   set_ptr = NULL;
+>   target/arm/cpu.c   | 16 +++++++++++-----
+>   target/arm/cpu.h   |  2 ++
+>   target/arm/cpu64.c |  3 +++
+>   3 files changed, 16 insertions(+), 5 deletions(-)
 
-I know it's only code move but generally we also update the style to pass scripts/checkpatch.pl 
-successfully.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-Could you also update TARGET_NR_sigprocmask in the same way as it seems the kernel behaves like this 
-too in this case?
-
-Thanks,
-Laurent
+r~
 
