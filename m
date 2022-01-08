@@ -2,69 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6729D4880B1
-	for <lists+qemu-devel@lfdr.de>; Sat,  8 Jan 2022 02:50:06 +0100 (CET)
-Received: from localhost ([::1]:35164 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CE9E4880AE
+	for <lists+qemu-devel@lfdr.de>; Sat,  8 Jan 2022 02:49:18 +0100 (CET)
+Received: from localhost ([::1]:33274 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n60rt-0000Vl-B6
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 20:50:05 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44116)
+	id 1n60r7-0007CA-Eb
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 20:49:17 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44204)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n60AM-0004eF-St
- for qemu-devel@nongnu.org; Fri, 07 Jan 2022 20:05:06 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45125)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n60Af-0004iE-De
+ for qemu-devel@nongnu.org; Fri, 07 Jan 2022 20:05:28 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:41376)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n60AK-0002aM-G3
- for qemu-devel@nongnu.org; Fri, 07 Jan 2022 20:05:06 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n60AO-0002am-5y
+ for qemu-devel@nongnu.org; Fri, 07 Jan 2022 20:05:12 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641603903;
+ s=mimecast20190719; t=1641603906;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=EtPfDvFmE3YguG6jVHreVpLhjGHZGLUGaDiekrm7E4k=;
- b=Em1AQufEUwVkPMcITC0qc8fFdGhBhYhXGAxwKlDeAoW3kllzDUoX17CiyTCtRCKavlAcud
- BYxPFkW7d5P4qyXDs7ElagzAhUpB9zlpc7uTUxVv3F4AuSgvYhmj1Bn6Gsvnlj1UmhIa9Z
- 5GHkFxMCxgX6jd0eWzLLC9n+FXFu8Jo=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=0yWWiwVH77KlZ9OPEUiCyLgKjq9lYAjmwlptCwnsdb0=;
+ b=Zk6pGgITjxapkycE9QoL2vxbk77pBHyO0hm4iXGaZALAilBdWRGnZf/AVIp8hjvLh3FDrS
+ FddeGPNwPdPcPka/deugrQwHChLaY3CQCUYq1BLiwEzQ2580rg1VODX4qGmZLwJ0kcsB7p
+ BBR6eNp40wWiCCigWeZQaBqqziV/OHs=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-456-sVLeKAYeOlS5vfjK6Jo8XA-1; Fri, 07 Jan 2022 20:05:02 -0500
-X-MC-Unique: sVLeKAYeOlS5vfjK6Jo8XA-1
-Received: by mail-wm1-f72.google.com with SMTP id
- g4-20020a1c9d04000000b00346e0d6877fso1353496wme.8
- for <qemu-devel@nongnu.org>; Fri, 07 Jan 2022 17:05:02 -0800 (PST)
+ us-mta-641-eYXsFJGuPIaIjNI-FGawbA-1; Fri, 07 Jan 2022 20:05:05 -0500
+X-MC-Unique: eYXsFJGuPIaIjNI-FGawbA-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ i81-20020a1c3b54000000b003467c58cbddso5246943wma.5
+ for <qemu-devel@nongnu.org>; Fri, 07 Jan 2022 17:05:05 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=EtPfDvFmE3YguG6jVHreVpLhjGHZGLUGaDiekrm7E4k=;
- b=iuxo24pV5eiALMjzu+BDI+X3xUM2Xs4afK5Hjm5WQaWjgjd77tqHOKH7WlVUpC7e7h
- FjsuUrwKnjpCvVSY8XXxIe01UuCtyvnehivqtIgwUn0JE7cHguVx/Z3K2XJFzHZw/ocC
- Cq4V3Ety/PZOqll6pl6ttbt1QzgABN0qu2HMv6f1A41FU0jQq/ZuDUgm/uJjQKIIzGK9
- OruUfZyl5hoU/NGoK2nnkQBqmS18gCiZThknqZ3Z1wprtQmyvn1ptRKeR9eagHdbEIQX
- a1s8LVM4y9+NBEoQ+byIC9l6uRmQvrq2wr1TBXT07aEQmKBCcix8eLqYWjSMAY3+BFHV
- F7XA==
-X-Gm-Message-State: AOAM5306BbMi5iMdJ/6Kpnln+WDdbHVXyZNc1jDA+qIxFK9Y1S8WkrMM
- 6kDzKQ0bjgsaOyazNIOvqnKB4kAwkn9M46zELkpmd57+cnZm4NHUD1x3xtzN0woK34oqqLOE9gY
- 9uif+jHzx7Le6cs8xqdidAVp1E+FWrh99Xct2qNPG2Wlb8Ot/gf+3i8HVj9kM
-X-Received: by 2002:a5d:5610:: with SMTP id l16mr33708732wrv.418.1641603900575; 
- Fri, 07 Jan 2022 17:05:00 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyIO0qgp64ghDH89qDITZf/x7S6YIVK75lvwn7MpZdyVOT40OXVP2awT+U91ih3qtWVjESFfQ==
-X-Received: by 2002:a5d:5610:: with SMTP id l16mr33708715wrv.418.1641603900344; 
- Fri, 07 Jan 2022 17:05:00 -0800 (PST)
+ :mime-version:content-disposition:in-reply-to;
+ bh=0yWWiwVH77KlZ9OPEUiCyLgKjq9lYAjmwlptCwnsdb0=;
+ b=F2XWzMxqXjIPl/EfqZX2r4eg1belAaNfZi1S7MH7kezNLZT2QxyImuVkmYQtK2YUSY
+ 1WTMXWdctAdYmUxGGebr9thgVAERBBizRwGgFuGxGPe4kgWLCxyBGv3HwmzFRK70eEtY
+ 6OEHgIj9o4IfvOu8XCeyQdeAowoYsH+7cXeQpIyLEI8SjFK3CF4hLYo8I85Ztirf+8mF
+ rd/nlEZcQxatXRyd6Ddh39zqK1ycxLGOKwr5qdcxCN20qt/nOJjb6KkIzfzwV1q8bf/V
+ +dUt0+hlaBiREsgsdwNmwt/K4h207AvSBRAC/K/1kZ3I6NNOasCDqTLF1oMJlBHEUFMi
+ WIjQ==
+X-Gm-Message-State: AOAM5323cfsmisglFemiqXjJ4pm+d9TJlHABnsMV3qGFCn2YYbqF4Bkc
+ b9SftOAypwM5xQUdUGJbLPNts/cFzjycSnue19iRB6iNXPHQrBQiTLIIVg0Qbgb/bHRvZcwGWNA
+ Wk+bHNwu8H9NKMzvujLajx7DmJXCl94I6Sf2FqFWDCTwjVZJBBZRR2wVbWKHe
+X-Received: by 2002:a5d:47cb:: with SMTP id o11mr55952178wrc.686.1641603904195; 
+ Fri, 07 Jan 2022 17:05:04 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxtRfq868kL7IlvevxdR8GgcgGkym94qEP/Gkur8wdqBumDJwT71+BBfvLbrb9kZiDJsBpBPQ==
+X-Received: by 2002:a5d:47cb:: with SMTP id o11mr55952165wrc.686.1641603904007; 
+ Fri, 07 Jan 2022 17:05:04 -0800 (PST)
 Received: from redhat.com ([147.161.13.99])
- by smtp.gmail.com with ESMTPSA id r1sm242753wrz.30.2022.01.07.17.04.58
+ by smtp.gmail.com with ESMTPSA id w8sm218933wrs.41.2022.01.07.17.05.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 Jan 2022 17:04:59 -0800 (PST)
-Date: Fri, 7 Jan 2022 20:04:56 -0500
+ Fri, 07 Jan 2022 17:05:03 -0800 (PST)
+Date: Fri, 7 Jan 2022 20:05:00 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v3 27/55] hw/i386: expose a "smbios-entry-point-type" PC
- machine property
-Message-ID: <20220108003423.15830-28-mst@redhat.com>
+Subject: [PULL v3 28/55] hw/vhost-user-blk: turn on VIRTIO_BLK_F_SIZE_MAX
+ feature for virtio blk device
+Message-ID: <20220108003423.15830-29-mst@redhat.com>
 References: <20220108003423.15830-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20220108003423.15830-1-mst@redhat.com>
@@ -74,10 +72,9 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -98,158 +95,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <eduardo@habkost.net>,
- Peter Maydell <peter.maydell@linaro.org>,
- Daniel P =?utf-8?B?LiBCZXJyYW5nw6k=?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ qemu-block@nongnu.org, Raphael Norwitz <raphael.norwitz@nutanix.com>,
+ Hanna Reitz <hreitz@redhat.com>, Andy Pei <andy.pei@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Eduardo Habkost <ehabkost@redhat.com>
+From: Andy Pei <andy.pei@intel.com>
 
-The i440fx and Q35 machine types are both hardcoded to use the
-legacy SMBIOS 2.1 (32-bit) entry point. This is a sensible
-conservative choice because SeaBIOS only supports SMBIOS 2.1
+Turn on pre-defined feature VIRTIO_BLK_F_SIZE_MAX for virtio blk device to
+avoid guest DMA request sizes which are too large for hardware spec.
 
-EDK2, however, can also support SMBIOS 3.0 (64-bit) entry points,
-and QEMU already uses this on the ARM virt machine type.
-
-This adds a property to allow the choice of SMBIOS entry point
-versions For example to opt in to 64-bit SMBIOS entry point:
-
-   $QEMU -machine q35,smbios-entry-point-type=64
-
-Based on a patch submitted by Daniel Berrangé.
-
-Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
-Message-Id: <20211026151100.1691925-4-ehabkost@redhat.com>
+Signed-off-by: Andy Pei <andy.pei@intel.com>
+Message-Id: <1641202092-149677-1-git-send-email-andy.pei@intel.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Acked-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
 ---
- include/hw/i386/pc.h |  4 ++++
- hw/i386/pc.c         | 26 ++++++++++++++++++++++++++
- hw/i386/pc_piix.c    |  2 +-
- hw/i386/pc_q35.c     |  2 +-
- 4 files changed, 32 insertions(+), 2 deletions(-)
+ hw/block/vhost-user-blk.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
-index b38947c224..9c9f4ac748 100644
---- a/include/hw/i386/pc.h
-+++ b/include/hw/i386/pc.h
-@@ -13,6 +13,7 @@
- #include "hw/hotplug.h"
- #include "qom/object.h"
- #include "hw/i386/sgx-epc.h"
-+#include "hw/firmware/smbios.h"
+diff --git a/hw/block/vhost-user-blk.c b/hw/block/vhost-user-blk.c
+index ab11ce8252..1a42ae9187 100644
+--- a/hw/block/vhost-user-blk.c
++++ b/hw/block/vhost-user-blk.c
+@@ -252,6 +252,7 @@ static uint64_t vhost_user_blk_get_features(VirtIODevice *vdev,
+     VHostUserBlk *s = VHOST_USER_BLK(vdev);
  
- #define HPET_INTCAP "hpet-intcap"
- 
-@@ -40,6 +41,7 @@ typedef struct PCMachineState {
-     /* Configuration options: */
-     uint64_t max_ram_below_4g;
-     OnOffAuto vmport;
-+    SmbiosEntryPointType smbios_entry_point_type;
- 
-     bool acpi_build_enabled;
-     bool smbus_enabled;
-@@ -63,6 +65,8 @@ typedef struct PCMachineState {
- #define PC_MACHINE_SATA             "sata"
- #define PC_MACHINE_PIT              "pit"
- #define PC_MACHINE_MAX_FW_SIZE      "max-fw-size"
-+#define PC_MACHINE_SMBIOS_EP        "smbios-entry-point-type"
-+
- /**
-  * PCMachineClass:
-  *
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index fccde2ef39..959efa5b3f 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -77,6 +77,7 @@
- #include "hw/mem/nvdimm.h"
- #include "qapi/error.h"
- #include "qapi/qapi-visit-common.h"
-+#include "qapi/qapi-visit-machine.h"
- #include "qapi/visitor.h"
- #include "hw/core/cpu.h"
- #include "hw/usb.h"
-@@ -1524,6 +1525,23 @@ static void pc_machine_set_default_bus_bypass_iommu(Object *obj, bool value,
-     pcms->default_bus_bypass_iommu = value;
- }
- 
-+static void pc_machine_get_smbios_ep(Object *obj, Visitor *v, const char *name,
-+                                     void *opaque, Error **errp)
-+{
-+    PCMachineState *pcms = PC_MACHINE(obj);
-+    SmbiosEntryPointType smbios_entry_point_type = pcms->smbios_entry_point_type;
-+
-+    visit_type_SmbiosEntryPointType(v, name, &smbios_entry_point_type, errp);
-+}
-+
-+static void pc_machine_set_smbios_ep(Object *obj, Visitor *v, const char *name,
-+                                     void *opaque, Error **errp)
-+{
-+    PCMachineState *pcms = PC_MACHINE(obj);
-+
-+    visit_type_SmbiosEntryPointType(v, name, &pcms->smbios_entry_point_type, errp);
-+}
-+
- static void pc_machine_get_max_ram_below_4g(Object *obj, Visitor *v,
-                                             const char *name, void *opaque,
-                                             Error **errp)
-@@ -1614,6 +1632,8 @@ static void pc_machine_initfn(Object *obj)
-     pcms->vmport = ON_OFF_AUTO_OFF;
- #endif /* CONFIG_VMPORT */
-     pcms->max_ram_below_4g = 0; /* use default */
-+    pcms->smbios_entry_point_type = SMBIOS_ENTRY_POINT_TYPE_32;
-+
-     /* acpi build is enabled by default if machine supports it */
-     pcms->acpi_build_enabled = PC_MACHINE_GET_CLASS(pcms)->has_acpi_build;
-     pcms->smbus_enabled = true;
-@@ -1756,6 +1776,12 @@ static void pc_machine_class_init(ObjectClass *oc, void *data)
-         NULL, NULL);
-     object_class_property_set_description(oc, PC_MACHINE_MAX_FW_SIZE,
-         "Maximum combined firmware size");
-+
-+    object_class_property_add(oc, PC_MACHINE_SMBIOS_EP, "str",
-+        pc_machine_get_smbios_ep, pc_machine_set_smbios_ep,
-+        NULL, NULL);
-+    object_class_property_set_description(oc, PC_MACHINE_SMBIOS_EP,
-+        "SMBIOS Entry Point type [32, 64]");
- }
- 
- static const TypeInfo pc_machine_info = {
-diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-index 25f918b609..7c7790a5ce 100644
---- a/hw/i386/pc_piix.c
-+++ b/hw/i386/pc_piix.c
-@@ -177,7 +177,7 @@ static void pc_init1(MachineState *machine,
-         smbios_set_defaults("QEMU", "Standard PC (i440FX + PIIX, 1996)",
-                             mc->name, pcmc->smbios_legacy_mode,
-                             pcmc->smbios_uuid_encoded,
--                            SMBIOS_ENTRY_POINT_TYPE_32);
-+                            pcms->smbios_entry_point_type);
-     }
- 
-     /* allocate ram and load rom/bios */
-diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
-index 1103fbcd90..1780f79bc1 100644
---- a/hw/i386/pc_q35.c
-+++ b/hw/i386/pc_q35.c
-@@ -200,7 +200,7 @@ static void pc_q35_init(MachineState *machine)
-         smbios_set_defaults("QEMU", "Standard PC (Q35 + ICH9, 2009)",
-                             mc->name, pcmc->smbios_legacy_mode,
-                             pcmc->smbios_uuid_encoded,
--                            SMBIOS_ENTRY_POINT_TYPE_32);
-+                            pcms->smbios_entry_point_type);
-     }
- 
-     /* allocate ram and load rom/bios */
+     /* Turn on pre-defined features */
++    virtio_add_feature(&features, VIRTIO_BLK_F_SIZE_MAX);
+     virtio_add_feature(&features, VIRTIO_BLK_F_SEG_MAX);
+     virtio_add_feature(&features, VIRTIO_BLK_F_GEOMETRY);
+     virtio_add_feature(&features, VIRTIO_BLK_F_TOPOLOGY);
 -- 
 MST
 
