@@ -2,93 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD7D34881BF
-	for <lists+qemu-devel@lfdr.de>; Sat,  8 Jan 2022 07:05:00 +0100 (CET)
-Received: from localhost ([::1]:38670 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 054234881BD
+	for <lists+qemu-devel@lfdr.de>; Sat,  8 Jan 2022 07:02:43 +0100 (CET)
+Received: from localhost ([::1]:36080 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n64qZ-0001hK-HE
-	for lists+qemu-devel@lfdr.de; Sat, 08 Jan 2022 01:04:59 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51600)
+	id 1n64oM-0008AQ-32
+	for lists+qemu-devel@lfdr.de; Sat, 08 Jan 2022 01:02:42 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51628)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=000118587=alistair.francis@opensource.wdc.com>)
- id 1n64do-0007vL-33
- for qemu-devel@nongnu.org; Sat, 08 Jan 2022 00:51:48 -0500
-Received: from esa2.hgst.iphmx.com ([68.232.143.124]:26409)
+ id 1n64dr-0007wq-5t
+ for qemu-devel@nongnu.org; Sat, 08 Jan 2022 00:51:51 -0500
+Received: from esa2.hgst.iphmx.com ([68.232.143.124]:26416)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=000118587=alistair.francis@opensource.wdc.com>)
- id 1n64dm-0006pu-J5
- for qemu-devel@nongnu.org; Sat, 08 Jan 2022 00:51:47 -0500
+ id 1n64dp-0006qG-F9
+ for qemu-devel@nongnu.org; Sat, 08 Jan 2022 00:51:50 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1641621106; x=1673157106;
+ t=1641621109; x=1673157109;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=uIhpWUihOSOfldMlG8nKeASNYhEq4rYSof/hZiJsdGI=;
- b=LO/nrHUG8wR1JFUugS9EfRuVebebY+JayvRdXLFtd8GZMkjMcID2rt/H
- /o2cwvAP+8vY8s4LbtYmZHT3u/ufoCMQzgIVfHLLblNBjptBpBJCR3J/2
- 0COgHcMu2DbecHZ5z2q8jWlSRxjO7lBIeoNIqUZGfvXsv+GgdoiOJEI63
- PxrEnSg54+XmDdM6T6dpXIO/9wW5Ikm3ZHxSHUaUhFXIWb7n19zrj4oFt
- 4NAAEYpRVH6a25YeTrAxgG8jfrLi4GSb3mCb6R6VijEAxIWywKEw58ADb
- rCM8eUBhtVgl3gVMDTA7dz0aFYkc+N+astTmKR7EBVnjhBtrKpvlLUkrL Q==;
-X-IronPort-AV: E=Sophos;i="5.88,272,1635177600"; d="scan'208";a="294027352"
+ bh=m5CEKe9tyo8ilSE2fKRAEQfs4XqicZkCkC8JNhuR1aY=;
+ b=XiB28vHOMj/E5k9rmMeFBc49VGPUQbGXcO191KUYnNCDFEx+yFYy2+uJ
+ sfsLQVgHzjdBoLYH09QoI7+pfTmRnnD/BCPwW4EEXF14plLt6X4ackH4O
+ 7jqEYGOaNZzYWz/Gd7A/ZdqZgRMxrP9za5HFkwoXQDAJe2fF78XooTaWH
+ R5zfSO7Zw4j9wmm8iiNYCdlNd3Uk7qRLFEb+E88Sqaf0jMMH3oCX9c0Yh
+ j6t0GQgXtX3FTEJXzFaNZuwi0PvPZL/unQiJWFRKn6Y4I5JGLgob7QiL6
+ 0elsnHdn2QjoHz3pop1igK5xYBSieW16WpTJLs0w+HX+MZ6bOai6a6JiV A==;
+X-IronPort-AV: E=Sophos;i="5.88,272,1635177600"; d="scan'208";a="294027355"
 Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 08 Jan 2022 13:51:43 +0800
-IronPort-SDR: U5XuRcXeKb216SwjQ2rbWYEeeycMI+xajWm6nnIc15m8E5Dhi7W9JEHO2F8Ec6FP08I6EMhyQT
- CuFwOPwIv5ZsYeliLWKfOTy5mIPZF0CkwOfqi2k90P/7DAfgDteA/+/6DeH+0BJufClUrRM1bC
- NtiRoehiwBuBJFqWWAaJyB/+uX3Gy5qZ8X8+rgWbsOmXj9OAwwNTBZ8BztwqcaGO8QEY5Jj2Hq
- AZwE/DUHw7qq4bvMlg1dN92DCRIUkuEBDuhW6KvYWSE6njJyWBSvqSAo+kUtmY+4ashHEdghjZ
- rPA+ctYxOK6GL11/bZ8jqcvc
+ by ob1.hgst.iphmx.com with ESMTP; 08 Jan 2022 13:51:48 +0800
+IronPort-SDR: RvA97eLChYgmajXLqnbHZbIzjNlO/C3Ab57FcTjcFVjzSfW+5jYky3hcN0MDvUhkO+kCwSgTgO
+ PqgYHpdjXnYsU29AiIdZgOA61LDF3EV4qNZ+g57ESlZvOc2nA3ucZztP1Q/CXu6Se5/QRBtwdC
+ ZTJPlRlnfT50zfeH7OMkN8+xzzAsMev35DQjRqy5P4uYjVTOS5HcA8QoT6Vrt9i9qvem+wpc7U
+ 3Sx/6G1+4F02Oew4pJ5avx2pH9CSAxezC0nLH0eBg+tLMo7srHzEzEBz/Rvpdep/NM/5ws4jP0
+ d/KKYcwCkKVYikDh+9JlC2Vs
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Jan 2022 21:25:31 -0800
-IronPort-SDR: Debn/tciDyuTqievMNzO5+wlrgfqAS+VG3K60x/Ct3KaEIAHYgTr/gLBiXtqli8lPlFGTrYtlE
- wN1xlt1FK+oqghaowPEdg+mag5lEkcFtWw6LjquqRWYfsUvuokGXqI/fmcS/dQfF3jOQS+GluP
- 7WxX409HOQJ1X3nf9YmM43CmIjpvDLH6ZCb49Fk/SneIfx7tcU76N/Ew7siNFxLdDZGYuKtsy+
- 9OxxMvF+a2gnqRJ5osE3Yb0FKcQ6TIA4vZACPt7qpg9Bja584Qh7JZ6bI+MmVDnO3Gtz7xUPIf
- gVs=
+ 07 Jan 2022 21:25:36 -0800
+IronPort-SDR: y5mUJ+cZUdGACWwir/1TUJrwlR9mkNBJV7ZZklEsMeu2+4ZDEn+H26shLBqGbzkalo0xw7o8ue
+ yOfebHk/ie8AmsjplU4owXZJYD5pRISigfbtRhnARdcbrBed0A2xP2z47PfgE70/v0kCYy+Q7b
+ RdukL1dABHIXFUH3NeOQejrqbnH5wYZLkUzEVNVh8UP5la3B78RV1ATYM68XDEUVUCrONEcJHc
+ jjQbBZ3P2odv6heKLf95P3aNVS2NIU+F5v/+R1J2NCJzhPAuisb/jEhe2AXpBDGUICwiJx7Vy0
+ F7w=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Jan 2022 21:51:44 -0800
+ 07 Jan 2022 21:51:49 -0800
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4JW8Nb30Jbz1VSkY
- for <qemu-devel@nongnu.org>; Fri,  7 Jan 2022 21:51:43 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4JW8Nh17nQz1VSkX
+ for <qemu-devel@nongnu.org>; Fri,  7 Jan 2022 21:51:48 -0800 (PST)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
- opensource.wdc.com; h=content-transfer-encoding:mime-version
- :references:in-reply-to:x-mailer:message-id:date:subject:to
- :from; s=dkim; t=1641621103; x=1644213104; bh=uIhpWUihOSOfldMlG8
- nKeASNYhEq4rYSof/hZiJsdGI=; b=IR3WvQB/ASmRTRL2HprBVJCkcZ16D74axR
- P+rivU21q7wo1WVha9VmH5PYbBmZX+YP0OTaNi6ZFgyq6avSEkqcEJgMtYpiemi4
- ZMTV/+kK/rMasP6atTeYmqQB5ivKCV5k5YuknspVDXy1EcMLGP160jgCEUNFNwbA
- QVaJTgpbyhCB8HXle7IVSE+sla37KKwvlMA2ZqWpJme36l8QezVVmMH0Xd4uiu4u
- L/shFf/K6nPkjC2jdAux8BYmVLXorRZYIaR2Z16/olCI5gLYdP6balX5tgeVwvw8
- ZY50oumDOTeq+weOXcJoRT4kbWJE2d5xjyifSsMBySDVCv/eLYIQ==
+ opensource.wdc.com; h=content-transfer-encoding:content-type
+ :mime-version:references:in-reply-to:x-mailer:message-id:date
+ :subject:to:from; s=dkim; t=1641621107; x=1644213108; bh=m5CEKe9
+ tyo8ilSE2fKRAEQfs4XqicZkCkC8JNhuR1aY=; b=ARB0xjhsYeZWhXXPO9F7uwV
+ Cu50Ux2mnAAGItMGRcEPLzRpFivux5dqKu2YvsqzaNPw5CcwCEHTnBbft+vp8RgZ
+ Si7KIRdjMUrc+NPiA3d0cLlz8Zke06Uc2wsRH5NxD7JNkWOTpIftvt7dgaFuV1f9
+ 1BfxRTxU+Uvzj4IpuYCzr6ZU670dWEjHLIiBr8d9SVkGIkWU1ZPCVCc4idZ/fENY
+ EvWVi5FUrLstNjZsNxrEiav3wgDezg+VRN66gAfOXVxgKdtWynkmy54LL08rctlj
+ cna0qq3FM90fgzTgwShxUtAuM03XgX9cgGt+zOT1OtPNw9UrCBMJATF2EUzMNZA=
+ =
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id 2GCZLlIa2W4d for <qemu-devel@nongnu.org>;
- Fri,  7 Jan 2022 21:51:43 -0800 (PST)
+ port 10026) with ESMTP id JQuZqUDKLVTN for <qemu-devel@nongnu.org>;
+ Fri,  7 Jan 2022 21:51:47 -0800 (PST)
 Received: from toolbox.alistair23.me (unknown [10.225.165.74])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4JW8NW4c7Nz1VSkV;
- Fri,  7 Jan 2022 21:51:39 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4JW8Nb6kyvz1VSkV;
+ Fri,  7 Jan 2022 21:51:43 -0800 (PST)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org
 Cc: alistair23@gmail.com, Alistair Francis <alistair.francis@wdc.com>,
- Anup Patel <anup.patel@wdc.com>, Bin Meng <bmeng.cn@gmail.com>
-Subject: [PULL 09/37] target/riscv: Enable the Hypervisor extension by default
-Date: Sat,  8 Jan 2022 15:50:20 +1000
-Message-Id: <20220108055048.3512645-10-alistair.francis@opensource.wdc.com>
+ Markus Armbruster <armbru@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Bin Meng <bmeng.cn@gmail.com>
+Subject: [PULL 10/37] hw/riscv: Use error_fatal for SoC realisation
+Date: Sat,  8 Jan 2022 15:50:21 +1000
+Message-Id: <20220108055048.3512645-11-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20220108055048.3512645-1-alistair.francis@opensource.wdc.com>
 References: <20220108055048.3512645-1-alistair.francis@opensource.wdc.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=68.232.143.124;
  envelope-from=prvs=000118587=alistair.francis@opensource.wdc.com;
@@ -117,32 +121,95 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Alistair Francis <alistair.francis@wdc.com>
 
-Let's enable the Hypervisor extension by default. This doesn't affect
-named CPUs (such as lowrisc-ibex or sifive-u54) but does enable the
-Hypervisor extensions by default for the virt machine.
+When realising the SoC use error_fatal instead of error_abort as the
+process can fail and report useful information to the user.
 
+Currently a user can see this:
+
+   $ ../qemu/bld/qemu-system-riscv64 -M sifive_u -S -monitor stdio -displ=
+ay none -drive if=3Dpflash
+    QEMU 6.1.93 monitor - type 'help' for more information
+    (qemu) Unexpected error in sifive_u_otp_realize() at ../hw/misc/sifiv=
+e_u_otp.c:229:
+    qemu-system-riscv64: OTP drive size < 16K
+    Aborted (core dumped)
+
+Which this patch addresses
+
+Reported-by: Markus Armbruster <armbru@redhat.com>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Anup Patel <anup.patel@wdc.com>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
 Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
-Message-Id: <20220105213937.1113508-7-alistair.francis@opensource.wdc.com=
+Tested-by: Bin Meng <bmeng.cn@gmail.com>
+Message-Id: <20220105213937.1113508-8-alistair.francis@opensource.wdc.com=
 >
 ---
- target/riscv/cpu.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/riscv/microchip_pfsoc.c | 2 +-
+ hw/riscv/opentitan.c       | 2 +-
+ hw/riscv/sifive_e.c        | 2 +-
+ hw/riscv/sifive_u.c        | 2 +-
+ 4 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 9ea67bedd3..29749e834f 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -627,7 +627,7 @@ static Property riscv_cpu_properties[] =3D {
-     DEFINE_PROP_BOOL("s", RISCVCPU, cfg.ext_s, true),
-     DEFINE_PROP_BOOL("u", RISCVCPU, cfg.ext_u, true),
-     DEFINE_PROP_BOOL("v", RISCVCPU, cfg.ext_v, false),
--    DEFINE_PROP_BOOL("h", RISCVCPU, cfg.ext_h, false),
-+    DEFINE_PROP_BOOL("h", RISCVCPU, cfg.ext_h, true),
-     DEFINE_PROP_BOOL("Counters", RISCVCPU, cfg.ext_counters, true),
-     DEFINE_PROP_BOOL("Zifencei", RISCVCPU, cfg.ext_ifencei, true),
-     DEFINE_PROP_BOOL("Zicsr", RISCVCPU, cfg.ext_icsr, true),
+diff --git a/hw/riscv/microchip_pfsoc.c b/hw/riscv/microchip_pfsoc.c
+index d1d065efbc..cafd1fc9ae 100644
+--- a/hw/riscv/microchip_pfsoc.c
++++ b/hw/riscv/microchip_pfsoc.c
+@@ -471,7 +471,7 @@ static void microchip_icicle_kit_machine_init(Machine=
+State *machine)
+     /* Initialize SoC */
+     object_initialize_child(OBJECT(machine), "soc", &s->soc,
+                             TYPE_MICROCHIP_PFSOC);
+-    qdev_realize(DEVICE(&s->soc), NULL, &error_abort);
++    qdev_realize(DEVICE(&s->soc), NULL, &error_fatal);
+=20
+     /* Split RAM into low and high regions using aliases to machine->ram=
+ */
+     mem_low_size =3D memmap[MICROCHIP_PFSOC_DRAM_LO].size;
+diff --git a/hw/riscv/opentitan.c b/hw/riscv/opentitan.c
+index c531450b9f..0856c347e8 100644
+--- a/hw/riscv/opentitan.c
++++ b/hw/riscv/opentitan.c
+@@ -80,7 +80,7 @@ static void opentitan_board_init(MachineState *machine)
+     /* Initialize SoC */
+     object_initialize_child(OBJECT(machine), "soc", &s->soc,
+                             TYPE_RISCV_IBEX_SOC);
+-    qdev_realize(DEVICE(&s->soc), NULL, &error_abort);
++    qdev_realize(DEVICE(&s->soc), NULL, &error_fatal);
+=20
+     memory_region_add_subregion(sys_mem,
+         memmap[IBEX_DEV_RAM].base, machine->ram);
+diff --git a/hw/riscv/sifive_e.c b/hw/riscv/sifive_e.c
+index 9b206407a6..dcb87b6cfd 100644
+--- a/hw/riscv/sifive_e.c
++++ b/hw/riscv/sifive_e.c
+@@ -88,7 +88,7 @@ static void sifive_e_machine_init(MachineState *machine=
+)
+=20
+     /* Initialize SoC */
+     object_initialize_child(OBJECT(machine), "soc", &s->soc, TYPE_RISCV_=
+E_SOC);
+-    qdev_realize(DEVICE(&s->soc), NULL, &error_abort);
++    qdev_realize(DEVICE(&s->soc), NULL, &error_fatal);
+=20
+     /* Data Tightly Integrated Memory */
+     memory_region_add_subregion(sys_mem,
+diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
+index aa74e67889..7fbc7dea42 100644
+--- a/hw/riscv/sifive_u.c
++++ b/hw/riscv/sifive_u.c
+@@ -547,7 +547,7 @@ static void sifive_u_machine_init(MachineState *machi=
+ne)
+                              &error_abort);
+     object_property_set_str(OBJECT(&s->soc), "cpu-type", machine->cpu_ty=
+pe,
+                              &error_abort);
+-    qdev_realize(DEVICE(&s->soc), NULL, &error_abort);
++    qdev_realize(DEVICE(&s->soc), NULL, &error_fatal);
+=20
+     /* register RAM */
+     memory_region_add_subregion(system_memory, memmap[SIFIVE_U_DEV_DRAM]=
+.base,
 --=20
 2.31.1
 
