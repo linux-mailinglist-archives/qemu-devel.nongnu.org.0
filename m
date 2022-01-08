@@ -2,80 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94C4848821B
-	for <lists+qemu-devel@lfdr.de>; Sat,  8 Jan 2022 08:19:50 +0100 (CET)
-Received: from localhost ([::1]:39594 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D443C488278
+	for <lists+qemu-devel@lfdr.de>; Sat,  8 Jan 2022 09:41:47 +0100 (CET)
+Received: from localhost ([::1]:44196 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n660z-0001Ef-Mv
-	for lists+qemu-devel@lfdr.de; Sat, 08 Jan 2022 02:19:49 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:58202)
+	id 1n66UB-0008VV-Pq
+	for lists+qemu-devel@lfdr.de; Sat, 08 Jan 2022 02:49:59 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:33720)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1n65Lg-0005iD-Dd
- for qemu-devel@nongnu.org; Sat, 08 Jan 2022 01:37:09 -0500
-Received: from [2607:f8b0:4864:20::536] (port=39711
- helo=mail-pg1-x536.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1n65Le-00049X-TW
- for qemu-devel@nongnu.org; Sat, 08 Jan 2022 01:37:08 -0500
-Received: by mail-pg1-x536.google.com with SMTP id a22so3298904pgd.6
- for <qemu-devel@nongnu.org>; Fri, 07 Jan 2022 22:37:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=1PgEAjuvJVWdLvX5wSFmndrZo74W/oucIMftf9RLc6U=;
- b=wvb9IRHnNqF6+gsgUPQ6JE5DBeWftiA8x2efzd02CCXnANqqDPKx4H32ohL5FW/aM2
- vnVyd8zkYONbi43SUig3CJTjvyAlZmIRYD1uE8Etpn85d6LVZYJbpM2WU+jPMDopS75X
- T6tq5j/8bdwsctQIYieaWD6AxgGocmhGBlGusojypNENv+bPlghg80vEp4PG5Cso82Uz
- aTnt6o525vEmtHbWxX+fy6Hjy7V8TqhY9qg98tKIu/q5C2xLKlQp8LAXqWk1l+y4tpdg
- baBoUvbldSeuhJyrPhq/9po+qvl2AiJGJIAz40E+jjdVXmYPkySYOdNQ4rOWi/Emaufl
- EQcA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=1PgEAjuvJVWdLvX5wSFmndrZo74W/oucIMftf9RLc6U=;
- b=DMlYOkvfNZSOVlzdlb8yVp3bsdsHac6Lqcd2VUCFlwt5BB/JZ0ge1Bx6Vt4RsAnJmj
- t0sj5UeRMXS8aHKL6diBf836GieTDsp4MDoDrd5n0rlbelbbJLtnIupIC5CgZgYLX0h3
- BkriBPAIqa0KsQDYooeRG3Z7WY+r2Xq8HbRJVbblCqdtUaGCp+w9sZiPYdyGO+yGmk7H
- JYvKf+nvd+fFywdLfdtAnTHdlk37+pGC56kC1c/w7ob/zWt32J8aCKhAQb7lFMsotwie
- QvcKizsks+c2eEujxKjJ5zj6G+2H14MgYKwnVBQVqAI1Z1FO38IhopkZJlU4gCGn2rUe
- FjlA==
-X-Gm-Message-State: AOAM533zal0Pd3T8v/Vigs/KW9+w52wpdHbTddF84Z0y/kOTZp6Tbbrr
- 2k5ls5W6rfbsaxRi78xhKeeJOQRfgR1QiQ==
-X-Google-Smtp-Source: ABdhPJw8DF1vCa3gKbdEKGrlb3GDYcdNWG1LsYlXxrOTZ0UqWIVbDZL96Ed63lrnmai6uUSzQzfslA==
-X-Received: by 2002:a62:180d:0:b0:4bb:dafb:ff50 with SMTP id
- 13-20020a62180d000000b004bbdafbff50mr57641672pfy.45.1641623825613; 
- Fri, 07 Jan 2022 22:37:05 -0800 (PST)
-Received: from localhost.localdomain (174-21-75-75.tukw.qwest.net.
- [174.21.75.75])
- by smtp.gmail.com with ESMTPSA id z4sm840954pfh.215.2022.01.07.22.37.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 Jan 2022 22:37:04 -0800 (PST)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v4 12/12] tcg/mips: Try three insns with shift and add in
- tcg_out_movi
-Date: Fri,  7 Jan 2022 22:36:44 -0800
-Message-Id: <20220108063644.478043-13-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220108063644.478043-1-richard.henderson@linaro.org>
-References: <20220108063644.478043-1-richard.henderson@linaro.org>
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1n663b-0004nj-Ca
+ for qemu-devel@nongnu.org; Sat, 08 Jan 2022 02:22:33 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50560)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1n663Y-0001EO-JH
+ for qemu-devel@nongnu.org; Sat, 08 Jan 2022 02:22:30 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1641626541;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=3aAuBCQ76B33BLPIgV+cai7XyGwp4iZUzPCfoL/rVg4=;
+ b=VQDJPaa+EvOhKbJku6OfJCcUNlQWfa4cvNK8uoPtFJaNbAYpnpTzTQqYzrEGVrysqz14Uu
+ BRpeoIl1/StCQYS+DL7v3mcYNRCIjN+eNXRHgB5FKYQ05YJTyqKnnWCiYH4D4Wc1jGVslK
+ Owwk2XVsKV0s4kde9x91GPPUUzAxfyU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-590-LlMXwC5jM5CYvdhckKB84w-1; Sat, 08 Jan 2022 02:22:18 -0500
+X-MC-Unique: LlMXwC5jM5CYvdhckKB84w-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B38A9180FD60;
+ Sat,  8 Jan 2022 07:22:16 +0000 (UTC)
+Received: from [10.72.13.57] (ovpn-13-57.pek2.redhat.com [10.72.13.57])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 504BC7A22E;
+ Sat,  8 Jan 2022 07:21:57 +0000 (UTC)
+Subject: Re: [PATCH v3 2/2] hw/arm/virt: Support for virtio-mem-pci
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20211203233404.37313-1-gshan@redhat.com>
+ <20211203233404.37313-3-gshan@redhat.com>
+ <CAFEAcA8hd000vwp8A602uw4yueea4uU0xttELcC8sn34X+N5-A@mail.gmail.com>
+From: Gavin Shan <gshan@redhat.com>
+Message-ID: <3528fa8b-bfa6-2127-dfe6-4135b3b0989f@redhat.com>
+Date: Sat, 8 Jan 2022 15:21:55 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::536
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::536;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x536.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <CAFEAcA8hd000vwp8A602uw4yueea4uU0xttELcC8sn34X+N5-A@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=gshan@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=gshan@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -73
+X-Spam_score: -7.4
+X-Spam_bar: -------
+X-Spam_report: (-7.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.372,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-4.199, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,81 +84,147 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: f4bug@amsat.org
+Reply-To: Gavin Shan <gshan@redhat.com>
+Cc: drjones@redhat.com, david@redhat.com, richard.henderson@linaro.org,
+ qemu-devel@nongnu.org, eric.auger@redhat.com, qemu-arm@nongnu.org,
+ shan.gavin@gmail.com, jonathan.cameron@huawei.com, imammedo@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These sequences are inexpensive to test.  Maxing out at three insns
-results in the same space as a load plus the constant pool entry.
+Hi Peter,
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- tcg/mips/tcg-target.c.inc | 44 +++++++++++++++++++++++++++++++++++++++
- 1 file changed, 44 insertions(+)
+On 1/8/22 12:40 AM, Peter Maydell wrote:
+> On Fri, 3 Dec 2021 at 23:34, Gavin Shan <gshan@redhat.com> wrote:
+>>
+>> This supports virtio-mem-pci device on "virt" platform, by simply
+>> following the implementation on x86.
+>>
+>>     * This implements the hotplug handlers to support virtio-mem-pci
+>>       device hot-add, while the hot-remove isn't supported as we have
+>>       on x86.
+>>
+>>     * The block size is 512MB on ARM64 instead of 128MB on x86.
+>>
+>>     * It has been passing the tests with various combinations like 64KB
+>>       and 4KB page sizes on host and guest, different memory device
+>>       backends like normal, transparent huge page and HugeTLB, plus
+>>       migration.
+>>
+>> Co-developed-by: David Hildenbrand <david@redhat.com>
+>> Co-developed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+>> Signed-off-by: Gavin Shan <gshan@redhat.com>
+>> Reviewed-by: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+>> Reviewed-by: David Hildenbrand <david@redhat.com>
+> 
+> 
+>> +static void virt_virtio_md_pci_pre_plug(HotplugHandler *hotplug_dev,
+>> +                                        DeviceState *dev, Error **errp)
+>> +{
+>> +    HotplugHandler *hotplug_dev2 = qdev_get_bus_hotplug_handler(dev);
+>> +    Error *local_err = NULL;
+>> +
+>> +    if (!hotplug_dev2 && dev->hotplugged) {
+>> +        /*
+>> +         * Without a bus hotplug handler, we cannot control the plug/unplug
+>> +         * order. We should never reach this point when hotplugging on x86,
+>> +         * however, better add a safety net.
+>> +         */
+> 
+> This comment looks like it was cut-n-pasted from x86 -- is whatever
+> it is that prevents us from reaching this point also true for arm ?
+> (What is the thing that prevents us reaching this point?)
+> 
 
-diff --git a/tcg/mips/tcg-target.c.inc b/tcg/mips/tcg-target.c.inc
-index a128c70154..185241da17 100644
---- a/tcg/mips/tcg-target.c.inc
-+++ b/tcg/mips/tcg-target.c.inc
-@@ -583,6 +583,7 @@ static void tcg_out_movi_int(TCGContext *s, TCGType type, TCGReg ret,
-                              tcg_target_long arg, TCGReg tbreg)
- {
-     tcg_target_long tmp;
-+    int sh, lo;
- 
-     if (TCG_TARGET_REG_BITS == 64 && type == TCG_TYPE_I32) {
-         arg = (int32_t)arg;
-@@ -605,6 +606,49 @@ static void tcg_out_movi_int(TCGContext *s, TCGType type, TCGReg ret,
-         return;
-     }
- 
-+    /*
-+     * Load bitmasks with a right-shift.  This is good for things
-+     * like 0x0fff_ffff_ffff_fff0: ADDUI r,0xff00 + DSRL r,r,4.
-+     * or similarly using LUI.  For this to work, bit 31 must be set.
-+     */
-+    if (arg > 0 && (int32_t)arg < 0) {
-+        sh = clz64(arg);
-+        if (tcg_out_movi_one(s, ret, arg << sh)) {
-+            tcg_out_dsrl(s, ret, ret, sh);
-+            return;
-+        }
-+    }
-+
-+    /*
-+     * Load slightly larger constants using left-shift.
-+     * Limit this sequence to 3 insns to avoid too much expansion.
-+     */
-+    sh = ctz64(arg);
-+    if (sh && tcg_out_movi_two(s, ret, arg >> sh)) {
-+        tcg_out_dsll(s, ret, ret, sh);
-+        return;
-+    }
-+
-+    /*
-+     * Load slightly larger constants using left-shift and add/or.
-+     * Prefer addi with a negative immediate when that would produce
-+     * a larger shift.  For this to work, bits 15 and 16 must be set.
-+     */
-+    lo = arg & 0xffff;
-+    if (lo) {
-+        if ((arg & 0x18000) == 0x18000) {
-+            lo = (int16_t)arg;
-+        }
-+        tmp = arg - lo;
-+        sh = ctz64(tmp);
-+        tmp >>= sh;
-+        if (tcg_out_movi_one(s, ret, tmp)) {
-+            tcg_out_dsll(s, ret, ret, sh);
-+            tcg_out_opc_imm(s, lo < 0 ? OPC_DADDIU : OPC_ORI, ret, ret, lo);
-+            return;
-+        }
-+    }
-+
-     /* Otherwise, put 64-bit constants into the constant pool. */
-     tcg_out_movi_pool(s, ret, arg, tbreg);
- }
--- 
-2.25.1
+Yeah, the comment was copied from x86. It's also true for ARM as a hotplug
+controller on the parent bus is required for virtio-mem-pci device hot-add,
+according to the following commit log.
+
+commit a0a49813f7f2fc23bfe8a4fc6760e2a60c9a3e59
+Author: David Hildenbrand <david@redhat.com>
+Date:   Wed Jun 19 15:19:07 2019 +0530
+
+     pc: Support for virtio-pmem-pci
+     
+     Override the device hotplug handler to properly handle the memory device
+     part via virtio-pmem-pci callbacks from the machine hotplug handler and
+     forward to the actual PCI bus hotplug handler.
+     
+     As PCI hotplug has not been properly factored out into hotplug handlers,
+     most magic is performed in the (un)realize functions. Also some PCI host
+     buses don't have a PCI hotplug handler at all yet, just to be sure that
+     we alway have a hotplug handler on x86, add a simple error check.
+     
+     Unlocking virtio-pmem will unlock virtio-pmem-pci.
+     
+     Signed-off-by: David Hildenbrand <david@redhat.com>
+
+However, I don't think the comment we have for ARM is precise enough because
+it's irrelevant to x86. I will change it something like below in v4:
+
+	/*
+	 * Without a bus hotplug handler, we cannot control the plug/unplug
+	 * order. We should never reach this point when hotplugging on ARM.
+	 * However, it's nice to add a safety net, similar to what we have
+          * on x86.
+	 */
+
+
+>> +        error_setg(errp, "hotplug of virtio based memory devices not supported"
+>> +                   " on this bus.");
+>> +        return;
+>> +    }
+>> +    /*
+>> +     * First, see if we can plug this memory device at all. If that
+>> +     * succeeds, branch of to the actual hotplug handler.
+>> +     */
+>> +    memory_device_pre_plug(MEMORY_DEVICE(dev), MACHINE(hotplug_dev), NULL,
+>> +                           &local_err);
+>> +    if (!local_err && hotplug_dev2) {
+>> +        hotplug_handler_pre_plug(hotplug_dev2, dev, &local_err);
+>> +    }
+>> +    error_propagate(errp, local_err);
+>> +}
+> 
+> 
+> 
+>> diff --git a/hw/virtio/virtio-mem.c b/hw/virtio/virtio-mem.c
+>> index b20595a496..21e4d572ab 100644
+>> --- a/hw/virtio/virtio-mem.c
+>> +++ b/hw/virtio/virtio-mem.c
+>> @@ -125,7 +125,7 @@ static uint64_t virtio_mem_default_block_size(RAMBlock *rb)
+>>    * The memory block size corresponds mostly to the section size.
+>>    *
+>>    * This allows e.g., to add 20MB with a section size of 128MB on x86_64, and
+>> - * a section size of 1GB on arm64 (as long as the start address is properly
+>> + * a section size of 512MB on arm64 (as long as the start address is properly
+>>    * aligned, similar to ordinary DIMMs).
+>>    *
+>>    * We can change this at any time and maybe even make it configurable if
+>> @@ -134,6 +134,8 @@ static uint64_t virtio_mem_default_block_size(RAMBlock *rb)
+>>    */
+>>   #if defined(TARGET_X86_64) || defined(TARGET_I386)
+>>   #define VIRTIO_MEM_USABLE_EXTENT (2 * (128 * MiB))
+>> +#elif defined(TARGET_ARM)
+>> +#define VIRTIO_MEM_USABLE_EXTENT (2 * (512 * MiB))
+>>   #else
+>>   #error VIRTIO_MEM_USABLE_EXTENT not defined
+>>   #endif
+> 
+> Could this comment explain where the 128MB and 512MB come from
+> and why the value is different for different architectures ?
+> 
+
+Yes, the comment already explained it by "section size", which is the
+minimal hotpluggable unit. It's defined by the linux guest kernel as
+below. On ARM64, we pick the larger section size without considering
+the base page size. Besides, the virtio-mem is/will-be enabled on
+x86_64 and ARM64 guest kernel only.
+
+#define SECTION_SIZE_BITS  29      /* ARM:    64KB base page size        */
+#define SECTION_SIZE_BITS  27      /* ARM:    16KB or 4KB base page size */
+#define SECTION_SIZE_BITS  27      /* x86_64                             */
+
+Thanks,
+Gavin
 
 
