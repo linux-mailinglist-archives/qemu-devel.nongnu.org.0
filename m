@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58C0E488292
-	for <lists+qemu-devel@lfdr.de>; Sat,  8 Jan 2022 09:45:21 +0100 (CET)
-Received: from localhost ([::1]:37796 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 698F548824B
+	for <lists+qemu-devel@lfdr.de>; Sat,  8 Jan 2022 09:27:07 +0100 (CET)
+Received: from localhost ([::1]:55130 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n67Lk-0000il-8h
-	for lists+qemu-devel@lfdr.de; Sat, 08 Jan 2022 03:45:20 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36146)
+	id 1n6746-0006gi-Ei
+	for lists+qemu-devel@lfdr.de; Sat, 08 Jan 2022 03:27:06 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36160)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1n66Iq-0005OY-5Q
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1n66Iq-0005Qa-GB
  for qemu-devel@nongnu.org; Sat, 08 Jan 2022 02:38:16 -0500
-Received: from [2607:f8b0:4864:20::d2c] (port=42724
- helo=mail-io1-xd2c.google.com)
+Received: from [2607:f8b0:4864:20::d2e] (port=42726
+ helo=mail-io1-xd2e.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1n66Im-0003TZ-RQ
- for qemu-devel@nongnu.org; Sat, 08 Jan 2022 02:38:15 -0500
-Received: by mail-io1-xd2c.google.com with SMTP id o7so10064155ioo.9
- for <qemu-devel@nongnu.org>; Fri, 07 Jan 2022 23:38:12 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1n66In-0003Tu-P5
+ for qemu-devel@nongnu.org; Sat, 08 Jan 2022 02:38:16 -0500
+Received: by mail-io1-xd2e.google.com with SMTP id o7so10064177ioo.9
+ for <qemu-devel@nongnu.org>; Fri, 07 Jan 2022 23:38:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=yq/esU6h8w+LdCkuWquK/eBiSLOcYx6Uh3QYevpdbXE=;
- b=Ux6bT1h+NL04vRBOs7InSf8TFeJqq3ydq5OuOHgvepvQRx5lu33u2sz7Nnt7yPGDsP
- rajaAKrjxdiIXVo0QjIQKjTYCIFljvW5pb4DpggOUtn6adcxNFz7Aqbn1BkBF7mz9PEt
- o0n59flxBZCm9hwGNzbs+EHSbKJcojP5hdU6mGKtYsNR2gXti+d8zyeVhq6xnX67Z9QF
- dFrxhWKukEu0673ihhwHTq5VnQejfKc6rqwVDT+yIpKloiRkPg1cTEAhwLyMCvsbAOZS
- rNkb/PdZZH47o2wd+kdGdxF7uT/yswgiXVq/Y4vh+sAgm7eCqOGfk0xdE9MQEdWQ54cz
- mz7Q==
+ bh=VqBdes6F8m78x5lq8GFYwJEF8M0bPufEku2jPT9OAWE=;
+ b=4LG6DS8ZUcLVBqLW2geNbebFOfJ8oMdGcbt2syJaHDCvy7UwPj1CX2LIWPdj+gaGAI
+ pAIMv6vQshh+ErzIyqsEaUD9yalcFvBZzGoDG+UAz9rp0UZ9RjajM3mm8MaUukvUyzMA
+ VUr56qDG69uYf0FGdRdaC4VlbK4LeivF61t0yPWuSBcEeovYu1kZcA0M04l990QQuvzC
+ X+AJ5nouoQNfVH28XJZ7+O1eGNFPP0tOUX44BnT45CtVTrpItqmbA0Jt3XsRXXTOapHV
+ h1d5Xjc3r9jsKgtF5pYDeJTBmksA6Vt/VkxegEnYubLakV5arxvRwHoDuqrtbJCQiH2Z
+ JprQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=yq/esU6h8w+LdCkuWquK/eBiSLOcYx6Uh3QYevpdbXE=;
- b=pzwW+ozYLG3Z65n2E2wExiD+oz9i3i9NgdAAJ7kuzw6vM7kH3PfWNcxmdwsGlEUhXP
- KcRHNVEFAx8YBaS/9n392BcCUM4QF9nwzR+1tVHGFKhHTgfi+1fiU+V4P/FGrDq9g7s6
- MWoJoOpxMq18T85XL9IeFumhv9wfpLiLU8PsDrzt8qsRl8JxeaC7vsV8WFkmgxlsVfo9
- OOHmd1JUbLDU4MmwwjW7sFik05dRvT0/xksTQdSJet+3+RlWNsHk/3eJeLq392/3siZu
- q714ZKFVmgy2aWyJj5RyTk0d67mO/NyAW/5pY1ciUB/f63+baFEHi+Z575EAcNUUAAw+
- YHtA==
-X-Gm-Message-State: AOAM533LdqmBfDj0dZFk195udWtf6COpH7mVNdJNHbT1IRg8pKJjQyeG
- OsQ7ixNL6HM5t2ZoBuFZsEeiw5KPMD1PRby7
-X-Google-Smtp-Source: ABdhPJzXh8VLD5aHqkgc1xExN0YZGjAUVb3zTkuvHPwAge662IExrA8FeGKJOf8gD8+uRM/NaSFAXg==
-X-Received: by 2002:a5e:9b07:: with SMTP id j7mr30935584iok.136.1641627491628; 
- Fri, 07 Jan 2022 23:38:11 -0800 (PST)
+ bh=VqBdes6F8m78x5lq8GFYwJEF8M0bPufEku2jPT9OAWE=;
+ b=NKnE9u4U+JS+NNokVURzpFfQd94FE7pLhDuB3G/FyDPQ75dQMw5YOrdvv4hq/RpK78
+ JkiJPjpLirRU7cCg672KtcHJFZBczMrX/nFG40vyU9ikKpnl8OcIIkyWsZs6u09hQecO
+ p0Pl6C3dbzFsi7VwjKc20l7iCZpY1vP96JLYCfhkw96qAz1UjSmiWz2IhpTZ3hbJpp0t
+ fZz9fYLoJI1aZJEYgITMhEBBNJ+aWF2mXCpEuSWP4fGlsszZ9wf+lYi2s/UJk7l+wwDp
+ C5EgHELpNDMDDeRjB0XdEXUxT/armZFSNMvjyAcsnBFFyO4RbvRTgeM4M+fIMBJvFSCZ
+ FVcQ==
+X-Gm-Message-State: AOAM533nIWFOkcFejsZxhXg9Bk84EQeck/WNDksUl0jRGv9GsFedXM8W
+ A/tO9MawafxgWgTQiz63lsRkalBTQ1zw8EmL
+X-Google-Smtp-Source: ABdhPJwfTK2fOtrAZfVhGRj0Juks3PlcXfjztFJJFCyEkNFEyaQriQV4Jc+LT6/UAu0mSqWUVZRUbw==
+X-Received: by 2002:a02:8813:: with SMTP id r19mr32242899jai.34.1641627492548; 
+ Fri, 07 Jan 2022 23:38:12 -0800 (PST)
 Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id w19sm613022iov.12.2022.01.07.23.38.10
+ by smtp.gmail.com with ESMTPSA id w19sm613022iov.12.2022.01.07.23.38.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 Jan 2022 23:38:11 -0800 (PST)
+ Fri, 07 Jan 2022 23:38:12 -0800 (PST)
 From: Warner Losh <imp@bsdimp.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 29/37] bsd-user/arm/target_arch_signal.h: arm specific signal
- registers and stack
-Date: Sat,  8 Jan 2022 00:37:29 -0700
-Message-Id: <20220108073737.5959-30-imp@bsdimp.com>
+Subject: [PULL 30/37] bsd-user/arm/target_arch_signal.h: arm machine context
+ and trapframe for signals
+Date: Sat,  8 Jan 2022 00:37:30 -0700
+Message-Id: <20220108073737.5959-31-imp@bsdimp.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20220108073737.5959-1-imp@bsdimp.com>
 References: <20220108073737.5959-1-imp@bsdimp.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d2c
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d2e
  (failed)
-Received-SPF: none client-ip=2607:f8b0:4864:20::d2c;
- envelope-from=imp@bsdimp.com; helo=mail-io1-xd2c.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::d2e;
+ envelope-from=imp@bsdimp.com; helo=mail-io1-xd2e.google.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
@@ -93,80 +93,51 @@ Cc: Stacey Son <sson@FreeBSD.org>, qemu-trivial@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Defines for registers and stack layout related to signals.
-
 Signed-off-by: Stacey Son <sson@FreeBSD.org>
+Signed-off-by: Kyle Evans <kevans@FreeBSD.org>
 Signed-off-by: Warner Losh <imp@bsdimp.com>
-Reviewed-by: Kyle Evans <kevans@FreeBSD.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- bsd-user/arm/target_arch_signal.h | 57 +++++++++++++++++++++++++++++++
- 1 file changed, 57 insertions(+)
- create mode 100644 bsd-user/arm/target_arch_signal.h
+ bsd-user/arm/target_arch_signal.h | 28 ++++++++++++++++++++++++++++
+ 1 file changed, 28 insertions(+)
 
 diff --git a/bsd-user/arm/target_arch_signal.h b/bsd-user/arm/target_arch_signal.h
-new file mode 100644
-index 00000000000..973183d99ca
---- /dev/null
+index 973183d99ca..9527335cc98 100644
+--- a/bsd-user/arm/target_arch_signal.h
 +++ b/bsd-user/arm/target_arch_signal.h
-@@ -0,0 +1,57 @@
+@@ -54,4 +54,32 @@
+ #define TARGET_MINSIGSTKSZ  (1024 * 4)                  /* min sig stack size */
+ #define TARGET_SIGSTKSZ     (TARGET_MINSIGSTKSZ + 32768)  /* recommended size */
+ 
 +/*
-+ *  arm signal definitions
-+ *
-+ *  Copyright (c) 2013 Stacey D. Son
-+ *
-+ *  This program is free software; you can redistribute it and/or modify
-+ *  it under the terms of the GNU General Public License as published by
-+ *  the Free Software Foundation; either version 2 of the License, or
-+ *  (at your option) any later version.
-+ *
-+ *  This program is distributed in the hope that it will be useful,
-+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+ *  GNU General Public License for more details.
-+ *
-+ *  You should have received a copy of the GNU General Public License
-+ *  along with this program; if not, see <http://www.gnu.org/licenses/>.
++ * Floating point register state
 + */
-+#ifndef _TARGET_ARCH_SIGNAL_H_
-+#define _TARGET_ARCH_SIGNAL_H_
++typedef struct target_mcontext_vfp {
++    abi_ullong  mcv_reg[32];
++    abi_ulong   mcv_fpscr;
++} target_mcontext_vfp_t;
 +
-+#include "cpu.h"
++typedef struct target_mcontext {
++    abi_uint    __gregs[TARGET__NGREG];
 +
-+#define TARGET_REG_R0   0
-+#define TARGET_REG_R1   1
-+#define TARGET_REG_R2   2
-+#define TARGET_REG_R3   3
-+#define TARGET_REG_R4   4
-+#define TARGET_REG_R5   5
-+#define TARGET_REG_R6   6
-+#define TARGET_REG_R7   7
-+#define TARGET_REG_R8   8
-+#define TARGET_REG_R9   9
-+#define TARGET_REG_R10  10
-+#define TARGET_REG_R11  11
-+#define TARGET_REG_R12  12
-+#define TARGET_REG_R13  13
-+#define TARGET_REG_R14  14
-+#define TARGET_REG_R15  15
-+#define TARGET_REG_CPSR 16
-+#define TARGET__NGREG   17
-+/* Convenience synonyms */
-+#define TARGET_REG_FP   TARGET_REG_R11
-+#define TARGET_REG_SP   TARGET_REG_R13
-+#define TARGET_REG_LR   TARGET_REG_R14
-+#define TARGET_REG_PC   TARGET_REG_R15
++    /*
++     * Originally, rest of this structure was named __fpu, 35 * 4 bytes
++     * long, never accessed from kernel.
++     */
++    abi_ulong   mc_vfp_size;
++    abi_ptr     mc_vfp_ptr;
++    abi_int     mc_spare[33];
++} target_mcontext_t;
 +
-+#define TARGET_INSN_SIZE    4       /* arm instruction size */
++#include "target_os_ucontext.h"
 +
-+/* Size of the signal trampolin code. See _sigtramp(). */
-+#define TARGET_SZSIGCODE    ((abi_ulong)(9 * TARGET_INSN_SIZE))
++struct target_sigframe {
++    target_siginfo_t    sf_si;  /* saved siginfo */
++    target_ucontext_t   sf_uc;  /* saved ucontext */
++    target_mcontext_vfp_t sf_vfp; /* actual saved VFP context */
++};
 +
-+/* compare to arm/include/_limits.h */
-+#define TARGET_MINSIGSTKSZ  (1024 * 4)                  /* min sig stack size */
-+#define TARGET_SIGSTKSZ     (TARGET_MINSIGSTKSZ + 32768)  /* recommended size */
-+
-+#endif /* !_TARGET_ARCH_SIGNAL_H_ */
+ #endif /* !_TARGET_ARCH_SIGNAL_H_ */
 -- 
 2.33.1
 
