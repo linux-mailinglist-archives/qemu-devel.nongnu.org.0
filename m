@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4A9D4880D0
-	for <lists+qemu-devel@lfdr.de>; Sat,  8 Jan 2022 03:07:50 +0100 (CET)
-Received: from localhost ([::1]:50006 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABCD34880BF
+	for <lists+qemu-devel@lfdr.de>; Sat,  8 Jan 2022 02:57:38 +0100 (CET)
+Received: from localhost ([::1]:56158 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n6193-0006TP-Qn
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 21:07:49 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44734)
+	id 1n60zB-0007RK-Pn
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 20:57:37 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44752)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n60Bh-0006TK-E3
- for qemu-devel@nongnu.org; Fri, 07 Jan 2022 20:06:29 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:46349)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n60Bl-0006ec-Ai
+ for qemu-devel@nongnu.org; Fri, 07 Jan 2022 20:06:33 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51440)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n60Bf-0002uk-UT
- for qemu-devel@nongnu.org; Fri, 07 Jan 2022 20:06:29 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n60Bj-0002uv-Sw
+ for qemu-devel@nongnu.org; Fri, 07 Jan 2022 20:06:33 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641603987;
+ s=mimecast20190719; t=1641603991;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=tDeLlyz26ezikC22VaRSSlTH90Iv9SaCxPq3k3DQzw4=;
- b=Pym1BfDDKbwJrCY2jP95tMZv2k/36AaeQQVNt2JlkNVh5jbh4ARWEhJN1E0/ZkDJWfWrQp
- phfTahDb4I0MZCXcYPzGToNEj1bO3y83mzv3hsYfj3UXJDfciaHmsFTg234OFIpIz2YM8m
- rhJ3C9DSEPk3F2YbiU4BvoBClxbi9nc=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=sZKl68SrJVJX9J/g8uBNG773VeE63EY7yyNvoTLPOxc=;
+ b=XpF4LdFbyJPXPSuMyFuiVnLP1d6NDPWobcJ47xCOQ/Y5CQ+wYL2/BMR9VIrBOwZwBcP9Ha
+ RxrP47KQ22siIP+KwdvbQ6e04W+4XPsV95PRsnwW0mubrZPjhWcm1/JL4IgeargdvGw2Jp
+ Rj1dnt596ZafwdMwSK4SJtDHve5cA2k=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-103-qRlydOy2MgqpnyZ79uyXDA-1; Fri, 07 Jan 2022 20:06:26 -0500
-X-MC-Unique: qRlydOy2MgqpnyZ79uyXDA-1
-Received: by mail-wm1-f69.google.com with SMTP id
- m15-20020a05600c3b0f00b003465ede5e04so2503908wms.2
- for <qemu-devel@nongnu.org>; Fri, 07 Jan 2022 17:06:26 -0800 (PST)
+ us-mta-516--JDPA-g1ME6V9XRtP0bVRw-1; Fri, 07 Jan 2022 20:06:30 -0500
+X-MC-Unique: -JDPA-g1ME6V9XRtP0bVRw-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ n3-20020a05600c3b8300b00345c3fc40b0so5619305wms.3
+ for <qemu-devel@nongnu.org>; Fri, 07 Jan 2022 17:06:30 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=tDeLlyz26ezikC22VaRSSlTH90Iv9SaCxPq3k3DQzw4=;
- b=SrmPyO3o72gokhzrnc9iQ+P5Y0i8PCrys2qeBrmdKWPFXyV+NFu6fecQI0QYpLtnMt
- lFHHnzX7cczHAM0ppBmB09QAOSrphg7FCDjMDCwHcz7iy2buIoV3drRFkebKm8+aT0Qv
- f5EWddZaqHW+8Mo7jGGt0GLcZxR0osQp4tQrH7/Zqb7wIYWaE6xp6+nw/9e97Sq5U+lj
- qAw+3Fms0wCpu7quIpLmt4vU/+/er3Aly2+DRXJmhFCrzktZfFm9iDqr3ZXpP2gfmWVz
- /Z62PKbHaw0JPuicL7YHnIFmAq7NLgv459WLK75At3J18hnjyMgaiKY9jrdKKJrw9CDO
- eABA==
-X-Gm-Message-State: AOAM532JVqBhc1ijqMUJmduEz6Q0dLOW+Tudu85aSBZnB5Kd8NrGPtKb
- Zw/j3+iyO5B2pDMHboVG9dV7fAG7cSOyy1vEDbV7MUR/fnVUYdi6EPJA8fdRy8WuZ/brlyeRVSQ
- 5TUi+L6+KXssIJHH+Wwi6SVYS2t69zTGmimuDvl6ioX3mSXiQFlsA3MTNYsqk
-X-Received: by 2002:a05:600c:3d0f:: with SMTP id
- bh15mr12987811wmb.27.1641603985172; 
- Fri, 07 Jan 2022 17:06:25 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJywu17lMSpD9J9bOmD1iGymx0xZYq/1Mcvx/0kY6st6019EK6QY95xynk1GwFHwUXsfRlO1rQ==
-X-Received: by 2002:a05:600c:3d0f:: with SMTP id
- bh15mr12987795wmb.27.1641603984921; 
- Fri, 07 Jan 2022 17:06:24 -0800 (PST)
+ bh=sZKl68SrJVJX9J/g8uBNG773VeE63EY7yyNvoTLPOxc=;
+ b=gi3yCjJAAgk/LOBTXoEbbh67nuLwoA/XtMoANvVrznkNujCSlGUc4w5TKGdBmfovzi
+ mCwLnBbo7InB17a7qSJ44O8IUUf0A1Xp7sBxNuxa/hczp4PFayg6pL6ZpMRQvvx886p8
+ cfstes5Vs5WX5cppFc74X1QUzuJErEM5q9zwL1XaD1Wjy6iycnsUcQLnSiEnzFN2Hqqd
+ tQUsusj7v8EHUIzGJKXQ8mYJsKb9ZTulhjhwi0Sm7zsbPlC39bcaM45Z4N7/7RkzrttO
+ q2WnmHVYBY+EHQzQ+kkDs7t81qGVFfBk0LFTlXSdxWB0wFZip7OtSBanKGBTGae7KdQ9
+ CUzg==
+X-Gm-Message-State: AOAM533M0cNFw3jP/VVMNdXRTNZ2xG0RXvo+BQXAxbxMqriYV28Q4YoG
+ 8ea/JFgtqhc4pdU8RrwELllq3a9+AYBOEmF+acMCEYxOYd5SIVg8FF2aRFIOs2IqJMY+EzDmkGm
+ uZDDOKga8rcNJq8KahbeC4iElhAzIh1BYDB82TGOgScrX8+JKgwAxo3amZbij
+X-Received: by 2002:a05:6000:24b:: with SMTP id
+ m11mr11149219wrz.122.1641603988910; 
+ Fri, 07 Jan 2022 17:06:28 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzy4bEN0GjhnFWAgKXrwL+MNoBVoD/YQXdyhjY8biuSauI0FXZQgLryuVb7B/RD6FcGnUpn7Q==
+X-Received: by 2002:a05:6000:24b:: with SMTP id
+ m11mr11149206wrz.122.1641603988656; 
+ Fri, 07 Jan 2022 17:06:28 -0800 (PST)
 Received: from redhat.com ([147.161.13.99])
- by smtp.gmail.com with ESMTPSA id x20sm225711wmi.43.2022.01.07.17.06.23
+ by smtp.gmail.com with ESMTPSA id b10sm74399wmj.42.2022.01.07.17.06.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 Jan 2022 17:06:24 -0800 (PST)
-Date: Fri, 7 Jan 2022 20:06:21 -0500
+ Fri, 07 Jan 2022 17:06:28 -0800 (PST)
+Date: Fri, 7 Jan 2022 20:06:25 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v3 51/55] hw/scsi/vhost-scsi: don't double close vhostfd on
- error
-Message-ID: <20220108003423.15830-52-mst@redhat.com>
+Subject: [PULL v3 52/55] virtio/vhost-vsock: don't double close vhostfd,
+ remove redundant cleanup
+Message-ID: <20220108003423.15830-53-mst@redhat.com>
 References: <20220108003423.15830-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20220108003423.15830-1-mst@redhat.com>
@@ -76,7 +76,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -97,52 +97,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
+Cc: Peter Maydell <peter.maydell@linaro.org>,
  Daniil Tatianin <d-tatianin@yandex-team.ru>,
- Paolo Bonzini <pbonzini@redhat.com>
+ Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Daniil Tatianin <d-tatianin@yandex-team.ru>
 
-vhost_dev_init calls vhost_dev_cleanup on error, which closes vhostfd,
-don't double close it.
+In case of an error during initialization in vhost_dev_init, vhostfd is
+closed in vhost_dev_cleanup. Remove close from err_virtio as it's both
+redundant and causes a double close on vhostfd.
 
 Signed-off-by: Daniil Tatianin <d-tatianin@yandex-team.ru>
-Message-Id: <20211129132358.1110372-2-d-tatianin@yandex-team.ru>
+Message-Id: <20211129125204.1108088-1-d-tatianin@yandex-team.ru>
+Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/scsi/vhost-scsi.c | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+ hw/virtio/vhost-vsock.c | 11 +++++------
+ 1 file changed, 5 insertions(+), 6 deletions(-)
 
-diff --git a/hw/scsi/vhost-scsi.c b/hw/scsi/vhost-scsi.c
-index efb3e14d9e..778f43e4c1 100644
---- a/hw/scsi/vhost-scsi.c
-+++ b/hw/scsi/vhost-scsi.c
-@@ -222,6 +222,11 @@ static void vhost_scsi_realize(DeviceState *dev, Error **errp)
-     ret = vhost_dev_init(&vsc->dev, (void *)(uintptr_t)vhostfd,
+diff --git a/hw/virtio/vhost-vsock.c b/hw/virtio/vhost-vsock.c
+index 478c0c9a87..433d42d897 100644
+--- a/hw/virtio/vhost-vsock.c
++++ b/hw/virtio/vhost-vsock.c
+@@ -171,6 +171,10 @@ static void vhost_vsock_device_realize(DeviceState *dev, Error **errp)
+     ret = vhost_dev_init(&vvc->vhost_dev, (void *)(uintptr_t)vhostfd,
                           VHOST_BACKEND_TYPE_KERNEL, 0, errp);
      if (ret < 0) {
 +        /*
-+         * vhost_dev_init calls vhost_dev_cleanup on error, which closes
-+         * vhostfd, don't double close it.
++         * vhostfd is closed by vhost_dev_cleanup, which is called
++         * by vhost_dev_init on initialization error.
 +         */
-+        vhostfd = -1;
-         goto free_vqs;
+         goto err_virtio;
      }
  
-@@ -242,7 +247,9 @@ static void vhost_scsi_realize(DeviceState *dev, Error **errp)
-     error_free(vsc->migration_blocker);
-     virtio_scsi_common_unrealize(dev);
-  close_fd:
--    close(vhostfd);
-+    if (vhostfd >= 0) {
-+        close(vhostfd);
-+    }
+@@ -183,15 +187,10 @@ static void vhost_vsock_device_realize(DeviceState *dev, Error **errp)
      return;
+ 
+ err_vhost_dev:
+-    vhost_dev_cleanup(&vvc->vhost_dev);
+     /* vhost_dev_cleanup() closes the vhostfd passed to vhost_dev_init() */
+-    vhostfd = -1;
++    vhost_dev_cleanup(&vvc->vhost_dev);
+ err_virtio:
+     vhost_vsock_common_unrealize(vdev);
+-    if (vhostfd >= 0) {
+-        close(vhostfd);
+-    }
+-    return;
  }
  
+ static void vhost_vsock_device_unrealize(DeviceState *dev)
 -- 
 MST
 
