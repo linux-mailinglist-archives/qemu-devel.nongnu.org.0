@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A2D0488066
-	for <lists+qemu-devel@lfdr.de>; Sat,  8 Jan 2022 02:23:16 +0100 (CET)
-Received: from localhost ([::1]:43824 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AFBD48808E
+	for <lists+qemu-devel@lfdr.de>; Sat,  8 Jan 2022 02:30:58 +0100 (CET)
+Received: from localhost ([::1]:55374 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n60Rv-0006yd-Dw
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 20:23:15 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43894)
+	id 1n60ZN-0007iq-E0
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 20:30:57 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43908)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n609h-00041G-NN
- for qemu-devel@nongnu.org; Fri, 07 Jan 2022 20:04:26 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:55828)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n609l-00046m-1d
+ for qemu-devel@nongnu.org; Fri, 07 Jan 2022 20:04:29 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:53402)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n609g-0002MI-5Q
- for qemu-devel@nongnu.org; Fri, 07 Jan 2022 20:04:25 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n609j-0002MU-LV
+ for qemu-devel@nongnu.org; Fri, 07 Jan 2022 20:04:28 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641603863;
+ s=mimecast20190719; t=1641603867;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=v/nf9E9axwJOMcdCAGncabD48HF9k+D1ZiFHnSo9Ej0=;
- b=FwuCyGZqRtNGko+S49qGqzHDqCuSO/RXS7+cJk8WuqO9EY4uMNfBLnsJ6WxIQzEmkEtQ+5
- IXbXonEYQHtIOI5v1t8TFOlWyRGBqrSRW9/o0klfgZtmNeIkm9e8/9QBoVLycKe1BZ3m+h
- 72fSftq87o6JkXV8H+75hRkSRpJbsdQ=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=5NmSRsYDHdSt3mPPWE/VBrC0tl4EEty9M7O4eh0ePIo=;
+ b=d7lNwRmqyhxQ1ehco4gcdUNWxwPyxZ59HrlyaR4mtCWVNB+0YSQO/JAlkv4MR/Icn5lRb4
+ EJUiUchCrymsQ0cFgh0snwM7z5IzVDoUfo3KhCqc3LjWh97VCdylduy4ymOiMlWvlBIYOX
+ TV0WpLxQiwNLyJlghS1v/tuzHwdbcmA=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-479-hQ_oDhhBPsiFt5mR-zWZfA-1; Fri, 07 Jan 2022 20:04:22 -0500
-X-MC-Unique: hQ_oDhhBPsiFt5mR-zWZfA-1
-Received: by mail-wr1-f70.google.com with SMTP id
- a11-20020adffb8b000000b001a0b0f4afe9so2342239wrr.13
- for <qemu-devel@nongnu.org>; Fri, 07 Jan 2022 17:04:22 -0800 (PST)
+ us-mta-101-egOplCHNPTq1XM169M4_XA-1; Fri, 07 Jan 2022 20:04:26 -0500
+X-MC-Unique: egOplCHNPTq1XM169M4_XA-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ m21-20020a7bcf35000000b00346ddc490efso2497673wmg.8
+ for <qemu-devel@nongnu.org>; Fri, 07 Jan 2022 17:04:26 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=v/nf9E9axwJOMcdCAGncabD48HF9k+D1ZiFHnSo9Ej0=;
- b=sJmGDAW4ja/SpFjhuPjnLyx5zCLLFWkQYLF9BWY0n3cKoMTgS8eUtJ/58JSrLgYpYm
- 2oyV9WSQvICFzSOvjNuCh16pYYg+lejdJnTQyrwh2XaFC+SvQ5OqLACBYU/G7qB4hk7w
- jqTYtnDWnBcGLPj64/U1TfC/v1eJME9UpzGEtU9FpnQFsz1tNy82GTLnak+y+wnQdm/l
- 4Mk8t+qPg9biK9crlrrHLF45H1CWP6imooiEbjxLYDnteopVCB4Wzj7V/jQhKP4MBN2i
- 6P2y7VbLwYOKf1Mtrh2547+r8gDS8b0M8ehfCz/83a2wOZD31OffkWXfuMdhMJY9Nv2k
- LgXQ==
-X-Gm-Message-State: AOAM532Mr+TKDAQ/bw/iKpg4xZwsivxfpDQgY7GBm5ktsj9+oZcXI0es
- 5EtxlnSkvIVSIfLT4Unu+5g2cyMMlUCo3AEz77RMXX0+yhxC/vZ6H25bRGFrdJsC35wq7AvhKZZ
- mg8hPwNVMfUnF+p7070qwaJvgG5ylnXS7KhvW0o2E+qWtWVy3XEQ0k0XF6LzD
-X-Received: by 2002:a5d:6d8e:: with SMTP id l14mr55944257wrs.507.1641603861123; 
- Fri, 07 Jan 2022 17:04:21 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxMx/BLATVPtzFoUX0NBc2DVOEMLO/E9nK5T6z5Qb39COwG8Ar3AuNDWg28wo1yfWI1J9Ilbw==
-X-Received: by 2002:a5d:6d8e:: with SMTP id l14mr55944246wrs.507.1641603860966; 
- Fri, 07 Jan 2022 17:04:20 -0800 (PST)
+ bh=5NmSRsYDHdSt3mPPWE/VBrC0tl4EEty9M7O4eh0ePIo=;
+ b=2+WoAGAG/JKEOZI/Z1mH97X3pIJX17pKGof3fmKWQSJLHPVgSrRw1eoI2Z9AZrXYyi
+ 1r011xRSeqP0oc93cTcuVV1Jm7aubNhE1IyPMVuzsC2leWi5oTD+6MNKJR/qh/3lcFMl
+ ZCcUO+ToTx8KvQkMXeEMGxLjoyfArMYiTMTqhTXgVvQG75SD8kCN/2ORute3SpeNA7NT
+ PM9ASxAnRNqZZ4OC1oS4oF+/6qD3IunG+oRSqBjP/q7xX3jbWhmblPpQpDNQzhdU2t33
+ IlyG40b8kjGWA4bV64qGHnmB5wYRhkXedMMb0oFGUDh78/wIN+92HL63zu8CVqBqLvkW
+ Mzaw==
+X-Gm-Message-State: AOAM533++/y+I0K0qpvTLGioJ0x4jeHbZOd1BZXrSBiANh6VooEJOAi9
+ bdgaI+MMcVFzA8ziQ5CetLuKbWNsIukJ43BjYraIsbIU0hptBh2zsGO7Ed7uMSKrvTrxXjEUqm1
+ SHn/NP57GDxHeDr9X5zdrPGppIRvAFv9W3ERk/WCHe3Bzg4lRSLdMGcnq8A3j
+X-Received: by 2002:adf:d226:: with SMTP id k6mr54825289wrh.243.1641603864765; 
+ Fri, 07 Jan 2022 17:04:24 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxhy2YNW4X5klWUK/rIBC0b0CpDtbvmokMT2AgnqOWVBhj4uK5+O5t3OYpqoZM0CPuhO1nilw==
+X-Received: by 2002:adf:d226:: with SMTP id k6mr54825271wrh.243.1641603864456; 
+ Fri, 07 Jan 2022 17:04:24 -0800 (PST)
 Received: from redhat.com ([147.161.13.99])
- by smtp.gmail.com with ESMTPSA id p23sm89800wms.3.2022.01.07.17.04.19
+ by smtp.gmail.com with ESMTPSA id p11sm245057wru.99.2022.01.07.17.04.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 Jan 2022 17:04:20 -0800 (PST)
-Date: Fri, 7 Jan 2022 20:04:18 -0500
+ Fri, 07 Jan 2022 17:04:23 -0800 (PST)
+Date: Fri, 7 Jan 2022 20:04:21 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v3 15/55] chardev/char-socket: tcp_chr_recv: don't clobber errno
-Message-ID: <20220108003423.15830-16-mst@redhat.com>
+Subject: [PULL v3 16/55] chardev/char-socket: tcp_chr_sync_read: don't
+ clobber errno
+Message-ID: <20220108003423.15830-17-mst@redhat.com>
 References: <20220108003423.15830-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20220108003423.15830-1-mst@redhat.com>
@@ -105,51 +106,47 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Roman Kagan <rvkagan@yandex-team.ru>
 
-tcp_chr_recv communicates the specific error condition to the caller via
-errno.  However, after setting it, it may call into some system calls or
-library functions which can clobber the errno.
+After the return from tcp_chr_recv, tcp_chr_sync_read calls into a
+function which eventually makes a system call and may clobber errno.
 
-Avoid this by moving the errno assignment to the end of the function.
+Make a copy of errno right after tcp_chr_recv and restore the errno on
+return from tcp_chr_sync_read.
 
 Signed-off-by: Roman Kagan <rvkagan@yandex-team.ru>
-Message-Id: <20211111153354.18807-3-rvkagan@yandex-team.ru>
+Message-Id: <20211111153354.18807-4-rvkagan@yandex-team.ru>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- chardev/char-socket.c | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ chardev/char-socket.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
 diff --git a/chardev/char-socket.c b/chardev/char-socket.c
-index d619088232..3ddd98ed49 100644
+index 3ddd98ed49..fab2d791d4 100644
 --- a/chardev/char-socket.c
 +++ b/chardev/char-socket.c
-@@ -290,13 +290,6 @@ static ssize_t tcp_chr_recv(Chardev *chr, char *buf, size_t len)
-                                      NULL);
+@@ -525,6 +525,7 @@ static int tcp_chr_sync_read(Chardev *chr, const uint8_t *buf, int len)
+ {
+     SocketChardev *s = SOCKET_CHARDEV(chr);
+     int size;
++    int saved_errno;
+ 
+     if (s->state != TCP_CHARDEV_STATE_CONNECTED) {
+         return 0;
+@@ -532,6 +533,7 @@ static int tcp_chr_sync_read(Chardev *chr, const uint8_t *buf, int len)
+ 
+     qio_channel_set_blocking(s->ioc, true, NULL);
+     size = tcp_chr_recv(chr, (void *) buf, len);
++    saved_errno = errno;
+     if (s->state != TCP_CHARDEV_STATE_DISCONNECTED) {
+         qio_channel_set_blocking(s->ioc, false, NULL);
+     }
+@@ -540,6 +542,7 @@ static int tcp_chr_sync_read(Chardev *chr, const uint8_t *buf, int len)
+         tcp_chr_disconnect(chr);
      }
  
--    if (ret == QIO_CHANNEL_ERR_BLOCK) {
--        errno = EAGAIN;
--        ret = -1;
--    } else if (ret == -1) {
--        errno = EIO;
--    }
--
-     if (msgfds_num) {
-         /* close and clean read_msgfds */
-         for (i = 0; i < s->read_msgfds_num; i++) {
-@@ -325,6 +318,13 @@ static ssize_t tcp_chr_recv(Chardev *chr, char *buf, size_t len)
- #endif
-     }
- 
-+    if (ret == QIO_CHANNEL_ERR_BLOCK) {
-+        errno = EAGAIN;
-+        ret = -1;
-+    } else if (ret == -1) {
-+        errno = EIO;
-+    }
-+
-     return ret;
++    errno = saved_errno;
+     return size;
  }
  
 -- 
