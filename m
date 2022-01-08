@@ -2,75 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9837D488386
-	for <lists+qemu-devel@lfdr.de>; Sat,  8 Jan 2022 13:04:40 +0100 (CET)
-Received: from localhost ([::1]:50166 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF10B4883A7
+	for <lists+qemu-devel@lfdr.de>; Sat,  8 Jan 2022 13:59:42 +0100 (CET)
+Received: from localhost ([::1]:33412 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n6ASd-00050n-Co
-	for lists+qemu-devel@lfdr.de; Sat, 08 Jan 2022 07:04:39 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:45386)
+	id 1n6BJt-0004kd-Kx
+	for lists+qemu-devel@lfdr.de; Sat, 08 Jan 2022 07:59:41 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53806)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
- id 1n6ARh-0004Dt-Ao
- for qemu-devel@nongnu.org; Sat, 08 Jan 2022 07:03:41 -0500
-Received: from [2a00:1450:4864:20::431] (port=42834
- helo=mail-wr1-x431.google.com)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1n6BIq-0003vl-Ik; Sat, 08 Jan 2022 07:58:36 -0500
+Received: from [2607:f8b0:4864:20::a2c] (port=37520
+ helo=mail-vk1-xa2c.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
- id 1n6ARf-0007I8-GN
- for qemu-devel@nongnu.org; Sat, 08 Jan 2022 07:03:41 -0500
-Received: by mail-wr1-x431.google.com with SMTP id w20so16364347wra.9
- for <qemu-devel@nongnu.org>; Sat, 08 Jan 2022 04:03:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=brainfault-org.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=yfFxu4v90Fx6fZByVpAAQEDN0ofHbBjHbVnibUy2pbI=;
- b=OOJmpzThN8feJea1+ERhebIyYvQcFEeShH2HGfJVSVkeRUDJpmttREhLSASkTrt3v7
- 2XtOfxaW8KAOThIBvHyGIY2KQrY7WvUzBIuff7hro5qO3tMrU/BvXFk62cumy8ED/eDh
- b3YS+mbX2X+2WdiM94pPA7fPt4IphfpYetAM7L3goI915caKcpshAEfwnc1XlbBiMgy/
- CQKadA2HrR7RbF+G9Zr91/MFtdsIP9lklXg9yt0DYIHV9K07oI6ChoM2ScDx4LXpeMti
- Qmhm7+b1NKIn4TMc+AyKd+TcrYbled9+iRplVAKXxvg0vw+rOzSYpEW93sarYfLaRWbO
- Azew==
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1n6BIp-0007Hi-4W; Sat, 08 Jan 2022 07:58:36 -0500
+Received: by mail-vk1-xa2c.google.com with SMTP id l68so5351134vkh.4;
+ Sat, 08 Jan 2022 04:58:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=RjgGO9sCdPbZ0hzU2VcTiPzPFeZmWKIYqQRoGqBPn2Q=;
+ b=m96VKpOu9RrJjptahSHvOwu9nCDSZ4RZkk9aoFhQ6CvzPqcHyWUjfVsTCZv8mx8RUp
+ znwaDT/S4Us4GZYkN5t9hD1aKgfmrqZXWBlzHjooYHQgC9MdETg3ISa05+Wdf4lu346e
+ 4sA+AdT8frFUjAMlVxkTHJ9FTJ99kr12ip6tkVbGE+SJdN7mLy2SBXqNQobSipAvB6Gt
+ 1VULj6qiy46f3c35LsJ8BKSaLfgBT1f1i4aFel72U1JiAIQm4TtJacm1tGlZC2RFQH7D
+ l/b7B4TmRzCH3aUwf0aPmK5YwoOvtKQA96+/vUeb21hbjj8N/D553W48rjaXbvnlWLbn
+ 0Vig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=yfFxu4v90Fx6fZByVpAAQEDN0ofHbBjHbVnibUy2pbI=;
- b=thqwR6udF92TOzHXZBzTuv4aJU+AY1jDXutXrWzleDCe0WPtYXzmlBDhfoMkbSWGm5
- XJuiCMOpcley9/bYPBu4Mqa346veZiKQOd8F7AbA9zLaWKvdT8TWzw+6sytbJcm/tiW8
- YpyHX20yfMgJYtgWgWgziM62di+Ik8lrQaym2SSkoeMyvm4K7YlgD/u2LspZxDGO1/Lu
- zWR3Txi6eCvTZ8nsUH7fmBPw4PYIiU1pjb5zE6ogXiZV+J+ZpCJ5U6+ihyMNqK28iSdN
- BV8LLfw7KVkJLsVKGDUbqCXeAGRdvfi9kT1v27Fj+shJJKQPozsaHgKIYqoXPovQG00w
- UjgA==
-X-Gm-Message-State: AOAM530NN4frZHA4N0JiagOGKgzKsQhUJHGgbFUMbWIQBz+9JxKAuRtc
- Nr4LiZpxTaiMnQle9TtQnVLnx3iR9q2SKDZGXQryUQgdZcBkHA==
-X-Google-Smtp-Source: ABdhPJwKFcKdlFMIb8suqfkkGG+TJJvgjiz3OCLbiDeNOs0WK1MU7a1eUT3nsDxK1bs6IQdcVlEwrAh0bqtNPIjE9xw=
-X-Received: by 2002:adf:e38e:: with SMTP id e14mr2117445wrm.313.1641643418036; 
- Sat, 08 Jan 2022 04:03:38 -0800 (PST)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=RjgGO9sCdPbZ0hzU2VcTiPzPFeZmWKIYqQRoGqBPn2Q=;
+ b=UetVm/vvH3Bxp1k+AAIFGSZsBdOJX195ALEB2yhhwxiRMOyNnJahbr+TYRZxROWvoW
+ hx138QGpuOj4cjXmizrMosE1smRcNhiIvkG0XPRJ30aFE4lL+1XQMIv2xDprJZEHKXy+
+ SMnglAL7hBiCtoMqFsuOMGOdDrecmwEd3nPLOHtH+cqDU6xM3KmNg0GPteGXLwbMGN6R
+ yeEWHr9/jXX0V0WecLerqSTQV5/3wgRTYTDLJPUbnh6vVT6qs5sOwflvFvbzHADAmmbM
+ pG5PPBvxTSvTToMMWotF7hpTb1N9fAggOm3FqrF2t90oienYHhME4uBzjn+RlyJOufAp
+ Wd3A==
+X-Gm-Message-State: AOAM530cKlHFRpYpoAIOFL+AeDl0f3/bcm5ehFMBMDP+EGQD4ec7UUe9
+ lYz7x6wetjxDes5xqCm7ZRE=
+X-Google-Smtp-Source: ABdhPJw37m89a7WuDNKZEzWaHa3BIi/e09A3U3kEQgXfP+yjNRf30J34peS4fQ9xj7Lu2hNtDY8MFw==
+X-Received: by 2002:a1f:2849:: with SMTP id o70mr24226299vko.35.1641646713825; 
+ Sat, 08 Jan 2022 04:58:33 -0800 (PST)
+Received: from [192.168.10.222] ([179.110.60.42])
+ by smtp.gmail.com with ESMTPSA id u137sm843049vku.42.2022.01.08.04.58.32
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 08 Jan 2022 04:58:33 -0800 (PST)
+Message-ID: <eb21e4d6-1767-56b1-bf38-1b28b94ce6f5@gmail.com>
+Date: Sat, 8 Jan 2022 09:58:31 -0300
 MIME-Version: 1.0
-References: <20211230123539.52786-1-anup@brainfault.org>
- <20211230123539.52786-16-anup@brainfault.org>
- <CANzO1D3jRnEV6X_=WpFfSFNx3O5XwJWkzBcLMTkpy_Lu0yRAvw@mail.gmail.com>
-In-Reply-To: <CANzO1D3jRnEV6X_=WpFfSFNx3O5XwJWkzBcLMTkpy_Lu0yRAvw@mail.gmail.com>
-From: Anup Patel <anup@brainfault.org>
-Date: Sat, 8 Jan 2022 17:33:26 +0530
-Message-ID: <CAAhSdy0LbSAL8+mqz2kh-qRoFXtQn5rvuaij_FMwBZ6wVstb8w@mail.gmail.com>
-Subject: Re: [PATCH v6 15/23] target/riscv: Implement AIA IMSIC interface CSRs
-To: Frank Chang <frank.chang@sifive.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::431
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH v2 17/18] ppc/pnv: Introduce user creatable pnv-phb4
+ devices
+Content-Language: en-US
+To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-devel@nongnu.org
+References: <20220105212338.49899-1-danielhb413@gmail.com>
+ <20220105212338.49899-18-danielhb413@gmail.com>
+ <4c3eab1f-e435-b468-96e3-9f3d78430534@kaod.org>
+ <3464eb94-7905-fe0d-7924-8cd22d1a555e@gmail.com>
+ <97527835-3c83-69e9-d1c8-873c4d549b19@kaod.org>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+In-Reply-To: <97527835-3c83-69e9-d1c8-873c4d549b19@kaod.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::a2c
  (failed)
-Received-SPF: none client-ip=2a00:1450:4864:20::431;
- envelope-from=anup@brainfault.org; helo=mail-wr1-x431.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::a2c;
+ envelope-from=danielhb413@gmail.com; helo=mail-vk1-xa2c.google.com
+X-Spam_score_int: -52
+X-Spam_score: -5.3
+X-Spam_bar: -----
+X-Spam_report: (-5.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-4.199,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,318 +93,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Atish Patra <atishp@atishpatra.org>, Palmer Dabbelt <palmer@dabbelt.com>,
- Bin Meng <bmeng.cn@gmail.com>
+Cc: qemu-ppc@nongnu.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jan 5, 2022 at 9:01 AM Frank Chang <frank.chang@sifive.com> wrote:
->
-> Anup Patel <anup@brainfault.org> =E6=96=BC 2021=E5=B9=B412=E6=9C=8830=E6=
-=97=A5 =E9=80=B1=E5=9B=9B =E4=B8=8B=E5=8D=888:53=E5=AF=AB=E9=81=93=EF=BC=9A
->>
->> From: Anup Patel <anup.patel@wdc.com>
->>
->> The AIA specification defines IMSIC interface CSRs for easy access
->> to the per-HART IMSIC registers without using indirect xiselect and
->> xireg CSRs. This patch implements the AIA IMSIC interface CSRs.
->>
->> Signed-off-by: Anup Patel <anup.patel@wdc.com>
->> Signed-off-by: Anup Patel <anup@brainfault.org>
->> ---
->>  target/riscv/csr.c | 202 +++++++++++++++++++++++++++++++++++++++++++++
->>  1 file changed, 202 insertions(+)
->>
->> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
->> index 488877e89c..89e74f848d 100644
->> --- a/target/riscv/csr.c
->> +++ b/target/riscv/csr.c
->> @@ -906,6 +906,16 @@ static int aia_xlate_vs_csrno(CPURISCVState *env, i=
-nt csrno)
->>          return CSR_VSISELECT;
->>      case CSR_SIREG:
->>          return CSR_VSIREG;
->> +    case CSR_SSETEIPNUM:
->> +        return CSR_VSSETEIPNUM;
->> +    case CSR_SCLREIPNUM:
->> +        return CSR_VSCLREIPNUM;
->> +    case CSR_SSETEIENUM:
->> +        return CSR_VSSETEIENUM;
->> +    case CSR_SCLREIENUM:
->> +        return CSR_VSCLREIENUM;
->> +    case CSR_STOPEI:
->> +        return CSR_VSTOPEI;
->>      default:
->>          return csrno;
->>      };
->> @@ -1058,6 +1068,177 @@ done:
->>      return RISCV_EXCP_NONE;
->>  }
->>
->> +static int rmw_xsetclreinum(CPURISCVState *env, int csrno, target_ulong=
- *val,
->> +                            target_ulong new_val, target_ulong wr_mask)
->> +{
->> +    int ret =3D -EINVAL;
->> +    bool set, pend, virt;
->> +    target_ulong priv, isel, vgein, xlen, nval, wmask;
->> +
->> +    /* Translate CSR number for VS-mode */
->> +    csrno =3D aia_xlate_vs_csrno(env, csrno);
->> +
->> +    /* Decode register details from CSR number */
->> +    virt =3D set =3D pend =3D false;
->> +    switch (csrno) {
->> +    case CSR_MSETEIPNUM:
->> +        priv =3D PRV_M;
->> +        set =3D true;
->
->
-> Missing: pend =3D true; here?
 
-Ahh, good catch. I will fix this in the next revision.
+
+On 1/8/22 08:11, Cédric Le Goater wrote:
+>>>> +        object_property_set_int(OBJECT(phb), "index",
+>>>> +                                phb->phb_id, &error_abort);
+>>>> +
+>>>> +        pnv_phb4_set_stack_phb_props(stack, phb);
+>>>> +
+>>>> +        /* Assign the phb to the stack */
+>>>> +        stack->phb = phb;
+>>>
+>>> The stack object should check the validity of the stack->phb pointer always.
+>>
+>>
+>> What do you mean by "check the validity"?
+>>
+> 
+> I am thinking of the usage of 'stack->phb', for instance in the routine
+> pnv_phb4_update_regions(). We should add an assert there.
+
+Oh ok. I'll add an assert in this point (and in the code above that where you
+also pointed it out.
+
+And about pnv_phb4_update_regions(), v3 will need to handle it but not with
+an assert but with a phb != NULL verification to become a NO-OP if phb is NULL.
+It's an easier and less intrusive fix than trying to change the order of the
+XSCOM initialization in stk_realize().
+
+I will (hopefully) explain it better in the v3.
+
 
 Thanks,
-Anup
 
->
-> Frank Chang
->
->>
->> +        break;
->> +    case CSR_MCLREIPNUM:
->> +        priv =3D PRV_M;
->> +        pend =3D true;
->> +        break;
->> +    case CSR_MSETEIENUM:
->> +        priv =3D PRV_M;
->> +        set =3D true;
->> +        break;
->> +    case CSR_MCLREIENUM:
->> +        priv =3D PRV_M;
->> +        break;
->> +    case CSR_SSETEIPNUM:
->> +        priv =3D PRV_S;
->> +        set =3D true;
->> +        pend =3D true;
->> +        break;
->> +    case CSR_SCLREIPNUM:
->> +        priv =3D PRV_S;
->> +        pend =3D true;
->> +        break;
->> +    case CSR_SSETEIENUM:
->> +        priv =3D PRV_S;
->> +        set =3D true;
->> +        break;
->> +    case CSR_SCLREIENUM:
->> +        priv =3D PRV_S;
->> +        break;
->> +    case CSR_VSSETEIPNUM:
->> +        priv =3D PRV_S;
->> +        virt =3D true;
->> +        set =3D true;
->> +        pend =3D true;
->> +        break;
->> +    case CSR_VSCLREIPNUM:
->> +        priv =3D PRV_S;
->> +        virt =3D true;
->> +        pend =3D true;
->> +        break;
->> +    case CSR_VSSETEIENUM:
->> +        priv =3D PRV_S;
->> +        virt =3D true;
->> +        set =3D true;
->> +        break;
->> +    case CSR_VSCLREIENUM:
->> +        priv =3D PRV_S;
->> +        virt =3D true;
->> +        break;
->> +    default:
->> +         goto done;
->> +    };
->> +
->> +    /* IMSIC CSRs only available when machine implements IMSIC. */
->> +    if (!env->aia_ireg_rmw_fn[priv]) {
->> +        goto done;
->> +    }
->> +
->> +    /* Find the selected guest interrupt file */
->> +    vgein =3D (virt) ? get_field(env->hstatus, HSTATUS_VGEIN) : 0;
->> +
->> +    /* Selected guest interrupt file should be valid */
->> +    if (virt && (!vgein || env->geilen < vgein)) {
->> +        goto done;
->> +    }
->> +
->> +    /* Set/Clear CSRs always read zero */
->> +    if (val) {
->> +        *val =3D 0;
->> +    }
->> +
->> +    if (wr_mask) {
->> +        /* Get interrupt number */
->> +        new_val &=3D wr_mask;
->> +
->> +        /* Find target interrupt pending/enable register */
->> +        xlen =3D riscv_cpu_mxl_bits(env);
->> +        isel =3D (new_val / xlen);
->> +        isel *=3D (xlen / IMSIC_EIPx_BITS);
->> +        isel +=3D (pend) ? ISELECT_IMSIC_EIP0 : ISELECT_IMSIC_EIE0;
->> +
->> +        /* Find the interrupt bit to be set/clear */
->> +        wmask =3D ((target_ulong)1) << (new_val % xlen);
->> +        nval =3D (set) ? wmask : 0;
->> +
->> +        /* Call machine specific IMSIC register emulation */
->> +        ret =3D env->aia_ireg_rmw_fn[priv](env->aia_ireg_rmw_fn_arg[pri=
-v],
->> +                                         AIA_MAKE_IREG(isel, priv, virt=
-,
->> +                                                       vgein, xlen),
->> +                                         NULL, nval, wmask);
->> +    } else {
->> +        ret =3D 0;
->> +    }
->> +
->> +done:
->> +    if (ret) {
->> +        return (riscv_cpu_virt_enabled(env) && virt) ?
->> +               RISCV_EXCP_VIRT_INSTRUCTION_FAULT : RISCV_EXCP_ILLEGAL_I=
-NST;
->> +    }
->> +    return RISCV_EXCP_NONE;
->> +}
->> +
->> +static int rmw_xtopei(CPURISCVState *env, int csrno, target_ulong *val,
->> +                      target_ulong new_val, target_ulong wr_mask)
->> +{
->> +    bool virt;
->> +    int ret =3D -EINVAL;
->> +    target_ulong priv, vgein;
->> +
->> +    /* Translate CSR number for VS-mode */
->> +    csrno =3D aia_xlate_vs_csrno(env, csrno);
->> +
->> +    /* Decode register details from CSR number */
->> +    virt =3D false;
->> +    switch (csrno) {
->> +    case CSR_MTOPEI:
->> +        priv =3D PRV_M;
->> +        break;
->> +    case CSR_STOPEI:
->> +        priv =3D PRV_S;
->> +        break;
->> +    case CSR_VSTOPEI:
->> +        priv =3D PRV_S;
->> +        virt =3D true;
->> +        break;
->> +    default:
->> +        goto done;
->> +    };
->> +
->> +    /* IMSIC CSRs only available when machine implements IMSIC. */
->> +    if (!env->aia_ireg_rmw_fn[priv]) {
->> +        goto done;
->> +    }
->> +
->> +    /* Find the selected guest interrupt file */
->> +    vgein =3D (virt) ? get_field(env->hstatus, HSTATUS_VGEIN) : 0;
->> +
->> +    /* Selected guest interrupt file should be valid */
->> +    if (virt && (!vgein || env->geilen < vgein)) {
->> +        goto done;
->> +    }
->> +
->> +    /* Call machine specific IMSIC register emulation for TOPEI */
->> +    ret =3D env->aia_ireg_rmw_fn[priv](env->aia_ireg_rmw_fn_arg[priv],
->> +                    AIA_MAKE_IREG(ISELECT_IMSIC_TOPEI, priv, virt, vgei=
-n,
->> +                                  riscv_cpu_mxl_bits(env)),
->> +                    val, new_val, wr_mask);
->> +
->> +done:
->> +    if (ret) {
->> +        return (riscv_cpu_virt_enabled(env) && virt) ?
->> +               RISCV_EXCP_VIRT_INSTRUCTION_FAULT : RISCV_EXCP_ILLEGAL_I=
-NST;
->> +    }
->> +    return RISCV_EXCP_NONE;
->> +}
->> +
->>  static RISCVException read_mtvec(CPURISCVState *env, int csrno,
->>                                   target_ulong *val)
->>  {
->> @@ -2706,6 +2887,13 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] =3D =
-{
->>      /* Machine-Level Interrupts (AIA) */
->>      [CSR_MTOPI]    =3D { "mtopi",    aia_any,   read_mtopi },
->>
->> +    /* Machine-Level IMSIC Interface (AIA) */
->> +    [CSR_MSETEIPNUM] =3D { "mseteipnum", aia_any, NULL, NULL, rmw_xsetc=
-lreinum },
->> +    [CSR_MCLREIPNUM] =3D { "mclreipnum", aia_any, NULL, NULL, rmw_xsetc=
-lreinum },
->> +    [CSR_MSETEIENUM] =3D { "mseteienum", aia_any, NULL, NULL, rmw_xsetc=
-lreinum },
->> +    [CSR_MCLREIENUM] =3D { "mclreienum", aia_any, NULL, NULL, rmw_xsetc=
-lreinum },
->> +    [CSR_MTOPEI]     =3D { "mtopei",     aia_any, NULL, NULL, rmw_xtope=
-i },
->> +
->>      /* Virtual Interrupts for Supervisor Level (AIA) */
->>      [CSR_MVIEN]      =3D { "mvien", aia_any, read_zero, write_ignore },
->>      [CSR_MVIP]       =3D { "mvip",  aia_any, read_zero, write_ignore },
->> @@ -2740,6 +2928,13 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] =3D =
-{
->>      /* Supervisor-Level Interrupts (AIA) */
->>      [CSR_STOPI]      =3D { "stopi",      aia_smode, read_stopi },
->>
->> +    /* Supervisor-Level IMSIC Interface (AIA) */
->> +    [CSR_SSETEIPNUM] =3D { "sseteipnum", aia_smode, NULL, NULL, rmw_xse=
-tclreinum },
->> +    [CSR_SCLREIPNUM] =3D { "sclreipnum", aia_smode, NULL, NULL, rmw_xse=
-tclreinum },
->> +    [CSR_SSETEIENUM] =3D { "sseteienum", aia_smode, NULL, NULL, rmw_xse=
-tclreinum },
->> +    [CSR_SCLREIENUM] =3D { "sclreienum", aia_smode, NULL, NULL, rmw_xse=
-tclreinum },
->> +    [CSR_STOPEI]     =3D { "stopei",     aia_smode, NULL, NULL, rmw_xto=
-pei },
->> +
->>      /* Supervisor-Level High-Half CSRs (AIA) */
->>      [CSR_SIEH]       =3D { "sieh",   aia_smode32, NULL, NULL, rmw_sieh =
-},
->>      [CSR_SIPH]       =3D { "siph",   aia_smode32, NULL, NULL, rmw_siph =
-},
->> @@ -2785,6 +2980,13 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] =3D =
-{
->>      /* VS-Level Interrupts (H-extension with AIA) */
->>      [CSR_VSTOPI]      =3D { "vstopi",      aia_hmode, read_vstopi },
->>
->> +    /* VS-Level IMSIC Interface (H-extension with AIA) */
->> +    [CSR_VSSETEIPNUM] =3D { "vsseteipnum", aia_hmode, NULL, NULL, rmw_x=
-setclreinum },
->> +    [CSR_VSCLREIPNUM] =3D { "vsclreipnum", aia_hmode, NULL, NULL, rmw_x=
-setclreinum },
->> +    [CSR_VSSETEIENUM] =3D { "vsseteienum", aia_hmode, NULL, NULL, rmw_x=
-setclreinum },
->> +    [CSR_VSCLREIENUM] =3D { "vsclreienum", aia_hmode, NULL, NULL, rmw_x=
-setclreinum },
->> +    [CSR_VSTOPEI]     =3D { "vstopei",     aia_hmode, NULL, NULL, rmw_x=
-topei },
->> +
->>      /* Hypervisor and VS-Level High-Half CSRs (H-extension with AIA) */
->>      [CSR_HIDELEGH]    =3D { "hidelegh",    aia_hmode32, NULL, NULL, rmw=
-_hidelegh },
->>      [CSR_HVIENH]      =3D { "hvienh",      aia_hmode32, read_zero, writ=
-e_ignore },
->> --
->> 2.25.1
->>
->>
+
+Daniel
+
+> 
+> Your changes seem to cleanup the stack <-> phb relation quite a lot. Which
+> is good.
+> 
+> Thanks,
+> 
+> C.
 
