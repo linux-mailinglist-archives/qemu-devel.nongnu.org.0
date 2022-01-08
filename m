@@ -2,94 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B68A4881E0
-	for <lists+qemu-devel@lfdr.de>; Sat,  8 Jan 2022 07:38:13 +0100 (CET)
-Received: from localhost ([::1]:59284 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95C504881EE
+	for <lists+qemu-devel@lfdr.de>; Sat,  8 Jan 2022 07:56:41 +0100 (CET)
+Received: from localhost ([::1]:39768 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n65Mi-00042t-BL
-	for lists+qemu-devel@lfdr.de; Sat, 08 Jan 2022 01:38:12 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:51750)
+	id 1n65ea-0003Pa-Jg
+	for lists+qemu-devel@lfdr.de; Sat, 08 Jan 2022 01:56:40 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:51768)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=000118587=alistair.francis@opensource.wdc.com>)
- id 1n64eB-0000T0-Oi
- for qemu-devel@nongnu.org; Sat, 08 Jan 2022 00:52:11 -0500
+ id 1n64eG-0000dH-5H
+ for qemu-devel@nongnu.org; Sat, 08 Jan 2022 00:52:16 -0500
 Received: from esa5.hgst.iphmx.com ([216.71.153.144]:63856)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=000118587=alistair.francis@opensource.wdc.com>)
- id 1n64e9-0006sW-To
- for qemu-devel@nongnu.org; Sat, 08 Jan 2022 00:52:11 -0500
+ id 1n64eE-0006sW-Ao
+ for qemu-devel@nongnu.org; Sat, 08 Jan 2022 00:52:15 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1641621128; x=1673157128;
+ t=1641621133; x=1673157133;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=y//U4N/6Ko/Gjvo23TbC8u+WvooHOVbxqJpjJvI0QlQ=;
- b=h8vrXDHwEZ1ta+Z+Piy36gDBezvK106s82PAoRyT2a7sGgDSX8x7bcWh
- FZPR8Ms2duMqeLq+kXwlXa85f+U7oGTy9DC6H3Pyba9yPYgFDTzd7Eg0M
- zym4MO6H99i2Dyv6+BSKN3L5Cj91ZmQ/P3xveRLFImmj8P6WH+Qgdmqht
- 4MY9JpaadLCXRinsTOCpQwB1KqwTYnzD7PNCvDCf41KXSF/o/exX26Zpu
- sfirdPrytXtN+AUcrsSKsF2cwRc6OIUiMo6u/Lunt/jzXe+ukpbLMBqLh
- arIYROwfcO9uZ5Ns+Tq9WcwI8sqpG2q4f1UKC3acrybfinD9kXputhm4q A==;
-X-IronPort-AV: E=Sophos;i="5.88,272,1635177600"; d="scan'208";a="189984912"
+ bh=1QSvHceYV+JaHdD8fOuwsLgZdYmNl23giOReN2L9akc=;
+ b=DeUH0vc1udnRI6FFVjxFSa1bRebizt7k8gLYb8skKhJZ1VopEx0Ogbta
+ BibJKkcrmCh/rISTAJcJQBZJdB5fLqETUMAz3EAWW2xLJWS4vKkqa7msB
+ Hql7lIdbKNnzgpPaHla/pefmNdb/m5RzyjUzjRqTf1YPbSJG06hEoXuO/
+ 4vrj/8XY8lHTjSeqSIgRMzSSrnHoDYwOV23R/fbtfPYMxYlrvyISypXGH
+ hOVyO57IZCKVQC3mshWU8YpgzTnzJD7mSwxpK1IpkGKNMTkeB5TnrMlr+
+ SzuP1+dH9iMaW0juY+J6FZuhKB5RojxkO7fTvkkzi0epCdUQlrAb4/73d Q==;
+X-IronPort-AV: E=Sophos;i="5.88,272,1635177600"; d="scan'208";a="189984916"
 Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 08 Jan 2022 13:52:07 +0800
-IronPort-SDR: 4s9+PQU1ximooUWrEL45OKBgIQNGGcwYnBfoSnnwX0LK/93gd4hD8PvC8VwEOMhG5TKXSwcW9b
- UN8kU3/V0AOswMg2yzRHRx9gkEmWkRqzM8z7Zt+vFfezURH86E3WpyyAeM+OvbIhUI8DQCRwSD
- rW3PWc6PfxRZ9oycmHsZlaO9sFSYPYlBjlm/vBGaZYAklac8RcSYWr6AzT+DXVwkXCx5UtP5f1
- NFPit/8ijG9QExNgCTjB5cKQC2MIIFrH4cYl2YhJtYemSJCPw1AkS67B5k/4oobwEyNRCsTT8T
- Ot9pZSohtwxDIqJXRK+RXxXG
+ by ob1.hgst.iphmx.com with ESMTP; 08 Jan 2022 13:52:12 +0800
+IronPort-SDR: YdEQbHEMhJaf4RoLqkTC8XhLK1HP2VNU+Dxf3EYjjFeAq5kV3dq9A27iDEFn+cqg3L25nkITuv
+ P0qcM1tBbtbsHFl4TffLaEDIu9t83fGYrQ1DgT+0OTRKUSleepYqQj7y/gSoO6yXFyJO6yenVW
+ aU3aAKOdrlGNAKu8wqGauLv4dVGjW8JfEWZ0dsC5GgnwDJSTprWnY9/lQqIfhzDCBZPDkudgN3
+ HoSVBQpZenCI6Xj8FfVdjffw7+5yzerVKDYetSvi8gBKoBBObM8B1EQi2IkzYvVIE9eClpbood
+ KkuwI+ILkJM86yejl/WudGmO
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Jan 2022 21:25:56 -0800
-IronPort-SDR: fHZAuI1C3ZJtbGKeEhKWqyUkVymET7VX3s1O0Rd3D0etVFElxb4cwbLu6dC5ndCXlYyU7a/1RQ
- SsD0HE9Wls58vBQiWjK+w6yqo/07Es8bmmOHb7sMwhaznonkavpKX+S9py/mhWmY1eBJfZNQab
- o14TF2Ik8XkXzY17/C4iFhx+CsseusNSBMP8UoVn1m3qF+fUWh1TxsAtCuGkSLzSLl9xVHzODn
- CubitHi1g66WngAuSJMqj4bCoPzXX5DglVOgj3L70VOyrhijqD/uU/6vFUQ8hdlCIJzoQbEdr1
- mDk=
+ 07 Jan 2022 21:26:00 -0800
+IronPort-SDR: ZHxAljxa4S8yj/3mT9Du+YJ84M55/Fu8xZ1Cv8S3s4IntshaxFngBW3qNImkRzffZehVuyZEKO
+ E76TUoN9dWZEwJWI9Dvu0/dhI+ZcqQBcysnWanJSVSyLfZ0oGy8WzLCbcfj9fdD3n8vPq3swzV
+ ubG4/qvfv6jiRlUKtdApShx/7+wCSgGNGtlnguFjCYTbzF455w0WeJtOWO/3Pv4DcUAD/kWH9B
+ 2Q4/df76EVUMjAgbJdv53i8T4Xzqr9EsYBSoQT6uqfpsY99scZitllOLVz5sU31VDUHF3gK/5L
+ sbo=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Jan 2022 21:52:10 -0800
+ 07 Jan 2022 21:52:14 -0800
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4JW8P46gnLz1VSkX
- for <qemu-devel@nongnu.org>; Fri,  7 Jan 2022 21:52:08 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4JW8P931wDz1VSkY
+ for <qemu-devel@nongnu.org>; Fri,  7 Jan 2022 21:52:13 -0800 (PST)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
- opensource.wdc.com; h=content-transfer-encoding:mime-version
- :references:in-reply-to:x-mailer:message-id:date:subject:to
- :from; s=dkim; t=1641621128; x=1644213129; bh=y//U4N/6Ko/Gjvo23T
- bC8u+WvooHOVbxqJpjJvI0QlQ=; b=a3ELAQu7O2Rr73XTWLSJUXXjzQKGuT9Sxq
- dXEvNn/luGlAKBQ3lFzFSpGLaFGD2klEa1aR4lXPzwDm1El5Y58GbAkjfZjzzoq7
- UaqfczhOihCcgOBBWM5ZXbZTok/khxFLSrDvk0MNm8GkPvJWSVcbgerwj8bS1NfP
- Rw8DjWgQ+tW3ZvtkGmj05VZMM3WBJnVVv4c2j7LRnm9Bb+w8OpGKK9UeCIce9unM
- TRf96G9jAHSXTde/RCURflI/2Van577q5ngTgV4IMS3yxRblLUCkbQP7KiXqR2rh
- jgLVnod3ynibFHgppf9d0IXuz4FEJwDFlVH+kNamK2ByEHGq48sg==
+ opensource.wdc.com; h=content-transfer-encoding:content-type
+ :mime-version:references:in-reply-to:x-mailer:message-id:date
+ :subject:to:from; s=dkim; t=1641621133; x=1644213134; bh=1QSvHce
+ YV+JaHdD8fOuwsLgZdYmNl23giOReN2L9akc=; b=eQxFgTtLOu6CfaHtr4LDUKl
+ 8+ilCdtPuszFqdkw1nsDfzdQBfDBS05vk3E2Xfx5bsYBswVWpwuD8BR1hYJp22zZ
+ L7wYU17m10fQLV9DvlzJgXIGPDmJknkIaVH/FU51nkkWwr2LXeKN1YNGWXTuCAbx
+ 4L89MrCE5q8PIjnKmsjlZe40llt0Byj2f5r5eB5MGssiaPhYT4Vp+xc36sA9fni1
+ 6YFEB5Fq7BXYEeit7g7oTeujrtpdvQagjczWTuugXQ5iLeBrckXArzwBVbs1i/ev
+ vhBrSaTQ2x3wVOdRkrYvwvoWepyXt++1l95Ax/zIntYTRJe0lxO6V7fYNXx1xqA=
+ =
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id B8TQ-frEOH9p for <qemu-devel@nongnu.org>;
- Fri,  7 Jan 2022 21:52:08 -0800 (PST)
+ port 10026) with ESMTP id v0mDRsD0PhgN for <qemu-devel@nongnu.org>;
+ Fri,  7 Jan 2022 21:52:13 -0800 (PST)
 Received: from toolbox.alistair23.me (unknown [10.225.165.74])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4JW8P13D3Tz1VSkV;
- Fri,  7 Jan 2022 21:52:04 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4JW8P539KJz1VSkV;
+ Fri,  7 Jan 2022 21:52:08 -0800 (PST)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org
-Cc: alistair23@gmail.com, Frank Chang <frank.chang@sifive.com>,
+Cc: alistair23@gmail.com, Philipp Tomsich <philipp.tomsich@vrull.eu>,
+ Bin Meng <bmeng.cn@gmail.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Alistair Francis <alistair.francis@wdc.com>
-Subject: [PULL 15/37] target/riscv: rvv-1.0: Call the correct RVF/RVD check
- function for narrowing fp/int type-convert insns
-Date: Sat,  8 Jan 2022 15:50:26 +1000
-Message-Id: <20220108055048.3512645-16-alistair.francis@opensource.wdc.com>
+Subject: [PULL 16/37] target/riscv: Fix position of 'experimental' comment
+Date: Sat,  8 Jan 2022 15:50:27 +1000
+Message-Id: <20220108055048.3512645-17-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20220108055048.3512645-1-alistair.francis@opensource.wdc.com>
 References: <20220108055048.3512645-1-alistair.francis@opensource.wdc.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=216.71.153.144;
  envelope-from=prvs=000118587=alistair.francis@opensource.wdc.com;
@@ -116,85 +119,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Frank Chang <frank.chang@sifive.com>
+From: Philipp Tomsich <philipp.tomsich@vrull.eu>
 
-vfncvt.f.xu.w, vfncvt.f.x.w convert double-width integer to single-width
-floating-point. Therefore, should use require_rvf() to check whether
-RVF/RVD is enabled.
+When commit 0643c12e4b dropped the 'x-' prefix for Zb[abcs] and set
+them to be enabled by default, the comment about experimental
+extensions was kept in place above them.  This moves it down a few
+lines to only cover experimental extensions.
 
-vfncvt.f.f.w, vfncvt.rod.f.f.w convert double-width floating-point to
-single-width integer. Therefore, should use require_scale_rvf() to check
-whether RVF/RVD is enabled.
+References: 0643c12e4b ("target/riscv: Enable bitmanip Zb[abcs] instructi=
+ons")
 
-Signed-off-by: Frank Chang <frank.chang@sifive.com>
-Acked-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <20220105022247.21131-4-frank.chang@sifive.com>
+Signed-off-by: Philipp Tomsich <philipp.tomsich@vrull.eu>
+Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Message-id: 20220106134020.1628889-1-philipp.tomsich@vrull.eu
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/insn_trans/trans_rvv.c.inc | 32 ++++++++++++++++++-------
- 1 file changed, 24 insertions(+), 8 deletions(-)
+ target/riscv/cpu.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_=
-trans/trans_rvv.c.inc
-index f1b44ccad2..6c285c958b 100644
---- a/target/riscv/insn_trans/trans_rvv.c.inc
-+++ b/target/riscv/insn_trans/trans_rvv.c.inc
-@@ -2719,17 +2719,29 @@ GEN_OPFXV_WIDEN_TRANS(vfwcvt_f_x_v)
- static bool opfv_narrow_check(DisasContext *s, arg_rmr *a)
- {
-     return require_rvv(s) &&
--           require_rvf(s) &&
--           (s->sew !=3D MO_64) &&
-            vext_check_isa_ill(s) &&
-            /* OPFV narrowing instructions ignore vs1 check */
-            vext_check_sd(s, a->rd, a->rs2, a->vm);
- }
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index 29749e834f..ce21c1b5b1 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -641,11 +641,12 @@ static Property riscv_cpu_properties[] =3D {
+     DEFINE_PROP_UINT16("vlen", RISCVCPU, cfg.vlen, 128),
+     DEFINE_PROP_UINT16("elen", RISCVCPU, cfg.elen, 64),
 =20
--#define GEN_OPFV_NARROW_TRANS(NAME, HELPER, FRM)                   \
-+static bool opfxv_narrow_check(DisasContext *s, arg_rmr *a)
-+{
-+    return opfv_narrow_check(s, a) &&
-+           require_rvf(s) &&
-+           (s->sew !=3D MO_64);
-+}
+-    /* These are experimental so mark with 'x-' */
+     DEFINE_PROP_BOOL("zba", RISCVCPU, cfg.ext_zba, true),
+     DEFINE_PROP_BOOL("zbb", RISCVCPU, cfg.ext_zbb, true),
+     DEFINE_PROP_BOOL("zbc", RISCVCPU, cfg.ext_zbc, true),
+     DEFINE_PROP_BOOL("zbs", RISCVCPU, cfg.ext_zbs, true),
 +
-+static bool opffv_narrow_check(DisasContext *s, arg_rmr *a)
-+{
-+    return opfv_narrow_check(s, a) &&
-+           require_scale_rvf(s) &&
-+           (s->sew !=3D MO_8);
-+}
-+
-+#define GEN_OPFV_NARROW_TRANS(NAME, CHECK, HELPER, FRM)            \
- static bool trans_##NAME(DisasContext *s, arg_rmr *a)              \
- {                                                                  \
--    if (opfv_narrow_check(s, a)) {                                 \
-+    if (CHECK(s, a)) {                                             \
-         if (FRM !=3D RISCV_FRM_DYN) {                                \
-             gen_set_rm(s, RISCV_FRM_DYN);                          \
-         }                                                          \
-@@ -2756,11 +2768,15 @@ static bool trans_##NAME(DisasContext *s, arg_rmr=
- *a)              \
-     return false;                                                  \
- }
-=20
--GEN_OPFV_NARROW_TRANS(vfncvt_f_xu_w, vfncvt_f_xu_w, RISCV_FRM_DYN)
--GEN_OPFV_NARROW_TRANS(vfncvt_f_x_w, vfncvt_f_x_w, RISCV_FRM_DYN)
--GEN_OPFV_NARROW_TRANS(vfncvt_f_f_w, vfncvt_f_f_w, RISCV_FRM_DYN)
-+GEN_OPFV_NARROW_TRANS(vfncvt_f_xu_w, opfxv_narrow_check, vfncvt_f_xu_w,
-+                      RISCV_FRM_DYN)
-+GEN_OPFV_NARROW_TRANS(vfncvt_f_x_w, opfxv_narrow_check, vfncvt_f_x_w,
-+                      RISCV_FRM_DYN)
-+GEN_OPFV_NARROW_TRANS(vfncvt_f_f_w, opffv_narrow_check, vfncvt_f_f_w,
-+                      RISCV_FRM_DYN)
- /* Reuse the helper function from vfncvt.f.f.w */
--GEN_OPFV_NARROW_TRANS(vfncvt_rod_f_f_w, vfncvt_f_f_w, RISCV_FRM_ROD)
-+GEN_OPFV_NARROW_TRANS(vfncvt_rod_f_f_w, opffv_narrow_check, vfncvt_f_f_w=
-,
-+                      RISCV_FRM_ROD)
-=20
- static bool opxfv_narrow_check(DisasContext *s, arg_rmr *a)
- {
++    /* These are experimental so mark with 'x-' */
+     DEFINE_PROP_BOOL("x-j", RISCVCPU, cfg.ext_j, false),
+     /* ePMP 0.9.3 */
+     DEFINE_PROP_BOOL("x-epmp", RISCVCPU, cfg.epmp, false),
 --=20
 2.31.1
 
