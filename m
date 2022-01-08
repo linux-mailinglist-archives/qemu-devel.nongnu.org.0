@@ -2,59 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE3F34884BE
-	for <lists+qemu-devel@lfdr.de>; Sat,  8 Jan 2022 17:55:02 +0100 (CET)
-Received: from localhost ([::1]:49108 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49EFF4884E0
+	for <lists+qemu-devel@lfdr.de>; Sat,  8 Jan 2022 18:12:18 +0100 (CET)
+Received: from localhost ([::1]:33016 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n6Ezd-0005Gz-Eg
-	for lists+qemu-devel@lfdr.de; Sat, 08 Jan 2022 11:55:01 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:38246)
+	id 1n6FGK-0008Mx-RA
+	for lists+qemu-devel@lfdr.de; Sat, 08 Jan 2022 12:12:16 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41302)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n6EyA-0004Yi-TU
- for qemu-devel@nongnu.org; Sat, 08 Jan 2022 11:53:31 -0500
-Received: from mout.kundenserver.de ([217.72.192.73]:46891)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n6FEk-0006k8-3o
+ for qemu-devel@nongnu.org; Sat, 08 Jan 2022 12:10:38 -0500
+Received: from mout.kundenserver.de ([212.227.17.24]:34381)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n6Ey8-0000WC-Pm
- for qemu-devel@nongnu.org; Sat, 08 Jan 2022 11:53:30 -0500
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n6FEi-00034i-Gg
+ for qemu-devel@nongnu.org; Sat, 08 Jan 2022 12:10:37 -0500
 Received: from [192.168.100.1] ([82.142.12.178]) by mrelayeu.kundenserver.de
- (mreue109 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MHG4c-1nAgxY1u5Y-00DE8H; Sat, 08 Jan 2022 17:53:24 +0100
-Message-ID: <af5ad708-bdef-af6c-bb38-500f0c62e92a@vivier.eu>
-Date: Sat, 8 Jan 2022 17:53:23 +0100
+ (mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MWSJJ-1mr76h3kWR-00Xvz9; Sat, 08 Jan 2022 18:10:33 +0100
+Message-ID: <a1e347c5-e6a5-73b7-12a7-3c7012a349c8@vivier.eu>
+Date: Sat, 8 Jan 2022 18:10:31 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.4.0
-Subject: Re: [PATCH] macfb: fix VRAM dirty memory region logging
+Subject: Re: [PATCH 1/4] linux-user: Do not special-case NULL for
+ PR_GET_PDEATHSIG
 Content-Language: fr
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org
-References: <20220108164147.30813-1-mark.cave-ayland@ilande.co.uk>
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20220106225738.103012-1-richard.henderson@linaro.org>
+ <20220106225738.103012-2-richard.henderson@linaro.org>
 From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <20220108164147.30813-1-mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <20220106225738.103012-2-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:EZggOMwsNg/eU63BfC+wrFmSsTplW69saRx6bBz5hsTuXvOH7Ku
- i+DARdzXcMUWsUkvzRnqtQ/uF/wWYlSX3VsCHejTQlBtTzxAWkVbH12W2wBoAKGoYTbjMzt
- l9vynuJ8sunlvUxv60832lCQBdC4DyJLhUXfhfTAsZV0y/WE/F2MQweRnsRl6lK6uzav8GF
- 3EbmbywtkMG+UMZmcSYdA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:wTmn5jl1mBE=:DIrsYCp31qTU8xAtiEHsRH
- EVljb2iPjHZDeJVoEWcKUUjIPGsfoaqSxkg01iYvqyIwjRmVZoKP1lk/oSKPP7nXIfBNEx0C9
- uBCiAiwZdhiKs66/o2cyoBecmnMRQnyB+9L45PksrRVc5nSyFKp0ojqTyM8iy8emQukxXbvC0
- PBsmPhDFqMWdxM5AtLA2YMGB5Y6FNW68kPTJpjdwgbLvyJoWzDoJaZFdowyvERAkNo76BN3Hj
- KFA1YcfbCOHoHHtDFAY8frO+mv9sslvmb8PKjcmWInmHCGrlYlMAkTt40ECJ2OxRL7sNFw8sa
- 8DmnP0LvnjHozasVEPWJGbt/VzcgE0iUps+/26Kbgt8A1b6S4z3MmdAQQM4cseqwICLg63ukn
- nTKQHPczcqFo+DMlKhyER0GhHH6h6vyK8o7kUF9aIELRiDBOpgXXAb70X//+yMC3oo6xvoqDg
- d48z/l5I2dHkrc+T2n+JNiE2k3G8RhZX1KdFCsidoeWdyBPqFtjom81Nu5r67L90do3v1tY4L
- iZMOG8M1iHBfHvIfKR5uSqlfwUVI+eQmKcrVDyqKtyVJ/RnesP8s9S1yLjvx6dICQHhdwKtHR
- UHY978ILTGOmU3PqnGxUe6HM4UD6LnYJ6dM79Pxg453jDHJDQOw7Ijn/bfJsE3FoL6j/LOxtb
- zb5jJlHcNOL6lZKvGEGuLCDSLIUsv1aupHVRWwNpFOM2NeLQBAxASaII5wg9VIFFnYtU=
-Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:kXfo4WiNVU4BDHwdF5G2RFsXrSGyFa1xoaMQR5NXJUlw8hfjafR
+ pCqFzrHIaYUt2l8aCk174V0CB2QGuvfaRoIq60fXuzdhxVqcVyVD+4NxzaqIKrtv+jSvkjf
+ h66UNQCqD98aKpFAbRSwo4BpK+UkxTuumwzOV708dFUnxdMp0bRcYsw1fMiI4Fq1TVTYfTQ
+ 7hBC0vh/9KDyOM83GPBIQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:iVSawLMwguM=:qQ9ovSDA7cKNAJRy4jcmB8
+ ZBBvtk9CYgMt0c1PuHTzU1vrit32gCU4cDAOveycDfU/jQm9X1ysmlVUU4SFTRcZXGHZKekgq
+ kclkTtFfmUC+jPHfuRuCHEe3hYi0kAe3VLEh3b7m5oSpIe2HgvwDufjzgoLMU7FqerbCXfeWd
+ t9lw1uWD8BBz6MoPwAkZzZTwdNY+cDVeAi6iX8xAtaTMYUT7kn5icGxwYCptuJLZNt7o1zvQ7
+ zaE2/wD4SRsyTCgIOfGB1YMcx9TZ1UqPwPIi8TwhMQ6uLjH0VLigLUOM8tT9lhp7ILMB7OxAi
+ eGrN6o13PAB0dAY4qWMjl8Mc/CmDe01yT+nvK3xgoqUMIevzWmwrfsVCpReekArZFp5MD1N2Z
+ xyyrWeT9EnLGK/JCNewVJA56q2xc06yI76ptXzEfNZrzuzWicpiubd4XqbZFXIPF34eGLdwwx
+ HzDVgfA7BGDheH3sXP78Bxv0oj0Wmu52FgmXT6gK3taPoS/h0sFPn+B7PcVE4ihLxmH3r/+t/
+ 4cUChdQffQ6DNgWs35V7aPIjs2S6WdHwHS2SCtUK8z93htkZotofyMBvE3+jraGoYclixQCcw
+ x2lbExokBgXvrpVqb7WFjPfDUOMKk079p9C/oTIHWaQBDbZWxklB16tli6MDO7g32xnNKs4Db
+ RaXvRvkEo3m3irtsKcrDKUjrv7McRomvmCziiifpfeWUxEjNQN8imWuRrt2NlwOLbagU=
+Received-SPF: none client-ip=212.227.17.24; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -60
 X-Spam_score: -6.1
 X-Spam_bar: ------
 X-Spam_report: (-6.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-4.199,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -71,36 +73,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 08/01/2022 à 17:41, Mark Cave-Ayland a écrit :
-> The macfb VRAM memory region was configured with coalescing rather than dirty
-> memory logging enabled, causing some areas of the screen not to redraw after
-> a full screen update.
+Le 06/01/2022 à 23:57, Richard Henderson a écrit :
+> The kernel does not special-case arg2 != NULL, so
+> neither should we.
 > 
-> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-> Fixes: 8ac919a065 ("hw/m68k: add Nubus macfb video card")
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->   hw/display/macfb.c | 2 +-
+>   linux-user/syscall.c | 2 +-
 >   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/hw/display/macfb.c b/hw/display/macfb.c
-> index 277d3e6633..4bd7c3ad6a 100644
-> --- a/hw/display/macfb.c
-> +++ b/hw/display/macfb.c
-> @@ -661,9 +661,9 @@ static bool macfb_common_realize(DeviceState *dev, MacfbState *s, Error **errp)
->   
->       memory_region_init_ram(&s->mem_vram, OBJECT(dev), "macfb-vram",
->                              MACFB_VRAM_SIZE, &error_abort);
-> +    memory_region_set_log(&s->mem_vram, true, DIRTY_MEMORY_VGA);
->       s->vram = memory_region_get_ram_ptr(&s->mem_vram);
->       s->vram_bit_mask = MACFB_VRAM_SIZE - 1;
-> -    memory_region_set_coalescing(&s->mem_vram);
->   
->       s->vbl_timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, macfb_vbl_timer, s);
->       macfb_update_mode(s);
+> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+> index ce9d64896c..e8f9e0643e 100644
+> --- a/linux-user/syscall.c
+> +++ b/linux-user/syscall.c
+> @@ -6444,7 +6444,7 @@ static abi_long do_prctl(CPUArchState *env, abi_long option, abi_long arg2,
+>               int deathsig;
+>               ret = get_errno(prctl(PR_GET_PDEATHSIG, &deathsig,
+>                                     arg3, arg4, arg5));
+> -            if (!is_error(ret) && arg2 && put_user_s32(deathsig, arg2)) {
+> +            if (!is_error(ret) && put_user_s32(deathsig, arg2)) {
+>                   return -TARGET_EFAULT;
+>               }
+>               return ret;
 
-I understant why you add memory_region_set_log() but I don't understand why you remove 
-memory_region_set_coalescing().
-
-Thanks,
-Laurent
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 
