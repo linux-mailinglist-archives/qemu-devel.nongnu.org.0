@@ -2,66 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 850E54880BB
-	for <lists+qemu-devel@lfdr.de>; Sat,  8 Jan 2022 02:54:51 +0100 (CET)
-Received: from localhost ([::1]:47592 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B95D4880BC
+	for <lists+qemu-devel@lfdr.de>; Sat,  8 Jan 2022 02:56:07 +0100 (CET)
+Received: from localhost ([::1]:49328 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n60wU-000164-IQ
-	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 20:54:50 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:44608)
+	id 1n60xi-0002c9-LC
+	for lists+qemu-devel@lfdr.de; Fri, 07 Jan 2022 20:56:06 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:44630)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n60BQ-00060L-Fk
- for qemu-devel@nongnu.org; Fri, 07 Jan 2022 20:06:12 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:51851)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n60BU-00065C-D1
+ for qemu-devel@nongnu.org; Fri, 07 Jan 2022 20:06:17 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:34190)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n60BO-0002nW-W9
- for qemu-devel@nongnu.org; Fri, 07 Jan 2022 20:06:12 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n60BS-0002o7-1w
+ for qemu-devel@nongnu.org; Fri, 07 Jan 2022 20:06:15 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641603970;
+ s=mimecast20190719; t=1641603973;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=HCH8M2xzOuTzVRMTHu52Ea//JZbOjY+v7CpKskn1oCw=;
- b=T3//hrGSza1oCmvMmDC2rTxLIm2JzPxnfiTq+BNZFfcYvFvQivP0u/ZtmBJVsymaEdvBpd
- vaR8QOoUfZudpK8mJBwu2neK6291N8mhU+/F4G4MpxfecMFr3+AM0L11mXOoP3UY3v/+VE
- E1v3CJQrWaMrjTyumRC26KJ0MF9py/g=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=xrm8CIGRgPpnhTX6j94BNeJt2bCzqkKY9MsNy4P9oQo=;
+ b=cFh83wkJXx9RZ7o0Bvn6xQxTgN/9DksEUIfQqjWrukPvyoNgTbKpTQLWQUHr72coR4Xn8W
+ 4ZmkJzm187JLT7DBKSWrwG0SrSdQO1BnNy0YTCViEWKRRscpkfgwsySzo0sY/QcFpt1F/q
+ kLFEBnOv4jk+TDWxJO07Z7FfZBmK7oI=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-467-U5iDRHNpMMqlBniCAZuHZQ-1; Fri, 07 Jan 2022 20:06:09 -0500
-X-MC-Unique: U5iDRHNpMMqlBniCAZuHZQ-1
-Received: by mail-wr1-f70.google.com with SMTP id
- d14-20020adfa34e000000b001a631cb3ab5so604447wrb.12
- for <qemu-devel@nongnu.org>; Fri, 07 Jan 2022 17:06:09 -0800 (PST)
+ us-mta-35--Qf0-e7HOBeViLW1xCXS4g-1; Fri, 07 Jan 2022 20:06:12 -0500
+X-MC-Unique: -Qf0-e7HOBeViLW1xCXS4g-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ r2-20020a05600c35c200b00345c3b82b22so5652310wmq.0
+ for <qemu-devel@nongnu.org>; Fri, 07 Jan 2022 17:06:12 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=HCH8M2xzOuTzVRMTHu52Ea//JZbOjY+v7CpKskn1oCw=;
- b=FA3ZOfnnNhYzQL988WQBf8oal1TJ8+S8bOHHl1voFBbJauGnMbS0r/EGtqg1ANEB2b
- PDZN8BwttFcq4yV/w2MzE0Iv9vKe2LHbNI4fPR7rDxQwTeN2QF7Rz/whzZQ4KuyrUAQ9
- SxRsEeP78miaZo9uCOKsjFwMGRcmY+gWCEKDpF9Tio7BOh2P9dzcYYyntb4aJaCPhZcQ
- gK1F+tqcMnpNwcrTRxpvDeJO0zoWibOJ0vzLxAgfJJVmFCErrnqa9wb5a/ySQzr1e0uA
- evwaTGyioI5qKVujxqc/pAs9QFXjf9zbalPnM9l3ckQf2UxvCepqI1fT7bep2V09VJnl
- Q7Wg==
-X-Gm-Message-State: AOAM532XVlQbFjl2F235fyBk3lgtykj7zxAmcwoHahCDVgudMTM/icrz
- Qp6uQkjTB0uMzXpUZPL/qqr0xeZUYb45KV+colNMnr5SfOvZNJXvwWQ5Hf741E9C1tuGsfGDKTW
- iwD8MQ8JnAsQYrmx2+PBF2uwlBhNaYb6K+kPoPHUyItNHYcIIk6kmRZWhFrEe
-X-Received: by 2002:a5d:64a9:: with SMTP id m9mr56646982wrp.143.1641603968173; 
- Fri, 07 Jan 2022 17:06:08 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxCjMLJuNYl15qFHRbj9SW4mibeqkFEbuDSdToGZhIG6CyvXt+Q1AR9+ABj+g4yqEp3mlu+Zg==
-X-Received: by 2002:a5d:64a9:: with SMTP id m9mr56646971wrp.143.1641603968004; 
- Fri, 07 Jan 2022 17:06:08 -0800 (PST)
+ bh=xrm8CIGRgPpnhTX6j94BNeJt2bCzqkKY9MsNy4P9oQo=;
+ b=WZY2luXLo/w4guL6NOXob67liU88J4JDCU869YPk4vKGZKAPwcg18Q7wWKEbjhfKtV
+ M6gU8i/2p0iGvSpxWe+n3zXfxMxV7NmkOBlfuEuIBGYNj7AUX8LaPycnotH8kf7q9VG9
+ DaCjOvL+33rfkm1gJVQ74c0jZe9GodlQ3oM+yAfPUsRloi8jVbHqTCOdCZVS8LuGOFPB
+ bPw+30JGJhzO5AK2GVEjowvE2ol3Hrx5XskeaAi9aqHM9YXYKXimBBfxqR7Tb0Kh19p3
+ LxY1G42fAtp22OiE4K7zOT7bOdTrd3LbTdxi8HwmLwKPrC3Z3KgpdF4OtZNBICQsJzx7
+ v9eg==
+X-Gm-Message-State: AOAM5307K9KYDKvb2MAtigL8K65NsbDqTuo9wRU/QscwNurXmgRpmMlE
+ htyylyNCjbRyZDCI07FKMb4/a5p+/S2zHPtntkuMFBM4p0a0EeTY+ijyuMWgsZechMRoHBck7Do
+ 91D178ou+G7Yy627CyA1NygEm+k/mkOTY9L4zKzjgcO8QsrV1dbDwLN1OIqaF
+X-Received: by 2002:a05:600c:acf:: with SMTP id
+ c15mr12572608wmr.7.1641603970927; 
+ Fri, 07 Jan 2022 17:06:10 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwOAs0biBzIz1NhlWr2Z0JFys8BL+fSaAIt9tDZb5mU4HmYHdWmuf8aGuBPOAaMoVGEWxmosw==
+X-Received: by 2002:a05:600c:acf:: with SMTP id
+ c15mr12572597wmr.7.1641603970684; 
+ Fri, 07 Jan 2022 17:06:10 -0800 (PST)
 Received: from redhat.com ([147.161.13.99])
- by smtp.gmail.com with ESMTPSA id b14sm211743wri.112.2022.01.07.17.06.06
+ by smtp.gmail.com with ESMTPSA id k19sm231823wmo.29.2022.01.07.17.06.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 Jan 2022 17:06:07 -0800 (PST)
-Date: Fri, 7 Jan 2022 20:06:05 -0500
+ Fri, 07 Jan 2022 17:06:10 -0800 (PST)
+Date: Fri, 7 Jan 2022 20:06:08 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v3 46/55] tests: acpi: SLIC: update expected blobs
-Message-ID: <20220108003423.15830-47-mst@redhat.com>
+Subject: [PULL v3 47/55] acpihp: simplify acpi_pcihp_disable_root_bus
+Message-ID: <20220108003423.15830-48-mst@redhat.com>
 References: <20220108003423.15830-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20220108003423.15830-1-mst@redhat.com>
@@ -99,44 +101,48 @@ Cc: Ani Sinha <ani@anisinha.ca>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Igor Mammedov <imammedo@redhat.com>
+From: Ani Sinha <ani@anisinha.ca>
 
-Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Message-Id: <20211227193120.1084176-5-imammedo@redhat.com>
+Get rid of the static variable that keeps track of whether hotplug has been
+disabled on the root pci bus. Simply use qbus_is_hotpluggable() api to
+perform the same check. This eliminates additional if conditional and
+simplifies the function.
+
+Signed-off-by: Ani Sinha <ani@anisinha.ca>
+Message-Id: <1640764674-7784-1-git-send-email-ani@anirban.org>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- tests/qtest/bios-tables-test-allowed-diff.h |   2 --
- tests/data/acpi/q35/FACP.slic               | Bin 244 -> 244 bytes
- tests/data/acpi/q35/SLIC.slic               | Bin 0 -> 36 bytes
- 3 files changed, 2 deletions(-)
+ hw/acpi/pcihp.c | 9 ++-------
+ 1 file changed, 2 insertions(+), 7 deletions(-)
 
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index 49dbf8fa3e..dfb8523c8b 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1,3 +1 @@
- /* List of comma-separated changed AML files to ignore */
--"tests/data/acpi/q35/FACP.slic",
--"tests/data/acpi/q35/SLIC.slic",
-diff --git a/tests/data/acpi/q35/FACP.slic b/tests/data/acpi/q35/FACP.slic
-index f6a864cc863c7763f6c09d3814ad184a658fa0a0..891fd4b784b7b6b3ea303976db7ecd5b669bc84b 100644
-GIT binary patch
-delta 28
-jcmeyu_=Qo#&CxmF3j+fKvygL;W3Y#Uud9N>M3Dyoc<=}c
-
-delta 28
-jcmeyu_=Qo#&CxmF3j+fK^G+v!XOCb7r-%UOi6RdGgN+Fa
-
-diff --git a/tests/data/acpi/q35/SLIC.slic b/tests/data/acpi/q35/SLIC.slic
-index e69de29bb2d1d6434b8b29ae775ad8c2e48c5391..fd26592e2480c5d02a018e0d855a04106661a7b5 100644
-GIT binary patch
-literal 36
-mcmWIc@pM*UU|?YMbPjS1_E7M31#*C(gN1>iFg3Rn#0CI%)&>Cp
-
-literal 0
-HcmV?d00001
-
+diff --git a/hw/acpi/pcihp.c b/hw/acpi/pcihp.c
+index a5e182dd3a..6befd23e16 100644
+--- a/hw/acpi/pcihp.c
++++ b/hw/acpi/pcihp.c
+@@ -128,20 +128,15 @@ static void acpi_set_pci_info(void)
+ 
+ static void acpi_pcihp_disable_root_bus(void)
+ {
+-    static bool root_hp_disabled;
+     Object *host = acpi_get_i386_pci_host();
+     PCIBus *bus;
+ 
+-    if (root_hp_disabled) {
+-        return;
+-    }
+-
+     bus = PCI_HOST_BRIDGE(host)->bus;
+-    if (bus) {
++    if (bus && qbus_is_hotpluggable(BUS(bus))) {
+         /* setting the hotplug handler to NULL makes the bus non-hotpluggable */
+         qbus_set_hotplug_handler(BUS(bus), NULL);
+     }
+-    root_hp_disabled = true;
++
+     return;
+ }
+ 
 -- 
 MST
 
