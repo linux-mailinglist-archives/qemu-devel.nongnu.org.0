@@ -2,70 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D077948826B
-	for <lists+qemu-devel@lfdr.de>; Sat,  8 Jan 2022 09:38:38 +0100 (CET)
-Received: from localhost ([::1]:53848 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC194488263
+	for <lists+qemu-devel@lfdr.de>; Sat,  8 Jan 2022 09:33:24 +0100 (CET)
+Received: from localhost ([::1]:42756 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n67FF-0000IR-TW
-	for lists+qemu-devel@lfdr.de; Sat, 08 Jan 2022 03:38:37 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36304)
+	id 1n67AB-00012x-WE
+	for lists+qemu-devel@lfdr.de; Sat, 08 Jan 2022 03:33:24 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36342)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1n66It-0005Ua-WE
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1n66Iu-0005VZ-UG
  for qemu-devel@nongnu.org; Sat, 08 Jan 2022 02:38:21 -0500
-Received: from [2607:f8b0:4864:20::d34] (port=37516
- helo=mail-io1-xd34.google.com)
+Received: from [2607:f8b0:4864:20::d33] (port=40610
+ helo=mail-io1-xd33.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1n66Is-0003WQ-Bz
- for qemu-devel@nongnu.org; Sat, 08 Jan 2022 02:38:19 -0500
-Received: by mail-io1-xd34.google.com with SMTP id 19so10095422ioz.4
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1n66It-0003Wl-In
+ for qemu-devel@nongnu.org; Sat, 08 Jan 2022 02:38:20 -0500
+Received: by mail-io1-xd33.google.com with SMTP id q5so10092783ioj.7
  for <qemu-devel@nongnu.org>; Fri, 07 Jan 2022 23:38:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=yTd5grbll1DlbzNLFo371dzmeKkoGihsZlNwerjeO8o=;
- b=uFRKi/yRihKMcKylTf3snOhrn3coz/uZ+yzZOqjjSCVYbbfK3vB+ixcFXRjHszEmvd
- DOMTxo/LVibyDqgxsoDFCe4yNzLIfrtxjMhjJHb/k/yNnXlFvX+koV7ex7XXNtYCN1np
- GgvUpVSlY7z/4lnXG/OUgzLxphZRnypeQtK3YA/+7nZSwdSn2yrr9r5hBaDqAYcMAU+w
- xVvMw8N3Hv3FlkEOlWLKqtcxS+2jd3Xm1PNWZ3wtJ0Vux/+qpawWaTFrXDFp/7XFHZSm
- CL6JmDiU41B5CGrBZaGijFubrbpHkuupWIToQuTuMr3GBzAIC7vqYvxl0EYOz4NLrUEx
- iBhA==
+ bh=zYfRV6dnf6d+zAIFlxvvp/6sxyAwR3ew/6aIDkWKGyA=;
+ b=DmGcah70KXaUCMaNvepb0vXbtdz0FsDVaFoK3DxxNu0CawLQKkB6jXljWQnYwY35Y3
+ BUI+h4CrYthOdiVYcBo0T3dwxaD7O0bB/THFi0fQUW+atoa60gkwL4iKk02R6pGI/YrP
+ nkdV+U3LusIeSx6jJd+ryWDTqI0lt0Ph5+mMeBZKok9LC5OR01TR+I/t/klPoTE4IqYL
+ n4ctyIoU4qnqpNd2aQa6bvknyxVMP+hFyQvQLVRv0N7aobJfIJ0URenHNaE6KTKSggQS
+ /xr7scqCsXVB4RxjCh566SINZhPqbev69LrW0lchuvtz1wLwW3uIilQqiezv4m/EEDA4
+ OSjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=yTd5grbll1DlbzNLFo371dzmeKkoGihsZlNwerjeO8o=;
- b=ze0/4zEBYE149kUzqsbPYtspemZMlBoiKSOiKgF1W/QLWBGbY25fqr5gq7Q0MKXYwd
- jb3dnWgq8q1TvKcw5+L/MbBiJyWmhfW/cicCuKj8NiROvrla5JA2RhkK4p6uOEYGvPKB
- d0T+jk/Es5IOOs4PcNZioLPMSp1HTL8Nsl/fmPu6BjwFOk8/UxXDRbCHA2bm986ioNzQ
- DYwuS39XUesYxJzSqNyPGEXMDPB5aLu/jFrN0rffJmFL2QUiWwKckO/ub2nBj/+J35Kf
- oYargYq/qIH8I1Q/PyZ/XfMPfNE6QwrxJUNrZIX83IcfqCvV9SGH/pGVaXa/kHW6Hu2b
- zI8A==
-X-Gm-Message-State: AOAM533BkT15T850qh//0GrssdD+WSTBdiuItZ9dJi//afrkUsUAnfGn
- BUtHymDqBTV3Nc4My4rYFrt4UViy1CFboIKc
-X-Google-Smtp-Source: ABdhPJzcvhM2FMMEByQkg2/JWYE/qshVJvApRwMl4oNEs/57gKOVoqAnc5lallBo2MKGw7WzxkQKeA==
-X-Received: by 2002:a6b:1496:: with SMTP id 144mr6261573iou.119.1641627497083; 
- Fri, 07 Jan 2022 23:38:17 -0800 (PST)
+ bh=zYfRV6dnf6d+zAIFlxvvp/6sxyAwR3ew/6aIDkWKGyA=;
+ b=hPQIlZDqkdqi61mls75Sm/4Ic+ZdHwdshC9USB1pP2Iyb7kWSw6ZJl9V75zZ5bL48R
+ fYybDnltZ7EpuDsfMS0M9dvLWe/hzxHUqQJS7hmex5LKlZBBiyy4NT/inx1Iqo4W4ezv
+ OaUPyILmbztLRjOKihkvKyjOnjTir+GlqeuUo15cmVY6rHZTQWZOv4wX2nJnteRqOfpC
+ xqFqmWV2VHI947CRJYceLGlFN/s4tVa+RPzDV0SF3WSvgsiE2E9p431hDA8XKb8lM0Bd
+ AwPfs1xL6URB7AU5Z3ylTW+oGUYot93DyXNggTLyTXfUES3D1XkSD6jSTtmSWktVdPDB
+ BKqQ==
+X-Gm-Message-State: AOAM533eNKKHa68z5kxarZ8zhz5Bpf6Td2HXulEwLc9Lu1WbS3cIn0l7
+ OACQ11fmvgy15VfB9upwYYzacF9wD+hLsSaO
+X-Google-Smtp-Source: ABdhPJwl2buk8ATQk86GdhbbCHAe3AfusOFMNZx5AB325hJ5oLzWTvSIh4ckif8uIf8Psb6/UGsuVQ==
+X-Received: by 2002:a05:6638:3009:: with SMTP id
+ r9mr30896197jak.261.1641627498002; 
+ Fri, 07 Jan 2022 23:38:18 -0800 (PST)
 Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id w19sm613022iov.12.2022.01.07.23.38.16
+ by smtp.gmail.com with ESMTPSA id w19sm613022iov.12.2022.01.07.23.38.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 Jan 2022 23:38:16 -0800 (PST)
+ Fri, 07 Jan 2022 23:38:17 -0800 (PST)
 From: Warner Losh <imp@bsdimp.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 35/37] bsd-user/arm/signal.c: arm get_ucontext_sigreturn
-Date: Sat,  8 Jan 2022 00:37:35 -0700
-Message-Id: <20220108073737.5959-36-imp@bsdimp.com>
+Subject: [PULL 36/37] bsd-user/freebsd/target_os_ucontext.h: Require
+ TARGET_*CONTEXT_SIZE
+Date: Sat,  8 Jan 2022 00:37:36 -0700
+Message-Id: <20220108073737.5959-37-imp@bsdimp.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20220108073737.5959-1-imp@bsdimp.com>
 References: <20220108073737.5959-1-imp@bsdimp.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d34
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d33
  (failed)
-Received-SPF: none client-ip=2607:f8b0:4864:20::d34;
- envelope-from=imp@bsdimp.com; helo=mail-io1-xd34.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::d33;
+ envelope-from=imp@bsdimp.com; helo=mail-io1-xd33.google.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
@@ -84,7 +86,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stacey Son <sson@FreeBSD.org>, qemu-trivial@nongnu.org, kevans@freebsd.org,
+Cc: qemu-trivial@nongnu.org, kevans@freebsd.org,
  Michael Tokarev <mjt@tls.msk.ru>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Laurent Vivier <laurent@vivier.eu>,
@@ -92,32 +94,31 @@ Cc: Stacey Son <sson@FreeBSD.org>, qemu-trivial@nongnu.org, kevans@freebsd.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Update ucontext to implement sigreturn.
+Now that all architecutres define TARGET_[MU]CONTEXT_SIZE, enforce
+requiring them and always check the sizeof target_{u,m}context_t
+sizes.
 
-Signed-off-by: Stacey Son <sson@FreeBSD.org>
 Signed-off-by: Warner Losh <imp@bsdimp.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- bsd-user/arm/signal.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ bsd-user/freebsd/target_os_ucontext.h | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/bsd-user/arm/signal.c b/bsd-user/arm/signal.c
-index fb6228db6cf..1478f008d13 100644
---- a/bsd-user/arm/signal.c
-+++ b/bsd-user/arm/signal.c
-@@ -185,3 +185,12 @@ abi_long set_mcontext(CPUARMState *env, target_mcontext_t *mcp, int srflag)
+diff --git a/bsd-user/freebsd/target_os_ucontext.h b/bsd-user/freebsd/target_os_ucontext.h
+index dd61aec7cce..41b28b2c150 100644
+--- a/bsd-user/freebsd/target_os_ucontext.h
++++ b/bsd-user/freebsd/target_os_ucontext.h
+@@ -27,10 +27,8 @@ typedef struct target_ucontext {
+     int32_t             __spare__[4];
+ } target_ucontext_t;
  
-     return err;
- }
-+
-+/* Compare to arm/arm/machdep.c sys_sigreturn() */
-+abi_long get_ucontext_sigreturn(CPUARMState *env, abi_ulong target_sf,
-+                                abi_ulong *target_uc)
-+{
-+    *target_uc = target_sf;
-+
-+    return 0;
-+}
+-#ifdef TARGET_MCONTEXT_SIZE
+ G_STATIC_ASSERT(TARGET_MCONTEXT_SIZE == sizeof(target_mcontext_t));
+ G_STATIC_ASSERT(TARGET_UCONTEXT_SIZE == sizeof(target_ucontext_t));
+-#endif /* TARGET_MCONTEXT_SIZE */
+ 
+ struct target_sigframe;
+ 
 -- 
 2.33.1
 
