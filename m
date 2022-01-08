@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D356488298
-	for <lists+qemu-devel@lfdr.de>; Sat,  8 Jan 2022 09:49:02 +0100 (CET)
-Received: from localhost ([::1]:35638 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC004488294
+	for <lists+qemu-devel@lfdr.de>; Sat,  8 Jan 2022 09:45:51 +0100 (CET)
+Received: from localhost ([::1]:52868 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n66xh-00018C-MB
-	for lists+qemu-devel@lfdr.de; Sat, 08 Jan 2022 03:20:29 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:35590)
+	id 1n66Yp-0006kk-Pu
+	for lists+qemu-devel@lfdr.de; Sat, 08 Jan 2022 02:54:47 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:35594)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1n66Ia-0005JS-Jr
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1n66Ia-0005JT-LI
  for qemu-devel@nongnu.org; Sat, 08 Jan 2022 02:38:02 -0500
-Received: from [2607:f8b0:4864:20::131] (port=33577
- helo=mail-il1-x131.google.com)
+Received: from [2607:f8b0:4864:20::130] (port=45021
+ helo=mail-il1-x130.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1n66IU-0003LO-B8
- for qemu-devel@nongnu.org; Sat, 08 Jan 2022 02:37:56 -0500
-Received: by mail-il1-x131.google.com with SMTP id o20so30869ill.0
- for <qemu-devel@nongnu.org>; Fri, 07 Jan 2022 23:37:52 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1n66IU-0003LX-Lv
+ for qemu-devel@nongnu.org; Sat, 08 Jan 2022 02:37:57 -0500
+Received: by mail-il1-x130.google.com with SMTP id v18so6462782ilm.11
+ for <qemu-devel@nongnu.org>; Fri, 07 Jan 2022 23:37:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=LuLB1GCaE27UYhebE8MEe7wQj0GNFAlmAIMZ+t4rYog=;
- b=rmhy6MmztDwLR6K8HP0DJCWbyWNsectKMkBk0Kce3mJPQVacAPxDXp+9EO1VwhTHGO
- 9BfxfSj6EVAb/YIOKOpHZcT9vEx1MhTuBPba3CMh1cshNXWDOLpXTiDUhNRNSCKt5U5O
- 6YO2E8EGiVvfUFaFnqwCF5yNW4eeRHz6FtOWvviBB9ctQfI7M5qHPx8RtCRu3UbYGiKk
- 4T0cJ+goijz2eRFKVHfGr+Pe7JzEqruITUwrG4ZTPUlXq7S04GDQoKE2NxROflIKD9qF
- yTyBHWTR14N4iZ3yrmkMgc9SbrIatWX5R5kIiy8rEB/wxZPa8bJCSezfi7477+D7Q5h6
- 5CmA==
+ bh=oojTYNevouJD4FnDtUcg1HziLTiCetAlphOi7JaWgjk=;
+ b=4jeUIZT8GI3JngGBBaki91c2ARK5a3WBVaJ5ytitQ000lcVRK/5YbE1G0ezBmevRMJ
+ iYCvWju5nnheRZJgGGl98JmfMGO0XbqbsNPYfW7I8lzZqo5pr04NeU9wBj685VmMyrlI
+ OGQOd5I3IP5O7ZTNTVPrr5GVGEqBOOQa+2vqaRxJUbyyZrzpXJKFJU3lK4sjaxkEK8gR
+ VBpVvqDRUB/d3fU29pWfgRBHpvlnDXtk2C5ar8vsnz4HHpJy1UTH6JnqmAigNupbtxjd
+ YSXpaAX8eQlxWkfpZV0Eyvg72vfa7mErgFe0PNt58z2Sya+Gie10VaqSIs2eMC9xJjbk
+ amTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=LuLB1GCaE27UYhebE8MEe7wQj0GNFAlmAIMZ+t4rYog=;
- b=B9eduI9mNkIc/cdAGJ74kclUdO/swhCEr28d0ezu1jPVZdbiB7Eihx0kV0nBn4bkrA
- 40T1L5pmMxjBJd4QPqun61tuS8mHvXm+zwz3Qnyc7MJsiT2WDs3JK7sxe8QCcr12G7x6
- DfV1LUlru+XXHEIVj+tR+fMDKqOsDNDtXW7RkYCCtyR+KCe7aGvtfIycwwTYn/r3lRR/
- C23jrbl5aqHnJ0HJf1ji5vJMmPbq/LcdkWoexvwK7GRuVXi5cJrKVhkgHkMDwNUdNKpG
- JWRT7DU/NMEq2BplmHr/fW/ukjh2wkompPogbr/gwb3lhtrDiqGu9eZcQ3lp56pAPSVo
- 711A==
-X-Gm-Message-State: AOAM532Sl6JXmSj8UPC0sIZCeEJKwhr4fhK4wHxw4TJIKZyWChbPfqsM
- WYfuNAxZrkObHIz1hdtZMMQ5x42AzWB5Lycp
-X-Google-Smtp-Source: ABdhPJyMQxavm3Q1NeKZA9S3jAu0rcWPW/XqrTGGnKSJi4A5Q7rMttmvXjyOzDJR8H0/UZZYumOq7g==
-X-Received: by 2002:a05:6e02:1c06:: with SMTP id
- l6mr1361840ilh.239.1641627471664; 
- Fri, 07 Jan 2022 23:37:51 -0800 (PST)
+ bh=oojTYNevouJD4FnDtUcg1HziLTiCetAlphOi7JaWgjk=;
+ b=SzeddEq5+WsdZzWtFFuRxcKIdi5ATs1q51CRd4f4G8spRuSzIde2g/iBYt/8o0QUXf
+ z/5JQ1dna7SHwtERvBlGBYYr93Gq7CjOg0D56GIXuetPTtq9BXhk8QxhyHOdYnGjQyTd
+ U7kdRiCCE0wT23+ljomjldmLolpZ27RoMpoaM8lpuWRue9LwwvqJTR17+PnqqIyfHw3y
+ si/foJuUkYgNT1otsns5RpVN6ynD/+dqmLLJtO7RPBWxuFUClqJbyydBkMSJttdFxuVv
+ nmuCRjTNRhyI3VjHwdeNrq3Jx78mGk7hYwtrdtCgxqZ96la5hNYp8UaZVW1+yTwDWKdI
+ nAYw==
+X-Gm-Message-State: AOAM531WZCp4DRakxZZZV6Y5f8cawaizSaZF3P2/GSqjUKPMvD3erwM6
+ jpdg1hJ7pcXzNDV2zVjMSDLgL1ES0ILpy+mE
+X-Google-Smtp-Source: ABdhPJwchiISq2NN9os5/iWHjOAj93r3uEwGGiAmeVfKCJxThMmZ+Q1j8H9SarBW0SU6XnJcI3qa5A==
+X-Received: by 2002:a05:6e02:1708:: with SMTP id
+ u8mr26671086ill.308.1641627472552; 
+ Fri, 07 Jan 2022 23:37:52 -0800 (PST)
 Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id w19sm613022iov.12.2022.01.07.23.37.50
+ by smtp.gmail.com with ESMTPSA id w19sm613022iov.12.2022.01.07.23.37.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 07 Jan 2022 23:37:51 -0800 (PST)
+ Fri, 07 Jan 2022 23:37:52 -0800 (PST)
 From: Warner Losh <imp@bsdimp.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 09/37] bsd-user/x86_64/target_arch_signal.h: use new
- target_os_ucontext.h
-Date: Sat,  8 Jan 2022 00:37:09 -0700
-Message-Id: <20220108073737.5959-10-imp@bsdimp.com>
+Subject: [PULL 10/37] bsd-user/x86_64/target_arch_signal.h: Fill in mcontext_t
+Date: Sat,  8 Jan 2022 00:37:10 -0700
+Message-Id: <20220108073737.5959-11-imp@bsdimp.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20220108073737.5959-1-imp@bsdimp.com>
 References: <20220108073737.5959-1-imp@bsdimp.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::131
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::130
  (failed)
-Received-SPF: none client-ip=2607:f8b0:4864:20::131;
- envelope-from=imp@bsdimp.com; helo=mail-il1-x131.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::130;
+ envelope-from=imp@bsdimp.com; helo=mail-il1-x130.google.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
@@ -94,32 +93,82 @@ Cc: qemu-trivial@nongnu.org, kevans@freebsd.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Fill in target_mcontext match the FreeBSD mcontext_t structure. Also
+define the size correctly.
+
 Signed-off-by: Warner Losh <imp@bsdimp.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- bsd-user/x86_64/target_arch_signal.h | 9 +--------
- 1 file changed, 1 insertion(+), 8 deletions(-)
+ bsd-user/x86_64/target_arch_signal.h | 54 ++++++++++++++++++++++++++++
+ 1 file changed, 54 insertions(+)
 
 diff --git a/bsd-user/x86_64/target_arch_signal.h b/bsd-user/x86_64/target_arch_signal.h
-index 55f742b0a8c..e84aff948c5 100644
+index e84aff948c5..720e3939c31 100644
 --- a/bsd-user/x86_64/target_arch_signal.h
 +++ b/bsd-user/x86_64/target_arch_signal.h
-@@ -30,14 +30,7 @@
+@@ -28,8 +28,62 @@
+ #define TARGET_SIGSTKSZ     (MINSIGSTKSZ + 32768)   /* recommended size */
+ 
  typedef struct target_mcontext {
++    abi_ulong   mc_onstack;     /* XXX - sigcontext compat. */
++    abi_ulong   mc_rdi;         /* machine state (struct trapframe) */
++    abi_ulong   mc_rsi;
++    abi_ulong   mc_rdx;
++    abi_ulong   mc_rcx;
++    abi_ulong   mc_r8;
++    abi_ulong   mc_r9;
++    abi_ulong   mc_rax;
++    abi_ulong   mc_rbx;
++    abi_ulong   mc_rbp;
++    abi_ulong   mc_r10;
++    abi_ulong   mc_r11;
++    abi_ulong   mc_r12;
++    abi_ulong   mc_r13;
++    abi_ulong   mc_r14;
++    abi_ulong   mc_r15;
++    uint32_t    mc_trapno;
++    uint16_t    mc_fs;
++    uint16_t    mc_gs;
++    abi_ulong   mc_addr;
++    uint32_t    mc_flags;
++    uint16_t    mc_es;
++    uint16_t    mc_ds;
++    abi_ulong   mc_err;
++    abi_ulong   mc_rip;
++    abi_ulong   mc_cs;
++    abi_ulong   mc_rflags;
++    abi_ulong   mc_rsp;
++    abi_ulong   mc_ss;
++
++    abi_long    mc_len;                 /* sizeof(mcontext_t) */
++
++#define _MC_FPFMT_NODEV         0x10000 /* device not present or configured */
++#define _MC_FPFMT_XMM           0x10002
++    abi_long    mc_fpformat;
++#define _MC_FPOWNED_NONE        0x20000 /* FP state not used */
++#define _MC_FPOWNED_FPU         0x20001 /* FP state came from FPU */
++#define _MC_FPOWNED_PCB         0x20002 /* FP state came from PCB */
++    abi_long    mc_ownedfp;
++    /*
++     * See <machine/fpu.h> for the internals of mc_fpstate[].
++     */
++    abi_long    mc_fpstate[64] __aligned(16);
++
++    abi_ulong   mc_fsbase;
++    abi_ulong   mc_gsbase;
++
++    abi_ulong   mc_xfpustate;
++    abi_ulong   mc_xfpustate_len;
++
++    abi_long    mc_spare[4];
  } target_mcontext_t;
  
--typedef struct target_ucontext {
--    target_sigset_t   uc_sigmask;
--    target_mcontext_t uc_mcontext;
--    abi_ulong         uc_link;
--    target_stack_t    uc_stack;
--    int32_t           uc_flags;
--    int32_t         __spare__[4];
--} target_ucontext_t;
-+#include "target_os_ucontext.h"
++#define TARGET_MCONTEXT_SIZE 800
++#define TARGET_UCONTEXT_SIZE 880
++
+ #include "target_os_ucontext.h"
  
  struct target_sigframe {
-     abi_ulong   sf_signum;
 -- 
 2.33.1
 
