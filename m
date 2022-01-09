@@ -2,48 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A85548887B
-	for <lists+qemu-devel@lfdr.de>; Sun,  9 Jan 2022 10:33:52 +0100 (CET)
-Received: from localhost ([::1]:53952 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BEF91488887
+	for <lists+qemu-devel@lfdr.de>; Sun,  9 Jan 2022 10:39:49 +0100 (CET)
+Received: from localhost ([::1]:42032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n6UaF-0004pl-BC
-	for lists+qemu-devel@lfdr.de; Sun, 09 Jan 2022 04:33:51 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53958)
+	id 1n6Ug0-0000NK-Rw
+	for lists+qemu-devel@lfdr.de; Sun, 09 Jan 2022 04:39:48 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54010)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <i.qemu@xen0n.name>) id 1n6UTc-0004fp-P0
- for qemu-devel@nongnu.org; Sun, 09 Jan 2022 04:27:00 -0500
-Received: from mail.xen0n.name ([115.28.160.31]:55712
+ (Exim 4.90_1) (envelope-from <i.qemu@xen0n.name>) id 1n6UTo-0005KB-6m
+ for qemu-devel@nongnu.org; Sun, 09 Jan 2022 04:27:12 -0500
+Received: from mail.xen0n.name ([115.28.160.31]:55718
  helo=mailbox.box.xen0n.name)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <i.qemu@xen0n.name>) id 1n6UTb-0006Kq-52
- for qemu-devel@nongnu.org; Sun, 09 Jan 2022 04:27:00 -0500
+ (Exim 4.90_1) (envelope-from <i.qemu@xen0n.name>) id 1n6UTm-0006Kk-Dv
+ for qemu-devel@nongnu.org; Sun, 09 Jan 2022 04:27:11 -0500
 Received: from [192.168.9.172] (unknown [101.88.31.179])
  (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
  (No client certificate requested)
- by mailbox.box.xen0n.name (Postfix) with ESMTPSA id 2F2C762E75;
+ by mailbox.box.xen0n.name (Postfix) with ESMTPSA id 91C5A62E76;
  Sun,  9 Jan 2022 17:26:44 +0800 (CST)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=xen0n.name; s=mail;
- t=1641720404; bh=FlITQgBVJIttRcNHd+wf4hZkkZ90RuDnJMNLvLbz1Vc=;
+ t=1641720404; bh=8LF+DfmhKLz8MzPLhyJcVrCGDldWjCYO5UZ5J2QBeaU=;
  h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
- b=EbPcHzZVYHwjnA+swpoYm3/zAAmTxdMoctClLkg9+jdv//lc/xujVtwzUK1nwS3Gp
- F0c6gEIDtbh6KAmQQKf2zetoZ8oPRA4A9NruAsvsZ1BfiKStKt+Yi/OM9yKLLTd8Z+
- TyoY5BMNlbbfopHfZqpe4JoBeqP9mM95+/Mz0YIA=
-Message-ID: <a96f6a64-c75c-20b4-cc82-331a4e258ee7@xen0n.name>
-Date: Sun, 9 Jan 2022 17:25:37 +0800
+ b=xRYgjtDRj/6yiJfTVNB3tLbuujf/PHmnj8wFxOFgjZ8gdc5W83O7Z8HTnRhXpv/Xk
+ 7WPps6Ckx2WVatfiyRxsCP2AcBns2b2Akukd9j72looBEyl0RBSTdZbwyh9sfwJf4c
+ PtIuG+8Ubzl3tHn27RDH+KGZd+7fCtLRT+ZGM2iU=
+Message-ID: <8614f944-057e-195f-88ab-fe7a08a22903@xen0n.name>
+Date: Sun, 9 Jan 2022 17:25:39 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:97.0) Gecko/20100101
  Thunderbird/97.0a1
 From: WANG Xuerui <i.qemu@xen0n.name>
-Subject: Re: [PATCH v14 23/26] default-configs: Add loongarch linux-user
- support
+Subject: Re: [PATCH v14 24/26] target/loongarch: Add target build suport
 To: Song Gao <gaosong@loongson.cn>, qemu-devel@nongnu.org
 References: <20220106094200.1801206-1-gaosong@loongson.cn>
- <20220106094200.1801206-24-gaosong@loongson.cn>
+ <20220106094200.1801206-25-gaosong@loongson.cn>
 Content-Language: en-US
-In-Reply-To: <20220106094200.1801206-24-gaosong@loongson.cn>
+In-Reply-To: <20220106094200.1801206-25-gaosong@loongson.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=115.28.160.31; envelope-from=i.qemu@xen0n.name;
  helo=mailbox.box.xen0n.name
 X-Spam_score_int: -20
@@ -65,35 +64,63 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Xiaojuan Yang <yangxiaojuan@loongson.cn>,
- Richard Henderson <richard.henderson@linaro.org>
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 On 1/6/22 17:41, Song Gao wrote:
-> This patch adds loongarch64 linux-user default configs file.
->
+> This patch adds build loongarch-linux-user target support.
+
+Chinglish... You may just say "target: Add the loongarch target_arch" 
+and remove this sentence.
+
 > Signed-off-by: Song Gao<gaosong@loongson.cn>
 > Signed-off-by: Xiaojuan Yang<yangxiaojuan@loongson.cn>
 > Reviewed-by: Richard Henderson<richard.henderson@linaro.org>
+> Reviewed-by: Philippe Mathieu-Daudé<f4bug@amsat.org>
 > ---
->   configs/targets/loongarch64-linux-user.mak | 3 +++
->   1 file changed, 3 insertions(+)
->   create mode 100644 configs/targets/loongarch64-linux-user.mak
+>   target/loongarch/meson.build | 19 +++++++++++++++++++
+>   target/meson.build           |  1 +
+>   2 files changed, 20 insertions(+)
+>   create mode 100644 target/loongarch/meson.build
 >
-> diff --git a/configs/targets/loongarch64-linux-user.mak b/configs/targets/loongarch64-linux-user.mak
+> diff --git a/target/loongarch/meson.build b/target/loongarch/meson.build
 > new file mode 100644
-> index 0000000000..5b0acfa3ec
+> index 0000000000..bcb076e55f
 > --- /dev/null
-> +++ b/configs/targets/loongarch64-linux-user.mak
-> @@ -0,0 +1,3 @@
-> +# Default configuration for loongson64-linux-user
-"loongarch64-linux-user"?
-> +TARGET_ARCH=loongarch64
-> +TARGET_BASE_ARCH=loongarch
-
-With that fixed:
-
-Reviewed-by: WANG Xuerui <git@xen0n.name>
-
+> +++ b/target/loongarch/meson.build
+> @@ -0,0 +1,19 @@
+> +gen = decodetree.process('insns.decode')
+> +
+> +loongarch_ss = ss.source_set()
+> +loongarch_ss.add(files(
+> +  'cpu.c',
+> +  'disas.c',
+> +))
+> +loongarch_tcg_ss = ss.source_set()
+> +loongarch_tcg_ss.add(gen)
+> +loongarch_tcg_ss.add(files(
+> +  'fpu_helper.c',
+> +  'op_helper.c',
+> +  'translate.c',
+> +))
+> +loongarch_tcg_ss.add(zlib)
+> +
+> +loongarch_ss.add_all(when: 'CONFIG_TCG', if_true: [loongarch_tcg_ss])
+> +
+> +target_arch += {'loongarch': loongarch_ss}
+> diff --git a/target/meson.build b/target/meson.build
+> index 2f6940255e..a53a60486f 100644
+> --- a/target/meson.build
+> +++ b/target/meson.build
+> @@ -5,6 +5,7 @@ subdir('cris')
+>   subdir('hexagon')
+>   subdir('hppa')
+>   subdir('i386')
+> +subdir('loongarch')
+>   subdir('m68k')
+>   subdir('microblaze')
+>   subdir('mips')
 
