@@ -2,84 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC5B1488796
-	for <lists+qemu-devel@lfdr.de>; Sun,  9 Jan 2022 05:03:50 +0100 (CET)
-Received: from localhost ([::1]:35116 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D03A488797
+	for <lists+qemu-devel@lfdr.de>; Sun,  9 Jan 2022 05:06:42 +0100 (CET)
+Received: from localhost ([::1]:39138 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n6PQr-00085f-Fd
-	for lists+qemu-devel@lfdr.de; Sat, 08 Jan 2022 23:03:49 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54584)
+	id 1n6PTb-0002Sz-1f
+	for lists+qemu-devel@lfdr.de; Sat, 08 Jan 2022 23:06:40 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:54896)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1n6PPq-0007H5-Vk
- for qemu-devel@nongnu.org; Sat, 08 Jan 2022 23:02:47 -0500
-Received: from [2607:f8b0:4864:20::1032] (port=37555
- helo=mail-pj1-x1032.google.com)
+ (Exim 4.90_1) (envelope-from <chrisfriedt@gmail.com>)
+ id 1n6PSO-000131-89; Sat, 08 Jan 2022 23:05:24 -0500
+Received: from [2607:f8b0:4864:20::833] (port=36572
+ helo=mail-qt1-x833.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1n6PPo-0008SV-I3
- for qemu-devel@nongnu.org; Sat, 08 Jan 2022 23:02:45 -0500
-Received: by mail-pj1-x1032.google.com with SMTP id
- y16-20020a17090a6c9000b001b13ffaa625so18280468pjj.2
- for <qemu-devel@nongnu.org>; Sat, 08 Jan 2022 20:02:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=eIdbjj3P6vQqY2NYmT0vtSK26qxsMO8X5S4ksWcSKaU=;
- b=vEre0+TJn/s0LzVSYTSuPrW1Btm/E6rtqLCDDxKSZUvam5qKUDJsb6KIZd4Dn55rSq
- 0Cek0oNmvXyWrOIMk/gIfsHbCMLxegmdRA9r0+setXPgK5f0/zkR6nUE3BGaRkYh5ZE7
- ZWA9n+Crxq820oEH9eDOU4n6Skc+fPNih+bCeH1Amyx8pc/BlghepUJDPTWCYKentJIH
- v3+DW7Yt7b77hN2+6ydvAGbCYOeve4gLaOZlHUBVFzn/vP9xSEsgLdKijjyJG+DKvRgG
- 8ia3ZhyjZXcNHzGtVUdAz5MqHcJhBis2dDsH0ffFVolOsWWoMNb4npjIy8mxIS5N+e6l
- 6+NQ==
+ (Exim 4.90_1) (envelope-from <chrisfriedt@gmail.com>)
+ id 1n6PSM-0000SJ-RJ; Sat, 08 Jan 2022 23:05:23 -0500
+Received: by mail-qt1-x833.google.com with SMTP id f9so9862704qtk.3;
+ Sat, 08 Jan 2022 20:05:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=3WFxPI7IVemcGg4l8MDY6Up6yfiOlJdEqkZJg7RkCuU=;
+ b=XUwOtcBkz42f9CA7VIAzVQ73b1RSYSWcDCW8n067jnfmLMHvQ5HH8tNY7W45nelVOZ
+ c/0gdM7cfJAqrLPhX3qE1vb3YzZqx60QQoicaJip0AF/HZXm9MWopcfkL2nLOYb1XL0U
+ DfLW9awVXWPKs+6AboLqKsb2M8sqDDBKS/ecoHUjOQoKNuabwAsF1IM2aIzIjaonAoEo
+ +LX/OLcXvsNxzTNKhkuwL79F+771YFpHFqNJS767ElDdEvbQefd4gv1Nb1xwn2WIZvxo
+ hWxNKonCSgU+oiKHh9AlGN6//pWFUK2DQQSgwGF9NRsrenXU25FG39/cAiHZlfwHGMdv
+ 1rpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=eIdbjj3P6vQqY2NYmT0vtSK26qxsMO8X5S4ksWcSKaU=;
- b=IuvfAaMF2WjcPLk3CE3UERCWYtzFK/m4faAC2kIK6fkIpI0qsG4hNEmGTRv1r8YQMD
- xycTidKna5V3+VAVgwQzFGu71VDb5lRWxvd/07rM9Sk0BZX59pKNvpSgsLAjJwM7N55v
- K14ts4cW18fp/mASxlX/oIilFSf5PBsYuu99ayMPR2YUorDIk7I12BrvmX04I/cueba5
- EHUo9eUNFJdnBpv4liI1UnSJXUFtSk1jtjz2n3jDrScTwLCSqs8ZAg0aTIVNk4RYZvKU
- JeTkbukoh49MejKRqlawYU9vnyjUpEk1HLeWAfGT7R+BCWJPghmKruNW254UuIInBlft
- qPUA==
-X-Gm-Message-State: AOAM532/oJwl5cD4cH+OEJ70fDOLpdxG7Qw80ijDy8ga6JNGwg2TbkhK
- 2JDvWjigFupVUwOhmFfaxVU3/A==
-X-Google-Smtp-Source: ABdhPJxIbxYb8D0OxFuXw+5FMZy5r71bsYrQuvkLEjsfX7a30u3IWcBSwo7FHNRXltlb4qyrkIYmsQ==
-X-Received: by 2002:a17:902:7c05:b0:149:a3b4:934c with SMTP id
- x5-20020a1709027c0500b00149a3b4934cmr43082304pll.42.1641700962575; 
- Sat, 08 Jan 2022 20:02:42 -0800 (PST)
-Received: from [192.168.1.13] (174-21-75-75.tukw.qwest.net. [174.21.75.75])
- by smtp.gmail.com with ESMTPSA id ng18sm1866404pjb.36.2022.01.08.20.02.42
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 08 Jan 2022 20:02:42 -0800 (PST)
-Subject: Re: [PATCH 01/37] target/ppc: Introduce TRANS*FLAGS macros
-To: matheus.ferst@eldorado.org.br, qemu-devel@nongnu.org, qemu-ppc@nongnu.org
-References: <20220107185653.1609775-1-matheus.ferst@eldorado.org.br>
- <20220107185653.1609775-2-matheus.ferst@eldorado.org.br>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <bdf5a548-304d-b345-75e9-f8df124446bb@linaro.org>
-Date: Sat, 8 Jan 2022 20:02:40 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ bh=3WFxPI7IVemcGg4l8MDY6Up6yfiOlJdEqkZJg7RkCuU=;
+ b=iJYtbeFJ9dijtjxFnY4HN5vcqQhRPpSsBLEv2/QGIlO+BjsuBxT42AKixCUzBzpv/a
+ dey2cWu6l9p6ao95O5qoTcy8TfwkMJmSCxCVG0WEgbtAS/KuYaUQeAunDpG9X9T+MG+w
+ h9CLMn8KR7+Rckks5EjbK03TQ2+xxLbdNODxVWLkZO2NFWjaZxzXe1SBwGTKxxPKupef
+ EejFmqbpEfIKxTa743iMoRoN4Ooxjyxy1t/pYNjQym6A07iFPVVD+qzX83iL9UpvqC/G
+ lRxyZI01yqmxcBY3K/vM0Mk1Kb/IBL5V8PArRxthuFX0Pl5ZkIp3yDFslbHhY+aFDyl3
+ COaw==
+X-Gm-Message-State: AOAM532zF7MHoIPOg1V9t3whGMh1ZBFZ1++fHE9pI/YSXS1g6n+LKZjR
+ mBMOJJS6sGdN4XmOGli8WrkA0h3QZBg=
+X-Google-Smtp-Source: ABdhPJw2UKM4wNWjywnd3n3y3My/l5hznGSBipG7JecrJtqYtIRLOaOh1zsJe0F7HIYR6x5IWjU8RA==
+X-Received: by 2002:a05:622a:553:: with SMTP id
+ m19mr6774863qtx.180.1641701121283; 
+ Sat, 08 Jan 2022 20:05:21 -0800 (PST)
+Received: from ChristophersAir.hitronhub.home
+ ([2001:1970:50d6:9900:ecb7:536:86b6:f747])
+ by smtp.gmail.com with ESMTPSA id 14sm2196877qtx.84.2022.01.08.20.05.20
+ (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+ Sat, 08 Jan 2022 20:05:20 -0800 (PST)
+From: Christopher Friedt <chrisfriedt@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2] hw: misc: edu: fix 2 off-by-one errors
+Date: Sat,  8 Jan 2022 23:05:08 -0500
+Message-Id: <20220109040508.47696-1-chrisfriedt@gmail.com>
+X-Mailer: git-send-email 2.30.1 (Apple Git-130)
 MIME-Version: 1.0
-In-Reply-To: <20220107185653.1609775-2-matheus.ferst@eldorado.org.br>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::1032
+Content-Transfer-Encoding: 8bit
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::833
  (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1032.google.com
-X-Spam_score_int: -54
-X-Spam_score: -5.5
-X-Spam_bar: -----
-X-Spam_report: (-5.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-4.199,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::833;
+ envelope-from=chrisfriedt@gmail.com; helo=mail-qt1-x833.google.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,27 +83,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: groug@kaod.org, danielhb413@gmail.com, clg@kaod.org,
- Luis Pires <luis.pires@eldorado.org.br>, david@gibson.dropbear.id.au
+Cc: qemu-trivial@nongnu.org, Christopher Friedt <chrisfriedt@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/7/22 10:56 AM, matheus.ferst@eldorado.org.br wrote:
-> From: Luis Pires<luis.pires@eldorado.org.br>
-> 
-> New macros that add FLAGS and FLAGS2 checking were added for
-> both TRANS and TRANS64.
-> 
-> Signed-off-by: Luis Pires<luis.pires@eldorado.org.br>
-> [ferst: - TRANS_FLAGS2 instead of TRANS_FLAGS_E
->          - Use the new macros in load/store vector insns ]
-> Signed-off-by: Matheus Ferst<matheus.ferst@eldorado.org.br>
-> ---
->   target/ppc/translate.c              | 19 +++++++++++++++
->   target/ppc/translate/vsx-impl.c.inc | 37 ++++++++++-------------------
->   2 files changed, 31 insertions(+), 25 deletions(-)
+In the case that size1 was zero, because of the explicit
+'end1 > addr' check, the range check would fail and the error
+message would read as shown below. The correct comparison
+is 'end1 >= addr' (or 'addr <= end1').
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+EDU: DMA range 0x40000-0x3ffff out of bounds (0x40000-0x3ffff)!
 
-r~
+At the opposite end, in the case that size1 was 4096, within()
+would fail because of the non-inclusive check 'end1 < end2',
+which should have been 'end1 <= end2'. The error message would
+previously say
+
+EDU: DMA range 0x40000-0x40fff out of bounds (0x40000-0x40fff)!
+
+The solution is to use non-inclusive ranges e.g. [begin,end).
+
+Signed-off-by: Christopher Friedt <chrisfriedt@gmail.com>
+---
+ hw/misc/edu.c | 16 ++++++----------
+ 1 file changed, 6 insertions(+), 10 deletions(-)
+
+diff --git a/hw/misc/edu.c b/hw/misc/edu.c
+index e935c418d4..73e97a54e7 100644
+--- a/hw/misc/edu.c
++++ b/hw/misc/edu.c
+@@ -103,25 +103,21 @@ static void edu_lower_irq(EduState *edu, uint32_t val)
+     }
+ }
+ 
+-static bool within(uint64_t addr, uint64_t start, uint64_t end)
+-{
+-    return start <= addr && addr < end;
+-}
+-
+ static void edu_check_range(uint64_t addr, uint64_t size1, uint64_t start,
+                 uint64_t size2)
+ {
+     uint64_t end1 = addr + size1;
+     uint64_t end2 = start + size2;
+ 
+-    if (within(addr, start, end2) &&
+-            end1 > addr && within(end1, start, end2)) {
++    if (start <= addr && addr < end2 &&
++        addr <= end1 &&
++        start <= end1 && end1 <= end2) {
+         return;
+     }
+ 
+-    hw_error("EDU: DMA range 0x%016"PRIx64"-0x%016"PRIx64
+-             " out of bounds (0x%016"PRIx64"-0x%016"PRIx64")!",
+-            addr, end1 - 1, start, end2 - 1);
++    hw_error("EDU: DMA range [0x%016"PRIx64", 0x%016"PRIx64")"
++             " out of bounds [0x%016"PRIx64", 0x%016"PRIx64")!",
++            addr, end1, start, end2);
+ }
+ 
+ static dma_addr_t edu_clamp_addr(const EduState *edu, dma_addr_t addr)
+-- 
+2.30.1 (Apple Git-130)
+
 
