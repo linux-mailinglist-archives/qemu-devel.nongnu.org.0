@@ -2,55 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 992C74888F5
+	by mail.lfdr.de (Postfix) with ESMTPS id 348984888F4
 	for <lists+qemu-devel@lfdr.de>; Sun,  9 Jan 2022 12:44:33 +0100 (CET)
-Received: from localhost ([::1]:45436 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:45316 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n6Wci-0003iY-NN
-	for lists+qemu-devel@lfdr.de; Sun, 09 Jan 2022 06:44:32 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43476)
+	id 1n6Wch-0003cR-Pf
+	for lists+qemu-devel@lfdr.de; Sun, 09 Jan 2022 06:44:31 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43496)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n6WaE-0001Wd-Pj
- for qemu-devel@nongnu.org; Sun, 09 Jan 2022 06:42:00 -0500
-Received: from mout.kundenserver.de ([217.72.192.74]:50421)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n6WaG-0001Wr-Ae
+ for qemu-devel@nongnu.org; Sun, 09 Jan 2022 06:42:01 -0500
+Received: from mout.kundenserver.de ([217.72.192.73]:60725)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n6WaC-0008Aw-TW
- for qemu-devel@nongnu.org; Sun, 09 Jan 2022 06:41:58 -0500
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n6WaC-0008B4-Ub
+ for qemu-devel@nongnu.org; Sun, 09 Jan 2022 06:41:59 -0500
 Received: from quad ([82.142.23.158]) by mrelayeu.kundenserver.de (mreue106
- [212.227.15.183]) with ESMTPSA (Nemesis) id 1MvrVJ-1mGLph3GND-00sw43; Sun, 09
- Jan 2022 12:41:50 +0100
+ [212.227.15.183]) with ESMTPSA (Nemesis) id 1N6bwO-1mIJtJ3wPW-0186TS; Sun, 09
+ Jan 2022 12:41:52 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 0/4] M68k for 7.0 patches
-Date: Sun,  9 Jan 2022 12:41:45 +0100
-Message-Id: <20220109114149.1275322-1-laurent@vivier.eu>
+Subject: [PULL 1/4] hw: m68k: Add virt compat machine type for 7.0
+Date: Sun,  9 Jan 2022 12:41:46 +0100
+Message-Id: <20220109114149.1275322-2-laurent@vivier.eu>
 X-Mailer: git-send-email 2.33.1
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20220109114149.1275322-1-laurent@vivier.eu>
+References: <20220109114149.1275322-1-laurent@vivier.eu>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:6ry/y7oQfsmkMtH0v7u0y157yBrCPp8ECfloycN+lWqsyVNZe4g
- zWeQ2m1g0skVioc+oNABJ/XsEu0h+62vsjr2ozs87whWwPRG3s8J1d7BMI8vj1uR9ocjXK9
- fPOuHq59RU5UWACK0fhaPeU3uyC6VkL3J9GAWfcFw4k8JyjWxVSHgphNsRyH6cSblnznhli
- p2L4r+cRdmTnhzwh9b/fw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:by5aKC+mFpc=:HhgO0cyl3zu4ceFbForUKQ
- +JdepwL2OI5MPj4zcKDWYZm39rac26hPvnFDokXdzgufCxK0zONxKyq3r5zfM5NQC/Eob4WWI
- XLOxzvaNQay9xtvf6HGOoVc95eOFqYM21lCrfymmmR02tU8dUUA8lmgIaiNfExOV5SL0y/YS+
- pGgrEDycw8UvaZEHBfossapZE2zGAN4NQKA5XKCbF1osOcnCypgLOaNAMd7dlsQBlWmTg8poY
- znESVpzlTKEdjcWZydKCftke+JXYM+GjebbwQ9ShIb73g/qjciXjHZ3jrMa5PMX92d2KAGOVe
- wn6oTD38ELTYPgBbCy92kth9cbqOoiu0Grl2k1bw4f7m2iD914FbbsV0cX5OqkF+uf+pdOO4a
- L6X9y76ChMmacFGvDgVpJuOJcieNi7c3WDUqVO4STlNNBShrkaYA9jARgMoN4Y/1BaRy6IGSE
- KC4sjLqg/Uk2qRvJ79ORDoWgCj3kG3RaShuFxNimRarZbs8I1hsm5S06ATWbza+7jddAsziic
- GYJ8UMwNjizIOV/YxSanSjOIot0ComuWFDq0FenDYCkgkUHbIAnSYCiHapR59xha/eiBZqw95
- 2j4SDAA5cuwQbYiamWOi6kgcHZ9MgQedNDgE7mRQu3asF2eSB+Mk56SAAROQUqo4Ukkf/tMTf
- /g8ctm1tMi/0w88sZbs2LpH9KK1cqRU1bmqG+OGwZDLp+3Odz0bjEjFgp4v50WNjhpaw=
-Received-SPF: none client-ip=217.72.192.74; envelope-from=laurent@vivier.eu;
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:gtN4DuiNuvHdO93nh7q/HRx3Lc2OHDL9Ru4qTg+yKVycuX6mrqV
+ VRjIwPTgbTGN1RdHpsXhMLmLo0n53G39n/D+9esq9ddq2LunIRIObeU8AFojQgSehIkQqFB
+ aYOoS1VMY/ItiSTeragvYJsSSgzOIXwdy4d0dcJ517H/2ixO3fHdxw0UsNRy5o7zJ7CZWTg
+ bAu8HJMhdRfiHZXdbvLfg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:AI070UQ4B0k=:ei4S+Lz1FI25PS2R9oSw5q
+ 8nqL4bMI252/0NJF7Oa2tWaRERh2uurvOqo8zNAlLD2Wa0NCBxRN5WdyWrazLgqSLIzwUxdzq
+ +fUWgKo2KndKtBi3AqsweU5j1WkVduMckWmT3sdHk1Dxfy16yPNRhS+n6Qa9WvHX0h8gUCL0R
+ EEedVVPqOxvp8EfZkO/kGK0lGsq0fmQ2WE4JKU/Z2OQCJtfiBpFGEpwI/u7D4p6gwVBNnU9l0
+ AbSrj3t5K163CNe9RQZRoVa+Uyj8syhSnuf2qwDrAblURSOS/S8MIVKPatZaq7ws8YNt+BJGQ
+ yTr9/J5zen4WW9V8lGbXHg84zAwUi5SsBkoZreO2cpUWp1w4naz5hRl6R43ZxkRJN9eGh5hvM
+ 3AE4apr/JrcSFThx46deC39a+Txr4jgjsDtTsBbnQlvJAUxJBkKvGteyTOXbdS6g8B28V7v69
+ E5p3TRZYSjDStnsQ7N62VtB5lcj+D/u8X3cPVDLLSzNfXAK2+KSfjioigs6MHz/2P2mMW8HCD
+ 3rmyPp3U7G4O1USG061dKKaTXBFSMPD4aU4/iIfKcDvMGa5un2tapmNpXkl4gFCj2wIZrmkLH
+ tvE3vx+/LMLwyqYp1ewd0JKNbY3/LyougN0tFoi7DIrQ91hLdLiJSPVGFhIWywl4Su9keVWDe
+ ALoopMI5NGZZJ+tG4Jn2zTkDXhnI/S4PcxDrcda6dJkhIPAQlz2rxE9gSt9FKkVkNtq8=
+Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -63,51 +65,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <laurent@vivier.eu>
+Cc: Thomas Huth <thuth@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit df722e33d5da26ea8604500ca8f509245a0ea524=
-:=0D
-=0D
-  Merge tag 'bsd-user-arm-pull-request' of gitlab.com:bsdimp/qemu into stag=
-ing (2022-01-08 09:37:59 -0800)=0D
-=0D
-are available in the Git repository at:=0D
-=0D
-  git://github.com/vivier/qemu-m68k.git tags/m68k-for-7.0-pull-request=0D
-=0D
-for you to fetch changes up to 31144eb6393b66b06a13e8a6ad0e730f9e82d4c6:=0D
-=0D
-  target/m68k: don't word align SP in stack frame if M68K_FEATURE_UNALIGNED=
-_DATA feature enabled (2022-01-09 12:05:02 +0100)=0D
-=0D
-----------------------------------------------------------------=0D
-M68k pull request 20220109=0D
-=0D
-Add virt compat machine type for 7.0=0D
-fix q800 -bios parameter=0D
-fix VRAM refresh=0D
-fix M68K_FEATURE_UNALIGNED_DATA feature=0D
-=0D
-----------------------------------------------------------------=0D
-=0D
-Laurent Vivier (2):=0D
-  hw: m68k: Add virt compat machine type for 7.0=0D
-  q800: fix segfault with invalid MacROM=0D
-=0D
-Mark Cave-Ayland (2):=0D
-  macfb: fix VRAM dirty memory region logging=0D
-  target/m68k: don't word align SP in stack frame if=0D
-    M68K_FEATURE_UNALIGNED_DATA feature enabled=0D
-=0D
- hw/display/macfb.c      | 2 +-=0D
- hw/m68k/q800.c          | 5 +++--=0D
- hw/m68k/virt.c          | 9 ++++++++-=0D
- target/m68k/op_helper.c | 5 ++++-=0D
- 4 files changed, 16 insertions(+), 5 deletions(-)=0D
-=0D
--- =0D
-2.33.1=0D
-=0D
+Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+Message-Id: <20211218114340.1856757-1-laurent@vivier.eu>
+---
+ hw/m68k/virt.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
+
+diff --git a/hw/m68k/virt.c b/hw/m68k/virt.c
+index 0efa4a45c7f4..78e926a55457 100644
+--- a/hw/m68k/virt.c
++++ b/hw/m68k/virt.c
+@@ -304,10 +304,17 @@ type_init(virt_machine_register_types)
+     } \
+     type_init(machvirt_machine_##major##_##minor##_init);
+ 
++static void virt_machine_7_0_options(MachineClass *mc)
++{
++}
++DEFINE_VIRT_MACHINE(7, 0, true)
++
+ static void virt_machine_6_2_options(MachineClass *mc)
+ {
++    virt_machine_7_0_options(mc);
++    compat_props_add(mc->compat_props, hw_compat_6_2, hw_compat_6_2_len);
+ }
+-DEFINE_VIRT_MACHINE(6, 2, true)
++DEFINE_VIRT_MACHINE(6, 2, false)
+ 
+ static void virt_machine_6_1_options(MachineClass *mc)
+ {
+-- 
+2.33.1
+
 
