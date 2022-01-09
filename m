@@ -2,53 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D07F488852
-	for <lists+qemu-devel@lfdr.de>; Sun,  9 Jan 2022 08:59:06 +0100 (CET)
-Received: from localhost ([::1]:51194 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0472848887D
+	for <lists+qemu-devel@lfdr.de>; Sun,  9 Jan 2022 10:34:57 +0100 (CET)
+Received: from localhost ([::1]:56538 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n6T6X-00078k-8f
-	for lists+qemu-devel@lfdr.de; Sun, 09 Jan 2022 02:59:05 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:46052)
+	id 1n6UbI-0006Z5-4C
+	for lists+qemu-devel@lfdr.de; Sun, 09 Jan 2022 04:34:56 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53872)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
- id 1n6T4n-0006N2-Pm
- for qemu-devel@nongnu.org; Sun, 09 Jan 2022 02:57:18 -0500
-Received: from mailout12.t-online.de ([194.25.134.22]:42736)
+ (Exim 4.90_1) (envelope-from <i.qemu@xen0n.name>) id 1n6UTW-0004Si-I7
+ for qemu-devel@nongnu.org; Sun, 09 Jan 2022 04:26:54 -0500
+Received: from mail.xen0n.name ([115.28.160.31]:55558
+ helo=mailbox.box.xen0n.name)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
- id 1n6T4l-0003eW-1w
- for qemu-devel@nongnu.org; Sun, 09 Jan 2022 02:57:17 -0500
-Received: from fwd70.dcpf.telekom.de (fwd70.aul.t-online.de [10.223.144.96])
- by mailout12.t-online.de (Postfix) with SMTP id 71C90690D;
- Sun,  9 Jan 2022 08:56:57 +0100 (CET)
-Received: from [192.168.211.200] ([46.86.48.20]) by fwd70.t-online.de
- with (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384 encrypted)
- esmtp id 1n6T4N-1qnMrx0; Sun, 9 Jan 2022 08:56:52 +0100
-Message-ID: <69666421-0441-7c50-057d-d0616a574593@t-online.de>
-Date: Sun, 9 Jan 2022 08:56:51 +0100
+ (Exim 4.90_1) (envelope-from <i.qemu@xen0n.name>) id 1n6UTO-0006JW-Bg
+ for qemu-devel@nongnu.org; Sun, 09 Jan 2022 04:26:54 -0500
+Received: from [192.168.9.172] (unknown [101.88.31.179])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mailbox.box.xen0n.name (Postfix) with ESMTPSA id 41CD5600FB;
+ Sun,  9 Jan 2022 17:26:40 +0800 (CST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=xen0n.name; s=mail;
+ t=1641720400; bh=/XYB35IGuAuURwG4xiM+rzVu5V32mIIPcZ+2U2Ok4jE=;
+ h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
+ b=jWs2Hl1SCNzoYfBCpDAECeelu/FglmXnzH81by5dFj1YuIJ4WLBFif/KkDU5HNCtJ
+ 8WWKGhqeLWbgkLe2siA8KYGry5HKNMDAXdeS6dBOefSFUZU4SDW8M8NAWXK9qpWAMl
+ MZmAMjvod5KxRfIzeOyjOwHdVYsDrO8gu6YI5Uxk=
+Message-ID: <ffa6ec4c-1eb1-00bd-71c9-52e71a46c16a@xen0n.name>
+Date: Sun, 9 Jan 2022 17:24:57 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.1
-From: =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>
-Subject: Re: [PATCH] audio: allow spice buffer_length to be adjusted
-To: Geoffrey McRae <geoff@hostfission.com>
-References: <20220109033332.402609-1-geoff@hostfission.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:97.0) Gecko/20100101
+ Thunderbird/97.0a1
+From: WANG Xuerui <i.qemu@xen0n.name>
+Subject: Re: [PATCH v14 01/26] target/loongarch: Add README
+To: Song Gao <gaosong@loongson.cn>, qemu-devel@nongnu.org
+References: <20220106094200.1801206-1-gaosong@loongson.cn>
+ <20220106094200.1801206-2-gaosong@loongson.cn>
 Content-Language: en-US
-In-Reply-To: <20220109033332.402609-1-geoff@hostfission.com>
+In-Reply-To: <20220106094200.1801206-2-gaosong@loongson.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-TOI-EXPURGATEID: 150726::1641715012-00004E7B-3D87FBC3/0/0 CLEAN NORMAL
-X-TOI-MSGID: 27e437d2-df8e-4f1f-9ea1-483aa51795e4
-Received-SPF: none client-ip=194.25.134.22; envelope-from=vr_qemu@t-online.de;
- helo=mailout12.t-online.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01,
- RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=115.28.160.31; envelope-from=i.qemu@xen0n.name;
+ helo=mailbox.box.xen0n.name
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -61,113 +63,130 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
+Cc: Xiaojuan Yang <yangxiaojuan@loongson.cn>,
+ Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
 
-> Spice clients that are running directly on the host system have
-> pratcially unlimited bandwidth so to reduce latency allow the user to
-> configure the buffer_length to a lower value if desired.
+On 1/6/22 17:41, Song Gao wrote:
+> This patch gives an introduction to the LoongArch target.
 >
-> While virt-viewer can not take advantage of this, the PureSpice [1]
-> library used by Looking Glass [2] is able to produce and consume audio
-> at these rates, combined with the merge request for spice-server [3]
-> this allows for latencies close to realtime.
->
-> [1]https://github.com/gnif/PureSpice
-> [2]https://github.com/gnif/LookingGlass
-> [3]https://gitlab.freedesktop.org/spice/spice/-/merge_requests/199
->
-> Signed-off-by: Geoffrey McRae<geoff@hostfission.com>
+> Signed-off-by: Song Gao<gaosong@loongson.cn>
+> Signed-off-by: Xiaojuan Yang<yangxiaojuan@loongson.cn>
+> Reviewed-by: Richard Henderson<richard.henderson@linaro.org>
 > ---
->   audio/spiceaudio.c | 19 ++++++++++++++++---
->   1 file changed, 16 insertions(+), 3 deletions(-)
+>   MAINTAINERS             |  5 +++
+>   target/loongarch/README | 77 +++++++++++++++++++++++++++++++++++++++++
+>   2 files changed, 82 insertions(+)
+>   create mode 100644 target/loongarch/README
 >
-> diff --git a/audio/spiceaudio.c b/audio/spiceaudio.c
-> index a8d370fe6f..0c44bbe836 100644
-> --- a/audio/spiceaudio.c
-> +++ b/audio/spiceaudio.c
-> @@ -76,7 +76,7 @@ static void *spice_audio_init(Audiodev *dev)
->       if (!using_spice) {
->           return NULL;
->       }
-> -    return &spice_audio_init;
-> +    return dev;
->   }
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index f871d759fd..2df0d4a7c2 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -213,6 +213,11 @@ S: Maintained
+>   F: target/hppa/
+>   F: disas/hppa.c
 >   
->   static void spice_audio_fini (void *opaque)
-> @@ -90,6 +90,8 @@ static int line_out_init(HWVoiceOut *hw, struct audsettings *as,
->                            void *drv_opaque)
->   {
->       SpiceVoiceOut *out = container_of (hw, SpiceVoiceOut, hw);
-> +    Audiodev      *dev = (Audiodev *)drv_opaque;
+> +LoongArch TCG CPUS
+"TCG CPUs" -- notice the case for the plural "s".
+> +M: Song Gao<gaosong@loongson.cn>
+> +S: Maintained
+> +F: target/loongarch/
 > +
->       struct audsettings settings;
->   
->   #if SPICE_INTERFACE_PLAYBACK_MAJOR > 1 || SPICE_INTERFACE_PLAYBACK_MINOR >= 3
-> @@ -102,7 +104,12 @@ static int line_out_init(HWVoiceOut *hw, struct audsettings *as,
->       settings.endianness = AUDIO_HOST_ENDIANNESS;
->   
->       audio_pcm_init_info (&hw->info, &settings);
-> -    hw->samples = LINE_OUT_SAMPLES;
-> +    if (dev->u.none.out->has_buffer_length) {
-> +        hw->samples = audio_buffer_samples(dev->u.none.out, &settings, 10000);
-
-hw->samples counts in frames. The buffer is twice as large as expected.
-
-+        hw->samples = audio_buffer_frames(dev->u.none.out, &settings, 
-10000);
-
-I'm aware the default size of 10000us will not be used, but it's a bad 
-example because with a default timer-period of 10000us the buffer has to 
-be a few percent larger than timer-period. Otherwise the emulated audio 
-device will never catch up if a AUD_write() has been delayed.
-
-> +    } else {
-> +        hw->samples = LINE_OUT_SAMPLES;
-> +    }
+>   M68K TCG CPUs
+>   M: Laurent Vivier<laurent@vivier.eu>
+>   S: Maintained
+> diff --git a/target/loongarch/README b/target/loongarch/README
+> new file mode 100644
+> index 0000000000..d5780c5918
+> --- /dev/null
+> +++ b/target/loongarch/README
+> @@ -0,0 +1,77 @@
+> +- Introduction
 > +
->       out->active = 0;
->   
->       out->sin.base.sif = &playback_sif.base;
-> @@ -199,6 +206,7 @@ static void line_out_volume(HWVoiceOut *hw, Volume *vol)
->   static int line_in_init(HWVoiceIn *hw, struct audsettings *as, void *drv_opaque)
->   {
->       SpiceVoiceIn *in = container_of (hw, SpiceVoiceIn, hw);
-> +    Audiodev     *dev = (Audiodev *)drv_opaque;
->       struct audsettings settings;
->   
->   #if SPICE_INTERFACE_RECORD_MAJOR > 2 || SPICE_INTERFACE_RECORD_MINOR >= 3
-> @@ -211,7 +219,12 @@ static int line_in_init(HWVoiceIn *hw, struct audsettings *as, void *drv_opaque)
->       settings.endianness = AUDIO_HOST_ENDIANNESS;
->   
->       audio_pcm_init_info (&hw->info, &settings);
-> -    hw->samples = LINE_IN_SAMPLES;
-> +    if (dev->u.none.out->has_buffer_length) {
-> +        hw->samples = audio_buffer_samples(dev->u.none.in, &settings, 10000);
-
--        hw->samples = audio_buffer_samples(dev->u.none.in, &settings, 
-10000);
-+        hw->samples = audio_buffer_frames(dev->u.none.in, &settings, 
-10000);
-
-> +    } else {
-> +        hw->samples = LINE_IN_SAMPLES;
-> +    }
+> +  LoongArch is the general processor architecture of Loongson.
 > +
->       in->active = 0;
->   
->       in->sin.base.sif = &record_sif.base;
-
-Btw. have you seen my "[PATCH 00/15] reduce audio playback latency" 
-patch series at 
-https://lists.nongnu.org/archive/html/qemu-devel/2022-01/msg00780.html? 
-I haven't tested, but I think it's possible to add a buffer_get_free 
-function to audio/spiceaudio.c. That would eliminate the need to 
-fine-tune the audio buffer length.
-
-With best regards,
-Volker
+> +  The following versions of the LoongArch core are supported
+> +    core: 3A5000
+> +https://github.com/loongson/LoongArch-Documentation/releases/download/2021.08.17/LoongArch-Vol1-v1.00-EN.pdf
+> +
+> +  We can get the latest loongarch documents athttps://github.com/loongson/LoongArch-Documentation/tags.
+> +
+> +
+> +- Linux-user emulation
+> +
+> +  We already support Linux user emulation. We can use LoongArch cross-tools to build LoongArch executables on X86 machines,
+> +  and We can also use qemu-loongarch64 to run LoongArch executables.
+> +
+> +  1. Install LoongArch cross-tools on X86 machines.
+> +
+> +    Download cross-tools.
+> +
+> +      wgethttps://github.com/loongson/build-tools/releases/latest/download/loongarch64-clfs-20211202-cross-tools.tar.xz
+> +
+> +      tar -vxf loongarch64-clfs-20211202-cross-tools.tar.xz -C /opt
+> +
+> +    Config cross-tools env.
+> +
+> +      . setenv.sh
+> +
+> +      setenv.sh:
+> +
+> +          #!/bin/sh
+> +          set -x
+> +          CC_PREFIX=/opt/cross-tools
+> +
+> +          export PATH=$CC_PREFIX/bin:$PATH
+> +          export LD_LIBRARY_PATH=$CC_PREFIX/lib:$LD_LIBRARY_PATH
+> +          export LD_LIBRARY_PATH=$CC_PREFIX/loongarch64-unknown-linux-gnu/lib/:$LD_LIBRARY_PATH
+> +          set +x
+> +
+> +  2. Test tests/tcg/multiarch.
+> +
+> +    ./configure --disable-rdma --disable-pvrdma --prefix=/usr  \
+> +            --target-list="loongarch64-linux-user"  \
+> +            --disable-libiscsi --disable-libnfs --disable-libpmem \
+> +            --disable-glusterfs --enable-libusb --enable-usb-redir \
+> +            --disable-opengl --disable-xen --enable-spice --disable-werror \
+> +            --enable-debug --disable-capstone --disable-kvm --enable-profiler
+> +
+> +    cd  build/
+> +
+> +    make && make check-tcg
+> +
+> +  3. Run LoongArch system basic command with loongarch-clfs-system.
+> +
+> +    Download clfs-system.
+> +
+> +      wgethttps://github.com/loongson/build-tools/releases/latest/download/loongarch64-clfs-system-2021-12-02.tar.bz2
+> +
+> +      tar -vxf loongarch64-clfs-system-2021-12-02.tar.bz2 -C /opt/clfs
+> +      ln -s /opt/clfs/  /opt/clfs/tls
+Command with dubious intention -- are you working around some kind of 
+LIBPATH priority problem? TLS shouldn't be involved at this level, yet I 
+remotely remember that library search paths similar to "/usr/lib/tls" 
+were a thing long ago...
+> +
+> +    Config env.
+> +
+> +      cp /opt/clfs/lib64/ld-linux-loongarch64.so.1   /lib64
+> +
+> +      export LD_LIBRARY_PATH="/opt/clfs/lib64"
+> +
+> +    Run LoongArch system basic command.
+> +
+> +      ./qemu-loongarch64  /opt/clfs/usr/bin/bash
+> +      ./qemu-loongarch64  /opt/clfs/usr/bin/ls
+> +      ./qemu-loongarch64  /opt/clfs/usr/bin/pwd
+> +      ...
+> +
+> +
+> +- Note.
+> +  We can get the latest LoongArch documents or LoongArch tools athttps://github.com/loongson/
+I'm afraid this README would require some re-writing due to the amount 
+of Chinglish involved, but that's possibly okay after merging. (I don't 
+have the time to rewrite this for you currently, so just a mild rant for 
+now.)
 
