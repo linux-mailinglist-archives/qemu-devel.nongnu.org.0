@@ -2,85 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF97F488B73
-	for <lists+qemu-devel@lfdr.de>; Sun,  9 Jan 2022 18:51:51 +0100 (CET)
-Received: from localhost ([::1]:57120 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7D01488B74
+	for <lists+qemu-devel@lfdr.de>; Sun,  9 Jan 2022 18:54:21 +0100 (CET)
+Received: from localhost ([::1]:59370 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n6cMA-0001w1-G5
-	for lists+qemu-devel@lfdr.de; Sun, 09 Jan 2022 12:51:50 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:40764)
+	id 1n6cOb-0003bX-2A
+	for lists+qemu-devel@lfdr.de; Sun, 09 Jan 2022 12:54:21 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:41286)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n6cJt-0001Bm-Ag
- for qemu-devel@nongnu.org; Sun, 09 Jan 2022 12:49:29 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:43367)
+ (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
+ id 1n6cNI-0002sE-24
+ for qemu-devel@nongnu.org; Sun, 09 Jan 2022 12:53:00 -0500
+Received: from mailout05.t-online.de ([194.25.134.82]:45806)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1n6cJq-00038x-P2
- for qemu-devel@nongnu.org; Sun, 09 Jan 2022 12:49:28 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1641750565;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type;
- bh=WNUST86HWIMzLmP6YmJle/rFa/fm/A1i2Mu3Jr4aItI=;
- b=WlHh0sx28LEBGVSGW2A+rnAToECruIR4x/JCo3sQjpwSivQoFibvnm1cT4+DbWWO1KJW6P
- 8kPe0PcEmvM4p5EG9vQBj9RzWVYjphYEX1yxrMh8SQw9ppnfED29EmxogQcGSUNecbddaL
- K2TnYZYP6+AIfWtcQT+++PKDoXGkgXE=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-537-8kjqDR3aNgCxTopstonCgw-1; Sun, 09 Jan 2022 12:49:24 -0500
-X-MC-Unique: 8kjqDR3aNgCxTopstonCgw-1
-Received: by mail-wm1-f71.google.com with SMTP id
- c5-20020a1c3505000000b00345c92c27c6so7435328wma.2
- for <qemu-devel@nongnu.org>; Sun, 09 Jan 2022 09:49:24 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
- :content-disposition;
- bh=WNUST86HWIMzLmP6YmJle/rFa/fm/A1i2Mu3Jr4aItI=;
- b=VZuE57XaH8N6C/o7hn+k2YGZAI6BGBRVAEn7a4X+0oyLbhayTefWhwhwcl+dUx1l8S
- Ene3N3zs8+K6pUcmB92cVERqvIwhBYXFxTFAuLZkH9fS7k3prKxXaVFWhH2SQGJKmwlO
- jS5FBMnNfYLJvEAonAkDy2qr28kSNf607Tptx47qSy1rIC8LqiKmxkEb2nwoh62h1tHJ
- WnUmI8jnHmSr/cnoRiU5K3ISRvpjdyKKrsb0Q+p5fMdDSBTT8rGBKSs0vufKrUVFkMEp
- U5EKUJnTMW/3dEypm9JGSKVjLwPxp7C6dRUNqdFLDFCYpGlF+MljfH5Vf9w3KL7isV72
- aePQ==
-X-Gm-Message-State: AOAM531hJvVTkX8RtI9hCGqzY3ggTX1GR9nQoecwoEr8C+/jFJqN2w++
- fzf2XUUZPfH3JAmoaIYpISgsREfpclPBXE7m0HoGVdITaWc2Vv8o6hD6Q2jFEz5fC15zW4AicXL
- WXOBz558caEFL4TZ3s8tvB/6fKuCwBnniEzweALXqsFXiEn/xMiCtfiRA2TzF
-X-Received: by 2002:a05:6000:1c05:: with SMTP id
- ba5mr13168834wrb.298.1641750563126; 
- Sun, 09 Jan 2022 09:49:23 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyzEZu9/tX/MBHRo4T15O1xifiXHW7TXIKs+p8LQoAFait6p03wllbTTf8316ZuwdSBq9jlXw==
-X-Received: by 2002:a05:6000:1c05:: with SMTP id
- ba5mr13168816wrb.298.1641750562851; 
- Sun, 09 Jan 2022 09:49:22 -0800 (PST)
-Received: from redhat.com ([2a03:c5c0:107e:c07a:cd29:1c16:894b:6b07])
- by smtp.gmail.com with ESMTPSA id m35sm8307849wms.1.2022.01.09.09.49.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 09 Jan 2022 09:49:22 -0800 (PST)
-Date: Sun, 9 Jan 2022 12:49:19 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] virtio-pci: fix up config interrupt handling
-Message-ID: <20220109173136.35848-1-mst@redhat.com>
+ (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
+ id 1n6cNG-0003gz-0V
+ for qemu-devel@nongnu.org; Sun, 09 Jan 2022 12:52:59 -0500
+Received: from fwd77.dcpf.telekom.de (fwd77.aul.t-online.de [10.223.144.103])
+ by mailout05.t-online.de (Postfix) with SMTP id B3A30210EF;
+ Sun,  9 Jan 2022 18:52:33 +0100 (CET)
+Received: from [192.168.211.200] ([46.86.48.20]) by fwd77.t-online.de
+ with (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384 encrypted)
+ esmtp id 1n6cMn-1NCPVh0; Sun, 9 Jan 2022 18:52:29 +0100
+Message-ID: <75f376c9-e1bb-297e-50f1-0934b8cae022@t-online.de>
+Date: Sun, 9 Jan 2022 18:52:28 +0100
 MIME-Version: 1.0
-X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
-X-Mutt-Fcc: =sent
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.595,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.1
+Subject: Re: [PULL v3 12/55] virtio-pci: add support for configure interrupt
+Content-Language: en-US
+To: "Michael S. Tsirkin" <mst@redhat.com>
+References: <20220108003423.15830-1-mst@redhat.com>
+ <20220108003423.15830-13-mst@redhat.com>
+ <2ebfb2e7-bd51-d5ee-7e17-7cec59a0f0d5@t-online.de>
+ <20220109110613-mutt-send-email-mst@kernel.org>
+From: =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>
+In-Reply-To: <20220109110613-mutt-send-email-mst@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-TOI-EXPURGATEID: 150726::1641750749-0001606D-8F21C90E/0/0 CLEAN NORMAL
+X-TOI-MSGID: f521fd03-cf2b-44d9-976a-5bd7956c1db1
+Received-SPF: none client-ip=194.25.134.82; envelope-from=vr_qemu@t-online.de;
+ helo=mailout05.t-online.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=-0.01,
+ RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,64 +64,119 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Volker =?utf-8?Q?R=C3=BCmelin?= <vr_qemu@t-online.de>,
- =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>, Cindy Lu <lulu@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
+ Cindy Lu <lulu@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fixes a couple of issues with irqfd use by config interrupt:
-- Rearrange initialization so cleanup happens in the reverse order
-- Don't use irqfd for config when not in use for data path
-I am not sure this is a complete fix though: I think we
-are better off limiting the effect to vdpa devices
-with config interrupt support. Or even bypass irqfd
-for config completely and inject into KVM using ioctl?
-The advantage would be less FDs used.
-This would mean mostly reverting the patchset though.
+Am 09.01.22 um 17:11 schrieb Michael S. Tsirkin:
+> On Sun, Jan 09, 2022 at 07:17:30AM +0100, Volker Rümelin wrote:
+>> Hi,
+>>
+>>> From: Cindy Lu <lulu@redhat.com>
+>>>
+>>> Add support for configure interrupt, The process is used kvm_irqfd_assign
+>>> to set the gsi to kernel. When the configure notifier was signal by
+>>> host, qemu will inject a msix interrupt to guest
+>>>
+>>> Signed-off-by: Cindy Lu <lulu@redhat.com>
+>>> Message-Id: <20211104164827.21911-11-lulu@redhat.com>
+>>> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+>>> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+>>> ---
+>>>    hw/virtio/virtio-pci.h |  4 +-
+>>>    hw/virtio/virtio-pci.c | 92 ++++++++++++++++++++++++++++++++++++------
+>>>    2 files changed, 83 insertions(+), 13 deletions(-)
+>>>
+>> Since this commit I see the following warnings.
+>>
+>> With -drive
+>> if=virtio,id=disk1,file=/srv/cdimg/Linux/images/opensuse.qcow2,discard=unmap
+>>
+>> qemu-system-x86_64: virtio-blk failed to set guest notifier (-16), ensure
+>> -accel kvm is set.
+>> qemu-system-x86_64: virtio_bus_start_ioeventfd: failed. Fallback to
+>> userspace (slower).
+>>
+>> With libvirt
+>>      <controller type='pci' index='1' model='pcie-root-port'>
+>>        <address type='pci' domain='0x0000' bus='0x00' slot='0x1c'
+>> function='0'
+>>         multifunction='on'/>
+>>      </controller>
+>>      <controller type='pci' index='2' model='pcie-root-port'>
+>>        <address type='pci' domain='0x0000' bus='0x00' slot='0x1c'
+>> function='1'/>
+>>      </controller>
+>>      <controller type='scsi' index='0' model='virtio-scsi'>
+>>        <driver queues='4'/>
+>>        <address type='pci' domain='0x0000' bus='0x01' slot='0x00'
+>> function='0'/>
+>>      </controller>
+>>      <disk type='block' device='disk'>
+>>        <driver name='qemu' type='raw' cache='none' discard='unmap'
+>> io='io_uring'/>
+>>        <source dev='/dev/vgtmp/lnxpowerm1'/>
+>>        <target dev='sda' bus='scsi'/>
+>>        <address type='drive' controller='0' bus='0' unit='0'/>
+>>        <boot order='1'/>
+>>      </disk>
+>>
+>> 2022-01-08T17:45:26.911491Z qemu-system-x86_64: virtio-scsi: Failed to set
+>> guest notifiers (-16), ensure -accel kvm is set.
+>> 2022-01-08T17:45:26.911505Z qemu-system-x86_64: virtio_bus_start_ioeventfd:
+>> failed. Fallback to userspace (slower).
+>>
+>> The messages appear around the time the Linux guest initializes the drivers.
+>>
+>> With best regards,
+>> Volker
+> I guess it's a host that has an oldish kernel?
 
-Fixes: d5d24d859c ("virtio-pci: add support for configure interrupt")
-Cc: "Cindy Lu" <lulu@redhat.com>
-Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
----
- hw/virtio/virtio-pci.c | 12 +++++++-----
- 1 file changed, 7 insertions(+), 5 deletions(-)
+It's an openSUSE 5.3.18 frankenstein kernel.
 
-diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
-index 98fb5493ae..b77cd69f97 100644
---- a/hw/virtio/virtio-pci.c
-+++ b/hw/virtio/virtio-pci.c
-@@ -1130,15 +1130,15 @@ static int virtio_pci_set_guest_notifiers(DeviceState *d, int nvqs, bool assign)
-             proxy->vector_irqfd =
-                 g_malloc0(sizeof(*proxy->vector_irqfd) *
-                           msix_nr_vectors_allocated(&proxy->pci_dev));
-+            r = kvm_virtio_pci_vector_config_use(proxy);
-+            if (r < 0) {
-+                goto config_error;
-+            }
-             r = kvm_virtio_pci_vector_use(proxy, nvqs);
-             if (r < 0) {
-                 goto config_assign_error;
-             }
-         }
--        r = kvm_virtio_pci_vector_config_use(proxy);
--        if (r < 0) {
--            goto config_error;
--        }
-         r = msix_set_vector_notifiers(&proxy->pci_dev, virtio_pci_vector_unmask,
-                                       virtio_pci_vector_mask,
-                                       virtio_pci_vector_poll);
-@@ -1155,7 +1155,9 @@ notifiers_error:
-         kvm_virtio_pci_vector_release(proxy, nvqs);
-     }
- config_error:
--    kvm_virtio_pci_vector_config_release(proxy);
-+    if (with_irqfd) {
-+        kvm_virtio_pci_vector_config_release(proxy);
-+    }
- config_assign_error:
-     virtio_pci_set_guest_notifier(d, VIRTIO_CONFIG_IRQ_IDX, !assign,
-                                   with_irqfd);
--- 
-MST
+> Does the following help?
+>
+
+No.
+
+> diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
+> index 98fb5493ae..b77cd69f97 100644
+> --- a/hw/virtio/virtio-pci.c
+> +++ b/hw/virtio/virtio-pci.c
+> @@ -1130,15 +1130,15 @@ static int virtio_pci_set_guest_notifiers(DeviceState *d, int nvqs, bool assign)
+>               proxy->vector_irqfd =
+>                   g_malloc0(sizeof(*proxy->vector_irqfd) *
+>                             msix_nr_vectors_allocated(&proxy->pci_dev));
+> +            r = kvm_virtio_pci_vector_config_use(proxy);
+> +            if (r < 0) {
+> +                goto config_error;
+> +            }
+>               r = kvm_virtio_pci_vector_use(proxy, nvqs);
+>               if (r < 0) {
+>                   goto config_assign_error;
+>               }
+>           }
+> -        r = kvm_virtio_pci_vector_config_use(proxy);
+> -        if (r < 0) {
+> -            goto config_error;
+> -        }
+>           r = msix_set_vector_notifiers(&proxy->pci_dev, virtio_pci_vector_unmask,
+>                                         virtio_pci_vector_mask,
+>                                         virtio_pci_vector_poll);
+
+With and without this patch msix_set_vector_notifiers() returns -16.
+
+> @@ -1155,7 +1155,9 @@ notifiers_error:
+>           kvm_virtio_pci_vector_release(proxy, nvqs);
+>       }
+>   config_error:
+> -    kvm_virtio_pci_vector_config_release(proxy);
+> +    if (with_irqfd) {
+> +        kvm_virtio_pci_vector_config_release(proxy);
+> +    }
+>   config_assign_error:
+>       virtio_pci_set_guest_notifier(d, VIRTIO_CONFIG_IRQ_IDX, !assign,
+>                                     with_irqfd);
 
 
