@@ -2,70 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55076488AE8
-	for <lists+qemu-devel@lfdr.de>; Sun,  9 Jan 2022 18:19:22 +0100 (CET)
-Received: from localhost ([::1]:50224 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 367CC488B29
+	for <lists+qemu-devel@lfdr.de>; Sun,  9 Jan 2022 18:27:01 +0100 (CET)
+Received: from localhost ([::1]:40090 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n6bqj-0000hf-6P
-	for lists+qemu-devel@lfdr.de; Sun, 09 Jan 2022 12:19:21 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59922)
+	id 1n6by8-0004gX-Ay
+	for lists+qemu-devel@lfdr.de; Sun, 09 Jan 2022 12:27:00 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59976)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1n6beO-000627-3k; Sun, 09 Jan 2022 12:06:36 -0500
-Received: from [2a00:1450:4864:20::432] (port=41753
- helo=mail-wr1-x432.google.com)
+ id 1n6bee-0006Nw-Ea; Sun, 09 Jan 2022 12:06:52 -0500
+Received: from [2a00:1450:4864:20::331] (port=40800
+ helo=mail-wm1-x331.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1n6beK-0005Sa-Nd; Sun, 09 Jan 2022 12:06:34 -0500
-Received: by mail-wr1-x432.google.com with SMTP id v6so22264556wra.8;
- Sun, 09 Jan 2022 09:06:30 -0800 (PST)
+ id 1n6bed-0005Uv-3x; Sun, 09 Jan 2022 12:06:52 -0500
+Received: by mail-wm1-x331.google.com with SMTP id
+ 2-20020a05600c02c200b003470f96e778so5675195wmn.5; 
+ Sun, 09 Jan 2022 09:06:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=BvizcPyJXRDbEKDoEF6OUp8KHuw0PdyJuPEvaqkkl0w=;
- b=NF2J5CS8tMT/4FV2D7ftDYZ1zq7tC7rhNMiEDItdYizUf6tLrE5i8dHR/IEW2h1Fpd
- orClXpxntdS5Bg/MwmMJeS8XPmD0DsNJTeWIngO7umjBOpfvLb+HWcafiD3KJUQld/uc
- 4rd2zBxb81Svg5KKeCSwXk4AjU5U7s0fb49hcmyUBVfss8MQRF/sSBCHdnhOYaQ7mHa7
- WAAlRsisrUFMy0G6IvDXoRRAg7xGwggPBnErpGNM7rw9o9CtObkKZ1mBAWRHdCPKmg98
- yhg6k31Ry8tfT6Hm4xDNX4mbtrk6haSNp7quagaPwQLS8pyrbAfAbiQGzVyiO07Bnnqj
- B30w==
+ bh=F9FAq6nwbgCvDM7C2Sg9iiaLq9FrL+HtewEtG7ypUf8=;
+ b=ZreSRK8E8JULy4y6elY3p1BA2kf1xKZOaVH/wCym7FLyGagfFrsLLyGfMCeBNJpIt0
+ VVF1tiSuWFeNx7Fl1Z3mCjO1dJ/gUKIl+BvW7AJsMex8t4GQMPjwTAFvz+DM7n7DWWyy
+ 67gw79sqHMswnHO+yJesaE9MuAyu0rlkg6X9YpQt08NQ1zaOq2oRqp02lbszH8yRv1cR
+ r+pGx0+1qumwl3NIe6LRW94nIAB6lPH0bgUEB3HRu1wA4fZdSb49vrnycdLmf6MYAqWK
+ b7VnUTdmv9Vg6ceqi+AFH7x9AsF162pocPHe9qfJXtxiKJFmf4AJYQL2o3sWXLfHmTHw
+ SGCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=BvizcPyJXRDbEKDoEF6OUp8KHuw0PdyJuPEvaqkkl0w=;
- b=ry/SbA3SNMRJzKJL2c/S+vOAE2vK6uCpXCudQS1DE+WMSzhk++q8e8tsXVbexAkbtH
- WCABlsTG93JBEaXE5ppw4QO3eiRc/8L9aQFtYaMaETm/ofnzYn0bcR8QPlfYrvUrycQp
- Earl4+F1h8ZzJ5/tT2sgXlW+m96ZmGsXsnPUT3pVAYHsdEIIdudJpCyZ95mZ1+BER4HU
- qP8kC53/Jm1nw1gzZDo3fwn1Pm+BWPpCqdbCIqvSJJyersm65+ep5Abtu72IP0G4rRpS
- gzrXgPVIjIwr/ihonJ9B5lWotDRbKL13BjvhfaYGLGuHvRX6etBHFyei7AmJJEltmFQ9
- tZTw==
-X-Gm-Message-State: AOAM530+YVazbpFjx4luaGCeSiTK7pdMFMSLJzD4/0WbK1jyZI7psAeg
- jfAxnSAA5Jh/oNpWT/TEMNWzi6KHUhHmTw==
-X-Google-Smtp-Source: ABdhPJyLZ2Td9pOahE6az/xtHZzw6Xny9POl4vIAP3RHWjBG6tIJheA4AC92E2LQId3F0xwMrmZxbQ==
-X-Received: by 2002:adf:fbcd:: with SMTP id d13mr50694610wrs.170.1641747989256; 
- Sun, 09 Jan 2022 09:06:29 -0800 (PST)
+ bh=F9FAq6nwbgCvDM7C2Sg9iiaLq9FrL+HtewEtG7ypUf8=;
+ b=B+8UThxzkpITKR3yxRFrzuInkJATR2eIyqAB7RiczjmKQZfqRze79mSfROqKimnOFR
+ VR3xG5KBYGoerpU/heTCDyVETjtM8RBcSW0gejkdcPoapgCIsZT0IRuTVYSk3OcPLbpq
+ 5XDXCD8uH0KwDbIjas/XkxQT81Q5aWZvTQwZnIz9WJwiexfxgmkgqB6p81o+AGRawJXm
+ c9RWLD1K0lbf2KLAYCl/Nwwf5z0v6vmvXzUUFoKZyhDmhjxGTCQd9KrF+ilTrlaQIkE7
+ Lb/y7fqj1SlcGEo6mzdoXZK8Duc2qdgezWe77LGJXKgOSa90mt58T25aAY/mSYiAryE2
+ KpWQ==
+X-Gm-Message-State: AOAM530JG1Wmoi+Dixb+fhFnFVKJs3SzNeUFiop7SPmOIGEHc4yfn+qb
+ gd+pp9Gx+8yDRXk4ZzxZp7WhJ9H4EmLuMg==
+X-Google-Smtp-Source: ABdhPJy8oi3ieGBIjsY6paWq79Ni7fHjqGYH+yhLMI1wyaEew+eKhRKCxWZrFpxM4uwwXKwCQ13rrg==
+X-Received: by 2002:a05:600c:2113:: with SMTP id
+ u19mr3979369wml.16.1641748009312; 
+ Sun, 09 Jan 2022 09:06:49 -0800 (PST)
 Received: from nuc.. (83.red-83-50-87.dynamicip.rima-tde.net. [83.50.87.83])
- by smtp.gmail.com with ESMTPSA id u11sm4677994wmq.2.2022.01.09.09.06.28
+ by smtp.gmail.com with ESMTPSA id bd21sm4565503wmb.8.2022.01.09.09.06.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 09 Jan 2022 09:06:28 -0800 (PST)
+ Sun, 09 Jan 2022 09:06:49 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v2 3/6] block/file-posix: Remove a deprecation warning on
- macOS 12
-Date: Sun,  9 Jan 2022 18:06:09 +0100
-Message-Id: <20220109170612.574104-4-f4bug@amsat.org>
+Subject: [RFC PATCH v2 4/6] hvf: Make hvf_get_segments() / hvf_put_segments()
+ local
+Date: Sun,  9 Jan 2022 18:06:10 +0100
+Message-Id: <20220109170612.574104-5-f4bug@amsat.org>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20220109170612.574104-1-f4bug@amsat.org>
 References: <20220109170612.574104-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::432
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::331
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x432.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x331.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -95,60 +97,53 @@ Cc: qemu-block@nongnu.org, Christian Schoenebeck <qemu_oss@crudebyte.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When building on macOS 12 we get:
-
-  block/file-posix.c:3335:18: warning: 'IOMasterPort' is deprecated: first deprecated in macOS 12.0 [-Wdeprecated-declarations]
-      kernResult = IOMasterPort( MACH_PORT_NULL, &masterPort );
-                   ^~~~~~~~~~~~
-                   IOMainPort
-
-Use IOMainPort (define it to IOMasterPort on macOS < 12),
-and replace 'master' by 'main' in a variable name.
+Both hvf_get_segments/hvf_put_segments() functions are only
+used within x86hvf.c: do not declare them as public API.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- block/file-posix.c | 13 +++++++++----
- 1 file changed, 9 insertions(+), 4 deletions(-)
+ target/i386/hvf/x86hvf.h | 2 --
+ target/i386/hvf/x86hvf.c | 4 ++--
+ 2 files changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/block/file-posix.c b/block/file-posix.c
-index b283093e5b7..0dcfce18560 100644
---- a/block/file-posix.c
-+++ b/block/file-posix.c
-@@ -3324,17 +3324,22 @@ BlockDriver bdrv_file = {
- #if defined(__APPLE__) && defined(__MACH__)
- static kern_return_t GetBSDPath(io_iterator_t mediaIterator, char *bsdPath,
-                                 CFIndex maxPathSize, int flags);
-+
-+#if !defined(MAC_OS_VERSION_12_0)
-+#define IOMainPort IOMasterPort
-+#endif
-+
- static char *FindEjectableOpticalMedia(io_iterator_t *mediaIterator)
- {
-     kern_return_t kernResult = KERN_FAILURE;
--    mach_port_t     masterPort;
-+    mach_port_t mainPort;
-     CFMutableDictionaryRef  classesToMatch;
-     const char *matching_array[] = {kIODVDMediaClass, kIOCDMediaClass};
-     char *mediaType = NULL;
- 
--    kernResult = IOMasterPort( MACH_PORT_NULL, &masterPort );
-+    kernResult = IOMainPort(MACH_PORT_NULL, &mainPort);
-     if ( KERN_SUCCESS != kernResult ) {
--        printf( "IOMasterPort returned %d\n", kernResult );
-+        printf("IOMainPort returned %d\n", kernResult);
+diff --git a/target/i386/hvf/x86hvf.h b/target/i386/hvf/x86hvf.h
+index 99ed8d608dd..db6003d6bda 100644
+--- a/target/i386/hvf/x86hvf.h
++++ b/target/i386/hvf/x86hvf.h
+@@ -26,11 +26,9 @@ void hvf_set_segment(struct CPUState *cpu, struct vmx_segment *vmx_seg,
+                      SegmentCache *qseg, bool is_tr);
+ void hvf_get_segment(SegmentCache *qseg, struct vmx_segment *vmx_seg);
+ void hvf_put_xsave(CPUState *cpu_state);
+-void hvf_put_segments(CPUState *cpu_state);
+ void hvf_put_msrs(CPUState *cpu_state);
+ void hvf_get_xsave(CPUState *cpu_state);
+ void hvf_get_msrs(CPUState *cpu_state);
+ void vmx_clear_int_window_exiting(CPUState *cpu);
+-void hvf_get_segments(CPUState *cpu_state);
+ void vmx_update_tpr(CPUState *cpu);
+ #endif
+diff --git a/target/i386/hvf/x86hvf.c b/target/i386/hvf/x86hvf.c
+index 05ec1bddc4e..907f09f1b43 100644
+--- a/target/i386/hvf/x86hvf.c
++++ b/target/i386/hvf/x86hvf.c
+@@ -83,7 +83,7 @@ void hvf_put_xsave(CPUState *cpu_state)
      }
+ }
  
-     int index;
-@@ -3347,7 +3352,7 @@ static char *FindEjectableOpticalMedia(io_iterator_t *mediaIterator)
-         }
-         CFDictionarySetValue(classesToMatch, CFSTR(kIOMediaEjectableKey),
-                              kCFBooleanTrue);
--        kernResult = IOServiceGetMatchingServices(masterPort, classesToMatch,
-+        kernResult = IOServiceGetMatchingServices(mainPort, classesToMatch,
-                                                   mediaIterator);
-         if (kernResult != KERN_SUCCESS) {
-             error_report("Note: IOServiceGetMatchingServices returned %d",
+-void hvf_put_segments(CPUState *cpu_state)
++static void hvf_put_segments(CPUState *cpu_state)
+ {
+     CPUX86State *env = &X86_CPU(cpu_state)->env;
+     struct vmx_segment seg;
+@@ -166,7 +166,7 @@ void hvf_get_xsave(CPUState *cpu_state)
+     x86_cpu_xrstor_all_areas(X86_CPU(cpu_state), xsave, xsave_len);
+ }
+ 
+-void hvf_get_segments(CPUState *cpu_state)
++static void hvf_get_segments(CPUState *cpu_state)
+ {
+     CPUX86State *env = &X86_CPU(cpu_state)->env;
+ 
 -- 
 2.33.1
 
