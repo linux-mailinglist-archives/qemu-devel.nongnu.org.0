@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95F64488ACD
-	for <lists+qemu-devel@lfdr.de>; Sun,  9 Jan 2022 18:08:01 +0100 (CET)
-Received: from localhost ([::1]:49678 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41F95488B00
+	for <lists+qemu-devel@lfdr.de>; Sun,  9 Jan 2022 18:24:19 +0100 (CET)
+Received: from localhost ([::1]:34908 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n6bfi-0005Sg-IR
-	for lists+qemu-devel@lfdr.de; Sun, 09 Jan 2022 12:07:58 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50796)
+	id 1n6bvW-0001As-9k
+	for lists+qemu-devel@lfdr.de; Sun, 09 Jan 2022 12:24:18 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59826)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1n6avK-0006Ai-Cc
- for qemu-devel@nongnu.org; Sun, 09 Jan 2022 11:20:02 -0500
-Received: from [2607:f8b0:4864:20::12c] (port=43638
- helo=mail-il1-x12c.google.com)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1n6be6-0005gT-O3; Sun, 09 Jan 2022 12:06:19 -0500
+Received: from [2a00:1450:4864:20::32e] (port=36813
+ helo=mail-wm1-x32e.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1n6avI-0007BS-Rj
- for qemu-devel@nongnu.org; Sun, 09 Jan 2022 11:20:02 -0500
-Received: by mail-il1-x12c.google.com with SMTP id d3so9260242ilr.10
- for <qemu-devel@nongnu.org>; Sun, 09 Jan 2022 08:20:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=Mc4CUh2gJxot/MQaLDy06nT8Q11jcB6ohTSNqNi0sPk=;
- b=c2mppuBHEt8e/Uf9TuWnL2f16aAw5kcQEkTXrGn0im1ASCNfAD4LWChmBCCqKU11c5
- qtHxrmMAFxmtUm6FNTSBGth8qCOfJUlTtLEl2ViUxxVfwqf/H0vyLXUDeS9eZch5AtcK
- 2LK3gHruOaLp42D6YFSGNJ5IXyHXPo3gl3R1XntRDpkFGeGI3WcyE12BRPL6dK7P8Upj
- vbVmPyLotinR9XIGPNpNtWaTt3CDSmJb69L2qnZnmRRtVQiiXhB2jMCBx/QhpKfi2nkv
- xhEQ+vfPzkUuVBvkrZyVAx47fu3irRtak154q/1Vgmxf0DRdPEzer0wkpgigibepsan7
- IqHQ==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1n6be4-0005RP-UC; Sun, 09 Jan 2022 12:06:18 -0500
+Received: by mail-wm1-x32e.google.com with SMTP id
+ n19-20020a7bc5d3000000b003466ef16375so8379842wmk.1; 
+ Sun, 09 Jan 2022 09:06:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=POy3QGdwSitDjxf6uMt9f7B5riWSIPUKi3jXHHaFfA4=;
+ b=nF7RfhefHGAfvtLOTq7xOVsfSsnsH/WZzxgYZiHPtvxnZcnMt6cj3DmDH+hiKf1sQ8
+ lPzLCYSpbJKMVzg9uAG7esCVxhnSQy3jySa9fai9s3yeSQag7cgbkJENxJbVj0nR2cj6
+ A9D35HPYGx0zObWXiwg0n6IzenuaaQqYKrLlJIVMzk2ZjJH2FJjNGlAr+W3StCS9LrRy
+ 2bIElUCg5MtGUa7hUQlrghwGRqolgUfhcxoodFHcWMzivwDQ2z94Wq6GwELft3ewxumN
+ V6Z1zG/ONb8kGaH+ut6JP9RjpoS+LD/yyN0/5kWADa/JYLOQbGYL2Z5r18sJpH/ucSNe
+ M/Dw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=Mc4CUh2gJxot/MQaLDy06nT8Q11jcB6ohTSNqNi0sPk=;
- b=65uhCkHG44K0dZrxDcKtVDr6XMNz8vsJM4vPubtpYHyrvri35GXZqMUKQ/IgeUc1ve
- HzsdeOikVBCcxG6YoeHCy3NXPfje1jLTOgRGvetZFBQy+Q6vDc/TGMWlogtqqaKTOKyN
- rfuuULLPhKaE98Bq8rGi2yqWgM/xfUzyDdGp1wP4n/ccymtksSJcCh3yle1l8e/xyzT9
- LMDcs1o/9IbZ39XXe5IfACd4q9rN+KvPc9WSzwULqxXXUsEDgDHEu7WBEgcNdtVpYvQ1
- IJtN2LgmlcQcoLY2BROh1PEoPRwyHervwtMqW7uHVvLM1CxPuw4GP0Bnd1u17rOCbls4
- 1M3w==
-X-Gm-Message-State: AOAM531A5o2ii6K4cYofGxD4YSRiLseCz9GFTOaXWoXevYnARIhujvVJ
- bZBWGDBF5Zj11GPL/vphHUw2Gq5+ajS6UXQZ
-X-Google-Smtp-Source: ABdhPJzOdyDcBA7+X3OSEXZNnoQwBXSy4MZn6IBaGg+K0nPQB8uiHkNg+C3+ucMLA5b3JetahoBHdg==
-X-Received: by 2002:a92:cc92:: with SMTP id x18mr8851996ilo.196.1641745199660; 
- Sun, 09 Jan 2022 08:19:59 -0800 (PST)
-Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
- [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id u10sm2683386ilq.76.2022.01.09.08.19.58
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=POy3QGdwSitDjxf6uMt9f7B5riWSIPUKi3jXHHaFfA4=;
+ b=Nf9lmFY0eC4kVHAwBk/tuvw5QUzn3gHqSRQdAPe47YODdEGiZXE8SpTXd9BbnJ+WYM
+ rWzGcKuwMIABOV/5MzrqSoDmkwxyZk7l9CNgI+RaVRvVORBSnyssLVW51XmsWtXsGHU7
+ IFIZSCJnHp0mEWmL+TxrqyYoNWGRjGV+LrJVY367aHc3j2O6kincD6aCOQ0t+nx/z+rS
+ hDYJZPKKNp93C8rpHmK8J9lNgWVg6Plkkea2kZ1r185gdmG/25ZfLgXN+gnB4zsit62m
+ cbkX/TvtbDV+2pW6qUgBElg3NdUsPCG0ogEi6j3H408jFwylSLQCeV12jEviYNSx5y0H
+ aX8A==
+X-Gm-Message-State: AOAM533MsIo7raLt5emr322x+5/8MgpTwhlEE30rF+c0qyFmXglRjDmY
+ HqbFMsB4tHMBGCA/Ce4iEanpfgZJ3Lw5mA==
+X-Google-Smtp-Source: ABdhPJwOuVH5aeHia0bUtnltObCEbFxKO27rt0eCIfQWEczNcEyVQ3K57t5/kYHyOQX+J/uqaV6tKw==
+X-Received: by 2002:a1c:f613:: with SMTP id w19mr18660454wmc.58.1641747974502; 
+ Sun, 09 Jan 2022 09:06:14 -0800 (PST)
+Received: from nuc.. (83.red-83-50-87.dynamicip.rima-tde.net. [83.50.87.83])
+ by smtp.gmail.com with ESMTPSA id g9sm4814321wmq.22.2022.01.09.09.06.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 09 Jan 2022 08:19:59 -0800 (PST)
-From: Warner Losh <imp@bsdimp.com>
+ Sun, 09 Jan 2022 09:06:14 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 30/30] bsd-user/signal.c: do_sigaltstack
-Date: Sun,  9 Jan 2022 09:19:23 -0700
-Message-Id: <20220109161923.85683-31-imp@bsdimp.com>
+Subject: [RFC PATCH v2 0/6] host: Support macOS 12
+Date: Sun,  9 Jan 2022 18:06:06 +0100
+Message-Id: <20220109170612.574104-1-f4bug@amsat.org>
 X-Mailer: git-send-email 2.33.1
-In-Reply-To: <20220109161923.85683-1-imp@bsdimp.com>
-References: <20220109161923.85683-1-imp@bsdimp.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::12c
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::32e
  (failed)
-Received-SPF: none client-ip=2607:f8b0:4864:20::12c;
- envelope-from=imp@bsdimp.com; helo=mail-il1-x12c.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32e.google.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,111 +84,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kyle Evans <kevans@freebsd.org>, Stacey Son <sson@FreeBSD.org>,
- Warner Losh <imp@bsdimp.com>
+Cc: qemu-block@nongnu.org, Christian Schoenebeck <qemu_oss@crudebyte.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Cameron Esfahani <dirty@apple.com>, Roman Bolshakov <r.bolshakov@yadro.com>,
+ Alexander Graf <agraf@csgraf.de>, Gerd Hoffmann <kraxel@redhat.com>,
+ Akihiko Odaki <akihiko.odaki@gmail.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Implement the meat of the sigaltstack(2) system call with do_sigaltstack.
-
-Signed-off-by: Stacey Son <sson@FreeBSD.org>
-Signed-off-by: Kyle Evans <kevans@freebsd.org>
-Signed-off-by: Warner Losh <imp@bsdimp.com>
----
- bsd-user/qemu.h   |  1 +
- bsd-user/signal.c | 66 +++++++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 67 insertions(+)
-
-diff --git a/bsd-user/qemu.h b/bsd-user/qemu.h
-index c643d6ba246..fcdea460ed2 100644
---- a/bsd-user/qemu.h
-+++ b/bsd-user/qemu.h
-@@ -226,6 +226,7 @@ int host_to_target_signal(int sig);
- void host_to_target_sigset(target_sigset_t *d, const sigset_t *s);
- void target_to_host_sigset(sigset_t *d, const target_sigset_t *s);
- long do_sigreturn(CPUArchState *regs, abi_ulong addr);
-+abi_long do_sigaltstack(abi_ulong uss_addr, abi_ulong uoss_addr, abi_ulong sp);
- int do_sigaction(int sig, const struct target_sigaction *act,
-                 struct target_sigaction *oact);
- void QEMU_NORETURN force_sig(int target_sig);
-diff --git a/bsd-user/signal.c b/bsd-user/signal.c
-index f055d1db407..e5e5e28c60c 100644
---- a/bsd-user/signal.c
-+++ b/bsd-user/signal.c
-@@ -528,6 +528,72 @@ static void host_signal_handler(int host_sig, siginfo_t *info, void *puc)
-     cpu_exit(thread_cpu);
- }
- 
-+/* do_sigaltstack() returns target values and errnos. */
-+/* compare to kern/kern_sig.c sys_sigaltstack() and kern_sigaltstack() */
-+abi_long do_sigaltstack(abi_ulong uss_addr, abi_ulong uoss_addr, abi_ulong sp)
-+{
-+    int ret;
-+    target_stack_t oss;
-+
-+    if (uoss_addr) {
-+        /* Save current signal stack params */
-+        oss.ss_sp = tswapl(target_sigaltstack_used.ss_sp);
-+        oss.ss_size = tswapl(target_sigaltstack_used.ss_size);
-+        oss.ss_flags = tswapl(sas_ss_flags(sp));
-+    }
-+
-+    if (uss_addr) {
-+        target_stack_t *uss;
-+        target_stack_t ss;
-+        size_t minstacksize = TARGET_MINSIGSTKSZ;
-+
-+        ret = -TARGET_EFAULT;
-+        if (!lock_user_struct(VERIFY_READ, uss, uss_addr, 1)) {
-+            goto out;
-+        }
-+        __get_user(ss.ss_sp, &uss->ss_sp);
-+        __get_user(ss.ss_size, &uss->ss_size);
-+        __get_user(ss.ss_flags, &uss->ss_flags);
-+        unlock_user_struct(uss, uss_addr, 0);
-+
-+        ret = -TARGET_EPERM;
-+        if (on_sig_stack(sp)) {
-+            goto out;
-+        }
-+
-+        ret = -TARGET_EINVAL;
-+        if (ss.ss_flags != TARGET_SS_DISABLE
-+            && ss.ss_flags != TARGET_SS_ONSTACK
-+            && ss.ss_flags != 0) {
-+            goto out;
-+        }
-+
-+        if (ss.ss_flags == TARGET_SS_DISABLE) {
-+            ss.ss_size = 0;
-+            ss.ss_sp = 0;
-+        } else {
-+            ret = -TARGET_ENOMEM;
-+            if (ss.ss_size < minstacksize) {
-+                goto out;
-+            }
-+        }
-+
-+        target_sigaltstack_used.ss_sp = ss.ss_sp;
-+        target_sigaltstack_used.ss_size = ss.ss_size;
-+    }
-+
-+    if (uoss_addr) {
-+        ret = -TARGET_EFAULT;
-+        if (copy_to_user(uoss_addr, &oss, sizeof(oss))) {
-+            goto out;
-+        }
-+    }
-+
-+    ret = 0;
-+out:
-+    return ret;
-+}
-+
- static int fatal_signal(int sig)
- {
- 
--- 
-2.33.1
-
+Few patches to be able to build QEMU on macOS 12 (Monterey).=0D
+=0D
+This basically consists of adapting deprecated APIs. I am not=0D
+sure about these APIs, so tagging as RFC.=0D
+=0D
+I couldn't succeed to adapt the Cocoa code.=0D
+=0D
+CI job added to avoid bitrotting (ignoring the Objective C=0D
+deprecation warning).=0D
+=0D
+Philippe Mathieu-Daud=C3=A9 (6):=0D
+  configure: Allow passing extra Objective C compiler flags=0D
+  audio/coreaudio: Remove a deprecation warning on macOS 12=0D
+  block/file-posix: Remove a deprecation warning on macOS 12=0D
+  hvf: Make hvf_get_segments() / hvf_put_segments() local=0D
+  hvf: Remove deprecated hv_vcpu_flush() calls=0D
+  gitlab-ci: Support macOS 12 via cirrus-run=0D
+=0D
+ configure                         |  8 ++++++++=0D
+ meson.build                       |  5 +++++=0D
+ target/i386/hvf/vmx.h             |  2 --=0D
+ target/i386/hvf/x86hvf.h          |  2 --=0D
+ audio/coreaudio.c                 | 16 ++++++++++------=0D
+ block/file-posix.c                | 13 +++++++++----=0D
+ target/i386/hvf/x86_task.c        |  1 -=0D
+ target/i386/hvf/x86hvf.c          |  6 ++----=0D
+ .gitlab-ci.d/cirrus.yml           | 16 ++++++++++++++++=0D
+ .gitlab-ci.d/cirrus/macos-12.vars | 16 ++++++++++++++++=0D
+ 10 files changed, 66 insertions(+), 19 deletions(-)=0D
+ create mode 100644 .gitlab-ci.d/cirrus/macos-12.vars=0D
+=0D
+-- =0D
+2.33.1=0D
+=0D
 
