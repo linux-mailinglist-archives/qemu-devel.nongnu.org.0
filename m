@@ -2,72 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 367CC488B29
-	for <lists+qemu-devel@lfdr.de>; Sun,  9 Jan 2022 18:27:01 +0100 (CET)
-Received: from localhost ([::1]:40090 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1AEA488ADA
+	for <lists+qemu-devel@lfdr.de>; Sun,  9 Jan 2022 18:14:34 +0100 (CET)
+Received: from localhost ([::1]:34822 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n6by8-0004gX-Ay
-	for lists+qemu-devel@lfdr.de; Sun, 09 Jan 2022 12:27:00 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59976)
+	id 1n6bm5-0006FU-8r
+	for lists+qemu-devel@lfdr.de; Sun, 09 Jan 2022 12:14:33 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60022)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1n6bee-0006Nw-Ea; Sun, 09 Jan 2022 12:06:52 -0500
-Received: from [2a00:1450:4864:20::331] (port=40800
- helo=mail-wm1-x331.google.com)
+ id 1n6bek-0006Xg-Hq; Sun, 09 Jan 2022 12:06:59 -0500
+Received: from [2a00:1450:4864:20::329] (port=54238
+ helo=mail-wm1-x329.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1n6bed-0005Uv-3x; Sun, 09 Jan 2022 12:06:52 -0500
-Received: by mail-wm1-x331.google.com with SMTP id
- 2-20020a05600c02c200b003470f96e778so5675195wmn.5; 
- Sun, 09 Jan 2022 09:06:50 -0800 (PST)
+ id 1n6bei-0005VZ-1H; Sun, 09 Jan 2022 12:06:58 -0500
+Received: by mail-wm1-x329.google.com with SMTP id l4so7280279wmq.3;
+ Sun, 09 Jan 2022 09:06:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=F9FAq6nwbgCvDM7C2Sg9iiaLq9FrL+HtewEtG7ypUf8=;
- b=ZreSRK8E8JULy4y6elY3p1BA2kf1xKZOaVH/wCym7FLyGagfFrsLLyGfMCeBNJpIt0
- VVF1tiSuWFeNx7Fl1Z3mCjO1dJ/gUKIl+BvW7AJsMex8t4GQMPjwTAFvz+DM7n7DWWyy
- 67gw79sqHMswnHO+yJesaE9MuAyu0rlkg6X9YpQt08NQ1zaOq2oRqp02lbszH8yRv1cR
- r+pGx0+1qumwl3NIe6LRW94nIAB6lPH0bgUEB3HRu1wA4fZdSb49vrnycdLmf6MYAqWK
- b7VnUTdmv9Vg6ceqi+AFH7x9AsF162pocPHe9qfJXtxiKJFmf4AJYQL2o3sWXLfHmTHw
- SGCg==
+ bh=iN7rmJCyt/9XOylIukKsQBez3yTqjDEoUhXX6uhz6nk=;
+ b=Di1keJS+l27M8x/2G1Ma02PH3svXk6aZYshOdEgw8pO5f8c6P5TS+m4zTmRBT6wHT1
+ HpAFYord7URVOLUT6qOWTEoG5jnilJEpFrFu1ddd8HlDr7iviK1ZEahau0btNWYq5pGZ
+ W3T1zITmOcl1OcMU9dtKFn5hYIjEZx6dyBA/FOnW4N00bw8dF9h0bF9KHTMA5YaEmNiV
+ 6YMq41dytMsZIjQxFZddMOMaJopuJoyb7Sc+Bk2y8T4N15c6j2ms6FISYbUcXk0KGMx6
+ 3JIfKBpsS6q3SnPQWOunnv+sV1nZJer91sONHd/1OJ06ICZG9rbySxialH8s9a0GDbl6
+ QdPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=F9FAq6nwbgCvDM7C2Sg9iiaLq9FrL+HtewEtG7ypUf8=;
- b=B+8UThxzkpITKR3yxRFrzuInkJATR2eIyqAB7RiczjmKQZfqRze79mSfROqKimnOFR
- VR3xG5KBYGoerpU/heTCDyVETjtM8RBcSW0gejkdcPoapgCIsZT0IRuTVYSk3OcPLbpq
- 5XDXCD8uH0KwDbIjas/XkxQT81Q5aWZvTQwZnIz9WJwiexfxgmkgqB6p81o+AGRawJXm
- c9RWLD1K0lbf2KLAYCl/Nwwf5z0v6vmvXzUUFoKZyhDmhjxGTCQd9KrF+ilTrlaQIkE7
- Lb/y7fqj1SlcGEo6mzdoXZK8Duc2qdgezWe77LGJXKgOSa90mt58T25aAY/mSYiAryE2
- KpWQ==
-X-Gm-Message-State: AOAM530JG1Wmoi+Dixb+fhFnFVKJs3SzNeUFiop7SPmOIGEHc4yfn+qb
- gd+pp9Gx+8yDRXk4ZzxZp7WhJ9H4EmLuMg==
-X-Google-Smtp-Source: ABdhPJy8oi3ieGBIjsY6paWq79Ni7fHjqGYH+yhLMI1wyaEew+eKhRKCxWZrFpxM4uwwXKwCQ13rrg==
-X-Received: by 2002:a05:600c:2113:: with SMTP id
- u19mr3979369wml.16.1641748009312; 
- Sun, 09 Jan 2022 09:06:49 -0800 (PST)
+ bh=iN7rmJCyt/9XOylIukKsQBez3yTqjDEoUhXX6uhz6nk=;
+ b=ffyzOVFqh5XArw9CuUWrU9bhd/SDBD6O0SNDaJ/5EjwPAyktdCiPeYJ3ckga/Hky4n
+ HydfCQOK6QXamuGHKbGgQWZ7eHh2Gatnip+AGqgIrDKYxrEsCC6jPKp9jH0V9ufsa/dt
+ ONxjrtcOV6j/jHAhJSQXo6o9rsCuxz/Cua0yzxjtATOTM6F4PJnpdhdhpKqYBi5Dxrmf
+ XMqxTq2cLhKGhVEmWLGijPbAsnYudb0WQ/+ic7dm3cMR9mn/bqTwV0UZFa+qHkW7pfGY
+ 0Xvr4l2vMNG4OVGwHtMBsNPbarRrm/T8f5CLGJsqZsH8hHFFHgmJfJaOYO5kPnfTPHH9
+ 16AQ==
+X-Gm-Message-State: AOAM532PLjRBAeIY3bo1Pm43GaQARNarqhO2/AcQKeqR/dbZ9WBHw40V
+ ox9K5bWyWNhYKLpQ01b0VymPPA3w08iN0w==
+X-Google-Smtp-Source: ABdhPJw3MuOwK9vZxcFIlXVLvNPrCLICTpof4A+kTv79iWz4xF4v2k3c2I+pMcccXWkH1cveYVfkQA==
+X-Received: by 2002:a1c:44d7:: with SMTP id r206mr12130113wma.79.1641748014215; 
+ Sun, 09 Jan 2022 09:06:54 -0800 (PST)
 Received: from nuc.. (83.red-83-50-87.dynamicip.rima-tde.net. [83.50.87.83])
- by smtp.gmail.com with ESMTPSA id bd21sm4565503wmb.8.2022.01.09.09.06.48
+ by smtp.gmail.com with ESMTPSA id e13sm4599960wmq.10.2022.01.09.09.06.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 09 Jan 2022 09:06:49 -0800 (PST)
+ Sun, 09 Jan 2022 09:06:53 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v2 4/6] hvf: Make hvf_get_segments() / hvf_put_segments()
- local
-Date: Sun,  9 Jan 2022 18:06:10 +0100
-Message-Id: <20220109170612.574104-5-f4bug@amsat.org>
+Subject: [RFC PATCH v2 5/6] hvf: Remove deprecated hv_vcpu_flush() calls
+Date: Sun,  9 Jan 2022 18:06:11 +0100
+Message-Id: <20220109170612.574104-6-f4bug@amsat.org>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20220109170612.574104-1-f4bug@amsat.org>
 References: <20220109170612.574104-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::331
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::329
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x331.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x329.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -97,53 +94,71 @@ Cc: qemu-block@nongnu.org, Christian Schoenebeck <qemu_oss@crudebyte.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Both hvf_get_segments/hvf_put_segments() functions are only
-used within x86hvf.c: do not declare them as public API.
+When building on macOS 12, we get:
+
+  In file included from ../target/i386/hvf/hvf.c:59:
+  ../target/i386/hvf/vmx.h:174:5: error: 'hv_vcpu_flush' is deprecated: first deprecated in macOS 11.0 - This API has no effect and always returns HV_UNSUPPORTED [-Werror,-Wdeprecated-declarations]
+      hv_vcpu_flush(vcpu);
+      ^
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/Hypervisor.framework/Headers/hv.h:364:20: note: 'hv_vcpu_flush' has been explicitly marked deprecated here
+  extern hv_return_t hv_vcpu_flush(hv_vcpuid_t vcpu)
+                     ^
+
+Since this call "has no effect", simply remove it ¯\_(ツ)_/¯
+
+Not very useful deprecation doc:
+https://developer.apple.com/documentation/hypervisor/1441386-hv_vcpu_flush
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/i386/hvf/x86hvf.h | 2 --
- target/i386/hvf/x86hvf.c | 4 ++--
- 2 files changed, 2 insertions(+), 4 deletions(-)
+ target/i386/hvf/vmx.h      | 2 --
+ target/i386/hvf/x86_task.c | 1 -
+ target/i386/hvf/x86hvf.c   | 2 --
+ 3 files changed, 5 deletions(-)
 
-diff --git a/target/i386/hvf/x86hvf.h b/target/i386/hvf/x86hvf.h
-index 99ed8d608dd..db6003d6bda 100644
---- a/target/i386/hvf/x86hvf.h
-+++ b/target/i386/hvf/x86hvf.h
-@@ -26,11 +26,9 @@ void hvf_set_segment(struct CPUState *cpu, struct vmx_segment *vmx_seg,
-                      SegmentCache *qseg, bool is_tr);
- void hvf_get_segment(SegmentCache *qseg, struct vmx_segment *vmx_seg);
- void hvf_put_xsave(CPUState *cpu_state);
--void hvf_put_segments(CPUState *cpu_state);
- void hvf_put_msrs(CPUState *cpu_state);
- void hvf_get_xsave(CPUState *cpu_state);
- void hvf_get_msrs(CPUState *cpu_state);
- void vmx_clear_int_window_exiting(CPUState *cpu);
--void hvf_get_segments(CPUState *cpu_state);
- void vmx_update_tpr(CPUState *cpu);
- #endif
+diff --git a/target/i386/hvf/vmx.h b/target/i386/hvf/vmx.h
+index 6df87116f62..094fb9b9dc9 100644
+--- a/target/i386/hvf/vmx.h
++++ b/target/i386/hvf/vmx.h
+@@ -159,7 +159,6 @@ static inline void macvm_set_cr0(hv_vcpuid_t vcpu, uint64_t cr0)
+     wvmcs(vcpu, VMCS_GUEST_CR0, cr0 | CR0_NE | CR0_ET);
+ 
+     hv_vcpu_invalidate_tlb(vcpu);
+-    hv_vcpu_flush(vcpu);
+ }
+ 
+ static inline void macvm_set_cr4(hv_vcpuid_t vcpu, uint64_t cr4)
+@@ -171,7 +170,6 @@ static inline void macvm_set_cr4(hv_vcpuid_t vcpu, uint64_t cr4)
+     wvmcs(vcpu, VMCS_CR4_MASK, CR4_VMXE);
+ 
+     hv_vcpu_invalidate_tlb(vcpu);
+-    hv_vcpu_flush(vcpu);
+ }
+ 
+ static inline void macvm_set_rip(CPUState *cpu, uint64_t rip)
+diff --git a/target/i386/hvf/x86_task.c b/target/i386/hvf/x86_task.c
+index 422156128b7..c8dc3d48fa8 100644
+--- a/target/i386/hvf/x86_task.c
++++ b/target/i386/hvf/x86_task.c
+@@ -181,5 +181,4 @@ void vmx_handle_task_switch(CPUState *cpu, x68_segment_selector tss_sel, int rea
+     store_regs(cpu);
+ 
+     hv_vcpu_invalidate_tlb(cpu->hvf->fd);
+-    hv_vcpu_flush(cpu->hvf->fd);
+ }
 diff --git a/target/i386/hvf/x86hvf.c b/target/i386/hvf/x86hvf.c
-index 05ec1bddc4e..907f09f1b43 100644
+index 907f09f1b43..bec9fc58146 100644
 --- a/target/i386/hvf/x86hvf.c
 +++ b/target/i386/hvf/x86hvf.c
-@@ -83,7 +83,7 @@ void hvf_put_xsave(CPUState *cpu_state)
-     }
+@@ -125,8 +125,6 @@ static void hvf_put_segments(CPUState *cpu_state)
+ 
+     hvf_set_segment(cpu_state, &seg, &env->ldt, false);
+     vmx_write_segment_descriptor(cpu_state, &seg, R_LDTR);
+-    
+-    hv_vcpu_flush(cpu_state->hvf->fd);
  }
- 
--void hvf_put_segments(CPUState *cpu_state)
-+static void hvf_put_segments(CPUState *cpu_state)
- {
-     CPUX86State *env = &X86_CPU(cpu_state)->env;
-     struct vmx_segment seg;
-@@ -166,7 +166,7 @@ void hvf_get_xsave(CPUState *cpu_state)
-     x86_cpu_xrstor_all_areas(X86_CPU(cpu_state), xsave, xsave_len);
- }
- 
--void hvf_get_segments(CPUState *cpu_state)
-+static void hvf_get_segments(CPUState *cpu_state)
- {
-     CPUX86State *env = &X86_CPU(cpu_state)->env;
- 
+     
+ void hvf_put_msrs(CPUState *cpu_state)
 -- 
 2.33.1
 
