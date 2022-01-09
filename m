@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85532488A86
-	for <lists+qemu-devel@lfdr.de>; Sun,  9 Jan 2022 17:26:15 +0100 (CET)
-Received: from localhost ([::1]:35050 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42298488A87
+	for <lists+qemu-devel@lfdr.de>; Sun,  9 Jan 2022 17:26:16 +0100 (CET)
+Received: from localhost ([::1]:35086 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n6b1K-0005ab-Jd
-	for lists+qemu-devel@lfdr.de; Sun, 09 Jan 2022 11:26:14 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50418)
+	id 1n6b1L-0005bn-Bc
+	for lists+qemu-devel@lfdr.de; Sun, 09 Jan 2022 11:26:15 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50440)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1n6aus-0005ME-Gy
- for qemu-devel@nongnu.org; Sun, 09 Jan 2022 11:19:34 -0500
-Received: from [2607:f8b0:4864:20::d30] (port=40681
- helo=mail-io1-xd30.google.com)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1n6auu-0005NA-6t
+ for qemu-devel@nongnu.org; Sun, 09 Jan 2022 11:19:36 -0500
+Received: from [2607:f8b0:4864:20::12e] (port=45600
+ helo=mail-il1-x12e.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1n6aur-00075j-1K
- for qemu-devel@nongnu.org; Sun, 09 Jan 2022 11:19:34 -0500
-Received: by mail-io1-xd30.google.com with SMTP id q5so14351951ioj.7
- for <qemu-devel@nongnu.org>; Sun, 09 Jan 2022 08:19:32 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1n6aus-00075x-OI
+ for qemu-devel@nongnu.org; Sun, 09 Jan 2022 11:19:35 -0500
+Received: by mail-il1-x12e.google.com with SMTP id h5so970397ilq.12
+ for <qemu-devel@nongnu.org>; Sun, 09 Jan 2022 08:19:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Q1qZC5vNCCsIJYSakIBaD2nrV2Zz0bBAsRBqPjX58yY=;
- b=oB2WgEMXJBs9il3FzijYpkTGxzvbcWIhDRvtkZRF9cDK1Evhs5B46givztN89Yhy8O
- 5mAdCzMtCFKohV5ZY5oN3f1FwK0xMeLVoGNIkRuQX07K1MYdI9SwmU5fAWn/I1nkQnmL
- cVLLcCRQbr9TnK7OGe7q9qF2fB9WwvAfitka4t+G1MfGyQlIldXuyfDi73Bud9Rv+6Ga
- DAKcVgyVXAe2noedQvkcgxlKh4SZZKVZ35T0rs+6+3OMcTPxuLpK/t0Df5E7cb1XP2z3
- RT6CE9wCrkjDqc6AZClTq0va6403/Wl/t1kg3ir6iUmVk2aiBl0vK722+ItCsEoP6TCT
- aFKQ==
+ bh=dyAUpEDzRYL6p8x32pfiafDgm01DpIQ/wKUR1iah5qg=;
+ b=7qxQfOYRP6CNe6ZsSVBz60cpkFNFeCrhZYNmXzoEqakZ1/ndOWBOeAdquUcJHTLJOO
+ nijGZjAQlVgbBCkp6g+p77JWdfI+766yn4mSGVCiPhBYPA0EnP64A1SIVXRFVZ+A81O0
+ oYjGWuNRy2fOcQByC7OcdOWD5axA16Eru7NUYrscxalHyP7YsVLnmlhdfyLWI6SMvVTx
+ OdOGjKEsX3j+7qMl8tsgh83Z5B8/YF4NmKZe7AyCgbC2I/REfZVmNVEvTFeRbvYcinsj
+ rbSc6cIQLt5DghcZoIvYHg0lZZpeRZtFJJchscRL1vPPDEtRo1sJgbswPzMsjfrWS/ZV
+ 8p5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Q1qZC5vNCCsIJYSakIBaD2nrV2Zz0bBAsRBqPjX58yY=;
- b=sNkI0DnHZPhKxOn1Bdbu4ITiEV+67QvkeNcnBS7/P8cTSuWO6TRZ2xjtDrWj/ltkbo
- 5TVcTxLHYsNTwfv2qTkOoxS0ynUGC1+GlZQsusTLjWg0zHJkuFTVuqNAXIwRDHofnVqd
- SjxQTkqUstu9uDf5PlZout26M3dHl6sHnNQ+WwjzAOj/cIMrW3iFdff0+DY3NIIvWUoT
- A8Fw03IyCIxgXDyuetpaw3I0ozdfl9CBpbx9RG92rgwTOxmZofDvpzrje71s4zSS3W05
- DqYCv8IyC7wNtYpmZV9NiXofQFH+MjIWi7xhOGv4hWULyi3u2h/dUTZutTZfMJkQ7pIq
- RrNQ==
-X-Gm-Message-State: AOAM533tFVfeox31daNdyWsOIt7N39eBmQccJ0lfB49kLEXM1dOGcHfC
- ire/N2UDy34s+WFawftwR39quISLr5msWJUp
-X-Google-Smtp-Source: ABdhPJz9J0p8t9Iub1LfZWE31sgsvKTpJ5BOCaDUisTLq2jj1TQE3tkIjG5/3j2LyPkBrBBHQ6UlMA==
-X-Received: by 2002:a05:6602:1484:: with SMTP id
- a4mr3213539iow.112.1641745171768; 
- Sun, 09 Jan 2022 08:19:31 -0800 (PST)
+ bh=dyAUpEDzRYL6p8x32pfiafDgm01DpIQ/wKUR1iah5qg=;
+ b=XcgCqhGINPrpE2mNAbjnWrmPBLnulUndkH5ixx2vJ7/IVsD33ZcalFE2aMMfq8bqAu
+ EkDK3G65aX58VIzfyjz7AJ2/hILL8XwT84jrvCkBu6SiO3ImTda+bz8Dkg5zqDw+37eH
+ +6kuRW1SMeozetwqjZW8MYTSlKGuLSTI+x5W83cS0P1SRRPwmAYmJpEf7JifhHJY3mMr
+ QB9ojskO3YKRpSAlZeiWyC5kaNex7CaBRNN3iLZgBId1C1UShEbj0HEZqNuHGOsIHvLM
+ VkLepIj29IqXP/Qk8J8DeOwqEdlD1ro6csXm1vWBH55ZE2q7ek152NtQGrnViTvaHuoS
+ antw==
+X-Gm-Message-State: AOAM53378exstLnsUsAkK4HK0csvDgCkx93W5ZLjgKp0NLbRfbQBPcJD
+ VyNAK/F9EpIti1ZGm39PjlW9mBfa8uWr+Lwx
+X-Google-Smtp-Source: ABdhPJyCxYpnPnFK+86BfcvFklQE3Gl8AjCPSGB91vYklkqcqD3rJMTPYlMm6xUymjg+zyr9ahx3Vw==
+X-Received: by 2002:a92:c26a:: with SMTP id h10mr2912982ild.320.1641745173002; 
+ Sun, 09 Jan 2022 08:19:33 -0800 (PST)
 Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id u10sm2683386ilq.76.2022.01.09.08.19.30
+ by smtp.gmail.com with ESMTPSA id u10sm2683386ilq.76.2022.01.09.08.19.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 09 Jan 2022 08:19:31 -0800 (PST)
+ Sun, 09 Jan 2022 08:19:32 -0800 (PST)
 From: Warner Losh <imp@bsdimp.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 04/30] bsd-user/signal.c: implement cpu_loop_exit_sigbus
-Date: Sun,  9 Jan 2022 09:18:57 -0700
-Message-Id: <20220109161923.85683-5-imp@bsdimp.com>
+Subject: [PATCH 05/30] bsd-user/arm/arget_arch_cpu.h: Move EXCP_DEBUG and
+ EXCP_BKPT together
+Date: Sun,  9 Jan 2022 09:18:58 -0700
+Message-Id: <20220109161923.85683-6-imp@bsdimp.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20220109161923.85683-1-imp@bsdimp.com>
 References: <20220109161923.85683-1-imp@bsdimp.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d30
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::12e
  (failed)
-Received-SPF: none client-ip=2607:f8b0:4864:20::d30;
- envelope-from=imp@bsdimp.com; helo=mail-io1-xd30.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::12e;
+ envelope-from=imp@bsdimp.com; helo=mail-il1-x12e.google.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
@@ -85,42 +85,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kyle Evans <kevans@freebsd.org>, Stacey Son <sson@FreeBSD.org>,
- Warner Losh <imp@bsdimp.com>
+Cc: Kyle Evans <kevans@freebsd.org>, Warner Losh <imp@bsdimp.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-First attempt at implementing cpu_loop_exit_sigbus, mostly copied from
-linux-user version of this function.
+Implement EXCP_DEBUG and EXCP_BKPT the same, as is done in
+linux-user. The prior adjustment of register 15 isn't needed, so remove
+that. Remove a redunant comment (that code in FreeBSD never handled
+break points).
 
-Signed-off-by: Stacey Son <sson@FreeBSD.org>
-Signed-off-by: Kyle Evans <kevans@freebsd.org>
 Signed-off-by: Warner Losh <imp@bsdimp.com>
 ---
- bsd-user/signal.c | 12 +++++++++---
- 1 file changed, 9 insertions(+), 3 deletions(-)
+ bsd-user/arm/target_arch_cpu.h | 23 +++--------------------
+ 1 file changed, 3 insertions(+), 20 deletions(-)
 
-diff --git a/bsd-user/signal.c b/bsd-user/signal.c
-index 12de0e2dea4..844dfa19095 100644
---- a/bsd-user/signal.c
-+++ b/bsd-user/signal.c
-@@ -80,7 +80,13 @@ void cpu_loop_exit_sigsegv(CPUState *cpu, target_ulong addr,
- void cpu_loop_exit_sigbus(CPUState *cpu, target_ulong addr,
-                           MMUAccessType access_type, uintptr_t ra)
- {
--    qemu_log_mask(LOG_UNIMP, "No signal support for SIGBUS\n");
--    /* unreachable */
--    abort();
-+    const struct TCGCPUOps *tcg_ops = CPU_GET_CLASS(cpu)->tcg_ops;
-+
-+    if (tcg_ops->record_sigbus) {
-+        tcg_ops->record_sigbus(cpu, addr, access_type, ra);
-+    }
-+
-+    force_sig_fault(TARGET_SIGBUS, TARGET_BUS_ADRALN, addr);
-+    cpu->exception_index = EXCP_INTERRUPT;
-+    cpu_loop_exit_restore(cpu, ra);
- }
+diff --git a/bsd-user/arm/target_arch_cpu.h b/bsd-user/arm/target_arch_cpu.h
+index c526fc73502..05b19ce6119 100644
+--- a/bsd-user/arm/target_arch_cpu.h
++++ b/bsd-user/arm/target_arch_cpu.h
+@@ -21,6 +21,7 @@
+ #define _TARGET_ARCH_CPU_H_
+ 
+ #include "target_arch.h"
++#include "signal-common.h"
+ 
+ #define TARGET_DEFAULT_CPU_MODEL "any"
+ 
+@@ -64,19 +65,7 @@ static inline void target_cpu_loop(CPUARMState *env)
+             }
+             break;
+         case EXCP_SWI:
+-        case EXCP_BKPT:
+             {
+-                /*
+-                 * system call
+-                 * See arm/arm/trap.c cpu_fetch_syscall_args()
+-                 */
+-                if (trapnr == EXCP_BKPT) {
+-                    if (env->thumb) {
+-                        env->regs[15] += 2;
+-                    } else {
+-                        env->regs[15] += 4;
+-                    }
+-                }
+                 n = env->regs[7];
+                 if (bsd_type == target_freebsd) {
+                     int ret;
+@@ -171,14 +160,8 @@ static inline void target_cpu_loop(CPUARMState *env)
+             queue_signal(env, info.si_signo, &info);
+             break;
+         case EXCP_DEBUG:
+-            {
+-
+-                info.si_signo = TARGET_SIGTRAP;
+-                info.si_errno = 0;
+-                info.si_code = TARGET_TRAP_BRKPT;
+-                info.si_addr = env->exception.vaddress;
+-                queue_signal(env, info.si_signo, &info);
+-            }
++        case EXCP_BKPT:
++            force_sig_fault(TARGET_SIGTRAP, TARGET_TRAP_BRKPT, env->regs[15]);
+             break;
+         case EXCP_YIELD:
+             /* nothing to do here for user-mode, just resume guest code */
 -- 
 2.33.1
 
