@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1AEA488ADA
-	for <lists+qemu-devel@lfdr.de>; Sun,  9 Jan 2022 18:14:34 +0100 (CET)
-Received: from localhost ([::1]:34822 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E5DE488AD6
+	for <lists+qemu-devel@lfdr.de>; Sun,  9 Jan 2022 18:11:21 +0100 (CET)
+Received: from localhost ([::1]:56340 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n6bm5-0006FU-8r
-	for lists+qemu-devel@lfdr.de; Sun, 09 Jan 2022 12:14:33 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:60022)
+	id 1n6bix-0001b6-Hi
+	for lists+qemu-devel@lfdr.de; Sun, 09 Jan 2022 12:11:19 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:60036)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1n6bek-0006Xg-Hq; Sun, 09 Jan 2022 12:06:59 -0500
-Received: from [2a00:1450:4864:20::329] (port=54238
- helo=mail-wm1-x329.google.com)
+ id 1n6beo-0006eW-LZ; Sun, 09 Jan 2022 12:07:02 -0500
+Received: from [2a00:1450:4864:20::435] (port=39445
+ helo=mail-wr1-x435.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1n6bei-0005VZ-1H; Sun, 09 Jan 2022 12:06:58 -0500
-Received: by mail-wm1-x329.google.com with SMTP id l4so7280279wmq.3;
- Sun, 09 Jan 2022 09:06:55 -0800 (PST)
+ id 1n6bem-0005W3-UI; Sun, 09 Jan 2022 12:07:02 -0500
+Received: by mail-wr1-x435.google.com with SMTP id s1so22362734wra.6;
+ Sun, 09 Jan 2022 09:07:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=iN7rmJCyt/9XOylIukKsQBez3yTqjDEoUhXX6uhz6nk=;
- b=Di1keJS+l27M8x/2G1Ma02PH3svXk6aZYshOdEgw8pO5f8c6P5TS+m4zTmRBT6wHT1
- HpAFYord7URVOLUT6qOWTEoG5jnilJEpFrFu1ddd8HlDr7iviK1ZEahau0btNWYq5pGZ
- W3T1zITmOcl1OcMU9dtKFn5hYIjEZx6dyBA/FOnW4N00bw8dF9h0bF9KHTMA5YaEmNiV
- 6YMq41dytMsZIjQxFZddMOMaJopuJoyb7Sc+Bk2y8T4N15c6j2ms6FISYbUcXk0KGMx6
- 3JIfKBpsS6q3SnPQWOunnv+sV1nZJer91sONHd/1OJ06ICZG9rbySxialH8s9a0GDbl6
- QdPw==
+ bh=6klwIMQLm+6gVHzgriEwBCM6jutl8PXL81kAF4kdCvk=;
+ b=L/MD5HyBGB/nwYGMdwEwDizF5SuvhiHr2jGxZjlJISkBKqUiaPo6Jn7np/ciaWrslN
+ nvKG9IJx6X7pmP5GYoIuM+7PgMJ4C4dKAw3dt0hMO2A2gRAK+WbZBGNTmAwgTIMbp9vX
+ /YwMvvELH5meTWze0/I9dQlyBWuqqxcr1DL4lBiSeCAbwwmQWCDeYbm0o+oH7X5j1EuK
+ HLkhC8ilw+9LRGhOC8wnhWCp/+rDvSzdcRMxYnYL9/GkL3Kg0lRh/PRNvdKx844fbsUG
+ KD0EIoACtO4jiEGL2ZacyHr/pzGgFgMtYWuRhbwF8OIXcB/YqOxz4dBOFnlqsyKtMBVf
+ gKgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=iN7rmJCyt/9XOylIukKsQBez3yTqjDEoUhXX6uhz6nk=;
- b=ffyzOVFqh5XArw9CuUWrU9bhd/SDBD6O0SNDaJ/5EjwPAyktdCiPeYJ3ckga/Hky4n
- HydfCQOK6QXamuGHKbGgQWZ7eHh2Gatnip+AGqgIrDKYxrEsCC6jPKp9jH0V9ufsa/dt
- ONxjrtcOV6j/jHAhJSQXo6o9rsCuxz/Cua0yzxjtATOTM6F4PJnpdhdhpKqYBi5Dxrmf
- XMqxTq2cLhKGhVEmWLGijPbAsnYudb0WQ/+ic7dm3cMR9mn/bqTwV0UZFa+qHkW7pfGY
- 0Xvr4l2vMNG4OVGwHtMBsNPbarRrm/T8f5CLGJsqZsH8hHFFHgmJfJaOYO5kPnfTPHH9
- 16AQ==
-X-Gm-Message-State: AOAM532PLjRBAeIY3bo1Pm43GaQARNarqhO2/AcQKeqR/dbZ9WBHw40V
- ox9K5bWyWNhYKLpQ01b0VymPPA3w08iN0w==
-X-Google-Smtp-Source: ABdhPJw3MuOwK9vZxcFIlXVLvNPrCLICTpof4A+kTv79iWz4xF4v2k3c2I+pMcccXWkH1cveYVfkQA==
-X-Received: by 2002:a1c:44d7:: with SMTP id r206mr12130113wma.79.1641748014215; 
- Sun, 09 Jan 2022 09:06:54 -0800 (PST)
+ bh=6klwIMQLm+6gVHzgriEwBCM6jutl8PXL81kAF4kdCvk=;
+ b=T9FBgeRQ4E25y+D9UPrMFOaQR6VPyvZ8zFesynR4z47q3oOmBsaUJcmVJIFLwl3N2h
+ kC2gssX1CELGNO1D755CuNhQlfnGrAvDz5L6Y9jE7K4mvXYCIilsIFVcUBcT4Ds56zXn
+ gwF8A1leIBD4OXf/P+agnIHFlXpw/Dh7d1Y2feCxe35GTSJVaX6z8r3wvcsDoWJGqLgl
+ mZqZtc00Dt19pkO2O0et1BLVEKSw1RoxIwkKTmv0jh/DwgPH9LHEt3Waqwyq1rygF6Qb
+ 6nhaT/NSbpl29KL+2G+0KSI2y6k9wu5IYG5S0X/32rZLsLMHBqHpDHFAhyyGAESS40ZI
+ fXjQ==
+X-Gm-Message-State: AOAM533MnOC+Ni9DWS34RHJYM6SpF51mX7yQ1BZIGc5DqXNdl3DTPNne
+ EHxa0caRZf5WZt/uHRPcRz8n15JQ65q15Q==
+X-Google-Smtp-Source: ABdhPJwHcsimFh9wi+htaafurpQtRH+AjwxWaBXhD4L2wGqlpdZcbpG86MXrY22iXv+87HJQQazBtQ==
+X-Received: by 2002:adf:ffcd:: with SMTP id x13mr3069248wrs.672.1641748019169; 
+ Sun, 09 Jan 2022 09:06:59 -0800 (PST)
 Received: from nuc.. (83.red-83-50-87.dynamicip.rima-tde.net. [83.50.87.83])
- by smtp.gmail.com with ESMTPSA id e13sm4599960wmq.10.2022.01.09.09.06.53
+ by smtp.gmail.com with ESMTPSA id n9sm4856138wmq.37.2022.01.09.09.06.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 09 Jan 2022 09:06:53 -0800 (PST)
+ Sun, 09 Jan 2022 09:06:58 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v2 5/6] hvf: Remove deprecated hv_vcpu_flush() calls
-Date: Sun,  9 Jan 2022 18:06:11 +0100
-Message-Id: <20220109170612.574104-6-f4bug@amsat.org>
+Subject: [PATCH v2 6/6] gitlab-ci: Support macOS 12 via cirrus-run
+Date: Sun,  9 Jan 2022 18:06:12 +0100
+Message-Id: <20220109170612.574104-7-f4bug@amsat.org>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20220109170612.574104-1-f4bug@amsat.org>
 References: <20220109170612.574104-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::329
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2a00:1450:4864:20::435
  (failed)
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x329.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x435.google.com
 X-Spam_score_int: -6
 X-Spam_score: -0.7
 X-Spam_bar: /
@@ -94,71 +94,80 @@ Cc: qemu-block@nongnu.org, Christian Schoenebeck <qemu_oss@crudebyte.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When building on macOS 12, we get:
+Add support for macOS 12 build on Cirrus-CI, similarly to commit
+0e103a65ba1 ("gitlab: support for ... macOS 11 via cirrus-run").
 
-  In file included from ../target/i386/hvf/hvf.c:59:
-  ../target/i386/hvf/vmx.h:174:5: error: 'hv_vcpu_flush' is deprecated: first deprecated in macOS 11.0 - This API has no effect and always returns HV_UNSUPPORTED [-Werror,-Wdeprecated-declarations]
-      hv_vcpu_flush(vcpu);
-      ^
-  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/Hypervisor.framework/Headers/hv.h:364:20: note: 'hv_vcpu_flush' has been explicitly marked deprecated here
-  extern hv_return_t hv_vcpu_flush(hv_vcpuid_t vcpu)
-                     ^
+Disable deprecation warnings on Objective C to avoid:
 
-Since this call "has no effect", simply remove it ¯\_(ツ)_/¯
-
-Not very useful deprecation doc:
-https://developer.apple.com/documentation/hypervisor/1441386-hv_vcpu_flush
+  [2789/6622] Compiling Objective-C object libcommon.fa.p/ui_cocoa.m.o
+  ui/cocoa.m:1411:16: error: 'setAllowedFileTypes:' is deprecated: first deprecated in macOS 12.0 - Use -allowedContentTypes instead [-Werror,-Wdeprecated-declarations]
+      [openPanel setAllowedFileTypes: supportedImageFileTypes];
+                 ^
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/AppKit.framework/Headers/NSSavePanel.h:215:49: note: property 'allowedFileTypes' is declared deprecated here
+  @property (nullable, copy) NSArray<NSString *> *allowedFileTypes API_DEPRECATED("Use -allowedContentTypes instead", macos(10.3,12.0));
+                                                  ^
+  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/AppKit.framework/Headers/NSSavePanel.h:215:49: note: 'setAllowedFileTypes:' has been explicitly marked deprecated here
+  FAILED: libcommon.fa.p/ui_cocoa.m.o
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/i386/hvf/vmx.h      | 2 --
- target/i386/hvf/x86_task.c | 1 -
- target/i386/hvf/x86hvf.c   | 2 --
- 3 files changed, 5 deletions(-)
+Generated using lcitool from:
+https://gitlab.com/libvirt/libvirt-ci/-/merge_requests/210
+---
+ .gitlab-ci.d/cirrus.yml           | 16 ++++++++++++++++
+ .gitlab-ci.d/cirrus/macos-12.vars | 16 ++++++++++++++++
+ 2 files changed, 32 insertions(+)
+ create mode 100644 .gitlab-ci.d/cirrus/macos-12.vars
 
-diff --git a/target/i386/hvf/vmx.h b/target/i386/hvf/vmx.h
-index 6df87116f62..094fb9b9dc9 100644
---- a/target/i386/hvf/vmx.h
-+++ b/target/i386/hvf/vmx.h
-@@ -159,7 +159,6 @@ static inline void macvm_set_cr0(hv_vcpuid_t vcpu, uint64_t cr0)
-     wvmcs(vcpu, VMCS_GUEST_CR0, cr0 | CR0_NE | CR0_ET);
+diff --git a/.gitlab-ci.d/cirrus.yml b/.gitlab-ci.d/cirrus.yml
+index 19e6c21401b..719008b13ca 100644
+--- a/.gitlab-ci.d/cirrus.yml
++++ b/.gitlab-ci.d/cirrus.yml
+@@ -90,6 +90,22 @@ x64-macos-11-base-build:
+     PKG_CONFIG_PATH: /usr/local/opt/curl/lib/pkgconfig:/usr/local/opt/ncurses/lib/pkgconfig:/usr/local/opt/readline/lib/pkgconfig
+     TEST_TARGETS: check-unit check-block check-qapi-schema check-softfloat check-qtest-x86_64
  
-     hv_vcpu_invalidate_tlb(vcpu);
--    hv_vcpu_flush(vcpu);
- }
++x64-macos-12-base-build:
++  extends: .cirrus_build_job
++  variables:
++    NAME: macos-12
++    CIRRUS_VM_INSTANCE_TYPE: osx_instance
++    CIRRUS_VM_IMAGE_SELECTOR: image
++    CIRRUS_VM_IMAGE_NAME: monterey-base
++    CIRRUS_VM_CPUS: 12
++    CIRRUS_VM_RAM: 24G
++    UPDATE_COMMAND: brew update
++    INSTALL_COMMAND: brew install
++    PATH_EXTRA: /usr/local/opt/ccache/libexec:/usr/local/opt/gettext/bin
++    PKG_CONFIG_PATH: /usr/local/opt/curl/lib/pkgconfig:/usr/local/opt/ncurses/lib/pkgconfig:/usr/local/opt/readline/lib/pkgconfig
++    TEST_TARGETS: check-unit check-block check-qapi-schema check-softfloat check-qtest-x86_64
++    CONFIGURE_ARGS: --extra-objcflags=-Wno-deprecated-declarations
++
  
- static inline void macvm_set_cr4(hv_vcpuid_t vcpu, uint64_t cr4)
-@@ -171,7 +170,6 @@ static inline void macvm_set_cr4(hv_vcpuid_t vcpu, uint64_t cr4)
-     wvmcs(vcpu, VMCS_CR4_MASK, CR4_VMXE);
- 
-     hv_vcpu_invalidate_tlb(vcpu);
--    hv_vcpu_flush(vcpu);
- }
- 
- static inline void macvm_set_rip(CPUState *cpu, uint64_t rip)
-diff --git a/target/i386/hvf/x86_task.c b/target/i386/hvf/x86_task.c
-index 422156128b7..c8dc3d48fa8 100644
---- a/target/i386/hvf/x86_task.c
-+++ b/target/i386/hvf/x86_task.c
-@@ -181,5 +181,4 @@ void vmx_handle_task_switch(CPUState *cpu, x68_segment_selector tss_sel, int rea
-     store_regs(cpu);
- 
-     hv_vcpu_invalidate_tlb(cpu->hvf->fd);
--    hv_vcpu_flush(cpu->hvf->fd);
- }
-diff --git a/target/i386/hvf/x86hvf.c b/target/i386/hvf/x86hvf.c
-index 907f09f1b43..bec9fc58146 100644
---- a/target/i386/hvf/x86hvf.c
-+++ b/target/i386/hvf/x86hvf.c
-@@ -125,8 +125,6 @@ static void hvf_put_segments(CPUState *cpu_state)
- 
-     hvf_set_segment(cpu_state, &seg, &env->ldt, false);
-     vmx_write_segment_descriptor(cpu_state, &seg, R_LDTR);
--    
--    hv_vcpu_flush(cpu_state->hvf->fd);
- }
-     
- void hvf_put_msrs(CPUState *cpu_state)
+ # The following jobs run VM-based tests via KVM on a Linux-based Cirrus-CI job
+ .cirrus_kvm_job:
+diff --git a/.gitlab-ci.d/cirrus/macos-12.vars b/.gitlab-ci.d/cirrus/macos-12.vars
+new file mode 100644
+index 00000000000..997dbc762c8
+--- /dev/null
++++ b/.gitlab-ci.d/cirrus/macos-12.vars
+@@ -0,0 +1,16 @@
++# THIS FILE WAS AUTO-GENERATED
++#
++#  $ lcitool variables macos-12 qemu
++#
++# https://gitlab.com/libvirt/libvirt-ci
++
++CCACHE='/usr/local/bin/ccache'
++CPAN_PKGS='Test::Harness'
++CROSS_PKGS=''
++MAKE='/usr/local/bin/gmake'
++NINJA='/usr/local/bin/ninja'
++PACKAGING_COMMAND='brew'
++PIP3='/usr/local/bin/pip3'
++PKGS='bash bc bzip2 capstone ccache cpanminus ctags curl dbus diffutils dtc gcovr gettext git glib gnu-sed gnutls gtk+3 jemalloc jpeg-turbo libepoxy libffi libgcrypt libiscsi libnfs libpng libslirp libssh libtasn1 libusb libxml2 llvm lzo make meson ncurses nettle ninja perl pixman pkg-config python3 rpm2cpio sdl2 sdl2_image snappy sparse spice-protocol tesseract texinfo usbredir vde vte3 zlib zstd'
++PYPI_PKGS='PyYAML numpy pillow sphinx sphinx-rtd-theme virtualenv'
++PYTHON='/usr/local/bin/python3'
 -- 
 2.33.1
 
