@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC8894888F6
-	for <lists+qemu-devel@lfdr.de>; Sun,  9 Jan 2022 12:44:33 +0100 (CET)
-Received: from localhost ([::1]:45356 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 802D14888FD
+	for <lists+qemu-devel@lfdr.de>; Sun,  9 Jan 2022 12:48:56 +0100 (CET)
+Received: from localhost ([::1]:51956 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n6Wci-0003f5-KZ
-	for lists+qemu-devel@lfdr.de; Sun, 09 Jan 2022 06:44:32 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:43478)
+	id 1n6Wgx-0000At-JA
+	for lists+qemu-devel@lfdr.de; Sun, 09 Jan 2022 06:48:55 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:43498)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n6WaE-0001We-Qk
- for qemu-devel@nongnu.org; Sun, 09 Jan 2022 06:42:00 -0500
-Received: from mout.kundenserver.de ([217.72.192.73]:47025)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n6WaG-0001Ws-Aa
+ for qemu-devel@nongnu.org; Sun, 09 Jan 2022 06:42:01 -0500
+Received: from mout.kundenserver.de ([212.227.17.10]:55451)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n6WaC-0008B1-TU
- for qemu-devel@nongnu.org; Sun, 09 Jan 2022 06:41:58 -0500
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1n6WaC-0008B3-Ta
+ for qemu-devel@nongnu.org; Sun, 09 Jan 2022 06:41:59 -0500
 Received: from quad ([82.142.23.158]) by mrelayeu.kundenserver.de (mreue106
- [212.227.15.183]) with ESMTPSA (Nemesis) id 1M3UEW-1n5yLo00ri-000Z1i; Sun, 09
+ [212.227.15.183]) with ESMTPSA (Nemesis) id 1MGR3r-1nA9EN2IX7-00GpMf; Sun, 09
  Jan 2022 12:41:54 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 3/4] macfb: fix VRAM dirty memory region logging
-Date: Sun,  9 Jan 2022 12:41:48 +0100
-Message-Id: <20220109114149.1275322-4-laurent@vivier.eu>
+Subject: [PULL 4/4] target/m68k: don't word align SP in stack frame if
+ M68K_FEATURE_UNALIGNED_DATA feature enabled
+Date: Sun,  9 Jan 2022 12:41:49 +0100
+Message-Id: <20220109114149.1275322-5-laurent@vivier.eu>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20220109114149.1275322-1-laurent@vivier.eu>
 References: <20220109114149.1275322-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:lWGqtRzm0AJy9m3SXAKm/Jm5Vtoba5S0ATlHELdWahtZRaiPNQ1
- xEO9HstrzpqdO7qUXHpnJH0UcuvIMAncCc4rFENw0yvhFABS0ac0bSt9heZIumWIUN1k8AT
- pQ0tWXBnN17yqCcJ/4UCu4bwk5cPV0aW7H5/JJHEyJkHZ+K78YZ/fIHi3IiSLPmUf/HumIi
- mrNIxOgjaLJK3/rSxP6GA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:an5SeAdvRo0=:EgAV60IX5/ktsnBCmdF5au
- z+BcIMokywC3PUaXcEkO9mxRs0WVMb/2GN5Cb0PGbXG3AIvA5crl3bZu41u6woyaY+qOyxEKE
- n8+F5lQxLtxNjf62vWOfSw6o9ywCRGisa1Baraw+yVeRsZ+VyYsFFStwSlg/3F7/7jz9D1gAP
- 3eXBwXV27L8uaNCOcJESCvcyRewd0OZYzF4/H1BtlQUCGmxRENanFxK94BQxo+0MH7da3xUPz
- EDTFPeX4rTx/+5mgc2/bNf92QmbJL/VKoIm2Mvyos6cAU3pbtdSZTsuZf5989D4D8fYaKSQvx
- umsSbW/evTd4tNTsYa4JITE/UvbcDtwPOaom0iO9UNF/3w3ufVMUlGD1EH7o9G62bRX+dFWjj
- NDqDCNXv/42gnLX8roPU3VpYORIeF9/KSK5p7gZ8dfPT1cz98BB1GL3E6haAm+8vkPrIVnkjm
- Jt8qz1s6aGcUi78z6qKFUe9c3FOyDQgmVGs3pG1Y3atTacYPu1Zj/IWW22SRQ/4JeUJGFmFYN
- UbEHI5NUN2KrVMlKtm9qAN4nuEG4vGC7MVXjMfqJzHgM83ug1iC3b6zQxHF+ylbI6ifUL/fA+
- tHGESURvrH8Btgyjq79h+/7UeLueFiZxsuvfkQNhR8cmPJO+gomRn1/SdyWHFFJNJyZkgBvv+
- zFW+eGo4kxRNTB1Zfq14CSxf6r38nPbX15zD+ut7umqxLc6VevQrCfISBJ2OfNyZa9pg=
-Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:M3/VBfkwK9kedevXqesYS1Qbim8gso14q6uPC4i0xitlTxaMoHZ
+ CDvn1FkH2dYOp+/3HhFPi1M7f0rITvc4OFfDBiIR8a2yERzpWwg9S7lgWouVOxhVlMUjwt+
+ vOsvEVkKGADPxWrL60bxTuplBG+NaWfdGQd3kQxtxI+TKL6ZVcornDGOD9YIFTnQoj/D2rs
+ r8x75ryL7H9ifrr6E4hcA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:8zwJO17ea/U=:MEx4bsQiyHKPSHyPdlhfj1
+ LndthHyoN3UUi7ttEYbmg0AwFdFycDf3/z6oUMaFaMwS95Zxvz+p3IS16AV3cB/TyPTRp06EL
+ 9zfZDQtGVyig/MOBszK6h7fsLFBAw7pAKhXmr2FkGpv19hHMjowF+eXgDmGg7qmuMj41lw6/F
+ 1Jv7u4EfCkqldaDpx4MwCBHHHXjnLOp1ni/WKGRSXLJvzV6QKYhtmetQS56nfxUZ7Hb3dhZv3
+ oU73fZgv/+VfUTYucP3KIzz4mGwO4fJji4WVWRps/CjbH0hPTrOgNH1LQso4/rGLIpQ154aAZ
+ 22XBU4rGdvIoFuBEc2dR5WE1yr15odfIb5gj9+8VxtbfIpTyVyICP7SdJ8D8LHDR4jOV60RZt
+ jLKagnx0EDP1xQJG5aczD+Ud8bf6iUA1zKvRnxjuNazcbRUwboYDrptemGeek5uvuRUUvAR1O
+ 93ksA/FGZnYjEIlWkW01hMCppvmCZJg+EGnEFYX5NFqpPm38sfmHS3uyRMuRQi3liTyiioHo2
+ 3jwQAE05wXyUzI7iYsIHgnMaiMT2wzRnbW/uM5qapC6dK2fyliTNwK+qbLTo/MqqrPIysmNng
+ SxLQtOBuEcFAONhx7pbLCdKgu1JUCvWwGoAVIih3tHrM2yQHFucevm7rtObjyiQ+GwxV0iimD
+ jedNhyOr+0K/tROS4uWVMdr2HAZV1qeRU19x9SI5KLtD7ppkMJCdcg9r8e0OZfc3jQ/Y=
+Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -72,34 +72,39 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 
-The macfb VRAM memory region was configured with coalescing rather than dirty
-memory logging enabled, causing some areas of the screen not to redraw after
-a full screen update.
+Commit a9431a03f7 ("target/m68k: add M68K_FEATURE_UNALIGNED_DATA feature") added
+a new feature for processors from the 68020 onwards which do not require data
+accesses to be word aligned.
+
+Unfortunately the original commit missed an additional case whereby the SP is
+still word aligned when setting up an additional format 1 stack frame so add the
+necessary M68K_FEATURE_UNALIGNED_DATA feature guard.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Fixes: 8ac919a065 ("hw/m68k: add Nubus macfb video card")
+Fixes: a9431a03f7 ("target/m68k: add M68K_FEATURE_UNALIGNED_DATA feature")
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20220108164147.30813-1-mark.cave-ayland@ilande.co.uk>
+Message-Id: <20220108180453.18680-1-mark.cave-ayland@ilande.co.uk>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/display/macfb.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ target/m68k/op_helper.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/hw/display/macfb.c b/hw/display/macfb.c
-index 277d3e663331..4bd7c3ad6a5a 100644
---- a/hw/display/macfb.c
-+++ b/hw/display/macfb.c
-@@ -661,9 +661,9 @@ static bool macfb_common_realize(DeviceState *dev, MacfbState *s, Error **errp)
- 
-     memory_region_init_ram(&s->mem_vram, OBJECT(dev), "macfb-vram",
-                            MACFB_VRAM_SIZE, &error_abort);
-+    memory_region_set_log(&s->mem_vram, true, DIRTY_MEMORY_VGA);
-     s->vram = memory_region_get_ram_ptr(&s->mem_vram);
-     s->vram_bit_mask = MACFB_VRAM_SIZE - 1;
--    memory_region_set_coalescing(&s->mem_vram);
- 
-     s->vbl_timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, macfb_vbl_timer, s);
-     macfb_update_mode(s);
+diff --git a/target/m68k/op_helper.c b/target/m68k/op_helper.c
+index c0f4825034ae..acbd4735154e 100644
+--- a/target/m68k/op_helper.c
++++ b/target/m68k/op_helper.c
+@@ -415,7 +415,10 @@ static void m68k_interrupt_all(CPUM68KState *env, int is_hw)
+         oldsr = sr;
+         env->aregs[7] = sp;
+         cpu_m68k_set_sr(env, sr &= ~SR_M);
+-        sp = env->aregs[7] & ~1;
++        sp = env->aregs[7];
++        if (!m68k_feature(env, M68K_FEATURE_UNALIGNED_DATA)) {
++            sp &= ~1;
++        }
+         do_stack_frame(env, &sp, 1, oldsr, 0, retaddr);
+     } else {
+         do_stack_frame(env, &sp, 0, oldsr, 0, retaddr);
 -- 
 2.33.1
 
