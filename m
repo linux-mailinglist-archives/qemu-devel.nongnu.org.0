@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14AF4488A90
-	for <lists+qemu-devel@lfdr.de>; Sun,  9 Jan 2022 17:31:39 +0100 (CET)
-Received: from localhost ([::1]:52380 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC615488AA0
+	for <lists+qemu-devel@lfdr.de>; Sun,  9 Jan 2022 17:39:53 +0100 (CET)
+Received: from localhost ([::1]:40780 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n6b6Y-0000Na-5o
-	for lists+qemu-devel@lfdr.de; Sun, 09 Jan 2022 11:31:38 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50632)
+	id 1n6bEW-0004ai-Nh
+	for lists+qemu-devel@lfdr.de; Sun, 09 Jan 2022 11:39:52 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50636)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1n6avA-0005xJ-L3
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1n6avA-0005xZ-N6
  for qemu-devel@nongnu.org; Sun, 09 Jan 2022 11:19:52 -0500
-Received: from [2607:f8b0:4864:20::d2a] (port=39641
- helo=mail-io1-xd2a.google.com)
+Received: from [2607:f8b0:4864:20::135] (port=43646
+ helo=mail-il1-x135.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1n6av9-00079N-05
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1n6av8-00079P-S0
  for qemu-devel@nongnu.org; Sun, 09 Jan 2022 11:19:52 -0500
-Received: by mail-io1-xd2a.google.com with SMTP id y11so14357391iod.6
+Received: by mail-il1-x135.google.com with SMTP id d3so9259924ilr.10
  for <qemu-devel@nongnu.org>; Sun, 09 Jan 2022 08:19:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=t/ddjl6cauPiUQiB6NQmi9s5X3E+m4nw8GVj1ngqf4I=;
- b=P7MIXVCNd+zhIp3BrORauPsxXaaaaTwM+yY2YXZJojHu8jCa1e7MPH9GNPWqlbq4jj
- fwLKqygQBhVjWUVEnYcwWSYbLgM98PCKLF78hBR9jpkjhz44Jm15e+ZqyLbhFfx4W/gT
- 2GuOjk6OiK+cS9b3l2N+RCd6AdI2Ys2aVFuWYJy2uT520QgV3AX4+5rk2vbis+eVIzcY
- uyxBJV4SsFeZ18NZJDKEaYHbJTdAZn1NAAaqC/tizd0xYhMf5hH16c11JiB771786XpV
- m2QIxGnJaksB05xCnoO59ihZhbWKn1GZzGwZpgAq3/T9yyCFvrqdpQB2ji6UqUUO3AXS
- doHA==
+ bh=jYUR7vQogyslfO2q6GByzMN483i8JjtEIEoYTGxZlJs=;
+ b=OOQha7vK2/OVWkX2MhXmgI7Hg/tEDDSKRyVmNn/N+PbsVrSs3XIKlbClMzD6mlkMtK
+ miaBTaSxslE1hjl6Sgufh9UaDzX200X2XP7LuQ0twLTTfiZQiMWNdYsDSTALLYzbCTLm
+ aNEioyfgSkJltsysTfyjD8cj8CGRmy3VOU+HFKakNaLEEg5xhxw6dsJYQ9/7akIqyude
+ 1GWhM5L/GcUZMrJ2QrdeavPDuJtkjIp6Wqj2hSBHZ9Ig06KDHiaIK15CAJblAwKelV2N
+ lsqVMAfMeIudHAfJmnxRT+Y8kmHaN+qxAx4ZQXgB9xs8tMpxTI3msdkLB3ZLrrL9Vabn
+ 6Pqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=t/ddjl6cauPiUQiB6NQmi9s5X3E+m4nw8GVj1ngqf4I=;
- b=7Y0jZhvsa7IcGEPICIYHDnjMHXdpaLmtHxS/7g3W1pbfpP2bhmBkPxUSdBI2Rc3T+3
- l0xq7kJF5U1AqmOCLZQnYGSggGbRYLCqvx2SDcMjGu+cJwo4iMLZ5vwvsCOB7iCblH0q
- ndFQonUa0YV6vTfjH2SElLGHO77iryLQXaLXhbKB9O4Z9RgZd3xwLVHhrS/4yNkHCrJR
- AYFKG5COXTI0M+JxsdhqkpCKQFr6QagPOhRp19EVsZNdms/BVUR0XZbGOmSwujkh+Jkc
- PSlqXsFHnaEWYPZq6e0uhM3LfoKNP9fQX0pxjPyMEKt5Wnf+uqATd9CUj+CmThk4NBnk
- tmVQ==
-X-Gm-Message-State: AOAM531J75796Ht0hPWwVqAY2Izdr0MdOEsxdtwARETRr4+NO0i/Pc4u
- 5g/o8r6GxhBEneSobjJ42u7ojY6ms0YYlXmb
-X-Google-Smtp-Source: ABdhPJx0XGZ+e6zVGFPp5pJuKntWNc62jKYkg9BxscoOyZHNfBYeyX+VRltoKL1hfZfl4mvujnnsgg==
-X-Received: by 2002:a05:6602:2c09:: with SMTP id
- w9mr33728215iov.89.1641745188735; 
- Sun, 09 Jan 2022 08:19:48 -0800 (PST)
+ bh=jYUR7vQogyslfO2q6GByzMN483i8JjtEIEoYTGxZlJs=;
+ b=rGjUjFP9XuOo4RCRCYjcgV3avGy3WqHSAdjU59HYpEUsZOoNiT25RKszBgh6jCFaIN
+ ILqNKcdWtDwpOPY2EM0jMvw1TY6fwq4HhuWwlOvq8HAvXpwos+OhkwkZmG8eu2/1bD8u
+ SneAQ/F3mEkpBHTD8fRpDrv9c3ZlrD4nUmFt2iDlD7ES1V3BRTyQp7cQSiHEZsrbIMy+
+ /9qu6LYJOqhJsiVkonjt07ngdmRpnN2WhYYGF3vFo1NpzhVY76L+S1WCSwqkyB21PY/S
+ tFBwX07Y2rciNKM4fILLM52lNlXPl6zNvMIZ8vpmwJMoCw40e+136hrmSMYIOG8H/QhA
+ 2rKg==
+X-Gm-Message-State: AOAM532zbm9AcVMIS0K8B4KTBBkkVwXd8uG/M1dGfPftKlutfQ4ZEpRn
+ 8Y5NkD9GdTcX6F/Nsu4LhTAy0eU8zixVNTjs
+X-Google-Smtp-Source: ABdhPJxbReUcplEMwaoMl3QY4dh4baeUsoC7D+uWQc690Tw7NxvHstBotkDLp4gozCijEj8/9HLwkw==
+X-Received: by 2002:a05:6e02:1449:: with SMTP id
+ p9mr32031168ilo.66.1641745189535; 
+ Sun, 09 Jan 2022 08:19:49 -0800 (PST)
 Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id u10sm2683386ilq.76.2022.01.09.08.19.47
+ by smtp.gmail.com with ESMTPSA id u10sm2683386ilq.76.2022.01.09.08.19.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 09 Jan 2022 08:19:48 -0800 (PST)
+ Sun, 09 Jan 2022 08:19:49 -0800 (PST)
 From: Warner Losh <imp@bsdimp.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 17/30] bsd-user/signal.c: Implement rewind_if_in_safe_syscall
-Date: Sun,  9 Jan 2022 09:19:10 -0700
-Message-Id: <20220109161923.85683-18-imp@bsdimp.com>
+Subject: [PATCH 18/30] bsd-user/signal.c: Implement host_signal_handler
+Date: Sun,  9 Jan 2022 09:19:11 -0700
+Message-Id: <20220109161923.85683-19-imp@bsdimp.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20220109161923.85683-1-imp@bsdimp.com>
 References: <20220109161923.85683-1-imp@bsdimp.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::d2a
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::135
  (failed)
-Received-SPF: none client-ip=2607:f8b0:4864:20::d2a;
- envelope-from=imp@bsdimp.com; helo=mail-io1-xd2a.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::135;
+ envelope-from=imp@bsdimp.com; helo=mail-il1-x135.google.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
@@ -85,51 +85,137 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kyle Evans <kevans@freebsd.org>, Warner Losh <imp@bsdimp.com>
+Cc: Kyle Evans <kevans@freebsd.org>, Stacey Son <sson@FreeBSD.org>,
+ Warner Losh <imp@bsdimp.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Implement host_signal_handler to handle signals generated by the host
+and to do safe system calls.
+
+Signed-off-by: Stacey Son <sson@FreeBSD.org>
 Signed-off-by: Kyle Evans <kevans@freebsd.org>
 Signed-off-by: Warner Losh <imp@bsdimp.com>
 ---
- bsd-user/qemu.h   |  2 ++
- bsd-user/signal.c | 12 ++++++++++++
- 2 files changed, 14 insertions(+)
+ bsd-user/signal.c | 105 ++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 105 insertions(+)
 
-diff --git a/bsd-user/qemu.h b/bsd-user/qemu.h
-index 0e0b8db708b..e5e97632c82 100644
---- a/bsd-user/qemu.h
-+++ b/bsd-user/qemu.h
-@@ -454,4 +454,6 @@ static inline void *lock_user_string(abi_ulong guest_addr)
- 
- #include <pthread.h>
- 
-+#include "user/safe-syscall.h"
-+
- #endif /* QEMU_H */
 diff --git a/bsd-user/signal.c b/bsd-user/signal.c
-index 3fe8b2d9898..b1331f63d61 100644
+index b1331f63d61..a6e07277fb2 100644
 --- a/bsd-user/signal.c
 +++ b/bsd-user/signal.c
-@@ -43,6 +43,18 @@ int target_to_host_signal(int sig)
-     return sig;
+@@ -142,6 +142,111 @@ void force_sig_fault(int sig, int code, abi_ulong addr)
+ 
+ static void host_signal_handler(int host_sig, siginfo_t *info, void *puc)
+ {
++    CPUState *cpu = thread_cpu;
++    CPUArchState *env = cpu->env_ptr;
++    int sig;
++    target_siginfo_t tinfo;
++    ucontext_t *uc = puc;
++    uintptr_t pc = 0;
++    bool sync_sig = false;
++
++    /*
++     * Non-spoofed SIGSEGV and SIGBUS are synchronous, and need special
++     * handling wrt signal blocking and unwinding.
++     */
++    if ((host_sig == SIGSEGV || host_sig == SIGBUS) && info->si_code > 0) {
++        MMUAccessType access_type;
++        uintptr_t host_addr;
++        abi_ptr guest_addr;
++        bool is_write;
++
++        host_addr = (uintptr_t)info->si_addr;
++
++        /*
++         * Convert forcefully to guest address space: addresses outside
++         * reserved_va are still valid to report via SEGV_MAPERR.
++         */
++        guest_addr = h2g_nocheck(host_addr);
++
++        pc = host_signal_pc(uc);
++        is_write = host_signal_write(info, uc);
++        access_type = adjust_signal_pc(&pc, is_write);
++
++        if (host_sig == SIGSEGV) {
++            bool maperr = true;
++
++            if (info->si_code == SEGV_ACCERR && h2g_valid(host_addr)) {
++                /* If this was a write to a TB protected page, restart. */
++                if (is_write &&
++                    handle_sigsegv_accerr_write(cpu, &uc->uc_sigmask,
++                                                pc, guest_addr)) {
++                    return;
++                }
++
++                /*
++                 * With reserved_va, the whole address space is PROT_NONE,
++                 * which means that we may get ACCERR when we want MAPERR.
++                 */
++                if (page_get_flags(guest_addr) & PAGE_VALID) {
++                    maperr = false;
++                } else {
++                    info->si_code = SEGV_MAPERR;
++                }
++            }
++
++            sigprocmask(SIG_SETMASK, &uc->uc_sigmask, NULL);
++            cpu_loop_exit_sigsegv(cpu, guest_addr, access_type, maperr, pc);
++        } else {
++            sigprocmask(SIG_SETMASK, &uc->uc_sigmask, NULL);
++            if (info->si_code == BUS_ADRALN) {
++                cpu_loop_exit_sigbus(cpu, guest_addr, access_type, pc);
++            }
++        }
++
++        sync_sig = true;
++    }
++
++    /* Get the target signal number. */
++    sig = host_to_target_signal(host_sig);
++    if (sig < 1 || sig > TARGET_NSIG) {
++        return;
++    }
++    trace_user_host_signal(cpu, host_sig, sig);
++
++    host_to_target_siginfo_noswap(&tinfo, info);
++
++    queue_signal(env, sig, &tinfo);       /* XXX how to cope with failure? */
++    /*
++     * Linux does something else here -> the queue signal may be wrong, but
++     * maybe not.  And then it does the rewind_if_in_safe_syscall
++     */
++
++    /*
++     * For synchronous signals, unwind the cpu state to the faulting
++     * insn and then exit back to the main loop so that the signal
++     * is delivered immediately.
++     XXXX Should this be in queue_signal?
++     */
++    if (sync_sig) {
++        cpu->exception_index = EXCP_INTERRUPT;
++        cpu_loop_exit_restore(cpu, pc);
++    }
++
++    rewind_if_in_safe_syscall(puc);
++
++    /*
++     * Block host signals until target signal handler entered. We
++     * can't block SIGSEGV or SIGBUS while we're executing guest
++     * code in case the guest code provokes one in the window between
++     * now and it getting out to the main loop. Signals will be
++     * unblocked again in process_pending_signals().
++     */
++    sigfillset(&uc->uc_sigmask);
++    sigdelset(&uc->uc_sigmask, SIGSEGV);
++    sigdelset(&uc->uc_sigmask, SIGBUS);
++
++    /* Interrupt the virtual CPU as soon as possible. */
++    cpu_exit(thread_cpu);
  }
  
-+/* Adjust the signal context to rewind out of safe-syscall if we're in it */
-+static inline void rewind_if_in_safe_syscall(void *puc)
-+{
-+    ucontext_t *uc = (ucontext_t *)puc;
-+    uintptr_t pcreg = host_signal_pc(uc);
-+
-+    if (pcreg > (uintptr_t)safe_syscall_start
-+        && pcreg < (uintptr_t)safe_syscall_end) {
-+        host_signal_set_pc(uc, (uintptr_t)safe_syscall_start);
-+    }
-+}
-+
- /* Siginfo conversion. */
- static inline void host_to_target_siginfo_noswap(target_siginfo_t *tinfo,
-         const siginfo_t *info)
+ void signal_init(void)
 -- 
 2.33.1
 
