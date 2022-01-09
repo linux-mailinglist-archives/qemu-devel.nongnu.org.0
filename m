@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FF36488ABA
-	for <lists+qemu-devel@lfdr.de>; Sun,  9 Jan 2022 17:59:46 +0100 (CET)
-Received: from localhost ([::1]:41236 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE5CE488A8F
+	for <lists+qemu-devel@lfdr.de>; Sun,  9 Jan 2022 17:31:29 +0100 (CET)
+Received: from localhost ([::1]:52200 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n6bXk-0007wm-Pz
-	for lists+qemu-devel@lfdr.de; Sun, 09 Jan 2022 11:59:44 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50772)
+	id 1n6b6O-0000G2-Sx
+	for lists+qemu-devel@lfdr.de; Sun, 09 Jan 2022 11:31:29 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50790)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1n6avI-00068l-O2
- for qemu-devel@nongnu.org; Sun, 09 Jan 2022 11:20:00 -0500
-Received: from [2607:f8b0:4864:20::135] (port=42497
- helo=mail-il1-x135.google.com)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1n6avJ-0006AV-My
+ for qemu-devel@nongnu.org; Sun, 09 Jan 2022 11:20:02 -0500
+Received: from [2607:f8b0:4864:20::12f] (port=45602
+ helo=mail-il1-x12f.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1n6avH-0007B7-7Z
- for qemu-devel@nongnu.org; Sun, 09 Jan 2022 11:20:00 -0500
-Received: by mail-il1-x135.google.com with SMTP id f4so825026ilr.9
- for <qemu-devel@nongnu.org>; Sun, 09 Jan 2022 08:19:58 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1n6avH-0007BI-W5
+ for qemu-devel@nongnu.org; Sun, 09 Jan 2022 11:20:01 -0500
+Received: by mail-il1-x12f.google.com with SMTP id h5so971121ilq.12
+ for <qemu-devel@nongnu.org>; Sun, 09 Jan 2022 08:19:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=gTX3zM6smFoEquaIJybdvpTjFCFbJNXb/5rINY7LIQo=;
- b=L/MSVHwB8AVpORzYnUuqFaAdnQx0MCkgnFhOe7jlr4ciQCDlHpFabpUNvjnZobtT8k
- xPIB2iPULl580r5B2XNxFA3+husDOZgXXJmLNjNWwP0zgZDQFysLgVjemosimel6hrwL
- u16gjUPikS7GRD4yrXQ2OlFEeTa4Ja3am0w5Mv3iimceXcTdN5V/Xyz0dYBaAUTTU3K/
- 2D0lvTamTe61yel6dtHN3BvONrJeF8q4XlTW0ajIKXZLxVPhfYzOMBGxT5JbwyBDFk41
- IHHGwkFE0j7w6CMONVzyqdN1MdO2tFOvALFhPE8fX0C+exeF9Hr8I6aViWtZIO6WlM0f
- orfQ==
+ bh=c6borLsFCV/9M2I8djvoBUxpRCi7Ch9JmdF3mHscVAw=;
+ b=BuOTztHmPCAopAalk0n6uAVAauYXfnPkr50Ds9769GLM0jDG3Glgc2P2x1rd7YLauu
+ z6CJDdqtwNU02EFCMIndFeIXUJJX+0Bu03Xx6Yd0ARWclHwoZUmMCs/TGm8IM3LtAuJT
+ BCxZTao6IyDRzukVJUKL6GB8AAABdP1L7Z3Kz1qpK3yTj2qKqLxkiqvyOxPrjMDoKy9S
+ hjcObj9pZ+V84x5XsnrED1t0eyvwPtnkZtw08N2cMAre5r5ExqAiRy6rJtMrf22UoDcP
+ ZmqJMvjav4eVlVNpGIBHqFEDeC7zWgKF4owcMRWcAFHJR5JfrF2qGks0ulwg4VvYr4bu
+ Vlnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=gTX3zM6smFoEquaIJybdvpTjFCFbJNXb/5rINY7LIQo=;
- b=Nhk+JuWpPXf70mUz0kOk6M1D6l1khzP+pNcHWsSUoQjzdstWy0ZcETcN53aVCMPxRU
- 8X+oxFn9I+eakiuAVDqK0GlCKh21KmGTLhgs0G6A3uov746jd+C4ShwIZbEpobOB6Qy1
- /FwO7WOxO3Uvt8VhtW9nc0cmDee9T/8YvGlhped03aEzMiLbyWIinArQ9r6Cz8PoCq1J
- gbtLOZc7fccV3Q02qebu+PLW8X+P3b7njwyzNgSWB4/7qL3rXGdoOh72MZu+QeYvpgc/
- npSdgN18un69gZHwwDv9aFoIzVk1GaqNifyiua264PjLpP5RYxU2SxPAz2AUxWCsH2wf
- alDA==
-X-Gm-Message-State: AOAM531jc1qJLzCCyDvE8TYbP8oR8TE9xcuQllXhzX0ls9HDb89mej+A
- W6wFTiMog5xV07LOWpTWOusGDbeWjG10lTDi
-X-Google-Smtp-Source: ABdhPJyL+DddUt3yBauKrxNVP+niqC/M+lRsyQI/mONEXB6aUjdqnIB2ApAaesMMa8WtFnTUcfyUSA==
-X-Received: by 2002:a05:6e02:16cb:: with SMTP id
- 11mr35774063ilx.59.1641745198112; 
+ bh=c6borLsFCV/9M2I8djvoBUxpRCi7Ch9JmdF3mHscVAw=;
+ b=PDU5q51hkgnrECqVBO4VVjWMKT3xTkhNVq6T+/lm4Nk5fLMI0ppt1JJCQDHxZSCH4A
+ C9xPSQfUjgY7EumV3TlcBFCtXSEEFaoFqOSKs+khYgYmODPXaVNZlAKUhHWdS70etm+/
+ HZpACxdzLcYy+MkTLKIMwXvd9pgp84c98BsdgovCXt97Uk5rtfLwTG74f0ITcHlPCy3t
+ uruxsUNJFAT96VdIMILglBc0o/VgriLqHCBslb/t00v85OacRarsZCW7MlHzV4lxu/HM
+ XXI3dz6WRvwPxLyZzhvDSJL5mODJtFLNTRTZJXSEkvYN/ytreUs06LUPeTtGIOhq/pzH
+ kfCQ==
+X-Gm-Message-State: AOAM53231rX1vCeHaR6zsi66P7RLwD6v8n0zf9GW+hqo86PtJn9QGZ/S
+ xUXlKzmid9h5wDBNEOSazqOFTX8D3OU84fzd
+X-Google-Smtp-Source: ABdhPJzlLY5OsYrWB+d+0uwVeawSuEcK8hVY6BYhGNnzPIzL5W+dAtOmQTktZ8ZingIxWTZzJVyXuw==
+X-Received: by 2002:a05:6e02:2189:: with SMTP id
+ j9mr34162505ila.264.1641745198800; 
  Sun, 09 Jan 2022 08:19:58 -0800 (PST)
 Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id u10sm2683386ilq.76.2022.01.09.08.19.57
+ by smtp.gmail.com with ESMTPSA id u10sm2683386ilq.76.2022.01.09.08.19.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 09 Jan 2022 08:19:57 -0800 (PST)
+ Sun, 09 Jan 2022 08:19:58 -0800 (PST)
 From: Warner Losh <imp@bsdimp.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 28/30] bsd-user/signal.c: implement do_sigreturn
-Date: Sun,  9 Jan 2022 09:19:21 -0700
-Message-Id: <20220109161923.85683-29-imp@bsdimp.com>
+Subject: [PATCH 29/30] bsd-user/signal.c: implement do_sigaction
+Date: Sun,  9 Jan 2022 09:19:22 -0700
+Message-Id: <20220109161923.85683-30-imp@bsdimp.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20220109161923.85683-1-imp@bsdimp.com>
 References: <20220109161923.85683-1-imp@bsdimp.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::135
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::12f
  (failed)
-Received-SPF: none client-ip=2607:f8b0:4864:20::135;
- envelope-from=imp@bsdimp.com; helo=mail-il1-x135.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::12f;
+ envelope-from=imp@bsdimp.com; helo=mail-il1-x12f.google.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
@@ -90,105 +90,146 @@ Cc: Kyle Evans <kevans@freebsd.org>, Stacey Son <sson@FreeBSD.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Implements the meat of a sigreturn(2) system call via do_sigreturn, and
-helper reset_signal_mask. Fix the prototype of do_sigreturn in qemu.h
-and remove do_rt_sigreturn since it's linux only.
+Implement the meat of the sigaction(2) system call with do_sigaction and
+helper routiner block_signals (which is also used to implemement signal
+masking so it's global).
 
 Signed-off-by: Stacey Son <sson@FreeBSD.org>
 Signed-off-by: Kyle Evans <kevans@freebsd.org>
 Signed-off-by: Warner Losh <imp@bsdimp.com>
 ---
- bsd-user/qemu.h   |  3 +--
- bsd-user/signal.c | 56 +++++++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 57 insertions(+), 2 deletions(-)
+ bsd-user/qemu.h   | 21 +++++++++++++
+ bsd-user/signal.c | 76 +++++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 97 insertions(+)
 
 diff --git a/bsd-user/qemu.h b/bsd-user/qemu.h
-index 011fdfebbaa..b8c64ca0e5b 100644
+index b8c64ca0e5b..c643d6ba246 100644
 --- a/bsd-user/qemu.h
 +++ b/bsd-user/qemu.h
-@@ -219,14 +219,13 @@ extern int do_strace;
- /* signal.c */
- void process_pending_signals(CPUArchState *cpu_env);
- void signal_init(void);
--long do_sigreturn(CPUArchState *env);
--long do_rt_sigreturn(CPUArchState *env);
- void queue_signal(CPUArchState *env, int sig, target_siginfo_t *info);
- abi_long do_sigaltstack(abi_ulong uss_addr, abi_ulong uoss_addr, abi_ulong sp);
- int target_to_host_signal(int sig);
- int host_to_target_signal(int sig);
+@@ -226,8 +226,29 @@ int host_to_target_signal(int sig);
  void host_to_target_sigset(target_sigset_t *d, const sigset_t *s);
  void target_to_host_sigset(sigset_t *d, const target_sigset_t *s);
-+long do_sigreturn(CPUArchState *regs, abi_ulong addr);
+ long do_sigreturn(CPUArchState *regs, abi_ulong addr);
++int do_sigaction(int sig, const struct target_sigaction *act,
++                struct target_sigaction *oact);
  void QEMU_NORETURN force_sig(int target_sig);
  int qemu_sigorset(sigset_t *dest, const sigset_t *left, const sigset_t *right);
++/**
++ * block_signals: block all signals while handling this guest syscall
++ *
++ * Block all signals, and arrange that the signal mask is returned to
++ * its correct value for the guest before we resume execution of guest code.
++ * If this function returns non-zero, then the caller should immediately
++ * return -TARGET_ERESTARTSYS to the main loop, which will take the pending
++ * signal and restart execution of the syscall.
++ * If block_signals() returns zero, then the caller can continue with
++ * emulation of the system call knowing that no signals can be taken
++ * (and therefore that no race conditions will result).
++ * This should only be called once, because if it is called a second time
++ * it will always return non-zero. (Think of it like a mutex that can't
++ * be recursively locked.)
++ * Signals will be unblocked again by process_pending_signals().
++ *
++ * Return value: non-zero if there was a pending signal, zero if not.
++ */
++int block_signals(void); /* Returns non zero if signal pending */
  
+ /* mmap.c */
+ int target_mprotect(abi_ulong start, abi_ulong len, int prot);
 diff --git a/bsd-user/signal.c b/bsd-user/signal.c
-index 1dd6dbb4ee1..d11f5eddd7e 100644
+index d11f5eddd7e..f055d1db407 100644
 --- a/bsd-user/signal.c
 +++ b/bsd-user/signal.c
-@@ -640,6 +640,62 @@ give_sigsegv:
-     force_sig(TARGET_SIGSEGV);
+@@ -231,6 +231,22 @@ static void tswap_siginfo(target_siginfo_t *tinfo, const target_siginfo_t *info)
+     }
  }
  
-+static int reset_signal_mask(target_ucontext_t *ucontext)
++int block_signals(void)
 +{
-+    int i;
-+    sigset_t blocked;
-+    target_sigset_t target_set;
 +    TaskState *ts = (TaskState *)thread_cpu->opaque;
++    sigset_t set;
 +
-+    for (i = 0; i < TARGET_NSIG_WORDS; i++)
-+        if (__get_user(target_set.__bits[i],
-+                    &ucontext->uc_sigmask.__bits[i])) {
-+            return -TARGET_EFAULT;
-+        }
-+    target_to_host_sigset_internal(&blocked, &target_set);
-+    ts->signal_mask = blocked;
-+    sigprocmask(SIG_SETMASK, &ts->signal_mask, NULL);
++    /*
++     * It's OK to block everything including SIGSEGV, because we won't run any
++     * further guest code before unblocking signals in
++     * process_pending_signals().
++     */
++    sigfillset(&set);
++    sigprocmask(SIG_SETMASK, &set, 0);
 +
-+    return 0;
++    return qatomic_xchg(&ts->signal_pending, 1);
 +}
 +
-+long do_sigreturn(CPUArchState *regs, abi_ulong addr)
-+{
-+    long ret;
-+    abi_ulong target_ucontext;
-+    target_ucontext_t *ucontext = NULL;
-+
-+    /* Get the target ucontext address from the stack frame */
-+    ret = get_ucontext_sigreturn(regs, addr, &target_ucontext);
-+    if (is_error(ret)) {
-+        return ret;
-+    }
-+    trace_user_do_sigreturn(regs, addr);
-+    if (!lock_user_struct(VERIFY_READ, ucontext, target_ucontext, 0)) {
-+        goto badframe;
-+    }
-+
-+    /* Set the register state back to before the signal. */
-+    if (set_mcontext(regs, &ucontext->uc_mcontext, 1)) {
-+        goto badframe;
-+    }
-+
-+    /* And reset the signal mask. */
-+    if (reset_signal_mask(ucontext)) {
-+        goto badframe;
-+    }
-+
-+    unlock_user_struct(ucontext, target_ucontext, 0);
-+    return -TARGET_EJUSTRETURN;
-+
-+badframe:
-+    if (ucontext != NULL) {
-+        unlock_user_struct(ucontext, target_ucontext, 0);
-+    }
-+    force_sig(TARGET_SIGSEGV);
-+    return -TARGET_EFAULT;
-+}
-+
- void signal_init(void)
+ /* Returns 1 if given signal should dump core if not handled. */
+ static int core_dump_signal(int sig)
  {
-     TaskState *ts = (TaskState *)thread_cpu->opaque;
+@@ -534,6 +550,66 @@ static int fatal_signal(int sig)
+     }
+ }
+ 
++/* do_sigaction() return host values and errnos */
++int do_sigaction(int sig, const struct target_sigaction *act,
++        struct target_sigaction *oact)
++{
++    struct target_sigaction *k;
++    struct sigaction act1;
++    int host_sig;
++    int ret = 0;
++
++    if (sig < 1 || sig > TARGET_NSIG || TARGET_SIGKILL == sig ||
++            TARGET_SIGSTOP == sig) {
++        return -EINVAL;
++    }
++
++    if (block_signals()) {
++        return -TARGET_ERESTART;
++    }
++
++    k = &sigact_table[sig - 1];
++    if (oact) {
++        oact->_sa_handler = tswapal(k->_sa_handler);
++        oact->sa_flags = tswap32(k->sa_flags);
++        oact->sa_mask = k->sa_mask;
++    }
++    if (act) {
++        /* XXX: this is most likely not threadsafe. */
++        k->_sa_handler = tswapal(act->_sa_handler);
++        k->sa_flags = tswap32(act->sa_flags);
++        k->sa_mask = act->sa_mask;
++
++        /* Update the host signal state. */
++        host_sig = target_to_host_signal(sig);
++        if (host_sig != SIGSEGV && host_sig != SIGBUS) {
++            memset(&act1, 0, sizeof(struct sigaction));
++            sigfillset(&act1.sa_mask);
++            act1.sa_flags = SA_SIGINFO;
++            if (k->sa_flags & TARGET_SA_RESTART) {
++                act1.sa_flags |= SA_RESTART;
++            }
++            /*
++             *  Note: It is important to update the host kernel signal mask to
++             *  avoid getting unexpected interrupted system calls.
++             */
++            if (k->_sa_handler == TARGET_SIG_IGN) {
++                act1.sa_sigaction = (void *)SIG_IGN;
++            } else if (k->_sa_handler == TARGET_SIG_DFL) {
++                if (fatal_signal(sig)) {
++                    act1.sa_sigaction = host_signal_handler;
++                } else {
++                    act1.sa_sigaction = (void *)SIG_DFL;
++                }
++            } else {
++                act1.sa_sigaction = host_signal_handler;
++            }
++            ret = sigaction(host_sig, &act1, NULL);
++        }
++    }
++    return ret;
++}
++
+ static inline abi_ulong get_sigframe(struct target_sigaction *ka,
+         CPUArchState *regs, size_t frame_size)
+ {
 -- 
 2.33.1
 
