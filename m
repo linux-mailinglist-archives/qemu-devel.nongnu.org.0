@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42298488A87
-	for <lists+qemu-devel@lfdr.de>; Sun,  9 Jan 2022 17:26:16 +0100 (CET)
-Received: from localhost ([::1]:35086 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B189B488A88
+	for <lists+qemu-devel@lfdr.de>; Sun,  9 Jan 2022 17:26:17 +0100 (CET)
+Received: from localhost ([::1]:35144 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n6b1L-0005bn-Bc
-	for lists+qemu-devel@lfdr.de; Sun, 09 Jan 2022 11:26:15 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:50440)
+	id 1n6b1M-0005eE-Qz
+	for lists+qemu-devel@lfdr.de; Sun, 09 Jan 2022 11:26:16 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:50446)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1n6auu-0005NA-6t
- for qemu-devel@nongnu.org; Sun, 09 Jan 2022 11:19:36 -0500
-Received: from [2607:f8b0:4864:20::12e] (port=45600
- helo=mail-il1-x12e.google.com)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1n6auv-0005OD-0u
+ for qemu-devel@nongnu.org; Sun, 09 Jan 2022 11:19:38 -0500
+Received: from [2607:f8b0:4864:20::12b] (port=43636
+ helo=mail-il1-x12b.google.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1n6aus-00075x-OI
- for qemu-devel@nongnu.org; Sun, 09 Jan 2022 11:19:35 -0500
-Received: by mail-il1-x12e.google.com with SMTP id h5so970397ilq.12
- for <qemu-devel@nongnu.org>; Sun, 09 Jan 2022 08:19:34 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1n6aut-00076C-Nl
+ for qemu-devel@nongnu.org; Sun, 09 Jan 2022 11:19:36 -0500
+Received: by mail-il1-x12b.google.com with SMTP id d3so9259607ilr.10
+ for <qemu-devel@nongnu.org>; Sun, 09 Jan 2022 08:19:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=dyAUpEDzRYL6p8x32pfiafDgm01DpIQ/wKUR1iah5qg=;
- b=7qxQfOYRP6CNe6ZsSVBz60cpkFNFeCrhZYNmXzoEqakZ1/ndOWBOeAdquUcJHTLJOO
- nijGZjAQlVgbBCkp6g+p77JWdfI+766yn4mSGVCiPhBYPA0EnP64A1SIVXRFVZ+A81O0
- oYjGWuNRy2fOcQByC7OcdOWD5axA16Eru7NUYrscxalHyP7YsVLnmlhdfyLWI6SMvVTx
- OdOGjKEsX3j+7qMl8tsgh83Z5B8/YF4NmKZe7AyCgbC2I/REfZVmNVEvTFeRbvYcinsj
- rbSc6cIQLt5DghcZoIvYHg0lZZpeRZtFJJchscRL1vPPDEtRo1sJgbswPzMsjfrWS/ZV
- 8p5w==
+ bh=rYbOaGywm/gXp+KUiOApi+gy1fj4x1kM6ZqHK5ccGBE=;
+ b=kdr7OHNd0H9bEHLo905dqlkvCy2I1C9PXVh2f0JVEkfy6T28GaIE3JywFDH1vY6n/8
+ tvdNNI1yvcK07OeRZhZqj4OiGghQZ+WIwRLJ+EnyIl02CnjRF1i4nisW4bn330xUt5yo
+ 2t+icccQh6RJ9/WBWywS6G7ThkmJY5fOEPhVdTeILC3UKe9ExGfpMne01jz0uzXgIblO
+ JIPnk6y9QY3JOefZEUyd1I1qwXFDmd6PmpzwYmygFO61OBeJbMBrw7ETxsLr7eM/x6KO
+ crDy8BmxccecuGKnZwKnp6Bc9R2WA75S6LFS3gRAECjJZdQ3P6LrziruZ2w0ogfsBL3F
+ bFqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=dyAUpEDzRYL6p8x32pfiafDgm01DpIQ/wKUR1iah5qg=;
- b=XcgCqhGINPrpE2mNAbjnWrmPBLnulUndkH5ixx2vJ7/IVsD33ZcalFE2aMMfq8bqAu
- EkDK3G65aX58VIzfyjz7AJ2/hILL8XwT84jrvCkBu6SiO3ImTda+bz8Dkg5zqDw+37eH
- +6kuRW1SMeozetwqjZW8MYTSlKGuLSTI+x5W83cS0P1SRRPwmAYmJpEf7JifhHJY3mMr
- QB9ojskO3YKRpSAlZeiWyC5kaNex7CaBRNN3iLZgBId1C1UShEbj0HEZqNuHGOsIHvLM
- VkLepIj29IqXP/Qk8J8DeOwqEdlD1ro6csXm1vWBH55ZE2q7ek152NtQGrnViTvaHuoS
- antw==
-X-Gm-Message-State: AOAM53378exstLnsUsAkK4HK0csvDgCkx93W5ZLjgKp0NLbRfbQBPcJD
- VyNAK/F9EpIti1ZGm39PjlW9mBfa8uWr+Lwx
-X-Google-Smtp-Source: ABdhPJyCxYpnPnFK+86BfcvFklQE3Gl8AjCPSGB91vYklkqcqD3rJMTPYlMm6xUymjg+zyr9ahx3Vw==
-X-Received: by 2002:a92:c26a:: with SMTP id h10mr2912982ild.320.1641745173002; 
- Sun, 09 Jan 2022 08:19:33 -0800 (PST)
+ bh=rYbOaGywm/gXp+KUiOApi+gy1fj4x1kM6ZqHK5ccGBE=;
+ b=QeQQBmvOIbZMjdTK3ajjNAZJyKmCbtxa77o7HWFFeoGEkuEi2ghHi62xdZuBfj5Rnr
+ IAWh0eARTtii3fGQ5zTwoMw5+TluI/y3e6fmS6co15uu3EQUvb7X40LtR0g9YFosQntV
+ 5noZQxZ0RPBY/gDpy9YOVhSlo8e4R9rqDNSUTwOdnUvGKLJxPowbyBVLHAIFp5OYTWlZ
+ /vJ8fusE2MWshGF9d6ym+lzQDfmbnL6dEdevEqbZQj0zDtWWZ19gWDuvzW2AfjPKvVfk
+ gZMHy2AsmUB+OW2SkjpEHFdLLH3A+M68jYQI/dK09TiMX6sc89TP7YwiBB09QyQ+HmFn
+ PuTA==
+X-Gm-Message-State: AOAM5310bywbuVsM+493VS3Jm48zDHMPVgCFiNgnMkqOdaWYQr/9v0V2
+ TkvGilvWm+z2AKXGL76p5LRGuj98M2Psgz9H
+X-Google-Smtp-Source: ABdhPJyTnNFXsutbWUNR0i6pqLTMqiNA8o8Z+Hz1F1GbpkunHExtzPt1RpSlvC+XVnkQALU2gQFGgA==
+X-Received: by 2002:a05:6e02:1a84:: with SMTP id
+ k4mr31563316ilv.29.1641745174371; 
+ Sun, 09 Jan 2022 08:19:34 -0800 (PST)
 Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id u10sm2683386ilq.76.2022.01.09.08.19.31
+ by smtp.gmail.com with ESMTPSA id u10sm2683386ilq.76.2022.01.09.08.19.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 09 Jan 2022 08:19:32 -0800 (PST)
+ Sun, 09 Jan 2022 08:19:33 -0800 (PST)
 From: Warner Losh <imp@bsdimp.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 05/30] bsd-user/arm/arget_arch_cpu.h: Move EXCP_DEBUG and
- EXCP_BKPT together
-Date: Sun,  9 Jan 2022 09:18:58 -0700
-Message-Id: <20220109161923.85683-6-imp@bsdimp.com>
+Subject: [PATCH 06/30] bsd-user/arm/target_arch_cpu.h: Correct code pointer
+Date: Sun,  9 Jan 2022 09:18:59 -0700
+Message-Id: <20220109161923.85683-7-imp@bsdimp.com>
 X-Mailer: git-send-email 2.33.1
 In-Reply-To: <20220109161923.85683-1-imp@bsdimp.com>
 References: <20220109161923.85683-1-imp@bsdimp.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::12e
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::12b
  (failed)
-Received-SPF: none client-ip=2607:f8b0:4864:20::12e;
- envelope-from=imp@bsdimp.com; helo=mail-il1-x12e.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::12b;
+ envelope-from=imp@bsdimp.com; helo=mail-il1-x12b.google.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
@@ -89,65 +89,28 @@ Cc: Kyle Evans <kevans@freebsd.org>, Warner Losh <imp@bsdimp.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Implement EXCP_DEBUG and EXCP_BKPT the same, as is done in
-linux-user. The prior adjustment of register 15 isn't needed, so remove
-that. Remove a redunant comment (that code in FreeBSD never handled
-break points).
+The code has moved in FreeBSD since the emulator was started, update the
+comment to reflect that change. Remove now-redundant comment saying the
+same thing (but incorrectly).
 
 Signed-off-by: Warner Losh <imp@bsdimp.com>
 ---
- bsd-user/arm/target_arch_cpu.h | 23 +++--------------------
- 1 file changed, 3 insertions(+), 20 deletions(-)
+ bsd-user/arm/target_arch_cpu.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/bsd-user/arm/target_arch_cpu.h b/bsd-user/arm/target_arch_cpu.h
-index c526fc73502..05b19ce6119 100644
+index 05b19ce6119..905f13aa1b9 100644
 --- a/bsd-user/arm/target_arch_cpu.h
 +++ b/bsd-user/arm/target_arch_cpu.h
-@@ -21,6 +21,7 @@
- #define _TARGET_ARCH_CPU_H_
+@@ -73,7 +73,7 @@ static inline void target_cpu_loop(CPUARMState *env)
+                     int32_t syscall_nr = n;
+                     int32_t arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8;
  
- #include "target_arch.h"
-+#include "signal-common.h"
- 
- #define TARGET_DEFAULT_CPU_MODEL "any"
- 
-@@ -64,19 +65,7 @@ static inline void target_cpu_loop(CPUARMState *env)
-             }
-             break;
-         case EXCP_SWI:
--        case EXCP_BKPT:
-             {
--                /*
--                 * system call
--                 * See arm/arm/trap.c cpu_fetch_syscall_args()
--                 */
--                if (trapnr == EXCP_BKPT) {
--                    if (env->thumb) {
--                        env->regs[15] += 2;
--                    } else {
--                        env->regs[15] += 4;
--                    }
--                }
-                 n = env->regs[7];
-                 if (bsd_type == target_freebsd) {
-                     int ret;
-@@ -171,14 +160,8 @@ static inline void target_cpu_loop(CPUARMState *env)
-             queue_signal(env, info.si_signo, &info);
-             break;
-         case EXCP_DEBUG:
--            {
--
--                info.si_signo = TARGET_SIGTRAP;
--                info.si_errno = 0;
--                info.si_code = TARGET_TRAP_BRKPT;
--                info.si_addr = env->exception.vaddress;
--                queue_signal(env, info.si_signo, &info);
--            }
-+        case EXCP_BKPT:
-+            force_sig_fault(TARGET_SIGTRAP, TARGET_TRAP_BRKPT, env->regs[15]);
-             break;
-         case EXCP_YIELD:
-             /* nothing to do here for user-mode, just resume guest code */
+-                    /* See arm/arm/trap.c cpu_fetch_syscall_args() */
++                    /* See arm/arm/syscall.c cpu_fetch_syscall_args() */
+                     if (syscall_nr == TARGET_FREEBSD_NR_syscall) {
+                         syscall_nr = env->regs[0];
+                         arg1 = env->regs[1];
 -- 
 2.33.1
 
