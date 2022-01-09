@@ -2,58 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AA934887AF
-	for <lists+qemu-devel@lfdr.de>; Sun,  9 Jan 2022 06:11:16 +0100 (CET)
-Received: from localhost ([::1]:48674 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0EFC488835
+	for <lists+qemu-devel@lfdr.de>; Sun,  9 Jan 2022 07:20:30 +0100 (CET)
+Received: from localhost ([::1]:59954 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n6QU6-0008At-Ri
-	for lists+qemu-devel@lfdr.de; Sun, 09 Jan 2022 00:11:14 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:59970)
+	id 1n6RZ7-0007mp-8f
+	for lists+qemu-devel@lfdr.de; Sun, 09 Jan 2022 01:20:29 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36190)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <i.qemu@xen0n.name>) id 1n6QSW-0007Qz-0y
- for qemu-devel@nongnu.org; Sun, 09 Jan 2022 00:09:36 -0500
-Received: from mail.xen0n.name ([115.28.160.31]:53282
- helo=mailbox.box.xen0n.name)
+ (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
+ id 1n6RWM-0006za-Ij
+ for qemu-devel@nongnu.org; Sun, 09 Jan 2022 01:17:38 -0500
+Received: from mailout07.t-online.de ([194.25.134.83]:37780)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <i.qemu@xen0n.name>) id 1n6QSR-0007tH-0a
- for qemu-devel@nongnu.org; Sun, 09 Jan 2022 00:09:35 -0500
-Received: from [192.168.9.172] (unknown [101.88.31.179])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
- (No client certificate requested)
- by mailbox.box.xen0n.name (Postfix) with ESMTPSA id 529D4600FB;
- Sun,  9 Jan 2022 13:09:19 +0800 (CST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=xen0n.name; s=mail;
- t=1641704959; bh=ceBy7Tdj5Xxd6vx2sxYUhhXxWLtse8EflSE8ibLnMTU=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=DCu1QK1lPkkGcSH2sHp5gVvq6l/SCwmk6Ipk5b6zMytMFt0BW90NGSnX8V3+aVq3q
- UjZ/HHzf///AzhQI9V4Mcy7ec3VdIu4nFpkmRkfI00U9VhvD2Y5KDbPY2QnEG23PQT
- As2m37DTxPq1Hdyweryj5ITwqB4dEaSoW0z/woco=
-Content-Type: multipart/alternative;
- boundary="------------0ZRNBbd7FzOwcwSDS6OxQk5L"
-Message-ID: <4cc1a7e4-90b7-ba6c-38e3-2de2571b226a@xen0n.name>
-Date: Sun, 9 Jan 2022 13:09:18 +0800
+ (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
+ id 1n6RWK-0007Sb-II
+ for qemu-devel@nongnu.org; Sun, 09 Jan 2022 01:17:38 -0500
+Received: from fwd78.dcpf.telekom.de (fwd78.aul.t-online.de [10.223.144.104])
+ by mailout07.t-online.de (Postfix) with SMTP id 135B7295A;
+ Sun,  9 Jan 2022 07:17:32 +0100 (CET)
+Received: from [192.168.211.200] ([46.86.48.20]) by fwd78.t-online.de
+ with (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384 encrypted)
+ esmtp id 1n6RWF-0GWrHF0; Sun, 9 Jan 2022 07:17:31 +0100
+Message-ID: <2ebfb2e7-bd51-d5ee-7e17-7cec59a0f0d5@t-online.de>
+Date: Sun, 9 Jan 2022 07:17:30 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:97.0) Gecko/20100101
- Thunderbird/97.0a1
-Subject: Re: [PATCH v14 00/26] Add LoongArch linux-user emulation support
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.1
+Subject: Re: [PULL v3 12/55] virtio-pci: add support for configure interrupt
 Content-Language: en-US
-To: gaosong <gaosong@loongson.cn>,
- Richard Henderson <richard.henderson@linaro.org>
-References: <20220106094200.1801206-1-gaosong@loongson.cn>
- <7bb887ff-efc1-c58c-ef80-b9d4a0166f5d@linaro.org>
- <7d25de8d-f75b-d2b6-cc93-0b1276bbc7f5@loongson.cn>
-From: WANG Xuerui <i.qemu@xen0n.name>
-In-Reply-To: <7d25de8d-f75b-d2b6-cc93-0b1276bbc7f5@loongson.cn>
-Received-SPF: pass client-ip=115.28.160.31; envelope-from=i.qemu@xen0n.name;
- helo=mailbox.box.xen0n.name
-X-Spam_score_int: -62
-X-Spam_score: -6.3
+To: Cindy Lu <lulu@redhat.com>
+References: <20220108003423.15830-1-mst@redhat.com>
+ <20220108003423.15830-13-mst@redhat.com>
+From: =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>
+In-Reply-To: <20220108003423.15830-13-mst@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-TOI-EXPURGATEID: 150726::1641709051-0000AD4E-FEF565CB/0/0 CLEAN NORMAL
+X-TOI-MSGID: 7ac2fbeb-809b-49c1-aac6-1bda2792251d
+Received-SPF: none client-ip=194.25.134.83; envelope-from=vr_qemu@t-online.de;
+ helo=mailout07.t-online.de
+X-Spam_score_int: -60
+X-Spam_score: -6.1
 X-Spam_bar: ------
-X-Spam_report: (-6.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
- NICE_REPLY_A=-4.199, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-6.1 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-4.199, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -66,173 +61,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a multi-part message in MIME format.
---------------0ZRNBbd7FzOwcwSDS6OxQk5L
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-
 Hi,
 
-On 1/7/22 15:59, gaosong wrote:
-> Hi Richard.
-> On 2022/1/7 下午1:01, Richard Henderson wrote:
->> On 1/6/22 1:41 AM, Song Gao wrote:
->>> Based-on:<20220106074740.1754661-1-gaosong@loongson.cn>
->>>
->>> Hi all,
->>>
->>> This series only support linux-user emulation.
->>> More about LoongArch at:https://github.com/loongson/
->>>
->>> The latest kernel:
->>>    *https://github.com/loongson/linux/tree/loongarch-next
->>>
->>> Patches need review:
->>>    * 0018-linux-user-Add-LoongArch-specific-structures.patch
->>>    * 0019-linux-user-Add-LoongArch-signal-support.patch
->>
->> You're still blocked on no upstream kernel support.
->> As shown in patch 19, the kernel abi is still in flux.
->>
-> We hope the kernel will support as soon as possible. but ...
->> It would be best if you could work toward getting full system 
->> emulation completed.  Then all of the basic cpu emulation can be 
->> merged and all you'd need to keep updating is the linux-user portions.
->>
-> We are going to submit V4 system emulation, maybe tommorrow or next-week, and We'll keep updating the linux-user portions.
-
-I believe what Richard meant is suggesting you to re-order your patches 
-so that the CPU emulation part (first half of this series) and the 
-system emulation part (Xiaojuan's series) would be combined to one new 
-series, to be reviewed and merged independent of the still-unstable 
-Linux ABI that's blocking this series at the moment. To "keep updating 
-the linux-user portions" without re-arranging the series will just delay 
-inclusion further, IMO.
-
-In case the description above is not clear enough:
-
-We basically have 3 parts for full LoongArch target support: (a) CPU 
-emulation, (b) privileged architecture & hw emulation, and (c) 
-linux-user emulation. Currently this series consists of (a) and (c), 
-while Xiaojuan's series has (b). And the tcg-dev branch you seem to be 
-staging your work at [1] has the same ordering: (a) then (c) then (b), 
-which is consistent with Xiaojuan's series cover letter.
-
-However, because (c) is blocked by kernel port upstreaming, (a) could 
-not be merged, and by re-combining (a) with (b) we can speed up review 
-and inclusion of things. This would require you to coordinate with 
-Xiaojuan and reorder your patches in the tcg-dev branch, so that you can 
-generate the right series to send.
-
-[1]: https://github.com/loongson/qemu/tree/tcg-dev
-
+> From: Cindy Lu <lulu@redhat.com>
 >
-> Thanks
-> Song
->> r~
---------------0ZRNBbd7FzOwcwSDS6OxQk5L
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+> Add support for configure interrupt, The process is used kvm_irqfd_assign
+> to set the gsi to kernel. When the configure notifier was signal by
+> host, qemu will inject a msix interrupt to guest
+>
+> Signed-off-by: Cindy Lu <lulu@redhat.com>
+> Message-Id: <20211104164827.21911-11-lulu@redhat.com>
+> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+> ---
+>   hw/virtio/virtio-pci.h |  4 +-
+>   hw/virtio/virtio-pci.c | 92 ++++++++++++++++++++++++++++++++++++------
+>   2 files changed, 83 insertions(+), 13 deletions(-)
+>
 
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <p>Hi,<br>
-    </p>
-    <div class="moz-cite-prefix">On 1/7/22 15:59, gaosong wrote:<br>
-    </div>
-    <blockquote type="cite"
-      cite="mid:7d25de8d-f75b-d2b6-cc93-0b1276bbc7f5@loongson.cn">
-      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-      <pre>Hi Richard.
-</pre>
-      <div class="moz-cite-prefix">On 2022/1/7 下午1:01, Richard Henderson
-        wrote:<br>
-      </div>
-      <blockquote type="cite"
-        cite="mid:7bb887ff-efc1-c58c-ef80-b9d4a0166f5d@linaro.org">On
-        1/6/22 1:41 AM, Song Gao wrote: <br>
-        <blockquote type="cite">Based-on:<a
-            class="moz-txt-link-rfc2396E"
-            href="mailto:20220106074740.1754661-1-gaosong@loongson.cn"
-            moz-do-not-send="true">&lt;20220106074740.1754661-1-gaosong@loongson.cn&gt;</a>
-          <br>
-          <br>
-          Hi all, <br>
-          <br>
-          This series only support linux-user emulation. <br>
-          More about LoongArch at:<a class="moz-txt-link-freetext"
-            href="https://github.com/loongson/" moz-do-not-send="true">https://github.com/loongson/</a>
-          <br>
-          <br>
-          The latest kernel: <br>
-             *<a class="moz-txt-link-freetext"
-            href="https://github.com/loongson/linux/tree/loongarch-next"
-            moz-do-not-send="true">https://github.com/loongson/linux/tree/loongarch-next</a>
-          <br>
-          <br>
-          Patches need review: <br>
-             * 0018-linux-user-Add-LoongArch-specific-structures.patch <br>
-             * 0019-linux-user-Add-LoongArch-signal-support.patch <br>
-        </blockquote>
-        <br>
-        You're still blocked on no upstream kernel support. <br>
-        As shown in patch 19, the kernel abi is still in flux. <br>
-        <br>
-      </blockquote>
-      <pre>We hope the kernel will support as soon as possible. but ...</pre>
-      <blockquote type="cite"
-        cite="mid:7bb887ff-efc1-c58c-ef80-b9d4a0166f5d@linaro.org">It
-        would be best if you could work toward getting full system
-        emulation completed.  Then all of the basic cpu emulation can be
-        merged and all you'd need to keep updating is the linux-user
-        portions. <br>
-        <br>
-      </blockquote>
-      <pre>We are going to submit V4 system emulation, maybe tommorrow or next-week, and We'll keep updating the linux-user portions.</pre>
-    </blockquote>
-    <p>I believe what Richard meant is suggesting you to re-order your
-      patches so that the CPU emulation part (first half of this series)
-      and the system emulation part (Xiaojuan's series) would be
-      combined to one new series, to be reviewed and merged independent
-      of the still-unstable Linux ABI that's blocking this series at the
-      moment. To "keep updating the linux-user portions" without
-      re-arranging the series will just delay inclusion further, IMO.</p>
-    <p>In case the description above is not clear enough:</p>
-    <p>We basically have 3 parts for full LoongArch target support: (a)
-      CPU emulation, (b) privileged architecture &amp; hw emulation, and
-      (c) linux-user emulation. Currently this series consists of (a)
-      and (c), while Xiaojuan's series has (b). And the tcg-dev branch
-      you seem to be staging your work at [1] has the same ordering: (a)
-      then (c) then (b), which is consistent with Xiaojuan's series
-      cover letter.<br>
-    </p>
-    <p>However, because (c) is blocked by kernel port upstreaming, (a)
-      could not be merged, and by re-combining (a) with (b) we can speed
-      up review and inclusion of things. This would require you to
-      coordinate with Xiaojuan and reorder your patches in the tcg-dev
-      branch, so that you can generate the right series to send.</p>
-    <p>[1]: <a class="moz-txt-link-freetext" href="https://github.com/loongson/qemu/tree/tcg-dev">https://github.com/loongson/qemu/tree/tcg-dev</a><br>
-    </p>
-    <blockquote type="cite"
-      cite="mid:7d25de8d-f75b-d2b6-cc93-0b1276bbc7f5@loongson.cn">
-      <pre>
+Since this commit I see the following warnings.
 
-Thanks
-Song
-</pre>
-      <blockquote type="cite"
-        cite="mid:7bb887ff-efc1-c58c-ef80-b9d4a0166f5d@linaro.org">r~ <br>
-      </blockquote>
-    </blockquote>
-  </body>
-</html>
+With -drive 
+if=virtio,id=disk1,file=/srv/cdimg/Linux/images/opensuse.qcow2,discard=unmap
 
---------------0ZRNBbd7FzOwcwSDS6OxQk5L--
+qemu-system-x86_64: virtio-blk failed to set guest notifier (-16), 
+ensure -accel kvm is set.
+qemu-system-x86_64: virtio_bus_start_ioeventfd: failed. Fallback to 
+userspace (slower).
+
+With libvirt
+     <controller type='pci' index='1' model='pcie-root-port'>
+       <address type='pci' domain='0x0000' bus='0x00' slot='0x1c' 
+function='0'
+        multifunction='on'/>
+     </controller>
+     <controller type='pci' index='2' model='pcie-root-port'>
+       <address type='pci' domain='0x0000' bus='0x00' slot='0x1c' 
+function='1'/>
+     </controller>
+     <controller type='scsi' index='0' model='virtio-scsi'>
+       <driver queues='4'/>
+       <address type='pci' domain='0x0000' bus='0x01' slot='0x00' 
+function='0'/>
+     </controller>
+     <disk type='block' device='disk'>
+       <driver name='qemu' type='raw' cache='none' discard='unmap' 
+io='io_uring'/>
+       <source dev='/dev/vgtmp/lnxpowerm1'/>
+       <target dev='sda' bus='scsi'/>
+       <address type='drive' controller='0' bus='0' unit='0'/>
+       <boot order='1'/>
+     </disk>
+
+2022-01-08T17:45:26.911491Z qemu-system-x86_64: virtio-scsi: Failed to 
+set guest notifiers (-16), ensure -accel kvm is set.
+2022-01-08T17:45:26.911505Z qemu-system-x86_64: 
+virtio_bus_start_ioeventfd: failed. Fallback to userspace (slower).
+
+The messages appear around the time the Linux guest initializes the drivers.
+
+With best regards,
+Volker
 
