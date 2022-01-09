@@ -2,75 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D03A488797
-	for <lists+qemu-devel@lfdr.de>; Sun,  9 Jan 2022 05:06:42 +0100 (CET)
-Received: from localhost ([::1]:39138 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AA934887AF
+	for <lists+qemu-devel@lfdr.de>; Sun,  9 Jan 2022 06:11:16 +0100 (CET)
+Received: from localhost ([::1]:48674 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n6PTb-0002Sz-1f
-	for lists+qemu-devel@lfdr.de; Sat, 08 Jan 2022 23:06:40 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:54896)
+	id 1n6QU6-0008At-Ri
+	for lists+qemu-devel@lfdr.de; Sun, 09 Jan 2022 00:11:14 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:59970)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chrisfriedt@gmail.com>)
- id 1n6PSO-000131-89; Sat, 08 Jan 2022 23:05:24 -0500
-Received: from [2607:f8b0:4864:20::833] (port=36572
- helo=mail-qt1-x833.google.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <chrisfriedt@gmail.com>)
- id 1n6PSM-0000SJ-RJ; Sat, 08 Jan 2022 23:05:23 -0500
-Received: by mail-qt1-x833.google.com with SMTP id f9so9862704qtk.3;
- Sat, 08 Jan 2022 20:05:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=3WFxPI7IVemcGg4l8MDY6Up6yfiOlJdEqkZJg7RkCuU=;
- b=XUwOtcBkz42f9CA7VIAzVQ73b1RSYSWcDCW8n067jnfmLMHvQ5HH8tNY7W45nelVOZ
- c/0gdM7cfJAqrLPhX3qE1vb3YzZqx60QQoicaJip0AF/HZXm9MWopcfkL2nLOYb1XL0U
- DfLW9awVXWPKs+6AboLqKsb2M8sqDDBKS/ecoHUjOQoKNuabwAsF1IM2aIzIjaonAoEo
- +LX/OLcXvsNxzTNKhkuwL79F+771YFpHFqNJS767ElDdEvbQefd4gv1Nb1xwn2WIZvxo
- hWxNKonCSgU+oiKHh9AlGN6//pWFUK2DQQSgwGF9NRsrenXU25FG39/cAiHZlfwHGMdv
- 1rpg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=3WFxPI7IVemcGg4l8MDY6Up6yfiOlJdEqkZJg7RkCuU=;
- b=iJYtbeFJ9dijtjxFnY4HN5vcqQhRPpSsBLEv2/QGIlO+BjsuBxT42AKixCUzBzpv/a
- dey2cWu6l9p6ao95O5qoTcy8TfwkMJmSCxCVG0WEgbtAS/KuYaUQeAunDpG9X9T+MG+w
- h9CLMn8KR7+Rckks5EjbK03TQ2+xxLbdNODxVWLkZO2NFWjaZxzXe1SBwGTKxxPKupef
- EejFmqbpEfIKxTa743iMoRoN4Ooxjyxy1t/pYNjQym6A07iFPVVD+qzX83iL9UpvqC/G
- lRxyZI01yqmxcBY3K/vM0Mk1Kb/IBL5V8PArRxthuFX0Pl5ZkIp3yDFslbHhY+aFDyl3
- COaw==
-X-Gm-Message-State: AOAM532zF7MHoIPOg1V9t3whGMh1ZBFZ1++fHE9pI/YSXS1g6n+LKZjR
- mBMOJJS6sGdN4XmOGli8WrkA0h3QZBg=
-X-Google-Smtp-Source: ABdhPJw2UKM4wNWjywnd3n3y3My/l5hznGSBipG7JecrJtqYtIRLOaOh1zsJe0F7HIYR6x5IWjU8RA==
-X-Received: by 2002:a05:622a:553:: with SMTP id
- m19mr6774863qtx.180.1641701121283; 
- Sat, 08 Jan 2022 20:05:21 -0800 (PST)
-Received: from ChristophersAir.hitronhub.home
- ([2001:1970:50d6:9900:ecb7:536:86b6:f747])
- by smtp.gmail.com with ESMTPSA id 14sm2196877qtx.84.2022.01.08.20.05.20
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Sat, 08 Jan 2022 20:05:20 -0800 (PST)
-From: Christopher Friedt <chrisfriedt@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2] hw: misc: edu: fix 2 off-by-one errors
-Date: Sat,  8 Jan 2022 23:05:08 -0500
-Message-Id: <20220109040508.47696-1-chrisfriedt@gmail.com>
-X-Mailer: git-send-email 2.30.1 (Apple Git-130)
+ (Exim 4.90_1) (envelope-from <i.qemu@xen0n.name>) id 1n6QSW-0007Qz-0y
+ for qemu-devel@nongnu.org; Sun, 09 Jan 2022 00:09:36 -0500
+Received: from mail.xen0n.name ([115.28.160.31]:53282
+ helo=mailbox.box.xen0n.name)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <i.qemu@xen0n.name>) id 1n6QSR-0007tH-0a
+ for qemu-devel@nongnu.org; Sun, 09 Jan 2022 00:09:35 -0500
+Received: from [192.168.9.172] (unknown [101.88.31.179])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+ (No client certificate requested)
+ by mailbox.box.xen0n.name (Postfix) with ESMTPSA id 529D4600FB;
+ Sun,  9 Jan 2022 13:09:19 +0800 (CST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=xen0n.name; s=mail;
+ t=1641704959; bh=ceBy7Tdj5Xxd6vx2sxYUhhXxWLtse8EflSE8ibLnMTU=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=DCu1QK1lPkkGcSH2sHp5gVvq6l/SCwmk6Ipk5b6zMytMFt0BW90NGSnX8V3+aVq3q
+ UjZ/HHzf///AzhQI9V4Mcy7ec3VdIu4nFpkmRkfI00U9VhvD2Y5KDbPY2QnEG23PQT
+ As2m37DTxPq1Hdyweryj5ITwqB4dEaSoW0z/woco=
+Content-Type: multipart/alternative;
+ boundary="------------0ZRNBbd7FzOwcwSDS6OxQk5L"
+Message-ID: <4cc1a7e4-90b7-ba6c-38e3-2de2571b226a@xen0n.name>
+Date: Sun, 9 Jan 2022 13:09:18 +0800
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:f8b0:4864:20::833
- (failed)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::833;
- envelope-from=chrisfriedt@gmail.com; helo=mail-qt1-x833.google.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:97.0) Gecko/20100101
+ Thunderbird/97.0a1
+Subject: Re: [PATCH v14 00/26] Add LoongArch linux-user emulation support
+Content-Language: en-US
+To: gaosong <gaosong@loongson.cn>,
+ Richard Henderson <richard.henderson@linaro.org>
+References: <20220106094200.1801206-1-gaosong@loongson.cn>
+ <7bb887ff-efc1-c58c-ef80-b9d4a0166f5d@linaro.org>
+ <7d25de8d-f75b-d2b6-cc93-0b1276bbc7f5@loongson.cn>
+From: WANG Xuerui <i.qemu@xen0n.name>
+In-Reply-To: <7d25de8d-f75b-d2b6-cc93-0b1276bbc7f5@loongson.cn>
+Received-SPF: pass client-ip=115.28.160.31; envelope-from=i.qemu@xen0n.name;
+ helo=mailbox.box.xen0n.name
+X-Spam_score_int: -62
+X-Spam_score: -6.3
+X-Spam_bar: ------
+X-Spam_report: (-6.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
+ NICE_REPLY_A=-4.199, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,68 +66,173 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Christopher Friedt <chrisfriedt@gmail.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In the case that size1 was zero, because of the explicit
-'end1 > addr' check, the range check would fail and the error
-message would read as shown below. The correct comparison
-is 'end1 >= addr' (or 'addr <= end1').
+This is a multi-part message in MIME format.
+--------------0ZRNBbd7FzOwcwSDS6OxQk5L
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-EDU: DMA range 0x40000-0x3ffff out of bounds (0x40000-0x3ffff)!
+Hi,
 
-At the opposite end, in the case that size1 was 4096, within()
-would fail because of the non-inclusive check 'end1 < end2',
-which should have been 'end1 <= end2'. The error message would
-previously say
+On 1/7/22 15:59, gaosong wrote:
+> Hi Richard.
+> On 2022/1/7 下午1:01, Richard Henderson wrote:
+>> On 1/6/22 1:41 AM, Song Gao wrote:
+>>> Based-on:<20220106074740.1754661-1-gaosong@loongson.cn>
+>>>
+>>> Hi all,
+>>>
+>>> This series only support linux-user emulation.
+>>> More about LoongArch at:https://github.com/loongson/
+>>>
+>>> The latest kernel:
+>>>    *https://github.com/loongson/linux/tree/loongarch-next
+>>>
+>>> Patches need review:
+>>>    * 0018-linux-user-Add-LoongArch-specific-structures.patch
+>>>    * 0019-linux-user-Add-LoongArch-signal-support.patch
+>>
+>> You're still blocked on no upstream kernel support.
+>> As shown in patch 19, the kernel abi is still in flux.
+>>
+> We hope the kernel will support as soon as possible. but ...
+>> It would be best if you could work toward getting full system 
+>> emulation completed.  Then all of the basic cpu emulation can be 
+>> merged and all you'd need to keep updating is the linux-user portions.
+>>
+> We are going to submit V4 system emulation, maybe tommorrow or next-week, and We'll keep updating the linux-user portions.
 
-EDU: DMA range 0x40000-0x40fff out of bounds (0x40000-0x40fff)!
+I believe what Richard meant is suggesting you to re-order your patches 
+so that the CPU emulation part (first half of this series) and the 
+system emulation part (Xiaojuan's series) would be combined to one new 
+series, to be reviewed and merged independent of the still-unstable 
+Linux ABI that's blocking this series at the moment. To "keep updating 
+the linux-user portions" without re-arranging the series will just delay 
+inclusion further, IMO.
 
-The solution is to use non-inclusive ranges e.g. [begin,end).
+In case the description above is not clear enough:
 
-Signed-off-by: Christopher Friedt <chrisfriedt@gmail.com>
----
- hw/misc/edu.c | 16 ++++++----------
- 1 file changed, 6 insertions(+), 10 deletions(-)
+We basically have 3 parts for full LoongArch target support: (a) CPU 
+emulation, (b) privileged architecture & hw emulation, and (c) 
+linux-user emulation. Currently this series consists of (a) and (c), 
+while Xiaojuan's series has (b). And the tcg-dev branch you seem to be 
+staging your work at [1] has the same ordering: (a) then (c) then (b), 
+which is consistent with Xiaojuan's series cover letter.
 
-diff --git a/hw/misc/edu.c b/hw/misc/edu.c
-index e935c418d4..73e97a54e7 100644
---- a/hw/misc/edu.c
-+++ b/hw/misc/edu.c
-@@ -103,25 +103,21 @@ static void edu_lower_irq(EduState *edu, uint32_t val)
-     }
- }
- 
--static bool within(uint64_t addr, uint64_t start, uint64_t end)
--{
--    return start <= addr && addr < end;
--}
--
- static void edu_check_range(uint64_t addr, uint64_t size1, uint64_t start,
-                 uint64_t size2)
- {
-     uint64_t end1 = addr + size1;
-     uint64_t end2 = start + size2;
- 
--    if (within(addr, start, end2) &&
--            end1 > addr && within(end1, start, end2)) {
-+    if (start <= addr && addr < end2 &&
-+        addr <= end1 &&
-+        start <= end1 && end1 <= end2) {
-         return;
-     }
- 
--    hw_error("EDU: DMA range 0x%016"PRIx64"-0x%016"PRIx64
--             " out of bounds (0x%016"PRIx64"-0x%016"PRIx64")!",
--            addr, end1 - 1, start, end2 - 1);
-+    hw_error("EDU: DMA range [0x%016"PRIx64", 0x%016"PRIx64")"
-+             " out of bounds [0x%016"PRIx64", 0x%016"PRIx64")!",
-+            addr, end1, start, end2);
- }
- 
- static dma_addr_t edu_clamp_addr(const EduState *edu, dma_addr_t addr)
--- 
-2.30.1 (Apple Git-130)
+However, because (c) is blocked by kernel port upstreaming, (a) could 
+not be merged, and by re-combining (a) with (b) we can speed up review 
+and inclusion of things. This would require you to coordinate with 
+Xiaojuan and reorder your patches in the tcg-dev branch, so that you can 
+generate the right series to send.
 
+[1]: https://github.com/loongson/qemu/tree/tcg-dev
+
+>
+> Thanks
+> Song
+>> r~
+--------------0ZRNBbd7FzOwcwSDS6OxQk5L
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p>Hi,<br>
+    </p>
+    <div class="moz-cite-prefix">On 1/7/22 15:59, gaosong wrote:<br>
+    </div>
+    <blockquote type="cite"
+      cite="mid:7d25de8d-f75b-d2b6-cc93-0b1276bbc7f5@loongson.cn">
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <pre>Hi Richard.
+</pre>
+      <div class="moz-cite-prefix">On 2022/1/7 下午1:01, Richard Henderson
+        wrote:<br>
+      </div>
+      <blockquote type="cite"
+        cite="mid:7bb887ff-efc1-c58c-ef80-b9d4a0166f5d@linaro.org">On
+        1/6/22 1:41 AM, Song Gao wrote: <br>
+        <blockquote type="cite">Based-on:<a
+            class="moz-txt-link-rfc2396E"
+            href="mailto:20220106074740.1754661-1-gaosong@loongson.cn"
+            moz-do-not-send="true">&lt;20220106074740.1754661-1-gaosong@loongson.cn&gt;</a>
+          <br>
+          <br>
+          Hi all, <br>
+          <br>
+          This series only support linux-user emulation. <br>
+          More about LoongArch at:<a class="moz-txt-link-freetext"
+            href="https://github.com/loongson/" moz-do-not-send="true">https://github.com/loongson/</a>
+          <br>
+          <br>
+          The latest kernel: <br>
+             *<a class="moz-txt-link-freetext"
+            href="https://github.com/loongson/linux/tree/loongarch-next"
+            moz-do-not-send="true">https://github.com/loongson/linux/tree/loongarch-next</a>
+          <br>
+          <br>
+          Patches need review: <br>
+             * 0018-linux-user-Add-LoongArch-specific-structures.patch <br>
+             * 0019-linux-user-Add-LoongArch-signal-support.patch <br>
+        </blockquote>
+        <br>
+        You're still blocked on no upstream kernel support. <br>
+        As shown in patch 19, the kernel abi is still in flux. <br>
+        <br>
+      </blockquote>
+      <pre>We hope the kernel will support as soon as possible. but ...</pre>
+      <blockquote type="cite"
+        cite="mid:7bb887ff-efc1-c58c-ef80-b9d4a0166f5d@linaro.org">It
+        would be best if you could work toward getting full system
+        emulation completed.  Then all of the basic cpu emulation can be
+        merged and all you'd need to keep updating is the linux-user
+        portions. <br>
+        <br>
+      </blockquote>
+      <pre>We are going to submit V4 system emulation, maybe tommorrow or next-week, and We'll keep updating the linux-user portions.</pre>
+    </blockquote>
+    <p>I believe what Richard meant is suggesting you to re-order your
+      patches so that the CPU emulation part (first half of this series)
+      and the system emulation part (Xiaojuan's series) would be
+      combined to one new series, to be reviewed and merged independent
+      of the still-unstable Linux ABI that's blocking this series at the
+      moment. To "keep updating the linux-user portions" without
+      re-arranging the series will just delay inclusion further, IMO.</p>
+    <p>In case the description above is not clear enough:</p>
+    <p>We basically have 3 parts for full LoongArch target support: (a)
+      CPU emulation, (b) privileged architecture &amp; hw emulation, and
+      (c) linux-user emulation. Currently this series consists of (a)
+      and (c), while Xiaojuan's series has (b). And the tcg-dev branch
+      you seem to be staging your work at [1] has the same ordering: (a)
+      then (c) then (b), which is consistent with Xiaojuan's series
+      cover letter.<br>
+    </p>
+    <p>However, because (c) is blocked by kernel port upstreaming, (a)
+      could not be merged, and by re-combining (a) with (b) we can speed
+      up review and inclusion of things. This would require you to
+      coordinate with Xiaojuan and reorder your patches in the tcg-dev
+      branch, so that you can generate the right series to send.</p>
+    <p>[1]: <a class="moz-txt-link-freetext" href="https://github.com/loongson/qemu/tree/tcg-dev">https://github.com/loongson/qemu/tree/tcg-dev</a><br>
+    </p>
+    <blockquote type="cite"
+      cite="mid:7d25de8d-f75b-d2b6-cc93-0b1276bbc7f5@loongson.cn">
+      <pre>
+
+Thanks
+Song
+</pre>
+      <blockquote type="cite"
+        cite="mid:7bb887ff-efc1-c58c-ef80-b9d4a0166f5d@linaro.org">r~ <br>
+      </blockquote>
+    </blockquote>
+  </body>
+</html>
+
+--------------0ZRNBbd7FzOwcwSDS6OxQk5L--
 
