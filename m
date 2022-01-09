@@ -2,45 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DCE9488876
-	for <lists+qemu-devel@lfdr.de>; Sun,  9 Jan 2022 10:29:50 +0100 (CET)
-Received: from localhost ([::1]:45158 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9263488884
+	for <lists+qemu-devel@lfdr.de>; Sun,  9 Jan 2022 10:37:03 +0100 (CET)
+Received: from localhost ([::1]:34328 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1n6UWL-0007Io-9N
-	for lists+qemu-devel@lfdr.de; Sun, 09 Jan 2022 04:29:49 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:53874)
+	id 1n6UdK-0002F6-QY
+	for lists+qemu-devel@lfdr.de; Sun, 09 Jan 2022 04:37:02 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:53960)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <i.qemu@xen0n.name>) id 1n6UTX-0004TC-7C
- for qemu-devel@nongnu.org; Sun, 09 Jan 2022 04:26:55 -0500
-Received: from mail.xen0n.name ([115.28.160.31]:55572
+ (Exim 4.90_1) (envelope-from <i.qemu@xen0n.name>) id 1n6UTd-0004hi-DR
+ for qemu-devel@nongnu.org; Sun, 09 Jan 2022 04:27:01 -0500
+Received: from mail.xen0n.name ([115.28.160.31]:55580
  helo=mailbox.box.xen0n.name)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <i.qemu@xen0n.name>) id 1n6UTO-0006JZ-5N
- for qemu-devel@nongnu.org; Sun, 09 Jan 2022 04:26:54 -0500
+ (Exim 4.90_1) (envelope-from <i.qemu@xen0n.name>) id 1n6UTO-0006Jc-I2
+ for qemu-devel@nongnu.org; Sun, 09 Jan 2022 04:27:01 -0500
 Received: from [192.168.9.172] (unknown [101.88.31.179])
  (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
  (No client certificate requested)
- by mailbox.box.xen0n.name (Postfix) with ESMTPSA id 16F9762E70;
+ by mailbox.box.xen0n.name (Postfix) with ESMTPSA id 8577E62E71;
  Sun,  9 Jan 2022 17:26:42 +0800 (CST)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=xen0n.name; s=mail;
- t=1641720402; bh=C5cvC8KuODdbSTLSED3FrcC0vYVWajCXMOiB77XrDZY=;
+ t=1641720402; bh=HP72YjFJ/Pdke75vIZ0e29ysm0nhATtkdp9hsGs3uAc=;
  h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
- b=qEVRQXmpdpSlX6Oj9KGYuULVItcueQlOuS0SBKx+iDWLhlNYV2BweQP+hvK3xJUl+
- omdoVWdkjj1riPz3vMDJcqARPYanqRPav6QQY4pAtV5AQdR8VM2GtQHi6lnWUZGZcg
- LA20DjvoAoJo9Wt4dl3YzbPX7kgGuaOeTXFfP6mM=
-Message-ID: <fc8de873-f66d-880e-1c67-e4dd9ad4fcb4@xen0n.name>
-Date: Sun, 9 Jan 2022 17:25:31 +0800
+ b=NhRhx99qRoWBZ2G7WREhJlg2DuoXmbA4PJRsA7Trs9YpyAvafWBkRSnkybLEv3ysO
+ w8JjJvAi4aBNTBELBSMF85+Y+x7Ha+CMamTpDiDqBZlb8nD6Y5UVvfdJ+000Sc9LDB
+ 6MEPMgFWsBS2cBBc4lp0ZDH/ec1DE9bMrHVvPa9M=
+Message-ID: <f67a17fe-9d5f-83e8-99c9-f2413b70ee21@xen0n.name>
+Date: Sun, 9 Jan 2022 17:25:32 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:97.0) Gecko/20100101
  Thunderbird/97.0a1
 From: WANG Xuerui <i.qemu@xen0n.name>
-Subject: Re: [PATCH v14 16/26] target/loongarch: Add disassembler
+Subject: Re: [PATCH v14 19/26] linux-user: Add LoongArch signal support
 To: Song Gao <gaosong@loongson.cn>, qemu-devel@nongnu.org
 References: <20220106094200.1801206-1-gaosong@loongson.cn>
- <20220106094200.1801206-17-gaosong@loongson.cn>
+ <20220106094200.1801206-20-gaosong@loongson.cn>
 Content-Language: en-US
-In-Reply-To: <20220106094200.1801206-17-gaosong@loongson.cn>
+In-Reply-To: <20220106094200.1801206-20-gaosong@loongson.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Received-SPF: pass client-ip=115.28.160.31; envelope-from=i.qemu@xen0n.name;
@@ -63,683 +63,249 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Xiaojuan Yang <yangxiaojuan@loongson.cn>,
- Richard Henderson <richard.henderson@linaro.org>
+Cc: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 On 1/6/22 17:41, Song Gao wrote:
-> This patch adds support for disassembling via option '-d in_asm'.
->
 > Signed-off-by: Song Gao<gaosong@loongson.cn>
 > Signed-off-by: Xiaojuan Yang<yangxiaojuan@loongson.cn>
-> Reviewed-by: Richard Henderson<richard.henderson@linaro.org>
 > ---
->   include/disas/dis-asm.h  |   2 +
->   meson.build              |   1 +
->   target/loongarch/disas.c | 612 +++++++++++++++++++++++++++++++++++++++
->   3 files changed, 615 insertions(+)
->   create mode 100644 target/loongarch/disas.c
+>   linux-user/loongarch64/signal.c        | 198 +++++++++++++++++++++++++
+>   linux-user/loongarch64/target_signal.h |  13 ++
+>   2 files changed, 211 insertions(+)
+>   create mode 100644 linux-user/loongarch64/signal.c
+>   create mode 100644 linux-user/loongarch64/target_signal.h
 >
-> diff --git a/include/disas/dis-asm.h b/include/disas/dis-asm.h
-> index 08e1beec85..aeab30f19c 100644
-> --- a/include/disas/dis-asm.h
-> +++ b/include/disas/dis-asm.h
-> @@ -253,6 +253,7 @@ enum bfd_architecture
->   #define bfd_mach_rx            0x75
->   #define bfd_mach_rx_v2         0x76
->   #define bfd_mach_rx_v3         0x77
-> +  bfd_arch_loongarch,
->     bfd_arch_last
->     };
->   #define bfd_mach_s390_31 31
-> @@ -461,6 +462,7 @@ int print_insn_riscv32          (bfd_vma, disassemble_info*);
->   int print_insn_riscv64          (bfd_vma, disassemble_info*);
->   int print_insn_rx(bfd_vma, disassemble_info *);
->   int print_insn_hexagon(bfd_vma, disassemble_info *);
-> +int print_insn_loongarch(bfd_vma, disassemble_info *);
->   
->   #ifdef CONFIG_CAPSTONE
->   bool cap_disas_target(disassemble_info *info, uint64_t pc, size_t size);
-> diff --git a/meson.build b/meson.build
-> index 53065e96ec..fa4c6dd241 100644
-> --- a/meson.build
-> +++ b/meson.build
-> @@ -1848,6 +1848,7 @@ disassemblers = {
->     'sh4' : ['CONFIG_SH4_DIS'],
->     'sparc' : ['CONFIG_SPARC_DIS'],
->     'xtensa' : ['CONFIG_XTENSA_DIS'],
-> +  'loongarch' : ['CONFIG_LOONGARCH_DIS'],
->   }
->   if link_language == 'cpp'
->     disassemblers += {
-> diff --git a/target/loongarch/disas.c b/target/loongarch/disas.c
+> diff --git a/linux-user/loongarch64/signal.c b/linux-user/loongarch64/signal.c
 > new file mode 100644
-> index 0000000000..45be34de27
+> index 0000000000..9f0e6421b2
 > --- /dev/null
-> +++ b/target/loongarch/disas.c
-> @@ -0,0 +1,612 @@
+> +++ b/linux-user/loongarch64/signal.c
+> @@ -0,0 +1,198 @@
 > +/* SPDX-License-Identifier: GPL-2.0-or-later */
 > +/*
-> + * QEMU LoongArch Disassembler
+> + * LoongArch emulation of Linux signals
 > + *
-> + * Copyright (c) 2021 Loongson Technology Corporation Limited.
+> + * Copyright (c) 2021 Loongson Technology Corporation Limited
 > + */
 > +
 > +#include "qemu/osdep.h"
-> +#include "disas/dis-asm.h"
-> +#include "qemu/bitops.h"
+> +#include "qemu.h"
+> +#include "signal-common.h"
+> +#include "user-internals.h"
+> +#include "linux-user/trace.h"
 > +
-> +typedef struct {
-> +    disassemble_info *info;
-> +    uint64_t pc;
-> +    uint32_t insn;
-> +} DisasContext;
+> +#define FPU_REG_WIDTH 256
+> +union fpureg {
+> +    uint32_t val32[FPU_REG_WIDTH / 32];
+> +    uint64_t val64[FPU_REG_WIDTH / 64];
+> +};
+This is code preemptively added to support the LASX extensions? I 
+remember the LASX extension in 3A4000/MIPS era uses 256-bit vector 
+registers just like this.
 > +
-> +static inline int plus_1(DisasContext *ctx, int x)
+> +struct target_sigcontext {
+> +    uint64_t sc_pc;
+> +    uint64_t sc_regs[32];
+> +    uint32_t sc_flags;
+> +    uint32_t sc_fcsr;
+> +    uint32_t sc_vcsr;
+> +    uint64_t sc_fcc;
+> +    uint64_t sc_scr[4];
+> +    union fpureg sc_fpregs[32] __attribute__((aligned(32)));
+> +    uint8_t sc_reserved[4096] __attribute__((aligned(16)));
+> +};
+As Richard pointed out, you need to have this synchronized to the 
+kernel's definition. It's okay to update after SIMD support lands there, 
+it's not to be considered code churn.
+> +
+> +struct target_ucontext {
+> +    target_ulong tuc_flags;
+> +    struct target_ucontext *tuc_link;
+> +    target_stack_t tuc_stack;
+> +    target_sigset_t tuc_sigmask;
+> +    uint8_t __unused[1024 / 8 - sizeof(target_sigset_t)];
+> +    struct target_sigcontext tuc_mcontext;
+> +};
+> +
+> +struct target_rt_sigframe {
+> +    struct target_siginfo rs_info;
+> +    struct target_ucontext rs_uc;
+> +};
+> +
+> +static uint64_t read_all_fcc(CPULoongArchState *env)
 > +{
-> +    return x + 1;
-> +}
+> +    uint64_t ret = 0;
 > +
-> +static inline int shl_2(DisasContext *ctx, int x)
-> +{
-> +    return x * 4;
-Although "<< 2" has the same effect as "* 4" here, isn't "<< 2" better 
-in matching the function name?
-> +}
-> +
-> +#define output(C, INSN, FMT, ...)                                   \
-> +{                                                                   \
-> +    (C)->info->fprintf_func((C)->info->stream, "%08x   %-9s\t" FMT, \
-> +                            (C)->insn, INSN, ##__VA_ARGS__);        \
-> +}
-> +
-> +#include "decode-insns.c.inc"
-> +
-> +int print_insn_loongarch(bfd_vma memaddr, struct disassemble_info *info)
-> +{
-> +    bfd_byte buffer[4];
-> +    uint32_t insn;
-> +    int status;
-> +
-> +    status = (*info->read_memory_func)(memaddr, buffer, 4, info);
-> +    if (status != 0) {
-> +        (*info->memory_error_func)(status, memaddr, info);
-> +        return -1;
+> +    for (int i = 0; i < 8; ++i) {
+> +        ret |= (uint64_t)env->cf[i] << (i * 8);
 > +    }
-> +    insn = bfd_getl32(buffer);
-> +    DisasContext ctx = {
-> +        .info = info,
-> +        .pc = memaddr,
-> +        .insn = insn
-> +    };
 > +
-> +    if (!decode(&ctx, insn)) {
-> +        output(&ctx, "illegal", "");
-> +    }
-> +    return 4;
-> +}
-> +
-> +static void output_r_i(DisasContext *ctx, arg_r_i *a, const char *mnemonic)
-> +{
-> +    output(ctx, mnemonic, "r%d, %d", a->rd, a->imm);
-> +}
-> +
-> +static void output_rrr(DisasContext *ctx, arg_rrr *a, const char *mnemonic)
-> +{
-> +    output(ctx, mnemonic, "r%d, r%d, r%d", a->rd, a->rj, a->rk);
-> +}
-> +
-> +static void output_rr_i(DisasContext *ctx, arg_rr_i *a, const char *mnemonic)
-> +{
-> +    output(ctx, mnemonic, "r%d, r%d, %d", a->rd, a->rj, a->imm);
-> +}
-> +
-> +static void output_rrr_sa(DisasContext *ctx, arg_rrr_sa *a,
-> +                          const char *mnemonic)
-> +{
-> +    output(ctx, mnemonic, "r%d, r%d, r%d, %d", a->rd, a->rj, a->rk, a->sa);
-> +}
-> +
-> +static void output_rr(DisasContext *ctx, arg_rr *a, const char *mnemonic)
-> +{
-> +    output(ctx, mnemonic, "r%d, r%d", a->rd, a->rj);
-> +}
-> +
-> +static void output_rr_ms_ls(DisasContext *ctx, arg_rr_ms_ls *a,
-> +                          const char *mnemonic)
-> +{
-> +    output(ctx, mnemonic, "r%d, r%d, %d, %d", a->rd, a->rj, a->ms, a->ls);
-> +}
-> +
-> +static void output_hint_r_i(DisasContext *ctx, arg_hint_r_i *a,
-> +                            const char *mnemonic)
-> +{
-> +    output(ctx, mnemonic, "%d, r%d, %d", a->hint, a->rj, a->imm);
-> +}
-> +
-> +static void output_i(DisasContext *ctx, arg_i *a, const char *mnemonic)
-> +{
-> +    output(ctx, mnemonic, "%d", a->imm);
-> +}
-> +
-> +static void output_rr_jk(DisasContext *ctx, arg_rr_jk *a,
-> +                         const char *mnemonic)
-> +{
-> +    output(ctx, mnemonic, "r%d, r%d", a->rj, a->rk);
-> +}
-> +
-> +static void output_ff(DisasContext *ctx, arg_ff *a, const char *mnemonic)
-> +{
-> +    output(ctx, mnemonic, "f%d, f%d", a->fd, a->fj);
-> +}
-> +
-> +static void output_fff(DisasContext *ctx, arg_fff *a, const char *mnemonic)
-> +{
-> +    output(ctx, mnemonic, "f%d, f%d, f%d", a->fd, a->fj, a->fk);
-> +}
-> +
-> +static void output_ffff(DisasContext *ctx, arg_ffff *a, const char *mnemonic)
-> +{
-> +    output(ctx, mnemonic, "f%d, f%d, f%d, f%d", a->fd, a->fj, a->fk, a->fa);
-> +}
-> +
-> +static void output_fffc(DisasContext *ctx, arg_fffc *a, const char *mnemonic)
-> +{
-> +    output(ctx, mnemonic, "f%d, f%d, f%d, %d", a->fd, a->fj, a->fk, a->ca);
-> +}
-> +
-> +static void output_fr(DisasContext *ctx, arg_fr *a, const char *mnemonic)
-> +{
-> +    output(ctx, mnemonic, "f%d, r%d", a->fd, a->rj);
-> +}
-> +
-> +static void output_rf(DisasContext *ctx, arg_rf *a, const char *mnemonic)
-> +{
-> +    output(ctx, mnemonic, "r%d, f%d", a->rd, a->fj);
-> +}
-> +
-> +static void output_fcsrd_r(DisasContext *ctx, arg_fcsrd_r *a,
-> +                           const char *mnemonic)
-> +{
-> +    output(ctx, mnemonic, "fcsr%d, r%d", a->fcsrd, a->rj);
-> +}
-> +
-> +static void output_r_fcsrs(DisasContext *ctx, arg_r_fcsrs *a,
-> +                           const char *mnemonic)
-> +{
-> +    output(ctx, mnemonic, "r%d, fcsr%d", a->rd, a->fcsrs);
-> +}
-> +
-> +static void output_cf(DisasContext *ctx, arg_cf *a, const char *mnemonic)
-> +{
-> +    output(ctx, mnemonic, "fcc%d, f%d", a->cd, a->fj);
-> +}
-> +
-> +static void output_fc(DisasContext *ctx, arg_fc *a, const char *mnemonic)
-> +{
-> +    output(ctx, mnemonic, "f%d, fcc%d", a->fd, a->cj);
-> +}
-> +
-> +static void output_cr(DisasContext *ctx, arg_cr *a, const char *mnemonic)
-> +{
-> +    output(ctx, mnemonic, "fcc%d, r%d", a->cd, a->rj);
-> +}
-> +
-> +static void output_rc(DisasContext *ctx, arg_rc *a, const char *mnemonic)
-> +{
-> +    output(ctx, mnemonic, "r%d, fcc%d", a->rd, a->cj);
-> +}
-> +
-> +static void output_frr(DisasContext *ctx, arg_frr *a, const char *mnemonic)
-> +{
-> +    output(ctx, mnemonic, "f%d, r%d, r%d", a->fd, a->rj, a->rk);
-> +}
-> +
-> +static void output_fr_i(DisasContext *ctx, arg_fr_i *a, const char *mnemonic)
-> +{
-> +    output(ctx, mnemonic, "f%d, r%d, %d", a->fd, a->rj, a->imm);
-> +}
-> +
-> +static void output_r_offs(DisasContext *ctx, arg_r_offs *a,
-> +                          const char *mnemonic)
-> +{
-> +    output(ctx, mnemonic, "r%d, %d # 0x%" PRIx64, a->rj, a->offs,
-> +           ctx->pc + a->offs);
-> +}
-> +
-> +static void output_c_offs(DisasContext *ctx, arg_c_offs *a,
-> +                          const char *mnemonic)
-> +{
-> +    output(ctx, mnemonic, "fcc%d, %d # 0x%" PRIx64, a->cj, a->offs,
-> +           ctx->pc + a->offs);
-> +}
-> +
-> +static void output_offs(DisasContext *ctx, arg_offs *a,
-> +                        const char *mnemonic)
-> +{
-> +    output(ctx, mnemonic, "%d # 0x%" PRIx64, a->offs, ctx->pc + a->offs);
-> +}
-> +
-> +static void output_rr_offs(DisasContext *ctx, arg_rr_offs *a,
-> +                           const char *mnemonic)
-> +{
-> +    output(ctx, mnemonic, "r%d, r%d, %d", a->rj, a->rd, a->offs);
-
-Why no "# %d" and "ctx->pc + a->offs" here?
-
-Also the implicit reversal of rj and rd is ugly, but this wart comes 
-straight from the manual so you may as well keep it for the time being. 
-I'll rewrite all these code using the loongarch-opcodes tables and 
-assembler syntax after everything is merged, though.
-
-> +}
-> +
-> +#define INSN(insn, type)                                    \
-> +static bool trans_##insn(DisasContext *ctx, arg_##type * a) \
-> +{                                                           \
-> +    output_##type(ctx, a, #insn);                           \
-> +    return true;                                            \
-> +}
-> +
-> +INSN(clo_w,        rr)
-> +INSN(clz_w,        rr)
-> +INSN(cto_w,        rr)
-> +INSN(ctz_w,        rr)
-> +INSN(clo_d,        rr)
-> +INSN(clz_d,        rr)
-> +INSN(cto_d,        rr)
-> +INSN(ctz_d,        rr)
-> +INSN(revb_2h,      rr)
-> +INSN(revb_4h,      rr)
-> +INSN(revb_2w,      rr)
-> +INSN(revb_d,       rr)
-> +INSN(revh_2w,      rr)
-> +INSN(revh_d,       rr)
-> +INSN(bitrev_4b,    rr)
-> +INSN(bitrev_8b,    rr)
-> +INSN(bitrev_w,     rr)
-> +INSN(bitrev_d,     rr)
-> +INSN(ext_w_h,      rr)
-> +INSN(ext_w_b,      rr)
-> +INSN(rdtime_d,     rr)
-> +INSN(cpucfg,       rr)
-> +INSN(asrtle_d,     rr_jk)
-> +INSN(asrtgt_d,     rr_jk)
-> +INSN(alsl_w,       rrr_sa)
-> +INSN(alsl_wu,      rrr_sa)
-> +INSN(bytepick_w,   rrr_sa)
-> +INSN(bytepick_d,   rrr_sa)
-> +INSN(add_w,        rrr)
-> +INSN(add_d,        rrr)
-> +INSN(sub_w,        rrr)
-> +INSN(sub_d,        rrr)
-> +INSN(slt,          rrr)
-> +INSN(sltu,         rrr)
-> +INSN(maskeqz,      rrr)
-> +INSN(masknez,      rrr)
-> +INSN(nor,          rrr)
-> +INSN(and,          rrr)
-> +INSN(or,           rrr)
-> +INSN(xor,          rrr)
-> +INSN(orn,          rrr)
-> +INSN(andn,         rrr)
-> +INSN(sll_w,        rrr)
-> +INSN(srl_w,        rrr)
-> +INSN(sra_w,        rrr)
-> +INSN(sll_d,        rrr)
-> +INSN(srl_d,        rrr)
-> +INSN(sra_d,        rrr)
-> +INSN(rotr_w,       rrr)
-> +INSN(rotr_d,       rrr)
-> +INSN(mul_w,        rrr)
-> +INSN(mulh_w,       rrr)
-> +INSN(mulh_wu,      rrr)
-> +INSN(mul_d,        rrr)
-> +INSN(mulh_d,       rrr)
-> +INSN(mulh_du,      rrr)
-> +INSN(mulw_d_w,     rrr)
-> +INSN(mulw_d_wu,    rrr)
-> +INSN(div_w,        rrr)
-> +INSN(mod_w,        rrr)
-> +INSN(div_wu,       rrr)
-> +INSN(mod_wu,       rrr)
-> +INSN(div_d,        rrr)
-> +INSN(mod_d,        rrr)
-> +INSN(div_du,       rrr)
-> +INSN(mod_du,       rrr)
-> +INSN(crc_w_b_w,    rrr)
-> +INSN(crc_w_h_w,    rrr)
-> +INSN(crc_w_w_w,    rrr)
-> +INSN(crc_w_d_w,    rrr)
-> +INSN(crcc_w_b_w,   rrr)
-> +INSN(crcc_w_h_w,   rrr)
-> +INSN(crcc_w_w_w,   rrr)
-> +INSN(crcc_w_d_w,   rrr)
-> +INSN(break,        i)
-> +INSN(syscall,      i)
-> +INSN(alsl_d,       rrr_sa)
-> +INSN(slli_w,       rr_i)
-> +INSN(slli_d,       rr_i)
-> +INSN(srli_w,       rr_i)
-> +INSN(srli_d,       rr_i)
-> +INSN(srai_w,       rr_i)
-> +INSN(srai_d,       rr_i)
-> +INSN(rotri_w,      rr_i)
-> +INSN(rotri_d,      rr_i)
-> +INSN(bstrins_w,    rr_ms_ls)
-> +INSN(bstrpick_w,   rr_ms_ls)
-> +INSN(bstrins_d,    rr_ms_ls)
-> +INSN(bstrpick_d,   rr_ms_ls)
-> +INSN(fadd_s,       fff)
-> +INSN(fadd_d,       fff)
-> +INSN(fsub_s,       fff)
-> +INSN(fsub_d,       fff)
-> +INSN(fmul_s,       fff)
-> +INSN(fmul_d,       fff)
-> +INSN(fdiv_s,       fff)
-> +INSN(fdiv_d,       fff)
-> +INSN(fmax_s,       fff)
-> +INSN(fmax_d,       fff)
-> +INSN(fmin_s,       fff)
-> +INSN(fmin_d,       fff)
-> +INSN(fmaxa_s,      fff)
-> +INSN(fmaxa_d,      fff)
-> +INSN(fmina_s,      fff)
-> +INSN(fmina_d,      fff)
-> +INSN(fscaleb_s,    fff)
-> +INSN(fscaleb_d,    fff)
-> +INSN(fcopysign_s,  fff)
-> +INSN(fcopysign_d,  fff)
-> +INSN(fabs_s,       ff)
-> +INSN(fabs_d,       ff)
-> +INSN(fneg_s,       ff)
-> +INSN(fneg_d,       ff)
-> +INSN(flogb_s,      ff)
-> +INSN(flogb_d,      ff)
-> +INSN(fclass_s,     ff)
-> +INSN(fclass_d,     ff)
-> +INSN(fsqrt_s,      ff)
-> +INSN(fsqrt_d,      ff)
-> +INSN(frecip_s,     ff)
-> +INSN(frecip_d,     ff)
-> +INSN(frsqrt_s,     ff)
-> +INSN(frsqrt_d,     ff)
-> +INSN(fmov_s,       ff)
-> +INSN(fmov_d,       ff)
-> +INSN(movgr2fr_w,   fr)
-> +INSN(movgr2fr_d,   fr)
-> +INSN(movgr2frh_w,  fr)
-> +INSN(movfr2gr_s,   rf)
-> +INSN(movfr2gr_d,   rf)
-> +INSN(movfrh2gr_s,  rf)
-> +INSN(movgr2fcsr,   fcsrd_r)
-> +INSN(movfcsr2gr,   r_fcsrs)
-> +INSN(movfr2cf,     cf)
-> +INSN(movcf2fr,     fc)
-> +INSN(movgr2cf,     cr)
-> +INSN(movcf2gr,     rc)
-> +INSN(fcvt_s_d,     ff)
-> +INSN(fcvt_d_s,     ff)
-> +INSN(ftintrm_w_s,  ff)
-> +INSN(ftintrm_w_d,  ff)
-> +INSN(ftintrm_l_s,  ff)
-> +INSN(ftintrm_l_d,  ff)
-> +INSN(ftintrp_w_s,  ff)
-> +INSN(ftintrp_w_d,  ff)
-> +INSN(ftintrp_l_s,  ff)
-> +INSN(ftintrp_l_d,  ff)
-> +INSN(ftintrz_w_s,  ff)
-> +INSN(ftintrz_w_d,  ff)
-> +INSN(ftintrz_l_s,  ff)
-> +INSN(ftintrz_l_d,  ff)
-> +INSN(ftintrne_w_s, ff)
-> +INSN(ftintrne_w_d, ff)
-> +INSN(ftintrne_l_s, ff)
-> +INSN(ftintrne_l_d, ff)
-> +INSN(ftint_w_s,    ff)
-> +INSN(ftint_w_d,    ff)
-> +INSN(ftint_l_s,    ff)
-> +INSN(ftint_l_d,    ff)
-> +INSN(ffint_s_w,    ff)
-> +INSN(ffint_s_l,    ff)
-> +INSN(ffint_d_w,    ff)
-> +INSN(ffint_d_l,    ff)
-> +INSN(frint_s,      ff)
-> +INSN(frint_d,      ff)
-> +INSN(slti,         rr_i)
-> +INSN(sltui,        rr_i)
-> +INSN(addi_w,       rr_i)
-> +INSN(addi_d,       rr_i)
-> +INSN(lu52i_d,      rr_i)
-> +INSN(andi,         rr_i)
-> +INSN(ori,          rr_i)
-> +INSN(xori,         rr_i)
-> +INSN(rdtimel_w,    rr)
-> +INSN(rdtimeh_w,    rr)
-> +INSN(fmadd_s,      ffff)
-> +INSN(fmadd_d,      ffff)
-> +INSN(fmsub_s,      ffff)
-> +INSN(fmsub_d,      ffff)
-> +INSN(fnmadd_s,     ffff)
-> +INSN(fnmadd_d,     ffff)
-> +INSN(fnmsub_s,     ffff)
-> +INSN(fnmsub_d,     ffff)
-> +INSN(fsel,         fffc)
-> +INSN(addu16i_d,    rr_i)
-> +INSN(lu12i_w,      r_i)
-> +INSN(lu32i_d,      r_i)
-> +INSN(pcaddi,       r_i)
-> +INSN(pcalau12i,    r_i)
-> +INSN(pcaddu12i,    r_i)
-> +INSN(pcaddu18i,    r_i)
-> +INSN(ll_w,         rr_i)
-> +INSN(sc_w,         rr_i)
-> +INSN(ll_d,         rr_i)
-> +INSN(sc_d,         rr_i)
-> +INSN(ldptr_w,      rr_i)
-> +INSN(stptr_w,      rr_i)
-> +INSN(ldptr_d,      rr_i)
-> +INSN(stptr_d,      rr_i)
-> +INSN(ld_b,         rr_i)
-> +INSN(ld_h,         rr_i)
-> +INSN(ld_w,         rr_i)
-> +INSN(ld_d,         rr_i)
-> +INSN(st_b,         rr_i)
-> +INSN(st_h,         rr_i)
-> +INSN(st_w,         rr_i)
-> +INSN(st_d,         rr_i)
-> +INSN(ld_bu,        rr_i)
-> +INSN(ld_hu,        rr_i)
-> +INSN(ld_wu,        rr_i)
-> +INSN(preld,        hint_r_i)
-> +INSN(fld_s,        fr_i)
-> +INSN(fst_s,        fr_i)
-> +INSN(fld_d,        fr_i)
-> +INSN(fst_d,        fr_i)
-> +INSN(ldx_b,        rrr)
-> +INSN(ldx_h,        rrr)
-> +INSN(ldx_w,        rrr)
-> +INSN(ldx_d,        rrr)
-> +INSN(stx_b,        rrr)
-> +INSN(stx_h,        rrr)
-> +INSN(stx_w,        rrr)
-> +INSN(stx_d,        rrr)
-> +INSN(ldx_bu,       rrr)
-> +INSN(ldx_hu,       rrr)
-> +INSN(ldx_wu,       rrr)
-> +INSN(fldx_s,       frr)
-> +INSN(fldx_d,       frr)
-> +INSN(fstx_s,       frr)
-> +INSN(fstx_d,       frr)
-> +INSN(amswap_w,     rrr)
-> +INSN(amswap_d,     rrr)
-> +INSN(amadd_w,      rrr)
-> +INSN(amadd_d,      rrr)
-> +INSN(amand_w,      rrr)
-> +INSN(amand_d,      rrr)
-> +INSN(amor_w,       rrr)
-> +INSN(amor_d,       rrr)
-> +INSN(amxor_w,      rrr)
-> +INSN(amxor_d,      rrr)
-> +INSN(ammax_w,      rrr)
-> +INSN(ammax_d,      rrr)
-> +INSN(ammin_w,      rrr)
-> +INSN(ammin_d,      rrr)
-> +INSN(ammax_wu,     rrr)
-> +INSN(ammax_du,     rrr)
-> +INSN(ammin_wu,     rrr)
-> +INSN(ammin_du,     rrr)
-> +INSN(amswap_db_w,  rrr)
-> +INSN(amswap_db_d,  rrr)
-> +INSN(amadd_db_w,   rrr)
-> +INSN(amadd_db_d,   rrr)
-> +INSN(amand_db_w,   rrr)
-> +INSN(amand_db_d,   rrr)
-> +INSN(amor_db_w,    rrr)
-> +INSN(amor_db_d,    rrr)
-> +INSN(amxor_db_w,   rrr)
-> +INSN(amxor_db_d,   rrr)
-> +INSN(ammax_db_w,   rrr)
-> +INSN(ammax_db_d,   rrr)
-> +INSN(ammin_db_w,   rrr)
-> +INSN(ammin_db_d,   rrr)
-> +INSN(ammax_db_wu,  rrr)
-> +INSN(ammax_db_du,  rrr)
-> +INSN(ammin_db_wu,  rrr)
-> +INSN(ammin_db_du,  rrr)
-> +INSN(dbar,         i)
-> +INSN(ibar,         i)
-> +INSN(fldgt_s,      frr)
-> +INSN(fldgt_d,      frr)
-> +INSN(fldle_s,      frr)
-> +INSN(fldle_d,      frr)
-> +INSN(fstgt_s,      frr)
-> +INSN(fstgt_d,      frr)
-> +INSN(fstle_s,      frr)
-> +INSN(fstle_d,      frr)
-> +INSN(ldgt_b,       rrr)
-> +INSN(ldgt_h,       rrr)
-> +INSN(ldgt_w,       rrr)
-> +INSN(ldgt_d,       rrr)
-> +INSN(ldle_b,       rrr)
-> +INSN(ldle_h,       rrr)
-> +INSN(ldle_w,       rrr)
-> +INSN(ldle_d,       rrr)
-> +INSN(stgt_b,       rrr)
-> +INSN(stgt_h,       rrr)
-> +INSN(stgt_w,       rrr)
-> +INSN(stgt_d,       rrr)
-> +INSN(stle_b,       rrr)
-> +INSN(stle_h,       rrr)
-> +INSN(stle_w,       rrr)
-> +INSN(stle_d,       rrr)
-> +INSN(beqz,         r_offs)
-> +INSN(bnez,         r_offs)
-> +INSN(bceqz,        c_offs)
-> +INSN(bcnez,        c_offs)
-> +INSN(jirl,         rr_offs)
-> +INSN(b,            offs)
-> +INSN(bl,           offs)
-> +INSN(beq,          rr_offs)
-> +INSN(bne,          rr_offs)
-> +INSN(blt,          rr_offs)
-> +INSN(bge,          rr_offs)
-> +INSN(bltu,         rr_offs)
-> +INSN(bgeu,         rr_offs)
-> +
-> +#define output_fcmp(C, PREFIX, SUFFIX)                                         \
-> +{                                                                              \
-> +    (C)->info->fprintf_func((C)->info->stream, "%08x   %s%s\tfcc%d, f%d, f%d", \
-> +                            (C)->insn, PREFIX, SUFFIX, a->cd,                  \
-> +                            a->fj, a->fk);                                     \
-> +}
-> +
-> +static bool output_cff_fcond(DisasContext *ctx, arg_cff_fcond * a,
-> +                               const char *suffix)
-> +{
-> +    bool ret = true;
-> +    switch (a->fcond) {
-> +    case 0x0:
-> +        output_fcmp(ctx, "fcmp_caf_", suffix);
-> +        break;
-> +    case 0x1:
-> +        output_fcmp(ctx, "fcmp_saf_", suffix);
-> +        break;
-> +    case 0x2:
-> +        output_fcmp(ctx, "fcmp_clt_", suffix);
-> +        break;
-> +    case 0x3:
-> +        output_fcmp(ctx, "fcmp_slt_", suffix);
-> +        break;
-> +    case 0x4:
-> +        output_fcmp(ctx, "fcmp_ceq_", suffix);
-> +        break;
-> +    case 0x5:
-> +        output_fcmp(ctx, "fcmp_seq_", suffix);
-> +        break;
-> +    case 0x6:
-> +        output_fcmp(ctx, "fcmp_cle_", suffix);
-> +        break;
-> +    case 0x7:
-> +        output_fcmp(ctx, "fcmp_sle_", suffix);
-> +        break;
-> +    case 0x8:
-> +        output_fcmp(ctx, "fcmp_cun_", suffix);
-> +        break;
-> +    case 0x9:
-> +        output_fcmp(ctx, "fcmp_sun_", suffix);
-> +        break;
-> +    case 0xA:
-> +        output_fcmp(ctx, "fcmp_cult_", suffix);
-> +        break;
-> +    case 0xB:
-> +        output_fcmp(ctx, "fcmp_sult_", suffix);
-> +        break;
-> +    case 0xC:
-> +        output_fcmp(ctx, "fcmp_cueq_", suffix);
-> +        break;
-> +    case 0xD:
-> +        output_fcmp(ctx, "fcmp_sueq_", suffix);
-> +        break;
-> +    case 0xE:
-> +        output_fcmp(ctx, "fcmp_cule_", suffix);
-> +        break;
-> +    case 0xF:
-> +        output_fcmp(ctx, "fcmp_sule_", suffix);
-> +        break;
-> +    case 0x10:
-> +        output_fcmp(ctx, "fcmp_cne_", suffix);
-> +        break;
-> +    case 0x11:
-> +        output_fcmp(ctx, "fcmp_sne_", suffix);
-> +        break;
-> +    case 0x14:
-> +        output_fcmp(ctx, "fcmp_cor_", suffix);
-> +        break;
-> +    case 0x15:
-> +        output_fcmp(ctx, "fcmp_sor_", suffix);
-> +        break;
-> +    case 0x18:
-> +        output_fcmp(ctx, "fcmp_cune_", suffix);
-> +        break;
-> +    case 0x19:
-> +        output_fcmp(ctx, "fcmp_sune_", suffix);
-> +        break;
-> +    default:
-> +        ret = false;
-> +    }
 > +    return ret;
 > +}
 > +
-> +#define FCMP_INSN(suffix)                               \
-> +static bool trans_fcmp_cond_##suffix(DisasContext *ctx, \
-> +                                     arg_cff_fcond * a) \
-> +{                                                       \
-> +    return output_cff_fcond(ctx, a, #suffix);           \
+> +static void write_all_fcc(CPULoongArchState *env, uint64_t val)
+> +{
+> +    for (int i = 0; i < 8; ++i) {
+> +        env->cf[i] = (val >> (i * 8)) & 1;
+> +    }
 > +}
 > +
-> +FCMP_INSN(s)
-> +FCMP_INSN(d)
+> +static inline void setup_sigcontext(CPULoongArchState *env,
+> +                                    struct target_sigcontext *sc)
+> +{
+> +    int i;
+> +
+> +    __put_user(env->pc, &sc->sc_pc);
+> +    __put_user(0, &sc->sc_regs[0]);
+> +    __put_user(env->fcsr0, &sc->sc_fcsr);
+> +    __put_user(0, &sc->sc_vcsr);
+> +    sc->sc_fcc = read_all_fcc(env);
+> +
+> +    for (i = 0; i < 4; ++i) {
+> +        __put_user(0, &sc->sc_scr[i]);
+> +    }
+> +
+> +    for (i = 1; i < 32; ++i) {
+> +        __put_user(env->gpr[i], &sc->sc_regs[i]);
+> +    }
+> +
+> +    for (i = 0; i < 32; ++i) {
+> +        __put_user(env->fpr[i], &sc->sc_fpregs[i].val64[0]);
+> +    }
+> +}
+> +
+> +static inline void
+> +restore_sigcontext(CPULoongArchState *env, struct target_sigcontext *sc)
+> +{
+> +    int i;
+> +
+> +    __get_user(env->pc, &sc->sc_pc);
+> +    __get_user(env->fcsr0, &sc->sc_fcsr);
+> +    write_all_fcc(env, sc->sc_fcc);
+> +
+> +    for (i = 1; i < 32; ++i) {
+> +        __get_user(env->gpr[i], &sc->sc_regs[i]);
+> +    }
+> +
+> +    for (i = 0; i < 32; ++i) {
+> +        __get_user(env->fpr[i], &sc->sc_fpregs[i].val64[0]);
+> +    }
+> +}
+> +
+> +/*
+> + * Determine which stack to use..
+Duplicate period (".").
+> + */
+> +static inline abi_ulong
+> +get_sigframe(struct target_sigaction *ka, CPULoongArchState *env,
+> +             size_t frame_size)
+> +{
+> +    unsigned long sp;
+> +
+> +    sp = target_sigsp(get_sp_from_cpustate(env) - 32, ka);
+> +
+> +    return (sp - frame_size) & ~15;
+> +}
+> +
+> +void setup_rt_frame(int sig, struct target_sigaction *ka,
+> +                    target_siginfo_t *info,
+> +                    target_sigset_t *set, CPULoongArchState *env)
+> +{
+> +    struct target_rt_sigframe *frame;
+> +    abi_ulong frame_addr;
+> +    int i;
+> +
+> +    frame_addr = get_sigframe(ka, env, sizeof(*frame));
+> +    trace_user_setup_rt_frame(env, frame_addr);
+> +    if (!lock_user_struct(VERIFY_WRITE, frame, frame_addr, 0)) {
+> +        goto give_sigsegv;
+> +    }
+> +
+> +    tswap_siginfo(&frame->rs_info, info);
+> +
+> +    __put_user(0, &frame->rs_uc.tuc_flags);
+> +    __put_user(0, &frame->rs_uc.tuc_link);
+> +    target_save_altstack(&frame->rs_uc.tuc_stack, env);
+> +
+> +    setup_sigcontext(env, &frame->rs_uc.tuc_mcontext);
+> +
+> +    for (i = 0; i < TARGET_NSIG_WORDS; i++) {
+> +        __put_user(set->sig[i], &frame->rs_uc.tuc_sigmask.sig[i]);
+> +    }
+> +
+> +    env->gpr[4] = sig;
+> +    env->gpr[5] = frame_addr + offsetof(struct target_rt_sigframe, rs_info);
+> +    env->gpr[6] = frame_addr + offsetof(struct target_rt_sigframe, rs_uc);
+> +    env->gpr[3] = frame_addr;
+> +    env->gpr[1] = default_rt_sigreturn;
+> +
+> +    env->pc = ka->_sa_handler;
+> +    unlock_user_struct(frame, frame_addr, 1);
+> +    return;
+> +
+> +give_sigsegv:
+> +    unlock_user_struct(frame, frame_addr, 1);
+> +    force_sigsegv(sig);
+> +}
+> +
+> +long do_rt_sigreturn(CPULoongArchState *env)
+> +{
+> +    struct target_rt_sigframe *frame;
+> +    abi_ulong frame_addr;
+> +    sigset_t blocked;
+> +
+> +    frame_addr = env->gpr[3];
+> +    trace_user_do_rt_sigreturn(env, frame_addr);
+> +    if (!lock_user_struct(VERIFY_READ, frame, frame_addr, 1)) {
+> +        goto badframe;
+> +    }
+> +
+> +    target_to_host_sigset(&blocked, &frame->rs_uc.tuc_sigmask);
+> +    set_sigmask(&blocked);
+> +
+> +    restore_sigcontext(env, &frame->rs_uc.tuc_mcontext);
+> +    target_restore_altstack(&frame->rs_uc.tuc_stack, env);
+> +
+> +    unlock_user_struct(frame, frame_addr, 0);
+> +    return -QEMU_ESIGRETURN;
+> +
+> +badframe:
+> +    unlock_user_struct(frame, frame_addr, 0);
+> +    force_sig(TARGET_SIGSEGV);
+> +    return -QEMU_ESIGRETURN;
+> +}
+> +
+> +void setup_sigtramp(abi_ulong sigtramp_page)
+> +{
+> +    uint32_t *tramp = lock_user(VERIFY_WRITE, sigtramp_page, 8, 0);
+> +    assert(tramp != NULL);
+> +
+> +    __put_user(0x03822c0b, tramp + 0);  /* ori     a7, zero, 0x8b */
+> +    __put_user(0x002b0000, tramp + 1);  /* syscall 0 */
+> +
+> +    default_rt_sigreturn = sigtramp_page;
+> +    unlock_user(tramp, sigtramp_page, 8);
+> +}
+> diff --git a/linux-user/loongarch64/target_signal.h b/linux-user/loongarch64/target_signal.h
+> new file mode 100644
+> index 0000000000..ad3aaffcb4
+> --- /dev/null
+> +++ b/linux-user/loongarch64/target_signal.h
+> @@ -0,0 +1,13 @@
+> +/* SPDX-License-Identifier: GPL-2.0-or-later */
+> +/*
+> + * Copyright (c) 2021 Loongson Technology Corporation Limited
+> + */
+> +
+> +#ifndef LOONGARCH_TARGET_SIGNAL_H
+> +#define LOONGARCH_TARGET_SIGNAL_H
+> +
+> +#include "../generic/signal.h"
+> +
+> +#define TARGET_ARCH_HAS_SIGTRAMP_PAGE 1
+> +
+> +#endif /* LOONGARCH_TARGET_SIGNAL_H */
 
